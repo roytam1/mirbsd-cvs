@@ -7,6 +7,7 @@
 
 #include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
+__RCSID("$MirOS$");
 __RCSID("$NetBSD: w_cabs.c,v 1.4 2001/01/06 00:15:00 christos Exp $");
 #endif
 
@@ -21,8 +22,7 @@ struct complex {
 double cabs __P((struct complex));
 
 double
-cabs(z)
-	struct complex z;
+cabs(struct complex z)
 {
 	return hypot(z.x, z.y);
 }

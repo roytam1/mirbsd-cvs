@@ -38,6 +38,7 @@
 
 #include <sys/cdefs.h>
 #if defined(LIBC_SCCS) && !defined(lint)
+__RCSID("$MirOS$");
 __RCSID("$NetBSD: fpclassifyd_ieee754.c,v 1.1 2003/10/28 22:50:42 kleink Exp $");
 #endif
 

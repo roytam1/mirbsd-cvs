@@ -8,19 +8,20 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: e_expf.c,v 1.5 1995/05/10 20:45:05 jtc Exp $";
+__RCSID("$NetBSD: e_expf.c,v 1.9 2002/05/26 22:01:49 wiz Exp $");
 #endif
 
 #include "math.h"
 #include "math_private.h"
 
-static const volatile float huge = 1.0e+30;
+static const float huge = 1.0e+30;
 
 static const float
 one	= 1.0,
@@ -42,10 +43,12 @@ P5   =  4.1381369442e-08; /* 0x3331bb4c */
 float
 __ieee754_expf(float x)	/* default IEEE double exp */
 {
-	float y,hi = 0,lo = 0,c,t;
-	int32_t k = 0,xsb;
+	float y,hi,lo,c,t;
+	int32_t k,xsb;
 	u_int32_t hx;
 
+	hi = lo = 0;
+	k = 0;
 	GET_FLOAT_WORD(hx,x);
 	xsb = (hx>>31)&1;		/* sign bit of x */
 	hx &= 0x7fffffff;		/* high word of |x| */
@@ -61,7 +64,7 @@ __ieee754_expf(float x)	/* default IEEE double exp */
 	}
 
     /* argument reduction */
-	if(hx > 0x3eb17218) {		/* if  |x| > 0.5 ln2 */ 
+	if(hx > 0x3eb17218) {		/* if  |x| > 0.5 ln2 */
 	    if(hx < 0x3F851592) {	/* and |x| < 1.5 ln2 */
 		hi = x-ln2HI[xsb]; lo=ln2LO[xsb]; k = 1-xsb-xsb;
 	    } else {
@@ -71,7 +74,7 @@ __ieee754_expf(float x)	/* default IEEE double exp */
 		lo = t*ln2LO[0];
 	    }
 	    x  = hi - lo;
-	} 
+	}
 	else if(hx < 0x31800000)  {	/* when |x|<2**-28 */
 	    if(huge+x>one) return one+x;/* trigger inexact */
 	}
@@ -80,7 +83,7 @@ __ieee754_expf(float x)	/* default IEEE double exp */
     /* x is now in primary range */
 	t  = x*x;
 	c  = x - t*(P1+t*(P2+t*(P3+t*(P4+t*P5))));
-	if(k==0) 	return one-((x*c)/(c-(float)2.0)-x); 
+	if(k==0) 	return one-((x*c)/(c-(float)2.0)-x);
 	else 		y = one-((lo-(x*c)/((float)2.0-c))-hi);
 	if(k >= -125) {
 	    u_int32_t hy;

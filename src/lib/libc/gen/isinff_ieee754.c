@@ -40,6 +40,7 @@
 #if 0
 static char sccsid[] = "@(#)isinf.c	8.1 (Berkeley) 6/4/93";
 #else
+__RCSID("$MirOS$");
 __RCSID("$NetBSD: isinff_ieee754.c,v 1.1 2004/03/04 23:42:39 kleink Exp $");
 #endif
 #endif /* LIBC_SCCS and not lint */

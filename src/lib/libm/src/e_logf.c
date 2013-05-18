@@ -8,13 +8,14 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: e_logf.c,v 1.4 1995/05/10 20:45:54 jtc Exp $";
+__RCSID("$NetBSD: e_logf.c,v 1.8 2002/05/26 22:01:51 wiz Exp $");
 #endif
 
 #include "math.h"
@@ -44,12 +45,12 @@ __ieee754_logf(float x)
 
 	k=0;
 	if (ix < 0x00800000) {			/* x < 2**-126  */
-	    if ((ix&0x7fffffff)==0) 
+	    if ((ix&0x7fffffff)==0)
 		return -two25/zero;		/* log(+-0)=-inf */
 	    if (ix<0) return (x-x)/zero;	/* log(-#) = NaN */
 	    k -= 25; x *= two25; /* subnormal number, scale up x */
 	    GET_FLOAT_WORD(ix,x);
-	} 
+	}
 	if (ix >= 0x7f800000) return x+x;
 	k += (ix>>23)-127;
 	ix &= 0x007fffff;
@@ -58,20 +59,21 @@ __ieee754_logf(float x)
 	k += (i>>23);
 	f = x-(float)1.0;
 	if((0x007fffff&(15+ix))<16) {	/* |f| < 2**-20 */
-	    if(f==zero) if(k==0) return zero;  else {dk=(float)k;
-				 return dk*ln2_hi+dk*ln2_lo;}
+	    if(f==zero) { if(k==0) return zero;  else {dk=(float)k;
+				   return dk*ln2_hi+dk*ln2_lo;}
+	    }
 	    R = f*f*((float)0.5-(float)0.33333333333333333*f);
 	    if(k==0) return f-R; else {dk=(float)k;
 	    	     return dk*ln2_hi-((R-dk*ln2_lo)-f);}
 	}
- 	s = f/((float)2.0+f); 
+ 	s = f/((float)2.0+f);
 	dk = (float)k;
 	z = s*s;
 	i = ix-(0x6147a<<3);
 	w = z*z;
 	j = (0x6b851<<3)-ix;
-	t1= w*(Lg2+w*(Lg4+w*Lg6)); 
-	t2= z*(Lg1+w*(Lg3+w*(Lg5+w*Lg7))); 
+	t1= w*(Lg2+w*(Lg4+w*Lg6));
+	t2= z*(Lg1+w*(Lg3+w*(Lg5+w*Lg7)));
 	i |= j;
 	R = t2+t1;
 	if(i>0) {

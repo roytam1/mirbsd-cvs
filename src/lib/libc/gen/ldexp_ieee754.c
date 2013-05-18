@@ -38,6 +38,7 @@
 
 #include <sys/cdefs.h>
 #if defined(LIBC_SCCS) && !defined(lint)
+__RCSID("$MirOS$");
 __RCSID("$NetBSD: ldexp_ieee754.c,v 1.4 2003/12/30 23:19:07 martin Exp $");
 #endif /* LIBC_SCCS and not lint */
 

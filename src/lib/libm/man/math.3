@@ -1,5 +1,5 @@
-.\"	$MirOS$
-.\"	$OpenBSD: math.3,v 1.20 2004/01/23 23:08:46 jmc Exp $
+.\"	$NetBSD: math.3,v 1.21 2006/03/26 02:02:38 xtraeme Exp $
+.\"
 .\" Copyright (c) 1985 Regents of the University of California.
 .\" All rights reserved.
 .\"
@@ -29,406 +29,473 @@
 .\"
 .\"	from: @(#)math.3	6.10 (Berkeley) 5/6/91
 .\"
-.if n \
-.ds Si sig.
-.if t \
-.ds Si significant
-.Dd November 2, 2006
-.Dt MATH 3
-.Sh NAME
-.Nm math
-.Nd introduction to mathematical library functions
-.Sh DESCRIPTION
+.TH MATH 3 "March 26, 2006"
+.UC 4
+.ds up \fIulp\fR
+.ds nn \fINaN\fR
+.de If
+.if n \\
+\\$1Infinity\\$2
+.if t \\
+\\$1\\(if\\$2
+..
+.SH NAME
+math \- introduction to mathematical library functions
+.SH DESCRIPTION
 These functions constitute the C math library,
-.Em libm .
-The link editor searches this library under the
-.Dq -lm
-option.
+.I libm.
+The link editor searches this library under the \*(lq\-lm\*(rq option.
 Declarations for these functions may be obtained from the include file
-.Aq Pa math.h .
-.Sh LIST OF FUNCTIONS
-.Bl -column "copysign" "lgamma(3)" "inverse trigonometric function" "ULPs"
-.It \fIName\fP Ta \fIManual\fP Ta \fIDescription\fP Ta "\fIULPs\fP"
-.It acos Ta acos(3) Ta "inverse trigonometric function" Ta 3
-.It acosh Ta acosh(3) Ta "inverse hyperbolic function" Ta 3
-.It asin Ta asin(3) Ta "inverse trigonometric function" Ta 3
-.It asinh Ta asinh(3) Ta "inverse hyperbolic function" Ta 3
-.It atan Ta tan(3) Ta "inverse trigonometric function" Ta 1
-.It atanh Ta atanh(3) Ta "inverse hyperbolic function" Ta 3
-.It atan2 Ta tan2(3) Ta "inverse trigonometric function" Ta 2
-.It cbrt Ta sqrt(3) Ta "cube root" Ta 1
-.It ceil Ta floor(3) Ta "integer no less than" Ta 0
-.It copysign Ta ieee(3) Ta "copy sign bit" Ta 0
-.It cos Ta sin(3) Ta "trigonometric function" Ta 1
-.It cosh Ta sinh(3) Ta "hyperbolic function" Ta 3
-.It erf Ta erf(3) Ta "error function" Ta ???
-.It erfc Ta erf(3) Ta "complementary error function" Ta ???
-.It exp Ta exp(3) Ta "exponential" Ta 1
-.It expm1 Ta exp(3) Ta "exp(x)-1" Ta 1
-.It fabs Ta fabs(3) Ta "absolute value" Ta 0
-.It floor Ta floor(3) Ta "integer no greater than" Ta 0
-.It hypot Ta hypot(3) Ta "Euclidean distance" Ta 1
-.It ilogb Ta ieee(3) Ta "exponent extraction" Ta 0
-.It isinf Ta isinf(3) Ta "check exceptions"
-.It isnan Ta isnan(3) Ta "check exceptions"
-.It j0 Ta j0(3) Ta "Bessel function" Ta ???
-.It j1 Ta j0(3) Ta "Bessel function" Ta ???
-.It jn Ta j0(3) Ta "Bessel function" Ta ???
-.It lgamma Ta lgamma(3) Ta "log gamma function" Ta ???
-.It log Ta exp(3) Ta "natural logarithm" Ta 1
-.It log10 Ta exp(3) Ta "logarithm to base 10" Ta 3
-.It log1p Ta exp(3) Ta "log(1+x)" Ta 1
-.It pow Ta exp(3) Ta "exponential x**y" Ta 60-500
-.It remainder Ta ieee(3) Ta "remainder" Ta 0
-.It rint Ta rint(3) Ta "round to nearest integer" Ta 0
-.It scalbn Ta ieee(3) Ta "exponent adjustment" Ta 0
-.It sin Ta sin(3) Ta "trigonometric function" Ta 1
-.It sinh Ta sinh(3) Ta "hyperbolic function" Ta 3
-.It sqrt Ta sqrt(3) Ta "square root" Ta 1
-.It tan Ta tan(3) Ta "trigonometric function" Ta 3
-.It tanh Ta tanh(3) Ta "hyperbolic function" Ta 3
-.It y0 Ta j0(3) Ta "Bessel function" Ta ???
-.It y1 Ta j0(3) Ta "Bessel function" Ta ???
-.It yn Ta j0(3) Ta "Bessel function" Ta ???
-.El
-.Sh NOTES
-In
-.Bx 4.3 ,
-distributed from the University of California
+.RI \*(Lt math.h \*(Gt.
+.\" The Fortran math library is described in ``man 3f intro''.
+.SH "LIST OF FUNCTIONS"
+.sp 2
+.nf
+.ta \w'copysign'u+2n +\w'lgamma.3'u+10n +\w'inverse trigonometric func'u
+\fIName\fP	\fIAppears on Page\fP	\fIDescription\fP	\fIError Bound (ULPs)\fP
+.ta \w'copysign'u+4n +\w'lgamma.3'u+4n +\w'inverse trigonometric function'u+6nC
+.sp 5p
+acos	acos.3	inverse trigonometric function	3
+acosh	acosh.3	inverse hyperbolic function	3
+asin	asin.3	inverse trigonometric function	3
+asinh	asinh.3	inverse hyperbolic function	3
+atan	atan.3	inverse trigonometric function	1
+atanh	atanh.3	inverse hyperbolic function	3
+atan2	atan2.3	inverse trigonometric function	2
+cabs	hypot.3	complex absolute value	1
+cbrt	sqrt.3	cube root	1
+ceil	ceil.3	integer no less than	0
+copysign	ieee.3	copy sign bit	0
+cos	cos.3	trigonometric function	1
+cosh	cosh.3	hyperbolic function	3
+erf	erf.3	error function	???
+erfc	erf.3	complementary error function	???
+exp	exp.3	exponential	1
+expm1	exp.3	exp(x)\-1	1
+fabs	fabs.3	absolute value	0
+finite	ieee.3	test for finity	0
+floor	floor.3	integer no greater than	0
+fmod	fmod.3	remainder	???
+hypot	hypot.3	Euclidean distance	1
+ilogb	ieee.3	exponent extraction	0
+isinf	isinf.3	test for infinity	0
+isnan	isnan.3	test for not-a-number	0
+j0	j0.3	Bessel function	???
+j1	j0.3	Bessel function	???
+jn	j0.3	Bessel function	???
+lgamma	lgamma.3	log gamma function	???
+log	exp.3	natural logarithm	1
+log10	exp.3	logarithm to base 10	3
+log1p	exp.3	log(1+x)	1
+nan	nan.3	return quiet \*(nn	0
+nextafter	ieee.3	next representable number	0
+pow	exp.3	exponential x**y	60\-500
+remainder	ieee.3	remainder	0
+rint	rint.3	round to nearest integer	0
+scalbn	ieee.3	exponent adjustment	0
+sin	sin.3	trigonometric function	1
+sinh	sinh.3	hyperbolic function	3
+sqrt	sqrt.3	square root	1
+tan	tan.3	trigonometric function	3
+tanh	tanh.3	hyperbolic function	3
+trunc	trunc.3	nearest integral value	3
+y0	j0.3	Bessel function	???
+y1	j0.3	Bessel function	???
+yn	j0.3	Bessel function	???
+.ta
+.fi
+.SH "LIST OF DEFINED VALUES"
+.sp 2
+.nf
+.ta \w'M_2_SQRTPI'u+2n +\w'1.12837916709551257390'u+4n +\w'2/sqrt(pi)'u+6nC
+\fIName\fP	\fIValue\fP	\fIDescription\fP
+.ta \w'M_2_SQRTPI'u+2n +\w'1.12837916709551257390'u+4n +\w'2/sqrt(pi)'u+6nC
+.sp 3p
+M_E	2.7182818284590452354	e
+M_LOG2E	1.4426950408889634074	log 2e
+M_LOG10E	0.43429448190325182765	log 10e
+M_LN2	0.69314718055994530942	log e2
+M_LN10	2.30258509299404568402	log e10
+M_PI	3.14159265358979323846	pi
+M_PI_2	1.57079632679489661923	pi/2
+M_PI_4	0.78539816339744830962	pi/4
+M_1_PI	0.31830988618379067154	1/pi
+M_2_PI	0.63661977236758134308	2/pi
+M_2_SQRTPI	1.12837916709551257390	2/sqrt(pi)
+M_SQRT2	1.41421356237309504880	sqrt(2)
+M_SQRT1_2	0.70710678118654752440	1/sqrt(2)
+.ta
+.fi
+.SH NOTES
+In 4.3 BSD, distributed from the University of California
 in late 1985, most of the foregoing functions come in two
-versions, one for the double-precision
-.Dq D
-format in the
-.Tn DEC VAX-11
-family of computers, another for double-precision
-arithmetic conforming to
-.St -ieee754 .
+versions, one for the double\-precision "D" format in the
+DEC VAX\-11 family of computers, another for double\-precision
+arithmetic conforming to the IEEE Standard 754 for Binary
+Floating\-Point Arithmetic.
 The two versions behave very
 similarly, as should be expected from programs more accurate
-and robust than was the norm when
-.Ux
-was born.
-For
-instance, the programs are accurate to within the number of
-.Em ulp Ns s
-tabulated above; a
-.Em ulp
-is one
-.Em U Ns nit
-in the
-.Em L Ns ast
-.Em P Ns lace .
-The functions have been cured of anomalies that
-afflicted the older math library in which incidents like
+and robust than was the norm when UNIX was born.
+For instance, the programs are accurate to within the numbers
+of \*(ups tabulated above; an \*(up is one \fIU\fRnit in the \fIL\fRast
+\fIP\fRlace.
+And the programs have been cured of anomalies that
+afflicted the older math library \fIlibm\fR in which incidents like
 the following had been reported:
-.Bd -unfilled -compact -offset indent
-sqrt(-1.0) = 0.0 and log(-1.0) = -1.7e38.
-cos(1.0e-11) > cos(0.0) > 1.0.
-pow(x,1.0) \*(Ne x when x = 2.0, 3.0, 4.0, ..., 9.0.
-pow(-1.0,1.0e10) trapped on Integer Overflow.
-sqrt(1.0e30) and sqrt(1.0e-30) were very slow.
-.Ed
-However, the two versions do differ in ways that have to be
+.RS
+sqrt(\-1.0) = 0.0 and log(\-1.0) = \-1.7e38.
+.br
+cos(1.0e\-11) \*(Gt cos(0.0) \*(Gt 1.0.
+.br
+pow(x,1.0)
+.if n \
+!=
+.if t \
+\(!=
+x when x = 2.0, 3.0, 4.0, ..., 9.0.
+.br
+pow(\-1.0,1.0e10) trapped on Integer Overflow.
+.br
+sqrt(1.0e30) and sqrt(1.0e\-30) were very slow.
+.RE
+However the two versions do differ in ways that have to be
 explained, to which end the following notes are provided.
-.Ss DEC VAX-11 D_floating-point:
-This is the format for which the original math library
-was developed, and to which this manual is still principally
-dedicated.
-It is
-.Em the
-double-precision format for the PDP-11
-and the earlier VAX-11 machines; VAX-11s after 1983 were
-provided with an optional
-.Dq G
-format closer to the
-.Tn IEEE
-double-precision format.
-The earlier
-.Tn DEC MicroVAXs
-have no D format, only G double-precision.
-(Why? Why not?)
-.Pp
-Properties of D_floating-point:
-.Bl -tag -width "Precision:" -offset indent -compact
-.It Wordsize:
-64 bits, 8 bytes.
-.It Radix:
-Binary.
-.It Precision:
-56 \*(Si bits, roughly 17 \*(Si decimal digits.
-If x and x' are consecutive positive D_floating-point
-numbers (they differ by 1 \fIulp\fR), then
-.Li 1.3e-17 < 0.5**56 < (x'-x)/x \*(Le 0.5**55 < 2.8e-17.
-.It Range:
-Overflow threshold = 2.0**127 = 1.7e38.
+.PP
+\fBDEC VAX\-11 D_floating\-point:\fR
+.PP
+This is the format for which the original math library \fIlibm\fR
+was developed, and to which this manual is still principally dedicated.
+It is \fIthe\fR double\-precision format for the PDP\-11
+and the earlier VAX\-11 machines; VAX\-11s after 1983 were
+provided with an optional "G" format closer to the IEEE
+double\-precision format.
+The earlier DEC MicroVAXs have no D format, only G double\-precision.
+(Why?
+Why not?)
+.PP
+Properties of D_floating\-point:
+.RS
+Wordsize: 64 bits, 8 bytes.
+Radix: Binary.
 .br
-Underflow threshold = 0.5**128 = 2.9e-39.
+Precision: 56
+.if n \
+sig.
+.if t \
+significant
+bits, roughly like 17
+.if n \
+sig.
+.if t \
+significant
+decimals.
+.RS
+If x and x' are consecutive positive D_floating\-point
+numbers (they differ by 1 \*(up), then
 .br
-NOTE: THIS RANGE IS COMPARATIVELY NARROW.
-.br
+1.3e\-17 \*(Lt 0.5**56 \*(Lt (x'\-x)/x \*(Le 0.5**55 \*(Lt 2.8e\-17.
+.RE
+.nf
+.ta \w'Range:'u+1n +\w'Underflow threshold'u+1n +\w'= 2.0**127'u+1n
+Range:	Overflow threshold	= 2.0**127	= 1.7e38.
+	Underflow threshold	= 0.5**128	= 2.9e\-39.
+	NOTE:  THIS RANGE IS COMPARATIVELY NARROW.
+.ta
+.fi
+.RS
 Overflow customarily stops computation.
 .br
 Underflow is customarily flushed quietly to zero.
 .br
 CAUTION:
-.Bd -filled -offset indent -compact
-It is possible to have x \*(Ne y and yet x-y = 0 because of underflow.
-Similarly x > y > 0 cannot prevent either x\(**y = 0
-or y/x = 0 from happening without warning.
-.Ed
-.It Zero is represented ambiguously.
+.RS
+It is possible to have x
+.if n \
+!=
+.if t \
+\(!=
+y and yet
+x\-y = 0 because of underflow.
+Similarly x \*(Gt y \*(Gt 0 cannot prevent either x\(**y = 0
+or  y/x = 0 from happening without warning.
+.RE
+.RE
+Zero is represented ambiguously.
+.RS
 Although 2**55 different representations of zero are accepted by
 the hardware, only the obvious representation is ever produced.
-There is no -0 on a VAX.
-.It \*(If is not part of the VAX architecture.
-.It Reserved operands:
-Of the 2**55 that the hardware
+There is no \-0 on a VAX.
+.RE
+.If
+is not part of the VAX architecture.
+.br
+Reserved operands:
+.RS
+of the 2**55 that the hardware
 recognizes, only one of them is ever produced.
-Any floating-point operation upon a reserved
+Any floating\-point operation upon a reserved
 operand, even a MOVF or MOVD, customarily stops
 computation, so they are not much used.
-.It Exceptions:
+.RE
+Exceptions:
+.RS
 Divisions by zero and operations that
 overflow are invalid operations that customarily
 stop computation or, in earlier machines, produce
 reserved operands that will stop computation.
-.It Rounding:
-Every rational operation (+, -, \(**, /) on a
-VAX (but not necessarily on a PDP-11), if not an
+.RE
+Rounding:
+.RS
+Every rational operation  (+, \-, \(**, /) on a
+VAX (but not necessarily on a PDP\-11), if not an
 over/underflow nor division by zero, is rounded to
-within half a \fIulp\fR, and when the rounding error is
-exactly half a \fIulp\fR then rounding is away from 0.
-.El
-.Pp
-Except for its narrow range, D_floating-point is one of the
+within half an \*(up, and when the rounding error is
+exactly half an \*(up then rounding is away from 0.
+.RE
+.RE
+.PP
+Except for its narrow range, D_floating\-point is one of the
 better computer arithmetics designed in the 1960's.
 Its properties are reflected fairly faithfully in the elementary
-functions for a VAX distributed in
-.Bx 4.3 .
+functions for a VAX distributed in 4.3 BSD.
 They over/underflow only if their results have to lie out of range
 or very nearly so, and then they behave much as any rational
 arithmetic operation that over/underflowed would behave.
 Similarly, expressions like log(0) and atanh(1) behave
-like 1/0; and sqrt(-3) and acos(3) behave like 0/0;
+like 1/0; and sqrt(\-3) and acos(3) behave like 0/0;
 they all produce reserved operands and/or stop computation!
 The situation is described in more detail in manual pages.
-.Bd -filled -offset indent
+.RS
+.ll -0.5i
 \fIThis response seems excessively punitive, so it is destined
 to be replaced at some time in the foreseeable future by a
 more flexible but still uniform scheme being developed to
-handle all floating-point arithmetic exceptions neatly.
-See
-.Xr infnan 3
-for the present state of affairs.\fR
-.Ed
-.Pp
-How do the functions in
-.Bx 4.3 's
-new
-.Em libm
-for UNIX compare with their counterparts in
-.Tn DEC's VAX/VMS
-library?
-Some of the
-.Tn VMS
-functions are a little faster, some are
+handle all floating\-point arithmetic exceptions neatly.\fR
+.ll +0.5i
+.RE
+.PP
+How do the functions in 4.3 BSD's new \fIlibm\fR for UNIX
+compare with their counterparts in DEC's VAX/VMS library?
+Some of the VMS functions are a little faster, some are
 a little more accurate, some are more puritanical about
 exceptions (like pow(0.0,0.0) and atan2(0.0,0.0)),
 and most occupy much more memory than their counterparts in
-.Em libm .
-The
-.Tn VMS
-implementations interpolate in large table to achieve
-speed and accuracy; the
-.Em libm
-implementations use tricky formulas compact enough that all of them may some
-day fit into a ROM.
-.Pp
-More importantly,
-.Tn DEC
-considers the
-.Tn VMS
-implementation proprietary and guards it zealously against unauthorized use.
-In contrast, the
-.Em libm
-included in
-.Bx 4.3
-is freely distributable;
-it may be copied freely provided their provenance is always
-acknowledged.
-Therefore, no user of
-.Ux
-on a machine whose arithmetic resembles VAX D_floating-point need use
-anything worse than the new
-.Em libm .
-.Pp
-.Ss IEEE STANDARD 754 Floating-Point Arithmetic:
-This is the most widely adopted standard for computer arithmetic.
+\fIlibm\fR.
+The VMS codes interpolate in large table to achieve
+speed and accuracy; the \fIlibm\fR codes use tricky formulas
+compact enough that all of them may some day fit into a ROM.
+.PP
+More important, DEC regards the VMS codes as proprietary
+and guards them zealously against unauthorized use.
+But the \fIlibm\fR codes in 4.3 BSD are intended for the public domain;
+they may be copied freely provided their provenance is always
+acknowledged, and provided users assist the authors in their
+researches by reporting experience with the codes.
+Therefore no user of UNIX on a machine whose arithmetic resembles
+VAX D_floating\-point need use anything worse than the new \fIlibm\fR.
+.PP
+\fBIEEE STANDARD 754 Floating\-Point Arithmetic:\fR
+.PP
+This standard is on its way to becoming more widely adopted
+than any other design for computer arithmetic.
 VLSI chips that conform to some version of that standard have been
-produced by a host of manufacturers, among them:
-.Bl -column -offset indent -compact "Intel i8070, i80287" "Western Electric (AT&T) WE32106"
-.It "Intel i8087, i80287" Ta "National Semiconductor 32081"
-.It "Motorola 68881" Ta "Weitek WTL-1032, ... , -1165"
-.It "Zilog Z8070" Ta "Western Electric (AT&T) WE32106"
-.El
+produced by a host of manufacturers, among them ...
+.nf
+.ta 0.5i +\w'Intel i8070, i80287'u+6n
+	Intel i8087, i80287	National Semiconductor  32081
+	Motorola 68881	Weitek WTL-1032, ... , -1165
+	Zilog Z8070	Western Electric (AT\*(AmT) WE32106.
+.ta
+.fi
 Other implementations range from software, done thoroughly
-for the Apple Macintosh, through VLSI in the Hewlett-Packard
+in the Apple Macintosh, through VLSI in the Hewlett\-Packard
 9000 series, to the ELXSI 6400 running ECL at 3 Megaflops.
-Several other companies have adopted the formats of
-.St -ieee754
-without, alas, adhering to the standard's method
-of handling rounding and exceptions such as over/underflow.
-The
-.Tn DEC VAX
-G_floating-point format is very similar to
-.St -ieee754
-Double format.
-It is so similar that the C programs for the
-.Tn IEEE
-versions of most of the elementary functions listed
-above could easily be converted to run on a
-.Tn MicroVAX ,
-though nobody has volunteered to do that yet.
-.Pp
-The code in
-.Bx 4.3 's
-.Em libm
-for machines that conform to
-.St -ieee754
-is intended primarily for the National Semi. 32081 and WTL 1164/65.
-To use this code with the Intel or Zilog chips, or with the Apple
-Macintosh or ELXSI 6400, is to forego the use of better code
-provided (perhaps for free) by those companies and designed by some
-of the authors of the code above.
-Except for
-.Fn atan ,
-.Fn cbrt ,
-.Fn erf ,
-.Fn erfc ,
-.Fn hypot ,
-.Fn j0-jn ,
-.Fn lgamma ,
-.Fn pow
-and
-.Fn y0
--
-.Fn yn ,
-the Motorola 68881 has all the functions in
-.Em libm
-on chip, and is faster and more accurate to boot;
-it, Apple, the i8087, Z8070 and WE32106 all use 64 \*(Si bits.
-The main virtue of
-.Bx 4.3 's
-.Em libm
-is that it is freely distributable;
-it may be copied freely provided its provenance is always acknowledged.
-Therefore no user of
-.Ux
-on a machine that conforms to
-.St -ieee754
-need use anything worse than the new
-.Em libm .
-.Pp
-Properties of
-.St -ieee754
-Double-Precision:
-.Bl -tag -width "Precision:" -offset indent -compact
-.It Wordsize:
-64 bits, 8 bytes.
-.It Radix:
-Binary.
-.It Precision:
-53 \*(Si bits, roughly equivalent to 16 \*(Si decimals.
+Several other companies have adopted the formats
+of IEEE 754 without, alas, adhering to the standard's way
+of handling rounding and exceptions like over/underflow.
+The DEC VAX G_floating\-point format is very similar to the IEEE
+754 Double format, so similar that the C programs for the
+IEEE versions of most of the elementary functions listed
+above could easily be converted to run on a MicroVAX, though
+nobody has volunteered to do that yet.
+.PP
+The codes in 4.3 BSD's \fIlibm\fR for machines that conform to
+IEEE 754 are intended primarily for the National Semi. 32081
+and WTL 1164/65.
+To use these codes with the Intel or Zilog
+chips, or with the Apple Macintosh or ELXSI 6400, is to
+forego the use of better codes provided (perhaps freely) by
+those companies and designed by some of the authors of the
+codes above.
+Except for \fIatan\fR, \fIcabs\fR, \fIcbrt\fR, \fIerf\fR,
+\fIerfc\fR, \fIhypot\fR, \fIj0\-jn\fR, \fIlgamma\fR, \fIpow\fR
+and \fIy0\-yn\fR,
+the Motorola 68881 has all the functions in \fIlibm\fR on chip,
+and faster and more accurate;
+it, Apple, the i8087, Z8070 and WE32106 all use 64
+.if n \
+sig.
+.if t \
+significant
+bits.
+The main virtue of 4.3 BSD's
+\fIlibm\fR codes is that they are intended for the public domain;
+they may be copied freely provided their provenance is always
+acknowledged, and provided users assist the authors in their
+researches by reporting experience with the codes.
+Therefore no user of UNIX on a machine that conforms to
+IEEE 754 need use anything worse than the new \fIlibm\fR.
+.PP
+Properties of IEEE 754 Double\-Precision:
+.RS
+Wordsize: 64 bits, 8 bytes.
+Radix: Binary.
 .br
-If x and x' are consecutive positive Double-Precision
-numbers (they differ by 1 \fIulp\fR, then
+Precision: 53
+.if n \
+sig.
+.if t \
+significant
+bits, roughly like 16
+.if n \
+sig.
+.if t \
+significant
+decimals.
+.RS
+If x and x' are consecutive positive Double\-Precision
+numbers (they differ by 1 \*(up), then
 .br
-.Li 1.1e-16 < 0.5**53 < (x'-x)/x \*(Le 0.5**52 < 2.3e-16.
-.It Range:
-Overflow threshold = 2.0**1024 = 1.8e308
+1.1e\-16 \*(Lt 0.5**53 \*(Lt (x'\-x)/x \*(Le 0.5**52 \*(Lt 2.3e\-16.
+.RE
+.nf
+.ta \w'Range:'u+1n +\w'Underflow threshold'u+1n +\w'= 2.0**1024'u+1n
+Range:	Overflow threshold	= 2.0**1024	= 1.8e308
+	Underflow threshold	= 0.5**1022	= 2.2e\-308
+.ta
+.fi
+.RS
+Overflow goes by default to a signed
+.If "" .
 .br
-Underflow threshold = 0.5**1022 = 2.2e-308
-.br
-Overflow goes by default to a signed \*(If.
-.br
-Underflow is
-.Em Gradual ,
-rounding to the nearest integer multiple of 0.5**1074 = 4.9e-324.
-.It Zero is represented ambiguously as +0 or -0.
+Underflow is \fIGradual,\fR rounding to the nearest
+integer multiple of 0.5**1074 = 4.9e\-324.
+.RE
+Zero is represented ambiguously as +0 or \-0.
+.RS
 Its sign transforms correctly through multiplication or
 division, and is preserved by addition of zeros
-with like signs; but x-x yields +0 for every
+with like signs; but x\-x yields +0 for every
 finite x.
 The only operations that reveal zero's
-sign are division by zero and copysign(x,\*(Pm0).
-In particular, comparison (x > y, x \*(Ge y, etc.)
+sign are division by zero and copysign(x,\(+-0).
+In particular, comparison (x \*(Gt y, x \*(Ge y, etc.)
 cannot be affected by the sign of zero; but if
-finite x = y then \*(If \&= 1/(x-y) \*(Ne -1/(y-x) = -\*(If.
-.It \*(If is signed.
-It persists when added to itself or to any finite number.
-Its sign transforms correctly through multiplication and division, and
-(finite)/\*(Pm\*(If \0=\0\*(Pm0 (nonzero)/0 = \*(Pm\*(If.
-But \*(If-\*(If, \*(If\(**0 and \*(If/\*(If are, like 0/0 and sqrt(-3),
-invalid operations that produce \*(Na.
-.It Reserved operands:
-There are 2**53-2 of them, all
-called \*(Na (\fIN\fRot \fIa N\fRumber).
-Some, called Signaling \*(Nas, trap any floating-point operation
-performed upon them; they are used to mark missing or uninitialized values,
-or nonexistent elements of arrays.
-The rest are Quiet \*(Nas; they are the default results of Invalid Operations,
-and propagate through subsequent arithmetic operations.
-If x \*(Ne x then x is \*(Na; every other predicate
-(x > y, x = y, x < y, ...) is FALSE if \*(Na is involved.
+finite x = y then
+.If
+\&= 1/(x\-y)
+.if n \
+!=
+.if t \
+\(!=
+\-1/(y\-x) =
+.If \- .
+.RE
+.If
+is signed.
+.RS
+it persists when added to itself
+or to any finite number.
+Its sign transforms
+correctly through multiplication and division, and
+.If (finite)/\(+- \0=\0\(+-0
+(nonzero)/0 =
+.If \(+- .
+But
+.if n \
+Infinity\-Infinity, Infinity\(**0 and Infinity/Infinity
+.if t \
+\(if\-\(if, \(if\(**0 and \(if/\(if
+are, like 0/0 and sqrt(\-3),
+invalid operations that produce \*(nn. ...
+.RE
+Reserved operands:
+.RS
+there are 2**53\-2 of them, all
+called \*(nn (\fIN\fRot \fIa N\fRumber).
+Some, called Signaling \*(nns, trap any floating\-point operation
+performed upon them; they are used to mark missing
+or uninitialized values, or nonexistent elements of arrays.
+The rest are Quiet \*(nns; they are
+the default results of Invalid Operations, and
+propagate through subsequent arithmetic operations.
+If x
+.if n \
+!=
+.if t \
+\(!=
+x then x is \*(nn; every other predicate
+(x \*(Gt y, x = y, x \*(Lt y, ...) is FALSE if \*(nn is involved.
 .br
-.Bl -tag -width "NOTE:" -compact
-.It NOTE:
-Trichotomy is violated by \*(Na.
+NOTE: Trichotomy is violated by \*(nn.
+.RS
 Besides being FALSE, predicates that entail ordered
 comparison, rather than mere (in)equality,
-signal Invalid Operation when \*(Na is involved.
-.El
-.It Rounding:
-Every algebraic operation (+, -, \(**, /,
+signal Invalid Operation when \*(nn is involved.
+.RE
+.RE
+Rounding:
+.RS
+Every algebraic operation (+, \-, \(**, /,
 .if n \
 sqrt)
 .if t \
 \(sr)
-is rounded by default to within half a \fIulp\fR, and
-when the rounding error is exactly half a \fIulp\fR then
-the rounded value's least \*(Si bit is zero.
+is rounded by default to within half an \*(up, and
+when the rounding error is exactly half an \*(up then
+the rounded value's least significant bit is zero.
 This kind of rounding is usually the best kind,
-sometimes provably so.
-For instance, for every
+sometimes provably so; for instance, for every
 x = 1.0, 2.0, 3.0, 4.0, ..., 2.0**52, we find
 (x/3.0)\(**3.0 == x and (x/10.0)\(**10.0 == x and ...
 despite that both the quotients and the products
 have been rounded.
-Only rounding like
-.St -ieee754
-can do that.
+Only rounding like IEEE 754 can do that.
 But no single kind of rounding can be
-proved best for every circumstance, so
-.St -ieee754
-provides rounding towards zero or towards +\*(If or
-towards -\*(If at the programmer's discretion.
-The same kinds of rounding are specified for
-Binary-Decimal Conversions, at least for magnitudes
-between roughly 1.0e-10 and 1.0e37.
-.It Exceptions:
-.St -ieee754
-recognizes five kinds of floating-point exceptions,
+proved best for every circumstance, so IEEE 754
+provides rounding towards zero or towards
+.If +
+or towards
+.If \-
+at the programmer's option.
+And the same kinds of rounding are specified for
+Binary\-Decimal Conversions, at least for magnitudes
+between roughly 1.0e\-10 and 1.0e37.
+.RE
+Exceptions:
+.RS
+IEEE 754 recognizes five kinds of floating\-point exceptions,
 listed below in declining order of probable importance.
-.Bl -column -offset indent -compact "Invalid Operation" "Gradual Underflow"
-.It Em Exception Ta Em Default Result
-.It "Invalid Operation" Ta "\*(Na, or FALSE"
-.It "Overflow" Ta "\*(Pm\*(If"
-.It "Divide by Zero" Ta "\*(Pm\*(If"
-.It "Underflow" Ta "Gradual Underflow"
-.It "Inexact" Ta "Rounded value"
-.El
-NOTE: An Exception is not an Error unless handled
-badly.
+.RS
+.nf
+.ta \w'Invalid Operation'u+6n +\w'Gradual Underflow'u+2n
+Exception	Default Result
+.tc \(ru
+
+.tc
+Invalid Operation	\*(nn, or FALSE
+.if n \{\
+Overflow	\(+-Infinity
+Divide by Zero	\(+-Infinity \}
+.if t \{\
+Overflow	\(+-\(if
+Divide by Zero	\(+-\(if \}
+Underflow	Gradual Underflow
+Inexact	Rounded value
+.ta
+.fi
+.RE
+NOTE:  An Exception is not an Error unless handled badly.
 What makes a class of exceptions exceptional
 is that no single default response can be satisfactory
 in every instance.
@@ -436,44 +503,42 @@ On the other hand, if a default
 response will serve most instances satisfactorily,
 the unsatisfactory instances cannot justify aborting
 computation every time the exception occurs.
-.El
-.Pp
-For each kind of floating-point exception,
-.St -ieee754
-provides a
-.Em flag
-that is raised each time its exception
+.RE
+.PP
+For each kind of floating\-point exception, IEEE 754
+provides a Flag that is raised each time its exception
 is signaled, and stays raised until the program resets it.
 Programs may also test, save and restore a flag.
-Thus,
-.St -ieee754
-provides three ways by which programs may cope with exceptions for
-which the default result might be unsatisfactory:
-.Bl -tag -width XXX
-.It 1)
+Thus, IEEE 754 provides three ways by which programs
+may cope with exceptions for which the default result
+might be unsatisfactory:
+.IP 1) \w'\0\0\0\0'u
 Test for a condition that might cause an exception
 later, and branch to avoid the exception.
-.It 2)
+.IP 2) \w'\0\0\0\0'u
 Test a flag to see whether an exception has occurred
 since the program last reset its flag.
-.It 3)
+.IP 3) \w'\0\0\0\0'u
 Test a result to see whether it is a value that only
 an exception could have produced.
-.Bd -filled
+.RS
 CAUTION: The only reliable ways to discover
 whether Underflow has occurred are to test whether
 products or quotients lie closer to zero than the
-underflow threshold, or to test the Underflow
-flag.
+underflow threshold, or to test the Underflow flag.
 (Sums and differences cannot underflow in
-.St -ieee754 ;
-if x \*(Ne y then x-y is correct to
+IEEE 754; if x
+.if n \
+!=
+.if t \
+\(!=
+y then x\-y is correct to
 full precision and certainly nonzero regardless of
 how tiny it may be.)
-Products and quotients that underflow gradually can lose accuracy gradually
-without vanishing, so comparing them with zero (as one might on a
-.Tn VAX )
-will not reveal the loss.
+Products and quotients that
+underflow gradually can lose accuracy gradually
+without vanishing, so comparing them with zero
+(as one might on a VAX) will not reveal the loss.
 Fortunately, if a gradually underflowed value is
 destined to be added to something bigger than the
 underflow threshold, as is almost always the case,
@@ -481,243 +546,138 @@ digits lost to gradual underflow will not be missed
 because they would have been rounded off anyway.
 So gradual underflows are usually \fIprovably\fR ignorable.
 The same cannot be said of underflows flushed to 0.
-.Ed
-.El
-.Pp
-.Bl -tag -width XXX
-At the option of an implementor conforming to
-.St -ieee754 ,
+.RE
+.PP
+At the option of an implementor conforming to IEEE 754,
 other ways to cope with exceptions may be provided:
-.It 4)
+.IP 4) \w'\0\0\0\0'u
 ABORT.
 This mechanism classifies an exception in
 advance as an incident to be handled by means
-traditionally associated with error-handling
+traditionally associated with error\-handling
 statements like "ON ERROR GO TO ...".
 Different languages offer different forms of this statement,
 but most share the following characteristics:
-.Bl -dash
-.It
+.IP \(em \w'\0\0\0\0'u
 No means is provided to substitute a value for
 the offending operation's result and resume
-computation from what may be the middle of an
-expression.
+computation from what may be the middle of an expression.
 An exceptional result is abandoned.
-.It
-In a subprogram that lacks an error-handling
+.IP \(em \w'\0\0\0\0'u
+In a subprogram that lacks an error\-handling
 statement, an exception causes the subprogram to
 abort within whatever program called it, and so
 on back up the chain of calling subprograms until
-an error-handling statement is encountered or the
+an error\-handling statement is encountered or the
 whole task is aborted and memory is dumped.
-.El
-.It 5)
+.IP 5) \w'\0\0\0\0'u
 STOP.
-This mechanism, requiring an interactive debugging environment, is more
-for the programmer than the program.
-It classifies an exception in advance as a symptom of a programmer's error;
-the exception suspends execution as near as it can to the offending operation
-so that the programmer can look around to see how it happened.
-Often times the first several exceptions turn out to be quite
+This mechanism, requiring an interactive
+debugging environment, is more for the programmer
+than the program.
+It classifies an exception in
+advance as a symptom of a programmer's error; the
+exception suspends execution as near as it can to
+the offending operation so that the programmer can
+look around to see how it happened.
+Quite often
+the first several exceptions turn out to be quite
 unexceptionable, so the programmer ought ideally
 to be able to resume execution after each one as if
 execution had not been stopped.
-.It 6)
+.IP 6) \w'\0\0\0\0'u
 \&... Other ways lie beyond the scope of this document.
-.El
-.Pp
+.RE
+.PP
 The crucial problem for exception handling is the problem of
 Scope, and the problem's solution is understood, but not
 enough manpower was available to implement it fully in time
-to be distributed in
-.Bx 4.3 's
-.Em libm .
-Ideally, each elementary function should act as if it were indivisible,
-or atomic, in the sense that ...
-.Bl -tag -width Ds -offset XXXX
-.It i)
+to be distributed in 4.3 BSD's \fIlibm\fR.
+Ideally, each elementary function should act
+as if it were indivisible, or atomic, in the sense that ...
+.IP i) \w'iii)'u+2n
 No exception should be signaled that is not deserved by
 the data supplied to that function.
-.It ii)
+.IP ii) \w'iii)'u+2n
 Any exception signaled should be identified with that
 function rather than with one of its subroutines.
-.It iii)
+.IP iii) \w'iii)'u+2n
 The internal behavior of an atomic function should not
 be disrupted when a calling program changes from
 one to another of the five or so ways of handling
 exceptions listed above, although the definition
 of the function may be correlated intentionally
 with exception handling.
-.El
-.Pp
-Ideally, every programmer should be able to
-.Em conveniently
-turn a debugged subprogram into one that appears atomic to its users.
-But simulating all three characteristics of an atomic function is still
-a tedious affair, entailing hosts of tests and saves-restores;
-work is under way to ameliorate the inconvenience.
-.Pp
-Meanwhile, the functions in
-.Em libm
-are only approximately atomic.
-They signal no inappropriate exception except possibly:
-.Bl -tag -width Ds -offset indent -compact
-.It Over/Underflow
+.PP
+Ideally, every programmer should be able \fIconveniently\fR to
+turn a debugged subprogram into one that appears atomic to
+its users.
+But simulating all three characteristics of an
+atomic function is still a tedious affair, entailing hosts
+of tests and saves\-restores; work is under way to ameliorate
+the inconvenience.
+.PP
+Meanwhile, the functions in \fIlibm\fR are only approximately atomic.
+They signal no inappropriate exception except possibly ...
+.RS
+Over/Underflow
+.RS
 when a result, if properly computed, might have lain barely within range, and
-.It Inexact in \fIcbrt\fR, \fIhypot\fR, \fIlog10\fR and \fIpow\fR
+.RE
+Inexact in \fIcabs\fR, \fIcbrt\fR, \fIhypot\fR, \fIlog10\fR and \fIpow\fR
+.RS
 when it happens to be exact, thanks to fortuitous cancellation of errors.
-.El
-Otherwise:
-.Bl -tag -width Ds -offset indent -compact
-.It Invalid Operation is signaled only when
-any result but \*(Na would probably be misleading.
-.It Overflow is signaled only when
+.RE
+.RE
+Otherwise, ...
+.RS
+Invalid Operation is signaled only when
+.RS
+any result but \*(nn would probably be misleading.
+.RE
+Overflow is signaled only when
+.RS
 the exact result would be finite but beyond the overflow threshold.
-.It Divide-by-Zero is signaled only when
+.RE
+Divide\-by\-Zero is signaled only when
+.RS
 a function takes exactly infinite values at finite operands.
-.It Underflow is signaled only when
+.RE
+Underflow is signaled only when
+.RS
 the exact result would be nonzero but tinier than the underflow threshold.
-.It Inexact is signaled only when
+.RE
+Inexact is signaled only when
+.RS
 greater range or precision would be needed to represent the exact result.
-.El
-.Pp
-Properties of
-.St -ieee754
-Single-Precision:
-.Bl -tag -width "Precision:" -offset indent -compact
-.It Wordsize:
-32 bits, 4 bytes.
-.It Radix:
-Binary.
-.It Precision:
-24 \*(Si bits, roughly equivalent to 7 \*(Si decimals.
-.br
-If x and x' are consecutive positive Double-Precision
-numbers (they differ by 1 \fIulp\fR, then
-.br
-.Li 6.0e-8 < 0.5**24 < (x'-x)/x \*(Le 0.5**23 < 1.2e-7.
-.It Range:
-Overflow threshold = 2.0**128 = 3.4e38.
-.br
-Underflow threshold = 0.5**126 = 1.2e-38
-.br
-Overflow goes by default to a signed \*(If.
-.br
-Underflow is
-.Em Gradual ,
-rounding to the nearest integer multiple of 0.5**149 = 1.4e-45.
-.It Zero is represented ambiguously as +0 or -0.
-Its sign transforms correctly through multiplication or
-division, and is preserved by addition of zeros
-with like signs; but x-x yields +0 for every
-finite x.
-The only operations that reveal zero's
-sign are division by zero and copysign(x,\*(Pm0).
-In particular, comparison (x > y, x \*(Ge y, etc.)
-cannot be affected by the sign of zero; but if
-finite x = y then \*(If \&= 1/(x-y) \*(Ne -1/(y-x) = -\*(If.
-.It \*(If is signed.
-It persists when added to itself or to any finite number.
-Its sign transforms correctly through multiplication and division, and
-(finite)/\*(Pm\*(If \0=\0\*(Pm0 (nonzero)/0 = \*(Pm\*(If.
-But \*(If-\*(If, \*(If\(**0 and \*(If/\*(If are, like 0/0 and sqrt(-3),
-invalid operations that produce \*(Na.
-.It Reserved operands:
-There are 2**24-2 of them, all
-called \*(Na (\fIN\fRot \fIa N\fRumber).
-Some, called Signaling \*(Nas, trap any floating-point operation
-performed upon them; they are used to mark missing or uninitialized values,
-or nonexistent elements of arrays.
-The rest are Quiet \*(Nas; they are the default results of Invalid Operations,
-and propagate through subsequent arithmetic operations.
-If x \*(Ne x then x is \*(Na; every other predicate
-(x > y, x = y, x < y, ...) is FALSE if \*(Na is involved.
-.br
-.Bl -tag -width "NOTE:" -compact
-.It NOTE:
-Trichotomy is violated by \*(Na.
-Besides being FALSE, predicates that entail ordered
-comparison, rather than mere (in)equality,
-signal Invalid Operation when \*(Na is involved.
-.El
-.It Rounding:
-Every algebraic operation (+, -, \(**, /,
-.if n \
-sqrt)
-.if t \
-\(sr)
-is rounded by default to within half a \fIulp\fR, and
-when the rounding error is exactly half a \fIulp\fR then
-the rounded value's least \*(Si bit is zero.
-This kind of rounding is usually the best kind,
-sometimes provably so.
-For instance, for every
-x = 1.0, 2.0, 3.0, 4.0, ..., 2.0**52, we find
-(x/3.0)\(**3.0 == x and (x/10.0)\(**10.0 == x and ...
-despite that both the quotients and the products
-have been rounded.
-Only rounding like
-.St -ieee754
-can do that.
-But no single kind of rounding can be
-proved best for every circumstance, so
-.St -ieee754
-provides rounding towards zero or towards +\*(If or
-towards -\*(If at the programmer's discretion.
-The same kinds of rounding are specified for
-Binary-Decimal Conversions, at least for magnitudes
-between roughly 1.0e-10 and 1.0e37.
-.It Exceptions:
-.St -ieee754
-recognizes five kinds of floating-point exceptions,
-listed below in declining order of probable importance.
-.Bl -column -offset indent -compact "Invalid Operation" "Gradual Underflow"
-.It Em Exception Ta Em Default Result
-.It "Invalid Operation" Ta "\*(Na, or FALSE"
-.It "Overflow" Ta "\*(Pm\*(If"
-.It "Divide by Zero" Ta "\*(Pm\*(If"
-.It "Underflow" Ta "Gradual Underflow"
-.It "Inexact" Ta "Rounded value"
-.El
-NOTE: An Exception is not an Error unless handled
-badly.
-What makes a class of exceptions exceptional
-is that no single default response can be satisfactory
-in every instance.
-On the other hand, if a default
-response will serve most instances satisfactorily,
-the unsatisfactory instances cannot justify aborting
-computation every time the exception occurs.
-.El
-.Sh SEE ALSO
-An explanation of
-.St -ieee754
-and its proposed extension p854
-was published in the
-.Tn IEEE
-magazine MICRO in August 1984 under
-the title "A Proposed Radix- and Word-length-independent
-Standard for Floating-point Arithmetic" by W. J. Cody et al.
+.RE
+.RE
+.\" .Sh FILES
+.\" .Bl -tag -width /usr/lib/libm_p.a -compact
+.\" .It Pa /usr/lib/libm.a
+.\" the static math library
+.\" .It Pa /usr/lib/libm.so
+.\" the dynamic math library
+.\" .It Pa /usr/lib/libm_p.a
+.\" the static math library compiled for profiling
+.\" .El
+.SH SEE ALSO
+An explanation of IEEE 754 and its proposed extension p854
+was published in the IEEE magazine MICRO in August 1984 under
+the title "A Proposed Radix\- and Word\-length\-independent
+Standard for Floating\-point Arithmetic" by W. J. Cody et al.
 The manuals for Pascal, C and BASIC on the Apple Macintosh
-document the features of
-.St -ieee754
-pretty well.
-Articles in the
-.Tn IEEE
-magazine COMPUTER vol. 14 no. 3 (Mar. 1981), and in the
-.Tn ACM SIGNUM
-Newsletter Special Issue of Oct. 1979, may be helpful although they pertain to
+document the features of IEEE 754 pretty well.
+Articles in the IEEE magazine COMPUTER vol. 14 no. 3 (Mar. 1981),
+and in the ACM SIGNUM Newsletter Special Issue of
+Oct. 1979, may be helpful although they pertain to
 superseded drafts of the standard.
-.Sh BUGS
+.SH BUGS
 When signals are appropriate, they are emitted by certain
-operations within
-.Em libm ,
-so a subroutine-trace may be needed to identify the function with its
-signal in case method 5) above is in use.
-All the code in
-.Em libm
-takes the
-.St -ieee754
-defaults for granted; this means that a decision to
-trap all divisions by zero could disrupt a function that would
-otherwise get a correct result despite division by zero.
+operations within the codes, so a subroutine\-trace may be
+needed to identify the function with its signal in case
+method 5) above is in use.
+And the codes all take the
+IEEE 754 defaults for granted; this means that a decision to
+trap all divisions by zero could disrupt a code that would
+otherwise get correct results despite division by zero.

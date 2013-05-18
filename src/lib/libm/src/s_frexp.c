@@ -5,23 +5,24 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: s_frexp.c,v 1.9 1995/05/10 20:47:24 jtc Exp $";
+__RCSID("$NetBSD: s_frexp.c,v 1.12 2002/05/26 22:01:56 wiz Exp $");
 #endif
 
 /*
- * for non-zero x 
+ * for non-zero x
  *	x = frexp(arg,&exp);
  * return a double fp quantity x such that 0.5 <= |x| <1.0
  * and the corresponding binary exponent "exp". That is
  *	arg = x*2^exp.
- * If arg is inf, 0.0, or NaN, then frexp(arg,&exp) returns arg 
- * with *exp=0. 
+ * If arg is inf, 0.0, or NaN, then frexp(arg,&exp) returns arg
+ * with *exp=0.
  */
 
 #include "math.h"

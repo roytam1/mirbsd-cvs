@@ -8,16 +8,17 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: e_fmodf.c,v 1.4 1995/05/10 20:45:10 jtc Exp $";
+__RCSID("$NetBSD: e_fmodf.c,v 1.7 2002/05/26 22:01:49 wiz Exp $");
 #endif
 
-/* 
+/*
  * __ieee754_fmodf(x,y)
  * Return x mod y in exact arithmetic
  * Method: shift and subtract
@@ -58,13 +59,13 @@ __ieee754_fmodf(float x, float y)
 	} else iy = (hy>>23)-127;
 
     /* set up {hx,lx}, {hy,ly} and align y to x */
-	if(ix >= -126) 
+	if(ix >= -126)
 	    hx = 0x00800000|(0x007fffff&hx);
 	else {		/* subnormal x, shift x to normal */
 	    n = -126-ix;
 	    hx = hx<<n;
 	}
-	if(iy >= -126) 
+	if(iy >= -126)
 	    hy = 0x00800000|(0x007fffff&hy);
 	else {		/* subnormal y, shift y to normal */
 	    n = -126-iy;
@@ -87,7 +88,7 @@ __ieee754_fmodf(float x, float y)
 
     /* convert back to floating value and restore the sign */
 	if(hx==0) 			/* return sign(x)*0 */
-	    return Zero[(u_int32_t)sx>>31];	
+	    return Zero[(u_int32_t)sx>>31];
 	while(hx<0x00800000) {		/* normalize x */
 	    hx = hx+hx;
 	    iy -= 1;

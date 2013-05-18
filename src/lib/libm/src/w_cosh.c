@@ -5,16 +5,17 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: w_cosh.c,v 1.6 1995/05/10 20:48:47 jtc Exp $";
+__RCSID("$NetBSD: w_cosh.c,v 1.9 2002/05/26 22:02:00 wiz Exp $");
 #endif
 
-/* 
+/*
  * wrapper cosh(x)
  */
 
@@ -30,7 +31,7 @@ cosh(double x)		/* wrapper cosh */
 	double z;
 	z = __ieee754_cosh(x);
 	if(_LIB_VERSION == _IEEE_ || isnan(x)) return z;
-	if(fabs(x)>7.10475860073943863426e+02) {	
+	if(fabs(x)>7.10475860073943863426e+02) {
 	        return __kernel_standard(x,x,5); /* cosh overflow */
 	} else
 	    return z;

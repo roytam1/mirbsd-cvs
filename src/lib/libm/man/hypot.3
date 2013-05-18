@@ -1,5 +1,3 @@
-.\"	$MirOS: src/lib/libm/man/hypot.3,v 1.2 2005/11/21 21:17:29 tg Exp $
-.\"	$OpenBSD: hypot.3,v 1.14 2003/10/21 20:11:56 jmc Exp $
 .\" Copyright (c) 1985, 1991 Regents of the University of California.
 .\" All rights reserved.
 .\"
@@ -28,31 +26,39 @@
 .\" SUCH DAMAGE.
 .\"
 .\"     from: @(#)hypot.3	6.7 (Berkeley) 5/6/91
+.\"	$NetBSD: hypot.3,v 1.16 2003/11/02 11:17:16 wiz Exp $
 .\"
-.Dd November 2, 2006
+.Dd May 6, 1991
 .Dt HYPOT 3
 .Os
 .Sh NAME
 .Nm hypot ,
-.Nm hypotf
+.Nm hypotf ,
+.Nm cabs ,
+.Nm cabsf
 .Nd Euclidean distance and complex absolute value functions
+.Sh LIBRARY
+.Lb libm
 .Sh SYNOPSIS
-.Fd #include <math.h>
+.In math.h
 .Ft double
 .Fn hypot "double x" "double y"
 .Ft float
 .Fn hypotf "float x" "float y"
+.Ft double
+.Fn cabs "struct complex { double x; double y; } z"
+.Ft float
+.Fn cabsf "struct complex { float x; float y; } z"
 .Sh DESCRIPTION
 The
 .Fn hypot
-function computes the
+and
+.Fn cabs
+functions
+compute the
 sqrt(x*x+y*y)
 in such a way that underflow will not happen, and overflow
 occurs only if the final result deserves it.
-The
-.Fn hypotf
-function is a single precision versions of
-.Fn hypot .
 .Pp
 .Fn hypot "\*(If" "v"
 =
@@ -60,15 +66,20 @@ function is a single precision versions of
 = +\*(If for all
 .Ar v ,
 including \*(Na.
-.Sh ERRORS (due to Roundoff, etc.)
+.Sh ERRORS
 Below 0.97
 .Em ulps .
 Consequently
 .Fn hypot "5.0" "12.0"
 = 13.0
 exactly;
-in general, hypot returns an integer whenever an
+in general, hypot and cabs return an integer whenever an
 integer might be expected.
+.Pp
+The same cannot be said for the shorter and faster version of hypot
+and cabs that is provided in the comments in cabs.c; its error can
+exceed 1.2
+.Em ulps .
 .Sh NOTES
 As might be expected,
 .Fn hypot "v" "\*(Na"
@@ -115,14 +126,11 @@ function and a
 function
 appeared in
 .At v7 .
-.Pp
-For
-.St -isoC-99
-compatibility, the
+.Sh BUGS
+The
 .Fn cabs
-function was removed in
-.Mx 8 .
-A compatible builtin is part of the GNU Compiler Collection,
-but the appropriate
-.In complex.h
-definitions are not yet part of MirOS.
+and
+.Fn cabsf
+functions use structures that are not defined in any header and need to
+be defined by the user.
+As such they cannot be prototyped properly.

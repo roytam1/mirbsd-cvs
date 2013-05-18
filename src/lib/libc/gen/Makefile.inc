@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/gen/Makefile.inc,v 1.7 2006/11/01 19:49:32 tg Exp $
+# $MirOS: src/lib/libc/gen/Makefile.inc,v 1.8 2006/11/03 01:21:49 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.37 2005/02/01 15:12:28 millert Exp $
 
 # gen sources
@@ -22,6 +22,11 @@ SRCS+=  alarm.c assert.c auth_subr.c authenticate.c \
         ttyslot.c ualarm.c uname.c unvis.c usleep.c \
         utime.c valloc.c vis.c wait.c wait3.c waitpid.c warn.c \
         warnx.c vwarn.c vwarnx.c verr.c verrx.c
+
+SRCS+=	fpclassifyd_ieee754.c fpclassifyf_ieee754.c infinity_ieee754.c \
+	infinityf_ieee754.c isfinited_ieee754.c isfinitef_ieee754.c \
+	isinfd_ieee754.c isinff_ieee754.c isnand_ieee754.c isnanf_ieee754.c \
+	ldexp_ieee754.c signbitd_ieee754.c signbitf_ieee754.c
 
 # indirect reference stubs, to be removed soon.
 SRCS+=	_sys_errlist.c _sys_nerr.c _sys_siglist.c
@@ -72,6 +77,8 @@ MAN+=	alarm.3 auth_subr.3 authenticate.3 basename.3 clock.3 confstr.3 \
 	tolower.3 toupper.3 ttyname.3 ualarm.3 uname.3 unvis.3 usleep.3 \
 	utime.3 valloc.3 vis.3
 
+MAN+=	fpclassify.3 isfinite.3 isnan.3 isnormal.3 signbit.3
+
 MLINKS+=auth_subr.3 auth_open.3 auth_subr.3 auth_call.3 auth_subr.3 \
 	auth_challenge.3 auth_subr.3 auth_check_change.3 auth_subr.3 \
 	auth_check_expire.3 auth_subr.3 auth_clean.3 auth_subr.3 auth_close.3 \
@@ -100,7 +107,6 @@ MLINKS+=fpgetmask.3 fpgetround.3 fpgetmask.3 fpgetsticky.3 \
 MLINKS+=fts.3 fts_open.3 fts.3 fts_read.3 fts.3 fts_children.3 \
 	fts.3 fts_set.3 fts.3 fts_close.3
 MLINKS+=ftw.3 nftw.3
-MLINKS+=isinf.3 isnan.3 isinf.3 isnanf.3 isinf.3 isinff.3
 MLINKS+=getcap.3 cgetcap.3 getcap.3 cgetclose.3 getcap.3 cgetent.3 \
 	getcap.3 cgetfirst.3 getcap.3 cgetmatch.3 getcap.3 cgetnext.3 \
 	getcap.3 cgetnum.3 getcap.3 cgetset.3 getcap.3 cgetstr.3 \

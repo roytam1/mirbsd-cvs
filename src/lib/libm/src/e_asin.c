@@ -5,22 +5,23 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: e_asin.c,v 1.9 1995/05/12 04:57:22 jtc Exp $";
+__RCSID("$NetBSD: e_asin.c,v 1.12 2002/05/26 22:01:48 wiz Exp $");
 #endif
 
 /* __ieee754_asin(x)
- * Method :                  
+ * Method :
  *	Since  asin(x) = x + x^3/6 + x^5*3/40 + x^7*15/336 + ...
  *	we approximate asin(x) on [0,0.5] by
  *		asin(x) = x + x*x^2*R(x^2)
  *	where
- *		R(x^2) is a rational approximation of (asin(x)-x)/x^3 
+ *		R(x^2) is a rational approximation of (asin(x)-x)/x^3
  *	and its remez error is bounded by
  *		|(asin(x)-x)/x^3 - R(x^2)| < 2^(-58.75)
  *
@@ -48,7 +49,7 @@ static char rcsid[] = "$NetBSD: e_asin.c,v 1.9 1995/05/12 04:57:22 jtc Exp $";
 #include "math.h"
 #include "math_private.h"
 
-static const double 
+static const double
 one =  1.00000000000000000000e+00, /* 0x3FF00000, 0x00000000 */
 huge =  1.000e+300,
 pio2_hi =  1.57079632679489655800e+00, /* 0x3FF921FB, 0x54442D18 */
@@ -71,6 +72,8 @@ __ieee754_asin(double x)
 {
 	double t,w,p,q,c,r,s;
 	int32_t hx,ix;
+
+	t = 0;
 	GET_HIGH_WORD(hx,x);
 	ix = hx&0x7fffffff;
 	if(ix>= 0x3ff00000) {		/* |x|>= 1 */
@@ -78,12 +81,12 @@ __ieee754_asin(double x)
 	    GET_LOW_WORD(lx,x);
 	    if(((ix-0x3ff00000)|lx)==0)
 		    /* asin(1)=+-pi/2 with inexact */
-		return x*pio2_hi+x*pio2_lo;	
-	    return (x-x)/(x-x);		/* asin(|x|>1) is NaN */   
+		return x*pio2_hi+x*pio2_lo;
+	    return (x-x)/(x-x);		/* asin(|x|>1) is NaN */
 	} else if (ix<0x3fe00000) {	/* |x|<0.5 */
 	    if(ix<0x3e400000) {		/* if |x| < 2**-27 */
 		if(huge+x>one) return x;/* return x with inexact if x!=0*/
-	    } else 
+	    } else
 		t = x*x;
 		p = t*(pS0+t*(pS1+t*(pS2+t*(pS3+t*(pS4+t*pS5)))));
 		q = one+t*(qS1+t*(qS2+t*(qS3+t*qS4)));
@@ -107,6 +110,6 @@ __ieee754_asin(double x)
 	    p  = 2.0*s*r-(pio2_lo-2.0*c);
 	    q  = pio4_hi-2.0*w;
 	    t  = pio4_hi-(p-q);
-	}    
-	if(hx>0) return t; else return -t;    
+	}
+	if(hx>0) return t; else return -t;
 }

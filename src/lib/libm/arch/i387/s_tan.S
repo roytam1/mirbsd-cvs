@@ -1,18 +1,23 @@
-/*	$OpenBSD: s_tan.S,v 1.2 2005/08/02 11:17:31 espie Exp $ */
 /*
- * Written by J.T. Conklin <jtc@netbsd.org>.
+ * Written by J.T. Conklin <jtc@NetBSD.org>.
  * Public domain.
  */
 
 #include <machine/asm.h>
 
+#include "abi.h"
+
+RCSID("$NetBSD: s_tan.S,v 1.7 2003/07/26 19:25:04 salo Exp $")
+
 ENTRY(tan)
-	fldl	4(%esp)
+	XMM_ONE_ARG_DOUBLE_PROLOGUE
+	fldl	ARG_DOUBLE_ONE
 	fptan
 	fnstsw	%ax
 	andw	$0x400,%ax
 	jnz	1f
 	fstp	%st(0)
+	XMM_DOUBLE_EPILOGUE
 	ret
 1:	fldpi
 	fadd	%st(0)
@@ -24,4 +29,5 @@ ENTRY(tan)
 	fstp	%st(1)
 	fptan
 	fstp	%st(0)
+	XMM_DOUBLE_EPILOGUE
 	ret

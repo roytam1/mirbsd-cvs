@@ -7,6 +7,7 @@
 
 #include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
+__RCSID("$MirOS$");
 __RCSID("$NetBSD: w_cabsf.c,v 1.4 2001/01/06 00:15:00 christos Exp $");
 #endif
 
@@ -21,8 +22,7 @@ struct complex {
 float cabsf __P((struct complex));
 
 float
-cabsf(z)
-	struct complex z;
+cabsf(struct complex z)
 {
 	return hypotf(z.x, z.y);
 }

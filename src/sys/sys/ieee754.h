@@ -1,4 +1,5 @@
-/*	$NetBSD: ieee.h,v 1.10 2005/12/11 12:19:05 christos Exp $	*/
+/**	$MirOS$ */
+/*	$NetBSD: ieee754.h,v 1.6 2005/12/03 17:10:46 christos Exp $	*/
 
 /*
  * Copyright (c) 1992, 1993
@@ -39,32 +40,82 @@
  *
  *	@(#)ieee.h	8.1 (Berkeley) 6/11/93
  */
+#ifndef _SYS_IEEE754_H_
+#define _SYS_IEEE754_H_
 
 /*
- * ieee.h defines the machine-dependent layout of the machine's IEEE
- * floating point.  It does *not* define (yet?) any of the rounding
- * mode bits, exceptions, and so forth.
+ * NOTICE: This is not a standalone file.  To use it, #include it in
+ * your port's ieee.h header.
  */
 
-#include <sys/ieee754.h>
+#include <sys/types.h>
+#include <machine/endian.h>
 
 /*
- * The SPARC architecture defines the following IEEE 754 compliant
- * 128-bit extended-precision format, which is supported only by the
- * v9 toolchain.
+ * <sys/ieee754.h> defines the layout of IEEE 754 floating point types.
+ * Only single-precision and double-precision types are defined here;
+ * extended types, if available, are defined in the machine-dependent
+ * header.
  */
 
-#if defined(__arch64__) || defined(_KERNEL)
-#define	EXT_EXPBITS	15
-#define	EXT_FRACBITS	112
+/*
+ * Define the number of bits in each fraction and exponent.
+ *
+ *		     k	         k+1
+ * Note that  1.0 x 2  == 0.1 x 2      and that denorms are represented
+ *
+ *					  (-exp_bias+1)
+ * as fractions that look like 0.fffff x 2             .  This means that
+ *
+ *			 -126
+ * the number 0.10000 x 2    , for instance, is the same as the normalized
+ *
+ *		-127			   -128
+ * float 1.0 x 2    .  Thus, to represent 2    , we need one leading zero
+ *
+ *				  -129
+ * in the fraction; to represent 2    , we need two, and so on.  This
+ *
+ *						     (-exp_bias-fracbits+1)
+ * implies that the smallest denormalized number is 2
+ *
+ * for whichever format we are talking about: for single precision, for
+ *
+ *						-126		-149
+ * instance, we get .00000000000000000000001 x 2    , or 1.0 x 2    , and
+ *
+ * -149 == -127 - 23 + 1.
+ */
+#define	SNG_EXPBITS	8
+#define	SNG_FRACBITS	23
 
-struct ieee_ext {
-	u_int	ext_sign:1;
-	u_int	ext_exp:15;
-	u_int	ext_frach:16;
-	u_int	ext_frachm;
-	u_int	ext_fraclm;
-	u_int	ext_fracl;
+#define	DBL_EXPBITS	11
+#define	DBL_FRACBITS	52
+
+struct ieee_single {
+#if BYTE_ORDER == BIG_ENDIAN
+	u_int	sng_sign:1;
+	u_int	sng_exp:8;
+	u_int	sng_frac:23;
+#else
+	u_int	sng_frac:23;
+	u_int	sng_exp:8;
+	u_int	sng_sign:1;
+#endif
+};
+
+struct ieee_double {
+#if BYTE_ORDER == BIG_ENDIAN
+	u_int	dbl_sign:1;
+	u_int	dbl_exp:11;
+	u_int	dbl_frach:20;
+	u_int	dbl_fracl;
+#else
+	u_int	dbl_fracl;
+	u_int	dbl_frach:20;
+	u_int	dbl_exp:11;
+	u_int	dbl_sign:1;
+#endif
 };
 
 /*
@@ -73,27 +124,29 @@ struct ieee_ext {
  * Floats whose exponent is zero are either zero (iff all fraction
  * bits are zero) or subnormal values.
  *
- * A NaN is a `signalling NaN' if its QUIETNAN bit is clear in its
- * high fraction; if the bit is set, it is a `quiet NaN'.
+ * At least one `signalling NaN' and one `quiet NaN' value must be
+ * implemented.  It is left to the architecture to specify how to
+ * distinguish between these.
  */
-#define	EXT_EXP_INFNAN	32767
-
-#if 0
-#define	SNG_QUIETNAN	(1 << 22)
-#define	DBL_QUIETNAN	(1 << 19)
-#define	EXT_QUIETNAN	(1 << 15)
-#endif
+#define	SNG_EXP_INFNAN	255
+#define	DBL_EXP_INFNAN	2047
 
 /*
  * Exponent biases.
  */
-#define	EXT_EXP_BIAS	16383
+#define	SNG_EXP_BIAS	127
+#define	DBL_EXP_BIAS	1023
 
 /*
  * Convenience data structures.
  */
-union ieee_ext_u {
-	long double		extu_ld;
-	struct ieee_ext		extu_ext;
+union ieee_single_u {
+	float			sngu_f;
+	struct ieee_single	sngu_sng;
 };
-#endif /* __arch64__ || _KERNEL */
+
+union ieee_double_u {
+	double			dblu_d;
+	struct ieee_double	dblu_dbl;
+};
+#endif /* _SYS_IEEE754_H_ */

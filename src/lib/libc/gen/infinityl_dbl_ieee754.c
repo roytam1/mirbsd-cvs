@@ -5,9 +5,12 @@
  * For platforms where long double == double.
  */
 
+#include <sys/types.h>
 #include <float.h>
 #include <math.h>
 #include <machine/endian.h>
+
+__RCSID("$MirOS$");
 
 #if LDBL_MANT_DIG != DBL_MANT_DIG
 #error double / long double mismatch

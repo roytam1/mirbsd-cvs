@@ -5,20 +5,21 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: s_matherr.c,v 1.6 1995/05/10 20:47:53 jtc Exp $";
+__RCSID("$NetBSD: s_matherr.c,v 1.9 2002/05/26 22:01:57 wiz Exp $");
 #endif
 
 #include "math.h"
 #include "math_private.h"
 
 int
-matherr(struct __libm_exception *x)
+matherr(struct exception *x)
 {
 	int n=0;
 	if(x->arg1!=x->arg1) return 0;

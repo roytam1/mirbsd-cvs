@@ -38,11 +38,12 @@
 
 #include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
+__RCSID("$MirOS$");
 __RCSID("$NetBSD: nanf.c,v 1.1 2006/03/15 22:07:09 kleink Exp $");
 #endif /* LIBM_SCCS and not lint */
 
 #define	NAN_FUNCTION	nanf
 #define	NAN_TYPE	float
-#define	NAN_STRTOD	strtof
+#define	NAN_STRTOD	(float)strtod /* strtof */
 
 #include "nan.c"

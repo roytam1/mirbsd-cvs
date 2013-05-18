@@ -8,19 +8,18 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: w_gammaf.c,v 1.4 1995/11/20 22:06:48 jtc Exp $";
+__RCSID("$NetBSD: w_gammaf.c,v 1.8 2002/05/26 22:02:01 wiz Exp $");
 #endif
 
 #include "math.h"
 #include "math_private.h"
-
-extern int signgam;
 
 float
 gammaf(float x)
@@ -41,4 +40,4 @@ gammaf(float x)
         } else
             return y;
 #endif
-}             
+}

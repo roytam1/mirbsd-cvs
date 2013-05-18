@@ -5,16 +5,17 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: w_sinh.c,v 1.6 1995/05/10 20:49:51 jtc Exp $";
+__RCSID("$NetBSD: w_sinh.c,v 1.9 2002/05/26 22:02:03 wiz Exp $");
 #endif
 
-/* 
+/*
  * wrapper sinh(x)
  */
 
@@ -27,7 +28,7 @@ sinh(double x)		/* wrapper sinh */
 #ifdef _IEEE_LIBM
 	return __ieee754_sinh(x);
 #else
-	double z; 
+	double z;
 	z = __ieee754_sinh(x);
 	if(_LIB_VERSION == _IEEE_) return z;
 	if(!finite(z)&&finite(x)) {

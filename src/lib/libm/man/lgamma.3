@@ -1,4 +1,3 @@
-.\"	$OpenBSD: lgamma.3,v 1.13 2004/01/02 18:23:00 jmc Exp $
 .\" Copyright (c) 1985, 1991 Regents of the University of California.
 .\" All rights reserved.
 .\"
@@ -27,16 +26,25 @@
 .\" SUCH DAMAGE.
 .\"
 .\"     from: @(#)lgamma.3	6.6 (Berkeley) 12/3/92
+.\"	$NetBSD: lgamma.3,v 1.21 2003/08/07 16:44:48 agc Exp $
 .\"
 .Dd December 3, 1992
 .Dt LGAMMA 3
 .Os
 .Sh NAME
 .Nm lgamma ,
-.Nm lgammaf
-.Nd log gamma functions
+.Nm lgammaf ,
+.Nm lgamma_r ,
+.Nm lgammaf_r ,
+.Nm gamma ,
+.Nm gammaf ,
+.Nm gamma_r ,
+.Nm gammaf_r
+.Nd log gamma function
+.Sh LIBRARY
+.Lb libm
 .Sh SYNOPSIS
-.Fd #include <math.h>
+.In math.h
 .Ft extern int
 .Fa signgam ;
 .sp
@@ -44,14 +52,26 @@
 .Fn lgamma "double x"
 .Ft float
 .Fn lgammaf "float x"
+.Ft double
+.Fn lgamma_r "double x" "int *sign"
+.Ft float
+.Fn lgammaf_r "float x" "int *sign"
+.Ft double
+.Fn gamma "double x"
+.Ft float
+.Fn gammaf "float x"
+.Ft double
+.Fn gamma_r "double x" "int *sign"
+.Ft float
+.Fn gammaf_r "float x" "int *sign"
 .Sh DESCRIPTION
 .Fn lgamma x
 .if t \{\
 returns ln\||\(*G(x)| where
 .Bd -unfilled -offset indent
-\(*G(x) = \(is\d\s8\z0\s10\u\u\s8\(if\s10\d t\u\s8x\-1\s10\d e\u\s8\-t\s10\d dt	for x > 0 and
+\(*G(x) = \(is\d\s8\z0\s10\u\u\s8\(if\s10\d t\u\s8x\-1\s10\d e\u\s8\-t\s10\d dt	for x \*(Gt 0 and
 .br
-\(*G(x) = \(*p/(\(*G(1\-x)\|sin(\(*px))	for x < 1.
+\(*G(x) = \(*p/(\(*G(1\-x)\|sin(\(*px))	for x \*(Lt 1.
 .Ed
 .\}
 .if n \
@@ -60,13 +80,19 @@ returns ln\||\(*G(x)|.
 The external integer
 .Fa signgam
 returns the sign of \(*G(x).
-The
-.Fn lgammaf
-function is a single precision version of
-.Fn lgamma .
+.Pp
+.Fn lgamma_r
+is a reentrant interface that performs identically to
+.Fn lgamma ,
+differing in that the sign of \(*G(x) is stored in the location
+pointed to by the
+.Fa sign
+argument and
+.Fa signgam
+is not modified.
 .Sh IDIOSYNCRASIES
 Do not use the expression
-.Sq Li signgam\(**exp(lgamma(x))
+.Dq Li signgam\(**exp(lgamma(x))
 to compute g := \(*G(x).
 Instead use a program like this (in C):
 .Bd -literal -offset indent
@@ -89,10 +115,9 @@ and
 is set to
 .Er ERANGE .
 .Sh SEE ALSO
-.Xr infnan 3 ,
 .Xr math 3
 .Sh HISTORY
 The
-.Fn lgamma
+.Nm lgamma
 function appeared in
 .Bx 4.3 .

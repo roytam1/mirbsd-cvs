@@ -1,4 +1,3 @@
-/*	$OpenBSD: s_log1p.S,v 1.3 2005/08/02 11:17:31 espie Exp $ */
 /*
  * Written by J.T. Conklin <jtc@NetBSD.org>.
  * Public domain.
@@ -10,6 +9,10 @@
  */
 
 #include <machine/asm.h>
+
+#include "abi.h"
+
+RCSID("$NetBSD: s_log1p.S,v 1.13 2003/09/16 18:17:11 wennmach Exp $")
 
 /*
  * The log1p() function is provided to compute an accurate value of
@@ -37,8 +40,11 @@
  * 
  */
 
+.text
+	.align	4
 ENTRY(log1p)
-	fldl	4(%esp)
+	XMM_ONE_ARG_DOUBLE_PROLOGUE
+	fldl	ARG_DOUBLE_ONE
 	fabs
 	fld1				/* ... x 1 */
 	fadd	%st(0)			/* ... x 2 */
@@ -54,15 +60,17 @@ ENTRY(log1p)
 	.align	4
 use_fyl2x:
 	fldln2
-        fldl	4(%esp)
+        fldl	ARG_DOUBLE_ONE
         fld1
         faddp
         fyl2x
+	XMM_DOUBLE_EPILOGUE
         ret
 
 	.align	4
 use_fyl2xp1:
 	fldln2
-	fldl	4(%esp)
+	fldl	ARG_DOUBLE_ONE
 	fyl2xp1
+	XMM_DOUBLE_EPILOGUE
 	ret

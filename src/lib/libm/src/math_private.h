@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: math_private.h,v 1.6 2002/02/16 21:27:27 millert Exp $	*/
 /*
  * ====================================================
@@ -5,13 +6,14 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
 /*
  * from: @(#)fdlibm.h 5.1 93/09/24
+ * $NetBSD: math_private.h,v 1.12 2005/07/21 12:55:58 christos Exp $
  */
 
 #ifndef _MATH_PRIVATE_H_
@@ -40,10 +42,10 @@
 
 #if (BYTE_ORDER == BIG_ENDIAN) || defined(arm32)
 
-typedef union 
+typedef union
 {
   double value;
-  struct 
+  struct
   {
     u_int32_t msw;
     u_int32_t lsw;
@@ -54,10 +56,10 @@ typedef union
 
 #if (BYTE_ORDER == LITTLE_ENDIAN) && !defined(arm32)
 
-typedef union 
+typedef union
 {
   double value;
-  struct 
+  struct
   {
     u_int32_t lsw;
     u_int32_t msw;
@@ -152,13 +154,13 @@ do {								\
 } while (0)
 
 /* ieee style elementary functions */
-extern double __ieee754_sqrt(double);			
-extern double __ieee754_acos(double);			
-extern double __ieee754_acosh(double);			
-extern double __ieee754_log(double);			
-extern double __ieee754_atanh(double);			
-extern double __ieee754_asin(double);			
-extern double __ieee754_atan2(double,double);			
+extern double __ieee754_sqrt(double);
+extern double __ieee754_acos(double);
+extern double __ieee754_acosh(double);
+extern double __ieee754_log(double);
+extern double __ieee754_atanh(double);
+extern double __ieee754_asin(double);
+extern double __ieee754_atan2(double,double);
 extern double __ieee754_exp(double);
 extern double __ieee754_cosh(double);
 extern double __ieee754_fmod(double,double);
@@ -168,6 +170,7 @@ extern double __ieee754_gamma_r(double,int *);
 extern double __ieee754_lgamma(double);
 extern double __ieee754_gamma(double);
 extern double __ieee754_log10(double);
+extern double __ieee754_log2(double);
 extern double __ieee754_sinh(double);
 extern double __ieee754_hypot(double,double);
 extern double __ieee754_j0(double);
@@ -181,7 +184,7 @@ extern int    __ieee754_rem_pio2(double,double*);
 extern double __ieee754_scalb(double,double);
 
 /* fdlibm kernel function */
-extern double __kernel_standard(double,double,int);	
+extern double __kernel_standard(double,double,int);
 extern double __kernel_sin(double,double,int);
 extern double __kernel_cos(double,double);
 extern double __kernel_tan(double,double,int);
@@ -189,13 +192,13 @@ extern int    __kernel_rem_pio2(double*,double*,int,int,int,const int*);
 
 
 /* ieee style elementary float functions */
-extern float __ieee754_sqrtf(float);			
-extern float __ieee754_acosf(float);			
-extern float __ieee754_acoshf(float);			
-extern float __ieee754_logf(float);			
-extern float __ieee754_atanhf(float);			
-extern float __ieee754_asinf(float);			
-extern float __ieee754_atan2f(float,float);			
+extern float __ieee754_sqrtf(float);
+extern float __ieee754_acosf(float);
+extern float __ieee754_acoshf(float);
+extern float __ieee754_logf(float);
+extern float __ieee754_atanhf(float);
+extern float __ieee754_asinf(float);
+extern float __ieee754_atan2f(float,float);
 extern float __ieee754_expf(float);
 extern float __ieee754_coshf(float);
 extern float __ieee754_fmodf(float,float);
@@ -205,6 +208,7 @@ extern float __ieee754_gammaf_r(float,int *);
 extern float __ieee754_lgammaf(float);
 extern float __ieee754_gammaf(float);
 extern float __ieee754_log10f(float);
+extern float __ieee754_log2f(float);
 extern float __ieee754_sinhf(float);
 extern float __ieee754_hypotf(float,float);
 extern float __ieee754_j0f(float);

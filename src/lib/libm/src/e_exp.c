@@ -5,13 +5,14 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: e_exp.c,v 1.8 1995/05/10 20:45:03 jtc Exp $";
+__RCSID("$NetBSD: e_exp.c,v 1.11 2002/05/26 22:01:49 wiz Exp $");
 #endif
 
 /* __ieee754_exp(x)
@@ -22,36 +23,36 @@ static char rcsid[] = "$NetBSD: e_exp.c,v 1.8 1995/05/10 20:45:03 jtc Exp $";
  *      Reduce x to an r so that |r| <= 0.5*ln2 ~ 0.34658.
  *	Given x, find r and integer k such that
  *
- *               x = k*ln2 + r,  |r| <= 0.5*ln2.  
+ *               x = k*ln2 + r,  |r| <= 0.5*ln2.
  *
- *      Here r will be represented as r = hi-lo for better 
+ *      Here r will be represented as r = hi-lo for better
  *	accuracy.
  *
  *   2. Approximation of exp(r) by a special rational function on
  *	the interval [0,0.34658]:
  *	Write
  *	    R(r**2) = r*(exp(r)+1)/(exp(r)-1) = 2 + r*r/6 - r**4/360 + ...
- *      We use a special Reme algorithm on [0,0.34658] to generate 
- * 	a polynomial of degree 5 to approximate R. The maximum error 
+ *      We use a special Reme algorithm on [0,0.34658] to generate
+ * 	a polynomial of degree 5 to approximate R. The maximum error
  *	of this polynomial approximation is bounded by 2**-59. In
  *	other words,
  *	    R(z) ~ 2.0 + P1*z + P2*z**2 + P3*z**3 + P4*z**4 + P5*z**5
  *  	(where z=r*r, and the values of P1 to P5 are listed below)
  *	and
  *	    |                  5          |     -59
- *	    | 2.0+P1*z+...+P5*z   -  R(z) | <= 2 
+ *	    | 2.0+P1*z+...+P5*z   -  R(z) | <= 2
  *	    |                             |
  *	The computation of exp(r) thus becomes
  *                             2*r
  *		exp(r) = 1 + -------
  *		              R - r
- *                                 r*R1(r)	
+ *                                 r*R1(r)
  *		       = 1 + r + ----------- (for better accuracy)
  *		                  2 - R1(r)
  *	where
  *			         2       4             10
  *		R1(r) = r - (P1*r  + P2*r  + ... + P5*r   ).
- *	
+ *
  *   3. Scale back to obtain exp(x):
  *	From step 1, we have
  *	   exp(x) = 2^k * exp(r)
@@ -66,13 +67,13 @@ static char rcsid[] = "$NetBSD: e_exp.c,v 1.8 1995/05/10 20:45:03 jtc Exp $";
  *	1 ulp (unit in the last place).
  *
  * Misc. info.
- *	For IEEE double 
+ *	For IEEE double
  *	    if x >  7.09782712893383973096e+02 then exp(x) overflow
  *	    if x < -7.45133219101941108420e+02 then exp(x) underflow
  *
  * Constants:
- * The hexadecimal values are the intended ones for the following 
- * constants. The decimal values may be used, provided that the 
+ * The hexadecimal values are the intended ones for the following
+ * constants. The decimal values may be used, provided that the
  * compiler will convert from decimal to binary accurately enough
  * to produce the hexadecimal values shown.
  */
@@ -106,6 +107,8 @@ __ieee754_exp(double x)	/* default IEEE double exp */
 	int32_t k,xsb;
 	u_int32_t hx;
 
+	hi = lo = 0;
+	k = 0;
 	GET_HIGH_WORD(hx,x);
 	xsb = (hx>>31)&1;		/* sign bit of x */
 	hx &= 0x7fffffff;		/* high word of |x| */
@@ -115,7 +118,7 @@ __ieee754_exp(double x)	/* default IEEE double exp */
             if(hx>=0x7ff00000) {
 	        u_int32_t lx;
 		GET_LOW_WORD(lx,x);
-		if(((hx&0xfffff)|lx)!=0) 
+		if(((hx&0xfffff)|lx)!=0)
 		     return x+x; 		/* NaN */
 		else return (xsb==0)? x:0.0;	/* exp(+-inf)={inf,0} */
 	    }
@@ -124,7 +127,7 @@ __ieee754_exp(double x)	/* default IEEE double exp */
 	}
 
     /* argument reduction */
-	if(hx > 0x3fd62e42) {		/* if  |x| > 0.5 ln2 */ 
+	if(hx > 0x3fd62e42) {		/* if  |x| > 0.5 ln2 */
 	    if(hx < 0x3FF0A2B2) {	/* and |x| < 1.5 ln2 */
 		hi = x-ln2HI[xsb]; lo=ln2LO[xsb]; k = 1-xsb-xsb;
 	    } else {
@@ -134,7 +137,7 @@ __ieee754_exp(double x)	/* default IEEE double exp */
 		lo = t*ln2LO[0];
 	    }
 	    x  = hi - lo;
-	} 
+	}
 	else if(hx < 0x3e300000)  {	/* when |x|<2**-28 */
 	    if(huge+x>one) return one+x;/* trigger inexact */
 	}
@@ -143,7 +146,7 @@ __ieee754_exp(double x)	/* default IEEE double exp */
     /* x is now in primary range */
 	t  = x*x;
 	c  = x - t*(P1+t*(P2+t*(P3+t*(P4+t*P5))));
-	if(k==0) 	return one-((x*c)/(c-2.0)-x); 
+	if(k==0) 	return one-((x*c)/(c-2.0)-x);
 	else 		y = one-((lo-(x*c)/(2.0-c))-hi);
 	if(k >= -1021) {
 	    u_int32_t hy;

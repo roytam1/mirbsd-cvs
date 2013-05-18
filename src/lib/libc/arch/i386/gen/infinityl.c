@@ -7,9 +7,11 @@
 
 #include <sys/cdefs.h>
 #if defined(LIBC_SCCS) && !defined(lint)
+__RCSID("$MirOS$");
 __RCSID("$NetBSD: infinityl.c,v 1.2 2005/06/12 05:21:26 lukem Exp $");
 #endif /* LIBC_SCCS and not lint */
 
+#include <sys/types.h>
 #include <math.h>
 
 const union __long_double_u __infinityl =

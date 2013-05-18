@@ -8,13 +8,14 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: s_atanf.c,v 1.4 1995/05/10 20:46:47 jtc Exp $";
+__RCSID("$NetBSD: s_atanf.c,v 1.7 2002/05/26 22:01:54 wiz Exp $");
 #endif
 
 #include "math.h"
@@ -48,7 +49,7 @@ static const float aT[] = {
   1.6285819933e-02, /* 0x3c8569d7 */
 };
 
-static const float 
+static const float
 one   = 1.0,
 huge   = 1.0e30;
 
@@ -74,9 +75,9 @@ atanf(float x)
 	x = fabsf(x);
 	if (ix < 0x3f980000) {		/* |x| < 1.1875 */
 	    if (ix < 0x3f300000) {	/* 7/16 <=|x|<11/16 */
-		id = 0; x = ((float)2.0*x-one)/((float)2.0+x); 
+		id = 0; x = ((float)2.0*x-one)/((float)2.0+x);
 	    } else {			/* 11/16<=|x|< 19/16 */
-		id = 1; x  = (x-one)/(x+one); 
+		id = 1; x  = (x-one)/(x+one);
 	    }
 	} else {
 	    if (ix < 0x401c0000) {	/* |x| < 2.4375 */

@@ -8,13 +8,14 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: s_cbrtf.c,v 1.4 1995/05/10 20:46:51 jtc Exp $";
+__RCSID("$NetBSD: s_cbrtf.c,v 1.7 2002/05/26 22:01:54 wiz Exp $");
 #endif
 
 #include "math.h"
@@ -23,9 +24,9 @@ static char rcsid[] = "$NetBSD: s_cbrtf.c,v 1.4 1995/05/10 20:46:51 jtc Exp $";
 /* cbrtf(x)
  * Return cube root of x
  */
-static const unsigned 
-B1 = 709958130, /* B1 = (84+2/3-0.03306235651)*2**23 */
-B2 = 642849266; /* B2 = (76+2/3-0.03306235651)*2**23 */
+static const unsigned
+	B1 = 709958130, /* B1 = (84+2/3-0.03306235651)*2**23 */
+	B2 = 642849266; /* B2 = (76+2/3-0.03306235651)*2**23 */
 
 static const float
 C =  5.4285717010e-01, /* 19/35     = 0x3f0af8b0 */
@@ -35,7 +36,7 @@ F =  1.6071428061e+00, /* 45/28     = 0x3fcdb6db */
 G =  3.5714286566e-01; /* 5/14      = 0x3eb6db6e */
 
 float
-cbrtf(float x) 
+cbrtf(float x)
 {
 	float r,s,t;
 	int32_t hx;
@@ -46,7 +47,7 @@ cbrtf(float x)
 	sign=hx&0x80000000; 		/* sign= sign(x) */
 	hx  ^=sign;
 	if(hx>=0x7f800000) return(x+x); /* cbrt(NaN,INF) is itself */
-	if(hx==0) 
+	if(hx==0)
 	    return(x);		/* cbrt(0) is itself */
 
 	SET_FLOAT_WORD(x,hx);	/* x <- |x| */
@@ -62,7 +63,7 @@ cbrtf(float x)
     /* new cbrt to 23 bits */
 	r=t*t/x;
 	s=C+r*t;
-	t*=G+F/(s+E+D/s);	
+	t*=G+F/(s+E+D/s);
 
     /* retore the sign bit */
 	GET_FLOAT_WORD(high,t);

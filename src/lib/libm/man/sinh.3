@@ -1,4 +1,3 @@
-.\"	$OpenBSD: sinh.3,v 1.10 2003/06/02 20:18:41 millert Exp $
 .\" Copyright (c) 1991 The Regents of the University of California.
 .\" All rights reserved.
 .\"
@@ -27,15 +26,18 @@
 .\" SUCH DAMAGE.
 .\"
 .\"	from: @(#)sinh.3	6.6 (Berkeley) 4/19/91
+.\"	$NetBSD: sinh.3,v 1.14 2003/08/07 16:44:49 agc Exp $
 .Dd April 19, 1991
 .Dt SINH 3
 .Os
 .Sh NAME
 .Nm sinh ,
 .Nm sinhf
-.Nd hyperbolic sine functions
+.Nd hyperbolic sine function
+.Sh LIBRARY
+.Lb libm
 .Sh SYNOPSIS
-.Fd #include <math.h>
+.In math.h
 .Ft double
 .Fn sinh "double x"
 .Ft float
@@ -45,18 +47,11 @@ The
 .Fn sinh
 function computes the hyperbolic sine of
 .Fa x .
-The
-.Fn sinhf
-function is a single precision version of
-.Fn sinh .
 .Sh RETURN VALUES
 The
 .Fn sinh
-and
-.Fn sinhf
-functions return the hyperbolic sine value unless
-the magnitude
-of
+function returns the hyperbolic sine value unless
+the magnitude of
 .Fa x
 is too large; in this event, the global variable
 .Va errno

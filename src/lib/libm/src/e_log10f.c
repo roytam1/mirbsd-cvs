@@ -8,13 +8,14 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: e_log10f.c,v 1.5 1995/05/10 20:45:53 jtc Exp $";
+__RCSID("$NetBSD: e_log10f.c,v 1.8 2002/05/26 22:01:51 wiz Exp $");
 #endif
 
 #include "math.h"

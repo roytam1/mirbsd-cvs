@@ -14,6 +14,11 @@
 #include <sys/cdefs.h>
 __FBSDID("$FreeBSD: src/lib/msun/src/s_trunc.c,v 1.1 2004/06/20 09:25:43 das Exp $");
 #endif
+#include <sys/cdefs.h>
+#if defined(LIBM_SCCS) && !defined(lint)
+__RCSID("$MirOS$");
+__RCSID("$NetBSD: s_trunc.c,v 1.1 2006/03/25 16:41:12 xtraeme Exp $");
+#endif
 
 /*
  * trunc(x)
@@ -33,7 +38,7 @@ double
 trunc(double x)
 {
 	int32_t i0,i1,jj0;
-	u_int32_t i;
+	uint32_t i;
 	EXTRACT_WORDS(i0,i1,x);
 	jj0 = ((i0>>20)&0x7ff)-0x3ff;
 	if(jj0<20) {

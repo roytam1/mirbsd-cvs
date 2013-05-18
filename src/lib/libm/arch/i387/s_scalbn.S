@@ -1,14 +1,26 @@
-/*	$OpenBSD: s_scalbn.S,v 1.3 2005/08/02 11:17:31 espie Exp $ */
 /*
- * Written by J.T. Conklin <jtc@netbsd.org>.
+ * Written by J.T. Conklin <jtc@NetBSD.org>.
  * Public domain.
  */
 
 #include <machine/asm.h>
 
+RCSID("$NetBSD: s_scalbn.S,v 1.8 2006/03/21 11:35:21 drochner Exp $")
+
 ENTRY(scalbn)
-	fildl	12(%esp)
-	fldl	4(%esp)
+#ifdef __x86_64__
+	movl %edi,-12(%rsp)
+	fildl -12(%rsp)
+	movsd %xmm0,-8(%rsp)
+	fldl -8(%rsp)
 	fscale
-	fstp	%st(1)		/* bug fix for fp stack overflow */
+	fstpl -8(%rsp)
+	movsd -8(%rsp),%xmm0
+	fstp %st(0)
+#else
+	fildl 12(%esp)
+	fldl 4(%esp)
+	fscale
+	fstp %st(1)		/* clean up stack */
+#endif
 	ret

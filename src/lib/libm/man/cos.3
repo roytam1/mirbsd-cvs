@@ -1,4 +1,3 @@
-.\"	$OpenBSD: cos.3,v 1.10 2003/06/02 20:18:41 millert Exp $
 .\" Copyright (c) 1991 The Regents of the University of California.
 .\" All rights reserved.
 .\"
@@ -27,6 +26,7 @@
 .\" SUCH DAMAGE.
 .\"
 .\"     from: @(#)cos.3	5.1 (Berkeley) 5/2/91
+.\"	$NetBSD: cos.3,v 1.15 2003/08/07 16:44:47 agc Exp $
 .\"
 .Dd May 2, 1991
 .Dt COS 3
@@ -34,9 +34,11 @@
 .Sh NAME
 .Nm cos ,
 .Nm cosf
-.Nd cosine functions
+.Nd cosine function
+.Sh LIBRARY
+.Lb libm
 .Sh SYNOPSIS
-.Fd #include <math.h>
+.In math.h
 .Ft double
 .Fn cos "double x"
 .Ft float
@@ -44,13 +46,11 @@
 .Sh DESCRIPTION
 The
 .Fn cos
-function computes the cosine of
+and
+.Fn cosf
+functions compute the cosine of
 .Fa x
 (measured in radians).
-The
-.Fn cosf
-function is a single precision version of
-.Fn cos .
 A large magnitude argument may yield a result with little or no
 significance.
 For a discussion of error due to roundoff, see
@@ -58,9 +58,7 @@ For a discussion of error due to roundoff, see
 .Sh RETURN VALUES
 The
 .Fn cos
-and
-.Fn cosf
-functions return the cosine value.
+function returns the cosine value.
 .Sh SEE ALSO
 .Xr acos 3 ,
 .Xr asin 3 ,

@@ -8,13 +8,14 @@
  *
  * Developed at SunPro, a Sun Microsystems, Inc. business.
  * Permission to use, copy, modify, and distribute this
- * software is freely granted, provided that this notice 
+ * software is freely granted, provided that this notice
  * is preserved.
  * ====================================================
  */
 
+#include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-static char rcsid[] = "$NetBSD: e_j1f.c,v 1.4 1995/05/10 20:45:31 jtc Exp $";
+__RCSID("$NetBSD: e_j1f.c,v 1.10 2006/03/19 20:54:15 christos Exp $");
 #endif
 
 #include "math.h"
@@ -22,7 +23,7 @@ static char rcsid[] = "$NetBSD: e_j1f.c,v 1.4 1995/05/10 20:45:31 jtc Exp $";
 
 static float ponef(float), qonef(float);
 
-static const float 
+static const float
 huge    = 1e30,
 one	= 1.0,
 invsqrtpi=  5.6418961287e-01, /* 0x3f106ebb */
@@ -41,7 +42,7 @@ s05  =  1.2354227016e-11; /* 0x2d59567e */
 static const float zero    = 0.0;
 
 float
-__ieee754_j1f(float x) 
+__ieee754_j1f(float x)
 {
 	float z, s,c,ss,cc,r,u,v,y;
 	int32_t hx,ix;
@@ -64,8 +65,11 @@ __ieee754_j1f(float x)
 	 * j1(x) = 1/sqrt(pi) * (P(1,x)*cc - Q(1,x)*ss) / sqrt(x)
 	 * y1(x) = 1/sqrt(pi) * (P(1,x)*ss + Q(1,x)*cc) / sqrt(x)
 	 */
-		if(ix>0x80000000U) z = (invsqrtpi*cc)/sqrtf(y);
-		else {
+#ifdef DEAD_CODE
+		if(ix>0x80000000) z = (invsqrtpi*cc)/sqrtf(y);
+		else
+#endif
+		{
 		    u = ponef(y); v = qonef(y);
 		    z = invsqrtpi*(u*cc-v*ss)/sqrtf(y);
 		}
@@ -98,7 +102,7 @@ static const float V0[5] = {
 };
 
 float
-__ieee754_y1f(float x) 
+__ieee754_y1f(float x)
 {
 	float z, s,c,ss,cc,u,v;
 	int32_t hx,ix;
@@ -106,7 +110,7 @@ __ieee754_y1f(float x)
 	GET_FLOAT_WORD(hx,x);
         ix = 0x7fffffff&hx;
     /* if Y1(NaN) is NaN, Y1(-inf) is NaN, Y1(inf) is 0 */
-	if(ix>=0x7f800000) return  one/(x+x*x); 
+	if(ix>=0x7f800000) return  one/(x+x*x);
         if(ix==0) return -one/zero;
         if(hx<0) return zero/zero;
         if(ix >= 0x40000000) {  /* |x| >= 2.0 */
@@ -136,10 +140,10 @@ __ieee754_y1f(float x)
                     z = invsqrtpi*(u*ss+v*cc)/sqrtf(x);
                 }
                 return z;
-        } 
+        }
         if(ix<=0x24800000) {    /* x < 2**-54 */
             return(-tpi/x);
-        } 
+        }
         z = x*x;
         u = U0[0]+z*(U0[1]+z*(U0[2]+z*(U0[3]+z*U0[4])));
         v = one+z*(V0[0]+z*(V0[1]+z*(V0[2]+z*(V0[3]+z*V0[4]))));
@@ -226,6 +230,8 @@ ponef(float x)
 	const float *p,*q;
 	float z,r,s;
         int32_t ix;
+
+	p = q = 0;
 	GET_FLOAT_WORD(ix,x);
 	ix &= 0x7fffffff;
         if(ix>=0x41000000)     {p = pr8; q= ps8;}
@@ -237,7 +243,7 @@ ponef(float x)
         s = one+z*(q[0]+z*(q[1]+z*(q[2]+z*(q[3]+z*q[4]))));
         return one+ r/s;
 }
-		
+
 
 /* For x >= 8, the asymptotic expansions of qone is
  *	3/8 s - 105/1024 s^3 - ..., where s = 1/x.
@@ -283,7 +289,7 @@ static const float qs5[6] = {
  -4.7191835938e+03, /* 0xc5937978 */
 };
 
-static const float qr3[6] = {
+static const float qr3[6] = { /* for x in [4.5454,2.8570]=1/[0.22001,0.3499] */
  -5.0783124372e-09, /* 0xb1ae7d4f */
  -1.0253783315e-01, /* 0xbdd1ff5b */
  -4.6101160049e+00, /* 0xc0938612 */
@@ -323,11 +329,17 @@ qonef(float x)
 	const float *p,*q;
 	float  s,r,z;
 	int32_t ix;
+
+	p = q = 0;
 	GET_FLOAT_WORD(ix,x);
 	ix &= 0x7fffffff;
-	if(ix>=0x40200000)     {p = qr8; q= qs8;}
-	else if(ix>=0x40f71c58){p = qr5; q= qs5;}
-	else if(ix>=0x4036db68){p = qr3; q= qs3;}
+	/* [inf, 8]		(8      41000000) */
+	if(ix>=0x41000000)     {p = qr8; q= qs8;}
+	/* [8, 4.5454]		(4.5454 409173eb) */
+	else if(ix>=0x409173eb){p = qr5; q= qs5;}
+	/* [4.5454, 2.8570] 	(2.8570	4036d917) */
+	else if(ix>=0x4036d917){p = qr3; q= qs3;}
+	/* [2.8570, 2]		(2 	40000000) */
 	else if(ix>=0x40000000){p = qr2; q= qs2;}
 	z = one/(x*x);
 	r = p[0]+z*(p[1]+z*(p[2]+z*(p[3]+z*(p[4]+z*p[5]))));
