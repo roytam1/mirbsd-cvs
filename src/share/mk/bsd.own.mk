@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.33 2006/06/10 23:21:18 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.34 2006/06/15 18:11:36 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -225,8 +225,7 @@ LIBWRAP?=	${DESTDIR}/usr/lib/libwrap.a
 LIBY?=		${DESTDIR}/usr/lib/liby.a
 LIBZ?=		${DESTDIR}/usr/lib/libz.a
 
-.if (${MACHINE_ARCH} == "alpha" || ${MACHINE_ARCH} == "amd64" || \
-     ${MACHINE_ARCH} == "i386")
+.if (${MACHINE_ARCH} == "i386")
 LIBARCH?=	${DESTDIR}/usr/lib/lib${MACHINE_ARCH}.a
 .else
 LIBARCH?=

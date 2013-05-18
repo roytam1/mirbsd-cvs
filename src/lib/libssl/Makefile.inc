@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/Makefile.inc,v 1.2 2005/03/15 18:51:37 tg Exp $
+# $MirOS: src/lib/libssl/Makefile.inc,v 1.3 2005/10/21 11:02:53 tg Exp $
 
 .if !defined(_MODSRC_LIB_LIBSSL_MAKEFILE_INC)
 _MODSRC_LIB_LIBSSL_MAKEFILE_INC=1
@@ -7,9 +7,9 @@ _MODSRC_LIB_LIBSSL_MAKEFILE_INC=1
 
 COPTS+=		-fno-builtin-pow10
 
-.if (${MACHINE} == "amd64") || (${MACHINE} == "i386")
+.if ${MACHINE} == "i386"
 CPPFLAGS+=	-DL_ENDIAN
-.elif (${MACHINE_ARCH} == "powerpc") || (${MACHINE} == "sparc")
+.elif ${MACHINE} == "sparc"
 CPPFLAGS+=	-DB_ENDIAN
 .else
 .BEGIN:

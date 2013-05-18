@@ -1,9 +1,9 @@
-# $MirOS: src/sys/kern/Makefile,v 1.2 2005/03/06 21:28:00 tg Exp $
+# $MirOS: src/sys/kern/Makefile,v 1.3 2005/10/18 20:32:03 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2002/12/31 16:22:26 miod Exp $
 
 # Makefile for kernel tags files, init_sysent, etc.
 
-ARCH=	amd64 i386 macppc sparc
+ARCH=	i386 sparc
 
 all:	init_sysent.c vnode_if.c
 

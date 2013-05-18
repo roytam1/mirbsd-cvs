@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.11 2006/03/27 19:30:35 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.12 2006/06/11 00:22:18 tg Exp $
 # $OpenBSD: Makefile,v 1.44 2005/11/24 20:49:21 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -275,11 +275,6 @@ ${f}.S: ${LCRYPTO_SRC}/${dir}/asm/${f}.pl ${LCRYPTO_SRC}/perlasm/x86unix.pl
 		${LCRYPTO_SRC}/${dir}/asm/${f}.pl openbsd-elf 386 >$@
 .  endfor
 SRCS+= bf_cbc.c
-.elif (${MACHINE_ARCH} == "amd64")
-SRCS+= aes_core.c
-SRCS+= bf_enc.c
-SRCS+= x86_64-gcc.c
-SRCS+= rc4_enc.c
 .else
 SRCS+= aes_core.c
 SRCS+= bf_enc.c

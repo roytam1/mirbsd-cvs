@@ -1,11 +1,11 @@
-# $MirOS: src/usr.sbin/Makefile,v 1.14 2006/06/16 20:53:55 tg Exp $
+# $MirOS: src/usr.sbin/Makefile,v 1.15 2006/06/16 23:35:37 tg Exp $
 # $OpenBSD: Makefile,v 1.110 2004/05/04 23:27:21 deraadt Exp $
 
 .include <bsd.own.mk>
 
   SUBDIR+= ac
   SUBDIR+= accton
-.if (${MACHINE} == "amd64") || (${MACHINE} == "i386")
+.if ${MACHINE} == "i386"
   SUBDIR+= apm
   SUBDIR+= apmd
 .endif
