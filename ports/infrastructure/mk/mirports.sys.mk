@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.45 2008/03/12 23:43:12 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.46 2008/03/12 23:44:57 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -65,11 +65,6 @@ CPPFLAGS+=		-D__unix__=1
 LDFLAGS+=		-specs=${LOCALBASE}/db/specs
 NOPIC=			No	# XXX
 LDCONFIG=
-.  ifndef BOOTSTRAP	# Install these first
-_CKSUM_A=		${LOCALBASE}/bin/cksum -a
-.  else
-_CKSUM_A=
-.  endif
 NO_SYSTRACE=		not on Darwin
 FETCH_CMD?=		/usr/bin/ftp
 TAR=			${LOCALBASE}/bin/tar
@@ -97,10 +92,7 @@ GZIP_CMD=		/usr/contrib/bin/gzip -nf ${GZIP}
 GZCAT?=			/usr/contrib/bin/gzip -dc
 
 .  ifndef BOOTSTRAP	# Install these first
-_CKSUM_A=		${LOCALBASE}/bin/cksum -a
 M4=			${LOCALBASE}/bin/gm4
-.  else
-_CKSUM_A=
 .  endif
 FETCH_CMD?=		${LOCALBASE}/bin/wget
 PATCH?=			${LOCALBASE}/bin/patch
@@ -120,7 +112,6 @@ _SYSTRACE_ARGS=		-i -a
 .  endif
 
 .  if ${OSrev} < 36
-_CKSUM_A=
 _GDIFFLAG=		NEED_GDIFF=yes
 .  endif
 .endif
@@ -130,10 +121,7 @@ _GDIFFLAG=		NEED_GDIFF=yes
 .if ${OStype} == "MidnightBSD"
 LDFLAGS+=		-specs=${LOCALBASE}/db/specs
 .  ifndef BOOTSTRAP	# Install these first
-_CKSUM_A=		${LOCALBASE}/bin/cksum -a
 M4=			${LOCALBASE}/bin/gm4
-.  else
-_CKSUM_A=
 .  endif
 NO_SYSTRACE=		not on MidnightBSD
 FETCH_CMD?=		/usr/bin/ftp
@@ -155,11 +143,13 @@ NO_CXX=			C++ is still broken, please update
 .    endif
 .  elif ${OSver:R} == 9
 .    if ${OSver:E} > 129
-_CKSUM_SIZE=		#defined
+HAS_CKSUM?=		Yes
+CKSUM_CMD?=		/bin/cksum
 _STAT_SIZE=		#defined
 .    endif
 .  else
-_CKSUM_SIZE=		#defined
+HAS_CKSUM?=		Yes
+CKSUM_CMD?=		/bin/cksum
 _STAT_SIZE=		#defined
 .  endif
 .endif
@@ -173,6 +163,7 @@ _MIRPORTS_ADDRESS=	<miros-discuss@MirBSD.org>
 _MIROS_ANONCVS=		anoncvs@anoncvs.mirbsd.org:/cvs
 ARCH?=			${MACHINE_ARCH}
 FETCH_CMD?=		/usr/bin/ftp -EV -m
+HAS_CKSUM?=		No
 HAS_CXX?=		base
 LP64_PLATFORMS?=	*:*:alpha *:*:amd64 *:*:sparc64
 MKC_USAP?=		No
@@ -181,9 +172,13 @@ MODPERL_DESTDIR?=
 NOPIC_PLATFORMS?=
 PKG_ARGS_ADD?=
 PKG_SUFX?=		.cgz
-_CKSUM_A?=		cksum -a
 _GDIFFLAG?=
 _SYSTRACE_ARGS?=	-i -a -e
+
+.if ${HAS_CKSUM:L} != "no"
+CKSUM_CMD?=		${LOCALBASE}/bin/cksum
+.endif
+CKSUM_CMD?=		cksum
 
 .if defined(NOPIC) && ${NOPIC:L} != "no"
 NO_SHARED_LIBS?=	Yes

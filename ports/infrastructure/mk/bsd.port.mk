@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.193 2008/03/09 17:22:55 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.194 2008/03/12 23:43:12 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -349,15 +349,7 @@ GMAKE?=			gmake
 CHECKSUM_FILE?=		${.CURDIR}/distinfo
 
 # Don't touch!!! Used for generating checksums.
-.if defined(BOOTSTRAP)
-_CIPHERS=		sha1 md5
-.  undef _CKSUM_SIZE
-.elif defined(_CKSUM_SIZE)
-_CKSUM_SIZE:=1
 _CIPHERS=		rmd160 tiger sha1 md5
-.else
-_CIPHERS=		rmd160 sha1 md5
-.endif
 
 _PORTPATH?=		${LOCALBASE}/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${LOCALBASE}/sbin
 .if ${USE_X11:L} == "yes"
@@ -1279,8 +1271,8 @@ REORDER_DEPENDENCIES?=
 
 .if defined(_STAT_SIZE)
 _size_fragment=		stat -f 'SIZE (%N) = %z' $$file
-.elif defined(_CKSUM_SIZE)
-_size_fragment=		cksum -a size $$file
+.elif ${HAS_CKSUM:L} != "no"
+_size_fragment=		${CKSUM_CMD} -a size $$file
 .else
 _size_fragment=		print "SIZE ($$file) =" $$(wc -c <"$$file")
 .endif
@@ -1431,20 +1423,8 @@ ${WRKPKG}/MESSAGE${SUBPACKAGE}: ${MESSAGE}
 makesum: fetch-all
 .if !defined(NO_CHECKSUM)
 	@rm -f ${CHECKSUM_FILE}
-.ifdef _CKSUM_SIZE
-	@cd ${DISTDIR} && cksum ${_CIPHERS:S/^/-a /} -a size \
+	@cd ${DISTDIR} && ${CKSUM_CMD} ${_CIPHERS:S/^/-a /} -a size \
 	    ${_CKSUMFILES} >>${CHECKSUM_FILE}
-.else
-	@x=bad; cd ${DISTDIR} && \
-	    for cipher in ${_CIPHERS}; do \
-		${_CKSUM_A} $$cipher ${_CKSUMFILES} \
-		    >>${CHECKSUM_FILE} && x=ok || true; \
-	    done; test $$x = ok
-	@cd ${DISTDIR} && \
-	    for file in ${_CKSUMFILES}; do \
-		${_size_fragment} >>${CHECKSUM_FILE}; \
-	    done
-.endif
 	@for file in ${_IGNOREFILES}; do \
 		echo "MD5 ($$file) = IGNORE" >>${CHECKSUM_FILE}; \
 	done
@@ -1455,26 +1435,14 @@ makesum: fetch-all
 addsum: fetch-all
 .if !defined(NO_CHECKSUM)
 	@touch ${CHECKSUM_FILE}
-.ifdef _CKSUM_SIZE
-	@cd ${DISTDIR} && cksum ${_CIPHERS:S/^/-a /} -a size \
+	@cd ${DISTDIR} && ${CKSUM_CMD} ${_CIPHERS:S/^/-a /} -a size \
 	    ${_CKSUMFILES} >>${CHECKSUM_FILE}
-.else
-	@x=bad; cd ${DISTDIR} && \
-	    for cipher in ${_CIPHERS}; do \
-		${_CKSUM_A} $$cipher ${_CKSUMFILES} \
-		    >>${CHECKSUM_FILE} && x=ok || true; \
-	    done; test $$x = ok
-	@cd ${DISTDIR} && \
-	    for file in ${_CKSUMFILES}; do \
-		${_size_fragment} >>${CHECKSUM_FILE}; \
-	    done
-.endif
 	@for file in ${_IGNOREFILES}; do \
 		echo "MD5 ($$file) = IGNORE" >>${CHECKSUM_FILE}; \
 	done
 	@sort -u -o ${CHECKSUM_FILE} ${CHECKSUM_FILE}
-	@if [ $$(sed -e 's/\=.*$$//' ${CHECKSUM_FILE} | uniq -d \
-	    | wc -l) -ne 0 ]; then \
+	@if [ $$(sed -e 's/\=.*$$//' ${CHECKSUM_FILE} | uniq -d | \
+	    wc -l) -ne 0 ]; then \
 		echo "Inconsistent checksum in ${CHECKSUM_FILE}"; \
 		exit 1; \
 	else \
@@ -1669,32 +1637,24 @@ checksum: fetch
 	@-cd ${DISTDIR} && rm -f ${_CKSUMFILES:S!^!{CDROM,FTP}/!} 2>/dev/null
 .  if !defined(NO_CHECKSUM) && !empty(_CKSUMFILES)
 	@checksum_file=${CHECKSUM_FILE}; \
-	integer new_cksum=0${_CKSUM_SIZE}; \
 	if [ ! -f $$checksum_file ]; then \
 		${ECHO_MSG} ">> No checksum file."; \
 	else \
-		_CIPHERS='${_CIPHERS}'; \
-		(( new_cksum )) && if [[ ! -e ${WRKDIR}/.sums ]]; then \
+		if [[ ! -e ${WRKDIR}/.sums ]]; then \
 			mkdir -p ${WRKDIR}; \
-			syntax=; first=; _CIPHERS=; sp=; \
-			for cipher in ${_CIPHERS}; do \
-				if ! (echo | ${_CKSUM_A} $$cipher \
-				    >/dev/null 2>&1); then \
-					${ECHO_MSG} ">> No $$cipher found on this system."; \
-				else \
-					syntax="$$syntax$$first$$cipher"; \
-					first=" -a "; \
-					_CIPHERS=$$_CIPHERS$$sp$$cipher; \
-					sp=" "; \
-				fi; \
-			done; \
-			(cd ${DISTDIR} && ${_CKSUM_A} $$syntax \
-			    ${_CKSUMFILES} >${WRKDIR}/.sums); \
+			(cd ${DISTDIR}; \
+			if [[ ${HAS_CKSUM:L} == no ]]; then \
+				${CKSUM_CMD} ${_CKSUMFILES}; \
+			else \
+				${CKSUM_CMD} \
+				    ${_CIPHERS:S/^/-a /} ${_CKSUMFILES}; \
+			fi) >${WRKDIR}/.sums; \
 		fi; \
-		cd ${DISTDIR}; OK=true; list=; \
+		cd ${DISTDIR}; OK=true; list=; allciphers="${_CIPHERS}"; \
+		[[ ${HAS_CKSUM:L} != no ]] || allciphers=cksum; \
 		for file in ${_CKSUMFILES}; do \
 			match=; \
-			for cipher in $$_CIPHERS; do \
+			for cipher in $$allciphers; do \
 				if [[ $$cipher = cksum ]]; then \
 					s=$$(grep "$$file\$$" \
 					    $$checksum_file || true); \
@@ -1702,12 +1662,8 @@ checksum: fetch
 						${ECHO_MSG} ">> No cksum recorded for $$file."; \
 						continue; \
 					fi; \
-					if (( new_cksum )); then \
-						t=$$(grep "$$file\$$" \
-						    ${WRKDIR}/.sums || true); \
-					else \
-						t=$$(cksum "$$file"); \
-					fi; \
+					t=$$(grep "$$file\$$" \
+					    ${WRKDIR}/.sums || true); \
 					if [[ $$s = $$t ]]; then \
 						match=1; \
 						${ECHO_MSG} ">> cksum OK for $$file."; \
@@ -1717,31 +1673,22 @@ checksum: fetch
 					fi; \
 					continue; \
 				fi; \
-				(( new_cksum )) || if ! (echo | ${_CKSUM_A} $$cipher \
-				    >/dev/null 2>&1); then \
-					${ECHO_MSG} ">> No $$cipher found on this system."; \
-					continue; \
-				fi; \
 				if ! set -- $$(grep -i "^$$cipher ($$file)" \
 				    $$checksum_file); then \
 					${ECHO_MSG} ">> No $$cipher checksum recorded for $$file."; \
 					continue; \
 				fi; \
-				case "$$4" in \
+				case $$4 in \
 				"") \
 					${ECHO_MSG} ">> No checksum recorded for $$file."; \
 					OK=false;; \
-				"IGNORE") \
+				IGNORE) \
 					echo ">> Checksum for $$file is set to IGNORE in md5 file even though"; \
 					echo "   the file is not in the "'$$'"{IGNOREFILES} list."; \
 					OK=false;; \
 				*) \
-					if (( new_cksum )); then \
-						CKSUM=$$(grep -i "^$$cipher ($$file)" \
-						    ${WRKDIR}/.sums | sed 's/^.*= //'); \
-					else \
-						CKSUM=$$(${_CKSUM_A} $$cipher <$$file); \
-					fi; \
+					CKSUM=$$(grep -i "^$$cipher ($$file)" \
+					    ${WRKDIR}/.sums | sed 's/^.*= //'); \
 					case $$CKSUM in \
 				  	"$$4") \
 						match=1; \
@@ -1764,8 +1711,8 @@ checksum: fetch
 		  set -- $$(grep "($$file)" $$checksum_file) || \
 			  { echo ">> No checksum recorded for $$file, file is in "'$$'"{IGNOREFILES} list." && \
 			  OK=false; } ; \
-		  case "$$4" in \
-		  	"IGNORE") : ;; \
+		  case $$4 in \
+		  	IGNORE) : ;; \
 			*) \
 			  echo ">> Checksum for $$file is not set to IGNORE in md5 file even though"; \
 			  echo "   the file is in the "'$$'"{IGNOREFILES} list."; \
