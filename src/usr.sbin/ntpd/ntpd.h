@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.11 2007/07/31 20:32:47 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.12 2007/10/03 21:08:13 tg Exp $ */
 /*	$OpenBSD: ntpd.h,v 1.70 2006/06/04 18:58:13 otto Exp $ */
 
 /*
@@ -55,7 +55,7 @@
 #define	QSCALE_OFF_MAX			0.50
 
 #define	QUERYTIME_MAX		15	/* single query might take n secs max */
-#define	OFFSET_ARRAY_SIZE	8
+#define	OFFSET_ARRAY_SIZE	6
 #define	SETTIME_MIN_OFFSET	180	/* min offset for settime at start */
 #define	SETTIME_TIMEOUT		15	/* max seconds to wait with -s */
 #define	LOG_NEGLIGEE		125	/* negligible drift to not log (ms) */
