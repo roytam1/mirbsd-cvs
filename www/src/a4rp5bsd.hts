@@ -1,0 +1,8 @@
+mws_setname subprojects/a4rp5bsd "BSD::arc4random – Perl bindings"
+mws_setheadline "Perl bindings for arc4random"
+mws_putheader '$MirOS$'
+mws_content <<'EOF'
+<p>Sorry, nothing here yet (dummy page).</p>
+EOF
+mws_putfooter
+exit 0
