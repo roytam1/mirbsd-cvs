@@ -1608,3 +1608,40 @@ Author: tg@
  one’s own drivers. Vendors suck. More than Theo, at least.</p>
 <p>Compared to other operating systems out there, we still suck least.</p>
 ----
+Date: 19.08.2007
+Author: tg@
+
+<p>This sucks: we apparently also got the wrong cable for the Zaurus spitz
+ (SL-C3200) – one that does not support USB host mode. Add the Ewe runtime
+ issues (now: segfault in GetLocale() or something like that) to it – plus
+ the CacheWolf issues… damn I think it would’ve had some great educational
+ impacts on our geocacheing newbie of the day. But odem was enough…</p>
+<p>I finally got my GPS mouse, wbx@’s is an uslcom(4) at 9k6,8N1; and mine
+ is an uplcom(4) at 4k8,8N1; no problems so far, this is actually the very
+ baud rate specified by NMEA 0183, and its precision is better by one post
+ comma digit (unsure how to call it in English). This means I’ve been <img
+ src="http://www.opencaching.de/statpics/106521.jpg" alt="Geocacheing with
+ wbx &amp; Co. – Fun is when Jonas found it" /> outdoors again, with quite
+ some success. I suppose I’ve got to fix the Zaurus issues with Ewe soon –
+ but Cachewolf seems to have some trouble with my version of the GPS mouse
+ which transmits the GPGSV lines only every second second (heh…). In short
+ this means it didn’t work and we were left with wbx@’s less precise mouse
+ which, interestingly, had fairly good precision this time but didn’t seem
+ to actualise the position as we drove or walked. Weird. Or CacheWolf is a
+ little bit more buggy than we thought.</p>
+<p>Looks like I’ve got to work on nmeadecode(8) now for real. If only…</p>
+<p>mksh(1) now got a “rename” builtin just calling rename(2). I fragged an
+ embedded system (Mikrotik Routerboard 532 with FreeWRT) by trying to move
+ the old directories aside and new directories in place during an upgrade,
+ not remembering that <tt>/bin/mv</tt> was dynamically linked…</p>
+<p>I could reproduce the “detached mksh busy loop” issue on the Zaurus but
+ not track it down (of course). So far, it seems to only happen on Linux –
+ I definitively need help from the community here.</p>
+<p>We got MirOS #10 RC4 (i386) out as well as #10 RC2a (sparc), now with X
+ but still not really tested. Both on the mirrors. After reïnstalling that
+ SPARCstation and fixing some SIGBUS, I’m now trying to get a final candid
+ for sparc out before actually releasing #10 into the wild.</p>
+<p>Benny (who seems to be much too lazy to do any wlogging) has to cut off
+ way too much content from his talk. He said he needed 1:06 hrs and didn’t
+ even mention everything… too bad, it really was great stuff.</p>
+----
