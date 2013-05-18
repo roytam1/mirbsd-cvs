@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.1 2006/08/17 19:34:14 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.2 2006/10/07 22:20:48 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1648,9 +1648,6 @@ SERVERLIST=/tmp/serverlist
 for _opt in d f l m n p s; do
 	ulimit -$_opt unlimited
 done
-
-# Extract and save one boot's worth of dmesg
-dmesg | sed -ne '/^MirBSD /h;/^MirBSD /!H;${g;p;}' >/var/run/dmesg.boot
 
 # Scan /var/run/dmesg.boot for interesting devices.
 DKDEVS=$(scan_dmesg "${MDDKDEVS:-/^r*a*[swi]d[0-9][0-9]* /s/ .*//p}")

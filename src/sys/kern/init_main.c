@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/init_main.c,v 1.11 2006/08/19 15:51:47 tg Exp $ */
+/**	$MirOS: src/sys/kern/init_main.c,v 1.12 2006/08/22 21:51:39 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.120 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
 /*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
@@ -143,6 +143,8 @@ void	init_exec(void);
 void	init_ssp(void);
 void	kqueue_init(void);
 
+extern unsigned long adler32(unsigned long, const char *, unsigned);
+
 extern char sigcode[], esigcode[];
 #ifdef	SYSCALL_DEBUG
 extern char *syscallnames[];
@@ -181,7 +183,6 @@ main(/* XXX should go away */ void *framep)
 {
 	struct proc *p;
 	struct pdevinit *pdev;
-	struct timeval rtv;
 	quad_t lim;
 	int s, i;
 	extern uint32_t rnd_bootpool;
@@ -484,8 +485,15 @@ main(/* XXX should go away */ void *framep)
 		panic("crypto thread");
 #endif	/* CRYPTO */
 
-	microtime(&rtv);
-	add_true_randomness(rtv.tv_sec ^ rtv.tv_usec);
+#if defined(I586_CPU) || defined(I686_CPU)
+	{
+		unsigned long long tmptsc;
+		__asm __volatile("rdtsc" : "=A" (tmptsc));
+		rnd_bootpool = adler32(rnd_bootpool, (uint8_t *)&tmptsc,
+		    sizeof (tmptsc));
+	}
+#endif
+
 	add_true_randomness(rnd_bootpool);
 	srandom(arc4random());
 	randompid = 1;

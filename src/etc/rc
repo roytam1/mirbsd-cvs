@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.53 2006/10/02 22:31:19 tg Exp $
+# $MirOS: src/etc/rc,v 1.54 2006/10/07 23:29:13 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -397,7 +397,7 @@ rm -rf /var/{run,authpf}/*
 install -c -m 664 -g utmp /dev/null /var/run/utmp
 
 # save a copy of the boot messages
-dmesg >/var/run/dmesg.boot
+dmesg | tee /var/run/dmesg.boot | cksum -ba rmd160 >/dev/prandom
 
 echo starting system logger
 rm -f /dev/log
