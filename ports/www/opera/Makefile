@@ -1,16 +1,16 @@
-# $MirOS: ports/www/opera/Makefile,v 1.25 2008/02/24 14:21:57 tg Exp $
+# $MirOS: ports/www/opera/Makefile,v 1.26 2008/04/04 21:35:52 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2005/11/22 21:44:22 sturm Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
 COMMENT=		fast and customisable WWW browser
-VERS=			9.27
-DISTNAME=		opera-${VERS}-20080331.1-static-qt.i386-en
+VERS=			9.50
+DISTNAME=		opera-${VERS}.gcc4-static-qt3.i386
 PKGNAME=		opera-${VERS}-${DASH_VER}
 CATEGORIES=		www
 HOMEPAGE=		http://www.opera.com/
-WRKDIST=		${WRKDIR}/${DISTNAME}-709
+WRKDIST=		${WRKDIR}/opera-${VERS}-2042.gcc4-static-qt3.i386
 
 # Distribution possible under special agreement;
 # sublicencing is, however, not allowed.
@@ -21,11 +21,11 @@ PERMIT_DISTFILES_FTP=	"Commercial software"
 
 EXTRACT_ONLY=		${DISTNAME}${EXTRACT_SUFX}
 DISTFILES=		${EXTRACT_ONLY} \
-			lux920final.lng:0 \
+			lux950beta1.lng:0 \
 			Minimalist%20Native.zip:1
 OPERA_SKIN_FILES=	Minimalist%20Native.zip
 # http://opera-info.de/forum/board.php?boardid=93
-OPERA_LANG_FILES=	lux920final.lng
+OPERA_LANG_FILES=	lux950beta1.lng
 
 MASTER_SITES_OPERA=	ftp://ftp.opera.com/pub/opera/ \
 			ftp://gd.tuwien.ac.at/infosys/browsers/opera/ \
@@ -48,34 +48,24 @@ RUN_DEPENDS=		:debian-libs->=3.1-2:emulators/debian
 NO_BUILD=		Yes
 NO_REGRESS=		Yes
 
-DBL_FILES=		${PREFIX}/libexec/opera ${PREFIX}/libexec/works \
-			${PREFIX}/share/opera/plugins/operaplugincleaner \
-			${PREFIX}/share/opera/plugins/operapluginwrapper
+DBL_FILES=		${PREFIX}/libexec/opera \
+			${PREFIX}/libexec/operaplugincleaner \
+			${PREFIX}/libexec/operapluginwrapper
 
 do-install:
 	cd ${WRKBUILD} && ${SHELL} ./install.sh \
-	    --prefix=${PREFIX} \
-	    --exec_prefix=${PREFIX}/libexec \
-	    --plugindir=${PREFIX}/share/opera/plugins
+	    --DESTDIR=${WRKINST:Q} \
+	    --prefix=${TRUEPREFIX:Q} \
+	    --exec_prefix=${TRUEPREFIX:Q}/libexec \
+	    --plugindir=${TRUEPREFIX:Q}/share/opera/plugins
 	chmod 600 ${PREFIX}/libexec/opera
 .for _i in ${DBL_FILES}
 	perl -i -pe 's!/lib/ld-linux\.so\.2!/dbl/ld-linux.so.2!' ${_i}
 .endfor
 	chmod ${BINMODE} ${PREFIX}/libexec/opera
-	sed -e 's:@PREFIX@:${TRUEPREFIX}:g' \
-	    -e 's:@SHELL@:${MKSH}:g' \
-	    -e 's:@LOCALBASE@:${LOCALBASE}:g' \
-	    ${FILESDIR}/opera.sh >${PREFIX}/bin/opera
-	mv ${PREFIX}/share/doc/opera/* ${PREFIX}/share/opera/
-	rmdir ${PREFIX}/share/doc/opera
-	for f in ${PREFIX}/share/opera/ini/pluginpath.ini \
-	    ${PREFIX}/share/opera/java/opera.policy; do \
-		print '%g!${PREFIX}!s!!${TRUEPREFIX}!g\nwq' \
-		    | ed -s $$f; \
-	done
-	print '/^.usr.lib.opera.plugins/s!!${TRUEPREFIX}/share/opera/plugins!\nwq' \
-	    | ed -s ${PREFIX}/share/opera/ini/pluginpath.ini
-	cd ${FULLDISTDIR}; cp ${OPERA_LANG_FILES} ${PREFIX}/share/opera/locale/
-	cd ${FULLDISTDIR}; cp ${OPERA_SKIN_FILES} ${PREFIX}/share/opera/skin/
+	rm -rf ${PREFIX}/share/doc/opera
+	cd ${FULLDISTDIR} && \
+	    cp ${OPERA_LANG_FILES} ${PREFIX}/share/opera/locale/ && \
+	    cp ${OPERA_SKIN_FILES} ${PREFIX}/share/opera/skin/
 
 .include <bsd.port.mk>

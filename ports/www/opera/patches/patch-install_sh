@@ -1,67 +1,253 @@
-$MirOS: ports/www/opera/patches/patch-install_sh,v 1.6 2006/09/21 14:37:31 tg Exp $
+$MirOS: ports/www/opera/patches/patch-install_sh,v 1.7 2007/10/18 21:22:34 tg Exp $
 $OpenBSD: patch-install_sh,v 1.14 2005/11/22 21:44:22 sturm Exp $
---- install.sh.orig	Mon Oct 15 11:12:12 2007
-+++ install.sh	Thu Oct 18 21:14:46 2007
-@@ -84,7 +84,7 @@ guess_os()
+--- install.sh.orig	Wed Jun 11 20:32:37 2008
++++ install.sh	Fri Jun 13 00:33:22 2008
+@@ -100,7 +100,7 @@ guess_os()
  	FreeBSD|NetBSD|DragonFly) os=AnyBSD;;
  	SunOS*) os=SunOS;;
      esac
--    case $os in AnyBSD|OpenBSD) str_defaultprefix="/usr/local";; esac
-+    case $os in AnyBSD|OpenBSD|MirBSD) str_defaultprefix="/usr/local";; esac
+-    case $os in SunOS|AnyBSD|OpenBSD) str_defaultprefix="/usr/local";; esac
++    case $os in SunOS|AnyBSD|MidnightBSD|MirBSD|OpenBSD) str_defaultprefix="/usr/local";; esac
  
      machine=`uname -m`
      case $machine in
-@@ -121,7 +121,7 @@ set_prefix()
+@@ -143,7 +143,7 @@ set_prefix()
  
      share_dir="${prefix}/share/opera"
      case "$os" in
 -	AnyBSD|OpenBSD)
-+	AnyBSD|OpenBSD|MirBSD)
++	AnyBSD|MidnightBSD|MirBSD|OpenBSD)
  	    exec_dir="${share_dir}/bin"
  	    plugin_dir="${share_dir}/plugins"
  	    man_dir="$prefix/man"
-@@ -428,7 +428,7 @@ set_os_spesific()
+@@ -454,7 +454,7 @@ set_os_spesific()
  		fi
  	;;
  
--	OpenBSD)
-+	OpenBSD|MirBSD)
+-	OpenBSD|QNX)
++	MidnightBSD|MirBSD|OpenBSD|QNX)
  	    cpf='-f'
  	    mkdirv=''
  	    chmodv=''
-@@ -824,7 +824,7 @@ generate_wrapper()
- 	    wrapper_sunjava_machine="sparc"
- 	;;
+@@ -830,6 +830,9 @@ generate_wrapper()
+     debug_msg 0 "in generate_wrapper()"
  
--	mips*:Linux)
-+	mips*:Linux|i386:MirBSD|x86:MirBSD)
- 	;;
+     case "${machine}:${os}" in
++	*:MidnightBSD|*:MirBSD|*:OpenBSD)
++	;;
++
+ 	x86:Linux|x86_64:Linux|x86:AnyBSD|x86_64:AnyBSD|x86:OpenBSD|x86:QNX)
+ 	    wrapper_ibmjava="
+ 	    IBMJava2-142/jre \\
+@@ -925,188 +928,28 @@ if test \"\${OPERA_DIR}\" = '' ; then
+   fi
+ fi
  
- 	ppc:Linux|ppc64:Linux)
-@@ -1063,7 +1063,7 @@ for LIBASPELL_DIR in \\
- done"
+-OPERA_LD_PRELOAD=\"\${LD_PRELOAD}\"
++OPERA_LD_PRELOAD=\"/dbl/libnss_compat.so.2:/dbl/libnss_dns.so.2:/dbl/libnss_files.so.2\${LD_PRELOAD:+:}\${LD_PRELOAD}\"
+ export OPERA_LD_PRELOAD
  
+-# Native Java enviroment
+-for d in \"\$OPERA_PERSONALDIR\" \"\$HOME/.opera\"
+-do if test -f \"\$d/javapath.txt\"
+-   then
+-      INIJAVA=\`cat \"\$d/javapath.txt\"\`
+-      test -f \"\$INIJAVA/libjava.so\" || continue
+-      OPERA_JAVA_DIR=\"\$INIJAVA\"
+-      break
+-   fi
+-done
+-
+-if test ! \"\$OPERA_JAVA_DIR\"
+-then for j in lib jre/lib
+-     do d=\"\$JAVA_HOME/\$j/$wrapper_sunjava_machine\"
+-        test -f \"\$d/libjava.so\" || continue
+-	OPERA_JAVA_DIR=\"\$d\"
+-	break
+-     done
+-fi
+-
+-if test ! \"\${OPERA_JAVA_DIR}\"
+-then
+-    PREFIXES=\"
+-	/usr
+-	/usr/java
+-	/usr/lib
+-	/usr/local
+-	/opt\"
+-
+-    for SUNJAVA in \\
+-	java-6-sun \\
+-	java-6-sun-1.6.0.00 \\
+-	java-1.5.0-sun \\
+-	java-1.5.0-sun-1.5.0.09 \\
+-	java-1.5.0-sun-1.5.0.09/jre \\
+-	java-1.5.0-sun-1.5.0.08 \\
+-	java-1.5.0-sun-1.5.0.08/jre \\
+-	java-1.5.0-sun-1.5.0.07 \\
+-	java-1.5.0-sun-1.5.0.07/jre \\
+-	java-1.5.0-sun-1.5.0.06 \\
+-	java-1.5.0-sun-1.5.0.06/jre \\
+-	jre1.5.0_06 \\
+-	jdk1.5.0_06/jre \\
+-	java-1.5.0-sun-1.5.0.05 \\
+-	java-1.5.0-sun-1.5.0.05/jre \\
+-	jre1.5.0_05 \\
+-	jdk1.5.0_05/jre \\
+-	java-1.5.0-sun-1.5.0.04 \\
+-	java-1.5.0-sun-1.5.0.04/jre \\
+-	jre1.5.0_04 \\
+-	jdk1.5.0_04/jre \\
+-	jre1.5.0_03 \\
+-	jdk1.5.0_03/jre \\
+-	jre1.5.0_02 \\
+-	jdk1.5.0_02/jre \\
+-	jre1.5.0_01 \\
+-	jdk1.5.0_01/jre \\
+-	jdk1.5.0/jre \\
+-	j2re1.4.2_06 \\
+-	j2sdk1.4.2_06/jre \\
+-	j2re1.4.2_04 \\
+-	j2sdk1.4.2_04/jre \\
+-	j2re1.4.2_03 \\
+-	j2sdk1.4.2_03/jre \\
+-	j2re1.4.2_02 \\
+-	j2sdk1.4.2_02/jre \\
+-	j2re1.4.2_01 \\
+-	j2sdk1.4.2_01/jre \\
+-	j2re1.4.2 \\
+-	j2sdk1.4.2/jre \\
+-	j2re1.4.1_01 \\
+-	j2re1.4.1 \\
+-	SUNJava2-1.4.1 \\
+-	BlackdownJava2-1.4.1/jre \\
+-	j2re1.4.0_01 \\
+-	j2sdk1.4.0_01/jre \\
+-	j2re1.4.0 \\
+-	jre1.4.0 \\
+-	j2se/1.4/jre \\
+-	j2se/1.3/jre \\
+-	j2se/jre \\
+-	jre1.3.1_15 \\
+-	jre1.3.1_04 \\
+-	jre1.3.1_02 \\
+-	jre1.3.1_01 \\
+-	j2re1.3.1 \\
+-	jre1.3.1 \\
+-	j2re1.3 \\
+-	j2se/1.3/jre \\
+-	SunJava2-1.3/jre \\
+-	java2re \\
+-	jdk1.2.2/jre \\
+-	jdk1.2/jre \\
+-	jre \\
+-	java \\
+-	jdk1.3.1/jre \\
+-	jdk1.4.2/jre \\
+-	jdk1.5.0/jre \\
+-	jdk1.6.0/jre \\
+-	diablo-jre1.5.0 \\
+-	diablo-jdk1.5.0/jre \\
+-	; do
+-	for PREFIX in \${PREFIXES}
+-	do d=\"\$PREFIX/\$SUNJAVA/lib/$wrapper_sunjava_machine\"
+-	   test -f \"\$d/libjava.so\" || continue
+-	   OPERA_JAVA_DIR=\"\$d\"
+-	   break
+-	done
+-	if test \"\${OPERA_JAVA_DIR}\"; then break; fi
+-    done"
+-
+-if test -n "${wrapper_ibmjava}"; then
+-    wrapper_contain="${wrapper_contain}
+-    if test ! \"\${OPERA_JAVA_DIR}\"; then
+-	for IBMJAVA in \\${wrapper_ibmjava}
+-	    ; do
+-	    for PREFIX in \${PREFIXES}; do
+-		if test -f \"\${PREFIX}/\${IBMJAVA}/bin/libjava.so\"; then OPERA_JAVA_DIR=\"\${PREFIX}/\${IBMJAVA}/bin\" && break; fi
+-	    done
+-	if test \"\${OPERA_JAVA_DIR}\"; then break; fi
+-	done
+-    fi"
+-fi
+-
+-    wrapper_contain="${wrapper_contain}
+-fi
+-
+-if test \"\${OPERA_JAVA_DIR}\"; then
+-    LD_LIBRARY_PATH=\"\${OPERA_JAVA_DIR}:\${OPERA_JAVA_DIR}/native_threads:\${OPERA_JAVA_DIR}/client:\${OPERA_JAVA_DIR}/classic\${LD_LIBRARY_PATH:+:}\${LD_LIBRARY_PATH}\"
+-    export LD_LIBRARY_PATH OPERA_JAVA_DIR
+-fi
+-
+-# Workarounds for the \"preloaded libXt\" problem.
+-LD_PRELOAD=\"libjvm.so:libawt.so:\${OPERA_LD_PRELOAD}\"
+-export LD_PRELOAD
+-# To disable the first workaround, comment the next line.
+-JAVA_WORKAROUND=\`\${OPERA_BINARYDIR}/works 2>/dev/null\`
+-
+-if test \"\${JAVA_WORKAROUND}\" = 'works'; then
+-    OPERA_FORCE_JAVA_ENABLED=\"1\"
+-else
+-    LD_PRELOAD=\"libjava.so:\${LD_PRELOAD}\"
+-    # To disable the second workaround, comment the next line.
+-    IBMJAVA131_WORKAROUND=\`\${OPERA_BINARYDIR}/works 2>/dev/null\`
+-    if test \"\${IBMJAVA131_WORKAROUND}\" = 'works'; then
+-	OPERA_FORCE_JAVA_ENABLED=\"1\"
+-    else
+-	LD_PRELOAD=\"\${OPERA_LD_PRELOAD}\"
+-    fi
+-fi
+-export LD_PRELOAD OPERA_FORCE_JAVA_ENABLED
+-
+-# Acrobat Reader
+-for BINDIR in \\
+-    /usr/local/Acrobat[45]/bin \\
+-    /usr/lib/Acrobat[45]/bin \\
+-    /usr/X11R6/lib/Acrobat[45]/bin \\
+-    /opt/Acrobat[45]/bin \\
+-    /usr/Acrobat[45]/bin \\
+-    ; do
+-    if test -d \${BINDIR} ; then PATH=\${PATH}:\${BINDIR}; fi
+-done
+-
+ # Exporting the enviroment
+ export OPERA_DIR PATH
+ 
+-LD_LIBRARY_PATH=\"\${OPERA_BINARYDIR}\${LD_LIBRARY_PATH:+:}\${LD_LIBRARY_PATH}\"
++LD_LIBRARY_PATH=\"\${OPERA_BINARYDIR}:/dbl\${LD_LIBRARY_PATH:+:}\${LD_LIBRARY_PATH}\"
+ export LD_LIBRARY_PATH
+ 
+-# Spellchecker needs to find libaspell.so.15
+-for LIBASPELL_DIR in \\
+-    /usr/local/lib \\
+-    /opkg/lib \\
+-; do
+-    if ls \$LIBASPELL_DIR/libaspell.so.1[5-9] >/dev/null 2>&1
+-    then LD_LIBRARY_PATH=\"\${LD_LIBRARY_PATH}:\${LIBASPELL_DIR}\"
+-    fi
+-done"
++if test '!' -d \$HOME/.opera/skin; then
++	mkdir -p \$HOME/.opera/skin
++	for skin in \$OPERA_DIR/skin/*; do
++		ln -sf \$skin \$HOME/.opera/skin/
++	done
++fi
++fgrep 'Synchronous DNS Lookup=1' \$HOME/.opera/opera6.ini >/dev/null 2>&1 || \\
++    (echo '[Performance]'; echo 'Synchronous DNS Lookup=1'; \\
++    echo '[Extensions]'; echo 'Plugins=0' ) >>\$HOME/.opera/opera6.ini
+ 
++LD_PRELOAD=\$OPERA_LD_PRELOAD
++export LD_PRELOAD"
++
  case "${os}" in
--	AnyBSD|OpenBSD)
-+	AnyBSD|OpenBSD|MirBSD)
+ 	AnyBSD|OpenBSD)
  wrapper_contain="${wrapper_contain}
+@@ -1260,7 +1103,7 @@ run_install()
+     chop "${OPERADESTDIR}" "str_localdirshare"
+     chop "${OPERADESTDIR}" "str_localdirplugin"
  
- # Make sure the compat libraries are found
-@@ -1342,7 +1342,7 @@ run_install()
-     then
- 	# System wide configuration files
- 	config_dir="/etc"
--	if can_write_to "$config_dir"
-+	if false can_write_to "$config_dir"
- 	then
- 	    echo
- 	    echo "System wide configuration files:"
-@@ -1372,7 +1372,7 @@ run_install()
- 	then
- 	    echo
- 	    echo "Shortcut icons will be ignored if installed with the prefix \"$prefix\"."
--	    con_firm "Do you want to (try to) install them in default locations" || bool_icons=0
-+	    bool_icons=0
- 	fi
- 
- 	if test "${bool_icons}" -ne 0
+-    md5check Manifest.md5
++    : || md5check Manifest.md5
+     part_install "`manifest_path operapluginwrapper`" "$exec_dir" Binaries
+     manifest_contains operapluginwrapper-native && part_install "`manifest_path operapluginwrapper-native`" "$exec_dir" Binaries
+     manifest_contains operapluginwrapper-ia32-linux && part_install "`manifest_path operapluginwrapper-ia32-linux`" "$exec_dir" Binaries

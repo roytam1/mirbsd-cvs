@@ -1,17 +1,17 @@
 $MirOS$
 
 MD5 (Minimalist%20Native.zip) = 9a5f8918e4a27ffb20f37ba1be173220
-MD5 (lux920final.lng) = 75b6f7425a9f058577da16d6d4a1fbdd
-MD5 (opera-9.27-20080331.1-static-qt.i386-en.tar.gz) = 8f73081c210031f9fcaf5e48bd05c9d3
+MD5 (lux950beta1.lng) = 2cfcde50edee79a8eaea19020b2122d4
+MD5 (opera-9.50.gcc4-static-qt3.i386.tar.gz) = 45a5123384c81f84e6260d9a3cb83391
 RMD160 (Minimalist%20Native.zip) = 240aa5b40d87225151923f2e3d5faa100c1b05c6
-RMD160 (lux920final.lng) = bc482d25f98aa947452b329573ffba1412800c7d
-RMD160 (opera-9.27-20080331.1-static-qt.i386-en.tar.gz) = 2b3a799dd2f43294499812d790335f558ad695e7
+RMD160 (lux950beta1.lng) = bc89e98977615a58124c1afacfa2c41abedfbcd3
+RMD160 (opera-9.50.gcc4-static-qt3.i386.tar.gz) = cc90206ff18b6ff277d908da8d653235415b327c
 SHA1 (Minimalist%20Native.zip) = 9179f78819a65ba332d8c93dce16b413e2bdb5e5
-SHA1 (lux920final.lng) = d2842cc60357548146fa4ea293bbbbe9e4c82811
-SHA1 (opera-9.27-20080331.1-static-qt.i386-en.tar.gz) = cd01bb4cdb90fc192df17a81361f1c049c8f3243
+SHA1 (lux950beta1.lng) = c5ece110e8a33af550e820dc90f38f9c8b792355
+SHA1 (opera-9.50.gcc4-static-qt3.i386.tar.gz) = ea95a88c6081603c6c455590487954ea1929009f
 SIZE (Minimalist%20Native.zip) = 86183
-SIZE (lux920final.lng) = 171399
-SIZE (opera-9.27-20080331.1-static-qt.i386-en.tar.gz) = 7335427
+SIZE (lux950beta1.lng) = 183158
+SIZE (opera-9.50.gcc4-static-qt3.i386.tar.gz) = 10365181
 TIGER (Minimalist%20Native.zip) = 09148a3e1ed0379abbd52caf336d7f0ff935d4f01bd5fa6c
-TIGER (lux920final.lng) = b6f71e1cd778525cf94c70431eca73fabb3c859485720382
-TIGER (opera-9.27-20080331.1-static-qt.i386-en.tar.gz) = e1ed04daa199b365e6ac8de9f1d3396a4b349136e5a1b0a3
+TIGER (lux950beta1.lng) = 78a36dcdc4ad4fd3aeae51d990277712cd61d7ba68e5a9ca
+TIGER (opera-9.50.gcc4-static-qt3.i386.tar.gz) = ef5d1ec6745962e61163c386dfd69e8beea1108c74e584a5
