@@ -1,4 +1,4 @@
-.\" $MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.19 2009/08/09 20:18:20 tg Exp $
+.\" $MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.20 2009/10/24 16:25:36 tg Exp $
 .\"-
 .\" Copyright (c) 2009
 .\"	Thorsten Glaser <tg@mirbsd.org>
@@ -18,7 +18,7 @@
 .\" damage or existence of a defect, except proven that it results out
 .\" of said person's immediate fault when using the work as intended.
 .\"-
-.Dd $Mdocdate: August 9 2009 $
+.Dd $Mdocdate: October 24 2009 $
 .Dt BOOT 8 i386
 .Os
 .Sh NAME
@@ -362,6 +362,8 @@ Enable or disable the so-called
 which restricts
 .Nm
 from loading more than one sector at a time from disc.
+.It Cm pxe
+Forcibly scan for a PXE boot ROM.
 .El
 .It Cm macro
 Displays the names of all currently defined macros.

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.20 2009/10/27 13:10:52 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.21 2009/10/27 13:30:05 tg Exp $ */
 /*	$OpenBSD: pxe.c,v 1.5 2007/07/27 17:46:56 tom Exp $ */
 /*	$NetBSD: pxe.c,v 1.5 2003/03/11 18:29:00 drochner Exp $	*/
 
@@ -114,6 +114,7 @@ extern uint32_t pxecall_addr;
 int have_pxe = -1;
 
 int (*pxe_call)(u_int16_t);
+int Xpxe(void);
 
 extern int pxecall_bang(u_int16_t);
 extern int pxecall_plus(u_int16_t);
@@ -190,7 +191,7 @@ pxereadudp(struct iodesc *d, void *pkt, size_t len, time_t tleft)
 	if (ur->status != PXENV_STATUS_SUCCESS) {
 		/* XXX This happens a lot; it shouldn't. */
 		if (ur->status != PXENV_STATUS_FAILURE)
-			printf("readudp: PXENV_UDP_READ_failed: 0x%0x\n",
+			printf("readudp: PXENV_UDP_READ_failed: 0x%x\n",
 			    ur->status);
 		return -1;
 	}
@@ -389,7 +390,7 @@ pxe_init(int quiet)
 
 	if (pxe_plus) {
 #if PXE_LOUD
-		printf(" {try:plus=%04X:%04X}", pxe_plus >> 16,
+		printf(" {try:plus=%X:%X}", pxe_plus >> 16,
 		    pxe_plus & 0xFFFF);
 #endif
 		try_pxenv(PTOV(pxe_plus >> 16, pxe_plus & 0xFFFF));
@@ -397,7 +398,7 @@ pxe_init(int quiet)
 
 	if (pxe_bang) {
 #if PXE_LOUD
-		printf(" {try:bang=%04X:%04X}", pxe_bang >> 16,
+		printf(" {try:bang=%X:%X}", pxe_bang >> 16,
 		    pxe_bang & 0xFFFF);
 #endif
 		try_pxe(PTOV(pxe_bang >> 16, pxe_bang & 0xFFFF));
@@ -528,7 +529,7 @@ pxeinfo(void)
 		return;
 	}
 
-	printf(" %s %05X mac %s", pxe_call == pxecall_bang ? "!PXE" : "PXENV+",
+	printf(" %s %X mac %s", pxe_call == pxecall_bang ? "!PXE" : "PXENV+",
 	    (unsigned)pxecall_addr, ether_sprintf(bootplayer.CAddr));
 	p = (u_int8_t *)&myip.s_addr;
 	printf(", ip %d.%d.%d.%d", p[0], p[1], p[2], p[3]);
@@ -616,4 +617,28 @@ pxe_shutdown(void)
 		if (try != 1)
 			sleep(1);
 	}
+}
+
+extern void pxecheck(void);
+
+int
+Xpxe(void)
+{
+	have_pxe = -1;
+#if 0
+	pxe_plus = pxe_bang = 0;	/* override potentially passed stuff */
+#endif
+	i386_biosflags |= 4;		/* no pxe_unlikely */
+	i386_dosdev |= 1;		/* no pxe_disabled */
+
+	if (pxe_init(0))
+		printf("Sorry, scan for PXE yielded no result.\n");
+	else {
+		printf("Yes, we have found a PXE boot ROM.\n=>");
+		i386_biosflags &= ~4;	/* tftp is not the boot device */
+		pxecheck();
+		pxeinfo();
+		putchar('\n');
+	}
+	return (0);
 }

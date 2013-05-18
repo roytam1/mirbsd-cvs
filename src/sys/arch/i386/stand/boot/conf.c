@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.19 2009/08/11 13:23:58 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.20 2009/10/27 13:37:28 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.39 2008/04/19 23:20:22 weingart Exp $	*/
 
 /*
@@ -59,7 +59,8 @@
 #endif
 
 #ifdef USE_PXE
-static void pxecheck(void);
+void pxecheck(void);
+extern int Xpxe(void);
 #endif
 
 #ifndef SMALL_BOOT
@@ -149,6 +150,9 @@ const struct cmd_table cmd_machine[] = {
 #endif
 #endif
 	{ "oldbios",	CMDT_CMD, Xoldbios },
+#ifdef USE_PXE
+	{ "pxe",	CMDT_CMD, Xpxe },
+#endif
 	{ NULL, 0, NULL }
 };
 
@@ -168,6 +172,7 @@ int n_netif_drivers = NENTS(netif_drivers);
 void
 pxecheck(void)
 {
+	nibprobes = NENTS(probe_list);
 	if (have_pxe > 0) {
 		if (i386_biosflags & 4) {
 			start_dip = alloc(sizeof (struct diskinfo));
