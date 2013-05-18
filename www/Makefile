@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.1 2007/06/09 23:29:42 tg Exp $
+# $MirOS: www/Makefile,v 1.2 2007/06/09 23:59:27 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -96,7 +96,7 @@ site.tgz:
 	    (rm -f $@.tmp; exit 1)
 	@mv -f $@.tmp $@
 
-.PHONY: clean cleandir depend install deinstall reinstall cp-herc cp-heph
+.PHONY: clean cleandir depend install deinstall reinstall cp-herc cp-heph rs-heph
 
 cp-herc: site.tgz
 	ssh hercs 'cd /var/www/oldsite; tar xzvf -' <site.tgz
