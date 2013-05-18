@@ -19,7 +19,7 @@ BSDSRCDIR?=/nonexistant
 
 U_ENV+=		TOP=${TOP:Q} DST=${DST:Q} MKSH=${MKSH:Q} SHELL=${MKSH:Q}
 
-SRCS+=		main.hts mksh.hts mksh_old.hts
+SRCS+=		main.hts mksh.hts mksh_old.hts getting.hts projects.hts
 WLOGS=		9
 
 INCSRCS+=	news
