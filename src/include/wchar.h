@@ -52,11 +52,11 @@ typedef struct {
 	unsigned int value:12;	/* 10 for mbstowcs, 12 for wcstombs */
 } __attribute__((packed)) mbstate_t;
 
-#undef	WCHAR_MIN
-#undef	WCHAR_MAX
-#undef	WEOF
+#undef WCHAR_MIN
 #define	WCHAR_MIN		0
+#undef WCHAR_MAX
 #define	WCHAR_MAX		0xFFFDU
+#undef WEOF
 #define	WEOF			0xFFFFU
 
 __BEGIN_DECLS
@@ -150,7 +150,8 @@ int	swprintf(wchar_t * __restrict__, size_t, const wchar_t * __restrict__,
 int	swscanf(const wchar_t *__restrict__, const wchar_t *__restrict__, ...);
 int	vfwprintf(FILE * __restrict__, const wchar_t * __restrict__,
 	    _BSD_VA_LIST_);
-int	vfwscanf(FILE *__restrict__, const wchar_t *__restrict__, _BSD_VA_LIST_);
+int	vfwscanf(FILE *__restrict__, const wchar_t *__restrict__,
+	    _BSD_VA_LIST_);
 int	vswprintf(wchar_t * __restrict__, const wchar_t * __restrict__,
 	    _BSD_VA_LIST_);
 int	vswscanf(const wchar_t *__restrict__, const wchar_t *__restrict__,
@@ -162,10 +163,10 @@ int	wscanf(const wchar_t *__restrict__, ...);
 #endif
 __END_DECLS
 
-#define getwc(f) fgetwc(f)
-#define getwchar() getwc(stdin)
-#define putwc(wc, f) fputwc((wc), (f))
-#define putwchar(wc) putwc((wc), stdout)
+#define getwc(f)	fgetwc(f)
+#define getwchar()	getwc(stdin)
+#define putwc(wc, f)	fputwc((wc), (f))
+#define putwchar(wc)	putwc((wc), stdout)
 
 #ifdef __GNUC__
 #define btowc(c)	__extension__({			\
@@ -173,10 +174,10 @@ __END_DECLS
 	(__WC_tmp > 0x7F ? WEOF : __WC_tmp);		\
 })
 #define mblen(s,n)	__extension__({			\
-	mbstate_t __WC_state = { 0, 0 };		\
+	mbstate_t __WC_ps = { 0, 0 };			\
 	int __WC_rv;					\
 	(((__WC_rv = mbrtowc(NULL, (s), (n),		\
-	    &__WC_state)) < 0) ? -1 : __WC_rv);		\
+	    &__WC_ps)) < 0) ? -1 : __WC_rv);		\
 })
 #define mbsinit(c)	__extension__({			\
 	const mbstate_t *ps = (c);			\
@@ -198,10 +199,10 @@ __END_DECLS
 	(mbsrtowcs((pwcs), &__WC_sb, (n), &__WC_ps));	\
 })
 #define mbtowc(pwc,s,n)	__extension__({			\
-	mbstate_t __WC_state = { 0, 0 };		\
+	mbstate_t __WC_ps = { 0, 0 };			\
 	int __WC_rv;					\
 	(((__WC_rv = mbrtowc((pwc), (s), (n),		\
-	    &__WC_state)) < 0) ? -1 : __WC_rv);		\
+	    &__WC_ps)) < 0) ? -1 : __WC_rv);		\
 })
 #define wcstombs(s,pwcs,n)	__extension__({		\
 	mbstate_t __WC_ps = { 0, 0 };			\
@@ -222,7 +223,7 @@ __END_DECLS
 		__WC_s++;				\
 	}						\
 	(__WC_width);					\
-})		
+})
 #define wctob(c)	__extension__({			\
 	wint_t __WC_tmp = (c);				\
 	(__WC_tmp > 0x7F ? EOF : (int)__WC_tmp);	\
