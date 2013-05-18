@@ -1,8 +1,0 @@
-Params::Util provides a basic set of importable functions that makes
-checking parameters a hell of a lot easier.
-
-While they can be (and are) used in other contexts, the main point
-behind this module is that the functions both Do What You Mean, and Do
-The Right Thing, so they are most useful when you are getting params
-passed into your code from someone and/or somewhere else and you can't
-really trust the quality.

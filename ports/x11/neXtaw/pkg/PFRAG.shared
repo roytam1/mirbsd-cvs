@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.2 2003/05/04 17:40:57 margarida Exp $
-@lib lib/libneXtaw.so.15.1
