@@ -21,7 +21,7 @@
 
 use vars qw($VERSION %IRSSI);
 $VERSION = sprintf "%d.%02d",
-    q$MirOS: ports/net/irssi/files/randex.pl,v 1.9 2008/12/20 18:15:20 tg Exp $
+    q$MirOS: ports/net/irssi/files/randex.pl,v 1.10 2009/01/08 19:40:57 tg Exp $
     =~ m/,v (\d+)\.(\d+) /;
 %IRSSI = (
 	authors		=> 'Thorsten Glaser',
@@ -129,7 +129,7 @@ process_random_response
 	my $t = (BSD::arc4random::have_kintf() ? "" : "not ") .
 	    "pushing to kernel";
 
-	$running_sum = arc4random_pushb("by $nick $args $address $target");
+	$running_sum = arc4random_pushb("by $nick $args $address $target") | 1;
 	Irssi::print("RANDEX protocol reply from $nick to $target, $t")
 	    unless Irssi::settings_get_bool("rand_quiet");
 }
@@ -288,9 +288,9 @@ sig_rawlog
 	my ($rlrec, $data) = @_;
 	my $s;
 
-	$running_sum = adler32($running_sum, $rlrec);
+	$running_sum = adler32($running_sum, pack("w", arc4random()) . $rlrec);
 	$s = pack("w", time) . pack("L", $running_sum);
-	$running_sum = adler32($running_sum, $data);
+	$running_sum = adler32($running_sum, pack("w", arc4random()) . $data);
 	$s .= pack("L", $running_sum);
 	arc4random_addrandom($s);
 }
