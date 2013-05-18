@@ -103,7 +103,7 @@
 #define __SCCSID(x)	__IDSTRING(sccsid,x)
 
 #ifdef EXTERN
-__RCSID("$MirOS: src/bin/mksh/sh.h,v 1.259 2008/11/15 08:03:24 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/sh.h,v 1.260 2008/11/15 08:42:36 tg Exp $");
 #endif
 #define MKSH_VERSION "R36 2008/11/11"
 
@@ -1248,7 +1248,8 @@ EXTERN struct timeval j_usrtime, j_systime;
 
 /* alloc.c */
 #ifdef AALLOC_STATS
-#define anew(hint)	anewEx((hint), __FILE__ ":" __LINE__ ":" #hint)
+#define AALLOC_STRINGIFY(x) __STRING(x)
+#define anew(hint)	anewEx((hint), __FILE__ ":" AALLOC_STRINGIFY(__LINE__))
 PArea anewEx(size_t, const char *);	/* cannot fail */
 #else
 PArea anew(size_t);			/* cannot fail */
