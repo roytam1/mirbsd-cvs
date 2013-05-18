@@ -38,7 +38,7 @@ elif [ -n "$BASH_VERSION" ]; then
 	if [[ $OSTYPE = linux-gnu || $OSTYPE = Linux ]]; then
 		# compat_linux(8)
 		PS1='\['$X_COLOUR'[31m\]Linux!\[[0m\]\u@\h:\w \$ '
-		alias ls='/bin/ls --color'
+		[[ -e /emul/linux/bin/ls ]] && alias ls='/bin/ls --color'
 	else
 		# native via ports
 		PS1='\['$X_COLOUR'[34m\]bash!\[[0m\]\u@\h:\w \$ '
@@ -86,4 +86,4 @@ if [ -O /var/run/ssh-agent/$USER_ID ]; then
 	unset _dir
 fi
 
-: $MirOS: src/etc/profile,v 1.58 2008/05/15 15:24:07 tg Exp $
+: $MirOS: src/etc/profile,v 1.59 2008/05/25 22:10:19 tg Exp $
