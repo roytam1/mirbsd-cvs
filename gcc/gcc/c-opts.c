@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/c-opts.c,v 1.8 2006/02/01 01:28:39 tg Exp $ */
+/* $MirOS: gcc/gcc/c-opts.c,v 1.9 2006/09/25 22:01:17 tg Exp $ */
 
 /* C/ObjC/C++ command line option handling.
    Copyright (C) 2002, 2003, 2004, 2006 Free Software Foundation, Inc.
@@ -1147,6 +1147,9 @@ c_common_post_options (const char **pfilename)
     warning ("-Wformat-security ignored without -Wformat");
   if (warn_missing_format_attribute && !warn_format)
     warning ("-Wmissing-format-attribute ignored without -Wformat");
+
+  if (flag_objc_exceptions && !flag_next_runtime)
+    warning ("-fobjc-exceptions ICEs on @throw without -fnext-runtime");
 
   if (flag_preprocess_only)
     {
