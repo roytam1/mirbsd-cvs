@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.18 2009/04/16 12:14:11 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.19 2009/04/16 13:26:00 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2003/08/11 06:35:45 deraadt Exp $
 # $NetBSD: Makefile,v 1.2 1995/09/30 21:43:38 pk Exp $
 
@@ -30,5 +30,5 @@ srt0.o: srt0.S
 .include <bsd.prog.mk>
 
 ${PROG}.elf: ${OBJS} ${DLIBSA}
-	${LD} -N -Ttext ${RELOC2} -e start ${OBJS} ${LLIBSA} -o $@
+	${LD} -N -Ttext ${RELOC} -e start ${OBJS} ${LLIBSA} -o $@
 	@size $@
