@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.21 2005/08/26 23:29:36 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.22 2005/08/28 19:39:01 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -11,6 +11,8 @@ BSD_OWN_MK=1
 .elif exists(/etc/${MAKE:T}.cfg)
 .  include "/etc/${MAKE:T}.cfg"
 .endif
+
+SKEY?=		Yes	# no = avoid building with support for S/key auth
 
 CROSS_MODE?=	No
 .if make(obj)
@@ -27,7 +29,9 @@ DEFFLAGS?=	Yes
 .if ${DEFFLAGS:L} != "no"
 CC?=		mgcc
 COPTS?=		${DEFCOPTS} ${GCEXTRA}
-.  ifdef __CRAZY
+.endif
+
+.ifdef __CRAZY
 WARNINGS=	yes
 CFLAGS+=	-Wall -Wextra -Wunused -Wdeclaration-after-statement -Wundef \
 		-Wendif-labels -Wshadow -Wpointer-arith -Wbad-function-cast \
@@ -35,17 +39,10 @@ CFLAGS+=	-Wall -Wextra -Wunused -Wdeclaration-after-statement -Wundef \
 		-Wold-style-definition -Wmissing-prototypes -Winline \
 		-Wmissing-declarations -Wmissing-noreturn -pedantic \
 		-Wmissing-format-attribute -Wredundant-decls -std=c99
-.  endif
-.endif
-
-.if ${MACHINE} == "macppc"
-CRTN?=		${DESTDIR}/usr/lib/ncrtn.o
 .endif
 
 # Set to yes to add CDIAGFLAGS to CFLAGS
 WARNINGS?=		No
-# Set to no to avoid building with support for S/key authentication
-SKEY?=			Yes
 # Set to yes to build debugging versions of shared libraries and programmes
 DEBUGLIBS?=		No
 DEBUGPROGS?=		No
@@ -58,7 +55,6 @@ SUDO?=
 BSDSRCDIR?=		/usr/src
 BSDOBJDIR?=		/usr/obj
 BSDRELDIR?=		/usr/releng
-PORTSDIR?=		/usr/ports
 # Shared files for system GNU configure and build process
 GNUSYSTEM_AUX_DIR?=	${BSDSRCDIR}/gnu/share
 
