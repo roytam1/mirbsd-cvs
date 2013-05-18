@@ -1,5 +1,5 @@
-/**	$MirOS$	*/
-/*	$OpenBSD: pfctl_altq.c,v 1.84 2004/04/26 02:50:04 kjc Exp $	*/
+/**	$MirOS: src/sbin/pfctl/pfctl_altq.c,v 1.2 2005/03/06 19:50:31 tg Exp $	*/
+/*	$OpenBSD: pfctl_altq.c,v 1.86 2005/02/28 14:04:51 henning Exp $	*/
 
 /*
  * Copyright (c) 2002
@@ -710,7 +710,7 @@ eval_pfqueue_hfsc(struct pfctl *pf, struct pf_altq *pa)
 	 * for the real-time service curve, the sum of the service curves
 	 * should not exceed 80% of the interface bandwidth.  20% is reserved
 	 * not to over-commit the actual interface bandwidth.
-	 * for the link-sharing service curve, the sum of the child service
+	 * for the linkshare service curve, the sum of the child service
 	 * curve should not exceed the parent service curve.
 	 * for the upper-limit service curve, the assigned bandwidth should
 	 * be smaller than the interface bandwidth, and the upper-limit should
@@ -737,7 +737,7 @@ eval_pfqueue_hfsc(struct pfctl *pf, struct pf_altq *pa)
 		if (strncmp(altq->parent, pa->parent, PF_QNAME_SIZE) != 0)
 			continue;
 
-		/* if the class has a link-sharing service curve, add it. */
+		/* if the class has a linkshare service curve, add it. */
 		if (opts->lssc_m2 != 0 && altq->pq_u.hfsc_opts.lssc_m2 != 0) {
 			sc.m1 = altq->pq_u.hfsc_opts.lssc_m1;
 			sc.d = altq->pq_u.hfsc_opts.lssc_d;
@@ -764,7 +764,7 @@ eval_pfqueue_hfsc(struct pfctl *pf, struct pf_altq *pa)
 		}
 	}
 
-	/* check the link-sharing service curve. */
+	/* check the linkshare service curve. */
 	if (opts->lssc_m2 != 0) {
 		/* add this queue to the child sum */
 		sc.m1 = opts->lssc_m1;
@@ -776,7 +776,7 @@ eval_pfqueue_hfsc(struct pfctl *pf, struct pf_altq *pa)
 		sc.d = parent->pq_u.hfsc_opts.lssc_d;
 		sc.m2 = parent->pq_u.hfsc_opts.lssc_m2;
 		if (!is_gsc_under_sc(&lssc, &sc)) {
-			warnx("link-sharing sc exceeds parent's sc");
+			warnx("linkshare sc exceeds parent's sc");
 			goto err_ret;
 		}
 	}
@@ -1087,9 +1087,9 @@ rate2str(double rate)
 		rate /= 1024;
 
 	if ((int)(rate * 100) % 100)
-		snprintf(buf, RATESTR_MAX, "%.2f %sb", rate, unit(i));
+		snprintf(buf, RATESTR_MAX, "%.2f%cb", rate, unit[i]);
 	else
-		snprintf(buf, RATESTR_MAX, "%d %sb", (int)rate, unit(i));
+		snprintf(buf, RATESTR_MAX, "%d%cb", (int)rate, unit[i]);
 
 	return (buf);
 }
@@ -1103,6 +1103,7 @@ getifspeed(char *ifname)
 
 	if ((s = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
 		err(1, "socket");
+	memset(&ifr, 0, sizeof(ifr));
 	if (strlcpy(ifr.ifr_name, ifname, sizeof(ifr.ifr_name)) >=
 	    sizeof(ifr.ifr_name))
 		errx(1, "getifspeed: strlcpy");
@@ -1124,6 +1125,7 @@ getifmtu(char *ifname)
 
 	if ((s = socket(AF_INET, SOCK_DGRAM, 0)) < 0)
 		err(1, "socket");
+	memset(&ifr, 0, sizeof(ifr));
 	if (strlcpy(ifr.ifr_name, ifname, sizeof(ifr.ifr_name)) >=
 	    sizeof(ifr.ifr_name))
 		errx(1, "getifmtu: strlcpy");

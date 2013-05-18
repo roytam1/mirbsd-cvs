@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: if_pfsync.h,v 1.14 2004/04/28 00:47:06 mcbride Exp $	*/
+/**	$MirOS: src/sys/net/if_pfsync.h,v 1.2 2005/03/06 21:28:15 tg Exp $ */
+/*	$OpenBSD: if_pfsync.h,v 1.28 2005/11/04 08:24:14 mcbride Exp $	*/
 
 /*
  * Copyright (c) 2001 Michael Shalayeff
@@ -36,6 +36,7 @@
 struct pfsync_state_scrub {
 	u_int16_t	pfss_flags;
 	u_int8_t	pfss_ttl;	/* stashed TTL		*/
+#define PFSYNC_SCRUB_FLAG_VALID 	0x01
 	u_int8_t	scrub_flag;
 	u_int32_t	pfss_ts_mod;	/* timestamp modulation	*/
 } __packed;
@@ -55,8 +56,7 @@ struct pfsync_state_peer {
 	u_int16_t	mss;		/* Maximum segment size option	*/
 	u_int8_t	state;		/* active state level		*/
 	u_int8_t	wscale;		/* window scaling factor	*/
-	u_int8_t	scrub_flag;
-	u_int8_t	pad[5];
+	u_int8_t	pad[6];
 } __packed;
 
 struct pfsync_state {
@@ -73,8 +73,8 @@ struct pfsync_state {
 	u_int32_t	 nat_rule;
 	u_int32_t	 creation;
 	u_int32_t	 expire;
-	u_int32_t	 packets[2];
-	u_int32_t	 bytes[2];
+	u_int32_t	 packets[2][2];
+	u_int32_t	 bytes[2][2];
 	u_int32_t	 creatorid;
 	sa_family_t	 af;
 	u_int8_t	 proto;
@@ -84,6 +84,19 @@ struct pfsync_state {
 	u_int8_t	 timeout;
 	u_int8_t	 sync_flags;
 	u_int8_t	 updates;
+} __packed;
+
+#define PFSYNC_FLAG_COMPRESS 	0x01
+#define PFSYNC_FLAG_STALE	0x02
+
+struct pfsync_tdb {
+	u_int32_t	spi;
+	union sockaddr_union dst;
+	u_int32_t	rpl;
+	u_int64_t	cur_bytes;
+	u_int8_t	sproto;
+	u_int8_t	updates;
+	u_int8_t	pad[2];
 } __packed;
 
 struct pfsync_state_upd {
@@ -141,6 +154,10 @@ union sc_statep {
 	struct pfsync_state_upd_req	*r;
 };
 
+union sc_tdb_statep {
+	struct pfsync_tdb	*t;
+};
+
 extern int	pfsync_sync_ok;
 
 struct pfsync_softc {
@@ -149,25 +166,33 @@ struct pfsync_softc {
 
 	struct ip_moptions	 sc_imo;
 	struct timeout		 sc_tmo;
+	struct timeout		 sc_tdb_tmo;
 	struct timeout		 sc_bulk_tmo;
 	struct timeout		 sc_bulkfail_tmo;
+	struct in_addr		 sc_sync_peer;
 	struct in_addr		 sc_sendaddr;
-	struct mbuf		*sc_mbuf;	/* current cummulative mbuf */
-	struct mbuf		*sc_mbuf_net;	/* current cummulative mbuf */
+	struct mbuf		*sc_mbuf;	/* current cumulative mbuf */
+	struct mbuf		*sc_mbuf_net;	/* current cumulative mbuf */
+    	struct mbuf		*sc_mbuf_tdb;	/* dito for TDB updates */
 	union sc_statep		 sc_statep;
 	union sc_statep		 sc_statep_net;
+	union sc_tdb_statep	 sc_statep_tdb;
 	u_int32_t		 sc_ureq_received;
 	u_int32_t		 sc_ureq_sent;
+	struct pf_state		*sc_bulk_send_next;
+	struct pf_state		*sc_bulk_terminator;
 	int			 sc_bulk_tries;
 	int			 sc_maxcount;	/* number of states in mtu */
 	int			 sc_maxupdates;	/* number of updates/state */
 };
+
+extern struct pfsync_softc pfsyncif;
 #endif
 
 
 struct pfsync_header {
 	u_int8_t version;
-#define	PFSYNC_VERSION	2
+#define	PFSYNC_VERSION	3
 	u_int8_t af;
 	u_int8_t action;
 #define	PFSYNC_ACT_CLR		0	/* clear all states */
@@ -180,8 +205,10 @@ struct pfsync_header {
 #define	PFSYNC_ACT_DEL_F	7	/* delete fragments */
 #define	PFSYNC_ACT_UREQ		8	/* request "uncompressed" state */
 #define PFSYNC_ACT_BUS		9	/* Bulk Update Status */
-#define	PFSYNC_ACT_MAX		10
+#define PFSYNC_ACT_TDB_UPD	10	/* TDB replay counter update */
+#define	PFSYNC_ACT_MAX		11
 	u_int8_t count;
+	u_int8_t pf_chksum[PF_MD5_DIGEST_LENGTH];
 } __packed;
 
 #define PFSYNC_BULKPACKETS	1	/* # of packets per timeout */
@@ -190,7 +217,7 @@ struct pfsync_header {
 #define	PFSYNC_ACTIONS \
 	"CLR ST", "INS ST", "UPD ST", "DEL ST", \
 	"UPD ST COMP", "DEL ST COMP", "INS FR", "DEL FR", \
-	"UPD REQ", "BLK UPD STAT"
+	"UPD REQ", "BLK UPD STAT", "TDB UPD"
 
 #define PFSYNC_DFLTTL		255
 
@@ -218,12 +245,11 @@ struct pfsyncstats {
  * Configuration structure for SIOCSETPFSYNC SIOCGETPFSYNC
  */
 struct pfsyncreq {
-	char	pfsyncr_syncif[IFNAMSIZ];
-	int	pfsyncr_maxupdates;
-	int	pfsyncr_authlevel;
+	char		 pfsyncr_syncdev[IFNAMSIZ];
+	struct in_addr	 pfsyncr_syncpeer;
+	int		 pfsyncr_maxupdates;
+	int		 pfsyncr_authlevel;
 };
-#define SIOCSETPFSYNC	_IOW('i', 247, struct ifreq)
-#define SIOCGETPFSYNC	_IOWR('i', 248, struct ifreq)
 
 
 #define pf_state_peer_hton(s,d) do {		\
@@ -234,6 +260,13 @@ struct pfsyncreq {
 	(d)->mss = htons((s)->mss);		\
 	(d)->state = (s)->state;		\
 	(d)->wscale = (s)->wscale;		\
+	if ((s)->scrub) {						\
+		(d)->scrub.pfss_flags = 				\
+		    htons((s)->scrub->pfss_flags & PFSS_TIMESTAMP);	\
+		(d)->scrub.pfss_ttl = (s)->scrub->pfss_ttl;		\
+		(d)->scrub.pfss_ts_mod = htonl((s)->scrub->pfss_ts_mod);\
+		(d)->scrub.scrub_flag = PFSYNC_SCRUB_FLAG_VALID;	\
+	}								\
 } while (0)
 
 #define pf_state_peer_ntoh(s,d) do {		\
@@ -244,6 +277,13 @@ struct pfsyncreq {
 	(d)->mss = ntohs((s)->mss);		\
 	(d)->state = (s)->state;		\
 	(d)->wscale = (s)->wscale;		\
+	if ((s)->scrub.scrub_flag == PFSYNC_SCRUB_FLAG_VALID && 	\
+	    (d)->scrub != NULL) {					\
+		(d)->scrub->pfss_flags =				\
+		    ntohs((s)->scrub.pfss_flags) & PFSS_TIMESTAMP;	\
+		(d)->scrub->pfss_ttl = (s)->scrub.pfss_ttl;		\
+		(d)->scrub->pfss_ts_mod = ntohl((s)->scrub.pfss_ts_mod);\
+	}								\
 } while (0)
 
 #define pf_state_host_hton(s,d) do {				\
@@ -256,6 +296,17 @@ struct pfsyncreq {
 	(d)->port = (s)->port;					\
 } while (0)
 
+#define pf_state_counter_hton(s,d) do {				\
+	d[0] = htonl((s>>32)&0xffffffff);			\
+	d[1] = htonl(s&0xffffffff);				\
+} while (0)
+
+#define pf_state_counter_ntoh(s,d) do {				\
+	d = ntohl(s[0]);					\
+	d = d<<32;						\
+	d += ntohl(s[1]);					\
+} while (0)
+
 #ifdef _KERNEL
 void pfsync_input(struct mbuf *, ...);
 int pfsync_clear_states(u_int32_t, char *);
@@ -265,19 +316,22 @@ int pfsync_pack_state(u_int8_t, struct pf_state *, int);
 	    (st->proto == IPPROTO_PFSYNC))			\
 		st->sync_flags |= PFSTATE_NOSYNC;		\
 	else if (!st->sync_flags)				\
-		pfsync_pack_state(PFSYNC_ACT_INS, (st), 1);	\
+		pfsync_pack_state(PFSYNC_ACT_INS, (st), 	\
+		    PFSYNC_FLAG_COMPRESS);			\
 	st->sync_flags &= ~PFSTATE_FROMSYNC;			\
 } while (0)
 #define pfsync_update_state(st) do {				\
 	if (!st->sync_flags)					\
-		pfsync_pack_state(PFSYNC_ACT_UPD, (st), 1);	\
+		pfsync_pack_state(PFSYNC_ACT_UPD, (st), 	\
+		    PFSYNC_FLAG_COMPRESS);			\
 	st->sync_flags &= ~PFSTATE_FROMSYNC;			\
 } while (0)
 #define pfsync_delete_state(st) do {				\
 	if (!st->sync_flags)					\
-		pfsync_pack_state(PFSYNC_ACT_DEL, (st), 1);	\
-	st->sync_flags &= ~PFSTATE_FROMSYNC;			\
+		pfsync_pack_state(PFSYNC_ACT_DEL, (st),		\
+		    PFSYNC_FLAG_COMPRESS);			\
 } while (0)
+int pfsync_update_tdb(struct tdb *);
 #endif
 
 #endif /* _NET_IF_PFSYNC_H_ */

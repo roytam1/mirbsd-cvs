@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: pf_norm.c,v 1.87 2004/05/11 07:34:11 dhartmei Exp $ */
+/**	$MirOS: src/sys/net/pf_norm.c,v 1.2 2005/03/06 21:28:17 tg Exp $ */
+/*	$OpenBSD: pf_norm.c,v 1.103 2005/10/17 08:43:35 henning Exp $ */
 
 /*
  * Copyright 2001 Niels Provos <provos@citi.umich.edu>
@@ -177,7 +177,7 @@ void
 pf_purge_expired_fragments(void)
 {
 	struct pf_fragment	*frag;
-	u_int32_t		 expire = time.tv_sec -
+	u_int32_t		 expire = time_second -
 				    pf_default_rule.timeout[PFTM_FRAG];
 
 	while ((frag = TAILQ_LAST(&pf_fragqueue, pf_fragqueue)) != NULL) {
@@ -288,7 +288,7 @@ pf_find_fragment(struct ip *ip, struct pf_frag_tree *tree)
 	frag = RB_FIND(pf_frag_tree, tree, &key);
 	if (frag != NULL) {
 		/* XXX Are we sure we want to update the timeout? */
-		frag->fr_timeout = time.tv_sec;
+		frag->fr_timeout = time_second;
 		if (BUFFER_FRAGMENTS(frag)) {
 			TAILQ_REMOVE(&pf_fragqueue, frag, frag_next);
 			TAILQ_INSERT_HEAD(&pf_fragqueue, frag, frag_next);
@@ -353,7 +353,7 @@ pf_reassemble(struct mbuf **m0, struct pf_fragment **frag,
 		(*frag)->fr_dst = frent->fr_ip->ip_dst;
 		(*frag)->fr_p = frent->fr_ip->ip_p;
 		(*frag)->fr_id = frent->fr_ip->ip_id;
-		(*frag)->fr_timeout = time.tv_sec;
+		(*frag)->fr_timeout = time_second;
 		LIST_INIT(&(*frag)->fr_queue);
 
 		RB_INSERT(pf_frag_tree, &pf_frag_tree, *frag);
@@ -413,7 +413,7 @@ pf_reassemble(struct mbuf **m0, struct pf_fragment **frag,
 			break;
 		}
 
-		/* This fragment is completely overlapped, loose it */
+		/* This fragment is completely overlapped, lose it */
 		next = LIST_NEXT(frea, fr_next);
 		m_freem(frea->fr_m);
 		LIST_REMOVE(frea, fr_next);
@@ -555,7 +555,7 @@ pf_fragcache(struct mbuf **m0, struct ip *h, struct pf_fragment **frag, int mff,
 		(*frag)->fr_dst = h->ip_dst;
 		(*frag)->fr_p = h->ip_p;
 		(*frag)->fr_id = h->ip_id;
-		(*frag)->fr_timeout = time.tv_sec;
+		(*frag)->fr_timeout = time_second;
 
 		cur->fr_off = off;
 		cur->fr_end = max;
@@ -832,8 +832,7 @@ pf_normalize_ip(struct mbuf **m0, int dir, struct pfi_kif *kif, u_short *reason,
 	r = TAILQ_FIRST(pf_main_ruleset.rules[PF_RULESET_SCRUB].active.ptr);
 	while (r != NULL) {
 		r->evaluations++;
-		if (r->kif != NULL &&
-		    (r->kif != kif && r->kif != kif->pfik_parent) == !r->ifnot)
+		if (pfi_kif_match(r->kif, kif) == r->ifnot)
 			r = r->skip[PF_SKIP_IFP].ptr;
 		else if (r->direction && r->direction != dir)
 			r = r->skip[PF_SKIP_DIR].ptr;
@@ -842,19 +841,21 @@ pf_normalize_ip(struct mbuf **m0, int dir, struct pfi_kif *kif, u_short *reason,
 		else if (r->proto && r->proto != h->ip_p)
 			r = r->skip[PF_SKIP_PROTO].ptr;
 		else if (PF_MISMATCHAW(&r->src.addr,
-		    (struct pf_addr *)&h->ip_src.s_addr, AF_INET, r->src.not))
+		    (struct pf_addr *)&h->ip_src.s_addr, AF_INET, r->src.neg))
 			r = r->skip[PF_SKIP_SRC_ADDR].ptr;
 		else if (PF_MISMATCHAW(&r->dst.addr,
-		    (struct pf_addr *)&h->ip_dst.s_addr, AF_INET, r->dst.not))
+		    (struct pf_addr *)&h->ip_dst.s_addr, AF_INET, r->dst.neg))
 			r = r->skip[PF_SKIP_DST_ADDR].ptr;
 		else
 			break;
 	}
 
-	if (r == NULL)
+	if (r == NULL || r->action == PF_NOSCRUB)
 		return (PF_PASS);
-	else
-		r->packets++;
+	else {
+		r->packets[dir == PF_OUT]++;
+		r->bytes[dir == PF_OUT] += pd->tot_len;
+	}
 
 	/* Check for illegal packets */
 	if (hlen < (int)sizeof(struct ip))
@@ -931,15 +932,13 @@ pf_normalize_ip(struct mbuf **m0, int dir, struct pfi_kif *kif, u_short *reason,
 		/* non-buffering fragment cache (drops or masks overlaps) */
 		int	nomem = 0;
 
-		if (dir == PF_OUT) {
-			if (m_tag_find(m, PACKET_TAG_PF_FRAGCACHE, NULL) !=
-			    NULL) {
-				/* Already passed the fragment cache in the
-				 * input direction.  If we continued, it would
-				 * appear to be a dup and would be dropped.
-				 */
-				goto fragment_pass;
-			}
+		if (dir == PF_OUT && pd->pf_mtag->flags & PF_TAG_FRAGCACHE) {
+			/*
+			 * Already passed the fragment cache in the
+			 * input direction.  If we continued, it would
+			 * appear to be a dup and would be dropped.
+			 */
+			goto fragment_pass;
 		}
 
 		frag = pf_find_fragment(h, &pf_cache_tree);
@@ -960,14 +959,9 @@ pf_normalize_ip(struct mbuf **m0, int dir, struct pfi_kif *kif, u_short *reason,
 			goto drop;
 		}
 
-		if (dir == PF_IN) {
-			struct m_tag	*mtag;
+		if (dir == PF_IN)
+			pd->pf_mtag->flags |= PF_TAG_FRAGCACHE;
 
-			mtag = m_tag_get(PACKET_TAG_PF_FRAGCACHE, 0, M_NOWAIT);
-			if (mtag == NULL)
-				goto no_mem;
-			m_tag_prepend(m, mtag);
-		}
 		if (frag != NULL && (frag->fr_flags & PFFRAG_DROP))
 			goto drop;
 		goto fragment_pass;
@@ -1003,13 +997,13 @@ pf_normalize_ip(struct mbuf **m0, int dir, struct pfi_kif *kif, u_short *reason,
  no_mem:
 	REASON_SET(reason, PFRES_MEMORY);
 	if (r != NULL && r->log)
-		PFLOG_PACKET(kif, h, m, AF_INET, dir, *reason, r, NULL, NULL);
+		PFLOG_PACKET(kif, h, m, AF_INET, dir, *reason, r, NULL, NULL, pd);
 	return (PF_DROP);
 
  drop:
 	REASON_SET(reason, PFRES_NORM);
 	if (r != NULL && r->log)
-		PFLOG_PACKET(kif, h, m, AF_INET, dir, *reason, r, NULL, NULL);
+		PFLOG_PACKET(kif, h, m, AF_INET, dir, *reason, r, NULL, NULL, pd);
 	return (PF_DROP);
 
  bad:
@@ -1021,7 +1015,7 @@ pf_normalize_ip(struct mbuf **m0, int dir, struct pfi_kif *kif, u_short *reason,
 
 	REASON_SET(reason, PFRES_FRAG);
 	if (r != NULL && r->log)
-		PFLOG_PACKET(kif, h, m, AF_INET, dir, *reason, r, NULL, NULL);
+		PFLOG_PACKET(kif, h, m, AF_INET, dir, *reason, r, NULL, NULL, pd);
 
 	return (PF_DROP);
 }
@@ -1049,8 +1043,7 @@ pf_normalize_ip6(struct mbuf **m0, int dir, struct pfi_kif *kif,
 	r = TAILQ_FIRST(pf_main_ruleset.rules[PF_RULESET_SCRUB].active.ptr);
 	while (r != NULL) {
 		r->evaluations++;
-		if (r->kif != NULL &&
-		    (r->kif != kif && r->kif != kif->pfik_parent) == !r->ifnot)
+		if (pfi_kif_match(r->kif, kif) == r->ifnot)
 			r = r->skip[PF_SKIP_IFP].ptr;
 		else if (r->direction && r->direction != dir)
 			r = r->skip[PF_SKIP_DIR].ptr;
@@ -1061,19 +1054,21 @@ pf_normalize_ip6(struct mbuf **m0, int dir, struct pfi_kif *kif,
 			r = r->skip[PF_SKIP_PROTO].ptr;
 #endif
 		else if (PF_MISMATCHAW(&r->src.addr,
-		    (struct pf_addr *)&h->ip6_src, AF_INET6, r->src.not))
+		    (struct pf_addr *)&h->ip6_src, AF_INET6, r->src.neg))
 			r = r->skip[PF_SKIP_SRC_ADDR].ptr;
 		else if (PF_MISMATCHAW(&r->dst.addr,
-		    (struct pf_addr *)&h->ip6_dst, AF_INET6, r->dst.not))
+		    (struct pf_addr *)&h->ip6_dst, AF_INET6, r->dst.neg))
 			r = r->skip[PF_SKIP_DST_ADDR].ptr;
 		else
 			break;
 	}
 
-	if (r == NULL)
+	if (r == NULL || r->action == PF_NOSCRUB)
 		return (PF_PASS);
-	else
-		r->packets++;
+	else {
+		r->packets[dir == PF_OUT]++;
+		r->bytes[dir == PF_OUT] += pd->tot_len;
+	}
 
 	/* Check for illegal packets */
 	if (sizeof(struct ip6_hdr) + IPV6_MAXPACKET < m->m_pkthdr.len)
@@ -1185,19 +1180,19 @@ pf_normalize_ip6(struct mbuf **m0, int dir, struct pfi_kif *kif,
  shortpkt:
 	REASON_SET(reason, PFRES_SHORT);
 	if (r != NULL && r->log)
-		PFLOG_PACKET(kif, h, m, AF_INET6, dir, *reason, r, NULL, NULL);
+		PFLOG_PACKET(kif, h, m, AF_INET6, dir, *reason, r, NULL, NULL, pd);
 	return (PF_DROP);
 
  drop:
 	REASON_SET(reason, PFRES_NORM);
 	if (r != NULL && r->log)
-		PFLOG_PACKET(kif, h, m, AF_INET6, dir, *reason, r, NULL, NULL);
+		PFLOG_PACKET(kif, h, m, AF_INET6, dir, *reason, r, NULL, NULL, pd);
 	return (PF_DROP);
 
  badfrag:
 	REASON_SET(reason, PFRES_FRAG);
 	if (r != NULL && r->log)
-		PFLOG_PACKET(kif, h, m, AF_INET6, dir, *reason, r, NULL, NULL);
+		PFLOG_PACKET(kif, h, m, AF_INET6, dir, *reason, r, NULL, NULL, pd);
 	return (PF_DROP);
 }
 #endif /* INET6 */
@@ -1216,8 +1211,7 @@ pf_normalize_tcp(int dir, struct pfi_kif *kif, struct mbuf *m, int ipoff,
 	r = TAILQ_FIRST(pf_main_ruleset.rules[PF_RULESET_SCRUB].active.ptr);
 	while (r != NULL) {
 		r->evaluations++;
-		if (r->kif != NULL &&
-		    (r->kif != kif && r->kif != kif->pfik_parent) == !r->ifnot)
+		if (pfi_kif_match(r->kif, kif) == r->ifnot)
 			r = r->skip[PF_SKIP_IFP].ptr;
 		else if (r->direction && r->direction != dir)
 			r = r->skip[PF_SKIP_DIR].ptr;
@@ -1225,12 +1219,12 @@ pf_normalize_tcp(int dir, struct pfi_kif *kif, struct mbuf *m, int ipoff,
 			r = r->skip[PF_SKIP_AF].ptr;
 		else if (r->proto && r->proto != pd->proto)
 			r = r->skip[PF_SKIP_PROTO].ptr;
-		else if (PF_MISMATCHAW(&r->src.addr, pd->src, af, r->src.not))
+		else if (PF_MISMATCHAW(&r->src.addr, pd->src, af, r->src.neg))
 			r = r->skip[PF_SKIP_SRC_ADDR].ptr;
 		else if (r->src.port_op && !pf_match_port(r->src.port_op,
 			    r->src.port[0], r->src.port[1], th->th_sport))
 			r = r->skip[PF_SKIP_SRC_PORT].ptr;
-		else if (PF_MISMATCHAW(&r->dst.addr, pd->dst, af, r->dst.not))
+		else if (PF_MISMATCHAW(&r->dst.addr, pd->dst, af, r->dst.neg))
 			r = r->skip[PF_SKIP_DST_ADDR].ptr;
 		else if (r->dst.port_op && !pf_match_port(r->dst.port_op,
 			    r->dst.port[0], r->dst.port[1], th->th_dport))
@@ -1245,10 +1239,12 @@ pf_normalize_tcp(int dir, struct pfi_kif *kif, struct mbuf *m, int ipoff,
 		}
 	}
 
-	if (rm == NULL)
+	if (rm == NULL || rm->action == PF_NOSCRUB)
 		return (PF_PASS);
-	else
-		r->packets++;
+	else {
+		r->packets[dir == PF_OUT]++;
+		r->bytes[dir == PF_OUT] += pd->tot_len;
+	}
 
 	if (rm->rule_flag & PFRULE_REASSEMBLE_TCP)
 		pd->flags |= PFDESC_TCP_NORM;
@@ -1310,7 +1306,7 @@ pf_normalize_tcp(int dir, struct pfi_kif *kif, struct mbuf *m, int ipoff,
  tcp_drop:
 	REASON_SET(&reason, PFRES_NORM);
 	if (rm != NULL && r->log)
-		PFLOG_PACKET(kif, h, m, AF_INET, dir, reason, r, NULL, NULL);
+		PFLOG_PACKET(kif, h, m, AF_INET, dir, reason, r, NULL, NULL, pd);
 	return (PF_DROP);
 }
 
@@ -1380,10 +1376,10 @@ pf_normalize_tcp_init(struct mbuf *m, int off, struct pf_pdesc *pd,
 					    sizeof(u_int32_t));
 					memcpy(&tsecr, &opt[6],
 					    sizeof(u_int32_t));
-		    			src->scrub->pfss_tsval0 = ntohl(tsval);
+					src->scrub->pfss_tsval0 = ntohl(tsval);
 					src->scrub->pfss_tsval = ntohl(tsval);
 					src->scrub->pfss_tsecr = ntohl(tsecr);
-					src->scrub->pfss_last = mono_time;
+					getmicrouptime(&src->scrub->pfss_last);
 				}
 				/* FALLTHROUGH */
 			default:
@@ -1413,6 +1409,7 @@ pf_normalize_tcp_stateful(struct mbuf *m, int off, struct pf_pdesc *pd,
     u_short *reason, struct tcphdr *th, struct pf_state *state,
     struct pf_state_peer *src, struct pf_state_peer *dst, int *writeback)
 {
+	struct timeval uptime;
 	u_int32_t tsval, tsecr;
 	u_int tsval_from_last;
 	u_int8_t hdr[60];
@@ -1539,9 +1536,11 @@ pf_normalize_tcp_stateful(struct mbuf *m, int off, struct pf_pdesc *pd,
 	 */
 #define TS_MAX_IDLE	(24*24*60*60)
 #define TS_MAX_CONN	(12*24*60*60)	/* XXX remove when better tsecr check */
+
+	getmicrouptime(&uptime);
 	if (src->scrub && (src->scrub->pfss_flags & PFSS_PAWS) &&
-	    (mono_time.tv_sec - src->scrub->pfss_last.tv_sec > TS_MAX_IDLE ||
-	    time.tv_sec - state->creation > TS_MAX_CONN))  {
+	    (uptime.tv_sec - src->scrub->pfss_last.tv_sec > TS_MAX_IDLE ||
+	    time_second - state->creation > TS_MAX_CONN))  {
 		if (pf_status.debug >= PF_DEBUG_MISC) {
 			DPFPRINTF(("src idled out of PAWS\n"));
 			pf_print_state(state);
@@ -1551,7 +1550,7 @@ pf_normalize_tcp_stateful(struct mbuf *m, int off, struct pf_pdesc *pd,
 		    | PFSS_PAWS_IDLED;
 	}
 	if (dst->scrub && (dst->scrub->pfss_flags & PFSS_PAWS) &&
-	    mono_time.tv_sec - dst->scrub->pfss_last.tv_sec > TS_MAX_IDLE) {
+	    uptime.tv_sec - dst->scrub->pfss_last.tv_sec > TS_MAX_IDLE) {
 		if (pf_status.debug >= PF_DEBUG_MISC) {
 			DPFPRINTF(("dst idled out of PAWS\n"));
 			pf_print_state(state);
@@ -1642,7 +1641,7 @@ pf_normalize_tcp_stateful(struct mbuf *m, int off, struct pf_pdesc *pd,
 		/* Calculate max ticks since the last timestamp */
 #define TS_MAXFREQ	1100		/* RFC max TS freq of 1Khz + 10% skew */
 #define TS_MICROSECS	1000000		/* microseconds per second */
-		timersub(&mono_time, &src->scrub->pfss_last, &delta_ts);
+		timersub(&uptime, &src->scrub->pfss_last, &delta_ts);
 		tsval_from_last = (delta_ts.tv_sec + ts_fudge) * TS_MAXFREQ;
 		tsval_from_last += delta_ts.tv_usec / (TS_MICROSECS/TS_MAXFREQ);
 
@@ -1663,20 +1662,19 @@ pf_normalize_tcp_stateful(struct mbuf *m, int off, struct pf_pdesc *pd,
 			DPFPRINTF(("Timestamp failed %c%c%c%c\n",
 			    SEQ_LT(tsval, dst->scrub->pfss_tsecr) ? '0' : ' ',
 			    SEQ_GT(tsval, src->scrub->pfss_tsval +
-			        tsval_from_last) ? '1' : ' ',
+			    tsval_from_last) ? '1' : ' ',
 			    SEQ_GT(tsecr, dst->scrub->pfss_tsval) ? '2' : ' ',
 			    SEQ_LT(tsecr, dst->scrub->pfss_tsval0)? '3' : ' '));
-			DPFPRINTF((" tsval: %lu  tsecr: %lu  +ticks: %lu  idle: %llus %lums\n",
-			    (unsigned long)tsval, (unsigned long)tsecr,
-			    (unsigned long)tsval_from_last, delta_ts.tv_sec,
+			DPFPRINTF((" tsval: %lu  tsecr: %lu  +ticks: %lu  "
+			    "idle: %llus %lums\n",
+			    tsval, tsecr, tsval_from_last,
+			    (int64_t)delta_ts.tv_sec,
 			    delta_ts.tv_usec / 1000));
 			DPFPRINTF((" src->tsval: %lu  tsecr: %lu\n",
-			    (unsigned long)src->scrub->pfss_tsval,
-			    (unsigned long)src->scrub->pfss_tsecr));
-			DPFPRINTF((" dst->tsval: %lu  tsecr: %lu  tsval0: %lu\n",
-			    (unsigned long)dst->scrub->pfss_tsval,
-			    (unsigned long)dst->scrub->pfss_tsecr,
-			    (unsigned long)dst->scrub->pfss_tsval0));
+			    src->scrub->pfss_tsval, src->scrub->pfss_tsecr));
+			DPFPRINTF((" dst->tsval: %lu  tsecr: %lu  tsval0: %lu"
+			    "\n", dst->scrub->pfss_tsval,
+			    dst->scrub->pfss_tsecr, dst->scrub->pfss_tsval0));
 			if (pf_status.debug >= PF_DEBUG_MISC) {
 				pf_print_state(state);
 				pf_print_flags(th->th_flags);
@@ -1726,7 +1724,8 @@ pf_normalize_tcp_stateful(struct mbuf *m, int off, struct pf_pdesc *pd,
 			 * stack changed its RFC1323 behavior?!?!
 			 */
 			if (pf_status.debug >= PF_DEBUG_MISC) {
-				DPFPRINTF(("Did not receive expected RFC1323 timestamp\n"));
+				DPFPRINTF(("Did not receive expected RFC1323 "
+				    "timestamp\n"));
 				pf_print_state(state);
 				pf_print_flags(th->th_flags);
 				printf("\n");
@@ -1742,7 +1741,7 @@ pf_normalize_tcp_stateful(struct mbuf *m, int off, struct pf_pdesc *pd,
 	 * timestamps.  And require all data packets to contain a timestamp
 	 * if the first does.  PAWS implicitly requires that all data packets be
 	 * timestamped.  But I think there are middle-man devices that hijack
-	 * TCP streams immedietly after the 3whs and don't timestamp their
+	 * TCP streams immediately after the 3whs and don't timestamp their
 	 * packets (seen in a WWW accelerator or cache).
 	 */
 	if (pd->p_len > 0 && src->scrub && (src->scrub->pfss_flags &
@@ -1754,7 +1753,9 @@ pf_normalize_tcp_stateful(struct mbuf *m, int off, struct pf_pdesc *pd,
 			if (pf_status.debug >= PF_DEBUG_MISC && dst->scrub &&
 			    (dst->scrub->pfss_flags & PFSS_TIMESTAMP)) {
 				/* Don't warn if other host rejected RFC1323 */
-				DPFPRINTF(("Broken RFC1323 stack did not timestamp data packet.  Disabled PAWS security.\n"));
+				DPFPRINTF(("Broken RFC1323 stack did not "
+				    "timestamp data packet. Disabled PAWS "
+				    "security.\n"));
 				pf_print_state(state);
 				pf_print_flags(th->th_flags);
 				printf("\n");
@@ -1768,7 +1769,7 @@ pf_normalize_tcp_stateful(struct mbuf *m, int off, struct pf_pdesc *pd,
 	 */
 	if (got_ts && src->scrub && PFSS_TIMESTAMP == (src->scrub->pfss_flags &
 	    (PFSS_PAWS_IDLED|PFSS_TIMESTAMP))) {
-		src->scrub->pfss_last = mono_time;
+		getmicrouptime(&src->scrub->pfss_last);
 		if (SEQ_GEQ(tsval, src->scrub->pfss_tsval) ||
 		    (src->scrub->pfss_flags & PFSS_PAWS) == 0)
 			src->scrub->pfss_tsval = tsval;
@@ -1782,7 +1783,7 @@ pf_normalize_tcp_stateful(struct mbuf *m, int off, struct pf_pdesc *pd,
 			    (SEQ_LT(tsval, src->scrub->pfss_tsval0) ||
 			    src->scrub->pfss_tsval0 == 0)) {
 				/* tsval0 MUST be the lowest timestamp */
-	    			src->scrub->pfss_tsval0 = tsval;
+				src->scrub->pfss_tsval0 = tsval;
 			}
 
 			/* Only fully initialized after a TS gets echoed */

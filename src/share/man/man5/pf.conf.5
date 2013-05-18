@@ -1,5 +1,5 @@
-.\"	$MirOS: src/share/man/man5/pf.conf.5,v 1.2 2005/03/06 19:38:42 tg Exp $
-.\"	$OpenBSD: pf.conf.5,v 1.335 2005/06/14 18:18:14 henning Exp $
+.\"	$MirOS: src/share/man/man5/pf.conf.5,v 1.3 2005/07/24 13:08:01 tg Exp $
+.\"	$OpenBSD: pf.conf.5,v 1.339 2005/11/17 22:18:20 joel Exp $
 .\"
 .\" Copyright (c) 2002, Daniel Hartmeier
 .\" All rights reserved.
@@ -59,7 +59,7 @@ Traffic normalization protects internal machines against inconsistencies
 in Internet protocols and implementations.
 .It Cm Queueing
 Queueing provides rule-based bandwidth control.
-.It Cm Translation Li (various forms of NAT)
+.It Cm Translation Li (Various forms of NAT)
 Translation rules specify how addresses are to be mapped or redirected to
 other addresses.
 .It Cm Packet Filtering
@@ -789,6 +789,13 @@ and
 .Ar Gib
 are used to represent bits, kibibits, mebibits, and
 gibibits per second, respectively.
+The units
+.Ar kb ,
+.Ar Mb ,
+and
+.Ar Gb
+can also be used to express one thousand, one million,
+and thousand million bits per second, respectively.
 The value must not exceed the interface bandwidth.
 If
 .Ar bandwidth
@@ -809,7 +816,7 @@ should queue up to 5 Mbit/s in four second-level queues using
 Class Based Queueing.
 Those four queues will be shown in a later example.
 .Bd -literal -offset indent
-altq on dc0 cbq bandwidth 5000000b queue { std, http, mail, ssh }
+altq on dc0 cbq bandwidth 5Mb queue { std, http, mail, ssh }
 .Ed
 .Pp
 Once interfaces are activated for queueing using the
@@ -866,7 +873,7 @@ The default is 50.
 The
 .Ar scheduler
 can get additional parameters with
-.Ar <scheduler> Ns Li \&( Ar <parameters> No \&) .
+.Ar <scheduler> Ns Li (\& Ar <parameters> No ) .
 Parameters are as follows:
 .Bl -tag -width Fl
 .It Ar default
@@ -1085,7 +1092,7 @@ or to the firewall itself.
 Note that redirecting external incoming connections to the loopback
 address, as in
 .Bd -literal -offset indent
-rdr on ne3 inet proto tcp to port 8025 -> 127.0.0.1 port 25
+rdr on ne3 inet proto tcp to port spamd -> 127.0.0.1 port smtp
 .Ed
 .Pp
 will effectively allow an external host to connect to daemons
@@ -1231,6 +1238,13 @@ As with
 .Ar log ,
 packets are logged to
 .Xr pflog 4 .
+.It Ar log (user)
+Logs the
+.Ux
+user ID of the user that owns the socket and the PID of the process that
+has the socket open where the packet is sourced from or destined to
+(depending on which socket is local).
+This is in addition to the normal information logged.
 .It Ar quick
 If a packet matches a rule which has the
 .Ar quick
@@ -1307,6 +1321,13 @@ ruleset load-time.
 When the address of an interface (or host name) changes (under DHCP or PPP,
 for instance), the ruleset must be reloaded for the change to be reflected
 in the kernel.
+Surrounding the interface name (and optional modifiers) in parentheses
+changes this behaviour.
+When the interface name is surrounded by parentheses, the rule is
+automatically updated whenever the interface changes its address.
+The ruleset does not need to be reloaded.
+This is especially useful with
+.Ar nat .
 .Pp
 Ports can be specified either by number or by name.
 For example, port 80 can be specified as
@@ -1562,7 +1583,7 @@ Used with filter or translation rules to specify that packets must already
 be tagged with the given tag in order to match the rule.
 Inverse tag matching can also be done
 by specifying the
-.Cm \&!
+.Cm !\&
 operator before the
 .Ar tagged
 keyword.
@@ -2072,6 +2093,47 @@ appear as any operating system he chooses;
 an operating system patch could change the stack behavior and no fingerprints
 will match it until the database is updated;
 and multiple operating systems may have the same fingerprint.
+.Sh BLOCKING SPOOFED TRAFFIC
+"Spoofing" is the faking of IP addresses, typically for malicious
+purposes.
+The
+.Ar antispoof
+directive expands to a set of filter rules which will block all
+traffic with a source IP from the network(s) directly connected
+to the specified interface(s) from entering the system through
+any other interface.
+.Pp
+For example, the line
+.Bd -literal -offset indent
+antispoof for lo0
+.Ed
+.Pp
+expands to
+.Bd -literal -offset indent
+block drop in on ! lo0 inet from 127.0.0.1/8 to any
+block drop in on ! lo0 inet6 from ::1 to any
+.Ed
+.Pp
+For non-loopback interfaces, there are additional rules to block incoming
+packets with a source IP address identical to the interface's IP(s).
+For example, assuming the interface wi0 had an IP address of 10.0.0.1 and a
+netmask of 255.255.255.0,
+the line
+.Bd -literal -offset indent
+antispoof for wi0 inet
+.Ed
+.Pp
+expands to
+.Bd -literal -offset indent
+block drop in on ! wi0 inet from 10.0.0.0/24 to any
+block drop in inet from 10.0.0.1 to any
+.Ed
+.Pp
+Caveat: Rules created by the
+.Ar antispoof
+directive interfere with packets sent over loopback interfaces
+to local addresses.
+One should pass these explicitly.
 .Sh FRAGMENT HANDLING
 The size of IP datagrams (packets) can be significantly larger than the
 maximum transmission unit (MTU) of the network.
@@ -2400,13 +2462,13 @@ listening for outbound ftp sessions captured to port 8021.
 # NAT
 # Translate outgoing packets' source addresses (any protocol).
 # In this case, any address but the gateway's external address is mapped.
-nat on $ext_if inet from ! ($ext_if) \-> $ext_if
+nat on $ext_if inet from ! ($ext_if) to any -> ($ext_if)
 
 # NAT PROXYING
 # Map outgoing packets' source port to an assigned proxy port instead of
 # an arbitrary port.
 # In this case, proxy outgoing isakmp with port 500 on the gateway.
-nat on $ext_if inet proto udp from any port = isakmp -> $ext_if \e
+nat on $ext_if inet proto udp from any port = isakmp to any -> ($ext_if) \e
       port 500
 
 # BINAT
@@ -2418,9 +2480,9 @@ binat on $ext_if from 10.1.2.150 to any -> $ext_if
 # RDR
 # Translate incoming packets' destination addresses.
 # As an example, redirect a TCP and UDP port to an internal machine.
-rdr on $ext_if inet proto tcp from any to $ext_if port 8080 \e
+rdr on $ext_if inet proto tcp from any to ($ext_if) port 8080 \e
       -> 10.1.2.151 port 22
-rdr on $ext_if inet proto udp from any to $ext_if port 8080 \e
+rdr on $ext_if inet proto udp from any to ($ext_if) port 8080 \e
       -> 10.1.2.151 port 53
 
 # RDR
@@ -2550,7 +2612,7 @@ Syntax for
 in BNF:
 .Bd -literal
 line           = ( option | pf-rule | nat-rule | binat-rule | rdr-rule |
-                 altq-rule | queue-rule | anchor-rule |
+                 antispoof-rule | altq-rule | queue-rule | anchor-rule |
                  trans-anchors | load-anchor | table-rule )
 
 option         = "set" ( [ "timeout" ( timeout | "{" timeout-list "}" ) ] |
@@ -2563,11 +2625,12 @@ option         = "set" ( [ "timeout" ( timeout | "{" timeout-list "}" ) ] |
                  [ "state-policy" ( "if-bound" | "floating" ) ]
                  [ "require-order" ( "yes" | "no" ) ]
                  [ "fingerprints" filename ] |
+                 [ "skip on" ( interface-name | "{" interface-list "}" ) ] |
                  [ "debug" ( "none" | "urgent" | "misc" | "loud" ) ] )
 
 pf-rule        = action [ ( "in" | "out" ) ]
                  [ "log" [ "(" logopts ")"] ] [ "quick" ]
-                 [ "on" ifspec ] [ route ] [ af ] [ protospec ]
+                 [ "on" ifspec ] [ "fastroute" | route ] [ af ] [ protospec ]
                  hosts [ filteropt-list ]
 
 logopts        = logopt [ "," logopts ]
@@ -2603,6 +2666,10 @@ rdr-rule       = [ "no" ] "rdr" [ "pass" [ "log" [ "(" logopts ")" ] ] ]
                  [ "->" ( redirhost | "{" redirhost-list "}" )
                  [ portspec ] [ pooltype ] ]
 
+antispoof-rule = "antispoof" [ "log" ] [ "quick" ]
+                 "for" ( interface-name | "{" interface-list "}" )
+                 [ af ] [ "label" string ]
+
 table-rule     = "table" "<" string ">" [ tableopts-list ]
 tableopts-list = tableopts-list tableopts | tableopts
 tableopts      = "persist" | "const" | "file" string |
@@ -2630,7 +2697,8 @@ queueopts      = [ "bandwidth" bandwidth-spec ] |
                  [ "qlimit" number ] | [ "tbrsize" number ] |
                  [ "priority" number ] | [ schedulers ]
 schedulers     = ( cbq-def | priq-def | hfsc-def )
-bandwidth-spec = "number" ( "b" | "Kib" | "Mib" | "Gib" | "%" )
+bandwidth-spec = "number" ( "b" | "Kib" | "Mib" | "Gib"
+                            | "kb" | "Mb" | "Gb" | "%" )
 
 action         = "pass" | "block" [ return ] | "fuck-off" | [ "no" ] "scrub"
 return         = "drop" | "return" | "return-rst" [ "( ttl" number ")" ] |
@@ -2641,8 +2709,7 @@ icmp6code      = ( icmp6-code-name | icmp6-code-number )
 
 ifspec         = ( [ "!" ] interface-name ) | "{" interface-list "}"
 interface-list = [ "!" ] interface-name [ [ "," ] interface-list ]
-route          = "fastroute" |
-                 ( "route-to" | "reply-to" | "dup-to" )
+route          = ( "route-to" | "reply-to" | "dup-to" )
                  ( routehost | "{" routehost-list "}" )
                  [ pooltype ]
 af             = "inet" | "inet6"
@@ -2660,8 +2727,8 @@ hosts          = "all" |
 ipspec         = "any" | host | "{" host-list "}"
 host           = [ "!" ] ( address [ "/" mask-bits ] | "<" string ">" )
 redirhost      = address [ "/" mask-bits ]
-routehost      = ( interface-name [ address [ "/" mask-bits ] ] )
-address        = ( interface-name | hostname |
+routehost      = "(" interface-name [ address [ "/" mask-bits ] ] ")"
+address        = ( interface-name | "(" interface-name ")" | hostname |
                  ipv4-dotted-quad | ipv6-coloned-hex )
 host-list      = host [ [ "," ] host-list ]
 redirhost-list = redirhost [ [ "," ] redirhost-list ]

@@ -1,5 +1,4 @@
-/**	$MirOS$ */
-/*	$OpenBSD: pf_print_state.c,v 1.39 2004/02/10 17:48:08 henning Exp $	*/
+/*	$OpenBSD: pf_print_state.c,v 1.42 2005/11/04 08:24:15 mcbride Exp $	*/
 
 /*
  * Copyright (c) 2001 Daniel Hartmeier
@@ -46,14 +45,30 @@
 #include "pfctl_parser.h"
 #include "pfctl.h"
 
-__RCSID("$MirOS$");
-
 void	print_name(struct pf_addr *, sa_family_t);
 
 void
 print_addr(struct pf_addr_wrap *addr, sa_family_t af, int verbose)
 {
 	switch (addr->type) {
+	case PF_ADDR_DYNIFTL:
+		printf("(%s", addr->v.ifname);
+		if (addr->iflags & PFI_AFLAG_NETWORK)
+			printf(":network");
+		if (addr->iflags & PFI_AFLAG_BROADCAST)
+			printf(":broadcast");
+		if (addr->iflags & PFI_AFLAG_PEER)
+			printf(":peer");
+		if (addr->iflags & PFI_AFLAG_NOALIAS)
+			printf(":0");
+		if (verbose) {
+			if (addr->p.dyncnt <= 0)
+				printf(":*");
+			else
+				printf(":%d", addr->p.dyncnt);
+		}
+		printf(")");
+		break;
 	case PF_ADDR_TABLE:
 		if (verbose)
 			if (addr->p.tblcnt == -1)
@@ -80,6 +95,9 @@ print_addr(struct pf_addr_wrap *addr, sa_family_t af, int verbose)
 		break;
 	case PF_ADDR_NOROUTE:
 		printf("no-route");
+		return;
+	case PF_ADDR_RTLABEL:
+		printf("route \"%s\"", addr->v.rtlabelname);
 		return;
 	default:
 		printf("?");
@@ -256,7 +274,7 @@ print_state(struct pf_state *s, int opts)
 		min = s->expire % 60;
 		s->expire /= 60;
 		printf(", expires in %.2u:%.2u:%.2u", s->expire, min, sec);
-		printf(", %u:%u pkts, %u:%u bytes",
+		printf(", %llu:%llu pkts, %llu:%llu bytes",
 		    s->packets[0], s->packets[1], s->bytes[0], s->bytes[1]);
 		if (s->anchor.nr != -1)
 			printf(", anchor %u", s->anchor.nr);
@@ -269,8 +287,9 @@ print_state(struct pf_state *s, int opts)
 		printf("\n");
 	}
 	if (opts & PF_OPT_VERBOSE2) {
-		printf("   id: %016llx creatorid: %08x\n",
-		    betoh64(s->id), ntohl(s->creatorid));
+		printf("   id: %016llx creatorid: %08x%s\n",
+		    betoh64(s->id), ntohl(s->creatorid),
+		    (s->sync_flags & PFSTATE_NOSYNC ? " (no-sync)" : ""));
 	}
 }
 
