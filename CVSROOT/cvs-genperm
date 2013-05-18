@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.36 2008/07/22 20:21:50 tg Exp $
+# $MirOS: CVSROOT/cvs-genperm,v 1.37 2008/10/26 21:23:00 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -112,7 +112,7 @@ find "$CVSROOT"$fr | while IFS= read -r pname; do
 				    M=tg
 				[[ $name = contrib/hosted/libnointl@(|/*) ]] && \
 				    M=miros-cvssrc
-				for committer in bsiegert tg; do
+				for committer in ahoka bsiegert cnuke gecko2 sap tg tyler wbx; do
 					[[ $name = contrib/hosted/${committer}@(|/*) ]] || \
 					    continue
 					M=$committer
