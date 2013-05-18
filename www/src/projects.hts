@@ -1,10 +1,10 @@
-# $MirOS: www/src/projects.hts,v 1.1 2007/08/28 19:23:44 bsiegert Exp $
+# $MirOS: www/src/projects.hts,v 1.2 2007/08/28 23:14:27 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
-mws_setname getting "Project Ideas"
-mws_putheader '$MirOS: www/src/projects.hts,v 1.1 2007/08/28 19:23:44 bsiegert Exp $'
+mws_setname projects "Project Ideas"
+mws_putheader '$MirOS: www/src/projects.hts,v 1.2 2007/08/28 23:14:27 tg Exp $'
 mws_content <<'EOF'
 <h1>Project Ideas</h1>
 
