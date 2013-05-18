@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.3 2005/07/08 19:35:53 tg Exp $ */
+/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.4 2005/12/04 15:02:33 tg Exp $ */
 /*	$OpenBSD: vnconfig.c,v 1.16 2004/09/14 22:35:51 deraadt Exp $	*/
 /*
  * Copyright (c) 1993 University of Utah.
@@ -55,7 +55,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.3 2005/07/08 19:35:53 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.4 2005/12/04 15:02:33 tg Exp $");
 
 #define DEFAULT_VND	"vnd0"
 
@@ -122,13 +122,17 @@ getinfo(const char *vname)
 {
 	int vd, print_all = 0;
 	struct vnd_user vnu;
+	char *vnamedup;
 
 	if (vname == NULL) {
 		vname = DEFAULT_VND;
 		print_all = 1;
 	}
 
-	vd = opendev((char *)vname, O_RDONLY, OPENDEV_PART, NULL);
+	if ((vnamedup = strdup(vname)) == NULL)
+		err(1, "strdup");
+	vd = opendev(vnamedup, O_RDONLY, OPENDEV_PART, NULL);
+	free(vnamedup);
 	if (vd < 0)
 		err(1, "open: %s", vname);
 
@@ -164,7 +168,7 @@ config(char *dev, char *file, int action, char *key, u_int32_t flags)
 	struct vnd_ioctl vndio;
 	FILE *f;
 	char *rdev;
-	int rv;
+	int rv = 0;
 
 	if (opendev(dev, (flags & VNDIOC_OPT_RDONLY) ? O_RDONLY : O_RDWR,
 	    OPENDEV_PART, &rdev) < 0)
