@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.15 2008/07/15 12:49:46 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.16 2008/07/15 13:15:29 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -822,8 +822,9 @@ sub ctcpreply {
     $rest = (time-$rest);
     $rest .= ($rest == 1) ? " second" : " seconds";
   } elsif ($ctcp eq 'RANDOM') {
+    my $t = (BSD::arc4random::have_kintf() ? "" : "not ") . "pushing to kernel";
     arc4random_pushb("$who$puh1$towho$rest");
-    &tell("*** RANDEX protocol reply from $who$puh1 to $towho");
+    &tell("*** RANDEX protocol reply from $who$puh1 to $towho, ${t}");
     $vis = 0;
   }
   return unless $vis;
