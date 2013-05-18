@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.9 2007/07/23 14:39:36 tg Exp $
+# $MirOS: www/Makefile,v 1.10 2007/08/05 23:23:22 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -53,7 +53,7 @@ clean:
 	-rm -rf $$(<${_i})
 .endfor
 	-rm -rf dst permalinks
-	-rm -f ${CLEANFILES} site.tgz *.tmp
+	-rm -f ${CLEANFILES} site.tgz *.tmp *~
 
 cleandir: clean
 	-rm -f .depend
@@ -92,11 +92,11 @@ _reinstall:
 .SUFFIXES: .htm .hts
 
 .hts.htm:
-	@rm -f $@{,.tmp}
+	@rm -f $@.tmp
 	@print '( . mk/htsconv; . $< ) >$@'
 	@(export ${U_ENV}; cd ${DST}; . ${TOP}/mk/htsconv; . $<) >$@.tmp || \
 	    (rm -f $@.tmp; exit 1)
-	@mv -f $@.tmp $@
+	@(. ${TOP}/mk/htsconv; mws_moveifchange $@.tmp $@)
 
 .PHONY: clean cleandir depend install deinstall reinstall _reinstall \
 	cp-herc cp-heph rs-heph
