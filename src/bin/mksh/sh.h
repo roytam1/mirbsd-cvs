@@ -151,9 +151,9 @@
 #endif
 
 #ifdef EXTERN
-__RCSID("$MirOS: src/bin/mksh/sh.h,v 1.477 2011/06/21 21:10:12 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/sh.h,v 1.476 2011/06/12 14:58:45 tg Exp $");
 #endif
-#define MKSH_VERSION "R40 2011/06/12"
+#define MKSH_VERSION "R40 2011/06/21"
 
 #ifndef MKSH_INCLUDES_ONLY
 
