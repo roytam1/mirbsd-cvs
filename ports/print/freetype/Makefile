@@ -1,13 +1,13 @@
-# $MirOS: ports/print/freetype/Makefile,v 1.4 2006/09/14 00:12:40 tg Exp $
+# $MirOS: ports/print/freetype/Makefile,v 1.5 2006/10/02 00:36:23 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2004/02/04 07:39:18 sturm Exp $
 # $FreeBSD: Makefile,v 1.6 1998/06/21 02:42:33 jseger Exp $
 
 COMMENT=		free and portable TrueType font rendering engine
 COMMENT-doc=		documentation for FreeType
 VERSION=		1.3.1
+DASH_VER=		2
 DISTNAME=		freetype-${VERSION}
-PKGNAME=		${DISTNAME}p1-0
-PKGNAME-doc=		freetype-doc-${VERSION}-0
+PKGNAME-doc=		freetype-doc-${VERSION}-${DASH_VER}
 CATEGORIES=		print
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=freetype/}
 HOMEPAGE=		http://www.freetype.org/
