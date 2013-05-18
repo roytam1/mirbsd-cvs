@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/pxeboot/Makefile,v 1.4 2006/06/15 18:25:16 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/pxeboot/Makefile,v 1.5 2006/06/30 23:18:05 tg Exp $
 # $OpenBSD: Makefile,v 1.1 2004/03/19 13:48:19 tom Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -7,7 +7,9 @@ S=${.CURDIR}/../../../..
 SADIR=${.CURDIR}/..
 
 CPPFLAGS+=	${DEBUGFLAGS} -DLINKADDR=${LINKADDR} \
-		${SACFLAGS} -D__INTERNAL_LIBSA_CREAD -DIN_PXEBOOT
+		-D__INTERNAL_LIBSA_CREAD -DIN_PXEBOOT
+CPPFLAGS+=	${SACFLAGS:M-[DI]*}
+COPTS+=		${SACFLAGS:N-[DI]*}
 
 #AFLAGS+=	-Wa,-R
 #AFLAGS+=	-Wa,-a

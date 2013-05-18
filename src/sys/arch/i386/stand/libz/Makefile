@@ -1,11 +1,11 @@
-# $MirOS: src/sys/arch/i386/stand/libz/Makefile,v 1.4 2005/07/07 12:46:12 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/libz/Makefile,v 1.5 2006/08/19 12:59:53 tg Exp $
 
 .include <bsd.own.mk>
 
 # This is needed for libz in the boot loader
 S=		${.CURDIR}/../../../..
-CFLAGS+=	${SACFLAGS} ${DEBUGFLAGS}
-CPPFLAGS+=	-I${S}/lib/libsa
+CPPFLAGS+=	${SACFLAGS:M-[DI]*} -I${S}/lib/libsa
+COPTS+=		${SACFLAGS:N-[DI]*} ${DEBUGFLAGS}
 
 # This is used to build a small libz
 CPPFLAGS+=	-DSLOW -DSMALL -DNOBYFOUR -DNO_GZIP

@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.9 2006/07/23 23:41:28 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.10 2006/08/19 12:45:47 tg Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
@@ -11,7 +11,8 @@ CPPFLAGS+=	${DEBUGFLAGS} -DRL_VAL=${RL_VAL}
 #CPPFLAGS+=	-DLOUD #-DEXTRALOUD
 #CPPFLAGS+=	-DUTEST #-DUHARD #-DUANAL
 #CPPFLAGS+=	-DDEBUG_OFS
-CPPFLAGS+=	$(SACFLAGS)
+CPPFLAGS+=	${SACFLAGS:M-[DI]*}
+COPTS+=		${SACFLAGS:N-[DI]*}
 
 #AFLAGS+=	-Wa,-R
 #AFLAGS+=	-Wa,-a

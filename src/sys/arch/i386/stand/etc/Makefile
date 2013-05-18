@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/etc/Makefile,v 1.2 2005/03/06 21:27:04 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/etc/Makefile,v 1.3 2006/08/19 13:05:18 tg Exp $
 # $OpenBSD: Makefile,v 1.9 1998/05/28 20:52:37 mickey Exp $
 
 S=	${.CURDIR}/../../../..
@@ -20,4 +20,6 @@ clean:
 .include <bsd.subdir.mk>
 .include "../Makefile.inc"
 
-CFLAGS+= ${COPTS} ${SACFLAGS}
+CPPFLAGS+=	${SACFLAGS:M-[DI]*}
+COPTS+=		${SACFLAGS:N-[DI]*}
+CFLAGS+=	${COPTS}
