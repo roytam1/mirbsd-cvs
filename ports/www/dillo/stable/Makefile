@@ -1,10 +1,10 @@
-# $MirOS: ports/www/dillo/stable/Makefile,v 1.5 2006/05/15 19:25:09 bsiegert Exp $
+# $MirOS: ports/www/dillo/stable/Makefile,v 1.6 2006/06/24 17:48:53 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.18 2004/02/26 13:43:26 couderc Exp $
 
 COMMENT=		"Fast and light gtk-based web browser"
 
 VERSION=		0.8.6
-DASH_VER=		-1
+DASH_VER=		-2
 DISTNAME=		dillo-${VERSION}
 PKGNAME=		${DISTNAME}${DASH_VER}
 CATEGORIES=     	www
