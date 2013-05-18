@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.27 2008/03/05 01:01:29 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.28 2008/03/09 19:43:44 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1713,11 +1713,12 @@ SERIALDEV=$(get_serialdev)
 
 # Selected sets will be installed in the order they are listed in $THESETS.
 # Ensure that siteXX.ngz is the *last* set listed so its contents overwrite
-# the contents of the other sets, not the other way around.
+# the contents of the other sets, not the other way around. Similarly fixes
+# must be second-to-last.
 THESETS="bsd bsd.rd $MDSETS"
 DEFAULTSETS="bsd"
 for _set in base etc gnu dev ada xbase xetc unfree pkgutl ports source \
-    xfree pkgsrc site; do
+    xfree pkgsrc fixes site; do
 	[[ $MODE = upgrade && $_set = ?(x)etc ]] && continue
 	THESETS="$THESETS ${_set}${VERSION}.ngz"
 	isin $_set base etc gnu dev && \
