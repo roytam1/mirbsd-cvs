@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.4 2005/12/18 16:36:44 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.5 2006/01/01 04:50:43 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -377,7 +377,7 @@ sub print {
     if $set{"EIGHT_BIT"} ne 'on';
   $logging && print LOG $what."\n";
   $what = &sortnames($what) if ($what =~ /Users on #\w+:/);
-  $tstamp = (localtime)[2] . ":" . (localtime)[1];
+  $tstamp = sprintf("%02d:%02d", (localtime)[2], (localtime)[1]);
   if ($raw_mode) {
     $tstamp .= Encode::encode($set{"CHARSET"}, "\x{239C}", 0);
     $tstamp =~ s/\?$/|/;
