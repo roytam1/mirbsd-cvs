@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/Makefile.inc,v 1.6 2007/01/26 19:33:12 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/Makefile.inc,v 1.7 2007/06/11 21:12:57 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.12 2004/07/13 21:03:38 marc Exp $
 # $NetBSD: Makefile.inc,v 1.5 1996/02/01 22:33:01 mycroft Exp $
 
@@ -42,7 +42,8 @@ LIBKERNOBJDIR=		${LIBKERNDIR}/obj
 LIBKERNOBJDIR=		${LIBKERNDIR}
 .endif
 
-LIBKERN=		${LIBKERNOBJDIR}/libkern.a
+DLIBKERN=		${LIBKERNOBJDIR}/libkern.a
+LLIBKERN=		-L${LIBKERNOBJDIR} -lkern
 
 ### Figure out what to use for libsa
 LIBSADIR=		${.CURDIR}/../libsa
@@ -55,7 +56,8 @@ LIBSAOBJDIR=		${LIBSADIR}/obj
 LIBSAOBJDIR=		${LIBSADIR}
 .endif
 
-LIBSA=			${LIBSAOBJDIR}/libsa.a
+DLIBSA=			${LIBSAOBJDIR}/libsa.a
+LLIBSA=			-L${LIBSAOBJDIR} -lsa
 
 ### Figure out what to use for libz
 LIBZDIR=		${.CURDIR}/../libz
@@ -68,6 +70,7 @@ LIBZOBJDIR=		${LIBZDIR}/obj
 LIBZOBJDIR=		${LIBZDIR}
 .endif
 
-LIBZ=			${LIBZOBJDIR}/libz.a
+DLIBZ=			${LIBZOBJDIR}/libz.a
+LLIBZ=			-L${LIBZOBJDIR} -lz
 
 .endif

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: promdev.c,v 1.9 2003/08/14 17:13:57 deraadt Exp $	*/
 /*	$NetBSD: promdev.c,v 1.16 1995/11/14 15:04:01 pk Exp $ */
 
@@ -70,12 +71,16 @@ char	*getpropstring(int, char *);
 
 static void	prom0_fake(void);
 
+#if !defined(BOOTXX) && !defined(SMALL_BOOT)
 int net_open(struct promdata *);
 int net_close(struct promdata *);
+#endif
 int getticks(void);
 
+#ifndef SMALL_BOOT
 extern struct filesystem file_system_nfs[];
 extern struct filesystem file_system_cd9660[];
+#endif
 extern struct filesystem file_system_ufs[];
 
 int
@@ -216,6 +221,7 @@ devopen(f, fname, file)
 	if (pd->devtype != DT_BYTE)
 		*file = (char *)fname;
 
+#ifndef SMALL_BOOT
 	if (pd->devtype == DT_NET) {
 		bcopy(file_system_nfs, file_system, sizeof(struct fs_ops));
 		if ((error = net_open(pd)) != 0) {
@@ -224,10 +230,13 @@ devopen(f, fname, file)
 			return error;
 		}
 	} else {
+#endif
 		bcopy(file_system_ufs, file_system, sizeof(struct fs_ops));
+#ifndef SMALL_BOOT
 		bcopy(&file_system_cd9660, file_system + 1, sizeof file_system[0]);
 		nfsys = 2;
 	}
+#endif
 #endif /* BOOTXX */
 
 	f->f_dev = &devsw[cputyp == CPU_SUN4 ? 0 : 1];
@@ -301,7 +310,7 @@ prom0_strategy(devdata, flag, dblk, size, buf, rsize)
 #endif
 
 	dmabuf = dvma_mapin(buf, size);
-	
+
 	si->si_bn = dblk;
 	si->si_ma = dmabuf;
 	si->si_cc = size;
@@ -328,7 +337,7 @@ obp_close(f)
 	struct promdata *pd = f->f_devdata;
 	register int fd = pd->fd;
 
-#ifndef BOOTXX
+#if !defined(BOOTXX) && !defined(SMALL_BOOT)
 	if (pd->devtype == DT_NET)
 		net_close(pd);
 #endif
@@ -345,7 +354,7 @@ prom0_close(f)
 {
 	struct promdata *pd = f->f_devdata;
 
-#ifndef BOOTXX
+#if !defined(BOOTXX) && !defined(SMALL_BOOT)
 	if (pd->devtype == DT_NET)
 		net_close(pd);
 #endif
@@ -430,7 +439,7 @@ getchar()
 {
 	char c;
 	register int n;
- 
+
 	if (promvec->pv_romvec_vers > 2)
 		while ((n = (*promvec->pv_v2devops.v2_read)
 			(*promvec->pv_v2bootargs.v2_fd0, (caddr_t)&c, 1)) != 1);
@@ -442,7 +451,7 @@ getchar()
                 if (CPU_ISSUN4) {
                         saveecho = *(oldpvec->echo);
                         *(oldpvec->echo) = 0;
-                }       
+                }
                 c = (*promvec->pv_getchar)();
                 if (CPU_ISSUN4)
                         *(oldpvec->echo) = saveecho;
@@ -452,7 +461,7 @@ getchar()
 		c = '\n';
 	return (c);
 }
- 
+
 int
 cngetc(void)
 {
@@ -464,7 +473,7 @@ peekchar(void)
 {
 	char c;
 	register int n;
- 
+
 	if (promvec->pv_romvec_vers > 2) {
 		n = (*promvec->pv_v2devops.v2_read)
 			(*promvec->pv_v2bootargs.v2_fd0, (caddr_t)&c, 1);
@@ -495,7 +504,7 @@ void
 putchar(c)
 	int c;
 {
- 
+
 	if (c == '\n')
 		pv_putchar('\r');
 	pv_putchar(c);
@@ -767,7 +776,7 @@ static struct mapinfo {
 	{ MAP_MAINMEM,   PG_OBMEM, 0 },
 	{ MAP_OBIO,      PG_OBIO,  0 },
 	{ MAP_MBMEM,     PG_VME16, 0xFF000000 },
-	{ MAP_MBIO,      PG_VME16, 0xFFFF0000 }, 
+	{ MAP_MBIO,      PG_VME16, 0xFFFF0000 },
 	{ MAP_VME16A16D, PG_VME16, 0xFFFF0000 },
 	{ MAP_VME16A32D, PG_VME32, 0xFFFF0000 },
 	{ MAP_VME24A16D, PG_VME16, 0xFF000000 },

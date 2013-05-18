@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: version.c,v 1.3 2002/08/12 00:25:26 art Exp $	*/
 /*	$NetBSD: version.c,v 1.4 1995/09/16 23:20:39 pk Exp $ */
 
@@ -44,4 +45,8 @@
  *	2.2	ELF support added.
  */
 
-char *version = "2.2";
+char *version = "2.2"
+#ifdef SMALL_BOOT
+    "-small"
+#endif
+    ;
