@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/pango/Makefile,v 1.9 2007/01/06 16:30:16 bsiegert Exp $
+# $MirOS: ports/devel/pango/Makefile,v 1.10 2007/02/22 22:57:48 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2003/09/23 06:12:41 marcm Exp $
 
 COMMENT=		library for layout and rendering of text
-DISTNAME=		pango-1.14.9
-PKGNAME=		${DISTNAME}-0
+DISTNAME=		pango-1.15.4
+PKGNAME=		${DISTNAME}-${DASH_VER}
 CATEGORIES=		devel x11
 HOMEPAGE=		http://www.gtk.org
 
@@ -14,7 +14,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		ftp://ftp.gtk.org/pub/gtk/v2.8/ \
-			${MASTER_SITE_GNOME:=sources/pango/1.14/}
+			${MASTER_SITE_GNOME:=sources/pango/1.15/}
 EXTRACT_SUFX=           .tar.bz2
 
 LIB_DEPENDS+=		glib-2.0.0.800,gmodule-2.0.0.800,gobject-2.0.0.800::devel/glib
