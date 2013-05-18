@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.29 2006/07/04 15:04:55 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.30 2006/07/04 15:27:15 tg Exp $</small>
 
 <h1>mksh(1) R27e</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -132,7 +132,7 @@
  a space, and does not need h2ph(1) to
  build some headers any more. Also, the code has cleaned up a bit and
  some manual page glitches were corrected. Some of these changes
- originated by HanBoetes, a few came via the OpenBSD project.</p>
+ originated by Han Boetes, a few came via the OpenBSD project.</p>
 <p>R22d is the first version which works if source or build directory
  contain spaces in the pathname. It also allows building without
  bothering to pre-format the manual page.</p>
@@ -345,6 +345,8 @@
    do not distribute binaries, they are distribution- and buildhost-specific.
    Manual page generation usually succeeds with recent versions of GNU groff,
    but the place to install them is not unified.</li>
+  <li>CRUX GNU/Linux (i386): works (package by Han Boetes who even uses mksh
+   as /bin/sh)</li>
  </ul></li>
  <li>mksh R27d<ul>
   <li>There are both a FreeBSD port and a DragonFly pkgsrc in
@@ -366,9 +368,6 @@
    trick does not work because the system scripts are not compatible
    with the Korn shell.</li>
   <li>Gentoo GNU/Linux (ppc, x86): an official ebuild exists.</li>
- </ul></li>
- <li>mksh R26<ul>
-  <li>CRUX GNU/Linux: Han Boetes said it works.</li>
  </ul></li>
  <li>mksh R25b<ul>
   <li>MirOS #7: works well</li>
