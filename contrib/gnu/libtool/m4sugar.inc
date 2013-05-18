@@ -1,5 +1,5 @@
 divert(-1)#                                                  -*- Autoconf -*-
-# $MirOS: contrib/gnu/libtool/m4sugar.inc,v 1.7 2008/05/02 23:42:41 tg Exp $
+# $MirOS: contrib/gnu/libtool/m4sugar.inc,v 1.8 2008/05/03 18:42:40 tg Exp $
 #-
 # This file is part of Autoconf.
 # Base M4 layer.
@@ -1634,52 +1634,6 @@ m4_define([m4_cr_symbols2],
 m4_defn([m4_cr_symbols1])dnl
 m4_defn([m4_cr_digits])dnl
 )
-
-# m4_cr_all
-# ---------
-# The character range representing everything, with `-' as the last
-# character, since it is special to m4_translit.  Use with care, because
-# it contains characters special to M4 (fortunately, both ASCII and EBCDIC
-# have [] in order, so m4_defn([m4_cr_all]) remains a valid string).  It
-# also contains characters special to terminals, so it should never be
-# displayed in an error message.  Also, attempts to map [ and ] to other
-# characters via m4_translit must deal with the fact that m4_translit does
-# not add quotes to the output.
-#
-# It is mainly useful in generating inverted character range maps, for use
-# in places where m4_translit is faster than an equivalent m4_bpatsubst;
-# the regex `[^a-z]' is equivalent to:
-#  m4_translit(m4_dquote(m4_defn([m4_cr_all])), [a-z])
-m4_define([m4_cr_all],
-m4_translit(m4_dquote(m4_format(m4_dquote(m4_for(
-  ,1,255,,[[%c]]))m4_for([i],1,255,,[,i]))), [-])-)
-
-
-# _m4_define_cr_not(CATEGORY)
-# ---------------------------
-# Define m4_cr_not_CATEGORY as the inverse of m4_cr_CATEGORY.
-m4_define([_m4_define_cr_not],
-[m4_define([m4_cr_not_$1],
-	   m4_translit(m4_dquote(m4_defn([m4_cr_all])),
-		       m4_defn([m4_cr_$1])))])
-
-
-# m4_cr_not_letters
-# m4_cr_not_LETTERS
-# m4_cr_not_Letters
-# m4_cr_not_digits
-# m4_cr_not_alnum
-# m4_cr_not_symbols1
-# m4_cr_not_symbols2
-# ------------------
-# Inverse character sets
-_m4_define_cr_not([letters])
-_m4_define_cr_not([LETTERS])
-_m4_define_cr_not([Letters])
-_m4_define_cr_not([digits])
-_m4_define_cr_not([alnum])
-_m4_define_cr_not([symbols1])
-_m4_define_cr_not([symbols2])
 
 
 # m4_newline
