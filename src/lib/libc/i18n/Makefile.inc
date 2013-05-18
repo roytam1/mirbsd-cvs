@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.29 2008/08/17 00:19:08 tg Exp $
+# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.30 2008/11/22 09:02:33 tg Exp $
 
 .PATH: ${LIBCSRCDIR}/i18n
 .PATH: ${LIBCSRCDIR}/locale
@@ -42,6 +42,39 @@ SRCS+=	wcwidth.c
 UNIFDEF_SRCS+=	mbsnrtowcs.c mbsrtowcs.c -DMBSNRTOWCS
 UNIFDEF_SRCS+=	mbsnrtowcsvis.c mbsrtowcs.c -DMBSNRTOWCSVIS
 UNIFDEF_SRCS+=	wcsnrtombs.c wcsrtombs.c -DWCSNRTOMBS
+
+# MirOS reimplementation of the Plan 9 rune stuff API
+UNIFDEF_SRCS+=	p9¾_chartorune.c runestuff.c -DL_chartorune
+UNIFDEF_SRCS+=	p9¾_fullrune.c runestuff.c -DL_fullrune
+UNIFDEF_SRCS+=	p9¾_isalpharune.c runestuff.c -DL_isalpharune
+UNIFDEF_SRCS+=	p9¾_islowerrune.c runestuff.c -DL_islowerrune
+UNIFDEF_SRCS+=	p9¾_isspacerune.c runestuff.c -DL_isspacerune
+UNIFDEF_SRCS+=	p9¾_istitlerune.c runestuff.c -DL_istitlerune
+UNIFDEF_SRCS+=	p9¾_isupperrune.c runestuff.c -DL_isupperrune
+UNIFDEF_SRCS+=	p9¾_runelen.c runestuff.c -DL_runelen
+UNIFDEF_SRCS+=	p9¾_runenlen.c runestuff.c -DL_runenlen
+UNIFDEF_SRCS+=	p9¾_runestrcat.c runestuff.c -DL_runestrcat
+UNIFDEF_SRCS+=	p9¾_runestrchr.c runestuff.c -DL_runestrchr
+UNIFDEF_SRCS+=	p9¾_runestrcmp.c runestuff.c -DL_runestrcmp
+UNIFDEF_SRCS+=	p9¾_runestrcpy.c runestuff.c -DL_runestrcpy
+UNIFDEF_SRCS+=	p9¾_runestrdup.c runestuff.c -DL_runestrdup
+UNIFDEF_SRCS+=	p9¾_runestrecpy.c runestuff.c -DL_runestrecpy
+UNIFDEF_SRCS+=	p9¾_runestrlen.c runestuff.c -DL_runestrlen
+UNIFDEF_SRCS+=	p9¾_runestrncat.c runestuff.c -DL_runestrncat
+UNIFDEF_SRCS+=	p9¾_runestrncmp.c runestuff.c -DL_runestrncmp
+UNIFDEF_SRCS+=	p9¾_runestrncpy.c runestuff.c -DL_runestrncpy
+UNIFDEF_SRCS+=	p9¾_runestrrchr.c runestuff.c -DL_runestrrchr
+UNIFDEF_SRCS+=	p9¾_runestrstr.c runestuff.c -DL_runestrstr
+UNIFDEF_SRCS+=	p9¾_runetochar.c runestuff.c -DL_runetochar
+UNIFDEF_SRCS+=	p9¾_tolowerrune.c runestuff.c -DL_tolowerrune
+UNIFDEF_SRCS+=	p9¾_totitlerune.c runestuff.c -DL_totitlerune
+UNIFDEF_SRCS+=	p9¾_toupperrune.c runestuff.c -DL_toupperrune
+UNIFDEF_SRCS+=	p9¾_utfecpy.c runestuff.c -DL_utfecpy
+UNIFDEF_SRCS+=	p9¾_utflen.c runestuff.c -DL_utflen
+UNIFDEF_SRCS+=	p9¾_utfnlen.c runestuff.c -DL_utfnlen
+UNIFDEF_SRCS+=	p9¾_utfrrune.c runestuff.c -DL_utfrrune
+UNIFDEF_SRCS+=	p9¾_utfrune.c runestuff.c -DL_utfrune
+UNIFDEF_SRCS+=	p9¾_utfutf.c runestuff.c -DL_utfutf
 
 .for _i in alnum alpha blank cntrl digit graph lower print punct space upper \
     xdigit
