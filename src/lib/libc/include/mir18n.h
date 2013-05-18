@@ -1,12 +1,34 @@
-/* $MirOS: src/lib/libc/include/mir18n.h,v 1.6 2006/06/03 21:01:24 tg Exp $ */
+/* $MirOS: src/lib/libc/include/mir18n.h,v 1.7 2006/09/07 17:13:16 tg Exp $ */
 
 #ifndef _LIBC_MIR18N_H
 #define _LIBC_MIR18N_H
 
-/* highest allowed character in 'C' locale */
-#define MIR18N_SB_MAX	0xFF	/* or 0x7F */
-/* set to 0xFF to allow conversion from/to latin1 for historical reasons */
-#define MIR18N_SB_CVT	0xFF	/* or 0x7F */
+/* configurable */
+
+/*
+ * compatibility kludge: which character set do we use in the 'C' locale
+ *
+ * 0: ISO_646.irv:1991 aka 7-bit ASCII
+ * 1: ditto, but allow certain latin1 chars in conversion
+ *	functions, such as btowc(3), wctob(3), ...
+ * 2: ISO-8859-1 aka latin1
+ */
+#define MIR18N_C_CSET	2
+
+
+/* not configurable */
+
+#if MIR18N_C_CSET == 2
+#define MIR18N_SB_MAX	0xFF	/* highest allowed character in 'C' locale */
+#define MIR18N_SB_CVT	0xFF	/* allow historic conversion from/to latin1 */
+#elif MIR18N_C_CSET == 1
+#define MIR18N_SB_MAX	0x7F	/* highest allowed character in 'C' locale */
+#define MIR18N_SB_CVT	0xFF	/* allow historic conversion from/to latin1 */
+#else
+#define MIR18N_SB_MAX	0x7F	/* highest allowed character in 'C' locale */
+#define MIR18N_SB_CVT	0x7F	/* allow historic conversion from/to latin1 */
+#endif
+
 /* highest allowed character in 'CESU-8' (UTF-8) locale */
 #define MIR18N_MB_MAX	0xFFFD
 
