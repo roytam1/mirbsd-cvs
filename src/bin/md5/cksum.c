@@ -15,7 +15,7 @@
  */
 
 /*-
- * Copyright (c) 2007, 2009
+ * Copyright (c) 2007, 2009, 2011
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -59,7 +59,7 @@
 
 extern const uint8_t RFC1321_padding[64];
 
-__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.11 2009/11/09 21:36:35 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.12 2010/09/21 21:24:01 tg Exp $");
 
 #define MAX_DIGEST_LEN			128
 
@@ -67,33 +67,20 @@ __RCSID("$MirOS: src/bin/md5/cksum.c,v 1.11 2009/11/09 21:36:35 tg Exp $");
 #define	CKSUM_DIGEST_STRING_LENGTH	(10 + 1 + 19)
 
 typedef struct CKSUMContext {
-	u_int32_t crc;
+	uint32_t crc;
 	off_t len;
 } CKSUM_CTX;
 
 #define	SUM_DIGEST_LENGTH		4
-#define	SUM_DIGEST_STRING_LENGTH	(10 + 1 + 16)
-
-typedef struct SUMContext {
-	u_int32_t crc;
-	off_t len;
-} SUM_CTX;
+typedef CKSUM_CTX SUM_CTX;
 
 #define	SYSVSUM_DIGEST_LENGTH		4
-#define	SYSVSUM_DIGEST_STRING_LENGTH	(10 + 1 + 16)
-
-typedef struct SYSVSUMContext {
-	u_int32_t crc;
-	off_t len;
-} SYSVSUM_CTX;
+typedef CKSUM_CTX SYSVSUM_CTX;
 
 typedef uint32_t CDB_CTX;
 typedef uint64_t SIZE_CTX;
 
-typedef struct {
-	uint32_t h;
-	uint64_t s;
-} OAATS_CTX;
+typedef CKSUM_CTX OAATS_CTX;
 
 union ANY_CTX {
 	CKSUM_CTX cksum;
@@ -125,15 +112,18 @@ void digest_printbin_string(const char *);
 void digest_printbin_stringle(const char *);
 void cksum_addpool(const char *) __attribute__((__nonnull__(1)));
 
+char *ucase_End(uint32_t *, char *);
+char *ulld_End(CKSUM_CTX *, char *);
+
 void SIZE_Init(SIZE_CTX *);
 void SIZE_Update(SIZE_CTX *, const uint8_t *, size_t);
 char *SIZE_End(SIZE_CTX *, char *);
 
 void CDB_Init(CDB_CTX *);
 void CDB_Update(CDB_CTX *, const uint8_t *, size_t);
-char *CDB_End(CDB_CTX *, char *);
+#define CDB_End ucase_End
 
-void CKSUM_Init(CKSUM_CTX *);
+#define CKSUM_Init OAAT_Init
 void CKSUM_Update(CKSUM_CTX *, const u_int8_t *, size_t);
 void CKSUM_Final(CKSUM_CTX *);
 char *CKSUM_End(CKSUM_CTX *, char *);
@@ -146,13 +136,13 @@ void OAAT_Final(OAATS_CTX *);
 char *OAAT_End(OAATS_CTX *, char *);
 char *OAAT1S_End(OAATS_CTX *, char *);
 
-void SUM_Init(SUM_CTX *);
+#define SUM_Init OAAT_Init
 void SUM_Update(SUM_CTX *, const u_int8_t *, size_t);
 void SUM_Final(SUM_CTX *);
 char *SUM_End(SUM_CTX *, char *);
 char *SUM_Data(const u_int8_t *, size_t, char *);
 
-void SYSVSUM_Init(SYSVSUM_CTX *);
+#define SYSVSUM_Init OAAT_Init
 void SYSVSUM_Update(SYSVSUM_CTX *, const u_int8_t *, size_t);
 void SYSVSUM_Final(SYSVSUM_CTX *);
 char *SYSVSUM_End(SYSVSUM_CTX *, char *);
@@ -570,14 +560,14 @@ digest_print_string(const char *name, const char *what, const char *digest)
 }
 
 void
-digest_print_short(const char *name __attribute__((unused)),
+digest_print_short(const char *name __attribute__((__unused__)),
     const char *what, const char *digest)
 {
 	(void)printf("%s %s\n", digest, what);
 }
 
 void
-digest_print_sfv(const char *name __attribute__((unused)),
+digest_print_sfv(const char *name __attribute__((__unused__)),
     const char *what, const char *digest)
 
 {
@@ -956,7 +946,7 @@ SIZE_Init(SIZE_CTX *ctx)
 }
 
 void
-SIZE_Update(SIZE_CTX *ctx, const uint8_t *buf __attribute__((unused)), size_t n)
+SIZE_Update(SIZE_CTX *ctx, const uint8_t *buf __attribute__((__unused__)), size_t n)
 {
 	*ctx += n;
 }
@@ -991,7 +981,7 @@ CDB_Update(CDB_CTX *ctx, const uint8_t *buf, size_t n)
 }
 
 char *
-CDB_End(CDB_CTX *ctx, char *digest)
+ucase_End(CDB_CTX *ctx, char *digest)
 {
 	if (digest == NULL) {
 		if (asprintf(&digest, "%08X", *ctx) == -1)
@@ -1005,15 +995,15 @@ CDB_End(CDB_CTX *ctx, char *digest)
 void
 OAAT_Init(OAATS_CTX *ctx)
 {
-	ctx->h = 0;
-	ctx->s = 0;
+	ctx->crc = 0;
+	ctx->len = 0;
 }
 
 void
 OAAT1_Init(OAATS_CTX *ctx)
 {
-	ctx->h = 0x100;
-	ctx->s = 0;
+	ctx->crc = 0x100;
+	ctx->len = 0;
 }
 
 void
@@ -1021,14 +1011,14 @@ OAAT_Update(OAATS_CTX *ctx, const uint8_t *buf, size_t n)
 {
 	register uint32_t h;
 
-	ctx->s += n;
-	h = ctx->h;
+	ctx->len += n;
+	h = ctx->crc;
 	while (n--) {
 		h += *buf++;
 		h += h << 10;
 		h ^= h >> 6;
 	}
-	ctx->h = h;
+	ctx->crc = h;
 }
 
 void
@@ -1036,11 +1026,11 @@ OAAT_Final(OAATS_CTX *ctx)
 {
 	register uint32_t h;
 
-	h = ctx->h;
+	h = ctx->crc;
 	h += h << 3;
 	h ^= h >> 11;
 	h += h << 15;
-	ctx->h = h;
+	ctx->crc = h;
 }
 
 char *
@@ -1049,7 +1039,7 @@ OAAT1S_End(OAATS_CTX *ctx, char *digest)
 	uint8_t le_len[8];
 	uint64_t bits;
 
-	bits = ctx->s << 3;
+	bits = ctx->len << 3;
 	le_len[0] = bits & 0xFF; bits >>= 8;
 	le_len[1] = bits & 0xFF; bits >>= 8;
 	le_len[2] = bits & 0xFF; bits >>= 8;
@@ -1060,7 +1050,7 @@ OAAT1S_End(OAATS_CTX *ctx, char *digest)
 	le_len[7] = bits;
 
 	/* look, ma! mirabilos can do nicer formulas than Markus Friedl */
-	OAAT_Update(ctx, RFC1321_padding, 64 - ((ctx->s + 8) & 63));
+	OAAT_Update(ctx, RFC1321_padding, 64 - ((ctx->len + 8) & 63));
 	OAAT_Update(ctx, le_len, 8);
 
 	return (OAAT_End(ctx, digest));
@@ -1070,14 +1060,7 @@ char *
 OAAT_End(OAATS_CTX *ctx, char *digest)
 {
 	OAAT_Final(ctx);
-
-	if (digest == NULL) {
-		if (asprintf(&digest, "%08X", ctx->h) == -1)
-			return (NULL);
-	} else
-		snprintf(digest, 17, "%08X", ctx->h);
-
-	return (digest);
+	return (ucase_End(&ctx->crc, digest));
 }
 
 /*
@@ -1085,7 +1068,7 @@ OAAT_End(OAATS_CTX *ctx, char *digest)
  *  G(x) = x^32 + x^26 + x^23 + x^22 + x^16 + x^12 + x^11 + x^10 + x^8 +
  *	   x^7 + x^5 + x^4 + x^2 + x + 1
  */
-static const u_int32_t crc32tab[] = {
+static const uint32_t crc32tab[] = {
 	0x00000000U,
 	0x04c11db7U, 0x09823b6eU, 0x0d4326d9U, 0x130476dcU, 0x17c56b6bU,
 	0x1a864db2U, 0x1e475005U, 0x2608edb8U, 0x22c9f00fU, 0x2f8ad6d6U,
@@ -1140,16 +1123,9 @@ static const u_int32_t crc32tab[] = {
 	0xa2f33668U, 0xbcb4666dU, 0xb8757bdaU, 0xb5365d03U, 0xb1f740b4U
 };
 
-void
-CKSUM_Init(CKSUM_CTX *ctx)
-{
-	ctx->crc = 0;
-	ctx->len = 0;
-}
-
-#define	UPDATE(crc, byte) do						\
+#define	UPDATE(crc, byte) do {						\
 	(crc) = ((crc) << 8) ^ crc32tab[((crc) >> 24) ^ (byte)];	\
-while(0)
+} while(/* CONSTCOND */ 0)
 
 void
 CKSUM_Update(CKSUM_CTX *ctx, const unsigned char *buf, size_t len)
@@ -1173,12 +1149,18 @@ CKSUM_Final(CKSUM_CTX *ctx)
 	}
 	ctx->crc = ~ctx->crc;
 }
+#undef UPDATE
 
 char *
 CKSUM_End(CKSUM_CTX *ctx, char *outstr)
 {
 	CKSUM_Final(ctx);
+	return (ulld_End(ctx, outstr));
+}
 
+char *
+ulld_End(CKSUM_CTX *ctx, char *outstr)
+{
 	if (outstr == NULL) {
 		if (asprintf(&outstr, "%u %lld", ctx->crc,
 		    (int64_t)ctx->len) == -1)
@@ -1189,13 +1171,6 @@ CKSUM_End(CKSUM_CTX *ctx, char *outstr)
 	}
 
 	return (outstr);
-}
-
-void
-SUM_Init(SUM_CTX *ctx)
-{
-	ctx->crc = 0;
-	ctx->len = 0;
 }
 
 void
@@ -1220,24 +1195,7 @@ char *
 SUM_End(SUM_CTX *ctx, char *outstr)
 {
 	SUM_Final(ctx);
-
-	if (outstr == NULL) {
-		if (asprintf(&outstr, "%u %lld", ctx->crc,
-		    (int64_t)ctx->len) == -1)
-			return (NULL);
-	} else {
-		(void)snprintf(outstr, (size_t)SUM_DIGEST_STRING_LENGTH,
-		    "%u %lld", ctx->crc, (int64_t)ctx->len);
-	}
-
-	return (outstr);
-}
-
-void
-SYSVSUM_Init(SYSVSUM_CTX *ctx)
-{
-	ctx->crc = 0;
-	ctx->len = 0;
+	return (ulld_End(ctx, outstr));
 }
 
 void
@@ -1262,17 +1220,7 @@ char *
 SYSVSUM_End(SYSVSUM_CTX *ctx, char *outstr)
 {
 	SYSVSUM_Final(ctx);
-
-	if (outstr == NULL) {
-		if (asprintf(&outstr, "%u %lld", ctx->crc,
-		    (int64_t)ctx->len) == -1)
-			return (NULL);
-	} else {
-		(void)snprintf(outstr, (size_t)SYSVSUM_DIGEST_STRING_LENGTH,
-		    "%u %lld", ctx->crc, (int64_t)ctx->len);
-	}
-
-	return (outstr);
+	return (ulld_End(ctx, outstr));
 }
 
 void

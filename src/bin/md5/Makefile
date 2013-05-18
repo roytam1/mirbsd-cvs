@@ -1,4 +1,4 @@
-# $MirOS: src/bin/md5/Makefile,v 1.17 2009/08/27 18:04:54 tg Exp $
+# $MirOS: src/bin/md5/Makefile,v 1.18 2009/11/22 21:11:28 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2005/05/24 21:57:47 millert Exp $
 
 PROG=	cksum
@@ -26,5 +26,12 @@ algos:
 .endfor
 	# these don't make any sense
 	-rm -f sumsum sysvsumsum
+
+regress: ${PROG}
+	./${PROG} -a adler32 -a cdb -a cksum -a md4 -a md5 \
+	    -a oaat -a oaat1 -a oaat1s -a rmd160 -a sfv \
+	    -a sha1 -a sha256 -a sha384 -a sha512 -a size \
+	    -a sum -a suma -a sysvsum -a tiger -a whirlpool \
+	    -x | diff -u ${.CURDIR}/testres -
 
 .include <bsd.prog.mk>
