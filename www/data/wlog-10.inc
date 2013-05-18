@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.284 2010/02/23 22:29:07 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.285 2010/02/23 22:57:48 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6238,11 +6238,15 @@ Language: de_DE-1901
  Hammerkopfschmerzen, Rückenschmerzen und bißchen Gliederschmerzen.
  Grml. Ich mach' im Moment erst mal nix.</p>
 ----
-Title: PGP keysigning is useless
+Title: Rant about PGP keysigning problems
 Author: tg@
 Date: 23.02.2010 22:29
 Tag: debian mksh rant
 
+<p><strong>Update</strong>: This wlog entry uses aggressive tone
+ because I somehow needed to vent frustration from using some of
+ the tools. I should probably provide some constructive critics,
+ too... but this is a rant. Be warned.</p>
 <p>Keysigning is useless. I boot up <a href="http://grml.org/">a
  suitable live GNU/Linux system</a>, install signing-party, take
  the trouble that is to set up caff, transfer my secret key from
@@ -6266,7 +6270,7 @@ Tag: debian mksh rant
  number of others, does not assume I use mud (Mutt). grml…</p>
 <p>Oh, and caff does a protocol violation (by always sending out
  GnuPG/MIME and not offering the standardised Inline OpenPGP), I
- think weasel just doesn't care about such. (There is a notation
+ think people just don't   care about such. (There is a notation
  people can use to signal they want PGP/MIME, Inline PGP – which
  is called "partitioned" – or both (and which order of priority)
  but, alas, despite Inline PGP being the only one useful for the
@@ -6291,4 +6295,8 @@ Tag: debian mksh rant
  not a solution).</p>
 <p>Unrelated notice: <a href="@@RELPATH@@mksh.htm">mksh</a> R39c
  with bug fixes coming RSN.</p>
+<p>(Updated 24.02. because I was, rightfully, told the language,
+ and the title, were too strong. I also would like to excuse for
+ going so low as to write an ad-hominem attack, which I've since
+ redacted.</p>
 ----
