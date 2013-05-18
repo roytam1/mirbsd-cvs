@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.447 2012/03/29 19:38:46 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.448 2012/04/06 15:42:17 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R40e</h2>
+<h2>mksh(1) R40f</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -45,8 +45,8 @@ mws_content <<'EOF'
  href="@@ABSPATH@@/TaC-mksh.txt">full licence terms</a> overview.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R40e</strong> from
- <em>24 March 2012</em>.</p>
+<p>The current version of mksh is <strong>mksh R40f</strong> from
+ <em>6 April 2012</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
  for just another account on a Sun E420 on Solaris 11β. Thanks to someone who
@@ -123,9 +123,11 @@ mws_content <<'EOF'
  Unix Applications on Win2003/Vista); GNU/Cygwin; UWIN; GNU/Linux (libc5,
  glibc, dietlibc, µClibc, some klibc systems are tested), Debian GNU/kFreeBSD,
  GNU/Hurd or GNU/Linux; Sun Solaris (8, 9, 10, 11), OpenSolaris; AIX; IRIX;
- HP-UX 11i; OSF/1; ULTRIX; Minix 3<br />To run the
- regression test suite, you will need a not too antiquated Perl with POSIX.pm
- as well as <tt><a href="mksh_old.htm#editor">/bin</a>/ed</tt> (whose installation is
+ HP-UX 11i; OSF/1; ULTRIX; Minix 3; NeXTstep (but not OpenStep 4.2); QNX;
+ BeOS (with limitations) or Haiku; SCO OpenServer 5 (with limitations) or 6
+ or SCO UnixWare; …<br />To run the regression test suite, you will need a not
+ too antiquated Perl optimally with POSIX.pm or Errno.pm as well as <tt><a
+ href="mksh_old.htm#editor">/bin</a>/ed</tt> (whose installation is
  strongly suggested anyway, because it’s the standard <tt>FCEDIT</tt> history
  editor and standard UNIX® text editor), as well as a controlling terminal,
  usually <tt>/dev/tty</tt> or provided from script(1) or GNU screen.</p>
@@ -183,14 +185,14 @@ mws_content <<'EOF'
  extract from the CPIO distfile and is available even on a stock Microsoft®
  Windows® installation (<tt>\WINNT\SYSTEM32\PAX.EXE</tt>).</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40e.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40e.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40e.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40e.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40f.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40f.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40f.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40f.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R40e.cpio.gz) = 07480cde98b27b62d600c3bd1f3bf47498f84f56</li>
- <li>TIGER (mksh-R40e.cpio.gz) = 66d23e640072637beb8f0be6eef38323adfeacb99702054d</li>
- <li>4062255369 328168 /MirOS/dist/mir/mksh/mksh-R40e.cpio.gz</li>
- <li>MD5 (mksh-R40e.cpio.gz) = d9a2df50c09692fc24d52ee9cf3bb789</li>
+ <li>RMD160 (mksh-R40f.cpio.gz) = 774fabd492f3c8a998cf242710b662f808a403bc</li>
+ <li>TIGER (mksh-R40f.cpio.gz) = fa5d9a1346dd0a9694c0788ec7191de98b4280f9eca2f01a</li>
+ <li>2194354791 331196 /MirOS/dist/mir/mksh/mksh-R40f.cpio.gz</li>
+ <li>MD5 (mksh-R40f.cpio.gz) = 22c9570660c2efadf36de7b620d06966</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d. with our
   <a href="/gzsigkey.cer">current signature key</a>.</li>
 </ul>
@@ -204,16 +206,16 @@ mws_content <<'EOF'
 <p>The first example is using BSD paxtar (MirOS BSD, OpenBSD, NetBSD®), or
  “bsdtar” (DragonFly); the second and third use cpio(1) or pax(1) and are
  for most operating systems; the fourth is for Debian.</p><ul>
-<li>$ paxtar xzf mksh-R40e.cpio.gz &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R40e.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R40e.cpio.gz | pax -r &amp;&amp; cd mksh</li>
+<li>$ paxtar xzf mksh-R40f.cpio.gz &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R40f.cpio.gz | cpio -idm &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R40f.cpio.gz | pax -r &amp;&amp; cd mksh</li>
 </ul>
 
 <h3 id="vendorpatching">Patching</h3>
 <p>If you’re a packager/vendor and need to patch mksh and deviate from the
  default behaviour for that version which is indicated from $KSH_VERSION,
  patch your shell to append a space plus a vendor-defined string (examples <a
- href="http://cvs.pld-linux.org/cgi-bin/cvsweb.cgi/packages/mksh/mksh-distro.patch?rev=1.1">PLD</a>,
+ href="http://cvs.pld-linux.org/cgi-bin/viewvc.cgi/cvs/packages/mksh/mksh-distro.patch?view=co&amp;revision=1.1">PLD</a>,
  <a href="http://patch-tracker.debian.org/patch/misc/view/mksh/35.2-3/sh.h">Debian</a>)
  so they can be distinguished. I think this is a reasonable request.</p>
 
@@ -296,7 +298,7 @@ mws_content <<'EOF'
  class="fr" src="@@RELPATH@@pics/logos/gcc.png" />Compiler: GCC</h5>
 <p>The GNU C Compiler 1.42, 2.7.2.1, 2.7.2.3, egcs (gcc 2.95) and the GNU
  Compiler Collection (gcc 3.x, 4.x) are known to work, but not all versions
- work on all targets.
+ work on all targets. Early 2.x versions (like 2.1) may make trouble.
  Specific C flags, known extensions, etc. are autoprobed; cross-compilation
  works fine. Use of gcc 4.x is discouraged because of several dangerous changes
  in how the optimiser works; it is possible to work around their trading off
@@ -424,7 +426,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  class="fr" src="@@RELPATH@@pics/logos/tcc.png" />Compiler: tcc (Tiny C)</h5>
 <p>Support for Fabrice Bellard’s tcc appeared in mksh R31, although its
  unability to do ‘-E’ in older versions gave us some headache. The bounds
- checker is currently disabled as it causes segfaults.</p>
+ checker is currently disabled as it causes segfaults. Some intermediate
+ versions of tcc break every once in a while.</p>
 
 <h5 class="cr" id="oe_t15">Compiler: TenDRA (maybe Ten15 too)</h5>
 <p>Support for TenDRA appeared in mksh R31 and appears to be solid; mksh
@@ -435,6 +438,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
 
 <h5 class="cr" id="oe_muc">Compiler: DEC ucode (MIPS CC)</h5>
 <p>Since mksh R33c, ucode on Ultrix is fully supported.</p>
+
+<h5 class="cr" id="oe_usl">Compiler: USL C</h5>
+<p>This is the vendor compiler on SCO OpenServer and SCO UnixWare. It is
+ recognised from R40f onwards.</p>
 
 <h5 class="cr" id="oe_adk"><img width="112" height="64" alt="[FreeWRT logo]"
  class="fr" src="@@RELPATH@@pics/logos/freewrt.png" />Distribution: FreeWRT, OpenADK, OpenWrt</h5>
@@ -449,7 +456,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  been pushed upstream and is in Android 1.6). Integration
  into both AOSP and the Google master, as <tt>/system/bin/sh</tt>, has
  been done and it can be enabled on a per-target basis at the moment;
- mksh is shipped with Android 3.0 and newer releases.</p>
+ mksh is shipped with Android 3.0 and newer releases and the standard
+ shell of non-emulator builds on Android 4.0 and newer.</p>
 
 <h5 class="cr" id="oe_iphone">Platform: iPhone</h5>
 <p>This is just <a href="#oe_osx">Mac OSX</a>, compile (natively, or
@@ -466,26 +474,25 @@ exec /usr/bin/ld "${args[@]}"</pre>
 
 <h5 class="cr" id="oe_klcc">Toolchain: klibc</h5>
 <p>klibc needs <tt>-DMKSH_NO_LIMITS</tt> and can then use stock klcc as
- compiler wrapper (CC=klcc). Then, mkstemp(3) must be added to klibc,
- and we’re hunting down a signal delivery problem (currently, with
- <tt>-DMKSH_NOPROSPECTOFWORK</tt> it works).</p>
+ compiler wrapper (CC=klcc). Then, mkstemp(3) must be added to klibc;
+ a patch to add it is currently pending inclusion review.</p>
 
 <h5 class="cr" id="oe_musl">Toolchain: musl</h5>
 <p>Has broken <tt>-D_GNU_SOURCE</tt>, needs <tt>-D_BSD_SOURCE</tt> too,
  so figure out a new set of forced <tt>CPPFLAGS</tt> for this. Compiler
  wrapper is broken with many gcc versions. Signals are broken but with
- <tt>-DMKSH_NOPROSPECTOFWORK</tt> it works.</p>
+ <tt>-DMKSH_NOPROSPECTOFWORK</tt> it works. (Note that this option
+ produces a shell not supporting standard Korn Shell scripts.)</p>
 
 <h5 class="cr" id="oe_aix">OS: AIX</h5>
 <p>Support for AIX with xlC appeared in mksh R30.</p>
 
-<h5 class="cr" id="oe_beos"><img width="236" height="64" alt="[Haiku logo]"
- class="fr" src="@@RELPATH@@pics/logos/haiku.png" />OS: BeOS / Haiku</h5>
-<p>ahoka@ had begun porting. mksh R39c has been tested on 2010-03-13; <a
- href="http://dev.haiku-os.org/ticket/5567">a kernel from r35836 up</a>
- is required due to a bugfix wrt. signal handling. (This for <a
- href="http://www.haiku-os.org/">Haiku</a>; we have no idea about BeOS.)</p>
-<p>gcc4hybrid might not work, gcc2hybrid might work well.</p>
+<h5 class="cr" id="oe_beos">OS: BeOS</h5>
+<p>BeOS can, with limitations, be used with R40f and up. Job control is not
+ working, and mksh must be rebuilt (once built) by running <tt>Build.sh</tt>
+ with the same options again but using the just-built mksh as interpreter
+ due to a severe pipe-related bug in the system sh. RT says that “BeOS
+ 5.1(Dano)/PhOS/Zeta” can be supported.</p>
 
 <h5 class="cr" id="oe_bsi">OS: BSDi BSD/OS</h5>
 <p>BSD/OS 3.1 works fine with mksh R33.</p>
@@ -502,6 +509,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
 
 <h5 class="cr" id="oe_osx">OS: Darwin / Mac OSX</h5>
 <p>Works pretty well.</p>
+
+<h5 class="cr" id="oe_svr">OS: Dell UNIX 4.0 R2.2 (SVR4)</h5>
+<p>This exot has been tested with R40f: gcc is absolutely unusable on this
+ platform but the vendor compiler works. You <strong>must</strong> set
+ <tt>TARGET_OS</tt> to something meaningful, as “uname -s” is broken and
+ returns the hostname (wtf). Then, it’s somewhat usable.</p>
 
 <h5 class="cr" id="oe_dfl"><img width="56" height="60" alt="[DragonFly logo]"
  class="fr" src="@@RELPATH@@pics/logos/dfbsd.png" />OS: DragonFly BSD</h5>
@@ -537,6 +550,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>mksh can be used as /bin/sh on Debian and similarly strict distributions,
  which allow to use e.g. ash/dash there as well.</p>
 
+<h5 class="cr" id="oe_haiku"><img width="236" height="64" alt="[Haiku logo]"
+ class="fr" src="@@RELPATH@@pics/logos/haiku.png" />OS: Haiku</h5>
+<p>Haiku can be used with mksh R39c and newer with a recent kernel from <a
+ href="http://dev.haiku-os.org/ticket/5567">r35836 and newer, ca. mid-2010</a>
+ due to a bugfix wrt. signal handling. gcc4hybrid might not work, gcc2hybrid
+ might work well.</p>
+
 <h5 class="cr" id="oe_hpux"><img width="111" height="64" alt="[HP-UX logo]"
  class="fr" src="@@RELPATH@@pics/logos/hp-ux.png" />OS: HP-UX</h5>
 <p>Support for HP-UX with GCC appeared in mksh R29 and works with HP’s C
@@ -559,6 +579,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
 
 <h5 class="cr" id="oe_sgi">OS: IRIX</h5>
 <p>Support for IRIX64 6.5 appeared in mksh R33b.</p>
+
+<h5 class="cr" id="oe_lynx">OS: LynxOS</h5>
+<p>Although the promised evaluation version never arrived, someone managed
+ to test mksh R40f on LynxOS 3.</p>
 
 <h5 class="cr" id="oe_mnbsd"><img width="64" height="64" alt="[MidnightBSD logo]"
  class="fr" src="@@RELPATH@@pics/logos/mnbsd.png" />OS: MidnightBSD</h5>
@@ -598,16 +622,22 @@ exec /usr/bin/ld "${args[@]}"</pre>
  class="fr" src="@@RELPATH@@pics/logosmw.png" />OS: MirBSD</h5>
 <p>Perfect choice. This is where mksh comes from.</p>
 
+<h5 class="cr" id="oe_msys">OS: MSYS</h5>
+<p>mksh compiles on MSYS (that is something different from using MinGW for
+ the nascent <a href="#oe_winapi">native WinAPI port</a>; it’s basically
+ an old version of Cygwin wrapped) with few issues.</p>
+
 <h5 class="cr" id="oe_bsn"><img width="80" height="60" alt="[NetBSD logo]"
  class="fr" src="@@RELPATH@@pics/logos/netbsd.png" />OS: NetBSD</h5>
 <p>Perfect choice.</p>
 <p>Starting with NetBSD 1.6, mksh can replace /bin/ksh and /bin/sh without
  any problems. On NetBSD 1.5, mksh can only replace /bin/ksh safely.</p>
 
-<h5 class="cr" id="oe_msys">OS: MSYS</h5>
-<p>mksh compiles on MSYS (that is something different from using MinGW for
- the nascent <a href="#oe_winapi">native WinAPI port</a>; it’s basically
- an old version of Cygwin wrapped) with few issues.</p>
+<h5 class="cr" id="oe_nxs">OS: NeXTstep</h5>
+<p>Except for OpenStep 4.2 which has a completely botched POSIX library
+ (although rumours are there is a libposix.a in existence that can be
+ copied onto it), it works with R40f onwards. (Binaries of NeXTstep 3.3
+ can be copied onto OpenStep 4.2 and used there.) You need gawk.</p>
 
 <h5 class="cr" id="oe_bso"><img width="70" height="64" alt="[OpenBSD logo]"
  class="fr" src="@@RELPATH@@pics/logos/openbsd.png" />OS: OpenBSD</h5>
@@ -630,7 +660,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  is job control issues, and patches are welcome. (Note this is for R37 and
  below; R37b might actually work, but someone would have to test this.)</p>
 <p>Due to the unavailability of ttys, job control will never be supported.
- With <tt>-DMKSH_NOPROSPECTOFWORK</tt> it will probably work.</p>
+ With <tt>-DMKSH_NOPROSPECTOFWORK</tt> it will probably work. (Note that
+ this option produces a shell not supporting standard Korn Shell scripts.)</p>
 <p>The APE (ANSI’n’POSIX Environment) is required to build mksh; I don’t
  remember which compiler I used, but I think it was GCC.</p>
 
@@ -644,6 +675,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>The QNX ed(1) used to fail the regression tests due to being broken;
  compile the MirBSD ed and place it in <tt>/bin/</tt> to fix this, or
  get an updated ed from vendor.</p>
+
+<h5 class="cr" id="oe_sco">OS: SCO OpenServer, SCO UnixWare</h5>
+<p>SCO OpenServer 5 lacks job support, which SCO OpenServer 6 and SCO
+ UnixWare 7.1.1 appear to have working.</p>
 
 <h5 class="cr" id="oe_skyos">OS: SkyOS</h5>
 <p>RT managed to build mksh on SkyOS. It somewhat works, and the testsuite
@@ -666,7 +701,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  we were told by their developers. However, mksh R33 is at the same level
  of support as Plan 9 now.</p>
 <p>Chances are a more recent mksh works with a more recent Syllable.
- With <tt>-DMKSH_NOPROSPECTOFWORK</tt> it will probably work.</p>
+ With <tt>-DMKSH_NOPROSPECTOFWORK</tt> it will probably work. (Note that
+ this option produces a shell not supporting standard Korn Shell scripts.)</p>
 <p>Syllable Server will work, as it is, <em>at the moment</em>, “just” a
  GNU/Linux distribution with a different GUI. This may change though.</p>
 
@@ -746,7 +782,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  more mksh-local code to to the build to avoid pulling in more libc code
  and improving LTO effect. <i>(unfinished…)</i></p>
 <p id="p40f">R40f: Honours <tt>AWK</tt>. Is a lot more anal wrt. using
- cached Makefile includes. <i>(unfinished…)</i></p>
+ cached Makefile includes. Persistent history support may show up.</p>
 <p id="p40e">R40e: No longer tries to use GCC and C99 extensions. It has
  a run-time check in Build.sh which may trigger a core dump; preseed with
  HAVE_SILENT_IDIVWRAPV=0 in the environment to skip the check and always
@@ -939,8 +975,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  src="@@RELPATH@@pics/logos/hmug.png" />The <a
  href="http://www.hmug.org/pub/MacOS_X/BSD/Applications/Shells/mksh/">HMUG</a>,
  some US-American Apple Users’ Group packages mksh for Darwin, too.</li>
-<li class="cr">Frugalware Linux contains an extremely old mksh <a
- href="http://www.frugalware.org/packages/107405">package</a></li>
+<li class="cr">Frugalware Linux contains an orphaned and extremely old mksh <a
+ href="http://www.frugalware.org/packages/107405">package</a> looking for a new
+ maintainer.</li>
 <li class="cr">Olivier Duchateau used to provide Slackware/Zenwalk GNU/Linux
  packages, but <a href="http://slackbuilds.org/repository/13.37/system/mksh/">a
  SlackBuild for mksh</a> is also available now</li>
@@ -983,12 +1020,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>This does not necessarily list new features, only these which users
  should be aware of for existing scripts.</p>
 <p id="ccur"><i>current</i>: … <i>(unfinished…)</i></p>
-<p id="c40f">R40f: … <i>(unfinished…)</i></p>
+<p id="c40f">R40f: Support for persistent history (which is still discouraged)
+ may show up on platforms previously without it.</p>
 <p id="c40e">R40e: Interpreting "010" as octal number will now emit a warning
  at run-time. Several bugfixes lead to slightly changed behaviour to conform
  better to the standards. The worst offending bugs in the persistent history
  code have been fixed, but its use is still discouraged. THIS VERSION IS
- BROKEN WITHOUT A HOTFIX which your packager probably added.</p>
+ BROKEN WITHOUT A HOTFIX which your packager probably added. Tab completion
+ may now shrink the current input line, but still follows the docs.</p>
 <p id="c40d">R40d: Interpreting "010" as octal number is now deprecated
  and <em>will</em> be removed soon. You can now use “local” and “set -A”
  together to create function-local arrays. The test(1) built-in command
@@ -1053,7 +1092,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Improve LTO effect by always adding our copies of distributed utility
   function sources when linking statically (i.e. LDSTATIC is not empty)</li>
 </ul>
+<!--
 <p>Changes in the current (unreleased) stable branch:</p><ul>
+-->
+<p id="r40f">mksh R40f fixes a critical bug as well as this:</p><ul>
  <li>[tg, RT] Implement fcntl(2)-based advisory locking as an alternative
   iff flock(2) is not found (LP: #912691); keep trying in the face of EINTR</li>
  <li>[tg] Fix severe regression wrt. initialising tty(4) states</li>
@@ -1061,7 +1103,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg, RT, winstonw] Improve portability to BeOS (works), Cygwin (good),
   Dell UNIX (works somewhat, but not with gcc), LynxOS (works somewhat),
   NeXTstep (works but not OpenStep 4.2), USL C compiler, SCO OpenServer (good),
-  SCO UnixWare (good), Plan 9 (still broken)</li>
+  SCO UnixWare (good), Plan 9 (still broken), Syllable Desktop (broken?)</li>
  <li>[tg] <tt>rlim_t</tt> is supposed to be unsigned</li>
  <li>[tg] Some code, warning and spelling cleanup</li>
  <li>[tg] New <tt>Build.sh</tt> environment configurable: AWK (= awk)</li>
@@ -1373,10 +1415,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li>Build and actually work on more platforms – DJGPP, PW32,
  Plan 9, Syllable – debug these</li>
 <li>Bugfix for suspending <tt>a &amp;&amp; b</tt> chain</li>
-<li>echo diff &lt;(echo 1) &lt;(echo 2) <a
+<li>“process substitution” echo diff &lt;(echo 1) &lt;(echo 2) <a
  href="http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=606821">#606821</a></li>
 <li>whence -p -a foo</li>
 <li>read -e (or something): use the edit.c stuff for inputting</li>
+<li>The ability to build mksh64 on some platforms, to use with legacy scripts
+ requiring 64-bit arithmetics, not compatible to regular mksh to its users;
+ probably on LP64 platforms only</li>
 <li><a href="mksh_old.htm#plans">older/unrealistic plans</a></li>
 <li>… such as a better website, more clearly arranged, etc…</li>
 </ul>
