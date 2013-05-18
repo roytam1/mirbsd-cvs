@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/generic/Makefile,v 1.5 2006/02/14 20:47:52 tg Exp $
+# $MirOS: src/distrib/i386/generic/Makefile,v 1.6 2006/02/21 21:04:09 tg Exp $
 
 RAMDISK=	GENERIC
 SYSDIR=		${.CURDIR}/../../../sys
@@ -37,7 +37,6 @@ clean:
 	rm -f bsd
 
 cleannobsd:
-	-rm -rf build
 
 .include "Makefile.kernel"
 .include <bsd.obj.mk>
