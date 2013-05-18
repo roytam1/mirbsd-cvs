@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.52 2009/11/09 19:43:45 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.53 2009/11/09 19:49:27 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -541,7 +541,9 @@ arc4_getbyte(void)
 
 	s = splhigh();
 	rndstats.arc4_reads++;
-	arc4random_state.cnt++;
+	if (arc4random_state.cnt++ > 2097152)
+		/* reinit on next high-level function call */
+		arc4random_initialised = 0;
 	arc4random_state.i++;
 	si = arc4random_state.s[arc4random_state.i];
 	arc4random_state.j += si;
