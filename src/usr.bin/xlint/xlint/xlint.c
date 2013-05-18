@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/xlint/xlint/xlint.c,v 1.4 2006/09/21 21:48:41 tg Exp $ */
+/**	$MirOS: src/usr.bin/xlint/xlint/xlint.c,v 1.5 2008/11/18 21:19:04 tg Exp $ */
 /*	$OpenBSD: xlint.c,v 1.16 2004/05/11 02:08:07 millert Exp $	*/
 /*	$NetBSD: xlint.c,v 1.3 1995/10/23 14:29:30 jpo Exp $	*/
 
@@ -50,7 +50,7 @@
 #include "lint.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/usr.bin/xlint/xlint/xlint.c,v 1.4 2006/09/21 21:48:41 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/xlint/xlint/xlint.c,v 1.5 2008/11/18 21:19:04 tg Exp $");
 
 /* directory for temporary files */
 static	const	char *tmpdir;
@@ -324,7 +324,7 @@ main(argc, argv)
 	libs = xcalloc(1, sizeof (char *));
 	libsrchpath = xcalloc(1, sizeof (char *));
 
-	appcstrg(&cppflags, "-C");
+	appcstrg(&cppflags, "-CC");
 #ifdef	__OpenBSD__
 	appcstrg(&cppflags, "-D__OpenBSD__");
 #endif
