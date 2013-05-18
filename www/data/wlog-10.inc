@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.190 2009/04/26 18:12:24 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.191 2009/04/27 13:08:15 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3948,4 +3948,20 @@ Title: WTF *.deb repo now has (emulated) m68k too
 <p><strong>Rant:</strong> the Debian sendmail package <em>sucks</em>,
  I wonder how anyone can use it… I’ll go by scp(1)ing the configuration
  from MirBSD again…</p>
+----
+Date: 16.05.2009 17:02
+Author: tg@
+Title: Solución al reto del script
+Tag: mksh
+Language: es
+
+<p><a href="http://mononeurona.org/entries/view/asarch/1805">asarch</a>
+ ha escrito un artículo pequeño de cómo se usa la isatty(3) función en
+ <a href="@@RELPATH@@mksh.htm">mksh</a> para probar si un script tiene
+ datos en stdin o no (quizas en <tt>"$@"</tt>, otro se puede imprimir
+ la forma de uso.</p>
+<p>Nos hacemos soporte para mksh(1) en el <tt>#!/bin/mksh</tt> canal
+ en <a href="@@RELPATH@@irc.htm">irc.freenode.net:6667</a> (sí es un
+ nombre válido XD). Es bienvenido ahí pero hablamos inglés por otros
+ no entiendan el castillano.</p>
 ----

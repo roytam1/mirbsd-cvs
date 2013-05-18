@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.111 2009/04/22 20:00:38 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.112 2009/04/23 18:11:36 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1569,4 +1569,22 @@ Tag: bug
  flag ceased to work as it did before, says bsiegert@</p>
 <hr />
 <p><strong>MirOS #7quater:</strong> Not affected.</p>
+----
+Date: 16.05.2009 17:42
+Author: tg@
+Title: mksh semantical change for string length and substring expansion
+Tag: mksh
+
+<p><a href="@@RELPATH@@mksh.htm">mksh</a> semantics for evaluating
+ substring expansion <tt>${strvar:pos:len}</tt> and string length
+ <tt>${#strvar}</tt> expressions has changed today. These operations
+ now work on characters, not on bytes. Characters are octets in
+ non-UTFMODE (which is pretty much the same as bytes, because mksh(1)
+ is a BSD application and, as per style(9), allowed to assume certain
+ things about the environment) and MirOS OPTU-8 multibyte character
+ sequences in <tt>utf8-mode</tt>.</p>
+<p>This means things like <tt>typeset -Uui16 -Z7 wc=1#${str::1}</tt>
+ now do the right thing (getting you the MirOS OPTU-16 wide character
+ value of the first character in the <tt>str</tt>).</p>
+<p>mksh R38 will thusly be released RSN.</p>
 ----
