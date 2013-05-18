@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.12 2006/06/11 01:19:18 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.13 2006/06/12 12:28:45 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -135,14 +135,9 @@ param.o: param.c Makefile
 tai_leaps.o: tai_leaps.c
 	${NORMAL_C}
 
-tai_leaps.c: tai_make
+tai_leaps.c: $S/lib/libkern/tai_make.c
+	${HOSTCC} ${HOSTCFLAGS} ${HOSTCPPFLAGS} -o tai_make $>
 	./tai_make >$@ || (rm -f $@; false)
-
-tai_make: tai_make.o
-	${HOSTCC} ${HOSTCFLAGS} -o $@ $>
-
-tai_make.o: $S/lib/libkern/tai_make.c
-	${HOSTED_C}
 
 # depend on root or device configuration
 autoconf.o conf.o: Makefile
