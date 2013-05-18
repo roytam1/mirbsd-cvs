@@ -1,6 +1,9 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.27 2003/08/02 01:53:49 naddy Exp $
 
-COMMENT=			dungeon explorin', hackin' game, but harder than nethack
+BROKEN=		needs to be adapted for ncursesw
+
+COMMENT=	dungeon explorin', hackin' game, but harder than nethack
 
 DISTNAME=	slash-e8
 PKGNAME=	slash-3.2.2.e8-0
@@ -18,7 +21,7 @@ PATCHFILES=nh-3.2.2-3.2.3.diff:0
 
 
 
-#	GPL
+# GPL
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
@@ -50,8 +53,8 @@ post-extract:
 
 post-distpatch:
 	# Two patches failure, not to worry
-	@-cd ${WRKSRC} && ${PATCH} -p1 -z .bak.orig -s < ${WRKDIR}/slashe8.dif
-	@cd ${WRKSRC} && ${PATCH} -p1 -z .bak.orig -s < ${WRKDIR}/e8p1.dif
+	@-cd ${WRKSRC} && ${PATCH} -p1 -zt .bak.orig -s < ${WRKDIR}/slashe8.dif
+	@cd ${WRKSRC} && ${PATCH} -p1 -zt .bak.orig -s < ${WRKDIR}/e8p1.dif
 
 do-configure:
 	@cd ${WRKSRC}/sys/unix && ${SH} setup.sh symlinks
