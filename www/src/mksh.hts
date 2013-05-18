@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.81 2008/03/01 21:27:33 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.82 2008/03/02 18:12:20 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -462,7 +462,9 @@ mws_content <<'EOF'
 <li><a href="http://www.debian.org/">Debian</a> GNU/Linux, GNU/HURD and
  GNU/kFreeBSD have an <a href="http://packages.debian.org/mksh">mksh package</a>
  maintained by the MirOS Project and uploaded (sponsored) by Bastian “waldi”
- Blank and Otavio Salvador; the debconf questions were taken from dash.</li>
+ Blank and Otavio Salvador; the debconf questions were taken from dash. The <a
+ href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh_33.1-2.dsc">mksh
+ Debian source package</a> is available, too.</li>
 <li><a href="http://www.gentoo.org/">Gentoo GNU/Linux</a> has an mksh <a
  href="http://sources.gentoo.org/viewcvs.py/gentoo-x86/app-shells/mksh/">ebuild</a>
  created by <a href="http://www.hboeck.de/">Hanno Böck</a>.</li>
@@ -528,9 +530,9 @@ mws_content <<'EOF'
 <li><a href="http://www.pkgsrc.org/">NetBSD® pkgsrc®</a> (native also on recent
  DragonFly BSD; available for many other operating systems as well) has a <a
  href="http://cvsweb.netbsd.org/bsdweb.cgi/pkgsrc/shells/mksh/">package</a>
- created by the MirOS Project and (not) kept up to date by Jörg Sonnenberger.
+ created by the MirOS Project and kept up to date by Blair Sadewitz, a fan.
  And <a href="/MirOS/dist/mir/mksh/ports/mksh-pkgsrc.tgz">this source
- package</a> is provided by us in case he doesn’t update – i.e. usually.</li>
+ package</a> is provided by the MirOS project in case it’s more recent.</li>
 <li>The MirPorts Framework brings mksh to OpenBSD, Mac OSX and Interix as
  well as older MirOS BSD versions, which have mksh as native Korn Shell.</li>
 <li><a href="http://www.openbsd.org/">OpenBSD</a> ports do <em>not</em>
