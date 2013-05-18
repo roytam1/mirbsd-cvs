@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.20 2007/01/30 22:42:05 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.21 2007/05/24 20:15:57 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -147,7 +147,7 @@ ${IMAGE}: ${CBIN}
 	${SUDO} fsck -fy ${VND_RDEV}
 	${SUDO} vnconfig -v -u ${VND}
 	${SUDO} rm -rf ${TMPMOUNT} ${WRKDIR}
-	dd if=/dev/arandom bs=128 count=1 of=$@ conv=notrunc
+	${SUDO} dd if=/dev/arandom bs=128 count=1 of=$@ conv=notrunc
 
 bsd.uc: bsd ${IMAGE} ${RDSETROOT}
 	-rm -f $@
