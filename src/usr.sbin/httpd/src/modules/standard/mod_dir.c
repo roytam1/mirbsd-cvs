@@ -1,5 +1,3 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/standard/mod_dir.c,v 1.3 2005/05/04 18:31:07 tg Exp $ */
-
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -71,7 +69,7 @@
 #include "http_main.h"
 #include "util_script.h"
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_dir.c,v 1.3 2005/05/04 18:31:07 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_dir.c,v 1.4 2007/07/03 06:36:31 tg Exp $");
 
 module MODULE_VAR_EXPORT dir_module;
 
@@ -129,18 +127,30 @@ static int handle_dir(request_rec *r)
     int num_names;
     int error_notfound = 0;
 
-    if (r->uri[0] == '\0' || r->uri[strlen(r->uri) - 1] != '/') {
-#ifndef	NO_CORRECT_DIR_PATH
+    if (r->uri[strlen(r->uri) - 1] != '/') {
+	const char *xuri, *xargs;
+
+	xuri = ap_escape_html(r->pool, r->uri);
+	if (r->args) {
+		xargs = ap_pstrcat(r->pool, ap_escape_uri(r->pool, r->uri),
+		    "/?", r->args, NULL);
+		r->mtime = 0;	/* dynamic, never cache this */
+	} else {
+		xargs = ap_pstrcat(r->pool, ap_escape_uri(r->pool, r->uri),
+		    "/", NULL);
+		r->mtime = 1;	/* static, always cache this */
+	}
 	r->content_type = "text/html";
 	ap_send_http_header(r);
-	ap_rvputs(r, "<html><head><title>404: is a directory</title></head>\n"
-	    "<body><h1>404 Is A Directory</h1>\n<p>The file you have requested"
+	ap_rvputs(r, "<html><head><title>404: ", xuri, " is a directory"
+	    "</title></head>\n<body>\n"
+	    "<h1>404 Is A Directory</h1>\n<p>The file you have requested"
 	    " was not found. Additionally, a directory with the same name"
 	    " was found. If you want to retrieve the contents of that"
 	    " directory, please add a trailing slash to your request URI."
 	    "<br />Do not forget to update your bookmarks!</p>\n<p>The failed"
-	    " path was: <tt>", r->uri, "</tt></p><p>Use the following hypertext"
-	    " reference to go to <a href=\"", r->uri, "/\">", r->uri, "/</a>"
+	    " path was: <tt>", xuri, "</tt></p><p>Use the following hypertext"
+	    " reference to go to <a href=\"", xargs, "\">", xuri, "/</a>"
 	    "<br />and do not forget to update your bookmarks and future"
 	    " behaviour!</p>\n", ap_psignature("<hr />", r),
 	    "</body></html>\n", NULL);
@@ -148,7 +158,7 @@ static int handle_dir(request_rec *r)
 	ap_finalize_request_protocol(r);
 	ap_rflush(r);
 	return 0; /*HTTP_NOT_FOUND;*/
-#else
+    } else if (r->uri[0] == '\0') {
         char *ifile;
         if (r->args != NULL)
             ifile = ap_pstrcat(r->pool, ap_escape_uri(r->pool, r->uri),
@@ -160,7 +170,6 @@ static int handle_dir(request_rec *r)
         ap_table_setn(r->headers_out, "Location",
                   ap_construct_url(r->pool, ifile, r));
         return HTTP_MOVED_PERMANENTLY;
-#endif
     }
 
     /* KLUDGE --- make the sub_req lookups happen in the right directory.

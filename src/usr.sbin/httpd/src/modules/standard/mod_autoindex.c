@@ -1,5 +1,3 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/standard/mod_autoindex.c,v 1.5 2005/10/08 18:18:34 tg Exp $ */
-
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -77,7 +75,7 @@
 #include "util_script.h"
 #include "fnmatch.h"
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_autoindex.c,v 1.5 2005/10/08 18:18:34 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_autoindex.c,v 1.6 2007/07/03 06:36:31 tg Exp $");
 
 module MODULE_VAR_EXPORT autoindex_module;
 
@@ -1275,9 +1273,6 @@ static struct ent *make_autoindex_entry(char *name, int autoindex_opts,
 		    p->alt = "DIR";
 		}
 		p->size = -1;
-#ifdef	NO_CORRECT_DIR_PATH
-		p->name = ap_pstrcat(r->pool, name, "/", NULL);
-#endif
 	    }
 	    else {
 		p->icon = find_icon(d, rr, 0);
@@ -1293,11 +1288,8 @@ static struct ent *make_autoindex_entry(char *name, int autoindex_opts,
 	}
 
 	ap_destroy_sub_req(rr);
-    }
-#ifndef	NO_CORRECT_DIR_PATH
-    else if (S_ISDIR(ap_sub_req_lookup_file(name, r)->finfo.st_mode))
+    } else if (S_ISDIR(ap_sub_req_lookup_file(name, r)->finfo.st_mode))
 	p->isdir = 1;
-#endif
 
     /*
      * We don't need to take any special action for the file size key.  If
@@ -1488,12 +1480,10 @@ static void output_directories(struct ent **ar, int n,
 	    anchor = ap_escape_html(scratch, ap_os_escape_path(scratch, t, 0));
 	}
 	else {
-#ifndef	NO_CORRECT_DIR_PATH
 	    if (ar[x]->isdir) {
 		t = ap_pstrcat(scratch, ar[x]->name, "/", NULL);
 	    } else
-#endif
-	    t = ar[x]->name;
+		t = ar[x]->name;
 	    t2 = t;
 	    anchor = ap_escape_html(scratch, ap_os_escape_path(scratch, t, 0));
 	}
@@ -1710,7 +1700,7 @@ static int index_directory(request_rec *r,
     }
 
     if (title_endp_changed)
-	*title_endp = '/';
+	*++title_endp = '/';
 
     emit_head(r, find_header(autoindex_conf, r),
 	      autoindex_opts & SUPPRESS_PREAMBLE, title_name);
