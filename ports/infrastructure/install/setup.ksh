@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.81 2008/03/12 23:43:11 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.82 2008/03/14 15:50:55 tg Exp $
 #-
 # Copyright (c) 2005, 2008
 #	Thorsten “mirabilos” Glaser <tg@66h.42h.de>
@@ -503,23 +503,6 @@ if [[ ! -f /usr/bin/nroff && ! -f $localbase/bin/nroff ]]; then
 fi
 (( iopt )) && exit 0
 unset NROFF
-
-
-# Check if we need to build lndir
-if ! whence -p lndir >&-; then
-	mkdir -p $T/lndir_build
-	cp $portsdir/infrastructure/install/lndir.c $T/lndir_build/
-	(cd $T/lndir_build; $localbase/bin/mmake \
-	    -f $shmk/bsd.prog.mk PROG=lndir NOMAN=yes)
-	install -c -m 755 $T/lndir_build/lndir $localbase/bin/
-fi
-
-
-# Install other missing files
-if [[ $ismnbsd = yes && ! -e /usr/include/tzfile.h ]]; then
-	rm -f $shmk/tzfile.h
-	install -c -m 444 $portsdir/infrastructure/install/tzfile.h $shmk/
-fi
 
 
 # Check if we need to install mtree
