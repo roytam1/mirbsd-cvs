@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.38 2006/02/15 13:20:35 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.39 2006/02/21 03:10:18 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -479,6 +479,13 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <p>Also added a workaround to lynx(1) to improve handling of the broken
   CAcert.org website. Fix comes later.</p>
  <p>bsiegert@ actually phoned me today, meaning he still lives...</p>
+ <p>I've updated the essentials/pkgtools port after fixing a few bugs in
+  pkg_upgrade. I've also updated mc (difficult, and I don't like some of
+  the changes) and, finally, mirex (contrib/samples) (even with the new,
+  not yet in use, gzsig(1) key but still without bsiegert@ having looked
+  whether his information is correct). Makes me wonder if the version of
+  that port is now correct...</p>
+ <p>Forcing USE_CXX=no ports to use 'false' as ${CXX} since now.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>

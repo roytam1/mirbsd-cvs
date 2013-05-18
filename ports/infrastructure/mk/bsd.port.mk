@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.102 2006/02/09 13:03:04 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.103 2006/02/09 17:40:23 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -453,8 +453,11 @@ NO_CXX=			No
 .  elif ${HAS_CXX:L} != "reason"
 NO_CXX=			C++ is not supported on this system
 .  endif
-CONFIGURE_ENV+=		CXX=${CXX:Q}
-MAKE_ENV+=		CXX=${CXX:Q}
+.else
+NO_CXX=			not explicitly requested by this port
+.endif
+.if ${NO_CXX:L} != "no"
+CXX:=			false
 .endif
 
 MAKE_FILE?=		Makefile
@@ -463,7 +466,7 @@ PORTHOME?=		/${PKGNAME}_writes_to_HOME
 MAKE_ENV+=		HOME=${PORTHOME:Q} PATH=${PORTPATH:Q} \
 			PREFIX=${PREFIX:Q} TRUEPREFIX=${PREFIX:Q} \
 			LOCALBASE=${LOCALBASE:Q} X11BASE=${X11BASE:Q} \
-			CC=${CC:Q} CFLAGS=${CFLAGS:C/ *$//:Q} \
+			CC=${CC:Q} CXX=${CXX:Q} CFLAGS=${CFLAGS:C/ *$//:Q} \
 			LDFLAGS=${LDFLAGS:Q} ${DESTDIRNAME}= \
 			BINOWN=${BINOWN:Q} BINGRP=${BINGRP:Q} \
 			EXTRA_SYS_MK_INCLUDES=\"${PORTSDIR:Q}/infrastructure/mk/mirports.bsd.mk\"
