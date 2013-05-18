@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.201 2009/06/21 11:28:45 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.202 2009/06/22 12:35:50 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4180,4 +4180,27 @@ Author: tg@
  (no idea… but trying to combine Gentium + Gentium Italic + Gentium
  Basic Bold + Gentium Basic Bold Italic into one font is hard.</p>
 <p>And the Ⅱ U+2161 ROMAN NUMERAL TWO is missing… ☹</p>
+----
+Title: krank ‣ ziek ‣ ill
+Date: 29.06.2009 21:04
+Author: tg@
+Tag: geocache
+
+<p>I got ill during the night from Thundersday to Friday last week,
+ damn Berlin weather (hot, humid, chilly wind especially indoors in
+ the exhibition halls), so you’ve got to wait a little longer for a
+ report about LinuxTag.</p>
+<p>I will also need to take care of roff2htm better, as some of the
+ pages produce invalid XML (overstrike my arse, we use WTF-8), plus
+ it’s probably better to cease using a chain of sed(1) exprs…</p>
+<p>Mika is awaiting more bootloader hacking. A 4.1 GiB grml DVD did
+ not work for boot(8/i386) either… shux…</p><!-- RSS stop -->
+<p>I however did get to geocache, especially today, as I discovered
+ one in almost spit distance from my home. Too bad it was listed on
+ the .COMmercial site only, so I hadn’t noticed. Anyway…<br />
+ <img src="https://call.mirbsd.org/sp.cgi?oc" alt="OpenCaching.de" />
+ <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
+ <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
+ <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ <br />I still plan on inventarising them…</p>
 ----
