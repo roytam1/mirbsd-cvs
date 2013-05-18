@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.70 2006/10/02 07:38:39 tg Exp $
+# $MirOS: src/Makefile,v 1.71 2006/10/13 19:33:57 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -255,8 +255,12 @@ _do-dist:
 	@read a?'Press Return to continue...'
 .endif
 	@date
+.for _i in ports${OSrev}.ngz source${OSrev}.ngz xfree${OSrev}.ngz
+	test ! -e ${BSDSRCDIR}/${_i} || \
+	    ${SUDO} ln -s ${BSDSRCDIR}/${_i} ${BSDRELDIR}/rel/
+.endfor
 .ifndef QUICK_DIST
-	test -f ${BSDRELDIR}/rel/ports${OSrev}.ngz || env SUDO=${SUDO:Q} \
+	test -e ${BSDRELDIR}/rel/ports${OSrev}.ngz || env SUDO=${SUDO:Q} \
 	    OSrev=${OSrev:Q} BSDRELDIR=${BSDRELDIR:Q} \
 	    CVSROOT=${CVSROOT:Q} ${MKSH} ${BSDSRCDIR}/scripts/tarports
 .endif
@@ -266,10 +270,6 @@ _do-dist:
 	-cd ${BSDSRCDIR}/distrib/lists/${_set} && \
 	    DESTDIR=${BSDRELDIR:Q}/${_set} RELEASEDIR=${BSDRELDIR:Q}/rel \
 	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/tarmk ${OSrev}
-.endfor
-.for _i in source${OSrev}.ngz xfree${OSrev}.ngz
-	test ! -e ${BSDSRCDIR}/${_i} || \
-	    ${SUDO} ln -s ${BSDSRCDIR}/${_i} ${BSDRELDIR}/rel/
 .endfor
 	-cd ${BSDRELDIR}/rel; \
 	    ${SUDO} rm -f index.txt; \
