@@ -57,12 +57,8 @@
 #define	NETISR_RND	1
 #define	NETISR_IP	2		/* same as AF_INET */
 #define	NETISR_IMP	3		/* same as AF_IMPLINK */
-#define	NETISR_PPP	4		/* for PPP processing */
-#define	NETISR_PPPOE	5		/* for pppoe processing */
 #define	NETISR_NS	6		/* same as AF_NS */
 #define	NETISR_ISO	7		/* same as AF_ISO */
-#define	NETISR_BRIDGE	8		/* for bridge processing */
-#define	NETISR_PLIP	9		/* for PLIP processing */
 #define	NETISR_CCITT	10		/* same as AF_CCITT */
 /* 13..15 overlap with regular RND_SRC_NET (XXX this is stupid) */
 #define	NETISR_ATALK	16		/* same as AF_APPLETALK */
@@ -71,7 +67,10 @@
 #define	NETISR_IPV6	24		/* same as AF_INET6 */
 #define	NETISR_ISDN	26		/* same as AF_E164 */
 #define	NETISR_NATM	27		/* same as AF_ATM */
-/* 29..31 overlap with early RND_SRC_NET */
+#define	NETISR_PPP	28		/* for PPP processing */
+#define	NETISR_BRIDGE	29		/* for bridge processing */
+#define	NETISR_PLIP	30		/* for PLIP processing */
+#define	NETISR_PPPOE	31		/* for pppoe processing */
 
 #ifndef _LOCORE
 #ifdef _KERNEL

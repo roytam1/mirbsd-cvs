@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.67 2010/09/24 21:37:34 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.68 2010/09/25 01:29:34 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -589,7 +589,7 @@ enqueue_randomness(int state, int val)
 #if 1
 		/* since we get a *lot* of information here, early */
 		drop.why = 1;
-		rnd_lopool_add(&drop, sizeof(drop));
+		rnd_lopool_addh(&drop, sizeof(drop));
 #else
 		RNDEBUG(RD_ALWAYS, "rnd: premature enqueue_randomness\n");
 #endif
