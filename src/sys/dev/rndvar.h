@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.23 2010/09/12 18:20:00 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.24 2010/09/12 18:50:25 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
@@ -37,8 +37,6 @@
 #ifndef POOLWORDS
 #define POOLWORDS 1024	/* Power of 2 - note that this is 32-bit words */
 #endif
-
-#include <sys/slibkern.h>
 
 #define	RND_RND		0	/* real randomness like nuclear chips */
 #define	RND_SRND	1	/* strong random source */
@@ -82,6 +80,9 @@ struct rndstats {
 };
 
 #ifdef _KERNEL
+
+#include <sys/slibkern.h>
+
 extern struct rndstats rndstats;
 
 #define	add_true_randomness(d)	enqueue_randomness(RND_SRC_TRUE,  (int)(d))

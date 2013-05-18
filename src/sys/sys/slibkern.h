@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/lib/libkern/libkern.h,v 1.8 2008/08/04 19:10:54 tg Exp $ */
+/**	$MirOS: src/sys/sys/slibkern.h,v 1.1 2008/09/06 22:21:05 tg Exp $ */
 /*	$OpenBSD: libkern.h,v 1.22 2004/08/07 00:38:32 deraadt Exp $	*/
 /*	$NetBSD: libkern.h,v 1.7 1996/03/14 18:52:08 christos Exp $	*/
 
@@ -36,7 +36,11 @@
 #ifndef __LIBKERN_H__
 #define __LIBKERN_H__
 
+#if defined(_KERNEL) || defined(_STANDALONE)
 #include <libckern.h>
+#else
+#include <syskern/libckern.h>
+#endif
 
 #ifdef NDEBUG						/* tradition! */
 #define	assert(e)	((void)0)
