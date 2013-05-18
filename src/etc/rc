@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.46 2006/08/19 00:59:15 tg Exp $
+# $MirOS: src/etc/rc,v 1.47 2006/08/19 15:42:19 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -200,7 +200,7 @@ swapctl -A -t blk
 x=
 dmesg |&
 while read -p line; do
-	[[ $line = @(consdev:\ )* ]] && x=${line#consdev: }
+	[[ $line = consdev=* ]] && x=${line#consdev=}
 done
 consinfo="$(stty -f /dev/console speed) ${x:-NONE}"
 print -u2 console information: $consinfo

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/init_main.c,v 1.9 2006/06/16 18:43:32 tg Exp $ */
+/**	$MirOS: src/sys/kern/init_main.c,v 1.10 2006/08/19 00:05:50 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.120 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
 /*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
@@ -488,9 +488,9 @@ main(/* XXX should go away */ void *framep)
 
 	/* Help /etc/rc to determine which device is the console */
 	if (cn_tab == NULL)
-		printf("consdev: NULL\n");
+		printf("consdev=NULL\n");
 	else
-		printf("consdev: %s %d,%d\n",
+		printf("consdev=%s %d,%d\n",
 		    cn_tab->cn_pri == CN_DEAD ? "DEAD" :
 		    cn_tab->cn_pri == CN_NORMAL ? "NORMAL" :
 		    cn_tab->cn_pri == CN_INTERNAL ? "INTERNAL" :
