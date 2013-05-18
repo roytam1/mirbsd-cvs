@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.216 2009/04/05 13:30:20 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.217 2009/04/05 15:55:16 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R37b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -233,14 +233,16 @@ mws_content <<'EOF'
  systems</li>
 <li><tt>-DMKSH_ASSUME_UTF8</tt> – do not use setlocale(3) or
  nl_langinfo(CODESET); assume the terminal is always in UTF-8 mode</li>
+<li><tt>-DMKSH_BINSHREDUCED</tt> – include code to automatically “set -o
+ posix” to reduce functionality if called as <tt>sh</tt> or <tt>-sh</tt></li>
+<li><tt>-DMKSH_CLS_STRING</tt> – the string to send to the terminal to clear
+ the window (default: <tt>"\033[;H\033[J"</tt>)</li>
+<li><tt>-DMKSH_CONSERVATIVE_FDS</tt> – use less filedescriptors (32/10 ipv
+ 56/24), e.g. if the system supports few (mksh R37c and up)</li>
 <li><tt>-DMKSH_NOPWNAM</tt> – if MKSH_SMALL is not set, still omit getpwnam(3)
  calls in order to not pull in the nsswitch or PAM libraries</li>
 <li><tt>-DMKSH_NOVI</tt> – if this or MKSH_SMALL is set, the vi command line
  editing mode (which is orphaned anyway, yet functional) is omitted</li>
-<li><tt>-DMKSH_CLS_STRING</tt> – the string to send to the terminal to clear
- the window (default: <tt>"\033[;H\033[J"</tt>)</li>
-<li><tt>-DMKSH_BINSHREDUCED</tt> – include code to automatically “set -o
- posix” to reduce functionality if called as <tt>sh</tt> or <tt>-sh</tt></li>
 <li><tt>-DUSE_REALLOC_MALLOC=0</tt> – if <tt>realloc(NULL, n)</tt> is not
  equivalent to <tt>malloc(n)</tt> (n &gt; 0) as ANSI C89 prescribes</li>
 </ul>
@@ -257,12 +259,11 @@ mws_content <<'EOF'
 <h4 id="oespec">Operating Environment specific notes</h4>
 
 <h5 id="oe_ack">Compiler: ACK</h5>
-<p>Support for <a href="http://www.cs.vu.nl/ack/">ACK on Minix 3</a> will be
- added after mksh works on Minix 3 with GCC. Support for <a
+<p>Support for <a href="http://www.cs.vu.nl/ack/">ACK on Minix 3</a> has
+ been added in mksh R37c with a workaround a known ACK bug (the "const"
+ bug); it is now perfectly usable. Support for <a
  href="http://tack.sourceforge.net/">other ACK versions</a> or targets can
  be user-contributed.</p>
-<p>ACK on Minix 3 currently has a bug preventing it from compiling perfectly
- valid code; it has been reported, we don’t know if a fix is planned.</p>
 
 <h5 id="oe_bcc">Compiler: Borland C++ Builder</h5>
 <p>This compiler is somewhat supported in mksh R30 with UWIN’s cc wrapper.
@@ -463,7 +464,7 @@ mws_content <<'EOF'
 <p>MidnightBSD 0.3 uses mksh as <tt>/bin/sh</tt> indeed.</p>
 
 <h5 id="oe_minix">OS: Minix</h5>
-<p>Minix 3 is supported starting mksh R37b (with gcc, due to ACK bugs).
+<p>Minix 3 is supported starting mksh R37b (gcc), R37c (ACK/adk cc).
  Minix 1 and Minix 2 will never be supported due to size constraints on
  16-bit platforms, unless a user contributes code.</p>
 <p>Minix 3 contains a <tt>/usr/bin/ed</tt> which, even if copied to the
@@ -574,6 +575,7 @@ mws_content <<'EOF'
  ChangeLog</a>, these are the packager-visible upgrade notes regarding
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
  support, packaging conventions, bad examples, etc).</p>
+<p>mksh R37c now honours <tt>-DMKSH_CONSERVATIVE_FDS</tt> and ACK.</p>
 <p>mksh R37b now honours <tt>-DMKSH_UNEMPLOYED</tt> for the jobless
  mode required on, at least, Minix 3.</p>
 <p>Freshmeat announcements <strong>have ceased</strong> because the
@@ -1023,6 +1025,15 @@ mws_content <<'EOF'
  <li>[ahoka] Begin porting to <a href="http://www.haiku-os.org/">Haiku</a>
   and, implicitly, BeOS (not finished yet)</li>
 </ul>
+<p id="r37c">mksh R37c provides these follow-up fixes:</p><ul>
+ <li>[tg] Improve præprocessor detection/work in <tt>Build.sh</tt></li>
+ <li>[tg] Decouple MKSH_CONSERVATIVE_FDS from MKSH_SMALL</li>
+ <li>[tg] Enable MKSH_CONSERVATIVE_FDS by default on Minix 3</li>
+ <li>[tg] Work around the (in-)famous ACK "const" bug</li>
+ <li>[tg] Optimise structure alignment and padding; Closes: #522778</li>
+ <li>[tg] Retain <tt>LOCPATH</tt> (for glibc locale) in <tt>check.pl</tt></li>
+ <li>[tg] Document, simplify and clean up the code better</li>
+ <li>[tg] Use <i>mirbsd.org</i> eMail addresses consistently</li>
 <p id="r37b">mksh R37b comes with the following fixes on top:</p><ul>
  <li>[tg] Clean up build system and <tt>dot.mkshrc</tt> some more</li>
  <li>[tg] Add getrusage(2) implementation using times(3) if none found</li>
