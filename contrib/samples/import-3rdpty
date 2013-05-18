@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.8 2006/09/20 19:03:54 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.9 2006/09/24 18:14:09 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,7 +24,7 @@
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a defect.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.8 2006/09/20 19:03:54 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.9 2006/09/24 18:14:09 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -1513,7 +1513,7 @@ binutils)
 [[ -n $IGNORELIST ]] && rm -rf $IGNORELIST
 find . -type f | xargs chmod a-x
 
-${DO_CVS:-cvs} -z3 -d ${CVSROOT:-/cvs} import -I ! -I CVS -I .svn \
+${DO_CVS:-cvs} -d ${CVSROOT:-/cvs} import -I ! -I CVS -I .svn \
     -b $B $vpath $V $realtag 2>&1
 
 print -u2 ========= Imported with Tag: $realtag =========
