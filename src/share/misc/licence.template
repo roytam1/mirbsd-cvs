@@ -23,20 +23,6 @@ To apply the template[1] specify the years of copyright (separated by
 comma, not as a range), the legal names of the copyright holders, and
 the real names of the authors if different. Avoid adding text.
 
-OPTIONAL ADVERTISING CLAUSE:
-Adding advertising clauses is not recommended because they accumulate
-(MirOS #9 had 130 required acknowledgements, out of which several are
-duplicates with only minor changes), but if this kind of crediting is
-desired, the following mksh(1)-style (grouped by parentheses, separa-
-ted by bars, parts can be omitted if prefixed by a question mark) ex-
-pression provides a paragraph to be inserted between the two above:
-
- * (All a|A)dvertising materials mentioning features or use of this (
- * software|work) must display the following acknowledgement:
- *	This product includes (material|software) (provided by|devel-
- *	oped (at|?(or owned )by|under|for?( use (in|with)))) $name?(,
- *	)?( and (its|their|by other) contributors)?( (for|by) $name).
-
 RATIONALE:
 This licence is apt for any kind of work (such as source code, fonts,
 documentation, graphics, sound etc.) and the preferred terms for work
@@ -58,4 +44,4 @@ REFERENCES:
 [4] http://www.debian.org/social_contract#guidelines
 
 ___________________________________________________________________________
-$MirOS: src/share/misc/licence.template,v 1.22 2007/05/18 00:34:34 tg Stab $
+$MirOS: src/share/misc/licence.template,v 1.23 2007/06/05 10:05:25 tg Rel $
