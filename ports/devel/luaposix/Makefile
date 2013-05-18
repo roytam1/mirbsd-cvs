@@ -1,10 +1,10 @@
-# $MirOS: ports/devel/luaposix/Makefile,v 1.4 2009/08/30 16:11:58 tg Exp $
+# $MirOS: ports/devel/luaposix/Makefile,v 1.5 2009/08/30 18:25:09 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2008/06/11 05:04:37 landry Exp $
 
 COMMENT=		posix library for the lua language
 DISTNAME=		luaposix-20060408
 CATEGORIES=		devel
-MASTER_SITES=		http://mirrors.protection.cx/~pedro/
+MASTER_SITES=		${_MASTER_SITE_MIRBSD}
 HOMEPAGE=		http://www.tecgraf.puc-rio.br/~lhf/ftp/lua/
 
 # Public domain
