@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/smpeg/Makefile,v 1.11 2007/02/22 22:57:50 tg Exp $
+# $MirOS: ports/devel/smpeg/Makefile,v 1.12 2007/08/25 14:20:01 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2003/12/29 13:45:30 espie Exp $
 
 COMMENT=		mpeg video player library with sound support
 DISTNAME=		smpeg-0.4.4
-PKGNAME=		${DISTNAME}-3
+DASH_VER=		3
 CATEGORIES=		devel graphics
 HOMEPAGE=       	http://www.lokigames.com/development/smpeg.php3
 
