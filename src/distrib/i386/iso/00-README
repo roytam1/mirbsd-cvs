@@ -12,7 +12,8 @@ If you are reading this text from the Live/Install CD instead of the 5MB
 Mini-ISO image, you will be presented a textual menu interface with four
 entries at boot asking you (to be selected via their number or by cursor
 keys) whether you want to proceed to the traditional bootloader, run the
-Live CD or directly start the Setup programme.
+Live CD or directly start the Setup programme. Note: formal release ISOs
+are never Live CDs because of their multi-architecture capabilities.
 
 For further information on how to set up MirOS, please go to our website
 at http://MirBSD.de/ and read the installation documents.
@@ -124,4 +125,4 @@ code is available at http://www.mirbsd.org/ and its mirrors; further
 information can be found at /usr/share/doc/legal/ as well.
 
 _________________________________________________________________________
-$MirOS: src/distrib/i386/iso/00-README,v 1.12 2006/06/21 21:23:59 tg Exp $
+$MirOS: src/distrib/i386/iso/00-README,v 1.13 2006/06/25 01:03:04 tg Exp $
