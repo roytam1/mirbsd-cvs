@@ -1,4 +1,4 @@
-/*	$MirOS$	*/
+/*	$MirOS: src/sys/dev/pci/if_bge.c,v 1.4 2011/11/06 20:43:56 bsiegert Exp $	*/
 /*	$OpenBSD: if_bge.c,v 1.307 2011/06/22 16:44:27 tedu Exp $	*/
 
 /*
@@ -128,10 +128,9 @@
 const struct bge_revision * bge_lookup_rev(u_int32_t);
 int bge_probe(struct device *, void *, void *);
 void bge_attach(struct device *, struct device *, void *);
-int bge_activate(struct device *, int);
 
 struct cfattach bge_ca = {
-	sizeof(struct bge_softc), bge_probe, bge_attach, NULL, bge_activate
+	sizeof(struct bge_softc), bge_probe, bge_attach, NULL, NULL
 };
 
 struct cfdriver bge_cd = {
@@ -732,9 +731,15 @@ bge_newbuf(struct bge_softc *sc, int i)
 	struct mbuf		*m;
 	int			error;
 
-	m = MCLGETI(NULL, M_DONTWAIT, &sc->arpcom.ac_if, MCLBYTES);
+	MGETHDR(m, M_DONTWAIT, MT_DATA);
 	if (!m)
 		return (ENOBUFS);
+	
+	MCLGET(m, M_DONTWAIT);
+	if (!(m->m_flags & M_EXT)) {
+		m_freem(m);
+		return (ENOBUFS);
+	}
 	m->m_len = m->m_pkthdr.len = MCLBYTES;
 	if (!(sc->bge_flags & BGE_RX_ALIGNBUG))
 	    m_adj(m, ETHER_ALIGN);
@@ -2296,31 +2301,6 @@ fail_2:
 
 fail_1:
 	bus_space_unmap(sc->bge_btag, sc->bge_bhandle, size);
-}
-
-int
-bge_activate(struct device *self, int act)
-{
-	struct bge_softc *sc = (struct bge_softc *)self;
-	struct ifnet *ifp = &sc->arpcom.ac_if;
-	int rv = 0;
-
-	switch (act) {
-	case DVACT_QUIESCE:
-		rv = config_activate_children(self, act);
-		break;
-	case DVACT_SUSPEND:
-		rv = config_activate_children(self, act);
-		if (ifp->if_flags & IFF_RUNNING)
-			bge_stop(sc);
-		break;
-	case DVACT_RESUME:
-		if (ifp->if_flags & IFF_UP)
-			bge_init(sc);
-		rv = config_activate_children(self, act);
-		break;
-	}
-	return (rv);
 }
 
 void
