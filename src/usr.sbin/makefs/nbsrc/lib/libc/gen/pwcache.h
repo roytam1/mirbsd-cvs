@@ -1,8 +1,9 @@
-/**	$MirOS: src/usr.sbin/makefs/nbsrc/lib/libc/gen/pwcache.h,v 1.7 2008/10/31 21:03:56 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/lib/libc/gen/pwcache.h,v 1.8 2009/07/23 19:32:25 tg Exp $ */
 /*	$NetBSD: pwcache.h,v 1.5 2003/11/10 08:51:51 wiz Exp $	*/
 
 /*-
- * Copyright (c) 2009 Thorsten Glaser.
+ * Copyright (c) 2009
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1992 Keith Muller.
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.

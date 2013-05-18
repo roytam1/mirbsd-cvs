@@ -1,8 +1,9 @@
-/**	$MirOS: src/usr.sbin/makefs/nbsrc/lib/libc/gen/pwcache.c,v 1.5 2008/10/31 21:46:51 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/lib/libc/gen/pwcache.c,v 1.6 2009/07/23 19:32:25 tg Exp $ */
 /*	$NetBSD: pwcache.c,v 1.30 2008/04/28 20:22:59 martin Exp $	*/
 
 /*-
- * Copyright (c) 2009 Thorsten Glaser.
+ * Copyright (c) 2009
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1992 Keith Muller.
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -77,7 +78,7 @@
 static char sccsid[] = "@(#)cache.c	8.1 (Berkeley) 5/31/93";
 #else
 __RCSID("$NetBSD: pwcache.c,v 1.30 2008/04/28 20:22:59 martin Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/nbsrc/lib/libc/gen/pwcache.c,v 1.5 2008/10/31 21:46:51 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/nbsrc/lib/libc/gen/pwcache.c,v 1.6 2009/07/23 19:32:25 tg Exp $");
 #endif
 #endif /* LIBC_SCCS and not lint */
 

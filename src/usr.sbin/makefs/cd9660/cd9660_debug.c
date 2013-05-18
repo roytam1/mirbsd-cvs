@@ -1,7 +1,8 @@
 /*	$NetBSD: cd9660_debug.c,v 1.9 2009/01/08 22:28:45 bjh21 Exp $	*/
 
 /*
- * Copyright (c) 2009 Thorsten Glaser
+ * Copyright (c) 2009
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2005 Daniel Watt, Walter Deignan, Ryan Gabrys, Alan
  * Perez-Rathke and Ram Vedam.  All rights reserved.
  *
@@ -41,7 +42,7 @@
 #include <sys/param.h>
 
 #if defined(__RCSID) && !defined(__lint)
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_debug.c,v 1.2 2009/07/23 19:32:24 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_debug.c,v 1.3 2010/03/06 21:29:06 tg Exp $");
 __RCSID("$NetBSD: cd9660_debug.c,v 1.9 2009/01/08 22:28:45 bjh21 Exp $");
 #endif  /* !__lint */
 

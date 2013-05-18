@@ -1,7 +1,8 @@
 /*	$NetBSD: cd9660_write.c,v 1.12 2009/11/22 18:43:27 mbalmer Exp $	*/
 
 /*
- * Copyright (c) 2009 Thorsten Glaser
+ * Copyright (c) 2009
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2005 Daniel Watt, Walter Deignan, Ryan Gabrys, Alan
  * Perez-Rathke and Ram Vedam.  All rights reserved.
  *
@@ -38,7 +39,7 @@
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_write.c,v 1.9 2009/07/23 19:32:25 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_write.c,v 1.10 2010/03/06 21:29:07 tg Exp $");
 __RCSID("$NetBSD: cd9660_write.c,v 1.12 2009/11/22 18:43:27 mbalmer Exp $");
 #endif  /* !__lint */
 

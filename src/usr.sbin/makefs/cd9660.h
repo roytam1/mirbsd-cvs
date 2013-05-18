@@ -1,8 +1,9 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.15 2010/03/06 21:29:03 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.16 2010/03/06 22:38:47 tg Exp $ */
 /*	$NetBSD: cd9660.h,v 1.13 2009/01/10 22:06:29 bjh21 Exp $	*/
 
 /*
- * Copyright (c) 2009, 2010 Thorsten Glaser
+ * Copyright (c) 2009, 2010
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2005 Daniel Watt, Walter Deignan, Ryan Gabrys, Alan
  * Perez-Rathke and Ram Vedam.  All rights reserved.
  *

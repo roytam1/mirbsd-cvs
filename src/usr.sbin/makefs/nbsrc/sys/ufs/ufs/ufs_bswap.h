@@ -1,8 +1,9 @@
-/**	$MirOS: src/usr.sbin/makefs/nbsrc/sys/ufs/ufs/ufs_bswap.h,v 1.5 2009/07/23 19:32:26 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/sys/ufs/ufs/ufs_bswap.h,v 1.6 2010/03/06 20:35:44 tg Exp $ */
 /*	$NetBSD: ufs_bswap.h,v 1.19 2009/10/19 18:41:17 bouyer Exp $	*/
 
 /*
- * Copyright (c) 2009 Thorsten Glaser.
+ * Copyright (c) 2009
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1998 Manuel Bouyer.
  *
  * Redistribution and use in source and binary forms, with or without

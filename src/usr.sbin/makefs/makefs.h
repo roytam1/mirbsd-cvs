@@ -1,8 +1,9 @@
-/**	$MirOS: src/usr.sbin/makefs/makefs.h,v 1.10 2009/07/23 19:32:24 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/makefs.h,v 1.11 2010/03/06 21:29:04 tg Exp $ */
 /*	$NetBSD: makefs.h,v 1.20 2008/12/28 21:51:46 christos Exp $	*/
 
 /*
- * Copyright (c) 2009 Thorsten Glaser
+ * Copyright (c) 2009
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2001 Wasabi Systems, Inc.
  * All rights reserved.
  *

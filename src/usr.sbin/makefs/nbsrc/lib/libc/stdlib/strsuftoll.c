@@ -1,7 +1,8 @@
-/**	$MirOS: src/usr.sbin/makefs/nbsrc/lib/libc/stdlib/strsuftoll.c,v 1.8 2008/10/31 21:48:19 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/lib/libc/stdlib/strsuftoll.c,v 1.9 2009/07/23 19:32:26 tg Exp $ */
 /*	$NetBSD: strsuftoll.c,v 1.8 2008/04/28 20:23:00 martin Exp $	*/
 /*-
- * Copyright (c) 2009 Thorsten Glaser
+ * Copyright (c) 2009
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2001-2002,2004 The NetBSD Foundation, Inc.
  * All rights reserved.
  *
@@ -74,7 +75,7 @@
 
 #if defined(LIBC_SCCS) && !defined(lint)
 __RCSID("$NetBSD: strsuftoll.c,v 1.8 2008/04/28 20:23:00 martin Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/nbsrc/lib/libc/stdlib/strsuftoll.c,v 1.8 2008/10/31 21:48:19 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/nbsrc/lib/libc/stdlib/strsuftoll.c,v 1.9 2009/07/23 19:32:26 tg Exp $");
 #endif /* LIBC_SCCS and not lint */
 
 #ifdef _LIBC
