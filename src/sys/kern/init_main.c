@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/init_main.c,v 1.14 2006/12/31 17:03:35 tg Exp $ */
+/**	$MirOS: src/sys/kern/init_main.c,v 1.15 2007/03/02 03:13:28 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.120 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
 /*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
@@ -483,7 +483,7 @@ main(/* XXX should go away */ void *framep)
 #endif	/* CRYPTO */
 
 #if defined(I586_CPU) || defined(I686_CPU)
-	{
+	if (pentium_mhz) {
 		unsigned long long tmptsc;
 		__asm __volatile("rdtsc" : "=A" (tmptsc));
 		rnd_bootpool = adler32(rnd_bootpool, (uint8_t *)&tmptsc,
