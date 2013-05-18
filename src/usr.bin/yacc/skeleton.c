@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/yacc/skeleton.c,v 1.4 2006/09/20 21:41:09 tg Exp $ */
+/**	$MirOS: src/usr.bin/yacc/skeleton.c,v 1.5 2008/07/08 19:22:00 tg Exp $ */
 /*	$OpenBSD: skeleton.c,v 1.29 2008/07/08 15:06:50 otto Exp $	*/
 /*	$NetBSD: skeleton.c,v 1.10 1996/03/25 00:36:18 mrg Exp $	*/
 
@@ -36,7 +36,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)skeleton.c	5.8 (Berkeley) 4/29/95");
-__RCSID("$MirOS: src/usr.bin/yacc/skeleton.c,v 1.4 2006/09/20 21:41:09 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/yacc/skeleton.c,v 1.5 2008/07/08 19:22:00 tg Exp $");
 
 #include "defs.h"
 
@@ -50,11 +50,11 @@ __RCSID("$MirOS: src/usr.bin/yacc/skeleton.c,v 1.4 2006/09/20 21:41:09 tg Exp $"
 
 char *banner[] =
 {
-    "/* From $MirOS: src/usr.bin/yacc/skeleton.c,v 1.4 2006/09/20 21:41:09 tg Exp $ */",
     "#include <stdlib.h>",
     "#include <string.h>",
     "__SCCSID(\"@(#)yaccpar	1.9 (Berkeley) 02/21/93\");",
-    "__RCSID(\"$miros: src/usr.bin/yacc/skeleton.c,v 1.5 2008/07/08 19:22:00 tg Exp $\");",
+    "__RCSID(\"$MirOS: src/usr.bin/yacc/skeleton.c,v 1.6 2008/07/08 19:24:30 tg Exp $\");",
+    "__RCSID(\"$miros: src/usr.bin/yacc/skeleton.c,v 1.6 2008/07/08 19:24:30 tg Exp $\");",
     "#define YYBYACC 1",
     "#define YYMAJOR 1",
     "#define YYMINOR 9",
