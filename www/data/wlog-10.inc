@@ -902,3 +902,79 @@ Title: U+1E9E… and where innovation resides
  with that request. Even if it’s fully free – in contrast to GNU bash – and,
  in its most recent incarnations, even advertising clause free.)</p>
 ----
+Date: 09.07.2008 22:40
+Author: tg@
+Title: Configuring name-based apache vhosts with SSL and IPv6…
+
+<p>Configuring name-based apache vhosts with SSL and IPv6… is hard. Really.
+ This is probably due to it being “a patchy webserver”. Here is a quick cut
+ and paste solution, well, sort of.</p>
+<p>Scenario: I have a web server running name-based vhosts on the SSL port.
+ I get a either wildcard certificate, or – in my case – a certificate with
+ some subjectAltName extensions set; <a href="https://cacert.org/">CAcert</a>
+ supports these now. All vhosts I wish to serve must be included, and the
+ primary commonName (as part of the distinguishedName) ought to be the host’s
+ primary FQDN, and it <em>must</em> be duplicated as subjectAltName.</p>
+<p>I wish to serve a default page (just the standard <tt>index.htm</tt> from
+ <tt>/var/www/htdocs/</tt>) to everyone who does not provide a proper host
+ name (e.g. speaking HTTP/1.0 without <tt>Host:</tt> header, or just probing
+ my IP addresses), and a couple of vhosts to everyone else. I use one IPv4
+ and one IPv6 address. The vhost configuration is placed in several files in
+ <tt>/var/www/conf/vhosts/</tt> called <tt>«vhostname».«port»</tt>; if some
+ information is to be shared (e.g. vhost on both port 80 and 443), these are
+ placed in <tt>«vhostname».common</tt> and included by the port configs.</p>
+<p>Important: Do not use wildcard vhosts, they won’t work and give errors. Do
+ not use the <tt>_default_</tt> vhost in any form, it silently won’t work.</p>
+<p>You might want to place directory information in the vhost configuration
+ file instead of in the main configuration file.</p>
+<p style="margin-bottom:0px;">Part of <tt>httpd.conf</tt> is:</p>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <pre>
+	ServerAdmin «mail address for the server itself»
+	ServerName «main FQDN»
+
+	NameVirtualHost 192.0.2.1 443
+	NameVirtualHost 2001:db8:1234:1::1 443
+
+	&lt;IfDefine SSL&gt;
+
+	&lt;VirtualHost 192.0.2.1:443&gt;
+	Include /var/www/conf/vhosts/eurynome.443
+	&lt;/VirtualHost&gt;
+
+	&lt;VirtualHost [2001:db8:1234:1::1]:443&gt;
+	Include /var/www/conf/vhosts/eurynome.443
+	&lt;/VirtualHost&gt;
+
+	&lt;VirtualHost 192.0.2.1:443&gt;
+	Include /var/www/conf/vhosts/call.443
+	&lt;/VirtualHost&gt;
+
+	&lt;VirtualHost [2001:db8:1234:1::1]:443&gt;
+	Include /var/www/conf/vhosts/call.443
+	&lt;/VirtualHost&gt;
+
+	&lt;VirtualHost 192.0.2.1:443&gt;
+	Include /var/www/conf/vhosts/default.443
+	&lt;/VirtualHost&gt;
+
+	&lt;VirtualHost [2001:db8:1234:1::1]:443&gt;
+	Include /var/www/conf/vhosts/default.443
+	&lt;/VirtualHost&gt;
+
+	&lt;/IfDefine&gt;
+ </pre>
+</div><p style="margin-top:0px;">(using documentation addresses)</p>
+<p>Make sure every vhost <em>except</em> the default one sets ServerName
+ (and ServerAdmin if it differs), and DocumentRoot etc. as usual. The
+ default vhost does <em>not need</em> to set ServerName, but the line<br />
+ <tt>ServerAlias *</tt><br /> <em>must</em> be present <em>and</em> it
+ <strong>must</strong> be the <em>last</em> vhost in the list, as above.</p>
+<p>If you still have questions – especially now that even OpenBSD has <a
+ href="http://undeadly.org/cgi?action=article&amp;sid=20080519151435&amp;mode=expanded">seen
+ the light</a> and applied the IPv6 patch I not only applied to MirBSD some
+ four years ago but also suggested to them some two or three times – come
+ to <a href="@@RELPATH@@irc.htm">IRC</a> or drop us an eMail, and we’ll try
+ to fix things. Apache is definitively historic ballast, but still common
+ enough on todays Unices.</p>
+----
