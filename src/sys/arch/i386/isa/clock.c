@@ -1,9 +1,10 @@
-/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.9 2006/10/17 20:51:35 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.10 2007/02/07 20:43:25 tg Exp $ */
 /*	$OpenBSD: clock.c,v 1.31 2004/02/27 21:07:49 grange Exp $	*/
 /*	$NetBSD: clock.c,v 1.39 1996/05/12 23:11:54 mycroft Exp $	*/
 
 /*-
- * Copyright (c) 2004, 2005 Thorsten Glaser.
+ * Copyright (c) 2004, 2005, 2010
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1993, 1994 Charles Hannum.
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
@@ -447,7 +448,12 @@ findcpuspeed(void)
 void
 calibrate_cyclecounter(void)
 {
-	unsigned long long last_count;
+	uint64_t last_count;
+#ifdef PENTIUM_BROKEN_TSC
+	uint64_t next_count;
+#else
+#define next_count pentium_base_tsc
+#endif
 	/* XXX this is a hack, we'd better do precision timekeeping */
 	struct timeval tv;
 
@@ -459,12 +465,13 @@ calibrate_cyclecounter(void)
 
 	__asm __volatile("rdtsc" : "=A" (last_count));
 	delay(1000000);
-	__asm __volatile("rdtsc" : "=A" (pentium_base_tsc));
-	pentium_mhz = ((pentium_base_tsc - last_count) + 500000) / 1000000;
+	__asm __volatile("rdtsc" : "=A" (next_count));
+	pentium_mhz = ((next_count - last_count) + 500000) / 1000000;
 
 	disable_intr();
 	time = tv;
 	enable_intr();
+#undef next_count
 }
 #endif
 

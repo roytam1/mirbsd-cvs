@@ -1,8 +1,10 @@
-/**	$MirOS: src/sys/arch/i386/i386/microtime.s,v 1.2 2005/03/06 21:26:58 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/microtime.s,v 1.3 2010/07/25 13:52:19 tg Exp $ */
 /*	$OpenBSD: microtime.s,v 1.19 2003/06/04 16:36:14 deraadt Exp $	*/
 /*	$NetBSD: microtime.s,v 1.16 1995/04/17 12:06:47 cgd Exp $	*/
 
 /*-
+ * Copyright (c) 2003, 2010
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1993 The Regents of the University of California.
  * All rights reserved.
  *
@@ -45,7 +47,7 @@
 #ifndef HZ
 ENTRY(microtime)
 
-#if defined(I586_CPU) || defined(I686_CPU)
+#if !defined(PENTIUM_BROKEN_TSC) && (defined(I586_CPU) || defined(I686_CPU))
 	movl	_C_LABEL(pentium_mhz), %ecx
 	testl	%ecx, %ecx
 	jne	pentium_microtime
@@ -141,7 +143,7 @@ common_microtime:
 	.att_syntax
 	ret
 
-#if defined(I586_CPU) || defined(I686_CPU)
+#if !defined(PENTIUM_BROKEN_TSC) && (defined(I586_CPU) || defined(I686_CPU))
 	.data
 	.globl	_C_LABEL(pentium_base_tsc)
 	.comm	_C_LABEL(pentium_base_tsc),8

@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.9 2008/06/13 13:11:50 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.10 2009/03/01 11:58:32 tg Exp $ */
 /*	$OpenBSD: cpu.h,v 1.59 2004/04/02 22:28:41 tedu Exp $	*/
 /*	$NetBSD: cpu.h,v 1.35 1996/05/05 19:29:26 christos Exp $	*/
 
 /*-
- * Copyright (c) 2006, 2008
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2006, 2008, 2010
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
  *
@@ -99,6 +99,7 @@ void	delay(int);
  */
 void	calibrate_cyclecounter(void);
 #ifndef	HZ
+#ifndef PENTIUM_BROKEN_TSC
 extern u_quad_t pentium_base_tsc;
 #define CPU_CLOCKUPDATE()						\
 	do {								\
@@ -110,6 +111,7 @@ extern u_quad_t pentium_base_tsc;
 					 : );				\
 		}							\
 	} while (0)
+#endif /* !PENTIUM_BROKEN_TSC */
 #define CPU_HARDCLOCKENT_DECL						\
 	static u_quad_t cpu_hce_tsc
 #define CPU_HARDCLOCKENT() do {						\
@@ -123,7 +125,7 @@ extern u_quad_t pentium_base_tsc;
 		HARDCLOCKENT_APPLY(cpu_hce_tsc - cpu_hce_val);		\
 	}								\
 } while (0)
-#endif
+#endif /* !HZ */
 #define	__do_calibrate_cyclecounter(rvptr)				\
 	do {								\
 		if (pentium_mhz) {					\
@@ -132,9 +134,9 @@ extern u_quad_t pentium_base_tsc;
 			splx(i);					\
 		}							\
 	} while (0)
-#else
+#else /* !(I586_CPU || I686_CPU) */
 #define __do_calibrate_cyclecounter(rvptr)	/* nothing */
-#endif
+#endif /* !(I586_CPU || I686_CPU) */
 
 /*
  * pull in #defines for kinds of processors

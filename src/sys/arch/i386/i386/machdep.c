@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.21 2009/03/01 11:58:35 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.22 2009/03/01 12:12:09 ahoka Exp $ */
 /*	$OpenBSD: machdep.c,v 1.310 2004/11/02 21:20:59 miod Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -40,6 +40,8 @@
  */
 
 /*-
+ * Copyright (c) 2010
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1993, 1994, 1995, 1996 Charles M. Hannum.  All rights reserved.
  * Copyright (c) 1992 Terrence R. Lambert.
  * Copyright (c) 1982, 1987, 1990 The Regents of the University of California.
@@ -1733,6 +1735,9 @@ identifycpu()
 				printf(" %d GHz", ghz);
 		} else
 			printf(" %d MHz", pentium_mhz);
+#ifdef PENTIUM_BROKEN_TSC
+		printf("\n%s: not using TSC for timekeeping", cpu_device);
+#endif
 	}
 #endif
 	printf("\n");
