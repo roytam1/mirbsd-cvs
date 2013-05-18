@@ -1,5 +1,5 @@
-/* $MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.4 2005/05/04 18:31:07 tg Exp $ */
-/* $OpenBSD: http_main.c,v 1.38 2005/02/09 12:13:09 henning Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.5 2005/10/21 11:09:47 tg Exp $ */
+/* $OpenBSD: http_main.c,v 1.39 2005/05/03 05:44:35 djm Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -113,7 +113,7 @@
 #ifndef __RCSID
 #define	__RCSID(x)	static const char __rcsid[] = (x)
 #endif
-__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.4 2005/05/04 18:31:07 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.5 2005/10/21 11:09:47 tg Exp $");
 
 /* This next function is never used. It is here to ensure that if we
  * make all the modules into shared libraries that core httpd still
@@ -3012,8 +3012,8 @@ static void standalone_main(int argc, char **argv)
 		is_chrooted = 1;
 		setproctitle("parent [chroot %s]", ap_server_root);
 
-		if (setegid(ap_group_id) || setgid(ap_group_id) ||
-		    seteuid(ap_user_id) || setuid(ap_user_id)) {
+		if (setresgid(ap_group_id, ap_group_id, ap_group_id) != 0 ||
+		    setresuid(ap_user_id, ap_user_id, ap_user_id) != 0) {
 			ap_log_error(APLOG_MARK, APLOG_CRIT, server_conf,
 			    "can't drop priviliges!");
 			exit(1);
