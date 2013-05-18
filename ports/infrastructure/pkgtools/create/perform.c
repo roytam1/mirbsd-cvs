@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.17 2009/10/20 19:32:49 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.18 2009/11/22 15:34:14 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.17 2003/08/27 06:51:26 jolan Exp $	*/
 
 /*
@@ -32,7 +32,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.17 2009/10/20 19:32:49 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.18 2009/11/22 15:34:14 tg Exp $");
 
 static void sanity_check(void);
 static void make_dist(char *, char *, const char *, package_t *);
@@ -269,6 +269,7 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
     int i, compression;
     char *cp, *cp2;
 
+    bzero(args, sizeof(args));
     args[nargs++] = xstrdup("tar");	/* argv[0] */
 
     if (*pkg == '/')
@@ -338,7 +339,7 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
 		    errx(2, "can't make temp file");
 		if (! (flist = fdopen(fd, "w")))
 		    errx(2, "can't write to temp file");
-		if (strcmp(args[nargs], "-C") == 0)
+		if (args[nargs] && strcmp(args[nargs], "-C") == 0)
 		    nargs+= 2;
 		args[nargs++] = xstrdup("-I");
 		args[nargs++] = tempfile[current++];
