@@ -1,8 +1,9 @@
-# $MirOS: ports/graphics/sng/Makefile,v 1.3 2006/02/09 11:11:52 tg Exp $
+# $MirOS: ports/graphics/sng/Makefile,v 1.4 2006/09/14 00:10:07 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/04/28 09:25:42 wilfried Exp $
 
-COMMENT=			PNG to ASCII compiler and decompiler
+COMMENT=		PNG to ASCII compiler and decompiler
 DISTNAME=		sng-1.0.2
+DASH_VER=		1
 CATEGORIES=		graphics
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=sng/}
 HOMEPAGE=		http://sng.sourceforge.net/
@@ -18,8 +19,9 @@ USE_X11=		yes
 MODULES+=		graphics/png
 
 CONFIGURE_STYLE=	gnu
-CONFIGURE_ARGS=		--with-png-inc=${LOCALBASE}/include/libpng \
-			--with-png-lib=${LOCALBASE}/lib
+CONFIGURE_ARGS+=	--with-png-inc=${LOCALBASE}/include/libpng \
+			--with-png-lib=${LOCALBASE}/lib \
+			--disable-dependency-tracking
 
 NO_REGRESS=		yes
 
