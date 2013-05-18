@@ -1,4 +1,4 @@
-# $MirOS: ports/print/ghostscript/fonts-std/Makefile,v 1.4 2006/09/14 00:12:41 tg Exp $
+# $MirOS: ports/print/ghostscript/fonts-std/Makefile,v 1.5 2006/12/20 15:34:22 tg Exp $
 
 COMMENT=		Standard Fonts for Ghostscript
 VERSION=		8.11
@@ -14,7 +14,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		${GS_SITES:=fonts/}
+DIR=			fonts
+MASTER_SITES=		${GS_SITES}
 
 NO_REGRESS=		Yes
 NO_BUILD=		Yes
