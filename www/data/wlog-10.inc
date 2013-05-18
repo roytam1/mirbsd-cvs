@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.346 2011/07/25 16:21:56 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.347 2011/07/27 20:29:33 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7983,4 +7983,371 @@ Tag: debian news
  and importing the upstream source into the packaging VCS, as I
  have learned in the “packaging with git” talk here at DebConf.
  (No guys, I will stick to CVS as git doesn’t give me anything.)</p>
+----
+Date: 11.04.2011
+Author: tg@
+Title: in-target: E: Kaputte Pakete
+Tag: debian
+Language: de-DE-1901
+
+<p><a href="https://bugs.launchpad.net/ubuntu/+bug/757338">*buntu Hardy</a>
+ kann zur Zeit nicht installiert werden (der Kernel (in main) dependet auf
+ Pakete aus restrictet, das ist aber zum Installationszeitpunkt nicht aktiv
+ und sowieso unfrei; und wieso ist eigentlich das hardy-updates Repo im d-i
+ eingeschaltet und nicht erst hinterher?).</p>
+<p>Lustiger aber: „Einige Pakete konnten nicht installiert werden. Das kann
+ bedeuten, dass[sic!] Sie eine unmögliche Situation angefordert haben oder
+ dass[sic!], wenn Sie die Unstable-Distribution verwenden, […]“</p>
+<p><tt>gecko2</tt>s Kommentar dazu nur, daß unstable bei *buntu stable heiße.
+ Ich habs dann auf LTS korrigiert (ist nicht das erste Mal – und sowieso,
+ wieso tauschen die in einer stabilen Version PostgreSQL-Majorversionen aus?)
+ und dabei haben wir’s belassen: Debian unstable = *buntu LTS.</p>
+<p>Naja, wie wir das letztens Simon gesagt haben (Upgrade innerhalb einer
+ Version von *buntu auf einem Server hat grub durch grub2 ausgetauscht):
+ <em>Mit Debian wär’ das nicht passiert!</em></p>
+----
+Date: 18.08.2011 16:53:01
+Author: tg@
+Title: 「??? ???」 • or • mira meets d-i
+Tag: debian
+
+<p style="font-size:small;">(originally published on 2011-01-26, but
+ reposting so the people on Plänet Debian can have some fun)</p>
+<p>While helping a cow-orker setting up an encrypted hard disc
+ (basically, putting <tt>/</tt> and <i>swap</i> into LVM inside
+ cryptsetup, and <tt>/boot</tt> outside), <tt>mirabilos</tt> managed
+ to discover an entirely new side of Kubuntu 10.10 on his voyage…</p>
+<p><img src="@@RELPATH@@pics/wlog/cryptsetup.jpg" alt="Warped" />
+ <span xml:lang="de-DE-1901">… wo noch nie ein Debian Developer zuvor
+ gewesen ist… oder?</span></p>
+<p>(Only a reboot helped at that point. Earlier, the dialogue box was
+ shown only once, but upon re-entry of the partitioning <span
+ xml:lang="de-DE-1901">clickibunti</span> d-i tool, neither button did
+ anything save redrawing this… interesting, informative and intuitive
+ error message.)</p>
+----
+Date: 25.01.2011
+Author: tg@
+Title: On SecureAPT
+Tag: debian
+
+<p>Dear Opera Software A.S.A.</p>
+<p>It’s nice that you employ SecureAPT for your <a
+ href="http://deb.opera.com/">package repository</a>, however, the effect
+ is slightly lost by you replacing the key each year, never signing any of
+ them, and putting them up on an http but not https site.</p>
+<p><strong>Update</strong> 18.08.2011 – please refrain from putting a file
+ <tt>/etc/apt/sources.d/opera.list</tt> inside your binary DEB packages, as
+ well. As a system administrator, we may very well have mirrored the binary
+ packages, and do <strong>not</strong> want accesses to external APT repos,
+ for a shitload of reasons. Honestly. (Lintian could warn about it…)</p>
+<p>If you don’t get the message, please contact me. Or any of my fellow
+ Debian Developers. Thank you very much.</p>
+----
+Date: 09.05.2010
+Author: tg@
+Title: How to upgrade SKS Berkeley DB (bdb) etch→lenny
+Tag: debian
+
+<p>Some things are ugly.</p><!-- The HTML of this entry too, I copy-pasted it from Wordpress… -->
+<p>Waldi’s suggestion fails.</p>
+<blockquote><p>db4.6_upgrade: Program version 4.6 doesn&#8217;t match environment version 4.4<br />
+db4.6_upgrade: DB_ENV-&gt;open: DB_VERSION_MISMATCH: Database environment version mismatch</p></blockquote>
+<p>Can’t start it manually.</p>
+<blockquote><p>debian-sks@dev:~$ /usr/sbin/sks recon<br />
+Fatal error: exception Bdb.DBError(&#8220;Program version 4.6 doesn&#8217;t match environment version 4.4&#8243;)</p></blockquote>
+<p>The log only shows:</p>
+<blockquote><p>2010-05-09 16:59:29 Opening log<br />
+2010-05-09 16:59:29 sks_db, SKS version 1.1.0<br />
+2010-05-09 16:59:29 Copyright Yaron Minsky 2002, 2003, 2004<br />
+2010-05-09 16:59:29 Licensed under GPL.  See COPYING file for details<br />
+2010-05-09 16:59:29 http port: 11371<br />
+2010-05-09 16:59:29 Malformed entry<br />
+2010-05-09 16:59:29 Malformed entry<br />
+2010-05-09 16:59:29 Malformed entry<br />
+2010-05-09 16:59:29 Malformed entry<br />
+2010-05-09 16:59:29 Malformed entry<br />
+2010-05-09 16:59:29 Malformed entry<br />
+2010-05-09 16:59:29 Malformed entry<br />
+2010-05-09 16:59:29 Malformed entry<br />
+2010-05-09 16:59:29 Malformed entry<br />
+2010-05-09 16:59:29 Malformed entry<br />
+2010-05-09 16:59:29 Malformed entry<br />
+2010-05-09 16:59:29 Malformed entry<br />
+2010-05-09 16:59:29 Malformed entry<br />
+2010-05-09 16:59:29 Opening KeyDB database<br />
+2010-05-09 16:59:29 Shutting down database
+</p></blockquote>
+<p>The solution is ugly as hell, too:</p>
+<blockquote><p>root@dev:/ # su &#8211; debian-sks<br />
+debian-sks@dev:~$ cd DB<br />
+debian-sks@dev:~/DB$ db4.4_checkpoint -1<br />
+debian-sks@dev:~/DB$ db4.4_recover<br />
+debian-sks@dev:~/DB$ db4.4_archive<br />
+log.0000002839<br />
+log.0000002840<br />
+log.0000002841<br />
+log.0000002842<br />
+log.0000002843<br />
+log.0000002844<br />
+log.0000002845<br />
+debian-sks@dev:~/DB$ db4.6_archive -d<br />
+debian-sks@dev:~/dump$ cd ../PTree/<br />
+debian-sks@dev:~/PTree$ db4.4_checkpoint -1<br />
+debian-sks@dev:~/PTree$ db4.4_recover<br />
+debian-sks@dev:~/PTree$ db4.4_archive<br />
+debian-sks@dev:~/PTree$ db4.6_archive -d<br />
+debian-sks@dev:~/PTree$ logout<br />
+root@dev:/ # /etc/init.d/sks start<br />
+Starting sks daemons: sksdb.. sksrecon.. done.
+</p></blockquote>
+<p>Wow, our internal keyserver works again. Thank you, Debian…</p>
+<p>This solution courtesy of <a href="http://www.hermann-uwe.de/blog/migrating-bdb-svn-repositories-from-one-version-to-another-and-to-fsfs">Uwe Hermann</a>, although it was for Suckwürstchen.</p>
+----
+Date: 18.08.2011 16:53:02
+Author: tg@
+Title: Not a good idea…
+Tag: debian fun
+
+<p>Sometimes, when you develop WUIs (Web UI), you really have to
+ test them against a variety of browsers, not all of which are
+ available for the operating system installed on peoples’ desktop
+ PCs, or working in Wine. (For theming QA, Wine is also a #FAIL,
+ but for technical QA, MSIE 1.5, 3.0, 5.02, 5.5, 6.0 work fine,
+ and MSIE 7.0 can be used under rare circumstances.) In these
+ cases, you use VMs running certain operating systems. One VM had
+ an interesting idea of which hardware you can “safely remove”
+ a couple of days ago when I was hacking it anyway: <img
+ src="@@RELPATH@@pics/wlog/notagoodidea.png"
+ alt="Safely Remove… the RAM controller?" /></p>
+----
+Date: 18.08.2011 16:53:03
+Author: tg@
+Title: FrOSCon 2011
+Tag: debian event
+
+<p>This year without our friends from Grml, but The MirOS Project
+ (all two active developers and our Booth Babe gecko2@) will of
+ course attend <a href="http://froscon.de/">FrOSCon</a>, nicknamed
+ Froschkon, again.</p>
+<p>We’ll have a pre-event meal time at my favourite Jugoslawian
+ Restaurant on Friday (20:00 CEST) – contact me privately for the
+ coördinates if interested. On Saturday and Sunday we’ll staff a
+ booth and answer questions about the many projects we have (more
+ or less) running, including but not limited to paxmirabilis (aka
+ MirCPIO), <a href="@@RELPATH@@mksh.htm">The MirBSD Korn Shell</a>
+ aka mksh(1), <a href="@@RELPATH@@jupp.htm">jupp</a> the editor,
+ and developers’ private projects such as slowly undermining Debian
+ or Google-Go. While slow we are still working on World Domination.
+ And <a href="https://evolvis.org/projects/shellsnippets/">teaching
+ people good shell programming</a> by example code.</p>
+<p>We might even bring CDs, but I’m still working on the ISO… last
+ night’s build aborted because the OS grew a bit making the floppy
+ image not fit any more. (Solution, drop ping(8) and rtsol(8), but
+ re-add sf(4) and bce(4) now that they fit again.)</p>
+----
+Date: 09.06.2010
+Author: tg@
+Title: SPARCstation 20 (75 MHz)
+Tag: debian
+Language: de-DE-1901
+
+<p>Wenn Du denkst, MirBSD wäre langsam und sein Installer in irgendeiner
+ Art und Weise doof, dann installiere mal Debian (etch, neuere Versionen
+ können nur noch sun4u und sun4v, kein sun4m mehr) auf einer SPARCstation
+ 20.</p>
+<p>Lahm wie Sau, das Teil. Und der Installer ist schwarz auf weiß – was
+ nicht so schlimm wäre, wenn der Cursor (und die dialog-Markierungen)
+ nicht ebenfalls schwarz auf weiß wären…</p>
+<p>Ich bin ja mal gespannt, ob das durchläuft.</p>
+----
+Date: 18.08.2011 16:53:04
+Author: tg@
+Title: How not to create DEB files
+Tag: debian
+
+<p class="boxhead">Once upon a time, there was Deb and Ian. That
+ was about exactly 18 years ago. We don’t talk about the 0.939000
+ format any more, but they eventually settled on:</p><div class="boxtext">
+ <pre>
+	tg@frozenfish:~/X $ ar rc pkg_1.0_all.deb debian-binary control.tar.gz data.tar.gz
+	tg@frozenfish:~/X $ hexdump -C pkg_1.0_all.deb | head
+	00000000  21 3c 61 72 63 68 3e 0a  64 65 62 69 61 6e 2d 62  |!&lt;arch&gt;.debian-b|
+	00000010  69 6e 61 72 79 20 20 20  31 33 31 33 36 38 33 35  |inary   13136835|
+	00000020  32 39 20 20 31 30 30 36  20 20 32 30 30 20 20 20  |29  1006  200   |
+	00000030  31 30 30 36 34 34 20 20  34 20 20 20 20 20 20 20  |100644  4       |
+	00000040  20 20 60 0a 32 2e 30 0a  63 6f 6e 74 72 6f 6c 2e  |  .2.0.control.|
+	00000050  74 61 72 2e 67 7a 20 20  31 33 31 33 36 38 33 35  |tar.gz  13136835|
+	00000060  32 39 20 20 31 30 30 36  20 20 32 30 30 20 20 20  |29  1006  200   |
+	00000070  31 30 30 36 34 34 20 20  31 33 39 31 20 20 20 20  |100644  1391    |
+	00000080  20 20 60 0a 1f 8b 08 00  00 00 00 00 00 03 ed 59  |  ............Y|
+	00000090  eb 6f db 36 10 f7 d7 f0  af b8 3a 5e 9b 74 b1 f5  |.o.6......:^.t..|
+ </pre>
+</div><p class="boxfoot">By then, systems were a.out(5), and everything
+ was good. <span style="font-size:x-small;">(Of course, if you look at
+ the mtimes, you’ll notice I faked this. But it’s really equivalent to
+ the real thing.</span></p>
+<p class="boxhead">But oh horror! GNU binutils, not always everyone’s
+ friend, switched from using BSD style “Unix Archiver” libraries in
+ ar(1) to SYSV style libraries on elf(5) systems:</p><div class="boxtext">
+ <pre>
+	tg@frozenfish:~/X $ ar rc on-elf debian-binary control.tar.gz data.tar.gz
+	tg@frozenfish:~/X $ hexdump -C on-elf | head
+	00000000  21 3c 61 72 63 68 3e 0a  64 65 62 69 61 6e 2d 62  |!&lt;arch&gt;.debian-b|
+	00000010  69 6e 61 72 79 2f 20 20  31 33 31 33 36 38 33 35  |inary/  13136835|
+	00000020  32 39 20 20 31 30 30 36  20 20 32 30 30 20 20 20  |29  1006  200   |
+	00000030  31 30 30 36 34 34 20 20  34 20 20 20 20 20 20 20  |100644  4       |
+	00000040  20 20 60 0a 32 2e 30 0a  63 6f 6e 74 72 6f 6c 2e  |  .2.0.control.|
+	00000050  74 61 72 2e 67 7a 2f 20  31 33 31 33 36 38 33 35  |tar.gz/ 13136835|
+	00000060  32 39 20 20 31 30 30 36  20 20 32 30 30 20 20 20  |29  1006  200   |
+	00000070  31 30 30 36 34 34 20 20  31 33 39 31 20 20 20 20  |100644  1391    |
+	00000080  20 20 60 0a 1f 8b 08 00  00 00 00 00 00 03 ed 59  |  ............Y|
+	00000090  eb 6f db 36 10 f7 d7 f0  af b8 3a 5e 9b 74 b1 f5  |.o.6......:^.t..|
+ </pre>
+</div><p class="boxfoot">Can you spot the difference?</p>
+<p class="boxhead">Of course, ELF is what you want™, so there is
+ little choice. Unix Archiver libraries are system dependent, and
+ no format has ever been normed, but DEB files use it as format…
+ so what is one to do?</p><div class="boxtext">
+ <pre>
+	<b>$</b> GNUTARGET=a.out-i386-linux ar rc with-aout debian-binary control.tar.gz data.tar.gz
+	<b>$</b> md5sum pkg_1.0_all.deb with-aout on-elf
+	248f78d42f8ca8f2a3560f9800b2bf01  pkg_1.0_all.deb
+	248f78d42f8ca8f2a3560f9800b2bf01  with-aout
+	09eca70c9b11b6b55bbadcab5c3201fb  on-elf
+ </pre>
+</div><p class="boxfoot">“OK, and what do I do on my Debian/m68k system?”</p>
+<p class="boxhead">ar(1) uses bfd, and GNU binutils can not only forcibly
+ set the target emulation but also show them:</p><div class="boxtext">
+ <tt>
+	<b>debian_m68k$</b> ar -h 2&gt;&amp;1 | grep '^ar: supported targets'<br />
+	ar: supported targets: elf32-m68k a.out-m68k-linux elf32-little elf32-big plugin srec symbolsrec verilog tekhex binary ihex trad-core<br />
+	<b>debian_i386$</b> ar -h 2&gt;&amp;1 | grep '^ar: supported targets'<br />
+	ar: supported targets: elf32-i386 a.out-i386-linux pei-i386 elf32-little elf32-big elf64-x86-64 elf32-x86-64 pei-x86-64 elf64-l1om elf64-k1om elf64-little elf64-big plugin srec symbolsrec verilog tekhex binary ihex trad-core<br />
+	<b>debian_i386$</b> ar -h 2&gt;&amp;1 | grep '^ar: supported targets' # binutils-multiarch<br />
+	ar: supported targets: elf32-i386 a.out-i386-linux pei-i386 elf32-little elf32-big elf64-alpha ecoff-littlealpha elf64-little elf64-big elf32-littlearm elf32-bigarm elf32-hppa-linux elf32-hppa elf64-x86-64 elf32-x86-64 elf64-l1om elf64-k1om elf64-ia64-little elf64-ia64-big pei-ia64 elf32-m68k a.out-m68k-linux coff-m68k versados ieee a.out-zero-big elf32-tradbigmips elf32-tradlittlemips ecoff-bigmips ecoff-littlemips elf32-ntradbigmips elf64-tradbigmips elf32-ntradlittlemips elf64-tradlittlemips elf32-powerpc aixcoff-rs6000 elf32-powerpcle ppcboot elf64-powerpc elf64-powerpcle aixcoff64-rs6000 aix5coff64-rs6000 elf32-s390 elf64-s390 elf32-shbig-linux elf32-sh-linux elf32-sh64-linux elf32-sh64big-linux elf64-sh64-linux elf64-sh64big-linux elf32-sparc a.out-sparc-linux elf64-sparc a.out-sunos-big pei-x86-64 elf32-m32r-linux elf32-m32rle-linux elf32-spu plugin srec symbolsrec verilog tekhex binary ihex trad-core<br />
+	<b>mirbsd_i386$</b> ar -h 2&gt;&amp;1 | grep '^ar: supported targets'<br />
+	ar: supported targets: elf32-i386 coff-a29k-big a.out.adobe aix5coff64-rs6000 a.out-zero-big a.out-mips-little epoc-pe-arm-big epoc-pe-arm-little epoc-pei-arm-big epoc-pei-arm-little coff-arm-big coff-arm-little a.out-arm-netbsd pe-arm-big pe-arm-little pei-arm-big pei-arm-little b.out.big b.out.little efi-app-ia32 efi-app-ia64 elf32-avr elf32-big elf32-bigarc elf32-bigarm elf32-bigarm-symbian elf32-bigarm-vxworks elf32-bigmips elf32-cr16c elf32-cris elf32-crx elf32-d10v elf32-d30v elf32-dlx elf32-fr30 elf32-frv elf32-frvfdpic elf32-h8300 elf32-hppa-linux elf32-hppa-netbsd elf32-hppa elf32-i370 elf32-i386-freebsd elf32-i386-vxworks elf32-i860-little elf32-i860 elf32-i960 elf32-ia64-hpux-big elf32-ip2k elf32-iq2000 elf32-little elf32-littlearc elf32-littlearm elf32-littlearm-symbian elf32-littlearm-vxworks elf32-littlemips elf32-m32r elf32-m32rle elf32-m32r-linux elf32-m32rle-linux elf32-m68hc11 elf32-m68hc12 elf32-m68k elf32-m88k elf32-mcore-big elf32-mcore-little elf32-mn10200 elf32-mn10300 elf32-msp430 elf32-nbigmips elf32-nlittlemips elf32-ntradbigmips elf32-ntradlittlemips elf32-openrisc elf32-or32 elf32-pj elf32-pjl elf32-powerpc elf32-powerpc-vxworks elf32-powerpcle elf32-s390 elf32-sh elf32-shbig-linux elf32-shl elf32-shl-symbian elf32-sh-linux elf32-shl-nbsd elf32-sh-nbsd elf32-sh64 elf32-sh64l elf32-sh64l-nbsd elf32-sh64-nbsd elf32-sh64-linux elf32-sh64big-linux elf32-sparc elf32-tradbigmips elf32-tradlittlemips elf32-us-cris elf32-v850 elf32-vax elf32-xstormy16 elf32-xtensa-be elf32-xtensa-le elf64-alpha-freebsd elf64-alpha elf64-big elf64-bigmips elf64-hppa-linux elf64-hppa elf64-ia64-big elf64-ia64-hpux-big elf64-ia64-little elf64-little elf64-littlemips elf64-mmix elf64-powerpc elf64-powerpcle elf64-s390 elf64-sh64 elf64-sh64l elf64-sh64l-nbsd elf64-sh64-nbsd elf64-sh64-linux elf64-sh64big-linux elf64-sparc elf64-tradbigmips elf64-tradlittlemips elf64-x86-64 mmo pe-powerpc pei-powerpc pe-powerpcle pei-powerpcle a.out-cris demo64 ecoff-bigmips ecoff-biglittlemips ecoff-littlemips ecoff-littlealpha coff-go32 coff-go32-exe coff-h8300 coff-h8500 a.out-hp300hpux a.out-i386 a.out-i386-bsd coff-i386 a.out-i386-freebsd a.out-i386-lynx coff-i386-lynx msdos a.out-i386-netbsd i386os9k pe-i386 pei-i386 coff-i860 coff-Intel-big coff-Intel-little ieee coff-m68k coff-m68k-un a.out-m68k-lynx coff-m68k-lynx a.out-m68k-netbsd coff-m68k-sysv coff-m88kbcs a.out-m88k-mach3 a.out-m88k-openbsd mach-o-be mach-o-le mach-o-fat coff-maxq pe-mcore-big pe-mcore-little pei-mcore-big pei-mcore-little pe-mips pei-mips a.out-newsos3 nlm32-alpha nlm32-i386 nlm32-powerpc nlm32-sparc coff-or32-big a.out-pc532-mach a.out-ns32k-netbsd a.out-pdp11 pef pef-xlib ppcboot aixcoff64-rs6000 aixcoff-rs6000 coff-sh-small coff-sh coff-shl-small coff-shl pe-shl pei-shl coff-sparc a.out-sparc-little a.out-sparc-linux a.out-sparc-lynx coff-sparc-lynx a.out-sparc-netbsd a.out-sunos-big sym a.out-tic30 coff-tic30 coff0-beh-c54x coff0-c54x coff1-beh-c54x coff1-c54x coff2-beh-c54x coff2-c54x coff-tic80 a.out-vax-bsd a.out-vax-netbsd a.out-vax1k-netbsd versados vms-alpha vms-vax coff-w65 coff-we32k coff-z8k elf32-am33lin elf32-ms1 srec symbolsrec tekhex binary ihex netbsd-core<br />
+ </tt>
+</div><p class="boxfoot">Wow. While binutils share no single supported
+ <em>working</em> target, they can be built multiarch, or (on MirBSD)
+ with <tt>--enable-targets=all --enable-64-bit-bfd</tt>. Doesn’t help
+ if you want to stay portable: <tt>GNUTARGET=srec</tt> is common on
+ all Debian (sid) binutils versions (single or multiarch), but errors
+ out on older binutils. The <tt>a.out-*</tt> targets are not common.
+ Sure, you could hack around things, but… this is tedious. If you <a
+ href="http://grep.be/blog/en/computer/debian/m68k/revival">follow
+ things</a> or know me a little, you might <em>already have guessed</em>
+ that I wouldn’t let that stand.</p>
+<p class="boxhead">pax(1) to the rescue. On MirBSD, we use paxtar,
+ which has cpio(1) and tar(1) front-ends and supports multiple formats
+ (4 cpio and 2 tar variants) and has already been extended a lot and
+ is lovingly called <tt>paxmirabilis</tt> (mirabilos’ peace in Latin)
+ – it has options to anonymise archives: set uid and gid to zero, set
+ mtime to zero, (for ustar) only write the numeric uid and gid to the
+ archive, (for cpio formats) serialise inodes and device information,
+ write content of hardlinked files only once (breaks partial extraction
+ but saves <em>a lot</em> of space, e.g. 2 MiB off the Grml initrd.gz).
+ And, recently, the ability to append a trailing slash to pathnames of
+ ustar members which are directories (GNU tar does it – and I thought
+ some Debian utilities check for it). So why not… (the <tt>-M dist</tt>
+ and <tt>fakeroot</tt> set the uid/gid to 0)</p><div class="boxtext">
+ <pre>
+	<b>$</b> find debian-binary control.tar.gz data.tar.gz | \
+	&gt; mircpio -oHar -Mdist &gt;with-mircpio
+	<b>$</b> mirpax -w -M dist -f with-mirpax -x ar debian-binary control.tar.gz data.tar.gz
+	<b>$</b> mirtar -M dist -A -cf with-mirtar debian-binary control.tar.gz data.tar.gz
+	<b>$</b> GNUTARGET=a.out-i386-linux fakeroot ar rc with-aout-ar \
+	&gt; debian-binary control.tar.gz data.tar.gz
+	<b>$</b> md5sum with-*
+	a466e2fd57cdee141fe585a43245548f  with-aout-ar
+	a466e2fd57cdee141fe585a43245548f  with-mircpio
+	a466e2fd57cdee141fe585a43245548f  with-mirpax
+	a466e2fd57cdee141fe585a43245548f  with-mirtar
+ </pre>
+</div><p class="boxfoot"><span xml:lang="fr">Voilà.</span> I got it,
+ and even appending is possible. It supports the BSD format with special
+ focus on DEB files, and deals with long filenames, but not symbol or
+ filename tables (used by ranlib(1) or strange formats, respectively,
+ but since we don’t create <tt>*.a</tt> files to use with some native
+ linker/binder/loader, we don’t need that anyway).</p>
+<p class="boxhead">On extraction (oh, and listing!) it deals with SYSV
+ style filenames as well.</p><div class="boxtext">
+ <pre>
+	<b>$</b> mirtar tvf on-elf
+	-rw-r--r--  1 tg       tg          4 Aug 18 16:05 debian-binary
+	-rw-r--r--  1 tg       tg       1391 Aug 18 16:05 control.tar.gz
+	-rw-r--r--  1 tg       tg      18135 Aug 18 16:05 data.tar.gz
+	<b>$</b> mirtar tvf with-aout
+	-rw-r--r--  1 tg       tg          4 Aug 18 16:05 debian-binary
+	-rw-r--r--  1 tg       tg       1391 Aug 18 16:05 control.tar.gz
+	-rw-r--r--  1 tg       tg      18135 Aug 18 16:05 data.tar.gz
+ </pre>
+</div><p class="boxfoot">One of the real benefits is that you can use
+ the front-ends interchangably – for example, “mirtar tzf foo.cpio.gz”
+ would work (which GNU tar can’t do), and mircpio’s ustar implementation,
+ unlike GNU cpio’s, is not horribly broken.</p>
+<p>Of course, there are some drawbacks: it’s not GNU tar or GNU cpio,
+ so there are absolutely zero <tt>--long-options</tt>. Some of their
+ features are missing (but tar’s <tt>-O</tt> is implemented now), so
+ it’s no replacement (but very well usable alongside it). The format
+ called <tt>pax</tt>, committee-designed to replace ustar, isn’t yet
+ supported ironically, but that’s on the TODO.</p>
+<p class="boxhead">So, what do you think?</p><div class="boxtext">
+ <pre>
+	tg@frozenfish:~/Debs/dists/sid/wtf/Pkgs/mircpio $ ll *.deb
+	-rw-r--r-- 2 tg freewrt 78140 Aug 17 11:04 mircpio_20110817-0wtf2_amd64.deb
+	-rw-r--r-- 3 tg freewrt 72262 Aug 17 11:00 mircpio_20110817-0wtf2_i386.deb
+	-rw-r--r-- 1 tg freewrt 67446 Aug 17 18:21 mircpio_20110817-0wtf2_m68k.deb
+ </pre>
+</div><p class="boxfoot">Should I upload this to Debian proper?</p>
+<p>As for the licence: 3-clause UCB (and 2-clause BSD, which is a
+ subset of it), so no problem. I’m asking because the other package
+ which I had been using for a <em>long</em> time and not uploaded,
+ <a href="http://packages.debian.org/jupp">jupp</a>, got uploaded <a
+ href="@@RELPATH@@permalinks/wlog-10_e20110727-tg-g10043.htm">recently</a>
+ (during DebConf) on user input (people wondered why it did not yet
+ exist in Debian proper). I guess the old saying “if it’s not in Debian,
+ it doesn’t exist” holds true in many parts of the OSS world.</p>
+<p>It’s up to date wrt. standards btw, and lintian-clean save for two
+ pedantic-class warnings (no upstream changelog file, no homepage link)
+ which aren’t fulfillable (could link this wlog entry as homepage).</p>
+<p>If you know <a href="https://alioth.debian.org/">Alioth</a> you’re
+ familiar with the software formerly known as SourceForge, formerly
+ known as GForge, currently known as FusionForge. My employer both
+ uses it and contributes to it, we run an adapted (mostly themed,
+ prototyping new functions that often end up in FusionForge itself,
+ and backporting functions from FF to our “production codebase”)
+ version.</p><p class="boxhead">I’ve backported the extratabs plugin
+ to appease project managers and other non-technical people while we
+ move our codebase to FF 5.1, and I did so on an installed version of
+ the plugin rather than the source because the latter was tightly
+ integrated with rather heavy packaging style changes.</p><div class="boxtext">
+ <pre>
+	[…]
+	dh_builddeb
+	# create fusionforge-plugin-extratabs binary package
+	mksh -c 'toplev=$$(pwd); cd plugins/fusionforge-plugin-extratabs; \
+	p=$$(print -r -- $$(sed -n '\''/^Package: /s///p'\'' control/control | head -1)); \
+	v=$$(print -r -- $$(sed -n '\''/^Version: /s///p'\'' control/control | head -1)); \
+	a=$$(print -r -- $$(sed -n '\''/^Architecture: /s///p'\'' control/control | head -1)); \
+	d=$${p}_$${v}_$${a}.deb; \
+	rm -f $$toplev/../$$d control.tar.gz data.tar.gz; \
+	(cd control; find . | fgrep -v /.svn | sort | \
+	    mircpio -oC512 -Hustar -M0x0B -Mgslash) | gzip -n9 &gt;control.tar.gz; \
+	(cd data; find . | fgrep -v /.svn | sort | \
+	    mircpio -oC512 -Hustar -M0x0B -Mgslash) | gzip -n9 &gt;data.tar.gz; \
+	mirtar -A -M dist -cf $$toplev/../$$d debian-binary control.tar.gz data.tar.gz; \
+	rm -f control.tar.gz data.tar.gz; \
+	cd $$toplev; dpkg-distaddfile $$d non-free/devel optional'
+ </pre>
+</div><p class="boxfoot">The hardest part of extending debian/rules
+ with that was to get the autobuild and dpkg-distaddfile call right.
+ This works, even though I’d call it a temporary kludge. (No need to
+ tell me I should have used &amp;&amp; – I know. And I only shell out
+ to mksh(1) because the “inner” part was already there from before,
+ when I still used ar(1).)</p>
+<p>In the meanwhile, apt-extracttemplates can deal with SYSV style
+ filenames in DEB files – on Debian sid, but not on Kubuntu hardy,
+ which some people are using as Desktop OS still…</p>
 ----
