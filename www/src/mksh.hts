@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.9 2007/06/23 22:39:45 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.10 2007/06/24 12:04:08 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.9 2007/06/23 22:39:45 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.10 2007/06/24 12:04:08 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R29</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -466,7 +466,12 @@ mws_content <<'EOF'
   <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21)</li>
   <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 icc9.1.042)</li>
   <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 icc10.0.023)</li>
-  <li>Debian GNU/Linux 4.0 sid 5.4-1-486 (kfreebsd-i386 gcc4.1.2-12)</li>
+  <li>Debian GNU/kFreeBSD 4.0 sid 5.4-1-486 (i386 gcc4.1.2-12)</li>
+  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc1:3.3.6-15)</li>
+  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc3.4.6-5)</li>
+  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.0.3-7)</li>
+  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.1.2-12)</li>
+  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2-20070609-1)</li>
   <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3)</li>
   <li>Mac OSX Tiger 10.4.10 Darwin 8.10.0 (macppc gcc4.0.1 Apple build 5363)</li>
   <li>DragonFly 1.9-DEVELOPMENT Feb 20, 2007 (i386 gcc3.4.6)</li>
@@ -704,6 +709,7 @@ mws_content <<'EOF'
  <li>Don't try to execute ELF, a.out, COFF, gzip or MZ binaries</li>
  <li>Can be built on HP-UX (PA-RISC and IA64) with gcc or HP C/aC++</li>
  <li>Support <tt>x=(a b c)</tt> bash-like array initialisation</li>
+ <li>Begin supporting <tt>${foo:2:3}</tt> bash-like substring expansion</li>
 </ul>
 <p>Please use mksh R29f because of below modifications:</p><ul>
  <li>Fix detection of function prototypes (data declaractions were ok)</li>

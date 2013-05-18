@@ -1293,3 +1293,19 @@ Author: tg@
  they won't like the licence (MirBSD licence + advertising clause, but GPL
  compatible), as it's a GNU project they probably want the paperwork.</p>
 ----
+Date: 27.06.2007
+Author: tg@
+
+<p>It's mksh-bash compatibility week, apparently. Now, <tt>${foo:2:3}</tt>
+ works, but these must be numbers, not arithmetic expressions, as of yet –
+ this should be fixed soon though. Also, <tt>${foo/bar/baz}</tt> (regexp),
+ as well as its companion <tt>${foo//bar/baz}</tt> (like g appended) won't
+ be much of a problem but I'll implement <tt>${foo:S/bar/baz/g}</tt> first
+ followed by <tt>${foo:C/bar/baz/gx}</tt>, make(1)-style (x = to use POSIX
+ extended regexps instead of basic). Of course, this'll only work if a few
+ functions like regcomp(3) are in libc and functional and MKSH_SMALL isn't
+ defined ☺</p>
+<p>MirBSD Secure Shell (sshd) is now built as position-independent code to
+ make it even more than OpenBSD's OpenSSH. Yay! (bsiegert@ thinks so too.)
+ Eat this ☻</p>
+----
