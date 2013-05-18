@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.10 2008/08/01 12:39:07 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.11 2008/12/28 05:29:07 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.39 2008/04/19 23:20:22 weingart Exp $	*/
 
 /*
@@ -33,7 +33,9 @@
 #include <lib/libsa/ufs.h>
 #include <lib/libsa/cd9660.h>
 #include <tori.h>
+#ifndef SMALL_BOOT
 #include <lib/libsa/fat.h>
+#endif
 #ifdef notdef
 #include <lib/libsa/nfs.h>
 #include <lib/libsa/tftp.h>

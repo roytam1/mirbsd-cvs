@@ -51,7 +51,9 @@ static __inline int CHS_rw (int, int, int, int, int, int, void *);
 static __inline int EDD_rw (int, int, u_int64_t, u_int32_t, void *);
 
 extern int debug;
+#ifndef SMALL_BOOT
 extern uint32_t bios_bootpart[2];
+#endif
 int bios_bootdev;
 int i386_flag_oldbios = 0;
 int userpt = 0;
@@ -709,12 +711,14 @@ int
 disk_trylabel(struct diskinfo *dip)
 {
 	const char *st = NULL;
+#ifndef SMALL_BOOT
 	bios_diskinfo_t *bd = &dip->bios_info;
 	struct dos_mbr mbr;
 	int i, totsiz;
 
 	if (dip->bios_info.flags & BDI_GOODLABEL)
 		return (0);
+#endif
 
 	if (dip->bios_info.flags & BDI_BADLABEL) {
 		st = bios_getdisklabel(&dip->bios_info, &dip->disklabel);
@@ -722,6 +726,7 @@ disk_trylabel(struct diskinfo *dip)
 			dip->bios_info.flags &= ~BDI_BADLABEL;
 	}
 
+#ifndef SMALL_BOOT
 	if (dip->bios_info.flags & BDI_BADLABEL ||
 	    !(dip->bios_info.flags & BDI_GOODLABEL)) {
 		/* create an imaginary disk label */
@@ -827,6 +832,7 @@ disk_trylabel(struct diskinfo *dip)
  out:
 	if ((dip->bios_info.flags & BDI_BADLABEL) && st == NULL)
 		st = "*none*";
+#endif
 	if (st != NULL) {
 		printf("%s\n", st);
 		return ERDLAB;

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/vars.c,v 1.4 2007/10/01 21:09:01 tg Exp $ */
+/**	$MirOS: src/sys/stand/boot/vars.c,v 1.5 2008/08/01 11:25:05 tg Exp $ */
 /*	$OpenBSD: vars.c,v 1.13 2005/05/24 20:48:35 uwe Exp $	*/
 
 /*
@@ -237,6 +237,7 @@ bootparse(int i)
 	return 0;
 }
 
+#ifndef SMALL_BOOT
 /*
  * maintain environment as a sequence of '\n' separated
  * variable definitions in the form <name>=[<value>]
@@ -279,3 +280,4 @@ Xenv(void)
 
 	return 0;
 }
+#endif

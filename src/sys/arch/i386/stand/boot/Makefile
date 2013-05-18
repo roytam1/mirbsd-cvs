@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.14 2008/08/01 12:39:07 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.15 2008/08/01 15:43:46 tg Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
@@ -19,8 +19,8 @@ COPTS+=		${SACFLAGS:N-[DI]*}
 #AFLAGS+=	-Wa,-R
 #AFLAGS+=	-Wa,-a
 
-MAN=	boot.8
-MLINKS=	boot.8 boot.cfg.5
+MAN=		boot.8
+MLINKS=		boot.8 boot.cfg.5
 
 .if ${MACHINE_ARCH} == "i386"
 PROG=		boot
@@ -31,7 +31,6 @@ INSTALL_STRIP=
 .PATH:		${S}/stand/boot
 
 LDFLAGS+=	-Ttext $(LINKADDR) -N -x -noinhibit-exec
-CLEANFILES+=	crt0.o
 SRCS=		srt0.S
 
 .ifdef BOOTSELECT_HOOK

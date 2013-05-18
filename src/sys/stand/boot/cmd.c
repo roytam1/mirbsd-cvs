@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.8 2008/12/28 03:47:44 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.10 2008/12/28 20:43:13 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.59 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
@@ -54,7 +54,9 @@ static int Xmachine(void);
 extern const struct cmd_table MACHINE_CMD[];
 #endif
 extern int Xset(void);
+#ifndef SMALL_BOOT
 extern int Xenv(void);
+#endif
 
 #ifdef CHECK_SKIP_CONF
 extern int CHECK_SKIP_CONF(void);
@@ -68,7 +70,9 @@ const struct cmd_table cmd_table[] = {
 	{"cat",    CMDT_CMD, Xcat},
 #endif
 	{"echo",   CMDT_CMD, Xecho},
+#ifndef SMALL_BOOT
 	{"env",    CMDT_CMD, Xenv},
+#endif
 	{"help",   CMDT_CMD, Xhelp},
 #ifndef SMALL_BOOT
 	{"ls",     CMDT_CMD, Xls},

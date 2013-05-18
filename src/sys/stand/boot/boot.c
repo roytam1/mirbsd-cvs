@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/boot.c,v 1.13 2008/08/01 11:56:10 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/boot.c,v 1.14 2008/08/01 12:39:09 tg Exp $	*/
 /*	$OpenBSD: boot.c,v 1.36 2007/06/26 10:34:41 tom Exp $	*/
 
 /*
@@ -45,7 +45,9 @@ extern BOOTPLAYER bootplayer;
 
 static const char *const kernels[] = {
 	"/bsd",
+#if !defined(SMALL_BOOT)
 	"/bsd.old",
+#endif
 	NULL
 };
 
