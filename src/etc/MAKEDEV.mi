@@ -1,7 +1,7 @@
 define(COMM,`#')dnl
 include(MAKEDEV.sub)dnl
 dnl
-vers(a, {-$MirOS: src/etc/MAKEDEV.mi,v 1.9 2008/03/27 13:48:26 tg Exp $-})dnl
+vers(a, {-$MirOS: src/etc/MAKEDEV.mi,v 1.10 2008/07/13 17:55:50 tg Exp $-})dnl
 vers(a, {-$OpenBSD: MAKEDEV.mi,v 1.73 2005/02/07 06:14:18 david Exp $-})dnl
 dnl
 divert(1)dnl
@@ -60,8 +60,7 @@ dnl
 dnl
 divert(0)dnl
 #!/bin/mksh
-#=beginstrip=
-# $MirOS: src/etc/MAKEDEV.mi,v 1.9 2008/03/27 13:48:26 tg Exp $
+# $MirOS: src/etc/MAKEDEV.mi,v 1.10 2008/07/13 17:55:50 tg Exp $
 #
 # THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
 # generated from:
@@ -70,7 +69,6 @@ show_vers()dnl <-- now that all files are included, show versions
 #
 dnl
 divert(2)dnl
-#=endstrip=
 PATH=/usr/dsbin:/sbin:/usr/sbin:/usr/dbin:/bin:/usr/bin
 T=$0
 
