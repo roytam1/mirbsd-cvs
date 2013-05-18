@@ -1,6 +1,6 @@
 mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.23 2011/04/09 22:52:18 tg Exp $'
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.24 2011/04/09 23:14:00 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Content</h2>
 EOF
@@ -27,21 +27,23 @@ mws_content <<'EOF'
  src="@@RELPATH@@pics/open_source_button.png" /></p>
 
 <h3 id="download">Download</h3>
-<p>Current version: kwalletcli 2.10 (2011-04-09)</p><ul>
- <li>RMD160 (kwalletcli-2.10.tar.gz) = f6f24b34719070e45df99ec6b3e8297f319a9917</li>
- <li>TIGER (kwalletcli-2.10.tar.gz) = 192b7a0a73d8283f044208f838d13127758eaac3004e6a36</li>
- <li>2610649908 59376 /MirOS/dist/hosted/kwalletcli/kwalletcli-2.10.tar.gz</li>
- <li>MD5 (kwalletcli-2.10.tar.gz) = 689a5d3beb513f2e8407ac5ffa97a48b</li>
+<p>Current version: kwalletcli 2.11 (2011-06-03)</p><ul>
+ <li>RMD160 (kwalletcli-2.11.tar.gz) = 254f7315014152fcf4fde69bb8bef6081968bf9e</li>
+ <li>TIGER (kwalletcli-2.11.tar.gz) = 71a6971ac6f4cc94f1310acb8547123b4b867f52002ef25e</li>
+ <li>1165299207 60022 /MirOS/dist/hosted/kwalletcli/kwalletcli-2.11.tar.gz</li>
+ <li>MD5 (kwalletcli-2.11.tar.gz) = bf5c0bc1608041dd637f0e8e5e4f8586</li>
  <li style="list-style:none;">Mirrors</li>
- <li><a href="https://www.mirbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.10.tar.gz">Germany</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.10.tar.gz">Japan</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.11.tar.gz">Germany</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.11.tar.gz">Japan</a></li>
 </ul>
 
 <h3 id="contents">Ingredients</h3>
 <p>The kwalletcli distfile provides a number of things:</p><ul>
  <li>A <tt>LICENCE</tt> file. kwalletcli is covered by <a
-  href="@@ABSPATH@@/MirOS-Licence.htm">The MirOS Licence</a>; the logo is
-  <em>additionally</em> LGPL v3+ (both OSI certified, DFSG free, etc.)</li>
+  href="@@ABSPATH@@/MirOS-Licence">The MirOS Licence</a> (<a
+  href="@@ABSPATH@@/MirOS-Licence.htm">HTML transcript</a>); the logo is
+  <em>additionally</em> restricted by the Terms and Conditions of the
+  GNU LGPL v3+ (both licences are OSI certified, DFSG free, etc.)</li>
  <li>An SVG logo and a few compiled PNG versions.</li>
  <li>The CLI itself (binary). The manual page (HTML): kwalletcli(1)</li>
  <li>An ssh-askpass(1) alike tool called <tt>kwalletaskpass(1)</tt>,
@@ -147,6 +149,16 @@ mws_content <<'EOF'
 <!--
 <p>Changes in the current (unreleased) development version:</p><ul>
 -->
+<p id="r2_11">kwalletcli 2.11</p><ul>
+ <li>Correct exit code for when the read routines die</li>
+ <li>Catch signals and terminate gracefully</li>
+ <li>Better protocol compliance</li>
+ <li>Be more strict when parsing commands</li>
+ <li>Quell warning for “GETINFO version”</li>
+ <li>Prevent converting underscores into accelerator markings</li>
+ <li>Document currently used exit codes</li>
+ <li>Add CAVEATS to manual pages</li>
+</ul>
 <p id="r2_10">kwalletcli 2.10</p><ul>
  <li>In pinentry-kwallet(1), replace with the slave immediately
   if <tt>$DISPLAY</tt> is unset or empty (as we cannot contact the
