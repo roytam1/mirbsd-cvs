@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.88 2008/11/18 21:37:21 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.89 2008/12/04 13:23:15 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1083,7 +1083,7 @@ Author: tg@
 Tag: snapshot
 
 <p>Today, a new snapshot of MirOS-current has been uploaded into the <a
- href="@RELPATH@@MirOS/current/">NetInstall</a> area. The <tt>cdrom10.iso</tt>
+ href="@@RELPATH@@MirOS/current/">NetInstall</a> area. The <tt>cdrom10.iso</tt>
  image is, as usually, a manifold-boot ISO 9660 filesystem which starts
  on i386 via El Torito, on i386 via MBR (if dd(1)’d onto a hard disc,
  USB stick, CompactFlash card, etc.), and on sparc via OpenBOOT. It also
