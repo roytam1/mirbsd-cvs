@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.37 2007/06/16 22:36:48 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.38 2007/06/16 22:57:29 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -170,9 +170,6 @@ etc-files:
 	    ${DESTDIR}/etc/ssh/
 .endif # destdir
 
-snap_md:
-# nothing here -- look in the machine-dependent Makefile.inc
-
 MAKEDEVARCHS+= i386
 MAKEDEVARCHS+= sparc
 
@@ -247,14 +244,14 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.37 2007/06/16 22:36:48 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.38 2007/06/16 22:57:29 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \
 		done | ssh-keygen -T /dev/stdout; \
 	} >moduli
 
-.PHONY: all clean cleandir depend etc install lint etc-files snap_md \
+.PHONY: all clean cleandir depend etc install lint etc-files \
 	clean cleandir m4 man allarchs make-generated clean-generated \
 	install-generated update-moduli
 

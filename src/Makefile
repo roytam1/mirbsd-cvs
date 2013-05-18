@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.112 2007/08/24 14:12:17 tg Exp $
+# $MirOS: src/Makefile,v 1.113 2007/08/25 17:48:17 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -251,8 +251,11 @@ base-distinstall:
 	cd ${.CURDIR} && exec ${MAKE} mksystrace-dest
 	-rm -rf ${_STFILE_OBJ} ${DESTDIR}/snapshot
 	${INSTALL} -d -o root -g wheel -m 755 ${DESTDIR}/snapshot
+	cd ${DESTDIR} && for file in usr/mdec/*{boot,mbr}*; do \
+		[[ -e $$file ]] || continue; \
+		${INSTALL} -c -o root -g wheel -m 444 $$file snapshot/; \
+	done
 	cd ${.CURDIR}/distrib && exec ${_STCMD_DEST} ${MAKE} install
-	cd ${.CURDIR}/etc && exec ${_STCMD_DEST} ${MAKE} snap_md
 	cd ${.CURDIR}/share/man && exec ${_STCMD_DEST} ${MAKE} makedb
 	cd ${.CURDIR}/gnu/usr.bin/texinfo && exec ${_STCMD_DEST} \
 	    ${MAKE} -f Makefile.bsd-wrapper mkinfodir
