@@ -1,6 +1,6 @@
 #! /bin/sh
 
-# From configure.in 2.8.8dev.11
+# From configure.in 2.8.8dev.12
 
 # Save the original $CFLAGS so we can distinguish whether the user set those
 # in the environment, or whether autoconf added -O and -g options:
@@ -926,7 +926,7 @@ test "$program_transform_name" = "" && program_transform_name="s,x,x,"
 
 PACKAGE=lynx
 # $Format: "VERSION=$ProjectVersion$"$
-VERSION=2.8.8dev.11
+VERSION=2.8.8dev.12
 
 
 
