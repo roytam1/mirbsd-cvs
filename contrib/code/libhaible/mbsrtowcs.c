@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.2 2006/05/30 21:35:56 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.3 2006/05/30 21:36:44 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -22,7 +22,7 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.2 2006/05/30 21:35:56 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.3 2006/05/30 21:36:44 tg Exp $");
 
 size_t
 mbsrtowcs(wchar_t *__restrict__ dest, const char **__restrict__ srcp,
@@ -39,23 +39,16 @@ mbsrtowcs(wchar_t *__restrict__ dest, const char **__restrict__ srcp,
 
 	src = *srcp;
 	if (!__locale_is_utf8) {
-		if (dest == NULL)
-			while (len > 0) {
-				dest[cnt] = (wchar_t)(c = *src);
-				if (c == '\0') {
-					src = NULL;
-					break;
-				}
-				src++; cnt++; len--;
+		while (((dest == NULL) ? 1 : len--) > 0) {
+			c = *src++;
+			if (dest != NULL)
+				dest[cnt] = (wchar_t)c;
+			if (c == '\0') {
+				src = NULL;
+				break;
 			}
-		else	/* ignore dest and len */
-			while (1) {
-				if (*src == '\0') {
-					src = NULL;
-					break;
-				}
-				src++; cnt++;
-			}
+			cnt++;
+		}
 		*srcp = src;
 		return (cnt);
 	}
