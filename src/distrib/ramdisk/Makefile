@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramdisk/Makefile,v 1.12 2006/07/24 00:24:43 tg Exp $
+# $MirOS: src/distrib/ramdisk/Makefile,v 1.13 2006/07/24 00:52:41 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -38,7 +38,7 @@ STRIP_KERNEL?=	--strip-all -R .comment -R .eh_frame
 CBIN?=		instbin
 LISTS?=		${.CURDIR}/listhdr.${MACHCONF} ${.CURDIR}/list \
 		${.CURDIR}/listend.${MACHCONF}
-MTREE?=		${TOPDIR}/miniroot/mtree.conf.small
+MTREE?=		${TOPDIR}/miniroot/mtree.conf
 IMAGE?=		ramdisk${OSrev}.fs
 IMAGESIZE?=	8192
 IMAGEOPTS?=	minfree=0,optimization=space,bsize=4096,fsize=512,density=3072
