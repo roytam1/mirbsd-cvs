@@ -1,7 +1,7 @@
 /* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
 
 /*-
- * Copyright (c) 2006
+ * Copyright (c) 2006, 2007
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -102,15 +102,29 @@ int	toascii(int);
 #define isspace(c)	__CTYPE_IMPL((c),space)
 #define isupper(c)	__CTYPE_IMPL((c),upper)
 #define isxdigit(c)	__CTYPE_IMPL((c),xdigit)
+#ifdef __GNUC__
+#define tolower(c)	__extension__({			\
+	char __CTYPE_Tl = (c);				\
+	(__CTYPE_Tl >= 'A') && (__CTYPE_Tl <= 'Z') ?	\
+	    __CTYPE_Tl - 'A' + 'a' : __CTYPE_Tl;	\
+})
+#define toupper(c)	__extension__({			\
+	char __CTYPE_Tu = (c);				\
+	(__CTYPE_Tu >= 'a') && (__CTYPE_Tu <= 'z') ?	\
+	    __CTYPE_Tu - 'a' + 'A' : __CTYPE_Tu;	\
+})
+#else
+#define tolower(c)	(((c) >= 'A') && ((c) <= 'Z') ? (c) - 'A' + 'a' : (c))
+#define toupper(c)	(((c) >= 'a') && ((c) <= 'z') ? (c) - 'a' + 'A' : (c))
+#endif
 
 #if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
 #define isascii(c)	((unsigned int)(c) <= 0177)
 #define isblank(c)	__CTYPE_IMPL((c),blank)
 #define toascii(c)	((c) & 0177)
 
-/* SUSv3 says these are always macros */
-#define _tolower(c)	(((c) >= 'A') && ((c) <= 'Z') ? (c) - 'A' + 'a' : (c))
-#define _toupper(c)	(((c) >= 'a') && ((c) <= 'z') ? (c) - 'a' + 'A' : (c))
+#define _tolower(c)	((c) - 'A' + 'a')
+#define _toupper(c)	((c) - 'a' + 'A')
 
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
 
