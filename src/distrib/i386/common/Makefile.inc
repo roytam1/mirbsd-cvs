@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.24 2006/07/05 22:58:56 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.25 2006/07/05 23:01:19 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -120,6 +120,10 @@ ${DO_BSDRD_NAME}: ${DO_BSDRD_UC}
 ${IMAGE}: ${CBIN} rd_setup do_files rd_teardown
 
 rd_setup: ${CBIN}
+.ifdef USE_MAKEFS
+	${SUDO} rm -rf ${MOUNT_POINT}
+	mkdir -p ${MOUNT_POINT}
+.else
 	dd if=/dev/zero of=${REALIMAGE} bs=512 count=${NBLKS}
 	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
 	${SUDO} disklabel -w -r ${VND} ${DISKTYPE}
@@ -127,14 +131,23 @@ rd_setup: ${CBIN}
 	${SUDO} rm -rf ${MOUNT_POINT}
 	mkdir -p ${MOUNT_POINT}
 	${SUDO} mount ${VND_DEV} ${MOUNT_POINT}
+.endif
 
 rd_teardown:
+.ifdef USE_MAKEFS
+	${SUDO} makefs -s ${NBLKS}b -o \
+	    minfree=0,optimization=space,bsize=4096,fsize=512,density=3072 \
+	    ${REALIMAGE} ${MOUNT_POINT}
+	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
+	${SUDO} disklabel -w -r ${VND} ${DISKTYPE}
+	${SUDO} mount -r ${VND_DEV} ${MOUNT_POINT}
+.endif
 	@df -i ${MOUNT_POINT}
 	-${SUDO} umount ${MOUNT_POINT}
 	${SUDO} fsck -fy ${VND_RDEV}
 	-${SUDO} vnconfig -u ${VND}
 	cp ${REALIMAGE} ${IMAGE}
-	rm ${REALIMAGE}
+	${SUDO} rm -rf ${REALIMAGE} ${MOUNT_POINT}
 
 rdsetroot: ${TOP}/../common/elfrdsetroot.c
 	${HOSTCC} ${HOSTCFLAGS} -DDEBUG -o $@ $>
