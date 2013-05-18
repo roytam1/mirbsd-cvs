@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.49 2007/08/24 14:00:57 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.50 2007/09/03 09:31:40 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.49 2007/08/24 14:00:57 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.50 2007/09/03 09:31:40 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R30</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -646,18 +646,22 @@ mws_content <<'EOF'
   ANSI'n'POSIX Environment (not finished)</li>
  <li>Plan porting mksh to <a href="http://www.minix3.org/">Minix 3</a>
   (not finished yet)</li>
+</ul>
+<p>mksh R31 was released as part of MirOS #10 with these news:</p><ul>
  <li>Support the TenDRA compiler (possibly also Ten15, not tried)</li>
  <li>Begin supporting Fabrice Bellard's Tiny C Compiler (tcc on Debian
   cannot link due to duplicate symbols in GNU libc, thus unfinished)</li>
  <li>Improve some mirtoconf checks (most notably, mknod(2) and macros)</li>
- <li>Add new emacs editing command “clear-screen” (<tt>ESC ^L</tt>)</li>
+ <li>Add new emacs editing command “clear-screen” (<tt>ESC ^L</tt>)
+  as requested by D. Adam Karim &lt;archite@midnightbsd.org&gt;</li>
  <li>Support building for MidnightBSD</li>
  <li>Add new shell alias “source”, semantics like the GNU bash builtin</li>
  <li>Add new shell option “set -o arc4random”, controlling whether rand(3) or
   arc4random(3) is used for the $RANDOM value, use arc4random_pushb(3)</li>
  <li>Add new builtin “rename” (just calls rename(2) on its arguments)</li>
  <li>Fix the inofficial OpenBSD port, from D. Adam “Archite” Karim, 10x</li>
- <li>Disable the less(1) history file by default (privacy issues)</li>
+ <li>Disable the less(1) history file by default (privacy issues) in the sample
+  <tt>dot.mkshrc</tt> file; mention other things in <tt>etc_profile</tt></li>
 </ul>
 <p>A milestone in development: mksh R30 can do this:</p><ul>
  <li>Build on and for Solaris, Linux and MirBSD with Sun's C compiler</li>
