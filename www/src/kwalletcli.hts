@@ -1,6 +1,6 @@
 mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.14 2010/02/14 19:28:04 tg Exp $'
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.15 2010/02/14 19:52:26 tg Exp $'
 mws_content <<'EOF'
 <h2>Table of Content</h2>
 EOF
@@ -26,14 +26,14 @@ mws_content <<'EOF'
  src="@@RELPATH@@pics/open_source_button.png" /></p>
 
 <h3 id="download">Download</h3>
-<p>Current version: kwalletcli 2.01</p><ul>
- <li>RMD160 (kwalletcli-2.01.tar.gz) = 9508bd04a12de686ceb3789669e971ba44ee44e9</li>
- <li>TIGER (kwalletcli-2.01.tar.gz) = a781eb1001ed94341b474643969372574ad2da819f0a204a</li>
- <li>4219952765 56307 <a href="@@ABSPATH@@/MirOS/dist/hosted/kwalletcli/kwalletcli-2.01.tar.gz">/MirOS/dist/hosted/kwalletcli/kwalletcli-2.01.tar.gz</a></li>
- <li>MD5 (kwalletcli-2.01.tar.gz) = 38c89c6720beb345e8e038235a7824f6</li>
+<p>Current version: kwalletcli 2.02 (2010-03-03)</p><ul>
+ <li>RMD160 (kwalletcli-2.02.tar.gz) = cd16f18f043f6e69bb880c2195f8d5cf55d56c74</li>
+ <li>TIGER (kwalletcli-2.02.tar.gz) = 718648351d8ae808300ae0055c86f23b87a49ac2fe79d23e</li>
+ <li>319340280 56900 <a href="@@ABSPATH@@/MirOS/dist/hosted/kwalletcli/kwalletcli-2.02.tar.gz">/MirOS/dist/hosted/kwalletcli/kwalletcli-2.02.tar.gz</a></li>
+ <li>MD5 (kwalletcli-2.02.tar.gz) = 015252dcec6ce2db3a335e8a6c57b469</li>
  <li style="list-style:none;">Mirrors</li>
- <li><a href="https://www.mirbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.01.tar.gz">Germany</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.01.tar.gz">Japan</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.02.tar.gz">Germany</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.02.tar.gz">Japan</a></li>
 </ul>
 
 <h3 id="contents">Ingredients</h3>
@@ -51,7 +51,7 @@ mws_content <<'EOF'
   given (it calls the original pinentry-{qt,gtk,curses} as coprocess),
   in the KDE Wallet and providing them to e.g. the GnuPG agent (<a
   href="@@RELPATH@@mksh.htm">mksh</a> script)</li>
- <li>A pinentry (Ägypten protocol) <strong>client</strong> called
+ <li>A pinentry (Assuan protocol) <strong>client</strong> called
   <tt>kwalletcli_getpin(1)</tt> which is used to request information
   from the user which is not <em>yet</em> stored in the KDE Wallet,
   as well as confirmation whether it should be stored there (script)</li>
@@ -125,6 +125,10 @@ mws_content <<'EOF'
  have totally different problems anyway). Hence, we suggest to “allow
  always” access for kwalletcli(1) and take the usual care when installing
  and running applications from third parties.</p>
+<p>If you turn “iodebug” in pinentry-kwallet on, it will log the entire
+ dialogue with both parent and co-process, including passwords, to a
+ file in your home directory. (This can only be done by editing the
+ script directly.)</p>
 
 <h2 id="users">Users</h2>
 <p>The <a href="http://gajim.org/">Gajim</a> Jabber client supports
