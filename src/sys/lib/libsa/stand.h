@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.8 2008/08/01 11:25:03 tg Exp $	*/
+/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.9 2008/08/01 11:40:07 tg Exp $	*/
 /*	$OpenBSD: stand.h,v 1.46 2007/05/04 21:44:07 reyk Exp $	*/
 /*	$NetBSD: stand.h,v 1.18 1996/11/30 04:35:51 gwr Exp $	*/
 
@@ -58,12 +58,7 @@ struct open_file;
 /*
  * Useful macros
  */
-#define NENTS(x)	sizeof(x)/sizeof(x[0])
-/* don't define if libkern included */
-#ifndef LIBKERN_INLINE
-#define	max(a,b)	(((a)>(b))? (a) : (b))
-#define	min(a,b)	(((a)>(b))? (b) : (a))
-#endif
+#define NENTS(x)	(sizeof (x) / sizeof (x[0]))
 
 /*
  * This structure is used to define file system operations in a file system
@@ -151,8 +146,6 @@ void	twiddle(void);
 void	gets(char *);
 __dead void	panic(const char *, ...) __attribute__((noreturn));
 __dead void	_rtt(void) __attribute__((noreturn));
-#define	bzero(s,n)	((void)memset((s),0,(n)))
-#define bcmp(s1,s2,n)	(memcmp((s2),(s1),(n)))
 #define	bcopy(s1,s2,n)	((void)memcpy((s2),(s1),(n)))
 void	*memcpy(void *, const void *, size_t);
 int	memcmp(const void *, const void *, size_t);

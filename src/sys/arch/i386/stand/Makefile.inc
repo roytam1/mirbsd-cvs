@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.17 2008/08/01 15:43:45 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.18 2008/08/01 23:20:18 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.40 2007/11/26 10:26:02 deraadt Exp $
 
 .ifndef MODSRC_SYS_ARCH_I386_STAND_MAKEFILE_INC
@@ -8,7 +8,7 @@ MODSRC_SYS_ARCH_I386_STAND_MAKEFILE_INC=1
 
 REAL_V!=	print '\#include <sys/param.h>\nMirBSD' | ${CC} -E - \
 		    | tail -1 | sed s,0x,,
-V?=		${REAL_V}p1
+V?=		${REAL_V}
 _V=		"${V}"
 
 KERNBASE?=	$S/../kern
