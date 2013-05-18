@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/qvwm/Makefile,v 1.4 2007/05/07 19:48:40 bsiegert Exp $
+# $MirOS: ports/x11/qvwm/Makefile,v 1.5 2008/03/09 17:23:45 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2002/12/29 20:31:41 fgsch Exp $
 
 COMMENT=	Windows 95/98/NT like window manager
@@ -20,8 +20,9 @@ FLAVOURS=	esound imlib
 FLAVOUR?=
 
 USE_X11=	Yes
+USE_CXX=	Yes
 
-CONFIGURE_STYLE= gnu
+CONFIGURE_STYLE= autoconf
 
 # the build-scheme will get confused otherwise
 post-patch:
