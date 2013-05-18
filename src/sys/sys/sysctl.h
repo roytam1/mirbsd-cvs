@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/sysctl.h,v 1.4 2006/10/17 20:48:53 tg Exp $ */
+/**	$MirOS: src/sys/sys/sysctl.h,v 1.5 2007/05/16 20:50:49 tg Exp $ */
 /*	$NetBSD: sysctl.h,v 1.99 2003/09/28 13:02:19 dsl Exp $	*/
 /*	$OpenBSD: sysctl.h,v 1.77 2004/04/19 22:52:33 tedu Exp $	*/
 /*	$NetBSD: sysctl.h,v 1.16 1996/04/09 20:55:36 cgd Exp $	*/
@@ -130,7 +130,7 @@ struct ctlname {
 #define	KERN_VNODE		13	/* struct: vnode structures */
 #define	KERN_PROC		14	/* struct: process entries */
 #define	KERN_FILE		15	/* struct: file entries */
-/* gap1				16	*/
+/*define gap			16	*/
 #define	KERN_POSIX1		17	/* int: POSIX.1 version */
 #define	KERN_NGROUPS		18	/* int: # of supplemental group ids */
 #define	KERN_JOB_CONTROL	19	/* int: is job control available */
@@ -139,7 +139,7 @@ struct ctlname {
 #define	KERN_DOMAINNAME		22	/* string: (YP) domainname */
 #define	KERN_MAXPARTITIONS	23	/* int: number of partitions/disk */
 #define	KERN_RAWPARTITION	24	/* int: raw partition number */
-#define	KERN_OSPATCHLEVEL	25	/* string: system patchlevel */
+/*define gap			25	*/
 /*define gap			26	*/
 #define	KERN_OSVERSION		27	/* string: kernel build version */
 #define	KERN_SOMAXCONN		28	/* int: listen queue maximum */
@@ -177,7 +177,7 @@ struct ctlname {
 #define KERN_USERASYMCRYPTO	60	/* int: usercrypto */
 #define	KERN_SEMINFO		61	/* struct: SysV struct seminfo */
 #define	KERN_SHMINFO		62	/* struct: SysV struct shminfo */
-#define	KERN_INTRCNT		63	/* node: interrupt counters */
+#define KERN_INTRCNT		63	/* node: interrupt counters */
 #define	KERN_WATCHDOG		64	/* node: watchdog */
 #define	KERN_ALLOWPSA		65	/* int: allow user "ps a" */
 #define	KERN_ALLOWPSE		66	/* int: allow user "ps e" */
@@ -188,7 +188,8 @@ struct ctlname {
 #define	KERN_PUSHRAND		71	/* int: allow rnd_addpool_add() API */
 #define	KERN_MAXCLUSTERS	72	/* number of mclusters */
 #define	KERN_EMULUNAME		73	/* uname for the linuxulator */
-#define	KERN_MAXID		74	/* number of valid kern ids */
+#define	KERN_OSPATCHLEVEL	74	/* string: system patchlevel */
+#define	KERN_MAXID		75	/* number of valid kern ids */
 
 #define	CTL_KERN_NAMES { \
 	{ 0, 0 }, \
@@ -207,7 +208,7 @@ struct ctlname {
 	{ "vnode", CTLTYPE_STRUCT }, \
 	{ "proc", CTLTYPE_STRUCT }, \
 	{ "file", CTLTYPE_STRUCT }, \
-	{ "gap1", 0 }, \
+	{ "gap", 0 }, \
 	{ "posix1version", CTLTYPE_INT }, \
 	{ "ngroups", CTLTYPE_INT }, \
 	{ "job_control", CTLTYPE_INT }, \
@@ -216,7 +217,7 @@ struct ctlname {
 	{ "domainname", CTLTYPE_STRING }, \
 	{ "maxpartitions", CTLTYPE_INT }, \
 	{ "rawpartition", CTLTYPE_INT }, \
-	{ "ospatchlevel", CTLTYPE_STRING }, \
+	{ "gap", 0 }, \
 	{ "gap", 0 }, \
 	{ "osversion", CTLTYPE_STRING }, \
 	{ "somaxconn", CTLTYPE_INT }, \
@@ -255,16 +256,17 @@ struct ctlname {
 	{ "seminfo", CTLTYPE_STRUCT }, \
 	{ "shminfo", CTLTYPE_STRUCT }, \
 	{ "intrcnt", CTLTYPE_NODE }, \
-	{ "watchdog", CTLTYPE_NODE }, \
+ 	{ "watchdog", CTLTYPE_NODE }, \
 	{ "allowpsa", CTLTYPE_INT }, \
 	{ "allowpse", CTLTYPE_INT }, \
-	{ "emul", CTLTYPE_NODE }, \
+ 	{ "emul", CTLTYPE_NODE }, \
 	{ "root_device", CTLTYPE_STRING }, \
 	{ "root_partition", CTLTYPE_INT }, \
  	{ "proc2", CTLTYPE_STRUCT }, \
 	{ "pushrand", CTLTYPE_INT }, \
  	{ "maxclusters", CTLTYPE_INT }, \
 	{ "emul_uname", CTLTYPE_STRING }, \
+	{ "ospatchlevel", CTLTYPE_STRING }, \
 }
 
 /*
