@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/roff2htm,v 1.31 2006/06/15 19:18:48 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.32 2006/08/28 02:03:52 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
@@ -122,7 +122,7 @@ s/\([0-9A-z][-.,0-9A-z]*\)-\n\(  *\)\([0-9A-z][-.,0-9A-z]*([1-9][A-z]*)\)\([^ ]*
 			print
 			let isblank++
 		fi
-	done | unexpand -a
+	done
 }
 
 output_header()
@@ -144,9 +144,9 @@ output_footer()
 {
 	cat <<-EOF
 		<hr /><p style="font-size:xx-small;">Generated on ${gendate} by
-		 \$MirOS: src/scripts/roff2htm,v 1.31 2006/06/15 19:18:48 tg Exp $</p>
+		 \$MirOS: src/scripts/roff2htm,v 1.32 2006/08/28 02:03:52 tg Exp $</p>
 		<p>These manual pages are copyrighted by their respective writers; their
-		 source can normally be found in our <a href="/cvs.cgi/src/">CVSweb</a>.
+		 source can be retrieved from our <a href="http://cvs.mirbsd.de/">CVSweb</a>.
 		 The rest is Copyright &copy; 2002-2006 <a href="http://www.mirbsd.org/">The
 		 MirOS Project</a>, Germany. <i style="font-size:3pt;"><br />
 		 This product includes material provided by Thorsten Glaser.</i></p>
