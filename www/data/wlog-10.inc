@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.125 2008/12/31 00:37:06 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.126 2008/12/31 16:56:54 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2460,4 +2460,45 @@ Tag: hardware bug
 <p>It’s simply amazing. I wanted to show gecko2@ a USB stick with both
  grml(-small) and MirBSD on it, using SYSLINUX, but this fscking laptop
  does not boot from USB stick. So, the ALIX.1c it is, or the VIA C7.</p>
+----
+Date: 31.12.2008 17:51
+Author: tg@
+Title: Best bash tip ever! Use mksh!
+Tag: mksh
+
+<p><a href="http://www.nardol.org/2008/12/31/best-bash-tip-ever">Best
+ Bash tip ever!</a> is a little… interesting. Of course, mksh(1) can do
+ it as well:</p>
+<pre>tg@bleu:~ $ head -2 /var/run/dmesg.boot
+MirBSD#10uA4 (GENERIC) #1161: Fri Dec 26 21:05:59 UTC 2008
+        tg@bleu.mirbsd.org:/usr/src/distrib/generic/obj/build/GENERIC
+tg@bleu:~ $ r 2=3
+head -3 /var/run/dmesg.boot
+MirBSD#10uA4 (GENERIC) #1161: Fri Dec 26 21:05:59 UTC 2008
+        tg@bleu.mirbsd.org:/usr/src/distrib/generic/obj/build/GENERIC
+cpu0: Intel(R) Pentium(R) M processor 1.40GHz ("GenuineIntel" 686-class) 598 MHz
+tg@bleu:~ $ fc -l
+1       head -2 /var/run/dmesg.boot
+2       head -3 /var/run/dmesg.boot</pre>
+<p>What’s best, the <em>modified commands</em> are written into the
+ history, not the modificator itself.</p>
+<p>Some of the commentaries are rather clueless too, not <tt>$!</tt>
+ but <tt>$_</tt> is the last word of the last command, in this case:</p>
+<pre>tg@bleu:~ $ head -2 /var/run/dmesg.boot                                                                         
+MirBSD#10uA4 (GENERIC) #1161: Fri Dec 26 21:05:59 UTC 2008
+        tg@bleu.mirbsd.org:/usr/src/distrib/generic/obj/build/GENERIC
+tg@bleu:~ $ print $_ 
+/var/run/dmesg.boot</pre>
+<p>Instead of “<tt>^-s</tt>” you would use “<tt>r -- -s=</tt>” (the two
+ dashes are needed as the “r” built-in alias parses its arguments).</p>
+<hr />
+<p>More on Planet Debian (read via Planet Symlink): how many times do I
+ have to tell you it’s “CAs” not “CA’s” again? Please do the world a
+ favour and read <a href="http://linuxwiki.de/ApoStrophen">Apostrophen
+ und andere Katastrophen</a> with rules for German and English: never
+ in German except the word ends with s or similar: „Jens’, Max’ und
+ Joes CDs“ and for genitives only in both languages, but with apostrophe
+ in English: “Jens’, Max’ and Joe’s CDs”</p>
+<p>ciruZ now has a blog too… with two ruby scripts. I prefer mine in
+ <a href="@@RELPATH@@mksh.htm">mksh</a> very much, thank you :þ</p>
 ----
