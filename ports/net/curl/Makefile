@@ -1,8 +1,8 @@
-# $MirOS: ports/net/curl/Makefile,v 1.7 2006/10/06 21:20:21 tg Exp $
+# $MirOS: ports/net/curl/Makefile,v 1.8 2007/02/22 22:57:54 tg Exp $
 # $OpenBSD: Makefile,v 1.44 2004/05/18 23:30:45 brad Exp $
 
 COMMENT=		get files from FTP, Gopher, HTTP or HTTPS servers
-DISTNAME=		curl-7.15.5
+DISTNAME=		curl-7.16.2
 CATEGORIES=		net
 MASTER_SITES=		http://curl.haxx.se/download/ \
 			ftp://ftp.sunet.se/pub/www/utilities/curl/ \
@@ -22,6 +22,8 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		yes
+AUTOCONF_VERSION=	2.61
+MODGNU_TYPESCAN=	recv send strdup strstr getnameinfo
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-static \
 			--enable-http \
@@ -31,20 +33,26 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-telnet \
 			--enable-tftp \
 			--enable-manual \
+			--disable-ares \
 			--enable-verbose \
+			--disable-sspi \
 			--enable-crypto-auth \
 			--enable-cookies \
 			--enable-hidden-symbols \
 			--without-krb4 \
+			--without-spnego \
 			--with-ssl \
+			--with-zlib \
+			--without-libssh2 \
 			--without-gnutls \
 			--without-ca-bundle \
-			--with-zlib \
 			--without-libidn
 
 .include <mirports.sys.mk>
 
-.if (${OStype} == "Darwin") || (${OStype} == "Interix")
+CPPFLAGS+=		-DCURL_CA_PATH=\"${SYSCONFDIR}/ssl/certs\"
+
+.if !exists(/dev/arandom)
 CONFIGURE_ARGS+=	--with-random=/dev/urandom
 .else
 CONFIGURE_ARGS+=	--with-random=/dev/arandom

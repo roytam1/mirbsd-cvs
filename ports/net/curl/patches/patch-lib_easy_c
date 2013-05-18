@@ -1,0 +1,14 @@
+$MirOS$
+--- lib/easy.c.orig	Mon Apr  9 21:00:34 2007
++++ lib/easy.c	Tue May  8 20:36:48 2007
+@@ -721,6 +721,10 @@ void curl_easy_reset(CURL *curl)
+   /* This is our prefered CA cert bundle since install time */
+   data->set.ssl.CAfile = (char *)CURL_CA_BUNDLE;
+ #endif
++#ifdef CURL_CA_PATH
++    /* This is our preferred CA cert path at build time */
++    data->set.ssl.CApath = (char *)CURL_CA_PATH;
++#endif
+ 
+   data->set.ssh_auth_types = CURLSSH_AUTH_DEFAULT; /* defaults to any auth
+                                                       type */
