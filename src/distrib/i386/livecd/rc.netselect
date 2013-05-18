@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/rc.netselect,v 1.15 2006/05/15 20:02:17 tg Exp $
+# $MirOS: src/distrib/i386/livecd/rc.netselect,v 1.16 2006/05/17 13:36:41 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -114,7 +114,7 @@ function do_netconf
 		#print ntpd_flags=NO >>/etc/rc.conf.local
 	else
 		print dhcp >/etc/hostname.$1
-		print rdate_flags=\"-ncv ntp.mirbsd.org\" >>/etc/rc.conf.local
+		print rdate_flags=\"-nv ntp.mirbsd.org\" >>/etc/rc.conf.local
 		print rtsold_flags=-am >>/etc/rc.conf.local
 		print -n >/tmp/try_rnd
 	fi
