@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.24 2008/10/21 01:35:59 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.25 2008/10/21 01:43:01 tg Exp $
 
 all: sundsklbl
 
@@ -51,9 +51,22 @@ makecdimage: .PHONY
 		mv cddir/v${OSrev}/$$arch/boot cddir/b_$$arch.ldr; \
 	done
 	dd if=/dev/arandom bs=2048 count=1 of=eltorito.loo 2>&-	# El Torito
+	# fix path to default kernel file in second-stage boot loader
+	set -A sect_text -- $$(objdump -wh --target=a.out-sunos-big \
+	    cddir/b_sparc.ldr | fgrep .text); \
+	(( fofs_text = 0x$${sect_text[5]} )); \
+	nm --target=a.out-sunos-big cddir/b_sparc.ldr |& \
+	while read -p adr typ sym; do \
+		[[ $$sym = @(___defkernel|_start) ]] || continue; \
+		eval typeset -i10 sym$$sym=0x\$$adr; \
+	done; \
+	typeset -Uui10 ofs; \
+	(( ofs = sym___defkernel - sym_start + fofs_text )); \
+	print -n v${OSrev}/sparc/bsd.rd\\0 | \
+	    dd of=cddir/b_sparc.ldr bs=1 seek=$$ofs conv=notrunc
 	ln cddir/v${OSrev}/sparc/bsd.rd cddir/vmunix		# for kicks
-	ln cddir/v${OSrev}/sparc/bsd.rd cddir/bsd		# for idiots
-	cp ${.CURDIR}/../common/00-README ${.CURDIR}/boot.cfg cddir/
+	cp ${.CURDIR}/../common/00-README cddir/
+	cp ${.CURDIR}/../common/boot.cfg.i386 cddir/boot.cfg
 	makefs -t cd9660 -o "$$(print -r -- ${CDROM_OPTS} | tr ' ~' ', ')" \
 	    ${CDROM}~ cddir
 	# pad for a geometry of 8 heads, 16 sectors per track
