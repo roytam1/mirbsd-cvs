@@ -1,5 +1,7 @@
-# $MirOS: ports/net/ucd-snmp/Makefile,v 1.3 2006/09/14 00:12:25 tg Exp $
+# $MirOS: ports/net/ucd-snmp/Makefile,v 1.4 2006/12/20 15:31:26 tg Exp $
 # $OpenBSD: Makefile,v 1.38 2003/04/22 15:15:57 danh Exp $
+
+BROKEN=			SIOCADDRT
 
 COMMENT=		extensible SNMP implementation
 VERSION=		4.2.6
