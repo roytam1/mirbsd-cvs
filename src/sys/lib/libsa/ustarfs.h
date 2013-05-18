@@ -1,7 +1,14 @@
-/* $MirOS: src/sys/lib/libsa/fat.h,v 1.2 2005/12/17 05:46:26 tg Exp $ */
+/* $MirOS: src/sys/lib/libsa/ustarfs.h,v 1.1 2010/01/10 19:21:38 tg Exp $ */
 
 #ifndef _SYS_LIB_LIBSA_USTARFS_H
 #define _SYS_LIB_LIBSA_USTARFS_H
+
+/* ustarfs: offset of ustar archive from begin of filesystem */
+#ifdef __sparc__
+#define USTARFS_FIRSTSEC	1
+#else
+#define USTARFS_FIRSTSEC	0
+#endif
 
 int ustarfs_open(char *, struct open_file *);
 int ustarfs_close(struct open_file *);

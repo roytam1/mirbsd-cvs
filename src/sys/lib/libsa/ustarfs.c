@@ -26,7 +26,7 @@
 #include <lib/libsa/ustar.h>
 #include <lib/libsa/ustarfs.h>
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: src/sys/lib/libsa/ustarfs.c,v 1.1 2010/01/10 19:21:38 tg Exp $");
 
 /* This is intentionally simple. We don’t support directories. */
 
@@ -196,7 +196,7 @@ ustar_search(struct ustarfs_file *ff, const char *ofn)
 
 	if (ff->sector == SEC_VDIR) {
 		/* search from start */
-		ff->sector = 0;
+		ff->sector = USTARFS_FIRSTSEC;
 		goto loadsec;
 	}
 
@@ -284,8 +284,8 @@ ustarfs_open(char *path, struct open_file *f)
 	if (path[0] == '/' && path[1] == '.' && path[2] == '/')
 		path += 3;
 
-	/* check sector #0 for valid ustar header */
-	if ((rv = rd(f, 0)) || ustar_check(0))
+	/* check first sector for valid ustar header */
+	if ((rv = rd(f, USTARFS_FIRSTSEC)) || ustar_check(0))
 		return (rv ? rv : EUNLAB);
 
 	/* allocate fs specific data structure */
@@ -305,7 +305,7 @@ ustarfs_open(char *path, struct open_file *f)
 	}
 
 	path = fn_normalise(NULL, path);
-	ff->sector = 0;
+	ff->sector = USTARFS_FIRSTSEC;
 	ff->nodeseekp = 0;
 	if (ustar_cmpfn(path)) {
  do_search:
