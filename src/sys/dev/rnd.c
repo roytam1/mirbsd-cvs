@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.57 2010/01/06 19:11:53 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.58 2010/01/28 23:00:45 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -649,51 +649,6 @@ arc4random_bytes(void *buf, size_t n)
 		(void)arc4_getbyte();
 	while (cp < end)
 		*cp++ = arc4_getbyte();
-}
-
-/*
- * Calculate a uniformly distributed random number less than upper_bound
- * avoiding "modulo bias".
- *
- * Uniformity is achieved by generating new random numbers until the one
- * returned is outside the range [0, 2**32 % upper_bound).  This
- * guarantees the selected random number will be inside
- * [2**32 % upper_bound, 2**32) which maps back to [0, upper_bound)
- * after reduction modulo upper_bound.
- */
-u_int32_t
-arc4random_uniform(u_int32_t upper_bound)
-{
-	u_int32_t r, min;
-
-	if (upper_bound < 2)
-		return 0;
-
-#if (ULONG_MAX > 0xFFFFFFFFUL)
-	min = 0x100000000UL % upper_bound;
-#else
-	/* Calculate (2**32 % upper_bound) avoiding 64-bit math */
-	if (upper_bound > 0x80000000U)
-		/* 2**32 - upper_bound (only one "value area") */
-		min = 1 + ~upper_bound;
-	else
-		/* (2**32 - x) % x == 2**32 % x when x <= 2**31 */
-		min = (0xFFFFFFFFU - upper_bound + 1) % upper_bound;
-#endif
-
-	/*
-	 * This could theoretically loop forever but each retry has
-	 * p > 0.5 (worst case, usually far better) of selecting a
-	 * number inside the range we need, so it should rarely need
-	 * to re-roll.
-	 */
-	for (;;) {
-		r = arc4random();
-		if (r >= min)
-			break;
-	}
-
-	return r % upper_bound;
 }
 
 void

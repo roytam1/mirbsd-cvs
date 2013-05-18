@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.21 2009/11/09 21:36:38 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.22 2010/01/10 20:18:50 tg Exp $ */
 
 /*-
  * Copyright (c) 2008, 2010
@@ -80,6 +80,9 @@ typedef struct {
 
 __BEGIN_DECLS
 void __main(void);
+
+/* u_int32_t in the original API, but we pray they're the same */
+uint32_t arc4random_uniform(uint32_t);
 
 int bcmp(const void *, const void *, size_t)
     __attribute__((bounded (buffer, 1, 3)))

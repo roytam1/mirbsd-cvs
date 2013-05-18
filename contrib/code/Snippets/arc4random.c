@@ -1,5 +1,5 @@
 static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
-    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.26 2010/01/28 16:47:48 tg Exp $"
+    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.27 2010/01/28 16:48:12 tg Exp $"
     ;
 
 /*-
@@ -567,54 +567,56 @@ arc4random_buf(void *_buf, size_t n)
 	}
 }
 
-/*
- * Calculate a uniformly distributed random number less than upper_bound
- * avoiding "modulo bias".
- *
- * Uniformity is achieved by generating new random numbers until the one
- * returned is outside the range [0, 2**32 % upper_bound).  This
- * guarantees the selected random number will be inside
- * [2**32 % upper_bound, 2**32) which maps back to [0, upper_bound)
- * after reduction modulo upper_bound.
+/*-
+ * Written by Damien Miller.
+ * With simplifications by Jinmei Tatuya.
  */
-u_int32_t
-arc4random_uniform(u_int32_t upper_bound)
+
+/*
+ * Calculate a uniformly distributed random number less than
+ * upper_bound avoiding "modulo bias".
+ *
+ * Uniformity is achieved by generating new random numbers
+ * until the one returned is outside the range
+ * [0, 2^32 % upper_bound[. This guarantees the selected
+ * random number will be inside the range
+ * [2^32 % upper_bound, 2^32[ which maps back to
+ * [0, upper_bound[ after reduction modulo upper_bound.
+ */
+uint32_t
+arc4random_uniform(uint32_t upper_bound)
 {
-	u_int32_t r, min;
+	uint32_t r, min;
 
 	if (upper_bound < 2)
 		return (0);
 
-#if defined(ULONG_MAX) && (ULONG_MAX > 0xffffffffUL)
+#if defined(ULONG_MAX) && (ULONG_MAX > 0xFFFFFFFFUL)
 	min = 0x100000000UL % upper_bound;
 #else
-	/* Calculate (2**32 % upper_bound) avoiding 64-bit math */
-	if (upper_bound > 0x80000000)
-		min = 1 + ~upper_bound;		/* 2**32 - upper_bound */
-	else {
-		/* (2**32 - (x * 2)) % x == 2**32 % x when x <= 2**31 */
-		min = ((0xffffffff - (upper_bound * 2)) + 1) % upper_bound;
-	}
+	/* calculate (2^32 % upper_bound) avoiding 64-bit math */
+	if (upper_bound > 0x80000000U)
+		/* 2^32 - upper_bound (only one "value area") */
+		min = 1 + ~upper_bound;
+	else
+		/* ((2^32 - x) % x) == (2^32 % x) when x <= 2^31 */
+		min = (0xFFFFFFFFU - upper_bound + 1) % upper_bound;
 #endif
 
 	/*
 	 * This could theoretically loop forever but each retry has
 	 * p > 0.5 (worst case, usually far better) of selecting a
 	 * number inside the range we need, so it should rarely need
-	 * to re-roll.
+	 * to re-roll (at all).
 	 */
-	if (!rs_initialized || arc4_stir_pid != getpid())
+	arc4_count -= 4;
+	if (!rs_initialized || arc4_stir_pid != getpid() || arc4_count <= 0)
 		arc4random_stir();
 	if (arc4_getbyte() & 1)
 		(void)arc4_getbyte();
-	for (;;) {
-		arc4_count -= 4;
-		if (arc4_count <= 0)
-			arc4random_stir();
+	do {
 		r = arc4_getword();
-		if (r >= min)
-			break;
-	}
+	} while (r < min);
 
 	return (r % upper_bound);
 }

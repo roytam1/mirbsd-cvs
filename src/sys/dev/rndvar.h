@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.19 2009/03/02 17:56:56 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.20 2009/11/09 19:43:45 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
@@ -112,7 +112,6 @@ void rnd_bootpool_add(const void *, size_t)
 void arc4random_bytes(void *, size_t)
     __attribute__((bounded (string, 1, 2)));
 u_int32_t arc4random(void);
-u_int32_t arc4random_uniform(u_int32_t);
 
 #endif /* _KERNEL */
 #endif /* !_ASM_SOURCE */
