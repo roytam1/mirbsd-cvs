@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/libsa.h,v 1.8 2009/08/11 13:23:59 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/libsa.h,v 1.9 2009/10/04 16:49:43 tg Exp $ */
 /*	$OpenBSD: libsa.h,v 1.44 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
@@ -50,7 +50,7 @@ struct i386_boot_probes {
 extern struct devsw_prefix_match {
 	struct devsw *devops;
 	struct fs_ops *fsops;
-	char prefix[5];
+	char prefix[5];		/* matched case-insensitively */
 	char networked;		/* pass bootmac */
 	char strip;		/* strip prefix from file */
 } devsw_match[];

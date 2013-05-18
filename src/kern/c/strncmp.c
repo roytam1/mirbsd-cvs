@@ -29,11 +29,10 @@
  * SUCH DAMAGE.
  */
 
-#if !defined(_KERNEL) && !defined(_STANDALONE)
-#include <string.h>
-#else
-#include <lib/libkern/libkern.h>
-#endif
+#include <sys/types.h>
+#include <libckern.h>
+
+__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
 
 int
 strncmp(const char *s1, const char *s2, size_t n)

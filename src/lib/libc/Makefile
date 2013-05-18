@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/Makefile,v 1.33 2009/11/09 21:36:38 tg Exp $
+# $MirOS: src/lib/libc/Makefile,v 1.34 2010/01/07 22:34:48 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2005/06/29 14:05:08 mickey Exp $
 #
 # All library objects contain sccsid strings by default; they may be
@@ -19,6 +19,7 @@ LINTFLAGS+=		-z
 
 LIBCSRCDIR=		${.CURDIR}
 KERNNOGCC=		#defined
+KERNISUSR=		#defined
 KERNBASE?=		${.CURDIR}/../../kern
 .include "${LIBCSRCDIR}/Makefile.inc"
 .include "${KERNBASE}/c/Makefile.inc"

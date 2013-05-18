@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.17 2009/08/11 13:23:59 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.18 2009/10/04 16:49:43 tg Exp $	*/
 /*	$OpenBSD: dev_i386.c,v 1.30 2007/06/27 20:29:37 mk Exp $	*/
 
 /*
@@ -108,7 +108,8 @@ devopen(struct open_file *f, const char *fname, char **file)
 			 * want a prefix; loop if the file has none
 			 * or it does not match
 			 */
-			if (!*cp || strncmp(*file, dm->prefix, cp - *file)) {
+			if (!*cp || strncasecmp(*file, dm->prefix,
+			    cp - *file)) {
 #ifdef DEBUG
 				if (debug)
 					printf("=NO");

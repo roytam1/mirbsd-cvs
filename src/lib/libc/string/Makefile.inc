@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.24 2008/08/04 19:10:53 tg Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.25 2008/12/27 21:43:23 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
@@ -28,11 +28,6 @@ CFLAGS_wcswcs.o+= -Wno-cast-qual
 CFLAGS_wmemchr.o+= -Wno-cast-qual
 .endif
 
-UNIFDEF_SRCS+=	strcasecmp.c strcasecmpfun.c -DSTRCASECMP
-UNIFDEF_SRCS+=	strncasecmp.c strcasecmpfun.c -DSTRNCASECMP
-UNIFDEF_SRCS+=	wcscasecmp.c strcasecmpfun.c -DWCSCASECMP
-UNIFDEF_SRCS+=	wcsncasecmp.c strcasecmpfun.c -DWCSNCASECMP
-
 UNIFDEF_SRCS+=	wcswcs.c wcsstr.c -DWCSWCS
 
 SRCS+=		strndup.c
@@ -42,7 +37,7 @@ UNIFDEF_SRCS+=	wcsndup.c strndup.c -DWIDEC
 # m-d Makefile.inc must include sources for:
 #	bcopy() index()
 #	rindex() strcat() strcpy() strcspn()
-#	strncat() strncmp() strncpy() strpbrk() strsep()
+#	strncat() strncpy() strpbrk() strsep()
 #	strspn() strstr() swav()
 # m-d Makefile.inc may include sources for:
 #	memcpy() memmove() strchr() strrchr()

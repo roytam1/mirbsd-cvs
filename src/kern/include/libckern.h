@@ -1,7 +1,7 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.20 2008/12/29 20:24:14 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.21 2009/11/09 21:36:38 tg Exp $ */
 
 /*-
- * Copyright (c) 2008
+ * Copyright (c) 2008, 2010
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -120,6 +120,7 @@ size_t optu8to16(wchar_t * __restrict__, const char * __restrict__,
     size_t, mbstate_t * __restrict__)
     __attribute__((bounded (string, 2, 3)));
 
+int strcasecmp(const char *, const char *);
 int strcmp(const char *, const char *);
 int strcoll(const char *, const char *);
 size_t strlcat(char *, const char *, size_t)
@@ -127,6 +128,8 @@ size_t strlcat(char *, const char *, size_t)
 size_t strlcpy(char *, const char *, size_t)
     __attribute__((bounded (string, 1, 3)));
 size_t strlen(const char *);
+int strncasecmp(const char *, const char *, size_t);
+int strncmp(const char *, const char *, size_t);
 size_t strxfrm(char *, const char *, size_t)
     __attribute__((bounded (string, 1, 3)));
 
@@ -134,11 +137,13 @@ size_t strxfrm(char *, const char *, size_t)
 size_t wcrtomb(char * __restrict__, wchar_t, mbstate_t * __restrict__)
     __attribute__((bounded (minbytes, 1, 5)));
 #endif
+int wcscasecmp(const wchar_t *, const wchar_t *);
 int wcscmp(const wchar_t *, const wchar_t *);
 int wcscoll(const wchar_t *, const wchar_t *);
 size_t wcslcat(wchar_t *, const wchar_t *, size_t);
 size_t wcslcpy(wchar_t *, const wchar_t *, size_t);
 size_t wcslen(const wchar_t *);
+int wcsncasecmp(const wchar_t *, const wchar_t *, size_t);
 size_t wcsxfrm(wchar_t *, const wchar_t *, size_t);
 __END_DECLS
 

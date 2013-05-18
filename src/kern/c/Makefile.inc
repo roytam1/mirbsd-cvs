@@ -1,10 +1,11 @@
-# $MirOS: src/kern/c/Makefile.inc,v 1.17 2009/09/15 16:27:33 tg Exp $
+# $MirOS: src/kern/c/Makefile.inc,v 1.18 2009/11/09 21:36:37 tg Exp $
 
 .ifndef _KERNBASE_C_MAKEFILE_INC
 _KERNBASE_C_MAKEFILE_INC=	#defined
 
 # imports:
 # ifdef(KERNSTAND)	-> bootloader, no kernel/libc only stuff
+# ifdef(KERNISUSR)	-> user space
 # ifdef(KERNNOGCC)	-> -fhosted -lgcc, no gcc replacement stuff
 # ifdef(SMALL)		-> -DSMALL, prefer size over speed optimisation
 
@@ -15,6 +16,7 @@ _KERNBASE_C_MAKEFILE_INC=	#defined
 # strlen() wcslen()
 # bzero() ffs() memchr() memcmp()=bcmp() memcpy()=bcopy()=memmove() memset()
 # strcmp()=strcoll()
+# strncmp()
 
 .include "${KERNBASE}/c/${MACHINE_ARCH}/Makefile.inc"
 
@@ -23,6 +25,7 @@ _KERNBASE_C_MAKEFILE_INC=	#defined
 
 # XSRCS, UNIFDEF_SRCS:	kernel, userland, bootloader
 # KUSRCS, UIF_KUSRCS:	kernel, userland
+# NUSRCS, UIF_NUSRCS:	userland
 # LSRCS, UIF_LSRCS:	lint libraries (userland)
 
 UIF_KUSRCS+=	tai_isleap.c taitime.c -DL_tai_isleap
@@ -38,11 +41,16 @@ UIF_KUSRCS+=	tai_tm2mjd.c taitime.c -DL_tm2mjd
 UNIFDEF_SRCS+=	strlcpy.c strlfun.c -DL_strlcpy
 UNIFDEF_SRCS+=	strlcat.c strlfun.c -DL_strlcat
 UNIFDEF_SRCS+=	strxfrm.c strlfun.c -DL_strxfrm
-UIF_KUSRCS+=	wcslcpy.c strlfun.c -DL_strlcpy,-DWIDEC
-UIF_KUSRCS+=	wcslcat.c strlfun.c -DL_strlcat,-DWIDEC
-UIF_KUSRCS+=	wcsxfrm.c strlfun.c -DL_strxfrm,-DWIDEC
+UIF_NUSRCS+=	wcslcpy.c strlfun.c -DL_strlcpy,-DWIDEC
+UIF_NUSRCS+=	wcslcat.c strlfun.c -DL_strlcat,-DWIDEC
+UIF_NUSRCS+=	wcsxfrm.c strlfun.c -DL_strxfrm,-DWIDEC
 
-UIF_KUSRCS+=	wcscmp.c strcmp.c -DWIDEC
+UIF_NUSRCS+=	wcscmp.c strcmp.c -DWIDEC
+
+UNIFDEF_SRCS+=	strcasecmp.c strcasecmpfun.c -DSTRCASECMP
+UNIFDEF_SRCS+=	strncasecmp.c strcasecmpfun.c -DSTRNCASECMP
+UIF_NUSRCS+=	wcscasecmp.c strcasecmpfun.c -DWCSCASECMP
+UIF_NUSRCS+=	wcsncasecmp.c strcasecmpfun.c -DWCSNCASECMP
 
 # quad support
 XSRCS+=		adddi3.c anddi3.c ashldi3.c ashrdi3.c cmpdi2.c divdi3.c \
@@ -52,9 +60,7 @@ XSRCS+=		adddi3.c anddi3.c ashldi3.c ashrdi3.c cmpdi2.c divdi3.c \
 KUSRCS+=	fixdfdi.c fixsfdi.c fixunsdfdi.c fixunssfdi.c \
 		floatdidf.c floatdisf.c floatunsdidf.c
 
-.ifndef KERNNOGCC
-XSRCS+=		__main.c
-.endif
+NUSRCS+=	__main.c
 
 XSRCS+=		hdump.c
 KUSRCS+=	oaat.c
@@ -65,6 +71,11 @@ KUSRCS+=	optu16to8.c optu8to16.c
 .ifndef KERNSTAND
 XSRCS+=		${KUSRCS}
 UNIFDEF_SRCS+=	${UIF_KUSRCS}
+.endif
+
+.ifdef KERNISUSR
+XSRCS+=		${NUSRCS}
+UNIFDEF_SRCS+=	${UIF_NUSRCS}
 .endif
 
 .for _z _q _s in ${UNIFDEF_SRCS}

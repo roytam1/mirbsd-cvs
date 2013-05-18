@@ -1,4 +1,4 @@
-# $MirOS: src/sys/lib/libkern/Makefile,v 1.13 2008/08/01 19:07:45 tg Exp $
+# $MirOS: src/sys/lib/libkern/Makefile,v 1.14 2009/11/09 19:43:46 tg Exp $
 # $NetBSD: Makefile,v 1.31 1996/08/10 04:01:31 mycroft Exp $
 # $OpenBSD: Makefile,v 1.18 2004/11/28 07:20:25 mickey Exp $
 
@@ -15,7 +15,7 @@ SMALL=		#defined
 
 CPPFLAGS=	${KERNCPPFLAGS}
 
-SRCS+=  	strncmp.c strncpy.c strncasecmp.c
+SRCS+=  	strncpy.c
 SRCS+=		oaat.c
 
 .include "${KERNBASE}/c/Makefile.inc"

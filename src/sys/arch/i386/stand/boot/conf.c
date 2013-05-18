@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.23 2009/12/26 15:09:01 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.24 2010/01/10 19:21:35 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.39 2008/04/19 23:20:22 weingart Exp $	*/
 
 /*
@@ -282,32 +282,6 @@ struct devsw_prefix_match devsw_match[] = {
 	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "x", 0, 0 },
 	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "y", 0, 0 },
 	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "z", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "A", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "B", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "C", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "D", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "E", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "F", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "G", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "H", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "I", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "J", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "K", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "L", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "M", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "N", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "O", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "P", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "Q", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "R", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "S", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "T", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "U", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "V", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "W", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "X", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "Y", 0, 0 },
-	{ &devsw[DEVSW_DUMMYDEV], dos_fs_ops, "Z", 0, 0 },
 #endif
 #endif
 #ifdef USE_PXE

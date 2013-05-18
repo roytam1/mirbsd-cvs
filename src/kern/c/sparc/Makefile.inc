@@ -1,10 +1,12 @@
-# $MirOS: src/kern/c/sparc/Makefile.inc,v 1.10 2008/12/27 21:29:31 tg Exp $
+# $MirOS: src/kern/c/sparc/Makefile.inc,v 1.11 2009/09/15 16:27:34 tg Exp $
 
 XSRCS+=		htonl.c htons.c ntohl.c ntohs.c
 
 XSRCS+=		strlen.S
 LSRCS+=		strlen.c
-UIF_KUSRCS+=	wcslen.c strlen.c -DWIDEC
+UIF_NUSRCS+=	wcslen.c strlen.c -DWIDEC
+
+XSRCS+=		strncmp.c
 
 UIF_KUSRCS+=	mempcpy.c memcpy.c -DL_mempcpy
 

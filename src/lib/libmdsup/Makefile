@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libmdsup/Makefile,v 1.2 2009/01/24 15:19:00 tg Exp $
+# $MirOS: src/lib/libmdsup/Makefile,v 1.3 2009/09/15 16:27:29 tg Exp $
 
 LIB=		mdsup
 NOMAN=		Yes
@@ -6,6 +6,7 @@ NOMAN=		Yes
 .include <bsd.own.mk>
 
 KERNNOGCC=	#defined
+KERNISUSR=	#defined
 KERNBASE?=	${.CURDIR}/../../kern
 KERNPICKSRCS=	Yes
 .include "${KERNBASE}/c/Makefile.inc"

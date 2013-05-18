@@ -8,11 +8,13 @@
 
 	.text
 
+#if !defined(SMALL_KERNEL) && defined(_STANDALONE)
 /*
  * NOTE: I've unrolled the loop eight times: large enough to make a
  * significant difference, and small enough not to totally trash the
  * cache.
  */
+#endif
 
 ENTRY(strncmp)
 	pushl	%ebx
@@ -22,7 +24,9 @@ ENTRY(strncmp)
 	testl	%edx,%edx
 	jmp	L2			/* Jump into the loop! */
 
+#if !defined(SMALL_KERNEL) && defined(_STANDALONE)
 	.align 2,0x90
+#endif
 L1:	incl	%eax
 	incl	%ecx
 	decl	%edx
@@ -31,6 +35,7 @@ L2:	jz	L4			/* strings are equal */
 	testb	%bl,%bl
 	jz	L3
 	cmpb	%bl,(%ecx)
+#if !defined(SMALL_KERNEL) && defined(_STANDALONE)
 	jne	L3
 
 	incl	%eax
@@ -101,15 +106,20 @@ L2:	jz	L4			/* strings are equal */
 	testb	%bl,%bl
 	jz	L3
 	cmpb	%bl,(%ecx)
+#endif
 	je	L1
 
+#if !defined(SMALL_KERNEL) && defined(_STANDALONE)
 	.align 2,0x90
+#endif
 L3:	movzbl	(%eax),%eax		/* unsigned comparision */
 	movzbl	(%ecx),%ecx
 	subl	%ecx,%eax
 	popl	%ebx
 	ret
+#if !defined(SMALL_KERNEL) && defined(_STANDALONE)
 	.align 2,0x90
+#endif
 L4:	xorl	%eax,%eax
 	popl	%ebx
 	ret
