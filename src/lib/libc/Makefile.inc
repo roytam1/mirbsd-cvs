@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/Makefile.inc,v 1.4 2005/07/01 13:51:24 tg Exp $
+# $MirOS: src/lib/libc/Makefile.inc,v 1.5 2005/09/22 20:39:58 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.11 2005/06/17 20:37:31 drahn Exp $
 
 .ifndef LIBCSRCDIR
@@ -20,12 +20,13 @@ AINC+=  -nostdinc -idirafter ${DESTDIR}/usr/include
 .include "${LIBCSRCDIR}/arch/${MACHINE_ARCH}/Makefile.inc"
 .endif
 
+.include "${LIBCSRCDIR}/compat-43/Makefile.inc"
+.include "${LIBCSRCDIR}/crypt/Makefile.inc"
 .include "${LIBCSRCDIR}/db/Makefile.inc"
 .include "${LIBCSRCDIR}/dlfcn/Makefile.inc"
-.include "${LIBCSRCDIR}/compat-43/Makefile.inc"
 .include "${LIBCSRCDIR}/gen/Makefile.inc"
-.include "${LIBCSRCDIR}/crypt/Makefile.inc"
 .include "${LIBCSRCDIR}/hash/Makefile.inc"
+.include "${LIBCSRCDIR}/i18n/Makefile.inc"
 .include "${LIBCSRCDIR}/net/Makefile.inc"
 .include "${LIBCSRCDIR}/ohash/Makefile.inc"
 .include "${LIBCSRCDIR}/quad/Makefile.inc"
@@ -34,10 +35,10 @@ AINC+=  -nostdinc -idirafter ${DESTDIR}/usr/include
 .include "${LIBCSRCDIR}/stdio/Makefile.inc"
 .include "${LIBCSRCDIR}/stdlib/Makefile.inc"
 .include "${LIBCSRCDIR}/string/Makefile.inc"
+.include "${LIBCSRCDIR}/sys/Makefile.inc"
 .include "${LIBCSRCDIR}/termios/Makefile.inc"
 .include "${LIBCSRCDIR}/thread/Makefile.inc"
 .include "${LIBCSRCDIR}/time/Makefile.inc"
-.include "${LIBCSRCDIR}/sys/Makefile.inc"
 
 LIBKERN=	${LIBCSRCDIR}/../../sys/lib/libkern
 
