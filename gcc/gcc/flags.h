@@ -1,8 +1,8 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/flags.h,v 1.3 2005/03/26 09:20:15 tg Exp $ */
 
 /* Compilation switch flag definitions for GCC.
    Copyright (C) 1987, 1988, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2002,
-   2003, 2005
+   2003, 2005, 2009
    Free Software Foundation, Inc.
 
 This file is part of GCC.
@@ -187,6 +187,11 @@ extern bool warn_deprecated_decl;
    aliasing safe.  */
 
 extern bool warn_strict_aliasing;
+
+/* Warn if a function uses more stack than it should.  */
+
+extern int stack_larger_than_size;
+extern bool warn_stack_larger_than;
 
 /* Warn when not issuing stack smashing protection for some reason.  */
 

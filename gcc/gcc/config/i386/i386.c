@@ -1,6 +1,8 @@
+/* $MirOS$ */
+
 /* Subroutines used for code generation on IA-32.
    Copyright (C) 1988, 1992, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001,
-   2002, 2003, 2004 Free Software Foundation, Inc.
+   2002, 2003, 2004, 2009 Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -723,6 +725,8 @@ struct ix86_frame
   HOST_WIDE_INT frame_pointer_offset;
   HOST_WIDE_INT hard_frame_pointer_offset;
   HOST_WIDE_INT stack_pointer_offset;
+
+  HOST_WIDE_INT local_size;
 
   /* When save_regs_using_mov is set, emit prologue using
      move instead of push instructions.  */
@@ -5021,7 +5025,7 @@ ix86_compute_frame_layout (struct ix86_frame *frame)
   HOST_WIDE_INT size = get_frame_size ();
 
   frame->nregs = ix86_nsaved_regs ();
-  total_size = size;
+  frame->local_size = total_size = size;
 
   /* During reload iteration the amount of registers saved can change.
      Recompute the value as needed.  Do not recompute when amount of registers
@@ -5250,6 +5254,9 @@ ix86_expand_prologue (void)
   HOST_WIDE_INT allocate;
 
   ix86_compute_frame_layout (&frame);
+
+  if (warn_stack_larger_than && frame.local_size > stack_larger_than_size)
+    warning ("stack usage is %d bytes", frame.local_size);
 
   /* Note: AT&T enter does NOT have reversed args.  Enter is probably
      slower on all targets.  Also sdb doesn't like it.  */

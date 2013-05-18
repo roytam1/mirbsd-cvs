@@ -1,6 +1,8 @@
+/* $MirOS$ */
+
 /* Subroutines for insn-output.c for SPARC.
    Copyright (C) 1987, 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998,
-   1999, 2000, 2001, 2002, 2003, 2004 Free Software Foundation, Inc.
+   1999, 2000, 2001, 2002, 2003, 2004, 2009 Free Software Foundation, Inc.
    Contributed by Michael Tiemann (tiemann@cygnus.com)
    64-bit SPARC-V9 support by Michael Tiemann, Jim Wilson, and Doug Evans,
    at Cygnus Support.
@@ -2946,26 +2948,34 @@ eligible_for_epilogue_delay (rtx trial, int slot)
 int
 tls_call_delay (rtx trial)
 {
-  rtx pat, unspec;
+  rtx pat;
 
   /* Binutils allows
-     call __tls_get_addr, %tgd_call (foo)
-      add %l7, %o0, %o0, %tgd_add (foo)
+       call __tls_get_addr, %tgd_call (foo)
+        add %l7, %o0, %o0, %tgd_add (foo)
      while Sun as/ld does not.  */
   if (TARGET_GNU_TLS || !TARGET_TLS)
     return 1;
 
   pat = PATTERN (trial);
-  if (GET_CODE (pat) != SET || GET_CODE (SET_DEST (pat)) != PLUS)
-    return 1;
 
-  unspec = XEXP (SET_DEST (pat), 1);
-  if (GET_CODE (unspec) != UNSPEC
-      || (XINT (unspec, 1) != UNSPEC_TLSGD
-	  && XINT (unspec, 1) != UNSPEC_TLSLDM))
-    return 1;
+  /* We must reject tgd_add{32|64}, i.e.
+       (set (reg) (plus (reg) (unspec [(reg) (symbol_ref)] UNSPEC_TLSGD)))
+     and tldm_add{32|64}, i.e.
+       (set (reg) (plus (reg) (unspec [(reg) (symbol_ref)] UNSPEC_TLSLDM)))
+     for Sun as/ld.  */
+  if (GET_CODE (pat) == SET
+      && GET_CODE (SET_SRC (pat)) == PLUS)
+    {
+      rtx unspec = XEXP (SET_SRC (pat), 1);
 
-  return 0;
+      if (GET_CODE (unspec) == UNSPEC
+	  && (XINT (unspec, 1) == UNSPEC_TLSGD
+	      || XINT (unspec, 1) == UNSPEC_TLSLDM))
+	return 0;
+    }
+
+  return 1;
 }
 
 /* Return nonzero if TRIAL can go into the sibling call
@@ -3320,7 +3330,7 @@ legitimate_pic_operand_p (rtx x)
 int
 legitimate_address_p (enum machine_mode mode, rtx addr, int strict)
 {
-  rtx rs1 = NULL, rs2 = NULL, imm1 = NULL, imm2;
+  rtx rs1 = NULL, rs2 = NULL, imm1 = NULL;
 
   if (REG_P (addr) || GET_CODE (addr) == SUBREG)
     rs1 = addr;
@@ -3384,7 +3394,6 @@ legitimate_address_p (enum machine_mode mode, rtx addr, int strict)
 	       && ! TARGET_CM_MEDMID
 	       && RTX_OK_FOR_OLO10_P (rs2))
 	{
-	  imm2 = rs2;
 	  rs2 = NULL;
 	  imm1 = XEXP (rs1, 1);
 	  rs1 = XEXP (rs1, 0);
@@ -3400,25 +3409,10 @@ legitimate_address_p (enum machine_mode mode, rtx addr, int strict)
       if (! CONSTANT_P (imm1) || tls_symbolic_operand (rs1))
 	return 0;
 
-      if (USE_AS_OFFSETABLE_LO10)
-	{
-	  /* We can't allow TFmode, because an offset greater than or equal to
-	     the alignment (8) may cause the LO_SUM to overflow if !v9.  */
-	  if (mode == TFmode && ! TARGET_V9)
-	    return 0;
-	}
-      else
-        {
-	  /* We prohibit LO_SUM for TFmode when there are no quad move insns
-	     and we consequently need to split.  We do this because LO_SUM
-	     is not an offsettable address.  If we get the situation in reload
-	     where source and destination of a movtf pattern are both MEMs with
-	     LO_SUM address, then only one of them gets converted to an
-	     offsettable address.  */
-	  if (mode == TFmode
-	      && ! (TARGET_FPU && TARGET_ARCH64 && TARGET_HARD_QUAD))
-	    return 0;
-	}
+      /* We can't allow TFmode in 32-bit mode, because an offset greater
+	 than the alignment (8) may cause the LO_SUM to overflow.  */
+      if (mode == TFmode && TARGET_ARCH32)
+	return 0;
     }
   else if (GET_CODE (addr) == CONST_INT && SMALL_INT (addr))
     return 1;
@@ -4392,6 +4386,10 @@ sparc_output_scratch_registers (FILE *file ATTRIBUTE_UNUSED)
 static void
 sparc_output_function_prologue (FILE *file, HOST_WIDE_INT size)
 {
+  if (warn_stack_larger_than &&
+      SPARC_STACK_ALIGN (size) > stack_larger_than_size)
+    warning ("stack usage is %d bytes", SPARC_STACK_ALIGN (size));
+
   if (TARGET_FLAT)
     sparc_flat_function_prologue (file, size);
   else

@@ -1,7 +1,7 @@
-; $MirOS: gcc/gcc/common.opt,v 1.6 2006/09/25 22:01:17 tg Exp $
+; $MirOS: gcc/gcc/common.opt,v 1.7 2007/05/19 01:18:28 tg Exp $
 ;
 ; Options for the language- and target-independent parts of the compiler.
-; Copyright (C) 2003, 2005, 2006
+; Copyright (C) 2003, 2005, 2006, 2009
 ; Free Software Foundation, Inc.
 ;
 ; This file is part of GCC.
@@ -166,6 +166,10 @@ Warn when an expression value is unused
 Wunused-variable
 Common
 Warn when a variable is unused
+
+Wstack-larger-than-
+Common RejectNegative Joined UInteger
+-Wstack-larger-than-<number>	Warn if a function uses more than <number> bytes of stack
 
 Wstack-protector
 Common

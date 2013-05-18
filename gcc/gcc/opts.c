@@ -1,7 +1,7 @@
-/* $MirOS: gcc/gcc/opts.c,v 1.8 2006/09/25 22:01:17 tg Exp $ */
+/* $MirOS: gcc/gcc/opts.c,v 1.9 2007/05/19 01:18:28 tg Exp $ */
 
 /* Command line option handling.
-   Copyright (C) 2002, 2003, 2004, 2005, 2006
+   Copyright (C) 2002, 2003, 2004, 2005, 2006, 2009
    Free Software Foundation, Inc.
    Contributed by Neil Booth.
 
@@ -127,6 +127,10 @@ bool warn_unused_label;
 bool warn_unused_parameter;
 bool warn_unused_variable;
 bool warn_unused_value;
+
+/* Warn if a function uses more stack than it should.  */
+int stack_larger_than_size;
+bool warn_stack_larger_than;
 
 /* Warn when not issuing stack smashing protection for some reason.  */
 bool warn_stack_protector;
@@ -814,6 +818,11 @@ common_handle_option (size_t scode, const char *arg,
 
     case OPT_Wunused_variable:
       warn_unused_variable = value;
+      break;
+
+    case OPT_Wstack_larger_than_:
+      stack_larger_than_size = value;
+      warn_stack_larger_than = value > 0;
       break;
 
     case OPT_Wstack_protector:

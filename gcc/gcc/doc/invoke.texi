@@ -1,7 +1,7 @@
-@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.14 2007/01/07 00:51:58 tg Exp $
+@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.15 2007/01/25 10:35:10 tg Exp $
 @c
 @c Copyright (C) 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
-@c 2000, 2001, 2002, 2003, 2004, 2005, 2007
+@c 2000, 2001, 2002, 2003, 2004, 2005, 2007, 2009
 @c Free Software Foundation, Inc.
 @c This is part of the GCC manual.
 @c For copying conditions, see the file gcc.texi.
@@ -232,7 +232,8 @@ in the following sections.
 -Wno-multichar  -Wnonnull  -Wpacked  -Wpadded @gol
 -Wparentheses  -Wpointer-arith  -Wredundant-decls @gol
 -Wreturn-type  -Wsequence-point  -Wshadow @gol
--Wsign-compare  -Wstack-protector  -Wstrict-aliasing @gol
+-Wsign-compare  -Wstack-larger-than-@var{len} @gol
+-Wstack-protector  -Wstrict-aliasing @gol
 -Wswitch  -Wswitch-default  -Wswitch-enum @gol
 -Wsystem-headers  -Wtrampolines -Wtrigraphs  -Wundef  -Wuninitialized @gol
 -Wunknown-pragmas  -Wunreachable-code @gol
@@ -3005,6 +3006,11 @@ merely indicates that GCC's optimizers were unable to handle the code
 effectively.  Often, the problem is that your code is too big or too
 complex; GCC will refuse to optimize programs when the optimization
 itself is likely to take inordinate amounts of time.
+
+@item -Wstack-larger-than-@var{len}
+@opindex Wstack-larger-than
+Warn whenever a function uses more than @var{len} bytes of stack or
+local storage size.  Set @var{len} to 0 to disable.
 
 @item -Wstack-protector
 @opindex Wstack-protector
