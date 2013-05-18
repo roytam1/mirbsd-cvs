@@ -42,6 +42,10 @@
 #include <LYrcFile.h>
 #include <LYLeaks.h>
 
+#ifdef USE_SSL
+#include <openssl/x509v3.h>
+#endif
+
 struct _HTStream {
     HTStreamClass *isa;
 };
@@ -479,6 +483,7 @@ static int HTLoadHTTP(const char *arg,
     const char *connect_url = NULL;	/* The URL being proxied */
     char *connect_host = NULL;	/* The host being proxied */
     SSL *handle = NULL;		/* The SSL handle */
+    X509 *peer_cert;		/* The peer certificate */
     char ssl_dn[1024];
     char *cert_host;
     char *ssl_host;
@@ -689,7 +694,8 @@ static int HTLoadHTTP(const char *arg,
 	}
 #endif
 
-	X509_NAME_oneline(X509_get_subject_name(SSL_get_peer_certificate(handle)),
+	X509_NAME_oneline(X509_get_subject_name(peer_cert =
+						SSL_get_peer_certificate(handle)),
 #ifndef USE_GNUTLS_INCL
 			  ssl_dn, sizeof(ssl_dn));
 #else
@@ -757,17 +763,74 @@ static int HTLoadHTTP(const char *arg,
 		break;
 	    }
 	    /* add this CN to list of failed CNs */
-	    if (ssl_all_cns == NULL) {
-		StrAllocCopy(ssl_all_cns, cert_host);
-	    } else {
-		StrAllocCat(ssl_all_cns, ":");
-		StrAllocCat(ssl_all_cns, cert_host);
-	    }
+	    if (ssl_all_cns == NULL)
+		StrAllocCopy(ssl_all_cns, "CN<");
+	    else
+		StrAllocCat(ssl_all_cns, ":CN<");
+	    StrAllocCat(ssl_all_cns, cert_host);
+	    StrAllocCat(ssl_all_cns, ">");
 	    /* if we cannot retry, don't try it */
 	    if (ssl_dn_start == NULL)
 		break;
 	    /* now retry next CN found in DN */
 	    *ssl_dn_start = '/';	/* formerly NUL byte */
+	}
+
+	/* check the X.509v3 Subject Alternative Name */
+	if (status_sslcertcheck < 2) {
+		STACK_OF(GENERAL_NAME) *gens;
+		int i, numalts;
+		const GENERAL_NAME *gn;
+
+		if ((gens = X509_get_ext_d2i(peer_cert, NID_subject_alt_name,
+		    NULL, NULL)) != NULL) {
+			numalts = sk_GENERAL_NAME_num(gens);
+			for (i = 0; i < numalts; ++i) {
+				gn = sk_GENERAL_NAME_value(gens, i);
+				if (gn->type == GEN_DNS)
+					cert_host = ASN1_STRING_data(gn->d.ia5);
+				else if (gn->type == GEN_IPADD) {
+					/* XXX untested -TG */
+					size_t j = ASN1_STRING_length(gn->d.ia5);
+					cert_host = malloc(j + 1);
+					memcpy(cert_host, ASN1_STRING_data(gn->d.ia5), j);
+					cert_host[j] = '\0';
+				} else
+					continue;
+				/* verify this SubjectAltName (see above) */
+				if ((p = strchr(cert_host,
+				    (cert_host[0] == '[') ? ']' : ':')) != NULL)
+					*p = '\0';
+				if (cert_host[0] == '[')
+					cert_host++;
+				if (!(gn->type == GEN_IPADD ? strcasecomp :
+				    strcasecomp_asterisk)(ssl_host, cert_host)) {
+					status_sslcertcheck = 2;
+					HTSprintf0(&msg,
+						   gettext("Verified connection to %s (subj=%s)"),
+						   ssl_host, cert_host);
+					_HTProgress(msg);
+					FREE(msg);
+					if (gn->type == GEN_IPADD)
+						free(cert_host);
+					break;
+				}
+				/* add to list of failed CNs */
+				if (ssl_all_cns == NULL)
+					StrAllocCopy(ssl_all_cns, "SAN<");
+				else
+					StrAllocCat(ssl_all_cns, ":SAN<");
+				if (gn->type == GEN_DNS)
+					StrAllocCat(ssl_all_cns, "DNS=");
+				else if (gn->type == GEN_IPADD)
+					StrAllocCat(ssl_all_cns, "IP=");
+				StrAllocCat(ssl_all_cns, cert_host);
+				StrAllocCat(ssl_all_cns, ">");
+				if (gn->type == GEN_IPADD)
+					free(cert_host);
+			}
+			sk_GENERAL_NAME_free(gens);
+		}
 	}
 
 	/* if an error occurred, format the appropriate message */
@@ -795,8 +858,7 @@ static int HTLoadHTTP(const char *arg,
 	    FREE(msg);
 	}
 
-	X509_NAME_oneline(X509_get_issuer_name(SSL_get_peer_certificate(handle)),
-			  ssl_dn, sizeof (ssl_dn));
+	X509_NAME_oneline(X509_get_issuer_name(peer_cert), ssl_dn, sizeof (ssl_dn));
 	HTSprintf0(&msg, gettext("Certificate issued by: %s"), ssl_dn);
 	_HTProgress(msg);
 	FREE(msg);
