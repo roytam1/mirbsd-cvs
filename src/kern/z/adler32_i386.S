@@ -93,22 +93,18 @@ ENTRY(adler32)
 .L4:	/* return */
 	shl	edi,16
 	lea	eax,[edi+ebx]
-#ifdef _KERNEL
+#if defined(_KERNEL)
 	mov	ebx,[rnd_addpool_num]	/* where are we at? */
 	xor	[rnd_addpool_buf+4*ecx],eax
 	inc	ebx
 	cmp	bl,rnd_addpool_size	/* ring buffer wraparound? */
 	jb	.Ladrw
 	xor	ebx,ebx
-.Ladrw:	mov	[rnd_addpool_num],ebx
-#endif
-#if !defined(_KERNEL) && !defined(_STANDALONE)
+.Ladrw:	mov	[rnd_addpool_num],bl
+#elif !defined(_STANDALONE)
 	push	eax			/* return value */
-	lea	eax,[esp]		/* == function argument */
-	push	4			/* size */
-	push	eax			/* address */
-	call	_C_LABEL(arc4random_pushk)
-	pop	eax			/* dummy */
+	push	eax			/* function argument */
+	call	_C_LABEL(arc4random_push)
 	pop	eax			/* dummy */
 	pop	eax			/* return value */
 #endif
