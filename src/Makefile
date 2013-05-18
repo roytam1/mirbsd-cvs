@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.124 2008/04/11 20:06:10 tg Exp $
+# $MirOS: src/Makefile,v 1.125 2008/05/01 01:12:38 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -19,7 +19,7 @@ NO_LIVECD=	ENOCOFFEE
 .endif
 CVSROOT?=	/cvs
 ANONCVSROOT?=	anoncvs@anoncvs.mirbsd.org:/cvs
-_SAFEPATH=	/usr/dbin/bin:/usr/bin:/usr/dsbin:/sbin:/usr/sbin:/usr/X11R6/bin
+_SAFEPATH=	/usr/dbin:/bin:/usr/bin:/usr/dsbin:/sbin:/usr/sbin:/usr/X11R6/bin
 
   SUBDIR+= lib
   SUBDIR+= include
