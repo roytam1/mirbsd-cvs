@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.9 2006/03/27 09:25:23 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.10 2006/04/11 00:23:41 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -1246,10 +1246,10 @@ rnd_addpool_reinit(void *v)
 {
 	extern int hz;
 	register int i = rnd_addpool_num;
-	int delay = hz << 4;
+	int delay = hz << 7;
 
 	if (!rnd_addpool_allow || !rnd_attached) {
-		/* reschedule in four and a bit minutes, it's off anyways */
+		/* reschedule in four and a bit minutes, it's off anyway */
 		timeout_add(&rnd_addpool_timeout, hz << 8);
 		return;
 	}
