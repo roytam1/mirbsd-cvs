@@ -449,7 +449,7 @@ Date: 07.09.2007
  <a href="@@RELPATH@@mksh.htm#clog">ChangeLog</a> for details.</p>
 <p>This release is dedicated to Bob “maradong” Hentges, Symlink Lëtzebuerg.</p>
 ----
-Title: mksh R31b released
+Title: mksh R31b released, mksh R31c followup
 Date: 09.09.2007
 
 <p><a href="@@RELPATH@@mksh.htm">mksh R31b</a> has been released; read the
@@ -457,4 +457,8 @@ Date: 09.09.2007
  follow-up release is because it fixes several important bugs etc.</p>
 <p>OSF/1 support thanks to the <a href="http://www.icewm.org/">IceWM</a>
  coffee pot maintainer, Josef “Jupp” Schugt.</p>
+<p>Update: On 09/11, mksh R31c was released, thanks to Josef “Jupp” Söntgen
+ (aka cnuke@)’s very late bug report, which was done IRL instead of via IRC
+ or eMail, which are the usual channels. This release fixes arc4random.c on
+ SunOS due to them bad OpenBSD guys using non-standard types in an API.</p>
 ----

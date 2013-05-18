@@ -1,12 +1,12 @@
-# $MirOS: www/src/mksh.hts,v 1.58 2007/09/11 14:58:15 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.59 2007/09/11 18:38:28 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.58 2007/09/11 14:58:15 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.59 2007/09/11 18:38:28 tg Exp $'
 mws_content <<'EOF'
-<h1>mksh(1) R31b</h1>
+<h1>mksh(1) R31c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
  Public Domain Korn Shell (pdksh).</p>
@@ -32,7 +32,7 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R31b</strong> from
+<p>The current version of mksh is <strong>mksh R31c</strong> from
  <em>9 September 2007</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive, which helps
@@ -128,17 +128,19 @@ mws_content <<'EOF'
  extract from the CPIO distfile and is available even on a stock Microsoft®
  Windows® installation.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R31b.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R31b.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R31b.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R31b.cpio.gz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R31c.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R31c.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R31c.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R31c.cpio.gz</a></li>
+ <li style="list-style:none;">The sources below are for the GNU versions of mksh R31b:</li>
  <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh_31.2.orig.tar.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh_31.2.orig.tar.gz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/ports/mksh_31.2.orig.tar.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/ports/mksh_31.2.orig.tar.gz</a></li>
  <li><a href="http://ftp.debian.org/debian/pool/main/m/mksh/mksh_31.2.orig.tar.gz">http://ftp.{*.,}debian.org/debian/pool/main/m/mksh/mksh_31.2.orig.tar.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R31b.cpio.gz) = a22655811c4311b2cfba13463cb17a33e7d6a437</li>
- <li>TIGER (mksh-R31b.cpio.gz) = 76bacbf4debe98e3018bd7c489e1603b619176b7f99a4677</li>
- <li>1800612832 247986 /MirOS/dist/mir/mksh/mksh-R31b.cpio.gz</li>
- <li>MD5 (mksh-R31b.cpio.gz) = 819feed2336274f939c67547c5a3ddbd</li>
+ <li>RMD160 (mksh-R31c.cpio.gz) = 044c09baac66d06bb43250a6311d534b91ded0fb</li>
+ <li>TIGER (mksh-R31c.cpio.gz) = 585eedd5a8fdfd2e34ed549247eaa2c232aba9818e997ad2</li>
+ <li>2956383177 248040 /MirOS/dist/mir/mksh/mksh-R31c.cpio.gz</li>
+ <li>MD5 (mksh-R31c.cpio.gz) = 08b6354ad94b9c5d5bfc301e3314e412</li>
+ <li style="list-style:none;">The sources below are for the GNU versions of mksh R31b:</li>
  <li>2166685320 1200 /MirOS/dist/mir/mksh/ports/mksh_31.2-1.dsc</li>
  <li>SHA1 (mksh_31.2.orig.tar.gz) = ceaaff436257a25ccdc15103c5f80aefda4b9d24</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
@@ -153,9 +155,9 @@ mws_content <<'EOF'
 <p>The first example is using BSD paxtar (MirOS BSD, OpenBSD, NetBSD®), or
  “bsdtar” (DragonFly); the second and third use cpio(1) or pax(1) and are
  for most operating systems; the fourth is for Debian.</p><ul>
-<li>$ tar xzf mksh-R31b.cpio.gz &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R31b.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R31b.cpio.gz | pax -r &amp;&amp; cd mksh</li>
+<li>$ tar xzf mksh-R31c.cpio.gz &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R31c.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R31c.cpio.gz | pax -r &amp;&amp; cd mksh</li>
 <li>$ tar xzf mksh_31.2.orig.tar.gz &amp;&amp; cd mksh-31.2</li>
 </ul>
 
@@ -399,6 +401,8 @@ mws_content <<'EOF'
  formatting time.</p>
 
 <h2 id="upgrade">For packagers: Upgrades</h2>
+<p>If you have mksh R31b, you do not need to upgrade to mksh R31c, unless
+ you use Solaris and arc4random.c did not compile properly.</p>
 <p>From mksh R31 to R31b, arc4random.c has been upgraded.</p>
 <p>From mksh R30 to R31, there are no surprises. The “arc4random.c” file
  is available from mircvs://contrib/code/Snippets/arc4random.c now, and
