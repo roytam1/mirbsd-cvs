@@ -38,7 +38,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.10 2007/10/03 20:54:54 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.11 2007/10/03 21:08:13 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -402,6 +402,8 @@ priv_adjtime(void)
 	int		  offset_cnt = 0, i = 0;
 	struct ntp_peer	**peers;
 	double		  offset_median;
+	double weight_cnt = 0.0;
+	int weight_half = 0;
 
 	TAILQ_FOREACH(p, &conf->ntp_peers, entry) {
 		if (conf->trace > 3)
@@ -432,85 +434,80 @@ priv_adjtime(void)
 		peers[i++] = p;
 	}
 
-	if (offset_cnt > 2)
-		qsort(peers, offset_cnt, sizeof(struct ntp_peer *),
-		    offset_compare);
+	qsort(peers, offset_cnt, sizeof(struct ntp_peer *), offset_compare);
 
 	if (conf->trace > 2)
 		log_info("priv_adjtime, %d peers", offset_cnt);
 
-	if (offset_cnt > 0) {
-		double weight_cnt = 0.0;
-		int weight_half = 0;
-
-		offset_median = 0.0;
-		for (i = 0; i < offset_cnt; ++i) {
-			double j = (i + 1) * (offset_cnt - i);
-			if (weight_half) {
-				j += weight_half;
-				weight_half = 0;
-			} else if ((i + 1) * 2 == offset_cnt) {
-				weight_half = weight_cnt;
-				j += weight_half;
-			} else if (i * 2 + 1 == offset_cnt)
-				j += 2.0 * weight_cnt;
-			offset_median += j * peers[i]->update.offset;
-			weight_cnt += j;
-		}
-		offset_median /= weight_cnt;
-
-		if (offset_cnt > 1 && offset_cnt % 2 == 0) {
-			conf->status.rootdelay =
-			    (peers[offset_cnt / 2 - 1]->update.delay +
-			    peers[offset_cnt / 2]->update.delay) / 2;
-			conf->status.stratum = MAX(
-			    peers[offset_cnt / 2 - 1]->update.status.stratum,
-			    peers[offset_cnt / 2]->update.status.stratum);
-			if (conf->trace)
-				log_info("adj%c stc %d dst %3d ofs %6.1f srv %s", '1',
-				    peers[offset_cnt / 2 - 1]->update.status.stratum,
-				    (int)((peers[offset_cnt / 2 - 1]->update.delay + .0005) * 1000.),
-				    peers[offset_cnt / 2 - 1]->update.offset * 1000.,
-				    log_sockaddr((struct sockaddr *)&peers[offset_cnt / 2 - 1]->addr->ss));
-		} else {
-			conf->status.rootdelay =
-			    peers[offset_cnt / 2]->update.delay;
-			conf->status.stratum =
-			    peers[offset_cnt / 2]->update.status.stratum;
-		}
-		if (conf->trace)
-			log_info("adj%c stc %d dst %3d ofs %6.1f srv %s",
-			    (offset_cnt > 1 && offset_cnt % 2 == 0) ? '2' : 'x',
-			    peers[offset_cnt / 2]->update.status.stratum,
-			    (int)((peers[offset_cnt / 2]->update.delay + .0005) * 1000.),
-			    peers[offset_cnt / 2]->update.offset * 1000.,
-			    log_sockaddr((struct sockaddr *)&peers[offset_cnt / 2]->addr->ss));
-		conf->status.leap = peers[offset_cnt / 2]->update.status.leap;
-
-		imsg_compose(ibuf_main, IMSG_ADJTIME, 0, 0,
-		    &offset_median, sizeof(offset_median));
-
-		conf->status.reftime = gettime();
-		/* one more than selected peer, but cap */
-		conf->status.stratum = MIN(conf->status.stratum, 254) + 1;
-		update_scale(offset_median);
-
-		conf->status.refid4 =
-		    peers[offset_cnt / 2]->update.status.refid4;
-		if (peers[offset_cnt / 2]->addr->ss.ss_family == AF_INET)
-			conf->status.refid = ((struct sockaddr_in *)
-			    &peers[offset_cnt / 2]->addr->ss)->sin_addr.s_addr;
-		else
-			conf->status.refid = conf->status.refid4;
-		if (peers[offset_cnt / 2]->update.status.stratum < 1)
-			conf->status.refid =
-			    peers[offset_cnt / 2]->update.status.refid;
+	offset_median = 0.0;
+	for (i = 0; i < offset_cnt; ++i) {
+		double j = (i + 1) * (offset_cnt - i);
+		if (weight_half) {
+			j += weight_half;
+			weight_half = 0;
+		} else if ((i + 1) * 2 == offset_cnt) {
+			weight_half = weight_cnt;
+			j += weight_half;
+		} else if (i * 2 + 1 == offset_cnt)
+			j += 2.0 * weight_cnt;
+		offset_median += j * peers[i]->update.offset;
+		weight_cnt += j;
 	}
+	offset_median /= weight_cnt;
+
+	if (offset_cnt > 1 && offset_cnt % 2 == 0) {
+		conf->status.rootdelay =
+		    (peers[offset_cnt / 2 - 1]->update.delay +
+		    peers[offset_cnt / 2]->update.delay) / 2;
+		conf->status.stratum = MAX(
+		    peers[offset_cnt / 2 - 1]->update.status.stratum,
+		    peers[offset_cnt / 2]->update.status.stratum);
+		if (conf->trace)
+			log_info("adj%c stc %d dst %3d ofs %6.1f srv %s", '1',
+			    peers[offset_cnt / 2 - 1]->update.status.stratum,
+			    (int)((peers[offset_cnt / 2 - 1]->update.delay + .0005) * 1000.),
+			    peers[offset_cnt / 2 - 1]->update.offset * 1000.,
+			    log_sockaddr((struct sockaddr *)&peers[offset_cnt / 2 - 1]->addr->ss));
+	} else {
+		conf->status.rootdelay =
+		    peers[offset_cnt / 2]->update.delay;
+		conf->status.stratum =
+		    peers[offset_cnt / 2]->update.status.stratum;
+	}
+	if (conf->trace)
+		log_info("adj%c stc %d dst %3d ofs %6.1f srv %s",
+		    (offset_cnt > 1 && offset_cnt % 2 == 0) ? '2' : 'x',
+		    peers[offset_cnt / 2]->update.status.stratum,
+		    (int)((peers[offset_cnt / 2]->update.delay + .0005) * 1000.),
+		    peers[offset_cnt / 2]->update.offset * 1000.,
+		    log_sockaddr((struct sockaddr *)&peers[offset_cnt / 2]->addr->ss));
+	conf->status.leap = peers[offset_cnt / 2]->update.status.leap;
+
+	imsg_compose(ibuf_main, IMSG_ADJTIME, 0, 0,
+	    &offset_median, sizeof(offset_median));
+
+	conf->status.reftime = gettime();
+	/* one more than selected peer, but cap */
+	conf->status.stratum = MIN(conf->status.stratum, 254) + 1;
+	update_scale(offset_median);
+
+	conf->status.refid4 =
+	    peers[offset_cnt / 2]->update.status.refid4;
+	if (peers[offset_cnt / 2]->addr->ss.ss_family == AF_INET)
+		conf->status.refid = ((struct sockaddr_in *)
+		    &peers[offset_cnt / 2]->addr->ss)->sin_addr.s_addr;
+	else
+		conf->status.refid = conf->status.refid4;
+	if (peers[offset_cnt / 2]->update.status.stratum < 1)
+		conf->status.refid =
+		    peers[offset_cnt / 2]->update.status.refid;
 
 	free(peers);
 
 	TAILQ_FOREACH(p, &conf->ntp_peers, entry)
 		p->update.good = 0;
+
+	return (0);
 }
 
 int

@@ -27,7 +27,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.10 2007/10/03 20:54:54 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.11 2007/10/03 21:08:13 tg Exp $");
 
 #ifdef DDEBUG
 #define log_reply	log_info
@@ -217,9 +217,9 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime, uint8_t trace)
 	    msg.stratum > NTP_MAXSTRATUM) {
 		interval = error_interval();
 		set_next(p, interval);
-		log_info("reply from %s: not synced, next query %llds",
+		log_info("reply from %s: not synced, next query %ds",
 		    log_sockaddr((struct sockaddr *)&p->addr->ss),
-		    (int64_t)interval);
+		    (int)interval);
 		return (0);
 	}
 
@@ -250,7 +250,7 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime, uint8_t trace)
 		log_info("reply from %s: negative delay %fs, "
 		    "next query %ds",
 		    log_sockaddr((struct sockaddr *)&p->addr->ss),
-		    p->reply[p->shift].delay, interval);
+		    p->reply[p->shift].delay, (int)interval);
 		return (0);
 	}
 	p->reply[p->shift].error = (T2 - T1) - (T3 - T4);
@@ -293,9 +293,9 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime, uint8_t trace)
 	}
 
 	log_reply("reply from %s: offset %fs delay %fs, "
-	    "next query %llds", log_sockaddr((struct sockaddr *)&p->addr->ss),
+	    "next query %ds", log_sockaddr((struct sockaddr *)&p->addr->ss),
 	    p->reply[p->shift].offset, p->reply[p->shift].delay,
-	    (int64_t)interval);
+	    (int)interval);
 
 	client_update(p, trace);
 	if (settime)
