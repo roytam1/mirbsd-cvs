@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.37 2006/08/09 21:02:03 tg Exp $
+# $MirOS: src/etc/rc,v 1.38 2006/08/09 21:04:17 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -206,6 +206,7 @@ swapctl -A -t blk
 
 # Read /etc/fstab into arrays and sort by mountpoint
 integer i=0
+set -A _dev _mp _fstype _opt _rest
 stripcom /etc/fstab |&
 while read -p _fdev _fmp _ffstype _fopt _frest; do
 	_dev[i]=$_fdev
@@ -231,16 +232,14 @@ done
 # Needed for softdep to work correctly (SCSI drives, too!)
 if [[ -n $softdrives_ide ]]; then
 	echo -n Disabling HDD hardware write caches...
-	_flags=""
+	x=:
 	set -o noglob
 	for drv in $softdrives_ide; do
-		if [[ $_flags != *$drv* ]]; then
-			echo -n " $drv"
-			atactl /dev/r${drv}c secfreeze >&- 2>&-
-			atactl /dev/r${drv}c writecachedisable >&- 2>&- || \
-			    echo -n !
-			_flags="$_flags $drv"
-		fi
+		[[ $x = *:$drv:* ]] && continue
+		echo -n " $drv"
+		atactl /dev/r${drv}c secfreeze >&- 2>&-
+		atactl /dev/r${drv}c writecachedisable >&- 2>&- || echo -n !
+		x=$x$drv:
 	done
 	set +o noglob
 	echo .
@@ -302,10 +301,9 @@ while (( i < ${#_mp[*]} )); do
 			if ! mount -t ffs -o "${_opt[i]}" "${_dev[i]}" \
 				"${_mp[i]}" >&- 2>&-; then
 				if [[ ${_opt[i]} != *softdep* ]]; then
-					echo -n "Warning: force-mounti"
-					echo -n "ng unchecked ffs file"
-					echo -n "system: ${_dev[i]}"
-					echo " -> ${_mp[i]}  nosoftdep"
+					echo -n "Warning: force-mounting unch"
+					echo -n "ecked ffs filesystem nosoft"
+					echo "dep: ${_dev[i]} -> ${_mp[i]}"
 				fi
 				mount -f -t ffs -o "${_opt[i]}" \
 				    "${_dev[i]}" "${_mp[i]}"
@@ -320,8 +318,8 @@ while (( i < ${#_mp[*]} )); do
 done
 mount -a -t nonfs
 # root on nfs may require this
-_flags=$(mount 2>&- | fgrep ' on / ' 2>&-)
-[[ -z $_flags || $_flags = *\(*read-only* ]] && mount -uw /
+x=$(mount 2>&- | fgrep ' on / ' 2>&-)
+[[ -z $x || $x = *\(*read-only* ]] && mount -uw /
 # root is now writable
 rm -f /fastboot
 
@@ -378,8 +376,8 @@ fi
 i=0
 while (( i < ${#_mp[*]} )); do
 	if [[ ${_mp[i]} = /@(usr|var) ]]; then
-		_flags=$(mount 2>&- | fgrep " on ${_mp[i]} " 2>&-)
-		[[ -z $_flags ]] && mount ${_mp[i]} >&- 2>&-
+		x=$(mount 2>&- | fgrep " on ${_mp[i]} " 2>&-)
+		[[ -z $x ]] && mount ${_mp[i]} >&- 2>&-
 	fi
 	let i++
 done
@@ -494,14 +492,14 @@ chown root:wheel /dev/tty[pqrstuvwxyzPQRST]*
     'password file may be incorrect -- /etc/ptmp exists'
 
 echo clearing /tmp
-_flags=$(mount 2>&- | fgrep " on /tmp" 2>&-)
-if [[ -z $_flags ]]; then
+x=$(mount 2>&- | fgrep " on /tmp" 2>&-)
+if [[ -z $x ]]; then
 	# clean up as usual on small systems
 	rm -rf /tmp
 	mkdir /tmp
 	chown 0:0 /tmp
 	chmod 01777 /tmp
-elif [[ $_flags != *@(type mfs)* ]]; then
+elif [[ $x != *@(type mfs)* ]]; then
 	# prune quickly with one rm, then use find to clean up /tmp/[lq]*
 	(cd /tmp && rm -rf [a-km-pr-zA-Z]* && \
 	    find . ! -name . ! -name lost+found ! -name quota.user \
@@ -529,21 +527,20 @@ if [[ -n $securelevel ]]; then
 fi
 
 # patch /etc/motd
-v=$(sysctl -n kern.version | sed 1q)
-[[ -s /etc/motd && "$([[ "$(head -1 /etc/motd)" != $v ]] && \
+x=$(sysctl -n kern.version | sed 1q)
+[[ -s /etc/motd && "$([[ "$(head -1 /etc/motd)" != $x ]] && \
     ed -s /etc/motd 2>&1 <<-EOF
 	1,/^\$/d
 	0a
-		$v
+		$x
 
 	.
 	wq
 EOF)" = @(?) ]] && rm -f /etc/motd
 if [[ ! -s /etc/motd ]]; then
 	install -c -o root -g wheel -m 664 /dev/null /etc/motd
-	print "$v\n" >/etc/motd
+	print "$x\n" >/etc/motd
 fi
-unset v
 
 if [[ -f /var/account/acct ]]; then
 	echo turning on accounting;	accton /var/account/acct
@@ -621,8 +618,7 @@ if [[ $dhcpd_flags != NO && -f /etc/dhcpd.conf ]]; then
 	touch /var/db/dhcpd.leases
 	[[ -f /etc/dhcpd.interfaces ]] && \
 	    dhcpd_ifs=$(stripcom /etc/dhcpd.interfaces)
-	_flags="$dhcpd_flags $dhcpd_ifs"
-	echo -n ' dhcpd';		/usr/sbin/dhcpd $_flags
+	echo -n ' dhcpd';		/usr/sbin/dhcpd $dhcpd_flags $dhcpd_ifs
 fi
 
 if ifconfig lo0 inet6 >&- 2>&-; then
