@@ -90,22 +90,20 @@ function ge {		# German ⇄ English
 }
 
 if [ -O /var/run/ssh-agent/$USER_ID ]; then
+	_dir=/var/run/ssh-agent/$USER_ID
 	# If the agent is not running, remove stale files
-	[[ -e /var/run/ssh-agent/$USER_ID/socket ]] || \
-	    rm -f /var/run/ssh-agent/$USER_ID/{agent,keyread}
+	[[ -e $_dir/socket ]] || rm -f $_dir/{agent,keyread}
 	# Start ssh-agent if it is not already started
-	[[ -e /var/run/ssh-agent/$USER_ID/agent ]] || \
-	    ssh-agent -s -a /var/run/ssh-agent/$USER_ID/socket \
-	    >/var/run/ssh-agent/$USER_ID/agent
+	[[ -e $_dir/agent ]] || \
+	    (cd /; ssh-agent -s -a $_dir/socket) >$_dir/agent
 	# Do the following only if ssh-agent is running
-	if [[ -e /var/run/ssh-agent/$USER_ID/socket ]]; then
+	if [[ -e $_dir/socket ]]; then
 		# Read configuration file if it exists
-		[[ -s /var/run/ssh-agent/$USER_ID/agent ]] && \
-		    . /var/run/ssh-agent/$USER_ID/agent >&2
+		[[ -s $_dir/agent ]] && . $_dir/agent >&2
 		# Read in the keys, if not already done
-		[[ -e /var/run/ssh-agent/$USER_ID/keyread ]] || \
-		    ssh-add | tee /var/run/ssh-agent/$USER_ID/keyread
+		[[ -e $_dir/keyread ]] || ssh-add | tee $_dir/keyread
 	fi
+	unset _dir
 fi
 
-: $MirOS: src/etc/profile,v 1.49 2007/04/17 20:04:07 tg Exp $
+: $MirOS: src/etc/profile,v 1.50 2007/05/20 12:12:10 tg Exp $
