@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.304 2010/07/25 11:56:16 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.305 2010/08/06 14:43:05 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1864,7 +1864,7 @@ Tag: mksh
  help us porting <a href="@@RELPATH@@mksh.htm">mksh</a> to Minix 3. (Yes I
  know I replied to a different thread, but this is just because Pine did
  not want to let me post using a simple ‘C’ompose in the gabeln.)</p>
-<p>If you have an idea how I get the OSF/1 V2.0 cc(‌1) to correctly
+<p>If you have an idea how I get the OSF/1 V2.0 cc(﻿1) to correctly
  fail if it cannot resolve functions, or how we can fix Plan 9 or even
  Syllable Desktop (which is said to have fixed their signal handling in
  the kernel, however an actual user would have to <em>test</em> it), also
@@ -2103,7 +2103,7 @@ Tag: unicode mksh
  sole C Præprocessor now… and have yet to notice failures in operation.
  Now we’ll have to find out what else stuff is there depending on the
  existence of <tt>/usr/bin/cpp</tt>, possibly switching it, like the
- &lt;sys.mk&gt; mir‍make(1) file, to <tt>${CC} -E -</tt> (which is not
+ &lt;sys.mk&gt; mir﻿make(1) file, to <tt>${CC} -E -</tt> (which is not
  100% compatible, because cpp can also read from stdin without the
  dash, whereas, with the dash, neither can read from only a file).
  X11 etc. can be switched to <tt>/usr/libexec/cpp</tt> then.</p>
@@ -2203,7 +2203,7 @@ Tag: hardware bug
 <p>This wlog entry has been written on a MiTAC 4023 laptop. While it
  only has a DSTN (or STN?) LCD, 12 MiB RAM, a Cyrix 486DLC CPU with,
  I believe, 33 MHz, it <strong>works</strong> (despite the aged custom
- MirBSD #8-current single-user-only mostly-‍crunchgen(1)d installation).</p>
+ MirBSD #8-current single-user-only mostly-﻿crunchgen(1)d installation).</p>
 <p>Tom "nwt" Kohnen, einer der beiden Luxemburger, von denen ich viel
  halte, wenn Du wüßtest, wie oft Dein alter Laptop, den Du für wertloser
  als den Nike-Sticker, mit dem er beklebt ist, gehalten hast, mir schon
@@ -2359,7 +2359,7 @@ Author: tg@
 <p>Today, we gained arc4random_buf(3), arc4random_uniform(3) in
  libc and arc4random_atexit(), which is undocumented, but called
  from _exit(2) and all exec-style functions via execve(2) and
- exect(2). Since o‍malloc(3) needs arc4random(3) anyway, it
+ exect(2). Since o﻿malloc(3) needs arc4random(3) anyway, it
  is no real overhead, but a great way to make modelling the pool
  stuff even more difficult. Thusly, arc4random_pushk(3) retires
  in favour of arc4random_pushb(3) but stays as cpp(1) define.</p>

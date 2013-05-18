@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.135 2010/02/25 22:22:17 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.136 2010/03/03 11:47:52 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1105,7 +1105,7 @@ Tag: snapshot
  responsible for stalling the integration, talk to ahoka@ (replaced in
  <a href="@@RELPATH@@irc.htm">IRC</a>).</p>
 <p>This snapshot does not come as a DuaLive CD due to issues with both
- J�rg Schilling’s mkisofs(‌8), which has since been removed from
+ J�rg Schilling’s mkisofs(﻿8), which has since been removed from
  the base system source tree, and NetBSD® makefs(8). However, we are
  trying to solve these and will produce one as soon as possible.</p>
 <p>As of now, there are no binary packages compiled specifically for
