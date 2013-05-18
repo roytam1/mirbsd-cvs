@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.256 2009/11/15 01:49:24 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.257 2009/11/15 14:54:14 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5476,4 +5476,38 @@ Tag: news security snapshot
  which disables all renegotiation, but allows applications to re-enable it,
  if they knew about that possibility at compile time, by setting a run-time
  flag before initiating the connection. (None we know of does, though.)</p>
+----
+Title: Still happy with the eKey
+Author: tg@
+Date: 25.11.2009 09:11
+Tag: debian
+
+<p>As I <a href="@@RELPATH@@permalinks/wlog-10_e20091112-tg.htm">wrote</a>,
+ I asked for flute notes. Well, piano notes are ok too, although I don’t
+ have my electric organ any longer, they can easily be transposed, even
+ if I don’t know the software (could do it by hand though). And I might
+ give midiplay(1) a shot (I bet it’ll sound like PC-Speaker emulation…).
+ <a href="http://vincentsanders.blogspot.com/2009/11/getting-things-done.html">Vincent</a>
+ kindly provides more input (apparently one more of these Simtec people,
+ but that’s just my guess).</p>
+<p>Since <tt>ports/security/ekeyd</tt> runs happily on <tt>herc</tt> and
+ most of my patches were not just applied but even appreciated, thanks
+ Daniel, and <a href="@@RELPATH@@permalinks/wlog-10_e20091115-tg.htm">the
+ results</a> speak for themselves (I even get stats from daily.local mailed
+ to me every night), and we had some fun discussions, I like it. I think
+ these whom I ordered additional ones for are, too. (I wonder if I should
+ invest into a ten-pack bulk ones and re-sell them at conferences, but the
+ <a href="http://www.fosdem.org/">next one</a> is so close to the UK they
+ probably will be there by themselves.)</p>
+<p>I must admit I also have the context switching problem (but hey, that’s
+ what you get for being a sysadmin, and <a href="http://www.tarent.com/">our</a>
+ <a href="http://www.gepa3.de/shop/index.php">coffee</a> (GEPA, <span
+ xml:lang="de_DE-1901">ganze Bohne, im Eimer, fair gehandelt</span>),
+ even if not <a href="@@RELPATH@@anargeek.htm@koffie">Café Libertad</a>,
+ who, incidentally, are Debian Wine distributors, is good), but since I’m
+ usually not working for customer projects, I’m rarely time bound, and
+ quite some good ideas have come from distraction (or timeouts, such as
+ personal needs or getting coffee/food/…).</p>
+<p>Now I still wish I could split myself in half to get more time for all
+ the projects I have…</p>
 ----
