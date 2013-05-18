@@ -1,4 +1,4 @@
-# $MirOS: www/mk/htsconv,v 1.18 2008/02/27 01:08:42 tg Exp $
+# $MirOS: www/mk/htsconv,v 1.19 2008/03/14 21:13:09 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -34,7 +34,7 @@ function mws_putheader {
 	mws__content <"$TOP"/mk/tmpl.pre
 	mws__header="<p class=\"rcsdiv\">Generated <!-- $mws__difftag --> on"
 	mws__header="$mws__header <span class=\"rcsid\">$(TZ=UTC date +'%F %T')</span>"
-	mws__header="$mws__header"' by <span class="rcsid">$MirOS: www/mk/htsconv,v 1.18 2008/02/27 01:08:42 tg Exp $</span>'
+	mws__header="$mws__header"' by <span class="rcsid">$MirOS: www/mk/htsconv,v 1.19 2008/03/14 21:13:09 tg Exp $</span>'
 	[[ -n $rcsid ]] && mws__header="$mws__header from <span class=\"rcsid\">$rcsid</span>"
 	mws__header="$mws__header</p>"
 }
@@ -71,8 +71,8 @@ function mws__content {
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(PSD\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm">&</a>g' \
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(SMM\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm">&</a>g' \
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(USD\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm">&</a>g' \
-	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)/sparc)<a href="@@RELPATH@@htman/sparc/man\2/\1.htm">&</a>g' \
-	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)[/0-9A-Za-z]*)<a href="@@RELPATH@@htman/i386/man\2/\1.htm">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)/[Ss][Pp][Aa][Rr][Cc])<a href="@@RELPATH@@htman/sparc/man\2/\1.htm">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)/[Ii]386)<a href="@@RELPATH@@htman/sparc/man\2/\1.htm">&</a>g' \
 	    -e "s@@RELPATH@@$mws__relpathg" \
 	    -e "s@@HEADER@@$mws__headerg" \
 	    -e "s@@RSS@@$mws__rssg"
