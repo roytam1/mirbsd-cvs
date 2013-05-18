@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.74 2006/12/21 20:39:28 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.75 2006/12/22 00:04:46 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -103,6 +103,9 @@
   (triggered already on Debian Etch), plan to include it in the code</li>
  <li>Build.sh add notes for old and non-gcc compilers (TODO)</li>
  <li>Upgrade licence to latest template (revision 1.20)</li>
+ <li>Fix reverse logic error in strcasecmp(3) vs strcasestr(3) issue</li>
+ <li>Enhance sample ~/.mkshrc</li>
+ <li>Prevent segfaults when setlocale(3) or nl_langinfo(3) return NULL</li>
 </ul>
 <p>Upgrading to mksh R28 with these changes is highly recommended:</p><ul>
  <li>For these who build software as root, the regression testsuite
