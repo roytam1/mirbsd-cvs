@@ -5,7 +5,7 @@
 #	  Originally written by Toshiharu OHNO
 #
 # $MirSecuCron$
-# $MirOS: src/etc/ppp/ppp.conf.sample,v 1.4 2009/07/18 14:09:12 tg Exp $
+# $MirOS: src/etc/ppp/ppp.conf.sample,v 1.5 2012/07/06 16:21:16 tg Exp $
 # $OpenBSD: ppp.conf.sample,v 1.21 2002/06/09 06:15:15 todd Exp $
 #
 #################################################################
@@ -572,7 +572,10 @@ MirUMTS:
  set speed 115200
 # set speed 921600
  set crtscts on
- disable ipv6cp
+ accept lqr
+ enable lqr
+ deny deflate mppe pred1
+ disable deflate mppe pred1 ipv6cp
  set timeout 0
  set mtu max 640
  set mru max 640
