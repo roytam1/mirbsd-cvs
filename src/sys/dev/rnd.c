@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.27 2007/02/02 16:45:07 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.28 2007/06/27 18:33:04 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -1158,7 +1158,7 @@ randomwrite(dev_t dev, struct uio *uio, int flags)
 		ret = uiomove((caddr_t)buf, n, uio);
 		if (!ret) {
 			while (n % sizeof (u_int32_t))
-				((u_int8_t *) buf)[n++] = 0;
+				((u_int8_t *) buf)[n++] = arc4_getbyte();
 			n /= sizeof (uint32_t);
 			if (minor(dev) == RND_PRND)
 				while (n)
