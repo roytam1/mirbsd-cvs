@@ -1,12 +1,11 @@
-# $MirOS: ports/net/tinyirc/Makefile,v 1.4 2009/08/02 14:37:45 tg Exp $
+# $MirOS: ports/net/tinyirc/Makefile,v 1.5 2009/12/28 14:55:00 tg Exp $
 
 COMMENT=		minimalistic IRC client
-VERSION=		2009/12/27
-DISTNAME=		${CVS_DISTFILE}-${VERSION:S!/!!g}
 CATEGORIES=		net
 MCZ_FETCH=		Yes
 CVS_DISTREPO=		${_MIROS_ANONCVS}
-CVS_DISTDATE=		${VERSION} 23:59:59
+CVS_DISTDATE=		2009/12/27 23:59:59
+PKGNAME=		${CVS_DISTFILE}-${CVS_DISTDATE:M*/*:S!/!!g}-${DASH_VER}
 CVS_DISTMODS=		contrib/code/Snippets/tinyirc.c
 CVS_DISTFILE=		tinyirc
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>

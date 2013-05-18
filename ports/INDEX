@@ -210,7 +210,7 @@ autobook-1.3-0|books/autobook,||documentation for autoconf, automake, libtool|ht
 cvs-guide-1.21-0|books/cvs-guide,||the definitive guide to CVS (broken)|http://cvsbook.red-bean.com/|books/cvs-guide/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|books||||any|y|y|y|y
 docbook-guide-2.0.8-0|books/docbook-guide,||the definite guide to DocBook (uses PKZip)|http://docbook.org/tdg/en/|books/docbook-guide/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|books||unzip-*:archivers/unzip||any|y|y|y|y
 grokking-the-gimp-1.0-0|books/grokking-the-gimp,||book about gimp||books/grokking-the-gimp/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|books graphics||||any|y|y|y|y
-mirex-20100129-0|books/mirex,||MirOS sample files, keys and information|http://MirBSD.de/|books/mirex/DESCR|Thorsten Glaser <tg@mirbsd.de>|books||||any|y|y|y|y
+mirex-20100131-0|books/mirex,||MirOS sample files, keys and information|http://MirBSD.de/|books/mirex/DESCR|Thorsten Glaser <tg@mirbsd.de>|books||||any|y|y|y|y
 selfhtml-8.1-0|books/selfhtml,||German HTML compendium (uses PKZip)|http://aktuell.de.selfhtml.org/|books/selfhtml/pkg/DESCR|Thorsten Glaser <tg@mirbsd.org>|books www||unzip-*:archivers/unzip||any|n|n|y|y
 chipmunk-1.57-0|cad/chipmunk,||electronic CAD system (uses X11)|http://www.cs.berkeley.edu/~lazzaro/chipmunk/|cad/chipmunk/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|cad||||any|y|y|y|y
 qcad-1.5.4-0|cad/qcad,||Qt-based 2D CAD system (uses C++) (uses X11)|http://www.qcad.org/|cad/qcad/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|cad x11|lib/qt3/qt-mt::x11/qt3|||any|y|y|y|y
@@ -1806,7 +1806,7 @@ thcrut-0.1-0|net/thcrut,||local network discovery tool|http://www.thehackerschoi
 tightvnc-1.2.7-0-viewer|net/tightvnc,||client for cross-platform remote desktop access (uses X11)|http://www.tightvnc.org/|net/tightvnc/pkg/DESCR-viewer|The MirPorts mailing list <miros-discuss@MirBSD.org>|net|jpeg.62.::graphics/jpeg|||MirBSD:*:* OpenBSD:*:*|y|y|y|y
 tintin-1.5.6-0|net/tintin++,||client program to help playing muds||net/tintin++/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|net games||||any|y|y|y|y
 tinyfugue-4.0s1-2|net/tinyfugue,||programmable MUD client, with macro support and more|http://tf.tcp.com/~hawkeye/tf/|net/tinyfugue/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|net games||||any|y|y|y|y
-tinyirc-20091227235959-0|net/tinyirc,||minimalistic IRC client||net/tinyirc/DESCR|Thorsten Glaser <tg@mirbsd.org>|net||||any|y|y|y|y
+tinyirc-20091227-0|net/tinyirc,||minimalistic IRC client||net/tinyirc/DESCR|Thorsten Glaser <tg@mirbsd.org>|net||||any|y|y|y|y
 tircproxy-0.4.5-0|net/tircproxy,||transparent IRC proxy|http://bre.klaki.net/programs/tircproxy/|net/tircproxy/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|net||||any|y|y|y|y
 tkirc-2.46-0|net/tkirc,||ircII internet relay chat client (uses X11)|http://netsplit.de/tkirc2/|net/tkirc/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|net|||ircII-*:net/ircII tk-8.4.*:x11/tk/8.4|any|y|y|y|y
 tor-0.1.2.19-0|net/tor,||Anonymising overlay network for TCP|http://tor.eff.org/|net/tor/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|net security||:devel/metaauto autoconf->=2.61-1,<2.62:devel/autoconf/2.61||any|y|y|y|y
