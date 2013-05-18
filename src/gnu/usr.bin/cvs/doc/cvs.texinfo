@@ -2,7 +2,7 @@
 @comment Documentation for CVS.
 @setfilename cvs.info
 @afourpaper
-@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.12 2011/05/06 21:22:51 tg Exp $
+@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.13 2011/05/06 21:56:22 tg Exp $
 @macro copyleftnotice
 @noindent
 Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -5978,7 +5978,7 @@ effect of reserved checkouts is to enable advisory locks.  To enable advisory
 locks, have all developers put "edit -c", "commit -c" in their
 .cvsrc file, and turn on watches in the repository.  This
 prevents them from doing a @code{cvs edit} if anyone is
-already editting the file.  It also may
+already editing the file.  It also may
 be possible to use plain watches together with suitable
 procedures (not enforced by software), to avoid having
 two people edit at the same time.
@@ -6640,7 +6640,7 @@ enable advisory locks.  To enable advisory locks, have all developers
 put "edit -c" and "commit -c" into all .cvsrc files,
 and make files default to read only by turning on watches
 or putting "cvs -r" into all .cvsrc files.
-This prevents multiple people from editting a file at
+This prevents multiple people from editing a file at
 the same time (unless explicitly overriden with @samp{-f}).
 
 @c I'm a little dissatisfied with this presentation,
@@ -6885,7 +6885,7 @@ watch} commands.
 There are two additional options that @code{cvs edit} understands as of
 @sc{cvs} client and server versions 1.12.10 but @code{cvs watch} does not.
 The first is @code{-c}, which causes @code{cvs edit} to fail if anyone else
-is editting the file.  This is probably only useful when @samp{edit -c} and
+is editing the file.  This is probably only useful when @samp{edit -c} and
 @samp{commit -c} are specified in all developers' @file{.cvsrc} files.  This
 behavior may be overriden this via the @code{-f} option, which overrides
 @code{-c} and allows multiple edits to succeed.
@@ -12080,7 +12080,7 @@ Specify actions for temporary watch, where
 @ref{Editing files}.
 
 @item -c
-Check edits: Edit fails if someone else is already editting the file.
+Check edits: Edit fails if someone else is already editing the file.
 Requires a @sc{cvs} client and server both of version 1.12.10 or greater.
 
 @item -f
