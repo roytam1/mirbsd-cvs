@@ -266,9 +266,9 @@
  */
 
 #ifndef PNG_NO_CONST
-#  define const const
+#  define PNG_CONST const
 #else
-#  define const
+#  define PNG_CONST
 #endif
 
 /* The following defines give you the ability to remove code from the
