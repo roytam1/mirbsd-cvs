@@ -1,4 +1,4 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.22 2006/09/17 21:42:44 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.23 2006/10/06 21:24:18 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 # bus error on start
@@ -8,7 +8,7 @@ COMMENT=		curses-based multiprotocol IM client implementation
 DISTNAME=		centericq-${V}
 PKGNAME=		${DISTNAME}-${PL}
 V=			4.21.0
-PL=			6
+PL=			7
 CATEGORIES=		net
 PATCHFILES=		centericq-${V}.msn.patch:0
 PATCH_DIST_STRIP=	-p1
@@ -43,6 +43,7 @@ USE_CXX=		Yes
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	--disable-dependency-tracking \
+			--enable-locales-fix \
 			--disable-nls \
 			--without-fribidi \
 			--with-openssl \
@@ -68,6 +69,17 @@ MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/connwrap-0.1 \
 			${WRKSRC}/libyahoo2-0.1
 
 DOCS=			ChangeLog FAQ README
+
+pre-patch:
+	for dpatch in ${.CURDIR}/dpatch/*.dpatch.diff; do \
+		${PATCH} ${PATCH_DIST_ARGS} <$$dpatch; \
+	done
+	for dpatch in ${.CURDIR}/dpatch/zzfix-*; do \
+		${PATCH} ${PATCH_DIST_ARGS} <$$dpatch; \
+	done
+	for dpatch in ${WRKSRC}/debian/patches/*.dpatch; do \
+		${PATCH} ${PATCH_DIST_ARGS} -l <$$dpatch; \
+	done
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/centericq

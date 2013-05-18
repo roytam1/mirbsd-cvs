@@ -1,0 +1,33 @@
+$MirOS$
+--- src/hooks/abstracthook.cc.orig	Tue Nov  9 23:49:37 2004
++++ src/hooks/abstracthook.cc	Sun Oct 29 02:44:06 2006
+@@ -44,7 +44,9 @@ time_t timer_current = time(0);
+ 
+ abstracthook::abstracthook(protocolname aproto)
+     : proto(aproto), searchdest(0)
+-{ }
++{
++	protocharset = NULL;
++}
+ 
+ void abstracthook::init() {
+ }
+@@ -231,6 +233,18 @@ string abstracthook::ruscrlfconv(const s
+ 
+ string abstracthook::rusconv(const string &tdir, const string &text) {
+     string r;
++
++    if (conf.getisunicode()) {
++#ifdef HAVE_ICONV
++	if (protocharset != NULL) {
++		if (tdir == "kw" || tdir == "ku")
++			return siconv(text, "utf-8", protocharset);
++		if (tdir == "wk" || tdir == "uk")
++			return siconv(text, protocharset, "utf-8");
++	}
++#endif
++	return text;
++    }
+ 
+     if(!conf.getcpconvert(proto) && tdir.find("u") == -1)
+ 	return text;
