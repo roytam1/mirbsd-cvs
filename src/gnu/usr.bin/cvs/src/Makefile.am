@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-# $MirOS: src/gnu/usr.bin/cvs/src/Makefile.am,v 1.6 2011/06/11 02:56:58 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/src/Makefile.am,v 1.7 2011/12/04 14:15:05 tg Exp $
 # Makefile for GNU CVS program.
 #
 # Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -61,6 +61,7 @@ cvs_SOURCES = \
 	mkmodules.c \
 	modules.c \
 	ms-buffer.c ms-buffer.h \
+	myndbm.c \
 	no_diff.c \
 	parseinfo.c parseinfo.h \
 	patch.c \
@@ -94,6 +95,7 @@ cvs_SOURCES = \
 	hardlink.h \
 	hash.h \
 	history.h \
+	myndbm.h \
 	rcs.h \
 	root.h \
 	server.h \

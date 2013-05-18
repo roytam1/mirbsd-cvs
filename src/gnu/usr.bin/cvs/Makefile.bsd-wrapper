@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.28 2011/12/04 19:17:35 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.29 2011/12/04 20:24:41 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.44 2004/01/02 09:01:24 millert Exp $
 
 # MirOS patchlevel tracked in configure{.in,}
@@ -12,7 +12,7 @@ CFARGS+=	--prefix=/usr \
 		--infodir=/usr/share/info \
 		--disable-maintainer-mode \
 		--disable-dependency-tracking \
-		--disable-cvs-ndbm \
+		--enable-cvs-ndbm \
 		--enable-client \
 		--enable-password-authenticated-client \
 		--enable-server \
