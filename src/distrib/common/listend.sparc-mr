@@ -1,9 +1,11 @@
-# $MirOS: src/distrib/common/listend.sparc,v 1.2 2006/08/18 20:48:47 tg Exp $
+# $MirOS: src/distrib/common/listend.sparc-mr,v 1.1 2006/08/18 21:08:02 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/mt
 LINK	instbin					bin/sync
+LINK	instbin					sbin/ping6
 LINK	instbin					sbin/restore
+LINK	instbin					sbin/scsi
 LINK	instbin					usr/bin/less usr/bin/more
 
 # devices stuff

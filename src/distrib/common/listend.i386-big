@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386-big,v 1.4 2006/08/18 20:48:47 tg Exp $
+# $MirOS: src/distrib/common/listend.i386-big,v 1.5 2006/08/19 13:47:25 tg Exp $
 
 # adjust for SRCDIRS omission (for when we want full tools)
 CRUNCHSPECIAL init	srcdir distrib/special/init
@@ -20,9 +20,11 @@ LINK	instbin					sbin/mountd
 LINK	instbin					sbin/newfs_msdos
 LINK	instbin					sbin/nfsd
 LINK	instbin					sbin/pfctl
+LINK	instbin					sbin/ping6
 LINK	instbin					sbin/portmap
 LINK	instbin					sbin/raidctl
 LINK	instbin					sbin/restore
+LINK	instbin					sbin/scsi
 LINK	instbin					sbin/wicontrol
 LINK	instbin					usr/bin/awk
 LINK	instbin					usr/bin/find

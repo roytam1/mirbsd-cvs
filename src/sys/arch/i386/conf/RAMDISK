@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/conf/RAMDISK,v 1.3 2006/08/18 21:36:28 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/RAMDISK,v 1.4 2006/08/19 12:45:46 tg Exp $
 # _MirOS: src/sys/arch/i386/conf/GENERIC,v 1.29 2006/07/06 13:32:07 tg Exp $
 
 machine		i386			# arch, used by config; REQUIRED
@@ -413,7 +413,7 @@ scsibus* at atapiscsi?
 #we1	at isa? port 0x300 iomem 0xcc000 irq 10
 #we2	at isa? disable port 0x280 iomem 0xd0000 irq 3
 #we*	at isapnp?
-ec0	at isa? port 0x250 iomem 0xd8000 irq 9	# 3C503 ethernet
+#ec0	at isa? port 0x250 iomem 0xd8000 irq 9	# 3C503 ethernet
 ne0	at isa? port 0x240 irq 9		# NE[12]000 ethernet
 ne1	at isa? port 0x300 irq 10
 ne2	at isa? port 0x280 irq 9
@@ -429,7 +429,7 @@ ef*	at isapnp?				# 3C515 PnP ethernet
 lc0	at isa? port 0x200 irq ?		# DEC EtherWorks
 lc1	at isa? port 0x280 irq ?		# DEC EtherWorks
 le0	at isa? port 0x360 irq 15 drq 6		# IsoLan, NE2100, and DEPCA
-ex0	at isa? port 0x320 irq 5		# Intel EtherExpress PRO/10
+#ex0	at isa? port 0x320 irq 5		# Intel EtherExpress PRO/10
 #tr0	at isa? port 0xa20 iomem 0xd8000 irq ?	# IBM TROPIC based Token-Ring
 #tr1	at isa? port 0xa24 iomem 0xd0000 irq ?
 #tr*	at isa? port ? irq ?			# 3COM TROPIC based Token-Ring
