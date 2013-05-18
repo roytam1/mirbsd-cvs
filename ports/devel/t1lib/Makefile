@@ -1,8 +1,8 @@
-# $MirOS: ports/devel/t1lib/Makefile,v 1.4 2007/02/22 20:58:59 tg Exp $
+# $MirOS: ports/devel/t1lib/Makefile,v 1.5 2007/12/05 20:03:05 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.17 2004/04/14 18:26:38 brad Exp $
 
 COMMENT=		Type 1 rasterizer library for UNIX/X11
-DISTNAME=		t1lib-5.1.1
+DISTNAME=		t1lib-5.1.2
 CATEGORIES=		devel graphics
 MASTER_SITES=		ftp://sunsite.unc.edu/pub/Linux/libs/graphics/
 
@@ -17,6 +17,7 @@ USE_X11=		Yes
 USE_CXX=		Yes
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
+MODGNU_CONFIG_GUESS_DIRS=${WRKSRC}/ac-tools ${WRKSRC}
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 ALL_TARGET=		without_doc
 NO_REGRESS=		Yes
