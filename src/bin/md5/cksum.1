@@ -1,4 +1,4 @@
-.\"	$MirOS: src/bin/md5/cksum.1,v 1.23 2009/06/26 21:52:20 tg Exp $
+.\"	$MirOS: src/bin/md5/cksum.1,v 1.24 2009/08/27 18:04:54 tg Exp $
 .\"	$OpenBSD: cksum.1,v 1.5 2005/03/07 23:41:53 jmc Exp $
 .\"
 .\" Copyright (c) 2006, 2007, 2008, 2009
@@ -69,7 +69,7 @@
 .\" .Dd must come before definition of .Mx, because when called
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
-.Dd $Mdocdate: June 26 2009 $
+.Dd $Mdocdate: August 27 2009 $
 .\"
 .\" Implement .Mx (MirBSD)
 .de Mx
@@ -195,6 +195,13 @@ hash of the input string.
 In the
 .Ar oaat
 case, the output is Jenkins' one-at-a-time hash of the input string.
+The
+.Ar oaat1
+and
+.Ar oaat1s
+hashes use 0x100 instead of 0 as initial hash value, and
+.Ar oaat1s
+also uses RFC1321-style length padding on the input string.
 In the
 .Ar suma
 case, the output is a 33-bit
@@ -226,6 +233,8 @@ Supported algorithms include
 .Ar md4 ,
 .Ar md5 ,
 .Ar oaat ,
+.Ar oaat1 ,
+.Ar oaat1s ,
 .Ar rmd160 ,
 .Ar sfv ,
 .Ar sha1 ,
@@ -292,6 +301,8 @@ output mode does not make any sense for many algorithms, such as
 .Ar cdb ,
 .Ar cksum ,
 .Ar oaat ,
+.Ar oaat1 ,
+.Ar oaat1s ,
 .Ar sfv ,
 .Ar size ,
 .Ar sum ,
@@ -481,6 +492,8 @@ Do not use the
 .Ar md4 ,
 .Ar md5 ,
 .Ar oaat ,
+.Ar oaat1 ,
+.Ar oaat1s ,
 .Ar sfv ,
 .Ar sha1 ,
 .Ar size ,

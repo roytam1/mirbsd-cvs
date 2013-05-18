@@ -57,7 +57,7 @@
 #include <tiger.h>
 #include <whirlpool.h>
 
-__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.8 2009/06/26 21:52:20 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.9 2009/08/27 18:04:54 tg Exp $");
 
 #define MAX_DIGEST_LEN			128
 
@@ -86,8 +86,12 @@ typedef struct SYSVSUMContext {
 } SYSVSUM_CTX;
 
 typedef uint32_t CDB_CTX;
-typedef uint32_t OAAT_CTX;
 typedef uint64_t SIZE_CTX;
+
+typedef struct {
+	uint32_t h;
+	uint64_t s;
+} OAATS_CTX;
 
 union ANY_CTX {
 	CKSUM_CTX cksum;
@@ -107,7 +111,7 @@ union ANY_CTX {
 	WHIRLPOOL_CTX whirlpool;
 	SIZE_CTX size;
 	CDB_CTX cdb;
-	OAAT_CTX oaat;
+	OAATS_CTX oaats;
 };
 
 void digest_print(const char *, const char *, const char *);
@@ -133,10 +137,12 @@ void CKSUM_Final(CKSUM_CTX *);
 char *CKSUM_End(CKSUM_CTX *, char *);
 char *CKSUM_Data(const u_int8_t *, size_t, char *);
 
-void OAAT_Init(OAAT_CTX *);
-void OAAT_Update(OAAT_CTX *, const uint8_t *, size_t);
-void OAAT_Final(OAAT_CTX *);
-char *OAAT_End(OAAT_CTX *, char *);
+void OAAT_Init(OAATS_CTX *);
+void OAAT1_Init(OAATS_CTX *);
+void OAAT_Update(OAATS_CTX *, const uint8_t *, size_t);
+void OAAT_Final(OAATS_CTX *);
+char *OAAT_End(OAATS_CTX *, char *);
+char *OAAT1S_End(OAATS_CTX *, char *);
 
 void SUM_Init(SUM_CTX *);
 void SUM_Update(SUM_CTX *, const u_int8_t *, size_t);
@@ -150,7 +156,10 @@ void SYSVSUM_Final(SYSVSUM_CTX *);
 char *SYSVSUM_End(SYSVSUM_CTX *, char *);
 char *SYSVSUM_Data(const u_int8_t *, size_t, char *);
 
-#define NHASHES	18
+/* when adding, change lines with context matching NHASHMOD */
+
+/* NHASHMOD: total number of hash functions */
+#define NHASHES	20
 struct hash_functions {
 	const char *name;
 	size_t digestlen;
@@ -223,6 +232,26 @@ struct hash_functions {
 		digest_print,
 		digest_print_string
 	}, {
+		"OAAT1",
+		8,
+		NULL,
+		(void (*)(void *))OAAT1_Init,
+		(void (*)(void *, const unsigned char *, unsigned int))OAAT_Update,
+		(char *(*)(void *, char *))OAAT_End,
+		digest_printbin_stringle,
+		digest_print,
+		digest_print_string
+	}, {
+		"OAAT1S",
+		8,
+		NULL,
+		(void (*)(void *))OAAT1_Init,
+		(void (*)(void *, const unsigned char *, unsigned int))OAAT_Update,
+		(char *(*)(void *, char *))OAAT1S_End,
+		digest_printbin_stringle,
+		digest_print,
+		digest_print_string
+	}, {
 		"SUMA",
 		SUMA_DIGEST_LENGTH * 2,
 		NULL,
@@ -252,7 +281,9 @@ struct hash_functions {
 		digest_printbin_pad,
 		digest_print,
 		digest_print_string
-	}, {
+	},
+	/* NHASHMOD: non-GNU functions above, GNU functions below */
+	{
 		"MD4",
 		MD4_DIGEST_LENGTH * 2,
 		NULL,
@@ -635,10 +666,11 @@ digest_filelist(const char *file, struct hash_functions *defhash)
 		return(1);
 	}
 
-	if (defhash < &functions[9])
+	/* NHASHMOD: first GNU style function (and list below) */
+	if (defhash < &functions[11])
 		/*
 		 * no GNU format for cksum, sum, sysvsum, adler32,
-		 * cdb, oaat, suma, sfv, size
+		 * cdb, oaat, oaat1, oaat1s, suma, sfv, size
 		 */
 		defhash = NULL;
 
@@ -969,47 +1001,87 @@ CDB_End(CDB_CTX *ctx, char *digest)
 }
 
 void
-OAAT_Init(OAAT_CTX *ctx)
+OAAT_Init(OAATS_CTX *ctx)
 {
-	*ctx = 0;
+	ctx->h = 0;
+	ctx->s = 0;
 }
 
 void
-OAAT_Update(OAAT_CTX *ctx, const uint8_t *buf, size_t n)
+OAAT1_Init(OAATS_CTX *ctx)
+{
+	ctx->h = 0x100;
+	ctx->s = 0;
+}
+
+void
+OAAT_Update(OAATS_CTX *ctx, const uint8_t *buf, size_t n)
 {
 	register uint32_t h;
 
-	h = *ctx;
+	ctx->s += n;
+	h = ctx->h;
 	while (n--) {
 		h += *buf++;
 		h += h << 10;
 		h ^= h >> 6;
 	}
-	*ctx = h;
+	ctx->h = h;
 }
 
 void
-OAAT_Final(OAAT_CTX *ctx)
+OAAT_Final(OAATS_CTX *ctx)
 {
 	register uint32_t h;
 
-	h = *ctx;
+	h = ctx->h;
 	h += h << 3;
 	h ^= h >> 11;
 	h += h << 15;
-	*ctx = h;
+	ctx->h = h;
+}
+
+/* XXX this should be in libc/libmirmake */
+static const uint8_t RFC1321_padding[64] = {
+	0x80, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+};
+
+char *
+OAAT1S_End(OAATS_CTX *ctx, char *digest)
+{
+	uint8_t le_len[8];
+	uint64_t bits;
+
+	bits = ctx->s << 3;
+	le_len[0] = bits & 0xFF; bits >>= 8;
+	le_len[1] = bits & 0xFF; bits >>= 8;
+	le_len[2] = bits & 0xFF; bits >>= 8;
+	le_len[3] = bits & 0xFF; bits >>= 8;
+	le_len[4] = bits & 0xFF; bits >>= 8;
+	le_len[5] = bits & 0xFF; bits >>= 8;
+	le_len[6] = bits & 0xFF; bits >>= 8;
+	le_len[7] = bits;
+
+	/* look, ma! mirabilos can do nicer formulas than Markus Friedl */
+	OAAT_Update(ctx, RFC1321_padding, 64 - ((ctx->s + 8) & 63));
+	OAAT_Update(ctx, le_len, 8);
+
+	return (OAAT_End(ctx, digest));
 }
 
 char *
-OAAT_End(OAAT_CTX *ctx, char *digest)
+OAAT_End(OAATS_CTX *ctx, char *digest)
 {
 	OAAT_Final(ctx);
 
 	if (digest == NULL) {
-		if (asprintf(&digest, "%08X", *ctx) == -1)
+		if (asprintf(&digest, "%08X", ctx->h) == -1)
 			return (NULL);
 	} else
-		snprintf(digest, 17, "%08X", *ctx);
+		snprintf(digest, 17, "%08X", ctx->h);
 
 	return (digest);
 }
