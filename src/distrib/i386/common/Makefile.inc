@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.7 2006/02/01 18:30:49 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.8 2006/02/01 19:46:46 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -7,7 +7,7 @@ _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC=1
 .include <bsd.own.mk>
 
 TOP=		${.CURDIR}/..
-REALOBJDIR!=	readlink ${.OBJDIR} || ( cd ${.OBJDIR} && pwd )
+REALOBJDIR!=	readlink -nf ${.OBJDIR} || ( cd ${.OBJDIR} && pwd )
 IMAGE=		mr.fs
 CBIN?=		instbin
 CRUNCHCONF?=	${CBIN}.conf
@@ -60,8 +60,9 @@ ${FS}:	bsd.gz
 	${SUDO} newfs -m 0 -o space -i 1048576 -c 80 -b 4096 ${VND_RDEV}
 	mkdir -p ${MOUNT_POINT}
 	${SUDO} mount ${VND_DEV} ${MOUNT_POINT}
-	${SUDO} cp ${BOOT} ${.OBJDIR}/boot
-	${SUDO} dd if=${.OBJDIR}/boot of=${MOUNT_POINT}/boot obs=512 conv=osync
+	${SUDO} cp ${BOOT} ${REALOBJDIR}/boot
+	${SUDO} dd if=${REALOBJDIR}/boot of=${MOUNT_POINT}/boot \
+	    obs=512 conv=osync
 	${SUDO} dd if=bsd.gz of=${MOUNT_POINT}/bsd obs=512 conv=osync
 	${SUDO} /usr/mdec/installboot -v -s ${FLOPPYSECS} -h 2 \
 	    ${MOUNT_POINT}/boot ${DESTDIR}/usr/mdec/ffspbr ${VND_CRDEV}
@@ -78,31 +79,20 @@ NBLKS?=          8192
 # minfree, opt, b/i  trks, sects, cpg
 NEWFSARGS=	-m 0 -o space -c 16 -i 3072
 
-bsd.gz: ${DO_BSDRD_NAME}
-	cp ${DO_BSDRD_NAME} bsd.strip
+bsd.gz: ${DO_BSDRD_NAME}.uncompressed
+	cp ${DO_BSDRD_NAME}.uncompressed bsd.strip
 	${STRIP} --strip-all -R .comment -R .eh_frame ${STRIP_ADDS} bsd.strip
 	gzip -nc9 bsd.strip >bsd.gz
 
-${DO_BSDRD_NAME}:	${IMAGE} bsd rdsetroot
-	gzip -d <bsd >${DO_BSDRD_NAME}
-	${.OBJDIR}/rdsetroot ${DO_BSDRD_NAME} <${IMAGE}
+${DO_BSDRD_NAME}.uncompressed: ${IMAGE} bsd rdsetroot
+	gzip -d <bsd >${DO_BSDRD_NAME}.uncompressed
+	${REALOBJDIR}/rdsetroot ${DO_BSDRD_NAME}.uncompressed <${IMAGE}
+
+${DO_BSDRD_NAME}: ${DO_BSDRD_NAME}.uncompressed
+	gzip -n9 <${DO_BSDRD_NAME}.uncompressed >${DO_BSDRD_NAME}
 
 .ifndef KERNEL_LOCAL_BUILD
-bsd:
-	mkdir -p build/${RAMDISK}
-	[[ -f build/${RAMDISK}/version || ! -f ${KERNDIR}/version ]] \
-	    || cat ${KERNDIR}/version >build/${RAMDISK}/version
-	( cd build/${RAMDISK}; config -s ${SYSDIR} -b . \
-	    ${SYSSUBDIR}/conf/${RAMDISK} \
-	    && ${MAKE_CLEAN} && ${MAKE} depend && exec ${MAKE} bsd )
-	mv build/${RAMDISK}/bsd .
-	-[[ ! -e ${KERNDIR} ]] \
-	    || if ! cat build/${RAMDISK}/version >${KERNDIR}/version; then \
-		( print "# warning: kernel version changed"; \
-		  print "print $$(<build/${RAMDISK}/version)" \
-		     ">${KERNDIR}/version" ) \
-		  | tee -a /var/tmp/.buildnotice >&2; \
-	    fi
+.  include "${.CURDIR}/../generic/Makefile.kernel"
 .endif
 
 ${IMAGE}: ${CBIN} rd_setup do_files rd_teardown
@@ -153,7 +143,7 @@ ${CRUNCHCONF}: ${LISTS}
 
 do_files:
 	${SUDO} mtree -def ${MTREE} -p ${MOUNT_POINT}/ -u
-	TOPDIR=${TOP} CURDIR=${.CURDIR} OBJDIR=${.OBJDIR} \
+	TOPDIR=${TOP} CURDIR=${.CURDIR} OBJDIR=${REALOBJDIR} \
 	    REV=${OSrev} TARGDIR=${MOUNT_POINT} UTILS=${UTILS} \
 	    ${SUDO} ${SHELL} ${UTILS}/runlist.sh ${LISTS}
 	${SUDO} rm ${MOUNT_POINT}/${CBIN}
@@ -164,13 +154,15 @@ clean cleandir:
 .endif
 	/bin/rm -f core ${IMAGE} ${CBIN} ${CBIN}.mk ${CBIN}*.cache boot \
 	    *.o *.lo *.c bsd bsd.rd bsd.gz bsd.strip floppy*.fs rdsetroot \
-	    cdrom*.fs ${CRUNCHCONF} ${DO_BSDRD_NAME} ${FS} ${REALIMAGE}
+	    cdrom*.fs ${CRUNCHCONF} ${DO_BSDRD_NAME}{,.uncompressed} \
+	    ${FS} ${REALIMAGE}
 	/bin/rm -rf ${MOUNT_POINT}
 
 cleannobsd:
 	/bin/rm -f core ${IMAGE} ${CBIN} ${CBIN}.mk ${CBIN}*.cache boot \
 	    *.o *.lo *.c bsd.rd bsd.gz bsd.strip floppy*.fs rdsetroot \
-	    cdrom*.fs ${CRUNCHCONF} ${DO_BSDRD_NAME} ${FS} ${REALIMAGE}
+	    cdrom*.fs ${CRUNCHCONF} ${DO_BSDRD_NAME}{,.uncompressed} \
+	    ${FS} ${REALIMAGE}
 	/bin/rm -rf ${MOUNT_POINT}
 
 .include <bsd.obj.mk>

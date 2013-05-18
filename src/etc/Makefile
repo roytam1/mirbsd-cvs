@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.16 2006/01/03 03:54:56 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.17 2006/01/04 02:15:12 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -46,25 +46,12 @@ GZIPEXT=
 
 all clean cleandir depend etc install lint:
 
-distrib-dirs:
-.ifdef DESTDIR
-	if [ ! -d ${DESTDIR}/. ]; then \
-		${INSTALL} -d -o root -g wheel -m 755 ${DESTDIR}; \
-	fi
-.endif
-	mtree -qdef mtree/4.4BSD.dist -p ${DESTDIR}/ -U
-	cd ${DESTDIR}/var/anoncvs/anoncvs; rm -f usr var; ln -s . var
-	for i in ${DESTDIR}/usr/{ports,src}; do \
-		[[ -d $$i ]] || ${INSTALL} -d -o root -g wsrc -m 775 $$i; \
-	done
-	cd ${DESTDIR}/; rm -f sys; ln -s usr/src/sys sys
-
-.ifndef DESTDIR
-distribution-etc-root-var distribution release snapshot:
-	@echo setenv DESTDIR before doing that!
-	@false
+.if !defined(DESTDIR) || empty(DESTDIR)
+etc-files:
+	@echo setenv DESTDIR before trying this!
+	@exit 1
 .else
-distribution-etc-root-var: distrib-dirs
+etc-files:
 	${INSTALL} -c -o ${BINOWN} -g ${BINGRP} -m 644 ${BIN1} ${DESTDIR}/etc/
 	chmod 640 ${DESTDIR}/etc/inetd.conf
 	${SHELL} ttys.pty | cat etc.${MACHINE}/ttys - >${DESTDIR}/etc/ttys && \
@@ -185,42 +172,10 @@ distribution-etc-root-var: distrib-dirs
 		${DESTDIR}/etc/sudoers
 	cd ${DESTDIR}/etc/ssl/certs && ${SHELL} ${.CURDIR}/ssl.certs.shar && \
 		chown ${BINOWN}:${BINGRP} * && chmod 444 *
-
-distribution:
-	exec ${SUDO} ${_STCMD_DEST} ${MAKE} distribution-etc-root-var
-	cd .. && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install
-
-release: distribution snap_pre snap_md
-	@cd ${.CURDIR} && ${MAKE} release-finish DESTDIR="${DESTDIR}"
-
-release-finish:
-	cd ${DESTDIR}/snapshot && [[ ! -e bsd.rd ]] || ${SUDO} gzip -n9 bsd.rd
-	-cd ${DESTDIR}/snapshot; for f in bsd* *boot* *BOOT* cd*.iso \
-	    *.fs *.fs.gz; do test ! -e $$f || \
-		${SUDO} cp $$f ${BSDRELDIR}/rel; \
-	 done
-	cd ${BSDRELDIR}/rel && [[ ! -e bsd.rd.gz ]] || \
-	    ${SUDO} mv bsd.rd.gz bsd.rd
-.  ifdef MACHINE_HAS_TOOLS
-	${SUDO} mkdir -p ${BSDRELDIR}/rel/tools
-	${SUDO} cp ${DESTDIR}/snapshot/tools/* ${BSDRELDIR}/rel/tools/
-	cd ${BSDRELDIR}/rel && cksum tools/* | ${SUDO} tee -a CKSUM
-	cd ${BSDRELDIR}/rel && rmd160 tools/* | ${SUDO} tee -a RMD160
-.  endif
-	@if [[ -s /var/tmp/.buildnotice ]]; then \
-		cat /var/tmp/.buildnotice; \
-		. /var/tmp/.buildnotice; \
-		rm -f /var/tmp/.buildnotice || true; \
-	fi
-
-snap_pre:
-	${SUDO} /bin/rm -rf ${DESTDIR}/snapshot
-	${SUDO} ${INSTALL} -d -o root -g wheel -m 755 ${DESTDIR}/snapshot
+.endif # destdir
 
 snap_md:
 # nothing here -- look in the machine-dependent Makefile.inc
-
-.endif	# DESTDIR check
 
 MAKEDEVARCHS+= amd64
 MAKEDEVARCHS+= i386
@@ -254,12 +209,6 @@ allarchs: ${MAKEDEVSRC} ${MAKEDEVDOC}
 	@echo " Don't forget to update your own"
 	@echo " '/dev/MAKEDEV' script manually!"
 	@echo "================================="
-
-distrib:
-	cd ${.CURDIR}/.. && ${MAKE} mksystrace-dest
-	cd ${.CURDIR}/../distrib \
-	    && ${_STCMD_OBJ} ${MAKE} \
-	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install
 
 GENERATED_FILES=
 
@@ -303,15 +252,15 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.16 2006/01/03 03:54:56 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.17 2006/01/04 02:15:12 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \
 		done | ssh-keygen -T /dev/stdout; \
 	} >moduli
 
-.PHONY: distribution-etc-root-var distribution distrib-dirs release \
-	make-generated clean-generated install-generated update-moduli \
-	release-finish snapshot allarchs snap_pre snap_tar snap_md m4
+.PHONY: all clean cleandir depend etc install lint etc-files snap_md \
+	clean cleandir m4 man allarchs make-generated clean-generated \
+	install-generated update-moduli
 
 .include <bsd.prog.mk>

@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.32 2006/01/04 02:22:18 tg Exp $
+# $MirOS: src/Makefile,v 1.33 2006/01/31 13:58:25 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -24,10 +24,6 @@ NOMAN?=	no
   SUBDIR+= distrib
 .endif
 
-includes:
-	cd ${.CURDIR}/include && ${MAKE} prereq \
-	    && exec ${SUDO} ${MAKE} includes
-
 beforeinstall: distrib-dirs
 	cd ${.CURDIR}/include && exec ${MAKE} includes
 
@@ -35,7 +31,6 @@ afterinstall:
 .if ${NOMAN:L} == "no"
 	cd ${.CURDIR}/share/man && exec ${MAKE} makedb
 .endif
-	-sleep 1; rm -f ${_STFILE_DEST}
 
 mksystrace: mksystrace-obj mksystrace-dest
 
@@ -48,7 +43,9 @@ mksystrace-dest:
 	    env WRITEDIR="$$d" NOWRITEDIR="${BSDOBJDIR}" \
 	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE}
 
-build: mksystrace
+build-pre:
+	-${SUDO} rm -f ${_STFILE_OBJ} ${_STFILE_DEST}
+	cd ${.CURDIR} && exec ${MAKE} mksystrace
 	cd ${.CURDIR}/share/mk \
 	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install
 	cd ${.CURDIR}/include \
@@ -60,21 +57,28 @@ build: mksystrace
 	    && ${_STCMD_OBJ} ${MAKE} \
 	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install NOMAN=yes
 	cd ${.CURDIR} && ${_STCMD_OBJ} ${MAKE} depend
-	# The build is now restartable from here.
-	cd ${.CURDIR} && exec ${MAKE} contbuild
 
 contbuild:
-	[[ -s ${_STFILE_OBJ} ]] || ${MAKE} mksystrace-obj
-	[[ -s ${_STFILE_DEST} ]] || ${MAKE} mksystrace-dest
+	cd ${.CURDIR} && exec ${MAKE} mksystrace
 	cd ${.CURDIR} && ${_STCMD_OBJ} ${MAKE} \
 	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install
-	-sleep 1; rm -f ${_STFILE_OBJ}
+	@sleep 1
+	${SUDO} rm -f ${_STFILE_OBJ} ${_STFILE_DEST}
 
 distrib-dirs:
-	cd ${.CURDIR}/etc \
-	    && exec ${SUDO} ${MAKE} distrib-dirs DESTDIR=${DESTDIR}
+	[[ -d ${DESTDIR}/. ]] || \
+	    ${SUDO} ${INSTALL} -d -o root -g wheel -m 755 ${DESTDIR}
+	${SUDO} mtree -p ${DESTDIR}/ -Uqdef ${.CURDIR}/etc/mtree/4.4BSD.dist
+	cd ${DESTDIR}/var/anoncvs/anoncvs && \
+	    ${SUDO} rm -f usr var && \
+	    ${SUDO} ln -s . var
+	for i in ${DESTDIR}/usr/{ports,src}; do \
+		[[ -d $$i ]] || \
+		    ${SUDO} ${INSTALL} -d -o root -g wsrc -m 775 $$i; \
+	done
+	cd ${DESTDIR}/ && ${SUDO} rm -f sys && ${SUDO} ln -s usr/src/sys sys
 
-b-r: .PHONY
+b-r:
 	# Test if the targets are mounted suitable for root (BTSTF)
 .for _dir in ${BSDOBJDIR} ${BSDRELDIR}
 	mkdir -p ${_dir} || ${SUDO} mkdir -p ${_dir}
@@ -84,24 +88,27 @@ b-r: .PHONY
 .endfor
 	touch ${BSDOBJDIR}/permissions.test && rm ${BSDOBJDIR}/permissions.test
 	cd ${.CURDIR} && exec ${MAKE} obj
-	cd ${.CURDIR} && exec ${MAKE} build
-	cd ${.CURDIR} && exec ${MAKE} contrelease
+	cd ${.CURDIR} && exec ${MAKE} build-pre DESTDIR=
+	cd ${.CURDIR} && exec ${MAKE} contbuild DESTDIR=
+	cd ${.CURDIR} && exec ${MAKE} contrelease DESTDIR=${BSDRELDIR}/base
 
 cont-b-r:
-	cd ${.CURDIR} && exec ${MAKE} contbuild
-	cd ${.CURDIR} && exec ${MAKE} contrelease
+	cd ${.CURDIR} && exec ${MAKE} contbuild DESTDIR=
+	cd ${.CURDIR} && exec ${MAKE} contrelease DESTDIR=${BSDRELDIR}/base
 
 contrelease:
-	@echo -n >/var/tmp/.buildnotice
-	mkdir -p ${BSDRELDIR}/base ${BSDRELDIR}/rel \
-	    || ${SUDO} mkdir -p ${BSDRELDIR}/base ${BSDRELDIR}/rel
-	cd ${.CURDIR} && exec ${MAKE} mksystrace DESTDIR=${BSDRELDIR}/base
-	cd ${.CURDIR}/etc && exec ${MAKE} release DESTDIR=${BSDRELDIR}/base
-	-sleep 1; rm -f ${_STFILE_OBJ}
+	mkdir -p ${DESTDIR} || ${SUDO} mkdir -p ${DESTDIR}
+	cd ${.CURDIR} && exec ${MAKE} mksystrace-dest
+	cd ${.CURDIR} && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install
+	cd ${.CURDIR}/etc && exec ${SUDO} ${_STCMD_DEST} ${MAKE} etc-files
+	@sleep 1
+	${SUDO} rm -f ${_STFILE_DEST}
 
 do-htman:
 	-rm -rf ${BSDOBJDIR}/htman
 	mkdir -p ${BSDOBJDIR}/htman/{man,htm}
+	cd ${BSDOBJDIR}/htman && env WRITEDIR="${BSDOBJDIR}/htman" \
+	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE} ${SHELL}
 .for _set _dir in x11 X11R6 base share
 	cd ${BSDRELDIR}/${_set}/usr/${_dir}/man \
 	    && find * -type f | cpio -pdlu ${BSDOBJDIR}/htman/man
@@ -110,17 +117,34 @@ do-htman:
 	mkdir -p ${BSDOBJDIR}/htman/papers/${_doc}
 	cd ${BSDOBJDIR}/htman/papers/${_doc} \
 	    && lndir ${BSDRELDIR}/base/usr/share/doc/${_doc} \
-	    && ${MAKE}
+	    && ${_STCMD} -f ${BSDOBJDIR}/htman/.policy.mk ${MAKE}
 .endfor
 	cp ${BSDOBJDIR}/share/doc/legal/LICENCE-BSD.0 \
 	    ${BSDOBJDIR}/htman/man/cat7/BSD-Licence.0
 	BSDOBJDIR="${BSDOBJDIR}" BSDSRCDIR="${BSDSRCDIR}" \
+	    ${_STCMD} -f ${BSDOBJDIR}/htman/.policy.mk \
 	    ${SHELL} ${.CURDIR}/scripts/genhtman.sh
+	-rm -f ${BSDOBJDIR}/htman/.policy.mk
 	${SUDO} mkdir -p ${BSDRELDIR}/htman
 	cd ${BSDOBJDIR}/htman/htm \
 	    && find man* -type f | ${SUDO} cpio -pdlu ${BSDRELDIR}/htman/
 	${SUDO} chown -R 0:0 ${BSDRELDIR}/htman/*
 	${SUDO} chmod -R a=rX ${BSDRELDIR}/htman/*
+
+base-distbuild:
+	cd ${.CURDIR} && exec ${MAKE} mksystrace-obj
+	cd ${.CURDIR}/distrib && exec ${_STCMD_OBJ} ${MAKE}
+	-rm -f ${_STFILE_OBJ}
+
+base-distinstall:
+	cd ${.CURDIR} && exec ${MAKE} mksystrace-dest
+	-rm -rf ${_STFILE_OBJ} ${DESTDIR}/snapshot
+	${INSTALL} -d -o root -g wheel -m 755 ${DESTDIR}/snapshot
+	cd ${.CURDIR}/distrib && exec ${_STCMD_DEST} ${MAKE} install
+	cd ${.CURDIR}/etc && exec ${_STCMD_DEST} ${MAKE} snap_md
+	cd ${.CURDIR}/gnu/usr.bin/texinfo && exec ${_STCMD_DEST} \
+	    ${MAKE} -f Makefile.bsd-wrapper mkinfodir
+	-rm -f ${_STFILE_DEST}
 
 dist-q:
 	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:Q} \
@@ -145,6 +169,11 @@ _DISTS=	base x11 htman
 .endif
 
 _do-dist:
+	@h=${HOME:Q}; [[ $$h = $$HOME ]] || exit 1
+	@if [[ $$HOME != /var/tmp/buildhome.* ]]; then \
+		echo Do not call this target directly; \
+		exit 1; \
+	fi
 	mkdir -p ${HOME}/.etc/systrace
 .ifdef QUICK_DIST
 .  if ${NO_JAVA:L} == "no"
@@ -155,8 +184,16 @@ _do-dist:
 .endif
 	@echo Initialising sudo as ${SUDO:Q}
 	${SUDO} true
+	@if [[ -e /var/tmp/.buildnotice ]]; then \
+		echo Error: /var/tmp/.buildnotice existed.; \
+		${SUDO} cat /var/tmp/.buildnotice; \
+		${SUDO} rm -rf ${HOME}; \
+		exit 1; \
+	fi
 	@echo "============================================================"
 	@echo Initiating MirOS Build...
+	${SUDO} install -c -o 0 -g 0 -m 600 /dev/null /var/tmp/.buildnotice
+	${SUDO} mksh -c 'echo rm -rf ${HOME} >>/var/tmp/.buildnotice'
 	@date
 .ifdef BATCH
 	@echo BATCH mode engaged.
@@ -169,8 +206,7 @@ _do-dist:
 .endif
 	@echo "============================================================"
 	${SUDO} rm -rf ${BSDOBJDIR} ${BSDRELDIR}
-	cd ${.CURDIR}/etc \
-	    && exec ${SUDO} ${MAKE} distrib-dirs DESTDIR=
+	cd ${.CURDIR} && exec ${MAKE} distrib-dirs DESTDIR=
 	cd ${.CURDIR} && exec ${MAKE} b-r
 .ifndef QUICK_DIST
 	@date
@@ -178,14 +214,22 @@ _do-dist:
 .endif
 	@date
 	cd ${.CURDIR}/gcc && exec ${MAKE} b-r
-	cd ${.CURDIR}/gnu/usr.bin/texinfo && exec ${SUDO} ${MAKE} \
-	    -f Makefile.bsd-wrapper DESTDIR=${BSDRELDIR}/base mkinfodir
+	@date
+	cd ${.CURDIR} && exec ${MAKE} base-distbuild DESTDIR=${BSDRELDIR}/base
+	cd ${.CURDIR} && exec ${SUDO} ${MAKE} base-distinstall \
+	    DESTDIR=${BSDRELDIR}/base
 .ifndef QUICK_DIST
 	@date
 	cd ${.CURDIR} && exec ${MAKE} do-htman
 .endif
 	@date
 	@echo "============================================================"
+	@if [[ -e /var/tmp/.buildnotice ]]; then \
+		${SUDO} cat /var/tmp/.buildnotice; \
+		${SUDO} /bin/mksh /var/tmp/.buildnotice; \
+		${SUDO} rm -f /var/tmp/.buildnotice || true; \
+		echo "============================================================"; \
+	fi
 	@echo "Checking files:"
 	@echo ""
 .for _set in ${_DISTS}
@@ -197,30 +241,33 @@ _do-dist:
 .ifndef BATCH
 	@read a?'Press Return to continue...'
 .endif
+	${SUDO} rm -rf ${BSDRELDIR}/rel
+	${SUDO} mkdir ${BSDRELDIR}/rel
+	cd ${DESTDIR}/snapshot && ${SUDO} ${INSTALL} -c -o root -g wheel \
+	    -m 444 * ${BSDRELDIR}/rel/
 .for _set in ${_DISTS}
 	-cd ${BSDSRCDIR}/distrib/lists/${_set} && \
 	    DESTDIR="${BSDRELDIR}/${_set}" RELEASEDIR="${BSDRELDIR}/rel" \
 	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/tarmk ${OSrev}
 .endfor
-	-cd ${BSDRELDIR}/rel && cksum bsd!(*.gz) *boot* *BOOT* *.fs \
-	    *.iso *.gz *.ngz | cat - CKSUM | ${SUDO} sort -k3 -uo CKSUM
-	-cd ${BSDRELDIR}/rel && rmd160 bsd!(*.gz) *boot* *BOOT* *.fs \
-	    *.iso *.gz *.ngz | cat - RMD160 | ${SUDO} sort -uo RMD160
+	-cd ${BSDRELDIR}/rel && ${SUDO} touch CKSUM RMD160{,.gz} index.txt
 	-cd ${BSDRELDIR}/rel && /bin/ls -1 | ${SUDO} sort -uo index.txt
+	-cd ${BSDRELDIR}/rel && ${SUDO} rm -f CKSUM RMD160{,.gz}
+	-cd ${BSDRELDIR}/rel && cksum * | ${SUDO} sort -k3 -uo CKSUM
+	-cd ${BSDRELDIR}/rel && rmd160 !(CKSUM) | ${SUDO} sort -uo RMD160
 	@echo "============================================================"
 	@echo Done with MirOS Build.
 	@date
 	@/bin/ls -Fl ${BSDRELDIR}/rel
 	@echo "============================================================"
-	@echo 'You might want to nuke ${HOME} now...'
 
 CVSROOT?=/cvs
 cvsup:
 	cd ${.CURDIR} && cvs -Rqz3 -d ${CVSROOT} up -PAd [!BCXcptw]!(*cc) .*
 
-.PHONY:	includes beforeinstall afterinstall mksystrace mksystrace-obj \
-	mksystrace-dest build contbuild distrib-dirs b-r contrelease \
-	cont-b-r cvsup do-htman dist dist-q _do-dist
+.PHONY:	beforeinstall afterinstall mksystrace mksystrace-obj mksystrace-dest \
+	build-pre contbuild distrib-dirs b-r cont-b-r contrelease do-htman \
+	base-distbuild base-distinstall dist-q dist _do-dist cvsup cleandir
 
 .include <bsd.subdir.mk>
 

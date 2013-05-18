@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/generic/Makefile,v 1.3 2005/07/01 11:51:43 tg Exp $
+# $MirOS: src/distrib/i386/generic/Makefile,v 1.4 2006/02/01 18:30:49 tg Exp $
 
 RAMDISK=	GENERIC
 SYSDIR=		${.CURDIR}/../../../sys
@@ -10,22 +10,6 @@ all:	bsd
 
 depend:
 	# Nothing here so far...
-
-bsd:
-	mkdir -p build/${RAMDISK}
-	[[ -f build/${RAMDISK}/version || ! -f ${KERNDIR}/version ]] \
-	    || cat ${KERNDIR}/version >build/${RAMDISK}/version
-	( cd build/${RAMDISK}; config -s ${SYSDIR} -b . \
-	    ${SYSSUBDIR}/conf/${RAMDISK} \
-	    && ${MAKE_CLEAN} && ${MAKE} depend && exec ${MAKE} bsd )
-	mv build/${RAMDISK}/bsd .
-	-[[ ! -e ${KERNDIR} ]] \
-	    || if ! cat build/${RAMDISK}/version >${KERNDIR}/version; then \
-		( print "# warning: kernel version changed"; \
-		  print "print $$(<build/${RAMDISK}/version)" \
-		     ">${KERNDIR}/version" ) \
-		  | tee -a /var/tmp/.buildnotice >&2; \
-	    fi
 
 install:
 	cp bsd ${DESTDIR}/snapshot/bsd
@@ -39,5 +23,6 @@ clean:
 cleannobsd:
 	-rm -rf build
 
+.include "Makefile.kernel"
 .include <bsd.obj.mk>
 .include <bsd.subdir.mk>

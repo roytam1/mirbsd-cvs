@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile,v 1.13 2005/11/24 22:01:21 tg Exp $
+# $MirOS: gcc/Makefile,v 1.14 2005/12/05 08:16:42 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -82,14 +82,13 @@ b-r: .PHONY
 	${SUDO} rm ${_dir}/permissions.test
 .endfor
 	touch ${BSDOBJDIR}/permissions.test && rm ${BSDOBJDIR}/permissions.test
-	cd ${.CURDIR} && exec ${MAKE} obj
-	cd ${.CURDIR} && exec ${MAKE}
-	cd ${.CURDIR} && exec ${SUDO} ${MAKE} install
-	cd ${.CURDIR} && exec ${MAKE} release BSDRELDIR=${BSDRELDIR}
+	cd ${.CURDIR} && exec ${BSDMAKE} obj
+	cd ${.CURDIR} && exec ${BSDMAKE}
+	cd ${.CURDIR} && exec ${SUDO} ${BSDMAKE} install
+	cd ${.CURDIR} && exec ${BSDMAKE} release BSDRELDIR=${BSDRELDIR}
 
 release: .PHONY
-	mkdir -p ${BSDRELDIR}/base ${BSDRELDIR}/rel \
-	    || ${SUDO} mkdir -p ${BSDRELDIR}/base ${BSDRELDIR}/rel
+	mkdir -p ${BSDRELDIR}/base || ${SUDO} mkdir -p ${BSDRELDIR}/base
 	cd ${BSDSRCDIR} && ${EXTRA_ENV} exec \
 	    ${BSDMAKE} distrib-dirs mksystrace-dest DESTDIR=${BSDRELDIR}/base
 	cd ${.CURDIR} && exec ${SUDO} ${MAKE} install DESTDIR=${BSDRELDIR}/base
