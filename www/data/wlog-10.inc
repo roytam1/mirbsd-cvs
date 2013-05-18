@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.61 2008/07/25 16:29:10 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.62 2008/07/25 16:46:34 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1201,6 +1201,7 @@ Title: MirEwe requiescas in pacem
  should not only be able to handle gzip(1)ped kernels, but also personalise
  them by rewriting the <tt>initial_entropy</tt> array. TODO. The snapshot,
  dualive ISO 9660 image, is almost complete and will be uploaded later.</p>
+<p><strong>Update 26.07.2008</strong>: personalising done, snapshot broken.</p>
 ----
 Date: 23.07.2008 01:47
 Author: tg@
@@ -1273,4 +1274,8 @@ Title: Katze müßte man sein…
 <hr />
 <p>I just coined a new term: IMACS. The connotation is: I’ll hack the ukbd(4)
  driver to allow inmetaaltctrlshifting entropy into the kernel too, soon.</p>
+<p><strong>Update 26.07.2008</strong>: sadly, USB keyboards don’t seem to
+ generate any interrupt requests on modifier key presses or releases. This
+ means you’re stuck to DIN or PS/2 pckbd(4) or Sun (&amp;c.) zskbd(4/sparc)
+ for entropy collection via IMACSing. Can’t be helped…</p>
 ----
