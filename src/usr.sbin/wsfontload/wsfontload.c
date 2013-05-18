@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/wsfontload/wsfontload.c,v 1.2 2005/03/13 19:17:39 tg Exp $ */
+/* $MirOS: src/usr.sbin/wsfontload/wsfontload.c,v 1.3 2005/12/04 15:02:34 tg Exp $ */
 /* $OpenBSD: wsfontload.c,v 1.10 2005/05/27 05:03:47 millert Exp $ */
 /* $NetBSD: wsfontload.c,v 1.2 2000/01/05 18:46:43 ad Exp $ */
 
@@ -47,7 +47,7 @@
 
 #include <dev/wscons/wsconsio.h>
 
-__RCSID("$MirOS: src/usr.sbin/wsfontload/wsfontload.c,v 1.2 2005/03/13 19:17:39 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/wsfontload/wsfontload.c,v 1.3 2005/12/04 15:02:34 tg Exp $");
 
 #define DEFDEV		"/dev/ttyCcfg"
 #define DEFWIDTH	8
@@ -82,7 +82,9 @@ struct {
 	{"ibm",  WSDISPLAY_FONTENC_IBM},
 	{"pcvt", WSDISPLAY_FONTENC_PCVT},
 	{"iso7", WSDISPLAY_FONTENC_ISO7},
+#ifdef WSDISPLAY_FONTENC_SONY
 	{"sony", WSDISPLAY_FONTENC_SONY},
+#endif
 };
 
 int
