@@ -1,12 +1,8 @@
+$MirOS$
 $OpenBSD: patch-Makefile,v 1.7 2008/11/07 12:23:12 jsg Exp $
---- Makefile.orig	Thu Nov  6 21:44:23 2008
-+++ Makefile	Thu Nov  6 21:46:04 2008
-@@ -5,11 +5,11 @@
- # == CHANGE THE SETTINGS BELOW TO SUIT YOUR ENVIRONMENT =======================
- 
- # Your platform. See PLATS for possible values.
--PLAT= none
-+PLAT= bsd
+--- Makefile.orig	Tue Aug 12 00:40:25 2008
++++ Makefile	Sat Aug 29 12:13:18 2009
+@@ -9,7 +9,7 @@ PLAT= none
  
  # Where to install. The installation starts in the src and doc directories,
  # so take care if INSTALL_TOP is not an absolute path.
@@ -15,12 +11,13 @@ $OpenBSD: patch-Makefile,v 1.7 2008/11/07 12:23:12 jsg Exp $
  INSTALL_BIN= $(INSTALL_TOP)/bin
  INSTALL_INC= $(INSTALL_TOP)/include
  INSTALL_LIB= $(INSTALL_TOP)/lib
-@@ -43,7 +43,7 @@ PLATS= aix ansi bsd freebsd generic linux macosx mingw
- # What to install.
- TO_BIN= lua luac
- TO_INC= lua.h luaconf.h lualib.h lauxlib.h ../etc/lua.hpp
--TO_LIB= liblua.a
-+TO_LIB= liblua.a liblua.so.${LIBlua_VERSION}
- TO_MAN= lua.1 luac.1
+@@ -63,6 +63,9 @@ install: dummy
+ 	cd src && $(INSTALL_EXEC) $(TO_BIN) $(INSTALL_BIN)
+ 	cd src && $(INSTALL_DATA) $(TO_INC) $(INSTALL_INC)
+ 	cd src && $(INSTALL_DATA) $(TO_LIB) $(INSTALL_LIB)
++	cd src && ${MAKE} -f ${.SYSMK:Q}/bsd.lib.mk \
++	    LIB=lua SHLIB_VERSION=${LIBlua_VERSION} _LIBS_STATIC=no \
++	    DESTDIR= LIBDIR=${INSTALL_LIB:Q} install
+ 	cd doc && $(INSTALL_DATA) $(TO_MAN) $(INSTALL_MAN)
  
- # Lua version and release.
+ ranlib:
