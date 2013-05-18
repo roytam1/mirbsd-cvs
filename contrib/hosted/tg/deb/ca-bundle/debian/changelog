@@ -1,3 +1,9 @@
+ca-bundle (20110906) unstable; urgency=high
+
+  * nssckbi: explicitly distrust DigiNotar
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Tue, 06 Sep 2011 18:31:12 +0000
+
 ca-bundle (20110830) unstable; urgency=high
 
   * Refresh CA list: remove DigiNotar root
