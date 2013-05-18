@@ -1,11 +1,10 @@
-# $MirOS: src/usr.sbin/Makefile,v 1.10 2005/12/04 18:57:08 tg Exp $
+# $MirOS: src/usr.sbin/Makefile,v 1.11 2005/12/20 18:53:48 tg Exp $
 # $OpenBSD: Makefile,v 1.110 2004/05/04 23:27:21 deraadt Exp $
 
 .include <bsd.own.mk>
 
   SUBDIR+= ac
   SUBDIR+= accton
-  SUBDIR+= adduser
   SUBDIR+= apm
   SUBDIR+= apmd
   SUBDIR+= arp
@@ -98,7 +97,6 @@
   SUBDIR+= trpt
 # SUBDIR+= upkg
   SUBDIR+= usbdevs
-  SUBDIR+= user
   SUBDIR+= vipw
   SUBDIR+= vnconfig
   SUBDIR+= wsconscfg
