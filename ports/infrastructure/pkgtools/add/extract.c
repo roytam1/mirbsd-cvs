@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.11 2006/06/25 08:21:03 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.12 2006/11/19 22:34:05 tg Exp $ */
 /* $OpenBSD: extract.c,v 1.16 2003/07/04 17:31:19 avsm Exp $ */
 
 /*
@@ -23,11 +23,12 @@
 #include <sys/types.h>
 #include <err.h>
 #include <md5.h>
+#include <time.h>
 #include "lib.h"
 #include "add.h"
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.11 2006/06/25 08:21:03 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/extract.c,v 1.12 2006/11/19 22:34:05 tg Exp $");
 
 #if 0 /* defined(__OpenBSD__) && !defined(__MirBSD__) */
 /* this gets rid of the requirement to run paxmirabilis
@@ -189,8 +190,8 @@ extract_plist(const char *home, package_t *pkg)
     static int usedb = 1;
     RCDB *ourdb;
 
-    if ((ourdb = rcdb_open(_PATH_REFCNTDB)) == NULL) {
-	warn("rcdb_open - not using db!");
+    if ((ourdb = rcdb_open((tmp = getenv("PKG_REFCNTDB")) ? tmp : _PATH_REFCNTDB)) == NULL) {
+	warn("rcdb_open: not using db");
 	usedb = 0;
     }
 

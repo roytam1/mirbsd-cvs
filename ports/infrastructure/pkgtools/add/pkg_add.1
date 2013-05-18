@@ -1,4 +1,4 @@
-.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.6 2008/03/12 23:17:20 tg Exp $
+.\"	$MirOS: ports/infrastructure/pkgtools/add/pkg_add.1,v 1.7 2008/03/14 16:46:01 tg Exp $
 .\"	$OpenBSD: pkg_add.1,v 1.32 2003/07/14 13:38:24 jmc Exp $
 .\"
 .\" FreeBSD install - a package for the installation and maintenance
@@ -52,7 +52,7 @@
 .\" .Dd must come before definition of .Mx, because when called
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
-.Dd $Mdocdate$
+.Dd $Mdocdate: March 14 2008 $
 .\"
 .\" Implement .Mx (MirBSD)
 .de Mx
@@ -108,7 +108,9 @@ These packages are provided as a convenience for quickly installing software
 that would otherwise need to be built manually.
 .Bd -filled -offset indent
 .Em Note :
-System distribution files, e.g. base8.ngz, etc8.ngz, etc., are
+System distribution files, e.g.
+.Pa base10.ngz , etc10.ngz ,
+etc., are
 .Em not
 packages and may not be installed using
 .Nm pkg_add .
@@ -463,7 +465,7 @@ is installed, even if the user might change it with the
 flag to
 .Cm pkg_add .
 .Sh ENVIRONMENT
-.Bl -tag -width PKG_TMPDIR
+.Bl -tag -width PKG_REFCNTDB
 .It Ev PKG_PATH
 If a given package name cannot be found,
 the directories named by
@@ -478,6 +480,11 @@ period
 .It Ev PKG_DBDIR
 Where to register packages instead of
 .Pa /var/db/pkg .
+.It Ev PKG_REFCNTDB
+Name of the file that contains the reference count database for
+directories.
+The default is
+.Ev PKG_DBDIR Ns Pa /shareddirs.db .
 .It Ev PKG_TMPDIR
 Temporary area where packages will be extracted, instead of
 .Pa /var/tmp .
@@ -513,10 +520,16 @@ can hold executable scripts.
 .El
 .Pp
 .Nm
-looks through ${PKG_TMPDIR}, ${TMPDIR}, /var/tmp, /tmp
+looks through
+.Ev PKG_TMPDIR , TMPDIR , Pa /var/tmp , /tmp
 for such an area, in sequence.
 .Pp
-If ${TMPDIR} and /var/tmp are mounted noexec, you must set PKG_TMPDIR
+If
+.Ev TMPDIR
+and
+.Pa /var/tmp
+are mounted noexec, you must set
+.Ev PKG_TMPDIR
 to a suitable area, as
 .Nm
 has no way to check for noexec status except by failing to run installation

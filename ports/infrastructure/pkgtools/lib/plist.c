@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.9 2007/03/30 23:20:11 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.10 2007/05/28 14:12:45 tg Exp $ */
 /*	$OpenBSD: plist.c,v 1.17 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -26,7 +26,7 @@
 #include <md5.h>
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.9 2007/03/30 23:20:11 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.10 2007/05/28 14:12:45 tg Exp $");
 
 #define NULLMD5 "d41d8cd98f00b204e9800998ecf8427e"
 
@@ -354,12 +354,12 @@ delete_package(bool keep_files, bool nukedirs, rm_cfg_t remove_config,
     const char *Where = ".", *last_file = "";
     int fail = 0;
     int len;
-    char tmp[FILENAME_MAX], *name = NULL;
+    char tmp[FILENAME_MAX], *name = NULL, *cp;
     static int usedb = 1;
     RCDB *ourdb;
 
-    if ((ourdb = rcdb_open(_PATH_REFCNTDB)) == NULL) {
-	warn("rcdb_open - not using db!");
+    if ((ourdb = rcdb_open((cp = getenv("PKG_REFCNTDB")) ? cp : _PATH_REFCNTDB)) == NULL) {
+	warn("rcdb_open: not using db");
 	usedb = 0;
     }
 
@@ -412,7 +412,7 @@ delete_package(bool keep_files, bool nukedirs, rm_cfg_t remove_config,
 	    }
 	    else {
 		if (check_md5 && p->next && p->next->type == PLIST_COMMENT && !strncmp(p->next->name, "MD5:", 4)) {
-		    char *cp, buf[LegibleChecksumLen];
+		    char buf[LegibleChecksumLen];
 
 		    if (!strcmp(p->next->name + 4, NULLMD5))
 			printf("Not checking MD5 sum for %s\n", tmp);
