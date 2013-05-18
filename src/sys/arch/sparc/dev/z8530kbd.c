@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: z8530kbd.c,v 1.4 2003/06/02 23:27:54 millert Exp $	*/
 /*	$NetBSD: z8530tty.c,v 1.77 2001/05/30 15:24:24 lukem Exp $	*/
 
@@ -123,6 +124,7 @@
 #include <machine/z8530var.h>
 
 #include <dev/cons.h>
+#include <dev/rndvar.h>
 
 /*
  * How many input characters we can buffer.
@@ -847,9 +849,11 @@ zskbd_rxint(cs)
 		put += 2;
 		if (put >= end)
 			put = zst->zst_rbuf;
-		cc--;
 
 		rr0 = zs_read_csr(cs);
+		add_kbint_randomness((rr0 << 24) | (rr1 << 16) | (cc << 8) | c);
+
+		cc--;
 		if (!ISSET(rr0, ZSRR0_RX_READY))
 			break;
 	}

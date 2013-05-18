@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/sys/dev/ic/pckbc.c,v 1.3 2007/02/09 19:03:36 tg Exp $ */
 /* $OpenBSD: pckbc.c,v 1.9 2004/11/02 21:21:00 miod Exp $ */
 /* $NetBSD: pckbc.c,v 1.5 2000/06/09 04:58:35 soda Exp $ */
 
@@ -150,7 +150,7 @@ pckbc_poll_data1(iot, ioh_d, ioh_c, slot, checkaux)
 
 			KBD_DELAY;
 			c = bus_space_read_1(iot, ioh_d, 0);
-			add_tty_randomness((0x80000000 | checkaux << 31) ^
+			add_kbint_randomness((0x80000000 | checkaux << 31) ^
 			     (i << 16 | stat << 8 | c));
 			if (checkaux && (stat & 0x20)) { /* aux data */
 				if (slot != PCKBC_AUX_SLOT) {
@@ -915,7 +915,7 @@ pckbcintr(vsc)
 			printf("pckbcintr: no dev for slot %d\n", slot);
 			KBD_DELAY;
 			data = bus_space_read_1(t->t_iot, t->t_ioh_d, 0);
-			add_tty_randomness(0xC0000000 | slot << 16 |
+			add_kbint_randomness(0xC0000000 | slot << 16 |
 			    stat << 8 | data);
 			continue;
 		}
@@ -925,7 +925,7 @@ pckbcintr(vsc)
 
 		KBD_DELAY;
 		data = bus_space_read_1(t->t_iot, t->t_ioh_d, 0);
-		add_tty_randomness(slot << 16 | stat << 8 | data);
+		add_kbint_randomness(slot << 16 | stat << 8 | data);
 
 		if (CMD_IN_QUEUE(q) && pckbc_cmdresponse(t, slot, data))
 			continue;
