@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/list,v 1.14 2006/05/15 18:44:07 tg Exp $
+# $MirOS: src/distrib/i386/common/list,v 1.15 2006/05/15 19:20:14 tg Exp $
 # $OpenBSD: list,v 1.15 2005/05/04 17:08:07 miod Exp $
 
 # copy the crunched binary, link to it, and kill it
@@ -41,9 +41,7 @@ LINK	instbin					sbin/route
 LINK	instbin					sbin/swapctl
 LINK	instbin					sbin/umount
 LINK	instbin					sbin/wicontrol
-LINK	instbin					usr/bin/awk
 LINK	instbin					usr/bin/compress usr/bin/gzip usr/bin/gunzip
-LINK	instbin					usr/bin/find
 LINK	instbin					usr/bin/ftp
 LINK	instbin					usr/bin/grep usr/bin/egrep usr/bin/fgrep
 LINK	instbin					usr/bin/hexdump usr/bin/hd usr/bin/od
