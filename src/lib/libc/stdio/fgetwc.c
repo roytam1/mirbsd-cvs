@@ -1,7 +1,9 @@
-/*	$OpenBSD: fgetwc.c,v 1.1 2005/06/17 20:40:32 espie Exp $	*/
+/* $MirOS$ */
+/* $OpenBSD: fgetwc.c,v 1.1 2005/06/17 20:40:32 espie Exp $	*/
 /* $NetBSD: fgetwc.c,v 1.3 2003/03/07 07:11:36 tshiozak Exp $ */
 
 /*-
+ * Copyright (c) 2007 Thorsten Glaser
  * Copyright (c)2001 Citrus Project,
  * All rights reserved.
  *
@@ -35,7 +37,7 @@
 #include <wchar.h>
 #include "local.h"
 
-__RCSID("$MirOS: src/lib/libc/stdio/fgetwc.c,v 1.3 2007/01/22 16:44:25 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdio/fgetwc.c,v 1.4 2007/02/01 23:43:29 tg Exp $");
 
 wint_t __fgetwc_unlock(FILE *);
 
@@ -75,9 +77,12 @@ __fgetwc_unlock(FILE *fp)
 		c = ch;
 		size = mbrtowc(&wc, &c, 1, st);
 		if (size == (size_t)-1) {
-			if (!firstc)
+			if (!firstc) {
 				ungetc(ch, fp);
-			memset(st, 0, sizeof (mbstate_t));
+				if (st->count == 1 && st->value >= 0x20)
+					ungetc(0x80 | (st->value & 0x3F), fp);
+			}
+			st->count = 0;	/* clear mbstate_t */
 			fp->_flags |= __SERR;
 			errno = EILSEQ;
 			return WEOF;
