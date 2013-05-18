@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.77 2007/09/25 15:57:48 tg Exp $
+# $MirOS: src/etc/rc,v 1.78 2007/09/28 20:46:54 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -582,31 +582,49 @@ fi
     pax -rw -pe /dev/{null,zero} /var/anoncvs/anoncvs
 
 # Generate all the RSA keys we might need
-if [[ ! -f /etc/ssl/private/default.key || \
-    ! -f /etc/ssl/default.cer || ! -f /etc/ssl/deflt-ca.cer ]]; then
-	echo -n "openssl: generating new host RSA key... "
+if [[ ! -s /etc/ssl/private/default.key && -s /etc/ssh/ssh_host_rsa_key ]]; then
+	print "openssl: using old SSH host RSA key"
+	rm -f /etc/ssl/{def{ault,lt-ca}.cer,private/default.key}
+	cat /etc/ssh/ssh_host_rsa_key >/etc/ssl/private/default.key
+	chmod 600 /etc/ssl/private/default.key
+fi
+if [[ ! -s /etc/ssl/private/default.key ]]; then
+	print -n "openssl: generating new host RSA key... "
 	rm -f /etc/ssl/{def{ault,lt-ca}.cer,private/default.key}
 	# XXX 6000-8000 is recommended... choose less to be nice to old boxen
 	if openssl genrsa -out /etc/ssl/private/default.key 4096 \
 	    >/dev/wrandom 2>&1; then
 		chmod 600 /etc/ssl/private/default.key
-		openssl req -batch -new -subj "/CN=$(hostname)/" \
-		    -key /etc/ssl/private/default.key \
-		    -x509 -out /etc/ssl/default.cer
-		chmod 644 /etc/ssl/default.cer
-		ln /etc/ssl/default.cer /etc/ssl/deflt-ca.cer
-		echo done.
+		rm -f /etc/ssh/ssh_host_rsa_key
+		print done.
 	else
-		echo failed.
+		print failed.
 	fi
 fi
-if [[ ! -f /etc/ssh/ssh_host_rsa_key ]]; then
-	echo -n "ssh-keygen: installing host RSA key... "
+if [[ ! -s /etc/ssl/default.cer || ! -s /etc/ssl/deflt-ca.cer ]]; then
+	print -n "openssl: generating new host X.509v3 certificate... "
+	rm -f /etc/ssl/def{ault,lt-ca}.cer
+	openssl req -batch -new -subj "/CN=$(hostname)/" \
+	    -key /etc/ssl/private/default.key \
+	    -x509 -out /etc/ssl/default.cer
+	chmod 644 /etc/ssl/default.cer
+	ln /etc/ssl/default.cer /etc/ssl/deflt-ca.cer
+	print done
+fi
+if [[ ! -s /etc/ssh/ssh_host_rsa_key ]]; then
+	print -n "ssh-keygen: installing host RSA key... "
 	ln /etc/ssl/private/default.key /etc/ssh/ssh_host_rsa_key || \
 	    cp /etc/ssl/private/default.key /etc/ssh/ssh_host_rsa_key
-	print $(ssh-keygen -yf /etc/ssh/ssh_host_rsa_key) \
+	rm -f /etc/ssh/ssh_host_rsa_key.pub
+	print done.
+fi
+if [[ ! -s /etc/ssh/ssh_host_rsa_key.pub ]]; then
+	print -n "ssh-keygen: installing host public key... "
+	print -r -- $(ssh-keygen -yf /etc/ssh/ssh_host_rsa_key) \
 	    $(hostname) host key >/etc/ssh/ssh_host_rsa_key.pub
-	echo done.
+	chmod 600 /etc/ssh/ssh_host_rsa_key
+	chmod 644 /etc/ssh/ssh_host_rsa_key.pub
+	print done.
 fi
 
 if [[ -e /etc/rc.once ]]; then
