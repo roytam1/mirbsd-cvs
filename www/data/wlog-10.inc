@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.258 2009/11/25 09:12:57 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.259 2009/12/02 17:22:01 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5535,4 +5535,33 @@ Tag: android debian mksh
  href="https://evolvis.org/projects/bw2mw/">BitWeaver → MediaWiki</a>
  does exactly that and has been released under GNU GPLv2 (only) courtesy
  of <a href="http://www.tarent.com/">my employer</a>. Cheers!</p>
+----
+Title: Happy Benzday!
+Author: tg@
+Date: 07.12.2009 20:41
+
+<p>Since I don't reach you via IRC, phone or Natel&trade; let me wish
+ you a happy benzday here. ☺☻</p>
+<p>I think it's perfectly okay for libobjc to depend on libgcc_s like
+ libstdc++ does. So let's not disable gobjc from base. Rather, make
+ everything except C version-dependent. (Bump base vsn afterwards, the
+ gcc vsn has been already.) I think we'd also best rename the clang
+ executable and make a wrapper using <tt>-L</tt>, <tt>-rpath</tt> and
+ <tt>-I</tt> flags from its <tt>CCLD</tt> instead of always using
+ these from the system compiler. (I wonder if it's worth the effort
+ to make the C++ header files version dependent as well. Probably.)</p>
+<p>We somehow need a way to differentiate ABIs in MirPorts, as there
+ will be several compilers. On MirBSD: base-gcc3.4.6, port-gcc4.4.2,
+ port-llvm-gcc4.2.1, port-pcc, port-nwcc (this list is for i386).</p>
+<p>Benny, may I encourage you to hack on pkgtools the next Muttenzday?
+ Especially I'd like to have that file extension retaining/cycling for
+ auto-dependent packages in, it's basically a showstopper for LZMA
+ compressed binary packages. (Will still be LZMA1 for some time, as
+ there is not yet a stable xz release.)</p>
+<p>The <a href="https://eurynome.mirbsd.org/debs/dists/hardy/wtf/pkgs/kwalletcli/">hardy
+ at MirDebian "WTF" Repository</a> section contains a KDE 3 source and
+ binary package of <a href="@@RELPATH@@kwalletcli.htm">KWalletCLI</a>
+ 2.00 (built for Debian Lenny and Kubuntu Hardy). A KDE 4 package (for
+ Debian squeeze/sid, newer *bunti and ones with KDE4-backport) will be
+ worked upon as soon as I can get into the pkg-kde Alioth group.</p>
 ----
