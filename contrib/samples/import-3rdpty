@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.17 2007/02/06 20:48:35 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.18 2007/05/20 09:29:26 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -23,7 +23,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.17 2007/02/06 20:48:35 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.18 2007/05/20 09:29:26 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -458,6 +458,7 @@ lynx)
 		docs/index.html \
 		docs/win-386.announce \
 		fixed512.com \
+		install-sh \
 		install.sh \
 		lib \
 		lynx.hlp \
