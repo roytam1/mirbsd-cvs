@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28.2.5 2009/12/29 17:09:33 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28.2.6 2010/02/27 11:11:20 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -72,6 +72,14 @@
 #ifndef MAXINDEXSIZE
 #define MAXINDEXSIZE 72
 #endif
+
+/* configuration file and directories */
+#ifndef SYSCONFDIR
+# define SYSCONFDIR "/etc"
+#endif
+#define CFGDIR SYSCONFDIR "/pkgtools/"
+#define DEFAULT_CFGFILE CFGDIR "pkgtools.conf"
+#define CACHEDIR CFGDIR "sources/"
 
 /* Types */
 
@@ -197,6 +205,7 @@ int		findmatchingname(const char *, const char *, matchfn, char *, int); /* does
 char		*findbestmatchingname(const char *, const char *); /* neither */
 int		ispkgpattern(const char *);
 void		normalize_name(char *);
+char *		src_index_name(const char *);
 
 /* File */
 bool		fexists(const char *);
@@ -226,6 +235,7 @@ int		format_cmd(char *, size_t , const char *, const char *,
 		    const char *);
 int		trim_end(char *);
 int		glob_package(char *, size_t, const char *);
+void		update_src_index(void);
 
 /* Packing list */
 plist_t		*new_plist_entry(void);

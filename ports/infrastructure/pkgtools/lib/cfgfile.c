@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.9 2009/12/30 14:41:16 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.10 2010/02/27 11:10:27 bsiegert Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -31,13 +31,7 @@
 #include <err.h>
 #include "lib.h"
 
-#ifndef SYSCONFDIR
-# define SYSCONFDIR "/etc"
-#endif
-#define CFGDIR SYSCONFDIR "/pkgtools/"
-#define DEFAULT_CFGFILE CFGDIR "pkgtools.conf"
-
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.9 2009/12/30 14:41:16 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.10 2010/02/27 11:10:27 bsiegert Exp $");
 
 SLIST_HEAD(cfg_varlist, cfg_var);
 struct cfg_var {
@@ -450,5 +444,3 @@ cfg_get_sourcelist(void)
 
 	return &Sources;
 }
-
-

@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.13.2.1 2010/02/27 11:11:21 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.13.2.2 2010/02/27 12:11:49 bsiegert Exp $ */
 /*	$OpenBSD: str.c,v 1.11 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -24,7 +24,7 @@
 #include <fnmatch.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.13.2.1 2010/02/27 11:11:21 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.13.2.2 2010/02/27 12:11:49 bsiegert Exp $");
 
 /* "normalize" a URL by replacing all the characters which are "not nice"
  * in a filename by '_' characters.
@@ -538,4 +538,17 @@ findbestmatchingname(const char *dir, const char *pattern)
 		return strdup(buf);
 	}
 	return NULL;
+}
+
+/* Returns the index cache filename corresponding to a source URL.
+ * Returns a pointer to a static internal buffer. */
+char *
+src_index_name(const char *url)
+{
+	static char rv[FILENAME_MAX];
+
+	snprintf(rv, sizeof (rv), "%s%s", CACHEDIR, url);
+	normalize_name(rv + strlen(CACHEDIR));
+
+	return rv;
 }

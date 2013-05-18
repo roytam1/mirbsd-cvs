@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.25 2009/12/11 22:16:13 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.25.2.1 2009/12/29 17:09:32 bsiegert Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -33,7 +33,10 @@
 #include <libgen.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.25 2009/12/11 22:16:13 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.25.2.1 2009/12/29 17:09:32 bsiegert Exp $");
+
+/* block size for file copying */
+#define BLOCKSIZE 1024
 
 /* valid file extensions for packages, in order of priority
    (highest to lowest)
@@ -838,4 +841,53 @@ format_cmd(char *buf, size_t size, const char *fmt,
 	else
 	    *buf = '\0';
 	return 1;
+}
+
+void
+update_src_index(void)
+{
+	const struct cfg_sourcelist *srcs;
+	const struct cfg_source *sp;
+	char remotename[FILENAME_MAX];
+	char buf[BLOCKSIZE];
+	FILE *ftpconn, *local;
+	int ftpstatus;
+	size_t nbytes;
+
+	if (!isdir(CACHEDIR) && mkdir(CACHEDIR, 0755) == -1)
+		err(1, "Could not create source cache directory");
+
+	srcs = cfg_get_sourcelist();
+
+	LIST_FOREACH(sp, srcs, entries) {
+		if (!sp->remote)
+			continue;
+		snprintf(remotename, sizeof(remotename), "%s%sindex.txt",
+				sp->source,
+				sp->source[strlen(sp->source)-1] == '/' ?
+				"" : "/");
+		if (Verbose)
+			fprintf(stderr, "Fetching index file %s\n", remotename);
+
+		if (!(local = fopen(src_index_name(sp->source), "w")))
+			err(1, "Could not open local cache file for writing");
+
+		ftpconn = ftpGetURL(remotename, &ftpstatus);
+		if (!ftpstatus) {
+			fclose(local);
+			err(1, "Could not open FTP connection");
+		}
+
+		/* copy from file to file */
+		do {
+			nbytes = fread(buf, sizeof (char), BLOCKSIZE, ftpconn);
+			fwrite(buf, sizeof (char), nbytes, local);
+		} while (nbytes == BLOCKSIZE);
+
+		if (ferror(ftpconn) || ferror(local))
+			err(1, "Error fetching the index file");
+
+		fclose(local);
+		fclose(ftpconn);
+	}
 }
