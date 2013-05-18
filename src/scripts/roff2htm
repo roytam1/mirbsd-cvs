@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/roff2htm,v 1.28 2006/01/19 01:43:34 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.29 2006/03/27 09:54:57 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
@@ -42,7 +42,7 @@
 gendate=$(date +"%F %T")		# current time
 set -A do_convert_asciiexp		# clear the array
 {
-	typeset -ui16 i			# hexadecimal local var
+	typeset -Uui16 i		# hexadecimal local var
 	typeset x=0			# decimal local int var
 	for i in $(jot 128 128); do	# chars not in ISO_646.irv:1991
 		typeset -i8 j=i		# copy in octal
@@ -144,7 +144,7 @@ output_footer()
 {
 	cat <<-EOF
 		<hr /><p style="font-size:xx-small;">Generated on ${gendate} by
-		 \$MirOS: src/scripts/roff2htm,v 1.28 2006/01/19 01:43:34 tg Exp $</p>
+		 \$MirOS: src/scripts/roff2htm,v 1.29 2006/03/27 09:54:57 tg Exp $</p>
 		<p>These manual pages are copyrighted by their respective writers; their
 		 source can normally be found in our <a href="/cvs.cgi/src/">CVSweb</a>.
 		 The rest is Copyright &copy; 2002-2006 <a href="http://MirBSD.org/">The
