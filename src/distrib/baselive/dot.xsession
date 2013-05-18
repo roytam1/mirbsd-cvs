@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
+# $MirOS: src/distrib/baselive/dot.xsession,v 1.1 2006/08/19 01:29:14 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -33,12 +33,14 @@ test -n "$KSH_VERSION" || exec /bin/mksh "$0" "$@"
 
 xclock -geometry 50x50-1+1 &
 
-text=twm:0,evilwm:101,failsafe:1
-integer number=102
+text=twm:0,evilwm-utf8:101,evilwm-latin1:102,failsafe:1
+failsafe='xterm -geometry 80x24-0-0'
+integer number=103
 set -A wm
 wm[0]=twm
-wm[101]=evilwm
-wm[1]='xterm -geometry 80x24-0-0'
+wm[101]=evilwm-session
+wm[102]=evilwm
+wm[1]=$failsafe
 if x=$(whence -p icewm-session); then
 	text=$text,icewm:$number
 	wm[number]=$x
@@ -55,6 +57,9 @@ xmessage -button $text -center -default twm -timeout 12 \
 Wait 12 seconds for default"
 number=$?
 
-WINDOWMANAGER=${wm[number]:-xterm}
+WINDOWMANAGER=${wm[number]:-$failsafe}
 
 eval exec $WINDOWMANAGER
+# can't happen
+eval exec $failsafe
+exec /usr/X11R6/bin/xterm
