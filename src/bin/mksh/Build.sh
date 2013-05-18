@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: src/bin/mksh/Build.sh,v 1.81 2006/11/12 13:38:40 tg Exp $
+# $MirOS: src/bin/mksh/Build.sh,v 1.82 2006/11/12 13:49:22 tg Exp $
 #-
 # Environment: CC, CFLAGS, CPPFLAGS, LDFLAGS, LIBS, NROFF
 
@@ -187,7 +187,7 @@ fi
 
 ac_testn mksh_full '' "if we're building without MKSH_SMALL" <<-'EOF'
 	#ifdef MKSH_SMALL
-	#error OK, we're building an extra small mksh.
+	#error OK, we are building an extra small mksh.
 	#else
 	int main(void) { return (0); }
 	#endif
