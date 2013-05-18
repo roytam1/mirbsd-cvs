@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: contrib/hosted/fwcf/minilzop.c,v 1.1 2007/03/09 21:10:29 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -24,6 +24,7 @@
 #include <err.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <unistd.h>
 
 #include "defs.h"
@@ -31,10 +32,10 @@
 #include "compress.h"
 #include "minilzop.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/hosted/fwcf/minilzop.c,v 1.1 2007/03/09 21:10:29 tg Exp $");
 
 #define lodsw(s)	__extension__({				\
-		uint8_t *lodsw_buf = (s);			\
+		const uint8_t *lodsw_buf = (const uint8_t *)(s);\
 		uint16_t lodsw_val;				\
 								\
 		lodsw_val = lodsw_buf[0];			\
@@ -42,7 +43,7 @@ __RCSID("$MirOS$");
 		(lodsw_val);					\
 	})
 #define lodsd(s)	__extension__({				\
-		uint8_t *lodsd_buf = (s);			\
+		const uint8_t *lodsd_buf = (const uint8_t *)(s);\
 		uint32_t lodsd_val;				\
 								\
 		lodsd_val = lodsd_buf[0];			\
@@ -52,14 +53,14 @@ __RCSID("$MirOS$");
 		(lodsd_val);					\
 	})
 #define stosw(s,w)	do {					\
-		uint8_t *stosw_buf = (s);			\
+		uint8_t *stosw_buf = (uint8_t *)(s);		\
 		uint16_t stosw_val = (w);			\
 								\
 		stosw_buf[0] = stosw_val & 0xFF;		\
 		stosw_buf[1] = (stosw_val >> 8) & 0xFF;		\
 	} while (0)
 #define stosd(s,dw)	do {					\
-		uint8_t *stosd_buf = (s);			\
+		uint8_t *stosd_buf = (uint8_t *)(s);		\
 		uint32_t stosd_val = (dw);			\
 								\
 		stosd_buf[0] = stosd_val & 0xFF;		\
@@ -110,4 +111,68 @@ write_aszdata(int dfd, const char *dbuf, size_t dlen)
 		err(1, "short write");
 	if ((size_t)write(dfd, dbuf, dlen) != dlen)
 		err(1, "short write");
+}
+
+int
+minilzop(int ifd, int ofd, int compr_alg, int decompress)
+{
+	size_t ilen, olen, n;
+	char *idata, *odata;
+
+#ifndef SMALL
+	fprintf(stderr, "minilzop: using algorithm %02X (%s)\n",
+	    compr_alg, compressor_get(compr_alg)->name);
+#endif
+	if (decompress) {
+		read_aszdata(ifd, &idata, &ilen);
+		olen = lodsd(idata);
+		if ((odata = malloc(olen)) == NULL)
+			err(255, "out of memory trying to allocate %zu bytes",
+			    olen);
+		if ((n = compressor_get(compr_alg)->decompress(odata, olen,
+		    idata + 4, ilen - 4)) != olen)
+			errx(1, "size mismatch: decompressed %zu, want %zu",
+			    n, olen);
+		free(idata);
+		idata = odata;	/* save for later free(3) */
+		while (olen) {
+			if ((n = write(ofd, odata, olen)) == (size_t)-1)
+				err(1, "cannot write");
+			olen -= n;
+			odata += n;
+		}
+		free(idata);
+	} else {
+		size_t cc;
+
+		n = 16384;
+		idata = NULL;
+		ilen = 0;
+ slurp_file:
+		if ((idata = realloc(idata, (n <<= 1))) == NULL)
+			err(255, "out of memory trying to allocate %zu bytes",
+			    n);
+ slurp_retry:
+		if ((cc = read(ifd, idata + ilen, n - ilen)) == (size_t)-1)
+			err(1, "cannot read");
+		ilen += cc;
+		if (cc > 0) {
+			if (ilen < n)
+				goto slurp_retry;
+			goto slurp_file;
+		}
+		if ((olen = compressor_get(compr_alg)->compress(&odata, idata,
+		    ilen)) == (size_t)-1)
+			errx(1, "%s compression failed",
+			    compressor_get(compr_alg)->name);
+		free(idata);
+		if ((idata = malloc(olen + 4)) == NULL)
+			err(255, "out of memory trying to allocate %zu bytes",
+			    olen + 4);
+		stosd(idata, ilen);
+		memcpy(idata + 4, odata, olen);
+		write_aszdata(ofd, idata, olen + 4);
+		free(idata);
+	}
+	return (0);
 }

@@ -59,9 +59,9 @@ main(int argc, char *argv[])
 	fwcf_compressor *cl;
 
 #ifdef SMALL
-	while ((c = getopt(argc, argv, "D:elMU")) != -1)
+	while ((c = getopt(argc, argv, "D:delMUZ")) != -1)
 #else
-	while ((c = getopt(argc, argv, "C:cD:dei:lMo:RU")) != -1)
+	while ((c = getopt(argc, argv, "C:cD:dei:lMo:RUZ")) != -1)
 #endif
 		switch (c) {
 #ifndef SMALL
@@ -78,11 +78,9 @@ main(int argc, char *argv[])
 				usage();
 			dfile = optarg;
 			break;
-#ifndef SMALL
 		case 'd':
-			mode = 3;
+			mode = (mode == 5 || mode == 6) ? 6 : 3;
 			break;
-#endif
 		case 'e':
 			if (dfile != NULL)
 				usage();
@@ -109,6 +107,9 @@ main(int argc, char *argv[])
 		case 'U':
 			mode = 2;
 			break;
+		case 'Z':
+			mode = (mode == 3) ? 6 : 5;
+			break;
 		default:
 			usage();
 		}
@@ -131,11 +132,36 @@ main(int argc, char *argv[])
 			usage();
 		break;
 #endif
+	case 5:
+	case 6:
+		if ((dfile != NULL) || doempty
+#ifndef SMALL
+		    || infile || outfile
+#endif
+		    )
+			usage();
+		break;
 	default:
 		usage();
 	}
 	if (argc)
 		file_root = *argv;
+
+	if (mode == 5 || mode == 6) {
+		ifd = fsopen(argc-- > 0 ? *argv++ : NULL,
+		    O_RDONLY, STDIN_FILENO);
+		ofd = fsopen(argc-- > 0 ? *argv++ : NULL,
+		    O_WRONLY | O_CREAT | O_TRUNC, STDOUT_FILENO);
+		if (argc > 0)
+			usage();
+#ifndef SMALL
+		if (calg == 0)
+			/* force host tool to compress even without -c */
+			calg = -1;
+#endif
+		goto get_calg;
+	}
+
 #ifdef SMALL
 	ifd = STDIN_FILENO;
 	ofd = STDOUT_FILENO;
@@ -156,12 +182,14 @@ main(int argc, char *argv[])
 			err(1, "open %s", dfile);
 		write_aszdata(dfd, data, sz);
 		close(dfd);
+		free(data);
 		return (0);
 	}
 
 	if ((mode == 2) || (mode == 3))
 		return (unfwcf(ifd, (mode == 3) ? NULL : file_root));
 
+ get_calg:
 	if (calg == -1) {
 		if ((cl = compress_enumerate()) != NULL)
 			for (calg = 1; calg < 257; ++calg)
@@ -172,6 +200,9 @@ main(int argc, char *argv[])
 			errx(1, "no compression algorithms found");
 		calg &= 0xFF;
 	}
+
+	if (mode == 5 || mode == 6)
+		return (minilzop(ifd, ofd, calg, (mode == 6)));
 
 #ifndef SMALL
 	if (mode == 4)
@@ -188,7 +219,9 @@ main(int argc, char *argv[])
 		read_aszdata(dfd, &udata, &isz);
 		close(dfd);
 		data = fwcf_pack(udata, isz, calg, &sz);
-		return ((size_t)write(ofd, data, sz) == sz ? 0 : 1);
+		isz = write(ofd, data, sz);
+		free(data);
+		return (isz == sz ? 0 : 1);
 	}
 
 	return (mkfwcf(ofd, doempty ? NULL : file_root, calg));
@@ -203,15 +236,18 @@ usage(void)
 #ifdef SMALL
 	    "	%s -M { -D <file> | -e | <directory> }"
 	    "\n	%s -U { -D <file> | <directory> }"
-	    "\n	%s -l\n", __progname, __progname, __progname);
+	    "\n	%s -Z[d] [<infile> [<outfile>]]"
+	    "\n	%s -l\n", __progname, __progname, __progname, __progname);
 #else
 	    "	%s -M [-c | -C <compressor>] [-o <file>]"
 	    "\n	    { -D <file> | -e | <directory> }"
 	    "\n	%s [-i <file>] -U { -D <file> | <directory> }"
 	    "\n	%s [-i <file>] -d"
 	    "\n	%s -R [-c | -C <compressor>] [-i <infile>] [-o <outfile>]"
+	    "\n	%s -Z[d] [-c | -C <compressor>] [<infile> [<outfile>]]"
 	    "\n	%s -l\n",
-	    __progname, __progname, __progname, __progname, __progname);
+	    __progname, __progname, __progname, __progname, __progname,
+	    __progname);
 #endif
 	exit(1);
 }
