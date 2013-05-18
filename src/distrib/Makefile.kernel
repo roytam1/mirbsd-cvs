@@ -1,5 +1,6 @@
-# $MirOS: src/distrib/Makefile.kernel,v 1.2 2006/06/11 01:22:38 tg Exp $
+# $MirOS: src/distrib/Makefile.kernel,v 1.3 2006/06/11 01:41:43 tg Exp $
 
+KCONFIG?=	config -s ${SYSDIR} -b . ${SYSSUBDIR}/conf/${RAMDISK}
 KMAKE_CLEAN?=	${MAKE} clean
 KMAKE_DEPEND?=	${KMAKE} depend
 KMAKE?=		${MAKE} COPTS=${CFLAGS:Q}
@@ -8,8 +9,7 @@ bsd:
 	mkdir -p build/${RAMDISK}
 	[[ -f build/${RAMDISK}/version || ! -f ${KERNDIR}/version ]] \
 	    || cat ${KERNDIR}/version >build/${RAMDISK}/version
-	( cd build/${RAMDISK}; config -s ${SYSDIR} -b . \
-	    ${SYSSUBDIR}/conf/${RAMDISK} && ${KMAKE_CLEAN} && \
+	( cd build/${RAMDISK}; ${KCONFIG} && ${KMAKE_CLEAN} && \
 	    ${KMAKE_DEPEND} && exec ${KMAKE} bsd )
 	mv build/${RAMDISK}/bsd .
 	-[[ ! -e ${KERNDIR} ]] \
