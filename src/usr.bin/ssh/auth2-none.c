@@ -1,4 +1,4 @@
-/* $OpenBSD: auth2-none.c,v 1.13 2006/08/05 07:52:52 dtucker Exp $ */
+/* $OpenBSD: auth2-none.c,v 1.14 2007/08/23 03:22:16 djm Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -29,6 +29,7 @@
 
 #include <fcntl.h>
 #include <unistd.h>
+#include <string.h>
 
 #include "xmalloc.h"
 #include "key.h"
@@ -43,7 +44,7 @@
 #include "ssh2.h"
 #include "monitor_wrap.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/auth2-none.c,v 1.5 2006/09/20 21:40:56 tg Exp $");
 
 /* import */
 extern ServerOptions options;
@@ -89,7 +90,9 @@ userauth_banner(void)
 {
 	char *banner = NULL;
 
-	if (options.banner == NULL || (datafellows & SSH_BUG_BANNER))
+	if (options.banner == NULL ||
+	    strcasecmp(options.banner, "none") == 0 ||
+	    (datafellows & SSH_BUG_BANNER) != 0)
 		return;
 
 	if ((banner = PRIVSEP(auth2_read_banner())) == NULL)

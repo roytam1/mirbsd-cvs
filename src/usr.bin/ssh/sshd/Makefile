@@ -1,5 +1,5 @@
-# $MirOS: src/usr.bin/ssh/sshd/Makefile,v 1.2 2005/03/13 18:33:36 tg Exp $
-# $OpenBSD: Makefile,v 1.64 2004/08/23 14:26:39 dtucker Exp $
+# $MirOS: src/usr.bin/ssh/sshd/Makefile,v 1.3 2005/03/29 02:19:34 tg Exp $
+# $OpenBSD: Makefile,v 1.65 2007/08/23 02:49:43 djm Exp $
 
 .PATH:		${.CURDIR}/..
 
@@ -8,7 +8,7 @@ BINOWN=	root
 BINMODE=555
 BINDIR=	/usr/sbin
 MAN=	sshd.8 sshd_config.5
-CPPFLAGS+=	-DHAVE_LOGIN_CAP -DBSD_AUTH
+CPPFLAGS+= -DBSD_AUTH
 
 SRCS=	sshd.c auth-rhosts.c auth-passwd.c auth-rsa.c auth-rh-rsa.c \
 	sshpty.c sshlogin.c servconf.c serverloop.c \

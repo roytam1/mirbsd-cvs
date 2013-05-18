@@ -1,5 +1,5 @@
-/* $MirOS: src/usr.bin/ssh/auth.h,v 1.7 2006/07/23 14:19:26 tg Exp $ */
-/* $OpenBSD: auth.h,v 1.58 2006/08/18 09:15:20 markus Exp $ */
+/* $MirOS: src/usr.bin/ssh/auth.h,v 1.8 2006/09/20 21:40:55 tg Exp $ */
+/* $OpenBSD: auth.h,v 1.59 2007/08/23 03:06:10 djm Exp $ */
 
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
@@ -33,9 +33,6 @@
 
 #include <openssl/rsa.h>
 
-#ifdef HAVE_LOGIN_CAP
-#include <login_cap.h>
-#endif
 #ifdef BSD_AUTH
 #include <bsd_auth.h>
 #endif
