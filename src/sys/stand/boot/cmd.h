@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.4 2008/08/01 11:25:05 tg Exp $ */
+/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.5 2009/01/01 23:27:46 tg Exp $ */
 /*	$OpenBSD: cmd.h,v 1.16 2007/06/13 02:17:32 drahn Exp $	*/
 
 /*
@@ -55,7 +55,7 @@ struct cmd_state {
 #ifndef	__MirBSD__
 	char *argv[8];	/* XXX i hope this is enough */
 #else
-	char *argv[80];	/* no Mickey, see the "echo" command */
+	char *argv[32];	/* no Mickey, see the "echo" command */
 #endif
 };
 extern struct cmd_state cmd;
