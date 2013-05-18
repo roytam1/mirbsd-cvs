@@ -1009,7 +1009,7 @@ for file in $SRCS; do
 	v "$CC $CFLAGS $CPPFLAGS -c $file" || exit 1
 done
 v "$CC $CFLAGS $LDFLAGS -o mksh $objs $LIBS"
-rv=$?; test $ct = msc -o 0 = $rv || exit 1
+rv=$?; test $ct = msc || test 0 = $rv || exit 1
 result=mksh
 test -f mksh.exe && result=mksh.exe
 test -f $result || exit 1
