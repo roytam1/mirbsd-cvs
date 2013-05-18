@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.271 2009/08/28 23:08:56 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.272 2009/08/30 12:45:48 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -285,7 +285,7 @@ mws_content <<'EOF'
  files), HAVE_EXPSTMT (if <tt>({</tt> expression statements are buggy).</p>
 <p>Defining <tt>MKSH_SMALL</tt> will disable persistent history (to re-enable,
  env HAVE_PERSISTENT_HISTORY=x), try to compile with <tt>-fno-inline</tt>,
- disable the mknod(2), realpath(3) and revoke(2) externs (to re-enable these,
+ disable the mknod(2), realpath(3)[mksh R39 and below] and revoke(2) externs (to re-enable these,
  follow the above schema); (not overridable) implies traditional/conservative
  filedescriptor usage, MKSH_NOPWNAM; omits shebang checking in scripts, the Vi
  command line editing mode, certain verbose error messages, the entire ‘-T’
@@ -949,6 +949,11 @@ mws_content <<'EOF'
   of all set array elements – zsh does it too (${(k)foo}), bash4 can’t :þ</li>
  <li>[tg] Support bash/ksh93-like “array=([key]=value …)” and (additionally)
   “set -A array -- [key]=value …” to directly specify indicēs to use</li>
+ <li>[tg] Document the optional, unsupported, printf(1) builtin in TFM</li>
+ <li>[tg] Replace realpath(3) dependency and internally used get_phys_path()
+  pdksh code with own implementation; always offer the realpath builtin</li>
+ <li>[tg](dev-branch) Implement ksh93-like nameref='typeset -n' (bounded variables)</li>
+ <li>[tg] Add “chdir” builtin doing the same as the “cd” special builtin</li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
