@@ -1,6 +1,8 @@
 \input texinfo @c -*- texinfo -*-
 
 @setfilename cvsclient.info
+@afourpaper
+@comment $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.8 2011/05/06 23:17:27 tg Exp $
 @include version-client.texi
 
 @dircategory Programming
