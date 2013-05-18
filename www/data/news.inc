@@ -615,3 +615,29 @@ Date: 24.02.2008
  compliant again now.</p>
 <p>Currently, pcc cannot compile anything with &lt;stdio.h&gt;.</p>
 ----
+Title: mksh R33 released
+Date: 01.03.2008
+
+<p><a href="@@RELPATH@@mksh.htm">mksh R33</a> has been released; read the
+ <a href="@@RELPATH@@mksh.htm#clog">ChangeLog</a> for details. (Happy
+ Birthday to everyone who has on this day.)</p>
+<p>The news in short and human-readable:</p><ul>
+ <li>Improved build system, once again; better error tracking; better
+  portability with regards to tools in /usr/bin at build and compilers</li>
+ <li>Integrate all changes from OpenBSD ksh</li>
+ <li>Integrate some changes from Debian: the “dot” command needs an
+  argument; prevent namespace conflict between (built-in) aliases and
+  (POSIX, not Korn) shell functions
+ <li>Add <tt>\uXXXX</tt> and <tt>\xXX</tt> escapes to the print builtin</li>
+ <li>No longer check if we are called as “sh” for special handling</li>
+ <li>Implement here strings: you can now replace <tt>print -r -- "$foo" |
+  command</tt> with <tt>command &lt;&lt;&lt;"$foo"</tt> – like ksh93, zsh;
+  GNU bash behaves differently if and only if $foo is not quoted</li>
+ <li>Implement string replacement <tt>${var/pattern/string}</tt></li>
+</ul>
+<p>Especially cool feature: replace <tt>x=$(print -r -- "$x" | sed -e
+ 's/foo.*bar/baz/g')</tt> with <tt>x=${x//foo*bar/baz}</tt> ☺</p>
+<p>Note: the distfile is not here yet, it’ll take a while to be released.
+ Once it’s uploaded, the <a href="@@RELPATH@@mksh.htm">mksh homepage</a>
+ will be updated with appropriate information.</p>
+----
