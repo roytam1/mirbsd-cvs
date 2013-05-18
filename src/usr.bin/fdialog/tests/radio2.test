@@ -1,7 +1,0 @@
-${FDIALOG} radio "this is my menu" \
-	item item1 \
-	item item2 descr description2 \
-	item item3 ival 5 \
-	item item4 ival "item value for item 4" \
-5 25 \
-ptitle "This is my title"

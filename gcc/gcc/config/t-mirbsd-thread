@@ -1,4 +1,0 @@
-# $MirOS$
-
-# Compile libgcc2 with POSIX threads support
-TARGET_LIBGCC2_CFLAGS=-pthread
