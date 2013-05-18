@@ -43,6 +43,10 @@
 #include "misc.h"
 #endif
 
+__RCSID("$MirOS$");
+
+extern const uint8_t mbsd_digits_hex[17];
+
 #ifndef DNS_USE_CPU_CLOCK_FOR_ID
 #ifndef DNS_USE_GETTIMEOFDAY_FOR_ID
 #ifndef DNS_USE_OPENSSL_FOR_ID
@@ -110,7 +114,7 @@
 #include <netinet/in6.h>
 #endif
 
-__RCSID("$MirOS: src/lib/libevent/evdns.c,v 1.3 2007/05/17 17:15:34 tg Exp $");
+__RCSID("$MirOS: src/lib/libevent/evdns.c,v 1.4 2007/06/11 12:22:25 tg Exp $");
 
 #ifdef WIN32
 typedef int socklen_t;
@@ -2260,9 +2264,9 @@ int evdns_resolve_reverse_ipv6(struct in6_addr *in, int flags, evdns_callback_ty
 	cp = buf;
 	for (i=15; i >= 0; --i) {
 		u8 byte = in->s6_addr[i];
-		*cp++ = "0123456789abcdef"[byte & 0x0f];
+		*cp++ = mbsd_digits_hex[byte & 0x0f];
 		*cp++ = '.';
-		*cp++ = "0123456789abcdef"[byte >> 4];
+		*cp++ = mbsd_digits_hex[byte >> 4];
 		*cp++ = '.';
 	}
 	assert(cp + strlen(".ip6.arpa") < buf+sizeof(buf));

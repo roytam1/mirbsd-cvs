@@ -1,4 +1,3 @@
-/**	$MirOS: src/lib/libpthread/uthread/uthread_info_openbsd.c,v 1.2 2005/03/06 20:29:20 tg Exp $ */
 /*	$OpenBSD: uthread_info_openbsd.c,v 1.9 2003/03/20 00:09:21 marc Exp $	*/
 
 /*
@@ -45,7 +44,9 @@
 #include <pthread.h>
 #include "pthread_private.h"
 
-__RCSID("$MirOS: src/lib/libpthread/uthread/uthread_info_openbsd.c,v 1.2 2005/03/06 20:29:20 tg Exp $");
+__RCSID("$MirOS: src/lib/libpthread/uthread/uthread_info_openbsd.c,v 1.3 2006/06/30 20:58:57 tg Exp $");
+
+extern const uint8_t mbsd_digits_hex[17];
 
 int _thread_dump_verbose = 0;
 
@@ -449,8 +450,8 @@ _thread_dump_data(const void *addr, int len)
 					*a++ = *d;
 				else
 					*a++ = '.';
-				*h++ = "0123456789abcdef"[(*d >> 4) & 0xf];
-				*h++ = "0123456789abcdef"[*d++ & 0xf];
+				*h++ = mbsd_digits_hex[(*d >> 4) & 0xf];
+				*h++ = mbsd_digits_hex[*d++ & 0xf];
 				*h++ = ' ';
 			}
 			*a++ = '\n';
