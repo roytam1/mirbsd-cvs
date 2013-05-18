@@ -4,6 +4,7 @@ The BSD::arc4random module contains
   ‣ arc4random_addrandom()
   ‣ arc4random_pushb()
   ‣ arc4random_pushk()
+  ‣ arc4random_stir()
 • Pure Perl implementation of
   ‣ arc4random_bytes()
   ‣ arc4random_uniform()
@@ -13,3 +14,4 @@ The BSD::arc4random module contains
   and arc4random_pushk() are aliases to arc4random_addrandom() or
   do indeed work with the kernel
 • mksh’s contributed arc4random.c file for GNU operating systems
+  with a couple of improvements (temporary, until mirngd is done)

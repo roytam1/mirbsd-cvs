@@ -1,11 +1,11 @@
-# $MirOS: ports/net/irssi/Makefile,v 1.10 2008/07/20 15:31:56 tg Exp $
+# $MirOS: ports/net/irssi/Makefile,v 1.11 2008/07/20 21:55:39 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/05/13 07:11:56 pvalchev Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=		modular IRC client with many features (ipv6, socks, proxy)
 DISTNAME=		irssi-0.8.10
-DASH_VER=		4
+DASH_VER=		5
 CATEGORIES=		net
 MASTER_SITES=		${HOMEPAGE}/files/ \
 			http://mirror.irssi.org/ \
@@ -25,7 +25,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 LIB_DEPENDS+=		glib.1.2,gmodule::devel/glib1
-RUN_DEPENDS+=		:p5-BSD-arc4random-*:security/p5-BSD-arc4random
+RUN_DEPENDS+=		:p5-BSD-arc4random->=1.30:security/p5-BSD-arc4random
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		yes

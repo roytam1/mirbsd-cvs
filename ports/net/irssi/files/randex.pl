@@ -1,5 +1,3 @@
-# $MirOS: ports/net/irssi/files/randex.pl,v 1.4 2008/07/20 15:32:04 tg Exp $
-#-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
 #
@@ -22,7 +20,7 @@
 
 use vars qw($VERSION %IRSSI);
 $VERSION = sprintf "%d.%02d",
-    q$MirOS: ports/net/irssi/files/randex.pl,v 1.4 2008/07/20 15:32:04 tg Exp $
+    q$MirOS: ports/net/irssi/files/randex.pl,v 1.5 2008/07/20 21:56:52 tg Exp $
     =~ m/,v (\d+)\.(\d+) /;
 %IRSSI = (
 	authors		=> 'Thorsten Glaser',
@@ -72,6 +70,16 @@ cmd_randex
 	chop($s);
 	$recip->send_raw("PRIVMSG ${towho} :\caENTROPY ${s}\ca");
 	Irssi::print("Initiating the RANDEX protocol with ${towho}")
+	    unless Irssi::settings_get_bool("rand_quiet");
+}
+
+sub
+cmd_randstir
+{
+	arc4random_stir();
+	Irssi::timeout_remove($tmo_randfile) if defined($tmo_randfile);
+	randfile_timeout(1);
+	Irssi::print("Entropy pool stirred.")
 	    unless Irssi::settings_get_bool("rand_quiet");
 }
 
@@ -156,8 +164,8 @@ randfile_loadstore
 		if (defined($dlen) && $dlen) {
 			my $d = $data;
 
-			$data = arc4random_bytes(256);
-			$dlen = 256;
+			$data = arc4random_bytes(1024);
+			$dlen = 1024;
 			arc4random_addrandom($d);
 		} else {
 			$dlen = 0;
@@ -176,7 +184,7 @@ randfile_loadstore
 		Irssi::print("warning: cannot lock '$randfile'");
 	}
 	truncate($fh, 0);
-	$data .= arc4random_bytes(512 - $dlen);
+	$data .= arc4random_bytes(1560 - $dlen);
 	syswrite($fh, $data, length($data));
 	close($fh);
 }
@@ -222,6 +230,11 @@ Irssi::settings_add_int("randex", "rand_interval", 900);
 	my $randfile = $ENV{'RANDFILE'};
 
 	if (!defined($randfile) || !$randfile) {
+		# IMPORTANT!: do *not* use ~/.gnupg/random_seed,
+		# since it is not just a binary chunk of entropy
+		# but a dumped internal data structure; gpg WILL
+		# NOT LOAD a randseed file we write, pgp-2.6.3in
+		# however is as fine with it as PuTTY and others
 		$randfile = $ENV{'HOME'} . "/.pgp/randseed.bin";
 	}
 	Irssi::settings_add_str("randex", "randfile", $randfile);
@@ -230,6 +243,7 @@ Irssi::settings_add_bool("randex", "rand_quiet", 0);
 
 Irssi::signal_add('gui exit', \&sig_quitting);
 Irssi::command_bind('randex', 'cmd_randex');
+Irssi::command_bind('randstir', 'cmd_randstir');
 Irssi::signal_add('ctcp msg entropy', \&process_entropy_request);
 Irssi::signal_add('ctcp reply random', \&process_random_response);
 Irssi::ctcp_register("ENTROPY");
