@@ -379,11 +379,9 @@ CXXFLAGS+=		${CXXDIAGFLAGS}
 .endif
 # cf. http://libtorrent.rakshasa.no/wiki/LibTorrentKnownIssues#Badcodeproducedwith-fomit-frame-pointer
 CXXFLAGS+=		-fno-omit-frame-pointer
+LDFLAGS+=		${LDSTATIC} -Wl,--library-after=${LOCALBASE}/lib
 .if ${OBJECT_FMT} == "ELF"
 LDFLAGS+=		-Wl,-rpath -Wl,${LOCALBASE}/lib
-LDFLAGS+=		${LDSTATIC} -Wl,--library-after=${LOCALBASE}/lib
-.else
-LDFLAGS+=		${LDSTATIC} -L${LOCALBASE}/lib
 .endif
 
 NO_CXX?=		No	# inhibit use of C++ ports
@@ -1045,11 +1043,9 @@ IGNORE+=		"is not an interactive port"
 .    if !exists(${X11BASE})
 IGNORE+=		"uses X11, but ${X11BASE} not found"
 .    else
-.      if ${OBJECT_FMT} == "ELF"
 LDFLAGS+=		-Wl,--library-after=${X11BASE}/lib
+.      if ${OBJECT_FMT} == "ELF"
 LDFLAGS+=		-Wl,-rpath -Wl,${X11BASE}/lib
-.      else
-LDFLAGS+=		-L${X11BASE}/lib
 .      endif
 .    endif
 .  endif
