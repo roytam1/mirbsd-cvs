@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.19 2006/09/20 22:24:50 tg Exp $
+# $MirOS: ports/Makefile,v 1.20 2006/10/17 21:08:04 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -39,16 +39,16 @@ PKGPATH=
 # set up subdirs from the index, assume it's up-to-date
 _CMD=perl ${.CURDIR}/infrastructure/scripts/index-retrieve index='${.CURDIR}/INDEX'
 .  if defined(key)
-_CMD+=key='${key}'
+_CMD+=key=${key:Q}
 .  endif
 .  if defined(name)
-_CMD+=maintainer='${name}'
+_CMD+=maintainer=${name:Q}
 .  endif
 .  if defined(category)
-_CMD+=category='${category}'
+_CMD+=category=${category:Q}
 .  endif
 .  if defined(maintainer)
-_CMD+=maintainer='${maintainer}'
+_CMD+=maintainer=${maintainer:Q}
 .  endif
 SUBDIR != ${_CMD}
 _MANUAL_SUBDIR=	yes
@@ -90,7 +90,7 @@ search:	${.CURDIR}/INDEX
 	@echo "e.g.: \"mmake search key=somekeyword\" \"mmake search name=somename\""
 .else
 . if defined(key)
-	@egrep -i -- "${key}" ${.CURDIR}/INDEX | awk -F\| '{ printf("Port:\t%s\nPath:\t%s\nInfo:\t%s\nMaint:\t%s\nIndex:\t%s\nL-deps:\t%s\nB-deps:\t%s\nR-deps:\t%s\nArchs:\t%s\n\n", $$1, $$2, $$4, $$6, $$7, $$8, $$9, $$10, $$11); }'
+	@egrep -i -- ${key:Q} ${.CURDIR}/INDEX | awk -F\| '{ printf("Port:\t%s\nPath:\t%s\nInfo:\t%s\nMaint:\t%s\nIndex:\t%s\nL-deps:\t%s\nB-deps:\t%s\nR-deps:\t%s\nArchs:\t%s\n\n", $$1, $$2, $$4, $$6, $$7, $$8, $$9, $$10, $$11); }'
 . else
 	@awk -F\| '$$1 ~ /${name}/ { printf("Port:\t%s\nPath:\t%s\nInfo:\t%s\nMaint:\t%s\nIndex:\t%s\nL-deps:\t%s\nB-deps:\t%s\nR-deps:\t%s\nArchs:\t%s\n\n", $$1, $$2, $$4, $$6, $$7, $$8, $$9, $$10, $$11); }' ${.CURDIR}/INDEX
 . endif
@@ -148,7 +148,7 @@ setup: Setup.sh
 		${SUDO} rmdir /usr/mpkg/lib/X11/app-defaults; \
 	fi
 	${SUDO} ln -sf /etc/X11/app-defaults /usr/mpkg/lib/X11/app-defaults
-	env CC='${CC}' SHELL=${SHELL} MKSH=${MKSH} \
+	env CC=${CC:Q} SHELL=${MKSH} MKSH=${MKSH} \
 	    ${SUDO} /bin/sh ${.CURDIR}/Setup.sh -T
 
 nfo: Setup.sh.nfo Setup.sh.htm
