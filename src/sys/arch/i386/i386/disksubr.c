@@ -1,11 +1,11 @@
-/**	$MirOS: src/sys/arch/i386/i386/disksubr.c,v 1.5 2008/07/08 12:54:23 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/disksubr.c,v 1.6 2008/11/08 23:04:04 tg Exp $ */
 /*	$OpenBSD: disksubr.c,v 1.44 2004/03/17 14:16:04 miod Exp $	*/
 /*	$NetBSD: disksubr.c,v 1.21 1996/05/03 19:42:03 christos Exp $	*/
 
-/*
+/*-
  * Copyright (c) 1996 Theo de Raadt
  * Copyright (c) 1982, 1986, 1988 Regents of the University of California.
- * Copyright (c) 2004, 2007, 2008
+ * Copyright (c) 2004, 2007, 2008, 2009
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
@@ -172,6 +172,7 @@ readdisklabel(dev_t dev, void (*strat)(struct buf *), struct disklabel *lp,
 	struct disklabel *dlp;
 	char *msg = NULL, *cp;
 	int i, dospartoff = 0, cyl = (LABELSECTOR / lp->d_secpercyl);
+	u_int32_t d_secsize;	/* working number of bytes per sector */
 
 	/* minimal requirements for archtypal disk label */
 	if (lp->d_secsize < DEV_BSIZE)
@@ -191,10 +192,10 @@ readdisklabel(dev_t dev, void (*strat)(struct buf *), struct disklabel *lp,
 		lp->d_partitions[i].p_size = 0x1fffffff;
 	lp->d_partitions[i].p_offset = 0;
 
-	/* get a buffer and initialize it */
+	/* get a buffer and initialise it */
 	bp = geteblk((int)lp->d_secsize);
 	bp->b_dev = dev;
-	bp->b_bcount = lp->d_secsize;
+	bp->b_bcount = d_secsize = lp->d_secsize;
 
 	if (dp && !spoofonly)
 		if (!find_mirbsd_disklabel(strat, bp, lp, dp)) {
@@ -372,6 +373,12 @@ readdisklabel(dev_t dev, void (*strat)(struct buf *), struct disklabel *lp,
 			msg = NULL;
 #endif
 		goto done;
+	}
+
+	if (lp->d_secsize < DEV_BSIZE) {
+		/* retain working sector size */
+		lp->d_secsize = d_secsize;
+		lp->d_checksum = dkcksum(lp);
 	}
 
 	/* obtain bad sector table if requested and present */

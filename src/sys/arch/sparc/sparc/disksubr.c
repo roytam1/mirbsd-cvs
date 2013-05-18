@@ -1,7 +1,9 @@
 /*	$OpenBSD: disksubr.c,v 1.30 2004/03/17 14:16:04 miod Exp $	*/
 /*	$NetBSD: disksubr.c,v 1.16 1996/04/28 20:25:59 thorpej Exp $ */
 
-/*
+/*-
+ * Copyright (c) 2009
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 1994, 1995 Gordon W. Ross
  * Copyright (c) 1994 Theo de Raadt
  * All rights reserved.
@@ -203,6 +205,11 @@ readdisklabel(dev, strat, lp, clp, spoofonly)
 	if (dlp->d_magic == DISKMAGIC) {
 		if (dkcksum(dlp))
 			return ("disk label corrupted");
+		if (dlp->d_secsize < DEV_BSIZE) {
+			/* retain working sector size */
+			dlp->d_secsize = lp->d_secsize;
+			dlp->d_checksum = dkcksum(dlp);
+		}
 		*lp = *dlp;	/* struct assignment */
 		return (NULL);
 	}
