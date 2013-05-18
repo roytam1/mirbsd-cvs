@@ -10,10 +10,10 @@
 #include "evilwm.h"
 #include "log.h"
 
-__RCSID("$MirOS$");
-__IDSTRING(rcsid_evilwm_h, EVILWM_H);
-__IDSTRING(rcsid_keymap_h, KEYMAP_H);
-__IDSTRING(rcsid_log_h, LOG_H);
+__RCSID("$MirOS: X11/extras/evilwm/main.c,v 1.7 2006/08/14 19:05:19 tg Exp $");
+__RCSID(EVILWM_H);
+__RCSID(KEYMAP_H);
+__RCSID(LOG_H);
 
 Display		*dpy;
 int 		num_screens;
@@ -36,6 +36,14 @@ const char	*opt_font = DEF_FONT;
 const char	*opt_fg = DEF_FG;
 const char	*opt_bg = DEF_BG;
 const char	*opt_term[3] = { DEF_TERM, DEF_TERM, NULL };
+#define sane_term_DISPLAY	3
+#define sane_term_XAUTHORITY	5	/* below: EDITOR=ed (placeholder) */
+const char	*sane_term[23] = { "/usr/bin/env", "env", "-i", "DISPLAY=:0",
+		    "PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/X11R6/bin",
+		    "EDITOR=ed", "LC_ALL=C", "/usr/X11R6/bin/xterm", "-fn",
+		    "-misc-fixed-medium-r-normal--13-120-75-75-c-80-iso8859-1",
+		    "-fg", "#000000", "-bg", "#EEEECC", "-class", "saneXTerm",
+		    "-ls", "-mesg", "-tn", "xterm-r6", "-e", "/bin/sh", NULL };
 int		opt_bw = DEF_BW;
 #ifdef VWM
 const char	*opt_fc = DEF_FC;
@@ -63,6 +71,14 @@ static unsigned int parse_modifiers(char *s);
 int main(int argc, char *argv[]) {
 	struct sigaction act;
 	int i;
+	char *envstr;
+
+	if ((envstr = getenv("DISPLAY")) != NULL)
+		if (asprintf(&envstr, "DISPLAY=%s", envstr) > 0)
+			sane_term[sane_term_DISPLAY] = envstr;
+	if ((envstr = getenv("XAUTHORITY")) != NULL)
+		if (asprintf(&envstr, "XAUTHORITY=%s", envstr) > 0)
+			sane_term[sane_term_XAUTHORITY] = envstr;
 
 	for (i = 1; i < argc; i++) {
 		if (!strcmp(argv[i], "-fn") && i+1<argc)
@@ -134,7 +150,7 @@ int main(int argc, char *argv[]) {
 			grabmask2 = parse_modifiers(argv[i]);
 #ifdef STDIO
 		} else if (!strcmp(argv[i], "-V")) {
-			LOG_INFO("evilwm version " VERSION " $MirOS: X11/extras/evilwm/main.c,v 1.6 2006/08/14 18:57:57 tg Exp $\n");
+			LOG_INFO("evilwm version " VERSION "-MirOS\n");
 			exit(0);
 #endif
 		} else {
@@ -190,6 +206,7 @@ static void setup_display(void) {
 		KEY_FIX, KEY_PREVDESK, KEY_NEXTDESK,
 		XK_1, XK_2, XK_3, XK_4, XK_5, XK_6, XK_7, XK_8,
 #endif
+		KEY_EXTERMF, KEY_ALTEXTERMF,
 		0
 	};
 	/* used in scanning windows (XQueryTree) */

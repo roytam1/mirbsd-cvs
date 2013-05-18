@@ -1,5 +1,5 @@
 #ifndef KEYMAP_H
-#define KEYMAP_H "$MirOS$"
+#define KEYMAP_H "$MirOS: X11/extras/evilwm/keymap.h,v 1.4 2006/08/14 19:05:19 tg Exp $"
 
 #define KEY_NEXT	XK_Tab
 #define KEY_NEW		XK_Return
@@ -24,6 +24,8 @@
 #ifndef KEY_KILL
 #define KEY_KILL	XK_Escape
 #endif
+#define KEY_EXTERMF	XK_grave
+#define KEY_ALTEXTERMF	XK_dead_grave
 #define KEY_SLEFT	XK_q
 #define KEY_SRIGHT	XK_r
 #define KEY_SDOWN	XK_w

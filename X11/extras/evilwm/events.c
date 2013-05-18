@@ -1,8 +1,8 @@
-/* $MirOS: X11/extras/evilwm/events.c,v 1.7 2006/08/14 18:59:47 tg Exp $ */
+/* $MirOS: X11/extras/evilwm/events.c,v 1.8 2006/08/14 19:05:19 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005, 2006
- *	Thorsten Glaser <tg@mirbsd.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -30,7 +30,7 @@
 #include "evilwm.h"
 #include "log.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: X11/extras/evilwm/events.c,v 1.8 2006/08/14 19:05:19 tg Exp $");
 
 static void handle_key_event(XKeyEvent *e) {
 	Client *c = find_client(e->window);
@@ -126,6 +126,9 @@ static void handle_key_event(XKeyEvent *e) {
 				switch_vdesk(vdesk + 1);
 			break;
 #endif
+		case KEY_EXTERMF:
+			spawn(sane_term); break;
+			break;
 	}
 }
 

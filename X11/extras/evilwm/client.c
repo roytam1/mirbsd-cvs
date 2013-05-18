@@ -1,13 +1,13 @@
 /* evilwm - Minimalist Window Manager for X
- * Copyright (C) 1999-2002 Ciaran Anscomb <evilwm@6809.org.uk>
+ * Copyright (C) 1999-2005 Ciaran Anscomb <evilwm@6809.org.uk>
  * see README for license and other details. */
 
-#include "evilwm.h"
-#include <stdlib.h>
 #include <stdio.h>
-#ifdef SHAPE
-#include <X11/extensions/shape.h>
-#endif
+#include <stdlib.h>
+#include "evilwm.h"
+#include "log.h"
+
+__RCSID("$MirOS$");
 
 static int send_xmessage(Window w, Atom a, long x);
 
@@ -23,44 +23,17 @@ Client *find_client(Window w) {
 	return NULL;
 }
 
-static void __set_wm_state(const Window win, const Atom a, int state, long vis) {
-	long data[2];
-
-	data[0] = (long) state;
-	data[1] = vis;
-
-	XChangeProperty(dpy, win, a, a,
-		32, PropModeReplace, (unsigned char *)data, 2);
-}
 void set_wm_state(Client *c, int state) {
-	/* iconify window and set state */
-	__set_wm_state(c->window, xa_wm_state, state, None);
+	/* Using "long" for the type of "data" looks wrong, but the
+	 * fine people in the X Consortium defined it this way
+	 * (even on 64-bit machines).
+	 */
+	long data[2];
+	data[0] = state;
+	data[1] = None;
+	XChangeProperty(dpy, c->window, xa_wm_state, xa_wm_state, 32,
+			PropModeReplace, (unsigned char *)data, 2);
 }
-
-static long * _g_wm_state(const Window win, const Atom where) {
-	Atom real_type;
-	int real_format;
-	unsigned long n, extra;
-	unsigned char *data;
-
-	if ((XGetWindowProperty(dpy, win, where, 0L, 2L, False,
-			AnyPropertyType, &real_type, &real_format, &n,
-			&extra, &data) == Success) && n) {
-		return (long *)data;
-	}
-	return NULL;
-}
-static int __wm_state(const Window win, const Atom where) {
-	long *data, state = WithdrawnState;
-
-	data = _g_wm_state(win, where);
-	if (data) {
-		state = *data;
-		XFree(data);
-	}
-	return state;
-}
-int wm_state(Client *c) { return __wm_state(c->window, xa_wm_state); }
 
 void send_config(Client *c) {
 	XConfigureEvent ce;
@@ -74,31 +47,80 @@ void send_config(Client *c) {
 	ce.height = c->height;
 	ce.border_width = 0;
 	ce.above = None;
-	ce.override_redirect = 0;
+	ce.override_redirect = False;
 
 	XSendEvent(dpy, c->window, False, StructureNotifyMask, (XEvent *)&ce);
+}
+
+/* Support for 'gravitating' clients based on their original
+ * border width and configured window manager frame width. */
+void gravitate_client(Client *c, int sign) {
+	int d0 = sign * c->border;
+	int d1 = sign * c->old_border;
+	int d2 = sign * (2*c->old_border - c->border);
+	switch (c->win_gravity) {
+		case NorthGravity:
+			c->x += d1;
+			c->y += d0;
+			break;
+		case NorthEastGravity:
+			c->x += d2;
+			c->y += d0;
+			break;
+		case EastGravity:
+			c->x += d2;
+			c->y += d1;
+			break;
+		case SouthEastGravity:
+			c->x += d2;
+			c->y += d2;
+			break;
+		case SouthGravity:
+			c->x += d1;
+			c->y += d2;
+			break;
+		case SouthWestGravity:
+			c->x += d0;
+			c->y += d2;
+			break;
+		case WestGravity:
+			c->x += d0;
+			c->y += d1;
+			break;
+		case NorthWestGravity:
+		default:
+			c->x += d0;
+			c->y += d0;
+			break;
+	}
+}
+
+void select_client(Client *c) {
+#ifdef COLOURMAP
+	XInstallColormap(dpy, c->cmap);
+#endif
+	client_update_current(current, c);
+	client_update_current(c, current);
+	XSetInputFocus(dpy, c->window, RevertToPointerRoot, CurrentTime);
 }
 
 void remove_client(Client *c) {
 	Client *p;
 
-#ifdef DEBUG
-	fprintf(stderr, "remove_client() : Removing...\n");
-#endif
+	LOG_DEBUG("remove_client() : Removing...\n");
 
 	XGrabServer(dpy);
 	XSetErrorHandler(ignore_xerror);
 
 	if (!quitting) {
-#ifdef DEBUG
-		fprintf(stderr, "\tremove_client() : setting WithdrawnState\n");
-#endif
+		LOG_DEBUG("\tremove_client() : setting WithdrawnState\n");
 		set_wm_state(c, WithdrawnState);
 		XRemoveFromSaveSet(dpy, c->window);
 	}
 
 	ungravitate(c);
-	XSetWindowBorderWidth(dpy, c->window, 1);
+	/* Restore window's original border width */
+	XSetWindowBorderWidth(dpy, c->window, c->old_border);
 	XReparentWindow(dpy, c->window, c->screen->root, c->x, c->y);
 	if (c->parent)
 		XDestroyWindow(dpy, c->parent);
@@ -107,55 +129,22 @@ void remove_client(Client *c) {
 	else for (p = head_client; p && p->next; p = p->next)
 		if (p->next == c) p->next = c->next;
 
-	if (c->size) XFree(c->size);
 	if (current == c)
 		current = NULL;  /* an enter event should set this up again */
 	free(c);
 #ifdef DEBUG
 	{
-		Client *p;
+		Client *pp;
 		int i = 0;
-		for (p = head_client; p; p = p->next)
+		for (pp = head_client; pp; pp = pp->next)
 			i++;
-		fprintf(stderr, "\tremove_client() : free(), window count now %d\n", i);
+		LOG_DEBUG("\tremove_client() : free(), window count now %d\n", i);
 	}
 #endif
 
 	XSync(dpy, False);
 	XSetErrorHandler(handle_xerror);
 	XUngrabServer(dpy);
-}
-
-void change_gravity(Client *c, int multiplier) {
-	int dx = 0, dy = 0;
-	int gravity = (c->size->flags & PWinGravity) ?
-		c->size->win_gravity : NorthWestGravity;
-
-	switch (gravity) {
-		case NorthWestGravity:
-		case SouthWestGravity:
-		case NorthEastGravity:
-		case StaticGravity:
-			dx = c->border;
-		case NorthGravity:
-			dy = c->border; break;
-	}
-
-	c->x += multiplier * dx;
-	c->y += multiplier * dy;
-#ifdef DEBUG
-	if (dx || dy) {
-		fprintf(stderr, "change_gravity() : window adjustment of %d,%d for ", multiplier * dx, multiplier * dy);
-	switch (gravity) {
-		case NorthWestGravity: fprintf(stderr, "NorthWestGravity\n"); break;
-		case SouthWestGravity: fprintf(stderr, "SouthWestGravity\n"); break;
-		case NorthEastGravity: fprintf(stderr, "NorthEastGravity\n"); break;
-		case NorthGravity: fprintf(stderr, "NorthGravity\n"); break;
-		case StaticGravity: fprintf(stderr, "StaticGravity\n"); break;
-		default: fprintf(stderr, "unhandled gravity %d\n", gravity); break;
-	}
-	}
-#endif
 }
 
 void send_wm_delete(Client *c) {
@@ -184,44 +173,31 @@ static int send_xmessage(Window w, Atom a, long x) {
 
 	return XSendEvent(dpy, w, False, NoEventMask, &ev);
 }
-/*
-void client_to_front(Client *c) {
-	Client *p;
-
-	if (head_client == c) {
-		head_client = c->next;
-	}
-	for (p = head_client; p->next; p = p->next) {
-		if (p->next == c) {
-			p->next = c->next;
-		}
-	}
-	p->next = c;
-	c->next = NULL;
-}
-*/
 
 #ifdef SHAPE
 void set_shape(Client *c) {
 	int n, order;
 	XRectangle *rect;
 
+	if (!have_shape) return;
 	rect = XShapeGetRectangles(dpy, c->window, ShapeBounding, &n, &order);
 	if (n > 1)
 		XShapeCombineShape(dpy, c->parent, ShapeBounding, c->border,
 				c->border, c->window, ShapeBounding, ShapeSet);
-	XFree((void*)rect);
+	XFree((void *)rect);
 }
 #endif
 
 void client_update_current(Client *c, Client *newcurrent) {
 	if (c) {
+		unsigned long bpixel;
 #ifdef VWM
 		if (c->vdesk == STICKY)
-			XSetWindowBackground(dpy, c->parent, c == newcurrent ? c->screen->fc.pixel : c->screen->bg.pixel);
+			bpixel = c == newcurrent ? c->screen->fc.pixel : c->screen->bg.pixel;
 		else
 #endif
-			XSetWindowBackground(dpy, c->parent, c == newcurrent ? c->screen->fg.pixel : c->screen->bg.pixel);
+			bpixel = c == newcurrent ? c->screen->fg.pixel : c->screen->bg.pixel;
+		XSetWindowBackground(dpy, c->parent, bpixel);
 		XClearWindow(dpy, c->parent);
 	}
 	current = newcurrent;

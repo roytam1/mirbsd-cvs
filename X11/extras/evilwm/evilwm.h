@@ -1,5 +1,5 @@
 #ifndef EVILWM_H
-#define EVILWM_H "$MirOS$"
+#define EVILWM_H "$MirOS: X11/extras/evilwm/evilwm.h,v 1.3 2006/08/14 19:05:19 tg Exp $"
 
 #include <X11/X.h>
 #include <X11/Xlib.h>
@@ -33,6 +33,7 @@
 #else
 #define DEF_TERM	"xterm"
 #endif
+#define DEF_EXTERM	"/usr/X11R6/bin/xterm"
 
 /* readability stuff */
 
@@ -164,6 +165,7 @@ extern const char	*opt_font;
 extern const char	*opt_fg;
 extern const char	*opt_bg;
 extern const char	*opt_term[3];
+extern const char	*sane_term[23];
 extern int		opt_bw;
 #ifdef VWM
 extern const char	*opt_fc;
