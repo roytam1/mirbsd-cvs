@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.394 2012/07/15 16:15:02 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.395 2012/07/16 13:31:48 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9232,4 +9232,68 @@ Tag: debian tip work
  href="https://www.tarent.de/">tarent solutions GmbH</a> and the <a
  href="https://evolvis.org/projects/shellsnippets/">Evolvis Project</a>,
  based on <a href="https://fusionforge.org/">FusionForge</a>.</p>
+----
+Date: 10.08.2012 19:45 +0200
+Author: bsiegert@
+Title: Interview about MirOS
+Tag: news
+
+<p>I (bsiegert@) have been interviewed by
+ <a href="http://www.OSworld.pl/">OSWorld</a>,
+ a Polish news site about open source software. The interview took place
+ at FOSDEM 2012. I talk about the project, about the community and about
+ some of the great things when using open source. Check out the video
+ below:</p>
+
+<iframe width="560" height="315"
+ src="http://www.youtube-nocookie.com/embed/ASi5aTRPof0" frameborder="0"
+ allowfullscreen="allowfullscreen"></iframe>
+
+<p>Read the
+ <a href="http://osworld.pl/wywiad-z-benny-siegert-deweloperem-mirbsd/">original
+ article (in Polish)</a>
+ over at OSWorld. Thanks guys!</p>
+----
+Date: 12.08.2012 22:41 +0200
+Author: bsiegert@
+Title: Latest MirOS developments
+Tag: kernel jupp pkgsrc
+
+<p>There have been some interesting recent developments in MirBSD. As
+ always, there has been development on mksh but tg@ is more qualified to
+ write about this.</p>
+
+<p>The kernel has also seen some improvements: bge(4) is now again
+ included in the GENERIC kernel, and it supports some newer chips – for
+ example the BCM5751 Gigabit Ethernet. This chip is the one in the
+ machine graciously donated by Marc Balmer. The umsm(4) driver has been
+ added, supporting certain 3G “surf sticks”.</p>
+
+<p>There has been a new
+ <a href="@@RELPATH@@jupp.htm">release of jupp</a>,
+ joe-3_1jupp21, containing several critical fixes regarding the use of
+ uninitialized memory. It also contains a bugfix for syntax
+ highlighting.</p>
+
+<p>In pkgsrc, have been attacking the list of broken packages breaking
+ the highest number others. The three versions of Ruby in the tree
+ (1.8.x, 1.9.2 and 1.9.3) now build fine, as do ilmbase, blas and a few
+ others. Fixing blas meant introducing a weird special case in libtool:
+ Usually, MirBSD has no Fortran compiler; however, pkgsrc has f2c, which
+ it uses as <tt>f77</tt>, confusing libtool. It actually needed a
+ special-case entry to treat it like gcc (which it uses internally).
+ There is also a weird failure in policykit, where an XSLT processor
+ segfaults during the creation of one of the manpages. Maybe it hits an
+ ulimit, I am not sure. Anyway, these fixes are now in pkgsrc-current.
+</p>
+----
+Date: 12.08.2012 23:11 +0200
+Author: bsiegert@
+Title: pkgsrc-2012Q2 binary packages available
+Tag: news pkgsrc
+
+<p>Packages for pkgsrc-2012Q2 are now available on ftp.NetBSD.org. They
+ have been built for MirBSD-current on i386. This time, there is notably
+ a much larger selection of software for X11, due to a successful build
+ of gtk+2. All in all, there are about 6300 packages available.</p>
 ----
