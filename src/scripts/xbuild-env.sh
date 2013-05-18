@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-env.sh,v 1.4 2006/02/28 21:22:20 tg Exp $
+# $MirOS: src/scripts/xbuild-env.sh,v 1.5 2006/02/28 22:13:25 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -67,7 +67,7 @@ if [[ -z $MKSH ]]; then
 		MKSH="/usr/bin/env mksh"
 	fi
 fi
-export SHELL=$MKSH
+export SHELL=$MKSH BINOWN=$(id -un) BINGRP=$(id -gn)
 if ! FOO=$($SHELL $BSDSRCDIR/gnu/share/config.sub "$TARGET" 2>/dev/null); then
 	print -u2 "Invalid target $TARGET chosen, exiting."
 	exit 1
@@ -105,6 +105,8 @@ CROSSLDFLAGS="$CROSSLDFLAGS -nostdlib -L${CROSSDIR}/usr/lib -static"
 CROSSCFLAGS="-O2 $CROSSCFLAGS $CROSSCPPFLAGS"
 
 cat >$CROSSDIR/T_BASEENV <<-EOF
+	BINOWN='$BINOWN'
+	BINGRP='$BINGRP'
 	BSDSRCDIR='$BSDSRCDIR'
 	BSDOBJDIR='$CROSSDIR/usr/obj'
 	CROSSDIR='$CROSSDIR'
@@ -113,6 +115,7 @@ cat >$CROSSDIR/T_BASEENV <<-EOF
 	MACHINE_ARCH='$MARCH'
 	MKSH='$MKSH'
 	TARGET='$TARGET'
+	export BINOWN BINGRP MKSH
 EOF
 
 cat >$CROSSDIR/T_ENV <<-EOF

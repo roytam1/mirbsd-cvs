@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
+# $MirOS: src/scripts/xbuild-gcc.sh,v 1.5 2006/02/28 22:13:25 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -29,12 +29,10 @@
 # to i386-pc-linux-gnu needs pthread.h and the likes during build...
 
 if [[ $1 = -a ]]; then
-	Ada=1
-	langs=c,ada
+	no_Ada=No
 	shift
 else
-	Ada=0
-	langs=c
+	no_Ada=Yes
 fi
 
 [[ -z $CROSSDIR ]] && CROSSDIR=${DESTDIR}/usr/cross/${TARGET}
@@ -71,7 +69,25 @@ set -x
     MACHINE=$MACHINE \
     MACHINE_ARCH=$MARCH \
     GCCTARGET=$TARGET \
-    make XXX )
+    make \
+	GCC_NATIVE=Yes \
+	NO_ADA=$no_Ada \
+	NO_CXX=Yes \
+	NO_OBJC=Yes \
+	NO_JAVA=Yes \
+	NO_PASCAL=Yes \
+	NO_THREADS=Yes \
+	NO_BOEHMGC=Yes \
+	COMPILER_ONLY=Yes \
+	GCC_PREFIX=$CROSSDIR/usr \
+	GCC_INFODIR=$CROSSDIR/usr/share/info \
+	GCC_MANDIR=$CROSSDIR/usr/share/man \
+	NOPIC=Yes \
+	LDSTATIC=-static \
+	_CROSSBUILD=defined \
+	all install )
+
+ln -f ${CROSSDIR}/usr/bin/$TARGET-gcc ${CROSSDIR}/usr/bin/cc
 
 set +x
 print
