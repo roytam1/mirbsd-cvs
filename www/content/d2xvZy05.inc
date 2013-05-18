@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.35 2006/08/18 22:51:08 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.36 2006/08/19 23:18:26 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -505,6 +505,19 @@
  <p>tyler@ yelled at me in Jabber today to "STOP COMMITTING SO MUCH :p",
   and then begged for MirPorts ${SYSCONFDIR}/screenrc&#8230; seems as if
   he found a unique selling point, finally&#8230;</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060824">24.08.2006 by tg@</h3>
+ <p>During a Netzladen session @LUUSA, mksh(1) now works on Plan 9.</p>
+ <p>I've been hacking random stuff, improving and adding user feedback I
+  got, but I'm still primarily looking for a job in the area programming
+  or system/network administration. Contact me if you have any hints, in
+  this region.</p>
+ <p>While we're tracking down a few remaining bugs in the package tools,
+  our lynx port is the best one available for the Mac and I'm submitting
+  offsprings (e.g. mksh, mirmake) to the FSF directory.</p>
+ <p>bsiegert@ and tyler@ started hacking on the new website.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
