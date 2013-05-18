@@ -1,7 +1,7 @@
-# $MirOS: ports/comms/pilot-link/Makefile,v 1.4 2008/03/09 17:22:27 tg Exp $
+# $MirOS: ports/comms/pilot-link/Makefile,v 1.5 2008/05/07 22:47:55 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2003/10/07 17:17:31 fgsch Exp $
 
-COMMENT=			PalmPilot communication utilities
+COMMENT=	PalmPilot communication utilities
 
 VERSION=	0.9.5
 DISTNAME=	pilot-link.${VERSION}
@@ -23,7 +23,7 @@ FLAVOURS=	debug
 FLAVOUR?=
 
 USE_GMAKE=	Yes
-CONFIGURE_STYLE= autoconf
+CONFIGURE_STYLE= autoconf no-autoheader
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED}
 CONFIGURE_ARGS= --enable-static \
 		--with-perl5="/usr/bin/perl" \
@@ -42,5 +42,8 @@ MODGNU_RECURSE_DIRS=	${WRKSRC}/scripts ${WRKSRC}
 MODULES=	converters/libiconv
 
 USE_CXX=yes
+
+post-extract:
+	echo "include(libtool.m4)" >  ${WRKSRC:Q}/aclocal.m4
 
 .include <bsd.port.mk>
