@@ -357,10 +357,10 @@ Title: a few news items
  sort-of-portable, but for nroff I plan on improving, and MirMake 2 will be
  a lot better too, kinda like <a href="@@RELPATH@@mksh.htm">mksh</a>.</p>
 <p>Geocacheing continues:
- <img src="https://call.mirbsd.org/sp.cgi?oc" alt="OpenCaching.de" />
- <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
- <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
- <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ <img src="http://www.opencaching.de/images/statpics/statpic106521.jpg" alt="OpenCaching.de" />
+ <img src="http://img.geocaching.com/stats/img.aspx?txt=Hacking+MirBSD+since+2002&amp;uid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658" alt="The Frog Site" />
+ <img src="http://www.terracaching.com/statsban/15089.gif" alt="Rare Jewels" />
+ <img src="http://geocaching.gpsgames.org/cgi-bin/sig.pl?user=mirabilos&amp;txt=Proud+OpenCaching.DE+user" alt="Broken Webpages²" />
  <br />
  Even Jonathan got hooked now. We found another (his first) two today.</p>
 <p>As we’re sort of a big family, you’ll occasionally find German-language
