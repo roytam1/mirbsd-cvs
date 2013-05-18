@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.4 2006/04/05 22:12:17 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.5 2006/04/10 19:10:50 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006
@@ -421,7 +421,7 @@ LpreFD:	/* prepare booting */
 	xor	eax,eax
 	call	Lhook
 	push	eax
-#if 1
+#if 0
 	add	ax,0x4030
 		gs mov [(0x0C86)], ax; \
 		push ax; xor ax,ax; int 0x16; pop ax
@@ -537,7 +537,7 @@ Lpmode:	mov	eax,0x10
 	/* store saved hook value */
 	pop	ecx
 	mov	[_C_LABEL(hook_value)],ecx
-#if 1
+#if 0
 	mov ebx,(0xB8C88); \
 	add	cx,0x4030
 		mov word ptr [ebx],cx
