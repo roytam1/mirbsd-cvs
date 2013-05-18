@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.96 2006/01/25 12:21:34 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.97 2006/02/01 18:54:04 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2182,7 +2182,7 @@ ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}:
 		    -e "^Size$${ck#SIZE} bytes\$$" \
 		    ${CHECKSUM_FILE}; then \
 			${ECHO_MSG} ">> Size matches for ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}"; \
-		elif egrep -q "S(IZE|ize) \($$file\)" ${CHECKSUM_FILE}; then \
+		elif grep -qe "SIZE ($$file)" -e "Size ($$file)" ${CHECKSUM_FILE}; then \
 			${ECHO_MSG} ">> Size does not match for ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}"; \
 			false; \
 		else \
@@ -2217,7 +2217,7 @@ ${_F}:
 				    ${CHECKSUM_FILE}; then \
 					${ECHO_MSG} ">> Size matches for ${_F}"; \
 					exit 0; \
-				elif egrep -q "S(IZE|ize) \($$file\)" ${CHECKSUM_FILE}; then \
+				elif grep -qe "SIZE ($$file)" -e "Size ($$file)" ${CHECKSUM_FILE}; then \
 					${ECHO_MSG} ">> Size does not match for ${_F}"; \
 				else \
 					${ECHO_MSG} ">> No size recorded for ${_F}"; \
