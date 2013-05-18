@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: pxe.h,v 1.3 2007/11/25 20:00:03 martynas Exp $ */
 /*	$NetBSD: pxe.h,v 1.1 2002/02/16 03:37:40 thorpej Exp $	*/
 
@@ -35,8 +36,6 @@
  * Note that these structures and types are named according to
  * the Intel PXE documentation.
  */
-
-#define	S_SIZE(s)	s, sizeof(s) - 1
 
 #define	IP_STR		"%d.%d.%d.%d"
 #define	IP_ARGS(ip)					\

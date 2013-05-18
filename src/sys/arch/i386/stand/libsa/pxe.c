@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.9 2009/01/10 22:18:54 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.10 2009/01/10 22:21:24 tg Exp $ */
 /*	$OpenBSD: pxe.c,v 1.5 2007/07/27 17:46:56 tom Exp $ */
 /*	$NetBSD: pxe.c,v 1.5 2003/03/11 18:29:00 drochner Exp $	*/
 
@@ -38,6 +38,7 @@
  */
 
 /*
+ * Copyright (c) 2009 Thorsten Glaser
  * Copyright (c) 2000 Alfred Perlstein <alfred@freebsd.org>
  * All rights reserved.
  * Copyright (c) 2000 Paul Saab <ps@freebsd.org>
@@ -314,36 +315,42 @@ pxeprobe(void)
 
 #define try_pxenv(cp) do {					\
 	pxenv = (pxenv_t *)cp;					\
-	if (memcmp(pxenv->Signature, S_SIZE("PXENV+")) != 0)	\
-		pxenv = NULL;					\
-	else {							\
+	if (pxenv->Signature[0] == 'P' &&			\
+	    pxenv->Signature[1] == 'X' &&			\
+	    pxenv->Signature[2] == 'E' &&			\
+	    pxenv->Signature[3] == 'N' &&			\
+	    pxenv->Signature[4] == 'V' &&			\
+	    pxenv->Signature[5] == '+') {			\
 		for (i = 0, ucp = (u_int8_t *)cp, cksum = 0;	\
 		     i < pxenv->Length; i++)			\
 			cksum += ucp[i];			\
 		if (cksum != 0) {				\
 			printf("\npxe_init: bad cksum (0x%x) "	\
-			    "for PXENV+ at 0x%lx\n", cksum,	\
+			    "for PXENVplus at 0x%lx\n", cksum,	\
 			    (u_long) cp);			\
 			pxenv = NULL;				\
 		}						\
-	}							\
+	} else							\
+		pxenv = NULL;					\
 } while (/* CONSTCOND */ 0)
 
 #define try_pxe(cp) do {					\
 	pxe = (pxe_t *)cp;					\
-	if (memcmp(pxe->Signature, S_SIZE("!PXE")) != 0)	\
-		pxe = NULL;					\
-	else {							\
+	if (pxe->Signature[0] == '!' &&				\
+	    pxe->Signature[1] == 'P' &&				\
+	    pxe->Signature[2] == 'X' &&				\
+	    pxe->Signature[3] == 'E') {				\
 		for (i = 0, ucp = (u_int8_t *)cp, cksum = 0;	\
 		     i < pxe->StructLength; i++)		\
 			cksum += ucp[i];			\
 		if (cksum != 0) {				\
 			printf("pxe_init: bad cksum (0x%x) "	\
-			    "for !PXE at 0x%lx\n", cksum,	\
+			    "for bangPXE at 0x%lx\n", cksum,	\
 			    (u_long) cp);			\
 			pxe = NULL;				\
 		}						\
-	}							\
+	} else							\
+		pxe = NULL;					\
 } while (/* CONSTCOND */ 0)
 
 int
