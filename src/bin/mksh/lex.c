@@ -504,15 +504,13 @@ yylex(int cf)
 					*wp++ = '\0';
 					*wp++ = CSUBST;
 					*wp++ = 'X';
-				} else if (c == '\'' && (state == SBASE)) {
-					/* XXX which other states are valid? */
+				} else if (c == '\'' && !(cf & HEREDOC)) {
 					*wp++ = OQUOTE;
 					ignore_backslash_newline++;
 					PUSH_STATE(SEQUOTE);
 					statep->ls_bool = false;
 					break;
-				} else if (c == '"' && (state == SBASE)) {
-					/* XXX which other states are valid? */
+				} else if (c == '"' && !(cf & HEREDOC)) {
 					goto DEQUOTE;
 				} else {
 					*wp++ = CHAR;
