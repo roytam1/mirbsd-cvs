@@ -8298,7 +8298,7 @@ Tag: debian
  supported ironically, but that’s on the TODO.</p>
 <p class="boxhead">So, what do you think?</p><div class="boxtext">
  <pre>
-	tg@frozenfish:~/Debs/dists/sid/wtf/Pkgs/mircpio $ ll *.deb
+	<b>tg@frozenfish:~/Debs/dists/sid/wtf/Pkgs/mircpio $</b> ll *.deb
 	-rw-r--r-- 2 tg freewrt 78140 Aug 17 11:04 mircpio_20110817-0wtf2_amd64.deb
 	-rw-r--r-- 3 tg freewrt 72262 Aug 17 11:00 mircpio_20110817-0wtf2_i386.deb
 	-rw-r--r-- 1 tg freewrt 67446 Aug 17 18:21 mircpio_20110817-0wtf2_m68k.deb
@@ -8353,4 +8353,23 @@ Tag: debian
 <p>In the meanwhile, apt-extracttemplates can deal with SYSV style
  filenames in DEB files – on Debian sid, but not on Kubuntu hardy,
  which some people are using as Desktop OS still…</p>
+----
+Date: 18.08.2011 22:00
+Author: tg@
+Title: New MirBSD/i386 NetInstall snapshot
+Tag: news snapshot
+
+<p>Almost ☺ in time for FrOSCon there’s a new binary snapshot of
+ MirBSD-current (10uAF-20110818) compiled, right now waiting for
+ me to do the usual post-compilation work of preparing the cdrom
+ and floppy images for serial console, signing and uploading. Of
+ course, the online manpages will be updated then as well.</p>
+<p>The snapshot will, as usual, end up on the mirrors, i.e.</p><ul>
+ <li><a href="https://dl.mirbsd.org/MirOS/current/">Germany main</a>
+  (Strato) secure HTTP</li>
+ <li><a href="http://pub.allbsd.org/MirOS/current/">Japan</a>
+  (AllBSD.org) insecure HTTP</li>
+</ul>
+<p>We’ll also have it with us at FrOSCon. Maybe on CDs, but on a
+ laptop ready for netboot and netinstall is a promise.</p>
 ----
