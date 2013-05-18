@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.272 2010/01/09 18:34:00 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.273 2010/01/09 19:40:06 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1981,8 +1981,9 @@ checksum: fetch
 					fi; \
 					continue; \
 				fi; \
-				if ! set -- $$(grep -i "^$$cipher ($$file)" \
-				    $$checksum_file); then \
+				set -- $$(grep -i "^$$cipher ($$file)" \
+				    $$checksum_file); \
+				if (( !$$# )); then \
 					${ECHO_MSG} ">> No $$cipher checksum recorded for $$file."; \
 					continue; \
 				fi; \
