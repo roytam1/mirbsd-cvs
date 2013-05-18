@@ -1,7 +1,7 @@
-# $MirOS: ports/net/mcabber/Makefile,v 1.8 2008/06/25 19:14:51 tg Exp $
+# $MirOS: ports/net/mcabber/Makefile,v 1.9 2008/10/05 21:04:21 tg Exp $
 
 COMMENT=		curses-based jabber client implementation
-DISTNAME=		mcabber-0.9.8
+DISTNAME=		mcabber-0.9.9
 CATEGORIES=		net
 EXTRACT_SUFX=		.tar.bz2
 HOMEPAGE=		http://www.lilotux.net/~mikael/mcabber/

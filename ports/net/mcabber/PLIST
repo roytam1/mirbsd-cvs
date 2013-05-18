@@ -1,4 +1,4 @@
-@comment $MirOS: ports/net/mcabber/PLIST,v 1.1 2008/06/25 19:14:51 tg Exp $
+@comment $MirOS: ports/net/mcabber/PLIST,v 1.2 2008/10/05 21:04:21 tg Exp $
 bin/mcabber
 man/man1/mcabber.tbl
 share/doc/mcabber/README
@@ -7,6 +7,43 @@ share/doc/mcabber/light.txt
 share/doc/mcabber/light2.txt
 share/doc/mcabber/oliver.txt
 share/examples/mcabber/mcabberrc
+share/mcabber/help/cs/hlp.txt
+share/mcabber/help/cs/hlp_add.txt
+share/mcabber/help/cs/hlp_alias.txt
+share/mcabber/help/cs/hlp_authorization.txt
+share/mcabber/help/cs/hlp_bind.txt
+share/mcabber/help/cs/hlp_buffer.txt
+share/mcabber/help/cs/hlp_chat_disable.txt
+share/mcabber/help/cs/hlp_clear.txt
+share/mcabber/help/cs/hlp_color.txt
+share/mcabber/help/cs/hlp_connect.txt
+share/mcabber/help/cs/hlp_del.txt
+share/mcabber/help/cs/hlp_disconnect.txt
+share/mcabber/help/cs/hlp_echo.txt
+share/mcabber/help/cs/hlp_event.txt
+share/mcabber/help/cs/hlp_group.txt
+share/mcabber/help/cs/hlp_help.txt
+share/mcabber/help/cs/hlp_iline.txt
+share/mcabber/help/cs/hlp_info.txt
+share/mcabber/help/cs/hlp_move.txt
+share/mcabber/help/cs/hlp_msay.txt
+share/mcabber/help/cs/hlp_otr.txt
+share/mcabber/help/cs/hlp_otrpolicy.txt
+share/mcabber/help/cs/hlp_pgp.txt
+share/mcabber/help/cs/hlp_quit.txt
+share/mcabber/help/cs/hlp_rawxml.txt
+share/mcabber/help/cs/hlp_rename.txt
+share/mcabber/help/cs/hlp_request.txt
+share/mcabber/help/cs/hlp_room.txt
+share/mcabber/help/cs/hlp_roster.txt
+share/mcabber/help/cs/hlp_say.txt
+share/mcabber/help/cs/hlp_say_to.txt
+share/mcabber/help/cs/hlp_screen_refresh.txt
+share/mcabber/help/cs/hlp_set.txt
+share/mcabber/help/cs/hlp_source.txt
+share/mcabber/help/cs/hlp_status.txt
+share/mcabber/help/cs/hlp_status_to.txt
+share/mcabber/help/cs/hlp_version.txt
 share/mcabber/help/de/hlp.txt
 share/mcabber/help/de/hlp_add.txt
 share/mcabber/help/de/hlp_alias.txt
@@ -311,6 +348,7 @@ share/mcabber/help/uk/hlp_version.txt
 @dirrm share/mcabber/help/fr
 @dirrm share/mcabber/help/en
 @dirrm share/mcabber/help/de
+@dirrm share/mcabber/help/cs
 @dirrm share/mcabber/help
 @dirrm share/mcabber
 @dirrm share/examples/mcabber
