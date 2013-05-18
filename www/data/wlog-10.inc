@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.275 2010/01/20 17:31:03 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.276 2010/01/28 21:20:14 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6091,4 +6091,42 @@ Tag: debian event mksh
  can help people (and I submitted info about other bugs too).</p>
 <p>Anyway, watch the news in the months to follow… can’t talk about everything
  now.</p>
+----
+Title: new snapshot (netinstall) uploaded
+Author: tg@
+Date: 30.01.2010 22:39
+Tag: snapshot
+
+<p>The 2010-01-30 snapshot was uploaded to <tt>/MirOS/current/</tt> with
+ i386 (actually had to restart due to cid 1004B6372DA2A612787, then manually
+ incorporate cid 1004B6448D51D101C96 and re-do the floppy, and then, cid
+ 1004B64C58E652566A6+1004B64C5FC627C5254 and especially 1004B64D0994DA8A990
+ are still not honoured), sparc (built 2010-01-25 though), MirOS bsd4grml
+ and MirOS bsd4me (with another number of commits). If I had more time,
+ I'd probably rebuild them both. As things are, I consider pimping all
+ four of {i386,sparc}/{,x}etc10.ngz before making the FOSDEM Live-ISO.
+ Maybe even put the re-built boot.fd into base10.ngz and re-do all of the
+ ramdisk kernels, floppies and CDs. Ugh.</p>
+----
+Title: Hello, Debian!
+Author: tg@
+Date: 31.01.2010 02:05
+Tag: debian
+
+<p>I got an eMail tonight. I guess <a
+ href="http://bzr.debian.org/loggerhead/keyring/debian-keyring/revision?start_revid=385&amp;filter_file_id=keyids-20091117093835-z3pjruc5aae10oh7-1">this</a>
+ means I can say hello officially now. (Everything else is details, waiting
+ and fixing some bugs and technicalities, or so.) Thanks to everyone involved,
+ I learned a lot already. Oh, and I had a look into madduck's book (the old
+ sarge edition, which I got for free recently) and found a nice graphic
+ explaining what non-native english speakers (I even had latin first, and 3
+ programming languages!) don't, from the Debian constitution.</p>
+<p>Please don't file an "Please package mksh R39b" bug again, I am aware
+ there's a new version ;-) as I'm upstream too. I'm just short of time at
+ the moment, and I'd like to put out high-quality packages. Besides, the
+ webpage needs fixing first (while the checksums and the changelog for the
+ release are there, no proper announcement is yet, and I'd like, for this
+ version, to add a "upgrading caveats" section, since due to bugfixes and
+ better standards compliance some scripts need to be updated; some of the
+ pdksh behaviour favoured Bourne over POSIX even!</p>
 ----
