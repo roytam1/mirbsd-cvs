@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/uhr,v 1.5 2012/05/28 00:30:00 tg Exp $
+# $MirOS: contrib/hosted/tg/uhr,v 1.6 2012/11/26 19:19:16 tg Exp $
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -22,7 +22,7 @@
 # Analoguhr mit Digitalanzeige. Grundlegende Annahme: schnelles Ter‐
 # minal, d.h. keine Voroptimierung der Darstellung durch Shellcode.
 
-if [[ $MKSH_UNIXTIME != [1-9]+([0-9]).[0-9][0-9][0-9][0-9][0-9][0-9] ]]; then
+if [[ $EPOCHREALTIME != [1-9]+([0-9]).[0-9][0-9][0-9][0-9][0-9][0-9] ]]; then
 	print -u2 Your mksh is too old.
 	exit 1
 fi
@@ -259,10 +259,10 @@ refresh "${px[@]}"; set -A px
 
 set -A do -- -1 -1 -1
 while (( !got_sigwinch )); do
-	(( tosleep = 1000000 - ${MKSH_UNIXTIME#*.} ))
+	(( tosleep = 1000000 - ${EPOCHREALTIME#*.} ))
 	if (( tosleep > 999999 )); then
 		sleep 0.2
-		(( tosleep = 1000000 - ${MKSH_UNIXTIME#*.} ))
+		(( tosleep = 1000000 - ${EPOCHREALTIME#*.} ))
 	fi
 	if (( tosleep > 999999 )); then
 		# huh… maybe no gettimeofday(2) here
