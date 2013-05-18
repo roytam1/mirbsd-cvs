@@ -1,11 +1,12 @@
-# $MirOS: ports/graphics/gphoto2/Makefile,v 1.8 2006/02/09 09:35:54 tg Exp $
+# $MirOS: ports/graphics/gphoto2/Makefile,v 1.9 2006/09/14 00:09:54 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/04/14 18:41:15 brad Exp $
 
-COMMENT=			digital camera command-line interface
+COMMENT=		digital camera command-line interface
 CATEGORIES=		graphics
 VERSION=		2.1.6
+DASH_VER=		1
 DISTNAME=		gphoto2-${VERSION}
-PKGNAME=		gphoto-${VERSION}-0
+PKGNAME=		gphoto-${VERSION}-${DASH_VER}
 HOMEPAGE=		http://gphoto.sourceforge.net/
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=gphoto/}
 
@@ -15,13 +16,21 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 
+FLAVORS=		no_aa
+FLAVOR?=
+
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-CONFIGURE_ARGS+=	--disable-nls \
-			--with-aalib
+CONFIGURE_ARGS+=	--disable-nls
 
-.include <mirports.sys.mk>
-.if ${OStype} == "MirBSD"
+.if ${FLAVOR:Mno_aa}
+CONFIGURE_ARGS+=	--without-aalib
+.else
+CONFIGURE_ARGS+=	--with-aalib
+LIB_DEPENDS+=		aa::graphics/aalib
+.endif
+
+.if exists(/usr/lib/libcdk.a)
 CONFIGURE_ARGS+=	--with-cdk
 .else
 CONFIGURE_ARGS+=	--without-cdk
@@ -29,7 +38,6 @@ CONFIGURE_ARGS+=	--without-cdk
 
 MODULES+=		devel/pkgconfig
 LIB_DEPENDS+=		gphoto2,gphoto2_port::graphics/libgphoto2 \
-			aa::graphics/aalib \
 			jpeg::graphics/jpeg \
 			popt::devel/popt
 
