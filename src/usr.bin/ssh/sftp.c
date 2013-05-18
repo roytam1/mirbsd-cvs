@@ -16,7 +16,7 @@
 
 #include "includes.h"
 
-RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.3 2005/04/14 19:49:34 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.4 2005/06/22 16:11:39 tg Exp $");
 
 #include <glob.h>
 #include <histedit.h>
@@ -1459,7 +1459,7 @@ main(int argc, char **argv)
 
 			/* Allow "-" as stdin */
 			if (strcmp(optarg, "-") != 0 &&
-			   (infile = fopen(optarg, "r")) == NULL)
+			    (infile = fopen(optarg, "r")) == NULL)
 				fatal("%s (%s).", strerror(errno), optarg);
 			showprogress = 0;
 			batchmode = 1;

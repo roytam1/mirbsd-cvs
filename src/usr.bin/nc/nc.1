@@ -1,5 +1,5 @@
-.\"	$MirOS: src/usr.bin/nc/nc.1,v 1.3 2005/04/29 18:35:09 tg Exp $
-.\"     $OpenBSD: nc.1,v 1.37 2005/02/21 10:56:22 jmc Exp $
+.\"	$MirOS: src/usr.bin/nc/nc.1,v 1.4 2005/05/19 22:57:39 tg Exp $
+.\"     $OpenBSD: nc.1,v 1.40 2005/07/17 19:18:47 jmc Exp $
 .\"
 .\" Copyright (c) 1996 David Sacerdote
 .\" All rights reserved.
@@ -306,8 +306,9 @@ It can aid in troubleshooting,
 when it might be necessary to verify what data a server is sending
 in response to commands issued by the client.
 For example, to retrieve the home page of a web site:
-.Pp
-.Dl $ echo \&"GET\&" | nc host.example.com 80
+.Bd -literal -offset indent
+$ echo -n "GET / HTTP/1.0\er\en\er\en" | nc host.example.com 80
+.Ed
 .Pp
 Note that this also displays the headers sent by the web server.
 They can be filtered, using a tool such as
@@ -335,15 +336,11 @@ The
 .Fl z
 flag can be used to tell
 .Nm
-not to initiate a connection,
-together with the
-.Fl v
-.Pq verbose
-flag,
-to report open ports.
+to report open ports,
+rather than initiate a connection.
 For example:
 .Bd -literal -offset indent
-$ nc -vz host.example.com 20-30
+$ nc -z host.example.com 20-30
 Connection to host.example.com 22 port [tcp/ssh] succeeded!
 Connection to host.example.com 25 port [tcp/smtp] succeeded!
 .Ed
@@ -381,17 +378,19 @@ IP for the local end of the connection:
 .Pp
 .Dl $ nc -s 10.1.2.3 host.example.com 42
 .Pp
-Send UDP packets to ports 20-30 of host.example.com, and report which ones
-responded with an ICMP packet after three seconds:
-.Pp
-.Dl $ nc -uvz -w 3 host.example.com 20-30
-.Pp
 Create and listen on a Unix Domain Socket:
 .Pp
 .Dl $ nc -lU /var/tmp/dsocket
 .Pp
 Connect to port 42 of host.example.com via an HTTP proxy at 10.2.3.4,
-port 8080:
+port 8080.
+This example could also be used by
+.Xr ssh 1 ;
+see the
+.Cm ProxyCommand
+directive in
+.Xr ssh_config 5
+for more information.
 .Pp
 .Dl $ nc -x10.2.3.4:8080 -Xconnect host.example.com 42
 .Pp
@@ -403,10 +402,17 @@ through an HTTP proxy at host.example.com, port 8080:
 .Pp
 .Dl ProxyCommand /usr/bin/nc -X connect -x host.example.com:8080 %h %p
 .Sh SEE ALSO
-.Xr cat 1
+.Xr cat 1 ,
+.Xr ssh 1
 .Sh AUTHORS
 Original implementation by *Hobbit*
 .Aq hobbit@avian.org .
 .br
 Rewritten with IPv6 support by
 .An Eric Jackson Aq ericj@monkey.org .
+.Sh CAVEATS
+UDP port scans will always succeed
+(i.e. report the port as open),
+rendering the
+.Fl uz
+combination of flags relatively useless.

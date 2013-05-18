@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: xstr.c,v 1.11 2003/06/03 02:56:24 millert Exp $	*/
+/**	$MirOS: src/usr.bin/xstr/xstr.c,v 1.2 2005/03/13 18:34:12 tg Exp $ */
+/*	$OpenBSD: xstr.c,v 1.13 2004/07/26 09:04:18 jmc Exp $	*/
 /*	$NetBSD: xstr.c,v 1.5 1994/12/24 16:57:59 cgd Exp $	*/
 
 /*
@@ -48,7 +48,7 @@ static char copyright[] =
 #include "pathnames.h"
 
 __SCCSID("@(#)xstr.c	8.1 (Berkeley) 6/9/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/xstr/xstr.c,v 1.2 2005/03/13 18:34:12 tg Exp $");
 
 /*
  * xstr - extract and hash strings in a C program
@@ -112,7 +112,7 @@ main(int argc, char *argv[])
 			break;
 		default:
 			fprintf(stderr,
-			    "usage: xstr [-vc] [-l array] [-] [name ...]\n");
+			    "usage: xstr [-cv] [-l array] [-] [file ...]\n");
 			exit(1);
 		}
 	argc -= optind;
@@ -305,7 +305,7 @@ inithash(void)
 		return;
 	for (;;) {
 		mesgpt = tellpt;
-		if (!fgetNUL(buf, sizeof buf, mesgread))
+		if (fgetNUL(buf, sizeof buf, mesgread) == 0)
 			break;
 		hashit(buf, 0);
 	}

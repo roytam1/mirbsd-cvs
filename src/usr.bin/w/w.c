@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: w.c,v 1.41 2004/01/08 18:14:51 millert Exp $	*/
+/**	$MirOS: src/usr.bin/w/w.c,v 1.2 2005/03/13 18:34:03 tg Exp $ */
+/*	$OpenBSD: w.c,v 1.45 2005/07/20 04:19:08 jaredy Exp $	*/
 
 /*-
  * Copyright (c) 1980, 1991, 1993, 1994
@@ -76,14 +76,13 @@ static char copyright[] =
 #include "extern.h"
 
 __SCCSID("@(#)w.c	8.4 (Berkeley) 4/16/94");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/w/w.c,v 1.2 2005/03/13 18:34:03 tg Exp $");
 
 struct timeval	boottime;
 struct utmp	utmp;
 struct winsize	ws;
 kvm_t	       *kd;
 time_t		now;		/* the current time of day */
-time_t		uptime;		/* time of last reboot & elapsed time since */
 int		ttywidth;	/* width of tty */
 int		argwidth;	/* width of tty */
 int		header = 1;	/* true if -h flag: don't print heading */
@@ -134,7 +133,7 @@ main(int argc, char *argv[])
 		p = "hiflM:N:asuw";
 	} else if (!strcmp(p, "uptime")) {
 		wcmd = 0;
-		p = "M:N:";
+		p = "";
 	} else
 		errx(1,
 		 "this program should be invoked only as \"w\" or \"uptime\"");
@@ -261,11 +260,11 @@ main(int argc, char *argv[])
 		}
 	}
 	if ((ioctl(STDOUT_FILENO, TIOCGWINSZ, &ws) == -1 &&
-	     ioctl(STDERR_FILENO, TIOCGWINSZ, &ws) == -1 &&
-	     ioctl(STDIN_FILENO, TIOCGWINSZ, &ws) == -1) || ws.ws_col == 0)
-	       ttywidth = 79;
-        else
-	       ttywidth = ws.ws_col - 1;
+	    ioctl(STDERR_FILENO, TIOCGWINSZ, &ws) == -1 &&
+	    ioctl(STDIN_FILENO, TIOCGWINSZ, &ws) == -1) || ws.ws_col == 0)
+		ttywidth = 79;
+	else
+		ttywidth = ws.ws_col - 1;
 	argwidth = ttywidth - WUSED;
 	if (argwidth < 4)
 		argwidth = 8;
@@ -462,9 +461,9 @@ usage(int wcmd)
 {
 	if (wcmd)
 		(void)fprintf(stderr,
-		    "usage: w [-hia] [-M core] [-N system] [user]\n");
+		    "usage: w [-ahi] [-M core] [-N system] [user]\n");
 	else
 		(void)fprintf(stderr,
-		    "usage: uptime [-M core] [-N system]\n");
+		    "usage: uptime\n");
 	exit (1);
 }

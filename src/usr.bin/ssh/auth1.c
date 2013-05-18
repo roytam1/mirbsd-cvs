@@ -10,7 +10,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/auth1.c,v 1.2 2005/03/13 18:33:29 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/auth1.c,v 1.3 2005/06/22 16:11:39 tg Exp $");
 
 #include "xmalloc.h"
 #include "rsa.h"
@@ -169,7 +169,7 @@ auth1_process_rhosts_rsa(Authctxt *authctxt, char *info, size_t infolen)
 
 	snprintf(info, infolen, " ruser %.100s", client_user);
 	xfree(client_user);
-	
+
 	return (authenticated);
 }
 
@@ -177,7 +177,7 @@ static int
 auth1_process_tis_challenge(Authctxt *authctxt, char *info, size_t infolen)
 {
 	char *challenge;
-	
+
 	if ((challenge = get_challenge(authctxt)) == NULL)
 		return (0);
 

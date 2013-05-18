@@ -33,7 +33,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.2 2005/03/13 18:33:30 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.3 2005/06/22 16:11:39 tg Exp $");
 
 #include "ssh.h"
 #include "ssh1.h"
@@ -185,11 +185,11 @@ auth_input_request_forwarding(struct passwd * pw)
 static void
 display_loginmsg(void)
 {
-        if (buffer_len(&loginmsg) > 0) {
-                buffer_append(&loginmsg, "\0", 1);
-                printf("%s", (char *)buffer_ptr(&loginmsg));
-                buffer_clear(&loginmsg);
-        }
+	if (buffer_len(&loginmsg) > 0) {
+		buffer_append(&loginmsg, "\0", 1);
+		printf("%s", (char *)buffer_ptr(&loginmsg));
+		buffer_clear(&loginmsg);
+	}
 }
 
 void
@@ -1223,6 +1223,7 @@ session_new(void)
 			s->ttyfd = -1;
 			s->used = 1;
 			s->self = i;
+			s->x11_chanids = NULL;
 			debug("session_new: session %d", i);
 			return s;
 		}
@@ -1291,6 +1292,29 @@ session_by_channel(int id)
 		}
 	}
 	debug("session_by_channel: unknown channel %d", id);
+	session_dump();
+	return NULL;
+}
+
+static Session *
+session_by_x11_channel(int id)
+{
+	int i, j;
+
+	for (i = 0; i < MAX_SESSIONS; i++) {
+		Session *s = &sessions[i];
+
+		if (s->x11_chanids == NULL || !s->used)
+			continue;
+		for (j = 0; s->x11_chanids[j] != -1; j++) {
+			if (s->x11_chanids[j] == id) {
+				debug("session_by_x11_channel: session %d "
+				    "channel %d", s->self, id);
+				return s;
+			}
+		}
+	}
+	debug("session_by_x11_channel: unknown channel %d", id);
 	session_dump();
 	return NULL;
 }
@@ -1424,6 +1448,11 @@ session_x11_req(Session *s)
 {
 	int success;
 
+	if (s->auth_proto != NULL || s->auth_data != NULL) {
+		error("session_x11_req: session %d: "
+		    "x11 fowarding already active", s->self);
+		return 0;
+	}
 	s->single_connection = packet_get_char();
 	s->auth_proto = packet_get_string(NULL);
 	s->auth_data = packet_get_string(NULL);
@@ -1649,9 +1678,66 @@ sig2name(int sig)
 }
 
 static void
+session_close_x11(int id)
+{
+	Channel *c;
+
+	if ((c = channel_lookup(id)) == NULL) {
+		debug("session_close_x11: x11 channel %d missing", id);
+	} else {
+		/* Detach X11 listener */
+		debug("session_close_x11: detach x11 channel %d", id);
+		channel_cancel_cleanup(id);
+		if (c->ostate != CHAN_OUTPUT_CLOSED)
+			chan_mark_dead(c);
+	}
+}
+
+static void
+session_close_single_x11(int id, void *arg)
+{
+	Session *s;
+	u_int i;
+
+	debug3("session_close_single_x11: channel %d", id);
+	channel_cancel_cleanup(id);
+	if ((s  = session_by_x11_channel(id)) == NULL)
+		fatal("session_close_single_x11: no x11 channel %d", id);
+	for (i = 0; s->x11_chanids[i] != -1; i++) {
+		debug("session_close_single_x11: session %d: "
+		    "closing channel %d", s->self, s->x11_chanids[i]);
+		/*
+		 * The channel "id" is already closing, but make sure we
+		 * close all of its siblings.
+		 */
+		if (s->x11_chanids[i] != id)
+			session_close_x11(s->x11_chanids[i]);
+	}
+	xfree(s->x11_chanids);
+	s->x11_chanids = NULL;
+	if (s->display) {
+		xfree(s->display);
+		s->display = NULL;
+	}
+	if (s->auth_proto) {
+		xfree(s->auth_proto);
+		s->auth_proto = NULL;
+	}
+	if (s->auth_data) {
+		xfree(s->auth_data);
+		s->auth_data = NULL;
+	}
+	if (s->auth_display) {
+		xfree(s->auth_display);
+		s->auth_display = NULL;
+	}
+}
+
+static void
 session_exit_message(Session *s, int status)
 {
 	Channel *c;
+	u_int i;
 
 	if ((c = channel_lookup(s->chanid)) == NULL)
 		fatal("session_exit_message: session %d: no channel %d",
@@ -1687,6 +1773,14 @@ session_exit_message(Session *s, int status)
 	if (c->ostate != CHAN_OUTPUT_CLOSED)
 		chan_write_failed(c);
 	s->chanid = -1;
+
+	/* Close any X11 listeners associated with this session */
+	if (s->x11_chanids != NULL) {
+		for (i = 0; s->x11_chanids[i] != -1; i++) {
+			session_close_x11(s->x11_chanids[i]);
+			s->x11_chanids[i] = -1;
+		}
+	}
 }
 
 void
@@ -1701,6 +1795,8 @@ session_close(Session *s)
 		xfree(s->term);
 	if (s->display)
 		xfree(s->display);
+	if (s->x11_chanids)
+		xfree(s->x11_chanids);
 	if (s->auth_display)
 		xfree(s->auth_display);
 	if (s->auth_data)
@@ -1739,6 +1835,7 @@ void
 session_close_by_channel(int id, void *arg)
 {
 	Session *s = session_by_channel(id);
+
 	if (s == NULL) {
 		debug("session_close_by_channel: no session for id %d", id);
 		return;
@@ -1810,6 +1907,7 @@ session_setup_x11fwd(Session *s)
 	struct stat st;
 	char display[512], auth_display[512];
 	char hostname[MAXHOSTNAMELEN];
+	u_int i;
 
 	if (no_x11_forwarding_flag) {
 		packet_send_debug("X11 forwarding disabled in user configuration file.");
@@ -1835,9 +1933,13 @@ session_setup_x11fwd(Session *s)
 	}
 	if (x11_create_display_inet(options.x11_display_offset,
 	    options.x11_use_localhost, s->single_connection,
-	    &s->display_number) == -1) {
+	    &s->display_number, &s->x11_chanids) == -1) {
 		debug("x11_create_display_inet failed.");
 		return 0;
+	}
+	for (i = 0; s->x11_chanids[i] != -1; i++) {
+		channel_register_cleanup(s->x11_chanids[i],
+		    session_close_single_x11);
 	}
 
 	/* Set up a suitable value for the DISPLAY variable. */

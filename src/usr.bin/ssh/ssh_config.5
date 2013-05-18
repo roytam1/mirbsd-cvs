@@ -34,8 +34,8 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/ssh_config.5,v 1.5 2005/04/26 15:21:51 tg Exp $
-.\" $OpenBSD: ssh_config.5,v 1.57 2005/06/18 04:30:36 djm Exp $
+.\" $MirOS: src/usr.bin/ssh/ssh_config.5,v 1.6 2005/06/22 16:11:39 tg Exp $
+.\" $OpenBSD: ssh_config.5,v 1.61 2005/07/08 12:53:10 jmc Exp $
 .Dd September 25, 1999
 .Dt SSH_CONFIG 5
 .Os
@@ -137,8 +137,9 @@ or
 The default is
 .Dq no .
 .It Cm BindAddress
-Specify the interface to transmit from on machines with multiple
-interfaces or aliased addresses.
+Use the specified address on the local machine as the source address of
+the connection.
+Only useful on systems with more than one address.
 Note that this option does not work if
 .Cm UsePrivilegedPort
 is set to
@@ -279,6 +280,12 @@ If the
 can not be opened,
 .Nm ssh
 will continue without connecting to a master instance.
+.Pp
+X11 and
+.Xr ssh-agent 1
+forwarding is supported over these multiplexed connections, however the
+display and agent fowarded will be the one belonging to the master
+connection i.e. it is not possible to forward multiple displays or agents.
 .Pp
 Two additional options allow for opportunistic multiplexing: try to use a
 master connection but fall back to creating a new one if one does not already

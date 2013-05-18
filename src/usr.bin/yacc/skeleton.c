@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: skeleton.c,v 1.23 2004/03/12 13:39:50 henning Exp $	*/
+/**	$MirOS: src/usr.bin/yacc/skeleton.c,v 1.2 2005/03/13 18:34:13 tg Exp $ */
+/*	$OpenBSD: skeleton.c,v 1.24 2005/06/10 16:40:45 pvalchev Exp $	*/
 /*	$NetBSD: skeleton.c,v 1.10 1996/03/25 00:36:18 mrg Exp $	*/
 
 /*
@@ -36,7 +36,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)skeleton.c	5.8 (Berkeley) 4/29/95");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/yacc/skeleton.c,v 1.2 2005/03/13 18:34:13 tg Exp $");
 
 #include "defs.h"
 
@@ -54,10 +54,9 @@ __RCSID("$MirOS$");
 
 char *banner[] =
 {
-    "#include <sys/cdefs.h>",
-    "__SCCSID(\"@(#)yaccpar	1.9 (Berkeley) 02/21/93\");",
-    "__RCSID(\"$MirOS$\");",
     "#include <stdlib.h>",
+    "__SCCSID(\"@(#)yaccpar	1.9 (Berkeley) 02/21/93\");",
+    "__RCSID(\"$MirOS: src/usr.bin/yacc/skeleton.c,v 1.2 2005/03/13 18:34:13 tg Exp $\");",
     "#define YYBYACC 1",
     "#define YYMAJOR 1",
     "#define YYMINOR 9",
@@ -429,7 +428,7 @@ write_section(char *section[])
     for (i = 0; (s = section[i]); ++i)
     {
 	++outline;
-	while (c = *s)
+	while ((c = *s))
 	{
 	    putc(c, f);
 	    ++s;

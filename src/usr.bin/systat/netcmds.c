@@ -1,4 +1,4 @@
-/*	$OpenBSD: netcmds.c,v 1.13 2004/04/26 19:22:30 itojun Exp $	*/
+/*	$OpenBSD: netcmds.c,v 1.15 2005/03/13 19:00:45 cloder Exp $	*/
 /*	$NetBSD: netcmds.c,v 1.4 1995/05/21 17:14:38 mycroft Exp $	*/
 
 /*-
@@ -34,7 +34,7 @@
 #if 0
 static char sccsid[] = "@(#)netcmds.c	8.1 (Berkeley) 6/6/93";
 #endif
-static char rcsid[] = "$OpenBSD: netcmds.c,v 1.13 2004/04/26 19:22:30 itojun Exp $";
+static char rcsid[] = "$OpenBSD: netcmds.c,v 1.15 2005/03/13 19:00:45 cloder Exp $";
 #endif /* not lint */
 
 /*
@@ -94,7 +94,7 @@ netcmd(char *cmd, char *args)
 	if (prefix(cmd, "reset")) {
 		selectproto(0);
 		selecthost(0, 0);
-		selectport(-1, 0);
+		selectport(htons(-1), 0);
 		return (1);
 	}
 	if (prefix(cmd, "show")) {
@@ -195,7 +195,7 @@ selectport(long port, int onoff)
 {
 	struct pitem *p;
 
-	if (port == -1) {
+	if (ntohs(port) == -1) {
 		if (ports == 0)
 			return (0);
 		free((char *)ports), ports = 0;
@@ -243,7 +243,7 @@ showports(void)
 		if (sp)
 			printw("%s ", sp->s_name);
 		else
-			printw("%d ", p->port);
+			printw("%d ", ntohs(p->port));
 	}
 }
 
@@ -260,13 +260,11 @@ addrcmp(struct sockaddr *sa1, struct sockaddr *sa2)
 				((struct sockaddr_in *)sa2)->sin_addr.s_addr)
 			return 1;
 		break;
-#ifdef INET6
 	case AF_INET6:
 		if (IN6_ARE_ADDR_EQUAL(&((struct sockaddr_in6 *)sa1)->sin6_addr,
 				&((struct sockaddr_in6 *)sa2)->sin6_addr))
 			return 1;
 		break;
-#endif
 	default:
 		if (memcmp(sa1, sa2, sa1->sa_len) == 0)
 			return 1;
@@ -317,7 +315,6 @@ checkhost(struct inpcb *inp)
 			    sin->sin_addr.s_addr == inp->inp_faddr.s_addr)
 				return (p->onoff);
 		}
-#ifdef INET6
 		if (((struct sockaddr *)&p->addr)->sa_family == AF_INET6 &&
 		    (inp->inp_flags & INP_IPV6)) {
 			struct sockaddr_in6 *sin6;
@@ -326,7 +323,6 @@ checkhost(struct inpcb *inp)
 			    IN6_ARE_ADDR_EQUAL(&sin6->sin6_addr, &inp->inp_faddr6))
 				return (p->onoff);
 		}
-#endif
 	}
 	return (1);
 }

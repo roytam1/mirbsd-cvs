@@ -12,7 +12,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.3 2005/04/14 19:49:34 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.4 2005/06/22 16:11:39 tg Exp $");
 
 #include "ssh.h"
 #include "xmalloc.h"
@@ -824,7 +824,7 @@ parse_int:
 	/* Check that there is no garbage at end of line. */
 	if ((arg = strdelim(&s)) != NULL && *arg != '\0') {
 		fatal("%.200s line %d: garbage at end of line; \"%.200s\".",
-		     filename, linenum, arg);
+		    filename, linenum, arg);
 	}
 	return 0;
 }

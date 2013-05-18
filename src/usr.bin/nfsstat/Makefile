@@ -1,8 +1,6 @@
-# $MirOS$
-# $OpenBSD: Makefile,v 1.5 2000/04/18 20:17:53 mickey Exp $
+#	$OpenBSD: Makefile,v 1.6 2004/12/14 23:07:12 pedro Exp $
 
 PROG=	nfsstat
-CPPFLAGS+=-DNFS
 DPADD=	${LIBKVM}
 LDADD=	-lkvm
 

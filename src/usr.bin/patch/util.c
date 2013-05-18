@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: util.c,v 1.29 2004/11/19 20:00:57 otto Exp $	*/
+/**	$MirOS: src/usr.bin/patch/util.c,v 1.2 2005/06/08 10:37:53 tg Exp $ */
+/*	$OpenBSD: util.c,v 1.31 2005/06/20 07:14:06 otto Exp $	*/
 
 /*
  * patch - a program to apply diffs to original files
@@ -47,7 +47,7 @@
 #include "backupfile.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/patch/util.c,v 1.2 2005/06/08 10:37:53 tg Exp $");
 
 /* Rename a file, copying it if necessary. */
 
@@ -317,12 +317,9 @@ makedirs(const char *filename, bool striplast)
 			return;	/* nothing to be done */
 		*s = '\0';
 	}
-	if (snprintf(buf, sizeof(buf), "%s -p %s", _PATH_MKDIR, tmpbuf)
-	    >= sizeof(buf))
-		fatal("buffer too small to hold %.20s...\n", tmpbuf);
-
-	if (system(buf))
-		pfatal("%.40s failed", buf);
+	if (mkpath(tmpbuf) != 0)
+		pfatal("creation of %s failed", tmpbuf);
+	free(tmpbuf);
 }
 
 /*

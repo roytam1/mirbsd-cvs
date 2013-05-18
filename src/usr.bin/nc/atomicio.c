@@ -1,4 +1,7 @@
+/* $OpenBSD: atomicio.c,v 1.7 2005/05/26 01:01:08 avsm Exp $ */
+
 /*
+ * Copyright (c) 2005 Anil Madhavapeddy.  All rights served.
  * Copyright (c) 1995,1999 Theo de Raadt.  All rights reserved.
  * All rights reserved.
  *
@@ -25,34 +28,40 @@
 
 #include <sys/types.h>
 #include <sys/uio.h>
-
 #include <errno.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.bin/nc/atomicio.c,v 1.2 2005/03/13 18:33:18 tg Exp $");
+#include "atomicio.h"
 
-ssize_t atomicio(ssize_t (*f)(int, void *, size_t), int fd, void *_s, size_t n);
+__RCSID("$MirOS: src/usr.bin/nc/atomicio.c,v 1.3 2005/04/29 18:35:09 tg Exp $");
 
 /*
- * ensure all of data on socket comes through. f==read || f==write
+ * ensure all of data on socket comes through. f==read || f==vwrite
  */
-ssize_t
-atomicio(ssize_t (*f) (int, void *, size_t), int fd, void *_s, size_t n)
+size_t
+atomicio(f, fd, _s, n)
+	ssize_t (*f) (int, void *, size_t);
+	int fd;
+	void *_s;
+	size_t n;
 {
 	char *s = _s;
-	ssize_t res, pos = 0;
+	size_t pos = 0;
+	ssize_t res;
 
-	while (n > (size_t)pos) {
+	while (n > pos) {
 		res = (f) (fd, s + pos, n - pos);
 		switch (res) {
 		case -1:
 			if (errno == EINTR || errno == EAGAIN)
 				continue;
+			return 0;
 		case 0:
-			return (res);
+			errno = EPIPE;
+			return pos;
 		default:
-			pos += res;
+			pos += (u_int)res;
 		}
 	}
-	return (pos);
+	return pos;
 }

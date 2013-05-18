@@ -1,5 +1,5 @@
-# $MirOS$
-# $OpenBSD: Makefile,v 1.9 2001/09/23 06:15:30 pvalchev Exp $
+# $MirOS: src/usr.bin/tip/Makefile,v 1.2 2005/03/15 19:23:57 tg Exp $
+# $OpenBSD: Makefile,v 1.10 2005/05/24 22:23:04 millert Exp $
 #
 # Files are:
 #	/etc/remote		remote host description file
@@ -34,7 +34,6 @@
 PROG=	tip
 LINKS=	${BINDIR}/tip ${BINDIR}/cu
 MLINKS=	tip.1 cu.1
-CFLAGS+=-ansi -pedantic
 CPPFLAGS+=	-DDEFBR=9600 -DDEFFS=BUFSIZ -DACULOG -DPRISTINE \
 		-DCONNECT -DV831 -DVENTEL -DHAYES -DCOURIER -DT3000
 .PATH:	${.CURDIR}/aculib

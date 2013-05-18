@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: pr.c,v 1.20 2003/11/09 20:13:57 otto Exp $	*/
+/**	$MirOS: src/usr.bin/pr/pr.c,v 1.2 2005/03/13 18:33:22 tg Exp $ */
+/*	$OpenBSD: pr.c,v 1.21 2004/06/21 15:27:19 avsm Exp $	*/
 
 /*-
  * Copyright (c) 1991 Keith Muller.
@@ -57,7 +57,7 @@ static char copyright[] =
 #include "extern.h"
 
 __SCCSID("@(#)pr.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/pr/pr.c,v 1.2 2005/03/13 18:33:22 tg Exp $");
 
 /*
  * pr:	a printing and pagination filter. If multiple input files
@@ -841,7 +841,7 @@ ferrout(char *fmt, ...)
     char *p;
 
     va_start(ap, fmt);
-    if (!ferr)
+    if (ferr == 0)
         vfprintf(stderr, fmt, ap);
     else {
 	sigemptyset(&block);

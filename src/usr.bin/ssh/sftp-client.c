@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/ssh/sftp-client.c,v 1.3 2005/04/14 19:49:34 tg Exp $ */
+/* $MirOS: src/usr.bin/ssh/sftp-client.c,v 1.4 2005/06/22 16:11:39 tg Exp $ */
 
 /*
  * Copyright (c) 2001-2004 Damien Miller <djm@openbsd.org>
@@ -21,7 +21,7 @@
 /* XXX: copy between two remote sites */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/sftp-client.c,v 1.3 2005/04/14 19:49:34 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/sftp-client.c,v 1.4 2005/06/22 16:11:39 tg Exp $");
 
 #include <sys/queue.h>
 
@@ -1123,7 +1123,7 @@ do_upload(struct sftp_conn *conn, char *local_path, char *remote_path,
 				goto done;
 			}
 			debug3("In write loop, ack for %u %u bytes at %llu",
-			   ack->id, ack->len, (unsigned long long)ack->offset);
+			    ack->id, ack->len, (unsigned long long)ack->offset);
 			++ackid;
 			xfree(ack);
 		}

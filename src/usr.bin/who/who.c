@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: who.c,v 1.16 2003/06/10 22:20:54 deraadt Exp $	*/
+/**	$MirOS: src/usr.bin/who/who.c,v 1.2 2005/03/13 18:34:05 tg Exp $ */
+/*	$OpenBSD: who.c,v 1.17 2004/08/18 21:24:27 jmc Exp $	*/
 /*	$NetBSD: who.c,v 1.4 1994/12/07 04:28:49 jtc Exp $	*/
 
 /*
@@ -54,7 +54,7 @@ static char copyright[] =
 #include <locale.h>
 
 __SCCSID("@(#)who.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/who/who.c,v 1.2 2005/03/13 18:34:05 tg Exp $");
 
 void  output(struct utmp *);
 void  output_labels(void);
@@ -293,6 +293,6 @@ file(char *name)
 void
 usage(void)
 {
-	(void)fprintf(stderr, "usage: who [-mqTuH] [ file ]\n       who am i\n");
+	(void)fprintf(stderr, "usage: who [-HmqTu] [file]\n       who am i\n");
 	exit(1);
 }

@@ -23,7 +23,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS$");
+RCSID("$MirOS: src/usr.bin/ssh/sshconnect2.c,v 1.2 2005/03/13 18:33:33 tg Exp $");
 
 #include "ssh.h"
 #include "ssh2.h"
@@ -329,7 +329,7 @@ void
 input_userauth_error(int type, u_int32_t seq, void *ctxt)
 {
 	fatal("input_userauth_error: bad message during authentication: "
-	   "type %d", type);
+	    "type %d", type);
 }
 
 void

@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$OpenBSD: pr_time.c,v 1.12 2003/11/26 00:31:27 millert Exp $	*/
+/**	$MirOS: src/usr.bin/w/pr_time.c,v 1.2 2005/03/13 18:34:03 tg Exp $ */
+/*	$OpenBSD: pr_time.c,v 1.13 2005/04/11 07:04:47 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1990, 1993, 1994
@@ -40,7 +40,7 @@
 #include "extern.h"
 
 __SCCSID("@(#)pr_time.c	8.2 (Berkeley) 4/4/94");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/w/pr_time.c,v 1.2 2005/03/13 18:34:03 tg Exp $");
 
 /*
  * pr_attime --

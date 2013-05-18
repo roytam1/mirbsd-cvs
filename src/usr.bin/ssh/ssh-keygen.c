@@ -12,7 +12,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.3 2005/04/14 19:49:34 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.4 2005/06/22 16:11:39 tg Exp $");
 
 #include <openssl/evp.h>
 #include <openssl/pem.h>
@@ -808,7 +808,7 @@ do_known_hosts(struct passwd *pw, const char *name)
 			fprintf(stderr, "WARNING: %s contains unhashed "
 			    "entries\n", old);
 			fprintf(stderr, "Delete this file to ensure privacy "
-			     "of hostnames\n");
+			    "of hostnames\n");
 		}
 	}
 
