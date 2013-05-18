@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbclient,v 1.5 2006/01/28 16:18:59 tg Exp $
+# $MirOS: contrib/code/heartbeat/hbclient,v 1.6 2006/03/27 07:19:54 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
@@ -105,11 +105,15 @@ function getip
 		# automatically configured
 		print sender
 	else
-		ifconfig $EXT_IF \
-		    | grep "^	inet " | head -1 \
-		    | while read a b c; do
+		local gotit=0
+		ifconfig $EXT_IF |&
+		while read -p a b c; do
+			[[ $a = inet ]] || continue
+			gotit=1
 			print $b
+			break
 		done
+		[[ $gotit = 1 ]] || print 0.0.0.0
 	fi
 }
 
