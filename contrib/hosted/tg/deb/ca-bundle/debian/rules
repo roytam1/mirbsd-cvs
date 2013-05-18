@@ -1,12 +1,12 @@
 #!/usr/bin/make -f
-# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/rules,v 1.8 2012/05/30 19:42:01 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/rules,v 1.9 2012/05/30 19:50:46 tg Exp $
 
 build-arch:
 build build-indep: generated/.build_stamp
 
 generated/.build_stamp:
 	dh_testdir
-	test -s debian/ca-bundle.links
+	sh -e debian/ca-bundle.links.in
 	-rm -rf generated
 	mkdir generated generated/pem
 	cd generated/pem && \
@@ -22,7 +22,7 @@ generated/.build_stamp:
 
 clean:
 	dh_testdir
-	-rm -rf generated
+	-rm -rf generated debian/ca-bundle.links
 	dh_clean
 
 binary-indep: build-indep
