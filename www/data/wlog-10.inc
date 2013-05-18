@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.180 2009/04/08 18:38:30 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.181 2009/04/11 18:35:42 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3751,4 +3751,20 @@ Tag: hardware snapshot
 <p>Note that the <a href="@@RELPATH@@permalinks/news_e20090208-tg.htm">FOSDEM
  ISO problems</a> posting was updated with a new path to <tt>fixes10.ngz</tt>
  since a new snapshot got uploaded.</p>
+----
+Date: 16.04.2009 14:20
+Author: tg@
+Title: life, sparc and everything
+
+<p>Habe „nur“ noch ein paar kleine Bugs fixen müssen, auch im Bootloader auf
+ sparc (oO), aber jetzt tut alles, wie es soll. Damit kann ich also noch nen
+ Snapshot bauen… ich überlege gerade, auch i386 nochenz durchrennen zu lassen,
+ wegen der anderen kleinen Änderungen. Ob ich dann das Easteregg (hm…) wieder
+ einfüge? gecko2@ spielt dieweil Musik. Jetzt ist mal RL angesagt.</p>
+<!-- RSS stop --><p>Hier dann noch die aktuellen „Statistiken“:<br />
+ <img src="https://call.mirbsd.org/sp.cgi?oc" alt="OpenCaching.de" />
+ <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
+ <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
+ <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ <br />Paar mehr, schön nach Feierabend oder so.</p>
 ----
