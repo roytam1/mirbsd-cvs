@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.18 2002/10/24 22:46:16 naddy Exp $
 
-COMMENT=			system performance measurement
+COMMENT=	system performance measurement
 DISTNAME=	lmbench
 PKGNAME=	lmbench-1.1-0
 CATEGORIES=	benchmarks
@@ -11,8 +12,6 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-# this is the new home site
-#
 MASTER_SITES=	ftp://ftp.bitmover.com/lmbench/
 EXTRACT_SUFX=	.tar.Z
 
@@ -56,6 +55,6 @@ do-install:
 
 # Fix packaging for non-root
 post-install:
-	@chmod -R a+rX * ${PREFIX}/lib/lmbench
+	chmod -R a+rX ${PREFIX}/lib/lmbench
 
 .include <bsd.port.mk>
