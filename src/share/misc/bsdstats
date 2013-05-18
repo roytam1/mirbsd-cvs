@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/bsdstats,v 1.50 2007/05/26 22:21:27 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.51 2007/05/26 22:55:30 tg Exp $
 # $FreeBSD: ports/sysutils/bsdstats/files/300.statistics,v 1.38 2006/12/05 13:49:45 scrappy Exp $
 #-
 # Copyright (c) 2007
@@ -49,6 +49,8 @@ else
 	bsdstats_flags=YES
 fi
 [[ -s /var/db/bsdstats && -O /var/db/bsdstats ]] && . /var/db/bsdstats
+ac=-ac
+[[ $bsdstats_flags = YES ]] && ac=
 
 export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin
 for dir in /usr/mpkg /usr/pkg /usr/local /sw; do
@@ -90,8 +92,8 @@ function uri_escape {
 	'
 }
 
-rcsid_code='$MirOS: src/share/misc/bsdstats,v 1.50 2007/05/26 22:21:27 tg Exp $'
-uname_code=$(uri_escape "$(uname -a | tr -d '\012\015')$stats_sysadd")
+rcsid_code='$MirOS: src/share/misc/bsdstats,v 1.51 2007/05/26 22:55:30 tg Exp $'
+uname_code=$(uri_escape "$(uname -a | tr -d '\012\015')$stats_sysadd$ac")
 
 if [[ $(uname -M 2>&1) = *MirBSD* ]]; then
 	opsys=MirBSD
@@ -346,7 +348,7 @@ if (( now > (stats_report_time + 10 * 86400) )); then
 	res=$(sleep $((RANDOM % 99 + 21)); $fetch "$rpt$uri" 2>/dev/null)
 	logit "init $uri -> ${res:-ERROR}"
 	uri="report_system.php?token=$stats_key&key=$stats_token"
-	uri="$uri&rel=$(uri_escape $version$stats_sysadd)"
+	uri="$uri&rel=$(uri_escape $version$stats_sysadd$ac)"
 	uri="$uri&arch=$arch&opsys=$opsys"
 	res=$(sleep $((RANDOM % 99 + 21)); $fetch "$rpt$uri" 2>/dev/null)
 	logit "system report $uri -> ${res:-ERROR}"
