@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/lib/libc/sys/makelintstub.sh,v 1.2 2005/03/06 20:28:49 tg Exp $
+# $MirOS: src/lib/libc/sys/makelintstub.sh,v 1.3 2005/07/07 13:39:32 tg Exp $
 # $OpenBSD: makelintstub.sh,v 1.4 2004/07/17 07:02:29 deraadt Exp $
 # $NetBSD: makelintstub,v 1.2 1997/11/05 05:46:18 thorpej Exp $
 #
@@ -152,25 +152,23 @@ trailer()
 	__EOF__
 }
 
-set -- $(getopt no:ps: $*)
-
 pflag=NO
 nflag=NO
 oarg=""
 syscallhdr=/usr/include/sys/syscall.h
 
-if test $? -ne 0; then
-	usage
-fi
-for i; do
-	case "$i" in
-	-n)	nflag=YES; shift;;
-	-o)	oarg=$2; shift; shift;;
-	-p)	pflag=YES; shift;;
-	-s)	syscallhdr=$2; shift; shift;;
-	--)	shift; break;;
-	esac
+while getopts "no:ps:" ch; do
+	case $ch {
+	(n) nflag=YES ;;
+	(o) oarg=$OPTARG ;;
+	(p) pflag=YES ;;
+	(s) syscallhdr=$OPTARG ;;
+	(*) usage ;;
+	}
 done
+shift $((OPTIND - 1))
+
+(( $# )) || usage
 
 if [ $pflag = YES ] && [ $nflag = YES ]; then
 	echo "$0: -n flag and -p flag may not be used together"
