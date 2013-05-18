@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/sysutils/colorls/Makefile,v 1.4 2008/06/08 16:19:07 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.14 2007/08/11 18:41:28 naddy Exp $
+
+BROKEN=		unfetchable distfile; maybe convert to CVS_DIST* from obsd or mbsd?
 
 COMMENT=	ls that can use color to display file attributes
 
