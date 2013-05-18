@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname errata/10 "Errata for MirOS #10"
-mws_putheader '$MirOS: www/src/errata10.hts,v 1.17 2008/07/14 12:48:35 tg Exp $'
+mws_putheader '$MirOS: www/src/errata10.hts,v 1.18 2008/07/18 13:29:39 tg Exp $'
 mws_content <<'EOF'
 <h1>Errata for MirOS #10</h1>
 
@@ -13,6 +13,10 @@ mws_content <<'EOF'
  <tt>src</tt> module, you gain the following fixes:</p><ul>
 <li>
  Pull up mksh R35b.
+</li><li>
+ Fix content of htmd10.ngz dist set.
+</li><li>
+ Update <tt>/etc/ssh/ssh_known_hosts</tt>
 </li><li>
  Remove BSDstats script, as the site is constantly broken, see <a
  href="permalinks/wlog-10_e20080709-tg-g10007.htm">wlog</a> for details.
