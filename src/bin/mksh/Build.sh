@@ -1,5 +1,5 @@
 #!/bin/sh
-srcversion='$MirOS: src/bin/mksh/Build.sh,v 1.289 2008/03/05 19:14:19 tg Exp $'
+srcversion='$MirOS: src/bin/mksh/Build.sh,v 1.290 2008/03/05 19:59:27 tg Exp $'
 #-
 # Environment used: CC CFLAGS CPPFLAGS LDFLAGS LIBS NOWARN NROFF TARGET_OS
 # CPPFLAGS recognised:	MKSH_SMALL MKSH_ASSUME_UTF8 MKSH_NOPWNAM MKSH_NOVI
@@ -359,6 +359,10 @@ case $TARGET_OS in
 Darwin)
 	vv '|' "hwprefs os_type >&2"
 	vv '|' "uname -a >&2"
+	;;
+OSF1)
+	vv '|' "uname -a >&2"
+	vv '|' "sizer -v >&2"
 	;;
 *)
 	vv '|' "uname -a >&2"
