@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.20 2006/07/03 22:12:01 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.21 2006/07/03 23:17:49 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -56,6 +56,16 @@ all:	${DO_BSDRD_NAME}
 .endif
 
 ${FS}:	bsd.gz
+.ifdef USE_MAKEFS
+	mkdir -p ${MOUNT_POINT}
+	cp ${BOOT} ${MOUNT_POINT}/boot
+	cp bsd.gz ${MOUNT_POINT}/bsd
+	makefs -o minfree=0,optimization=space,bsize=4096,fsize=512 \
+	    -s ${FLOPPYSIZE}b ${REALIMAGE} ${MOUNT_POINT}
+	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
+	${SUDO} disklabel -w -r ${VND} ${FLOPPYTYPE}
+	${SUDO} mount -r ${VND_DEV} ${MOUNT_POINT}
+.else
 	dd if=/dev/zero of=${REALIMAGE} count=${FLOPPYSIZE}
 	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
 	${SUDO} disklabel -w -r ${VND} ${FLOPPYTYPE}
@@ -66,12 +76,14 @@ ${FS}:	bsd.gz
 	${SUDO} dd if=${REALOBJDIR}/boot of=${MOUNT_POINT}/boot \
 	    obs=512 conv=osync
 	${SUDO} dd if=bsd.gz of=${MOUNT_POINT}/bsd obs=512 conv=osync
+.endif
 	${SUDO} /usr/mdec/installboot -v -s ${FLOPPYSECS} -h 2 \
 	    ${MOUNT_POINT}/boot ${DESTDIR}/usr/mdec/ldsec ${VND_CRDEV}
 	@echo ""
 	@df -i ${MOUNT_POINT}
 	@echo ""
 	${SUDO} umount ${MOUNT_POINT}
+	${SUDO} fsck -fy ${VND_RDEV}
 	${SUDO} vnconfig -u ${VND}
 	cp ${REALIMAGE} ${FS}
 	rm ${REALIMAGE}
@@ -111,7 +123,7 @@ rd_setup: ${CBIN}
 rd_teardown:
 	@df -i ${MOUNT_POINT}
 	-${SUDO} umount ${MOUNT_POINT}
-	${SUDO} fsck -f ${VND_RDEV}
+	${SUDO} fsck -fy ${VND_RDEV}
 	-${SUDO} vnconfig -u ${VND}
 	cp ${REALIMAGE} ${IMAGE}
 	rm ${REALIMAGE}

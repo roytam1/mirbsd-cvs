@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/miniroot/mtree.conf.small,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $
 # $OpenBSD: mtree.conf,v 1.8 2004/05/04 02:25:46 krw Exp $
 # $NetBSD: mtree.conf,v 1.1.4.2 1996/07/15 06:29:38 leo Exp $
 
@@ -18,6 +18,18 @@ dev
 
 # ./etc
 etc
+
+# ./etc/ppp
+ppp
+
+# ./etc/ppp/peers
+peers
+# ./etc/ppp/peers
+..
+
+# ./etc/ppp
+..
+
 # ./etc
 ..
 

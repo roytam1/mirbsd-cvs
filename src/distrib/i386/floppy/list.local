@@ -1,5 +1,15 @@
-# $MirOS: src/distrib/i386/floppy/list.local,v 1.2 2006/02/24 01:37:36 tg Exp $
+# $MirOS: src/distrib/i386/floppy/list.local,v 1.3 2006/05/15 19:20:15 tg Exp $
 
 # use smaller more(1) for more and less
 
 LINK	instbin					usr/bin/more usr/bin/less
+
+# kernel PPPD
+
+LINK	instbin					usr/sbin/pppd
+LINK	instbin					usr/sbin/chat
+COPY	${DESTDIR}/etc/ppp/options.sample	etc/ppp/options
+COPY	${DESTDIR}/etc/ppp/pap-secrets		etc/ppp/pap-secrets
+COPY	${DESTDIR}/etc/ppp/peers/isp.sample	etc/ppp/peers/isp
+COPY	${DESTDIR}/etc/ppp/peers/isp.chat.sample	etc/ppp/peers/isp.chat
+SPECIAL	ln etc/ppp/pap-secrets etc/ppp/chap-secrets
