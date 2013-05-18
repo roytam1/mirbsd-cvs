@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/stand/boot/vars.c,v 1.3 2007/10/01 20:41:39 tg Exp $ */
 /*	$OpenBSD: vars.c,v 1.11 2004/01/29 00:54:08 tom Exp $	*/
 
 /*
@@ -126,6 +126,7 @@ Ximage(void)
 				    sizeof (cmd.image) - (dp - cmd.image));
 				while (*dp)
 					++dp;
+				++sp;
 			}
 		*dp = '\0';
 	}
