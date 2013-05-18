@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/llvm/Makefile,v 1.5 2008/11/09 23:16:27 tg Exp $
+# $MirOS: ports/lang/llvm/Makefile,v 1.6 2008/11/10 00:36:00 tg Exp $
 
 COMMENT=		Low Level Virtual Machine compiler infrastructure
 SVN_DISTREV=		58935
@@ -63,6 +63,7 @@ CONFIGURE_ARGS+=	--enable-optimized \
 			--enable-static
 EXTRA_XAKE_FLAGS+=	VERBOSE=1 \
 			DISABLE_AUTO_DEPENDENCIES=1
+CPPFLAGS+=		-DLLVM_VERSION_INFO_SVN=\"r${SVN_DISTREV}-MirPorts-${DASH_VER}\"
 
 post-extract:
 	-rm -rf ${WRKSRC}/projects/sample
