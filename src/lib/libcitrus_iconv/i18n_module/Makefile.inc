@@ -1,10 +1,10 @@
-# $MirOS: src/lib/libcitrus_iconv/i18n_module/Makefile.inc,v 1.6 2009/08/30 18:04:10 tg Exp $
+# $MirOS: src/lib/libcitrus_iconv/i18n_module/Makefile.inc,v 1.7 2013/03/01 12:32:46 tg Exp $
 # $NetBSD: Makefile.inc,v 1.8 2004/05/17 05:49:54 lukem Exp $
 
 .include <bsd.own.mk>
 .include "../Makefile.inc"
 
-# versioned(!) plugins
+SHLIB_TYPE=	extension
 .include "shlib_version"
 SHLIB_VERSION?=	${major}.${minor}
 LDFLAGS+=	-L${.OBJDIR:C!i18n_module/[^/]*/!!}

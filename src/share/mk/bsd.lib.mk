@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.83 2009/09/12 09:47:34 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.84 2009/09/12 12:44:41 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -59,7 +59,7 @@ SHLIB_LINKS?=	lib${LIB}.${SHLIB_VERSION:R}.dylib lib${LIB}.dylib
 .      endif
 .    endif
 .  elif ${RTLD_TYPE} == "GNU"
-.    if (${SHLIB_TYPE:L} == "plugin") && (${SHLIB_VERSION} == "-")
+.    if (${SHLIB_VERSION} == "-") && ((${SHLIB_TYPE:L} == "plugin") || (${SHLIB_TYPE:L} == "extension"))
 SHLIB_SONAME?=	lib${LIB}.so
 .    else
 SHLIB_SONAME?=	lib${LIB}.so.${SHLIB_VERSION}.0
@@ -68,7 +68,7 @@ SHLIB_SONAME?=	lib${LIB}.so.${SHLIB_VERSION}.0
 SHLIB_LINKS?=	lib${LIB}.so.${SHLIB_VERSION:R} lib${LIB}.so
 .    endif
 .  else
-.    if (${SHLIB_TYPE:L} == "plugin") && (${SHLIB_VERSION} == "-")
+.    if (${SHLIB_VERSION} == "-") && ((${SHLIB_TYPE:L} == "plugin") || (${SHLIB_TYPE:L} == "extension"))
 SHLIB_SONAME?=	lib${LIB}.so
 .    else
 SHLIB_SONAME?=	lib${LIB}.so.${SHLIB_VERSION}
@@ -78,7 +78,7 @@ SHLIB_SONAME?=	lib${LIB}.so.${SHLIB_VERSION}
 .    if ${SHLIB_TYPE:U} == "DLL"
 SHLIB_FLAGS?=	-Wl,--image-base,$$((RANDOM % 0x1000 / 4 * 0x40000 + 0x40000000))
 .    else
-.      warning I do not know how to do plugins on Interix
+.      warning I do not know how to do extensions or plugins on Interix
 .    endif
 .  else
 SHLIB_FLAGS?=	${PICFLAG}
@@ -88,7 +88,19 @@ SHLIB_FLAGS?=	${PICFLAG}
 # GNU or BSD, DLL
 SHLIB_FLAGS+=	-Wl,--no-undefined
 .    if ${LIB} != "c"
+#XXX this should eventually go away
 LDADD+=		-lc
+.    endif
+.  endif
+.  if (${SHLIB_TYPE:L} == "extension") && (${RTLD_TYPE} != "dyld") && \
+    (${LTMIRMAKE:L} != "yes")
+# GNU or BSD, extension (in between DLL and plugin: for dlopen, no -lc,
+#XXX (not yet: no -lc)
+# no static/lint libs, no undefined symbols, uses DT_NEEDED records)
+SHLIB_FLAGS+=	-Wl,--no-undefined
+.    if ${LIB} != "c"
+#XXX this should eventually go away
+LDADD+=		-Wl,--as-needed -lc
 .    endif
 .  endif
 SHLIB_FLAGS+=	${LDFLAGS}
@@ -122,7 +134,7 @@ LINKER?=	${CC}
 .  endif
 .endif
 
-.if ${SHLIB_TYPE:L} == "plugin"
+.if (${SHLIB_TYPE:L} == "plugin") || (${SHLIB_TYPE:L} == "extension")
 _LIBS_STATIC=	No
 NOLINT=		Yes
 .else
@@ -141,8 +153,8 @@ _LIBS_SHARED=	No
 .elif !defined(SHLIB_VERSION) || empty(SHLIB_VERSION)
 .  error SHLIB_SONAME (${SHLIB_SONAME}) set, but SHLIB_VERSION unset
 .elif ${LTMIRMAKE:L} == "yes"
-.  if ${SHLIB_TYPE:L} == "plugin"
-.    warning I do not know how to do plugins with LTMIRMAKE
+.  if (${SHLIB_TYPE:L} == "plugin") || (${SHLIB_TYPE:L} == "extension")
+.    warning I do not know how to do plugins or extensions with LTMIRMAKE
 .  endif
 .  if ${SHLIB_VERSION} == "-"
 # Libtool, unversioned DLLs
@@ -197,7 +209,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 .SUFFIXES:
 .SUFFIXES:	.out .o .so .lo .S .s .c .m .cc .C .cxx .cpp .y .l .i .ln .m4
 
-.if ${SHLIB_TYPE:L} == "plugin"
+.if (${SHLIB_TYPE:L} == "plugin") || (${SHLIB_TYPE:L} == "extension")
 .c.o .m.o:
 	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} -DPIC ${PICFLAG} -o $@ $<
 
@@ -293,7 +305,7 @@ all: ${_LIBS} _SUBDIRUSE
 
 .if ${LTMIRMAKE:L} == "yes"
 OBJS+=		${SRCS:N*.h:R:S/$/.lo/g}
-.elif ${SHLIB_TYPE:L} != "plugin"
+.elif (${SHLIB_TYPE:L} != "plugin") && (${SHLIB_TYPE:L} != "extension")
 OBJS+=		${SRCS:N*.h:R:S/$/.o/g}
 .endif
 CLEANFILES+=	${SHLIB_LINKS}
@@ -309,7 +321,7 @@ lib${LIB}.la:: ${OBJS}
 	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} ${OBJS} ${LDADD} -o $@
 .endif
 
-.if ${SHLIB_TYPE:L} != "plugin"
+.if (${SHLIB_TYPE:L} != "plugin") && (${SHLIB_TYPE:L} != "extension")
 lib${LIB}.a:: ${OBJS}
 	@print -r building standard ${LIB} library
 	@rm -f lib${LIB}.a
@@ -321,7 +333,7 @@ lib${LIB}.a:: ${OBJS}
 
 # If new-style debugging libraries are in effect, libFOO_pic.a
 # contains debugging information - this is actually wanted.
-.if ${SHLIB_TYPE:L} == "plugin"
+.if (${SHLIB_TYPE:L} == "plugin") || (${SHLIB_TYPE:L} == "extension")
 SOBJS+=		${SRCS:N*.h:R:S/$/.o/g}
 .else
 SOBJS+=		${OBJS:.o=.so}
@@ -408,7 +420,7 @@ realinstall:
 .      endif
 .    endif
 .    ifdef SHLIB_SONAME
-.      if (${OBJECT_FMT} == "Mach-O") && (${SHLIB_TYPE:L} != "plugin")
+.      if (${OBJECT_FMT} == "Mach-O") && (${SHLIB_TYPE:L} != "plugin") && (${SHLIB_TYPE:L} != "extension")
 	@print -r Relinking dynamic ${LIB} library
 	${LINK.shlib} -install_name ${LIBDIR}/${SHLIB_SONAME} -o ${SHLIB_SONAME}
 .      endif
