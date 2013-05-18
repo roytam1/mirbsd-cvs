@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.9 2006/10/13 19:18:02 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.10 2006/10/14 23:18:30 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -53,11 +53,14 @@ unpack: unpack-mi unpack-md
 unpack-mi:
 	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)
 	${SUDO} rm -rf ${WRKDIR}
-	mkdir -p ${WRKDIR}/v${OSrev}
+	mkdir -p ${WRKDIR}/v${OSrev}/${MACHINE}
 .for _i in base dev etc gnu xbase xetc
 	cd ${WRKDIR} && ${SUDO} tar xzphf ${BSDRELDIR}/rel/${_i}${OSrev}.ngz
 .endfor
-	cd ${WRKDIR}/v${OSrev} && ln -s ${BSDRELDIR}/rel ${MACHINE}
+	cd ${WRKDIR}/v${OSrev}/${MACHINE} && for f in ${BSDRELDIR}/rel/*; do \
+		ln -s $$f; \
+	done
+	${SUDO} chown -R 0:0 ${WRKDIR}/v${OSrev}
 	cp ${TOPDIR}/common/00-README ${WRKDIR}/
 	cat ${TOPDIR}/common/boot.cfg.${MACHINE} ${.CURDIR}/boot.cfg.tail | \
 	    sudo dd of=${WRKDIR}/boot.cfg
@@ -129,25 +132,32 @@ makeimg: cdrom-prepare cdrom-mdcopy cdrom-generate cdrom-mdboot cdrom-finish
 
 cdrom-prepare: bsd.gz
 	${SUDO} dd if=bsd.gz obs=2048 conv=osync of=${WRKDIR}/bsd
-	${SUDO} cp ${BOOT} ${WRKDIR}/boot.ldr
-	cd ${WRKDIR}; sed 's!RMD160 (!&v${OSrev}/${MACHINE}/!' \
-	    <v${OSrev}/${MACHINE}/RMD160 >RMD160; ${SUDO} touch boot.cat
-	cd ${WRKDIR}; rmd160 00-README bsd boot.* stand/* >>RMD160
-	-${SUDO} rm -f ${WRKDIR}/boot.cat ${CDROM} ${WRKDIR}/RMD160.gz
+	cd ${WRKDIR}; \
+	    ${SUDO} cp ${BOOT} boot.ldr; \
+	    ${SUDO} rm -f RMD160*; \
+	    sed 's!RMD160 (!&v${OSrev}/${MACHINE}/!' \
+	    <v${OSrev}/${MACHINE}/RMD160 >RMD160; \
+	    ${SUDO} touch boot.cat; \
+	    rmd160 00-README bsd boot.* stand/* >>RMD160
+	-${SUDO} rm -f ${WRKDIR}/boot.cat ${CDROM}
 
 cdrom-generate:
-	cd ${WRKDIR}; sort -uo RMD160 RMD160; gzip -n9 RMD160
-	# pad for gzsig(1) application later on
-	dd if=/dev/zero count=2 >>${WRKDIR}/RMD160.gz
-	cd ${WRKDIR} && ${SUDO} ${MKSH} ${.CURDIR}/mklocatedb.sh \
-	    ${REALOBJDIR}/${IMAGE}
+	cd ${WRKDIR}; \
+	    sort -uo RMD160 RMD160; \
+	    gzip -n9 RMD160; \
+	    dd if=/dev/zero count=2 >>RMD160.gz; \
+	    ${SUDO} chown 0:0 00-README RMD160.gz; \
+	    ${SUDO} chmod 444 00-README RMD160.gz; \
+	    ${SUDO} chown 0:0 .; ${SUDO} chmod 555 .; \
+	    ${SUDO} ${MKSH} ${.CURDIR}/mklocatedb.sh ${REALOBJDIR}/${IMAGE}
 	${SUDO} mkisofs -R -f -L -d -D -N -v -v ${CDROM_MDOPTS} \
 	    -P 'The MirOS Project and its contributors' \
 	    -p 'Copyright © 2006 Thorsten Glaser' \
 	    -V 'MirOS #${OSrev} BSD/${MACHINE} Live CD' \
 	    -volset "$$(uname -slm) Live" -sysid "MirOSBSD" \
 	    -pad -o ${CDROM} ${WRKDIR} 2>&1 | tee mkisofs.log
-	${SUDO} chown $$(id -u) ${CDROM}
+	${SUDO} chown $$(id -u) ${CDROM} ${WRKDIR}
+	${SUDO} chmod 755 ${WRKDIR}
 
 cdrom-finish:
 
