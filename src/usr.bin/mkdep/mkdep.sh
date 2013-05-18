@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+# $MirOS: src/usr.bin/mkdep/mkdep.sh,v 1.8 2008/10/05 15:40:39 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -31,7 +31,9 @@ function die
 
 # select a suitable C compiler
 cc=${CC:-cc}
-[[ -x $cc || -x ${cc%% *} ]] || cc=$(whence -p $cc) || cc=$(whence -p cc)
+cc=${cc##@(?(+([! ])/)ccache+([	 ]))}
+[[ -x $cc || -x ${cc%% *} ]] || cc=$(whence -p $cc) || \
+    cc=$(whence -p ${cc%% *}) || cc=$(whence -p cc)
 [[ -x $cc || -x ${cc%% *} ]] || die no compiler found.
 CC=$cc; export CC
 
