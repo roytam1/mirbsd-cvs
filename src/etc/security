@@ -1,6 +1,6 @@
 #!/bin/mksh
 # $Id$
-# $MirOS: src/etc/security,v 1.7 2005/07/07 13:39:23 tg Exp $
+# $MirOS: src/etc/security,v 1.8 2006/05/15 12:13:56 tg Exp $
 # $OpenBSD: security,v 1.71 2005/02/22 10:50:55 otto Exp $
 # from: @(#)security	8.1 (Berkeley) 6/9/93
 
@@ -45,7 +45,7 @@ awk -F: '{
 			printf("Login %s is off but still has a valid shell and an entry in /etc/skey.\n", $1);
 		if (system("test -d "$9" -a ! -r "$9"") == 0)
 			printf("Login %s is off but still has valid shell and home directory is unreadable\n\t by root; cannot check for existence of alternate access files.\n", $1);
-		else if (system("for file in .etc/ssh .rhosts .shosts .klogin; do if test -e "$9"/$file; then if ((ls -ld "$9"/$file | cut -b 2-10 | grep -q r) && (test ! -O "$9"/$file)) ; then exit 1; fi; fi; done"))
+		else if (system("for file in .etc/ssh .rhosts .shosts .klogin; do if test -e "$9"/$file; then if ( (ls -ld "$9"/$file | cut -b 2-10 | grep -q r) && (test ! -O "$9"/$file)); then exit 1; fi; fi; done"))
 			 printf("Login %s is off but still has a valid shell and alternate access files in\n\t home directory are still readable.\n",$1);
 	}
 	if ($3 == 0 && $1 != "root")
