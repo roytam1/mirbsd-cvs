@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.10 2008/08/01 22:22:21 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.11 2008/08/01 23:24:02 tg Exp $ */
 
 /*-
  * Copyright (c) 2008
@@ -68,20 +68,20 @@ __BEGIN_DECLS
 void __main(void);
 
 int bcmp(const void *, const void *, size_t)
-    __attribute__((bounded (string, 1, 3)))
-    __attribute__((bounded (string, 2, 3)));
+    __attribute__((bounded (buffer, 1, 3)))
+    __attribute__((bounded (buffer, 2, 3)));
 void bzero(void *, size_t)
-    __attribute__((bounded (string, 1, 2)));
+    __attribute__((bounded (buffer, 1, 2)));
 
 int ffs(int);
 
 void *memchr(const void *, int, size_t)
-    __attribute__((bounded (string, 1, 3)));
+    __attribute__((bounded (buffer, 1, 3)));
 int memcmp(const void *, const void *, size_t)
-    __attribute__((bounded (string, 1, 3)))
-    __attribute__((bounded (string, 2, 3)));
+    __attribute__((bounded (buffer, 1, 3)))
+    __attribute__((bounded (buffer, 2, 3)));
 void *memset(void *, int, size_t)
-    __attribute__((bounded (string, 1, 3)));
+    __attribute__((bounded (buffer, 1, 3)));
 
 size_t optu16to8(char * restrict, wchar_t, mbstate_t * restrict)
     __attribute__((bounded (minbytes, 1, 5)));

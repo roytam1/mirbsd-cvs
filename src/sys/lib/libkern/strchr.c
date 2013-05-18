@@ -39,7 +39,6 @@ static char *rcsid = "$OpenBSD: strchr.c,v 1.3 2004/05/06 01:12:05 deraadt Exp $
 #include <string.h>
 #else
 #include <lib/libkern/libkern.h>
-#define NULL	((char *)0)
 #endif
 
 char *

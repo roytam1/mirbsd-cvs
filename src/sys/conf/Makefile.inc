@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.31 2008/08/01 15:12:38 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.32 2008/08/01 18:09:32 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007, 2008
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -54,7 +54,7 @@ CPPFLAGS+=	-DZCONST=const
 #	${SYSTEM_LD_HEAD}
 #	${SYSTEM_LD} swapxxx.o
 #	${SYSTEM_LD_TAIL}
-SYSTEM_OBJ?=	locore.o init_ssp.o config_gz.o \
+SYSTEM_OBJ?=	locore.o init_ssp.o config_gz.o tai_leaps.o \
 		param.o ioconf.o ${OBJS} ${LIBKERN} ${LIBCOMPAT}
 SYSTEM_DEP?=	Makefile ${SYSTEM_OBJ}
 SYSTEM_LD_HEAD?=rm -f $@

@@ -55,6 +55,7 @@
 ./usr/share/man/cat4/wdt.0
 ./usr/share/man/cat4/wss.0
 ./usr/share/man/cat4/wt.0
+./usr/share/man/cat5/boot.cfg.0
 ./usr/share/man/cat5/isdnd.acct.0
 ./usr/share/man/cat5/isdnd.rates.0
 ./usr/share/man/cat5/isdnd.rc.0
@@ -62,7 +63,6 @@
 ./usr/share/man/cat8/apm.0
 ./usr/share/man/cat8/apmd.0
 ./usr/share/man/cat8/boot.0
-./usr/share/man/cat8/boot.cfg.0
 ./usr/share/man/cat8/fdisk.0
 ./usr/share/man/cat8/iopctl.0
 ./usr/share/man/cat8/isdnd.0

@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/uvm/uvm_map.c,v 1.2 2005/03/06 21:28:40 tg Exp $ */
 /*	$OpenBSD: uvm_map.c,v 1.68 2004/07/21 01:02:09 art Exp $	*/
 /*	$NetBSD: uvm_map.c,v 1.86 2000/11/27 08:40:03 chs Exp $	*/
 
@@ -2165,7 +2165,6 @@ uvm_map_submap(map, start, end, submap)
 
 #define MASK(entry)     (UVM_ET_ISCOPYONWRITE(entry) ? \
 			 ~VM_PROT_WRITE : VM_PROT_ALL)
-#define max(a,b)        ((a) > (b) ? (a) : (b))
 
 int
 uvm_map_protect(map, start, end, new_prot, set_max)

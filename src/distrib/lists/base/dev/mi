@@ -6809,6 +6809,8 @@
 ./usr/share/man/cat3/openlog.0
 ./usr/share/man/cat3/openlog_r.0
 ./usr/share/man/cat3/openpty.0
+./usr/share/man/cat3/optu16to8.0
+./usr/share/man/cat3/optu8to16.0
 ./usr/share/man/cat3/ossaudio.0
 ./usr/share/man/cat3/otermcap.0
 ./usr/share/man/cat3/overlay.0

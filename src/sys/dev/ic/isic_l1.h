@@ -63,10 +63,6 @@
 
 #define MAX_DFRAME_LEN		264	/* max length of a D frame */
 
-#ifndef __bsdi__
-#define min(a,b)		((a)<(b)?(a):(b))
-#endif
-
 /* We try to map as few as possible as small as possible io and/or
    memory regions. Each card defines its own interpretation of this
    mapping array. At probe time we have a fixed size array, later

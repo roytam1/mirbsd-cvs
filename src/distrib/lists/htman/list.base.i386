@@ -36,6 +36,7 @@ cat4/uha.0
 cat4/wdt.0
 cat4/wss.0
 cat4/wt.0
+cat5/boot.cfg.0
 cat5/isdnd.acct.0
 cat5/isdnd.rates.0
 cat5/isdnd.rc.0
@@ -44,7 +45,6 @@ cat8/ancontrol.0
 cat8/apm.0
 cat8/apmd.0
 cat8/boot.0
-cat8/boot.cfg.0
 cat8/fdisk.0
 cat8/installboot.0
 cat8/iopctl.0

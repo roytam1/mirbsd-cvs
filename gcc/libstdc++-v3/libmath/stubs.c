@@ -30,6 +30,8 @@
 #include <math.h>
 #include "config.h"
 
+__RCSID("$MirOS$");
+
 /* For targets which do not have support for long double versions,
    we use the crude approximation.  We'll do better later.  */
 
@@ -267,6 +269,13 @@ hypot(double x, double y)
 long double
 hypotl(long double x, long double y)
 {
+#ifndef _GLIBCXX_HAVE_FABSL
+#ifdef _GLIBCXX_HAVE___BUILTIN_FABSL
+#define fabsl __builtin_fabsl
+#else
+#define fabsl fabs
+#endif
+#endif
   long double s = fabsl(x) + fabsl(y);
   if (s == 0.0L)
     return s;
