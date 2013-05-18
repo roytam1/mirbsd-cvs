@@ -138,9 +138,9 @@ extern int __cdecl setegid(gid_t);
 #define EXECSHELL	"/bin/mksh"
 #define EXECSHELL_STR	"EXECSHELL"
 
-#define	NELEM(a)	(sizeof(a) / sizeof((a)[0]))
-#define	sizeofN(type, n) (sizeof(type) * (n))
-#define	BIT(i)		(1<<(i))	/* define bit in flag */
+#define	NELEM(a)	(sizeof (a) / sizeof ((a)[0]))
+#define	sizeofN(typ, n)	(sizeof (typ) * (n))
+#define	BIT(i)		(1 << (i))	/* define bit in flag */
 
 /* Table flag type - needs > 16 and < 32 bits */
 typedef int32_t Tflag;
