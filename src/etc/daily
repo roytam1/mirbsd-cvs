@@ -1,5 +1,5 @@
-#!/bin/mksh
-# $MirOS: src/etc/daily,v 1.19 2008/06/02 07:26:51 tg Exp $
+#!/usr/bin/env mksh
+# $MirOS: src/etc/daily,v 1.20 2008/07/09 23:32:02 tg Exp $
 # $OpenBSD: daily,v 1.50 2005/03/17 18:16:52 millert Exp $
 # From: @(#)daily	8.2 (Berkeley) 1/25/94
 
@@ -178,7 +178,7 @@ fi
 	fsck -n | grep -v '^\*\* Phase'
 }
 
-/bin/mksh /etc/security >$OUT 2>&1
+mksh /etc/security >$OUT 2>&1
 if [[ -s $OUT ]]; then
     mail -s "$(hostname) daily insecurity output" root <$OUT
 fi

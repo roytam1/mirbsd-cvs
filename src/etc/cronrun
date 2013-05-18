@@ -1,5 +1,5 @@
-#!/bin/mksh
-# $MirOS: src/etc/cronrun,v 1.7 2008/03/03 20:00:15 tg Exp $
+#!/usr/bin/env mksh
+# $MirOS: src/etc/cronrun,v 1.8 2008/03/27 13:48:28 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>

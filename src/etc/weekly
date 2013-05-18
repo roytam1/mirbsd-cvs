@@ -1,5 +1,5 @@
-#!/bin/mksh
-# $MirOS: src/etc/weekly,v 1.9 2007/06/16 22:08:07 tg Exp $
+#!/usr/bin/env mksh
+# $MirOS: src/etc/weekly,v 1.10 2008/03/27 13:48:27 tg Exp $
 # $OpenBSD: weekly,v 1.14 2003/06/30 22:04:57 avsm Exp $
 
 umask 022

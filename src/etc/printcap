@@ -1,5 +1,5 @@
 # $Id$
-# $MirOS: src/etc/printcap,v 1.4 2005/07/24 15:45:28 tg Exp $
+# $MirOS: src/etc/printcap,v 1.5 2005/09/23 09:26:09 tg Exp $
 # $OpenBSD: printcap,v 1.4 2003/03/28 21:32:30 jmc Exp $
 
 #lp|local line printer:\
@@ -18,11 +18,11 @@
 
 #-- These are the required files for the MP3 and PDF printers:
 #sed 's/^X//' >/usr/local/libexec/mp3print << 'END-of-/usr/local/libexec/mp3print'
-#X#!/bin/mksh
+#X#!/usr/bin/env mksh
 #X/usr/mpkg/bin/mpg123 --aggressive - >/dev/null 2>&1
 #END-of-/usr/local/libexec/mp3print
 #sed 's/^X//' >/usr/local/libexec/pdfprint << 'END-of-/usr/local/libexec/pdfprint'
-#X#!/bin/mksh
+#X#!/usr/bin/env mksh
 #X# Syntax: pdfprint user file [origin]
 #X
 #X[[ -z $1 || -z $2 ]] && exit 1

@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.92 2008/11/29 17:03:51 tg Exp $
+# $MirOS: src/etc/rc,v 1.93 2008/12/04 16:27:18 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -601,7 +601,7 @@ fi
 
 if [[ -e /etc/rc.once ]]; then
 	print rc: running post-install hooks
-	/bin/mksh /etc/rc.once
+	mksh /etc/rc.once
 fi
 
 # Generate all the RSA keys we might need
