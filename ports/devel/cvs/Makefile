@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/cvs/Makefile,v 1.12 2010/09/15 20:56:55 tg Exp $
+# $MirOS: ports/devel/cvs/Makefile,v 1.13 2010/09/16 21:25:15 tg Exp $
 
 COMMENT=		Concurrent Versions System
 CATEGORIES=		devel essentials
@@ -7,7 +7,7 @@ DASH_VER=		8		# in sync with MirOS-0AAC rev.
 HOMEPAGE=		http://www.nongnu.org/cvs/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 
-# GNU GPLv1, LGPLv2
+# GNU GPLv1, GPLv2
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
