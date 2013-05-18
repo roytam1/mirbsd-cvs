@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.170 2007/04/07 14:37:14 bsiegert Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.171 2007/05/06 18:35:46 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -269,32 +269,7 @@ NO_REGRESS=		Yes
 .endif
 
 .if ${USE_MOTIF:L} != "no"
-.  if ${USE_MOTIF:L} == "lesstif"
-LIB_DEPENDS+=		Xm.1::x11/lesstif
-.  elif ${USE_MOTIF:L} == "openmotif"
-.    ifndef BROKEN
-BROKEN=			x11/openmotif is broken
-.    endif
-LIB_DEPENDS+=		Xm.2::x11/openmotif
-.  elif ${USE_MOTIF:L} == "any" || ${USE_MOTIF:L} == "yes"
-FLAVORS+=		lesstif
-.    if ${FLAVOR:L:Mlesstif} && ${FLAVOR:L:Mmotif}
-ERRORS+=		"Choose motif or lesstif, not both."
-.    endif
-.    if ${FLAVOR:L:Mlesstif}
-LIB_DEPENDS+=		Xm.1::x11/lesstif
-.    else
-.      ifndef BROKEN
-BROKEN=			x11/openmotif is broken
-.      endif
-LIB_DEPENDS+=		Xm.2::x11/openmotif
-.    endif
-.  elif ${USE_MOTIF:L} != "transparent"
-ERRORS+=		"Unknown USE_MOTIF=${USE_MOTIF:Q} settings."
-.  endif
-MOTIFLIB=		-L${LOCALBASE}/lib -lXm
-MAKE_ENV+=		MOTIFLIB=${MOTIFLIB:Q}
-USE_X11=		Yes
+MODULES+=		motif
 .endif
 
 .if !empty(SUBPACKAGE)
