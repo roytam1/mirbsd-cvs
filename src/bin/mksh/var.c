@@ -1450,7 +1450,7 @@ set_array(const char *var, bool reset, const char **vals)
 			if (*ccp == ']' && level == 0 && ccp[1] == '=') {
 				strndupx(cp, vals[i] + 1, ccp - (vals[i] + 1),
 				    ATEMP);
-				evaluate(substitute(cp, 0), &n,
+				evaluate(substitute(cp, 0), (mksh_ari_t *)&n,
 				    KSH_UNWIND_ERROR, true);
 				ccp += 2;
 			} else
