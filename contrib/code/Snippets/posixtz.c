@@ -1,7 +1,7 @@
 #if 0 /* this line is a comment in mirmake */
 # @mgcc: ignore from here
 #-
-# $MirOS: contrib/code/Snippets/posixtz.c,v 1.2 2008/04/05 21:53:57 tg Exp $
+# $MirOS: contrib/code/Snippets/posixtz.c,v 1.3 2008/05/03 01:09:24 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -37,6 +37,7 @@ CPPFLAGS+=	-I${BSDSRCDIR}/lib/libc/include
 CPPFLAGS+=	-I${BSDSRCDIR}/lib/libc/time
 
 _LIBS_STATIC=	no
+SHLIB_VERSION=	-
 SHLIB_SONAME=	libposixtz.so
 CLEANFILES+=	libposixtz.so
 
@@ -54,7 +55,7 @@ CLEANFILES+=	libposixtz.so
 #include <stdlib.h>
 #include <time.h>
 
-__RCSID("$MirOS: contrib/code/Snippets/posixtz.c,v 1.2 2008/04/05 21:53:57 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/posixtz.c,v 1.3 2008/05/03 01:09:24 tg Exp $");
 
 /* import libc private interface – XXX subject to change without notice! */
 extern tai64_t _leaps[];
