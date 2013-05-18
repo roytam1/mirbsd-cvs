@@ -27,6 +27,8 @@ BOOLEAN editor_can_position(void)
 	"jove",
 	"jpico",
 	"jstar",
+	"jupp",
+	"nano",
 	"pico",
 	"rjoe",
 	"vi"
