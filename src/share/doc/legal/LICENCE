@@ -1,4 +1,4 @@
-$MirOS: src/share/doc/legal/LICENCE,v 1.8 2006/01/13 03:49:33 tg Exp $
+$MirOS: src/share/doc/legal/LICENCE,v 1.9 2006/01/24 22:31:43 tg Exp $
 
 MirOS base system and BSD - TOU
 -------------------------------
@@ -25,7 +25,7 @@ and MirPorts.
 #   consisting of the following developers:
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 #	Benny Siegert <bsiegert@gmx.de>
-#   and its former or inactive contributors.
+#   and the contributors.
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -45,7 +45,7 @@ and MirPorts.
 
 /*-
  * MirBSD is Copyright (c) 1999, 2002, 2003 ff.
- *	Thorsten "mirabile" Glaser <tg@mirbsd.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
