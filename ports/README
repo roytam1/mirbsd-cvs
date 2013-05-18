@@ -1,4 +1,4 @@
-$MirOS: ports/README,v 1.1.7.1 2005/03/18 15:42:39 tg Exp $
+$MirOS: ports/README,v 1.2 2005/04/10 18:17:17 tg Exp $
 
 The MirPorts Framework
 ----------------------
@@ -14,9 +14,11 @@ marily developed on MirOS BSD.
 MirPorts currently works on:
  * OpenBSD 3.4 (not tested)
  * OpenBSD 3.5
- * OpenBSD 3.6
- * MirOS BSD #7 (tested: #7ter and later)
- * MirOS BSD #8-beta
+ * OpenBSD 3.6 (and up)
+ * MirOS BSD #8
+ * Mac OSX 10.3
+ * Mac OSX 10.4
+XXX this is out of date
 
 For installation, configure your /etc/mk.conf to contain
 | SUDO?=sudo

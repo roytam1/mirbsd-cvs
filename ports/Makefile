@@ -1,8 +1,8 @@
-# $MirOS: ports/Makefile,v 1.12 2005/12/20 00:35:24 tg Exp $
+# $MirOS: ports/Makefile,v 1.13 2005/12/28 17:28:57 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
-# Copyright (c) 2004, 2005
+# Copyright (c) 2004, 2005, 2006
 #	The MirOS Project <miros-discuss@66h.42h.de>
 #	and its contributors
 #
@@ -21,7 +21,7 @@
 # direct error of said person and intended use of this work, loss or
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a nontrivial bug.
-#
+#-
 # For a complete list of people who contributed to MirPorts read the
 # CVS ChangeLog, and the OpenBSD CVS ChangeLogs.
 # For a list of MirOS Project members please read the documentation,
