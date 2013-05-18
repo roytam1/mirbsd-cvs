@@ -1,67 +1,47 @@
-/*	$OpenBSD: ctype.h,v 1.18 2005/08/08 05:53:00 espie Exp $	*/
-/*	$NetBSD: ctype.h,v 1.14 1994/10/26 00:55:47 cgd Exp $	*/
+/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
 
-/*
- * Copyright (c) 1989 The Regents of the University of California.
- * All rights reserved.
- * (c) UNIX System Laboratories, Inc.
- * All or some portions of this file are derived from material licensed
- * to the University of California by American Telephone and Telegraph
- * Co. or Unix System Laboratories, Inc. and are reproduced herein with
- * the permission of UNIX System Laboratories, Inc.
+/*-
+ * Copyright (c) 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the University nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
  *
- * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
- *
- *	@(#)ctype.h	5.3 (Berkeley) 4/3/91
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a defect.
  */
 
 #ifndef _CTYPE_H_
 #define _CTYPE_H_
+
 #include <sys/cdefs.h>
 
-#define	_U	0x01
-#define	_L	0x02
-#define	_N	0x04
-#define	_S	0x08
-#define	_P	0x10
-#define	_C	0x20
-#define	_X	0x40
-#define	_B	0x80
+/* Idea from Bruno Haible's libutf8 */
+#define _ctp_alnum	0x000C
+#define _ctp_alpha	0x0004
+#define _ctp_blank	0x0040
+#define _ctp_cntrl	0x0080
+#define _ctp_digit	0x0408
+#define _ctp_graph	0x1020
+#define _ctp_lower	0x0002
+#define _ctp_print	0x0020
+#define _ctp_punct	0x1C20
+#define _ctp_space	0x0010
+#define _ctp_upper	0x0001
+#define _ctp_xdigit	0x0008
 
 __BEGIN_DECLS
-
-extern const char	*_ctype_;
-extern const short	*_tolower_tab_;
-extern const short	*_toupper_tab_;
-
-/* extern __inline is a GNU C extension */
-#ifdef __GNUC__
-#define	__CTYPE_INLINE	extern __inline
-#else
-#define	__CTYPE_INLINE	static __inline
-#endif
+extern const unsigned char __C_attribute_table_pg[256];
 
 #if defined(__GNUC__) || defined(_ANSI_LIBRARY) || defined(lint)
 int	isalnum(int);
@@ -79,117 +59,67 @@ int	tolower(int);
 int	toupper(int);
 
 #if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
-int	isblank(int);
 int	isascii(int);
+int	isblank(int);
 int	toascii(int);
-int	_tolower(int);
-int	_toupper(int);
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
 
 #endif /* __GNUC__ || _ANSI_LIBRARY || lint */
 
 #if !defined(_ANSI_LIBRARY) && !defined(lint)
 
-__CTYPE_INLINE int isalnum(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & (_U|_L|_N)));
-}
+/* extern __inline is a GNU C extension */
+#ifdef __GNUC__
+#define	__CTYPE_INLINE	extern __inline
+#else
+#define	__CTYPE_INLINE	static __inline
+#endif
 
-__CTYPE_INLINE int isalpha(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & (_U|_L)));
-}
+#define __CTYPE_IMPL(t)							     \
+	__CTYPE_INLINE int is ## t (int c)				     \
+	{								     \
+		if ((c < 0) || (c > 255))				     \
+			return (0);					     \
+		return ((__C_attribute_table_pg[c] & (_ctp_ ## t & 0xFF)) && \
+		    !(__C_attribute_table_pg[c] & (_ctp_ ## t >> 8)));	     \
+	}
 
-__CTYPE_INLINE int iscntrl(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _C));
-}
-
-__CTYPE_INLINE int isdigit(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _N));
-}
-
-__CTYPE_INLINE int isgraph(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & (_P|_U|_L|_N)));
-}
-
-__CTYPE_INLINE int islower(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _L));
-}
-
-__CTYPE_INLINE int isprint(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & (_P|_U|_L|_N|_B)));
-}
-
-__CTYPE_INLINE int ispunct(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _P));
-}
-
-__CTYPE_INLINE int isspace(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _S));
-}
-
-__CTYPE_INLINE int isupper(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _U));
-}
-
-__CTYPE_INLINE int isxdigit(int c)
-{
-	return (c == -1 ? 0 : ((_ctype_ + 1)[(unsigned char)c] & (_N|_X)));
-}
-
-__CTYPE_INLINE int tolower(int c)
-{
-	if ((unsigned int)c > 255)
-		return (c);
-	return ((_tolower_tab_ + 1)[c]);
-}
-
-__CTYPE_INLINE int toupper(int c)
-{
-	if ((unsigned int)c > 255)
-		return (c);
-	return ((_toupper_tab_ + 1)[c]);
-}
+__CTYPE_IMPL(alnum)
+__CTYPE_IMPL(alpha)
+__CTYPE_IMPL(cntrl)
+__CTYPE_IMPL(digit)
+__CTYPE_IMPL(graph)
+__CTYPE_IMPL(lower)
+__CTYPE_IMPL(print)
+__CTYPE_IMPL(punct)
+__CTYPE_IMPL(space)
+__CTYPE_IMPL(upper)
+__CTYPE_IMPL(xdigit)
 
 #if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
-__CTYPE_INLINE int isblank(int c)
-{
-	return (c == ' ' || c == '\t');
-}
-
 __CTYPE_INLINE int isascii(int c)
 {
 	return ((unsigned int)c <= 0177);
 }
+
+__CTYPE_IMPL(blank)
 
 __CTYPE_INLINE int toascii(int c)
 {
 	return (c & 0177);
 }
 
-__CTYPE_INLINE int _tolower(int c)
-{
-	return (c - 'A' + 'a');
-}
+/* SUSv3 says these are always macros */
+#define _tolower(c)	((c) - 'A' + 'a')
+#define _toupper(c)	((c) - 'a' + 'A')
 
-__CTYPE_INLINE int _toupper(int c)
-{
-	return (c - 'a' + 'A');
-}
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
+
+#undef __CTYPE_IMPL
+#undef __CTYPE_INLINE
 
 #endif /* !_ANSI_LIBRARY && !lint */
 
 __END_DECLS
-
-#undef __CTYPE_INLINE
 
 #endif /* !_CTYPE_H_ */

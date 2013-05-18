@@ -1,150 +1,84 @@
-/*	$OpenBSD: isctype.c,v 1.11 2005/08/08 08:05:34 espie Exp $ */
-/*
- * Copyright (c) 1989 The Regents of the University of California.
- * All rights reserved.
- * (c) UNIX System Laboratories, Inc.
- * All or some portions of this file are derived from material licensed
- * to the University of California by American Telephone and Telegraph
- * Co. or Unix System Laboratories, Inc. and are reproduced herein with
- * the permission of UNIX System Laboratories, Inc.
+/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+
+/*-
+ * Copyright (c) 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. Neither the name of the University nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
  *
- * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a defect.
  */
 
 #define _ANSI_LIBRARY
 #include <ctype.h>
 #include <stdio.h>
+#include "mir18n.h"
+
+__RCSID("$MirOS$");
 
 #undef isalnum
-int
-isalnum(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & (_U|_L|_N)));
-}
-
 #undef isalpha
-int
-isalpha(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & (_U|_L)));
-}
-
-#undef isblank
-int
-isblank(int c)
-{
-	return (c == ' ' || c == '\t');
-}
-
-#undef iscntrl
-int
-iscntrl(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _C));
-}
-
-#undef isdigit
-int
-isdigit(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _N));
-}
-
-#undef isgraph
-int
-isgraph(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & (_P|_U|_L|_N)));
-}
-
-#undef islower
-int
-islower(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _L));
-}
-
-#undef isprint
-int
-isprint(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & (_P|_U|_L|_N|_B)));
-}
-
-#undef ispunct
-int
-ispunct(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _P));
-}
-
-#undef isspace
-int
-isspace(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _S));
-}
-
-#undef isupper
-int
-isupper(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & _U));
-}
-
-#undef isxdigit
-int
-isxdigit(int c)
-{
-	return (c == EOF ? 0 : ((_ctype_ + 1)[(unsigned char)c] & (_N|_X)));
-}
-
 #undef isascii
-int
-isascii(int c)
+#undef isblank
+#undef iscntrl
+#undef isdigit
+#undef isgraph
+#undef islower
+#undef isprint
+#undef ispunct
+#undef isspace
+#undef isupper
+#undef isxdigit
+#undef toascii
+
+#if MIR18N_C_CSET == 2
+#define CTYPE_NUM_CHARS       256
+__IDSTRING(CTYPE_NUM_CHARS, "ctype ('C' locale) handles 8 bits");
+#else
+#define CTYPE_NUM_CHARS       128
+__IDSTRING(CTYPE_NUM_CHARS, "ctype ('C' locale) handles 7 bits");
+#endif
+
+#define __CTYPE_IMPL(t)							     \
+	int is ## t (int c)						     \
+	{								     \
+		if ((c < 0) || (c > (CTYPE_NUM_CHARS - 1)))		     \
+			return (0);					     \
+		return ((__C_attribute_table_pg[c] & (_ctp_ ## t & 0xFF)) && \
+		    !(__C_attribute_table_pg[c] & (_ctp_ ## t >> 8)));	     \
+	}
+
+__CTYPE_IMPL(alnum)
+__CTYPE_IMPL(alpha)
+__CTYPE_IMPL(blank)
+__CTYPE_IMPL(cntrl)
+__CTYPE_IMPL(digit)
+__CTYPE_IMPL(graph)
+__CTYPE_IMPL(lower)
+__CTYPE_IMPL(print)
+__CTYPE_IMPL(punct)
+__CTYPE_IMPL(space)
+__CTYPE_IMPL(upper)
+__CTYPE_IMPL(xdigit)
+
+int isascii(int c)
 {
 	return ((unsigned int)c <= 0177);
 }
 
-#undef toascii
-int
-toascii(int c)
+int toascii(int c)
 {
 	return (c & 0177);
-}
-
-#undef _toupper
-int
-_toupper(int c)
-{
-	return (c - 'a' + 'A');
-}
-
-#undef _tolower
-int
-_tolower(int c)
-{
-	return (c - 'A' + 'a');
 }

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.19 2006/06/03 22:14:51 tg Exp $
+# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.20 2006/07/03 16:14:42 tg Exp $
 
 .PATH: ${LIBCSRCDIR}/i18n
 .PATH: ${LIBCSRCDIR}/locale
@@ -6,6 +6,7 @@
 CLEANFILES+=	${MIRI18N_GEND}
 
 SRCS+=	${MIRI18N_GEND}
+SRCS+=	tbl_att0.c
 SRCS+=	tbl_attr.c
 SRCS+=	tbl_towl.c
 SRCS+=	tbl_towu.c
