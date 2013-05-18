@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/grml/Makefile,v 1.7 2009/06/29 19:43:33 tg Exp $
+# $MirOS: src/distrib/common/grml/Makefile,v 1.8 2010/01/30 13:19:08 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -30,7 +30,7 @@ bsd: ${BSDOBJDIR}/distrib/generic/bsd
 
 LISTADDS=	boot cd9660 dhclient disktools ext2fs i386 isdn msdos \
 		nettools nfs nfsd pager-less ppp-user pppoe-kernel \
-		pppoe-user upgrade
+		pppoe-user
 MACHCONF:=	i386-big
 LISTADDS+=	Grml
 
