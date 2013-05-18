@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.13 2006/08/19 02:03:08 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.14 2006/08/19 02:06:33 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -86,8 +86,13 @@ typedef struct {
 #define	RAND_MAX	0x7fffffff
 
 /* maximum length of a multibyte character sequence (all locales) */
+/*
+ * Note: we internally use UCS-2 which yields a maximum of 3, but
+ * due to the brain-dead specification of e.g. wcrtomb(3), 2 more
+ * bytes (MAX - 1) can be stored due to old mbstate_t processing.
+ */
 #ifndef MB_LEN_MAX
-#define MB_LEN_MAX	3	/* corresponding to UCS-2 */
+#define MB_LEN_MAX	5	/* 3 (UCS-2) * 2 - 1 */
 #endif
 
 /* maximum length of a multibyte character sequence (current locale) */

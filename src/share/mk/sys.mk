@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.78 2006/10/07 03:30:58 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.79 2006/10/17 23:16:57 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -21,7 +21,7 @@ OStype=		MirBSD
 # Sync these with <sys/param.h>
 unix=		We run ${OStype}.
 OSrev=		9		# MirOS version (major)
-OSrpl=		164		# MirOS patchlevel
+OSrpl=		165		# MirOS patchlevel
 OScompat=	3.5		# OpenBSD compatibility revision
 .if !defined(OSNAME) || empty(OSNAME)
 OSNAME!=	uname -s
@@ -29,7 +29,7 @@ OSNAME!=	uname -s
 OSname=		${OSNAME:L}
 OStriplet?=	${MACHINE_ARCH}-ecce-${OSname}${OSrev}
 _MIRMAKE_EXE=	/usr/bin/make
-_MIRMAKE_VER=	20061006
+_MIRMAKE_VER=	20061026
 
 .SUFFIXES:	.out .a .ln .o .s .S .c .m .cc .cxx .y .l .i .h .sh .m4
 .LIBS:		.a
@@ -61,11 +61,7 @@ COMPILE.cc?=	${CXX} ${CXXFLAGS:M*} ${CPPFLAGS} -c
 LINK.cc?=	${CXX} ${CXXFLAGS:M*} ${CPPFLAGS} ${LDFLAGS}
 
 CPP?=		cpp
-CPPFLAGS?=
-
-# CPPOPTS are for the user to override/add, e.g. in make.cfg
-CPPOPTS=	-isystem ${.CURDIR}
-CPPFLAGS+=	${CPPOPTS}
+CPPFLAGS?=	-isystem ${.CURDIR}
 
 LEX?=		lex
 LFLAGS?=

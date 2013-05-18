@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.135 2006/10/17 21:15:41 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.136 2006/10/17 21:28:11 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -77,7 +77,7 @@ PKG_TMPDIR?=		/var/tmp
 PKG_CMDDIR?=		${LOCALBASE}/sbin
 PKG_CMD_ADD?=		${PKG_CMDDIR}/pkg_add
 PKG_CMD_CREATE?=	${PKG_CMDDIR}/pkg_create
-PKG_CMD_DELETE?=	${PKG_CMDDIR}/pkg_delete
+PKG_CMD_DELETE?=	${PKG_CMDDIR}/pkg_delete -c
 PKG_CMD_INFO?=		${PKG_CMDDIR}/pkg_info
 PKG_CMD_PKG?=		${PKG_CMDDIR}/pkg
 PKG_CMD_UPGRADE?=	${PKG_CMDDIR}/pkg_upgrade

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: limits.h,v 1.9 2003/06/02 23:27:54 millert Exp $	*/
 /*	$NetBSD: limits.h,v 1.7 1996/01/05 18:10:57 pk Exp $ */
 
@@ -32,7 +33,8 @@
  *	@(#)limits.h	8.3 (Berkeley) 1/4/94
  */
 
-#define	MB_LEN_MAX	1		/* no multibyte characters */
+#ifndef _MACHINE_LIMITS_H_
+#define _MACHINE_LIMITS_H_
 
 #if !defined(_ANSI_SOURCE)
 #define	SIZE_MAX	UINT_MAX	/* max value for a size_t */
@@ -50,3 +52,4 @@
 #endif /* !_POSIX_SOURCE && !_XOPEN_SOURCE */
 #endif /* !_ANSI_SOURCE */
 
+#endif /* _MACHINE_LIMITS_H_ */

@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/limits.h,v 1.2 2005/09/22 19:53:04 tg Exp $ */
+/**	$MirOS: src/include/limits.h,v 1.3 2005/09/30 22:13:54 tg Exp $ */
 /*	$OpenBSD: limits.h,v 1.11 2004/06/09 17:32:10 millert Exp $	*/
 /*	$NetBSD: limits.h,v 1.7 1994/10/26 00:56:00 cgd Exp $	*/
 
@@ -87,8 +87,13 @@
 #define LOGIN_NAME_MAX		MAXLOGNAME
 
 /* maximum length of a multibyte character sequence (all locales) */
+/*
+ * Note: we internally use UCS-2 which yields a maximum of 3, but
+ * due to the brain-dead specification of e.g. wcrtomb(3), 2 more
+ * bytes (MAX - 1) can be stored due to old mbstate_t processing.
+ */
 #ifndef MB_LEN_MAX
-#define MB_LEN_MAX		3	/* corresponding to UCS-2 */
+#define MB_LEN_MAX	5	/* 3 (UCS-2) * 2 - 1 */
 #endif
 
 #include <sys/limits.h>
