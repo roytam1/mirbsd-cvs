@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.121 2008/03/09 16:20:06 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.122 2008/03/10 15:40:56 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -29,7 +29,7 @@ OSNAME!=	uname -s
 OSname=		${OSNAME:L}
 OStriplet?=	${MACHINE_ARCH}-ecce-${OSname}${OSrev}
 _MIRMAKE_EXE=	/usr/bin/make
-_MIRMAKE_VER=	20080310
+_MIRMAKE_VER=	20080407
 
 .SUFFIXES:	.out .a .ln .o .s .S .c .m .cc .cxx .cpp .y .l .i .h .sh .m4
 .LIBS:		.a
