@@ -45,21 +45,23 @@ function twiddle_plists
 		lib_seen = 0
 	}
 
-	$1=="@lib" {
+	function handle_lib(name) {
 		if (FILENAME==newcontents) {
 			# first mode: collect libraries
-			shlibs[$2] = "new"
+			shlibs[name] = "new"
 		} else {
 			# second mode: distribute them
-			if (shlibs[$2]=="new") {
+			if (shlibs[name]=="new") {
 				print
 			} else {
 				print >> stubfiles
 				lib_seen = 1
 			}
 		}
-		next
 	}
+
+	$1=="@lib"		{ handle_lib($2) ; next }
+	/^[^@].*\.dylib$/	{ handle_lib($0) ; next }
 
 	{
 		if (FILENAME==oldcontents) {

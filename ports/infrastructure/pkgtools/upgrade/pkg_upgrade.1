@@ -87,7 +87,7 @@ creates a
 from the installed package.
 Basically, the installed package is split in two.
 The old libraries are kept as a package named
-.Pa stub - Ns Ar pkgname
+.Pa stub Ns - Ns Ar pkgname
 while the rest is deleted and replaced by the new version.
 .Pp
 In the general case, this should work but you may still run into
@@ -120,9 +120,14 @@ switch to prevent this situation.
 Shared library support needs much work.
 .Pp
 .Nm
-does not handle the case of paralelly installed,
-non-conflicting packages, such as
+does not handle the case of multiple non-conflicting package versions,
+such as
 .Li autoconf\-2.13.20050228\-1
 and
 .Li autoconf\-2.60\-2 ,
 well.
+See
+.Cm @option Ar no-default-conflict
+in
+.Xr pkg_create 1
+for details.
