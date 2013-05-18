@@ -1,4 +1,4 @@
-rcsid_inc2htm='$MirOS$'
+rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.18 2008/12/04 18:49:00 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -32,7 +32,7 @@ cd "$wd"
 
 function output {
 	rpath=$1
-	efe="${rpath}${ei_srcf[ent]}_${eid}.htm#$eid"
+	efe="${rpath}${ei_srcf[ent]}_${eid}.htm#${eid}_${ei_srcf[ent]}"
 	title="${e_date[ent]}${e_author[ent]+ by }${e_author[ent]}"
 	subtitle=
 	if [[ ${e_language[ent]} = +([A-Za-z0-9-]) ]]; then
@@ -49,14 +49,14 @@ function output {
 		subtitle=$subtitle'<p class="wltagtitle">Tags:'
 		for x in ${e_tag[ent]}; do
 			eval t=\$linktarget_$x
-			[[ -z $t ]] || x="<a href=\"@@RELPATH@@$t.htm\">$x</a>"
+			[[ -z $t ]] || x="<a href=\"@@RELPATH@@${t}_all.htm#${eid}_${ei_srcf[ent]}\">$x</a>"
 			subtitle="$subtitle $x"
 		done
 		subtitle="$subtitle</p>$nl"
 	fi
 	cat <<-EOF
 		<div class="wltitle">
-		<h2 class="wlentry" id="${e_id[ent]}"><a href="${efe}">${title}</a></h2>
+		<h2 class="wlentry" id="${e_id[ent]}_${ei_srcf[ent]}"><a href="${efe}">${title}</a></h2>
 		${subtitle}</div>
 		${ei_body[ent]/'<!-- RSS stop -->'}
 		</div>
