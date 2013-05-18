@@ -1,5 +1,5 @@
-.\"	$MirOS: src/usr.sbin/makefs/makefs.8,v 1.7 2009/06/29 18:58:54 tg Exp $
-.\"	$NetBSD: makefs.8,v 1.30 2008/05/10 19:00:07 skrll Exp $
+.\"	$MirOS: src/usr.sbin/makefs/makefs.8,v 1.8 2009/11/22 18:23:52 tg Exp $
+.\"	$NetBSD: makefs.8,v 1.32 2009/01/20 20:47:25 bjh21 Exp $
 .\"
 .\" Copyright (c) 2001-2003 Wasabi Systems, Inc.
 .\" All rights reserved.
@@ -34,7 +34,7 @@
 .\" ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd $Mdocdate: June 29 2009 $
+.Dd $Mdocdate: November 22 2009 $
 .Dt MAKEFS 8
 .Os
 .Sh NAME
@@ -278,6 +278,12 @@ version id.
 Allow multiple dots in a filename.
 .It Sy applicationid
 Application ID of the image.
+.It Sy archimedes
+Use the
+.Ql ARCHIMEDES
+extension to encode
+.Tn RISC OS
+metadata.
 .It Sy boot\-load\-segment
 Set load segment for the boot image.
 .It Sy bootimage

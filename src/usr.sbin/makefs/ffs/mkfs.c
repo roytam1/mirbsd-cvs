@@ -1,4 +1,3 @@
-/**	$MirOS: src/usr.sbin/makefs/ffs/mkfs.c,v 1.7 2008/10/31 21:24:25 tg Exp $ */
 /*	$NetBSD: mkfs.c,v 1.21 2004/12/20 20:51:42 jmc Exp $	*/
 
 /*
@@ -50,7 +49,7 @@ static char sccsid[] = "@(#)mkfs.c	8.11 (Berkeley) 5/3/95";
 #else
 #ifdef __RCSID
 __RCSID("$NetBSD: mkfs.c,v 1.21 2004/12/20 20:51:42 jmc Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs/mkfs.c,v 1.7 2008/10/31 21:24:25 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs/mkfs.c,v 1.8 2008/10/31 23:04:09 tg Exp $");
 #endif
 #endif
 #endif /* not lint */

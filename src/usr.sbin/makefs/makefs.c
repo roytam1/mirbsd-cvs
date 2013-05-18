@@ -1,4 +1,3 @@
-/**	$MirOS: src/usr.sbin/makefs/makefs.c,v 1.8 2008/10/31 21:24:24 tg Exp $ */
 /*	$NetBSD: makefs.c,v 1.26 2006/10/22 21:11:56 christos Exp $	*/
 
 /*
@@ -48,7 +47,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: makefs.c,v 1.26 2006/10/22 21:11:56 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/makefs.c,v 1.8 2008/10/31 21:24:24 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/makefs.c,v 1.9 2009/07/23 19:32:24 tg Exp $");
 #endif	/* !__lint */
 
 #include <sys/param.h>

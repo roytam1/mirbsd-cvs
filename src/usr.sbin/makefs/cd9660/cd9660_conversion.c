@@ -1,4 +1,3 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660/cd9660_conversion.c,v 1.5 2008/10/31 20:33:47 tg Exp $ */
 /*	$NetBSD: cd9660_conversion.c,v 1.4 2007/03/14 14:11:17 christos Exp $	*/
 
 /*
@@ -39,7 +38,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660_conversion.c,v 1.4 2007/03/14 14:11:17 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_conversion.c,v 1.5 2008/10/31 20:33:47 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_conversion.c,v 1.6 2008/11/06 23:45:18 tg Exp $");
 #endif  /* !__lint */
 
 

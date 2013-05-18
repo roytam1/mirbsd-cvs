@@ -1,4 +1,3 @@
-/**	$MirOS$ */
 /*	$NetBSD: cd9660_strings.c,v 1.4 2007/01/16 17:32:05 hubertf Exp $	*/
 
 /*
@@ -51,7 +50,7 @@
 
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: cd9660_strings.c,v 1.4 2007/01/16 17:32:05 hubertf Exp $");
-__IDSTRING(mbsdid, "$MirOS$");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/cd9660/cd9660_strings.c,v 1.2 2008/10/31 19:38:19 tg Exp $");
 #endif  /* !__lint */
 
 

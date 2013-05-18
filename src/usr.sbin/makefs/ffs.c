@@ -1,5 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/ffs.c,v 1.9 2008/10/31 21:36:39 tg Exp $ */
-/*	$NetBSD: ffs.c,v 1.42 2006/12/18 21:03:29 christos Exp $	*/
+/*	$NetBSD: ffs.c,v 1.44 2009/04/28 22:49:26 joerg Exp $	*/
 
 /*
  * Copyright (c) 2001 Wasabi Systems, Inc.
@@ -36,7 +35,7 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 /*
- * Copyright (c) 2009
+ * Copyright (c) 2009, 2010
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1982, 1986, 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -74,8 +73,8 @@
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
-__RCSID("$NetBSD: ffs.c,v 1.42 2006/12/18 21:03:29 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs.c,v 1.9 2008/10/31 21:36:39 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs.c,v 1.10 2009/07/23 19:32:23 tg Exp $");
+__RCSID("$NetBSD: ffs.c,v 1.44 2009/04/28 22:49:26 joerg Exp $");
 #endif	/* !__lint */
 
 #include <sys/param.h>
@@ -89,6 +88,7 @@ __IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs.c,v 1.9 2008/10/31 21:36:39 
 #include <errno.h>
 #include <fcntl.h>
 #include <stdarg.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -486,7 +486,7 @@ ffs_create_image(const char *image, fsinfo_t *fsopts)
 	assert (fsopts != NULL);
 
 		/* create image */
-	if ((fsopts->fd = open(image, O_RDWR | O_CREAT | O_TRUNC, 0777))
+	if ((fsopts->fd = open(image, O_RDWR | O_CREAT | O_TRUNC, 0666))
 	    == -1) {
 		warn("Can't open `%s' for writing", image);
 		return (-1);
@@ -854,6 +854,7 @@ ffs_write_file(union dinode *din, uint32_t ino, void *buf, fsinfo_t *fsopts)
 	int 	isfile, ffd;
 	char	*fbuf, *p;
 	off_t	bufleft, chunk, offset;
+	ssize_t nread;
 	struct inode	in;
 	struct buf *	bp;
 	ffs_opt_t	*ffs_opts = fsopts->fs_specific;
@@ -908,12 +909,19 @@ ffs_write_file(union dinode *din, uint32_t ino, void *buf, fsinfo_t *fsopts)
 	chunk = 0;
 	for (bufleft = DIP(din, size); bufleft > 0; bufleft -= chunk) {
 		chunk = MIN(bufleft, ffs_opts->bsize);
-		if (isfile) {
-			if (read(ffd, fbuf, chunk) != chunk)
-				err(1, "Reading `%s', %lld bytes to go",
-				    (char *)buf, (long long)bufleft);
+		if (!isfile)
+			;
+		else if ((nread = read(ffd, fbuf, chunk)) == -1)
+			err(EXIT_FAILURE, "Reading `%s', %lld bytes to go",
+			    (char *)buf, (long long)bufleft);
+		else if (nread != chunk)
+			errx(EXIT_FAILURE, "Reading `%s', %lld bytes to go, "
+			    "read %zd bytes, expected %ju bytes, does "
+			    "metalog size= attribute mismatch source size?",
+			    (char *)buf, (long long)bufleft, nread,
+			    (uintmax_t)chunk);
+		else
 			p = fbuf;
-		}
 		offset = DIP(din, size) - bufleft;
 		if (debug & DEBUG_FS_WRITE_FILE_BLOCK)
 			printf(

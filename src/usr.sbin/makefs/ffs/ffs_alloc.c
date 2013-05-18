@@ -1,4 +1,3 @@
-/**	$MirOS$ */
 /*	$NetBSD: ffs_alloc.c,v 1.17 2006/12/18 21:03:29 christos Exp $	*/
 /* From: NetBSD: ffs_alloc.c,v 1.50 2001/09/06 02:16:01 lukem Exp */
 
@@ -49,7 +48,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: ffs_alloc.c,v 1.17 2006/12/18 21:03:29 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS$");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs/ffs_alloc.c,v 1.4 2008/10/31 21:24:24 tg Exp $");
 #endif	/* !__lint */
 
 #include <sys/param.h>
