@@ -481,3 +481,19 @@ Date: 14.10.2007
  another busy loop spinning bug was fixed and everyone should upgrade.
  This release features <a href="http://pcc.ludd.ltu.se/">PCC</a> support.</p>
 ----
+Title: bootblocks now machine-independent, HTML manual pages split
+Date: 21.10.2007
+
+<p>The first-stage bootblocks (bootxx) of both the i386 and sparc architecture
+ are now self-installing shell scripts that take an extent list (block spans)
+ on standard input. This now allows to create, for example, bootable ISO9660
+ images for MirBSD/i386 and MirBSD/sparc (or even both at the same time) on
+ a MirBSD/i386 (or even GNU/Linux/i386) box. This is another milestone in the
+ progress of making sparc a full-blown, supported, architecture.</p>
+<p>The HTML manual pages have now been split into a machine-independent and a
+ machine-dependent part (or rather, two of them) as well. This allows a much
+ faster release generation on sparc. Furthermore, related manual pages, such
+ as uuencode(1), uudecode(1), b64encode(1) and b64decode(1), now list all of
+ their aliases in the title and are hard linked to save space and generation
+ time (and hopefully search engine traffic, who knows).</p>
+----

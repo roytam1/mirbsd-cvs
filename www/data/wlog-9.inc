@@ -2375,3 +2375,14 @@ Author: tg@
  need a kernel coder inside the MirOS project.</p>
 <p>It’s getting cold. Winter is near. Okay, so is Samhain.</p>
 ----
+Date: 21.10.2007
+Author: tg@
+
+<p>Okay, the boot blocks are MI, the manual pages are split, generated
+ much faster, and I’ve been working on the AES improvements. Today the
+ weather doesn’t make me (or Dr. Pfeffer either) feel like going out,
+ even though there are some interesting new caches in the area.</p>
+<p>I’m still waiting for half of the equipment I ordered, but tear can
+ finally be installed now (I’ll just change the internal cabling a bit
+ beforehand though, to make my nerves more at ease).</p>
+----
