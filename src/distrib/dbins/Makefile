@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/dbins/Makefile,v 1.2 2008/03/27 20:02:41 tg Exp $
+# $MirOS: src/distrib/dbins/Makefile,v 1.3 2008/04/07 07:23:48 tg Exp $
 
 CBIN=		dbins
 BINDIR=		/sbin
@@ -155,5 +155,7 @@ cleandir: clean
 
 depend lint tags: ${CBIN}.mk
 	${MAKE} -f ${CBIN}.mk $@
+
+.PHONY: ${CBIN}
 
 .include <bsd.prog.mk>

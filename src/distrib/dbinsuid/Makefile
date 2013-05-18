@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/dbinsuid/Makefile,v 1.1 2008/03/27 19:05:13 tg Exp $
 
 CBIN=		dbinsuid
 BINDIR=		/sbin
@@ -48,5 +48,7 @@ install:
 .    endfor
 .  endif
 	-rm ${DESTDIR}${BINDIR}/${CBIN}
+
+.PHONY: ${CBIN}
 
 .include <bsd.prog.mk>
