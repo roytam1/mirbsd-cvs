@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.40 2008/12/27 00:26:59 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.41 2008/12/29 23:57:12 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -146,5 +146,6 @@ fi
 export TERM=vt220
 print -n '\nAvailable editor: ed'
 [ -x /usr/bin/vi ] && print -n ' (n)vi'
+[ -x /usr/bin/e3 ] && print -n ' e3'
 [ -s /ed.hlp ] && print -n ' - help with # less /ed.hlp'
 print '\n'
