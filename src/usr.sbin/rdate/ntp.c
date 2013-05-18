@@ -50,27 +50,9 @@
 #include <time.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.12 2007/08/10 23:04:42 tg Exp $");
+#include "rdate.h"
 
-/* This macro is not implemented on all operating systems */
-#ifndef	SA_LEN
-#define	SA_LEN(x)	(((x)->sa_family == AF_INET6) ? \
-			    sizeof(struct sockaddr_in6) : \
-			    (((x)->sa_family == AF_INET) ? \
-				sizeof(struct sockaddr_in) : \
-				sizeof(struct sockaddr)))
-#endif
-
-#ifdef EXT_A4R
-extern u_int32_t arc4random(void);
-#endif
-
-#ifdef __MirBSD__
-#define tick2utc(tv)	tai2utc(timet2tai(tv))
-#else
-/* from ntpleaps.c */
-extern time_t tick2utc(time_t);
-#endif
+__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.13 2007/08/10 23:43:14 tg Exp $");
 
 /*
  * NTP definitions.  Note that these assume 8-bit bytes - sigh.  There
@@ -125,17 +107,13 @@ struct ntp_data {
 	u_char		stratum;
 };
 
-void	ntp_client(const char *, int, struct timeval *, struct timeval *, int);
-int	sync_ntp(int, const struct sockaddr *, double *, double *);
-int	write_packet(int, struct ntp_data *);
-int	read_packet(int, struct ntp_data *, double *, double *);
-void	unpack_ntp(struct ntp_data *, u_char *);
-double	current_time(double);
-void	create_timeval(double, struct timeval *, struct timeval *);
-
+static int sync_ntp(int, const struct sockaddr *, double *, double *);
+static int write_packet(int, struct ntp_data *);
+static int read_packet(int, struct ntp_data *, double *, double *);
+static void unpack_ntp(struct ntp_data *, u_char *);
+static double current_time(double);
+static void create_timeval(double, struct timeval *, struct timeval *);
 static void debug_packet(const struct ntp_data *);
-
-extern int debug;
 
 void
 ntp_client(const char *hostname, int family, struct timeval *new,

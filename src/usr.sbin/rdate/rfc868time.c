@@ -53,7 +53,9 @@
 #include <unistd.h>
 #include <time.h>
 
-__RCSID("$MirOS$");
+#include "rdate.h"
+
+__RCSID("$MirOS: src/usr.sbin/rdate/rfc868time.c,v 1.4 2007/05/14 22:11:44 tg Exp $");
 #ifdef MirBSD
 __RCSID("$NetBSD: rdate.c,v 1.3 1996/02/22 06:59:18 thorpej Exp $");
 __RCSID("$OpenBSD: rfc868time.c,v 1.6 2004/02/16 21:25:41 jakob Exp $");
@@ -61,9 +63,6 @@ __RCSID("$OpenBSD: rfc868time.c,v 1.6 2004/02/16 21:25:41 jakob Exp $");
 
 /* seconds from midnight Jan 1900 - 1970 */
 #define DIFFERENCE 2208988800UL
-
-void rfc868time_client (const char *, int, struct timeval *,
-    struct timeval *);
 
 void
 rfc868time_client (const char *hostname, int family, struct timeval *new,
