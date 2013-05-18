@@ -1,8 +1,9 @@
-# $MirOS: ports/x11/icewm/Makefile,v 1.3 2006/09/14 00:15:26 tg Exp $
+# $MirOS: ports/x11/icewm/Makefile,v 1.4 2006/10/01 02:13:05 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2004/05/25 16:36:35 naddy Exp $
 
 COMMENT=		small, fast window manager with themes
 DISTNAME=		icewm-1.2.28
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=     	x11
 HOMEPAGE=		http://www.icewm.org/
 
@@ -14,7 +15,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=           ${MASTER_SITE_SOURCEFORGE:=icewm/}
 
-LIB_DEPENDS=		Imlib.19::graphics/imlib
+LIB_DEPENDS=		Imlib::graphics/imlib
 
 USE_CXX=		Yes
 USE_X11=		Yes
@@ -41,5 +42,6 @@ post-install:
 		    ed -s ${PREFIX}/$$file; \
 		chmod ${DOCMODE} ${PREFIX}/$$file; \
 	done
+	echo 'Theme="metal2/default.theme"' > ${PREFIX}/share/icewm/theme
 
 .include <bsd.port.mk>

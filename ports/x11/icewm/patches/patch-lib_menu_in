@@ -1,13 +1,13 @@
-$MirOS: ports/x11/icewm/patches/patch-lib_menu_in,v 1.3 2006/10/01 02:13:05 tg Exp $
+$MirOS: ports/x11/icewm/patches/patch-lib_menu_in,v 1.4 2006/10/01 03:58:20 tg Exp $
 $OpenBSD: patch-lib_menu_in,v 1.2 2004/05/21 17:00:09 naddy Exp $
---- lib/menu.in.orig	Sun Sep 10 16:11:48 2006
-+++ lib/menu.in	Sun Oct  1 03:56:56 2006
-@@ -4,16 +4,124 @@
+--- lib/menu.in.orig	Sun Sep 10 18:11:48 2006
++++ lib/menu.in	Sun Dec 17 00:00:40 2006
+@@ -4,16 +4,128 @@
  # since modifications to this file will be discarded when you
  # (re)install icewm.
  #
 -prog xterm xterm xterm
-+# $MirOS$
++# $MirOS: ports/x11/icewm/patches/patch-lib_menu_in,v 1.4 2006/10/01 03:58:20 tg Exp $
 +#
 +prog UXTerm xterm uxterm
 +prog XTerm xterm xterm
@@ -49,7 +49,7 @@ $OpenBSD: patch-lib_menu_in,v 1.2 2004/05/21 17:00:09 naddy Exp $
 +        prog Netscape netscape netscape
 +        prog Konqueror konqueror konqueror
 +        prog Mozilla mozilla mozilla
-+        prog Firefox firefox firefox
++        prog Firefox firefox firesomething
 +        prog Galeon galeon galeon
 +        prog Opera opera opera
 +        prog Dillo dillo dillo
@@ -66,6 +66,7 @@ $OpenBSD: patch-lib_menu_in,v 1.2 2004/05/21 17:00:09 naddy Exp $
 +    }
 +    menu "Internet Utilities" folder {
 +        prog sirc xchat uxterm -T sirc -e sirc -X
++	prog irssi xchat uxterm -T irssi -e irssi
 +        prog XChat xchat xchat
 +        prog GTK-Gnutella gtk-gnutella gtk-gnutella
 +    }
@@ -84,6 +85,7 @@ $OpenBSD: patch-lib_menu_in,v 1.2 2004/05/21 17:00:09 naddy Exp $
 +        prog XPlay_CD xplaycd xplaycd
 +        prog XM_ixer xmixer xmixer
 +        prog XMMS xmms xmms
++	prog "Audacious Media Player" audacious audacious
 +        prog Mplayer gmplayer gmplayer
 +    }
 +    menu "System Utilities" folder {
@@ -95,6 +97,7 @@ $OpenBSD: patch-lib_menu_in,v 1.2 2004/05/21 17:00:09 naddy Exp $
 +        prog Xpdf pdf xpdf
 +        prog "DVI Previewer" xdvi xdvi
 +        prog Ghostview ghostview gv
++	prog "Midnight Commander" mc uxterm -T mc -e mc -c
 +    }
 +}
 +menu Games folder {
@@ -107,6 +110,7 @@ $OpenBSD: patch-lib_menu_in,v 1.2 2004/05/21 17:00:09 naddy Exp $
 +    prog Xkobo xkobo xkobo -doublesize
 +    prog "Eboard (chess)" eboard eboard
 +    prog Quake-2 quake2 quake2
++    prog "Frozen Bubble" frozen-bubble frozen-bubble
 +}
 +menu Utilities folder {
 +    prog top top xterm -e top

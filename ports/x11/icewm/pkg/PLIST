@@ -1,4 +1,4 @@
-@comment $MirOS: ports/x11/icewm/pkg/PLIST,v 1.2 2005/03/27 20:42:19 tg Exp $
+@comment $MirOS: ports/x11/icewm/pkg/PLIST,v 1.3 2006/10/01 02:13:07 tg Exp $
 @comment $OpenBSD: PLIST,v 1.7 2004/05/25 16:36:35 naddy Exp $
 bin/icehelp
 bin/icesh
@@ -79,6 +79,7 @@ share/icewm/taskbar/expand.xpm
 share/icewm/taskbar/icewm.xpm
 share/icewm/taskbar/start.xpm
 share/icewm/taskbar/windows.xpm
+share/icewm/theme
 share/icewm/themes/Infadel2/Ergonomic.theme
 share/icewm/themes/Infadel2/Overloaded.theme
 share/icewm/themes/Infadel2/closeA.xpm
