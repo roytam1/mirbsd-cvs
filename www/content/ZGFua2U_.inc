@@ -1,5 +1,5 @@
 <!-- PageID: danke -->
-<small class="rcsid">$MirOS: www/content/ZGFua2U_.inc,v 1.6 2006/01/27 00:14:28 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/ZGFua2U_.inc,v 1.7 2006/01/27 00:54:10 tg Exp $</small>
 <h1>Donating to the MirOS Project</h1>
 <h2>Considering to donate?</h2>
 <p>Thanks for considering to donate. You can contact the individual
@@ -10,8 +10,9 @@
  lost.</p>
 <p>After a successful donation, you may be listed below &ndash; this
  is an opt-in, and you must explicitly state that. Please note that
- some persons who donate webhosting, domains etc. are not (yet) listed
- on this page.</p>
+ some persons who donate webhosting, domains etc. are not listed
+ on this page; they can be found <a href="/?devel#sponsors">here</a>
+ instead..</p>
 
 <h2>Support through partnership</h2>
 <p>Google has terminated tg@'s account just before the first payment
@@ -56,6 +57,6 @@
  I lost interest and trust in that, and Moxmo shut the whole thing down
  later anyway.</p></form>
 
-<h2>Donations received so far</h2><ul>
+<h2 id="donators">Donations received so far</h2><ul>
 <li>...</li>
 </ul>
