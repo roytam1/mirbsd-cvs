@@ -1,11 +1,11 @@
-# $MirOS: www/src/getting.hts,v 1.23 2010/08/28 20:31:24 tg Exp $
+# $MirOS: www/src/getting.hts,v 1.24 2010/09/26 16:35:22 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname getting "Get MirOS!"
 mws_setheadline Get MirOS!
-mws_putheader '$MirOS: www/src/getting.hts,v 1.23 2010/08/28 20:31:24 tg Exp $'
+mws_putheader '$MirOS: www/src/getting.hts,v 1.24 2010/09/26 16:35:22 tg Exp $'
 mws_content <<'EOF'
 <p>MirOS consists of several parts: the base system (including X11), the
  MirPorts framework, and the source tree.</p>
@@ -148,7 +148,7 @@ mws_content <<'EOF'
 
 <p>If you get asked for a password, use <tt>anoncvs</tt> (but most mirrors
  should allow password-less logins to the anoncvs/anonrsync system) or the
- following SSH public key:</p><pre>
+ following SSH private key:</p><pre>
 	-----BEGIN RSA PRIVATE KEY-----
 	MIICWgIBAAKBgQC2Fa/+nDgQNSeX2z6rlsNBJGzXe1/XOwClot1wlxkkLvmVUdLh
 	ZWeswBTimOJEpyD3T7Bg3aEYASTzpyaKVkbsS2sczAzo8Q8sbQQf92rMTK7IQUWv
