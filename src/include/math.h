@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/math.h,v 1.8 2008/11/10 21:09:12 tg Exp $ */
+/**	$MirOS: src/include/math.h,v 1.9 2008/11/11 03:57:17 tg Exp $ */
 /*	$OpenBSD: math.h,v 1.14 2006/07/12 07:26:07 brad Exp $	*/
 /*	$NetBSD: math.h,v 1.44 2006/03/25 16:41:11 xtraeme Exp $	*/
 
@@ -18,7 +18,7 @@
  */
 
 #ifndef _MATH_H_
-#define _MATH_H_ "$MirOS: src/include/math.h,v 1.8 2008/11/10 21:09:12 tg Exp $"
+#define _MATH_H_ "$MirOS: src/include/math.h,v 1.9 2008/11/11 03:57:17 tg Exp $"
 
 #include <sys/cdefs.h>
 #ifdef __NetBSD__
@@ -35,10 +35,16 @@ union __double_u {
 	double __val;
 };
 
+#ifndef __MirBSD__
 union __long_double_u {
 	unsigned char __dummy[sizeof(long double)];
 	long double __val;
 };
+#else
+#ifdef __HAVE_LONG_DOUBLE
+# warning Huh, long double on MirBSD, since when?
+#endif
+#endif
 
 #include <machine/math.h>		/* may use __float_u, __double_u,
 					   or __long_double_u */
@@ -79,8 +85,10 @@ extern const union __double_u __infinity;
 extern const union __float_u __infinityf;
 #define	HUGE_VALF	__infinityf.__val
 
+#ifdef __HAVE_LONG_DOUBLE
 extern const union __long_double_u __infinityl;
 #define	HUGE_VALL	__infinityl.__val
+#endif
 
 /* 7.12#4 INFINITY */
 #ifdef __INFINITY
@@ -209,6 +217,7 @@ double	sinh(double);
 double	tanh(double);
 
 double	exp(double);
+double	exp2(double);
 double	frexp(double, int *);
 double	ldexp(double, int);
 double	log(double);
@@ -297,6 +306,7 @@ float	tanhf(float);
 /* 7.12.6 exp / log */
 
 float	expf(float);
+float	exp2f(float);
 float	expm1f(float);
 float	frexpf(float, int *);
 int	ilogbf(float);
@@ -350,15 +360,32 @@ long long int	llroundf(float);
 float	fmodf(float, float);
 float	remainderf(float, float);
 
+/* 7.12.10.3 The remquo functions */
+double	remquo(double, double, int *);
+float	remquof(float, float, int *);
+
 /* 7.2.11 manipulation */
 
 float	copysignf(float, float);
-long double copysignl(long double, long double);
 double	nan(const char *);
 float	nanf(const char *);
-long double	nanl(const char *);
 float	nextafterf(float, float);
 
+/* 7.12.14 comparison */
+
+#define isunordered(x, y)	(isnan(x) || isnan(y))
+#define isgreater(x, y)		(!isunordered((x), (y)) && (x) > (y))
+#define isgreaterequal(x, y)	(!isunordered((x), (y)) && (x) >= (y))
+#define isless(x, y)		(!isunordered((x), (y)) && (x) < (y))
+#define islessequal(x, y)	(!isunordered((x), (y)) && (x) <= (y))
+#define islessgreater(x, y)	(!isunordered((x), (y)) && \
+				 ((x) > (y) || (y) > (x)))
+double	fdim(double, double);
+double	fmax(double, double);
+double	fmin(double, double);
+float	fdimf(float, float);
+float	fmaxf(float, float);
+float	fminf(float, float);
 
 #endif /* !_ANSI_SOURCE && ... */
 

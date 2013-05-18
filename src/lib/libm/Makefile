@@ -1,4 +1,4 @@
-#  $MirOS: src/lib/libm/Makefile,v 1.11 2011/10/22 20:17:49 bsiegert Exp $
+#  $MirOS: src/lib/libm/Makefile,v 1.12 2011/11/21 09:39:24 tg Exp $
 #  $NetBSD: Makefile,v 1.120 2011/09/17 10:51:52 jruoho Exp $
 #
 #  @(#)Makefile 5.1beta 93/09/24
@@ -109,8 +109,8 @@ COMMON_SRCS+= e_acos.c e_acosf.c e_acosh.c e_acoshf.c e_asin.c e_asinf.c \
 .PATH:	${.CURDIR}/compat
 COMMON_SRCS+= compat_cabs.c compat_cabsf.c
 # XXX our compatibility cabs() is different!
-CFLAGS_compat_cabs.o+=	-fno-builtin-cabs
-CFLAGS_compat_cabsf.o+=	-fno-builtin-cabsf
+CFLAGS_compat_cabs.o+=	-fno-builtin-cabs -D__MATH_PRIVATE__
+CFLAGS_compat_cabsf.o+=	-fno-builtin-cabsf -D__MATH_PRIVATE__
 
 # NetBSD's C library supplies these functions:
 #COMMON_SRCS+=	s_fabs.c s_frexp.c s_isinf.c s_isnan.c s_ldexp.c s_modf.c

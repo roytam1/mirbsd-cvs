@@ -25,6 +25,7 @@
  */
 
 #include <sys/cdefs.h>
+__RCSID("$MirOS$");
 __RCSID("$NetBSD: s_exp2.c,v 1.2 2010/01/11 23:38:24 christos Exp $");
 #ifdef __FBSDID
 __FBSDID("$FreeBSD: src/lib/msun/src/s_exp2.c,v 1.7 2008/02/22 02:27:34 das Exp $");
@@ -343,7 +344,7 @@ static const double tbl[TBLSIZE * 2] = {
 double
 exp2(double x)
 {
-	double r, t, twopk, twopkp1000, z;
+	double r, t, twopk = 0, twopkp1000 = 0, z;
 	uint32_t hx, ix, lx, i0;
 	int k;
 
