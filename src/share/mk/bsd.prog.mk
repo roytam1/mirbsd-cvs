@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.prog.mk,v 1.9 2005/04/29 15:42:53 tg Exp $
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.10 2005/07/04 02:37:18 tg Exp $
 # $OpenBSD: bsd.prog.mk,v 1.44 2005/04/15 17:18:57 espie Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
@@ -22,6 +22,11 @@ CXXFLAGS+=	${CXXDIAGFLAGS}
 .endif
 CFLAGS+=	${COPTS}
 CXXFLAGS+=	${CXXOPTS}
+.if ${DEBUGPROGS:L} == "yes"
+CFLAGS+=	-g
+CXXFLAGS+=	-g
+CLEANFILES+=	${PROG}.dbg
+.endif
 
 .if defined(PROG) && !empty(PROG)
 SRCS?=	${PROG}.c
@@ -42,6 +47,11 @@ LINK.prog?=	${LINKER} ${LDFLAGS} ${LDSTATIC} \
 
 ${PROG}: ${LIBCRT0} ${OBJS} ${LIBC} ${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN} ${DPADD}
 	${LINK.prog} -o $@
+.    if ${DEBUGPROGS:L} == "yes"
+	objcopy --only-keep-debug $@ $@.dbg
+	objcopy --strip-debug $@
+	objcopy --add-gnu-debuglink=$@.dbg $@
+.    endif
 .  else
 LINK.prog?=	NO
 .  endif
@@ -77,9 +87,18 @@ realinstall:
 .      if (${OBJECT_FMT} == "Mach-O") && (${LINK.prog} != "NO")
 	@echo Relinking ${PROG}
 	${LINK.prog} -o ${PROG}
+.        if ${DEBUGPROGS:L} == "yes"
+	objcopy --only-keep-debug ${PROG} ${PROG}.dbg
+	objcopy --strip-debug ${PROG}
+	objcopy --add-gnu-debuglink=${PROG}.dbg ${PROG}
+.        endif
 .      endif
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} \
 	    -m ${BINMODE} ${PROG} ${DESTDIR}${BINDIR}/
+.      if ${DEBUGPROGS:L} == "yes"
+	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m ${SHAREMODE} \
+	    ${PROG}.dbg ${DESTDIR}${BINDIR}/
+.      endif
 .    endif
 .  endif
 

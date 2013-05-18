@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.18 2005/07/04 02:37:18 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.19 2005/08/20 12:46:49 bsiegert Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -72,6 +72,13 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 
 .MAIN: all
 
+# If building new-style shared libraries with debugging information,
+# add some debugging flags to the .so file compiling.
+.if ${DEBUGLIBS:L} == "yes"
+PICFLAG+=	-g
+CLEANFILES+=	${SHLIB_SONAME}.dbg
+.endif
+
 # prefer .S to a .c, remove stuff not used in the BSD libraries.
 # .so used for PIC object files.  .ln used for lint output files.
 # .m for objective c files.
@@ -79,7 +86,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 .SUFFIXES:	.out .o .go .so .S .s .c .m .cc .cxx .y .l .i .ln .m4
 
 .c.o .m.o:
-	@echo "${COMPILE.c} ${CFLAGS_${.TARGET:C/(g|s)o$/.o/}} " \
+	@echo "${COMPILE.c} ${CFLAGS_${.TARGET:C/(g|s)o$/.o/}}" \
 	    "${.IMPSRC} -o $@"
 	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
 	    ${.IMPSRC} -o $@.o
@@ -87,7 +94,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 	@rm -f $@.o
 
 .c.go .m.go:
-	@echo "${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} " \
+	@echo "${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}}" \
 	    "-g ${.IMPSRC} -o $@"
 	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
 	    -g ${.IMPSRC} -o $@.o
@@ -95,18 +102,22 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 	@rm -f $@.o
 
 .c.so .m.so:
-	@echo "${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} " \
-	    "${PICFLAG} -DPIC ${.IMPSRC} -o $@"
+	@echo "${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}}" \
+	    "-DPIC ${PICFLAG} ${.IMPSRC} -o $@"
 	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
-	    ${PICFLAG} -DPIC ${.IMPSRC} -o $@.o
+	    -DPIC ${PICFLAG} ${.IMPSRC} -o $@.o
+.if ${DEBUGLIBS:L} == "yes"
+	@${LD} -X -r $@.o -o $@
+.else
 	@${LD} -x -r $@.o -o $@
+.endif
 	@rm -f $@.o
 
 .c.ln:
 	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} -i ${.IMPSRC}
 
 .cc.o .cxx.o:
-	@echo "${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} " \
+	@echo "${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}}" \
 	    "${.IMPSRC} -o $@"
 	@${COMPILE.cc}  ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
 	    ${.IMPSRC} -o $@.o
@@ -114,7 +125,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 	@rm -f $@.o
 
 .cc.go .cxx.go:
-	@echo "${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} " \
+	@echo "${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}}" \
 	    "-g ${.IMPSRC} -o $@"
 	@${COMPILE.cc}  ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
 	    -g ${.IMPSRC} -o $@.o
@@ -122,32 +133,32 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 	@rm -f $@.o
 
 .cc.so .cxx.so:
-	@echo "${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} " \
-	    "${PICFLAG} -DPIC ${.IMPSRC} -o $@"
+	@echo "${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}}" \
+	    "-DPIC ${PICFLAG} ${.IMPSRC} -o $@"
 	@${COMPILE.cc}  ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
-	    ${PICFLAG} -DPIC ${.IMPSRC} -o $@.o
+	    -DPIC ${PICFLAG} ${.IMPSRC} -o $@.o
 	@${LD} -x -r $@.o -o $@
 	@rm -f $@.o
 
 .S.o .s.o:
-	@echo "${CPP} ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} | \
-		${AS} -o $@"
+	@echo "${CPP} ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} |" \
+	    "${AS} -o $@"
 	@${CPP} ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} | \
 	    ${AS} -o $@.o
 	@${LD} -x -r $@.o -o $@
 	@rm -f $@.o
 
 .S.go .s.go:
-	@echo "${CPP} ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} |\
-	    ${AS} -o $@"
+	@echo "${CPP} ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} |" \
+	    "${AS} -o $@"
 	@${CPP} ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} | \
 	    ${AS} -o $@.o
 	@${LD} -X -r $@.o -o $@
 	@rm -f $@.o
 
 .S.so .s.so:
-	@echo "${CPP} -DPIC ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} | \
-	    ${AS} ${ASPICFLAG} -o $@"
+	@echo "${CPP} -DPIC ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} $< |" \
+	    "${AS} ${ASPICFLAG} -o $@"
 	@${CPP} -DPIC ${CPPFLAGS} ${CFLAGS:M-[ID]*} ${AINC} ${.IMPSRC} | \
 	    ${AS} ${ASPICFLAG} -o $@.o
 	@${LD} -x -r $@.o -o $@
@@ -161,9 +172,6 @@ CFLAGS+=	${COPTS}
 CXXFLAGS+=	${CXXOPTS}
 
 _LIBS=		lib${LIB}.a
-.if ${DEBUGLIBS:L} == "yes"
-_LIBS+=		lib${LIB}_g.a
-.endif
 
 .if ${NOPIC:L} == "no"
 _LIBS+=		lib${LIB}_pic.a
@@ -185,21 +193,21 @@ lib${LIB}.a:: ${OBJS}
 	@echo building standard ${LIB} library
 	@rm -f lib${LIB}.a
 	@${AR} cq lib${LIB}.a $$(${LORDER} ${OBJS} | tsort -q)
-	${RANLIB} lib${LIB}.a
 
+# This is an old-style debugging static library and no longer in use.
 GOBJS+=		${OBJS:.o=.go}
 lib${LIB}_g.a:: ${GOBJS}
 	@echo building debugging ${LIB} library
 	@rm -f lib${LIB}_g.a
 	@${AR} cq lib${LIB}_g.a $$(${LORDER} ${GOBJS} | tsort -q)
-	${RANLIB} lib${LIB}_g.a
 
+# If new-style debugging libraries are in effect, libFOO_pic.a
+# contains debugging information - this is actually wanted.
 SOBJS+=		${OBJS:.o=.so}
 lib${LIB}_pic.a:: ${SOBJS}
 	@echo building shared object ${LIB} library
 	@rm -f lib${LIB}_pic.a
 	@${AR} cq lib${LIB}_pic.a $$(${LORDER} ${SOBJS} | tsort -q)
-	${RANLIB} lib${LIB}_pic.a
 
 ${SHLIB_SONAME}: ${SOBJS} ${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN} ${DPADD}
 .if defined(SHLIB_VERSION)
@@ -209,6 +217,11 @@ ${SHLIB_SONAME}: ${SOBJS} ${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN} ${DPADD}
 .endif
 	@rm -f ${SHLIB_SONAME}
 	${LINK.shlib} -o $@
+.if ${DEBUGLIBS:L} == "yes"
+	objcopy --only-keep-debug $@ $@.dbg
+	objcopy --strip-debug $@
+	objcopy --add-gnu-debuglink=$@.dbg $@
+.endif
 .for _i in ${SHLIB_LINKS}
 	@rm -f ${_i}
 	ln -s ${SHLIB_SONAME} ${_i} || cp ${SHLIB_SONAME} ${_i}
@@ -250,25 +263,18 @@ beforeinstall:
 .  endif
 
 realinstall:
-	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m 600 lib${LIB}.a \
-	    ${DESTDIR}${LIBDIR}/
-.  if ${INSTALL_COPY} != "-p"
-	${RANLIB} -t ${DESTDIR}${LIBDIR}/lib${LIB}.a
-.  endif
-	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/lib${LIB}.a
-.  if ${DEBUGLIBS:L} == "yes"
-	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m 600 \
-	    lib${LIB}_g.a ${DESTDIR}${LIBDIR}/debug/lib${LIB}.a
-.    if ${INSTALL_COPY} != "-p"
-	${RANLIB} -t ${DESTDIR}${LIBDIR}/debug/lib${LIB}.a
-.    endif
-	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/debug/lib${LIB}.a
-.  endif
+	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
+	    lib${LIB}.a ${DESTDIR}${LIBDIR}/
 .  ifdef SHLIB_SONAME
 .    if ${OBJECT_FMT} == "Mach-O"
 	@echo Relinking dynamic ${LIB} library
 	${LINK.shlib} -install_name ${LIBDIR}/${SHLIB_SONAME} \
 	    -o ${SHLIB_SONAME}
+.      if ${DEBUGLIBS:L} == "yes"
+	objcopy --only-keep-debug ${SHLIB_SONAME} ${SHLIB_SONAME}.dbg
+	objcopy --strip-debug ${SHLIB_SONAME}
+	objcopy --add-gnu-debuglink=${SHLIB_SONAME}.dbg ${SHLIB_SONAME}
+.      endif
 .    endif
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/
@@ -278,16 +284,16 @@ realinstall:
 		cp ${SHLIB_SONAME} ${_i}; \
 	fi
 .    endfor
-.  elif ${NOPIC:L} == "no"
-	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m 600 \
-	    lib${LIB}_pic.a ${DESTDIR}${LIBDIR}/
-.    if ${INSTALL_COPY} != "-p"
-	${RANLIB} -t ${DESTDIR}${LIBDIR}/lib${LIB}_pic.a
+.    if ${DEBUGLIBS:L} == "yes"
+	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${SHAREMODE} \
+	    ${SHLIB_SONAME}.dbg ${DESTDIR}${LIBDIR}/
 .    endif
-	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/lib${LIB}_pic.a
+.  elif ${NOPIC:L} == "no"
+	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
+	    lib${LIB}_pic.a ${DESTDIR}${LIBDIR}/
 .  endif
 .  if ${NOLINT:L} == "no"
-	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
+	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${SHAREMODE} \
 	    llib-l${LIB}.ln ${DESTDIR}${LINTLIBDIR}/
 .  endif
 .  if defined(LINKS) && !empty(LINKS)
