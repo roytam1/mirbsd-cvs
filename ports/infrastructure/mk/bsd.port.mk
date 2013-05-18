@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.164 2007/03/20 17:33:46 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.165 2007/03/30 23:20:09 bsiegert Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2211,7 +2211,7 @@ _package: ${_PKG_PREREQ}
 # This is left as a warning, because stuff such as @exec %F/%D
 # completion may cause legitimate dups.
 	@duplicates=$$(sort <${WRKPKG}/PLIST${SUBPACKAGE} \
-	    | egrep -v '@(comment|mode|owner)' | uniq -d); \
+	    | egrep -v '@(comment|mode|owner|group)' | uniq -d); \
 	case "$${duplicates}" in "");; \
 	*)	echo "\n*** WARNING *** Duplicates in PLIST:\n$$duplicates\n";; \
 	esac
