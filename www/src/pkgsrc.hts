@@ -4,7 +4,7 @@
 mws_setname pkgsrc "pkgsrc on MirOS"
 mws_subdir 0
 mws_setheadline pkgsrc on MirOS
-mws_putheader '$MirOS: www/src/pkgsrc.hts,v 1.4 2011/12/18 12:08:41 bsiegert Exp $'
+mws_putheader '$MirOS: www/src/pkgsrc.hts,v 1.5 2011/12/18 12:11:18 bsiegert Exp $'
 mws_content <<'EOF'
 <p>pkgsrc is a “ports tree” developed by the NetBSD project and portable
  to several other operating systems. Support for MirOS has existed since
@@ -33,15 +33,15 @@ mws_content <<'EOF'
 <h2>Binary packages</h2>
 
 <p>Pre-built binary packages of the
- <a href="http://mail-index.netbsd.org/current-users/2011/10/03/msg017924.html"><b>2011Q3 branch</b></a>
- (from October 2011), built for recent MirOS-current (from 2011), are
+ <b>pkgsrc-2012Q1 branch</b>
+ (from April 2012), built for recent MirOS-current, are
  available. They can be used even if you did not install a compiler on
- the system. The binary repository contains <b>5330 packages</b>. The
- packages have been built with
+ the system. The binary repository contains about <b>5600 packages</b>.
+ The packages have been built with
  <tt>/usr/pkg</tt>
  as the prefix and
- <tt>/usr/pkg/var</tt> as VARBASE, so that they are self-contained. This
- means that you need root rights to use them as the system. pkgsrc can
+ <tt>/usr/pkg/var</tt> as VARBASE so that they are self-contained.
+ You need root rights to use these packages. pkgsrc can
  also be installed as an unprivileged user but you will need to build
  from source in this case.
 </p>
@@ -51,7 +51,7 @@ mws_content <<'EOF'
 <ol>
  <li>Download the bootstrap kit: <br />
   <tt>ftp
-  ftp://ftp.netbsd.org/pub/pkgsrc/packages/MirBSD/i386/10uAE_2011Q3/bootstrap.tar.gz</tt></li>
+  ftp://ftp.netbsd.org/pub/pkgsrc/packages/MirBSD/i386/10uB0_2012Q1/bootstrap.tar.gz</tt></li>
  <li>Extract the file:<br />
   <tt>cd / ; tar xvpzf /path/to/bootstrap.tar.gz</tt></li>
  <li>Set the PATH to include /usr/pkg <i>before</i> any MirPorts
@@ -62,7 +62,7 @@ mws_content <<'EOF'
   <tt>export PATH=$(echo $PATH|sed s,mpkg,pkg,g)</tt></li>
  <li>Set the path to the binary packages:<br />
   <tt>export
-  PKG_PATH="ftp://ftp.netbsd.org/pub/pkgsrc/packages/MirBSD/i386/10uAE_2011Q3/All/"</tt></li>
+  PKG_PATH="ftp://ftp.netbsd.org/pub/pkgsrc/packages/MirBSD/i386/10uB0_2012Q1/All/"</tt></li>
  <li>Now you can easily install additional packages, for example:<br />
   <tt>pkg_add python27</tt></li>
 </ol>
