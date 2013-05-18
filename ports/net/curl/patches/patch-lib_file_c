@@ -1,7 +1,7 @@
-$MirOS$
---- lib/file.c.orig	Thu Jan 31 12:04:10 2008
-+++ lib/file.c	Sat Apr  5 19:00:41 2008
-@@ -482,7 +482,7 @@ static CURLcode file_do(struct connectda
+$MirOS: ports/net/curl/patches/patch-lib_file_c,v 1.1 2008/04/05 21:54:39 tg Exp $
+--- lib/file.c.orig	Thu May 22 17:37:13 2008
++++ lib/file.c	Tue Aug 26 19:03:21 2008
+@@ -485,7 +485,7 @@ static CURLcode file_do(struct connectda
                 Curl_wkday[tm->tm_wday?tm->tm_wday-1:6],
                 tm->tm_mday,
                 Curl_month[tm->tm_mon],

@@ -1,4 +1,4 @@
-@comment $MirOS: ports/net/curl/pkg/PLIST,v 1.5 2006/10/06 21:20:22 tg Exp $
+@comment $MirOS: ports/net/curl/pkg/PLIST,v 1.6 2008/04/05 21:54:40 tg Exp $
 @comment $OpenBSD: PLIST,v 1.13 2004/05/18 23:30:46 brad Exp $
 bin/curl
 bin/curl-config
@@ -21,7 +21,9 @@ man/man3/curl_easy_getinfo.3
 man/man3/curl_easy_init.3
 man/man3/curl_easy_pause.3
 man/man3/curl_easy_perform.3
+man/man3/curl_easy_recv.3
 man/man3/curl_easy_reset.3
+man/man3/curl_easy_send.3
 man/man3/curl_easy_setopt.3
 man/man3/curl_easy_strerror.3
 man/man3/curl_easy_unescape.3

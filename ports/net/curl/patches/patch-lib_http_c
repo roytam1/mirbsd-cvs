@@ -1,7 +1,7 @@
-$MirOS$
---- lib/http.c.orig	Sun Mar 30 09:00:28 2008
-+++ lib/http.c	Sat Apr  5 19:00:57 2008
-@@ -2445,7 +2445,7 @@ CURLcode Curl_http(struct connectdata *c
+$MirOS: ports/net/curl/patches/patch-lib_http_c,v 1.1 2008/04/05 21:54:39 tg Exp $
+--- lib/http.c.orig	Mon May 19 20:57:05 2008
++++ lib/http.c	Tue Aug 26 19:03:21 2008
+@@ -2477,7 +2477,7 @@ CURLcode Curl_http(struct connectdata *c
               Curl_wkday[tm->tm_wday?tm->tm_wday-1:6],
               tm->tm_mday,
               Curl_month[tm->tm_mon],

@@ -1,7 +1,7 @@
-$MirOS$
---- docs/examples/ftpupload.c.orig	Thu Feb 21 17:25:07 2008
-+++ docs/examples/ftpupload.c	Sat Apr  5 19:17:54 2008
-@@ -20,6 +20,7 @@
+$MirOS: ports/net/curl/patches/patch-docs_examples_ftpupload_c,v 1.1 2008/04/05 21:54:38 tg Exp $
+--- docs/examples/ftpupload.c.orig	Fri May 23 09:05:31 2008
++++ docs/examples/ftpupload.c	Tue Aug 26 19:03:21 2008
+@@ -21,6 +21,7 @@
  #else
  #include <unistd.h>
  #endif
@@ -9,7 +9,7 @@ $MirOS$
  
  /*
   * This example shows an FTP upload, with a rename of the file just after
-@@ -44,7 +45,7 @@ static size_t read_callback(void *ptr, s
+@@ -45,7 +46,7 @@ static size_t read_callback(void *ptr, s
       by default internally */
    size_t retcode = fread(ptr, size, nmemb, stream);
  
@@ -18,7 +18,7 @@ $MirOS$
    return retcode;
  }
  
-@@ -64,7 +65,7 @@ int main(int argc, char **argv)
+@@ -65,7 +66,7 @@ int main(int argc, char **argv)
      printf("Couldnt open '%s': %s\n", LOCAL_FILE, strerror(errno));
      return 1;
    }

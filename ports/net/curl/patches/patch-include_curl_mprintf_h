@@ -1,20 +1,13 @@
-$MirOS$
---- include/curl/mprintf.h.orig	Wed Aug  8 08:39:42 2007
-+++ include/curl/mprintf.h	Sat Apr  5 18:47:01 2008
-@@ -32,16 +32,44 @@
+$MirOS: ports/net/curl/patches/patch-include_curl_mprintf_h,v 1.1 2008/04/05 21:54:38 tg Exp $
+--- include/curl/mprintf.h.orig	Tue May 20 12:21:53 2008
++++ include/curl/mprintf.h	Tue Aug 26 19:04:54 2008
+@@ -32,18 +32,46 @@
  extern "C" {
  #endif
  
 -CURL_EXTERN int curl_mprintf(const char *format, ...);
 -CURL_EXTERN int curl_mfprintf(FILE *fd, const char *format, ...);
 -CURL_EXTERN int curl_msprintf(char *buffer, const char *format, ...);
--CURL_EXTERN int curl_msnprintf(char *buffer, size_t maxlength, const char *format, ...);
--CURL_EXTERN int curl_mvprintf(const char *format, va_list args);
--CURL_EXTERN int curl_mvfprintf(FILE *fd, const char *format, va_list args);
--CURL_EXTERN int curl_mvsprintf(char *buffer, const char *format, va_list args);
--CURL_EXTERN int curl_mvsnprintf(char *buffer, size_t maxlength, const char *format, va_list args);
--CURL_EXTERN char *curl_maprintf(const char *format, ...);
--CURL_EXTERN char *curl_mvaprintf(const char *format, va_list args);
 +CURL_EXTERN int curl_mprintf(const char *format, ...)
 +    __attribute__((__nonnull__ (1)))
 +    __attribute__((__format__ (printf, 1, 2)));
@@ -26,7 +19,12 @@ $MirOS$
 +    __attribute__((__nonnull__ (1)))
 +    __attribute__((__nonnull__ (2)))
 +    __attribute__((__format__ (printf, 2, 3)));
-+CURL_EXTERN int curl_msnprintf(char *buffer, size_t maxlength, const char *format, ...)
+ CURL_EXTERN int curl_msnprintf(char *buffer, size_t maxlength,
+-                               const char *format, ...);
+-CURL_EXTERN int curl_mvprintf(const char *format, va_list args);
+-CURL_EXTERN int curl_mvfprintf(FILE *fd, const char *format, va_list args);
+-CURL_EXTERN int curl_mvsprintf(char *buffer, const char *format, va_list args);
++                               const char *format, ...)
 +    __attribute__((__format__ (printf, 3, 4)))
 +    __attribute__((__nonnull__ (1)))
 +    __attribute__((__nonnull__ (3)))
@@ -42,7 +40,11 @@ $MirOS$
 +    __attribute__((__nonnull__ (1)))
 +    __attribute__((__nonnull__ (2)))
 +    __attribute__((__format__ (printf, 2, 0)));
-+CURL_EXTERN int curl_mvsnprintf(char *buffer, size_t maxlength, const char *format, va_list args)
+ CURL_EXTERN int curl_mvsnprintf(char *buffer, size_t maxlength,
+-                                const char *format, va_list args);
+-CURL_EXTERN char *curl_maprintf(const char *format, ...);
+-CURL_EXTERN char *curl_mvaprintf(const char *format, va_list args);
++                                const char *format, va_list args)
 +    __attribute__((__nonnull__ (1)))
 +    __attribute__((__nonnull__ (3)))
 +    __attribute__((__format__ (printf, 3, 0)))
