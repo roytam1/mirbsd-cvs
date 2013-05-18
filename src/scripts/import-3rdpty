@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.26 2005/11/23 21:24:32 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.27 2005/12/04 15:13:38 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,7 +23,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.26 2005/11/23 21:24:32 tg Exp $ ========='
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.27 2005/12/04 15:13:38 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -1036,28 +1036,94 @@ openbsd)
 		usr.sbin/bgpd \
 		usr.sbin/bind \
 		usr.sbin/catman \
+		usr.sbin/gpioctl \
 		usr.sbin/grfinfo \
 		usr.sbin/hilinfo \
 		usr.sbin/hostapd \
 		usr.sbin/hotplugd \
+		usr.sbin/httpd/ABOUT_APACHE \
+		usr.sbin/httpd/Announcement \
+		usr.sbin/httpd/Announcement.de \
+		usr.sbin/httpd/CHANGES \
+		usr.sbin/httpd/INSTALL \
+		usr.sbin/httpd/INSTALL.SSL \
+		usr.sbin/httpd/LICENSE \
+		usr.sbin/httpd/LICENSE.SSL \
+		usr.sbin/httpd/README \
+		usr.sbin/httpd/README.SSL \
+		usr.sbin/httpd/README.configure \
+		usr.sbin/httpd/conf/access.conf-dist \
+		usr.sbin/httpd/conf/highperformance.conf-dist \
+		usr.sbin/httpd/conf/httpd.conf-dist \
+		usr.sbin/httpd/conf/srm.conf-dist \
 		usr.sbin/httpd/conf/ssl.crl \
 		usr.sbin/httpd/conf/ssl.crt \
 		usr.sbin/httpd/conf/ssl.csr \
 		usr.sbin/httpd/conf/ssl.key \
 		usr.sbin/httpd/conf/ssl.prm \
+		usr.sbin/httpd/htdocs/README.rus \
+		usr.sbin/httpd/htdocs/apache_pb.gif \
+		usr.sbin/httpd/htdocs/blowfish.jpg \
+		usr.sbin/httpd/htdocs/bsd_small.gif \
+		usr.sbin/httpd/htdocs/index.html \
+		usr.sbin/httpd/htdocs/lock.gif \
+		usr.sbin/httpd/htdocs/logo23.jpg \
+		usr.sbin/httpd/htdocs/logo24.jpg \
+		usr.sbin/httpd/htdocs/manual/LICENSE \
+		usr.sbin/httpd/htdocs/manual/TODO \
 		usr.sbin/httpd/htdocs/manual/images/apache_header.gif \
 		usr.sbin/httpd/htdocs/manual/images/apache_pb.gif \
+		usr.sbin/httpd/htdocs/manual/misc/FAQ.html \
+		usr.sbin/httpd/htdocs/manual/programs/ab.html \
+		usr.sbin/httpd/htdocs/manual/programs/apachectl.html \
+		usr.sbin/httpd/htdocs/openbsd_pb.gif \
+		usr.sbin/httpd/htdocs/openbsdpower.gif \
+		usr.sbin/httpd/htdocs/smalltitle.gif \
+		usr.sbin/httpd/icons/apache_pb.gif \
+		usr.sbin/httpd/icons/apache_pb.png \
 		usr.sbin/httpd/icons/small \
+		usr.sbin/httpd/src/.gdbinit \
+		usr.sbin/httpd/src/.indent.pro \
+		usr.sbin/httpd/src/BUILD.NOTES \
+		usr.sbin/httpd/src/CHANGES \
+		usr.sbin/httpd/src/CHANGES.SSL \
+		usr.sbin/httpd/src/INSTALL \
+		usr.sbin/httpd/src/PORTING \
+		usr.sbin/httpd/src/ap/.indent.pro \
+		usr.sbin/httpd/src/ap/ap_strtol.c \
+		usr.sbin/httpd/src/include/.indent.pro \
 		usr.sbin/httpd/src/lib \
+		usr.sbin/httpd/src/main/.indent.pro \
+		usr.sbin/httpd/src/modules/example/.indent.pro \
+		usr.sbin/httpd/src/modules/experimental/.indent.pro \
+		usr.sbin/httpd/src/modules/extra/.indent.pro \
+		usr.sbin/httpd/src/modules/proxy/.indent.pro \
+		usr.sbin/httpd/src/modules/ssl/ssl_util_sdbm.c \
+		usr.sbin/httpd/src/modules/ssl/ssl_util_sdbm.h \
+		usr.sbin/httpd/src/modules/standard/.indent.pro \
 		usr.sbin/httpd/src/regex \
+		usr.sbin/httpd/src/support/.indent.pro \
+		usr.sbin/httpd/src/support/ab.c \
+		usr.sbin/httpd/src/support/apachectl \
+		usr.sbin/httpd/src/support/apachectl.8 \
+		usr.sbin/httpd/src/support/httpd.exp \
+		usr.sbin/httpd/src/support/mkcert.sh \
+		usr.sbin/httpd/src/support/phf_abuse_log.cgi \
 		usr.sbin/kgmon \
 		usr.sbin/mopd \
+		usr.sbin/mrouted/snmp.c \
+		usr.sbin/mrouted/snmp.h \
 		usr.sbin/ospfctl \
 		usr.sbin/ospfd \
 		usr.sbin/pkg \
 		usr.sbin/pkg_add \
 		usr.sbin/pkg_install \
 		usr.sbin/sasyncd \
+		usr.sbin/tcpdump/CHANGES \
+		usr.sbin/tcpdump/INSTALL \
+		usr.sbin/tcpdump/README \
+		usr.sbin/tcpdump/VERSION \
+		usr.sbin/tcpdump/install-sh \
 		usr.sbin/ypbind \
 		usr.sbin/yppoll \
 		usr.sbin/ypserv \
