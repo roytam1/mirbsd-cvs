@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/lib/libkvm/kvm_sparc.c,v 1.2 2006/06/30 20:58:57 tg Exp $ */
 /*	$OpenBSD: kvm_sparc.c,v 1.10 2004/06/15 03:52:59 deraadt Exp $ */
 /*	$NetBSD: kvm_sparc.c,v 1.9 1996/04/01 19:23:03 cgd Exp $	*/
 
@@ -35,14 +35,6 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-#if 0
-static char sccsid[] = "@(#)kvm_sparc.c	8.1 (Berkeley) 6/4/93";
-#else
-static char *rcsid = "$OpenBSD: kvm_sparc.c,v 1.10 2004/06/15 03:52:59 deraadt Exp $";
-#endif
-#endif /* LIBC_SCCS and not lint */
-
 /*
  * Sparc machine dependent routines for kvm.  Hopefully, the forthcoming
  * vm code will one day obsolete this module.
@@ -69,7 +61,8 @@ static char *rcsid = "$OpenBSD: kvm_sparc.c,v 1.10 2004/06/15 03:52:59 deraadt E
 
 #include "kvm_private.h"
 
-__RCSID("$MirOS$");
+__SCCSID("@(#)kvm_sparc.c	8.1 (Berkeley) 6/4/93");
+__RCSID("$MirOS: src/lib/libkvm/kvm_sparc.c,v 1.2 2006/06/30 20:58:57 tg Exp $");
 
 static int cputyp = -1;
 static int pgshift;
@@ -81,6 +74,8 @@ static int nptesg;	/* [sun4/sun4c] only */
 
 #define VA_OFF(va) (va & (kd->nbpg - 1))
 
+int _kvm_kvatop4m(kvm_t *, u_long, u_long *);
+int _kvm_kvatop44c(kvm_t *, u_long, u_long *);
 
 void
 _kvm_freevtop(kvm_t *kd)
