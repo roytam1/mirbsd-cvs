@@ -86,6 +86,7 @@ couldn't be found. Have you even bothered to run 'install'?\n";
     exit;
 }
 use Encode;
+use Fcntl;
 use POSIX ":sys_wait_h";
 
 &Getopts('n:s:p:u:i:l:L:H:rqQR78UC:XT');
@@ -135,7 +136,7 @@ if ($set{"LOCALHOST"}) {
 if (open(H, "$libdir/sirc.help") || ((-f "$libdir/sirc.help.gz") &&
      open(H, "gzip -cd $libdir/sirc.help.gz |"))) {
   @help=<H>;
-  close H;
+  close(H);
   foreach (@help) {
     chop;
     s/\$version/$version/g;
@@ -146,13 +147,16 @@ if (open(H, "$libdir/sirc.help") || ((-f "$libdir/sirc.help.gz") &&
 }
 
 sub exit {
-  close LOG if $logging;
+  close(LOG) if $logging;
   exit 0;
 }
 
 $SIG{'PIPE'}='IGNORE';
 $SIG{'QUIT'}='IGNORE';
 $SIG{'INT'}='exit';
+
+sub dummy {
+}
 
 sub eq {
   local($a, $b)=@_;
@@ -207,36 +211,72 @@ sub REAPER {
 }
 $SIG{CHLD} = \&REAPER;
 $ssl_pid = 0;
+$ssl_efd = 0;
 
 sub connect {
   $_[0]=&newfh;
   local($fh, $host, $port, $use_ssl)=@_;
+  if ($ssl_efd != 0) {
+    while (my $x = <$ssl_efd>) {
+      &tell("*\cbE\cb* TLS: $x");
+    }
+    close($ssl_efd);
+    delete $buffer{$ssl_efd};
+    $ssl_efd = 0;
+  }
   if ($ssl_pid) {
     kill TERM => $ssl_pid;
   }
   $ssl_pid = 0;
   if ($use_ssl) {
-    my $spfh = $fh, $scfh = &newfh, $pid;
+    my $spfh = $fh, $scfh = &newfh, $spe = &newfh, $sce = &newfh, $pid;
 
     if (!socketpair($scfh, $spfh, &AF_UNIX, &SOCK_STREAM, &PF_UNSPEC)) {
       &tell("*\cbE\cb* Cannot create a socket pair: $!");
       return 0;
     }
+    if (!socketpair($sce, $spe, &AF_UNIX, &SOCK_STREAM, &PF_UNSPEC)) {
+      close($scfh);
+      close($spfh);
+      &tell("*\cbE\cb* Cannot create a second socket pair: $!");
+      return 0;
+    }
     if ($pid = fork) {
       close($spfh);
-      open(STDIN, "<&", fileno($scfh));
-      open(STDOUT, ">&", fileno($scfh));
+      close($spe);
+      #shutdown($sce, 0);
+      open(STDIN, "<&$scfh");#, fileno($scfh));
+      open(STDOUT, ">&$scfh");#, fileno($scfh));
+      open(STDERR, ">&$sce");#, fileno($sce));
+      select(STDERR); $| = 1;
       select(STDOUT); $| = 1;
-      exec "openssl s_client  -connect ${host}:${port} 2>/dev/null";
+      exec "openssl s_client -";
+      exec "openssl s_client  -connect ${host}:${port}";
     }
     if (!defined $pid) {
       close($scfh);
       close($spfh);
+      close($sce);
+      close($spe);
       &tell("*\cbE\cb* Cannot fork: $!");
       return 0;
     }
     close($scfh);
+    close($sce);
+    #shutdown($spe, 1);
+    select($spe); $|=1; select(STDOUT);
+    my $flags = fcntl($spe, F_GETFL, 0);
+    fcntl($spe, F_SETFL, $flags | O_NONBLOCK);
+    for (;;) {
+      undef $!;
+      my $line = <$spe>;
+      &tell("*\cbI\cb* TLS: $line") if defined $line;
+      &tell("*\cbE\cb* TLS Error: $!") if $!;
+      last if $!;
+    }
+    fcntl($spe, F_SETFL, $flags);
     $ssl_pid = $pid;
+    $ssl_efd = $spe;
   } else {
     local($adr, $otherend)=&resolve($host);
     &tell("*\cbE\cb* Hostname '$host' not found"), return 0 unless $adr;
@@ -257,7 +297,7 @@ sub connect {
     }
     $trysock=$fh;
     $SIG{'QUIT'}='sigquit';
-    &print("*\cbE\cb* Can't connect to host: $!"), close $fh,
+    &print("*\cbE\cb* Can't connect to host: $!"), close($fh),
       $SIG{'QUIT'}='IGNORE', return 0 unless connect($fh, $otherend);
     $SIG{'QUIT'}='IGNORE';
     if ($use_ipv6) {
@@ -285,9 +325,9 @@ sub listen {
       &tell("*\cbE\cb* Out of file descriptors"), return 0
        unless socket($fh, &PF_INET, &SOCK_STREAM, 0);
   }
-  &tell("*\cbE\cb* Can't bind local socket!"), close $fh, return 0
+  &tell("*\cbE\cb* Can't bind local socket!"), close($fh), return 0
     unless bind($fh, $thisend);
-  &tell("*\cbE\cb* Can't listen to socket!"), close $fh, return
+  &tell("*\cbE\cb* Can't listen to socket!"), close($fh), return
     unless listen($fh, 5);
   if ($use_ipv6) {
       return (unpack_sockaddr_in6(getsockname($fh)))[1];
@@ -819,7 +859,7 @@ sub doset {
   } elsif ($var eq 'LOG') {
     &restrict || return;
     if ($val =~ /^on$/i) {
-      $logging && close LOG;
+      $logging && close(LOG);
       if (open(LOG,
 	  ($logfile =~ /\.gz$/ ? "| gzip >> $logfile" : ">> $logfile"))) {
 	$logging=1;
@@ -832,7 +872,7 @@ sub doset {
 	&tell("*\cbE\cb* Can't write to logfile $logfile");
       }
     } elsif ($val =~ /^off$/i) {
-      print LOG "*\cbL\cb* Log ended on ".&date(time)."\n", close LOG
+      print LOG "*\cbL\cb* Log ended on ".&date(time)."\n", close(LOG)
 	if $logging;
       $logging='';
       $set{$var}="off";
@@ -1104,7 +1144,19 @@ sub docommand {
       ($server, $port, $pass)=split(/[\s:]+/, $args);
       $server=$', $nick=$1 if $server =~ /^([^\@]+)\@/;
       $port || ($port=$port0);
-      &sl("QUIT :changing servers"), close $S, delete $buffer{$S} if $connected;
+      if ($connected) {
+	&sl("QUIT :changing servers");
+	if ($ssl_efd != 0) {
+	  while (my $x = <$ssl_efd>) {
+	    &tell("*\cbE\cb* TLS: $x");
+	  }
+	  close($ssl_efd);
+	  delete $buffer{$ssl_efd};
+	}
+	$ssl_efd = 0;
+	close($S);
+	delete $buffer{$S};
+      }
       $connected=0;
       &bindtoserver;
     }
@@ -1229,8 +1281,8 @@ sub docommand {
 		$dtransferred{$sfh}, time-$dstarttime{$fh});
 	    &tell("*\cbE\cb* Closing DCC GET connection with $newarg");
 	    $found=1;
-	    close $sfh;
-	    close $fh;
+	    close($sfh);
+	    close($fh);
 	    delete $dgrfh{$sfh};
 	    delete $dfile{$fh};
 	    delete $dstarttime{$fh};
@@ -1347,7 +1399,7 @@ sub docommand {
       $fh=&newfh;
       &tilde($f);
       &tell("*\cbE\cb* Can't open file $f"), return unless open($fh, "<$f");
-      $myport=&listen($lfh) || (close $fh, return);
+      $myport=&listen($lfh) || (close($fh), return);
       $dswait{$lfh}=$fh;
       $tf=$1 if $f =~ m|/([^/]*)$|;
       $sz=(-s $f);
@@ -1405,6 +1457,14 @@ sub docommand {
     }
   } elsif ($cmd eq 'DISCONNECT' || $cmd eq 'DIS') {
     &tell("*** Disconnecting from $server");
+    if ($ssl_efd != 0) {
+      while (my $x = <$ssl_efd>) {
+	&tell("*\cbE\cb* TLS: $x");
+      }
+      close($ssl_efd);
+      delete $buffer{$ssl_efd};
+    }
+    $ssl_efd = 0;
     close($S);
     delete $buffer{$S};
     $connected=0;
@@ -1864,7 +1924,7 @@ sub dorcfile {
     &docommand($_) if $_;
     $silent=$skip='';
   }
-  close RCFILE;
+  close(RCFILE);
 }
 
 sub loadrc {
@@ -1879,11 +1939,15 @@ sub selline {
   foreach ($S, 'STDIN', keys(%dcnick), keys(%buf_fds)) {
     $leftover=1, return $_ if $buffer{$_} =~ /\n/;
   }
+  if ($ssl_efd != 0) {
+    $leftover=1, return $ssl_efd if $buffer{$ssl_efd} =~ /\n/;
+  }
   foreach ('STDIN', keys(%dcnick), keys(%dcwait), keys(%dgrfh), keys(%dswait),
 		keys(%dsrfh), keys(%sel_fds), keys(%buf_fds)) {
     vec($rin, fileno($_), 1)=1;
   }
   vec($rin, fileno($S), 1)=1 if $connected;
+  vec($rin, fileno($ssl_efd), 1)=1 if ($ssl_efd != 0);
   if ($#timers<0 || $timers[0]>time+30) {
     select($rout=$rin, undef, undef, 30);
   } elsif ($timers[0]<=time) {
@@ -2305,6 +2369,19 @@ while (1) {
     eval shift (@timeactions);
     $@ =~ s/\n$//, &tell("*\cbE\cb* error in timer: $@") if $@ ne '';
   }
+  if (($ssl_efd != 0) &&
+   (($leftover && $fh eq $ssl_efd) || vec($rout, fileno($ssl_efd), 1))) {
+    &gl($ssl_efd) || next;
+    if ($_ eq '') {
+      &tell("*\cbE\cb* Connection to TLS stderr lost");
+      close($ssl_efd);
+      delete $buffer{$ssl_efd};
+      $ssl_efd = 0;
+      next;
+    }
+    chop;
+    &tell("*\cbE\cb* TLS: $_");
+  }
   if (vec($rout, fileno(STDIN), 1) || ($leftover && $fh eq 'STDIN')) {
     &gl('STDIN') || next;
     &exit if $_ eq '';
@@ -2315,6 +2392,14 @@ while (1) {
     &gl($S) || next;
     if ($_ eq '') {
       &tell("*\cbE\cb* Connection to server lost");
+      if ($ssl_efd != 0) {
+	while (my $x = <$ssl_efd>) {
+	  &tell("*\cbE\cb* TLS: $x");
+	}
+	close($ssl_efd);
+	delete $buffer{$ssl_efd};
+      }
+      $ssl_efd = 0;
       close($S);
       delete $buffer{$S};
       $connected=0;
