@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.64 2007/06/12 09:41:58 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.65 2007/06/12 11:52:11 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -76,7 +76,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -dynamiclib \
 LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 		$$(${LORDER} ${SOBJS}|tsort -q) \
 		-Wl,--start-group ${LDADD} -Wl,--end-group \
-		-Wl,-h,${SHLIB_SONAME:R}
+		-Wl,-soname,lib${LIB}.so.${SHLIB_VERSION:R}
 .else
 LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 		$$(${LORDER} ${SOBJS}|tsort -q) \
