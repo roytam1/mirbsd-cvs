@@ -11,9 +11,11 @@ Policy: ${WRKDIR}/j2sdk-1_3_1_13-linux-i586.bin, Emulation: linux
 	linux-getgid: permit
 	linux-getuid: permit
 	linux-ioctl: permit
+	linux-linux_exit_group: permit
 	linux-lseek: permit
 	linux-lstat64: permit
 	linux-mmap: permit
+	linux-mprotect: permit
 	linux-munmap: permit
 	linux-read: permit
 	linux-rt_sigaction: permit

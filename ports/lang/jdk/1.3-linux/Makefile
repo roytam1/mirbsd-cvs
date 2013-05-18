@@ -1,8 +1,7 @@
-# $MirOS: ports/lang/jdk/1.3-linux/Makefile,v 1.6 2006/12/28 02:32:05 tg Exp $
+# $MirOS: ports/lang/jdk/1.3-linux/Makefile,v 1.7 2007/08/10 03:40:29 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2004/05/01 14:29:17 sturm Exp $
 
-BROKEN=			1.3.1_13 is no longer available at Sun,\
-			1.3.1_19 does not work (segfaults)
+BROKEN=			1.3.1_13 is no longer available at Sun
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
@@ -11,11 +10,10 @@ COMMENT=		Java(TM) Development Kit for Java(TM) 2 Standard Edition 1.3
 VERSION=		1.3.1_13
 
 DISTNAME=		jdk${VERSION}
-PKGNAME=		jdk-linux-${VERSION}-0
+PKGNAME=		jdk-linux-${VERSION}-${DASH_VER}
 CATEGORIES=		devel java lang
 HOMEPAGE=		http://java.sun.com/j2se/
-BUILD_DEPENDS=		:redhat_base->=6.2:emulators/redhat/base
-RUN_DEPENDS=		${BUILD_DEPENDS}
+B_R_DEPENDS+=		::emulators/fedora
 DISTFILES=		j2sdk-${VERSION:S/./_/g}-linux-i586.bin
 EXTRACT_CASES+=	*.bin) \
 		    tail `sed -n -e '/^tail/p' -e '/^tail/q' ${FULLDISTDIR}/$$archive \
@@ -46,7 +44,7 @@ FETCH_MANUALLY+= " ${DISTFILES} into ${FULLDISTDIR}."
 JDK_HOME=		${PREFIX}/jdk1.3.1-linux
 
 # Add empty OpenBSD and MirBSD resource bundle for javah
-disabled-post-patch:
+post-patch:
 	mkdir -p ${WRKSRC}/lib/com/sun/tools/javah/resources
 	touch ${WRKSRC}/lib/com/sun/tools/javah/resources/OpenBSD_i386.properties
 	touch ${WRKSRC}/lib/com/sun/tools/javah/resources/MirBSD_i386.properties
@@ -58,5 +56,5 @@ disabled-post-patch:
 do-install:
 	${INSTALL_DATA_DIR} ${JDK_HOME}
 	cp -Rp ${WRKDIST}/* ${JDK_HOME}
-	
+
 .include <bsd.port.mk>
