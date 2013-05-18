@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.54 2010/11/24 11:47:30 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.55 2011/02/09 13:12:41 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -66,7 +66,7 @@ function mws_basepath {
 # this only matches lines like this:
 # ^<h[23456] id="…id…">…content…</h[23456]>$
 function mws_maketoc {
-	local level=0 sps='       ' line lna llv lid
+	local level=0 sps='       ' line lna llv lid li_open=0
 
 	if [[ -z $mws__srcfile ]]; then
 		print -u2 Internal error: not called via mws__do!
@@ -79,13 +79,18 @@ function mws_maketoc {
 		(( llv = ${lna[0]#\<h} - 1 ))
 		while (( level < llv )); do
 			if (( level )); then
-				print "${sps::level}<li><ul>"
+				print "\n${sps::level}<ul>"
 			else
 				print "<ul>"
 			fi
+			li_open=0
 			let ++level
 		done
 		while (( level > llv )); do
+			if (( $li_open > 0 )); then
+				print "</li>"
+				li_open=0
+			fi
 			let --level
 			if (( level )); then
 				print "${sps::level}</ul></li>"
@@ -98,7 +103,12 @@ function mws_maketoc {
 		lid=${lid%%\"*}
 		line=${line#*\>}
 		line=${line%\</h?\>}
-		print "${sps::level}<li><a href=\"#$lid\">$line</a></li>"
+		if (( $li_open > 0 )); then
+			print "</li>"
+			li_open=0
+		fi
+		print -n "${sps::level}<li><a href=\"#$lid\">$line</a>"
+		li_open=1
 	done
 }
 
