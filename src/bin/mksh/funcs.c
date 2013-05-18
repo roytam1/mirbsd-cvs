@@ -25,7 +25,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/funcs.c,v 1.107 2009/05/16 18:40:06 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/funcs.c,v 1.108 2009/05/20 10:10:01 tg Exp $");
 
 /* A leading = means assignments before command are kept;
  * a leading * means a POSIX special builtin;
@@ -2824,10 +2824,6 @@ test_primary(Test_env *te, bool do_eval)
 		}
 
 		return (*te->eval)(te, op, opnd1, opnd2, do_eval);
-	}
-	if (te->flags & TEF_DBRACKET) {
-		(*te->error)(te, -1, "missing expression operator");
-		return 0;
 	}
 	return (*te->eval)(te, TO_STNZE, opnd1, NULL, do_eval);
 }
