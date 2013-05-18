@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/mbr/mbr.S,v 1.3 2007/02/26 01:51:46 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/mbr/mbr.S,v 1.4 2007/02/26 02:11:33 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005, 2007
@@ -214,12 +214,12 @@ Labend:	/* we can't boot, abort */
 	jmp	0xF000,0xFFF0	/* reset */
 
 Ltry:	mov	bp,4		/* number of tries */
-	mov	ds:[0x3FE],bp	/* place where later should be 0x55AA magic */
+	mov	ds:[0x3FE],bp	/* place where later should be 0x55 0xAA magic */
 Ltry0:	pusha
 	int	0x13
 	popa
 	jc	Ltry9		/* error? again. */
-	cmp	word ptr ds:[0x3FE],0x55AA
+	cmp	word ptr ds:[0x3FE],0xAA55
 	jne	Ltry9		/* bad magic? again. */
 	mov	ax,0x0E0D	/* output a carriage return */
 	xor	bx,bx
