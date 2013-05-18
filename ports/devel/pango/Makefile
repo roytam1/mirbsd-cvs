@@ -1,9 +1,10 @@
-# $MirOS: ports/devel/pango/Makefile,v 1.10 2007/02/22 22:57:48 tg Exp $
+# $MirOS: ports/devel/pango/Makefile,v 1.11 2008/07/26 13:09:44 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2003/09/23 06:12:41 marcm Exp $
 
 COMMENT=		library for layout and rendering of text
-DISTNAME=		pango-1.15.4
-PKGNAME=		${DISTNAME}-${DASH_VER}
+VERSION=		1.24.4
+V=			${VERSION:R}
+DISTNAME=		pango-${VERSION}
 CATEGORIES=		devel x11
 HOMEPAGE=		http://www.gtk.org
 
@@ -13,8 +14,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		ftp://ftp.gtk.org/pub/gtk/v2.8/ \
-			${MASTER_SITE_GNOME:=sources/pango/1.15/}
+MASTER_SITES=		${MASTER_SITE_GNOME:=sources/pango/${V}/}
 EXTRACT_SUFX=           .tar.bz2
 
 LIB_DEPENDS+=		glib-2.0.0.800,gmodule-2.0.0.800,gobject-2.0.0.800::devel/glib
@@ -25,10 +25,13 @@ USE_X11=		Yes
 USE_GMAKE=		Yes
 
 CONFIGURE_STYLE=	autoconf
-AUTOCONF_NEW=		Yes
+AUTOCONF_VERSION=	2.63
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static
 CONFIGURE_ARGS+=	--without-qt
+
+pre-patch:
+	echo "/^# libtool.m4/,/^# pkg.m4/d\nwq" | ed ${WRKSRC}/aclocal.m4
 
 post-install:
 	@${INSTALL_DATA_DIR} ${PREFIX}/share/examples/pango; \

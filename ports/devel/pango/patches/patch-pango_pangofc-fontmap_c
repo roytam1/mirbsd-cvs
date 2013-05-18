@@ -1,0 +1,21 @@
+$MirOS$
+--- pango/pangofc-fontmap.c.orig	2009-07-28 18:49:06.000000000 +0200
++++ pango/pangofc-fontmap.c	2009-07-28 18:50:37.000000000 +0200
+@@ -1363,7 +1363,7 @@ pango_fc_convert_weight_to_fc (PangoWeig
+   else if (pango_weight <= (PANGO_WEIGHT_HEAVY + PANGO_WEIGHT_ULTRAHEAVY) / 2)
+     return FC_WEIGHT_BLACK;
+   else
+-    return FC_WEIGHT_EXTRABLACK;
++    return FC_WEIGHT_BLACK;
+ }
+ 
+ static int
+@@ -2053,7 +2053,7 @@ pango_fc_convert_weight_to_pango (int fc
+     return PANGO_WEIGHT_BOLD;
+   else if (fc_weight <= (FC_WEIGHT_EXTRABOLD + FC_WEIGHT_BLACK) / 2)
+     return PANGO_WEIGHT_ULTRABOLD;
+-  else if (fc_weight <= (FC_WEIGHT_BLACK + FC_WEIGHT_EXTRABLACK) / 2)
++  else if (fc_weight <= FC_WEIGHT_BLACK)
+     return PANGO_WEIGHT_HEAVY;
+   else
+     return PANGO_WEIGHT_ULTRAHEAVY;
