@@ -1259,7 +1259,8 @@ rnd_addpool_reinit(void *v)
 	if (!i)
 		i = rnd_addpool_size;
 	while ((--i != rnd_addpool_num) && (rnd_addpool_buf[i])) {
-		add_true_randomness(rnd_addpool_buf[i]);
+		if (--rnd_addpool_buf[i])
+			add_true_randomness(rnd_addpool_buf[i] + random() & 1);
 		rnd_addpool_buf[i] = 0;
 		if (!i)
 			i = rnd_addpool_size;
