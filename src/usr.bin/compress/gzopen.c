@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.bin/compress/gzopen.c,v 1.4 2005/11/16 22:10:56 tg Exp $ */
-/*	$OpenBSD: gzopen.c,v 1.23 2005/06/26 18:20:26 otto Exp $	*/
+/**	$MirOS: src/usr.bin/compress/gzopen.c,v 1.5 2005/11/23 17:08:49 tg Exp $ */
+/*	$OpenBSD: gzopen.c,v 1.24 2007/03/19 13:02:18 pedro Exp $	*/
 
 /*
  * Copyright (c) 1997 Michael Shalayeff
@@ -63,7 +63,7 @@
 #include <zlib.h>
 #include "compress.h"
 
-__RCSID("$MirOS: src/usr.bin/compress/gzopen.c,v 1.4 2005/11/16 22:10:56 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/compress/gzopen.c,v 1.5 2005/11/23 17:08:49 tg Exp $");
 
 /* gzip flag byte */
 #define ASCII_FLAG   0x01 /* bit 0 set: file probably ascii text */
@@ -275,7 +275,7 @@ get_byte(gz_stream *s)
 	if (s->z_stream.avail_in == 0) {
 		errno = 0;
 		s->z_stream.avail_in = read(s->z_fd, s->z_buf, Z_BUFSIZE);
-		if (s->z_stream.avail_in <= 0) {
+		if ((int)s->z_stream.avail_in <= 0) {
 			s->z_eof = 1;
 			return EOF;
 		}
@@ -422,8 +422,9 @@ gz_read(void *cookie, char *buf, int len)
 		if (s->z_stream.avail_in == 0) {
 
 			errno = 0;
-			if ((s->z_stream.avail_in =
-			    read(s->z_fd, s->z_buf, Z_BUFSIZE)) == 0)
+			s->z_stream.avail_in = read(s->z_fd, s->z_buf,
+			    Z_BUFSIZE);
+			if ((int)s->z_stream.avail_in <= 0)
 				s->z_eof = 1;
 			s->z_stream.next_in = s->z_buf;
 		}

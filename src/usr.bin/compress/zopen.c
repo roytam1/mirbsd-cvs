@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.bin/compress/zopen.c,v 1.6 2005/11/23 17:08:49 tg Exp $ */
-/*	$OpenBSD: zopen.c,v 1.16 2005/06/26 18:20:26 otto Exp $	*/
+/**	$MirOS: src/usr.bin/compress/zopen.c,v 1.7 2006/06/15 19:13:07 tg Exp $ */
+/*	$OpenBSD: zopen.c,v 1.17 2005/08/25 17:07:56 millert Exp $	*/
 /*	$NetBSD: zopen.c,v 1.5 1995/03/26 09:44:53 glass Exp $	*/
 
 /*-
@@ -85,7 +85,7 @@
 #include "compress.h"
 
 __SCCSID("@(#)zopen.c	8.1 (Berkeley) 6/27/93");
-__RCSID("$MirOS: src/usr.bin/compress/zopen.c,v 1.6 2005/11/23 17:08:49 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/compress/zopen.c,v 1.7 2006/06/15 19:13:07 tg Exp $");
 
 #define	BITS		16		/* Default bits. */
 #define	HSIZE		69001		/* 95% occupancy */
@@ -119,8 +119,8 @@ struct s_zstate {
 	int zs_maxbits;			/* User settable max # bits/code. */
 	code_int zs_maxcode;		/* Maximum code, given n_bits. */
 	code_int zs_maxmaxcode;		/* Should NEVER generate this code. */
-	count_int zs_htab [HSIZE];
-	u_short zs_codetab [HSIZE];
+	count_int zs_htab[HSIZE];
+	u_short zs_codetab[HSIZE];
 	code_int zs_hsize;		/* For dynamic table sizing. */
 	code_int zs_free_ent;		/* First unused entry. */
 	/*
@@ -143,7 +143,7 @@ struct s_zstate {
 			code_int zs_ent;
 			code_int zs_hsize_reg;
 			int zs_hshift;
-		} w;			/* Write paramenters */
+		} w;			/* Write parameters */
 		struct {
 			u_char *zs_stackp, *zs_ebp;
 			int zs_finchar;
@@ -568,6 +568,15 @@ zread(void *cookie, char *rbp, int num)
 
 		/* Generate output characters in reverse order. */
 		while (zs->zs_code >= 256) {
+			/*
+			 * Bad input file may cause zs_stackp to overflow
+			 * zs_htab; check here and abort decompression,
+			 * that's better than dumping core.
+			 */
+			if (zs->zs_stackp >= (u_char *)&zs->zs_htab[HSIZE]) {
+				errno = EINVAL;
+				return (-1);
+			}
 			*zs->zs_stackp++ = tab_suffixof(zs->zs_code);
 			zs->zs_code = tab_prefixof(zs->zs_code);
 		}

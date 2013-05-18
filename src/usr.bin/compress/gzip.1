@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: gzip.1,v 1.4 2007/04/04 16:26:33 jmc Exp $
 .\"
 .\" Copyright (c) 1986, 1990, 1993
@@ -33,7 +34,7 @@
 .\"
 .\"     @(#)compress.1	8.2 (Berkeley) 4/18/94
 .\"
-.Dd April 18, 1994
+.Dd April 29, 2007
 .Dt GZIP 1
 .Os
 .Sh NAME
@@ -94,6 +95,12 @@ recognising the following extensions:
 .Dq .gz ,
 .Dq -gz ,
 .Dq _gz ,
+.Dq .cgz ,
+.Dq -cgz ,
+.Dq _cgz ,
+.Dq .ngz ,
+.Dq -ngz ,
+.Dq _ngz ,
 .Dq .tgz ,
 .Dq -tgz ,
 .Dq _tgz ,
@@ -107,6 +114,12 @@ and
 .Dq taz
 are not removed when decompressing, instead they are converted to
 .Dq tar .
+The same goes for
+.Dq cgz
+and
+.Dq ngz
+files, which are converted to
+.Dq cpio .
 .Pp
 The
 .Nm gzcat
@@ -174,22 +187,24 @@ Force compression of
 .Ar file ,
 even if it is not actually reduced in size.
 Additionally, files are overwritten without prompting for confirmation.
-If the input data is not in a format recognized by
+If the input data is not in a format recognised by
 .Nm
-and if the option
-.Fl c
-is also given, copy the input data without change
+and if the options
+.Fl cd
+are also given, copy the input data without change
 to the standard output: let
 .Nm gzcat
 behave as
 .Xr cat 1 .
+.Pp
+This option also turns off ignoring files based on their suffix.
 .It Fl g
 Use the deflate scheme, which reportedly provides better compression rates
 (the default).
 .It Fl h
 Print a short help message.
 .It Fl L
-Print the license.
+Print the licence.
 .It Fl l
 List information for the specified compressed files.
 The following information is listed:
@@ -248,8 +263,7 @@ Set the suffix for compressed files.
 .It Fl t
 Test the integrity of each file leaving any files intact.
 .It Fl V
-Display the program version
-.Pq RCS IDs of the source files
+Display the programme version
 and exit.
 .It Fl v
 Print the percentage reduction of each file and other information.
@@ -327,6 +341,7 @@ automatically.
 .El
 .Sh SEE ALSO
 .Xr compress 1 ,
+.Xr cpio 1 ,
 .Xr gzexe 1 ,
 .Xr gzsig 1 ,
 .Xr zdiff 1 ,
@@ -349,6 +364,8 @@ compatibility was added to
 .Xr compress 1
 in
 .Ox 3.4 .
+The cpio handling was added in
+.Mx 8 .
 The
 .Sq g
 in this version of
