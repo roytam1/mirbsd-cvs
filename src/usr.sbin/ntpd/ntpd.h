@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.16 2008/06/04 16:56:26 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.16.2.1 2008/06/04 17:51:00 tg Exp $ */
 /*	$OpenBSD: ntpd.h,v 1.70 2006/06/04 18:58:13 otto Exp $ */
 
 /*
@@ -171,6 +171,7 @@ struct imsgbuf {
 
 enum imsg_type {
 	IMSG_NONE,
+	IMSG_RESET,
 	IMSG_ADJTIME,
 	IMSG_SETTIME,
 	IMSG_HOST_DNS

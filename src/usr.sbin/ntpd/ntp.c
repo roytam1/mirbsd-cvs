@@ -38,13 +38,12 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.21.2.5 2008/06/04 18:08:15 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.21.2.6 2008/06/04 18:13:10 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
 
 volatile sig_atomic_t	 ntp_quit = 0;
-volatile sig_atomic_t	 ntp_usr1 = 0;
 struct imsgbuf		*ibuf_main;
 struct ntpd_conf	*conf;
 u_int			 peer_cnt;
@@ -63,8 +62,6 @@ ntp_sighdlr(int sig)
 	case SIGTERM:
 		ntp_quit = 1;
 		break;
-	case SIGUSR1:
-		ntp_usr1 = 1;
 	}
 }
 
@@ -133,10 +130,10 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 
 	endservent();
 
-	signal(SIGUSR1, ntp_sighdlr);
 	signal(SIGTERM, ntp_sighdlr);
 	signal(SIGINT, ntp_sighdlr);
 	signal(SIGPIPE, SIG_IGN);
+	signal(SIGUSR1, SIG_IGN);
 	signal(SIGHUP, SIG_IGN);
 
 	close(pipe_prnt[0]);
@@ -254,20 +251,6 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 				log_warn("poll error");
 				ntp_quit = 1;
 			}
-
-		if (ntp_usr1) {
-			log_info("ntp engine reset");
-			conf->scale = 1;
-			TAILQ_FOREACH(p, &conf->ntp_peers, entry) {
-				bzero(p->reply, sizeof (p->reply));
-				p->shift = 0;
-				if (p->trustlevel > TRUSTLEVEL_RESET)
-					/* burst the next few queries */
-					p->trustlevel = TRUSTLEVEL_RESET;
-				set_next(p, -1);
-			}
-			ntp_usr1 = 0;
-		}
 
 		if (nfds > 0 && (pfd[PFD_PIPE_MAIN].revents & POLLOUT))
 			if (msgbuf_write(&ibuf_main->w) < 0) {
@@ -389,6 +372,17 @@ ntp_dispatch_imsg(void)
 				peer_remove(peer);
 			else
 				client_addr_init(peer);
+			break;
+		case IMSG_RESET:
+			log_info("ntp engine reset");
+			conf->scale = 1;
+			TAILQ_FOREACH(peer, &conf->ntp_peers, entry) {
+				bzero(peer->reply, sizeof (peer->reply));
+				peer->shift = 0;
+				if (peer->trustlevel > TRUSTLEVEL_RESET)
+					peer->trustlevel = TRUSTLEVEL_RESET;
+				set_next(peer, -1);
+			}
 			break;
 		default:
 			break;
