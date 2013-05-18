@@ -1,7 +1,7 @@
-#!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+#!/usr/bin/env mksh
+# $MirOS: ports/infrastructure/scripts/autogen.sh,v 1.6 2008/05/01 00:52:33 tg Exp $
 #-
-# Copyright (c) 2004, 2005, 2006
+# Copyright (c) 2004, 2005, 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -21,34 +21,54 @@
 
 if [[ -z $AUTOCONF_VERSION ]]; then
 	export AUTOCONF_VERSION=2.13
-	print Warning: AUTOCONF_VERSION unset!
+	print -u2 Warning: AUTOCONF_VERSION unset, using $AUTOCONF_VERSION!
 fi
 
 if [[ -z $AUTOMAKE_VERSION ]]; then
 	export AUTOMAKE_VERSION=1.9
-	print Warning: AUTOMAKE_VERSION unset!
+	print -u2 Warning: AUTOMAKE_VERSION unset, using $AUTOMAKE_VERSION!
 fi
 
+[[ -n $GNUSYSTEM_AUX_DIR ]] || GNUSYSTEM_AUX_DIR=$PORTSDIR/infrastructure/db
+
+export AUTOCONF_VERSION AUTOMAKE_VERSION GNUSYSTEM_AUX_DIR
+
+AM_FLAGS="--miros --ignore-deps"
+[[ $AUTOMAKE_VERSION = 1.4 ]] && AM_FLAGS=
+[[ -n $flags ]] && AM_FLAGS=$flags
+
 todel=
+for f in $files ChangeLog ltmain.sh; do
+	[[ -e $f ]] && continue
+	ln -s /dev/null $f
+	todel="$todel $f"
+done
+
 for f in libtool.m4 m4salt.inc m4sugar.inc; do
 	[[ -e $f ]] || todel="$todel $f"
 	[[ -h $f ]] && rm -f $f
-	[[ -s $f ]] || ln -sf "$(dirname "$0")/$f" .
+	[[ -s $f ]] || ln -sf "$GNUSYSTEM_AUX_DIR/$f" .
 done
 
 set -e
 set -x
 ACLOCAL_AMFLAGS=
-[[ -e Makefile.am ]] && ACLOCAL_AMFLAGS=$(grep '^[:space:]*ACLOCAL_AMFLAGS' Makefile.am | cut -d '=' -f 2)
+[[ -e Makefile.am ]] && ACLOCAL_AMFLAGS=$(grep '^[:space:]*ACLOCAL_AMFLAGS' \
+    Makefile.am | cut -d '=' -f 2)
 aclocal -I . $ACLOCAL_AMFLAGS
 f=configure.ac
 [[ ! -e $f ]] && f=configure.in
-if fgrep -q -e AC_CONFIG_HEADER -e AM_CONFIG_HEADER $f; then
-	[[ -n $NO_AUTOHEADER ]] || autoheader
+[[ -n $NO_AUTOHEADER ]] || if fgrep -q \
+    -e AC_CONFIG_HEADER -e AM_CONFIG_HEADER $f; then
+	autoheader
 fi
 set +e
-[[ ! -e Makefile.am ]] || automake --foreign -i
-autoconf && chmod 664 configure
-[[ -z $todel ]] || eval rm -f $todel
-[[ -e autom4te.cache ]] && rm -rf autom4te.cache
-exit 0
+integer rv=0
+[[ ! -e Makefile.am ]] || automake --foreign -a $AM_FLAGS || rv=$?
+if autoconf; then
+	chmod 664 configure
+else
+	(( rv = rv ? rv : 1 ))
+fi
+rm -rf autom4te.cache $todel
+exit $rv
