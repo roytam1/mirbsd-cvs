@@ -1,13 +1,13 @@
-# $MirOS: www/src/mksh_old.hts,v 1.12 2008/10/26 22:46:47 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.13 2009/04/05 13:30:21 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.12 2008/10/26 22:46:47 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.13 2009/04/05 13:30:21 tg Exp $'
 mws_content <<'EOF'
 <h1><a href="mksh.htm">mksh</a> – old versions</h1>
-<p>This page lists information about mksh R29 and earlier.</p>
+<p>This page lists information about mksh R36b and earlier.</p>
 
 <h2>Old news</h2>
 <p>No news yet anyway… stay tuned.</p>
