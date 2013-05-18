@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: X11/xc/programs/xdm/config/Xsession,v 1.9 2007/02/19 05:30:40 tg Exp $
+# $MirOS: X11/xc/programs/xdm/config/Xsession,v 1.10 2007/06/04 19:04:36 tg Exp $
 #
 # $Xorg: Xsession,v 1.4 2000/08/17 19:54:17 cpqbld Exp $
 #
@@ -61,8 +61,8 @@ if [ -s "$startup" ]; then
 else
 	userresources=$HOME/.Xresources
 	usermodmap=$HOME/.Xmodmap
-	sysresources=XINITDIR/.Xresources
-	sysmodmap=XINITDIR/.Xmodmap
+	sysresources=/etc/X11/xdm/Xresources
+	sysmodmap=/etc/X11/xdm/Xmodmap
 
 	if [ -f $sysresources ]; then
 		xrdb -merge $sysresources
