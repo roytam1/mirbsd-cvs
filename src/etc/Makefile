@@ -1,13 +1,9 @@
-# $MirOS: src/etc/Makefile,v 1.38 2007/06/16 22:57:29 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.39 2007/10/02 18:26:27 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
 LOCALTIME?=	UTC
 NOOBJ=		yes
-
-.if exists(etc.${MACHINE}/Makefile.inc)
-.  include "etc.${MACHINE}/Makefile.inc"
-.endif
 
 .include <bsd.own.mk>
 
@@ -244,7 +240,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.38 2007/06/16 22:57:29 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.39 2007/10/02 18:26:27 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \
