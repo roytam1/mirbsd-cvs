@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/roff2htm,v 1.37 2007/01/25 10:42:34 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.38 2007/01/25 11:04:42 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007
@@ -36,11 +36,7 @@
 # Note: this file contains magic and can't be edited as UTF-8 either.
 
 
-# Set up
-
 gendate=$(date +"%F %T")		# current time
-
-# Subroutines
 
 do_convert()
 {
@@ -108,26 +104,17 @@ s/\([0-9A-z][-.,0-9A-z]*\)-\n\(  *\)\([0-9A-z][-.,0-9A-z]*([1-9][A-z]*)\)\([^ ]*
 			print
 			let isblank++
 		fi
-	done | iconv -csf utf-8 -t ucs-2le | \
-	    hexdump -ve '/2 "%04x" "\n"' | while read x; do
-		let i=16#$x
-		if (( i < 0x7f )); then
-			typeset -i8 o=i
-			print -n \\0${o#8#}
-		else
-			print -n "&#${i};"
-		fi
 	done
 }
 
 output_header()
 {
 	cat <<-EOF
-		<?xml version="1.0"?>
+		<?xml version="1.0" encoding="utf-8" ?>
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 		 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 		<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
-		 <meta http-equiv="content-type" content="text/html; charset=us-ascii" />
+		 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 		 <title>RTFM ${1}(${2})</title>
 		 <meta name="robots" content="index, follow" />
 		</head><body>
@@ -139,15 +126,15 @@ output_footer()
 {
 	cat <<-EOF
 		<hr /><p style="font-size:xx-small;">Generated on ${gendate} by
-		 \$MirOS: src/scripts/roff2htm,v 1.37 2007/01/25 10:42:34 tg Exp $</p>
+		 \$MirOS: src/scripts/roff2htm,v 1.38 2007/01/25 11:04:42 tg Exp $</p>
 		<p>These manual pages are copyrighted by their respective writers; their
-		 source can be retrieved from our <a href="http://cvs.mirbsd.de/">CVSweb</a>.
-		 The rest is Copyright &copy; 2002-2007 <a href="http://www.mirbsd.org/">The
+		 source is available at our <a href="http://cvs.mirbsd.de/">CVSweb</a>.
+		 The rest is Copyright © 2002-2007 <a href="http://www.mirbsd.org/">The
 		 MirOS Project</a>, Germany. <i style="font-size:3pt;"><br />
 		 This product includes material provided by Thorsten Glaser.</i></p>
 		<p style="font-size:x-small;">This manual page's HTML representation
 		 is supposed to be <a href="http://validator.w3.org/check/referer">valid
-		 XHTML/1.1</a>; if not, please send a bug report &ndash; diffs preferred.</p>
+		 XHTML/1.1</a>; if not, please send a bug report – diffs preferred.</p>
 		</body></html>
 	EOF
 }
@@ -185,6 +172,7 @@ convert_page()
 output_htaccess()
 {
 	print DirectoryIndex /dev/null
+	print "AddType 'text/html; charset=utf-8' htm"
 }
 
 # convert_all /path/to/share/man /targetpath
