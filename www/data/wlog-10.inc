@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.356 2011/08/26 18:16:52 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.357 2011/08/26 19:42:06 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8405,9 +8405,20 @@ Title: Netsplit – so let’s answer in the wlog
 Tag: debian pcli security
 Language: de-DE-1901
 
-<pre>14:31⎜*<b>&lt;</b>* Signoff: XTaran (*.net *.split)</pre>
-<p>… doesn’t prevent me from…</p>
-<p><tt>16:39⎜&lt;mira|AO&gt; XTaran: n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲</tt>
- <tt>n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ empfiehlt man k̶i̶l̶l̶a̶l̶l̶, i̲m̲m̲e̲r̲ nur p̲k̲i̲l̲l̲!</tt></p>
+<pre xml:lang="en">
+	14:31⎜*<b>&lt;</b>* Signoff: XTaran (*.net *.split)</pre>
+<p xml:lang="en">… doesn’t prevent me from telling him…</p>
+<pre>
+	16:39⎜&lt;mira|AO&gt; XTaran: n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲ n̲i̲e̲
+	     ⎜empfiehlt man k̶i̶l̶l̶a̶l̶l̶, i̲m̲m̲e̲r̲ nur p̲k̲i̲l̲l̲!</pre>
 <p xml:lang="en">“Now playing: Monzy — kill dash” ⇒ good idea… ☺</p>
+<hr />
+<p xml:lang="en" class="boxhead">By the way, you’re probably
+ looking for this…</p><div class="boxtext">
+ <pre>
+     -x      Require an exact match of the process name, or argument list if
+             -f is given. The default is to match any substring.
+ </pre>
+</div><p class="boxfoot">… excerpt from the pkill(1) manual page,
+ where you can see it stems from grep(1) clearly.</p>
 ----
