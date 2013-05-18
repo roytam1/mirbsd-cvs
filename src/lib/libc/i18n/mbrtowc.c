@@ -1,8 +1,8 @@
-/* $MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.3 2005/12/17 05:46:15 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.4 2006/05/21 12:12:29 tg Exp $ */
 
 /*-
- * Copyright (c) 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2005, 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -30,7 +30,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.3 2005/12/17 05:46:15 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.4 2006/05/21 12:12:29 tg Exp $");
 
 size_t
 mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ sb,
@@ -49,7 +49,7 @@ mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ sb,
 		/* '\0' can only appear as first character */
 		if (!__locale_is_utf8 || !ps->count)
 			return (0);
-ilseq:
+ ilseq:
 		errno = EILSEQ;
 		return ((size_t)(-1));
 	}
@@ -63,7 +63,7 @@ ilseq:
 
 	if (__predict_true(ps->count == 0)) {
 		if (c < 0x80) {
-one_char:
+ one_char:
 			if (pwc != NULL)
 				*pwc = (wchar_t)c;
 			return (c ? 1 : 0);
@@ -86,12 +86,12 @@ one_char:
 		w = ps->value;
 	}
 
-conv_byte:
+ conv_byte:
 	/* If there are no more bytes to inspect, make state */
 	if (__predict_false(!n)) {
 		ps->count = num;
 		ps->value = w >> 6;
-not_enough:
+ not_enough:
 		return ((size_t)(-2));
 	}
 
@@ -104,6 +104,8 @@ not_enough:
 
 	if (__predict_true(!num)) {
 		ps->count = 0;
+		if (__predict_false(w > 0xFFFD))
+			goto ilseq;
 		if (pwc != NULL)
 			*pwc = w;
 		return (s - (const unsigned char *)sb);

@@ -1,8 +1,8 @@
-/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.3 2005/12/17 05:46:15 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.4 2006/05/21 12:12:29 tg Exp $ */
 
 /*-
- * Copyright (c) 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2005, 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -30,7 +30,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.3 2005/12/17 05:46:15 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcrtomb.c,v 1.4 2006/05/21 12:12:29 tg Exp $");
 
 size_t
 wcrtomb(char *__restrict__ sb, wchar_t wc, mbstate_t *__restrict__ ps)
@@ -52,6 +52,7 @@ wcrtomb(char *__restrict__ sb, wchar_t wc, mbstate_t *__restrict__ ps)
 			*sb = wc;
 			return (1);
 		}
+ ilseq:
 		errno = EILSEQ;
 		return ((size_t)(-1));
 	}
@@ -67,12 +68,14 @@ wcrtomb(char *__restrict__ sb, wchar_t wc, mbstate_t *__restrict__ ps)
 	} else if (wc < 0x0800) {
 		ps->count = 1;
 		*s++ = (wc >> 6) | 0xC0;
+	} else if (__predict_false(wc > 0xFFFD)) {
+		goto ilseq;
 	} else {
 		ps->count = 2;
 		*s++ = (wc >> 12) | 0xE0;
 	}
 
-do_conv:
+ do_conv:
 	while (ps->count) {
 		*s++ = ((wc >> (6 * --ps->count)) & 0x3F) | 0x80;
 	}
