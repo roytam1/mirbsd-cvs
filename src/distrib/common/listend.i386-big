@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386-big,v 1.5 2006/08/19 13:47:25 tg Exp $
+# $MirOS: src/distrib/common/listend.i386-big,v 1.6 2006/08/19 14:35:59 tg Exp $
 
 # adjust for SRCDIRS omission (for when we want full tools)
 CRUNCHSPECIAL init	srcdir distrib/special/init
@@ -61,7 +61,7 @@ COPY	${DESTDIR}/usr/mdec/pxeboot		usr/mdec/pxeboot
 COPY	${DESTDIR}/usr/share/zoneinfo/UTC	usr/share/zoneinfo/UTC
 SPECIAL	ln usr/share/zoneinfo/UTC etc/localtime
 
-SPECIAL	col -b <${DESTDIR}/usr/share/man/cat1/ed.0 >ed.hlp
+SPECIAL	expand <${DESTDIR}/usr/share/man/cat1/ed.0 | col -b | unexpand -a >ed.hlp
 # sync with ports/books/mirex/Makefile
 SPECIAL	tail -3 <${DESTDIR}/usr/share/doc/README | grep '^key ' | while IFS="	" read keynr keyfile; do IFS=" :"; set -A keyno $keynr; IFS=; print $keyfile >gzsigkey.${keyno[1]}; done
 
