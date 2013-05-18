@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.169 2007/04/04 21:38:45 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.170 2007/04/07 14:37:14 bsiegert Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1133,16 +1133,10 @@ DEPENDS_TARGET=		install
 
 # Various dependency styles
 
-_build_depends_fragment= \
-	if [[ $$pkg = *-!* ]]; then \
-		pkg dependencies check "$$pkg" && found=true; \
-	else \
-		${PKG_CMD_INFO} -qe "$$pkg" && found=true; \
-	fi || true
-# (the '|| true' is for make... otherwise it yields error code 1 sometimes)
-_run_depends_fragment=${_build_depends_fragment}
-_regress_depends_fragment=${_build_depends_fragment}
-_fetch_depends_fragment=${_build_depends_fragment}
+_build_depends_fragment=	! ${PKG_CMD_INFO} -qe "$$pkg" || found=true
+_run_depends_fragment=		${_build_depends_fragment}
+_regress_depends_fragment=	${_build_depends_fragment}
+_fetch_depends_fragment=	${_build_depends_fragment}
 
 _resolve_lib_args=
 

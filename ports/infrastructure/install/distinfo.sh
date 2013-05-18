@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/distinfo.sh,v 1.44 2007/04/30 12:59:09 tg Exp $
+# $MirOS: ports/infrastructure/install/distinfo.sh,v 1.45 2007/04/30 20:02:09 tg Exp $
 
 case $what in
 make)
@@ -43,13 +43,13 @@ nroff)
 	;;
 pkgtools)
 	f_key=gzsigkey.pub
-	f_ver=20070430
+	f_ver=20070505
 	f_dist=pkgtools-$f_ver.cgz
 	f_path=mir/pkgtools
-	distinfo_md5=d08dc5cf10e7b78d9b5c1e5f7022f737
-	distinfo_sum=1491877663
-	distinfo_size=112055
-	distinfo_date="Apr 30 12:53"
+	distinfo_md5=a8bc4587267034127cc5e9908f376063
+	distinfo_sum=2662258442
+	distinfo_size=112579
+	distinfo_date="May  6 18:28"
 	;;
 *)
 	echo Do not call me directly. >&2
