@@ -1,8 +1,8 @@
-# $MirOS: ports/devel/autoconf/2.60/Makefile,v 1.2 2006/06/30 21:23:45 tg Exp $
+# $MirOS: ports/devel/autoconf/2.60/Makefile,v 1.3 2006/07/01 12:57:56 tg Exp $
 
 COMMENT=		automatically configure source code on many Un*x platforms
 SUFFIX=			-2.60
-PL=			1
+PL=			2
 DISTNAME=		autoconf${SUFFIX}
 PKGNAME=		${DISTNAME}-${PL}
 CATEGORIES=		devel
