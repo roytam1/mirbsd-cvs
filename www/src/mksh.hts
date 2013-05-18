@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.61 2007/09/12 20:03:18 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.62 2007/09/21 10:50:26 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.61 2007/09/12 20:03:18 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.62 2007/09/21 10:50:26 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R31c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -687,6 +687,8 @@ mws_content <<'EOF'
   ANSI’n’POSIX Environment (not finished)</li>
  <li>Plan porting mksh to <a href="http://www.minix3.org/">Minix 3</a>
   (not finished yet)</li>
+ <li>Begin supporting pcc (the ragge version of the Portable C Compiler)</li>
+ <li>Add pushd/popd/dirs functions and precmd/chpwd hooks to dot.mkshrc</li>
 </ul>
 <p>The mksh R31c (Solaris-only) upgrade for cnuke@ was caused by:</p><ul>
  <li>Clean up <tt>Build.sh</tt> and “test … -o …” doesn’t exist in Bourne</li>
