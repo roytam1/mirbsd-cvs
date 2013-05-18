@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.26 2005/12/21 14:59:09 tg Exp $
+# $MirOS: src/Makefile,v 1.27 2005/12/21 19:25:03 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .include <bsd.own.mk>
@@ -120,13 +120,13 @@ do-htman:
 
 dist-q:
 	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:Q} \
-	    HOME=$$(/usr/bin/mktemp -d /tmp/buildhome.XXXXXXXXXX) \
+	    HOME=$$(/usr/bin/mktemp -d /var/tmp/buildhome.XXXXXXXXXX) \
 	    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin \
 	    ${MAKE} BATCH=1 _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
 
 dist:
 	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:Q} \
-	    HOME=$$(/usr/bin/mktemp -d /tmp/buildhome.XXXXXXXXXX) \
+	    HOME=$$(/usr/bin/mktemp -d /var/tmp/buildhome.XXXXXXXXXX) \
 	    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin \
 	    ${MAKE} _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
 
@@ -212,6 +212,7 @@ _do-dist:
 	@date
 	@/bin/ls -Fl ${BSDRELDIR}/rel
 	@echo "============================================================"
+	@echo 'You might want to nuke ${HOME} now...'
 
 CVSROOT?=/cvs
 cvsup:
