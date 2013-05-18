@@ -45,7 +45,7 @@
 #include "sftp-common.h"
 #include "sftp-client.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.16 2008/03/02 21:14:22 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.17 2008/12/16 20:55:28 tg Exp $");
 
 /* File to read commands from */
 FILE* infile;
@@ -238,6 +238,7 @@ local_do_shell(const char *args)
 
 	if (pid == 0) {
 		/* XXX: child has pipe fds to ssh subproc open - issue? */
+		arc4_preexec();
 		if (args) {
 			debug3("Executing %s -c \"%s\"", shell, args);
 			execl(shell, shell, "-c", args, (char *)NULL);
@@ -1605,6 +1606,7 @@ connect_to_server(char *path, char **args, int *in, int *out)
 		 * kill it too
 		 */
 		signal(SIGINT, SIG_IGN);
+		arc4_preexec();
 		execvp(path, args);
 		fprintf(stderr, "exec: %s: %s\n", path, strerror(errno));
 		_exit(1);

@@ -36,6 +36,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/uio.h>
@@ -62,7 +63,7 @@
 #include "misc.h"
 #include "atomicio.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/authfile.c,v 1.6 2006/09/20 21:40:56 tg Exp $");
 
 /* Version identification string for SSH v1 identity files. */
 static const char authfile_id_string[] =

@@ -1,4 +1,3 @@
-/* $MirOS: src/usr.bin/ssh/atomicio.h,v 1.2 2006/04/19 10:40:43 tg Exp $ */
 /* $OpenBSD: atomicio.h,v 1.10 2006/08/03 03:34:41 deraadt Exp $ */
 
 /*

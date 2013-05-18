@@ -46,6 +46,12 @@
 
 #include "jpake.h"
 
+__RCSID("$MirOS$");
+
+/* for now */
+extern const EVP_MD *evp_ssh_sha256(void);
+#define EVP_sha256 evp_ssh_sha256
+
 #ifdef JPAKE
 
 /* RFC3526 group 5, 1536 bits */

@@ -1,4 +1,3 @@
-/* $MirOS: src/usr.bin/ssh/sftp-common.h,v 1.2 2006/04/19 10:40:53 tg Exp $ */
 /* $OpenBSD: sftp-common.h,v 1.10 2006/08/03 03:34:42 deraadt Exp $ */
 
 /*

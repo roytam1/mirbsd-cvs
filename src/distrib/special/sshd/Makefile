@@ -1,10 +1,9 @@
-# $MirOS: src/distrib/special/sshd/Makefile,v 1.5 2007/07/05 22:48:52 tg Exp $
-# $OpenBSD: Makefile,v 1.64 2004/08/23 14:26:39 dtucker Exp $
-#
-# Yes, this is _without_ BSD auth.
+# $MirOS: src/usr.bin/ssh/sshd/Makefile,v 1.6 2008/12/16 20:55:35 tg Exp $
+# $OpenBSD: Makefile,v 1.68 2008/11/04 08:22:13 djm Exp $
+#-
+# Build an extra small sshd(8) without BSD auth
 
 SSHDIR=	${.CURDIR}/../../../usr.bin/ssh
-
 .PATH: ${SSHDIR}
 
 CFLAGS+=-Wall -Wpointer-arith -Wno-uninitialized -Wstrict-prototypes \
@@ -14,6 +13,7 @@ PROG=	sshd
 BINOWN=	root
 BINMODE=555
 BINDIR=	/usr/sbin
+CPPFLAGS+= -DSMALL
 
 SRCS=	sshd.c auth-rhosts.c auth-passwd.c auth-rsa.c auth-rh-rsa.c \
 	sshpty.c sshlogin.c servconf.c serverloop.c \
@@ -22,14 +22,12 @@ SRCS=	sshd.c auth-rhosts.c auth-passwd.c auth-rsa.c auth-rh-rsa.c \
 	auth-bsdauth.c auth2-hostbased.c auth2-kbdint.c \
 	auth2-none.c auth2-passwd.c auth2-pubkey.c \
 	monitor_mm.c monitor.c monitor_wrap.c \
-	kexdhs.c kexgexs.c
-
-.include <bsd.prog.mk>
+	kexdhs.c kexgexs.c sftp-server.c sftp-common.c auth2-jpake.c
 
 DPADD+=	${LIBCRYPTO} ${LIBUTIL} ${LIBZ} ${LIBDES}
 LDADD+=	-lcrypto -lutil -lz -ldes
 
+.include <bsd.prog.mk>
+
 DPADD+=	${SSHDIR}/lib/${__objdir}/libssh.a
 LDADD+=	-L${SSHDIR}/lib/${__objdir} -L${SSHDIR}/lib -lssh
-
-CPPFLAGS+= -DSMALL

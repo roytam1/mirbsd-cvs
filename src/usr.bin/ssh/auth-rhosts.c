@@ -37,8 +37,6 @@
 #include "auth.h"
 #include "misc.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/auth-rhosts.c,v 1.4 2006/09/20 21:40:55 tg Exp $");
-
 /* import */
 extern ServerOptions options;
 extern int use_privsep;

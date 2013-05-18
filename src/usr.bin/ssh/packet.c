@@ -73,7 +73,7 @@
 #include "misc.h"
 #include "ssh.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/packet.c,v 1.12 2008/03/02 21:14:20 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/packet.c,v 1.13 2008/12/16 20:55:24 tg Exp $");
 
 #ifdef PACKET_DEBUG
 #define DBG(x) x
@@ -1700,7 +1700,6 @@ packet_set_authenticated(void)
 	after_authentication = 1;
 }
 
-/* MirOS extension */
 static void
 packet_consume_ignoremsg(void)
 {

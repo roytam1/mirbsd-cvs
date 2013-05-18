@@ -57,6 +57,12 @@
 
 #include "jpake.h"
 
+__RCSID("$MirOS$");
+
+/* for now */
+extern const EVP_MD *evp_ssh_sha256(void);
+#define EVP_sha256 evp_ssh_sha256
+
 /*
  * XXX options->permit_empty_passwd (at the moment, they will be refused
  * anyway because they will mismatch on fake salt.

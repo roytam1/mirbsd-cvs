@@ -39,7 +39,7 @@
 #include "dispatch.h"
 #include "log.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/auth2-chall.c,v 1.2 2008/03/02 21:14:18 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth2-chall.c,v 1.3 2008/12/16 20:55:19 tg Exp $");
 
 static int auth2_challenge_start(Authctxt *);
 static int send_userauth_info_request(Authctxt *);
@@ -311,9 +311,7 @@ privsep_challenge_enable(void)
 {
 #ifdef BSD_AUTH
 	extern KbdintDevice mm_bsdauth_device;
-#endif
 	/* As long as SSHv1 has devices[0] hard coded this is fine */
-#ifdef BSD_AUTH
 	devices[0] = &mm_bsdauth_device;
 #endif
 }

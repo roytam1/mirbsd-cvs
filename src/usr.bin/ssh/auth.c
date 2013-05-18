@@ -53,7 +53,7 @@
 #include "packet.h"
 #include "monitor_wrap.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/auth.c,v 1.8 2008/03/02 21:14:18 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth.c,v 1.9 2008/12/16 20:55:18 tg Exp $");
 
 /* import */
 extern ServerOptions options;
@@ -389,7 +389,7 @@ auth_openkeyfile(const char *file, struct passwd *pw, int strict_modes)
 	FILE *f;
 
 	/*
-	 * Open the file containing the authorized keys
+	 * Open the file containing the authorised keys
 	 * Fail quietly if file does not exist
 	 */
 	if ((fd = open(file, O_RDONLY|O_NONBLOCK)) == -1)
@@ -400,7 +400,7 @@ auth_openkeyfile(const char *file, struct passwd *pw, int strict_modes)
 		return NULL;
 	}
 	if (!S_ISREG(st.st_mode)) {
-		logit("User %s authorized keys %s is not a regular file",
+		logit("User %s authorised keys %s is not a regular file",
 		    pw->pw_name, file);
 		close(fd);
 		return NULL;

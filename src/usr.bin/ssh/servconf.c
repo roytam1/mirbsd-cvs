@@ -40,7 +40,7 @@
 #include "channels.h"
 #include "groupaccess.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.19 2008/03/02 21:14:21 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.20 2008/12/16 20:55:26 tg Exp $");
 
 static void add_listen_addr(ServerOptions *, char *, u_short);
 static void add_one_listen_addr(ServerOptions *, char *, u_short);
@@ -1521,8 +1521,8 @@ dump_config(ServerOptions *o)
 	dump_cfg_string(sCiphers, o->ciphers);
 	dump_cfg_string(sMacs, o->macs);
 	dump_cfg_string(sBanner, o->banner);
-	dump_cfg_string(sAuthorizedKeysFile, o->authorized_keys_file);
-	dump_cfg_string(sAuthorizedKeysFile2, o->authorized_keys_file2);
+	dump_cfg_string(sAuthorisedKeysFile, o->authorised_keys_file);
+	dump_cfg_string(sAuthorisedKeysFile2, o->authorised_keys_file2);
 	dump_cfg_string(sForceCommand, o->adm_forced_command);
 
 	/* string arguments requiring a lookup */

@@ -41,13 +41,12 @@
  */
 
 #include <sys/types.h>
+#include <sys/time.h>
 #include <sys/ioctl.h>
 #include <sys/queue.h>
 #include <sys/resource.h>
 #include <sys/socket.h>
 #include <sys/stat.h>
-#include <sys/types.h>
-#include <sys/time.h>
 
 #include <ctype.h>
 #include <errno.h>
@@ -96,7 +95,7 @@
 #include "scard.h"
 #endif
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.23 2008/03/02 21:14:23 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.24 2008/12/16 20:55:30 tg Exp $");
 
 extern char *__progname;
 

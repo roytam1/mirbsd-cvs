@@ -34,7 +34,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.\" $MirOS: src/usr.bin/ssh/ssh.1,v 1.24 2008/05/07 12:16:13 tg Exp $
+.\" $MirOS: src/usr.bin/ssh/ssh.1,v 1.25 2008/12/16 20:55:30 tg Exp $
 .\" $OpenBSD: ssh.1,v 1.280 2008/11/09 12:34:47 tobias Exp $
 .Dd $Mdocdate: December 16 2008 $
 .Dt SSH 1
@@ -1045,7 +1045,7 @@ host key is the same, not guaranteed proof.
 To get a listing of the fingerprints along with their random art for
 all known hosts, the following command line can be used:
 .Pp
-.Dl $ ssh-keygen -lv -f ~/.ssh/known_hosts
+.Dl $ ssh-keygen -lv -f ~/.etc/ssh/known_hosts
 .Pp
 If the fingerprint is unknown,
 an alternative method of verification is available:

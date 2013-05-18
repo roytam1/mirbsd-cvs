@@ -23,6 +23,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 #include <sys/types.h>
 
 #include <pwd.h>
@@ -43,7 +44,7 @@
 #include "monitor_wrap.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/auth2-hostbased.c,v 1.4 2006/09/20 21:40:56 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth2-hostbased.c,v 1.5 2008/12/16 20:55:19 tg Exp $");
 
 /* import */
 extern ServerOptions options;

@@ -38,6 +38,7 @@
  */
 
 #include <sys/types.h>
+#include <sys/time.h>
 
 #include <openssl/bn.h>
 
@@ -48,6 +49,8 @@
 #include "buffer.h"
 #include "log.h"
 #include "misc.h"
+
+__RCSID("$MirOS$");
 
 /*
  * Returns integers from the buffer (msb first).

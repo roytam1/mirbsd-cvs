@@ -35,6 +35,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+
 #include <sys/param.h>
 #include <sys/un.h>
 #include <sys/socket.h>
@@ -61,7 +62,7 @@
 #include "atomicio.h"
 #include "misc.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/authfd.c,v 1.5 2006/09/20 21:40:56 tg Exp $");
 
 static int agent_present = 0;
 
@@ -416,6 +417,7 @@ ssh_agent_sign(AuthenticationConnection *auth,
     u_char **sigp, u_int *lenp,
     u_char *data, u_int datalen)
 {
+	extern int datafellows;
 	Buffer msg;
 	u_char *blob;
 	u_int blen;
