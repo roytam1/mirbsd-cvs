@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PLIST-bz2,v 1.1.1.1 2004/10/02 11:32:37 robert Exp $
-lib/php/modules/bz2.so
-@dirrm lib/php/modules

@@ -1,9 +1,0 @@
-These are the games you'd normally expect to come
-with the BSD base system installation, thrown out
-for space and code cleanliness reasons.
-
-The "potentially offensive fortunes" data file is
-stored in clear text. Beware, Americans!
-
-huntd(6) is not included because it uses libwrap,
-not a part of MirOS since, uh, long.

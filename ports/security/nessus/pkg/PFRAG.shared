@@ -1,5 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.14 2004/04/08 16:32:39 sturm Exp $
-@lib lib/libhosts_gatherer.so.2.10
-@lib lib/libnasl.so.2.10
-@lib lib/libnessus.so.2.10
