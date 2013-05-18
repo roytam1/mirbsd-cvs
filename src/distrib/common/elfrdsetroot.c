@@ -1,4 +1,4 @@
-/**	$MirOS: src/distrib/common/elfrdsetroot.c,v 1.2 2005/03/06 18:58:02 tg Exp $ */
+/**	$MirOS: src/distrib/common/elfrdsetroot.c,v 1.3 2005/07/24 16:44:12 tg Exp $ */
 /*	$OpenBSD: elfrdsetroot.c,v 1.10 2005/01/14 22:47:06 deraadt Exp $	*/
 /*	$NetBSD: rdsetroot.c,v 1.2 1995/10/13 16:38:39 gwr Exp $	*/
 
@@ -214,13 +214,13 @@ find_rd_root_image(char *file, Elf_Ehdr *eh, Elf_Phdr *ph, int segment)
 	rd_root_image_off	-= (ph->p_vaddr - ph->p_paddr);
 
 #ifdef DEBUG
-	printf("segment %d rd_root_size_off = 0x%x\n", segment, rd_root_size_off);
+	printf("segment %d rd_root_size_off = 0x%lx\n", segment, rd_root_size_off);
 	if ((ph->p_vaddr - ph->p_paddr) != 0)
-		printf("root_off v %x p %x, diff %x altered %x\n",
+		printf("root_off v %x p %x, diff %x altered %lx\n",
 		    ph->p_vaddr, ph->p_paddr,
 		    (ph->p_vaddr - ph->p_paddr),
 		    rd_root_size_off - (ph->p_vaddr - ph->p_paddr));
-	printf("rd_root_image_off = 0x%x\n", rd_root_image_off);
+	printf("rd_root_image_off = 0x%lx\n", rd_root_image_off);
 #endif
 
 	/*

@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/pbr/ffs/pbr.S,v 1.5 2005/12/04 12:57:32 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/pbr/ffs/pbr.S,v 1.6 2005/12/04 13:22:16 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005
@@ -40,10 +40,12 @@
 	.globl	bpbspt		/** used to convert LBA -> CHS	*/
 	.globl	bpbtpc		/** used to convert LBA -> CHS	*/
 	.globl	blktbl		/** hint table start (at EOF)	*/
+	.globl	partp		/** user defined partition type */
 	.type	blkcnt, @function
 	.type	bpbspt, @function
 	.type	bpbtpc, @function
 	.type	blktbl, @function
+	.type	partp,  @function
 
 /* Parameter block for LBA, gets constructed here:
  * this is ALWAYS offset 0 into the file!

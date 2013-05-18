@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/Makefile,v 1.3 2005/05/01 23:29:48 tg Exp $
+# $MirOS: src/distrib/i386/Makefile,v 1.4 2005/12/04 17:11:01 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -40,7 +40,7 @@ SUBDIR+=	ramdisk
 .endif
 
 .if ${_DESCEND} == "yes" || ${REL_NO_FLOPPY:L} != "yes"
-#SUBDIR+=	floppy
+SUBDIR+=	floppy
 .endif
 
 .if ${_DESCEND} == "yes" || ${REL_NO_AUTOISO:L} != "yes"

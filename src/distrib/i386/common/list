@@ -1,9 +1,9 @@
-# $MirOS: src/distrib/i386/common/list,v 1.5 2005/08/23 10:58:45 tg Exp $
+# $MirOS: src/distrib/i386/common/list,v 1.6 2005/12/04 17:11:04 tg Exp $
 # $OpenBSD: list,v 1.15 2005/05/04 17:08:07 miod Exp $
 
-SRCDIRS distrib/special
+SRCDIRS distrib/special usr.bin/ssh
 SRCDIRS bin sbin usr.bin usr.sbin
-SRCDIRS sys/arch/i386/stand libexec usr.bin/ssh
+SRCDIRS sys/arch/i386/stand libexec
 
 # copy the crunched binary, link to it, and kill it
 COPY	${OBJDIR}/instbin			instbin

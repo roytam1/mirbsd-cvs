@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libz/zutil.h,v 1.6 2005/07/24 22:50:06 tg Exp $ */
+/**	$MirOS: src/lib/libz/zutil.h,v 1.7 2005/07/24 23:19:04 tg Exp $ */
 /*	$OpenBSD: zutil.h,v 1.9 2005/07/20 15:56:42 millert Exp $	*/
 /* zutil.h -- internal interface and configuration of the compression library
  * Copyright (C) 1995-2005 Jean-loup Gailly.
@@ -21,12 +21,14 @@
 #include <stand.h>
 #define	zRCSID(x)	/* nothing */
 #else
+#ifndef _KERNEL
 #ifdef STDC
 #  include <stddef.h>
 #  include <string.h>
 #  include <stdlib.h>
 #endif
 #include <errno.h>
+#endif
 #define	zRCSID(x)	__RCSID(x);
 #endif
 
