@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.16 2006/02/07 20:19:09 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.17 2006/02/09 11:11:54 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -112,7 +112,10 @@ _MODGNU_loop+=	print "Updating to MirLibtool in $$d"; \
 		"builtin([include], [libtool.m4])\n.\nwq" | ed -s $$LP; done;
 .endif
 
-# 3. run the various GNU tools
+# 3. execute hooks
+_MODGNU_loop+=	${_MODGNU_loop_hooks}
+
+# 4. run the various GNU tools
 .if ${CONFIGURE_STYLE:L:Mautoupdate}
 _MODGNU_loop+=	echo "Running autoupdate-${AUTOCONF_VERSION} in $$d"; \
 		${_SYSTRACE_CMD} ${SETENV} ${AUTOCONF_ENV} ${AUTOUPDATE};
