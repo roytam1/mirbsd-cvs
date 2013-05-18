@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.38 2009/09/25 18:25:19 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.39 2009/09/25 18:28:30 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -116,6 +116,7 @@ function mws_putheader {
 		<li><a href="@@RELPATH@@ports.htm">MirPorts</a> Framework</li>
 		<li>Subprojects<ul class="lv2">
 		<li><a href="@@RELPATH@@jupp.htm">jupp</a> Editor</li>
+		<li><a href="@@RELPATH@@kwalletcli.htm">KWalletCLI</a></li>
 		<li><a href="@@RELPATH@@mksh.htm">mksh</a> Shell</li>
 		</ul></li>
 		 </ul>
@@ -169,15 +170,17 @@ function mws_putfooter {
 		 <a href="@@RELPATH@@main.htm"><img class="hdrlnks"
 		  src="@@RELPATH@@pics/logo-grey.png" alt="MirOS Logo" /></a>
 		</div>
-		<div class="footer"><p>• <a
-		 href="http://validator.w3.org/check/referer">Valid HTML!</a> • <a
-		 href="mailto:miros-discuss@mirbsd.org">eMail</a> contact to the
-		 MirOS Project •</p>
+		<div class="footer">
 		<p style="font-size:3pt;">Do <em>not</em> send any eMail to <a
 		 href="mailto:junk@mirbsd.de">junk@mirbsd.de</a>, <a
 		 href="mailto:junk@mirbsd.org">junk@mirbsd.org</a>, or <a
 		 href="mailto:junk@mirsolutions.de">junk@mirsolutions.de</a> –
 		 it won’t do any good to you.</p>
+		<p>• <a
+		 href="mailto:miros-discuss@mirbsd.org">eMail</a> contact to the
+		 MirOS Project • This website is (supposed to be) <a
+		 href="http://validator.w3.org/check/referer">Valid HTML</a>! •
+		</p>
 		 @@HEADER@@
 		</div>
 		</body></html>
