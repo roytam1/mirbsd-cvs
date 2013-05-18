@@ -2433,7 +2433,7 @@ Author: tg@
  a different bug.) And I have no idea yet as to why.</p>
 <p>When Dr. Pfeffer doesn’t want to go geocaching, I do. They amount
  to 26 now, although 1 isn’t listed at the <img alt="ad-infested"
- src="http://img.geocaching.com/stats/img.aspx?txt=Hacking+MirBSD+since+2002&uid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658" />
+ src="http://img.geocaching.com/stats/img.aspx?txt=Hacking+MirBSD+since+2002&amp;uid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658" />
  commercial site, and 2 aren’t listed at the open site.</p>
 ----
 Date: 27.10.2007
