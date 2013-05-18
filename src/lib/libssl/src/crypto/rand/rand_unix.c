@@ -132,13 +132,32 @@
 # define FD_SETSIZE (8*sizeof(fd_set))
 #endif
 
+#ifdef __MirBSD__
+#include <sys/param.h>
+#include <sys/sysctl.h>
+
+__RCSID("$MirOS$");
+#endif
+
 #ifdef __OpenBSD__
 int RAND_poll(void)
 {
-	u_int32_t rnd = 0, i;
+	u_int32_t rnd = 0;
+	size_t i = 0;
 	unsigned char buf[ENTROPY_NEEDED];
 
-	for (i = 0; i < sizeof(buf); i++) {
+#ifdef __MirBSD__
+	int mib[2];
+
+	rnd = arc4random_pushb(buf, sizeof (buf));
+	RAND_add((u_char *)&rnd, sizeof (rnd), 31.2);
+	mib[0] = CTL_KERN;
+	mib[1] = KERN_ARND;
+	i = sizeof (buf);
+	if (sysctl(mib, 2, buf, &i, NULL, 0) < 0)
+		i = 0;
+#endif
+	for ( ; i < sizeof(buf); i++) {
 		if (i % 4 == 0)
 			rnd = arc4random();
 		buf[i] = rnd;

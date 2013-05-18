@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/openssl/Makefile,v 1.10 2006/10/15 00:53:05 tg Exp $
+# $MirOS: src/usr.sbin/openssl/Makefile,v 1.11 2007/09/28 12:12:56 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/04/29 05:42:55 djm Exp $
 
 PROG=		openssl
@@ -12,7 +12,7 @@ SSLEAY_SRC_TOP=	${BSDSRCDIR}/${SSLEAYDIST}
 SSLEAY_SRC=	${SSLEAY_SRC_TOP}/apps
 
 CPPFLAGS+=	-DMONOLITH
-CPPFLAGS+=	-DHAVE_ARC4RANDOM -DHAVE_ARC4RANDOM_PUSHB
+CPPFLAGS+=	-DMBSD_CB_ARND
 CPPFLAGS+=	-I${SSLEAY_SRC_TOP} -I${SSLEAY_SRC}
 
 .include "${SSLEAY_SRC_TOP}/../Makefile.inc"

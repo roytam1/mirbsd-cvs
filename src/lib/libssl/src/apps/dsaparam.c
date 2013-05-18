@@ -70,6 +70,8 @@
 #include <openssl/x509.h>
 #include <openssl/pem.h>
 
+__RCSID("$MirOS$");
+
 #undef PROG
 #define PROG	dsaparam_main
 
@@ -394,17 +396,24 @@ static void MS_CALLBACK dsa_cb(int p, int n, void *arg)
 	if (p == 2) c='*';
 	if (p == 3) c='\n';
 	BIO_write(arg,&c,1);
-#ifdef HAVE_ARC4RANDOM
+#ifdef MBSD_CB_ARND
 	{
-		uint32_t newentropy;
+		uint32_t oldentropy, newentropy;
+		int mib[2];
+		size_t nlen;
 
-#ifdef HAVE_ARC4RANDOM_PUSHB
-		RAND_bytes((u_char *)&newentropy, sizeof (newentropy));
-		newentropy = arc4random_pushb(&newentropy, sizeof (newentropy));
-#else
-		newentropy = arc4random();
-#endif
-		RAND_add(&newentropy, sizeof (newentropy), 31.2);
+		RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
+		mib[0] = CTL_KERN;
+		mib[1] = KERN_ARND;
+		nlen = sizeof (uint32_t);
+		sysctl(mib, 2, &newentropy, &nlen, &oldentropy,
+		    sizeof (uint32_t));
+		if (nlen == 0) {
+			newentropy = arc4random_pushb(&oldentropy,
+			    sizeof (uint32_t));
+			nlen = 4;
+		}
+		RAND_add(&newentropy, nlen, nlen * 7.8);
 	}
 #endif
 	(void)BIO_flush(arg);

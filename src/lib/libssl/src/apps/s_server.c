@@ -1,5 +1,3 @@
-/* $MirOS: src/lib/libssl/src/apps/s_server.c,v 1.2 2005/03/06 20:29:27 tg Exp $ */
-
 /* apps/s_server.c */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
@@ -141,6 +139,8 @@ typedef unsigned int u_int;
 #include <openssl/ssl.h>
 #include <openssl/rand.h>
 #include "s_apps.h"
+
+__RCSID("$MirOS$");
 
 #ifdef OPENSSL_SYS_WINCE
 /* Windows CE incorrectly defines fileno as returning void*, so to avoid problems below... */
@@ -1697,17 +1697,24 @@ static RSA MS_CALLBACK *tmp_rsa_cb(SSL *s, int is_export, int keylength)
 	{
 	static RSA *rsa_tmp=NULL;
 
-#ifdef HAVE_ARC4RANDOM
+#ifdef MBSD_CB_ARND
 	{
-		uint32_t newentropy;
+		uint32_t oldentropy, newentropy;
+		int mib[2];
+		size_t nlen;
 
-#ifdef HAVE_ARC4RANDOM_PUSHB
-		RAND_bytes((u_char *)&newentropy, sizeof (newentropy));
-		newentropy = arc4random_pushb(&newentropy, sizeof (newentropy));
-#else
-		newentropy = arc4random();
-#endif
-		RAND_add(&newentropy, sizeof (newentropy), 31.2);
+		RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
+		mib[0] = CTL_KERN;
+		mib[1] = KERN_ARND;
+		nlen = sizeof (uint32_t);
+		sysctl(mib, 2, &newentropy, &nlen, &oldentropy,
+		    sizeof (uint32_t));
+		if (nlen == 0) {
+			newentropy = arc4random_pushb(&oldentropy,
+			    sizeof (uint32_t));
+			nlen = 4;
+		}
+		RAND_add(&newentropy, nlen, nlen * 7.8);
 	}
 #endif
 
