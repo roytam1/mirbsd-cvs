@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.484 2012/12/08 19:27:10 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.485 2012/12/17 23:46:28 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -609,9 +609,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
  with mksh R40e (clang). More porting and tests are needed. <strong>This
  is different from “regular” Minix 3.</strong> Do be sure to set your
  <tt>TARGET_OS</tt> environment variable correctly.</p>
+<h5>OS: Minix-386</h5>
+<p>mksh R42 works on Minix-386 down to version 1.7.0 but not 1.5 due
+ to OS limitations; you might have to compile on version 2.0 as the
+ ACK bundled with 1.7 segfaults.</p>
 <h5>OS: Minix-vmd</h5>
-<p>mksh R42 works fine on Minix-vmd down to version 1.7.0 but not 1.5
- due to OS limitations.</p>
+<p>mksh R42 works fine on Minix-vmd 1.7 with ACK.</p>
 
 <h5 class="cr" id="oe_mnt">OS: MiNT / FreeMiNT</h5>
 <p>Support appeared in mksh R40. Depending on the distribution you use,
@@ -706,7 +709,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
 
 <h5 class="cr" id="oe_sunos">OS: SunOS</h5>
 <p>On mksh R42, add <tt>-DMKSH_TYPEDEF_SIG_ATOMIC_T=int</tt> and
- <tt>-DMKSH_TYPEDEF_SSIZE_T=int</tt> and RT says SunOS 4.1.1 will work.</p>
+ <tt>-DMKSH_TYPEDEF_SSIZE_T=int</tt> in addition to <tt>-DMKSH_UNEMPLOYED</tt>
+ <tt>-DUSE_REALLOC_MALLOC=0</tt> and SunOS 4.1.1 with GCC 2.7.2.3 will work.</p>
 
 <h5 class="cr" id="oe_syll"><img width="186" height="64" alt="[Syllable logo]"
  class="fr" src="@@RELPATH@@pics/logos/syllable.png" />OS: Syllable Desktop</h5>
