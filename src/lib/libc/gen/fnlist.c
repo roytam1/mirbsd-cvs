@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/gen/fnlist.c,v 1.6 2006/01/24 20:10:29 tg Exp $ */
+/**	$MirOS: src/lib/libc/gen/fnlist.c,v 1.7 2006/01/24 20:14:49 tg Exp $ */
 /*	$OpenBSD: nlist.c,v 1.51 2005/08/08 08:05:34 espie Exp $ */
 /*
  * Copyright (c) 1989, 1993
@@ -41,7 +41,7 @@
 #include <unistd.h>
 #include <a.out.h>		/* pulls in nlist.h */
 
-__RCSID("$MirOS: src/lib/libc/gen/fnlist.c,v 1.6 2006/01/24 20:10:29 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/fnlist.c,v 1.7 2006/01/24 20:14:49 tg Exp $");
 
 #ifdef _NLIST_DO_ELF
 #include <elf_abi.h>
@@ -65,7 +65,7 @@ __fpread(FILE *f, void *buf, size_t nbytes, off_t offset)
 
 	if ((oldofs = ftello(f)) == -1)
 		return (-1);
-	if (fseeko(f, offset, SEEK_SET))
+	if ((oldofs != offset) && (fseeko(f, offset, SEEK_SET)))
 		return (-1);
 	if ((rv = fread(buf, 1, nbytes, f)) == 0) {
 		if (ferror(f))
