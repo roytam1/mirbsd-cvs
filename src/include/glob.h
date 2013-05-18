@@ -94,4 +94,10 @@ int	glob(const char *, int, int (*)(const char *, int), glob_t *);
 void	globfree(glob_t *);
 __END_DECLS
 
+#if __BSD_VISIBLE
+__BEGIN_DECLS
+int	glob_pattern_p(const char *, int);
+__END_DECLS
+#endif
+
 #endif /* !_GLOB_H_ */

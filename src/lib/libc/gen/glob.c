@@ -71,7 +71,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/gen/glob.c,v 1.3 2010/10/08 20:00:49 tg Exp $");
 
 #define	DOLLAR		'$'
 #define	DOT		'.'
@@ -810,6 +810,38 @@ globfree(glob_t *pglob)
 		free(pglob->gl_statv);
 		pglob->gl_statv = NULL;
 	}
+}
+
+int
+glob_pattern_p(const char *pattern, int quote)
+{
+	int range = 0;
+
+	for (; *pattern; ++pattern)
+		switch (*pattern) {
+		case QUESTION:
+		case STAR:
+			return 1;
+
+		case QUOTE:
+			if (quote && pattern[1] != '\0')
+			      ++pattern;
+			break;
+
+		case LBRACKET:
+			range = 1;
+			break;
+
+		case RBRACKET:
+			if (range)
+			      return 1;
+			break;
+
+		default:
+			break;
+		}
+
+	  return 0;
 }
 
 static DIR *
