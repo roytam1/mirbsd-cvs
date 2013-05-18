@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/jupp/vfile.c,v 1.2 2008/05/13 13:08:32 tg Exp $ */
+/* $MirOS: contrib/code/jupp/vfile.c,v 1.3 2010/04/08 15:31:06 tg Exp $ */
 /*
  *	Software virtual memory system
  *	Copyright
@@ -192,7 +192,7 @@ unsigned char *vlock(VFILE *vfile, unsigned long addr)
 				pp->next = vp->next;
 				goto gotit;
 			}
-	write(2, "vfile: out of memory\n", 21);
+	if (write(2, "vfile: out of memory\n", 21)) {}
 	exit(1);
 
       gotit:
