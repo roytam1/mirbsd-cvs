@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.62 2006/09/30 02:41:51 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.63 2006/09/30 21:12:39 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -45,7 +45,15 @@
  <li>Don't shebang with spaces in test.sh creation</li>
  <li>Remove -fno-strength-reduce from default CFLAGS, the compiler bug
   was fixed between gcc 2.7.2 and gcc 2.7.2.1&#8230;</li>
- <li>avoid unaligned memory access causing SIGBUS on IA-64 on Debian</li>
+ <li>Avoid unaligned memory access causing SIGBUS on IA-64 on Debian</li>
+ <li>Convert to autoconf-style check for function and header file existence
+  of arc4random(3), arc4random_push(3), setlocale(3) and LC_CTYPE,
+  nl_langinfo(3) and CODESET, setmode(3), strlcat(3), strlcpy(3),
+  and &lt;sys/param.h&gt;</li>
+ <li>Add <tt>set -o utf8-hack</tt> aka <tt>mksh -U</tt> which
+  changes the Emacs editing mode to an experimental CESU-8 aware
+  multibyte mode (not implemented using wide chars unless internally
+  needed; does not require OS support)</li>
 </ul>
 <p>Upgrading to mksh R28 with these changes is highly recommended:</p><ul>
  <li>For these who build software as root, the regression testsuite

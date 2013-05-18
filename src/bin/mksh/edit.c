@@ -5,7 +5,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/edit.c,v 1.57 2006/11/06 19:57:19 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/edit.c,v 1.58 2006/11/09 00:01:36 tg Exp $");
 
 /* tty driver characters we are interested in */
 typedef struct {
@@ -869,7 +869,7 @@ char *utf_getcpfromcols(char *, int);
 
 #define utf_backch(c)						\
 	(!Flag(FUTFHACK) ? (c) - 1 : __extension__({		\
-		/*const*/ unsigned char *utf_backch_cp = (c);	\
+		u_char *utf_backch_cp = (u_char *)(c);		\
 		--utf_backch_cp;				\
 		while ((*utf_backch_cp >= 0x80) &&		\
 		    (*utf_backch_cp < 0xC0))			\
