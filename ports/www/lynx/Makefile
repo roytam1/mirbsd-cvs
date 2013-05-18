@@ -1,9 +1,9 @@
-# $MirOS: ports/www/lynx/Makefile,v 1.28 2009/08/09 15:46:30 tg Exp $
+# $MirOS: ports/www/lynx/Makefile,v 1.29 2009/09/06 14:17:03 tg Exp $
 
 COMMENT=		standard text-mode world wide web browser
 CATEGORIES=		www essentials
 VSN=			2.8.7rel.1
-DASH_VER=		1		# in sync with MirOS-0AAA rev.
+DASH_VER=		2		# in sync with MirOS-0AAA rev.
 DISTNAME=		lynx${VSN:C/[a-z]$//}
 .if ${VSN} != ${VSN:C/[a-z]$//}
 PATCHFILES=		lynx${VSN}.patch.gz:0
@@ -69,6 +69,10 @@ CONFIGURE_ARGS+=	--enable-vertrace \
 			--with-zlib \
 			--without-x
 # do not hardcode paths; do not scan for ports stuff
+# bzip2 is special and must always be disabled, otherwise
+# it tries to handle it internally as if linking with the
+# bzlib even if bzip2 isn’t there; setting the bzip2 path
+# in lynx.cfg doesn’t have this issue
 CONFIGURE_ENV+=		ac_cv_path_TELNET=telnet \
 			ac_cv_path_TN3270=tn3270 \
 			ac_cv_path_RLOGIN=rlogin \
@@ -76,7 +80,7 @@ CONFIGURE_ENV+=		ac_cv_path_TELNET=telnet \
 			ac_cv_path_GZIP=gzip \
 			ac_cv_path_UNCOMPRESS=gunzip \
 			ac_cv_path_UNZIP=unzip \
-			ac_cv_path_BZIP2=bzip2 \
+			ac_cv_path_BZIP2= \
 			ac_cv_path_TAR=tar \
 			ac_cv_path_COMPRESS=compress \
 			ac_cv_path_RM=rm \

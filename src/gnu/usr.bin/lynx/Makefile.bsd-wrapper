@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.25 2009/08/09 15:09:51 tg Exp $
+# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.26 2009/09/06 14:17:01 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.12 2003/05/01 18:59:36 avsm Exp $
 
 MAN=		lynx.1
@@ -8,7 +8,7 @@ FSFISLIB=	No
 
 .include <bsd.own.mk>
 
-# MirOS patchlevel – in sync with MirPorts-1 rev.
+# MirOS patchlevel – in sync with MirPorts-2 rev.
 CPPFLAGS+=	-DZCONST=const -DLYNX_VERSION=\"2.8.7rel.1-MirOS-0AAA\"
 
 CFARGS+=	--prefix=/usr \
@@ -54,6 +54,10 @@ CFARGS+=	--with-build-cc=${HOSTCC:Q} \
 .endif
 
 # do not hardcode paths; do not scan for ports stuff
+# bzip2 is special and must always be disabled, otherwise
+# it tries to handle it internally as if linking with the
+# bzlib even if bzip2 isn’t there; setting the bzip2 path
+# in lynx.cfg doesn’t have this issue
 CFVARS+=	ac_cv_path_TELNET=telnet \
 		ac_cv_path_TN3270=tn3270 \
 		ac_cv_path_RLOGIN=rlogin \
@@ -61,7 +65,7 @@ CFVARS+=	ac_cv_path_TELNET=telnet \
 		ac_cv_path_GZIP=gzip \
 		ac_cv_path_UNCOMPRESS=gunzip \
 		ac_cv_path_UNZIP=unzip \
-		ac_cv_path_BZIP2=bzip2 \
+		ac_cv_path_BZIP2= \
 		ac_cv_path_TAR=tar \
 		ac_cv_path_COMPRESS=compress \
 		ac_cv_path_RM=rm \
