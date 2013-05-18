@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/date/date.c,v 1.3 2006/10/17 18:44:08 tg Exp $ */
+/**	$MirOS: src/bin/date/date.c,v 1.4 2006/10/17 19:10:18 tg Exp $ */
 /*	$OpenBSD: date.c,v 1.26 2003/10/15 15:58:22 mpech Exp $	*/
 /*	$NetBSD: date.c,v 1.11 1995/09/07 06:21:05 jtc Exp $	*/
 
@@ -32,6 +32,7 @@
  */
 
 #include <sys/param.h>
+#include <sys/taitime.h>
 #include <sys/time.h>
 
 #include <ctype.h>
@@ -42,7 +43,6 @@
 #include <string.h>
 #include <locale.h>
 #include <syslog.h>
-#include <time.h>
 #include <tzfile.h>
 #include <unistd.h>
 #include <util.h>
@@ -52,9 +52,9 @@
 __IDSTRING(copyright, "@(#) Copyright (c) 1985, 1987, 1988, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)date.c	8.2 (Berkeley) 4/28/95");
-__RCSID("$MirOS: src/bin/date/date.c,v 1.3 2006/10/17 18:44:08 tg Exp $");
+__RCSID("$MirOS: src/bin/date/date.c,v 1.4 2006/10/17 19:10:18 tg Exp $");
 
-extern	char *__progname;
+extern const char *__progname;
 
 time_t tval;
 int retval, nflag;
