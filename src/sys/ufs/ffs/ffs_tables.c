@@ -33,6 +33,9 @@
  */
 
 #include <sys/param.h>
+#ifdef DEBIAN
+#include <stdint.h>
+#endif
 #include <ufs/ffs/fs.h>
 
 /*

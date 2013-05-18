@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/makefs.h,v 1.13 2010/03/07 00:02:17 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/makefs.h,v 1.14 2010/03/16 21:28:25 tg Exp $ */
 /*	$NetBSD: makefs.h,v 1.20 2008/12/28 21:51:46 christos Exp $	*/
 
 /*
@@ -64,6 +64,7 @@
 #endif
 #endif
 
+#include <sys/types.h>
 #include <sys/stat.h>
 #include <err.h>
 
