@@ -1,7 +1,7 @@
 /*	$OpenBSD: client.c,v 1.69 2006/06/04 18:58:13 otto Exp $ */
 
 /*
- * Copyright (c) 2007, 2009 Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2007, 2009, 2010 Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  * Copyright (c) 2004 Alexander Guy <alexander.guy@andern.org>
  *
@@ -27,7 +27,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.18 2009/05/16 11:53:08 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.19 2009/12/24 11:40:38 tg Exp $");
 
 #ifdef DDEBUG
 #define log_reply	log_info
@@ -140,18 +140,14 @@ client_query(struct ntp_peer *p)
 
 		if ((p->query->fd = socket(p->addr->ss.ss_family, SOCK_DGRAM,
 		    0)) == -1) {
-
-		   if (errno == EAFNOSUPPORT) {
-		      log_warn("client_query socket");
-		      client_nextaddr(p);
-		      set_next(p, error_interval());
-		      return (-1);
-		   }
-		   else
-		   {
+			if (errno == EAFNOSUPPORT) {
+				log_warn("client_query socket");
+				client_nextaddr(p);
+				set_next(p, error_interval());
+				return (-1);
+			}
 			fatal("client_query socket");
-		   }
-                }
+		}
 
 		if (connect(p->query->fd, sa, SA_LEN(sa)) == -1) {
 			if (errno == ECONNREFUSED || errno == ENETUNREACH ||
