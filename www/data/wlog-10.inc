@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.68 2008/08/08 21:16:27 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.69 2008/08/08 21:28:51 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1342,7 +1342,7 @@ Title: Improving MirPorts by porting stuff
  are the generated .la files wrong, but the .pc files are broken, too.
  My first bug report contained lots of detail but what finally landed in
  their bad joke of a bug tracking system is <a
- href="http://trolltech.com/developer/task-tracker/index_html?method=entry&id=218261">a
+ href="http://trolltech.com/developer/task-tracker/index_html?method=entry&amp;id=218261">a
  one-liner</a>. That should teach me not to write bug reports longer
  than one line ... Seriously, WTF?</p>
 
