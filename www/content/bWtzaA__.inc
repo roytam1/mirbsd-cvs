@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.48 2006/08/12 22:06:48 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.49 2006/08/13 22:47:43 tg Exp $</small>
 
 <h1>mksh(1) R27e</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -86,6 +86,14 @@
   simplify CPPFLAGS and reduce size of generated table</li>
  <li>Run the signal name generator only if needed</li>
  <li>Use the -c option to GNU nroff, always</li>
+ <li>Improve bundled sample file</li>
+ <li>Make the &quot;last command of a pipeline is executed in a
+  subshell&quot; issue a dependable mksh feature</li>
+ <li>Improve regression test comments and a few tests</li>
+ <li>Begin porting mksh to the <a href="http://9fans.net/">Plan 9</a>
+  ANSI'n'POSIX Environment (not finished)</li>
+ <li>If $RANDOM is generated from arc4random(3), display at
+  most 31 bits of it like nbsh(1), instead of only 15 bits.</li>
 </ul>
 <p>We recommend mksh <b>R27e</b> to be used:</p><ul>
  <li>Allow <tt>Test.sh</tt> to be passed parameters (-v)</li>
