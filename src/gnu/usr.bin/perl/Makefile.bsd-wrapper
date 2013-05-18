@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.10 2006/01/31 13:58:25 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.11 2006/06/15 18:25:15 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.69 2005/01/15 21:30:17 millert Exp $
 #
 # Build wrapper for Perl 5.8.6
@@ -10,7 +10,11 @@
 DEBUGLIBS=	No
 
 # To build a threaded perl.  Not stable on all platforms...
+.if ${MACHINE_ARCH} == "i386"
 THREADED_PERL?=	Yes
+.else
+THREADED_PERL?=	No
+.endif
 
 # Perl builds with -fno-strict-aliasing, we want libperl to do the same
 CFLAGS+=	-fno-strict-aliasing -fno-delete-null-pointer-checks \
@@ -20,7 +24,8 @@ CFLAGS+=	-fno-strict-aliasing -fno-delete-null-pointer-checks \
 EXPERIMENTAL=	yes
 
 # Arguments passed to Configure...
-CONFIGURE_ARGS=	-dsE -D${OSname}_distribution=defined
+CONFIGURE_ARGS=	-dsE -D${OSname}_distribution=defined \
+		-Doptimize=${CFLAGS:N-g*:Q}
 .if ${THREADED_PERL:L} == "yes"
 CONFIGURE_ARGS+=-Dusethreads
 CFLAGS+=	-pthread
