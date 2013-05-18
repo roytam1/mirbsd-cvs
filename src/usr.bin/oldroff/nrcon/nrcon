@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/usr.bin/oldroff/nrcon/nrcon,v 1.5 2007/01/22 06:28:59 tg Exp $
+# $MirOS: src/usr.bin/oldroff/nrcon/nrcon,v 1.6 2007/01/22 06:41:49 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -43,11 +43,12 @@ if [[ $1 = -8 || $1 = -e ]]; then
 		fi
 		shift
 	done
-	soelim $F \
-	    | /usr/libexec/nr8pre $c \
-	    | /usr/bin/nroff -B -Tcol $P \
-	    | /usr/libexec/nr8post \
-	    | /usr/bin/col
+	soelim $F | \
+	    /usr/libexec/nr8pre $c | \
+	    /usr/bin/nroff -B -Tcol $P | \
+	    /usr/libexec/nr8post | \
+	    /usr/bin/iconv -f latin1 -t utf-8 | \
+	    LC_ALL=utf-8 /usr/bin/col
 else
 	/usr/bin/nroff -B -Tcol "$@" | /usr/bin/col
 fi
