@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.295 2010/06/17 20:06:13 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.296 2010/07/05 20:57:09 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6621,4 +6621,64 @@ Tag: bug debian mksh
  system data centre.</p>
 <p>We have a new mirror in the Americas, thanks a lot to Mike 'Fuzzy'
  Partin! Benny will mention it on the webpages once it’s working.</p>
+----
+Title: Back home
+Author: tg@
+Date: 11.07.2010 12:18
+Tag: bug debian event geocache mksh news release snapshot
+
+<p><a href="http://2010.rmll.info/">Bordeaux</a> was very nice (and
+ towards the end much cooler… it’s actually hotter here at more than
+ 50½° north – too warm to think, or do anything) but the LSM/RMLL was
+ very french. They’ll be in Straßburg and Lüttich the next two years
+ so we can probably be expected to attend. I don’t think I can eat
+ duck (which, in south-west france, is a vegetable) or like all that
+ classic french multi-course food so much, but I had enough Couscous
+ Merguez and Thé à la menthe fraîche… and similar good stuff. Many
+ people spoke English and actually asked me whether I do (probably
+ they couldn’t bear me trying to spea^W^W^Wbutchering the language
+ of the Grande Nation) and in general were a friendly bunch. I did
+ see some people with machine guns in the city on the last day,
+ though. No idea what/why… didn’t dare asking ☻</p>
+<p>Just another reason to boycott flying: Mario Lang (one of the
+ speakers) was apparently held on the airport and treated as a
+ terrorist due to his Braille line… they thought it was a bomb or
+ somesuch thing.</p>
+<p style="font-size:small">Read on for more…</p><!-- RSS stop -->
+<p>Travelling with the Thalys and TGV was nice (but I loathe the
+ Métro parisienne… they should build a ring train like the Berlin
+ S-Bahn and just put another stop before Paris Nord and Montparnasse
+ for people who just want to switch trains to take the ring train to
+ the other line). And I want air conditioned trams in Germany too!</p>
+<p>I met Uriel (invited him for some food and talked lengthy with
+ him and some 9grid guy), XTaran (who was rather busy organising
+ things), and a number of other people. Did some PGP keysigning as
+ well. There’s now an experimental MirOS presence at Launchpad, not
+ sure what exactly we’re going to do with it but, as Canonical does
+ not care (as Jonathan said in his talk – <em>great</em> slides, by
+ the way, really impressive), there’s no harm in having it. Some Perl
+ guy from America (USA… just to make sure ☺) wanted a photograph of
+ me with a sign “I love CVS” just so people back at home would believe
+ him he’s met such a person *grins* of course I plugged in a little
+ advertising but cvs(GNU) is honestly good. The forge hacking session
+ was a little under-visited (but still a success in terms of getting
+ more communication and maybe collaboration underways, especially
+ thinking of common interfaces, DC, semantic web, OSLC-CM) and since
+ the room was (in contrast to my hotel room and the trams!) not air
+ conditioned we didn’t get much hacking done. The Debian booth was
+ about 40% of one FOSDEM style table wide… and subsequently crowded.
+ There were more people (of course, I was trying to get <a
+ href="@@RELPATH@@mksh.htm">mksh</a> into Haikuports, Mandriva, and
+ other things; talked about KDE 3.5.11 (Trinity), Qt 3 vs Qt 4, and
+ <a href="@@RELPATH@@kwalletcli.htm">kwalletcli</a>, and in general
+ to a not-so-usual bunch of suspects – like I said, LSM/RMLL really
+ is pretty french-only).</p>
+<p>It <em>is</em> too hot, but I still committed <tt>src/etc/rc,v</tt>
+ version 1.110 which you <strong>want to upgrade your <tt>/etc/rc</tt>
+ to</strong> before upgrading mksh(1) in MirBSD. (All in the name of
+ better performance on platforms such as Debian/m68k and not raiding
+ Linux’ inferior RNG… but it does simplify things.)</p>
+<p>I could probably write more but at the moment just want to lie
+ down and die until it gets cooler… even the rain didn’t help. My
+ feet hurt (Montparnasse-Bienvenue didn’t help) too.</p>
 ----
