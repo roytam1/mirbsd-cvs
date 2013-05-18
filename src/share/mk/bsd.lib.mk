@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.56 2007/05/17 17:25:28 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.57 2007/05/17 17:39:37 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -324,7 +324,7 @@ _includes:
 	@cd ${HDRSRC:Q}; for i in ${HDRS}; do \
 		j=$${i##*/}; \
 		if cmp -s "$$i" ${HDRDST:Q}/"$$j"; then \
-			print Header ${HDRDST:Q}/"$$j" is up to date.; \
+			print Header ${HDRDST:Q}/"$$j <=> $$i"; \
 		else \
 			print Header ${HDRDST:Q}/"$$j <-- $$i"; \
 			${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
@@ -335,7 +335,7 @@ _includes:
 .  ifdef HDRS2
 .    for _i _j in ${HDRS2}
 	@if cmp -s ${HDRSRC:Q}/${_i:Q} ${HDRDST:Q}/${_j:Q}; then \
-		print Header ${HDRDST:Q}/${_j:Q} is up to date.; \
+		print Header ${HDRDST:Q}/${_j:Q} '<=>' ${_i:Q}; \
 	else \
 		print Header ${HDRDST:Q}/${_j:Q} '<--' ${_i:Q}; \
 		${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
