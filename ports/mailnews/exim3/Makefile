@@ -1,10 +1,11 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.39 2004/05/10 08:42:42 brad Exp $
 
-COMMENT=			flexible mail transfer agent
+COMMENT=	flexible mail transfer agent
 VERSION=	3.36
 VERSION_DOC=	3.30
 DISTNAME=	exim-${VERSION}
-PKGNAME=	${DISTNAME}-3
+DASH_VER=	3
 CATEGORIES=	mail
 MASTER_SITES=	ftp://ftp.csx.cam.ac.uk/pub/software/email/exim/exim3/ \
 		ftp://ftp.exim.org/pub/exim/exim3/ \
@@ -56,6 +57,7 @@ LIB_DEPENDS+=	pq.2::databases/postgresql
 EXIM_MAKECAT+=	"LOOKUP_PGSQL=yes\n"
 EXIM_LOOKUP_INCLUDE+=	-I${LOCALBASE}/include/postgresql
 EXIM_LOOKUP_LIBS+=	-L${LOCALBASE}/lib -lpq
+PERMIT_PACKAGE_CDROM=	dependency databases/postgresql is not allowed for CDROM
 .endif
 
 .if !${FLAVOR:L:Mno_ssl}

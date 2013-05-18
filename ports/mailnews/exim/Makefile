@@ -1,9 +1,9 @@
-# $MirOS: ports/mailnews/exim/Makefile,v 1.6 2006/06/08 12:10:37 bsiegert Exp $
+# $MirOS: ports/mailnews/exim/Makefile,v 1.7 2006/09/14 00:10:33 tg Exp $
 
-COMMENT=			flexible mail transfer agent
+COMMENT=		flexible mail transfer agent
 VERSION=		4.62
 DISTNAME=		exim-${VERSION}
-PKGNAME=		exim-${VERSION}-0
+DASH_VER=		0
 CATEGORIES=		mail
 MASTER_SITES=		ftp://ftp.csx.cam.ac.uk/pub/software/email/exim/exim4/ \
 			http://ftp.planetmirror.com/pub/exim/exim4/ \
@@ -15,10 +15,10 @@ HOMEPAGE=		http://www.exim.org/
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
 
 # GPL
-PERMIT_PACKAGE_CDROM=   Yes
-PERMIT_PACKAGE_FTP=     Yes
-PERMIT_DISTFILES_CDROM= Yes
-PERMIT_DISTFILES_FTP=   Yes
+PERMIT_PACKAGE_CDROM=	Yes
+PERMIT_PACKAGE_FTP=	Yes
+PERMIT_DISTFILES_CDROM=	Yes
+PERMIT_DISTFILES_FTP=	Yes
 
 FLAVORS=		no_x11 no_perl mysql pgsql ldap iconv
 FLAVOR?=
@@ -45,6 +45,7 @@ LIB_DEPENDS+=		pq.2::databases/postgresql
 EXIM_LOOKUP_METHODS+=	PGSQL
 EXIM_LOOKUP_INCLUDE+=	-I${LOCALBASE}/include/postgresql
 EXIM_LOOKUP_LIBS+=	-L${LOCALBASE}/lib/ -lpq
+PERMIT_PACKAGE_CDROM=	dependency databases/postgresql is not allowed for CDROM
 .endif
 
 .if ${FLAVOR:L:Mldap}
