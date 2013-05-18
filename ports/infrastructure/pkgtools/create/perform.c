@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.7 2006/11/19 22:16:36 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.8 2007/03/30 23:20:10 bsiegert Exp $ */
 /* $OpenBSD: perform.c,v 1.17 2003/08/27 06:51:26 jolan Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.7 2006/11/19 22:16:36 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.8 2007/03/30 23:20:10 bsiegert Exp $");
 
 static void sanity_check(void);
 static void make_dist(char *, char *, const char *, package_t *);
@@ -158,7 +158,7 @@ pkg_perform(char **pkgs)
     }
 
     /* Check if we're dressing for the operating system */
-    if (!strcmp(Prefix, "/usr")) {
+    if (Prefix && !strcmp(Prefix, "/usr")) {
 	hackmandir = true;
 	if (BaseDir) {
 	    char *pf = copy_string(strconcat(BaseDir, Prefix));
