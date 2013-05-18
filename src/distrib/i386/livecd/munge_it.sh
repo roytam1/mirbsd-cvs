@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.37 2006/05/15 19:54:55 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.38 2006/05/15 19:56:42 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -77,7 +77,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.37 2006/05/15 19:54:55 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.38 2006/05/15 19:56:42 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -125,17 +125,6 @@ ed -s etc/rc <<-'EOF'
 	/openssl genrsa/s/4096/1024/
 	wq
 EOF
-ed -s etc/rc.conf <<-'EOF'
-	/^rarpd_flags/s/NO/-a/
-	/^bootparamd_flags/s/NO/-s/
-	/^ntpd_flags/s/NO/""/
-	/^apmd_flags/s/NO/""/
-	/^httpd_flags/s/NO/"-u -DSSL"/
-	/^wsmoused_flags/s/NO/"-2"/
-	/^nfs_server/s/NO/YES/
-	/^portmap/s/NO/YES/
-	wq
-EOF
 ed -s etc/rc.securelevel <<-'EOF'
 	/^securelevel/s/1/-1/
 	wq
@@ -178,6 +167,7 @@ EOF
 
 install -c -o root -g staff -m 644 $myplace/XF86Config etc/X11/XF86Config
 install -c -o root -g staff -m 644 $myplace/fstab etc/fstab
+install -c -o root -g staff -m 644 $myplace/rc.conf.local etc/rc.conf.local
 install -c -o root -g staff -m 644 $myplace/rc.netselect etc/rc.netselect
 
 (cd dev; mksh ./MAKEDEV std rd0a)
