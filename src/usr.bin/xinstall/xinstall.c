@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.8 2008/04/06 22:48:20 tg Exp $ */
+/**	$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.9 2008/04/06 22:53:11 tg Exp $ */
 /*	$OpenBSD: xinstall.c,v 1.42 2004/10/04 05:21:27 jsg Exp $	*/
 /*	$NetBSD: xinstall.c,v 1.9 1995/12/20 10:25:17 jonathan Exp $	*/
 
@@ -58,7 +58,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1987, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)xinstall.c	8.1 (Berkeley) 7/21/93");
-__RCSID("$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.8 2008/04/06 22:48:20 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.9 2008/04/06 22:53:11 tg Exp $");
 
 #define	DIRECTORY	0x01		/* Tell install it's a directory. */
 #define	SETFLAGS	0x02		/* Tell install to set flags. */
@@ -147,7 +147,7 @@ main(int argc, char *argv[])
 			/* For backwards compatibility. */
 			break;
 		case 'f':
-#ifndef __INTERIX
+#if defined(BSD) || defined(__APPLE__)
 			flags = optarg;
 			if (strtofflags(&flags, &fset, NULL))
 				errx(EX_USAGE, "%s: invalid flag", flags);
@@ -375,7 +375,7 @@ install(char *from_name, char *to_name, u_long fset, u_int flags)
 	 * and the files are different (or just not compared).
 	 */
 	if (safecopy && !files_match) {
-#ifndef __INTERIX
+#if defined(BSD) || defined(__APPLE__)
 		/* Try to turn off the immutable bits. */
 		if (to_sb.st_flags & (NOCHANGEBITS))
 			(void)chflags(to_name, to_sb.st_flags & ~(NOCHANGEBITS));
@@ -431,7 +431,7 @@ install(char *from_name, char *to_name, u_long fset, u_int flags)
 		errx(EX_OSERR, "%s: chmod: %s", to_name, strerror(serrno));
 	}
 
-#ifndef __INTERIX
+#if defined(BSD) || defined(__APPLE__)
 	/*
 	 * If provided a set of flags, set them, otherwise, preserve the
 	 * flags, except for the dump flag.
@@ -689,7 +689,7 @@ create_newfile(char *path, struct stat *sbp)
 	 * off the append/immutable bits -- if we fail, go ahead,
 	 * it might work.
 	 */
-#ifndef __INTERIX
+#if defined(BSD) || defined(__APPLE__)
 	if (sbp->st_flags & (NOCHANGEBITS))
 		(void)chflags(path, sbp->st_flags & ~(NOCHANGEBITS));
 #endif
