@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/rc,v 1.103 2009/09/05 17:10:49 tg Exp $
+# $MirOS: src/etc/rc,v 1.104 2009/09/12 14:22:18 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -79,22 +79,18 @@ mixerctl_conf() {
 }
 
 wsconsctl_conf() {
-	typeset save_IFS=$IFS
-	typeset wsdevs dev
+	typeset dev res save_IFS=$IFS
 
 	test -x /sbin/wsconsctl -a -s /etc/wsconsctl.conf || return
-	for dev in /dev/wskbd*; do
-		[[ $(wsconsctl -ak $dev 2>/dev/null) = *=* ]] && \
-		    wsdevs="$wsdevs $dev"
-	done
 	IFS="
 "
 	set -- $(stripcom /etc/wsconsctl.conf)
 	IFS=$save_IFS
 	while [ $# -ge 1 ]; do
-		for dev in $wsdevs; do
-			print -r -- "$dev: $(eval wsconsctl -k \$dev -w $1)"
-		done 2>/dev/null
+		for dev in /dev/wskbd*; do
+			res=$(eval wsconsctl -k \$dev -w $1 2>/dev/null)
+			[[ -z $res ]] || print -r -- "$dev: $res"
+		done
 		shift
 	done
 }
