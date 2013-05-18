@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.363 2010/10/24 16:05:38 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.364 2010/11/16 13:19:33 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1347,6 +1347,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#clog">older changes</a></p>
 
 <h2 id="plans">Future Plans</h2><ul>
+<li>Can not [[ or (( yield the inode of a file, if we don’t get
+ a stat(1) builtin? (For hashes by file.)</li>
 <li>Expose real/effective user/group ID ($USER_ID already exists)</li>
 <li>Add read with timeout, sleep as builtin, fractional timeouts.
  I’m leaning towards ualarm(3) instead of select(2) at the moment…
