@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.70 2006/05/08 18:27:33 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.71 2006/05/22 12:39:36 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1290,6 +1290,27 @@ celebrate this event, rotate the wlog and start a new one.</p>
   Developer springs to mind) who are helping to ensure the MirOS Project
   doesn't continue to exist in oblivion but is still discoverable by the
   general public.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060527">27.05.2006 by tg@</h3>
+ <p>Not that this is going to be read... congratulations to a few mates,
+  celebrate your birthday, may you already be able to walk on four legs,
+  being able to walk on two comes the day after.</p>
+ <p>Benny's going to rewrite the website's content this summer (simplify
+  but not change the layout); mksh R27c, mirmake, cksum and mircpio have
+  had new releases; there have been a lot of minor changes; base is in a
+  good state and ports work on Mac again (including mc).</p>
+ <p>Debian's cvs(1) must've smoked something weird&#8230; it formats the
+  RCS ID timestamps yyyy-mm-dd instead of yyyy/mm/dd. For now instructed
+  gecko2 to place a hand-crafted cvs binary from MirOS sources (plus Han
+  Boetes' arc4random for GNU/Linux and hand-compiled libc ndbm) into the
+  anoncvs home directory on hephaistos. That box is also ntp.mirbsd.org,
+  IPv4, even though not running OpenNTPD, because the live CD gives some
+  unfriendly messages at startup otherwise. (To prevent a phk-dlink like
+  disaster, he's been informed though. I hope something else comes up in
+  short terms, though.)</p>
+ <p>It could rain a little less.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
