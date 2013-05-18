@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.8 2006/01/23 22:48:21 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.9 2006/02/05 14:37:58 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -7,22 +7,22 @@
 # Copyright (C) 1995-1997 Roger Espel Llima
 # Copyright (c) 2002-2003 Hubert Feyrer
 # Copyright (c) Phil Stracchino
-# Copyright (c) 2001-2006 Thorsten Glaser
+# Copyright (c) 2001-2007 Thorsten Glaser
 #
-# Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
-# express, or implied, to the maximum extent permitted by applicable
-# law, without malicious intent or gross negligence; in no event may
-# licensor, an author or contributor be held liable for any indirect
-# or other damage, or direct damage except proven a consequence of a
-# direct error of said person and intended use of this work, loss or
-# other issues arising in any way out of its use, even if advised of
-# the possibility of such damage or existence of a nontrivial bug.
+# This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+# the utmost extent permitted by applicable law, neither express nor
+# implied; without malicious intent or gross negligence. In no event
+# may a licensor, author or contributor be held liable for indirect,
+# direct, other damage, loss, or other issues arising in any way out
+# of dealing in the work, even if advised of the possibility of such
+# damage or existence of a defect, except proven that it results out
+# of said person's immediate fault when using the work as intended.
 #-
 # for a full-screen termcap interface, use this with ssfe
 #
 # use: dsircp [options] [nick [server[:port[:password]]]]
 # options are:
-#	-p = specify port number
+#	-p = specify port number (start with s for SSL)
 #	-i = specify IRCNAME
 #	-u = specify username (quite useless as an option)
 #	-n = specify nickname (quite useless as an option)
@@ -53,9 +53,9 @@
 # You can always find the latest version of sirc at the following URL:
 # http://www.eleves.ens.fr:8080/home/espel/sirc/sirc.html
 
-$version='2.211-MirPorts';
+$version='2.211-MirPorts-@DIST_DATE@';
 $date='01 Sep 2005';
-$add_ons='+[mirabile-@DIST_DATE@]';
+$add_ons='';
 $msgchannel = '';
 $has_capab = 0; $capab_cmd = ''; $capab_response = '';
 $has_identifymsg = 0; $unverified = 1; $unverified_m = 0;
@@ -86,6 +86,7 @@ couldn't be found. Have you even bothered to run 'install'?\n";
     exit;
 }
 use Encode;
+use POSIX ":sys_wait_h";
 
 &Getopts('n:s:p:u:i:l:L:H:rqQR78UC:XT');
 
@@ -195,35 +196,77 @@ sub newfh {
   return ++$nextfh;
 }
 
+sub REAPER {
+  my $child;
+  while (($child = waitpid(-1,WNOHANG)) > 0) {
+    $?;		# do something sensitive with it
+  }
+  # loathe sysV: it makes us not only reinstate
+  # the handler, but place it after the wait
+  $SIG{CHLD} = \&REAPER;
+}
+$SIG{CHLD} = \&REAPER;
+$ssl_pid = 0;
+
 sub connect {
   $_[0]=&newfh;
-  local($fh, $host, $port)=@_;
-  local($adr, $otherend)=&resolve($host);
-  &tell("*\cbE\cb* Hostname '$host' not found"), return 0 unless $adr;
-  if ($use_ipv6) {
-    $otherend=pack_sockaddr_in6($port, $adr);
-    &print("*\cbE\cb* Out of file descriptors"), return 0
-     unless socket($fh, &PF_INET6, &SOCK_STREAM, 0);
-  } else {
-    $otherend=pack_sockaddr_in($port, $adr);
-    &print("*\cbE\cb* Out of file descriptors"), return 0
-     unless socket($fh, &PF_INET, &SOCK_STREAM, 0);
+  local($fh, $host, $port, $use_ssl)=@_;
+  if ($ssl_pid) {
+    kill TERM => $ssl_pid;
   }
-  if (! $use_ipv6) {
-    if ($set{"LOCALHOST"}) {
-      bind($fh, pack("S n a4 x8", &AF_INET, 0, $bindaddr)) ||
-       &tell("*\cbE\cb* Warning: can't bind to sirc host ".$set{'LOCALHOST'});
+  $ssl_pid = 0;
+  if ($use_ssl) {
+    my $spfh, $scfh, $pid;
+
+    if (!socketpair($scfh, $spfh, AF_UNIX, SOCK_STREAM, PF_LOCAL)) {
+      &tell("*\cbE\cb* Cannot create a socket pair: $!");
+      return 0;
     }
-  }
-  $trysock=$fh;
-  $SIG{'QUIT'}='sigquit';
-  &print("*\cbE\cb* Can't connect to host: $!"), close $fh,
-    $SIG{'QUIT'}='IGNORE', return 0 unless connect($fh, $otherend);
-  $SIG{'QUIT'}='IGNORE';
-  if ($use_ipv6) {
-      $bindaddr=(unpack_sockaddr_in6(getsockname($fh)))[2] if !$bindaddr;
+    if ($pid = fork) {
+      close($spfh);
+      open(STDIN, ">&", fileno($scfh));
+      open(STDOUT, ">&", fileno($scfh));
+      open(STDERR, ">/dev/null");
+      select(STDOUT); $| = 1;
+      exec "openssl s_client -quiet -connect ${host}:${port}";
+    }
+    if (!defined $pid) {
+      close($scfh);
+      close($spfh);
+      &tell("*\cbE\cb* Cannot fork: $!");
+      return 0;
+    }
+    close($scfh);
+    $fh = $spfh;
+    $ssl_pid = $pid;
   } else {
-      $bindaddr=(unpack_sockaddr_in(getsockname($fh)))[2] if !$bindaddr;
+    local($adr, $otherend)=&resolve($host);
+    &tell("*\cbE\cb* Hostname '$host' not found"), return 0 unless $adr;
+    if ($use_ipv6) {
+      $otherend=pack_sockaddr_in6($port, $adr);
+      &print("*\cbE\cb* Out of file descriptors"), return 0
+       unless socket($fh, &PF_INET6, &SOCK_STREAM, 0);
+    } else {
+      $otherend=pack_sockaddr_in($port, $adr);
+      &print("*\cbE\cb* Out of file descriptors"), return 0
+       unless socket($fh, &PF_INET, &SOCK_STREAM, 0);
+    }
+    if (! $use_ipv6) {
+      if ($set{"LOCALHOST"}) {
+        bind($fh, pack("S n a4 x8", &AF_INET, 0, $bindaddr)) ||
+         &tell("*\cbE\cb* Warning: can't bind to sirc host ".$set{'LOCALHOST'});
+      }
+    }
+    $trysock=$fh;
+    $SIG{'QUIT'}='sigquit';
+    &print("*\cbE\cb* Can't connect to host: $!"), close $fh,
+      $SIG{'QUIT'}='IGNORE', return 0 unless connect($fh, $otherend);
+    $SIG{'QUIT'}='IGNORE';
+    if ($use_ipv6) {
+        $bindaddr=(unpack_sockaddr_in6(getsockname($fh)))[2] if !$bindaddr;
+    } else {
+        $bindaddr=(unpack_sockaddr_in(getsockname($fh)))[2] if !$bindaddr;
+    }
   }
   select($fh); $|=1; select(STDOUT);
   return 1;
@@ -261,13 +304,19 @@ sub accept {
 }
 
 sub bindtoserver {
+  my $xport = $port, $xssl = 0;
+
   @channels=(); $talkchannel=''; $talkserver = ''; $use_ipv6=0;
   %mode=(); $umode=''; %limit=(); %haveops=(); %chankey=(); $away='';
   $listmin=0; $listmax=100000; $listpat='';
   @waituh=(); @douh=(); @erruh=(); $invited='';
   &dostatus;
-  &tell("*** Connecting to $server, port $port...");
-  &connect($S, $server, $port) || return;
+  if ($xport =~ s/^(s|S)//) {
+    $xssl = 1;
+  }
+  &tell("*** Connecting to $server, port $xport" .
+    ($xssl ? " (TLS secured)" : "") . "...");
+  &connect($S, $server, $xport, $xssl) || return;
   $connected=1;
   $talkserver=$server1=$server;
   &sl("PASS $pass") if $pass;
@@ -694,7 +743,7 @@ sub ctcp {
 	local ($n, $fh)=$who;
 	delete $dcwait{$wfh};
 	close($wfh);
-	&connect($fh, $dhost, $dport) || return;
+	&connect($fh, $dhost, $dport, 0) || return;
 	$dcnick{$fh}=$who;
 	&tell_i("*\cbD\cb* DCC CHAT with <$who> established");
 	$n =~ tr/A-Z/a-z/;
@@ -1093,7 +1142,7 @@ sub docommand {
 	local($dcadr, $dcport)=split(/ +/, $dcoffered{$n});
 	local($fh);
 	delete $dcoffered{$n};
-	&connect($fh, $dcadr, $dcport) || return;
+	&connect($fh, $dcadr, $dcport, 0) || return;
 	$dcnick{$fh}=$n;
 	&tell("*\cbD\cb* DCC CHAT with $n established");
 	print "`#ssfe#t/m =$n \n" if $ssfe;
@@ -1252,7 +1301,7 @@ sub docommand {
 	$fh=&newfh;
 	&print("*\cbE\cb* Can't write to file $file"), return
 	  unless open($fh, "> $file");
-	&connect($sfh, $dgadr, $dgport) || return;
+	&connect($sfh, $dgadr, $dgport, 0) || return;
 	$dgrfh{$sfh}=$fh;
 	$dnick{$sfh}=$n;
 	$dfile{$fh}=$file;
