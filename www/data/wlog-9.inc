@@ -2780,3 +2780,26 @@ Author: tg@
 <p>And why do some bugs found past the last minute need so lengthy attempts
  at fixing because it cannot be done inside the current implementation?</p>
 ----
+Date: 02.03.2008
+Author: tg@
+
+<p>After pushing out the mksh distfiles, ports, etc. (and, of course,
+ spotting a couple of bugs too much for my taste), I finally found time
+ to work some more on my TODO. rm(1) now can do random overwrites including
+ file (and directory) renaming to random values before unlink(2)ing (and
+ rmdir(2)ing). Thanks to TNF, again, for some of their code and bugs.</p>
+<p>Another thing is putting the installer onto the Baselive CD. This would
+ not easily be possible as of now, I see, because it uses, for example,
+ some hard-coded paths like <tt>/mnt</tt> and commands like <tt>umount
+ -a -t nonfs</tt>, which could cause normal operation on the rest of the
+ running Live CD environment to cease. So this will not be in the tree in
+ time for #10semel. Sorry, Benny, it was a good idea we had.</p>
+<p>I also upgraded OpenSSH, but un-did the unifdef(1) <tt>-DBSD_AUTH</tt>
+ change, as we need a non-BSD-auth version of sshd(8) for <tt>bsd.rd</tt>.
+ During the process, of course, bugs were spotted… e.g. in the docs. Of
+ course, the new internal sftp subsystem isn’t on the ramdisc, either.</p>
+<p>And, I upgraded Sendmail, without the support of OpenBSD…</p>
+<p>Note: new kernels and old <tt>/sbin/sysctl</tt>, and vice versa, will
+ not have the <tt>kern.ospatchlevel</tt> entry, which is required to build
+ XFree86® and/or imake(1) with MirOS.</p>
+----
