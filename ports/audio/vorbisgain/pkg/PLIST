@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.1.1.1 2003/03/29 00:35:43 naddy Exp $
-bin/vorbisgain
-man/man1/vorbisgain.1
