@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.8 2005/12/30 14:00:27 tg Exp $
+# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.9 2006/01/31 13:24:17 tg Exp $
 
 .if !defined(BSD_CFWRAP_MK)
 BSD_CFWRAP_MK=1
@@ -47,17 +47,17 @@ FSFOBJDIR!=	readlink -nf ${.OBJDIR}
 FSFMARGS+=	-f ${FSFMAKEFILE}
 .endif
 
-FSFCFLAGS=	${CFLAGS} ${COPTS}
-FSFCXXFLAGS=	${CXXFLAGS} ${CXXOPTS}
+.if ${DEBUGLIBS:L} == "yes"
+FSFCFLAGS+=	-g1
+FSFCXXFLAGS+=	-g1
+.endif
+
+FSFCFLAGS+=	${CFLAGS} ${COPTS}
+FSFCXXFLAGS+=	${CXXFLAGS} ${CXXOPTS}
 
 .if ${FSFCFLAGS:M*Werror*} || ${FSFCXXFLAGS:M*Werror*}
 FSFCFLAGS+=	-Werror-maybe-reset
 FSFCXXFLAGS+=	-Werror-maybe-reset
-.endif
-
-.if ${DEBUGLIBS:L} == "yes"
-FSFCFLAGS+=	-g1
-FSFCXXFLAGS+=	-g1
 .endif
 
 .if !defined(CFWRAP_NO_CCOM)
