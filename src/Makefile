@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.138 2009/01/24 13:39:31 tg Exp $
+# $MirOS: src/Makefile,v 1.139 2009/02/01 11:11:10 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -25,8 +25,8 @@ BATCH?=		No
   SUBDIR+= sbin
   SUBDIR+= usr.bin
   SUBDIR+= usr.sbin
-  SUBDIR+= distrib/dbins
-  SUBDIR+= distrib/dbinsuid
+# SUBDIR+= distrib/dbins
+# SUBDIR+= distrib/dbinsuid
   SUBDIR+= share
   SUBDIR+= gnu
   SUBDIR+= sys
