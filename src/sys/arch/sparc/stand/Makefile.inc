@@ -1,12 +1,16 @@
-# $MirOS: src/sys/arch/sparc/stand/Makefile.inc,v 1.5 2006/06/17 20:50:37 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/Makefile.inc,v 1.6 2007/01/26 19:33:12 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.12 2004/07/13 21:03:38 marc Exp $
 # $NetBSD: Makefile.inc,v 1.5 1996/02/01 22:33:01 mycroft Exp $
+
+.ifndef MODSRC_SYS_ARCH_SPARC_STAND_MAKEFILE_INC
+MODSRC_SYS_ARCH_SPARC_STAND_MAKEFILE_INC=1
 
 BINDIR=		/usr/mdec
 
 .include <bsd.own.mk>
 .include "../Makefile.reloc"
 
+KERNBASE?=	$S/../kern
 COPTS+=		-Wall -Werror -fno-stack-protector -ffreestanding \
 		-fno-zero-initialized-in-bss
 .if ${COPTS:M-O*:N-Os}
@@ -17,7 +21,7 @@ COPTS+=		-Os
 .endif
 SACFLAGS=	-D_STANDALONE
 CPPFLAGS+=	-I${S} -I${SADIR}/libsa -I. -Dmemmove=memcpy -D_STANDALONE \
-		-I${.CURDIR} -Derrno=errno \
+		-I${.CURDIR} -Derrno=errno -I${KERNBASE}/include \
 		-DSTANDALONE -DRELOC=${RELOC} -DSUN4 -DSUN4C -DSUN_BOOTPARAMS
 
 CLEANFILES+=	machine
@@ -65,3 +69,5 @@ LIBZOBJDIR=		${LIBZDIR}
 .endif
 
 LIBZ=			${LIBZOBJDIR}/libz.a
+
+.endif
