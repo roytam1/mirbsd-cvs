@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: ports/infrastructure/scripts/resolve-lib,v 1.7 2009/09/12 12:04:43 tg Exp $
 #-
 # Copyright (c) 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -84,6 +84,9 @@ while read line; do
 		found_libtool=1
 		continue
 	fi
+	(( sharedonly )) || if [[ $rest = a ]]; then
+		found_unshared=1
+	fi
 	if (( !noshared )); then
 		case $libtype {
 		(dylib)
@@ -137,10 +140,6 @@ while read line; do
 				bestminor=$minor
 			fi
 		fi
-		continue
-	fi
-	if (( !sharedonly )) && [[ $rest = a ]]; then
-		found_unshared=1
 	fi
 done
 
