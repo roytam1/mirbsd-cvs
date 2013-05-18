@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.19 2008/03/20 00:16:02 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.20 2008/08/01 19:10:58 tg Exp $ */
 
 /*-
  * Copyright (c) 2007, 2008
@@ -18,6 +18,8 @@
  * of dealing in the work, even if advised of the possibility of such
  * damage or existence of a defect, except proven that it results out
  * of said person's immediate fault when using the work as intended.
+ *
+ * The author reserves the right to steward the OPTU encoding forms.
  */
 
 #ifndef	_WCHAR_H_
@@ -58,12 +60,14 @@ typedef struct {
 	 * 0: initial state
 	 * 1: "value" contains one more octet worth of information
 	 * 2: "value" contains two more octets worth of information
-	 * 3: "value" is a magic state value, used internally
+	 * 3: "value" contains the lower 6 bit of a rejected hibit-7 octet
+	 *    (possible future extension to two rejected octets)
 	 */
 	unsigned int count:2;
 	/*-
-	 * 10 bits for mbstowcs(3)
-	 * 12 bits for wcstombs(3)
+	 * 10 bits for mbstowcs(3) and optu8to16(3)
+	 * 12 bits for wcstombs(3) and optu16to8(3)
+	 * 14 bits available in total
 	 */
 	unsigned int value:12;
 } __attribute__((packed)) mbstate_t;
@@ -225,7 +229,7 @@ __END_DECLS
 							\
 	(mbsrtowcs((pwcs), &__WC_sb, (n), &__WC_ps));	\
 })
-#define mbtowc(pwc,s,n)	__extension__({			\
+#define mbtowc(pwc,s,n)		__extension__({		\
 	mbstate_t __WC_ps = { 0, 0 };			\
 	int __WC_rv;					\
 							\
@@ -265,13 +269,6 @@ __END_DECLS
 							\
 	(__WC_s ? wcrtomb(__WC_s, (c), &__WC_ps) : 0);	\
 })
-/* initialise/set/reset a mbstate_t to empty */
-#define mbsreset(ps)	do {				\
-	mbstate_t *__WC_s = (ps);			\
-							\
-	if (__WC_s != NULL)				\
-		__WC_s->count = 0;			\
-} while (0)
 /* roll back the middle char of a mis-done 3-byte mb->wc conversion */
 #define mbrtowc_rollback(ps)	__extension__({		\
 	const mbstate_t *__WC_s = (ps);			\
@@ -284,5 +281,13 @@ __END_DECLS
 	(__WC_rv);					\
 })
 #endif
+
+/* initialise/set/reset a mbstate_t to empty */
+#define mbsreset(ps)	do {				\
+	mbstate_t *__WC_s = (ps);			\
+							\
+	if (__WC_s != NULL)				\
+		__WC_s->count = 0;			\
+} while (0)
 
 #endif
