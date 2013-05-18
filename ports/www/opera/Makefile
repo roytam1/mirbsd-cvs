@@ -1,16 +1,17 @@
-# $MirOS: ports/www/opera/Makefile,v 1.26 2008/04/04 21:35:52 tg Exp $
-# $OpenBSD: Makefile,v 1.31 2005/11/22 21:44:22 sturm Exp $
+# $MirOS: ports/www/opera/Makefile,v 1.26.2.1 2008/06/13 00:38:31 tg Exp $
+# $OpenBSD: Makefile,v 1.52 2008/07/04 06:32:27 sturm Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
 COMMENT=		fast and customisable WWW browser
-VERS=			9.50
-DISTNAME=		opera-${VERS}.gcc4-static-qt3.i386
+VERS=			9.51
+OPERA_BUILD=		2061
+DISTNAME=		opera-${VERS}.gcc295-static-qt3.i386
 PKGNAME=		opera-${VERS}-${DASH_VER}
 CATEGORIES=		www
 HOMEPAGE=		http://www.opera.com/
-WRKDIST=		${WRKDIR}/opera-${VERS}-2042.gcc4-static-qt3.i386
+WRKDIST=		${WRKDIR}/opera-${VERS}-${OPERA_BUILD}.gcc295-static-qt3.i386
 
 # Distribution possible under special agreement;
 # sublicencing is, however, not allowed.
@@ -49,6 +50,7 @@ NO_BUILD=		Yes
 NO_REGRESS=		Yes
 
 DBL_FILES=		${PREFIX}/libexec/opera \
+			${PREFIX}/libexec/works \
 			${PREFIX}/libexec/operaplugincleaner \
 			${PREFIX}/libexec/operapluginwrapper
 
@@ -57,13 +59,16 @@ do-install:
 	    --DESTDIR=${WRKINST:Q} \
 	    --prefix=${TRUEPREFIX:Q} \
 	    --exec_prefix=${TRUEPREFIX:Q}/libexec \
+	    --docdir=${TRUEPREFIX:Q}/share/doc/opera \
+	    --mandir=${TRUEPREFIX:Q}/man \
+	    --wrapperdir=${TRUEPREFIX:Q}/bin \
+	    --sharedir=${TRUEPREFIX:Q}/share/opera \
 	    --plugindir=${TRUEPREFIX:Q}/share/opera/plugins
-	chmod 600 ${PREFIX}/libexec/opera
+	chmod 600 ${DBL_FILES}
 .for _i in ${DBL_FILES}
 	perl -i -pe 's!/lib/ld-linux\.so\.2!/dbl/ld-linux.so.2!' ${_i}
 .endfor
-	chmod ${BINMODE} ${PREFIX}/libexec/opera
-	rm -rf ${PREFIX}/share/doc/opera
+	chmod ${BINMODE} ${DBL_FILES}
 	cd ${FULLDISTDIR} && \
 	    cp ${OPERA_LANG_FILES} ${PREFIX}/share/opera/locale/ && \
 	    cp ${OPERA_SKIN_FILES} ${PREFIX}/share/opera/skin/
