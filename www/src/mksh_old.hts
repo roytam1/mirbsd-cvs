@@ -1,11 +1,11 @@
-# $MirOS: www/src/mksh_old.hts,v 1.32 2010/10/16 18:45:12 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.33 2010/10/16 18:47:14 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.32 2010/10/16 18:45:12 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.33 2010/10/16 18:47:14 tg Exp $'
 mws_content <<'EOF'
 <h2><a href="mksh.htm">mksh</a> – old versions</h2>
 
@@ -1224,6 +1224,9 @@ mws_content <<'EOF'
 <p>Patching mksh’s code to look for ed in ANY other location is a MUST NOT.</p>
 
 <h2 id="plans">Future Plans</h2><ul>
+<li>Add read with timeout, sleep as builtin, fractional timeouts.
+ I’m leaning towards ualarm(3) instead of select(2) at the moment…
+ need to find out how to do this portably…</li>
 <li>Synchronise wide character width table with Unicode 6.1.</li>
 <li>Fix Debian #599484: keep errorlevel upon trap entry.</li>
 <li>Implement <tt>+=</tt> for at least arrays, if not scalar variables.
