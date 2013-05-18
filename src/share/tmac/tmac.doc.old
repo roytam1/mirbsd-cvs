@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/tmac/tmac.doc.old,v 1.3 2009/11/22 16:40:31 tg Exp $
+.\" $MirOS: src/share/tmac/tmac.doc.old,v 1.4 2009/11/22 17:08:21 tg Exp $
 .\"
 .\" Copyright (c) 2009 Thorsten Glaser.
 .\" Slightly modified by jjc@jclark.com to work with groff as well.
@@ -275,7 +275,6 @@
 .if n \{\
 .ad l
 .na
-..
 .\}
 .\" PREDEFINED STRINGS
 .if t \{\
