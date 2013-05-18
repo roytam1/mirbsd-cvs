@@ -25,6 +25,7 @@
 #include <err.h>
 #include <fcntl.h>
 #include <stdbool.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -32,7 +33,13 @@
 
 #include "cd9660_eltorito.h"
 
-__RCSID("$MirOS: src/usr.sbin/getextent_cd9660/getextent_cd9660.c,v 1.3 2008/08/06 00:14:09 tg Exp $");
+#ifdef __RCSID
+__RCSID("$MirOS: src/usr.sbin/getextent_cd9660/getextent_cd9660.c,v 1.4 2008/08/06 00:18:12 tg Exp $");
+#endif
+
+#ifndef __dead
+#define __dead		/* nothing */
+#endif
 
 uint8_t bp[2048];
 char *buf = bp;
