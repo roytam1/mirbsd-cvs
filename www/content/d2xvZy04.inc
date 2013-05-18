@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.50 2006/03/19 11:35:06 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.51 2006/03/23 23:30:33 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -751,6 +751,9 @@ celebrate this event, rotate the wlog and start a new one.</p>
   real) anyway.</p>
  <p>Please do not forget to update your sendmail.</p>
  <p>I should probably write much more here, but... nah, unfunny.</p>
+ <p>Read the <a href="http://porting-unix-to-the-386.jolix.com/">summary
+  about porting (Berkeley) Unix to the i386 architecture</a> by the well
+  known Jolitzens. Some interesting facts. Found at D&aelig;monnews.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
