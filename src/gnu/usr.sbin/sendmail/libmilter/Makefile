@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/libmilter/Makefile,v 1.4 2006/03/23 13:31:43 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/libmilter/Makefile,v 1.5 2007/02/05 17:13:43 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2007/02/04 13:17:35 millert Exp $
 
 .include <bsd.own.mk>
@@ -7,17 +7,19 @@ LIB=		milter
 HDRS=		mfapi.h milter.h mfdef.h
 DOCS=		api.html design.html figure1.jpg figure2.jpg index.html \
 		installation.html other.html overview.html sample.html \
-		smfi_addheader.html smfi_addrcpt.html smfi_chgheader.html \
-		smfi_delrcpt.html smfi_getpriv.html smfi_getsymval.html \
-		smfi_insheader.html smfi_main.html smfi_opensocket.html \
-		smfi_progress.html smfi_quarantine.html smfi_register.html \
-		smfi_replacebody.html smfi_setbacklog.html \
-		smfi_setconn.html smfi_setdbg.html smfi_setmlreply.html \
-		smfi_setpriv.html smfi_setreply.html smfi_settimeout.html \
-		smfi_stop.html xxfi_abort.html xxfi_body.html \
-		xxfi_close.html xxfi_connect.html xxfi_envfrom.html \
-		xxfi_envrcpt.html xxfi_eoh.html xxfi_eom.html \
-		xxfi_header.html xxfi_helo.html
+		smfi_addheader.html smfi_addrcpt.html smfi_addrcpt_par.html \
+		smfi_chgfrom.html smfi_chgheader.html smfi_delrcpt.html \
+		smfi_getpriv.html smfi_getsymval.html smfi_insheader.html \
+		smfi_main.html smfi_opensocket.html smfi_progress.html \
+		smfi_quarantine.html smfi_register.html smfi_replacebody.html \
+		smfi_setbacklog.html smfi_setconn.html smfi_setdbg.html \
+		smfi_setmlreply.html smfi_setpriv.html smfi_setreply.html \
+		smfi_setsymlist.html smfi_settimeout.html smfi_stop.html \
+		smfi_version.html xxfi_abort.html xxfi_body.html \
+		xxfi_close.html xxfi_connect.html xxfi_data.html \
+		xxfi_envfrom.html xxfi_envrcpt.html xxfi_eoh.html \
+		xxfi_eom.html xxfi_header.html xxfi_helo.html \
+		xxfi_negotiate.html xxfi_unknown.html
 MDOCDIR=	${DESTDIR}${DOCDIR}/html/milter
 SRCS=		main.c engine.c listener.c worker.c handler.c comm.c smfi.c \
 		signal.c sm_gethost.c monitor.c errstring.c strl.c
