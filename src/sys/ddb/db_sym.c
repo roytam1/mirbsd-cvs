@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/ddb/db_sym.c,v 1.2 2006/06/12 11:30:34 tg Exp $ */
+/**	$MirOS: src/sys/ddb/db_sym.c,v 1.3 2006/06/12 11:41:35 tg Exp $ */
 /*	$OpenBSD: db_sym.c,v 1.28 2002/05/16 13:01:41 art Exp $	*/
 /*	$NetBSD: db_sym.c,v 1.24 2000/08/11 22:50:47 tv Exp $	*/
 
@@ -141,6 +141,12 @@ ddb_init()
 #else
 	xssym = (char *)&end;
 #endif
+
+	if (!xesym) {
+		/* might happen e.g. if booted on bare sparc */
+		printf("[ no symbol table given by bootloader ]\n");
+		return;
+	}
 
 	/* prevent a panic */
 	if ((long)xesym < (long)xssym) {

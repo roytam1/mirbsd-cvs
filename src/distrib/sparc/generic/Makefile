@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/sparc/generic/Makefile,v 1.4 2006/06/12 11:39:17 tg Exp $
+# $MirOS: src/distrib/sparc/generic/Makefile,v 1.5 2006/06/16 13:12:56 tg Exp $
 
 .include <bsd.own.mk>
 CFLAGS+=	${CDIAGFLAGS} ${COPTS}
@@ -49,8 +49,6 @@ cleannobsd:
 bsd.net: bsd
 	-rm -f $@.tmp
 	gzip -d <bsd >$@.tmp
-	# need to strip symbols, elf2aout still has issues converting these
-	strip -s $@.tmp
 	elf2aout $@.tmp $@ -b
 	-rm -f $@.tmp
 

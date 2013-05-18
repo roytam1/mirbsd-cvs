@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/include/db_machdep.h,v 1.2 2005/03/06 21:27:17 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/include/db_machdep.h,v 1.3 2006/06/12 18:17:03 tg Exp $ */
 /*	$OpenBSD: db_machdep.h,v 1.10 2003/05/13 22:25:33 miod Exp $	*/
 /*	$NetBSD: db_machdep.h,v 1.10 1997/08/31 21:23:40 pk Exp $ */
 
@@ -94,9 +94,7 @@ int kdb_trap(int, struct trapframe *);
 /*
  * We use a.out symbols in DDB.
  */
-#ifndef DB_NO_AOUT
 #define	DB_AOUT_SYMBOLS
-#endif
 #define DB_ELF_SYMBOLS
 #define DB_ELFSIZE	32
 
