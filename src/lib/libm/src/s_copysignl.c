@@ -1,31 +1,51 @@
+/*	$NetBSD: s_copysignl.c,v 1.2 2010/09/17 20:39:39 christos Exp $	*/
+
 /*-
- * Copyright (c) 2008
- *	Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2010 The NetBSD Foundation, Inc.
+ * All rights reserved.
  *
- * Provided that these terms and disclaimer and all copyright notices
- * are retained or reproduced in an accompanying document, permission
- * is granted to deal in this work without restriction, including un-
- * limited rights to use, publicly perform, distribute, sell, modify,
- * merge, give away, or sublicence.
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
  *
- * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
- * the utmost extent permitted by applicable law, neither express nor
- * implied; without malicious intent or gross negligence. In no event
- * may a licensor, author or contributor be held liable for indirect,
- * direct, other damage, loss, or other issues arising in any way out
- * of dealing in the work, even if advised of the possibility of such
- * damage or existence of a defect, except proven that it results out
- * of said person's immediate fault when using the work as intended.
- *-
- * FAKE function!
+ * THIS SOFTWARE IS PROVIDED BY THE NETBSD FOUNDATION, INC. AND CONTRIBUTORS
+ * ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED
+ * TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+ * PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE FOUNDATION OR CONTRIBUTORS
+ * BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ * CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ * SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ * INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ * CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ * POSSIBILITY OF SUCH DAMAGE.
  */
+#include <sys/cdefs.h>
+__RCSID("$NetBSD: s_copysignl.c,v 1.2 2010/09/17 20:39:39 christos Exp $");
 
 #include <math.h>
+#include <machine/ieee.h>
 
-__RCSID("$MirOS$ fake");
-
+/*
+ * copysignl(long double x, long double y)
+ * This function returns a value with the magnitude of x and the sign of y.
+ */
+#ifdef EXT_EXP_INFNAN
 long double
 copysignl(long double x, long double y)
 {
-	return ((long double)copysign((double)x, (double)y));
+	union ieee_ext_u ux, uy;
+
+	ux.extu_ld = x;
+	uy.extu_ld = y;
+
+	ux.extu_ext.ext_sign = uy.extu_ext.ext_sign;
+
+	return (ux.extu_ld);
 }
+#endif

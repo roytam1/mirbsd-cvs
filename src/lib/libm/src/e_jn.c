@@ -12,7 +12,7 @@
 
 #include <sys/cdefs.h>
 #if defined(LIBM_SCCS) && !defined(lint)
-__RCSID("$NetBSD: e_jn.c,v 1.12 2002/05/26 22:01:50 wiz Exp $");
+__RCSID("$NetBSD: e_jn.c,v 1.14 2010/11/29 15:10:06 drochner Exp $");
 #endif
 
 /*
@@ -41,6 +41,7 @@ __RCSID("$NetBSD: e_jn.c,v 1.12 2002/05/26 22:01:50 wiz Exp $");
  *
  */
 
+#include "namespace.h"
 #include "math.h"
 #include "math_private.h"
 
@@ -202,7 +203,12 @@ __ieee754_jn(int n, double x)
 			}
 	     	    }
 		}
-	    	b = (t*__ieee754_j0(x)/b);
+		z = __ieee754_j0(x);
+		w = __ieee754_j1(x);
+		if (fabs(z) >= fabs(w))
+			b = (t*z/b);
+		else
+			b = (t*w/a);
 	    }
 	}
 	if(sgn==1) return -b; else return b;
