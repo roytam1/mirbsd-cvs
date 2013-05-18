@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.69 2008/08/08 21:28:51 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.70 2008/08/08 21:31:18 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1377,4 +1377,25 @@ Title: Cats, Rivella, other nice things, and… yuck
 <p>I should search for some more geocaces, but now that I have some more
  time than at the beginning of the week, the weather is worsening, and
  we still have the duties. *grml* I need tear set up, too…</p>
+----
+Date: 16.08.2008 22:19
+Author: tg@
+Title: X11, etc.
+
+<p>Don’t wonder if I appear online less often these days and commit weird
+ and plain ugly things. I’m young and need the money&lt;/asr&gt;</p>
+<p>Uh, EXPN? Sure. I’m currently working for a company and a customer who
+ both originally were basically the local CCC meet cast into a company. I
+ need to learn a lot of things, and my view of the world has been utterly
+ turned upside down.</p>
+<p>At least, I was able to spot some geocaches in the more obscure parts…
+ some would call it primitif… of the world. And in the Elsaß.</p>
+<p>Ah, X11… the input is passed as keycode, not as keysym… it’s not easy,
+ trying to write a thing for entering unicode hex chars (damn US keyboard
+ missing the “&lt;&gt;|” key). IME won’t go. Maybe fake a selection and a
+ paste event. Compose works, but only in xterm, which grows from 8 MiB to
+ 34 MiB size and 1 minute startup time, each, when expanding composure. I
+ don’t think that’s worth it, even if unicode <em>is</em> big.</p>
+<p>As a new “standard”, we’ll <tt>#define</tt> all functions we introduce
+ to themselves, like arc4random_pushk(3), to rid autohell.</p>
 ----
