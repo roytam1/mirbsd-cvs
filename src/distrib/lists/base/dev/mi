@@ -1543,6 +1543,7 @@
 ./usr/include/vis.h
 ./usr/include/wchar.h
 ./usr/include/wctype.h
+./usr/include/whirlpool.h
 ./usr/include/zconf.h
 ./usr/include/zlib.h
 ./usr/lib/crt0.o
@@ -5054,6 +5055,14 @@
 ./usr/share/man/cat3/TIGERPad.0
 ./usr/share/man/cat3/TIGERTransform.0
 ./usr/share/man/cat3/TIGERUpdate.0
+./usr/share/man/cat3/WHIRLPOOLData.0
+./usr/share/man/cat3/WHIRLPOOLEnd.0
+./usr/share/man/cat3/WHIRLPOOLFile.0
+./usr/share/man/cat3/WHIRLPOOLFileChunk.0
+./usr/share/man/cat3/WHIRLPOOLFinal.0
+./usr/share/man/cat3/WHIRLPOOLInit.0
+./usr/share/man/cat3/WHIRLPOOLPad.0
+./usr/share/man/cat3/WHIRLPOOLUpdate.0
 ./usr/share/man/cat3/_Exit.0
 ./usr/share/man/cat3/_longjmp.0
 ./usr/share/man/cat3/_nc_tracebits.0
@@ -7214,6 +7223,7 @@
 ./usr/share/man/cat3/wgetn_wstr.0
 ./usr/share/man/cat3/wgetnstr.0
 ./usr/share/man/cat3/wgetstr.0
+./usr/share/man/cat3/whirlpool.0
 ./usr/share/man/cat3/whline.0
 ./usr/share/man/cat3/whline_set.0
 ./usr/share/man/cat3/win_wch.0

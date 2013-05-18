@@ -1,13 +1,13 @@
-# $MirOS: src/lib/libc/hash/Makefile.inc,v 1.2 2005/02/26 13:55:09 tg Exp $
-#	$OpenBSD: Makefile.inc,v 1.17 2004/05/03 17:30:14 millert Exp $
+# $MirOS: src/lib/libc/hash/Makefile.inc,v 1.3 2006/09/17 19:28:58 tg Exp $
+# $OpenBSD: Makefile.inc,v 1.17 2004/05/03 17:30:14 millert Exp $
 
 # hash functions
 .PATH: ${LIBCSRCDIR}/hash
 
 HELPER=	md4hl.c md5hl.c rmd160hl.c sha1hl.c sha256hl.c sha384hl.c sha512hl.c \
-	tigerhl.c
-SRCS+=	md4.c md5.c rmd160.c sha1.c sha2.c tiger.c ${HELPER}
-MAN+=	md4.3 md5.3 rmd160.3 sha1.3 sha2.3 tiger.3
+	tigerhl.c whirlpoolhl.c
+SRCS+=	md4.c md5.c rmd160.c sha1.c sha2.c tiger.c whirlpool.c ${HELPER}
+MAN+=	md4.3 md5.3 rmd160.3 sha1.3 sha2.3 tiger.3 whirlpool.3
 
 MLINKS+=md4.3 MD4Transform.3 md4.3 MD4Init.3 md4.3 MD4Final.3
 MLINKS+=md4.3 MD4Update.3    md4.3 MD4End.3  md4.3 MD4File.3
@@ -33,6 +33,10 @@ MLINKS+=sha2.3 SHA512_Pad.3  sha2.3 SHA512_FileChunk.3
 MLINKS+=tiger.3 TIGERInit.3  tiger.3 TIGERUpdate.3    tiger.3 TIGERPad.3
 MLINKS+=tiger.3 TIGERFinal.3 tiger.3 TIGERTransform.3 tiger.3 TIGEREnd.3
 MLINKS+=tiger.3 TIGERFile.3  tiger.3 TIGERFileChunk.3 tiger.3 TIGERData.3
+MLINKS+=whirlpool.3 WHIRLPOOLInit.3  whirlpool.3 WHIRLPOOLUpdate.3
+MLINKS+=whirlpool.3 WHIRLPOOLPad.3   whirlpool.3 WHIRLPOOLData.3
+MLINKS+=whirlpool.3 WHIRLPOOLFinal.3 whirlpool.3 WHIRLPOOLEnd.3
+MLINKS+=whirlpool.3 WHIRLPOOLFile.3  whirlpool.3 WHIRLPOOLFileChunk.3
 CLEANFILES+= ${HELPER} md[45].3
 
 .if !defined(NOMAN) || ${NOMAN:L} == "no"
@@ -68,5 +72,8 @@ sha512hl.c:	helper.c
 
 tigerhl.c:	helper.c
 	sed -e 's/hashinc/tiger.h/g' -e 's/HASH/TIGER/g' $> > $@
+
+whirlpoolhl.c:	helper.c
+	sed -e 's/hashinc/whirlpool.h/g' -e 's/HASH/WHIRLPOOL/g' $> > $@
 
 beforedepend: ${HELPER}

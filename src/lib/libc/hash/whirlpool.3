@@ -1,6 +1,6 @@
 .\" $MirOS: src/lib/libc/hash/tiger.3,v 1.2 2006/09/24 17:48:32 tg Exp $
 .\"-
-.\" Copyright (c) 2006
+.\" Copyright (c) 2007
 .\"	Thorsten Glaser <tg@mirbsd.de>
 .\"
 .\" Provided that these terms and disclaimer and all copyright notices
@@ -18,45 +18,42 @@
 .\" damage or existence of a defect, except proven that it results out
 .\" of said person's immediate fault when using the work as intended.
 .\"-
-.Dd September 24, 2006
-.Dt TIGER 3
+.Dd May 7, 2007
+.Dt WHIRLPOOL 3
 .Os
 .Sh NAME
-.Nm TIGERInit ,
-.Nm TIGERUpdate ,
-.Nm TIGERPad ,
-.Nm TIGERFinal ,
-.Nm TIGERTransform ,
-.Nm TIGEREnd ,
-.Nm TIGERFile ,
-.Nm TIGERFileChunk ,
-.Nm TIGERData
-.Nd calculate the "TIGER" message digest
+.Nm WHIRLPOOLInit ,
+.Nm WHIRLPOOLUpdate ,
+.Nm WHIRLPOOLPad ,
+.Nm WHIRLPOOLFinal ,
+.Nm WHIRLPOOLEnd ,
+.Nm WHIRLPOOLFile ,
+.Nm WHIRLPOOLFileChunk ,
+.Nm WHIRLPOOLData
+.Nd calculate the "WHIRLPOOL" message digest
 .Sh SYNOPSIS
 .Fd #include <sys/types.h>
-.Fd #include <tiger.h>
+.Fd #include <whirlpool.h>
 .Ft void
-.Fn TIGERInit "TIGER_CTX *ctx"
+.Fn WHIRLPOOLInit "WHIRLPOOL_CTX *ctx"
 .Ft void
-.Fn TIGERUpdate "TIGER_CTX *ctx" "const uint8_t *data" "size_t noctets"
+.Fn WHIRLPOOLUpdate "WHIRLPOOL_CTX *ctx" "const uint8_t *data" "size_t noctets"
 .Ft void
-.Fn TIGERPad "TIGER_CTX *ctx"
+.Fn WHIRLPOOLPad "WHIRLPOOL_CTX *ctx"
 .Ft void
-.Fn TIGERFinal "uint8_t digest[TIGER_DIGEST_LENGTH]" "TIGER_CTX *ctx"
-.Ft void
-.Fn TIGERTransform "uint64_t state[3]" "const uint8_t block[TIGER_BLOCK_LENGTH]"
+.Fn WHIRLPOOLFinal "uint8_t digest[WHIRLPOOL_DIGEST_LENGTH]" "WHIRLPOOL_CTX *ctx"
 .Ft "char *"
-.Fn TIGEREnd "TIGER_CTX *ctx" "char *digest"
+.Fn WHIRLPOOLEnd "WHIRLPOOL_CTX *ctx" "char *digest"
 .Ft "char *"
-.Fn TIGERFile "const char *filename" "char *digest"
+.Fn WHIRLPOOLFile "const char *filename" "char *digest"
 .Ft "char *"
-.Fn TIGERFileChunk "const char *filename" "char *digest" "off_t offset" "off_t length"
+.Fn WHIRLPOOLFileChunk "const char *filename" "char *digest" "off_t offset" "off_t length"
 .Ft "char *"
-.Fn TIGERData "const uint8_t *data" "size_t len" "char *digest"
+.Fn WHIRLPOOLData "const uint8_t *data" "size_t len" "char *digest"
 .Sh DESCRIPTION
-The TIGER functions implement the 192-bit TIGER message digest hash algorithm.
+The WHIRLPOOL functions implement the 512-bit WHIRLPOOL message digest hash algorithm.
 .Pp
-The TIGER functions are of a different family than the
+The WHIRLPOOL functions are of a different family than the
 .Xr md4 3 ,
 .Xr md5 3 ,
 .Xr rmd160 3 ,
@@ -65,25 +62,25 @@ and
 .Xr sha2 3
 functions,
 as well of a different family from the
-.Xr whirlpool 3
+.Xr tiger 3
 functions and, despite not having been cryptanalysed that much,
 are considered pretty secure.
 All share a similar interface, though.
 .Pp
 The
-.Fn TIGERInit
-function initialises a TIGER_CTX context for use with
-.Fn TIGERUpdate
+.Fn WHIRLPOOLInit
+function initialises a WHIRLPOOL_CTX context for use with
+.Fn WHIRLPOOLUpdate
 and
-.Fn TIGERFinal .
+.Fn WHIRLPOOLFinal .
 The
-.Fn TIGERUpdate
+.Fn WHIRLPOOLUpdate
 function adds (condenses)
 .Ar data
 of length
 .Ar noctets
 to the context.
-.Fn TIGERFinal
+.Fn WHIRLPOOLFinal
 is called after processing and stores a message digest in the
 .Ar digest
 parameter.
@@ -96,31 +93,31 @@ The follow code fragment will calculate the digest for
 the string
 .Dq abc ,
 which is
-.Dq 2aab1484e8c158f2bfb8c5ff41b57a525129131c957b5f93 .
+.Dq 4e2448a4c6f486bb16b6562c73b4020bf3043e3a731bce721ae1b303d97e6d4c7181eebdb6c57e277d0e34957114cbd6c797fc9d95d8b582d225292076d4eef5 .
 .Bd -literal -offset indent
-TIGER_CTX context;
-uint8_t result[TIGER_DIGEST_LENGTH];
+WHIRLPOOL_CTX context;
+uint8_t result[WHIRLPOOL_DIGEST_LENGTH];
 const char buf[] = "abc";
 size_t n = strlen(buf);
 
-TIGERInit(&context);
-TIGERUpdate(&context, buf, n);
-TIGERFinal(result, &context);
+WHIRLPOOLInit(&context);
+WHIRLPOOLUpdate(&context, buf, n);
+WHIRLPOOLFinal(result, &context);
 
 /* print the digest as one long sedecimal value */
 printf("0x");
-for (n = 0; n < TIGER_DIGEST_LENGTH; n++)
+for (n = 0; n < WHIRLPOOL_DIGEST_LENGTH; n++)
 	printf("%02x", result[n]);
 putchar('\en');
 .Ed
 .Pp
 Alternately, the helper functions could be used in the following way:
 .Bd -literal -offset indent
-TIGER_CTX context;
-uint8_t output[TIGER_DIGEST_STRING_LENGTH];
+WHIRLPOOL_CTX context;
+uint8_t output[WHIRLPOOL_DIGEST_STRING_LENGTH];
 const char buf[] = "abc";
 
-printf("0x%s\en", TIGERData(buf, strlen(buf), output));
+printf("0x%s\en", WHIRLPOOLData(buf, strlen(buf), output));
 .Ed
 .Sh SEE ALSO
 .Xr cksum 1 ,
@@ -128,22 +125,29 @@ printf("0x%s\en", TIGERData(buf, strlen(buf), output));
 .Xr md5 3 ,
 .Xr rmd160 3 ,
 .Xr sha1 3 ,
-.Xr sha2 3
+.Xr sha2 3 ,
+.Xr tiger 3
 .Pp
-.Pa http://www.cs.technion.ac.il/~biham/Reports/Tiger/
+.Pa http://planeta.terra.com.br/informatica/paulobarreto/WhirlpoolPage.html
 .Sh HISTORY
-The TIGER functions appeared in
+The WHIRLPOOL functions appeared in
 .Mx 10 .
 .Sh AUTHORS
-This implementation of TIGER was written by
+The reference implementation of WHIRLPOOL was written by
+.An Paulo S. L. M. Barreto Aq pbarreto@scopus.com.br
+and
+.An Vincent Rijmen Aq vincent.rijmen@cryptomathic.com
+and was dedicated into public domain.
+It has been tweaked for inclusion into
+.Mx
+by
 .An Thorsten Glaser Aq tg@mirbsd.de
-modelled after the RIPEMD\-160 implementation already in libc
-and the TIGER reference implementation.
+modelled after the TIGER implementation already in libc.
 .Pp
 The
-.Fn TIGEREnd ,
-.Fn TIGERFile ,
-.Fn TIGERFileChunk ,
+.Fn WHIRLPOOLEnd ,
+.Fn WHIRLPOOLFile ,
+.Fn WHIRLPOOLFileChunk ,
 and
-.Fn TIGERData
+.Fn WHIRLPOOLData
 helper functions are derived from code written by Poul-Henning Kamp.

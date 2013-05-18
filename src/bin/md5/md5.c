@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/md5/md5.c,v 1.15 2006/09/17 20:05:15 tg Exp $ */
+/**	$MirOS: src/bin/md5/md5.c,v 1.16 2007/04/29 22:17:46 tg Exp $ */
 /*	$OpenBSD: md5.c,v 1.32 2004/12/29 17:32:44 millert Exp $	*/
 
 /*
@@ -8,14 +8,17 @@
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
  *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
- * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
- * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
- * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
- * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
- * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ * The following disclaimer must also be retained:
  *
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
+ *-
  * Sponsored in part by the Defense Advanced Research Projects
  * Agency (DARPA) and Air Force Research Laboratory, Air Force
  * Materiel Command, USAF, under agreement number F39502-99-1-0512.
@@ -38,10 +41,11 @@
 #include <sha1.h>
 #include <sha2.h>
 #include <tiger.h>
+#include <whirlpool.h>
 #include "crc.h"
 #include "suma.h"
 
-__RCSID("$MirOS: src/bin/md5/md5.c,v 1.15 2006/09/17 20:05:15 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/md5.c,v 1.16 2007/04/29 22:17:46 tg Exp $");
 
 #define MAX_DIGEST_LEN	128
 
@@ -62,6 +66,7 @@ union ANY_CTX {
 	ADLER32_CTX adler32;
 	SFV_CTX sfv;
 	TIGER_CTX tiger;
+	WHIRLPOOL_CTX whirlpool;
 	SIZE_CTX size;
 };
 
@@ -77,7 +82,7 @@ void SIZE_Init(SIZE_CTX *);
 void SIZE_Update(SIZE_CTX *, const uint8_t *, size_t);
 char *SIZE_End(SIZE_CTX *, char *);
 
-#define NHASHES	15
+#define NHASHES	16
 struct hash_functions {
 	const char *name;
 	size_t digestlen;
@@ -226,6 +231,16 @@ struct hash_functions {
 		(void (*)(void *))TIGERInit,
 		(void (*)(void *, const unsigned char *, unsigned int))TIGERUpdate,
 		(char *(*)(void *, char *))TIGEREnd,
+		digest_printbin_string,
+		digest_print,
+		digest_print_string
+	}, {
+		"WHIRLPOOL",
+		WHIRLPOOL_DIGEST_LENGTH * 2,
+		NULL,
+		(void (*)(void *))WHIRLPOOLInit,
+		(void (*)(void *, const unsigned char *, unsigned int))WHIRLPOOLUpdate,
+		(char *(*)(void *, char *))WHIRLPOOLEnd,
 		digest_printbin_string,
 		digest_print,
 		digest_print_string

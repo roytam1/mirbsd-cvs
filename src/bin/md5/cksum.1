@@ -1,7 +1,7 @@
-.\"	$MirOS: src/bin/md5/cksum.1,v 1.12 2006/09/17 20:05:14 tg Exp $
+.\"	$MirOS: src/bin/md5/cksum.1,v 1.13 2007/03/12 20:26:04 tg Exp $
 .\"	$OpenBSD: cksum.1,v 1.5 2005/03/07 23:41:53 jmc Exp $
 .\"
-.\" Copyright (c) 2006
+.\" Copyright (c) 2006, 2007
 .\"	Thorsten Glaser <tg@mirbsd.de>
 .\" Copyright (c) 1991, 1993
 .\"	The Regents of the University of California.  All rights reserved.
@@ -152,8 +152,9 @@ Supported algorithms include
 .Ar sum ,
 .Ar suma ,
 .Ar sysvsum ,
+.Ar tiger ,
 and
-.Ar tiger .
+.Ar whirlpool .
 Multiple algorithms may be specified, separated by a comma or whitespace.
 Additionally, multiple
 .Fl a
@@ -315,7 +316,8 @@ utilities exit 0 on success or >0 if an error occurred.
 .Xr rmd160 3 ,
 .Xr sha1 3 ,
 .Xr sha2 3 ,
-.Xr tiger 3
+.Xr tiger 3 ,
+.Xr whirlpool 3
 .Pp
 The default calculation is identical to that given in pseudo-code
 in the following
@@ -381,5 +383,8 @@ has already been successfully mounted on a reduced form of
 Use a cryptographically strong checksum (such as RIPEMD\-160) instead,
 or combine two algorithms from different families, for example,
 .Xr rmd160 ,
-.Xr tiger ,
+either
+.Xr tiger
+or
+.Xr whirlpool ,
 and, optionally, one of the CRCs.

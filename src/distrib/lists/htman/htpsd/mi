@@ -1010,6 +1010,14 @@
 ./man3/TIGERPad.htm
 ./man3/TIGERTransform.htm
 ./man3/TIGERUpdate.htm
+./man3/WHIRLPOOLData.htm
+./man3/WHIRLPOOLEnd.htm
+./man3/WHIRLPOOLFile.htm
+./man3/WHIRLPOOLFileChunk.htm
+./man3/WHIRLPOOLFinal.htm
+./man3/WHIRLPOOLInit.htm
+./man3/WHIRLPOOLPad.htm
+./man3/WHIRLPOOLUpdate.htm
 ./man3/XAddConnectionWatch.htm
 ./man3/XAddHost.htm
 ./man3/XAllocClassHint.htm
@@ -3769,6 +3777,7 @@
 ./man3/wgetn_wstr.htm
 ./man3/wgetnstr.htm
 ./man3/wgetstr.htm
+./man3/whirlpool.htm
 ./man3/whline.htm
 ./man3/whline_set.htm
 ./man3/win_wch.htm
