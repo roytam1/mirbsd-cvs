@@ -1,6 +1,4 @@
 /*
- * $LynxId: LYUpload.c,v 1.38 2013/05/03 10:53:50 tom Exp $
- *
  *  Routines to upload files to the local filesystem.
  *  Created by: Rick Mallett, Carleton University
  *  Report problems to rmallett@ccs.carleton.ca
@@ -88,7 +86,7 @@ int LYUpload(char *line)
 	_statusline(FILENAME_PROMPT);
       retry:
 	*tmpbuf = '\0';
-	if (LYGetStr(tmpbuf, VISIBLE, sizeof(tmpbuf), NORECALL) < 0)
+	if (LYgetstr(tmpbuf, VISIBLE, sizeof(tmpbuf), NORECALL) < 0)
 	    goto cancelled;
 
 	if (*tmpbuf == '\0')
@@ -126,6 +124,10 @@ int LYUpload(char *line)
 	 * See if we can write to it.
 	 */
 	CTRACE((tfp, "LYUpload: filename is %s", filename));
+
+	if (!LYCanWriteFile(filename)) {
+	    goto retry;
+	}
 
 	HTAddParam(&the_upload, upload_command->command, 1, filename);
 	HTEndParam(&the_upload, upload_command->command, 1);
@@ -175,16 +177,19 @@ int LYUpload_options(char **newfile,
     FILE *fp0;
     lynx_list_item_type *cur_upload;
     int count;
-    char *curloc = NULL;
+    static char curloc[LY_MAXPATH];
+    char *cp;
 
     if ((fp0 = InternalPageFP(tempfile, TRUE)) == 0)
 	return (-1);
 
 #ifdef VMS
-    StrAllocCopy(curloc, "/sys$login");
+    strcpy(curloc, "/sys$login");
 #else
-    StrAllocCopy(curloc, HTfullURL_toFile(directory));
+    cp = HTfullURL_toFile(directory);
+    strcpy(curloc, cp);
     LYTrimPathSep(curloc);
+    FREE(cp);
 #endif /* VMS */
 
     LYLocalFileToURL(newfile, tempfile);
@@ -203,7 +208,7 @@ int LYUpload_options(char **newfile,
 	    fprintf(fp0, "   <a href=\"LYNXDIRED://UPLOAD=%d/TO=%s\">",
 		    count, curloc);
 	    fprintf(fp0, "%s", (cur_upload->name ?
-				cur_upload->name : gettext("No Name Given")));
+			  cur_upload->name : gettext("No Name Given")));
 	    fprintf(fp0, "</a>\n");
 	}
     } else {
@@ -215,7 +220,6 @@ int LYUpload_options(char **newfile,
     LYCloseTempFP(fp0);
 
     LYforce_no_cache = TRUE;
-    FREE(curloc);
 
     return (0);
 }
