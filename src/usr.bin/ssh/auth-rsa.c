@@ -14,10 +14,10 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/auth-rsa.c,v 1.2 2005/03/13 18:33:29 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/auth-rsa.c,v 1.3 2005/06/22 16:11:39 tg Exp $");
 
 #include <openssl/rsa.h>
-#include <openssl/md5.h>
+#include <md5.h>
 
 #include "rsa.h"
 #include "packet.h"
@@ -92,10 +92,10 @@ auth_rsa_verify_response(Key *key, BIGNUM *challenge, u_char response[16])
 		fatal("auth_rsa_verify_response: bad challenge length %d", len);
 	memset(buf, 0, 32);
 	BN_bn2bin(challenge, buf + 32 - len);
-	MD5_Init(&md);
-	MD5_Update(&md, buf, 32);
-	MD5_Update(&md, session_id, 16);
-	MD5_Final(mdbuf, &md);
+	MD5Init(&md);
+	MD5Update(&md, buf, 32);
+	MD5Update(&md, session_id, 16);
+	MD5Final(mdbuf, &md);
 
 	/* Verify that the response is the original challenge. */
 	if (memcmp(response, mdbuf, 16) != 0) {

@@ -42,11 +42,11 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: sshd.c,v 1.317 2005/10/30 08:52:18 djm Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.3 2006/02/21 02:08:42 tg Exp $");
 
 #include <openssl/dh.h>
 #include <openssl/bn.h>
-#include <openssl/md5.h>
+#include <md5.h>
 #include <openssl/rand.h>
 
 #include "ssh.h"
@@ -1857,15 +1857,15 @@ do_ssh1_kex(void)
 
 		logit("do_connection: generating a fake encryption key");
 		BN_bn2bin(session_key_int, buf);
-		MD5_Init(&md);
-		MD5_Update(&md, buf, bytes);
-		MD5_Update(&md, sensitive_data.ssh1_cookie, SSH_SESSION_KEY_LENGTH);
-		MD5_Final(session_key, &md);
-		MD5_Init(&md);
-		MD5_Update(&md, session_key, 16);
-		MD5_Update(&md, buf, bytes);
-		MD5_Update(&md, sensitive_data.ssh1_cookie, SSH_SESSION_KEY_LENGTH);
-		MD5_Final(session_key + 16, &md);
+		MD5Init(&md);
+		MD5Update(&md, buf, bytes);
+		MD5Update(&md, sensitive_data.ssh1_cookie, SSH_SESSION_KEY_LENGTH);
+		MD5Final(session_key, &md);
+		MD5Init(&md);
+		MD5Update(&md, session_key, 16);
+		MD5Update(&md, buf, bytes);
+		MD5Update(&md, sensitive_data.ssh1_cookie, SSH_SESSION_KEY_LENGTH);
+		MD5Final(session_key + 16, &md);
 		memset(buf, 0, bytes);
 		xfree(buf);
 		for (i = 0; i < 16; i++)

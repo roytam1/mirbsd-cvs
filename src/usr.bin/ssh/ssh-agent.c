@@ -35,10 +35,10 @@
 
 #include "includes.h"
 #include <sys/queue.h>
-RCSID("$OpenBSD: ssh-agent.c,v 1.124 2005/10/30 08:52:18 djm Exp $");
+RCSID("$MirOS: ssh-agent.c,v 1.124 2005/10/30 08:52:18 djm Exp $");
 
 #include <openssl/evp.h>
-#include <openssl/md5.h>
+#include <md5.h>
 
 #include "ssh.h"
 #include "rsa.h"
@@ -253,10 +253,10 @@ process_authentication_challenge1(SocketEntry *e)
 		}
 		memset(buf, 0, 32);
 		BN_bn2bin(challenge, buf + 32 - len);
-		MD5_Init(&md);
-		MD5_Update(&md, buf, 32);
-		MD5_Update(&md, session_id, 16);
-		MD5_Final(mdbuf, &md);
+		MD5Init(&md);
+		MD5Update(&md, buf, 32);
+		MD5Update(&md, session_id, 16);
+		MD5Final(mdbuf, &md);
 
 		/* Send the response. */
 		buffer_put_char(&msg, SSH_AGENT_RSA_RESPONSE);
