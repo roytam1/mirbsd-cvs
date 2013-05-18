@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.171 2009/03/15 12:52:56 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.172 2009/03/21 01:12:25 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3561,6 +3561,7 @@ should explain what identifiers like $D$ above mean.}
 Author: tg@
 Title: Die erste Frühlingsluft
 Date: 21.03.2009 00:59
+Language: de
 
 <p>Kurz nach Mitternacht (oder genauer, 23:31:56 UTC). Ich stehe am
  Fenster und atme die frische Frühlingsluft. Gleich in zweierlei
@@ -3600,4 +3601,13 @@ Date: 21.03.2009 00:59
  da keinen großen Aufschrei mehr zu machen. Oder einfach von der
  harten Realität abgestumpft.)</p>
 <p>Rückblicke sind kraß. Da merkt man echt, wie alt man ist/wird.</p>
+----
+Author: tg@
+Title: Die erste Frühlingsluft (contd.)
+Date: 22.03.2009 12:23
+Language: de
+
+<p>Ja, und sie war schön!</p>
+<p>Jetzt erstmal Kaffee, bißchen Geocachen, dann weiter hacken,
+ und mit Benny zu kommunizieren versuchen ;)</p>
 ----
