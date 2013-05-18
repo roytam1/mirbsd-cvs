@@ -1,9 +1,20 @@
-ca-bundle (20111111) xwtf; urgency=low
+ca-bundle (20120530) wtf; urgency=low
 
+  * The “I’m at work waaay too late tonight” upload
   * Drop Build-Depends-Indep from debian/control, always broken
   * Mention nssckbi certdata.txt in package description
+  * Lower version necessary to build this to Debian sarge
+  * Mark as Multi-Arch: foreign
+  * Replaces libgcj11 as well
+  * Install update-ca-certificates into /usr/sbin not /sbin, oops
+    (thanks Sönne for noting)
+  * Handle GCJ type keystore properly
+  * Enhances java-package made oracle-j2sdk1.6
+  * Update from latest MirPorts Framework
+  * Generate ca-bundle.links during package build instead of before
+  * Fix dashes in manpage
 
- -- Thorsten Glaser <tg@mirbsd.de>  Fri, 11 Nov 2011 23:41:22 +0000
+ -- Thorsten Glaser <tg@mirbsd.de>  Wed, 30 May 2012 22:00:11 +0200
 
 ca-bundle (20110906) wtf; urgency=high
 
