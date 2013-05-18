@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/Makefile,v 1.9 2006/08/17 19:57:59 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -17,7 +17,6 @@ _DESCEND=		No
 SUBDIR=
 
 .if ${_DESCEND} == "Yes" || (${REL_NO_RAMDISK:L} == "no" && !make(install))
-  SUBDIR+=		ramtools
   SUBDIR+=		special
 .endif
 

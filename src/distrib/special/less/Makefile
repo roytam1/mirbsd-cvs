@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramtools/less/Makefile,v 1.2 2006/05/26 17:09:35 tg Exp $
+# $MirOS: src/distrib/ramtools/less/Makefile,v 1.3 2006/05/26 18:50:30 tg Exp $
 
 .include <bsd.own.mk>
 

@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramtools/sshd/Makefile,v 1.1 2006/05/15 19:20:17 tg Exp $
+# $MirOS: src/distrib/ramtools/sshd/Makefile,v 1.2 2006/05/26 18:50:31 tg Exp $
 # $OpenBSD: Makefile,v 1.64 2004/08/23 14:26:39 dtucker Exp $
 #
 # Yes, this is _without_ BSD auth.

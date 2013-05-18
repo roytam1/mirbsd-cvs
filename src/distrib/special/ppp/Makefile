@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramtools/ppp/Makefile,v 1.1 2006/05/15 19:20:17 tg Exp $
+# $MirOS: src/distrib/ramtools/ppp/Makefile,v 1.2 2006/05/26 18:50:31 tg Exp $
 
 .include <bsd.own.mk>
 
