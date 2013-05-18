@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.437 2011/12/11 19:43:28 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.438 2011/12/29 00:07:08 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1011,10 +1011,22 @@ exec /usr/bin/ld "${args[@]}"</pre>
   to its NUL-counting, always-changing, never-zero, better-avalanching MirOS
   variant <a href="@@ABSPATH@@/cvs.cgi/src/kern/include/nzat.h">NZAT</a></li>
  <li>[tg] Use <tt>$'…'</tt> for non-ASCII parameters for re-entry printing</li>
+ <li>[tg] Use sane spelling of “read-only” consistently</li>
+ <li>[tg] Improve tree <tt>-DDEBUG</tt> functions (internal/developer use)</li>
 </ul>
-<!--
 <p>Changes in the current (unreleased) stable branch:</p><ul>
--->
+ <li>[tg, Jilles Tjoelker] skip readonly check in unevaluated ternary twig</li>
+ <li>[tg, anonymous] fix all remaining <tt>ifs.sh</tt> testcases</li>
+ <li>[tg] No longer try to build with GCC and C99 extensions</li>
+ <li>[tg, Jilles Tjoelker] Do not expand aliases in COMSUB twice</li>
+ <li>[tg] Honour UTF-8 multi-byte character boundaries when doing partial
+  tab-completion insertions (LP: #909025) to fix RedHat BZ#745702</li>
+ <li>[tg] Fix R40 (BZ#496791) regression with IOACT in TIF (LP: #907224)</li>
+ <li>[tg, ft] Darn persistent history code worst offenders (LP: #906914)</li>
+ <li>[tg] Fix some gc-sections, GCC and Clang/scan-build warnings/issues</li>
+ <li>[tg, 28C3] dot.mkshrc hash functions: partially address LP: #909818</li>
+ <li>[tg] Only compile divmod(0x80000000, -1) code in when not unneeded</li>
+</ul>
 <p id="r40d">mksh R40d is a must-have bugfix update:</p><ul>
  <li>[tg] New <tt>test.sh</tt> ‘-f’ option (same as ‘-C fastbox’)</li>
  <li>[tg] Drop using <tt>set -o noglob</tt> inside pushd/popd/dirs</li>
