@@ -38,7 +38,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/packet.c,v 1.6 2006/04/19 10:40:49 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/packet.c,v 1.7 2006/06/02 20:50:48 tg Exp $");
 
 #include <sys/queue.h>
 
@@ -1591,21 +1591,10 @@ packet_consume_ignoremsg(void)
 {
 	u_int n;
 	u_int8_t *b;
-	int x;
 
 	if ((b = packet_get_raw(&n)) == NULL)
 		return;
 
-consumeloop:
-	if (n == 0)
-		return;
-	x = b[--n];
-	if (n > 0)
-		x = (x << 8) | b[--n];
-	if (n > 0)
-		x = (x << 8) | b[--n];
-	if (n > 0)
-		x = (x << 8) | b[--n];
-	arc4random_push(x);
-	goto consumeloop;
+	if (n != 0)
+		arc4random_pushb(b, n);
 }

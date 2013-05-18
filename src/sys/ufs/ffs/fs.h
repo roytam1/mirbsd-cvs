@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/ufs/ffs/fs.h,v 1.2 2005/03/06 21:28:37 tg Exp $	*/
+/**	$MirOS: src/sys/ufs/ffs/fs.h,v 1.3 2005/04/29 18:35:06 tg Exp $	*/
 /*	$OpenBSD: fs.h,v 1.17 2005/03/01 13:30:50 aaron Exp $	*/
 /*	$NetBSD: fs.h,v 1.6 1995/04/12 21:21:02 mycroft Exp $	*/
 
@@ -178,7 +178,7 @@ struct csum {
 struct fs {
 	int32_t	 fs_firstfield;		/* historic file system linked list, */
 	int32_t	 fs_unused_1;		/*     used for incore super blocks */
-	/* MirOS actually uses the two fields above to store random seed */
+	/* MirOS actually uses the two fields above to store a little entropy */
 	int32_t	 fs_sblkno;		/* addr of super-block in filesys */
 	int32_t	 fs_cblkno;		/* offset of cyl-block in filesys */
 	int32_t	 fs_iblkno;		/* offset of inode-blocks in filesys */

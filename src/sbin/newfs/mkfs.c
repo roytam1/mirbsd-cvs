@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/newfs/mkfs.c,v 1.2 2005/03/06 19:50:27 tg Exp $ */
+/**	$MirOS: src/sbin/newfs/mkfs.c,v 1.3 2005/11/23 16:44:02 tg Exp $ */
 /*	$OpenBSD: mkfs.c,v 1.47 2005/04/14 19:58:32 deraadt Exp $	*/
 /*	$NetBSD: mkfs.c,v 1.25 1995/06/18 21:35:38 cgd Exp $	*/
 
@@ -53,7 +53,7 @@
 #endif
 
 __SCCSID("@(#)mkfs.c	8.3 (Berkeley) 2/3/94");
-__RCSID("$MirOS: src/sbin/newfs/mkfs.c,v 1.2 2005/03/06 19:50:27 tg Exp $");
+__RCSID("$MirOS: src/sbin/newfs/mkfs.c,v 1.3 2005/11/23 16:44:02 tg Exp $");
 
 /*
  * make file system for cylinder-group style file systems
@@ -658,12 +658,11 @@ next:
 #endif
 	/* read out old (potential) superblock */
 	i = '!';
-	if (urdfs((int)SBOFF / sectorsize, sbsize, (char *)&sblk2)) {
+	if (urdfs((int)SBOFF / sectorsize, sbsize, (char *)&sblk2))
 		i = '?';
-	} else {
-		arc4random_push(sblk2.fs_firstfield);
-		arc4random_push(sblk2.fs_unused_1);
-	}
+	else
+		arc4random_pushb(&(sblk2.fs_firstfield),
+		    sizeof (sblk2.fs_firstfield) + sizeof (sblk2.fs_unused_1));
 	if (!quiet)
 		putchar(i);
 

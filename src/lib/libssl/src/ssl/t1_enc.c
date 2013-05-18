@@ -117,7 +117,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/t1_enc.c,v 1.2 2006/03/27 18:28:07 tg Exp $");
 
 static void tls1_P_hash(const EVP_MD *md, const unsigned char *sec,
 			int sec_len, unsigned char *seed, int seed_len,
@@ -694,10 +694,7 @@ int tls1_final_finish_mac(SSL *s, EVP_MD_CTX *in1_ctx, EVP_MD_CTX *in2_ctx,
 		s->session->master_key,s->session->master_key_length,
 		buf3,buf2,sizeof buf2);
 	memcpy(out,buf3,12);
-	arc4random_push(*((uint32_t *)(&buf3[12])));
-	arc4random_push(*((uint32_t *)(&buf3[16])));
-	arc4random_push(*((uint32_t *)(&buf3[20])));
-	arc4random_push(*((uint32_t *)(&buf3[24])));
+	arc4random_pushb(buf3 + 12, 16);
 #else
 	tls1_PRF(s->ctx->md5,s->ctx->sha1,buf,(int)(q-buf),
 		s->session->master_key,s->session->master_key_length,
