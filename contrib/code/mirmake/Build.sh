@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.21 2006/08/26 15:47:46 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -27,9 +27,9 @@
 # Build MirMake. (Assumes mksh or bash)
 
 OSN=$1			# OStype
-PFX=${2-/usr/local}	# Installation prefix (optional)
-MPT=${3-man/cat}	# manpath (cat magic) (optional)
-MKN=${4-bmake}		# name of executable (optional)
+PFX=${2:-/usr/local}	# Installation prefix (optional)
+MPT=${3:-man/cat}	# manpath (cat magic) (optional)
+MKN=${4:-bmake}		# name of executable (optional)
 MAC=$5			# machine (i386, macppc) (optional)
 MAR=$6			# machine_arch (i386, powerpc) (optional)
 MOS=$7			# machine_os (BSD, Linux) (optional)
@@ -148,7 +148,7 @@ if [ x"$ms" = x"NONE" ]; then
 fi
 
 echo "Building MirMake on $MOS/$MAC ($MAR) for $OSN"
-echo "with $ms and ${CC-gcc} to $PFX/bin/$MKN"
-echo "Documentation goes to $PFX/${MPT}1/ (user ${BIN-root:bin})"
+echo "with $ms and ${CC:-gcc} to $PFX/bin/$MKN"
+echo "Documentation goes to $PFX/${MPT}1/ (user ${BIN:-root:bin})"
 
 exec $ms `dirname $0`/dist/scripts/Build.sh "$OSN" "$PFX" "$MPT" "$MKN" "$MAC" "$MAR" "$MOS" $ms "$BIN"
