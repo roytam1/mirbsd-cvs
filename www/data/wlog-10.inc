@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.85 2008/10/13 22:44:22 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.86 2008/10/19 20:30:01 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1772,4 +1772,77 @@ Title: Getting closer
  (my best friend) animal half – with approximately 13 kg much more of
  a beast than the neighbour’s cat I nicknamed “Mir” (just to name it
  after a BSD) and behaving much more “cool”, but very nice.</p>
+----
+Date: 21.10.2008 21:54
+Author: tg@
+Title: Closer, but no game
+
+<p>On a somewhat unrelated topic, I would like to remind the readers
+ of this wlog that next weekend, winter time will enact, i.e. you’ve
+ got to add only one instead of two hours to the current UTC time to
+ be able to talk to your “nōn-CS” neighbours. I’m adding it here since
+ I know <em>I</em> would forget it otherwise, and I just saw it in a
+ newspaper I read at the imbiss.</p>
+<p>Well, I got closer. So close that dual-boot CDs are possible with
+ the new system. So close that I got everything in place to make both
+ baselive and dualive CDs. But makefs(8) let me down and threw an
+ assertion on – how gdb(1) helped me to find out – a deep directory,
+ <tt>usr/libdata/perl5/i386-mirbsd/5.8.8/auto/B/C</tt>, thinking it
+ adds the same directory a second time to its node tree (aborting
+ thusly to not end up in an endless loop later). However, adding the
+ <tt>allow-deep-trees</tt> mount option did not help. So I’m stuck.</p>
+<p>There are some alternatives. The one which I like the most would
+ be to further change the Sun disklabel to not only look like an i386
+ MBR to the BIOS, but also contain a “partition table” with only one
+ partition of type <tt>0x27 (MirBSD)</tt>, starting at the chain sector
+ (24, in our case) and being two sectors in size. The second one would
+ then contain an i386 disklabel. A 4.2BSD FFS filesystem (created with
+ makefs(8) which should work better there) would just be added after
+ the ISO 9660 filesystem containing the boot stuff (and possibly, the
+ <tt>/v10</tt> directory, i.e. nothing less and nothing more than the
+ contents of a normal dual-arch install-only CD, plus the Live kernel,
+ which is just a GENERIC with root set to <tt>cd0f</tt>… since we’ll
+ be using UFS then, we don’t even need <tt>/dev</tt> on a ramdisk any
+ more). However, I do not exactly know how this would behave if we mix
+ a filesystem using 2048-byte sectors with a filesystem using 512-byte
+ sectors on the same medium and expect it to work both when burnt on a
+ CD using 2048-byte sectors <em>for the entire medium</em> and when put
+ on a CF card / USB stick / HDD / etc. using 512-byte sectors <em>for
+ all of the two filesystems</em>. The Sun disklabel would also have to
+ be adapted, unless we want to hide the i386-live part from it (or are
+ too lazy to show it… but we’re perfectionists, sometimes).</p>
+<p>I know from others that they put <tt>/usr</tt> on an FFS inside a
+ vnd(4) file instead, but this has not only heavy performance issues,
+ I also know our vnd(4) to behave slightly buggy on media with sector
+ sizes other than 512, with OpenBSD having fixed some of that. I would
+ thusly like to avoid it.</p>
+<p>Just putting FFS on the CD is not an option either. Oh, there are
+ endianness issues as well, so there’s probably no point in having the
+ i386 FFS slice being accessible by sparc, since people in all of the
+ BSD camps still haven’t understood how uncool they are (our rewritten
+ elf2aout(1) being a prime example that it is not only possible but also
+ highly useful to have such tools do internal endianness conversions as
+ needed).</p>
+<p>Now I either need an OpenBSD guru telling me how to accomplish it,
+ or have to experiment. *sigh*</p>
+<p>Does anyone succeed in running MirBSD on qemu 0.9.1? No matter if with
+ or without kqemu, it freezes for me after the pciide(4) probe. The <a
+ href="http://thread.gmane.org/gmane.os.miros.general/8057">sparc issue</a>
+ also has yet to be resolved.</p>
+----
+Date: 21.10.2008 22:21
+Author: tg@
+Title: mksh porting
+Tag: mksh
+
+<p>If you read the <tt>comp.os.minix</tt> newsgroup, please have a look at
+ Message-Id &lt;Pine.BSM.4.64L.0810202029070.28869@herc.mirbsd.org&gt; and
+ help us porting <a href="@@RELPATH@@mksh.htm">mksh</a> to Minix 3. (Yes I
+ know I replied to a different thread, but this is just because Pine did
+ not want to let me post using a simple ‘C’ompose in the gabeln.)</p>
+<p>If you have an idea how I get the OSF/1 V2.0 cc(‌1) to correctly
+ fail if it cannot resolve functions, or how we can fix Plan 9 or even
+ Syllable Desktop (which is said to have fixed their signal handling in
+ the kernel, however an actual user would have to <em>test</em> it), also
+ feel free to contact me, you can probably help.</p>
 ----
