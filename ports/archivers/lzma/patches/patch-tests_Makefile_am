@@ -1,9 +1,0 @@
-$MirOS$
---- tests/Makefile.am.orig	Wed Nov  7 14:40:29 2007
-+++ tests/Makefile.am	Tue Sep 16 06:54:59 2008
-@@ -1,3 +1,5 @@
-+abs_top_srcdir = @abs_top_srcdir@
-+
- TESTS_ENVIRONMENT = \
- 	abs_top_builddir='$(abs_top_builddir)' \
- 	abs_top_srcdir='$(abs_top_srcdir)' \

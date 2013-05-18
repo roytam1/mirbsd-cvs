@@ -1,8 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PLIST,v 1.4 2002/11/23 14:05:15 espie Exp $
-bin/adom
-share/doc/adom/adomfaq.txt
-share/doc/adom/manual.doc
-share/doc/adom/readme.1st
-@dirrm share/doc/adom
-@extraunexec rm -rf /var/lib/adom
