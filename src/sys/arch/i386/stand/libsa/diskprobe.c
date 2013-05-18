@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.13 2009/01/10 22:18:53 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.14 2009/01/10 23:05:28 tg Exp $ */
 /*	$OpenBSD: diskprobe.c,v 1.29 2007/06/18 22:11:20 krw Exp $	*/
 
 /*
@@ -43,8 +43,6 @@
 #include "disk.h"
 #include "biosdev.h"
 #include "libsa.h"
-
-extern int biosdev_lbaprobe(int drive);
 
 #define MAX_CKSUMLEN MAXBSIZE / DEV_BSIZE	/* Max # of blks to cksum */
 
@@ -148,7 +146,7 @@ hardprobe_one(int i)
 	dip->name[1] = 'd';
 	dip->name[2] = '0' + (i & 0x7F);
 	dip->name[3] = '\0';
-	if (biosdev_lbaprobe(i) == 3) {
+	if (dip->bios_info.flags & BDI_EL_TORITO) {
 		dip->name[0] = 'c';
 		dip->name[2] = '0' + cddv++;
 	}
@@ -158,9 +156,8 @@ hardprobe_one(int i)
 	/* Try to find the label, to figure out device type */
 	if ((bios_getdisklabel(&dip->bios_info, &dip->disklabel)) ) {
 		if (dip->name[0] == 'c') {
-			dip->bios_info.flags |= (BDI_INVALID | BDI_EL_TORITO);
-			type = 6;	/* CD-ROM */
 			bsdunit = dip->name[2] - '0';
+			type = 6;	/* CD-ROM */
 		} else {
 			printf("*");
 			bsdunit = ide++;

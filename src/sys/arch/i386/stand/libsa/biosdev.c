@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.25 2009/01/10 20:28:27 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.26 2009/01/10 22:18:53 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -50,6 +50,8 @@ static __inline int CHS_rw_real (int, int, int, int, int, int, void *);
 static __inline int CHS_rw (int, int, int, int, int, int, void *);
 static __inline int EDD_rw (int, int, u_int64_t, u_int32_t, void *);
 static __inline int real_io(int, bios_diskinfo_t *, daddr_t, int, void *);
+
+extern int biosdev_lbaprobe(int drive);
 
 extern int debug;
 int i386_flag_oldbios = 0;
@@ -119,8 +121,16 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 		    pdi->bios_heads, pdi->bios_sectors);
 	}
 #endif
-	if (rv & 0xff)
-		return 1;
+	if (rv & 0xff) {
+		if (dev >= 0x88 && (biosdev_lbaprobe(dev) & 3) == 3) {
+			/* fake for CD-ROMs */
+			pdi->bios_heads = 1;
+			pdi->bios_cylinders = 100;
+			pdi->bios_sectors = 32;
+			pdi->flags |= BDI_EL_TORITO;
+		} else
+			return 1;
+	}
 
 	/* Fix up info */
 	pdi->bios_number = dev;

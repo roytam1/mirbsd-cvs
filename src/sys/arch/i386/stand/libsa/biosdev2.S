@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $ */
+/* $MirOS: src/sys/arch/i386/stand/libsa/biosdev2.S,v 1.1 2009/01/10 23:05:59 tg Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -40,6 +40,10 @@ biosdev_lbaprobe:
 	call	prot_to_real
 	.code16
 	push	edx
+	mov	ah,0
+	int	0x13
+	pop	edx
+	push	edx
 	mov	ah,0x41
 	mov	bx,0x55AA
 	int	0x13
@@ -48,11 +52,10 @@ biosdev_lbaprobe:
 	cmp	bx,0xAA55
 	jne	LnoLBA
 	or	ah,ah
-	jne	LnoCD
+	jz	LnoCD
 	cmp	dl,0x88
 	jb	LnoCD
 	push	edx
-	push	ds
 	push	ss
 	pop	ds
 	xor	si,si
@@ -67,9 +70,9 @@ biosdev_lbaprobe:
 	int	0x13
 	pop	edx
 	jc	LnoCD
-	cmp	byte ptr [2],dl
+	cmp	byte ptr ds:[2],dl
 	jne	LnoCD
-	test	byte ptr [1],0x0F
+	test	byte ptr ds:[1],0x0F
 	jne	LnoCD
 	or	dh,2
 LnoCD:	or	dh,1
