@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.10 2006/02/24 01:12:21 tg Exp $ */
+/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.11 2006/03/27 19:30:35 tg Exp $ */
 /*	$OpenBSD: vnconfig.c,v 1.16 2004/09/14 22:35:51 deraadt Exp $	*/
 /*
  * Copyright (c) 2006 Thorsten Glaser
@@ -56,12 +56,14 @@
 #include <unistd.h>
 #include <util.h>
 
+#ifndef SMALL
 #include <openssl/asn1.h>
 #include <openssl/err.h>
 #include <openssl/evp.h>
 #include <openssl/pem.h>
+#endif
 
-__RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.10 2006/02/24 01:12:21 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.11 2006/03/27 19:30:35 tg Exp $");
 
 #define DEFAULT_VND	"vnd0"
 
@@ -77,22 +79,27 @@ int verbose = 0;
 __dead void usage(void);
 int config(char *, char *, int, char *, size_t, u_int32_t);
 int getinfo(const char *);
+#ifndef SMALL
 static void extract_key(FILE *, char **, int *);
 static int make_key(const char *, FILE *, const char *);
+#endif
 
 int
 main(int argc, char **argv)
 {
 	int ch, rv, action = VND_CONFIG, flags = 0, keylen = 0;
-	char *key = NULL, *key2 = NULL;
-	char *keyfile = NULL, *algo = NULL;
+	char *key = NULL;
+#ifndef SMALL
+	char *key2 = NULL, *keyfile = NULL, *algo = NULL;
 	FILE *keyfp = NULL;
+#endif
 
 	while ((ch = getopt(argc, argv, "cf:K:klruv")) != -1) {
 		switch (ch) {
 		case 'c':
 			action = VND_CONFIG;
 			break;
+#ifndef SMALL
 		case 'f':
 			keyfile = optarg;
 			break;
@@ -100,6 +107,7 @@ main(int argc, char **argv)
 			action = VND_MAKEKEY;
 			algo = optarg;
 			break;
+#endif
 		case 'l':
 			action = VND_GET;
 			break;
@@ -127,6 +135,7 @@ main(int argc, char **argv)
 	argc -= optind;
 	argv += optind;
 
+#ifndef SMALL
 	if (keyfile) {
 		keyfp = fopen(keyfile, (action == VND_MAKEKEY) ? "wb" : "rb");
 		if (keyfp == NULL)
@@ -140,6 +149,7 @@ main(int argc, char **argv)
 		if (memcmp(key, key2, 1+keylen))
 			errx(1, "keys not identical");
 	}
+#endif
 
 	if (action == VND_CONFIG && argc == 2)
 		rv = config(argv[0], argv[1], action, key, keylen,
@@ -149,13 +159,17 @@ main(int argc, char **argv)
 		    flags | VNDIOC_OPT_RDONLY);
 	else if (action == VND_GET)
 		rv = getinfo(argc ? argv[0] : NULL);
+#ifndef SMALL
 	else if (action == VND_MAKEKEY)
 		rv = make_key(algo, keyfp, key2);
+#endif
 	else
 		usage();
 
+#ifndef SMALL
 	if (keyfp)
 		fclose(keyfp);
+#endif
 	return (rv);
 }
 
@@ -271,6 +285,7 @@ usage(void)
 	exit(1);
 }
 
+#ifndef SMALL
 static int
 make_key(const char *algo, FILE *fp, const char *key2)
 {
@@ -358,3 +373,4 @@ extract_key(FILE *fp, char **key, int *klen)
 	EVP_cleanup();
 	ERR_free_strings();
 }
+#endif
