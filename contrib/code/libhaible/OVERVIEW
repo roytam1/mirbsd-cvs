@@ -78,10 +78,10 @@ wcsrtombs		#wchar.h	#:wcsrtombs
 wcsspn			 wchar.h	C:wmemchr	string/wcsspn.c
 wcsstr			 wchar.h	C:wmemchr	string/wcsstr.c
 wcstod			 wchar.h	-		locale/wcstod.c
-wcstof			#wchar.h	-
+wcstof			 wchar.h	-		locale/wcstod.c
 wcstok			 wchar.h	C:wcstok	libhaible/wcstok.c
 wcstol			 wchar.h	-		locale/wcstol.c
-wcstold			#wchar.h	-
+wcstold			 wchar.h	-		locale/wcstod.c
 wcstoll			 wchar.h	-		locale/wcstoll.c
 wcstombs		 stdlib.h	C:wcstombs	libhaible/wcstombs.c
 wcstombs	dep	 stdlib.h	C:wcstombs	STUB! i18n/multibyte.c

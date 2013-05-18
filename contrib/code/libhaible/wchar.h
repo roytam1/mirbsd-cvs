@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/wchar.h,v 1.10 2006/05/30 20:34:39 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/wchar.h,v 1.11 2006/05/30 20:46:32 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -134,15 +134,11 @@ size_t	wcsrtombs(char *__restrict__, const wchar_t **__restrict__, size_t,
 size_t	wcsspn(const wchar_t *, const wchar_t *);
 wchar_t	*wcsstr(const wchar_t *__restrict__, const wchar_t *__restrict__);
 double	wcstod(const wchar_t *__restrict__, wchar_t **__restrict__);
-#ifdef notyet
 float	wcstof(const wchar_t *__restrict__, wchar_t **__restrict__);
-#endif
 wchar_t	*wcstok(wchar_t *__restrict__, const wchar_t *__restrict__,
 	    wchar_t **__restrict__);
 long	wcstol(const wchar_t *__restrict__, wchar_t **__restrict__, int);
-#ifdef notyet
 long double wcstold(const wchar_t *__restrict__, wchar_t **__restrict__);
-#endif
 #if (!defined(_POSIX_C_SOURCE) && !defined(_XOPEN_SOURCE)) || \
     defined(_ISOC99_SOURCE) || (__STDC_VERSION__ - 0) > 199901L
 /* LONGLONG */

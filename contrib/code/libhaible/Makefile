@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.21 2006/05/30 20:28:30 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.22 2006/05/30 20:46:31 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
@@ -31,11 +31,16 @@ LIBCSRCDIR?=	${BSDSRCDIR}/lib/libc
 
 .PATH: ${LIBCSRCDIR}/locale
 CPPFLAGS+= -I${LIBCSRCDIR}/locale
-SRCS+=	wcstod.c
+#SRCS+=	wcstod.c
 SRCS+=	wcstol.c
 SRCS+=	wcstoll.c
 SRCS+=	wcstoul.c
 SRCS+=	wcstoull.c
+
+CFLAGS_wcstol.o+=	-Wno-cast-qual
+CFLAGS_wcstoll.o+=	-Wno-cast-qual
+CFLAGS_wcstoul.o+=	-Wno-cast-qual
+CFLAGS_wcstoull.o+=	-Wno-cast-qual
 
 # missing
 #SRCS+=	fwprintf.c
