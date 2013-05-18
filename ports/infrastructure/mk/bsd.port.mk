@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.157 2006/12/30 21:13:45 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.158 2007/01/29 17:13:08 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2271,7 +2271,7 @@ ${_F}:
 		    'is not writable for you!'; \
 		exit 1; \
 	fi
-	cd ${_F:H}; \
+	@cd ${_F:H}; \
 	select=${_EVERYTHING:M*${_F:S@^${FULLDISTDIR}/@@}\:[0-9]}; \
 	f=${_F:S@^${FULLDISTDIR}/@@}; \
 	${ECHO_MSG} ">> $$f doesn't seem to exist on this system."; \
