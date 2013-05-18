@@ -1,10 +1,9 @@
 <!-- PageID: jupp -->
-<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.7 2006/01/27 00:23:33 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.8 2006/01/27 00:54:10 tg Exp $</small>
 <h1>jupp &ndash; the Editor</h1>
 <p>
  The current version is <em>joe-3.1jupp5</em>.
  This page is accessible under <a href="http://mirbsd.de/jupp">http://mirbsd.de/jupp</a> usually.
- Please keep in mind that the transition from Wiki content to XHTML isn't finished yet.
 </p>
 
 <h2>About</h2>
@@ -90,7 +89,7 @@
  should be fine - it even works with BSD make on MirOS without
  further patching. I'd be interested though if UTF-8 support
  works under MS-DOS or DR DOS (to close the circle...).
-<p>
+</p>
 
 <h2>Binaries</h2>
 <p>Currently, there are no precompiled binaries available.</p>
