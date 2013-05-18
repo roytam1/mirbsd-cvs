@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/share/dict/papers/Makefile,v 1.1.7.1 2005/03/06 16:33:40 tg Exp $
 
 BINDIR=	/usr/share/dict/papers
 NOMAN=	yes
@@ -12,7 +12,7 @@ CLEANFILES+=	${FILES} ${GENF}
 
 depend:
 .for _i in ${FILES}
-	ln -s ${.CURDIR}/${_i} .
+	ln -sf ${.CURDIR}/${_i} .
 .endfor
 
 all:

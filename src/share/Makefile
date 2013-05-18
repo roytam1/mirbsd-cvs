@@ -1,8 +1,12 @@
-# $MirOS: src/share/Makefile,v 1.2 2005/03/06 19:38:13 tg Exp $
+# $MirOS: src/share/Makefile,v 1.3 2006/01/31 19:28:59 tg Exp $
+
+.include <bsd.own.mk>
 
   SUBDIR+= dict
   SUBDIR+= doc
+.if ${NOPIC:L} == "no"
   SUBDIR+= i18n
+.endif
   SUBDIR+= man
   SUBDIR+= misc
   SUBDIR+= mk

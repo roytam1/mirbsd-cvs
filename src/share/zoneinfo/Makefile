@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/share/zoneinfo/Makefile,v 1.2 2005/03/06 19:38:54 tg Exp $
 
 TZDIR?=		${DESTDIR}/usr/share/zoneinfo
 DATDIR=		${.CURDIR}/datfiles
@@ -15,6 +15,7 @@ ZICFLAGS=	-y ${YIT} -d ${TZDIR} -p Europe/Berlin
 obj prereq depend all clean cleandir:
 
 install:
+	chmod -R u+w ${TZDIR}
 	cd ${DATDIR} && ${ZIC} ${ZICFLAGS} -L leapseconds ${TDATA}
 	chown -R ${BINOWN}:${BINGRP} ${TZDIR}
 	find ${TZDIR} -type f | xargs chmod ${NONBINMODE}

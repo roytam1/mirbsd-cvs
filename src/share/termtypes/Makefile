@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/share/termtypes/Makefile,v 1.2 2005/03/06 19:38:49 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2000/02/17 19:58:34 millert Exp $
 #
 # Take termcap/terminfo master file and generate termcap/terminfo .db files
@@ -62,7 +62,9 @@ realinstall:
 .include <bsd.prog.mk>
 
 # Use the tic we just built if possible
-.if exists(${.CURDIR}/../../usr.bin/tic/${__objdir}/tic)
+.if ${CROSS_MODE:L} == "yes"
+TIC=	/usr/bin/tic
+.elif exists(${.CURDIR}/../../usr.bin/tic/${__objdir}/tic)
 TIC=	${.CURDIR}/../../usr.bin/tic/${__objdir}/tic
 .elif exists(../../usr.bin/tic/tic)
 TIC=	../../usr.bin/tic/tic

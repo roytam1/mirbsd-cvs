@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/share/tmac/tab/Makefile,v 1.1.7.1 2005/03/06 16:33:42 tg Exp $
 # @(#)Makefile	4.14 (Berkeley) 4/30/91
 
 .include <bsd.own.mk>
@@ -24,9 +24,15 @@ LINKS=	${BINDIR}/tmac/tablpr ${BINDIR}/tmac/tabtn300 \
 
 all: ${PROGS}
 
+mktab.o: mktab.c
+	${HOSTCC} ${HOSTCFLAGS} ${CPPFLAGS} -c ${CFLAGS_${.TARGET}} ${.IMPSRC}
+
 .for file in ${PROGS}
 ${file}: x${file}
 	./x${file} >${file}
+
+${file}.o: ${file}.c
+	${HOSTCC} ${HOSTCFLAGS} ${CPPFLAGS} -c ${CFLAGS_${.TARGET}} ${.IMPSRC}
 
 x${file}: mktab.o ${file}.o
 	${HOSTCC} ${LDFLAGS} ${LDSTATIC} -o $@ ${.ALLSRC}
