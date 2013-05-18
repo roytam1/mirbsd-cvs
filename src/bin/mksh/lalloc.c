@@ -1,14 +1,6 @@
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/lalloc.c,v 1.6 2009/03/24 14:07:41 tg Exp $");
-
-#ifndef SIZE_MAX
-#ifdef SIZE_T_MAX
-#define SIZE_MAX	SIZE_T_MAX
-#else
-#define SIZE_MAX	((size_t)-1)
-#endif
-#endif
+__RCSID("$MirOS: src/bin/mksh/lalloc.c,v 1.7 2009/03/24 18:34:39 tg Exp $");
 
 /* build with CPPFLAGS+= -DUSE_REALLOC_MALLOC=0 on ancient systems */
 #if defined(USE_REALLOC_MALLOC) && (USE_REALLOC_MALLOC == 0)
