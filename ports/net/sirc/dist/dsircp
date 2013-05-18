@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.13 2008/07/15 12:25:19 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.14 2008/07/15 12:40:11 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -1295,11 +1295,21 @@ sub docommand {
     $args ne '' && &sl($args);
   } elsif ($cmd eq 'UMODE') {
     &sl("MODE $nick $args");
-  } elsif ($cmd eq 'MO') {
-    if ($talkchannel) {
-      &sl("MODE $talkchannel $args");
+  } elsif ($cmd eq 'MO' || $cmd eq 'MODE') {
+    &dosplat;
+    $args=$talkchannel if $args eq ''
+    if ($args) {
+      &sl("MODE $args");
     } else {
-      &tell("*\cbE\cb* You're not on any channel anyway");
+      &tell("*\cbE\cb* Not on a channel");
+    }
+  } elsif ($cmd eq 'NA' || $cmd eq 'NAMES') {
+    &dosplat;
+    $args=$talkchannel if $args eq ''
+    if ($args) {
+      &sl("NAMES $args");
+    } else {
+      &tell("*\cbE\cb* Not on a channel");
     }
   } elsif ($cmd eq 'LIST') {
     &dosplat;
@@ -1336,9 +1346,6 @@ sub docommand {
     } else {
       &tell("*\cbE\cb* You must specify a nick!");
     }
-  } elsif ($cmd eq 'MODE' || $cmd eq 'NAMES') {
-    &dosplat;
-    &sl("$cmd $args");
   } elsif ($cmd eq 'OPER') {
     &getarg;
     $newarg=$nick unless $newarg;
