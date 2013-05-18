@@ -16,7 +16,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.9 2006/04/19 10:40:53 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sftp.c,v 1.10 2006/06/02 20:50:49 tg Exp $");
 
 #include <sys/ioctl.h>
 #include <sys/wait.h>
@@ -1433,7 +1433,6 @@ main(int argc, char **argv)
 	memset(&args, '\0', sizeof(args));
 	args.list = NULL;
 	addargs(&args, "%s", ssh_program);
-	addargs(&args, "-h");		/* disable tcp lowdelay */
 	addargs(&args, "-oForwardX11 no");
 	addargs(&args, "-oForwardAgent no");
 	addargs(&args, "-oPermitLocalCommand no");

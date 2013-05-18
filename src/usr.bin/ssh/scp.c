@@ -72,7 +72,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/scp.c,v 1.8 2006/04/19 10:40:51 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/scp.c,v 1.9 2006/06/02 20:50:48 tg Exp $");
 
 #include <sys/wait.h>
 #include <sys/stat.h>
@@ -279,7 +279,6 @@ main(int argc, char **argv)
 	args.list = NULL;
 	addargs(&args, "%s", ssh_program);
 	addargs(&args, "-x");
-	addargs(&args, "-h");		/* disable tcp lowdelay */
 	addargs(&args, "-oForwardAgent no");
 	addargs(&args, "-oPermitLocalCommand no");
 	addargs(&args, "-oClearAllForwardings yes");
