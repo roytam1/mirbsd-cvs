@@ -1,5 +1,9 @@
-$MirOS: contrib/code/jupp/NEWS,v 1.21 2009/10/18 17:04:44 tg Exp $
+$MirOS: contrib/code/jupp/NEWS,v 1.22 2009/10/18 17:43:59 tg Exp $
 ------------------------------------------------------------------
+
+JOE 3.1jupp-current
+
+- Update diff syntax file from joe-current
 
 JOE 3.1jupp12
 
