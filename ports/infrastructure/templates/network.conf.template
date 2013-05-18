@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.14 2006/05/25 21:55:14 tg Exp $
+# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.15 2006/06/15 19:18:44 tg Exp $
 # $OpenBSD: network.conf.template,v 1.84 2006/02/05 13:56:19 steven Exp $
 
 #
@@ -13,7 +13,8 @@ _MASTER_SITE_OPENBSD?=	\
 
 # Default MirBSD backup site
 _MASTER_SITE_MIRBSD?=	\
-	http://www.mirbsd.org/MirOS/distfiles/ \
+	http://www.mirbsd.org/MirOS/distfiles/
+
 MASTER_SITE_MIROS=${_MASTER_SITE_MIRBSD:S/distfiles/dist/g}
 
 # Default FreeBSD backup site
