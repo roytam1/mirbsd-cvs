@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.13 2003/08/24 01:21:35 jolan Exp $
 
 # sync with mplayer archs due to dependency
@@ -20,7 +21,9 @@ ALL_TARGET=subfont
 MAKE_FLAGS=OPTFLAGS='-I${X11BASE}/include/freetype2 -I${LOCALBASE}/include' \
     LDLIBS='-lm -L${X11BASE}/lib -lfreetype -L${ICONV_PREFIX}/lib -liconv'
 
-USE_GMAKE=Yes
+USE_GMAKE=		Yes
+USE_X11=		Yes # depends on mplayer, which needs X11
+USE_CXX=		Yes # depends on mplayer, which uses CXX
 
 OSDDIR=${PREFIX}/libdata/mplayer-osd
 
@@ -38,8 +41,8 @@ do-install:
 	${INSTALL_PROGRAM} ${WRKBUILD}/mksubfont ${PREFIX}/bin
 	${INSTALL_DATA} ${WRKBUILD}/README ${PREFIX}/share/doc/mplayer-fontmaker
 
-PERMIT_PACKAGE_FTP=	Yes
-PERMIT_PACKAGE_CDROM=	Yes
+PERMIT_PACKAGE_FTP=	dependency multimedia/mplayer is not allowed for FTP
+PERMIT_PACKAGE_CDROM=	dependency multimedia/mplayer is not allowed for CDROM
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	"Patented stuff"
 
