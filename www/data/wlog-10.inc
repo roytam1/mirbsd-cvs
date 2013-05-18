@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.72 2008/08/24 10:11:21 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.73 2008/08/25 13:25:14 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1455,7 +1455,9 @@ Title: FrOSCon redux
  the cocktails (Vutral brought me one, since I couldn’t go near the
  counter due to the volume of the… whatever they call music) tasted
  pretty bad and had a (too?) high percentage of alcohol. But talking
- to the various people, not just Mika and Joey, was good.</p>
+ to the various people, not just Mika and Joey, was good, even though
+ just being at the FH (university) during the social event was really
+ unbearable and physically endangering one’s health.</p>
 <p>Other than that, we had quite a lot of fun at the conference, as
  usual. I still think it has chances to close up to FOSDEM, but they
  will have to make sure the catering does not get even worse. While
@@ -1505,4 +1507,5 @@ Title: FrOSCon redux
  which Marc assured me it is.</p>
 <p>Benny agrees that the “Kaiser’s BIO-Kaffee” is decent, despite its
  pricing of only 3.99 €/£ (may be my high quality milk too, though).</p>
+<p>Update: looks like I’ve got a package to fetch from the post station.</p>
 ----
