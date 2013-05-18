@@ -1,0 +1,14 @@
+• Debian ca-certificates, ca-certificates-java
+• cURL bundle
+• M*zilla, directly:
+  ‣ cvs -d :pserver:anonymous@cvs-mirror.mozilla.org:/cvsroot co -p \
+    mozilla/security/nss/lib/ckfw/builtins/certdata.txt >certdata.txt
+• https://certs.opera.com/
+• Opera, MSIE keybundles
+
+Stamps:
+
+• ca-certificates_20090814
+• certdata.txt,v 1.56
+• certs.opera.com @20091114 (30-Sep-2009)
+• Opera (Browser) 10.10b1
