@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.49 2009/02/22 19:13:24 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.50 2009/08/09 10:31:57 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -148,6 +148,6 @@ print -n '\nAvailable editor: ed'
 [ -x /usr/bin/vi ] && print -n ' (n)vi'
 [ -x /usr/bin/e3 ] && print -n ' e3*'
 [ -s /ed.hlp ] && print -n ' - help with # less /ed.hlp'
-print
+print '\nNetwork interfaces (e.g. for dhclient $if):' $(ifconfig -l)
 [ -x /usr/bin/tinyirc ] && print 'Chat client: tinyirc'
 print
