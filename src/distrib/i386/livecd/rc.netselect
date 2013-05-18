@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/rc.netselect,v 1.11 2006/04/19 18:38:02 tg Exp $
+# $MirOS: src/distrib/i386/livecd/rc.netselect,v 1.12 2006/05/08 18:58:34 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -126,12 +126,14 @@ print =========================================
 print 1\) manual/no network, no graphics
 print 2\) automatic network \(dhcp\), no graphics
 print 3\) automatic network, XFree86 \(vesa 1024x768@16bpp\) xdm/twm
+print 9\) escape into a shell \(type \"exit\" to return\)
 print
 print If you need to plug in any network devices, do it now.
 i=
 while [[ $i != @(1|2|3) ]]; do
 	print -n "Your choice? "
 	read i
+	[[ $i = 9 ]] && HOME=/dev/.root /bin/mksh -l
 done
 
 case $i {
