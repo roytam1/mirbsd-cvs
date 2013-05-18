@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.10 2006/12/20 16:28:20 tg Exp $ */
+/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.11 2007/07/17 19:23:04 tg Exp $ */
 
 /* Configuration options */
 /* please change the default server to one near you. */
@@ -13,7 +13,7 @@
 
    TinyIRC Alpha Release
    Copyright (C) 1994 Nathan I. Laredo
-   Copyright (c) 1999-2006 Thorsten Glaser
+   Copyright (c) 1999-2007 Thorsten Glaser
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License Version 1
@@ -77,7 +77,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.10 2006/12/20 16:28:20 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.11 2007/07/17 19:23:04 tg Exp $");
 
 struct dlist {
     char name[64];
@@ -97,7 +97,6 @@ fd_set readfs;
 struct timeval time_out;
 struct tm *timenow;
 static time_t idletimer, datenow, wasdate;
-struct passwd *userinfo;
 
 char s_co[] = "co";
 char s_li[] = "li";
@@ -774,16 +773,21 @@ int
 main(int argc, char *argv[])
 {
     char hostname[64];
+    char *ircusername, *ircgecosname;
     int i;
 
     stdinfd = fileno(stdin);
     stdoutfd = fileno(stdout);
-    userinfo = getpwuid(getuid());
+    ircusername = getenv("IRCUSER");
+    ircgecosname = getenv("IRCNAME");
+    if (!ircusername || !ircgecosname) {
+	struct passwd *userinfo;
+	userinfo = getpwuid(getuid());
+	ircusername = ircusername ? ircusername : userinfo->pw_name;
+	ircgecosname = ircgecosname ? ircgecosname : userinfo->pw_gecos;
+    }
     strlcpy(hostname, DEFAULTSERVER, 64);
-    if (!getenv("IRCNICK"))
-	strncpy(IRCNAME, userinfo->pw_name, sizeof(IRCNAME));
-    else
-	strncpy(IRCNAME, (char *) getenv("IRCNICK"), sizeof(IRCNAME));
+    strlcpy(IRCNAME, getenv("IRCNICK") ? : ircusername, sizeof (IRCNAME));
     if (argc > 1) {
 	for (i = 1; i < argc; i++)
 	    if (argv[i][0] == '-') {
@@ -807,19 +811,15 @@ main(int argc, char *argv[])
 	exit(0);
     }
     gethostname(localhost, 64);
-    if (!getenv("IRCNAME"))
-	snprintf(lineout, LINELEN, "USER %s %s %s :%s\n", userinfo->pw_name,
-		localhost, hostname, userinfo->pw_gecos);
-    else
-	snprintf(lineout, LINELEN, "USER %s %s %s :%s\n", userinfo->pw_name, localhost,
-		hostname, (char *)getenv("IRCNAME"));
+    snprintf(lineout, LINELEN, "USER %s %s %s :%s\n", ircusername,
+	localhost, hostname, ircgecosname);
     sendline();
     snprintf(lineout, LINELEN, "NICK :%s\n", IRCNAME);
     sendline();
     idletimer = time(NULL);
     if (!dumb) {
 	ptr = termcap;
-	if ((term = (char *) getenv("TERM")) == NULL) {
+	if ((term = getenv("TERM")) == NULL) {
 	    fprintf(stderr, "tinyirc: TERM not set\n");
 	    exit(1);
 	}
