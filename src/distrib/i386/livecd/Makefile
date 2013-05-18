@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.1 2006/04/05 23:14:40 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.2 2006/04/05 23:15:05 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -38,7 +38,7 @@ makeimg:
 .PHONY: it unpack prepimg makeimg
 
 clean cleandir cleannobsd:
-	-rm -rf ${CDROM} workdir
+	-${SUDO} rm -rf ${CDROM} workdir
 
 .include <bsd.obj.mk>
 .include <bsd.subdir.mk>
