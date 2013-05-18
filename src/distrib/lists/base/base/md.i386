@@ -15,7 +15,6 @@
 ./usr/sbin/isdntel
 ./usr/sbin/isdntelctl
 ./usr/sbin/isdntrace
-./usr/sbin/wsconfig
 ./usr/sbin/wsfontload
 ./usr/sbin/wssetfont
 ./usr/sbin/zzz
