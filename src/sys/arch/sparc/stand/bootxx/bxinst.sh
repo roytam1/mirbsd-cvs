@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/sys/arch/sparc/stand/bootxx/bxinst.sh,v 1.7 2007/10/16 22:18:07 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/bxinst.sh,v 1.8 2007/10/16 22:28:21 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -61,7 +61,7 @@ done
 
 # verbose output
 let i=0
-print -nu2 "using blocks: "
+print -nu2 "using $blktblnum blocks: "
 while (( i < blktblnum )); do
 	print -nu2 "${blktblent[i++]} "
 done
