@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.7 2006/04/05 23:40:47 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.25 2006/04/10 20:47:47 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -13,11 +13,11 @@ it: ${CDROM}
 ${CDROM}: unpack gendev addcontrib prepimg nukefiles makeimg
 
 unpack:
-	mkdir -p workdir/v8
+	mkdir -p workdir/v${OSrev}
 .for _i in base dev etc gnu xbase xetc
 	cd workdir && ${SUDO} tar xzphf ${BSDRELDIR}/rel/${_i}${OSrev}.ngz
 .endfor
-	cd workdir/v8 && ln -s ${BSDRELDIR}/rel i386
+	cd workdir/v${OSrev} && ln -s ${BSDRELDIR}/rel i386
 	cd workdir/etc; \
 	    for a in ${.CURDIR}/../iso/boot.cfg ${.CURDIR}/boot.*; do \
 		${SUDO} ln -fs $$a; \
@@ -75,18 +75,19 @@ nukefiles:
 makeimg: bsd.gz
 	${SUDO} dd if=bsd.gz obs=2048 conv=osync of=workdir/bsd
 	${SUDO} dd if=${BSDOBJDIR}/sys/arch/i386/stand/liveboot/boot \
-	    obs=2048 conv=osync of=workdir/etc/boot.x86
+	    obs=2048 conv=osync of=workdir/v${OSrev}/i386/boot.liv
+	cd workdir/v${OSrev}/i386 && ${SUDO} cp boot.liv boot.iso
 	-rm -f ${CDROM}
 	touch ${CDROM}
 	${SUDO} mkisofs -R -T -L -d -D -N -v -v -f \
-	    -b etc/boot.x86 -c etc/boot.cat -p "Thorsten Glaser" \
+	    -b v${OSrev}/i386/boot.iso -c boot.cat -p "Thorsten Glaser" \
 	    -P "The http://MirBSD.org/ team and its contributors" \
 	    -V "MirOS #${OSrev} BSD/${MACHINE} Live CD" \
 	    -volset "$$(uname -slm) Live" -sysid "MirOSBSD" \
 	    -no-emul-boot -boot-load-size 4 -boot-info-table \
 	    -pad -o ${CDROM} workdir 2>&1 | tee mkisofs.log
 	workdir/usr/mdec/installboot -v -I \
-	    $$(fgrep 'workdir/usr/mdec/boot' mkisofs.log | \
+	    $$(fgrep 'workdir/v${OSrev}/i386/boot.liv' mkisofs.log | \
 		while read start end rest; do print $$start $$end; done) \
 	    workdir/usr/mdec/ldsec ${CDROM}
 
