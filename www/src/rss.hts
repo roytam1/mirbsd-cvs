@@ -1,11 +1,11 @@
-# $MirOS: www/src/rss.hts,v 1.2 2008/06/13 18:41:28 tg Exp $
+# $MirOS: www/src/rss.hts,v 1.3 2008/06/25 12:47:31 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname rss "RSS feeds, mailing lists"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/rss.hts,v 1.2 2008/06/13 18:41:28 tg Exp $'
+mws_putheader '$MirOS: www/src/rss.hts,v 1.3 2008/06/25 12:47:31 tg Exp $'
 mws_content <<'EOF'
 <h1>MirOS RSS feeds</h1>
 
@@ -34,7 +34,6 @@ mws_content <<'EOF'
   <a href="http://marc.info/?l=miros-changes">MARC</a> and <a
   href="http://dir.gmane.org/gmane.os.miros.cvs">GMane</a> offer
   more feeds and further ways to read this mailing list</li>
- </li>
 </ul>
 <p style="margin-bottom: 500px">&nbsp;</p>
 EOF
