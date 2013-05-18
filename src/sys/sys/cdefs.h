@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.14 2006/11/03 18:22:30 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.15 2007/02/02 21:05:30 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.18 2005/05/27 21:28:12 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
@@ -218,16 +218,34 @@
 	    __attribute__((used)) = "@(""#)" #prefix ": " string
 #endif
 #define __COPYRIGHT(x)		__IDSTRING(copyright,x)
-#ifdef lint
 #define __KERNEL_RCSID(n,x)	__IDSTRING(rcsid_ ## n,x)
-#else
-#define __KERNEL_RCSID(n,x)	/* nothing */
-#endif
 #define __RCSID(x)		__IDSTRING(rcsid,x)
 #define __SCCSID(x)		__IDSTRING(sccsid,x)
 
 #ifndef _DIAGASSERT
 #define _DIAGASSERT(x)		/* nothing */
+#endif
+
+#ifdef __ELF__
+#define _C_LABEL_STRING(x)	x
+#else
+#define _C_LABEL_STRING(x)	"_"x
+#endif
+
+#ifdef __NEED_NETBSD_COMPAT	/* one of the worst */
+#ifdef __GNUC__
+#define __UNCONST(x) __extension__({	\
+	union {				\
+		const void *cptr;	\
+		void *vptr;		\
+	} __UC_v;			\
+					\
+	__UC_v.cptr = (x);		\
+	(__UC_v.vptr);			\
+})
+#else
+#define __UNCONST(a)		((void *)(unsigned long)(const void *)(a))
+#endif
 #endif
 
 /*

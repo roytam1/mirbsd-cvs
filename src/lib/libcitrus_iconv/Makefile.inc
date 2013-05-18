@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libcitrus_iconv/Makefile.inc,v 1.4 2006/09/07 16:35:23 tg Exp $
+# $MirOS: src/lib/libcitrus_iconv/Makefile.inc,v 1.5 2006/11/03 17:14:41 tg Exp $
 
 .ifndef _MODSRC_LIB_LIBCITRUS_ICONV_MAKEFILE_INC
 _MODSRC_LIB_LIBCITRUS_ICONV_MAKEFILE_INC=1
@@ -8,16 +8,7 @@ _MODSRC_LIB_LIBCITRUS_ICONV_MAKEFILE_INC=1
 NBBASE?=	${BSDSRCDIR}/lib/libcitrus_iconv
 NBLIBC=		${NBBASE}/libc
 
-# oh my goddess!
-CPPFLAGS+=	-D'__UNCONST(a)=((void *)(unsigned long)(const void *)(a))'
-.if ${OBJECT_FMT} == "ELF"
-CPPFLAGS+=	-D'_C_LABEL_STRING(x)=x'
-.elif (${OBJECT_FMT} == "a.out") || (${OBJECT_FMT} == "PE")
-CPPFLAGS+=	-D'_C_LABEL_STRING(x)="_"x'
-.else
-.error Unknown OBJECT_FMT
-.endif
-CPPFLAGS+=	-D'__uint8_t=uint8_t'
+CPPFLAGS+=	-D__NEED_NETBSD_COMPAT			# for the worse...
 CPPFLAGS+=	-D'wchar_t=uint32_t' -D_GCC_WCHAR_T	# XXX nice hack, eh?
 
 CPPFLAGS+=	-I${NBLIBC}/citrus -I${NBLIBC}/citrus/modules \

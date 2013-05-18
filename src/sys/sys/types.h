@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/types.h,v 1.6 2006/11/04 01:52:14 tg Exp $ */
+/**	$MirOS: src/sys/sys/types.h,v 1.7 2006/11/04 03:58:38 tg Exp $ */
 /*	$OpenBSD: types.h,v 1.26 2004/07/13 21:04:29 millert Exp $	*/
 /*	$NetBSD: types.h,v 1.29 1996/11/15 22:48:25 jtc Exp $	*/
 
@@ -46,6 +46,19 @@
 
 #include <machine/ansi.h>
 #include <machine/endian.h>
+
+#ifdef __NEED_NETBSD_COMPAT
+typedef int8_t		__int8_t;
+typedef int16_t		__int16_t;
+typedef int32_t		__int32_t;
+typedef int64_t		__int64_t;
+typedef uint8_t		__uint8_t;
+typedef uint16_t	__uint16_t;
+typedef uint32_t	__uint32_t;
+typedef uint64_t	__uint64_t;
+typedef intptr_t	__intptr_t;
+typedef uintptr_t	__uintptr_t;
+#endif
 
 #if !defined(_POSIX_SOURCE) && !defined(_XOPEN_SOURCE)
 typedef	unsigned char	u_char;
