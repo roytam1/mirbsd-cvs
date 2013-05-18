@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.15 2006/10/13 19:18:02 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.16 2006/10/14 23:20:07 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -98,7 +98,7 @@ unconfig:
 	-${SUDO} rm -rf ${TMPMOUNT} ${WRKDIR} ${IMAGE}
 
 cleannobsd: unconfig
-	rm -f *core ${CBIN} ${CBIN}.mk ${CBIN}.cache ${CBIN}.conf ${IMAGE} \
+	rm -f *core ${CBIN} ${CBIN}.{cache,conf,mk,unstripped} ${IMAGE} \
 	    ${RDSETROOT} *.c *.o *.lo bsd.{uc,st} ${_RD_TARGETS} mkisofs.log
 
 clean cleandir: cleannobsd
@@ -119,6 +119,7 @@ ${CBIN}.mk ${CBIN}.cache ${CBIN}.c: ${CBIN}.conf
 
 ${CBIN}: ${CBIN}.mk ${CBIN}.cache ${CBIN}.c
 	${MAKE} -f ${CBIN}.mk all
+	cp ${CBIN} ${CBIN}.unstripped
 	${STRIP} ${STRIP_CBIN} ${CBIN}
 
 ${IMAGE}: ${CBIN}
