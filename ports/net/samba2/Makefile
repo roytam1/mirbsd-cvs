@@ -1,8 +1,9 @@
-# $MirOS: ports/net/samba2/Makefile,v 1.2 2005/08/21 11:49:51 tg Exp $
+# $MirOS: ports/net/samba2/Makefile,v 1.3 2006/02/09 09:36:12 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2003/10/26 09:33:23 sturm Exp $
 
 COMMENT=	"SMB and CIFS client and server for UNIX"
 DISTNAME=	samba-2.2.12
+PKGNAME=	${DISTNAME}-1
 CATEGORIES=	net
 MASTER_SITES=	http://us1.samba.org/samba/ftp/old-versions/ \
 		http://ca.samba.org/samba/ftp/old-versions/ \
