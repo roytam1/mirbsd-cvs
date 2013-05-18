@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.299 2009/11/17 21:50:40 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.300 2009/11/22 00:26:29 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1022,7 +1022,8 @@ mws_content <<'EOF'
   is now always exported to and imported from (implicit read: no push to kernel
   done) the environment vector on startup and spawning</li>
  <li>[tg] Internal code cleanup, optimisation, moves to different files</li>
- <li>[tg] manpage: document mksh does not exactly use OPTU-8/OPTU-16</li>
+ <li>[tg] Document mksh does not exactly use OPTU-8/OPTU-16 in the manpage,
+  as well as when characters, octets, or screen columns are used</li>
  <li>[tg] Fix exit 127 on "mksh /tmp/horsies" ipv of 1 on ENOENT, #548744</li>
  <li>[Clint Adams] Fix typos in the testsuite</li>
  <li>[tg, Clint Adams] Begin a shared testsuite for mksh and posh</li>
@@ -1062,6 +1063,7 @@ mws_content <<'EOF'
   of octets; update manual page to reflect that others still do and remove
   wording that let people think we’d ever support POSuX character classes</li>
  <li>[tg] New <tt>${%foo}</tt> returning width of $foo in screen columns</li>
+ <li>[tg] Fix subtle possible portability problem wrt. <tt>CHILD_MAX</tt></li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
