@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.318 2011/01/02 16:40:21 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.319 2011/01/15 22:06:16 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7316,4 +7316,20 @@ Tag: debian event mksh rant
  on MirOS BSD (picking up my work from 4+ years ago) but also replacing
  The MirPorts Framework with it. Sad, as I got a request for a gajim MirPort
  over a cocktail just this evening…</p>
+----
+Date: 23.01.2011 21:30
+Author: tg@
+Title: FOSDEM snapshot; next mksh release
+Tag: event mksh
+
+<p>I’ve just prepared an ISO for <a href="http://fosdem.org/">FOSDEM Ⅺ</a>
+ which we might export on <a href="@@RELPATH@@bt.htm">BitTorrent</a> soon.
+ Benny has provided an upgraded desktop background image, thanks.</p>
+<p>The next <a href="@@RELPATH@@mksh.htm">mksh</a> release… well I’ll bite
+ the sour apple and will release it without associative arrays but hope I
+ get around to hack a few things (especially the read and sleep builtins)
+ before releasing. One lession learned, don’t brag with oh-so-big plans
+ when you haven’t got a deliverable yet. Real Life <em>will</em> interfere.
+ Oh, and Murphy, of course. (mksh R41 might have the associative arrays
+ then. But mksh-current has <tt>${foo@#}</tt> which is <tt>hash($foo)</tt>.</p>
 ----
