@@ -1,5 +1,7 @@
-MD5 (Python-2.3.6.tgz) = 357c79f9c914b671c9401f70853ebf3b
-RMD160 (Python-2.3.6.tgz) = ee8a9f46137aba8972d22d5dc7cf0f601ad75c7b
-SHA1 (Python-2.3.6.tgz) = 20e180cfa1aa678728ac9bd54f73e0660acbbf9f
-SIZE (Python-2.3.6.tgz) = 8610359
-TIGER (Python-2.3.6.tgz) = 51ebdf4eef550f460db4e718881d84d770556f6e34f13cd8
+$MirOS$
+
+MD5 (Python-2.3.7.tgz) = 0b4861edfaa6d8451458d5d7ed735e4a
+RMD160 (Python-2.3.7.tgz) = bc9be27b87fc8bebd4adb5477eb7b8ccea9cb88b
+SHA1 (Python-2.3.7.tgz) = 3d7656b9977c266c48987c3ec9f36393a7b00637
+SIZE (Python-2.3.7.tgz) = 8694077
+TIGER (Python-2.3.7.tgz) = 3d3fbb1c6a1609ed517e0792e60d8b87d8cddacf6cc67300
