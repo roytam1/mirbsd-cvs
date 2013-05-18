@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
+# $MirOS: src/scripts/xbuild-binutils.sh,v 1.5 2006/02/28 22:13:25 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -87,7 +87,7 @@ $cp /usr/lib/libopcodes.la \
     GCCTARGET=$TARGET \
     make -f Makefile.bsd-wrapper )
 
-install -c -s -o root -g bin -m 555 \
+install -c -s -o $BINOWN -g $BINGRP -m 555 \
     $BSDSRCDIR/gnu/usr.bin/binutils/gas/obj.$MACHINE/as-new \
     $CROSSDIR/usr/bin/as
 
