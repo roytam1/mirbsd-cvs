@@ -1,8 +1,7 @@
-# $MirOS: ports/devel/subversion/Makefile,v 1.16 2008/03/09 17:22:33 tg Exp $
+# $MirOS: ports/devel/subversion/Makefile,v 1.17 2008/03/14 20:56:52 tg Exp $
 
 COMMENT=		Subversion revision control system
 VERSION=		1.4.5
-DASH_VER=		0
 DISTNAME=		subversion-${VERSION}
 CATEGORIES=		devel net
 HOMEPAGE=		http://subversion.tigris.org/
@@ -33,22 +32,16 @@ LIB_DEPENDS+=		aprutil::devel/apr/util
 CONFIGURE_ARGS+=	--without-berkeley-db
 .endif
 
-
 # We don't support building the apache module (yet).
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
+MODULES+=		p5
 
 CONFIGURE_ARGS+=	--with-neon=${LOCALBASE}
 CONFIGURE_ARGS+=	--disable-nls
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 
 DOCFILES=		svnsync.txt fsfs ssh-tricks
-
-MODULES+=		p5
-# We have to replicate some of the perl.port.mk logic here.
-P5MAN3EXT!=		/usr/bin/perl -e 'use Config; print ".".$$Config{man3ext};'
-P5DLEXT!=		/usr/bin/perl -e 'use Config; print ".".$$Config{dlext};'
-SUBST_VARS+=		P5SITE P5MAN3EXT P5DLEXT
 
 post-build:
 	cd ${WRKBUILD} && ${MAKE_PROGRAM} swig-pl
