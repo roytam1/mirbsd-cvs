@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.39 2006/08/27 20:12:30 bsiegert Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.40 2006/08/28 01:19:49 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -603,7 +603,7 @@
 </div>
 
 <div class="wlentry">
- <h3 id="e20060827">27.08.2006 by tg@</h3>
+ <h3 id="e20060827b">27.08.2006 by tg@</h3>
  <p>Okay, the <a href="/newsite/">new website is online</a>, with fixes.
   I don't think using other peoples' design is a good thing, because, if
   you don't use a design of your own which you <em>don't</em> licence to
