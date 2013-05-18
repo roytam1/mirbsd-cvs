@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.49 2006/08/22 21:51:40 tg Exp $
+# $MirOS: src/etc/rc,v 1.50 2006/08/24 12:54:58 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -196,10 +196,10 @@ raidctl -P all
 
 swapctl -A -t blk
 
-# Try to find out what is our console device (no grep yet...)
+# Try to find out what is our console device
 x=$(sysctl machdep.console_device); consdev=${x#machdep.console_device=}
 consinfo="$(stty -f /dev/console speed) $consdev"
-print -u2 console information: $consinfo
+#print -u2 console information: $consinfo
 [[ -e /dev/$consdev || $consdev = console ]] || consdev=nochg
 
 # pick up configuration options
@@ -560,71 +560,8 @@ if [[ -x /usr/libexec/vi.recover && -d /var/tmp/vi.recover ]]; then
 	echo preserving editor files;	/usr/libexec/vi.recover
 fi
 
+# for debugging purposes, this code is even in #9-stable
 print "at $consinfo" | logger -t 'console information'
-[[ -e /etc/ttys ]] && if [[ $consdev != nochg ]]; then
-#	print -n adjusting /etc/ttys ...
-	print -n 'adjusting /etc/ttys.gen (for now)...'
-	[[ -e /etc/ttys.gen ]] || cp /etc/ttys /etc/ttys.gen
-	x=$(uname -m)
-	local speed=${consinfo%% *}
-	if [[ $x = i386 ]]; then
-		# clean up if we don't match
-		if ! grep "^#AUTOCONS:$consdev,$speed." /etc/ttys.gen >&- 2>&-; then
-			print -n ' cleanup (i386)'
-			ed -s /etc/ttys.gen <<-EOF
-				%g/^#AUTOCONS/d
-				%g/	#AUTOADD\$/d
-				%g/	#AUTODEL\$/s/^#*//
-				%g/	#AUTODEL\$/s///
-				wq
-			EOF
-		fi
-	fi
-	# if consdev=ttyC0: wscons, no change needed
-	if [[ $consdev = ttyC0 ]]; then
-		print -n ' wscons'
-		# wscons, reset to default on sparc, no action on i386
-		if [[ $x = sparc ]]; then
-			print -n ' (sparc)'
-			ed -s /etc/ttys.gen <<-EOF
-				/console.*suncons/s/^#*//
-				/console.*std/s/^#*/#/
-				wq
-			EOF
-		fi
-	else
-		# serial console, disable wscons
-		print -n " serial ($speed bps)"
-		if [[ $x = sparc ]]; then
-			# we just use /dev/console for both
-			# XXX what is this ttyC0 entry?
-			print -n ' (sparc)'
-			ed -s /etc/ttys.gen <<-EOF
-				/console.*suncons/s/^#*/#/
-				/console.*std/s/^#*//
-				/console.*std/s/std.[0-9]*/std.$speed/
-				wq
-			EOF
-		fi
-		if [[ $x = i386 ]]; then
-			# keep wscons but enable tty0X dev
-			print -n ' (i386)'
-			if ! grep "^$consdev	.*std.$speed\".*	on" \
-			    /etc/ttys.gen >&- 2>&-; then
-				print -n ' -> adding'
-				ed -s /etc/ttys.gen <<-EOF
-					%g/^$consdev	/s/^.*\$/#&	#AUTODEL/
-					wq
-				EOF
-				cat >>/etc/ttys.gen <<-EOF
-					$consdev	"/usr/libexec/getty std.$speed"	vt100	on  secure	#AUTOADD
-					#AUTOCONS:$consdev,$speed.
-				EOF
-			fi
-		fi
-	fi
-	print ' done.'
-fi
 
 # Copy over /dev/{null,zero} into anoncvs chroot, it needs it
 [[ -d /var/anoncvs/anoncvs && -s /var/anoncvs/anoncvssh \
