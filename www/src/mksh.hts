@@ -3,7 +3,7 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.245 2009/06/10 19:51:07 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.246 2009/06/10 21:26:18 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R38c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -203,7 +203,8 @@ mws_content <<'EOF'
  dash), or a super-set (GNU bash) to work; the Z Shell sometimes works as
  well, but the ULTRIX <tt>/bin/sh</tt> or the C shell (csh, tcsh) or “bsh”
  or a scripting shell like the wish won’t. Accepted arguments are:</p><ul>
-<li><tt>-combine</tt> – all-in-one build (gcc4, mksh R37 and up)</li>
+<li><tt>-combine</tt> – all-in-one build, recommended unless gcc is broken;
+ ignored if $CC does not support "-fwhole-program --combine" (gcc4, R37+)</li>
 <li><tt>-j</tt> – parallel build (mksh R31d and up)</li>
 <li><tt>-llvm[=…]</tt> – compile to bytecode; option arguments (or, if none
  given, ‘-std-compile-opts’) are passed to LLVM opt (mksh R36b and up)</li>
@@ -211,6 +212,12 @@ mws_content <<'EOF'
 <li><tt>-r</tt> – don’t try to build a pre-formatted version
  of the manual page using nroff(1) if found – <em>recommended</em></li>
 </ul>
+<p>Note on <tt>-j</tt> vs <tt>-llvm</tt> vs <tt>-combine</tt>: these three
+ are mutually exclusive and, in this paragraph, listed in the order of
+ preference, with the least preferred first (being <tt>-j</tt>) and the
+ most preferred last (being <tt>-combine</tt> which achieves the best
+ optimisations). It is sometimes possible to use <tt>-j</tt> together
+ with <tt>-llvm</tt> to parallelise LLVM Bytecode generation, though.</p>
 <p>The build script also honours the following environment variables:</p><ul>
 <li><tt>CC</tt> (gcc) – the C compiler used</li>
 <li><tt>CFLAGS</tt> (-O2 / -xO2; on HP-UX/IA64 also -mlp64 / +DD64) –
@@ -228,6 +235,8 @@ mws_content <<'EOF'
  CYGWIN* Darwin DragonFly FreeBSD GNU (HURD) GNU/kFreeBSD Haiku (not yet)
  HP-UX Interix IRIX* Linux MidnightBSD Minix MirBSD NetBSD OpenBSD OSF1
  Plan9 (not yet) PW32* (not yet) QNX SunOS syllable (not yet) ULTRIX UWIN*</li>
+<li><tt>TARGET_OSREV</tt> (uname -r) – the operating system revision number
+ for these that need it; currently: QNX (R38c+)</li>
 </ul>
 <p>If <tt>CPPFLAGS</tt> contain any of the following definitions, the resulting
  binary will be compiled with a specific flavour:</p><ul>
@@ -1010,6 +1019,7 @@ mws_content <<'EOF'
  <li>[ahoka] Begin porting to <a href="http://www.haiku-os.org/">Haiku</a>
   and, implicitly, BeOS (not finished yet)</li>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
+ <li>[tg] Spell <tt>AT&amp;T</tt> consistently in the source code</li>
 </ul>
 <p id="r38c">mksh R38c contains the following fixes:</p><ul>
  <li>[tg] Fix regression tests on OSes insisting on a shebang (Cygwin)</li>
