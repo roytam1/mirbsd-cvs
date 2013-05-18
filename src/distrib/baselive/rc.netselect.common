@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/i386/rc.netselect,v 1.4 2006/09/30 20:50:12 tg Exp $
+# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.1 2006/09/30 20:59:00 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -113,6 +113,10 @@ function do_netconf
 		print dhcp >/etc/hostname.$1
 		print rdate_flags=\"-nv ntp.mirbsd.org\" >>/etc/rc.conf.local
 		print rtsold_flags=-am >>/etc/rc.conf.local
+		# pull IPv6 now (early), so that ntp.mirbsd.org can be reached
+		ifconfig $1 up
+		print Running IPv6 autoconfiguration on $1... takes a few secs
+		rtsol $1
 	fi
 }
 
