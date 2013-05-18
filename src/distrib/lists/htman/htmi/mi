@@ -6355,6 +6355,7 @@
 ./man7/hier.htm
 ./man7/hostname.htm
 ./man7/install.i386.htm
+./man7/install.sparc.htm
 ./man7/intro.htm
 ./man7/kgdb.htm
 ./man7/library-specs.htm

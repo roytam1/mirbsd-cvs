@@ -1,9 +1,28 @@
-.\" $MirOS: src/share/man/man7/install.i386.7,v 1.12 2007/01/26 19:25:21 tg Exp $
+.\" $MirOS: src/share/man/man7/install.i386.7,v 1.13 2007/05/24 08:09:37 tg Exp $
+.\"-
+.\" Copyright (c) 2007
+.\"	Benny Siegert <bsiegert@mirbsd.org>
+.\"
+.\" Provided that these terms and disclaimer and all copyright notices
+.\" are retained or reproduced in an accompanying document, permission
+.\" is granted to deal in this work without restriction, including un-
+.\" limited rights to use, publicly perform, distribute, sell, modify,
+.\" merge, give away, or sublicence.
+.\"
+.\" This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+.\" the utmost extent permitted by applicable law, neither express nor
+.\" implied; without malicious intent or gross negligence. In no event
+.\" may a licensor, author or contributor be held liable for indirect,
+.\" direct, other damage, loss, or other issues arising in any way out
+.\" of dealing in the work, even if advised of the possibility of such
+.\" damage or existence of a defect, except proven that it results out
+.\" of said person's immediate fault when using the work as intended.
+.\"-
 .\" :vim:se tw=72:
 .\" local convention: use .Ql for disk slice names
 .\" MirOS version number
 .nr v 10
-.Dd January 26, 2007
+.Dd $Mdocdate$
 .Dt INSTALL.I386 7
 .Os
 .Sh NAME
@@ -661,21 +680,28 @@ four primary partitions with the keys 0 to 3, or boot from a floppy
 by pressing 5.
 To install a simple MBR without boot manager, use
 .Dq fdisk -ef /nonexistent wd0
-and press (u)pgrade, (w)rite, (q)uit.
+and press (um)in, (w)rite, (q)uit.
 .Pp
 Have fun with your new
 .Mx
 installation!
 .\" --------------------------------------------------------------------
 .Sh SEE ALSO
-.Xr fdisk 8 ,
-.Xr disklabel 8
+.Xr boot_i386 8 ,
+.Xr disklabel 8 ,
+.Xr fdisk 8
 .Pp
 The MirOS homepage:
 .Pa http://mirbsd.de/
 .Pp
+The MirOS IRC channel:
+.Pa irc://irc.eu.freenode.org/%23MirBSD
+.Pa http://cvs.mirbsd.de/contrib/code/Snippets/NTRawrite.exe
+.Pp
 rawrite for Microsoft\(rg Windows\(rg:
 .Pa http://uranus.it.swin.edu.au/~jn/linux/rawwrite.htm
+.br
+.Pa http://cvs.mirbsd.de/contrib/code/Snippets/NTRawrite.exe
 .Sh AUTHORS
 This manual page was written by
 .An Benny Siegert Aq bsiegert@gmx.de .
