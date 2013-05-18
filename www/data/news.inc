@@ -692,3 +692,24 @@ Date: 16.03.2008
  or the <a href="@@RELPATH@@clogs/">CVS ChangeLog files</a>, for more
  information on this release.</p>
 ----
+Title: MirOS #10 downloads
+Date: 20.03.2008
+
+<p>We had about 1500 downloads of the full ISO in the last 4 days,
+ which is actually making our primary mirror traffic problems.</p>
+<p>Please use <a href="http://f.scarywater.net/miros/">BitTorrent</a>
+ to download the full ISO, or use <a href="/MirOS/v10/cdrom10.iso">the
+ NetInstall ISO</a> instead.</p>
+<p>You can also switch to one of the following mirrors:</p><ul>
+ <li><a href="http://pub.allbsd.org/MirOS/ISOs/MIR80316.ISO">Japan</a></li>
+ <li><a href="http://server.leveldown.de/~nezza/MIR80316.ISO">Germany 2</a></li>
+ <li>I’ll link back to the Germany 1 mirror once traffic has gone down.</li>
+</ul>
+<p>Due to popular request: the SFV (CRC32) of the ISO is 76D0638A, more
+ hashes are <a href="/MirOS/v10/CKSUM.gz">here</a>, and for these who
+ still use the insecure MD5, check 0afb38491f7557b1f7bc9ec8997ca5b4</p>
+<p>We’re really surprised from the number of downloads – seems as MirOS
+ has become popular. We hope that the traffic throtteling/limiting methods
+ our hoster has installed on the Germany 1 mirror do not produce too much
+ inconvenience for you. Thanks for using MirOS!</p>
+----
