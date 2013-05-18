@@ -757,7 +757,7 @@ Author: tg@
  and <tt>setenv output-device ttya</tt> instead; OpenBOOT can handle a
  serial console just fine out of the box and provides the speed as well.</p>
 ----
-Title: mksh R33b released
+Title: mksh R33b, no, R33c released
 Date: 28.03.2008
 Author: tg@
 
@@ -769,4 +769,6 @@ Author: tg@
  <a href="/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> (<a
  href="http://www.cl.cam.ac.uk/~mgk25/iso-paper.html">ISO A4 paper</a>, we
  don’t support Imperial units, as even the USA has converted to Metric)</p>
+<p>UPDATE 02.04.2008: <a href="@@RELPATH@@mksh.htm#r33c">mksh R33c</a> is
+ out, with a bugfix and a new fully supported OS (ULTRIX 4.5).</p>
 ----
