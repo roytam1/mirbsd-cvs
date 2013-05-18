@@ -1,6 +1,11 @@
-<!-- PageID: bt -->
-<small class="rcsid">$MirOS: www/content/YnQ_.inc,v 1.7 2007/03/29 17:26:25 tg Exp $</small>
-<!-- http://www.mirbsd.org/?bt#id -->
+mws_putheader '$MirOS: www/content/YnQ_.inc,v 1.8 2007/04/30 20:42:24 tg Exp $'
+#-
+# This file is part of the website of The MirOS Project, which is
+# copyrighted material, please read the LICENCE file for details.
+
+mws_setname bt 'BitTorrent information'
+mws_content <<'EOF'
+<!-- http://www.mirbsd.org/bt.htm#id -->
 <h1>BitTorrent information</h1>
 <p><strong>Warning:</strong> Not finished yet.</p>
 <h2>Tracker</h2>
@@ -31,16 +36,14 @@
 <p>If you're helping us to seed, please seed as many old releases as
  possible as well. If you cannot seed them all, seed at least #9semel
  (latest for i386) and #7quater (latest for sparc), please.</p>
+<h4 id="r10semel">#10semel</h4>
+<p>2008-03-16 – MirOS ξ with i386, sparc, full source code, the CVS
+ repository, and a few selected binary packages for convenience.</p>
 <h4 id="r9semel">#9-RELEASE</h4>
 <h4 id="r8semel">MirOS #8</h4>
 <h4 id="r7quater">#7quater</h4>
 <h3>Snapshots</h3>
-<h4 id="s20070430">2007-04-30</h4>
-<p>i386 Live and Installation CD (ISO, bzip2'd, bootable via El
- Torito, bootable as &quot;Live Hard Disc&quot;). No source cpioballs.</p>
-<h4 id="s20060706">2006-07-06</h4>
-<p>First inofficial sparc snapshot, just to publish what I've been
- done for two weeks on a 75 MHz HyperSPARC after cross-compiling the
- whole mess. No X11, miniroot, Live-CD, testing. Most manpages, but
- two libcs (due to an intermediate major bump while building). This
- one will be deprecated really soon in favour of MirOS #9bis release.</p>
+<p>None yet.</p>
+EOF
+mws_putfooter
+exit 0
