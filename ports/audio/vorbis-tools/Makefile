@@ -1,9 +1,10 @@
-# $MirOS: ports/audio/vorbis-tools/Makefile,v 1.5 2006/02/09 09:35:41 tg Exp $
+# $MirOS: ports/audio/vorbis-tools/Makefile,v 1.6 2006/09/14 00:07:18 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2003/12/14 00:52:22 naddy Exp $
 
-COMMENT=			play, encode, and manage Ogg Vorbis files
+COMMENT=		play, encode, and manage Ogg Vorbis files
 DISTNAME=		vorbis-tools-1.1.1
-PKGNAME=		${DISTNAME}-1
+DASH_VER=		2
+PKGNAME=		${DISTNAME}-${DASH_VER}
 CATEGORIES=    		audio
 HOMEPAGE=		http://www.vorbis.com/
 
