@@ -1,6 +1,0 @@
-@comment $MirOS$
-lib/libCQRlib.a
-share/doc/CQRlib/README_CQRlib.html
-share/doc/CQRlib/README_CQRlib.txt
-%%SHARED%%
-@dirrm share/doc/CQRlib

@@ -1,9 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.3 2002/02/26 03:57:39 brad Exp $
-bin/pth-config
-include/pth.h
-lib/libpth.a
-lib/libpth.la
-%%SHARED%%
-man/man1/pth-config.1
-man/man3/pth.3
-share/aclocal/pth.m4
