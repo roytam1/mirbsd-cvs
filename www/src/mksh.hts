@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.117 2008/05/15 15:47:05 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.118 2008/05/17 19:13:40 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -116,13 +116,15 @@ mws_content <<'EOF'
  href="http://www.mirbsd.org/man/mksh.1">HTML</a> and <a
  href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> format.
  Reading books about Korn Shells in general is recommended as further help,
- but beware of the <a href="#contrib">differences</a> to other shells.</p>
+ but beware of the <a href="#contrib">differences</a> to other shells. Some
+ ISBNs are listed at the end of the manual page.</p>
 <p>If you require additional assistance or want to discuss bugs, features
  or enhancements, write to the <a href="mailto:miros-discuss@mirbsd.org">mailing
  list</a> (or <a href="mailto:postmaster@mirbsd.org">subscribe</a> to it).
  The mailing list can be reached <a href="nntp://news.gmane.org/gmane.os.miros.general">via
  NNTP</a> or at the <a href="http://marc.info/?l=miros-discuss">MARC web
- archive</a> (or GMane Loom) as well.
+ archive</a> (or <a href="http://news.gmane.org/gmane.os.miros.general">GMane
+ Loom</a>) as well.
  Joining the IRC channel at <a href="http://freenode.net/">Freenode</a>
  (irc.freenode.net:6667) <tt>#!/bin/mksh</tt> (no joke, this is really the
  channel’s name) and <tt>#ksh</tt> (where you must distinguish AT&amp;T ksh from
@@ -223,10 +225,10 @@ mws_content <<'EOF'
  like <tt>HAVE_REVOKE=0</tt> (default for Linux) – if these are set to 0 or 1,
  the values are used; if unset, the values are probed (unless overridden by a
  different check, such as MKSH_SMALL), if set to ‘x’ the probe is forced.<br />
- Useful items to enable/disable are HAVE_MKNOD (set to 0 to disable, set to x
- to re-enable for MKSH_SMALL), HAVE_SETLOCALE_CTYPE (set to 0 if you know that
- it won’t ever or will always return UTF-8), HAVE_PERSISTENT_HISTORY (0 to not
- include this feature).</p>
+ Useful items to enable/disable are HAVE_MKNOD and HAVE_READLINE (set to 0 to
+ disable, set to x to re-enable for MKSH_SMALL), HAVE_SETLOCALE_CTYPE (set to
+ 0 if you know that it won’t ever return UTF-8), HAVE_PERSISTENT_HISTORY (0 to
+ not include this feature).</p>
 
 <h4 id="oespec">Operating Environment specific notes</h4>
 
@@ -265,8 +267,6 @@ mws_content <<'EOF'
  or <tt>CC=gcc2</tt> there instead.</p>
 <p>Since mksh uses ProPolice, the Stack-Smashing Protector, some GCC versions’
  compilates require additional shared libaraies.</p>
-<p>For gcc 2.x which does not grok <tt>-std=<i>foo</i></tt>, set the variables
- <tt>HAVE_CAN_STDG99=0 HAVE_CAN_STDC99=0</tt> to quell a lot of warnings.</p>
 
 <h5 id="oe_hpc">Compiler: HP C/aC++</h5>
 <p>HP’s C compiler (/usr/bin/cc on HP-UX) is supported in mksh R30 and above;
@@ -301,19 +301,18 @@ mws_content <<'EOF'
  You’ll have to change Interix’ cc(1) wrapper though: replace <tt>/Op</tt>
  with <tt>/Gs-</tt> to disable the stack checks (missing support in libc
  for them, they used to be off by default) and remove <tt>/Ze</tt>.</p>
-<p>On Interix, this compiler is maturely usable and a good choice.</p>
+<p>On Interix (SFU 3.5), this compiler is maturely usable and a good choice.</p>
 
 <h5 id="oe_mpp">Compiler: MIPSpro</h5>
 <p>Support for SGI’s MIPSpro compiler on IRIX appeared in mksh R33b.</p>
 
 <h5 id="oe_pcc">Compiler: PCC (BSD)</h5>
 <p>Support for the Caldera/SCO UNIX® based, BSD-licenced portable C compiler
- in the <a href="http://pcc.ludd.ltu.se/">ragge version</a> 0.9.8
- and pcc-071009 has been added with mksh R31d. If you happen to have a working
- binary of pcc, which is rare if pulling from CVS, you can use it to compile
- mksh. However, for pcc older than pcc-080415, you must disable optimisation
- and use of its built-in Boolean type by passing <tt>HAVE_CAN_OTWO=0
- HAVE_CAN_OPTIMISE=0 HAVE_STDBOOL_H=0</tt> in the build environment.</p>
+ in the <a href="http://pcc.ludd.ltu.se/">ragge version</a> has been added
+ with mksh R31d. Versions from end of April 2008 onwards are known to work
+ reliably, even with -O enabled.</p>
+<p>The compiler itself rarely works on GNU/Linux or Darwin due to GNUisms,
+ assembler problems, etc. though.</p>
 
 <h5 id="oe_sun">Compiler: SUNpro</h5>
 <p>Support for the <a href="http://developers.sun.com/sunstudio/">SUN Studio
@@ -338,6 +337,10 @@ mws_content <<'EOF'
  determine linkage failures: the compiler returns errorlevel zero, an
  a.out file is generated and has executable permissions.</p>
 
+<h5 id="oe_diet">Toolchain: dietlibc</h5>
+<p>Fefe’s dietlibc works in mksh R34, although his opinion towards certain
+ standards, such as <tt>caddr_t</tt>, strcasecmp(3), etc. are weird.</p>
+
 <h5 id="oe_aix">OS: AIX</h5>
 <p>Support for AIX with xlC appeared in mksh R30.</p>
 <p>If passing custom LDFLAGS, don’t forget the export symbols required for
@@ -345,6 +348,14 @@ mws_content <<'EOF'
 
 <h5 id="oe_bsi">OS: BSDi BSD/OS</h5>
 <p>BSD/OS 3.1 works fine with mksh R33.</p>
+
+<h5 id="oe_cyg">OS: GNU/Cygwin</h5>
+<p>This operating environment is supported as much as it adheres to standard
+ POSIX/SUSv3 conformant things. No workarounds for <tt>.exe</tt> suffixes or
+ other platform-specific quirks have been or will be added.</p>
+
+<h5 id="oe_osx">OS: Darwin / Mac OSX</h5>
+<p>Works pretty well.</p>
 
 <h5 id="oe_dfl">OS: DragonFly BSD</h5>
 <p>Perfect choice.</p>
@@ -355,6 +366,10 @@ mws_content <<'EOF'
 <h5 id="oe_hurd">OS: GNU/HURD</h5>
 <p>This operating system is supported (on i386) since R29 but not well
  tested. mksh is part of Debian GNU/HURD, so it is expected to work.</p>
+
+<h5 id="oe_kbsd">OS: GNU/k*BSD</h5>
+<p>This operating environment has been supported for quite a while as part
+ of Debian and somewhat tested.</p>
 
 <h5 id="oe_linux">OS: GNU/Linux</h5>
 <p>While POSIX does not apply to “GNU’s Not Unix”, the <a
@@ -374,6 +389,11 @@ mws_content <<'EOF'
  <tt>+DD64</tt> on Itanium.</p>
 
 <h5 id="oe_interix">OS: Interix</h5>
+<p>We have only tested SFU 3.5 on Windows® 2000, not SUA on Windows® 2003 SR1
+ or the version integrated into Vista.</p>
+<p>As the Unix Perl which comes with Interix is too old, and the ActiveState
+ Perl has… other issues, to run the regression tests, please install Perl from
+ <a href="http://www.pkgsrc.org/">NetBSD® pkgsrc®</a> instead.</p>
 <p>As of mksh R30, the native compiler (cc(1)) is supported in addition
  to gcc, calling Microsoft C. Do not use the c89(1) wrapper.</p>
 <p>If passing custom LIBS, don’t forget to add <tt>-lcrypt</tt> or any other
@@ -381,7 +401,7 @@ mws_content <<'EOF'
 <p>mksh can replace /bin/ksh and /bin/sh without any problems.</p>
 
 <h5 id="oe_sgi">OS: IRIX</h5>
-<p>Support for IRIX65 6.5 appeared in mksh R33b.</p>
+<p>Support for IRIX64 6.5 appeared in mksh R33b.</p>
 
 <h5 id="oe_mnbsd">OS: MidnightBSD</h5>
 <p>mksh is part of MidnightBSD 0.3 and above and used as native /bin/ksh;
@@ -402,12 +422,8 @@ mws_content <<'EOF'
  any problems. On NetBSD 1.5, mksh can only replace /bin/ksh safely.</p>
 
 <h5 id="oe_bso">OS: OpenBSD</h5>
-<p>The setlocale(3) call in OpenBSD’s libc is broken until before 4.1 and
- will always return non-UTF8 even if run within an uxterm (xterm(1)) which
- comes with OpenBSD’s base installation. If not upgrading to OpenBSD 4.1,
- use a different setlocale library function like <a
- href="/cvs.cgi/contrib/code/Snippets/setlocale.c?rev=HEAD">this one</a>
- and pass its filename as $LIBS to <tt>Build.sh</tt>.</p>
+<p>The setlocale(3) call in OpenBSD’s libc will always return the “C”
+ locale and therefore has been disabled by default.</p>
 <p>mksh can replace /bin/ksh and /bin/sh without any problems.</p>
 
 <h5 id="oe_osf1">OS: DEC/Compaq OSF/1, Compaq/HP Tru64</h5>
@@ -432,8 +448,6 @@ mws_content <<'EOF'
  with Sun’s C compiler. Both 32-bit and 64-bit modes work; 64-bit mode is
  not enabled by default by <tt>Build.sh</tt>, you must do that manually by
  passing CFLAGS of <tt>-O2 -m64</tt> or <tt>-xO2 -xarch=generic64</tt>.</p>
-<p>Tonnerre LOMBARD reports it’s not possible to use mksh as login shell
- with the graphical login manager on some OpenSolaris beta version.</p>
 <p>Solaris does not come with Berkeley mdoc macros for nroff, so using
  the HTML or PDF versions of the manual pages or pregenerating a catman
  page on another OS is required.</p>
@@ -458,8 +472,6 @@ mws_content <<'EOF'
  msc – I could not get gcc-egcs, gcc-2.95, gcc-mingw, icc to work) but the
  platform itself is very flakey, and even some regression tests crash, due
  to target limitations apparently.</p>
-<p>My UWIN installation has been wrecked, so only mksh R30 is tested, mksh
- R31 and up are not. Sorry folks.</p>
 
 <h3 id="postbuild">After compiling</h3>
 <p>The <tt>Build.sh</tt> script generates an executable (“mksh”, except on
@@ -490,6 +502,11 @@ mws_content <<'EOF'
  ChangeLog</a>, these are the packager-visible upgrade notes regarding
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
  support, packaging conventions, bad examples, etc).</p>
+<p>In mksh R34, setlocale/nl_langinfo have been disabled by default for
+ some platforms. If we do not assume UTF-8, disabling lets mksh employ
+ the <tt>LANG</tt> and <tt>LC_*</tt> environment variables for codeset
+ determination. Also, a new builtin is included depending on existence
+ of the readlink(3) function, disabled by default if MKSH_SMALL.</p>
 <p>No changes in mksh R33c except for Ultrix support. None in R33d.</p>
 <p>In mksh R33b, much more compilers are detected, even if not all of
  them are supported. The OE (OS and CC/LD) versions are now dumped too.
@@ -643,7 +660,8 @@ mws_content <<'EOF'
 <h3 id="co-diffs">Differences</h3>
 <p>mksh is a direct descendant from the OpenBSD <tt>/bin/ksh</tt> and
  contains all of its bug fixes and enhancements <strong>except</strong>
- the “GNU bash-like <tt>$PS1</tt>” changes. The DeliLinux developer who
+ the “GNU bash-like <tt>$PS1</tt>” and “ulimit can handle multiple
+ limits in one invocation” changes. The DeliLinux developer who
  is responsible for packaging oksh for GNU/Linux should instead use mksh
  and port that diff over (be careful to not break the fixes to the command
  line editing modes, these are subtilely broken in OpenBSD). Even better,
@@ -733,7 +751,7 @@ mws_content <<'EOF'
  <li>Solaris 10 Generic_125100-04 (sparc64,V9 sun4u gcc3.4.6)</li>
  <li>Solaris 10 Generic_125100-04 (sparc,V8+ sun4u SUNcc5.9 124867-01, ld 5.10-1.486)</li>
  <li>Solaris 10 Generic_125100-04 (sparc64,V9 sun4u SUNcc5.9 124867-01, ld 5.10-1.486)</li>
- <li>Interix 3.5 SP-8.0.1969.1 (i386 gcc3.3 win2k) <em>with Perl from pkgsrc®</em></li>
+ <li>Interix 3.5 SP-8.0.1969.1 (i386 gcc3.3 win2k)</li>
  <li>Interix 3.5 SP-8.0.1969.1 (i386 msc CL.EXE 13.00.9466 (standard), LINK.EXE 7.00.9466)</li>
  <li>Interix 3.5 SP-8.0.1969.1 (i386 msc CL.EXE 14.00.50727.42 (optimising), LINK.EXE 8.00.50727.42)</li>
  <li>Debian GNU 4.0 sid GNU-Mach 1.3.99/Hurd-0.3 i686-AT386 (i386 gcc3.4.6-5)</li>
@@ -746,6 +764,7 @@ mws_content <<'EOF'
  <li>Debian GNU/Linux 4.0 etch 2.6.18-5-alpha-generic (alpha gcc4.1.1-21)</li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-k7 (i386 tcc0.9.23) <em>FAIL to link executable</em></li>
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-k7 (i386 TenDRA-4.1.2)</li>
+ <li>Debian GNU/Linux 4.0 etch 2.6.18-4-k7 (i386 dietlibc-0.30-4 gcc4.1.1-21)</li>
  <li>Debian GNU/Linux 4.0 testing 2.6.22-3-686 (i386 gcc3.4.6-6)</li>
  <li>Debian GNU/Linux 4.0 testing 2.6.22-3-686 (i386 gcc4.1.2-18</li>
  <li>Debian GNU/Linux 4.0 testing 2.6.22-3-686 (i386 gcc4.3-20080202-1/r132072)</li>
@@ -827,11 +846,12 @@ mws_content <<'EOF'
  <li>SuSE GNU/Linux Factory 2.6.16.46-0.7-xen (i386 gcc4.3.0 SuSE) <em>by build13 buildd via the openSUSE Build Service</em></li>
  <li>SuSE GNU/Linux Factory 2.6.16.46-0.7-xen (amd64 gcc4.3.0-20080221-r132521 SuSE) <em>by build13 buildd via the openSUSE Build Service</em></li>
  <li style="list-style:none;">– known to <strong>FAIL</strong> building</li>
- <li>Fabrice Bellard’s tcc in combination with GNU libc often fails linking</li>
- <li>Some pcc versions mis-compile with -O enabled</li>
- <li>mksh works on Plan 9, but does not return after executing a non-builtin command</li>
- <li>mksh does not correctly work on Minix 3</li>
- <li>mksh segfaults upon execution on Syllable Desktop</li>
+ <li>Fabrice Bellard’s tcc in combination with GNU libc often fails linking
+  with an error message like this:<br /><tt>/usr/lib/libc_nonshared.a:
+  '__i686.get_pc_thunk.bx' defined twice</tt></li>
+ <li>mksh works on Plan 9, but does not return after executing a non-builtin
+  command. Syllable Desktop exhibits the same behaviour.</li>
+ <li>mksh does not correctly work on Minix 3 at all.</li>
 </ul>
 
 <h2 id="vsn">Recommendations on version numbering</h2>
@@ -871,8 +891,7 @@ mws_content <<'EOF'
  maximum valid array index; typeset -i&lt;number&gt; is unsigned
  (or probably not? stay signed in most places for compatibility)</li>
 <li>Adding <tt>goto</tt> and <tt>label</tt> keywords/commands</li>
-<li>Adding builtins <tt>realpath</tt>, <tt>fstat</tt>, <tt>lstat</tt>,
- <tt>traverse</tt></li>
+<li>Adding builtins <tt>fstat</tt>, <tt>lstat</tt>, <tt>traverse</tt>, …</li>
 <li>for a b in …; do (like make(1) does)</li>
 <li>${foo:S/bar/baz/g} ${foo:C/bar/baz/x}</li>
 <li>A sensible website</li>
@@ -881,7 +900,8 @@ mws_content <<'EOF'
 <li>Build with more platforms’ native tools or other compilers
  – ACK, kencc, ICC/UWIN, egcs/UWIN, tcc</li>
 <li>Add the ability to handle embedded NUL bytes in strings read,
- for example in the hexdump “utility” (regression test)</li>
+ for example in the hexdump “utility” (regression test)
+ <br />XXX this might be a bad idea actually, cf. php’s insecurity</li>
 </ul>
 
 <h2 id="clog">Recent Changes</h2>
