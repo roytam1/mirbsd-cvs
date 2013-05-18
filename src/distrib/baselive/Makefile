@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.46 2009/01/17 12:21:00 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.47 2009/01/18 19:24:36 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -296,11 +296,10 @@ cdrom-generate:
 	    exec 3>&-; exec 5>&-; \
 	    (cat <&4; cat <&6) | gzip -n9 >CKSUM.gz; \
 	    dd if=/dev/zero bs=256 count=5 >>CKSUM.gz; \
-	    ${SUDO} chown 0:0 0?-* $$([[ ! -e NONFREE.TXT ]] || \
-	    print NONFREE.TXT) CKSUM.gz b_* gzsig* ?oot* ?sd*; \
-	    ${SUDO} chmod 444 0?-* $$([[ ! -e NONFREE.TXT ]] || \
-	    print NONFREE.TXT) CKSUM.gz b_* gzsig* ?oot* ?sd*; \
-	    ${SUDO} chown 0:0 .; ${SUDO} chmod 555 .; \
+	    flst=; for f in 0?-* NONFREE.TXT CKSUM.gz b_* gzsig* ?oot* ?sd* \
+	    grub*; do [[ -e $$f ]] && flst="$$flst $$f"; done; \
+	    ${SUDO} chown 0:0 . $$flst; \
+	    ${SUDO} chmod 444 $$flst; ${SUDO} chmod 555 .; \
 	    ${SUDO} ${MKSH} ${.CURDIR}/mklocatedb.sh ${REALOBJDIR}/${IMAGE}
 	(gzip -d <${WRKDIR}/CKSUM.gz | fgrep -v stand/locate.database; \
 	    cd ${WRKDIR}; cksum -a cksum -a rmd160 -a tiger \
