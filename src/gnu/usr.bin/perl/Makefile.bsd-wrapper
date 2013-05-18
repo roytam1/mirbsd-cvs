@@ -11,8 +11,8 @@
 THREADED_PERL?=	No
 
 # Arguments passed to Configure...
+XFLAGS=		${CFLAGS} -Werror-maybe-reset
 EXPERIMENTAL=	Yes	# for now (the malloc wrap produces ugly warnings)
-#XFLAGS=	${CFLAGS} -Werror-maybe-reset
 CONFIGURE_ARGS=	-dsE -D${OSname}_distribution=defined \
 		-Doptimize=${XFLAGS:N-g*:M*:Q}
 .if ${THREADED_PERL:L} == "yes"
