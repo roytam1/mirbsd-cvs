@@ -1,4 +1,4 @@
-# $MirOS: src/etc/root/dot.profile,v 1.8 2006/04/05 18:51:55 tg Exp $
+# $MirOS: src/etc/root.profile,v 1.1 2006/09/24 18:13:38 tg Exp $
 #-
 # initialisation for bourne shell (worst case)
 
@@ -21,5 +21,5 @@ if test -z "$USER_ID"; then
 fi
 
 Lretrocfg() {		# retrieve kernel config file
-	$SUDO cat ${1:-/bsd} | strings -n4 | sed -n 's/^=CF=//p'
+	$SUDO zcat -f ${1:-/bsd} | strings -n4 | sed -n 's/^=CF=//p'
 }
