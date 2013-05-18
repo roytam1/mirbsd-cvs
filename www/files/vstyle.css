@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.36 2011/11/14 22:28:02 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.38 2012/02/06 17:00:15 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -285,12 +285,16 @@ h1 {
 
 ul.lv1 {
 	position:relative; left:-20px; width:95%;
-	list-style:disc;
+	list-style:circle;
 }
 
 ul.lv2 {
 	position:relative; left:-20px; width:90%;
-	list-style:square;
+	list-style:disc;
+}
+
+li.markindex {
+	list-style:url("vmark.png");
 }
 
 /* design elements */

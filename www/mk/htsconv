@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.63 2012/05/15 21:06:31 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.64 2012/05/19 21:40:13 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -6,6 +6,7 @@ rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.63 2012/05/15 21:06:31 tg Exp $'
 #DEPEND mk/common
 . "$TOP"/mk/common
 
+mws__markindex=
 mws__pagename=
 mws__header=
 mws__rss=
@@ -28,8 +29,8 @@ function mws__do {
 }
 
 function mws_setname {
+	mws__markindex=$1
 	mws__pagename=$2
-	# change index to mark $1
 }
 
 function mws_setheadline {
@@ -137,7 +138,7 @@ function mws_putheader {
 	fi
 	[[ -n $mws__headline ]] && mws__headline="$nl<h1>$(mws_makepiclink \
 	    "$mws__headline" "$mws__fontsize" s)</h1>"
-	mws__content <<-EOF
+	mws__content_categorised <<-EOF
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 		 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 		<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
@@ -167,34 +168,34 @@ function mws_putheader {
 		<div class="trailing">
 		<div class="index">
 		 <ul class="lv1">
-		<li><a href="@@RELPATH@@main.htm">Main</a><ul class="lv2">
-		<li><a href="@@RELPATH@@wlog-10.htm">Weblog</a> for #10</li>
-		<li><a href="@@RELPATH@@tags.htm">Tag Cloud</a></li>
-		<li><a href="@@RELPATH@@news.htm">Old News</a> &amp;
+		<li class="@@CAT=main@@"><a href="@@RELPATH@@main.htm">Main</a><ul class="lv2">
+		<li class="@@CAT=wlog-10@@"><a href="@@RELPATH@@wlog-10.htm">Weblog</a> for #10</li>
+		<li class="@@CAT=tag@@"><a href="@@RELPATH@@tags.htm">Tag Cloud</a></li>
+		<li class="@@CAT=oldnews@@"><a href="@@RELPATH@@news.htm">Old News</a> &amp;
 		 <a href="@@RELPATH@@oldnews.htm#owlog">WLog</a></li>
 		</ul></li>
-		<li><a href="@@RELPATH@@about.htm">About</a></li>
+		<li class="@@CAT=about@@"><a href="@@RELPATH@@about.htm">About</a></li>
 		<!-- these are not in a usable state
-		<li><a href="@@RELPATH@@docs.htm">Documentation</a></li>
-		<li><a href="@@RELPATH@@faq.htm">FAQ</a></li>
+		<li class="@@CAT=legacy/docs@@"><a href="@@RELPATH@@docs.htm">Documentation</a></li>
+		<li class="@@CAT=legacy/faq@@ @@CAT=legacy/faq.es@@"><a href="@@RELPATH@@faq.htm">FAQ</a></li>
 		-->
-		<li class="spacer"><a href="@@RELPATH@@getting.htm">Download</a></li>
-		<li><a href="@@RELPATH@@rss.htm">RSS &amp; Mailing Lists</a></li>
-		<li><a href="@@RELPATH@@irc.htm">IRC</a></li>
-		<li><a href="@@RELPATH@@wtf.htm" title="WTF‽">Acronyms</a></li>
-		<li><a href="@@RELPATH@@projects.htm">Project Ideas</a></li>
-		<li><a href="@@RELPATH@@danke.htm">Donate</a></li>
-		<li><a href="@@RELPATH@@man.htm">Manpages</a><ul class="lv2">
+		<li class="spacer @@CAT=getting@@"><a href="@@RELPATH@@getting.htm">Download</a></li>
+		<li class="@@CAT=rss@@"><a href="@@RELPATH@@rss.htm">RSS &amp; Mailing Lists</a></li>
+		<li class="@@CAT=irc@@"><a href="@@RELPATH@@irc.htm">IRC</a></li>
+		<li class="@@CAT=wtf@@"><a href="@@RELPATH@@wtf.htm" title="WTF‽">Acronyms</a></li>
+		<li class="@@CAT=projects@@"><a href="@@RELPATH@@projects.htm">Project Ideas</a></li>
+		<li class="@@CAT=donations@@"><a href="@@RELPATH@@danke.htm">Donate</a></li>
+		<li class="@@CAT=man@@"><a href="@@RELPATH@@man.htm">Manpages</a><ul class="lv2">
 		<li><a href="@@RELPATH@@htman/i386/">i386</a></li>
 		<li><a href="@@RELPATH@@htman/sparc/">sparc</a></li>
 		</ul></li>
-		<li><a href="@@RELPATH@@ports.htm">MirPorts</a> Framework</li>
-		<li><a href="@@RELPATH@@pkgsrc.htm">pkgsrc®</a> integration</li>
-		<li>Subprojects<ul class="lv2">
-		<li><a href="@@RELPATH@@jupp.htm">jupp</a> Editor</li>
-		<li><a href="@@RELPATH@@kwalletcli.htm">KWalletCLI</a></li>
-		<!-- li><a href="@@RELPATH@@makefs.htm">makefs</a></li -->
-		<li><a href="@@RELPATH@@mksh.htm">mksh</a> Shell</li>
+		<li class="@@CAT=ports@@"><a href="@@RELPATH@@ports.htm">MirPorts</a> Framework</li>
+		<li class="@@CAT=pkgsrc@@"><a href="@@RELPATH@@pkgsrc.htm">pkgsrc®</a> integration</li>
+		<li class="@@CAT=subprojects@@">Subprojects<ul class="lv2">
+		<li class="@@CAT=subprojects/juppp@@"><a href="@@RELPATH@@jupp.htm">jupp</a> Editor</li>
+		<li class="@@CAT=subprojects/kwalletcli@@"><a href="@@RELPATH@@kwalletcli.htm">KWalletCLI</a></li>
+		<!-- li class="@@CAT=subprojects/makefs@@"><a href="@@RELPATH@@makefs.htm">makefs</a></li -->
+		<li class="@@CAT=subprojects/mksh@@"><a href="@@RELPATH@@mksh.htm">mksh</a> Shell</li>
 		</ul></li>
 		 </ul>
 		<div style="margin-top:18px; margin-left:6px;">Sponsored
@@ -313,6 +314,37 @@ function mws__content_keeptabs {
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)/[Ss][Pp][Aa][Rr][Cc])<a href="@@RELPATH@@htman/sparc/man\2/\1.htm" class="manlink">&</a>g' \
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)/[Ii]386)<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
 	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
+	    -e "s@@ABSPATH@@$mws__abspathg" \
+	    -e "s@@RELPATH@@$mws__relpathg" \
+	    -e "s@@HEADER@@$mws__headerg" \
+	    -e "s@@RSS@@$mws__rssg"
+}
+
+function mws__content_categorised {
+	set -A mws__content_categorised_arr
+	local i=0 x=$mws__markindex
+
+	if [[ -n $x ]]; then
+		mws__content_categorised_arr[i++]=-e
+		mws__content_categorised_arr[i++]="s@@CAT=${x}@@markindexg"
+	fi
+	while [[ $x = ?*/* ]]; do
+		x=${x%/*}
+		mws__content_categorised_arr[i++]=-e
+		mws__content_categorised_arr[i++]="s@@CAT=${x}@@markindexg"
+	done
+	mws__content_categorised_arr[i++]=-e
+	mws__content_categorised_arr[i++]="s@@CAT=[^@]*@@dummyg"
+	sed \
+	    "${mws__content_categorised_arr[@]}" \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(DOCS\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(PAPERS\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(GNU)<a href="@@RELPATH@@htman/i386/manINFO/\1.html" class="manlink">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([PSU][MS][DM]\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)/[Ss][Pp][Aa][Rr][Cc])<a href="@@RELPATH@@htman/sparc/man\2/\1.htm" class="manlink">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)/[Ii]386)<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
+	    -e 's^	<span style="display:none;">	</span>' \
 	    -e "s@@ABSPATH@@$mws__abspathg" \
 	    -e "s@@RELPATH@@$mws__relpathg" \
 	    -e "s@@HEADER@@$mws__headerg" \
