@@ -1,3 +1,4 @@
+/* $LynxId: LYGetFile.c,v 1.77 2007/05/20 23:28:43 Thorsten.Glaser Exp $ */
 #include <HTUtils.h>
 #include <HTTP.h>
 #include <HTAnchor.h>		/* Anchor class */

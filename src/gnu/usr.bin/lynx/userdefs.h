@@ -1,6 +1,6 @@
 /*
- * $MirOS: src/gnu/usr.bin/lynx/userdefs.h,v 1.15 2007/05/20 09:43:21 tg Exp $
- * $LynxId: userdefs.h,v 1.225 2007/05/13 22:45:47 Chuck.Houpt Exp $
+ * $MirOS: src/gnu/usr.bin/lynx/userdefs.h,v 1.16 2007/05/20 11:10:34 tg Exp $
+ * $LynxId: userdefs.h,v 1.227 2007/05/23 00:38:33 tom Exp $
  *
  * Lynx - Hypertext navigation system
  *
@@ -296,7 +296,7 @@
 #endif /* HAVE_CONFIG_H */
 
 #ifndef MIME_LIBDIR
-#define MIME_LIBDIR "/etc"
+#define MIME_LIBDIR "/etc/"
 #endif
 
 /**************************
@@ -1374,12 +1374,12 @@
  * ignore it. - kw */
 /* $Format: "#define LYNX_VERSION \"$ProjectVersion$\""$ */
 #ifndef LYNX_VERSION
-#define LYNX_VERSION "2.8.7dev.5"
+#define LYNX_VERSION "2.8.7dev.7"
 #endif
 #define LYNX_WWW_HOME "http://lynx.isc.org/"
 #define LYNX_WWW_DIST "http://lynx.isc.org/current/"
 /* $Format: "#define LYNX_DATE \"$ProjectDate$\""$ */
-#define LYNX_DATE "Thu, 17 May 2007 15:53:22 -0700"
+#define LYNX_DATE "Thu, 02 Aug 2007 17:04:46 -0700"
 #define LYNX_DATE_OFF 5		/* truncate the automatically-generated date */
 #define LYNX_DATE_LEN 11	/* truncate the automatically-generated date */
 

@@ -1,5 +1,5 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/LYrcFile.c,v 1.2 2005/03/27 22:42:39 tg Exp $ */
-/* $LynxId: LYrcFile.c,v 1.66 2007/05/06 19:22:33 tom Exp $ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/LYrcFile.c,v 1.3 2007/05/20 09:43:29 tg Exp $ */
+/* $LynxId: LYrcFile.c,v 1.68 2007/05/23 00:22:06 tom Exp $ */
 #include <HTUtils.h>
 #include <HTFTP.h>
 #include <LYUtils.h>
@@ -987,7 +987,6 @@ int enable_lynxrc(char *value)
 	for (tbl = Config_Table; tbl->name != 0; tbl++) {
 	    if (!strcasecomp(value, tbl->name)) {
 		tbl->enabled = getBool(colon);
-		CTRACE((tfp, "enable_lynxrc(%s) %s\n", value, putBool(tbl->enabled)));
 		break;
 	    }
 	}
