@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname errata/10 "Errata for MirOS #10"
-mws_putheader '$MirOS: www/src/errata10.hts,v 1.15 2008/07/05 01:38:25 tg Exp $'
+mws_putheader '$MirOS: www/src/errata10.hts,v 1.16 2008/07/08 13:34:12 tg Exp $'
 mws_content <<'EOF'
 <h1>Errata for MirOS #10</h1>
 
@@ -12,6 +12,11 @@ mws_content <<'EOF'
 <p>By upgrading to the <tt>MIRBSD_10</tt> branch on CVS in the
  <tt>src</tt> module, you gain the following fixes:</p><ul>
 <li>
+ Remove BSDstats script, as the site is constantly broken, see <a
+ href="permalinks/wlog-10_e20080709-tg-g10007.htm">wlog</a> for details.
+</li><li>
+ Pull up mksh R35.
+</li><li>
  Under some circumstances, arc4random(9) was not properly initialised
  until the next write to arandom(4), <tt>RNDSTIRARC4</tt> ioctl(2),
  or (in -current) slow pool full event. This usually was not an issue
