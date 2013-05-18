@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/ssh/sshd_config,v 1.10 2006/09/20 21:41:08 tg Exp $
+# $MirOS: src/usr.bin/ssh/sshd_config,v 1.11 2006/09/21 21:54:43 tg Exp $
 # $OpenBSD: sshd_config,v 1.74 2006/07/19 13:07:10 dtucker Exp $
 
 # This is the sshd server system-wide configuration file.  See
@@ -68,7 +68,6 @@ HostKey /etc/ssh/ssh_host_rsa_key
 # Change to no to disable s/key passwords
 #ChallengeResponseAuthentication yes
 
-# Set AllowTcpForwarding to NO when running anoncvs!
 #AllowTcpForwarding yes
 #GatewayPorts no
 #X11Forwarding no
@@ -94,10 +93,10 @@ HostKey /etc/ssh/ssh_host_rsa_key
 # override default of no subsystems to enable use of SFTP:
 Subsystem	sftp	/usr/libexec/sftp-server
 
-# Example of overriding settings on a per-user basis
-#Match User anoncvs
-#	AllowTcpForwarding no
-#	Banner no
-#	ForceCommand cvs server
-#	PermitEmptyPasswords yes
-#	X11Forwarding no
+# we don't ForceCommand because we have anoncvssh for cvs and rsync
+Match User _anoncvs
+	AllowTcpForwarding no
+	Banner no
+	GatewayPorts no
+	PermitEmptyPasswords yes
+	X11Forwarding no
