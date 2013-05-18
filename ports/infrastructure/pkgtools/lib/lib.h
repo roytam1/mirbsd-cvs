@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28.2.4 2009/12/28 14:33:10 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28.2.5 2009/12/29 17:09:33 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -196,6 +196,7 @@ int		pmatch(const char *, const char *);
 int		findmatchingname(const char *, const char *, matchfn, char *, int); /* doesn't really belong here */
 char		*findbestmatchingname(const char *, const char *); /* neither */
 int		ispkgpattern(const char *);
+void		normalize_name(char *);
 
 /* File */
 bool		fexists(const char *);
@@ -293,10 +294,12 @@ int sxsystem(bool, const char *)
 /* configuration file */
 bool		cfg_read_config(const char*);
 void		cfg_dump_vars(void);
+void		cfg_dump_var(const char *);
 char*		cfg_expand_vars(char*, size_t);
 const char*	cfg_get_pager(void);
 void		cfg_add_source(unsigned long, bool, const char*);
 bool		cfg_remove_source(const char*);
+void		cfg_dump_sources(void);
 const struct cfg_sourcelist* cfg_get_sourcelist(void);
 
 #endif /* _INST_LIB_LIB_H_ */
