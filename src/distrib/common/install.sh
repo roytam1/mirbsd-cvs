@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.3 2007/02/18 18:26:56 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.4 2007/02/19 22:58:31 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -322,6 +322,17 @@ mount_fs "-o async"
 # one. This preserves any existing domain information in the hostname.
 ask_until "\nSystem hostname? (short form, e.g. 'foo')" "$(hostname -s)"
 [[ ${resp%%.*} != $(hostname -s) ]] && hostname $resp
+
+# If the network is already running, preserve resolv.conf
+if [[ -f /etc/ssh/ssh_host_rsa_key ]]; then
+	cat /etc/resolv.conf >/etc/resolv.conf.tmp 2>/dev/null
+	if [[ -s /etc/resolv.conf.tmp ]]; then
+		rm /etc/resolv.conf
+		mv /etc/resolv.conf.tmp /etc/resolv.conf
+	else
+		rm /etc/resolv.conf.tmp
+	fi
+fi
 
 # Remove existing network configuration files in /tmp to ensure they don't leak
 # onto the installed system in the case of a restarted install. Any information
