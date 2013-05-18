@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/conf/Makefile.sparc,v 1.14 2006/06/27 14:13:32 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/Makefile.sparc,v 1.15 2007/06/11 01:57:11 tg Exp $
 # $OpenBSD: Makefile.sparc,v 1.33 2003/11/20 08:38:52 espie Exp $
 # $NetBSD: Makefile.sparc,v 1.32.4.1 1996/06/12 20:26:32 pk Exp $
 
@@ -43,14 +43,13 @@ CMACHFLAGS=	-msoft-float
 
 LINKFLAGS=	-N -e start -Ttext F8004000
 SYSTEM_LD_TAIL=	@${SIZE} $@; chmod 755 $@; \
-		typeset -i10 "relocval=16\#${RELOC2:S/^0x//}"; \
-		typeset -i10 "ksize=16384+$$(stat -f %z $@)"; \
-		if ((ksize<relocval)); then \
+		typeset -i10 rval=${RELOC} "ksize=0x4000+$$(stat -f %z $@)"; \
+		if ((ksize < rval)); then \
 			print "Kernel size ($$ksize) below" \
-			    "reloc value ($$relocval), OK"; \
+			    "reloc value ($$rval), OK"; \
 		else \
 			print "ATTENTION: Kernel ($$ksize) is" \
-			    "too big; must shrink below $$relocval"; \
+			    "too big; must shrink below $$rval"; \
 		fi
 
 .include "$S/conf/Makefile.inc"
