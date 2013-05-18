@@ -1,5 +1,4 @@
-/**	$MirOS$	*/
-/*	$OpenBSD: ufs.c,v 1.17 2003/08/25 23:27:44 tedu Exp $	*/
+/*	$OpenBSD: ufs.c,v 1.19 2008/01/06 11:17:18 otto Exp $	*/
 /*	$NetBSD: ufs.c,v 1.16 1996/09/30 16:01:22 ws Exp $	*/
 
 /*-
@@ -121,7 +120,7 @@ read_inode(ino_t inumber, struct open_file *f)
 	buf = alloc(fs->fs_bsize);
 	twiddle();
 	rc = (f->f_dev->dv_strategy)(f->f_devdata, F_READ,
-	    fsbtodb(fs, ino_to_fsba(fs, inumber)), fs->fs_bsize,
+	    fsbtodb(fs, (daddr_t)ino_to_fsba(fs, inumber)), fs->fs_bsize,
 	    buf, &rsize);
 	if (rc)
 		goto out;
@@ -146,6 +145,7 @@ read_inode(ino_t inumber, struct open_file *f)
 		for (level = 0; level < NIADDR; level++)
 			fp->f_blkno[level] = -1;
 		fp->f_buf_blkno = -1;
+		fp->f_seekp = 0;
 	}
 out:
 	free(buf, fs->fs_bsize);
@@ -276,7 +276,7 @@ buf_read_file(struct open_file *f, char **buf_p, size_t *size_p)
 			fp->f_buf = alloc(fs->fs_bsize);
 
 		if (disk_block == 0) {
-			memset(fp->f_buf, 0, block_size);
+			bzero(fp->f_buf, block_size);
 			fp->f_buf_size = block_size;
 		} else {
 			twiddle();
@@ -368,7 +368,7 @@ ufs_open(char *path, struct open_file *f)
 
 	/* allocate file system specific data structure */
 	fp = alloc(sizeof(struct file));
-	memset(fp, 0, sizeof(struct file));
+	bzero(fp, sizeof(struct file));
 	f->f_fsdata = (void *)fp;
 
 	/* allocate space and read super block */
@@ -475,10 +475,10 @@ ufs_open(char *path, struct open_file *f)
 				goto out;
 			}
 
-			memmove(&namebuf[link_len], cp, len + 1);
+			bcopy(cp, &namebuf[link_len], len + 1);
 
 			if (link_len < fs->fs_maxsymlinklen) {
-				memmove(namebuf, fp->f_di.di_shortlink,
+				bcopy(fp->f_di.di_shortlink, namebuf,
 				    (unsigned) link_len);
 			} else {
 				/*
@@ -501,7 +501,7 @@ ufs_open(char *path, struct open_file *f)
 				if (rc)
 					goto out;
 
-				memmove(namebuf, (char *)buf, (unsigned)link_len);
+				bcopy((char *)buf, namebuf, (unsigned)link_len);
 			}
 
 			/*
@@ -578,7 +578,7 @@ ufs_read(struct open_file *f, void *start, size_t size, size_t *resid)
 		if (csize > buf_size)
 			csize = buf_size;
 
-		memmove(addr, buf, csize);
+		bcopy(buf, addr, csize);
 
 		fp->f_seekp += csize;
 		addr += csize;

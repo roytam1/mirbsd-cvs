@@ -1,11 +1,11 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.4 2005/12/04 13:22:16 tg Exp $ */
-/*	$OpenBSD: biosdev.c,v 1.69 2004/06/23 00:21:49 tom Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.5 2006/08/19 14:20:29 tg Exp $ */
+/*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
  * Copyright (c) 1996 Michael Shalayeff
  * Copyright (c) 2003 Tobias Weingartner
- * Copyright (c) 2002, 2003, 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2002, 2003, 2004, 2005, 2008
+ *	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -102,7 +102,7 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 
 #ifdef BIOS_DEBUG
 	if (debug)
-		printf("getinfo: try #8, 0x%X, %p\n", dev, pdi);
+		printf("getinfo: try #8, 0x%x, %p\n", dev, pdi);
 #endif
 	__asm __volatile (DOINT(0x13) "\n\t"
 	    "setc %b0; movzbl %h1, %1\n\t"
@@ -116,10 +116,9 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 #ifdef BIOS_DEBUG
 	if (debug) {
 		printf("getinfo: got #8\n");
-		printf("disk 0x%X: %d,%d,%d\n", dev, pdi->bios_cylinders,
+		printf("disk 0x%x: %d,%d,%d\n", dev, pdi->bios_cylinders,
 		    pdi->bios_heads, pdi->bios_sectors);
 	}
-	getchar();
 #endif
 	if (rv & 0xff)
 		return 1;
@@ -129,6 +128,51 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 	pdi->bios_heads++;
 	pdi->bios_cylinders &= 0x3ff;
 	pdi->bios_cylinders++;
+
+	/* NOTE:
+	 * This currently hangs/reboots some machines
+	 * The IBM ThinkPad 750ED for one.
+	 *
+	 * Funny that an IBM/MS extension would not be
+	 * implemented by an IBM system...
+	 *
+	 * Future hangs (when reported) can be "fixed"
+	 * with getSYSCONFaddr() and an exceptions list.
+	 */
+	if (dev & 0x80 && (dev == 0x80 || dev == 0x81 || dev == bios_bootdev)) {
+		int bm;
+
+#ifdef BIOS_DEBUG
+		if (debug)
+			printf("getinfo: try #41, 0x%x\n", dev);
+#endif
+		/* EDD support check */
+		__asm __volatile(DOINT(0x13) "; setc %b0"
+			 : "=a" (rv), "=c" (bm)
+			 : "0" (0x4100), "b" (0x55aa), "d" (dev) : "cc");
+		if (!(rv & 0xff) && (BIOS_regs.biosr_bx & 0xffff) == 0xaa55)
+			pdi->bios_edd = (bm & 0xffff) | ((rv & 0xff) << 16);
+		else
+			pdi->bios_edd = -1;
+
+#ifdef BIOS_DEBUG
+		if (debug) {
+			printf("getinfo: got #41\n");
+			printf("disk 0x%x: 0x%x\n", dev, bm);
+		}
+#endif
+		/*
+		 * If extended disk access functions are not supported
+		 * there is not much point on doing EDD.
+		 */
+		if (!(pdi->bios_edd & EXT_BM_EDA))
+			pdi->bios_edd = -1;
+	} else
+		pdi->bios_edd = -1;
+
+	/* Skip sanity check for CHS options in EDD mode. */
+	if (pdi->bios_edd != -1)
+		return 0;
 
 	/* Sanity check */
 	if (!pdi->bios_cylinders || !pdi->bios_heads || !pdi->bios_sectors) {
@@ -146,30 +190,6 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 #endif
 		return(1);
 	}
-
-	if (dev & 0x80 && (dev == 0x80 || dev == 0x81 || dev == bios_bootdev)) {
-		int bm;
-#ifdef BIOS_DEBUG
-		if (debug)
-			printf("getinfo: try #41, 0x%X\n", dev);
-#endif
-		/* EDD support check */
-		__asm __volatile(DOINT(0x13) "; setc %b0"
-			 : "=a" (rv), "=c" (bm)
-			 : "0" (0x4100), "b" (0x55aa), "d" (dev) : "cc");
-		if (!(rv & 0xff) && (BIOS_regs.biosr_bx & 0xffff) == 0xaa55)
-			pdi->bios_edd = (bm & 0xffff) | ((rv & 0xff) << 16);
-		else
-			pdi->bios_edd = -1;
-#ifdef BIOS_DEBUG
-		if (debug) {
-			printf("getinfo: got #41: %X\n", pdi->bios_edd);
-			printf("disk 0x%X: 0x%X\n", dev, bm);
-		}
-		getchar();
-#endif
-	} else
-		pdi->bios_edd = -1;
 
 	return 0;
 }
@@ -263,7 +283,7 @@ biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 	void *bb;
 	int bbsize = nsect * DEV_BSIZE;
 
-	if (bd->flags & BDI_ELTORITO) {		/* It's a CD device */
+	if (bd->flags & BDI_EL_TORITO) {	/* It's a CD device */
 		dev &= 0xff;			/* Mask out this flag bit */
 
 		/*
@@ -278,18 +298,18 @@ biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 
 	/*
 	 * Use a bounce buffer to not cross 64k DMA boundary, and to
-	 * not access above 1 MB.
+	 * not access 1 MB or above.
 	 */
 	if (((((u_int32_t)buf) & ~0xffff) !=
 	    (((u_int32_t)buf + bbsize) & ~0xffff)) ||
-	    (((u_int32_t)buf) > 0x100000)) {
+	    (((u_int32_t)buf) >= 0x100000)) {
 		/*
 		 * XXX we believe that all the io is buffered
 		 * by fs routines, so no big reads anyway
 		 */
 		bb = alloca(bbsize);
 		if (rw != F_READ)
-			memmove(bb, buf, bbsize);
+			bcopy(buf, bb, bbsize);
 	} else
 		bb = buf;
 
@@ -330,11 +350,9 @@ biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 
 		default:	/* All other errors */
 #ifdef BIOS_DEBUG
-			if (debug) {
-				printf("\nBIOS error 0x%X (%s)\n",
-					error, biosdisk_err(error));
-				getchar();
-			}
+			if (debug)
+				printf("\nBIOS error 0x%x (%s)\n",
+				    error, biosdisk_err(error));
 #endif
 			biosdreset(dev);
 			break;
@@ -342,12 +360,12 @@ biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 	}
 
 	if (bb != buf && rw == F_READ)
-		memmove(buf, bb, bbsize);
+		bcopy(bb, buf, bbsize);
 
 #ifdef BIOS_DEBUG
 	if (debug) {
 		if (error != 0)
-			printf("=0x%X(%s)", error, biosdisk_err(error));
+			printf("=0x%x(%s)", error, biosdisk_err(error));
 		putchar('\n');
 	}
 #endif
@@ -433,7 +451,7 @@ loop:		error = biosd_io(F_READ, bd, mbrofs, 1, &mbr);
 	buf = alloca(DEV_BSIZE);
 #ifdef BIOS_DEBUG
 	if (debug)
-		printf("loading disklabel @%u\n", off);
+		printf("loading disklabel @ %u\n", off);
 #endif
 	/* read disklabel */
 	error = biosd_io(F_READ, bd, off, 1, buf);
@@ -473,9 +491,8 @@ biosopen(struct open_file *f, ...)
 			cp++;
 	}
 
-	for (maj = 0; maj < nbdevs &&
-	     strncmp(*file, bdevs[maj], cp - *file); maj++)
-		;
+	for (maj = 0; maj < nbdevs && strncmp(*file, bdevs[maj], cp - *file); )
+	    maj++;
 	if (maj >= nbdevs) {
 		printf("Unknown device: ");
 		for (cp = *file; *cp != ':'; cp++)
@@ -547,7 +564,7 @@ biosopen(struct open_file *f, ...)
 #endif
 
 	/* Try for disklabel again (might be removable media) */
-	if(dip->bios_info.flags & BDI_BADLABEL) {
+	if (dip->bios_info.flags & BDI_BADLABEL){
 		const char *st = bios_getdisklabel(&dip->bios_info,
 		    &dip->disklabel);
 		if (st != NULL) {
@@ -669,7 +686,7 @@ biosstrategy(void *devdata, int rw, daddr_t blk, size_t size, void *buf,
 #ifdef BIOS_DEBUG
 	if (debug) {
 		if (error != 0)
-			printf("=0x%X(%s)", error, biosdisk_err(error));
+			printf("=0x%x(%s)", error, biosdisk_err(error));
 		putchar('\n');
 	}
 #endif

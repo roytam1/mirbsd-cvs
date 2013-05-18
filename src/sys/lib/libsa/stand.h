@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.6 2006/11/21 13:20:08 tg Exp $	*/
-/*	$OpenBSD: stand.h,v 1.43 2004/01/03 14:08:53 espie Exp $	*/
+/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.7 2007/02/06 16:24:45 tg Exp $	*/
+/*	$OpenBSD: stand.h,v 1.46 2007/05/04 21:44:07 reyk Exp $	*/
 /*	$NetBSD: stand.h,v 1.18 1996/11/30 04:35:51 gwr Exp $	*/
 
 /*-
@@ -136,26 +136,26 @@ u_int	dkcksum(struct disklabel *);
 
 void	printf(const char *, ...);
 int	snprintf(char *, size_t, const char *, ...);
-void	vprintf(const char *, _BSD_VA_LIST_);
+void	vprintf(const char *, __va_list);
 void	twiddle(void);
 void	gets(char *);
 __dead void	panic(const char *, ...) __attribute__((noreturn));
 __dead void	_rtt(void) __attribute__((noreturn));
-#if 0
-#define bzero(s,n)	((void)memset((s),0,(n)))
+#define	bzero(s,n)	((void)memset((s),0,(n)))
 #define bcmp(s1,s2,n)	(memcmp((s2),(s1),(n)))
-#endif
-#define bcopy(s1,s2,n)	((void)memmove((s2),(s1),(n)))
-void	*memmove(void *, const void *, size_t);
+#define	bcopy(s1,s2,n)	((void)memcpy((s2),(s1),(n)))
+void	*memcpy(void *, const void *, size_t);
 int	memcmp(const void *, const void *, size_t);
 char	*strncpy(char *, const char *, size_t);
 int	strncmp(const char *, const char *, size_t);
 int	strcmp(const char *, const char *);
+size_t	strlen(const char *);
 size_t	 strlcpy(char *, const char *, size_t)
 		__attribute__ ((__bounded__(__string__,1,3)));
 size_t	 strlcat(char *, const char *, size_t)
 		__attribute__ ((__bounded__(__string__,1,3)));
 long	strtol(const char *, char **, int);
+long long	strtoll(const char *, char **, int);
 char	*strchr(const char *, int);
 void	*memset(void *, int, size_t);
 void	exec(char *, void *, int);

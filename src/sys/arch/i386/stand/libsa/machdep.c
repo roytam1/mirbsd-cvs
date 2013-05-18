@@ -1,5 +1,4 @@
-/**	$MirOS$ */
-/*	$OpenBSD: machdep.c,v 1.35 2004/03/19 13:48:18 tom Exp $	*/
+/*	$OpenBSD: machdep.c,v 1.36 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
  * Copyright (c) 2004 Tom Cosgrove
@@ -29,6 +28,7 @@
  */
 
 #include "libsa.h"
+#include "biosdev.h"
 #include <machine/apmvar.h>
 #include <machine/biosvar.h>
 
@@ -49,8 +49,9 @@ machdep(void)
 	/*
 	 * The list of probe routines is now in conf.c.
 	 */
-	for (i = 0; i < nibprobes; i++)
-		if ((pr = &probe_list[i])) {
+	for (i = 0; i < nibprobes; i++) {
+		pr = &probe_list[i];
+		if (pr != NULL) {
 			printf("%s:", pr->name);
 
 			for (j = 0; j < pr->count; j++) {
@@ -59,4 +60,11 @@ machdep(void)
 
 			printf("\n");
 		}
+	}
+}
+
+int check_skip_conf(void)
+{
+	/* Return non-zero (skip boot.cfg) if Control "shift" key down */
+	return (pc_getshifts(0) & 0x04);
 }

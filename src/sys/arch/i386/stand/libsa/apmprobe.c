@@ -1,5 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/apmprobe.c,v 1.2 2005/03/06 21:27:05 tg Exp $	*/
-/*	$OpenBSD: apmprobe.c,v 1.13 2004/03/11 17:41:23 tom Exp $	*/
+/*	$OpenBSD: apmprobe.c,v 1.15 2007/09/13 06:58:47 weingart Exp $	*/
 
 /*
  * Copyright (c) 1997-2000 Michael Shalayeff
@@ -55,16 +54,18 @@
 #include "libsa.h"
 #include <stand/boot/bootarg.h>
 
+#include <uvm/uvm_extern.h>
+
 #include <dev/isa/isareg.h>
 
 #include <machine/apmvar.h>
 #include <machine/biosvar.h>
 
+#define vm_page_size 4096
+
 #include "debug.h"
 
 extern int debug;
-
-static int apm_is_connected;
 
 static __inline u_int
 apm_check(void)
@@ -84,7 +85,7 @@ apm_check(void)
 	if (f || BIOS_regs.biosr_bx != 0x504d /* "PM" */ ) {
 #ifdef DEBUG
 		if (debug)
-			printf("apm_check: %X, %X, %X\n",
+			printf("apm_check: %x, %x, %x\n",
 			    f, BIOS_regs.biosr_bx, detail);
 #endif
 		return 0;
@@ -103,7 +104,6 @@ apm_disconnect(void)
 	    : "0" (APM_DISCONNECT), "b" (APM_DEV_APM_BIOS)
 	    : "%ecx", "%edx", "cc");
 
-	if (!(rv & 0xff)) apm_is_connected = 0;
 	return ((rv & 0xff)? rv >> 8 : 0);
 }
 
@@ -143,12 +143,11 @@ apm_connect(bios_apminfo_t *ai)
 
 #ifdef DEBUG
 	if (debug)
-		printf("cs=%X:%X/%X:%X, ds=%X:%X\n",
+		printf("cs=%x:%x/%x:%x, ds=%x:%x\n",
 		    ai->apm_code32_base, ai->apm_code_len,
 		    ai->apm_code16_base, ai->apm_code16_len,
 		    ai->apm_data_base,   ai->apm_data_len);
 #endif
-	apm_is_connected = 2;
 	/* inform apm bios about our driver version */
 	__asm __volatile (DOINT(0x15) "\n\t"
 	    "setc %b1\n\t"
@@ -162,59 +161,7 @@ apm_connect(bios_apminfo_t *ai)
 	return 0;
 }
 
-static __inline int
-apm_driver_version(int v)
-{
-	register u_int16_t rv;
-	__asm __volatile(DOINT(0x15) "\n\t"
-			 "setc %b0"
-			 : "=a" (rv)
-			 : "0" (APM_DRIVER_VERSION), "b" (APM_DEV_APM_BIOS), "c" (v)
-			 : "%edx", "cc");
-	return (rv & 0xff)? rv >> 8 : 0;
-}
-
-static __inline int
-apm_connect_real(bios_apminfo_t *ai)
-{
-	register u_int16_t f;
-	__asm __volatile (DOINT(0x15) "\n\t"
-			  "setc %b1\n\t"
-			  "movb %%ah, %h1\n\t"
-			  "movzwl %%ax, %%eax\n\tshll $4, %0\n\t"
-			  "movzwl %%cx, %%ecx\n\tshll $4, %2\n\t"
-			  "movzwl %%dx, %%edx\n\tshll $4, %3\n\t"
-			  : "=a" (ai->apm_code32_base),
-			    "=b" (f),
-			    "=c" (ai->apm_code16_base),
-			    "=d" (ai->apm_data_base)
-			  : "0" (APM_REAL_CONNECT), "1" (APM_DEV_APM_BIOS)
-			  : "cc");
-	ai->apm_entry    = BIOS_regs.biosr_bx;
-#if 0
-	ai->apm_code_len = BIOS_regs.biosr_si & 0xffff;
-	ai->apm_data_len = BIOS_regs.biosr_di & 0xffff;
-#else
-	ai->apm_code_len = 0x10000;
-	ai->apm_data_len = 0x10000;
-#endif
-	if (!(f & 0xff)) apm_is_connected = 1;
-	return (f & 0xff)? f >> 8 : 0;
-}
-
 static bios_apminfo_t ai;
-
-static __inline int
-apm_set_power_state(int devices, int how)
-{
-	register u_int16_t rv;
-	__asm __volatile(DOINT(0x15) "\n\t"
-			 "setc %b0"
-			 : "=a" (rv)
-			 : "0" (APM_SET_PWR_STATE), "b" (devices), "c" (how)
-			 : "%edx", "cc");
-	return (rv & 0xff)? rv >> 8 : 0;
-}
 
 void
 apmprobe(void)
@@ -224,12 +171,14 @@ apmprobe(void)
 		apm_disconnect();
 
 		if (apm_connect(&ai) != 0) {
+#ifdef DEBUG
 			printf("\napm: connect error\n");
+#endif
 			return;
 		}
 #ifdef DEBUG
 		if (debug)
-			printf("apm[%X cs=%X[%X]/%X[%X] ds=%X[%X] @ %X]",
+			printf("apm[%x cs=%x[%x]/%x[%x] ds=%x[%x] @ %x]",
 			    ai.apm_detail,
 			    ai.apm_code32_base, ai.apm_code_len,
 			    ai.apm_code16_base, ai.apm_code16_len,
@@ -251,58 +200,6 @@ apmfixmem(void)
 	printf("apmremove (%d)", ai.apm_detail);
 #endif
 	if (ai.apm_detail)
-		mem_delete(i386_trunc_page(ai.apm_data_base),
-		    i386_round_page(ai.apm_data_base + ai.apm_data_len));
-}
-
-void
-apmturnoff(int a1, int a2)
-{
-	bios_apminfo_t ai;
-	int f;
-
-	if (a1 == -1) a1 = APM_DEV_ALLDEVS;
-	if (a2 == -1) a2 = APM_SYS_OFF;
-	if ((ai.apm_detail = apm_check())) {
-
-		apm_disconnect();
-		if (apm_connect_real(&ai) != 0)
-			printf("apmturnoff: connect error\n");
-		else {
-			f = apm_driver_version(0x0102);
-			if (f) {
-				f = apm_driver_version(0x0101);
-#ifdef DEBUG
-				if (f)
-					printf ("apmturnoff: driver_version returned %X\n", f);
-				  else	printf ("apmturnoff: 1.1 connection\n");
-#endif
-			}
-
-			f = apm_set_power_state(a1, a2);
-#ifdef DEBUG
-			printf ("apmturnoff: apm_set_power_state returned %X\n",
-				 f);
-			printf ("apmturnoff: detail=%X\n",
-				ai.apm_detail);
-#endif
-		}
-#ifdef DEBUG
-	} else {
-		printf ("apmturnoff: apm_check returned 0\n");
-#endif
-	}
-}
-
-/*
- *	if we are booting into DOS, we should not
- *	leave apm connected in "real mode".  Try to
- *	leave apm in the "reset" state.
- */
-
-void
-apm_reset(void)
-{
-	if (apm_is_connected)
-		apm_disconnect();
+		mem_delete(trunc_page(ai.apm_data_base),
+		    round_page(ai.apm_data_base + ai.apm_data_len));
 }

@@ -1,4 +1,3 @@
-/**	$MirOS: src/sys/lib/libsa/cread.c,v 1.2 2005/03/06 21:28:07 tg Exp $	*/
 /*	$OpenBSD: cread.c,v 1.12 2004/04/02 04:39:51 deraadt Exp $	*/
 /*	$NetBSD: cread.c,v 1.2 1997/02/04 18:38:20 thorpej Exp $	*/
 
@@ -209,7 +208,7 @@ open(const char *fname, int mode)
 	ss[fd] = s = alloc(sizeof(struct sd));
 	if (!s)
 		goto errout;
-	memset(s, 0, sizeof(struct sd));
+	bzero(s, sizeof(struct sd));
 
 #ifdef SAVE_MEMORY
 	if (inflateInit2(&(s->stream), -11) != Z_OK)
@@ -408,7 +407,7 @@ lseek(int fd, off_t offset, int where)
 			inflateEnd(&(s->stream));
 
 			sav_inbuf = s->inbuf; /* don't allocate again */
-			memset(s, 0, sizeof(struct sd)); /* this resets total_out to 0! */
+			bzero(s, sizeof(struct sd)); /* this resets total_out to 0! */
 
 			inflateInit2(&(s->stream), -15);
 			s->stream.next_in = s->inbuf = sav_inbuf;

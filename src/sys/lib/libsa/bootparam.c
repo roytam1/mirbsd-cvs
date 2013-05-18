@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/lib/libsa/bootparam.c,v 1.2 2005/03/06 21:28:07 tg Exp $ */
 /*	$OpenBSD: bootparam.c,v 1.11 2003/08/11 06:23:09 deraadt Exp $	*/
 /*	$NetBSD: bootparam.c,v 1.10 1996/10/14 21:16:55 thorpej Exp $	*/
 
@@ -332,7 +332,7 @@ xdr_string_encode(char **pkt, char *str, int len)
 
 	datap = *pkt;
 	*pkt += padlen;
-	memmove(datap, str, len);
+	bcopy(str, datap, len);
 
 	return (0);
 }
@@ -355,7 +355,7 @@ xdr_string_decode(char **pkt, char *str, int *len_p)
 		slen = *len_p;
 	datap = *pkt;
 	*pkt += plen;
-	memmove(str, datap, slen);
+	bcopy(datap, str, slen);
 
 	str[slen] = '\0';
 	*len_p = slen;

@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/stand/boot/vars.c,v 1.3 2007/10/01 20:41:39 tg Exp $ */
-/*	$OpenBSD: vars.c,v 1.11 2004/01/29 00:54:08 tom Exp $	*/
+/**	$MirOS: src/sys/stand/boot/vars.c,v 1.4 2007/10/01 21:09:01 tg Exp $ */
+/*	$OpenBSD: vars.c,v 1.13 2005/05/24 20:48:35 uwe Exp $	*/
 
 /*
  * Copyright (c) 1998-2000 Michael Shalayeff
@@ -159,6 +159,8 @@ Xtty(void)
 			if (cnset(dev))
 				printf("%s console not present\n",
 				    cmd.argv[1]);
+			else
+				printf("%s\n", prog_ident);
 		}
 	}
 	return 0;
@@ -247,7 +249,7 @@ Xenv(void)
 {
 	if (cmd.argc == 1) {
 		if (environ)
-			printf(environ);
+			printf("%s", environ);
 		else
 			printf("empty\n");
 	} else {

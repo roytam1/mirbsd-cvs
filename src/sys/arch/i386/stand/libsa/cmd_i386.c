@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.2 2005/03/06 21:27:05 tg Exp $	*/
-/*	$OpenBSD: cmd_i386.c,v 1.28 2004/03/09 19:12:12 tom Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.3 2006/08/19 14:20:30 tg Exp $	*/
+/*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
  * Copyright (c) 1997-1999 Michael Shalayeff
@@ -50,7 +50,6 @@ int Xdiskinfo(void);
 int Xmemory(void);
 #ifndef SMALL_BOOT
 int Xregs(void);
-int Xturnoff(void);
 #endif
 int Xoldbios(void);
 
@@ -93,27 +92,6 @@ Xregs(void)
 #endif
 
 int
-Xturnoff(void)
-{
-	int a1, a2;
-	a1 = a2 = -1;
-	switch(cmd.argc)
-	{
-	case 0:
-		printf("machine off [dev [how] ]\n");
-		return 0;
-	case 1:
-		break;
-	case 3:
-		a2 = strtol(cmd.argv[2], NULL, 0);
-	case 2:
-		a1 = strtol(cmd.argv[1], NULL, 0);
-	}
-	apmturnoff(a1, a2);
-	return 0;
-}
-
-int
 Xboot(void)
 {
 #ifndef _TEST
@@ -145,10 +123,10 @@ Xboot(void)
 	dev += (cmd.argv[1][2] - '0');
 	part = (cmd.argv[1][3] - 'a');
 
-	if (part >= 0)
-		printf("[%X,%d]\n", dev, part);
+	if (part > 0)
+		printf("[%x,%d]\n", dev, part);
 	else
-		printf("[%X]\n", dev);
+		printf("[%x]\n", dev);
 
 	/* Read boot sector from device */
 	bd = bios_dklookup(dev);
@@ -157,7 +135,7 @@ Xboot(void)
 		goto bad;
 
 	/* Frob boot flag in buffer from HD */
-	if((dev & 0x80) && (part >= 0)) {
+	if ((dev & 0x80) && (part > 0)){
 		int i, j;
 
 		for (i = 0, j = DOSPARTOFF; i < 4; i++, j += 16)
@@ -166,10 +144,9 @@ Xboot(void)
 			else
 				buf[j] &= ~0x80;
 	}
-	apm_reset();
 
 	/* Load %dl, ljmp */
-	memmove(dest, buf, DEV_BSIZE);
+	bcopy(buf, dest, DEV_BSIZE);
 	bootbuf(dest, dev);
 
 bad:
@@ -188,13 +165,13 @@ Xmemory(void)
 
 		for (i = 1; i < cmd.argc; i++) {
 			char *p;
-			long addr, size;
+			long long addr, size;
 
 			p = cmd.argv[i];
 
-			size = strtol(p + 1, &p, 0);
+			size = strtoll(p + 1, &p, 0);
 			if (*p && *p == '@')
-				addr = strtol(p + 1, NULL, 0);
+				addr = strtoll(p + 1, NULL, 0);
 			else
 				addr = 0;
 			if (addr == 0 && (*p != '@' || size == 0)) {

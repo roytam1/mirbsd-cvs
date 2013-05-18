@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.4 2005/07/07 12:27:27 tg Exp $ */
-/*	$OpenBSD: diskprobe.c,v 1.27 2004/06/23 00:21:49 tom Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.5 2006/08/19 14:20:30 tg Exp $ */
+/*	$OpenBSD: diskprobe.c,v 1.29 2007/06/18 22:11:20 krw Exp $	*/
 
 /*
  * Copyright (c) 1997 Tobias Weingartner
  * Copyright (c) 2002, 2003
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,7 +69,7 @@ floppyprobe(void)
 	/* Floppies */
 	for (i = 0; i < 4; i++) {
 		dip = alloc(sizeof(struct diskinfo));
-		memset(dip, 0, sizeof(*dip));
+		bzero(dip, sizeof(*dip));
 
 		if (bios_getdiskinfo(i, &dip->bios_info)) {
 #ifdef BIOS_DEBUG
@@ -84,7 +84,13 @@ floppyprobe(void)
 
 		/* Fill out best we can - (fd?) */
 		dip->bios_info.bsd_dev = MAKEBOOTDEV(2, 0, 0, i, RAW_PART);
-		/* Defer disklabel lookup until it is needed */
+
+		/*
+		 * Delay reading the disklabel until we're sure we want
+		 * to boot from the floppy. Doing this avoids a delay
+		 * (sometimes very long) when trying to read the label
+		 * and the drive is unplugged.
+		 */
 		dip->bios_info.flags |= BDI_BADLABEL;
 
 		/* Add to queue of disks */
@@ -123,7 +129,7 @@ hardprobe(void)
 #endif
 
 		dip = alloc(sizeof(struct diskinfo));
-		memset(dip, 0, sizeof(*dip));
+		bzero(dip, sizeof(*dip));
 
 		if (bios_getdiskinfo(i, &dip->bios_info)) {
 #ifdef BIOS_DEBUG
@@ -137,7 +143,7 @@ hardprobe(void)
 		printf(" hd%u%s", i&0x7f, (dip->bios_info.bios_edd > 0?"+":""));
 
 		/* Try to find the label, to figure out device type */
-		if (bios_getdisklabel(&dip->bios_info, &dip->disklabel) != NULL) {
+		if ((bios_getdisklabel(&dip->bios_info, &dip->disklabel)) ) {
 			printf("*");
 			bsdunit = ide++;
 			type = 0;	/* XXX let it be IDE */
@@ -219,6 +225,85 @@ diskprobe(void)
 	addbootarg(BOOTARG_DISKINFO, i * sizeof(bios_diskinfo_t),
 	    bios_diskinfo);
 }
+
+
+#ifdef notdef
+void
+cdprobe(void)
+{
+	struct diskinfo *dip;
+	int cddev = bios_cddev & 0xff;
+
+	/* Another BIOS boot device... */
+
+	if (bios_cddev == -1)			/* Not been set, so don't use */
+		return;
+
+	dip = alloc(sizeof(struct diskinfo));
+	bzero(dip, sizeof(*dip));
+
+#if 0
+	if (bios_getdiskinfo(cddev, &dip->bios_info)) {
+		printf(" <!cd0>");	/* XXX */
+		free(dip, 0);
+		return;
+	}
+#endif
+
+	printf(" cd0");
+
+	dip->bios_info.bios_number = cddev;
+	dip->bios_info.bios_edd = 1;		/* Use the LBA calls */
+	dip->bios_info.flags |= BDI_GOODLABEL | BDI_EL_TORITO;
+	dip->bios_info.checksum = 0;		 /* just in case */
+	dip->bios_info.bsd_dev =
+	    MAKEBOOTDEV(0, 0, 0, 0xff, RAW_PART);
+
+	/* Create an imaginary disk label */
+	dip->disklabel.d_secsize = 2048;
+	dip->disklabel.d_ntracks = 1;
+	dip->disklabel.d_nsectors = 100;
+	dip->disklabel.d_ncylinders = 1;
+	dip->disklabel.d_secpercyl = dip->disklabel.d_ntracks *
+	    dip->disklabel.d_nsectors;
+	if (dip->disklabel.d_secpercyl == 0) {
+		dip->disklabel.d_secpercyl = 100;
+		/* as long as it's not 0, since readdisklabel divides by it */
+	}
+
+	strncpy(dip->disklabel.d_typename, "ATAPI CD-ROM",
+	    sizeof(dip->disklabel.d_typename));
+	dip->disklabel.d_type = DTYPE_ATAPI;
+
+	strncpy(dip->disklabel.d_packname, "fictitious",
+	    sizeof(dip->disklabel.d_packname));
+	dip->disklabel.d_secperunit = 100;
+	dip->disklabel.d_rpm = 300;
+	dip->disklabel.d_interleave = 1;
+
+	dip->disklabel.d_bbsize = 2048;
+	dip->disklabel.d_sbsize = 2048;
+
+	/* 'a' partition covering the "whole" disk */
+	dip->disklabel.d_partitions[0].p_offset = 0;
+	dip->disklabel.d_partitions[0].p_size = 100;
+	dip->disklabel.d_partitions[0].p_fstype = FS_UNUSED;
+
+	/* The raw partition is special */
+	dip->disklabel.d_partitions[RAW_PART].p_offset = 0;
+	dip->disklabel.d_partitions[RAW_PART].p_size = 100;
+	dip->disklabel.d_partitions[RAW_PART].p_fstype = FS_UNUSED;
+
+	dip->disklabel.d_npartitions = RAW_PART + 1;
+
+	dip->disklabel.d_magic = DISKMAGIC;
+	dip->disklabel.d_magic2 = DISKMAGIC;
+	dip->disklabel.d_checksum = dkcksum(&dip->disklabel);
+
+	/* Add to queue of disks */
+	TAILQ_INSERT_TAIL(&disklist, dip, list);
+}
+#endif
 
 
 /* Find info on given BIOS disk */

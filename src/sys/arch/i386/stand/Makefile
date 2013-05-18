@@ -1,5 +1,5 @@
-# $MirOS: src/sys/arch/i386/stand/Makefile,v 1.11 2007/02/26 00:13:26 tg Exp $
-# $OpenBSD: Makefile,v 1.12 2004/06/23 00:29:56 tom Exp $
+# $MirOS: src/sys/arch/i386/stand/Makefile,v 1.12 2007/02/26 02:11:32 tg Exp $
+# $OpenBSD: Makefile,v 1.15 2007/11/25 18:25:31 deraadt Exp $
 
 .if ${MACHINE_ARCH} == "i386"
   SUBDIR+=	etc libsa libz
@@ -22,6 +22,7 @@ zero-${_i}:
 
 prep-${_i}:
 	${SUDO} disklabel -rw ${_i} floppy
+#	${SUDO} newfs -O 0 -m 0 -o space -i 3000 -c 80 /dev/r${_i}a
 	${SUDO} newfs -O -m 0 -o space -i 3000 -c 80 /dev/r${_i}a
 .endfor
 

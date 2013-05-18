@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.3 2005/04/29 18:34:59 tg Exp $	*/
-/*	$OpenBSD: dev_i386.c,v 1.29 2004/06/23 00:21:49 tom Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.4 2006/08/19 14:20:30 tg Exp $	*/
+/*	$OpenBSD: dev_i386.c,v 1.30 2007/06/27 20:29:37 mk Exp $	*/
 
 /*
  * Copyright (c) 1996-1999 Michael Shalayeff
@@ -37,7 +37,7 @@ extern u_int32_t tori_bootflag;
 
 /* XXX use slot for 'rd' for 'hd' pseudo-device */
 const char bdevs[][4] = {
-	"wd", "", "fd", "wt", "sd", "st", "cd", "mcd",
+	"wd", "", "fd", "", "sd", "st", "cd", "mcd",
 	"", "", "", "", "", "", "", "scd", "", "hd", ""
 };
 const int nbdevs = NENTS(bdevs);

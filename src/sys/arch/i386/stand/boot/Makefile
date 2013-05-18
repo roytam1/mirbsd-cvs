@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.11 2006/10/15 01:35:53 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.12 2007/05/24 21:03:53 tg Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
@@ -18,7 +18,7 @@ COPTS+=		${SACFLAGS:N-[DI]*}
 #AFLAGS+=	-Wa,-a
 
 MAN=	boot.8
-MLINKS=	boot.8 boot.cfg.8
+MLINKS=	boot.8 boot.cfg.5
 
 .if ${MACHINE_ARCH} == "i386"
 PROG=		boot

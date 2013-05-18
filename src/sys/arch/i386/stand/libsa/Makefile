@@ -1,5 +1,5 @@
-# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.11 2007/02/08 07:42:10 tg Exp $
-# $OpenBSD: Makefile,v 1.44 2004/06/26 05:19:37 tom Exp $
+# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.12 2007/03/02 03:13:26 tg Exp $
+# $OpenBSD: Makefile,v 1.47 2007/05/30 01:25:43 tom Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
@@ -21,7 +21,8 @@ SMALL=		#defined
 .include "${KERNBASE}/z/Makefile.adler32"
 
 # i386 stuff (so, it will possibly load in the same 64k)
-SRCS+=	machdep.c dev_i386.c exec_i386.c cmd_i386.c loadfile.c
+SRCS+=	machdep.c dev_i386.c exec_i386.c cmd_i386.c loadfile.c elf32.c
+#SRCS+=	elf64.c
 
 .if defined(DEBUGFLAGS) && !empty(DEBUGFLAGS:M-D_TEST)
 SRCS+=	unixdev.c unixsys.S nullfs.c memprobe.c
@@ -41,7 +42,7 @@ CLEANFILES+=	unixdev.o unixsys.o nullfs.o
 # stand routines
 SRCS+=	alloc.c exit.c getfile.c gets.c globals.c strcmp.c strlen.c \
 	strncmp.c memcmp.c memset.c printf.c snprintf.c \
-	strerror.c strncpy.c strtol.c ctime.c strlfun.c
+	strerror.c strncpy.c strtol.c strtoll.c ctime.c strlfun.c
 
 # io routines
 SRCS+=	close.c closeall.c dev.c disklabel.c dkcksum.c fstat.c ioctl.c lseek.c \

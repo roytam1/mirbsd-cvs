@@ -1,5 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/pxe.c,v 1.2 2005/03/06 21:27:07 tg Exp $	*/
-/*	$OpenBSD: pxe.c,v 1.3 2005/03/13 22:07:23 tom Exp $ */
+/*	$OpenBSD: pxe.c,v 1.5 2007/07/27 17:46:56 tom Exp $ */
 /*	$NetBSD: pxe.c,v 1.5 2003/03/11 18:29:00 drochner Exp $	*/
 
 /*
@@ -98,6 +97,9 @@
 #include <lib/libsa/net.h>
 #include <lib/libsa/bootp.h>
 
+#include <stand/boot/bootarg.h>
+#include <machine/biosvar.h>
+
 #include "pxeboot.h"
 #include "pxe.h"
 #include "pxe_netif.h"
@@ -112,6 +114,8 @@ char pxe_command_buf[256];
 BOOTPLAYER bootplayer;
 
 struct in_addr servip;			/* for tftp */	/* XXX init this */
+
+extern char *bootmac;			/* To pass to kernel */
 
 /* static struct btinfo_netif bi_netif; */
 
@@ -162,7 +166,7 @@ pxereadudp(struct iodesc *d, void *pkt, size_t len, time_t tleft)
 	uh = (struct udphdr *)pkt - 1;
 	ip = (struct ip *)uh - 1;
 
-	memset(ur, 0, sizeof(*ur));
+	bzero(ur, sizeof(*ur));
 
 	ur->dest_ip = d->myip.s_addr;
 	ur->d_port = d->myport;
@@ -215,19 +219,20 @@ pxe_netif_open()
 	}
 	/* BI_ADD(&bi_netif, BTINFO_NETIF, sizeof(bi_netif)); */
 
-	memset(uo, 0, sizeof(*uo));
+	bzero(uo, sizeof(*uo));
 
 	uo->src_ip = bootplayer.yip;
 
 	pxe_call(PXENV_UDP_OPEN);
 
 	if (uo->status != PXENV_STATUS_SUCCESS) {
-		printf("pxe_netif_open: PXENV_UDP_OPEN failed: 0x%x\n",
+		printf("\npxe_netif_open: PXENV_UDP_OPEN failed: 0x%x\n",
 		    uo->status);
 		return -1;
 	}
 
-	memmove(desc.myea, bootplayer.CAddr, ETHER_ADDR_LEN);
+	bcopy(bootplayer.CAddr, desc.myea, ETHER_ADDR_LEN);
+	bootmac = bootplayer.CAddr;
 
 	/*
 	 * Since the PXE BIOS has already done DHCP, make sure we
@@ -420,7 +425,7 @@ pxe_init(int quiet)
 	/*
 	 * Get the cached info from the server's Discovery reply packet.
 	 */
-	memset(gci, 0, sizeof(*gci));
+	bzero(gci, sizeof(*gci));
 	gci->PacketType = PXENV_PACKET_TYPE_CACHED_REPLY;
 	pxe_call(PXENV_GET_CACHED_INFO);
 
@@ -430,12 +435,12 @@ pxe_init(int quiet)
 		return 1;
 	}
 
-	memmove(&bootplayer,
+	memcpy(&bootplayer,
 	    SEGOFF2FLAT(gci->Buffer.segment, gci->Buffer.offset),
 	    gci->BufferSize);
 
-	memmove(&myip.s_addr, &bootplayer.yip, sizeof(myip.s_addr));
-	memmove(&servip.s_addr, &bootplayer.sip, sizeof(servip.s_addr));
+	bcopy(&bootplayer.yip, &myip.s_addr, sizeof(myip.s_addr));
+	bcopy(&bootplayer.sip, &servip.s_addr, sizeof(servip.s_addr));
 
         /* Compute our "natural" netmask. */
 	if (IN_CLASSA(myip.s_addr))
@@ -466,7 +471,7 @@ pxeinfo(void)
 	/*
 	 * Get network interface information.
 	 */
-	memset(gnt, 0, sizeof(*gnt));
+	bzero(gnt, sizeof(*gnt));
 	pxe_call(PXENV_UNDI_GET_NIC_TYPE);
 
 	if (gnt->Status != PXENV_STATUS_SUCCESS) {

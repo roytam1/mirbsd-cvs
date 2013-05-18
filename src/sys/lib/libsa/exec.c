@@ -1,4 +1,3 @@
-/**	$MirOS$	*/
 /*	$OpenBSD: exec.c,v 1.26 2003/08/11 06:23:09 deraadt Exp $	*/
 /*	$NetBSD: exec.c,v 1.15 1996/10/13 02:29:01 christos Exp $	*/
 
@@ -85,7 +84,7 @@ exec(char *path, void *loadaddr, int howto)
 	addr = loadaddr;
 	sz = x.a_text;
 	if (N_GETMAGIC(x) == ZMAGIC) {
-		memmove(addr, (char *)&x, sizeof x);
+		bcopy((char *)&x, addr, sizeof x);
 		addr += sizeof x;
 		sz -= sizeof x;
 	}
@@ -118,7 +117,7 @@ exec(char *path, void *loadaddr, int howto)
 	/* Symbols */
 	if (x.a_syms) {
 		ssym = addr;
-		memmove(addr, &x.a_syms, sizeof(x.a_syms));
+		bcopy(&x.a_syms, addr, sizeof(x.a_syms));
 		addr += sizeof(x.a_syms);
 		printf("+[%u", x.a_syms);
 		if (read(io, addr, x.a_syms) != (ssize_t)x.a_syms)
@@ -128,7 +127,7 @@ exec(char *path, void *loadaddr, int howto)
 		if (read(io, &i, sizeof(u_int)) != sizeof(u_int))
 			goto shread;
 
-		memmove(addr, &i, sizeof(u_int));
+		bcopy(&i, addr, sizeof(u_int));
 		if (i) {
 			sz = i - sizeof(int);
 			addr += sizeof(int);

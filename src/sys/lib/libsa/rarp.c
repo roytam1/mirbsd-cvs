@@ -1,4 +1,3 @@
-/**	$MirOS$	*/
 /*	$OpenBSD: rarp.c,v 1.10 2003/08/11 06:23:09 deraadt Exp $	*/
 /*	$NetBSD: rarp.c,v 1.13 1996/10/13 02:29:05 christos Exp $	*/
 
@@ -91,15 +90,15 @@ rarp_getipaddress(int sock)
 		printf("rarp: d=%x\n", (u_int)d);
 #endif
 
-	memset((char *)&wbuf.data, 0, sizeof(wbuf.data));
+	bzero((char *)&wbuf.data, sizeof(wbuf.data));
 	ap = &wbuf.data.arp;
 	ap->arp_hrd = htons(ARPHRD_ETHER);
 	ap->arp_pro = htons(ETHERTYPE_IP);
 	ap->arp_hln = sizeof(ap->arp_sha); /* hardware address length */
 	ap->arp_pln = sizeof(ap->arp_spa); /* protocol address length */
 	ap->arp_op = htons(ARPOP_REVREQUEST);
-	memmove(ap->arp_sha, d->myea, 6);
-	memmove(ap->arp_tha, d->myea, 6);
+	bcopy(d->myea, ap->arp_sha, 6);
+	bcopy(d->myea, ap->arp_tha, 6);
 
 	if (sendrecv(d,
 	    rarpsend, &wbuf.data, sizeof(wbuf.data),
@@ -110,10 +109,10 @@ rarp_getipaddress(int sock)
 	}
 
 	ap = &rbuf.data.arp;
-	memmove((char *)&myip, ap->arp_tpa, sizeof(myip));
+	bcopy(ap->arp_tpa, (char *)&myip, sizeof(myip));
 #if 0
 	/* XXX - Can NOT assume this is our root server! */
-	memmove((char *)&rootip, ap->arp_spa, sizeof(rootip));
+	bcopy(ap->arp_spa, (char *)&rootip, sizeof(rootip));
 #endif
 
 	/* Compute our "natural" netmask. */
@@ -199,7 +198,7 @@ rarprecv(struct iodesc *d, void *pkt, size_t len, time_t tleft)
 	}
 
 	/* Is the reply for our Ethernet address? */
-	if (memcmp(d->myea, ap->arp_tha, 6)) {
+	if (bcmp(ap->arp_tha, d->myea, 6)) {
 #ifdef RARP_DEBUG
 		if (debug)
 			printf("unwanted address\n");

@@ -1,4 +1,4 @@
-/*	$OpenBSD: exec_i386.c,v 1.30 2004/03/19 13:48:18 tom Exp $	*/
+/*	$OpenBSD: exec_i386.c,v 1.32 2007/07/27 17:46:56 tom Exp $	*/
 
 /*
  * Copyright (c) 1997-1998 Michael Shalayeff
@@ -40,14 +40,13 @@
 typedef void (*startfuncp)(int, int, int, int, int, int, int, int)
     __attribute__ ((noreturn));
 
+char *bootmac = NULL;
+
 void
 run_loadfile(u_long *marks, int howto)
 {
 	u_long entry;
 #ifndef _TEST
-#ifdef EXEC_DEBUG
-	extern int debug;
-#endif
 	dev_t bootdev = bootdev_dip->bootdev;
 	size_t ac = BOOTARG_LEN;
 	caddr_t av = (caddr_t)BOOTARG_OFF;
@@ -61,6 +60,9 @@ run_loadfile(u_long *marks, int howto)
 	cd.conspeed = com_speed;
 	addbootarg(BOOTARG_CONSDEV, sizeof(cd), &cd);
 
+	if (bootmac != NULL)
+		addbootarg(BOOTARG_BOOTMAC, sizeof(bios_bootmac_t), bootmac);
+
 	/* Pass memory map to the kernel */
 	mem_pass();
 
@@ -68,7 +70,7 @@ run_loadfile(u_long *marks, int howto)
 
 	entry = marks[MARK_ENTRY] & 0x0fffffff;
 
-	printf("entry point at 0x%X\n", (int) entry);
+	printf("entry point at 0x%x\n", (int) entry);
 	/* stack and the gung is ok at this point, so, no need for asm setup */
 	(*(startfuncp)entry)(howto, bootdev, BOOTARG_APIVER,
 	    marks[MARK_END], extmem, cnvmem, ac, (int)av);

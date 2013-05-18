@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/stand/boot/boot.c,v 1.10 2006/11/21 02:53:39 tg Exp $	*/
-/*	$OpenBSD: boot.c,v 1.30 2004/01/29 00:54:08 tom Exp $	*/
+/**	$MirOS: src/sys/stand/boot/boot.c,v 1.11 2007/08/24 13:59:58 tg Exp $	*/
+/*	$OpenBSD: boot.c,v 1.36 2007/06/26 10:34:41 tom Exp $	*/
 
 /*
  * Copyright (c) 2002, 2003, 2004, 2006 Thorsten Glaser
@@ -52,7 +52,7 @@ static const char *const kernels[] = {
 char prog_ident[40];
 char *progname = "BOOT";
 
-extern const char version[];
+extern	const char version[];
 struct cmd_state cmd;
 int bootprompt = 1;
 uint32_t hook_value = 0;
@@ -61,7 +61,7 @@ void
 boot(dev_t bootdev)
 {
 	const char *bootfile = kernels[0];
-	int i = 0, try = 0, st = -1;
+	int fd, i = 0, try = 0, st = -1;
 	u_long marks[MARK_MAX];
 #ifdef IN_PXEBOOT
 	uint32_t ip;
@@ -133,14 +133,16 @@ boot(dev_t bootdev)
 		if (bootprompt && st <= 0)
 			do {
 				printf("boot> ");
-			} while (!getcmd());
+			} while(!getcmd());
 		st = 0;
 		bootprompt = 1;	/* allow reselect should we fail */
 
 		printf("booting %s: ", cmd.path);
 		marks[MARK_START] = (u_long)cmd.addr;
-		if (loadfile(cmd.path, marks, LOAD_ALL) >= 0)
+		if ((fd = loadfile(cmd.path, marks, LOAD_ALL)) != -1) {
+			close(fd);
 			break;
+		}
 
 		if (kernels[++i] == NULL) {
 			try += 1;

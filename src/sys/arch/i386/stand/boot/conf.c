@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.7 2006/08/19 14:20:28 tg Exp $ */
-/*	$OpenBSD: conf.c,v 1.32 2005/05/03 13:18:05 tom Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/boot/conf.c,v 1.8 2007/05/24 21:38:04 tg Exp $ */
+/*	$OpenBSD: conf.c,v 1.39 2008/04/19 23:20:22 weingart Exp $	*/
 
 /*
  * Copyright (c) 1996 Michael Shalayeff
@@ -25,7 +25,6 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- *
  */
 
 #include <sys/types.h>
@@ -48,7 +47,7 @@
 const char version[] = __BOOT_VER;
 int	debug = 1;
 
-void (*sa_cleanup)(void) = (void *)0UL;
+void (*sa_cleanup)(void) = NULL;
 
 void (*i386_probe1[])(void) = {
 	ps2probe, gateA20on, /* debug_init, */ cninit,
@@ -116,6 +115,6 @@ struct consdev constab[] = {
 	{ pc_probe, pc_init, pc_getc, pc_putc },
 	{ com_probe, com_init, com_getc, com_putc },
 #endif
-	{ 0 }
+	{ NULL }
 };
 struct consdev *cn_tab = constab;

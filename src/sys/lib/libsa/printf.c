@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/lib/libsa/printf.c,v 1.2 2005/03/06 21:28:08 tg Exp $	*/
-/*	$OpenBSD: printf.c,v 1.23 2004/09/22 22:05:11 miod Exp $	*/
+/**	$MirOS: src/sys/lib/libsa/printf.c,v 1.3 2005/07/21 21:52:23 tg Exp $	*/
+/*	$OpenBSD: printf.c,v 1.24 2006/09/18 21:11:50 mpf Exp $	*/
 /*	$NetBSD: printf.c,v 1.10 1996/11/30 04:19:21 gwr Exp $	*/
 
 /*-
@@ -67,6 +67,8 @@ void kprintn(void (*)(int), u_long, int);
 void kprintn64(void (*)(int), u_int64_t, int);
 #endif
 void kdoprnt(void (*)(int), const char *, va_list);
+
+const char hexdig[] = "0123456789ABCDEF";
 
 void
 printf(const char *fmt, ...)
@@ -196,7 +198,23 @@ reswitch:	switch (ch = *fmt++) {
 				ull = va_arg(ap, u_int64_t);
 				kprintn64(put, ull, 16);
 				break;
-			} 
+			}
+#else
+ 			if (lflag > 1) {
+				/* hold an int64_t in base 16 */
+				char *p, buf[(sizeof(u_int64_t) * NBBY / 4) + 1];
+				u_int64_t ull;
+
+ 				ull = va_arg(ap, u_int64_t);
+				p = buf;
+				do {
+					*p++ = hexdig[ull & 15];
+				} while (ull >>= 4);
+				do {
+					put(*--p);
+				} while (p > buf);
+ 				break;
+ 			}
 #endif
 			ul = lflag ?
 			    va_arg(ap, u_long) : va_arg(ap, u_int);
@@ -224,7 +242,7 @@ kprintn(void (*put)(int), unsigned long ul, int base)
 
 	p = buf;
 	do {
-		*p++ = "0123456789ABCDEF"[ul % base];
+		*p++ = hexdig[ul % base];
 	} while (ul /= base);
 	do {
 		put(*--p);
@@ -240,7 +258,7 @@ kprintn64(void (*put)(int), u_int64_t ull, int base)
 
 	p = buf;
 	do {
-		*p++ = "0123456789abcdef"[ull % base];
+		*p++ = hexdig[ull % base];
 	} while (ull /= base);
 	do {
 		put(*--p);

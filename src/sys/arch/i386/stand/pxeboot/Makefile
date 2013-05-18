@@ -1,5 +1,5 @@
-# $MirOS: src/sys/arch/i386/stand/pxeboot/Makefile,v 1.6 2006/10/15 01:35:54 tg Exp $
-# $OpenBSD: Makefile,v 1.1 2004/03/19 13:48:19 tom Exp $
+# $MirOS: src/sys/arch/i386/stand/pxeboot/Makefile,v 1.7 2007/05/24 21:03:53 tg Exp $
+# $OpenBSD: Makefile,v 1.3 2007/11/25 18:25:32 deraadt Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 

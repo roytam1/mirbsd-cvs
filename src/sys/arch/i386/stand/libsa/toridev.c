@@ -1,11 +1,11 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/toridev.c,v 1.1.7.1 2005/03/06 16:33:43 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.68 2004/03/09 19:12:12 tom Exp $	*/
 
 /*
  * Copyright (c) 1996 Michael Shalayeff
  * Copyright (c) 2003 Tobias Weingartner
  * Copyright (c) 2002, 2003, 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

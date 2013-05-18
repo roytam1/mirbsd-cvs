@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.2 2005/03/06 21:28:33 tg Exp $ */
-/*	$OpenBSD: cmd.h,v 1.14 2003/08/11 06:23:07 deraadt Exp $	*/
+/**	$MirOS: src/sys/stand/boot/cmd.h,v 1.3 2006/10/13 19:18:04 tg Exp $ */
+/*	$OpenBSD: cmd.h,v 1.16 2007/06/13 02:17:32 drahn Exp $	*/
 
 /*
  * Copyright (c) 1997 Michael Shalayeff
@@ -28,6 +28,8 @@
  *
  */
 
+#define CMD_BUFF_SIZE		133
+#define BOOTDEVLEN		64 /* 1024 */
 
 struct cmd_table {
 	char *cmd_name;
@@ -40,7 +42,7 @@ struct cmd_table {
 };
 
 struct cmd_state {
-	char bootdev[16]; /* device */
+	char bootdev[BOOTDEVLEN]; /* device */
 	char image[MAXPATHLEN - 16]; /* image */
 	int  boothowto; /* howto */
 	char *conf; /* /boot.cfg normally */
@@ -62,3 +64,5 @@ int getcmd(void);
 int read_conf(void);
 int bootparse(int);
 void boot(dev_t);
+
+int docmd(void);		/* No longer static: needed by regress test */

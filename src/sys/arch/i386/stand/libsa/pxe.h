@@ -1,4 +1,4 @@
-/*	$OpenBSD: pxe.h,v 1.2 2004/09/20 17:51:07 miod Exp $ */
+/*	$OpenBSD: pxe.h,v 1.3 2007/11/25 20:00:03 martynas Exp $ */
 /*	$NetBSD: pxe.h,v 1.1 2002/02/16 03:37:40 thorpej Exp $	*/
 
 /*
@@ -47,18 +47,16 @@
 #define	MAC_ARGS(mac)					\
 	mac[0], mac[1], mac[2], mac[3], mac[4], mac[5] 
 
-#pragma pack(1)
 typedef struct {
 	uint16_t		offset;
 	uint16_t		segment;
-} SEGOFF16_t;
+} SEGOFF16_t __attribute__((__packed__));
 
 typedef struct {
 	uint16_t		Seg_Addr;
 	uint32_t		Phy_Addr;
 	uint16_t		Seg_Size;
-} SEGDESC_t;
-#pragma pack(0)
+} SEGDESC_t __attribute__((__packed__));
 
 typedef	uint16_t		SEGSEL_t;
 typedef	uint16_t		PXENV_STATUS_t;
@@ -143,7 +141,7 @@ typedef struct {
 	ADDR32_t	ProtocolIni;	/* Phys addr of a copy of the
 					   driver module */
 	uint8_t		reserved[8];
-} __attribute__((__packed__)) t_PXENV_UNDI_INITALIZE;
+} __attribute__((__packed__)) t_PXENV_UNDI_INITIALIZE;
 
 
 #define	MAXNUM_MCADDR		8

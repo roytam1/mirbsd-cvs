@@ -1,5 +1,5 @@
-# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.11 2007/02/08 07:42:10 tg Exp $
-# $OpenBSD: Makefile.inc,v 1.36 2004/07/24 17:39:27 millert Exp $
+# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.12 2007/05/24 21:03:52 tg Exp $
+# $OpenBSD: Makefile.inc,v 1.40 2007/11/26 10:26:02 deraadt Exp $
 
 .ifndef MODSRC_SYS_ARCH_I386_STAND_MAKEFILE_INC
 MODSRC_SYS_ARCH_I386_STAND_MAKEFILE_INC=1
@@ -21,7 +21,7 @@ COPTS+=		-Os
 .if !${COPTS:M-Os}
 COPTS+=		-Os
 .endif
-CPPFLAGS+=	-I${S} -I${SADIR}/libsa -I. -Dmemmove=memcpy -Derrno=errno \
+CPPFLAGS+=	-I${S} -I${SADIR}/libsa -I. -Dmemmove=memcpy \
 		-I${.CURDIR} -D__BOOT_VER="${_V}" -I${KERNBASE}/include
 SACFLAGS=	-D_STANDALONE
 DEBUGFLAGS=

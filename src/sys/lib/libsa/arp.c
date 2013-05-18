@@ -1,4 +1,3 @@
-/**	$MirOS$	*/
 /*	$OpenBSD: arp.c,v 1.11 2003/08/11 06:23:09 deraadt Exp $	*/
 /*	$NetBSD: arp.c,v 1.15 1996/10/13 02:28:58 christos Exp $	*/
 
@@ -106,7 +105,7 @@ arpwhohas(struct iodesc *d, struct in_addr addr)
 	    printf("arpwhohas: send request for %s\n", inet_ntoa(addr));
 #endif
 
-	memset((char *)&wbuf.data, 0, sizeof(wbuf.data));
+	bzero((char *)&wbuf.data, sizeof(wbuf.data));
 	ah = &wbuf.data.arp;
 	ah->arp_hrd = htons(ARPHRD_ETHER);
 	ah->arp_pro = htons(ETHERTYPE_IP);
@@ -114,9 +113,9 @@ arpwhohas(struct iodesc *d, struct in_addr addr)
 	ah->arp_pln = sizeof(ah->arp_spa); /* protocol address length */
 	ah->arp_op = htons(ARPOP_REQUEST);
 	MACPY(d->myea, ah->arp_sha);
-	memmove(ah->arp_spa, &d->myip, sizeof(ah->arp_spa));
+	bcopy(&d->myip, ah->arp_spa, sizeof(ah->arp_spa));
 	/* Leave zeros in arp_tha */
-	memmove(ah->arp_tpa, &addr, sizeof(ah->arp_tpa));
+	bcopy(&addr, ah->arp_tpa, sizeof(ah->arp_tpa));
 
 	/* Store ip address in cache (incomplete entry). */
 	al->addr = addr;
@@ -222,7 +221,7 @@ arprecv(struct iodesc *d, void *pkt, size_t len, time_t tleft)
 	}
 
 	/* Is the reply from the source we want? */
-	if (memcmp(ah->arp_spa, &arp_list[arp_num].addr,
+	if (bcmp(&arp_list[arp_num].addr, ah->arp_spa,
 	    sizeof(ah->arp_spa))) {
 #ifdef ARP_DEBUG
 		if (debug)
@@ -269,7 +268,7 @@ arp_reply(struct iodesc *d, void *pkt)
 	}
 
 	/* If we are not the target, ignore the request. */
-	if (memcmp(&d->myip, arp->arp_tpa, sizeof(arp->arp_tpa)))
+	if (bcmp(arp->arp_tpa, &d->myip, sizeof(arp->arp_tpa)))
 		return;
 
 #ifdef ARP_DEBUG
@@ -280,11 +279,11 @@ arp_reply(struct iodesc *d, void *pkt)
 
 	arp->arp_op = htons(ARPOP_REPLY);
 	/* source becomes target */
-	memmove(arp->arp_tha, arp->arp_sha, sizeof(arp->arp_tha));
-	memmove(arp->arp_tpa, arp->arp_spa, sizeof(arp->arp_tpa));
+	bcopy(arp->arp_sha, arp->arp_tha, sizeof(arp->arp_tha));
+	bcopy(arp->arp_spa, arp->arp_tpa, sizeof(arp->arp_tpa));
 	/* here becomes source */
-	memmove( arp->arp_sha, d->myea, sizeof(arp->arp_sha));
-	memmove(arp->arp_spa, &d->myip, sizeof(arp->arp_spa));
+	bcopy(d->myea,  arp->arp_sha, sizeof(arp->arp_sha));
+	bcopy(&d->myip, arp->arp_spa, sizeof(arp->arp_spa));
 
 	/*
 	 * No need to get fancy here.  If the send fails, the
