@@ -1,10 +1,10 @@
-# $MirOS: src/lib/libcitrus_iconv/iconv.exp,v 1.1 2006/02/01 14:40:14 tg Exp $
+# $MirOS: src/lib/libcitrus_iconv/iconv.exp,v 1.2 2006/09/07 16:35:23 tg Exp $
 #-
 # This is a version script for the GNU linker ld(1) to assign
 # global visibility only to specific exported symbols. Symbol
 # versioning is not done.
 # The weak symbols {,lib}iconv{,_open,_close} alias the func-
-# tions _iconvP,_open,_close} which are not set to visible in
+# tions _iconv{,_open,_close} which are not set to visible in
 # order to avoid a namespace conflict. The weak functions are
 # still working properly though.
 # The __iconv{,_{get,free}_list} API is, however, exported in
