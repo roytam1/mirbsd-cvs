@@ -654,3 +654,29 @@ Title: sometimes, ranting doesn’t help…
  with you either moved away, is working or ill? And: if you were to move away
  yourself, would the situation improve, worsen or stay the same?</p>
 ----
+Date: 29.04.2008 21:37
+Author: tg@
+Title: be careful what you wish for…
+
+<p>… as you could get it. This is because gecko2@ asked for some more cvs
+ commit eMail “spam” ☺</p>
+<p>While on the spam topic: do <strong>not</strong> send an eMail to one of
+ the following addresses: junk@mirbsd.org junk@66h.42h.de junk@mirbsd.de
+ &lt;junk@mirbsd.org&gt; &lt;junk@66h.42h.de&gt; &lt;junk@mirbsd.de&gt;</p>
+<p>Luckily, my internet uplink has been stable for more than 4⅓ days now,
+ after repeated phoning (an 0800 number then) and resetting the NTBBA.</p>
+<p>Some more statistics:</p><!-- RSS stop -->
+<p>Geocacheing continues:
+ <img src="https://call.mirbsd.org/sp.cgi?oc" alt="OpenCaching.de" />
+ <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
+ <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
+ <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ – now I’ve hidden my first two traditional micros (easy series), and
+ one of them even is sort of a “<tt>lost+found</tt>” directory virtual
+ cache overload.</p>
+<p>BOINC continues, I’m in 9 projects now: <img alt="BOINC stats"
+ src="http://www.boincstats.com/signature/user_1525395.gif" /></p>
+<p>Ah, and, by the way: XTaran did not like external links, especially not
+ secure links (https) in my wlog entries, so Planet Symlink doesn’t get
+ them now (as it pulls via RSS), but you can look at it on the wlog.</p>
+----
