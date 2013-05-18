@@ -1,7 +1,13 @@
-# $MirOS: www/data/Makefile,v 1.1 2009/09/25 23:37:23 tg Exp $
+# $MirOS: www/data/Makefile,v 1.2 2009/09/25 23:44:53 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
+
+.ifndef TOP
+TOP!=		realpath ${.CURDIR:Q}/..
+DST!=		realpath ${.OBJDIR:Q}/..
+MAKEFLAGS+=	TOP=${TOP:Q} DST=${DST:Q}
+.endif
 
 FILES!=		cd ${.CURDIR} && print -r -- *.inc
 _inc2xhtml=	( (print '\n----'; cat) | tr '\n' '﷐' | \
@@ -11,7 +17,7 @@ _inc2xhtml=	( (print '\n----'; cat) | tr '\n' '﷐' | \
 		    -e 's﷐----﷐$$</div>'${_xhtmlend:Q}'﷐' \
 		    -e 's﷐﷐g' | \
 		tr '﷐' '\n')
-_xhtmldtd=	${.CURDIR:H}/mk/xhtml11.dtd
+_xhtmldtd=	${TOP}/mk/xhtml11.dtd
 _xhtmlbeg=	<?xml version="1.0"?> \
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" \
 		 "file://${_xhtmldtd}"> \

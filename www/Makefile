@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.58 2009/10/31 17:02:36 tg Exp $
+# $MirOS: www/Makefile,v 1.59 2009/10/31 17:16:17 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -63,6 +63,15 @@ CLEANFILES+=	news.cut
 
 .PATH: ${TOP}/src
 
+_htm_2xhtml=	(tr '\n' '﷐' | \
+		sed 's^.*<html'${_xhtmlbeg:Q}'' | \
+		tr '﷐' '\n')
+_xhtmldtd=	${TOP}/mk/xhtml11.dtd
+_xhtmlbeg=	<?xml version="1.0"?> \
+		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" \
+		 "file://${_xhtmldtd}"> \
+		<html
+
 all:
 install: site.tgz.stamp
 
@@ -70,6 +79,7 @@ STRFTM_MAKE=	cd ${.CURDIR:Q} && ${MAKE} -f ${.SYSMK}/bsd.prog.mk NOMAN=Yes \
 		    VPATH=${.CURDIR:Q}/mk PROG=strftm
 
 OBJS+=		${SRCS:M*.hts:S/hts$/htm~/}
+VOBJS+=		${SRCS:M*.hts:S/hts$/val/}
 CLEANFILES+=	${SRCS:M*.hts:S/hts$/htm~/}
 
 DEPSRCS+=	${SRCS:S,^,src/,}
@@ -143,7 +153,7 @@ _reinstall:
 	chmod -R ug=rwX,o=rX dst
 	chmod a+x dst/cvs.cgi
 
-.SUFFIXES: .htm~ .hts
+.SUFFIXES: .val .htm~ .hts
 
 .hts.htm~:
 	@dstd='$@'; dstf=$${dstd%~}; rm -f $@; \
@@ -155,6 +165,15 @@ _reinstall:
 		rm -f $@; \
 		exit 1; \
 	fi
+
+.htm~.val:
+	@print -r Creating ${@:Q} from ${<:Q} ...
+	@${_htm_2xhtml} <$< >$@
+
+validation: .PHONY ${VOBJS}
+	@print -r Validating ${.ALLSRC:Q} ...
+	@xmlstarlet val -d ${_xhtmldtd} ${.ALLSRC}
+	@print '\nValidation complete.'
 
 .PHONY: clean cleandir depend install deinstall reinstall _reinstall \
 	cp-herc cp-heph rs-heph rs-eurynome
