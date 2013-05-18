@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list,v 1.25 2008/12/27 00:27:00 tg Exp $
+# $MirOS: src/distrib/common/list,v 1.26 2008/12/27 00:29:41 tg Exp $
 
 # standard tools in the crunched binary
 COPY	${OBJDIR}/instbin			instbin
@@ -48,7 +48,6 @@ LINK	instbin					usr/bin/nc
 LINK	instbin					usr/bin/printf
 LINK	instbin					usr/bin/script
 LINK	instbin					usr/bin/sed
-LINK	instbin					usr/libexec/cprng
 LINK	instbin					usr/mdec/installboot
 LINK	instbin					usr/sbin/chkuterm
 LINK	instbin					usr/sbin/chroot
@@ -91,5 +90,6 @@ SCRIPT	${TOPDIR}/common/install.sub		install.sub
 SPECIAL	chmod 755 install
 
 # misc stuff
+COPY	${DESTDIR}/usr/libexec/cprng		usr/libexec/cprng
 COPY	${DESTDIR}/usr/mdec/boot		usr/mdec/boot
 COPY	${DESTDIR}/usr/mdec/bootxx		usr/mdec/bootxx
