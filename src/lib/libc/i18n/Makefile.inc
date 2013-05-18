@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.23 2006/11/20 23:56:43 tg Exp $
+# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.24 2006/11/21 01:04:09 tg Exp $
 
 .PATH: ${LIBCSRCDIR}/i18n
 .PATH: ${LIBCSRCDIR}/locale
@@ -112,5 +112,7 @@ MLINKS+=iswalnum.3 iswupper.3
 MLINKS+=iswalnum.3 iswxdigit.3
 MLINKS+=setlocale.3 localeconv.3
 MLINKS+=towlower.3 towupper.3
+MLINKS+=mbsrtowcs.3 mbsnrtowcs.3
+MLINKS+=wcsrtombs.3 wcsnrtombs.3
 
 beforedepend: ${MIRI18N_GEND}

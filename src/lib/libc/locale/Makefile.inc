@@ -1,3 +1,8 @@
+# $MirOS$
+#
+# THIS FILE IS *NOT* USED, use ../i18n/Makefile.inc instead!
+# This is only a reference for what we import from OpenBSD.
+
 #	$OpenBSD: Makefile.inc,v 1.10 2005/08/08 05:53:01 espie Exp $
 
 # locale sources
@@ -27,8 +32,5 @@ MLINKS+=setlocale.3 localeconv.3 \
 	iswalnum.3 iswupper.3 \
 	iswalnum.3 iswxdigit.3 \
 	towlower.3 towupper.3
-
-MLINKS+=mbsrtowcs.3 mbsnrtowcs.3
-MLINKS+=wcsrtombs.3 wcsnrtombs.3
 
 CFLAGS+=-I${.CURDIR}

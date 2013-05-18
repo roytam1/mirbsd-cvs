@@ -6203,7 +6203,7 @@
 ./usr/share/man/cat3/mbrlen.0
 ./usr/share/man/cat3/mbrtowc.0
 ./usr/share/man/cat3/mbsinit.0
-./usr/share/man/cat3/mbskrtowcs.0
+./usr/share/man/cat3/mbsnrtowcs.0
 ./usr/share/man/cat3/mbsrtowcs.0
 ./usr/share/man/cat3/mbstowcs.0
 ./usr/share/man/cat3/mbtowc.0
