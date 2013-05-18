@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/locale/locale.c,v 1.3 2006/11/01 23:39:05 tg Exp $ */
+/**	$MirOS: src/usr.bin/locale/locale.c,v 1.4 2006/11/01 23:47:47 tg Exp $ */
 /*	$NetBSD: locale.c,v 1.5 2006/02/16 19:19:49 tnozaki Exp $	*/
 
 /*-
@@ -31,7 +31,7 @@
  */
 
 #include <sys/cdefs.h>
-__RCSID("$MirOS: src/usr.bin/locale/locale.c,v 1.3 2006/11/01 23:39:05 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/locale/locale.c,v 1.4 2006/11/01 23:47:47 tg Exp $");
 __RCSID("$NetBSD: locale.c,v 1.5 2006/02/16 19:19:49 tnozaki Exp $");
 
 /*
@@ -41,12 +41,14 @@ __RCSID("$NetBSD: locale.c,v 1.5 2006/02/16 19:19:49 tnozaki Exp $");
 
 #include <sys/types.h>
 #include <assert.h>
+#include <ctype.h>
 #include <dirent.h>
 #include <err.h>
 #include <locale.h>
 #include <langinfo.h>
 #include <limits.h>
 #include <paths.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -64,6 +66,7 @@ static void showdetails(char *);
 static void showkeywordslist(void);
 static void showlocale(void);
 __dead static void usage(void);
+static bool mirbsd_is_latin1(void);
 
 /* Global variables */
 int	all_locales = 0;
@@ -322,7 +325,8 @@ list_locales(void)
 void
 list_charmaps(void)
 {
-	printf("UTF-8\nISO_646.irv:1991\n");
+	printf("UTF-8\nISO_646.irv:1991\n%s",
+	    mirbsd_is_latin1() ? "ISO-8859-1\n" : "");
 }
 
 /*
@@ -552,4 +556,16 @@ showkeywordslist(void)
 			(kwinfo[i].isstr == 0) ? "number" : "string",
 			kwinfo[i].comment);
 	}
+}
+
+static bool
+mirbsd_is_latin1(void)
+{
+	/*
+	 * special trick: the isprint() macro always returns 1 here,
+	 * but the libc function honours MIR18N_C_CSET and returns 0
+	 * if we're in a true 7-bit ISO_646.irv:1991 environment ;-)
+	 */
+#undef isprint
+	return (isprint(0xA9));
 }
