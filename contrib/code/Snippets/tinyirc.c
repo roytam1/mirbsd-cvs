@@ -1,5 +1,3 @@
-/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.14 2007/07/18 21:17:44 tg Exp $ */
-
 /* Configuration options */
 /* please change the default server to one near you. */
 #define DEFAULTSERVER	"irc.mirbsd.org"
@@ -7,22 +5,17 @@
 #define COMMANDCHAR	'/'
 /* each line of history adds 512 bytes to resident size */
 #define HISTLEN		8
-#define RELEASE_L	"TinyIRC 20070718 MirOS-contrib"
+#define RELEASE_L	"TinyIRC 20081202 MirOS-contrib"
 #define RELEASE_S	"TinyIRC MirOS"
 /* tinyirc 1.0
 
    TinyIRC Alpha Release
    Copyright (C) 1994 Nathan I. Laredo
-   Copyright (c) 1999-2007 Thorsten Glaser
+   Copyright (c) 1999-2008 Thorsten Glaser
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License Version 1
    as published by the Free Software Foundation.
-
-   This program is distributed in the hope that it will be useful,
-   but WITHOUT ANY WARRANTY; without even the implied warranty of
-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-   GNU General Public License for more details.
 
    This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
    the utmost extent permitted by applicable law, neither express nor
@@ -44,14 +37,6 @@
 
    Please visit the MirBSD project pages
    at http://mirbsd.de/ or http://www.mirbsd.org/
-
-   Missing features:
-    * KNF - man 9 style
-    * Security auditing
-   Added:
-    * /quote command (shortcut: Q)
-    * command re-ordering for shortcuts
-    * ^C command for instant exiting
  */
 
 #include <sys/types.h>
@@ -78,7 +63,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.14 2007/07/18 21:17:44 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.15 2008/12/02 13:34:28 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -362,6 +347,90 @@ static int dopong(void)
 
 static int doprivmsg(void)
 {
+    if (*tok_in[3] == 1) {
+	/* rudimentary CTCP handler */
+	char ch, ctcp[50];
+	int i = 1, skipout = 0;
+
+	while ((ch = tok_in[3][i]) && ch != 1 && ch != ' ' && i < 50)
+		ctcp[i++ - 1] = toupper(ch);
+	if (i == 50 || tok_in[3][strlen(tok_in[3]) - 1] != 1)
+		goto noctcp;
+	ctcp[i++ - 1] = 0;
+	tok_in[3][strlen(tok_in[3]) - 1] = 0;
+	if (!strcmp(ctcp, "ENTROPY")) {
+#ifdef __MirBSD__
+		arc4random_pushb(serverdata, sizeof (serverdata));
+#else
+		arc4random_addrandom((unsigned char *)serverdata,
+		    (int)sizeof (serverdata));
+#endif
+		snprintf(bp, sizeof (bp),
+		    "%s initiated the RANDEX protocol with %s",
+		    tok_in[0], *tok_in[2] == '#' ? tok_in[2] : "you");
+		column = printf("*C*");
+		column = wordwrapout(bp, column);
+		skipout = 1;
+		snprintf(lineout, LINELEN, "NOTICE %s :\001RANDOM ");
+		while (strlen(lineout) < 240) {
+			char buf[9];
+
+			snprintf(buf, 9, "%08X", arc4random());
+			strlcat(lineout, buf, LINELEN);
+		}
+		strlcat(lineout, "\001\n", LINELEN);
+		sendline();
+	} else if (!strcmp(ctcp, "VERSION")) {
+		snprintf(lineout, LINELEN,
+		    "NOTICE %s :\001VERSION %s (RANDOM=%d)\001\n",
+		    tok_in[0], RELEASE_L, arc4random());
+		sendline();
+	} else if (!strcmp(ctcp, "CLIENTINFO")) {
+		snprintf(lineout, LINELEN,
+		    "NOTICE %s :\001CLIENTINFO ACTION, CLIENTINFO, "
+		    "ECHO, ENTROPY, ERRMSG, PING, TIME, VERSION\001\n",
+		    tok_in[0]);
+		sendline();
+	} else if (!strcmp(ctcp, "PING") ||
+	    !strcmp(ctcp, "ECHO") || !strcmp(ctcp, "ERRMSG")) {
+		snprintf(lineout, LINELEN,
+		    "NOTICE %s :\001%s %s\001\n",
+		    tok_in[0], ctcp, tok_in[3] + i);
+		sendline();
+	} else if (!strcmp(ctcp, "TIME")) {
+		time_t t;
+
+		time(&t);
+		snprintf(lineout, LINELEN,
+		    "NOTICE %s :\001TIME ", tok_in[0]);
+		strftime(lineout + strlen(lineout),
+		    LINELEN - strlen(lineout),
+		    "%c\001\n", localtime(&t));
+		sendline();
+	} else if (!strcmp(ctcp, "ACTION")) {
+		if (*tok_in[2] != '#')
+			column = printf("[*] %s", tok_in[0]);
+		else if (object != NULL &&
+		    my_stricmp(object->name, tok_in[2]))
+			column = printf("* %s:%s", tok_in[0], tok_in[2]);
+		else
+			column = printf("* %s", tok_in[0]);
+		column = wordwrapout(tok_in[3] + i, column);
+		skipout = 1;
+	}
+	if (!skipout) {
+		snprintf(bp, sizeof (bp), "%s did a CTCP %s%s%s to %s",
+		    tok_in[0], ctcp, tok_in[3][i] ? " " : "",
+		    tok_in[3] + i, *tok_in[2] == '#' ? tok_in[2] : "you");
+		column = printf("*C*");
+		column = wordwrapout(bp, column);
+	}
+	i = 4;
+	while (tok_in[i])
+		column = wordwrapout(tok_in[i++], column);
+	return (0);
+    }
+ noctcp:
     if (*tok_in[2] != '#')
 	column = printf("*%s*", tok_in[0]);
     else if (object != NULL && my_stricmp(object->name, tok_in[2]))
@@ -426,7 +495,7 @@ int donumeric(int num)
     return (0);
 }
 
-#define	LISTSIZE	52
+#define	LISTSIZE	54
 #define	DO_JOIN		12
 #define	DO_MSG		18
 #define	DO_PRIVMSG	30
@@ -435,6 +504,8 @@ int donumeric(int num)
 #define	DO_W		46
 #define	DO_WHOIS	49
 #define DO_ME		51
+#define DO_DESCRIBE	52
+#define DO_CTCP		53
 static const char *cmdlist[LISTSIZE] =
 {"AWAY", "ADMIN", "CONNECT", "CLOSE", "DIE", "DNS", "ERROR", "HELP",
  "HASH", "INVITE", "INFO", "ISON", "JOIN", "KICK", "KILL", "LIST", "LINKS",
@@ -442,7 +513,7 @@ static const char *cmdlist[LISTSIZE] =
  "PART", "PASS", "PING", "PONG", "PRIVMSG", "QUOTE", "QUIT", "REHASH", "RESTART",
  "SERVER", "SQUIT", "STATS", "SUMMON", "TIME", "TOPIC", "TRACE", "USER",
  "USERHOST", "USERS", "VERSION", "W", "WALLOPS", "WHO", "WHOIS", "WHOWAS",
- "ME"};
+ "ME", "DESCRIBE", "CTCP"};
 static int numargs[LISTSIZE] =
 {1, 1, 3, 1, 1, 1, 1, 1,
  1, 2, 1, 1, 1, 3, 2, 1, 1,
@@ -450,7 +521,7 @@ static int numargs[LISTSIZE] =
  1, 1, 1, 1, 2, 0, 1, 1, 1,
  3, 2, 1, 3, 1, 2, 2, 4,
  1, 1, 1, 1, 1, 1, 1, 1,
- 1
+ 1, 1, 1
 };
 static int (*docommand[LISTSIZE]) (void) =
 {nop, nop, nop, nop, nop, nop, doerror, nop,
@@ -459,7 +530,7 @@ static int (*docommand[LISTSIZE]) (void) =
  dopart, nop, nop, dopong, doprivmsg, nop, doquit, nop, nop,
  nop, dosquit, nop, nop, dotime, dotopic, nop, nop,
  nop, nop, nop, nop, nop, nop, nop, nop,
- nop
+ nop, nop, nop
 };
 
 int wordwrapout(char *ptrx, size_t count)
@@ -565,6 +636,14 @@ void parseinput(void)
 	putchar('\n');
     }
     if (*tok_out[0] == COMMANDCHAR) {
+	if (!tok_out[0][1]) {
+		j = 1;
+		while ((*linein) && (*linein != ' '))
+			++linein;
+		while ((*linein) && (*linein == ' '))
+			++linein;
+		goto do_say;
+	}
 	tok_out[0]++;
 	for (i = 0; (size_t)i < strlen(tok_out[0]) && isalpha(tok_out[0][i]); i++)
 	    tok_out[0][i] = toupper(tok_out[0][i]);
@@ -584,10 +663,64 @@ void parseinput(void)
 			++linein;
 		snprintf(lineout, LINELEN, "PRIVMSG %s :%cACTION%s%c\n",
 		    object->name, 1, linein, 1);
-		outcol = printf("*");
+		outcol = printf("* %s", IRCNAME);
 		j = 0;
 		while(tok_out[++j])
 		   outcol = wordwrapout(tok_out[j], outcol);
+		goto parseinput_done;
+	}
+	if (i == DO_DESCRIBE) {
+		while ((*linein) && (*linein != ' '))
+			++linein;
+		while ((*linein) && (*linein == ' '))
+			++linein;
+		tmp = linein;
+		while ((*linein) && (*linein != ' '))
+			++linein;
+		if (!*tmp || !*linein || tmp >= linein) {
+			printf ("*** Nothing to send");
+			return;
+		}
+		*linein++ = '\0';
+		if (!strcmp(tmp, "*"))
+			tmp = object->name;
+		snprintf(lineout, LINELEN, "PRIVMSG %s :\001ACTION %s\001\n",
+		    tmp, linein);
+		if (*tmp == '#')
+			outcol = printf("* %s:%s", IRCNAME, tmp);
+		else
+			outcol = printf("*-> %s: %s", tmp, IRCNAME);
+		j = 1;
+		while(tok_out[++j])
+			outcol = wordwrapout(tok_out[j], outcol);
+		goto parseinput_done;
+	}
+	if (i == DO_CTCP) {
+		char *tmp2;
+
+		while ((*linein) && (*linein != ' '))
+			++linein;
+		while ((*linein) && (*linein == ' '))
+			++linein;
+		tmp = linein;
+		while ((*linein) && (*linein != ' '))
+			++linein;
+		if (!*tmp || !*linein || tmp >= linein) {
+			printf ("*** Nothing to send");
+			return;
+		}
+		*linein++ = '\0';
+		tmp2 = linein;
+		while (*tmp2 && *tmp2 != ' ')
+			*tmp2++ = toupper(*tmp2);
+		if (!strcmp(tmp, "*"))
+			tmp = object->name;
+		snprintf(lineout, LINELEN, "PRIVMSG %s :\001%s\001\n",
+		    tmp, linein);
+		snprintf(bp, sizeof (bp),
+		    "Sending a CTCP %s to %s", linein, tmp);
+		column = printf("*C*");
+		outcol = wordwrapout(bp, outcol);
 		goto parseinput_done;
 	}
 	if (i == DO_JOIN)
@@ -599,8 +732,12 @@ void parseinput(void)
 	    }
 	if (i == DO_MSG)
 	    i = DO_PRIVMSG;
-	if (i == DO_W)
-	    i = DO_WHOIS;
+	if (i == DO_W) {
+		snprintf(lineout, LINELEN, "WHOIS %s %s\n",
+		    tok_out[1], tok_out[1]);
+		outcol = printf("= %s", lineout);
+		goto parseinput_done;
+	}
 
 	strlcpy(lineout, (i == DO_QUOTE) ? "" : cmdlist[i], LINELEN);
 	j = 0;
@@ -616,12 +753,14 @@ void parseinput(void)
 	}
 	strlcat(lineout, "\n", LINELEN);
     } else {
+	j = 0;
+ do_say:
 	if (object == NULL) {
 	    printf ("*** Nowhere to send");
 	    return;
 	}
 	snprintf(lineout, LINELEN, "PRIVMSG %s :%s\n", object->name, linein);
-	outcol = printf("> %s", tok_out[j = 0]);
+	outcol = printf("> %s", tok_out[j]);
 	while(tok_out[++j])
 	   outcol = wordwrapout(tok_out[j], outcol);
     }
