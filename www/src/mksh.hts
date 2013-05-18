@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.392 2011/03/28 08:29:29 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.393 2011/03/28 21:58:12 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1196,6 +1196,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Align read-only variable behaviour with (future) POSIX</li>
  <li>[tg] Permit <tt>${foo%(*}</tt> on FSH (Debian Closes: #619947)</li>
  <li>[tg, rsc] Allow skipping testcases that need a controlling tty</li>
+ <li>[tg] Correct skipping the UTF-8 BOM when identifying a file</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
