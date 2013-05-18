@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.117 2008/12/17 23:47:30 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.118 2008/12/18 00:00:15 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -837,6 +837,7 @@ Title: kqemu
 Date: 27.05.2008
 Author: tg@
 Title: Linuxtag 2008, Berlin, .de
+Tag: event
 
 <p>This year's <a href="http://www.linuxtag.org/">LinuxTag</a> will not go
  by without the BSD projects exhibiting their fine software. Of course, we
@@ -2316,4 +2317,18 @@ Tag: mksh
  of <a href="http://www.stremler.net/Code/cvs_tricks/">CVS tricks</a> is
  courtesy of «ThunderChicken:#cvs» and includes some from myself.</p>
 <p>The 13.rcs(PSD) documentation and rcsintro(1) are online as well!</p>
+----
+Date: 24.12.2008 11:49
+Author: tg@
+Title: Chaos Communication Congress upcoming
+Tag: event
+
+<p>I have just placed a couple of MirOS CDs and flyers (English and
+ French only though ☺) in the hands of a friend while helping him to
+ move to Berlin. Either him or Benny (bsiegert@) or Andreas (gecko2@)
+ will distribute them at 25C3, or we’ll place them somewhere. I (tg@)
+ will not attend, replaced (ahoka@) probably neither. You might be
+ able to track down Benny in between some of the talks if you have
+ any questions regarding MirPorts and MirOS, though.</p>
+<p>To these who do, happy celebrating!</p>
 ----
