@@ -1829,9 +1829,9 @@ void warningf(bool, const char *, ...)
     MKSH_A_FORMAT(__printf__, 2, 3);
 void bi_errorf(const char *, ...)
     MKSH_A_FORMAT(__printf__, 1, 2);
-#define errorfz()	errorf("")
-#define errorfxz(rc)	errorfx((rc), "")
-#define bi_errorfz()	bi_errorf("")
+#define errorfz()	errorf(NULL)
+#define errorfxz(rc)	errorfx((rc), NULL)
+#define bi_errorfz()	bi_errorf(NULL)
 void internal_errorf(const char *, ...)
     MKSH_A_NORETURN
     MKSH_A_FORMAT(__printf__, 1, 2);

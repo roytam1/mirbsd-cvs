@@ -1135,7 +1135,7 @@ static void vwarningf(unsigned int, const char *, va_list)
 static void
 vwarningf(unsigned int flags, const char *fmt, va_list ap)
 {
-	if (*fmt) {
+	if (fmt) {
 		if (flags & VWARNINGF_INTERNAL)
 			shf_fprintf(shl_out, "internal error: ");
 		if (flags & VWARNINGF_ERRORPREFIX)
