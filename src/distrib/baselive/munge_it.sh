@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.35 2008/07/09 23:32:01 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.36 2008/07/19 22:06:03 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -78,7 +78,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.35 2008/07/09 23:32:01 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.36 2008/07/19 22:06:03 tg Exp $
 	.
 	/cprng.*pr16/d
 	i
@@ -158,6 +158,7 @@ EOMD
 	/^.kern.emul.openbsd/s/^.//
 	wq
 EOMD
+cp etc/ttys.dist etc/ttys
 ed -s usr/bin/ftp <<-'EOMD'
 	%g/MirOS ftp(1)/s//MirOS LiveCD/
 	wq
