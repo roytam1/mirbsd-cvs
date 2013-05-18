@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/make/Makefile,v 1.5 2005/11/24 12:37:43 tg Exp $
+# $MirOS: src/usr.bin/make/Makefile,v 1.6 2005/11/24 12:49:37 tg Exp $
 # $OpenBSD: Makefile,v 1.38 2004/01/28 02:50:28 espie Exp $
 
 .include <bsd.own.mk>
@@ -19,18 +19,20 @@ SRCS+=	lstAddNew.c lstAppend.c lstConcat.c lstConcatDestroy.c \
 .PATH:	${.CURDIR}/lst.lib
 
 .ifdef MAKE_BOOTSTRAP
-MKFEATURES?=	-DNEED_FGETLN -D_PATH_DEFSYSPATH=\"/usr/share/mk\" \
-		-DHAS_STDBOOL_H # -DNEED_VSNPRINTF # -DNO_REGEX
+MKFEATURES?=	-DHAS_STDBOOL_H -D_PATH_DEFSYSPATH=\"/usr/share/mk\"
+SRCS_FGETLN?=	fgetln.c
 CPPFLAGS+=	-Iohash -DMACHINE_OS=\"${MACHINE_OS}\" -DMAKE_BOOTSTRAP
 SRCS+=		ohash_create_entry.c ohash_delete.c ohash_do.c \
 		ohash_entries.c ohash_enum.c ohash_init.c ohash_interval.c \
 		ohash_lookup_interval.c ohash_lookup_memory.c \
-		ohash_qlookup.c ohash_qlookupi.c
+		ohash_qlookup.c ohash_qlookupi.c ${SRCS_FGETLN}
 .PATH:		${.CURDIR}/ohash
 .else
 MKFEATURES?=	-DUSE_TIMESPEC
 .endif
 CPPFLAGS+=	${MKFEATURES} -D_PATH_MIRBSDKSH=\"${MKSH}\"
+
+CFLAGS_fgetln.o=-Wno-redundant-decls
 
 .if !exists(${MKSH})
 .BEGIN:

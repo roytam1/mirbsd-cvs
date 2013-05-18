@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/make/Makefile.boot,v 1.6 2005/05/25 23:50:27 tg Exp $
+# $MirOS: src/usr.bin/make/Makefile.boot,v 1.7 2005/11/24 12:49:37 tg Exp $
 # $OpenPackages: Makefile.boot,v 1.5 2001/04/06 00:09:55 will Exp $
 # $OpenBSD: Makefile.boot,v 1.8 2001/05/29 12:41:18 espie Exp $
 #
@@ -22,7 +22,7 @@ MACHINE_OS=BSD
 MKSH=		/bin/mksh
 
 # some make(1)s don't support +=
-DEFS=		-DMAKE_BOOTSTRAP -DNEED_FGETLN #-DNEED_VSNPRINTF
+DEFS=		-DMAKE_BOOTSTRAP #-DNEED_VSNPRINTF
 #DEFS_RE=	-DNO_REGEX
 
 # paths
@@ -42,7 +42,7 @@ LIBS=	ohash/libohash.a
 OBJ=	arch.o buf.o compat.o cond.o dir.o for.o job.o main.o make.o \
 	parse.o str.o suff.o targ.o var.o util.o error.o lowparse.o \
 	varmodifiers.o memory.o cmd_exec.o timestamp.o parsevar.o \
-	varname.o init.o strlfun.o getopt_long.o
+	varname.o init.o strlfun.o getopt_long.o fgetln.o
 
 LIBOBJ=	lst.lib/lstAddNew.o lst.lib/lstAppend.o \
 	lst.lib/lstConcat.o lst.lib/lstConcatDestroy.o lst.lib/lstDeQueue.o \
