@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.31 2006/07/02 23:47:36 tg Exp $
+# $MirOS: X11/Makefile,v 1.32 2006/07/03 11:29:52 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -12,9 +12,6 @@ LOCALAPPX=	/usr/local/lib/X11
 LOCALAPPD=	${LOCALAPPX}/app-defaults
 REALAPPD=	/etc/X11/app-defaults
 WORLD=		World
-
-DIROWN?=	root
-DIRGRP?=	wheel
 
 .include <bsd.obj.mk>
 
@@ -108,13 +105,13 @@ mrproper:
 perms:
 .for _i in / /etc /etc/X11 /usr/X11R6 /usr/local /usr/local/lib \
     /usr/local/lib/X11
-	chown ${DIROWN}:${DIRGRP} ${DESTDIR}${_i}/.
+	chown 0:0 ${DESTDIR}${_i}/.
 .endfor
 	find ${DESTDIR}/etc/. ${DESTDIR}/usr/X11R6/. ${DESTDIR}/usr/local/. \
-	    -type d \( \! -user ${DIROWN} -o \! -group ${DIRGRP} \) -ls \
+	    -type d \( \! -user 0 -o \! -group 0 \) -ls \
 	    | sed -e 's!/\./!/!'
 	find ${DESTDIR}/etc/. ${DESTDIR}/usr/X11R6/. \
-	    -type f \( \! -user ${BINOWN} -o \! -group wheel \) -ls \
+	    -type f \( \! -user 0 -o \! -group 0 \) -ls \
 	    | sed -e 's!/\./!/!'
 
 dist:
@@ -122,7 +119,7 @@ dist:
 
 release:
 	mkdir -p ${DESTDIR} ${BSDRELDIR}/rel
-	${INSTALL} -d -o ${DIROWN} -g ${DIRGRP} -m ${DIRMODE} \
+	${INSTALL} -d -o 0 -g 0 -m ${DIRMODE} \
 	    ${DESTDIR}/etc ${DESTDIR}/etc/X11 \
 	    ${DESTDIR}/usr/X11R6/bin ${DESTDIR}/usr/X11R6/man/cat1 \
 	    ${DESTDIR}/usr/local ${DESTDIR}/usr/local/lib/X11

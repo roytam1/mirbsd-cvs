@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.67 2006/09/21 17:07:10 tg Exp $
+# $MirOS: src/Makefile,v 1.68 2006/09/22 12:31:02 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -204,8 +204,7 @@ _do-dist:
 .endif
 	@echo ============================================================
 	${SUDO} rm -rf ${BSDOBJDIR} ${BSDRELDIR}
-	${SUDO} install -d -o ${DIROWN} -g ${DIRGRP} -m ${DIRMODE} \
-	    ${BSDRELDIR}/{base,x11,gcc}
+	${SUDO} install -d -o 0 -g 0 -m ${DIRMODE} ${BSDRELDIR}/{base,x11,gcc}
 	cd ${.CURDIR} && exec ${MAKE} distrib-dirs DESTDIR=
 	cd ${.CURDIR} && exec ${MAKE} b-r
 .ifndef QUICK_DIST
