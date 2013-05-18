@@ -1,4 +1,4 @@
-$MirOS: src/share/doc/legal/LICENCE,v 1.15 2007/01/09 17:48:10 tg Exp $
+$MirOS: src/share/doc/legal/LICENCE,v 1.16 2007/01/22 06:21:31 tg Exp $
 
 MirOS base system and BSD - TOU
 -------------------------------
@@ -30,7 +30,7 @@ and MirPorts; thus, MirOS is derived from MirBSD™.
 # limited rights to use, publicly perform, distribute, sell, modify,
 # merge, give away, or sublicence.
 #
-# This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+# This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
 # implied; without malicious intent or gross negligence. In no event
 # may a licensor, author or contributor be held liable for indirect,
