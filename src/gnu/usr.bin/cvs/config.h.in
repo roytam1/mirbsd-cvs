@@ -259,7 +259,7 @@
 /* Define to 1 if you have the `fork' function. */
 #undef HAVE_FORK
 
-/* Define to 1 if fseeko (and presumably ftello) exists and is declared. */
+/* Define to 1 if you have the `fseeko' function. */
 #undef HAVE_FSEEKO
 
 /* Define to 1 if you have the `fsync' function. */
@@ -307,17 +307,11 @@
 /* Define to 1 if you have the `getpass' function. */
 #undef HAVE_GETPASS
 
-/* Define to 1 if you have the `getpwnam_r' function. */
-#undef HAVE_GETPWNAM_R
-
 /* Define if you have the getspnam function. */
 #undef HAVE_GETSPNAM
 
 /* Define to 1 if you have the `gettimeofday' function. */
 #undef HAVE_GETTIMEOFDAY
-
-/* Define to 1 if you have the <glob.h> header file. */
-#undef HAVE_GLOB_H
 
 /* Define to 1 if you have the `initgroups' function. */
 #undef HAVE_INITGROUPS
@@ -573,10 +567,6 @@
 /* Define to 1 if you have the `strtoul' function. */
 #undef HAVE_STRTOUL
 
-/* Define if there is a member named d_type in the struct describing directory
-   headers. */
-#undef HAVE_STRUCT_DIRENT_D_TYPE
-
 /* Define to 1 if `st_blksize' is member of `struct stat'. */
 #undef HAVE_STRUCT_STAT_ST_BLKSIZE
 
@@ -594,9 +584,6 @@
 
 /* Define to 1 if you have the <sys/bsdtypes.h> header file. */
 #undef HAVE_SYS_BSDTYPES_H
-
-/* Define to 1 if you have the <sys/cdefs.h> header file. */
-#undef HAVE_SYS_CDEFS_H
 
 /* Define to 1 if you have the <sys/dir.h> header file, and it defines `DIR'.
    */

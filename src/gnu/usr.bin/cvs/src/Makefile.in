@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# $MirOS: src/gnu/usr.bin/cvs/src/Makefile.am,v 1.5 2010/09/16 20:56:00 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/src/Makefile.am,v 1.6 2011/06/11 02:56:58 tg Exp $
 # Makefile for GNU CVS program.
 #
 # Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -63,29 +63,28 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/allocsa.m4 \
 	$(top_srcdir)/m4/chdir-long.m4 $(top_srcdir)/m4/clock_time.m4 \
 	$(top_srcdir)/m4/closeout.m4 $(top_srcdir)/m4/codeset.m4 \
 	$(top_srcdir)/m4/cvs_func_printf_ptr.m4 \
-	$(top_srcdir)/m4/d-ino.m4 $(top_srcdir)/m4/d-type.m4 \
-	$(top_srcdir)/m4/dirname.m4 $(top_srcdir)/m4/dos.m4 \
-	$(top_srcdir)/m4/dup2.m4 $(top_srcdir)/m4/eealloc.m4 \
-	$(top_srcdir)/m4/eoverflow.m4 $(top_srcdir)/m4/error.m4 \
-	$(top_srcdir)/m4/exitfail.m4 $(top_srcdir)/m4/extensions.m4 \
-	$(top_srcdir)/m4/filenamecat.m4 $(top_srcdir)/m4/fpending.m4 \
-	$(top_srcdir)/m4/ftruncate.m4 $(top_srcdir)/m4/getaddrinfo.m4 \
+	$(top_srcdir)/m4/d-ino.m4 $(top_srcdir)/m4/dirname.m4 \
+	$(top_srcdir)/m4/dos.m4 $(top_srcdir)/m4/dup2.m4 \
+	$(top_srcdir)/m4/eealloc.m4 $(top_srcdir)/m4/eoverflow.m4 \
+	$(top_srcdir)/m4/error.m4 $(top_srcdir)/m4/exitfail.m4 \
+	$(top_srcdir)/m4/extensions.m4 $(top_srcdir)/m4/filenamecat.m4 \
+	$(top_srcdir)/m4/fpending.m4 $(top_srcdir)/m4/ftruncate.m4 \
+	$(top_srcdir)/m4/getaddrinfo.m4 \
 	$(top_srcdir)/m4/getcwd-path-max.m4 $(top_srcdir)/m4/getcwd.m4 \
 	$(top_srcdir)/m4/getdate.m4 $(top_srcdir)/m4/getdelim.m4 \
 	$(top_srcdir)/m4/gethostname.m4 $(top_srcdir)/m4/getline.m4 \
 	$(top_srcdir)/m4/getlogin_r.m4 $(top_srcdir)/m4/getndelim2.m4 \
 	$(top_srcdir)/m4/getnline.m4 $(top_srcdir)/m4/getpagesize.m4 \
 	$(top_srcdir)/m4/gettime.m4 $(top_srcdir)/m4/gettimeofday.m4 \
-	$(top_srcdir)/m4/glob.m4 $(top_srcdir)/m4/gnulib-comp.m4 \
-	$(top_srcdir)/m4/intmax_t.m4 $(top_srcdir)/m4/inttypes.m4 \
-	$(top_srcdir)/m4/inttypes_h.m4 $(top_srcdir)/m4/longdouble.m4 \
-	$(top_srcdir)/m4/longlong.m4 $(top_srcdir)/m4/lstat.m4 \
-	$(top_srcdir)/m4/mbrtowc.m4 $(top_srcdir)/m4/mbstate_t.m4 \
-	$(top_srcdir)/m4/memchr.m4 $(top_srcdir)/m4/memmove.m4 \
-	$(top_srcdir)/m4/mempcpy.m4 $(top_srcdir)/m4/memrchr.m4 \
-	$(top_srcdir)/m4/minmax.m4 $(top_srcdir)/m4/mkdir-slash.m4 \
-	$(top_srcdir)/m4/mkstemp.m4 $(top_srcdir)/m4/mmap-anon.m4 \
-	$(top_srcdir)/m4/nanosleep.m4 \
+	$(top_srcdir)/m4/gnulib-comp.m4 $(top_srcdir)/m4/intmax_t.m4 \
+	$(top_srcdir)/m4/inttypes.m4 $(top_srcdir)/m4/inttypes_h.m4 \
+	$(top_srcdir)/m4/longdouble.m4 $(top_srcdir)/m4/longlong.m4 \
+	$(top_srcdir)/m4/lstat.m4 $(top_srcdir)/m4/mbrtowc.m4 \
+	$(top_srcdir)/m4/mbstate_t.m4 $(top_srcdir)/m4/memchr.m4 \
+	$(top_srcdir)/m4/memmove.m4 $(top_srcdir)/m4/mempcpy.m4 \
+	$(top_srcdir)/m4/memrchr.m4 $(top_srcdir)/m4/minmax.m4 \
+	$(top_srcdir)/m4/mkdir-slash.m4 $(top_srcdir)/m4/mkstemp.m4 \
+	$(top_srcdir)/m4/mmap-anon.m4 $(top_srcdir)/m4/nanosleep.m4 \
 	$(top_srcdir)/m4/onceonly_2_57.m4 $(top_srcdir)/m4/openat.m4 \
 	$(top_srcdir)/m4/pagealign_alloc.m4 \
 	$(top_srcdir)/m4/pathmax.m4 $(top_srcdir)/m4/quotearg.m4 \
@@ -135,7 +134,7 @@ am_cvs_OBJECTS = add.$(OBJEXT) admin.$(OBJEXT) annotate.$(OBJEXT) \
 	remove.$(OBJEXT) repos.$(OBJEXT) root.$(OBJEXT) \
 	rsh-client.$(OBJEXT) run.$(OBJEXT) scramble.$(OBJEXT) \
 	server.$(OBJEXT) stack.$(OBJEXT) status.$(OBJEXT) \
-	subr.$(OBJEXT) tag.$(OBJEXT) update.$(OBJEXT) \
+	subr.$(OBJEXT) suck.$(OBJEXT) tag.$(OBJEXT) update.$(OBJEXT) \
 	version.$(OBJEXT) vers_ts.$(OBJEXT) watch.$(OBJEXT) \
 	wrapper.$(OBJEXT) zlib.$(OBJEXT)
 cvs_OBJECTS = $(am_cvs_OBJECTS)
@@ -177,7 +176,6 @@ EDITOR = @EDITOR@
 EGREP = @EGREP@
 EOVERFLOW = @EOVERFLOW@
 EXEEXT = @EXEEXT@
-GLOB_H = @GLOB_H@
 GREP = @GREP@
 HAVE_LONG_64BIT = @HAVE_LONG_64BIT@
 HAVE_LONG_LONG_64BIT = @HAVE_LONG_LONG_64BIT@
@@ -321,6 +319,7 @@ cvs_SOURCES = \
 	stack.c stack.h \
 	status.c \
 	subr.c subr.h \
+	suck.c \
 	tag.c \
 	update.c \
 	version.c \

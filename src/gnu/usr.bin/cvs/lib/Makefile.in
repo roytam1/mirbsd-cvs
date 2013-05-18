@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# $MirOS: src/gnu/usr.bin/cvs/lib/Makefile.am,v 1.6 2010/09/16 20:55:57 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/lib/Makefile.am,v 1.7 2011/06/11 03:58:06 tg Exp $
 # Makefile for library files used by GNU CVS.
 #
 # Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -63,19 +63,18 @@ DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in __fpending.c \
 	ftruncate.c gai_strerror.c getaddrinfo.c getcwd.c getcwd.h \
 	getdate.h getdelim.c getdelim.h gethostname.c getline.c \
 	getline.h getlogin_r.c getlogin_r.h getndelim2.c getpagesize.h \
-	gettime.c gettimeofday.c glob-libc.h glob.c glob_.h lstat.c \
-	lstat.h malloc.c memchr.c memmove.c mempcpy.c mempcpy.h \
-	memrchr.c memrchr.h mkdir.c mkstemp.c nanosleep.c openat.c \
-	openat.h pagealign_alloc.c pagealign_alloc.h pathmax.h \
-	pipe-safer.c printf-args.c printf-parse.c quotearg.c \
-	quotearg.h readlink.c realloc.c regcomp.c regex.c regex.h \
-	regex_internal.c regex_internal.h regexec.c rename.c rpmatch.c \
-	save-cwd.c save-cwd.h setenv.c stat-macros.h strdup.c strdup.h \
-	strerror.c strftime.c strftime.h strtol.c strtoul.c \
-	sunos57-select.c tempname.c time_r.c timespec.h unistd--.h \
-	unistd-safer.h unlocked-io.h unsetenv.c vasnprintf.c \
-	vasprintf.c waitpid.c xalloc.h xgetcwd.c xgetcwd.h xmalloc.c \
-	yesno.c yesno.h
+	gettime.c gettimeofday.c lstat.c lstat.h malloc.c memchr.c \
+	memmove.c mempcpy.c mempcpy.h memrchr.c memrchr.h mkdir.c \
+	mkstemp.c nanosleep.c openat.c openat.h pagealign_alloc.c \
+	pagealign_alloc.h pathmax.h pipe-safer.c printf-args.c \
+	printf-parse.c quotearg.c quotearg.h readlink.c realloc.c \
+	regcomp.c regex.c regex.h regex_internal.c regex_internal.h \
+	regexec.c rename.c rpmatch.c save-cwd.c save-cwd.h setenv.c \
+	stat-macros.h strdup.c strdup.h strerror.c strftime.c \
+	strftime.h strtol.c strtoul.c sunos57-select.c tempname.c \
+	time_r.c timespec.h unistd--.h unistd-safer.h unlocked-io.h \
+	unsetenv.c vasnprintf.c vasprintf.c waitpid.c xalloc.h \
+	xgetcwd.c xgetcwd.h xmalloc.c yesno.c yesno.h
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/allocsa.m4 \
 	$(top_srcdir)/m4/atexit.m4 $(top_srcdir)/m4/bison.m4 \
@@ -84,29 +83,28 @@ am__aclocal_m4_deps = $(top_srcdir)/m4/allocsa.m4 \
 	$(top_srcdir)/m4/chdir-long.m4 $(top_srcdir)/m4/clock_time.m4 \
 	$(top_srcdir)/m4/closeout.m4 $(top_srcdir)/m4/codeset.m4 \
 	$(top_srcdir)/m4/cvs_func_printf_ptr.m4 \
-	$(top_srcdir)/m4/d-ino.m4 $(top_srcdir)/m4/d-type.m4 \
-	$(top_srcdir)/m4/dirname.m4 $(top_srcdir)/m4/dos.m4 \
-	$(top_srcdir)/m4/dup2.m4 $(top_srcdir)/m4/eealloc.m4 \
-	$(top_srcdir)/m4/eoverflow.m4 $(top_srcdir)/m4/error.m4 \
-	$(top_srcdir)/m4/exitfail.m4 $(top_srcdir)/m4/extensions.m4 \
-	$(top_srcdir)/m4/filenamecat.m4 $(top_srcdir)/m4/fpending.m4 \
-	$(top_srcdir)/m4/ftruncate.m4 $(top_srcdir)/m4/getaddrinfo.m4 \
+	$(top_srcdir)/m4/d-ino.m4 $(top_srcdir)/m4/dirname.m4 \
+	$(top_srcdir)/m4/dos.m4 $(top_srcdir)/m4/dup2.m4 \
+	$(top_srcdir)/m4/eealloc.m4 $(top_srcdir)/m4/eoverflow.m4 \
+	$(top_srcdir)/m4/error.m4 $(top_srcdir)/m4/exitfail.m4 \
+	$(top_srcdir)/m4/extensions.m4 $(top_srcdir)/m4/filenamecat.m4 \
+	$(top_srcdir)/m4/fpending.m4 $(top_srcdir)/m4/ftruncate.m4 \
+	$(top_srcdir)/m4/getaddrinfo.m4 \
 	$(top_srcdir)/m4/getcwd-path-max.m4 $(top_srcdir)/m4/getcwd.m4 \
 	$(top_srcdir)/m4/getdate.m4 $(top_srcdir)/m4/getdelim.m4 \
 	$(top_srcdir)/m4/gethostname.m4 $(top_srcdir)/m4/getline.m4 \
 	$(top_srcdir)/m4/getlogin_r.m4 $(top_srcdir)/m4/getndelim2.m4 \
 	$(top_srcdir)/m4/getnline.m4 $(top_srcdir)/m4/getpagesize.m4 \
 	$(top_srcdir)/m4/gettime.m4 $(top_srcdir)/m4/gettimeofday.m4 \
-	$(top_srcdir)/m4/glob.m4 $(top_srcdir)/m4/gnulib-comp.m4 \
-	$(top_srcdir)/m4/intmax_t.m4 $(top_srcdir)/m4/inttypes.m4 \
-	$(top_srcdir)/m4/inttypes_h.m4 $(top_srcdir)/m4/longdouble.m4 \
-	$(top_srcdir)/m4/longlong.m4 $(top_srcdir)/m4/lstat.m4 \
-	$(top_srcdir)/m4/mbrtowc.m4 $(top_srcdir)/m4/mbstate_t.m4 \
-	$(top_srcdir)/m4/memchr.m4 $(top_srcdir)/m4/memmove.m4 \
-	$(top_srcdir)/m4/mempcpy.m4 $(top_srcdir)/m4/memrchr.m4 \
-	$(top_srcdir)/m4/minmax.m4 $(top_srcdir)/m4/mkdir-slash.m4 \
-	$(top_srcdir)/m4/mkstemp.m4 $(top_srcdir)/m4/mmap-anon.m4 \
-	$(top_srcdir)/m4/nanosleep.m4 \
+	$(top_srcdir)/m4/gnulib-comp.m4 $(top_srcdir)/m4/intmax_t.m4 \
+	$(top_srcdir)/m4/inttypes.m4 $(top_srcdir)/m4/inttypes_h.m4 \
+	$(top_srcdir)/m4/longdouble.m4 $(top_srcdir)/m4/longlong.m4 \
+	$(top_srcdir)/m4/lstat.m4 $(top_srcdir)/m4/mbrtowc.m4 \
+	$(top_srcdir)/m4/mbstate_t.m4 $(top_srcdir)/m4/memchr.m4 \
+	$(top_srcdir)/m4/memmove.m4 $(top_srcdir)/m4/mempcpy.m4 \
+	$(top_srcdir)/m4/memrchr.m4 $(top_srcdir)/m4/minmax.m4 \
+	$(top_srcdir)/m4/mkdir-slash.m4 $(top_srcdir)/m4/mkstemp.m4 \
+	$(top_srcdir)/m4/mmap-anon.m4 $(top_srcdir)/m4/nanosleep.m4 \
 	$(top_srcdir)/m4/onceonly_2_57.m4 $(top_srcdir)/m4/openat.m4 \
 	$(top_srcdir)/m4/pagealign_alloc.m4 \
 	$(top_srcdir)/m4/pathmax.m4 $(top_srcdir)/m4/quotearg.m4 \
@@ -190,7 +188,6 @@ EDITOR = @EDITOR@
 EGREP = @EGREP@
 EOVERFLOW = @EOVERFLOW@
 EXEEXT = @EXEEXT@
-GLOB_H = @GLOB_H@
 GREP = @GREP@
 HAVE_LONG_64BIT = @HAVE_LONG_64BIT@
 HAVE_LONG_LONG_64BIT = @HAVE_LONG_LONG_64BIT@
@@ -290,11 +287,11 @@ libcvs_a_SOURCES = md5.c sighandle.c system.h wait.h xselect.h xtime.h \
 	xalloc-die.c xgethostname.h xgethostname.c xreadlink.h \
 	xreadlink.c xsize.h
 libcvs_a_LIBADD = @LIBOBJS@ @ALLOCA@
-BUILT_SOURCES = $(ALLOCA_H) $(FNMATCH_H) getdate.c $(GLOB_H) \
-	$(STDBOOL_H) $(STDINT_H)
+BUILT_SOURCES = $(ALLOCA_H) $(FNMATCH_H) getdate.c $(STDBOOL_H) \
+	$(STDINT_H)
 MOSTLYCLEANFILES = alloca.h alloca.h-t fnmatch.h fnmatch.h-t \
-	getdate-expected getdate-got getdate.diff glob.h glob.h-t \
-	stdbool.h stdbool.h-t stdint.h stdint.h-t
+	getdate-expected getdate-got getdate.diff stdbool.h \
+	stdbool.h-t stdint.h stdint.h-t
 DISTCLEANFILES = getdate.log
 MAINTAINERCLEANFILES = getdate.c
 TESTS = test-getdate.sh
@@ -642,13 +639,6 @@ alloca.h: alloca_.h
 # doesn't have one that supports the required API.
 fnmatch.h: fnmatch_.h
 	cp $(srcdir)/fnmatch_.h $@-t
-	mv $@-t $@
-
-# We need the following in order to create an <getopt.h> when the system
-# doesn't have one that works with the given compiler.
-all-local $(libcvs_a_OBJECTS): $(GLOB_H)
-glob.h: glob_.h
-	cp $(srcdir)/glob_.h $@-t
 	mv $@-t $@
 
 # We need the following in order to create <stdbool.h> when the system
