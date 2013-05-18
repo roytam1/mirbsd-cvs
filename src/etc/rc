@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/rc,v 1.110 2010/07/11 11:56:04 tg Exp $
+# $MirOS: src/etc/rc,v 1.111 2010/07/11 17:35:09 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -142,12 +142,18 @@ trap : 3	# shouldn't be needed
 if [[ $1 = shutdown ]]; then
 	[[ -x /usr/sbin/wsconfig ]] && /usr/sbin/wsconfig -s 1 2>&-
 	echo Received shutdown request.
-	(
-		dd if=/var/db/host.random of=/dev/urandom
-		(dd if=/dev/arandom count=3; dd if=/dev/urandom count=8) | \
-		    dd of=/var/db/host.random && \
-		    chmod 600 /var/db/host.random
-	) >/dev/wrandom 2>&1 && if [[ -f /etc/rc.shutdown ]]; then
+
+	# empty lopool into compressor arcfour state
+	dd if=/dev/arandom of=/dev/wrandom count=1 2>/dev/null
+	sync 2>/dev/null &	# why not?
+	sleep 7			# wait “long enough”
+	# cause the kernel to re-stir arc4random
+	dd if=/var/db/host.random of=/dev/arandom 2>/dev/null
+	# save a random seed
+	(dd if=/dev/arandom count=3; dd if=/dev/urandom count=8) \
+	    >/var/db/host.random 2>/dev/null
+	chmod 600 /var/db/host.random
+	if [ $? -eq 0 -a -f /etc/rc.shutdown ]; then
 		echo /etc/rc.shutdown in progress...
 		. /etc/rc.shutdown
 		echo /etc/rc.shutdown complete.
@@ -160,11 +166,11 @@ if [[ $1 = shutdown ]]; then
 			    ifconfig $if down
 		done
 
-		{
-			dd if=/dev/urandom of=/dev/arandom bs=4 count=1
-			sleep 1
-			dd if=/dev/arandom count=1 >>/var/db/host.random
-		} >/dev/null 2>&1
+		# re-stir again
+		dd if=/dev/urandom of=/dev/arandom bs=4 count=1 2>/dev/null
+		sleep 1
+		# and append more entropy
+		dd if=/dev/arandom count=1 >>/var/db/host.random 2>/dev/null
 
 		[[ $powerdown = YES ]] && exit 2
 	else
