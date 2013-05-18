@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.9 2007/03/08 09:01:59 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.10 2007/03/29 17:04:20 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1673,11 +1673,11 @@ SERIALDEV=$(get_serialdev)
 # the contents of the other sets, not the other way around.
 THESETS="bsd bsd.rd $MDSETS"
 DEFAULTSETS="bsd"
-for _set in base etc gnu dev xbase xetc pkgutl ports source xfree site; do
-	[[ $MODE == upgrade && $_set == ?(x)etc ]] && continue
-	THESETS="$THESETS ${_set}${VERSION}.ngz"
-	isin $_set xbase xetc pkgutl ports source xfree site || \
-	    DEFAULTSETS="$DEFAULTSETS ${_set}${VERSION}.ngz"
+for s in base etc gnu dev xbase xetc unfree pkgutl ports source xfree site; do
+	[[ $MODE == upgrade && $s == ?(x)etc ]] && continue
+	THESETS="$THESETS ${s}${VERSION}.ngz"
+	isin $s xbase xetc unfree pkgutl ports source xfree site || \
+	    DEFAULTSETS="$DEFAULTSETS ${s}${VERSION}.ngz"
 done
 # Since etc${VERSION}.ngz is not in DEFAULTSETS for upgrades, it can always be
 # in SANESETS.

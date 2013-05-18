@@ -835,10 +835,6 @@
 ./usr/share/doc/html/curses/hackguide.html
 ./usr/share/doc/html/curses/index.html
 ./usr/share/doc/html/curses/ncurses-intro.html
-./usr/share/doc/html/lynx_help
-./usr/share/doc/html/lynx_help/keystrokes
-./usr/share/doc/html/lynx_help/samples
-./usr/share/doc/html/lynx_help/test
 ./usr/share/doc/legal
 ./usr/share/doc/legal/1stREAD
 ./usr/share/doc/legal/COPYING-1
@@ -849,6 +845,7 @@
 ./usr/share/doc/legal/LICENCE-BSD
 ./usr/share/doc/legal/LICENCE-GNU
 ./usr/share/doc/legal/LICENCE.httpd
+./usr/share/doc/legal/LICENCE.smtpd
 ./usr/share/doc/papers
 ./usr/share/doc/psd
 ./usr/share/doc/smm
@@ -911,10 +908,6 @@
 ./usr/share/doc/smm/07.lpd/6.t
 ./usr/share/doc/smm/07.lpd/7.t
 ./usr/share/doc/smm/07.lpd/Makefile
-./usr/share/doc/smm/08.sendmailop
-./usr/share/doc/smm/09.sendmail
-./usr/share/doc/smm/09.sendmail/Makefile
-./usr/share/doc/smm/09.sendmail/intro.me
 ./usr/share/doc/smm/11.timedop
 ./usr/share/doc/smm/11.timedop/Makefile
 ./usr/share/doc/smm/11.timedop/timed.ms
@@ -2184,6 +2177,7 @@
 ./usr/share/man/cat5/changelist.0
 ./usr/share/man/cat5/core.0
 ./usr/share/man/cat5/crontab.0
+./usr/share/man/cat5/cvs.0
 ./usr/share/man/cat5/dhclient.conf.0
 ./usr/share/man/cat5/dhclient.leases.0
 ./usr/share/man/cat5/dhcp-options.0
@@ -2242,6 +2236,7 @@
 ./usr/share/man/cat5/portal.conf.0
 ./usr/share/man/cat5/printcap.0
 ./usr/share/man/cat5/protocols.0
+./usr/share/man/cat5/rcsfile.0
 ./usr/share/man/cat5/remote.0
 ./usr/share/man/cat5/resolv.conf.0
 ./usr/share/man/cat5/resolv.conf.tail.0
@@ -2561,6 +2556,7 @@
 ./usr/share/man/whatis.db
 ./usr/share/misc
 ./usr/share/misc/Caps
+./usr/share/misc/RCSFILES
 ./usr/share/misc/acronyms
 ./usr/share/misc/airport
 ./usr/share/misc/ascii
@@ -2573,6 +2569,7 @@
 ./usr/share/misc/inter.phone
 ./usr/share/misc/iso3166.tab
 ./usr/share/misc/licence.template
+./usr/share/misc/license.template
 ./usr/share/misc/mail.help
 ./usr/share/misc/mail.tildehelp
 ./usr/share/misc/man.template
