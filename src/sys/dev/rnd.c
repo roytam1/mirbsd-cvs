@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.13 2006/05/07 06:54:46 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.17 2006/05/28 02:52:58 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -1260,7 +1260,8 @@ rnd_addpool_reinit(void *v)
 		i = rnd_addpool_size;
 	while ((--i != rnd_addpool_num) && (rnd_addpool_buf[i])) {
 		if (--rnd_addpool_buf[i])
-			add_true_randomness(rnd_addpool_buf[i] + random() & 1);
+			add_true_randomness(rnd_addpool_buf[i] +
+			     (random() & 1));
 		rnd_addpool_buf[i] = 0;
 		if (!i)
 			i = rnd_addpool_size;
