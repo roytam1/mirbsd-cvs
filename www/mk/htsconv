@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.50 2010/07/16 22:31:52 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.51 2010/07/16 22:33:57 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -9,7 +9,7 @@ rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.50 2010/07/16 22:31:52 tg Exp $'
 mws__pagename=
 mws__header=
 mws__rss=
-mws__difftag=MBSD_HTSCONV_GENDATE_TAG_20138
+mws__difftag=MBSD_HTSCONV_GENDATE_TAG_14701
 unset mws__srcfile
 unset mws__abspath
 unset mws__relpath
@@ -190,6 +190,14 @@ function mws_putheader {
 		<li><a href="@@RELPATH@@mksh.htm">mksh</a> Shell</li>
 		</ul></li>
 		 </ul>
+		<div style="margin-top:18px; margin-left:6px;">Sponsored
+		 by<br /><a href="http://www.speedpartner.de/"
+		  style="border:none; text-decoration:none;"><img
+		  style="border:none; text-decoration:none;"
+		  src="@@RELPATH@@pics/speedpartner.png"
+		  alt="SpeedPartner logo" width="130" height="31"
+		  /></a>
+		</div>
 		</div>
 		<div class="content">
 	EOF

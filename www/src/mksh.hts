@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.348 2010/07/21 11:43:02 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.349 2010/07/25 11:59:05 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -912,8 +912,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  the problem is on their side. (XXX Someone has any URL for us?)</li>
 <li class="cr">Olivier Duchateau provides Slackware/Zenwalk GNU/Linux <a
  href="http://www.errements.net/slackbuilds/mksh/">packaging</a> for mksh</li>
-<li class="cr"><img class="fr" width="68" height="64" alt="[OpenSolaris logo]"
- src="@@RELPATH@@pics/logos/sunos.png" />(Open)Solaris <a
+<li class="cr"><img class="fr" width="203" height="51" alt="[GreenViolet logo]"
+ src="@@RELPATH@@pics/logos/lewellyn.png" />(Open)Solaris <a
  href="http://www.greenviolet.net/projects/general-open-source/mksh.gv">packages</a>
  exist courtesy of Matt “lewellyn” Lewandowsky</li>
 <li class="cr"><img class="fr" width="109" height="64" alt="[OpenPKG logo]"
