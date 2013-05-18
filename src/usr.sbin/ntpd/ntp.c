@@ -38,7 +38,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.21 2008/05/13 21:08:00 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.22 2008/06/04 18:28:36 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -506,9 +506,10 @@ priv_adjtime(void)
 
 	if (conf->trace > 4 || (conf->trace && conf->debug))
 		for (i = 0; i < offset_cnt; ++i)
-			log_info("peer %2d: trust %d st %2d dst %3dms"
+			log_info("peer %2d: trust %s (%d) st %2d dst %3dms"
 			    " ofs %6.1fms weight %4d addr %s", i,
-			    peers[i]->trustlevel < TRUSTLEVEL_BADPEER ? 0 : 1,
+			    peers[i]->trustlevel < TRUSTLEVEL_BADPEER ?
+			    "bad" : "good", peers[i]->trustlevel,
 			    peers[i]->update.status.stratum,
 			    (int)((peers[i]->update.delay + .0005) * 1000.),
 			    peers[i]->update.offset * 1000.,
