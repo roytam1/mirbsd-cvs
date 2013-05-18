@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.68 2009/01/12 19:42:00 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.69 2009/01/12 20:13:12 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -348,8 +348,6 @@ Lsta32:	.code32
 	/* store user choice */
 	mov	[hook_value],ebx
 #endif
-
-	sti
 
 	movzx	eax,byte ptr [i386_biosdev]
 	push	eax
