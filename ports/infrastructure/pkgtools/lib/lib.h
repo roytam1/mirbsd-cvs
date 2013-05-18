@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28.2.6 2010/02/27 11:11:20 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28.2.7 2010/02/27 16:20:19 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -171,6 +171,14 @@ struct cfg_source {
 	LIST_ENTRY(cfg_source) entries;
 };
 
+/* list of matching packages */
+TAILQ_HEAD(matchlist, match);
+struct match {
+	char *pkgname;
+	const char *source;
+	TAILQ_ENTRY(match) entries;
+};
+
 /* type of function to be handed to findmatchingname; return value of this
  * is currently ignored */
 typedef int (*matchfn)(const char *found, char *data, int len);
@@ -202,6 +210,7 @@ char		*toabs(const char *, const char *);
 char		*strconcat(const char *, const char *);
 int		pmatch(const char *, const char *);
 int		findmatchingname(const char *, const char *, matchfn, char *, int); /* doesn't really belong here */
+int		findmatchingname_file(const char *, const char *, matchfn, char *, int); /* doesn't really belong here */
 char		*findbestmatchingname(const char *, const char *); /* neither */
 int		ispkgpattern(const char *);
 void		normalize_name(char *);
@@ -311,5 +320,10 @@ void		cfg_add_source(unsigned long, bool, const char*);
 bool		cfg_remove_source(const char*);
 void		cfg_dump_sources(void);
 const struct cfg_sourcelist* cfg_get_sourcelist(void);
+
+/* source list */
+struct matchlist* findmatchingname_srcs(const struct cfg_sourcelist*, const char*);
+void		matchlist_destroy(struct matchlist*);
+ 
 
 #endif /* _INST_LIB_LIB_H_ */

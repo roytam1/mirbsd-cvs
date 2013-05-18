@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.25.2.1 2009/12/29 17:09:32 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.25.2.2 2010/02/27 16:20:18 bsiegert Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <libgen.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.25.2.1 2009/12/29 17:09:32 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.25.2.2 2010/02/27 16:20:18 bsiegert Exp $");
 
 /* block size for file copying */
 #define BLOCKSIZE 1024
@@ -873,7 +873,7 @@ update_src_index(void)
 			err(1, "Could not open local cache file for writing");
 
 		ftpconn = ftpGetURL(remotename, &ftpstatus);
-		if (!ftpstatus) {
+		if (ftpstatus) {
 			fclose(local);
 			err(1, "Could not open FTP connection");
 		}

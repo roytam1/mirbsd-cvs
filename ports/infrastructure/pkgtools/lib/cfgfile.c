@@ -1,7 +1,7 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.10 2010/02/27 11:10:27 bsiegert Exp $ */
+/* $MirOS$ */
 
 /*-
- * Copyright (c) 2009
+ * Copyright (c) 2009, 2010
  *	Benny Siegert <bsiegert@gmx.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -31,7 +31,7 @@
 #include <err.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.10 2010/02/27 11:10:27 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.11 2010/02/27 16:20:18 bsiegert Exp $");
 
 SLIST_HEAD(cfg_varlist, cfg_var);
 struct cfg_var {

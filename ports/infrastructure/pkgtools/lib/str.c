@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.13.2.2 2010/02/27 12:11:49 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.13.2.3 2010/02/27 16:20:19 bsiegert Exp $ */
 /*	$OpenBSD: str.c,v 1.11 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -21,10 +21,11 @@
  */
 
 #include <err.h>
+#include <errno.h>
 #include <fnmatch.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.13.2.2 2010/02/27 12:11:49 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/str.c,v 1.13.2.3 2010/02/27 16:20:19 bsiegert Exp $");
 
 /* "normalize" a URL by replacing all the characters which are "not nice"
  * in a filename by '_' characters.
@@ -551,4 +552,50 @@ src_index_name(const char *url)
 	normalize_name(rv + strlen(CACHEDIR));
 
 	return rv;
+}
+
+int
+findmatchingname_file(const char *filename, const char *pattern, matchfn f, char *data, int datalen)
+{
+	FILE *fp;
+	char *line, buf[FILENAME_MAX];
+	size_t len;
+	int found = 0;
+
+	fp = fopen(filename, "r");
+	if (!fp) {
+		if (errno == ENOENT)
+			warnx("One of the index cache files was not found,"
+					"please run 'pkg_add -U'!");
+		else
+			warn("Error opening an index cache file");
+		return -1;
+	}
+
+	while ((line = fgetln(fp, &len))) {
+		/* don't bother with non-null-terminated strings,
+		 * just copy to our own buffer and null-terminate that */
+		if (len >= sizeof(buf)) {
+			warnx("index cache: line too long!");
+			fclose(fp);
+			return -1;
+		}
+		memcpy(buf, line, len);
+		buf[len] = '\0';
+		if ((len > 0) && buf[len - 1] == '\n')
+			buf[--len] = '\0';
+		while ((len > 0) && isspace(buf[len - 1]))
+			buf[--len] = '\0';
+		
+		if (pmatch(pattern, buf)) {
+			if (f)
+				f(buf, data, datalen);
+			found = 1;
+		}
+	}
+
+	if (ferror(fp))
+		warn("Error reading an index cache file");
+	fclose(fp);
+	return found;
 }
