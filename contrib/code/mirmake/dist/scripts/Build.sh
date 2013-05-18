@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.80 2006/08/26 23:31:24 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.81 2006/08/27 00:32:46 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -292,6 +292,7 @@ scnfunc exit 't==false' 'stdbool.h' 'bool t = true;' stdbool.h
 test 1 = $HAVE_EXIT || cp $d_src/include/stdbool.h $d_build/F/
 unset HAVE_EXIT
 scnfunc ohash_delete 'NULL' 'stdlib.h' 'void ohash_delete(void *);'
+scnfunc utimes 'NULL,NULL' 'stdlib.h sys/time.h'
 SRCS="md4hl.c md5hl.c rmd160hl.c sha1hl.c sha256hl.c sha384hl.c sha512hl.c"
 SRCS="getopt_long.c md4.c md5.c rmd160.c sha1.c sha2.c $SRCS"
 [[ $new_machos = Interix ]] && \
@@ -323,6 +324,7 @@ done
 cd $d_build
 $d_build/bmake -m $d_build/mk MAKE_BOOTSTRAP=Yes \
     MKFEATURES=-D_PATH_DEFSYSPATH=\\\"${dt_mk}\\\" clean
+[[ $HAVE_UTIMES = 1 ]] && CPPFLAGS="$CPPFLAGS -DUSE_TIMESPEC"
 $d_build/bmake -m $d_build/mk MAKE_BOOTSTRAP=Yes \
     MKFEATURES=-D_PATH_DEFSYSPATH=\\\"${dt_mk}\\\" depend
 $d_build/bmake -m $d_build/mk MAKE_BOOTSTRAP=Yes \
