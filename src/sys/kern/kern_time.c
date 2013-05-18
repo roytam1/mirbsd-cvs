@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/kern_time.c,v 1.3 2006/06/11 02:22:06 tg Exp $ */
+/**	$MirOS: src/sys/kern/kern_time.c,v 1.4 2006/10/17 20:48:48 tg Exp $ */
 /*	$OpenBSD: kern_time.c,v 1.39 2004/02/15 02:34:14 tedu Exp $	*/
 /*	$NetBSD: kern_time.c,v 1.20 1996/02/18 11:57:06 fvdl Exp $	*/
 
@@ -65,6 +65,10 @@ settime(struct timeval *tv)
 {
 	struct timeval delta;
 	int s;
+
+	/* push both old and new time into the low-entropy pool */
+	rnd_bootpool = adler32(adler32(rnd_bootpool, (const void *)&time,
+	    sizeof (time)), (const void *)tv, sizeof (struct timeval));
 
 	/*
 	 * Don't allow the time to be set forward so far it will wrap
@@ -367,6 +371,10 @@ sys_adjtime(p, v, retval)
 	if ((error = copyin((void *)SCARG(uap, delta), (void *)&atv,
 	    sizeof(struct timeval))))
 		return (error);
+
+	/* push both old time and adjustment into the low-entropy pool */
+	rnd_bootpool = adler32(adler32(rnd_bootpool, (const void *)&time,
+	    sizeof (time)), (const void *)&atv, sizeof (struct timeval));
 
 	/*
 	 * Compute the total correction and the rate at which to apply it.
