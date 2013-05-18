@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.235 2008/11/02 17:29:28 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.236 2008/11/02 19:21:31 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -422,8 +422,17 @@ NO_CXX=			not explicitly requested by this port
 .endif
 _ORIG_CC:=		${CC}
 _ORIG_CXX:=		${CXX}
-_USE_CC:=		${CC}
-_USE_CXX:=		${CXX}
+USE_COMPILER?=		system
+.if ${USE_COMPILER:L} == "pcc"
+BUILD_DEPENDS+=		:pcc-*:lang/pcc
+USE_CCACHE:=		No
+_DEFCOPTS_pcc?=		-O
+_DEFCOPTS:=		${_DEFCOPTS_pcc}
+_ORIG_CC:=		pcc
+_ORIG_CXX:=		false
+.endif
+_USE_CC:=		${_ORIG_CC}
+_USE_CXX:=		${_ORIG_CXX}
 .if ${NO_CXX:L} != "no"
 _USE_CXX:=		false
 .endif
