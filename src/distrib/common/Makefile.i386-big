@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.i386-big,v 1.14 2008/08/05 19:25:17 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386-big,v 1.15 2008/08/05 22:48:46 tg Exp $
 
 IMAGESIZE=	8192
 IMAGETYPE=	ipldisc
@@ -8,13 +8,14 @@ KERNEL_BUILD=	no
 RAMDISK_PREP=	print 'rootdev 17 0\nquit' | config -ef $@
 
 FLOPPY=		no
-CDROM_MDOPTS=	-b b_${MACHINE}.iso -c boot.cat -no-emul-boot
+CDROM_OPTS+=	bootimage=i386\;eltorito.loo
+CDROM_OPTS+=	no-emul-boot
 
 bsd: ${BSDOBJDIR}/distrib/generic/bsd
 	cp -f $> $@
 
 cdrom-mdcopy:
-	dd if=/dev/arandom bs=2048 count=1 of=${WRKDIR}/b_${MACHINE}.iso
+	dd if=/dev/arandom bs=2048 count=1 of=eltorito.loo
 	cp ${DESTDIR}/usr/mdec/pxeboot ${WRKDIR}/v${OSrev}/${MACHINE}/
 
 cdrom-mdboot:
@@ -24,4 +25,4 @@ cdrom-mdboot:
 	getextent_cd9660 -f ${CDROM} b_${MACHINE}.ldr | \
 	    ${MKSH} ${BOOTSH} -B 11 | \
 	    dd of=${CDROM} conv=notrunc bs=2048 seek=$$(getextent_cd9660 \
-	    -f ${CDROM} -b b_${MACHINE}.iso) 2>/dev/null
+	    -f ${CDROM} -b '$$BootImage$$') 2>/dev/null

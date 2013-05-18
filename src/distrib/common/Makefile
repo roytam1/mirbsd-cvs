@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.31 2008/08/05 19:25:16 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.32 2008/08/05 22:48:45 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -73,7 +73,13 @@ BOOTSH?=	${DESTDIR}/usr/mdec/bootxx.sh
 
 # compact disc image (set to no to disable)
 CDROM?=		cdrom${OSrev}.iso
-CDROM_MDOPTS?=
+CDROM_OPTS+=	applicationid=NetBSD_makefs
+CDROM_OPTS+=	label=MirOS~v${OSrev}~BSD/${MACHINE}~boot-only~CD
+CDROM_OPTS+=	preparer=MirBSD_and_its_contributors
+CDROM_OPTS+=	publisher=Copyright_\<c\>_2002=2008_The_MirOS_Project
+CDROM_OPTS+=	rockridge
+CDROM_OPTS+=	volumeid=$$(uname -slm | tr -- '- \#' :_):Setup
+#CDROM_OPTS+=	v=1
 
 #---
 
@@ -210,12 +216,8 @@ cdrom-prepare: bsd.rd
 
 cdrom-generate:
 	chmod -R u+w ${WRKDIR}
-	mkisofs -r ${CDROM_MDOPTS} \
-	    -P 'The http://mirbsd.de/ team and its contributors' \
-	    -p 'Copyright © 2002-2008 by The MirOS Project' \
-	    -V 'MirOS #${OSrev} BSD/${MACHINE} boot-only CD' \
-	    -volset "$$(uname -slm) Setup" -sysid "MirOSBSD" \
-	    -pad -o ${CDROM} ${WRKDIR}
+	makefs -t cd9660 -o "$$(print -r -- ${CDROM_OPTS} | tr ' ~' ', ')" \
+	    ${CDROM} ${WRKDIR}
 	-rm -rf ${WRKDIR}
 
 .include <bsd.obj.mk>

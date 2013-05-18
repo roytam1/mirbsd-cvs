@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.20 2008/08/05 19:19:57 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.21 2008/08/05 22:48:45 tg Exp $
 
 all: sundsklbl
 
@@ -18,7 +18,7 @@ depend:
 prereq:
 
 clean: .PHONY
-	-rm -f i386_chain sundsklbl *.o ${CDROM}
+	-rm -f i386_chain sundsklbl *.o eltorito.loo ${CDROM}
 	-rm -rf cddir
 
 cleandir: .PHONY clean
@@ -33,6 +33,16 @@ sundsklbl: sundsklbl.c
 	cd ${.CURDIR} && ${MAKE} -f ${.SYSMK}/bsd.prog.mk \
 	    PROG=$@ NOMAN=Yes EXPERIMENTAL=Yes
 
+CDROM_OPTS+=	applicationid=NetBSD_makefs
+CDROM_OPTS+=	bootimage=i386\;eltorito.loo
+CDROM_OPTS+=	no-emul-boot
+CDROM_OPTS+=	label=MirOS~v${OSrev}~BSD~manifold-boot~CD
+CDROM_OPTS+=	preparer=MirBSD_and_its_contributors
+CDROM_OPTS+=	publisher=Copyright_\<c\>_2002=2008_The_MirOS_Project
+CDROM_OPTS+=	rockridge
+CDROM_OPTS+=	volumeid=$$(uname -sl | tr -- '- \#' :_):i386\;sparc:Setup
+#CDROM_OPTS+=	v=1
+
 makecdimage: .PHONY
 	-rm -rf cddir ${CDROM}
 	mkdir -p cddir/v${OSrev}/{i386,sparc}
@@ -43,20 +53,16 @@ makecdimage: .PHONY
 		done; \
 		mv cddir/v${OSrev}/$$arch/boot cddir/b_$$arch.ldr; \
 	done
-	dd if=/dev/arandom bs=2048 count=1 of=cddir/b_i386.iso	# El Torito
+	dd if=/dev/arandom bs=2048 count=1 of=eltorito.loo 2>&-	# El Torito
 	ln cddir/v${OSrev}/sparc/bsd.rd cddir/vmunix		# for kicks
 	ln cddir/v${OSrev}/sparc/bsd.rd cddir/bsd		# for idiots
 	cp ${.CURDIR}/../common/00-README ${.CURDIR}/boot.cfg cddir/
-	mkisofs -r -b b_i386.iso -c boot.cat -no-emul-boot \
-	    -P 'The http://mirbsd.de/ team and its contributors' \
-	    -p 'Copyright © 2002-2008 by The MirOS Project' \
-	    -V 'MirOS #${OSrev} BSD manifold-boot CD' \
-	    -volset "$$(uname -sl) i386/sparc Setup" -sysid MirOSBSD \
-	    -pad -o ${CDROM} cddir 2>&1
+	makefs -t cd9660 -o "$$(print -r -- ${CDROM_OPTS} | tr ' ~' ', ')" \
+	    ${CDROM} cddir
 	getextent_cd9660 -f ${CDROM} b_i386.ldr | \
 	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.i386 -B 11 | \
 	    dd of=${CDROM} conv=notrunc bs=2048 seek=$$(getextent_cd9660 \
-	    -f ${CDROM} -b b_i386.iso) 2>/dev/null
+	    -f ${CDROM} -b '$$BootImage$$') 2>/dev/null
 	getextent_cd9660 -f ${CDROM} b_i386.ldr | \
 	    ${MKSH} ${BSDSRCDIR}/usr.sbin/installboot/bxinst.i386 -S 2 | \
 	    dd of=${CDROM} conv=notrunc bs=512 seek=${CHAINSECTOR} 2>/dev/null
