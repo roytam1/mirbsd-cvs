@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.30 2008/09/17 21:12:01 tg Exp $
+# $MirOS: www/Makefile,v 1.31 2008/09/17 21:21:37 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -17,7 +17,7 @@ BSDSRCDIR?=/nonexistant
 .  include "${DST}/.depend"
 .endif
 
-U_ENV+=		TOP=${TOP:Q} DST=${DST:Q} MKSH=${MKSH:Q} SHELL=${MKSH:Q}
+U_ENV+=		TOP=${TOP:Q} DST=${DST:Q} MKSH=${MKSH:Q} SHELL=${MKSH:Q} TZ=UTC
 
 SRCS+=		about.hts
 SRCS+=		anargeek.hts

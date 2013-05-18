@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.27 2008/09/09 18:00:27 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.28 2008/09/17 21:12:20 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -87,7 +87,7 @@ function mws_putheader {
 		<div class="content">
 	EOF
 	mws__header="<p class=\"rcsdiv\">Generated <!-- $mws__difftag --> on"
-	mws__header="$mws__header <span class=\"rcsid\">$(TZ=UTC date +'%F %T')</span>"
+	mws__header="$mws__header <span class=\"rcsid\">$(date +'%F %T')</span>"
 	mws__header="$mws__header by <span class=\"rcsid\">$rcsid_htsconv</span>"
 	for x in "$rcsid_parser" "$rcsid_inc2htm" "$rcsid_inc2rss"; do
 		[[ -n $x ]] || continue
