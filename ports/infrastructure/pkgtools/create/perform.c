@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.18 2009/11/22 15:34:14 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.19 2009/11/29 17:26:04 bsiegert Exp $ */
 /* $OpenBSD: perform.c,v 1.17 2003/08/27 06:51:26 jolan Exp $	*/
 
 /*
@@ -32,7 +32,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.18 2009/11/22 15:34:14 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.19 2009/11/29 17:26:04 bsiegert Exp $");
 
 static void sanity_check(void);
 static void make_dist(char *, char *, const char *, package_t *);
@@ -266,7 +266,8 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
     int current = 0;
     FILE *flist = 0;
     int nargs = 0;
-    int i, compression;
+    int i;
+    pkg_cmp_t compression;
     char *cp, *cp2;
 
     bzero(args, sizeof(args));
@@ -278,16 +279,13 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
 	snprintf(tball, FILENAME_MAX, "%s/%s.%s", homepath, pkg, fsuffix);
 
     if (!strcmp(fsuffix + strlen(fsuffix) - 2, "lz"))
-	/* LZMA-Alone compression */
-	compression = 2;
+	compression = COMP_LZMA;
     else if (!strcmp(fsuffix + strlen(fsuffix) - 2, "xz"))
-	/* LZMA2 compression */
-	compression = 3;
+	compression = COMP_XZ;
     else if (strchr(fsuffix, 'z'))
-	/* gzip compression */
-	compression = 1;
+	compression = COMP_GZIP;
     else
-	compression = 0;
+	compression = COMP_NONE;
 
     args[nargs++] = xstrdup("-c");
     if (!WantUSTAR)
@@ -307,9 +305,9 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
 
     if (Verbose)
 	printf("Creating %star ball in '%s'\n",
-	    compression == 3 ? "LZMA2 compressed " :
-	    compression == 2 ? "LZMA1 compressed " :
-	    compression == 1 ? "gzip'd " : "", tball);
+	    compression == COMP_XZ	? "LZMA2 compressed " :
+	    compression == COMP_LZMA	? "LZMA1 compressed " :
+	    compression == COMP_GZIP	? "gzip'd " : "", tball);
     args[nargs++] = xstrdup(CONTENTS_FNAME);
     args[nargs++] = xstrdup(COMMENT_FNAME);
     args[nargs++] = xstrdup(DESC_FNAME);
@@ -379,15 +377,17 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
     if (compression) {
 	char *tf;
 
-	xasprintf(&cp2, "%s | %s >%s", cp, compression == 1 ?
-	  "gzip -n9fc" : compression == 2 ? "lzma -z9fc" :
-	  "xz -zfc9e -F xz -C crc32", (tf = format_arg(tball)));
+	xasprintf(&cp2, "%s | %s >%s", cp,
+		compression == COMP_GZIP ? "gzip -n9fc" :
+		compression == COMP_LZMA ? "lzma -z9fc" :
+		"xz -zfc9e -F xz -C crc32", (tf = format_arg(tball)));
 	xfree(tf);
 	xfree(cp);
     } else
 	cp2 = cp;
 
-    if ((ret = sxsystem(compression == 2 || compression == 3, cp2)) == -1) {
+    if ((ret = sxsystem(compression == COMP_LZMA ||
+		    compression == COMP_XZ, cp2)) == -1) {
 	for (i = 0; i < current; i++)
 	    unlink(tempfile[i]);
 	exit(2);

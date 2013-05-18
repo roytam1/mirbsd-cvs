@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.25 2009/10/20 19:32:50 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.26 2009/11/29 13:26:17 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -124,6 +124,14 @@ typedef enum rm_cfg_t {
 	RMCFG_ALL,
 	RMCFG_UNCHANGED
 } rm_cfg_t;
+
+/* type of compression of binary packages */
+typedef enum pkg_cmp_t {
+	COMP_NONE = 0,
+	COMP_GZIP,
+	COMP_LZMA,
+	COMP_XZ
+} pkg_cmp_t;
 
 /* this structure describes a packing list entry */
 typedef struct plist_t {
