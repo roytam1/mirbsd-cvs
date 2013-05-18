@@ -1,4 +1,4 @@
-.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.5 2006/04/07 23:25:29 tg Exp $
+.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.6 2006/04/07 23:53:07 tg Exp $
 .\"	$OpenBSD: installboot.8,v 1.26 2003/06/06 21:45:33 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Michael Shalayeff
@@ -50,6 +50,7 @@
 .Oo Fl s Ar sectors-per-track Oc
 .Oo Fl h Ar tracks-per-cyl Oc
 .Op Fl P Ar partition-type
+.Op Fl S Ar sector
 .Fl I Ar bootstart bootend
 .Ar ldsec
 .Ar image.iso
@@ -60,6 +61,7 @@
 .Oo Fl s Ar sectors-per-track Oc
 .Oo Fl h Ar tracks-per-cyl Oc
 .Op Fl P Ar partition-type
+.Op Fl S Ar sector
 .Fl i Ar bootstart bootlen
 .Ar ldsec
 .Ar disc.ima
@@ -117,7 +119,9 @@ file had better be not too fragmented for this to work.
 This option is not yet supported.
 .It Fl I
 Instead of installing the first-stage boot loader on a disc,
-write it to the beginning (sector 0) of an ISO 9660 image file.
+write it to the beginning (sector 0, unless
+.Fl S
+is used) of an ISO 9660 image file.
 The arguments
 .Ar bootstart
 and
@@ -143,7 +147,9 @@ cannot be used to boot the same image from hard disc any more.
 Use another copy of the second-stage loader.
 .It Fl i
 Instead of installing the first-stage boot loader on a disc,
-write it to the beginning (sector 0) of a hard disc image file.
+write it to the beginning (sector 0, unless
+.Fl S
+is used) of a hard disc image file.
 The arguments
 .Ar bootstart
 and
@@ -156,6 +162,9 @@ Example:
 .Pp
 Support for porting this to GNU/Linux welcome; contact
 .An Thorsten Glaser Aq tg@mirbsd.de .
+.It Fl S Ar sector
+Specifies the sector the first stage boot loader should be
+written to, instead of sector 0.
 .El
 .Pp
 The arguments are:
@@ -164,6 +173,11 @@ The arguments are:
 The name of the second-stage boot program in the mounted file system
 where the first-stage boot program is to be installed.
 This should be a full pathname.
+This argument is omitted when
+.Fl I
+or
+.Fl i
+are used.
 .It Ar ldsec
 The name of the prototype file for the first stage boot program,
 usually

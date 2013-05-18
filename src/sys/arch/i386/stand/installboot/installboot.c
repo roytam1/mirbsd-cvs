@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.12 2006/04/07 23:53:07 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.13 2006/04/07 23:57:47 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -88,7 +88,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.12 2006/04/07 23:53:07 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.13 2006/04/07 23:57:47 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -133,8 +133,8 @@ usage(void)
 	fprintf(stderr, "usage:\t%s [-n] [-v] [-s sec-per-track] "
 	    "[-h track-per-cyl]\n", __progname);
 	fprintf(stderr, "\t    boot ldsec device\n");
-	fprintf(stderr, "\t    -I bootstart bootend ldsec device\n");
-	fprintf(stderr, "\t    -i bootstart bootlen ldsec device\n");
+	fprintf(stderr, "\t    [-S sector] -I bootstart bootend ldsec device\n");
+	fprintf(stderr, "\t    [-S sector] -i bootstart bootlen ldsec device\n");
 	exit(1);
 }
 
@@ -189,12 +189,12 @@ main(int argc, char *argv[])
 	bios_diskinfo_t di;
 	long mbrofs;
 	int mbrpart;
-	off_t isoofs = 0, isolen = 0, imaofs = 0;
+	off_t isoofs = 0, isolen = 0, imaofs = 0, imasec = 0;
 
 	fprintf(stderr, "MirOS BSD installboot " __BOOT_VER "\n");
 
 	nsectors = nheads = -1;
-	while ((c = getopt(argc, argv, "h:I:i:MnP:s:v")) != -1) {
+	while ((c = getopt(argc, argv, "h:I:i:MnP:S:s:v")) != -1) {
 		switch (c) {
 		case 'h':
 			nheads = atoi(optarg);
@@ -231,6 +231,11 @@ main(int argc, char *argv[])
 				userpt = 0;
 			}
 			break;
+		case 'S':
+			imasec = (off_t)strtoll(optarg, NULL, 0);
+			if (imasec < 0)
+				errx(1, "invalid sector argument");
+			break;
 		case 's':
 			nsectors = atoi(optarg);
 			if (nsectors < 1 || nsectors > 63) {
@@ -247,7 +252,7 @@ main(int argc, char *argv[])
 		}
 	}
 
-	if (isoofs && imaofs)
+	if ((isoofs && imaofs) || (!isoofs && !imaofs && imasec))
 		usage();
 
 	if (argc - optind < 3) {
@@ -337,7 +342,7 @@ main(int argc, char *argv[])
 			fprintf(stderr, "%s: %d entries total (%d bytes)\n",
 			    boot, block_count_p[0], curblocklen);
 
-		startoff = 0;
+		startoff = imasec;
 		goto do_write;
 	}
 
