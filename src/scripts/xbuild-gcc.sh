@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-gcc.sh,v 1.7 2006/03/01 14:04:08 tg Exp $
+# $MirOS: src/scripts/xbuild-gcc.sh,v 1.8 2006/03/01 20:08:10 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -35,6 +35,7 @@ else
 	no_Ada=Yes
 fi
 
+[[ -n $1 ]] && TARGET=$1
 [[ -z $CROSSDIR ]] && CROSSDIR=${DESTDIR}/usr/cross/${TARGET}
 
 if [[ ! -s $CROSSDIR/T_BASEENV ]]; then
@@ -44,7 +45,6 @@ fi
 
 . $CROSSDIR/T_BASEENV
 
-[[ -n $1 ]] && TARGET=$1
 if [[ -z $TARGET ]]; then
 	print -u2 No target given.
 	exit 1
