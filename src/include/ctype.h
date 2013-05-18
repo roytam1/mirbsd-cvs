@@ -1,4 +1,4 @@
-/* $MirOS: src/include/ctype.h,v 1.13 2007/02/08 04:31:02 tg Exp $ */
+/* $MirOS: src/include/ctype.h,v 1.14 2007/02/08 04:34:47 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -56,6 +56,9 @@ int	toupper(int);
 
 #if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
 int	isascii(int);
+#if __OPENBSD_VISIBLE
+int	isbinry(int);
+#endif
 int	isblank(int);
 int	toascii(int);
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
@@ -116,6 +119,15 @@ extern const unsigned char __C_attribute_table_pg[256];
 #define _tolower(c)	((c) - 'A' + 'a')
 #define _toupper(c)	((c) - 'a' + 'A')
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
+
+#if __OPENBSD_VISIBLE
+#define isbinry(ch)	__extension__({		\
+	uint8_t c = (ch);			\
+	((ch == 0x00) ||			\
+	    (ch == 0xC0) || (ch == 0xC1) ||	\
+	    ((ch >= 0xF0) && (ch <= 0xFF)));	\
+})
+#endif
 
 #endif /* !lint */
 

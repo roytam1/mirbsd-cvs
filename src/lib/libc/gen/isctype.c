@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/gen/isctype.c,v 1.6 2007/02/02 19:28:30 tg Exp $ */
+/* $MirOS: src/lib/libc/gen/isctype.c,v 1.7 2007/02/02 21:06:19 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -24,11 +24,12 @@
 #include <ctype.h>
 #include <stdio.h>
 
-__RCSID("$MirOS: src/lib/libc/gen/isctype.c,v 1.6 2007/02/02 19:28:30 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/isctype.c,v 1.7 2007/02/02 21:06:19 tg Exp $");
 
 #undef isalnum
 #undef isalpha
 #undef isascii
+#undef isbinry
 #undef isblank
 #undef iscntrl
 #undef isdigit
@@ -84,4 +85,13 @@ int
 toupper(int c)
 {
 	return (((c) >= 'a') && ((c) <= 'z') ? (c) - 'a' + 'A' : (c));
+}
+
+int
+isbinry(int ch)
+{
+	uint8_t c = ch;
+	return ((ch == 0x00) ||
+	    (ch == 0xC0) || (ch == 0xC1) ||
+	    ((ch >= 0xF0) && (ch <= 0xFF)));
 }

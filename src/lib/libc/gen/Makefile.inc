@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/gen/Makefile.inc,v 1.9 2006/11/03 18:10:43 tg Exp $
+# $MirOS: src/lib/libc/gen/Makefile.inc,v 1.10 2006/11/20 23:56:42 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.37 2005/02/01 15:12:28 millert Exp $
 
 # gen sources
@@ -150,3 +150,5 @@ MLINKS+=tolower.3 _tolower.3
 MLINKS+=toupper.3 _toupper.3
 MLINKS+=ttyname.3 ttyname_r.3 ttyname.3 isatty.3 ttyname.3 ttyslot.3
 MLINKS+=vis.3 strvis.3 vis.3 strnvis.3 vis.3 strvisx.3 unvis.3 strunvis.3
+
+MAN+=	isbinry.3
