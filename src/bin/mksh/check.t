@@ -4052,7 +4052,7 @@ stdin:
 expected-stdout:
 	a tcd 345 #75 a
 	b abc 123 16# b
-	c    c
+	c c
 	d cdefghi 3456789 #75bcd15 d
 	e cdefgh 345678 #75bcd1 e
 	f cdefghi 3456789 #75bcd15 f
