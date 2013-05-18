@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.9 2006/11/17 18:31:42 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.10 2006/12/11 22:59:22 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2000 Marc Espie
@@ -770,6 +770,12 @@ Many ports ignore it.
 .It Ev CXXOPTS
 User settings.
 Supplementary options appended to ${CXXFLAGS} for building.
+.It Ev DASH_VER
+A numeric, decimal, value that is the last component
+of ${PKGNAME} without any flavour or subpackage extensions.
+This replaces the former
+.Dq package patchlevel .
+Default is 0.
 .It Ev DEF_UMASK
 Correct value of umask for the port to build and package correctly.
 Tested against the actual umask at
@@ -1314,8 +1320,8 @@ short description).
 Default: pkg.${ARCH} or pkg.
 .It Ev PKGNAME
 Name of the main created package.
-Default is ${DISTNAME} for the main package,
-and ${DISTNAME} for multi-package ports.
+Default is ${DISTNAME}-${DASH_VER} for the main package,
+and ${DISTNAME}-${DASH_VER} for multi-package ports.
 This does not take flavors into account.
 See
 .Ev FULLPKGNAME
@@ -2307,11 +2313,11 @@ apart if one tries to build/use stuff elsewhere.
 .\" what the infrastructure thinks is a sensible default).
 .\"
 .\" The package name is a requirement which still must be set manually,
-.\" but you can use a line such as PKGNAME=${_CVS_DISTF:R}-0 in your
+.\" but you can use a line such as PKGNAME=${_CVS_DISTF:R}-${DASH_VER} in your
 .\" port, which will cover 95% of the cases. THIS ONLY WORKS IF YOU USE
 .\" CVS_DISTDATE *AND* *NOT* CVS_DISTTAGS. Another example is to just
 .\" set a sensible one yourself, like libtool does (which pulls from the
-.\" branch-1-5 tag): PKGNAME=libtool-1.5.23a.${CVS_DISTDATE:S!/!!g}-0
+.\" branch-1-5 tag): PKGNAME=libtool-1.5.23a.${CVS_DISTDATE:S!/!!g}-${DASH_VER}
 .\" Of course, this needs more maintenance.
 .\"
 .\"
