@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/boot/Makefile,v 1.13 2009/04/16 12:14:10 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/boot/Makefile,v 1.14 2009/04/16 13:20:24 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2003/08/11 06:35:45 deraadt Exp $
 # $NetBSD: Makefile,v 1.2 1995/09/30 21:43:38 pk Exp $
 
@@ -46,7 +46,7 @@ ${PROG}: ${PROG}.elf
 	: check if advecs are still at the correct place in ${PROG}.aout; \
 	tstval=$$(dd if=${PROG}.aout bs=1 count=4 skip=$$((advecs)) | \
 	    hexdump -ve '1/1 "%02X"'); [[ $$tstval = 20355601 ]] || exit 1; \
-	print "$$(sed 's/\(..\)/\\x\1/g' <<<"$${nofs#16#}$${ofs#16#}")" | \
+	print -n "$$(sed 's/\(..\)/\\x\1/g' <<<"$${nofs#16#}$${ofs#16#}")" | \
 	    dd conv=notrunc bs=1 seek=$$((advecs + 4)) of=${PROG}.aout
 	# sort-of install the patched a.out file
 	mv -f ${PROG}.aout ${PROG}
