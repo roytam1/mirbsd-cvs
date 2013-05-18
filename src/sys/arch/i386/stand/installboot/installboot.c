@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.19 2007/02/26 02:52:47 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.20 2007/02/26 02:57:37 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -88,7 +88,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.19 2007/02/26 02:52:47 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.20 2007/02/26 02:57:37 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -386,9 +386,6 @@ main(int argc, char *argv[])
 		    "must/should specify -h and -s\nwarning: the drive "
 		    "may not boot in non-LBA mode\n");
 
-	if (flag_oneonly)
-		nheads |= 0x8000;
-
 	/* Extract and load block numbers */
 	if (loadblocknums(boot, devfd, &dl) != 0)
 		exit(1);
@@ -450,6 +447,9 @@ main(int argc, char *argv[])
 	*num_heads_p = nheads;
 	*num_secs_p = nsectors;
 	*partp_p = userpt;
+
+	if (flag_oneonly)
+		num_heads_p[1] = 0x80;
 
 	if (!nowrite) {
 		if (lseek(devfd, startoff, SEEK_SET) < 0 ||
