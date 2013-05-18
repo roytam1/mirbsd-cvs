@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.38 2006/07/02 23:31:50 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.39 2006/09/25 15:22:30 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -164,7 +164,7 @@ MKSH?=		/bin/mksh
 NROFF?=		nrcon ${MACROS} ${PAGES}
 PIC?=		pic
 REFER?=		refer
-ROFF?=		groff -Tps -M/usr/share/tmac ${MACROS} ${PAGES}
+ROFF?=		groff -Tps ${MACROS} ${PAGES}
 SOELIM?=	soelim
 TBL?=		tbl
 
@@ -172,16 +172,15 @@ TBL?=		tbl
 # e.g. for depending DLLs on CSU objects
 
 .if ${OBJECT_FMT} == "ELF"
+LIBCRT0?=	${DESTDIR}/usr/lib/crt0.o
 CRTBEGIN?=	${DESTDIR}/usr/lib/crtbegin.o
 CRTEND?=	${DESTDIR}/usr/lib/crtend.o
 CRTI?=		${DESTDIR}/usr/lib/crti.o
 CRTN?=		${DESTDIR}/usr/lib/crtn.o
 .  if defined(DESTDIR)
-${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN}: .OPTIONAL .NOTMAIN
+${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN} ${LIBCRT0}: .OPTIONAL .NOTMAIN
 .  endif
 .endif
-
-LIBCRT0?=	${DESTDIR}/usr/lib/crt0.o
 LIBC?=		${DESTDIR}/usr/lib/libc.a
 LIBCOMPAT?=	${DESTDIR}/usr/lib/libcompat.a
 LIBCRYPTO?=	${DESTDIR}/usr/lib/libcrypto.a
