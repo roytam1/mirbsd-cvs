@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.17 2008/07/15 13:25:25 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.18 2008/07/18 22:41:23 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -92,6 +92,16 @@ use Encode;
 use POSIX ":sys_wait_h";
 use BSD::arc4random qw(arc4random_pushb arc4random_bytes);
 
+sub parseserver {
+  local $args = $_[0];
+  if ($args =~ m/^\[([^\]]+)\](.*)$/) {
+    ($server, $port, $pass) = split(/[\s:]+/, $2);
+    $server = $1;
+  } else {
+    ($server, $port, $pass) = split(/[\s:]+/, $args);
+  }
+}
+
 &Getopts('n:s:p:u:i:l:L:H:rqQR78UC:XT');
 
 %set=("LOGFILE", "", "LOG", "off", "PRINTUH", "none", "PRINTCHAN", "off",
@@ -112,7 +122,7 @@ $set{"IRCNAME"}=$opt_i || $ENV{"SIRCNAME"} || $ENV{"IRCNAME"} || "/whois your fa
 $nick=$opt_n || $ARGV[0] || $ENV{"SIRCNICK"} || $ENV{"IRCNICK"} || $username;
 $set{"FINGER"}=$ENV{"IRCFINGER"} || "keep your fingers to yourself";
 $set{"USERINFO"}=$ENV{"USERINFO"} || "yep, I'm a happy MirBSD user";
-($server, $port, $pass)=split(/[\s:]+/, $server);
+&parseserver($server);
 $port || ($port=$port0);
 $server0=$server1=$server;
 $initfile=$opt_l || $ENV{"SIRCRCPL"} || $ENV{'HOME'}."/.etc/sircrc.pl"
@@ -1078,7 +1088,7 @@ sub docommand {
       &tell($connected ? "*** Your current server is $server" :
 			 "*** You're not connected to a server");
     } else {
-      ($server, $port, $pass)=split(/[\s:]+/, $args);
+      &parseserver($args);
       $server=$', $nick=$1 if $server =~ /^([^\@]+)\@/;
       $port || ($port=$port0);
       if ($connected) {
