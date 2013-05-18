@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.22 2007/06/04 08:36:36 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.23 2007/06/30 02:47:41 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -72,7 +72,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.22 2007/06/04 08:36:36 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.23 2007/06/30 02:47:41 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -171,6 +171,7 @@ ed -s usr/bin/ftp <<-'EOMD'
 	wq
 EOMD
 ed -s var/cron/tabs/root <<-'EOMD'
+	/anacron/s/^/#/
 	/daily/s/^/#/
 	/weekly/s/^/#/
 	/monthly/s/^/#/
