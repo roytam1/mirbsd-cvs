@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.321 2011/02/13 00:07:49 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.322 2011/02/19 18:01:23 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7367,4 +7367,78 @@ Tag: debian mksh
 <p>ObQuestion: what’s the legal (copyright/trademark) status of the Atari logo
  (the one in rainbow colours, with three things going up, right and left “leg”
  looking like an umbrella stand’s)?</p>
+----
+Date: 03.03.2011 16:24
+Author: tg@
+Title: (Free)BSD vs. Linux
+Tag: debian event ill mksh rant
+
+<p>Warning: this is a rant against BSD (specifically FreeBSD®, but don’t let
+ me get started on DragonFly, who think it’s wise to drop all shells except
+ ash from the base system and rely on pkgsrc® – yay let’s compile a dozen
+ packages just to get a shell with tab completion, not to mention boxen with
+ no network access – for the task – although others seem to go into that
+ direction too…; you know, there’s BSD, and then there’s FreeBSD…) – don’t
+ like, don’t read.</p>
+<p>If you want to change something in the BSD world, you gotta fork your
+ own BSD – no other way around the thickheads. Ok, back then, I ran into
+ a particularily thick one, but others tend to not be much better. Users
+ share the thickness. If you want to change something in the GNU/Linux
+ world, just make a package, have someone upload it, prod (or pay, Hanno
+ got a Radler) people to do it, or just upload it yourself.</p>
+<p>At the BSD booth at FOSDEM, despite me bringing the Windows® Mobile
+ 6 Professional devive, strictly for Geocaching mind you, Macintosh boxen
+ had a share of more than 50% – I didn’t manage to tip the scale. At the
+ Debian booth, almost everyone had a “I want to buy a new laptop some day,
+ but it just keeps on working and doesn’t break” pre-Lenovo IBM laptop.
+ No hyping of Google either. (Last year’s CLT saw BSD people advocating
+ pro-Schily – the guy with the broken encoding in his name – shockingly.)</p>
+<p>Honestly, tcsh, FreeBSD® people? Sorry. While I agree that there is
+ merit on having the same script and interactive shell, as someone has
+ pointed out (copy-paste examples into the command line), there’s those
+ zsh users who use <a href="@@RELPATH@@mksh.htm">mksh</a> or GNU bash
+ for scripting. Or just POSIX shell. And that’s with an interactive shell
+ which <a href="http://git.grml.org/">can</a> be used for scripting. On
+ the other hand, <a href="http://www.debian.org/doc/debian-policy/ch-files.html#s-scripts">the
+ C shell</a> (both csh and tcsh) can<em>not</em>.</p>
+<p>And what’s with pretending the <a
+ href="http://www.cl.cam.ac.uk/~mgk25/ucs/apostrophe.html">accent
+ gravis</a> is non-combining, called “backtick” (such a thing does not
+ exist); and advocating it? Sorry, if your csh/tcsh doesn’t handle the
+ POSIX <tt>$(…)</tt> you should just drop it. (By the way, there <em>is</em>
+ a convention that example command lines are prefixed with <tt>% </tt> for
+ csh and <tt>$ </tt> for sh (or <tt># </tt> but we write <tt>$ sudo </tt>
+ instead, these days). Use it. Or leave it. If you have examples that
+ substitute another process’ output, be specific.) It’s funny to see how
+ one person tries to defuse my arguments against csh by telling me “it’s
+ just an interactive shell”, while the other argues that people copy-paste
+ between them, to which that was my response. Read the thread!</p>
+<p>And please, get your facts right. “I would prefer that the standard shell
+ be at least Bourne-compatible.” You don’t want Bourne (“^” instead of “|”
+ for pipes), you want POSIX. That GNU bash is called the Bourne-Again Shell
+ in one of their usual semi-bad puns doesn’t help the global perception of
+ such things any. Also, the root shell and <tt>/bin/sh</tt> are disjunct.</p>
+<p>(Plus, why change the root shell, use sudo(8), plain and simple.)</p>
+<p>ObNote: in <a href="@@RELPATH@@jupp.htm">jupp</a> (should I package that
+ for Debian, btw? rather upload, packages are ready…) the ‘`’ key is used
+ as præfix for Ctrl-X (<tt>`X</tt>) or to directly enter numerical (decimal,
+ octal, sedecimal/hexadecadic) ASCII, 8-bit or Unicode codepoints. Yay!<br />
+ And even the FSF has seen the light; for a few releases already, GCC uses
+ “'…'” instead of “`…'” for quoting in messages, even without locales. Great
+ job there! (<tt>LC_MESSAGES=en_GB.UTF-8</tt> usually works, too, though.)</p>
+<p>ObDisclaimer: I have an (yes, Google…) Alert on the word “mksh”, so I know
+ when it’s being discussed. This obviously includes certain fora. Also, I’m a
+ shell implementer and bound to know a certain amount of details. Plus, mksh’s
+ build script runs with pretty much any Bourne/POSIX/Z Shell which has
+ functions and not too many bugs. I wrote it. Go figure. No lowly trolling.</p>
+<p>FWIW, mksh(1) has the cat(1) builtin both because Android has no cat(1),
+ and as speed hack. Almost all other shells have worse speed hacks, like a
+ printf(1) builtin. And recently, builtins have become direct-callable, so
+ this actually reduces the overall system footprint. (Its inclusion also
+ provides for some other possibilities, internally.) And as two final side
+ notes, if you haven’t seen this: determine which shell we are run under <a
+ href="@@ABSPATH@@/cvs.cgi/contrib/code/Snippets/getshver?rev=HEAD">(CVS)</a>
+ and I still offer a prompt conversion service (send me any GNU bash or oksh
+ <tt>$PS1</tt> and I’ll send that to you in mksh(1) syntax – optionally with
+ adjustments/improvements, like cwd uses only up to 1/3 of screen width).</p>
 ----
