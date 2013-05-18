@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc-nroff,v 1.4 2005/03/15 16:13:48 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc-nroff,v 1.5 2006/06/15 19:18:51 tg Exp $
 .\"	$OpenBSD: doc-nroff,v 1.7 2004/06/06 22:38:10 jmc Exp $
 .\"
 .\" Copyright (c) 2005
@@ -117,6 +117,7 @@
 .ds Ge >=
 .ds Lt <
 .ds Gt >
+.ds Am &
 .ds Pm +-
 .ds If Infinity
 .ds Na \fINaN\fP
