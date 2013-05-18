@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.24 2007/07/17 19:41:24 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.25 2007/07/22 00:37:40 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.24 2007/07/17 19:41:24 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.25 2007/07/22 00:37:40 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R29</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -236,6 +236,10 @@ mws_content <<'EOF'
  (or rather, the system libraries do, I think), so it is default. PA-RISC too
  works fine, so this compiler is a primary choice.</p>
 
+<h5 id="oe_xlc">Compiler: IBM XL C/C++</h5>
+<p>IBM xlC 9.0 on AIX is supported in mksh R30.</p>
+<p>IBM xlC 8.0 on Linux/POWER and IBM xlC 6.0β on MacOS X are on my TODO.</p>
+
 <h5 id="oe_icc">Compiler: Intel C/C++/Fortran</h5>
 <p>ICC emulates GCC quite well (too well for my taste), is fully supported in
  mksh R30 and above on several platforms, but spits out <strong>lots</strong>
@@ -260,7 +264,7 @@ LINK.EXE: Microsoft (R) Incremental Linker Version 7.00.9466
  versions might be supported as well. This compiler is a primary choice.</p>
 
 <h5 id="oe_aix">OS: AIX</h5>
-<p>AIX support is experimental and slowly beginning to be tested.</p>
+<p>Support for AIX with xlC appeared in mksh R30.</p>
 <p>If passing custom LDFLAGS, don't forget the export symbols required for
  using libcrypt. If passing custom LIBS, don't forget <tt>-lcrypt</tt>.</p>
 
@@ -499,6 +503,8 @@ LINK.EXE: Microsoft (R) Incremental Linker Version 7.00.9466
   <li>MirOS #10 RC1 (i386 SUNcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
   <li>MirOS #7-stable (sparc gcc2.95)</li>
   <li>AIX 5.3 (powerpc gcc4.0.0, LD 1.65 04/06/2005)</li>
+  <li>AIX 5.3 32-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
+  <li>AIX 5.3 64-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
   <li>HP-UX 11i B.11.11 (PA-RISC gcc3.4.2) <em>no regression test run</em></li>
   <li>HP-UX 11i B.11.11 (PA-RISC hpC B.11.X.36086-36089-36092.GP, ld B.11.60 070209)</li>
   <li>HP-UX 11i B.11.23 (IA64 gcc3.4.3)</li>
@@ -790,6 +796,8 @@ LINK.EXE: Microsoft (R) Incremental Linker Version 7.00.9466
  <li>Prepare for addition of make(1)-style search/replace operations;
   correct the code for other substitution expansion operations</li>
  <li>Default $CC to cc not gcc, this is no non-unix-ware ☺</li>
+ <li>Support AIX with gcc and xlC; clean up code to warning-free</li>
+ <li>Prefer well-known signal names to alphabetically earlier ones</li>
 </ul>
 <p>In mksh R29g we MFCd the following changes:</p><ul>
  <li>Some optimisations from above; no longer execute foreign objects</li>
