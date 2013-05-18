@@ -1,11 +1,11 @@
-dnl $LynxId: aclocal.m4,v 1.123 2008/02/17 19:40:15 tom Exp $
+dnl $LynxId: aclocal.m4,v 1.129 2008/12/16 01:20:12 tom Exp $
 dnl Macros for auto-configure script.
 dnl by T.E.Dickey <dickey@invisible-island.net>
 dnl and Jim Spath <jspath@mail.bcpl.lib.md.us>
 dnl and Philippe De Muyter <phdm@macqel.be>
 dnl
 dnl Created: 1997/1/28
-dnl Updated: 2008/02/17
+dnl Updated: 2008/06/30
 dnl
 dnl The autoconf used in Lynx development is GNU autoconf 2.13 or 2.52, patched
 dnl by Thomas Dickey.  See your local GNU archives, and this URL:
@@ -13,7 +13,7 @@ dnl http://invisible-island.net/autoconf/autoconf.html
 dnl
 dnl ---------------------------------------------------------------------------
 dnl
-dnl Copyright 1997-2006,2007 by Thomas E. Dickey
+dnl Copyright 1997-2007,2008 by Thomas E. Dickey
 dnl
 dnl Permission to use, copy, modify, and distribute this software and its
 dnl documentation for any purpose and without fee is hereby granted,
@@ -936,7 +936,7 @@ fi
 fi
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_ANSI_CC_REQD version: 3 updated: 1997/09/06 13:40:44
+dnl CF_ANSI_CC_REQD version: 4 updated: 2008/03/23 14:48:54
 dnl ---------------
 dnl For programs that must use an ANSI compiler, obtain compiler options that
 dnl will make it recognize prototypes.  We'll do preprocessor checks in other
@@ -945,7 +945,7 @@ dnl the preprocessor.
 AC_DEFUN([CF_ANSI_CC_REQD],
 [AC_REQUIRE([CF_ANSI_CC_CHECK])
 if test "$cf_cv_ansi_cc" = "no"; then
-	AC_ERROR(
+	AC_MSG_ERROR(
 [Your compiler does not appear to recognize prototypes.
 You have the following choices:
 	a. adjust your compiler options
@@ -1211,7 +1211,7 @@ if test "$USE_INCLUDED_LIBINTL" = yes ; then
 fi
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_CHECK_CACHE version: 10 updated: 2004/05/23 13:03:31
+dnl CF_CHECK_CACHE version: 11 updated: 2008/03/23 14:45:59
 dnl --------------
 dnl Check if we're accidentally using a cache from a different machine.
 dnl Derive the system name, as a check for reusing the autoconf cache.
@@ -1242,7 +1242,7 @@ test -n "$cf_cv_system_name" && AC_MSG_RESULT(Configuring for $cf_cv_system_name
 
 if test ".$system_name" != ".$cf_cv_system_name" ; then
 	AC_MSG_RESULT(Cached system name ($system_name) does not agree with actual ($cf_cv_system_name))
-	AC_ERROR("Please remove config.cache and try again.")
+	AC_MSG_ERROR("Please remove config.cache and try again.")
 fi
 ])dnl
 dnl ---------------------------------------------------------------------------
@@ -1268,13 +1268,14 @@ AC_TRY_LINK([#include <stdio.h>],[printf("Hello world");],,
 fi
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_CHECK_ERRNO version: 9 updated: 2001/12/30 18:03:23
+dnl CF_CHECK_ERRNO version: 10 updated: 2008/08/22 16:33:22
 dnl --------------
 dnl Check for data that is usually declared in <stdio.h> or <errno.h>, e.g.,
 dnl the 'errno' variable.  Define a DECL_xxx symbol if we must declare it
 dnl ourselves.
 dnl
 dnl $1 = the name to check
+dnl $2 = the assumed type
 AC_DEFUN([CF_CHECK_ERRNO],
 [
 AC_CACHE_CHECK(if external $1 is declared, cf_cv_dcl_$1,[
@@ -1285,7 +1286,7 @@ AC_CACHE_CHECK(if external $1 is declared, cf_cv_dcl_$1,[
 #include <stdio.h>
 #include <sys/types.h>
 #include <errno.h> ],
-    [long x = (long) $1],
+    ifelse($2,,int,$2) x = (ifelse($2,,int,$2)) $1,
     [cf_cv_dcl_$1=yes],
     [cf_cv_dcl_$1=no])
 ])
@@ -1296,7 +1297,7 @@ if test "$cf_cv_dcl_$1" = no ; then
 fi
 
 # It's possible (for near-UNIX clones) that the data doesn't exist
-CF_CHECK_EXTERN_DATA($1,int)
+CF_CHECK_EXTERN_DATA($1,ifelse($2,,int,$2))
 ])dnl
 dnl ---------------------------------------------------------------------------
 dnl CF_CHECK_EXTERN_DATA version: 3 updated: 2001/12/30 18:03:23
@@ -1400,10 +1401,10 @@ fi
 
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_CHECK_SSL_X509 version: 3 updated: 2008/01/06 14:56:47
+dnl CF_CHECK_SSL_X509 version: 4 updated: 2008/12/11 19:00:39
 dnl -----------------
 dnl Check for X509 support in the SSL library.
-AC_DEFUN([CF_CHECK_SSL_X509],[
+define([CF_CHECK_SSL_X509],[
 AC_MSG_CHECKING(for X509 support)
 AC_TRY_LINK(CF__SSL_HEAD [
 #include <openssl/x509.h>],
@@ -1600,7 +1601,7 @@ fi
 AC_CHECK_HEADERS($cf_cv_ncurses_header)
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_CURSES_LIBS version: 26 updated: 2007/07/29 10:32:40
+dnl CF_CURSES_LIBS version: 28 updated: 2008/10/30 20:16:05
 dnl --------------
 dnl Look for the curses libraries.  Older curses implementations may require
 dnl termcap/termlib to be linked as well.  Call CF_CURSES_CPPFLAGS first.
@@ -1666,11 +1667,11 @@ if test ".$ac_cv_func_initscr" != .yes ; then
 
     # Check for library containing initscr
     test "$cf_term_lib" != predefined && test "$cf_term_lib" != unknown && LIBS="-l$cf_term_lib $cf_save_LIBS"
-    for cf_curs_lib in $cf_check_list xcurses jcurses unknown
+ 	for cf_curs_lib in $cf_check_list xcurses jcurses pdcurses unknown
     do
         AC_CHECK_LIB($cf_curs_lib,initscr,[break])
     done
-    test $cf_curs_lib = unknown && AC_ERROR(no curses library found)
+    test $cf_curs_lib = unknown && AC_MSG_ERROR(no curses library found)
 
     LIBS="-l$cf_curs_lib $cf_save_LIBS"
     if test "$cf_term_lib" = unknown ; then
@@ -1680,7 +1681,7 @@ if test ".$ac_cv_func_initscr" != .yes ; then
             [cf_result=yes],
             [cf_result=no])
         AC_MSG_RESULT($cf_result)
-        test $cf_result = no && AC_ERROR(Cannot link curses library)
+        test $cf_result = no && AC_MSG_ERROR(Cannot link curses library)
     elif test "$cf_curs_lib" = "$cf_term_lib" ; then
         :
     elif test "$cf_term_lib" != predefined ; then
@@ -2052,7 +2053,7 @@ done
 ])
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_FIND_LIBRARY version: 8 updated: 2004/11/23 20:14:58
+dnl CF_FIND_LIBRARY version: 9 updated: 2008/03/23 14:48:54
 dnl ---------------
 dnl Look for a non-standard library, given parameters for AC_TRY_LINK.  We
 dnl prefer a standard location, and use -L options only if we do not find the
@@ -2097,7 +2098,7 @@ AC_DEFUN([CF_FIND_LIBRARY],
 eval 'cf_found_library=[$]cf_cv_have_lib_'$1
 ifelse($6,,[
 if test $cf_found_library = no ; then
-	AC_ERROR(Cannot link $1 library)
+	AC_MSG_ERROR(Cannot link $1 library)
 fi
 ])
 ])dnl
@@ -2531,7 +2532,7 @@ if test "$GCC" = yes ; then
 fi
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_GCC_WARNINGS version: 22 updated: 2007/07/29 09:55:12
+dnl CF_GCC_WARNINGS version: 23 updated: 2008/07/26 17:54:02
 dnl ---------------
 dnl Check if the compiler supports useful warning options.  There's a few that
 dnl we don't use, simply because they're too noisy:
@@ -2626,7 +2627,7 @@ then
 				;;
 			Winline) #(vi
 				case $GCC_VERSION in
-				3.3*)
+				[[34]].*)
 					CF_VERBOSE(feature is broken in gcc $GCC_VERSION)
 					continue;;
 				esac
@@ -2642,50 +2643,109 @@ rm -f conftest*
 AC_SUBST(EXTRA_CFLAGS)
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_GNUTLS version: 9 updated: 2007/07/29 12:32:41
+dnl CF_GNUTLS version: 14 updated: 2008/12/11 20:01:57
 dnl ---------
 dnl Check for gnutls library (TLS "is" SSL)
 dnl $1 = the [optional] directory in which the library may be found
+dnl $2 = the [optional] stub file to provide OpenSSL compatibility
 AC_DEFUN([CF_GNUTLS],[
-  CF_ADD_OPTIONAL_PATH($1, [ssl library])
+	AC_REQUIRE([CF_PKG_CONFIG])
+	cf_cv_have_gnutls=no
 
-  AC_DEFINE(USE_GNUTLS_INCL)
-  cf_gnutls_CPPFLAGS=$CPPFLAGS
+	CF_ADD_OPTIONAL_PATH($1, [ssl library])
 
-  CF_FIND_LINKAGE(CF__SSL_HEAD,
-      CF__SSL_BODY,
-      gnutls,
-      cf_cv_have_gnutls=yes,
-      cf_cv_have_gnutls=no,
-      ,
-      [-lgnutls-openssl -lgnutls-extra -lgnutls -lcrypt])
+	cf_pkg_gnutls=none
+	if test "x$PKG_CONFIG" != xnone; then
+		cf_pkg_gnutls=ifelse($2,,gnutls-openssl,gnutls)
+		case $1 in #(vi
+		no) #(vi
+			;;
+		yes)
+			CF_VERBOSE(checking pkg-config for $cf_pkg_gnutls)
+			if "$PKG_CONFIG" --exists $cf_pkg_gnutls ; then
+				CF_VERBOSE(... found $cf_pkg_gnutls in pkg-config)
+				cf_cv_have_gnutls=yes
 
-  CPPFLAGS=$cf_gnutls_CPPFLAGS
+				cf_cflags_ssl=`$PKG_CONFIG --cflags $cf_pkg_gnutls`
+				cf_libs_ssl=`$PKG_CONFIG --libs $cf_pkg_gnutls`
 
-  if test "$cf_cv_have_gnutls" = yes ; then
-    if test -n "$cf_cv_header_path_gnutls" ; then
-      AC_DEFINE(USE_SSL)
-      case $cf_cv_header_path_gnutls in
-      /usr/include/gnutls)
-          ;;
-      *)
-          CF_ADD_INCDIR($cf_cv_header_path_gnutls)
-          ;;
-      esac
-    fi
-    if test -n "$cf_cv_library_path_gnutls" ; then
-      CF_ADD_LIBDIR($cf_cv_library_path_gnutls)
-    fi
-    LIBS="-lgnutls -lcrypt $LIBS"
-  fi
+				if test -n "$cf_cflags_ssl" ; then
+					case "$cf_cflags_ssl" in #(vi
+					*-I*) #(vi
+						cf_cv_header_path_ssl=`echo "$cf_cflags_ssl" | sed -e 's/^.*-I//' -e 's/ .*//'`
+						;;
+					*)
+						cf_cv_header_path_ssl=/usr/include
+						;;
+					esac
+					if test -d $cf_cv_header_path_ssl/gnutls ; then
+						cf_cv_header_path_ssl=$cf_cv_header_path_ssl/gnutls
+					fi
+					CF_ADD_CFLAGS($cf_cflags_ssl)
+				fi
 
-  AC_CHECK_LIB(gnutls-openssl,SSL_connect,
-      [LIBS="-lgnutls-openssl $LIBS"],
-      [AC_CHECK_LIB(gnutls-extra,SSL_connect,
-          [LIBS="-lgnutls-extra $LIBS"],
-          [AC_MSG_ERROR(cannot find gnutls openssl functions)])])
+				if test -n "$cf_libs_ssl" ; then
+					case "x$cf_libs_ssl" in #(vi
+					*-L*) #(vi
+						cf_cv_library_path_ssl=`echo "$cf_libs_ssl" | sed -e 's/^.*-L//' -e 's/ .*//'`
+						;;
+					*)
+						cf_cv_library_path_ssl=/usr/lib
+						;;
+					esac
+					CF_VERBOSE(adding $cf_libs_ssl to LIBS)
+					LIBS="$cf_libs_ssl $LIBS"
+				fi
+			else
+				CF_VERBOSE(... did not find $cf_pkg_gnutls in pkg-config)
+				cf_pkg_gnutls=none
+			fi
+			;;
+		esac
+	fi
 
-  CF_CHECK_SSL_X509
+	if test "$cf_cv_have_gnutls" = no ; then
+		ifelse($2,,[AC_DEFINE(USE_GNUTLS_INCL)],[AC_DEFINE(USE_GNUTLS_FUNCS)])
+		cf_gnutls_CPPFLAGS=$CPPFLAGS
+
+		CF_FIND_LINKAGE(CF__SSL_HEAD,
+			CF__SSL_BODY,
+			gnutls,
+			cf_cv_have_gnutls=yes,
+			cf_cv_have_gnutls=no,
+			,
+			ifelse($2,,[-lgnutls-openssl -lgnutls-extra -lgnutls -lcrypt],[-lgnutls -lcrypt]))
+
+		CPPFLAGS=$cf_gnutls_CPPFLAGS
+	fi
+
+	if test "$cf_cv_have_gnutls" = yes ; then
+		if test -n "$cf_cv_header_path_gnutls" ; then
+			AC_DEFINE(USE_SSL)
+            case $cf_cv_header_path_gnutls in
+				/usr/include/gnutls)
+				;;
+			*)
+				CF_ADD_INCDIR($cf_cv_header_path_gnutls)
+				;;
+			esac
+		fi
+		if test -n "$cf_cv_library_path_gnutls" ; then
+			CF_ADD_LIBDIR($cf_cv_library_path_gnutls)
+		fi
+		LIBS="-lgnutls -lcrypt $LIBS"
+
+		ifelse($2,,
+			[if test "$cf_pkg_gnutls" = none ; then
+				AC_CHECK_LIB(gnutls-openssl,SSL_connect,
+					[LIBS="-lgnutls-openssl $LIBS"],
+					[AC_CHECK_LIB(gnutls-extra,SSL_connect,
+					[LIBS="-lgnutls-extra $LIBS"],
+					[AC_MSG_ERROR(cannot find gnutls openssl functions)])])
+			fi],[EXTRA_OBJS="$EXTRA_OBJS $2"])
+
+		CF_CHECK_SSL_X509
+	fi
 ])dnl
 dnl ---------------------------------------------------------------------------
 dnl CF_GNU_SOURCE version: 6 updated: 2005/07/09 13:23:07
@@ -2718,11 +2778,31 @@ make an error
 test "$cf_cv_gnu_source" = yes && CPPFLAGS="$CPPFLAGS -D_GNU_SOURCE"
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_HEADER_PATH version: 8 updated: 2002/11/10 14:46:59
+dnl CF_HEADER_PATH version: 9 updated: 2008/12/07 19:38:31
 dnl --------------
-dnl Construct a search-list for a nonstandard header-file
+dnl Construct a search-list of directories for a nonstandard header-file
+dnl
+dnl Parameters
+dnl	$1 = the variable to return as result
+dnl	$2 = the package name
 AC_DEFUN([CF_HEADER_PATH],
-[CF_SUBDIR_PATH($1,$2,include)
+[
+cf_header_path_list=""
+if test -n "${CFLAGS}${CPPFLAGS}" ; then
+	for cf_header_path in $CPPFLAGS $CFLAGS
+	do
+		case $cf_header_path in #(vi
+		-I*)
+			cf_header_path=`echo ".$cf_header_path" |sed -e 's/^...//' -e 's,/include$,,'`
+			CF_ADD_SUBDIR_PATH($1,$2,include,$cf_header_path,NONE)
+			cf_header_path_list="$cf_header_path_list [$]$1"
+			;;
+		esac
+	done
+fi
+
+CF_SUBDIR_PATH($1,$2,include)
+
 test "$includedir" != NONE && \
 test "$includedir" != "/usr/include" && \
 test -d "$includedir" && {
@@ -2737,6 +2817,7 @@ test -d "$oldincludedir" && {
 	test -d $oldincludedir/$2 && $1="[$]$1 $oldincludedir/$2"
 }
 
+$1="$cf_header_path_list [$]$1"
 ])dnl
 dnl ---------------------------------------------------------------------------
 dnl CF_HELP_MESSAGE version: 3 updated: 1998/01/14 10:56:23
@@ -2903,11 +2984,33 @@ AC_TRY_COMPILE([
 test $cf_cv_path_lastlog != no && AC_DEFINE(USE_LASTLOG)
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_LIBRARY_PATH version: 7 updated: 2002/11/10 14:46:59
+dnl CF_LIBRARY_PATH version: 8 updated: 2008/12/07 19:38:31
 dnl ---------------
-dnl Construct a search-list for a nonstandard library-file
+dnl Construct a search-list of directories for a nonstandard library-file
+dnl
+dnl Parameters
+dnl	$1 = the variable to return as result
+dnl	$2 = the package name
 AC_DEFUN([CF_LIBRARY_PATH],
-[CF_SUBDIR_PATH($1,$2,lib)])dnl
+[
+cf_library_path_list=""
+if test -n "${LDFLAGS}${LIBS}" ; then
+	for cf_library_path in $LDFLAGS $LIBS
+	do
+		case $cf_library_path in #(vi
+		-L*)
+			cf_library_path=`echo ".$cf_library_path" |sed -e 's/^...//' -e 's,/lib$,,'`
+			CF_ADD_SUBDIR_PATH($1,$2,lib,$cf_library_path,NONE)
+			cf_library_path_list="$cf_library_path_list [$]$1"
+			;;
+		esac
+	done
+fi
+
+CF_SUBDIR_PATH($1,$2,lib)
+
+$1="$cf_library_path_list [$]$1"
+])dnl
 dnl ---------------------------------------------------------------------------
 dnl CF_LOCALE version: 4 updated: 2003/02/16 08:16:04
 dnl ---------
@@ -3086,7 +3189,7 @@ AC_DEFINE(NCURSES)
 CF_NCURSES_VERSION
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_NCURSES_HEADER version: 1 updated: 2005/12/31 13:28:37
+dnl CF_NCURSES_HEADER version: 2 updated: 2008/03/23 14:48:54
 dnl -----------------
 dnl Find a "curses" header file, e.g,. "curses.h", or one of the more common
 dnl variations of ncurses' installs.
@@ -3121,7 +3224,7 @@ AC_CACHE_CHECK(for $cf_ncuhdr_root include-path, cf_cv_ncurses_h2,[
 		CPPFLAGS="$cf_save2_CPPFLAGS"
 		test "$cf_cv_ncurses_h2" != no && break
 	done
-	test "$cf_cv_ncurses_h2" = no && AC_ERROR(not found)
+	test "$cf_cv_ncurses_h2" = no && AC_MSG_ERROR(not found)
 	])
 
 	CF_DIRNAME(cf_1st_incdir,$cf_cv_ncurses_h2)
@@ -3391,7 +3494,7 @@ case .$with_cflags in #(vi
 esac
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_NSS_COMPAT version: 1 updated: 2008/01/30 18:00:00
+dnl CF_NSS_COMPAT version: 2 updated: 2008/03/23 14:48:54
 dnl -------------
 dnl Check for NSS compatible SSL libraries
 dnl $1 = the [optional] directory in which the library may be found
@@ -3478,7 +3581,7 @@ if test "$cf_ssl_library" = yes ; then
 	AC_DEFINE(USE_SSL)
 	AC_DEFINE(USE_X509_SUPPORT)
 else
-	AC_ERROR(Cannot link with NSS compilant libraries)
+	AC_MSG_ERROR(Cannot link with NSS compilant libraries)
 fi
 ])dnl
 dnl ---------------------------------------------------------------------------
@@ -3584,7 +3687,7 @@ if test -n "$cf_path_prog" ; then
 fi
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_PATH_SYNTAX version: 11 updated: 2006/09/02 08:55:46
+dnl CF_PATH_SYNTAX version: 12 updated: 2008/03/23 14:45:59
 dnl --------------
 dnl Check the argument to see that it looks like a pathname.  Rewrite it if it
 dnl begins with one of the prefix/exec_prefix variables, and then again if the
@@ -3616,12 +3719,12 @@ case ".[$]$1" in #(vi
   $1=`echo [$]$1 | sed -e s%NONE%$cf_path_syntax%`
   ;;
 *)
-  ifelse($2,,[AC_ERROR([expected a pathname, not \"[$]$1\"])],$2)
+  ifelse($2,,[AC_MSG_ERROR([expected a pathname, not \"[$]$1\"])],$2)
   ;;
 esac
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_PDCURSES_X11 version: 7 updated: 2006/11/12 17:31:59
+dnl CF_PDCURSES_X11 version: 8 updated: 2008/03/23 14:48:54
 dnl ---------------
 dnl Configure for PDCurses' X11 library
 AC_DEFUN([CF_PDCURSES_X11],[
@@ -3660,7 +3763,7 @@ if test $cf_cv_lib_XCurses = yes ; then
 	AC_DEFINE(XCURSES)
 	AC_DEFINE(HAVE_XCURSES)
 else
-	AC_ERROR(Cannot link with XCurses)
+	AC_MSG_ERROR(Cannot link with XCurses)
 fi
 ])dnl
 dnl ---------------------------------------------------------------------------
@@ -4019,7 +4122,7 @@ if test "$cf_cv_sizechange" != no ; then
 fi
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_SLANG_CPPFLAGS version: 7 updated: 2003/09/14 19:08:00
+dnl CF_SLANG_CPPFLAGS version: 8 updated: 2008/03/23 14:48:54
 dnl -----------------
 dnl Look for the slang header files in the standard places, adjusting the
 dnl CPPFLAGS variable.
@@ -4044,7 +4147,7 @@ AC_CACHE_CHECK(for slang header file,cf_cv_slang_header,[
 		done
 		test -n "$cf_cv_slang_header" && break
 	done
-	test -z "$cf_cv_slang_header" && AC_ERROR(not found)
+	test -z "$cf_cv_slang_header" && AC_MSG_ERROR(not found)
 	])])
 AC_DEFINE(USE_SLANG)
 
@@ -4141,7 +4244,7 @@ SLang_TT_Baud_Rate = 1
 test $cf_cv_slang_unix = yes && AC_DEFINE(REAL_UNIX_SYSTEM)
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_SOCKS version: 5 updated: 2007/07/29 12:32:41
+dnl CF_SOCKS version: 6 updated: 2008/03/23 14:48:54
 dnl --------
 dnl Check for socks library
 dnl $1 = the [optional] directory in which the library may be found
@@ -4172,11 +4275,11 @@ AC_DEFUN([CF_SOCKS],[
     CF_ADD_LIBDIR($cf_cv_library_path_socks)
     LIBS="$LIBS -lsocks"
   else
-    AC_ERROR(cannot link with socks library)
+    AC_MSG_ERROR(cannot link with socks library)
   fi
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_SOCKS5 version: 9 updated: 2007/07/29 13:02:39
+dnl CF_SOCKS5 version: 10 updated: 2008/03/23 14:48:54
 dnl ---------
 dnl Check for socks5 configuration
 dnl $1 = the [optional] directory in which the library may be found
@@ -4198,7 +4301,7 @@ AC_TRY_LINK([
 	[AC_TRY_LINK([#include <socks.h>],
 		[SOCKSinit((char *)0)],
 		[cf_use_socks4=no],
-		[AC_ERROR(Cannot link with socks5 library)])])
+		[AC_MSG_ERROR(Cannot link with socks5 library)])])
 AC_MSG_RESULT($cf_use_socks4)
 
 if test "$cf_use_socks4" = "yes" ; then
@@ -4306,46 +4409,99 @@ define([CF_SRAND_PARSE],[
 	esac
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_SSL version: 12 updated: 2008/01/06 14:56:47
+dnl CF_SSL version: 15 updated: 2008/12/15 20:14:33
 dnl ------
 dnl Check for ssl library
-dnl $1 = the [optional] directory in which the library may be found
+dnl $1 = [optional] directory in which the library may be found, set by AC_ARG_WITH
 AC_DEFUN([CF_SSL],[
-  CF_ADD_OPTIONAL_PATH([$1], [ssl library])
+	AC_REQUIRE([CF_PKG_CONFIG])
+	cf_cv_have_ssl=no
 
-  CF_FIND_LINKAGE(CF__SSL_HEAD,
-      CF__SSL_BODY,
-      ssl,
-      cf_cv_have_ssl=yes,
-      cf_cv_have_ssl=no,
-      openssl,
-      [-lcrypto])
+	# command-line option, etc., override default behavior
+	CF_ADD_OPTIONAL_PATH($1, [ssl library])
 
-  if test "$cf_cv_have_ssl" = yes ; then
-    if test -n "$cf_cv_header_path_ssl" ; then
-      AC_DEFINE(USE_SSL)
+	if test "x$PKG_CONFIG" != xnone; then
+		case $1 in #(vi
+		no) #(vi
+			;;
+		yes)
+			if "$PKG_CONFIG" --exists openssl ; then
+				cf_cv_have_ssl=yes
 
-      case $cf_cv_header_path_ssl in
-      */openssl)
-          AC_DEFINE(USE_OPENSSL_INCL)
-          ;;
-      esac
+				cf_cflags_ssl=`$PKG_CONFIG --cflags openssl`
+				cf_libs_ssl=`$PKG_CONFIG --libs openssl`
 
-      case $cf_cv_header_path_ssl in
-      /usr/include/openssl)
-          ;;
-      *)
-          CF_ADD_INCDIR($cf_cv_header_path_ssl)
-          ;;
-      esac
+				if test -n "$cf_cflags_ssl" ; then
+					case "$cf_cflags_ssl" in #(vi
+					*-I*) #(vi
+						cf_cv_header_path_ssl=`echo "$cf_cflags_ssl" | sed -e 's/^.*-I//' -e 's/ .*//'`
+						;;
+					*)
+						cf_cv_header_path_ssl=/usr/include
+						;;
+					esac
+					if test -d $cf_cv_header_path_ssl/openssl ; then
+						cf_cv_header_path_ssl=$cf_cv_header_path_ssl/openssl
+					fi
+					CF_ADD_CFLAGS($cf_cflags_ssl)
+				fi
 
-    fi
-    if test -n "$cf_cv_library_path_ssl" ; then
-      CF_ADD_LIBDIR($cf_cv_library_path_ssl)
-    fi
-    LIBS="-lssl -lcrypto $LIBS"
-    CF_CHECK_SSL_X509
-  fi
+				if test -n "$cf_libs_ssl" ; then
+					case "x$cf_libs_ssl" in #(vi
+					*-L*) #(vi
+						cf_cv_library_path_ssl=`echo "$cf_libs_ssl" | sed -e 's/^.*-L//' -e 's/ .*//'`
+						;;
+					*)
+						cf_cv_library_path_ssl=/usr/lib
+						;;
+					esac
+					CF_VERBOSE(adding $cf_libs_ssl to LIBS)
+					LIBS="$cf_libs_ssl $LIBS"
+				fi
+			fi
+			;;
+		esac
+	fi
+
+	if test "$cf_cv_have_ssl" != yes; then
+		case $1 in #(vi
+		yes)
+			CF_FIND_LINKAGE(CF__SSL_HEAD,
+				CF__SSL_BODY,
+				ssl,
+				cf_cv_have_ssl=yes,
+				cf_cv_have_ssl=no,
+				openssl,
+				[-lcrypto])
+			;;
+		esac
+	fi
+
+	if test "$cf_cv_have_ssl" = yes ; then
+		if test -n "$cf_cv_header_path_ssl" ; then
+			AC_DEFINE(USE_SSL)
+
+			case $cf_cv_header_path_ssl in
+			*/openssl)
+				AC_DEFINE(USE_OPENSSL_INCL)
+				;;
+			esac
+
+			case $cf_cv_header_path_ssl in
+			/usr/include/openssl)
+				;;
+			*)
+				CF_ADD_INCDIR($cf_cv_header_path_ssl)
+				;;
+			esac
+
+		fi
+		if test -n "$cf_cv_library_path_ssl" ; then
+			CF_ADD_LIBDIR($cf_cv_library_path_ssl)
+		fi
+		LIBS="-lssl -lcrypto $LIBS"
+		CF_CHECK_SSL_X509
+	fi
 ])dnl
 dnl ---------------------------------------------------------------------------
 dnl CF_STRIP_G_OPT version: 3 updated: 2002/12/21 19:25:52
@@ -4683,6 +4839,34 @@ ncursesw/term.h)
 esac
 ])dnl
 dnl ---------------------------------------------------------------------------
+dnl CF_TM_GMTOFF version: 2 updated: 1997/08/28 23:57:55
+dnl ------------
+dnl Check if the tm-struct defines the '.tm_gmtoff' member (useful in decoding
+dnl dates).
+AC_DEFUN([CF_TM_GMTOFF],
+[
+AC_MSG_CHECKING([for tm.tm_gmtoff])
+AC_CACHE_VAL(cf_cv_tm_gmtoff,[
+	AC_TRY_COMPILE([
+#ifdef TIME_WITH_SYS_TIME
+#	include <sys/time.h>
+#	include <time.h>
+#else
+#	ifdef HAVE_SYS_TIME_H
+#		include <sys/time.h>
+#	else
+#		include <time.h>
+#	endif
+#endif
+],[
+	struct tm foo;
+	long bar = foo.tm_gmtoff],
+	[cf_cv_tm_gmtoff=yes],
+	[cf_cv_tm_gmtoff=no])])
+AC_MSG_RESULT($cf_cv_tm_gmtoff)
+test $cf_cv_tm_gmtoff = no && AC_DEFINE(DONT_HAVE_TM_GMTOFF)
+])dnl
+dnl ---------------------------------------------------------------------------
 dnl CF_TTYTYPE version: 4 updated: 2002/10/27 18:21:42
 dnl ----------
 AC_DEFUN([CF_TTYTYPE],
@@ -4753,7 +4937,7 @@ AC_DEFUN([CF_UPPER],
 $1=`echo "$2" | sed y%abcdefghijklmnopqrstuvwxyz./-%ABCDEFGHIJKLMNOPQRSTUVWXYZ___%`
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_UTF8_LIB version: 4 updated: 2003/03/01 18:36:42
+dnl CF_UTF8_LIB version: 5 updated: 2008/10/17 19:37:52
 dnl -----------
 dnl Check for multibyte support, and if not found, utf8 compatibility library
 AC_DEFUN([CF_UTF8_LIB],
@@ -4763,23 +4947,23 @@ AC_CACHE_CHECK(for multibyte character support,cf_cv_utf8_lib,[
 	AC_TRY_LINK([
 #include <stdlib.h>],[putwc(0,0);],
 	[cf_cv_utf8_lib=yes],
-	[LIBS="-lutf8 $LIBS"
-	 AC_TRY_LINK([
-#include <libutf8.h>],[putwc(0,0);],
+	[CF_FIND_LINKAGE([
+#include <libutf8.h>],[putwc(0,0);],utf8,
 		[cf_cv_utf8_lib=add-on],
 		[cf_cv_utf8_lib=no])
-	LIBS="$cf_save_LIBS"
 ])])
 
 # HAVE_LIBUTF8_H is used by ncurses if curses.h is shared between
 # ncurses/ncursesw:
 if test "$cf_cv_utf8_lib" = "add-on" ; then
 	AC_DEFINE(HAVE_LIBUTF8_H)
+	CF_ADD_INCDIR($cf_cv_header_path_utf8)
+	CF_ADD_LIBDIR($cf_cv_library_path_utf8)
 	LIBS="-lutf8 $LIBS"
 fi
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_UTMP version: 8 updated: 2002/10/27 23:21:42
+dnl CF_UTMP version: 9 updated: 2008/01/25 17:18:00
 dnl -------
 dnl Check for UTMP/UTMPX headers
 AC_DEFUN([CF_UTMP],
@@ -4818,6 +5002,7 @@ if test $cf_cv_have_utmp != no ; then
 	AC_DEFINE(HAVE_UTMP)
 	test $cf_cv_have_utmp = utmpx && AC_DEFINE(UTMPX_FOR_UTMP)
 	CF_UTMP_UT_HOST
+	CF_UTMP_UT_SYSLEN
 	CF_UTMP_UT_NAME
 	CF_UTMP_UT_XSTATUS
 	CF_UTMP_UT_XTIME
@@ -4900,6 +5085,26 @@ AC_CACHE_CHECK(if ${cf_cv_have_utmp}.ut_session is declared, cf_cv_have_utmp_ut_
 if test $cf_cv_have_utmp_ut_session != no ; then
 	AC_DEFINE(HAVE_UTMP_UT_SESSION)
 fi
+fi
+])dnl
+dnl ---------------------------------------------------------------------------
+dnl CF_UTMP_UT_SYSLEN version: 1 updated: 2008/01/25 17:18:00
+dnl -----------------
+dnl Check if UTMP/UTMPX struct defines ut_syslen member
+AC_DEFUN([CF_UTMP_UT_SYSLEN],
+[
+if test $cf_cv_have_utmp != no ; then
+AC_MSG_CHECKING(if ${cf_cv_have_utmp}.ut_syslen is declared)
+AC_CACHE_VAL(cf_cv_have_utmp_ut_syslen,[
+	AC_TRY_COMPILE([
+#include <sys/types.h>
+#include <${cf_cv_have_utmp}.h>],
+	[struct $cf_cv_have_utmp x; int y = x.ut_syslen],
+	[cf_cv_have_utmp_ut_syslen=yes],
+	[cf_cv_have_utmp_ut_syslen=no])
+	])
+AC_MSG_RESULT($cf_cv_have_utmp_ut_syslen)
+test $cf_cv_have_utmp_ut_syslen != no && AC_DEFINE(HAVE_UTMP_UT_SYSLEN)
 fi
 ])dnl
 dnl ---------------------------------------------------------------------------
@@ -5204,7 +5409,7 @@ AC_TRY_LINK([
 test $cf_cv_need_xopen_extension = yes && CPPFLAGS="$CPPFLAGS -D_XOPEN_SOURCE_EXTENDED"
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF_XOPEN_SOURCE version: 25 updated: 2007/01/29 18:36:38
+dnl CF_XOPEN_SOURCE version: 26 updated: 2008/07/27 11:26:57
 dnl ---------------
 dnl Try to get _XOPEN_SOURCE defined properly that we can use POSIX functions,
 dnl or adapt to the vendor's definitions to get equivalent functionality,
@@ -5224,7 +5429,7 @@ case $host_os in #(vi
 aix[[45]]*) #(vi
 	CPPFLAGS="$CPPFLAGS -D_ALL_SOURCE"
 	;;
-freebsd*) #(vi
+freebsd*|dragonfly*) #(vi
 	# 5.x headers associate
 	#	_XOPEN_SOURCE=600 with _POSIX_C_SOURCE=200112L
 	#	_XOPEN_SOURCE=500 with _POSIX_C_SOURCE=199506L
@@ -5390,7 +5595,7 @@ elif test "$cf_x_athena_include" != default ; then
 fi
 ])
 dnl ---------------------------------------------------------------------------
-dnl CF_X_ATHENA_LIBS version: 6 updated: 2006/11/30 17:57:11
+dnl CF_X_ATHENA_LIBS version: 7 updated: 2008/03/23 14:46:03
 dnl ----------------
 dnl Normally invoked by CF_X_ATHENA, with $1 set to the appropriate flavor of
 dnl the Athena widgets, e.g., Xaw, Xaw3d, neXtaw.
@@ -5434,7 +5639,7 @@ do
 done
 
 if test -z "$cf_x_athena_lib" ; then
-	AC_ERROR(
+	AC_MSG_ERROR(
 [Unable to successfully link Athena library (-l$cf_x_athena_root) with test program])
 fi
 
@@ -5442,7 +5647,7 @@ CF_UPPER(cf_x_athena_LIBS,HAVE_LIB_$cf_x_athena)
 AC_DEFINE_UNQUOTED($cf_x_athena_LIBS)
 ])
 dnl ---------------------------------------------------------------------------
-dnl CF_X_TOOLKIT version: 11 updated: 2006/11/29 19:05:14
+dnl CF_X_TOOLKIT version: 12 updated: 2008/03/23 15:04:54
 dnl ------------
 dnl Check for X Toolkit libraries
 dnl
@@ -5471,7 +5676,7 @@ AC_CHECK_LIB(Xt, XtAppInitialize,
 	[$X_PRE_LIBS $LIBS $X_EXTRA_LIBS])])
 
 if test $cf_have_X_LIBS = no ; then
-	AC_WARN(
+	AC_MSG_WARN(
 [Unable to successfully link X Toolkit library (-lXt) with
 test program.  You will have to check and add the proper libraries by hand
 to makefile.])
@@ -5514,20 +5719,26 @@ define([CF__INTL_HEAD],[
 extern int _nl_msg_cat_cntr;
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF__SSL_BODY version: 1 updated: 2007/07/26 19:15:03
+dnl CF__SSL_BODY version: 2 updated: 2008/04/13 10:56:06
 dnl ------------
 dnl Body for test-compile of SSL code.
 define([CF__SSL_BODY],[
+#ifdef USE_GNUTLS_FUNCS
+    gnutls_global_init();
+#else
     SSL_shutdown((SSL *)0)
+#endif
 ])dnl
 dnl ---------------------------------------------------------------------------
-dnl CF__SSL_HEAD version: 1 updated: 2007/07/26 19:15:03
+dnl CF__SSL_HEAD version: 2 updated: 2008/04/13 10:56:06
 dnl ------------
 dnl Headers for test-compile of SSL code.
 define([CF__SSL_HEAD],[
 #include <stdio.h>
 #if defined(USE_OPENSSL_INCL)
 #include <openssl/ssl.h>
+#elif defined(USE_GNUTLS_FUNCS)
+#include <gnutls/gnutls.h>
 #elif defined(USE_GNUTLS_INCL)
 #include <gnutls/openssl.h>
 #else
@@ -5566,3 +5777,11 @@ AC_DEFUN([jm_GLIBC21],
     GLIBC21="$ac_cv_gnu_library_2_1"
   ]
 )
+dnl ---------------------------------------------------------------------------
+dnl CF_PKG_CONFIG version: 1 updated: 2006/08/20 13:51:03
+dnl -------------
+dnl Check for the package-config program.
+AC_DEFUN([CF_PKG_CONFIG],
+[
+AC_PATH_PROG(PKG_CONFIG, pkg-config, none)
+])dnl
