@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.23 2009/06/29 20:10:26 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.24 2009/06/29 20:26:10 tg Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -22,16 +22,16 @@
 
 	.intel_syntax noprefix
 	.section .comment
-	.ascii	"$MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.23 2009/06/29 20:10:26 tg Exp $"
+	.ascii	"$MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.24 2009/06/29 20:26:10 tg Exp $"
 #ifdef BOOT_GRUB
-	.ascii	" GRUB"
+	.ascii	" +t:GRUB"
 #else
-	.ascii	" MBSD"
+	.ascii	" +t:MBSD"
 #endif
 #ifdef BPB_SPACE
-	.ascii	" BPB"
+	.ascii	" +s:BPB"
 #else
-	.ascii	" MBR"
+	.ascii	" +s:MBR"
 #endif
 	.byte	0
 

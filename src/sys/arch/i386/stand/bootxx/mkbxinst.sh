@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.22 2009/06/29 19:48:37 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.23 2009/06/29 20:10:26 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -262,11 +262,19 @@ if (( curptr-- > bkend )); then
 	exit 1
 fi
 while (( ++curptr < bkend )); do
+EOF
+if [[ $rcsidS = *@(+s:BPB)* ]]; then cat <<'EOF'
+	(( thecode[curptr] = RANDOM & 0xFF ))
+EOF
+else cat <<'EOF'
 	(( thecode[curptr] = (curptr & 0xFCF) == 0x1C2 ? 0 : RANDOM & 0xFF ))
 	# ensure the “active” flag is never set to 0x00 or 0x80
 	if (( ((curptr + 2) & 0xFCF) == 0x01C0 )); then
 		(( thecode[curptr] & 0x7F )) || let --curptr
 	fi
+EOF
+fi
+cat <<'EOF'
 done
 thecode[510]=0x55
 thecode[511]=0xAA

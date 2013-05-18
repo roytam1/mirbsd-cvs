@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/bootxx/Makefile,v 1.14 2009/06/29 20:34:36 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/bootxx/Makefile,v 1.15 2009/06/29 20:34:59 tg Exp $
 
 PROG=		bootxx
 SRCS+=		bootxx.S
@@ -6,7 +6,8 @@ NOMAN=		Yes
 INSTALL_STRIP=	# empty
 LDFLAGS=	-nostdlib -Ttext 0xFE00 -N -Bstatic -e _start
 CPPFLAGS+=	${DEBUGFLAGS}
-CLEANFILES+=	${PROG}~ ${.CURDIR}/disasm bxinst bootgrub.mksh
+CLEANFILES+=	${PROG}~ ${.CURDIR}/disasm bxinst \
+		bootgrub.mksh bootgrubfat.mksh
 
 all: ${PROG} bxinst
 
