@@ -151,6 +151,7 @@
 ./man1/htpasswd.htm
 ./man1/iceauth.htm
 ./man1/ico.htm
+./man1/iconv.htm
 ./man1/id.htm
 ./man1/ident.htm
 ./man1/imake.htm
@@ -186,6 +187,7 @@
 ./man1/listres.htm
 ./man1/ln.htm
 ./man1/lndir.htm
+./man1/locale.htm
 ./man1/locate.htm
 ./man1/lock.htm
 ./man1/lockspool.htm

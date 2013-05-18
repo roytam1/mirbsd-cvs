@@ -248,6 +248,7 @@
 ./usr/bin/htdigest
 ./usr/bin/htpasswd
 ./usr/bin/hunt
+./usr/bin/iconv
 ./usr/bin/id
 ./usr/bin/indent
 ./usr/bin/indxbib
@@ -270,6 +271,7 @@
 ./usr/bin/lex
 ./usr/bin/lint
 ./usr/bin/lndir
+./usr/bin/locale
 ./usr/bin/locate
 ./usr/bin/lock
 ./usr/bin/lock-np
@@ -1639,6 +1641,7 @@
 ./usr/share/man/cat1/hostname.0
 ./usr/share/man/cat1/htdigest.0
 ./usr/share/man/cat1/htpasswd.0
+./usr/share/man/cat1/iconv.0
 ./usr/share/man/cat1/id.0
 ./usr/share/man/cat1/indent.0
 ./usr/share/man/cat1/indxbib.0
@@ -1664,6 +1667,7 @@
 ./usr/share/man/cat1/lint.0
 ./usr/share/man/cat1/ln.0
 ./usr/share/man/cat1/lndir.0
+./usr/share/man/cat1/locale.0
 ./usr/share/man/cat1/locate.0
 ./usr/share/man/cat1/lock.0
 ./usr/share/man/cat1/lockspool.0
