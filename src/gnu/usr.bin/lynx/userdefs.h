@@ -1,5 +1,5 @@
 /*
- * $LynxId: userdefs.h,v 1.233 2008/02/10 23:30:04 tom Exp $
+ * $LynxId: userdefs.h,v 1.239 2008/12/26 21:02:32 tom Exp $
  *
  * Lynx - Hypertext navigation system
  *
@@ -413,6 +413,12 @@
 #else
 #define LIST_FORMAT "    %p %4l %-8.8o %-8.8g %7s %-12.12d %a"
 #endif
+
+/*
+ * FTP_FORMAT uses the same codes as LIST_FORMAT, but applies to files shown
+ * in an ftp listing.
+ */
+#define FTP_FORMAT "%d  %-16.16t %a  %K"
 
 /*
  *  If NO_FORCED_CORE_DUMP is set to TRUE, Lynx will not force
@@ -1416,12 +1422,12 @@
  * ignore it. - kw */
 /* $Format: "#define LYNX_VERSION \"$ProjectVersion$\""$ */
 #ifndef LYNX_VERSION
-#define LYNX_VERSION "2.8.7dev.11a"
+#define LYNX_VERSION "2.8.7dev.12"
 #endif
 #define LYNX_WWW_HOME "http://lynx.isc.org/"
 #define LYNX_WWW_DIST "http://lynx.isc.org/current/"
 /* $Format: "#define LYNX_DATE \"$ProjectDate$\""$ */
-#define LYNX_DATE "Sun, 14 Dec 2008 16:24:56 -0800"
+#define LYNX_DATE "Wed, 31 Dec 2008 17:22:26 -0800"
 #define LYNX_DATE_OFF 5		/* truncate the automatically-generated date */
 #define LYNX_DATE_LEN 11	/* truncate the automatically-generated date */
 
