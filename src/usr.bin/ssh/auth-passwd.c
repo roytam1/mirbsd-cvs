@@ -37,6 +37,7 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/auth-passwd.c,v 1.4 2006/02/22 02:16:43 tg Exp $");
 
 #include "packet.h"
 #include "buffer.h"
@@ -79,14 +80,6 @@ auth_password(Authctxt *authctxt, const char *password)
 		ok = 0;
 	if (*password == '\0' && options.permit_empty_passwd == 0)
 		return 0;
-#ifdef KRB5
-	if (options.kerberos_authentication == 1) {
-		int ret = auth_krb5_password(authctxt, password);
-		if (ret == 1 || ret == 0)
-			return ret && ok;
-		/* Fall back to ordinary passwd authentication. */
-	}
-#endif
 	return (sys_auth_passwd(authctxt, password) && ok);
 }
 
@@ -103,10 +96,10 @@ warn_expiry(Authctxt *authctxt, auth_session_t *as)
 	actimeleft = auth_check_expire(as);
 #ifdef HAVE_LOGIN_CAP
 	if (authctxt->valid) {
-		pwwarntime = login_getcaptime(lc, "password-warn", TWO_WEEKS,
-		    TWO_WEEKS);
-		acwarntime = login_getcaptime(lc, "expire-warn", TWO_WEEKS,
-		    TWO_WEEKS);
+		pwwarntime = login_getcaptime(lc, (char *)"password-warn",
+		    TWO_WEEKS, TWO_WEEKS);
+		acwarntime = login_getcaptime(lc, (char *)"expire-warn",
+		    TWO_WEEKS, TWO_WEEKS);
 	}
 #endif
 	if (pwtimeleft != 0 && pwtimeleft < pwwarntime) {
@@ -132,7 +125,7 @@ sys_auth_passwd(Authctxt *authctxt, const char *password)
 	auth_session_t *as;
 	static int expire_checked = 0;
 
-	as = auth_usercheck(pw->pw_name, authctxt->style, "auth-ssh",
+	as = auth_usercheck(pw->pw_name, authctxt->style, (char *)"auth-ssh",
 	    (char *)password);
 	if (as == NULL)
 		return (0);

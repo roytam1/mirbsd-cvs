@@ -223,7 +223,7 @@ intern(const char *s)
 			return (hp->h_name);
 	l = strlen(s) + 1;
 	p = poolalloc(l);
-	bcopy(s, p, l);
+	memmove(p, s, l);
 	*hpp = newhashent(p, h);
 	if (++ht->ht_used > ht->ht_lim)
 		ht_expand(ht);

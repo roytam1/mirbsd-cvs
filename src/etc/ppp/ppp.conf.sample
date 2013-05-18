@@ -1,9 +1,12 @@
+# $Id$
+
 #################################################################
 #
 #  	PPP  Sample Configuration File
 #
 #	  Originally written by Toshiharu OHNO
 #
+# $MirOS$
 # $OpenBSD: ppp.conf.sample,v 1.21 2002/06/09 06:15:15 todd Exp $
 #
 #################################################################
@@ -26,6 +29,9 @@
 #
 default:
  set log Phase Chat LCP IPCP CCP tun command
+
+previous:
+ # This was part of 'default' but got removed from there in MirBSD.
  set device /dev/cua01
  set speed 115200
  set dial "ABORT BUSY ABORT NO\\sCARRIER TIMEOUT 5 \"\" AT OK-AT-OK ATE1Q0 OK \\dATDT\\T TIMEOUT 40 CONNECT"
@@ -520,12 +526,65 @@ mloop-in:
  set mrru 1500
  set mru 1504			# Room for the MP header
 
-# A PPPoE (PPP over Ethernet) setup may look like this:
-#
-pppoe:
- set device "!/usr/sbin/pppoe"
- set mtu max 1492
- set mru max 1492
+############################################################
+# MirBSD particulars
+############################################################
+
+# 0. PPP over modem lines
+# Sorry, I use pppd(8) for this purpose.
+
+# 1. ADSL with PPPoE
+MirADSL:
+ # Adjust: ne3 => NIC where your ADSL modem sits on
+ set device "!/usr/sbin/pppoe -i ne3"
  set speed sync
- disable acfcomp protocomp
+ disable ipv6cp
+ set timeout 0
+ set mtu max 1454
+ set mru max 1454
+ disable acfcomp protocomp ipv6cp
  deny acfcomp
+ enable lqr mssfixup # dns
+ accept lqr
+ # Adjust: the entire string in quotes => your user name
+ # Adjust (T-Online users): 0-3 = Anschluszkennung
+ #                          4-9 = T-Online-Nummer
+ #                         0001 = Mitbenutzerkennung
+ set authname "0001112223339988776655440001@t-online.de"
+ set authkey "secret-passsword"
+
+# 2. ISDN with SyncPPP and Dial-On-Demand
+MirISDN:
+ set device /dev/isdnbchan0
+ set speed sync
+ disable ipv6cp mppe
+ set timeout 0
+ #set cd 6
+ set login
+ set ifaddr 0.0.0.0/0 0.0.0.1/0 255.255.255.0 0.0.0.0
+ add default HISADDR
+ set authname "0001112223339988776655440001@t-online.de"
+ set authkey "secret-passsword"
+ set phone 0191011
+
+viag:
+ load MirISDN
+ set authname "anonymer"
+ set authkey "surfer"
+ set phone 010900191799
+ set timeout 300
+ dial
+msn:
+ load MirISDN
+ set authname "msn"
+ set authkey "msn"
+ set phone 010880192658
+ set timeout 300
+ dial
+telekom:
+ load MirISDN
+ set authname "0001112223339988776655440001@t-online.de"
+ set authkey "secret-passsword"
+ set phone 0191011
+ set timeout 300
+ dial

@@ -1,9 +1,9 @@
 /*	$OpenBSD: ntp.c,v 1.27 2004/10/26 09:48:59 henning Exp $	*/
 
 /*
+ * Copyright (c) 2002, 2004, 2005, 2006 by Thorsten Glaser.
  * Copyright (c) 1996, 1997 by N.M. Maclaren. All rights reserved.
  * Copyright (c) 1996, 1997 by University of Cambridge. All rights reserved.
- * Copyright (c) 2002 by Thorsten "mirabile" Glaser.
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -50,6 +50,17 @@
 #include <unistd.h>
 
 #include "ntpleaps.h"
+
+__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.6 2006/05/29 23:38:31 tg Exp $");
+
+/* This macro is not implemented on all operating systems */
+#ifndef	SA_LEN
+#define	SA_LEN(x)	(((x)->sa_family == AF_INET6) ? \
+			    sizeof(struct sockaddr_in6) : \
+			    (((x)->sa_family == AF_INET) ? \
+				sizeof(struct sockaddr_in) : \
+				sizeof(struct sockaddr)))
+#endif
 
 /*
  * NTP definitions.  Note that these assume 8-bit bytes - sigh.  There
@@ -105,7 +116,7 @@ struct ntp_data {
 	u_int64_t	xmitck;
 };
 
-void	ntp_client(const char *, int, struct timeval *, struct timeval *, int);
+void	ntp_client(const char *, int, struct timeval *, struct timeval *);
 int	sync_ntp(int, const struct sockaddr *, double *, double *);
 int	write_packet(int, struct ntp_data *);
 int	read_packet(int, struct ntp_data *, double *, double *);
@@ -113,19 +124,17 @@ void	unpack_ntp(struct ntp_data *, u_char *);
 double	current_time(double);
 void	create_timeval(double, struct timeval *, struct timeval *);
 
-#if DEBUG
+#ifdef DEBUG
 void	print_packet(const struct ntp_data *);
 #endif
 
-int	corrleaps;
-
 void
 ntp_client(const char *hostname, int family, struct timeval *new,
-    struct timeval *adjust, int leapflag)
+    struct timeval *adjust)
 {
 	struct addrinfo hints, *res0, *res;
 	double offset, error;
-	int accept = 0, ret, s, ierror;
+	int accepts = 0, ret, s, ierror;
 
 	memset(&hints, 0, sizeof(hints));
 	hints.ai_family = family;
@@ -135,10 +144,6 @@ ntp_client(const char *hostname, int family, struct timeval *new,
 		errx(1, "%s: %s", hostname, gai_strerror(ierror));
 		/*NOTREACHED*/
 	}
-
-	corrleaps = leapflag;
-	if (corrleaps)
-		ntpleaps_init();
 
 	s = -1;
 	for (res = res0; res; res = res->ai_next) {
@@ -156,7 +161,7 @@ ntp_client(const char *hostname, int family, struct timeval *new,
 			continue;
 		}
 
-		accept++;
+		accepts++;
 		break;
 	}
 	freeaddrinfo(res0);
@@ -165,7 +170,7 @@ ntp_client(const char *hostname, int family, struct timeval *new,
 	fprintf(stderr, "Correction: %.6f +/- %.6f\n", offset, error);
 #endif
 
-	if (accept < 1)
+	if (accepts < 1)
 		errx(1, "Unable to get a reasonable time estimate");
 
 	create_timeval(offset, new, adjust);
@@ -305,6 +310,7 @@ read_packet(int fd, struct ntp_data *data, double *off, double *error)
 	double	x, y;
 	int	length, r;
 	fd_set	*rfds;
+	static int nosync = 0;
 
 	rfds = calloc(howmany(fd + 1, NFDBITS), sizeof(fd_mask));
 	if (rfds == NULL)
@@ -376,6 +382,11 @@ retry:
 		return (1);
 	}
 
+	if (!nosync && (data->status == 3)) {
+		warnx("Alarm condition - server not synched yet?");
+		nosync = 1;
+	}
+
 	x = data->receive - data->originate;
 	y = data->transmit - data->current;
 
@@ -430,21 +441,11 @@ double
 current_time(double offset)
 {
 	struct timeval current;
-	u_int64_t t;
 
 	if (gettimeofday(&current, NULL))
 		err(1, "Could not get local time of day");
 
-	/*
-	 * At this point, current has the current TAI time.
-	 * Now subtract leap seconds to set the posix tick.
-	 */
-
-	t = SEC_TO_TAI64(current.tv_sec);
-	if (corrleaps)
-		ntpleaps_sub(&t);
-
-	return (offset + TAI64_TO_SEC(t) + 1.0e-6 * current.tv_usec);
+	return (offset + tick2utc(current.tv_sec) + 1.0e-6 * current.tv_usec);
 }
 
 /*

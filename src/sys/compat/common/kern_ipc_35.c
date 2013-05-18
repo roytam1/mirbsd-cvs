@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/compat/common/kern_ipc_35.c,v 1.2 2005/03/06 21:27:29 tg Exp $ */
 /*	$OpenBSD: kern_ipc_35.c,v 1.3 2004/07/15 11:00:12 millert Exp $	*/
 
 /*
@@ -26,6 +27,8 @@
 
 #include <sys/mount.h>
 #include <sys/syscallargs.h>
+
+#ifdef COMPAT_OPENBSD
 
 #ifdef SYSVMSG
 /*
@@ -91,7 +94,7 @@ compat_35_sys_semop(struct proc *p, void *v, register_t *retval)
 	(to)->type##_perm.mode = (from)->type##_perm.mode & 0xffffU;	\
 	(to)->type##_perm.seq = (from)->type##_perm.seq;		\
 	(to)->type##_perm.key = (from)->type##_perm.key;		\
-	bcopy((caddr_t)&(from)->base, (caddr_t)&(to)->base,		\
+	memmove((caddr_t)&(to)->base, (caddr_t)&(from)->base,		\
 	    sizeof(*(to)) - ((caddr_t)&(to)->base - (caddr_t)to));	\
 } while (0)
 #endif /* SYSVMSG || SYSVSEM || SYSVSHM */
@@ -260,3 +263,5 @@ compat_35_sys_shmctl(struct proc *p, void *v, register_t *retval)
 	    (caddr_t)SCARG(uap, buf), shmid_copyin, shmid_copyout));
 }
 #endif /* SYSVSHM */
+
+#endif /* def COMPAT_OPENBSD */

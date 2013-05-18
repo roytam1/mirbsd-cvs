@@ -1,7 +1,10 @@
+/**	$MirOS: src/sys/sys/errno.h,v 1.5 2005/12/19 22:49:50 tg Exp $ */
 /*	$OpenBSD: errno.h,v 1.14 2005/06/17 21:48:03 espie Exp $	*/
 /*	$NetBSD: errno.h,v 1.10 1996/01/20 01:33:53 jtc Exp $	*/
 
 /*
+ * Copyright (c) 2003, 2005
+ *	Thorsten "mirabile" Glaser <tg@mirbsd.de>.  All rights reserved.
  * Copyright (c) 1982, 1986, 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
  * (c) UNIX System Laboratories, Inc.
@@ -36,6 +39,9 @@
  *
  *	@(#)errno.h	8.5 (Berkeley) 1/21/94
  */
+
+#ifndef	_SYS_ERRNO_H_
+#define	_SYS_ERRNO_H_
 
 #ifndef _KERNEL
 extern int errno;			/* global error number */
@@ -97,6 +103,9 @@ __END_DECLS
 /* math software */
 #define	EDOM		33		/* Numerical argument out of domain */
 #define	ERANGE		34		/* Result too large */
+#ifndef _POSIX_SOURCE
+#define	EOVERFLOW	ERANGE
+#endif /* _POSIX_SOURCE */
 
 /* non-blocking and interrupt i/o */
 #define	EAGAIN		35		/* Resource temporarily unavailable */
@@ -116,6 +125,7 @@ __END_DECLS
 #endif /* _POSIX_SOURCE */
 #define	EOPNOTSUPP	45		/* Operation not supported */
 #ifndef _POSIX_SOURCE
+#define	ENOTSUP		EOPNOTSUPP
 #define	EPFNOSUPPORT	46		/* Protocol family not supported */
 #endif /* _POSIX_SOURCE */
 #define	EAFNOSUPPORT	47		/* Address family not supported by protocol family */
@@ -176,7 +186,8 @@ __END_DECLS
 #define	EIPSEC		82		/* IPsec processing failure */
 #define	ENOATTR		83		/* Attribute not found */
 #define	EILSEQ		84		/* Illegal byte sequence */
-#define	ELAST		84		/* Must be equal largest errno */
+#define	ENOCOFFEE	85		/* Programmer needs more coffee */
+#define	ELAST		85		/* Must be equal largest errno */
 #endif /* _POSIX_SOURCE */
 
 #ifdef _KERNEL
@@ -184,3 +195,5 @@ __END_DECLS
 #define	ERESTART	-1		/* restart syscall */
 #define	EJUSTRETURN	-2		/* don't modify regs, just return */
 #endif
+
+#endif	/* !def _SYS_ERRNO_H_ */

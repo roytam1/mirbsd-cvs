@@ -33,6 +33,8 @@
 
 #include "SYS.h"
 
+	.text
+
 /*
  * pid = vfork();
  *

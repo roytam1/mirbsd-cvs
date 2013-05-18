@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: key.c,v 1.3 2005/05/29 02:41:42 marius Exp $ */
 
 /*
@@ -9,7 +10,7 @@
  *   Redistribution and use in source and binary forms, with or without
  *   modification, are permitted provided that the following conditions
  *   are met:
- * 
+ *
  *   1. Redistributions of source code must retain the above copyright
  *      notice, this list of conditions and the following disclaimer.
  *   2. Redistributions in binary form must reproduce the above copyright
@@ -18,7 +19,7 @@
  *   3. The names of the copyright holders may not be used to endorse or
  *      promote products derived from this software without specific
  *      prior written permission.
- * 
+ *
  *   THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
  *   INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
  *   AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL
@@ -46,6 +47,7 @@
 #include <unistd.h>
 
 #include "key.h"
+#include "pemrsa.h"
 #include "ssh.h"
 #include "ssh2.h"
 #include "util.h"
@@ -57,6 +59,7 @@ static key_loader pubkey_loaders[] = {
 	ssh_load_public,
 	ssh2_load_public,
 	x509_load_public,
+	pemrsa_load_public,
 	NULL
 };
 
@@ -71,13 +74,13 @@ load_file(struct iovec *iov, char *filename)
 {
 	struct stat st;
 	int fd;
-	
+
 	if ((fd = open(filename, O_RDONLY)) < 0)
 		return (-1);
-	
+
 	if (fstat(fd, &st) < 0)
 		return (-1);
-	
+
 	if (st.st_size == 0) {
 		errno = EINVAL;
 		return (-1);
@@ -87,13 +90,13 @@ load_file(struct iovec *iov, char *filename)
 
 	iov->iov_len = st.st_size;
 	((u_char *)iov->iov_base)[iov->iov_len] = '\0';
-	
+
 	if (read(fd, iov->iov_base, iov->iov_len) != iov->iov_len) {
 		free(iov->iov_base);
 		return (-1);
 	}
 	close(fd);
-	
+
 	return (0);
 }
 
@@ -113,7 +116,7 @@ key_load_private(struct key *k, char *filename)
 {
 	struct iovec iov;
 	int i;
-	
+
 	if (load_file(&iov, filename) < 0)
 		return (-1);
 
@@ -214,6 +217,6 @@ key_free(struct key *k)
 		DSA_free((DSA *)k->data);
 	else if (k->data != NULL)
 		free(k->data);
-	
+
 	free(k);
 }

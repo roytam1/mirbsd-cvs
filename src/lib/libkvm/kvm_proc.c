@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libkvm/kvm_proc.c,v 1.2 2005/03/06 20:29:08 tg Exp $	*/
 /*	$OpenBSD: kvm_proc.c,v 1.26 2004/06/24 21:06:47 millert Exp $	*/
 /*	$NetBSD: kvm_proc.c,v 1.30 1999/03/24 05:50:50 mrg Exp $	*/
 /*-
@@ -275,7 +276,7 @@ kvm_proclist(kvm_t *kd, int what, int arg, struct proc *p,
 
 	for (; cnt < maxcnt && p != NULL; p = proc.p_list.le_next) {
 		if (KREAD(kd, (u_long)p, &proc)) {
-			_kvm_err(kd, kd->program, "can't read proc at %x", p);
+			_kvm_err(kd, kd->program, "can't read proc at %p", p);
 			return (-1);
 		}
 		if (KREAD(kd, (u_long)proc.p_cred, &eproc.e_pcred) == 0)
@@ -317,7 +318,7 @@ kvm_proclist(kvm_t *kd, int what, int arg, struct proc *p,
 		 */
 		eproc.e_paddr = p;
 		if (KREAD(kd, (u_long)proc.p_pgrp, &pgrp)) {
-			_kvm_err(kd, kd->program, "can't read pgrp at %x",
+			_kvm_err(kd, kd->program, "can't read pgrp at %p",
 			    proc.p_pgrp);
 			return (-1);
 		}
@@ -325,14 +326,14 @@ kvm_proclist(kvm_t *kd, int what, int arg, struct proc *p,
 		eproc.e_pgid = pgrp.pg_id;
 		eproc.e_jobc = pgrp.pg_jobc;
 		if (KREAD(kd, (u_long)pgrp.pg_session, &sess)) {
-			_kvm_err(kd, kd->program, "can't read session at %x",
+			_kvm_err(kd, kd->program, "can't read session at %p",
 			    pgrp.pg_session);
 			return (-1);
 		}
 		if ((proc.p_flag & P_CONTROLT) && sess.s_ttyp != NULL) {
 			if (KREAD(kd, (u_long)sess.s_ttyp, &tty)) {
 				_kvm_err(kd, kd->program,
-				    "can't read tty at %x", sess.s_ttyp);
+				    "can't read tty at %p", sess.s_ttyp);
 				return (-1);
 			}
 			eproc.e_tdev = tty.t_dev;
@@ -340,7 +341,7 @@ kvm_proclist(kvm_t *kd, int what, int arg, struct proc *p,
 			if (tty.t_pgrp != NULL) {
 				if (KREAD(kd, (u_long)tty.t_pgrp, &pgrp)) {
 					_kvm_err(kd, kd->program,
-					    "can't read tpgrp at &x",
+					    "can't read tpgrp at %p",
 					    tty.t_pgrp);
 					return (-1);
 				}
@@ -374,8 +375,8 @@ kvm_proclist(kvm_t *kd, int what, int arg, struct proc *p,
 				continue;
 			break;
 		}
-		bcopy(&proc, &bp->kp_proc, sizeof(proc));
-		bcopy(&eproc, &bp->kp_eproc, sizeof(eproc));
+		memmove(&bp->kp_proc, &proc, sizeof(proc));
+		memmove(&bp->kp_eproc, &eproc, sizeof(eproc));
 		++bp;
 		++cnt;
 	}
@@ -1013,7 +1014,8 @@ kvm_ureadm(kvm_t *kd, const struct miniproc *p, u_long uva, char *buf,
 			return (0);
 		}
 		cc = (size_t)MIN(cnt, len);
-		bcopy(dp, cp, cc);
+		memmove(cp, dp, cc);
+
 		cp += cc;
 		uva += cc;
 		len -= cc;

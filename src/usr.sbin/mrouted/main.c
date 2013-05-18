@@ -272,7 +272,7 @@ usage:	fprintf(stderr,
      */
     dummy = 0;
     for(;;) {
-	bcopy((char *)&readers, (char *)&rfds, sizeof(rfds));
+	memmove((char *)&rfds, (char *)&readers, sizeof(rfds));
 	if ((n = select(nfds, &rfds, NULL, NULL, NULL)) < 0) {
             if (errno != EINTR) /* SIGALRM is expected */
                 logit(LOG_WARNING, errno, "select failed");

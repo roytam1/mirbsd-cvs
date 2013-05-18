@@ -1,7 +1,10 @@
 vers(__file__,
+	{-$MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.8 2005/10/21 12:54:30 tg Exp $-})dnl
+vers(__file__,
 	{-$OpenBSD: MAKEDEV.md,v 1.32 2005/06/29 18:23:27 todd Exp $-},
 etc.MACHINE)dnl
 dnl
+dnl Copyright (c) 2003-2005 Thorsten Glaser <tg@mirbsd.de>
 dnl Copyright (c) 2001-2004 Todd T. Fries <todd@OpenBSD.org>
 dnl
 dnl Permission to use, copy, modify, and distribute this software for any
@@ -16,14 +19,15 @@ dnl WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 dnl ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 dnl OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 dnl
-dnl
 __devitem(apm, apm, Power management device)dnl
-__devitem(acpi, acpi, Advanced Configuration and Power Interface)dnl
-__devitem(nvram, nvram, NVRAM access)dnl
+dnl #notyet#__devitem(acpi, acpi, Advanced Configuration and Power Interface)dnl
+dnl #notyet#__devitem(nvram, nvram, NVRAM access)dnl
 _mkdev(nvram, nvram, {-M nvram c major_nvram_c 0 440 kmem-})dnl
 _TITLE(make)
 _DEV(all)
 _DEV(ramdisk)
+__devitem(rambig, rambig, additional devices to be put on large ramdisk media,nothing)dnl
+_DEV(rambig)
 _DEV(std)
 _DEV(local)
 _TITLE(dis)
@@ -44,7 +48,7 @@ _TITLE(term)
 _DEV(com, 8)
 _DEV(ttyc, 38)
 _TITLE(pty)
-_DEV(ptm, 81)
+_DEV(ptm, 82)
 _DEV(pty, 6)
 _DEV(tty, 5)
 _TITLE(cons)
@@ -68,28 +72,27 @@ _DEV(usb, 61)
 _DEV(uscan, 77)
 _TITLE(spec)
 _DEV(apm, 21)
-_DEV(acpi, 85)
+dnl #notyet#_DEV(acpi, 85)
 _DEV(au, 42)
 _DEV(bio, 79)
 _DEV(bktr, 49)
 _DEV(bpf, 23)
 _DEV(cry, 70)
 _DEV(fdesc, 22)
-_DEV(gpio, 83)
+dnl #notyet#_DEV(gpio, 83)
 _DEV(gpr, 80)
-_DEV(hotplug, 82)
+dnl #notyet#_DEV(hotplug, 81)
 _DEV(iop, 75)
 _DEV(joy, 26)
 _DEV(lkm, 28)
 _DEV(music, 53)
-_DEV(nvram, 84)
+dnl #notyet#_DEV(nvram, 84)
 _DEV(pci, 72)
 _DEV(pctr, 46)
 _DEV(pf, 73)
 _DEV(radio, 76)
 _DEV(rmidi, 52)
 _DEV(rnd, 45)
-_DEV(ses, 24)
 _DEV(speak, 27)
 _DEV(ss, 19)
 _DEV(systrace, 78)
@@ -97,13 +100,21 @@ _DEV(tun, 40)
 _DEV(tuner, 49)
 _DEV(uk, 20)
 _DEV(wdt, 55)
-_DEV(xfs, 51)
+_TITLE(isdns)
+_DEV(isdn, 56)
+_DEV(isdnctl, 57)
+_DEV(isdnbchan, 58)
+_DEV(isdntrc, 59)
+_DEV(isdntel, 60)
 dnl
 divert(__mddivert)dnl
 dnl
 ramdisk)
 	_recurse std bpf0 fd0 wd0 sd0 tty00 tty01 rd0
-	_recurse st0 cd0 ttyC0 random wskbd0 wskbd1 wskbd2 apm
+	_recurse st0 cd0 ttyC0 random wskbd0 wskbd1 wskbd2 apm vnd0
+	;;
+rambig)
+	_recurse pty0 raid0 raid1 tun0 vnd1
 	;;
 
 _std(1, 2, 50, 4, 7)
@@ -117,10 +128,8 @@ ttyc*)
 dnl
 dnl i386 specific targets
 dnl
-target(all, ses, 0)dnl
 target(all, ch, 0)dnl
 target(all, ss, 0, 1)dnl
-target(all, xfs, 0)dnl
 twrget(all, flo, fd, 0, 0B, 0C, 0D, 0E, 0F, 0G, 0H)dnl
 twrget(all, flo, fd, 1, 1B, 1C, 1D, 1E, 1F, 1G, 1H)dnl
 target(all, pty, 0)dnl
@@ -134,8 +143,8 @@ target(all, sd, 0, 1, 2, 3, 4)dnl
 target(all, vnd, 0, 1, 2, 3)dnl
 target(all, ccd, 0, 1, 2, 3)dnl
 target(all, bktr, 0)dnl
-target(all, gpio, 0, 1, 2)dnl
-target(all, nvram)dnl
+dnl #notyet#target(all, gpio, 0, 1, 2)dnl
+dnl #notyet#target(all, nvram)dnl
 target(ramd, tty0, 0, 1, 2, 3)dnl
 twrget(ramd, wsdisp, ttyC, 0)dnl
 target(ramd, wt, 0)dnl
@@ -146,3 +155,28 @@ target(ramd, sd, 0, 1, 2, 3)dnl
 target(ramd, cd, 0, 1)dnl
 target(ramd, st, 0, 1)dnl
 target(ramd, mcd, 0)dnl
+
+isdns)
+	_recurse isdn isdnctl isdnbchan0 isdnbchan1
+	_recurse isdntel0 isdntel1 isdntrc0 isdntrc1
+	cat <<_EOF_ALLISDN
+The author of the ISDN4BSD package is:
+ * Hellmuth Michaelis
+ * Hallstrasse 20
+ * D-25462 Rellingen
+ * voice: +49 4101 473574
+ * fax:   +49 4101 473575
+ * email: hm@kts.org
+
+He requests a picture postcard of the home town of any ISDN4BSD
+user as licence fee.  Please send him one if you are using this
+ISDN subsystem for MirOS BSD, too.
+
+ * It may be illegal in your country to connect an ISDN4BSD-based machine
+ * using a passive ISDN card to the ISDN at your site because the protocol
+ * stack of ISDN4BSD, which is necessary to run passive cards, has not been
+ * approved by the telecommunication certification authority of your country.
+ * If in doubt, please contact your local ISDN provider!
+
+_EOF_ALLISDN
+	;;

@@ -269,7 +269,7 @@ r2:		if (inn != outn) {
 				return;
 			}
 		} else {
-			if (bcmp(inb, outb, inn)) {
+			if (memcmp(inb, outb, inn)) {
 				fprintf(msg,
 				    "%s: tapes have different data.\n",
 					"tcopy");

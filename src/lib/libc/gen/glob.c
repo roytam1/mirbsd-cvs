@@ -123,7 +123,7 @@ static int	 compare(const void *, const void *);
 static int	 g_Ctoc(const Char *, char *, u_int);
 static int	 g_lstat(Char *, struct stat *, glob_t *);
 static DIR	*g_opendir(Char *, glob_t *);
-static Char	*g_strchr(Char *, int);
+static const Char *g_strchr(const Char *, int);
 static int	 g_stat(Char *, struct stat *, glob_t *);
 static int	 glob0(const Char *, glob_t *);
 static int	 glob1(Char *, Char *, glob_t *, size_t *);
@@ -149,7 +149,7 @@ glob(const char *pattern, int flags, int (*errfunc)(const char *, int),
 	int c;
 	Char *bufnext, *bufend, patbuf[MAXPATHLEN];
 
-	patnext = (u_char *) pattern;
+	patnext = (const u_char *) pattern;
 	if (!(flags & GLOB_APPEND)) {
 		pglob->gl_pathc = 0;
 		pglob->gl_pathv = NULL;
@@ -200,7 +200,7 @@ globexp1(const Char *pattern, glob_t *pglob)
 	if (pattern[0] == LBRACE && pattern[1] == RBRACE && pattern[2] == EOS)
 		return glob0(pattern, pglob);
 
-	while ((ptr = (const Char *) g_strchr((Char *) ptr, LBRACE)) != NULL)
+	while ((ptr = g_strchr(ptr, LBRACE)) != NULL)
 		if (!globexp2(ptr, pattern, pglob, &rv))
 			return rv;
 
@@ -403,7 +403,7 @@ glob0(const Char *pattern, glob_t *pglob)
 			if (c == NOT)
 				++qpatnext;
 			if (*qpatnext == EOS ||
-			    g_strchr((Char *) qpatnext+1, RBRACKET) == NULL) {
+			    g_strchr(qpatnext+1, RBRACKET) == NULL) {
 				*bufnext++ = LBRACKET;
 				if (c == NOT)
 					--qpatnext;
@@ -473,7 +473,7 @@ glob0(const Char *pattern, glob_t *pglob)
 static int
 compare(const void *p, const void *q)
 {
-	return(strcmp(*(char **)p, *(char **)q));
+	return(strcmp(*(char *const *)p, *(char *const *)q));
 }
 
 static int
@@ -556,7 +556,7 @@ glob2(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
 
 static int
 glob3(Char *pathbuf, Char *pathbuf_last, Char *pathend, Char *pathend_last,
-    Char *pattern, Char *pattern_last, Char *restpattern,
+    Char *pattern, Char *pattern_last __attribute__((unused)), Char *restpattern,
     Char *restpattern_last, glob_t *pglob, size_t *limitp)
 {
 	struct dirent *dp;
@@ -805,8 +805,8 @@ g_stat(Char *fn, struct stat *sb, glob_t *pglob)
 	return(stat(buf, sb));
 }
 
-static Char *
-g_strchr(Char *str, int ch)
+static const Char *
+g_strchr(const Char *str, int ch)
 {
 	do {
 		if (*str == ch)

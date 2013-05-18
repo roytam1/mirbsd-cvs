@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: gdt_common.c,v 1.28 2004/04/12 05:33:04 deraadt Exp $	*/
 
 /*
@@ -374,7 +375,7 @@ gdt_attach(gdt)
 		gdt->sc_link.openings = (GDT_MAXCMDS - GDT_CMD_RESERVE) /
 		    gdt->sc_ndevs;
 
-	printf("dpmem %x %d-bus %d cache device%s\n", gdt->sc_dpmembase,
+	printf("dpmem %x %d-bus %d cache device%s\n", (int)gdt->sc_dpmembase,
 	    gdt->sc_bus_cnt, cdev_cnt, cdev_cnt == 1 ? "" : "s");
 	printf("%s: ver %x, cache %s, strategy %d, writeback %s, blksz %d\n",
 	    gdt->sc_dev.dv_xname, gdt->sc_cpar.cp_version,
@@ -531,7 +532,7 @@ gdt_scsi_cmd(xs)
 		ccb = NULL;
 		link = xs->sc_link;
 		target = link->target;
- 
+
 		if (!gdt_polling && !(xs->flags & SCSI_POLL) &&
 		    gdt->sc_test_busy(gdt)) {
 			/*
@@ -1421,7 +1422,7 @@ gdt_ioctl(dev, cmd, addr)
 	}
 
 	case GDT_IOCTL_DRVERS:
-		((gdt_drvers_t *)addr)->vers = 
+		((gdt_drvers_t *)addr)->vers =
 		    (GDT_DRIVER_VERSION << 8) | GDT_DRIVER_SUBVERSION;
 		break;
 
@@ -1433,7 +1434,7 @@ gdt_ioctl(dev, cmd, addr)
 	case GDT_IOCTL_CTRTYPE: {
 		gdt_ctrt_t *p;
 		struct gdt_softc *gdt = (struct gdt_softc *)dev;
-	    
+
 		p = (gdt_ctrt_t *)addr;
 		p->oem_id = 0x8000;
 		p->type = 0xfd;

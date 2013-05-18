@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/compress/nullopen.c,v 1.4 2005/11/16 22:10:56 tg Exp $ */
 /*	$OpenBSD: nullopen.c,v 1.3 2005/06/26 18:20:26 otto Exp $	*/
 
 /*
@@ -25,11 +26,7 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- *
  */
-
-const char null_rcsid[] =
-    "$OpenBSD: nullopen.c,v 1.3 2005/06/26 18:20:26 otto Exp $";
 
 #include <sys/types.h>
 #include <stdio.h>
@@ -37,6 +34,8 @@ const char null_rcsid[] =
 #include <errno.h>
 #include <unistd.h>
 #include "compress.h"
+
+__RCSID("$MirOS: src/usr.bin/compress/nullopen.c,v 1.4 2005/11/16 22:10:56 tg Exp $");
 
 typedef struct {
 	off_t 	  total_in;
@@ -50,8 +49,9 @@ char null_magic[2];
 
 
 void *
-null_open(int fd, const char *mode, char *name, int bits,
-    u_int32_t mtime, int gotmagic)
+null_open(int fd, const char *mode, char *name __attribute__((unused)),
+    int bits __attribute__((unused)),
+    u_int32_t mtime __attribute__((unused)), int gotmagic)
 {
 	null_stream *s;
 
@@ -101,7 +101,7 @@ null_close(void *cookie, struct z_info *info, const char *name, struct stat *sb)
 }
 
 int
-null_flush(void *cookie, int flush)
+null_flush(void *cookie, int flush __attribute__((unused)))
 {
 	null_stream *s = (null_stream*)cookie;
 

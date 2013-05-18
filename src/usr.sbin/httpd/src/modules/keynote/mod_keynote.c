@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /*
  * Copyright (c) 1998, 1999 Niels Provos.  All rights reserved.
  * Copyright (c) 1999, 2000, 2001 Niklas Hallqvist.  All rights reserved.
@@ -243,7 +244,7 @@ keynote_add_authorizer(request_rec *r, int sessid, X509 *cert)
 		break;
 	    case ERROR_NOTFOUND:
 		ap_log_error(APLOG_MARK, APLOG_ERR|APLOG_NOERRNO,
-		    r->connection->server, 
+		    r->connection->server,
 		    "Session %d not found while adding action "
 		    "authorizer %s", sessid, principals[i]);
 	    default:
@@ -638,7 +639,7 @@ check_keynote_assertions(request_rec *r)
 	    /* Missing or self-signed, deny them */
 	    issuer = X509_get_issuer_name(cert);
 	    subject = X509_get_subject_name(cert);
-	    if (!issuer || !subject || X509_name_cmp(issuer, subject) == NULL) {
+	    if (!issuer || !subject || X509_name_cmp(issuer, subject) == 0) {
 		rval = FORBIDDEN;
 		goto done;
 	    }
@@ -823,7 +824,7 @@ done:
 }
 
 /*
- * Take an assertion stored in a file and push it (verbatim) into 
+ * Take an assertion stored in a file and push it (verbatim) into
  * the policy_asserts array.
  */
 static const char *
@@ -843,7 +844,7 @@ store_assertion(cmd_parms *cmd, void *policy_assertsv, char *filename)
     if (fstat(fd, &sb) == -1)
 	return(ap_pstrcat(cmd->pool, "Can't fstat ", filename, ": ",
 	    strerror(errno), NULL));
-    
+
     assert = calloc(sb.st_size + 1, sizeof(char));
     nread = read(fd, assert, sb.st_size);
     serrno = errno;

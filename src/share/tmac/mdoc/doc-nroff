@@ -1,7 +1,11 @@
+.\"	$MirOS: src/share/tmac/mdoc/doc-nroff,v 1.4 2005/03/15 16:13:48 tg Exp $
 .\"	$OpenBSD: doc-nroff,v 1.7 2004/06/06 22:38:10 jmc Exp $
 .\"
-.\" Copyright (c) 1991, 1993
-.\"	The Regents of the University of California.  All rights reserved.
+.\" Copyright (c) 2005
+.\"	Thorsten "mirabile" Glaser <tg@mirbsd.de>
+.\" Copyright (c) 1991
+.\"	The Regents of the University of California.
+.\" All rights reserved.
 .\"
 .\" Redistribution and use in source and binary forms, with or without
 .\" modification, are permitted provided that the following conditions
@@ -27,7 +31,7 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.\"     @(#)doc-nroff	8.1 (Berkeley) 6/8/93
+.\"     @(#)doc-nroff	5.7 (Berkeley) 7/14/92
 .\"
 .\" tmac.mdoc-nroff
 .\"     %beginstrip%
@@ -98,12 +102,12 @@
 ..
 .ds <= \&<\&=
 .ds >= \&>\&=
-.ds Rq ''
-.ds Lq ``
+.ds Rq \&"
+.ds Lq \&"
 .ds ua ^
-.ds aa \'
+.ds aa \´
 .ds ga \`
-.ds sL `
+.ds sL '
 .ds sR '
 .ds q \&"
 .\" Math stuff
@@ -133,7 +137,7 @@
 .	wh 0 hM
 .	wh -1.167i fM
 .\}
-.if \\n(nl==0:\\n(nl==-1 'bp
+.if (\\n(nl==0):(\\n(nl==-1) 'bp
 .em lM
 ..
 .nr fW \w'0'

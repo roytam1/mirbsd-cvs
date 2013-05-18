@@ -1,4 +1,4 @@
-/*	$OpenBSD: in.c,v 1.34 2004/03/28 17:39:12 deraadt Exp $	*/
+/*	$OpenBSD: in.c,v 1.40 2005/03/07 10:40:42 claudio Exp $	*/
 /*	$NetBSD: in.c,v 1.26 1996/02/13 23:41:39 christos Exp $	*/
 
 /*
@@ -766,16 +766,18 @@ in_addprefix(target, flags)
 		prefix.s_addr &= mask.s_addr;
 	}
 
-	for (ia = in_ifaddr.tqh_first; ia; ia = ia->ia_list.tqe_next) {
-		if (rtinitflags(ia))
+	TAILQ_FOREACH(ia, &in_ifaddr, ia_list) {
+		if (rtinitflags(ia)) {
 			p = ia->ia_dstaddr.sin_addr;
-		else {
+			if (prefix.s_addr != p.s_addr)
+				continue;
+		} else {
 			p = ia->ia_addr.sin_addr;
 			p.s_addr &= ia->ia_sockmask.sin_addr.s_addr;
+			if (prefix.s_addr != p.s_addr ||
+			    mask.s_addr != ia->ia_sockmask.sin_addr.s_addr)
+				continue;
 		}
-
-		if (prefix.s_addr != p.s_addr)
-			continue;
 
 		/*
 		 * if we got a matching prefix route inserted by other

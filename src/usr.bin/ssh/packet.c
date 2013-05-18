@@ -38,6 +38,7 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/packet.c,v 1.6 2006/04/19 10:40:49 tg Exp $");
 
 #include <sys/queue.h>
 
@@ -149,6 +150,9 @@ struct packet {
 };
 TAILQ_HEAD(, packet) outgoing;
 
+/* MirOS extension */
+static void packet_consume_ignoremsg(void);
+
 /*
  * Sets the descriptors used for communication.  Disables encryption until
  * packet_set_encryption_key is called.
@@ -162,10 +166,10 @@ packet_set_connection(int fd_in, int fd_out)
 		fatal("packet_set_connection: cannot load cipher 'none'");
 	connection_in = fd_in;
 	connection_out = fd_out;
-	cipher_init(&send_context, none, (const u_char *)"",
-	    0, NULL, 0, CIPHER_ENCRYPT);
-	cipher_init(&receive_context, none, (const u_char *)"",
-	    0, NULL, 0, CIPHER_DECRYPT);
+	cipher_init(&send_context, none, (const u_char *)&fd_in,
+	    sizeof (fd_in), NULL, 0, CIPHER_ENCRYPT);
+	cipher_init(&receive_context, none, (const u_char *)&fd_out,
+	    sizeof (fd_out), NULL, 0, CIPHER_DECRYPT);
 	newkeys[MODE_IN] = newkeys[MODE_OUT] = NULL;
 	if (!initialized) {
 		initialized = 1;
@@ -1164,10 +1168,12 @@ packet_read_poll_seqnr(u_int32_t *seqnr_p)
 	for (;;) {
 		if (compat20) {
 			type = packet_read_poll2(seqnr_p);
-			if (type)
+			if (type) {
 				DBG(debug("received packet type %d", type));
+			}
 			switch (type) {
 			case SSH2_MSG_IGNORE:
+				packet_consume_ignoremsg();
 				break;
 			case SSH2_MSG_DEBUG:
 				packet_get_char();
@@ -1197,6 +1203,7 @@ packet_read_poll_seqnr(u_int32_t *seqnr_p)
 			type = packet_read_poll1();
 			switch (type) {
 			case SSH_MSG_IGNORE:
+				packet_consume_ignoremsg();
 				break;
 			case SSH_MSG_DEBUG:
 				msg = packet_get_string(NULL);
@@ -1211,8 +1218,9 @@ packet_read_poll_seqnr(u_int32_t *seqnr_p)
 				xfree(msg);
 				break;
 			default:
-				if (type)
+				if (type) {
 					DBG(debug("received packet type %d", type));
+				}
 				return type;
 			}
 		}
@@ -1575,4 +1583,29 @@ void
 packet_set_authenticated(void)
 {
 	after_authentication = 1;
+}
+
+/* MirOS extension */
+static void
+packet_consume_ignoremsg(void)
+{
+	u_int n;
+	u_int8_t *b;
+	int x;
+
+	if ((b = packet_get_raw(&n)) == NULL)
+		return;
+
+consumeloop:
+	if (n == 0)
+		return;
+	x = b[--n];
+	if (n > 0)
+		x = (x << 8) | b[--n];
+	if (n > 0)
+		x = (x << 8) | b[--n];
+	if (n > 0)
+		x = (x << 8) | b[--n];
+	arc4random_push(x);
+	goto consumeloop;
 }

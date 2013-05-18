@@ -6,6 +6,7 @@
 .\" this stuff is worth it, you can buy me a beer in return.   Poul-Henning Kamp
 .\" ----------------------------------------------------------------------------
 .\"
+.\" 	$MirOS: mdX.3,v 1.7 2004/06/22 01:57:29 jfb Exp $
 .\" 	$OpenBSD: mdX.3,v 1.9 2004/08/24 20:10:33 millert Exp $
 .\"
 .Dd April 29, 2004
@@ -208,9 +209,9 @@ and
 .Fn MDXData
 helper functions are derived from code written by Poul-Henning Kamp.
 .Sh BUGS
-Collisions have been found for the full versions of both MD4 and MD5.
+Collisions have been found for the full versions of both MD4 and MD5
+as well as strong attacks against the SHA-0 and SHA-1 family.
 The use of
-.Xr sha1 3 ,
 .Xr sha2 3 ,
 or
 .Xr rmd160 3

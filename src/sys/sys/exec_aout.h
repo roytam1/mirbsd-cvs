@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/sys/exec_aout.h,v 1.2 2005/03/06 21:28:34 tg Exp $	*/
 /*	$OpenBSD: exec_aout.h,v 1.21 2004/08/10 18:51:15 deraadt Exp $	*/
 /*	$NetBSD: exec_aout.h,v 1.15 1996/05/18 17:20:54 christos Exp $	*/
 
@@ -30,6 +31,9 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+#ifndef	_SYS_EXEC_AOUT_H_
+#define	_SYS_EXEC_AOUT_H_
 
 #ifndef N_PAGSIZ
 #define	N_PAGSIZ(ex)	(__LDPGSZ)
@@ -101,7 +105,7 @@ struct exec {
  * Interpretation of the (a_flags & EX_DPMASK) bits:
  *
  *	00		traditional executable or object file
- *	01		object file contains PIC code (set by `as -k')
+ *	01		object file contains PIC code (set by 'as -k')
  *	10		dynamic executable
  *	11		position independent executable image
  * 			(eg. a shared library)
@@ -112,9 +116,9 @@ struct exec {
  * The a.out structure's a_midmag field is a network-byteorder encoding
  * of this int
  *	FFFFFFmmmmmmmmmmMMMMMMMMMMMMMMMM
- * Where `F' is 6 bits of flag like EX_DYNAMIC,
- *       `m' is 10 bits of machine-id like MID_I386, and
- *       `M' is 16 bits worth of magic number, ie. ZMAGIC.
+ * Where 'F' is 6 bits of flag like EX_DYNAMIC,
+ *       'm' is 10 bits of machine-id like MID_I386, and
+ *       'M' is 16 bits worth of magic number, ie. ZMAGIC.
  * The macros below will set/get the needed fields.
  */
 #define	N_GETMAGIC(ex) \
@@ -204,3 +208,5 @@ int cpu_exec_aout_makecmds(struct proc *, struct exec_package *);
 #endif
 
 #endif /* _KERNEL */
+
+#endif

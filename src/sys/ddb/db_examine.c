@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: db_examine.c,v 1.11 2004/04/25 03:21:50 itojun Exp $	*/
 /*	$NetBSD: db_examine.c,v 1.11 1996/03/30 22:30:07 christos Exp $	*/
 
@@ -149,9 +150,9 @@ db_examine(addr, fmt, count)
 				value = db_get_value(addr, 1, FALSE);
 				addr += 1;
 				if (value >= ' ' && value <= '~')
-					db_printf("%c", value);
+					db_printf("%c", (int)value);
 				else
-					db_printf("\\%03o", value);
+					db_printf("\\%03o", (unsigned)value);
 				break;
 			case 's':	/* null-terminated string */
 				for (;;) {
@@ -160,9 +161,9 @@ db_examine(addr, fmt, count)
 					if (value == 0)
 						break;
 					if (value >= ' ' && value <= '~')
-						db_printf("%c", value);
+						db_printf("%c", (int)value);
 					else
-						db_printf("\\%03o", value);
+						db_printf("\\%03o", (unsigned)value);
 				}
 				break;
 			case 'i':	/* instruction */
@@ -204,29 +205,29 @@ db_print_cmd(addr, have_addr, count, modif)
 		db_printsym((db_addr_t)addr, DB_STGY_ANY, db_printf);
 		break;
 	case 'r':
-		db_printf("%*r", sizeof(db_expr_t) * 2 * 6 / 5, addr);
+		db_printf("%*r", sizeof(db_expr_t) * 2 * 6 / 5, (int)addr);
 		break;
 	case 'x':
-		db_printf("%*x", sizeof(db_expr_t) * 2, addr);
+		db_printf("%*x", sizeof(db_expr_t) * 2, (unsigned)addr);
 		break;
 	case 'z':
-		db_printf("%*z", sizeof(db_expr_t) * 2, addr);
+		db_printf("%*z", sizeof(db_expr_t) * 2, (int)addr);
 		break;
 	case 'd':
-		db_printf("%*d", sizeof(db_expr_t) * 2 * 6 / 5, addr);
+		db_printf("%*d", sizeof(db_expr_t) * 2 * 6 / 5, (int)addr);
 		break;
 	case 'u':
-		db_printf("%*u", sizeof(db_expr_t) * 2 * 6 / 5, addr);
+		db_printf("%*u", sizeof(db_expr_t) * 2 * 6 / 5, (unsigned)addr);
 		break;
 	case 'o':
-		db_printf("%*o", sizeof(db_expr_t) * 2 * 4 / 3, addr);
+		db_printf("%*o", sizeof(db_expr_t) * 2 * 4 / 3, (unsigned)addr);
 		break;
 	case 'c':
 		value = addr & 0xFF;
 		if (value >= ' ' && value <= '~')
-			db_printf("%c", value);
+			db_printf("%c", (int)value);
 		else
-			db_printf("\\%03o", value);
+			db_printf("\\%03o", (unsigned)value);
 		break;
 	}
 	db_printf("\n");

@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.9 1998/05/28 20:52:37 mickey Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.9 1998/05/28 20:52:37 mickey Exp $
 
 S=	${.CURDIR}/../../../..
 I386=	${.CURDIR}/../..
@@ -6,8 +7,8 @@ I386=	${.CURDIR}/../..
 all depend:: assym.h
 
 assym.h: $S/kern/genassym.sh ${.CURDIR}/genassym.cf
-	sh $S/kern/genassym.sh ${CC} ${CFLAGS} ${CPPFLAGS} \
-	    ${PARAM} < ${.CURDIR}/genassym.cf > assym.h.tmp && \
+	${SHELL} $S/kern/genassym.sh ${CC} ${CFLAGS} ${CPPFLAGS} \
+	    ${PARAM} <${.CURDIR}/genassym.cf >assym.h.tmp && \
 	    mv -f assym.h.tmp assym.h
 
 cleandir: clean

@@ -6,6 +6,8 @@
 
 #include <machine/asm.h>
 
+	.text
+
 /*
  * On the i486, this code is negligibly faster than the code generated
  * by gcc at about half the size.  If my i386 databook is correct, it
@@ -26,7 +28,7 @@ ENTRY(swab)
 	jz	L2			# while swaping alternate bytes.
 	.align	2,0x90
 L1:	lodsw
-	rorw	$8,%ax
+	xchgb	%ah,%al
 	stosw
 	decl	%ecx
 	testl	$7,%ecx
@@ -36,28 +38,28 @@ L2:	shrl	$3,%ecx			# copy remainder 8 words at a time
 	jz	L4			# while swapping alternate bytes.
 	.align	2,0x90
 L3:	lodsw
-	rorw	$8,%ax
+	xchgb	%ah,%al
 	stosw
 	lodsw
-	rorw	$8,%ax
+	xchgb	%ah,%al
 	stosw
 	lodsw
-	rorw	$8,%ax
+	xchgb	%ah,%al
 	stosw
 	lodsw
-	rorw	$8,%ax
+	xchgb	%ah,%al
 	stosw
 	lodsw
-	rorw	$8,%ax
+	xchgb	%ah,%al
 	stosw
 	lodsw
-	rorw	$8,%ax
+	xchgb	%ah,%al
 	stosw
 	lodsw
-	rorw	$8,%ax
+	xchgb	%ah,%al
 	stosw
 	lodsw
-	rorw	$8,%ax
+	xchgb	%ah,%al
 	stosw
 	decl	%ecx
 	jnz	L3

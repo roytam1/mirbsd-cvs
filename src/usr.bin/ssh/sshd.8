@@ -34,6 +34,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
+.\" $MirOS: src/usr.bin/ssh/sshd.8,v 1.7 2006/02/22 01:23:53 tg Exp $
 .\" $OpenBSD: sshd.8,v 1.230 2006/02/24 20:31:31 jmc Exp $
 .Dd September 25, 1999
 .Dt SSHD 8
@@ -144,6 +145,7 @@ and
 for protocol version 2.
 It is possible to have multiple host key files for
 the different protocol versions and host key algorithms.
+.br
 .It Fl i
 Specifies that
 .Nm
@@ -240,6 +242,12 @@ For both protocols,
 each host has a host-specific key,
 normally 2048 bits,
 used to identify the host.
+Much longer RSA keys should be used, but this makes
+logins very slow if less powerful machines are involved.
+DSA keys cannot be longer than 2048 bits due to misdesign, though.
+On
+.Mx ,
+only protocol 2 RSA is enabled by default to improve security.
 .Pp
 Forward security for protocol 1 is provided through
 an additional server key,
@@ -259,7 +267,7 @@ Both sides then use this
 random number as a session key which is used to encrypt all further
 communications in the session.
 The rest of the session is encrypted
-using a conventional cipher, currently Blowfish or 3DES, with 3DES
+using a conventional cipher, currently Blowfish or 3DES, with Blowfish
 being used by default.
 The client selects the encryption algorithm
 to use from those offered by the server.
@@ -273,7 +281,7 @@ The client selects the encryption algorithm
 to use from those offered by the server.
 Additionally, session integrity is provided
 through a cryptographic message authentication code
-(hmac-sha1 or hmac-md5).
+(hmac-ripemd160, hmac-sha1 or hmac-md5).
 .Pp
 Finally, the server and the client enter an authentication dialog.
 The client tries to authenticate itself using
@@ -325,7 +333,7 @@ Changes to run with normal user privileges.
 Sets up basic environment.
 .It
 Reads the file
-.Pa ~/.ssh/environment ,
+.Pa ~/.etc/ssh/environment ,
 if it exists, and users are allowed to change their environment.
 See the
 .Cm PermitUserEnvironment
@@ -335,7 +343,7 @@ option in
 Changes to user's home directory.
 .It
 If
-.Pa ~/.ssh/rc
+.Pa ~/.etc/ssh/rc
 exists, runs it; else if
 .Pa /etc/ssh/sshrc
 exists, runs
@@ -352,7 +360,7 @@ Runs user's shell or command.
 .El
 .Sh SSHRC
 If the file
-.Pa ~/.ssh/rc
+.Pa ~/.etc/ssh/rc
 exists,
 .Xr sh 1
 runs it after reading the
@@ -392,12 +400,12 @@ If this file does not exist,
 .Pa /etc/ssh/sshrc
 is run, and if that
 does not exist either, xauth is used to add the cookie.
-.Sh AUTHORIZED_KEYS FILE FORMAT
+.Sh AUTHORISED_KEYS FILE FORMAT
 .Cm AuthorizedKeysFile
 specifies the file containing public keys for
 public key authentication;
 if none is specified, the default is
-.Pa ~/.ssh/authorized_keys .
+.Pa ~/.etc/ssh/authorised_keys .
 Each line of the file contains one
 key (empty lines and lines starting with a
 .Ql #
@@ -503,7 +511,7 @@ Forbids X11 forwarding when this key is used for authentication.
 Any X11 forward requests by the client will return an error.
 .It Cm permitopen="host:port"
 Limit local
-.Li ``ssh -L''
+.Li "ssh -L"
 port forwarding such that it may only connect to the specified host and
 port.
 IPv6 addresses can be specified with an alternative syntax:
@@ -521,7 +529,7 @@ Without this option, the next available device will be used if
 the client requests a tunnel.
 .El
 .Pp
-An example authorized_keys file:
+An example authorised_keys file:
 .Bd -literal -offset 3n
 # Comments allowed at start of line
 ssh-rsa AAAAB3Nza...LiPk== user@example.net
@@ -538,7 +546,7 @@ jane@example.net
 The
 .Pa /etc/ssh/ssh_known_hosts
 and
-.Pa ~/.ssh/known_hosts
+.Pa ~/.etc/ssh/known_hosts
 files contain host public keys for all known hosts.
 The global file should
 be prepared by the administrator (optional), and the per-user file is
@@ -642,13 +650,16 @@ This file is used in exactly the same way as
 but allows host-based authentication without permitting login with
 rlogin/rsh.
 .Pp
-.It ~/.ssh/authorized_keys
+.It ~/.etc/ssh/authorised_keys
 Lists the public keys (RSA/DSA) that can be used for logging in as this user.
 The format of this file is described above.
 This file is not highly sensitive, but the recommended
 permissions are read/write for the user, and not accessible by others.
 .Pp
-.It ~/.ssh/environment
+.It ~/.etc/ssh/authorized_keys
+Portable name for the above file.
+.Pp
+.It ~/.etc/ssh/environment
 This file is read into the environment at login (if it exists).
 It can only contain empty lines, comment lines (that start with
 .Ql # ) ,
@@ -660,14 +671,14 @@ controlled via the
 .Cm PermitUserEnvironment
 option.
 .Pp
-.It ~/.ssh/known_hosts
+.It ~/.etc/ssh/known_hosts
 Contains a list of host keys for all hosts the user has logged into
 that are not already in the systemwide list of known host keys.
 The format of this file is described above.
 This file should be writable only by root/the owner and
 can, but need not be, world-readable.
 .Pp
-.It ~/.ssh/rc
+.It ~/.etc/ssh/rc
 Contains initialization routines to be run before
 the user's home directory becomes accessible.
 This file should be writable only by the user, and need not be
@@ -748,7 +759,7 @@ The file format and configuration options are described in
 .Pp
 .It /etc/ssh/sshrc
 Similar to
-.Pa ~/.ssh/rc ,
+.Pa ~/.etc/ssh/rc ,
 it can be used to specify
 machine-specific login-time initializations globally.
 This file should be writable only by root, and should be world-readable.

@@ -1,4 +1,4 @@
-/*	$OpenPackages$ */
+/**	$MirOS: src/usr.bin/make/util.c,v 1.4 2005/09/19 18:37:00 tg Exp $ */
 /*	$OpenBSD: util.c,v 1.21 2003/06/25 15:11:06 millert Exp $	*/
 /*	$NetBSD: util.c,v 1.10 1996/12/31 17:56:04 christos Exp $	*/
 
@@ -32,11 +32,14 @@
 
 #include <sys/param.h>
 #include <stdio.h>
+#include <string.h>
 #include "config.h"
 #include "defines.h"
+#include "memory.h"
+
+__RCSID("$MirOS: src/usr.bin/make/util.c,v 1.4 2005/09/19 18:37:00 tg Exp $");
 
 #ifdef sun
-
 extern int errno, sys_nerr;
 extern char *sys_errlist[];
 
@@ -55,8 +58,6 @@ strerror(e)
 #endif
 
 #ifdef ultrix
-#include <string.h>
-
 /* strdup
  *
  * Make a duplicate of a string.
@@ -77,11 +78,9 @@ strdup(str)
 
     return memcpy(p, str, len);
 }
-
 #endif
 
 #if defined(sun) || defined(__hpux) || defined(__sgi)
-
 int
 setenv(name, value, dum)
     const char *name;
@@ -115,16 +114,13 @@ setenv(name, value, dum)
 
 #ifdef __hpux
 #include <sys/types.h>
-#include <sys/param.h>
 #include <sys/syscall.h>
 #include <sys/signal.h>
 #include <sys/stat.h>
-#include <stdio.h>
 #include <dirent.h>
 #include <sys/time.h>
 #include <time.h>
 #include <unistd.h>
-
 
 int
 killpg(pid, sig)
@@ -365,109 +361,5 @@ signal(s, a))()
 	return SIG_ERR;
     else
 	return osa.sa_handler;
-}
-
-#endif
-
-#ifndef BSD4_4
-#include <stdarg.h>
-
-#ifdef _IOSTRG
-#define STRFLAG (_IOSTRG|_IOWRT)	/* no _IOWRT: avoid stdio bug */
-#else
-#define STRFLAG (_IOREAD)		/* XXX: Assume svr4 stdio */
-#endif
-
-int
-vsnprintf(s, n, fmt, args)
-	char *s;
-	size_t n;
-	const char *fmt;
-	va_list args;
-{
-	FILE fakebuf;
-
-	fakebuf._flag = STRFLAG;
-	/*
-	 * Some os's are char * _ptr, others are unsigned char *_ptr...
-	 * We cast to void * to make everyone happy.
-	 */
-	fakebuf._ptr = (void *)s;
-	fakebuf._cnt = n-1;
-	fakebuf._file = -1;
-	_doprnt(fmt, args, &fakebuf);
-	fakebuf._cnt++;
-	putc('\0', &fakebuf);
-	if (fakebuf._cnt<0)
-	    fakebuf._cnt = 0;
-	return n-fakebuf._cnt-1;
-}
-
-int
-snprintf(char *s, size_t n, const char *fmt, ...)
-{
-	va_list ap;
-	int rv;
-
-	va_start(ap, fmt);
-	rv = vsnprintf(s, n, fmt, ap);
-	va_end(ap);
-	return rv;
-}
-#endif
-#ifdef NEED_STRSTR
-char *
-strstr(string, substring)
-	const char *string;		/* String to search. */
-	const char *substring;		/* Substring to find in string */
-{
-	const char *a, *b;
-
-	/*
-	 * First scan quickly through the two strings looking for a single-
-	 * character match.  When it's found, then compare the rest of the
-	 * substring.
-	 */
-
-	for (b = substring; *string != 0; string += 1) {
-		if (*string != *b)
-			continue;
-		a = string;
-		for (;;) {
-			if (*b == 0)
-				return (char *)string;
-			if (*a++ != *b++)
-				break;
-		}
-		b = substring;
-	}
-	return NULL;
-}
-#endif
-
-#ifdef NEED_FGETLN
-char *
-fgetln(stream, len)
-    FILE *stream;
-    size_t *len;
-{
-    static char *buffer = NULL;
-    static size_t buflen = 0;
-
-    if (buflen == 0) {
-	buflen = 512;
-	buffer = emalloc(buflen+1);
-    }
-    if (fgets(buffer, buflen+1, stream) == NULL)
-	return NULL;
-    *len = strlen(buffer);
-    while (*len == buflen && buffer[*len-1] != '\n') {
-	buffer = erealloc(buffer, 2*buflen + 1);
-	if (fgets(buffer + buflen, buflen + 1, stream) == NULL)
-	    return NULL;
-	*len += strlen(buffer + buflen);
-	buflen *= 2;
-    }
-    return buffer;
 }
 #endif

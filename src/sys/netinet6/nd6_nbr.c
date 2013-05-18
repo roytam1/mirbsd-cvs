@@ -193,7 +193,11 @@ nd6_ns_input(m, off, icmp6len)
 	 */
 	/* (1) and (3) check. */
 #if NCARP > 0
-	if (ifp->if_carp && ifp->if_type != IFT_CARP) 
+	if (ifp->if_carp
+#ifdef IFT_CARP
+	    && ifp->if_type != IFT_CARP
+#endif
+	    ) 
 		ifa = carp_iamatch6(ifp->if_carp, &taddr6);
 	if (!ifa) 
 		ifa = (struct ifaddr *)in6ifa_ifpwithaddr(ifp, &taddr6);
@@ -998,7 +1002,9 @@ nd6_ifptomac(ifp)
 	case IFT_FDDI:
 	case IFT_IEEE1394:
 	case IFT_PROPVIRTUAL:
+#ifdef IFT_CARP
 	case IFT_CARP:
+#endif
 	case IFT_L2VLAN:
 	case IFT_IEEE80211:
 		return ((caddr_t)(ifp + 1));

@@ -1,3 +1,4 @@
+.\"	$MirOS: src/usr.bin/make/PSD.doc/tutorial.ms,v 1.2 2005/02/23 20:36:56 tg Exp $
 .\"	$OpenBSD: tutorial.ms,v 1.9 2004/11/29 06:20:03 jsg Exp $
 .\"	$NetBSD: tutorial.ms,v 1.3 1996/03/06 00:15:31 christos Exp $
 .\" Copyright (c) 1988, 1989 by Adam de Boor
@@ -73,6 +74,11 @@
 .\" hey. Can't have everything. In case you're wondering how I came
 .\" up with such weird commands, they came from running grn on a
 .\" gremlin file...
+.ie n \{\
+.de No
+..
+.\}
+.el \{\
 .de No
 .br
 .ne 0.5i
@@ -107,6 +113,7 @@
 .ft \\n(g3
 .ps \\n(g4
 ..
+.\}
 .de Bp
 .ie !\\n(.$ .IP \(bu 2
 .el .IP "\&" 2
@@ -133,6 +140,11 @@ purpose.  It is provided "as is" without express or implied warranty.
 .PP
 .xH 1 Introduction
 .LP
+This is a historic document describing PMake, the predecessor of
+BSD and MirOS make, NetBSD(TM) nmake and some others.
+Please keep this in mind while reading the following documentation.
+In case of doubt please consider the manual page for your make
+executable.
 .LP
 Make is a program for creating other programs, or anything else you
 can think of for it to do.  The basic idea behind Make is that, for
@@ -381,8 +393,8 @@ will match all numbers.
 ``Isn't that nice,'' you say to yourself, ``but how are files
 actually `re-created,' as he likes to spell it?''
 The re-creation is accomplished by commands you place in the makefile.
-These commands are passed to the Bourne shell (better known as
-``/bin/sh'') to be executed and are
+These commands are passed to the MirBSD Korn shell (better known as
+``/bin/mksh'') to be executed and are
 .Ix 0 ref shell
 .Ix 0 ref re-creation
 .Ix 0 ref update
@@ -3114,7 +3126,7 @@ this:
 # the commands just before executing them, rather than when it reads
 # them. Useful if you want to see how variables are being expanded, etc.
 #
-\&.SHELL 	: path=/bin/sh \e
+\&.SHELL 	: path=/bin/mksh \e
 	quiet="set -" \e
 	echo="set -x" \e
 	filter="+ set - " \e
@@ -3128,9 +3140,9 @@ this:
 It tells Make the following:
 .Bp
 The shell is located in the file
-.CW /bin/sh .
+.CW /bin/mksh .
 It need not tell Make that the name of the shell is
-.CW sh 
+.CW mksh 
 as Make can figure that out for itself (it's the last component of
 the path).
 .Bp

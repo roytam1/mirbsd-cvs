@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: config.h,v 1.21 2004/01/04 18:30:05 deraadt Exp $	*/
 /*	$NetBSD: config.h,v 1.30 1997/02/02 21:12:30 thorpej Exp $	*/
 
@@ -166,7 +167,7 @@ struct deva {
  * An "instance" of a device.  The same instance may be listed more
  * than once, e.g., "xx0 at isa? port FOO" + "xx0 at isa? port BAR".
  *
- * After everything has been read in and verified, the devi's are
+ * After everything has been read in and verified, the devis are
  * "packed" to collect all the information needed to generate ioconf.c.
  * In particular, we try to collapse multiple aliases into a single entry.
  * We then assign each "primary" (non-collapsed) instance a cfdata index.
@@ -297,13 +298,13 @@ struct	deva *alldevas;		/* list of all devbase attachment structures */
 struct	config *allcf;		/* list of configured kernels */
 struct	devi *alldevi;		/* list of all instances */
 struct	devi *allpseudo;	/* list of all pseudo-devices */
-int	ndevi;			/* number of devi's (before packing) */
-int	npseudo;		/* number of pseudo's */
+int	ndevi;			/* number of devis (before packing) */
+int	npseudo;		/* number of pseudos */
 
 struct	files *allfiles;	/* list of all kernel source files */
 struct objects *allobjects;	/* list of all kernel object and library files */
 
-struct	devi **packed;		/* arrayified table for packed devi's */
+struct	devi **packed;		/* arrayified table for packed devis */
 int	npacked;		/* size of packed table, <= ndevi */
 
 struct {			/* pv[] table for config */

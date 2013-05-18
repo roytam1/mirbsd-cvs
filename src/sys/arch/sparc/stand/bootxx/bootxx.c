@@ -66,7 +66,6 @@ int
 main(int argc, char *argv[])
 {
 	char	*dummy;
-	size_t	n;
 	register void (*entry)(caddr_t) = (void (*)(caddr_t))LOADADDR;
 
 	prom_init();

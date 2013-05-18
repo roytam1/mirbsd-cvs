@@ -28,7 +28,6 @@
  * SUCH DAMAGE.
  */
 
-#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
@@ -40,6 +39,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <a.out.h>		/* pulls in nlist.h */
+
+__RCSID("$MirOS: src/lib/libc/gen/nlist.c,v 1.3 2005/09/22 20:40:00 tg Exp $");
 
 #ifdef _NLIST_DO_ELF
 #include <elf_abi.h>
@@ -74,7 +75,7 @@ __aout_fdnlist(int fd, struct nlist *list)
 	struct exec exec;
 
 	if (pread(fd, &exec, sizeof(exec), (off_t)0) != sizeof(exec) ||
-	    N_BADMAG(exec) || exec.a_syms == NULL)
+	    N_BADMAG(exec) || exec.a_syms == (u_int32_t)NULL)
 		return (-1);
 
 	stroff = N_STROFF(exec);
@@ -334,7 +335,7 @@ __elf_fdnlist(int fd, struct nlist *list)
 		if ((shdr = malloc(shdr_size)) == NULL)
 			return (-1);
 
-		if (pread(fd, shdr, shdr_size, ehdr.e_shoff) != shdr_size) {
+		if ((off_t)pread(fd, shdr, shdr_size, ehdr.e_shoff) != shdr_size) {
 			free(shdr);
 			return (-1);
 		}
@@ -377,7 +378,7 @@ __elf_fdnlist(int fd, struct nlist *list)
 	if (usemalloc) {
 		if ((strtab = malloc(symstrsize)) == NULL)
 			return (-1);
-		if (pread(fd, strtab, symstrsize, symstroff) != symstrsize) {
+		if ((off_t)pread(fd, strtab, symstrsize, symstroff) != symstrsize) {
 			free(strtab);
 			return (-1);
 		}
@@ -509,7 +510,8 @@ static struct nlist_handlers {
 int
 __fdnlist(int fd, struct nlist *list)
 {
-	int n = -1, i;
+	int n = -1;
+	size_t i;
 
 	for (i = 0; i < sizeof(nlist_fn)/sizeof(nlist_fn[0]); i++) {
 		n = (nlist_fn[i].fn)(fd, list);

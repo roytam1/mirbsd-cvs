@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libc/net/getnetnamadr.c,v 1.3 2005/07/09 13:23:31 tg Exp $	*/
 /*	$OpenBSD: getnetnamadr.c,v 1.26 2005/08/06 20:30:03 espie Exp $	*/
 
 /*
@@ -60,7 +61,6 @@
  * SUCH DAMAGE.
  */
 
-#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -76,6 +76,8 @@
 #include <stdlib.h>
 
 #include "thread_private.h"
+
+__RCSID("$MirOS: src/lib/libc/net/getnetnamadr.c,v 1.3 2005/07/09 13:23:31 tg Exp $");
 
 extern int h_errno;
 
@@ -181,7 +183,7 @@ getnetanswer(querybuf *answer, int anslen, int net_i)
 				cp += n;
 				return (NULL);
 			}
-			cp += n; 
+			cp += n;
 			if ((ap + 2) < &net_aliases[MAXALIASES]) {
 				*ap++ = bp;
 				bp += strlen(bp) + 1;
@@ -223,7 +225,7 @@ getnetanswer(querybuf *answer, int anslen, int net_i)
 				paux2 = paux1;
 				paux1 = pauxt;
 				in = ++st;
-			}		  
+			}
 			if (strcasecmp(in, "IN-ADDR.ARPA") != 0)
 				goto next_alias;
 			net_entry.n_net = inet_network(paux2);
@@ -252,17 +254,12 @@ getnetbyaddr(in_addr_t net, int net_type)
 	if (_res_init(0) == -1)
 		return(_getnetbyaddr(net, net_type));
 
-	bcopy(_resp->lookups, lookups, sizeof lookups);
+	memmove(lookups, _resp->lookups, sizeof lookups);
 	if (lookups[0] == '\0')
 		strlcpy(lookups, "bf", sizeof lookups);
 
 	for (i = 0; i < MAXDNSLUS && lookups[i]; i++) {
 		switch (lookups[i]) {
-#ifdef YP
-		case 'y':
-			/* There is no YP support. */
-			break;
-#endif	/* YP */
 		case 'b':
 			if (net_type != AF_INET)
 				break;	/* DNS only supports AF_INET? */
@@ -340,17 +337,12 @@ getnetbyname(const char *net)
 	if (_res_init(0) == -1)
 		return (_getnetbyname(net));
 
-	bcopy(_resp->lookups, lookups, sizeof lookups);
+	memmove(lookups, _resp->lookups, sizeof lookups);
 	if (lookups[0] == '\0')
 		strlcpy(lookups, "bf", sizeof lookups);
 
 	for (i = 0; i < MAXDNSLUS && lookups[i]; i++) {
 		switch (lookups[i]) {
-#ifdef YP
-		case 'y':
-			/* There is no YP support. */
-			break;
-#endif	/* YP */
 		case 'b':
 			strlcpy(qbuf, net, sizeof qbuf);
 			buf = malloc(sizeof(*buf));

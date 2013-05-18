@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/telnet/telnet.c,v 1.2 2005/03/13 18:33:44 tg Exp $ */
 /*	$OpenBSD: telnet.c,v 1.19 2005/02/27 15:46:42 otto Exp $	*/
 /*	$NetBSD: telnet.c,v 1.7 1996/02/28 21:04:15 thorpej Exp $	*/
 
@@ -33,6 +34,8 @@
 #include "telnet_locl.h"
 #include <curses.h>
 #include <term.h>
+
+__RCSID("$MirOS$");
 
 #define        strip(x) (eight ? (x) : ((x) & 0x7f))
 
@@ -1667,7 +1670,7 @@ telrcv()
 {
     int c;
     int scc;
-    unsigned char *sbp;
+    unsigned char *sbp = netiring.consume;
     int count;
     int returnValue = 0;
 
@@ -1952,7 +1955,7 @@ telsnd()
     int tcc;
     int count;
     int returnValue = 0;
-    unsigned char *tbp;
+    unsigned char *tbp = ttyiring.consume;
 
     tcc = 0;
     count = 0;

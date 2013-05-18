@@ -24,6 +24,7 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/mac.c,v 1.2 2006/02/22 02:16:47 tg Exp $");
 
 #include <openssl/hmac.h>
 
@@ -35,7 +36,7 @@
 #include "misc.h"
 
 struct {
-	char		*name;
+	const char	*name;
 	const EVP_MD *	(*mdfunc)(void);
 	int		truncatebits;	/* truncate digest if != 0 */
 } macs[] = {

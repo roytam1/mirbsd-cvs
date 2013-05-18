@@ -1,10 +1,12 @@
-#!/bin/sh -
-#
-#	$OpenBSD: daily,v 1.50 2005/03/17 18:16:52 millert Exp $
-#	From: @(#)daily	8.2 (Berkeley) 1/25/94
-#
-PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin
+#!/bin/mksh
+# $MirOS: src/etc/daily,v 1.8 2005/11/18 21:21:23 tg Exp $
+# $OpenBSD: daily,v 1.50 2005/03/17 18:16:52 millert Exp $
+# From: @(#)daily	8.2 (Berkeley) 1/25/94
+
+export TZ=UTC
+PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/mpkg/bin
 bak=/var/backups
+cd /
 
 sysctl -n kern.version
 
@@ -14,8 +16,8 @@ if [ -f /etc/daily.local ]; then
 	. /etc/daily.local
 fi
 
-TMP=`mktemp /tmp/_daily.XXXXXXXXXX` || exit 1
-OUT=`mktemp /tmp/_security.XXXXXXXXXX` || {
+TMP=$(mktemp /tmp/_daily.XXXXXXXXXX) || exit 1
+OUT=$(mktemp /tmp/_security.XXXXXXXXXX) || {
 	rm -f ${TMP}
 	exit 1
 }
@@ -61,7 +63,7 @@ fi
 #	-name '*.core' -a -print -o \
 #	\( -name '[#,]*' -o -name '.#*' -o -name a.out \
 #	   -o -name '*.CKP' -o -name '.emacs_[0-9]*' \) \
-#		-a -atime +3 -a -execdir rm -f -- {} \; -a -print > $TMP
+#		-a -atime +3 -a -execdir rm -f -- {} \; -a -print >$TMP
 
 if egrep -q '\.core$' $TMP; then
 	echo ""
@@ -92,12 +94,12 @@ fi
 # If ROOTBACKUP is set to 1 in the environment, and
 # if filesystem named /altroot is type ffs, on /dev/* and mounted "xx",
 # use it as a backup root filesystem to be updated daily.
-[ "X$ROOTBACKUP" = X1 ] && {
+[[ $ROOTBACKUP = 1 ]] && {
 	rootdev=`df -n / | awk '/^\/dev\// { print substr($1, 6) }'`
 	rootbak=`awk '$2 == "/altroot" && $1 ~ /^\/dev\// && $3 == "ffs" && \
 	    $4 ~ /xx/ \
 		{ print substr($1, 6) }' < /etc/fstab`
-	[ X$rootdev != X -a X$rootbak != X -a X$rootdev != X$rootbak ] && {
+	[[ -n $rootdev && -n $rootbak && $rootdev != $rootbak ]] && {
 		sync
 		echo ""
 		echo "Backing up root filesystem:"
@@ -108,18 +110,30 @@ fi
 	}
 }
 
+echo ""
+echo "Current contents of persistent temporary directory:"
+echo ""
+ls -lao /var/tmp/
+
 # Rotation of mail log now handled automatically by cron and 'newsyslog'
 
 echo ""
 echo "Checking subsystem status:"
+
+if [ -d /service -a -x /usr/mpkg/bin/svstat ]; then
+	echo ""
+	echo "supervise:"
+	svstat /service/*
+fi
+
 echo ""
 echo "disks:"
-df -kl
+df -kli
 echo ""
 dump W
 echo ""
 
-mailq > $TMP
+mailq >$TMP
 if ! grep -q "^/var/spool/mqueue is empty$" $TMP; then
 	echo ""
 	echo "mail:"
@@ -132,15 +146,15 @@ netstat -ivn
 echo ""
 
 t=/var/rwho/*
-if [ "$t" != '/var/rwho/*' ]; then
+if [[ $t != /var/rwho/\* ]]; then
 	echo ""
 	ruptime
 fi
 
 echo ""
-if [ -d /var/yp/binding -a ! -d /var/yp/`domainname` -o "X$CALENDAR" = X0 ]
+if [[ -d /var/yp/binding && ! -d /var/yp/$(domainname) || $CALENDAR = 0 ]]
 then
-	if [ "X$CALENDAR" = X0 ]; then
+	if [[ $CALENDAR = 0 ]]; then
 		echo "Not running calendar, (disabled)."
 	else
 		echo "Not running calendar, (yp client)."
@@ -152,7 +166,7 @@ fi
 
 # If CHECKFILESYSTEMS is set to 1 in the environment, run fsck
 # with the no-write flag.
-[ "X$CHECKFILESYSTEMS" = X1 ] && {
+[[ $CHECKFILESYSTEMS = 1 ]] && {
 	echo ""
 	echo "Checking filesystems:"
 	fsck -n | grep -v '^\*\* Phase'
@@ -162,14 +176,14 @@ if [ -f /etc/Distfile ]; then
 	echo ""
 	echo "Running rdist:"
 	if [ -d /var/log/rdist ]; then
-		logf=`date +%Y.%b.%e`
+		logf=$(date +%Y.%b.%e)
 		rdist -f /etc/Distfile 2>&1 | tee /var/log/rdist/$logf
 	else
 		rdist -f /etc/Distfile
 	fi
 fi
 
-sh /etc/security 2>&1 > $OUT
-if [ -s $OUT ]; then
-    mail -s "`hostname` daily insecurity output" root < $OUT
+/bin/mksh /etc/security >$OUT 2>&1
+if [[ -s $OUT ]]; then
+    mail -s "$(hostname) daily insecurity output" root <$OUT
 fi

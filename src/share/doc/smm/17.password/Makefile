@@ -1,13 +1,11 @@
-#	$OpenBSD: Makefile,v 1.2 2004/02/01 14:22:45 jmc Exp $
+# $MirOS$
+# @(#)Makefile	6.2 (Berkeley) 6/30/90
 
 DIR=	smm/17.password
 SRCS=	password.ms
-MACROS=	-ms
+MACROS=	-msU
 
 paper.ps: ${SRCS}
-	${TBL} ${SRCS} | ${EQN} | ${ROFF} > ${.TARGET}
-
-paper.txt: ${SRCS}
-	${TBL} ${SRCS} | ${EQN} -Tascii | ${ROFF} -Tascii > ${.TARGET}
+	${TBL} ${SRCS} | ${EQN} | ${ROFF} >${.TARGET}
 
 .include <bsd.doc.mk>

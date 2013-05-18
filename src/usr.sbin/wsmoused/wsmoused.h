@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: wsmoused.h,v 1.4 2002/02/15 02:18:39 deraadt Exp $ */
 
 /*
@@ -49,6 +50,9 @@
  *
  *
  */
+
+#ifndef WSMOUSED_H
+#define WSMOUSED_H
 
 #define FALSE 0
 #define TRUE 1
@@ -103,7 +107,7 @@ typedef struct mouse_s {
     int baudrate;
     int old_baudrate;
     unsigned char rate;			/* report rate */
-    unsigned char resolution;		/* MOUSE_RES_XXX or a positive number */
+    unsigned resolution;		/* MOUSE_RES_XXX or a positive number */
     int zmap;			/* MOUSE_{X|Y}AXIS or a button number */
     int wmode;			/* wheel mode button number */
     int mfd;			/* mouse file descriptor */
@@ -123,3 +127,4 @@ typedef struct mouse_s {
 #define MOUSE_BUTTON8	7
 #define MOUSE_MAXBUTTON	8
 
+#endif

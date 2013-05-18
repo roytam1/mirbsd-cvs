@@ -16,14 +16,13 @@
  */
 
 /* XXX: memleaks */
-/* XXX: signed vs unsigned */
 /* XXX: remove all logging, only return status codes */
 /* XXX: copy between two remote sites */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/sftp-client.c,v 1.8 2006/02/22 02:16:48 tg Exp $");
 
 #include <sys/queue.h>
-#include <sys/types.h>
 #include <sys/stat.h>
 
 #include "buffer.h"
@@ -976,7 +975,7 @@ do_upload(struct sftp_conn *conn, char *local_path, char *remote_path,
 {
 	int local_fd, status;
 	u_int handle_len, id, type;
-	u_int64_t offset;
+	int64_t offset;
 	char *handle, *data;
 	Buffer msg;
 	struct stat sb;

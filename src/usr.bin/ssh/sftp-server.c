@@ -14,9 +14,10 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
-#include "includes.h"
 
-#include <sys/types.h>
+#include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/sftp-server.c,v 1.3 2006/02/22 02:16:48 tg Exp $");
+
 #include <sys/stat.h>
 
 #include <dirent.h>
@@ -1015,7 +1016,7 @@ process(void)
 }
 
 int
-main(int ac, char **av)
+main(void)
 {
 	fd_set *rset, *wset;
 	int in, out, max;

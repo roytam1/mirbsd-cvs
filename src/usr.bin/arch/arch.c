@@ -23,10 +23,6 @@
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char rcsid[] = "$OpenBSD: arch.c,v 1.11 2004/05/09 03:20:45 deraadt Exp $";
-#endif /* not lint */
-
 #include <sys/param.h>
 
 #include <err.h>
@@ -35,6 +31,8 @@ static char rcsid[] = "$OpenBSD: arch.c,v 1.11 2004/05/09 03:20:45 deraadt Exp $
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
+__RCSID("$MirOS$");
 
 static void usage(void);
 
@@ -77,10 +75,12 @@ main(int argc, char *argv[])
 		usage();
 		/* NOTREACHED */
 	}
-	if (!short_form) {
-		fputs("OpenBSD", stdout);
-		fputc('.', stdout);
-	}
+	if (!short_form)
+#if defined(MirBSD)
+		fputs("MirBSD.", stdout);
+#else
+#error "fix here for MirInterix & co."
+#endif
 	fputs(arch, stdout);
 	fputc('\n', stdout);
 	exit(0);

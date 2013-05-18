@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: arch.c,v 1.54 2004/04/07 13:11:35 espie Exp $ */
 /*	$NetBSD: arch.c,v 1.17 1996/11/06 17:58:59 christos Exp $	*/
@@ -103,14 +104,7 @@
 # endif
 #endif
 
-#ifdef TARGET_MACHINE
-#undef MACHINE
-#define MACHINE TARGET_MACHINE
-#endif
-#ifdef TARGET_MACHINE_ARCH
-#undef MACHINE_ARCH
-#define MACHINE_ARCH TARGET_MACHINE_ARCH
-#endif
+__RCSID("$MirOS$");
 
 static struct ohash	  archives;   /* Archives we've already examined.  */
 
@@ -157,6 +151,7 @@ static TIMESTAMP ArchMTimeMember(const char *, const char *, bool);
 static FILE *ArchFindMember(const char *, const char *, struct ar_hdr *, const char *);
 static void ArchTouch(const char *, const char *);
 #if defined(__svr4__) || defined(__SVR4) || \
+    (defined(__Linux__) && defined(__ELF__)) || \
     (defined(__OpenBSD__) && defined(__ELF__))
 #define SVR4ARCHIVES
 #endif

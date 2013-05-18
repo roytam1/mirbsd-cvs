@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: pcap-bpf.c,v 1.16 2004/02/06 22:41:24 tedu Exp $	*/
 
 /*
@@ -178,7 +179,7 @@ pcap_open_live(char *device, int snaplen, int promisc, int to_ms, char *ebuf)
 		    pcap_strerror(errno));
 		return (NULL);
 	}
-	bzero(p, sizeof(*p));
+	memset(p, 0, sizeof(*p));
 	fd = bpf_open(p, ebuf);
 	if (fd < 0)
 		goto bad;

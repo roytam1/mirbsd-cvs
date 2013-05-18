@@ -1621,8 +1621,10 @@ gotit:
 						ti->flags &= ~T_SYNCMODE;
 					}
 				} else {
+#ifdef NCR53C9X_DEBUG
 					int r = 250/ti->period;
 					int s = (100*250)/ti->period - 100*r;
+#endif
 					int p;
 
 					p = ncr53c9x_stp2cpb(sc, ti->period);

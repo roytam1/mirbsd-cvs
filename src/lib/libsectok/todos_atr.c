@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $Id$ */
 
 /*
@@ -285,8 +286,10 @@ todos_get_atr(int ttyn, int flags, unsigned char *atr, struct scparam *param)
     if (!(flags & SCRTODOS)) {
 	for (i = 0; bps[i].bps; i++) {
 	    if (((TA1 >> 4) & 0xf) >= bps[i].Fi && (TA1 & 0xf) >= bps[i].Di) {
+#ifdef SCPPS
 		int j;
 		unsigned char c;
+#endif
 		static unsigned char pps[4] = {0xff, 0x10, 0, 0};
 
 		pps[2] = (bps[i].Fi << 4) | bps[i].Di;

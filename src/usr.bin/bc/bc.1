@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: bc.1,v 1.18 2004/10/19 07:36:51 otto Exp $
 .\"
 .\" Copyright (C) Caldera International Inc.  2001-2002.
@@ -110,8 +111,8 @@ Names
 .Bd -unfilled -offset indent -compact
 simple variables: L
 array elements: L [ E ]
-The words `ibase', `obase', and `scale'
-The word `last' or a single dot
+The words 'ibase', 'obase', and 'scale'
+The word 'last' or a single dot
 .Ed
 .Pp
 Other operands
@@ -213,7 +214,7 @@ The continue and print statements are also non-portable extensions.
 .Pp
 The print statement takes a list of comma-separated expressions.
 Each expression in the list is evaluated and the computed
-value is printed and assigned to the variable `last'.
+value is printed and assigned to the variable 'last'.
 No trailing newline is printed.
 The expression may also be a string enclosed in double quotes.
 Within these strings the following escape sequences may be used:
@@ -234,7 +235,7 @@ for double quote and
 .Sq \e\e
 for backslash.
 Any other character following a backslash will be ignored.
-Strings will not be assigned to `last'.
+Strings will not be assigned to 'last'.
 .Pp
 Function definitions
 .Bd -unfilled -offset indent
@@ -283,9 +284,9 @@ All function arguments are passed by value.
 .Pp
 The value of a statement that is an expression is printed
 unless the main operator is an assignment.
-The value printed is assigned to the special variable `last'.
+The value printed is assigned to the special variable 'last'.
 This is a non-portable extension.
-A single dot may be used as a synonym for `last'.
+A single dot may be used as a synonym for 'last'.
 Either semicolons or newlines may separate statements.
 Assignment to
 .Ar scale
@@ -301,7 +302,7 @@ set the input and output number radix respectively.
 The same letter may be used as an array, a function,
 and a simple variable simultaneously.
 All variables are global to the program.
-`Auto' variables are pushed down during function calls.
+'Auto' variables are pushed down during function calls.
 When using arrays as function arguments
 or defining them as automatic variables,
 empty square brackets must follow the array name.

@@ -1,6 +1,9 @@
+/**	$MirOS: src/libexec/ld.so/i386/rtld_machine.c,v 1.2 2005/03/06 19:24:02 tg Exp $ */
 /*	$OpenBSD: rtld_machine.c,v 1.19 2005/09/22 01:33:08 drahn Exp $ */
 
 /*
+ * Copyright (c) 2003, 2004, 2005
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 2002 Dale Rahn
  * Copyright (c) 2001 Niklas Hallqvist
  * Copyright (c) 2001 Artur Grabowski
@@ -26,6 +29,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  */
+
 /*-
  * Copyright (c) 2000 Eduardo Horvath.
  * Copyright (c) 1999 The NetBSD Foundation, Inc.
@@ -66,7 +70,6 @@
 #define _DYN_LOADER
 
 #include <sys/types.h>
-#include <sys/cdefs.h>
 #include <sys/mman.h>
 
 #include <nlist.h>
@@ -76,6 +79,8 @@
 #include "syscall.h"
 #include "archdep.h"
 #include "resolve.h"
+
+__RCSID("$MirOS: src/libexec/ld.so/i386/rtld_machine.c,v 1.2 2005/03/06 19:24:02 tg Exp $");
 
 /*
  * The following table holds for each relocation type:
@@ -228,7 +233,9 @@ _dl_md_reloc(elf_object_t *object, int rel, int relsz)
 				this = NULL;
 				ooff = _dl_find_symbol_bysym(object,
 				    ELF_R_SYM(rels->r_info), &this,
-				    SYM_SEARCH_ALL|SYM_WARNNOTFOUND|
+				    SYM_SEARCH_ALL | (
+				     (ELF_ST_BIND(sym->st_info) == STB_WEAK)
+				     ? 0 : SYM_WARNNOTFOUND ) |
 				    ((type == R_TYPE(JUMP_SLOT))?
 					SYM_PLT:SYM_NOTPLT),
 				    sym, NULL);
@@ -401,7 +408,7 @@ _dl_md_reloc_got(elf_object_t *object, int lazy)
 	if (object->Dyn.info[DT_PLTREL] != DT_REL)
 		return;
 
-	object->got_addr = NULL;
+	object->got_addr = 0;
 	object->got_size = 0;
 	this = NULL;
 	ooff = _dl_find_symbol("__got_start", &this,
@@ -415,8 +422,8 @@ _dl_md_reloc_got(elf_object_t *object, int lazy)
 	if (this != NULL)
 		object->got_size = ooff + this->st_value  - object->got_addr;
 
-	if (object->got_addr == NULL)
-		object->got_start = NULL;
+	if (!object->got_addr)
+		object->got_start = 0;
 	else {
 		object->got_start = ELF_TRUNC(object->got_addr, _dl_pagesz);
 		object->got_size += object->got_addr - object->got_start;

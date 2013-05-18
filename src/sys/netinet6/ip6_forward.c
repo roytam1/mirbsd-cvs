@@ -57,6 +57,8 @@
 
 #if NPF > 0
 #include <net/pfvar.h>
+#else
+#include <netinet/ip_ipsp.h>
 #endif
 
 #ifdef IPSEC

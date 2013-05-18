@@ -1,3 +1,4 @@
+.\"	$MirOS: src/share/man/man8/afterboot.8,v 1.12 2006/04/19 18:47:53 tg Exp $
 .\"	$OpenBSD: afterboot.8,v 1.110 2005/07/14 21:12:17 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Marshall M. Midden
@@ -29,7 +30,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd October 20, 1997
+.Dd April 19, 2006
 .Dt AFTERBOOT 8
 \!\" Originally created by Marshall M. Midden -- 1997-10-20, m4@umn.edu
 .Os
@@ -58,29 +59,86 @@ command, type:
 .Dl # man 1 ls
 .Pp
 Administrators will rapidly become more familiar with
-.Ox
+.Mx BSD
 if they get used to using the high quality manual pages.
+.Pp
+In order to browse a file, for example
+.Pa /usr/share/doc/legal/1stREAD ,
+which you \fBshould really\fR read, type:
+.Pp
+.Dl # less /usr/share/doc/legal/1stREAD
+.Pp
+Within
+.Xr less 1 ,
+type \&? for help and q to quit.
+.Pp
+Other important files to read include
+.Pa /usr/share/doc/legal/LICENCE ,
+which refers to most other files within the same directory.
+You are obliged to read, understand and acknowledge the licences
+outlined in these files to use this product.
 .Ss Errata
 By the time that you have installed your system, it is quite likely that
 bugs in the release have been found.
-All significant and easily fixed problems will be reported at
-.Pa http://www.openbsd.org/errata.html .
+Most significant and easily fixed problems will be reported at
+the errata webpage at
+.Pa http://mirbsd.de/
+or its subpages.
 The web page will mention if a problem is security related.
 It is recommended that you check this page regularly.
+.Ss Online help
+Basic use of the
+.Xr lynx 1
+command required.
+.Pp
+To see current online manual pages, go to this page:
+.Pa http://www.mirbsd.org/cman/
+.Pp
+For interactive help, see our mailing lists:
+.Pa http://www.mirbsd.org/?mail
+.Pp
+There are several IRC channels to connect to:
+.Pa http://www.mirbsd.org/?irc
+.br
+Please note there is no longer an IRC client in the default installation; use
+.Pa net/sirc ,
+.Pa net/bitchx ,
+or
+.Pa net/irssi .
 .Ss Login
-Log in as
-.Dq root .
+During installation, a user with which you can login has been created.
+Use
+.Xr sudo 8
+to perform administrative tasks.
+Logging in as
+.Dq root
+is no longer possible; this also affects single user mode
+(which only works after you manually set a root password).
 You can do so on the console, or over the network using
 .Xr ssh 1 .
-If you wish to deny root logins over the network, edit the
+If you wish to log in as root over the network, edit the
 .Pa /etc/ssh/sshd_config
 file and set
 .Cm PermitRootLogin
 to
-.Dq no
-(see
-.Xr sshd_config 5 ) .
+.Dq yes
+first (see
+.Xr sshd_config 5 ) ,
+but this is totally insecure.
 .Pp
+If you want to use RSA Version 1 or DSA Version 2 keys with
+.Xr sshd 8 ,
+you must edit the
+.Pa /etc/ssh/sshd_config
+file first and generate the keys using
+.Dl # /usr/bin/ssh-keygen \-q \-t rsa1 \-f /etc/ssh/ssh_host_key \-N \'\'
+for RSA Version 1 (old), and
+.Dl # /usr/bin/ssh-keygen \-q \-t dsa \-f /etc/ssh/ssh_host_dsa_key \-N \'\'
+for DSA Version 2 (extremely slow).
+These are however both totally insecure.
+.Pp
+Upon successful login on the console, you may see the message
+.Dq Don't login as root, use su .
 For security reasons, it is bad practice to log in as root during regular use
 and maintenance of the system.
 Instead, administrators are encouraged to add a
@@ -127,6 +185,18 @@ to the correct time zone in the
 .Pa /usr/share/zoneinfo
 directory.
 .Pp
+It is highly recommended to use
+.Xr ntpd 8 ,
+or at least
+.Xr rdate 8 ,
+to set the system clock against a NTP or time server.
+In the default crontab, there is even an entry which does that
+automatically after installation, using the
+.Xr adjtime 2
+system call, which is not suitable for setting the clock, only
+adjusting it by a few milliseconds, but can be used in a runlevel
+greater than 0 as well.
+.Pp
 Examples:
 .Pp
 Set the current date to January 27th, 1999 3:04pm:
@@ -163,6 +233,15 @@ Read the
 man page for more information on the format of
 .Pa /etc/hostname. Ns Ar interface
 files.
+The default routes are also set in these files; if you come from
+.Ox
+you will have to merge your
+.Pa /etc/mygate
+into a
+.Pa /etc/hostname. Ns Ar interface
+file - preferably with
+.Ar interface
+being the one on which the route is set.
 The loopback interface will look something like:
 .Bd -literal -offset indent
 lo0: flags=8009<UP,LOOPBACK,MULTICAST> mtu 32972
@@ -223,7 +302,7 @@ ff02::%lo0/32      fe80::1%lo0   UC       0     0   32972  lo0
 .Ed
 .Pp
 The default gateway address is stored in the
-.Pa /etc/mygate
+.Xr hostname.if 5
 file.
 If you need to edit this file, a painless way to reconfigure the network
 afterwards is
@@ -231,7 +310,7 @@ afterwards is
 followed by a
 .Ic sh -x /etc/netstart
 command.
-Or, you may prefer to manually configure using a series of
+You may manually configure using a series of
 .Ic route add
 and
 .Ic route delete
@@ -240,7 +319,7 @@ commands (see
 If you run
 .Xr dhclient 8
 you will have to kill it by running
-.Ic kill `cat /var/run/dhclient.pid`
+.Ic kill $(</var/run/dhclient.pid)
 after you flush the routes.
 .Pp
 If you wish to route packets between interfaces, add one or both
@@ -315,7 +394,8 @@ The system should be usable now, but you may wish to do more customizing,
 such as adding users, etc.
 Many of the following sections may be skipped
 if you are not using that package (for example, skip the
-Kerberos section if you won't be using Kerberos).
+.Sx Sendmail
+section if you won't be using Sendmail (not recommended)).
 We suggest that you
 .Ic cd /etc
 and edit most of the files in that directory.
@@ -329,7 +409,7 @@ To keep any custom message intact, ensure that you leave two blank lines
 at the top, or your message will be overwritten.
 .Ss Add new users
 Add users.
-There is an
+There is no
 .Xr adduser 8
 script.
 You may use
@@ -349,16 +429,10 @@ The manual page for
 tells you to make sure to put people in
 the
 .Sq wheel
-group if they need root access (non-Kerberos).
+group if they need root access.
 For example:
 .Pp
 .Dl wheel:*:0:root,myself
-.Pp
-Follow instructions for
-.Xr login_krb5 8
-if using
-Kerberos
-for authentication.
 .Ss System command scripts
 The
 .Pa /etc/rc.*\&
@@ -440,7 +514,7 @@ Run
 .Xr newaliases 8
 after changes.
 .Ss Sendmail
-.Ox
+.Mx
 ships with a default
 .Pa /etc/mail/localhost.cf
 file that will work for simple installations; it was generated from
@@ -479,21 +553,9 @@ for more information.
 The
 .Pa /etc/mail/localhost.cf
 file already has this disabled.
-.Ss Automounter daemon (AMD)
-If using the
-.Xr amd 8
-package,
-go into the
-.Pa /etc/amd
-directory and set it up by
-renaming
-.Pa master.sample
-to
-.Pa master
-and editing it and creating other maps as needed.
-Alternatively, you can get your maps with YP.
-.Ss BIND name server (DNS)
-If you are using the BIND name server, check the
+.Ss Name server (DNS)
+If you are using a name server from MirPorts (djbdns or BIND 9),
+check the
 .Pa /etc/resolv.conf
 file.
 It may look something like:
@@ -506,14 +568,12 @@ lookup file bind
 .Ed
 .Pp
 If using a caching name server, add the line "nameserver 127.0.0.1" first.
-To get a local caching name server to run
+To get a local BIND instance to run,
 you will need to set
 .Va named_flags
 in
 .Pa /etc/rc.conf.local .
-The same holds true if the machine is going to be a
-name server for your domain.
-In both these cases, make sure that
+In this case, make sure that
 .Xr named 8
 is running
 (otherwise there are long waits for resolver timeouts).
@@ -606,46 +666,12 @@ but you can get the order correct by looking at
 Several services depend on the RPC portmapper,
 .Xr portmap 8 ,
 being running for proper operation.
-This includes YP and NFS exports, among other services.
+This includes NFS exports, among other services.
 To get the RPC portmapper to start automatically on boot,
 you will need to have this line in
 .Pa /etc/rc.conf.local :
 .Pp
 .Dl portmap=YES
-.Ss YP setup
-Check the YP domain name with the
-.Xr domainname 1
-command.
-If necessary, correct it by editing the
-.Pa /etc/defaultdomain
-file (see
-.Xr defaultdomain 5 ) .
-The
-.Pa /etc/netstart
-script reads this file on bootup to determine and set the domain name.
-You may also set the running system's domain name with the
-.Xr domainname 1
-command.
-To start YP client services, simply run
-.Ic ypbind ,
-then perform the remaining
-YP activation as described in
-.Xr passwd 5
-and
-.Xr group 5 .
-.Pp
-In particular, to enable YP passwd support, you'll need to add the following
-line to
-.Pa /etc/master.passwd :
-.Pp
-.Dl +:*::::::::
-.Pp
-You do this by using
-.Xr vipw 8 .
-.Pp
-There are many more YP man pages available to help you.
-You can find more information by starting with
-.Xr yp 8 .
 .Ss Daily, weekly, monthly scripts
 Look at and possibly edit the
 .Pa /etc/daily , /etc/weekly ,
@@ -702,6 +728,22 @@ nor
 nor
 .Pa rmt ,
 nor any directories.)
+.Pp
+Many files \- for example,
+.Pa /etc/mk.conf ,
+.Pa /etc/profile ,
+.Pa /etc/rc.conf ,
+.Pa /etc/changelist ,
+and others \- provide the ability to have them unchanged
+and place the changes into the file with \fB.local\fR added.
+Example:
+.Dl # echo 'rdate_flags="-nc ntp0.nl.net"' >>/etc/rc.conf.local
+.Pp
+It is recommended to use
+.Xr rcs 1
+for versioning files in
+.Pa /etc ,
+especially those not in any changelist.
 .Ss Crontab (background running processes)
 Check what is running by typing
 .Ic crontab -l
@@ -715,9 +757,9 @@ the security scripts that are mailed internally, you can type
 .Ic crontab -e
 and change some of the lines to read:
 .Bd -literal -offset indent
-30  1  *  *  *   /bin/sh /etc/daily 2>&1 > /var/log/daily.out
-30  3  *  *  6   /bin/sh /etc/weekly 2>&1 > /var/log/weekly.out
-30  5  1  *  *   /bin/sh /etc/monthly 2>&1 > /var/log/monthly.out
+30  1  *  *  *   /bin/mksh /etc/daily >/var/log/daily.out 2>&1
+30  3  *  *  6   /bin/mksh /etc/weekly >/var/log/weekly.out 2>&1
+30  5  1  *  *   /bin/mksh /etc/monthly >/var/log/monthly.out 2>&1
 .Ed
 .Pp
 See
@@ -750,13 +792,6 @@ and
 as needed.
 .Ss Packages
 Install your own packages.
-The
-.Ox
-ports collection includes a large set of third-party software.
-A lot of it is available as binary packages that you can download from
-.Pa ftp://ftp.openbsd.org
-or a mirror, and install using
-.Xr pkg_add 1 .
 See
 .Xr ports 7
 and
@@ -771,7 +806,7 @@ to find out how to install and use compatibility mode.)
 .Pp
 There is also other third-party software that is available
 in source form only, either because it has not been ported to
-.Ox
+.Mx
 yet, or because licensing restrictions make binary redistribution
 impossible.
 Sometimes checking the mailing lists for
@@ -779,7 +814,7 @@ past problems that people have encountered will result in a fix posted.
 .Sh COMPILING A KERNEL
 Note:
 The standard
-.Ox
+.Mx
 kernel configuration (GENERIC) is suitable for most purposes.
 Use of an alternative kernel configuration is not recommended.
 .Pp
@@ -846,12 +881,23 @@ ukc>
 Additionally, you can permanently save the changes made with UKC during
 boot time in the kernel image.
 .Sh SEE ALSO
+.Xr aliases 5 ,
+.Xr bootpd 8 ,
+.Xr bootptab 5 ,
+.Xr ccd 4 ,
+.Xr ccdconfig 8 ,
 .Xr chgrp 1 ,
 .Xr chmod 1 ,
+.Xr chown 8 ,
+.Xr config 8 ,
 .Xr crontab 1 ,
+.Xr crontab 5 ,
 .Xr date 1 ,
 .Xr df 1 ,
-.Xr domainname 1 ,
+.Xr dhclient 8 ,
+.Xr dhcp 8 ,
+.Xr dhcpd 8 ,
+.Xr dmesg 8 ,
 .Xr fstat 1 ,
 .Xr hostname 1 ,
 .Xr ls 1 ,
@@ -867,12 +913,14 @@ boot time in the kernel image.
 .Xr ccd 4 ,
 .Xr aliases 5 ,
 .Xr crontab 5 ,
-.Xr defaultdomain 5 ,
 .Xr dhcpd.conf 5 ,
 .Xr exports 5 ,
 .Xr fbtab 5 ,
 .Xr fstab 5 ,
+.Xr ftpd 8 ,
 .Xr group 5 ,
+.Xr hostname 1 ,
+.Xr hostname 7 ,
 .Xr hostname.if 5 ,
 .Xr login.conf 5 ,
 .Xr passwd 5 ,
@@ -884,8 +932,6 @@ boot time in the kernel image.
 .Xr hostname 7 ,
 .Xr packages 7 ,
 .Xr ports 7 ,
-.Xr adduser 8 ,
-.Xr amd 8 ,
 .Xr ccdconfig 8 ,
 .Xr chown 8 ,
 .Xr config 8 ,
@@ -897,15 +943,19 @@ boot time in the kernel image.
 .Xr ifconfig 8 ,
 .Xr inetd 8 ,
 .Xr kbd 8 ,
-.Xr kerberos 8 ,
 .Xr lpd 8 ,
+.Xr ls 1 ,
+.Xr make 1 ,
+.Xr man 1 ,
 .Xr mount 8 ,
 .Xr mtree 8 ,
-.Xr named 8 ,
 .Xr netstart 8 ,
+.Xr netstat 1 ,
 .Xr newaliases 8 ,
 .Xr ntpd 8 ,
 .Xr portmap 8 ,
+.Xr ports 7 ,
+.Xr printcap 5 ,
 .Xr rbootd 8 ,
 .Xr rc 8 ,
 .Xr rdate 8 ,
@@ -917,8 +967,9 @@ boot time in the kernel image.
 .Xr timed 8 ,
 .Xr umount 8 ,
 .Xr vipw 8 ,
-.Xr yp 8 ,
-.Xr ypbind 8
+.Xr xdm 1
 .Sh HISTORY
 This document first appeared in
 .Ox 2.2 .
+.Sh BUGS
+This document is totally out of date.

@@ -333,7 +333,7 @@ addrname	: ADDR		{ $$ = $1; }
 				    fatal("Hostname %s does not %s",
 					$1, "map to a unique address");
 
-				  bcopy(hp->h_addr_list[0], &$$,
+				  memmove(&$$, hp->h_addr_list[0],
 					    hp->h_length);
 				}
 

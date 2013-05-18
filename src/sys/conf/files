@@ -1,8 +1,7 @@
-#	$OpenBSD: files,v 1.321 2004/11/28 23:39:45 canacar Exp $
-#	$NetBSD: files,v 1.87 1996/05/19 17:17:50 jonathan Exp $
-
-#	@(#)files.newconf	7.5 (Berkeley) 5/10/93
-
+# $MirOS: src/sys/conf/files,v 1.10 2005/12/06 01:24:49 tg Exp $
+# $OpenBSD: files,v 1.339 2005/05/26 00:33:45 pedro Exp $
+# $NetBSD: files,v 1.634 2003/09/25 15:58:14 pooka Exp $
+# @(#)files.newconf	7.5 (Berkeley) 5/10/93
 
 # generic attributes
 define	disk
@@ -108,7 +107,7 @@ file	dev/mii/mii_bitbang.c		mii_bitbang
 
 define	wdc_base
 define	ata {[channel = -1], [drive = -1]}
-define	atapi {[channel = -1]}
+define	atapi {[channel = -1], [drive = -1]}
 # Common code for ESDI/IDE/etc. controllers
 device	wdc: ata, atapi, wdc_base
 file	dev/ic/wdc.c			wdc_base
@@ -301,7 +300,8 @@ device	cy: tty
 file	dev/ic/cy.c		cy & (cy_isa | cy_pci)	needs-flag
 
 # PC parallel ports (IEEE 1284)
-device	lpt
+#device	lpt: ifnet, ether, arp	# XXX - "ifnet, ether, arp" only if option PLIP
+device	lpt: ifnet, ether	# "arp" is an undefined attribute in OpenBSD
 file	dev/ic/lpt.c		lpt & (lpt_isa | lpt_pica | lpt_algor | lpt_gsc | lpt_puc | lpt_apio | lpt_ebus) needs-flag
 
 # STI (hp graphics)
@@ -557,7 +557,6 @@ file kern/kern_synch.c
 file kern/kern_time.c
 file kern/kern_timeout.c
 file kern/kern_watchdog.c		!small_kernel
-file kern/kern_xxx.c
 file kern/kgdb_stub.c			kgdb
 file kern/subr_autoconf.c
 file kern/subr_disk.c
@@ -650,7 +649,15 @@ file net/if_ppp.c			ppp			needs-count
 file net/ppp_tty.c			ppp
 file net/bsd-comp.c			ppp_bsdcomp
 file net/ppp-deflate.c			ppp_deflate
-file net/zlib.c				ppp_deflate | ipsec | crypto
+file ../lib/libz/adler32.c
+file ../lib/libz/compress.c		ppp_deflate | ipsec | crypto
+file ../lib/libz/crc32.c		ppp_deflate | ipsec | crypto
+file ../lib/libz/deflate.c		ppp_deflate | ipsec | crypto
+file ../lib/libz/inffast.c		ppp_deflate | ipsec | crypto
+file ../lib/libz/inflate.c		ppp_deflate | ipsec | crypto
+file ../lib/libz/inftrees.c		ppp_deflate | ipsec | crypto
+file ../lib/libz/trees.c		ppp_deflate | ipsec | crypto
+file ../lib/libz/zutil.c		ppp_deflate | ipsec | crypto
 file net/if_tokensubr.c			token			needs-flag
 file net/if_tun.c			tun			needs-count
 file net/if_bridge.c			bridge			needs-count
@@ -665,30 +672,9 @@ file net/rtsock.c
 file net/slcompress.c			sl | ppp | strip
 file net/if_enc.c			enc			needs-count
 file net/if_gre.c			gre			needs-count
-#file net/if_ieee1394subr.c		ieee1394
 file net/if_ieee80211subr.c		wlan
-file netccitt/ccitt_proto.c		ccitt
-file netccitt/hd_debug.c		hdlc
-file netccitt/hd_input.c		hdlc
-file netccitt/hd_output.c		hdlc
-file netccitt/hd_subr.c			hdlc
-file netccitt/hd_timer.c		hdlc
-file netccitt/if_x25subr.c		ccitt
-file netccitt/llc_input.c		llc
-file netccitt/llc_output.c		llc
-file netccitt/llc_subr.c		llc
-file netccitt/llc_timer.c		llc
-file netccitt/pk_acct.c			ccitt
-file netccitt/pk_debug.c		ccitt
-file netccitt/pk_input.c		ccitt
-file netccitt/pk_llcsubr.c		llc | hdlc
-file netccitt/pk_output.c		ccitt
-file netccitt/pk_subr.c			ccitt
-file netccitt/pk_timer.c		ccitt
-file netccitt/pk_usrreq.c		ccitt
 file netinet/if_atm.c			atm
 file netinet/if_ether.c			ether | inet
-#file netinet/if_ieee1394arp.c		ieee1394 & inet
 file netinet/igmp.c			inet
 file netinet/in.c			inet
 file netinet/in_pcb.c			inet
@@ -733,7 +719,7 @@ file crypto/cryptodev.c			((inet & ipsec) | crypto)	needs-flag
 file crypto/criov.c			(inet & ipsec) | crypto
 file crypto/cryptosoft.c		(inet & ipsec) | crypto
 file crypto/xform.c			(inet & ipsec) | crypto
-file crypto/deflate.c			(inet & ipsec) | crypto
+file crypto/kdeflate.c			(inet & ipsec) | crypto
 file crypto/arc4.c			wi | wlan
 file netatalk/aarp.c			netatalk
 file netatalk/at_control.c		netatalk
@@ -780,7 +766,6 @@ file ufs/mfs/mfs_vfsops.c		mfs
 file ufs/mfs/mfs_vnops.c		mfs
 file ufs/ufs/ufs_bmap.c			ffs | mfs | ext2fs
 file ufs/ufs/ufs_dirhash.c		ufs_dirhash & (ffs | mfs)
-file ufs/ufs/ufs_extattr.c		ffs | mfs
 file ufs/ufs/ufs_ihash.c		ffs | mfs | ext2fs
 file ufs/ufs/ufs_inode.c		ffs | mfs | ext2fs
 file ufs/ufs/ufs_lookup.c		ffs | mfs | ext2fs
@@ -798,20 +783,6 @@ file ufs/ext2fs/ext2fs_readwrite.c	ext2fs
 file ufs/ext2fs/ext2fs_subr.c		ext2fs
 file ufs/ext2fs/ext2fs_vfsops.c		ext2fs
 file ufs/ext2fs/ext2fs_vnops.c		ext2fs
-file xfs/xfs_common-bsd.c		xfs
-file xfs/xfs_deb.c			xfs
-file xfs/xfs_dev-bsd.c			xfs
-file xfs/xfs_dev-common.c		xfs
-file xfs/xfs_message.c			xfs
-file xfs/xfs_node.c			xfs
-file xfs/xfs_node-bsd.c			xfs
-file xfs/xfs_syscalls-common.c		xfs
-file xfs/xfs_vfsops-bsd.c		xfs
-file xfs/xfs_vfsops-common.c		xfs
-file xfs/xfs_vfsops-openbsd.c		xfs
-file xfs/xfs_vnodeops-bsd.c		xfs
-file xfs/xfs_vnodeops-common.c		xfs
-file xfs/xfs_syscalls-dummy.c		!xfs
 file uvm/uvm_amap.c
 file uvm/uvm_anon.c
 file uvm/uvm_aobj.c
@@ -870,3 +841,93 @@ file net/pfkey.c			key | ipsec | tcp_signature
 file net/pfkeyv2.c			key | ipsec | tcp_signature
 file net/pfkeyv2_parsemessage.c		key | ipsec | tcp_signature
 file net/pfkeyv2_convert.c		key | ipsec | tcp_signature
+
+#
+# Compatibility modules
+#
+
+# OSS audio driver compatibility (COMPAT_OSSAUDIO)
+include "../../../compat/ossaudio/files.ossaudio"
+
+### ISDN support, from NetBSD
+
+define	isdndev		# the ISDN subsystem
+define	passive_isdn	# files needed by passive cards (XXX - protocol
+			# specific)
+define	isdncapi	# ISDN Common API - http://www.capi.org/
+
+# The isac found on the Fritz V2.0 Card.
+define	nisacsx
+file	dev/ic/isacsx.c			nisacsx	needs-flag
+
+# The 'standard' isac
+define	nisac
+file	dev/ic/isac.c			nisac	needs-flag
+
+# ISDN cards based on the Siemens ISAC/HSCX chipset (or lookalikes)
+#
+device	isic: isdndev, passive_isdn, nisac
+
+file	dev/ic/isic.c			isic
+file	dev/ic/isic_l1.c		isic|ifpci|ifritz
+file	dev/ic/isic_l1fsm.c		isic|ifpci|ifritz
+file	dev/ic/hscx.c			isic
+file	dev/ic/isic_bchan.c		isic
+
+# (old) Diehl active ISDN cards
+#
+device	daic: isdndev
+file	dev/ic/daic.c			daic
+
+# AWM B1/T1
+# XXX: passive_isdn
+device	iavc: isdndev, isdncapi, passive_isdn
+file	dev/ic/iavc.c			iavc
+
+# ISDN userland pseudo devices
+#
+pseudo-device isdntrc:      isdndev, tty
+pseudo-device isdnbchan:    isdndev, tty
+pseudo-device isdntel:      isdndev, tty
+pseudo-device isdnctl:      isdndev, tty
+pseudo-device isdn:         isdndev, tty
+
+# ISDN network interfaces
+pseudo-device irip:         isdndev, ifnet
+pseudo-device ippp:         isdndev, sppp, ifnet
+
+file	netisdn/i4b_ctl.c		isdnctl		needs-flag
+file	netisdn/i4b_isppp.c		ippp		needs-count
+file	netisdn/i4b_ipr.c		irip		needs-count
+file	netisdn/i4b_rbch.c		isdnbchan	needs-count
+file	netisdn/i4b_tel.c		isdntel		needs-count
+file	netisdn/i4b_trace.c		isdntrc		needs-count
+
+file	netisdn/i4b_mbuf.c		passive_isdn
+file	netisdn/i4b_l2.c		passive_isdn
+file	netisdn/i4b_l2fsm.c		passive_isdn
+file	netisdn/i4b_uframe.c		passive_isdn
+file	netisdn/i4b_tei.c		passive_isdn
+file	netisdn/i4b_sframe.c		passive_isdn
+file	netisdn/i4b_iframe.c		passive_isdn
+file	netisdn/i4b_l2timer.c		passive_isdn
+file	netisdn/i4b_util.c		passive_isdn
+file	netisdn/i4b_lme.c		passive_isdn
+# Q.931 handler
+file	netisdn/i4b_q931.c		passive_isdn
+file	netisdn/i4b_q932fac.c		passive_isdn
+file	netisdn/i4b_l3fsm.c		passive_isdn
+file	netisdn/i4b_l3timer.c		passive_isdn
+file	netisdn/i4b_l2if.c		passive_isdn
+file	netisdn/i4b_l4if.c		passive_isdn
+
+# ISDN device driver, interface to isdnd
+file	netisdn/i4b_i4bdrv.c		isdn		needs-flag
+file	netisdn/i4b_l4.c		isdndev		needs-flag
+file	netisdn/i4b_l4mgmt.c		isdndev		needs-flag
+file	netisdn/i4b_l4timer.c		isdndev		needs-flag
+
+# CAPI
+file	netisdn/i4b_capi_l4if.c		isdncapi
+file	netisdn/i4b_capi_llif.c		isdncapi
+file	netisdn/i4b_capi_msgs.c		isdncapi

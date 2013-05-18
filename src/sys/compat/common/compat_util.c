@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/compat/common/compat_util.c,v 1.2 2005/03/06 21:27:28 tg Exp $ */
 /* 	$OpenBSD: compat_util.c,v 1.10 2004/08/01 06:22:28 mickey Exp $	*/
 /* 	$NetBSD: compat_util.c,v 1.4 1996/03/14 19:31:45 christos Exp $	*/
 
@@ -78,7 +79,7 @@ emul_find(p, sgp, prefix, path, pbuf, cflag)
 
 	sz = MAXPATHLEN - (ptr - buf);
 
-	/* 
+	/*
 	 * If sgp is not given then the path is already in kernel space
 	 */
 	if (sgp == NULL)
@@ -177,45 +178,21 @@ bad:
 	return error;
 }
 
-/*
- * Translate one set of flags to another, based on the entries in
- * the given table.  If 'leftover' is specified, it is filled in
- * with any flags which could not be translated.
- */
-unsigned long
-emul_flags_translate(tab, in, leftover)
-	const struct emul_flags_xtab *tab;
-	unsigned long in;
-	unsigned long *leftover;
-{
-        unsigned long out;
-                 
-        for (out = 0; tab->omask != 0; tab++) {
-                if ((in & tab->omask) == tab->oval) {
-                        in &= ~tab->omask;
-                        out |= tab->nval;
-                }
-        }               
-        if (leftover != NULL)
-                *leftover = in;
-        return (out);
-}
-
-caddr_t  
-stackgap_init(e) 
+caddr_t
+stackgap_init(e)
         struct emul *e;
 {
         return STACKGAPBASE;
 }
- 
-void *          
+
+void *
 stackgap_alloc(sgp, sz)
         caddr_t *sgp;
         size_t sz;
 {
 	void *n = (void *) *sgp;
 	caddr_t nsgp;
-	
+
 	sz = ALIGN(sz);
 	nsgp = *sgp + sz;
 #ifdef MACHINE_STACK_GROWS_UP

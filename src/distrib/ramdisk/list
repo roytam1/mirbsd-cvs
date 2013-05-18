@@ -1,3 +1,4 @@
+# $MirOS: src/distrib/ramdisk/list,v 1.2 2005/03/06 18:58:05 tg Exp $
 #	$OpenBSD: list,v 1.28 2005/01/12 18:25:30 deraadt Exp $
 #	$NetBSD: list,v 1.4.4.1 1996/06/20 20:30:26 pk Exp $
 
@@ -43,9 +44,13 @@ LINK	instbin					sbin/reboot sbin/halt
 LINK	instbin					sbin/route
 LINK	instbin					sbin/rtsol
 LINK	instbin					sbin/umount
+LINK	instbin					usr/bin/cksum
 LINK	instbin					usr/bin/ftp
 LINK	instbin					usr/bin/gzip usr/bin/gunzip usr/bin/gzcat
 LINK	instbin					usr/bin/sed
+LINK	instbin					usr/bin/hexdump usr/bin/hd usr/bin/od
+LINK	instbin					usr/bin/nc
+LINK	instbin					usr/bin/printf
 
 # various files that we need in /etc for the install
 COPY	${DESTDIR}/etc/group			etc/group

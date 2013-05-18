@@ -1,5 +1,5 @@
+/**	$MirOS$ */
 /*	$OpenBSD: print-ospf6.c,v 1.2 2000/05/05 12:32:09 jakob Exp $	*/
-
 
 /*
  * Copyright (c) 1992, 1993, 1994, 1995, 1996, 1997
@@ -24,11 +24,6 @@
  * OSPF support contributed by Jeffrey Honig (jch@mitchell.cit.cornell.edu)
  */
 
-#ifndef lint
-static const char rcsid[] =
-    "@(#) $Header$ (LBL)";
-#endif
-
 #ifdef INET6
 
 #include <sys/param.h>
@@ -48,6 +43,8 @@ static const char rcsid[] =
 #include "addrtoname.h"
 
 #include "ospf6.h"
+
+__RCSID("$MirOS$");
 
 struct bits {
 	u_int32_t bit;
@@ -102,12 +99,12 @@ ospf6_print_seqage(register u_int32_t seq, register time_t us)
 
 	printf(" S %X age ", seq);
 	if (hour)
-		printf("%u:%02u:%02u",
-		    (u_int32_t) hour, (u_int32_t) mins, (u_int32_t) sec);
+		printf("%llu:%02llu:%02llu",
+		    (u_int64_t) hour, (u_int64_t) mins, (u_int64_t) sec);
 	else if (mins)
-		printf("%u:%02u", (u_int32_t) mins, (u_int32_t) sec);
+		printf("%llu:%02llu", (u_int64_t) mins, (u_int64_t) sec);
 	else
-		printf("%u", (u_int32_t) sec);
+		printf("%llu", (u_int64_t) sec);
 }
 
 
@@ -238,7 +235,7 @@ ospf6_print_lsaprefix(register const struct lsa_prefix *lsapp)
 	}
 	memset(&prefix, 0, sizeof(prefix));
 	memcpy(&prefix, lsapp->lsa_p_prefix, k * 4);
-	printf(" %s/%d", ip6addr_string(&prefix), 
+	printf(" %s/%d", ip6addr_string(&prefix),
 		lsapp->lsa_p_len);
 	if (lsapp->lsa_p_opt)
 		printf("(opt=%x)", lsapp->lsa_p_opt);

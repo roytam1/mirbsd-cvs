@@ -1,8 +1,28 @@
+/**	$MirOS: src/lib/libc/time/zdump.c,v 1.3 2005/09/22 20:33:02 tg Exp $ */
 /*	$OpenBSD: zdump.c,v 1.17 2005/08/08 08:05:38 espie Exp $ */
-/*
-** This file is in the public domain, so clarified as of
-** Feb 14, 2003 by Arthur David Olson (arthur_david_olson@nih.gov).
-*/
+
+/*-
+ * Copyright (c) 2005
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Bases upon work placed in the public domain Feb 14, 2003 by
+ *	Arthur David Olson (arthur_david_olson@nih.gov)
+ *
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
+ *
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
+ */
 
 /*
 ** This code has been made independent of the rest of the time
@@ -25,6 +45,8 @@
 #ifndef ZDUMP_HI_YEAR
 #define ZDUMP_HI_YEAR	2500
 #endif /* !defined ZDUMP_HI_YEAR */
+
+__RCSID("$MirOS: src/lib/libc/time/zdump.c,v 1.3 2005/09/22 20:33:02 tg Exp $");
 
 #ifndef MAX_STRING_LENGTH
 #define MAX_STRING_LENGTH	1024
@@ -137,6 +159,8 @@
 #define P(x)	()
 #endif /* !defined __STDC__ */
 #endif /* !defined P */
+
+#define ZDUMP
 
 extern char **	environ;
 extern int	getopt P((int argc, char * const argv[],
@@ -623,8 +647,9 @@ register const struct tm *	timeptr;
 	};
 	register const char *	wn;
 	register const char *	mn;
-	register int		lead;
-	register int		trail;
+#ifndef TM_YEAR_BASE
+#define TM_YEAR_BASE	1900
+#endif
 
 	if (timeptr == NULL) {
 		(void) printf("NULL");
@@ -643,23 +668,21 @@ register const struct tm *	timeptr;
 		(int) (sizeof mon_name / sizeof mon_name[0]))
 			mn = "???";
 	else		mn = mon_name[timeptr->tm_mon];
-	(void) printf("%.3s %.3s%3d %.2d:%.2d:%.2d ",
-		wn, mn,
-		timeptr->tm_mday, timeptr->tm_hour,
-		timeptr->tm_min, timeptr->tm_sec);
-#define DIVISOR	10
-	trail = timeptr->tm_year % DIVISOR + TM_YEAR_BASE % DIVISOR;
-	lead = timeptr->tm_year / DIVISOR + TM_YEAR_BASE / DIVISOR +
-		trail / DIVISOR;
-	trail %= DIVISOR;
-	if (trail < 0 && lead > 0) {
-		trail += DIVISOR;
-		--lead;
-	} else if (lead < 0 && trail > 0) {
-		trail -= DIVISOR;
-		++lead;
-	}
-	if (lead == 0)
-		(void) printf("%d", trail);
-	else	(void) printf("%d%d", lead, ((trail < 0) ? -trail : trail));
+	(void) printf(
+#ifdef ZDUMP
+	    "%.3s %.3s%3d %.2d:%.2d:%.2d %lld",
+	    wn, mn, timeptr->tm_mday,
+#else
+	    "%.3s %.3s%3d (%d) %lld %.2d:%.2d:%.2d %s (%d%s)",
+	    wn, mn, timeptr->tm_mday, timeptr->tm_yday,
+	    (int64_t)timeptr->tm_year + (long long) TM_YEAR_BASE,
+#endif
+	    timeptr->tm_hour, timeptr->tm_min, timeptr->tm_sec,
+#ifdef ZDUMP
+		(int64_t)timeptr->tm_year + (long long) TM_YEAR_BASE);
+#else
+	    timeptr->tm_zone ? timeptr->tm_zone : "(null)",
+	    timeptr->tm_gmtoff,
+	    timeptr->tm_isdst ? " DST" : "");
+#endif
 }

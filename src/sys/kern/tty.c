@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/kern/tty.c,v 1.3 2005/07/07 15:08:36 tg Exp $ */
 /*	$OpenBSD: tty.c,v 1.68 2004/12/26 21:22:13 miod Exp $	*/
 /*	$NetBSD: tty.c,v 1.68.4.2 1996/06/06 16:04:52 thorpej Exp $	*/
 
@@ -2109,7 +2110,7 @@ ttyinfo(tp)
 			utime.tv_sec += 1;
 			utime.tv_usec -= 1000000;
 		}
-		ttyprintf(tp, "%ld.%02ldu ", utime.tv_sec,
+		ttyprintf(tp, "%lld.%02ldu ", (int64_t)utime.tv_sec,
 		    utime.tv_usec / 10000);
 
 		/* Round up and print system time. */
@@ -2118,7 +2119,7 @@ ttyinfo(tp)
 			stime.tv_sec += 1;
 			stime.tv_usec -= 1000000;
 		}
-		ttyprintf(tp, "%ld.%02lds ", stime.tv_sec,
+		ttyprintf(tp, "%lld.%02lds ", (int64_t)stime.tv_sec,
 		    stime.tv_usec / 10000);
 
 #define	pgtok(a)	(((u_long) ((a) * PAGE_SIZE) / 1024))
@@ -2126,8 +2127,8 @@ ttyinfo(tp)
 		tmp = (pick->p_pctcpu * 10000 + FSCALE / 2) >> FSHIFT;
 		ttyprintf(tp, "%d%% %ldk\n",
 		    tmp / 100,
-		    pick->p_stat == SIDL || P_ZOMBIE(pick) ? 0 :
-			vm_resident_count(pick->p_vmspace));
+		    (long)(pick->p_stat == SIDL || P_ZOMBIE(pick) ? 0 :
+			vm_resident_count(pick->p_vmspace)));
 	}
 	tp->t_rocount = 0;	/* so pending input will be retyped if BS */
 }

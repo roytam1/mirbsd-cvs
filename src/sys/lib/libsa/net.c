@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: net.c,v 1.13 2003/08/11 06:23:09 deraadt Exp $	*/
 /*	$NetBSD: net.c,v 1.14 1996/10/13 02:29:02 christos Exp $	*/
 
@@ -84,7 +85,7 @@ sendudp(struct iodesc *d, void *pkt, size_t len)
 	ip = (struct ip *)uh - 1;
 	len += sizeof(*ip) + sizeof(*uh);
 
-	bzero(ip, sizeof(*ip) + sizeof(*uh));
+	memset(ip, 0, sizeof(*ip) + sizeof(*uh));
 
 	ip->ip_v = IPVERSION;			/* half-char */
 	ip->ip_hl = sizeof(*ip) >> 2;		/* half-char */
@@ -102,7 +103,7 @@ sendudp(struct iodesc *d, void *pkt, size_t len)
 	/* Calculate checksum (must save and restore ip header) */
 	tip = *ip;
 	ui = (struct udpiphdr *)ip;
-	bzero(ui->ui_x1, sizeof(ui->ui_x1));
+	memset(ui->ui_x1, 0, sizeof(ui->ui_x1));
 	ui->ui_len = uh->uh_ulen;
 	uh->uh_sum = in_cksum(ui, len);
 	*ip = tip;
@@ -207,7 +208,7 @@ readudp(struct iodesc *d, void *pkt, size_t len, time_t tleft)
 
 	/* If there were ip options, make them go away */
 	if (hlen != sizeof(*ip)) {
-		bcopy(((u_char *)ip) + hlen, uh, len - hlen);
+		memmove(uh, ((u_char *)ip) + hlen, len - hlen);
 		ip->ip_len = sizeof(*ip);
 		n -= hlen - sizeof(*ip);
 	}
@@ -230,7 +231,7 @@ readudp(struct iodesc *d, void *pkt, size_t len, time_t tleft)
 		/* Check checksum (must save and restore ip header) */
 		tip = *ip;
 		ui = (struct udpiphdr *)ip;
-		bzero(ui->ui_x1, sizeof(ui->ui_x1));
+		memset(ui->ui_x1, 0, sizeof(ui->ui_x1));
 		ui->ui_len = uh->uh_ulen;
 		if (in_cksum(ui, n) != 0) {
 #ifdef NET_DEBUG

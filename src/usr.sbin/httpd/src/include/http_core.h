@@ -1,3 +1,5 @@
+/* $MirOS: src/usr.sbin/httpd/src/include/http_core.h,v 1.2 2005/03/13 19:16:44 tg Exp $ */
+
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -123,7 +125,7 @@ extern "C" {
 
 API_EXPORT(int) ap_allow_options (request_rec *);
 API_EXPORT(int) ap_allow_overrides (request_rec *);
-API_EXPORT(const char *) ap_default_type (request_rec *);     
+API_EXPORT(const char *) ap_default_type (request_rec *);
 API_EXPORT(const char *) ap_document_root (request_rec *); /* Don't use this!  If your request went
 				      * through a Userdir, or something like
 				      * that, it'll screw you.  But it's
@@ -154,17 +156,17 @@ API_EXPORT(int) ap_is_recursion_limit_exceeded(const request_rec *r);
  * to maintain common state for all of them in the core, and make it
  * available to the other modules through interfaces.
  */
-    
+
 typedef struct {
     int method_mask;
     char *requirement;
 } require_line;
-     
+
 API_EXPORT(const char *) ap_auth_type (request_rec *);
-API_EXPORT(const char *) ap_auth_name (request_rec *);     
+API_EXPORT(const char *) ap_auth_name (request_rec *);
 API_EXPORT(const char *) ap_auth_nonce (request_rec *);
 API_EXPORT(int) ap_satisfies (request_rec *r);
-API_EXPORT(const array_header *) ap_requires (request_rec *);    
+API_EXPORT(const array_header *) ap_requires (request_rec *);
 
 #ifdef CORE_PRIVATE
 
@@ -221,16 +223,16 @@ typedef struct {
     allow_options_t opts_add;
     allow_options_t opts_remove;
     overrides_t override;
-    
+
     /* MIME typing --- the core doesn't do anything at all with this,
      * but it does know what to slap on a request for a document which
      * goes untyped by other mechanisms before it slips out the door...
      */
-    
+
     char *ap_default_type;
-  
+
     /* Authentication stuff.  Groan... */
-    
+
     int satisfy;
     char *ap_auth_type;
     char *ap_auth_name;
@@ -241,8 +243,10 @@ typedef struct {
      * if it's not null then it's allocated to sizeof(char*)*RESPONSE_CODES.
      * This lets us do quick merges in merge_core_dir_configs().
      */
-  
-    char **response_code_strings;
+
+    char **response_code_strings; /* from ErrorDocument, not from
+                                   * ap_custom_response()
+                                   */
 
     /* Hostname resolution etc */
 #define HOSTNAME_LOOKUP_OFF	0
@@ -278,6 +282,9 @@ typedef struct {
 
     /* System Resource Control */
     struct rlimit *limit_cpu;
+#ifdef RLIMIT_TIME
+    struct rlimit *limit_time;
+#endif
     struct rlimit *limit_mem;
     struct rlimit *limit_nproc;
     unsigned long limit_req_body;  /* limit on bytes in request msg body */
@@ -286,12 +293,11 @@ typedef struct {
     enum { srv_sig_unset, srv_sig_off, srv_sig_on,
 	    srv_sig_withmail } server_signature;
     int loglevel;
-    
+
     /* Access control */
     array_header *sec;
     regex_t *r;
 
-    
 
     /*
      * What attributes/data should be included in ETag generation?
@@ -314,17 +320,13 @@ typedef struct {
 /* Per-server core configuration */
 
 typedef struct {
-  
-#ifdef GPROF
-    char *gprof_dir;
-#endif
 
     /* Name translations --- we want the core to be able to do *something*
      * so it's at least a minimally functional web server on its own (and
      * can be tested that way).  But let's keep it to the bare minimum:
      */
     char *ap_document_root;
-  
+
     /* Access control */
 
     char *access_name;

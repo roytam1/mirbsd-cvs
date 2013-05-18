@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.14 2005/07/02 07:15:13 grunk Exp $
+# $MirOS: src/lib/libevent/Makefile,v 1.3 2005/04/29 18:34:50 tg Exp $
+# $OpenBSD: Makefile,v 1.14 2005/07/02 07:15:13 grunk Exp $
 
 LIB=	event
 SRCS=	buffer.c evbuffer.c event.c kqueue.c log.c poll.c select.c signal.c
@@ -21,7 +22,7 @@ MLINKS=	event.3 event_init.3 event.3 event_dispatch.3 event.3 event_loop.3 \
 	evbuffer_add_printf.3 event.3 evbuffer_drain.3 event.3 evbuffer_write.3 \
 	event.3 evbuffer_read.3 event.3 evbuffer_find.3
 
-CFLAGS+= -I${.CURDIR} \
+CPPFLAGS+= -I${.CURDIR} \
 	-DHAVE_FCNTL_H \
 	-DHAVE_POLL \
 	-DHAVE_SELECT \
@@ -33,19 +34,19 @@ CFLAGS+= -I${.CURDIR} \
 	-DHAVE_VASPRINTF \
 	-DHAVE_WORKING_KQUEUE
 
-CDIAGFLAGS=	-Wall
-#CDIAGFLAGS+=	-Werror
-CDIAGFLAGS+=	-Wstrict-prototypes
-CDIAGFLAGS+=	-Wmissing-prototypes
-CDIAGFLAGS+=	-Wmissing-declarations
-CDIAGFLAGS+=	-Wshadow
-CDIAGFLAGS+=	-Wpointer-arith
-CDIAGFLAGS+=	-Wcast-qual
-CDIAGFLAGS+=	-Wsign-compare
-CDIAGFLAGS+=	-Wcast-align
-CDIAGFLAGS+=	-Wbad-function-cast
+.include <bsd.own.mk>
+COPTS+=		-Wall
+COPTS+=		-Wstrict-prototypes
+COPTS+=		-Wmissing-prototypes
+COPTS+=		-Wmissing-declarations
+COPTS+=		-Wshadow
+COPTS+=		-Wpointer-arith
+COPTS+=		-Wcast-qual
+COPTS+=		-Wsign-compare
+COPTS+=		-Wcast-align
+COPTS+=		-Wbad-function-cast
 
-NOPIC=
+NOPIC=		Yes
 
 includes:
 	@cd ${.CURDIR}; for i in ${HDRS}; do \

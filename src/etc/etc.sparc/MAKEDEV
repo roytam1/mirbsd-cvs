@@ -1,14 +1,20 @@
-#!/bin/sh -
+#!/bin/mksh
+# $MirOS: src/etc/MAKEDEV.mi,v 1.7 2006/06/17 16:28:20 tg Exp $
 #
 # THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
 # generated from:
 #
-#	OpenBSD: etc.sparc/MAKEDEV.md,v 1.27 2005/03/29 16:40:10 miod Exp 
+#	OpenBSD: etc.sparc/MAKEDEV.md,v 1.28 2005/07/17 12:23:14 miod Exp 
+#	MirOS: src/etc/etc.sparc/MAKEDEV.md,v 1.7 2006/06/17 16:28:22 tg Exp 
 #	OpenBSD: MAKEDEV.common,v 1.19 2005/06/29 18:23:26 todd Exp 
+#	MirOS: src/etc/MAKEDEV.common,v 1.7 2006/01/30 13:10:15 tg Exp 
 #	OpenBSD: MAKEDEV.mi,v 1.73 2005/02/07 06:14:18 david Exp 
+#	MirOS: src/etc/MAKEDEV.mi,v 1.7 2006/06/17 16:28:20 tg Exp 
 #	OpenBSD: MAKEDEV.sub,v 1.14 2005/02/07 06:14:18 david Exp 
+#	MirOS: src/etc/MAKEDEV.sub,v 1.4 2005/07/24 12:49:10 tg Exp 
 #
 #
+# Copyright (c) 2003-2006 Thorsten Glaser <tg@mirbsd.de>
 # Copyright (c) 2001-2004 Todd T. Fries <todd@OpenBSD.org>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -46,7 +52,6 @@
 # Terminal ports:
 #	cua[a-z]*	Zilog 8530 serial ports
 #	tty[a-z]*	Zilog 8530 serial ports
-#	tty[0-7][0-9a-f]	NS16x50 serial ports
 #	magma*	Magma multiport cards
 #	spif*	"spif" multiport cards
 # Pseudo terminals:
@@ -65,7 +70,6 @@
 # Pointing devices:
 #	wsmouse*	wscons mice
 # Special purpose devices:
-#	apm	Power management device
 #	audio*	Audio devices
 #	bpf*	Berkeley Packet Filter
 #	fd	fd/* nodes for fdescfs
@@ -73,12 +77,10 @@
 #	openprom	PROM settings
 #	pf*	Packet Filter
 #	*random	In-kernel random data source
-#	ses*	SES/SAF-TE SCSI devices
 #	ss*	SCSI scanners
 #	systrace*	System call tracing device
 #	tun*	Network tunnel driver
 #	uk*	Unknown SCSI devices
-#	xfs*	XFS filesystem node
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 T=$0
 
@@ -190,7 +192,13 @@ M() {
 		MKlist="$MKlist;chown $7:$G $1"
 	} || {
 		case $G in
-		wheel)g=0;;kmem)g=2;;operator)g=5;;tty)g=4;;dialer)g=117;;_lkm)g=61;;
+		wheel)		g=0;;
+		kmem)		g=2;;
+		tty)		g=4;;
+		operator)	g=5;;
+		_lkm)		g=61;;
+		dialer)		g=117;;
+		audio)		g=250;;
 		esac
 		[ "${grplist[$g]}" ] && {
 			grplist[$g]="${grplist[$g]} $1"
@@ -232,10 +240,6 @@ std)
 	M openprom	c 70 0	640 kmem
 	;;
 
-xfs*)
-	M xfs$U c 51 $U 600
-	;;
-
 uk*)
 	M uk$U c 120 $U 640 operator
 	;;
@@ -256,17 +260,12 @@ ss*)
 	MKlist="$MKlist;umask 77;ln -s ss$U scan$U"
 	;;
 
-ses*)
-	M ses$U c 124 $U 640 operator
-	;;
-
 *random)
-	n=0
-	for pre in " " s u p a
-	do
-		M ${pre}random c 119 $n 644
-		n=$(($n+1))
-	done
+	M random c 119 0 644
+	M srandom c 119 1 644
+	M urandom c 119 2 644
+	M prandom c 119 3 666
+	M arandom c 119 4 644
 	;;
 
 pf*)
@@ -292,19 +291,14 @@ bpf*)
 	;;
 
 audio*)
-	M sound$U	c 69 $U
-	M mixer$U	c 69 $(($U+16))
-	M audio$U	c 69 $(($U+128))
-	M audioctl$U	c 69 $(($U+192))
+	M sound$U	c 69 $U 660 audio
+	M mixer$U	c 69 $(($U+16)) 660 audio
+	M audio$U	c 69 $(($U+128)) 660 audio
+	M audioctl$U	c 69 $(($U+192)) 660 audio
 	MKlist="$MKlist;[ -e audio ] || ln -s audio$U audio"
 	MKlist="$MKlist;[ -e mixer ] || ln -s mixer$U mixer"
 	MKlist="$MKlist;[ -e sound ] || ln -s sound$U sound"
 	MKlist="$MKlist;[ -e audioctl ] || ln -s audioctl$U audioctl"
-	;;
-
-apm*)
-	M apm	c 30 0 644
-	M apmctl	c 30 8 644
 	;;
 
 wsmouse*)
@@ -412,13 +406,6 @@ magma*)
 	M bpp${nam}1 c 101 $(($offset+1)) 600
 	;;
 
-tty[0-7][0-9a-f])
-	U=${i#tty*}
-	o=$(h2d $U)
-	M tty$U c 36 $o 660 dialer uucp
-	M cua$U c 36 $(($o+128)) 660 dialer uucp
-	;;
-
 tty[a-z])
 	u=${i#tty*}
 	case $u in
@@ -511,10 +498,10 @@ all)
 	R sd1 sd2 sd3 sd4 cd0 cd1 rd0 xy0 xy1 xy2 xy3 tun0 tun1 tun2
 	R tun3 bpf0 bpf1 bpf2 bpf3 bpf4 bpf5 bpf6 bpf7 bpf8 bpf9 pty0
 	R fd1 fd1B fd1C fd1D fd1E fd1F fd1G fd1H fd0 fd0B fd0C fd0D
-	R fd0E fd0F fd0G fd0H xfs0 ss0 ss1 ch0 ses0 cuaa cuab cuac
-	R cuad ttya ttyb ttyc ttyd ptm local wscons audio0 uk0 random
-	R lkm tty00 tty01 tty02 tty03 apm pf systrace xd0 xd1 xd2 xd3
-	R raid0 raid1 raid2 raid3 std st0 st1 fd
+	R fd0E fd0F fd0G fd0H ss0 ss1 ch0 cuaa cuab cuac cuad ttya
+	R ttyb ttyc ttyd ptm local wscons audio0 uk0 random lkm pf
+	R systrace xd0 xd1 xd2 xd3 raid0 raid1 raid2 raid3 std st0 st1
+	R fd
 	;;
 
 presto*|xd*|xy*|sd*|raid*|ccd*)

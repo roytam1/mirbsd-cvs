@@ -114,6 +114,8 @@
 #include <openssl/evp.h>
 #include <openssl/md5.h>
 
+__RCSID("$MirOS: src/lib/libssl/src/ssl/t1_enc.c,v 1.2 2006/03/27 18:28:07 tg Exp $");
+
 static unsigned char ssl3_pad_1[48]={
 	0x36,0x36,0x36,0x36,0x36,0x36,0x36,0x36,
 	0x36,0x36,0x36,0x36,0x36,0x36,0x36,0x36,
@@ -523,10 +525,18 @@ int ssl3_final_finish_mac(SSL *s, EVP_MD_CTX *ctx1, EVP_MD_CTX *ctx2,
 	     const char *sender, int len, unsigned char *p)
 	{
 	int ret;
+#ifdef ARC4PUSH
+	uint32_t *p2 = (uint32_t *)p;
+#endif
 
 	ret=ssl3_handshake_mac(s,ctx1,sender,len,p);
 	p+=ret;
 	ret+=ssl3_handshake_mac(s,ctx2,sender,len,p);
+#ifdef ARC4PUSH
+	arc4random_push(p2[0] ^ p2[1] ^ (uint32_t)time(NULL));
+	p2 = (uint32_t *)p;
+	arc4random_push(p2[0] ^ p2[1] ^ arc4random());
+#endif
 	return(ret);
 	}
 

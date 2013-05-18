@@ -1,151 +1,113 @@
-#!/bin/csh -f
+#!/bin/mksh
+# $MirOS: src/usr.bin/vgrind/vgrind.sh,v 1.6 2005/07/07 13:39:59 tg Exp $
+#-
+# Copyright (c) 2005 Thorsten Glaser <tg@mirbsd.org>
+# Copyright (c) 2005 Han Boetes <han@mijncomputer.nl>
 #
-#	$OpenBSD: vgrind.sh,v 1.4 2003/06/03 02:56:21 millert Exp $
-#	$NetBSD: vgrind.sh,v 1.3 1994/11/17 08:28:06 jtc Exp $
+# Permission is hereby granted, free of charge, to any person
+# obtaining a copy of this software and associated documentation
+# files (the "Software"), to deal in the Software without
+# restriction, including without limitation the rights to use,
+# copy, modify, merge, publish, distribute, sublicense, and/or
+# sell copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following
+# conditions:
 #
-# Copyright (c) 1980, 1993
-#	The Regents of the University of California.  All rights reserved.
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
 #
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
-# 1. Redistributions of source code must retain the above copyright
-#    notice, this list of conditions and the following disclaimer.
-# 2. Redistributions in binary form must reproduce the above copyright
-#    notice, this list of conditions and the following disclaimer in the
-#    documentation and/or other materials provided with the distribution.
-# 3. Neither the name of the University nor the names of its contributors
-#    may be used to endorse or promote products derived from this software
-#    without specific prior written permission.
-#
-# THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
-# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-# ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
-# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-# OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-# OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-# SUCH DAMAGE.
-#
-#       @(#)vgrind.sh	8.1 (Berkeley) 6/6/93
-#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+# OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT.  IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+# HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+# WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+# OTHER DEALINGS IN THE SOFTWARE.
 
 # Allow troff to be overridden
-if ( $?TROFF ) then
-	set troff = "$TROFF"
+TROFF=${TROFF:=troff}
+
+name=${0##*/}
+vf=/usr/libexec/vfontedpr
+tm=/usr/share/tmac
+
+unset voptions options files f head
+
+while [ $# -gt 0 ]; do
+	case $1 {
+	-f)
+		f=filter
+		options="$options $1"
+		;;
+	-t)
+		voptions="$voptions -t"
+		;;
+	-o*)
+		voptions="$voptions $1"
+		;;
+	-W)
+		voptions="$voptions -W"
+		;;
+	-d)
+		if [[ -z $2 ]]; then
+			print -u2 "$name: -d option must have argument"
+			exit 1
+		fi
+		options="$options $1 $2"
+		shift
+		;;
+	-h)
+		if [[ -z $2 ]]; then
+			print -u2 "$name: -h option must have argument"
+			exit 1
+		fi
+		head="$2"
+		shift
+		;;
+	-*)
+		options="$options $1"
+		;;
+	*)
+		files="$files $1"
+		;;
+	}
+	shift
+done
+
+if [ -r index ]; then
+	print >nindex
+	for i in $files; do
+		# make up a sed delete command for filenames
+		# being careful about slashes.
+		print "? $i ?d" | sed -e "s:/:\\/:g" -e "s:?:/:g" >>nindex
+	done
+	sed -f nindex index >xindex
+	if [[ $f = filter ]]; then
+		if [[ -n $head ]]; then
+			$vf $options -h "$head" $files
+		else
+			$vf $options $files
+		fi | cat $tm/tmac.vgrind -
+	else
+		if [[ -n $head ]]; then
+			$vf $options -h "$head" $files
+		else
+			$vf $options $files
+		fi | $TROFF -rx1 $voptions -i -mvgrind 2>>xindex
+	fi
+	sort -df +0 -2 xindex >index
+	rm {n,x}index
+elif [[ $f = filter ]]; then
+	if [[ -n $head ]]; then
+		$vf $options -h "$head" $files
+	else
+		$vf $options $files
+	fi | cat $tm/tmac.vgrind -
 else
-	set troff = "troff"
-endif
-
-set vf=/usr/libexec/vfontedpr
-set tm=/usr/share/tmac
-
-set voptions=
-set options=
-set files=
-set f=''
-set head=""
-
-top:
-if ($#argv > 0) then
-    switch ($1:q)
-
-    case -f:
-	set f='filter'
-	set options = "$options $1:q"
-	shift
-	goto top
-
-    case -t:
-	set voptions = "$voptions -t"
-	shift
-	goto top
-
-    case -o*:
-	set voptions="$voptions $1:q"
-	shift
-	goto top
-
-    case -W:
-	set voptions = "$voptions -W"
-	shift
-	goto top
-
-    case -d:
-	if ($#argv < 2) then
-	    echo "vgrind: $1:q option must have argument"
-	    goto done
+	if [[ -n $head ]]; then
+		$vf $options -h "$head" $files
 	else
-	    set options = ($options $1:q $2)
-	    shift
-	    shift
-	    goto top
-	endif
-			
-    case -h:
-	if ($#argv < 2) then
-	    echo "vgrind: $1:q option must have argument"
-	    goto done
-	else
-	    set head="$2"
-	    shift
-	    shift
-	    goto top
-	endif
-			
-    case -*:
-	set options = "$options $1:q"
-	shift
-	goto top
-
-    default:
-	set files = "$files $1:q"
-	shift
-	goto top
-    endsw
-endif
-if (-r index) then
-    echo > nindex
-    foreach i ($files)
-	#	make up a sed delete command for filenames
-	#	being careful about slashes.
-	echo "? $i ?d" | sed -e "s:/:\\/:g" -e "s:?:/:g" >> nindex
-    end
-    sed -f nindex index >xindex
-    if ($f == 'filter') then
-	if ("$head" != "") then
-	    $vf $options -h "$head" $files | cat $tm/tmac.vgrind -
-	else
-	    $vf $options $files | cat $tm/tmac.vgrind -
-	endif
-    else
-	if ("$head" != "") then
-	    $vf $options -h "$head" $files | \
-		sh -c "$troff -rx1 $voptions -i -mvgrind 2>> xindex"
-	else
-	    $vf $options $files | \
-		sh -c "$troff -rx1 $voptions -i -mvgrind 2>> xindex"
-	endif
-    endif
-    sort -df +0 -2 xindex >index
-    rm nindex xindex
-else
-    if ($f == 'filter') then
-	if ("$head" != "") then
-	    $vf $options -h "$head" $files | cat $tm/tmac.vgrind -
-	else
-	    $vf $options $files | cat $tm/tmac.vgrind -
-	endif
-    else
-	if ("$head" != "") then
-	    $vf $options -h "$head" $files | $troff -i $voptions -mvgrind
-	else
-	    $vf $options $files | $troff -i $voptions -mvgrind
-	endif
-    endif
-endif
-
-done:
+		$vf $options $files
+	fi | $TROFF -i $voptions -mvgrind
+fi

@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.22 2006/03/22 18:43:53 millert Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/Makefile,v 1.3 2005/05/05 00:41:03 tg Exp $
+# $OpenBSD: Makefile,v 1.22 2006/03/22 18:43:53 millert Exp $
 #
 #  Makefile for configuration files.
 #
@@ -11,6 +12,8 @@
 #  have a fairly modern M4 available (GNU m4 works).  On SunOS, use
 #  /usr/5bin/m4.
 #
+# Create configuration files using "m4 ../m4/cf.m4 file.mc >file.cf";
+# this may be easier than tweaking the Makefile.
 
 M4=	/usr/bin/m4
 CFDIR=	${.CURDIR}/..
@@ -31,7 +34,10 @@ RM=	rm -f
 
 ALL=	submit.cf clientproto.cf tcpproto.cf openbsd-localhost.cf \
 	openbsd-proto.cf courtesan.cf courtesan-nonet.cf openbsd-lists.cf \
-	openbsd-bulk.cf lucifier.cf corpse.cf knecht.cf
+	openbsd-bulk.cf knecht.cf
+
+FILES=	access aliases genericstable local-host-names mailertable \
+	relay-domains service.switch trusted-users virtusertable
 
 all: $(ALL)
 
@@ -55,13 +61,40 @@ install:
 		fi; \
 	fi
 
-distribution: openbsd-proto.cf openbsd-localhost.cf submit.cf
-	${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 openbsd-proto.cf \
-	    ${DESTDIR}/etc/mail/sendmail.cf
-	${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 openbsd-localhost.cf \
-	    ${DESTDIR}/etc/mail/localhost.cf
-	${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 submit.cf \
-	    ${DESTDIR}/etc/mail/submit.cf
+distribution: openbsd-proto.cf openbsd-localhost.cf submit.cf \
+    dist-install regen-databases
+
+dist-install:
+	${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 \
+	    openbsd-proto.cf ${DESTDIR}/etc/mail/sendmail.cf
+	${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 \
+	    openbsd-localhost.cf ${DESTDIR}/etc/mail/localhost.cf
+	${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 \
+	    submit.cf ${DESTDIR}/etc/mail/submit.cf
+	cd ${.CURDIR} && ${INSTALL} ${INSTALL_COPY} -o root -g wheel -m 644 \
+	    ${FILES} ${DESTDIR}/etc/mail/
+
+regen-databases:
+	@for dbsource in access aliases genericstable mailertable \
+	    virtusertable userdb; do \
+		db="${DESTDIR}/etc/mail/$$dbsource"; \
+		case $$dbsource in \
+		aliases) \
+			cmd="sendmail -C${DESTDIR}/etc/mail/sendmail.cf \
+			    -bi -O AliasFile=$$db \
+			    -O DontBlameSendmail=mapinunsafedirpath" ;; \
+		userdb) \
+			cmd="makemap btree $${db}.db <$$db" ;; \
+		*) \
+			cmd="makemap hash $${db}.db <$$db" ;; \
+		esac; \
+		if test -e $$db; then \
+			echo $$cmd; \
+			eval $$cmd; \
+		else \
+			true; \
+		fi; \
+	done
 
 # this is overkill, but....
 M4FILES=\

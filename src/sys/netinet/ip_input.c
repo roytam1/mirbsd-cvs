@@ -252,7 +252,7 @@ ip_init()
 	for (i = 0; defbaddynamicports_tcp[i] != 0; i++)
 		DP_SET(baddynamicports.tcp, defbaddynamicports_tcp[i]);
 	for (i = 0; defbaddynamicports_udp[i] != 0; i++)
-		DP_SET(baddynamicports.udp, defbaddynamicports_tcp[i]);
+		DP_SET(baddynamicports.udp, defbaddynamicports_udp[i]);
 
 	strlcpy(ipsec_def_enc, IPSEC_DEFAULT_DEF_ENC, sizeof(ipsec_def_enc));
 	strlcpy(ipsec_def_auth, IPSEC_DEFAULT_DEF_AUTH, sizeof(ipsec_def_auth));
@@ -1431,9 +1431,13 @@ ip_forward(m, srcrt)
 	struct ip *ip = mtod(m, struct ip *);
 	struct sockaddr_in *sin;
 	struct rtentry *rt;
-	int error, type = 0, code = 0, destmtu = 0;
+	int error, type = 0, code = 0;
 	struct mbuf *mcopy;
 	n_long dest;
+	struct ifnet *destifp;
+#ifdef IPSEC
+	struct ifnet dummyifp;
+#endif
 
 	dest = 0;
 #ifdef DIAGNOSTIC
@@ -1450,7 +1454,6 @@ ip_forward(m, srcrt)
 		icmp_error(m, ICMP_TIMXCEED, ICMP_TIMXCEED_INTRANS, dest, 0);
 		return;
 	}
-	ip->ip_ttl -= IPTTLDEC;
 
 	sin = satosin(&ipforward_rt.ro_dst);
 	if ((rt = ipforward_rt.ro_rt) == 0 ||
@@ -1465,7 +1468,7 @@ ip_forward(m, srcrt)
 
 		rtalloc(&ipforward_rt);
 		if (ipforward_rt.ro_rt == 0) {
-			icmp_error(m, ICMP_UNREACH, ICMP_UNREACH_HOST, dest, 0);
+			icmp_error(m, ICMP_UNREACH, ICMP_UNREACH_NET, dest, 0);
 			return;
 		}
 		rt = ipforward_rt.ro_rt;
@@ -1479,6 +1482,8 @@ ip_forward(m, srcrt)
 	mcopy = m_copym(m, 0, imin(ntohs(ip->ip_len), 68), M_DONTWAIT);
 	if (mcopy)
 		mcopy = m_pullup(mcopy, ip->ip_hl << 2);
+
+	ip->ip_ttl -= IPTTLDEC;
 
 	/*
 	 * If forwarding packet using same interface that it came in on,
@@ -1529,6 +1534,7 @@ ip_forward(m, srcrt)
 	}
 	if (mcopy == NULL)
 		return;
+	destifp = NULL;
 
 	switch (error) {
 
@@ -1552,11 +1558,16 @@ ip_forward(m, srcrt)
 #ifdef IPSEC
 		if (ipforward_rt.ro_rt) {
 			struct rtentry *rt = ipforward_rt.ro_rt;
-
-			if (rt->rt_rmx.rmx_mtu)
-				destmtu = rt->rt_rmx.rmx_mtu;
-			else
-				destmtu = ipforward_rt.ro_rt->rt_ifp->if_mtu;
+			destifp = ipforward_rt.ro_rt->rt_ifp;
+			/*
+			 * XXX BUG ALERT
+			 * The "dummyifp" code relies upon the fact
+			 * that icmp_error() touches only ifp->if_mtu.
+			 */
+			if (rt->rt_rmx.rmx_mtu) {
+				dummyifp.if_mtu = rt->rt_rmx.rmx_mtu;
+				destifp = &dummyifp;
+			}
 		}
 #endif /*IPSEC*/
 		ipstat.ips_cantfrag++;
@@ -1580,7 +1591,7 @@ ip_forward(m, srcrt)
 #endif
 	}
 
-	icmp_error(mcopy, type, code, dest, destmtu);
+	icmp_error(mcopy, type, code, dest, destifp);
 }
 
 int

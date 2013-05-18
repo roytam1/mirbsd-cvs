@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/arch/i386/include/exec.h,v 1.4 2006/04/27 20:44:32 tg Exp $ */
 /*	$OpenBSD: exec.h,v 1.9 2003/04/17 03:42:14 drahn Exp $	*/
 /*	$NetBSD: exec.h,v 1.6 1994/10/27 04:16:05 cgd Exp $	*/
 
@@ -33,6 +34,22 @@
 
 #define __LDPGSZ	4096
 
+/* Relocation format for a.out. */
+#ifndef __ELF__
+struct relocation_info_i386 {
+	int r_address;			/* offset in text or data segment */
+	unsigned int r_symbolnum : 24,	/* ordinal number of add symbol */
+			 r_pcrel :  1,	/* 1 if value should be pc-relative */
+			r_length :  2,	/* log base 2 of value's width */
+			r_extern :  1,	/* 1 if need to add symbol to value */
+		       r_baserel :  1,	/* linkage table relative */
+		      r_jmptable :  1,	/* relocate to jump table */
+		      r_relative :  1,	/* load address relative */
+			  r_copy :  1;	/* run time copy */
+};
+#define relocation_info	relocation_info_i386
+#endif
+
 #define NATIVE_EXEC_ELF
 
 #define ARCH_ELFSIZE		32
@@ -42,10 +59,15 @@
 #define ELF_TARG_MACH		EM_386 /* XXX - EM_486 is currently unused
                                           by all OSs/compilers/linkers */
 
-#define _NLIST_DO_AOUT
 #define _NLIST_DO_ELF
-
-#define _KERN_DO_AOUT
 #define _KERN_DO_ELF
+
+#ifndef SMALL_KERNEL
+#define _NLIST_DO_AOUT
+#define _KERN_DO_AOUT
+#if 0
+#define _KERN_DO_ECOFF		/* for ports/plan9/kencc */
+#endif
+#endif
 
 #endif  /* _I386_EXEC_H_ */

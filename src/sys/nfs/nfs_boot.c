@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/nfs/nfs_boot.c,v 1.2 2005/03/06 21:28:29 tg Exp $ */
 /*	$OpenBSD: nfs_boot.c,v 1.16 2004/11/04 13:14:29 pedro Exp $ */
 /*	$NetBSD: nfs_boot.c,v 1.26 1996/05/07 02:51:25 thorpej Exp $	*/
 
@@ -316,10 +317,9 @@ nfs_boot_getfh(bpsin, key, ndmntp, retries)
  * RPC: bootparam/whoami
  * Given client IP address, get:
  *	client name	(hostname)
- *	domain name (domainname)
  *	gateway address
  *
- * The hostname and domainname are set here for convenience.
+ * The hostname is set here for convenience.
  *
  * Note - bpsin is initialized to the broadcast address,
  * and will be replaced with the bootparam server address
@@ -333,6 +333,9 @@ bp_whoami(bpsin, my_ip, gw_ip)
 	struct in_addr *my_ip;
 	struct in_addr *gw_ip;
 {
+	int ldomainnamelen;
+	char ldomainname[MAXHOSTNAMELEN];
+
 	/* RPC structures for PMAPPROC_CALLIT */
 	struct whoami_call {
 		u_int32_t call_prog;
@@ -402,8 +405,8 @@ bp_whoami(bpsin, my_ip, gw_ip)
 		goto bad;
 
 	/* domain name */
-	domainnamelen = MAXHOSTNAMELEN-1;
-	m = xdr_string_decode(m, domainname, &domainnamelen);
+	domainnamelen = 0;
+	m = xdr_string_decode(m, ldomainname, &ldomainnamelen);
 	if (m == NULL)
 		goto bad;
 

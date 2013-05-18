@@ -1,3 +1,4 @@
+/**	$MirOS: src/include/stdio.h,v 1.3 2005/07/25 19:16:10 tg Exp $ */
 /*	$OpenBSD: stdio.h,v 1.32 2005/05/11 18:39:19 espie Exp $	*/
 /*	$NetBSD: stdio.h,v 1.18 1996/04/25 18:29:21 jtc Exp $	*/
 
@@ -45,12 +46,13 @@
 #include <sys/cdefs.h>
 #include <machine/ansi.h>
 
-#ifdef	_BSD_SIZE_T_
-typedef	_BSD_SIZE_T_	size_t;
-#undef	_BSD_SIZE_T_
+#if !defined(_GCC_SIZE_T)
+#define	_GCC_SIZE_T
+typedef	__SIZE_TYPE__	size_t;
 #endif
 
 #ifdef	_BSD_OFF_T_
+/* LONGLONG */
 typedef	_BSD_OFF_T_	off_t;
 #undef	_BSD_OFF_T_
 #endif
@@ -58,8 +60,10 @@ typedef	_BSD_OFF_T_	off_t;
 #ifndef NULL
 #ifdef 	__GNUG__
 #define	NULL	__null
+#elif defined(lint)
+#define	NULL	0
 #else
-#define	NULL	0L
+#define	NULL	((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
 

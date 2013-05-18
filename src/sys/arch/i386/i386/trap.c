@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/arch/i386/i386/trap.c,v 1.2 2005/03/06 21:26:58 tg Exp $ */
 /*	$OpenBSD: trap.c,v 1.62 2004/04/15 00:22:42 tedu Exp $	*/
 /*	$NetBSD: trap.c,v 1.95 1996/05/05 06:50:02 mycroft Exp $	*/
 
@@ -71,24 +72,13 @@
 #include <sys/kgdb.h>
 #endif
 
-#ifdef COMPAT_IBCS2
-#include <compat/ibcs2/ibcs2_errno.h>
-#include <compat/ibcs2/ibcs2_exec.h>
-extern struct emul emul_ibcs2;
-#endif
 #include <sys/exec.h>
 #ifdef COMPAT_LINUX
 #include <compat/linux/linux_syscall.h>
 extern struct emul emul_linux_aout, emul_linux_elf;
 #endif
-#ifdef COMPAT_FREEBSD
-extern struct emul emul_freebsd_aout, emul_freebsd_elf;
-#endif
-#ifdef COMPAT_BSDOS
-extern struct emul emul_bsdos;
-#endif
-#ifdef COMPAT_AOUT
-extern struct emul emul_aout;
+#ifdef COMPAT_OPENBSD
+extern struct emul emul_openbsd, emul_openbsd_aout;
 #endif
 
 #include "npx.h"
@@ -126,11 +116,11 @@ userret(p, pc, oticks)
 	/*
 	 * If profiling, charge recent system time to the trapped pc.
 	 */
-	if (p->p_flag & P_PROFIL) { 
+	if (p->p_flag & P_PROFIL) {
 		extern int psratio;
 
 		addupc_task(p, pc, (int)(p->p_sticks - oticks) * psratio);
-	}                   
+	}
 
 	curpriority = p->p_priority;
 }
@@ -367,25 +357,12 @@ trap(frame)
 		}
 		goto out;
 
-	case T_DNA|T_USER: {
-#if defined(GPL_MATH_EMULATE)
-		int rv;
-		if ((rv = math_emulate(&frame)) == 0) {
-			if (frame.tf_eflags & PSL_T)
-				goto trace;
-			return;
-		}
-		sv.sival_int = frame.tf_eip;
-		trapsignal(p, rv, type &~ T_USER, FPE_FLTINV, sv);
-		goto out;
-#else
+	case T_DNA|T_USER:
 		printf("pid %d killed due to lack of floating point\n",
 		    p->p_pid);
 		sv.sival_int = frame.tf_eip;
 		trapsignal(p, SIGKILL, type &~ T_USER, FPE_FLTINV, sv);
 		goto out;
-#endif
-	}
 
 	case T_BOUND|T_USER:
 		sv.sival_int = frame.tf_eip;
@@ -503,9 +480,6 @@ trap(frame)
 		trapsignal(p, SIGTRAP, type &~ T_USER, TRAP_BRKPT, sv);
 		break;
 	case T_TRCTRAP|T_USER:		/* trace trap */
-#if defined(GPL_MATH_EMULATE)
-	trace:
-#endif
 		sv.sival_int = rcr2();
 		trapsignal(p, SIGTRAP, type &~ T_USER, TRAP_TRACE, sv);
 		break;
@@ -608,11 +582,6 @@ syscall(frame)
 	nsys = p->p_emul->e_nsysent;
 	callp = p->p_emul->e_sysent;
 
-#ifdef COMPAT_IBCS2
-	if (p->p_emul == &emul_ibcs2)
-		if (IBCS2_HIGH_SYSCALL(code))
-			code = IBCS2_CVT_HIGH_SYSCALL(code);
-#endif
 	params = (caddr_t)frame.tf_esp + sizeof(int);
 
 #ifdef VM86
@@ -646,15 +615,9 @@ syscall(frame)
 		 * quad alignment for the rest of the arguments.
 		 */
 		if (callp != sysent
-#ifdef COMPAT_FREEBSD
-		    && p->p_emul != &emul_freebsd_aout
-		    && p->p_emul != &emul_freebsd_elf
-#endif
-#ifdef COMPAT_AOUT
-		    && p->p_emul != &emul_aout
-#endif
-#ifdef COMPAT_BSDOS
-		    && p->p_emul != &emul_bsdos
+#ifdef COMPAT_OPENBSD
+		    && p->p_emul != &emul_openbsd
+		    && p->p_emul != &emul_openbsd_aout
 #endif
 		    )
 			break;

@@ -1,5 +1,5 @@
-#!/bin/sh -
-#
+#!/bin/mksh
+# $MirOS$
 # $OpenBSD: zmore,v 1.4 2003/07/29 07:42:45 otto Exp $
 #
 # Copyright (c) 2003 Todd C. Miller <Todd.Miller@courtesan.com>

@@ -1,89 +1,83 @@
-From deraadt@do-not-reply.openbsd.org Sat May 19 11:48:48 MDT 2005
-Return-Path: root
-Date: May 19 11:48:48 MDT 2005
-From: deraadt@do-not-reply.openbsd.org (Theo de Raadt)
+From mirabile@do-not-reply.66h.42h.de Thu May 26 21:49:31 2005 +0000
+X-RCSId: $MirOS: src/etc/root/root.mail,v 1.6 2006/01/13 03:49:30 tg Exp $
+Date: Thu, 26 May 2005 21:49:30 +0000 (UTC)
+From: MirOS Project <mirabile@do-not-reply.mirbsd.org>
 To: root
-Subject: Welcome to OpenBSD 3.7!  Secure by Default!
+Subject: Welcome to MirOS #8 - the innovative BSD experience!
 
-This message attempts to describe the most basic initial questions that a
-system administrator of an OpenBSD box might have.  You are urged to save
-this message for later reference.
+Welcome on your newly installed MirOS system.
 
-For more information on how to set up your OpenBSD system, refer to the
-"afterboot" man page (i.e. after you exit the mail subsystem, type
-"man afterboot").  If you are not familiar with how to read man pages, type
-"man man" at a shell prompt and read the entire thing.  Pay specific
-attention to the "man -k keyword" option, which will permit you to find the
-man page you are looking for more easily; for instance, "man -k ethernet".  The
-GNU "info" subsystem is also installed with further documentation resources:
-to read info pages type "info".  (The info subsystem behaves like the
-popular emacs editor.)
+This is the formal release of MirOS #8 BSD, GCC and X11,
+with a snapshot of the current MirPorts Framework added.
 
-Again, PLEASE READ THE MANUAL PAGES.  Our developers have spent countless
-hours improving them so that they are clear and precise.
+If you're no Unix® guru, you probably will not be reading
+this or installing MirOS anyway, but what the hack, if you
+didn't know them already:
 
-If you have installed the X11 packages during the install process, you can find
-further information regarding configuration in the file /usr/X11R6/README.
+The on-line documentation system "man" can be run by simply
+typing the word "man" on the command line followed by the
+command or topic on which you want help. For example, man's
+documentation can be retrieved by typing
+$ man man
+and for a very basic help, you can simply type
+$ help
+as a special short alias.
 
-Several popular binary packages (pre-compiled applications) are available
-for most architectures.  If you installed from a CD-ROM the packages
-are on the same CD-ROM you installed from in the directory 3.7/packages.
+Do not type in the '$' sign, it's the prompt shown by your
+shell. A '$' means the user shell, while a '#' means the
+root shell (although you should be using sudo(1) anyway).
 
-CD-ROM space permitted us to include a subset of the full FTP packages
-for the most common architectures.  Please see the FTP sites to see a
-full list of packages for each architecture:
+If you read 'sudo(1)' you know that the command 'sudo' is
+in man section 1 - this is important because sometimes a
+command and a library function have the same name. To read
+help for sudo(1) type
+$ man 1 sudo
 
-	ftp://ftp.openbsd.org/pub/OpenBSD/3.7/packages/
+You should read afterboot(8) for more basic instructions,
+and use lynx(1) to connect to the MirOS Project's web site
+regarding set-up instructions:
+	http://mirbsd.de/welcome
 
-If you do not find a package you want on the CD, please go look at your
-nearest FTP mirror site.
+For some programmes, info(1) is the preferred documentation
+format - these are utilities from the GNU project, which are
+also covered by different, slightly less free, licence terms.
+Please take your time to read the file
+	/usr/share/doc/legal/1stREAD
+and the linked files, for example using less(1) as pager.
 
-Select your architecture and download the tarballs of your choice.  For example
-to install the emacs package for i386, execute:
- # mount /dev/cd0a /cdrom
- # pkg_add -v /cdrom/3.7/packages/i386/emacs-21.3.tgz
-or alternatively install them via FTP this way:
- # pkg_add -v ftp://ftp.openbsd.org/pub/OpenBSD/3.7/packages/i386/emacs-21.3.tgz
+If you have further questions, please do not hesitate to
+contact the MirOS project, for example by using our public
+discussion mailing list (instructions on the website), also
+available via the GMane mailinglist-to-{news,web,RSS} service
+under "gmane.os.miros.general", or by Internet Relay Chat on
+the Freeforge network, Channel #mirbsd (for example on the
+server irc.66h.42h.de:6667 or 6666, or 6668 with SSL).
 
-You are STRONGLY urged to use ssh instead of telnet, rlogin, or rsh!  ssh is
-included in all OpenBSD systems.  The implementation is OpenSSH, which we are
-the developers of.  For more information, see
-	http://www.OpenSSH.com
+To install the MirPorts Framework, please follow the setup
+instructions on http://mirbsd.de/ports, but
+we try to stay backwards-compatible enough to enable you to:
+$ cd /usr/ports
+$ make setup
+$ cd /usr/ports/editors/joe
+$ mmake install clean
+after having installed the 'ports8.ngz' distribution set and
+upgrading ports via CVS, or checking them out freshly. You
+can (and probably should) be using ports-current for quite a
+while after the release. Please remember that you always have
+to use 'mmake' instead of 'make' to build a port. Packages
+are installed into /usr/mpkg, thus you can for example do this:
+$ echo export EDITOR=/usr/mpkg/bin/jupp >>~/.profile
+after executing the four commands above, to use the editor.
 
-Significant efforts were made to centralize all system configuration in the
-/etc directory.  You should be able to find each of the configuration files
-you seek there, lightly documented.  In particular, much of the configuration
-has been centralized in the file /etc/rc.conf.  You should not need to ever
-edit the file /etc/rc.   The files /etc/rc.securelevel and /etc/rc.local exist
-for this purpose; the first is run before the system has gone into secure
-mode; the second is run afterwards (if in doubt, add your tools to rc.local).
+We would like to wish you to have good luck and a lot of
+fun with your newly installed MirOS system!
 
-Please refer to our web pages for any other questions you might have.
-	http://www.OpenBSD.org
-Please pay special attention to the Frequently Asked Questions section at
-	http://www.OpenBSD.org/faq/
-
-OpenBSD is free software.  You can do with it as you like, subject to very few
-conditions (described at www.OpenBSD.org/policy.html).  But free software isn't
-written without money.  Network links, hardware costs, release engineering and
-testing work all take money and significant effort on the part of those who
-have made this OpenBSD release what it is.  Please reward the developers who
-have made OpenBSD what it is, and thus make it possible for this wonderful
-process to continue.  For more information on how you can help, please see
-www.OpenBSD.org/goals.html and visit www.OpenBSD.org/donations.html to see a
-list of those who have donated money, equipment, or other resources to ensure
-OpenBSD continues.
-
-If you wish to ensure that OpenBSD runs better on your machines, please do us
-a favor (after you have your mail system configured!) and type something like:
- # dmesg | mail -s "Sony VAIO 505R laptop, apm works OK" dmesg@openbsd.org
-so that we can see what kinds of configurations people are running.  As shown,
-including a bit of information about your machine in the subject or the body
-can help us even further.  We will use this information to improve device driver
-support in future releases.  (Please do this using the supplied GENERIC kernel,
-not for a custom compiled kernel, unless you're unable to boot the GENERIC
-kernel.)  The device driver information we get from this helps us fix existing
-drivers. Thank you!
+//mirabile, Head Developer
+-- 
+I believe no one can invent an algorithm. One just happens to hit upon it
+when God enlightens him. Or only God invents algorithms, we merely copy them.
+If you don't believe in God, just consider God as Nature if you won't deny
+existence.		-- Coywolf Qi Hunt
 
 (If you used 'mail' to read this message and it scrolled by too quickly,
 type "more ."  If you wish to save it, use the "x" command.)

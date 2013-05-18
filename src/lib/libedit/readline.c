@@ -1,5 +1,6 @@
+/**	$MirOS: src/lib/libedit/readline.c,v 1.6 2005/04/19 19:14:53 tg Exp $ */
 /*	$OpenBSD: readline.c,v 1.2 2003/11/25 20:12:38 otto Exp $ */
-/*	$NetBSD: readline.c,v 1.43 2003/11/03 03:22:55 christos Exp $	*/
+/*	$NetBSD: readline.c,v 1.52 2005/04/19 03:29:18 christos Exp $	*/
 
 /*-
  * Copyright (c) 1997 The NetBSD Foundation, Inc.
@@ -38,12 +39,10 @@
  */
 
 #include "config.h"
-#if !defined(lint) && !defined(SCCSID)
-static const char rcsid[] = "$OpenBSD";
-#endif /* not lint && not SCCSID */
 
 #include <sys/types.h>
 #include <sys/stat.h>
+#include <sys/ioctl.h>
 #include <stdio.h>
 #include <dirent.h>
 #include <string.h>
@@ -62,11 +61,13 @@ static const char rcsid[] = "$OpenBSD";
 #ifdef HAVE_ALLOCA_H
 #include <alloca.h>
 #endif
-#include "histedit.h"
-#include "readline/readline.h"
 #include "el.h"
-#include "tokenizer.h"
 #include "fcns.h"		/* for EL_NUM_FCNS */
+#include "histedit.h"
+#include "term.h"
+#include "readline/readline.h"
+
+__RCSID("$MirOS: src/lib/libedit/readline.c,v 1.6 2005/04/19 19:14:53 tg Exp $");
 
 /* for rl_complete() */
 #define TAB		'\r'
@@ -87,7 +88,7 @@ FILE *rl_outstream = NULL;
 int rl_point = 0;
 int rl_end = 0;
 char *rl_line_buffer = NULL;
-VFunction *rl_linefunc = NULL;
+VFunctionC *rl_linefunc = NULL;
 int rl_done = 0;
 VFunction *rl_event_hook = NULL;
 
@@ -163,15 +164,17 @@ static int el_rl_complete_cmdnum = 0;
 
 /* internal functions */
 static unsigned char	 _el_rl_complete(EditLine *, int);
+static unsigned char	 _el_rl_tstp(EditLine *, int);
 static char		*_get_prompt(EditLine *);
 static HIST_ENTRY	*_move_history(int);
 static int		 _history_expand_command(const char *, size_t, size_t,
     char **);
 static char		*_rl_compat_sub(const char *, const char *,
     const char *, int);
-static int		 rl_complete_internal(int);
+static int		 _rl_complete_internal(int);
 static int		 _rl_qsort_string_compare(const void *, const void *);
 static int		 _rl_event_read_char(EditLine *, char *);
+static void		 _rl_update_pos(void);
 
 
 /* ARGSUSED */
@@ -274,6 +277,15 @@ rl_initialize(void)
 	    "ReadLine compatible completion function",
 	    _el_rl_complete);
 	el_set(e, EL_BIND, "^I", "rl_complete", NULL);
+
+	/*
+	 * Send TSTP when ^Z is pressed.
+	 */
+	el_set(e, EL_ADDFN, "rl_tstp",
+	    "ReadLine compatible suspend function",
+	    _el_rl_tstp);
+	el_set(e, EL_BIND, "^Z", "rl_tstp", NULL);
+
 	/*
 	 * Find out where the rl_complete function was added; this is
 	 * used later to detect that lastcmd was also rl_complete.
@@ -284,7 +296,7 @@ rl_initialize(void)
 			break;
 		}
 	}
-		
+
 	/* read settings from configuration file */
 	el_source(e, NULL);
 
@@ -295,7 +307,7 @@ rl_initialize(void)
 	li = el_line(e);
 	/* a cheesy way to get rid of const cast. */
 	rl_line_buffer = memchr(li->buffer, *li->buffer, 1);
-	rl_point = rl_end = 0;
+	_rl_update_pos();
 
 	if (rl_startup_hook)
 		(*rl_startup_hook)(NULL, 0);
@@ -1377,6 +1389,10 @@ tilde_expand(char *txt)
 	struct passwd *pass;
 	char *temp;
 	size_t len = 0;
+#ifdef __NetBSD__
+	struct passwd pwres;
+	char pwbuf[1024];
+#endif
 
 	if (txt[0] != '~')
 		return (strdup(txt));
@@ -1394,7 +1410,12 @@ tilde_expand(char *txt)
 		(void)strncpy(temp, txt + 1, len - 2);
 		temp[len - 2] = '\0';
 	}
+#ifdef __NetBSD__
+	if (getpwnam_r(temp, &pwres, pwbuf, sizeof(pwbuf), &pass) != 0)
+		pass = NULL;
+#else
 	pass = getpwnam(temp);
+#endif
 	free(temp);		/* value no more needed */
 	if (pass == NULL)
 		return (strdup(txt));
@@ -1421,7 +1442,7 @@ tilde_expand(char *txt)
  * it's caller's responsibility to free returned string
  */
 char *
-filename_completion_function(const char *text, int state)
+rl_filename_completion_function(const char *text, int state)
 {
 	static DIR *dir = NULL;
 	static char *filename = NULL, *dirname = NULL;
@@ -1549,9 +1570,13 @@ filename_completion_function(const char *text, int state)
  * it's callers responsibility to free returned value
  */
 char *
-username_completion_function(const char *text, int state)
+rl_username_completion_function(const char *text, int state)
 {
 	struct passwd *pwd;
+#ifdef __NetBSD__
+	struct passwd pwres;
+	char pwbuf[1024];
+#endif
 
 	if (text[0] == '\0')
 		return (NULL);
@@ -1562,8 +1587,14 @@ username_completion_function(const char *text, int state)
 	if (state == 0)
 		setpwent();
 
+#ifdef __NetBSD__
+	while (getpwent_r(&pwres, pwbuf, sizeof(pwbuf), &pwd) == 0
+	    && pwd != NULL && text[0] == pwd->pw_name[0]
+	    && strcmp(text, pwd->pw_name) == 0);
+#else
 	while ((pwd = getpwent()) && text[0] == pwd->pw_name[0]
 	    && strcmp(text, pwd->pw_name) == 0);
+#endif
 
 	if (pwd == NULL) {
 		endpwent();
@@ -1583,6 +1614,16 @@ _el_rl_complete(EditLine *el __attribute__((__unused__)), int ch)
 	return (unsigned char) rl_complete(0, ch);
 }
 
+/*
+ * el-compatible wrapper to send TSTP on ^Z
+ */
+/* ARGSUSED */
+static unsigned char
+_el_rl_tstp(EditLine *el __attribute__((__unused__)), int ch __attribute__((__unused__)))
+{
+	(void)kill(0, SIGTSTP);
+	return CC_NORM;
+}
 
 /*
  * returns list of completions for text given
@@ -1710,7 +1751,7 @@ rl_display_match_list (matches, len, max)
  * Note: '*' support is not implemented
  */
 static int
-rl_complete_internal(int what_to_do)
+_rl_complete_internal(int what_to_do)
 {
 	Function *complet_func;
 	const LineInfo *li;
@@ -1725,7 +1766,7 @@ rl_complete_internal(int what_to_do)
 
 	complet_func = rl_completion_entry_function;
 	if (!complet_func)
-		complet_func = (Function *)(void *)filename_completion_function;
+		complet_func = (Function *)(void *)rl_filename_completion_function;
 
 	/* We now look backwards for the start of a filename/variable word */
 	li = el_line(e);
@@ -1743,8 +1784,7 @@ rl_complete_internal(int what_to_do)
 
 	/* these can be used by function called in completion_matches() */
 	/* or (*rl_attempted_completion_function)() */
-	rl_point = li->cursor - li->buffer;
-	rl_end = li->lastchar - li->buffer;
+	_rl_update_pos();
 
 	if (rl_attempted_completion_function) {
 		int end = li->cursor - li->buffer;
@@ -1752,8 +1792,12 @@ rl_complete_internal(int what_to_do)
 		    (end - len), end);
 	} else
 		matches = 0;
-	if (!rl_attempted_completion_function || !matches)
+	if (!rl_attempted_completion_function ||
+	     (!rl_attempted_completion_over && !matches))
 		matches = completion_matches(temp, (CPFunction *)complet_func);
+
+	if (rl_attempted_completion_over)
+		rl_attempted_completion_over = 0;
 
 	if (matches) {
 		int i, retval = CC_REFRESH;
@@ -1779,7 +1823,7 @@ rl_complete_internal(int what_to_do)
 			 */
 			size_t alen = strlen(matches[0]);
 			if ((complet_func !=
-			    (Function *)filename_completion_function
+			    (Function *)rl_filename_completion_function
 			      || (alen > 0 && (matches[0])[alen - 1] != '/'))
 			    && rl_completion_append_character) {
 				char buf[2];
@@ -1800,7 +1844,7 @@ rl_complete_internal(int what_to_do)
 					maxlen = match_len;
 			}
 			matches_num = i - 1;
-				
+
 			/* newline to get on next line from command line */
 			(void)fprintf(e->el_outfile, "\n");
 
@@ -1851,20 +1895,24 @@ rl_complete_internal(int what_to_do)
  * complete word at current point
  */
 int
+/*ARGSUSED*/
 rl_complete(int ignore, int invoking_key)
 {
 	if (h == NULL || e == NULL)
 		rl_initialize();
 
 	if (rl_inhibit_completion) {
-		rl_insert(ignore, invoking_key);
+		char arr[2];
+		arr[0] = (char)invoking_key;
+		arr[1] = '\0';
+		el_insertstr(e, arr);
 		return (CC_REFRESH);
 	} else if (e->el_state.lastcmd == el_rl_complete_cmdnum)
-		return rl_complete_internal('?');
+		return _rl_complete_internal('?');
 	else if (_rl_complete_show_all)
-		return rl_complete_internal('!');
+		return _rl_complete_internal('!');
 	else
-		return (rl_complete_internal(TAB));
+		return _rl_complete_internal(TAB);
 }
 
 
@@ -1959,6 +2007,9 @@ rl_bind_wrapper(EditLine *el, unsigned char c)
 {
 	if (map[c] == NULL)
 	    return CC_ERROR;
+
+	_rl_update_pos();
+
 	(*map[c])(NULL, c);
 
 	/* If rl_done was set by the above call, deal with it here */
@@ -2002,12 +2053,13 @@ rl_callback_read_char()
 			wbuf[count] = '\0';
 		} else
 			wbuf = NULL;
-		(*(void (*)(const char *))rl_linefunc)(wbuf);
+		(*rl_linefunc)(wbuf);
+		el_set(e, EL_UNBUFFERED, 1);
 	}
 }
 
-void 
-rl_callback_handler_install (const char *prompt, VFunction *linefunc)
+void
+rl_callback_handler_install (const char *prompt, VFunctionC *linefunc)
 {
 	if (e == NULL) {
 		rl_initialize();
@@ -2017,9 +2069,9 @@ rl_callback_handler_install (const char *prompt, VFunction *linefunc)
 	rl_prompt = prompt ? strdup(strchr(prompt, *prompt)) : NULL;
 	rl_linefunc = linefunc;
 	el_set(e, EL_UNBUFFERED, 1);
-}   
+}
 
-void 
+void
 rl_callback_handler_remove(void)
 {
 	el_set(e, EL_UNBUFFERED, 0);
@@ -2072,10 +2124,20 @@ rl_parse_and_bind(const char *line)
 	Tokenizer *tok;
 
 	tok = tok_init(NULL);
-	tok_line(tok, line, &argc, &argv);
+	tok_str(tok, line, &argc, &argv);
 	argc = el_parse(e, argc, argv);
 	tok_end(tok);
 	return (argc ? 1 : 0);
+}
+
+int
+rl_variable_bind(const char *var, const char *value)
+{
+	/*
+	 * The proper return value is undocument, but this is what the
+	 * readline source seems to do.
+	 */
+	return ((el_set(e, EL_BIND, "", var, value) == -1) ? 1 : 0);
 }
 
 void
@@ -2128,4 +2190,29 @@ _rl_event_read_char(EditLine *el, char *cp)
 	if (!rl_event_hook)
 		el_set(el, EL_GETCFN, EL_BUILTIN_GETCFN);
 	return(num_read);
+}
+
+static void
+_rl_update_pos(void)
+{
+	const LineInfo *li = el_line(e);
+
+	rl_point = li->cursor - li->buffer;
+	rl_end = li->lastchar - li->buffer;
+}
+
+void
+rl_get_screen_size (int *lins, int *cols)
+{
+	extern void _rl__term_get_size(EditLine *, int *, int *);
+
+	_rl__term_get_size(e, lins, cols);
+}
+
+void
+rl_set_screen_size(int lins, int cols)
+{
+	extern void _rl__term_change_size(EditLine *, int, int);
+
+	_rl__term_change_size(e, lins, cols);
 }

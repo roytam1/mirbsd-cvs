@@ -1,16 +1,26 @@
-#	$OpenBSD: bsd.sys.mk,v 1.8 2000/07/06 23:12:41 millert Exp $
-#	$NetBSD: bsd.sys.mk,v 1.2 1995/12/13 01:25:07 cgd Exp $
-#
-# Overrides used for OpenBSD source tree builds.
+# $MirOS: src/share/mk/bsd.sys.mk,v 1.5 2006/01/31 13:42:47 tg Exp $
+# $OpenBSD: bsd.sys.mk,v 1.8 2000/07/06 23:12:41 millert Exp $
+# $NetBSD: bsd.sys.mk,v 1.2 1995/12/13 01:25:07 cgd Exp $
 
-#CFLAGS+= -Werror
+.if !defined(BSD_SYS_MK)
+BSD_SYS_MK=1
 
-.if defined(DESTDIR)
-CPPFLAGS+= -nostdinc -idirafter ${DESTDIR}/usr/include
-CXXFLAGS+= -idirafter ${DESTDIR}/usr/include/g++
-.endif
+# The following is only wanted for source tree builds, not MirPorts
+.ifndef TRUEPREFIX
 
-.if defined(PARALLEL)
+.  if !defined(EXPERIMENTAL)
+CFLAGS+=	-Werror
+COMPILE.c:=	GCC_HONOUR_COPTS=2 ${COMPILE.c}
+.  endif
+
+.  if defined(DESTDIR)
+CPPFLAGS+=	-nostdinc -isystem ${DESTDIR}/usr/include
+CXXFLAGS+=	-isystem ${DESTDIR}/usr/include/gxx \
+		-isystem ${DESTDIR}/usr/include/gxx/${OStriplet} \
+		-isystem ${DESTDIR}/usr/include/gxx/backward
+.  endif
+
+.  if defined(PARALLEL)
 # Lex
 .l:
 	${LEX.l} -o${.TARGET:R}.yy.c ${.IMPSRC}
@@ -20,7 +30,7 @@ CXXFLAGS+= -idirafter ${DESTDIR}/usr/include/g++
 	${LEX.l} -o${.TARGET} ${.IMPSRC}
 .l.o:
 	${LEX.l} -o${.TARGET:R}.yy.c ${.IMPSRC}
-	${COMPILE.c} -o ${.TARGET} ${.TARGET:R}.yy.c 
+	${COMPILE.c} -o ${.TARGET} ${.TARGET:R}.yy.c
 	rm -f ${.TARGET:R}.yy.c
 
 # Yacc
@@ -35,4 +45,8 @@ CXXFLAGS+= -idirafter ${DESTDIR}/usr/include/g++
 	${YACC.y} -b ${.TARGET:R} ${.IMPSRC}
 	${COMPILE.c} -o ${.TARGET} ${.TARGET:R}.tab.c
 	rm -f ${.TARGET:R}.tab.c
+.  endif
+
+.endif
+
 .endif

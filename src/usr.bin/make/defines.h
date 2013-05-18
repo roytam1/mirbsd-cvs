@@ -1,7 +1,7 @@
 #ifndef DEFINES_H
 #define DEFINES_H
 
-/*	$OpenPackages$ */
+/**	$MirOS: src/usr.bin/make/defines.h,v 1.4 2005/11/24 13:20:32 tg Exp $ */
 /*	$OpenBSD: defines.h,v 1.2 2002/02/19 19:39:38 millert Exp $ */
 
 /*
@@ -28,6 +28,12 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+#ifdef __OpenBSD__
+#ifndef HAS_STDBOOL_H
+#define HAS_STDBOOL_H
+#endif
+#endif
 
 #ifdef HAS_STDBOOL_H
 # include <stdbool.h>
@@ -96,5 +102,9 @@ extern int debug;
 #define CONCAT(a,b)	a##b
 
 #define DEBUG(module)	(debug & CONCAT(DEBUG_,module))
+
+#ifndef	__RCSID
+#define	__RCSID(x)	static const char __rcsid[] = x
+#endif
 
 #endif

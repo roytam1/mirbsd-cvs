@@ -22,7 +22,9 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/dispatch.c,v 1.3 2006/04/19 10:40:47 tg Exp $");
 
 #include "ssh1.h"
 #include "ssh2.h"
@@ -37,7 +39,8 @@
 dispatch_fn *dispatch[DISPATCH_MAX];
 
 void
-dispatch_protocol_error(int type, u_int32_t seq, void *ctxt)
+dispatch_protocol_error(int type, u_int32_t seq,
+    void *ctxt __attribute__((unused)))
 {
 	logit("dispatch_protocol_error: type %d seq %u", type, seq);
 	if (!compat20)
@@ -48,7 +51,8 @@ dispatch_protocol_error(int type, u_int32_t seq, void *ctxt)
 	packet_write_wait();
 }
 void
-dispatch_protocol_ignore(int type, u_int32_t seq, void *ctxt)
+dispatch_protocol_ignore(int type, u_int32_t seq,
+    void *ctxt __attribute__((unused)))
 {
 	logit("dispatch_protocol_ignore: type %d seq %u", type, seq);
 }

@@ -200,8 +200,10 @@ pcap_live(const char *device, int snaplen, int promisc, u_int dlt)
 		/* this is allowed to fail */
 		ioctl(fd, BIOCPROMISC, NULL);
 
+#ifdef BIOCSDLT
 	if (dlt != (u_int) -1 && ioctl(fd, BIOCSDLT, &dlt))
 		goto error;
+#endif
 
 	/* lock the descriptor */
 	if (ioctl(fd, BIOCLOCK, NULL) < 0)

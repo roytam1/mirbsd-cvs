@@ -1,12 +1,13 @@
+/**	$MirOS: src/lib/libz/compress.c,v 1.5 2005/07/24 23:02:50 tg Exp $ */
 /*	$OpenBSD: compress.c,v 1.6 2005/07/20 15:56:41 millert Exp $	*/
 /* compress.c -- compress a memory buffer
  * Copyright (C) 1995-2003 Jean-loup Gailly.
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
+#include "zutil.h"
 
-#define ZLIB_INTERNAL
-#include "zlib.h"
+zRCSID("$MirOS: src/lib/libz/compress.c,v 1.5 2005/07/24 23:02:50 tg Exp $")
 
 /* ===========================================================================
      Compresses the source buffer into the destination buffer. The level
@@ -29,12 +30,8 @@ int ZEXPORT compress2 (dest, destLen, source, sourceLen, level)
     z_stream stream;
     int err;
 
-    stream.next_in = (Bytef*)source;
+    stream.next_in = source;
     stream.avail_in = (uInt)sourceLen;
-#ifdef MAXSEG_64K
-    /* Check for source > 64K on 16-bit machine: */
-    if ((uLong)stream.avail_in != sourceLen) return Z_BUF_ERROR;
-#endif
     stream.next_out = dest;
     stream.avail_out = (uInt)*destLen;
     if ((uLong)stream.avail_out != *destLen) return Z_BUF_ERROR;

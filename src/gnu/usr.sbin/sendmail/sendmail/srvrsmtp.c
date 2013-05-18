@@ -17,6 +17,7 @@
 # include <libmilter/mfdef.h>
 #endif /* MILTER */
 
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/srvrsmtp.c,v 1.3 2005/04/26 21:04:42 tg Exp $");
 SM_RCSID("@(#)$Sendmail: srvrsmtp.c,v 8.922 2006/02/28 00:42:13 ca Exp $")
 
 #include <sm/time.h>
@@ -485,7 +486,7 @@ smtp(nullserver, d_flags, e)
 	SMTP_T smtp;
 	char *addr;
 	char *greetcode = "220";
-	char *hostname;			/* my hostname ($j) */
+	char *hostname = NULL;			/* my hostname ($j) */
 	QUEUE_CHAR *new;
 	int argno;
 	char *args[MAXSMTPARGS];
@@ -2079,7 +2080,8 @@ smtp(nullserver, d_flags, e)
 					message("250-VERB");
 			}
 #if MIME8TO7
-			message("250-8BITMIME");
+			if (!save_sevenbitinput)
+				message("250-8BITMIME");
 #endif /* MIME8TO7 */
 			if (MaxMessageSize > 0)
 				message("250-SIZE %ld", MaxMessageSize);

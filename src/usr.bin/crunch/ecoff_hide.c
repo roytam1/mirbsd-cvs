@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: ecoff_hide.c,v 1.3 2003/06/03 21:08:59 deraadt Exp $	 */
 
 /*-
@@ -29,6 +30,7 @@
 #ifdef _NLIST_DO_ECOFF
 #include <sys/exec_ecoff.h>
 #include <string.h>
+__RCSID("$MirOS$");
 
 /* Do we have these symbols in any include file?  */
 #define scText		1

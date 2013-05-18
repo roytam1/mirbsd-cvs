@@ -94,8 +94,8 @@ summary(void)
 		iov[i++].iov_len = strlen(buf[2]);
 	}
 	(void)snprintf(buf[3], sizeof(buf[3]),
-	    "%qd bytes transferred in %ld.%03ld secs (%0.0f bytes/sec)\n",
-	    (long long)st.bytes, nowtv.tv_sec, nowtv.tv_usec / 1000,
+	    "%qd bytes transferred in %lld.%03ld secs (%0.0f bytes/sec)\n",
+	    (long long)st.bytes, (int64_t)nowtv.tv_sec, nowtv.tv_usec / 1000,
 	    ((double)st.bytes * 1000000) / microsecs);
 
 	iov[i].iov_base = buf[3];

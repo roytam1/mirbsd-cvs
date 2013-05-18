@@ -1,3 +1,4 @@
+/* $MirOS: src/usr.bin/ssh/kex.h,v 1.3 2006/04/19 10:40:48 tg Exp $ */
 /* $OpenBSD: kex.h,v 1.42 2006/04/20 09:27:09 djm Exp $ */
 
 /*
@@ -125,7 +126,7 @@ struct Kex {
 	void	(*kex[KEX_MAX])(Kex *);
 };
 
-Kex	*kex_setup(char *[PROPOSAL_MAX]);
+Kex	*kex_setup(const char *[PROPOSAL_MAX]);
 void	 kex_finish(Kex *);
 
 void	 kex_send_kexinit(Kex *);

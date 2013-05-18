@@ -1,7 +1,12 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: lptvar.h,v 1.3 2002/03/14 01:26:54 millert Exp $ */
 /*	$NetBSD: lpt.c,v 1.42 1996/10/21 22:41:14 thorpej Exp $	*/
 
 /*
+ * Copyright (c) 2003 Thorsten Glaser.
+ * Copyright (c) 1999 Pablo Ruiz Garcia.
+ * Copyright (c) 1994 Matthias Pfaller.
+ * Copyright (c) 1994 Poul-Henning Kamp
  * Copyright (c) 1993, 1994 Charles Hannum.
  * Copyright (c) 1990 William F. Jolitz, TeleMuse
  * All rights reserved.
@@ -50,6 +55,9 @@
  * SUCH DAMAGE.
  */
 
+#ifndef	_SYS_DEV_IC_LPTVAR_H
+#define	_SYS_DEV_IC_LPTVAR_H
+
 #include <sys/timeout.h>
 
 struct lpt_softc {
@@ -74,9 +82,27 @@ struct lpt_softc {
 #define	LPT_NOINTR	0x80	/* do not use interrupt */
 	u_int8_t sc_control;
 	u_int8_t sc_laststatus;
+
+#if defined(INET) && defined(PLIP)
+#ifdef	__NetBSD__
+	struct ethercom	sc_ethercom;
+#else
+	struct arpcom	sc_arpcom;
+#endif
+	struct timeout	sc_pliptimeout;
+	u_char		*sc_ifbuf;
+	int		sc_ifierrs;	/* consecutive input errors */
+	int		sc_ifoerrs;	/* consecutive output errors */
+	int		sc_ifsoftint;	/* i/o software interrupt */
+	volatile int	sc_pending;	/* interrputs pending */
+#define PLIP_IPENDING	1
+#define PLIP_OPENDING	2
+#endif
 };
 
 int	lptintr(void *);
 int	lpt_port_test(bus_space_tag_t, bus_space_handle_t, bus_addr_t,
 	    bus_size_t, u_int8_t, u_int8_t);
 void	lpt_attach_common(struct lpt_softc *);
+
+#endif	/* ndef _SYS_DEV_IC_LPTVAR_H */

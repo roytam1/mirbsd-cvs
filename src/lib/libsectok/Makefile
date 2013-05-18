@@ -1,10 +1,15 @@
+# $MirOS: src/lib/libsectok/Makefile,v 1.2 2005/03/06 20:29:22 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2001/08/03 20:02:36 jakob Exp $
 
+SHLIB_VERSION?=	8.0
 LIB=	sectok
 SRCS=	atr.c cmdtab.c cyberflex.c input.c r1r2.c sc7816.c sectok.c todos_atr.c \
 	ifdhandler.c scT1.c scio.c scrw.c
 HDRS=	sectok.h
 MAN=	sectok.3
+
+.include <bsd.own.mk>
+COPTS+=	-Wall
 
 MLINKS+=sectok.3 sectok_open.3
 MLINKS+=sectok.3 sectok_friendly_open.3
@@ -25,8 +30,6 @@ MLINKS+=sectok.3 sectok_print_sw.3
 MLINKS+=sectok.3 sectok_get_sw.3
 MLINKS+=sectok.3 sectok_get_ins.3
 MLINKS+=sectok.3 sectok_swOK.3
-
-CFLAGS+=-Wall
 
 includes:
 	@cd ${.CURDIR}; for i in $(HDRS); do \

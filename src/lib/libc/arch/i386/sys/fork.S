@@ -33,6 +33,8 @@
 
 #include "SYS.h"
 
+	.text
+
 SYSCALL(fork)
 	decl	%edx	/* from 1 to 0 in child, 0 to -1 in parent */
 	andl	%edx,%eax

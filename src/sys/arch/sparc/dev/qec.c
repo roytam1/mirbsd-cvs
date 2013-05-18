@@ -252,10 +252,11 @@ qec_translate(sc, ca)
 
 		for (j = 0; j < sc->sc_nrange; j++) {
 			if (sc->sc_range[j].cspace == cspace) {
-				(int)ca->ca_ra.ra_reg[i].rr_paddr +=
-					sc->sc_range[j].poffset;
-				(int)ca->ca_ra.ra_reg[i].rr_iospace =
-					sc->sc_range[j].pspace;
+				int tmp = (int)ca->ca_ra.ra_reg[i].rr_paddr;
+				tmp += sc->sc_range[j].poffset;
+				ca->ca_ra.ra_reg[i].rr_paddr = (void *)tmp;
+				ca->ca_ra.ra_reg[i].rr_iospace =
+				    (int)sc->sc_range[j].pspace;
 				break;
 			}
 		}

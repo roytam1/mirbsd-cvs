@@ -291,7 +291,7 @@ checkfilesys(char *filesys, char *mntpt, long auxdata, int child)
 	muldup = NULL;
 	inocleanup();
 	if (fsmodified) {
-		(void)time(&sblock.fs_time);
+		sblock.fs_time = time(NULL);
 		sbdirty();
 	}
 	if (cvtlevel && sblk.b_dirty) {

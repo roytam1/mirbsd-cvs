@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/pax/pax.c,v 1.3 2005/04/13 20:03:35 tg Exp $ */
 /*	$OpenBSD: pax.c,v 1.28 2005/08/04 10:02:44 mpf Exp $	*/
 /*	$NetBSD: pax.c,v 1.5 1996/03/26 23:54:20 mrg Exp $	*/
 
@@ -40,22 +41,13 @@ static const char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)pax.c	8.2 (Berkeley) 4/18/94";
-#else
-static const char rcsid[] = "$OpenBSD: pax.c,v 1.28 2005/08/04 10:02:44 mpf Exp $";
-#endif
-#endif /* not lint */
-
-#include <stdio.h>
-#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/time.h>
 #include <sys/resource.h>
 #include <signal.h>
 #include <unistd.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
@@ -64,6 +56,10 @@ static const char rcsid[] = "$OpenBSD: pax.c,v 1.28 2005/08/04 10:02:44 mpf Exp 
 #include <paths.h>
 #include "pax.h"
 #include "extern.h"
+
+__SCCSID("@(#)pax.c	8.2 (Berkeley) 4/18/94");
+__RCSID("$MirOS: src/bin/pax/pax.c,v 1.3 2005/04/13 20:03:35 tg Exp $");
+
 static int gen_init(void);
 
 /*
@@ -369,10 +365,12 @@ gen_init(void)
 	/*
 	 * not really needed, but doesn't hurt
 	 */
+#ifdef RLIMIT_RSS
 	if (getrlimit(RLIMIT_RSS , &reslimit) == 0){
 		reslimit.rlim_cur = reslimit.rlim_max;
 		(void)setrlimit(RLIMIT_RSS , &reslimit);
 	}
+#endif
 
 	/*
 	 * Handle posix locale

@@ -1,3 +1,4 @@
+.\"	$MirOS: src/usr.bin/ftp/ftp.1,v 1.3 2005/04/29 18:35:08 tg Exp $
 .\" 	$OpenBSD: ftp.1,v 1.52 2005/07/06 10:35:36 jmc Exp $
 .\" 	$NetBSD: ftp.1,v 1.22 1997/08/18 10:20:22 lukem Exp $
 .\"
@@ -38,7 +39,7 @@
 .Nd ARPANET file transfer program
 .Sh SYNOPSIS
 .Nm ftp
-.Op Fl 46AadegimnptVv
+.Op Fl 46AadEegimnptVv
 .Op Fl P Ar port
 .Op Fl r Ar seconds
 .Op Ar host Op Ar port
@@ -104,6 +105,8 @@ Causes
 to bypass the normal login procedure and use an anonymous login instead.
 .It Fl d
 Enables debugging.
+.It Fl E
+Disables use of EPSV on IPv4 connections.
 .It Fl e
 Disables command line editing.
 Useful for Emacs ange-ftp.
@@ -1521,6 +1524,10 @@ The
 .Nm
 command appeared in
 .Bx 4.2 .
+The
+.Fl E
+option exists since
+.Mx 8 .
 .Sh BUGS
 Correct execution of many commands depends upon proper behavior
 by the remote server.

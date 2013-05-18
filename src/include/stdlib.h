@@ -1,3 +1,4 @@
+/**	$MirOS: src/include/stdlib.h,v 1.9 2006/05/30 18:09:59 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -34,23 +35,21 @@
 
 #ifndef _STDLIB_H_
 #define _STDLIB_H_
+
 #include <machine/ansi.h>
 
 #if !defined(_ANSI_SOURCE)	/* for quad_t, etc. */
 #include <sys/types.h>
 #endif
 
-#ifdef	_BSD_SIZE_T_
-typedef	_BSD_SIZE_T_	size_t;
-#undef	_BSD_SIZE_T_
+#if !defined(_GCC_SIZE_T)
+#define	_GCC_SIZE_T
+typedef	__SIZE_TYPE__	size_t;
 #endif
 
-#ifdef	_BSD_WCHAR_T_
-/* in C++, wchar_t is a built-in type */
-#ifndef __cplusplus
-typedef	_BSD_WCHAR_T_	wchar_t;
-#endif
-#undef	_BSD_WCHAR_T_
+#if !defined(_GCC_WCHAR_T) && !defined(__cplusplus)
+#define	_GCC_WCHAR_T
+typedef	__WCHAR_TYPE__	wchar_t;
 #endif
 
 typedef struct {
@@ -71,11 +70,13 @@ typedef struct {
 #endif
 
 
-#ifndef	NULL
+#ifndef NULL
 #ifdef 	__GNUG__
-#define NULL	__null
+#define	NULL	__null
+#elif defined(lint)
+#define	NULL	0
 #else
-#define	NULL	0L
+#define	NULL	((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
 
@@ -84,8 +85,14 @@ typedef struct {
 
 #define	RAND_MAX	0x7fffffff
 
-extern size_t	__mb_cur_max;
-#define	MB_CUR_MAX	__mb_cur_max
+/* maximum length of a multibyte character sequence (all locales) */
+#ifndef MB_LEN_MAX
+#define MB_LEN_MAX	3	/* corresponding to UCS-2 */
+#endif
+
+/* maximum length of a multibyte character sequence (current locale) */
+#undef MB_CUR_MAX
+#define MB_CUR_MAX	(__mb_cur_max())
 
 #include <sys/cdefs.h>
 
@@ -99,12 +106,15 @@ extern size_t	__mb_cur_max;
 #endif
 
 __BEGIN_DECLS
+extern int __mb_cur_max(void);
+
 __dead void	 abort(void);
 int	 abs(int);
 int	 atexit(void (*)(void));
 double	 atof(const char *);
 int	 atoi(const char *);
 long	 atol(const char *);
+/* LONGLONG */
 long long atoll(const char *);
 void	*bsearch(const void *, const void *, size_t, size_t,
 	    int (*)(const void *, const void *));
@@ -119,6 +129,7 @@ char	*gcvt(double, int, char *);
 char	*getenv(const char *);
 long	 labs(long);
 ldiv_t	 ldiv(long, long);
+/* LONGLONG */
 long long
 	 llabs(long long);
 void	*malloc(size_t);
@@ -133,29 +144,25 @@ void	*realloc(void *, size_t);
 void	 srand(unsigned);
 double	 strtod(const char *, char **);
 long	 strtol(const char *, char **, int);
+/* LONGLONG */
 long long
 	 strtoll(const char *, char **, int);
+/* LONGLONG */
 long long
 	 strtonum(const char *, long long, long long, const char **);
 unsigned long
 	 strtoul(const char *, char **, int);
+/* LONGLONG */
 unsigned long long
 	 strtoull(const char *, char **, int);
 int	 system(const char *);
 
-/* these are currently just stubs */
-int	 mblen(const char *, size_t);
-size_t	 mbstowcs(wchar_t *, const char *, size_t);
-int	 wctomb(char *, wchar_t);
-int	 mbtowc(wchar_t *, const char *, size_t);
-size_t	 wcstombs(char *, const wchar_t *, size_t);
-
 #if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
 #if defined(alloca) && (alloca == __builtin_alloca) && (__GNUC__ < 2)
-void  *alloca(int);     /* built-in for gcc */ 
-#else 
-void  *alloca(size_t); 
-#endif /* __GNUC__ */ 
+void  *alloca(int);     /* built-in for gcc */
+#else
+void  *alloca(size_t);
+#endif /* __GNUC__ */
 
 char	*getbsize(int *, long *);
 char	*cgetcap(char *, const char *, int);
@@ -231,8 +238,17 @@ u_int32_t arc4random(void);
 void	arc4random_stir(void);
 void	arc4random_addrandom(unsigned char *, int)
 	__attribute__((__bounded__ (__string__,1,2)));
+void	arc4random_push(int);
+
+void	setprogname(const char *);
+const char *getprogname(void);
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
 
+int	mblen(const char *, size_t);
+size_t	mbstowcs(wchar_t *__restrict__, const char *__restrict__, size_t);
+int	mbtowc(wchar_t *__restrict__, const char *__restrict__, size_t);
+size_t	wcstombs(char *__restrict__, const wchar_t *__restrict__, size_t);
+int	wctomb(char *, const wchar_t);
 __END_DECLS
 
 #endif /* _STDLIB_H_ */

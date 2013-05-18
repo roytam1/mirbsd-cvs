@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: crunchide.c,v 1.19 2004/08/24 09:12:49 jmc Exp $	 */
 
 /*
@@ -25,6 +26,7 @@
  *			   Computer Science Department
  *			   University of Maryland at College Park
  */
+
 /*
  * crunchide.c - tiptoes through an a.out symbol table, hiding all defined
  *	global symbols.  Allows the user to supply a "keep list" of symbols
@@ -58,12 +60,7 @@
  *	  that the final crunched binary BSS size is the max of all the
  *	  component programs' BSS sizes, rather than their sum.
  */
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <fcntl.h>
-#include <a.out.h>
+
 #include <sys/types.h>
 #include <sys/errno.h>
 #ifdef _NLIST_DO_ECOFF
@@ -71,6 +68,13 @@
 #endif
 #include <sys/mman.h>
 #include <sys/stat.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <fcntl.h>
+#include <a.out.h>
+__RCSID("$MirOS$");
 
 /*
  * if __ELF__ is defined, do not bother supporting AOUT.
@@ -79,9 +83,7 @@
 #define DO_AOUT
 #endif
 
-char           *pname = "crunchide";
-
-void            usage(void);
+__dead void     usage(void);
 
 void            add_to_keep_list(char *);
 void            add_file_to_keep_list(char *);
@@ -94,13 +96,10 @@ void            ecoff_hide(int, char *);
 void            elf_hide(int, char *);
 #endif
 
-int 
-main(int argc, char *argv[])
+int
+crunchide_main(int argc, char *argv[])
 {
 	int             ch;
-
-	if (argc > 0)
-		pname = argv[0];
 
 	while ((ch = getopt(argc, argv, "k:f:")) != -1)
 		switch (ch) {
@@ -129,25 +128,17 @@ main(int argc, char *argv[])
 	return 0;
 }
 
-void 
-usage(void)
-{
-	fprintf(stderr,
-	    "Usage: %s [-f keep-list-file] [-k keep-symbol] object-file ...\n",
-	    pname);
-	exit(1);
-}
-
 struct keep {
 	struct keep    *next;
 	char           *sym;
 } *keep_list;
 
-void 
+void
 add_to_keep_list(char *symbol)
 {
+	extern const char *__progname;
 	struct keep    *newp, *prevp, *curp;
-	int             cmp;
+	int             cmp = 0;
 
 	for (curp = keep_list, prevp = NULL; curp; prevp = curp, curp = curp->next)
 		if ((cmp = strcmp(symbol, curp->sym)) <= 0)
@@ -160,7 +151,8 @@ add_to_keep_list(char *symbol)
 	if (newp)
 		newp->sym = strdup(symbol);
 	if (newp == NULL || newp->sym == NULL) {
-		fprintf(stderr, "%s: out of memory for keep list\n", pname);
+		fprintf(stderr, "%s: out of memory for keep list\n",
+		    __progname);
 		exit(1);
 	}
 	newp->next = curp;
@@ -170,20 +162,20 @@ add_to_keep_list(char *symbol)
 		keep_list = newp;
 }
 
-int 
+int
 in_keep_list(char *symbol)
 {
 	struct keep    *curp;
-	int             cmp;
+	int             cmp = 0;
 
 	for (curp = keep_list; curp; curp = curp->next)
 		if ((cmp = strcmp(symbol, curp->sym)) <= 0)
 			break;
 
-	return curp && cmp == 0;
+	return curp && !cmp;
 }
 
-void 
+void
 add_file_to_keep_list(char *filename)
 {
 	FILE           *keepf;
@@ -232,15 +224,18 @@ struct nlist   *symbase;
 
 void            check_reloc(char *filename, struct relocation_info * relp);
 
-void 
+void
 hide_syms(char *filename)
 {
-	int             inf, outf, rc;
+	int             inf;
 	struct stat     infstat;
+	char           *buf;
+#ifdef DO_AOUT
+	int		outf, rc;
 	struct relocation_info *relp;
 	struct nlist   *symp;
-	char           *buf;
 	u_char          zero = 0;
+#endif
 
 	/*
          * Open the file and do some error checking.
@@ -339,7 +334,7 @@ hide_syms(char *filename)
 }
 
 #ifdef DO_AOUT
-void 
+void
 check_reloc(char *filename, struct relocation_info * relp)
 {
 	/* bail out if we zapped a symbol that is needed */

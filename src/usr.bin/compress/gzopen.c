@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/compress/gzopen.c,v 1.4 2005/11/16 22:10:56 tg Exp $ */
 /*	$OpenBSD: gzopen.c,v 1.23 2005/06/26 18:20:26 otto Exp $	*/
 
 /*
@@ -24,14 +25,12 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- *
  */
-/* this is partially derived from the zlib's gzio.c file, so the notice: */
-/*
-  zlib.h -- interface of the 'zlib' general purpose compression library
-  version 1.0.4, Jul 24th, 1996.
 
-  Copyright (C) 1995-1996 Jean-loup Gailly and Mark Adler
+/* this is partially derived from the zlib's gzio.c file, so the notice: */
+/* zlib.h -- interface of the 'zlib' general purpose compression library
+
+  Copyright (C) 1995-2004 Jean-loup Gailly and Mark Adler
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
@@ -50,18 +49,8 @@
   3. This notice may not be removed or altered from any source distribution.
 
   Jean-loup Gailly        Mark Adler
-  gzip@prep.ai.mit.edu    madler@alumni.caltech.edu
-
-
-  The data format used by the zlib library is described by RFCs (Request for
-  Comments) 1950 to 1952 in the files ftp://ds.internic.net/rfc/rfc1950.txt
-  (zlib format), rfc1951.txt (deflate format) and rfc1952.txt (gzip format).
+  jloup@gzip.org          madler@alumni.caltech.edu
 */
-
-#ifndef SMALL
-const char gz_rcsid[] =
-    "$OpenBSD: gzopen.c,v 1.23 2005/06/26 18:20:26 otto Exp $";
-#endif
 
 #include <sys/param.h>
 #include <sys/stat.h>
@@ -73,6 +62,8 @@ const char gz_rcsid[] =
 #include <unistd.h>
 #include <zlib.h>
 #include "compress.h"
+
+__RCSID("$MirOS: src/usr.bin/compress/gzopen.c,v 1.4 2005/11/16 22:10:56 tg Exp $");
 
 /* gzip flag byte */
 #define ASCII_FLAG   0x01 /* bit 0 set: file probably ascii text */
@@ -245,7 +236,7 @@ gz_flush(void *cookie, int flush)
 		len = Z_BUFSIZE - s->z_stream.avail_out;
 
 		if (len != 0) {
-			if (write(s->z_fd, s->z_buf, len) != len)
+			if ((size_t)write(s->z_fd, s->z_buf, len) != len)
 				return Z_ERRNO;
 			s->z_stream.next_out = s->z_buf;
 			s->z_stream.avail_out = Z_BUFSIZE;
@@ -420,10 +411,10 @@ int
 gz_read(void *cookie, char *buf, int len)
 {
 	gz_stream *s = (gz_stream*)cookie;
-	u_char *start = buf; /* starting point for crc computation */
+	u_char *start = (u_char *)buf; /* starting point for crc computation */
 	int error = Z_OK;
 
-	s->z_stream.next_out = buf;
+	s->z_stream.next_out = (u_char *)buf;
 	s->z_stream.avail_out = len;
 
 	while (error == Z_OK && !s->z_eof && s->z_stream.avail_out != 0) {
@@ -476,7 +467,7 @@ gz_write(void *cookie, const char *buf, int len)
 #ifndef SMALL
 	gz_stream *s = (gz_stream*)cookie;
 
-	s->z_stream.next_in = (char *)buf;
+	s->z_stream.next_in = (const u_char *)buf;
 	s->z_stream.avail_in = len;
 
 	while (s->z_stream.avail_in != 0) {
@@ -489,7 +480,7 @@ gz_write(void *cookie, const char *buf, int len)
 		if (deflate(&(s->z_stream), Z_NO_FLUSH) != Z_OK)
 			break;
 	}
-	s->z_crc = crc32(s->z_crc, buf, len);
+	s->z_crc = crc32(s->z_crc, (const u_char *)buf, len);
 
 	return (int)(len - s->z_stream.avail_in);
 #endif

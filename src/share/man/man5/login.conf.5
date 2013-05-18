@@ -97,11 +97,11 @@ The types are described after the capability table.
 .Bl -column minpasswordlen program xetcxmotd
 .Sy Name	Type	Default	Description
 .\"
-.It approve Ta program Ta "" Ta
+.It approve Ta program Ta \  Ta
 Default program to approve login.
 .\"
 .Pp
-.It approve- Ns Ar service Ta program Ta "" Ta
+.It approve- Ns Ar service Ta program Ta \  Ta
 Program to approve login for
 .Ar service .
 .\"
@@ -111,28 +111,28 @@ Allowed authentication styles.
 The first value is the default styles.
 .\"
 .Pp
-.It auth- Ns Ar type Ta list Ta "" Ta
+.It auth- Ns Ar type Ta list Ta \  Ta
 Allowed authentication styles for the authentication type
 .Ar type .
 .\"
 .Pp
-.It classify Ta program Ta "" Ta
+.It classify Ta program Ta \  Ta
 Classify type of login.
 .\"
 .Pp
-.It copyright Ta file Ta "" Ta
+.It copyright Ta file Ta \  Ta
 File containing additional copyright information.
 .\"
 .Pp
-.It coredumpsize Ta size Ta "" Ta
+.It coredumpsize Ta size Ta \  Ta
 Maximum coredump size limit.
 .\"
 .Pp
-.It cputime Ta time Ta "" Ta
+.It cputime Ta time Ta \  Ta
 CPU usage limit.
 .\"
 .Pp
-.It datasize Ta size Ta "" Ta
+.It datasize Ta size Ta \  Ta
 Maximum data size limit.
 .\"
 .Pp
@@ -141,7 +141,7 @@ If the user's account will expire within this length of time then
 warn the user of this.
 .\"
 .Pp
-.It filesize Ta size Ta "" Ta
+.It filesize Ta size Ta \  Ta
 Maximum file size limit.
 .\"
 .Pp
@@ -210,19 +210,19 @@ Number of tries a user gets to successfully login before
 closes the connection.
 .\"
 .Pp
-.It stacksize Ta size Ta "" Ta
+.It stacksize Ta size Ta \  Ta
 Maximum stack size limit.
 .\"
 .Pp
-.It maxproc Ta number Ta "" Ta
+.It maxproc Ta number Ta \  Ta
 Maximum number of processes.
 .\"
 .Pp
-.It memorylocked Ta size Ta "" Ta
+.It memorylocked Ta size Ta \  Ta
 Maximum locked in core memory size limit.
 .\"
 .Pp
-.It memoryuse Ta size Ta "" Ta
+.It memoryuse Ta size Ta \  Ta
 Maximum in core memoryuse size limit.
 .\"
 .Pp
@@ -234,12 +234,12 @@ Used by the
 utility.
 .\"
 .Pp
-.It nologin Ta file Ta "" Ta
+.It nologin Ta file Ta \  Ta
 If the file exists it will be displayed
 and the login session will be terminated.
 .\"
 .Pp
-.It openfiles Ta number Ta "" Ta
+.It openfiles Ta number Ta \  Ta
 Maximum number of open file descriptors per process.
 .\"
 .Pp
@@ -264,7 +264,7 @@ An exit code of 0 indicates that the quality of the password is
 sufficient, an exit code of 1 signals that the password failed the check.
 .\"
 .Pp
-.It passwordtime Ta time Ta "" Ta
+.It passwordtime Ta time Ta \  Ta
 The lifetime of a password in seconds, reset every time a user
 changes their password.
 When this value is exceeded the user will no longer be able to
@@ -291,7 +291,7 @@ See
 .Pa /usr/include/paths.h .
 .\"
 .Pp
-.It priority Ta number Ta "" Ta
+.It priority Ta number Ta \  Ta
 Initial priority (nice) level.
 .\"
 .Pp

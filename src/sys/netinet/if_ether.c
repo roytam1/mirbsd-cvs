@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: if_ether.c,v 1.53 2003/12/18 09:23:14 ho Exp $	*/
 /*	$NetBSD: if_ether.c,v 1.31 1996/05/11 12:59:58 mycroft Exp $	*/
 
@@ -423,7 +424,10 @@ arpresolve(ac, rt, m, dst, desten)
 #ifdef	DIAGNOSTIC
 	if (rt->rt_expire == 0) {
 		/* This should never happen. (Should it? -gwr) */
+#ifdef DEBUG
+		/* It does, when adding local link routes. -tg */
 		printf("arpresolve: unresolved and rt_expire == 0\n");
+#endif
 		/* Set expiration time to now (expired). */
 		rt->rt_expire = time.tv_sec;
 	}
@@ -559,7 +563,7 @@ in_arpinput(m)
 #if NCARP > 0
 		if (ac->ac_if.if_carp) {
 			if (carp_iamatch(ac->ac_if.if_carp, ia,
-			    &isaddr, &enaddr)) 
+			    &isaddr, &enaddr))
 				break;
 		}
 #endif

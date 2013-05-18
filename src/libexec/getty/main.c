@@ -1,3 +1,4 @@
+/**	$MirOS: src/libexec/getty/main.c,v 1.2 2005/05/30 07:28:23 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.28 2003/07/29 18:39:22 deraadt Exp $	*/
 
 /*-
@@ -35,11 +36,6 @@ static char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-/*static char sccsid[] = "from: @(#)main.c	8.1 (Berkeley) 6/20/93";*/
-static char rcsid[] = "$OpenBSD: main.c,v 1.28 2003/07/29 18:39:22 deraadt Exp $";
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <termios.h>
@@ -63,6 +59,9 @@ static char rcsid[] = "$OpenBSD: main.c,v 1.28 2003/07/29 18:39:22 deraadt Exp $
 #include "gettytab.h"
 #include "pathnames.h"
 #include "extern.h"
+
+__SCCSID("@(#)main.c	8.1 (Berkeley) 6/20/93");
+__RCSID("$MirOS: src/libexec/getty/main.c,v 1.2 2005/05/30 07:28:23 tg Exp $");
 
 /*
  * Set the amount of running time that getty should accumulate
@@ -405,15 +404,10 @@ getname(void)
 
 		if (c == EOT)
 			exit(1);
-		if (c == '\r' || c == '\n' || np >= name + sizeof name -1) {
+		if (c == '\r' || c == '\n') {
 			putf("\r\n");
 			break;
-		}
-		if (islower(c))
-			lower = 1;
-		else if (isupper(c))
-			upper = 1;
-		else if (c == ERASE || c == '#' || c == '\b') {
+		} else if (c == ERASE || c == '#' || c == '\b') {
 			if (np > name) {
 				np--;
 				if (cfgetospeed(&tmode) >= 1200)
@@ -433,7 +427,17 @@ getname(void)
 			prompt();
 			np = name;
 			continue;
-		} else if (isdigit(c))
+		}
+		if (np >= name + sizeof name - 1) {
+			putf("\a\b \b");
+			np--;
+			continue;
+		}
+		if (islower(c))
+			lower = 1;
+		else if (isupper(c))
+			upper = 1;
+		else if (isdigit(c))
 			digit++;
 		if (IG && (c <= ' ' || c > 0176))
 			continue;

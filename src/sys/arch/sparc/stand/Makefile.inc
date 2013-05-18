@@ -1,21 +1,24 @@
-#	$OpenBSD: Makefile.inc,v 1.12 2004/07/13 21:03:38 marc Exp $
-#	$NetBSD: Makefile.inc,v 1.5 1996/02/01 22:33:01 mycroft Exp $
+# $MirOS: src/sys/arch/sparc/stand/Makefile.inc,v 1.4 2006/06/17 20:19:15 tg Exp $
+# $OpenBSD: Makefile.inc,v 1.12 2004/07/13 21:03:38 marc Exp $
+# $NetBSD: Makefile.inc,v 1.5 1996/02/01 22:33:01 mycroft Exp $
 
-BINDIR=	/usr/mdec
+BINDIR=		/usr/mdec
 
-RELOC_TEST=	0x340000
-RELOC_SUN4=	0x240000
-RELOC_SUN4C=	0x380000
-RELOC_SUN4M=	0x440000
+.include "../Makefile.reloc"
 
-# Note: a `RELOC' value of 0x380000 seems to work on most machines
-RELOC?=		${RELOC_TEST}
-RELOC2!=	perl -e 'printf "0x%x", ${RELOC_TEST} + 0x40000'
+CFLAGS+=	-Os -Wall -Werror -fno-stack-protector -ffreestanding \
+		-fno-zero-initialized-in-bss
+SACFLAGS=	-D_STANDALONE
+CPPFLAGS+=	-I${S} -I${SADIR}/libsa -I. -Dmemmove=memcpy -D_STANDALONE \
+		-I${.CURDIR} -Derrno=errno \
+		-DSTANDALONE -DRELOC=${RELOC} -DSUN4 -DSUN4C -DSUN_BOOTPARAMS
 
-CFLAGS+=	-fno-stack-protector
+CLEANFILES+=	machine
 
-DEFS=		-DSTANDALONE -DRELOC=${RELOC} -DSUN4 -DSUN4C -DSUN_BOOTPARAMS
-DEFS+=		-Derrno=errno
+.if !make(libdep) && !make(sadep) && !make(salibdir) && !make(kernlibdir) && !make(obj)
+.BEGIN:
+	@([ X$(S) = X -o -h machine ] || ln -s $(S)/arch/sparc/include machine)
+.endif
 
 ### Figure out what to use for libkern
 LIBKERNDIR=		${.CURDIR}/../libkern

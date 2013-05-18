@@ -1,3 +1,4 @@
+.\"	$MirOS: src/share/man/man3/intro.3,v 1.2 2005/03/06 19:38:37 tg Exp $
 .\"	$OpenBSD: intro.3,v 1.30 2005/04/18 19:20:59 robert Exp $
 .\"	$NetBSD: intro.3,v 1.5 1995/05/10 22:46:24 jtc Exp $
 .\"
@@ -384,6 +385,8 @@ protocols.
 See
 .Xr ssl 3 .
 .Pp
+.El
+.Bl -tag -width "libkvm" -compact
 .It libstdc++ Pq Fl lstdc++
 GCC subroutine library for C++.
 See
@@ -585,12 +588,7 @@ and can be viewed using
 The building of PIC versions of libraries and dynamic libraries can be
 prevented by setting the variable
 .Dv NOPIC
-in
-.Pa /etc/mk.conf .
-The building of profiling versions of libraries and/or dynamic libraries can
-be prevented by setting the variable
-.Dv NOPROFILE
-in
+to yes in
 .Pa /etc/mk.conf .
 See
 .Xr mk.conf 5

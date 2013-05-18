@@ -28,6 +28,9 @@
  * SUCH DAMAGE.
  */
 
+#include <sys/cdefs.h>
+__RCSID("$MirOS: src/lib/libc/gen/errlist.c,v 1.3 2005/09/22 20:39:59 tg Exp $");
+
 #ifdef lint
 char *
 #else
@@ -137,5 +140,6 @@ const char *const
 	"IPsec processing failure",		/* 82 - EIPSEC */
 	"Attribute not found",			/* 83 - ENOATTR */
 	"Illegal byte sequence",		/* 84 - EILSEQ */
+	"Need more coffee",			/* 85 - ENOCOFFEE */
 };
 int _sys_nerr = { sizeof _sys_errlist/sizeof _sys_errlist[0] };

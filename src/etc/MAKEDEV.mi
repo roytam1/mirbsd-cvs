@@ -1,10 +1,12 @@
 define(COMM,`#')dnl
 include(MAKEDEV.sub)dnl
 dnl
+vers(a, {-$MirOS: src/etc/MAKEDEV.mi,v 1.6 2005/07/24 12:49:10 tg Exp $-})dnl
 vers(a, {-$OpenBSD: MAKEDEV.mi,v 1.73 2005/02/07 06:14:18 david Exp $-})dnl
 dnl
 divert(1)dnl
 {-#-}
+{-#-} Copyright (c) 2003-2006 Thorsten Glaser <tg@mirbsd.de>
 {-#-} Copyright (c) 2001-2004 Todd T. Fries <todd@OpenBSD.org>
 {-#-}
 {-#-} Permission to use, copy, modify, and distribute this software for any
@@ -57,7 +59,8 @@ include(etc.MACHINE/MAKEDEV.md)dnl
 dnl
 dnl
 divert(0)dnl
-#!/bin/sh -
+#!/bin/mksh
+# $MirOS: src/etc/MAKEDEV.mi,v 1.6 2005/07/24 12:49:10 tg Exp $
 #
 # THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
 # generated from:
@@ -203,7 +206,13 @@ M() {
 		MKlist="$MKlist;chown {-$-}7:{-$-}G {-$-}1"
 	} || {
 		case $G in
-		wheel)g=0;;kmem)g=2;;operator)g=5;;tty)g=4;;dialer)g=117;;_lkm)g=61;;
+		wheel)		g=0;;
+		kmem)		g=2;;
+		tty)		g=4;;
+		operator)	g=5;;
+		_lkm)		g=61;;
+		dialer)		g=117;;
+		audio)		g=250;;
 		esac
 		[ "${grplist[$g]}" ] && {
 			grplist[$g]="${grplist[$g]} {-$-}1"

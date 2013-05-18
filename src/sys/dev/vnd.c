@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/dev/vnd.c,v 1.4 2005/04/29 18:35:01 tg Exp $	*/
 /*	$OpenBSD: vnd.c,v 1.56 2005/07/20 02:36:13 tedu Exp $	*/
 /*	$NetBSD: vnd.c,v 1.26 1996/03/30 23:06:11 christos Exp $	*/
 
@@ -58,6 +59,9 @@
  * by using root credentials in all transactions).
  *
  * NOTE 3: Doesn't interact with leases, should it?
+ *
+ * NOTE 4: Trying to mount ffs read-write on a read-only vnd device
+ * makes ffs "very unhappy". Don't try this at work, kids!
  */
 
 #include <sys/param.h>
@@ -144,6 +148,7 @@ struct vnd_softc {
 #define	VNF_HAVELABEL	0x0400
 #define	VNF_BUSY	0x0800
 #define	VNF_SIMPLE	0x1000
+#define	VNF_RDONLY	0x2000
 
 struct vnd_softc *vnd_softc;
 int numvnd = 0;
@@ -244,6 +249,14 @@ vndopen(dev, flags, mode, p)
 
 	part = DISKPART(dev);
 	pmask = 1 << part;
+
+	/*
+	 * If the unit is configured read-only, guess what...
+	 */
+	if ((flags & FWRITE) && (sc->sc_flags & VNF_RDONLY)) {
+		error = EROFS;
+		goto bad;
+	}
 
 	/*
 	 * If any partition is open, all succeeding openings must be of the
@@ -643,6 +656,19 @@ vndstart(vnd)
 		    bp->b_bcount);
 #endif
 
+	/* Read-Only? */
+	if (((bp->b_flags & B_READ) == 0) &&
+	    (vnd->sc_flags & VNF_RDONLY)) {
+		int s;
+
+		bp->b_error = EROFS;
+		bp->b_flags |= B_ERROR;
+		s = splbio();
+		biodone(bp);
+		splx(s);
+		return;
+	}
+
 	/* Instrumentation. */
 	disk_busy(&vnd->sc_dk);
 
@@ -741,6 +767,8 @@ vndwrite(dev, uio, flags)
 		return (ENXIO);
 	sc = &vnd_softc[unit];
 
+	if (sc->sc_flags & VNF_RDONLY)
+		return (EROFS);
 	if ((sc->sc_flags & VNF_INITED) == 0)
 		return (ENXIO);
 
@@ -762,7 +790,7 @@ vndioctl(dev, cmd, addr, flag, p)
 	struct vnd_user *vnu;
 	struct vattr vattr;
 	struct nameidata nd;
-	int error, part, pmask, s;
+	int error, part, pmask, s, f_rdonly, f_rdopen;
 
 #ifdef DEBUG
 	if (vnddebug & VDB_FOLLOW)
@@ -802,6 +830,10 @@ vndioctl(dev, cmd, addr, flag, p)
 			return(ENXIO);
 		}
 
+		f_rdonly = (vio->vnd_options & VNDIOC_OPT_RDONLY)
+		    ? VNF_RDONLY : 0;
+		f_rdopen = f_rdonly ? FREAD : FREAD|FWRITE;
+
 		/*
 		 * Always open for read and write.
 		 * This is probably bogus, but it lets vn_open()
@@ -809,14 +841,14 @@ vndioctl(dev, cmd, addr, flag, p)
 		 * have to worry about them.
 		 */
 		NDINIT(&nd, LOOKUP, FOLLOW, UIO_USERSPACE, vio->vnd_file, p);
-		if ((error = vn_open(&nd, FREAD|FWRITE, 0)) != 0) {
+		if ((error = vn_open(&nd, f_rdopen, 0)) != 0) {
 			vndunlock(vnd);
 			return (error);
 		}
 		error = VOP_GETATTR(nd.ni_vp, &vattr, p->p_ucred, p);
 		if (error) {
 			VOP_UNLOCK(nd.ni_vp, 0, p);
-			(void) vn_close(nd.ni_vp, FREAD|FWRITE, p->p_ucred, p);
+			(void) vn_close(nd.ni_vp, f_rdopen, p->p_ucred, p);
 			vndunlock(vnd);
 			return (error);
 		}
@@ -824,7 +856,7 @@ vndioctl(dev, cmd, addr, flag, p)
 		vnd->sc_vp = nd.ni_vp;
 		vnd->sc_size = btodb(vattr.va_size);	/* note truncation */
 		if ((error = vndsetcred(vnd, p->p_ucred)) != 0) {
-			(void) vn_close(nd.ni_vp, FREAD|FWRITE, p->p_ucred, p);
+			(void) vn_close(nd.ni_vp, f_rdopen, p->p_ucred, p);
 			vndunlock(vnd);
 			return (error);
 		}
@@ -853,6 +885,7 @@ vndioctl(dev, cmd, addr, flag, p)
 		vndthrottle(vnd, vnd->sc_vp);
 		vio->vnd_size = dbtob((off_t)vnd->sc_size);
 		vnd->sc_flags |= VNF_INITED;
+		vnd->sc_flags |= f_rdonly;
 #ifdef DEBUG
 		if (vnddebug & VDB_INIT)
 			printf("vndioctl: SET vp %p size %llx\n",
@@ -955,6 +988,8 @@ vndioctl(dev, cmd, addr, flag, p)
 
 	case DIOCWDINFO:
 	case DIOCSDINFO:
+		if (vnd->sc_flags & VNF_RDONLY)
+			return (EROFS);
 		if ((vnd->sc_flags & VNF_HAVELABEL) == 0)
 			return (ENOTTY);
 		if ((flag & FWRITE) == 0)
@@ -980,6 +1015,8 @@ vndioctl(dev, cmd, addr, flag, p)
 		return (error);
 
 	case DIOCWLABEL:
+		if (vnd->sc_flags & VNF_RDONLY)
+			return (EROFS);
 		if ((flag & FWRITE) == 0)
 			return (EBADF);
 		if (*(int *)addr)
@@ -1074,11 +1111,14 @@ vndclear(vnd)
 	vnd->sc_flags &= ~VNF_INITED;
 	if (vp == (struct vnode *)0)
 		panic("vndioctl: null vp");
-	(void) vn_close(vp, FREAD|FWRITE, vnd->sc_cred, p);
+	if (vnd->sc_flags & VNF_RDONLY)
+		(void) vn_close(vp, FREAD, vnd->sc_cred, p);
+	  else	(void) vn_close(vp, FREAD|FWRITE, vnd->sc_cred, p);
 	crfree(vnd->sc_cred);
 	vnd->sc_vp = (struct vnode *)0;
 	vnd->sc_cred = (struct ucred *)0;
 	vnd->sc_size = 0;
+	vnd->sc_flags &= ~VNF_RDONLY;
 }
 
 int

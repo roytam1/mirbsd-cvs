@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/dev/pcmcia/if_ep_pcmcia.c,v 1.3 2005/07/04 01:15:48 tg Exp $ */
 /*	$OpenBSD: if_ep_pcmcia.c,v 1.33 2005/06/08 17:03:01 henning Exp $	*/
 /*	$NetBSD: if_ep_pcmcia.c,v 1.16 1998/08/17 23:20:40 thorpej Exp $  */
 
@@ -332,7 +333,8 @@ ep_pcmcia_attach(parent, self, aux)
 		return;
 	}
 
-	printf(" port 0x%lx/%d", psc->sc_pcioh.addr, psc->sc_pcioh.size);
+	printf(" port 0x%lx/%d", (unsigned long)psc->sc_pcioh.addr,
+	    (int)(psc->sc_pcioh.size));
 
 	switch (pa->product) {
 	case PCMCIA_PRODUCT_3COM_3C562:

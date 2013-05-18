@@ -79,7 +79,7 @@ static const double zero = 0.0;	/* used as const */
 double
 __kernel_standard(double x, double y, int type) 
 {
-	struct exception exc;
+	struct __libm_exception exc;
 #ifndef HUGE_VAL	/* this is the only routine that uses HUGE_VAL */ 
 #define HUGE_VAL inf
 	double inf = 0.0;

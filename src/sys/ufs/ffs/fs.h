@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/ufs/ffs/fs.h,v 1.2 2005/03/06 21:28:37 tg Exp $	*/
 /*	$OpenBSD: fs.h,v 1.17 2005/03/01 13:30:50 aaron Exp $	*/
 /*	$NetBSD: fs.h,v 1.6 1995/04/12 21:21:02 mycroft Exp $	*/
 
@@ -31,6 +32,9 @@
  *
  *	@(#)fs.h	8.10 (Berkeley) 10/27/94
  */
+
+#ifndef	UFS_FFS_FS_H
+#define	UFS_FFS_FS_H
 
 /*
  * Each disk drive contains some number of file systems.
@@ -72,7 +76,7 @@
 
 /*
  * Addresses stored in inodes are capable of addressing fragments
- * of `blocks'. File system blocks of at most size MAXBSIZE can 
+ * of `blocks'. File system blocks of at most size MAXBSIZE can
  * be optionally broken into 2, 4, or 8 pieces, each of which is
  * addressible; these pieces may be DEV_BSIZE, or some multiple of
  * a DEV_BSIZE unit.
@@ -174,13 +178,14 @@ struct csum {
 struct fs {
 	int32_t	 fs_firstfield;		/* historic file system linked list, */
 	int32_t	 fs_unused_1;		/*     used for incore super blocks */
+	/* MirOS actually uses the two fields above to store random seed */
 	int32_t	 fs_sblkno;		/* addr of super-block in filesys */
 	int32_t	 fs_cblkno;		/* offset of cyl-block in filesys */
 	int32_t	 fs_iblkno;		/* offset of inode-blocks in filesys */
 	int32_t	 fs_dblkno;		/* offset of first data after cg */
 	int32_t	 fs_cgoffset;		/* cylinder group offset in cylinder */
 	int32_t	 fs_cgmask;		/* used to calc mod fs_ntrak */
-	time_t 	 fs_time;		/* last time written */
+	int32_t	 fs_time;		/* last time written XXX was time_t */
 	int32_t	 fs_size;		/* number of blocks in fs */
 	int32_t	 fs_dsize;		/* number of data blocks in fs */
 	int32_t	 fs_ncg;		/* number of cylinder groups */
@@ -250,8 +255,8 @@ struct fs {
 	int32_t	 fs_avgfilesize;	/* expected average file size */
 	int32_t	 fs_avgfpdir;		/* expected # of files per directory */
 	int32_t	 fs_sparecon[27];	/* reserved for future constants */
-	time_t	 fs_fscktime;		/* last time fsck(8)ed */
-	int32_t	 fs_contigsumsize;	/* size of cluster summary array */ 
+	int32_t	 fs_fscktime;		/* last time fsck(8)ed XXX was time_t */
+	int32_t	 fs_contigsumsize;	/* size of cluster summary array */
 	int32_t	 fs_maxsymlinklen;	/* max length of an internal symlink */
 	int32_t	 fs_inodefmt;		/* format of on-disk inodes */
 	u_int64_t fs_maxfilesize;	/* maximum representable file size */
@@ -289,7 +294,7 @@ struct fs {
 #define FS_OPTTIME	0	/* minimize allocation time */
 #define FS_OPTSPACE	1	/* minimize disk fragmentation */
 
-/* 
+/*
  * Filesystem flags.
  */
 #define FS_UNCLEAN    0x01   /* filesystem not clean at mount */
@@ -341,7 +346,7 @@ struct fs {
 struct cg {
 	int32_t	 cg_firstfield;		/* historic cyl groups linked list */
 	int32_t	 cg_magic;		/* magic number */
-	time_t	 cg_time;		/* time last written */
+	int32_t	 cg_time;		/* time last written XXX was time_t */
 	int32_t	 cg_cgx;		/* we are the cgx'th cylinder group */
 	int16_t	 cg_ncyl;		/* number of cyl's this cg */
 	int16_t	 cg_niblk;		/* number of inode blocks this cg */
@@ -398,7 +403,7 @@ struct cg {
 struct ocg {
 	int32_t	 cg_firstfield;		/* historic linked list of cyl groups */
 	int32_t	 cg_unused_1;		/*     used for incore cyl groups */
-	time_t	 cg_time;		/* time last written */
+	int32_t	 cg_time;		/* time last written XXX was time_t */
 	int32_t	 cg_cgx;		/* we are the cgx'th cylinder group */
 	int16_t	 cg_ncyl;		/* number of cyl's this cg */
 	int16_t	 cg_niblk;		/* number of inode blocks this cg */
@@ -541,3 +546,5 @@ struct ocg {
 
 extern const int inside[], around[];
 extern const u_char *fragtbl[];
+
+#endif /* notdef UFS_FFS_FS_H */

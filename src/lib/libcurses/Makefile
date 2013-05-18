@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.54 2003/10/19 22:20:37 brad Exp $
+# $MirOS: src/lib/libcurses/Makefile,v 1.5 2005/04/19 20:13:44 tg Exp $
+# $OpenBSD: Makefile,v 1.54 2003/10/19 22:20:37 brad Exp $
 
 # Uncomment this to enable tracing in libcurses
 #CURSESTRACE=-DTRACE
@@ -12,9 +13,10 @@ AWK?=	/usr/bin/awk
 # Search in subdirs
 .PATH:	${.CURDIR}/base ${.CURDIR}/tinfo ${.CURDIR}/trace ${.CURDIR}/tty
 
-LIB=    curses
-SRCS=	codes.c comp_captab.c expanded.c fallback.c lib_gen.c lib_keyname.c \
-	names.c unctrl.c
+SHLIB_VERSION?=	12.0
+LIB=    	curses
+SRCS=		codes.c comp_captab.c expanded.c fallback.c lib_gen.c \
+		lib_keyname.c names.c unctrl.c
 # base
 SRCS+=	define_key.c keybound.c keyok.c lib_adabind.c lib_addch.c lib_addstr.c \
 	lib_beep.c lib_bkgd.c lib_box.c lib_chgat.c lib_clear.c \
@@ -51,21 +53,22 @@ SRCS+=	lib_trace.c lib_traceatr.c lib_tracebits.c lib_tracechr.c \
 SRCS+=	hardscroll.c hashmap.c lib_mvcur.c lib_tstp.c lib_twait.c \
 	lib_vidattr.c tty_update.c
 
+CPPFLAGS+=	-D"SYSTEM_NAME=\"${OSname}${OSrev}\"" -I. ${CURSESTRACE}
+
 HOSTCFLAGS?=	${CFLAGS}
 HOSTLDFLAGS?=	${LDFLAGS}
-HOSTCFLAGS+=	-I. -I${.CURDIR} ${CURSESTRACE}
-CFLAGS+=	-I. -I${.CURDIR} ${CURSESTRACE}
+HOSTCFLAGS+=	${CPPFLAGS} -I${.CURDIR}
 
-MAN=	curs_addch.3 curs_addchstr.3 curs_addstr.3 curs_attr.3 curs_beep.3 \
+MAN=	curs_addch.3tbl curs_addchstr.3 curs_addstr.3 curs_attr.3tbl curs_beep.3 \
 	curs_bkgd.3 curs_border.3 curs_clear.3 curs_color.3 curs_delch.3 \
-	curs_deleteln.3 curs_extend.3 curs_getch.3 curs_getstr.3 curs_getyx.3 \
-	curs_inch.3 curs_inchstr.3 curs_initscr.3 curs_inopts.3 curs_insch.3 \
-	curs_insstr.3 curs_instr.3 curs_kernel.3 curs_mouse.3 curs_move.3 \
+	curs_deleteln.3 curs_extend.3 curs_getch.3tbl curs_getstr.3 curs_getyx.3 \
+	curs_inch.3tbl curs_inchstr.3 curs_initscr.3 curs_inopts.3 curs_insch.3 \
+	curs_insstr.3 curs_instr.3 curs_kernel.3 curs_mouse.3tbl curs_move.3 \
 	curs_outopts.3 curs_overlay.3 curs_pad.3 curs_print.3 curs_printw.3 \
 	curs_refresh.3 curs_scanw.3 curs_scr_dump.3 curs_scroll.3 curs_slk.3 \
 	curs_termattrs.3 curs_touch.3 curs_util.3 curs_window.3 \
-	curses.3 define_key.3 default_colors.3 keybound.3 keyok.3 resizeterm.3 \
-	wresize.3 termcap.3 terminfo.3 terminfo.5 term.5 term.7
+	curses.3tbl define_key.3 default_colors.3 keybound.3 keyok.3 resizeterm.3 \
+	wresize.3 termcap.3 terminfo.3 term.5tbl term.7
 MLINKS+=curses.3 ncurses.3
 MLINKS+=curs_addch.3 addch.3 curs_addch.3 waddch.3 curs_addch.3 mvaddch.3 \
 	curs_addch.3 mvwaddch.3 curs_addch.3 echochar.3 curs_addch.3 \
@@ -208,40 +211,46 @@ includes:
 	  ${DESTDIR}/usr/include; done
 
 fallback.c: ${.CURDIR}/term.h ${.CURDIR}/curses.priv.h ${.CURDIR}/tinfo/MKfallback.sh
-	sh ${.CURDIR}/tinfo/MKfallback.sh $(FALLBACK_LIST) > ${.TARGET}
+	${SHELL} ${.CURDIR}/tinfo/MKfallback.sh $(FALLBACK_LIST) >${.TARGET}
 
 lib_gen.c: ${.CURDIR}/curses.h ${.CURDIR}/base/MKlib_gen.sh
-	sh ${.CURDIR}/base/MKlib_gen.sh "${CPP} -I${.CURDIR}" "${AWK}" < ${.CURDIR}/curses.h > lib_gen.c
+	${SHELL} ${.CURDIR}/base/MKlib_gen.sh "${CPP} -I${.CURDIR}" "${AWK}" \
+	    <${.CURDIR}/curses.h >lib_gen.c
 
 nomacros.h: ${.CURDIR}/base/MKlib_gen.sh lib_gen.c
-	fgrep undef lib_gen.c > ${.TARGET}
+	fgrep undef lib_gen.c >${.TARGET}
 
 init_keytry.h: make_keys ${.CURDIR}/tinfo/keys.list
-	./make_keys ${.CURDIR}/tinfo/keys.list > ${.TARGET}
+	./make_keys ${.CURDIR}/tinfo/keys.list >${.TARGET}
 
 make_keys: ${.CURDIR}/tinfo/make_keys.c names.c
-	${HOSTCC} ${LDSTATIC} ${HOSTCFLAGS} ${HOSTLDFLAGS} -o ${.TARGET} ${.CURDIR}/tinfo/make_keys.c ${LDADD}
+	${HOSTCC} ${LDSTATIC} ${HOSTCFLAGS} ${HOSTLDFLAGS} \
+	    -o ${.TARGET} ${.CURDIR}/tinfo/make_keys.c ${LDADD}
 
 make_hash: ${.CURDIR}/tinfo/comp_hash.c ${.CURDIR}/hashsize.h
-	${HOSTCC} ${LDSTATIC} ${HOSTCFLAGS} -DMAIN_PROGRAM ${HOSTLDFLAGS} -o ${.TARGET} ${.CURDIR}/tinfo/comp_hash.c ${LDADD}
+	${HOSTCC} ${LDSTATIC} ${HOSTCFLAGS} -DMAIN_PROGRAM ${HOSTLDFLAGS} \
+	    -o ${.TARGET} ${.CURDIR}/tinfo/comp_hash.c ${LDADD}
 
 expanded.c: ${.CURDIR}/term.h ${.CURDIR}/curses.priv.h ${.CURDIR}/tty/MKexpanded.sh
-	sh ${.CURDIR}/tty/MKexpanded.sh "${CPP}" ${CPPFLAGS} > ${.TARGET}
+	${SHELL} ${.CURDIR}/tty/MKexpanded.sh "${CPP}" ${CPPFLAGS} >${.TARGET}
 
 comp_captab.c: make_hash ${.CURDIR}/ncurses_cfg.h ${.CURDIR}/tic.h ${.CURDIR}/term.h
-	sh ${.CURDIR}/tinfo/MKcaptab.awk ${AWK} ${.CURDIR}/Caps > ${.TARGET}
+	${SHELL} ${.CURDIR}/tinfo/MKcaptab.awk ${AWK} ${.CURDIR}/Caps >${.TARGET}
 
 lib_keyname.c: ${.CURDIR}/ncurses_cfg.h ${.CURDIR}/curses.h ${.CURDIR}/term.h  ${.CURDIR}/tinfo/keys.list ${.CURDIR}/base/MKkeyname.awk
-	${AWK} -f ${.CURDIR}/base/MKkeyname.awk ${.CURDIR}/tinfo/keys.list > ${.TARGET}
+	${AWK} -f ${.CURDIR}/base/MKkeyname.awk \
+	    ${.CURDIR}/tinfo/keys.list >${.TARGET}
 
 names.c codes.c: ${.CURDIR}/tinfo/MKnames.awk
 	${AWK} -f ${.CURDIR}/tinfo/MKnames.awk ${.CURDIR}/Caps
-	cat namehdr boolnames boolfnames numnames numfnames strnames strfnames nameftr > names.c
-	cat namehdr boolcodes numcodes strcodes codeftr > codes.c
-	-rm -f namehdr nameftr codeftr boolnames boolfnames boolcodes numnames numfnames numcodes strnames strfnames strcodes
+	cat namehdr boolnames boolfnames numnames numfnames \
+	    strnames strfnames nameftr >names.c
+	cat namehdr boolcodes numcodes strcodes codeftr >codes.c
+	-rm -f namehdr nameftr codeftr boolnames boolfnames boolcodes \
+	    numnames numfnames numcodes strnames strfnames strcodes
 
 unctrl.c: ${.CURDIR}/base/MKunctrl.awk
-	echo | ${AWK} -f ${.CURDIR}/base/MKunctrl.awk > ${.TARGET}
+	echo | ${AWK} -f ${.CURDIR}/base/MKunctrl.awk >${.TARGET}
 
 .include <bsd.own.mk>
 
@@ -249,17 +258,21 @@ unctrl.c: ${.CURDIR}/base/MKunctrl.awk
 afterinstall:
 	-cd ${DESTDIR}${LIBDIR}; \
 	for i in ${_LIBS}; do \
-	    ln -f $$i `echo $$i | sed 's/curses/termlib/'`; \
-	    ln -f $$i `echo $$i | sed 's/curses/termcap/'`; \
-	    ln -f $$i `echo $$i | sed 's/curses/ncurses/'`; \
+	    [[ -e $$i ]] || continue; \
+	    ln -f $$i $$(echo $$i | sed 's/curses/termlib/'); \
+	    ln -f $$i $$(echo $$i | sed 's/curses/termcap/'); \
+	    ln -f $$i $$(echo $$i | sed 's/curses/ncurses/'); \
 	done
-.if (${DEBUGLIBS:L} == "yes")
-	-cd ${DESTDIR}${LIBDIR}/debug; \
-	    ln -f lib${LIB}.a lib`echo ${LIB} | sed 's/curses/termlib/'`.a; \
-	    ln -f lib${LIB}.a lib`echo ${LIB} | sed 's/curses/termcap/'`.a; \
-	    ln -f lib${LIB}.a lib`echo ${LIB} | sed 's/curses/ncurses/'`.a
-.endif
+	${INSTALL} ${INSTALL_COPY} -o ${DOCOWN} -g ${DOCGRP} -m ${DOCMODE} \
+	    ${.CURDIR}/Caps ${DESTDIR}/usr/share/misc/
 
 .include <bsd.lib.mk>
 
 lib_options.o lib_options.so lib_options.po lib_options.ln: init_keytry.h
+
+.if ${NOMAN:L} == "no"
+maninstall: catmaninstall
+
+catmaninstall:
+	${MINSTALL} ${.CURDIR}/terminfo.cat5 ${DESTDIR}${MANDIR}5/terminfo.0
+.endif

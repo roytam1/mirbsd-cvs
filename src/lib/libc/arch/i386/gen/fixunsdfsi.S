@@ -33,6 +33,8 @@
 
 #include <machine/asm.h>
 
+	.text
+
 ENTRY(__fixunsdfsi)
 	fldl	4(%esp)		/* argument double to accum stack */
 	frndint			/* create integer */

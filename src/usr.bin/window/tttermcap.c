@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: tttermcap.c,v 1.6 2003/08/01 22:01:37 david Exp $	*/
 /*	$NetBSD: tttermcap.c,v 1.3 1995/09/28 10:34:52 tls Exp $	*/
 
@@ -33,22 +34,13 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)tttermcap.c	8.1 (Berkeley) 6/6/93";
-#else
-static char rcsid[] = "$OpenBSD: tttermcap.c,v 1.6 2003/08/01 22:01:37 david Exp $";
-#endif
-#endif /* not lint */
-
 #include "tt.h"
 #include <curses.h>
 #include <term.h>
 #include <string.h>
 
-char *tgetstr();
-char *tgoto();
-char *malloc();
+__SCCSID("@(#)tttermcap.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 tttputc(c)
 {
@@ -116,7 +108,7 @@ ttstrcmp(a, b)
 {
 	int n, r;
 
-	if (r = bcmp(a->ts_str, b->ts_str,
+	if (r = memcmp(a->ts_str, b->ts_str,
 			(n = a->ts_n - b->ts_n) < 0 ? a->ts_n : b->ts_n))
 		return r;
 	return n;

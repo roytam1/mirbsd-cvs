@@ -1,3 +1,4 @@
+/* $MirOS: src/sys/dev/wscons/wsdisplay.c,v 1.4 2005/07/21 21:52:20 tg Exp $ */
 /* $OpenBSD: wsdisplay.c,v 1.61 2005/07/17 10:43:24 miod Exp $ */
 /* $NetBSD: wsdisplay.c,v 1.82 2005/02/27 00:27:52 perry Exp $ */
 
@@ -34,7 +35,7 @@
 #ifndef	SMALL_KERNEL
 #define WSMOUSED_SUPPORT
 #define	BURNER_SUPPORT
-#define	SCROLLBACK_SUPPORT
+#define	WSDISPLAY_SCROLLBACK_SUPPORT
 #endif
 
 #include <sys/param.h>
@@ -1204,7 +1205,20 @@ wsdisplay_cfg_ioctl(struct wsdisplay_softc *sc, u_long cmd, caddr_t data,
 		return (0);
 
 	case WSDISPLAYIO_DELFONT:
-		return (EINVAL);
+		if (!sc->sc_accessops->delete_font)
+			return (EINVAL);
+		if (d->index <= 0 || d->index >= WSDISPLAY_MAXFONT)
+			return (EINVAL);
+
+		error =
+		  (*sc->sc_accessops->delete_font)(sc->sc_accesscookie, 0, d->index);
+		if (error)
+			return (error);
+
+		free(sc->sc_fonts[d->index].data, M_DEVBUF);
+		sc->sc_fonts[d->index].data = NULL;
+		sc->sc_fonts[d->index].name[0] = '\0';
+		return 0;
 #undef d
 
 #if NWSKBD > 0
@@ -1721,12 +1735,12 @@ wsdisplay_switch(struct device *dev, int no, int waitok)
 	if (!(scr->scr_flags & SCR_GRAPHICS) &&
 	    (sc->sc_scr[no]->scr_flags & SCR_GRAPHICS)) {
 		/* switching from a text console to a graphic console */
-	
+
 		/* remote a potential wsmoused(8) selection */
 		mouse_remove(sc);
 		wsmoused_release(sc);
 	}
-	
+
 	if ((scr->scr_flags & SCR_GRAPHICS) &&
 	    !(sc->sc_scr[no]->scr_flags & SCR_GRAPHICS)) {
 		/* switching from a graphic console to a text console */
@@ -1994,7 +2008,7 @@ wsdisplay_switchtoconsole()
 	}
 }
 
-#ifdef SCROLLBACK_SUPPORT
+#ifdef WSDISPLAY_SCROLLBACK_SUPPORT
 void
 wsscrollback(void *arg, int op)
 {
@@ -2184,7 +2198,7 @@ button_event(int button, int clicks)
 int
 ctrl_event(u_int type, int value, struct wsdisplay_softc *ws_sc, struct proc *p)
 {
-	int i, error;
+	int i, error = 0;
 
 	if (type == WSCONS_EVENT_WSMOUSED_ON) {
 		if (!ws_sc->sc_accessops->getchar)
@@ -3107,10 +3121,10 @@ wsmoused_release(struct wsdisplay_softc *sc)
 		}
 
 		/* inject event to notify wsmoused(8) to close mouse device */
-		if (wsms_dev != NULL) 
+		if (wsms_dev != NULL)
 			wsmouse_input(wsms_dev, 0, 0, 0, 0,
 				      WSMOUSE_INPUT_WSMOUSED_CLOSE);
-		
+
 	}
 #endif /* NWSMOUSE > 0 */
 }

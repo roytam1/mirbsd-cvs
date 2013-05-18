@@ -14,7 +14,7 @@
  *    documentation and/or other materials provided with the distribution.
  * 3. All advertising materials mentioning features or use of this software
  *    must display the following acknowledgement:
- * This product includes software developed by HD Associates
+ *	This product includes software developed by HD Associates
  * 4. Neither the name of the HD Associaates nor the names of its contributors
  *    may be used to endorse or promote products derived from this software
  *    without specific prior written permission.
@@ -283,7 +283,7 @@ do_buff_decode(u_char *databuf, size_t len,
 				else {
 					char *dest;
 					dest = va_arg(ap, char *);
-					bcopy(databuf, dest, width);
+					memmove(dest, databuf, width);
 					if (letter == 'z') {
 						char *p;
 						for (p = dest + width - 1;

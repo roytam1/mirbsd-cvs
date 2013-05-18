@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/mksh
 #	$OpenBSD: makemib,v 1.7 2001/08/11 22:26:39 jakob Exp $
 #
 # Copyright (c) 1990, 1996

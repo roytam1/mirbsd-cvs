@@ -319,9 +319,9 @@ intpr(u_int display)
 		    nfsstats.srvrpccnt[NFSPROC_PATHCONF],
 		    nfsstats.srvrpccnt[NFSPROC_COMMIT]);
 		printf("Server Ret-Failed\n");
-		printf("%17d\n", nfsstats.srvrpc_errs);
+		printf("%17lld\n", nfsstats.srvrpc_errs);
 		printf("Server Faults\n");
-		printf("%13d\n", nfsstats.srv_errs);
+		printf("%13lld\n", nfsstats.srv_errs);
 		printf("Server Cache Stats:\n");
 		printf("%9.9s %9.9s %9.9s %9.9s\n",
 		    "Inprog", "Idem", "Non-idem", "Misses");
@@ -367,7 +367,7 @@ sidewaysintpr(u_int interval, u_int display)
 		getnfsstats(&nfsstats);
 
 		if (display & SHOW_CLIENT)
-		  printf("Client: %8d %8d %8d %8d %8d %8d %8d %8d\n",
+		  printf("Client: %8lld %8lld %8lld %8lld %8lld %8lld %8lld %8lld\n",
 		    nfsstats.rpccnt[NFSPROC_GETATTR] -
 		    lastst.rpccnt[NFSPROC_GETATTR],
 		    nfsstats.rpccnt[NFSPROC_LOOKUP] -
@@ -387,7 +387,7 @@ sidewaysintpr(u_int interval, u_int display)
 		    (nfsstats.rpccnt[NFSPROC_READDIRPLUS] -
 		    lastst.rpccnt[NFSPROC_READDIRPLUS]));
 		if (display & SHOW_SERVER)
-		  printf("Server: %8d %8d %8d %8d %8d %8d %8d %8d\n",
+		  printf("Server: %8lld %8lld %8lld %8lld %8lld %8lld %8lld %8lld\n",
 		    nfsstats.srvrpccnt[NFSPROC_GETATTR] -
 		    lastst.srvrpccnt[NFSPROC_GETATTR],
 		    nfsstats.srvrpccnt[NFSPROC_LOOKUP] -

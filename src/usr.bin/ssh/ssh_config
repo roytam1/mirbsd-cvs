@@ -1,4 +1,5 @@
-#	$OpenBSD: ssh_config,v 1.22 2006/05/29 12:56:33 dtucker Exp $
+# $MirOS: src/usr.bin/ssh/ssh_config,v 1.6 2006/03/27 19:48:57 tg Exp $
+# $OpenBSD: ssh_config,v 1.22 2006/05/29 12:56:33 dtucker Exp $
 
 # This is the ssh client system-wide configuration file.  See
 # ssh_config(5) for more information.  This file provides defaults for
@@ -24,21 +25,37 @@
 #   RSAAuthentication yes
 #   PasswordAuthentication yes
 #   HostbasedAuthentication no
-#   GSSAPIAuthentication no
-#   GSSAPIDelegateCredentials no
 #   BatchMode no
 #   CheckHostIP yes
 #   AddressFamily any
 #   ConnectTimeout 0
 #   StrictHostKeyChecking ask
-#   IdentityFile ~/.ssh/identity
-#   IdentityFile ~/.ssh/id_rsa
-#   IdentityFile ~/.ssh/id_dsa
+#   IdentityFile ~/.etc/ssh/identity
+#   IdentityFile ~/.etc/ssh/id_rsa
+#   IdentityFile ~/.etc/ssh/id_dsa
 #   Port 22
 #   Protocol 2,1
-#   Cipher 3des
-#   Ciphers aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,arcfour,aes192-cbc,aes256-cbc
+#   ControlMaster no
+#   ControlPath ...
 #   EscapeChar ~
 #   Tunnel no
 #   TunnelDevice any:any
 #   PermitLocalCommand no
+#   Cipher blowfish
+#   Ciphers aes256-cbc,blowfish-cbc,cast128-cbc,arcfour256,aes256-ctr,rijndael-cbc@lysator.liu.se,aes192-cbc,aes192-ctr,arcfour128,aes128-cbc,arcfour,aes128-ctr,3des-cbc
+#   MACs hmac-ripemd160,hmac-ripemd160@openssh.com,hmac-sha1,hmac-md5,hmac-sha1-96,hmac-md5-96
+
+
+# Use a dual config like this for session multiplexing
+# in your ~/.etc/ssh/config file:
+
+# Host target-m
+#   Hostname target
+#   User me
+#   ControlMaster ask
+#   ControlPath ~/.etc/ssh/.ctl.target
+# Host target-s
+#   Hostname target
+#   User me
+#   ControlMaster no
+#   ControlPath ~/.etc/ssh/.ctl.target

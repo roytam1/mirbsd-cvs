@@ -1,5 +1,6 @@
-#	$OpenBSD: Makefile,v 1.77 2005/05/18 20:15:22 hshoexer Exp $
-#	$EOM: Makefile,v 1.78 2000/10/15 21:33:42 niklas Exp $
+# $MirOS: src/sbin/isakmpd/Makefile,v 1.5 2005/04/26 21:06:00 tg Exp $
+# $OpenBSD: Makefile,v 1.77 2005/05/18 20:15:22 hshoexer Exp $
+# $EOM: Makefile,v 1.78 2000/10/15 21:33:42 niklas Exp $
 
 #
 # Copyright (c) 1998, 1999, 2000, 2001 Niklas Hallqvist.  All rights reserved.
@@ -50,8 +51,8 @@ CLEANFILES=	exchange_num.c exchange_num.h ipsec_num.c ipsec_num.h \
 		isakmp_num.c isakmp_num.h ipsec_fld.c ipsec_fld.h \
 		isakmp_fld.c isakmp_fld.h
 MAN=		isakmpd.8 isakmpd.conf.5 isakmpd.policy.5
-CFLAGS+=	-Wall -Wstrict-prototypes -Wmissing-prototypes \
-		-Wmissing-declarations -I${.CURDIR} -I.
+CFLAGS+=	-Wall -Wstrict-prototypes -Wmissing-prototypes
+CPPFLAGS+=	-I.
 
 # Include symbolic debugging info
 #DEBUG=		-g
@@ -64,16 +65,16 @@ CFLAGS+=	-Wall -Wstrict-prototypes -Wmissing-prototypes \
 # If you like to use Boehm's garbage collector (/usr/ports/devel/boehm-gc).
 #LDADD+=		-L/usr/local/lib -lgc
 #DPADD+=		/usr/local/lib/libgc.a
-#CFLAGS+=		-DUSE_BOEHM_GC -DGC_DEBUG
+#CPPFLAGS+=		-DUSE_BOEHM_GC -DGC_DEBUG
 # You can also use Boehm's garbage collector as a means to find leaks.
 #  # setenv GC_FIND_LEAK
 
 .if make(install)
-SUBDIR+=	samples
+#SUBDIR+=	samples
 .endif
 
 # Enable for DNSSEC use
-#CFLAGS+=	USE_DNSSEC
+#CPPFLAGS+=	USE_DNSSEC
 #SRCS+=		dnssec.c
 #LWRESLIB=      /usr/local/lib/liblwres.a
 #DNSSEC_CFLAGS= -I/usr/local/include -DLWRES
@@ -82,19 +83,19 @@ LDADD+=		${LWRESLIB} -lkeynote -lcrypto -ldes -lm
 DPADD+=		${LWRESLIB} ${LIBKEYNOTE} ${LIBCRYPTO} ${LIBDES} ${LIBM}
 
 exchange_num.c exchange_num.h: genconstants.sh exchange_num.cst
-	/bin/sh ${.CURDIR}/genconstants.sh ${.CURDIR}/exchange_num
+	${SHELL} ${.CURDIR}/genconstants.sh ${.CURDIR}/exchange_num
 
 ipsec_fld.c ipsec_fld.h: genfields.sh ipsec_fld.fld
-	/bin/sh ${.CURDIR}/genfields.sh ${.CURDIR}/ipsec_fld
+	${SHELL} ${.CURDIR}/genfields.sh ${.CURDIR}/ipsec_fld
 
 ipsec_num.c ipsec_num.h: genconstants.sh ipsec_num.cst
-	/bin/sh ${.CURDIR}/genconstants.sh ${.CURDIR}/ipsec_num
+	${SHELL} ${.CURDIR}/genconstants.sh ${.CURDIR}/ipsec_num
 
 isakmp_fld.c isakmp_fld.h: genfields.sh isakmp_fld.fld
-	/bin/sh ${.CURDIR}/genfields.sh ${.CURDIR}/isakmp_fld
+	${SHELL} ${.CURDIR}/genfields.sh ${.CURDIR}/isakmp_fld
 
 isakmp_num.c isakmp_num.h: genconstants.sh isakmp_num.cst
-	/bin/sh ${.CURDIR}/genconstants.sh ${.CURDIR}/isakmp_num
+	${SHELL} ${.CURDIR}/genconstants.sh ${.CURDIR}/isakmp_num
 
 ${PROG} beforedepend: ${GENERATED}
 

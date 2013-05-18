@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/pax/file_subs.c,v 1.6 2005/11/10 20:27:48 tg Exp $ */
 /*	$OpenBSD: file_subs.c,v 1.30 2005/11/09 19:59:06 otto Exp $	*/
 /*	$NetBSD: file_subs.c,v 1.4 1995/03/21 09:07:18 cgd Exp $	*/
 
@@ -34,14 +35,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)file_subs.c	8.1 (Berkeley) 5/31/93";
-#else
-static const char rcsid[] = "$OpenBSD: file_subs.c,v 1.30 2005/11/09 19:59:06 otto Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/time.h>
 #include <sys/stat.h>
@@ -53,9 +46,15 @@ static const char rcsid[] = "$OpenBSD: file_subs.c,v 1.30 2005/11/09 19:59:06 ot
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#ifdef __INTERIX
+#include <utime.h>
+#endif
 #include "pax.h"
 #include "options.h"
 #include "extern.h"
+
+__SCCSID("@(#)file_subs.c	8.1 (Berkeley) 5/31/93");
+__RCSID("$MirOS: src/bin/pax/file_subs.c,v 1.6 2005/11/10 20:27:48 tg Exp $");
 
 static int
 mk_link(char *, struct stat *, char *, int);
@@ -159,9 +158,11 @@ file_close(ARCHD *arcn, int fd)
 		arcn->sb.st_mode &= ~(SETBITS);
 	if (pmode)
 		fset_pmode(arcn->name, fd, arcn->sb.st_mode);
+#ifndef __INTERIX
 	if (patime || pmtime)
 		fset_ftime(arcn->name, fd, arcn->sb.st_mtime,
 		    arcn->sb.st_atime, 0);
+#endif
 	if (close(fd) < 0)
 		syswarn(0, errno, "Unable to close file descriptor on %s",
 		    arcn->name);
@@ -672,6 +673,9 @@ set_ftime(char *fnm, time_t mtime, time_t atime, int frc)
 {
 	static struct timeval tv[2] = {{0L, 0L}, {0L, 0L}};
 	struct stat sb;
+#ifdef __INTERIX
+	struct utimbuf u;
+#endif
 
 	tv[0].tv_sec = (long)atime;
 	tv[1].tv_sec = (long)mtime;
@@ -692,12 +696,19 @@ set_ftime(char *fnm, time_t mtime, time_t atime, int frc)
 	/*
 	 * set the times
 	 */
+#ifdef __INTERIX
+	u.actime = tv[0].tv_sec;
+	u.modtime = tv[1].tv_sec;
+	if (utime(fnm, &u) < 0)
+#else
 	if (utimes(fnm, tv) < 0)
+#endif
 		syswarn(1, errno, "Access/modification time set failed on: %s",
 		    fnm);
 	return;
 }
 
+#ifndef __INTERIX
 void
 fset_ftime(char *fnm, int fd, time_t mtime, time_t atime, int frc)
 {
@@ -727,6 +738,7 @@ fset_ftime(char *fnm, int fd, time_t mtime, time_t atime, int frc)
 		    fnm);
 	return;
 }
+#endif
 
 /*
  * set_ids()
@@ -743,8 +755,12 @@ set_ids(char *fnm, uid_t uid, gid_t gid)
 		 * ignore EPERM unless in verbose mode or being run by root.
 		 * if running as pax, POSIX requires a warning.
 		 */
-		if (strcmp(NM_PAX, argv0) == 0 || errno != EPERM || vflag ||
-		    geteuid() == 0)
+		if (strcmp(NM_PAX, argv0) == 0
+#ifndef __INTERIX
+		    || errno != EPERM || vflag ||
+		    geteuid() == 0
+#endif
+		    )
 			syswarn(1, errno, "Unable to set file uid/gid of %s",
 			    fnm);
 		return(-1);
@@ -779,17 +795,23 @@ fset_ids(char *fnm, int fd, uid_t uid, gid_t gid)
 int
 set_lids(char *fnm, uid_t uid, gid_t gid)
 {
+#ifndef __APPLE__
 	if (lchown(fnm, uid, gid) < 0) {
 		/*
 		 * ignore EPERM unless in verbose mode or being run by root.
 		 * if running as pax, POSIX requires a warning.
 		 */
-		if (strcmp(NM_PAX, argv0) == 0 || errno != EPERM || vflag ||
-		    geteuid() == 0)
+		if (strcmp(NM_PAX, argv0) == 0
+#ifndef __INTERIX
+		    || errno != EPERM || vflag ||
+		    geteuid() == 0
+#endif
+		    )
 			syswarn(1, errno, "Unable to set file uid/gid of %s",
 			    fnm);
 		return(-1);
 	}
+#endif
 	return(0);
 }
 

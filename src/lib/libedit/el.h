@@ -1,4 +1,3 @@
-/*	$OpenBSD: el.h,v 1.6 2003/11/25 20:12:38 otto Exp $	*/
 /*	$NetBSD: el.h,v 1.16 2003/10/18 23:48:42 christos Exp $	*/
 
 /*-

@@ -1,3 +1,4 @@
+/**	$MirOS: src/sbin/fdisk/part.c,v 1.2 2005/03/06 19:49:54 tg Exp $	*/
 /*	$OpenBSD: part.c,v 1.40 2004/11/10 17:29:41 deraadt Exp $	*/
 
 /*
@@ -25,19 +26,21 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <sys/types.h>
+#include <sys/fcntl.h>
+#include <sys/stat.h>
+#include <sys/disklabel.h>
+#include <machine/param.h>
 #include <err.h>
 #include <util.h>
 #include <stdio.h>
 #include <string.h>
 #include <unistd.h>
-#include <sys/fcntl.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/disklabel.h>
-#include <machine/param.h>
 #include "disk.h"
 #include "misc.h"
 #include "mbr.h"
+
+__RCSID("$MirOS: src/sbin/fdisk/part.c,v 1.2 2005/03/06 19:49:54 tg Exp $");
 
 int	PRT_check_chs(prt_t *partn);
 
@@ -71,6 +74,7 @@ static const struct part_type {
 	{ 0x1C, "Thinkpad Rec"},   /* IBM Thinkpad recovery partition */
 	{ 0x20, "Willowsoft  "},   /* Willowsoft OFS1 */
 	{ 0x24, "NEC DOS     "},   /* NEC DOS */
+	{ 0x27, "MirBSD      "},   /* MirOS BSD disklabel */
 	{ 0x38, "Theos       "},   /* Theos */
 	{ 0x39, "Plan 9      "},   /* Plan 9 */
 	{ 0x40, "VENIX 286   "},   /* VENIX 286 or LynxOS */
@@ -193,7 +197,9 @@ PRT_parse(disk_t *disk, void *prt, off_t offset, off_t reloff,
 	partn->ecyl = ((*p << 2) & 0xFF00) | (*(p+1));
 	p += 2;
 
-	if ((partn->id == DOSPTYP_EXTEND) || (partn->id == DOSPTYP_EXTENDL))
+	if ((partn->id == DOSPTYP_EXTEND) \
+	    || (partn->id == DOSPTYP_EXTENDL) \
+	    || (partn->id == DOSPTYP_EXTENDLX))
 		off = reloff;
 	else
 		off = offset;
@@ -222,7 +228,7 @@ void
 PRT_make(prt_t *partn, off_t offset, off_t reloff, void *prt)
 {
 	unsigned char *p = prt;
-	int ecsave, scsave;
+	int ecsave = 0, scsave = 0;
 	int modified = 0;
 	off_t off;
 
@@ -233,7 +239,9 @@ PRT_make(prt_t *partn, off_t offset, off_t reloff, void *prt)
 		partn->ecyl = (partn->ecyl > 1023)? 1023: partn->ecyl;
 		modified = 1;
 	}
-	if ((partn->id == DOSPTYP_EXTEND) || (partn->id == DOSPTYP_EXTENDL))
+	if ((partn->id == DOSPTYP_EXTEND) \
+	    || (partn->id == DOSPTYP_EXTENDL) \
+	    || (partn->id == DOSPTYP_EXTENDLX))
 		off = reloff;
 	else
 		off = offset;
@@ -272,7 +280,7 @@ PRT_make(prt_t *partn, off_t offset, off_t reloff, void *prt)
 }
 
 void
-PRT_print(int num, prt_t *partn, char *units)
+PRT_print(int num, prt_t *partn, char *units, int apart)
 {
 	double size;
 	int i;
@@ -286,7 +294,7 @@ PRT_print(int num, prt_t *partn, char *units)
 		size = (double)partn->ns * DEV_BSIZE /
 		    unit_types[i].conversion;
 		printf("%c%1d: %.2X %4u %3u %2u - %4u %3u %2u [%12u:%12.0f%s] %s\n",
-			(partn->flag == 0x80)?'*':' ',
+			(partn->flag == 0x80)?'*':(apart == num)?'!':' ',
 			num, partn->id,
 			partn->scyl, partn->shead, partn->ssect,
 			partn->ecyl, partn->ehead, partn->esect,
@@ -370,4 +378,3 @@ PRT_fix_CHS(disk_t *disk, prt_t *part)
 	part->ehead = head;
 	part->esect = sect;
 }
-

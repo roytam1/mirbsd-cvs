@@ -1,3 +1,4 @@
+.\" $MirOS: src/usr.bin/ssh/ssh-agent.1,v 1.3 2005/04/26 15:21:50 tg Exp $
 .\" $OpenBSD: ssh-agent.1,v 1.43 2005/11/28 06:02:56 dtucker Exp $
 .\"
 .\" Author: Tatu Ylonen <ylo@cs.hut.fi>
@@ -111,10 +112,10 @@ Keys are added using
 When executed without arguments,
 .Xr ssh-add 1
 adds the files
-.Pa ~/.ssh/id_rsa ,
-.Pa ~/.ssh/id_dsa
+.Pa ~/.etc/ssh/id_rsa ,
+.Pa ~/.etc/ssh/id_dsa
 and
-.Pa ~/.ssh/identity .
+.Pa ~/.etc/ssh/identity .
 If the identity has a passphrase,
 .Xr ssh-add 1
 asks for the passphrase (using a small X11 application if running
@@ -142,13 +143,13 @@ The second is that the agent prints the needed shell commands (either
 or
 .Xr csh 1
 syntax can be generated) which can be evalled in the calling shell, eg
-.Cm eval `ssh-agent -s`
+.Cm eval $(ssh-agent -s)
 for Bourne-type shells such as
 .Xr sh 1
 or
 .Xr ksh 1
 and
-.Cm eval `ssh-agent -c`
+.Cm eval $(ssh-agent -c)
 for
 .Xr csh 1
 and derivatives.
@@ -179,11 +180,11 @@ The agent exits automatically when the command given on the command
 line terminates.
 .Sh FILES
 .Bl -tag -width Ds
-.It Pa ~/.ssh/identity
+.It Pa ~/.etc/ssh/identity
 Contains the protocol version 1 RSA authentication identity of the user.
-.It Pa ~/.ssh/id_dsa
+.It Pa ~/.etc/ssh/id_dsa
 Contains the protocol version 2 DSA authentication identity of the user.
-.It Pa ~/.ssh/id_rsa
+.It Pa ~/.etc/ssh/id_rsa
 Contains the protocol version 2 RSA authentication identity of the user.
 .It Pa /tmp/ssh-XXXXXXXXXX/agent.<ppid>
 Unix-domain sockets used to contain the connection to the

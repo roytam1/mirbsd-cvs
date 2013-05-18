@@ -231,7 +231,7 @@ void ssl_log(server_rec *s, int level, const char *msg, ...)
         t = ap_get_gmtoff(&timz);
         strftime(tstr, 80, "[%d/%b/%Y %H:%M:%S", t);
         i = strlen(tstr);
-        ap_snprintf(tstr+i, 80-i, " %05d] ", (unsigned int)getpid());
+        snprintf(tstr+i, 80-i, " %05d] ", (unsigned int)getpid());
     }
 
     /*  determine whether newline should be written */
@@ -247,7 +247,7 @@ void ssl_log(server_rec *s, int level, const char *msg, ...)
     if (!(add & SSL_NO_LEVELID)) {
         for (i = 0; ssl_log_level2string[i].nLevel != 0; i++) {
             if (ssl_log_level2string[i].nLevel == level) {
-                ap_snprintf(lstr, sizeof(lstr), "[%s]", ssl_log_level2string[i].szLevel);
+                snprintf(lstr, sizeof(lstr), "[%s]", ssl_log_level2string[i].szLevel);
                 break;
             }
         }
@@ -257,7 +257,7 @@ void ssl_log(server_rec *s, int level, const char *msg, ...)
     }
 
     /*  create custom message  */
-    ap_vsnprintf(vstr, sizeof(vstr), msg, ap);
+    vsnprintf(vstr, sizeof(vstr), msg, ap);
 
     /*  write out SSLog message  */
     if ((add & SSL_ADD_ERRNO) && (add & SSL_ADD_SSLERR))
@@ -269,7 +269,7 @@ void ssl_log(server_rec *s, int level, const char *msg, ...)
     else
         astr = "";
     if (level <= sc->nLogLevel && sc->fileLogFile != NULL) {
-        ap_snprintf(str, sizeof(str), "%s%s%s%s%s", tstr, lstr, vstr, astr, nstr);
+        snprintf(str, sizeof(str), "%s%s%s%s%s", tstr, lstr, vstr, astr, nstr);
         fprintf(sc->fileLogFile, "%s", str);
     }
     if (level & SSL_LOG_ERROR)
@@ -279,7 +279,7 @@ void ssl_log(server_rec *s, int level, const char *msg, ...)
     /*  write out additional attachment messages  */
     if (add & SSL_ADD_ERRNO) {
         if (level <= sc->nLogLevel && sc->fileLogFile != NULL) {
-            ap_snprintf(str, sizeof(str), "%s%sSystem: %s (errno: %d)%s",
+            snprintf(str, sizeof(str), "%s%sSystem: %s (errno: %d)%s",
                         tstr, lstr, strerror(safe_errno), safe_errno, nstr);
             fprintf(sc->fileLogFile, "%s", str);
         }
@@ -293,7 +293,7 @@ void ssl_log(server_rec *s, int level, const char *msg, ...)
             cpE = ERR_error_string(e, NULL);
             cpA = ssl_log_annotation(cpE);
             if (level <= sc->nLogLevel && sc->fileLogFile != NULL) {
-                ap_snprintf(str, sizeof(str), "%s%s%s: %s%s%s%s%s",
+                snprintf(str, sizeof(str), "%s%s%s: %s%s%s%s%s",
                             tstr, lstr, SSL_LIBRARY_NAME, cpE,
                             cpA != NULL ? " [Hint: " : "",
                             cpA != NULL ? cpA : "", cpA != NULL ? "]" : "",

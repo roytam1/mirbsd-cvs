@@ -39,7 +39,7 @@
 .Sh SYNOPSIS
 .Nm du
 .Op Fl a | s
-.Op Fl chkrx
+.Op Fl ckrx
 .Op Fl H | L | P
 .Op Ar file ...
 .Sh DESCRIPTION
@@ -64,13 +64,6 @@ Display the grand total after all the arguments have been processed.
 .It Fl H
 Symbolic links on the command line are followed.
 (Symbolic links encountered in the tree traversal are not followed.)
-.It Fl h
-Display numbers in a human readable form.
-Use unit suffixes: Byte, Kilobyte, Megabyte, Gigabyte, Terabyte in order to
-reduce the number of digits to four or less.
-This overrides the
-.Fl k
-option.
 .It Fl k
 By default,
 .Nm

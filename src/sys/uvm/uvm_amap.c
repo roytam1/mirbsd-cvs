@@ -1007,7 +1007,7 @@ amap_wiperange(amap, slotoff, slots)
 	struct vm_amap *amap;
 	int slotoff, slots;
 {
-	int byanon, lcv, stop, curslot, ptr, slotend;
+	int byanon, lcv, stop, curslot, ptr, slotend = 0;
 	struct vm_anon *anon;
 
 	/*

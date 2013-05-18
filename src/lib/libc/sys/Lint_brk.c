@@ -9,8 +9,8 @@
 #include <unistd.h>
 
 /*ARGSUSED*/
-char *
-brk(const char *addr)
+int
+brk(void *addr)
 {
 	return (0);
 }

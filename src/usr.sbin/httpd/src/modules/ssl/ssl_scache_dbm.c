@@ -256,7 +256,7 @@ SSL_SESSION *ssl_scache_dbm_retrieve(server_rec *s, UCHAR *id, int idlen)
     }
 
     /* unstreamed SSL_SESSION */
-    sess = d2i_SSL_SESSION(NULL, &ucpData, nData);
+    sess = d2i_SSL_SESSION(NULL, (void *)(&ucpData), nData);
 
     return sess;
 }

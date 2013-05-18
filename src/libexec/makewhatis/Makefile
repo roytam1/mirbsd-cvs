@@ -1,6 +1,7 @@
-#	$OpenBSD: Makefile,v 1.7 2004/08/06 12:05:08 espie Exp $
+# $MirOS: src/libexec/makewhatis/Makefile,v 1.3 2005/11/23 16:04:02 tg Exp $
+# $OpenBSD: Makefile,v 1.7 2004/08/06 12:05:08 espie Exp $
 
-MAN=makewhatis.8
+MAN=	makewhatis.8
 PACKAGES= \
 	OpenBSD/Makewhatis.pm \
 	OpenBSD/Makewhatis/Check.pm \
@@ -18,7 +19,7 @@ LIBBASE=/usr/libdata/perl5
 depend:
 all:
 
-install: 
+install:
 .for i in ${PACKAGES}
 	${INSTALL} -d -o ${LIBOWN} -g ${LIBGRP} -m ${DIRMODE} \
 		${DESTDIR}${LIBBASE}/${i:H}
@@ -32,11 +33,12 @@ install:
 
 clean:
 
+.include "../Makefile.inc"
 .include <bsd.own.mk>
 
 .if !defined(NOMAN)
 install: maninstall
-.include <bsd.man.mk>
+.  include <bsd.man.mk>
 .endif
 
 .include <bsd.obj.mk>

@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libc/stdio/vasprintf.c,v 1.2 2005/09/18 19:50:32 tg Exp $ */
 /*	$OpenBSD: vasprintf.c,v 1.11 2005/08/08 08:05:36 espie Exp $	*/
 
 /*
@@ -16,20 +17,29 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <errno.h>
+#ifndef _LIBMIRMAKE
 #include "local.h"
+#endif
+
+__RCSID("$MirOS: src/lib/libc/stdio/vasprintf.c,v 1.2 2005/09/18 19:50:32 tg Exp $");
 
 int
-vasprintf(char **str, const char *fmt, _BSD_VA_LIST_ ap)
+vasprintf(char **str, const char *fmt, va_list ap)
 {
 	int ret;
 	FILE f;
+#ifndef _LIBMIRMAKE
 	struct __sfileext fext;
+#endif
 	unsigned char *_base;
 
+#ifndef _LIBMIRMAKE
 	_FILEEXT_SETUP(&f, &fext);
+#endif
 	f._file = -1;
 	f._flags = __SWR | __SSTR | __SALC;
 	f._bf._base = f._p = (unsigned char *)malloc(128);

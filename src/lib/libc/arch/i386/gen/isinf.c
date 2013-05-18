@@ -38,8 +38,7 @@
 #include <math.h>
 
 int
-isinf(d)
-	double d;
+isinf(double d)
 {
 	struct ieee_double *p = (struct ieee_double *)&d;
 

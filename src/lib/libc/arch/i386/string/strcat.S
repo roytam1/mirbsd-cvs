@@ -1,4 +1,4 @@
-/*	$OpenBSD: strcat.S,v 1.8 2005/08/07 11:30:38 espie Exp $ */
+/* $MirOS: src/lib/libc/arch/i386/string/strcat.S,v 1.4 2005/09/22 20:06:18 tg Exp $ */
 /*
  * Written by J.T. Conklin <jtc@netbsd.org>.
  * Public domain.
@@ -6,12 +6,16 @@
 
 #include <machine/asm.h>
 
-#if defined(APIWARN)
 #APP
 	.section .gnu.warning.strcat
-	.ascii "warning: strcat() is almost always misused, please use strlcat()"
+	.ascii "strcat() is almost always misused, consider using strlcat()"
+	.text
 #NO_APP
-#endif
+
+	.section .comment
+	.asciz	"$MirOS: src/lib/libc/arch/i386/string/strcat.S,v 1.4 2005/09/22 20:06:18 tg Exp $"
+
+	.text
 
 /*
  * NOTE: I've unrolled the loop eight times: large enough to make a

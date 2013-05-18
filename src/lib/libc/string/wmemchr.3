@@ -1,3 +1,4 @@
+.\"	$MirOS: contrib/code/libhaible/string/wmemchr.3,v 1.3 2006/05/31 00:41:05 tg Exp $
 .\"	$OpenBSD: wmemchr.3,v 1.2 2005/04/13 20:42:48 jmc Exp $
 .\"
 .\"	$NetBSD: wmemchr.3,v 1.9 2003/09/08 17:54:33 wiz Exp $
@@ -35,59 +36,73 @@
 .\"
 .\"     from: @(#)strcpy.3	8.1 (Berkeley) 6/4/93
 .\"
-.Dd December 22, 2000
+.Dd May 30, 2006
 .Dt WMEMCHR 3
 .Os
 .Sh NAME
-.Nm wmemchr ,
-.Nm wmemcmp ,
-.Nm wmemcpy ,
-.Nm wmemmove ,
-.Nm wmemset ,
+.Nm wcscasecmp ,
 .Nm wcscat ,
 .Nm wcschr ,
 .Nm wcscmp ,
+.Nm wcscoll ,
 .Nm wcscpy ,
 .Nm wcscspn ,
+.Nm wcsdup ,
+.Nm wcsftime ,
 .Nm wcslcat ,
 .Nm wcslcpy ,
 .Nm wcslen ,
+.Nm wcsncasecmp ,
 .Nm wcsncat ,
 .Nm wcsncmp ,
 .Nm wcsncpy ,
 .Nm wcspbrk ,
 .Nm wcsrchr ,
 .Nm wcsspn ,
-.Nm wcsstr
+.Nm wcsstr ,
+.Nm wcstod ,
+.Nm wcstof ,
+.Nm wcstol ,
+.Nm wcstold ,
+.Nm wcstoll ,
+.Nm wcstoul ,
+.Nm wcstoull ,
+.Nm wcswcs ,
+.Nm wcsxfrm ,
+.Nm wmemchr ,
+.Nm wmemcmp ,
+.Nm wmemcpy ,
+.Nm wmemmove ,
+.Nm wmemset
 .Nd wide character string manipulation operations
 .Sh SYNOPSIS
 .In wchar.h
-.Ft wchar_t *
-.Fn wmemchr "const wchar_t *s" "wchar_t c" "size_t n"
 .Ft int
-.Fn wmemcmp "const wchar_t *s1" "const wchar_t *s2" "size_t n"
-.Ft wchar_t *
-.Fn wmemcpy "wchar_t * restrict s1" "const wchar_t * restrict s2" "size_t n"
-.Ft wchar_t *
-.Fn wmemmove "wchar_t *s1" "const wchar_t *s2" "size_t n"
-.Ft wchar_t *
-.Fn wmemset "wchar_t *s" "wchar_t c" "size_t n"
+.Fn wcscasecmp "const wchar_t *" "const wchar_t *"
 .Ft wchar_t *
 .Fn wcscat "wchar_t * restrict s1" "const wchar_t * restrict s2"
 .Ft wchar_t *
 .Fn wcschr "const wchar_t *s" "wchar_t c"
 .Ft int
 .Fn wcscmp "const wchar_t *s1" "const wchar_t *s2"
+.Ft int
+.Fn wcscoll "const wchar_t *" "const wchar_t *"
 .Ft wchar_t *
 .Fn wcscpy "wchar_t * restrict s1" "const wchar_t * restrict s2"
 .Ft size_t
 .Fn wcscspn "const wchar_t *s1" "const wchar_t *s2"
+.Ft wchar_t *
+.Fn wcsdup "const wchar_t *"
+.Ft size_t
+.Fn wcsftime "wchar_t * restrict" "size_t" "const wchar_t * restrict" "const struct tm * restrict"
 .Ft size_t
 .Fn wcslcat "wchar_t *s1" "const wchar_t *s2" "size_t n"
 .Ft size_t
 .Fn wcslcpy "wchar_t *s1" "const wchar_t *s2" "size_t n"
 .Ft size_t
 .Fn wcslen "const wchar_t *s"
+.Ft int
+.Fn wcsncasecmp "const wchar_t *" "const wchar_t *" "size_t"
 .Ft wchar_t *
 .Fn wcsncat "wchar_t * restrict s1" "const wchar_t * restrict s2" "size_t n"
 .Ft int
@@ -102,6 +117,34 @@
 .Fn wcsspn "const wchar_t *s1" "const wchar_t *s2"
 .Ft wchar_t *
 .Fn wcsstr "const wchar_t *s1" "const wchar_t *s2"
+.Ft double
+.Fn wcstod "const wchar_t *__restrict__" "wchar_t **__restrict__"
+.Ft float
+.Fn wcstof "const wchar_t *__restrict__" "wchar_t **__restrict__"
+.Ft long
+.Fn wcstol "const wchar_t *__restrict__" "wchar_t **__restrict__" "int"
+.Ft long double
+.Fn wcstold "const wchar_t *__restrict__" "wchar_t **__restrict__"
+.Ft long long
+.Fn wcstoll "const wchar_t *__restrict__" "wchar_t **__restrict__" "int"
+.Ft unsigned long
+.Fn wcstoul "const wchar_t *__restrict__" "wchar_t **__restrict__" "int"
+.Ft unsigned long long
+.Fn wcstoull "const wchar_t *__restrict__" "wchar_t **__restrict__" "int"
+.Ft wchar_t *
+.Fn wcswcs "const wchar_t *" "const wchar_t *"
+.Ft size_t
+.Fn wcsxfrm "wchar_t * restrict" "const wchar_t * restrict" "size_t"
+.Ft wchar_t *
+.Fn wmemchr "const wchar_t *s" "wchar_t c" "size_t n"
+.Ft int
+.Fn wmemcmp "const wchar_t *s1" "const wchar_t *s2" "size_t n"
+.Ft wchar_t *
+.Fn wmemcpy "wchar_t * restrict s1" "const wchar_t * restrict s2" "size_t n"
+.Ft wchar_t *
+.Fn wmemmove "wchar_t *s1" "const wchar_t *s2" "size_t n"
+.Ft wchar_t *
+.Fn wmemset "wchar_t *s" "wchar_t c" "size_t n"
 .Sh DESCRIPTION
 These functions implement string manipulation operations over wide character
 strings.
@@ -114,21 +157,32 @@ counterpart, such as
 .Xr memcpy 3 ,
 .Xr memmove 3 ,
 .Xr memset 3 ,
+.Xr strcasecmp 3 ,
 .Xr strcat 3 ,
 .Xr strchr 3 ,
 .Xr strcmp 3 ,
+.Xr strcoll 3 ,
 .Xr strcpy 3 ,
 .Xr strcspn 3 ,
+.Xr strdup 3 ,
+.Xr strftime 3 ,
 .Xr strlcat 3 ,
 .Xr strlcpy 3 ,
 .Xr strlen 3 ,
+.Xr strncasecmp 3 ,
 .Xr strncat 3 ,
 .Xr strncmp 3 ,
 .Xr strncpy 3 ,
 .Xr strpbrk 3 ,
 .Xr strrchr 3 ,
 .Xr strspn 3 ,
-.Xr strstr 3
+.Xr strstr 3 ,
+.Xr strtod 3 ,
+.Xr strtol 3 ,
+.Xr strtoll 3 ,
+.Xr strtoul 3 ,
+.Xr strtoull 3 ,
+.Xr strxfrm 3
 .Sh STANDARDS
 These functions conform to
 .St -isoC-99
@@ -139,3 +193,15 @@ with the exception of
 and
 .Fn wcslcpy ,
 which are extensions.
+.Pp
+.Fn wcswcs
+is a historic name for
+.Fn wcsstr ,
+programmers are urged to not use it in new code.
+.Pp
+.Fn wcstof
+and
+.Fn wcstold
+are less- and more-precise versions of
+.Fn wcstod ,
+respectively.

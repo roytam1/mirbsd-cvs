@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/config/main.c,v 1.4 2005/12/19 21:57:26 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.37 2005/04/28 22:28:00 deraadt Exp $	*/
 /*	$NetBSD: main.c,v 1.22 1997/02/02 21:12:33 thorpej Exp $	*/
 
@@ -47,9 +48,8 @@ static char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <sys/param.h>
+#include <sys/stat.h>
 #include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
@@ -58,6 +58,8 @@ static char copyright[] =
 #include <string.h>
 #include <unistd.h>
 #include "config.h"
+
+__RCSID("$MirOS: src/usr.sbin/config/main.c,v 1.4 2005/12/19 21:57:26 tg Exp $");
 
 int	firstfile(const char *);
 int	yyparse(void);
@@ -76,9 +78,11 @@ static int do_option(struct hashtab *, struct nvlist ***,
 static int crosscheck(void);
 static int badstar(void);
 static int mksymlinks(void);
+static int mkcfgfile(void);
 static int hasparent(struct devi *);
 static int cfcrosscheck(struct config *, const char *, struct nvlist *);
 static void optiondelta(void);
+FILE *getfp(void);
 
 int	madedir = 0;
 
@@ -228,7 +232,7 @@ main(int argc, char *argv[])
 		stop();
 
 	/*
-	 * Fix (as in `set firmly in place') files.
+	 * Fix (as in 'set firmly in place') files.
 	 */
 	if (fixfiles())
 		stop();
@@ -268,7 +272,7 @@ main(int argc, char *argv[])
 	 * Ready to go.  Build all the various files.
 	 */
 	if (mksymlinks() || mkmakefile() || mkheaders() || mkswap() ||
-	    mkioconf())
+	    mkioconf() || mkcfgfile())
 		stop();
 	(void)printf("Don't forget to run \"make depend\"\n");
 	optiondelta();
@@ -312,6 +316,53 @@ mksymlinks(void)
 	free(p);
 
 	return (ret);
+}
+
+/*
+ * Create config_file.h that defines a macro with the content of conffile,
+ * useful to recover a lost kernel configuration.
+ * Each line is prefixed with =CF=
+ * Note : the current position of the configuration stream is modified.
+ */
+static int
+mkcfgfile(void)
+{
+	FILE *cfgh;
+	FILE *cfgfp;
+	int newline;
+	int c;
+
+	if ((cfgh = fopen("config_file.h", "w")) == NULL ||
+	    (cfgfp = getfp()) == NULL)
+		return (-1);
+	rewind(cfgfp);
+	fprintf(cfgh, "static const char kern_config[] __attribute__((unused)) = \"\\\n"
+		      "START CONFIG FILE\\n\\\n");
+	newline = 1;
+	while ((c = getc(cfgfp)) != EOF) {
+		if (newline) {
+			fprintf(cfgh, "=CF=");
+			newline = 0;
+		}
+		switch (c) {
+		    case '\\':
+		    case '"':
+			fputc('\\', cfgh);
+			break;
+		    case '\n':
+			fprintf(cfgh, "\\n\\\n");
+			newline = 1;
+			continue;
+		}
+		fputc(c, cfgh);
+	}
+	if (!newline) {
+		fprintf(cfgh, "\\n\\\n");
+	}
+	fprintf(cfgh, "END CONFIG FILE\\n\";\n");
+	fclose(cfgh);
+
+	return (0);
 }
 
 static __dead void
@@ -447,9 +498,9 @@ do_option(struct hashtab *ht, struct nvlist ***nppp, const char *name,
 	if ((nv = ht_lookup(ht, name)) == NULL)
 		panic("do_option");
 	if (nv->nv_str != NULL)
-		error("already have %s `%s=%s'", type, name, nv->nv_str);
+		error("already have %s '%s=%s'", type, name, nv->nv_str);
 	else
-		error("already have %s `%s'", type, name);
+		error("already have %s '%s'", type, name);
 	return (1);
 }
 
@@ -558,7 +609,7 @@ loop:
 
 /*
  * Cross-check the configuration: make sure that each target device
- * or attribute (`at foo[0*?]') names at least one real device.  Also
+ * or attribute ('at foo[0*?]') names at least one real device.  Also
  * see that the root, swap, and dump devices for all configurations
  * are there.
  */
@@ -617,7 +668,7 @@ badstar(void)
 	foundstar:
 		if (ht_lookup(needcnttab, d->d_name)) {
 			(void)fprintf(stderr,
-		    "config: %s's cannot be *'d until its driver is fixed\n",
+		    "config: %ss cannot be *'d until its driver is fixed\n",
 			    d->d_name);
 			errs++;
 			continue;

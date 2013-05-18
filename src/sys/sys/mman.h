@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: mman.h,v 1.18 2003/07/21 22:52:19 tedu Exp $	*/
 /*	$NetBSD: mman.h,v 1.11 1995/03/26 20:24:23 jtc Exp $	*/
 
@@ -31,6 +32,9 @@
  *
  *	@(#)mman.h	8.1 (Berkeley) 6/2/93
  */
+
+#ifndef	_SYS_MMAN_H
+#define	_SYS_MMAN_H
 
 /*
  * Protections are chosen from these bits, or-ed together
@@ -125,3 +129,5 @@ void *	mquery(void *, size_t, int, int, int, off_t);
 __END_DECLS
 
 #endif /* !_KERNEL */
+
+#endif	/* notdef _SYS_MMAN_H */

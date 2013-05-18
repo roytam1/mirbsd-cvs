@@ -1,9 +1,10 @@
-	$OpenBSD: syscalls.master,v 1.49 2004/10/27 13:23:38 niklas Exp $
+	$MirOS: src/sys/compat/linux/syscalls.master,v 1.5 2005/12/28 22:24:54 tg Exp $
+;	$OpenBSD: syscalls.master,v 1.49 2004/10/27 13:23:38 niklas Exp $
 ;	$NetBSD: syscalls.master,v 1.15 1995/12/18 14:35:10 fvdl Exp $
 
 ;	@(#)syscalls.master	8.1 (Berkeley) 7/19/93
 
-; OpenBSD COMPAT_LINUX system call name/number "master" file.
+; MirOS BSD COMPAT_LINUX system call name/number "master" file.
 ; (See syscalls.conf to see what it is processed into.)
 ;
 ; Fields: number type [type-dependent ...]
@@ -77,7 +78,8 @@
 24	STD		linux_getuid16 { uid_t linux_sys_getuid(void); }
 25	STD		{ int linux_sys_stime(linux_time_t *t); }
 #ifdef PTRACE
-26	STD		{ int linux_sys_ptrace(void); }
+26	STD		{ int linux_sys_ptrace(int request, int pid, \
+			  int addr, int data); }
 #else
 26	UNIMPL		ptrace
 #endif
@@ -144,11 +146,12 @@
 			    struct linux_rlimit *rlp); }
 76	STD		{ int linux_sys_getrlimit(u_int which, \
 			    struct linux_rlimit *rlp); }
-77	NOARGS		{ int sys_getrusage(int who, struct rusage *rusage); }
-78	NOARGS		{ int sys_gettimeofday(struct timeval *tp, \
-			    struct timezone *tzp); }
-79	NOARGS		{ int sys_settimeofday(struct timeval *tp, \
-			    struct timezone *tzp); }
+77	STD		{ int compat_time_sys_getrusage(int who, \
+			    struct rusage_compat *rusage); }
+78	NOARGS		{ int compat_time_sys_gettimeofday( \
+			    struct timeval_compat *tp, struct timezone *tzp); }
+79	NOARGS		{ int compat_time_sys_settimeofday( \
+			    struct timeval_compat *tp, struct timezone *tzp); }
 80	NOARGS		linux_getgroups { int sys_getgroups(u_int gidsetsize, \
 			    gid_t *gidset); }
 81	NOARGS		linux_setgroups { int sys_setgroups(u_int gidsetsize, \
@@ -160,7 +163,7 @@
 85	STD		{ int linux_sys_readlink(char *name, char *buf, \
 			    int count); }
 86	STD		{ int linux_sys_uselib(char *path); }
-87	NOARGS		{ int compat_25_sys_swapon(char *name); }
+87	UNIMPL		linux_swapon
 88	NOARGS		{ int sys_reboot(int opt); }
 89	STD		{ int linux_sys_readdir(int fd, caddr_t dent, \
 			    unsigned int count); }
@@ -186,10 +189,11 @@
 #endif
 102	STD		{ int linux_sys_socketcall(int what, void *args); }
 103	STD		{ int linux_sys_klog(void); }
-104	NOARGS		{ int sys_setitimer(u_int which, \
-			    struct itimerval *itv, struct itimerval *oitv); }
-105	NOARGS		{ int sys_getitimer(u_int which, \
-			    struct itimerval *itv); }
+104	NOARGS		{ int compat_time_sys_setitimer(u_int which, \
+			    struct itimerval_compat *itv, \
+			    struct itimerval_compat *oitv); }
+105	NOARGS		{ int compat_time_sys_getitimer(u_int which, \
+			    struct itimerval_compat *itv); }
 106	STD		{ int linux_sys_stat(char *path, \
 			    struct linux_stat *sp); }
 107	STD		{ int linux_sys_lstat(char *path, \
@@ -205,7 +209,7 @@
 112	STD		{ int linux_sys_idle(void); }
 113	STD		{ int linux_sys_vm86old(void); }
 114	STD		{ int linux_sys_wait4(int pid, int *status, \
-			    int options, struct rusage *rusage); }
+			    int options, struct rusage_compat *rusage); }
 115	STD		{ int linux_sys_swapoff(void); }
 116	STD		{ int linux_sys_sysinfo(struct linux_sys_sysinfo_args *sysinfo); }
 117	STD		{ int linux_sys_ipc(int what, int a1, int a2, int a3, \
@@ -245,7 +249,7 @@
 			    unsigned count); }
 142	STD		{ int linux_sys_select(int nfds, fd_set *readfds, \
 			    fd_set *writefds, fd_set *exceptfds, \
-			    struct timeval *timeout); }
+			    struct timeval_compat *timeout); }
 143	NOARGS		{ int sys_flock(int fd, int how); }
 144	NOARGS		{ int sys_msync(void *addr, int len, int fl); }
 145	NOARGS		{ int sys_readv(int fd, struct iovec *iovp, \
@@ -270,8 +274,9 @@
 159	STD		{ int linux_sys_sched_get_priority_max(int policy); }
 160	STD		{ int linux_sys_sched_get_priority_min(int policy); }
 161	STD		{ int linux_sys_sched_rr_get_interval(void); }
-162	NOARGS		{ int sys_nanosleep(const struct timespec *rqtp, \
-				struct timespec *rmtp); }
+162	NOARGS		{ int compat_time_sys_nanosleep( \
+			    const struct timespec_compat *rqtp, \
+			    struct timespec_compat *rmtp); }
 163	STD		{ int linux_sys_mremap(void *old_address, \
 			    size_t old_size, size_t new_size, long flags); }
 164	STD		{ int linux_sys_setresuid16(u_int16_t ruid, \
@@ -362,8 +367,8 @@
 			    unsigned count); }
 221	STD		{ int linux_sys_fcntl64(u_int fd, u_int cmd, \
 			    void *arg); }
-222	UNIMPL
-223	UNIMPL
+222	UNIMPL		linux_restux_1
+223	UNIMPL		linux_restux_2
 224	UNIMPL		linux_sys_gettid
 225	UNIMPL		linux_sys_readahead
 226	NOARGS		{ int linux_sys_setxattr(void); }
@@ -391,7 +396,7 @@
 248	UNIMPL		linux_sys_io_submit
 249	UNIMPL		linux_sys_io_cancel
 250	NOARGS		{ int linux_sys_fadvise64(void); }
-251	UNIMPL		
+251	UNIMPL
 252	NOARGS		linux_exit_group { int sys_exit(int rval); }
 253	UNIMPL		linux_sys_lookup_dcookie
 254	UNIMPL		linux_sys_epoll_create
@@ -408,3 +413,20 @@
 265	UNIMPL		linux_sys_clock_gettime
 266	UNIMPL		linux_sys_clock_getres
 267	UNIMPL		linux_sys_clock_nanosleep
+268	UNIMPL		linux_sys_statfs64
+269	UNIMPL		linux_sys_fstatfs64
+270	UNIMPL		linux_sys_tgkill
+271	UNIMPL		linux_sys_utimes
+272	UNIMPL		linux_sys_fadvise64_64
+273	UNIMPL		linux_sys_ni_syscall
+274	UNIMPL		linux_sys_mbind
+275	UNIMPL		linux_sys_get_mempolicy
+276	UNIMPL		linux_sys_set_mempolicy
+277	UNIMPL		linux_sys_mq_open
+278	UNIMPL		linux_sys_mq_unlink
+279	UNIMPL		linux_sys_mq_timedsend
+280	UNIMPL		linux_sys_mq_timedreceive
+281	UNIMPL		linux_sys_mq_notify
+282	UNIMPL		linux_sys_mq_getsetattr
+283	UNIMPL
+284	UNIMPL		linux_sys_waitid

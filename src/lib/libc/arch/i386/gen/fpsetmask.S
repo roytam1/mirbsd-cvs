@@ -6,6 +6,8 @@
 
 #include <machine/asm.h>
 
+	.text
+
 ENTRY(fpsetmask)
 	subl $4,%esp
 

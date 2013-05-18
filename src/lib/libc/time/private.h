@@ -1,21 +1,24 @@
+/**	$MirOS: src/lib/libc/time/private.h,v 1.2 2005/03/06 20:28:50 tg Exp $ */
 /*	$OpenBSD: private.h,v 1.17 2005/07/05 13:40:51 millert Exp $	*/
 #ifndef PRIVATE_H
-
 #define PRIVATE_H
+
+/*
+ * MirOS TAI64 routines
+ */
 
 /*
 ** This file is in the public domain, so clarified as of
 ** 1996-06-05 by Arthur David Olson (arthur_david_olson@nih.gov).
 */
 
-/* OpenBSD defaults */
+/* MirOS defaults */
 #define TM_GMTOFF		tm_gmtoff
 #define TM_ZONE			tm_zone
-#define PCTS			1
-#define XPG4_1994_04_09		1
-#define STD_INSPIRED		1
+#undef	XPG4_1994_04_09
 #define HAVE_STRERROR		1
 #define NO_RUN_TIME_WARNINGS_ABOUT_YEAR_2000_PROBLEMS_THANK_YOU	1
+#define	NOID			1
 
 /*
 ** This header is for use ONLY with the time conversion code.

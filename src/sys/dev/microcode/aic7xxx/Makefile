@@ -1,3 +1,4 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.7 2003/12/24 23:27:55 krw Exp $
 # $FreeBSD: src/sys/dev/aic7xxx/Makefile,v 1.6 1999/08/28 00:41:22 peter Exp $
 
@@ -20,10 +21,10 @@ LDADD+=	-ll
 DEPENDFILE=
 .endif
 
-CFLAGS+= -I/usr/include -I.
+CPPFLAGS+= -I/usr/include -I.
 YFLAGS= ${.TARGET:M*macro*:S/$(.TARGET)/-p mm/} -d
 LFLAGS+= ${.TARGET:M*macro*:S/$(.TARGET)/-olex.yy.c/} ${.TARGET:M*macro*:S/$(.TARGET)/-Pmm/}
-NOMAN=	noman
+NOMAN=	yes
 
 .ifdef DEBUG
 CFLAGS+= -DDEBUG -g

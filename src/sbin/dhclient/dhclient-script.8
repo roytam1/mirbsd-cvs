@@ -1,4 +1,5 @@
-.\"	$OpenBSD: dhclient-script.8,v 1.3 2005/04/09 21:16:23 jmc Exp $
+.\" $MirOS: src/sbin/dhclient/dhclient-script.8,v 1.2 2005/03/06 19:49:50 tg Exp $
+.\" $OpenBSD: dhclient-script.8,v 1.3 2005/04/09 21:16:23 jmc Exp $
 .\"
 .\" Copyright (c) 1997 The Internet Software Consortium.
 .\" All rights reserved.
@@ -144,6 +145,18 @@ needs to be created, using the values of
 and
 .Va $new_domain_name_servers
 (which may list more than one server, separated by spaces).
+The
+.Pa /etc/resolv.conf
+file is
+.Em not
+created if the
+.Pa /etc/resolv.conf.lock
+file exists.
+In that case, the file which would have been created as
+.Pa /etc/resolv.conf
+is written to
+.Pa /etc/resolv.conf.std
+instead.
 A default route should be set using
 .Va $new_routers ,
 and static routes may need to be set up using
@@ -250,6 +263,13 @@ implementation of
 .Nm
 was written by
 .An Kenneth R. Westerback Aq krw@openbsd.org .
+.Pp
+The
+.Pa /etc/resolv.conf
+preservation code has been adapted into
+.Mx
+by
+.An Thorsten Glaser Aq tg@66h.42h.de .
 .Sh BUGS
 If more than one interface is being used, there's no obvious way to
 avoid clashes between server-supplied configuration parameters \- for

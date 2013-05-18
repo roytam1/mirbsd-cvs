@@ -62,8 +62,12 @@ static char *rcsid = "$OpenBSD: proc_compare.c,v 1.10 2005/04/11 07:04:47 deraad
  * TODO - consider whether pctcpu should be used.
  */
 
+#ifdef SONPROC
 #define ISRUN(p)	(((p)->p_stat == SRUN) || ((p)->p_stat == SIDL) || \
 			 ((p)->p_stat == SONPROC))
+#else
+#define ISRUN(p)	(((p)->p_stat == SRUN) || ((p)->p_stat == SIDL))
+#endif
 #define TESTAB(a, b)    ((a)<<1 | (b))
 #define ONLYA   2
 #define ONLYB   1

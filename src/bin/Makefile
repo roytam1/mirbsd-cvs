@@ -1,7 +1,35 @@
-#	$OpenBSD: Makefile,v 1.9 2002/06/06 16:46:36 provos Exp $
+# $MirOS: src/bin/Makefile,v 1.4 2005/08/29 20:54:33 tg Exp $
 
-SUBDIR=	cat chio chmod cp csh date dd df domainname echo ed expr hostname \
-	kill ksh ln ls md5 mkdir mt mv pax ps pwd rcp rm rmail rmdir \
-	sleep stty sync systrace test
+  SUBDIR+= cat
+  SUBDIR+= chmod
+  SUBDIR+= cp
+  SUBDIR+= date
+  SUBDIR+= dd
+  SUBDIR+= df
+  SUBDIR+= echo
+  SUBDIR+= ed
+  SUBDIR+= expr
+  SUBDIR+= hostname
+  SUBDIR+= kill
+  SUBDIR+= ln
+  SUBDIR+= ls
+  SUBDIR+= md5
+  SUBDIR+= mkdir
+  SUBDIR+= mksh
+  SUBDIR+= mt
+  SUBDIR+= mv
+  SUBDIR+= pax
+  SUBDIR+= ps
+  SUBDIR+= pwd
+  SUBDIR+= rm
+  SUBDIR+= rmdir
+  SUBDIR+= sh
+  SUBDIR+= sleep
+  SUBDIR+= stty
+  SUBDIR+= sync
+  SUBDIR+= systrace
+  SUBDIR+= test
+
+SUBDIR_ONLY_BSD+=	systrace
 
 .include <bsd.subdir.mk>

@@ -1212,7 +1212,7 @@ static SSL_SESSION *shmcb_lookup_session_id(
                                      shmcb_get_safe_uint(&(idx->offset)),
                                      SSL_SESSION_MAX_DER);
             ptr = tempasn;
-            pSession = d2i_SSL_SESSION(NULL, &ptr, SSL_SESSION_MAX_DER);
+            pSession = d2i_SSL_SESSION(NULL, (void *)(&ptr), SSL_SESSION_MAX_DER);
             if (pSession == NULL) {
                 ssl_log(s, SSL_LOG_ERROR, "scach2_lookup_"
                         "session_id, internal error");
@@ -1278,7 +1278,7 @@ static BOOL shmcb_remove_session_id(
                                      shmcb_get_safe_uint(&(idx->offset)),
                                      SSL_SESSION_MAX_DER);
             ptr = tempasn;
-            pSession = d2i_SSL_SESSION(NULL, &ptr, SSL_SESSION_MAX_DER);
+            pSession = d2i_SSL_SESSION(NULL, (void *)(&ptr), SSL_SESSION_MAX_DER);
             if (pSession == NULL) {
                 ssl_log(s, SSL_LOG_ERROR, "shmcb_remove_session_id, "
                         "internal error");

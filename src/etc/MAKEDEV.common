@@ -1,3 +1,4 @@
+vers(a, {-$MirOS: src/etc/MAKEDEV.common,v 1.6 2006/01/30 13:07:24 tg Exp $-})dnl
 vers(a, {-$OpenBSD: MAKEDEV.common,v 1.19 2005/06/29 18:23:26 todd Exp $-})dnl
 divert(1)dnl
 dnl
@@ -125,7 +126,7 @@ target(all, pctr0)dnl
 target(all, pf)dnl
 twrget(all, cry, crypto)dnl
 target(all, apm)dnl
-target(all, acpi)dnl
+dnl #notyet#target(all, acpi)dnl
 twrget(all, tth, ttyh, 0, 1)dnl
 target(all, ttyA, 0, 1)dnl
 target(all, ttyB, 0, 1, 2, 3, 4, 5)dnl
@@ -167,7 +168,7 @@ target(all, view0, 0, 1, 2, 3, 4, 5)dnl
 target(all, local)dnl
 target(all, gpr, 0)dnl
 target(all, ptm)dnl
-target(all, hotplug)dnl
+dnl #notyet#target(all, hotplug)dnl
 dnl
 _mkdev(all, {-all-}, {-dnl
 show_target(all)dnl
@@ -228,8 +229,6 @@ _mkdev(ss, ss*, {-M ss$U c major_ss_c Mult($U,16) 640 operator
 	M enss$U c major_ss_c Add(Mult($U,16),3) 640 operator
 	RMlist="$RMlist scan$U"
 	MKlist="$MKlist;umask 77;ln -s ss$U scan$U"-})dnl
-__devitem(ses, ses*, SES/SAF-TE SCSI devices)dnl
-_mkdev(ses, ses*, {-M ses$U c major_ses_c $U 640 operator-})dnl
 dnl XXX see ramdisk above
 __devitem(ramd, ramdisk, Ramdisk kernel devices,nothing)dnl
 _mkdev(ramd, ramdisk, {-dnl
@@ -448,10 +447,10 @@ _mkdev(pctr, pctr, {-M pctr c major_pctr_c 0 644-})dnl
 __devitem(systrace, systrace*, System call tracing device)dnl
 _mkdev(systrace, systrace, {-M systrace c major_systrace_c 0 644-})dnl
 __devitem(au, audio*, Audio devices,audio)dnl
-_mkdev(au, audio*, {-M sound$U	c major_au_c $U
-	M mixer$U	c major_au_c Add($U, 16)
-	M audio$U	c major_au_c Add($U, 128)
-	M audioctl$U	c major_au_c Add($U, 192)
+_mkdev(au, audio*, {-M sound$U	c major_au_c $U 660 audio
+	M mixer$U	c major_au_c Add($U, 16) 660 audio
+	M audio$U	c major_au_c Add($U, 128) 660 audio
+	M audioctl$U	c major_au_c Add($U, 192) 660 audio
 	MKlist="$MKlist;[ -e audio ] || ln -s audio$U audio"
 	MKlist="$MKlist;[ -e mixer ] || ln -s mixer$U mixer"
 	MKlist="$MKlist;[ -e sound ] || ln -s sound$U sound"
@@ -461,12 +460,12 @@ _mkdev(asc, asc*, {-M asc$U major_asc_c 0-})dnl
 __devitem(bio, bio, {-ioctl tunnel pseudo-device-})dnl
 _mkdev(bio, bio, {-M bio c major_bio_c 0 600-})dnl
 __devitem(music, music*, MIDI devices,midi)dnl
-_mkdev(music, music*, {-M music$U     c major_music_c $U
-	M sequencer$U c major_music_c Add($U, 128)
+_mkdev(music, music*, {-M music$U     c major_music_c $U 660 audio
+	M sequencer$U c major_music_c Add($U, 128) 660 audio
 	MKlist="$MKlist;[ -e music ] || ln -s music$U music"
 	MKlist="$MKlist;[ -e sequencer ] || ln -s sequencer$U sequencer"-})dnl
 __devitem(radio, radio*, FM tuner devices)dnl
-_mkdev(radio, radio*, {-M radio$U     c major_radio_c $U
+_mkdev(radio, radio*, {-M radio$U     c major_radio_c $U 660 audio
 	MKlist="$MKlist;[ -e radio ] || ln -s radio$U radio"-})dnl
 __devitem(fdesc, fd, fd/* nodes for fdescfs,mount_fdesc 8)dnl
 _mkdev(fdesc, fd, {-RMlist="mkdir -p fd;$RMlist" n=0
@@ -483,17 +482,16 @@ __devitem(bpf, bpf*, Berkeley Packet Filter)dnl
 _mkdev(bpf, {-bpf*-}, {-M bpf$U c major_bpf_c $U 600-}, 600)dnl
 _mkdev(tun, {-tun*-}, {-M tun$U c major_tun_c $U 600-}, 600)dnl
 __devitem(speak, speaker, PC speaker,spkr)dnl
-_mkdev(speak, speaker, {-M speaker c major_speak_c 0 600-})dnl
+_mkdev(speak, speaker, {-M speaker c major_speak_c 0 660 audio-})dnl
 __devitem(lkm, lkm, Loadable kernel modules interface)dnl
 _cdev(lkm, lkm, {-major_lkm_c-}, 0, 640, _lkm)dnl
 __devitem(tun, tun*, Network tunnel driver)dnl
 __devitem(rnd, *random, In-kernel random data source,random)dnl
-_mkdev(rnd, *random, {-n=0
-	for pre in " " s u p a
-	do
-		M ${pre}random c major_rnd_c $n 644
-		n=Add($n, 1)
-	done-}, 644)dnl
+_mkdev(rnd, *random, {-M random c major_rnd_c 0 644
+	M srandom c major_rnd_c 1 644
+	M urandom c major_rnd_c 2 644
+	M prandom c major_rnd_c 3 666
+	M arandom c major_rnd_c 4 644-})dnl
 __devitem(joy, joy*, Joystick driver)dnl
 _mcdev(joy, joy*, joy, {-major_joy_c-}, 666)dnl
 __devitem(mag, magma*, Magma multiport cards,magma)dnl
@@ -533,8 +531,6 @@ _mkdev(spif, spif*, {-case $U in
 	M bpp${nam}0 c major_bppsp_c Add($offset, 0) 600-})dnl
 __devitem(bpp, bpp*, Parallel port)dnl
 _mkdev(bpp, {-bpp*-}, {-M bpp$U c major_bpp_c $U 600-}, 600)dnl
-__devitem(xfs, xfs*, XFS filesystem node, mount_xfs 8)dnl
-_mcdev(xfs, xfs*, xfs, {-major_xfs_c-}, 600)dnl
 __devitem(rmidi, rmidi*, Raw MIDI devices,midi)dnl
 _mcdev(rmidi, rmidi*, rmidi, {-major_rmidi_c-}, 666)dnl
 __devtitle(plat, Platform-specific devices)dnl
@@ -554,3 +550,15 @@ _mkdev(hotplug, hotplug, {-M hotplug c major_hotplug_c $U 400-})dnl
 __devitem(gpio, gpio*, General Purpose Input/Output)dnl
 _mcdev(gpio, gpio*, gpio, {-major_gpio_c-}, 600)dnl
 _mkdev(local, local, {-test -s $T.local && sh $T.local-})dnl
+dnl
+__devtitle(isdns, I4B devices)dnl
+__devitem(isdn, isdn, ISDN4BSD master device)dnl
+__devitem(isdnctl, isdnctl, ISDN4BSD control device)dnl
+__devitem(isdntel, isdntel*, ISDN4BSD telephony device)dnl
+__devitem(isdnbchan, isdnbchan*, ISDN4BSD raw B channel device)dnl
+__devitem(isdntrc, isdntrc*, ISDN4BSD tracing device)dnl
+_mkdev(isdn, isdn, {-M isdn c major_isdn_c 0-})dnl
+_mkdev(isdnctl, isdnctl, {-M isdnctl c major_isdnctl_c 0-})dnl
+_mkdev(isdntel, isdntel*, {-M isdntel$U c major_isdntel_c $U-})dnl
+_mkdev(isdnbchan, isdnbchan*, {-M isdnbchan$U c major_isdnbchan_c $U-})dnl
+_mkdev(isdntrc, isdntrc*, {-M isdntrc$U c major_isdntrc_c $U-})dnl

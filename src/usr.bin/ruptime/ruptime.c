@@ -130,7 +130,7 @@ main(int argc, char *argv[])
 		/* NOSTRICT */
 		hsp->hs_wd = malloc((size_t)WHDRSIZE);
 		wd = (struct whod *)buf;
-		bcopy((char *)wd, (char *)hsp->hs_wd, (size_t)WHDRSIZE);
+		memmove((char *)hsp->hs_wd, (char *)wd, (size_t)WHDRSIZE);
 		hsp->hs_nusers = 0;
 		for (i = 0; i < 2; i++)
 			if (wd->wd_loadav[i] > maxloadav)

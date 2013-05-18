@@ -1,5 +1,6 @@
+/**	$MirOS$ */
 /*	$OpenBSD: test.c,v 1.7 2005/05/22 05:45:35 otto Exp $	*/
-/*	$NetBSD: test.c,v 1.13 2003/08/07 16:44:35 agc Exp $	*/
+/*	$NetBSD: test.c,v 1.15 2003/12/08 12:03:01 lukem Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993
@@ -34,16 +35,16 @@
  */
 
 #include "config.h"
-#ifndef lint
-//__COPYRIGHT("@(#) Copyright (c) 1992, 1993\n\
-//	The Regents of the University of California.  All rights reserved.\n");
+#if 0
+__COPYRIGHT("@(#) Copyright (c) 1992, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
 #endif /* not lint */
 
 #if !defined(lint) && !defined(SCCSID)
 #if 0
 static char sccsid[] = "@(#)test.c	8.1 (Berkeley) 6/4/93";
 #else
-static const char *rcsid = "$OpenBSD: test.c,v 1.7 2005/05/22 05:45:35 otto Exp $";
+__RCSID("$NetBSD: test.c,v 1.15 2003/12/08 12:03:01 lukem Exp $");
 #endif
 #endif /* not lint && not SCCSID */
 
@@ -60,7 +61,6 @@ static const char *rcsid = "$OpenBSD: test.c,v 1.7 2005/05/22 05:45:35 otto Exp 
 #include <dirent.h>
 
 #include "histedit.h"
-#include "tokenizer.h"
 
 static int continuation = 0;
 static EditLine *el = NULL;
@@ -75,8 +75,8 @@ static	void	sig(int);
 static char *
 prompt(EditLine *el)
 {
-	static char a[] = "Edit$";
-	static char b[] = "Edit>";
+	static char a[] = "Edit$ ";
+	static char b[] = "Edit> ";
 
 	return (continuation ? b : a);
 }
@@ -172,10 +172,20 @@ main(int argc, char *argv[])
 	el_source(el, NULL);
 
 	while ((buf = el_gets(el, &num)) != NULL && num != 0)  {
-		int ac;
-		const char **av;
+		int ac, cc, co;
 #ifdef DEBUG
-		(void) fprintf(stderr, "got %d %s", num, buf);
+		int i;
+#endif
+		const char **av;
+		const LineInfo *li;
+		li = el_line(el);
+#ifdef DEBUG
+		(void) fprintf(stderr, "==> got %d %s", num, buf);
+		(void) fprintf(stderr, "  > li `%.*s_%.*s'\n",
+		    (li->cursor - li->buffer), li->buffer,
+		    (li->lastchar - 1 - li->cursor),
+		    (li->cursor >= li->lastchar) ? "" : li->cursor);
+
 #endif
 		if (gotsig) {
 			(void) fprintf(stderr, "Got signal %d.\n", gotsig);
@@ -186,7 +196,17 @@ main(int argc, char *argv[])
 		if (!continuation && num == 1)
 			continue;
 
-		ncontinuation = tok_line(tok, buf, &ac, &av) > 0;
+		ac = cc = co = 0;
+		ncontinuation = tok_line(tok, li, &ac, &av, &cc, &co);
+		if (ncontinuation < 0) {
+			(void) fprintf(stderr, "Internal error\n");
+			continuation = 0;
+			continue;
+		}
+#ifdef DEBUG
+		(void) fprintf(stderr, "  > nc %d ac %d cc %d co %d\n",
+		    ncontinuation, ac, cc, co);
+#endif
 #if 0
 		if (continuation) {
 			/*
@@ -207,6 +227,18 @@ main(int argc, char *argv[])
 
 		continuation = ncontinuation;
 		ncontinuation = 0;
+		if (continuation)
+			continue;
+#ifdef DEBUG
+		for (i = 0; i < ac; i++) {
+			(void) fprintf(stderr, "  > arg# %2d ", i);
+			if (i != cc)
+				(void) fprintf(stderr, "`%s'\n", av[i]);
+			else
+				(void) fprintf(stderr, "`%.*s_%s'\n",
+				    co, av[i], av[i] + co);
+		}
+#endif
 
 		if (strcmp(av[0], "history") == 0) {
 			int rv;

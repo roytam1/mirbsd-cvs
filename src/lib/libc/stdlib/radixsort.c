@@ -85,7 +85,7 @@ int
 radixsort(const u_char **a, int n, const u_char *tab, u_int endch)
 {
 	const u_char *tr;
-	int c;
+	u_int c;
 	u_char tr0[256];
 
 	SETUP;
@@ -97,7 +97,7 @@ int
 sradixsort(const u_char **a, int n, const u_char *tab, u_int endch)
 {
 	const u_char *tr, **ta;
-	int c;
+	u_int c;
 	u_char tr0[256];
 
 	SETUP;
@@ -122,7 +122,7 @@ void
 r_sort_a(const u_char **a, int n, int i, const u_char *tr, u_int endch)
 {
 	static int count[256], nc, bmin;
-	int c;
+	u_int c;
 	const u_char **ak, *r;
 	stack s[SIZE], *sp, *sp0, *sp1, temp;
 	int *cp, bigc;
@@ -145,7 +145,7 @@ r_sort_a(const u_char **a, int n, int i, const u_char *tr, u_int endch)
 			for (ak = a; ak < an;) {
 				c = tr[(*ak++)[i]];
 				if (++count[c] == 1 && c != endch) {
-					if (c < bmin)
+					if ((int)c < bmin)
 						bmin = c;
 					nc++;
 				}
@@ -210,7 +210,7 @@ r_sort_b(const u_char **a, const u_char **ta, int n, int i, const u_char *tr,
     u_int endch)
 {
 	static int count[256], nc, bmin;
-	int c;
+	u_int c;
 	const u_char **ak, **ai;
 	stack s[512], *sp, *sp0, *sp1, temp;
 	const u_char **top[256];
@@ -230,7 +230,7 @@ r_sort_b(const u_char **a, const u_char **ta, int n, int i, const u_char *tr,
 			for (ak = a + n; --ak >= a;) {
 				c = tr[(*ak)[i]];
 				if (++count[c] == 1 && c != endch) {
-					if (c < bmin)
+					if ((int)c < bmin)
 						bmin = c;
 					nc++;
 				}
@@ -255,7 +255,7 @@ r_sort_b(const u_char **a, const u_char **ta, int n, int i, const u_char *tr,
 			while (*cp == 0)
 				cp++;
 			if ((c = *cp) > 1) {
-				if (c > bigc) {
+				if ((int)c > bigc) {
 					bigc = c;
 					sp1 = sp;
 				}

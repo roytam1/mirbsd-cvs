@@ -31,6 +31,8 @@ SM_RCSID("@(#)$Sendmail: conf.c,v 8.1081 2006/02/24 02:21:53 ca Exp $")
 # include <sys/ioctl.h>
 # include <sys/param.h>
 
+__RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/conf.c,v 1.4 2005/07/07 13:39:30 tg Exp $");
+
 #include <limits.h>
 #if NETINET || NETINET6
 # include <arpa/inet.h>
@@ -3123,6 +3125,7 @@ getopt(nargc,nargv,ostr)
 static char	*DefaultUserShells[] =
 {
 	"/bin/sh",		/* standard shell */
+	"/bin/mksh",		/* MirBSD Korn shell */
 # ifdef MPE
 	"/SYS/PUB/CI",
 # else /* MPE */
@@ -3786,6 +3789,7 @@ resetlimits()
 
 	lim.rlim_cur = lim.rlim_max = RLIM_INFINITY;
 	(void) setrlimit(RLIMIT_CPU, &lim);
+	(void) setrlimit(RLIMIT_TIME, &lim);
 	(void) setrlimit(RLIMIT_FSIZE, &lim);
 # ifdef RLIMIT_NOFILE
 	lim.rlim_cur = lim.rlim_max = FD_SETSIZE;
@@ -6397,4 +6401,3 @@ char	*FFRCompileOptions[] =
 #endif /* _FFR_USE_SETLOGIN */
 	NULL
 };
-

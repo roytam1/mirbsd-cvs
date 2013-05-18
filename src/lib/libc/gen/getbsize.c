@@ -38,7 +38,8 @@ getbsize(int *headerlenp, long *blocksizep)
 {
 	static char header[20];
 	long n, max, mul, blocksize;
-	char *ep, *p, *form;
+	char *ep, *p;
+	const char *form;
 
 #define	KB	(1024)
 #define	MB	(1024 * 1024)
@@ -94,7 +95,7 @@ underflow:		_warnx("%s: minimum blocksize is 512", p);
 	*headerlenp = snprintf(header, sizeof(header), "%ld%s-blocks", n, form);
 	if (*headerlenp < 0)
 		*headerlenp = 0;
-	else if (*headerlenp >= sizeof(header))
+	else if ((size_t)(*headerlenp) >= sizeof(header))
 		*headerlenp = sizeof(header) - 1;
 	*blocksizep = blocksize;
 	return (header);

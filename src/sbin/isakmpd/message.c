@@ -1,3 +1,4 @@
+/* $MirOS: src/sbin/isakmpd/message.c,v 1.3 2005/04/26 15:42:38 tg Exp $ */
 /* $OpenBSD: message.c,v 1.114 2005/07/20 16:50:43 moritz Exp $	 */
 /* $EOM: message.c,v 1.156 2000/10/10 12:36:39 provos Exp $	 */
 
@@ -59,6 +60,8 @@
 #include "transport.h"
 #include "util.h"
 #include "virtual.h"
+
+__RCSID("$MirOS: src/sbin/isakmpd/message.c,v 1.3 2005/04/26 15:42:38 tg Exp $");
 
 /* A local set datatype, coincidentally fd_set suits our purpose fine.  */
 typedef fd_set  set;

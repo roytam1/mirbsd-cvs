@@ -1,3 +1,4 @@
+/**	$MirOS: src/sbin/modload/elf.c,v 1.4 2005/11/23 16:43:59 tg Exp $	*/
 /*	$OpenBSD: elf.c,v 1.7 2004/12/28 09:05:18 deraadt Exp $	*/
 /*	$NetBSD: elf.c,v 1.8 2002/01/03 21:45:58 jdolecek Exp $	*/
 
@@ -54,6 +55,8 @@
 
 #include "modload.h"
 
+__RCSID("$MirOS: src/sbin/modload/elf.c,v 1.4 2005/11/23 16:43:59 tg Exp $");
+
 char *strtab;
 
 static void
@@ -76,7 +79,7 @@ struct elf_section {
 	struct elf_section *next;
 };
 
-/* adds the section `s' at the correct (sorted by address) place in
+/* adds the section 's' at the correct (sorted by address) place in
    the list ponted to by head; *head may be NULL */
 static void
 add_section(struct elf_section **head, struct elf_section *s)
@@ -185,7 +188,7 @@ read_shstring_table(int fd, Elf_Ehdr *ehdr)
 		errx(1, "failed to allocate %lu bytes", (u_long)shdr.sh_size);
 	if (lseek(fd, shdr.sh_offset, SEEK_SET) < 0)
 		err(1, "lseek");
-	if (read(fd, shstrtab, shdr.sh_size) != shdr.sh_size)
+	if ((size_t)read(fd, shstrtab, shdr.sh_size) != shdr.sh_size)
 		err(1, "read");
 	return shstrtab;
 }
@@ -205,7 +208,8 @@ read_string_table(int fd, struct elf_section *head, int *strtablen)
 				    (u_long)head->size);
 			if (lseek(fd, head->offset, SEEK_SET) < 0)
 				err(1, "lseek");
-			if (read(fd, string_table, head->size) != head->size)
+			if ((size_t)read(fd, string_table, head->size)
+			    != head->size)
 				err(1, "read");
 			*strtablen = head->size;
 			break;
@@ -244,12 +248,12 @@ static ssize_t data_offset;
 /* return size needed by the module */
 int
 elf_mod_sizes(int fd, size_t *modsize, int *strtablen,
-    struct lmc_resrv *resrvp, struct stat *sp)
+    struct lmc_resrv *resrvp, struct stat *sp __attribute__((unused)))
 {
 	Elf_Ehdr ehdr;
 	ssize_t off = 0;
 	size_t data_hole = 0;
-	char *shstrtab, *strtab;
+	char *shstrtab, *strtabl;
 	struct elf_section *head, *s, *stab;
 
 	if (read_elf_header(fd, &ehdr) < 0)
@@ -270,10 +274,10 @@ elf_mod_sizes(int fd, size_t *modsize, int *strtablen,
 		 * XXX try to get rid of the hole before the data
 		 * section that GNU-ld likes to put there
 		 */
-		if (strcmp(s->name, ".data") == 0 && s->addr > (void *)off) {
+		if (strcmp(s->name, ".rodata") == 0 && s->addr > (void *)off) {
 			data_offset = roundup(off, s->align);
 			if (debug)
-				fprintf(stderr, ".data section forced to "
+				fprintf(stderr, ".rodata section forced to "
 				    "offset %p (was %p)\n",
 				    (void *)data_offset, s->addr);
 			/* later remove size of compressed hole from off */
@@ -287,9 +291,9 @@ elf_mod_sizes(int fd, size_t *modsize, int *strtablen,
 	*modsize = roundup(off, sysconf(_SC_PAGESIZE));
 
 	/* get string table length */
-	strtab = read_string_table(fd, head, strtablen);
+	strtabl = read_string_table(fd, head, strtablen);
 	free(shstrtab);
-	free(strtab);
+	free(strtabl);
 
 	/* get symbol table sections */
 	get_symtab(&head);
@@ -317,7 +321,7 @@ elf_mod_sizes(int fd, size_t *modsize, int *strtablen,
  * <target>	object file */
 
 #define	LINKCMD		"ld -Z -R %s -e %s -o %s -Ttext %p %s"
-#define	LINKCMD2	"ld -Z -R %s -e %s -o %s -Ttext %p -Tdata %p %s"
+#define	LINKCMD2	"ld -Z -R %s -e %s -o %s -Ttext %p --section-start .rodata=%p %s"
 
 /* make a link command; XXX if data_offset above is non-zero, force
    data address to be at start of text + offset */
@@ -328,14 +332,14 @@ elf_linkcmd(char *buf, size_t len, const char *kernel,
 {
 	ssize_t n;
 
-	if (data_offset == NULL)
+	if (!data_offset)
 		n = snprintf(buf, len, LINKCMD, kernel, entry,
 		    outfile, address, object);
 	else
 		n = snprintf(buf, len, LINKCMD2, kernel, entry,
 		    outfile, address,
 		    (const char*)address + data_offset, object);
-	if (n < 0 || n >= len)
+	if (n < 0 || n >= (ssize_t)len)
 		errx(1, "link command longer than %lu bytes", (u_long)len);
 }
 
@@ -362,7 +366,7 @@ elf_mod_load(int fd)
 		if (s->type != SHT_STRTAB && s->type != SHT_SYMTAB &&
 		    s->type != SHT_DYNSYM) {
 			if (debug)
-				fprintf(stderr, "loading `%s': addr = %p, "
+				fprintf(stderr, "loading '%s': addr = %p, "
 				    "size = %#lx\n",
 				    s->name, s->addr, (u_long)s->size);
 			if (s->type == SHT_NOBITS) {
@@ -408,7 +412,7 @@ elf_mod_load(int fd)
 extern int devfd, modfd;
 
 void
-elf_mod_symload(int strtablen)
+elf_mod_symload(int strtablen __attribute__((unused)))
 {
 	Elf_Ehdr ehdr;
 	char *shstrtab;
@@ -431,7 +435,7 @@ elf_mod_symload(int strtablen)
 
 		if ((p->type == SHT_SYMTAB) || (p->type == SHT_DYNSYM)) {
 			if (debug)
-				fprintf(stderr, "loading `%s': addr = %p, "
+				fprintf(stderr, "loading '%s': addr = %p, "
 				    "size = %#lx\n",
 				    s->name, s->addr, (u_long)s->size);
 			/*
@@ -442,7 +446,7 @@ elf_mod_symload(int strtablen)
 			symbuf = malloc(p->size);
 			if (symbuf == 0)
 				err(13, "malloc");
-			if (read(modfd, symbuf, p->size) != p->size)
+			if ((size_t)read(modfd, symbuf, p->size) != p->size)
 				err(14, "read");
 
 			loadsym(symbuf, p->size);
@@ -456,7 +460,7 @@ elf_mod_symload(int strtablen)
 		if ((p->type == SHT_STRTAB) &&
 		    (strcmp(p->name, ".strtab") == 0 )) {
 			if (debug)
-				fprintf(stderr, "loading `%s': addr = %p, "
+				fprintf(stderr, "loading '%s': addr = %p, "
 				    "size = %#lx\n",
 				    s->name, s->addr, (u_long)s->size);
 			/*
@@ -467,7 +471,7 @@ elf_mod_symload(int strtablen)
 			strbuf = malloc(p->size);
 			if (strbuf == 0)
 				err(13, "malloc");
-			if (read(modfd, strbuf, p->size) != p->size)
+			if ((size_t)read(modfd, strbuf, p->size) != p->size)
 				err(14, "read");
 
 			loadsym(strbuf, p->size);

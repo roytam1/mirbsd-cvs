@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: atomicio.h,v 1.8 2006/04/16 00:52:55 djm Exp $ */
 
 /*
@@ -29,7 +30,6 @@
 #ifndef _ATOMICIO_H
 #define _ATOMICIO_H
 
-#include <sys/types.h>
 #include <unistd.h>
 #include <sys/uio.h>
 

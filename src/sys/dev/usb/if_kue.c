@@ -247,7 +247,6 @@ kue_load_fw(struct kue_softc *sc)
 	usb_device_descriptor_t dd;
 	usbd_status		err;
 	u_char			*buf;
-	size_t			buflen;
 
 	DPRINTFN(1,("%s: %s: enter\n", USBDEVNAME(sc->kue_dev), __func__));
 

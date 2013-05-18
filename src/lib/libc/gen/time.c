@@ -31,14 +31,16 @@
 #include <sys/types.h>
 #include <sys/time.h>
 
+__RCSID("$MirOS: src/lib/libc/gen/time.c,v 1.2 2005/03/06 20:28:41 tg Exp $");
+
 time_t
 time(time_t *t)
 {
 	struct timeval tt;
 
-	if (gettimeofday(&tt, (struct timezone *)0) < 0)
+	if (gettimeofday(&tt, NULL) < 0)
 		return (-1);
-	if (t)
+	if (t != NULL)
 		*t = (time_t)tt.tv_sec;
 	return (tt.tv_sec);
 }

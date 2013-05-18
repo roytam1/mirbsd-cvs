@@ -24,6 +24,7 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/nchan.c,v 1.2 2006/02/22 02:16:47 tg Exp $");
 
 #include "ssh1.h"
 #include "ssh2.h"
@@ -75,8 +76,8 @@ static void	chan_send_eof2(Channel *);
 static void	chan_shutdown_write(Channel *);
 static void	chan_shutdown_read(Channel *);
 
-static char *ostates[] = { "open", "drain", "wait_ieof", "closed" };
-static char *istates[] = { "open", "drain", "wait_oclose", "closed" };
+static const char *ostates[] = { "open", "drain", "wait_ieof", "closed" };
+static const char *istates[] = { "open", "drain", "wait_oclose", "closed" };
 
 static void
 chan_set_istate(Channel *c, u_int next)

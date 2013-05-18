@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: sys_generic.c,v 1.47 2003/12/10 23:10:08 millert Exp $	*/
 /*	$NetBSD: sys_generic.c,v 1.24 1996/03/29 00:25:32 cgd Exp $	*/
 
@@ -262,7 +263,7 @@ dofilereadv(p, fd, fp, iovp, iovcnt, offset, retval)
 	cnt -= auio.uio_resid;
 #ifdef KTRACE
 	if (ktriov != NULL) {
-		if (error == 0) 
+		if (error == 0)
 			ktrgenio(p, fd, UIO_READ, ktriov, cnt,
 			    error);
 		free(ktriov, M_TEMP);
@@ -479,7 +480,7 @@ dofilewritev(p, fd, fp, iovp, iovcnt, offset, retval)
 	cnt -= auio.uio_resid;
 #ifdef KTRACE
 	if (ktriov != NULL) {
-		if (error == 0) 
+		if (error == 0)
 			ktrgenio(p, fd, UIO_WRITE, ktriov, cnt,
 			    error);
 		free(ktriov, M_TEMP);
@@ -653,7 +654,7 @@ sys_select(struct proc *p, void *v, register_t *retval)
 	} */ *uap = v;
 	fd_set bits[6], *pibits[3], *pobits[3];
 	struct timeval atv;
-	int s, ncoll, error = 0, timo;
+	int s, ncoll, error = 0, timo = 0;
 	u_int nd, ni;
 
 	nd = SCARG(uap, nd);
@@ -748,7 +749,7 @@ done:
 		putbits(ex, 2);
 #undef putbits
 	}
-	
+
 	if (pibits[0] != &bits[0])
 		free(pibits[0], M_TEMP);
 	return (error);
@@ -912,7 +913,7 @@ sys_poll(struct proc *p, void *v, register_t *retval)
 	struct pollfd pfds[4], *pl = pfds;
 	int msec = SCARG(uap, timeout);
 	struct timeval atv;
-	int timo, ncoll, i, s, error;
+	int timo = 0, ncoll, i, s, error;
 	extern int nselcoll, selwait;
 	u_int nfds = SCARG(uap, nfds);
 
@@ -921,7 +922,7 @@ sys_poll(struct proc *p, void *v, register_t *retval)
 		return (EINVAL);
 
 	sz = sizeof(struct pollfd) * nfds;
-	
+
 	/* optimize for the default case, of a small nfds value */
 	if (sz > sizeof(pfds))
 		pl = (struct pollfd *) malloc(sz, M_TEMP, M_WAITOK);

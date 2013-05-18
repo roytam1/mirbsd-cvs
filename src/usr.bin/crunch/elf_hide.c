@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: elf_hide.c,v 1.9 2003/06/03 01:35:30 drahn Exp $ */
 
 /*
@@ -29,15 +30,17 @@
 #include <sys/types.h>
 #include <sys/mman.h>
 #include <sys/stat.h>
+#include <sys/exec.h>
+#ifdef _NLIST_DO_ELF
+#include <sys/exec_elf.h>
 #include <fcntl.h>
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <assert.h>
-#include <sys/exec.h>
-#ifdef _NLIST_DO_ELF
-#include <sys/exec_elf.h>
+
+__RCSID("$MirOS$");
 
 void	load_strtab(Elf_Ehdr * pehdr, char *pexe);
 void	dump_strtab();
@@ -63,10 +66,12 @@ char           *pexe;
 void
 elf_hide(int pfile, char *p)
 {
+#ifdef DEBUG
 	int             i;
-	Elf_Ehdr       *pehdr;
 	Elf_Shdr       *pshdr;
 	Elf_Phdr       *pphdr;
+#endif
+	Elf_Ehdr       *pehdr;
 	struct stat     sb;
 
 	pexe = p;
@@ -180,7 +185,6 @@ load_symtab(Elf_Ehdr * pehdr, char *pexe)
 	int             symtabsize;
 	Elf_Shdr       *pshdr;
 	Elf_Shdr       *psymshdr;
-	char           *shname;
 	int             i;
 
 	symtab = NULL;
@@ -208,9 +212,10 @@ load_symtab(Elf_Ehdr * pehdr, char *pexe)
 }
 
 void
-dump_symtab(Elf_Shdr * symsect, Elf_Sym * symtab, int symtabsize)
+dump_symtab(Elf_Shdr * symsect __attribute__((unused)),
+    Elf_Sym * symtab, int symtabsize)
 {
-	int             i;
+	unsigned        i;
 	Elf_Sym        *psymtab;
 
 	for (i = 0; i < (symtabsize / sizeof(Elf_Sym)); i++) {
@@ -234,7 +239,7 @@ int             strtabsize;
 void
 load_strtab(Elf_Ehdr * pehdr, char *pexe)
 {
-	Elf_Shdr       *pshdr;
+	Elf_Shdr       *pshdr = NULL;
 	char           *shname;
 	int             i;
 	strtab = NULL;
@@ -279,6 +284,7 @@ dump_strtab()
 
 }
 
+void
 fprint_str(FILE * channel, int indx)
 {
 	if (strtab != NULL)
@@ -297,7 +303,7 @@ void
 hide_sym(Elf_Ehdr * ehdr, Elf_Shdr * symsect,
     Elf_Sym * symtab, int symtabsize, int symtabsecnum)
 {
-	int             i;
+	unsigned        i;
 	unsigned char   info;
 	Elf_Sym        *psymtab;
 
@@ -386,7 +392,7 @@ reorder_syms(Elf_Ehdr * ehdr, Elf_Shdr * symsect,
 
 	assert(NULL != tmpsymtab);
 
-	bcopy(symtab, tmpsymtab, symtabsize);
+	memmove(tmpsymtab, symtab, symtabsize);
 
 	cursym = 1;
 	for (i = 1; i < nsyms; i++) {
@@ -395,7 +401,7 @@ reorder_syms(Elf_Ehdr * ehdr, Elf_Shdr * symsect,
 			printf("copying  l o%d n%d <%s>\n", i, cursym,
 			    get_str(tmpsymtab[i].st_name));
 #endif
-			bcopy(&(tmpsymtab[i]), &(symtab[cursym]),
+			memmove(&(symtab[cursym]), &(tmpsymtab[i]),
 			    sizeof(Elf_Sym));
 			symmap[i] = cursym;
 			cursym++;
@@ -408,7 +414,7 @@ reorder_syms(Elf_Ehdr * ehdr, Elf_Shdr * symsect,
 			printf("copying nl o%d n%d <%s>\n", i, cursym,
 			    get_str(tmpsymtab[i].st_name));
 #endif
-			bcopy(&(tmpsymtab[i]), &(symtab[cursym]),
+			memmove(&(symtab[cursym]), &(tmpsymtab[i]),
 			    sizeof(Elf_Sym));
 			symmap[i] = cursym;
 			cursym++;
@@ -438,7 +444,7 @@ renum_reloc_syms(Elf_Ehdr * ehdr, Symmap * symmap, int symtabsecnum)
 		pshdr = (Elf_Shdr *) (pexe + ehdr->e_shoff +
 		    (i * ehdr->e_shentsize));
 		if ((pshdr->sh_type == SHT_RELA) &&
-		    pshdr->sh_link == symtabsecnum) {
+		    pshdr->sh_link == (unsigned)symtabsecnum) {
 
 #ifdef DEBUG
 			printf("section %d has rela relocations in symtab\n", i);
@@ -456,7 +462,7 @@ renum_reloc_syms(Elf_Ehdr * ehdr, Symmap * symmap, int symtabsecnum)
 			}
 		}
 		if ((pshdr->sh_type == SHT_REL) &&
-		    pshdr->sh_link == symtabsecnum) {
+		    pshdr->sh_link == (unsigned)symtabsecnum) {
 #ifdef DEBUG
 			printf("section %d has rel relocations in symtab\n", i);
 #endif

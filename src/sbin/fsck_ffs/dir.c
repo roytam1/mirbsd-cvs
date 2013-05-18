@@ -1,3 +1,4 @@
+/**	$MirOS: src/sbin/fsck_ffs/dir.c,v 1.2 2005/03/06 19:49:56 tg Exp $ */
 /*	$OpenBSD: dir.c,v 1.17 2004/07/05 02:31:54 pvalchev Exp $	*/
 /*	$NetBSD: dir.c,v 1.20 1996/09/27 22:45:11 christos Exp $	*/
 
@@ -30,14 +31,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)dir.c	8.5 (Berkeley) 12/8/94";
-#else
-static const char rcsid[] = "$OpenBSD: dir.c,v 1.17 2004/07/05 02:31:54 pvalchev Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/time.h>
 #include <ufs/ufs/dinode.h>
@@ -51,6 +44,9 @@ static const char rcsid[] = "$OpenBSD: dir.c,v 1.17 2004/07/05 02:31:54 pvalchev
 #include "fsck.h"
 #include "fsutil.h"
 #include "extern.h"
+
+__SCCSID("@(#)dir.c	8.5 (Berkeley) 12/8/94");
+__RCSID("$MirOS: src/sbin/fsck_ffs/dir.c,v 1.2 2005/03/06 19:49:56 tg Exp $");
 
 char	*lfname = "lost+found";
 int	lfmode = 01700;

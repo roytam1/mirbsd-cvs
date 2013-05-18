@@ -1,8 +1,9 @@
-/*	$OpenPackages$ */
+/**	$MirOS: src/usr.bin/make/compat.c,v 1.4 2005/11/24 12:37:43 tg Exp $ */
 /*	$OpenBSD: compat.c,v 1.50 2004/04/07 13:11:35 espie Exp $	*/
 /*	$NetBSD: compat.c,v 1.14 1996/11/06 17:59:01 christos Exp $	*/
 
 /*
+ * Copyright (c) 2005 Thorsten Glaser
  * Copyright (c) 1988, 1989, 1990 The Regents of the University of California.
  * Copyright (c) 1988, 1989 by Adam de Boor
  * Copyright (c) 1989 by Berkeley Softworks
@@ -66,6 +67,8 @@
 #include "lst.h"
 #include "pathnames.h"
 
+__RCSID("$MirOS: src/usr.bin/make/compat.c,v 1.4 2005/11/24 12:37:43 tg Exp $");
+
 /* The following array is used to make a fast determination of which
  * characters are interpreted specially by the shell.  If a command
  * contains any of these characters, it is executed by the shell, not
@@ -75,13 +78,13 @@ static char	    meta[256];
 
 static GNode	    *ENDNode;
 static void CompatInterrupt(int);
-static int CompatRunCommand(void *, void *);
+static int CompatRunCommand(const void *, void *);
 static void CompatMake(void *, void *);
 static int shellneed(char **);
 
 static volatile sig_atomic_t interrupted;
 
-static void 
+static void
 CompatInterrupt(int signo)
 {
     if (interrupted != SIGINT)
@@ -105,13 +108,13 @@ CompatInterrupt(int signo)
 static int
 shellneed(char **av)
 {
-	char *runsh[] = {
-		"alias", "cd", "eval", "exec", "exit", "read", "set", "ulimit",
-		"unalias", "unset", "wait",
+	const char **p;
+	const char *runsh[] = {
+		"alias", "builtin", "cd", "eval", "exec", "exit", "export",
+		"let", "print", "read", "readonly", "set", "times", "trap",
+		"typeset", "ulimit", "unalias", "unset", "wait", "whence",
 		NULL
 	};
-
-	char **p;
 
 	/* FIXME most of these ARE actual no-ops */
 	for (p = runsh; *p; p++)
@@ -154,8 +157,8 @@ shellneed(char **av)
  *-----------------------------------------------------------------------
  */
 static int
-CompatRunCommand(void *cmdp,	/* Command to execute */
-    void *gnp)			/* Node from which the command came */
+CompatRunCommand(const void *cmdp,	/* Command to execute */
+    void *gnp)				/* Node from which the command came */
 {
     char	  *cmdStart;	/* Start of expanded command */
     char *cp, *bp = NULL;
@@ -165,7 +168,7 @@ CompatRunCommand(void *cmdp,	/* Command to execute */
     int 	  reason;	/* Reason for child's death */
     int 	  status;	/* Description of child's death */
     pid_t 	  cpid; 	/* Child actually found */
-    pid_t	  stat; 	/* Status of fork */
+    pid_t	  statfk; 	/* Status of fork */
     LstNode	  cmdNode;	/* Node where current command is located */
     char	  ** volatile av; /* Argument vector for thing to exec */
     int 	  argc; 	/* Number of arguments in av or 0 if not
@@ -174,7 +177,7 @@ CompatRunCommand(void *cmdp,	/* Command to execute */
 				 * locally */
     char	  *cmd = (char *)cmdp;
     GNode	  *gn = (GNode *)gnp;
-    static char *shargv[4] = { _PATH_BSHELL };
+    static char *shargv[4] = { (char *)_PATH_MIRBSDKSH };
 
     silent = gn->type & OP_SILENT;
     errCheck = !(gn->type & OP_IGNORE);
@@ -243,7 +246,7 @@ CompatRunCommand(void *cmdp,	/* Command to execute */
 	 * -e flag as well as -c if it's supposed to exit when it hits an
 	 * error.  */
 
-	shargv[1] = errCheck ? "-ec" : "-c";
+	shargv[1] = (char *)(errCheck ? "-ec" : "-c");
 	shargv[2] = cmd;
 	shargv[3] = NULL;
 	av = shargv;
@@ -259,7 +262,7 @@ CompatRunCommand(void *cmdp,	/* Command to execute */
 		free(av);
 		return 1;
 	case 1:
-		shargv[1] = errCheck ? "-ec" : "-c";
+		shargv[1] = (char *)(errCheck ? "-ec" : "-c");
 		shargv[2] = cmd;
 		shargv[3] = NULL;
 		free(av);
@@ -300,15 +303,15 @@ CompatRunCommand(void *cmdp,	/* Command to execute */
     /* The child is off and running. Now all we can do is wait...  */
     while (1) {
 
-	while ((stat = wait(&reason)) != cpid) {
-	    if (stat == -1 && errno != EINTR)
+	while ((statfk = wait(&reason)) != cpid) {
+	    if (statfk == -1 && errno != EINTR)
 		break;
 	}
 
 	if (interrupted)
 	    break;
 
-	if (stat != -1) {
+	if (statfk != -1) {
 	    if (WIFSTOPPED(reason))
 		status = WSTOPSIG(reason);		/* stopped */
 	    else if (WIFEXITED(reason)) {
@@ -337,7 +340,7 @@ CompatRunCommand(void *cmdp,	/* Command to execute */
 	    }
 	    return !status;
 	} else
-	    Fatal("error in wait: %d", stat);
+	    Fatal("error in wait: %d", statfk);
 	    /*NOTREACHED*/
     }
 
@@ -555,7 +558,7 @@ CompatMake(void *gnp,	/* The node to make */
 void
 Compat_Run(Lst targs)		/* List of target nodes to re-create */
 {
-    char	  *cp;		/* Pointer to string of shell meta-characters */
+    const char	  *cp;		/* Pointer to string of shell meta-characters */
     GNode	  *gn = NULL;	/* Current root target */
     int 	  errors;   	/* Number of targets not remade due to errors */
 

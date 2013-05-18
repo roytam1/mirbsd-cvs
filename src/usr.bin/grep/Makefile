@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.6 2003/06/25 15:00:04 millert Exp $
+# $MirOS: src/usr.bin/grep/Makefile,v 1.2 2005/03/13 18:33:01 tg Exp $
+# $OpenBSD: Makefile,v 1.6 2003/06/25 15:00:04 millert Exp $
 
 PROG=	grep
 SRCS=	binary.c file.c grep.c mmfile.c queue.c util.c

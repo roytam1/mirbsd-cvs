@@ -189,7 +189,7 @@ readdisklabel(dev, strat, lp, clp, spoofonly)
 
 #if defined(CD9660) && (NCD > 0)
 	if ((strat == cdstrategy) &&
-	    (iso_disklabelspoof(dev, strat, lp) == NULL))
+	    (iso_disklabelspoof(dev, strat, lp) == 0))
 		return (NULL);
 #endif
 

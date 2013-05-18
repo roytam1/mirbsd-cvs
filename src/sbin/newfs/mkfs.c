@@ -1,3 +1,4 @@
+/**	$MirOS: src/sbin/newfs/mkfs.c,v 1.2 2005/03/06 19:50:27 tg Exp $ */
 /*	$OpenBSD: mkfs.c,v 1.47 2005/04/14 19:58:32 deraadt Exp $	*/
 /*	$NetBSD: mkfs.c,v 1.25 1995/06/18 21:35:38 cgd Exp $	*/
 
@@ -30,14 +31,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)mkfs.c	8.3 (Berkeley) 2/3/94";
-#else
-static char rcsid[] = "$OpenBSD: mkfs.c,v 1.47 2005/04/14 19:58:32 deraadt Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/time.h>
 #include <ufs/ufs/dinode.h>
@@ -51,12 +44,16 @@ static char rcsid[] = "$OpenBSD: mkfs.c,v 1.47 2005/04/14 19:58:32 deraadt Exp $
 #include <string.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <err.h>
 
 #ifndef STANDALONE
 #include <a.out.h>
 #include <stdio.h>
 #include <errno.h>
 #endif
+
+__SCCSID("@(#)mkfs.c	8.3 (Berkeley) 2/3/94");
+__RCSID("$MirOS: src/sbin/newfs/mkfs.c,v 1.2 2005/03/06 19:50:27 tg Exp $");
 
 /*
  * make file system for cylinder-group style file systems
@@ -137,6 +134,7 @@ void		iput(struct ufs1_dinode *, ino_t);
 void		setblock(struct fs *, unsigned char *, int);
 void		clrblock(struct fs *, unsigned char *, int);
 int		isblock(struct fs *, unsigned char *, int);
+int		urdfs(daddr_t, int, void *);
 void		rdfs(daddr_t, int, void *);
 void		mkfs(struct partition *, char *, int, int,
 		    mode_t, uid_t, gid_t);
@@ -171,6 +169,8 @@ mkfs(struct partition *pp, char *fsys, int fi, int fo,
 	quad_t sizepb;
 	int width;
 	char tmpbuf[100];	/* XXX this will break in about 2,500 years */
+#define	sblk2	(sblk2_u.fs)
+	union fs_u sblk2_u;
 
 	if ((fsun = calloc(1, sizeof (union fs_u))) == NULL ||
 	    (cgun = calloc(1, sizeof (union cg_u))) == NULL ||
@@ -656,6 +656,17 @@ next:
 		cur_fsys = fsys;
 	}
 #endif
+	/* read out old (potential) superblock */
+	i = '!';
+	if (urdfs((int)SBOFF / sectorsize, sbsize, (char *)&sblk2)) {
+		i = '?';
+	} else {
+		arc4random_push(sblk2.fs_firstfield);
+		arc4random_push(sblk2.fs_unused_1);
+	}
+	if (!quiet)
+		putchar(i);
+
 	i = 0;
 	width = charsperline();
 	for (cylno = 0; cylno < sblock.fs_ncg; cylno++) {
@@ -690,6 +701,7 @@ next:
 	sblock.fs_magic = 0;
 	wtfs((int)SBOFF / sectorsize, sbsize, (char *)&sblock);
 	sblock.fs_magic = FS_MAGIC;
+	sblock.fs_firstfield = arc4random();
 	for (i = 0; i < sblock.fs_cssize; i += sblock.fs_bsize)
 		wtfs(fsbtodb(&sblock, sblock.fs_csaddr + numfrags(&sblock, i)),
 			sblock.fs_cssize - i < sblock.fs_bsize ?
@@ -698,10 +710,13 @@ next:
 	/*
 	 * Write out the duplicate super blocks
 	 */
-	for (cylno = 0; cylno < sblock.fs_ncg; cylno++)
+	for (cylno = 0; cylno < sblock.fs_ncg; cylno++) {
+		sblock.fs_unused_1 = arc4random();
 		wtfs(fsbtodb(&sblock, cgsblock(&sblock, cylno)),
 		    sbsize, (char *)&sblock);
+	}
 	/* done, can write with magic now */
+	sblock.fs_unused_1 = arc4random();
 	wtfs((int)SBOFF / sectorsize, sbsize, (char *)&sblock);
 	/*
 	 * Update information about this partion in pack
@@ -1080,16 +1095,19 @@ iput(struct ufs1_dinode *ip, ino_t ino)
 void
 rdfs(daddr_t bno, int size, void *bf)
 {
-	int n;
-
-	if (mfs) {
-		memcpy(bf, membase + bno * sectorsize, size);
-		return;
-	}
-	n = pread(fsi, bf, size, (off_t)bno * sectorsize);
-	if (n != size) {
+	if (urdfs(bno, size, bf)) {
 		err(34, "rdfs: read error on block %d", bno);
 	}
+}
+
+int
+urdfs(daddr_t bno, int size, void *bf)
+{
+	if (mfs) {
+		memcpy(bf, membase + bno * sectorsize, size);
+		return 0;
+	}
+	return (size != pread(fsi, bf, size, (off_t)bno * sectorsize));
 }
 
 /*

@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.6 2005/10/27 09:35:29 tg Exp $ */
 /*	$OpenBSD: ntpd.h,v 1.61 2005/09/24 00:32:03 dtucker Exp $ */
 
 /*
@@ -56,7 +57,7 @@
 #define	OFFSET_ARRAY_SIZE	8
 #define	SETTIME_MIN_OFFSET	180	/* min offset for settime at start */
 #define	SETTIME_TIMEOUT		15	/* max seconds to wait with -s */
-#define	LOG_NEGLIGEE		128	/* negligible drift to not log (ms) */
+#define	LOG_NEGLIGEE		125	/* negligible drift to not log (ms) */
 
 enum client_state {
 	STATE_NONE,
@@ -186,13 +187,23 @@ struct imsg {
 /* prototypes */
 /* log.c */
 void		 log_init(int);
-void		 vlog(int, const char *, va_list);
-void		 log_warn(const char *, ...);
-void		 log_warnx(const char *, ...);
-void		 log_info(const char *, ...);
-void		 log_debug(const char *, ...);
-void		 fatal(const char *);
-void		 fatalx(const char *);
+void		 vlog(int, const char *, va_list)
+    __attribute__((format (printf, 2, 0)))
+    __attribute__((nonnull (2)));
+void		 log_warn(const char *, ...)
+    __attribute__((format (printf, 1, 2)))
+    __attribute__((nonnull (1)));
+void		 log_warnx(const char *, ...)
+    __attribute__((format (printf, 1, 2)))
+    __attribute__((nonnull (1)));
+void		 log_info(const char *, ...)
+    __attribute__((format (printf, 1, 2)))
+    __attribute__((nonnull (1)));
+void		 log_debug(const char *, ...)
+    __attribute__((format (printf, 1, 2)))
+    __attribute__((nonnull (1)));
+__dead void	 fatal(const char *);
+__dead void	 fatalx(const char *);
 const char *	 log_sockaddr(struct sockaddr *);
 
 /* buffer.c */

@@ -22,7 +22,9 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-keysign.c,v 1.2 2006/02/22 02:16:49 tg Exp $");
 
 #include <paths.h>
 
@@ -136,7 +138,7 @@ valid_request(struct passwd *pw, char *host, Key **ret, u_char *data,
 }
 
 int
-main(int argc, char **argv)
+main(void)
 {
 	Buffer b;
 	Options options;

@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/rbootd/rbootd.c,v 1.2 2005/03/13 19:17:20 tg Exp $ */
 /*	$OpenBSD: rbootd.c,v 1.21 2005/05/03 01:01:14 djm Exp $	*/
 /*	$NetBSD: rbootd.c,v 1.5 1995/10/06 05:12:17 thorpej Exp $	*/
 
@@ -153,7 +154,7 @@ main(int argc, char *argv[])
 		char *errmsg;
 
 		if ((IntfName = BpfGetIntfName(&errmsg)) == NULL) {
-			syslog(LOG_NOTICE, "restarted (??)");
+			syslog(LOG_NOTICE, "restarted (?!)");
 			/* BpfGetIntfName() returns safe names, using %m */
 			syslog(LOG_ERR, "%s", errmsg);
 			DoExit();
@@ -351,7 +352,7 @@ FindClient(RMPCONN *rconn)
 	CLIENT *ctmp;
 
 	for (ctmp = Clients; ctmp != NULL; ctmp = ctmp->next)
-		if (bcmp((char *)&rconn->rmp.hp_hdr.saddr[0],
+		if (memcmp((char *)&rconn->rmp.hp_hdr.saddr[0],
 		    (char *)&ctmp->addr[0], RMP_ADDRLEN) == 0)
 			break;
 

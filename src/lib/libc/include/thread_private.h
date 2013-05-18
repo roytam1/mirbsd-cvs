@@ -122,5 +122,9 @@ void	_thread_malloc_unlock(void);
 						_thread_malloc_init();\
 				} while (0)
 
+/* copied from pthread_private.h with a twist */
+#ifdef _LIBC_IN_ABORT
+int     _thread_sys_sigprocmask(int, const void *, void *);
+#endif
 
 #endif /* _THREAD_PRIVATE_H_ */

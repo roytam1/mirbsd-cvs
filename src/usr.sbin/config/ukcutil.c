@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/config/ukcutil.c,v 1.2 2005/03/13 19:16:18 tg Exp $ */
 /*	$OpenBSD: ukcutil.c,v 1.14 2004/01/04 18:30:05 deraadt Exp $ */
 
 /*
@@ -24,10 +25,6 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LINT
-static	char rcsid[] = "$OpenBSD: ukcutil.c,v 1.14 2004/01/04 18:30:05 deraadt Exp $";
-#endif
-
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/device.h>
@@ -41,6 +38,8 @@ static	char rcsid[] = "$OpenBSD: ukcutil.c,v 1.14 2004/01/04 18:30:05 deraadt Ex
 #include "exec.h"
 #include "ukc.h"
 #include "misc.h"
+
+__RCSID("$MirOS: src/usr.sbin/config/ukcutil.c,v 1.2 2005/03/13 19:16:18 tg Exp $");
 
 extern	int ukc_mod_kernel;
 
@@ -97,7 +96,7 @@ more(void)
 	cmd_t cmd;
 
 	if (cnt != -1) {
-		if (cnt == lines) {
+		if (lines && cnt == lines) {
 			printf("--- more ---");
 			fflush(stdout);
 			ask_cmd(&cmd);
@@ -427,8 +426,8 @@ change(int devno)
 			}
 
 			j = l = get_extraloc(*k);
-			bcopy(adjust((caddr_t)cd->cf_loc),
-			    l, sizeof(int) * i);
+			memmove(l, adjust((caddr_t)cd->cf_loc),
+			    sizeof(int) * i);
 		}
 
 		while (*ln != -1) {
@@ -440,7 +439,7 @@ change(int devno)
 		modify("flags", &cd->cf_flags);
 
 		if (share) {
-			if (bcmp(adjust((caddr_t)cd->cf_loc), j,
+			if (memcmp(adjust((caddr_t)cd->cf_loc), j,
 			    sizeof(int) * i)) {
 				cd->cf_loc = (int *)readjust((caddr_t)j);
 				*k = *k + i;
@@ -528,8 +527,8 @@ change_history(int devno, char *str)
 			}
 
 			j = l = get_extraloc(*k);
-			bcopy(adjust((caddr_t)cd->cf_loc),
-			    l, sizeof(int) * i);
+			memmove(l, adjust((caddr_t)cd->cf_loc),
+			    sizeof(int) * i);
 		}
 
 		while (*ln != -1) {
@@ -555,7 +554,7 @@ change_history(int devno, char *str)
 		}
 
 		if (share) {
-			if (bcmp(adjust((caddr_t)cd->cf_loc),
+			if (memcmp(adjust((caddr_t)cd->cf_loc),
 			    j, sizeof(int) * i)) {
 				cd->cf_loc = (int *)readjust((caddr_t)j);
 				*k = *k + i;
@@ -1337,7 +1336,7 @@ process_history(int len, char *buf)
 
 	c = buf;
 
-	while (*c != NULL) {
+	while (*c) {
 		switch (*c) {
 		case 'a':
 			c++;
@@ -1411,12 +1410,12 @@ process_history(int len, char *buf)
 			ukc_mod_kernel = 1;
 			break;
 		case 'q':
-			while (*c != NULL)
+			while (*c)
 				c++;
 			break;
 		default:
 			printf("unknown command %c\n", *c);
-			while (*c != NULL && *c != '\n')
+			while ((*c) && *c != '\n')
 				c++;
 			break;
 		}

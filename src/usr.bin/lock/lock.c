@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/lock/lock.c,v 1.4 2005/11/23 17:42:41 tg Exp $ */
 /*	$OpenBSD: lock.c,v 1.21 2005/07/14 14:42:28 jmc Exp $	*/
 /*	$NetBSD: lock.c,v 1.8 1996/05/07 18:32:31 jtc Exp $	*/
 
@@ -39,13 +40,6 @@ static char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)lock.c	8.1 (Berkeley) 6/6/93";
-#endif
-static char rcsid[] = "$OpenBSD: lock.c,v 1.21 2005/07/14 14:42:28 jmc Exp $";
-#endif /* not lint */
-
 /*
  * Lock a terminal up until the given key is entered, until the root
  * password is entered, or the given interval times out.
@@ -71,6 +65,9 @@ static char rcsid[] = "$OpenBSD: lock.c,v 1.21 2005/07/14 14:42:28 jmc Exp $";
 
 #include <login_cap.h>
 #include <bsd_auth.h>
+
+__SCCSID("@(#)lock.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS: src/usr.bin/lock/lock.c,v 1.4 2005/11/23 17:42:41 tg Exp $");
 
 #define	TIMEOUT	15
 
@@ -102,11 +99,21 @@ main(int argc, char *argv[])
 	usemine = 0;
 	no_timeout = 0;
 
+	if ((p = strrchr(argv[0], '/')) != NULL)
+		++p;
+	else
+		p = argv[0];
+
+	if (!strcmp(p, "lock-np") || !strcmp(p, "SCREEN-LOCK")) {
+		no_timeout = 1;
+		usemine = 1;
+	}
+
 	if (!(pw = getpwuid(getuid())))
 		errx(1, "unknown uid %u.", getuid());
 
 	lc = login_getclass(pw->pw_class);
-	
+
 	while ((ch = getopt(argc, argv, "a:npt:")) != -1)
 		switch (ch) {
 		case 'a':
@@ -144,7 +151,7 @@ main(int argc, char *argv[])
 	curtime = time(NULL);
 	nexttime = curtime + (sectimeout * 60);
 	timp = localtime(&curtime);
-	strftime(date, sizeof(date), "%c", timp);
+	strftime(date, sizeof(date), "%+", timp);
 
 	if (!usemine) {
 		/* get key and check again */
@@ -224,7 +231,7 @@ hi(int dummy)
 	else {
 		now = time(NULL);
 		(void)snprintf(buf2, sizeof buf2, " timeout in %d:%d minutes",
-		    (nexttime - now) / 60, (nexttime - now) % 60);
+		    (int)((nexttime - now) / 60), (int)((nexttime - now) % 60));
 	}
 	snprintf(buf, sizeof buf, "%s: type in the unlock key.%s\n",
 	    __progname, buf2);

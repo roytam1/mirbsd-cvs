@@ -413,7 +413,9 @@ priv_adjtime(void)
 		peers[i++] = p;
 	}
 
-	qsort(peers, offset_cnt, sizeof(struct ntp_peer *), offset_compare);
+	if (offset_cnt > 2)
+		qsort(peers, offset_cnt, sizeof(struct ntp_peer *),
+		    offset_compare);
 
 	if (offset_cnt > 0) {
 		if (offset_cnt > 1 && offset_cnt % 2 == 0) {

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: svc.h,v 1.9 2004/01/22 21:48:02 espie Exp $	*/
 /*	$NetBSD: svc.h,v 1.9 1995/04/29 05:28:01 cgd Exp $	*/
 
@@ -166,8 +167,8 @@ struct svc_req {
  *	SVCXPRT *xprt;
  *	unsigned long prog;
  *	unsigned long vers;
- *	void (*dispatch)();
- *	int protocol;    like TCP or UDP, zero means do not register 
+ *	void (*dispatch)(struct svc_req *, SVCXPRT *);
+ *	int protocol;    like TCP or UDP, zero means do not register
  */
 __BEGIN_DECLS
 extern bool_t	svc_register(SVCXPRT *, unsigned long, unsigned long,
@@ -305,6 +306,8 @@ __END_DECLS
 __BEGIN_DECLS
 extern SVCXPRT *svcudp_create(int);
 extern SVCXPRT *svcudp_bufcreate(int, unsigned int, unsigned int);
+extern SVCXPRT *svcudp_bufcreate_withport(int, unsigned int, unsigned int,
+    unsigned short);
 __END_DECLS
 
 
@@ -313,6 +316,8 @@ __END_DECLS
  */
 __BEGIN_DECLS
 extern SVCXPRT *svctcp_create(int, unsigned int, unsigned int);
+extern SVCXPRT *svctcp_create_withport(int, unsigned int, unsigned int,
+    unsigned short);
 __END_DECLS
 
 /*

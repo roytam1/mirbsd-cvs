@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: key.c,v 1.6 2002/02/16 21:27:57 millert Exp $	*/
 
 /*-
@@ -31,6 +32,8 @@ static const char sccsid[] = "@(#)key.c	10.33 (Berkeley) 9/24/96";
 
 #include "common.h"
 #include "../vi/vi.h"
+
+__RCSID("$MirOS$");
 
 static int	v_event_append(SCR *, EVENT *);
 static int	v_event_grow(SCR *, int);
@@ -105,7 +108,7 @@ int
 v_key_init(sp)
 	SCR *sp;
 {
-	CHAR_T ch;
+	int ch;
 	GS *gp;
 	KEYLIST *kp;
 	int cnt;
@@ -607,10 +610,10 @@ append:			if (v_event_append(sp, argp))
 	 */
 	if (LF_ISSET(EC_INTERRUPT | EC_TIMEOUT))
 		return (0);
-	 
+
 newmap:	evp = &gp->i_event[gp->i_next];
 
-	/* 
+	/*
 	 * If the next event in the queue isn't a character event, return
 	 * it, we're done.
 	 */
@@ -619,7 +622,7 @@ newmap:	evp = &gp->i_event[gp->i_next];
 		QREM(1);
 		return (0);
 	}
-	
+
 	/*
 	 * If the key isn't mappable because:
 	 *

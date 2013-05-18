@@ -53,7 +53,7 @@ interface.
 The following resolutions are supported by the ZX frame buffer:
 .Bl -column "Resolution" "Refresh Rate"
 .It Li Resolution Ta "Refresh Rate"
-.It " "
+.Pp
 .It Li 1280x1024 Ta 76 Hz Ta Non-interlaced
 .It Li 1280x1024 Ta 67 Hz Ta Non-interlaced
 .It Li 1152x900 Ta 76 Hz Ta Non-interlaced
@@ -62,9 +62,9 @@ The following resolutions are supported by the ZX frame buffer:
 .It Li 1024x768 Ta 60 Hz Ta Non-interlaced
 .\" Is it worth documenting the Stereo and TV modes?
 .It Li 960x680 Ta 112 Hz Ta "Stereo, non-interlaced"
-.It Li "" Ta "" Ta "56 Hz field rate per eye"
+.It Li \  Ta \  Ta "56 Hz field rate per eye"
 .It Li 960x680 Ta 108 Hz Ta "Stereo, non-interlaced"
-.It Li "" Ta "" Ta "54 Hz field rate per eye"
+.It Li \  Ta \  Ta "54 Hz field rate per eye"
 .It Li 770x575 Ta 50 Hz Ta "Interlaced - PAL"
 .It Li 640x480 Ta 59.94 Hz Ta "Interlaced - NTSC"
 .El
@@ -78,8 +78,8 @@ of 1152x900, with a 66 Hz refresh rate, will be selected.
 The selected resolutions are:
 .Bl -column "sense code" "Resolution" "Refresh" "Monitor"
 .It Li Monitor Ta Resolution Ta Refresh Ta Monitor
-.It Li "sense code" Ta "" Ta Rate Ta Type
-.It " "
+.It Li "sense code" Ta \  Ta Rate Ta Type
+.Pp
 .It Li 0 Ta 1024x768  Ta "76 Hz" Ta X449A
 .It Li 1 Ta 1152x900  Ta "66 Hz"
 .It Li 2 Ta 1280x1024 Ta "76 Hz" Ta X248A, GDM-205S
@@ -95,8 +95,8 @@ The selected resolutions are:
 .Xr cgeight 4 ,
 .Xr cgfour 4 ,
 .Xr cgfourteen 4 ,
-.Xr cgsix 4 ,
-.Xr cgthree 4 ,
+.Xr \&cgsix 4 ,
+.Xr \&cgthree 4 ,
 .Xr cgtwelve 4 ,
 .Xr cgtwo 4 ,
 .Xr intro 4 ,

@@ -109,6 +109,20 @@ and
 .Va ddb.panic
 .Xr sysctl 8
 variables may not be raised
+.It
+Filesystems may neither be mounted nor umounted.
+(Maybe other operations should be denied, too.)
+.It
+Writes to the random number generator devices, namely
+.Pa /dev/srandom ,
+.Pa /dev/urandom ,
+.Pa /dev/arandom ,
+and
+.Pa /dev/prandom ,
+are prohibited, as well as several IOCTLs.
+The addpool is still processed (there is an extra
+sysctl to disable it) but can be filled from userland
+only by writing to the KERN_ARND sysctl.
 .El
 .El
 .Sh DESCRIPTION
@@ -127,6 +141,9 @@ may lower it once the system has entered secure mode.
 A kernel built with
 .Cm option INSECURE
 in the config file will default to permanently insecure mode.
+(Setting the securelevel to -1 in
+.Pa /etc/rc.securelevel
+has the same effect.)
 .Pp
 Highly secure mode may seem Draconian, but is intended as a last line of
 defence should the superuser account be compromised.
@@ -172,5 +189,13 @@ The
 .Nm
 manual page first appeared in
 .Ox 2.6 .
+.Pp
+Mounting was disallowed in highly secure mode in
+.Mx 9 .
+.Sh CAVEATS
+Securelevels defend against a compromisal of the root account.
+The 4\.4BSD kernel however is not designed for such thing,
+thus, securelevels should only be used as a tool for convenience,
+not be seen as an actual security measure.
 .Sh BUGS
 The list of securelevel's effects may not be comprehensive.

@@ -1,14 +1,20 @@
-#!/bin/sh -
+#!/bin/mksh
+# $MirOS: src/etc/MAKEDEV.mi,v 1.7 2006/06/17 16:28:20 tg Exp $
 #
 # THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
 # generated from:
 #
 #	OpenBSD: etc.i386/MAKEDEV.md,v 1.32 2005/06/29 18:23:27 todd Exp 
+#	MirOS: src/etc/etc.i386/MAKEDEV.md,v 1.9 2006/06/17 16:28:21 tg Exp 
 #	OpenBSD: MAKEDEV.common,v 1.19 2005/06/29 18:23:26 todd Exp 
+#	MirOS: src/etc/MAKEDEV.common,v 1.7 2006/01/30 13:10:15 tg Exp 
 #	OpenBSD: MAKEDEV.mi,v 1.73 2005/02/07 06:14:18 david Exp 
+#	MirOS: src/etc/MAKEDEV.mi,v 1.7 2006/06/17 16:28:20 tg Exp 
 #	OpenBSD: MAKEDEV.sub,v 1.14 2005/02/07 06:14:18 david Exp 
+#	MirOS: src/etc/MAKEDEV.sub,v 1.4 2005/07/24 12:49:10 tg Exp 
 #
 #
+# Copyright (c) 2003-2006 Thorsten Glaser <tg@mirbsd.de>
 # Copyright (c) 2001-2004 Todd T. Fries <todd@OpenBSD.org>
 #
 # Permission to use, copy, modify, and distribute this software for any
@@ -27,6 +33,7 @@
 #	all	makes all known devices, including local devices.
 #		Tries to make the ``standard'' number of each type.
 #	ramdisk	Ramdisk kernel devices
+#	rambig	additional devices to be put on large ramdisk media
 #	std	Standard devices
 #	local	Configuration specific devices
 # Disks:
@@ -71,28 +78,23 @@
 #	uscanner*	Scanners
 # Special purpose devices:
 #	apm	Power management device
-#	acpi	Advanced Configuration and Power Interface
 #	audio*	Audio devices
 #	bio	ioctl tunnel pseudo-device
 #	bktr*	Video frame grabbers
 #	bpf*	Berkeley Packet Filter
 #	crypto	Hardware crypto access driver
 #	fd	fd/* nodes for fdescfs
-#	gpio*	General Purpose Input/Output
 #	gpr*	GPR400 smartcard reader
-#	hotplug	devices hot plugging
 #	iop*	I2O controller devices
 #	joy*	Joystick driver
 #	lkm	Loadable kernel modules interface
 #	music*	MIDI devices
-#	nvram	NVRAM access
 #	pci	PCI bus device
 #	pctr*	PC Performance Tuning Register access device
 #	pf*	Packet Filter
 #	radio*	FM tuner devices
 #	rmidi*	Raw MIDI devices
 #	*random	In-kernel random data source
-#	ses*	SES/SAF-TE SCSI devices
 #	speaker	PC speaker
 #	ss*	SCSI scanners
 #	systrace*	System call tracing device
@@ -100,7 +102,12 @@
 #	tuner*	Tuner devices
 #	uk*	Unknown SCSI devices
 #	wdt0	Watchdog timer
-#	xfs*	XFS filesystem node
+# I4B devices:
+#	isdn	ISDN4BSD master device
+#	isdnctl	ISDN4BSD control device
+#	isdnbchan*	ISDN4BSD raw B channel device
+#	isdntrc*	ISDN4BSD tracing device
+#	isdntel*	ISDN4BSD telephony device
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 T=$0
 
@@ -212,7 +219,13 @@ M() {
 		MKlist="$MKlist;chown $7:$G $1"
 	} || {
 		case $G in
-		wheel)g=0;;kmem)g=2;;operator)g=5;;tty)g=4;;dialer)g=117;;_lkm)g=61;;
+		wheel)		g=0;;
+		kmem)		g=2;;
+		tty)		g=4;;
+		operator)	g=5;;
+		_lkm)		g=61;;
+		dialer)		g=117;;
+		audio)		g=250;;
 		esac
 		[ "${grplist[$g]}" ] && {
 			grplist[$g]="${grplist[$g]} $1"
@@ -234,7 +247,10 @@ U=`unt $i`
 case $i in
 ramdisk)
 	R std bpf0 fd0 wd0 sd0 tty00 tty01 rd0
-	R st0 cd0 ttyC0 random wskbd0 wskbd1 wskbd2 apm
+	R st0 cd0 ttyC0 random wskbd0 wskbd1 wskbd2 apm vnd0
+	;;
+rambig)
+	R pty0 raid0 raid1 tun0 vnd1
 	;;
 
 std)
@@ -258,8 +274,49 @@ ttyc*)
 	M cuac$U c 38 $(($U+128)) 660 dialer uucp
 	;;
 
-xfs*)
-	M xfs$U c 51 $U 600
+isdns)
+	R isdn isdnctl isdnbchan0 isdnbchan1
+	R isdntel0 isdntel1 isdntrc0 isdntrc1
+	cat <<_EOF_ALLISDN
+The author of the ISDN4BSD package is:
+ * Hellmuth Michaelis
+ * Hallstrasse 20
+ * D-25462 Rellingen
+ * voice: +49 4101 473574
+ * fax:   +49 4101 473575
+ * email: hm@kts.org
+
+He requests a picture postcard of the home town of any ISDN4BSD
+user as licence fee.  Please send him one if you are using this
+ISDN subsystem for MirOS BSD, too.
+
+ * It may be illegal in your country to connect an ISDN4BSD-based machine
+ * using a passive ISDN card to the ISDN at your site because the protocol
+ * stack of ISDN4BSD, which is necessary to run passive cards, has not been
+ * approved by the telecommunication certification authority of your country.
+ * If in doubt, please contact your local ISDN provider!
+
+_EOF_ALLISDN
+	;;
+
+isdntel*)
+	M isdntel$U c 60 $U
+	;;
+
+isdntrc*)
+	M isdntrc$U c 59 $U
+	;;
+
+isdnbchan*)
+	M isdnbchan$U c 58 $U
+	;;
+
+isdnctl)
+	M isdnctl c 57 0
+	;;
+
+isdn)
+	M isdn c 56 0
 	;;
 
 wdt0)
@@ -291,20 +348,15 @@ ss*)
 	;;
 
 speaker)
-	M speaker c 27 0 600
-	;;
-
-ses*)
-	M ses$U c 24 $U 640 operator
+	M speaker c 27 0 660 audio
 	;;
 
 *random)
-	n=0
-	for pre in " " s u p a
-	do
-		M ${pre}random c 45 $n 644
-		n=$(($n+1))
-	done
+	M random c 45 0 644
+	M srandom c 45 1 644
+	M urandom c 45 2 644
+	M prandom c 45 3 666
+	M arandom c 45 4 644
 	;;
 
 rmidi*)
@@ -312,7 +364,7 @@ rmidi*)
 	;;
 
 radio*)
-	M radio$U     c 76 $U
+	M radio$U     c 76 $U 660 audio
 	MKlist="$MKlist;[ -e radio ] || ln -s radio$U radio"
 	;;
 
@@ -328,13 +380,9 @@ pci)
 	M pci c 72 0 600
 	;;
 
-nvram)
-	M nvram c 84 0 440 kmem
-	;;
-
 music*)
-	M music$U     c 53 $U
-	M sequencer$U c 53 $(($U+128))
+	M music$U     c 53 $U 660 audio
+	M sequencer$U c 53 $(($U+128)) 660 audio
 	MKlist="$MKlist;[ -e music ] || ln -s music$U music"
 	MKlist="$MKlist;[ -e sequencer ] || ln -s sequencer$U sequencer"
 	;;
@@ -351,16 +399,8 @@ iop*)
 	M iop$U c 75 $U 660
 	;;
 
-hotplug)
-	M hotplug c 82 $U 400
-	;;
-
 gpr*)
 	M gpr$U c 80 $U
-	;;
-
-gpio*)
-	M gpio$U c 83 $U 600
 	;;
 
 fd)
@@ -386,18 +426,14 @@ bio)
 	;;
 
 audio*)
-	M sound$U	c 42 $U
-	M mixer$U	c 42 $(($U+16))
-	M audio$U	c 42 $(($U+128))
-	M audioctl$U	c 42 $(($U+192))
+	M sound$U	c 42 $U 660 audio
+	M mixer$U	c 42 $(($U+16)) 660 audio
+	M audio$U	c 42 $(($U+128)) 660 audio
+	M audioctl$U	c 42 $(($U+192)) 660 audio
 	MKlist="$MKlist;[ -e audio ] || ln -s audio$U audio"
 	MKlist="$MKlist;[ -e mixer ] || ln -s mixer$U mixer"
 	MKlist="$MKlist;[ -e sound ] || ln -s sound$U sound"
 	MKlist="$MKlist;[ -e audioctl ] || ln -s audioctl$U audioctl"
-	;;
-
-acpi*)
-	M acpi	c 85 0 644
 	;;
 
 apm*)
@@ -511,7 +547,7 @@ pty*)
 	;;
 
 ptm)
-	M ptm c 81 0 666
+	M ptm c 82 0 666
 	;;
 
 tty[0-7][0-9a-f])
@@ -594,18 +630,17 @@ local)
 	;;
 
 all)
-	R nvram gpio0 gpio1 gpio2 bktr0 ccd0 ccd1 ccd2 ccd3 vnd0 vnd1
-	R vnd2 vnd3 sd0 sd1 sd2 sd3 sd4 cd0 cd1 rd0 tun0 tun1 tun2
-	R tun3 bio bpf0 bpf1 bpf2 bpf3 bpf4 bpf5 bpf6 bpf7 bpf8 bpf9
-	R pty0 fd1 fd1B fd1C fd1D fd1E fd1F fd1G fd1H fd0 fd0B fd0C
-	R fd0D fd0E fd0F fd0G fd0H xfs0 ss0 ss1 ch0 ses0 hotplug ptm
-	R gpr0 local wscons pci iop0 iop1 uall rmidi0 rmidi1 rmidi2
-	R rmidi3 rmidi4 rmidi5 rmidi6 rmidi7 tuner0 radio0 music0
-	R speaker audio0 wdt0 wt0 uk0 random joy0 joy1 lpa0 lpa1 lpa2
-	R lpt0 lpt1 lpt2 lkm tty00 tty01 tty02 tty03 ttyc0 ttyc1 ttyc2
-	R ttyc3 ttyc4 ttyc5 ttyc6 ttyc7 acpi apm crypto pf pctr
-	R systrace wd0 wd1 wd2 wd3 raid0 raid1 raid2 raid3 std st0 st1
-	R fd mcd0
+	R bktr0 ccd0 ccd1 ccd2 ccd3 vnd0 vnd1 vnd2 vnd3 sd0 sd1 sd2
+	R sd3 sd4 cd0 cd1 rd0 tun0 tun1 tun2 tun3 bio bpf0 bpf1 bpf2
+	R bpf3 bpf4 bpf5 bpf6 bpf7 bpf8 bpf9 pty0 fd1 fd1B fd1C fd1D
+	R fd1E fd1F fd1G fd1H fd0 fd0B fd0C fd0D fd0E fd0F fd0G fd0H
+	R ss0 ss1 ch0 ptm gpr0 local wscons pci iop0 iop1 uall rmidi0
+	R rmidi1 rmidi2 rmidi3 rmidi4 rmidi5 rmidi6 rmidi7 tuner0
+	R radio0 music0 speaker audio0 wdt0 wt0 uk0 random joy0 joy1
+	R lpa0 lpa1 lpa2 lpt0 lpt1 lpt2 lkm tty00 tty01 tty02 tty03
+	R ttyc0 ttyc1 ttyc2 ttyc3 ttyc4 ttyc5 ttyc6 ttyc7 apm crypto
+	R pf pctr systrace wd0 wd1 wd2 wd3 raid0 raid1 raid2 raid3 std
+	R st0 st1 fd mcd0
 	;;
 
 wd*|sd*|raid*|ccd*)

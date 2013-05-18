@@ -1,3 +1,4 @@
+.\"	$MirOS: src/lib/libc/regex/re_format.7,v 1.2 2005/03/06 20:28:43 tg Exp $
 .\"	$OpenBSD: re_format.7,v 1.13 2005/06/05 19:40:22 jmc Exp $
 .\"
 .\" Copyright (c) 1997, Phillip F Knaack. All rights reserved.
@@ -90,7 +91,7 @@ A piece is an
 possibly followed by a single**
 .Sq * ,
 .Sq + ,
-.Sq ?\& ,
+.Sq \&? ,
 or
 .Em bound .
 An atom followed by
@@ -100,14 +101,14 @@ An atom followed by
 .Sq +
 matches a sequence of 1 or more matches of the atom.
 An atom followed by
-.Sq ?\&
+.Sq \&?
 matches a sequence of 0 or 1 matches of the atom.
 .Pp
 A bound is
 .Sq {
 followed by an unsigned decimal integer,
 possibly followed by
-.Sq ,\&
+.Sq \&,
 possibly followed by another unsigned decimal integer,
 always followed by
 .Sq } .
@@ -148,7 +149,7 @@ an empty set of
 a
 .Em bracket expression
 (see below),
-.Sq .\&
+.Sq \&.
 (matching any single character),
 .Sq ^
 (matching the null string at the beginning of a line),
@@ -197,7 +198,7 @@ Ranges are very collating-sequence-dependent,
 and portable programs should avoid relying on them.
 .Pp
 To include a literal
-.Sq ]\&
+.Sq \&]
 in the list, make it the first character
 (following a possible
 .Sq ^ ) .
@@ -520,7 +521,7 @@ Basic regular expressions differ in several respects:
 .Sq \*(Ba ,
 .Sq + ,
 and
-.Sq ?\&
+.Sq \&?
 are ordinary characters and there is no equivalent
 for their functionality.
 .It
@@ -541,7 +542,7 @@ and
 with
 .Sq (
 and
-.Sq )\&
+.Sq \&)
 by themselves ordinary characters.
 .It
 .Sq ^
@@ -571,7 +572,7 @@ left to right),
 so that, for example,
 .Sq \e([bc]\e)\e1
 matches
-.Sq bb\&
+.Sq \&bb
 or
 .Sq cc
 but not
@@ -731,7 +732,7 @@ Base Definitions, Chapter 9 (Regular Expressions).
 Having two kinds of REs is a botch.
 .Pp
 The current POSIX spec says that
-.Sq )\&
+.Sq \&)
 is an ordinary character in the absence of an unmatched
 .Sq ( ;
 this was an unintentional result of a wording error,

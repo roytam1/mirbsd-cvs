@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/arch/sparc/sparc/in_cksum.c,v 1.3 2006/05/28 23:27:50 tg Exp $	*/
 /*	$OpenBSD: in_cksum.c,v 1.11 2005/05/03 00:39:39 brad Exp $	*/
 /*	$NetBSD: in_cksum.c,v 1.7 1996/10/05 23:44:34 mrg Exp $ */
 
@@ -43,6 +44,7 @@
 #include <netinet/in_systm.h>
 #include <netinet/ip.h>
 #include <netinet/ip_var.h>
+#include <dev/rndvar.h>
 
 /*
  * Checksum routine for Internet Protocol family headers.
@@ -208,6 +210,7 @@ in_cksum_internal(struct mbuf *m, int off, int len, u_int sum)
 			ADDBYTE;
 		}
 	}
+	rnd_addpool_add(sum);
 	if (byte_swapped) {
 		REDUCE;
 		ROL;

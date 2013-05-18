@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: wcsncmp.c,v 1.4 2005/08/08 08:05:37 espie Exp $	*/
 /*	$NetBSD: wcsncmp.c,v 1.5 2003/08/07 16:43:54 agc Exp $	*/
 
@@ -31,7 +32,6 @@
  */
 
 #include <wchar.h>
-#include "locale/runetype.h"
 
 int
 wcsncmp(const wchar_t *s1, const wchar_t *s2, size_t n)
@@ -41,9 +41,8 @@ wcsncmp(const wchar_t *s1, const wchar_t *s2, size_t n)
 		return (0);
 	do {
 		if (*s1 != *s2++) {
-			/* XXX assumes wchar_t = int */
-			return (*(const rune_t *)s1 -
-			    *(const rune_t *)--s2);
+			return (*(const wchar_t *)s1 -
+			    *(const wchar_t *)--s2);
 		}
 		if (*s1++ == 0)
 			break;

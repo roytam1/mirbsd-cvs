@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: msdosfs_conv.c,v 1.13 2004/05/14 04:05:05 tedu Exp $	*/
 /*	$NetBSD: msdosfs_conv.c,v 1.24 1997/10/17 11:23:54 ws Exp $	*/
 
@@ -34,17 +35,17 @@
  */
 /*
  * Written by Paul Popelka (paulp@uts.amdahl.com)
- * 
+ *
  * You can do anything you want with this software, just don't say you wrote
  * it, and don't remove this notice.
- * 
+ *
  * This software is provided "as is".
- * 
+ *
  * The author supplies this software to be publicly redistributed on the
  * understanding that the author is not responsible for the correct
  * functioning of this software in any circumstances and is not liable for
  * any damages caused by this software.
- * 
+ *
  * October 1992
  */
 
@@ -218,7 +219,7 @@ dos2unixtime(dd, dt, dh, tsp)
 		month = (dd & DD_MONTH_MASK) >> DD_MONTH_SHIFT;
 		if (month == 0) {
 			printf("dos2unixtime(): month value out of range (%ld)\n",
-			    month);
+			    (long)month);
 			month = 1;
 		}
 		for (m = 0; m < month - 1; m++)
@@ -373,7 +374,7 @@ dos2unixfn(dn, un, lower)
 		c = dos2unix[*dn];
 	*un++ = lower ? u2l[c] : c;
 	dn++;
-	
+
 	/*
 	 * Copy the name portion into the unix filename string.
 	 */
@@ -383,7 +384,7 @@ dos2unixfn(dn, un, lower)
 		thislong++;
 	}
 	dn += 8 - i;
-	
+
 	/*
 	 * Now, if there is an extension then put in a period and copy in
 	 * the extension.
@@ -424,7 +425,7 @@ unix2dosfn(un, dn, unlen, gen)
 	int conv = 1;
 	u_char *cp, *dp, *dp1;
 	u_char gentext[6];
-	
+
 	/*
 	 * Fill the dos filename string with blanks. These are DOS's pad
 	 * characters.
@@ -432,7 +433,7 @@ unix2dosfn(un, dn, unlen, gen)
 	for (i = 0; i < 11; i++)
 		dn[i] = ' ';
 	dn[11] = 0;
-	
+
 	/*
 	 * The filenames "." and ".." are handled specially, since they
 	 * don't follow dos filename rules.
@@ -455,7 +456,7 @@ unix2dosfn(un, dn, unlen, gen)
 			break;
 	if (i < 0)
 		return 0;
-	
+
 	/*
 	 * Now find the extension
 	 * Note: dot as first char doesn't start extension
@@ -477,7 +478,7 @@ unix2dosfn(un, dn, unlen, gen)
 			break;
 		}
 	}
-	
+
 	/*
 	 * Now convert it
 	 */
@@ -523,14 +524,14 @@ unix2dosfn(un, dn, unlen, gen)
 	 */
 	if (!j)
 		dn[0] = '_';
-	
+
 	/*
 	 * The first character cannot be E5,
 	 * because that means a deleted entry
 	 */
 	if (dn[0] == 0xe5)
 		dn[0] = SLOT_E5;
-	
+
 	/*
 	 * If there wasn't any char dropped,
 	 * there is no place for generation numbers
@@ -540,7 +541,7 @@ unix2dosfn(un, dn, unlen, gen)
 			return 0;
 		return conv;
 	}
-	
+
 	/*
 	 * Now insert the generation number into the filename part
 	 */
@@ -580,7 +581,7 @@ unix2winfn(un, unlen, wep, cnt, chksum)
 
 	un += (cnt - 1) * WIN_CHARS;
 	unlen -= (cnt - 1) * WIN_CHARS;
-	
+
 	/*
 	 * Initialize winentry to some useful default
 	 */
@@ -590,7 +591,7 @@ unix2winfn(un, unlen, wep, cnt, chksum)
 	wep->weReserved1 = 0;
 	wep->weChksum = chksum;
 	wep->weReserved2 = 0;
-	
+
 	/*
 	 * Now convert the filename parts
 	 */
@@ -636,7 +637,7 @@ winChkName(un, unlen, wep, chksum)
 {
 	u_int8_t *cp;
 	int i;
-	
+
 	/*
 	 * First compare checksums
 	 */
@@ -646,7 +647,7 @@ winChkName(un, unlen, wep, chksum)
 		chksum = -1;
 	if (chksum == -1)
 		return -1;
-	
+
 	/*
 	 * Offset of this entry
 	 */
@@ -657,7 +658,7 @@ winChkName(un, unlen, wep, chksum)
 
 	if ((wep->weCnt&WIN_LAST) && unlen > WIN_CHARS)
 		return -1;
-	
+
 	/*
 	 * Compare the name parts
 	 */
@@ -708,7 +709,7 @@ win2unixfn(wep, dp, chksum)
 	if ((wep->weCnt&WIN_CNT) > howmany(WIN_MAXLEN, WIN_CHARS)
 	    || !(wep->weCnt&WIN_CNT))
 		return -1;
-	
+
 	/*
 	 * First compare checksums
 	 */
@@ -722,13 +723,13 @@ win2unixfn(wep, dp, chksum)
 		chksum = -1;
 	if (chksum == -1)
 		return -1;
-	
+
 	/*
 	 * Offset of this entry
 	 */
 	i = ((wep->weCnt&WIN_CNT) - 1) * WIN_CHARS;
 	np = (u_int8_t *)dp->d_name + i;
-	
+
 	/*
 	 * Convert the name parts
 	 */
@@ -807,7 +808,7 @@ winChksum(name)
 {
 	int i;
 	u_int8_t s;
-	
+
 	for (s = 0, i = 11; --i >= 0; s += *name++)
 		s = (s << 7)|(s >> 1);
 	return s;

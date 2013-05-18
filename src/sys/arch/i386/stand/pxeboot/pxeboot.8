@@ -1,3 +1,4 @@
+.\"	$MirOS: src/sys/arch/i386/stand/pxeboot/pxeboot.8,v 1.2 2005/03/06 21:27:09 tg Exp $
 .\"	$OpenBSD: pxeboot.8,v 1.4 2004/12/04 00:46:58 jmc Exp $
 .\" Copyright (c) 2004 Tom Cosgrove
 .\" Copyright (c) 2003 Matthias Drochner
@@ -51,7 +52,7 @@ The ROM downloads the boot program using TFTP, then executes it.
 The
 .Nm
 boot program will look for an
-.Pa /etc/boot.conf
+.Pa /etc/boot.cfg
 configuration
 file on the TFTP server.
 If it finds one, it processes the commands within it.
@@ -71,7 +72,7 @@ kernel
 via TFTP.
 It may be told to boot an alternative kernel,
 either by commands in the
-.Pa boot.conf
+.Pa boot.cfg
 file,
 or by commands typed by the user at the
 .Ic boot>
@@ -109,10 +110,10 @@ and the kernel should be copied into the TFTP server's root directory
 (typically
 .Pa /tftpboot ) .
 A
-.Pa boot.conf
+.Pa boot.cfg
 file may be created if required
 (e.g.\&
-.Pa /tftpboot/etc/boot.conf ) .
+.Pa /tftpboot/etc/boot.cfg ) .
 .Pp
 A sample configuration file for
 .Xr dhcpd 8
@@ -144,7 +145,7 @@ for more information.
 .Bl -tag -width /usr/mdec/pxebootxx -compact
 .It Pa /usr/mdec/pxeboot
 PXE-specific second-stage bootstrap
-.It Pa /etc/boot.conf
+.It Pa /etc/boot.cfg
 .Nm
 configuration file (read from TFTP server)
 .It Pa /etc/dhcpd.conf

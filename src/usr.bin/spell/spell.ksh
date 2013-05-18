@@ -1,5 +1,5 @@
-#!/bin/ksh -
-#
+#!/bin/mksh
+# $MirOS: src/usr.bin/spell/spell.ksh,v 1.2 2005/07/07 13:39:58 tg Exp $
 # $OpenBSD: spell.ksh,v 1.9 2005/07/06 07:08:05 jmc Exp $
 #
 # Copyright (c) 2001, 2003 Todd C. Miller <Todd.Miller@courtesan.com>

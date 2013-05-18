@@ -1,5 +1,6 @@
+/**	$MirOS: src/lib/libedit/term.c,v 1.2 2005/04/19 15:16:16 tg Exp $ */
 /*	$OpenBSD: term.c,v 1.11 2003/10/31 08:42:24 otto Exp $	*/
-/*	$NetBSD: term.c,v 1.38 2003/09/14 21:48:55 christos Exp $	*/
+/*	$NetBSD: term.c,v 1.40 2004/05/22 23:21:28 christos Exp $	*/
 
 /*-
  * Copyright (c) 1992, 1993
@@ -34,13 +35,6 @@
  */
 
 #include "config.h"
-#if !defined(lint) && !defined(SCCSID)
-#if 0
-static char sccsid[] = "@(#)term.c	8.2 (Berkeley) 4/30/95";
-#else
-static const char rcsid[] = "$OpenBSD: term.c,v 1.11 2003/10/31 08:42:24 otto Exp $";
-#endif
-#endif /* not lint && not SCCSID */
 
 /*
  * term.c: Editor/termcap-curses interface
@@ -69,6 +63,9 @@ static const char rcsid[] = "$OpenBSD: term.c,v 1.11 2003/10/31 08:42:24 otto Ex
 #include <sys/ioctl.h>
 
 #include "el.h"
+
+__SCCSID("@(#)term.c	8.2 (Berkeley) 4/30/95");
+__RCSID("$MirOS: src/lib/libedit/term.c,v 1.2 2005/04/19 15:16:16 tg Exp $");
 
 /*
  * IMPORTANT NOTE: these routines are allowed to look at the current screen
@@ -370,6 +367,8 @@ term_end(EditLine *el)
 	el->el_term.t_str = NULL;
 	el_free((ptr_t) el->el_term.t_val);
 	el->el_term.t_val = NULL;
+	el_free((ptr_t) el->el_term.t_fkey);
+	el->el_term.t_fkey = NULL;
 	term_free_display(el);
 }
 
@@ -1585,4 +1584,18 @@ term_echotc(EditLine *el, int argc __attribute__((__unused__)),
 		break;
 	}
 	return (0);
+}
+
+/* Internal Interface - for readline wrapper only */
+
+void
+_rl__term_get_size(EditLine *el, int *lines, int *columns)
+{
+	(void) term_get_size(el, lines, columns);
+}
+
+void
+_rl__term_change_size(EditLine *el, int lines, int columns)
+{
+	(void) term_change_size(el, lines, columns);
 }

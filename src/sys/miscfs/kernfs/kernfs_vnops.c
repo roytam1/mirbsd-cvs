@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/miscfs/kernfs/kernfs_vnops.c,v 1.4 2005/12/19 23:14:47 tg Exp $ */
 /*	$OpenBSD: kernfs_vnops.c,v 1.42 2004/11/18 17:12:33 millert Exp $	*/
 /*	$NetBSD: kernfs_vnops.c,v 1.43 1996/03/16 23:52:47 christos Exp $	*/
 
@@ -42,7 +43,6 @@
 #include <sys/param.h>
 #include <sys/systm.h>
 #include <sys/kernel.h>
-#include <sys/types.h>
 #include <sys/time.h>
 #include <sys/proc.h>
 #include <sys/vnode.h>
@@ -68,13 +68,9 @@
 
 static int	byteorder = BYTE_ORDER;
 static int	posix = _POSIX_VERSION;
-static int	osrev = OpenBSD;
-extern int	ncpus;
+static int	osrev = MirBSD;
+static int	ncpus = 1;
 extern char machine[], cpu_model[];
-
-#ifdef IPSEC
-extern int ipsp_kern(int, char **, int);
-#endif
 
 const struct kern_target kern_targets[] = {
 /* NOTE: The name must be less than UIO_MX-16 chars in length */
@@ -82,7 +78,7 @@ const struct kern_target kern_targets[] = {
      /*        name            data          tag           type  ro/rw */
      { DT_DIR, N("."),         0,            KTT_NULL,     VDIR, DIR_MODE   },
      { DT_DIR, N(".."),        0,            KTT_NULL,     VDIR, DIR_MODE   },
-     { DT_REG, N("boottime"),  &boottime.tv_sec, KTT_INT,  VREG, READ_MODE  },
+     { DT_REG, N("boottime"),  &boottime.tv_sec, KTT_INT64,   VREG, READ_MODE  },
      { DT_REG, N("byteorder"), &byteorder,   KTT_INT,      VREG, READ_MODE  },
      { DT_REG, N("copyright"), (void*)copyright,KTT_STRING,   VREG, READ_MODE  },
      { DT_REG, N("hostname"),  0,            KTT_HOSTNAME, VREG, WRITE_MODE },
@@ -107,9 +103,6 @@ const struct kern_target kern_targets[] = {
      { DT_REG, N("time"),      0,            KTT_TIME,     VREG, READ_MODE  },
      { DT_REG, N("usermem"),   0,            KTT_USERMEM,  VREG, READ_MODE  },
      { DT_REG, N("version"),   (void*)version,KTT_STRING,  VREG, READ_MODE  },
-#ifdef IPSEC
-     { DT_REG, N("ipsec"),     0,            KTT_IPSECSPI, VREG, READ_MODE  },
-#endif
 #undef N
 };
 static const int nkern_targets = sizeof(kern_targets) / sizeof(kern_targets[0]);
@@ -227,7 +220,7 @@ kernfs_allocvp(kt, mp, vpp)
 
 #ifdef KERNFS_DIAGNOSTIC
 	/* this should never happen */
-	if (kt == NULL) 
+	if (kt == NULL)
 		panic("kernfs_allocvp passed NULL kt, mp %p, vpp %p!", mp, vpp);
 
 	printf("kernfs_allocvp: looking for %s\n", kt->kt_name);
@@ -243,7 +236,7 @@ loop:
 #ifdef KERNFS_DIAGNOSTIC
 			printf("kernfs_allocvp: hit %s\n", kt->kt_name);
 #endif
-			if (vget(vp, 0, p)) 
+			if (vget(vp, 0, p))
 				goto loop;
 			*vpp = vp;
 			goto out;
@@ -260,8 +253,8 @@ loop:
 	kf->kf_kt = kt;
 	kf->kf_vnode = vp;
 	vp->v_type = kf->kf_vtype;
-	vp->v_data = kf; 
-	if (kf->kf_namlen == 1 && bcmp(kf->kf_name, ".", 1) == 0) 
+	vp->v_data = kf;
+	if (kf->kf_namlen == 1 && bcmp(kf->kf_name, ".", 1) == 0)
 		vp->v_flag |= VROOT;
 
 	TAILQ_INSERT_TAIL(&kfshead, kf, list);
@@ -269,7 +262,7 @@ out:
 	lockmgr(&kfscache_lock, LK_RELEASE, NULL, p);
 
 #ifdef KERNFS_DIAGNOSTIC
-	if (error) 
+	if (error)
 		printf("kernfs_allocvp: error %d\n", error);
 #endif
 	return(error);
@@ -295,9 +288,9 @@ kernfs_findtarget(name, namlen)
 {
 	const struct kern_target *kt = NULL;
 	int i;
-	
+
 	for (i = 0; i < nkern_targets; i++) {
-		if (kern_targets[i].kt_namlen == namlen && 
+		if (kern_targets[i].kt_namlen == namlen &&
 			bcmp(kern_targets[i].kt_name, name, namlen) == 0) {
 			kt = &kern_targets[i];
 			break;
@@ -310,8 +303,8 @@ kernfs_findtarget(name, namlen)
 #endif
 	return(kt);
 }
-	
-	
+
+
 int
 kernfs_xread(kt, off, bufp, len)
 	const struct kern_target *kt;
@@ -325,7 +318,7 @@ kernfs_xread(kt, off, bufp, len)
 		struct timeval tv;
 
 		microtime(&tv);
-		snprintf(*bufp, len, "%ld %ld\n", tv.tv_sec, tv.tv_usec);
+		snprintf(*bufp, len, "%lld %ld\n", (int64_t)tv.tv_sec, tv.tv_usec);
 		break;
 	}
 
@@ -333,6 +326,13 @@ kernfs_xread(kt, off, bufp, len)
 		int *ip = kt->kt_data;
 
 		snprintf(*bufp, len, "%d\n", *ip);
+		break;
+	}
+
+	case KTT_INT64: {
+		int64_t *ip = kt->kt_data;
+
+		snprintf(*bufp, len, "%lld\n", *ip);
 		break;
 	}
 
@@ -423,10 +423,6 @@ kernfs_xread(kt, off, bufp, len)
 		snprintf(*bufp, len, "%u\n", ctob(physmem));
 		break;
 
-#ifdef IPSEC
-	case KTT_IPSECSPI:
-		return(ipsp_kern(off, bufp, len));
-#endif
 	default:
 		return (0);
 	}
@@ -502,7 +498,7 @@ kernfs_lookup(v)
 	if (cnp->cn_nameiop == DELETE || cnp->cn_nameiop == RENAME)
 		return (EROFS);
 
-	if (cnp->cn_namelen == 1 && *pname == '.') { 
+	if (cnp->cn_namelen == 1 && *pname == '.') {
 		*vpp = dvp;
 		VREF(dvp);
 		return (0);
@@ -518,13 +514,13 @@ kernfs_lookup(v)
 
 	if (kt->kt_tag == KTT_DEVICE) {
 		dev_t *dp = kt->kt_data;
-		
+
 	loop:
-		if (*dp == NODEV || !vfinddev(*dp, kt->kt_vtype, &vp)) 
+		if (*dp == NODEV || !vfinddev(*dp, kt->kt_vtype, &vp))
 			return(ENOENT);
-		
+
 		*vpp = vp;
-		if (vget(vp, LK_EXCLUSIVE, p)) 
+		if (vget(vp, LK_EXCLUSIVE, p))
 			goto loop;
 		if (wantpunlock) {
 			VOP_UNLOCK(dvp, 0, p);
@@ -546,7 +542,7 @@ kernfs_lookup(v)
 	}
 	return (0);
 }
-		
+
 /*ARGSUSED*/
 int
 kernfs_open(v)
@@ -567,7 +563,7 @@ kernfs_access(v)
 		struct proc *a_p;
 	} */ *ap = v;
 	struct vnode *vp = ap->a_vp;
-	
+
 	mode_t fmode = (vp->v_flag & VROOT) ? DIR_MODE : VTOKERN(vp)->kf_mode;
 
 	return (vaccess(fmode, (uid_t)0, (gid_t)0, ap->a_mode, ap->a_cred));
@@ -898,9 +894,9 @@ kernfs_print(v)
 	} */ *ap = v;
 	struct kernfs_node *kf = VTOKERN(ap->a_vp);
 
-	printf("tag VT_KERNFS, kernfs vnode: name %s, vp %p, tag %d\n", 
-		kf->kf_name, kf->kf_vnode, kf->kf_tag); 
-		
+	printf("tag VT_KERNFS, kernfs vnode: name %s, vp %p, tag %d\n",
+		kf->kf_name, kf->kf_vnode, kf->kf_tag);
+
 	return (0);
 }
 
@@ -913,15 +909,15 @@ kernfs_vfree(v)
 }
 
 int
-kernfs_link(v) 
+kernfs_link(v)
 	void *v;
 {
 	struct vop_link_args /* {
 		struct vnode *a_dvp;
-		struct vnode *a_vp;  
+		struct vnode *a_vp;
 		struct componentname *a_cnp;
 	} */ *ap = v;
- 
+
 	VOP_ABORTOP(ap->a_dvp, ap->a_cnp);
 	vput(ap->a_dvp);
 	return (EROFS);
@@ -963,8 +959,8 @@ kernfs_poll(v)
 {
 	struct vop_poll_args /* {
 		struct vnode *a_vp;
-		int a_events;  
-		struct proc *a_p;   
+		int a_events;
+		struct proc *a_p;
 	} */ *ap = v;
 
 	return (ap->a_events & (POLLIN | POLLOUT | POLLRDNORM | POLLWRNORM));

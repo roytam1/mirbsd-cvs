@@ -1,3 +1,4 @@
+/**	$MirOS: src/sbin/isakmpd/dpd.c,v 1.3 2005/04/26 15:42:38 tg Exp $ */
 /*	$OpenBSD: dpd.c,v 1.13 2005/05/04 10:05:01 hshoexer Exp $	*/
 
 /*

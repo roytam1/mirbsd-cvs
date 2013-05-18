@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: wwerror.c,v 1.5 2004/03/16 01:11:09 tedu Exp $	*/
 /*	$NetBSD: wwerror.c,v 1.3 1995/09/28 10:35:29 tls Exp $	*/
 
@@ -49,6 +50,7 @@ static char rcsid[] = "$OpenBSD: wwerror.c,v 1.5 2004/03/16 01:11:09 tedu Exp $"
 char *
 wwerror()
 {
+	extern char *strerror(int);
 
 	switch (wwerrno) {
 	case WWE_NOERR:

@@ -24,6 +24,7 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/progressmeter.c,v 1.2 2006/02/22 02:16:47 tg Exp $");
 
 #include <sys/ioctl.h>
 
@@ -219,7 +220,7 @@ refresh_progress_meter(void)
 }
 
 static void
-update_progress_meter(int ignore)
+update_progress_meter(int ignore __attribute__((unused)))
 {
 	int save_errno;
 
@@ -269,12 +270,12 @@ stop_progress_meter(void)
 	if (cur_pos != end_pos)
 		refresh_progress_meter();
 
-	atomicio(vwrite, STDOUT_FILENO, "\n", 1);
+	atomicio(vwrite, STDOUT_FILENO, (char *)"\n", 1);
 }
 
 /*ARGSUSED*/
 static void
-sig_winch(int sig)
+sig_winch(int sig __attribute__((unused)))
 {
 	win_resized = 1;
 }

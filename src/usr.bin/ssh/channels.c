@@ -42,7 +42,6 @@
 #include "includes.h"
 
 #include <sys/ioctl.h>
-#include <sys/types.h>
 #include <sys/un.h>
 
 #include <termios.h>

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: am7990.c,v 1.34 2004/05/12 06:35:10 tedu Exp $	*/
 /*	$NetBSD: am7990.c,v 1.22 1996/10/13 01:37:19 christos Exp $	*/
 
@@ -40,7 +41,7 @@
 
 #include <sys/param.h>
 #include <sys/systm.h>
-#include <sys/mbuf.h> 
+#include <sys/mbuf.h>
 #include <sys/syslog.h>
 #include <sys/socket.h>
 #include <sys/device.h>
@@ -76,7 +77,7 @@ integrate void am7990_tint(struct am7990_softc *);
 
 integrate int am7990_put(struct am7990_softc *, int, struct mbuf *);
 integrate struct mbuf *am7990_get(struct am7990_softc *, int, int);
-integrate void am7990_read(struct am7990_softc *, int, int); 
+integrate void am7990_read(struct am7990_softc *, int, int);
 
 hide void am7990_shutdown(void *);
 
@@ -179,7 +180,8 @@ am7990_config(sc)
 		sc->sc_ntbuf = 32;
 		break;
 	default:
-		panic("am7990_config: weird memory size %d", sc->sc_memsize);
+		panic("am7990_config: weird memory size %lu",
+		    (long)sc->sc_memsize);
 	}
 
 	printf(": address %s\n", ether_sprintf(sc->sc_arpcom.ac_enaddr));

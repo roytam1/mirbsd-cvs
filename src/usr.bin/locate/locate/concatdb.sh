@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/mksh
 #
 # $OpenBSD: concatdb.sh,v 1.10 2003/06/29 21:59:28 millert Exp $
 #

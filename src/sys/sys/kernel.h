@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: kernel.h,v 1.8 2003/06/02 23:28:21 millert Exp $	*/
 /*	$NetBSD: kernel.h,v 1.11 1995/03/03 01:24:16 cgd Exp $	*/
 
@@ -37,13 +38,16 @@
  *	@(#)kernel.h	8.3 (Berkeley) 1/21/94
  */
 
+#ifndef	_SYS_KERNEL_H
+#define	_SYS_KERNEL_H
+
 /* Global variables for the kernel. */
 
 /* 1.1 */
 extern long hostid;
 extern char hostname[MAXHOSTNAMELEN];
 extern int hostnamelen;
-extern char domainname[MAXHOSTNAMELEN];
+extern char domainname[1];
 extern int domainnamelen;
 
 /* 1.2 */
@@ -64,3 +68,4 @@ extern int lbolt;		/* once a second sleep address */
 extern int tickdelta;
 extern long timedelta;
 
+#endif

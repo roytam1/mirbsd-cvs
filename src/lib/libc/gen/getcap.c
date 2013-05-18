@@ -194,8 +194,8 @@ getent(char **cap, u_int *len, char **db_array, int fd,
 	const char *name, int depth, char *nfield)
 {
 	DB *capdbp;
-	char *r_end, *rp, **db_p;
-	int myfd, eof, foundit, opened, retval, clen;
+	char *r_end, *rp = NULL, **db_p;
+	int myfd = 0, eof, foundit, opened, retval, clen;
 	char *record, *cbuf;
 	int tc_not_resolved;
 	char pbuf[PATH_MAX];
@@ -248,7 +248,7 @@ getent(char **cap, u_int *len, char **db_array, int fd,
 			char *dbrecord;
 
 			clen = snprintf(pbuf, sizeof(pbuf), "%s.db", *db_p);
-			if (clen != -1 && clen < sizeof(pbuf) && usedb &&
+			if (clen != -1 && (size_t)clen < sizeof(pbuf) && usedb &&
 			    (capdbp = dbopen(pbuf, O_RDONLY, 0, DB_HASH, 0))) {
 				opened++;
 				retval = cdbget(capdbp, &dbrecord, name);

@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libc/db/recno/rec_open.c,v 1.2 2005/03/06 20:28:37 tg Exp $ */
 /*	$OpenBSD: rec_open.c,v 1.11 2005/08/05 13:03:00 espie Exp $	*/
 
 /*-
@@ -55,7 +56,7 @@ __rec_open(const char *fname, int flags, int mode, const RECNOINFO *openinfo,
 	DB *dbp;
 	PAGE *h;
 	struct stat sb;
-	int rfd, sverrno;
+	int rfd = 0, sverrno;
 
 	/* Open the user's file -- if this fails, we're done. */
 	if (fname != NULL && (rfd = open(fname, flags, mode)) < 0)

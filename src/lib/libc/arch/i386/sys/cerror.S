@@ -33,16 +33,22 @@
 
 #include "SYS.h"
 
+	.section .comment
+	.asciz	"$MirOS: src/lib/libc/arch/i386/sys/cerror.S,v 1.2 2005/03/06 20:28:31 tg Exp $"
+
+	.text
 	.globl	_C_LABEL(errno)
 _ENTRY(CERROR)
-#ifdef PIC
+#ifdef	PIC
 	PIC_PROLOGUE
 	movl	PIC_GOT(_C_LABEL(errno)),%ecx
 	PIC_EPILOGUE
-	movl	%eax,(%ecx)
+	.intel_syntax noprefix
+	mov	[ecx],eax
 #else
-	movl	%eax,_C_LABEL(errno)
+	.intel_syntax noprefix
+	mov	[_C_LABEL(errno)],eax
 #endif
-	movl	$-1,%eax
-	movl	$-1,%edx
+	mov	eax,-1
+	mov	edx,-1
 	ret

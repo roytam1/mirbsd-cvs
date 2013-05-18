@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: spec.c,v 1.6 1995/03/07 21:12:12 cgd Exp $	*/
 /*	$OpenBSD: spec.c,v 1.22 2004/08/01 18:32:20 deraadt Exp $	*/
 
@@ -101,7 +102,7 @@ spec(void)
 			set(p, centry);
 			continue;
 		}
-			
+
 		/* Grab file name, "$", "set", or "unset". */
 		if ((p = strtok(p, "\n\t ")) == NULL)
 			error("missing field");
@@ -195,6 +196,7 @@ set(char *t, NODE *ip)
 			if (!ip->md5digest)
 				error("%s", strerror(errno));
 			break;
+#ifndef __INTERIX
 		case F_FLAGS:
 			if (!strcmp(val, "none")) {
 				ip->file_flags = 0;
@@ -203,7 +205,8 @@ set(char *t, NODE *ip)
 			if (strtofflags(&val, &fset, &fclr))
 				error("%s", strerror(errno));
 			ip->file_flags = fset;
-			break; 
+			break;
+#endif
 		case F_GID:
 			ip->st_gid = strtoul(val, &ep, 10);
 			if (*ep)

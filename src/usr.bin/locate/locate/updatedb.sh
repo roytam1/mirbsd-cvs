@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/mksh
 #
 #	$OpenBSD: updatedb.sh,v 1.11 2003/09/29 16:03:16 deraadt Exp $
 #

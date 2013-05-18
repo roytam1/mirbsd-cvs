@@ -1,3 +1,4 @@
+.\"	$MirOS: src/sbin/ifconfig/ifconfig.8,v 1.2 2005/03/06 19:50:01 tg Exp $
 .\"	$OpenBSD: ifconfig.8,v 1.93 2004/12/01 22:30:53 jmc Exp $
 .\"	$NetBSD: ifconfig.8,v 1.11 1996/01/04 21:27:29 pk Exp $
 .\"     $FreeBSD: ifconfig.8,v 1.16 1998/02/01 07:03:29 steve Exp $
@@ -51,6 +52,8 @@
 .Op Ar address_family
 .Nm ifconfig
 .Fl C
+.Nm ifconfig
+.Fl l
 .Nm ifconfig
 .Fl m
 .Ar interface
@@ -144,6 +147,8 @@ but additionally prints interface media information for all interfaces.
 Print the names of all network pseudo-devices that
 can be created dynamically at runtime using
 .Cm ifconfig create .
+.It Fl l
+Print the names of all network interfaces, separated by space.
 .It Fl m Ar interface
 Print media information for a given
 .Ar interface .
@@ -181,15 +186,6 @@ are specified in hexadecimal.
 The host number may be omitted on Ethernet interfaces,
 which use the hardware physical address,
 and on interfaces other than the first.
-.Pp
-For the
-.Tn ISO
-family, addresses are specified as a long hexadecimal string,
-as in the Xerox family.
-However, two consecutive dots imply a zero
-byte, and the dots are optional, if the user wishes to (carefully)
-count out long strings of digits in network byte order.
-.Pp
 .Tn AppleTalk
 (LLAP) addresses are specified as
 .Dq nn.na
@@ -214,11 +210,9 @@ The address or protocol families currently
 supported are
 .Dq inet ,
 .Dq inet6 ,
-.Dq atalk ,
-.Dq iso ,
-.Dq ipx ,
+.Dq atalk
 and
-.Dq ns .
+.Dq ipx .
 .It Ar interface
 The
 .Ar interface
@@ -323,9 +317,6 @@ Disable driver-dependent debugging code.
 Remove the network address specified.
 This would be used if you incorrectly specified an alias, or it
 was no longer needed.
-If you have incorrectly set an NS address having the side effect
-of specifying the host portion, removing all NS addresses will
-allow you to respecify the host portion.
 .It Cm deletetunnel
 Removes the source and destination tunnel addresses,
 configured onto a tunnel interface.
@@ -356,16 +347,6 @@ This is useful for devices which have multiple physical layer interfaces
 Setting the instance on such devices may not be strictly required
 by the network interface driver as the driver may take care of this
 automatically; see the driver's manual page for more information.
-.It Cm ipdst Ar addr
-This is used to specify an Internet host which is willing to receive
-IP packets encapsulating NS packets bound for a remote network.
-An apparent point-to-point link is constructed, and
-the address specified will be taken as the NS address and network
-of the destination.
-IP encapsulation of Connectionless Network Protocol
-(``CLNP''; see
-.Xr clnp 4 )
-packets is done differently.
 .It Cm link[0-2]
 Enable special processing of the link level of the interface.
 These three options are interface specific in actual effect; however,
@@ -438,7 +419,7 @@ Set the MTU for this device to the given
 Cloned routes will inherit this value as a default.
 Currently, not all devices support setting the MTU.
 .It Cm netmask Ar mask
-(inet, inet6 and iso)
+(inet, inet6)
 Specify how much of the address to reserve for subdividing
 networks into subnetworks.
 The mask includes the network part of the local address
@@ -453,44 +434,6 @@ and 0's for the host part.
 The mask should contain at least the standard network portion,
 and the subnet field should be contiguous with the network
 portion.
-.\" see
-.\" Xr eon 5 .
-.It Cm nsellength Ar n
-.Pf ( Tn ISO
-only)
-This specifies a trailing number of bytes for a received
-.Tn NSAP
-used for local identification, the remaining leading part of which is
-taken to be the
-.Tn NET
-(Network Entity Title).
-The default value is 1, which is conformant to US
-.Tn GOSIP .
-When an ISO address is set in an
-.Nm
-command,
-it is really the
-.Tn NSAP
-which is being specified.
-For example, in
-.Tn US GOSIP ,
-20 hex digits should be
-specified in the
-.Tn ISO NSAP
-to be assigned to the interface.
-There is some evidence that a number different from 1 may be useful
-for
-.Tn AFI
-37 type addresses.
-.It Cm nwid Ar id
-(IEEE 802.11 devices only)
-Configure network ID for IEEE 802.11-based wireless network interfaces.
-The
-.Ar id
-can either be any text string up to 32 characters in length,
-or a series of hexadecimal digits up to 64 digits.
-The empty string allows the interface to connect to any available
-access points.
 .It Cm nwkey Ar key
 (IEEE 802.11 devices only)
 Enable WEP encryption for IEEE 802.11-based wireless network interfaces
@@ -589,11 +532,6 @@ AppleTalk uses this scheme instead of
 netmasks though
 .Ox
 implements it internally as a set of netmasks.
-.It Cm snpaoffset Ar n
-.Pf ( Tn ISO
-only)
-This is used to specify the subnetwork point of attachment offset for
-CLNP packets.
 .It Cm state Ar state
 Explicitly force the
 .Xr carp 4
@@ -772,12 +710,10 @@ tried to alter an interface's configuration.
 .Xr arp 4 ,
 .Xr bridge 4 ,
 .Xr carp 4 ,
-.Xr clnp 4 ,
 .Xr gif 4 ,
 .Xr gre 4 ,
 .Xr ifmedia 4 ,
 .Xr inet 4 ,
-.Xr iso 4 ,
 .Xr lo 4 ,
 .Xr netintro 4 ,
 .Xr pfsync 4 ,

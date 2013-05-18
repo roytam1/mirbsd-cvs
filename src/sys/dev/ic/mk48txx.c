@@ -1,6 +1,8 @@
+/**	$MirOS: src/sys/dev/ic/mk48txx.c,v 1.2 2005/03/06 21:27:40 tg Exp $ */
 /*	$OpenBSD: mk48txx.c,v 1.4 2002/06/09 00:07:10 nordin Exp $	*/
 /*	$NetBSD: mk48txx.c,v 1.7 2001/04/08 17:05:10 tsutsui Exp $ */
 /*-
+ * Copyright (c) 2005 Thorsten Glaser
  * Copyright (c) 2000 The NetBSD Foundation, Inc.
  * All rights reserved.
  *
@@ -47,7 +49,7 @@
 
 #include <machine/bus.h>
 #include <dev/clock_subr.h>
-#include <dev/ic/mk48txxreg.h>
+#include <lib/libkern/taitime.h>
 
 
 struct mk48txx {
@@ -143,7 +145,7 @@ mk48txx_gettime(handle, tv)
 	bus_space_tag_t bt = mk->mk_bt;
 	bus_space_handle_t bh = mk->mk_bh;
 	bus_size_t clkoff = mk->mk_clkoffset;
-	struct clock_ymdhms dt;
+	struct tm tm;
 	int year;
 	u_int8_t csr;
 
@@ -154,19 +156,20 @@ mk48txx_gettime(handle, tv)
 	csr |= MK48TXX_CSR_READ;
 	bus_space_write_1(bt, bh, clkoff + MK48TXX_ICSR, csr);
 
-	dt.dt_sec = FROMBCD(bus_space_read_1(bt, bh, clkoff + MK48TXX_ISEC));
-	dt.dt_min = FROMBCD(bus_space_read_1(bt, bh, clkoff + MK48TXX_IMIN));
-	dt.dt_hour = FROMBCD(bus_space_read_1(bt, bh, clkoff + MK48TXX_IHOUR));
-	dt.dt_day = FROMBCD(bus_space_read_1(bt, bh, clkoff + MK48TXX_IDAY));
-	dt.dt_wday = FROMBCD(bus_space_read_1(bt, bh, clkoff + MK48TXX_IWDAY));
-	dt.dt_mon = FROMBCD(bus_space_read_1(bt, bh, clkoff + MK48TXX_IMON));
+	tm.tm_sec = FROMBCD(bus_space_read_1(bt, bh, clkoff + MK48TXX_ISEC));
+	tm.tm_min = FROMBCD(bus_space_read_1(bt, bh, clkoff + MK48TXX_IMIN));
+	tm.tm_hour = FROMBCD(bus_space_read_1(bt, bh, clkoff + MK48TXX_IHOUR));
+	tm.tm_mday = FROMBCD(bus_space_read_1(bt, bh, clkoff + MK48TXX_IDAY));
+	tm.tm_wday = FROMBCD(bus_space_read_1(bt, bh, clkoff + MK48TXX_IWDAY));
+	tm.tm_mon = FROMBCD(bus_space_read_1(bt, bh, clkoff + MK48TXX_IMON)) - 1;
+	tm.tm_gmtoff = 0;
 	year = FROMBCD(bus_space_read_1(bt, bh, clkoff + MK48TXX_IYEAR));
 
 	year += mk->mk_year0;
 	if (year < POSIX_BASE_YEAR && mk48txx_auto_century_adjust != 0)
 		year += 100;
 
-	dt.dt_year = year;
+	tm.tm_year = year - 1900;
 
 	/* time wears on */
 	csr = bus_space_read_1(bt, bh, clkoff + MK48TXX_ICSR);
@@ -175,11 +178,11 @@ mk48txx_gettime(handle, tv)
 	todr_wenable(handle, 0);
 
 	/* simple sanity checks */
-	if (dt.dt_mon > 12 || dt.dt_day > 31 ||
-	    dt.dt_hour >= 24 || dt.dt_min >= 60 || dt.dt_sec >= 60)
+	if (tm.tm_mon > 11 || tm.tm_day > 31 ||
+	    tm.tm_hour >= 24 || tm.tm_min >= 60 || tm.tm_sec >= 61)
 		return (1);
 
-	tv->tv_sec = clock_ymdhms_to_secs(&dt);
+	tv->tv_sec = tai2timet(mjd2tai(tm2mjd(tm)));
 	tv->tv_usec = 0;
 	return (0);
 }
@@ -197,14 +200,14 @@ mk48txx_settime(handle, tv)
 	bus_space_tag_t bt = mk->mk_bt;
 	bus_space_handle_t bh = mk->mk_bh;
 	bus_size_t clkoff = mk->mk_clkoffset;
-	struct clock_ymdhms dt;
+	struct tm tm;
 	u_int8_t csr;
 	int year;
 
 	/* Note: we ignore `tv_usec' */
-	clock_secs_to_ymdhms(tv->tv_sec, &dt);
+	tm = mjd2tm(tai2mjd(timet2tai(tv->tv_sec)));
 
-	year = dt.dt_year - mk->mk_year0;
+	year = tm.tm_year + 1900 - mk->mk_year0;
 	if (year > 99 && mk48txx_auto_century_adjust != 0)
 		year -= 100;
 
@@ -214,12 +217,12 @@ mk48txx_settime(handle, tv)
 	csr |= MK48TXX_CSR_WRITE;
 	bus_space_write_1(bt, bh, clkoff + MK48TXX_ICSR, csr);
 
-	bus_space_write_1(bt, bh, clkoff + MK48TXX_ISEC, TOBCD(dt.dt_sec));
-	bus_space_write_1(bt, bh, clkoff + MK48TXX_IMIN, TOBCD(dt.dt_min));
-	bus_space_write_1(bt, bh, clkoff + MK48TXX_IHOUR, TOBCD(dt.dt_hour));
-	bus_space_write_1(bt, bh, clkoff + MK48TXX_IWDAY, TOBCD(dt.dt_wday));
-	bus_space_write_1(bt, bh, clkoff + MK48TXX_IDAY, TOBCD(dt.dt_day));
-	bus_space_write_1(bt, bh, clkoff + MK48TXX_IMON, TOBCD(dt.dt_mon));
+	bus_space_write_1(bt, bh, clkoff + MK48TXX_ISEC, TOBCD(tm.tm_sec));
+	bus_space_write_1(bt, bh, clkoff + MK48TXX_IMIN, TOBCD(tm.tm_min));
+	bus_space_write_1(bt, bh, clkoff + MK48TXX_IHOUR, TOBCD(tm.tm_hour));
+	bus_space_write_1(bt, bh, clkoff + MK48TXX_IWDAY, TOBCD(tm.tm_wday));
+	bus_space_write_1(bt, bh, clkoff + MK48TXX_IDAY, TOBCD(tm.tm_mday));
+	bus_space_write_1(bt, bh, clkoff + MK48TXX_IMON, TOBCD(tm.tm_mon + 1));
 	bus_space_write_1(bt, bh, clkoff + MK48TXX_IYEAR, TOBCD(year));
 
 	/* load them up */

@@ -14,9 +14,10 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect1.c,v 1.6 2006/04/19 10:40:56 tg Exp $");
 
 #include <openssl/bn.h>
-#include <openssl/md5.h>
+#include <md5.h>
 
 #include "ssh.h"
 #include "ssh1.h"
@@ -168,10 +169,10 @@ respond_to_rsa_challenge(BIGNUM * challenge, RSA * prv)
 
 	memset(buf, 0, sizeof(buf));
 	BN_bn2bin(challenge, buf + sizeof(buf) - len);
-	MD5_Init(&md);
-	MD5_Update(&md, buf, 32);
-	MD5_Update(&md, session_id, 16);
-	MD5_Final(response, &md);
+	MD5Init(&md);
+	MD5Update(&md, buf, 32);
+	MD5Update(&md, session_id, 16);
+	MD5Final(response, &md);
 
 	debug("Sending response to host key RSA challenge.");
 
@@ -472,7 +473,7 @@ ssh_kex(char *host, struct sockaddr *hostaddr)
 	BIGNUM *key;
 	Key *host_key, *server_key;
 	int bits, rbits;
-	int ssh_cipher_default = SSH_CIPHER_3DES;
+	int ssh_cipher_default = SSH_CIPHER_BLOWFISH;
 	u_char session_key[SSH_SESSION_KEY_LENGTH];
 	u_char cookie[8];
 	u_int supported_ciphers;

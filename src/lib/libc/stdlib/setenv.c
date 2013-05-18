@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libc/stdlib/setenv.c,v 1.3 2005/09/22 20:15:31 tg Exp $ */
 /*	$OpenBSD: setenv.c,v 1.9 2005/08/08 08:05:37 espie Exp $ */
 /*
  * Copyright (c) 1987 Regents of the University of California.
@@ -45,6 +46,7 @@ setenv(const char *name, const char *value, int rewrite)
 {
 	static char **lastenv;			/* last value of environ */
 	char *C;
+	const char *CC;
 	int l_value, offset;
 
 	if (*value == '=')			/* no `=' in value */
@@ -53,7 +55,7 @@ setenv(const char *name, const char *value, int rewrite)
 	if ((C = __findenv(name, &offset))) {	/* find if already exists */
 		if (!rewrite)
 			return (0);
-		if (strlen(C) >= l_value) {	/* old larger; copy over */
+		if (strlen(C) >= (size_t)l_value) {	/* old larger; copy over */
 			while ((*C++ = *value++))
 				;
 			return (0);
@@ -74,10 +76,10 @@ setenv(const char *name, const char *value, int rewrite)
 		offset = cnt;
 		environ[cnt + 1] = NULL;
 	}
-	for (C = (char *)name; *C && *C != '='; ++C)
+	for (CC = name; *CC && *CC != '='; ++CC)
 		;				/* no `=' in name */
 	if (!(environ[offset] =			/* name + `=' + value */
-	    malloc((size_t)((int)(C - name) + l_value + 2))))
+	    malloc((size_t)((int)(CC - name) + l_value + 2))))
 		return (-1);
 	for (C = environ[offset]; (*C = *name++) && *C != '='; ++C)
 		;

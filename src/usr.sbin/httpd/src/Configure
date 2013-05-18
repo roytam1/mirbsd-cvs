@@ -1,5 +1,7 @@
 #!/bin/sh
+# $MirOS: src/usr.sbin/httpd/src/Configure,v 1.2 2005/03/13 19:16:41 tg Exp $
 # $OpenBSD: Configure,v 1.23 2003/11/17 18:57:05 henning Exp $
+#
 ## ====================================================================
 ## The Apache Software License, Version 1.1
 ##
@@ -85,7 +87,10 @@ awkfile=$tmpfile.4
 tmpconfig=$tmpfile.5
 SUBDIRS="ap main"
 APLIBDIRS=""
-SHELL=/bin/sh
+case x"$SHELL" in
+x/bin/*sh)	;;
+*)		SHELL=/bin/sh ;;
+esac
 
 ####################################################################
 ## Now handle any arguments, which, for now, is -file
@@ -222,8 +227,8 @@ awk >Makefile.config <$tmpfile '
 	print "##  (Begin of automatically generated section)"
 	print "##"
 	print "SRCDIR=."
-    } 
-    /\=/ { print } 
+    }
+    /\=/ { print }
     '
 
 ####################################################################
@@ -236,10 +241,10 @@ RULE_SOCKS5=`${SHELL} helpers/CutRule SOCKS5 $file`
 RULE_IRIXNIS=`${SHELL} helpers/CutRule IRIXNIS $file`
 RULE_IRIXN32=`${SHELL} helpers/CutRule IRIXN32 $file`
 RULE_PARANOID=`${SHELL} helpers/CutRule PARANOID $file`
-RULE_EXPAT=`${SHELL} helpers/CutRule EXPAT $file`
-RULE_CYGWIN_WINSOCK=`${SHELL} helpers/CutRule CYGWIN_WINSOCK $file` 
+RULE_CYGWIN_WINSOCK=`${SHELL} helpers/CutRule CYGWIN_WINSOCK $file`
 RULE_SHARED_CORE=`${SHELL} helpers/CutRule SHARED_CORE $file`
 RULE_SHARED_CHAIN=`${SHELL} helpers/CutRule SHARED_CHAIN $file`
+RULE_INET6=$(${SHELL} helpers/CutRule INET6 $file)
 
 ####################################################################
 ## Rule SHARED_CORE implies required DSO support
@@ -254,7 +259,6 @@ fi
 ##
 DBM_LIB="-ldbm"
 DB_LIB="-ldb"
-SHELL="/bin/sh"
 SUBTARGET="target_static"
 SHLIB_SUFFIX_NAME=""
 SHLIB_SUFFIX_LIST=""
@@ -274,7 +278,10 @@ CAT="cat"
 ## As more PLATFORMs are added to Configuration.tmpl, be sure to
 ## add the required lines below.
 ##
-SHELL="/bin/sh"
+case x"$SHELL" in
+x/bin/*sh)	;;
+*)		SHELL=/bin/sh ;;
+esac
 PLAT=`${SHELL} helpers/GuessOS`
 OSDIR="os/unix"
 
@@ -387,7 +394,7 @@ case "$PLAT" in
 	       # We know this is a problem in 10.01.
 	       # Not a problem in 10.20.  Otherwise, who knows?
 	       CFLAGS="$CFLAGS -DSELECT_NEEDS_CAST"
-	       ;;	     
+	       ;;
  	esac
 	DEF_WANTHSREGEX=yes
 	;;
@@ -513,6 +520,12 @@ case "$PLAT" in
 	;;
     *-openbsd*)
 	OS='OpenBSD'
+	DBM_LIB=""
+	DB_LIB=""
+	DEF_WANTHSREGEX=no
+	;;
+    *-mirbsd*)
+	OS='MirBSD'
 	DBM_LIB=""
 	DB_LIB=""
 	DEF_WANTHSREGEX=no
@@ -858,10 +871,10 @@ case "$PLAT" in
 	DEF_WANTHSREGEX=yes
 	DBM_LIB="-lgdbm"
 	LIBS="$LIBS -lcrypt $DBM_LIB"
-	if [ "x$RULE_CYGWIN_WINSOCK" = "xyes" ]; then 
-	    CFLAGS="$CFLAGS -DCYGWIN_WINSOCK" 
-	    LIBS="$LIBS -lwsock32" 
-	fi 
+	if [ "x$RULE_CYGWIN_WINSOCK" = "xyes" ]; then
+	    CFLAGS="$CFLAGS -DCYGWIN_WINSOCK"
+	    LIBS="$LIBS -lwsock32"
+	fi
 
 	;;
     *atheos*)
@@ -885,8 +898,8 @@ case "$PLAT" in
 	uname -X
 	echo Ideally, read the file PORTING, do what it says, and send the
 	echo resulting patches to The Apache Group by filling out a report
-	echo form at http://bugs.apache.org/.  If you don\'t 
-	echo wish to do the port yourself, please submit this output rather 
+	echo form at http://bugs.apache.org/.  If you don\'t
+	echo wish to do the port yourself, please submit this output rather
 	echo than the patches. Thank you.
 	echo
 	echo Pressing on with the build process, but all bets are off.
@@ -980,6 +993,10 @@ else
     CC=$TCC
 fi
 
+if [ x"$CC" = x"gcc" ]; then
+    echo "TESTCOMPILE_EXTRAFLAGS=-Wno-error" >> Makefile.config
+fi
+
 ####################################################################
 ## Now check how we can _directly_ run the C pre-processor
 ##
@@ -991,7 +1008,7 @@ else
 fi
 if [ "x$TCPP" = "x" ]; then
     echo "CPP=$CPP" >> Makefile.config
-fi 
+fi
 echo " + setting C pre-processor to $CPP"
 
 ####################################################################
@@ -1093,7 +1110,7 @@ if [ "x$using_shlib" = "x1" ] ; then
     SHCORE_IMPLIB=''
     case "$PLAT" in
 	*MPE/iX*)
-	    LD_SHLIB=ld	
+	    LD_SHLIB=ld
 	    LDFLAGS_SHLIB='-b -a archive'
 	    LDFLAGS_MOD_SHLIB=$LDFLAGS_SHLIB
 	    ;;
@@ -1124,14 +1141,14 @@ if [ "x$using_shlib" = "x1" ] ; then
 	    CFLAGS_SHLIB="-fpic"
 	    LDFLAGS_SHLIB="-shared"
 	    LDFLAGS_MOD_SHLIB=$LDFLAGS_SHLIB
-	    OBJFORMAT=`test -x /usr/bin/objformat && /usr/bin/objformat || echo aout` 
+	    OBJFORMAT=`test -x /usr/bin/objformat && /usr/bin/objformat || echo aout`
 	    if [ "x$OBJFORMAT" = "xelf" ]; then
 		LDFLAGS_SHLIB_EXPORT="-Wl,-E"
 		SHLIB_SUFFIX_DEPTH=0
 	    else
 		LDFLAGS_SHLIB_EXPORT=""
 		SHLIB_SUFFIX_DEPTH=2
-	    fi  
+	    fi
 	    ;;
 	*-openbsd*)
 	    PLATOSVERS=`echo $PLAT | sed 's/^.*openbsd//'`
@@ -1150,6 +1167,18 @@ if [ "x$using_shlib" = "x1" ] ; then
 		   fi
 		;;
 	    esac
+	    LDFLAGS_MOD_SHLIB=$LDFLAGS_SHLIB
+	    ;;
+	*-mirbsd*)
+	    PLATOSVERS=`echo $PLAT | sed 's/^.*mirbsd//'`
+	    CFLAGS_SHLIB="-fPIC"
+	    LDFLAGS_SHLIB_EXPORT=""
+	    SHLIB_SUFFIX_DEPTH=2
+	    LD_SHLIB="cc"
+	    LDFLAGS_SHLIB="-shared \$(CFLAGS_SHLIB)"
+	    if [ -z "`echo __ELF__ | ${CC} -E - | grep __ELF__`" ]; then
+	      LDFLAGS_SHLIB_EXPORT="-Wl,-E"
+	    fi
 	    LDFLAGS_MOD_SHLIB=$LDFLAGS_SHLIB
 	    ;;
 	*-netbsd*)
@@ -1579,7 +1608,7 @@ case "$OS" in
 	;;
     IBM?AIX?4.[123])
 	case $CC in
-	    */cc|cc ) 
+	    */cc|cc )
 		CFLAGS="$CFLAGS -qnogenpcomp -qnousepcomp"
 	    ;;
 	esac
@@ -1670,7 +1699,7 @@ case "$PLAT" in
 	# Test for the presence of the "union semun":
 	if TCADDINCL='#include <sys/types.h>
 #include <sys/ipc.h>
-#include <sys/sem.h>' ./helpers/TestCompile sizeof "union semun"; then
+#include <sys/sem.h>' ${SHELL} ./helpers/TestCompile sizeof "union semun"; then
             : Okay, union semun is defined
 	else
 	    CFLAGS="$CFLAGS -DNEED_UNION_SEMUN"
@@ -1725,6 +1754,124 @@ if [ "x$RULE_SOCKS5" = "xyes" ]; then
 	    ;;
     esac
 fi
+
+# INET6 support.
+if [ "$RULE_INET6" = "yes" ]; then
+    echo " + enabling INET6 support"
+    CFLAGS="$CFLAGS -DINET6"
+    CFLAGS="$CFLAGS -Dss_family=__ss_family -Dss_len=__ss_len"
+    IPV6_STACKTYPE="UNKNOWN"
+    for i in KAME Linux Solaris; do
+	case "$i" in
+	KAME)
+	    if [ -f /usr/include/netinet6/in6.h -a "x`egrep '__KAME__' /usr/include/netinet6/in6.h 2>/dev/null`" != "x" ]; then
+		IPV6_STACKTYPE=$i
+	    fi
+	    ;;
+	Linux)
+	    if [ /usr/include/netinet/ip6.h -a -d /usr/include/linux ]; then
+		IPV6_STACKTYPE=$i
+	    fi
+	    ;;
+	Solaris)
+	    SOL_VERSION=`(uname -v) 2>/dev/null` || SOL_VERSION="unknown"
+	    case "${PLAT}-${SOL_VERSION}" in
+		*-solaris2.27*-*IPv6*)
+		    if [ -f /etc/hostname -o -f /etc/hostname.[a-z]*[0-9] ]; then
+			IPV6_STACKTYPE="Solaris 7 (${SOL_VERSION})"
+		    fi
+		    ;;
+	    esac
+	    ;;
+	esac
+	if [ "$IPV6_STACKTYPE" != "UNKNOWN" ]; then
+	    break
+	fi
+    done
+    if [ "$IPV6_STACKTYPE" != "UNKNOWN" ]; then
+	echo " + You seem to be using $IPV6_STACKTYPE stack"
+	if ${SHELL} ./helpers/TestCompile func getaddrinfo; then
+	    echo "   - Assuming you have working getaddrinfo in libc"
+	else
+	    if [ -f /usr/local/v6/lib/libinet6.a -a "x`egrep '^EXTRA_L' Makefile.config | grep linet6`" = "x" ]; then
+		LIBS="$LIBS -L/usr/local/v6/lib -linet6"
+		echo "   - using getaddrinfo in libinet6"
+	    elif [ -f /usr/local/lib/libinet6.a -a "x`egrep '^EXTRA_L' Makefile.config | grep linet6`" = "x" ]; then
+		LIBS="$LIBS -L/usr/local/lib -linet6"
+		echo "   - using getaddrinfo in libinet6"
+	    elif [ -f /usr/inet6/lib/libinet6.a -a "x`egrep '^EXTRA_L' Makefile.config | grep linet6`" = "x" ]; then
+		echo "   - using getaddrinfo in libinet6"
+	    else
+		echo "** WARNING: No getaddrinfo found, linkage may fail"
+	    fi
+	fi
+    else
+	echo ""
+	echo "** WARNING: We have no explicit knowledge about the IPv6"
+	echo "** implementation on this host.  You may need to specify"
+	echo "** EXTRA_LIBS so that we can find getaddrinfo() and"
+	echo "** getnameinfo() library functions."
+	echo ""
+    fi
+    case $PLAT in
+	*-solaris2* )
+	    LIBS="$LIBS -lresolv"
+	    ;;
+    esac
+else
+    CFLAGS="$CFLAGS -DNEED_GETADDRINFO -DNEED_GETNAMEINFO"
+    if [ -f /usr/include/netdb.h -a "x`egrep 'addrinfo' /usr/include/netdb.h`" = "x" ]; then
+	CFLAGS="$CFLAGS -DNEED_ADDRINFO"
+    fi
+fi
+
+echo '#include <sys/types.h>' >testfunc.c
+echo '#include <sys/socket.h>' >>testfunc.c
+echo 'int testfunc(){ struct sockaddr sa; int i = sa.sa_len; };' >>testfunc.c
+rm -f testfunc.o
+eval "${MAKE-make} -f Makefile.config testfunc.o >/dev/null 2>/dev/null"
+if [ -f testfunc.o ]; then
+    echo " + you have sa_len in struct sockaddr."
+    CFLAGS="$CFLAGS -DHAVE_SOCKADDR_LEN"
+else
+    echo " + you don't have sa_len in struct sockaddr."
+fi
+rm -f testfunc.c testfunc.o
+
+echo '#include <sys/types.h>' >testfunc.c
+echo '#include <sys/socket.h>' >>testfunc.c
+echo 'struct sockaddr_storage sockaddr_storage;' >>testfunc.c
+rm -f testfunc.o
+eval "${MAKE-make} -f Makefile.config testfunc.o >/dev/null 2>/dev/null"
+if [ -f testfunc.o ]; then
+    echo " + assuming you have struct sockaddr_storage"
+else
+    CFLAGS="$CFLAGS -DNEED_SOCKADDR_STORAGE"
+    echo " + you need struct sockaddr_storage"
+fi
+rm -f testfunc.c testfunc.o
+
+echo '#include <sys/types.h>' >testfunc.c
+echo '#include <sys/socket.h>' >>testfunc.c
+echo 'int testfunc(){ socklen_t t; }' >>testfunc.c
+rm -f testfunc.o
+eval "${MAKE-make} -f Makefile.config testfunc.o >/dev/null 2>/dev/null"
+if [ ! -f testfunc.o ]; then
+    CFLAGS="$CFLAGS -Dsocklen_t=int"
+fi
+rm -f testfunc.c testfunc.o
+
+echo '#include <sys/types.h>' >testfunc.c
+echo '#include <sys/socket.h>' >>testfunc.c
+echo 'struct sockaddr_in sin;' >>testfunc.c
+echo 'int main(){ int i = sin.sin_len; }' >>testfunc.c
+rm -f testfunc.o
+eval "${MAKE-make} -f Makefile.config testfunc.o >/dev/null 2>/dev/null"
+if [ -f testfunc.o ]; then
+    CFLAGS="$CFLAGS -DSIN_LEN"
+fi
+rm -f testfunc.c testfunc.o
+
 
 ####################################################################
 ## Find out what modules we want and try and configure things for them
@@ -1790,12 +1937,12 @@ MODDIRS=`awk < $tmpfile '
 		SEEN[pp[2]] = 1
 	    }
     	}
-	(($1 == "AddModule" || $1 == "SharedModule") && $2 ~ /^modules\//) { 
+	(($1 == "AddModule" || $1 == "SharedModule") && $2 ~ /^modules\//) {
 	    split ($2, pp, "/")
 	    if (! SEEN[pp[2]]) {
 		printf "%s ", pp[2]
 		SEEN[pp[2]] = 1
-	    } 
+	    }
     	}'`
 MODDIRS_NO_SO=`awk < $tmpfile '
 	($1 == "Module" && $3 ~ /^modules\//) {
@@ -1805,12 +1952,12 @@ MODDIRS_NO_SO=`awk < $tmpfile '
 		SEEN[pp[2]] = 1
 	    }
     	}
-	(($1 == "AddModule") && $2 ~ /^modules\//) { 
+	(($1 == "AddModule") && $2 ~ /^modules\//) {
 	    split ($2, pp, "/")
 	    if (! SEEN[pp[2]]) {
 		printf "%s ", pp[2]
 		SEEN[pp[2]] = 1
-	    } 
+	    }
     	}'`
 
 # Now autoconfigure each of the modules specified by AddModule.
@@ -1845,7 +1992,7 @@ for modfile in $MODFILES ; do
 			> $tmpfile2
 		fi
 	    fi
-	fi		
+	fi
 	if [ -r $tmpfile2 ] ; then
 		# Read a module definition from .module or .c
 		modname=`grep "Name:" $tmpfile2 | sed 's/^.*Name:[ 	]*//'`
@@ -1876,7 +2023,7 @@ for modfile in $MODFILES ; do
 	if [ "x$ext" != "x$SHMOD_SUFFIX_NAME" ]; then
 		echo "Module $modname $modbase.$ext" >>$tmpfile
 	fi
-	#   optionally generate export file for some linkers 
+	#   optionally generate export file for some linkers
 	if [ "x$ext" = "x$SHMOD_SUFFIX_NAME" -a "x$SHLIB_EXPORT_FILES" = "xyes" ]; then
 		echo "$modname" >$modbase.exp
 	fi
@@ -1918,7 +2065,7 @@ if [ "x$RULE_EAPI" = "xyes" ]; then
             SYSTEM|/* ) ;;
             * ) for p in . .. ../..; do
                     if [ -d "$p/$EAPI_MM" ]; then
-                        EAPI_MM="`echo $p/$EAPI_MM | sed -e 's;/\./;/;g'`" 
+                        EAPI_MM="`echo $p/$EAPI_MM | sed -e 's;/\./;/;g'`"
                         break
                     fi
                 done
@@ -1958,36 +2105,6 @@ if [ "x$RULE_EAPI" = "xyes" ]; then
     fi
 fi
 
-
-####################################################################
-## Add in the Expat library if needed/wanted.
-##
-
-# set the default, based on whether expat-lite is bundled. if it is present,
-# then we can always include expat.
-if [ "x$RULE_EXPAT" = "xdefault" ]; then
-    if [ -d ./lib/expat-lite/ ]; then
-        RULE_EXPAT=yes
-    else
-        RULE_EXPAT=no
-    fi
-fi
-
-if [ "x$RULE_EXPAT" = "xyes" ]; then
-    if ${SHELL} ./helpers/TestCompile lib expat; then
-        echo " + using system Expat"
-        LIBS="$LIBS -lexpat"
-    else
-        if [ ! -d ./lib/expat-lite/ ]; then
-            echo "ERROR: RULE_EXPAT set to \"yes\" but is not available."
-	    exit 1
-        fi
-        echo " + using builtin Expat"
-        EXPATLIB="lib/expat-lite/libexpat.a"
-        APLIBDIRS="expat-lite $APLIBDIRS"
-        CFLAGS="$CFLAGS -DUSE_EXPAT -I\$(SRCDIR)/lib/expat-lite"
-    fi
-fi
 
 ####################################################################
 ## Now the SHARED_CHAIN stuff
@@ -2049,7 +2166,7 @@ fi
 
 ####################################################################
 ## Don't force DL emulation, if not necessary. Currently only used
-## by os/unix/os.c. 
+## by os/unix/os.c.
 ##
 if [ "x$using_shlib" != "x1" ] ; then
     CFLAGS="$CFLAGS -DNO_DL_NEEDED"
@@ -2089,9 +2206,9 @@ $CAT > $awkfile <<'EOFM'
     BEGIN {
 	modules[n++] = "core"
 	pmodules[pn++] = "core"
-    } 
-    /^Module/ { modules[n++] = $2 ; pmodules[pn++] = $2 } 
-    /^%Module/ { pmodules[pn++] = $2 } 
+    }
+    /^Module/ { modules[n++] = $2 ; pmodules[pn++] = $2 }
+    /^%Module/ { pmodules[pn++] = $2 }
     END {
 	print "/*"
 	print " * modules.c --- automatically generated by Apache"
@@ -2135,7 +2252,7 @@ $CAT > $awkfile <<'EOFM'
 	print ""
     }
 EOFM
-$CAT $tmpfile | sed 's/_module//' | awk -f $awkfile > modules.c 
+$CAT $tmpfile | sed 's/_module//' | awk -f $awkfile > modules.c
 
 ####################################################################
 ## figure out which module dir require use to autocreate a Makefile.
@@ -2148,7 +2265,7 @@ $CAT $tmpfile | sed 's/_module//' | awk -f $awkfile > modules.c
 ##              src
 ##   AUTOLIBS   Space separated list of auto-generated library files
 ##
-for moddir in $MODDIRS 
+for moddir in $MODDIRS
 do
 	if [ -f modules/$moddir/Makefile.tmpl ] ; then
 		AUTODIRS="$AUTODIRS modules/$moddir"
@@ -2180,10 +2297,10 @@ $CAT >> $awkfile <<'EOF2'
 	print "MODULES= \\"
 	for (i = 0; i < n; ++i) {
 	    split (modules[i], pp, "/")
-	    dir = pp[1] "/" pp[2] 
+	    dir = pp[1] "/" pp[2]
 	    inthere = 0
 	    for ( tdir in autodirs ) {
-		if (tdir == dir) 
+		if (tdir == dir)
 		    inthere = 1
 	    }
 	    if (inthere == 1)
@@ -2220,7 +2337,7 @@ echo "" >>Makefile
 ####################################################################
 ## Now add the target for the main Makefile
 ##
-echo "SUBDIRS=$SUBDIRS lib modules" >> Makefile
+echo "SUBDIRS=$SUBDIRS modules" >> Makefile
 echo "SUBTARGET=$SUBTARGET" >> Makefile
 echo "SHLIB_SUFFIX_NAME=$SHLIB_SUFFIX_NAME" >> Makefile
 echo "SHMOD_SUFFIX_NAME=$SHMOD_SUFFIX_NAME" >> Makefile
@@ -2250,7 +2367,6 @@ echo "LIBS_SHLIB=$LIBS_SHLIB" >>Makefile.config
 echo "LDFLAGS1=$LDFLAGS" >>Makefile.config
 echo "MFLAGS_STATIC=$MFLAGS_STATIC" >>Makefile.config
 echo "REGLIB=$REGLIB" >>Makefile.config
-echo "EXPATLIB=$EXPATLIB" >>Makefile.config
 echo "RANLIB=$RANLIB" >>Makefile.config
 
 ####################################################################
@@ -2520,40 +2636,6 @@ for dir in $MAKEDIRS ; do
 done
 
 ####################################################################
-## Now create the lib/Makefile
-##
-${SHELL} helpers/mfhead modules $file > lib/Makefile
-$CAT Makefile.config | sed -e 's:^SRCDIR=.*:SRCDIR=..:' >> lib/Makefile
-
-$CAT << EOF >> lib/Makefile
-APLIBS=$APLIBDIRS
-CFLAGS=\$(OPTIM) \$(CFLAGS1) \$(EXTRA_CFLAGS)
-
-default: all
-
-all clean distclean depend :: 
-	@for i in \$(APLIBS) ""; do \\
-	  if [ "x\$\$i" != "x" ]; then \\
-	    echo "===> \$(SDP)lib/\$\$i"; \\
-		(cd \$\$i && \$(MAKE) \$(MFLAGS_STATIC) SDP='\$(SDP)' CC='\$(CC)' AUX_CFLAGS='\$(CFLAGS)' RANLIB='\$(RANLIB)' \$@) || exit 1; \\
-		echo "<=== \$(SDP)lib/\$\$i"; \\
-	  fi; \\
-	done
-
-EOF
-
-####################################################################
-## Now create the lib/xxx/Makefile
-##
-
-for dir in $APLIBDIRS ; do
-	echo Creating Makefile in lib/$dir
-	${SHELL} helpers/mfhead lib/$dir $file > lib/$dir/Makefile
-	$CAT Makefile.config lib/$dir/Makefile.tmpl |\
-	sed -e "s:^SRCDIR=.*:SRCDIR=`${SHELL} helpers/fp2rp lib/$dir`:" >> lib/$dir/Makefile
-done
-
-####################################################################
 ## Now create the modules/Makefile
 ##
 ${SHELL} helpers/mfhead modules $file > modules/Makefile
@@ -2565,7 +2647,7 @@ CFLAGS=\$(OPTIM) \$(CFLAGS1) \$(EXTRA_CFLAGS)
 
 default: all
 
-all clean distclean depend :: 
+all clean distclean depend ::
 	@for i in \$(MODULES) ""; do \\
 	  if [ "x\$\$i" != "x" ]; then \\
 	    echo "===> \$(SDP)modules/\$\$i"; \\
@@ -2607,17 +2689,17 @@ EOF
 		    split(pp[3], parts, ".");
 		    libext=parts[2];
 		}
-		END { 
+		END {
 		    printf "LIBEXT=%s\n", libext;
 		}'
 	    # it's responsible for the rest of its Makefile...
 	else
 	    basedir=`echo $moddir | sed 's@^[^/]*/@@g'`
 	    OBJS=`awk < $tmpfile '
-		($1 == "Module" && $3 ~ /^modules\/'$basedir'\//) { 
+		($1 == "Module" && $3 ~ /^modules\/'$basedir'\//) {
 		    split ($3, pp, "/")
-		    printf "%s ", pp[3] 
-		} 
+		    printf "%s ", pp[3]
+		}
 		'`
 	    echo "OBJS=$OBJS" >> $moddir/Makefile
 	    if [ "x$OBJS" != "x" ]; then
@@ -2635,7 +2717,7 @@ EOF
 		base=parts[1]
 		objspic=objspic " " base ".lo"
 	    }
-	    END { 
+	    END {
 		printf "SHLIBS=%s\n", shlibs;
 		printf "OBJS_PIC=%s\n", objspic;
 	    }'
@@ -2644,7 +2726,7 @@ EOF
 
 all: lib shlib
 
-lib:	$(LIB) 
+lib:	$(LIB)
 
 shlib:	$(SHLIBS)
 
@@ -2693,4 +2775,3 @@ EOF
     $CAT >> $moddir/Makefile < $moddir/Makefile.tmpl
 
 done
-

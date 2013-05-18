@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/net/if_tun.h,v 1.2 2005/03/06 21:28:16 tg Exp $ */
 /*	$OpenBSD: if_tun.h,v 1.13 2004/06/25 04:09:03 claudio Exp $	*/
 
 /*
@@ -28,14 +29,14 @@
 
 /*
  * This driver takes packets off the IP i/f and hands them up to a
- * user process to have it's wicked way with. This driver has it's
+ * user process to have its wicked way with. This driver has its
  * roots in a similar driver written by Phil Cockcroft (formerly) at
  * UCL. This driver is based much more on read/write/select mode of
  * operation though.
  */
 
-#ifndef _NET_IF_TUN_H_
-#define _NET_IF_TUN_H_
+#ifndef	_NET_IF_TUN_H_
+#define	_NET_IF_TUN_H_
 
 #include <sys/ioccom.h>
 
@@ -54,10 +55,10 @@
 #define	TUN_READY	(TUN_OPEN | TUN_INITED)
 
 /* Maximum packet size */
-#define	TUNMTU		3000
+#define	TUNMTU		5120
 
 /* Maximum receive packet size (hard limit) */
-#define TUNMRU          16384
+#define	TUNMRU          16384
 
 /* iface info */
 struct tuninfo {
@@ -66,13 +67,13 @@ struct tuninfo {
 	u_short	flags;
 	u_int	baudrate;
 };
-#define TUNSIFINFO	_IOW('t', 91, struct tuninfo)
-#define TUNGIFINFO	_IOR('t', 92, struct tuninfo)
+#define	TUNSIFINFO	_IOW('t', 91, struct tuninfo)
+#define	TUNGIFINFO	_IOR('t', 92, struct tuninfo)
 
 /* ioctl for changing the broadcast/point-to-point status */
-#define TUNSIFMODE      _IOW('t', 93, int)
+#define	TUNSIFMODE      _IOW('t', 93, int)
 
-/* ioctl's for get/set debug */
+/* ioctls for get/set debug */
 #define	TUNSDEBUG	_IOW('t', 94, int)
 #define	TUNGDEBUG	_IOR('t', 95, int)
 

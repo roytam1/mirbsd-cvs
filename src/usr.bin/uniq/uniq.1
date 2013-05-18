@@ -1,3 +1,4 @@
+.\"	$MirOS: src/usr.bin/uniq/uniq.1,v 1.2 2005/05/23 13:36:14 tg Exp $
 .\"	$OpenBSD: uniq.1,v 1.10 2004/08/10 22:32:05 jmc Exp $
 .\"	$NetBSD: uniq.1,v 1.5 1994/12/06 07:51:15 jtc Exp $
 .\"
@@ -42,6 +43,7 @@
 .Sh SYNOPSIS
 .Nm uniq
 .Op Fl c | d | u
+.Op Fl i
 .Op Fl f Ar fields
 .Op Fl s Ar chars
 .Oo
@@ -72,6 +74,8 @@ in each input line when doing comparisons.
 A field is a string of non-blank characters separated from adjacent fields
 by blanks.
 Field numbers are one based, i.e., the first field is field one.
+.It Fl i
+Compare case-insensitively.
 .It Fl s Ar chars
 Ignore the first
 .Ar chars
@@ -131,3 +135,8 @@ The
 utility is expected to be
 .St -p1003.2
 compatible.
+.Pp
+The
+.Fl i
+option has been added in
+.Mx 8 .

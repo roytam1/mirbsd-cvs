@@ -1,5 +1,8 @@
+.\"	$MirOS: src/sbin/fdisk/fdisk.8,v 1.5 2005/11/23 16:43:53 tg Exp $
 .\"	$OpenBSD: fdisk.8,v 1.50 2005/05/01 20:53:38 jmc Exp $
 .\"
+.\" Copyright (c) 2003, 2004, 2005
+.\"	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 .\" Copyright (c) 1997 Tobias Weingartner
 .\" All rights reserved.
 .\"
@@ -28,7 +31,7 @@
 .Os
 .Sh NAME
 .Nm fdisk
-.Nd MBR partition maintenance program
+.Nd MBR partition maintenance programme
 .Sh SYNOPSIS
 .Nm fdisk
 .Op Fl ieu
@@ -40,7 +43,7 @@
 .Op Fl f Ar mbrfile
 .Ar device
 .Sh DESCRIPTION
-On the i386 and other architectures, sector 0 of a bootable hard disk
+On the i386 and other architectures, sector 0 of a bootable hard disc
 must contain MBR bootcode, the MBR partition table containing 4 slots,
 and a specific magic number (0xAA55).
 The 4 slots in the MBR partition table allow a disk drive to be
@@ -76,6 +79,8 @@ Offset: 0       Signature: 0xAA55
 *3: A6  170   1  1 - 5167 239 63 [     2570463:    75569697 ] OpenBSD
 .Ed
 .Pp
+It should be noted that the partition table shown above is
+invalid and a bad idea in general.
 This 78140160 sector (38154MB) disk drive is divided into two MBR
 partitions that span the whole disk.
 The first MBR partition is a 1225MB FAT-16 DOS partition
@@ -92,14 +97,17 @@ There are a total of four slots.
 denotes the MBR partition which is declared bootable.
 .It Em "id"
 MBR partition type identifier.
-.Ox
+.Mx
 reserves the
-magic number hexadecimal A6 (166 decimal).
-If no A6 MBR partition is found,
-.Ox
+magic number hexadecimal 27 (39 decimal).
+If no MBR partition of type 27 is found,
+.Mx
 can use an older
+.Ox ,
+.Nx
+or
 .Fx
-MBR partition (with a magic number of hexadecimal A5).
+MBR partition (with type 0xA6, 0xA9 and 0xA5, respectively).
 .It Em "C/H/S"
 These fields provide the starting and ending address of the MBR partition
 in BIOS geometry.
@@ -124,8 +132,8 @@ MBR partition shown above is subdivided further using the
 functionality provided by
 .Xr disklabel 8 ,
 which provides
-.Ox
-partitions.
+.Mx
+slices.
 .Bd -literal -offset 1n
 # Inside MBR partition 3: type A6 start 2570463 size 75569697
 # /dev/rwd0c:
@@ -164,8 +172,8 @@ drivedata: 0
 .Ed
 .Pp
 These
-.Ox
-partitions are then mounted as follows using
+.Mx
+filesystems are then mounted as follows using
 .Pa /etc/fstab :
 .Bd -literal -offset indent
 /dev/wd0a / ffs rw,softdep 1 1
@@ -217,7 +225,7 @@ using the default MBR template
 .Fl f
 flag).
 In the default template, MBR partition number 3 will be configured as an
-.Ox
+.Mx
 MBR partition spanning from cylinder 0, head 1, sector 1, and extending
 to the end of the disk.
 This mode is designed to initialize the MBR the very first time.
@@ -232,6 +240,10 @@ This is useful for writing new MBR bootcode onto an existing drive, and is
 equivalent to the DOS command
 .Dq FDISK /MBR .
 Note that this option will overwrite the NT disk signature, if present.
+If you would like to preserve the NT disk signature, you can use the
+.Em umin
+command in the interactive command mode.
+Just be damn sure you use a boot code which supports this.
 .El
 .Sh COMMAND MODE
 The
@@ -275,6 +287,18 @@ Edit a given table entry in the memory copy of
 the current boot block.
 Sizes may be adjusted using either in BIOS geometry mode or
 sector offsets and sizes.
+.It fdef Ar #
+Make the given partition table entry bootable.
+This does only work with the MirOS boot blocks.
+This is not the same as the flag command, which
+If an optional value is given, the partition is marked with the given
+value, and other partitions are not touched.
+\fBAttention:\fR This command should only be used
+by people who know what they are doing.
+This command can destroy third party bootblocks.
+To disable the functionality after it has been enabled,
+use the number 9 as parameter.
+is commonly used to mark the default entry, too.
 .It flag Ar #
 Make the given MBR partition table entry bootable.
 Only one entry can be marked bootable.
@@ -283,11 +307,33 @@ Only one entry can be marked bootable.
 .\" extended MBR partition as bootable.
 .\" If an optional value is given, the MBR partition is marked with the given
 .\" value, and other MBR partitions are not touched.
+If no default entry has been selected with fdef,
+or an older, for example from
+.Mx 7 ,
+or non-MirOS bootblock is used, this entry will be
+the default booted entry as well.
 .It update
 Update the machine MBR bootcode and 0xAA55 signature in the memory copy
 of the currently selected boot block.
 Note that this option will overwrite an NT disk
 signature, if present.
+This option will also revert the
+.Em fdef
+choice to unset, if you use recent
+.Mx
+boot code.
+.It umin
+This option performs basically the same operation as the
+.Em update
+command, but leaving the last part of the machine boot code, which
+contains the Microsoft NT disk signature and, shortly before, the
+.Em fdef
+flag, untouched.
+If you do not use recent
+.Mx
+boot code which supports this, your hard disc will be left
+unbootable because this option cuts off the end of the
+machine code, possibly containing instructions.
 .It select Ar #
 Select and load into memory the boot block pointed
 to by the extended MBR partition table entry in the current boot block.
@@ -296,7 +342,7 @@ Change the MBR partition
 identifier of the given MBR partition table entry.
 This command is particularly useful for reassigning
 an existing MBR partition to
-.Ox .
+.Mx .
 .It swap Ar # Ar #
 Swap two MBR entries.
 .It print
@@ -323,18 +369,13 @@ it does write the modified block out.
 Quit program without saving current changes.
 .El
 .Sh FILES
-.Bl -tag -width /usr/mdec/mbr -compact
-.It Pa /usr/mdec/mbr
+.Bl -tag -width /usr/mdec/mbrmgr -compact
+.It Pa /usr/mdec/mbrmgr
 default MBR template
 .El
 .Sh SEE ALSO
 .Xr fstab 5 ,
-.Xr boot_alpha 8 ,
-.Xr boot_amd64 8 ,
-.Xr boot_cats 8 ,
 .Xr boot_i386 8 ,
-.Xr boot_macppc 8 ,
-.Xr boot_zaurus 8 ,
 .Xr disklabel 8
 .Sh CAVEATS
 Hand crafted disk layouts are highly error prone.

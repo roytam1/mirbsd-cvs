@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/netinet/tcp_var.h,v 1.3 2005/03/31 23:45:43 tg Exp $ */
 /*	$OpenBSD: tcp_var.h,v 1.68 2004/11/25 15:32:08 markus Exp $	*/
 /*	$NetBSD: tcp_var.h,v 1.17 1996/02/13 23:44:24 christos Exp $	*/
 
@@ -560,6 +561,9 @@ extern	int tcp_syn_bucket_limit;/* max entries per hash bucket */
 extern	int tcp_syn_cache_size;
 extern	struct syn_cache_head tcp_syn_cache[];
 extern	u_long syn_cache_count;
+
+extern	struct pool tcpqe_pool;
+extern	int tcp_reass_limit;	/* max entries for tcp reass queues */
 
 int	 tcp_attach(struct socket *);
 void	 tcp_canceltimers(struct tcpcb *);

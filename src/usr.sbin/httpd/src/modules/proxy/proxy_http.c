@@ -1,3 +1,5 @@
+/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_http.c,v 1.5 2005/05/04 18:31:07 tg Exp $ */
+
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -64,6 +66,11 @@
 #include "http_core.h"
 #include "util_date.h"
 
+#ifndef __RCSID
+#define	__RCSID(x)	static const char __rcsid[] = (x)
+#endif
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_http.c,v 1.5 2005/05/04 18:31:07 tg Exp $");
+
 /*
  * Canonicalise http-like URLs.
  *  scheme is the scheme for the URL
@@ -105,7 +112,7 @@ int ap_proxy_http_canon(request_rec *r, char *url, const char *scheme, int def_p
         return HTTP_BAD_REQUEST;
 
     if (port != def_port)
-        ap_snprintf(sport, sizeof(sport), ":%d", port);
+        snprintf(sport, sizeof(sport), ":%d", port);
     else
         sport[0] = '\0';
 
@@ -156,9 +163,6 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
     table *req_hdrs, *resp_hdrs;
     array_header *reqhdrs_arr;
     table_entry *reqhdrs_elts;
-    struct sockaddr_in server;
-    struct in_addr destaddr;
-    struct hostent server_hp;
     BUFF *f;
     char buffer[HUGE_STRING_LEN];
     char portstr[32];
@@ -170,6 +174,8 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
     const char *datestr, *urlstr;
     int result, major, minor;
     const char *content_length;
+    struct addrinfo hints, *res, *res0;
+    int error;
     char *peer;
 
     void *sconf = r->server->module_config;
@@ -182,9 +188,6 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
     if (conf->cache.root == NULL)
         nocache = 1;
 
-    memset(&server, '\0', sizeof(server));
-    server.sin_family = AF_INET;
-
     /* We break the URL into host, port, path-search */
 
     urlptr = strstr(url, "://");
@@ -192,6 +195,8 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
         return HTTP_BAD_REQUEST;
     urlptr += 3;
     destport = DEFAULT_HTTP_PORT;
+    snprintf(portstr, sizeof(portstr), "%d", DEFAULT_HTTP_PORT);
+    destportstr = portstr;
     ap_hook_use("ap::mod_proxy::http::handler::set_destport", 
                 AP_HOOK_SIG2(int,ptr), 
                 AP_HOOK_TOPMOST,
@@ -209,38 +214,85 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
         desthost = q;
     }
 
-    strp2 = strchr(desthost, ':');
+    if (*desthost == '['){
+	char *u = strrchr(desthost+1, ']');
+	if (u){
+	    desthost++;
+	    *u = '\0';
+	    if (*(u+1) == ':'){		/* [host]:xx */
+		strp2 = u+1;
+	    }
+	    else if (*(u+1) == '\0'){	/* [host] */
+		strp2 = NULL;
+	    }
+	    else
+		return HTTP_BAD_REQUEST;
+	}
+	else
+	    return HTTP_BAD_REQUEST;
+    }
+    else
+	strp2 = strrchr(desthost, ':');
     if (strp2 != NULL) {
         *(strp2++) = '\0';
-        if (ap_isdigit(*strp2)) {
+        if (isdigit((unsigned char)*strp2)) {
             destport = atoi(strp2);
             destportstr = strp2;
         }
     }
 
+    memset(&hints, 0, sizeof(hints));
+    hints.ai_family = PF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM;
+    hints.ai_protocol = IPPROTO_TCP;
+    error = getaddrinfo(desthost, destportstr, &hints, &res0);
+    if (error && proxyhost == NULL) {
+	return ap_proxyerror(r, HTTP_INTERNAL_SERVER_ERROR,
+		    gai_strerror(error));	/* give up */
+    }
+
     /* check if ProxyBlock directive on this host */
-    destaddr.s_addr = ap_inet_addr(desthost);
     for (i = 0; i < conf->noproxies->nelts; i++) {
-        if (destaddr.s_addr == npent[i].addr.s_addr ||
-            (npent[i].name != NULL &&
-             (npent[i].name[0] == '*' || strstr(desthost, npent[i].name) != NULL)))
+	int fail;
+	struct sockaddr_in *sin;
+
+	fail = 0;
+	if (npent[i].name != NULL && strstr(desthost, npent[i].name))
+	    fail++;
+	if (npent[i].name != NULL && strcmp(npent[i].name, "*") == 0)
+	    fail++;
+	for (res = res0; res; res = res->ai_next) {
+	    switch (res->ai_family) {
+	    case AF_INET:
+		sin = (struct sockaddr_in *)res->ai_addr;
+		if (sin->sin_addr.s_addr == npent[i].addr.s_addr)
+		    fail++;
+		break;
+	    }
+	}
+	if (fail) {
+	    if (res0 != NULL)
+		freeaddrinfo(res0);
             return ap_proxyerror(r, HTTP_FORBIDDEN,
                                  "Connect to remote machine blocked");
+	}
     }
 
     if (proxyhost != NULL) {
-        server.sin_port = htons((unsigned short)proxyport);
-        err = ap_proxy_host2addr(proxyhost, &server_hp);
-        if (err != NULL)
+	char pbuf[10];
+
+	if (res0 != NULL)
+	    freeaddrinfo(res0);
+
+	snprintf(pbuf, sizeof(pbuf), "%d", proxyport);
+	memset(&hints, 0, sizeof(hints));
+	hints.ai_family = PF_UNSPEC;
+	hints.ai_socktype = SOCK_STREAM;
+	hints.ai_protocol = IPPROTO_TCP;
+	error = getaddrinfo(proxyhost, pbuf, &hints, &res0);
+	if (error)
             return DECLINED;    /* try another */
 	peer = ap_psprintf(p, "%s:%u", proxyhost, proxyport);  
-    }
-    else {
-        server.sin_port = htons((unsigned short)destport);
-        err = ap_proxy_host2addr(desthost, &server_hp);
-        if (err != NULL)
-            return ap_proxyerror(r, HTTP_INTERNAL_SERVER_ERROR, err);
-	peer =  ap_psprintf(p, "%s:%u", desthost, destport);  
     }
 
 
@@ -248,31 +300,28 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
      * we have worked out who exactly we are going to connect to, now make
      * that connection...
      */
-    sock = ap_psocket_ex(p, PF_INET, SOCK_STREAM, IPPROTO_TCP, 1);
-    if (sock == -1) {
-        ap_log_rerror(APLOG_MARK, APLOG_ERR, r,
-                      "proxy: error creating socket");
-        return HTTP_INTERNAL_SERVER_ERROR;
-    }
+    sock = i = -1;
+    for (res = res0; res; res = res->ai_next) {
+	sock = ap_psocket_ex(p, res->ai_family, res->ai_socktype,
+	    res->ai_protocol, 1);
+	if (sock < 0)
+	    continue;
 
-    if (conf->recv_buffer_size) {
-        if (setsockopt(sock, SOL_SOCKET, SO_RCVBUF,
+        if (conf->recv_buffer_size) {
+            if (setsockopt(sock, SOL_SOCKET, SO_RCVBUF,
                        (const char *)&conf->recv_buffer_size, sizeof(int))
-            == -1) {
-            ap_log_rerror(APLOG_MARK, APLOG_ERR, r,
+                == -1) {
+                ap_log_rerror(APLOG_MARK, APLOG_ERR, r,
                           "setsockopt(SO_RCVBUF): Failed to set ProxyReceiveBufferSize, using default");
+            }
         }
-    }
 
-    j = 0;
-    while (server_hp.h_addr_list[j] != NULL) {
-        memcpy(&server.sin_addr, server_hp.h_addr_list[j],
-               sizeof(struct in_addr));
-        i = ap_proxy_doconnect(sock, &server, r);
+	i = ap_proxy_doconnect(sock, res->ai_addr, r);
         if (i == 0)
             break;
-        j++;
+	ap_pclosesocket(p, sock);
     }
+    freeaddrinfo(res0);
     if (i == -1) {
         if (proxyhost != NULL)
             return DECLINED;    /* try again another way */
@@ -302,8 +351,8 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
 
     {
         char *errmsg = NULL;
-        ap_hook_use("ap::mod_proxy::http::handler::new_connection", 
-                    AP_HOOK_SIG4(ptr,ptr,ptr,ptr), 
+        ap_hook_use("ap::mod_proxy::http::handler::new_connection",
+                    AP_HOOK_SIG4(ptr,ptr,ptr,ptr),
                     AP_HOOK_DECLINE(NULL),
                     &errmsg, r, f, peer);
         if (errmsg != NULL)
@@ -315,8 +364,8 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
               NULL);
     {
 	int rc = DECLINED;
-	ap_hook_use("ap::mod_proxy::http::handler::write_host_header", 
-		    AP_HOOK_SIG6(int,ptr,ptr,ptr,int,ptr), 
+	ap_hook_use("ap::mod_proxy::http::handler::write_host_header",
+		    AP_HOOK_SIG6(int,ptr,ptr,ptr,int,ptr),
 		    AP_HOOK_DECLINE(DECLINED),
 		    &rc, r, f, desthost, destport, destportstr);
         if (rc == DECLINED) {
@@ -338,7 +387,7 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
             strlcpy(portstr, "", sizeof(portstr));
         }
         else {
-            ap_snprintf(portstr, sizeof portstr, ":%d", i);
+            snprintf(portstr, sizeof portstr, ":%d", i);
         }
         /* Generate outgoing Via: header with/without server comment: */
         ap_table_mergen(req_hdrs, "Via",
@@ -379,7 +428,7 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
          * XXX: This duplicates Via: - do we strictly need it?
          */
         ap_table_mergen(req_hdrs, "X-Forwarded-Server", r->server->server_hostname);
-    } 
+    }
 
     /* we don't yet support keepalives - but we will soon, I promise! */
     ap_table_set(req_hdrs, "Connection", "close");
@@ -403,7 +452,7 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
          * XXX: @@@ FIXME: "Proxy-Authorization" should *only* be suppressed
          * if THIS server requested the authentication, not when a frontend
          * proxy requested it!
-         * 
+         *
          * The solution to this problem is probably to strip out the
          * Proxy-Authorisation header in the authorisation code itself, not
          * here. This saves us having to signal somehow whether this request
@@ -503,7 +552,7 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
                 strlcpy(portstr, "", sizeof(portstr));
             }
             else {
-                ap_snprintf(portstr, sizeof portstr, ":%d", i);
+                snprintf(portstr, sizeof portstr, ":%d", i);
             }
             ap_table_mergen((table *)resp_hdrs, "Via",
                             (conf->viaopt == via_full)
@@ -571,31 +620,44 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
         ap_table_set(resp_hdrs, "Content-Location", proxy_location_reverse_map(r, urlstr));
 
 /* check if NoCache directive on this host */
+  {
+    struct sockaddr_in *sin;
+#ifdef INET6
+    struct sockaddr_in6 *sin6;
+#endif
+
     if (nocache == 0) {
         for (i = 0; i < conf->nocaches->nelts; i++) {
-            if (destaddr.s_addr == ncent[i].addr.s_addr ||
-                (ncent[i].name != NULL &&
-                 (ncent[i].name[0] == '*' ||
-                  strstr(desthost, ncent[i].name) != NULL))) {
-                nocache = 1;
-                break;
-            }
-        }
+	    if (ncent[i].name != NULL &&
+                  (ncent[i].name[0] == '*' ||
+		 strstr(desthost, ncent[i].name) != NULL)) {
+		nocache = 1;
+		break;
+	    }
+	    switch (res->ai_addr->sa_family) {
+	    case AF_INET:
+		sin = (struct sockaddr_in *)res->ai_addr;
+		if (sin->sin_addr.s_addr == ncent[i].addr.s_addr) {
+		    nocache = 1;
+		    break;
+		}
+	    }
+	}
 
-        /*
-         * update the cache file, possibly even fulfilling the request if it
-         * turns out a conditional allowed us to serve the object from the
-         * cache...
-         */
-        i = ap_proxy_cache_update(c, resp_hdrs, !backasswards, nocache);
-        if (i != DECLINED) {
-            ap_bclose(f);
-            return i;
-        }
+	/* update the cache file, possibly even fulfilling the request if
+	 * it turns out a conditional allowed us to serve the object from the
+	 * cache...
+	 */
+	i = ap_proxy_cache_update(c, resp_hdrs, !backasswards, nocache);
+	if (i != DECLINED) {
+	    ap_bclose(f);
+	    return i;
+	}
 
         /* write status line and headers to the cache file */
         ap_proxy_write_headers(c, ap_pstrcat(p, "HTTP/1.1 ", r->status_line, NULL), resp_hdrs);
     }
+  }
 
     /* Setup the headers for our client from upstreams response-headers */
     ap_proxy_table_replace(r->headers_out, resp_hdrs);

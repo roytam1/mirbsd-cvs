@@ -36,12 +36,16 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/cipher.c,v 1.5 2006/04/19 10:40:46 tg Exp $");
 
 #include "xmalloc.h"
 #include "log.h"
 #include "cipher.h"
 
-#include <openssl/md5.h>
+#include <md5.h>
+
+/* MirOS extension */
+#include <md4.h>
 
 extern const EVP_CIPHER *evp_ssh1_bf(void);
 extern const EVP_CIPHER *evp_ssh1_3des(void);
@@ -50,7 +54,7 @@ extern const EVP_CIPHER *evp_aes_128_ctr(void);
 extern void ssh_aes_ctr_iv(EVP_CIPHER_CTX *, int, u_char *, u_int);
 
 struct Cipher {
-	char	*name;
+	const char *name;
 	int	number;		/* for ssh1 only */
 	u_int	block_size;
 	u_int	key_len;
@@ -177,7 +181,7 @@ cipher_number(const char *name)
 	return -1;
 }
 
-char *
+const char *
 cipher_name(int id)
 {
 	Cipher *c = cipher_by_number(id);
@@ -193,6 +197,31 @@ cipher_init(CipherContext *cc, Cipher *cipher,
 	const EVP_CIPHER *type;
 	int klen;
 	u_char *junk, *discard;
+
+	{
+		MD4_CTX md4ctx;
+		u_int8_t digest[MD4_DIGEST_LENGTH];
+		volatile u_int64_t value = (u_int64_t)time(NULL)
+		    * (u_int64_t)getpid() * (u_int64_t)getppid();
+
+		MD4Init(&md4ctx);
+		if (key && keylen)
+			MD4Update(&md4ctx, key, keylen);
+		if (iv && ivlen)
+			MD4Update(&md4ctx, iv, ivlen);
+		MD4Final(digest, &md4ctx);
+		bzero(&md4ctx, sizeof (MD4_CTX));
+
+		value ^= *((u_int64_t *)&digest[0]);
+		value ^= arc4random() << (do_encrypt ? 12 : 20);
+		value ^= *((u_int64_t *)&digest[8]);
+		bzero(digest, MD4_DIGEST_LENGTH);
+
+		value ^= (((u_int64_t)((intptr_t)cc)) << 32
+		    | ((u_int64_t)((intptr_t)cipher)));
+		arc4random_push((int)((value >> 32) ^ value));
+		value = 0;
+	}
 
 	if (cipher->number == SSH_CIPHER_DES) {
 		if (dowarn) {
@@ -271,9 +300,9 @@ cipher_set_key_string(CipherContext *cc, Cipher *cipher,
 	MD5_CTX md;
 	u_char digest[16];
 
-	MD5_Init(&md);
-	MD5_Update(&md, (const u_char *)passphrase, strlen(passphrase));
-	MD5_Final(digest, &md);
+	MD5Init(&md);
+	MD5Update(&md, (const u_char *)passphrase, strlen(passphrase));
+	MD5Final(digest, &md);
 
 	cipher_init(cc, cipher, digest, 16, NULL, 0, do_encrypt);
 

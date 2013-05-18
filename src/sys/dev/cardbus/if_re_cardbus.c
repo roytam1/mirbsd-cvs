@@ -155,7 +155,7 @@ re_cardbus_attach(struct device *parent, struct device *self, void *aux)
 	csc->sc_ih = cardbus_intr_establish(cc, cf, csc->sc_intrline,
 	    IPL_NET, re_intr, sc);
 	if (csc->sc_ih == NULL) {
-		printf(": couldn't establish interrupt at %s",
+		printf(": couldn't establish interrupt at %d",
 		    ca->ca_intrline);
 		Cardbus_function_disable(csc->ct);
 		return;

@@ -35,17 +35,17 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-agent.c,v 1.6 2006/06/02 20:50:50 tg Exp $");
 
 #include <sys/queue.h>
 #include <sys/resource.h>
-#include <sys/types.h>
 #include <sys/un.h>
 
 #include <paths.h>
 #include <signal.h>
 
 #include <openssl/evp.h>
-#include <openssl/md5.h>
+#include <md5.h>
 
 #include "ssh.h"
 #include "rsa.h"
@@ -259,10 +259,10 @@ process_authentication_challenge1(SocketEntry *e)
 		}
 		memset(buf, 0, 32);
 		BN_bn2bin(challenge, buf + 32 - len);
-		MD5_Init(&md);
-		MD5_Update(&md, buf, 32);
-		MD5_Update(&md, session_id, 16);
-		MD5_Final(mdbuf, &md);
+		MD5Init(&md);
+		MD5Update(&md, buf, 32);
+		MD5Update(&md, session_id, 16);
+		MD5Final(mdbuf, &md);
 
 		/* Send the response. */
 		buffer_put_char(&msg, SSH_AGENT_RSA_RESPONSE);
@@ -288,7 +288,6 @@ process_sign_request2(SocketEntry *e)
 {
 	u_char *blob, *data, *signature = NULL;
 	u_int blen, dlen, slen = 0;
-	extern int datafellows;
 	int ok = -1, flags;
 	Buffer msg;
 	Key *key;
@@ -946,7 +945,7 @@ cleanup_socket(void)
 		rmdir(socket_dir);
 }
 
-void
+__dead void
 cleanup_exit(int i)
 {
 	cleanup_socket();
@@ -954,8 +953,8 @@ cleanup_exit(int i)
 }
 
 /*ARGSUSED*/
-static void
-cleanup_handler(int sig)
+static __dead void
+cleanup_handler(int sig __attribute__((unused)))
 {
 	cleanup_socket();
 	_exit(2);
@@ -976,7 +975,7 @@ check_parent_exists(int sig)
 	errno = save_errno;
 }
 
-static void
+static __dead void
 usage(void)
 {
 	fprintf(stderr, "Usage: %s [options] [command [args ...]]\n",
@@ -997,12 +996,11 @@ main(int ac, char **av)
 	int c_flag = 0, d_flag = 0, k_flag = 0, s_flag = 0;
 	int sock, fd,  ch;
 	u_int nalloc;
-	char *shell, *format, *pidstr, *agentsocket = NULL;
+	char *shell, *pidstr, *agentsocket = NULL;
+	const char *format;
 	fd_set *readsetp = NULL, *writesetp = NULL;
 	struct sockaddr_un sunaddr;
 	struct rlimit rlim;
-	extern int optind;
-	extern char *optarg;
 	pid_t pid;
 	char pidstrbuf[1 + 3 * sizeof pid];
 

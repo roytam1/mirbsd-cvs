@@ -52,8 +52,6 @@ static char *rcsid = "$OpenBSD: route.c,v 1.66 2004/11/17 01:47:20 itojun Exp $"
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#include <netns/ns.h>
-
 #include <netipx/ipx.h>
 
 #include <netatalk/at.h>
@@ -137,7 +135,6 @@ static void p_sockaddr(struct sockaddr *, struct sockaddr *, int, int);
 static void p_flags(int, char *);
 static void p_rtentry(struct rtentry *);
 static void encap_print(struct rtentry *);
-static void sa_src2dst(struct sockaddr *);
 
 /*
  * Print routing tables.
@@ -503,10 +500,6 @@ p_sockaddr(struct sockaddr *sa, struct sockaddr *mask, int flags, int width)
 	    }
 #endif
 
-	case AF_NS:
-		cp = ns_print(sa);
-		break;
-
 	case AF_IPX:
 		cp = ipx_print(sa);
 		break;
@@ -631,13 +624,6 @@ p_rtentry(struct rtentry *rt)
 	} else
 		mask = 0;
 
-	if (Sflag && sa->sa_family == AF_INET) {
-		sa_src2dst(sa);
-		sa_src2dst(mask);
-		p_sockaddr(sa, mask, rt->rt_flags, WID_DST(sa->sa_family));
-		sa_src2dst(sa);
-		sa_src2dst(mask);
-	}
 	p_sockaddr(sa, mask, rt->rt_flags, WID_DST(sa->sa_family));
 	p_sockaddr(kgetsa(rt->rt_gateway), 0, RTF_HOST, WID_GW(sa->sa_family));
 	p_flags(rt->rt_flags, "%-6.6s ");
@@ -868,75 +854,6 @@ rt_stats(u_long off)
 	    rtstat.rts_wildcard, plural(rtstat.rts_wildcard));
 }
 
-short ns_nullh[] = {0,0,0};
-short ns_bh[] = {-1,-1,-1};
-
-char *
-ns_print(struct sockaddr *sa)
-{
-	struct sockaddr_ns *sns = (struct sockaddr_ns*)sa;
-	struct ns_addr work;
-	union { union ns_net net_e; u_long long_e; } net;
-	in_port_t port;
-	static char mybuf[50], cport[10], chost[25];
-	char *host = "";
-	char *p;
-	u_char *q;
-
-	work = sns->sns_addr;
-	port = ntohs(work.x_port);
-	work.x_port = 0;
-	net.net_e = work.x_net;
-	if (ns_nullhost(work) && net.long_e == 0) {
-		if (port ) {
-			snprintf(mybuf, sizeof mybuf, "*.%xH", port);
-			upHex(mybuf);
-		} else
-			snprintf(mybuf, sizeof mybuf, "*.*");
-		return (mybuf);
-	}
-
-	if (bcmp(ns_bh, work.x_host.c_host, 6) == 0) {
-		host = "any";
-	} else if (bcmp(ns_nullh, work.x_host.c_host, 6) == 0) {
-		host = "*";
-	} else {
-		q = work.x_host.c_host;
-		snprintf(chost, sizeof chost, "%02x%02x%02x%02x%02x%02xH",
-		    q[0], q[1], q[2], q[3], q[4], q[5]);
-		for (p = chost; *p == '0' && p < chost + 12; p++)
-			continue;
-		host = p;
-	}
-	if (port)
-		snprintf(cport, sizeof cport, ".%xH", htons(port));
-	else
-		*cport = 0;
-
-	snprintf(mybuf, sizeof mybuf, "%xH.%s%s", ntohl(net.long_e),
-	    host, cport);
-	upHex(mybuf);
-	return(mybuf);
-}
-
-char *
-ns_phost(struct sockaddr *sa)
-{
-	struct sockaddr_ns *sns = (struct sockaddr_ns *)sa;
-	struct sockaddr_ns work;
-	static union ns_net ns_zeronet;
-	char *p;
-
-	work = *sns;
-	work.sns_addr.x_port = 0;
-	work.sns_addr.x_net = ns_zeronet;
-
-	p = ns_print((struct sockaddr *)&work);
-	if (strncmp("0H.", p, 3) == 0)
-		p += 3;
-	return(p);
-}
-
 u_short ipx_nullh[] = {0,0,0};
 u_short ipx_bh[] = {0xffff,0xffff,0xffff};
 
@@ -964,9 +881,9 @@ ipx_print(struct sockaddr *sa)
 		return (mybuf);
 	}
 
-	if (bcmp(ipx_bh, work.ipx_host.c_host, 6) == 0) {
+	if (memcmp(ipx_bh, work.ipx_host.c_host, 6) == 0) {
 		host = "any";
-	} else if (bcmp(ipx_nullh, work.ipx_host.c_host, 6) == 0) {
+	} else if (memcmp(ipx_nullh, work.ipx_host.c_host, 6) == 0) {
 		host = "*";
 	} else {
 		q = work.ipx_host.c_host;
@@ -1151,18 +1068,5 @@ upHex(char *p0)
 		case 'f':
 			*p += ('A' - 'a');
 			break;
-	}
-}
-
-void
-sa_src2dst(struct sockaddr *sa)
-{
-	struct sockaddr_rtin	*rtin = satortin(sa);
-	struct in_addr		 tmp;
-
-	if (sa != NULL) {
-		tmp = rtin->rtin_dst;
-		rtin->rtin_dst = rtin->rtin_src;
-		rtin->rtin_src = tmp;
 	}
 }

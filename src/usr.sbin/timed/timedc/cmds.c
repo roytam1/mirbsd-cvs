@@ -223,7 +223,7 @@ clockdiff(int argc, char *argv[])
 		siginterrupt(SIGINT, 0);
 
 		server.sin_family = hp->h_addrtype;
-		bcopy(hp->h_addr, &server.sin_addr.s_addr, hp->h_length);
+		memmove(&server.sin_addr.s_addr, hp->h_addr, hp->h_length);
 		for (avg_cnt = 0, avg = 0; avg_cnt < 16; avg_cnt++) {
 			measure_status = measure(10000, 100, *argv, &server, 1);
 			if (measure_status != GOOD)
@@ -253,7 +253,7 @@ clockdiff(int argc, char *argv[])
 		 */
 		if (dayaddr.sin_port != 0) {
 			dayaddr.sin_family = hp->h_addrtype;
-			bcopy(hp->h_addr, &dayaddr.sin_addr.s_addr,
+			memmove(&dayaddr.sin_addr.s_addr, hp->h_addr,
 			    hp->h_length);
 			avg = daydiff(*argv);
 			if (avg > SECDAY) {
@@ -325,7 +325,7 @@ msite(int argc, char *argv[])
 			continue;
 		}
 
-		bcopy(hp->h_addr, &dest.sin_addr.s_addr, hp->h_length);
+		memmove(&dest.sin_addr.s_addr, hp->h_addr, hp->h_length);
 		(void)strlcpy(msg.tsp_name, myname, sizeof msg.tsp_name);
 		msg.tsp_type = TSP_MSITE;
 		msg.tsp_vers = TSPVERSION;
@@ -445,7 +445,7 @@ testing(int argc, char *argv[])
 		memset(&sin, 0, sizeof sin);
 		sin.sin_port = srvp->s_port;
 		sin.sin_family = hp->h_addrtype;
-		bcopy(hp->h_addr, &sin.sin_addr.s_addr, hp->h_length);
+		memmove(&sin.sin_addr.s_addr, hp->h_addr, hp->h_length);
 
 		msg.tsp_type = TSP_TEST;
 		msg.tsp_vers = TSPVERSION;
@@ -501,7 +501,7 @@ tracing(int argc, char *argv[])
 	if (hp == NULL && errno == EINTR && gotintr)
 		goto bail;
 
-	bcopy(hp->h_addr, &dest.sin_addr.s_addr, hp->h_length);
+	memmove(&dest.sin_addr.s_addr, hp->h_addr, hp->h_length);
 
 	if (strcmp(argv[1], "on") == 0) {
 		msg.tsp_type = TSP_TRACEON;

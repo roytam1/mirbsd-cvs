@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: mpt_openbsd.c,v 1.11 2004/04/28 01:45:48 marco Exp $	*/
 /*	$NetBSD: mpt_netbsd.c,v 1.7 2003/07/14 15:47:11 lukem Exp $	*/
 
@@ -119,7 +120,7 @@ struct cfdriver mpt_cd = {
 };
 
 /* the below structure is so we have a default dev struct for our link struct */
-static struct scsi_device mpt_dev = 
+static struct scsi_device mpt_dev =
 {
 	NULL, /* Use default error handler */
 	NULL, /* have a queue, served by this */
@@ -200,7 +201,7 @@ mpt_ppr(mpt_softc_t *mpt, struct scsi_link *sc_link, int speed)
 		factor = (mpt->mpt_port_page0.Capabilities >> 8) & 0xff;
 		offset = (mpt->mpt_port_page0.Capabilities >> 16) & 0xff;
 		np = 0;
-		
+
 		switch (speed) {
 			case U320:
 				/* do nothing */
@@ -209,7 +210,7 @@ mpt_ppr(mpt_softc_t *mpt, struct scsi_link *sc_link, int speed)
 			case U160:
 				factor = 0x09; /* force U160 */
 				break;
-				
+
 			case U80:
 				factor = 0x0a; /* force U80 */
 		}
@@ -247,7 +248,7 @@ mpt_ppr(mpt_softc_t *mpt, struct scsi_link *sc_link, int speed)
 		    mpt->mpt_dev_page1[sc_link->target].Configuration);
 	}
 
-	/* 
+	/*
 	 * use INQUIRY for PPR two reasons:
 	 * 1) actually transfer data at requested speed
 	 * 2) no need to test for TUR QUIRK
@@ -317,19 +318,19 @@ mpt_ppr(mpt_softc_t *mpt, struct scsi_link *sc_link, int speed)
 		case 0x08:
 			tp = 160;
 			break;
-			
+
 		case 0x09:
 			tp = 80;
 			break;
-			
+
 		case 0x0a:
 			tp = 40;
 			break;
-			
+
 		case 0x0b:
 			tp = 20;
 			break;
-			
+
 		case 0x0c:
 			tp = 10;
 			break;
@@ -563,7 +564,7 @@ mpt_dma_mem_alloc(mpt_softc_t *mpt)
 		error = bus_dmamap_create(mpt->sc_dmat, MAXPHYS,
 		    MPT_SGL_MAX, MAXPHYS, 0, 0, &req->dmap);
 		if (error) {
-			printf("%s: unable to create req %d DMA map, error = ",
+			printf("%s: unable to create req %d DMA map, error = "
 			    "%d", mpt->mpt_dev.dv_xname, i, error);
 			goto fail_8;
 		}
@@ -616,7 +617,7 @@ mpt_intr(void *arg)
 
 	/*
 	 * Speed up trick to save one PCI read.
-	 * Reply FIFO replies 0xffffffff whenever 
+	 * Reply FIFO replies 0xffffffff whenever
 	 * MPT_OFFSET_INTR_STATUS & MPT_INTR_REPLY_READY == 0
 	 *
 	 */
@@ -743,7 +744,7 @@ mpt_done(mpt_softc_t *mpt, uint32_t reply)
 		mpt_reply = MPT_REPLY_PTOV(mpt, reply);
 		if (mpt->verbose > 1) {
 			uint32_t *pReply = (uint32_t *) mpt_reply;
-			
+
 			mpt_prt(mpt, "Address Reply (index %u):",
 			    mpt_reply->MsgContext & 0xffff);
 			mpt_prt(mpt, "%08x %08x %08x %08x",
@@ -963,7 +964,7 @@ mpt_done(mpt_softc_t *mpt, uint32_t reply)
 		xs->error = XS_DRIVER_STUFFUP;
 		break;
 	}
-		
+
 	if (mpt_reply->SCSIState & MPI_SCSI_STATE_AUTOSENSE_VALID) {
 		memcpy(&xs->sense, req->sense_vbuf,
 		    sizeof(xs->sense));
@@ -1439,7 +1440,7 @@ mpt_event_notify_reply(mpt_softc_t *mpt, MSG_EVENT_NOTIFY_REPLY *msg)
 		mpt_prt(mpt, "Unknown async event: 0x%x", msg->Event);
 		break;
 	}
-	
+
 	if (msg->AckRequired) {
 		MSG_EVENT_ACK *ackp;
 		request_t *req;
@@ -1591,7 +1592,7 @@ fw_fail1:
 	bus_dmamem_unmap(mpt->sc_dmat, (caddr_t)mpt->fw, img_sz);
 fw_fail0:
 	bus_dmamem_free(mpt->sc_dmat, &mpt->fw_seg, mpt->fw_rseg);
- 
+
 	mpt->fw = NULL;
 	return (error);
 }

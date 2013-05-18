@@ -109,7 +109,7 @@ wwcopyscreen(s1, s2)
 	int s = wwncol * sizeof **s1;
 
 	for (i = wwnrow; --i >= 0;)
-		bcopy((char *) *s1++, (char *) *s2++, s);
+		memmove((char *) *s2++, (char *) *s1++, s);
 }
 
 void

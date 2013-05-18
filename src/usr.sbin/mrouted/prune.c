@@ -1871,7 +1871,7 @@ accept_mtrace(u_int32_t src, u_int32_t dst, u_int32_t group,
     /* copy the packet to the sending buffer */
     p = send_buf + MIN_IP_HEADER_LEN + IGMP_MINLEN;
 
-    bcopy(data, p, datalen);
+    memmove(p, data, datalen);
 
     p += datalen;
 

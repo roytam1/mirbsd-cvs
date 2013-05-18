@@ -1,13 +1,14 @@
-#	$OpenBSD: Makefile,v 1.7 2002/06/09 08:13:06 todd Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.7 2002/06/09 08:13:06 todd Exp $
 
-STATIC=	-static
+STATIC=		-static
 
-PROG=	init
-MAN=	init.8
-DPADD=	${LIBUTIL}
-LDADD=	-lutil
-BINMODE=500
-INSTALLFLAGS=-fschg
-CFLAGS+=-DDEBUGSHELL -DSECURE -DLOGIN_CAP
+PROG=		init
+MAN=		init.8
+DPADD=		${LIBUTIL}
+LDADD=		-lutil
+BINMODE=	500
+INSTALLFLAGS=	-fschg
+CPPFLAGS+=	-DDEBUGSHELL -DSECURE -DLOGIN_CAP
 
 .include <bsd.prog.mk>

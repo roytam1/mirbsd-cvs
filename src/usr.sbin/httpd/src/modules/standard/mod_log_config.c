@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_log_config.c,v 1.4 2005/05/04 18:31:07 tg Exp $ */
 /*	$OpenBSD: mod_log_config.c,v 1.17 2005/02/09 12:13:10 henning Exp $ */
 
 /* ====================================================================
@@ -89,7 +90,7 @@
  * the VirtualHost will _not_ be used. This makes this module compatable
  * with the CLF and config log modules, where the use of TransferLog
  * inside the VirtualHost section overrides its use outside.
- * 
+ *
  * Examples:
  *
  *    TransferLog    logs/access_log
@@ -188,6 +189,11 @@
 #include "http_main.h"
 #include "fdcache.h"
 #include <limits.h>
+
+#ifndef __RCSID
+#define	__RCSID(x)	static const char __rcsid[] = (x)
+#endif
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_log_config.c,v 1.4 2005/05/04 18:31:07 tg Exp $");
 
 module MODULE_VAR_EXPORT config_log_module;
 
@@ -435,8 +441,8 @@ static const char *log_request_time(request_rec *r, char *a)
         if (timz < 0) {
             timz = -timz;
         }
-        ap_snprintf(tstr, sizeof(tstr), "[%02d/%s/%d:%02d:%02d:%02d %c%.2d%.2d]",
-                t->tm_mday, ap_month_snames[t->tm_mon], t->tm_year+1900, 
+        snprintf(tstr, sizeof(tstr), "[%02d/%s/%lld:%02d:%02d:%02d %c%.2d%.2d]",
+                t->tm_mday, ap_month_snames[t->tm_mon], (int64_t)t->tm_year+1900,
                 t->tm_hour, t->tm_min, t->tm_sec,
                 sign, timz / 60, timz % 60);
     }
@@ -503,11 +509,11 @@ static struct log_item_list {
     {
         'h', log_remote_host, 0
     },
-    {   
-        'a', log_remote_address, 0 
+    {
+        'a', log_remote_address, 0
     },
-    {   
-        'A', log_local_address, 0 
+    {
+        'A', log_local_address, 0
     },
     {
         'l', log_remote_logname, 0
@@ -641,7 +647,7 @@ static char *parse_log_misc_string(pool *p, log_format_item *it,
 		*d++ = '\n';
 		s++;
 		break;
-	    case 't':	
+	    case 't':
 		*d++ = '\t';
 		s++;
 		break;
@@ -717,7 +723,7 @@ static char *parse_log_item(pool *p, log_format_item *it, const char **sa)
         case '8':
         case '9':
             i = *s - '0';
-            while (ap_isdigit(*++s)) {
+            while (isdigit((unsigned char)*++s)) {
                 i = i * 10 + (*s) - '0';
             }
             if (!it->conditions) {
@@ -1122,7 +1128,7 @@ static config_log_state *open_multi_logs(server_rec *s, pool *p)
 	if (format) {
 	    mls->default_format = parse_log_string(p, format, &dummy);
 	}
-    }    
+    }
 
     if (!mls->default_format) {
         mls->default_format = parse_log_string(p, DEFAULT_LOG_FORMAT, &dummy);

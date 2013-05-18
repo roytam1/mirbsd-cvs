@@ -43,9 +43,9 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.7 2006/04/19 10:40:57 tg Exp $");
 
 #include <sys/ioctl.h>
-#include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
 
@@ -54,7 +54,7 @@
 
 #include <openssl/dh.h>
 #include <openssl/bn.h>
-#include <openssl/md5.h>
+#include <md5.h>
 #include <openssl/rand.h>
 
 #include "ssh.h"
@@ -311,7 +311,7 @@ main_sigchld_handler(int sig)
  * Signal handler for the alarm after the login grace period has expired.
  */
 /*ARGSUSED*/
-static void
+static __dead void
 grace_alarm_handler(int sig)
 {
 	/* XXX no idea how fix this signal handler */
@@ -386,7 +386,8 @@ sshd_exchange_identification(int sock_in, int sock_out)
 		major = PROTOCOL_MAJOR_1;
 		minor = PROTOCOL_MINOR_1;
 	}
-	snprintf(buf, sizeof buf, "SSH-%d.%d-%.100s\n", major, minor, SSH_VERSION);
+	snprintf(buf, sizeof buf, "SSH-%d.%d-%.100s %d\n", major, minor,
+	    SSH_VERSION, (int)arc4random() & 0xFFFF);
 	server_version_string = xstrdup(buf);
 
 	/* Send our protocol version identification. */
@@ -867,8 +868,6 @@ recv_rexec_state(int fd, Buffer *conf)
 int
 main(int ac, char **av)
 {
-	extern char *optarg;
-	extern int optind;
 	int opt, j, i, on = 1;
 	int sock_in = -1, sock_out = -1, newsock = -1;
 	pid_t pid;
@@ -1888,15 +1887,15 @@ do_ssh1_kex(void)
 
 		logit("do_connection: generating a fake encryption key");
 		BN_bn2bin(session_key_int, buf);
-		MD5_Init(&md);
-		MD5_Update(&md, buf, bytes);
-		MD5_Update(&md, sensitive_data.ssh1_cookie, SSH_SESSION_KEY_LENGTH);
-		MD5_Final(session_key, &md);
-		MD5_Init(&md);
-		MD5_Update(&md, session_key, 16);
-		MD5_Update(&md, buf, bytes);
-		MD5_Update(&md, sensitive_data.ssh1_cookie, SSH_SESSION_KEY_LENGTH);
-		MD5_Final(session_key + 16, &md);
+		MD5Init(&md);
+		MD5Update(&md, buf, bytes);
+		MD5Update(&md, sensitive_data.ssh1_cookie, SSH_SESSION_KEY_LENGTH);
+		MD5Final(session_key, &md);
+		MD5Init(&md);
+		MD5Update(&md, session_key, 16);
+		MD5Update(&md, buf, bytes);
+		MD5Update(&md, sensitive_data.ssh1_cookie, SSH_SESSION_KEY_LENGTH);
+		MD5Final(session_key + 16, &md);
 		memset(buf, 0, bytes);
 		xfree(buf);
 		for (i = 0; i < 16; i++)

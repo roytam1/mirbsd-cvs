@@ -11,6 +11,7 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.8 2006/04/19 10:40:51 tg Exp $");
 
 #include "ssh.h"
 #include "log.h"
@@ -62,12 +63,6 @@ initialize_server_options(ServerOptions *options)
 	options->hostbased_uses_name_from_packet_only = -1;
 	options->rsa_authentication = -1;
 	options->pubkey_authentication = -1;
-	options->kerberos_authentication = -1;
-	options->kerberos_or_local_passwd = -1;
-	options->kerberos_ticket_cleanup = -1;
-	options->kerberos_get_afs_token = -1;
-	options->gss_authentication=-1;
-	options->gss_cleanup_creds = -1;
 	options->password_authentication = -1;
 	options->kbd_interactive_authentication = -1;
 	options->challenge_response_authentication = -1;
@@ -111,12 +106,12 @@ fill_default_server_options(ServerOptions *options)
 		/* fill default hostkeys for protocols */
 		if (options->protocol & SSH_PROTO_1)
 			options->host_key_files[options->num_host_key_files++] =
-			    _PATH_HOST_KEY_FILE;
+			    (char *)_PATH_HOST_KEY_FILE;
 		if (options->protocol & SSH_PROTO_2) {
 			options->host_key_files[options->num_host_key_files++] =
-			    _PATH_HOST_RSA_KEY_FILE;
+			    (char *)_PATH_HOST_RSA_KEY_FILE;
 			options->host_key_files[options->num_host_key_files++] =
-			    _PATH_HOST_DSA_KEY_FILE;
+			    (char *)_PATH_HOST_DSA_KEY_FILE;
 		}
 	}
 	if (options->num_ports == 0)
@@ -124,7 +119,7 @@ fill_default_server_options(ServerOptions *options)
 	if (options->listen_addrs == NULL)
 		add_listen_addr(options, NULL, 0);
 	if (options->pid_file == NULL)
-		options->pid_file = _PATH_SSH_DAEMON_PID_FILE;
+		options->pid_file = (char *)_PATH_SSH_DAEMON_PID_FILE;
 	if (options->server_key_bits == -1)
 		options->server_key_bits = 768;
 	if (options->login_grace_time == -1)
@@ -132,7 +127,7 @@ fill_default_server_options(ServerOptions *options)
 	if (options->key_regeneration_time == -1)
 		options->key_regeneration_time = 3600;
 	if (options->permit_root_login == PERMIT_NOT_SET)
-		options->permit_root_login = PERMIT_YES;
+		options->permit_root_login = PERMIT_NO;
 	if (options->ignore_rhosts == -1)
 		options->ignore_rhosts = 1;
 	if (options->ignore_user_known_hosts == -1)
@@ -148,7 +143,7 @@ fill_default_server_options(ServerOptions *options)
 	if (options->x11_use_localhost == -1)
 		options->x11_use_localhost = 1;
 	if (options->xauth_location == NULL)
-		options->xauth_location = _PATH_XAUTH;
+		options->xauth_location = (char *)_PATH_XAUTH;
 	if (options->strict_modes == -1)
 		options->strict_modes = 1;
 	if (options->tcp_keep_alive == -1)
@@ -167,18 +162,6 @@ fill_default_server_options(ServerOptions *options)
 		options->rsa_authentication = 1;
 	if (options->pubkey_authentication == -1)
 		options->pubkey_authentication = 1;
-	if (options->kerberos_authentication == -1)
-		options->kerberos_authentication = 0;
-	if (options->kerberos_or_local_passwd == -1)
-		options->kerberos_or_local_passwd = 1;
-	if (options->kerberos_ticket_cleanup == -1)
-		options->kerberos_ticket_cleanup = 1;
-	if (options->kerberos_get_afs_token == -1)
-		options->kerberos_get_afs_token = 0;
-	if (options->gss_authentication == -1)
-		options->gss_authentication = 0;
-	if (options->gss_cleanup_creds == -1)
-		options->gss_cleanup_creds = 1;
 	if (options->password_authentication == -1)
 		options->password_authentication = 1;
 	if (options->kbd_interactive_authentication == -1)
@@ -216,10 +199,10 @@ fill_default_server_options(ServerOptions *options)
 		if (options->authorized_keys_file != NULL)
 			options->authorized_keys_file2 = options->authorized_keys_file;
 		else
-			options->authorized_keys_file2 = _PATH_SSH_USER_PERMITTED_KEYS2;
+			options->authorized_keys_file2 = (char *)_PATH_SSH_USER_PERMITTED_KEYS2;
 	}
 	if (options->authorized_keys_file == NULL)
-		options->authorized_keys_file = _PATH_SSH_USER_PERMITTED_KEYS;
+		options->authorized_keys_file = (char *)_PATH_SSH_USER_PERMITTED_KEYS;
 	if (options->permit_tun == -1)
 		options->permit_tun = SSH_TUNMODE_NO;
 
@@ -234,9 +217,7 @@ typedef enum {
 	sPort, sHostKeyFile, sServerKeyBits, sLoginGraceTime, sKeyRegenerationTime,
 	sPermitRootLogin, sLogFacility, sLogLevel,
 	sRhostsRSAAuthentication, sRSAAuthentication,
-	sKerberosAuthentication, sKerberosOrLocalPasswd, sKerberosTicketCleanup,
-	sKerberosGetAFSToken,
-	sKerberosTgtPassing, sChallengeResponseAuthentication,
+	sChallengeResponseAuthentication,
 	sPasswordAuthentication, sKbdInteractiveAuthentication,
 	sListenAddress, sAddressFamily,
 	sPrintMotd, sPrintLastLog, sIgnoreRhosts,
@@ -250,7 +231,7 @@ typedef enum {
 	sBanner, sUseDNS, sHostbasedAuthentication,
 	sHostbasedUsesNameFromPacketOnly, sClientAliveInterval,
 	sClientAliveCountMax, sAuthorizedKeysFile, sAuthorizedKeysFile2,
-	sGssAuthentication, sGssCleanupCreds, sAcceptEnv, sPermitTunnel,
+	sAcceptEnv, sPermitTunnel,
 	sUsePrivilegeSeparation,
 	sDeprecated, sUnsupported
 } ServerOpCodes;
@@ -277,26 +258,6 @@ static struct {
 	{ "rsaauthentication", sRSAAuthentication },
 	{ "pubkeyauthentication", sPubkeyAuthentication },
 	{ "dsaauthentication", sPubkeyAuthentication },			/* alias */
-#ifdef KRB5
-	{ "kerberosauthentication", sKerberosAuthentication },
-	{ "kerberosorlocalpasswd", sKerberosOrLocalPasswd },
-	{ "kerberosticketcleanup", sKerberosTicketCleanup },
-	{ "kerberosgetafstoken", sKerberosGetAFSToken },
-#else
-	{ "kerberosauthentication", sUnsupported },
-	{ "kerberosorlocalpasswd", sUnsupported },
-	{ "kerberosticketcleanup", sUnsupported },
-	{ "kerberosgetafstoken", sUnsupported },
-#endif
-	{ "kerberostgtpassing", sUnsupported },
-	{ "afstokenpassing", sUnsupported },
-#ifdef GSSAPI
-	{ "gssapiauthentication", sGssAuthentication },
-	{ "gssapicleanupcredentials", sGssCleanupCreds },
-#else
-	{ "gssapiauthentication", sUnsupported },
-	{ "gssapicleanupcredentials", sUnsupported },
-#endif
 	{ "passwordauthentication", sPasswordAuthentication },
 	{ "kbdinteractiveauthentication", sKbdInteractiveAuthentication },
 	{ "challengeresponseauthentication", sChallengeResponseAuthentication },
@@ -611,30 +572,6 @@ parse_flag:
 
 	case sPubkeyAuthentication:
 		intptr = &options->pubkey_authentication;
-		goto parse_flag;
-
-	case sKerberosAuthentication:
-		intptr = &options->kerberos_authentication;
-		goto parse_flag;
-
-	case sKerberosOrLocalPasswd:
-		intptr = &options->kerberos_or_local_passwd;
-		goto parse_flag;
-
-	case sKerberosTicketCleanup:
-		intptr = &options->kerberos_ticket_cleanup;
-		goto parse_flag;
-
-	case sKerberosGetAFSToken:
-		intptr = &options->kerberos_get_afs_token;
-		goto parse_flag;
-
-	case sGssAuthentication:
-		intptr = &options->gss_authentication;
-		goto parse_flag;
-
-	case sGssCleanupCreds:
-		intptr = &options->gss_cleanup_creds;
 		goto parse_flag;
 
 	case sPasswordAuthentication:

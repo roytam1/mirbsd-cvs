@@ -125,11 +125,11 @@ smpprobe(void)
 #if DEBUG
 	if (debug)
 		printf("Floating Structure:\n"
-		    "\tSignature: %x\n"
-		    "\tConfig at: %x\n"
+		    "\tSignature: %X\n"
+		    "\tConfig at: %X\n"
 		    "\tLength: %d\n"
 		    "\tRev: 1.%d\n"
-		    "\tFeature: %x %x %x %x %x\n",
+		    "\tFeature: %X %X %X %X %X\n",
 		    mp->signature, mp->conf_addr, mp->length, mp->spec_rev,
 		    mp->feature[0], mp->feature[1], mp->feature[2],
 		    mp->feature[3], mp->feature[4]);

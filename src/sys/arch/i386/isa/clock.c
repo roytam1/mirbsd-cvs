@@ -1,7 +1,9 @@
+/**	$MirOS: src/sys/arch/i386/isa/clock.c,v 1.7 2005/12/15 03:07:44 tg Exp $ */
 /*	$OpenBSD: clock.c,v 1.31 2004/02/27 21:07:49 grange Exp $	*/
 /*	$NetBSD: clock.c,v 1.39 1996/05/12 23:11:54 mycroft Exp $	*/
 
 /*-
+ * Copyright (c) 2004, 2005 Thorsten Glaser.
  * Copyright (c) 1993, 1994 Charles Hannum.
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
@@ -85,7 +87,6 @@ WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 /*
  * Primitive clock interrupt routines.
  */
-#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/systm.h>
 #include <sys/time.h>
@@ -98,12 +99,13 @@ WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 #include <machine/pio.h>
 #include <machine/cpufunc.h>
 
-#include <dev/clock_subr.h>
 #include <dev/isa/isareg.h>
 #include <dev/isa/isavar.h>
 #include <dev/ic/mc146818reg.h>
 #include <i386/isa/nvram.h>
 #include <i386/isa/timerreg.h>
+
+#include <lib/libkern/taitime.h>
 
 #include "pcppi.h"
 #if (NPCPPI > 0)
@@ -153,6 +155,8 @@ int clock_broken_latch;
 
 #define	SECMIN	((unsigned)60)			/* seconds per minute */
 #define	SECHOUR	((unsigned)(60*SECMIN))		/* seconds per hour */
+#define	SECDAY	((unsigned long)86400)
+#define	SECYR	((unsigned long)SECDAY * 365)
 
 u_int
 mc146818_read(sc, reg)
@@ -187,7 +191,7 @@ mc146818_write(sc, reg, datum)
 }
 
 void
-startrtclock()
+startrtclock(void)
 {
 	int s;
 
@@ -197,7 +201,7 @@ startrtclock()
 
 	/* Check diagnostic status */
 	if ((s = mc146818_read(NULL, NVRAM_DIAG)) != 0)	/* XXX softc */
-		printf("RTC BIOS diagnostic error %b\n", (unsigned int) s, 
+		printf("RTC BIOS diagnostic error %d %s\n", (unsigned int) s,
 		    NVRAM_DIAG_BITS);
 }
 
@@ -209,16 +213,16 @@ rtcdrain(void *v)
 	if (to != NULL)
 		timeout_del(to);
 
-	/* 
-	 * Drain any un-acknowledged RTC interrupts. 
-	 * See comment in cpu_initclocks(). 
+	/*
+	 * Drain any un-acknowledged RTC interrupts.
+	 * See comment in cpu_initclocks().
 	 */
   	while (mc146818_read(NULL, MC_REGC) & MC_REGC_PF)
 		; /* Nothing. */
 }
 
 void
-initrtclock()
+initrtclock(void)
 {
 	/* initialize 8253 clock */
 	outb(TIMER_MODE, TIMER_SEL0|TIMER_RATEGEN|TIMER_16BIT);
@@ -229,8 +233,7 @@ initrtclock()
 }
 
 int
-clockintr(arg)
-	void *arg;
+clockintr(void *arg)
 {
 	struct clockframe *frame = arg;		/* not strictly necessary */
 
@@ -239,14 +242,13 @@ clockintr(arg)
 }
 
 int
-rtcintr(arg)
-	void *arg;
+rtcintr(void *arg)
 {
 	struct clockframe *frame = arg;		/* not strictly necessary */
 	u_int stat = 0;
 
-	/* 
-	 * If rtcintr is 'late', next intr may happen immediately. 
+	/*
+	 * If rtcintr is 'late', next intr may happen immediately.
 	 * Get them all. (Also, see comment in cpu_initclocks().)
 	 */
 	while (mc146818_read(NULL, MC_REGC) & MC_REGC_PF) {
@@ -257,7 +259,7 @@ rtcintr(arg)
 }
 
 int
-gettick()
+gettick(void)
 {
 
 #if defined(I586_CPU) || defined(I686_CPU)
@@ -331,8 +333,7 @@ gettick()
  * wave' mode counts at 2:1).
  */
 void
-delay(n)
-	int n;
+delay(int n)
 {
 	int limit, tick, otick;
 
@@ -410,8 +411,7 @@ sysbeepattach(parent, self, aux)
 #endif
 
 void
-sysbeep(pitch, period)
-	int pitch, period;
+sysbeep(int pitch, int period)
 {
 #if (NPCPPI > 0)
 	if (ppi_attached)
@@ -424,7 +424,7 @@ unsigned int delaycount;	/* calibrated loop variable (1 millisecond) */
 #define FIRST_GUESS   0x2000
 
 void
-findcpuspeed()
+findcpuspeed(void)
 {
 	int i;
 	int remainder;
@@ -446,19 +446,31 @@ findcpuspeed()
 
 #if defined(I586_CPU) || defined(I686_CPU)
 void
-calibrate_cyclecounter()
+calibrate_cyclecounter(void)
 {
-	unsigned long long count, last_count;
+	unsigned long long last_count;
+	/* XXX this is a hack, we'd better do precision timekeeping */
+	struct timeval tv;
+
+	disable_intr();
+	tv = time;
+	enable_intr();
+	/* it's probably not exactly one second, but pretty good */
+	tv.tv_sec++;
 
 	__asm __volatile("rdtsc" : "=A" (last_count));
 	delay(1000000);
-	__asm __volatile("rdtsc" : "=A" (count));
-	pentium_mhz = ((count - last_count) + 500000) / 1000000;
+	__asm __volatile("rdtsc" : "=A" (pentium_base_tsc));
+	pentium_mhz = ((pentium_base_tsc - last_count) + 500000) / 1000000;
+
+	disable_intr();
+	time = tv;
+	enable_intr();
 }
 #endif
 
 void
-cpu_initclocks()
+cpu_initclocks(void)
 {
 	static struct timeout rtcdrain_timeout;
 	stathz = 128;
@@ -473,7 +485,7 @@ cpu_initclocks()
 	(void)isa_intr_establish(NULL, 8, IST_PULSE, IPL_CLOCK, rtcintr,
 	    0, "rtc");
 
-	mc146818_write(NULL, MC_REGA, MC_BASE_32_KHz | MC_RATE_128_Hz);
+	mc146818_write(NULL, MC_REGA, MC_BASE_32_kHz | MC_RATE_128_Hz);
 	mc146818_write(NULL, MC_REGB, MC_REGB_24HR | MC_REGB_PIE);
 
 	/*
@@ -490,33 +502,29 @@ cpu_initclocks()
 }
 
 int
-rtcget(regs)
-	mc_todregs *regs;
+rtcget(mc_todregs *regs)
 {
 	if ((mc146818_read(NULL, MC_REGD) & MC_REGD_VRT) == 0) /* XXX softc */
 		return (-1);
 	MC146818_GETTOD(NULL, regs);			/* XXX softc */
 	return (0);
-}	
+}
 
 void
-rtcput(regs)
-	mc_todregs *regs;
+rtcput(mc_todregs *regs)
 {
 	MC146818_PUTTOD(NULL, regs);			/* XXX softc */
 }
 
 int
-hexdectodec(n)
-	int n;
+hexdectodec(int n)
 {
 
 	return (((n >> 4) & 0x0f) * 10 + (n & 0x0f));
 }
 
 int
-dectohexdec(n)
-	int n;
+dectohexdec(int n)
 {
 
 	return ((u_char)(((n / 10) << 4) & 0xf0) | ((n % 10) & 0x0f));
@@ -529,8 +537,9 @@ static int timeset;
  * to be called at splclock()
  */
 int cmoscheck(void);
+
 int
-cmoscheck()
+cmoscheck(void)
 {
 	int i;
 	unsigned short cksum = 0;
@@ -556,9 +565,9 @@ int rtc_update_century = 0;
  * Being here, deal with the CMOS century byte.
  */
 int clock_expandyear(int);
+
 int
-clock_expandyear(clockyear)
-	int clockyear;
+clock_expandyear(int clockyear)
 {
 	int s, clockcentury, cmoscentury;
 
@@ -609,11 +618,10 @@ clock_expandyear(clockyear)
  * from a filesystem.
  */
 void
-inittodr(base)
-	time_t base;
+inittodr(time_t base)
 {
 	mc_todregs rtclk;
-	struct clock_ymdhms dt;
+	struct tm tm;
 	int s;
 
 	/*
@@ -640,16 +648,16 @@ inittodr(base)
 	}
 	splx(s);
 
-	dt.dt_sec = hexdectodec(rtclk[MC_SEC]);
-	dt.dt_min = hexdectodec(rtclk[MC_MIN]);
-	dt.dt_hour = hexdectodec(rtclk[MC_HOUR]);
-	dt.dt_day = hexdectodec(rtclk[MC_DOM]);
-	dt.dt_mon = hexdectodec(rtclk[MC_MONTH]);
-	dt.dt_year = clock_expandyear(hexdectodec(rtclk[MC_YEAR]));
-
+	tm.tm_sec = hexdectodec(rtclk[MC_SEC]);
+	tm.tm_min = hexdectodec(rtclk[MC_MIN]);
+	tm.tm_hour = hexdectodec(rtclk[MC_HOUR]);
+	tm.tm_mday = hexdectodec(rtclk[MC_DOM]);
+	tm.tm_mon = hexdectodec(rtclk[MC_MONTH]) - 1;
+	tm.tm_year = clock_expandyear(hexdectodec(rtclk[MC_YEAR])) - 1900;
+	tm.tm_gmtoff = 0;
 
 	/*
-	 * If time_t is 32 bits, then the "End of Time" is 
+	 * If time_t is 32 bits, then the "End of Time" is
 	 * Mon Jan 18 22:14:07 2038 (US/Eastern)
 	 * This code copes with RTC's past the end of time if time_t
 	 * is an int32 or less. Needed because sometimes RTCs screw
@@ -658,18 +666,23 @@ inittodr(base)
 	 * Mojo. This at least lets the user boot and fix the problem.
 	 * Note the code is self eliminating once time_t goes to 64 bits.
 	 */
+#ifdef fornow
 	if (sizeof(time_t) <= sizeof(int32_t)) {
-		if (dt.dt_year >= 2038) {
+#endif
+		if (tm.tm_year >= 2038 - 1900) {
 			printf("WARNING: RTC time at or beyond 2038.\n");
-			dt.dt_year = 2037;
+			tm.tm_year = 2037 - 1900;
 			printf("WARNING: year set back to 2037.\n");
 			printf("WARNING: CHECK AND RESET THE DATE!\n");
 		}
+#ifdef fornow
 	}
+#endif
 
-	time.tv_sec = clock_ymdhms_to_secs(&dt) + tz.tz_minuteswest * 60;
+	time.tv_sec = tz.tz_minuteswest * 60;
 	if (tz.tz_dsttime)
 		time.tv_sec -= 3600;
+	time.tv_sec += tai2timet(mjd2tai(tm2mjd(tm)));
 
 	if (base < time.tv_sec - 5*SECYR)
 		printf("WARNING: file system time much less than clock time\n");
@@ -692,10 +705,10 @@ fstime:
  * Reset the clock.
  */
 void
-resettodr()
+resettodr(void)
 {
 	mc_todregs rtclk;
-	struct clock_ymdhms dt;
+	struct tm tm;
 	int diff;
 	int century;
 	int s;
@@ -715,30 +728,29 @@ resettodr()
 	diff = tz.tz_minuteswest * 60;
 	if (tz.tz_dsttime)
 		diff -= 3600;
-	clock_secs_to_ymdhms(time.tv_sec - diff, &dt);
+	tm = mjd2tm(tai2mjd(timet2tai(time.tv_sec - diff)));
 
-	rtclk[MC_SEC] = dectohexdec(dt.dt_sec);
-	rtclk[MC_MIN] = dectohexdec(dt.dt_min);
-	rtclk[MC_HOUR] = dectohexdec(dt.dt_hour);
-	rtclk[MC_DOW] = dt.dt_wday;
-	rtclk[MC_YEAR] = dectohexdec(dt.dt_year % 100);
-	rtclk[MC_MONTH] = dectohexdec(dt.dt_mon);
-	rtclk[MC_DOM] = dectohexdec(dt.dt_day);
+	rtclk[MC_SEC] = dectohexdec(tm.tm_sec);
+	rtclk[MC_MIN] = dectohexdec(tm.tm_min);
+	rtclk[MC_HOUR] = dectohexdec(tm.tm_hour);
+	rtclk[MC_DOW] = tm.tm_wday;
+	rtclk[MC_YEAR] = dectohexdec(tm.tm_year % 100);
+	rtclk[MC_MONTH] = dectohexdec(tm.tm_mon + 1);
+	rtclk[MC_DOM] = dectohexdec(tm.tm_mday);
 	s = splclock();
 	rtcput(&rtclk);
 	if (rtc_update_century > 0) {
-		century = dectohexdec(dt.dt_year / 100);
+		century = dectohexdec(tm.tm_year / 100 + 19);
 		mc146818_write(NULL, NVRAM_CENTURY, century); /* XXX softc */
 	}
 	splx(s);
 }
 
 void
-setstatclockrate(arg)
-	int arg;
+setstatclockrate(int arg)
 {
 	if (arg == stathz)
-		mc146818_write(NULL, MC_REGA, MC_BASE_32_KHz | MC_RATE_128_Hz);
+		mc146818_write(NULL, MC_REGA, MC_BASE_32_kHz | MC_RATE_128_Hz);
 	else
-		mc146818_write(NULL, MC_REGA, MC_BASE_32_KHz | MC_RATE_1024_Hz);
+		mc146818_write(NULL, MC_REGA, MC_BASE_32_kHz | MC_RATE_1024_Hz);
 }

@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.3 2005/03/13 19:18:44 tg Exp $ */
 /*	$OpenBSD: locore.s,v 1.77.2.1 2005/02/27 00:39:58 brad Exp $	*/
 /*	$NetBSD: locore.s,v 1.145 1996/05/03 19:41:19 christos Exp $	*/
 
@@ -44,14 +45,8 @@
 
 #include <sys/errno.h>
 #include <sys/syscall.h>
-#ifdef COMPAT_SVR4
-#include <compat/svr4/svr4_syscall.h>
-#endif
 #ifdef COMPAT_LINUX
 #include <compat/linux/linux_syscall.h>
-#endif
-#ifdef COMPAT_FREEBSD
-#include <compat/freebsd/freebsd_syscall.h>
 #endif
 
 #include <machine/cputypes.h>
@@ -67,9 +62,9 @@
  * override user-land alignment before including asm.h
  */
 
-#define	ALIGN_DATA	.align  4
-#define	ALIGN_TEXT	.align  4,0x90	/* 4-byte boundaries, NOP-filled */
-#define	SUPERALIGN_TEXT	.align  16,0x90	/* 16-byte boundaries better for 486 */
+#define	ALIGN_DATA	.balign 4
+#define	ALIGN_TEXT	.balign 4,0x90	/* 4-byte boundaries, NOP-filled */
+#define	SUPERALIGN_TEXT	.balign 16,0x90	/* 16-byte boundaries better for 486 */
 #define _ALIGN_TEXT	ALIGN_TEXT
 #include <machine/asm.h>
 
@@ -148,6 +143,7 @@
 	.globl	_C_LABEL(proc0paddr), _C_LABEL(curpcb), _C_LABEL(PTDpaddr)
 	.globl	_C_LABEL(dynamic_gdt)
 	.globl	_C_LABEL(bootapiver), _C_LABEL(bootargc), _C_LABEL(bootargv)
+	.globl	_C_LABEL(rnd_bootpool)
 
 _C_LABEL(cpu):		.long	0	# are we 386, 386sx, 486, 586 or 686
 _C_LABEL(cpu_id):	.long	0	# saved from 'cpuid' instruction
@@ -207,6 +203,80 @@ start:	movw	$0x1234,0x472			# warm boot
 	/* First, reset the PSL. */
 	pushl	$PSL_MBO
 	popfl
+
+	/* Hash all of the lower memory */
+	.intel_syntax noprefix
+	pushad
+	pushfd
+/*-
+ * Copyright (c) 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (C) 1995 Mark Adler
+ *
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
+ *
+ * All advertising materials mentioning features or use of this soft-
+ * ware must display the following acknowledgement:
+ *	This product includes material provided by Thorsten Glaser.
+ *
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
+ */
+	xor	esi,esi
+	mov	ecx,1048576+65536
+	mov	edi,[RELOC(_C_LABEL(rnd_bootpool))]
+	xor	ebx,ebx
+	mov	bx,di		/* EBX = s1 (lower half) */
+	shr	edi,16		/* EDI = s2 (upper half) */
+
+	cld
+1:	jecxz	4f
+	mov	edx,5552
+	cmp	ecx,edx
+	jae	2f
+	mov	edx,ecx
+2:	sub	ecx,edx
+	/* do at most NMAX bytes at a time */
+	xor	eax,eax
+3:	lodsb
+	add	ebx,eax
+	add	edi,ebx
+	dec	edx
+	jnz	3b
+	/* s{1,2} %= BASE; */
+	push	ebp
+	mov	ebp,65521
+	/* EDX is already 0, cool */
+	xor	eax,eax
+	xchg	eax,ebx
+	div	ebp
+	xchg	ebx,edx
+	/* EDX is 0 again, cool */
+	mov	eax,edi
+	div	ebp
+	mov	edi,edx
+	pop	ebp
+	/* and loop */
+	jmp	1b
+4:	/* return */
+	shl	edi,16
+	or	edi,ebx
+	mov	[RELOC(_C_LABEL(rnd_bootpool))],edi
+	/* and out of the adler32 subroutine */
+	popfd
+	popad
+	.att_syntax
 
 	/* Find out our CPU type. */
 
@@ -659,32 +729,6 @@ _C_LABEL(esigcode):
 
 /*****************************************************************************/
 
-#ifdef COMPAT_SVR4
-NENTRY(svr4_sigcode)
-	call	*SVR4_SIGF_HANDLER(%esp)
-	leal	SVR4_SIGF_UC(%esp),%eax	# ucp (the call may have clobbered the
-					# copy at SIGF_UCP(%esp))
-#ifdef VM86
-	testl	$PSL_VM,SVR4_UC_EFLAGS(%eax)
-	jnz	1f
-#endif
-	movl	SVR4_UC_FS(%eax),%ecx
-	movl	SVR4_UC_GS(%eax),%edx
-	movw	%cx,%fs
-	movw	%dx,%gs
-1:	pushl	%eax
-	pushl	$1			# setcontext(p) == syscontext(1, p)
-	pushl	%eax			# junk to fake return address
-	movl	$SVR4_SYS_context,%eax
-	int	$0x80			# enter kernel with args on stack
-	movl	$SVR4_SYS_exit,%eax
-	int	$0x80			# exit if sigreturn fails
-	.globl	_C_LABEL(svr4_esigcode)
-_C_LABEL(svr4_esigcode):
-#endif
-
-/*****************************************************************************/
-
 #ifdef COMPAT_LINUX
 /*
  * Signal trampoline; copied to top of user stack.
@@ -708,26 +752,6 @@ NENTRY(linux_sigcode)
 	int	$0x80			# exit if sigreturn fails
 	.globl	_C_LABEL(linux_esigcode)
 _C_LABEL(linux_esigcode):
-#endif
-
-/*****************************************************************************/
-
-#ifdef COMPAT_FREEBSD
-/*
- * Signal trampoline; copied to top of user stack.
- */
-NENTRY(freebsd_sigcode)
-	call	*FREEBSD_SIGF_HANDLER(%esp)
-	leal	FREEBSD_SIGF_SC(%esp),%eax # scp (the call may have clobbered
-					# the copy at SIGF_SCP(%esp))
-	pushl	%eax
-	pushl	%eax			# junk to fake return address
-	movl	$FREEBSD_SYS_sigreturn,%eax
-	int	$0x80			# enter kernel with args on stack
-	movl	$FREEBSD_SYS_exit,%eax
-	int	$0x80			# exit if sigreturn fails
-	.globl	_C_LABEL(freebsd_esigcode)
-_C_LABEL(freebsd_esigcode):
 #endif
 
 /*****************************************************************************/
@@ -816,7 +840,17 @@ ENTRY(kcopy)
 	popl	%esi
 	xorl	%eax,%eax
 	ret
-	
+
+/*
+ * Emulate memcpy() by swapping the first two arguments and calling bcopy()
+ */
+ALTENTRY(memmove)
+ENTRY(memcpy)
+	movl	4(%esp),%ecx
+	xchg	8(%esp),%ecx
+	movl	%ecx,4(%esp)
+	/* FALLTHRU */
+
 /*
  * bcopy(caddr_t from, caddr_t to, size_t len);
  * Copy len bytes.
@@ -864,15 +898,6 @@ ENTRY(bcopy)
 	cld
 	ret
 
-/*
- * Emulate memcpy() by swapping the first two arguments and calling bcopy()
- */
-ENTRY(memcpy)
-	movl	4(%esp),%ecx
-	xchg	8(%esp),%ecx
-	movl	%ecx,4(%esp)
-	jmp	_C_LABEL(bcopy)
-
 /*****************************************************************************/
 
 /*
@@ -887,8 +912,8 @@ ENTRY(memcpy)
 ENTRY(copyout)
 	pushl	%esi
 	pushl	%edi
-	pushl	$0	
-	
+	pushl	$0
+
 	movl	16(%esp),%esi
 	movl	20(%esp),%edi
 	movl	24(%esp),%eax
@@ -988,7 +1013,7 @@ ENTRY(copyin)
 	movl	_C_LABEL(curpcb),%eax
 	pushl	$0
 	movl	$_C_LABEL(copy_fault),PCB_ONFAULT(%eax)
-	
+
 	movl	16(%esp),%esi
 	movl	20(%esp),%edi
 	movl	24(%esp),%eax

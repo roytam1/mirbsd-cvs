@@ -35,13 +35,14 @@
 #include <lib/libkern/libkern.h>
 #endif
 
-#if defined(APIWARN)
-__warn_references(strcpy,
-    "warning: strcpy() is almost always misused, please use strlcpy()");
-#endif
+__RCSID("$MirOS: src/lib/libc/string/strcpy.c,v 1.5 2005/09/22 20:16:48 tg Exp $");
+
+__warn_references(strcpy, "strcpy() is almost always misused, consider using strlcpy()");
 
 char *
-strcpy(char *to, const char *from)
+strcpy(to, from)
+	register char *to;
+	register const char *from;
 {
 	char *save = to;
 

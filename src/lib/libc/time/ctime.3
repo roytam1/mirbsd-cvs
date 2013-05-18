@@ -1,3 +1,4 @@
+.\"	$MirOS: src/lib/libc/time/ctime.3,v 1.2 2005/03/06 20:28:50 tg Exp $
 .\"	$OpenBSD: ctime.3,v 1.31 2005/07/22 03:23:37 jaredy Exp $
 .\"
 .\"
@@ -223,17 +224,17 @@ The structure (of type)
 .Li struct tm
 includes the following fields:
 .Bd -literal -offset indent
-	int tm_sec;	/* seconds (0 \- 60) */
-	int tm_min;	/* minutes (0 \- 59) */
-	int tm_hour;	/* hours (0 \- 23) */
-	int tm_mday;	/* day of month (1 \- 31) */
-	int tm_mon;	/* month of year (0 \- 11) */
-	int tm_year;	/* year \- 1900 */
-	int tm_wday;	/* day of week (Sunday = 0) */
-	int tm_yday;	/* day of year (0 \- 365) */
-	int tm_isdst;	/* is summer time in effect? */
-	long tm_gmtoff;	/* offset from UTC in seconds */
-	char *tm_zone;	/* abbreviation of timezone name */
+	int tm_sec;	 /* seconds (0 \- 60) */
+	int tm_min;	 /* minutes (0 \- 59) */
+	int tm_hour;	 /* hours (0 \- 23) */
+	int tm_mday;	 /* day of month (1 \- 31) */
+	int tm_mon;	 /* month of year (0 \- 11) */
+	int64_t tm_year; /* year \- 1900 */
+	int tm_wday;	 /* day of week (Sunday = 0) */
+	int tm_yday;	 /* day of year (0 \- 365) */
+	int tm_isdst;	 /* is summer time in effect? */
+	long tm_gmtoff;	 /* offset from UTC in seconds */
+	char *tm_zone;	 /* abbreviation of timezone name */
 .Ed
 .Pp
 The
@@ -261,12 +262,12 @@ time zone information directory
 local time zone file
 .It Pa /usr/share/zoneinfo/posixrules
 used with POSIX-style TZ's
-.It Pa /usr/share/zoneinfo/GMT
+.It Pa /usr/share/zoneinfo/UTC
 for UTC leap seconds
 .El
 .Pp
 If
-.Pa /usr/share/zoneinfo/GMT
+.Pa /usr/share/zoneinfo/UTC
 is absent,
 UTC leap seconds are loaded from
 .Pa /usr/share/zoneinfo/posixrules .

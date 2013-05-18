@@ -2149,7 +2149,7 @@ bridge_ipsec(int dir, int af, int hlen, struct mbuf *m)
 	struct tdb *tdb;
 	u_int32_t spi;
 	u_int16_t cpi;
-	int error, off, s;
+	int error, off = 0, s;
 	u_int8_t proto = 0;
 #ifdef INET
 	struct ip *ip;
@@ -2279,9 +2279,9 @@ bridge_ipsec(int dir, int af, int hlen, struct mbuf *m)
 			splx(s);
 			return (1);
 		} else {
+			splx(s);
  skiplookup:
 			/* XXX do an input policy lookup */
-			splx(s);
 			return (0);
 		}
 	} else { /* Outgoing from the bridge. */
@@ -2670,7 +2670,7 @@ bridge_send_icmp_err(struct bridge_softc *sc, struct ifnet *ifp,
 		m_freem(n);
 		return;
 	}
-	m = icmp_do_error(n, type, code, 0, ifp->if_mtu);
+	m = icmp_do_error(n, type, code, 0, ifp);
 	if (m == NULL) {
 		m_freem(n2);
 		return;

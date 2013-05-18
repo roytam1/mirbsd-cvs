@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.64 2004/08/23 14:26:39 dtucker Exp $
+# $MirOS: src/usr.bin/ssh/sshd/Makefile,v 1.2 2005/03/13 18:33:36 tg Exp $
+# $OpenBSD: Makefile,v 1.64 2004/08/23 14:26:39 dtucker Exp $
 
 .PATH:		${.CURDIR}/..
 
@@ -7,7 +8,7 @@ BINOWN=	root
 BINMODE=555
 BINDIR=	/usr/sbin
 MAN=	sshd.8 sshd_config.5
-CFLAGS+=-DHAVE_LOGIN_CAP -DBSD_AUTH
+CPPFLAGS+=	-DHAVE_LOGIN_CAP -DBSD_AUTH
 
 SRCS=	sshd.c auth-rhosts.c auth-passwd.c auth-rsa.c auth-rh-rsa.c \
 	sshpty.c sshlogin.c servconf.c serverloop.c \
@@ -18,31 +19,7 @@ SRCS=	sshd.c auth-rhosts.c auth-passwd.c auth-rsa.c auth-rh-rsa.c \
 	monitor_mm.c monitor.c monitor_wrap.c \
 	kexdhs.c kexgexs.c
 
-.include <bsd.own.mk> # for KERBEROS and AFS
-
-.if (${KERBEROS5:L} == "yes")
-CFLAGS+=-DKRB5 -I${DESTDIR}/usr/include/kerberosV -DGSSAPI
-SRCS+=  auth-krb5.c auth2-gss.c gss-serv.c gss-serv-krb5.c
-.endif
-
-.include <bsd.prog.mk>
-
-.if (${KERBEROS5:L} == "yes")
-LDADD+= -lgssapi -lkrb5 -lkafs
-DPADD+= ${LIBGSSAPI} ${LIBKRB5}
-.endif
-
 DPADD+=	${LIBCRYPTO} ${LIBUTIL} ${LIBZ} ${LIBDES}
 LDADD+=	-lcrypto -lutil -lz -ldes
 
-.if (${TCP_WRAPPERS:L} == "yes")
-CFLAGS+= -DLIBWRAP
-DPADD+= ${LIBWRAP}
-LDADD+= -lwrap
-.endif
-
-#.if (${SKEY:L} == "yes")
-#CFLAGS+= -DSKEY
-#DPADD+= ${SKEY}
-#LDADD+= -lskey
-#.endif
+.include <bsd.prog.mk>

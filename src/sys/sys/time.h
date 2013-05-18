@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: time.h,v 1.17 2003/08/14 05:34:47 kevlo Exp $	*/
 /*	$NetBSD: time.h,v 1.18 1996/04/23 10:29:33 mycroft Exp $	*/
 
@@ -42,17 +43,20 @@
  * and used in other calls.
  */
 struct timeval {
-	long	tv_sec;		/* seconds */
+	time_t	tv_sec;		/* seconds */
 	long	tv_usec;	/* and microseconds */
 };
 
 /*
  * Structure defined by POSIX.1b to be like a timeval.
  */
+#ifndef __TIMESPEC_DECLARED
 struct timespec {
 	time_t	tv_sec;		/* seconds */
 	long	tv_nsec;	/* and nanoseconds */
 };
+#define	__TIMESPEC_DECLARED
+#endif
 
 #define	TIMEVAL_TO_TIMESPEC(tv, ts) {					\
 	(ts)->tv_sec = (tv)->tv_sec;					\

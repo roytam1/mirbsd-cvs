@@ -1052,7 +1052,7 @@ ike_phase_1_recv_ID(struct message *msg)
 		}
 
 		/* Compare expected/desired and received remote ID */
-		if (bcmp(rid, payload->p + ISAKMP_ID_DATA_OFF, sz)) {
+		if (memcmp(rid, payload->p + ISAKMP_ID_DATA_OFF, sz)) {
 			free(rid);
 			log_print("ike_phase_1_recv_ID: "
 			    "received remote ID other than expected %s", p);

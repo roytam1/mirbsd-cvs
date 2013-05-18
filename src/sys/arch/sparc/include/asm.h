@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/arch/sparc/include/asm.h,v 1.2 2005/03/06 21:27:17 tg Exp $ */
 /*	$OpenBSD: asm.h,v 1.4 2003/06/04 22:08:17 deraadt Exp $	*/
 /*	$NetBSD: asm.h,v 1.5 1997/07/16 15:16:43 christos Exp $ */
 
@@ -103,22 +104,13 @@
 #define	_ENTRY(name) \
 	.align 4; .globl name; .proc 1; FTYPE(name); name:
 
-#ifdef GPROF
-#define _PROF_PROLOGUE \
-	.data; .align 4; 1: .long 0; \
-	.text; save %sp,-96,%sp; sethi %hi(1b),%o0; call mcount; \
-	or %o0,%lo(1b),%o0; restore
-#else
-#define _PROF_PROLOGUE
-#endif
-
-#define ENTRY(name)		_ENTRY(_C_LABEL(name)); _PROF_PROLOGUE
-#define	ASENTRY(name)		_ENTRY(_ASM_LABEL(name)); _PROF_PROLOGUE
+#define ENTRY(name)		_ENTRY(_C_LABEL(name))
+#define	ASENTRY(name)		_ENTRY(_ASM_LABEL(name))
 #define	FUNC(name)		ASENTRY(name)
 
 
 #define ASMSTR			.asciz
 
-#define RCSID(name)		.asciz name
+#define RCSID(x)		.section .comment; .asciz x; .previous
 
 #endif /* _ASM_H_ */

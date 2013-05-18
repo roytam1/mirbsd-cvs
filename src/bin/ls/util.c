@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: util.c,v 1.12 2005/03/24 22:53:15 jmc Exp $	*/
 /*	$NetBSD: util.c,v 1.12 1995/09/07 06:43:02 jtc Exp $	*/
 
@@ -33,14 +34,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)util.c	8.5 (Berkeley) 4/28/95";
-#else
-static char rcsid[] = "$OpenBSD: util.c,v 1.12 2005/03/24 22:53:15 jmc Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -52,6 +45,9 @@ static char rcsid[] = "$OpenBSD: util.c,v 1.12 2005/03/24 22:53:15 jmc Exp $";
 
 #include "ls.h"
 #include "extern.h"
+
+__SCCSID("@(#)util.c	8.5 (Berkeley) 4/28/95");
+__RCSID("$OpenBSD: util.c,v 1.10 2003/07/29 00:24:15 deraadt Exp $");
 
 int
 putname(char *name)
@@ -67,7 +63,7 @@ void
 usage(void)
 {
 	(void)fprintf(stderr,
-	    "usage: %s [-1AaCcdFfghikLlmnopqRrSsTtuWx] [file ...]\n",
+	    "usage: %s [-1AaCcdFfgikLlmnopqRrSsTtuWx] [file ...]\n",
 	    __progname);
 	exit(1);
 }

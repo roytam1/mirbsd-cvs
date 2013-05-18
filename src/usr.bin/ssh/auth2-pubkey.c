@@ -24,8 +24,8 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/auth2-pubkey.c,v 1.3 2006/02/22 01:23:48 tg Exp $");
 
-#include <sys/types.h>
 #include <sys/stat.h>
 
 #include "ssh.h"
@@ -254,7 +254,7 @@ user_key_allowed2(struct passwd *pw, Key *key, char *file)
 	return found_key;
 }
 
-/* check whether given key is in .ssh/authorized_keys* */
+/* check whether given key is in .etc/ssh/authorized_keys* */
 int
 user_key_allowed(struct passwd *pw, Key *key)
 {

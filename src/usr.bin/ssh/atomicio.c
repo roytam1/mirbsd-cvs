@@ -27,6 +27,7 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/atomicio.c,v 1.2 2006/02/22 02:16:43 tg Exp $");
 
 #include "atomicio.h"
 

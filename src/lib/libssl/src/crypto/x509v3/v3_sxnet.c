@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* v3_sxnet.c */
 /* Written by Dr Stephen N Henson (shenson@bigfoot.com) for the OpenSSL
  * project 1999.
@@ -10,7 +12,7 @@
  * are met:
  *
  * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer. 
+ *    notice, this list of conditions and the following disclaimer.
  *
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in
@@ -76,7 +78,7 @@ X509V3_EXT_METHOD v3_sxnet = {
 NID_sxnet, X509V3_EXT_MULTILINE, ASN1_ITEM_ref(SXNET),
 0,0,0,0,
 0,0,
-0, 
+0,
 #ifdef SXNET_TEST
 (X509V3_EXT_V2I)sxnet_v2i,
 #else
@@ -109,7 +111,7 @@ static int sxnet_i2r(X509V3_EXT_METHOD *method, SXNET *sx, BIO *out,
 	SXNETID *id;
 	int i;
 	v = ASN1_INTEGER_get(sx->version);
-	BIO_printf(out, "%*sVersion: %d (0x%X)", indent, "", v + 1, v);
+	BIO_printf(out, "%*sVersion: %ld (0x%lX)", indent, "", v + 1, v);
 	for(i = 0; i < sk_SXNETID_num(sx->ids); i++) {
 		id = sk_SXNETID_value(sx->ids, i);
 		tmp = i2s_ASN1_INTEGER(NULL, id->zone);
@@ -141,8 +143,8 @@ static SXNET * sxnet_v2i(X509V3_EXT_METHOD *method, X509V3_CTX *ctx,
 	}
 	return sx;
 }
-		
-	
+
+
 #endif
 
 /* Strong Extranet utility functions */
@@ -172,7 +174,7 @@ int SXNET_add_id_ulong(SXNET **psx, unsigned long lzone, char *user,
 		return 0;
 	}
 	return SXNET_add_id_INTEGER(psx, izone, user, userlen);
-	
+
 }
 
 /* Add an id given the zone as an ASN1_INTEGER.
@@ -206,12 +208,12 @@ int SXNET_add_id_INTEGER(SXNET **psx, ASN1_INTEGER *zone, char *user,
 
 	if(!(id = SXNETID_new())) goto err;
 	if(userlen == -1) userlen = strlen(user);
-		
+
 	if(!M_ASN1_OCTET_STRING_set(id->user, user, userlen)) goto err;
 	if(!sk_SXNETID_push(sx->ids, id)) goto err;
 	id->zone = zone;
 	return 1;
-	
+
 	err:
 	X509V3err(X509V3_F_SXNET_ADD_ID_INTEGER,ERR_R_MALLOC_FAILURE);
 	SXNETID_free(id);

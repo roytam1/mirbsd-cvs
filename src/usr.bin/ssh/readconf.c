@@ -13,8 +13,8 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.10 2006/04/19 10:40:50 tg Exp $");
 
-#include <sys/types.h>
 #include <sys/stat.h>
 
 #include <ctype.h>
@@ -88,7 +88,7 @@
      RhostsRSAAuthentication yes
      StrictHostKeyChecking yes
      TcpKeepAlive no
-     IdentityFile ~/.ssh/identity
+     IdentityFile ~/.etc/ssh/identity
      Port 22
      EscapeChar ~
 
@@ -113,7 +113,7 @@ typedef enum {
 	oHostKeyAlgorithms, oBindAddress, oSmartcardDevice,
 	oClearAllForwardings, oNoHostAuthenticationForLocalhost,
 	oEnableSSHKeysign, oRekeyLimit, oVerifyHostKeyDNS, oConnectTimeout,
-	oAddressFamily, oGssAuthentication, oGssDelegateCreds,
+	oAddressFamily,
 	oServerAliveInterval, oServerAliveCountMax, oIdentitiesOnly,
 	oSendEnv, oControlPath, oControlMaster, oHashKnownHosts,
 	oTunnel, oTunnelDevice, oLocalCommand, oPermitLocalCommand,
@@ -144,16 +144,6 @@ static struct {
 	{ "challengeresponseauthentication", oChallengeResponseAuthentication },
 	{ "skeyauthentication", oChallengeResponseAuthentication }, /* alias */
 	{ "tisauthentication", oChallengeResponseAuthentication },  /* alias */
-	{ "kerberosauthentication", oUnsupported },
-	{ "kerberostgtpassing", oUnsupported },
-	{ "afstokenpassing", oUnsupported },
-#if defined(GSSAPI)
-	{ "gssapiauthentication", oGssAuthentication },
-	{ "gssapidelegatecredentials", oGssDelegateCreds },
-#else
-	{ "gssapiauthentication", oUnsupported },
-	{ "gssapidelegatecredentials", oUnsupported },
-#endif
 	{ "fallbacktorsh", oDeprecated },
 	{ "usersh", oDeprecated },
 	{ "identityfile", oIdentityFile },
@@ -415,14 +405,6 @@ parse_flag:
 
 	case oChallengeResponseAuthentication:
 		intptr = &options->challenge_response_authentication;
-		goto parse_flag;
-
-	case oGssAuthentication:
-		intptr = &options->gss_authentication;
-		goto parse_flag;
-
-	case oGssDelegateCreds:
-		intptr = &options->gss_deleg_creds;
 		goto parse_flag;
 
 	case oBatchMode:
@@ -714,7 +696,7 @@ parse_int:
 			fatal("%.200s line %d: Missing port argument.",
 			    filename, linenum);
 		memset(&fwd, '\0', sizeof(fwd));
-		fwd.connect_host = "socks";
+		fwd.connect_host = (char *)"socks";
 		fwd.listen_host = hpdelim(&arg);
 		if (fwd.listen_host == NULL ||
 		    strlen(fwd.listen_host) >= NI_MAXHOST)
@@ -988,8 +970,6 @@ initialize_options(Options * options)
 	options->rsa_authentication = -1;
 	options->pubkey_authentication = -1;
 	options->challenge_response_authentication = -1;
-	options->gss_authentication = -1;
-	options->gss_deleg_creds = -1;
 	options->password_authentication = -1;
 	options->kbd_interactive_authentication = -1;
 	options->kbd_interactive_devices = NULL;
@@ -1063,7 +1043,7 @@ fill_default_options(Options * options)
 	if (options->forward_x11_trusted == -1)
 		options->forward_x11_trusted = 0;
 	if (options->xauth_location == NULL)
-		options->xauth_location = _PATH_XAUTH;
+		options->xauth_location = (char *)_PATH_XAUTH;
 	if (options->gateway_ports == -1)
 		options->gateway_ports = 0;
 	if (options->use_privileged_port == -1)
@@ -1074,10 +1054,6 @@ fill_default_options(Options * options)
 		options->pubkey_authentication = 1;
 	if (options->challenge_response_authentication == -1)
 		options->challenge_response_authentication = 1;
-	if (options->gss_authentication == -1)
-		options->gss_authentication = 0;
-	if (options->gss_deleg_creds == -1)
-		options->gss_deleg_creds = 0;
 	if (options->password_authentication == -1)
 		options->password_authentication = 1;
 	if (options->kbd_interactive_authentication == -1)
@@ -1139,13 +1115,13 @@ fill_default_options(Options * options)
 	if (options->escape_char == -1)
 		options->escape_char = '~';
 	if (options->system_hostfile == NULL)
-		options->system_hostfile = _PATH_SSH_SYSTEM_HOSTFILE;
+		options->system_hostfile = (char *)_PATH_SSH_SYSTEM_HOSTFILE;
 	if (options->user_hostfile == NULL)
-		options->user_hostfile = _PATH_SSH_USER_HOSTFILE;
+		options->user_hostfile = (char *)_PATH_SSH_USER_HOSTFILE;
 	if (options->system_hostfile2 == NULL)
-		options->system_hostfile2 = _PATH_SSH_SYSTEM_HOSTFILE2;
+		options->system_hostfile2 = (char *)_PATH_SSH_SYSTEM_HOSTFILE2;
 	if (options->user_hostfile2 == NULL)
-		options->user_hostfile2 = _PATH_SSH_USER_HOSTFILE2;
+		options->user_hostfile2 = (char *)_PATH_SSH_USER_HOSTFILE2;
 	if (options->log_level == SYSLOG_LEVEL_NOT_SET)
 		options->log_level = SYSLOG_LEVEL_INFO;
 	if (options->clear_forwardings == 1)

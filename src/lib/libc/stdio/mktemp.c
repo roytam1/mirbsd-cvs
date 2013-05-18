@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libc/stdio/mktemp.c,v 1.3 2005/09/22 20:13:05 tg Exp $ */
 /*	$OpenBSD: mktemp.c,v 1.19 2005/08/08 08:05:36 espie Exp $ */
 /*
  * Copyright (c) 1987, 1993
@@ -37,6 +38,8 @@
 #include <ctype.h>
 #include <unistd.h>
 
+__RCSID("$MirOS: src/lib/libc/stdio/mktemp.c,v 1.3 2005/09/22 20:13:05 tg Exp $");
+
 static int _gettemp(char *, int *, int, int);
 
 int
@@ -69,8 +72,10 @@ _mktemp(char *path)
 	return(_gettemp(path, (int *)NULL, 0, 0) ? path : (char *)NULL);
 }
 
+#ifdef __warn_references
 __warn_references(mktemp,
-    "warning: mktemp() possibly used unsafely; consider using mkstemp()");
+    "mktemp() possibly used unsafely; consider using mkstemp()");
+#endif
 
 char *
 mktemp(char *path)
@@ -109,7 +114,12 @@ _gettemp(char *path, int *doopen, int domkdir, int slen)
 	while (trv >= path && *trv == 'X') {
 		char c;
 
+#ifdef __INTERIX
+		srandom(getpid() * time(NULL));
+		pid = (random() & 0xffff) % (26+26);
+#else
 		pid = (arc4random() & 0xffff) % (26+26);
+#endif
 		if (pid < 26)
 			c = pid + 'A';
 		else

@@ -1,5 +1,8 @@
+.\"	$MirOS: src/bin/md5/cksum.1,v 1.9 2006/05/26 11:55:16 tg Exp $
 .\"	$OpenBSD: cksum.1,v 1.5 2005/03/07 23:41:53 jmc Exp $
 .\"
+.\" Copyright (c) 2006
+.\"	Thorsten Glaser <tg@mirbsd.de>
 .\" Copyright (c) 1991, 1993
 .\"	The Regents of the University of California.  All rights reserved.
 .\"
@@ -32,7 +35,7 @@
 .\"
 .\"	@(#)cksum.1	8.2 (Berkeley) 4/28/95
 .\"
-.Dd April 30, 2004
+.Dd March 16, 2005
 .Dt CKSUM 1
 .Os
 .Sh NAME
@@ -43,9 +46,11 @@
 .Nm cksum
 .Bk -words
 .Oo
+.Oo Fl b Oc
 .Fl p | t | x |
 .Fl c Oo Ar checklist ... Oc |
 .Fl s Ar string |
+.Oo Fl b Oc
 .Ar file ...
 .Oc
 .Op Fl a Ar algorithms
@@ -64,6 +69,8 @@ The output line consists of three whitespace separated fields: a
 .Tn CRC
 checksum, the number of octets in the input,
 and name of the file or string.
+Binary output consists of two 64-bit parts,
+corresponding to the checksum and length, respectively.
 If no file name is specified, the standard input is used and no file name
 is written.
 .It sum
@@ -71,6 +78,8 @@ The output line consists of three whitespace separated fields: a
 .Tn CRC
 checksum, the number of kilobytes in the input,
 and name of the file or string.
+Binary output consists of two 64-bit parts,
+corresponding to the checksum and length, respectively.
 If no file name is specified, the standard input is used and no file name
 is written.
 .It sysvsum
@@ -78,14 +87,23 @@ The output line consists of three whitespace separated fields: a
 .Tn CRC
 checksum, the number of 512-byte blocks in the input,
 and name of the file or string.
+Binary output consists of two 64-bit parts,
+corresponding to the checksum and length, respectively.
 If no file name is specified, the standard input is used and no file name
 is written.
 .It all others
 The output line consists of four whitespace separated fields:
 the name of the algorithm used, the name of the file or string in
 parentheses, an equals sign, and the cryptographic hash of the input.
+Binary output consists of simply the sedecimal hash value, read from left
+to right (big endian), converted into bytes; the length is not encoded.
 If no file name is specified, the standard input is used and only
 the cryptographic hash is output.
+.It suma
+The output is a 33-bit
+.Tn CRC
+over the file, expressed as eight sedecimal numbers, in the above format.
+Both input processing and binary output are in little-endian convention.
 .El
 .Pp
 The
@@ -101,6 +119,7 @@ The options are as follows:
 .It Fl a Ar algorithms
 Use the specified algorithm(s) instead of the default (cksum).
 Supported algorithms include
+.Ar adler32 ,
 .Ar cksum ,
 .Ar md4 ,
 .Ar md5 ,
@@ -110,6 +129,7 @@ Supported algorithms include
 .Ar sha384 ,
 .Ar sha512 ,
 .Ar sum ,
+.Ar suma ,
 and
 .Ar sysvsum .
 Multiple algorithms may be specified, separated by a comma or whitespace.
@@ -118,6 +138,8 @@ Additionally, multiple
 options may be specified on the command line.
 If an algorithm is repeated, only the first instance is used.
 Case is ignored when matching algorithms.
+.It Fl b
+Print the checksum as binary to stdout.
 .It Fl c Op Ar checklist ...
 Compares all checksums contained in the file
 .Ar checklist
@@ -227,6 +249,12 @@ The coefficients of R(x) are considered to be a 32-bit sequence.
 The bit sequence is complemented and the result is the CRC.
 .Ed
 .Pp
+The
+.Ar suma
+CRC uses little endian 32-bit block reading conventions,
+initialisation of the CRC with an all-ones word and a
+different 33-bit polynomial.
+.Pp
 The other available algorithms are described in their respective
 man pages in section 3 of the manual.
 .Sh DIAGNOSTICS
@@ -238,7 +266,8 @@ utilities exit 0 on success or >0 if an error occurred.
 .Sh SEE ALSO
 .Xr md5 1 ,
 .Xr rmd160 1 ,
-.Xr sha1 1
+.Xr sha1 1 ,
+.Xr adler32 3
 .Pp
 The default calculation is identical to that given in pseudo-code
 in the following
@@ -267,12 +296,14 @@ utility appeared in
 .Bx 4.4 .
 .Sh WARNING
 Do not use the
+.Ar adler32 ,
 .Ar cksum ,
 .Ar md4 ,
 .Ar sum ,
+.Ar suma ,
 or
 .Ar sysvsum
 algorithms to detect hostile binary modifications.
 An attacker can trivially produce backdoored daemons which have the same
 checksum as the standard versions.
-Use a cryptographic checksum instead.
+Use a cryptographically strong checksum (such as RIPEMD-160) instead.

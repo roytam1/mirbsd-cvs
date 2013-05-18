@@ -1,7 +1,9 @@
+/**	$MirOS: src/sys/dev/ramdisk.c,v 1.2 2005/03/06 21:27:35 tg Exp $ */
 /*	$OpenBSD: ramdisk.c,v 1.26 2005/06/30 23:49:08 miod Exp $	*/
 /*	$NetBSD: ramdisk.c,v 1.8 1996/04/12 08:30:09 leo Exp $	*/
 
 /*
+ * Copyright (c) 2004 Thorsten "mirabile" Glaser.
  * Copyright (c) 1995 Gordon W. Ross, Leo Weppelman.
  * All rights reserved.
  *
@@ -99,10 +101,10 @@ struct rd_softc {
 
 void rdattach(int);
 void rd_attach(struct device *, struct device *, void *);
-void rdgetdisklabel(struct rd_softc *sc);
+void rdgetdisklabel(struct rd_softc *);
 
 /*
- * Some ports (like i386) use a swapgeneric that wants to
+ * Some ports (such as i386) use a swapgeneric that wants to
  * snoop around in this rd_cd structure.  It is preserved
  * (for now) to remain compatible with such practice.
  * XXX - that practice is questionable...
@@ -111,18 +113,17 @@ struct cfdriver rd_cd = {
 	NULL, "rd", DV_DULL
 };
 
-void rdstrategy(struct buf *bp);
-struct dkdriver rddkdriver = { rdstrategy };
+void rdstrategy(struct buf *);
+struct dkdriver rddkdriver = {rdstrategy};
 
-int   ramdisk_ndevs;
+int ramdisk_ndevs;
 void *ramdisk_devs[RD_MAX_UNITS];
 
 /*
  * This is called if we are configured as a pseudo-device
  */
 void
-rdattach(n)
-	int n;
+rdattach(int n)
 {
 	struct rd_softc *sc;
 	int i;
@@ -143,7 +144,7 @@ rdattach(n)
 
 	/* XXX: Fake-up rd_cd (see above) */
 	rd_cd.cd_ndevs = ramdisk_ndevs;
-	rd_cd.cd_devs  = ramdisk_devs;
+	rd_cd.cd_devs = ramdisk_devs;
 
 	/* Attach as if by autoconfig. */
 	for (i = 0; i < n; i++) {
@@ -162,9 +163,7 @@ rdattach(n)
 }
 
 void
-rd_attach(parent, self, aux)
-	struct device	*parent, *self;
-	void		*aux;
+rd_attach(struct device *parent, struct device *self, void *aux)
 {
 	struct rd_softc *sc = (struct rd_softc *)self;
 
@@ -193,12 +192,14 @@ rd_attach(parent, self, aux)
  */
 
 #if RAMDISK_SERVER
-int rd_server_loop(struct rd_softc *sc);
-int rd_ioctl_server(struct rd_softc *sc,
-		struct rd_conf *urd, struct proc *proc);
+int rd_server_loop(struct rd_softc *);
+int 
+rd_ioctl_server(struct rd_softc *,
+    struct rd_conf *, struct proc *);
 #endif
-int rd_ioctl_kalloc(struct rd_softc *sc,
-		struct rd_conf *urd, struct proc *proc);
+int 
+rd_ioctl_kalloc(struct rd_softc *,
+    struct rd_conf *, struct proc *);
 
 dev_type_open(rdopen);
 dev_type_close(rdclose);
@@ -209,11 +210,7 @@ dev_type_size(rdsize);
 dev_type_dump(rddump);
 
 int
-rddump(dev, blkno, va, size)
-	dev_t dev;
-	daddr_t blkno;
-	caddr_t va;
-	size_t size;
+rddump(dev_t dev, daddr_t blkno, caddr_t va, size_t size)
 {
 	return ENODEV;
 }
@@ -245,10 +242,7 @@ rdsize(dev_t dev)
 }
 
 int
-rdopen(dev, flag, fmt, proc)
-	dev_t   dev;
-	int     flag, fmt;
-	struct proc *proc;
+rdopen(dev_t dev, int flag, int fmt, struct proc *proc)
 {
 	int unit;
 	struct rd_softc *sc;
@@ -283,29 +277,19 @@ rdopen(dev, flag, fmt, proc)
 }
 
 int
-rdclose(dev, flag, fmt, proc)
-	dev_t   dev;
-	int     flag, fmt;
-	struct proc *proc;
+rdclose(dev_t dev, int flag, int fmt, struct proc *proc)
 {
-
 	return 0;
 }
 
 int
-rdread(dev, uio, flags)
-	dev_t		dev;
-	struct uio	*uio;
-	int		flags;
+rdread(dev_t dev, struct uio *uio, int flags)
 {
 	return (physio(rdstrategy, NULL, dev, B_READ, minphys, uio));
 }
 
 int
-rdwrite(dev, uio, flags)
-	dev_t		dev;
-	struct uio	*uio;
-	int		flags;
+rdwrite(dev_t dev, struct uio *uio, int flags)
 {
 	return (physio(rdstrategy, NULL, dev, B_WRITE, minphys, uio));
 }
@@ -315,8 +299,7 @@ rdwrite(dev, uio, flags)
  * by passing them to the server process.
  */
 void
-rdstrategy(bp)
-	struct buf *bp;
+rdstrategy(struct buf *bp)
 {
 	int unit, part;
 	struct rd_softc *sc;
@@ -327,18 +310,20 @@ rdstrategy(bp)
 	unit = DISKUNIT(bp->b_dev);
 	sc = ramdisk_devs[unit];
 
+	if (!sc->sc_dkdev.dk_label->d_secsize)
+		rdgetdisklabel(sc);
+
 	/* Sort rogue requests out */
 	if (sc == NULL || bp->b_blkno < 0 ||
 	    (bp->b_bcount % sc->sc_dkdev.dk_label->d_secsize) != 0) {
 		bp->b_error = EINVAL;
 		goto bad;
 	}
-
 	/* Do not write on "no trespassing" areas... */
 	part = DISKPART(bp->b_dev);
 	if (part != RAW_PART &&
 	    bounds_check_with_label(bp, sc->sc_dkdev.dk_label,
-	      sc->sc_dkdev.dk_cpulabel, 1) <= 0)
+	    sc->sc_dkdev.dk_cpulabel, 1) <= 0)
 		goto bad;
 
 	switch (sc->sc_type) {
@@ -386,12 +371,7 @@ bad:
 }
 
 int
-rdioctl(dev, cmd, data, flag, proc)
-	dev_t	dev;
-	u_long	cmd;
-	int		flag;
-	caddr_t	data;
-	struct proc	*proc;
+rdioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *proc)
 {
 	int unit;
 	struct rd_softc *sc;
@@ -420,7 +400,7 @@ rdioctl(dev, cmd, data, flag, proc)
 			return EBADF;
 
 		error = setdisklabel(sc->sc_dkdev.dk_label,
-		    (struct disklabel *)data, /*sd->sc_dk.dk_openmask : */0,
+		    (struct disklabel *)data, /* sd->sc_dk.dk_openmask : */ 0,
 		    sc->sc_dkdev.dk_cpulabel);
 		if (error == 0) {
 			if (cmd == DIOCWDINFO)
@@ -428,7 +408,6 @@ rdioctl(dev, cmd, data, flag, proc)
 				    rdstrategy, sc->sc_dkdev.dk_label,
 				    sc->sc_dkdev.dk_cpulabel);
 		}
-
 		return error;
 
 	case DIOCWLABEL:
@@ -488,7 +467,6 @@ rdgetdisklabel(struct rd_softc *sc)
 		lp->d_secpercyl = 100;
 		/* as long as it's not 0 - readdisklabel divides by it (?) */
 	}
-
 	strncpy(lp->d_typename, "RAM disk", sizeof(lp->d_typename));
 	lp->d_type = DTYPE_SCSI;
 	strncpy(lp->d_packname, "fictitious", sizeof(lp->d_packname));
@@ -519,10 +497,7 @@ rdgetdisklabel(struct rd_softc *sc)
  * Just allocate some kernel memory and return.
  */
 int
-rd_ioctl_kalloc(sc, urd, proc)
-	struct rd_softc *sc;
-	struct rd_conf *urd;
-	struct proc	*proc;
+rd_ioctl_kalloc(struct rd_softc *sc, struct rd_conf *urd, struct proc *proc)
 {
 	vaddr_t addr;
 	vsize_t size;
@@ -534,35 +509,31 @@ rd_ioctl_kalloc(sc, urd, proc)
 		return ENOMEM;
 
 	/* This unit is now configured. */
-	sc->sc_addr = (caddr_t)addr; 	/* kernel space */
+	sc->sc_addr = (caddr_t)addr;	/* kernel space */
 	sc->sc_size = (size_t)size;
 	sc->sc_type = RD_KMEM_ALLOCATED;
 	return 0;
-}	
+}
 
 #if RAMDISK_SERVER
-
 /*
  * Handle ioctl RD_SETCONF for (sc_type == RD_UMEM_SERVER)
  * Set config, then become the I/O server for this unit.
  */
 int
-rd_ioctl_server(sc, urd, proc)
-	struct rd_softc *sc;
-	struct rd_conf *urd;
-	struct proc	*proc;
+rd_ioctl_server(struct rd_softc *sc, struct rd_conf *urd, struct proc *proc)
 {
 	vaddr_t end;
 	int error;
 
 	/* Sanity check addr, size. */
-	end = (vaddr_t) (urd->rd_addr + urd->rd_size);
+	end = (vaddr_t)(urd->rd_addr + urd->rd_size);
 
-	if ((end >= VM_MAXUSER_ADDRESS) || (end < ((vaddr_t) urd->rd_addr)) )
+	if ((end >= VM_MAXUSER_ADDRESS) || (end < ((vaddr_t)urd->rd_addr)))
 		return EINVAL;
 
 	/* This unit is now configured. */
-	sc->sc_addr = urd->rd_addr; 	/* user space */
+	sc->sc_addr = urd->rd_addr;	/* user space */
 	sc->sc_size = urd->rd_size;
 	sc->sc_type = RD_UMEM_SERVER;
 
@@ -575,18 +546,17 @@ rd_ioctl_server(sc, urd, proc)
 	sc->sc_size = 0;
 
 	return (error);
-}	
+}
 
-int	rd_sleep_pri = PWAIT | PCATCH;
+int rd_sleep_pri = PWAIT | PCATCH;
 
 int
-rd_server_loop(sc)
-	struct rd_softc *sc;
+rd_server_loop(struct rd_softc *sc)
 {
 	struct buf *bp;
 	caddr_t addr;	/* user space address */
-	size_t  off;	/* offset into "device" */
-	size_t  xfer;	/* amount to transfer */
+	size_t off;	/* offset into "device" */
+	size_t xfer;	/* amount to transfer */
 	int error;
 	int s;
 
@@ -624,7 +594,7 @@ rd_server_loop(sc)
 		if (!error)
 			bp->b_resid -= xfer;
 
-	done:
+done:
 		if (error) {
 			bp->b_error = error;
 			bp->b_flags |= B_ERROR;
@@ -634,5 +604,4 @@ rd_server_loop(sc)
 		splx(s);
 	}
 }
-
 #endif	/* RAMDISK_SERVER */

@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/indent/args.c,v 1.2 2005/03/13 18:33:02 tg Exp $ */
 /*	$OpenBSD: args.c,v 1.14 2004/07/20 03:50:26 deraadt Exp $	*/
 
 /*
@@ -32,23 +33,22 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-/*static char sccsid[] = "@(#)args.c	8.1 (Berkeley) 6/6/93";*/
-static char rcsid[] = "$OpenBSD: args.c,v 1.14 2004/07/20 03:50:26 deraadt Exp $";
-#endif /* not lint */
-
 /*
  * Argument scanning and profile reading code.  Default parameters are set
  * here as well.
  */
 
+#include <sys/cdefs.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
 #include <errno.h>
-#include "indent_globs.h"
 #include <err.h>
+#include "indent_globs.h"
+
+__SCCSID("@(#)args.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS: src/usr.bin/indent/args.c,v 1.2 2005/03/13 18:33:02 tg Exp $");
 
 /* profile types */
 #define	PRO_SPECIAL	1	/* special case */
@@ -99,6 +99,7 @@ struct pro {
 	{"ce", PRO_BOOL, true, ON, &cuddle_else },
 	{"ci", PRO_INT, 0, 0, &continuation_indent },
 	{"cli", PRO_SPECIAL, 0, CLI, 0 },
+	{"csp", PRO_BOOL, true, ON, &space_after_cast },
 	{"c", PRO_INT, 33, 0, &ps.com_ind },
 	{"di", PRO_INT, 16, 0, &ps.decl_indent },
 	{"dj", PRO_BOOL, false, ON, &ps.ljust_decl },
@@ -115,6 +116,7 @@ struct pro {
 	{"ip", PRO_BOOL, true, ON, &ps.indent_parameters },
 	{"i", PRO_INT, 8, 0, &ps.ind_size },
 	{"lc", PRO_INT, 0, 0, &block_comment_max_col },
+	{"lpi", PRO_BOOL, true, ON, &lineup_indent },
 	{"lp", PRO_BOOL, true, ON, &lineup_to_parens },
 	{"l", PRO_INT, 78, 0, &max_col },
 	{"nbacc", PRO_BOOL, false, OFF,
@@ -128,11 +130,13 @@ struct pro {
 	{"nbs", PRO_BOOL, false, OFF, &Bill_Shannon },
 	{"ncdb", PRO_BOOL, true, OFF, &comment_delimiter_on_blankline },
 	{"nce", PRO_BOOL, true, OFF, &cuddle_else },
+	{"ncsp", PRO_BOOL, true, OFF, &space_after_cast },
 	{"ndj", PRO_BOOL, false, OFF, &ps.ljust_decl },
 	{"neei", PRO_BOOL, false, OFF, &extra_expression_indent },
 	{"nei", PRO_BOOL, true, OFF, &ps.else_if },
 	{"nfc1", PRO_BOOL, true, OFF, &format_col1_comments },
 	{"nip", PRO_BOOL, true, OFF, &ps.indent_parameters },
+	{"nlpi", PRO_BOOL, true, OFF, &lineup_indent },
 	{"nlp", PRO_BOOL, true, OFF, &lineup_to_parens },
 	{"npcs", PRO_BOOL, false, OFF, &proc_calls_space },
 	{"npro", PRO_SPECIAL, 0, IGN, 0 },

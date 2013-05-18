@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: uvm_swap.c,v 1.58 2003/12/10 07:34:03 itojun Exp $	*/
 /*	$NetBSD: uvm_swap.c,v 1.40 2000/11/17 11:39:39 mrg Exp $	*/
 
@@ -63,7 +64,7 @@
 
 /*
  * swap space is managed in the following way:
- * 
+ *
  * each swap partition or file is described by a "swapdev" structure.
  * each "swapdev" structure contains a "swapent" structure which contains
  * information that is passed up to the user (via system calls).
@@ -74,7 +75,7 @@
  * the system maintains a global data structure describing all swap
  * partitions/files.   there is a sorted LIST of "swappri" structures
  * which describe "swapdev"'s at that priority.   this LIST is headed
- * by the "swap_priority" global var.    each "swappri" contains a 
+ * by the "swap_priority" global var.    each "swappri" contains a
  * CIRCLEQ of "swapdev" structures at that priority.
  *
  * locking:
@@ -99,7 +100,7 @@
  * userland controls and configures swap with the swapctl(2) system call.
  * the sys_swapctl performs the following operations:
  *  [1] SWAP_NSWAP: returns the number of swap devices currently configured
- *  [2] SWAP_STATS: given a pointer to an array of swapent structures 
+ *  [2] SWAP_STATS: given a pointer to an array of swapent structures
  *	(passed in via "arg") of a size passed in via "misc" ... we load
  *	the current swap config into the array.
  *  [3] SWAP_ON: given a pathname in arg (could be device or file) and a
@@ -236,7 +237,7 @@ static void		 swapdrum_add(struct swapdev *, int);
 static struct swapdev	*swapdrum_getsdp(int);
 
 static struct swapdev	*swaplist_find(struct vnode *, int);
-static void		 swaplist_insert(struct swapdev *, 
+static void		 swaplist_insert(struct swapdev *,
 					     struct swappri *, int);
 static void		 swaplist_trim(void);
 
@@ -262,7 +263,7 @@ void uvm_swap_initcrypt(struct swapdev *, int);
 /*
  * uvm_swap_init: init the swap system data structures and locks
  *
- * => called at boot time from init_main.c after the filesystems 
+ * => called at boot time from init_main.c after the filesystems
  *	are brought up (which happens after uvm_init())
  */
 void
@@ -288,7 +289,7 @@ uvm_swap_init()
 	/*
 	 * create swap block resource map to map /dev/drum.   the range
 	 * from 1 to INT_MAX allows 2 gigablocks of swap space.  note
-	 * that block 0 is reserved (used to indicate an allocation 
+	 * that block 0 is reserved (used to indicate an allocation
 	 * failure, or no allocation).
 	 */
 	swapmap = extent_create("swapmap", 1, INT_MAX,
@@ -412,7 +413,7 @@ uvm_swap_markdecrypt(struct swapdev *sdp, int startslot, int npages,
 {
 	int pagestart, i;
 	int off, bit;
-	
+
 	if (!sdp)
 		return;
 
@@ -423,7 +424,7 @@ uvm_swap_markdecrypt(struct swapdev *sdp, int startslot, int npages,
 		if (decrypt)
 			/* pages read need decryption */
 			sdp->swd_decrypt[off] |= 1 << bit;
-		else 
+		else
 			/* pages read do not need decryption */
 			sdp->swd_decrypt[off] &= ~(1 << bit);
 	}
@@ -596,7 +597,7 @@ swapdrum_getsdp(pgno)
 {
 	struct swapdev *sdp;
 	struct swappri *spp;
-	
+
 	for (spp = LIST_FIRST(&swap_priority); spp != NULL;
 	     spp = LIST_NEXT(spp, spi_swappri))
 		for (sdp = CIRCLEQ_FIRST(&spp->spi_swapdev);
@@ -642,11 +643,11 @@ sys_swapctl(p, v, retval)
 	 * ensure serialized syscall access by grabbing the swap_syscall_lock
 	 */
 	lockmgr(&swap_syscall_lock, LK_EXCLUSIVE, NULL, p);
-	
+
 	/*
 	 * we handle the non-priv NSWAP and STATS request first.
 	 *
-	 * SWAP_NSWAP: return number of config'd swap devices 
+	 * SWAP_NSWAP: return number of config'd swap devices
 	 * [can also be obtained with uvmexp sysctl]
 	 */
 	if (SCARG(uap, cmd) == SWAP_NSWAP) {
@@ -660,9 +661,9 @@ sys_swapctl(p, v, retval)
 	/*
 	 * SWAP_STATS: get stats on current # of configured swap devs
 	 *
-	 * note that the swap_priority list can't change as long 
+	 * note that the swap_priority list can't change as long
 	 * as we are holding the swap_syscall_lock.  we don't want
-	 * to grab the uvm.swap_data_lock because we may fault&sleep during 
+	 * to grab the uvm.swap_data_lock because we may fault&sleep during
 	 * copyout() and we don't want to be holding that lock then!
 	 */
 	if (SCARG(uap, cmd) == SWAP_STATS
@@ -678,7 +679,7 @@ sys_swapctl(p, v, retval)
 			for (sdp = CIRCLEQ_FIRST(&spp->spi_swapdev);
 			     sdp != (void *)&spp->spi_swapdev && misc-- > 0;
 			     sdp = CIRCLEQ_NEXT(sdp, swd_next)) {
-				sdp->swd_inuse = 
+				sdp->swd_inuse =
 				    btodb((u_int64_t)sdp->swd_npginuse <<
 				    PAGE_SHIFT);
 				error = copyout(&sdp->swd_se, sep,
@@ -710,7 +711,7 @@ sys_swapctl(p, v, retval)
 		*retval = count;
 		error = 0;
 		goto out;
-	} 
+	}
 
 	/*
 	 * all other requests require superuser privs.   verify.
@@ -1035,9 +1036,9 @@ swap_on(p, sdp)
 	}
 
 	/*
-	 * if the vnode we are swapping to is the root vnode 
+	 * if the vnode we are swapping to is the root vnode
 	 * (i.e. we are swapping to the miniroot) then we want
-	 * to make sure we don't overwrite it.   do a statfs to 
+	 * to make sure we don't overwrite it.   do a statfs to
 	 * find its size and skip over it.
 	 */
 	if (vp == rootvp) {
@@ -1052,7 +1053,7 @@ swap_on(p, sdp)
 		if (rootpages > size)
 			panic("swap_on: miniroot larger than swap?");
 
-		if (extent_alloc_region(sdp->swd_ex, addr, 
+		if (extent_alloc_region(sdp->swd_ex, addr,
 					rootpages, EX_WAITOK))
 			panic("swap_on: unable to preserve miniroot");
 
@@ -1124,7 +1125,7 @@ swap_off(p, sdp)
 			 sdp->swd_drumoffset + sdp->swd_drumsize) ||
 	    anon_swap_off(sdp->swd_drumoffset,
 			  sdp->swd_drumoffset + sdp->swd_drumsize)) {
-		
+
 		simple_lock(&uvm.swap_data_lock);
 		sdp->swd_flags |= SWF_ENABLE;
 		simple_unlock(&uvm.swap_data_lock);
@@ -1331,7 +1332,7 @@ sw_reg_strategy(sdp, bp, bn)
 				 	&vp, &nbn, &nra);
 
 		if (error == 0 && nbn == (daddr_t)-1) {
-			/* 
+			/*
 			 * this used to just set error, but that doesn't
 			 * do the right thing.  Instead, it causes random
 			 * memory errors.  The panic() should remain until
@@ -1388,7 +1389,7 @@ sw_reg_strategy(sdp, bp, bn)
 		nbp->vb_buf.b_vnbufs.le_next = NOLIST;
 		LIST_INIT(&nbp->vb_buf.b_dep);
 
-		/* 
+		/*
 		 * set b_dirtyoff/end and b_validoff/end.   this is
 		 * required by the NFS client code (otherwise it will
 		 * just discard our I/O request).
@@ -1595,7 +1596,7 @@ uvm_swap_alloc(nslots, lessok)
 	 */
 	if (uvmexp.nswapdev < 1)
 		return 0;
-	
+
 	/*
 	 * lock data lock, convert slots into blocks, and enter loop
 	 */
@@ -1699,8 +1700,8 @@ uvm_swap_free(startslot, nslots)
 	}
 
 	/*
-	 * convert drum slot offset back to sdp, free the blocks 
-	 * in the extent, and return.   must hold pri lock to do 
+	 * convert drum slot offset back to sdp, free the blocks
+	 * in the extent, and return.   must hold pri lock to do
 	 * lookup and access the extent.
 	 */
 
@@ -1781,7 +1782,7 @@ uvm_swap_get(page, swslot, flags)
 	uvmexp.swpgonly--;
 	simple_unlock(&uvm.swap_data_lock);
 
-	result = uvm_swap_io(&page, swslot, 1, B_READ | 
+	result = uvm_swap_io(&page, swslot, 1, B_READ |
 	    ((flags & PGO_SYNCIO) ? 0 : B_ASYNC));
 
 	if (result != VM_PAGER_OK && result != VM_PAGER_PEND) {
@@ -1847,19 +1848,19 @@ uvm_swap_io(pps, startslot, npages, flags)
 		 * Later we need a different scheme, that swap encrypts
 		 * all pages of a process that had at least one page swap
 		 * encrypted.  Then we might not need to copy all pages
-		 * in the cluster, and avoid the memory overheard in 
+		 * in the cluster, and avoid the memory overheard in
 		 * swapping.
 		 */
 		if (uvm_doswapencrypt)
 			encrypt = 1;
 	}
 
-	if (swap_encrypt_initialized  || encrypt) { 
+	if (swap_encrypt_initialized  || encrypt) {
 		/*
 		 * we need to know the swap device that we are swapping to/from
 		 * to see if the pages need to be marked for decryption or
 		 * actually need to be decrypted.
-		 * XXX - does this information stay the same over the whole 
+		 * XXX - does this information stay the same over the whole
 		 * execution of this function?
 		 */
 		simple_lock(&uvm.swap_data_lock);
@@ -1867,7 +1868,7 @@ uvm_swap_io(pps, startslot, npages, flags)
 		simple_unlock(&uvm.swap_data_lock);
 	}
 
-	/* 
+	/*
 	 * encrypt to swap
 	 */
 	if (write && encrypt) {
@@ -1886,7 +1887,7 @@ uvm_swap_io(pps, startslot, npages, flags)
 			uvm_pagermapout(kva, npages);
 			return (VM_PAGER_AGAIN);
 		}
-		
+
 		dstkva = uvm_pagermapin(tpps, npages, swmapflags);
 		if (dstkva == 0) {
 			uvm_pagermapout(kva, npages);
@@ -1913,14 +1914,14 @@ uvm_swap_io(pps, startslot, npages, flags)
 
 		/* dispose of pages we dont use anymore */
 		opages = npages;
-		uvm_pager_dropcluster(NULL, NULL, pps, &opages, 
+		uvm_pager_dropcluster(NULL, NULL, pps, &opages,
 				      PGO_PDFREECLUST);
 
 		kva = dstkva;
 	}
 #endif /* UVM_SWAP_ENCRYPT */
 
-	/* 
+	/*
 	 * now allocate a buf for the i/o.
 	 * [make sure we don't put the pagedaemon to sleep...]
 	 */
@@ -1947,9 +1948,9 @@ uvm_swap_io(pps, startslot, npages, flags)
 #endif
 		return (VM_PAGER_AGAIN);
 	}
-	
+
 #ifdef UVM_SWAP_ENCRYPT
-	/* 
+	/*
 	 * prevent ASYNC reads.
 	 * uvm_swap_io is only called from uvm_swap_get, uvm_swap_get
 	 * assumes that all gets are SYNCIO.  Just make sure here.
@@ -1976,7 +1977,7 @@ uvm_swap_io(pps, startslot, npages, flags)
 	splx(s);
 	bp->b_bufsize = bp->b_bcount = npages << PAGE_SHIFT;
 
-	/* 
+	/*
 	 * for pageouts we must set "dirtyoff" [NFS client code needs it].
 	 * and we bump v_numoutput (counter of number of active outputs).
 	 */
@@ -2020,7 +2021,7 @@ uvm_swap_io(pps, startslot, npages, flags)
 	result = (bp->b_flags & B_ERROR) ? VM_PAGER_ERROR : VM_PAGER_OK;
 
 #ifdef UVM_SWAP_ENCRYPT
-	/* 
+	/*
 	 * decrypt swap
 	 */
 	if (swap_encrypt_initialized &&
@@ -2103,7 +2104,7 @@ swapmount()
 	sdp->swd_flags = SWF_FAKE;
 	sdp->swd_dev = swap_dev;
 	sdp->swd_vp = vp;
-	swaplist_insert(sdp, spp, 0);
+	swaplist_insert(sdp, spp, 1);
 	sdp->swd_pathlen = strlen("swap_device") + 1;
 	sdp->swd_path = malloc(sdp->swd_pathlen, M_VMSWAP, M_WAITOK);
 	if (copystr("swap_device", sdp->swd_path, sdp->swd_pathlen, 0))

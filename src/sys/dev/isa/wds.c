@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/dev/isa/wds.c,v 1.2 2005/03/06 21:27:43 tg Exp $ */
 /*	$OpenBSD: wds.c,v 1.20 2005/02/17 18:07:36 jfb Exp $	*/
 /*	$NetBSD: wds.c,v 1.13 1996/11/03 16:20:31 mycroft Exp $	*/
 
@@ -1127,7 +1128,7 @@ wds_scsi_cmd(xs)
 			 * Set up the scatter-gather block.
 			 */
 			SC_DEBUG(sc_link, SDEV_DB4,
-			    ("%d @0x%x:- ", xs->datalen, xs->data));
+			    ("%d @0x%x:- ", xs->datalen, (unsigned)(xs->data)));
 
 #ifdef notyet
 			scb->data_nseg = isadma_map(xs->data, xs->datalen,
@@ -1149,7 +1150,8 @@ wds_scsi_cmd(xs)
 				/* put in the base address */
 				ltophys(thisphys, sg->seg_addr);
 
-				SC_DEBUGN(sc_link, SDEV_DB4, ("0x%x", thisphys));
+				SC_DEBUGN(sc_link, SDEV_DB4, ("0x%x",
+				    (unsigned)thisphys));
 
 				/* do it at least once */
 				nextphys = thisphys;

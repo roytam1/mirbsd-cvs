@@ -391,7 +391,7 @@ bio_get_capabilities(bioc_capabilities *bc)
 
 	if (debug) {
 		printf("ioctls = %016llx\n", bc->ioctls);
-		printf("raid_types = %08lx\n", bc->raid_types);
+		printf("raid_types = %08lx\n", (unsigned long)bc->raid_types);
 	}
 
 	return (1);
@@ -797,7 +797,7 @@ bio_pt_readcap(u_int8_t c, u_int8_t t, u_int8_t flags)
 
 	if (debug)
 		printf("\nREAD CAPACITY: %lu * %lu = %llu\n",
-		    rc.maxlba, rc.bsize, size);
+		    (unsigned long)rc.maxlba, (unsigned long)rc.bsize, size);
 
 	if (flags & F_NOISY) {
 		printf("channel: %d target: %2d READ CAPACITY  %llu", c, t,

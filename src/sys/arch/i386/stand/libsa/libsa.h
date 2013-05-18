@@ -1,7 +1,9 @@
+/**	$MirOS: src/sys/arch/i386/stand/libsa/libsa.h,v 1.2 2005/03/06 21:27:07 tg Exp $	*/
 /*	$OpenBSD: libsa.h,v 1.42 2004/08/21 19:09:42 tom Exp $	*/
 
 /*
  * Copyright (c) 1996-1999 Michael Shalayeff
+ * Copyright (c) 2003 Thorsten Glaser
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -25,6 +27,9 @@
  * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
+
+#ifndef	_I386_STAND_LIBSA_H
+#define	_I386_STAND_LIBSA_H
 
 #include <lib/libsa/stand.h>
 #include <machine/biosvar.h>
@@ -64,6 +69,9 @@ void machdep(void);
 void *getSYSCONFaddr(void);
 void *getEBDAaddr(void);
 
+void apmturnoff (int, int);
+void apm_reset (void);
+
 extern const char bdevs[][4];
 extern const int nbdevs;
 extern u_int cnvmem, extmem; /* XXX global pass memprobe()->machdep_start() */
@@ -78,3 +86,5 @@ extern bios_diskinfo_t bios_diskinfo[];
 extern u_int32_t bios_cksumlen;
 
 #define MACHINE_CMD	cmd_machine /* we have i386-specific commands */
+
+#endif

@@ -1,8 +1,11 @@
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.3 2005/04/29 18:34:59 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.69 2004/06/23 00:21:49 tom Exp $	*/
 
 /*
  * Copyright (c) 1996 Michael Shalayeff
  * Copyright (c) 2003 Tobias Weingartner
+ * Copyright (c) 2002, 2003, 2004, 2005
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,15 +43,17 @@
 #include "libsa.h"
 #include "biosdev.h"
 
-static const char *biosdisk_err(u_int);
-static int biosdisk_errno(u_int);
+const char *biosdisk_err(u_int);
+int biosdisk_errno(u_int);
 
-static int CHS_rw (int, int, int, int, int, int, void *);
-static int EDD_rw (int, int, u_int64_t, u_int32_t, void *);
+static __inline int CHS_rw_real (int, int, int, int, int, int, void *);
+static __inline int CHS_rw (int, int, int, int, int, int, void *);
+static __inline int EDD_rw (int, int, u_int64_t, u_int32_t, void *);
 
 extern int debug;
 int bios_bootdev;
-int bios_cddev = -1;		/* Set by srt0 if coming from CD */
+int i386_flag_oldbios = 0;
+int userpt = 0;
 
 #if 0
 struct biosdisk {
@@ -71,7 +76,7 @@ struct EDD_CB {
 /*
  * reset disk system
  */
-static int
+int
 biosdreset(int dev)
 {
 	int rv;
@@ -97,7 +102,7 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 
 #ifdef BIOS_DEBUG
 	if (debug)
-		printf("getinfo: try #8, 0x%x, %p\n", dev, pdi);
+		printf("getinfo: try #8, 0x%X, %p\n", dev, pdi);
 #endif
 	__asm __volatile (DOINT(0x13) "\n\t"
 	    "setc %b0; movzbl %h1, %1\n\t"
@@ -111,9 +116,10 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 #ifdef BIOS_DEBUG
 	if (debug) {
 		printf("getinfo: got #8\n");
-		printf("disk 0x%x: %d,%d,%d\n", dev, pdi->bios_cylinders,
+		printf("disk 0x%X: %d,%d,%d\n", dev, pdi->bios_cylinders,
 		    pdi->bios_heads, pdi->bios_sectors);
 	}
+	getchar();
 #endif
 	if (rv & 0xff)
 		return 1;
@@ -125,29 +131,27 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 	pdi->bios_cylinders++;
 
 	/* Sanity check */
-	if (!pdi->bios_cylinders || !pdi->bios_heads || !pdi->bios_sectors)
-		return 1;
+	if (!pdi->bios_cylinders || !pdi->bios_heads || !pdi->bios_sectors) {
+#ifdef BIOS_DEBUG
+		printf("sanity: c/h/s value zero: %d/%d/%d\n",
+		    pdi->bios_cylinders, pdi->bios_heads, pdi->bios_sectors);
+#endif
+		return(1);
+	}
 
 	/* CD-ROMs sometimes return heads == 1 */
-	if (pdi->bios_heads < 2)
-		return 1;
+	if (pdi->bios_heads < 2) {
+#ifdef BIOS_DEBUG
+		printf("sanity: c/h/s heads < 2\n");
+#endif
+		return(1);
+	}
 
-	/* NOTE:
-	 * This currently hangs/reboots some machines
-	 * The IBM Thinkpad 750ED for one.
-	 *
-	 * Funny that an IBM/MS extension would not be
-	 * implemented by an IBM system...
-	 *
-	 * Future hangs (when reported) can be "fixed"
-	 * with getSYSCONFaddr() and an exceptions list.
-	 */
 	if (dev & 0x80 && (dev == 0x80 || dev == 0x81 || dev == bios_bootdev)) {
 		int bm;
-
 #ifdef BIOS_DEBUG
 		if (debug)
-			printf("getinfo: try #41, 0x%x\n", dev);
+			printf("getinfo: try #41, 0x%X\n", dev);
 #endif
 		/* EDD support check */
 		__asm __volatile(DOINT(0x13) "; setc %b0"
@@ -157,19 +161,13 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 			pdi->bios_edd = (bm & 0xffff) | ((rv & 0xff) << 16);
 		else
 			pdi->bios_edd = -1;
-
 #ifdef BIOS_DEBUG
 		if (debug) {
-			printf("getinfo: got #41\n");
-			printf("disk 0x%x: 0x%x\n", dev, bm);
+			printf("getinfo: got #41: %X\n", pdi->bios_edd);
+			printf("disk 0x%X: 0x%X\n", dev, bm);
 		}
+		getchar();
 #endif
-		/*
-		 * If extended disk access functions are not supported
-		 * there is not much point on doing EDD.
-		 */
-		if (!(pdi->bios_edd & EXT_BM_EDA))
-			pdi->bios_edd = -1;
 	} else
 		pdi->bios_edd = -1;
 
@@ -181,6 +179,26 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
  */
 static __inline int
 CHS_rw(int rw, int dev, int cyl, int head, int sect, int nsect, void *buf)
+{
+	int rv = 0;
+
+	if (!i386_flag_oldbios)
+		return CHS_rw_real(rw, dev, cyl, head, sect, nsect, buf);
+
+	while (!rv && nsect) {
+		rv = CHS_rw_real(rw, dev, cyl, head, sect, 1, buf);
+		++sect;
+		--nsect;
+		buf += 512;
+	}
+	return rv;
+}
+
+/*
+ * Do the actual (sector-wise or multi-block) BIOS disc I/O in CHS mode.
+ */
+static __inline int
+CHS_rw_real(int rw, int dev, int cyl, int head, int sect, int nsect, void *buf)
 {
 	int rv;
 
@@ -245,7 +263,7 @@ biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 	void *bb;
 	int bbsize = nsect * DEV_BSIZE;
 
-	if (bd->flags & BDI_EL_TORITO) {	/* It's a CD device */
+	if (bd->flags & BDI_ELTORITO) {		/* It's a CD device */
 		dev &= 0xff;			/* Mask out this flag bit */
 
 		/*
@@ -271,7 +289,7 @@ biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 		 */
 		bb = alloca(bbsize);
 		if (rw != F_READ)
-			bcopy(buf, bb, bbsize);
+			memmove(bb, buf, bbsize);
 	} else
 		bb = buf;
 
@@ -312,9 +330,11 @@ biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 
 		default:	/* All other errors */
 #ifdef BIOS_DEBUG
-			if (debug)
-				printf("\nBIOS error 0x%x (%s)\n",
-				    error, biosdisk_err(error));
+			if (debug) {
+				printf("\nBIOS error 0x%X (%s)\n",
+					error, biosdisk_err(error));
+				getchar();
+			}
 #endif
 			biosdreset(dev);
 			break;
@@ -322,12 +342,12 @@ biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 	}
 
 	if (bb != buf && rw == F_READ)
-		bcopy(bb, buf, bbsize);
+		memmove(buf, bb, bbsize);
 
 #ifdef BIOS_DEBUG
 	if (debug) {
 		if (error != 0)
-			printf("=0x%x(%s)", error, biosdisk_err(error));
+			printf("=0x%X(%s)", error, biosdisk_err(error));
 		putchar('\n');
 	}
 #endif
@@ -345,6 +365,7 @@ bios_getdisklabel(bios_diskinfo_t *bd, struct disklabel *label)
 	char *buf;
 	struct dos_mbr mbr;
 	int error, i;
+	long mbrofs;
 
 	/* Sanity check */
 	if (bd->bios_heads == 0 || bd->bios_sectors == 0)
@@ -353,7 +374,8 @@ bios_getdisklabel(bios_diskinfo_t *bd, struct disklabel *label)
 	/* MBR is a harddisk thing */
 	if (bd->bios_number & 0x80) {
 		/* Read MBR */
-		error = biosd_io(F_READ, bd, DOSBBSECTOR, 1, &mbr);
+		mbrofs = DOSBBSECTOR;
+loop:		error = biosd_io(F_READ, bd, mbrofs, 1, &mbr);
 		if (error)
 			return (biosdisk_err(error));
 
@@ -361,20 +383,49 @@ bios_getdisklabel(bios_diskinfo_t *bd, struct disklabel *label)
 		if (mbr.dmbr_sign != DOSMBR_SIGNATURE)
 			return "bad MBR signature\n";
 
-		/* Search for OpenBSD partition */
-		for (off = 0, i = 0; off == 0 && i < NDOSPART; i++)
-			if (mbr.dmbr_parts[i].dp_typ == DOSPTYP_OPENBSD)
-				off = mbr.dmbr_parts[i].dp_start + LABELSECTOR;
+		/* Search for MirBSD partition */
+		off = 0;
+		if (userpt) for (i = 0; off == 0 && i < NDOSPART; i++) {
+			mbr.dmbr_parts[i].dp_start += mbrofs;
+			if (mbr.dmbr_parts[i].dp_typ == userpt)
+				off = i + 1;
+		}
+		if (!off) for (i = 0; off == 0 && i < NDOSPART; i++)
+			if (mbr.dmbr_parts[i].dp_typ == DOSPTYP_MIRBSD)
+				off = i + 1;
 
 		/* just in case */
-		if (off == 0)
-			for (off = 0, i = 0; off == 0 && i < NDOSPART; i++)
-				if (mbr.dmbr_parts[i].dp_typ == DOSPTYP_NETBSD)
-					off = mbr.dmbr_parts[i].dp_start +
-					    LABELSECTOR;
+		if (!off) for (i = 0; off == 0 && i < NDOSPART; i++)
+			if (mbr.dmbr_parts[i].dp_typ == DOSPTYP_OPENBSD)
+				off = i + 1;
 
-		if (off == 0)
-			return "no BSD partition\n";
+		/* just in case */
+		if (!off) for (i = 0; off == 0 && i < NDOSPART; i++)
+			if (mbr.dmbr_parts[i].dp_typ == DOSPTYP_NETBSD)
+				off = i + 1;
+
+		/* just in case */
+		if (!off) {
+		    for (i = 0; off == 0 && i < NDOSPART; i++)
+			if (mbr.dmbr_parts[i].dp_typ == DOSPTYP_EXTEND) {
+				mbrofs = mbr.dmbr_parts[i].dp_start;
+				goto loop;
+			}
+		    for (i = 0; off == 0 && i < NDOSPART; i++)
+			if (mbr.dmbr_parts[i].dp_typ == DOSPTYP_EXTENDL) {
+				mbrofs = mbr.dmbr_parts[i].dp_start;
+				goto loop;
+			}
+		    for (i = 0; off == 0 && i < NDOSPART; i++)
+			if (mbr.dmbr_parts[i].dp_typ == DOSPTYP_EXTENDLX) {
+				mbrofs = mbr.dmbr_parts[i].dp_start;
+				goto loop;
+			}
+		}
+		if (!off)
+			return("no BSD partition\n");
+
+		off = mbr.dmbr_parts[off - 1].dp_start + LABELSECTOR;
 	} else
 		off = LABELSECTOR;
 
@@ -382,13 +433,13 @@ bios_getdisklabel(bios_diskinfo_t *bd, struct disklabel *label)
 	buf = alloca(DEV_BSIZE);
 #ifdef BIOS_DEBUG
 	if (debug)
-		printf("loading disklabel @ %u\n", off);
+		printf("loading disklabel @%u\n", off);
 #endif
 	/* read disklabel */
 	error = biosd_io(F_READ, bd, off, 1, buf);
 
-	if (error)
-		return "failed to read disklabel";
+	if(error)
+		return("failed to read disklabel (try again if floppy!)");
 
 	/* Fill in disklabel */
 	return (getdisklabel(buf, label));
@@ -422,8 +473,9 @@ biosopen(struct open_file *f, ...)
 			cp++;
 	}
 
-	for (maj = 0; maj < nbdevs && strncmp(*file, bdevs[maj], cp - *file); )
-	    maj++;
+	for (maj = 0; maj < nbdevs &&
+	     strncmp(*file, bdevs[maj], cp - *file); maj++)
+		;
 	if (maj >= nbdevs) {
 		printf("Unknown device: ");
 		for (cp = *file; *cp != ':'; cp++)
@@ -495,21 +547,23 @@ biosopen(struct open_file *f, ...)
 #endif
 
 	/* Try for disklabel again (might be removable media) */
-	if (dip->bios_info.flags & BDI_BADLABEL){
+	if(dip->bios_info.flags & BDI_BADLABEL) {
 		const char *st = bios_getdisklabel(&dip->bios_info,
 		    &dip->disklabel);
-#ifdef BIOS_DEBUG
-		if (debug && st)
+		if (st != NULL) {
 			printf("%s\n", st);
-#endif
-		if (!st) {
-			dip->bios_info.flags &= ~BDI_BADLABEL;
-			dip->bios_info.flags |= BDI_GOODLABEL;
-		} else
 			return ERDLAB;
+		}
+		dip->bios_info.flags &= !BDI_BADLABEL;
 	}
 
 	f->f_devdata = dip;
+
+	cp++;	/* skip ':' */
+	if (*cp != 0)
+		*file = cp;
+	else
+		f->f_flags |= F_RAW;
 
 	return 0;
 }
@@ -550,7 +604,7 @@ const u_char bidos_errs[] =
 		"\xFF" "sense operation failed\0"
 		"\x00" "\0";
 
-static const char *
+const char *
 biosdisk_err(u_int error)
 {
 	register const u_char *p = bidos_errs;
@@ -580,7 +634,7 @@ const struct biosdisk_errors {
 	{ 0x00, EIO }
 };
 
-static int
+int
 biosdisk_errno(u_int error)
 {
 	register const struct biosdisk_errors *p;
@@ -613,7 +667,7 @@ biosstrategy(void *devdata, int rw, daddr_t blk, size_t size, void *buf,
 #ifdef BIOS_DEBUG
 	if (debug) {
 		if (error != 0)
-			printf("=0x%x(%s)", error, biosdisk_err(error));
+			printf("=0x%X(%s)", error, biosdisk_err(error));
 		putchar('\n');
 	}
 #endif

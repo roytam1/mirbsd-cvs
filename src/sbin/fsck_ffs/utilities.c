@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: utilities.c,v 1.20 2003/08/25 23:28:15 tedu Exp $	*/
 /*	$NetBSD: utilities.c,v 1.18 1996/09/27 22:45:20 christos Exp $	*/
 
@@ -30,13 +31,9 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)utilities.c	8.1 (Berkeley) 6/5/93";
-#else
-static const char rcsid[] = "$OpenBSD: utilities.c,v 1.20 2003/08/25 23:28:15 tedu Exp $";
-#endif
-#endif /* not lint */
+#include <sys/cdefs.h>
+__SCCSID("@(#)utilities.c	8.1 (Berkeley) 6/5/93");
+__RCSID("$MirOS$");
 
 #include <sys/param.h>
 #include <sys/time.h>
@@ -248,7 +245,18 @@ ckfini(int markclean)
 		(void)close(fsreadfd);
 		return;
 	}
+#ifdef	__MirBSD__
+	{
+		int i = fsmodified;
+		sblock.fs_firstfield = arc4random();
+		sblock.fs_unused_1 = arc4random();
+		sbdirty();
+#endif
 	flush(fswritefd, &sblk);
+#ifdef	__MirBSD__
+		fsmodified = i;
+	}
+#endif
 	if (havesb && sblk.b_bno != SBOFF / dev_bsize &&
 	    !preen && reply("UPDATE STANDARD SUPERBLOCK")) {
 		sblk.b_bno = SBOFF / dev_bsize;

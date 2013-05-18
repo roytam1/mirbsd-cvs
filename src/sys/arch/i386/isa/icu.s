@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: icu.s,v 1.20 2003/11/06 21:09:34 mickey Exp $	*/
 /*	$NetBSD: icu.s,v 1.45 1996/01/07 03:59:34 mycroft Exp $	*/
 
@@ -42,24 +43,6 @@ _C_LABEL(netisr):
 
 	.text
 
-#if defined(PROF) || defined(GPROF)
-	.globl	_C_LABEL(splhigh), _C_LABEL(splx)
-
-	ALIGN_TEXT
-_C_LABEL(splhigh):
-	movl	$IPL_HIGH,%eax
-	xchgl	%eax,_C_LABEL(cpl)
-	ret
-
-	ALIGN_TEXT
-_C_LABEL(splx):
-	movl	4(%esp),%eax
-	movl	%eax,_C_LABEL(cpl)
-	testl	%eax,%eax
-	jnz	_C_LABEL(Xspllower)
-	ret
-#endif /* PROF || GPROF */
-	
 /*
  * Process pending interrupts.
  *
@@ -166,4 +149,3 @@ IDTVEC(softclock)
 	call	_C_LABEL(softclock)
 	movl	%ebx,_C_LABEL(cpl)
 	jmp	*%esi
-

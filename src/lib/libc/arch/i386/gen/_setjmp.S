@@ -33,6 +33,8 @@
 
 #include <machine/asm.h>
 
+	.text
+
 /*
  * C library -- _setjmp, _longjmp
  *

@@ -1,3 +1,5 @@
+/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_util.c,v 1.4 2005/05/04 18:31:07 tg Exp $ */
+
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -64,6 +66,12 @@
 #include "http_log.h"
 #include "util_uri.h"
 #include "util_date.h"          /* get ap_checkmask() decl. */
+#include "sa_len.h"
+
+#ifndef __RCSID
+#define	__RCSID(x)	static const char __rcsid[] = (x)
+#endif
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_util.c,v 1.4 2005/05/04 18:31:07 tg Exp $");
 
 static int proxy_match_ipaddr(struct dirconn_entry *This, request_rec *r);
 static int proxy_match_domainname(struct dirconn_entry *This, request_rec *r);
@@ -77,7 +85,7 @@ int ap_proxy_hex2c(const char *x)
     int ch;
 
     ch = x[0];
-    if (ap_isdigit(ch))
+    if (isdigit((unsigned char)ch))
         i = ch - '0';
     else if (ap_isupper(ch))
         i = ch - ('A' - 10);
@@ -86,7 +94,7 @@ int ap_proxy_hex2c(const char *x)
     i <<= 4;
 
     ch = x[1];
-    if (ap_isdigit(ch))
+    if (isdigit((unsigned char)ch))
         i += ch - '0';
     else if (ap_isupper(ch))
         i += ch - ('A' - 10);
@@ -206,6 +214,7 @@ char *
     int i;
     char *strp, *host, *url = *urlp;
     char *user = NULL, *password = NULL;
+    char *t = NULL, *u = NULL, *v = NULL;
 
     if (url[0] != '/' || url[1] != '/')
         return "Malformed URL";
@@ -244,35 +253,57 @@ char *
         *passwordp = password;
     }
 
-    strp = strrchr(host, ':');
-    if (strp != NULL) {
-        *(strp++) = '\0';
+    v = host;
+    if (*host == '['){
+	u = strrchr(host, ']');
+	if (u){
+	    host++;
+	    *u = '\0';
+	    v = u + 1;
+	}
+    }
+    t = strrchr(v, ':');
+    if (t){
+	*t = '\0';
+	strp = t + 1;
+    }
+    if (strp){
+	for (i=0; strp[i] != '\0'; i++)
+	    if (!ap_isdigit(strp[i]))
+		break;
 
-        for (i = 0; strp[i] != '\0'; i++)
-            if (!ap_isdigit(strp[i]))
-                break;
-
-        /* if (i == 0) the no port was given; keep default */
-        if (strp[i] != '\0') {
-            return "Bad port number in URL";
-        }
+	/* if (i == 0) the no port was given; keep default */
+	if (strp[i] != '\0') {
+	    return "Bad port number in URL";
+	}
         else if (i > 0) {
-            *port = atoi(strp);
-            if (*port > 65535)
-                return "Port number in URL > 65535";
-        }
+	    *port = atoi(strp);
+	    if (*port > 65535)
+		return "Port number in URL > 65535";
+	}
     }
     ap_str_tolower(host);       /* DNS names are case-insensitive */
     if (*host == '\0')
         return "Missing host in URL";
 /* check hostname syntax */
     for (i = 0; host[i] != '\0'; i++)
-        if (!ap_isdigit(host[i]) && host[i] != '.')
-            break;
+	if (!ap_isxdigit(host[i]) && host[i] != '.' && host[i] != ':')
+	    break;
     /* must be an IP address */
-    if (host[i] == '\0' && (ap_inet_addr(host) == -1 || inet_network(host) == -1))
-    {
-        return "Bad IP address in URL";
+    if (host[i] == '\0') {
+	struct addrinfo hints, *res0;
+	int gai;
+	memset(&hints, 0, sizeof(hints));
+	hints.ai_family = PF_UNSPEC;
+	hints.ai_flags = AI_NUMERICHOST;
+	if ((gai = getaddrinfo(host, NULL, &hints, &res0))) {
+#if 0
+	    return gai_strerror(gai);
+#else
+	    return "Bad IP address in URL";
+#endif
+	}
+	freeaddrinfo(res0);
     }
 
 /*    if (strchr(host,'.') == NULL && domain != NULL)
@@ -344,7 +375,7 @@ const char *
         return x;
 
     q = ap_palloc(p, 30);
-    ap_snprintf(q, 30, "%s, %.2d %s %d %.2d:%.2d:%.2d GMT", ap_day_snames[wk], mday,
+    snprintf(q, 30, "%s, %.2d %s %d %.2d:%.2d:%.2d GMT", ap_day_snames[wk], mday,
                 ap_month_snames[mon], year, hour, min, sec);
     return q;
 }
@@ -897,7 +928,7 @@ const char *
     struct per_thread_data *ptd = get_per_thread_data();
 
     for (i = 0; host[i] != '\0'; i++)
-        if (!ap_isdigit(host[i]) && host[i] != '.')
+        if (!isdigit((unsigned char)host[i]) && host[i] != '.')
             break;
 
     if (host[i] != '\0') {
@@ -981,7 +1012,7 @@ int ap_proxy_is_ipaddr(struct dirconn_entry *This, pool *p)
         if (*addr == '/' && quads > 0)  /* netmask starts here. */
             break;
 
-        if (!ap_isdigit(*addr))
+        if (!isdigit((unsigned char)*addr))
             return 0;           /* no digit at start of quad */
 
         ip_addr[quads] = ap_strtol(addr, &tmp, 0);
@@ -1003,7 +1034,7 @@ int ap_proxy_is_ipaddr(struct dirconn_entry *This, pool *p)
     for (This->addr.s_addr = 0, i = 0; i < quads; ++i)
         This->addr.s_addr |= htonl(ip_addr[i] << (24 - 8 * i));
 
-    if (addr[0] == '/' && ap_isdigit(addr[1])) {        /* net mask follows: */
+    if (addr[0] == '/' && isdigit((unsigned char)addr[1])) { /* net mask follows: */
         char *tmp;
 
         ++addr;
@@ -1248,18 +1279,41 @@ static int proxy_match_word(struct dirconn_entry *This, request_rec *r)
     return host != NULL && strstr(host, This->name) != NULL;
 }
 
-int ap_proxy_doconnect(int sock, struct sockaddr_in *addr, request_rec *r)
+int ap_proxy_doconnect(int sock, struct sockaddr *addr, request_rec *r)
 {
     int i;
+    int salen;
+    char hbuf[NI_MAXHOST], pbuf[NI_MAXSERV];
+#ifdef NI_WITHSCOPEID
+    const int niflags = NI_NUMERICHOST | NI_NUMERICSERV | NI_WITHSCOPEID;
+#else
+    const int niflags = NI_NUMERICHOST | NI_NUMERICSERV;
+#endif
 
     ap_hard_timeout("proxy connect", r);
+#ifdef HAVE_SOCKADDR_LEN
+    salen = addr->sa_len;
+#else
+    switch (addr->sa_family) {
+    case AF_INET6:
+	salen = sizeof(struct sockaddr_in6);
+	break;
+    default:
+	salen = sizeof(struct sockaddr_in);
+	break;
+    }
+#endif
     do {
-        i = connect(sock, (struct sockaddr *)addr, sizeof(struct sockaddr_in));
+	i = connect(sock,  addr, salen);
     } while (i == -1 && errno == EINTR);
     if (i == -1) {
+	if (getnameinfo(addr, salen, hbuf, sizeof(hbuf), pbuf, sizeof(pbuf),
+		niflags) != 0) {
+	    strcpy(hbuf, "?");
+	    strcpy(pbuf, "?");
+	}
         ap_log_rerror(APLOG_MARK, APLOG_ERR, r,
-                      "proxy connect to %s port %d failed",
-                      inet_ntoa(addr->sin_addr), ntohs(addr->sin_port));
+                      "proxy connect to %s port %s failed", hbuf, pbuf);
     }
     ap_kill_timeout(r);
 

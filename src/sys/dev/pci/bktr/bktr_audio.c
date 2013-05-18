@@ -1,5 +1,6 @@
+/**	$MirOS: src/sys/dev/pci/bktr/bktr_audio.c,v 1.2 2005/03/06 21:27:51 tg Exp $ */
 /*	$OpenBSD: bktr_audio.c,v 1.6 2004/06/29 12:24:57 mickey Exp $	*/
-/* $FreeBSD: src/sys/dev/bktr/bktr_audio.c,v 1.8 2000/10/31 13:09:56 roger Exp $ */
+/*	$FreeBSD: src/sys/dev/bktr/bktr_audio.c,v 1.8 2000/10/31 13:09:56 roger Exp $ */
 /*
  * This is part of the Driver for Video Capture Cards (Frame grabbers)
  * and TV Tuner cards using the Brooktree Bt848, Bt848A, Bt849A, Bt878, Bt879
@@ -9,7 +10,7 @@
  * bktr_audio : This deals with controlling the audio on TV cards,
  *                controlling the Audio Multiplexer (audio source selector).
  *                controlling any MSP34xx stereo audio decoders.
- *                controlling any DPL35xx dolby surround sound audio decoders.    
+ *                controlling any DPL35xx dolby surround sound audio decoders.
  *                initialising TDA98xx audio devices.
  *
  */
@@ -103,7 +104,7 @@ void init_audio_devices( bktr_ptr_t bktr ) {
         /* enable stereo if appropriate on TDA audio chip */
         if ( bktr->card.dbx )
                 init_BTSC( bktr );
- 
+
         /* reset the MSP34xx stereo audio chip */
         if ( bktr->card.msp3400c )
                 msp_dpl_reset( bktr, bktr->msp_addr );
@@ -116,7 +117,7 @@ void init_audio_devices( bktr_ptr_t bktr ) {
 
 
 /*
- * 
+ *
  */
 #define AUDIOMUX_DISCOVER_NOT
 int
@@ -143,9 +144,9 @@ set_audio( bktr_ptr_t bktr, int cmd )
 		bktr->audio_mux_select = 0;
 #endif
 
-		if (bktr->reverse_mute ) 
+		if (bktr->reverse_mute )
 		      bktr->audio_mux_select = 0;
-		else	
+		else
 		    bktr->audio_mux_select = 3;
 
 		break;
@@ -196,7 +197,7 @@ set_audio( bktr_ptr_t bktr, int cmd )
 
 		if (bktr->reverse_mute )
 		  idx  = 3;
-		else	
+		else
 		  idx  = 0;
 
 	}
@@ -257,7 +258,7 @@ set_audio( bktr_ptr_t bktr, int cmd )
 
 
 /*
- * 
+ *
  */
 void
 temp_mute( bktr_ptr_t bktr, int flag )
@@ -283,9 +284,9 @@ temp_mute( bktr_ptr_t bktr, int flag )
 /* registers in the TDA9850 BTSC/dbx chip */
 #define CON1ADDR                0x04
 #define CON2ADDR                0x05
-#define CON3ADDR                0x06 
+#define CON3ADDR                0x06
 #define CON4ADDR                0x07
-#define ALI1ADDR                0x08 
+#define ALI1ADDR                0x08
 #define ALI2ADDR                0x09
 #define ALI3ADDR                0x0a
 
@@ -293,7 +294,7 @@ temp_mute( bktr_ptr_t bktr, int flag )
  * initialise the dbx chip
  * taken from the Linux bttv driver TDA9850 initialisation code
  */
-void 
+void
 init_BTSC( bktr_ptr_t bktr )
 {
     i2cWrite(bktr, TDA9850_WADDR, CON1ADDR, 0x08); /* noise threshold st */
@@ -472,7 +473,7 @@ void msp_read_id( bktr_ptr_t bktr ){
  * For the MSP3410/3415 there are two schemes for this
  *  a) Fast autodetection - the chip is put into autodetect mode, and the function
  *     returns immediatly. This works in most cases and is the Default Mode.
- *  b) Slow mode. The function sets the MSP3410/3415 chip, then waits for feedback from 
+ *  b) Slow mode. The function sets the MSP3410/3415 chip, then waits for feedback from
  *     the chip and re-programs it if needed.
  */
 void msp_autodetect( bktr_ptr_t bktr ) {
@@ -519,7 +520,7 @@ void msp_autodetect( bktr_ptr_t bktr ) {
   else if ( bktr->slow_msp_audio == 1) {
     msp_dpl_write(bktr, bktr->msp_addr, 0x12, 0x0000,0x7300);/* Set volume to 0db gain */
     msp_dpl_write(bktr, bktr->msp_addr, 0x10, 0x0020,0x0001);/* Enable Auto format detection */
-    
+
     /* wait for 0.5s max for terrestrial sound autodetection */
     loops = 10;
     do {
@@ -545,8 +546,8 @@ void msp_autodetect( bktr_ptr_t bktr ) {
       DELAY(20000);
       stereo = msp_dpl_read(bktr, bktr->msp_addr, 0x12, 0x0018);
       if (bootverbose)printf ("%s: Stereo reg 0x18 b: %d\n",
-			      bktr_name(bktr), stereo); 
-      DELAY(20000); 
+			      bktr_name(bktr), stereo);
+      DELAY(20000);
       stereo = msp_dpl_read(bktr, bktr->msp_addr, 0x12, 0x0018);
       if (bootverbose)printf ("%s: Stereo reg 0x18 c: %d\n",
 			      bktr_name(bktr), stereo);
@@ -591,13 +592,13 @@ void msp_autodetect( bktr_ptr_t bktr ) {
        break;
      default:
        if (bootverbose) printf ("%s: Unknown autodetection result value: %d\n",
-				bktr_name(bktr), auto_detect); 
+				bktr_name(bktr), auto_detect);
      }
 
   }
 
 
-  /* uncomment the following line to enable the MSP34xx 1KHz Tone Generator */
+  /* uncomment the following line to enable the MSP34xx 1kHz Tone Generator */
   /* turn your speaker volume down low before trying this */
   /* msp_dpl_write(bktr, bktr->msp_addr, 0x12, 0x0014, 0x7f40); */
 }
@@ -633,4 +634,3 @@ void dpl_autodetect( bktr_ptr_t bktr ) {
 								recommended with PANORAMA mode
 								in 0x0040 set to panorama */
 }
-

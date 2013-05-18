@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libz/inftrees.c,v 1.3 2005/07/07 12:27:25 tg Exp $ */
 /*	$OpenBSD: inftrees.c,v 1.8 2005/07/20 15:56:41 millert Exp $	*/
 /* inftrees.c -- generate Huffman trees for efficient decoding
  * Copyright (C) 1995-2005 Mark Adler
@@ -7,16 +8,9 @@
 #include "zutil.h"
 #include "inftrees.h"
 
-#define MAXBITS 15
+zRCSID("$MirOS: src/lib/libz/inftrees.c,v 1.3 2005/07/07 12:27:25 tg Exp $")
 
-const char inflate_copyright[] =
-   " inflate 1.2.3 Copyright 1995-2005 Mark Adler ";
-/*
-  If you use the zlib library in a product, an acknowledgment is welcome
-  in the documentation of your product. If for some reason you cannot
-  include such an acknowledgment, I would appreciate that you keep this
-  copyright string in the executable of your product.
- */
+#define MAXBITS 15
 
 /*
    Build a set of tables to decode the provided canonical Huffman code.

@@ -2,6 +2,7 @@
 #	@(#)Makefile.in	8.75 (Berkeley) 10/23/96
 
 PROG=	vi
+CLEANFILES+=	_h2ph _h2ph_pre.ph vi.recover
 
 # Uncomment to build with an embedded perl interpreter
 #PERLINTERP=	yes
@@ -64,10 +65,19 @@ perl.c: ${.CURDIR}/../perl_api/perl.xs ${.CURDIR}/../perl_api/typemap
 
 CATALOGS=	dutch english french german polish ru_RU.KOI8-R spanish \
 		swedish uk_UA.KOI8-U
+
+all: vi.recover
+
+vi.recover: ${.CURDIR}/recover
+	-rm -f _h2ph _h2ph_pre.ph
+	h2ph -d . </usr/include/sys/syscall.h >_h2ph
+	print '1d\nr _h2ph_pre.ph\nwq' | ed -s _h2ph
+	sed -e '/require.*sys\/syscall.ph/r _h2ph' -e '//d' <$> >$@
+
 afterinstall:
 	${INSTALL} -d ${DESTDIR}${SHAREDIR}/vi/catalog
 	(cd ${.CURDIR}/../catalog && ${INSTALL} -m ${NONBINMODE} -c ${CATALOGS} ${DESTDIR}/usr/share/vi/catalog )
-	${INSTALL} -m ${BINMODE} -o ${BINOWN} -g ${BINGRP} -c ${.CURDIR}/recover ${DESTDIR}/usr/libexec/vi.recover
+	${INSTALL} -m ${BINMODE} -o ${BINOWN} -g ${BINGRP} -c vi.recover ${DESTDIR}/usr/libexec/
 .ifdef PERLINTERP
 	${INSTALL} -d ${DESTDIR}${SHAREDIR}/vi/perl
 	(cd ${.CURDIR}/../perl_scripts; for i in *.pl; do ${INSTALL} -m ${NONBINMODE} -c $$i ${DESTDIR}/usr/share/vi/perl; done)

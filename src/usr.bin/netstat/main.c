@@ -250,17 +250,6 @@ struct protox ipxprotox[] = {
 	  0,		0 }
 };
 
-struct protox nsprotox[] = {
-	{ N_IDP,	N_IDPSTAT,	1,	nsprotopr,
-	  idp_stats,	"idp" },
-	{ N_IDP,	N_SPPSTAT,	1,	nsprotopr,
-	  spp_stats,	"spp" },
-	{ -1,		N_NSERR,	1,	0,
-	  nserr_stats,	"ns_err" },
-	{ -1,		-1,		0,	0,
-	  0,		0 }
-};
-
 struct protox atalkprotox[] = {
 	{ N_DDPCB,	N_DDPSTAT,	1,	atalkprotopr,
 	  ddp_stats,	"ddp" },
@@ -270,11 +259,11 @@ struct protox atalkprotox[] = {
 
 #ifndef INET6
 struct protox *protoprotox[] = {
-	protox, ipxprotox, nsprotox, atalkprotox, NULL
+	protox, ipxprotox, atalkprotox, NULL
 };
 #else
 struct protox *protoprotox[] = {
-	protox, ip6protox, ipxprotox, nsprotox, atalkprotox, NULL
+	protox, ip6protox, ipxprotox, atalkprotox, NULL
 };
 #endif
 
@@ -518,9 +507,6 @@ main(int argc, char *argv[])
 #endif
 	if (af == AF_IPX || af == AF_UNSPEC)
 		for (tp = ipxprotox; tp->pr_name; tp++)
-			printproto(tp, tp->pr_name);
-	if (af == AF_NS || af == AF_UNSPEC)
-		for (tp = nsprotox; tp->pr_name; tp++)
 			printproto(tp, tp->pr_name);
 	if ((af == AF_UNIX || af == AF_UNSPEC) && !sflag)
 		unixpr(nl[N_UNIXSW].n_value);

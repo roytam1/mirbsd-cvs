@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/systrace/intercept.c,v 1.3 2005/04/26 15:12:25 tg Exp $ */
 /*	$OpenBSD: intercept.c,v 1.49 2004/07/07 07:31:40 marius Exp $	*/
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
@@ -29,7 +30,6 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/tree.h>
 #include <sys/wait.h>
@@ -48,6 +48,8 @@
 #include <pwd.h>
 
 #include "intercept.h"
+
+__RCSID("$MirOS: src/bin/systrace/intercept.c,v 1.3 2005/04/26 15:12:25 tg Exp $");
 
 void simplify_path(char *);
 
@@ -549,7 +551,7 @@ intercept_replace(int fd, pid_t pid, u_int16_t seqnr,
 char *
 intercept_get_string(int fd, pid_t pid, void *addr)
 {
-	static char name[8192];
+	static char name[262144];
 	int off = 0, done = 0, stride;
 
 	stride = 32;

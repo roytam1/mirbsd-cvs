@@ -95,3 +95,12 @@ file	dev/pcmcia/if_an_pcmcia.c		an_pcmcia
 device	gpr
 attach	gpr at pcmcia with gpr
 file	dev/pcmcia/gpr.c			gpr needs-flag
+
+# ISDN devices
+attach	isic at pcmcia with isic_pcmcia
+file	dev/pcmcia/isic_pcmcia.c		isic_pcmcia
+
+file	dev/pcmcia/isic_pcmcia_avm_fritz.c	isic_pcmcia
+file	dev/pcmcia/isic_pcmcia_elsa_isdnmc.c	isic_pcmcia
+file	dev/pcmcia/isic_pcmcia_elsa_mcall.c	isic_pcmcia
+file	dev/pcmcia/isic_pcmcia_sbspeedstar2.c	isic_pcmcia

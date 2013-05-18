@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/net/if_spppsubr.c,v 1.4 2005/04/30 22:54:23 tg Exp $ */
 /*	$OpenBSD: if_spppsubr.c,v 1.34 2005/06/08 06:55:33 henning Exp $	*/
 /*
  * Synchronous PPP/Cisco link level subroutines.
@@ -115,6 +116,15 @@
 #define LOOPALIVECNT     		3	/* loopback detection tries */
 #define MAXALIVECNT    			3	/* max. missed alive packets */
 #define	NORECV_TIME			15	/* before we get worried */
+
+/*XXX*/
+static void
+getmicrouptime(struct timeval *tv)
+{
+	tv->tv_sec = time.tv_sec - boottime.tv_sec;
+	tv->tv_usec = 0;
+}
+/*XXX*/
 
 /*
  * Interface flags that can be set in an ifconfig command.
@@ -4010,8 +4020,14 @@ sppp_set_ip_addr(struct sppp *sp, u_long src)
 	}
 
 	if (ifa && si) {
+		int error, debug = ifp->if_flags & IFF_DEBUG;
 		si->sin_addr.s_addr = htonl(src);
 		dohooks(ifp->if_addrhooks, 0);
+		error = in_ifinit(ifp, ifatoia(ifa), si, 1);
+		if (debug && error){
+			log(LOG_DEBUG, SPP_FMT "sppp_set_ip_addrs: in_ifinit "
+				"failed, error=%d\n", SPP_ARGS(ifp), error);
+		}
 	}
 }
 

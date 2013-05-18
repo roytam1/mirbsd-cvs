@@ -1,8 +1,10 @@
+/* $MirOS: src/usr.sbin/httpd/src/include/httpd.h,v 1.6 2005/07/07 13:40:02 tg Exp $ */
 /* $OpenBSD: httpd.h,v 1.26 2005/06/15 00:00:16 niallo Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
+ * Copyright (c) 2002, 2005 The MirOS Project.
  * Copyright (c) 2000-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
@@ -66,6 +68,13 @@ extern "C" {
 #endif
 
 /*
+ * Define APACHE6 so that additional modules depending on Apache can
+ * tell if this a pacthed apache-1.3.*. With this definition apache6
+ * is working together with e.g. the ap-perl module in NetBSD.
+ */
+#define APACHE6 1
+
+/*
  * httpd.h: header for simple (ha! not anymore) http daemon
  */
 
@@ -90,7 +99,7 @@ extern "C" {
  * file with a relative pathname will have this added.
  */
 #ifndef HTTPD_ROOT
-#define HTTPD_ROOT "/usr/local/apache"
+#define HTTPD_ROOT "/usr/local/httpd"
 #endif /* HTTPD_ROOT */
 
 /* Default location of documents.  Can be overridden by the DocumentRoot
@@ -116,7 +125,7 @@ extern "C" {
 /*
  * --------- You shouldn't have to edit anything below this line ----------
  *
- * Any modifications to any defaults not defined above should be done in the 
+ * Any modifications to any defaults not defined above should be done in the
  * respective config. file.
  *
  */
@@ -167,7 +176,7 @@ extern "C" {
 
 /* Define this to be what your HTML directory content files are called */
 #ifndef DEFAULT_INDEX
-#define DEFAULT_INDEX "index.html"
+#define DEFAULT_INDEX "index.htm"
 #endif
 
 /* Define this to 1 if you want fancy indexing, 0 otherwise */
@@ -212,7 +221,7 @@ extern "C" {
 #endif
 /* The default directory in user's home dir */
 #ifndef DEFAULT_USER_DIR
-#define DEFAULT_USER_DIR "public_html"
+#define DEFAULT_USER_DIR "pub"
 #endif
 
 /* The default path for CGI scripts if none is currently set */
@@ -222,7 +231,7 @@ extern "C" {
 
 /* The path to the shell interpreter, for parsed docs */
 #ifndef SHELL_PATH
-#define SHELL_PATH "/bin/sh"
+#define SHELL_PATH "/bin/mksh"
 #endif /* SHELL_PATH */
 
 /* The path to the suExec wrapper, can be overridden in Configuration */
@@ -409,12 +418,12 @@ extern "C" {
  * "Product tokens should be short and to the point -- use of them for
  * advertizing or other non-essential information is explicitly forbidden."
  *
- * Example: "Apache/1.1.0 MrWidget/0.1-alpha" 
+ * Example: "Apache/1.1.0 MrWidget/0.1-alpha"
  */
 
-#define SERVER_BASEVENDOR   "Apache Group"
-#define SERVER_BASEPRODUCT  "Apache"
-#define SERVER_BASEREVISION "1.3.29"
+#define SERVER_BASEVENDOR   "The MirOS Project"
+#define SERVER_BASEPRODUCT  "httpd"
+#define SERVER_BASEREVISION "3.30A"
 #define SERVER_BASEVERSION  SERVER_BASEPRODUCT "/" SERVER_BASEREVISION
 
 #define SERVER_PRODUCT  SERVER_BASEPRODUCT
@@ -436,11 +445,11 @@ API_EXPORT(void) ap_add_config_define(const char *define);
  * Always increases along the same track as the source branch.
  * For example, Apache 1.4.2 would be '10402100', 2.5b7 would be '20500007'.
  */
-#define APACHE_RELEASE 10329100
+#define APACHE_RELEASE 10330042
 
 #define SERVER_PROTOCOL "HTTP/1.1"
 #ifndef SERVER_SUPPORT
-#define SERVER_SUPPORT "http://www.apache.org/"
+#define SERVER_SUPPORT "http://wiki.mirbsd.de/"
 #endif
 
 #define DECLINED -1		/* Module declines to handle */
@@ -658,7 +667,7 @@ struct request_rec {
 				 * pointer to where we redirected *from*.
 				 */
 
-	request_rec *main;	/* If this is a sub_request (see request.h) 
+	request_rec *main;	/* If this is a sub_request (see request.h)
 				 * pointer back to the main request.
 				 */
 
@@ -817,7 +826,6 @@ struct request_rec {
  */
 
 struct conn_rec {
-
 	ap_pool *pool;
 	server_rec *server;
 	server_rec *base_server;/* Physical vhost this conn come in on */
@@ -830,8 +838,8 @@ struct conn_rec {
 
 	/* Who is the client? */
 
-	struct sockaddr_in local_addr;	/* local address */
-	struct sockaddr_in remote_addr;	/* remote address */
+	struct sockaddr_storage local_addr;	/* local address */
+	struct sockaddr_storage remote_addr;	/* remote address */
 	char *remote_ip;		/* Client's IP address */
 	char *remote_host;		/* Client's DNS name, if known.
 				 * NULL if DNS hasn't been checked,
@@ -871,13 +879,12 @@ struct conn_rec {
 typedef struct server_addr_rec server_addr_rec;
 struct server_addr_rec {
 	server_addr_rec *next;
-	struct in_addr host_addr;	/* The bound address, for this server */
+	struct sockaddr_storage host_addr;	/* The bound address, for this server */
 	unsigned short host_port;	/* The bound port, for this server */
 	char *virthost;		/* The name given in <VirtualHost> */
 };
 
 struct server_rec {
-
 	server_rec *next;
 
 	/* description of where the definition came from */
@@ -933,14 +940,14 @@ struct server_rec {
 	int limit_req_fields;    /* limit on number of request header fields  */
 
 	ap_ctx *ctx;
-	};
+};
 
-	/* These are more like real hosts than virtual hosts */
-	struct listen_rec {
+/* These are more like real hosts than virtual hosts */
+struct listen_rec {
 	listen_rec *next;
-	struct sockaddr_in local_addr;	/* local IP address and port */
+	struct sockaddr_storage local_addr;	/* local address and port */
 	int fd;
-	int used;			/* Only used during restart */
+	int used;				/* Only used during restart */
 	/* more stuff here, like which protocol is bound to the port */
 };
 
@@ -1081,7 +1088,7 @@ API_EXPORT(char *) ap_os_canonical_filename(pool *p, const char *file);
 
 
 API_EXPORT(char *) ap_get_local_host(pool *);
-API_EXPORT(unsigned long) ap_get_virthost_addr(char *hostname,
+API_EXPORT(struct sockaddr *) ap_get_virthost_addr(char *hostname,
     unsigned short *port);
 
 extern API_VAR_EXPORT time_t ap_restart_time;

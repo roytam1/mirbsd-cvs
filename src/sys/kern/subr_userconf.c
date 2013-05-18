@@ -476,7 +476,7 @@ userconf_change(devno)
 		}
 
 		if (c == 'y' || c == 'Y') {
-			int share = 0, i, *lk;
+			int share = 0, i, *lk = NULL;
 
 			/* XXX add cmd 'c' <devno> */
 			userconf_hist_cmd('c');
@@ -1053,7 +1053,7 @@ userconf_add(dev, len, unit, state)
 {
 	int i = 0, found = 0;
 	struct cfdata new;
-	int  val, max_unit, star_unit, orig;
+	int  val, max_unit, star_unit, orig = 0;
 
 	bzero(&new, sizeof(struct cfdata));
 

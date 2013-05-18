@@ -1,0 +1,10 @@
+# $MirOS$
+
+apmd_flags=""
+bootparamd_flags=-s
+httpd_flags="-u -DSSL"
+nfs_server=YES
+ntpd_flags=""
+portmap=YES
+rarpd_flags=-a
+wsmoused_flags="-2"

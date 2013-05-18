@@ -1,3 +1,4 @@
+/**	$MirOS: src/sbin/sysctl/sysctl.c,v 1.3 2005/11/23 16:44:10 tg Exp $ */
 /*	$OpenBSD: sysctl.c,v 1.123 2005/07/20 16:56:12 miod Exp $	*/
 /*	$NetBSD: sysctl.c,v 1.9 1995/09/30 07:12:50 thorpej Exp $	*/
 
@@ -36,16 +37,7 @@ static const char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)sysctl.c	8.5 (Berkeley) 5/9/95";
-#else
-static const char rcsid[] = "$OpenBSD: sysctl.c,v 1.123 2005/07/20 16:56:12 miod Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
-#include <sys/gmon.h>
 #include <sys/mount.h>
 #include <sys/stat.h>
 #include <sys/sem.h>
@@ -117,6 +109,9 @@ static const char rcsid[] = "$OpenBSD: sysctl.c,v 1.123 2005/07/20 16:56:12 miod
 #include <machine/biosvar.h>
 #endif
 
+__SCCSID("@(#)sysctl.c	8.5 (Berkeley) 5/9/95");
+__RCSID("$MirOS: src/sbin/sysctl/sysctl.c,v 1.3 2005/11/23 16:44:10 tg Exp $");
+
 struct ctlname topname[] = CTL_NAMES;
 struct ctlname kernname[] = CTL_KERN_NAMES;
 struct ctlname vmname[] = CTL_VM_NAMES;
@@ -132,7 +127,9 @@ struct ctlname ttysname[] = CTL_KERN_TTY_NAMES;
 struct ctlname semname[] = CTL_KERN_SEMINFO_NAMES;
 struct ctlname shmname[] = CTL_KERN_SHMINFO_NAMES;
 struct ctlname watchdogname[] = CTL_KERN_WATCHDOG_NAMES;
+#ifdef CTL_KERN_TIMECOUNTER_NAMES
 struct ctlname tcname[] = CTL_KERN_TIMECOUNTER_NAMES;
+#endif
 struct ctlname *vfsname;
 #ifdef CTL_MACHDEP_NAMES
 struct ctlname machdepname[] = CTL_MACHDEP_NAMES;
@@ -354,21 +351,6 @@ parse(char *string, int flags)
 
 	case CTL_KERN:
 		switch (mib[1]) {
-		case KERN_PROF:
-			mib[2] = GPROF_STATE;
-			size = sizeof(state);
-			if (sysctl(mib, 3, &state, &size, NULL, 0) == -1) {
-				if (flags == 0)
-					return;
-				if (!nflag)
-					(void)printf("%s: ", string);
-				(void)puts("kernel is not compiled for profiling");
-				return;
-			}
-			if (!nflag)
-				(void)printf("%s = %s\n", string,
-				    state == GMON_PROF_OFF ? "off" : "running");
-			return;
 		case KERN_FORKSTAT:
 			sysctl_forkstat(string, &bufp, mib, flags, &type);
 			return;
@@ -445,12 +427,14 @@ parse(char *string, int flags)
 			if (len < 0)
 				return;
 			break;
+#ifdef KERN_TIMECOUNTER
 		case KERN_TIMECOUNTER:
 			len = sysctl_tc(string, &bufp, mib, flags,
 			    &type);
 			if (len < 0)
 				return;
 			break;
+#endif
 		case KERN_EMUL:
 			sysctl_emul(string, newval, flags);
 			return;
@@ -807,7 +791,7 @@ parse(char *string, int flags)
 			boottime = btp->tv_sec;
 			(void)printf("%s%s%s", string, equ, ctime(&boottime));
 		} else
-			(void)printf("%ld\n", btp->tv_sec);
+			(void)printf("%lld\n", (int64_t)(btp->tv_sec));
 		return;
 	}
 	if (special & BLKDEV) {
@@ -1501,7 +1485,9 @@ struct list ttylist = { ttysname, KERN_TTY_MAXID };
 struct list semlist = { semname, KERN_SEMINFO_MAXID };
 struct list shmlist = { shmname, KERN_SHMINFO_MAXID };
 struct list watchdoglist = { watchdogname, KERN_WATCHDOG_MAXID };
+#ifdef KERN_TIMECOUNTER_MAXID
 struct list tclist = { tcname, KERN_TIMECOUNTER_MAXID };
+#endif
 
 /*
  * handle vfs namei cache statistics
@@ -2079,6 +2065,7 @@ sysctl_watchdog(char *string, char **bufpp, int mib[], int flags,
 	return (3);
 }
 
+#ifdef KERN_TIMECOUNTER_MAXID
 /*
  * Handle timecounter support
  */
@@ -2098,6 +2085,7 @@ sysctl_tc(char *string, char **bufpp, int mib[], int flags,
 	*typep = tclist.list[indx].ctl_type;
 	return (3);
 }
+#endif
 
 /*
  * Handle hardware monitoring sensors support

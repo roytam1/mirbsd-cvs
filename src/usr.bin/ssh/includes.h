@@ -1,3 +1,4 @@
+/* $MirOS: src/usr.bin/ssh/includes.h,v 1.7 2006/04/19 10:40:47 tg Exp $ */
 /* $OpenBSD: includes.h,v 1.40 2006/04/20 21:53:44 djm Exp $ */
 
 /*
@@ -16,9 +17,8 @@
 #ifndef INCLUDES_H
 #define INCLUDES_H
 
-#include <sys/types.h>
-#include <sys/socket.h>
 #include <sys/param.h>
+#include <sys/socket.h>
 #include <sys/time.h>
 
 #include <netinet/in.h>

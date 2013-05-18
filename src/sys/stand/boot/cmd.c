@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: cmd.c,v 1.52 2003/11/08 19:17:28 jmc Exp $	*/
 
 /*
@@ -82,8 +83,19 @@ getcmd(void)
 {
 	cmd.cmd = NULL;
 
-	if (!readline(cmd_buf, sizeof(cmd_buf), cmd.timeout))
+	switch (readline(cmd_buf, sizeof(cmd_buf), cmd.timeout))
+	{
+	default:
+		cmd.timeout = 0;
+		break;
+	case 0:
+		cmd.timeout = 0;
 		cmd.cmd = cmd_table;
+		break;
+	case -1:
+		strncpy(cmd_buf, "boot", 5);
+		break;
+	}
 
 	return docmd();
 }
@@ -229,11 +241,16 @@ readline(char *buf, size_t n, int to)
 			if (!(i++ % 1000) && (getsecs() >= tt))
 				break;
 
+#if 0
 		if (!cnischar()) {
 			strlcpy(buf, "boot", 5);
 			putchar('\n');
 			return strlen(buf);
 		}
+#else
+		if (!cnischar())
+			return -1;
+#endif
 	} else
 		while (!cnischar())
 			;
@@ -490,4 +507,3 @@ Xreboot(void)
 	exit();
 	return 0; /* just in case */
 }
-

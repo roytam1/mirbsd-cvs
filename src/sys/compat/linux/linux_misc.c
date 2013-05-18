@@ -1,7 +1,10 @@
+/**	$MirOS: src/sys/compat/linux/linux_misc.c,v 1.3 2005/07/03 21:18:58 tg Exp $ */
 /*	$OpenBSD: linux_misc.c,v 1.58 2005/02/17 18:07:36 jfb Exp $	*/
 /*	$NetBSD: linux_misc.c,v 1.27 1996/05/20 01:59:21 fvdl Exp $	*/
 
 /*-
+ * Copyright (c) 2004
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 1995, 1998, 1999 The NetBSD Foundation, Inc.
  * All rights reserved.
  *
@@ -84,13 +87,40 @@
 #include <compat/linux/linux_util.h>
 #include <compat/linux/linux_dirent.h>
 #include <compat/linux/linux_emuldata.h>
+#include <compat/linux/linux_ptrace.h>
 
 #include <compat/common/compat_dir.h>
+
+const int linux_ptrace_request_map[] = {
+	LINUX_PTRACE_TRACEME,	PT_TRACE_ME,
+	LINUX_PTRACE_PEEKTEXT,	PT_READ_I,
+	LINUX_PTRACE_PEEKDATA,	PT_READ_D,
+	LINUX_PTRACE_POKETEXT,	PT_WRITE_I,
+	LINUX_PTRACE_POKEDATA,	PT_WRITE_D,
+	LINUX_PTRACE_CONT,	PT_CONTINUE,
+	LINUX_PTRACE_KILL,	PT_KILL,
+	LINUX_PTRACE_ATTACH,	PT_ATTACH,
+	LINUX_PTRACE_DETACH,	PT_DETACH,
+#ifdef PT_STEP
+	LINUX_PTRACE_SINGLESTEP,	PT_STEP,
+#endif
+	-1
+};
+
+struct compat_time_sys_wait4_args {
+	syscallarg(pid_t) pid;
+	syscallarg(int *) status;
+	syscallarg(int) options;
+	syscallarg(struct rusage_compat *) rusage;
+};
+
+extern char emul_uname[];
+extern int compat_time_sys_wait4(struct proc *, void *, register_t *);
 
 /* linux_misc.c */
 static void bsd_to_linux_statfs(struct statfs *, struct linux_statfs *);
 int	linux_select1(struct proc *, register_t *, int, fd_set *,
-     fd_set *, fd_set *, struct timeval *);
+     fd_set *, fd_set *, struct timeval_compat *);
 static int getdents_common(struct proc *, void *, register_t *, int);
 static void linux_to_bsd_mmap_args(struct sys_mmap_args *,
     const struct linux_sys_mmap2_args *);
@@ -173,9 +203,9 @@ linux_sys_wait4(p, v, retval)
 		syscallarg(int) pid;
 		syscallarg(int *) status;
 		syscallarg(int) options;
-		syscallarg(struct rusage *) rusage;
+		syscallarg(struct rusage_compat *) rusage;
 	} */ *uap = v;
-	struct sys_wait4_args w4a;
+	struct compat_time_sys_wait4_args w4a;
 	int error, *status, tstat, linux_options, options;
 	caddr_t sg;
 
@@ -203,7 +233,7 @@ linux_sys_wait4(p, v, retval)
 	SCARG(&w4a, options) = options;
 	SCARG(&w4a, rusage) = SCARG(uap, rusage);
 
-	if ((error = sys_wait4(p, &w4a, retval)))
+	if ((error = compat_time_sys_wait4(p, &w4a, retval)))
 		return error;
 
 	p->p_siglist &= ~sigmask(SIGCHLD);
@@ -515,17 +545,17 @@ linux_sys_uname(p, v, retval)
 	struct linux_sys_uname_args /* {
 		syscallarg(struct linux_utsname *) up;
 	} */ *uap = v;
-	extern char hostname[], machine[], domainname[];
+	extern char hostname[], machine[];
 	struct linux_utsname luts;
 	int len;
 	char *cp;
 
-	strlcpy(luts.l_sysname, ostype, sizeof(luts.l_sysname));
+	strlcpy(luts.l_sysname, emul_uname, sizeof(luts.l_sysname));
 	strlcpy(luts.l_nodename, hostname, sizeof(luts.l_nodename));
 	strlcpy(luts.l_release, osrelease, sizeof(luts.l_release));
 	strlcpy(luts.l_version, version, sizeof(luts.l_version));
 	strlcpy(luts.l_machine, machine, sizeof(luts.l_machine));
-	strlcpy(luts.l_domainname, domainname, sizeof(luts.l_domainname));
+	luts.l_domainname[0] = '\0';
 
 	/* This part taken from the uname() in libc */
 	len = sizeof(luts.l_version);
@@ -550,7 +580,7 @@ linux_sys_olduname(p, v, retval)
 	int len;
 	char *cp;
 
-	strlcpy(luts.l_sysname, ostype, sizeof(luts.l_sysname));
+	strlcpy(luts.l_sysname, emul_uname, sizeof(luts.l_sysname));
 	strlcpy(luts.l_nodename, hostname, sizeof(luts.l_nodename));
 	strlcpy(luts.l_release, osrelease, sizeof(luts.l_release));
 	strlcpy(luts.l_version, version, sizeof(luts.l_version));
@@ -579,7 +609,7 @@ linux_sys_oldolduname(p, v, retval)
 	int len;
 	char *cp;
 
-	strlcpy(luts.l_sysname, ostype, sizeof(luts.l_sysname));
+	strlcpy(luts.l_sysname, emul_uname, sizeof(luts.l_sysname));
 	strlcpy(luts.l_nodename, hostname, sizeof(luts.l_nodename));
 	strlcpy(luts.l_release, osrelease, sizeof(luts.l_release));
 	strlcpy(luts.l_version, version, sizeof(luts.l_version));
@@ -670,7 +700,7 @@ linux_to_bsd_mmap_args(cma, uap)
 	const struct linux_sys_mmap2_args *uap;
 {
 	int flags = MAP_TRYFIXED, fl = SCARG(uap, flags);
-	
+
 	flags |= cvtto_bsd_mask(fl, LINUX_MAP_SHARED, MAP_SHARED);
 	flags |= cvtto_bsd_mask(fl, LINUX_MAP_PRIVATE, MAP_PRIVATE);
 	flags |= cvtto_bsd_mask(fl, LINUX_MAP_FIXED, MAP_FIXED);
@@ -703,10 +733,10 @@ linux_sys_mremap(p, v, retval)
 	struct sys_munmap_args mua;
 	size_t old_size, new_size;
 	int error;
- 
+
 	old_size = round_page(SCARG(uap, old_size));
 	new_size = round_page(SCARG(uap, new_size));
- 
+
 	/*
 	 * Growing mapped region.
 	 */
@@ -730,7 +760,7 @@ linux_sys_mremap(p, v, retval)
 		*retval = error ? 0 : (register_t)SCARG(uap, old_address);
 		return (error);
 	}
- 
+
 	/*
 	 * No change.
 	 */
@@ -894,7 +924,7 @@ linux_sys_alarm(p, v, retval)
 }
 
 /*
- * utime(). Do conversion to things that utimes() understands, 
+ * utime(). Do conversion to things that utimes() understands,
  * and pass it on.
  */
 int
@@ -996,7 +1026,7 @@ linux_readdir_callback(arg, bdp, cookie)
 	int linux_reclen;
 	int error;
 
-	if (cb->oldcall == 2) 
+	if (cb->oldcall == 2)
 		return (ENOMEM);
 
 	linux_reclen = (cb->is64bit) ?
@@ -1038,7 +1068,7 @@ linux_readdir_callback(arg, bdp, cookie)
 
 	if (cb->oldcall == 1)
 		++cb->oldcall;
-	
+
 	return (0);
 }
 
@@ -1147,7 +1177,7 @@ linux_sys_select(p, v, retval)
 		syscallarg(fd_set *) readfds;
 		syscallarg(fd_set *) writefds;
 		syscallarg(fd_set *) exceptfds;
-		syscallarg(struct timeval *) timeout;
+		syscallarg(struct timeval_compat *) timeout;
 	} */ *uap = v;
 
 	return linux_select1(p, retval, SCARG(uap, nfds), SCARG(uap, readfds),
@@ -1166,18 +1196,22 @@ linux_select1(p, retval, nfds, readfds, writefds, exceptfds, timeout)
 	register_t *retval;
 	int nfds;
 	fd_set *readfds, *writefds, *exceptfds;
-	struct timeval *timeout;
+	struct timeval_compat *timeout;
 {
 	struct sys_select_args bsa;
-	struct timeval tv0, tv1, utv, *tvp;
+	struct timeval tv0, tv1, utv64, *tvp;
+	struct timeval_compat utv;
 	caddr_t sg;
 	int error;
+
+	sg = stackgap_init(p->p_emul);
+	tvp = stackgap_alloc(&sg, sizeof(utv64));
 
 	SCARG(&bsa, nd) = nfds;
 	SCARG(&bsa, in) = readfds;
 	SCARG(&bsa, ou) = writefds;
 	SCARG(&bsa, ex) = exceptfds;
-	SCARG(&bsa, tv) = timeout;
+	SCARG(&bsa, tv) = NULL;
 
 	/*
 	 * Store current time for computation of the amount of
@@ -1186,25 +1220,25 @@ linux_select1(p, retval, nfds, readfds, writefds, exceptfds, timeout)
 	if (timeout) {
 		if ((error = copyin(timeout, &utv, sizeof(utv))))
 			return error;
-		if (itimerfix(&utv)) {
+		utv64.tv_sec = utv.tv_sec;
+		utv64.tv_usec = utv.tv_usec;
+		if (itimerfix(&utv64)) {
 			/*
 			 * The timeval was invalid.  Convert it to something
 			 * valid that will act as it does under Linux.
 			 */
-			sg = stackgap_init(p->p_emul);
-			tvp = stackgap_alloc(&sg, sizeof(utv));
-			utv.tv_sec += utv.tv_usec / 1000000;
-			utv.tv_usec %= 1000000;
-			if (utv.tv_usec < 0) {
-				utv.tv_sec -= 1;
-				utv.tv_usec += 1000000;
+			utv64.tv_sec += utv64.tv_usec / 1000000;
+			utv64.tv_usec %= 1000000;
+			if (utv64.tv_usec < 0) {
+				utv64.tv_sec -= 1;
+				utv64.tv_usec += 1000000;
 			}
-			if (utv.tv_sec < 0)
-				timerclear(&utv);
-			if ((error = copyout(&utv, tvp, sizeof(utv))))
-				return error;
-			SCARG(&bsa, tv) = tvp;
+			if (utv64.tv_sec < 0)
+				timerclear(&utv64);
 		}
+		if ((error = copyout(&utv64, tvp, sizeof(utv64))))
+			return error;
+		SCARG(&bsa, tv) = tvp;
 		microtime(&tv0);
 	}
 
@@ -1229,11 +1263,13 @@ linux_select1(p, retval, nfds, readfds, writefds, exceptfds, timeout)
 			 */
 			microtime(&tv1);
 			timersub(&tv1, &tv0, &tv1);
-			timersub(&utv, &tv1, &utv);
-			if (utv.tv_sec < 0)
-				timerclear(&utv);
+			timersub(&utv64, &tv1, &utv64);
+			if (utv64.tv_sec < 0)
+				timerclear(&utv64);
 		} else
-			timerclear(&utv);
+			timerclear(&utv64);
+		utv.tv_sec = utv64.tv_sec;
+		utv.tv_usec = utv64.tv_usec;
 		if ((error = copyout(&utv, timeout, sizeof(utv))))
 			return error;
 	}
@@ -1303,7 +1339,7 @@ linux_sys_setreuid16(p, v, retval)
 		syscallarg(int) euid;
 	} */ *uap = v;
 	struct sys_setreuid_args bsa;
-	
+
 	SCARG(&bsa, ruid) = ((linux_uid_t)SCARG(uap, ruid) == (linux_uid_t)-1) ?
 		(uid_t)-1 : SCARG(uap, ruid);
 	SCARG(&bsa, euid) = ((linux_uid_t)SCARG(uap, euid) == (linux_uid_t)-1) ?
@@ -1323,7 +1359,7 @@ linux_sys_setregid16(p, v, retval)
 		syscallarg(int) egid;
 	} */ *uap = v;
 	struct sys_setregid_args bsa;
-	
+
 	SCARG(&bsa, rgid) = ((linux_gid_t)SCARG(uap, rgid) == (linux_gid_t)-1) ?
 		(uid_t)-1 : SCARG(uap, rgid);
 	SCARG(&bsa, egid) = ((linux_gid_t)SCARG(uap, egid) == (linux_gid_t)-1) ?
@@ -1530,4 +1566,64 @@ linux_sys_sysinfo(p, v, retval)
 	si.mem_unit = 1;
 
 	return (copyout(&si, SCARG(uap, sysinfo), sizeof(si)));
+}
+
+int
+linux_sys_ptrace(l, v, retval)
+	struct proc *l;
+	void *v;
+	register_t *retval;
+{
+	struct linux_sys_ptrace_args /* {
+		i386, m68k, powerpc: T=int
+		alpha, amd64: T=long
+		syscallarg(T) request;
+		syscallarg(T) pid;
+		syscallarg(T) addr;
+		syscallarg(T) data;
+	} */ *uap = v;
+	const int *ptr;
+	int request;
+	int error;
+
+	ptr = linux_ptrace_request_map;
+	request = SCARG(uap, request);
+	while (*ptr != -1)
+		if (*ptr++ == request) {
+			struct sys_ptrace_args pta;
+
+			SCARG(&pta, req) = *ptr;
+			SCARG(&pta, pid) = SCARG(uap, pid);
+			SCARG(&pta, addr) = (caddr_t)SCARG(uap, addr);
+			SCARG(&pta, data) = SCARG(uap, data);
+
+			/*
+			 * Linux ptrace(PTRACE_CONT, pid, 0, 0) means actually
+			 * to continue where the process left off previously.
+			 * The same thing is achieved by addr == (caddr_t) 1
+			 * on NetBSD, so rewrite 'addr' appropriately.
+			 */
+			if (request == LINUX_PTRACE_CONT && SCARG(uap, addr)==0)
+				SCARG(&pta, addr) = (caddr_t) 1;
+
+			error = sys_ptrace(l, &pta, retval);
+			if (error)
+				return error;
+			switch (request) {
+			case LINUX_PTRACE_PEEKTEXT:
+			case LINUX_PTRACE_PEEKDATA:
+				error = copyout (retval,
+				    (caddr_t)SCARG(uap, data), 
+				    sizeof *retval);
+				*retval = SCARG(uap, data);
+				break;
+			default:
+				break;
+			}
+			return error;
+		}
+		else
+			ptr++;
+
+	return LINUX_SYS_PTRACE_ARCH(l, uap, retval);
 }

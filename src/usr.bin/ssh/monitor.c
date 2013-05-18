@@ -26,8 +26,8 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.4 2006/02/22 01:23:49 tg Exp $");
 
-#include <sys/types.h>
 #include <sys/wait.h>
 
 #include <paths.h>
@@ -63,11 +63,6 @@
 #include "bufaux.h"
 #include "compat.h"
 #include "ssh2.h"
-
-#ifdef GSSAPI
-#include "ssh-gss.h"
-static Gssctxt *gsscontext = NULL;
-#endif
 
 /* Imports */
 extern ServerOptions options;
@@ -127,13 +122,6 @@ int mm_answer_rsa_response(int, Buffer *);
 int mm_answer_sesskey(int, Buffer *);
 int mm_answer_sessid(int, Buffer *);
 
-#ifdef GSSAPI
-int mm_answer_gss_setup_ctx(int, Buffer *);
-int mm_answer_gss_accept_ctx(int, Buffer *);
-int mm_answer_gss_userok(int, Buffer *);
-int mm_answer_gss_checkmic(int, Buffer *);
-#endif
-
 static Authctxt *authctxt;
 static BIGNUM *ssh1_challenge = NULL;	/* used for ssh1 rsa auth */
 
@@ -180,12 +168,6 @@ struct mon_table mon_dispatch_proto20[] = {
 #endif
     {MONITOR_REQ_KEYALLOWED, MON_ISAUTH, mm_answer_keyallowed},
     {MONITOR_REQ_KEYVERIFY, MON_AUTH, mm_answer_keyverify},
-#ifdef GSSAPI
-    {MONITOR_REQ_GSSSETUP, MON_ISAUTH, mm_answer_gss_setup_ctx},
-    {MONITOR_REQ_GSSSTEP, MON_ISAUTH, mm_answer_gss_accept_ctx},
-    {MONITOR_REQ_GSSUSEROK, MON_AUTH, mm_answer_gss_userok},
-    {MONITOR_REQ_GSSCHECKMIC, MON_ISAUTH, mm_answer_gss_checkmic},
-#endif
     {0, 0, NULL}
 };
 
@@ -1582,107 +1564,3 @@ monitor_reinit(struct monitor *mon)
 	mon->m_recvfd = pair[0];
 	mon->m_sendfd = pair[1];
 }
-
-#ifdef GSSAPI
-int
-mm_answer_gss_setup_ctx(int sock, Buffer *m)
-{
-	gss_OID_desc goid;
-	OM_uint32 major;
-	u_int len;
-
-	goid.elements = buffer_get_string(m, &len);
-	goid.length = len;
-
-	major = ssh_gssapi_server_ctx(&gsscontext, &goid);
-
-	xfree(goid.elements);
-
-	buffer_clear(m);
-	buffer_put_int(m, major);
-
-	mm_request_send(sock, MONITOR_ANS_GSSSETUP, m);
-
-	/* Now we have a context, enable the step */
-	monitor_permit(mon_dispatch, MONITOR_REQ_GSSSTEP, 1);
-
-	return (0);
-}
-
-int
-mm_answer_gss_accept_ctx(int sock, Buffer *m)
-{
-	gss_buffer_desc in;
-	gss_buffer_desc out = GSS_C_EMPTY_BUFFER;
-	OM_uint32 major, minor;
-	OM_uint32 flags = 0; /* GSI needs this */
-	u_int len;
-
-	in.value = buffer_get_string(m, &len);
-	in.length = len;
-	major = ssh_gssapi_accept_ctx(gsscontext, &in, &out, &flags);
-	xfree(in.value);
-
-	buffer_clear(m);
-	buffer_put_int(m, major);
-	buffer_put_string(m, out.value, out.length);
-	buffer_put_int(m, flags);
-	mm_request_send(sock, MONITOR_ANS_GSSSTEP, m);
-
-	gss_release_buffer(&minor, &out);
-
-	if (major == GSS_S_COMPLETE) {
-		monitor_permit(mon_dispatch, MONITOR_REQ_GSSSTEP, 0);
-		monitor_permit(mon_dispatch, MONITOR_REQ_GSSUSEROK, 1);
-		monitor_permit(mon_dispatch, MONITOR_REQ_GSSCHECKMIC, 1);
-	}
-	return (0);
-}
-
-int
-mm_answer_gss_checkmic(int sock, Buffer *m)
-{
-	gss_buffer_desc gssbuf, mic;
-	OM_uint32 ret;
-	u_int len;
-
-	gssbuf.value = buffer_get_string(m, &len);
-	gssbuf.length = len;
-	mic.value = buffer_get_string(m, &len);
-	mic.length = len;
-
-	ret = ssh_gssapi_checkmic(gsscontext, &gssbuf, &mic);
-
-	xfree(gssbuf.value);
-	xfree(mic.value);
-
-	buffer_clear(m);
-	buffer_put_int(m, ret);
-
-	mm_request_send(sock, MONITOR_ANS_GSSCHECKMIC, m);
-
-	if (!GSS_ERROR(ret))
-		monitor_permit(mon_dispatch, MONITOR_REQ_GSSUSEROK, 1);
-
-	return (0);
-}
-
-int
-mm_answer_gss_userok(int sock, Buffer *m)
-{
-	int authenticated;
-
-	authenticated = authctxt->valid && ssh_gssapi_userok(authctxt->user);
-
-	buffer_clear(m);
-	buffer_put_int(m, authenticated);
-
-	debug3("%s: sending result %d", __func__, authenticated);
-	mm_request_send(sock, MONITOR_ANS_GSSUSEROK, m);
-
-	auth_method = "gssapi-with-mic";
-
-	/* Monitor loop will terminate if authenticated */
-	return (authenticated);
-}
-#endif /* GSSAPI */

@@ -91,10 +91,10 @@ driver.
 .Sh BUGS
 The
 .Nm
-driver is unlikely to work on non-EISA and non-PCI machines.
+driver is unlikely to work on non-PCI machines.
 The ISA bus only asserts 10 I/O address lines, and this is not enough.
 .Pp
-Even on EISA and PCI machines, some address conflicts have been observed.
+Even on PCI machines, some address conflicts have been observed.
 On one machine, the second port always conflicted with something (though
 it's not clear what) and caused strange results.
 Disabling the second port in the kernel config allowed the other three

@@ -24,6 +24,7 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/auth2.c,v 1.3 2006/02/22 02:16:44 tg Exp $");
 
 #include "ssh2.h"
 #include "xmalloc.h"
@@ -35,10 +36,6 @@
 #include "dispatch.h"
 #include "pathnames.h"
 #include "monitor_wrap.h"
-
-#ifdef GSSAPI
-#include "ssh-gss.h"
-#endif
 
 /* import */
 extern ServerOptions options;
@@ -52,16 +49,10 @@ extern Authmethod method_pubkey;
 extern Authmethod method_passwd;
 extern Authmethod method_kbdint;
 extern Authmethod method_hostbased;
-#ifdef GSSAPI
-extern Authmethod method_gssapi;
-#endif
 
 Authmethod *authmethods[] = {
 	&method_none,
 	&method_pubkey,
-#ifdef GSSAPI
-	&method_gssapi,
-#endif
 	&method_passwd,
 	&method_kbdint,
 	&method_hostbased,
@@ -76,7 +67,6 @@ static void input_userauth_request(int, u_int32_t, void *);
 /* helper */
 static Authmethod *authmethod_lookup(const char *);
 static char *authmethods_get(void);
-int user_key_allowed(struct passwd *, Key *);
 
 /*
  * loop until authctxt->success == TRUE
@@ -174,11 +164,6 @@ input_userauth_request(int type, u_int32_t seq, void *ctxt)
 	}
 	/* reset state */
 	auth2_challenge_stop(authctxt);
-
-#ifdef GSSAPI
-	dispatch_set(SSH2_MSG_USERAUTH_GSSAPI_TOKEN, NULL);
-	dispatch_set(SSH2_MSG_USERAUTH_GSSAPI_EXCHANGE_COMPLETE, NULL);
-#endif
 
 	authctxt->postponed = 0;
 

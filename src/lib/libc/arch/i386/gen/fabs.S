@@ -33,6 +33,8 @@
 
 #include <machine/asm.h>
 
+	.text
+
 ENTRY(fabs)
 	fldl	4(%esp)
 	fabs

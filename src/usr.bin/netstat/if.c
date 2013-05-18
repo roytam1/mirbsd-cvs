@@ -48,8 +48,6 @@ static char *rcsid = "$OpenBSD: if.c,v 1.39 2004/06/25 20:05:40 henning Exp $";
 #include <netinet/in.h>
 #include <netinet/in_var.h>
 #include <netinet/if_ether.h>
-#include <netns/ns.h>
-#include <netns/ns_if.h>
 #include <netipx/ipx.h>
 #include <netipx/ipx_if.h>
 #include <arpa/inet.h>
@@ -84,7 +82,6 @@ intpr(int interval, u_long ifnetaddr)
 #ifdef INET6
 		struct in6_ifaddr in6;
 #endif
-		struct ns_ifaddr ns;
 		struct ipx_ifaddr ipx;
 	} ifaddr;
 	u_long total, ifaddraddr;
@@ -296,22 +293,6 @@ intpr(int interval, u_long ifnetaddr)
 			case AF_APPLETALK:
 				printf("atlk:%-12s",atalk_print(sa,0x10) );
 				printf("%-12s ",atalk_print(sa,0x0b) );
-				break;
-			case AF_NS:
-				{
-				struct sockaddr_ns *sns =
-					(struct sockaddr_ns *)sa;
-				u_long net;
-				char netnum[8];
-
-				*(union ns_net *)&net = sns->sns_addr.x_net;
-				snprintf(netnum, sizeof netnum, "%xH",
-				    ntohl(net));
-				upHex(netnum);
-				printf("ns:%-8s ", netnum);
-				printf("%-17s ",
-				    ns_phost((struct sockaddr *)sns));
-				}
 				break;
 			case AF_LINK:
 				{

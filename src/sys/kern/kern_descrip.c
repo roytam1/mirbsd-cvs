@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/kern/kern_descrip.c,v 1.2 2005/03/06 21:28:00 tg Exp $ */
 /*	$OpenBSD: kern_descrip.c,v 1.68 2004/01/12 18:06:51 tedu Exp $	*/
 /*	$NetBSD: kern_descrip.c,v 1.42 1996/03/30 22:24:38 christos Exp $	*/
 
@@ -145,8 +146,8 @@ find_last_set(struct filedesc *fd, int last)
 
 static __inline void
 fd_used(fdp, fd)
-	register struct filedesc *fdp;
-	register int fd;
+	struct filedesc *fdp;
+	int fd;
 {
 	u_int off = fd >> NDENTRYSHIFT;
 
@@ -160,8 +161,8 @@ fd_used(fdp, fd)
 
 static __inline void
 fd_unused(fdp, fd)
-	register struct filedesc *fdp;
-	register int fd;
+	struct filedesc *fdp;
+	int fd;
 {
 	u_int off = fd >> NDENTRYSHIFT;
 
@@ -507,7 +508,7 @@ restart:
 	}
 out:
 	FRELE(fp);
-	return (error);	
+	return (error);
 }
 
 /*
@@ -718,7 +719,7 @@ restart:
 	new = find_next_zero(fdp->fd_himap, off,
 	    (last + NDENTRIES - 1) >> NDENTRYSHIFT);
 	if (new != -1) {
-		i = find_next_zero(&fdp->fd_lomap[new], 
+		i = find_next_zero(&fdp->fd_lomap[new],
 				   new > off ? 0 : i & NDENTRYMASK,
 				   NDENTRIES);
 		if (i == -1) {
@@ -804,7 +805,7 @@ fdexpand(p)
 	}
 	fdp->fd_ofiles = newofile;
 	fdp->fd_ofileflags = newofileflags;
-	fdp->fd_nfiles = nfiles;	
+	fdp->fd_nfiles = nfiles;
 }
 
 /*
@@ -813,11 +814,11 @@ fdexpand(p)
  */
 int
 falloc(p, resultfp, resultfd)
-	register struct proc *p;
+	struct proc *p;
 	struct file **resultfp;
 	int *resultfd;
 {
-	register struct file *fp, *fq;
+	struct file *fp, *fq;
 	int error, i;
 
 restart:
@@ -1005,9 +1006,9 @@ void
 fdfree(p)
 	struct proc *p;
 {
-	register struct filedesc *fdp = p->p_fd;
-	register struct file **fpp, *fp;
-	register int i;
+	struct filedesc *fdp = p->p_fd;
+	struct file **fpp, *fp;
+	int i;
 
 	if (--fdp->fd_refcnt > 0)
 		return;
@@ -1117,7 +1118,7 @@ closef(struct file *fp, struct proc *p)
 	crfree(fp->f_cred);
 #ifdef DIAGNOSTIC
 	if (fp->f_count != 0 || fp->f_usecount != 1)
-		panic("closef: count: %d/%d", fp->f_count, fp->f_usecount);
+		panic("closef: count: %ld/%d", fp->f_count, fp->f_usecount);
 #endif
 	nfiles--;
 	pool_put(&file_pool, fp);
@@ -1222,6 +1223,17 @@ dupfdopen(fdp, indx, dfd, mode, error)
 	struct file *wfp;
 
 	/*
+	 * Assume that the filename was user-specified; applications do
+	 * not tend to opens of /dev/fd/# when they can just call dup()
+	 */
+	if ((curproc->p_flag & (P_SUGIDEXEC | P_SUGID))) {
+		if (curproc->p_descfd == 255)
+			return (EPERM);
+		if (curproc->p_descfd != curproc->p_dupfd)
+			return (EPERM);
+	}
+
+	/*
 	 * If the to-be-dup'd fd number is greater than the allowed number
 	 * of file descriptors, or the fd to be dup'd has already been
 	 * closed, reject. Note, there is no need to check for new == old
@@ -1288,8 +1300,8 @@ void
 fdcloseexec(p)
 	struct proc *p;
 {
-	register struct filedesc *fdp = p->p_fd;
-	register int fd;
+	struct filedesc *fdp = p->p_fd;
+	int fd;
 
 	for (fd = 0; fd <= fdp->fd_lastfile; fd++)
 		if (fdp->fd_ofileflags[fd] & UF_EXCLOSE)

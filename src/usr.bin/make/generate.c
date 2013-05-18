@@ -1,4 +1,4 @@
-/*	$OpenPackages$ */
+/**	$MirOS: src/usr.bin/make/generate.c,v 1.4 2005/11/17 20:58:17 tg Exp $ */
 /*	$OpenBSD: generate.c,v 1.5 2002/06/11 21:12:11 espie Exp $ */
 
 /*
@@ -34,12 +34,16 @@
 #include "ohash.h"
 #include "cond_int.h"
 #include "var_int.h"
+#include "defines.h"
+
+__RCSID("$MirOS: src/usr.bin/make/generate.c,v 1.4 2005/11/17 20:58:17 tg Exp $");
 
 #define M(x)	x, #x
-char *table_var[] = {
+const char *table_var[] = {
 	M(TARGET),
 	M(OODATE),
 	M(ALLSRC),
+	M(GNUALLSRC),
 	M(IMPSRC),
 	M(PREFIX),
 	M(ARCHIVE),
@@ -62,7 +66,7 @@ char *table_var[] = {
 	NULL
 };
 
-char *table_cond[] = {
+const char *table_cond[] = {
 	M(COND_IF),
 	M(COND_IFDEF),
 	M(COND_IFNDEF),
@@ -79,11 +83,13 @@ char *table_cond[] = {
 	M(COND_ENDFOR),
 	M(COND_INCLUDE),
 	M(COND_UNDEF),
+	M(COND_UERR),
+	M(COND_TRACE),
 	NULL
 };
 
 
-char **table[] = {
+const char **table[] = {
 	table_var,
 	table_cond
 };
@@ -96,8 +102,8 @@ main(int argc, char *argv[])
 	u_int32_t h;
 	u_int32_t slots;
 	const char *e;
-	char **occupied;
-	char **t;
+	const char **occupied;
+	const char **t;
 	int tn;
 
 	Init_Stats();
@@ -118,7 +124,7 @@ main(int argc, char *argv[])
 	} else
 		occupied = NULL;
 
-	printf("/* File created by generate %d %d, do not edit */\n", 
+	printf("/* File created by generate %d %d, do not edit */\n",
 	    tn, slots);
 	for (i = 0; t[i] != NULL; i++) {
 		e = NULL;
@@ -126,7 +132,7 @@ main(int argc, char *argv[])
 		if (slots) {
 			h = v % slots;
 			if (occupied[h]) {
-				fprintf(stderr, 
+				fprintf(stderr,
 				    "Collision: %s / %s (%d)\n", occupied[h],
 				    t[i], h);
 				exit(1);

@@ -1,6 +1,7 @@
 #ifndef XCOMM
 #define XCOMM /**/#
 #endif
+XCOMM $MirOS$
 XCOMM @(#)Sub Imakefile	xlockmore
 XCOMM
 
@@ -38,7 +39,7 @@ XLOCKCHECKSRCS = $(DU)memcheck$(C)
 SRCS=$(XLOCKUTILSRCS) $(XLOCKCHECKSRCS)
 
 #if HasBSDAuth
-INSTPGMFLAGS= -g auth -m2755
+INSTPGMFLAGS= -g auth -m 2555
 #endif
 
 XCOMM default target

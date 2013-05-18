@@ -1,31 +1,30 @@
-#	$OpenBSD: Makefile,v 1.17 2005/04/29 05:42:55 djm Exp $
+# $MirOS: src/usr.sbin/openssl/Makefile,v 1.5 2005/04/30 22:54:27 tg Exp $
+# $OpenBSD: Makefile,v 1.17 2005/04/29 05:42:55 djm Exp $
 
-PROG=	openssl
-LDADD=	-lssl -lcrypto
-MAN1=	openssl.1
+PROG=		openssl
+LDADD=		-lssl -lcrypto
+DPADD=		${LIBSSL} ${LIBCRYPTO}
 
-SSLEAYDIST= lib/libssl/src
+.include <bsd.own.mk>
 
-SSLEAY_SRC= ${.CURDIR}/../../${SSLEAYDIST}/apps
-SSLEAY_SRC_TOP= ${.CURDIR}/../../${SSLEAYDIST}
+SSLEAYDIST=	lib/libssl/src
+SSLEAY_SRC_TOP=	${BSDSRCDIR}/${SSLEAYDIST}
+SSLEAY_SRC=	${SSLEAY_SRC_TOP}/apps
 
-.if ${MACHINE_ARCH} == "i386" || ${MACHINE_ARCH} == "vax" || \
-    ${MACHINE_ARCH} == "amd64"
-
-CFLAGS+= -DL_ENDIAN
+.if ${MACHINE} == "i386"
+CPPFLAGS+=	-DL_ENDIAN
+.elif ${MACHINE} == "sparc"
+CPPFLAGS+=	-DB_ENDIAN
 .else
-.if ${MACHINE_ARCH} == "alpha"
-# no ENDIAN stuff defined for alpha
-.else
-CFLAGS+= -DB_ENDIAN
-.endif
+.BEGIN:
+	@echo No endianness defined.
+	@exit 1
 .endif
 
-CFLAGS+= -DMONOLITH -DOPENSSL_NO_IDEA -DTERMIOS -DANSI_SOURCE -DOPENSSL_NO_RC5
-CFLAGS+= -DOPENSSL_NO_MDC2
-CFLAGS+= -I${SSLEAY_SRC_TOP}
+CPPFLAGS+=	-DMONOLITH -DOPENSSL_NO_IDEA -DTERMIOS -DANSI_SOURCE
+CPPFLAGS+=	-I${SSLEAY_SRC_TOP}
 
-SRCS=	verify.c asn1pars.c req.c dgst.c dh.c enc.c passwd.c gendh.c errstr.c\
+SRCS=	verify.c asn1pars.c req.c dgst.c dh.c enc.c passwd.c gendh.c errstr.c \
 	pkcs7.c crl2p7.c crl.c ca.c \
 	rsa.c dsa.c dsaparam.c \
 	x509.c genrsa.c gendsa.c s_server.c s_client.c speed.c \

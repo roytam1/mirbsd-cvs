@@ -278,6 +278,7 @@ link_PullPacket(struct link *l, char *buf, size_t len, struct bundle *b)
   struct mbuf *bp, *lbp[LAYER_MAX], *next;
   u_short lproto[LAYER_MAX], proto;
   int layer;
+  u_char *tmp;
 
   /*
    * When we ``pull'' a packet from the link, it gets processed by the
@@ -295,7 +296,8 @@ link_PullPacket(struct link *l, char *buf, size_t len, struct bundle *b)
 
   memset(lbp, '\0', sizeof lbp);
   lbp[0] = m_get(len, MB_UNKNOWN);
-  memcpy(MBUF_CTOP(lbp[0]), buf, len);
+  if ((tmp = MBUF_CTOP(lbp[0])) != NULL)
+    memcpy(tmp, buf, len);
   lproto[0] = 0;
   layer = 0;
 

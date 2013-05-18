@@ -6,7 +6,6 @@ SRCS=	callout.c cfparse.c config.c igmp.c inet.c kern.c main.c prune.c \
 MAN=	mrouted.8
 
 LDADD+=	-lutil
-CFLAGS+=-I${.CURDIR}
 DPADD+=	${LIBUTIL}
 
 CLEANFILES+= cfparse.c y.tab.h

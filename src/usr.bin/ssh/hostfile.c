@@ -37,6 +37,7 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/hostfile.c,v 1.2 2006/02/22 02:16:46 tg Exp $");
 
 #include <resolv.h>
 
@@ -81,7 +82,7 @@ extract_salt(const char *s, u_int l, char *salt, size_t salt_len)
 	memcpy(b64salt, s, b64len);
 	b64salt[b64len] = '\0';
 
-	ret = __b64_pton(b64salt, salt, salt_len);
+	ret = __b64_pton(b64salt, (u_char *)salt, salt_len);
 	xfree(b64salt);
 	if (ret == -1) {
 		debug2("extract_salt: salt decode error");
@@ -119,12 +120,12 @@ host_hash(const char *host, const char *name_from_hostfile, u_int src_len)
 	}
 
 	HMAC_Init(&mac_ctx, salt, len, md);
-	HMAC_Update(&mac_ctx, host, strlen(host));
-	HMAC_Final(&mac_ctx, result, NULL);
+	HMAC_Update(&mac_ctx, (const u_char *)host, strlen(host));
+	HMAC_Final(&mac_ctx, (u_char *)result, NULL);
 	HMAC_cleanup(&mac_ctx);
 
-	if (__b64_ntop(salt, len, uu_salt, sizeof(uu_salt)) == -1 ||
-	    __b64_ntop(result, len, uu_result, sizeof(uu_result)) == -1)
+	if (__b64_ntop((u_char *)salt, len, uu_salt, sizeof(uu_salt)) == -1 ||
+	    __b64_ntop((u_char *)result, len, uu_result, sizeof(uu_result)) == -1)
 		fatal("host_hash: __b64_ntop failed");
 
 	snprintf(encoded, sizeof(encoded), "%s%s%c%s", HASH_MAGIC, uu_salt,

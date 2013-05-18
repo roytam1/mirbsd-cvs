@@ -9,8 +9,8 @@
 #include <unistd.h>
 
 /*ARGSUSED*/
-char *
-sbrk(int incr)
+void *
+sbrk(intptr_t incr)
 {
 	return (0);
 }

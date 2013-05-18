@@ -1,3 +1,5 @@
+/* $MirOS: src/usr.sbin/httpd/src/main/util.c,v 1.4 2005/05/04 18:31:07 tg Exp $ */
+
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -58,10 +60,10 @@
 
 /*
  * util.c: string utility things
- * 
+ *
  * 3/21/93 Rob McCool
  * 1995-96 Many changes by the Apache Group
- * 
+ *
  */
 
 /* Debugging aid:
@@ -78,6 +80,11 @@
  * is generated automatically by gen_test_char.c.
  */
 #include "test_char.h"
+
+#ifndef __RCSID
+#define	__RCSID(x)	static const char __rcsid[] = (x)
+#endif
+__RCSID("$MirOS: src/usr.sbin/httpd/src/main/util.c,v 1.4 2005/05/04 18:31:07 tg Exp $");
 
 /* we assume the folks using this ensure 0 <= c < 256... which means
  * you need a cast to (unsigned char) first, you can't just plug a
@@ -127,7 +134,7 @@ API_EXPORT(char *) ap_field_noparam(pool *p, const char *intype)
     semi = strchr(intype, ';');
     if (semi == NULL) {
 	return ap_pstrdup(p, intype);
-    } 
+    }
     else {
 	while ((semi > intype) && ap_isspace(semi[-1])) {
 	    semi--;
@@ -191,8 +198,8 @@ API_EXPORT(char *) ap_gm_timestr_822(pool *p, time_t sec)
 
     /* RFC date format; as strftime '%a, %d %b %Y %T GMT' */
     return ap_psprintf(p,
-		"%s, %.2d %s %d %.2d:%.2d:%.2d GMT", ap_day_snames[tms->tm_wday],
-		tms->tm_mday, ap_month_snames[tms->tm_mon], tms->tm_year + 1900,
+		"%s, %.2d %s %qd %.2d:%.2d:%.2d GMT", ap_day_snames[tms->tm_wday],
+		tms->tm_mday, ap_month_snames[tms->tm_mon], (int64_t)tms->tm_year + 1900,
 		tms->tm_hour, tms->tm_min, tms->tm_sec);
 }
 
@@ -336,7 +343,7 @@ API_EXPORT(char *) ap_stripprefix(const char *bigstring, const char *prefix)
         return( (char *)bigstring);
 }
 
-/* 
+/*
  * Apache stub function for the regex libraries regexec() to make sure the
  * whole regex(3) API is available through the Apache (exported) namespace.
  * This is especially important for the DSO situations of modules.
@@ -389,7 +396,7 @@ API_EXPORT(char *) ap_pregsub(pool *p, const char *input, const char *source,
     while ((c = *src++) != '\0') {
 	if (c == '&')
 	    no = 0;
-	else if (c == '$' && ap_isdigit(*src))
+	else if (c == '$' && isdigit((unsigned char)*src))
 	    no = *src++ - '0';
 	else
 	    no = 10;
@@ -414,7 +421,7 @@ API_EXPORT(char *) ap_pregsub(pool *p, const char *input, const char *source,
     while ((c = *src++) != '\0') {
 	if (c == '&')
 	    no = 0;
-	else if (c == '$' && ap_isdigit(*src))
+	else if (c == '$' && isdigit((unsigned char)*src))
 	    no = *src++ - '0';
 	else
 	    no = 10;
@@ -532,8 +539,8 @@ API_EXPORT(void) ap_no2slash(char *name)
  *    /a/b, 3  ==> /a/b/
  *    /a/b, 4  ==> /a/b/
  *
- * MODIFIED FOR HAVE_DRIVE_LETTERS and NETWARE environments, 
- * so that if n == 0, "/" is returned in d with n == 1 
+ * MODIFIED FOR HAVE_DRIVE_LETTERS and NETWARE environments,
+ * so that if n == 0, "/" is returned in d with n == 1
  * and s == "e:/test.html", "e:/" is returned in d
  * *** See also directory_walk in src/main/http_request.c
  */
@@ -773,7 +780,7 @@ API_EXPORT(char *) ap_getword_conf(pool *p, const char **line)
     }
     else {
 	if (*str == '#')
-	    ap_log_error(APLOG_MARK, APLOG_WARNING|APLOG_NOERRNO, NULL, 
+	    ap_log_error(APLOG_MARK, APLOG_WARNING|APLOG_NOERRNO, NULL,
 			 "Apache does not support line-end comments. Consider using quotes around argument: \"%s\"", str);
 	strend = str;
 	while (*strend && !ap_isspace(*strend))
@@ -791,7 +798,7 @@ API_EXPORT(char *) ap_getword_conf(pool *p, const char **line)
 API_EXPORT(int) ap_cfg_closefile(configfile_t *cfp)
 {
 #ifdef DEBUG
-    ap_log_error(APLOG_MARK, APLOG_DEBUG|APLOG_NOERRNO, NULL, 
+    ap_log_error(APLOG_MARK, APLOG_DEBUG|APLOG_NOERRNO, NULL,
         "Done with config file %s", cfp->name);
 #endif
     return (cfp->close == NULL) ? 0 : cfp->close(cfp->param);
@@ -906,7 +913,7 @@ API_EXPORT(configfile_t *) ap_pcfg_open_custom(pool *p, const char *descr,
 API_EXPORT(int) ap_cfg_getc(configfile_t *cfp)
 {
     register int ch = cfp->getch(cfp->param);
-    if (ch == LF) 
+    if (ch == LF)
 	++cfp->line_number;
     return ch;
 }
@@ -951,13 +958,13 @@ API_EXPORT(int) ap_cfg_getline(char *buf, size_t bufsize, configfile_t *cfp)
 			continue;
 		    }
 		    else {
-			/* 
+			/*
 			 * no real continuation because escaped -
 			 * then just remove escape character
 			 */
 			for ( ; cp < cbuf+cbufsize && *cp != '\0'; cp++)
 			    cp[0] = cp[1];
-		    }   
+		    }
 		}
 	    }
 	    break;
@@ -995,7 +1002,7 @@ API_EXPORT(int) ap_cfg_getline(char *buf, size_t bufsize, configfile_t *cfp)
 
 	if (c == EOF)
 	    return 1;
-	
+
 	if(bufsize < 2) {
 	    /* too small, assume caller is crazy */
 	    return 1;
@@ -1016,7 +1023,7 @@ API_EXPORT(int) ap_cfg_getline(char *buf, size_t bufsize, configfile_t *cfp)
 		++cfp->line_number;
 	    }
 	    if (c == EOF || c == 0x4 || c == LF || i >= (bufsize - 2)) {
-		/* 
+		/*
 		 *  check for line continuation
 		 */
 		if (i > 0 && buf[i-1] == '\\') {
@@ -1543,7 +1550,6 @@ API_EXPORT(char *) ap_escape_shell_cmd(pool *p, const char *str)
     s = (const unsigned char *)str;
     for (; *s; ++s) {
 
-
 	if (TEST_CHAR(*s, T_ESCAPE_SHELL_CMD)) {
 	    *d++ = '\\';
 	}
@@ -1765,7 +1771,7 @@ API_EXPORT(int) ap_is_url(const char *u)
 
     for (x = 0; u[x] != ':'; x++) {
 	if ((!u[x]) ||
-	    ((!ap_isalpha(u[x])) && (!ap_isdigit(u[x])) &&
+	    ((!ap_isalpha(u[x])) && (!isdigit((unsigned char)u[x])) &&
 	     (u[x] != '+') && (u[x] != '-') && (u[x] != '.'))) {
 	    return 0;
 	}
@@ -1848,71 +1854,89 @@ API_EXPORT(gid_t) ap_gname2id(const char *name)
  * Parses a host of the form <address>[:port]
  * :port is permitted if 'port' is not NULL
  */
-API_EXPORT(unsigned long) ap_get_virthost_addr(char *w, unsigned short *ports)
+API_EXPORT(struct sockaddr *) ap_get_virthost_addr(char *w, unsigned short *ports)
 {
-    struct hostent *hep;
-    unsigned long my_addr;
-    char *p;
+    static struct sockaddr_storage ss;
+    struct addrinfo hints, *res;
+    char *p, *r;
+    char *host;
+    char *port = "0";
+    int error;
+    char servbuf[NI_MAXSERV];
 
-    p = strchr(w, ':');
+    if (w == NULL)
+	w = "*";
+    p = r = NULL;
+    if (*w == '['){
+	if ((r = strrchr(w+1, ']'))) {
+	    *r = '\0';
+	    p = r + 1;
+	    switch(*p){
+	    case ':':
+	      p++;
+	      /* nobreak; */
+	    case '\0':
+	      w++;
+	      break;
+	    default:
+	      p = NULL;
+	    }
+	}
+    }
+    else{
+	p = strchr(w, ':');
+	if (p != NULL && strchr(p+1, ':') != NULL)
+	    p = NULL;
+    }
     if (ports != NULL) {
-	*ports = 0;
-	if (p != NULL && strcmp(p + 1, "*") != 0)
-	    *ports = atoi(p + 1);
+	if (p != NULL && *p && strcmp(p + 1, "*") != 0)
+	    port = p + 1;
     }
 
+    memset(&hints, 0, sizeof(hints));
+    hints.ai_socktype = SOCK_STREAM;
     if (p != NULL)
 	*p = '\0';
     if (strcmp(w, "*") == 0) {
-	if (p != NULL)
-	    *p = ':';
-	return htonl(INADDR_ANY);
+	host = NULL;
+	hints.ai_flags = AI_PASSIVE;
+	hints.ai_family = ap_default_family;
+    } else {
+	host = w;
+	hints.ai_family = PF_UNSPEC;
     }
 
-    my_addr = ap_inet_addr((char *)w);
-    if (my_addr != INADDR_NONE) {
-	if (p != NULL)
-	    *p = ':';
-	return my_addr;
-    }
+    error = getaddrinfo(host, port, &hints, &res);
 
-    hep = gethostbyname(w);
-
-    if ((!hep) || (hep->h_addrtype != AF_INET || !hep->h_addr_list[0])) {
-	fprintf(stderr, "Cannot resolve host name %s --- exiting!\n", w);
+    if (error || !res) {
+	fprintf(stderr, "ap_get_vitrhost_addr(): getaddrinfo(%s):%s --- exiting!\n", w, gai_strerror(error));
 	exit(1);
     }
 
-    if (hep->h_addr_list[1]) {
-	fprintf(stderr, "Host %s has multiple addresses ---\n", w);
+    if (res->ai_next) {
+	fprintf(stderr, "ap_get_vitrhost_addr(): Host %s has multiple addresses ---\n", w);
 	fprintf(stderr, "you must choose one explicitly for use as\n");
 	fprintf(stderr, "a virtual host.  Exiting!!!\n");
 	exit(1);
     }
 
+    if (r != NULL)
+	*r = ']';
     if (p != NULL)
 	*p = ':';
 
-    return ((struct in_addr *) (hep->h_addr))->s_addr;
-}
-
-
-static char *find_fqdn(pool *a, struct hostent *p)
-{
-    int x;
-
-    if (!strchr(p->h_name, '.')) {
-        if (p->h_aliases) {
-        	for (x = 0; p->h_aliases[x]; ++x) {
-                if (p->h_aliases[x] && strchr(p->h_aliases[x], '.') &&
-            		(!strncasecmp(p->h_aliases[x], p->h_name, strlen(p->h_name))))
-		            return ap_pstrdup(a, p->h_aliases[x]);
-            }
-	    }
-	    return NULL;
+    memcpy(&ss, res->ai_addr, res->ai_addrlen);
+    if (getnameinfo(res->ai_addr, res->ai_addrlen,
+		    NULL, 0, servbuf, sizeof(servbuf),
+		    NI_NUMERICSERV)){
+	fprintf(stderr, "ap_get_virthost_addr(): getnameinfo() failed --- Exiting!!!\n");
+	exit(1);
     }
-    return ap_pstrdup(a, (void *) p->h_name);
+    if (ports) *ports = atoi(servbuf);
+    freeaddrinfo(res);
+    return (struct sockaddr *)&ss;
 }
+
 
 API_EXPORT(char *) ap_get_local_host(pool *a)
 {
@@ -1921,43 +1945,45 @@ API_EXPORT(char *) ap_get_local_host(pool *a)
 #endif
     char str[MAXHOSTNAMELEN];
     char *server_hostname = NULL;
-    struct hostent *p;
+    struct addrinfo hints, *res;
+    int error;
 
     if (gethostname(str, sizeof(str) - 1) != 0) {
 	ap_log_error(APLOG_MARK, APLOG_WARNING, NULL,
 	             "%s: gethostname() failed to determine ServerName\n",
                      ap_server_argv0);
     }
-    else 
+    else
     {
-        str[sizeof(str) - 1] = '\0';
-        if ((!(p = gethostbyname(str))) 
-            || (!(server_hostname = find_fqdn(a, p)))) {
-           if (p == NULL || p->h_addr_list == NULL)
-              server_hostname=NULL;
-           else {
-              /* Recovery - return the default servername by IP: */
-              if (p->h_addr_list[0]) {
-		      ap_snprintf(str, sizeof(str), "%pA", p->h_addr_list[0]);
-		      server_hostname = ap_pstrdup(a, str);
-                    /* We will drop through to report the IP-named server */
-	      }
-	   }
-        }
-	else
-            /* Since we found a fqdn, return it with no logged message. */
-            return server_hostname;
+	str[sizeof(str) - 1] = '\0';
+	memset(&hints, 0, sizeof(hints));
+	hints.ai_family = PF_UNSPEC;
+	hints.ai_flags = AI_CANONNAME;
+	res = NULL;
+	error = getaddrinfo(str, NULL, &hints, &res);
+	if (error == 0 && res) {
+	    /* Since we found a fdqn, return it with no logged message. */
+	    server_hostname = ap_pstrdup(a, res->ai_canonname);
+	    freeaddrinfo(res);
+	    return server_hostname;
+	} else {
+	    /* Recovery - return the default servername by IP: */
+	    server_hostname = ap_pstrdup(a, str);
+	    /* We will drop through to report the IP-named server */
+	}
     }
 
     /* If we don't have an fqdn or IP, fall back to the loopback addr */
-    if (!server_hostname) 
+    if (!server_hostname)
         server_hostname = ap_pstrdup(a, "127.0.0.1");
-    
+
     ap_log_error(APLOG_MARK, APLOG_ALERT|APLOG_NOERRNO, NULL,
 	         "%s: Could not determine the server's fully qualified "
                  "domain name, using %s for ServerName",
                  ap_server_argv0, server_hostname);
-    
+
+    if (res)
+	freeaddrinfo(res);
     return server_hostname;
 }
 
@@ -1975,8 +2001,8 @@ API_EXPORT(char *) ap_pbase64decode(pool *p, const char *bufcoded)
     return decoded;
 }
 
-API_EXPORT(char *) ap_pbase64encode(pool *p, char *string) 
-{ 
+API_EXPORT(char *) ap_pbase64encode(pool *p, char *string)
+{
     char *encoded;
     int l = strlen(string);
 
@@ -1994,8 +2020,8 @@ API_EXPORT(char *) ap_uudecode(pool *p, const char *bufcoded)
     return ap_pbase64decode(p, bufcoded);
 }
 
-API_EXPORT(char *) ap_uuencode(pool *p, char *string) 
-{ 
+API_EXPORT(char *) ap_uuencode(pool *p, char *string)
+{
     return ap_pbase64encode(p, string);
 }
 
@@ -2081,9 +2107,17 @@ API_EXPORT(char *) ap_escape_quotes (pool *p, const char *instring)
 API_EXPORT(void) ap_remove_spaces(char *dest, char *src)
 {
     while (*src) {
-        if (!ap_isspace(*src)) 
+        if (!ap_isspace(*src))
             *dest++ = *src;
         src++;
     }
     *dest = 0;
 }
+
+#ifdef NEED_GETADDRINFO
+#include "getaddrinfo.c"
+#endif
+
+#ifdef NEED_GETNAMEINFO
+#include "getnameinfo.c"
+#endif

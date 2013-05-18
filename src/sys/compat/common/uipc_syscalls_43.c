@@ -1,5 +1,10 @@
+/**	$MirOS$ */
 /*	$OpenBSD: uipc_syscalls_43.c,v 1.7 2003/06/02 23:27:59 millert Exp $	*/
 /*	$NetBSD: uipc_syscalls_43.c,v 1.5 1996/03/14 19:31:50 christos Exp $	*/
+
+/*
+ * Fix "undefined" MSG_COMPAT errors in /sys/sys/socket.h too!
+ */
 
 /*
  * Copyright (c) 1982, 1986, 1989, 1990, 1993
@@ -51,6 +56,7 @@
 #include <sys/mount.h>
 #include <sys/syscallargs.h>
 
+#if defined(COMPAT_OPENBSD) || defined(COMPAT_LINUX)
 int
 compat_43_sys_accept(p, v, retval)
 	struct proc *p;
@@ -80,8 +86,9 @@ compat_43_sys_accept(p, v, retval)
 	}
 	return 0;
 }
+#endif
 
-
+#if defined(COMPAT_OPENBSD)
 int
 compat_43_sys_getpeername(p, v, retval)
 	struct proc *p;
@@ -139,8 +146,9 @@ compat_43_sys_getsockname(p, v, retval)
 
 	return 0;
 }
+#endif
 
-
+#if defined(COMPAT_OPENBSD) || defined(COMPAT_LINUX)
 int
 compat_43_sys_recv(p, v, retval)
 	struct proc *p;
@@ -166,9 +174,9 @@ compat_43_sys_recv(p, v, retval)
 	msg.msg_flags = SCARG(uap, flags);
 	return (recvit(p, SCARG(uap, s), &msg, (caddr_t)0, retval));
 }
+#endif
 
-
-#ifdef MSG_COMPAT
+#if defined(COMPAT_OPENBSD)
 int
 compat_43_sys_recvfrom(p, v, retval)
 	struct proc *p;
@@ -187,10 +195,8 @@ compat_43_sys_recvfrom(p, v, retval)
 	SCARG(uap, flags) |= MSG_COMPAT;
 	return (sys_recvfrom(p, uap, retval));
 }
-#endif
 
 
-#ifdef MSG_COMPAT
 /*
  * Old recvmsg.  This code takes advantage of the fact that the old msghdr
  * overlays the new one, missing only the flags, and with the (old) access
@@ -241,6 +247,7 @@ done:
 }
 #endif
 
+#if defined(COMPAT_OPENBSD) || defined(COMPAT_LINUX)
 int
 compat_43_sys_send(p, v, retval)
 	struct proc *p;
@@ -266,8 +273,9 @@ compat_43_sys_send(p, v, retval)
 	msg.msg_flags = 0;
 	return (sendit(p, SCARG(uap, s), &msg, SCARG(uap, flags), retval));
 }
+#endif
 
-#ifdef MSG_COMPAT
+#if defined(COMPAT_OPENBSD)
 int
 compat_43_sys_sendmsg(p, v, retval)
 	struct proc *p;

@@ -1,7 +1,11 @@
+.\"	$MirOS: src/share/tmac/mdoc/doc,v 1.8 2005/03/15 20:51:07 tg Exp $
 .\"	$OpenBSD: doc,v 1.15 2004/06/06 22:38:09 jmc Exp $
 .\"
+.\" Copyright (c) 2003, 2004, 2005
+.\"	Thorsten "mirabile" Glaser <tg@mirbsd.de>
 .\" Copyright (c) 1991, 1993
-.\"	The Regents of the University of California.  All rights reserved.
+.\"	The Regents of the University of California.
+.\" All rights reserved.
 .\"
 .\" Redistribution and use in source and binary forms, with or without
 .\" modification, are permitted provided that the following conditions
@@ -11,7 +15,10 @@
 .\" 2. Redistributions in binary form must reproduce the above copyright
 .\"    notice, this list of conditions and the following disclaimer in the
 .\"    documentation and/or other materials provided with the distribution.
-.\" 3. Neither the name of the University nor the names of its contributors
+.\" 3. All advertising materials mentioning features or use of this soft-
+.\"    ware must display the following acknowledgement:
+.\"	This product includes material provided by Thorsten Glaser.
+.\" 4. Neither the name of the University nor the names of its contributors
 .\"    may be used to endorse or promote products derived from this software
 .\"    without specific prior written permission.
 .\"
@@ -27,7 +34,7 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.\"     @(#)doc	8.1 (Berkeley) 6/8/93
+.\"     @(#)doc	5.11 (Berkeley) 7/14/92
 .\"
 .\" .mdoc-parse - attempt to parse troff request arguments
 .\"     %beginstrip%
@@ -105,17 +112,17 @@
 .		nr iI \\n(.iu
 .		in -\\n(iIu
 .		if \\n(aC==1 \{\
-\&\fBDEBUG(argv) MACRO:\fP `.\\*(mN'  \fBLine #:\fP \\n(.c
+\&\fBDEBUG(argv) MACRO:\fP '.\\*(mN'  \fBLine #:\fP \\n(.c
 .		\}
-\&\t\fBArgc:\fP \\n(aC  \fBArgv:\fP `\\*(A\\n(aC'  \fBLength:\fP \\n(sW
-\&\t\fBSpace:\fP `\\*(S\\n(aC'  \fBClass:\fP \\*(yU
+\&\t\fBArgc:\fP \\n(aC  \fBArgv:\fP '\\*(A\\n(aC'  \fBLength:\fP \\n(sW
+\&\t\fBSpace:\fP '\\*(S\\n(aC'  \fBClass:\fP \\*(yU
 .	\}
 .	if \\n(iN==0 \{\
 .		if \\n(aC==1 \{\
-.			tm DEBUG(argv) MACRO: `.\\*(mN'  Line #: \\n(.c
+.			tm DEBUG(argv) MACRO: '.\\*(mN'  Line #: \\n(.c
 .		\}
-.		tm \tArgc: \\n(aC  Argv: `\\*(A\\n(aC'  Length: \\n(sW
-.		tm \tSpace: `\\*(S\\n(aC'  Class: \\*(yU
+.		tm \tArgc: \\n(aC  Argv: '\\*(A\\n(aC'  Length: \\n(sW
+.		tm \tSpace: '\\*(S\\n(aC'  Class: \\*(yU
 .	\}
 .\}
 .ie \\n(.$==1 \{\
@@ -164,17 +171,17 @@
 .		nr iI \\n(.iu
 .		in -\\n(iIu
 .		if \\n(aC==1 \{\
-\&\fBDEBUG(fargv) MACRO:\fP `.\\*(mN'  \fBLine #:\fP \\n(.c
+\&\fBDEBUG(fargv) MACRO:\fP '.\\*(mN'  \fBLine #:\fP \\n(.c
 .		\}
-\&\t\fBArgc:\fP \\n(aC  \fBArgv:\fP `\\*(A\\n(aC'  \fBLength:\fP \\n(sW
-\&\t\fBSpace:\fP `\\*(S\\n(aC'  \fBClass:\fP \\*(yU
+\&\t\fBArgc:\fP \\n(aC  \fBArgv:\fP '\\*(A\\n(aC'  \fBLength:\fP \\n(sW
+\&\t\fBSpace:\fP '\\*(S\\n(aC'  \fBClass:\fP \\*(yU
 .	\}
 .	if \\n(iN==0 \{\
 .		if \\n(aC==1 \{\
-.			tm DEBUG(fargv) MACRO: `.\\*(mN'  Line #: \\n(.c
+.			tm DEBUG(fargv) MACRO: '.\\*(mN'  Line #: \\n(.c
 .		\}
-.		tm \tArgc: \\n(aC  Argv: `\\*(A\\n(aC'  Length: \\n(sW
-.		tm \tSpace: `\\*(S\\n(aC'  Class: \\*(yU
+.		tm \tArgc: \\n(aC  Argv: '\\*(A\\n(aC'  Length: \\n(sW
+.		tm \tSpace: '\\*(S\\n(aC'  Class: \\*(yU
 .	\}
 .\}
 .ie \\n(fV==1 \{\
@@ -205,7 +212,7 @@
 .	fV
 .\}
 ..
-.\" NS aX macro - stuff saved strings into `b1' (used by -diag list)
+.\" NS aX macro - stuff saved strings into 'b1' (used by -diag list)
 .de aX
 .nr aP \\n(aP+1
 .as b1 \&\\*(A\\n(aP
@@ -403,7 +410,7 @@
 .\}
 .rr jM jN
 ..
-.\" NS Ar macro - command line `argument' macro
+.\" NS Ar macro - command line 'argument' macro
 .\"
 .de Ar
 .as b1 \\*(aR
@@ -775,7 +782,7 @@
 .		ds mN Nm
 .		sW "\\$1"
 .		aT \\$1
-.		ie \\n(aT==3:\\n(aT==4 \{\
+.		ie (\\n(aT==3):(\\n(aT==4) \{\
 .			ds A1 \\*(n1
 .			ds A2 \\$1
 .			ds A3 \\$2
@@ -1008,7 +1015,7 @@
 .En \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
 ..
 .\" NS Ql macro - Quoted literal is in file mdoc-[dit|n|g]roff (too large
-.\" an if-else to carry along recursively for `if n ...')
+.\" an if-else to carry along recursively for 'if n ...')
 .\"
 .\" NS Sq macro - Enclose string in single quotes
 .de Qq
@@ -1398,7 +1405,7 @@
 .if \n(.g \{\
 .de aT
 .nr aT 0
-.ie \\n(sW>2:(\A'\\$1'==0) \{\
+.ie (\\n(sW>2):(\A'\\$1'==0) \{\
 .	nr aT 2
 .\}
 .el \{\
@@ -1419,7 +1426,7 @@
 .de aU
 .nr aT 0
 .aW \\$1
-.ie \\n(sW>2:(\A'\\*(A\\$1'==0) .nr aT 2
+.ie (\\n(sW>2):(\A'\\*(A\\$1'==0) .nr aT 2
 .el \{\
 .	if \\n(sW==1 \{\
 .		ie \\n(z\\*(A\\$1>2 \{\
@@ -1439,41 +1446,49 @@
 .if !\n(.g \{\
 .de aT
 .nr aT 0
-.ie \\n(sW>2 \{\
-.	nr aT 2
-.\}
+.ie (\\n(sW>2):(\\n(sW<1) .nr aT 2
 .el \{\
-.	if \\n(sW==1 \{\
-.		ie \\n(z\\$1>2 \{\
-.			nr aT \\n(z\\$1
+.	tr \&
+.	ie (\w\\$1/\\n(fW)==\\n(sW \{\
+.		if \\n(sW==1 \{\
+.			ie \\n(z\\$1>2 \{\
+.				nr aT \\n(z\\$1
+.			\}
+.			el .nr aT 2
 .		\}
-.		el .nr aT 2
-.	\}
-.	if \\n(sW==2 \{\
-.		ie \\n(\\$1 \{\
-.			nr aT 1
+.		if \\n(sW==2 \{\
+.			ie \\n(\\$1 \{\
+.				nr aT 1
+.			\}
+.			el .nr aT 2
 .		\}
-.		el .nr aT 2
 .	\}
+.	el .nr aT 2
+.	tr \&\&
 .\}
 ..
 .de aU
 .nr aT 0
 .aW \\$1
-.ie \\n(sW>2 .nr aT 2
+.ie (\\n(sW>2):(\\n(sW<1) .nr aT 2
 .el \{\
-.	if \\n(sW==1 \{\
-.		ie \\n(z\\*(A\\$1>2 \{\
-.			nr aT \\n(z\\*(A\\$1
+.	tr \&
+.	ie (\w\\*(A\\$1/\\n(fW)==\\n(sW \{\
+.		if \\n(sW==1 \{\
+.			ie \\n(z\\*(A\\$1>2 \{\
+.				nr aT \\n(z\\*(A\\$1
+.			\}
+.			el .nr aT 2
 .		\}
-.		el .nr aT 2
-.	\}
-.	if \\n(sW==2 \{\
-.		ie (\\n(\\*(A\\$1) \{\
-.			nr aT 1
+.		if \\n(sW==2 \{\
+.			ie (\\n(\\*(A\\$1) \{\
+.				nr aT 1
+.			\}
+.			el .nr aT 2
 .		\}
-.		el .nr aT 2
 .	\}
+.	el .nr aT 2
+.	tr \&\&
 .\}
 ..
 .\}
@@ -1695,7 +1710,7 @@
 .		nr iD \\n(iD+1
 .		sW "\\*(bY"
 .		ie \\n(sW>2 \{\
-.			ie ((\\*(bY>9n)&(\\*(bY<100n)) \{\
+.			ie ((\\A'\\*(bY'>9n)&(\\A'\\*(bY'<100n)) \{\
 .				nr O\\n(dP \\*(bY
 .			\}
 .			el .nr O\\n(dP (\\n(sW)*\\n(fWu
@@ -1878,7 +1893,7 @@
 .					\}
 .				\}
 .				el \{\
-.					if (\\*(tS>9n)&(\\*(tS<99n) \{\
+.					if (\\w'\\*(tS'>9n)&(\\w'\\*(tS'<99n) \{\
 .						nr w\\n(lC \\*(tSu
 .					\}
 .				\}
@@ -1911,7 +1926,7 @@
 .					\}
 .				\}
 .				el \{\
-.					if (\\*(tS>9n)&(\\*(tS<100n) \{\
+.					if (\\A'\\*(tS'>9n)&(\\A'\\*(tS'<100n) \{\
 .						nr o\\n(lC \\*(tS
 .					\}
 .				\}
@@ -2290,11 +2305,15 @@
 .nr tY 1
 .\" NS Xr macro - cross reference (man page only)
 .de Xr
+.nh
 .if \\n(aC==0 \{\
 .	ie \\n(.$==0 .tm Usage: .Xr manpage_name [section#] \\*(Pu (#\\n(.c)
 .	el \{\
 .		ds mN Xr
-.		aV \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
+.		ie \\$1st \
+.			aV \&st \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
+.		el \
+.			aV \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
 .	\}
 .\}
 .if \\n(aC>\\n(aP \{\
@@ -2316,6 +2335,7 @@
 .		\}
 .       \}
 .\}
+.hy
 ..
 .\" NS Sx macro - cross section reference
 .de Sx
@@ -2482,6 +2502,10 @@
 .	tm Usage: .D1 not callable by other macros (#\\n(.c)
 .\}
 .in \\n(.iu-\\n(Dsu
+..
+.\" NS Ex macro - DEFUNCT
+.de Ex
+.tm Ex defunct, Use .D1: \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
 ..
 .\"
 .\" NS Vt macro - Variable type
@@ -2900,7 +2924,7 @@
 .\" Ordering very limited, no fancy citations, but can do articles, journals
 .\" and books - need to add several missing options (like city etc).
 .\" should be able to grab a refer entry, massage it a wee bit (prefix
-.\" a `.' to the %[A-Z]) and not worry (ha!)
+.\" a '.' to the %[A-Z]) and not worry (ha!)
 .\"
 .\" NS Rs macro - Reference Start
 .\" NS rS register - Reference Start flag

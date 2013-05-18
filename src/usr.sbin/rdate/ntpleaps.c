@@ -1,193 +1,111 @@
-/*	$OpenBSD: ntpleaps.c,v 1.7 2004/05/05 20:29:54 jakob Exp $	*/
+/* $MirOS: src/usr.sbin/rdate/leapsecs.c,v 1.1 2006/05/29 23:38:31 tg Exp $ */
 
-/*
- * Copyright (c) 2002 Thorsten Glaser. All rights reserved.
+/*-
+ * Copyright (c) 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
+ * Based upon code placed into the public domain by Dan J. Bernstein.
  *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
  *
- *    - Redistributions of source code must retain the above copyright
- *      notice, this list of conditions and the following disclaimer.
- *    - Redistributions in binary form must reproduce the above
- *      copyright notice, this list of conditions and the following
- *      disclaimer in the documentation and/or other materials provided
- *      with the distribution.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
- * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
- * LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
- * FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
- * COPYRIGHT HOLDERS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
- * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
- * BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
- * LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
- * ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
- * POSSIBILITY OF SUCH DAMAGE.
- *
- */
-
-/* Leap second support for NTP clients (generic) */
-
-static const char RCSId[] = "$OpenBSD: ntpleaps.c,v 1.7 2004/05/05 20:29:54 jakob Exp $";
-
-
-/*
- * I could include tzfile.h, but this would make the code unportable
- * at no real benefit. Read tzfile.h for why.
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
  */
 
 #include <sys/types.h>
-#include <netinet/in.h>
-
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+#include <sys/time.h>
+#include <inttypes.h>
+#include <time.h>
 
 #include "ntpleaps.h"
 
-u_int64_t *leapsecs = NULL;
-unsigned int leapsecs_num = 0;
-static int flaginit = -1;
-static int flagwarn = 0;
+#ifndef __RCSID
+#define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
+#endif
 
+__RCSID("$MirOS: src/usr.sbin/rdate/leapsecs.c,v 1.1 2006/05/29 23:38:31 tg Exp $");
 
-int
-ntpleaps_init(void)
+time_t
+tick2utc(time_t kerneltick)
 {
-	if (!flaginit)
-		return (0);
+	static unsigned long times365[4] = {
+		0, 365, 730, 1095
+	};
+	static unsigned long times36524[4] = {
+		0, 36524UL, 73048UL, 109572UL
+	};
+	static unsigned long montab[12] = {
+		0, 31, 61, 92, 122, 153, 184, 214, 245, 275, 306, 337
+	};
 
-	if (!ntpleaps_read()) {
-		flaginit = 0;
-		return (0);
+	struct tm *tm;
+	int64_t utc, d = 1900;
+	int m, y;
+
+	tm = localtime(&kerneltick);
+	d += tm->tm_year;
+
+	if (d < 0)
+		++d;
+	y = (int)(d % 400LL);
+	d = 146097LL * (d / 400) + tm->tm_mday - 678882LL;
+	utc = tm->tm_sec - tm->tm_gmtoff + 60 * (tm->tm_min + 60 * tm->tm_hour);
+
+	while (utc < 0L) {
+		utc += 86400L;
+		--d;
+	}
+	while (utc > 86400L) {
+		utc -= 86400L;
+		++d;
 	}
 
-	/* This does not really hurt, but users will complain about
-	 * off-by-22-seconds (at time of coding) errors if we don't warn.
+	if ((m = tm->tm_mon) >= 2) {
+		m -= 2;
+	} else {
+		m += 10;
+		--y;
+	}
+
+	y += (m / 12);
+	m %= 12;
+	if (m < 0) {
+		m += 12;
+		--y;
+	}
+	d += montab[m];
+
+	d += 146097LL * (y / 400LL);
+	y %= 400;
+	while (y < 0) {
+		y += 400;
+		d -= 146097LL;
+	}
+
+	d += times365[y & 3];
+	y /= 4;
+
+	d += 1461LL * (y % 25);
+	y /= 25;
+
+	d += times36524[y & 3];
+
+	/*
+	 * d now contains the date part of the MJD
+	 * corresponding to tm / kerneltick; the
+	 * second part is already stored in utc.
 	 */
-	if (!flagwarn) {
-		fputs("Warning: error reading tzfile. You will NOT be\n"
-		    "able to get legal time or posix compliance!\n", stderr);
-		flagwarn = 1;	/* put it only once */
-	}
 
-	return (-1);
-}
-
-int
-ntpleaps_sub(u_int64_t *t)
-{
-	unsigned int i = 0;
-	u_int64_t u;
-	int r = 1;
-
-	if ((flaginit ? ntpleaps_init() : 0) == -1)
-		return (-1);
-
-	u = *t;
-
-	while (i < leapsecs_num) {
-		if (u < leapsecs[i])
-			break;
-		if (u == leapsecs[i++])
-			goto do_sub;
-	}
-	--r;
-
-do_sub:
-	*t = u - i;
-	return (r);
-}
-
-u_int32_t
-read_be_dword(u_int8_t *ptr)
-{
-	u_int32_t res;
-
-	memcpy(&res, ptr, 4);
-	return (ntohl(res));
-}
-
-
-int
-ntpleaps_read(void)
-{
-	int fd;
-	unsigned int r;
-	u_int8_t buf[32];
-	u_int32_t m1, m2, m3;
-	u_int64_t s;
-	u_int64_t *l;
-
-	fd = open("/usr/share/zoneinfo/right/UTC", O_RDONLY | O_NDELAY);
-	if (fd == -1)
-		return (-1);
-
-	/* Check signature */
-	read(fd, buf, 4);
-	buf[4] = 0;
-	if (strcmp((const char *)buf, "TZif")) {
-		close(fd);
-		return (-1);
-	}
-
-	/* Pre-initalize buf[24..27] so we need not check read(2) result */
-	buf[24] = 0;
-	buf[25] = 0;
-	buf[26] = 0;
-	buf[27] = 0;
-
-	/* Skip uninteresting parts of header */
-	read(fd, buf, 28);
-
-	/* Read number of leap second entries */
-	r = read_be_dword(&buf[24]);
-	/* Check for plausibility - arbitrary values */
-	if ((r < 20) || (r > 60000)) {
-		close(fd);
-		return (-1);
-	}
-	if ((l = (u_int64_t *)malloc(r << 3)) == NULL) {
-		close(fd);
-		return (-1);
-	}
-
-	/* Skip further uninteresting stuff */
-	read(fd, buf, 12);
-	m1 = read_be_dword(buf);
-	m2 = read_be_dword(&buf[4]);
-	m3 = read_be_dword(&buf[8]);
-	m3 += (m1 << 2)+m1+(m2 << 2)+(m2 << 1);
-	lseek(fd, (off_t)m3, SEEK_CUR);
-
-	/* Now go parse the tzfile leap second info */
-	for (m1 = 0; m1 < r; m1++) {
-		if (read(fd, buf, 8) != 8) {
-			free(l);
-			close(fd);
-			return (-1);
-		}
-		s = SEC_TO_TAI64(read_be_dword(buf));
-		/*
-		 * Assume just _one_ leap second on each entry, and compensate
-		 * the lacking error checking by validating the first entry
-		 * against the known value
-		 */
-		if (!m1 && s != 0x4000000004B2580AULL)
-			return (-1);
-		l[m1] = s;
-	}
-
-	/* Clean up and activate the table */
-	close(fd);
-	if (leapsecs != NULL)
-		free(leapsecs);
-	leapsecs = l;
-	leapsecs_num = r;
-	return (0);
+	utc += (d - 40587LL) * 86400LL;
+	return (utc);
 }

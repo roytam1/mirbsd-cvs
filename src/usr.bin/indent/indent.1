@@ -1,3 +1,4 @@
+.\"	$MirOS: src/usr.bin/indent/indent.1,v 1.3 2005/04/17 04:24:14 tg Exp $
 .\"	$OpenBSD: indent.1,v 1.15 2005/02/04 09:22:58 jmc Exp $
 .\"
 .\" Copyright (c) 1980, 1990, 1993
@@ -47,12 +48,14 @@
 .Op Fl bbb | nbbb
 .Op Fl \&bc | nbc
 .Op Fl \&bl | \&br
+.Op Fl \&bs | nbs
 .Op Fl c Ns Ar n
 .Op Fl \&cd Ns Ar n
 .Op Fl cdb | ncdb
 .Op Fl \&ce | nce
 .Op Fl \&ci Ns Ar n
 .Op Fl cli Ns Ar n
+.Op Fl csp | ncsp
 .Op Fl d Ns Ar n
 .Op Fl \&di Ns Ar n
 .Op Fl \&dj | ndj
@@ -63,6 +66,7 @@
 .Op Fl l Ns Ar n
 .Op Fl \&lc Ns Ar n
 .Op Fl \&lp | nlp
+.Op Fl lpi | nlpi
 .Op Fl npro
 .Op Fl pcs | npcs
 .Op Fl psl | npsl
@@ -115,7 +119,7 @@ checks to make sure it is different from
 .Ar input-file .
 .Pp
 The options listed below control the formatting style imposed by
-.Nm .
+.Nm "" .
 .Bl -tag -width Op
 .It Fl bad , nbad
 If
@@ -166,9 +170,16 @@ if (...) {
 }
 .Ed
 .Pp
+.It Fl bs , nbs
+Enables (disables) Bill Shannon mode, in which the
+sizeof keyword is always followed by a space.
 .It Fl c Ns Ar n
 The column in which comments on code start.
 The default is 33.
+.Pp
+If the option
+.Fl c Ns Ar 0
+is used, comments are not touched if possible.
 .It Fl cd Ns Ar n
 The column in which comments on declarations start.
 The default
@@ -221,6 +232,10 @@ statement.
 causes case labels to be indented half a tab stop.
 The default is
 .Fl cli0 .
+.It Fl csp , ncsp
+Enables (disables) space after cast.
+The default is
+.Fl csp .
 .It Fl d Ns Ar n
 Controls the placement of comments which are not to the
 right of code.
@@ -316,6 +331,22 @@ p1 = first_procedure(second_procedure(p2,
 .Pp
 The default is
 .Fl lp .
+.It Fl lpi , nlpi
+When
+.Fl lpi
+is in effect (default), the continued lines generated with
+.Fl nlp
+are offset by a multiple (the parenthesis level)
+of the default continuation indention set with
+.Fl ci ,
+else only the basic continuation indention is used.
+Caveat: if the option
+.Fl lp
+is in effect (default), the value of this option
+is being ignored.
+.Pp
+The default is
+.Fl lpi .
 .It Fl npro
 Causes the profile files,
 .Pa ./.indent.pro
@@ -369,6 +400,18 @@ appear in your program that are defined by
 \- nothing will be
 harmed if you miss a few, but the program won't be formatted as nicely as
 it should.
+A symptom of missing typedef keywords is having an extra
+space after an asterisk in a code fragment such as:
+.Bd -literal -offset indent
+int foo(char *bar, FILE * baz);
+.Ed
+.Pp
+The same code formats nicely, adding
+.Fl TFILE :
+.Bd -literal -offset indent
+int foo(char *bar, FILE* baz);
+.Ed
+.Pp
 This sounds like a painful thing to have to do, but it's really
 a symptom of a problem in C:
 .Ic typedef

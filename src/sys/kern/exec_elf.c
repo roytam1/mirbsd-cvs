@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/kern/exec_elf.c,v 1.3 2005/07/19 12:42:23 tg Exp $ */
 /*	$OpenBSD: exec_elf.c,v 1.49 2003/11/03 19:58:22 tedu Exp $	*/
 
 /*
@@ -58,16 +59,8 @@
 #include <compat/linux/linux_exec.h>
 #endif
 
-#ifdef COMPAT_SVR4
-#include <compat/svr4/svr4_exec.h>
-#endif
-
-#ifdef COMPAT_FREEBSD
-#include <compat/freebsd/freebsd_exec.h>
-#endif
-
-#ifdef COMPAT_NETBSD
-#include <compat/netbsd/netbsd_exec.h>
+#ifdef COMPAT_OPENBSD
+#include <compat/openbsd/compat_openbsd.h>
 #endif
 
 struct ELFNAME(probe_entry) {
@@ -76,21 +69,13 @@ struct ELFNAME(probe_entry) {
 	int os_mask;
 } ELFNAME(probes)[] = {
 	/* XXX - bogus, shouldn't be size independent.. */
-#ifdef COMPAT_FREEBSD
-	{ freebsd_elf_probe, 1 << OOS_FREEBSD },
-#endif
-#ifdef COMPAT_SVR4
-	{ svr4_elf_probe,
-	    1 << OOS_SVR4 | 1 << OOS_ESIX | 1 << OOS_SOLARIS | 1 << OOS_SCO |
-	    1 << OOS_DELL | 1 << OOS_NCR },
+#ifdef COMPAT_OPENBSD
+	{ openbsd_elf_probe, 1 << OOS_OPENBSD },
 #endif
 #ifdef COMPAT_LINUX
 	{ linux_elf_probe, 1 << OOS_LINUX },
 #endif
-#ifdef COMPAT_NETBSD
-	{ netbsd_elf64_probe, 1 << OOS_NETBSD },
-#endif
-	{ 0, 1 << OOS_OPENBSD }
+	{ 0, 1 << OOS_MIRBSD }
 };
 
 int ELFNAME(load_file)(struct proc *, char *, struct exec_package *,
@@ -163,6 +148,14 @@ ELFNAME(copyargs)(struct exec_package *pack, struct ps_strings *arginfo,
 	return (stack);
 }
 
+#ifndef COMPAT_LINUX
+#define CHECK_ET (ehdr->e_type != type)
+#else
+/* ld-linux.so.2 kludge */
+#define CHECK_ET ((ehdr->e_type != type) && \
+		    ((type != ET_EXEC) || (ehdr->e_type != ET_DYN)))
+#endif
+
 /*
  * Check header for validity; return 0 for ok, ENOEXEC if error
  */
@@ -186,7 +179,7 @@ ELFNAME(check_header)(Elf_Ehdr *ehdr, int type)
 		return (ENOEXEC);
 
 	/* Check the type */
-	if (ehdr->e_type != type)
+	if CHECK_ET
 		return (ENOEXEC);
 
 	/* Don't allow an insane amount of sections. */
@@ -231,7 +224,7 @@ os_ok:
 		return (ENOEXEC);
 
 	/* Check the type */
-	if (ehdr->e_type != type)
+	if CHECK_ET
 		return (ENOEXEC);
 
 	/* Don't allow an insane amount of sections. */
@@ -241,6 +234,7 @@ os_ok:
 	*os = ehdr->e_ident[OI_OS];
 	return (0);
 }
+#undef CHECK_ET
 
 /*
  * Load a psection at the appropriate address
@@ -261,7 +255,7 @@ ELFNAME(load_psection)(struct exec_vmcmd_set *vcset, struct vnode *vp,
 			*addr = ELF_TRUNC(*addr, ph->p_align);
 			diff = ph->p_vaddr - ELF_TRUNC(ph->p_vaddr, ph->p_align);
 			/* page align vaddr */
-			base = *addr + trunc_page(ph->p_vaddr) 
+			base = *addr + trunc_page(ph->p_vaddr)
 			    - ELF_TRUNC(ph->p_vaddr, ph->p_align);
 
 			bdiff = ph->p_vaddr - trunc_page(ph->p_vaddr);
@@ -455,7 +449,7 @@ ELFNAME(load_file)(struct proc *p, char *path, struct exec_package *epp,
 				error = ENOMEM; /* XXX */
 				goto bad1;
 			}
-		} 
+		}
 		if (addr != pos + loadmap[i].vaddr) {
 			/* base changed. */
 			pos = addr - trunc_page(loadmap[i].vaddr);
@@ -540,6 +534,7 @@ ELFNAME2(exec,makecmds)(struct proc *p, struct exec_package *epp)
 	char interp[MAXPATHLEN];
 	u_long pos = 0, phsize;
 	u_int8_t os = OOS_NULL;
+	extern struct emul emul_native;
 
 	if (epp->ep_hdrvalid < sizeof(Elf_Ehdr))
 		return (ENOEXEC);
@@ -604,9 +599,14 @@ ELFNAME2(exec,makecmds)(struct proc *p, struct exec_package *epp)
 	 * set the ep_emul field in the exec package structure.
 	 */
 	error = ENOEXEC;
-	p->p_os = OOS_OPENBSD;
+	p->p_os = OOS_MIRBSD;
 #ifdef NATIVE_EXEC_ELF
-	if (ELFNAME(os_pt_note)(p, epp, epp->ep_hdr, "OpenBSD", 8, 4) == 0) {
+	/* recognise MirOS BSD executables */
+	if (!ELFNAME(os_pt_note)(p, epp, epp->ep_hdr, "MirOS BSD", 10, 4)) {
+		goto native;
+	}
+	/* currently, MirBSD(TM) is (nearly) the same as MirOS BSD */
+	if (!ELFNAME(os_pt_note)(p, epp, epp->ep_hdr, "MirBSD", 7, 4)) {
 		goto native;
 	}
 #endif
@@ -638,9 +638,11 @@ native:
 		switch (ph[i].p_type) {
 		case PT_LOAD:
 			/*
-			 * Calcuates size of text and data segments
+			 * Calculates size of text and data segments
 			 * by starting at first and going to end of last.
-			 * 'rwx' sections are treated as data.
+			 * 'rwx' sections are treated as data, except for
+			 * executables running on emulation if the entry
+			 * point is in this section (this is gross).
 			 * this is correct for BSS_PLT, but may not be
 			 * for DATA_PLT, is fine for TEXT_PLT.
 			 */
@@ -650,7 +652,10 @@ native:
 			 * Decide whether it's text or data by looking
 			 * at the protection of the section
 			 */
-			if (prot & VM_PROT_WRITE) {
+			if ((prot & VM_PROT_WRITE) &&
+			    (epp->ep_emul == &emul_native ||
+			     (eh->e_entry < addr ||
+			      eh->e_entry >= (addr + size)))) {
 				/* data section */
 				if (epp->ep_dsize == ELFDEFNNAME(NO_ADDR)) {
 					epp->ep_daddr = addr;
@@ -737,15 +742,6 @@ native:
 		epp->ep_interp = NULL;
 		epp->ep_entry = eh->e_entry;
 	}
-
-#if defined(COMPAT_SVR4) && defined(i386)
-#ifndef ELF_MAP_PAGE_ZERO
-	/* Dell SVR4 maps page zero, yeuch! */
-	if (p->p_os == OOS_DELL)
-#endif
-		NEW_VMCMD(&epp->ep_vmcmds, vmcmd_map_readvn, PAGE_SIZE, 0,
-		    epp->ep_vp, 0, VM_PROT_READ);
-#endif
 
 	free((char *)ph, M_TEMP);
 	vn_marktext(epp->ep_vp);
@@ -872,13 +868,11 @@ ELFNAME(os_pt_note)(struct proc *p, struct exec_package *epp, Elf_Ehdr *eh,
 		    (caddr_t)np, ph->p_filesz)) != 0)
 			goto out2;
 
-#if 0
-		if (np->type != ELF_NOTE_TYPE_OSVERSION) {
+		if (np->type != 1) {
 			free(np, M_TEMP);
 			np = NULL;
 			continue;
 		}
-#endif
 
 		/* Check the name and description sizes. */
 		if (np->namesz != name_size ||

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: col.c,v 1.9 2003/06/10 22:20:45 deraadt Exp $	*/
 /*	$NetBSD: col.c,v 1.7 1995/09/02 05:48:50 jtc Exp $	*/
 
@@ -34,24 +35,21 @@
  */
 
 #ifndef lint
-static char copyright[] =
+static const char copyright[] =
 "@(#) Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)col.c	8.5 (Berkeley) 5/4/95";
-#endif
-static char rcsid[] = "$OpenBSD: col.c,v 1.9 2003/06/10 22:20:45 deraadt Exp $";
-#endif /* not lint */
-
+#include <sys/cdefs.h>
 #include <ctype.h>
 #include <err.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+
+__SCCSID("@(#)col.c	8.5 (Berkeley) 5/4/95");
+__RCSID("$MirOS$");
 
 #define	BS	'\b'		/* backspace */
 #define	TAB	'\t'		/* tab */
@@ -96,7 +94,7 @@ void	flush_line(LINE *);
 void	flush_lines(int);
 void	flush_blanks(void);
 void	free_line(LINE *);
-void	usage(void);
+__dead void	usage(void);
 void   *xmalloc(void *, size_t);
 
 CSET	last_set;		/* char_set of last char printed */
@@ -126,7 +124,7 @@ main(int argc, char *argv[])
 	int nflushd_lines;		/* number of lines that were flushed */
 	int adjust, opt, warned;
 
-	max_bufd_lines = 128;
+	max_bufd_lines = 256;
 	compress_spaces = 1;		/* compress spaces into tabs */
 	while ((opt = getopt(argc, argv, "bfhl:x")) != -1)
 		switch (opt) {
@@ -508,7 +506,7 @@ xmalloc(void *p, size_t size)
 	return (p);
 }
 
-void
+__dead void
 usage(void)
 {
 	(void)fprintf(stderr, "usage: col [-bfhx] [-l num]\n");

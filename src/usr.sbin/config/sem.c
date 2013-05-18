@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: sem.c,v 1.30 2004/01/04 18:30:05 deraadt Exp $	*/
 /*	$NetBSD: sem.c,v 1.10 1996/11/11 23:40:11 gwr Exp $	*/
 
@@ -49,6 +50,8 @@
 #include <err.h>
 #include "config.h"
 #include "sem.h"
+
+__RCSID("$MirOS$");
 
 /*
  * config semantics.
@@ -734,7 +737,7 @@ enabledev(const char *name, const char *at)
 		if (onlist(attr->a_devs, ib))
 			goto foundattachment;
 	}
-	error("%s's cannot attach to %s's", ib->d_name, atbuf);
+	error("%ss cannot attach to %ss", ib->d_name, atbuf);
 	return;
 
 foundattachment:
@@ -774,7 +777,7 @@ adddev(const char *name, const char *at, struct nvlist *loclist, int flags,
 			goto bad;
 		/*
 		 * Must warn about i_unit > 0 later, after taking care of
-		 * the STAR cases (we could do non-star's here but why
+		 * the STAR cases (we could do non-stars here but why
 		 * bother?).  Make sure this device can be at root.
 		 */
 		ib = i->i_base;
@@ -785,7 +788,7 @@ adddev(const char *name, const char *at, struct nvlist *loclist, int flags,
 				break;
 			}
 		if (!hit) {
-			error("%s's cannot attach to the root", ib->d_name);
+			error("%ss cannot attach to the root", ib->d_name);
 			goto bad;
 		}
 		attr = &errattr;	/* a convenient "empty" attr */
@@ -853,7 +856,7 @@ adddev(const char *name, const char *at, struct nvlist *loclist, int flags,
 			if (onlist(attr->a_devs, ib))
 				goto findattachment;
 		}
-		error("%s's cannot attach to %s's", ib->d_name, atbuf);
+		error("%ss cannot attach to %ss", ib->d_name, atbuf);
 		goto bad;
 
 findattachment:
@@ -969,7 +972,7 @@ concat(const char *name, int c)
 		error("device name `%s%c' too long", name, c);
 		len = sizeof(buf) - 2;
 	}
-	bcopy(name, buf, len);
+	memmove(buf, name, len);
 	buf[len] = c;
 	buf[len + 1] = 0;
 	return (intern(buf));
@@ -1018,7 +1021,7 @@ split(const char *name, size_t nlen, char *base, size_t bsize, int *aunit)
 			l--, cp--;
 		*aunit = atoi(cp);
 	}
-	bcopy(name, base, l);
+	memmove(base, name, l);
 	base[l] = 0;
 	return (0);
 }
@@ -1066,7 +1069,7 @@ extend(char *p, const char *name)
 	int l;
 
 	l = strlen(name);
-	bcopy(name, p, l);
+	memmove(p, name, l);
 	p += l;
 	*p++ = ',';
 	*p++ = ' ';

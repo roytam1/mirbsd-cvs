@@ -1,3 +1,4 @@
+.\"	$MirOS: src/usr.bin/ssh/ssh-keygen.1,v 1.7 2005/12/20 19:57:36 tg Exp $
 .\"	$OpenBSD: ssh-keygen.1,v 1.72 2005/11/28 05:16:53 dtucker Exp $
 .\"
 .\"  -*- nroff -*-
@@ -59,10 +60,10 @@
 .Op Fl N Ar new_passphrase
 .Op Fl f Ar keyfile
 .Nm ssh-keygen
-.Fl i
+.Fl iI
 .Op Fl f Ar input_keyfile
 .Nm ssh-keygen
-.Fl e
+.Fl eE
 .Op Fl f Ar input_keyfile
 .Nm ssh-keygen
 .Fl y
@@ -132,10 +133,10 @@ section for details.
 Normally each user wishing to use SSH
 with RSA or DSA authentication runs this once to create the authentication
 key in
-.Pa ~/.ssh/identity ,
-.Pa ~/.ssh/id_dsa
+.Pa ~/.etc/ssh/identity ,
+.Pa ~/.etc/ssh/id_dsa
 or
-.Pa ~/.ssh/id_rsa .
+.Pa ~/.etc/ssh/id_rsa .
 Additionally, the system administrator may use this to generate host keys,
 as seen in
 .Pa /etc/rc .
@@ -210,6 +211,11 @@ print the key in a
 to stdout.
 This option allows exporting keys for use by several commercial
 SSH implementations.
+.It Fl E
+This option will read a private or public OpenSSH RSAv2 key file and
+print the RSA public key in a PEM encoded format suitable for the
+.Xr openssl 1
+command to stdout.
 .It Fl F Ar hostname
 Search for the specified
 .Ar hostname
@@ -256,6 +262,11 @@ also reads the
 .Sq SECSH Public Key File Format .
 This option allows importing keys from several commercial
 SSH implementations.
+.It Fl I
+This option will read a PEM encoded RSA public
+key or X.509 certificate file in the
+.Xr openssl 1
+tool format and print an OpenSSH compatible RSAv2 public key to stdout.
 .It Fl l
 Show fingerprint of specified public key file.
 Private RSA1 keys are also supported.
@@ -384,7 +395,7 @@ It is important that this file contains moduli of a range of bit lengths and
 that both ends of a connection share common moduli.
 .Sh FILES
 .Bl -tag -width Ds
-.It Pa ~/.ssh/identity
+.It Pa ~/.etc/ssh/identity
 Contains the protocol version 1 RSA authentication identity of the user.
 This file should not be readable by anyone but the user.
 It is possible to
@@ -395,14 +406,14 @@ This file is not automatically accessed by
 but it is offered as the default file for the private key.
 .Xr ssh 1
 will read this file when a login attempt is made.
-.It Pa ~/.ssh/identity.pub
+.It Pa ~/.etc/ssh/identity.pub
 Contains the protocol version 1 RSA public key for authentication.
 The contents of this file should be added to
-.Pa ~/.ssh/authorized_keys
+.Pa ~/.etc/ssh/authorized_keys
 on all machines
 where the user wishes to log in using RSA authentication.
 There is no need to keep the contents of this file secret.
-.It Pa ~/.ssh/id_dsa
+.It Pa ~/.etc/ssh/id_dsa
 Contains the protocol version 2 DSA authentication identity of the user.
 This file should not be readable by anyone but the user.
 It is possible to
@@ -413,14 +424,14 @@ This file is not automatically accessed by
 but it is offered as the default file for the private key.
 .Xr ssh 1
 will read this file when a login attempt is made.
-.It Pa ~/.ssh/id_dsa.pub
+.It Pa ~/.etc/ssh/id_dsa.pub
 Contains the protocol version 2 DSA public key for authentication.
 The contents of this file should be added to
-.Pa ~/.ssh/authorized_keys
+.Pa ~/.etc/ssh/authorized_keys
 on all machines
 where the user wishes to log in using public key authentication.
 There is no need to keep the contents of this file secret.
-.It Pa ~/.ssh/id_rsa
+.It Pa ~/.etc/ssh/id_rsa
 Contains the protocol version 2 RSA authentication identity of the user.
 This file should not be readable by anyone but the user.
 It is possible to
@@ -431,10 +442,10 @@ This file is not automatically accessed by
 but it is offered as the default file for the private key.
 .Xr ssh 1
 will read this file when a login attempt is made.
-.It Pa ~/.ssh/id_rsa.pub
+.It Pa ~/.etc/ssh/id_rsa.pub
 Contains the protocol version 2 RSA public key for authentication.
 The contents of this file should be added to
-.Pa ~/.ssh/authorized_keys
+.Pa ~/.etc/ssh/authorized_keys
 on all machines
 where the user wishes to log in using public key authentication.
 There is no need to keep the contents of this file secret.

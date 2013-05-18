@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/scsi/ch.c,v 1.2 2005/03/06 21:28:32 tg Exp $ */
 /*	$OpenBSD: ch.c,v 1.20 2005/05/23 07:06:16 krw Exp $	*/
 /*	$NetBSD: ch.c,v 1.26 1997/02/21 22:06:52 thorpej Exp $	*/
 
@@ -563,8 +564,10 @@ ch_usergetelemstatus(sc, chet, uptr)
 	    sizeof(struct read_element_status_header) +
 	    sizeof(struct read_element_status_page_header));
 	for (i = 0; i < avail; ++i) {
+		u_long tmp = (u_long)desc;
 		user_data[i] = desc->flags1;
-		(u_long)desc += desclen;
+		tmp += desclen;
+		desc = (struct read_element_status_descriptor *)tmp;
 	}
 
 	/* Copy flags array out to userspace. */

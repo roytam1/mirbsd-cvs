@@ -25,6 +25,7 @@
 
 #ifdef SMARTCARD
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/scard.c,v 1.2 2006/02/22 02:16:48 tg Exp $");
 
 #include <openssl/evp.h>
 #include <sectok.h>

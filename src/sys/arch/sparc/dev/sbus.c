@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: sbus.c,v 1.13 2003/06/18 17:33:33 miod Exp $	*/
 /*	$NetBSD: sbus.c,v 1.17 1997/06/01 22:10:39 pk Exp $ */
 
@@ -252,10 +253,11 @@ sbus_translate(dev, ca)
 
 			for (j = 0; j < sc->sc_nrange; j++) {
 				if (sc->sc_range[j].cspace == cspace) {
-					(int)ca->ca_ra.ra_reg[i].rr_paddr +=
-						sc->sc_range[j].poffset;
-					(int)ca->ca_ra.ra_reg[i].rr_iospace =
-						sc->sc_range[j].pspace;
+					int tmp = (int)ca->ca_ra.ra_reg[i].rr_paddr;
+					tmp += sc->sc_range[j].poffset;
+					ca->ca_ra.ra_reg[i].rr_paddr = (void *)tmp;
+					ca->ca_ra.ra_reg[i].rr_iospace =
+					    (int)sc->sc_range[j].pspace;
 					break;
 				}
 			}

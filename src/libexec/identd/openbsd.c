@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: openbsd.c,v 1.19 2004/09/16 08:25:05 deraadt Exp $ */
 
 /*
@@ -30,6 +31,8 @@
 #include <arpa/inet.h>
 
 #include "identd.h"
+
+__RCSID("$MirOS$");
 
 /*
  * Return the user number for the connection owner
@@ -86,11 +89,7 @@ k_getuid6(struct sockaddr_in6 *faddr, int fport, struct sockaddr_in6 *laddr,
 	fin = (struct sockaddr_in6 *) &tir.faddr;
 	lin = (struct sockaddr_in6 *) &tir.laddr;
 
-	if (faddr->sin6_len > sizeof(tir.faddr))
-		return -1;
 	memcpy(fin, faddr, faddr->sin6_len);
-	if (laddr->sin6_len > sizeof(tir.laddr))
-		return -1;
 	memcpy(lin, laddr, laddr->sin6_len);
 	fin->sin6_port = fport;
 	lin->sin6_port = lport;

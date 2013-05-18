@@ -1,6 +1,6 @@
-#!/bin/sh -
-#
-#	$OpenBSD: netstart,v 1.105 2005/05/22 08:56:08 todd Exp $
+#!/bin/mksh
+# $MirOS: src/etc/netstart,v 1.4 2005/07/24 15:45:28 tg Exp $
+# $OpenBSD: netstart,v 1.105 2005/05/22 08:56:08 todd Exp $
 
 # Strip comments (and leading/trailing whitespace if IFS is set)
 # from a file and spew to stdout
@@ -9,12 +9,12 @@ stripcom() {
 	local _line
 
 	{
-		while read _line ; do
+		while read _line; do
 			_line=${_line%%#*}		# strip comments
 			test -z "$_line" && continue
 			echo $_line
 		done
-	} < $_file
+	} <$_file
 }
 
 # Returns true if $1 contains only alphanumerics
@@ -40,18 +40,18 @@ ifstart() {
 		return
 	fi
 
-	ifconfig $if > /dev/null 2>&1
-	if [ "$?" != "0" ]; then
+	ifconfig $if >/dev/null 2>&1
+	if [[ $? != 0 ]]; then
 		# Try to create interface if it does not exist
-		ifconfig $if create > /dev/null 2>&1
-		if [ "$?" != "0" ]; then
+		ifconfig $if create >/dev/null 2>&1
+		if [[ $? != 0 ]]; then
 			return
 		fi
 	fi
 
 	# Now parse the hostname.* file
 	while :; do
-		if [ "$cmd2" ]; then
+		if [[ -n $cmd2 ]]; then
 			# We are carrying over from the 'read dt dtaddr'
 			# last time.
 			set -- $cmd2
@@ -59,7 +59,10 @@ ifstart() {
 			# Make sure and get any remaining args in ext2,
 			# like the read below
 			i=1
-			while [ i -lt 6 -a -n "$1" ]; do shift; let i=i+1; done
+			while [[ i -lt 6 && -n $1 ]]; do
+				shift
+				let i++
+			done
 			ext2="$@"
 		else
 			# Read the next line or exit the while loop.
@@ -74,30 +77,34 @@ ifstart() {
 		"!"*) # parse commands
 			cmd="${af#*!} ${name} ${mask} ${bcaddr} ${ext1} ${ext2}"
 			;;
-		"bridge")
+		bridge)
 			cmd="echo /etc/hostname.$if: bridges now supported via bridgename.* files"
 			;;
-		"dhcp")
-			[ "$name" = "NONE" ] && name=
-			[ "$mask" = "NONE" ] && mask=
-			[ "$bcaddr" = "NONE" ] && bcaddr=
+		dhcp)
+			[[ $name = NONE ]] && name=
+			[[ $mask = NONE ]] && mask=
+			[[ $bcaddr = NONE ]] && bcaddr=
 			ifconfig $if $name $mask $bcaddr $ext1 $ext2 down
 			cmd="dhclient $if"
-			setgateway=N
 			;;
-		"rtsol")
+		route)
+			routep="-n $name"
+			[[ $name = +n ]] && routep=
+			cmd="/sbin/route ${routep} ${mask} ${bcaddr} ${ext1} ${ext2}"
+			;;
+		rtsol)
 			ifconfig $if $name $mask $bcaddr $ext1 $ext2 up
 			rtsolif="$rtsolif $if"
 			cmd=
 			;;
-		"up")
+		up)
 			# The only one of these guaranteed to be set is $if.
 			# The remaining ones exist so that media controls work.
 			cmd="ifconfig $if $name $mask $bcaddr $ext1 $ext2 up"
 			;;
 		*)
 			read dt dtaddr
-			if [ "$name"  = "alias" ]; then
+			if [[ $name  = alias ]]; then
 				# perform a 'shift' of sorts
 				alias=$name
 				name=$mask
@@ -117,19 +124,20 @@ ifstart() {
 				cmd2="$dt $dtaddr"
 				;;
 			esac
-			if [ ! -n "$name" ]; then
+			if [[ -z $name ]]; then
 				echo "/etc/hostname.$if: invalid network configuration file"
 				return
 			fi
 			case $af in
 			inet)
-				[ "$mask" ] && cmd="$cmd netmask $mask"
-				if [ "$bcaddr" -a "X$bcaddr" != "XNONE" ]; then
+				[[ -n $mask ]] && cmd="$cmd netmask $mask"
+				if [[ -n $bcaddr && $bcaddr != NONE ]]; then
 					cmd="$cmd broadcast $bcaddr"
 				fi
-				[ "$alias" ] && rtcmd=";route -qn add -host $name 127.0.0.1"
+				[[ -n $alias ]] && rtcmd=";route -qn add -host $name 127.0.0.1"
 				;;
-			inet6) [ "$mask" ] && cmd="$cmd prefixlen $mask"
+			inet6)
+				[[ -n $mask ]] && cmd="$cmd prefixlen $mask"
 				cmd="$cmd $bcaddr"
 				;;
 			*)
@@ -140,7 +148,7 @@ ifstart() {
 			;;
 		esac
 		eval "$cmd"
-	done < /etc/hostname.$if
+	done </etc/hostname.$if
 }
 
 # Start multiple:
@@ -175,11 +183,11 @@ bridgestart() {
 	if ! isalphanumeric "$1"; then
 		return
 	fi
-	brconfig $1 > /dev/null 2>&1
-	if [ "$?" != "0" ]; then
+	brconfig $1 >/dev/null 2>&1
+	if [[ $? != 0 ]]; then
 		# Try to create interface if it does not exist
-		ifconfig $if create > /dev/null 2>&1
-		if [ "$?" != "0" ]; then
+		ifconfig $if create >/dev/null 2>&1
+		if [[ $? != 0 ]]; then
 			return
 		fi
 	fi
@@ -198,7 +206,7 @@ bridgestart() {
 			;;
 		esac
 		eval "$cmd"
-	done < /etc/bridgename.$1
+	done </etc/bridgename.$1
 }
 
 # Re-read /etc/rc.conf
@@ -206,9 +214,7 @@ bridgestart() {
 
 # If we were invoked with a list of interface names, just reconfigure these
 # interfaces (or bridges) and return.
-if [ $1x = autobootx ]; then
-	shift
-fi
+[[ $1 = autoboot ]] && shift
 if [ $# -gt 0 ]; then
 	while [ $# -gt 0 ]; do
 		if [ -f /etc/bridgename.$1 ]; then
@@ -223,16 +229,21 @@ fi
 
 # Otherwise, process with the complete network initialization.
 
-# /etc/myname contains my symbolic name
-if [ -f /etc/myname ]; then
-	hostname=`stripcom /etc/myname`
-	hostname $hostname
+# Since no interface is set up yet, using DNS is pointless.
+if [[ -e /etc/resolv.conf ]]; then
+	T=/etc/resolv.conf.$RANDOM
+	mv /etc/resolv.conf $T
+	echo lookup file >/etc/resolv.conf
 else
-	hostname=`hostname`
+	T=fail
 fi
 
-if [ -f /etc/defaultdomain ]; then
-	domainname `stripcom /etc/defaultdomain`
+# /etc/myname contains my symbolic name
+if [ -f /etc/myname ]; then
+	hostname=$(stripcom /etc/myname)
+	hostname $hostname
+else
+	hostname=$(hostname)
 fi
 
 # Set the address for the loopback interface.  Bringing the
@@ -244,28 +255,28 @@ if ifconfig lo0 inet6 >/dev/null 2>&1; then
 	ip6kernel=YES
 
 	# Disallow link-local unicast dest without outgoing scope identifiers.
-	route -qn add -inet6 fe80:: -prefixlen 10 ::1 -reject > /dev/null
+	route -qn add -inet6 fe80:: -prefixlen 10 ::1 -reject >/dev/null
 
 	# Disallow site-local unicast dest without outgoing scope identifiers.
 	# If you configure site-locals without scope id (it is permissible
 	# config for routers that are not on scope boundary), you may want
 	# to comment the line out.
-	route -qn add -inet6 fec0:: -prefixlen 10 ::1 -reject > /dev/null
+	route -qn add -inet6 fec0:: -prefixlen 10 ::1 -reject >/dev/null
 
 	# Disallow "internal" addresses to appear on the wire.
-	route -qn add -inet6 ::ffff:0.0.0.0 -prefixlen 96 ::1 -reject > /dev/null
+	route -qn add -inet6 ::ffff:0.0.0.0 -prefixlen 96 ::1 -reject >/dev/null
 
 	# Disallow packets to malicious IPv4 compatible prefix.
-	route -qn add -inet6 ::224.0.0.0 -prefixlen 100 ::1 -reject > /dev/null
-	route -qn add -inet6 ::127.0.0.0 -prefixlen 104 ::1 -reject > /dev/null
-	route -qn add -inet6 ::0.0.0.0 -prefixlen 104 ::1 -reject > /dev/null
-	route -qn add -inet6 ::255.0.0.0 -prefixlen 104 ::1 -reject > /dev/null
+	route -qn add -inet6 ::224.0.0.0 -prefixlen 100 ::1 -reject >/dev/null
+	route -qn add -inet6 ::127.0.0.0 -prefixlen 104 ::1 -reject >/dev/null
+	route -qn add -inet6 ::0.0.0.0 -prefixlen 104 ::1 -reject >/dev/null
+	route -qn add -inet6 ::255.0.0.0 -prefixlen 104 ::1 -reject >/dev/null
 
 	# Disallow packets to malicious 6to4 prefix.
-	route -qn add -inet6 2002:e000:: -prefixlen 20 ::1 -reject > /dev/null
-	route -qn add -inet6 2002:7f00:: -prefixlen 24 ::1 -reject > /dev/null
-	route -qn add -inet6 2002:0000:: -prefixlen 24 ::1 -reject > /dev/null
-	route -qn add -inet6 2002:ff00:: -prefixlen 24 ::1 -reject > /dev/null
+	route -qn add -inet6 2002:e000:: -prefixlen 20 ::1 -reject >/dev/null
+	route -qn add -inet6 2002:7f00:: -prefixlen 24 ::1 -reject >/dev/null
+	route -qn add -inet6 2002:0000:: -prefixlen 24 ::1 -reject >/dev/null
+	route -qn add -inet6 2002:ff00:: -prefixlen 24 ::1 -reject >/dev/null
 
 	# Completely disallow packets to IPv4 compatible prefix.
 	# This may conflict with RFC1933 under following circumstances:
@@ -280,45 +291,40 @@ if ifconfig lo0 inet6 >/dev/null 2>&1; then
 	#     asked to forward it.
 	# Due to rare use of IPv4 compatible addresses, and security issues
 	# with it, we disable it by default.
-	route -qn add -inet6 ::0.0.0.0 -prefixlen 96 ::1 -reject > /dev/null
+	route -qn add -inet6 ::0.0.0.0 -prefixlen 96 ::1 -reject >/dev/null
 
 	rtsolif=""
 else
 	ip6kernel=NO
 fi
 
+# Now put back the DNS resolver config
+[[ $T = fail ]] || mv $T /etc/resolv.conf
 
 # Configure all the non-loopback interfaces which we know about, but
 # do not start interfaces which must be delayed.
 # Refer to hostname.if(5) and bridgename.if(5)
-ifmstart "" "carp gif gre pfsync pppoe"
+ifmstart "" "carp gif gre pfsync pppoe local"
 
-if [ "$ip6kernel" = "YES" -a "x$rtsolif" != "x" ]; then
-	fw=`sysctl -n net.inet6.ip6.forwarding`
-	ra=`sysctl -n net.inet6.ip6.accept_rtadv`
-	if [ "x$fw" = "x0" -a "x$ra" = "x1" ]; then
+if [[ $ip6kernel = YES && -n $rtsolif ]]; then
+	fw=$(sysctl -n net.inet6.ip6.forwarding)
+	ra=$(sysctl -n net.inet6.ip6.accept_rtadv)
+	if [[ $fw = 0 && $ra = 1 ]]; then
 		echo "IPv6 autoconf:$rtsolif"
 		rtsol $rtsolif
 	else
 		echo "WARNING: inconsistent config - check /etc/sysctl.conf for IPv6 autoconf"
 	fi
 fi
-if [ "$ip6kernel" = "YES" ]; then
+if [[ $ip6kernel = YES ]]; then
 	# this is to make sure DAD is completed before going further.
-	sleep `sysctl -n net.inet6.ip6.dad_count`
+	sleep $(sysctl -n net.inet6.ip6.dad_count)
 fi
 
 # The pfsync interface needs to come up before carp.
 # Configure all the carp interfaces which we know about.
 # They must come up after pfsync but before default route.
-ifmstart "pfsync carp"
-
-# /etc/mygate, if it exists, contains the name of my gateway host
-# that name must be in /etc/hosts.
-if [ "X${setgateway}" != X"N" -a -f /etc/mygate ]; then
-	route -qn delete default > /dev/null 2>&1
-	route -qn add -host default `stripcom /etc/mygate`
-fi
+ifmstart "pfsync carp" "local"
 
 # Multicast routing.
 #
@@ -330,12 +336,12 @@ fi
 #	   Any other combination		-reject		config error
 case "$multicast_host:$multicast_router" in
 NO:NO)
-	route -qn add -net 224.0.0.0/4 -interface 127.0.0.1 -reject > /dev/null
+	route -qn add -net 224.0.0.0/4 -interface 127.0.0.1 -reject >/dev/null
 	;;
 NO:YES)
 	;;
 *:NO)
-	set `if [ $multicast_host = YES ]; then
+	set $(if [ $multicast_host = YES ]; then
 		ed -s '!route -qn show -inet' <<EOF
 /^default/p
 EOF
@@ -343,22 +349,22 @@ EOF
 		ed -s "!ifconfig $multicast_host" <<EOF
 /^	inet /p
 EOF
-	fi`
-	route -qn add -net 224.0.0.0/4 -interface $2 > /dev/null
+	fi)
+	route -qn add -net 224.0.0.0/4 -interface $2 >/dev/null
 	;;
 *:*)
 	echo 'config error, multicasting disabled until rc.conf is fixed'
-	route -qn add -net 224.0.0.0/4 -interface 127.0.0.1 -reject > /dev/null
+	route -qn add -net 224.0.0.0/4 -interface 127.0.0.1 -reject >/dev/null
 	;;
 esac
 
 
 # Configure PPPoE, GIF, GRE interfaces, delayed because they require routes
 # to be set.  PPPoE must be first, as GIF and GRE may depend on it.
-ifmstart "pppoe gif gre"
+ifmstart "pppoe gif gre" "local"
 
 # reject 127/8 other than 127.0.0.1
-route -qn add -net 127 127.0.0.1 -reject > /dev/null
+route -qn add -net 127 127.0.0.1 -reject >/dev/null
 
 # Configure all the bridges.
 for bn in /etc/bridgename.*; do
@@ -368,3 +374,5 @@ for bn in /etc/bridgename.*; do
 
 	bridgestart $if
 done
+
+[[ -e /etc/hostname.local ]] && eval $(stripcom /etc/hostname.local)

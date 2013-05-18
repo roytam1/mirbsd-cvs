@@ -6,6 +6,8 @@
 
 #include <machine/asm.h>
 
+	.text
+
 ENTRY(strlen)
 	pushl	%edi
 	movl	8(%esp),%edi		/* string address */

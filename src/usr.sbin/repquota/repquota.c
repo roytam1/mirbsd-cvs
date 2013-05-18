@@ -343,7 +343,7 @@ addid(uid_t id, int type, char *name)
 	if (id > highid[type])
 		highid[type] = id;
 	if (name) {
-		bcopy(name, fup->fu_name, len + 1);
+		memmove(fup->fu_name, name, len + 1);
 	} else {
 		snprintf(fup->fu_name, len, "%u", id);
 	}

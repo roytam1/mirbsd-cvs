@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: mkmakefile.c,v 1.16 2004/01/04 18:30:05 deraadt Exp $	*/
 /*	$NetBSD: mkmakefile.c,v 1.34 1997/02/02 21:12:36 thorpej Exp $	*/
 
@@ -412,6 +413,7 @@ emitload(FILE *fp)
 		    "\t${SYSTEM_LD_HEAD}\n"
 		    "\t${SYSTEM_LD} swap%s.o\n"
 		    "\t${SYSTEM_LD_TAIL}\n"
+		    "\t@${SYSTEM_LD_GZIP}\n"
 		    "\n"
 		    "swap%s.o: ", swname, swname) < 0)
 			return (1);

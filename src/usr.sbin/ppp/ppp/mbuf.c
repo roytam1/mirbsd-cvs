@@ -45,6 +45,8 @@
 #include "prompt.h"
 #include "main.h"
 
+__RCSID("$MirOS: src/usr.sbin/ppp/ppp/mbuf.c,v 1.4 2005/12/04 19:21:28 tg Exp $");
+
 #define BUCKET_CHUNK	20
 #define BUCKET_HASH	256
 
@@ -195,7 +197,7 @@ struct mbuf *
 mbuf_Read(struct mbuf *bp, void *v, size_t len)
 {
   int nb;
-  u_char *ptr = v;
+  u_char *tmp, *ptr = v;
 
   while (bp && len > 0) {
     if (len > bp->m_len)
@@ -203,7 +205,8 @@ mbuf_Read(struct mbuf *bp, void *v, size_t len)
     else
       nb = len;
     if (nb) {
-      memcpy(ptr, MBUF_CTOP(bp), nb);
+      if ((tmp = MBUF_CTOP(bp)) != NULL)
+        memcpy(ptr, tmp, nb);
       ptr += nb;
       bp->m_len -= nb;
       len -= nb;
@@ -223,14 +226,15 @@ size_t
 mbuf_View(struct mbuf *bp, void *v, size_t len)
 {
   size_t nb, l = len;
-  u_char *ptr = v;
+  u_char *tmp, *ptr = v;
 
   while (bp && l > 0) {
     if (l > bp->m_len)
       nb = bp->m_len;
     else
       nb = l;
-    memcpy(ptr, MBUF_CTOP(bp), nb);
+    if ((tmp = MBUF_CTOP(bp)) != NULL)
+      memcpy(ptr, tmp, nb);
     ptr += nb;
     l -= nb;
     bp = bp->m_next;
@@ -243,13 +247,17 @@ struct mbuf *
 m_prepend(struct mbuf *bp, const void *ptr, size_t len, size_t extra)
 {
   struct mbuf *head;
+  u_char *tmp;
+  void *tmb;
 
   if (bp && bp->m_offset) {
     if (bp->m_offset >= len) {
       bp->m_offset -= len;
       bp->m_len += len;
-      if (ptr)
-        memcpy(MBUF_CTOP(bp), ptr, len);
+      if (ptr) {
+	tmb = MBUF_CTOP(bp);
+        memcpy(tmb, ptr, len);
+      }
       return bp;
     }
     len -= bp->m_offset;
@@ -263,7 +271,8 @@ m_prepend(struct mbuf *bp, const void *ptr, size_t len, size_t extra)
   head->m_offset = extra;
   head->m_len -= extra;
   if (ptr)
-    memcpy(MBUF_CTOP(head), ptr, len);
+    if ((tmp = MBUF_CTOP(head)) != NULL)
+      memcpy(tmp, ptr, len);
   head->m_next = bp;
 
   return head;
@@ -304,6 +313,7 @@ mbuf_Write(struct mbuf *bp, const void *ptr, size_t m_len)
 {
   int plen;
   int nb;
+  u_char *tmp;
 
   plen = m_length(bp);
   if (plen < m_len)
@@ -311,7 +321,8 @@ mbuf_Write(struct mbuf *bp, const void *ptr, size_t m_len)
 
   while (m_len > 0) {
     nb = (m_len < bp->m_len) ? m_len : bp->m_len;
-    memcpy(MBUF_CTOP(bp), ptr, nb);
+    if ((tmp = MBUF_CTOP(bp)) != NULL)
+      memcpy(tmp, ptr, nb);
     m_len -= bp->m_len;
     bp = bp->m_next;
   }
@@ -380,6 +391,7 @@ m_enqueue(struct mqueue *queue, struct mbuf *bp)
 struct mbuf *
 m_pullup(struct mbuf *bp)
 {
+  u_char *tmp;
   /* Put it all in one contigous (aligned) mbuf */
 
   if (bp != NULL) {
@@ -390,14 +402,16 @@ m_pullup(struct mbuf *bp)
       nbp = m_get(m_length(bp), bp->m_type);
 
       for (cp = MBUF_CTOP(nbp); bp; bp = m_free(bp)) {
-        memcpy(cp, MBUF_CTOP(bp), bp->m_len);
+	if ((tmp = MBUF_CTOP(bp)) != NULL && cp != NULL)
+          memcpy(cp, tmp, bp->m_len);
         cp += bp->m_len;
       }
       bp = nbp;
     }
 #ifndef __i386__	/* Do any other archs not care about alignment ? */
     else if ((bp->m_offset & (sizeof(long) - 1)) != 0) {
-      bcopy(MBUF_CTOP(bp), bp + 1, bp->m_len);
+      if ((tmp = MBUF_CTOP(bp)) != NULL)
+        memmove(bp + 1, tmp, bp->m_len);
       bp->m_offset = 0;
     }
 #endif

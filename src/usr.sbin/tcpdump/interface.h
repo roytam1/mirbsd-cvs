@@ -19,8 +19,6 @@
  * THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR IMPLIED
  * WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
  * MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
- *
- * @(#) $Header$ (LBL)
  */
 
 #ifndef tcpdump_interface_h
@@ -161,7 +159,6 @@ extern const char *tok2str(const struct tok *, const char *, int);
 extern char *dnaddr_string(u_short);
 extern void safeputs(const char *);
 extern void safeputchar(int);
-extern void printb(char *, unsigned short, char *);
 
 extern void wrapup(int);
 
@@ -214,10 +211,6 @@ extern void ppp_ether_if_print(u_char *, const struct pcap_pkthdr *,
 	const u_char *);
 extern void gre_print(const u_char *, u_int);
 extern void icmp_print(const u_char *, const u_char *);
-extern void ieee802_11_if_print(u_char *, const struct pcap_pkthdr *,
-    const u_char *);
-extern void ieee802_11_radio_if_print(u_char *, const struct pcap_pkthdr *,
-    const u_char *);
 extern void igrp_print(const u_char *, u_int, const u_char *);
 extern void ip_print(const u_char *, u_int);
 extern void ipx_print(const u_char *, u_int);

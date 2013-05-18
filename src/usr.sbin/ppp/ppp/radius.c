@@ -428,7 +428,8 @@ radius_Process(struct radius *r, int got)
                      * Only point at the String field if we don't think the
                      * peer has misformatted the response.
                      */
-                    ((const char *)data)++;
+		    const char *foo = (const char *)data + 1;
+                    data = (const void *)foo;
                     len--;
                   } else
                     log_Printf(LogWARN, "Warning: The MS-CHAP-Error "
@@ -455,7 +456,8 @@ radius_Process(struct radius *r, int got)
                      * Only point at the String field if we don't think the
                      * peer has misformatted the response.
                      */
-                    ((const char *)data)++;
+		    const char *foo = (const char *)data + 1;
+                    data = (const void *)foo;
                     len--;
                   } else
                     log_Printf(LogWARN, "Warning: The MS-CHAP2-Success "

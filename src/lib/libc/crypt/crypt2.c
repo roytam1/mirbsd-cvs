@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libc/crypt/crypt2.c,v 1.2 2005/03/06 20:28:34 tg Exp $	*/
 /*	$OpenBSD: crypt2.c,v 1.3 2005/08/08 08:05:33 espie Exp $	*/
 
 /*
@@ -59,6 +60,10 @@
 extern const u_char _des_bits8[8];
 extern const u_int32_t _des_bits32[32];
 extern int	_des_initialised;
+
+void _des_init(void);
+void _des_setup_salt(int32_t);
+int _des_do_des(u_int32_t, u_int32_t, u_int32_t *, u_int32_t *, int);
 
 int
 setkey(const char *key)

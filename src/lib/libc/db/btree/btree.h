@@ -34,6 +34,9 @@
  *	@(#)btree.h	8.11 (Berkeley) 8/17/94
  */
 
+#ifndef _BTREE_H
+#define _BTREE_H
+
 /* Macros to set/clear/test flags. */
 #define	F_SET(p, f)	(p)->flags |= (f)
 #define	F_CLR(p, f)	(p)->flags &= ~(f)
@@ -379,3 +382,4 @@ typedef struct _btree {
 } BTREE;
 
 #include "extern.h"
+#endif

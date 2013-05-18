@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/midiplay/midiplay.c,v 1.2 2005/03/13 18:33:17 tg Exp $ */
 /*	$OpenBSD: midiplay.c,v 1.6 2005/03/11 22:54:06 jmc Exp $	*/
 /*	$NetBSD: midiplay.c,v 1.8 1998/11/25 22:17:07 augustss Exp $	*/
 
@@ -75,8 +76,8 @@ struct track {
 #define META_SMPTE	0x54
 #define META_TIMESIGN	0x58
 
-char *metanames[] = { 
-	"", "Text", "Copyright", "Track", "Instrument", 
+char *metanames[] = {
+	"", "Text", "Copyright", "Track", "Instrument",
 	"Lyric", "Marker", "Cue",
 };
 
@@ -103,10 +104,10 @@ extern char *__progname;
 #define E 0x40
 #define F 0x41
 
-u_char sample[] = { 
+u_char sample[] = {
 	'M','T','h','d',  0,0,0,6,  0,1,  0,1,  0,8,
 	'M','T','r','k',  0,0,0,4+13*8,
-	P(C), P(C), P(C), P(E), P(D), P(D), P(D), 
+	P(C), P(C), P(C), P(E), P(D), P(D), P(D),
 	P(F), P(E), P(E), P(D), P(D), PL(C),
 	0, 0xff, 0x2f, 0
 };
@@ -117,17 +118,24 @@ u_char sample[] = {
 #undef E
 #undef F
 
-#define MARK_HEADER "MThd"
+#define	MARK_HEADER "MThd"
+#define	RMID_SIG "RIFF"
+#define	RMID_MIDI_ID "RMID"
+#define	RMID_DATA_ID "data"
+
 #define MARK_TRACK "MTrk"
 #define MARK_LEN 4
 
 #define SIZE_LEN 4
 #define HEADER_LEN 6
 
-#define GET8(p) ((p)[0])
-#define GET16(p) (((p)[0] << 8) | (p)[1])
-#define GET24(p) (((p)[0] << 16) | ((p)[1] << 8) | (p)[2])
-#define GET32(p) (((p)[0] << 24) | ((p)[1] << 16) | ((p)[2] << 8) | (p)[3])
+#define GET8(p)		((p)[0])
+#define GET16(p)	(((p)[0] << 8) | (p)[1])
+#define GET24(p)	(((p)[0] << 16) | ((p)[1] << 8) | (p)[2])
+#define GET32(p)	(((p)[0] << 24) | ((p)[1] << 16) | \
+			    ((p)[2] << 8) | (p)[3])
+#define GET32_LE(p)	(((p)[3] << 24) | ((p)[2] << 16) | \
+			    ((p)[1] << 8) | (p)[0])
 
 void
 usage(void)
@@ -151,7 +159,7 @@ send_event(seq_event_rec *ev)
 {
 	/*
 	printf("%02x %02x %02x %02x %02x %02x %02x %02x\n",
-	       ev->arr[0], ev->arr[1], ev->arr[2], ev->arr[3], 
+	       ev->arr[0], ev->arr[1], ev->arr[2], ev->arr[3],
 	       ev->arr[4], ev->arr[5], ev->arr[6], ev->arr[7]);
 	*/
 	if (play)
@@ -249,7 +257,7 @@ playfile(FILE *f, char *name)
 	u_char *buf, *newbuf;
 	u_int tot, n, size, newsize, nread;
 
-	/* 
+	/*
 	 * We need to read the whole file into memory for easy processing.
 	 * Using mmap() would be nice, but some file systems do not support
 	 * it, nor does reading from e.g. a pipe.  The latter also precludes
@@ -294,10 +302,56 @@ playdata(u_char *buf, u_int tot, char *name)
 	if (verbose)
 		printf("Playing %s (%d bytes) ... \n", name, tot);
 
+	if (tot < (MARK_LEN + 4)) {
+		warnx("Not a MIDI file, too short");
+		return;
+	}
+
+	if (memcmp(buf, RMID_SIG, MARK_LEN) == 0) {
+		u_char *eod;
+		/* Detected a RMID file, let's just check if it's
+		 * a MIDI file */
+		if (GET32_LE(buf + MARK_LEN) != (tot - 8)) {
+			warnx("Not a RMID file, bad header");
+			return;
+		}
+
+		buf += MARK_LEN + 4;
+		if (memcmp(buf, RMID_MIDI_ID, MARK_LEN) != 0) {
+			warnx("Not a RMID file, bad ID");
+			return;
+		}
+
+		/* Now look for the 'data' chunk, which contains
+		 * MIDI data */
+		buf += MARK_LEN;
+
+		/* Test against end-8 since we must have at least 8 bytes
+		 * left to read */
+		while(buf < (end-8) && memcmp(buf, RMID_DATA_ID, MARK_LEN))
+			buf += GET32_LE(buf+4) + 8; /* MARK_LEN + 4 */
+
+		if (buf >= (end-8)) {
+			warnx("Not a valid RMID file, no data chunk");
+			return;
+		}
+
+		buf += MARK_LEN; /* "data" */
+		eod = buf + 4 + GET32_LE(buf);
+		if (eod >= end) {
+			warnx("Not a valid RMID file, bad data chunk size");
+			return;
+		}
+
+		end = eod;
+		buf += 4;
+	}
+
 	if (memcmp(buf, MARK_HEADER, MARK_LEN) != 0) {
 		warnx("Not a MIDI file, missing header");
 		return;
 	}
+
 	if (GET32(buf + MARK_LEN) != HEADER_LEN) {
 		warnx("Not a MIDI file, bad header");
 		return;
@@ -313,7 +367,7 @@ playdata(u_char *buf, u_int tot, char *name)
 		errx(1, "Absolute time codes not implemented yet");
 	if (verbose > 1)
 		printf("format=%d ntrks=%d divfmt=%x ticks=%d\n",
-		       format, ntrks, divfmt, ticks);
+		    format, ntrks, divfmt, ticks);
 	if (format != 0 && format != 1) {
 		warnx("Cannnot play MIDI file of type %d", format);
 		return;
@@ -342,7 +396,7 @@ playdata(u_char *buf, u_int tot, char *name)
 		p += MARK_LEN + SIZE_LEN + len;
 	}
 
-	/* 
+	/*
 	 * Play MIDI events by selecting the track track with the lowest
 	 * curtime.  Execute the event, update the curtime and repeat.
 	 */
@@ -420,7 +474,7 @@ playdata(u_char *buf, u_int tot, char *name)
 			    if (mlen == 1)
 				printf("MIDI %02x (%d) %02x\n",
 				       tp->status, mlen, msg[0]);
-			    else   
+			    else
 				printf("MIDI %02x (%d) %02x %02x\n",
 				       tp->status, mlen, msg[0], msg[1]);
 			}
@@ -435,20 +489,20 @@ playdata(u_char *buf, u_int tot, char *name)
 				send_event(&event);
 				break;
 			case MIDI_CTL_CHANGE:
-				SEQ_MK_CHN_COMMON(&event, unit, status, chan, 
+				SEQ_MK_CHN_COMMON(&event, unit, status, chan,
 						  msg[0], 0, msg[1]);
 				send_event(&event);
 				break;
 			case MIDI_PGM_CHANGE:
 			case MIDI_CHN_PRESSURE:
-				SEQ_MK_CHN_COMMON(&event, unit, status, chan, 
+				SEQ_MK_CHN_COMMON(&event, unit, status, chan,
 						  msg[0], 0, 0);
 				send_event(&event);
 				break;
 			case MIDI_PITCH_BEND:
-				SEQ_MK_CHN_COMMON(&event, unit, status, chan, 
-						  0, 0, 
-						  (msg[0] & 0x7f) | 
+				SEQ_MK_CHN_COMMON(&event, unit, status, chan,
+						  0, 0,
+						  (msg[0] & 0x7f) |
 						  ((msg[1] & 0x7f) << 7));
 				send_event(&event);
 				break;
@@ -527,7 +581,7 @@ main(int argc, char **argv)
 	}
 	argc -= optind;
 	argv += optind;
-    
+
 	fd = open(file, O_WRONLY);
 	if (fd < 0)
 		err(1, "%s", file);

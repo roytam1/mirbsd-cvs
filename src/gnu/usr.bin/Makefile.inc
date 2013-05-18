@@ -1,3 +1,8 @@
-#	$Id$
+# $MirOS$
+
+.ifndef _MODSRC_GNU_USR_BIN_MAKEFILE_INC
+_MODSRC_GNU_USR_BIN_MAKEFILE_INC=1
 
 BINDIR?=	/usr/bin
+
+.endif

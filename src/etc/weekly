@@ -1,10 +1,11 @@
-#!/bin/sh -
-#
-#	$OpenBSD: weekly,v 1.14 2003/06/30 22:04:57 avsm Exp $
-#
+#!/bin/mksh
+# $MirOS: src/etc/weekly,v 1.5 2005/07/24 16:34:34 tg Exp $
+# $OpenBSD: weekly,v 1.14 2003/06/30 22:04:57 avsm Exp $
 
+export TZ=UTC
 PATH=/bin:/sbin:/usr/sbin:/usr/bin:/usr/libexec
 export PATH
+cd /
 
 if [ -f /etc/weekly.local ]; then
 	echo ""
@@ -14,7 +15,7 @@ fi
 
 echo ""
 if [ -f /var/db/locate.database ]; then
-	TMP=`mktemp /var/db/locate.database.XXXXXXXXXX`
+	TMP=$(mktemp /var/db/locate.database.XXXXXXXXXX)
 	if [ $? -eq 0 ]; then
 		trap 'rm -f $TMP' 0 1 15
 		echo "Rebuilding locate database:"

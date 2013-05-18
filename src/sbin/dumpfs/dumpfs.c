@@ -109,6 +109,7 @@ dumpfs(char *name)
 {
 	ssize_t n;
 	int fd, c, i, j, k, size;
+	time_t t;
 
 	if ((fd = open(name, O_RDONLY, 0)) < 0)
 		goto err;
@@ -132,8 +133,9 @@ dumpfs(char *name)
 	if (afs.fs_postblformat == FS_42POSTBLFMT)
 		afs.fs_nrpos = 8;
 	dev_bsize = afs.fs_fsize / fsbtodb(&afs, 1);
+	t = afs.fs_time;
 	printf("magic\t%x\ttime\t%s", afs.fs_magic,
-	    ctime(&afs.fs_time));
+	    ctime(&t));
 	i = 0;
 	if (afs.fs_postblformat != FS_42POSTBLFMT) {
 		i++;
@@ -259,6 +261,7 @@ dumpcg(char *name, int fd, int c)
 {
 	off_t cur;
 	int i, j;
+	time_t t;
 
 	printf("\ncg %d:\n", c);
 	if ((cur = lseek(fd, (off_t)(fsbtodb(&afs, cgtod(&afs, c))) * dev_bsize,
@@ -268,10 +271,11 @@ dumpcg(char *name, int fd, int c)
 		warnx("%s: error reading cg", name);
 		return (1);
 	}
+	t = acg.cg_time;
 	printf("magic\t%x\ttell\t%qx\ttime\t%s",
 	    afs.fs_postblformat == FS_42POSTBLFMT ?
 	    ((struct ocg *)&acg)->cg_magic : acg.cg_magic,
-	    cur, ctime(&acg.cg_time));
+	    cur, ctime(&t));
 	printf("cgx\t%d\tncyl\t%d\tniblk\t%d\tndblk\t%d\n",
 	    acg.cg_cgx, acg.cg_ncyl, acg.cg_niblk, acg.cg_ndblk);
 	printf("nbfree\t%d\tndir\t%d\tnifree\t%d\tnffree\t%d\n",

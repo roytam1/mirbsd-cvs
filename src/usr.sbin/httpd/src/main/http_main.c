@@ -1,3 +1,4 @@
+/* $MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.5 2005/10/21 11:09:47 tg Exp $ */
 /* $OpenBSD: http_main.c,v 1.39 2005/05/03 05:44:35 djm Exp $ */
 
 /* ====================================================================
@@ -61,15 +62,15 @@
 /*
  * httpd.c: simple http daemon for answering WWW file requests
  *
- * 
+ *
  * 03-21-93  Rob McCool wrote original code (up to NCSA HTTPd 1.3)
- * 
+ *
  * 03-06-95  blong
  *  changed server number for child-alone processes to 0 and changed name
  *   of processes
  *
  * 03-10-95  blong
- *      Added numerous speed hacks proposed by Robert S. Thau (rst@ai.mit.edu) 
+ *      Added numerous speed hacks proposed by Robert S. Thau (rst@ai.mit.edu)
  *      including set group before fork, and call gettime before to fork
  *      to set up libraries.
  *
@@ -104,6 +105,15 @@
 #ifdef MOD_SSL
 #include <openssl/evp.h>
 #endif
+#ifdef HAVE_SET_DUMPABLE /* certain levels of Linux */
+#include <sys/prctl.h>
+#endif
+#include "sa_len.h"
+
+#ifndef __RCSID
+#define	__RCSID(x)	static const char __rcsid[] = (x)
+#endif
+__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.5 2005/10/21 11:09:47 tg Exp $");
 
 /* This next function is never used. It is here to ensure that if we
  * make all the modules into shared libraries that core httpd still
@@ -161,7 +171,12 @@ API_VAR_EXPORT char *ap_pid_fname=NULL;
 API_VAR_EXPORT char *ap_scoreboard_fname=NULL;
 API_VAR_EXPORT char *ap_lock_fname=NULL;
 API_VAR_EXPORT char *ap_server_argv0=NULL;
-API_VAR_EXPORT struct in_addr ap_bind_address={0};
+#ifdef INET6
+API_VAR_EXPORT int ap_default_family = PF_INET6;
+#else
+API_VAR_EXPORT int ap_default_family = PF_INET;
+#endif
+API_VAR_EXPORT struct sockaddr_storage ap_bind_address;
 API_VAR_EXPORT int ap_daemons_to_start=0;
 API_VAR_EXPORT int ap_daemons_min_free=0;
 API_VAR_EXPORT int ap_daemons_max_free=0;
@@ -288,7 +303,7 @@ static char *server_version = NULL;
 static int version_locked = 0;
 
 /* Global, alas, so http_core can talk to us */
-enum server_token_type ap_server_tokens = SrvTk_FULL;
+enum server_token_type ap_server_tokens = SrvTk_OS;
 
 /* Also global, for http_core and http_protocol */
 API_VAR_EXPORT int ap_protocol_req_check = 1;
@@ -298,12 +313,12 @@ API_VAR_EXPORT int ap_change_shmem_uid = 0;
 /*
  * This routine is called when the pconf pool is vacuumed.  It resets the
  * server version string to a known value and [re]enables modifications
- * (which are disabled by configuration completion). 
+ * (which are disabled by configuration completion).
  */
 static void reset_version(void *dummy)
 {
     version_locked = 0;
-    ap_server_tokens = SrvTk_FULL;
+    ap_server_tokens = SrvTk_OS;
     server_version = NULL;
 }
 
@@ -321,7 +336,7 @@ API_EXPORT(void) ap_add_version_component(const char *component)
 	 * we are adding the original SERVER_BASEVERSION string.
          */
         if (server_version == NULL) {
-	    ap_register_cleanup(pconf, NULL, (void (*)(void *))reset_version, 
+	    ap_register_cleanup(pconf, NULL, (void (*)(void *))reset_version,
 				ap_null_cleanup);
 	    server_version = ap_pstrdup(pconf, component);
 	}
@@ -385,7 +400,7 @@ static void ap_call_close_connection_hook(conn_rec *c)
 static APACHE_TLS int volatile exit_after_unblock = 0;
 
 #ifdef GPROF
-/* 
+/*
  * change directory for gprof to plop the gmon.out file
  * configure in httpd.conf:
  * GprofDir logs/   -> $ServerRoot/logs/gmon.out
@@ -393,8 +408,8 @@ static APACHE_TLS int volatile exit_after_unblock = 0;
  */
 static void chdir_for_gprof(void)
 {
-    core_server_config *sconf = 
-	ap_get_module_config(server_conf->module_config, &core_module);    
+    core_server_config *sconf =
+	ap_get_module_config(server_conf->module_config, &core_module);
     char *dir = sconf->gprof_dir;
 
     if(dir) {
@@ -402,8 +417,8 @@ static void chdir_for_gprof(void)
 	int len = strlen(sconf->gprof_dir) - 1;
 	if(*(dir + len) == '%') {
 	    dir[len] = '\0';
-	    ap_snprintf(buf, sizeof(buf), "%sgprof.%d", dir, (int)getpid());
-	} 
+	    snprintf(buf, sizeof(buf), "%sgprof.%d", dir, (int)getpid());
+	}
 	dir = ap_server_root_relative(pconf, buf[0] ? buf : dir);
 	if(mkdir(dir, 0755) < 0 && errno != EEXIST) {
 	    ap_log_error(APLOG_MARK, APLOG_ERR, server_conf,
@@ -686,9 +701,13 @@ static void usage(char *bin)
     for (i = 0; i < strlen(bin); i++)
 	pad[i] = ' ';
     pad[i] = '\0';
-    fprintf(stderr, "Usage: %s [-FhLlSTtuVvX] [-C directive] [-c directive] [-D parameter]\n", bin);
+    fprintf(stderr, "Usage: %s [-46FhLlSTtuVvX] [-C directive] [-c directive] [-D parameter]\n", bin);
     fprintf(stderr, "       %s [-d serverroot] [-f config]\n", pad);
     fprintf(stderr, "Options:\n");
+#ifdef INET6
+    fprintf(stderr, "  -4               : assume IPv4 on parsing configuration file\n");
+    fprintf(stderr, "  -6               : assume IPv6 on parsing configuration file\n");
+#endif
     fprintf(stderr, "  -C directive     : process directive before reading config files\n");
     fprintf(stderr, "  -c directive     : process directive after  reading config files\n");
     fprintf(stderr, "  -D parameter     : define a parameter for use in <IfDefine name> directives\n");
@@ -782,7 +801,7 @@ static void timeout(int sig)
 
 	ap_bsetflag(save_req->connection->client, B_EOUT, 1);
 	ap_bclose(save_req->connection->client);
-	
+
 	if (!ap_standalone)
 	    exit(0);
         ap_longjmp(jmpbuffer, 1);
@@ -1150,7 +1169,7 @@ static int reap_other_child(int pid, ap_wait_t status)
  * only to avoid getting clobbered by the longjmp() that happens when
  * a hard timeout expires...
  *
- * We begin with routines which deal with the file itself... 
+ * We begin with routines which deal with the file itself...
  */
 
 static void setup_shared_mem(pool *p)
@@ -1364,7 +1383,7 @@ static void reclaim_child_processes(int terminate)
     ap_sync_scoreboard_image();
 
     for (tries = terminate ? 4 : 1; tries <= 12; ++tries) {
-	/* don't want to hold up progress any more than 
+	/* don't want to hold up progress any more than
 	 * necessary, but we need to allow children a few moments to exit.
 	 * Set delay with an exponential backoff. NOTE: if we get
  	 * interupted, we'll wait longer than expected...
@@ -1428,7 +1447,7 @@ static void reclaim_child_processes(int terminate)
 	    case 11:    /* 6.4 sec */
 		break;
 	    case 12:    /* 7.4 sec */
-		/* gave it our best shot, but alas...  If this really 
+		/* gave it our best shot, but alas...  If this really
 		 * is a child we are trying to kill and it really hasn't
 		 * exited, we will likely fail to bind to the port
 		 * after the restart.
@@ -1607,8 +1626,8 @@ API_VAR_EXPORT ap_generation_t volatile ap_my_generation=0;
 
 /*
  * ap_start_shutdown() and ap_start_restart(), below, are a first stab at
- * functions to initiate shutdown or restart without relying on signals. 
- * Previously this was initiated in sig_term() and restart() signal handlers, 
+ * functions to initiate shutdown or restart without relying on signals.
+ * Previously this was initiated in sig_term() and restart() signal handlers,
  * but we want to be able to start a shutdown/restart from other sources --
  * e.g. on Win32, from the service manager. Now the service manager can
  * call ap_start_shutdown() or ap_start_restart() as appropiate.  Note that
@@ -1715,7 +1734,7 @@ static void detach(void)
     if ((pgrp = setsid()) == -1) {
 	perror("setsid");
 	fprintf(stderr, "%s: setsid failed\n", ap_server_argv0);
-	if (!do_detach) 
+	if (!do_detach)
 	    fprintf(stderr, "setsid() failed probably because you aren't "
 		"running under a process management tool like daemontools\n");
 	exit(1);
@@ -1816,11 +1835,13 @@ static int init_suexec(void)
 
 
 static conn_rec *new_connection(pool *p, server_rec *server, BUFF *inout,
-			     const struct sockaddr_in *remaddr,
-			     const struct sockaddr_in *saddr,
+			     const struct sockaddr *remaddr,
+			     const struct sockaddr *saddr,
 			     int child_num)
 {
     conn_rec *conn = (conn_rec *) ap_pcalloc(p, sizeof(conn_rec));
+    char hostnamebuf[MAXHOSTNAMELEN];
+    size_t addr_len;
 
     /* Got a connection structure, so initialize what fields we can
      * (the rest are zeroed out by pcalloc).
@@ -1829,17 +1850,30 @@ static conn_rec *new_connection(pool *p, server_rec *server, BUFF *inout,
     conn->child_num = child_num;
 
     conn->pool = p;
-    conn->local_addr = *saddr;
-    conn->local_ip = ap_pstrdup(conn->pool,
-				inet_ntoa(conn->local_addr.sin_addr));
+#ifndef SIN6_LEN
+    addr_len = SA_LEN(saddr);
+#else
+    addr_len = saddr->sa_len;
+#endif
+    memcpy(&conn->local_addr, saddr, addr_len);
+    getnameinfo((struct sockaddr *)&conn->local_addr, addr_len,
+	hostnamebuf, sizeof(hostnamebuf), NULL, 0, NI_NUMERICHOST);
+    conn->local_ip = ap_pstrdup(conn->pool, hostnamebuf);
     conn->server = server; /* just a guess for now */
     ap_update_vhost_given_ip(conn);
     conn->base_server = conn->server;
     conn->client = inout;
 
-    conn->remote_addr = *remaddr;
-    conn->remote_ip = ap_pstrdup(conn->pool,
-			      inet_ntoa(conn->remote_addr.sin_addr));
+#ifndef SIN6_LEN
+    addr_len = SA_LEN(remaddr);
+#else
+    addr_len = remaddr->sa_len;
+#endif
+    memcpy(&conn->remote_addr, remaddr, addr_len);
+    getnameinfo((struct sockaddr *)&conn->remote_addr, addr_len,
+	hostnamebuf, sizeof(hostnamebuf), NULL, 0, NI_NUMERICHOST);
+    conn->remote_ip = ap_pstrdup(conn->pool, hostnamebuf);
+
     conn->ctx = ap_ctx_new(conn->pool);
 
     /*
@@ -1885,21 +1919,47 @@ static void sock_disable_nagle(int s, struct sockaddr_in *sin_client)
     }
 }
 
-static int make_sock(pool *p, const struct sockaddr_in *server)
+static int make_sock(pool *p, const struct sockaddr *server)
 {
     int s;
     int one = 1;
-    char addr[512];
+    char addr[INET6_ADDRSTRLEN + 128];
+    char a0[INET6_ADDRSTRLEN];
+    char p0[NI_MAXSERV];
+#ifdef MPE
+    int privport = 0;
+#endif
 
-    if (server->sin_addr.s_addr != htonl(INADDR_ANY))
-	ap_snprintf(addr, sizeof(addr), "address %s port %d",
-		inet_ntoa(server->sin_addr), ntohs(server->sin_port));
-    else
-	ap_snprintf(addr, sizeof(addr), "port %d", ntohs(server->sin_port));
+    switch(server->sa_family){
+    case AF_INET:
+#ifdef INET6
+    case AF_INET6:
+#endif
+      break;
+    default:
+      ap_log_error(APLOG_MARK, APLOG_CRIT, server_conf,
+                   "make_sock: unsupported address family %u",
+		   server->sa_family);
+      ap_unblock_alarms();
+      exit(1);
+    }
+
+    getnameinfo(server,
+#ifndef SIN6_LEN
+		SA_LEN(server),
+#else
+		server->sa_len,
+#endif
+		a0, sizeof(a0), p0, sizeof(p0), NI_NUMERICHOST | NI_NUMERICSERV);
+    snprintf(addr, sizeof(addr), "address %s port %s", a0, p0);
+#ifdef MPE
+    if (atoi(p0) < 1024)
+      privport++;
+#endif
 
     /* note that because we're about to slack we don't use psocket */
     ap_block_alarms();
-    if ((s = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == -1) {
+    if ((s = socket(server->sa_family, SOCK_STREAM, IPPROTO_TCP)) == -1) {
 	    ap_log_error(APLOG_MARK, APLOG_CRIT, server_conf,
 		    "make_sock: failed to get a socket for %s", addr);
 
@@ -1960,8 +2020,11 @@ static int make_sock(pool *p, const struct sockaddr_in *server)
 	}
     }
 
-
-    if (bind(s, (struct sockaddr *) server, sizeof(struct sockaddr_in)) == -1) {
+#ifndef SIN6_LEN
+    if (bind(s, server, SA_LEN(server)) == -1) {
+#else
+    if (bind(s, server, server->sa_len) == -1) {
+#endif
 	ap_log_error(APLOG_MARK, APLOG_CRIT, server_conf,
 	    "make_sock: could not bind to %s", addr);
 
@@ -2074,15 +2137,17 @@ static void setup_listeners(pool *p)
     for (;;) {
 	fd = find_listener(lr);
 	if (fd < 0) {
-	    fd = make_sock(p, &lr->local_addr);
+	    fd = make_sock(p, (struct sockaddr *)&lr->local_addr);
 	}
 	else {
 	    ap_note_cleanups_for_socket_ex(p, fd, 1);
 	}
 	/* if we get here, (fd >= 0) && (fd < FD_SETSIZE) */
-	FD_SET(fd, &listenfds);
-	if (fd > listenmaxfd)
-	    listenmaxfd = fd;
+	if (fd >= 0) {
+	    FD_SET(fd, &listenfds);
+	    if (fd > listenmaxfd)
+		listenmaxfd = fd;
+	}
 	lr->fd = fd;
 	if (lr->next == NULL)
 	    break;
@@ -2206,15 +2271,15 @@ static void common_init(void)
     ap_server_config_defines   = ap_make_array(pcommands, 1, sizeof(char *));
 
     ap_hook_init();
-    ap_hook_configure("ap::buff::read", 
+    ap_hook_configure("ap::buff::read",
                       AP_HOOK_SIG4(int,ptr,ptr,int), AP_HOOK_TOPMOST);
-    ap_hook_configure("ap::buff::write",  
+    ap_hook_configure("ap::buff::write",
                       AP_HOOK_SIG4(int,ptr,ptr,int), AP_HOOK_TOPMOST);
-    ap_hook_configure("ap::buff::writev",  
+    ap_hook_configure("ap::buff::writev",
                       AP_HOOK_SIG4(int,ptr,ptr,int), AP_HOOK_TOPMOST);
-    ap_hook_configure("ap::buff::sendwithtimeout", 
+    ap_hook_configure("ap::buff::sendwithtimeout",
                       AP_HOOK_SIG4(int,ptr,ptr,int), AP_HOOK_TOPMOST);
-    ap_hook_configure("ap::buff::recvwithtimeout", 
+    ap_hook_configure("ap::buff::recvwithtimeout",
                       AP_HOOK_SIG4(int,ptr,ptr,int), AP_HOOK_TOPMOST);
 
     ap_global_ctx = ap_ctx_new(NULL);
@@ -2241,8 +2306,8 @@ API_EXPORT(void) ap_child_terminate(request_rec *r)
 static void child_main(int child_num_arg)
 {
     NET_SIZE_T clen;
-    struct sockaddr sa_server;
-    struct sockaddr sa_client;
+    struct sockaddr_storage sa_server;
+    struct sockaddr_storage sa_client;
     listen_rec *lr;
 
     /* All of initialization is a critical section, we don't care if we're
@@ -2280,7 +2345,7 @@ static void child_main(int child_num_arg)
     SAFE_ACCEPT(accept_mutex_child_init(pmutex));
 
     set_group_privs();
-    /* 
+    /*
      * Only try to switch if we're running as root
      * In case of Cygwin we have the special super-user named SYSTEM
      */
@@ -2299,7 +2364,7 @@ static void child_main(int child_num_arg)
     (void) ap_update_child_status(my_child_num, SERVER_READY, (request_rec *) NULL);
 
     /*
-     * Setup the jump buffers so that we can return here after a timeout 
+     * Setup the jump buffers so that we can return here after a timeout
      */
     ap_setjmp(jmpbuffer);
     signal(SIGURG, timeout);
@@ -2384,7 +2449,7 @@ static void child_main(int child_num_arg)
 	    usr1_just_die = 0;
 	    for (;;) {
 		clen = sizeof(sa_client);
-		csd = ap_accept(sd, &sa_client, &clen);
+		csd = ap_accept(sd, (struct sockaddr *)&sa_client, &clen);
 		if (csd >= 0 || errno != EINTR)
 		    break;
 		if (deferred_die) {
@@ -2489,10 +2554,10 @@ static void child_main(int child_num_arg)
 	 */
 
 	clen = sizeof(sa_server);
-	if (getsockname(csd, &sa_server, &clen) < 0) {
-	    ap_log_error(APLOG_MARK, APLOG_DEBUG, server_conf, 
+	if (getsockname(csd, (struct sockaddr *)&sa_server, &clen) < 0) {
+	    ap_log_error(APLOG_MARK, APLOG_DEBUG, server_conf,
                          "getsockname, client %pA probably dropped the "
-                         "connection", 
+                         "connection",
                          &((struct sockaddr_in *)&sa_client)->sin_addr);
 	    continue;
 	}
@@ -2508,8 +2573,8 @@ static void child_main(int child_num_arg)
 	ap_bpushfd(conn_io, csd, dupped_csd);
 
 	current_conn = new_connection(ptrans, server_conf, conn_io,
-				          (struct sockaddr_in *) &sa_client,
-				          (struct sockaddr_in *) &sa_server,
+				          (struct sockaddr *)&sa_client,
+				          (struct sockaddr *)&sa_server,
 				          my_child_num);
 
 	/*
@@ -2677,8 +2742,8 @@ static int hold_off_on_exponential_spawning;
 /*
  * Define the signal that is used to kill off children if idle_count
  * is greater then ap_daemons_max_free. Usually we will use SIGUSR1
- * to gracefully shutdown, but unfortunatly some OS will need other 
- * signals to ensure that the child process is terminated and the 
+ * to gracefully shutdown, but unfortunatly some OS will need other
+ * signals to ensure that the child process is terminated and the
  * scoreboard pool is not growing to infinity. Also set the signal we
  * use to kill of childs that exceed timeout. This effect has been
 * seen at least on Cygwin 1.x. -- Stipe Tolj <tolj@wapme-systems.de>
@@ -2846,7 +2911,7 @@ static void process_child_status(int pid, ap_wait_t status)
 			     server_conf,
 			     "child pid %d exit signal %s (%d), "
 			     "possible coredump in %s",
-			     pid, (WTERMSIG(status) >= NumSIG) ? "" : 
+			     pid, (WTERMSIG(status) >= NumSIG) ? "" :
 			     SYS_SIGLIST[WTERMSIG(status)], WTERMSIG(status),
 			     ap_coredump_dir);
 	    }
@@ -2900,8 +2965,8 @@ static void standalone_main(int argc, char **argv)
 	setup_listeners(pconf);
 	ap_clear_pool(plog);
 
-	/* 
-	 * we cannot reopen the logfiles once we dropped permissions, 
+	/*
+	 * we cannot reopen the logfiles once we dropped permissions,
 	 * we cannot write the pidfile (pointless anyway), and we can't
 	 * reload & reinit the modules.
 	 */
@@ -2915,10 +2980,10 @@ static void standalone_main(int argc, char **argv)
 	ap_init_etag(pconf);
 	version_locked++;	/* no more changes to server_version */
 
-	if(!is_graceful && !is_chrooted)
+	if(!is_graceful && !is_chrooted) {
 	    if (ap_server_chroot) {
 		if (geteuid()) {
-		    ap_log_error(APLOG_MARK, APLOG_NOERRNO|APLOG_EMERG, 
+		    ap_log_error(APLOG_MARK, APLOG_NOERRNO|APLOG_EMERG,
 			server_conf, "can't run in secure mode if not "
 			"started with root privs.");
 		    exit(1);
@@ -2941,7 +3006,7 @@ static void standalone_main(int argc, char **argv)
 			"unable to chroot into %s!", ap_server_root);
 		    exit(1);
 		}
-		ap_log_error(APLOG_MARK, APLOG_NOERRNO|APLOG_NOTICE, 
+		ap_log_error(APLOG_MARK, APLOG_NOERRNO|APLOG_NOTICE,
 		    server_conf, "chrooted in %s", ap_server_root);
 		chdir("/");
 		is_chrooted = 1;
@@ -2956,8 +3021,9 @@ static void standalone_main(int argc, char **argv)
 		    ap_log_error(APLOG_MARK, APLOG_NOERRNO|APLOG_NOTICE,
 			server_conf, "changed to uid %u, gid %u",
 			ap_user_id, ap_group_id);
-		} else
-		    setproctitle("parent");
+	    } else
+		setproctitle("parent");
+	}
 
 
 	SAFE_ACCEPT(accept_mutex_init(pconf));
@@ -3078,7 +3144,7 @@ static void standalone_main(int argc, char **argv)
 
 	    /* cleanup pid file on normal shutdown */
 	    {
-		const char *pidfile = NULL;
+		char *pidfile = NULL;
 		pidfile = ap_server_root_relative (pconf, ap_pid_fname);
 		ap_server_strip_chroot(pidfile, 0);
 		if ( pidfile != NULL && unlink(pidfile) == 0)
@@ -3162,21 +3228,24 @@ int REALMAIN(int argc, char *argv[])
     MONCONTROL(0);
 
     common_init();
-    
+
     if ((s = strrchr(argv[0], PATHSEPARATOR)) != NULL) {
 	ap_server_argv0 = ++s;
     }
     else {
 	ap_server_argv0 = argv[0];
     }
-    
+
     ap_cpystrn(ap_server_root, HTTPD_ROOT, sizeof(ap_server_root));
     ap_cpystrn(ap_server_confname, SERVER_CONFIG_FILE, sizeof(ap_server_confname));
 
     ap_setup_prelinked_modules();
 
     while ((c = getopt(argc, argv,
-				    "D:C:c:xXd:Ff:vVlLR:StThu"
+				    "D:C:c:xXd:Ff:vVlLR:StTh4u"
+#ifdef INET6
+				    "6"
+#endif
 #ifdef DEBUG_SIGSTOP
 				    "Z:"
 #endif
@@ -3241,6 +3310,14 @@ int REALMAIN(int argc, char *argv[])
 	    break;
 	case 'h':
 	    usage(argv[0]);
+	case '4':
+	    ap_default_family = PF_INET;
+	    break;
+#ifdef INET6
+	case '6':
+	    ap_default_family = PF_INET6;
+	    break;
+#endif
 	case 'u':
 	    ap_server_chroot = 0;
 	    break;
@@ -3276,9 +3353,10 @@ int REALMAIN(int argc, char *argv[])
     else {
 	conn_rec *conn;
 	request_rec *r;
-	struct sockaddr sa_server, sa_client;
 	BUFF *cio;
+	struct sockaddr_storage sa_server, sa_client;
 	NET_SIZE_T l;
+	char servbuf[NI_MAXSERV];
 
 	ap_set_version();
 	/* Yes this is called twice. */
@@ -3288,7 +3366,7 @@ int REALMAIN(int argc, char *argv[])
 	ap_init_modules(pconf, server_conf);
 	set_group_privs();
 
-    /* 
+    /*
      * Only try to switch if we're running as root
      * In case of Cygwin we have the special super-user named SYSTEM
      * with a pre-defined uid.
@@ -3307,25 +3385,32 @@ int REALMAIN(int argc, char *argv[])
     sock_out = fileno(stdout);
 
 	l = sizeof(sa_client);
-	if ((getpeername(sock_in, &sa_client, &l)) < 0) {
+	if ((getpeername(sock_in, (struct sockaddr *)&sa_client, &l)) < 0) {
 /* get peername will fail if the input isn't a socket */
 	    perror("getpeername");
 	    memset(&sa_client, '\0', sizeof(sa_client));
 	}
 
 	l = sizeof(sa_server);
-	if (getsockname(sock_in, &sa_server, &l) < 0) {
+	if (getsockname(sock_in, (struct sockaddr *)&sa_server, &l) < 0) {
 	    perror("getsockname");
 	    fprintf(stderr, "Error getting local address\n");
 	    exit(1);
 	}
-	server_conf->port = ntohs(((struct sockaddr_in *) &sa_server)->sin_port);
+	if (getnameinfo(((struct sockaddr *)&sa_server), l,
+			NULL, 0, servbuf, sizeof(servbuf),
+			NI_NUMERICSERV)){
+	    fprintf(stderr, "getnameinfo(): family=%d\n", sa_server.ss_family);
+	    exit(1);
+	}
+	servbuf[sizeof(servbuf)-1] = '\0';
+	server_conf->port = atoi(servbuf);
 	cio = ap_bcreate(ptrans, B_RDWR | B_SOCKET);
         cio->fd = sock_out;
         cio->fd_in = sock_in;
 	conn = new_connection(ptrans, server_conf, cio,
-			          (struct sockaddr_in *) &sa_client,
-			          (struct sockaddr_in *) &sa_server, -1);
+			          (struct sockaddr *)&sa_client,
+			          (struct sockaddr *)&sa_server, -1);
 
 	while ((r = ap_read_request(conn)) != NULL) {
 
@@ -3356,16 +3441,6 @@ void suck_in_ap_validate_password(void)
     ap_validate_password("a", "b");
 }
 
-/* force Expat to be linked into the server executable */
-#if defined(USE_EXPAT)
-#include "xmlparse.h"
-const XML_LChar *suck_in_expat(void);
-const XML_LChar *suck_in_expat(void)
-{
-    return XML_ErrorString(XML_ERROR_NONE);
-}
-#endif /* USE_EXPAT */
-
 API_EXPORT(void) ap_server_strip_chroot(char *src, int force)
 {
     char buf[MAX_STRING_LEN];
@@ -3374,7 +3449,7 @@ API_EXPORT(void) ap_server_strip_chroot(char *src, int force)
 	if (strncmp(ap_server_root, src, strlen(ap_server_root)) == 0) {
 	    strlcpy(buf, src+strlen(ap_server_root), MAX_STRING_LEN);
 	    strlcpy(src, buf, strlen(src));
-	} 
+	}
     }
 }
 

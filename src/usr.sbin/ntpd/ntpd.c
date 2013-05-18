@@ -1,6 +1,9 @@
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.7 2005/10/27 09:35:29 tg Exp $ */
 /*	$OpenBSD: ntpd.c,v 1.40 2005/09/06 21:27:10 wvdputte Exp $ */
 
-/*
+/*-
+ * Copyright (c) 2004, 2005
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -31,6 +34,8 @@
 #include <unistd.h>
 
 #include "ntpd.h"
+
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.7 2005/10/27 09:35:29 tg Exp $");
 
 void		sighdlr(int);
 __dead void	usage(void);
@@ -218,7 +223,7 @@ int
 check_child(pid_t pid, const char *pname)
 {
 	int	 status, sig;
-	char 	*signame;
+	const char *signame;
 
 	if (waitpid(pid, &status, WNOHANG) > 0) {
 		if (WIFEXITED(status)) {
@@ -316,16 +321,18 @@ int
 ntpd_adjtime(double d)
 {
 	struct timeval	tv, olddelta;
-	int		synced = 0;
+	double		o;
+	int		synced = 0, rv;
 	static int	firstadj = 1;
 
-	if (d >= (double)LOG_NEGLIGEE / 1000 ||
-	    d <= -1 * (double)LOG_NEGLIGEE / 1000)
-		log_info("adjusting local clock by %fs", d);
-	else
-		log_debug("adjusting local clock by %fs", d);
 	d_to_tv(d, &tv);
-	if (adjtime(&tv, &olddelta) == -1)
+	rv = adjtime(&tv, &olddelta);
+	o = (double)olddelta.tv_sec + (double)olddelta.tv_usec / 1000000.;
+	if (d >= LOG_NEGLIGEE / 1000. || d <= LOG_NEGLIGEE / -1000.)
+		log_info("adjusting local clock by %fs, old drift %fs", d, o);
+	else
+		log_debug("adjusting local clock by %fs, old drift %fs", d, o);
+	if (rv == -1)
 		log_warn("adjtime failed");
 	else if (!firstadj && olddelta.tv_sec == 0 && olddelta.tv_usec == 0)
 		synced = 1;
@@ -336,29 +343,27 @@ ntpd_adjtime(double d)
 void
 ntpd_settime(double d)
 {
-	struct timeval	tv, curtime;
+	struct timeval	curtime;
 	char		buf[80];
-	time_t		tval;
+	tai64na_t	t;
 
 	/* if the offset is small, don't call settimeofday */
 	if (d < SETTIME_MIN_OFFSET && d > -SETTIME_MIN_OFFSET)
 		return;
 
-	if (gettimeofday(&curtime, NULL) == -1) {
-		log_warn("gettimeofday");
-		return;
-	}
-	d_to_tv(d, &tv);
-	curtime.tv_usec += tv.tv_usec + 1000000;
-	curtime.tv_sec += tv.tv_sec - 1 + (curtime.tv_usec / 1000000);
+	d_to_tv(d, &curtime);
+	taina_time(&t);
+	curtime.tv_usec += t.nano / 1000 + /* borrow */ 1000000;
+	curtime.tv_sec = tai2timet(utc2tai(tai2utc(t.secs)
+	    + curtime.tv_sec - /* pay */ 1
+	    + (curtime.tv_usec / 1000000)));
 	curtime.tv_usec %= 1000000;
 
 	if (settimeofday(&curtime, NULL) == -1) {
 		log_warn("settimeofday");
 		return;
 	}
-	tval = curtime.tv_sec;
-	strftime(buf, sizeof(buf), "%a %b %e %H:%M:%S %Z %Y",
-	    localtime(&tval));
+	strftime(buf, sizeof (buf), "%a %b %e %H:%M:%S %Z %Y",
+	    localtime(&curtime.tv_sec));
 	log_info("set local clock to %s (offset %fs)", buf, d);
 }

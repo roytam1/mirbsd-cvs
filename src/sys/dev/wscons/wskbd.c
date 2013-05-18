@@ -1,3 +1,4 @@
+/* $MirOS: src/sys/dev/wscons/wskbd.c,v 1.5 2005/07/21 21:52:21 tg Exp $ */
 /* $OpenBSD: wskbd.c,v 1.45 2005/07/08 02:26:07 marc Exp $ */
 /* $NetBSD: wskbd.c,v 1.80 2005/05/04 01:52:16 augustss Exp $ */
 
@@ -81,7 +82,7 @@
 
 #ifndef	SMALL_KERNEL
 #define	BURNER_SUPPORT
-#define	SCROLLBACK_SUPPORT
+#define	WSDISPLAY_SCROLLBACK_SUPPORT
 #endif
 
 #include <sys/param.h>
@@ -601,7 +602,7 @@ wskbd_input(struct device *dev, u_int type, int value)
 		num = wskbd_translate(sc->id, type, value);
 		if (num > 0) {
 			if (sc->sc_base.me_dispdv != NULL) {
-#ifdef SCROLLBACK_SUPPORT
+#ifdef WSDISPLAY_SCROLLBACK_SUPPORT
 				/* XXX - Shift_R+PGUP(release) emits PrtSc */
 				if (sc->id->t_symbols[0] != KS_Print_Screen) {
 					wsscrollback(sc->sc_base.me_dispdv,
@@ -1290,6 +1291,9 @@ wskbd_cnbell(dev_t dev, u_int pitch, u_int period, u_int volume)
 	if (!wskbd_console_initted)
 		return;
 
+	if ((pitch == 0) || (period == 0) || (volume == 0))
+		return;
+
 	if (wskbd_console_data.t_consops->bell != NULL)
 		(*wskbd_console_data.t_consops->bell)
 		    (wskbd_console_data.t_consaccesscookie, pitch, period,
@@ -1378,7 +1382,7 @@ internal_command(struct wskbd_softc *sc, u_int *type, keysym_t ksym,
 	if (*type != WSCONS_EVENT_KEY_DOWN)
 		return (0);
 
-#ifdef SCROLLBACK_SUPPORT
+#ifdef WSDISPLAY_SCROLLBACK_SUPPORT
 #if NWSDISPLAY > 0
 	switch (ksym) {
 	case KS_Cmd_ScrollBack:

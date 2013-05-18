@@ -1,3 +1,4 @@
+/* $MirOS: src/lib/libc/net/rresvport.c,v 1.3 2005/07/09 13:23:33 tg Exp $ */
 /*
  * Copyright (c) 1995, 1996, 1998 Theo de Raadt.  All rights reserved.
  * Copyright (c) 1983, 1993, 1994
@@ -48,6 +49,8 @@
 #include <stdlib.h>
 #include <netgroup.h>
 
+__RCSID("$MirOS: src/lib/libc/net/rresvport.c,v 1.3 2005/07/09 13:23:33 tg Exp $");
+
 int
 rresvport(int *alport)
 {
@@ -63,7 +66,7 @@ rresvport_af(int *alport, int af)
 	u_int16_t *portp;
 	int s;
 
-	bzero(&ss, sizeof ss);
+	memset(&ss, 0, sizeof ss);
 	sa = (struct sockaddr *)&ss;
 
 	switch (af) {
@@ -80,7 +83,7 @@ rresvport_af(int *alport, int af)
 		return (-1);
 	}
 	sa->sa_family = af;
-	
+
 	s = socket(af, SOCK_STREAM, 0);
 	if (s < 0)
 		return (-1);

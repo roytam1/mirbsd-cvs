@@ -1,7 +1,9 @@
+/* $MirOS: src/sys/net/if_pppoe.c,v 1.2 2005/07/04 01:33:54 tg Exp $ */
 /* $OpenBSD: if_pppoe.c,v 1.4 2005/06/07 05:10:57 canacar Exp $ */
 /* $NetBSD: if_pppoe.c,v 1.51 2003/11/28 08:56:48 keihan Exp $ */
 
 /*
+ * Copyright (c) 2005 Thorsten Glaser <tg@MirBSD.org>
  * Copyright (c) 2002 The NetBSD Foundation, Inc.
  * All rights reserved.
  *
@@ -150,6 +152,8 @@ struct pppoe_softc {
 
 	struct timeval sc_session_time;	/* time the session was established */
 };
+
+static int term_unknown = 0;
 
 /* incoming traffic will be queued here */
 struct ifqueue ppoediscinq = { NULL };
@@ -721,15 +725,11 @@ pppoe_data_input(struct mbuf *m)
 	struct pppoe_softc *sc;
 	struct pppoehdr *ph;
 	u_int16_t session, plen;
-#ifdef PPPOE_TERM_UNKNOWN_SESSIONS
 	u_int8_t shost[ETHER_ADDR_LEN];
-#endif
 
 	KASSERT(m->m_flags & M_PKTHDR);
 
-#ifdef PPPOE_TERM_UNKNOWN_SESSIONS
 	memcpy(shost, mtod(m, struct ether_header*)->ether_shost, ETHER_ADDR_LEN);
-#endif
 	m_adj(m, sizeof(struct ether_header));
 	if (m->m_pkthdr.len <= PPPOE_HEADERLEN) {
 		printf("pppoe (data): dropping too short packet: %d bytes\n",
@@ -754,14 +754,13 @@ pppoe_data_input(struct mbuf *m)
 
 	session = ntohs(ph->session);
 	sc = pppoe_find_softc_by_session(session, m->m_pkthdr.rcvif);
-	if (sc == NULL) {
-#ifdef PPPOE_TERM_UNKNOWN_SESSIONS
+	if ((sc == NULL) && term_unknown) {
 		printf("pppoe (data): input for unknown session 0x%x, sending PADT\n",
 		    session);
 		pppoe_send_padt(m->m_pkthdr.rcvif, session, shost);
-#endif
-		goto drop;
 	}
+	if (sc == NULL)
+		goto drop;
 
 	plen = ntohs(ph->plen);
 
@@ -929,6 +928,20 @@ pppoe_ioctl(struct ifnet *ifp, unsigned long cmd, caddr_t data)
 	case SIOCSIFFLAGS:
 	{
 		struct ifreq *ifr = (struct ifreq *)data;
+		struct pppoe_softc *sc1;
+
+		if ((ifr->ifr_flags & IFF_LINK2) != 0)
+			term_unknown = 1;
+		else
+			term_unknown = 0;
+
+		LIST_FOREACH(sc1, &pppoe_softc_list, sc_list) {
+			if (term_unknown)
+				sc1->sc_sppp.pp_if.if_flags |= IFF_LINK2;
+			else
+				sc1->sc_sppp.pp_if.if_flags &= ~IFF_LINK2;
+		}
+
 		/*
 		 * Prevent running re-establishment timers overriding
 		 * administrators choice.

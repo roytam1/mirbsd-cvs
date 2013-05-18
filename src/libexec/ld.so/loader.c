@@ -1,3 +1,4 @@
+/**	$MirOS: src/libexec/ld.so/loader.c,v 1.4 2005/07/25 15:03:58 tg Exp $	*/
 /*	$OpenBSD: loader.c,v 1.100 2005/11/09 16:41:29 kurt Exp $ */
 
 /*
@@ -23,15 +24,13 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- *
  */
 
 #define	_DYN_LOADER
 
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/mman.h>
 #include <sys/exec.h>
-#include <sys/param.h>
 #include <sys/sysctl.h>
 #include <nlist.h>
 #include <string.h>
@@ -43,6 +42,8 @@
 #include "resolve.h"
 #include "sod.h"
 #include "stdlib.h"
+
+__RCSID("$MirOS: src/libexec/ld.so/loader.c,v 1.4 2005/07/25 15:03:58 tg Exp $");
 
 /*
  * Local decls.
@@ -556,7 +557,7 @@ _dl_boot_bind(const long sp, long *dl_data, Elf_Dyn *dynamicp)
 	argv = (char **)stack;
 	envp = &argv[argc + 1];
 	stack = (long *)envp;
-	while (*stack++ != NULL)
+	while (*stack++)
 		;
 
 	/*

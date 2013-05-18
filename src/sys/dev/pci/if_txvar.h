@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: if_txvar.h,v 1.12 2002/03/14 03:16:06 millert Exp $	*/
 /* $FreeBSD: src/sys/pci/if_txvar.h,v 1.8 2001/02/07 20:11:02 semenu Exp $ */
 
@@ -99,26 +100,26 @@
 #define INTSTAT_RCC	0x00000001
 #define INTSTAT_HCC	0x00000002
 #define INTSTAT_RQE	0x00000004
-#define INTSTAT_OVW	0x00000008	
-#define INTSTAT_RXE	0x00000010	
+#define INTSTAT_OVW	0x00000008
+#define INTSTAT_RXE	0x00000010
 #define INTSTAT_TXC	0x00000020
-#define INTSTAT_TCC	0x00000040	
-#define INTSTAT_TQE	0x00000080	
+#define INTSTAT_TCC	0x00000040
+#define INTSTAT_TQE	0x00000080
 #define INTSTAT_TXU	0x00000100
 #define INTSTAT_CNT	0x00000200
 #define INTSTAT_PREI	0x00000400
-#define INTSTAT_RCT	0x00000800	
-#define INTSTAT_FATAL	0x00001000	/* One of DPE,APE,PMA,PTA happend */	
+#define INTSTAT_RCT	0x00000800
+#define INTSTAT_FATAL	0x00001000	/* One of DPE,APE,PMA,PTA happend */
 #define INTSTAT_UNUSED1	0x00002000
-#define INTSTAT_UNUSED2	0x00004000	
-#define INTSTAT_GP2	0x00008000	/* PHY Event */	
+#define INTSTAT_UNUSED2	0x00004000
+#define INTSTAT_GP2	0x00008000	/* PHY Event */
 #define INTSTAT_INT_ACTV 0x00010000
 #define INTSTAT_RXIDLE	0x00020000
 #define INTSTAT_TXIDLE	0x00040000
-#define INTSTAT_RCIP	0x00080000	
-#define INTSTAT_TCIP	0x00100000	
+#define INTSTAT_RCIP	0x00080000
+#define INTSTAT_TCIP	0x00100000
 #define INTSTAT_RBE	0x00200000
-#define INTSTAT_RCTS	0x00400000	
+#define INTSTAT_RCTS	0x00400000
 #define	INTSTAT_RSV	0x00800000
 #define	INTSTAT_DPE	0x01000000	/* PCI Fatal error */
 #define	INTSTAT_APE	0x02000000	/* PCI Fatal error */
@@ -230,7 +231,7 @@ struct epic_frag_list {
 	struct {
 		volatile u_int32_t	fragaddr;
 		volatile u_int32_t	fraglen;
-	} frag[EPIC_MAX_FRAGS]; 
+	} frag[EPIC_MAX_FRAGS];
 	volatile u_int32_t		pad;		/* align on 256 bytes */
 };
 
@@ -361,7 +362,7 @@ struct epic_type {
 	{ MGETHDR((m),M_DONTWAIT,MT_DATA);				\
 	  if (m) {							\
 	    MCLGET((m),M_DONTWAIT);					\
-	    if( NULL == ((m)->m_flags & M_EXT) ) {			\
+	    if(!((m)->m_flags & M_EXT)) {				\
 	      m_freem(m);						\
 	      (m) = NULL;						\
 	    }								\
@@ -376,7 +377,7 @@ struct epic_type {
 #define epic_dev_ptr(sc)	(void *)(sc)
 
 #define epic_mii(sc)		(sc->miibus)
-#define epic_mii_ptr(sc)	(&sc->miibus)	
+#define epic_mii_ptr(sc)	(&sc->miibus)
 
 #else
 
@@ -387,4 +388,3 @@ struct epic_type {
 #define epic_mii_ptr(sc)	(device_get_softc(sc->miibus))
 
 #endif
-

@@ -68,7 +68,7 @@ run_loadfile(u_long *marks, int howto)
 
 	entry = marks[MARK_ENTRY] & 0x0fffffff;
 
-	printf("entry point at 0x%x\n", (int) entry);
+	printf("entry point at 0x%X\n", (int) entry);
 	/* stack and the gung is ok at this point, so, no need for asm setup */
 	(*(startfuncp)entry)(howto, bootdev, BOOTARG_APIVER,
 	    marks[MARK_END], extmem, cnvmem, ac, (int)av);

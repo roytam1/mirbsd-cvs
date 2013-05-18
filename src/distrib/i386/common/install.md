@@ -1,4 +1,5 @@
-#	$OpenBSD: install.md,v 1.28 2005/04/02 14:34:46 krw Exp $
+# $MirOS: src/distrib/i386/common/install.md,v 1.3 2005/07/01 13:31:29 tg Exp $
+# $OpenBSD: install.md,v 1.28 2005/04/02 14:34:46 krw Exp $
 #
 #
 # Copyright (c) 1996 The NetBSD Foundation, Inc.
@@ -39,18 +40,18 @@
 # machine dependent section of installation/upgrade script.
 #
 
-MDFSTYPE=msdos
-MDFSOPTS=-s
+MDFSTYPE=ntfs
+MDFSOPTS=ro
+MDTERM=wsvtg
 MDXAPERTURE=2
 MDSERIAL="pccom com tty0"
 ARCH=ARCH
+MDDISKDEVS='/^\([sw]d\)*\(raid\)*\(ccd\)*[0-9][0-9]* /s/ .*//p'
 
 md_installboot() {
 	echo Installing boot block...
-	# LBA biosboot uses /boot's i-node number. Using 'cat' preserves that
-	# number, so multiboot setups (NTLDR) can work across upgrades.
 	cat /usr/mdec/boot >/mnt/boot
-	/usr/mdec/installboot -v /mnt/boot /usr/mdec/biosboot ${1}
+	/usr/mdec/installboot -v /mnt/boot /usr/mdec/ldsec ${1}
 	echo "done."
 }
 
@@ -71,14 +72,14 @@ md_checkfordisklabel() {
 md_prep_fdisk() {
 	local _disk=$1
 
-	ask_yn "Do you want to use *all* of $_disk for OpenBSD?"
+	ask_yn "Do you want to use *all* of $_disk for MirBSD?"
 	if [[ $resp == y ]]; then
-		echo -n "Putting all of $_disk into an active OpenBSD MBR partition (type 'A6')..."
-		fdisk -e ${_disk} <<__EOT >/dev/null
-reinit
-update
-write
-quit
+		echo -n "Putting all of $_disk into an active MirBSD MBR partition (type 27)..."
+		fdisk -ef /.nex ${_disk} <<__EOT >/dev/null
+r
+u
+w
+q
 __EOT
 		echo "done."
 		return
@@ -87,9 +88,15 @@ __EOT
 	# Manually configure the MBR.
 	cat <<__EOT
 
-You will now create a single MBR partition to contain your OpenBSD data. This
-partition must have an id of 'A6'; must *NOT* overlap other partitions; and
-must be marked as the only active partition.
+You will now create a single MBR partition to contain the disklabel. This
+partition must have an id of 27; must *NOT* overlap other partitions; and must
+be marked as the only active partition. You can create other MBR partitions,
+primary or extended ones, to contain the filesystems, but these must *NOT* be
+of type 27, A6, A5 or A9. It is recommended they be of type DB (CP/M-86), and
+they are only used to mark the space as USED for other operating systems that
+still need MBR partitions. BSD exclusively uses the data in the disklabel to
+determine where filesystems are, and uses the MBR partition exclusively to
+determine where on the disk the disklabel is positioned.
 
 The 'manual' command describes all the fdisk commands in detail.
 
@@ -111,12 +118,17 @@ md_prep_disklabel() {
 
 	cat <<__EOT
 
-You will now create an OpenBSD disklabel inside the OpenBSD MBR
-partition. The disklabel defines how OpenBSD splits up the MBR partition
-into OpenBSD partitions in which filesystems and swap space are created.
+You will now create an MirBSD disklabel inside the MirBSD MBR partition.
+The disklabel defines how MirBSD splits up the whole disc into slices
+in which filesystems and swap space are created and other operating
+systems' filesystems are mapped.
 
 The offsets used in the disklabel are ABSOLUTE, i.e. relative to the
-start of the disk, NOT the start of the OpenBSD MBR partition.
+start of the disk, NOT the start of the MirBSD MBR partition. If you
+have created a split space, i.e. one partition of type 27 and one or
+more partitions of type (e.g.) DB, use b<return>0<return>*<return>
+to enable using the entire disk for MirBSD. Be sure to create slices
+mapping all other operating systems' filesystems to not overwrite them.
 
 __EOT
 

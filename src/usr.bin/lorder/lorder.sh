@@ -1,7 +1,8 @@
-#!/bin/sh -
-#	$OpenBSD: lorder.sh,v 1.14 2003/07/02 00:21:16 avsm Exp $
-#	$NetBSD: lorder.sh.gnm,v 1.3 1995/12/20 04:45:11 cgd Exp $
-#
+#!/bin/sh
+# $MirOS: src/usr.bin/lorder/lorder.sh,v 1.3 2005/09/13 11:11:13 tg Exp $
+# $OpenBSD: lorder.sh,v 1.14 2003/07/02 00:21:16 avsm Exp $
+# $NetBSD: lorder.sh.gnm,v 1.3 1995/12/20 04:45:11 cgd Exp $
+#-
 # Copyright (c) 1990, 1993
 #	The Regents of the University of California.  All rights reserved.
 #
@@ -34,18 +35,18 @@
 
 # one argument can be optimized: put out the filename twice
 case $# in
-	0)
-		echo "usage: lorder file ...";
-		exit ;;
-	1)
-		echo $1 $1;
-		exit ;;
+0)
+	echo "usage: lorder file ...";
+	exit ;;
+1)
+	echo $1 $1;
+	exit ;;
 esac
 
 # temporary files
 R=`mktemp /tmp/_referenceXXXXXXXXXX` || exit 1
 S=`mktemp /tmp/_symbolXXXXXXXXXX` || {
-	rm -f ${R}
+	rm -f $R
 	exit 1
 }
 
@@ -54,8 +55,10 @@ trap "rm -f $R $S; exit 0" 0
 trap "rm -f $R $S; exit 1" 1 2 3 13 15
 
 # make sure files depend on themselves
-for file in "$@"; do echo "$file $file" ; done
-# if the line has " T ", " D ", " G ", " R ",  it's a globally defined 
+for file in "$@"; do
+	echo "$file $file"
+done
+# if the line has " T ", " D ", " G ", " R ",  it's a globally defined
 # symbol, put it into the symbol file.
 #
 # if the line has " U " it's a globally undefined symbol, put it into
@@ -77,5 +80,6 @@ ${NM:-nm} -go "$@" | sed "
 # join on that field, and print out the file names (dependencies).
 sort +1 $R -o $R
 sort +1 $S -o $S
-join -j 2 -o 1.1 2.1 $R $S
+#join -j 2 -o 1.1 2.1 $R $S		# historic join
+join -1 2 -2 2 -o 1.1 -o 2.1 $R $S	# modern join
 rm -f $R $S

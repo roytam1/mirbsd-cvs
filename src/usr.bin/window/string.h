@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: string.h,v 1.4 2003/06/03 02:56:23 millert Exp $	*/
 /*	$NetBSD: string.h,v 1.3 1995/09/28 10:34:40 tls Exp $	*/
 
@@ -35,6 +36,9 @@
  *	@(#)string.h	8.1 (Berkeley) 6/6/93
  */
 
+#ifndef	_MY_STRING_H
+#define	_MY_STRING_H
+
 #define STR_DEBUG
 
 char *str_cpy();
@@ -61,4 +65,6 @@ int str_free();
 #else
 #define str_free(s)	free(s)
 #define str_alloc(s)	malloc(s)
+#endif
+
 #endif

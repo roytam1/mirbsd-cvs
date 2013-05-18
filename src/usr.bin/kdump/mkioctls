@@ -1,5 +1,6 @@
-#!/bin/sh -
-#	$OpenBSD: mkioctls,v 1.20 2004/12/14 13:45:09 mickey Exp $
+#!/bin/mksh
+# $MirOS: src/usr.bin/kdump/mkioctls,v 1.3 2005/11/23 17:36:17 tg Exp $
+# $OpenBSD: mkioctls,v 1.20 2004/12/14 13:45:09 mickey Exp $
 
 #
 # Copyright (c) 1994
@@ -49,8 +50,9 @@ BEGIN {
 	print "#include <sys/termios.h>"
 	print "#include <netinet/ip_ipsp.h>"
 	print "#include <net/if_enc.h>"
-	print "#include <net80211/ieee80211.h>"
-	print "#include <net80211/ieee80211_ioctl.h>"
+	print "#include <net/if_ieee80211.h>"
+#	print "#include <net80211/ieee80211.h>"
+#	print "#include <net80211/ieee80211_ioctl.h>"
 	print "#include <net/ppp_defs.h>"
 	print "#include <net/if_ppp.h>"
 	print "#include <net/if_pppoe.h>"
@@ -66,7 +68,7 @@ BEGIN {
 	print "#include <sys/dkbad.h>"
 	print "#include <sys/dkio.h>"
 	print "#include <sys/filio.h>"
-	print "#include <sys/gpio.h>"
+#	print "#include <sys/gpio.h>"
 	print "#include <sys/midiio.h>"
 	print "#include <sys/mtio.h>"
 	print "#include <sys/pciio.h>"
@@ -81,7 +83,7 @@ BEGIN {
 	print "#include <dev/systrace.h>"
 	print "#include <dev/wscons/wsconsio.h>"
 	print "#include <dev/vndioctl.h>"
-	print "#include <scsi/ses.h>"
+#	print "#include <scsi/ses.h>"
 	print "#define COMPAT_43"
 	print "#include <sys/ioctl.h>"
 	print "#include \"kdump.h\""

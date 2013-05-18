@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: cmd.h,v 1.14 2003/08/11 06:23:07 deraadt Exp $	*/
 
 /*
@@ -49,7 +50,11 @@ struct cmd_state {
 	char path[MAXPATHLEN]; /* buffer for pathname compose */
 	const struct cmd_table *cmd;
 	int argc;
+#ifndef	__MirBSD__
 	char *argv[8];	/* XXX i hope this is enough */
+#else
+	char *argv[80];	/* no Mickey, see the "echo" command */
+#endif
 };
 extern struct cmd_state cmd;
 

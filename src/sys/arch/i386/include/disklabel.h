@@ -1,8 +1,11 @@
+/**	$MirOS$ */
 /*	$OpenBSD: disklabel.h,v 1.26 2003/11/16 20:30:06 avsm Exp $	*/
 /*	$NetBSD: disklabel.h,v 1.3 1996/03/09 20:52:54 ghudson Exp $	*/
 
 /*
  * Copyright (c) 1994 Christopher G. Demetriou
+ * Copyright (c) 2004
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,8 +34,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef _MACHINE_DISKLABEL_H_
-#define _MACHINE_DISKLABEL_H_
+#ifndef	_MACHINE_DISKLABEL_H_
+#define	_MACHINE_DISKLABEL_H_
 
 #define	LABELSECTOR	1		/* sector containing label */
 #define	LABELOFFSET	0		/* offset of label in sector */
@@ -61,19 +64,22 @@ struct dos_partition {
 
 /* Known DOS partition types. */
 #define	DOSPTYP_UNUSED	0x00		/* Unused partition */
-#define DOSPTYP_FAT12	0x01		/* 12-bit FAT */
-#define DOSPTYP_FAT16S	0x04		/* 16-bit FAT, less than 32M */
-#define DOSPTYP_EXTEND	0x05		/* Extended; contains sub-partitions */
-#define DOSPTYP_FAT16B	0x06		/* 16-bit FAT, more than 32M */
-#define DOSPTYP_FAT32	0x0b		/* 32-bit FAT */
-#define DOSPTYP_FAT32L	0x0c		/* 32-bit FAT, LBA-mapped */
-#define DOSPTYP_FAT16L	0x0e		/* 16-bit FAT, LBA-mapped */
-#define DOSPTYP_EXTENDL 0x0f		/* Extended, LBA-mapped; contains sub-partitions */
-#define DOSPTYP_ONTRACK	0x54
+#define	DOSPTYP_FAT12	0x01		/* 12-bit FAT */
+#define	DOSPTYP_FAT16S	0x04		/* 16-bit FAT, less than 32M */
+#define	DOSPTYP_EXTEND	0x05		/* Extended; contains sub-partitions */
+#define	DOSPTYP_FAT16B	0x06		/* 16-bit FAT, more than 32M */
+#define	DOSPTYP_NTFS	0x07		/* OS/2 HPFS, now NT OS/2 NTFS */
+#define	DOSPTYP_FAT32	0x0B		/* 32-bit FAT */
+#define	DOSPTYP_FAT32L	0x0C		/* 32-bit FAT, LBA-mapped */
+#define	DOSPTYP_FAT16L	0x0E		/* 16-bit FAT, LBA-mapped */
+#define	DOSPTYP_EXTENDL	0x0F		/* Extended, LBA-mapped */
+#define	DOSPTYP_MIRBSD	0x27		/* MirBSD partition type */
+#define	DOSPTYP_ONTRACK	0x54
 #define	DOSPTYP_LINUX	0x83		/* That other thing */
-#define DOSPTYP_FREEBSD	0xa5		/* FreeBSD partition type */
-#define DOSPTYP_OPENBSD	0xa6		/* OpenBSD partition type */
-#define DOSPTYP_NETBSD	0xa9		/* NetBSD partition type */
+#define	DOSPTYP_EXTENDLX 0x85		/* Extended, Linux (pre-EXTENDL) */
+#define	DOSPTYP_FREEBSD	0xA5		/* FreeBSD partition type */
+#define	DOSPTYP_OPENBSD	0xA6		/* OpenBSD partition type */
+#define	DOSPTYP_NETBSD	0xA9		/* NetBSD partition type */
 
 struct dos_mbr {
 	u_int8_t		dmbr_boot[DOSPARTOFF];
@@ -97,22 +103,26 @@ struct cpu_disklabel {
 #define	DPCYL(c, s)	((c) + (((s) & 0xc0) << 2))
 
 static __inline u_int32_t get_le(void *);
+static __inline void      set_le(void *, u_int32_t);
 
 static __inline u_int32_t
-#ifdef __cplusplus
-get_le(void *p)
-#else
-get_le(p)
-	void *p;
-#endif
+get_le(void *_p)
 {
-	u_int8_t *_p = (u_int8_t *)p;
+	u_int8_t *p = (u_int8_t *)_p;
 	u_int32_t x;
-	x = _p[0];
-	x |= _p[1] << 8;
-	x |= _p[2] << 16;
-	x |= _p[3] << 24;
+	x = p[0] | p[1] << 8;
+	x |= p[2] << 16 | p[3] << 24;
 	return x;
 }
 
-#endif /* _MACHINE_DISKLABEL_H_ */
+static __inline void
+set_le(void *_p, u_int32_t x)
+{
+	u_int8_t *p = (u_int8_t *)_p;
+	p[0] = (x & 0xFF);
+	p[1] = ((x >> 8) & 0xFF);
+	p[2] = ((x >> 16) & 0xFF);
+	p[3] = ((x >> 24) & 0xFF);
+}
+
+#endif	/* _MACHINE_DISKLABEL_H_ */

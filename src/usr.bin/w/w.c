@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/w/w.c,v 1.2 2005/03/13 18:34:03 tg Exp $ */
 /*	$OpenBSD: w.c,v 1.45 2005/07/20 04:19:08 jaredy Exp $	*/
 
 /*-
@@ -33,14 +34,6 @@
 static char copyright[] =
 "@(#) Copyright (c) 1980, 1991, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)w.c	8.4 (Berkeley) 4/16/94";
-#else
-static char *rcsid = "$OpenBSD: w.c,v 1.45 2005/07/20 04:19:08 jaredy Exp $";
-#endif
 #endif /* not lint */
 
 /*
@@ -81,6 +74,9 @@ static char *rcsid = "$OpenBSD: w.c,v 1.45 2005/07/20 04:19:08 jaredy Exp $";
 #include <vis.h>
 
 #include "extern.h"
+
+__SCCSID("@(#)w.c	8.4 (Berkeley) 4/16/94");
+__RCSID("$MirOS: src/usr.bin/w/w.c,v 1.2 2005/03/13 18:34:03 tg Exp $");
 
 struct timeval	boottime;
 struct utmp	utmp;
@@ -424,7 +420,7 @@ pr_header(time_t *nowp, int nusers)
 					    mins, mins != 1 ? "s" : "");
 			}
 		} else
-			printf(" %d secs,", uptime);
+			printf(" %lld secs,", (int64_t)uptime);
 	}
 
 	/* Print number of users logged in to system */

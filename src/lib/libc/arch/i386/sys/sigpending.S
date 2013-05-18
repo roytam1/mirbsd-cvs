@@ -33,6 +33,8 @@
 
 #include "SYS.h"
 
+	.text
+
 SYSCALL(sigpending)
 	movl	4(%esp),%ecx		# fetch pointer to...
 	movl	%eax,(%ecx)		# store old mask

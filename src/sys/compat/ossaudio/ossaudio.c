@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ossaudio.c,v 1.8 2002/03/14 01:26:50 millert Exp $	*/
 /*	$NetBSD: ossaudio.c,v 1.23 1997/10/19 07:41:52 augustss Exp $	*/
 
@@ -499,10 +500,15 @@ oss_ioctl_audio(p, uap, retval)
 		if (error)
 			goto out;
 		break;
+	case OSS_SNDCTL_DSP_SETDUPLEX:
+		idat = 1;
+		error = ioctlf(fp, AUDIO_SETFD, (caddr_t)&idat, p);
+		if (error)
+			goto out;
+		break;
 	case OSS_SNDCTL_DSP_MAPINBUF:
 	case OSS_SNDCTL_DSP_MAPOUTBUF:
 	case OSS_SNDCTL_DSP_SETSYNCRO:
-	case OSS_SNDCTL_DSP_SETDUPLEX:
 	case OSS_SNDCTL_DSP_PROFILE:
 		error = EINVAL; /* XXX unimplemented */
 		goto out;

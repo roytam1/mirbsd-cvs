@@ -1,4 +1,4 @@
-/*	$OpenPackages$ */
+/**	$MirOS: src/usr.bin/make/var.c,v 1.2 2005/02/23 20:36:54 tg Exp $ */
 /*	$OpenBSD: var.c,v 1.59 2004/04/07 13:11:36 espie Exp $	*/
 /*	$NetBSD: var.c,v 1.18 1997/03/18 19:24:46 christos Exp $	*/
 
@@ -84,6 +84,8 @@
 #include "symtable.h"
 #include "gnode.h"
 
+__RCSID("$MirOS: src/usr.bin/make/var.c,v 1.2 2005/02/23 20:36:54 tg Exp $");
+
 /* extended indices for System V stuff */
 #define FTARGET_INDEX	7
 #define DTARGET_INDEX	8
@@ -134,13 +136,14 @@ GSymT		*VAR_CMD;	/* variables defined on the command-line */
 static SymTable *CTXT_GLOBAL, *CTXT_CMD;
 
 
-static char *varnames[] = {
+static const char *varnames[] = {
     TARGET,
     PREFIX,
     ARCHIVE,
     MEMBER,
     OODATE,
     ALLSRC,
+    GNUALLSRC,
     IMPSRC,
     FTARGET,
     DTARGET,
@@ -268,6 +271,10 @@ quick_lookup(const char *name, const char **enamePtr, u_int32_t *pk)
 	break;
     case K_ALLSRC % MAGICSLOTS1:
 	if (name[0] == ALLSRC[0] && len == 1)
+	    return ALLSRC_INDEX;
+	break;
+    case K_GNUALLSRC % MAGICSLOTS1:
+	if (name[0] == GNUALLSRC[0] && len == 1)
 	    return ALLSRC_INDEX;
 	break;
     case K_IMPSRC % MAGICSLOTS1:

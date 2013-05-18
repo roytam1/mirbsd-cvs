@@ -1,31 +1,8 @@
-#	$OpenBSD: Makefile.inc,v 1.15 2005/02/07 06:08:10 david Exp $
-#	etc.i386/Makefile.inc -- i386-specific etc Makefile targets
+# $MirOS: src/etc/etc.i386/Makefile.inc,v 1.2 2005/03/06 19:05:55 tg Exp $
 
-.ifdef DESTDIR
-snap_md: bsd bsd.mp notes bootblocks distrib
-	cp ${.CURDIR}/../sys/arch/i386/compile/GENERIC/bsd \
-	    ${DESTDIR}/snapshot/bsd
-	cp ${.CURDIR}/../sys/arch/i386/compile/GENERIC.MP/bsd \
-	    ${DESTDIR}/snapshot/bsd.mp
+.if defined(DESTDIR)
 
-bsd:
-	cd ${.CURDIR}/../sys/arch/i386/conf && config GENERIC
-	cd ${.CURDIR}/../sys/arch/i386/compile/GENERIC && \
-	    ${MAKE} clean && ${MAKE} depend && exec ${MAKE}
+snap_md:
+	${SUDO} cp ${DESTDIR}/usr/mdec/pxeboot ${DESTDIR}/snapshot/
 
-bsd.mp:
-	cd ${.CURDIR}/../sys/arch/i386/conf && config GENERIC.MP
-	cd ${.CURDIR}/../sys/arch/i386/compile/GENERIC.MP && \
-	    ${MAKE} clean && ${MAKE} depend && exec ${MAKE}
-
-notes:
-	cp ${.CURDIR}/etc.i386/INSTALL.* ${DESTDIR}/snapshot
-
-bootblocks:
-	cp ${DESTDIR}/usr/mdec/pxeboot ${DESTDIR}/snapshot
-	cp ${DESTDIR}/usr/mdec/cdboot ${DESTDIR}/snapshot
-	cp ${DESTDIR}/usr/mdec/cdbr ${DESTDIR}/snapshot
-
-.PHONY: bsd notes bootblocks
-
-.endif	# DESTDIR check
+.endif

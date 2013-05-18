@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/pppoe/client.c,v 1.2 2005/03/13 19:17:18 tg Exp $ */
 /*	$OpenBSD: client.c,v 1.20 2004/09/03 06:37:14 tedu Exp $	*/
 
 /*
@@ -25,13 +26,11 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include <stdio.h>
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/uio.h>
 #include <sys/time.h>
 #include <sys/socket.h>
 #include <sys/ioctl.h>
-#include <sys/param.h>
 #include <net/if.h>
 #include <net/if_dl.h>
 #include <net/if_types.h>
@@ -45,10 +44,13 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <sysexits.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <signal.h>
 
 #include "pppoe.h"
+
+__RCSID("$MirOS: src/usr.sbin/pppoe/client.c,v 1.2 2005/03/13 19:17:18 tg Exp $");
 
 #define	STATE_EXPECT_PADO	1
 #define	STATE_EXPECT_PADS	2
@@ -315,7 +317,7 @@ getpackets(int bfd, u_int8_t *srv, u_int8_t *sysname,
 		/* Pull out ethernet header */
 		if (len < sizeof(struct ether_header))
 			goto next;
-		bcopy(mpkt, &eh, sizeof(struct ether_header));
+		memmove(&eh, mpkt, sizeof(struct ether_header));
 		eh.ether_type = ntohs(eh.ether_type);
 		len -= sizeof(struct ether_header);
 		mpkt += sizeof(struct ether_header);
@@ -323,7 +325,7 @@ getpackets(int bfd, u_int8_t *srv, u_int8_t *sysname,
 		/* Pull out pppoe header */
 		if (len < sizeof(struct pppoe_header))
 			goto next;
-		bcopy(mpkt, &ph, sizeof(struct pppoe_header));
+		memmove(&ph, mpkt, sizeof(struct pppoe_header));
 		len -= sizeof(struct pppoe_header);
 		mpkt += sizeof(struct pppoe_header);
 		ph.len = ntohs(ph.len);
@@ -360,7 +362,7 @@ getpackets(int bfd, u_int8_t *srv, u_int8_t *sysname,
 		else if (eh.ether_type == ETHERTYPE_PPPOE) {
 			if (client_state != STATE_EXPECT_SESSION)
 				goto next;
-			if (bcmp(rmea, &eh.ether_shost[0], ETHER_ADDR_LEN))
+			if (memcmp(rmea, &eh.ether_shost[0], ETHER_ADDR_LEN))
 				goto next;
 			if (pppfd < 0)
 				goto next;
@@ -369,7 +371,7 @@ getpackets(int bfd, u_int8_t *srv, u_int8_t *sysname,
 			if ((r = bpf_to_ppp(pppfd, len, mpkt)) < 0)
 				return (-1);
 			if (r == 0) {
-				usleep(100000);
+				usleep(720000);
 				continue;
 			}
 		}
@@ -410,7 +412,7 @@ recv_pado(int bfd, u_int8_t *srv, struct ether_addr *myea,
 	n = tag_lookup(&tl, PPPOE_TAG_HOST_UNIQ, 0);
 	if (n == NULL || n->len != sizeof(client_cookie))
 		goto out;
-	if (bcmp(n->val, &client_cookie, sizeof(client_cookie)))
+	if (memcmp(n->val, &client_cookie, sizeof(client_cookie)))
 		goto out;
 
 	r = 0;
@@ -427,7 +429,7 @@ recv_pado(int bfd, u_int8_t *srv, struct ether_addr *myea,
 	if (n == NULL)
 		goto out;
 
-	bcopy(&eh->ether_shost[0], rmea, ETHER_ADDR_LEN);
+	memmove(rmea, &eh->ether_shost[0], ETHER_ADDR_LEN);
 
 	timer_clr();
 	r = send_padr(bfd, srv, myea, rmea, eh, ph, &tl);
@@ -453,7 +455,7 @@ recv_pads(int bfd, u_int8_t *srv, u_int8_t *sysname,
 		return (0);
 	}
 
-	if (bcmp(rmea, &eh->ether_shost[0], ETHER_ADDR_LEN))
+	if (memcmp(rmea, &eh->ether_shost[0], ETHER_ADDR_LEN))
 		return (0);
 
 	if (client_state != STATE_EXPECT_PADS)
@@ -466,7 +468,7 @@ recv_pads(int bfd, u_int8_t *srv, u_int8_t *sysname,
 	n = tag_lookup(&tl, PPPOE_TAG_HOST_UNIQ, 0);
 	if (n == NULL || n->len != sizeof(client_cookie))
 		goto out;
-	if (bcmp(n->val, &client_cookie, sizeof(client_cookie)))
+	if (memcmp(n->val, &client_cookie, sizeof(client_cookie)))
 		goto out;
 
 	if (ph->sessionid == 0) {
@@ -495,7 +497,10 @@ recv_padt(int bfd, struct ether_addr *myea, struct ether_addr *rmea,
     struct ether_header *eh, struct pppoe_header *ph,
     u_long len, u_int8_t *pkt)
 {
-	if (bcmp(&eh->ether_shost[0], rmea, ETHER_ADDR_LEN))
+	if (ignorepadt)
+		return (0);
+
+	if (memcmp(&eh->ether_shost[0], rmea, ETHER_ADDR_LEN))
 		return (0);
 
 	if (client_sessionid != 0xffff && ph->sessionid == client_sessionid)

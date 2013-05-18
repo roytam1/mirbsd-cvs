@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/indent/lexi.c,v 1.2 2005/03/13 18:33:02 tg Exp $ */
 /*	$OpenBSD: lexi.c,v 1.12 2005/03/06 14:34:25 millert Exp $	*/
 
 /*
@@ -32,17 +33,13 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-/*static char sccsid[] = "@(#)lexi.c	8.1 (Berkeley) 6/6/93";*/
-static char rcsid[] = "$OpenBSD: lexi.c,v 1.12 2005/03/06 14:34:25 millert Exp $";
-#endif /* not lint */
-
 /*
  * Here we have the token scanner for indent.  It scans off one token and puts
  * it in the global variable "token".  It returns a code, indicating the type
  * of token scanned.
  */
 
+#include <sys/cdefs.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
@@ -50,6 +47,9 @@ static char rcsid[] = "$OpenBSD: lexi.c,v 1.12 2005/03/06 14:34:25 millert Exp $
 #include <err.h>
 #include "indent_globs.h"
 #include "indent_codes.h"
+
+__SCCSID("@(#)lexi.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS: src/usr.bin/indent/lexi.c,v 1.2 2005/03/13 18:33:02 tg Exp $");
 
 #define alphanum 1
 #define opchar 3

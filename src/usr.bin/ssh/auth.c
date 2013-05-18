@@ -24,8 +24,8 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/auth.c,v 1.3 2006/02/22 02:16:44 tg Exp $");
 
-#include <sys/types.h>
 #include <sys/stat.h>
 
 #include <libgen.h>
@@ -69,7 +69,7 @@ allowed_user(struct passwd * pw)
 {
 	struct stat st;
 	const char *hostname = NULL, *ipaddr = NULL;
-	char *shell;
+	const char *shell;
 	u_int i;
 
 	/* Shouldn't be called if pw is NULL, but better safe than sorry... */
@@ -163,10 +163,11 @@ allowed_user(struct passwd * pw)
 }
 
 void
-auth_log(Authctxt *authctxt, int authenticated, char *method, char *info)
+auth_log(Authctxt *authctxt, int authenticated, const char *method,
+    const char *info)
 {
 	void (*authlog) (const char *fmt,...) = verbose;
-	char *authmsg;
+	const char *authmsg;
 
 	if (use_privsep && !mm_is_monitor() && !authctxt->postponed)
 		return;
@@ -397,7 +398,7 @@ getpwnamallow(const char *user)
 	}
 #ifdef BSD_AUTH
 	if ((as = auth_open()) == NULL || auth_setpwd(as, pw) != 0 ||
-	    auth_approval(as, lc, pw->pw_name, "ssh") <= 0) {
+	    auth_approval(as, lc, pw->pw_name, (char *)"ssh") <= 0) {
 		debug("Approval failure for %s", user);
 		pw = NULL;
 	}
@@ -456,15 +457,15 @@ fakepw(void)
 	static struct passwd fake;
 
 	memset(&fake, 0, sizeof(fake));
-	fake.pw_name = "NOUSER";
+	fake.pw_name = (char *)"NOUSER";
 	fake.pw_passwd =
-	    "$2a$06$r3.juUaHZDlIbQaO2dS9FuYxL1W9M81R1Tc92PoSNmzvpEqLkLGrK";
-	fake.pw_gecos = "NOUSER";
+	    (char *)"$2a$06$r3.juUaHZDlIbQaO2dS9FuYxL1W9M81R1Tc92PoSNmzvpEqLkLGrK";
+	fake.pw_gecos = (char *)"NOUSER";
 	fake.pw_uid = (uid_t)-1;
 	fake.pw_gid = (gid_t)-1;
-	fake.pw_class = "";
-	fake.pw_dir = "/nonexist";
-	fake.pw_shell = "/nonexist";
+	fake.pw_class = (char *)"";
+	fake.pw_dir = (char *)"/nonexist";
+	fake.pw_shell = (char *)"/nonexist";
 
 	return (&fake);
 }

@@ -169,6 +169,8 @@ ne2000_attach(nsc, myea)
 	case NE2000_TYPE_DL10022:
 		memsize = 8192 * 2;
 		break;
+	default:
+		memsize = 8192;		/* safe default */
 	}
 
 	/*

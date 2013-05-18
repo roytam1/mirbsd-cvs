@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/ntpd/imsg.c,v 1.4 2005/04/29 18:35:13 tg Exp $ */
 /*	$OpenBSD: imsg.c,v 1.11 2005/04/26 15:18:22 henning Exp $ */
 
 /*
@@ -24,6 +25,8 @@
 #include <unistd.h>
 
 #include "ntpd.h"
+
+__RCSID("$MirOS: src/usr.sbin/ntpd/imsg.c,v 1.4 2005/04/29 18:35:13 tg Exp $");
 
 void
 imsg_init(struct imsgbuf *ibuf, int fd)
@@ -111,15 +114,15 @@ imsg_compose(struct imsgbuf *ibuf, enum imsg_type type, u_int32_t peerid,
 }
 
 struct buf *
-imsg_create(struct imsgbuf *ibuf, enum imsg_type type, u_int32_t peerid,
-    pid_t pid, u_int16_t datalen)
+imsg_create(struct imsgbuf *ibuf __attribute__((unused)), enum imsg_type type,
+    u_int32_t peerid, pid_t pid, u_int16_t datalen)
 {
 	struct buf	*wbuf;
 	struct imsg_hdr	 hdr;
 
 	if (datalen > MAX_IMSGSIZE - IMSG_HEADER_SIZE) {
 		log_warnx("imsg_create: len %u > MAX_IMSGSIZE; "
-		    "type %u peerid %lu", datalen + IMSG_HEADER_SIZE,
+		    "type %u peerid %u", datalen + IMSG_HEADER_SIZE,
 		    type, peerid);
 		return (NULL);
 	}

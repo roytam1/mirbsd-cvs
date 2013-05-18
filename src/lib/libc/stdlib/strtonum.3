@@ -1,3 +1,4 @@
+.\" $MirOS: src/lib/libc/stdlib/strtonum.3,v 1.2 2005/05/23 13:49:00 tg Exp $
 .\" $OpenBSD: strtonum.3,v 1.11 2005/04/14 07:58:46 jmc Exp $
 .\"
 .\" Copyright (c) 2004 Ted Unangst
@@ -59,6 +60,16 @@ sign.
 The remainder of the string is converted to a
 .Li long long
 value according to base 10.
+On
+.Mx ,
+if the value is prefixed by
+.Sq 0
+or
+.Sq 0x ,
+conversion is done according to base 8 or 16, respectively.
+This is a change in the underlying library and only visible
+to the user, not to the programme using
+.Fn strtonum .
 .Pp
 The value obtained is then checked against the provided
 .Fa minval

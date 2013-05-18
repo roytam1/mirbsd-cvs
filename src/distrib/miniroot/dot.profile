@@ -1,6 +1,9 @@
-#	$OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
-#	$NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
+# $MirOS: src/distrib/miniroot/dot.profile,v 1.11 2006/06/12 13:14:55 tg Exp $
+# $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
+# $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
+# Copyright (c) 2003, 2004, 2005, 2006
+#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
 # Copyright (c) 1995 Jason R. Thorpe
 # Copyright (c) 1994 Christopher G. Demetriou
 # All rights reserved.
@@ -31,42 +34,94 @@
 # THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #
 
+sshd() {
+	if [[ ! -f /etc/ssh/ssh_host_rsa_key ]]; then
+		echo -n "ssh-keygen: generating new RSA host key... "
+		if /usr/bin/ssh-keygen -q -t rsa \
+		    -f /etc/ssh/ssh_host_rsa_key -N ''; then
+			echo done.
+		  else
+			echo failed.
+			rm -f /etc/ssh/ssh_host_rsa_key
+		fi
+	fi
+	if [[ -f /etc/ssh/ssh_host_rsa_key ]]; then
+		/usr/bin/ssh-keygen -l -f /etc/ssh/ssh_host_rsa_key
+		/usr/sbin/sshd "$@"
+	fi
+}
+
 export PATH=/sbin:/bin:/usr/bin:/usr/sbin:/
 umask 022
-set -o emacs # emacs-style command line editing
 
-rootdisk=`dmesg|sed -n -e '/OpenBSD /h' -e '//!H' -e '${
-	g
-	p
-}'|sed -n -e '/^root on \([0-9a-z]*\).*/{
-	s//\/dev\/\1/
-	p
-}'`
+alias ls='/bin/ls -F'
+alias la='ls -a '
+alias l=la
+alias ll='l -l '
+alias lo='ll -o '
 
-if [ "X${DONEPROFILE}" = "X" ]; then
-	DONEPROFILE=YES
+rootdisk=$(sysctl -n kern.root_device)
+rootdisk=/dev/${rootdisk:-rd0a}
 
-	mount -u ${rootdisk:-/dev/rd0a} /
+if [ ! -f /.profile.done ]; then
+	# first of all, we need a /tmp - use all memory minus 4 MiB
+	mount_mfs -s $(($(sysctl -n hw.usermem)/512-8192)) swap /tmp
+
+	# basic HD randomness reads (doesn't matter if they break)
+	( ( (dd if=/dev/rwd0c count=126; dd if=/dev/rsd0c count=126; dd \
+	    if=/var/db/host.random) 2>&1 | /bin/cksum -ba sha512 \
+	    >/dev/urandom ) &)
+
+	# say hello and legalese
+	echo '
+Welcome to MirOS #9 (FrOSCon RELEASE)!
+This is the old installer, expect it to be replaced really soon.
+
+Welcome to the MirOS BSD operating system installer.  This work is
+licenced open source software; for further information please read
+the information at http://mirbsd.de/ and its mirrors.  After setup
+the files in /usr/share/doc/legal/ contain additional licences and
+other terms used by MirOS or its contributed material.
+This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
+
+	mount -u $rootdisk / || mount -fuw /dev/rd0a /
+	rm -f /var/db/host.random
 
 	# set up some sane defaults
 	echo 'erase ^?, werase ^W, kill ^U, intr ^C, status ^T'
 	stty newcrt werase ^W intr ^C kill ^U erase ^? status ^T
 
+	# look if we're DHCP/TFTP enabled
+	if [ -e /usr/mdec/pxeboot ]; then
+		mkdir /tmp/tftpboot
+		cp /usr/mdec/pxeboot /tmp/tftpboot/
+	fi
+
+	# don't run this twice
+	echo -n >/.profile.done
+
+	# spawn a second shell if desired
+	[[ -e /dev/ttyC1 ]] && mksh -lT1 >/dev/null 2>&1
+
 	# Installing or upgrading?
-	_forceloop=""
-	while [ "X$_forceloop" = X"" ]; do
+	_forceloop=
+	while [[ -z $_forceloop ]]; do
 		echo -n '(I)nstall'
 		[ -f upgrade ] && echo -n ', (U)pgrade'
 		echo -n ' or (S)hell? '
 		read _forceloop
-		case "$_forceloop" in
-		i*|I*)	/install
+		case $_forceloop {
+		[Ii]*)	/install
 			;;
-		u*|U*)	/upgrade
+		[Uu]*)	/upgrade
 			;;
-		s*|S*)	;;
-		*)	_forceloop=""
+		[Ss]*)	;;
+		*)	_forceloop=
 			;;
-		esac
+		}
 	done
 fi
+export TERM=vt220
+echo -n '\nAvailable editor: ed'
+[ -s /ed.hlp ] && echo -n ' - help with # less /ed.hlp'
+echo '\n'

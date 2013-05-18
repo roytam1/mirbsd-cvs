@@ -122,7 +122,7 @@ ttymsg(iov, iovcnt, line, tmout)
 		if (wret >= 0) {
 			left -= wret;
 			if (iov != localiov) {
-				bcopy(iov, localiov,
+				memmove(localiov, iov,
 				    iovcnt * sizeof(struct iovec));
 				iov = localiov;
 			}

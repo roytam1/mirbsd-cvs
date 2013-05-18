@@ -37,7 +37,7 @@
 #include <unistd.h>
 
 __warn_references(tmpnam,
-    "warning: tmpnam() possibly used unsafely; consider using mkstemp()");
+    "tmpnam() possibly used unsafely; consider using mkstemp()");
 
 extern char *_mktemp(char *);
 

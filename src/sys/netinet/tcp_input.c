@@ -1,4 +1,7 @@
-/*	$OpenBSD: tcp_input.c,v 1.191 2005/10/17 08:43:34 henning Exp $	*/
+/**	$MirOS: src/sys/netinet/tcp_input.c,v 1.8 2006/01/31 10:09:43 tg Exp $ */
+/*	$OpenBSD: tcp_input.c,v 1.168 2004/05/21 11:36:23 markus Exp $	*/
+/*	$OpenBSD: tcp_input.c,v 1.158.2.3 2005/01/11 04:40:29 brad Exp $	*/
+/*	$OpenBSD: tcp_input.c,v 1.178 2004/11/25 15:32:08 markus Exp $	*/
 /*	$NetBSD: tcp_input.c,v 1.23 1996/02/13 23:43:44 christos Exp $	*/
 
 /*
@@ -68,6 +71,26 @@
  * Research Laboratory (NRL).
  */
 
+/*
+ * Additional improvements
+ * copyright (c) 2005, 2006 by Marco Munari <mar.develops allerta.it>
+ *
+ * Redistribution and use in source and binary forms, with or without
+ * modification, are permitted provided that the following conditions
+ * are met:
+ * 1. Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ * 2. Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in the
+ *    documentation and/or other materials provided with the distribution.
+ * 3. Neither the name of allerta nor the names of its contributors
+ *    may be used to endorse or promote products derived from this software
+ *    without specific prior written permission.
+ *
+ * SOURCE CODE PROVIDED ``AS IS'' WITHOUT WARRANTIES, BUT WITH CARE.
+ *
+ */
+
 #ifndef TUBA_INCLUDE
 #include <sys/param.h>
 #include <sys/systm.h>
@@ -117,14 +140,11 @@ int	tcprexmtthresh = 3;
 int	tcptv_keep_init = TCPTV_KEEP_INIT;
 
 extern u_long sb_max;
+extern int stdbsdtcp;
 
 int tcp_rst_ppslim = 100;		/* 100pps */
 int tcp_rst_ppslim_count = 0;
 struct timeval tcp_rst_ppslim_last;
-
-int tcp_ackdrop_ppslim = 100;		/* 100pps */
-int tcp_ackdrop_ppslim_count = 0;
-struct timeval tcp_ackdrop_ppslim_last;
 
 int tcp_ackdrop_ppslim = 100;		/* 100pps */
 int tcp_ackdrop_ppslim_count = 0;
@@ -586,11 +606,18 @@ tcp_input(struct mbuf *m, ...)
 		 * formatted as recommended in RFC 1323 appendix A, we
 		 * quickly get the values now and not bother calling
 		 * tcp_dooptions(), etc.
+		 * MARco doesn't recommend only the NOP aspect of appendix A,
+		 * (u_int16_t should be appropriate and more efficient on most
+		 * arch/ efficient enough on only-32-or-more bits arch.s,
+		 * in addition to the 4 network bytes overload in each packet
+		 * carring TCP options (with SackOK(len 2) and TIMESTAMP(len 10))
+		 * before the default was a _double_ NOP NOP use)
 		 */
 		if ((optlen == TCPOLEN_TSTAMP_APPA ||
 		     (optlen > TCPOLEN_TSTAMP_APPA &&
 			optp[TCPOLEN_TSTAMP_APPA] == TCPOPT_EOL)) &&
-		     *(u_int32_t *)optp == htonl(TCPOPT_TSTAMP_HDR) &&
+		    *((u_int16_t *)optp + 1) == htons(TCPOPT_TIMESTAMP << 8 |
+			TCPOLEN_TIMESTAMP) &&
 		     (th->th_flags & TH_SYN) == 0) {
 			opti.ts_present = 1;
 			opti.ts_val = ntohl(*(u_int32_t *)(optp + 4));
@@ -625,25 +652,19 @@ findpcb:
 		break;
 	}
 	if (inp == 0) {
-		int	inpl_flags = 0;
-#if NPF > 0
-		struct pf_mtag *t;
-
-		if ((t = pf_find_mtag(m)) != NULL &&
-		    t->flags & PF_TAG_TRANSLATE_LOCALHOST)
-			inpl_flags = INPLOOKUP_WILDCARD;
-#endif
 		++tcpstat.tcps_pcbhashmiss;
 		switch (af) {
 #ifdef INET6
 		case AF_INET6:
 			inp = in6_pcblookup_listen(&tcbtable,
-			    &ip6->ip6_dst, th->th_dport, inpl_flags);
+			    &ip6->ip6_dst, th->th_dport, m_tag_find(m,
+			    PACKET_TAG_PF_TRANSLATE_LOCALHOST, NULL) != NULL);
 			break;
 #endif /* INET6 */
 		case AF_INET:
 			inp = in_pcblookup_listen(&tcbtable,
-			    ip->ip_dst, th->th_dport, inpl_flags);
+			    ip->ip_dst, th->th_dport, m_tag_find(m,
+			    PACKET_TAG_PF_TRANSLATE_LOCALHOST, NULL) != NULL);
 			break;
 		}
 		/*
@@ -812,7 +833,7 @@ findpcb:
 				 *   (2a) "SHOULD NOT be used if alternate
 				 *        address with sufficient scope is
 				 *        available"
-				 *   (2b) nothing mentioned otherwise. 
+				 *   (2b) nothing mentioned otherwise.
 				 * Here we fall into (2b) case as we have no
 				 * choice in our source address selection - we
 				 * must obey the peer.
@@ -1032,16 +1053,16 @@ after_listen:
 
 				/*
 				 * If we had a pending ICMP message that
-				 * referres to data that have just been 
-				 * acknowledged, disregard the recorded ICMP 
+				 * referres to data that have just been
+				 * acknowledged, disregard the recorded ICMP
 				 * message.
 				 */
-				if ((tp->t_flags & TF_PMTUD_PEND) && 
+				if ((tp->t_flags & TF_PMTUD_PEND) &&
 				    SEQ_GT(th->th_ack, tp->t_pmtud_th_seq))
 					tp->t_flags &= ~TF_PMTUD_PEND;
 
 				/*
-				 * Keep track of the largest chunk of data 
+				 * Keep track of the largest chunk of data
 				 * acknowledged since last PMTU update
 				 */
 				if (tp->t_pmtud_mss_acked < acked)
@@ -1845,7 +1866,7 @@ trimthenstep6:
 		 * that have just been acknowledged, disregard the recorded
 		 * ICMP message.
 		 */
-		if ((tp->t_flags & TF_PMTUD_PEND) && 
+		if ((tp->t_flags & TF_PMTUD_PEND) &&
 		    SEQ_GT(th->th_ack, tp->t_pmtud_th_seq))
 			tp->t_flags &= ~TF_PMTUD_PEND;
 
@@ -2161,14 +2182,6 @@ dropafterack_ratelim:
 	}
 	/* ...fall into dropafterack... */
 
-dropafterack_ratelim:
-	if (ppsratecheck(&tcp_ackdrop_ppslim_last, &tcp_ackdrop_ppslim_count,
-	    tcp_ackdrop_ppslim) == 0) {
-		/* XXX stat */
-		goto drop;
-	}
-	/* ...fall into dropafterack... */
-
 dropafterack:
 	/*
 	 * Generate an ACK dropping incoming segment if it occupies
@@ -2424,7 +2437,7 @@ tcp_dooptions(tp, cp, cnt, th, m, iphlen, oi)
 		case AF_INET6:
 			{
 				struct ip6_hdr_pseudo ip6pseudo;
- 
+
 				bzero(&ip6pseudo, sizeof(ip6pseudo));
 				ip6pseudo.ip6ph_src =
 				    mtod(m, struct ip6_hdr *)->ip6_src;
@@ -2435,7 +2448,7 @@ tcp_dooptions(tp, cp, cnt, th, m, iphlen, oi)
 				ip6pseudo.ip6ph_nxt = IPPROTO_TCP;
 				ip6pseudo.ip6ph_len = htonl(m->m_pkthdr.len -
 				    iphlen);
-    
+
 				MD5Update(&ctx, (char *)&ip6pseudo,
 				    sizeof(ip6pseudo));
 			}
@@ -2464,7 +2477,7 @@ tcp_dooptions(tp, cp, cnt, th, m, iphlen, oi)
 		if (m_apply(m, iphlen + th->th_off * sizeof(uint32_t),
 		    m->m_pkthdr.len - (iphlen + th->th_off * sizeof(uint32_t)),
 		    tcp_signature_apply, (caddr_t)&ctx))
-			return (-1); 
+			return (-1);
 
 		MD5Update(&ctx, tdb->tdb_amxkey, tdb->tdb_amxkeylen);
 		MD5Final(sig, &ctx);
@@ -3140,15 +3153,17 @@ tcp_mss(tp, offer)
 	 * If we compute a larger value, return it for use in sending
 	 * a max seg size option, but don't store it for use
 	 * unless we received an offer at least that large from peer.
-	 * However, do not accept offers under 216 bytes unless the
-	 * interface MTU is actually that low.
+	 *
+	 * However, do not accept offers lower than the minimum of
+	 * the interface MTU and 216.
 	 */
 	if (offer > 0)
 		tp->t_peermss = offer;
 	if (tp->t_peermss)
-		mss = min(mss, tp->t_peermss);
+		mss = min(mss, max(tp->t_peermss, 216));
+
 	/* sanity - at least max opt. space */
-	mss = max(mss, min(216, ifp->if_mtu - iphlen - sizeof(struct tcphdr)));
+	mss = max(mss, 64);
 
 	/*
 	 * maxopd stores the maximum length of data AND options
@@ -3329,12 +3344,12 @@ tcp_mss_adv(struct ifnet *ifp, int af)
 		iphlen = sizeof(struct ip);
 		break;
 #ifdef INET6
-	case AF_INET6: 
+	case AF_INET6:
 		if (ifp != NULL)
 			mss = IN6_LINKMTU(ifp);
 		iphlen = sizeof(struct ip6_hdr);
 		break;
-#endif  
+#endif
 	}
 	mss = mss - iphlen - sizeof(struct tcphdr);
 	return (max(mss, tcp_mssdflt));
@@ -3806,7 +3821,7 @@ syn_cache_get(src, dst, th, hlen, tlen, so, m)
 #ifdef INET6
 	else
 		inp->inp_route6 = sc->sc_route6;
-#endif  
+#endif
 	sc->sc_route4.ro_rt = NULL;
 
 	am = m_get(M_DONTWAIT, MT_SONAME);	/* XXX */
@@ -4216,7 +4231,8 @@ syn_cache_respond(sc, m)
 	/* Compute the size of the TCP options. */
 	optlen = 4 + (sc->sc_request_r_scale != 15 ? 4 : 0) +
 #ifdef TCP_SACK
-	    ((sc->sc_flags & SCF_SACK_PERMIT) ? 4 : 0) +
+	    ((sc->sc_flags & SCF_SACK_PERMIT &&
+	    (stdbsdtcp || !(sc->sc_flags & SCF_TIMESTAMP))) ? 4 : 0) +
 #endif
 #ifdef TCP_SIGNATURE
 	    ((sc->sc_flags & SCF_SIGNATURE) ? TCPOLEN_SIGLEN : 0) +
@@ -4298,8 +4314,10 @@ syn_cache_respond(sc, m)
 	*optp++ = sc->sc_ourmaxseg & 0xff;
 
 #ifdef TCP_SACK
-	/* Include SACK_PERMIT_HDR option if peer has already done so. */
-	if (sc->sc_flags & SCF_SACK_PERMIT) {
+	/* Include SACK_PERMIT_HDR option if peer has already done so.
+	 * do here only if sackOK can't be packed in timestamp block */
+	if (sc->sc_flags & SCF_SACK_PERMIT &&
+	    (stdbsdtcp || !(sc->sc_flags & SCF_TIMESTAMP))) {
 		*((u_int32_t *)optp) = htonl(TCPOPT_SACK_PERMIT_HDR);
 		optp += 4;
 	}
@@ -4313,11 +4331,17 @@ syn_cache_respond(sc, m)
 	}
 
 	if (sc->sc_flags & SCF_TIMESTAMP) {
-		u_int32_t *lp = (u_int32_t *)(optp);
+		u_int32_t *lp = (u_int32_t *)optp;
 		/* Form timestamp option as shown in appendix A of RFC 1323. */
-		*lp++ = htonl(TCPOPT_TSTAMP_HDR);
-		*lp++ = htonl(SYN_CACHE_TIMESTAMP(sc));
-		*lp   = htonl(sc->sc_timestamp);
+		*lp = htonl(TCPOPT_TSTAMP_HDR);
+#ifdef TCP_SACK
+		if (!stdbsdtcp && sc->sc_flags & SCF_SACK_PERMIT)
+			/* set SACK_PERMIT option insted of NOP NOP */
+			*(u_int16_t*)lp = htons(TCPOPT_SACK_PERMITTED << 8 |
+			    TCPOLEN_SACK_PERMITTED);
+#endif
+		*++lp = htonl(SYN_CACHE_TIMESTAMP(sc));
+		*++lp = htonl(sc->sc_timestamp);
 		optp += TCPOLEN_TSTAMP_APPA;
 	}
 
@@ -4463,7 +4487,7 @@ syn_cache_respond(sc, m)
 #ifdef INET
 	case AF_INET:
 		error = ip_output(m, sc->sc_ipopts, ro,
-		    (ip_mtudisc ? IP_MTUDISC : 0), 
+		    (ip_mtudisc ? IP_MTUDISC : 0),
 		    (struct ip_moptions *)NULL, inp);
 		break;
 #endif

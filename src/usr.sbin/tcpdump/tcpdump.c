@@ -37,7 +37,7 @@ static const char rcsid[] =
  * combined efforts of Van, Steve McCanne and Craig Leres of LBL.
  */
 
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/time.h>
 #include <sys/ioctl.h>
 #include <sys/wait.h>
@@ -67,6 +67,8 @@ static const char rcsid[] =
 #include "pfctl.h"
 #include "pfctl_parser.h"
 #include "privsep.h"
+
+__RCSID("$MirOS$");
 
 int aflag;			/* translate network and broadcast addresses */
 int dflag;			/* print filter code */
@@ -103,7 +105,7 @@ RETSIGTYPE gotchld(int);
 extern __dead void usage(void);
 
 /* Length of saved portion of packet. */
-int snaplen = 0;
+int snaplen = DEFAULT_SNAPLEN;
 
 struct printer {
 	pcap_handler f;
@@ -131,8 +133,6 @@ static struct printer printers[] = {
 	{ pflog_old_if_print,		DLT_OLD_PFLOG },
 	{ pfsync_if_print,		DLT_PFSYNC },
 	{ ppp_ether_if_print,		DLT_PPP_ETHER },
-	{ ieee802_11_if_print,		DLT_IEEE802_11 },
-	{ ieee802_11_radio_if_print,	DLT_IEEE802_11_RADIO },
 	{ NULL,				0 },
 };
 
@@ -141,10 +141,9 @@ lookup_printer(int type)
 {
 	struct printer *p;
 
-	for (p = printers; p->f; ++p) {
+	for (p = printers; p->f; ++p)
 		if (type == p->type)
 			return p->f;
-	}
 
 	error("unknown data link type 0x%x", type);
 	/* NOTREACHED */
@@ -194,7 +193,6 @@ const struct pcap_linktype {
 	{ DLT_PPP_ETHER,	"PPP_ETHER" },
 	{ DLT_IEEE802_11,	"IEEE802_11" },
 	{ DLT_PFLOG,		"PFLOG" },
-	{ DLT_IEEE802_11_RADIO,	"IEEE802_11_RADIO" },
 	{ 0,			NULL }
 };
 
@@ -235,34 +233,6 @@ pcap_print_linktype(u_int dlt)
 		fprintf(stderr, "<unknown: %u>\n", dlt);
 }
 
-void
-pcap_list_linktypes(pcap_t *p)
-{
-	int fd = p->fd;
-	u_int n;
-
-#define MAXDLT	100
-
-	u_int dltlist[MAXDLT];
-	struct bpf_dltlist dl = {MAXDLT, dltlist};
-
-	if (fd < 0)
-		error("Invalid bpf descriptor");
-
-	if (ioctl(fd, BIOCGDLTLIST, &dl) < 0)
-		err(1, "BIOCGDLTLIST");
-
-	if (dl.bfl_len > MAXDLT)
-		error("Invalid number of linktypes: %u\n", dl.bfl_len);
-
-	fprintf(stderr, "%d link types supported:\n", dl.bfl_len);
-
-	for (n = 0; n < dl.bfl_len; n++) {
-		fprintf(stderr, "\t");
-		pcap_print_linktype(dltlist[n]);
-	}
-}
-
 extern int optind;
 extern int opterr;
 extern char *optarg;
@@ -278,7 +248,8 @@ main(int argc, char **argv)
 	RETSIGTYPE (*oldhandler)(int);
 	u_char *pcap_userdata;
 	char ebuf[PCAP_ERRBUF_SIZE];
-	u_int dlt = (u_int) -1;
+
+	fprintf(stderr, "*** THIS IS AN EVIL HACK, DO NOT USE ***\n");
 
 	cnt = -1;
 	device = NULL;
@@ -316,6 +287,7 @@ main(int argc, char **argv)
 		case 'd':
 			++dflag;
 			break;
+
 		case 'e':
 			++eflag;
 			break;
@@ -423,13 +395,6 @@ main(int argc, char **argv)
 			}
 			break;
 #endif
-		case 'y':
-			i = pcap_datalink_name_to_val(optarg);
-			if (i < 0)
-				error("invalid data link type: %s", optarg);
-			dlt = (u_int)i;
-			break;
-
 		case 'x':
 			++xflag;
 			break;
@@ -450,17 +415,7 @@ main(int argc, char **argv)
 		}
 
 	if (snaplen == 0) {
-		switch (dlt) {
-		case DLT_IEEE802_11:
-			snaplen = IEEE802_11_SNAPLEN;
-			break;
-		case DLT_IEEE802_11_RADIO:
-			snaplen = IEEE802_11_RADIO_SNAPLEN;
-			break;
-		default:
 			snaplen = DEFAULT_SNAPLEN;
-			break;
-		}
 	}
 
 	if (aflag && nflag)
@@ -470,6 +425,7 @@ main(int argc, char **argv)
 		pd = priv_pcap_offline(RFileName, ebuf);
 		if (pd == NULL)
 			error("%s", ebuf);
+
 		/* state: STATE_BPF */
 		localnet = 0;
 		netmask = 0;
@@ -481,7 +437,7 @@ main(int argc, char **argv)
 			if (device == NULL)
 				error("%s", ebuf);
 		}
-		pd = priv_pcap_live(device, snaplen, !pflag, 1000, ebuf, dlt);
+		pd = priv_pcap_live(device, snaplen, !pflag, 1000, ebuf, 0);
 		if (pd == NULL)
 			error("%s", ebuf);
 
@@ -497,11 +453,6 @@ main(int argc, char **argv)
 			localnet = 0;
 			netmask = 0;
 		}
-	}
-
-	if (Lflag) {
-		pcap_list_linktypes(pd);
-		exit(0);
 	}
 
 	fcode = priv_pcap_setfilter(pd, Oflag, netmask);
@@ -542,9 +493,8 @@ main(int argc, char **argv)
 		/* state: STATE_RUN */
 	}
 	if (RFileName == NULL) {
-		(void)fprintf(stderr, "%s: listening on %s, link-type ",
+		(void)fprintf(stderr, "%s: listening on %s\n",
 		    program_name, device);
-		pcap_print_linktype(pd->linktype);
 		(void)fflush(stderr);
 	}
 
@@ -580,14 +530,14 @@ cleanup(int signo)
 		if (pcap_stats(pd, &stat) < 0) {
 			(void)snprintf(buf, sizeof buf,
 			    "pcap_stats: %s\n", pcap_geterr(pd));
-			write(STDERR_FILENO, buf, strlen(buf));
+			write(STDOUT_FILENO, buf, strlen(buf));
 		} else {
 			(void)snprintf(buf, sizeof buf,
 			    "%d packets received by filter\n", stat.ps_recv);
-			write(STDERR_FILENO, buf, strlen(buf));
+			write(STDOUT_FILENO, buf, strlen(buf));
 			(void)snprintf(buf, sizeof buf,
 			    "%d packets dropped by kernel\n", stat.ps_drop);
-			write(STDERR_FILENO, buf, strlen(buf));
+			write(STDOUT_FILENO, buf, strlen(buf));
 		}
 	}
 	_exit(0);
@@ -730,6 +680,6 @@ usage(void)
 	(void)fprintf(stderr,
 "\t\t[-i interface] [-r file] [-s snaplen] [-T type] [-w file]\n");
 	(void)fprintf(stderr,
-"\t\t[-y datalinktype] [expression]\n");
+"\t\t[expression]\n");
 	exit(1);
 }

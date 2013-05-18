@@ -162,7 +162,7 @@ static int agent_log_transaction(request_rec *orig)
 
     agent = ap_table_get(orig->headers_in, "User-Agent");
     if (agent != NULL) {
-        ap_snprintf(str, sizeof(str), "%s\n", agent);
+        snprintf(str, sizeof(str), "%s\n", agent);
         write(cls->agent_fd, str, strlen(str));
     }
 

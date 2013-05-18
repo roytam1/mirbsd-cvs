@@ -1,3 +1,4 @@
+/**	$MirOS: src/sbin/route/show.c,v 1.2 2005/03/06 19:50:34 tg Exp $	*/
 /*	$OpenBSD: show.c,v 1.43 2005/05/27 04:55:27 mcbride Exp $	*/
 /*	$NetBSD: show.c,v 1.1 1996/11/15 18:01:41 gwr Exp $	*/
 

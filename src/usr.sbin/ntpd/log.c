@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: log.c,v 1.7 2005/03/31 12:14:01 henning Exp $ */
 
 /*
@@ -26,9 +27,12 @@
 
 #include "ntpd.h"
 
+__RCSID("$MirOS$");
+
 int	 debug;
 
-void	 logit(int, const char *, ...);
+void	 logit(int, const char *, ...)
+    __attribute__((format (printf, 2, 3))) __attribute__((nonnull (2)));
 
 void
 log_init(int n_debug)

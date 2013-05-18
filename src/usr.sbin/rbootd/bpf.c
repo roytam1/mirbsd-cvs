@@ -145,7 +145,7 @@ BpfOpen(void)
 	ifr.ifr_addr.sa_len = RMP_ADDRLEN + 2;
 #endif
 	ifr.ifr_addr.sa_family = AF_UNSPEC;
-	bcopy(&RmpMcastAddr[0], (char *)&ifr.ifr_addr.sa_data[0], RMP_ADDRLEN);
+	memmove((char *)&ifr.ifr_addr.sa_data[0], &RmpMcastAddr[0], RMP_ADDRLEN);
 	if (ioctl(BpfFd, SIOCADDMULTI, (caddr_t)&ifr) < 0) {
 		syslog(LOG_WARNING,
 		    "bpf: can't add mcast addr (%m), setting promiscuous mode");
@@ -365,9 +365,9 @@ BpfRead(RMPCONN *rconn, int doread)
 			    caplen);
 		else {
 			rconn->rmplen = caplen;
-			bcopy((char *)&bhp->bh_tstamp, (char *)&rconn->tstamp,
+			memmove((char *)&rconn->tstamp, (char *)&bhp->bh_tstamp,
 			    sizeof(struct timeval));
-			bcopy((char *)bp + hdrlen, (char *)&rconn->rmp, caplen);
+			memmove((char *)&rconn->rmp, (char *)bp + hdrlen, caplen);
 		}
 		bp += BPF_WORDALIGN(caplen + hdrlen);
 		return(1);

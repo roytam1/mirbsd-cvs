@@ -1,5 +1,6 @@
+/**	$MirOS: src/sys/dev/pci/bktr/bktr_core.c,v 1.2 2005/03/06 21:27:51 tg Exp $ */
 /*	$OpenBSD: bktr_core.c,v 1.17 2005/06/23 14:57:48 robert Exp $	*/
-/* $FreeBSD: src/sys/dev/bktr/bktr_core.c,v 1.114 2000/10/31 13:09:56 roger Exp $ */
+/*	$FreeBSD: src/sys/dev/bktr/bktr_core.c,v 1.114 2000/10/31 13:09:56 roger Exp $ */
 
 /*
  * This is part of the Driver for Video Capture Cards (Frame grabbers)
@@ -203,7 +204,9 @@ typedef unsigned int uintptr_t;
 #endif
 
 #ifdef __OpenBSD__
+#ifndef __MirBSD__
 typedef unsigned long uintptr_t;
+#endif
 typedef int intrmask_t;
 #else
 #include <sys/inttypes.h>		/* uintptr_t */
@@ -545,7 +548,7 @@ bktr_store_address(unit, BKTR_MEM_BUF,          buf);
 #ifdef __FreeBSD__
 			vtophys(buf));
 #else
-			bktr->dm_prog->dm_segs->ds_addr);
+			(unsigned)(bktr->dm_prog->dm_segs->ds_addr));
 #endif
 	}
 

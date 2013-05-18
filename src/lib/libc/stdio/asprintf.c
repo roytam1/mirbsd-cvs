@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libc/stdio/asprintf.c,v 1.2 2005/09/18 19:53:33 tg Exp $ */
 /*	$OpenBSD: asprintf.c,v 1.14 2005/08/08 08:05:36 espie Exp $	*/
 
 /*
@@ -20,7 +21,9 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <stdarg.h>
+#ifndef _LIBMIRMAKE
 #include "local.h"
+#endif
 
 int
 asprintf(char **str, const char *fmt, ...)
@@ -28,10 +31,14 @@ asprintf(char **str, const char *fmt, ...)
 	int ret;
 	va_list ap;
 	FILE f;
+#ifndef _LIBMIRMAKE
 	struct __sfileext fext;
+#endif
 	unsigned char *_base;
 
+#ifndef _LIBMIRMAKE
 	_FILEEXT_SETUP(&f, &fext);
+#endif
 	f._file = -1;
 	f._flags = __SWR | __SSTR | __SALC;
 	f._bf._base = f._p = (unsigned char *)malloc(128);

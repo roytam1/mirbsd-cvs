@@ -368,7 +368,8 @@ rip6_output(struct mbuf *m, ...)
 	int error = 0;
 	struct ip6_pktopts opt, *optp = NULL, *origoptp;
 	struct ifnet *oifp = NULL;
-	int type, code;		/* for ICMPv6 output statistics only */
+	/* for ICMPv6 output statistics only */
+	int type = 0, code = 0;
 	int priv = 0;
 	va_list ap;
 	int flags;

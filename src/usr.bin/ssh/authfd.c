@@ -36,8 +36,8 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/authfd.c,v 1.3 2006/02/22 02:16:44 tg Exp $");
 
-#include <sys/types.h>
 #include <sys/un.h>
 
 #include <openssl/evp.h>
@@ -409,7 +409,6 @@ ssh_agent_sign(AuthenticationConnection *auth,
     u_char **sigp, u_int *lenp,
     u_char *data, u_int datalen)
 {
-	extern int datafellows;
 	Buffer msg;
 	u_char *blob;
 	u_int blen;

@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: 0.t,v 1.4 2003/06/02 20:06:15 millert Exp $
 .\"	$NetBSD: 0.t,v 1.3 1996/04/05 01:45:40 cgd Exp $
 .\"
@@ -32,7 +33,7 @@
 .\"
 .if n .ND
 .TL
-Fsck_ffs \- The UNIX\(dg File System Check Program
+fsck_ffs \- The UNIX\(dg File System Check Program
 .EH 'SMM:3-%''The \s-2UNIX\s+2 File System Check Program'
 .OH 'The \s-2UNIX\s+2 File System Check Program''SMM:3-%'
 .AU

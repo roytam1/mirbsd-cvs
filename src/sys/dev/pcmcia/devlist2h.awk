@@ -1,4 +1,5 @@
 #! /usr/bin/awk -f
+#	$MirOS: src/sys/dev/pcmcia/devlist2h.awk,v 1.2 2005/03/14 21:05:53 tg Exp $
 #	$OpenBSD: devlist2h.awk,v 1.4 2000/02/01 16:54:41 fgsch Exp $
 #	$NetBSD: devlist2h.awk,v 1.2 1998/07/22 11:47:13 christos Exp $
 #
@@ -66,8 +67,8 @@ NR == 1 {
 	VERSION = $0
 	gsub("\\$", "", VERSION)
 
-	printf("/*\t\$OpenBSD\$\t*/\n\n") > hfile
-	printf("/*\n") > hfile
+	printf("/* \$MirOS\$ */\n\n") > hfile
+	printf("/*-\n") > hfile
 	printf(" * THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.\n") \
 	    > hfile
 	printf(" *\n") > hfile

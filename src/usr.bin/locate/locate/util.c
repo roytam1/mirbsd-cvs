@@ -118,7 +118,7 @@ colon(dbv, path, dot)
 				if ((p = malloc(sizeof(char) * (slen + 1)))
 				    == NULL)
 					err(1, "malloc");
-				bcopy(c, p, slen);
+				memmove(p, c, slen);
 				*(p + slen) = '\0';
 			}
 			/* increase dbv with element p */

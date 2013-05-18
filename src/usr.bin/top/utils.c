@@ -1,3 +1,4 @@
+/* $MirOS: src/usr.bin/top/utils.c,v 1.2 2005/03/13 18:33:49 tg Exp $ */
 /* $OpenBSD: utils.c,v 1.16 2005/06/08 22:36:43 millert Exp $	 */
 
 /*
@@ -43,6 +44,8 @@
 #include "top.h"
 #include "machine.h"
 #include "utils.h"
+
+__RCSID("$MirOS: src/usr.bin/top/utils.c,v 1.2 2005/03/13 18:33:49 tg Exp $");
 
 int
 atoiwi(char *str)
@@ -281,8 +284,8 @@ format_time(time_t seconds)
 	} else {
 		/* standard method produces MMM:SS */
 		/* we avoid printf as must as possible to make this quick */
-		snprintf(result, sizeof(result), "%3d:%02d", seconds / 60,
-		    seconds % 60);
+		snprintf(result, sizeof(result), "%3lld:%02d",
+		    (int64_t)(seconds / 60), (int)(seconds % 60));
 	}
 	return (result);
 }

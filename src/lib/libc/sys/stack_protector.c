@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libc/sys/stack_protector.c,v 1.4 2005/09/22 20:17:49 tg Exp $ */
 /*	$OpenBSD: stack_protector.c,v 1.8 2005/08/08 08:05:37 espie Exp $	*/
 
 /*
@@ -34,17 +35,30 @@
 #include <syslog.h>
 #include <unistd.h>
 
+__RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.4 2005/09/22 20:17:49 tg Exp $");
+
+#if defined(__SSP_ALL__) && !defined(__IN_MKDEP)
+ #error "You must compile this file with -fno-stack-protector-all"
+#endif
+
+#ifdef lint
+#define	CONSTRUCTOR
+#else
+#define	CONSTRUCTOR	static
+#endif
+
 extern int __sysctl(int *, u_int, void *, size_t *, void *, size_t);
 
 long __guard[8] = {0, 0, 0, 0, 0, 0, 0, 0};
-static void __guard_setup(void) __attribute__ ((constructor));
+CONSTRUCTOR void __guard_setup(void) __attribute__ ((constructor));
 void __stack_smash_handler(char func[], int damaged __attribute__((unused)));
 
-static void
+CONSTRUCTOR void
 __guard_setup(void)
 {
 	int i, mib[2];
 	size_t len;
+	unsigned char *guard = (void *)__guard;
 
 	if (__guard[0] != 0)
 		return;
@@ -54,20 +68,22 @@ __guard_setup(void)
 
 	len = 4;
 	for (i = 0; i < sizeof(__guard) / 4; i++) {
-		if (__sysctl(mib, 2, (char *)&((int *)__guard)[i],
+		if (__sysctl(mib, 2, guard,
 		    &len, NULL, 0) == -1)
 			break;
+		guard += 4;
 	}
 
 	if (i < sizeof(__guard) / 4) {
 		/* If sysctl was unsuccessful, use the "terminator canary". */
-		((unsigned char *)__guard)[0] = 0;
-		((unsigned char *)__guard)[1] = 0;
-		((unsigned char *)__guard)[2] = '\n';
-		((unsigned char *)__guard)[3] = 255;
+		guard[0] = 0;
+		guard[1] = 0;
+		guard[2] = '\n';
+		guard[3] = 255;
 	}
 }
 
+/* ARGSUSED1 */
 void
 __stack_smash_handler(char func[], int damaged)
 {
@@ -84,7 +100,7 @@ __stack_smash_handler(char func[], int damaged)
 	/* This may fail on a chroot jail... */
 	syslog_r(LOG_CRIT, &sdata, message, func);
 
-	bzero(&sa, sizeof(struct sigaction));
+	memset(&sa, 0, sizeof(struct sigaction));
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	sa.sa_handler = SIG_DFL;

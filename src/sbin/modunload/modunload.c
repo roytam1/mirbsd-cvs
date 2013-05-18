@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: modunload.c,v 1.14 2003/09/19 17:36:03 deraadt Exp $	*/
 /*	$NetBSD: modunload.c,v 1.9 1995/05/28 05:23:05 jtc Exp $	*/
 
@@ -49,6 +50,10 @@
 #include <unistd.h>
 
 #include "pathnames.h"
+
+__RCSID("$MirOS$");
+
+static void usage(void) __attribute__((noreturn));
 
 static void
 usage(void)

@@ -74,10 +74,6 @@ struct	fpacc87 {
 #endif
 };
 
-#ifdef GPL_MATH_EMULATE
-#include <gnu/arch/i386/fpemul/math_emu.h>
-#endif
-
 /* Floating point and emulator context */
 struct	save87 {
 	struct	env87 sv_env;		/* floating point control/status */
@@ -128,11 +124,7 @@ struct savexmm {
 union savefpu {
 	struct save87 sv_87;
 	struct savexmm sv_xmm;
-#ifdef GPL_MATH_EMULATE
-	union i387_union gplemu;
-#else
 	u_char emupad[176];		/* sizeof(i387_union) */
-#endif
 };
 
 /* Cyrix EMC memory - mapped coprocessor context switch information */
@@ -141,11 +133,6 @@ struct	emcsts {
 	long	em_tar;		/* memory mapped temp A register when swtched */
 	long	em_dl;		/* memory mapped D low register when swtched */
 };
-
-/* Intel prefers long real (53 bit) precision */
-#define	__iBCS_NPXCW__		0x262
-#define __BDE_NPXCW__		0x1272		/* FreeBSD */
-#define	__OpenBSD_NPXCW__	0x127f
 
 /*
  * The default MXCSR value at reset is 0x1f80, IA-32 Instruction
@@ -168,15 +155,9 @@ struct	emcsts {
  * 64-bit precision often gives bad results with high level languages
  * because it makes the results of calculations depend on whether
  * intermediate values are stored in memory or in FPU registers.
- *
- * The iBCS control word has underflow, overflow, zero divide, and invalid
- * operation exceptions unmasked.  But that causes an unexpected exception
- * in the test program 'paranoia' and makes denormals useless (DBL_MIN / 2
- * underflows).  It doesn't make a lot of sense to trap underflow without
- * trapping denormals.
  */
 
-#define	__INITIAL_NPXCW__	__OpenBSD_NPXCW__
+#define	__NPXCW__		0x127f
 
 void    process_xmm_to_s87(const struct savexmm *, struct save87 *);
 void    process_s87_to_xmm(const struct save87 *, struct savexmm *);

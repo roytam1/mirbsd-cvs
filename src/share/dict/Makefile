@@ -1,16 +1,28 @@
-#	$OpenBSD: Makefile,v 1.2 2000/03/02 14:46:34 todd Exp $
-#	from: @(#)Makefile	5.1.1.1 (Berkeley) 5/7/91
+# $MirOS$
 
-# Missing: connectives, words
+SUBDIR=	papers
 
-FILES=	README propernames web2 web2a
-NOOBJ=	noobj
-LINKS=	${BINDIR}/dict/web2 ${BINDIR}/dict/words
+BINDIR=	/usr/share/dict
+NOMAN=	yes
+NOPROG=	yes
+FILES=	README connectives eign propernames web2 web2a
+GENF=	words
 
-all clean cleandir depend lint tags:
+CLEANFILES+=	${GENF}
 
-realinstall:
-	install -c -o ${BINOWN} -g ${BINGRP} -m 444 ${FILES} \
-	    ${DESTDIR}${BINDIR}/dict
+all: _SUBDIRUSE words
+
+words: ${.CURDIR}/eign ${.CURDIR}/web2 ${.CURDIR}/words
+	sort -df ${.ALLSRC} | uniq >$@
+
+afterinstall:
+.for _i in ${FILES}
+	install -c -o ${DOCOWN} -g ${DOCGRP} -m ${DOCMODE} \
+	    ${.CURDIR}/${_i} ${DESTDIR}${BINDIR}/
+.endfor
+.for _i in ${GENF}
+	install -c -o ${DOCOWN} -g ${DOCGRP} -m ${DOCMODE} \
+	    ${_i} ${DESTDIR}${BINDIR}/
+.endfor
 
 .include <bsd.prog.mk>

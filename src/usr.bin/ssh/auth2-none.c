@@ -24,8 +24,8 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/auth2-none.c,v 1.3 2006/02/22 02:16:44 tg Exp $");
 
-#include <sys/types.h>
 #include <sys/stat.h>
 
 #include "auth.h"
@@ -105,7 +105,7 @@ userauth_none(Authctxt *authctxt)
 	packet_check_eom();
 	userauth_banner();
 	if (options.password_authentication)
-		return (PRIVSEP(auth_password(authctxt, "")));
+		return (PRIVSEP(auth_password(authctxt, (char *)"")));
 	return (0);
 }
 

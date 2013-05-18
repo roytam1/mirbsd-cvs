@@ -35,14 +35,6 @@ static char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)renice.c	8.1 (Berkeley) 6/9/93";
-#else
-static char rcsid[] = "$OpenBSD: renice.c,v 1.11 2003/07/10 00:06:51 david Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/resource.h>
@@ -53,6 +45,9 @@ static char rcsid[] = "$OpenBSD: renice.c,v 1.11 2003/07/10 00:06:51 david Exp $
 #include <pwd.h>
 #include <err.h>
 #include <errno.h>
+
+__SCCSID("@(#)renice.c	8.1 (Berkeley) 6/9/93");
+__RCSID("$MirOS$");
 
 int main(int, char **);
 int donice(int, uid_t, int);
@@ -75,7 +70,7 @@ main(int argc, char *argv[])
 	if (argc < 2)
 		usage();
 	prio = strtol(*argv, &ep, 10);
-	if (*ep != NULL)
+	if (*ep)
 		usage();
 	argc--, argv++;
 	if (prio > PRIO_MAX)
@@ -97,7 +92,7 @@ main(int argc, char *argv[])
 		}
 		if (which == PRIO_USER) {
 			struct passwd *pwd = getpwnam(*argv);
-			
+
 			if (pwd == NULL) {
 				warnx("%s: unknown user", *argv);
 				continue;
@@ -105,7 +100,7 @@ main(int argc, char *argv[])
 			who = pwd->pw_uid;
 		} else {
 			who = strtol(*argv, &ep, 10);
-			if (*ep != NULL || who < 0) {
+			if ((*ep) || who < 0) {
 				warnx("%s: bad value", *argv);
 				continue;
 			}

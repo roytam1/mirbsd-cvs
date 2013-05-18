@@ -1,3 +1,5 @@
+/* $MirOS: src/usr.sbin/httpd/src/modules/experimental/mod_auth_digest.c,v 1.2 2005/03/13 19:16:49 tg Exp $ */
+
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -324,7 +326,7 @@ static const char *set_digest_file(cmd_parms *cmd, void *config,
 				   const char *file)
 {
     ((digest_config_rec *) config)->pwfile = file;
-    ap_server_strip_chroot(((digest_config_rec *) config)->pwfile, 1);
+    ap_server_strip_chroot((char *)(((digest_config_rec *) config)->pwfile), 1);
     return NULL;
 }
 
@@ -332,7 +334,7 @@ static const char *set_group_file(cmd_parms *cmd, void *config,
 				  const char *file)
 {
     ((digest_config_rec *) config)->grpfile = file;
-    ap_server_strip_chroot(((digest_config_rec *) config)->grpfile, 1);
+    ap_server_strip_chroot((char *)(((digest_config_rec *) config)->grpfile), 1);
     return NULL;
 }
 
@@ -827,7 +829,7 @@ static void note_digest_auth_failure(request_rec *r,
      * - if it's no specified
      */
     if (r->proxyreq || !conf->uri_list) {
-        domain = NULL;  
+        domain = NULL;
     }
     else {
         domain = conf->uri_list;
@@ -1565,4 +1567,3 @@ module MODULE_VAR_EXPORT digest_auth_module =
     NULL,			/* child_exit */
     update_nonce_count		/* post read-request */
 };
-

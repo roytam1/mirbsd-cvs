@@ -1,7 +1,9 @@
+/**	$MirOS: src/lib/libz/zlib.h,v 1.8 2006/01/31 10:32:00 tg Exp $ */
 /*	$OpenBSD: zlib.h,v 1.9 2005/07/20 15:56:41 millert Exp $	*/
 /* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.2.3, July 18th, 2005
 
+  Copyright (c) 2006 Thorsten Glaser
   Copyright (C) 1995-2005 Jean-loup Gailly and Mark Adler
 
   This software is provided 'as-is', without any express or implied
@@ -34,10 +36,7 @@
 
 #include "zconf.h"
 
-#ifdef __cplusplus
-extern "C" {
-#endif
-
+__BEGIN_DECLS
 #define ZLIB_VERSION "1.2.3"
 #define ZLIB_VERNUM 0x1230
 
@@ -81,7 +80,7 @@ typedef void   (*free_func)  OF((voidpf opaque, voidpf address));
 struct internal_state;
 
 typedef struct z_stream_s {
-    Bytef    *next_in;  /* next input byte */
+    const Bytef *next_in; /* next input byte */
     uInt     avail_in;  /* number of bytes available at next_in */
     z_off_t  total_in;  /* total nb of input bytes read so far */
 
@@ -89,7 +88,7 @@ typedef struct z_stream_s {
     uInt     avail_out; /* remaining free space at next_out */
     z_off_t  total_out; /* total nb of bytes output so far */
 
-    char     *msg;      /* last error message, NULL if no error */
+    const char *msg;    /* last error message, NULL if no error */
     struct internal_state FAR *state; /* not visible by applications */
 
     alloc_func zalloc;  /* used to allocate the internal state */
@@ -141,15 +140,6 @@ typedef gz_header FAR *gz_headerp;
    zalloc must return Z_NULL if there is not enough memory for the object.
    If zlib is used in a multi-threaded application, zalloc and zfree must be
    thread safe.
-
-   On 16-bit systems, the functions zalloc and zfree must be able to allocate
-   exactly 65536 bytes, but will not be required to allocate more than this
-   if the symbol MAXSEG_64K is defined (see zconf.h). WARNING: On MSDOS,
-   pointers returned by zalloc for objects of exactly 65536 bytes *must*
-   have their offset normalized to zero. The default allocation function
-   provided by this library ensures this (see zutil.c). To reduce memory
-   requirements and avoid any allocation of 64K objects, at the expense of
-   compression ratio, compile the library with -DMAX_WBITS=14 (see zconf.h).
 
    The fields total_in and total_out can be used for statistics or
    progress reports. After compression, total_in holds the total size of
@@ -875,7 +865,7 @@ ZEXTERN int ZEXPORT inflateBackInit OF((z_streamp strm, int windowBits,
    match the version of the header file.
 */
 
-typedef unsigned (*in_func) OF((void FAR *, unsigned char FAR * FAR *));
+typedef unsigned (*in_func) OF((void FAR *, const unsigned char FAR * FAR *));
 typedef int (*out_func) OF((void FAR *, unsigned char FAR *, unsigned));
 
 ZEXTERN int ZEXPORT inflateBack OF((z_streamp strm,
@@ -1120,7 +1110,8 @@ ZEXTERN int ZEXPORT    gzwrite OF((gzFile file,
    (0 in case of error).
 */
 
-ZEXTERN int ZEXPORTVA   gzprintf OF((gzFile file, const char *format, ...));
+ZEXTERN int ZEXPORTVA   gzprintf OF((gzFile file, const char *format, ...))
+    __attribute__((format (printf, 2, 3))) __attribute__((nonnull (1)));
 /*
      Converts, formats, and writes the args to the compressed file under
    control of the format string, as in fprintf. gzprintf returns the number of
@@ -1258,6 +1249,7 @@ ZEXTERN void ZEXPORT gzclearerr OF((gzFile file));
    compression library.
 */
 
+#define ZLIB_HAS_ADLERPUSH
 ZEXTERN uLong ZEXPORT adler32 OF((uLong adler, const Bytef *buf, uInt len));
 /*
      Update a running Adler-32 checksum with the bytes buf[0..len-1] and
@@ -1343,16 +1335,19 @@ ZEXTERN int ZEXPORT inflateBackInit_ OF((z_streamp strm, int windowBits,
         ZLIB_VERSION, sizeof(z_stream))
 
 
-#if !defined(ZUTIL_H) && !defined(NO_DUMMY_DECL)
-    struct internal_state {int dummy;}; /* hack for buggy compilers */
-#endif
-
 ZEXTERN const char   * ZEXPORT zError           OF((int));
 ZEXTERN int            ZEXPORT inflateSyncPoint OF((z_streamp z));
 ZEXTERN const uLongf * ZEXPORT get_crc_table    OF((void));
+__END_DECLS
 
-#ifdef __cplusplus
-}
-#endif
+#ifndef ZLIB_FREESTANDING
+/* MirOS extension */
+#define ZLIB_HAS_GZFOPEN
+#include <stdio.h>
+__BEGIN_DECLS
+FILE *gzfopen(const char *, const char *);
+FILE *gzfdopen(int, const char *);
+__END_DECLS
+#endif /* ZLIB_FREESTANDING */
 
 #endif /* ZLIB_H */

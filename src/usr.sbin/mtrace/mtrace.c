@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/mtrace/mtrace.c,v 1.2 2005/03/13 19:17:08 tg Exp $ */
 /*	$OpenBSD: mtrace.c,v 1.25 2005/05/03 05:42:05 djm Exp $	*/
 /*	$NetBSD: mtrace.c,v 1.5 1995/12/10 10:57:15 mycroft Exp $	*/
 
@@ -51,11 +52,7 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char rcsid[] =
-    "@(#) $Id$";
-#endif
-
+#include <sys/types.h>
 #include <netdb.h>
 #include <sys/time.h>
 #include <memory.h>
@@ -70,6 +67,8 @@ static char rcsid[] =
 #include <sys/systeminfo.h>
 #endif
 #include <ifaddrs.h>
+
+__RCSID("$MirOS$");
 
 #define DEFAULT_TIMEOUT	3	/* How long to wait before retrying requests */
 #define DEFAULT_RETRIES 3	/* How many times to try */
@@ -263,7 +262,7 @@ flag_type(u_int type)
 	(void) snprintf(buf, sizeof buf, "Unknown error code %d", type);
 	return (buf);
     }
-}    
+}
 
 /*
  * If destination is on a local net, get the netmask, else set the
@@ -286,7 +285,7 @@ get_netmask(int s, u_int32_t dst)
 	return (retval);
     }
     for (ifa = ifap; ifa; ifa = ifa->ifa_next) {
-	if (ifa->ifa_addr->sa_family != AF_INET) 
+	if (ifa->ifa_addr->sa_family != AF_INET)
              continue;
 	if_addr = ((struct sockaddr_in *)ifa->ifa_addr)->sin_addr.s_addr;
 	if_mask = ((struct sockaddr_in *)ifa->ifa_netmask)->sin_addr.s_addr;
@@ -423,7 +422,7 @@ send_recv(u_int32_t dst, int type, int code, int tries, struct resp_buf *save)
 	 * Change the qid for each request sent to avoid being confused
 	 * by duplicate responses
 	 */
-#ifdef SYSV    
+#ifdef SYSV
 	query->tr_qid  = ((u_int32_t)lrand48() >> 8);
 #else
 	query->tr_qid  = ((u_int32_t)random() >> 8);
@@ -579,7 +578,7 @@ send_recv(u_int32_t dst, int type, int code, int tries, struct resp_buf *save)
 		save->rtime = ((tr.tv_sec + JAN_1970) << 16) +
 			      (tr.tv_usec << 10) / 15625;
 		save->len = len;
-		bcopy((char *)igmp, (char *)&save->igmp, ipdatalen);
+		memmove((char *)&save->igmp, (char *)igmp, ipdatalen);
 	    }
 	    return (recvlen);
 	}
@@ -671,7 +670,7 @@ passive_mode(void)
 	base.rtime = ((tr.tv_sec + JAN_1970) << 16) +
 		      (tr.tv_usec << 10) / 15625;
 	base.len = len;
-	bcopy((char *)igmp, (char *)&base.igmp, ipdatalen);
+	memmove((char *)&base.igmp, (char *)igmp, ipdatalen);
 	/*
 	 * If the user specified which traces to monitor,
 	 * only accept traces that correspond to the
@@ -1088,7 +1087,7 @@ print_stats(struct resp_buf *base, struct resp_buf *prev, struct resp_buf *new)
 	if (ttl < n->tr_fttl) ttl = n->tr_fttl;
 	else ++ttl;
     }
-	   
+
     printf("     %c      \\__   ttl%5d   ", first ? 'v' : '|', ttl);
     stat_line(p, n, FALSE, r);
     if (!first) {
@@ -1307,7 +1306,7 @@ Usage: mtrace [-Mlnps] [-w wait] [-m max_hops] [-q nqueries] [-g gateway]\n\
 	char myhostname[MAXHOSTNAMELEN];
 	struct hostent *hp;
 	int error;
-    
+
 	error = sysinfo(SI_HOSTNAME, myhostname, sizeof(myhostname));
 	if (error == -1) {
 	    perror("Getting my hostname");
@@ -1338,7 +1337,7 @@ Usage: mtrace [-Mlnps] [-w wait] [-m max_hops] [-q nqueries] [-g gateway]\n\
      */
     gettimeofday(&tv, 0);
     seed = tv.tv_usec ^ lcl_addr;
-#ifdef SYSV    
+#ifdef SYSV
     srand48(seed);
 #else
     srandom(seed);
@@ -1366,7 +1365,7 @@ Usage: mtrace [-Mlnps] [-w wait] [-m max_hops] [-q nqueries] [-g gateway]\n\
     }
 
     /*
-     * If the response is to be a multicast address, make sure we 
+     * If the response is to be a multicast address, make sure we
      * are listening on that multicast address.
      */
     if (raddr) {
@@ -1405,7 +1404,7 @@ Usage: mtrace [-Mlnps] [-w wait] [-m max_hops] [-q nqueries] [-g gateway]\n\
 	hops = qno;
 	tries = nqueries;
 	printf("Querying reverse path, maximum %d hops... ", qno);
-	fflush(stdout); 
+	fflush(stdout);
     }
     base.rtime = 0;
     base.len = 0;

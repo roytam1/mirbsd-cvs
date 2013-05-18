@@ -8,11 +8,10 @@
 ##
 #
 # This script falls under the Apache License.
-# See http://www.apache.org/docs/LICENSE
-
+# See /usr/share/doc/legal/LICENSE.httpd
 
 #   default IFS
-DIFS=' 	
+DIFS='
 '
 
 #   source and destination directory
@@ -107,4 +106,3 @@ for file in $FILES; do
      ln -s $from $to
 done
 IFS="$OIFS"
-

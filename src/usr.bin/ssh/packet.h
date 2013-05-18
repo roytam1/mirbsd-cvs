@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: packet.h,v 1.45 2006/03/25 22:22:43 djm Exp $ */
 
 /*
@@ -58,7 +59,7 @@ void     packet_get_bignum(BIGNUM * value);
 void     packet_get_bignum2(BIGNUM * value);
 void	*packet_get_raw(u_int *length_ptr);
 void	*packet_get_string(u_int *length_ptr);
-void     packet_disconnect(const char *fmt,...) __attribute__((format(printf, 1, 2)));
+void     packet_disconnect(const char *fmt,...) __dead __attribute__((format(printf, 1, 2)));
 void     packet_send_debug(const char *fmt,...) __attribute__((format(printf, 1, 2)));
 
 void	 set_newkeys(int mode);

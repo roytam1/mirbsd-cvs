@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: cmd.h,v 1.7 2003/06/03 00:52:35 weingart Exp $	*/
 
 /*
@@ -72,7 +73,6 @@ int Xbufcachepct(cmd_t *);
 int Xnkmempg(cmd_t *);
 int Xshmseg(cmd_t *);
 int Xshmmaxpgs(cmd_t *);
+int Xrootdev(cmd_t *);
 
 #endif /* _CMD_H */
-
-

@@ -34,8 +34,8 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.9 2006/04/19 10:40:52 tg Exp $");
 
-#include <sys/types.h>
 #include <sys/wait.h>
 #include <sys/un.h>
 #include <sys/stat.h>
@@ -67,14 +67,6 @@
 #include "kex.h"
 #include "monitor_wrap.h"
 
-#ifdef KRB5
-#include <kafs.h>
-#endif
-
-#ifdef GSSAPI
-#include "ssh-gss.h"
-#endif
-
 /* func */
 
 Session *session_new(void);
@@ -86,7 +78,7 @@ void	do_exec_pty(Session *, const char *);
 void	do_exec_no_pty(Session *, const char *);
 void	do_exec(Session *, const char *);
 void	do_login(Session *, const char *);
-void	do_child(Session *, const char *);
+__dead void do_child(Session *, const char *);
 void	do_motd(void);
 int	check_quietlogin(Session *, const char *);
 
@@ -537,14 +529,6 @@ do_exec(Session *s, const char *command)
 		debug("Forced command '%.900s'", command);
 	}
 
-#ifdef GSSAPI
-	if (options.gss_authentication) {
-		temporarily_use_uid(s->pw);
-		ssh_gssapi_storecreds();
-		restore_uid();
-	}
-#endif
-
 	if (s->ttyfd != -1)
 		do_exec_pty(s, command);
 	else
@@ -750,13 +734,6 @@ do_setup_env(Session *s, const char *shell)
 	env = xmalloc(envsize * sizeof(char *));
 	env[0] = NULL;
 
-#ifdef GSSAPI
-	/* Allow any GSSAPI methods that we've used to alter
-	 * the childs environment as they see fit
-	 */
-	ssh_gssapi_do_child(&env, &envsize);
-#endif
-
 	if (!options.use_login) {
 		/* Set basic environment. */
 		for (i = 0; i < s->num_env; i++)
@@ -823,18 +800,13 @@ do_setup_env(Session *s, const char *shell)
 	if (original_command)
 		child_set_env(&env, &envsize, "SSH_ORIGINAL_COMMAND",
 		    original_command);
-#ifdef KRB5
-	if (s->authctxt->krb5_ticket_file)
-		child_set_env(&env, &envsize, "KRB5CCNAME",
-		    s->authctxt->krb5_ticket_file);
-#endif
 	if (auth_sock_name != NULL)
 		child_set_env(&env, &envsize, SSH_AUTHSOCKET_ENV_NAME,
 		    auth_sock_name);
 
-	/* read $HOME/.ssh/environment. */
+	/* read $HOME/.etc/ssh/environment. */
 	if (options.permit_user_env && !options.use_login) {
-		snprintf(buf, sizeof buf, "%.200s/.ssh/environment",
+		snprintf(buf, sizeof buf, "%.200s/.etc/ssh/environment",
 		    pw->pw_dir);
 		read_environment_file(&env, &envsize, buf);
 	}
@@ -848,7 +820,7 @@ do_setup_env(Session *s, const char *shell)
 }
 
 /*
- * Run $HOME/.ssh/rc, /etc/ssh/sshrc, or xauth (whichever is found
+ * Run $HOME/.etc/ssh/rc, /etc/ssh/sshrc, or xauth (whichever is found
  * first in this order).
  */
 static void
@@ -1046,7 +1018,7 @@ child_close_fds(void)
  * environment, closing extra file descriptors, setting the user and group
  * ids, and executing the command or shell.
  */
-void
+__dead void
 do_child(Session *s, const char *command)
 {
 	extern char **environ;
@@ -1109,36 +1081,10 @@ do_child(Session *s, const char *command)
 	child_close_fds();
 
 	/*
-	 * Must take new environment into use so that .ssh/rc,
+	 * Must take new environment into use so that .etc/ssh/rc,
 	 * /etc/ssh/sshrc and xauth are run in the proper environment.
 	 */
 	environ = env;
-
-#ifdef KRB5
-	/*
-	 * At this point, we check to see if AFS is active and if we have
-	 * a valid Kerberos 5 TGT. If so, it seems like a good idea to see
-	 * if we can (and need to) extend the ticket into an AFS token. If
-	 * we don't do this, we run into potential problems if the user's
-	 * home directory is in AFS and it's not world-readable.
-	 */
-
-	if (options.kerberos_get_afs_token && k_hasafs() &&
-	    (s->authctxt->krb5_ctx != NULL)) {
-		char cell[64];
-
-		debug("Getting AFS token");
-
-		k_setpag();
-
-		if (k_afs_cell_of_file(pw->pw_dir, cell, sizeof(cell)) == 0)
-			krb5_afslog(s->authctxt->krb5_ctx,
-			    s->authctxt->krb5_fwd_ccache, cell, NULL);
-
-		krb5_afslog_home(s->authctxt->krb5_ctx,
-		    s->authctxt->krb5_fwd_ccache, NULL, NULL, pw->pw_dir);
-	}
-#endif
 
 	/* Change current directory to the user's home directory. */
 	if (chdir(pw->pw_dir) < 0) {
@@ -2005,16 +1951,6 @@ do_cleanup(Authctxt *authctxt)
 
 	if (authctxt == NULL)
 		return;
-#ifdef KRB5
-	if (options.kerberos_ticket_cleanup &&
-	    authctxt->krb5_ctx)
-		krb5_cleanup_proc(authctxt);
-#endif
-
-#ifdef GSSAPI
-	if (compat20 && options.gss_cleanup_creds)
-		ssh_gssapi_cleanup_creds();
-#endif
 
 	/* remove agent socket */
 	auth_sock_cleanup_proc(authctxt->pw);

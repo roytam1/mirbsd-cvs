@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: uuencode.c,v 1.7 2004/04/09 22:54:02 millert Exp $	*/
 /*	$FreeBSD: uuencode.c,v 1.18 2004/01/22 07:23:35 grehan Exp $	*/
 
@@ -36,13 +37,6 @@ static const char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static const char sccsid[] = "@(#)uuencode.c	8.2 (Berkeley) 4/2/94";
-#endif
-static const char rcsid[] = "$OpenBSD: uuencode.c,v 1.7 2004/04/09 22:54:02 millert Exp $";
-#endif /* not lint */
-
 /*
  * Encode a file so it can be mailed to a remote system.
  */
@@ -61,12 +55,15 @@ static const char rcsid[] = "$OpenBSD: uuencode.c,v 1.7 2004/04/09 22:54:02 mill
 #include <string.h>
 #include <unistd.h>
 
+__SCCSID("@(#)uuencode.c	8.2 (Berkeley) 4/2/94");
+__RCSID("$MirOS$");
+
 void encode(void);
 void base64_encode(void);
 static void usage(void);
 
 FILE *output;
-int mode;
+int mode, rflag = 0;
 char **av;
 
 int
@@ -85,10 +82,13 @@ main(int argc, char *argv[])
 		base64 = 1;
 
 	setlocale(LC_ALL, "");
-	while ((ch = getopt(argc, argv, "mo:")) != -1) {
+	while ((ch = getopt(argc, argv, "mro:")) != -1) {
 		switch (ch) {
 		case 'm':
 			base64 = 1;
+			break;
+		case 'r':
+			rflag = 1;
 			break;
 		case 'o':
 			outfile = optarg;
@@ -114,6 +114,9 @@ main(int argc, char *argv[])
 		mode = RW & ~umask(RW);
 		break;
 	case 0:
+		if (rflag)
+			break;
+		/* FALLTHROUGH */
 	default:
 		usage();
 	}
@@ -155,7 +158,8 @@ base64_encode(void)
 
 	sequence = 0;
 
-	fprintf(output, "begin-base64 %o %s\n", mode, *av);
+	if (!rflag)
+		fprintf(output, "begin-base64 %o %s\n", mode, *av);
 	while ((n = fread(buf, 1, sizeof(buf), stdin))) {
 		++sequence;
 		rv = b64_ntop(buf, n, buf2, (sizeof(buf2) / sizeof(buf2[0])));
@@ -165,7 +169,8 @@ base64_encode(void)
 	}
 	if (sequence % GROUPS)
 		fprintf(output, "\n");
-	fprintf(output, "====\n");
+	if (!rflag)
+		fprintf(output, "====\n");
 }
 
 /*
@@ -178,7 +183,8 @@ encode(void)
 	char *p;
 	char buf[80];
 
-	(void)fprintf(output, "begin %o %s\n", mode, *av);
+	if (!rflag)
+		(void)fprintf(output, "begin %o %s\n", mode, *av);
 	while ((n = fread(buf, 1, 45, stdin))) {
 		ch = ENC(n);
 		if (fputc(ch, output) == EOF)
@@ -212,14 +218,15 @@ encode(void)
 	}
 	if (ferror(stdin))
 		errx(1, "read error");
-	(void)fprintf(output, "%c\nend\n", ENC('\0'));
+	if (!rflag)
+		(void)fprintf(output, "%c\nend\n", ENC('\0'));
 }
 
 static void
 usage(void)
 {
 	(void)fprintf(stderr,
-	    "usage: uuencode [-m] [-o outfile] [infile] remotefile\n"
-	    "       b64encode [-o outfile] [infile] remotefile\n");
+	    "usage: uuencode [-mr] [-o outfile] [infile] remotefile\n"
+	    "       b64encode [-r] [-o outfile] [infile] remotefile\n");
 	exit(1);
 }

@@ -33,11 +33,15 @@
 .Dt LOCK 1
 .Os
 .Sh NAME
-.Nm lock
+.Nm lock ,
+.Nm lock-np
 .Nd reserve a terminal
 .Sh SYNOPSIS
 .Nm lock
 .Op Fl np
+.Op Fl a Ar style
+.Op Fl t Ar timeout
+.Nm lock-np
 .Op Fl a Ar style
 .Op Fl t Ar timeout
 .Sh DESCRIPTION
@@ -48,6 +52,15 @@ repeated.
 There are two other conditions under which it will terminate: it
 will timeout after some interval of time and it may be killed by someone
 with the appropriate privileges.
+.Pp
+If
+.Nm lock-np
+is called, it will behave like
+.Nm lock
+with
+.Fl np
+specified.
+This modus operandi is intended for use with GNU screen.
 .Pp
 The options are as follows:
 .Bl -tag -width Ds

@@ -41,10 +41,10 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.11 2006/04/19 10:40:55 tg Exp $");
 
 #include <sys/resource.h>
 #include <sys/ioctl.h>
-#include <sys/types.h>
 #include <sys/un.h>
 #include <sys/stat.h>
 
@@ -163,11 +163,11 @@ u_int control_server_pid = 0;
 
 /* Prints a help message to the user.  This function never returns. */
 
-static void
+static __dead void
 usage(void)
 {
 	fprintf(stderr,
-"usage: ssh [-1246AaCfgkMNnqsTtVvXxY] [-b bind_address] [-c cipher_spec]\n"
+"usage: ssh [-1246AaCfghkMNnqsTtVvXxY] [-b bind_address] [-c cipher_spec]\n"
 "           [-D [bind_address:]port] [-e escape_char] [-F configfile]\n"
 "           [-i identity_file] [-L [bind_address:]port:host:hostport]\n"
 "           [-l login_name] [-m mac_spec] [-O ctl_cmd] [-o option] [-p port]\n"
@@ -193,8 +193,6 @@ main(int ac, char **av)
 	struct stat st;
 	struct passwd *pw;
 	int dummy;
-	extern int optind, optreset;
-	extern char *optarg;
 	struct servent *sp;
 	Forward fwd;
 
@@ -249,7 +247,7 @@ main(int ac, char **av)
 
  again:
 	while ((opt = getopt(ac, av,
-	    "1246ab:c:e:fgi:kl:m:no:p:qstvxACD:F:I:L:MNO:PR:S:TVw:XY")) != -1) {
+	    "1246ab:c:e:fghi:kl:m:no:p:qstvxACD:F:I:L:MNO:PR:S:TVw:XY")) != -1) {
 		switch (opt) {
 		case '1':
 			options.protocol = SSH_PROTO_1;
@@ -301,7 +299,6 @@ main(int ac, char **av)
 			options.forward_agent = 1;
 			break;
 		case 'k':
-			options.gss_deleg_creds = 0;
 			break;
 		case 'i':
 			if (stat(optarg, &st) < 0) {
@@ -391,7 +388,7 @@ main(int ac, char **av)
 				else if (options.cipher == SSH_CIPHER_BLOWFISH)
 					options.ciphers = "blowfish-cbc";
 				else
-					options.ciphers = (char *)-1;
+					options.ciphers = (const char *)-1;
 			}
 			break;
 		case 'm':
@@ -445,7 +442,7 @@ main(int ac, char **av)
 		case 'D':
 			cp = p = xstrdup(optarg);
 			memset(&fwd, '\0', sizeof(fwd));
-			fwd.connect_host = "socks";
+			fwd.connect_host = (char *)"socks";
 			if ((fwd.listen_host = hpdelim(&cp)) == NULL) {
 				fprintf(stderr, "Bad dynamic forwarding "
 				    "specification '%.100s'\n", optarg);
@@ -499,6 +496,9 @@ main(int ac, char **av)
 			break;
 		case 'F':
 			config = optarg;
+			break;
+		case 'h':
+			options.no_lowdelay = 1;
 			break;
 		default:
 			usage();
@@ -709,8 +709,9 @@ main(int ac, char **av)
 	}
 
 	/*
-	 * Now that we are back to our own permissions, create ~/.ssh
+	 * Now that we are back to our own permissions, create ~/.etc/ssh
 	 * directory if it doesn't already exist.
+	 * XXX create ~/.etc first?
 	 */
 	snprintf(buf, sizeof buf, "%.100s%s%.100s", pw->pw_dir, strcmp(pw->pw_dir, "/") ? "/" : "", _PATH_SSH_USER_DIR);
 	if (stat(buf, &st) < 0)
@@ -869,7 +870,7 @@ ssh_session(void)
 		   length of the string. */
 		cp = getenv("TERM");
 		if (!cp)
-			cp = "";
+			cp = (char *)"";
 		packet_put_cstring(cp);
 
 		/* Store window size in the packet. */
@@ -919,7 +920,8 @@ ssh_session(void)
 		}
 	}
 	/* Tell the packet module whether this is an interactive session. */
-	packet_set_interactive(interactive);
+	if (!options.no_lowdelay)
+		packet_set_interactive(interactive);
 
 	/* Request authentication agent forwarding if appropriate. */
 	check_agent_present();
@@ -1095,7 +1097,8 @@ ssh_session2_setup(int id, void *arg)
 	client_session2_setup(id, tty_flag, subsystem_flag, getenv("TERM"),
 	    NULL, fileno(stdin), &command, environ, &ssh_subsystem_reply);
 
-	packet_set_interactive(interactive);
+	if (!options.no_lowdelay)
+		packet_set_interactive(interactive);
 }
 
 /* open new channel for a session */

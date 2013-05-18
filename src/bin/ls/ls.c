@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/ls/ls.c,v 1.2 2005/03/06 18:55:21 tg Exp $ */
 /*	$OpenBSD: ls.c,v 1.24 2005/06/15 17:47:17 millert Exp $	*/
 /*	$NetBSD: ls.c,v 1.18 1996/07/09 09:16:29 mycroft Exp $	*/
 
@@ -33,20 +34,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1989, 1993, 1994\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)ls.c	8.7 (Berkeley) 8/5/94";
-#else
-static char rcsid[] = "$OpenBSD: ls.c,v 1.24 2005/06/15 17:47:17 millert Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
@@ -61,10 +48,12 @@ static char rcsid[] = "$OpenBSD: ls.c,v 1.24 2005/06/15 17:47:17 millert Exp $";
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <util.h>
 
 #include "ls.h"
 #include "extern.h"
+
+__SCCSID("@(#)ls.c	8.7 (Berkeley) 8/5/94");
+__RCSID("$MirOS: src/bin/ls/ls.c,v 1.2 2005/03/06 18:55:21 tg Exp $");
 
 static void	 display(FTSENT *, FTSENT *);
 static int	 mastercmp(const FTSENT **, const FTSENT **);
@@ -86,7 +75,6 @@ int f_accesstime;		/* use time of last access */
 int f_column;			/* columnated format */
 int f_columnacross;		/* columnated format, sorted across */
 int f_flags;			/* show flags associated with a file */
-int f_humanval;			/* show human-readable file sizes */
 int f_inode;			/* print inode */
 int f_listdir;			/* list actual directory, not contents */
 int f_listdot;			/* list files beginning with . */
@@ -133,7 +121,7 @@ ls_main(int argc, char *argv[])
 		f_listdot = 1;
 
 	fts_options = FTS_PHYSICAL;
-	while ((ch = getopt(argc, argv, "1ACFLRSTacdfghiklmnopqrstux")) != -1) {
+	while ((ch = getopt(argc, argv, "1ACFLRSTacdfgiklmnopqrstux")) != -1) {
 		switch (ch) {
 		/*
 		 * The -1, -C and -l, -m and -x options all override each
@@ -200,9 +188,6 @@ ls_main(int argc, char *argv[])
 			f_nosort = 1;
 			break;
 		case 'g':		/* Compatibility with 4.3BSD. */
-			break;
-		case 'h':
-			f_humanval = 1;
 			break;
 		case 'i':
 			f_inode = 1;
@@ -529,11 +514,8 @@ display(FTSENT *p, FTSENT *list)
 		d.s_inode = strlen(buf);
 		(void)snprintf(buf, sizeof(buf), "%lu", maxnlink);
 		d.s_nlink = strlen(buf);
-		if (!f_humanval) {
-			(void)snprintf(buf, sizeof(buf), "%qu", maxsize);
-			d.s_size = strlen(buf);
-		} else
-			d.s_size = FMT_SCALED_STRSIZE-2; /* no - or '\0' */
+		(void)snprintf(buf, sizeof(buf), "%qu", maxsize);
+		d.s_size = strlen(buf);
 		d.s_user = maxuser;
 	}
 

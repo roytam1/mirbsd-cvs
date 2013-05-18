@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: siop_pci_common.c,v 1.12 2003/10/09 17:41:00 mickey Exp $ */
 /*	$NetBSD: siop_pci_common.c,v 1.17 2002/05/04 18:11:06 bouyer Exp $ */
 
@@ -171,7 +172,7 @@ const struct siop_product_desc siop_products[] = {
 	SF_PCI_RL | SF_PCI_CLS | SF_PCI_WRI | SF_PCI_RM |
 	SF_CHIP_LEDC | SF_CHIP_FIFO | SF_CHIP_PF | SF_CHIP_RAM |
 	SF_CHIP_LS | SF_CHIP_10REGS | SF_CHIP_DFBC | SF_CHIP_DBLR | SF_CHIP_DT |
-	SF_BUS_ULTRA3 | SF_BUS_WIDE, 
+	SF_BUS_ULTRA3 | SF_BUS_WIDE,
 	7, 62, 0, 62, 8192
 	},
 	{ PCI_PRODUCT_SYMBIOS_1510D,
@@ -216,7 +217,7 @@ siop_pci_attach_common(pci_sc, siop_sc, pa, intr)
 	int (*intr) (void*);
 {
 	pci_chipset_tag_t pc = pa->pa_pc;
-	pcitag_t tag = pa->pa_tag;    
+	pcitag_t tag = pa->pa_tag;
 	const char *intrstr;
 	pci_intr_handle_t intrhandle;
 	bus_space_tag_t iot, memt;
@@ -312,7 +313,7 @@ siop_pci_attach_common(pci_sc, siop_sc, pa, intr)
 		if (pci_mapreg_map(pa, bar, memtype, 0,
                     &siop_sc->sc_ramt, &siop_sc->sc_ramh,
 		    &siop_sc->sc_scriptaddr, &memsize, 0) == 0) {
-			printf(", using %dK of on-board RAM", memsize / 1024);
+			printf(", using %ld KiB of on-board RAM", memsize / 1024);
 		} else {
 			printf(", can't map on-board RAM");
 			siop_sc->features &= ~SF_CHIP_RAM;

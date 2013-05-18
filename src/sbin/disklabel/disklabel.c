@@ -1,8 +1,11 @@
+/**	$MirOS: src/sbin/disklabel/disklabel.c,v 1.3 2005/04/29 18:34:53 tg Exp $ */
 /*	$OpenBSD: disklabel.c,v 1.95 2005/04/30 07:09:37 deraadt Exp $	*/
 
 /*
  * Copyright (c) 1987, 1993
  *	The Regents of the University of California.  All rights reserved.
+ * Copyright (c) 2004
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  *
  * This code is derived from software contributed to Berkeley by
  * Symmetric Computer Systems.
@@ -38,10 +41,6 @@ static const char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-static const char rcsid[] = "$OpenBSD: disklabel.c,v 1.95 2005/04/30 07:09:37 deraadt Exp $";
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/ioctl.h>
 #include <sys/stat.h>
@@ -64,6 +63,8 @@ static const char rcsid[] = "$OpenBSD: disklabel.c,v 1.95 2005/04/30 07:09:37 de
 #include <util.h>
 #include "pathnames.h"
 #include "extern.h"
+
+__RCSID("$MirOS: src/sbin/disklabel/disklabel.c,v 1.3 2005/04/29 18:34:53 tg Exp $");
 
 /*
  * Disklabel: read and write disklabels.
@@ -248,7 +249,7 @@ main(int argc, char *argv[])
 #ifdef DOSLABEL
 	/*
 	 * Check for presence of DOS partition table in
-	 * master boot record. Return pointer to OpenBSD
+	 * master boot record. Return pointer to MirBSD
 	 * partition, if present. If no valid partition table,
 	 * return 0. If valid partition table present, but no
 	 * partition to use, return a pointer to a non-386bsd
@@ -391,9 +392,9 @@ writelabel(int f, char *boot, struct disklabel *lp)
 
 	if (nwflag) {
 		warnx("DANGER! The disklabel was not found at the correct location!");
-		warnx("To repair this situation, use `disklabel %s > file' to",
+		warnx("To repair this situation, use 'disklabel %s > file' to",
 		    dkname);
-		warnx("save it, then use `disklabel -R %s file' to replace it.",
+		warnx("save it, then use 'disklabel -R %s file' to replace it.",
 		    dkname);
 		warnx("A new disklabel is not being installed now.");
 		return(0); /* Actually 1 but we want to exit */
@@ -410,7 +411,7 @@ writelabel(int f, char *boot, struct disklabel *lp)
 		struct partition *pp = &lp->d_partitions[2];
 
 		/*
-		 * If OpenBSD DOS partition is missing, or if
+		 * If MirBSD BIOS partition is missing, or if
 		 * the label to be written is not within partition,
 		 * prompt first. Need to allow this in case operator
 		 * wants to convert the drive for dedicated use.
@@ -418,7 +419,8 @@ writelabel(int f, char *boot, struct disklabel *lp)
 		 * otherwise we reject the request as meaningless. -wfj
 		 */
 		if (dosdp && pp->p_size &&
-		    (dosdp->dp_typ == DOSPTYP_OPENBSD ||
+		    (dosdp->dp_typ == DOSPTYP_MIRBSD ||
+		    dosdp->dp_typ == DOSPTYP_OPENBSD ||
 		    dosdp->dp_typ == DOSPTYP_FREEBSD ||
 		    dosdp->dp_typ == DOSPTYP_NETBSD)) {
 		        sectoffset = (off_t)get_le(&dosdp->dp_start) *
@@ -535,21 +537,6 @@ writelabel(int f, char *boot, struct disklabel *lp)
 			}
 		}
 	}
-#ifdef __vax__
-	if (lp->d_type == DTYPE_SMD && lp->d_flags & D_BADSECT) {
-		daddr_t alt;
-		int i;
-
-		alt = lp->d_ncylinders * lp->d_secpercyl - lp->d_nsectors;
-		for (i = 1; i < 11 && i < lp->d_nsectors; i += 2) {
-			(void)lseek(f, (off_t)((alt + i) * lp->d_secsize),
-			    SEEK_SET);
-			if (!donothing)
-				if (write(f, boot, lp->d_secsize) < lp->d_secsize)
-					warn("alternate label %d write", i/2);
-		}
-	}
-#endif
 	return (0);
 }
 
@@ -580,6 +567,38 @@ l_perror(char *s)
 }
 
 #ifdef DOSLABEL
+/* read sector containing partition table from the disc */
+int
+read_pt(int f, long offs, int *target)
+{
+	if (lseek(f, (off_t)offs * DEV_BSIZE, SEEK_SET) < 0)
+		return -1;
+	if (read(f, target, DEV_BSIZE) < DEV_BSIZE)
+		return -1;
+	return 0;
+}
+
+/* scan partition table for BIOS partition of given type */
+int
+scan_pt(struct dos_partition *dp, u_int8_t what)
+{
+	int part;
+
+	for (part = 0; part < NDOSPART; ++part) {
+		if ((!get_le(&dp[part].dp_size)) || (dp[part].dp_typ != what))
+			continue;
+		fprintf(stderr, "# Inside MBR partition %d: "
+		    "type %02X start %u (0x%X) size %u (0x%X)%s\n",
+		    part, dp[part].dp_typ,
+		    get_le(&dp[part].dp_start), get_le(&dp[part].dp_start),
+		    get_le(&dp[part].dp_size), get_le(&dp[part].dp_size),
+		    ( ((what == DOSPTYP_EXTENDL) || (what == DOSPTYP_EXTENDLX)
+		       || (what == DOSPTYP_EXTEND)) ? ", chaining..." : "."));
+		return part;
+	}
+	return NDOSPART;
+}
+
 /*
  * Fetch DOS partition table from disk.
  */
@@ -587,77 +606,84 @@ struct dos_partition *
 readmbr(int f)
 {
 	static int mbr[DEV_BSIZE / sizeof(int)];
+	long mbrofs;
 	struct dos_partition *dp;
 	u_int16_t signature;
 	int part;
+
+	mbrofs = DOSBBSECTOR;
+loop:	if (read_pt(f, mbrofs, mbr))
+	    err(4, "can't read partition table");
 
 	/*
 	 * This must be done this way due to alignment restrictions
 	 * in for example mips processors.
          */
 	dp = (struct dos_partition *)mbr;
-	if (lseek(f, (off_t)DOSBBSECTOR * DEV_BSIZE, SEEK_SET) < 0 ||
-	    read(f, mbr, sizeof(mbr)) < sizeof(mbr))
-		err(4, "can't read master boot record");
 	signature = *((u_char *)mbr + DOSMBR_SIGNATURE_OFF) |
 	    (*((u_char *)mbr + DOSMBR_SIGNATURE_OFF + 1) << 8);
-	bcopy((char *)mbr+DOSPARTOFF, (char *)mbr, sizeof(*dp) * NDOSPART);
+	memmove((char *)mbr, (char *)mbr + DOSPARTOFF, sizeof(*dp) * NDOSPART);
 
 	/*
 	 * Don't (yet) know disk geometry (BIOS), use
-	 * partition table to find OpenBSD partition, and obtain
+	 * partition table to find MirBSD partition, and obtain
 	 * disklabel from there.
 	 */
-	/* Check if table is valid. */
+	/* Check if table is valid. Adjust offsets of partitions. */
 	for (part = 0; part < NDOSPART; part++) {
+		set_le(&dp[part].dp_start,
+		    get_le(&dp[part].dp_start) + mbrofs);
 		if ((dp[part].dp_flag & ~0x80) != 0)
 			return (0);
 	}
-	/* Find OpenBSD partition. */
-	for (part = 0; part < NDOSPART; part++) {
-		if (get_le(&dp[part].dp_size) && dp[part].dp_typ == DOSPTYP_OPENBSD) {
-			fprintf(stderr, "# Inside MBR partition %d: "
-			    "type %02X start %u size %u\n",
-			    part, dp[part].dp_typ,
-			    get_le(&dp[part].dp_start), get_le(&dp[part].dp_size));
-			return (&dp[part]);
-		}
-	}
-	for (part = 0; part < NDOSPART; part++) {
-		if (get_le(&dp[part].dp_size) && dp[part].dp_typ == DOSPTYP_FREEBSD) {
-			fprintf(stderr, "# Inside MBR partition %d: "
-			    "type %02X start %u size %u\n",
-			    part, dp[part].dp_typ,
-			    get_le(&dp[part].dp_start), get_le(&dp[part].dp_size));
-			return (&dp[part]);
-		}
-	}
-	for (part = 0; part < NDOSPART; part++) {
-		if (get_le(&dp[part].dp_size) && dp[part].dp_typ == DOSPTYP_NETBSD) {
-			fprintf(stderr, "# Inside MBR partition %d: "
-			    "type %02X start %u size %u\n",
-			    part, dp[part].dp_typ,
-			    get_le(&dp[part].dp_start), get_le(&dp[part].dp_size));
-			return (&dp[part]);
-		}
-	}
+
+	/* scan for MirBSD (or OpenBSD, FreeBSD, NetBSD) partition */
+	if ((part = scan_pt(dp, DOSPTYP_MIRBSD)) < NDOSPART)
+		return (&dp[part]);
+	if ((part = scan_pt(dp, DOSPTYP_OPENBSD)) < NDOSPART)
+		return (&dp[part]);
+	if ((part = scan_pt(dp, DOSPTYP_NETBSD)) < NDOSPART)
+		return (&dp[part]);
+	if ((part = scan_pt(dp, DOSPTYP_FREEBSD)) < NDOSPART)
+		return (&dp[part]);
 
 	/*
-	 * If there is no signature and no OpenBSD partition this is probably
+	 * If there is no signature and no MirBSD partition, this is probably
 	 * not an MBR.
 	 */
 	if (signature != DOSMBR_SIGNATURE)
 		return (NULL);
 
-	/* If no OpenBSD partition, find first used partition. */
-	for (part = 0; part < NDOSPART; part++) {
-		if (get_le(&dp[part].dp_size)) {
-			warnx("warning, DOS partition table with no valid OpenBSD partition");
-			return (&dp[part]);
+	/*
+	 * still not found? scan for extended partition
+	 * XXX this code assumes: only one 05, 0F or 85 per partition table
+	 */
+	if ((part = scan_pt(dp, DOSPTYP_EXTEND)) == NDOSPART)
+	    if ((part = scan_pt(dp, DOSPTYP_EXTENDL)) == NDOSPART)
+	    if ((part = scan_pt(dp, DOSPTYP_EXTENDLX)) == NDOSPART) {
+		/* if still none found, find first used partition */
+		if (read_pt(f, DOSBBSECTOR, mbr)) {
+		    warn("can't read master boot record");
+		    return (NULL);
 		}
+		dp = (struct dos_partition *)mbr;
+		memcpy((char *)mbr, (char *)mbr + DOSPARTOFF,
+		    sizeof(*dp) * NDOSPART);
+		for (part = 0; part < NDOSPART; part++) {
+			if (get_le(&dp[part].dp_size)) {
+				warnx("warning, DOS partition table with"
+				    " no valid MirBSD partition");
+				return (&dp[part]);
+			}
+		}
+		/* Table appears to be empty. */
+		return (NULL);
 	}
-	/* Table appears to be empty. */
-	return (NULL);
+
+	/* we have an extended partition, loop */
+	mbrofs = get_le(&dp[part].dp_start);
+	goto loop;
+	/* NOTREACHED */
 }
 #endif
 
@@ -676,7 +702,8 @@ readlabel(int f)
 
 #ifdef DOSLABEL
 		if (dosdp && get_le(&dosdp->dp_size) &&
-		    (dosdp->dp_typ == DOSPTYP_OPENBSD ||
+		    (dosdp->dp_typ == DOSPTYP_MIRBSD ||
+		    dosdp->dp_typ == DOSPTYP_OPENBSD ||
 		    dosdp->dp_typ == DOSPTYP_FREEBSD ||
 		    dosdp->dp_typ == DOSPTYP_NETBSD))
 			sectoffset = (off_t)get_le(&dosdp->dp_start) *
@@ -740,7 +767,7 @@ readlabel(int f)
 }
 
 /*
- * Construct a bootarea (d_bbsize bytes) in the specified buffer ``boot''
+ * Construct a bootarea (d_bbsize bytes) in the specified buffer "boot"
  * Returns a pointer to the disklabel portion of the bootarea.
  */
 struct disklabel *
@@ -825,12 +852,12 @@ makebootarea(char *boot, struct disklabel *dp, int f)
 	/*
 	 * Strange rules:
 	 * 1. One-piece bootstrap (hp300/hp800)
-	 *	up to d_bbsize bytes of ``xxboot'' go in bootarea, the rest
+	 *	up to d_bbsize bytes of "xxboot" go in bootarea, the rest
 	 *	is remembered and written later following the bootarea.
 	 * 2. Two-piece bootstraps (vax/i386?/mips?)
-	 *	up to d_secsize bytes of ``xxboot'' go in first d_secsize
+	 *	up to d_secsize bytes of "xxboot" go in first d_secsize
 	 *	bytes of bootarea, remaining d_bbsize-d_secsize filled
-	 *	from ``bootxx''.
+	 *	from "bootxx".
 	 */
 	b = open(xxboot, O_RDONLY);
 	if (b < 0)
@@ -1619,18 +1646,6 @@ checklabel(struct disklabel *lp)
 		lp->d_secpercyl = lp->d_nsectors * lp->d_ntracks;
 	if (lp->d_secperunit == 0)
 		lp->d_secperunit = lp->d_secpercyl * lp->d_ncylinders;
-#ifdef i386__notyet
-	if (dosdp && dosdp->dp_size &&
-	    (dosdp->dp_typ == DOSPTYP_OPENBSD ||
-	    dosdp->dp_typ == DOSPTYP_FREEBSD ||
-	    dosdp->dp_typ == DOSPTYP_NETBSD)) {
-		&& lp->d_secperunit > dosdp->dp_start + dosdp->dp_size) {
-		warnx("exceeds DOS partition size");
-		errors++;
-		lp->d_secperunit = dosdp->dp_start + dosdp->dp_size;
-	}
-	/* XXX should also check geometry against BIOS's idea */
-#endif
 	if (lp->d_bbsize == 0) {
 		warnx("boot block size %d", lp->d_bbsize);
 		errors++;
@@ -1783,14 +1798,14 @@ usage(void)
 	    "  disklabel -BR [-nv]%s disk protofile [disktype]  (restore)\n\n",
 	    boot);
 	fprintf(stderr,
-	    "`disk' may be of the form: sd0 or /dev/rsd0%c.\n", 'a'+RAW_PART);
+	    "'disk' may be of the form: sd0 or /dev/rsd0%c.\n", 'a'+RAW_PART);
 	fprintf(stderr,
-	    "`disktype' is an entry from %s, see disktab(5) for more info.\n",
+	    "'disktype' is an entry from %s, see disktab(5) for more info.\n",
 	    DISKTAB);
 	fprintf(stderr,
-	    "`packid' is an identification string for the device.\n");
+	    "'packid' is an identification string for the device.\n");
 	fprintf(stderr,
-	    "`protofile' is the output from the read cmd form; -R is powerful.\n");
+	    "'protofile' is the output from the read cmd form; -R is powerful.\n");
 #ifdef SEEALSO
 	fprintf(stderr,
 	    "For procedures specific to this architecture see: %s\n", SEEALSO);

@@ -1,3 +1,4 @@
+/**	$MirOS: src/sbin/fdisk/cmd.c,v 1.3 2005/04/29 18:34:55 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.39 2005/03/29 19:35:25 otto Exp $	*/
 
 /*
@@ -25,20 +26,22 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#include <sys/param.h>
+#include <sys/fcntl.h>
+#include <sys/disklabel.h>
 #include <stdio.h>
 #include <ctype.h>
 #include <memory.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <signal.h>
-#include <sys/fcntl.h>
-#include <sys/disklabel.h>
 #include "disk.h"
 #include "misc.h"
 #include "user.h"
 #include "part.h"
 #include "cmd.h"
-#define MAX(a, b) ((a) >= (b) ? (a) : (b))
+
+__RCSID("$MirOS: src/sbin/fdisk/cmd.c,v 1.3 2005/04/29 18:34:55 tg Exp $");
 
 int
 Xreinit(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
@@ -64,17 +67,17 @@ Xreinit(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 int
 Xdisk(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 {
-	int maxcyl  = 1024;
+	int maxcyl = 1024;
 	int maxhead = 256;
-	int maxsec  = 63;
+	int maxsec = 63;
 
 	/* Print out disk info */
 	DISK_printmetrics(disk, cmd->args);
 
 #if defined (__powerpc__) || defined (__mips__)
-	maxcyl  = 9999999;
+	maxcyl = 9999999;
 	maxhead = 9999999;
-	maxsec  = 9999999;
+	maxsec = 9999999;
 #endif
 
 	/* Ask for new info */
@@ -87,9 +90,8 @@ Xdisk(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 		    disk->real->sectors, 1, maxsec, NULL);
 
 		disk->real->size = disk->real->cylinders * disk->real->heads
-			* disk->real->sectors;
+		    * disk->real->sectors;
 	}
-
 	return (CMD_CONT);
 }
 
@@ -154,11 +156,10 @@ Xedit(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 		printf("Invalid partition number.\n");
 		return (ret);
 	}
-
 	/* Print out current table entry */
 	pp = &mbr->part[pn];
-	PRT_print(0, NULL, NULL);
-	PRT_print(pn, pp, NULL);
+	PRT_print(0, NULL, NULL, 0);
+	PRT_print(pn, pp, NULL, mbr->code[MBR_FORCE_DEFPART]);
 
 #define	EDIT(p, f, v, n, m, h)				\
 	if ((num = ask_num(p, f, v, n, m, h)) != v)	\
@@ -174,7 +175,6 @@ Xedit(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 		printf("Partition %d is disabled.\n", pn);
 		return (ret);
 	}
-
 	/* Change table entry */
 	if (ask_yn("Do you wish to edit in CHS mode?")) {
 		int maxcyl, maxhead, maxsect;
@@ -185,12 +185,12 @@ Xedit(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 		maxsect = disk->real->sectors;
 
 		/* Get data */
-		EDIT("BIOS Starting cylinder", ASK_DEC, pp->scyl,  0, maxcyl, NULL);
-		EDIT("BIOS Starting head",     ASK_DEC, pp->shead, 0, maxhead, NULL);
-		EDIT("BIOS Starting sector",   ASK_DEC, pp->ssect, 1, maxsect, NULL);
-		EDIT("BIOS Ending cylinder",   ASK_DEC, pp->ecyl,  0, maxcyl, NULL);
-		EDIT("BIOS Ending head",       ASK_DEC, pp->ehead, 0, maxhead, NULL);
-		EDIT("BIOS Ending sector",     ASK_DEC, pp->esect, 1, maxsect, NULL);
+		EDIT("BIOS Starting cylinder", ASK_DEC, pp->scyl, 0, maxcyl, NULL);
+		EDIT("BIOS Starting head", ASK_DEC, pp->shead, 0, maxhead, NULL);
+		EDIT("BIOS Starting sector", ASK_DEC, pp->ssect, 1, maxsect, NULL);
+		EDIT("BIOS Ending cylinder", ASK_DEC, pp->ecyl, 0, maxcyl, NULL);
+		EDIT("BIOS Ending head", ASK_DEC, pp->ehead, 0, maxhead, NULL);
+		EDIT("BIOS Ending sector", ASK_DEC, pp->esect, 1, maxsect, NULL);
 		/* Fix up off/size values */
 		PRT_fix_BN(disk, pp, pn);
 		/* Fix up CHS values for LBA */
@@ -200,17 +200,17 @@ Xedit(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 
 		/* Get data */
 		pp->bs = getuint(disk, "offset",
-		   "Starting sector for this partition.", pp->bs,
-		   disk->real->size, 0, DO_CONVERSIONS |
-		   (pp->id == FS_BSDFFS ? DO_ROUNDING : 0));
+		    "Starting sector for this partition.", pp->bs,
+		    disk->real->size, 0, DO_CONVERSIONS |
+		    (pp->id == FS_BSDFFS ? DO_ROUNDING : 0));
 
 		m = MAX(pp->ns, disk->real->size - pp->bs);
-		if ( m > disk->real->size - pp->bs) {
+		if (m > disk->real->size - pp->bs) {
 			/* dont have default value extend beyond end of disk */
 			m = disk->real->size - pp->bs;
 		}
 		pp->ns = getuint(disk, "size", "Size of the partition.",
-		    pp->ns, m, pp->bs , DO_CONVERSIONS |
+		    pp->ns, m, pp->bs, DO_CONVERSIONS |
 		    ((pp->id == FS_BSDFFS || pp->id == FS_SWAP) ?
 		    DO_ROUNDING : 0));
 
@@ -240,11 +240,10 @@ Xsetpid(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 		printf("Invalid partition number.\n");
 		return (ret);
 	}
-
 	/* Print out current table entry */
 	pp = &mbr->part[pn];
-	PRT_print(0, NULL, NULL);
-	PRT_print(pn, pp, NULL);
+	PRT_print(0, NULL, NULL, 0);
+	PRT_print(pn, pp, NULL, mbr->code[MBR_FORCE_DEFPART]);
 
 #define	EDIT(p, f, v, n, m, h)				\
 	if ((num = ask_num(p, f, v, n, m, h)) != v)	\
@@ -270,17 +269,16 @@ Xselect(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 		printf("Invalid argument: %s <partition number>\n", cmd->cmd);
 		return (CMD_CONT);
 	}
-
 	pn = atoi(cmd->args);
 	off = mbr->part[pn].bs;
 
 	/* Sanity checks */
 	if ((mbr->part[pn].id != DOSPTYP_EXTEND) &&
-	    (mbr->part[pn].id != DOSPTYP_EXTENDL)) {
+	    (mbr->part[pn].id != DOSPTYP_EXTENDL) &&
+	    (mbr->part[pn].id != DOSPTYP_EXTENDLX)) {
 		printf("Partition %d is not an extended partition.\n", pn);
 		return (CMD_CONT);
 	}
-
 	if (firstoff == 0)
 		firstoff = off;
 
@@ -376,11 +374,47 @@ Xhelp(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 int
 Xupdate(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 {
-
 	/* Update code */
 	memcpy(mbr->code, tt->code, MBR_CODE_SIZE);
 	mbr->signature = DOSMBR_SIGNATURE;
-	printf("Machine code updated.\n");
+	printf("Full machine boot code updated.\n");
+	printf("Microsoft NT might rescan partitions now.\n");
+	return (CMD_DIRTY);
+}
+
+int
+Xumin(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
+{
+	/* Update code */
+	memcpy(mbr->code, tt->code, MBR_SMALLCODE_SIZE);
+	mbr->signature = DOSMBR_SIGNATURE;
+	printf("First portion of machine boot code updated.\n");
+	return (CMD_DIRTY);
+}
+
+int
+Xfdef(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
+{
+	int pn = -1;
+
+	/* Parse partition table entry number */
+	if (!isdigit(cmd->args[0])) {
+		printf("Invalid argument: %s <partition number>\n", cmd->cmd);
+		printf("To disable, use %s 9\n", cmd->cmd);
+		return (CMD_CONT);
+	}
+	pn = atoi(cmd->args);
+
+	if ((pn < 0 || pn > 3) && (pn != 9)) {
+		printf("Invalid partition number.\n");
+		return (CMD_CONT);
+	}
+	mbr->code[MBR_FORCE_DEFPART] = pn;
+
+	if (pn == 9)
+		printf("Forced default partition disabled.\n");
+	else
+		printf("Forcing partition %d default.\n", pn);
 	return (CMD_DIRTY);
 }
 
@@ -411,7 +445,7 @@ Xflag(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 		/* Set active flag */
 		for (i = 0; i < 4; i++) {
 			if (i == pn)
-				mbr->part[i].flag = DOSACTIVE;
+				mbr->part[i].flag = 0x80;
 			else
 				mbr->part[i].flag = 0x00;
 		}
@@ -431,22 +465,16 @@ Xmanual(cmd_t *cmd, disk_t *disk, mbr_t *mbr, mbr_t *tt, int offset)
 	char *p;
 	sig_t opipe;
 	extern const char manpage[];
-	extern const int manpage_sz;
 	FILE *f;
 
 	opipe = signal(SIGPIPE, SIG_IGN);
 	if ((p = getenv("PAGER")) != NULL && (*p != '\0'))
 		pager = p;
-	if (asprintf(&p, "gunzip -qc|%s", pager) != -1) {
-		f = popen(p, "w");
-		if (f) {
-			(void) fwrite(manpage, manpage_sz, 1, f);
-			pclose(f);
-		}
-		free(p);
+	f = popen(pager, "w");
+	if (f) {
+		fwrite(manpage, strlen(manpage), 1, f);
+		pclose(f);
 	}
-
-	(void)signal(SIGPIPE, opipe);
+	signal(SIGPIPE, opipe);
 	return (CMD_CONT);
 }
-

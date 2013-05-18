@@ -33,13 +33,16 @@
 
 #include <string.h>
 
+size_t	__weak_strxfrm(char *, const char *, size_t)
+		__attribute__ ((__bounded__(__string__,1,3)));
+
 /*
  * Transform src, storing the result in dst, such that
  * strcmp() on transformed strings returns what strcoll()
  * on the original untransformed strings would return.
  */
 size_t
-strxfrm(char *dst, const char *src, size_t n)
+__weak_strxfrm(char *dst, const char *src, size_t n)
 {
 
 	/*
@@ -49,3 +52,5 @@ strxfrm(char *dst, const char *src, size_t n)
 		return (strlen(src));
 	return (strlcpy(dst, src, n));
 }
+
+__weak_alias(strxfrm, __weak_strxfrm);

@@ -32,6 +32,8 @@
 #include <sys/sysctl.h>
 #include <sys/utsname.h>
 
+__RCSID("$MirOS: src/lib/libc/gen/uname.c,v 1.2 2005/03/06 20:28:41 tg Exp $");
+
 int
 uname(struct utsname *name)
 {
@@ -57,6 +59,12 @@ uname(struct utsname *name)
 	len = sizeof(name->release);
 	if (sysctl(mib, 2, &name->release, &len, NULL, 0) == -1)
 		rval = -1;
+
+	mib[0] = CTL_KERN;
+	mib[1] = KERN_OSPATCHLEVEL;
+	len = sizeof(name->patchlevel);
+	if (sysctl(mib, 2, &name->patchlevel, &len, NULL, 0) == -1)
+		name->patchlevel[0] = '\0';
 
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_OSVERSION;

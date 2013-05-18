@@ -1,7 +1,10 @@
+/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.4 2005/05/05 23:11:28 tg Exp $ */
 /*	$OpenBSD: cpu.h,v 1.59 2004/04/02 22:28:41 tedu Exp $	*/
 /*	$NetBSD: cpu.h,v 1.35 1996/05/05 19:29:26 christos Exp $	*/
 
 /*-
+ * Copyright (c) 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
  *
@@ -108,6 +111,16 @@ extern u_quad_t pentium_base_tsc;
 		}							\
 	} while (0)
 #endif
+#define	__do_calibrate_cyclecounter(rvptr)				\
+	do {								\
+		if (pentium_mhz) {					\
+			int i = splhigh();				\
+			calibrate_cyclecounter();			\
+			splx(i);					\
+		}							\
+	} while (0)
+#else
+#define __do_calibrate_cyclecounter(rvptr)	/* nothing */
 #endif
 
 /*
@@ -210,16 +223,13 @@ int     p4tcc_setperf(int);
 
 void	k6_powernow_init(void);
 int	k6_powernow_setperf(int);
+void	k7_powernow_init(void);
+int	k7_powernow_setperf(int);
 
 
 /* npx.c */
 void	npxdrop(void);
 void	npxsave(void);
-
-#if defined(GPL_MATH_EMULATE)
-/* math_emulate.c */
-int	math_emulate(struct trapframe *);
-#endif
 
 #ifdef USER_LDT
 /* sys_machdep.h */
@@ -250,7 +260,7 @@ void	setconf(void);
 
 #endif /* _KERNEL */
 
-/* 
+/*
  * CTL_MACHDEP definitions.
  */
 #define	CPU_CONSDEV		1	/* dev_t: console terminal device */

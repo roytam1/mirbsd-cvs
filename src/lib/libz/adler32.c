@@ -1,11 +1,29 @@
+/**	$MirOS: src/lib/libz/adler32.c,v 1.5 2006/06/08 19:02:56 tg Exp $ */
 /*	$OpenBSD: adler32.c,v 1.6 2005/07/20 15:56:40 millert Exp $	*/
 /* adler32.c -- compute the Adler-32 checksum of a data stream
  * Copyright (C) 1995-2004 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
-#define ZLIB_INTERNAL
-#include "zlib.h"
+#include "zutil.h"
+
+#ifndef ZLIB_HAS_ADLERPUSH
+#define ZLIB_NO_ADLERPUSH
+#endif
+
+#if defined(_STANDALONE)
+#define zADDRND(x)	/* nothing */
+#elif defined(_KERNEL)
+#include <sys/kernel.h>	/* for time */
+#include <dev/rndvar.h>
+#define zADDRND(x)	rnd_addpool_add((x) ^ (uint32_t)time.tv_sec)
+#elif defined(ZLIB_NO_ADLERPUSH)
+#define zADDRND(x)	/* nothing */
+#else
+#define zADDRND(x)	arc4random_push((x) ^ (uint32_t)time(NULL))
+#endif
+
+zRCSID("$MirOS: src/lib/libz/adler32.c,v 1.5 2006/06/08 19:02:56 tg Exp $")
 
 #define BASE 65521UL    /* largest prime smaller than 65536 */
 #define NMAX 5552
@@ -86,6 +104,8 @@ uLong ZEXPORT adler32(adler, buf, len)
             adler += *buf++;
             sum2 += adler;
         }
+	zADDRND(adler);
+	zADDRND(sum2);
         if (adler >= BASE)
             adler -= BASE;
         MOD4(sum2);             /* only added so many BASE's */
@@ -119,6 +139,7 @@ uLong ZEXPORT adler32(adler, buf, len)
         MOD(sum2);
     }
 
+    zADDRND(adler | (sum2 << 16));
     /* return recombined sums */
     return adler | (sum2 << 16);
 }

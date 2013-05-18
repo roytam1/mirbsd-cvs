@@ -33,6 +33,8 @@
 
 #include "SYS.h"
 
+	.text
+
 SYSENTRY(sigprocmask)
 	movl	8(%esp),%ecx		# fetch new sigset pointer
 	testl	%ecx,%ecx		# check new sigset pointer

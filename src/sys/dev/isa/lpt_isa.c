@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: lpt_isa.c,v 1.12 2002/03/14 01:26:56 millert Exp $	*/
 
 /*
@@ -59,6 +60,17 @@
 
 #include <machine/bus.h>
 #include <machine/intr.h>
+
+#if defined(INET) && defined(PLIP)
+#include <sys/socket.h>
+#include <net/if.h>
+#ifdef	__NetBSD__
+#include <net/if_ether.h>
+#else
+#include <netinet/in.h>
+#include <netinet/if_ether.h>
+#endif
+#endif
 
 #include <dev/isa/isavar.h>
 #include <dev/ic/lptreg.h>
@@ -192,5 +204,10 @@ lpt_isa_attach(parent, self, aux)
 
 	if (ia->ia_irq != IRQUNK)
 		sc->sc_ih = isa_intr_establish(ia->ia_ic, ia->ia_irq, IST_EDGE,
-		    IPL_TTY, lptintr, sc, sc->sc_dev.dv_xname);
+#ifdef	PLIP
+		    IPL_NONE,
+#else
+		    IPL_TTY,
+#endif
+		    lptintr, sc, sc->sc_dev.dv_xname);
 }

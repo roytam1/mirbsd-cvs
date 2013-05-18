@@ -1,23 +1,28 @@
-#	$OpenBSD: Makefile,v 1.27 2005/01/13 22:27:13 deraadt Exp $
+# $MirOS: src/distrib/Makefile,v 1.7 2005/12/04 19:21:28 tg Exp $
+# $OpenBSD: Makefile,v 1.27 2005/01/13 22:27:13 deraadt Exp $
+
+.include <bsd.own.mk>
+REL_NO_KERNEL?= No
 
 .if	make(obj)
-SUBDIR= special alpha crunch hp300 hppa i386 mac68k macppc mvme68k \
-	mvme88k mvmeppc sparc sparc64 vax amd64 cats sgi zaurus
+SUBDIR+= ramtools special i386 sparc
 .elif	!make(install)
-SUBDIR= special
+.  if ${REL_NO_KERNEL:L} != "yes"
+SUBDIR+= ramtools special
+.  else
+all:
+	@print ============================================================
+	@print ATTENTION: No kernel built, do that manually!
+	@print ============================================================
+.  endif
 .endif
-.if	make(clean) || make(cleandir)
-SUBDIR+=crunch
-.endif
+
 .if exists(${MACHINE})
 SUBDIR+= ${MACHINE}
+
+unconfig:
+	cd ${MACHINE}; ${MAKE} unconfig
+
 .endif
-SUBDIR+= notes
-
-#all: crunch-tools _SUBDIRUSE
-
-crunch-tools:
-	(cd $(.CURDIR)/crunch; $(MAKE) obj; \
-	 $(MAKE) depend && ${MAKE} && ${SUDO} ${MAKE} DESTDIR= install)
 
 .include <bsd.subdir.mk>

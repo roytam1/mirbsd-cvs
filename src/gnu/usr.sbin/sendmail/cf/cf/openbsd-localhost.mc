@@ -1,5 +1,9 @@
 divert(-1)
 #
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.4 2006/01/11 22:17:50 tg Exp $
+#
+# Copyright (c) 2004, 2005
+#	Thorsten "mirabile" Glaser <tg@MirBSD.de>
 # Copyright (c) 1998 Sendmail, Inc.  All rights reserved.
 # Copyright (c) 1983 Eric P. Allman.  All rights reserved.
 # Copyright (c) 1988, 1993
@@ -18,20 +22,22 @@ divert(-1)
 #
 
 divert(0)dnl
-VERSIONID(`@(#)openbsd-localhost.mc $Revision$')
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.4 2006/01/11 22:17:50 tg Exp $')
 OSTYPE(openbsd)dnl
 FEATURE(nouucp, `reject')dnl
 FEATURE(`accept_unresolvable_domains')dnl
 FEATURE(`no_default_msa')dnl
 MAILER(local)dnl
 MAILER(smtp)dnl
-DAEMON_OPTIONS(`Family=inet, address=127.0.0.1, Name=MTA')dnl
-DAEMON_OPTIONS(`Family=inet6, address=::1, Name=MTA6, M=O')dnl
-DAEMON_OPTIONS(`Family=inet, address=127.0.0.1, Port=587, Name=MSA, M=E')dnl
-DAEMON_OPTIONS(`Family=inet6, address=::1, Port=587, Name=MSA6, M=O, M=E')dnl
+DAEMON_OPTIONS(`Family=inet, Address=127.0.0.1, Name=MTA')dnl
+DAEMON_OPTIONS(`Family=inet6, Address=::1, Name=MTA6, M=O')dnl
+DAEMON_OPTIONS(`Family=inet, Address=127.0.0.1, Port=587, Name=MSA, M=E')dnl
+DAEMON_OPTIONS(`Family=inet6, Address=::1, Port=587, Name=MSA6, M=O, M=E')dnl
 CLIENT_OPTIONS(`Family=inet6, Address=::')dnl
 CLIENT_OPTIONS(`Family=inet, Address=0.0.0.0')dnl
 dnl
 dnl Some broken nameservers will return SERVFAIL (a temporary failure) 
 dnl on T_AAAA (IPv6) lookups.
 define(`confBIND_OPTS', `WorkAroundBrokenAAAA')dnl
+define(`confCACERT_PATH', `/etc/ssl/certs')dnl
+define(`confSEVEN_BIT_INPUT', `True')dnl

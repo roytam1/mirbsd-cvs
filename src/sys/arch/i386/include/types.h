@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: types.h,v 1.12 1995/12/24 01:08:03 mycroft Exp $	*/
 /*	$OpenBSD: types.h,v 1.13 2003/06/02 23:27:47 millert Exp $	*/
 
@@ -48,6 +49,8 @@ typedef unsigned long	paddr_t;
 typedef unsigned long	vsize_t;
 typedef unsigned long	psize_t;
 
+typedef	int		register_t;
+
 /*
  * Basic integral types.  Omit the typedef if
  * not possible for a machine/compiler combination.
@@ -69,7 +72,10 @@ typedef	unsigned long long	u_int64_t;
 /* LONGLONG */
 typedef	unsigned long long	 uint64_t;
 
-typedef int32_t			register_t;
+/* 7.18.1.4 Integer types capable of holding object pointers */
+
+typedef	int			  intptr_t;
+typedef	unsigned int		 uintptr_t;
 
 #define __HAVE_NWSCONS
 

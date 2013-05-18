@@ -1,3 +1,4 @@
+/* $MirOS: src/sbin/isakmpd/exchange.c,v 1.3 2005/04/26 15:42:38 tg Exp $ */
 /* $OpenBSD: exchange.c,v 1.123 2005/07/05 11:57:03 hshoexer Exp $	 */
 /* $EOM: exchange.c,v 1.143 2000/12/04 00:02:25 angelos Exp $	 */
 
@@ -60,6 +61,8 @@
 #include "sa.h"
 #include "util.h"
 #include "key.h"
+
+__RCSID("$MirOS: src/sbin/isakmpd/exchange.c,v 1.3 2005/04/26 15:42:38 tg Exp $");
 
 /* Initial number of bits from the cookies used as hash.  */
 #define INITIAL_BUCKET_BITS 6

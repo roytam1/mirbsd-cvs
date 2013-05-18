@@ -24,6 +24,7 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/auth2-hostbased.c,v 1.2 2006/02/22 02:16:44 tg Exp $");
 
 #include "ssh2.h"
 #include "xmalloc.h"
@@ -91,7 +92,7 @@ userauth_hostbased(Authctxt *authctxt)
 		    "(received %d, expected %d)", key->type, pktype);
 		goto done;
 	}
-	service = datafellows & SSH_BUG_HBSERVICE ? "ssh-userauth" :
+	service = datafellows & SSH_BUG_HBSERVICE ? (char *)"ssh-userauth" :
 	    authctxt->service;
 	buffer_init(&b);
 	buffer_put_string(&b, session_id2, session_id2_len);

@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libc/net/linkaddr.c,v 1.3 2005/07/09 13:23:32 tg Exp $ */
 /*	$OpenBSD: linkaddr.c,v 1.5 2005/08/06 20:30:03 espie Exp $ */
 /*-
  * Copyright (c) 1990, 1993
@@ -33,6 +34,8 @@
 #include <net/if_dl.h>
 #include <string.h>
 
+__RCSID("$MirOS: src/lib/libc/net/linkaddr.c,v 1.3 2005/07/09 13:23:32 tg Exp $");
+
 /* States*/
 #define NAMING	0
 #define GOTONE	1
@@ -49,9 +52,9 @@ link_addr(const char *addr, struct sockaddr_dl *sdl)
 {
 	char *cp = sdl->sdl_data;
 	char *cplim = sdl->sdl_len + (char *)sdl;
-	int byte = 0, state = NAMING, new;
+	int byte = 0, state = NAMING, new = 0;
 
-	bzero((char *)&sdl->sdl_family, sdl->sdl_len - 1);
+	memset((char *)&sdl->sdl_family, 0, sdl->sdl_len - 1);
 	sdl->sdl_family = AF_LINK;
 	do {
 		state &= ~LETTER;
@@ -103,7 +106,7 @@ link_addr(const char *addr, struct sockaddr_dl *sdl)
 			break;
 		}
 		break;
-	} while (cp < cplim); 
+	} while (cp < cplim);
 	sdl->sdl_alen = cp - LLADDR(sdl);
 	new = cp - (char *)sdl;
 	if (new > sizeof(*sdl))
@@ -124,7 +127,7 @@ link_ntoa(const struct sockaddr_dl *sdl)
 	int firsttime = 1;
 
 	if (sdl->sdl_nlen) {
-		bcopy(sdl->sdl_data, obuf, sdl->sdl_nlen);
+		memmove(obuf, sdl->sdl_data, sdl->sdl_nlen);
 		out += sdl->sdl_nlen;
 		if (sdl->sdl_alen)
 			*out++ = ':';

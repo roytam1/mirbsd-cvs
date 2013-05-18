@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: amdpm.c,v 1.3 2002/11/04 17:12:34 fgsch Exp $	*/
 
 /*-
@@ -139,7 +140,7 @@ amdpm_attach(struct device *parent, struct device *self, void *aux)
 		timersub(&tv2, &tv1, &tv1);
 		if (tv1.tv_sec)
 			tv1.tv_usec += 1000000 * tv1.tv_sec;
-		printf(": rng active, %dKb/sec", 8 * 1000000 / tv1.tv_usec);
+		printf(": rng active, %ld Kib/sec", 8 * 1048576 / tv1.tv_usec);
 
 #ifdef AMDPM_RND_COUNTERS
 			evcnt_attach_dynamic(&sc->sc_rnd_hits, EVCNT_TYPE_MISC,

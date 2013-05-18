@@ -1,25 +1,35 @@
+# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.10 2006/01/31 13:58:25 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.69 2005/01/15 21:30:17 millert Exp $
 #
 # Build wrapper for Perl 5.8.6
 #
 
-# For ``NOMAN'' and ``USE_GCC3''
+# For "NOMAN" and "NOPIC"
 .include <bsd.own.mk>
+# Doesn't work too well anyway
+DEBUGLIBS=	No
 
-# To build a threaded perl, uncomment this.  Not stable on all platforms...
-#THREADED_PERL=true
+# To build a threaded perl.  Not stable on all platforms...
+THREADED_PERL?=	Yes
 
 # Perl builds with -fno-strict-aliasing, we want libperl to do the same
-CFLAGS+= -fno-strict-aliasing
-.if ${USE_GCC3:L} == "yes"
-CFLAGS+= -fno-delete-null-pointer-checks
-.endif
+CFLAGS+=	-fno-strict-aliasing -fno-delete-null-pointer-checks \
+		-Wall -Wextra
+
+# Perl produces more warnings than shitty GNU code
+EXPERIMENTAL=	yes
 
 # Arguments passed to Configure...
-CONFIGURE_ARGS= -dsE -Dopenbsd_distribution=defined
-.if defined(THREADED_PERL) && ($(THREADED_PERL) == true)
-CONFIGURE_ARGS+= -Dusethreads
-CFLAGS+= -pthread
+CONFIGURE_ARGS=	-dsE -D${OSname}_distribution=defined
+.if ${THREADED_PERL:L} == "yes"
+CONFIGURE_ARGS+=-Dusethreads
+CFLAGS+=	-pthread
+.endif
+
+.if defined(NOPIC) && ${NOPIC:L} != "no"
+USE_DL?=	n
+.else
+USE_DL?=	y
 .endif
 
 # Our lndir is hacked; specify a full path to avoid potential conflicts
@@ -36,7 +46,6 @@ POD2MAN=	/usr/bin/pod2man
 POD2MAN=	LD_LIBRARY_PATH=${.OBJDIR} ${.OBJDIR}/perl -I ${.OBJDIR}/lib \
 		${.OBJDIR}/pod/pod2man
 .endif
-H2PH=		/usr/bin/h2ph
 
 MANLOCALBUILD=	yes
 
@@ -510,14 +519,11 @@ MANSRCALL=
     vars 3p			lib/vars.pm \
     warnings 3p			lib/warnings.pm \
     warnings::register 3p	lib/warnings/register.pm
-.  ifndef NOMAN
-MANALL+= ${page}.cat${sect}
-MANSRCALL+= ${page}.${sect}
-MANSRC_COOKIE=stamp-mansrc.build
-_quick${sect}+=${file} ${page}.${sect}
-.    ifdef MANPS
-PSALL+= ${page}.ps${sect}
-.    endif
+.  if !defined(NOMAN) || ${NOMAN:L} == "no"
+MANALL+=	${page}.cat${sect}
+MANSRCALL+=	${page}.${sect}
+MANSRC_COOKIE=	stamp-mansrc.build
+_quick${sect}+=	${file} ${page}.${sect}
 .  else
 MANSRC_COOKIE=
 .  endif
@@ -534,17 +540,24 @@ mansrc.build:
 .  endif
 .endfor
 
+.if exists(${.CURDIR}/shlib_version)
+.  include "${.CURDIR}/shlib_version"
+SHLIB_VERSION?=	${major}.${minor}
+.endif
 LIB=	perl
 
 SRCS=	perl.c gv.c toke.c perly.c op.c pad.c regcomp.c dump.c util.c mg.c \
 	reentr.c hv.c av.c run.c pp_hot.c sv.c pp.c scope.c pp_ctl.c pp_sys.c \
 	doop.c doio.c regexec.c utf8.c taint.c deb.c universal.c xsutils.c \
-	globals.c perlio.c perlapi.c numeric.c locale.c pp_pack.c pp_sort.c    
+	globals.c perlio.c perlapi.c numeric.c locale.c pp_pack.c pp_sort.c
 
-CPPFLAGS+= -DPERL_CORE -DPERL_RANDOM_DEVICE=\"/dev/arandom\" -I.
+CPPFLAGS+=	-DPERL_CORE -DPERL_RANDOM_DEVICE=\"/dev/arandom\" -I.
 
-.if defined (INSTALL_STRIP) && ${INSTALL_STRIP} == "-s"
-STRIPFLAGS='-s'
+# MirPorts Framework support
+CPPFLAGS+=	-DAPPLLIB_EXP=\"/usr/mpkg/libdata/perl5:/usr/mpkg/libdata/perl5/site_perl\"
+
+.if defined(INSTALL_STRIP) && ${INSTALL_STRIP} == "-s"
+STRIPFLAGS=	-s
 .endif
 
 MLINKS=		c2ph.1 pstruct.1 s2p.1 psed.1 \
@@ -575,65 +588,84 @@ man.build: ${MANALL} ${PSALL}
 beforedepend:	config.sh config.h
 
 perl.build:	perl.lib
-	cd ${.OBJDIR} && exec ${MAKE}
+	cd ${.OBJDIR} && \
+	CC="${CC}" CPP="${CPP}" CFLAGS="${CFLAGS}" \
+	    exec ${MAKE}
 
 config.sh:	${.OBJDIR}/config.over
 	cd ${.OBJDIR} && PATH="/bin:/usr/bin:/sbin:/usr/sbin" \
-	    exec /bin/sh Configure ${CONFIGURE_ARGS}
+	 USEDL=${USE_DL} SHELL="${SHELL}" \
+	CC="${CC}" CPP="${CPP}" CFLAGS="${CFLAGS}" \
+	    exec ${SHELL} Configure ${CONFIGURE_ARGS}
 
 Policy.sh:
-	cd ${.OBJDIR} && exec /bin/sh Policy_sh.SH
+	cd ${.OBJDIR} && \
+	CC="${CC}" CPP="${CPP}" CFLAGS="${CFLAGS}" \
+	    exec ${SHELL} Policy_sh.SH
 
 Makefile:
-	cd ${.OBJDIR} && exec /bin/sh Makefile.SH
+	cd ${.OBJDIR} && \
+	CC="${CC}" CPP="${CPP}" CFLAGS="${CFLAGS}" \
+	    exec ${SHELL} Makefile.SH
 
 cflags:
-	cd ${.OBJDIR} && exec /bin/sh cflags.SH
+	cd ${.OBJDIR} && \
+	CC="${CC}" CPP="${CPP}" CFLAGS="${CFLAGS}" \
+	    exec ${SHELL} cflags.SH
 
 config.h:
-	cd ${.OBJDIR} && exec /bin/sh config_h.SH
+	cd ${.OBJDIR} && \
+	CC="${CC}" CPP="${CPP}" CFLAGS="${CFLAGS}" \
+	    exec ${SHELL} config_h.SH
 
 makeaperl:
-	cd ${.OBJDIR} && exec /bin/sh makeaperl.SH
+	cd ${.OBJDIR} && \
+	CC="${CC}" CPP="${CPP}" CFLAGS="${CFLAGS}" \
+	    exec ${SHELL} makeaperl.SH
 
 makedepend:
-	cd ${.OBJDIR} && exec /bin/sh makedepend.SH
+	cd ${.OBJDIR} && \
+	CC="${CC}" CPP="${CPP}" CFLAGS="${CFLAGS}" \
+	    exec ${SHELL} makedepend.SH
 
 makedir:
-	cd ${.OBJDIR} && exec /bin/sh makedir.SH
+	cd ${.OBJDIR} && \
+	CC="${CC}" CPP="${CPP}" CFLAGS="${CFLAGS}" \
+	    exec ${SHELL} makedir.SH
 
 myconfig:
-	cd ${.OBJDIR} && exec /bin/sh myconfig.SH
+	cd ${.OBJDIR} && \
+	CC="${CC}" CPP="${CPP}" CFLAGS="${CFLAGS}" \
+	    exec ${SHELL} myconfig.SH
 
 writemain:
-	cd ${.OBJDIR} && exec /bin/sh writemain.SH
+	cd ${.OBJDIR} && \
+	CC="${CC}" CPP="${CPP}" CFLAGS="${CFLAGS}" \
+	    exec ${SHELL} writemain.SH
 
 pod/Makefile:
-	cd ${.OBJDIR}/pod && exec /bin/sh Makefile.SH
+	cd ${.OBJDIR}/pod && exec ${SHELL} Makefile.SH
 
 x2p/Makefile:
-	cd ${.OBJDIR}/x2p && exec /bin/sh Makefile.SH
+	cd ${.OBJDIR}/x2p && \
+	CC="${CC}" CPP="${CPP}" CFLAGS="${CFLAGS}" \
+	    exec ${SHELL} Makefile.SH
 
 x2p/cflags:
-	cd ${.OBJDIR}/x2p && exec /bin/sh cflags.SH
+	cd ${.OBJDIR}/x2p && \
+	CC="${CC}" CPP="${CPP}" CFLAGS="${CFLAGS}" \
+	    exec ${SHELL} cflags.SH
 
 # Never try to regenerate perly.c or perly.h
 perly.c perly.h: perly.y
 	-@true
 
-.ifdef NOMAN
+.if defined(NOMAN) && ${NOMAN:L} != "no"
 maninstall:
 	@echo NOMAN is set
 .endif
 
 install: install.lib install.perl maninstall
-	-mkdir -p ${DESTDIR}/usr/libdata/perl5/site_perl/${MACHINE_ARCH}-openbsd
-	(cd ${DESTDIR}/usr/include; ${H2PH} \
-		-d ${DESTDIR}/usr/libdata/perl5/site_perl/${MACHINE_ARCH}-openbsd \
-		`find . -name '*.h'`; \
-		pax -rw `find . -type l \! -name '*.h' | sed 's/^..//'` \
-		${DESTDIR}/usr/libdata/perl5/site_perl/${MACHINE_ARCH}-openbsd)
-	-chmod -R a+rX ${DESTDIR}/usr/libdata/perl5
 
 install.perl:
 	cd ${.OBJDIR}; INSTALL=${INSTALL} INSTALL_COPY=${INSTALL_COPY} \
@@ -658,38 +690,17 @@ cleandir:
 
 # These have to come after the inclusion of <bsd.lib.mk>
 
-# Need -fPIC, not -fpic on sparc
-.if ($(TARGET_MACHINE_ARCH) == sparc)
-PICFLAG=-fPIC
-.endif
-
 perl.lib:	${GENERATED} ${_LIBS}
 
 install.lib:
-	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m 600 lib${LIB}.a \
-	    ${DESTDIR}${LIBDIR}
-.if (${INSTALL_COPY} != "-p")
-	${RANLIB} -t ${DESTDIR}${LIBDIR}/lib${LIB}.a
-.endif
-	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/lib${LIB}.a
-.if !defined(NOPROFILE)
-	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m 600 \
-	    lib${LIB}_p.a ${DESTDIR}${LIBDIR}
-.if (${INSTALL_COPY} != "-p")
-	${RANLIB} -t ${DESTDIR}${LIBDIR}/lib${LIB}_p.a
-.endif
-	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/lib${LIB}_p.a
-.endif
-.if !defined(NOPIC) && (${MACHINE_ARCH} != "mips64") 
-	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m 600 \
-	    lib${LIB}_pic.a ${DESTDIR}${LIBDIR}
-.if (${INSTALL_COPY} != "-p")
-	${RANLIB} -t ${DESTDIR}${LIBDIR}/lib${LIB}_pic.a
-.endif
-	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/lib${LIB}_pic.a
-.endif
-.if !defined(NOPIC) && defined(major) && defined(minor)
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
-	    lib${LIB}.so.${major}.${minor} ${DESTDIR}${LIBDIR}
-.endif
+	    lib${LIB}.a ${DESTDIR}${LIBDIR}/
+.  ifdef SHLIB_SONAME
+	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
+	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/
+.  elif ${NOPIC:L} == "no"
+	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
+	    lib${LIB}_pic.a ${DESTDIR}${LIBDIR}/
+.  endif
+
 .PHONY: perl.lib install.lib perl.build install.perl man.build mansrc.build

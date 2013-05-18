@@ -1,3 +1,4 @@
+/**	$MirOS: src/sbin/disklabel/editor.c,v 1.3 2005/04/29 18:34:54 tg Exp $ */
 /*	$OpenBSD: editor.c,v 1.99 2005/01/07 21:58:14 otto Exp $	*/
 
 /*
@@ -16,11 +17,6 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef lint
-static char rcsid[] = "$OpenBSD: editor.c,v 1.99 2005/01/07 21:58:14 otto Exp $";
-#endif /* not lint */
-
-#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
@@ -46,6 +42,8 @@ static char rcsid[] = "$OpenBSD: editor.c,v 1.99 2005/01/07 21:58:14 otto Exp $"
 
 #include "extern.h"
 #include "pathnames.h"
+
+__RCSID("$MirOS: src/sbin/disklabel/editor.c,v 1.3 2005/04/29 18:34:54 tg Exp $");
 
 /* flags for getuint() */
 #define	DO_CONVERSIONS	0x00000001
@@ -133,7 +131,7 @@ editor(struct disklabel *lp, int f, char *dev, char *fstabfile)
 	/* Get the on-disk and BIOS geometries if possible */
 	get_geometry(f, &disk_geop, &bios_geop);
 
-	/* How big is the OpenBSD portion of the disk?  */
+	/* How big is the MirBSD portion of the disk?  */
 	find_bounds(&label, bios_geop);
 
 	/* Set freesectors based on bounds and initial label */
@@ -143,10 +141,10 @@ editor(struct disklabel *lp, int f, char *dev, char *fstabfile)
 	if (has_overlap(&label, &freesectors, 1))
 		errx(1, "can't run when there is partition overlap.");
 
-	/* If we don't have a 'c' partition, create one. */
+	/* If we don't have a 'c' slice, create one. */
 	pp = &label.d_partitions[RAW_PART];
 	if (label.d_npartitions < 3 || pp->p_size == 0) {
-		puts("No 'c' partition found, adding one that spans the disk.");
+		puts("No 'c' slice found, adding one that spans the disk.");
 		if (label.d_npartitions < 3)
 			label.d_npartitions = 3;
 		pp->p_offset = 0;
@@ -156,7 +154,7 @@ editor(struct disklabel *lp, int f, char *dev, char *fstabfile)
 	}
 
 #ifdef CYLCHECK
-	puts("This platform requires that partition offsets/sizes be on cylinder boundaries.\nPartition offsets/sizes will be rounded to the nearest cylinder automatically.");
+	puts("This platform requires that partition offsets/sizes be on cylinder boundaries.\nSlice offsets/sizes will be rounded to the nearest cylinder automatically.");
 #endif
 
 	/* Set d_bbsize and d_sbsize as necessary */
@@ -294,21 +292,17 @@ editor(struct disklabel *lp, int f, char *dev, char *fstabfile)
 
 		case 'M': {
 			sig_t opipe = signal(SIGPIPE, SIG_IGN);
-			char *pager, *cmd = NULL;
-			extern const char manpage[];
-			extern const int manpage_sz;
+			char *pager;
+			extern char manpage[];
 
 			if ((pager = getenv("PAGER")) == NULL || *pager == '\0')
 				pager = _PATH_LESS;
-
-			if (asprintf(&cmd, "gunzip -qc|%s", pager) != -1 &&
-			    (fp = popen(cmd, "w")) != NULL) {
-				(void) fwrite(manpage, manpage_sz, 1, fp);
+			if ((fp = popen(pager, "w")) != NULL) {
+				(void) fwrite(manpage, strlen(manpage), 1, fp);
 				pclose(fp);
 			} else
 				warn("unable to execute %s", pager);
 
-			free(cmd);
 			(void)signal(SIGPIPE, opipe);
 			break;
 		}
@@ -438,7 +432,7 @@ editor_add(struct disklabel *lp, char **mp, u_int32_t *freep, char *p)
 
 	/* XXX - prompt user to steal space from another partition instead */
 	if (*freep == 0) {
-		fputs("No space left, you need to shrink a partition\n",
+		fputs("No space left, you need to shrink a slice\n",
 		    stderr);
 		return;
 	}
@@ -449,13 +443,13 @@ editor_add(struct disklabel *lp, char **mp, u_int32_t *freep, char *p)
 		if (partno < 0 || partno == RAW_PART ||
 		    partno >= MAXPARTITIONS) {
 			fprintf(stderr,
-			    "Partition must be between 'a' and '%c' "
+			    "Slice must be between 'a' and '%c' "
 			    "(excluding 'c').\n", 'a' + MAXPARTITIONS - 1);
 			return;
 		} else if (lp->d_partitions[partno].p_fstype != FS_UNUSED &&
 		    lp->d_partitions[partno].p_size != 0) {
 			fprintf(stderr,
-			    "Partition '%c' exists.  Delete it first.\n",
+			    "Slice '%c' exists.  Delete it first.\n",
 			    p[0]);
 			return;
 		}
@@ -473,19 +467,19 @@ editor_add(struct disklabel *lp, char **mp, u_int32_t *freep, char *p)
 		} else
 			p = NULL;
 		for (;;) {
-			p = getstring("partition",
-			    "The letter of the new partition, a - p.", p);
+			p = getstring("slice",
+			    "The letter of the new slice, a - p.", p);
 			if (p == NULL)
 				return;
 			partno = p[0] - 'a';
 			if (lp->d_partitions[partno].p_fstype != FS_UNUSED &&
 			    lp->d_partitions[partno].p_size != 0) {
 				fprintf(stderr,
-				    "Partition '%c' already exists.\n", p[0]);
+				    "Slice '%c' already exists.\n", p[0]);
 			} else if (partno >= 0 && partno < MAXPARTITIONS)
 				break;
 			fprintf(stderr,
-			    "Partition must be between 'a' and '%c'.\n",
+			    "Slice must be between 'a' and '%c'.\n",
 			    'a' + MAXPARTITIONS - 1);
 		}
 	}
@@ -541,7 +535,7 @@ getoff1:
 
 	/* Check for overlap */
 	if (has_overlap(lp, freep, 0)) {
-		printf("\nPlease re-enter an offset and size for partition "
+		printf("\nPlease re-enter an offset and size for slice "
 		    "%c.\n", 'a' + partno);
 		pp->p_offset = old_offset;
 		pp->p_size = old_size;
@@ -571,7 +565,7 @@ getoff1:
 }
 
 /*
- * Set the mountpoint of an existing partition ('name').
+ * Set the mountpoint of an existing slice ('name').
  */
 void
 editor_name(struct disklabel *lp, char **mp, char *p)
@@ -579,10 +573,10 @@ editor_name(struct disklabel *lp, char **mp, char *p)
 	struct partition *pp;
 	int partno;
 
-	/* Change which partition? */
+	/* Change which slice? */
 	if (p == NULL) {
-		p = getstring("partition to name",
-		    "The letter of the partition to name, a - p.", NULL);
+		p = getstring("slice to name",
+		    "The letter of the slice to name, a - p.", NULL);
 	}
 	if (p == NULL) {
 		fputs("Command aborted\n", stderr);
@@ -591,12 +585,12 @@ editor_name(struct disklabel *lp, char **mp, char *p)
 	partno = p[0] - 'a';
 	pp = &lp->d_partitions[partno];
 	if (partno < 0 || partno >= lp->d_npartitions) {
-		fprintf(stderr, "Partition must be between 'a' and '%c'.\n",
+		fprintf(stderr, "Slice must be between 'a' and '%c'.\n",
 		    'a' + lp->d_npartitions - 1);
 		return;
 	} else if (partno >= lp->d_npartitions ||
 	    (pp->p_fstype == FS_UNUSED && pp->p_size == 0)) {
-		fprintf(stderr, "Partition '%c' is not in use.\n", 'a' + partno);
+		fprintf(stderr, "Slice '%c' is not in use.\n", 'a' + partno);
 		return;
 	}
 
@@ -612,7 +606,7 @@ editor_name(struct disklabel *lp, char **mp, char *p)
 }
 
 /*
- * Change an existing partition.
+ * Change an existing slice.
  */
 void
 editor_modify(struct disklabel *lp, char **mp, u_int32_t *freep, char *p)
@@ -620,10 +614,10 @@ editor_modify(struct disklabel *lp, char **mp, u_int32_t *freep, char *p)
 	struct partition origpart, *pp;
 	int partno;
 
-	/* Change which partition? */
+	/* Change which slice? */
 	if (p == NULL) {
-		p = getstring("partition to modify",
-		    "The letter of the partition to modify, a - p.", NULL);
+		p = getstring("slice to modify",
+		    "The letter of the slice to modify, a - p.", NULL);
 	}
 	if (p == NULL) {
 		fputs("Command aborted\n", stderr);
@@ -633,12 +627,12 @@ editor_modify(struct disklabel *lp, char **mp, u_int32_t *freep, char *p)
 	pp = &lp->d_partitions[partno];
 	origpart = lp->d_partitions[partno];
 	if (partno < 0 || partno >= lp->d_npartitions) {
-		fprintf(stderr, "Partition must be between 'a' and '%c'.\n",
+		fprintf(stderr, "Slice must be between 'a' and '%c'.\n",
 		    'a' + lp->d_npartitions - 1);
 		return;
 	} else if (partno >= lp->d_npartitions ||
 	    (pp->p_fstype == FS_UNUSED && pp->p_size == 0)) {
-		fprintf(stderr, "Partition '%c' is not in use.\n", 'a' + partno);
+		fprintf(stderr, "Slice '%c' is not in use.\n", 'a' + partno);
 		return;
 	}
 
@@ -648,7 +642,7 @@ editor_modify(struct disklabel *lp, char **mp, u_int32_t *freep, char *p)
 		return;
 	}
 
-	/* Did they disable/enable the partition? */
+	/* Did they disable/enable the slice? */
 	if ((pp->p_fstype == FS_UNUSED || pp->p_fstype == FS_BOOT) &&
 	    origpart.p_fstype != FS_UNUSED && origpart.p_fstype != FS_BOOT)
 		*freep += origpart.p_size;
@@ -721,7 +715,7 @@ getoff2:
 }
 
 /*
- * Delete an existing partition.
+ * Delete an existing slice.
  */
 void
 editor_delete(struct disklabel *lp, char **mp, u_int32_t *freep, char *p)
@@ -729,8 +723,8 @@ editor_delete(struct disklabel *lp, char **mp, u_int32_t *freep, char *p)
 	int c;
 
 	if (p == NULL) {
-		p = getstring("partition to delete",
-		    "The letter of the partition to delete, a - p, or '*'.",
+		p = getstring("slice to delete",
+		    "The letter of the slice to delete, a - p, or '*'.",
 		    NULL);
 	}
 	if (p == NULL) {
@@ -755,14 +749,14 @@ editor_delete(struct disklabel *lp, char **mp, u_int32_t *freep, char *p)
 	}
 	c = p[0] - 'a';
 	if (c < 0 || c >= lp->d_npartitions)
-		fprintf(stderr, "Partition must be between 'a' and '%c'.\n",
+		fprintf(stderr, "Slice must be between 'a' and '%c'.\n",
 		    'a' + lp->d_npartitions - 1);
 	else if (c >= lp->d_npartitions || (lp->d_partitions[c].p_fstype ==
 	    FS_UNUSED && lp->d_partitions[c].p_size == 0))
-		fprintf(stderr, "Partition '%c' is not in use.\n", 'a' + c);
+		fprintf(stderr, "Slice '%c' is not in use.\n", 'a' + c);
 	else if (c == RAW_PART)
 		fputs(
-"You may not delete the 'c' partition.  The 'c' partition must exist and\n"
+"You may not delete the 'c' slice.  The 'c' slice must exist and\n"
 "should span the entire disk.  By default it is of type 'unused' and so\n"
 "does not take up any space.\n", stderr);
 	else {
@@ -797,15 +791,15 @@ next_offset(struct disklabel *lp, u_int32_t *sizep)
 	u_int32_t new_offset, new_size;
 	int i, good_offset;
 
-	/* Get a sorted list of the partitions */
+	/* Get a sorted list of the slices */
 	if ((spp = sort_partitions(lp, &npartitions)) == NULL)
 		return(starting_sector);
 
 	new_offset = starting_sector;
 	for (i = 0; i < npartitions; i++ ) {
 		/*
-		 * Is new_offset inside this partition?  If so,
-		 * make it the next sector after the partition ends.
+		 * Is new_offset inside this slice?  If so,
+		 * make it the next sector after the slice ends.
 		 */
 		if (spp[i]->p_offset + spp[i]->p_size < ending_sector &&
 		    ((new_offset >= spp[i]->p_offset &&
@@ -844,7 +838,7 @@ next_offset(struct disklabel *lp, u_int32_t *sizep)
 }
 
 /*
- * Change the size of an existing partition.
+ * Change the size of an existing slice.
  */
 void
 editor_change(struct disklabel *lp, u_int32_t *freep, char *p)
@@ -854,8 +848,8 @@ editor_change(struct disklabel *lp, u_int32_t *freep, char *p)
 	struct partition *pp;
 
 	if (p == NULL) {
-		p = getstring("partition to change size",
-		    "The letter of the partition to change size, a - p.", NULL);
+		p = getstring("slice to change size",
+		    "The letter of the slice to change size, a - p.", NULL);
 	}
 	if (p == NULL) {
 		fputs("Command aborted\n", stderr);
@@ -863,20 +857,20 @@ editor_change(struct disklabel *lp, u_int32_t *freep, char *p)
 	}
 	partno = p[0] - 'a';
 	if (partno < 0 || partno >= lp->d_npartitions) {
-		fprintf(stderr, "Partition must be between 'a' and '%c'.\n",
+		fprintf(stderr, "Slice must be between 'a' and '%c'.\n",
 		    'a' + lp->d_npartitions - 1);
 		return;
 	} else if (partno >= lp->d_npartitions ||
 	    lp->d_partitions[partno].p_size == 0) {
-		fprintf(stderr, "Partition '%c' is not in use.\n", 'a' + partno);
+		fprintf(stderr, "Slice '%c' is not in use.\n", 'a' + partno);
 		return;
 	}
 	pp = &lp->d_partitions[partno];
 
-	printf("Partition %c is currently %u sectors in size (%u free).\n",
+	printf("Slice %c is currently %u sectors in size (%u free).\n",
 	    partno + 'a', pp->p_size, *freep);
 	/* XXX - make maxsize lp->d_secperunit if FS_UNUSED/FS_BOOT? */
-	newsize = getuint(lp, partno, "new size", "Size of the partition.  "
+	newsize = getuint(lp, partno, "new size", "Size of the slice.  "
 	    "You may also say +/- amount for a relative change.",
 	    pp->p_size, pp->p_size + *freep, pp->p_offset, DO_CONVERSIONS |
 	    (pp->p_fstype == FS_BSDFFS ? DO_ROUNDING : 0));
@@ -904,7 +898,7 @@ editor_change(struct disklabel *lp, u_int32_t *freep, char *p)
 	} else {
 		if (partno == RAW_PART && newsize +
 		    pp->p_offset > lp->d_secperunit) {
-			fputs("'c' partition may not be larger than the disk\n",
+			fputs("'c' slice may not be larger than the disk\n",
 			    stderr);
 			return;
 		}
@@ -922,13 +916,13 @@ make_contiguous(struct disklabel *lp)
 	u_int16_t npartitions;
 	int i;
 
-	/* Get a sorted list of the partitions */
+	/* Get a sorted list of the slices */
 	if ((spp = sort_partitions(lp, &npartitions)) == NULL)
 		return;
 
 	/*
 	 * Make everything contiguous but don't muck with start of the first one
-	 * or partitions not in the BSD part of the label.
+	 * or slices not in the BSD part of the label.
 	 */
 	for (i = 1; i < npartitions; i++) {
 		if (spp[i]->p_offset >= starting_sector ||
@@ -941,7 +935,7 @@ make_contiguous(struct disklabel *lp)
 }
 
 /*
- * Sort the partitions based on starting offset.
+ * Sort the slices based on starting offset.
  * This assumes there can be no overlap.
  */
 int
@@ -1122,7 +1116,7 @@ getuint(struct disklabel *lp, int partno, char *prompt, char *helpstring,
 }
 
 /*
- * Check for partition overlap in lp and prompt the user
+ * Check for slice overlap in lp and prompt the user
  * to resolve the overlap if any is found.  Returns 1
  * if unable to resolve, else 0.
  */
@@ -1158,7 +1152,7 @@ has_overlap(struct disklabel *lp, u_int32_t *freep, int resolve)
 				    / sizeof(**spp);
 				j = ((char *)spp[j] - (char *)lp->d_partitions)
 				    / sizeof(**spp);
-				printf("\nError, partitions %c and %c overlap:\n",
+				printf("\nError, slices %c and %c overlap:\n",
 				    'a' + i, 'a' + j);
 				printf("#    %13.13s %13.13s  fstype "
 				    "[fsize bsize  cpg]\n", "size", "offset");
@@ -1171,7 +1165,7 @@ has_overlap(struct disklabel *lp, u_int32_t *freep, int resolve)
 					return(1);
 				}
 
-				/* Get partition to disable or ^D */
+				/* Get slice to disable or ^D */
 				do {
 					printf("Disable which one? (^D to abort) [%c %c] ",
 					    'a' + i, 'a' + j);
@@ -1330,7 +1324,7 @@ edit_parms(struct disklabel *lp, u_int32_t *freep)
 			/* grow free count */
 			*freep += ui - lp->d_secperunit;
 			puts("You may want to increase the size of the 'c' "
-			    "partition.");
+			    "slice.");
 			break;
 		} else if (ui < lp->d_secperunit &&
 		    ending_sector == lp->d_secperunit) {
@@ -1392,7 +1386,7 @@ sort_partitions(struct disklabel *lp, u_int16_t *npart)
 	struct partition **spp;
 	int i;
 
-	/* How many "real" partitions do we have? */
+	/* How many "real" slices do we have? */
 	for (npartitions = 0, i = 0; i < lp->d_npartitions; i++) {
 		if (lp->d_partitions[i].p_fstype != FS_UNUSED &&
 		    lp->d_partitions[i].p_fstype != FS_BOOT &&
@@ -1404,7 +1398,7 @@ sort_partitions(struct disklabel *lp, u_int16_t *npart)
 		return(NULL);
 	}
 
-	/* Create an array of pointers to the partition data */
+	/* Create an array of pointers to the slice data */
 	if ((spp = malloc(sizeof(struct partition *) * npartitions)) == NULL)
 		errx(4, "out of memory");
 	for (npartitions = 0, i = 0; i < lp->d_npartitions; i++) {
@@ -1421,7 +1415,7 @@ sort_partitions(struct disklabel *lp, u_int16_t *npart)
 	if (npartitions > 1)
 		if (heapsort((void *)spp, npartitions, sizeof(spp[0]),
 		    partition_cmp))
-			err(4, "failed to sort partition table");
+			err(4, "failed to sort disklabel");
 
 	*npart = npartitions;
 	return(spp);
@@ -1439,6 +1433,7 @@ getdisktype(struct disklabel *lp, char *banner, char *dev)
 		char *dev;
 		char *type;
 	} dtypes[] = {
+		{ "raid", "SCSI" },
 		{ "sd",   "SCSI" },
 		{ "rz",   "SCSI" },
 		{ "wd",   "IDE" },
@@ -1505,7 +1500,7 @@ getdisktype(struct disklabel *lp, char *banner, char *dev)
 }
 
 /*
- * Get beginning and ending sectors of the OpenBSD portion of the disk
+ * Get beginning and ending sectors of the MirBSD portion of the disk
  * from the user.
  * XXX - should mention MBR values if DOSLABEL
  */
@@ -1517,7 +1512,7 @@ set_bounds(struct disklabel *lp, u_int32_t *freep)
 	/* Starting sector */
 	do {
 		ui = getuint(lp, 0, "Starting sector",
-		  "The start of the OpenBSD portion of the disk.",
+		  "The start of the MirBSD portion of the disk.",
 		  starting_sector, lp->d_secperunit, 0, 0);
 		if (ui == UINT_MAX - 1) {
 			fputs("Command aborted\n", stderr);
@@ -1529,7 +1524,7 @@ set_bounds(struct disklabel *lp, u_int32_t *freep)
 	/* Size */
 	do {
 		ui = getuint(lp, 0, "Size ('*' for entire disk)",
-		  "The size of the OpenBSD portion of the disk ('*' for the "
+		  "The size of the MirBSD portion of the disk ('*' for the "
 		  "entire disk).", ending_sector - starting_sector,
 		  lp->d_secperunit - start_temp, 0, 0);
 		if (ui == UINT_MAX - 1) {
@@ -1555,7 +1550,7 @@ free_chunks(struct disklabel *lp)
 	static struct diskchunk chunks[MAXPARTITIONS + 2];
 	int i, numchunks;
 
-	/* Sort the partitions based on offset */
+	/* Sort the slices based on offset */
 	spp = sort_partitions(lp, &npartitions);
 
 	/* If there are no partitions, it's all free. */
@@ -1600,7 +1595,7 @@ free_chunks(struct disklabel *lp)
 }
 
 /*
- * What is the OpenBSD portion of the disk?  Uses the MBR if applicable.
+ * What is the MirBSD portion of the disk?  Uses the MBR if applicable.
  */
 void
 find_bounds(struct disklabel *lp, struct disklabel *bios_lp)
@@ -1615,10 +1610,11 @@ find_bounds(struct disklabel *lp, struct disklabel *bios_lp)
 
 #ifdef DOSLABEL
 	/*
-	 * If we have an MBR, use values from the {Open,Free,Net}BSD partition
+	 * If we have an MBR, use values from the {Mir,Open,Free,Net}BSD partition
 	 */
 	if (dosdp) {
-	    if (dosdp->dp_typ == DOSPTYP_OPENBSD ||
+	    if (dosdp->dp_typ == DOSPTYP_MIRBSD ||
+		    dosdp->dp_typ == DOSPTYP_OPENBSD ||
 		    dosdp->dp_typ == DOSPTYP_FREEBSD ||
 		    dosdp->dp_typ == DOSPTYP_NETBSD) {
 			u_int32_t i, new_end;
@@ -1658,7 +1654,7 @@ find_bounds(struct disklabel *lp, struct disklabel *bios_lp)
 			starting_sector = 63;
 		}
 
-		printf("\nTreating sectors %u-%u as the OpenBSD portion of the "
+		printf("\nTreating sectors %u-%u as the MirBSD portion of the "
 		    "disk.\nYou can use the 'b' command to change this.\n",
 		    starting_sector, ending_sector);
 	}
@@ -1705,7 +1701,7 @@ editor_help(char *arg)
 		break;
 	case 'M':
 		puts(
-"The 'M' command pipes the entire OpenBSD manual page for disk label through\n"
+"The 'M' command pipes the entire MirBSD manual page for disk label through\n"
 "the pager specified by the PAGER environment variable or 'less' if PAGER is\n"
 "not set.  It is especially useful during install when the normal system\n"
 "manual is not available.\n");
@@ -1720,17 +1716,17 @@ editor_help(char *arg)
 		break;
 	case 'a':
 		puts(
-"The 'a' command adds new partitions to the disk.  It takes as an optional\n"
-"argument the partition letter to add.  If you do not specify a partition\n"
+"The 'a' command adds new slices to the disk.  It takes as an optional\n"
+"argument the slice letter to add.  If you do not specify a slice\n"
 "letter, you will be prompted for it; the next available letter will be the\n"
 "default answer\n");
 		break;
 	case 'b':
 		puts(
-"The 'b' command is used to change the boundaries of the OpenBSD portion of\n"
+"The 'b' command is used to change the boundaries of the MirBSD portion of\n"
 "the disk.  This is only useful on disks with an fdisk partition.  By default,\n"
 "on a disk with an fdisk partition, the boundaries are set to be the first\n"
-"and last sectors of the OpenBSD fdisk partition.  You should only change\n"
+"and last sectors of the MirBSD fdisk partition.  You should only change\n"
 "these if your fdisk partition table is incorrect or you have a disk larger\n"
 "than 8gig, since 8gig is the maximum size an fdisk partition can be.  You\n"
 "may enter '*' at the 'Size' prompt to indicate the entire size of the disk\n"
@@ -1740,9 +1736,9 @@ editor_help(char *arg)
 		break;
 	case 'c':
 		puts(
-"The 'c' command is used to change the size of an existing partition.  It\n"
-"takes as an optional argument the partition letter to change.  If you do not\n"
-"specify a partition letter, you will be prompted for one.  You may add a '+'\n"
+"The 'c' command is used to change the size of an existing slice.  It\n"
+"takes as an optional argument the slice letter to change.  If you do not\n"
+"specify a slice letter, you will be prompted for one.  You may add a '+'\n"
 "or '-' prefix to the new size to increase or decrease the existing value\n"
 "instead of entering an absolute value.  You may also use a suffix to indicate\n"
 "the units the values is in terms of.  Possible suffixes are 'b' for bytes,\n"
@@ -1757,10 +1753,10 @@ editor_help(char *arg)
 		break;
 	case 'd':
 		puts(
-"The 'd' command is used to delete an existing partition.  It takes as an\n"
-"optional argument the partition letter to change.  If you do not specify a\n"
-"partition letter, you will be prompted for one.  You may not delete the ``c''\n"
-"partition as 'c' must always exist and by default is marked as 'unused' (so\n"
+"The 'd' command is used to delete an existing slice.  It takes as an\n"
+"optional argument the slice letter to change.  If you do not specify a\n"
+"slice letter, you will be prompted for one.  You may not delete the ``c''\n"
+"slice as 'c' must always exist and by default is marked as 'unused' (so\n"
 "it does not take up any space).\n");
 		break;
 	case 'g':
@@ -1771,17 +1767,18 @@ editor_help(char *arg)
 		break;
 	case 'm':
 		puts(
-"The 'm' command is used to modify an existing partition.  It takes as an\n"    "optional argument the partition letter to change.  If you do not specify a\n"
-"partition letter, you will be prompted for one.  This option allows the user\n"
-"to change the filesystem type, starting offset, partition size, block fragment\n"
-"size, block size, and cylinders per group for the specified partition (not all\n"
-"parameters are configurable for non-BSD partitions).\n");
+"The 'm' command is used to modify an existing slice.  It takes as an\n"
+"optional argument the slice letter to change.  If you do not specify a\n"
+"slice letter, you will be prompted for one.  This option allows the user\n"
+"to change the filesystem type, starting offset, slice size, block fragment\n"
+"size, block size, and cylinders per group for the specified slice (not all\n"
+"parameters are configurable for non-BSD slices).\n");
 		break;
 	case 'n':
 		puts(
-"The 'n' command is used to set the mount point for a partition (ie: name it).\n"
-"It takes as an optional argument the partition letter to name.  If you do\n"
-"not specify a partition letter, you will be prompted for one.  This option\n"
+"The 'n' command is used to set the mount point for a slice (ie: name it).\n"
+"It takes as an optional argument the slice letter to name.  If you do\n"
+"not specify a slice letter, you will be prompted for one.  This option\n"
 "is only valid if disklabel was invoked with the -F flag.\n");
 		break;
 	case 'r':
@@ -1816,7 +1813,7 @@ editor_help(char *arg)
 		puts(
 "The 'X' command toggles disklabel in to/out of 'expert mode'.  By default,\n"
 "some settings are reserved for experts only (such as the block and fragment\n"
-"size on ffs partitions).\n");
+"size on ffs slices).\n");
 		break;
 	case 'x':
 		puts(
@@ -1825,22 +1822,29 @@ editor_help(char *arg)
 		break;
 	case 'z':
 		puts(
-"The 'z' command zeroes out the existing partition table, leaving only the 'c'\n"
-"partition.  The drive parameters are not changed.\n");
+"The 'z' command zeroes out the existing disklabel, leaving only the 'c'\n"
+"slice.  The drive parameters are not changed.\n");
 		break;
 	default:
+		puts(
+"Numeric parameters may use suffixes to indicate units:\n\t"
+"'b' for bytes, 'c' for cylinders, 'k' for kibibytes, 'm' for mebibytes,\n\t"
+"'g' for gibibytes or no suffix for sectors (of usually 512 bytes).\n\t"
+"'%' for percent of total disk size, '&' for percent of free space.\n\t"
+"Non-sector units will be rounded to the nearest cylinder.\n"
+"Entering '?' at most prompts will give you (simple) context sensitive help.");
 		puts("Available commands:");
 		puts("\t? [cmnd]  - this message or command specific help.");
-		puts("\ta [part]  - add new partition.");
-		puts("\tb         - set OpenBSD disk boundaries.");
-		puts("\tc [part]  - change partition size.");
+		puts("\ta [part]  - add new slice.");
+		puts("\tb         - set MirBSD disk boundaries.");
+		puts("\tc [part]  - change slice size.");
 		puts("\tD         - set label to default.");
-		puts("\td [part]  - delete partition.");
+		puts("\td [part]  - delete slice.");
 		puts("\te         - edit drive parameters.");
 		puts("\tg [b|d|u] - use [b]ios, [d]isk or [u]ser geometry.");
-		puts("\tM         - show entire OpenBSD man page for disklabel.");
-		puts("\tm [part]  - modify existing partition.");
-		puts("\tn [part]  - set the mount point for a partition.");
+		puts("\tM         - show entire MirBSD manual page for disklabel.");
+		puts("\tm [part]  - modify existing slice.");
+		puts("\tn [part]  - set the mount point for a slice.");
 		puts("\tp [unit]  - print label.");
 		puts("\tq         - quit and save changes.");
 		puts("\tr         - recalculate free space.");
@@ -1849,14 +1853,7 @@ editor_help(char *arg)
 		puts("\tw         - write label to disk.");
 		puts("\tX         - toggle expert mode.");
 		puts("\tx         - exit without saving changes.");
-		puts("\tz         - zero out partition table.");
-		puts(
-"Numeric parameters may use suffixes to indicate units:\n\t"
-"'b' for bytes, 'c' for cylinders, 'k' for kilobytes, 'm' for megabytes,\n\t"
-"'g' for gigabytes or no suffix for sectors (usually 512 bytes).\n\t"
-"'%' for percent of total disk size, '&' for percent of free space.\n\t"
-"Non-sector units will be rounded to the nearest cylinder.\n"
-"Entering '?' at most prompts will give you (simple) context sensitive help.");
+		puts("\tz         - zero out slice table.");
 		break;
 	}
 }
@@ -1961,7 +1958,7 @@ get_offset(struct disklabel *lp, int partno)
 
 	for (;;) {
 		ui = getuint(lp, partno, "offset",
-		   "Starting sector for this partition.", pp->p_offset,
+		   "Starting sector for this slice.", pp->p_offset,
 		   pp->p_offset, 0, DO_CONVERSIONS |
 		   (pp->p_fstype == FS_BSDFFS ? DO_ROUNDING : 0));
 		if (ui == UINT_MAX - 1) {
@@ -1970,19 +1967,19 @@ get_offset(struct disklabel *lp, int partno)
 		} else if (ui == UINT_MAX)
 			fputs("Invalid entry\n", stderr);
 		else if (ui < starting_sector)
-			fprintf(stderr, "The OpenBSD portion of the disk starts"
-			    " at sector %u, you tried to add a partition at %u."
+			fprintf(stderr, "The MirBSD portion of the disk starts"
+			    " at sector %u, you tried to add a slice at %u."
 			    "  You can use the 'b' command to change the size "
-			    "of the OpenBSD portion.\n" , starting_sector, ui);
+			    "of the MirBSD portion.\n" , starting_sector, ui);
 		else if (ui >= ending_sector)
-			fprintf(stderr, "The OpenBSD portion of the disk ends "
-			    "at sector %u, you tried to add a partition at %u."
+			fprintf(stderr, "The MirBSD portion of the disk ends "
+			    "at sector %u, you tried to add a slice at %u."
 			    "  You can use the 'b' command to change the size "
-			    "of the OpenBSD portion.\n", ending_sector, ui);
+			    "of the MirBSD portion.\n", ending_sector, ui);
 #ifdef AAT0
 		else if (partno == 0 && ui != 0)
 			fprintf(stderr, "This architecture requires that "
-			    "partition 'a' start at sector 0.\n");
+			    "slice 'a' start at sector 0.\n");
 #endif
 		else
 			break;
@@ -1998,7 +1995,7 @@ get_size(struct disklabel *lp, int partno, u_int32_t *freep, int new)
 	struct partition *pp = &lp->d_partitions[partno];
 
 	for (;;) {
-		ui = getuint(lp, partno, "size", "Size of the partition.",
+		ui = getuint(lp, partno, "size", "Size of the slice.",
 		    pp->p_size, *freep, pp->p_offset, DO_CONVERSIONS |
 		    ((pp->p_fstype == FS_BSDFFS || pp->p_fstype == FS_SWAP) ?
 		    DO_ROUNDING : 0));
@@ -2011,15 +2008,15 @@ get_size(struct disklabel *lp, int partno, u_int32_t *freep, int new)
 		}
 		if (new) {
 			if (ui > *freep)
-				/* XXX - steal space from another partition */
+				/* XXX - steal space from another slice */
 				fprintf(stderr,"Sorry, there are only %u "
 				    "sectors left\n", *freep);
 			else if (pp->p_offset + ui > ending_sector)
-				fprintf(stderr, "The OpenBSD portion of the "
+				fprintf(stderr, "The MirBSD portion of the "
 				    "disk ends at sector %u, you tried to add "
-				    "a partition ending at sector %u.  You can "
+				    "a slice ending at sector %u.  You can "
 				    "use the 'b' command to change the size of "
-				    "the OpenBSD portion.\n",
+				    "the MirBSD portion.\n",
 				    ending_sector, pp->p_offset + ui);
 			else
 				break;			/* ok */
@@ -2028,7 +2025,7 @@ get_size(struct disklabel *lp, int partno, u_int32_t *freep, int new)
 				break;			/* no change */
 			if (partno == RAW_PART &&
 			    ui + pp->p_offset > lp->d_secperunit) {
-				fputs("'c' partition may not be larger than the disk\n",
+				fputs("'c' slice may not be larger than the disk\n",
 				    stderr);
 			} else if (pp->p_fstype == FS_UNUSED ||
 			    pp->p_fstype == FS_BOOT) {
@@ -2037,7 +2034,7 @@ get_size(struct disklabel *lp, int partno, u_int32_t *freep, int new)
 				break;
 			} else {
 				if (ui > pp->p_size + *freep)
-					/* XXX - steal from another partition */
+					/* XXX - steal from another slice */
 					fprintf(stderr,
 					    "Size may not be larger than %u "
 					    "sectors\n", pp->p_size + *freep);
@@ -2061,7 +2058,7 @@ get_fsize(struct disklabel *lp, int partno)
 
 	for (;;) {
 		ui = getuint(lp, partno, "fragment size",
-		    "Size of fs block fragments.  Usually 2048 or 512.",
+		    "Size of fs block fragments.  Usually 2048 or 1024/512.",
 		    pp->p_fsize, pp->p_fsize, 0, 0);
 		if (ui == UINT_MAX - 1) {
 			fputs("Command aborted\n", stderr);

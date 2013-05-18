@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libc/db/btree/bt_split.c,v 1.3 2005/09/22 20:07:46 tg Exp $ */
 /*	$OpenBSD: bt_split.c,v 1.13 2005/08/05 13:03:00 espie Exp $	*/
 
 /*-
@@ -73,14 +74,14 @@ int
 __bt_split(BTREE *t, PAGE *sp, const DBT *key, const DBT *data, int flags,
     size_t ilen, u_int32_t argskip)
 {
-	BINTERNAL *bi;
-	BLEAF *bl, *tbl;
+	BINTERNAL *bi = NULL;
+	BLEAF *bl = NULL, *tbl;
 	DBT a, b;
 	EPGNO *parent;
 	PAGE *h, *l, *r, *lchild, *rchild;
 	indx_t nxtindex;
 	u_int16_t skip;
-	u_int32_t n, nbytes, nksize;
+	u_int32_t n, nbytes, nksize = 0;
 	int parentsplit;
 	char *dest;
 
@@ -201,7 +202,7 @@ __bt_split(BTREE *t, PAGE *sp, const DBT *key, const DBT *data, int flags,
 		}
 
 		/* Split the parent page if necessary or shift the indices. */
-		if (h->upper - h->lower < nbytes + sizeof(indx_t)) {
+		if ((size_t)h->upper - h->lower < nbytes + sizeof(indx_t)) {
 			sp = h;
 			h = h->pgno == P_ROOT ?
 			    bt_root(t, h, &l, &r, &skip, nbytes) :
@@ -589,7 +590,7 @@ bt_psplit(BTREE *t, PAGE *h, PAGE *l, PAGE *r, indx_t *pskip, size_t ilen)
 	CURSOR *c;
 	RLEAF *rl;
 	PAGE *rval;
-	void *src;
+	void *src = NULL;
 	indx_t full, half, nxt, off, skip, top, used;
 	u_int32_t nbytes;
 	int bigkeycnt, isbigkey;

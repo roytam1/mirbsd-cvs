@@ -1,3 +1,4 @@
+.\"	$MirOS: src/share/man/man9/random.9,v 1.2 2005/03/06 19:38:47 tg Exp $
 .\"	$OpenBSD: random.9,v 1.19 2004/04/04 13:19:36 jmc Exp $
 .\"
 .\" Copyright (c) 1996,2000 Michael Shalayeff
@@ -49,6 +50,8 @@
 .Fn get_random_bytes "void *buf" "size_t nbytes"
 .Ft u_int32_t
 .Fn arc4random "void"
+.Ft void
+.Fn rnd_addpool_add "uint32_t"
 .Sh DESCRIPTION
 The
 .Fn add_mouse_randomness ,
@@ -83,6 +86,18 @@ device.
 will give random 32 bit numbers hashed with
 the ARC4 algorithm, which appears to be faster and less abusive
 to the entropy pool.
+.Pp
+.Fn rnd_addpool_add
+is a macro that can be used to push a 32-bit chunk of data
+from unreliable random sources or userspace into the kernel.
+This macro is safe to be called at almost any situation,
+except from within
+.Fn rnd_addpool_reinit .
+The sysctl
+.Dv KERN_PUSHRAND
+can be used to disable input from this buffer which is also
+filled during writes to
+.Pa /dev/prandom .
 .Sh SEE ALSO
 .Xr arc4random 3 ,
 .Xr pchb 4 ,

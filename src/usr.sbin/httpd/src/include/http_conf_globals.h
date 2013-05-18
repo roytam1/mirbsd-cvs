@@ -1,3 +1,4 @@
+/* $MirOS: src/usr.sbin/httpd/src/include/http_conf_globals.h,v 1.2 2005/03/13 19:16:44 tg Exp $ */
 /* $OpenBSD: http_conf_globals.h,v 1.15 2005/03/28 23:26:51 niallo Exp $ */
 
 /* ====================================================================
@@ -65,7 +66,7 @@
 extern "C" {
 #endif
 
-/* 
+/*
  * Process config --- what the process ITSELF is doing
  */
 
@@ -78,7 +79,8 @@ extern API_VAR_EXPORT gid_t ap_group_id;
 extern API_VAR_EXPORT int ap_max_requests_per_child;
 extern API_VAR_EXPORT int ap_threads_per_child;
 extern API_VAR_EXPORT int ap_excess_requests_per_child;
-extern API_VAR_EXPORT struct in_addr ap_bind_address;
+extern API_VAR_EXPORT struct sockaddr_storage ap_bind_address;
+extern API_VAR_EXPORT int ap_default_family;
 extern listen_rec *ap_listeners;
 extern API_VAR_EXPORT int ap_daemons_to_start;
 extern API_VAR_EXPORT int ap_daemons_min_free;

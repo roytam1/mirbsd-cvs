@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: decl.c,v 1.10 2004/08/03 00:09:54 deraadt Exp $	*/
 /*	$NetBSD: decl.c,v 1.11 1995/10/02 17:34:16 jpo Exp $	*/
 
@@ -32,7 +33,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
+#if 0
 static char rcsid[] = "$OpenBSD: decl.c,v 1.10 2004/08/03 00:09:54 deraadt Exp $";
 #endif
 
@@ -42,6 +43,8 @@ static char rcsid[] = "$OpenBSD: decl.c,v 1.10 2004/08/03 00:09:54 deraadt Exp $
 #include <string.h>
 
 #include "lint1.h"
+
+__RCSID("$MirOS$");
 
 const	char *unnamed = "<unnamed>";
 
@@ -174,7 +177,7 @@ initdecl()
 		for (i = 0; i < NTSPEC; i++)
 			ttab[i].tt_psz = ttab[i].tt_sz;
 	}
-	
+
 	/* shared type structures */
 	typetab = xcalloc(NTSPEC, sizeof (type_t));
 	for (i = 0; i < NTSPEC; i++)
@@ -412,7 +415,7 @@ addtype(tp)
 	} else {
 		/*
 		 * remember specifiers "void", "char", "int", "float" or
-		 * "double" int dcs->d_atyp 
+		 * "double" int dcs->d_atyp
 		 */
 		if (dcs->d_atyp != NOTSPEC)
 			/* more than one, print error in deftyp() */
@@ -1150,7 +1153,7 @@ align(al, len)
 	 */
 	if (al > dcs->d_stralign)
 		dcs->d_stralign = al;
-	
+
 	no = (dcs->d_offset + (al - 1)) & ~(al - 1);
 	if (len == 0 || dcs->d_offset + len > no)
 		dcs->d_offset = no;
@@ -1384,7 +1387,7 @@ osfunc(decl, args)
 	    decl->s_type == dcs->d_nxt->d_type) {
 		/*
 		 * We assume that this becomes a function definition. If
-		 * we are wrong, its corrected in chkfdef(). 
+		 * we are wrong, its corrected in chkfdef().
 		 */
 		if (args != NULL) {
 			decl->s_osdef = 1;
@@ -1852,7 +1855,7 @@ decl1ext(dsym, initflg)
 		}
 
 		if (!redec && !isredec(dsym, (warn = 0, &warn))) {
-		
+
 			if (warn) {
 				/* redeclaration of %s */
 				(*(sflag ? error : warning))(27, dsym->s_name);
@@ -1898,7 +1901,7 @@ decl1ext(dsym, initflg)
 			compltyp(dsym, rdsym);
 
 		}
-		
+
 		rmsym(rdsym);
 	}
 
@@ -2419,7 +2422,7 @@ cluparg()
 		/* from now the prototype is valid */
 		funcsym->s_osdef = 0;
 		funcsym->s_args = NULL;
-		
+
 	}
 
 }
@@ -2572,7 +2575,7 @@ decl1loc(dsym, initflg)
 			if (hflag)
 				/* declaration hides earlier one: %s */
 				warning(95, dsym->s_name);
-			
+
 		}
 
 		if (dcs->d_rdcsym->s_blklev == blklev) {
@@ -3043,7 +3046,7 @@ chkglvar(sym)
 {
 	if (sym->s_scl == TYPEDEF || sym->s_scl == ENUMCON)
 		return;
-	
+
 	if (sym->s_scl != EXTERN && sym->s_scl != STATIC)
 		lerror("chkglvar() 1");
 
@@ -3069,8 +3072,9 @@ chkglvar(sym)
 					warning(290, sym->s_name);
 				}
 			} else if (!sym->s_set) {
-				/* static variable %s unused */
-				warning(226, sym->s_name);
+				if (strncmp(sym->s_name, "__LINTED__", 10))
+					/* static variable %s unused */
+					warning(226, sym->s_name);
 			} else {
 				/* static variable %s set but not used */
 				warning(307, sym->s_name);

@@ -1,3 +1,4 @@
+/* $MirOS: src/lib/libc/gen/disklabel.c,v 1.2 2005/03/06 20:28:40 tg Exp $ */
 /*
  * Copyright (c) 1983, 1987, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -58,7 +59,7 @@ getdiskbyname(const char *name)
 	if (cgetent(&buf, db_array, (char *) name) < 0)
 		return NULL;
 
-	bzero((char *)&disk, sizeof(disk));
+	memset((char *)&disk, 0, sizeof(disk));
 	/*
 	 * typename
 	 */

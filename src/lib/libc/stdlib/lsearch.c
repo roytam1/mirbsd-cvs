@@ -32,13 +32,11 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) && !defined(lint)
-static char sccsid[] = "@(#)lsearch.c	8.1 (Berkeley) 6/4/93";
-#endif /* LIBC_SCCS and not lint */
-
 #include <sys/types.h>
 #include <string.h>
 #include <search.h>
+
+__SCCSID("@(#)lsearch.c	8.1 (Berkeley) 6/4/93");
 
 typedef int (*cmp_fn_t)(const void *, const void *);
 static void *linear_base(const void *, const void *, size_t *, size_t,

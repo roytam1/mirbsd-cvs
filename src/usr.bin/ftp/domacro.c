@@ -30,16 +30,14 @@
  * SUCH DAMAGE.
  */
 
-#if !defined(lint) && !defined(SMALL)
-static char rcsid[] = "$OpenBSD: domacro.c,v 1.11 2004/07/20 03:50:25 deraadt Exp $";
-#endif /* not lint and not SMALL */
-
 #include <ctype.h>
 #include <signal.h>
 #include <stdio.h>
 #include <string.h>
 
 #include "ftp_var.h"
+
+__RCSID("$MirOS: src/usr.bin/ftp/domacro.c,v 1.2 2005/03/15 18:44:52 tg Exp $");
 
 void
 domacro(int argc, char *argv[])

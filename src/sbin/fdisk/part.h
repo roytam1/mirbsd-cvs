@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: part.h,v 1.13 2004/08/03 09:22:03 otto Exp $	*/
 
 /*
@@ -43,7 +44,7 @@ void	PRT_printall(void);
 const char *PRT_ascii_id(int);
 void PRT_parse(disk_t *, void *, off_t, off_t, prt_t *);
 void PRT_make(prt_t *, off_t, off_t, void *);
-void PRT_print(int, prt_t *, char *);
+void PRT_print(int, prt_t *, char *, int);
 
 /* This does CHS -> bs/ns */
 void PRT_fix_BN(disk_t *, prt_t *, int);
@@ -52,4 +53,3 @@ void PRT_fix_BN(disk_t *, prt_t *, int);
 void PRT_fix_CHS(disk_t *, prt_t *);
 
 #endif /* _PART_H */
-

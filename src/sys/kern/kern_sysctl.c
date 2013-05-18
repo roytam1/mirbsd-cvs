@@ -1,7 +1,11 @@
-/*	$OpenBSD: kern_sysctl.c,v 1.106 2004/04/19 22:52:33 tedu Exp $	*/
+/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.6 2006/02/21 21:08:47 tg Exp $ */
+/*	$NetBSD: kern_sysctl.c,v 1.146 2003/09/28 13:24:48 dsl Exp $	*/
+/*	$OpenBSD: kern_sysctl.c,v 1.126 2005/06/04 05:10:40 tedu Exp $	*/
 /*	$NetBSD: kern_sysctl.c,v 1.17 1996/05/20 17:49:05 mrg Exp $	*/
 
 /*-
+ * Copyright (c) 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1982, 1986, 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -62,6 +66,13 @@
 #include <sys/exec.h>
 #include <sys/mbuf.h>
 #include <sys/sensors.h>
+#include <sys/conf.h>
+#ifdef __HAVE_TIMECOUNTER
+#include <sys/timetc.h>
+#endif
+#ifdef __HAVE_EVCOUNT
+#include <sys/evcount.h>
+#endif
 
 #include <sys/mount.h>
 #include <sys/syscallargs.h>
@@ -100,6 +111,10 @@ int sysctl_emul(int *, u_int, void *, size_t *, void *, size_t);
 
 int (*cpu_cpuspeed)(int *);
 int (*cpu_setperf)(int);
+static int do_cpu_setperf(int);
+int perflevel = 100;
+
+extern char root_devname[];
 
 /*
  * Lock to avoid too many processes vslocking a large amount of memory
@@ -111,9 +126,25 @@ struct lock sysctl_lock, sysctl_disklock;
 struct lock sysctl_kmemlock;
 #endif
 
+void sysctl_init_values(void);
+
+static int
+do_cpu_setperf(int newspeed)
+{
+	int rv = EOPNOTSUPP;
+	if (cpu_setperf) {
+		rv = cpu_setperf(newspeed);
+		if (!rv)
+			__do_calibrate_cyclecounter(&rv);
+	}
+	return (rv);
+}
+
 void
 sysctl_init()
 {
+	sysctl_init_values();
+
 	lockinit(&sysctl_lock, PLOCK|PCATCH, "sysctl", 0, 0);
 	lockinit(&sysctl_disklock, PLOCK|PCATCH, "sysctl_disklock", 0, 0);
 
@@ -136,14 +167,11 @@ sys___sysctl(p, v, retval)
 		syscallarg(void *) new;
 		syscallarg(size_t) newlen;
 	} */ *uap = v;
-	int error, dolock = 1;
+	int error, dolock = 1, canwrite = 0;
 	size_t savelen = 0, oldlen = 0;
 	sysctlfn *fn;
 	int name[CTL_MAXNAME];
 
-	if (SCARG(uap, new) != NULL &&
-	    (error = suser(p, 0)))
-		return (error);
 	/*
 	 * all top-level sysctl names are non-terminal
 	 */
@@ -159,6 +187,8 @@ sys___sysctl(p, v, retval)
 		fn = kern_sysctl;
 		if (name[1] == KERN_VNODE)	/* XXX */
 			dolock = 0;
+		if (name[1] == KERN_ARND)	/* non-root write access */
+			canwrite = 1;
 		break;
 	case CTL_HW:
 		fn = hw_sysctl;
@@ -191,6 +221,10 @@ sys___sysctl(p, v, retval)
 	default:
 		return (EOPNOTSUPP);
 	}
+
+	if (SCARG(uap, new) != NULL && !canwrite &&
+	    (error = suser(p, 0)))
+		return (error);
 
 	if (SCARG(uap, oldlenp) &&
 	    (error = copyin(SCARG(uap, oldlenp), &oldlen, sizeof(oldlen))))
@@ -227,7 +261,7 @@ sys___sysctl(p, v, retval)
  */
 char hostname[MAXHOSTNAMELEN];
 int hostnamelen;
-char domainname[MAXHOSTNAMELEN];
+char domainname[1] = "";
 int domainnamelen;
 long hostid;
 char *disknames = NULL;
@@ -237,6 +271,9 @@ int securelevel = -1;
 #else
 int securelevel;
 #endif
+int allowpsa = 1, allowpse = 1;
+#define	MAXEMULUNAMELEN 65
+char emul_uname[MAXEMULUNAMELEN];
 
 /*
  * kernel related system variables.
@@ -278,6 +315,12 @@ kern_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 		case KERN_INTRCNT:
 		case KERN_WATCHDOG:
 		case KERN_EMUL:
+#ifdef __HAVE_EVCOUNT
+		case KERN_EVCOUNT:
+#endif
+#ifdef __HAVE_TIMECOUNTER
+		case KERN_TIMECOUNTER:
+#endif
 			break;
 		default:
 			return (ENOTDIR);	/* overloaded */
@@ -289,8 +332,10 @@ kern_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 		return (sysctl_rdstring(oldp, oldlenp, newp, ostype));
 	case KERN_OSRELEASE:
 		return (sysctl_rdstring(oldp, oldlenp, newp, osrelease));
+	case KERN_OSPATCHLEVEL:
+		return (sysctl_rdstring(oldp, oldlenp, newp, ospatchlevel));
 	case KERN_OSREV:
-		return (sysctl_rdint(oldp, oldlenp, newp, OpenBSD));
+		return (sysctl_rdint(oldp, oldlenp, newp, MirBSD));
 	case KERN_OSVERSION:
 		return (sysctl_rdstring(oldp, oldlenp, newp, osversion));
 	case KERN_VERSION:
@@ -328,10 +373,7 @@ kern_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 			hostnamelen = newlen;
 		return (error);
 	case KERN_DOMAINNAME:
-		error = sysctl_tstring(oldp, oldlenp, newp, newlen,
-		    domainname, sizeof(domainname));
-		if (newp && !error)
-			domainnamelen = newlen;
+		error = sysctl_rdstring(oldp, oldlenp, newp, domainname);
 		return (error);
 	case KERN_HOSTID:
 		inthostid = hostid;  /* XXX assumes sizeof long <= sizeof int */
@@ -356,11 +398,6 @@ kern_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 	case KERN_MBSTAT:
 		return (sysctl_rdstruct(oldp, oldlenp, newp, &mbstat,
 		    sizeof(mbstat)));
-#ifdef GPROF
-	case KERN_PROF:
-		return (sysctl_doprof(name + 1, namelen - 1, oldp, oldlenp,
-		    newp, newlen));
-#endif
 	case KERN_POSIX1:
 		return (sysctl_rdint(oldp, oldlenp, newp, _POSIX_VERSION));
 	case KERN_NGROUPS:
@@ -386,8 +423,31 @@ kern_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 	case KERN_RND:
 		return (sysctl_rdstruct(oldp, oldlenp, newp, &rndstats,
 		    sizeof(rndstats)));
-	case KERN_ARND:
-		return (sysctl_rdint(oldp, oldlenp, newp, arc4random()));
+	case KERN_ARND: {
+		char buf[256];
+		int i;
+
+		if (newlen > sizeof (buf))
+			newlen = sizeof (buf);
+		if (newp && newlen) {
+			uint32_t *buf2 = (uint32_t *)buf;
+
+			if ((error = copyin(newp, buf, newlen)))
+				return (error);
+			for (i = 0; i < newlen; i += 4)
+				rnd_addpool_add(*buf2++);
+			rnd_addpool_add((uint32_t)newp);
+		}
+
+		if (*oldlenp > sizeof(buf))
+			*oldlenp = sizeof(buf);
+		if (oldp) {
+			arc4random_bytes(buf, *oldlenp);
+			if ((error = copyout(buf, oldp, *oldlenp)))
+				return (error);
+		}
+		return (0);
+	}
 	case KERN_NOSUIDCOREDUMP:
 		return (sysctl_int(oldp, oldlenp, newp, newlen, &nosuidcoredump));
 	case KERN_FSYNC:
@@ -428,6 +488,20 @@ kern_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 		return (sysctl_malloc(name + 1, namelen - 1, oldp, oldlenp,
 		    newp, newlen, p));
 	case KERN_CPTIME:
+#ifdef __HAVE_CPUINFO
+	{
+		CPU_INFO_ITERATOR cii;
+		struct cpu_info *ci;
+		int i;
+
+		bzero(cp_time, sizeof(cp_time));
+
+		for (CPU_INFO_FOREACH(cii, ci)) {
+			for (i = 0; i < CPUSTATES; i++)
+				cp_time[i] += ci->ci_schedstate.spc_cp_time[i];
+		}
+	}
+#endif
 		return (sysctl_rdstruct(oldp, oldlenp, newp, &cp_time,
 		    sizeof(cp_time)));
 	case KERN_NCHSTATS:
@@ -456,7 +530,7 @@ kern_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 		 * Safety harness.
 		 */
 		if ((stackgap < ALIGNBYTES && stackgap != 0) ||
-		    !powerof2(stackgap) || stackgap >= 256 * 1024 * 1024)
+		    !powerof2(stackgap) || stackgap >= MAXSSIZ)
 			return (EINVAL);
 		stackgap_random = stackgap;
 		return (0);
@@ -494,14 +568,42 @@ kern_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 		return (sysctl_wdog(name + 1, namelen - 1, oldp, oldlenp,
 		    newp, newlen));
 #endif
+	case KERN_ALLOWPSA:
+		return sysctl_int(oldp, oldlenp, newp, newlen,
+		    &allowpsa);
+	case KERN_ALLOWPSE:
+		return sysctl_int(oldp, oldlenp, newp, newlen,
+		    &allowpse);
 	case KERN_EMUL:
 		return (sysctl_emul(name + 1, namelen - 1, oldp, oldlenp,
 		    newp, newlen));
+ 	case KERN_ROOT_DEVICE:
+		return sysctl_rdstring(oldp, oldlenp, newp,
+		    root_devname);
+	case KERN_ROOT_PARTITION:
+		return sysctl_rdint(oldp, oldlenp, newp, DISKPART(rootdev));
+	case KERN_PUSHRAND:
+		return sysctl_int(oldp, oldlenp, newp, newlen,
+		    &rnd_addpool_allow);
 	case KERN_MAXCLUSTERS:
 		error = sysctl_int(oldp, oldlenp, newp, newlen, &nmbclust);
 		if (!error)
 			nmbclust_update();
 		return (error);
+	case KERN_EMULUNAME:
+		error = sysctl_tstring(oldp, oldlenp, newp, newlen,
+		    emul_uname, MAXEMULUNAMELEN);
+		return (error);
+#ifdef __HAVE_EVCOUNT
+	case KERN_EVCOUNT:
+		return (evcount_sysctl(name + 1, namelen - 1, oldp, oldlenp,
+		    newp, newlen));
+#endif
+#ifdef __HAVE_TIMECOUNTER
+	case KERN_TIMECOUNTER:
+		return (sysctl_tc(name + 1, namelen - 1, oldp, oldlenp,
+		    newp, newlen));
+#endif
 	default:
 		return (EOPNOTSUPP);
 	}
@@ -524,8 +626,6 @@ hw_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 	extern char machine[], cpu_model[];
 	int err;
 	int cpuspeed;
-	static int perflevel = 100;
-	int operflevel;
 
 	/* all sysctl names at this level except sensors are terminal */
 	if (name[0] != HW_SENSORS && namelen != 1)
@@ -577,17 +677,17 @@ hw_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 	case HW_SETPERF:
 		if (!cpu_setperf)
 			return (EOPNOTSUPP);
-		operflevel = perflevel;
 		err = sysctl_int(oldp, oldlenp, newp, newlen, &perflevel);
 		if (err)
 			return err;
-		if (perflevel == operflevel)
-			return (0);
 		if (perflevel > 100)
 			perflevel = 100;
 		if (perflevel < 0)
 			perflevel = 0;
-		return (cpu_setperf(perflevel));
+		if (newp)
+			return (do_cpu_setperf(perflevel));
+		else
+			return (0);
 	default:
 		return (EOPNOTSUPP);
 	}
@@ -998,6 +1098,14 @@ again:
 		if (p->p_stat == SIDL)
 			continue;
 		/*
+		 * Skip processes with different real uid
+		 */
+		if ((!allowpsa) &&
+		    (curproc->p_cred->p_ruid != p->p_cred->p_ruid) &&
+		    (curproc->p_cred->p_rgid))
+			continue;
+
+		/*
 		 * TODO - make more efficient (see notes below).
 		 */
 		switch (op) {
@@ -1262,7 +1370,11 @@ fill_kproc2(struct proc *p, struct kinfo_proc2 *ki)
 		ki->p_stat = p->p_stat;
 		ki->p_swtime = p->p_swtime;
 		ki->p_slptime = p->p_slptime;
+#ifdef __HAVE_CPUINFO
+		ki->p_schedflags = 0;
+#else
 		ki->p_schedflags = p->p_schedflags;
+#endif
 		ki->p_holdcnt = p->p_holdcnt;
 		ki->p_priority = p->p_priority;
 		ki->p_usrpri = p->p_usrpri;
@@ -1322,7 +1434,7 @@ int
 sysctl_proc_args(int *name, u_int namelen, void *oldp, size_t *oldlenp,
     struct proc *cp)
 {
-	struct proc *vp;
+	struct proc *vp, *cur = curproc;
 	pid_t pid;
 	int op;
 	struct ps_strings pss;
@@ -1355,6 +1467,19 @@ sysctl_proc_args(int *name, u_int namelen, void *oldp, size_t *oldlenp,
 
 	if ((vp = pfind(pid)) == NULL)
 		return (ESRCH);
+
+	if ((!allowpse) &&
+	    (cur->p_cred->p_ruid != vp->p_cred->p_ruid) &&
+	    (cur->p_cred->p_rgid))
+		return (EPERM);
+
+	if (oldp == NULL) {
+		if (op == KERN_PROC_NARGV || op == KERN_PROC_NENV)
+			*oldlenp = sizeof(int);
+		else
+			*oldlenp = ARG_MAX;	/* XXX XXX XXX */
+		return (0);
+	}
 
 	if (P_ZOMBIE(vp) || (vp->p_flag & P_SYSTEM))
 		return (EINVAL);
@@ -1403,12 +1528,6 @@ sysctl_proc_args(int *name, u_int namelen, void *oldp, size_t *oldlenp,
 	/* -1 to have space for a terminating NUL */
 	limit = *oldlenp - 1;
 	*oldlenp = 0;
-
-	if (limit > 8 * PAGE_SIZE) {
-		/* Don't allow a denial of service. */
-		error = E2BIG;
-		goto out;
-	}
 
 	rargv = oldp;
 
@@ -1605,13 +1724,13 @@ sysctl_sysvipc(name, namelen, where, sizep)
 	size_t *sizep;
 {
 #ifdef SYSVMSG
-	struct msg_sysctl_info *msgsi;
+	struct msg_sysctl_info *msgsi = NULL;
 #endif
 #ifdef SYSVSEM
-	struct sem_sysctl_info *semsi;
+	struct sem_sysctl_info *semsi = NULL;
 #endif
 #ifdef SYSVSHM
-	struct shm_sysctl_info *shmsi;
+	struct shm_sysctl_info *shmsi = NULL;
 #endif
 	size_t infosize, dssize, tsize, buflen;
 	int i, nds, error, ret;
@@ -1738,6 +1857,9 @@ sysctl_sysvipc(name, namelen, where, sizep)
 int
 sysctl_intrcnt(int *name, u_int namelen, void *oldp, size_t *oldlenp)
 {
+#ifdef __HAVE_EVCOUNT
+	return (evcount_sysctl(name, namelen, oldp, oldlenp, NULL, 0));
+#else
 	extern int intrcnt[], eintrcnt[];
 	extern char intrnames[], eintrnames[];
 	char *intrname;
@@ -1758,7 +1880,7 @@ sysctl_intrcnt(int *name, u_int namelen, void *oldp, size_t *oldlenp)
 		return (sysctl_rdint(oldp, oldlenp, NULL, nintr));
 		break;
 	case KERN_INTRCNT_CNT:
-		return (sysctl_rdint(oldp, oldlenp, NULL, intrcnt[i]));
+		return (sysctl_rdquad(oldp, oldlenp, NULL, intrcnt[i]));
 	case KERN_INTRCNT_NAME:
 		intrname = intrnames;
 		while (i > 0) {
@@ -1771,6 +1893,7 @@ sysctl_intrcnt(int *name, u_int namelen, void *oldp, size_t *oldlenp)
 	default:
 		return (EOPNOTSUPP);
 	}
+#endif
 }
 
 int nsensors = 0;
@@ -1787,7 +1910,7 @@ sysctl_sensors(int *name, u_int namelen, void *oldp, size_t *oldlenp,
 		return (ENOTDIR);
 
 	num = name[0];
-	if (num >= nsensors)
+	if (num < 0 || num >= nsensors)
 		return (ENXIO);
 
 	SLIST_FOREACH(s, &sensors, list)
@@ -1830,4 +1953,11 @@ sysctl_emul(int *name, u_int namelen, void *oldp, size_t *oldlenp,
 	default:
 		return (EINVAL);
 	}
+}
+
+/* should be last because of declarations */
+void
+sysctl_init_values(void)
+{
+	strlcpy(emul_uname, ostype, MAXEMULUNAMELEN);
 }

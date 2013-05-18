@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.4 2005/05/04 18:31:07 tg Exp $ */
 /*	$OpenBSD: mod_rewrite.c,v 1.24 2005/02/09 12:13:10 henning Exp $ */
 
 /* ====================================================================
@@ -99,6 +100,10 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 
+#ifndef __RCSID
+#define	__RCSID(x)	static const char __rcsid[] = (x)
+#endif
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.4 2005/05/04 18:31:07 tg Exp $");
 
 /*
 ** +-------------------------------------------------------+
@@ -273,14 +278,14 @@ static void *config_server_merge(pool *p, void *basev, void *overridesv)
          *  local directives override
          *  and anything else is inherited
          */
-        a->rewriteloglevel = overrides->rewriteloglevel != 0 
+        a->rewriteloglevel = overrides->rewriteloglevel != 0
                              ? overrides->rewriteloglevel
                              : base->rewriteloglevel;
-        a->rewritelogfile  = overrides->rewritelogfile != NULL 
+        a->rewritelogfile  = overrides->rewritelogfile != NULL
                              ? overrides->rewritelogfile
                              : base->rewritelogfile;
-        a->rewritelogfp    = overrides->rewritelogfp != -1 
-                             ? overrides->rewritelogfp 
+        a->rewritelogfp    = overrides->rewritelogfp != -1
+                             ? overrides->rewritelogfp
                              : base->rewritelogfp;
         a->rewritemaps     = ap_append_arrays(p, overrides->rewritemaps,
                                               base->rewritemaps);
@@ -384,7 +389,7 @@ static const char *cmd_rewriteengine(cmd_parms *cmd,
 {
     rewrite_server_conf *sconf;
 
-    sconf = 
+    sconf =
         (rewrite_server_conf *)ap_get_module_config(cmd->server->module_config,
                                                     &rewrite_module);
 
@@ -881,7 +886,7 @@ static const char *cmd_rewriterule_setflag(pool *p, rewriterule_entry *cfg,
             else if (strcasecmp(val, "seeother") == 0) {
                 status = HTTP_SEE_OTHER;
             }
-            else if (ap_isdigit(*val)) {
+            else if (isdigit((unsigned char)*val)) {
                 status = atoi(val);
             }
             if (!ap_is_HTTP_REDIRECT(status)) {
@@ -1099,7 +1104,7 @@ static int hook_uri2file(request_rec *r)
         thisport = "";
     }
     else {
-        ap_snprintf(buf, sizeof(buf), ":%u", port);
+        snprintf(buf, sizeof(buf), ":%u", port);
         thisport = buf;
     }
     thisurl = ap_table_get(r->subprocess_env, ENVVAR_SCRIPT_URL);
@@ -1267,7 +1272,7 @@ static int hook_uri2file(request_rec *r)
                                                   r->server->pathlen), NULL);
                     }
                     else {
-                        r->filename = ap_pstrcat(r->pool, docroot, 
+                        r->filename = ap_pstrcat(r->pool, docroot,
                                                  r->filename, NULL);
                     }
                     rewritelog(r, 2, "prefixed with document_root to %s",
@@ -1584,7 +1589,7 @@ static int hook_fixup(request_rec *r)
         }
     }
     else {
-        rewritelog(r, 1, "[per-dir %s] pass through %s", 
+        rewritelog(r, 1, "[per-dir %s] pass through %s",
                    dconf->directory, r->filename);
         return DECLINED;
     }
@@ -2254,7 +2259,7 @@ static int apply_rewrite_cond(request_rec *r, rewritecond_entry *p,
 
             /* log it */
             rewritelog(r, 5, "RewriteCond file (-F) check: path=%s "
-                       "-> file=%s status=%d", input, rsub->filename, 
+                       "-> file=%s status=%d", input, rsub->filename,
                        rsub->status);
 
             /* cleanup by destroying the subrequest */
@@ -2423,7 +2428,7 @@ static void do_expand(request_rec *r, char *input, char *buffer, int nbuf,
 	    space -= span;
 	    continue;
 	}
-	else if (ap_isdigit(inp[1])) {
+	else if (isdigit((unsigned char)inp[1])) {
 	    int n = inp[1] - '0';
 	    backrefinfo *bri = NULL;
 	    if (inp[0] == '$') {
@@ -2546,7 +2551,7 @@ static void reduce_uri(request_rec *r)
 
     cp = ap_http_method(r);
     l  = strlen(cp);
-    if (   (int)strlen(r->filename) > l+3 
+    if (   (int)strlen(r->filename) > l+3
         && strncasecmp(r->filename, cp, l) == 0
         && r->filename[l]   == ':'
         && r->filename[l+1] == '/'
@@ -2627,7 +2632,7 @@ static void fully_qualify_uri(request_rec *r)
             thisport = "";
         }
         else {
-            ap_snprintf(buf, sizeof(buf), ":%u", port);
+            snprintf(buf, sizeof(buf), ":%u", port);
             thisport = buf;
         }
 
@@ -2855,7 +2860,7 @@ static char *lookup_map(request_rec *r, char *name, char *key)
 
     /* get map configuration */
     sconf = r->server->module_config;
-    conf  = (rewrite_server_conf *)ap_get_module_config(sconf, 
+    conf  = (rewrite_server_conf *)ap_get_module_config(sconf,
                                                         &rewrite_module);
     rewritemaps = conf->rewritemaps;
 
@@ -3031,7 +3036,7 @@ static char *lookup_map_txtfile(request_rec *r, char *file, char *key)
         *cpT = '\0';
         if (strcmp(curkey, key) != 0)
             continue; /* key does not match... */
-            
+
         /* found a matching key; now extract and return the value */
         ++cpT;
         skip = strspn(cpT, " \t\r\n");
@@ -3063,7 +3068,7 @@ static char *lookup_map_dbmfile(request_rec *r, char *file, char *key)
     if ((dbmfp = dbm_open(file, O_RDONLY, 0666)) != NULL) {
         dbmval = dbm_fetch(dbmfp, dbmkey);
         if (dbmval.dptr != NULL) {
-            len = dbmval.dsize < sizeof(buf)-1 ? 
+            len = dbmval.dsize < sizeof(buf)-1 ?
                   dbmval.dsize : sizeof(buf)-1;
             memcpy(buf, dbmval.dptr, len);
             buf[len] = '\0';
@@ -3250,7 +3255,7 @@ static void open_rewritelog(server_rec *s, pool *p)
 
     if (*conf->rewritelogfile == '|') {
         if ((pl = ap_open_piped_log(p, conf->rewritelogfile+1)) == NULL) {
-            ap_log_error(APLOG_MARK, APLOG_ERR, s, 
+            ap_log_error(APLOG_MARK, APLOG_ERR, s,
                          "mod_rewrite: could not open reliable pipe "
                          "to RewriteLog filter %s", conf->rewritelogfile+1);
             exit(1);
@@ -3266,7 +3271,7 @@ static void open_rewritelog(server_rec *s, pool *p)
 		    rewritelog_mode, 1);
 	}
         if (conf->rewritelogfp < 0) {
-            ap_log_error(APLOG_MARK, APLOG_ERR, s, 
+            ap_log_error(APLOG_MARK, APLOG_ERR, s,
 
                          "mod_rewrite: could not open RewriteLog "
                          "file %s", fname);
@@ -3319,7 +3324,7 @@ static void rewritelog(request_rec *r, int level, const char *text, ...)
         ruser = "\"\"";
     }
 
-    rhost = ap_get_remote_host(conn, r->server->module_config, 
+    rhost = ap_get_remote_host(conn, r->server->module_config,
                                REMOTE_NOLOOKUP);
     if (rhost == NULL) {
         rhost = "UNKNOWN-HOST";
@@ -3329,7 +3334,7 @@ static void rewritelog(request_rec *r, int level, const char *text, ...)
                       (conn->remote_logname != NULL ?
                       conn->remote_logname : "-"), " ",
                       ruser, NULL);
-    ap_vsnprintf(str2, sizeof(str2), text, ap);
+    vsnprintf(str2, sizeof(str2), text, ap);
 
     if (r->main == NULL) {
         strlcpy(type, "initial", sizeof(type));
@@ -3345,10 +3350,10 @@ static void rewritelog(request_rec *r, int level, const char *text, ...)
         redir[0] = '\0';
     }
     else {
-        ap_snprintf(redir, sizeof(redir), "/redir#%d", i);
+        snprintf(redir, sizeof(redir), "/redir#%d", i);
     }
 
-    ap_snprintf(str3, sizeof(str3),
+    snprintf(str3, sizeof(str3),
                 "%s %s [%s/sid#%lx][rid#%lx/%s%s] (%d) %s\n", str1,
                 current_logtime(r), ap_get_server_name(r),
                 (unsigned long)(r->server), (unsigned long)r,
@@ -3376,7 +3381,7 @@ static char *current_logtime(request_rec *r)
     }
 
     strftime(tstr, 80, "[%d/%b/%Y:%H:%M:%S ", t);
-    ap_snprintf(tstr + strlen(tstr), 80-strlen(tstr), "%c%.2d%.2d]",
+    snprintf(tstr + strlen(tstr), 80-strlen(tstr), "%c%.2d%.2d]",
                 sign, timz/60, timz%60);
     return ap_pstrdup(r->pool, tstr);
 }
@@ -3605,6 +3610,10 @@ static char *lookup_variable(request_rec *r, char *var)
     else if (strcasecmp(var, "REMOTE_ADDR") == 0) {
         result = r->connection->remote_ip;
     }
+    else if (strcasecmp(var, "REMOTE_PORT") == 0) {
+        return ap_psprintf(r->pool, "%d",
+            ntohs(((struct sockaddr_in *)&r->connection->local_addr)->sin_port));
+    }
     else if (strcasecmp(var, "REMOTE_HOST") == 0) {
         result = (char *)ap_get_remote_host(r->connection,
                                          r->per_dir_config, REMOTE_NAME);
@@ -3657,7 +3666,7 @@ static char *lookup_variable(request_rec *r, char *var)
         result = r->connection->local_ip;
     }
     else if (strcasecmp(var, "SERVER_PORT") == 0) {
-        ap_snprintf(resultbuf, sizeof(resultbuf), "%u", ap_get_server_port(r));
+        snprintf(resultbuf, sizeof(resultbuf), "%u", ap_get_server_port(r));
         result = resultbuf;
     }
     else if (strcasecmp(var, "SERVER_PROTOCOL") == 0) {
@@ -3667,7 +3676,7 @@ static char *lookup_variable(request_rec *r, char *var)
         result = ap_get_server_version();
     }
     else if (strcasecmp(var, "API_VERSION") == 0) { /* non-standard */
-        ap_snprintf(resultbuf, sizeof(resultbuf), "%d:%d",
+        snprintf(resultbuf, sizeof(resultbuf), "%d:%d",
                     MODULE_MAGIC_NUMBER_MAJOR, MODULE_MAGIC_NUMBER_MINOR);
         result = resultbuf;
     }
@@ -3676,14 +3685,14 @@ static char *lookup_variable(request_rec *r, char *var)
     else if (strcasecmp(var, "TIME_YEAR") == 0) {
         tc = time(NULL);
         tm = localtime(&tc);
-        ap_snprintf(resultbuf, sizeof(resultbuf), "%02d%02d",
-                    (tm->tm_year / 100) + 19, tm->tm_year % 100);
+        snprintf(resultbuf, sizeof(resultbuf), "%04lld",
+                    (int64_t)tm->tm_year + 1900);
         result = resultbuf;
     }
 #define MKTIMESTR(format, tmfield) \
     tc = time(NULL); \
     tm = localtime(&tc); \
-    ap_snprintf(resultbuf, sizeof(resultbuf), format, tm->tmfield); \
+    snprintf(resultbuf, sizeof(resultbuf), format, tm->tmfield); \
     result = resultbuf;
     else if (strcasecmp(var, "TIME_MON") == 0) {
         MKTIMESTR("%02d", tm_mon+1)
@@ -3706,9 +3715,10 @@ static char *lookup_variable(request_rec *r, char *var)
     else if (strcasecmp(var, "TIME") == 0) {
         tc = time(NULL);
         tm = localtime(&tc);
-        ap_snprintf(resultbuf, sizeof(resultbuf),
-                    "%02d%02d%02d%02d%02d%02d%02d", (tm->tm_year / 100) + 19,
-                    (tm->tm_year % 100), tm->tm_mon+1, tm->tm_mday,
+        snprintf(resultbuf, sizeof(resultbuf),
+                    "%02d%02d%02d%02d%02d%02d%02d",
+		    (int)(tm->tm_year / 100) + 19,
+                    (int)(tm->tm_year % 100), tm->tm_mon+1, tm->tm_mday,
                     tm->tm_hour, tm->tm_min, tm->tm_sec);
         result = resultbuf;
         rewritelog(r, 1, "RESULT='%s'", result);
@@ -3797,7 +3807,7 @@ static char *lookup_variable(request_rec *r, char *var)
 
     else {
         ap_hook_use("ap::mod_rewrite::lookup_variable",
-                    AP_HOOK_SIG3(ptr,ptr,ptr), 
+                    AP_HOOK_SIG3(ptr,ptr,ptr),
                     AP_HOOK_DECLINE(NULL),
                     &result, r, var);
     }

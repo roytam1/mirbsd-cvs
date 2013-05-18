@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: pathnames.h,v 1.16 2006/03/25 22:22:43 djm Exp $ */
 
 /*
@@ -49,24 +50,24 @@
  * The directory in user\'s home directory in which the files reside. The
  * directory should be world-readable (though not all files are).
  */
-#define _PATH_SSH_USER_DIR		".ssh"
+#define _PATH_SSH_USER_DIR		".etc/ssh"
 
 /*
  * Per-user file containing host keys of known hosts.  This file need not be
  * readable by anyone except the user him/herself, though this does not
  * contain anything particularly secret.
  */
-#define _PATH_SSH_USER_HOSTFILE		"~/.ssh/known_hosts"
+#define _PATH_SSH_USER_HOSTFILE		"~/.etc/ssh/known_hosts"
 /* backward compat for protocol 2 */
-#define _PATH_SSH_USER_HOSTFILE2	"~/.ssh/known_hosts2"
+#define _PATH_SSH_USER_HOSTFILE2	"~/.etc/ssh/known_hosts2"
 
 /*
  * Name of the default file containing client-side authentication key. This
  * file should only be readable by the user him/herself.
  */
-#define _PATH_SSH_CLIENT_IDENTITY	".ssh/identity"
-#define _PATH_SSH_CLIENT_ID_DSA		".ssh/id_dsa"
-#define _PATH_SSH_CLIENT_ID_RSA		".ssh/id_rsa"
+#define _PATH_SSH_CLIENT_IDENTITY	".etc/ssh/identity"
+#define _PATH_SSH_CLIENT_ID_DSA		".etc/ssh/id_dsa"
+#define _PATH_SSH_CLIENT_ID_RSA		".etc/ssh/id_rsa"
 
 /*
  * Configuration file in user\'s home directory.  This file need not be
@@ -74,7 +75,7 @@
  * particularly secret.  If the user\'s home directory resides on an NFS
  * volume where root is mapped to nobody, this may need to be world-readable.
  */
-#define _PATH_SSH_USER_CONFFILE		".ssh/config"
+#define _PATH_SSH_USER_CONFFILE		".etc/ssh/config"
 
 /*
  * File containing a list of those rsa keys that permit logging in as this
@@ -84,10 +85,10 @@
  * may need to be world-readable.  (This file is read by the daemon which is
  * running as root.)
  */
-#define _PATH_SSH_USER_PERMITTED_KEYS	".ssh/authorized_keys"
+#define _PATH_SSH_USER_PERMITTED_KEYS	".etc/ssh/authorized_keys"
 
-/* backward compat for protocol v2 */
-#define _PATH_SSH_USER_PERMITTED_KEYS2	".ssh/authorized_keys2"
+/* rarely known feature */
+#define _PATH_SSH_USER_PERMITTED_KEYS2	".etc/ssh/authorised_keys"
 
 /*
  * Per-user and system-wide ssh "rc" files.  These files are executed with
@@ -95,7 +96,7 @@
  * passed "proto cookie" as arguments if X11 forwarding with spoofing is in
  * use.  xauth will be run if neither of these exists.
  */
-#define _PATH_SSH_USER_RC		".ssh/rc"
+#define _PATH_SSH_USER_RC		".etc/ssh/rc"
 #define _PATH_SSH_SYSTEM_RC		SSHDIR "/sshrc"
 
 /*

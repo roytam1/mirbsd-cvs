@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: kern_ipc_10.c,v 1.8 2004/05/05 05:18:17 mickey Exp $	*/
 /*	$NetBSD: kern_ipc_10.c,v 1.4 1995/10/07 06:26:25 mycroft Exp $	*/
 
@@ -31,6 +32,8 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
+#if defined(COMPAT_OPENBSD) && !defined(_LP64)
+
 #include <sys/param.h>
 #include <sys/systm.h>
 #include <sys/kernel.h>
@@ -48,7 +51,7 @@
  * there are other COMPAT_* options that need these old functions.
  */
 
-#if defined(SYSVSEM) && !defined(__LP64__)
+#if defined(SYSVSEM)
 int
 compat_10_sys_semsys(p, v, retval)
 	struct proc *p;
@@ -233,3 +236,5 @@ compat_10_sys_msgsys(p, v, retval)
 	}
 }
 #endif
+
+#endif /* def COMPAT_OPENBSD && ndef _LP64 */

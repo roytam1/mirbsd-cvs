@@ -1,4 +1,6 @@
+/**	$MirOS: src/usr.sbin/httpd/src/main/http_protocol.c,v 1.4 2005/12/04 15:33:03 tg Exp $ */
 /*	$OpenBSD: http_protocol.c,v 1.29 2005/11/11 15:09:54 cloder Exp $ */
+
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -121,7 +123,7 @@ static const char *make_content_type(request_rec *r, const char *type) {
 	 */
 	for (pcset = needcset; *pcset ; pcset++) {
 	    if (ap_strcasestr(type, *pcset) != NULL) {
-		type = ap_pstrcat(r->pool, type, "; charset=", 
+		type = ap_pstrcat(r->pool, type, "; charset=",
                                   conf->add_default_charset_name, NULL);
 		break;
 	    }
@@ -154,7 +156,7 @@ static enum byterange_token
 	return BYTERANGE_EMPTY;
     }
 
-    if (ap_isdigit(*r->range))
+    if (isdigit((unsigned char)*r->range))
 	*start = ap_strtol(r->range, (char **)&r->range, 10);
     else
 	*start = -1;
@@ -169,7 +171,7 @@ static enum byterange_token
     while (ap_isspace(*r->range))
         ++r->range;
 
-    if (ap_isdigit(*r->range))
+    if (isdigit((unsigned char)*r->range))
 	*end = ap_strtol(r->range, (char **)&r->range, 10);
     else
 	*end = -1;
@@ -232,7 +234,7 @@ static int byterange_boundary(request_rec *r, long start, long end, int output)
 	const char *ct = make_content_type(r, r->content_type);
 	char ts[MAX_STRING_LEN];
 
-	ap_snprintf(ts, sizeof(ts), "%ld-%ld/%ld", start, end, r->clength);
+	snprintf(ts, sizeof(ts), "%ld-%ld/%ld", start, end, r->clength);
 	if (output)
 	    ap_rvputs(r, CRLF "--", r->boundary, CRLF "Content-type: ",
 		      ct, CRLF "Content-range: bytes ", ts, CRLF CRLF,
@@ -253,7 +255,7 @@ API_EXPORT(int) ap_set_byterange(request_rec *r)
     long length, start, end, one_start = 0, one_end = 0;
     size_t u;
     int ranges, empty;
-    
+
     if (!r->clength || r->assbackwards)
         return 0;
 
@@ -348,7 +350,7 @@ API_EXPORT(int) ap_set_byterange(request_rec *r)
 	else {
 	    ap_table_setn(r->headers_out, "Content-Range",
 		ap_psprintf(r->pool, "bytes */%ld", r->clength));
-	    ap_set_content_length(r, 0);			  
+	    ap_set_content_length(r, 0);
 	    r->boundary = NULL;
 	    r->range = range;
 	    r->header_only = 1;
@@ -658,7 +660,7 @@ API_EXPORT(char *) ap_make_etag_orig(request_rec *r, int force_weak)
      * be modified again later in the second, and the validation
      * would be incorrect.
      */
-    
+
     weak = ((r->request_time - r->mtime > 1) && !force_weak) ? "" : "W/";
 
     if (r->finfo.st_mode != 0) {
@@ -741,7 +743,7 @@ API_EXPORT(void) ap_set_etag(request_rec *r)
 
         vlv = r->vlist_validator;
         vlv_weak = (vlv[0] == 'W');
-               
+
         variant_etag = ap_make_etag(r, vlv_weak);
 
         /* If we get a blank etag back, don't append vlv and stop now. */
@@ -969,7 +971,7 @@ static int read_request_line(request_rec *r)
         if ((len < 0) || ap_bgetflag(conn->client, B_EOF)) {
             ap_bsetflag(conn->client, B_SAFEREAD, 0);
 	    /* this is a hack to make sure that request time is set,
-	     * it's not perfect, but it's better than nothing 
+	     * it's not perfect, but it's better than nothing
 	     */
 	    r->request_time = time(0);
             return 0;
@@ -1012,8 +1014,8 @@ static int read_request_line(request_rec *r)
     if (strlen(r->protocol) == 8
         && r->protocol[0] == 'H' && r->protocol[1] == 'T'
 	&& r->protocol[2] == 'T' && r->protocol[3] == 'P'
-        && r->protocol[4] == '/' && ap_isdigit(r->protocol[5])
-	&& r->protocol[6] == '.' && ap_isdigit(r->protocol[7])) {
+        && r->protocol[4] == '/' && isdigit((unsigned char)r->protocol[5])
+	&& r->protocol[6] == '.' && isdigit((unsigned char)r->protocol[7])) {
         r->proto_num = HTTP_VERSION(r->protocol[5] - '0', r->protocol[7] - '0');
     }
     else {
@@ -1347,14 +1349,14 @@ API_EXPORT(void) ap_note_digest_auth_failure(request_rec *r)
      */
     char * nonce_prefix = ap_md5(r->pool,
            (unsigned char *)
-           ap_psprintf(r->pool, "%s%lu",
-                       ap_auth_nonce(r), r->request_time));
+           ap_psprintf(r->pool, "%s%qu",
+                       ap_auth_nonce(r), (int64_t)r->request_time));
 
     ap_table_setn(r->err_headers_out,
 	    r->proxyreq == STD_PROXY ? "Proxy-Authenticate"
 		  : "WWW-Authenticate",
-           ap_psprintf(r->pool, "Digest realm=\"%s\", nonce=\"%s%lu\"",
-               ap_auth_name(r), nonce_prefix, r->request_time));
+           ap_psprintf(r->pool, "Digest realm=\"%s\", nonce=\"%s%qu\"",
+               ap_auth_name(r), nonce_prefix, (int64_t)r->request_time));
 }
 
 API_EXPORT(int) ap_get_basic_auth_pw(request_rec *r, const char **pw)
@@ -1810,7 +1812,7 @@ API_EXPORT(void) ap_send_http_header(request_rec *r)
         ap_table_setn(r->headers_out, "Content-Type",
                   ap_pstrcat(r->pool, "multipart", use_range_x(r) ? "/x-" : "/",
                           "byteranges; boundary=", r->boundary, NULL));
-    else ap_table_setn(r->headers_out, "Content-Type", make_content_type(r, 
+    else ap_table_setn(r->headers_out, "Content-Type", make_content_type(r,
 	r->content_type));
 
     if (r->content_encoding)
@@ -2117,7 +2119,7 @@ API_EXPORT(long) ap_get_client_block(request_rec *r, char *buffer, int bufsiz)
         if (len_to_read == 0) { /* Last chunk indicated, get footers */
             if (r->read_body == REQUEST_CHUNKED_DECHUNK) {
                 get_mime_headers(r);
-                ap_snprintf(buffer, bufsiz, "%ld", r->read_length);
+                snprintf(buffer, bufsiz, "%ld", r->read_length);
                 ap_table_unset(r->headers_in, "Transfer-Encoding");
                 ap_table_setn(r->headers_in, "Content-Length",
                     ap_pstrdup(r->pool, buffer));
@@ -2493,7 +2495,7 @@ API_EXPORT(int) ap_rputs(const char *str, request_rec *r)
 
     if (r->connection->aborted)
         return EOF;
-    
+
     rcode = ap_bputs(str, r->connection->client);
     if (rcode < 0) {
         if (!r->connection->aborted) {
@@ -2768,9 +2770,9 @@ API_EXPORT(void) ap_send_error_response(request_rec *r, int recursive_error)
          */
         if (r->status_line != NULL
             && strlen(r->status_line) > 4       /* long enough */
-            && ap_isdigit(r->status_line[0])
-            && ap_isdigit(r->status_line[1])
-            && ap_isdigit(r->status_line[2])
+            && isdigit((unsigned char)r->status_line[0])
+            && isdigit((unsigned char)r->status_line[1])
+            && isdigit((unsigned char)r->status_line[2])
             && ap_isspace(r->status_line[3])
             && ap_isalnum(r->status_line[4])) {
             title = r->status_line;
@@ -2964,7 +2966,7 @@ API_EXPORT(void) ap_send_error_response(request_rec *r, int recursive_error)
 	default:            /* HTTP_INTERNAL_SERVER_ERROR */
 	    /*
 	     * This comparison to expose error-notes could be modified to
-	     * use a configuration directive and export based on that 
+	     * use a configuration directive and export based on that
 	     * directive.  For now "*" is used to designate an error-notes
 	     * that is totally safe for any user to see (ie lacks paths,
 	     * database passwords, etc.)
@@ -3029,7 +3031,7 @@ int ap_create_etag_state(pool *pconf)
     u_int32_t rnd;
     unsigned int u;
     int fd;
-    const char* filename;
+    char *filename;
 
     filename = ap_server_root_relative(pconf, "logs/etag-state");
     ap_server_strip_chroot(filename, 0);
@@ -3067,7 +3069,7 @@ int ap_read_etag_state(pool *pconf)
     u_int32_t rnd;
     unsigned int u;
     int fd;
-    const char* filename;
+    char *filename;
 
     ap_SHA1Init(&baseCtx);
 
@@ -3119,7 +3121,7 @@ API_EXPORT(void) ap_init_etag(pool *pconf)
               "could not initialize etag state");
             exit(-1);
         }
-    }			
+    }
 }
 
 API_EXPORT(char *) ap_make_etag(request_rec *r, int force_weak)
@@ -3129,18 +3131,17 @@ API_EXPORT(char *) ap_make_etag(request_rec *r, int force_weak)
     etag_components_t etag_bits;
     int weak;
     unsigned char md[SHA_DIGESTSIZE];
-    unsigned int i;
-    
+
     memcpy(&hashCtx, &baseCtx, sizeof(hashCtx));
-    
+
     cfg = (core_dir_config *)ap_get_module_config(r->per_dir_config,
       &core_module);
     etag_bits = (cfg->etag_bits & (~ cfg->etag_remove)) | cfg->etag_add;
     if (etag_bits == ETAG_UNSET)
         etag_bits = ETAG_BACKWARD;
-    
+
     weak = ((r->request_time - r->mtime <= 1) || force_weak);
-    
+
     if (r->finfo.st_mode != 0) {
         if (etag_bits & ETAG_NONE) {
             ap_table_setn(r->notes, "no-etag", "omit");

@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/arch/i386/i386/mainbus.c,v 1.2 2005/03/06 21:26:58 tg Exp $ */
 /*	$OpenBSD: mainbus.c,v 1.15 2002/03/14 01:26:32 millert Exp $	*/
 /*	$NetBSD: mainbus.c,v 1.21 1997/06/06 23:14:20 thorpej Exp $	*/
 
@@ -38,17 +39,16 @@
 #include <machine/bus.h>
 
 #include <dev/isa/isavar.h>
-#include <dev/eisa/eisavar.h>
 #include <dev/pci/pcivar.h>
 
 #include <dev/isa/isareg.h>		/* for ISA_HOLE_VADDR */
 #include <i386/isa/isa_machdep.h>
 
 #include "pci.h"
-#include "eisa.h"
 #include "isa.h"
 #include "apm.h"
 #include "bios.h"
+#include "powernowhack.h"
 
 #if NBIOS > 0
 #include <machine/biosvar.h>
@@ -70,7 +70,6 @@ int	mainbus_print(void *, const char *);
 union mainbus_attach_args {
 	const char *mba_busname;		/* first elem of all */
 	struct pcibus_attach_args mba_pba;
-	struct eisabus_attach_args mba_eba;
 	struct isabus_attach_args mba_iba;
 #if NBIOS > 0
 	struct bios_attach_args mba_bios;
@@ -107,6 +106,13 @@ mainbus_attach(parent, self, aux)
 
 	printf("\n");
 
+#if NPOWERNOWHACK > 0
+	{
+		mba.mba_busname = "powernowhack";
+		config_found(self, &mba.mba_busname, NULL);
+	}
+#endif
+
 #if NBIOS > 0
 	{
 		mba.mba_bios.bios_dev = "bios";
@@ -132,16 +138,6 @@ mainbus_attach(parent, self, aux)
 		config_found(self, &mba.mba_pba, mainbus_print);
 	}
 #endif
-
-	if (!bcmp(ISA_HOLE_VADDR(EISA_ID_PADDR), EISA_ID, EISA_ID_LEN)) {
-		mba.mba_eba.eba_busname = "eisa";
-		mba.mba_eba.eba_iot = I386_BUS_SPACE_IO;
-		mba.mba_eba.eba_memt = I386_BUS_SPACE_MEM;
-#if NEISA > 0
-		mba.mba_eba.eba_dmat = &eisa_bus_dma_tag;
-#endif
-		config_found(self, &mba.mba_eba, mainbus_print);
-	}
 
 	if (isa_has_been_seen == 0) {
 		mba.mba_iba.iba_busname = "isa";

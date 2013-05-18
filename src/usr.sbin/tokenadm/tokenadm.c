@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/tokenadm/tokenadm.c,v 1.2 2005/03/13 19:17:33 tg Exp $ */
 /*	$OpenBSD: tokenadm.c,v 1.8 2004/06/21 15:27:19 avsm Exp $	*/
 
 /*-

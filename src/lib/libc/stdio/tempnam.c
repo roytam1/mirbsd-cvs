@@ -36,8 +36,10 @@
 #include <unistd.h>
 #include <paths.h>
 
+__RCSID("$MirOS: src/lib/libc/stdio/tempnam.c,v 1.4 2005/10/21 10:53:26 tg Exp $");
+
 __warn_references(tempnam,
-    "warning: tempnam() possibly used unsafely; consider using mkstemp()");
+    "tempnam() possibly used unsafely; consider using mkstemp()");
 
 extern char *_mktemp(char *);
 
@@ -55,24 +57,26 @@ tempnam(const char *dir, const char *pfx)
 
 	if (issetugid() == 0 && (f = getenv("TMPDIR"))) {
 		(void)snprintf(name, MAXPATHLEN, "%s%s%sXXXXXXXXXX", f,
-		    *(f + strlen(f) - 1) == '/'? "": "/", pfx);
+		    *(f + strlen(f) - (*f == '\0' ? 0 : 1)) == '/'? "": "/",
+		    pfx);
 		if ((f = _mktemp(name)))
 			return(f);
 	}
 
 	if ((f = (char *)dir)) {
 		(void)snprintf(name, MAXPATHLEN, "%s%s%sXXXXXXXXXX", f,
-		    *(f + strlen(f) - 1) == '/'? "": "/", pfx);
+		    *(f + strlen(f) - (*f == '\0' ? 0 : 1)) == '/'? "": "/",
+		    pfx);
 		if ((f = _mktemp(name)))
 			return(f);
 	}
 
-	f = P_tmpdir;
+	f = (char *)P_tmpdir;
 	(void)snprintf(name, MAXPATHLEN, "%s%sXXXXXXXXX", f, pfx);
 	if ((f = _mktemp(name)))
 		return(f);
 
-	f = _PATH_TMP;
+	f = (char *)_PATH_TMP;
 	(void)snprintf(name, MAXPATHLEN, "%s%sXXXXXXXXX", f, pfx);
 	if ((f = _mktemp(name)))
 		return(f);

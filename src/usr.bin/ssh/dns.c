@@ -26,6 +26,7 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/dns.c,v 1.2 2006/02/22 02:16:45 tg Exp $");
 
 #include <netdb.h>
 
@@ -156,7 +157,8 @@ is_numeric_hostname(const char *hostname)
  * Returns 0 if lookup succeeds, -1 otherwise
  */
 int
-verify_host_key_dns(const char *hostname, struct sockaddr *address,
+verify_host_key_dns(const char *hostname,
+    struct sockaddr *address  __attribute__((unused)),
     const Key *hostkey, int *flags)
 {
 	u_int counter;

@@ -16,6 +16,9 @@
 #include "tzfile.h"
 #include "thread_private.h"
 
+__SCCSID("@(#)asctime.c	7.22");
+__RCSID("$MirOS: src/lib/libc/time/asctime.c,v 1.4 2005/09/22 20:33:01 tg Exp $");
+
 /*
 ** Some systems only handle "%.2d"; others only handle "%02d";
 ** "%02.2d" makes (most) everybody happy.
@@ -33,14 +36,14 @@
 ** The ISO C 1999 and POSIX 1003.1-2004 standards prohibit padding the year,
 ** but many implementations pad anyway; most likely the standards are buggy.
 */
-#define ASCTIME_FMT	"%.3s %.3s%3d %02.2d:%02.2d:%02.2d %-4s\n"
+#define ASCTIME_FMT	"%.3s %.3s%3d %2.2d:%2.2d:%2.2d %-4s\n"
 /*
 ** For years that are more than four digits we put extra spaces before the year
 ** so that code trying to overwrite the newline won't end up overwriting
 ** a digit within a year and truncating the year (operating on the assumption
 ** that no output is better than wrong output).
 */
-#define ASCTIME_FMT_B	"%.3s %.3s%3d %02.2d:%02.2d:%02.2d     %s\n"
+#define ASCTIME_FMT_B	"%.3s %.3s%3d %2.2d:%2.2d:%2.2d     %s\n"
 
 #define STD_ASCTIME_BUF_SIZE	26
 /*

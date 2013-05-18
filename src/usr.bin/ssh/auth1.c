@@ -11,6 +11,7 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/auth1.c,v 1.5 2006/02/22 02:16:44 tg Exp $");
 
 #include "xmalloc.h"
 #include "rsa.h"
@@ -37,7 +38,7 @@ static int auth1_process_tis_response(Authctxt *, char *, size_t);
 
 struct AuthMethod1 {
 	int type;
-	char *name;
+	const char *name;
 	int *enabled;
 	int (*method)(Authctxt *, char *, size_t);
 };
@@ -80,7 +81,7 @@ static const struct AuthMethod1
 	return (NULL);
 }
 
-static char *
+static const char *
 get_authname(int type)
 {
 	const struct AuthMethod1 *a;
@@ -229,10 +230,7 @@ do_authloop(Authctxt *authctxt)
 
 	/* If the user has no password, accept authentication immediately. */
 	if (options.password_authentication &&
-#ifdef KRB5
-	    (!options.kerberos_authentication || options.kerberos_or_local_passwd) &&
-#endif
-	    PRIVSEP(auth_password(authctxt, ""))) {
+	    PRIVSEP(auth_password(authctxt, (char *)""))) {
 		auth_log(authctxt, 1, "without authentication", "");
 		return;
 	}
@@ -277,7 +275,7 @@ do_authloop(Authctxt *authctxt)
 
 		/* Special handling for root */
 		if (authenticated && authctxt->pw->pw_uid == 0 &&
-		    !auth_root_allowed(meth->name))
+		    !auth_root_allowed((char *)meth->name))
 			authenticated = 0;
 
  skip:

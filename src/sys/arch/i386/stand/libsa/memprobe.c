@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/arch/i386/stand/libsa/memprobe.c,v 1.2 2005/03/06 21:27:07 tg Exp $	*/
 /*	$OpenBSD: memprobe.c,v 1.44 2005/05/03 13:18:04 tom Exp $	*/
 
 /*
@@ -398,7 +399,7 @@ mem_delete(long sa, long ea)
 
 			/* can we eat it as a whole? */
 			if ((sa - sp) <= NBPG && (ep - ea) <= NBPG) {
-				bcopy(p + 1, p, (char *)bios_memmap +
+				memmove(p, p + 1, (char *)bios_memmap +
 				    sizeof(bios_memmap) - (char *)p);
 				break;
 			/* eat head or legs */
@@ -411,7 +412,7 @@ mem_delete(long sa, long ea)
 				break;
 			} else if (sp < sa && ea < ep) {
 				/* bite in half */
-				bcopy(p, p + 1, (char *)bios_memmap +
+				memmove(p + 1, p, (char *)bios_memmap +
 				    sizeof(bios_memmap) - (char *)p -
 				    sizeof(bios_memmap[0]));
 				p[1].addr = ea;
@@ -446,7 +447,7 @@ mem_add(long sa, long ea)
 				break;
 			} else if (ea < sp) {
 				/* insert before */
-				bcopy(p, p + 1, (char *)bios_memmap +
+				memmove(p + 1, p, (char *)bios_memmap +
 				    sizeof(bios_memmap) - (char *)(p - 1));
 				p->addr = sa;
 				p->size = ea - sa;

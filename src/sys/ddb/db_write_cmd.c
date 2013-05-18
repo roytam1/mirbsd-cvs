@@ -1,28 +1,29 @@
+/**	$MirOS$ */
 /*	$OpenBSD: db_write_cmd.c,v 1.7 2002/05/16 13:01:41 art Exp $	*/
 /*	$NetBSD: db_write_cmd.c,v 1.6 1996/02/05 01:57:25 christos Exp $	*/
 
-/* 
+/*
  * Mach Operating System
  * Copyright (c) 1993,1992,1991,1990 Carnegie Mellon University
  * All Rights Reserved.
- * 
+ *
  * Permission to use, copy, modify and distribute this software and its
  * documentation is hereby granted, provided that both the copyright
  * notice and this permission notice appear in all copies of the
  * software, derivative works or modified versions, and any portions
  * thereof, and that both notices appear in supporting documentation.
- * 
+ *
  * CARNEGIE MELLON ALLOWS FREE USE OF THIS SOFTWARE IN ITS "AS IS"
  * CONDITION.  CARNEGIE MELLON DISCLAIMS ANY LIABILITY OF ANY KIND FOR
  * ANY DAMAGES WHATSOEVER RESULTING FROM THE USE OF THIS SOFTWARE.
- * 
+ *
  * Carnegie Mellon requests users of this software to return to
- * 
+ *
  *  Software Distribution Coordinator  or  Software.Distribution@CS.CMU.EDU
  *  School of Computer Science
  *  Carnegie Mellon University
  *  Pittsburgh PA 15213-3890
- * 
+ *
  * any improvements or extensions that they make and grant Carnegie Mellon
  * the rights to redistribute these changes.
  *
@@ -85,7 +86,7 @@ db_write_cmd(address, have_addr, count, modif)
 	while (db_expression(&new_value)) {
 	    old_value = db_get_value(addr, size, FALSE);
 	    db_printsym(addr, DB_STGY_ANY, db_printf);
-	    db_printf("\t\t%#8n\t=\t%#8n\n", old_value, new_value);
+	    db_printf("\t\t%#8n\t=\t%#8n\n", (int)old_value, (int)new_value);
 	    db_put_value(addr, size, new_value);
 	    addr += size;
 
@@ -102,4 +103,3 @@ db_write_cmd(address, have_addr, count, modif)
 
 	db_skip_to_eol();
 }
-

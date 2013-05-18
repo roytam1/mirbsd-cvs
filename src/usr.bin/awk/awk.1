@@ -177,7 +177,7 @@ a missing pattern always matches.
 Pattern-action statements are separated by newlines or semicolons.
 .Pp
 Newlines are permitted after a terminating statement or following a comma
-.Pq Sq ,\& ,
+.Pq Sq \&, ,
 an open brace
 .Pq Sq { ,
 a logical AND
@@ -203,8 +203,7 @@ An action is a sequence of statements.
 A statement can be one of the following:
 .Bd -unfilled -offset indent
 .Ic if ( Xo
-.Ar expression ) statement \&
-.Op Ic else Ar statement
+.Ar expression ) statement Op Ic else Ar statement
 .Xc
 .Ic while ( Ar expression ) statement
 .Ic for ( Xo
@@ -216,10 +215,9 @@ A statement can be one of the following:
 .Ic do Ar statement Ic while ( Ar expression )
 .Ic break
 .Ic continue
-.Ic { Oo Ar statement ... Oc Ic \& }
+.Ic { Oo Ar statement ... Oc Ic \&}
 .Ar expression Xo
-.No "# commonly" \&
-.Ar var Ic = Ar expression
+.No "# commonly" Ar var Ic = Ar expression
 .Xc
 .Ic print Xo
 .Op Ar expression-list
@@ -238,14 +236,14 @@ A statement can be one of the following:
 .Xc
 .Ic delete Ar array Ns Xo
 .Ic \&[ Ns Ar expression Ns Ic \&]
-.No \& "# delete an array element"
+.No "\ # delete an array element"
 .Xc
 .Ic delete Ar array Xo
 .No "# delete all elements of array"
 .Xc
 .Ic exit Xo
 .Op Ar expression
-.No \& "# exit immediately; status is" Ar expression
+.No "\ # exit immediately; status is" Ar expression
 .Xc
 .Ed
 .Pp
@@ -345,7 +343,7 @@ A relational expression is one of the following:
 .Ar expression Ic in Ar array-name
 .Ic \&( Ns Xo
 .Ar expr , expr , \&... Ns Ic \&) in
-.Ar \& array-name
+.Ar \ array-name
 .Xc
 .Ed
 .Pp

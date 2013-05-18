@@ -1,7 +1,12 @@
+/**	$MirOS: src/sys/sys/param.h,v 1.43 2006/06/17 17:12:33 tg Exp $ */
 /*	$OpenBSD: param.h,v 1.54 2004/02/27 18:06:55 deraadt Exp $	*/
 /*	$NetBSD: param.h,v 1.23 1996/03/17 01:02:29 thorpej Exp $	*/
 
 /*-
+ * Copyright (c) 2003, 2004, 2005, 2006
+ *	The MirOS Project.  All rights reserved.
+ * Copyright (c) 2002, 2003
+ *	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
  * Copyright (c) 1982, 1986, 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
  * (c) UNIX System Laboratories, Inc.
@@ -37,24 +42,28 @@
  *	@(#)param.h	8.2 (Berkeley) 1/21/94
  */
 
+#ifndef	_SYS_PARAM_H
+#define	_SYS_PARAM_H
+
 #define	BSD	199306		/* System version (year & month). */
 #define BSD4_3	1
 #define BSD4_4	1
-
-#define OpenBSD	200405		/* OpenBSD version (year & month). */
-#define OpenBSD3_5 1		/* OpenBSD 3.5 */
-
-#ifndef NULL
-#ifdef 	__GNUG__
-#define	NULL	__null
-#else
-#define	NULL	0L
-#endif
-#endif
-
+#define	MirBSD	0x0980		/* minor 10-7F=prerelease; 80=release
+				 * minor 81-9F=stable; A0-FF=unlocked
+				 */
 #ifndef _LOCORE
 #include <sys/types.h>
 #include <sys/simplelock.h>
+#endif
+
+#ifndef NULL
+#ifdef __GNUG__
+#define	NULL		__null
+#elif defined(lint)
+#define	NULL		0
+#else
+#define	NULL		((void *)((__PTRDIFF_TYPE__)0UL))
+#endif
 #endif
 
 /*
@@ -121,7 +130,7 @@
 #define	CMASK	022		/* default file mask: S_IWGRP|S_IWOTH */
 #define	NODEV	(dev_t)(-1)	/* non-existent device */
 #define NETDEV	(dev_t)(-2)	/* network device (for nfs swap) */
-	
+
 #define	CBLOCK	64		/* Clist block size, must be a power of 2. */
 #define CBQSIZE	(CBLOCK/NBBY)	/* Quote bytes/cblock - can do better. */
 				/* Data chars/clist. */
@@ -167,20 +176,23 @@
 #define	isset(a,i)	((a)[(i)/NBBY] & (1<<((i)%NBBY)))
 #define	isclr(a,i)	(((a)[(i)/NBBY] & (1<<((i)%NBBY))) == 0)
 
-/* Macros for counting and rounding. */
+/* Macros for counting, rounding and bounding */
 #ifndef howmany
 #define	howmany(x, y)	(((x)+((y)-1))/(y))
 #endif
 #define	roundup(x, y)	((((x)+((y)-1))/(y))*(y))
-#define powerof2(x)	((((x)-1)&(x))==0)
+#define	powerof2(x)	((((x)-1)&(x))==0)
+#define	MIN(a,b)	(((a)<(b))?(a):(b))
+#define	MAX(a,b)	(((a)>(b))?(a):(b))
 
-/* Macros for min/max. */
-#define	MIN(a,b) (((a)<(b))?(a):(b))
-#define	MAX(a,b) (((a)>(b))?(a):(b))
+#define	__BOUNDINT(minv,maxv,v)	\
+	( ((v) < (minv)) ? (minv) : ( ((v) > (maxv)) ? (maxv) : (v) ) )
+#define	__BOUNDINT0(maxv,v)	__BOUNDINT(0,(maxv),(v))
+#define	__BOUNDINTU(maxv,v)	( ((v) > (maxv)) ? (maxv) : (v) )
 
 /* Macros for calculating the offset of a field */
 #if !defined(offsetof) && defined(_KERNEL)
-#define offsetof(s, e) ((size_t)&((s *)0)->e)
+#define offsetof(s, e)	((size_t)&((s *)0)->e)
 #endif
 
 /*
@@ -204,12 +216,12 @@
 /*
  * Scale factor for scaled integers used to count %cpu time and load avgs.
  *
- * The number of CPU `tick's that map to a unique `%age' can be expressed
+ * The number of CPU 'tick's that map to a unique '%age' can be expressed
  * by the formula (1 / (2 ^ (FSHIFT - 11))).  The maximum load average that
  * can be calculated (assuming 32 bits) can be closely approximated using
  * the formula (2 ^ (2 * (16 - FSHIFT))) for (FSHIFT < 15).
  *
- * For the scheduler to maintain a 1:1 mapping of CPU `tick' to `%age',
+ * For the scheduler to maintain a 1:1 mapping of CPU 'tick' to '%age',
  * FSHIFT must be at least 11; this gives us a maximum load avg of ~1024.
  */
 #define	FSHIFT	11		/* bits to right of fixed binary point */
@@ -220,13 +232,15 @@
  *
  * XXX currently, operations without RFPROC set are not supported.
  */
-#define RFNAMEG		(1<<0)	/* UNIMPL new plan9 `name space' */
-#define RFENVG		(1<<1)	/* UNIMPL copy plan9 `env space' */
+#define RFNAMEG		(1<<0)	/* UNIMPL new plan9 'name space' */
+#define RFENVG		(1<<1)	/* UNIMPL copy plan9 'env space' */
 #define RFFDG		(1<<2)	/* copy fd table */
-#define RFNOTEG		(1<<3)	/* UNIMPL create new plan9 `note group' */
+#define RFNOTEG		(1<<3)	/* UNIMPL create new plan9 'note group' */
 #define RFPROC		(1<<4)	/* change child (else changes curproc) */
-#define RFMEM		(1<<5)	/* share `address space' */
-#define RFNOWAIT	(1<<6)	/* parent need not wait() on child */ 
-#define RFCNAMEG	(1<<10) /* UNIMPL zero plan9 `name space' */
-#define RFCENVG		(1<<11) /* UNIMPL zero plan9 `env space' */
+#define RFMEM		(1<<5)	/* share 'address space' */
+#define RFNOWAIT	(1<<6)	/* parent need not wait() on child */
+#define RFCNAMEG	(1<<10) /* UNIMPL zero plan9 'name space' */
+#define RFCENVG		(1<<11) /* UNIMPL zero plan9 'env space' */
 #define RFCFDG		(1<<12)	/* zero fd table */
+
+#endif /* ndef _SYS_PARAM_H */

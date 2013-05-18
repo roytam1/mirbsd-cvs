@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: ether.c,v 1.7 2003/08/11 06:23:09 deraadt Exp $	*/
 /*	$NetBSD: ether.c,v 1.8 1996/10/13 02:29:00 christos Exp $	*/
 
@@ -115,8 +116,8 @@ struct ether_header *eh;
 		return (-1);
 
 	/* Validate Ethernet address. */
-	if (bcmp(d->myea, eh->ether_dhost, 6) != 0 &&
-	    bcmp(bcea, eh->ether_dhost, 6) != 0) {
+	if (memcmp(eh->ether_dhost, d->myea, 6) != 0 &&
+	    memcmp(eh->ether_dhost, bcea, 6) != 0) {
 #ifdef ETHER_DEBUG
 		if (debug)
 			printf("readether: not ours (ea=%s)\n",

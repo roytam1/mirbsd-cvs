@@ -798,7 +798,7 @@ mouse_identify(void)
 
 	/* protocol has been specified with '-t' */
 	if (mouse.proto != P_UNKNOWN)
-		bcopy(proto[mouse.proto], cur_proto, sizeof(cur_proto));
+		memmove(cur_proto, proto[mouse.proto], sizeof(cur_proto));
 	else {
 		/* maybe this is an PnP mouse... */
 		if (mouse.flags & NoPnP)
@@ -818,7 +818,7 @@ mouse_identify(void)
 		t = pnpproto(&pnpid);
 		if (t != NULL) {
 			mouse.proto = t->val;
-			bcopy(proto[mouse.proto], cur_proto, sizeof(cur_proto));
+			memmove(cur_proto, proto[mouse.proto], sizeof(cur_proto));
 		} else
 			mouse.proto = P_UNKNOWN;
 

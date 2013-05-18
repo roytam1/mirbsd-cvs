@@ -9,12 +9,12 @@
 ##
 #
 # This script falls under the Apache License.
-# See http://www.apache.org/docs/LICENSE
+# See /usr/share/doc/legal/LICENSE.httpd
 
 
 umask 022
 errstatus=0
-for file in ${1+"$@"} ; do 
+for file in ${1+"$@"} ; do
     set fnord `echo ":$file" |\
                sed -e 's/^:\//%/' -e 's/^://' -e 's/\// /g' -e 's/^%/\//'`
     shift
@@ -32,4 +32,3 @@ for file in ${1+"$@"} ; do
     done
 done
 exit $errstatus
-

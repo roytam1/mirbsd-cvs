@@ -7,4 +7,5 @@ SUBDIR+= SMM.doc
 .endif
 
 CFLAGS+=	-Wall
+
 .include <bsd.subdir.mk>

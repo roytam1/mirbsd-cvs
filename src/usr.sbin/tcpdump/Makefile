@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.47 2005/03/07 16:13:38 reyk Exp $
+# $MirOS: src/usr.sbin/tcpdump/Makefile,v 1.3 2005/04/17 04:24:17 tg Exp $
+#	$OpenBSD: Makefile,v 1.46 2004/04/28 02:17:03 mcbride Exp $
 #
 #  Copyright (c) 1988, 1989, 1990, 1991, 1992, 1993, 1994
 # 	The Regents of the University of California.  All rights reserved.
@@ -18,16 +19,16 @@
 #  THIS SOFTWARE IS PROVIDED ``AS IS'' AND WITHOUT ANY EXPRESS OR IMPLIED
 #  WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
 #  MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
-#
 
 PROG=	tcpdump
 MAN=	tcpdump.8
 
-CFLAGS+=-Wall -I${.CURDIR}/../../sbin/pfctl
+CFLAGS+=   -Wall
+CPPFLAGS+= -I${.CURDIR}/../../sbin/pfctl -DCSLIP -DPPP -DHAVE_FDDI \
+	   -DETHER_SERVICE -DRETSIGTYPE=void -DHAVE_NET_SLIP_H \
+	   -DHAVE_ETHER_NTOHOST -DINET6
 
-CFLAGS+=-DCSLIP -DPPP -DHAVE_FDDI -DETHER_SERVICE -DRETSIGTYPE=void -DHAVE_NET_SLIP_H -DHAVE_ETHER_NTOHOST -DINET6
-
-LDADD+=	-lpcap -ll -lcrypto
+LDADD+= -ll -lpcap -lcrypto
 DPADD+=	${LIBL} ${LIBPCAP} ${LIBCRYPTO}
 
 SRCS=	tcpdump.c addrtoname.c privsep.c privsep_fdpass.c privsep_pcap.c \
@@ -46,18 +47,16 @@ SRCS=	tcpdump.c addrtoname.c privsep.c privsep_fdpass.c privsep_pcap.c \
 	print-etherip.c print-lwres.c print-cdp.c print-pflog.c \
 	print-pfsync.c pf_print_state.c \
 	print-udpencap.c print-carp.c \
-	print-802_11.c \
 	gmt2local.c savestr.c setsignal.c
 
 # TCP OS Fingerprinting
 .PATH: ${.CURDIR}/../../sys/net
 .PATH: ${.CURDIR}/../../sbin/pfctl
 SRCS+=	pf_osfp.c pfctl_osfp.c
-CFLAGS+=-I${.CURDIR}/../../sbin/pfctl
-CFLAGS+=-DFAKE_PF_KERNEL
+CPPFLAGS+= -I${.CURDIR}/../../sbin/pfctl -DFAKE_PF_KERNEL
 
 #SRCS+=	smbutil.c print-smb.c
 
-AWKS =	atime.awk packetdat.awk send-ack.awk stime.awk
+AWKS=	atime.awk packetdat.awk send-ack.awk stime.awk
 
 .include <bsd.prog.mk>

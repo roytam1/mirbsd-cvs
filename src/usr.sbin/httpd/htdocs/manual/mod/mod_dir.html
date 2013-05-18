@@ -22,8 +22,7 @@
 
     <h1 align="CENTER">Module mod_dir</h1>
 
-    <p>This module provides for "trailing slash" redirects and
-    serving directory index files.</p>
+    <p>This module provides for serving directory index files.</p>
 
     <p><a href="module-dict.html#Status"
     rel="Help"><strong>Status:</strong></a> Base<br />
@@ -50,13 +49,6 @@
     The two functions are separated so that you can completely
     remove (or replace) automatic index generation should you want
     to. 
-
-    <p>A "trailing slash" redirect is issued when the server
-    receives a request for a URL
-    <samp>http://servername/foo/dirname</samp> where
-    <samp>dirname</samp> is a directory. Directories require a
-    trailing slash, so <code>mod_dir</code> issues a redirect to
-    <samp>http://servername/foo/dirname/</samp>.</p>
 
     <h2>Directives</h2>
 
@@ -124,6 +116,5 @@
     </p>
   </body>
 </html>
-
 
 

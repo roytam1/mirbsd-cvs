@@ -897,7 +897,7 @@ bridge_deladdr(int s, char *brdg, char *addr)
 		warnx("Invalid address: %s", addr);
 		return (EX_USAGE);
 	}
-	bcopy(ea, &ifba.ifba_dst, sizeof(struct ether_addr));
+	memmove(&ifba.ifba_dst, ea, sizeof(struct ether_addr));
 
 	if (ioctl(s, SIOCBRDGDADDR, &ifba) < 0) {
 		warn("%s: %s", brdg, addr);
@@ -974,7 +974,7 @@ bridge_addaddr(int s, char *brdg, char *ifname, char *addr)
 		warnx("Invalid address: %s", addr);
 		return (EX_USAGE);
 	}
-	bcopy(ea, &ifba.ifba_dst, sizeof(struct ether_addr));
+	memmove(&ifba.ifba_dst, ea, sizeof(struct ether_addr));
 	ifba.ifba_flags = IFBAF_STATIC;
 
 	if (ioctl(s, SIOCBRDGSADDR, &ifba) < 0) {
@@ -1268,7 +1268,7 @@ bridge_rule(int s, char *brdg, int targc, char **targv, int ln)
 				warnx("Invalid address: %s", argv[0]);
 				return (EX_USAGE);
 			}
-			bcopy(ea, dea, sizeof(*dea));
+			memmove(dea, ea, sizeof(*dea));
 		}
 		argc--; argv++;
 	}

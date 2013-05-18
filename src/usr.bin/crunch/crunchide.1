@@ -1,5 +1,5 @@
+.\"	$MirOS$
 .\"	$OpenBSD: crunchide.1,v 1.8 2004/08/24 09:12:49 jmc Exp $
-.\"
 .\"
 .\" Copyright (c) 1994 University of Maryland
 .\" All Rights Reserved.
@@ -51,7 +51,9 @@ The
 .Ar keep-list-file
 must contain a list of symbols to keep visible, one symbol per line.
 Note that the C compiler prepends an underscore in front of
-symbols, so to keep the C function ``foo'' visible, the option
+symbols, so to keep the C function
+.Fn foo
+visible, the option
 .Dq -k _foo
 must be used.
 .Pp

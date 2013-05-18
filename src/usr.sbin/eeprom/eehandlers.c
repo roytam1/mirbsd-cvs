@@ -518,7 +518,7 @@ doio(struct keytabent *ktent, u_char *buf, ssize_t len, int wr)
 			goto done;
 		}
 	} else
-		bcopy(buf2, buf, len);
+		memmove(buf, buf2, len);
 
  done:
 	free(buf2);

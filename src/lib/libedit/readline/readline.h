@@ -1,5 +1,6 @@
+/**	$MirOS: src/lib/libedit/readline/readline.h,v 1.6 2005/04/19 18:45:25 tg Exp $ */
 /*	$OpenBSD: readline.h,v 1.2 2003/11/25 20:12:39 otto Exp $	*/
-/*	$NetBSD: readline.h,v 1.10 2003/10/27 22:26:35 christos Exp $	*/
+/*	$NetBSD: readline.h,v 1.13 2005/04/12 22:01:40 christos Exp $	*/
 
 /*-
  * Copyright (c) 1997 The NetBSD Foundation, Inc.
@@ -36,6 +37,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
+
 #ifndef _READLINE_H_
 #define _READLINE_H_
 
@@ -46,6 +48,7 @@
 /* typedefs */
 typedef int	  Function(const char *, int);
 typedef void	  VFunction(void);
+typedef void	  VFunctionC(char *);
 typedef char	 *CPFunction(const char *, int);
 typedef char	**CPPFunction(const char *, int, int);
 
@@ -72,22 +75,22 @@ typedef KEYMAP_ENTRY *Keymap;
 
 #ifndef CTRL
 #include <sys/ioctl.h>
+#if !defined(__sun__) && !defined(__hpux__)
 #include <sys/ttydefaults.h>
+#endif
 #ifndef CTRL
 #define CTRL(c)		((c) & 037)
 #endif
 #endif
 #ifndef UNCTRL
-#define UNCTRL(c)	(((c) - 'a' + 'A')|control_character_bit)
+#define UNCTRL(c)	(((c) - 'a' + 'A') | control_character_bit)
 #endif
 
 #define RUBOUT		0x7f
 #define ABORT_CHAR	CTRL('G')
 
 /* global variables used by readline enabled applications */
-#ifdef __cplusplus
-extern "C" {
-#endif
+__BEGIN_DECLS
 extern const char	*rl_library_version;
 extern char		*rl_readline_name;
 extern FILE		*rl_instream;
@@ -101,10 +104,12 @@ extern char		*rl_completer_word_break_characters;
 extern char		*rl_completer_quote_characters;
 extern Function		*rl_completion_entry_function;
 extern CPPFunction	*rl_attempted_completion_function;
+extern int		 rl_attempted_completion_over;
 extern int		rl_completion_type;
 extern int		rl_completion_query_items;
 extern char		*rl_special_prefixes;
 extern int		rl_completion_append_character;
+extern int		rl_inhibit_completion;
 extern Function		*rl_pre_input_hook;
 extern Function		*rl_startup_hook;
 extern char		*rl_terminal_name;
@@ -154,8 +159,8 @@ const char	*get_history_event(const char *, int *, int);
 char		*history_arg_extract(int, int, const char *);
 
 char		*tilde_expand(char *);
-char		*filename_completion_function(const char *, int);
-char		*username_completion_function(const char *, int);
+char		*rl_filename_completion_function(const char *, int);
+char		*rl_username_completion_function(const char *, int);
 int		 rl_complete(int, int);
 int		 rl_read_key(void);
 char	       **completion_matches(const char *, CPFunction *);
@@ -166,7 +171,7 @@ void		 rl_reset_terminal(const char *);
 int		 rl_bind_key(int, int (*)(int, int));
 int		 rl_newline(int, int);
 void		 rl_callback_read_char(void);
-void		 rl_callback_handler_install(const char *, VFunction *);
+void		 rl_callback_handler_install(const char *, VFunctionC *);
 void		 rl_callback_handler_remove(void);
 void		 rl_redisplay(void);
 int		 rl_get_previous_history(int, int);
@@ -174,8 +179,12 @@ void		 rl_prep_terminal(int);
 void		 rl_deprep_terminal(void);
 int		 rl_read_init_file(const char *);
 int		 rl_parse_and_bind(const char *);
+int		 rl_variable_bind(const char *, const char *);
 void		 rl_stuff_char(int);
 int		 rl_add_defun(const char *, Function *, int);
+
+void		 rl_get_screen_size(int *, int *);
+void		 rl_set_screen_size(int, int);
 
 /*
  * The following are not implemented
@@ -184,8 +193,6 @@ Keymap		 rl_get_keymap(void);
 Keymap		 rl_make_bare_keymap(void);
 int		 rl_generic_bind(int, const char *, const char *, Keymap);
 int		 rl_bind_key_in_map(int, Function *, Keymap);
-#ifdef __cplusplus
-}
-#endif
+__END_DECLS
 
 #endif /* _READLINE_H_ */

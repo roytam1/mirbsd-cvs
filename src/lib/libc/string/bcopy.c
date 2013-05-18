@@ -33,6 +33,8 @@
 
 #include <string.h>
 
+__RCSID("$MirOS: src/lib/libc/string/bcopy.c,v 1.6 2005/04/29 20:55:41 tg Exp $");
+
 /*
  * sizeof(word) MUST BE A POWER OF TWO
  * SO THAT wmask BELOW IS ALL ONES
@@ -47,17 +49,15 @@ typedef	long word;		/* "word" used for optimal copy speed */
  * This is the routine that actually implements
  * (the portable versions of) bcopy, memcpy, and memmove.
  */
-#ifdef MEMCOPY
+#if defined(MEMCOPY)
 void *
 memcpy(void *dst0, const void *src0, size_t length)
-#else
-#ifdef MEMMOVE
+#elif defined(MEMMOVE)
 void *
 memmove(void *dst0, const void *src0, size_t length)
 #else
 void
 bcopy(const void *src0, void *dst0, size_t length)
-#endif
 #endif
 {
 	char *dst = dst0;

@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/fstat/fstat.c,v 1.2 2005/03/13 18:32:57 tg Exp $ */
 /*	$OpenBSD: fstat.c,v 1.52 2005/07/04 01:54:09 djm Exp $	*/
 
 /*-
@@ -69,9 +70,6 @@ static char *rcsid = "$OpenBSD: fstat.c,v 1.52 2005/07/04 01:54:09 djm Exp $";
 #include <nfs/nfs.h>
 #include <nfs/nfsnode.h>
 #undef NFS
-
-#include <xfs/xfs_config.h>
-#include <xfs/xfs_node.h>
 
 #include <net/route.h>
 #include <netinet/in.h>
@@ -149,7 +147,6 @@ int ext2fs_filestat(struct vnode *, struct filestat *);
 int isofs_filestat(struct vnode *, struct filestat *);
 int msdos_filestat(struct vnode *, struct filestat *);
 int nfs_filestat(struct vnode *, struct filestat *);
-int xfs_filestat(struct vnode *, struct filestat *);
 void dofiles(struct kinfo_proc2 *);
 void getinetproto(int);
 void socktrans(struct socket *, int);
@@ -358,7 +355,7 @@ dofiles(struct kinfo_proc2 *kp)
 			return;
 		}
 	} else
-		bcopy(filed0.fd_dfiles, ofiles, (filed.fd_lastfile+1) * FPSIZE);
+		memmove(ofiles, filed0.fd_dfiles, (filed.fd_lastfile+1) * FPSIZE);
 	for (i = 0; i <= filed.fd_lastfile; i++) {
 		if (ofiles[i] == NULL)
 			continue;
@@ -430,10 +427,6 @@ vtrans(struct vnode *vp, int i, int flag, off_t offset)
 			break;
 		case VT_MSDOSFS:
 			if (!msdos_filestat(&vn, &fst))
-				badtype = "error";
-			break;
-		case VT_XFS:
-			if (!xfs_filestat(&vn, &fst))
 				badtype = "error";
 			break;
 		default: {
@@ -610,25 +603,6 @@ nfs_filestat(struct vnode *vp, struct filestat *fsp)
 	return 1;
 }
 
-int
-xfs_filestat(struct vnode *vp, struct filestat *fsp)
-{
-	struct xfs_node xfs_node;
-
-	if (!KVM_READ(VNODE_TO_XNODE(vp), &xfs_node, sizeof (xfs_node))) {
-		dprintf("can't read xfs_node at %p for pid %ld",
-		    VTOI(vp), (long)Pid);
-		return 0;
-	}
-	fsp->fsid = xfs_node.attr.va_fsid;
-	fsp->fileid = (long)xfs_node.attr.va_fileid;
-	fsp->mode = xfs_node.attr.va_mode;
-	fsp->size = xfs_node.attr.va_size;
-	fsp->rdev = xfs_node.attr.va_rdev;
-
-	return 1;
-}
-
 char *
 getmnton(struct mount *m)
 {
@@ -650,7 +624,7 @@ getmnton(struct mount *m)
 	if ((mt = malloc(sizeof (struct mtab))) == NULL)
 		err(1, "malloc");
 	mt->m = m;
-	bcopy(&mount.mnt_stat.f_mntonname[0], &mt->mntonname[0], MNAMELEN);
+	memmove(&mt->mntonname[0], &mount.mnt_stat.f_mntonname[0], MNAMELEN);
 	mt->next = mhead;
 	mhead = mt;
 	return (mt->mntonname);

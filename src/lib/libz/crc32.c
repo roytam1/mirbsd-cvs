@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libz/crc32.c,v 1.4 2005/07/24 22:50:03 tg Exp $ */
 /*	$OpenBSD: crc32.c,v 1.8 2005/07/20 15:56:41 millert Exp $	*/
 /* crc32.c -- compute the CRC-32 of a data stream
  * Copyright (C) 1995-2005 Mark Adler
@@ -24,15 +25,22 @@
 #    define DYNAMIC_CRC_TABLE
 #  endif /* !DYNAMIC_CRC_TABLE */
 #endif /* MAKECRCH */
-  
+
 #include "zutil.h"      /* for STDC and FAR definitions */
+
+zRCSID("$MirOS: src/lib/libz/crc32.c,v 1.4 2005/07/24 22:50:03 tg Exp $")
 
 #define local static
 
 /* Find a four-byte integer type for crc32_little() and crc32_big(). */
 #ifndef NOBYFOUR
 #  ifdef STDC           /* need ANSI C limits.h to determine sizes */
+#   if defined(_KERNEL) || defined(_STANDALONE)
+#    include <sys/limits.h>
+     typedef   __PTRDIFF_TYPE__ ptrdiff_t;
+#   else
 #    include <limits.h>
+#   endif
 #    define BYFOUR
 #    if (UINT_MAX == 0xffffffffUL)
        typedef unsigned int u4;
@@ -105,7 +113,9 @@ local void make_crc_table OF((void));
 local void make_crc_table()
 {
     unsigned long c;
-    int n, k;
+    int k;
+    size_t n;
+
     unsigned long poly;                 /* polynomial exclusive-or pattern */
     /* terms of polynomial defining this crc (except x^32): */
     static volatile int first = 1;      /* flag to limit concurrent making */
@@ -250,7 +260,6 @@ unsigned long ZEXPORT crc32(crc, buf, len)
 }
 
 #ifdef BYFOUR
-
 /* ========================================================================= */
 #define DOLIT4 c ^= *buf4++; \
         c = crc_table[3][c & 0xff] ^ crc_table[2][(c >> 8) & 0xff] ^ \
@@ -332,7 +341,6 @@ local unsigned long crc32_big(crc, buf, len)
     c = ~c;
     return (unsigned long)(REV(c));
 }
-
 #endif /* BYFOUR */
 
 #define GF2_DIM 32      /* dimension of GF(2) vectors (length of CRC) */

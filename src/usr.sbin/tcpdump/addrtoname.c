@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/tcpdump/addrtoname.c,v 1.5 2005/04/22 23:08:11 tg Exp $ */
 /*	$OpenBSD: addrtoname.c,v 1.26 2005/05/22 18:41:33 moritz Exp $	*/
 
 /*
@@ -23,10 +24,6 @@
  *  Internet, ethernet, port, and protocol string to address
  *  and address to string conversion routines
  */
-#ifndef lint
-static const char rcsid[] =
-    "@(#) $Header$ (LBL)";
-#endif
 
 #include <sys/types.h>
 #include <sys/socket.h>
@@ -64,6 +61,8 @@ struct rtentry;
 #include "llc.h"
 #include "privsep.h"
 #include "savestr.h"
+
+__RCSID("$MirOS: src/usr.sbin/tcpdump/addrtoname.c,v 1.5 2005/04/22 23:08:11 tg Exp $");
 
 /*
  * hash tables for whatever-to-name translations
@@ -335,7 +334,7 @@ lookup_emem(const u_char *ep)
 }
 
 /*
- * Find the hash node that corresponds to the bytestring 'bs' 
+ * Find the hash node that corresponds to the bytestring 'bs'
  * with length 'nlen'
  */
 
@@ -361,7 +360,7 @@ lookup_bytestring(register const u_char *bs, const int nlen)
 		if (tp->e_addr0 == i &&
 		    tp->e_addr1 == j &&
 		    tp->e_addr2 == k &&
-		    bcmp((char *)bs, (char *)(tp->e_bs), nlen) == 0)
+		    memcmp((char *)bs, (char *)(tp->e_bs), nlen) == 0)
 			return tp;
 		else
 			tp = tp->e_nxt;
@@ -371,7 +370,7 @@ lookup_bytestring(register const u_char *bs, const int nlen)
 	tp->e_addr2 = k;
 
 	tp->e_bs = (u_char *) calloc(1, nlen + 1);
-	bcopy(bs, tp->e_bs, nlen);
+	memmove(tp->e_bs, bs, nlen);
 	tp->e_nxt = (struct enamemem *)calloc(1, sizeof(*tp));
 	if (tp->e_nxt == NULL)
 		error("lookup_bytestring: calloc");
@@ -495,7 +494,7 @@ linkaddr_string(const u_char *ep, const int len)
 
 	if (len == 6)	/* XXX not totally correct... */
 		return etheraddr_string(ep);
-	
+
 	tp = lookup_bytestring(ep, len);
 	if (tp->e_name)
 		return (tp->e_name);

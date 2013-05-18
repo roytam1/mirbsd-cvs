@@ -33,6 +33,8 @@
 
 #include "SYS.h"
 
+	.text
+
 /*
  * We must preserve the state of the registers as the user has set them up.
  */

@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.sbin/traceroute6/traceroute6.c,v 1.2 2005/03/13 19:17:34 tg Exp $ */
 /*	$OpenBSD: traceroute6.c,v 1.39 2005/05/03 01:01:14 djm Exp $	*/
 /*	$KAME: traceroute6.c,v 1.63 2002/10/24 12:53:25 itojun Exp $	*/
 
@@ -783,7 +784,7 @@ main(int argc, char *argv[])
 		Nxt = Dst;
 		Nxt.sin6_port = htons(DUMMY_PORT);
 		if (cmsg != NULL)
-			bcopy(inet6_rthdr_getaddr(cmsg, 1), &Nxt.sin6_addr,
+			memmove(&Nxt.sin6_addr, inet6_rthdr_getaddr(cmsg, 1),
 			    sizeof(Nxt.sin6_addr));
 		if ((dummy = socket(AF_INET6, SOCK_DGRAM, 0)) < 0) {
 			perror("socket");
@@ -990,13 +991,13 @@ send_probe(int seq, u_long hops)
 		icp->icmp6_cksum = 0;
 		icp->icmp6_id = ident;
 		icp->icmp6_seq = htons(seq);
-		bcopy(&tv32, ((u_int8_t *)outpacket + ICMP6ECHOLEN), sizeof tv32);
+		memmove(((u_int8_t *)outpacket + ICMP6ECHOLEN), &tv32, sizeof tv32);
 	} else {
 		struct opacket *op = outpacket;
 
 		op->seq = seq;
 		op->hops = hops;
-		bcopy(&tv32, &op->tv, sizeof tv32);
+		memmove(&tv32, &op->tv, sizeof tv32);
 	}
 
 	i = sendto(sndsock, (char *)outpacket, datalen, 0,

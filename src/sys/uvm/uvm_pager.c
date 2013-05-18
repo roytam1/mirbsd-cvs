@@ -784,7 +784,7 @@ uvm_aio_aiodone(bp)
 	struct vm_page *pg, *pgs[npages];
 	struct uvm_object *uobj;
 	int i, error;
-	boolean_t write, swap;
+	boolean_t write, swap = FALSE;
 	UVMHIST_FUNC("uvm_aio_aiodone"); UVMHIST_CALLED(pdhist);
 	UVMHIST_LOG(pdhist, "bp %p", bp, 0,0,0);
 

@@ -6,6 +6,7 @@
  * forth in the LICENSE file which can be found at the top level of
  * the sendmail distribution.
  *
+ *	$MirOS$
  *	$Sendmail: gen.h,v 1.23 2003/11/04 18:51:54 ca Exp $
  */
 
@@ -29,6 +30,9 @@
 # ifdef lint
 #  define SM_RCSID(str)
 #  define SM_IDSTR(id,str)
+# elif defined(__IDSTRING)
+#  define SM_RCSID(str) __RCSID(str);
+#  define SM_IDSTR(id,str) __IDSTRING(id,str);
 # else /* lint */
 #  define SM_RCSID(str) SM_UNUSED(static const char RcsId[]) = str;
 #  define SM_IDSTR(id,str) SM_UNUSED(static const char id[]) = str;

@@ -1,142 +1,123 @@
-#	$OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.10 2006/06/02 12:58:53 tg Exp $
+# $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/string ${LIBCSRCDIR}/string
 
 SRCS+=	bm.c memccpy.c strcasecmp.c strcasestr.c strcoll.c strdup.c \
-	strerror.c strerror_r.c strlcat.c strmode.c strsignal.c strtok.c \
+	strerror.c strerror_r.c strlfun.c strmode.c strsignal.c strtok.c \
 	strxfrm.c \
-	wcscat.c wcschr.c wcscmp.c wcscpy.c wcscspn.c wcslcat.c wcslcpy.c \
+	wcscat.c wcschr.c wcscmp.c wcscpy.c wcscspn.c wcslfun.c \
 	wcslen.c wcsncat.c wcsncmp.c wcsncpy.c wcspbrk.c wcsrchr.c wcsspn.c \
-	wcsstr.c wcstok.c wcswcs.c wmemchr.c wmemcmp.c wmemcpy.c \
+	wcsstr.c wcswcs.c wmemchr.c wmemcmp.c wmemcpy.c \
 	wmemmove.c wmemset.c
+
+SRCS+=	wcscasecmp.c
+SRCS+=	wcsncasecmp.c
+
+SRCS+=	wcscoll.c
+SRCS+=	wcsdup.c
+SRCS+=	wcstok.c
+SRCS+=	wcsxfrm.c
+
+CFLAGS_strcasestr.o+= -Wno-cast-qual
+CFLAGS_strerror_r.o+= -Wno-error
+CFLAGS_strpbrk.o+= -Wno-cast-qual
+CFLAGS_strstr.o+= -Wno-cast-qual
+CFLAGS_wcschr.o+= -Wno-cast-qual
+CFLAGS_wcspbrk.o+= -Wno-cast-qual
+CFLAGS_wcsrchr.o+= -Wno-cast-qual
+CFLAGS_wcsstr.o+= -Wno-cast-qual
+CFLAGS_wcswcs.o+= -Wno-cast-qual
+CFLAGS_wmemchr.o+= -Wno-cast-qual
 
 # machine-dependent net sources
 # m-d Makefile.inc must include sources for:
-#	bcmp() bcopy() bzero() ffs() index() memchr() memcmp() memset()
-#	rindex() strcat() strcmp() strcpy() strcspn() strlen() strlcpy()
+#	bcopy() bzero() ffs() index() memchr() memcmp() memset()
+#	rindex() strcat() strcmp() strcpy() strcspn() strlen()
 #	strncat() strncmp() strncpy() strpbrk() strsep()
 #	strspn() strstr() swav()
 # m-d Makefile.inc may include sources for:
-#	memcpy() memmove() strchr() strrchr()
+#	bcmp() memcpy() memmove() strchr() strrchr()
 
 .include "${LIBCSRCDIR}/arch/${MACHINE_ARCH}/string/Makefile.inc"
 
+# if no machine specific bcmp(3), build one out of memcmp(3).
+.ifndef _MD_BCMP
+SRCS+=		bcmp.c
+CLEANFILES+=	bcmp.c
+
+bcmp.c: memcmp.c
+	-unifdef -DBCMP $> >$@
+.else
+LOBJS+=		bcmp.ln
+
+bcmp.ln: memcmp.c
+	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} -i \
+	    -DBCMP -o $@ $>
+.endif
+
 # if no machine specific memmove(3), build one out of bcopy(3).
-.if empty(SRCS:Mmemmove.S)
-OBJS+=	memmove.o
-memmove.o: bcopy.c
-	${CC} -DMEMMOVE ${CFLAGS} ${CPPFLAGS} -c ${.ALLSRC} -o ${.TARGET}
-	@${LD} -x -r ${.TARGET}
-	@mv a.out ${.TARGET}
+.ifndef _MD_MEMMOVE
+SRCS+=		memmove.c
+CLEANFILES+=	memmove.c
 
-memmove.go: bcopy.c
-	${CC} -g -DMEMMOVE ${CFLAGS} ${CPPFLAGS} -c ${.ALLSRC} -o ${.TARGET}
-	@${LD} -x -r ${.TARGET}
-	@mv a.out ${.TARGET}
+memmove.c: bcopy.c
+	-unifdef -DMEMMOVE -UMEMCOPY $> >$@
+.else
+LOBJS+=		memmove.ln
 
-memmove.po: bcopy.c
-	${CC} -DMEMMOVE ${CFLAGS} ${CPPFLAGS} -c -p ${.ALLSRC} -o ${.TARGET}
-	@${LD} -X -r ${.TARGET}
-	@mv a.out ${.TARGET}
-
-memmove.so: bcopy.c
-	${CC} ${PICFLAG} -DPIC -DMEMMOVE ${CFLAGS} ${CPPFLAGS} -c ${.ALLSRC} \
-		-o ${.TARGET}
+memmove.ln: bcopy.c
+	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} -i \
+	    -DMEMMOVE -o $@ $>
 .endif
 
 # if no machine specific memcpy(3), build one out of bcopy(3).
 # if there is a machine specific memmove(3), we'll assume it aliases
 # memcpy(3).
-.if empty(SRCS:Mmemcpy.S)
-.if empty(SRCS:Mmemmove.S)
-OBJS+=	memcpy.o
-memcpy.o: bcopy.c
-	${CC} -DMEMCOPY ${CFLAGS} ${CPPFLAGS} -c ${.ALLSRC} -o ${.TARGET}
-	@${LD} -x -r ${.TARGET}
-	@mv a.out ${.TARGET}
+.if !defined(_MD_MEMCPY) && !defined(_MD_MEMMOVE)
+SRCS+=		memcpy.c
+CLEANFILES+=	memcpy.c
 
-memcpy.go: bcopy.c
-	${CC} -g -DMEMCOPY ${CFLAGS} ${CPPFLAGS} -c ${.ALLSRC} -o ${.TARGET}
-	@${LD} -x -r ${.TARGET}
-	@mv a.out ${.TARGET}
+memcpy.c: bcopy.c
+	-unifdef -UMEMMOVE -DMEMCOPY $> >$@
+.else
+LOBJS+=		memcpy.ln
 
-memcpy.po: bcopy.c
-	${CC} -DMEMCOPY ${CFLAGS} ${CPPFLAGS} -c -p ${.ALLSRC} -o ${.TARGET}
-	@${LD} -X -r ${.TARGET}
-	@mv a.out ${.TARGET}
-
-memcpy.so: bcopy.c
-	${CC} ${PICFLAG} -DPIC -DMEMCOPY ${CFLAGS} ${CPPFLAGS} -c ${.ALLSRC} \
-		-o ${.TARGET}
-.endif
+memcpy.ln: bcopy.c
+	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} -i \
+	    -DMEMCOPY -o $@ $>
 .endif
 
 # if no machine specific strchr(3), build one out of index(3).
-.if empty(SRCS:Mstrchr.S)
-OBJS+=	strchr.o
-strchr.o: index.c
-	${CC} -DSTRCHR ${CFLAGS} ${CPPFLAGS} -c ${.ALLSRC} -o ${.TARGET}
-	@${LD} -x -r ${.TARGET}
-	@mv a.out ${.TARGET}
+.ifndef _MD_STRCHR
+SRCS+=		strchr.c
+CLEANFILES+=	strchr.c
 
-strchr.go: index.c
-	${CC} -g -DSTRCHR ${CFLAGS} ${CPPFLAGS} -c ${.ALLSRC} -o ${.TARGET}
-	@${LD} -x -r ${.TARGET}
-	@mv a.out ${.TARGET}
+strchr.c: index.c
+	-unifdef -DSTRCHR $> >$@
+.else
+LOBJS+=		strchr.ln
 
-strchr.po: index.c
-	${CC} -DSTRCHR ${CFLAGS} ${CPPFLAGS} -c -p ${.ALLSRC} -o ${.TARGET}
-	@${LD} -X -r ${.TARGET}
-	@mv a.out ${.TARGET}
-
-strchr.so: index.c
-	${CC} ${PICFLAG} -DPIC -DSTRCHR ${CFLAGS} ${CPPFLAGS} -c ${.ALLSRC} \
-	    -o ${.TARGET}
+strchr.ln: index.c
+	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} -i \
+	    -DSTRCHR -o $@ $>
 .endif
 
 # if no machine specific strrchr(3), build one out of rindex(3).
-.if empty(SRCS:Mstrrchr.S)
-OBJS+=	strrchr.o
-strrchr.o: rindex.c
-	${CC} -DSTRRCHR ${CFLAGS} ${CPPFLAGS} -c ${.ALLSRC} -o ${.TARGET}
-	@${LD} -x -r ${.TARGET}
-	@mv a.out ${.TARGET}
+.ifndef _MD_STRRCHR
+SRCS+=		strrchr.c
+CLEANFILES+=	strrchr.c
 
-strrchr.go: rindex.c
-	${CC} -g -DSTRRCHR ${CFLAGS} ${CPPFLAGS} -c ${.ALLSRC} -o ${.TARGET}
-	@${LD} -x -r ${.TARGET}
-	@mv a.out ${.TARGET}
-
-strrchr.po: rindex.c
-	${CC} -DSTRRCHR ${CFLAGS} ${CPPFLAGS} -c -p ${.ALLSRC} -o ${.TARGET}
-	@${LD} -X -r ${.TARGET}
-	@mv a.out ${.TARGET}
-
-strrchr.so: rindex.c
-	${CC} ${PICFLAG} -DPIC -DSTRRCHR ${CFLAGS} ${CPPFLAGS} -c ${.ALLSRC} \
-	    -o ${.TARGET}
-.endif
-
-# build .ln files for memmove, memcpy, strchr and strrchr always from
-# bcopy, index, and rindex
-LOBJS+=	memmove.ln memcpy.ln strchr.ln strrchr.ln
-
-memmove.ln: bcopy.c
-	lint ${LINTFLAGS} -DMEMMOVE ${CFLAGS:M-[IDU]*} -i -o ${.TARGET} \
-		${LIBCSRCDIR}/string/bcopy.c
-
-memcpy.ln: bcopy.c
-	lint ${LINTFLAGS} -DMEMCOPY ${CFLAGS:M-[IDU]*} -i -o ${.TARGET} \
-		${LIBCSRCDIR}/string/bcopy.c
-
-strchr.ln: index.c
-	lint ${LINTFLAGS} -DSTRCHR ${CFLAGS:M-[IDU]*} -i -o ${.TARGET} \
-		${LIBCSRCDIR}/string/index.c
+strrchr.c: rindex.c
+	-unifdef -DSTRRCHR $> >$@
+.else
+LOBJS+=		strrchr.ln
 
 strrchr.ln: rindex.c
-	lint ${LINTFLAGS} -DSTRRCHR ${CFLAGS:M-[IDU]*} -i -o ${.TARGET} \
-		${LIBCSRCDIR}/string/rindex.c
+	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} -i \
+	    -DSTRRCHR -o $@ $>
+.endif
 
 MAN+=	bm.3 bcmp.3 bcopy.3 bstring.3 bzero.3 ffs.3 memccpy.3 memchr.3 \
 	memcmp.3 memcpy.3 memmove.3 memset.3 strcasecmp.3 strcat.3 \
@@ -156,18 +137,19 @@ MLINKS+=strlcpy.3 strlcat.3
 MLINKS+=strstr.3 strcasestr.3
 MLINKS+=strtok.3 strtok_r.3
 MLINKS+=strerror.3 strerror_r.3
-MLINKS+=wmemchr.3 wmemcmp.3
-MLINKS+=wmemchr.3 wmemcpy.3
-MLINKS+=wmemchr.3 wmemmove.3
-MLINKS+=wmemchr.3 wmemset.3
+MLINKS+=wmemchr.3 wcscasecmp.3
 MLINKS+=wmemchr.3 wcscat.3
 MLINKS+=wmemchr.3 wcschr.3
 MLINKS+=wmemchr.3 wcscmp.3
+MLINKS+=wmemchr.3 wcscoll.3
 MLINKS+=wmemchr.3 wcscpy.3
 MLINKS+=wmemchr.3 wcscspn.3
+MLINKS+=wmemchr.3 wcsdup.3
+MLINKS+=wmemchr.3 wcsftime.3
 MLINKS+=wmemchr.3 wcslcat.3
 MLINKS+=wmemchr.3 wcslcpy.3
 MLINKS+=wmemchr.3 wcslen.3
+MLINKS+=wmemchr.3 wcsncasecmp.3
 MLINKS+=wmemchr.3 wcsncat.3
 MLINKS+=wmemchr.3 wcsncmp.3
 MLINKS+=wmemchr.3 wcsncpy.3
@@ -175,3 +157,9 @@ MLINKS+=wmemchr.3 wcspbrk.3
 MLINKS+=wmemchr.3 wcsrchr.3
 MLINKS+=wmemchr.3 wcsspn.3
 MLINKS+=wmemchr.3 wcsstr.3
+MLINKS+=wmemchr.3 wcswcs.3
+MLINKS+=wmemchr.3 wcsxfrm.3
+MLINKS+=wmemchr.3 wmemcmp.3
+MLINKS+=wmemchr.3 wmemcpy.3
+MLINKS+=wmemchr.3 wmemmove.3
+MLINKS+=wmemchr.3 wmemset.3

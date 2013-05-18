@@ -1,4 +1,5 @@
-#	$OpenBSD: sshd_config,v 1.73 2005/12/06 22:38:28 reyk Exp $
+# $MirOS: src/usr.bin/ssh/sshd_config,v 1.6 2005/12/20 19:57:39 tg Exp $
+# $OpenBSD: sshd_config,v 1.73 2005/12/06 22:38:28 reyk Exp $
 
 # This is the sshd server system-wide configuration file.  See
 # sshd_config(5) for more information.
@@ -9,15 +10,25 @@
 # default value.
 
 #Port 22
+# Change default value below to match HostKey directives beyond
 #Protocol 2,1
+Protocol 2
 #AddressFamily any
 #ListenAddress 0.0.0.0
 #ListenAddress ::
+#Cipher blowfish
+#Ciphers aes256-cbc,blowfish-cbc,cast128-cbc,arcfour256,aes256-ctr,rijndael-cbc@lysator.liu.se,aes192-cbc,aes192-ctr,arcfour128,aes128-cbc,arcfour,aes128-ctr,3des-cbc
+#MACs hmac-ripemd160,hmac-ripemd160@openssh.com,hmac-sha1,hmac-md5,hmac-sha1-96,hmac-md5-96
+
+# Default for the following options (HostKey) is: all three
+# commented out equals all three in action. If only one or
+# two is given, the others are not checked (by default, only
+# the RSAv2 key is enabled).
 
 # HostKey for protocol version 1
 #HostKey /etc/ssh/ssh_host_key
 # HostKeys for protocol version 2
-#HostKey /etc/ssh/ssh_host_rsa_key
+HostKey /etc/ssh/ssh_host_rsa_key
 #HostKey /etc/ssh/ssh_host_dsa_key
 
 # Lifetime and size of ephemeral version 1 server key
@@ -32,19 +43,19 @@
 # Authentication:
 
 #LoginGraceTime 2m
-#PermitRootLogin yes
+#PermitRootLogin no
 #StrictModes yes
 #MaxAuthTries 6
 
 #RSAAuthentication yes
 #PubkeyAuthentication yes
-#AuthorizedKeysFile	.ssh/authorized_keys
+#AuthorizedKeysFile	.etc/ssh/authorized_keys
 
 # For this to work you will also need host keys in /etc/ssh/ssh_known_hosts
 #RhostsRSAAuthentication no
 # similar for protocol version 2
 #HostbasedAuthentication no
-# Change to yes if you don't trust ~/.ssh/known_hosts for
+# Change to yes if you don't trust ~/.etc/ssh/known_hosts for
 # RhostsRSAAuthentication and HostbasedAuthentication
 #IgnoreUserKnownHosts no
 # Don't read the user's ~/.rhosts and ~/.shosts files
@@ -57,16 +68,7 @@
 # Change to no to disable s/key passwords
 #ChallengeResponseAuthentication yes
 
-# Kerberos options
-#KerberosAuthentication no
-#KerberosOrLocalPasswd yes
-#KerberosTicketCleanup yes
-#KerberosGetAFSToken no
-
-# GSSAPI options
-#GSSAPIAuthentication no
-#GSSAPICleanupCredentials yes
-
+# Set AllowTcpForwarding to NO when running anoncvs!
 #AllowTcpForwarding yes
 #GatewayPorts no
 #X11Forwarding no
@@ -89,5 +91,5 @@
 # no default banner path
 #Banner /some/path
 
-# override default of no subsystems
+# override default of no subsystems to enable use of SFTP:
 Subsystem	sftp	/usr/libexec/sftp-server

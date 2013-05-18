@@ -1,25 +1,6 @@
-#	$OpenBSD: Makefile,v 1.77 2004/02/09 19:21:52 espie Exp $
-#	$NetBSD: Makefile,v 1.4 1996/01/09 03:23:01 thorpej Exp $
+# $MirOS: src/share/man/man9/Makefile,v 1.3 2005/03/29 18:06:08 tg Exp $
 
-#	Makefile for section 9 (kernel function and variable) manual pages.
-
-MAN=	altq.9 audio.9 autoconf.9 boot.9 bus_dma.9 bus_space.9 \
-	copy.9 crypto.9 ctxsw.9 disk.9 disklabel.9 \
-	dohooks.9 dopowerhooks.9 doshutdownhooks.9 dostartuphooks.9 \
-	extattr.9 file.9 \
-	fork1.9 extent.9 getdevvp.9 getnewvnode.9 hash.9 hashinit.9 \
-	hardclock.9 hook_establish.9 hz.9 hzto.9 intro.9 inittodr.9 log.9 \
-	kern.9 knote.9 kthread.9 ktrace.9 lock.9 \
-	malloc.9 mbuf.9 mbuf_tags.9 md5.9 microtime.9 namei.9 \
-	panic.9 pfind.9 physio.9 pmap.9 \
-	pool.9 powerhook_establish.9 ppsratecheck.9 printf.9 psignal.9 \
-	radio.9 random.9 rasops.9 ratecheck.9 resettodr.9 \
-	shutdownhook_establish.9 sleep.9 spl.9 startuphook_establish.9 \
-	style.9 syscall.9 systrace.9 \
-	time.9 timeout.9 tvtohz.9 uiomove.9 uvm.9 vfs.9 \
-	vaccess.9 vclean.9 vcount.9 vdevgone.9 vfinddev.9 vflush.9 vget.9 \
-	vgone.9 vhold.9 vinvalbuf.9 vput.9 vref.9 vrele.9 \
-	vnode.9 VOP_LOOKUP.9 vn_lock.9 vrecycle.9 vwaitforio.9
+MANSECT=	9
 
 MLINKS+=autoconf.9 config_init.9 autoconf.9 config_search.9 \
 	autoconf.9 config_rootsearch.9 autoconf.9 config_found_sm.9 \
@@ -213,14 +194,14 @@ MLINKS+=kern.9 imax.9 kern.9 imin.9 kern.9 lmax.9 kern.9 lmin.9 \
 
 # VOP functions
 MLINKS+=VOP_LOOKUP.9 VOP_CREATE.9 VOP_LOOKUP.9 VOP_FSYNC.9 \
-	VOP_LOOKUP.9 VOP_GETEXTATTR.9 VOP_LOOKUP.9 VOP_ISLOCKED.9 \
+	VOP_LOOKUP.9 VOP_ISLOCKED.9 \
 	VOP_LOOKUP.9 VOP_LINK.9 VOP_LOOKUP.9 VOP_LOCK.9 \
 	VOP_LOOKUP.9 VOP_MKDIR.9 VOP_LOOKUP.9 VOP_PRINT.9 \
 	VOP_LOOKUP.9 VOP_READLINK.9 VOP_LOOKUP.9 VOP_REALOCBLKS.9 \
 	VOP_LOOKUP.9 VOP_RECLAIM.9 VOP_LOOKUP.9 VOP_REMOVE.9 \
 	VOP_LOOKUP.9 VOP_REVOKE.9 VOP_LOOKUP.9 VOP_RMDIR.9 \
-	VOP_LOOKUP.9 VOP_SETEXTATTR.9 VOP_LOOKUP.9 VOP_STRATEGY.9 \
-	VOP_LOOKUP.9 VOP_SYMLINK.9 VOP_LOOKUP.9 VOP_UNLOCK.9 \
-	VOP_LOOKUP.9 VOP_WHITEOUT.9
+	VOP_LOOKUP.9 VOP_STRATEGY.9 \
+	VOP_LOOKUP.9 VOP_SYMLINK.9 VOP_LOOKUP.9 VOP_UNLOCK.9
 
+.include "../automan.mk"
 .include <bsd.prog.mk>

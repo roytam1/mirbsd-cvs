@@ -26,6 +26,7 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/monitor_wrap.c,v 1.3 2005/06/22 16:11:39 tg Exp $");
 
 #include <openssl/bn.h>
 #include <openssl/dh.h>
@@ -51,10 +52,6 @@
 #include "auth.h"
 #include "channels.h"
 #include "session.h"
-
-#ifdef GSSAPI
-#include "ssh-gss.h"
-#endif
 
 /* Imports */
 extern int compat20;
@@ -957,89 +954,3 @@ mm_auth_rsa_verify_response(Key *key, BIGNUM *p, u_char response[16])
 
 	return (success);
 }
-
-#ifdef GSSAPI
-OM_uint32
-mm_ssh_gssapi_server_ctx(Gssctxt **ctx, gss_OID goid)
-{
-	Buffer m;
-	OM_uint32 major;
-
-	/* Client doesn't get to see the context */
-	*ctx = NULL;
-
-	buffer_init(&m);
-	buffer_put_string(&m, goid->elements, goid->length);
-
-	mm_request_send(pmonitor->m_recvfd, MONITOR_REQ_GSSSETUP, &m);
-	mm_request_receive_expect(pmonitor->m_recvfd, MONITOR_ANS_GSSSETUP, &m);
-
-	major = buffer_get_int(&m);
-
-	buffer_free(&m);
-	return (major);
-}
-
-OM_uint32
-mm_ssh_gssapi_accept_ctx(Gssctxt *ctx, gss_buffer_desc *in,
-    gss_buffer_desc *out, OM_uint32 *flags)
-{
-	Buffer m;
-	OM_uint32 major;
-	u_int len;
-
-	buffer_init(&m);
-	buffer_put_string(&m, in->value, in->length);
-
-	mm_request_send(pmonitor->m_recvfd, MONITOR_REQ_GSSSTEP, &m);
-	mm_request_receive_expect(pmonitor->m_recvfd, MONITOR_ANS_GSSSTEP, &m);
-
-	major = buffer_get_int(&m);
-	out->value = buffer_get_string(&m, &len);
-	out->length = len;
-	if (flags)
-		*flags = buffer_get_int(&m);
-
-	buffer_free(&m);
-
-	return (major);
-}
-
-OM_uint32
-mm_ssh_gssapi_checkmic(Gssctxt *ctx, gss_buffer_t gssbuf, gss_buffer_t gssmic)
-{
-	Buffer m;
-	OM_uint32 major;
-
-	buffer_init(&m);
-	buffer_put_string(&m, gssbuf->value, gssbuf->length);
-	buffer_put_string(&m, gssmic->value, gssmic->length);
-
-	mm_request_send(pmonitor->m_recvfd, MONITOR_REQ_GSSCHECKMIC, &m);
-	mm_request_receive_expect(pmonitor->m_recvfd, MONITOR_ANS_GSSCHECKMIC,
-	    &m);
-
-	major = buffer_get_int(&m);
-	buffer_free(&m);
-	return(major);
-}
-
-int
-mm_ssh_gssapi_userok(char *user)
-{
-	Buffer m;
-	int authenticated = 0;
-
-	buffer_init(&m);
-
-	mm_request_send(pmonitor->m_recvfd, MONITOR_REQ_GSSUSEROK, &m);
-	mm_request_receive_expect(pmonitor->m_recvfd, MONITOR_ANS_GSSUSEROK,
-				  &m);
-
-	authenticated = buffer_get_int(&m);
-
-	buffer_free(&m);
-	debug3("%s: user %sauthenticated",__func__, authenticated ? "" : "not ");
-	return (authenticated);
-}
-#endif /* GSSAPI */

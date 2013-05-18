@@ -38,6 +38,8 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/moduli.c,v 1.4 2005/11/23 18:04:19 tg Exp $");
+
 #include "xmalloc.h"
 #include "log.h"
 
@@ -161,8 +163,8 @@ qfileout(FILE * ofile, u_int32_t otype, u_int32_t otests, u_int32_t otries,
 	time(&time_now);
 	gtm = gmtime(&time_now);
 
-	res = fprintf(ofile, "%04d%02d%02d%02d%02d%02d %u %u %u %u %x ",
-	    gtm->tm_year + 1900, gtm->tm_mon + 1, gtm->tm_mday,
+	res = fprintf(ofile, "%04lld%02d%02d%02d%02d%02d %u %u %u %u %x ",
+	    (int64_t)gtm->tm_year + 1900, gtm->tm_mon + 1, gtm->tm_mday,
 	    gtm->tm_hour, gtm->tm_min, gtm->tm_sec,
 	    otype, otests, otries, osize, ogenerator);
 

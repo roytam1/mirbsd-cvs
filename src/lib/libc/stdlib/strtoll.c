@@ -34,6 +34,8 @@
 #include <limits.h>
 #include <stdlib.h>
 
+__RCSID("$MirOS: src/lib/libc/stdlib/strtoll.c,v 1.2 2005/05/20 23:38:17 tg Exp $");
+
 /*
  * Convert a string to a long long.
  *
@@ -146,7 +148,6 @@ __weak_alias(strtoq, strtoll);
 quad_t
 strtoq(const char *nptr, char **endptr, int base)
 {
-
         return ((quad_t)strtoll(nptr, endptr, base));
 }
 #endif

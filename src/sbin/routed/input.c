@@ -422,7 +422,7 @@ input(struct sockaddr_in *from,		/* received from this IP address */
 					       naddr_ntoa(FROM_NADDR));
 				use_auth = from->sin_addr.s_addr;
 				return;
-			} else if (0 != bcmp(nap->au.au_pw, aifp->int_passwd,
+			} else if (0 != memcmp(nap->au.au_pw, aifp->int_passwd,
 					     sizeof(aifp->int_passwd))) {
 				if (from->sin_addr.s_addr != use_auth)
 					msglog("bad password from %s",

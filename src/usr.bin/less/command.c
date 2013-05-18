@@ -4,7 +4,7 @@
  * You may distribute under the terms of either the GNU General Public
  * License or the Less License, as specified in the README file.
  *
- * For more information about less, or for information on how to 
+ * For more information about less, or for information on how to
  * contact the author, see the README file.
  */
 
@@ -20,6 +20,8 @@
 #include "position.h"
 #include "option.h"
 #include "cmd.h"
+
+__RCSID("$MirOS$");
 
 extern int erase_char, kill_char;
 extern int sigs;
@@ -151,7 +153,7 @@ mca_opt_toggle()
 	int no_prompt;
 	int flag;
 	char *dash;
-	
+
 	no_prompt = (optflag & OPT_NO_PROMPT);
 	flag = (optflag & ~OPT_NO_PROMPT);
 	dash = (flag == OPT_NO_TOGGLE) ? "_" : "-";
@@ -295,7 +297,7 @@ mca_char(c)
 		 * Entering digits of a number.
 		 * Terminated by a non-digit.
 		 */
-		if ((c < '0' || c > '9') && 
+		if ((c < '0' || c > '9') &&
 		  editchar(c, EC_PEEK|EC_NOHISTORY|EC_NOCOMPLETE|EC_NORIGHTLEFT) == A_INVALID)
 		{
 			/*
@@ -370,7 +372,7 @@ mca_char(c)
 			/*
 			 * We're getting a long option name.
 			 * See if we've matched an option name yet.
-			 * If so, display the complete name and stop 
+			 * If so, display the complete name and stop
 			 * accepting chars until user hits RETURN.
 			 */
 			struct loption *o;
@@ -472,7 +474,7 @@ mca_char(c)
 	case A_B_SEARCH:
 		/*
 		 * Special case for search commands.
-		 * Certain characters as the first char of 
+		 * Certain characters as the first char of
 		 * the pattern have special meaning:
 		 *	!  Toggle the NO_MATCH flag
 		 *	*  Toggle the PAST_EOF flag
@@ -569,7 +571,7 @@ make_display()
 			/*
 			 * {{ Maybe this should be:
 			 *    jump_loc(ch_zero(), jump_sline);
-			 *    but this behavior seems rather unexpected 
+			 *    but this behavior seems rather unexpected
 			 *    on the first screen. }}
 			 */
 			jump_loc(ch_zero(), 1);
@@ -596,7 +598,7 @@ prompt()
 	if (ungotp != NULL && ungotp > ungot)
 	{
 		/*
-		 * No prompt necessary if commands are from 
+		 * No prompt necessary if commands are from
 		 * ungotten chars rather than from the user.
 		 */
 		return;
@@ -698,7 +700,7 @@ getcc()
 		/*
 		 * We have "/string" but no newline.  Add the \n.
 		 */
-		return ('\n'); 
+		return ('\n');
 
 	default:
 		/*
@@ -760,7 +762,7 @@ multi_search(pattern, n)
 	if (search_type & SRCH_FIRST_FILE)
 	{
 		/*
-		 * Start at the first (or last) file 
+		 * Start at the first (or last) file
 		 * in the command line list.
 		 */
 		if (search_type & SRCH_FORW)
@@ -842,7 +844,7 @@ multi_search(pattern, n)
 	public void
 commands()
 {
-	register int c;
+	register int c = -1;
 	register int action;
 	register char *cbuf;
 	int newaction;
@@ -938,7 +940,7 @@ commands()
 				 * We're in a multichar command.
 				 * Add the character to the command buffer
 				 * and display it on the screen.
-				 * If the user backspaces past the start 
+				 * If the user backspaces past the start
 				 * of the line, abort the command.
 				 */
 				if (cmd_char(c) == CC_QUIT || len_cmdbuf() == 0)
@@ -1063,7 +1065,7 @@ commands()
 			cmd_exec();
 			backward((int) number, 1, 0);
 			break;
-		
+
 		case A_FF_SCREEN:
 			/*
 			 * Force forward one screen.
@@ -1088,8 +1090,8 @@ commands()
 				forward(1, 0, 0);
 			ignore_eoi = 0;
 			/*
-			 * This gets us back in "F mode" after processing 
-			 * a non-abort signal (e.g. window-change).  
+			 * This gets us back in "F mode" after processing
+			 * a non-abort signal (e.g. window-change).
 			 */
 			if (sigs && !ABORT_SIGS())
 				newaction = A_F_FOREVER;
@@ -1097,7 +1099,7 @@ commands()
 
 		case A_F_SCROLL:
 			/*
-			 * Forward N lines 
+			 * Forward N lines
 			 * (default same as last 'd' or 'u' command).
 			 */
 			if (number > 0)
@@ -1110,7 +1112,7 @@ commands()
 
 		case A_B_SCROLL:
 			/*
-			 * Forward N lines 
+			 * Forward N lines
 			 * (default same as last 'd' or 'u' command).
 			 */
 			if (number > 0)
@@ -1249,7 +1251,7 @@ commands()
 			 */
 			DO_SEARCH();
 			break;
-		
+
 		case A_T_AGAIN_SEARCH:
 			/*
 			 * Repeat previous search, multiple files.
@@ -1269,8 +1271,8 @@ commands()
 			break;
 
 		case A_T_REVERSE_SEARCH:
-			/* 
-			 * Repeat previous search, 
+			/*
+			 * Repeat previous search,
 			 * multiple files in reverse direction.
 			 */
 			save_search_type = search_type;
@@ -1316,7 +1318,7 @@ commands()
 			error("Command not available", NULL_PARG);
 			break;
 #endif
-			
+
 		case A_VISUAL:
 			/*
 			 * Invoke an editor on the input file.
@@ -1334,7 +1336,7 @@ commands()
 			}
 			if (curr_altfilename != NULL)
 			{
-				error("Cannot edit file processed with LESSOPEN", 
+				error("Cannot edit file processed with LESSOPEN",
 					NULL_PARG);
 				break;
 			}
@@ -1525,7 +1527,7 @@ commands()
 			 */
 			start_mca(A_GOMARK, "goto mark: ", (void*)NULL, 0);
 			c = getcc();
-			if (c == erase_char || c == kill_char || 
+			if (c == erase_char || c == kill_char ||
 			    c == '\n' || c == '\r')
 				break;
 			gomark(c);

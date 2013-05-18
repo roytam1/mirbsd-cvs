@@ -123,7 +123,8 @@ __big_insert(HTAB *hashp, BUFHEAD *bufp, const DBT *key, const DBT *val)
 				 * data must end on a page with FREESPACE
 				 * non-zero would fail.
 				 */
-				if (space == val_size && val_size == val->size)
+				if ((int)space == val_size &&
+				    val_size == (int)val->size)
 					goto toolarge;
 				off = OFFSET(p) - move_bytes;
 				memmove(cp + off, val_data, move_bytes);
@@ -151,7 +152,7 @@ __big_insert(HTAB *hashp, BUFHEAD *bufp, const DBT *key, const DBT *val)
 		 * Here's the hack to make sure that if the data ends on the
 		 * same page as the key ends, FREESPACE is at least one.
 		 */
-		if (space == val_size && val_size == val->size)
+		if ((int)space == val_size && val_size == (int)val->size)
 			move_bytes--;
 		off = OFFSET(p) - move_bytes;
 		memmove(cp + off, val_data, move_bytes);

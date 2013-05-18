@@ -11,12 +11,10 @@
 
 #include "config.h"
 
-#ifndef lint
-static const char sccsid[] = "@(#)msg.c	10.48 (Berkeley) 9/15/96";
-#endif /* not lint */
+__SCCSID("@(#)msg.c	10.48 (Berkeley) 9/15/96");
+__RCSID("$MirOS$");
 
 #include <sys/param.h>
-#include <sys/types.h>		/* XXX: param.h may not have included types.h */
 #include <sys/queue.h>
 #include <sys/stat.h>
 #include <sys/time.h>
@@ -457,7 +455,8 @@ mod_rpt(sp)
 				*p++ = ' ';
 				tlen += 2;
 			}
-			len = snprintf(p, MAXNUM, "%lu ", sp->rptlines[cnt]);
+			len = snprintf(p, MAXNUM, "%lu ",
+			    (unsigned long)(sp->rptlines[cnt]));
 			p += len;
 			tlen += len;
 			t = msg_cat(sp,

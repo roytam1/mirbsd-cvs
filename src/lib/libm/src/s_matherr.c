@@ -18,7 +18,7 @@ static char rcsid[] = "$NetBSD: s_matherr.c,v 1.6 1995/05/10 20:47:53 jtc Exp $"
 #include "math_private.h"
 
 int
-matherr(struct exception *x)
+matherr(struct __libm_exception *x)
 {
 	int n=0;
 	if(x->arg1!=x->arg1) return 0;

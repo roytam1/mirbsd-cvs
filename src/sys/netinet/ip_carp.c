@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/netinet/ip_carp.c,v 1.3 2005/12/19 22:22:12 tg Exp $ */
 /*	$OpenBSD: ip_carp.c,v 1.52 2004/05/16 02:06:10 mcbride Exp $	*/
 
 /*
@@ -147,6 +148,8 @@ struct carp_if {
 
 #define	CARP_LOG(s,a) if (carp_opts[CARPCTL_LOG])			\
 	log(LOG_INFO, "carp: " s "\n", (a));
+#define	CARP_LOG0(s) if (carp_opts[CARPCTL_LOG])			\
+	log(LOG_INFO, "carp: " s "\n");
 #define	CARP_LOG1(sc,s,a) if (carp_opts[CARPCTL_LOG])			\
 	log(LOG_INFO, "%s: " s "\n", (sc)->sc_ac.ac_if.if_xname, (a));
 
@@ -381,7 +384,7 @@ carp_input(struct mbuf *m, ...)
 	m->m_data += iplen;
 	if (carp_cksum(m, len - iplen)) {
 		carpstats.carps_badsum++;
-		CARP_LOG("checksum failed", 0);
+		CARP_LOG0("checksum failed");
 		m_freem(m);
 		return;
 	}
@@ -437,7 +440,7 @@ carp6_input(struct mbuf **mp, int *offp, int proto)
 	m->m_data += *offp;
 	if (carp_cksum(m, sizeof(*ch))) {
 		carpstats.carps_badsum++;
-		CARP_LOG("checksum failed", 0);
+		CARP_LOG0("checksum failed");
 		m_freem(m);
 		return (IPPROTO_DONE);
 	}
@@ -471,6 +474,25 @@ carp_input_c(struct mbuf *m, struct carp_header *ch, sa_family_t af)
 	sc->sc_ac.ac_if.if_ipackets++;
 	sc->sc_ac.ac_if.if_ibytes += m->m_pkthdr.len;
 
+#if NBPFILTER > 0
+	if (sc->sc_ac.ac_if.if_bpf) {
+		/*
+		 * We need to prepend the address family as
+		 * a four byte field.  Cons up a dummy header
+		 * to pacify bpf.  This is safe because bpf
+		 * will only read from the mbuf (i.e., it won't
+		 * try to free it or keep a pointer to it).
+		 */
+		struct mbuf m0;
+		u_int32_t af = htonl(af);
+
+		m0.m_next = m;
+		m0.m_len = sizeof(af);
+		m0.m_data = (char *)&af;
+		bpf_mtap(sc->sc_ac.ac_if.if_bpf, &m0);
+	}
+#endif
+
 	/* verify the CARP version. */
 	if (ch->carp_version != CARP_VERSION) {
 		carpstats.carps_badver++;
@@ -484,7 +506,7 @@ carp_input_c(struct mbuf *m, struct carp_header *ch, sa_family_t af)
 	if (carp_hmac_verify(sc, ch->carp_counter, ch->carp_md)) {
 		carpstats.carps_badauth++;
 		sc->sc_ac.ac_if.if_ierrors++;
-		CARP_LOG("incorrect hash", 0);
+		CARP_LOG0("incorrect hash");
 		m_freem(m);
 		return;
 	}

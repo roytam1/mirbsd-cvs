@@ -15,12 +15,12 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/auth-rsa.c,v 1.5 2006/02/22 01:23:48 tg Exp $");
 
-#include <sys/types.h>
 #include <sys/stat.h>
 
 #include <openssl/rsa.h>
-#include <openssl/md5.h>
+#include <md5.h>
 
 #include "rsa.h"
 #include "packet.h"
@@ -48,7 +48,7 @@ extern ServerOptions options;
 extern u_char session_id[16];
 
 /*
- * The .ssh/authorized_keys file contains public keys, one per line, in the
+ * The .etc/ssh/authorized_keys file contains public keys, one per line, in the
  * following format:
  *   options bits e n comment
  * where bits, e and n are decimal numbers,
@@ -95,10 +95,10 @@ auth_rsa_verify_response(Key *key, BIGNUM *challenge, u_char response[16])
 		fatal("auth_rsa_verify_response: bad challenge length %d", len);
 	memset(buf, 0, 32);
 	BN_bn2bin(challenge, buf + 32 - len);
-	MD5_Init(&md);
-	MD5_Update(&md, buf, 32);
-	MD5_Update(&md, session_id, 16);
-	MD5_Final(mdbuf, &md);
+	MD5Init(&md);
+	MD5Update(&md, buf, 32);
+	MD5Update(&md, session_id, 16);
+	MD5Final(mdbuf, &md);
 
 	/* Verify that the response is the original challenge. */
 	if (memcmp(response, mdbuf, 16) != 0) {

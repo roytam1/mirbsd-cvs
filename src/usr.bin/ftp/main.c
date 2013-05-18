@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/ftp/main.c,v 1.4 2005/04/29 18:35:08 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.58 2004/07/20 03:50:26 deraadt Exp $	*/
 /*	$NetBSD: main.c,v 1.24 1997/08/18 10:20:26 lukem Exp $	*/
 
@@ -60,14 +61,10 @@
  */
 
 #ifndef lint
-static char copyright[] =
+static const char copyright[] =
 "@(#) Copyright (c) 1985, 1989, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
-
-#if !defined(lint) && !defined(SMALL)
-static char rcsid[] = "$OpenBSD: main.c,v 1.58 2004/07/20 03:50:26 deraadt Exp $";
-#endif /* not lint and not SMALL */
 
 /*
  * FTP User Program -- Command Interface.
@@ -86,6 +83,8 @@ static char rcsid[] = "$OpenBSD: main.c,v 1.58 2004/07/20 03:50:26 deraadt Exp $
 #include <unistd.h>
 
 #include "ftp_var.h"
+
+__RCSID("$MirOS: src/usr.bin/ftp/main.c,v 1.4 2005/04/29 18:35:08 tg Exp $");
 
 int family = PF_UNSPEC;
 
@@ -172,7 +171,7 @@ main(volatile int argc, char *argv[])
 	if (isatty(fileno(ttyout)) && !dumb_terminal && foregroundproc())
 		progress = 1;		/* progress bar on if tty is usable */
 
-	while ((ch = getopt(argc, argv, "46Aadegimno:pP:r:tvV")) != -1) {
+	while ((ch = getopt(argc, argv, "46AEadegimno:pP:r:tvV")) != -1) {
 		switch (ch) {
 		case '4':
 			family = PF_INET;
@@ -183,6 +182,10 @@ main(volatile int argc, char *argv[])
 		case 'A':
 			activefallback = 0;
 			passivemode = 0;
+			break;
+
+		case 'E':
+			epsv4 = 0;
 			break;
 
 		case 'a':
@@ -385,7 +388,7 @@ cmdscanner(int top)
 	HistEvent hev;
 #endif
 
-	if (!top 
+	if (!top
 #ifndef SMALL
 	    && !editing
 #endif /* !SMALL */
@@ -543,7 +546,7 @@ makeargv(void)
 					cursor_argo = ap-argbase; \
 					cursor_pos = NULL; \
 				} }
-						
+
 #endif /* !SMALL */
 
 /*

@@ -1,7 +1,7 @@
+/**	$MirOS: src/lib/libc/time/tzfile.h,v 1.2 2005/03/06 20:28:50 tg Exp $ */
 /*	$OpenBSD: tzfile.h,v 1.6 2005/07/05 13:40:51 millert Exp $	*/
 
 #ifndef TZFILE_H
-
 #define TZFILE_H
 
 /*
@@ -121,7 +121,7 @@ struct tzhead {
 #endif /* !defined TZ_MAX_CHARS */
 
 #ifndef TZ_MAX_LEAPS
-#define TZ_MAX_LEAPS	50	/* Maximum number of leap second corrections */
+#define TZ_MAX_LEAPS	128	/* Maximum number of leap second corrections */
 #endif /* !defined TZ_MAX_LEAPS */
 
 #define SECSPERMIN	60

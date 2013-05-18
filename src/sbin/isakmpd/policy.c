@@ -1,3 +1,4 @@
+/* $MirOS: src/sbin/isakmpd/policy.c,v 1.3 2005/04/26 15:42:38 tg Exp $ */
 /* $OpenBSD: policy.c,v 1.86 2005/06/14 10:50:47 hshoexer Exp $	 */
 /* $EOM: policy.c,v 1.49 2000/10/24 13:33:39 niklas Exp $ */
 
@@ -31,7 +32,6 @@
  * This code was written under funding by Ericsson Radio Systems.
  */
 
-#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/mman.h>
 #include <sys/queue.h>
@@ -63,6 +63,8 @@
 #include "util.h"
 #include "policy.h"
 #include "x509.h"
+
+__RCSID("$MirOS: src/sbin/isakmpd/policy.c,v 1.3 2005/04/26 15:42:38 tg Exp $");
 
 char          **policy_asserts = NULL;
 int		ignore_policy = 0;
@@ -822,10 +824,11 @@ policy_callback(char *name)
 
 			remote_id_type = "IPv6 subnet";
 
-			bcopy(id + ISAKMP_ID_DATA_OFF - ISAKMP_GEN_SZ, &net,
+			memmove(&net, id + ISAKMP_ID_DATA_OFF - ISAKMP_GEN_SZ,
 			    sizeof(net));
-			bcopy(id + ISAKMP_ID_DATA_OFF - ISAKMP_GEN_SZ + 16,
-			    &mask, sizeof(mask));
+			memmove(&mask,
+			    id + ISAKMP_ID_DATA_OFF - ISAKMP_GEN_SZ + 16,
+			    sizeof(mask));
 
 			for (i = 0; i < 16; i++)
 				net.s6_addr[i] &= mask.s6_addr[i];
@@ -1114,10 +1117,12 @@ policy_callback(char *name)
 
 					remote_filter_type = "IPv6 subnet";
 
-					bcopy(idremote + ISAKMP_ID_DATA_OFF,
-					    &net, sizeof(net));
-					bcopy(idremote + ISAKMP_ID_DATA_OFF +
-					    16, &mask, sizeof(mask));
+					memmove(&net,
+					    idremote + ISAKMP_ID_DATA_OFF,
+					    sizeof(net));
+					memmove(&mask,
+					    idremote + ISAKMP_ID_DATA_OFF + 16,
+					    sizeof(mask));
 
 					for (i = 0; i < 16; i++)
 						net.s6_addr[i] &=
@@ -1438,10 +1443,12 @@ policy_callback(char *name)
 
 					local_filter_type = "IPv6 subnet";
 
-					bcopy(idlocal + ISAKMP_ID_DATA_OFF,
-					    &net, sizeof(net));
-					bcopy(idlocal + ISAKMP_ID_DATA_OFF +
-					    16, &mask, sizeof(mask));
+					memmove(&net,
+					    idlocal + ISAKMP_ID_DATA_OFF,
+					    sizeof(net));
+					memmove(&mask,
+					    idlocal + ISAKMP_ID_DATA_OFF + 16,
+					    sizeof(mask));
 
 					for (i = 0; i < 16; i++)
 						net.s6_addr[i] &=

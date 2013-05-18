@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: xlint.c,v 1.16 2004/05/11 02:08:07 millert Exp $	*/
 /*	$NetBSD: xlint.c,v 1.3 1995/10/23 14:29:30 jpo Exp $	*/
 
@@ -32,10 +33,6 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char rcsid[] = "$OpenBSD: xlint.c,v 1.16 2004/05/11 02:08:07 millert Exp $";
-#endif
-
 #include <sys/param.h>
 #include <sys/wait.h>
 #include <sys/stat.h>
@@ -52,6 +49,8 @@ static char rcsid[] = "$OpenBSD: xlint.c,v 1.16 2004/05/11 02:08:07 millert Exp 
 
 #include "lint.h"
 #include "pathnames.h"
+
+__RCSID("$MirOS$");
 
 /* directory for temporary files */
 static	const	char *tmpdir;
@@ -335,7 +334,12 @@ main(argc, argv)
 #endif
 	appcstrg(&cppflags, "-C");
 	appcstrg(&cppflags, "-Wcomment");
+#ifdef	__OpenBSD__
 	appcstrg(&cppflags, "-D__OpenBSD__");
+#endif
+#ifdef	__MirBSD__
+	appcstrg(&cppflags, "-D__MirBSD__");
+#endif
 	appcstrg(&cppflags, "-Dlint");		/* XXX don't def. with -s */
 	appdef(&cppflags, "lint");
 	appdef(&cppflags, "unix");
@@ -579,9 +583,13 @@ fname(name, last)
 
 	/* run cpp */
 
+#ifndef REISER_CPP
 	len = strlen(PATH_LIBEXEC) + sizeof ("/cpp");
 	path = xmalloc(len);
 	(void)snprintf(path, len, "%s/cpp", PATH_LIBEXEC);
+#else
+	path = strdup("/usr/bin/cpp");
+#endif
 
 	appcstrg(&args, path);
 	applst(&args, cppflags);
@@ -780,4 +788,3 @@ cat(srcs, dest)
 	(void)close(ofd);
 	free(buf);
 }
-

@@ -1,4 +1,5 @@
-/*	$OpenBSD: print-pfsync.c,v 1.29 2005/11/04 08:24:15 mcbride Exp $	*/
+/**	$MirOS: src/usr.sbin/tcpdump/print-pfsync.c,v 1.4 2005/12/19 20:06:00 tg Exp $ */
+/*	$OpenBSD: print-pfsync.c,v 1.28 2005/05/28 15:10:07 ho Exp $	*/
 
 /*
  * Copyright (c) 2002 Michael Shalayeff
@@ -25,11 +26,6 @@
  * IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF
  * THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-#ifndef lint
-static const char rcsid[] =
-    "@(#) $Header$";
-#endif
 
 #include <sys/param.h>
 #include <sys/time.h>
@@ -61,6 +57,8 @@ struct rtentry;
 #include "addrtoname.h"
 #include "pfctl_parser.h"
 #include "pfctl.h"
+
+__RCSID("$MirOS: src/usr.sbin/tcpdump/print-pfsync.c,v 1.4 2005/12/19 20:06:00 tg Exp $");
 
 const char *pfsync_acts[] = { PFSYNC_ACTIONS };
 
@@ -116,7 +114,9 @@ pfsync_print(struct pfsync_header *hdr, int len)
 	struct pfsync_state_clr *c;
 	struct pfsync_state_upd_req *r;
 	struct pfsync_state_bus *b;
+#ifdef PFSYNC_ACT_TDB_UPD
 	struct pfsync_tdb *t;
+#endif
 	int i, flags = 0, min, sec;
 	u_int64_t id;
 
@@ -151,8 +151,8 @@ pfsync_print(struct pfsync_header *hdr, int len)
 		    i <= hdr->count && i * sizeof(*s) <= len; i++, s++) {
 			struct pf_state st;
 
-			bzero(&st, sizeof(st));
-			bcopy(&s->id, &st.id, sizeof(st.id));
+			memset(&st, 0, sizeof(st));
+			memmove(&st.id, &s->id, sizeof(st.id));
 			strlcpy(st.u.ifname, s->ifname, sizeof(st.u.ifname));
 			pf_state_host_ntoh(&s->lan, &st.lan);
 			pf_state_host_ntoh(&s->gwy, &st.gwy);
@@ -162,13 +162,13 @@ pfsync_print(struct pfsync_header *hdr, int len)
 			st.rule.nr = ntohl(s->rule);
 			st.nat_rule.nr = ntohl(s->nat_rule);
 			st.anchor.nr = ntohl(s->anchor);
-			bcopy(&s->rt_addr, &st.rt_addr, sizeof(st.rt_addr));
+			memmove(&st.rt_addr, &s->rt_addr, sizeof(st.rt_addr));
 			st.creation = ntohl(s->creation);
 			st.expire = ntohl(s->expire);
-			pf_state_counter_ntoh(s->packets[0], st.packets[0]);
-			pf_state_counter_ntoh(s->packets[1], st.packets[1]);
-			pf_state_counter_ntoh(s->bytes[0], st.bytes[0]);
-			pf_state_counter_ntoh(s->bytes[1], st.bytes[1]);
+			st.packets[0] = ntohl(s->packets[0]);
+			st.packets[1] = ntohl(s->packets[1]);
+			st.bytes[0] = ntohl(s->bytes[0]);
+			st.bytes[1] = ntohl(s->bytes[1]);
 			st.creatorid = s->creatorid;
 			st.af = s->af;
 			st.proto = s->proto;
@@ -187,7 +187,7 @@ pfsync_print(struct pfsync_header *hdr, int len)
 	case PFSYNC_ACT_UPD_C:
 		for (i = 1, u = (void *)((char *)hdr + PFSYNC_HDRLEN);
 		    i <= hdr->count && i * sizeof(*u) <= len; i++, u++) {
-			bcopy(&u->id, &id, sizeof(id));
+			memmove(&id, &u->id, sizeof(id));
 			printf("\n\tid: %016llx creatorid: %08x",
 			    betoh64(id), ntohl(u->creatorid));
 			if (vflag > 1)
@@ -197,7 +197,7 @@ pfsync_print(struct pfsync_header *hdr, int len)
 	case PFSYNC_ACT_DEL_C:
 		for (i = 1, d = (void *)((char *)hdr + PFSYNC_HDRLEN);
 		    i <= hdr->count && i * sizeof(*d) <= len; i++, d++) {
-			bcopy(&d->id, &id, sizeof(id));
+			memmove(&id, &d->id, sizeof(id));
 			printf("\n\tid: %016llx creatorid: %08x",
 			    betoh64(id), ntohl(d->creatorid));
 		}
@@ -205,7 +205,7 @@ pfsync_print(struct pfsync_header *hdr, int len)
 	case PFSYNC_ACT_UREQ:
 		for (i = 1, r = (void *)((char *)hdr + PFSYNC_HDRLEN);
 		    i <= hdr->count && i * sizeof(*r) <= len; i++, r++) {
-			bcopy(&r->id, &id, sizeof(id));
+			memmove(&id, &r->id, sizeof(id));
 			printf("\n\tid: %016llx creatorid: %08x",
 			    betoh64(id), ntohl(r->creatorid));
 		}
@@ -232,6 +232,7 @@ pfsync_print(struct pfsync_header *hdr, int len)
 			}
 		}
 		break;
+#ifdef PFSYNC_ACT_TDB_UPD
 	case PFSYNC_ACT_TDB_UPD:
 		for (i = 1, t = (void *)((char *)hdr + PFSYNC_HDRLEN);
 		    i <= hdr->count && i * sizeof(*t) <= len; i++, t++)
@@ -240,6 +241,7 @@ pfsync_print(struct pfsync_header *hdr, int len)
 			    betoh64(t->cur_bytes));
 			/* XXX add dst and sproto? */
 		break;
+#endif
 	default:
 		break;
 	}

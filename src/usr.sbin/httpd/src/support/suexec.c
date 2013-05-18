@@ -1,3 +1,5 @@
+/* $MirOS: src/usr.sbin/httpd/src/support/suexec.c,v 1.2 2005/03/13 19:16:59 tg Exp $ */
+
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
@@ -62,8 +64,8 @@
  ***********************************************************************
  *
  * NOTE! : DO NOT edit this code!!!  Unless you know what you are doing,
- *         editing this code might open up your system in unexpected 
- *         ways to would-be crackers.  Every precaution has been taken 
+ *         editing this code might open up your system in unexpected
+ *         ways to would-be crackers.  Every precaution has been taken
  *         to make this code as safe as possible; alter it at your own
  *         risk.
  *
@@ -78,7 +80,7 @@
  * alert:  Bug in the way Apache is communicating with suexec
  * crit:   Basic information is missing, invalid, or incorrect
  * error:  Script permission/configuration error
- * warn:   
+ * warn:
  * notice: Some issue of which the sysadmin/webmaster ought to be aware
  * info:   Normal activity message
  * debug:  Self-explanatory
@@ -96,6 +98,11 @@
 #endif
 
 #include "suexec.h"
+
+#ifndef __RCSID
+#define	__RCSID(x)	static const char __rcsid[] = (x)
+#endif
+__RCSID("$MirOS: src/usr.sbin/httpd/src/support/suexec.c,v 1.2 2005/03/13 19:16:59 tg Exp $");
 
 #if defined(PATH_MAX)
 #define AP_MAXPATH PATH_MAX
@@ -181,8 +188,8 @@ static void err_output(const char *fmt, va_list ap)
     time(&timevar);
     lt = localtime(&timevar);
 
-    fprintf(log, "[%d-%.2d-%.2d %.2d:%.2d:%.2d]: ",
-	    lt->tm_year + 1900, lt->tm_mon + 1, lt->tm_mday,
+    fprintf(log, "[%lld-%.2d-%.2d %.2d:%.2d:%.2d]: ",
+	    (int64_t)lt->tm_year + 1900, lt->tm_mon + 1, lt->tm_mday,
 	    lt->tm_hour, lt->tm_min, lt->tm_sec);
 
     vfprintf(log, fmt, ap);
@@ -395,7 +402,7 @@ int main(int argc, char *argv[])
     target_homedir = strdup(pw->pw_dir);
 
     /*
-     * Log the transaction here to be sure we have an open log 
+     * Log the transaction here to be sure we have an open log
      * before we setuid().
      */
     log_err("info: (target/actual) uid: (%s/%s) gid: (%s/%s) cmd: %s\n",
@@ -561,9 +568,9 @@ int main(int argc, char *argv[])
     umask(SUEXEC_UMASK);
 #endif /* SUEXEC_UMASK */
 
-    /* 
+    /*
      * Be sure to close the log file so the CGI can't
-     * mess with it.  If the exec fails, it will be reopened 
+     * mess with it.  If the exec fails, it will be reopened
      * automatically when log_err is called.  Note that the log
      * might not actually be open if LOG_EXEC isn't defined.
      * However, the "log" cell isn't ifdef'd so let's be defensive

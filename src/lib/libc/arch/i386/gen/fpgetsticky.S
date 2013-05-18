@@ -6,6 +6,8 @@
 
 #include <machine/asm.h>
 
+	.text
+
 ENTRY(fpgetsticky)
 	subl $4,%esp
 	fnstsw (%esp)

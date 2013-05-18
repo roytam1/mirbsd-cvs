@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: vfontedpr.c,v 1.9 2003/06/03 02:56:21 millert Exp $	*/
 /*	$NetBSD: vfontedpr.c,v 1.7 1998/12/19 23:41:53 christos Exp $	*/
 
@@ -100,7 +101,7 @@ static char    *defsfile[2] = { _PATH_VGRINDEFS, 0 };
 				/* name of language definitions file */
 static int	margin;
 static int	plstack[PSMAX];	/* the procedure nesting level stack */
-static char	pname[BUFSIZ+1]; 
+static char	pname[BUFSIZ+1];
 static boolean  prccont;	/* continue last procedure */
 static int	psptr;		/* the stack index of the current procedure */
 static char	pstack[PSMAX][PNAMELEN+1];	/* the procedure name stack */
@@ -228,12 +229,12 @@ main(int argc, char *argv[])
 	if (i == -1) {
 	    fprintf (stderr, "no entry for language %s\n", language);
 	    exit (0);
-	} else  if (i == -2) { fprintf(stderr, 
+	} else  if (i == -2) { fprintf(stderr,
 	    "cannot find vgrindefs file %s\n", defsfile[0]);
 	    exit (0);
-	} else if (i == -3) { fprintf(stderr, 
-	    "potential reference loop detected in vgrindefs file %s\n", 
-            defsfile[0]);				      
+	} else if (i == -3) { fprintf(stderr,
+	    "potential reference loop detected in vgrindefs file %s\n",
+            defsfile[0]);
 	    exit(0);
 	}
 	if (cgetustr(defs, "kw", &cp) == -1)
@@ -244,7 +245,7 @@ main(int argc, char *argv[])
 	    cpp = l_keywds;
 	    while (*cp) {
 		while (*cp == ' ' || *cp =='\t')
-		    *cp++ = NULL;
+		    *cp++ = 0;
 		if (*cp)
 		    *cpp++ = cp;
 		while (*cp != ' ' && *cp  != '\t' && *cp)
@@ -286,7 +287,7 @@ main(int argc, char *argv[])
 	x_escaped = FALSE;
 	blklevel = 0;
 	for (psptr=0; psptr<PSMAX; psptr++) {
-	    pstack[psptr][0] = NULL;
+	    pstack[psptr][0] = 0;
 	    plstack[psptr] = 0;
 	}
 	psptr = -1;
@@ -369,10 +370,10 @@ putScp(char *os)
 	if (psptr < PSMAX) {
 	    ++psptr;
 	    strncpy (pstack[psptr], pname, PNAMELEN);
-	    pstack[psptr][PNAMELEN] = NULL;
+	    pstack[psptr][PNAMELEN] = 0;
 	    plstack[psptr] = blklevel;
 	}
-    } 
+    }
 skip:
     do {
 	/* check for string, comment, blockstart, etc */
@@ -535,7 +536,7 @@ putKcp(char *start, char *end, boolean force)
     while (start <= end) {
 	if (idx) {
 	    if (*start == ' ' || *start == '\t') {
-		if (xfld == 0)	
+		if (xfld == 0)
 		    printf("");
 		printf("\t");
 		xfld = 1;
@@ -555,12 +556,12 @@ putKcp(char *start, char *end, boolean force)
 	}
 
 	if (!nokeyw && !force)
-	    if ((*start == '#' || isidchr(*start)) 
+	    if ((*start == '#' || isidchr(*start))
 	    && (start == x_start || !isidchr(start[-1]))) {
 		i = iskw(start);
 		if (i > 0) {
 		    ps("\\*(+K");
-		    do 
+		    do
 			putcp(*start++);
 		    while (--i > 0);
 		    ps("\\*(-K");
@@ -667,7 +668,7 @@ putcp(int c)
 static boolean
 isproc(char *s)
 {
-    pname[0] = NULL;
+    pname[0] = 0;
     if (!l_toplex || blklevel == 0)
 	if (expmatch (s, l_prcbeg, pname) != NIL) {
 	    return (TRUE);
@@ -693,4 +694,3 @@ iskw(char *s)
 			return (i);
 	return (0);
 }
-

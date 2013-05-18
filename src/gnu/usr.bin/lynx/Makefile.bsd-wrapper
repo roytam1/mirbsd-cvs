@@ -1,0 +1,64 @@
+# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.6 2006/01/31 19:29:29 tg Exp $
+# $OpenBSD: Makefile.bsd-wrapper,v 1.12 2003/05/01 18:59:36 avsm Exp $
+
+MAN=		lynx.1
+CLEANFILES=	lynx.1
+FSFMAKEFILE=	makefile
+# japanese-utf8 logic needs some sort of iconv :(
+CFARGS=		--libdir=/etc --prefix=/usr --with-ssl=/usr --with-zlib \
+		--enable-addrlist-page --enable-charset-choice \
+		--enable-color-style --enable-japanese-utf8 \
+		--disable-full-paths --enable-warnings \
+		--enable-internal-links --enable-kbd-layout --enable-ipv6 \
+		--enable-nested-tables --disable-nls --enable-nsl-fork \
+		--with-screen=ncurses --disable-scrollbar --enable-cjk \
+		--enable-underlines --enable-vertrace --without-bzlib
+
+HTMLDIR=	/usr/share/doc/html
+HTMLFILES=	Lynx_users_guide.html about_lynx.html help_files.txt \
+		lynx-dev.html lynx_help_main.html lynx_url_support.html \
+		keystrokes/alt_edit_help.html \
+		keystrokes/bashlike_edit_help.html \
+		keystrokes/bookmark_help.html keystrokes/cookie_help.html \
+		keystrokes/dired_help.html keystrokes/edit_help.html \
+		keystrokes/environments.html keystrokes/follow_help.html \
+		keystrokes/gopher_types_help.html \
+		keystrokes/history_help.html keystrokes/keystroke_help.html \
+		keystrokes/movement_help.html keystrokes/option_help.html \
+		keystrokes/other_help.html keystrokes/print_help.html \
+		keystrokes/scrolling_help.html keystrokes/test_display.html \
+		keystrokes/visited_help.html keystrokes/xterm_help.html
+HTMLSAMPLES=	blue-background.lss bright-blue.lss cernrules.txt \
+		installdirs.html jumpsUnix.html keepviewer lynx-keymaps \
+		lynxdump mailcap mailto-form.pl mild-colors.lss mime.types
+HTMLTESTS=	ALT88592.html ISO_LATIN1_test.html README.txt \
+		TestComment.html c1.html iso-8859-1.html iso-8859-2.html \
+		koi8-r.html quickbrown.html raw8bit.html sgml.html \
+		spaces.html special_urls.html tabtest.html tags.html \
+		test-styles.html unicode.html utf-8-demo.html
+
+lynx.1:	${.CURDIR}/lynx.man
+	-cp -p ${.ALLSRC} $@
+
+post-install:
+.for _i in ${HTMLFILES}
+	${INSTALL_DOC} ${.CURDIR}/lynx_help/${_i} \
+	    ${DESTDIR}${HTMLDIR}/lynx_help/${_i}
+.endfor
+.for _i in ${HTMLSAMPLES}
+	${INSTALL_DOC} ${.CURDIR}/samples/${_i} \
+	    ${DESTDIR}${HTMLDIR}/lynx_help/samples/${_i}
+.endfor
+.for _i in ${HTMLTESTS}
+	${INSTALL_DOC} ${.CURDIR}/test/${_i} \
+	    ${DESTDIR}${HTMLDIR}/lynx_help/test/${_i}
+.endfor
+
+do-install:
+	${INSTALL_PROGRAM} lynx ${DESTDIR}/usr/bin/lynx
+
+distribution:
+	${INSTALL_DATA} ${.CURDIR}/lynx.cfg ${DESTDIR}/etc/lynx.cfg
+	${INSTALL_DATA} ${.CURDIR}/samples/lynx.lss ${DESTDIR}/etc/lynx.lss
+
+.include <bsd.cfwrap.mk>

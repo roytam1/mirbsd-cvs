@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /*                      _             _
 **  _ __ ___   ___   __| |    ___ ___| |  mod_ssl
 ** | '_ ` _ \ / _ \ / _` |   / __/ __| |  Apache Interface to OpenSSL
@@ -66,7 +68,7 @@
 #ifndef MOD_SSL_H
 #define MOD_SSL_H 1
 
-/* 
+/*
  * Optionally enable the experimental stuff, but allow the user to
  * override the decision which experimental parts are included by using
  * CFLAGS="-DSSL_EXPERIMENTAL_xxxx_IGNORE".
@@ -260,7 +262,7 @@
 #include <sys/types.h>
 #include <sys/ipc.h>
 #include <sys/sem.h>
-/* 
+/*
  * Some platforms have a `union semun' pre-defined but Single Unix
  * Specification (SUSv2) says in semctl(2): `If required, it is of
  * type union semun, which the application program must explicitly
@@ -284,16 +286,7 @@ union ssl_ipc_semun {
 #define SSL_DBM_FILE_MODE ( S_IRUSR|S_IWUSR )
 
 #ifdef SSL_USE_SDBM
-#include "ssl_util_sdbm.h"
-#define ssl_dbm_open     sdbm_open
-#define ssl_dbm_close    sdbm_close
-#define ssl_dbm_store    sdbm_store
-#define ssl_dbm_fetch    sdbm_fetch
-#define ssl_dbm_delete   sdbm_delete
-#define ssl_dbm_firstkey sdbm_firstkey
-#define ssl_dbm_nextkey  sdbm_nextkey
-#define SSL_DBM_FILE_SUFFIX_DIR ".dir"
-#define SSL_DBM_FILE_SUFFIX_PAG ".pag"
+#error No SDBM!
 #else /* !SSL_USE_SDBM */
 #include <ndbm.h>
 #define ssl_dbm_open     dbm_open
@@ -318,7 +311,7 @@ union ssl_ipc_semun {
 #endif /* !SSL_USE_SDBM */
 
 /*
- * Check for OpenSSL version 
+ * Check for OpenSSL version
  */
 #if SSL_LIBRARY_VERSION < 0x00907000
 #error "mod_ssl requires OpenSSL 0.9.7 or higher"
@@ -638,7 +631,7 @@ void         ssl_init_Engine(server_rec *, pool *);
 void         ssl_init_TmpKeysHandle(int, server_rec *, pool *);
 void         ssl_init_ConfigureServer(server_rec *, pool *, SSLSrvConfigRec *);
 void         ssl_init_CheckServers(server_rec *, pool *);
-STACK_OF(X509_NAME) 
+STACK_OF(X509_NAME)
             *ssl_init_FindCAList(server_rec *, pool *, char *, char *);
 void         ssl_init_Child(server_rec *, pool *);
 void         ssl_init_ChildKill(void *);
@@ -779,7 +772,7 @@ int          ssl_util_ppopen_child(void *, child_info *);
 void         ssl_util_ppclose(server_rec *, pool *, FILE *);
 char        *ssl_util_readfilter(server_rec *, pool *, char *);
 BOOL         ssl_util_path_check(ssl_pathcheck_t, char *);
-ssl_algo_t   ssl_util_algotypeof(X509 *, EVP_PKEY *); 
+ssl_algo_t   ssl_util_algotypeof(X509 *, EVP_PKEY *);
 char        *ssl_util_algotypestr(ssl_algo_t);
 char        *ssl_util_ptxtsub(pool *, const char *, const char *, char *);
 void         ssl_util_thread_setup(void);

@@ -33,6 +33,8 @@
 
 #include <machine/asm.h>
 
+	.text
+
 ENTRY(sigsetjmp)
 	movl	4(%esp),%ecx
 	movl	8(%esp),%eax

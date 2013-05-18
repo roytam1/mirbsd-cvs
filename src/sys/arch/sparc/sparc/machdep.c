@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/arch/sparc/sparc/machdep.c,v 1.5 2006/06/11 00:15:12 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.98 2004/03/10 23:02:54 tom Exp $	*/
 /*	$NetBSD: machdep.c,v 1.85 1997/09/12 08:55:02 pk Exp $ */
 
@@ -417,11 +418,7 @@ int sigpid = 0;
 struct sigframe {
 	int	sf_signo;		/* signal number */
 	siginfo_t *sf_sip;		/* points to siginfo_t */
-#ifdef COMPAT_SUNOS
-	struct	sigcontext *sf_scp;	/* points to user addr of sigcontext */
-#else
 	int	sf_xxx;			/* placeholder */
-#endif
 	caddr_t	sf_addr;		/* SunOS compat */
 	struct	sigcontext sf_sc;	/* actual sigcontext */
 	siginfo_t sf_si;
@@ -504,9 +501,6 @@ sendsig(catcher, sig, mask, code, type, val)
 	struct trapframe *tf;
 	int caddr, oonstack, oldsp, newsp;
 	struct sigframe sf;
-#ifdef COMPAT_SUNOS
-	extern struct emul emul_sunos;
-#endif
 
 	tf = p->p_md.md_tf;
 	oldsp = tf->tf_out[6];
@@ -536,13 +530,6 @@ sendsig(catcher, sig, mask, code, type, val)
 	 */
 	sf.sf_signo = sig;
 	sf.sf_sip = NULL;
-#ifdef COMPAT_SUNOS
-	if (p->p_emul == &emul_sunos) {
-		sf.sf_sip = (void *)code;	/* SunOS has "int code" */
-		sf.sf_scp = &fp->sf_sc;
-		sf.sf_addr = val.sival_ptr;
-	}
-#endif
 
 	/*
 	 * Build the signal context to be used by sigreturn.
@@ -596,11 +583,6 @@ sendsig(catcher, sig, mask, code, type, val)
 	 * Arrange to continue execution at the code copied out in exec().
 	 * It needs the function to call in %g1, and a new stack pointer.
 	 */
-#ifdef COMPAT_SUNOS
-	if (psp->ps_usertramp & sigmask(sig)) {
-		caddr = (int)catcher;	/* user does his own trampolining */
-	} else
-#endif
 	{
 		caddr = p->p_sigcode;
 		tf->tf_global[1] = (int)catcher;
@@ -723,7 +705,8 @@ haltsys:
 #if defined(SUN4M)
 		if (howto & RB_POWERDOWN) {
 #if NPOWER > 0 || NTCTRL >0
-			printf("attempting to power down...\n");
+			printf("attempting to power down... %X\n",
+			    arc4random());
 #if NPOWER > 0
 			powerdown();
 #endif
@@ -735,11 +718,11 @@ haltsys:
 			printf("WARNING: powerdown failed!\n");
 		}
 #endif /* SUN4M */
-		printf("halted\n\n");
+		printf("halted %X\n\n", arc4random());
 		romhalt();
 	}
 
-	printf("rebooting\n\n");
+	printf("rebooting %X\n\n", arc4random());
 	i = 1;
 	if (howto & RB_SINGLE)
 		str[i++] = 's';
@@ -956,7 +939,7 @@ mapdev(phys, virt, offset, size)
 	static vaddr_t iobase;
 	unsigned int pmtype;
 
-	if (iobase == NULL)
+	if (iobase == 0)
 		iobase = IODEV_BASE;
 
 	size = round_page(size);
@@ -994,11 +977,6 @@ cpu_exec_aout_makecmds(p, epp)
 {
 	int error = ENOEXEC;
 
-#ifdef COMPAT_SUNOS
-	extern int sunos_exec_aout_makecmds(struct proc *, struct exec_package *);
-	if ((error = sunos_exec_aout_makecmds(p, epp)) == 0)
-		return 0;
-#endif
 	return error;
 }
 

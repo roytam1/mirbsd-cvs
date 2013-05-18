@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/kern/subr_extent.c,v 1.2 2005/03/06 21:28:02 tg Exp $ */
 /*	$OpenBSD: subr_extent.c,v 1.29 2005/07/08 14:05:28 krw Exp $	*/
 /*	$NetBSD: subr_extent.c,v 1.7 1996/11/21 18:46:34 cgd Exp $	*/
 
@@ -689,7 +690,7 @@ extent_alloc_subregion(ex, substart, subend, size, alignment, skew, boundary,
 				 * Calculate the next boundary after the start
 				 * of this region.
 				 */
-				dontcross = EXTENT_ALIGN(newstart+1, boundary, 
+				dontcross = EXTENT_ALIGN(newstart+1, boundary,
 				    (flags & EX_BOUNDZERO) ? 0 : ex->ex_start)
 				    - 1;
 
@@ -760,7 +761,7 @@ skip:
 			 */
 			goto fail;
 		}
-		
+
 		last = rp;
 	}
 
@@ -784,7 +785,7 @@ skip:
 			 * Calculate the next boundary after the start
 			 * of this region.
 			 */
-			dontcross = EXTENT_ALIGN(newstart+1, boundary, 
+			dontcross = EXTENT_ALIGN(newstart+1, boundary,
 			    (flags & EX_BOUNDZERO) ? 0 : ex->ex_start)
 			    - 1;
 
@@ -1143,10 +1144,10 @@ extent_print(ex)
 		panic("extent_print: NULL extent");
 
 #ifdef _KERNEL
-	db_printf("extent `%s' (0x%lx - 0x%lx), flags=%b\n", ex->ex_name,
+	db_printf("extent '%s' (0x%lx - 0x%lx), flags=%b\n", ex->ex_name,
 	    ex->ex_start, ex->ex_end, ex->ex_flags, EXF_BITS);
 #else
-	db_printf("extent `%s' (0x%lx - 0x%lx), flags = 0x%x\n", ex->ex_name,
+	db_printf("extent '%s' (0x%lx - 0x%lx), flags = 0x%x\n", ex->ex_name,
 	    ex->ex_start, ex->ex_end, ex->ex_flags);
 #endif
 

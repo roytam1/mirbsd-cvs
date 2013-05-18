@@ -210,13 +210,13 @@ cookie_bake(void)
 	MD5Init(&ctx);
 	MD5Update(&ctx, (unsigned char *)&x, sizeof(x));
 	MD5Final((unsigned char *)buf, &ctx);
-	bcopy(buf, &y, sizeof(y));
+	memmove(&y, buf, sizeof(y));
 	x = x ^ y;
-	bcopy(buf + 4, &y, sizeof(y));
+	memmove(&y, buf + 4, sizeof(y));
 	x = x ^ y;
-	bcopy(buf + 8, &y, sizeof(y));
+	memmove(&y, buf + 8, sizeof(y));
 	x = x ^ y;
-	bcopy(buf + 12, &y, sizeof(y));
+	memmove(&y, buf + 12, sizeof(y));
 	x = x ^ y;
 	return (x);
 }

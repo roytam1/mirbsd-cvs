@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libc/db/hash/hash_buf.c,v 1.2 2005/03/06 20:28:35 tg Exp $ */
 /*	$OpenBSD: hash_buf.c,v 1.16 2005/08/05 13:03:00 espie Exp $	*/
 
 /*-
@@ -65,6 +66,9 @@
 #include "page.h"
 #include "extern.h"
 
+__SCCSID("@(#)hash_buf.c	8.5 (Berkeley) 7/15/94");
+__RCSID("$MirOS: src/lib/libc/db/hash/hash_buf.c,v 1.2 2005/03/06 20:28:35 tg Exp $");
+
 static BUFHEAD *newbuf(HTAB *, u_int32_t, BUFHEAD *);
 
 /* Unlink B from its place in the lru */
@@ -102,12 +106,11 @@ __get_buf(HTAB *hashp, u_int32_t addr,
     int newpage)
 {
 	BUFHEAD *bp;
-	u_int32_t is_disk_mask;
-	int is_disk, segment_ndx;
-	SEGMENT segp;
+	u_int32_t is_disk_mask = 0;
+	int is_disk, segment_ndx = 0;
+	SEGMENT segp = 0;
 
 	is_disk = 0;
-	is_disk_mask = 0;
 	if (prev_bp) {
 		bp = prev_bp->ovfl;
 		if (!bp || (bp->addr != addr))

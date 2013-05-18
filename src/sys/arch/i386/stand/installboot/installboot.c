@@ -1,8 +1,33 @@
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.16 2006/04/08 00:09:12 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
+/*-
+ * Copyright (c) 2003, 2004, 2005, 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
+ *
+ * Licensee is hereby permitted to deal in this work without restric-
+ * tion, including unlimited rights to use, publicly perform, modify,
+ * merge, distribute, sell, give away or sublicence, provided all co-
+ * pyright notices above, these terms and the disclaimer are retained
+ * in all redistributions or reproduced in accompanying documentation
+ * or other materials provided with binary redistributions.
+ *
+ * All advertising materials mentioning features or use of this soft-
+ * ware must display the following acknowledgement:
+ *	This product includes material provided by Thorsten Glaser.
+ *
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
+ */
+
 /*
- * Copyright (c) 2003 Tom Cosgrove <tom.cosgrove@arches-consulting.com>
  * Copyright (c) 1997 Michael Shalayeff
  * Copyright (c) 1994 Paul Kranenburg
  * All rights reserved.
@@ -44,6 +69,7 @@
 #include <ufs/ufs/dir.h>
 #include <ufs/ffs/fs.h>
 #include <sys/reboot.h>
+#include <sys/errno.h>
 
 #include <uvm/uvm_extern.h>
 #include <sys/sysctl.h>
@@ -62,51 +88,89 @@
 #include <unistd.h>
 #include <util.h>
 
-struct	sym_data {
-	char		*sym_name;		/* Must be initialised */
-	int		sym_size;		/* And this one */
-	int		sym_set;		/* Rest set at runtime */
-	u_int32_t	sym_value;
-};
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.16 2006/04/08 00:09:12 tg Exp $");
 
 extern	char *__progname;
-int	verbose, nowrite = 0;
+int	verbose, nowrite, nheads, nsectors, userspec = 0;
 char	*boot, *proto, *dev, *realdev;
-struct sym_data pbr_symbols[] = {
-	{"_fs_bsize_p",	2},
-	{"_fs_bsize_s",	2},
-	{"_fsbtodb",	1},
-	{"_p_offset",	4},
-	{"_inodeblk",	4},
-	{"_inodedbl",	4},
-	{"_nblocks",	2},
-	{NULL}
+struct nlist nl[] = {
+#define X_BLOCK_COUNT	0
+	{{"_blkcnt"}},
+#define X_BLOCK_TABLE	1
+	{{"_blktbl"}},
+#define	X_NUM_SECS	2
+	{{"_bpbspt"}},
+#define	X_NUM_HEADS	3
+	{{"_bpbtpc"}},
+#define	X_PARTP		4
+	{{"_partp"}},
+	{{NULL}}
 };
 
-#define INODESEG	0x07e0	/* where we will put /boot's inode's block */
-#define BOOTSEG		0x07c0	/* biosboot loaded here */
+u_int8_t *block_count_p;	/* block count var. in prototype image */
+u_int8_t *block_table_p;	/* block number array in prototype image */
+u_int8_t *num_heads_p;		/* number of tracks per cylinder */
+u_int8_t *num_secs_p;		/* number of sectors per track */
+uint8_t  *partp_p;		/* user defined partition type */
+int	maxblocklen;		/* size of this array */
+int	curblocklen = 0;	/* actually used up bytes */
+int	force_mbr = 0;		/* install into MBR */
+int	userpt = 0;		/* user defined partition type, self-local */
 
-#define INODEOFF  ((INODESEG-BOOTSEG) << 4)
+int biosdev;
 
-static char	*loadproto(char *, long *);
-static int	getbootparams(char *, int, struct disklabel *);
+char		*loadprotoblocks(char *, long *);
+int		loadblocknums(char *, int, struct disklabel *);
 static void	devread(int, void *, daddr_t, size_t, char *);
-static void	sym_set_value(struct sym_data *, char *, u_int32_t);
-static void	pbr_set_symbols(char *, char *, struct sym_data *);
-static void	usage(void);
+static __dead void usage(void);
+static int	record_block(u_int8_t *, daddr_t, u_int);
+static int	do_record(u_int8_t *, daddr_t, u_int);
+
 
 static void
 usage(void)
 {
-	fprintf(stderr, "usage: %s [-nv] boot biosboot device\n", __progname);
+	fprintf(stderr, "usage:\t%s [-n] [-v] [-s sec-per-track] "
+	    "[-h track-per-cyl]\n", __progname);
+	fprintf(stderr, "\t    boot ldsec device\n");
+	fprintf(stderr, "\t    [-S sector] -I bootstart bootend ldsec device\n");
+	fprintf(stderr, "\t    [-S sector] -i bootstart bootlen ldsec device\n");
 	exit(1);
 }
 
-/*
- * Read information about /boot's inode and filesystem parameters, then
- * put biosboot (partition boot record) on the target drive with these
- * parameters patched in.
- */
+int
+read_pt(int f, long offs, struct dos_mbr *target, size_t secsize)
+{
+#ifdef	DEBUG
+	fprintf(stderr, "debug: read_pt at %d (0x%X)\n", offs, offs);
+#endif
+	if (lseek(f, (off_t)offs * secsize, SEEK_SET) < 0)
+		return -1;
+	if (read(f, target, secsize) < secsize)
+		return -1;
+	return 0;
+}
+
+int
+scan_pt(struct dos_partition *dp, u_int8_t what)
+{
+	int part;
+
+	for (part = 0; part < NDOSPART; ++part) {
+		if ((!get_le(&dp[part].dp_size)) || (dp[part].dp_typ != what))
+			continue;
+		fprintf(stderr, "# found partition %d: "
+		    "type %02X ofs %d (0x%Xh) size %d (0x%X)%s\n",
+		    part, dp[part].dp_typ,
+		    get_le(&dp[part].dp_start), get_le(&dp[part].dp_start),
+		    get_le(&dp[part].dp_size), get_le(&dp[part].dp_size),
+		    ( ((what == DOSPTYP_EXTENDL) || (what == DOSPTYP_EXTENDLX)
+		       || (what == DOSPTYP_EXTEND)) ? ", chaining..." : "."));
+		return part;
+	}
+	return NDOSPART;
+}
+
 int
 main(int argc, char *argv[])
 {
@@ -114,20 +178,77 @@ main(int argc, char *argv[])
 	int	devfd;
 	char	*protostore;
 	long	protosize;
-	struct	stat sb;
-	struct	disklabel dl;
-	struct	dos_mbr mbr;
-	struct	dos_partition *dp;
-	off_t	startoff = 0;
+	struct stat sb;
+	struct disklabel dl;
+	struct dos_mbr mbr;
+	struct dos_partition *dp;
+	off_t startoff = 0;
+	int mib[4];
+	size_t size;
+	dev_t devno;
+	bios_diskinfo_t di;
+	long mbrofs;
+	int mbrpart, usembrpart = 0;
+	/* do *not* use off_t */
+	u_long isoofs = 0, isolen = 0, imaofs = 0, imasec = 0;
 
-	while ((c = getopt(argc, argv, "vn")) != -1) {
+	fprintf(stderr, "MirOS BSD installboot " __BOOT_VER "\n");
+
+	nsectors = nheads = -1;
+	while ((c = getopt(argc, argv, "h:I:i:MnP:pS:s:v")) != -1) {
 		switch (c) {
+		case 'h':
+			nheads = atoi(optarg);
+			if (nheads < 1 || nheads > 256) {
+				warnx("invalid value for -h");
+				nheads = -1;
+			} else	userspec = 1;
+			break;
+		case 'I':
+			isoofs = (off_t)strtoll(optarg, NULL, 0);
+			if (isoofs < 1)
+				errx(1, "invalid bootstart argument");
+			break;
+		case 'i':
+			imaofs = (off_t)strtoll(optarg, NULL, 0);
+			if (imaofs < 1)
+				errx(1, "invalid bootstart argument");
+			break;
+		case 'M':
+#if 0
+			++force_mbr;
+#else
+			fprintf(stderr, "error: -M not supported yet!\n");
+#endif
+			break;
 		case 'n':
-			/* Do not actually write the bootblock to disk. */
+			/* Do not actually write the bootblock to disk */
 			nowrite = 1;
 			break;
+		case 'P':
+			userpt = (int)strtonum(optarg, 1, 255, NULL);
+			if (!userpt) {
+				warnx("invalid value for -P");
+				userpt = 0;
+			}
+			break;
+		case 'p':
+			++usembrpart;
+			break;
+		case 'S':
+			imasec = (off_t)strtoll(optarg, NULL, 0);
+			if (imasec < 0)
+				errx(1, "invalid sector argument");
+			break;
+		case 's':
+			nsectors = atoi(optarg);
+			if (nsectors < 1 || nsectors > 63) {
+				warnx("invalid value for -s");
+				nsectors = -1;
+			} else	userspec = 1;
+			break;
 		case 'v':
-			/* Give more information. */
+			/* Chat */
 			verbose = 1;
 			break;
 		default:
@@ -135,91 +256,193 @@ main(int argc, char *argv[])
 		}
 	}
 
-	if (argc - optind < 3)
+	if ((isoofs && imaofs) || (!isoofs && !imaofs && imasec) ||
+	    (usembrpart && !imaofs) || (usembrpart && imasec))
 		usage();
+
+	if (argc - optind < 3) {
+		usage();
+	}
 
 	boot = argv[optind];
 	proto = argv[optind + 1];
 	realdev = dev = argv[optind + 2];
 
-	/* Open and check raw disk device. */
-	if ((devfd = opendev(dev, (nowrite? O_RDONLY:O_RDWR),
-	    OPENDEV_PART, &realdev)) < 0)
-		err(1, "open: %s", realdev);
+	if (isoofs || imaofs) {
+		isolen = (off_t)strtoll(boot, NULL, 0);
+		if (isolen <= (isoofs ? isoofs : 4))
+			errx(1, "invalid boot%s argument",
+			    isoofs ? "end" : "len");
+		if (isoofs) {
+			isolen = isolen - isoofs + 1;
+			imaofs = isoofs << 2;
+		}
+		if ((devfd = open(dev, (nowrite ? O_RDONLY : O_RDWR))) < 0)
+			err(1, "open: %s", dev);
+	} else {
+		/* Open and check raw disk device */
+		if ((devfd = opendev(dev, (nowrite? O_RDONLY:O_RDWR),
+				     OPENDEV_PART, &realdev)) < 0)
+			err(1, "open: %s", realdev);
+	}
 
 	if (verbose) {
-		fprintf(stderr, "boot: %s\n", boot);
+		if (imaofs)
+			fprintf(stderr, "boot: %lu %lu\n", imaofs,
+			    isolen * (isoofs ? 4 : 1));
+		else
+			fprintf(stderr, "boot: %s\n", boot);
 		fprintf(stderr, "proto: %s\n", proto);
 		fprintf(stderr, "device: %s\n", realdev);
 	}
 
+	if (imaofs)
+		goto do_loadproto;
+
 	if (ioctl(devfd, DIOCGDINFO, &dl) != 0)
 		err(1, "disklabel: %s", realdev);
 
-	/* Check disklabel. */
+	/* check disklabel */
 	if (dl.d_magic != DISKMAGIC)
 		err(1, "bad disklabel magic=%0x8x", dl.d_magic);
 
-	/* Warn on unknown disklabel types. */
+	/* warn on unknown disklabel types */
 	if (dl.d_type == 0)
 		warnx("disklabel type unknown");
 
-	/* Load proto blocks into core. */
-	if ((protostore = loadproto(proto, &protosize)) == NULL)
+ do_loadproto:
+	/* Load proto blocks into core */
+	if ((protostore = loadprotoblocks(proto, &protosize)) == NULL)
 		exit(1);
 
 	/* XXX - Paranoia: Make sure size is aligned! */
 	if (protosize & (DEV_BSIZE - 1))
-		errx(1, "proto %s bad size=%ld", proto, protosize);
+		err(1, "proto %s bad size=%ld", proto, protosize);
 
-	/* Write patched proto bootblock(s) into the superblock. */
+	/* Write patched proto bootblocks into the superblock */
 	if (protosize > SBSIZE - DEV_BSIZE)
 		errx(1, "proto bootblocks too big");
 
 	if (fstat(devfd, &sb) < 0)
 		err(1, "stat: %s", realdev);
 
-	if (!S_ISCHR(sb.st_mode))
-		errx(1, "%s: not a character device", realdev);
+	if (imaofs) {
+		u_int8_t *bt;
 
-	/* Get bootstrap parameters that are to be patched into proto. */
-	if (getbootparams(boot, devfd, &dl) != 0)
-		exit(1);
+		if (verbose)
+			fprintf(stderr, "Will load %lu blocks of size "
+			    "%d each.\n", isolen, isoofs ? 2048 : 512);
+		bt = block_table_p;
+		while (isolen) {
+			bt += record_block(bt, imaofs, (isoofs ? 4 : 1));
+			imaofs += (isoofs ? 4 : 1);
+			isolen--;
+		}
+		bt += record_block(bt, 0, 0);
 
-	/* Patch the parameters into the proto bootstrap sector. */
-	pbr_set_symbols(proto, protostore, pbr_symbols);
+		if (bt > (block_table_p + maxblocklen))
+			errx(1, "Too many blocks");
 
-	if (!nowrite) {
-		/* Sync filesystems (to clean in-memory superblock?). */
-		sync(); sleep(1);
+		if (verbose)
+			fprintf(stderr, "%s: %d entries total (%d bytes)\n",
+			    boot, block_count_p[0], curblocklen);
+
+		if (usembrpart)
+			goto do_mbrpart;
+
+		startoff = imasec;
+		goto do_write;
 	}
 
+	if (!S_ISCHR(sb.st_mode))
+		errx(1, "%s: Not a character device", realdev);
+
+	if (nheads == -1 || nsectors == -1) {
+		mib[0] = CTL_MACHDEP;
+		mib[1] = CPU_CHR2BLK;
+		mib[2] = sb.st_rdev;
+		size = sizeof(devno);
+		if(sysctl(mib, 3, &devno, &size, NULL, 0) >= 0) {
+			devno = MAKEBOOTDEV(major(devno), 0, 0,
+			    DISKUNIT(devno), RAW_PART);
+			mib[0] = CTL_MACHDEP;
+			mib[1] = CPU_BIOS;
+			mib[2] = BIOS_DISKINFO;
+			mib[3] = devno;
+			size = sizeof(di);
+			if(sysctl(mib, 4, &di, &size, NULL, 0) >= 0) {
+				nheads = di.bios_heads;
+				nsectors = di.bios_sectors;
+			}
+		}
+	}
+
+	if (nheads == -1 || nsectors == -1)
+		fprintf(stderr, "warning: Unable to get BIOS geometry, "
+		    "must/should specify -h and -s\nwarning: the drive "
+		    "may not boot in non-LBA mode\n");
+
+	/* Extract and load block numbers */
+	if (loadblocknums(boot, devfd, &dl) != 0)
+		exit(1);
+
+	/* Sync filesystems (to clean in-memory superblock?) */
+	sync(); sleep(1);
+
 	if (dl.d_type != 0 && dl.d_type != DTYPE_FLOPPY &&
-	    dl.d_type != DTYPE_VND) {
-		if (lseek(devfd, (off_t)DOSBBSECTOR, SEEK_SET) < 0 ||
-		    read(devfd, &mbr, sizeof(mbr)) < sizeof(mbr))
-			err(4, "can't read master boot record");
+	    dl.d_type != DTYPE_VND && !force_mbr) {
+ do_mbrpart:	mbrofs = DOSBBSECTOR;
+ loop:		if (read_pt(devfd, mbrofs, &mbr, imaofs ? 512 : dl.d_secsize))
+			err(4, "can't read partition table");
 
 		if (mbr.dmbr_sign != DOSMBR_SIGNATURE)
 			errx(1, "broken MBR");
 
-		/* Find OpenBSD partition. */
-		for (dp = mbr.dmbr_parts; dp < &mbr.dmbr_parts[NDOSPART];
-		    dp++) {
-			if (dp->dp_size && dp->dp_typ == DOSPTYP_OPENBSD) {
-				startoff = (off_t)dp->dp_start * dl.d_secsize;
-				fprintf(stderr, "using MBR partition %ld: "
-				    "type %d (0x%02x) offset %d (0x%x)\n",
-				    (long)(dp - mbr.dmbr_parts),
-				    dp->dp_typ, dp->dp_typ,
-				    dp->dp_start, dp->dp_start);
-				break;
-			}
+		dp = mbr.dmbr_parts;
+		for (mbrpart = 0; mbrpart < NDOSPART; ++mbrpart)
+			set_le(&dp[mbrpart].dp_start,
+			    get_le(&dp[mbrpart].dp_start) + mbrofs);
+
+		if (userpt) if ((mbrpart = scan_pt(dp, userpt)) < NDOSPART) {
+			warnx("using USER partition, type %02Xh", userpt);
+			goto found;
 		}
-		/* Don't check for old part number, that is ;-p */
-		if (dp >= &mbr.dmbr_parts[NDOSPART])
-			errx(1, "no OpenBSD partition");
+		if ((mbrpart = scan_pt(dp, DOSPTYP_MIRBSD)) < NDOSPART)
+			goto found;
+		if ((mbrpart = scan_pt(dp, DOSPTYP_OPENBSD)) < NDOSPART) {
+			warnx("using OpenBSD partition!");
+			goto found;
+		}
+		if ((mbrpart = scan_pt(dp, DOSPTYP_NETBSD)) < NDOSPART) {
+			warnx("using NetBSD partition!");
+			goto found;
+		}
+		if ((mbrpart = scan_pt(dp, DOSPTYP_FREEBSD)) < NDOSPART) {
+			warnx("using FreeBSD partition!");
+			goto found;
+		}
+
+		/* no native partition found, try extended ones */
+		if ((mbrpart = scan_pt(dp, DOSPTYP_EXTEND)) == NDOSPART)
+		    if ((mbrpart = scan_pt(dp, DOSPTYP_EXTENDL)) == NDOSPART)
+		    if ((mbrpart = scan_pt(dp, DOSPTYP_EXTENDLX)) == NDOSPART)
+			errx(1, "no BSD partition");
+
+		/* found extended partition, loop back */
+		mbrofs = get_le(&dp[mbrpart].dp_start);
+		goto loop;
+
+ found:		startoff = (off_t)get_le(&dp[mbrpart].dp_start);
 	}
+
+ do_write:
+	fprintf(stderr, "writing bootblock to sector %ld (0x%lX)\n",
+	    (long) startoff, (unsigned long)startoff);
+	startoff *= imaofs ? 512 : dl.d_secsize;
+
+	*num_heads_p = nheads;
+	*num_secs_p = nsectors;
+	*partp_p = userpt;
 
 	if (!nowrite) {
 		if (lseek(devfd, startoff, SEEK_SET) < 0 ||
@@ -232,30 +455,48 @@ main(int argc, char *argv[])
 	return 0;
 }
 
-/*
- * Load the prototype boot sector (biosboot) into memory.
- */
-static char *
-loadproto(char *fname, long *size)
+char *
+loadprotoblocks(char *fname, long *size)
 {
 	int	fd;
 	size_t	tdsize;		/* text+data size */
 	char	*bp;
+	struct	nlist *nlp;
 	Elf_Ehdr eh;
 	Elf_Word phsize;
 	Elf_Phdr *ph;
 
-	if ((fd = open(fname, O_RDONLY)) < 0)
-		err(1, "%s", fname);
+	fd = -1;
+	bp = NULL;
 
-	if (read(fd, &eh, sizeof(eh)) != sizeof(eh))
-		errx(1, "%s: read failed", fname);
+	/* Locate block number array in proto file */
+	if (nlist(fname, nl) != 0) {
+		warnx("nlist: %s: symbols not found", fname);
+		return NULL;
+	}
+	/* Validate symbol types (global data). */
+	for (nlp = nl; nlp->n_un.n_name; nlp++) {
+		if (nlp->n_type != (N_TEXT)) {
+			warnx("nlist: %s: wrong type %x", nlp->n_un.n_name,
+			nlp->n_type);
+			return NULL;
+		}
+	}
 
-	if (!IS_ELF(eh))
+	if ((fd = open(fname, O_RDONLY)) < 0) {
+		warn("open: %s", fname);
+		return NULL;
+	}
+	if (read(fd, &eh, sizeof(eh)) != sizeof(eh)) {
+		warn("read: %s", fname);
+		goto bad;
+	}
+	if (!IS_ELF(eh)) {
 		errx(1, "%s: bad magic: 0x%02x%02x%02x%02x",
-		    boot,
-		    eh.e_ident[EI_MAG0], eh.e_ident[EI_MAG1],
-		    eh.e_ident[EI_MAG2], eh.e_ident[EI_MAG3]);
+		boot,
+		eh.e_ident[EI_MAG0], eh.e_ident[EI_MAG1],
+		eh.e_ident[EI_MAG2], eh.e_ident[EI_MAG3]);
+	}
 
 	/*
 	 * We have to include the exec header in the beginning of
@@ -263,20 +504,21 @@ loadproto(char *fname, long *size)
 	 * the actual write to disk wants to skip the header.
 	 */
 
-	/* Program load header. */
-	if (eh.e_phnum != 1)
-		errx(1, "%s: %u ELF load sections (only support 1)",
-		    boot, eh.e_phnum);
-
+	/* program load header */
+	if (eh.e_phnum != 1) {
+		errx(1, "%s: only supports one ELF load section", boot);
+	}
 	phsize = eh.e_phnum * sizeof(Elf_Phdr);
 	ph = malloc(phsize);
-	if (ph == NULL)
-		err(1, NULL);
-
+	if (ph == NULL) {
+		errx(1, "%s: unable to allocate program header space",
+		    boot);
+	}
 	lseek(fd, eh.e_phoff, SEEK_SET);
 
-	if (read(fd, ph, phsize) != phsize)
-		errx(1, "%s: can't read header", boot);
+	if (read(fd, ph, phsize) != phsize) {
+		errx(1, "%s: unable to read program header space", boot);
+	}
 
 	tdsize = ph->p_filesz;
 
@@ -286,24 +528,45 @@ loadproto(char *fname, long *size)
 	 * This prevents reading beyond the end of the buffer.
 	 */
 	if ((bp = calloc(tdsize, 1)) == NULL) {
-		err(1, NULL);
+		warnx("malloc: %s: no memory", fname);
+		goto bad;
 	}
-
 	/* Read the rest of the file. */
 	lseek(fd, ph->p_offset, SEEK_SET);
 	if (read(fd, bp, tdsize) != tdsize) {
-		errx(1, "%s: read failed", fname);
+		warn("read: %s", fname);
+		goto bad;
 	}
 
 	*size = tdsize;	/* not aligned to DEV_BSIZE */
 
+	/* Calculate the symbols' locations within the proto file */
+	block_count_p = (u_int8_t *) (bp + nl[X_BLOCK_COUNT].n_value);
+	block_table_p = (u_int8_t *) (bp + nl[X_BLOCK_TABLE].n_value);
+	num_heads_p = (u_int8_t *) (bp + nl[X_NUM_HEADS].n_value);
+	num_secs_p = (u_int8_t *) (bp + nl[X_NUM_SECS].n_value);
+	partp_p = (uint8_t *) (bp + nl[X_PARTP].n_value);
+	maxblocklen = *block_count_p;
+	if (force_mbr) maxblocklen -= 64;
+
 	if (verbose) {
 		fprintf(stderr, "%s: entry point %#x\n", fname, eh.e_entry);
 		fprintf(stderr, "proto bootblock size %ld\n", *size);
+		fprintf(stderr,
+		    "room for average %d filesystem blocks (%d bytes) at %#lx\n",
+		    (int)(((double)maxblocklen)/4.5), maxblocklen,
+		    nl[X_BLOCK_TABLE].n_value);
 	}
 
 	close(fd);
 	return bp;
+
+ bad:
+	if (bp)
+		free(bp);
+	if (fd >= 0)
+		close(fd);
+	return NULL;
 }
 
 static void
@@ -318,14 +581,10 @@ devread(int fd, void *buf, daddr_t blk, size_t size, char *msg)
 
 static char sblock[SBSIZE];
 
-/*
- * Read information about /boot's inode, then put this and filesystem
- * parameters from the superblock into pbr_symbols.
- */
-static int
-getbootparams(char *boot, int devfd, struct disklabel *dl)
+int
+loadblocknums(char *boot, int devfd, struct disklabel *dl)
 {
-	int		fd;
+	int		i, fd;
 	struct stat	statbuf, sb;
 	struct statfs	statfsbuf;
 	struct partition *pl;
@@ -334,16 +593,14 @@ getbootparams(char *boot, int devfd, struct disklabel *dl)
 	daddr_t		blk, *ap;
 	struct ufs1_dinode	*ip;
 	int		ndb;
-	int		mib[3];
+	u_int8_t	*bt;
+	int		mib[4];
 	size_t		size;
-	dev_t		dev;
+	dev_t dev;
 
 	/*
-	 * Open 2nd-level boot program and record enough details about
-	 * where it is on the filesystem represented by `devfd'
-	 * (inode block, offset within that block, and various filesystem
-	 * parameters essentially taken from the superblock) for biosboot
-	 * to be able to load it later.
+	 * Open 2nd-level boot program and record the block numbers
+	 * it occupies on the filesystem represented by 'devfd'.
 	 */
 
 	/* Make sure the (probably new) boot file is on disk. */
@@ -356,18 +613,20 @@ getbootparams(char *boot, int devfd, struct disklabel *dl)
 		err(1, "statfs: %s", boot);
 
 	if (strncmp(statfsbuf.f_fstypename, "ffs", MFSNAMELEN) &&
-	    strncmp(statfsbuf.f_fstypename, "ufs", MFSNAMELEN) )
-		errx(1, "%s: not on an FFS filesystem", boot);
+	    strncmp(statfsbuf.f_fstypename, "ufs", MFSNAMELEN) ) {
+		errx(1, "%s: must be on an FFS filesystem", boot);
+	}
 
 #if 0
-	if (read(fd, &eh, sizeof(eh)) != sizeof(eh))
+	if (read(fd, &eh, sizeof(eh)) != sizeof(eh)) {
 		errx(1, "read: %s", boot);
+	}
 
 	if (!IS_ELF(eh)) {
 		errx(1, "%s: bad magic: 0x%02x%02x%02x%02x",
-		    boot,
-		    eh.e_ident[EI_MAG0], eh.e_ident[EI_MAG1],
-		    eh.e_ident[EI_MAG2], eh.e_ident[EI_MAG3]);
+		boot,
+		eh.e_ident[EI_MAG0], eh.e_ident[EI_MAG1],
+		eh.e_ident[EI_MAG2], eh.e_ident[EI_MAG3]);
 	}
 #endif
 
@@ -380,20 +639,19 @@ getbootparams(char *boot, int devfd, struct disklabel *dl)
 	if (fstat(devfd, &sb) != 0)
 		err(1, "fstat: %s", realdev);
 
-	/* Check devices. */
+	/* check devices */
 	mib[0] = CTL_MACHDEP;
 	mib[1] = CPU_CHR2BLK;
 	mib[2] = sb.st_rdev;
 	size = sizeof(dev);
-	if (sysctl(mib, 3, &dev, &size, NULL, 0) >= 0) {
+	if (sysctl(mib, 3, &dev, &size, NULL, 0) >= 0)
 		if (statbuf.st_dev / MAXPARTITIONS != dev / MAXPARTITIONS)
 			errx(1, "cross-device install");
-	}
 
 	pl = &dl->d_partitions[DISKPART(statbuf.st_dev)];
 	close(fd);
 
-	/* Read superblock. */
+	/* Read superblock */
 	devread(devfd, sblock, pl->p_offset + SBLOCK, SBSIZE, "superblock");
 	fs = (struct fs *)sblock;
 
@@ -403,132 +661,190 @@ getbootparams(char *boot, int devfd, struct disklabel *dl)
 	if (fs->fs_inopb <= 0)
 		err(1, "Bad inopb=%d in superblock", fs->fs_inopb);
 
-	/* Read inode. */
+	/* Read inode */
 	if ((buf = malloc(fs->fs_bsize)) == NULL)
-		err(1, NULL);
+		errx(1, "No memory for filesystem block");
 
 	blk = fsbtodb(fs, ino_to_fsba(fs, statbuf.st_ino));
-
 	devread(devfd, buf, pl->p_offset + blk, fs->fs_bsize, "inode");
 	ip = (struct ufs1_dinode *)(buf) + ino_to_fsbo(fs, statbuf.st_ino);
 
 	/*
-	 * Have the inode.  Figure out how many filesystem blocks (not disk
-	 * sectors) there are for biosboot to load.
+	 * Have the inode.  Figure out how many blocks we need.
 	 */
 	ndb = howmany(ip->di_size, fs->fs_bsize);
 	if (ndb <= 0)
 		errx(1, "No blocks to load");
+	if (verbose)
+		fprintf(stderr, "Will load %d blocks of size %d each.\n",
+			ndb, fs->fs_bsize);
+
+	if ((dl->d_type != 0 && dl->d_type != DTYPE_FLOPPY &&
+	    dl->d_type != DTYPE_VND) || userspec ) {
+		/* adjust disklabel w/ synthetic geometry */
+		dl->d_nsectors = nsectors;
+		dl->d_secpercyl = dl->d_nsectors * nheads;
+	}
+
+	if (verbose)
+		fprintf(stderr, "Using disk geometry of %u sectors and %u heads.\n",
+			dl->d_nsectors, dl->d_secpercyl/dl->d_nsectors);
 
 	/*
-	 * Now set the values that will need to go into biosboot
-	 * (the partition boot record, a.k.a. the PBR).
+	 * Get the block numbers; we don't handle fragments
 	 */
-	sym_set_value(pbr_symbols, "_fs_bsize_p", (fs->fs_bsize / 16));
-	sym_set_value(pbr_symbols, "_fs_bsize_s", (fs->fs_bsize / 512));
-	sym_set_value(pbr_symbols, "_fsbtodb", fs->fs_fsbtodb);
-	sym_set_value(pbr_symbols, "_p_offset", pl->p_offset);
-	sym_set_value(pbr_symbols, "_inodeblk",
-	    ino_to_fsba(fs, statbuf.st_ino));
 	ap = ip->di_db;
-	sym_set_value(pbr_symbols, "_inodedbl",
-	    ((((char *)ap) - buf) + INODEOFF));
-	sym_set_value(pbr_symbols, "_nblocks", ndb);
+	bt = block_table_p;
+	for (i = 0; i < NDADDR && *ap && ndb; i++, ap++, ndb--)
+		bt += record_block(bt, pl->p_offset + fsbtodb(fs, *ap),
+					    fs->fs_bsize / 512);
+	if (ndb != 0) {
 
-	if (verbose) {
-		fprintf(stderr, "%s is %d blocks x %d bytes\n",
-		    boot, ndb, fs->fs_bsize);
-		fprintf(stderr, "fs block shift %u; part offset %u; "
-		    "inode block %u, offset %u\n",
-		    fs->fs_fsbtodb, pl->p_offset,
-		    ino_to_fsba(fs, statbuf.st_ino),
-		    ((((char *)ap) - buf) + INODEOFF));
+		/*
+		 * Just one level of indirections; there isn't much room
+		 * for more in the 2nd-level /boot anyway.
+		 */
+		blk = fsbtodb(fs, ip->di_ib[0]);
+		devread(devfd, buf, pl->p_offset + blk, fs->fs_bsize,
+			"indirect block");
+		ap = (daddr_t *)buf;
+		for (; i < NINDIR(fs) && *ap && ndb; i++, ap++, ndb--)
+			bt += record_block(bt, pl->p_offset + fsbtodb(fs, *ap),
+					   fs->fs_bsize / 512);
 	}
+
+	bt += record_block(bt, 0, 0);
+
+	if (bt > (block_table_p + maxblocklen))
+		errx(1, "Too many blocks");
+
+	if (verbose)
+		fprintf(stderr, "%s: %d entries total (%d bytes)\n",
+			boot, block_count_p[0], curblocklen);
 
 	return 0;
 }
 
-static void
-sym_set_value(struct sym_data *sym_list, char *sym, u_int32_t value)
+static int
+record_block(u_int8_t *bt, daddr_t blk, u_int bs)
 {
-	struct sym_data *p;
+	static u_int W_num = 0;
+	static daddr_t W_ofs = 0;
 
-	for (p = sym_list; p->sym_name != NULL; p++) {
-		if (strcmp(p->sym_name, sym) == 0)
-			break;
+	int flush = 0, cache = 0, retval = 0;
+	int i;
+
+	if (!blk) {
+		++flush;
+	} else if (!W_ofs) {
+		++cache;
+	} else if (blk == (W_ofs+W_num)) {
+		++cache;
+	} else {
+		++flush;
+		++cache;
 	}
 
-	if (p->sym_name == NULL)
-		errx(1, "%s: no such symbol", sym);
-
-	if (p->sym_set)
-		errx(1, "%s already set", p->sym_name);
-
-	p->sym_value = value;
-	p->sym_set = 1;
-}
-
-/*
- * Write the parameters stored in sym_list into the in-memory copy of
- * the prototype biosboot (proto), ready for it to be written to disk.
- */
-static void
-pbr_set_symbols(char *fname, char *proto, struct sym_data *sym_list)
-{
-	struct sym_data *sym;
-	struct nlist	*nl;
-	char		*vp;
-	u_int32_t	*lp;
-	u_int16_t	*wp;
-	u_int8_t	*bp;
-
-	for (sym = sym_list; sym->sym_name != NULL; sym++) {
-		if (!sym->sym_set)
-			errx(1, "%s not set", sym->sym_name);
-
-		/* Allocate space for 2; second is null-terminator for list. */
-		nl = calloc(2, sizeof(struct nlist));
-		if (nl == NULL)
-			err(1, NULL);
-
-		nl->n_un.n_name = sym->sym_name;
-
-		if (nlist(fname, nl) != 0)
-			errx(1, "%s: symbol %s not found",
-			    fname, sym->sym_name);
-
-		if (nl->n_type != (N_TEXT))
-			errx(1, "%s: %s: wrong type (%x)",
-			    fname, sym->sym_name, nl->n_type);
-
-		/* Get a pointer to where the symbol's value needs to go. */
-		vp = proto + nl->n_value;
-
-		switch (sym->sym_size) {
-		case 4:					/* u_int32_t */
-			lp = (u_int32_t *) vp;
-			*lp = sym->sym_value;
-			break;
-		case 2:					/* u_int16_t */
-			if (sym->sym_value >= 0x10000)	/* out of range */
-				errx(1, "%s: symbol out of range (%u)",
-				    sym->sym_name, sym->sym_value);
-			wp = (u_int16_t *) vp;
-			*wp = (u_int16_t) sym->sym_value;
-			break;
-		case 1:					/* u_int16_t */
-			if (sym->sym_value >= 0x100)	/* out of range */
-				errx(1, "%s: symbol out of range (%u)",
-				    sym->sym_name, sym->sym_value);
-			bp = (u_int8_t *) vp;
-			*bp = (u_int8_t) sym->sym_value;
-			break;
-		default:
-			errx(1, "%s: bad symbol size %d",
-			    sym->sym_name, sym->sym_size);
-			/* NOTREACHED */
+	if (flush) {
+		/*
+		 * Flush the blocks cached to the disc.
+		 * Obey the track boundaries if possible.
+		 */
+		if (!W_num) goto flush_end;
+		if ((nheads == -1) || (nsectors == -1)) {
+			retval += do_record(bt+retval, W_ofs, W_num);
+			goto flush_end;
 		}
 
-		free(nl);
+		i = W_ofs % nsectors;		/* sector within track -1 */
+		if (i < (nsectors-1)) {
+			i = nsectors - i;
+			if (i > W_num) i=W_num;
+			retval += do_record(bt+retval, W_ofs, i);
+			W_ofs += i;
+			W_num -= i;
+		}
+
+		while (W_num > nsectors) {
+			retval += do_record(bt+retval, W_ofs, nsectors);
+			W_ofs += nsectors;
+			W_num -= nsectors;
+		}
+
+		if (W_num)
+			retval += do_record(bt+retval, W_ofs, W_num);
+
+	flush_end:
+		W_ofs=0; W_num=0;
 	}
+
+	if (cache) {
+		if (!W_ofs) W_ofs = blk;
+		W_num += bs;
+	}
+
+	return (retval);
+}
+
+static int
+do_record(u_int8_t *bt, daddr_t blk, u_int bs)
+{
+	static u_int i = 0;
+	u_int8_t tv, len;
+	u_int64_t bk, wbk;
+	u_int j;
+	int wbs, retval = 0;
+	u_int8_t *wbt;
+
+	if ((!blk) || (!bt))
+		return 0;
+
+	if (bs > 768)	/* after that there's VGA memory */
+		errx(1, "Too many blocks in a chunk!");
+
+	wbs = bs;
+	wbt = bt;
+	bk = blk;
+	if (verbose)
+		fprintf(stderr, "%2d: %2d @%lld (0x%08llX)\n",
+		    i, bs, bk, bk);
+
+	do {
+		++i;
+
+		if (bk < 0x0000000000000100ULL)
+			len = 0;
+		else if (bk < 0x0000000000010000ULL)
+			len = 1;
+		else if (bk < 0x0000000001000000ULL)
+			len = 2;
+		else if (bk < 0x0000000100000000ULL)
+			len = 3;
+		else if (bk < 0x0000010000000000ULL)
+			len = 4;
+		else if (bk < 0x0001000000000000ULL)
+			len = 5;
+		else if (bk < 0x0100000000000000ULL)
+			len = 6;
+		else	len = 7;
+
+		if (wbs < 33)
+			tv = (len << 5) | (wbs - 1);
+		  else	tv = (len << 5) | 31;
+
+		*(wbt++) = tv;
+		wbk = bk;
+		bk += 1 + (tv & 31);
+		for (j = 0; j <= len; ++j) {
+			*(wbt++) = (wbk & 0xFF);
+			wbk >>= 8;
+		}
+
+		wbs -= 32;
+		retval += (len+2);
+	} while (wbs > 0);
+
+	*block_count_p = i;
+	curblocklen += retval;
+	return (retval);
 }

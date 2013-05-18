@@ -1,9 +1,12 @@
-#	$OpenBSD: Makefile,v 1.1 2001/06/22 23:24:26 deraadt Exp $
+# $MirOS: src/distrib/ramtools/ppp/Makefile,v 1.1 2006/05/15 19:20:17 tg Exp $
 
-PROG=	dmesg
-MAN=
-COPTS+=-Os
-CFLAGS+=-DNOKVM
-.PATH:  ${.CURDIR}/../../../sbin/dmesg
+.include <bsd.own.mk>
 
-.include <bsd.prog.mk>
+SRC_PATH=	${BSDSRCDIR}/sbin/dmesg
+
+CPPFLAGS+=	-DNOKVM
+
+.include "${SRC_PATH}/Makefile"
+
+LDADD=
+DPADD=

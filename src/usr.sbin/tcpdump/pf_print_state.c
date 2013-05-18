@@ -1,4 +1,5 @@
-/*	$OpenBSD: pf_print_state.c,v 1.3 2005/11/04 08:24:15 mcbride Exp $	*/
+/**	$MirOS$ */
+/*	$OpenBSD: pf_print_state.c,v 1.2 2004/02/10 20:26:49 mcbride Exp $	*/
 
 /*
  * Copyright (c) 2001 Daniel Hartmeier
@@ -52,24 +53,6 @@ void
 print_addr(struct pf_addr_wrap *addr, sa_family_t af, int verbose)
 {
 	switch (addr->type) {
-	case PF_ADDR_DYNIFTL:
-		printf("(%s", addr->v.ifname);
-		if (addr->iflags & PFI_AFLAG_NETWORK)
-			printf(":network");
-		if (addr->iflags & PFI_AFLAG_BROADCAST)
-			printf(":broadcast");
-		if (addr->iflags & PFI_AFLAG_PEER)
-			printf(":peer");
-		if (addr->iflags & PFI_AFLAG_NOALIAS)
-			printf(":0");
-		if (verbose) {
-			if (addr->p.dyncnt <= 0)
-				printf(":*");
-			else
-				printf(":%d", addr->p.dyncnt);
-		}
-		printf(")");
-		break;
 	case PF_ADDR_TABLE:
 		if (verbose)
 			if (addr->p.tblcnt == -1)
@@ -250,7 +233,7 @@ print_state(struct pf_state *s, int opts)
 		min = s->expire % 60;
 		s->expire /= 60;
 		printf(", expires in %.2u:%.2u:%.2u", s->expire, min, sec);
-		printf(", %llu:%llu pkts, %llu:%llu bytes",
+		printf(", %u:%u pkts, %u:%u bytes",
 		    s->packets[0], s->packets[1], s->bytes[0], s->bytes[1]);
 		if (s->anchor.nr != -1)
 			printf(", anchor %u", s->anchor.nr);

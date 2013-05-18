@@ -408,9 +408,11 @@ wr_archive(ARCHD *arcn, int is_app)
 	if (ftree_start() < 0) {
 		if (is_app)
 			goto trailer;
-		if (((*frmt->st_wr)() < 0))
+		else
 			return;
 	}
+	if (((*frmt->st_wr)() < 0))
+		return;
 	wrf = frmt->wr;
 
 	/*

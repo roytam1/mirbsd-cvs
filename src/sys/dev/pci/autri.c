@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/dev/pci/autri.c,v 1.2 2005/03/06 21:27:47 tg Exp $ */
 /*	$OpenBSD: autri.c,v 1.15 2005/04/16 21:57:23 mickey Exp $	*/
 
 /*
@@ -1462,7 +1463,7 @@ autri_trigger_input(addr, start, end, blksize, intr, arg, param)
 	}
 
 #if 0
-	/* 4DWAVE only allows capturing at a 48KHz rate */
+	/* 4DWAVE only allows capturing at a 48kHz rate */
 	if (sc->sc_devid == AUTRI_DEVICE_ID_4DWAVE_DX ||
 	    sc->sc_devid == AUTRI_DEVICE_ID_4DWAVE_NX)
 		param->sample_rate = 48000;

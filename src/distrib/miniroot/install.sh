@@ -1,6 +1,7 @@
-#!/bin/ksh
-#	$OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
-#	$NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
+#!/bin/mksh
+# $MirOS: src/distrib/miniroot/install.sh,v 1.13 2006/05/16 22:46:12 tg Exp $
+# $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
+# $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
 # Copyright (c) 1997-2004 Todd Miller, Theo de Raadt, Ken Westerback
 # All rights reserved.
@@ -86,7 +87,7 @@ if [ ! -f /etc/fstab ]; then
 	_DKDEVS=$DKDEVS
 
 	while :; do
-		_DKDEVS=`rmel "$DISK" $_DKDEVS`
+		_DKDEVS=$(rmel "$DISK" $_DKDEVS)
 
 		# Always do ROOTDISK first, and repeat until
 		# it is configured acceptably.
@@ -100,7 +101,7 @@ if [ ! -f /etc/fstab ]; then
 		else
 			# Force the user to think and type in a disk name by
 			# making 'done' the default choice.
-			ask_which "disk" "do you wish to initialize" "$_DKDEVS" done "No more disks to initialize"
+			ask_which "disk" "do you wish to initialise" "$_DKDEVS" done "No more disks to initialise"
 			[[ $resp == done ]] && break
 		fi
 
@@ -218,7 +219,7 @@ if [ ! -f /etc/fstab ]; then
 
 	cat <<__EOT
 
-OpenBSD filesystems:
+MirBSD filesystems:
 $(<$FILESYSTEMS)
 
 The next step *DESTROYS* all existing data on these partitions!
@@ -244,11 +245,11 @@ __EOT
 
 	# Write fstab entries to /tmp/fstab in mount point alphabetic
 	# order to enforce a rational mount order.
-	for _mp in `bsort ${_mount_points[*]}`; do
+	for _mp in $(bsort ${_mount_points[*]}); do
 		_i=0
 		for _pp in ${_partitions[*]}; do
 			if [ "$_mp" = "${_mount_points[$_i]}" ]; then
-				echo -n "/dev/$_pp $_mp ffs rw"
+				echo -n "/dev/$_pp $_mp ffs rw,softdep"
 				# Only '/' is neither nodev nor nosuid. i.e.
 				# it can obviously *always* contain devices or
 				# setuid programs.
@@ -338,19 +339,6 @@ __EOT
 ask_yn "Configure the network?" yes
 [[ $resp == y ]] && donetconfig
 
-_oifs=$IFS
-IFS=
-while :; do
-	askpass "Password for root account? (will not echo)"
-	_password=$resp
-
-	askpass "Password for root account? (again)"
-	[[ $resp == $_password ]] && break
-
-	echo "Passwords do not match, try again."
-done
-IFS=$_oifs
-
 install_sets
 
 # Remount all filesystems in /etc/fstab with the options from /etc/fstab, i.e.
@@ -362,6 +350,46 @@ done </etc/fstab
 
 # Handle questions...
 questions
+
+# Create initial user as root replacement
+cat <<EOF
+We will now create a user account on your system, which you can then
+use to log in and work with the system, as well as do administrative
+tasks using sudo(8). The newly created user account will be added to
+the class 'staff', and the group 'wheel' for being able to use sudo,
+as well as 'wsrc' and 'staff'. You might want to add yourself to the
+groups 'operator', 'audio', etc. manually later.
+EOF
+_oifs=$IFS
+IFS=; _rootuser=; full=; _rootuid=3000
+while :; do
+	ask_until "User name?" $_rootuser
+	_rootuser=$resp
+	ask "Full name?" $full
+	full=$resp
+	ask "User ID?" $_rootuid
+	let _rootuid=$resp
+	askpass "Password? (will not echo)"
+	_password=$resp
+	askpass "Password? (again)"
+
+	if (( (_rootuid < 1000) || (_rootuid > 32765) )); then
+		print UID mismatch, must be between 1000 and 32765.
+	elif [[ $resp != $_password ]]; then
+		print Passwords do not match.
+	elif [[ $_rootuser != @([a-z])*([a-z0-9]) ]]; then
+		print Username is not alphanumeric.
+	elif [[ $full = *:* ]]; then
+		print Full name contains a colon.
+	else
+		ask_yn "Everything ok?"
+		[[ $resp = y ]] && break
+	fi
+done
+IFS=$_oifs
+_rootline=":$_rootuid:$_rootuid:staff:0:0:$full:/home/$_rootuser:/bin/mksh"
+
+set_timezone
 
 echo -n "Saving configuration files..."
 
@@ -391,26 +419,48 @@ mv hosts.new hosts
 save_comments hosts
 save_comments dhclient.conf
 
-# Possible files: fstab, kbdtype, myname, mygate, sysctl.conf
+# Possible files: fstab, myname, sysctl.conf
 #                 dhclient.conf resolv.conf resolv.conf.tail
 #		  hostname.* hosts
-for _f in fstab kbdtype my* *.conf *.tail host* ttys; do
+for _f in fstab my* *.conf *.tail host* ttys; do
 	[[ -f $_f ]] && mv $_f /mnt/etc/.
 done )
 
-_encr=`/mnt/usr/bin/encrypt -b 8 -- "$_password"`
-echo "1,s@^root::@root:${_encr}:@
-w
-q" | /mnt/bin/ed /mnt/etc/master.passwd 2>/dev/null
-/mnt/usr/sbin/pwd_mkdb -p -d /mnt/etc /etc/master.passwd
+[[ -s /tmp/kbdtype ]] && \
+    print keyboard.encoding=$(</tmp/kbdtype) >>/mnt/etc/wsconsctl.conf
+
+# Amend target fstab by kernfs (BSD) / sysfs (Linux) and procfs (both)
+[[ $MODE == install ]] && cat >>/mnt/etc/fstab <<__EOF
+kern /kern kernfs rw,noauto 0 0
+proc /proc procfs rw,linux 0 0
+__EOF
+
+# Generate initial user
+ed -s /mnt/etc/master.passwd <<EOF
+\$i
+$_rootuser:$(/mnt/usr/bin/encrypt -b 8 -- "$_password")$_rootline
+.
+wq
+EOF
+ed -s /mnt/etc/group <<EOF
+/^wheel:/s/\$/,$_rootuser/
+/^wsrc:/s/\$/$_rootuser/
+/^staff:/s/\$/,$_rootuser/
+\$i
+$_rootuser:*:$_rootuid:
+.
+wq
+EOF
+print "%g/@ROOT@/s//$_rootuser/\nwq" | ed -s /mnt/etc/sudoers
+cp -r /mnt/etc/skel /mnt/home/$_rootuser
+chmod 711 /mnt/home/$_rootuser
+chown -R $_rootuid:$_rootuid /mnt/home/$_rootuser
+/mnt/usr/sbin/pwd_mkdb -pd /mnt/etc master.passwd
 
 echo -n "done.\nGenerating initial host.random file..."
-( cd /mnt/var/db
-/mnt/bin/dd if=/mnt/dev/urandom of=host.random bs=1024 count=64 >/dev/null 2>&1
-chmod 600 host.random >/dev/null 2>&1 )
+dd if=/dev/urandom of=/mnt/var/db/host.random bs=1024 count=16 >/dev/null 2>&1
+chmod 600 /mnt/var/db/host.random
 echo "done."
-
-set_timezone
 
 # Perform final steps common to both an install and an upgrade.
 finish_up

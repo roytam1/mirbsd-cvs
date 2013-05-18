@@ -6,6 +6,8 @@
 
 #include <machine/asm.h>
 
+	.text
+
 /*
  * NOTE: I've unrolled the loop eight times: large enough to make a
  * significant difference, and small enough not to totally trash the

@@ -1,3 +1,4 @@
+/**	$MirOS: src/include/string.h,v 1.5 2005/07/27 14:45:07 tg Exp $ */
 /*	$OpenBSD: string.h,v 1.15 2005/03/30 03:04:16 deraadt Exp $	*/
 /*	$NetBSD: string.h,v 1.6 1994/10/26 00:56:30 cgd Exp $	*/
 
@@ -34,22 +35,28 @@
 
 #ifndef _STRING_H_
 #define	_STRING_H_
-#include <machine/ansi.h>
 
-#ifdef	_BSD_SIZE_T_
-typedef	_BSD_SIZE_T_	size_t;
-#undef	_BSD_SIZE_T_
+#if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
+#include <sys/types.h>		/* for mode_t */
+#else
+#include <sys/cdefs.h>
+#include <machine/ansi.h>
 #endif
 
-#ifndef	NULL
+#if !defined(_GCC_SIZE_T)
+#define	_GCC_SIZE_T
+typedef	__SIZE_TYPE__	size_t;
+#endif
+
+#ifndef NULL
 #ifdef 	__GNUG__
 #define	NULL	__null
+#elif defined(lint)
+#define	NULL	0
 #else
-#define	NULL	0L
+#define	NULL	((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
-
-#include <sys/cdefs.h>
 
 __BEGIN_DECLS
 void	*memchr(const void *, int, size_t);
@@ -106,11 +113,11 @@ size_t	 strlcat(char *, const char *, size_t)
 		__attribute__ ((__bounded__(__string__,1,3)));
 size_t	 strlcpy(char *, const char *, size_t)
 		__attribute__ ((__bounded__(__string__,1,3)));
-void	 strmode(int, char *);
+void	 strmode(mode_t, char *);
 int	 strncasecmp(const char *, const char *, size_t);
 char	*strsep(char **, const char *);
 char	*strsignal(int);
-#endif 
+#endif
 __END_DECLS
 
 #endif /* _STRING_H_ */

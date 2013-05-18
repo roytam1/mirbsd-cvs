@@ -24,8 +24,8 @@
  */
 
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/readpass.c,v 1.4 2006/04/19 10:40:51 tg Exp $");
 
-#include <sys/types.h>
 #include <sys/wait.h>
 
 #include <paths.h>
@@ -135,7 +135,7 @@ read_passphrase(const char *prompt, int flags)
 		if (getenv(SSH_ASKPASS_ENV))
 			askpass = getenv(SSH_ASKPASS_ENV);
 		else
-			askpass = _PATH_SSH_ASKPASS_DEFAULT;
+			askpass = (char *)_PATH_SSH_ASKPASS_DEFAULT;
 		if ((ret = ssh_askpass(askpass, prompt)) == NULL)
 			if (!(flags & RP_ALLOW_EOF))
 				return xstrdup("");

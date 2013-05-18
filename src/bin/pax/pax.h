@@ -1,3 +1,4 @@
+/**	$MirOS: src/bin/pax/pax.h,v 1.3 2005/11/16 14:27:28 tg Exp $ */
 /*	$OpenBSD: pax.h,v 1.17 2005/11/09 19:59:06 otto Exp $	*/
 /*	$NetBSD: pax.h,v 1.3 1995/03/21 09:07:41 cgd Exp $	*/
 
@@ -125,6 +126,7 @@ typedef struct {
 #define PAX_CTG		10		/* high performance file */
 #define PAX_GLL		11		/* GNU long symlink */
 #define PAX_GLF		12		/* GNU long file */
+#define PAX_LINKOR	0x80000000	/* hard link detection OR */
 } ARCHD;
 
 /*
@@ -231,9 +233,16 @@ typedef struct oplist {
 #ifndef MIN
 #define	MIN(a,b) (((a)<(b))?(a):(b))
 #endif
+#ifdef __INTERIX
+#include <sys/mkdev.h>
+#endif
 #define MAJOR(x)	major(x)
 #define MINOR(x)	minor(x)
+#ifdef __INTERIX
+#define	TODEV(x, y)	mkdev((x), (y))
+#else
 #define TODEV(x, y)	makedev((x), (y))
+#endif
 
 /*
  * General Defines

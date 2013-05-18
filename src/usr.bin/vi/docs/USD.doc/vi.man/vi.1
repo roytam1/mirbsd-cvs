@@ -1,3 +1,4 @@
+.\"	$MirOS: src/usr.bin/vi/docs/USD.doc/vi.man/vi.1,v 1.2 2005/03/13 18:33:59 tg Exp $
 .\"	$OpenBSD: vi.1,v 1.35 2005/03/10 18:03:45 jmc Exp $
 .\"
 .\" Copyright (c) 1994
@@ -488,7 +489,7 @@ characters without changing the current line.
 .Pp
 .It Xo
 .Op Ar count
-.Cm !\&
+.Cm \&!
 .Ar motion shell-argument(s)
 .Aq Li carriage-return
 .Xc
@@ -538,7 +539,7 @@ The second form returns to the first character of the context marked by
 .Pp
 .It Xo
 .Op Ar count
-.Cm (\&
+.Cm \&(
 .Xc
 Back up
 .Ar count
@@ -546,7 +547,7 @@ sentences.
 .Pp
 .It Xo
 .Op Ar count
-.Cm )\&
+.Cm \&)
 .Xc
 Move forward
 .Ar count
@@ -554,7 +555,7 @@ sentences.
 .Pp
 .It Xo
 .Op Ar count
-.Cm ,\&
+.Cm \&,
 .Xc
 Reverse find character
 .Ar count
@@ -570,7 +571,7 @@ times.
 .Pp
 .It Xo
 .Op Ar count
-.Cm .\&
+.Cm \&.
 .Xc
 Repeat the last
 .Nm vi
@@ -586,11 +587,11 @@ command that modified text.
 .Aq Li carriage-return
 .Xc
 .It Xo
-.Pf ?\& Ns Ar RE
+.Pf \&? Ns Ar RE
 .Aq Li carriage-return
 .Xc
 .It Xo
-.Pf ?\& Ns Ar RE Ns ?\&
+.Pf \&? Ns Ar RE Ns \&?
 .Op Ar offset
 .Aq Li carriage-return
 .Xc
@@ -599,7 +600,7 @@ command that modified text.
 Search forward
 .Pq Sq /
 or backward
-.Pq Sq ?\&
+.Pq Sq \&?
 for a regular expression.
 .Cm n
 and
@@ -614,14 +615,14 @@ lines before or after the matched regular expression.
 .It Cm 0
 Move to the first character in the current line.
 .Pp
-.It Cm :\&
+.It Cm \&:
 Execute an
 .Nm ex
 command.
 .Pp
 .It Xo
 .Op Ar count
-.Cm ;\&
+.Cm \&;
 .Xc
 Repeat the last character find
 .Ar count
@@ -1063,7 +1064,7 @@ Otherwise, display the screen after the current screen.
 Place the line
 .Ar count1
 at the top of the screen.
-.It Cm .\&
+.It Cm \&.
 Place the line
 .Ar count1
 in the center of the screen.
@@ -1219,10 +1220,10 @@ In each entry below, the tag line is a usage synopsis for the command.
 .It Aq Cm end-of-file
 Scroll the screen.
 .Pp
-.It Cm !\& Ar argument(s)
+.It Cm \&! Ar argument(s)
 .It Xo
 .Op Ar range
-.Cm !\&
+.Cm \&!
 .Ar argument(s)
 .Xc
 Execute a shell command, or filter lines through a shell command.
@@ -1290,7 +1291,7 @@ to the abbreviation list.
 .It Xo
 .Op Ar line
 .Cm a Ns Op Cm ppend Ns
-.Op Cm !\&
+.Op Cm \&!
 .Xc
 The input text is appended after the specified line.
 .Pp
@@ -1305,18 +1306,18 @@ Background the current screen.
 .It Xo
 .Op Ar range
 .Cm c Ns Op Cm hange Ns
-.Op Cm !\&
+.Op Cm \&!
 .Op Ar count
 .Xc
 The input text replaces the specified range.
 .Pp
 .It Xo
 .Cm chd Ns Op Cm ir Ns
-.Op Cm !\&
+.Op Cm \&!
 .Op Ar directory
 .Xc
 .It Xo
-.Cm cd Ns Op Cm !\&
+.Cm cd Ns Op Cm \&!
 .Op Ar directory
 .Xc
 Change the current working directory.
@@ -1363,13 +1364,13 @@ Display buffers, Cscope connections, screens or tags.
 .It Xo
 .Op Cm Ee Ns
 .Op Cm dit Ns
-.Op Cm !\&
+.Op Cm \&!
 .Op Ar +cmd
 .Op Ar file
 .Xc
 .It Xo
 .Op Cm Ee Ns
-.Cm x Ns Op Cm !\&
+.Cm x Ns Op Cm \&!
 .Op Ar +cmd
 .Op Ar file
 .Xc
@@ -1422,14 +1423,14 @@ Display a help message.
 .It Xo
 .Op Ar line
 .Cm i Ns Op Cm nsert Ns
-.Op Cm !\&
+.Op Cm \&!
 .Xc
 The input text is inserted before the specified line.
 .Pp
 .It Xo
 .Op Ar range
 .Cm j Ns Op Cm oin Ns
-.Op Cm !\&
+.Op Cm \&!
 .Op Ar count
 .Op Ar flags
 .Xc
@@ -1444,7 +1445,7 @@ Join lines of text together.
 Display the lines unambiguously.
 .Pp
 .It Xo
-.Cm map Ns Op Cm !\&
+.Cm map Ns Op Cm \&!
 .Op Ar lhs rhs
 .Xc
 Define or display maps (for
@@ -1472,7 +1473,7 @@ Move the specified lines after the target line.
 .Pp
 .It Xo
 .Cm mk Ns Op Cm exrc Ns
-.Op Cm !\&
+.Op Cm \&!
 .Ar file
 .Xc
 Write the abbreviations, editor options and maps to the specified
@@ -1481,7 +1482,7 @@ Write the abbreviations, editor options and maps to the specified
 .It Xo
 .Op Cm Nn Ns
 .Op Cm ext Ns
-.Op Cm !\&
+.Op Cm \&!
 .Op Ar file ...
 .Xc
 Edit the next file from the argument list.
@@ -1503,7 +1504,7 @@ option.
 .It Xo
 .Op Cm \&Pp Ns
 .Cm rev Ns Op Cm ious Ns
-.Op Cm !\&
+.Op Cm \&!
 .Xc
 Edit the previous file from the argument list.
 .Pp
@@ -1524,14 +1525,14 @@ Append buffer contents to the current line.
 .Pp
 .It Xo
 .Cm q Ns Op Cm uit Ns
-.Op Cm !\&
+.Op Cm \&!
 .Xc
 End the editing session.
 .Pp
 .It Xo
 .Op Ar line
 .Cm r Ns Op Cm ead Ns
-.Op Cm !\&
+.Op Cm \&!
 .Op Ar file
 .Xc
 Read a file.
@@ -1555,7 +1556,7 @@ Grow or shrink the current screen.
 .Pp
 .It Xo
 .Cm rew Ns Op Cm ind Ns
-.Op Cm !\&
+.Op Cm \&!
 .Xc
 Rewind the argument list.
 .Pp
@@ -1609,7 +1610,7 @@ Make substitutions.
 .Pp
 .It Xo
 .Cm su Ns Op Cm spend Ns
-.Op Cm !\&
+.Op Cm \&!
 .Xc
 .It Xo
 .Cm st Ns Op Cm op Ns
@@ -1625,7 +1626,7 @@ character is usually
 .It Xo
 .Op Cm Tt Ns
 .Cm a Ns Op Cm g Ns
-.Op Cm !\&
+.Op Cm \&!
 .Ar tagstring
 .Xc
 Edit the file containing the specified tag.
@@ -1633,13 +1634,13 @@ Edit the file containing the specified tag.
 .It Xo
 .Op Cm Tt Ns
 .Cm agn Ns Op Cm ext Ns
-.Op Cm !\&
+.Op Cm \&!
 .Xc
 Edit the file containing the next context for the current tag.
 .Pp
 .It Xo
 .Cm tagp Ns Op Cm op Ns
-.Op Cm !\&
+.Op Cm \&!
 .Op Ar file | number
 .Xc
 Pop to the specified tag in the tags stack.
@@ -1647,13 +1648,13 @@ Pop to the specified tag in the tags stack.
 .It Xo
 .Op Cm Tt Ns
 .Cm agp Ns Op Cm rev Ns
-.Op Cm !\&
+.Op Cm \&!
 .Xc
 Edit the file containing the previous context for the current tag.
 .Pp
 .It Xo
 .Cm tagt Ns Op Cm op Ns
-.Op Cm !\&
+.Op Cm \&!
 .Xc
 Pop to the least recent tag on the tags stack, clearing the stack.
 .Pp
@@ -1670,7 +1671,7 @@ Undo the last change made to the file.
 .Pp
 .It Xo
 .Cm unm Ns Op Cm ap Ns
-.Op Cm !\&
+.Op Cm \&!
 .Ar lhs
 .Xc
 Unmap a mapped string.
@@ -1695,7 +1696,7 @@ Enter
 .It Xo
 .Op Cm Vi Ns
 .Cm i Ns Op Cm sual Ns
-.Op Cm !\&
+.Op Cm \&!
 .Op Ar +cmd
 .Op Ar file
 .Xc
@@ -1714,25 +1715,25 @@ command.
 .It Xo
 .Op Ar range
 .Cm w Ns Op Cm rite Ns
-.Op Cm !\&
+.Op Cm \&!
 .Op >>
 .Op Ar file
 .Xc
 .It Xo
 .Op Ar range
 .Cm w Ns Op Cm rite
-.Op Cm !\&
+.Op Cm \&!
 .Op Ar file
 .Xc
 .It Xo
 .Op Ar range
-.Cm wn Ns Op Cm !\&
+.Cm wn Ns Op Cm \&!
 .Op >>
 .Op Ar file
 .Xc
 .It Xo
 .Op Ar range
-.Cm wq Ns Op Cm !\&
+.Cm wq Ns Op Cm \&!
 .Op >>
 .Op Ar file
 .Xc
@@ -1741,7 +1742,7 @@ Write the file.
 .It Xo
 .Op Ar range
 .Cm x Ns Op Cm it Ns
-.Op Cm !\&
+.Op Cm \&!
 .Op Ar file
 .Xc
 Exit the editor,
@@ -1953,7 +1954,7 @@ Set the number of lines scrolled.
 Makes the
 .Cm /
 and
-.Cm ?\&
+.Cm \&?
 commands incremental.
 .It Cm sections , sect Bq "NHSHH HUnhsh"
 .Nm vi
@@ -1982,9 +1983,9 @@ and
 for
 .Sq }
 and
-.Sq )\&
+.Sq \&)
 characters.
-.It Cm showmode , smd Bq off
+.It Cm showmode , \&smd Bq off
 .Nm vi
 only.
 Display the current editor mode and a
@@ -2045,7 +2046,7 @@ Set the window size if the baud rate is greater than 1200 baud.
 only.
 This option causes a warning message to be printed on the terminal
 if the file has been modified since it was last written, before a
-.Cm !\&
+.Cm \&!
 command.
 .It Xo
 .Cm window , w , wi

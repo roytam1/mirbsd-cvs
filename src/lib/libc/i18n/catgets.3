@@ -1,0 +1,81 @@
+.\" $MirOS: contrib/code/libhaible/catgets.3,v 1.1 2006/05/30 20:28:30 tg Exp $
+.\"-
+.\" Copyright (c) 2006
+.\"	Thorsten Glaser <tg@mirbsd.de>
+.\"
+.\" Licensee is hereby permitted to deal in this work without restric-
+.\" tion, including unlimited rights to use, publicly perform, modify,
+.\" merge, distribute, sell, give away or sublicence, provided all co-
+.\" pyright notices above, these terms and the disclaimer are retained
+.\" in all redistributions or reproduced in accompanying documentation
+.\" or other materials provided with binary redistributions.
+.\"
+.\" All advertising materials mentioning features or use of this soft-
+.\" ware must display the following acknowledgement:
+.\"	This product includes material provided by Thorsten Glaser.
+.\"
+.\" Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+.\" express, or implied, to the maximum extent permitted by applicable
+.\" law, without malicious intent or gross negligence; in no event may
+.\" licensor, an author or contributor be held liable for any indirect
+.\" or other damage, or direct damage except proven a consequence of a
+.\" direct error of said person and intended use of this work, loss or
+.\" other issues arising in any way out of its use, even if advised of
+.\" the possibility of such damage or existence of a nontrivial bug.
+.\"-
+.Dd May 30, 2006
+.Dt CATGETS 3
+.Os
+.Sh NAME
+.Nm catopen ,
+.Nm catgets ,
+.Nm catclose
+.Nd fake message catalog handling
+.Sh SYNOPSIS
+.Fd #include <nl_types.h>
+.Ft nl_catd
+.Fn catopen "const char *name" "int oflag"
+.Ft char *
+.Fn catgets "nl_catd catd" "int set_id" "int msg_id" "const char *s"
+.Ft int
+.Fn catclose "nl_catd catd"
+.Sh DESCRIPTION
+These functions are supposed to retrieve messages from
+message catalogues according to the current locale.
+In
+.Mx ,
+the
+.Fn catgets
+function simply returns the string argument
+.Fa s ;
+the other functions do nothing.
+.Sh RETURN VALUES
+Upon successful completion,
+.Fn catopen
+returns a message catalog descriptor.
+Otherwise, \-1 is returned and
+.Va errno
+is set to indicate the error.
+.Pp
+If the specified message was retrieved successfully,
+.Fn catgets
+returns a pointer to an internal buffer containing the message string;
+otherwise it returns
+.Fa s .
+.Sh ERRORS
+.Bl -tag -width Er
+.It Bq Er ENOMEM
+Insufficient memory available.
+.El
+.Sh STANDARDS
+The
+.Fn catopen ,
+.Fn catgets ,
+and
+.Fn catclose
+functions conform to
+.St -xpg3 .
+.Sh CAVEATS
+The return value of the function
+.Fn catgets
+should be treated as constant value.

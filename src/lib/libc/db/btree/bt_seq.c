@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libc/db/btree/bt_seq.c,v 1.2 2005/03/06 20:28:35 tg Exp $ */
 /*	$OpenBSD: bt_seq.c,v 1.11 2005/08/05 13:03:00 espie Exp $	*/
 
 /*-
@@ -41,6 +42,9 @@
 
 #include <db.h>
 #include "btree.h"
+
+__SCCSID("@(#)bt_seq.c	8.7 (Berkeley) 7/20/94");
+__RCSID("$MirOS: src/lib/libc/db/btree/bt_seq.c,v 1.2 2005/03/06 20:28:35 tg Exp $");
 
 static int __bt_first(BTREE *, const DBT *, EPG *, int *);
 static int __bt_seqadv(BTREE *, EPG *, int);
@@ -228,7 +232,7 @@ __bt_seqadv(BTREE *t, EPG *ep, int flags)
 {
 	CURSOR *c;
 	PAGE *h;
-	indx_t idx;
+	indx_t idx = 0;
 	pgno_t pg;
 	int exact;
 
@@ -344,7 +348,7 @@ __bt_first(BTREE *t, const DBT *key, EPG *erval, int *exactp)
 			*erval = *ep;
 			return (RET_SUCCESS);
 		}
-			
+
 		/*
 		 * Walk backwards, as long as the entry matches and there are
 		 * keys left in the tree.  Save a copy of each match in case

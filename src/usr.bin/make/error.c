@@ -1,4 +1,4 @@
-/*	$OpenPackages$ */
+/**	$MirOS$ */
 /*	$OpenBSD: error.c,v 1.12 2004/04/07 13:11:35 espie Exp $ */
 
 /*
@@ -38,15 +38,18 @@
 
 #include "lowparse.h"
 
+__RCSID("$MirOS$");
+
 int	    fatal_errors = 0;
-static void ParseVErrorInternal(const char *, unsigned long, int, const char *, va_list);
+static void ParseVErrorInternal(const char *, unsigned long, int,
+    const char *, va_list) __attribute__((format (printf, 4, 0)));
 /*-
  * Error --
  *	Print an error message given its format.
  */
 /* VARARGS */
 void
-Error(char *fmt, ...)
+Error(const char *fmt, ...)
 {
 	va_list ap;
 
@@ -66,7 +69,7 @@ Error(char *fmt, ...)
  */
 /* VARARGS */
 void
-Fatal(char *fmt, ...)
+Fatal(const char *fmt, ...)
 {
 	va_list ap;
 
@@ -92,7 +95,7 @@ Fatal(char *fmt, ...)
  */
 /* VARARGS */
 void
-Punt(char *fmt, ...)
+Punt(const char *fmt, ...)
 {
 	va_list ap;
 
@@ -147,7 +150,7 @@ Finish(int errors) /* number of errors encountered in Make_Make */
  */
 /* VARARGS */
 static void
-ParseVErrorInternal(const char *cfname, unsigned long clineno, int type, 
+ParseVErrorInternal(const char *cfname, unsigned long clineno, int type,
 	const char *fmt, va_list ap)
 {
 	if (cfname)
@@ -173,8 +176,7 @@ Parse_Error(int type, const char *fmt, ...)
 	va_list ap;
 
 	va_start(ap, fmt);
-	ParseVErrorInternal(Parse_Getfilename(), Parse_Getlineno(), type, 
+	ParseVErrorInternal(Parse_Getfilename(), Parse_Getlineno(), type,
 	    fmt, ap);
 	va_end(ap);
 }
-

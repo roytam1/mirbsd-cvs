@@ -35,10 +35,9 @@
  */
 #define SOME_JUNK	0xd0	/* as in "Duh" :-) */
 
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/time.h>
 #include <sys/resource.h>
-#include <sys/param.h>
 #include <sys/mman.h>
 #include <sys/uio.h>
 #include <stdio.h>
@@ -51,6 +50,9 @@
 #include <err.h>
 
 #include "thread_private.h"
+
+__IDSTRING(__malloc_type, "@(#) mmap malloc 1.80 (OpenBSD)");
+__RCSID("$MirOS: src/lib/libc/stdlib/malloc.c,v 1.3 2006/01/31 12:31:57 tg Exp $");
 
 /*
  * The basic parameters you can tweak.

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: a.out.c,v 1.4 2002/12/11 18:28:22 deraadt Exp $	*/
 /*	$NetBSD: a.out.c,v 1.1 1999/06/13 12:54:40 mrg Exp $	*/
 
@@ -49,6 +50,8 @@
 
 #include "modload.h"
 
+__RCSID("$MirOS$");
+
 /*
  * Expected linker options:
  *
@@ -75,7 +78,7 @@ a_out_linkcmd(char *buf, size_t len, const char *kernel,
 
 	n = snprintf(buf, len, LINKCMD, kernel, entry,
 	    outfile, address, object);
-	if (n < 0 || n >= len)
+	if (n < 0 || n >= (ssize_t)len)
 		errx(1, "link command longer than %lu bytes", (u_long)len);
 }
 

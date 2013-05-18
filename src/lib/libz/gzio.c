@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libz/gzio.c,v 1.7 2005/07/24 23:19:02 tg Exp $ */
 /*	$OpenBSD: gzio.c,v 1.14 2005/07/20 15:56:41 millert Exp $	*/
 /* gzio.c -- IO on .gz files
  * Copyright (C) 1995-2005 Jean-loup Gailly.
@@ -6,25 +7,17 @@
  * Compile this file with -DNO_GZCOMPRESS to avoid the compression code.
  */
 
-
 #include <stdio.h>
-
 #include "zutil.h"
+
+zRCSID("$MirOS: src/lib/libz/gzio.c,v 1.7 2005/07/24 23:19:02 tg Exp $")
 
 #ifdef NO_DEFLATE       /* for compatibility with old definition */
 #  define NO_GZCOMPRESS
 #endif
 
-#ifndef NO_DUMMY_DECL
-struct internal_state {int dummy;}; /* for buggy compilers */
-#endif
-
 #ifndef Z_BUFSIZE
-#  ifdef MAXSEG_64K
-#    define Z_BUFSIZE 4096 /* minimize memory usage for 16-bit DOS */
-#  else
 #    define Z_BUFSIZE 16384
-#  endif
 #endif
 #ifndef Z_PRINTF_BUFSIZE
 #  define Z_PRINTF_BUFSIZE 4096
@@ -53,25 +46,7 @@ static int const gz_magic[2] = {0x1f, 0x8b}; /* gzip magic header */
 #define COMMENT      0x10 /* bit 4 set: file comment present */
 #define RESERVED     0xE0 /* bits 5..7: reserved */
 
-typedef struct gz_stream {
-    z_stream stream;
-    int      z_err;   /* error code for last stream operation */
-    int      z_eof;   /* set if end of input file */
-    FILE     *file;   /* .gz file */
-    Byte     *inbuf;  /* input buffer */
-    Byte     *outbuf; /* output buffer */
-    uLong    crc;     /* crc32 of uncompressed data */
-    char     *msg;    /* error message */
-    char     *path;   /* path name for debugging only */
-    int      transparent; /* 1 if input file is not a .gz file */
-    char     mode;    /* 'w' or 'r' */
-    z_off_t  start;   /* start of compressed data in file (header skipped) */
-    z_off_t  in;      /* bytes into deflate or inflate */
-    z_off_t  out;     /* bytes out of deflate or inflate */
-    int      back;    /* one character push-back */
-    int      last;    /* true if push-back is last character */
-} gz_stream;
-
+#include "gzio.h"
 
 local gzFile gz_open      OF((const char *path, const char *mode, int  fd));
 local int do_flush        OF((gzFile file, int flush));
@@ -98,7 +73,7 @@ local gzFile gz_open (path, mode, fd)
     int err;
     int level = Z_DEFAULT_COMPRESSION; /* compression level */
     int strategy = Z_DEFAULT_STRATEGY; /* compression strategy */
-    char *p = (char*)mode;
+    const char *p = mode;
     gz_stream *s;
     char fmode[80]; /* copy of mode, without the compression level */
     char *m = fmode;
@@ -400,7 +375,7 @@ int ZEXPORT gzread (file, buf, len)
 {
     gz_stream *s = (gz_stream*)file;
     Bytef *start = (Bytef*)buf; /* starting point for crc computation */
-    Byte  *next_out; /* == stream.next_out but not forced far (for MSDOS) */
+    Byte  *next_out; /* == stream.next_out */
 
     if (s == NULL || s->mode != 'r') return Z_STREAM_ERROR;
 
@@ -567,7 +542,7 @@ int ZEXPORT gzwrite (file, buf, len)
 
     if (s == NULL || s->mode != 'w') return Z_STREAM_ERROR;
 
-    s->stream.next_in = (Bytef*)buf;
+    s->stream.next_in = buf;
     s->stream.avail_in = len;
 
     while (s->stream.avail_in != 0) {
@@ -599,52 +574,21 @@ int ZEXPORT gzwrite (file, buf, len)
    control of the format string, as in fprintf. gzprintf returns the number of
    uncompressed bytes actually written (0 in case of error).
 */
-#ifdef STDC
 #include <stdarg.h>
 
 int ZEXPORTVA gzprintf (gzFile file, const char *format, /* args */ ...)
 {
     char buf[Z_PRINTF_BUFSIZE];
     va_list va;
-    int len;
+    size_t len;
 
     va_start(va, format);
-#ifdef HAS_vsnprintf
     len = vsnprintf(buf, sizeof(buf), format, va);
-#else
-    (void)vsprintf(buf, format, va);
-    len = strlen(buf); /* some *sprintf don't return the nb of bytes written */
-#endif
     va_end(va);
     if (len <= 0 || len >= sizeof(buf)) return 0;
 
     return gzwrite(file, buf, (unsigned)len);
 }
-#else /* not ANSI C */
-
-int ZEXPORTVA gzprintf (file, format, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10,
-	               a11, a12, a13, a14, a15, a16, a17, a18, a19, a20)
-    gzFile file;
-    const char *format;
-    int a1, a2, a3, a4, a5, a6, a7, a8, a9, a10,
-	a11, a12, a13, a14, a15, a16, a17, a18, a19, a20;
-{
-    char buf[Z_PRINTF_BUFSIZE];
-    int len;
-
-#ifdef HAS_snprintf
-    len = snprintf(buf, sizeof(buf), format, a1, a2, a3, a4, a5, a6, a7, a8,
-	     a9, a10, a11, a12, a13, a14, a15, a16, a17, a18, a19, a20);
-#else
-    sprintf(buf, format, a1, a2, a3, a4, a5, a6, a7, a8,
-	    a9, a10, a11, a12, a13, a14, a15, a16, a17, a18, a19, a20);
-    len = strlen(buf); /* old sprintf doesn't return the nb of bytes written */
-#endif
-    if (len <= 0 || len >= sizeof(buf)) return 0;
-
-    return gzwrite(file, buf, len);
-}
-#endif
 
 /* ===========================================================================
       Writes c, converted to an unsigned char, into the compressed file.
@@ -669,7 +613,7 @@ int ZEXPORT gzputs(file, s)
     gzFile file;
     const char *s;
 {
-    return gzwrite(file, (char*)s, (unsigned)strlen(s));
+    return gzwrite(file, s, (unsigned)strlen(s));
 }
 
 
@@ -750,7 +694,7 @@ z_off_t ZEXPORT gzseek (file, offset, whence)
 	s->z_err == Z_ERRNO || s->z_err == Z_DATA_ERROR) {
 	return -1L;
     }
-    
+
     if (s->mode == 'w') {
 #ifdef NO_GZCOMPRESS
 	return -1L;
@@ -827,7 +771,7 @@ z_off_t ZEXPORT gzseek (file, offset, whence)
 }
 
 /* ===========================================================================
-     Rewinds input file. 
+     Rewinds input file.
 */
 int ZEXPORT gzrewind (file)
     gzFile file;
@@ -963,7 +907,7 @@ const char * ZEXPORT gzerror (file, errnum)
     gzFile file;
     int *errnum;
 {
-    char *m;
+    const char *m;
     gz_stream *s = (gz_stream*)file;
     size_t len;
 
@@ -974,9 +918,9 @@ const char * ZEXPORT gzerror (file, errnum)
     *errnum = s->z_err;
     if (*errnum == Z_OK) return (const char*)"";
 
-    m = (char*)(*errnum == Z_ERRNO ? zstrerror(errno) : s->stream.msg);
+    m = (*errnum == Z_ERRNO ? zstrerror(errno) : s->stream.msg);
 
-    if (m == NULL || *m == '\0') m = (char*)ERR_MSG(s->z_err);
+    if (m == NULL || *m == '\0') m = ERR_MSG(s->z_err);
 
     TRYFREE(s->msg);
     len = strlen(s->path) + strlen(m) + 3;

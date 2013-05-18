@@ -67,9 +67,6 @@
 #include <sys/resourcevar.h>
 #include <sys/malloc.h>
 #include <sys/systm.h>
-#ifdef GPROF
-#include <sys/gmon.h>
-#endif
 
 #include <uvm/uvm_extern.h>
 

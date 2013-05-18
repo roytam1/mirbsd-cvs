@@ -1,4 +1,4 @@
-/*	$OpenBSD: debug.c,v 1.4 2003/08/25 23:28:15 tedu Exp $	*/
+/* $MirOS$ */
 /*
  * Copyright (c) 2000 Christoph Herrmann, Thomas-Henning von Kamptz
  * Copyright (c) 1980, 1989, 1993 The Regents of the University of California.
@@ -37,24 +37,21 @@
  * SUCH DAMAGE.
  *
  * $TSHeader: src/sbin/growfs/debug.c,v 1.3 2000/12/12 19:31:00 tomsoft Exp $
- * $FreeBSD: src/sbin/growfs/debug.c,v 1.7 2002/09/25 04:06:36 mike Exp $
  *
  */
-
-#ifndef lint
-static const char rcsid[] =
-  "$OpenBSD: debug.c,v 1.4 2003/08/25 23:28:15 tedu Exp $";
-#endif /* not lint */
 
 /* ********************************************************** INCLUDES ***** */
 #include <sys/param.h>
 
 #include <limits.h>
 #include <stdio.h>
+#include <string.h>
 #include <ufs/ufs/dinode.h>
 #include <ufs/ffs/fs.h>
 
 #include "debug.h"
+
+__RCSID("$MirOS$");
 
 #ifdef FS_DEBUG
 
@@ -702,4 +699,3 @@ dbg_dump_iblk(struct fs *sb, const char *comment, char *block, size_t length)
 }
 
 #endif /* FS_DEBUG */
-

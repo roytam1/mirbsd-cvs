@@ -1,11 +1,10 @@
+/**	$MirOS: src/lib/libc/net/res_send.c,v 1.3 2005/07/09 13:23:32 tg Exp $ */
 /*	$OpenBSD: res_send.c,v 1.19 2005/08/06 20:30:04 espie Exp $	*/
 
 /*
- * ++Copyright++ 1985, 1989, 1993
- * -
  * Copyright (c) 1985, 1989, 1993
  *    The Regents of the University of California.  All rights reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -66,7 +65,6 @@
  * Send query to name server and wait for reply.
  */
 
-#include <sys/types.h>
 #include <sys/param.h>
 #include <sys/time.h>
 #include <sys/socket.h>
@@ -85,6 +83,8 @@
 
 #include "thread_private.h"
 
+__RCSID("$MirOS: src/lib/libc/net/res_send.c,v 1.3 2005/07/09 13:23:32 tg Exp $");
+
 static int s = -1;	/* socket used for communications */
 static int connected = 0;	/* is the socket connected */
 static int vc = 0;	/* is the socket a virtual ciruit? */
@@ -97,7 +97,7 @@ static int af = 0;		/* address family of socket */
 #define	FD_SET(n, p)	((p)->fds_bits[(n)/NFDBITS] |= (1 << ((n) % NFDBITS)))
 #define	FD_CLR(n, p)	((p)->fds_bits[(n)/NFDBITS] &= ~(1 << ((n) % NFDBITS)))
 #define	FD_ISSET(n, p)	((p)->fds_bits[(n)/NFDBITS] & (1 << ((n) % NFDBITS)))
-#define FD_ZERO(p)	bzero((char *)(p), sizeof(*(p)))
+#define FD_ZERO(p)	memset((char *)(p), 0, sizeof(*(p)))
 #endif
 
 #define CAN_RECONNECT 1

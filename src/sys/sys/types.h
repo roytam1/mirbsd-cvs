@@ -1,3 +1,4 @@
+/**	$MirOS: src/sys/sys/types.h,v 1.4 2005/11/21 19:31:55 tg Exp $ */
 /*	$OpenBSD: types.h,v 1.26 2004/07/13 21:04:29 millert Exp $	*/
 /*	$NetBSD: types.h,v 1.29 1996/11/15 22:48:25 jtc Exp $	*/
 
@@ -99,14 +100,18 @@ typedef	_BSD_CLOCK_T_	clock_t;
 #undef	_BSD_CLOCK_T_
 #endif
 
-#ifdef	_BSD_SIZE_T_
-typedef	_BSD_SIZE_T_	size_t;
-#undef	_BSD_SIZE_T_
+#if !defined(_GCC_SIZE_T)
+#define	_GCC_SIZE_T
+typedef	__SIZE_TYPE__	size_t;
 #endif
 
-#ifdef	_BSD_SSIZE_T_
-typedef	_BSD_SSIZE_T_	ssize_t;
-#undef	_BSD_SSIZE_T_
+#if !defined(_GCC_SSIZE_T)
+#define	_GCC_SIZE_T
+#ifdef __LP64__
+typedef	long		ssize_t;
+#else
+typedef	int		ssize_t;
+#endif
 #endif
 
 #ifdef	_BSD_TIME_T_
@@ -179,13 +184,8 @@ typedef	struct fd_set {
 #define	FD_SET(n, p)	((p)->fds_bits[(n)/NFDBITS] |= (1 << ((n) % NFDBITS)))
 #define	FD_CLR(n, p)	((p)->fds_bits[(n)/NFDBITS] &= ~(1 << ((n) % NFDBITS)))
 #define	FD_ISSET(n, p)	((p)->fds_bits[(n)/NFDBITS] & (1 << ((n) % NFDBITS)))
-#ifdef _KERNEL
-#define	FD_COPY(f, t)	bcopy(f, t, sizeof(*(f)))
-#define	FD_ZERO(p)	bzero(p, sizeof(*(p)))
-#else
 #define	FD_COPY(f, t)	memcpy(t, f, sizeof(*(f)))
 #define	FD_ZERO(p)	memset(p, 0, sizeof(*(p)))
-#endif
 
 #if defined(__STDC__) && defined(_KERNEL)
 /*

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: vs_line.c,v 1.7 2003/07/21 07:20:18 dhartmei Exp $	*/
 
 /*-
@@ -11,9 +12,8 @@
 
 #include "config.h"
 
-#ifndef lint
-static const char sccsid[] = "@(#)vs_line.c	10.19 (Berkeley) 9/26/96";
-#endif /* not lint */
+__SCCSID("@(#)vs_line.c	10.19 (Berkeley) 9/26/96");
+__RCSID("$MirOS$");
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -142,7 +142,8 @@ vs_line(sp, smp, yp, xp)
 			cols_per_screen -= O_NUMBER_LENGTH;
 			if ((!dne || smp->lno == 1) && skip_cols == 0) {
 				nlen = snprintf(cbuf,
-				    sizeof(cbuf), O_NUMBER_FMT, smp->lno);
+				    sizeof(cbuf), O_NUMBER_FMT,
+				    (unsigned long)(smp->lno));
 				if (nlen >= sizeof(cbuf))
 					nlen = sizeof(cbuf) - 1;
 				(void)gp->scr_addstr(sp, cbuf, nlen);
@@ -515,7 +516,8 @@ vs_number(sp)
 			break;
 
 		(void)gp->scr_move(sp, smp - HMAP, 0);
-		len = snprintf(nbuf, sizeof(nbuf), O_NUMBER_FMT, smp->lno);
+		len = snprintf(nbuf, sizeof(nbuf), O_NUMBER_FMT,
+		    (unsigned long)(smp->lno));
 		if (len >= sizeof(nbuf))
 			len = sizeof(nbuf) - 1;
 		(void)gp->scr_addstr(sp, nbuf, len);

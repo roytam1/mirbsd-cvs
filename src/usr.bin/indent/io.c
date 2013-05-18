@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/indent/io.c,v 1.4 2005/05/19 22:59:36 tg Exp $ */
 /*	$OpenBSD: io.c,v 1.10 2005/05/15 03:27:04 millert Exp $	*/
 
 /*
@@ -31,11 +32,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-/*static char sccsid[] = "@(#)io.c	8.1 (Berkeley) 6/6/93";*/
-static char rcsid[] = "$OpenBSD: io.c,v 1.10 2005/05/15 03:27:04 millert Exp $";
-#endif /* not lint */
-
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
@@ -43,6 +39,9 @@ static char rcsid[] = "$OpenBSD: io.c,v 1.10 2005/05/15 03:27:04 millert Exp $";
 #include <stdarg.h>
 #include <err.h>
 #include "indent_globs.h"
+
+__SCCSID("@(#)io.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS: src/usr.bin/indent/io.c,v 1.4 2005/05/19 22:59:36 tg Exp $");
 
 
 int         comment_open;
@@ -55,7 +54,7 @@ dump_line(void)
 				 * prints the label section, followed by the
 				 * code section with the appropriate nesting
 				 * level, followed by any comments */
-    int         cur_col, target_col;
+    int         cur_col, target_col = 0;
     static int  not_first_line;
 
     if (ps.procname[0]) {
@@ -290,7 +289,8 @@ compute_code_target(void)
     target_col = ps.ind_size * ps.ind_level + 1;
     if (ps.paren_level)
 	if (!lineup_to_parens)
-	    target_col += continuation_indent * ps.paren_level;
+	    target_col += continuation_indent *
+		(lineup_indent ? ps.paren_level : 1);
 	else {
 	    int    w;
 	    int    t = paren_target;
@@ -321,18 +321,18 @@ compute_label_target(void)
 
 /*
  * Copyright (C) 1976 by the Board of Trustees of the University of Illinois
- * 
+ *
  * All rights reserved
- * 
- * 
+ *
+ *
  * NAME: fill_buffer
- * 
+ *
  * FUNCTION: Reads one block of input into input_buffer
- * 
+ *
  * HISTORY: initial coding 	November 1976	D A Willcox of CAC 1/7/77 A
  * Willcox of CAC	Added check for switch back to partly full input
  * buffer from temporary buffer
- * 
+ *
  */
 void
 fill_buffer(void)
@@ -425,31 +425,31 @@ fill_buffer(void)
 
 /*
  * Copyright (C) 1976 by the Board of Trustees of the University of Illinois
- * 
+ *
  * All rights reserved
- * 
- * 
+ *
+ *
  * NAME: pad_output
- * 
+ *
  * FUNCTION: Writes tabs and spaces to move the current column up to the desired
  * position.
- * 
+ *
  * ALGORITHM: Put tabs and/or blanks into pobuf, then write pobuf.
- * 
+ *
  * PARAMETERS: current		integer		The current column target
  *             target 		integer		The desired column
  * 
  * RETURNS: Integer value of the new column.  (If current >= target, no action is
  * taken, and current is returned.
- * 
+ *
  * GLOBALS: None
- * 
+ *
  * CALLS: write (sys)
- * 
+ *
  * CALLED BY: dump_line
- * 
+ *
  * HISTORY: initial coding 	November 1976	D A Willcox of CAC
- * 
+ *
  */
 int
 pad_output(int current, int target)
@@ -475,23 +475,23 @@ pad_output(int current, int target)
 
 /*
  * Copyright (C) 1976 by the Board of Trustees of the University of Illinois
- * 
+ *
  * All rights reserved
- * 
- * 
+ *
+ *
  * NAME: count_spaces
- * 
+ *
  * FUNCTION: Find out where printing of a given string will leave the current
  * character position on output.
- * 
+ *
  * ALGORITHM: Run thru input string and add appropriate values to current
  * position.
- * 
+ *
  * RETURNS: Integer value of position after printing "buffer" starting in column
  * "current".
- * 
+ *
  * HISTORY: initial coding 	November 1976	D A Willcox of CAC
- * 
+ *
  */
 int
 count_spaces(int current, char *buffer)

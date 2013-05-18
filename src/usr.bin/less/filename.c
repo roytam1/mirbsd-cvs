@@ -37,6 +37,8 @@
 #include <signal.h>
 #endif
 
+__RCSID("$MirOS: src/usr.bin/less/filename.c,v 1.2 2005/03/13 18:33:06 tg Exp $");
+
 #if HAVE_STAT
 #include <sys/stat.h>
 #ifndef S_ISDIR
@@ -167,7 +169,7 @@ shell_quote(s)
 			if (esclen == 0)
 			{
 				/*
-				 * We've got a metachar, but this shell 
+				 * We've got a metachar, but this shell
 				 * doesn't support escape chars.  Use quotes.
 				 */
 				use_quotes = 1;
@@ -310,7 +312,7 @@ homefile(filename)
 find_helpfile()
 {
 	char *helpfile;
-	
+
 	if ((helpfile = getenv("LESSHELP")) != NULL && *helpfile != '\0')
 		return (save(helpfile));
 #if MSDOS_COMPILER || OS2
@@ -342,7 +344,7 @@ fexpand(s)
 	 (c) == '#' ? old_ifile : NULL_IFILE)
 
 	/*
-	 * Make one pass to see how big a buffer we 
+	 * Make one pass to see how big a buffer we
 	 * need to allocate for the expanded string.
 	 */
 	n = 0;
@@ -441,8 +443,8 @@ fcomplete(s)
 	/*
 	 * But in DOS, we have to glob "s*.*".
 	 * But if the final component of the filename already has
-	 * a dot in it, just do "s*".  
-	 * (Thus, "FILE" is globbed as "FILE*.*", 
+	 * a dot in it, just do "s*".
+	 * (Thus, "FILE" is globbed as "FILE*.*",
 	 *  but "FILE.A" is globbed as "FILE.A*").
 	 */
 	{
@@ -528,8 +530,8 @@ readfd(fd)
 	int ch;
 	char *buf;
 	char *p;
-	
-	/* 
+
+	/*
 	 * Make a guess about how many chars in the string
 	 * and allocate a buffer to hold it.
 	 */
@@ -586,7 +588,7 @@ shellcmd(cmd)
 		char *esccmd;
 
 		/*
-		 * Read the output of <$SHELL -c cmd>.  
+		 * Read the output of <$SHELL -c cmd>.
 		 * Escape any metacharacters in the command.
 		 */
 		esccmd = shell_quote(cmd);
@@ -640,7 +642,7 @@ lglob(filename)
 	 * The globbing function returns a list of names.
 	 */
 	int length;
-	char *p;
+	char *p = NULL;
 	char *qfilename;
 	DECL_GLOB_LIST(list)
 
@@ -692,7 +694,7 @@ lglob(filename)
 	char *pathname;
 	char *qpathname;
 	DECL_GLOB_NAME(fnd,drive,dir,fname,ext,handle)
-	
+
 	GLOB_FIRST_NAME(filename, &fnd, handle);
 	if (GLOB_FIRST_FAILED(handle))
 	{
@@ -811,7 +813,7 @@ lglob(filename)
 }
 
 /*
- * See if we should open a "replacement file" 
+ * See if we should open a "replacement file"
  * instead of the file we're about to open.
  */
 	public char *
@@ -831,7 +833,7 @@ open_altfile(filename, pf, pfd)
 #if HAVE_FILENO
 	int returnfd = 0;
 #endif
-	
+
 	if (!use_lessopen || secure)
 		return (NULL);
 	ch_ungetchar(-1);
@@ -842,7 +844,7 @@ open_altfile(filename, pf, pfd)
 	if (*lessopen == '|')
 	{
 		/*
-		 * If LESSOPEN starts with a |, it indicates 
+		 * If LESSOPEN starts with a |, it indicates
 		 * a "pipe preprocessor".
 		 */
 #if HAVE_FILENO
@@ -965,7 +967,7 @@ close_altfile(altfilename, filename, pipefd)
 		pclose(fd);
 #endif
 }
-		
+
 /*
  * Is the specified file a directory?
  */
@@ -1073,7 +1075,7 @@ filesize(f)
 }
 
 /*
- * 
+ *
  */
 	public char *
 shell_coption()

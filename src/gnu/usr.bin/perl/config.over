@@ -1,6 +1,6 @@
+# Override default paths when building in the MirOS source tree
 #
-# Override default paths when building in the OpenBSD src tree
-#
+# $MirOS: src/gnu/usr.bin/perl/config.over,v 1.2 2005/03/13 15:01:15 tg Exp $
 # $OpenBSD: config.over,v 1.13 2005/02/18 17:46:02 millert Exp $
 #
 
@@ -21,7 +21,7 @@ installarchlib="/usr/libdata/perl5/${archname}/${version}"
 archlib="${installarchlib}:/usr/local/libdata/perl5/${archname}/${version}"
 archlibexp="${archlib}"
 
-test $useshrplib = "true" && ccdlflags="-Wl,-R${installarchlib}/CORE"   
+test $useshrplib = "true" && ccdlflags="-Wl,-R${installarchlib}/CORE"
 
 installprivlib="/usr/libdata/perl5"
 privlib="${installprivlib}:/usr/local/libdata/perl5"
@@ -49,9 +49,9 @@ man3ext='3p'
 siteman1dir='/usr/local/man/man1'
 siteman1direxp='/usr/local/man/man1'
 installsiteman1dir='/usr/local/man/man1'
-siteman3dir='/usr/local/man/man3p'
-siteman3direxp='/usr/local/man/man3p'
-installsiteman3dir='/usr/local/man/man3p'
+siteman3dir='/usr/local/man/man3'
+siteman3direxp='/usr/local/man/man3'
+installsiteman3dir='/usr/local/man/man3'
 
 # Never hardcode developer info into a distribution
 cf_by='root'
@@ -60,7 +60,7 @@ cf_time='Thu Jan  1  0:00:00 UTC 1970'
 perladmin='root@localhost'
 mydomain=''
 myhostname=''
-myuname='openbsd'
+myuname='mirbsd'
 
 # force to use ranlib
 ranlib='ranlib'

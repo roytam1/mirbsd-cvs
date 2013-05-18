@@ -22,7 +22,9 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 #include "includes.h"
+__RCSID("$MirOS: src/usr.bin/ssh/auth-bsdauth.c,v 1.2 2006/02/22 02:16:43 tg Exp $");
 
 #ifdef BSD_AUTH
 #include "xmalloc.h"
@@ -57,7 +59,7 @@ bsdauth_query(void *ctx, char **name, char **infotxt,
 		debug3("bsdauth_query: style %s",
 		    authctxt->style ? authctxt->style : "<default>");
 		authctxt->as = auth_userchallenge(authctxt->user,
-		    authctxt->style, "auth-ssh", &challenge);
+		    authctxt->style, (char *)"auth-ssh", &challenge);
 		if (authctxt->as == NULL)
 			challenge = NULL;
 		debug2("bsdauth_query: <%s>", challenge ? challenge : "empty");

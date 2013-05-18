@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/w/pr_time.c,v 1.2 2005/03/13 18:34:03 tg Exp $ */
 /*	$OpenBSD: pr_time.c,v 1.13 2005/04/11 07:04:47 deraadt Exp $	*/
 
 /*-
@@ -29,14 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)pr_time.c	8.2 (Berkeley) 4/4/94";
-#else
-static char *rcsid = "$OpenBSD: pr_time.c,v 1.13 2005/04/11 07:04:47 deraadt Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/types.h>
 #include <sys/time.h>
 
@@ -45,6 +38,9 @@ static char *rcsid = "$OpenBSD: pr_time.c,v 1.13 2005/04/11 07:04:47 deraadt Exp
 #include <tzfile.h>
 
 #include "extern.h"
+
+__SCCSID("@(#)pr_time.c	8.2 (Berkeley) 4/4/94");
+__RCSID("$MirOS: src/usr.bin/w/pr_time.c,v 1.2 2005/03/13 18:34:03 tg Exp $");
 
 /*
  * pr_attime --
@@ -103,10 +99,11 @@ pr_idle(time_t idle)
 
 	/* If idle more than an hour, print as HH:MM. */
 	else if (idle >= SECSPERHOUR)
-		(void)printf(" %2d:%02d ",
-		    idle / SECSPERHOUR, (idle % SECSPERHOUR) / SECSPERMIN);
+		(void)printf(" %2lld:%02d ",
+		    (int64_t)(idle / SECSPERHOUR),
+		    (int)((idle % SECSPERHOUR) / SECSPERMIN));
 
 	/* Else print the minutes idle. */
 	else
-		(void)printf("    %2d ", idle / SECSPERMIN);
+		(void)printf("    %2lld ", (int64_t)(idle / SECSPERMIN));
 }

@@ -1,12 +1,13 @@
+/**	$MirOS: src/lib/libz/uncompr.c,v 1.3 2005/07/07 12:27:26 tg Exp $ */
 /*	$OpenBSD: uncompr.c,v 1.5 2003/12/16 22:33:02 henning Exp $	*/
 /* uncompr.c -- decompress a memory buffer
  * Copyright (C) 1995-2003 Jean-loup Gailly.
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
+#include "zutil.h"
 
-#define ZLIB_INTERNAL
-#include "zlib.h"
+zRCSID("$MirOS: src/lib/libz/uncompr.c,v 1.3 2005/07/07 12:27:26 tg Exp $")
 
 /* ===========================================================================
      Decompresses the source buffer into the destination buffer.  sourceLen is
@@ -32,7 +33,7 @@ int ZEXPORT uncompress (dest, destLen, source, sourceLen)
     z_stream stream;
     int err;
 
-    stream.next_in = (Bytef*)source;
+    stream.next_in = source;
     stream.avail_in = (uInt)sourceLen;
     /* Check for source > 64K on 16-bit machine: */
     if ((uLong)stream.avail_in != sourceLen) return Z_BUF_ERROR;

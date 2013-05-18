@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: cpu.h,v 1.20 2003/06/02 23:27:54 millert Exp $	*/
 /*	$NetBSD: cpu.h,v 1.24 1997/03/15 22:25:15 pk Exp $ */
 
@@ -144,6 +145,8 @@ extern int	want_ast;
  * process as soon as possible.
  */
 #define	signotify(p)		(want_ast = 1)
+
+#define __do_calibrate_cyclecounter(rvptr)	/* nothing */
 
 extern int	foundfpu;		/* true => we have an FPU */
 

@@ -50,6 +50,8 @@
 #include "local.h"
 #include "fvwrite.h"
 
+__RCSID("$MirOS: src/lib/libc/stdio/vfprintf.c,v 1.2 2005/03/06 20:28:45 tg Exp $");
+
 static void __find_arguments(const char *fmt0, va_list ap, va_list **argtable,
     size_t *argtablesiz);
 static int __grow_type_table(unsigned char **typetable, int *tablesize);
@@ -1140,7 +1142,7 @@ __grow_type_table(unsigned char **typetable, int *tablesize)
 		    sizeof (unsigned char) * newsize, PROT_WRITE|PROT_READ,
 		    MAP_ANON|MAP_PRIVATE, -1, 0);
 		/* XXX unchecked */
-		bcopy(oldtable, *typetable, *tablesize);
+		memmove(*typetable, oldtable, *tablesize);
 	} else {
 		unsigned char *new = (unsigned char *)mmap(NULL,
 		    sizeof (unsigned char) * newsize, PROT_WRITE|PROT_READ,
@@ -1156,13 +1158,13 @@ __grow_type_table(unsigned char **typetable, int *tablesize)
 	return(0);
 }
 
- 
+
 #ifdef FLOATING_POINT
 
 extern char *__dtoa(double, int, int, int *, int *, char **);
 
 static char *
-cvt(double value, int ndigits, int flags, char *sign, int *decpt, int ch, 
+cvt(double value, int ndigits, int flags, char *sign, int *decpt, int ch,
     int *length)
 {
 	int mode, dsgn;

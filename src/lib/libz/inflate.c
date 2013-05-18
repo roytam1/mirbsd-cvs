@@ -1,90 +1,15 @@
+/**	$MirOS: src/lib/libz/inflate.c,v 1.4 2005/07/24 22:50:04 tg Exp $ */
 /*	$OpenBSD: inflate.c,v 1.9 2005/07/20 15:56:41 millert Exp $	*/
 /* inflate.c -- zlib decompression
  * Copyright (C) 1995-2005 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
-/*
- * Change history:
- *
- * 1.2.beta0    24 Nov 2002
- * - First version -- complete rewrite of inflate to simplify code, avoid
- *   creation of window when not needed, minimize use of window when it is
- *   needed, make inffast.c even faster, implement gzip decoding, and to
- *   improve code readability and style over the previous zlib inflate code
- *
- * 1.2.beta1    25 Nov 2002
- * - Use pointers for available input and output checking in inffast.c
- * - Remove input and output counters in inffast.c
- * - Change inffast.c entry and loop from avail_in >= 7 to >= 6
- * - Remove unnecessary second byte pull from length extra in inffast.c
- * - Unroll direct copy to three copies per loop in inffast.c
- *
- * 1.2.beta2    4 Dec 2002
- * - Change external routine names to reduce potential conflicts
- * - Correct filename to inffixed.h for fixed tables in inflate.c
- * - Make hbuf[] unsigned char to match parameter type in inflate.c
- * - Change strm->next_out[-state->offset] to *(strm->next_out - state->offset)
- *   to avoid negation problem on Alphas (64 bit) in inflate.c
- *
- * 1.2.beta3    22 Dec 2002
- * - Add comments on state->bits assertion in inffast.c
- * - Add comments on op field in inftrees.h
- * - Fix bug in reuse of allocated window after inflateReset()
- * - Remove bit fields--back to byte structure for speed
- * - Remove distance extra == 0 check in inflate_fast()--only helps for lengths
- * - Change post-increments to pre-increments in inflate_fast(), PPC biased?
- * - Add compile time option, POSTINC, to use post-increments instead (Intel?)
- * - Make MATCH copy in inflate() much faster for when inflate_fast() not used
- * - Use local copies of stream next and avail values, as well as local bit
- *   buffer and bit count in inflate()--for speed when inflate_fast() not used
- *
- * 1.2.beta4    1 Jan 2003
- * - Split ptr - 257 statements in inflate_table() to avoid compiler warnings
- * - Move a comment on output buffer sizes from inffast.c to inflate.c
- * - Add comments in inffast.c to introduce the inflate_fast() routine
- * - Rearrange window copies in inflate_fast() for speed and simplification
- * - Unroll last copy for window match in inflate_fast()
- * - Use local copies of window variables in inflate_fast() for speed
- * - Pull out common write == 0 case for speed in inflate_fast()
- * - Make op and len in inflate_fast() unsigned for consistency
- * - Add FAR to lcode and dcode declarations in inflate_fast()
- * - Simplified bad distance check in inflate_fast()
- * - Added inflateBackInit(), inflateBack(), and inflateBackEnd() in new
- *   source file infback.c to provide a call-back interface to inflate for
- *   programs like gzip and unzip -- uses window as output buffer to avoid
- *   window copying
- *
- * 1.2.beta5    1 Jan 2003
- * - Improved inflateBack() interface to allow the caller to provide initial
- *   input in strm.
- * - Fixed stored blocks bug in inflateBack()
- *
- * 1.2.beta6    4 Jan 2003
- * - Added comments in inffast.c on effectiveness of POSTINC
- * - Typecasting all around to reduce compiler warnings
- * - Changed loops from while (1) or do {} while (1) to for (;;), again to
- *   make compilers happy
- * - Changed type of window in inflateBackInit() to unsigned char *
- *
- * 1.2.beta7    27 Jan 2003
- * - Changed many types to unsigned or unsigned short to avoid warnings
- * - Added inflateCopy() function
- *
- * 1.2.0        9 Mar 2003
- * - Changed inflateBack() interface to provide separate opaque descriptors
- *   for the in() and out() functions
- * - Changed inflateBack() argument and in_func typedef to swap the length
- *   and buffer address return values for the input function
- * - Check next_in and next_out for Z_NULL on entry to inflate()
- *
- * The history for versions after 1.2.0 are in ChangeLog in zlib distribution.
- */
-
 #include "zutil.h"
 #include "inftrees.h"
 #include "inflate.h"
-#include "inffast.h"
+
+zRCSID("$MirOS: src/lib/libz/inflate.c,v 1.4 2005/07/24 22:50:04 tg Exp $")
 
 #ifdef MAKEFIXED
 #  ifndef BUILDFIXED
@@ -98,7 +23,7 @@ local int updatewindow OF((z_streamp strm, unsigned out));
 #ifdef BUILDFIXED
    void makefixed OF((void));
 #endif
-local unsigned syncsearch OF((unsigned FAR *have, unsigned char FAR *buf,
+local unsigned syncsearch OF((unsigned FAR *have, const unsigned char FAR *buf,
                               unsigned len));
 
 int ZEXPORT inflateReset(strm)
@@ -273,9 +198,9 @@ void makefixed()
     struct inflate_state state;
 
     fixedtables(&state);
-    puts("    /* inffixed.h -- table for decoding fixed codes");
-    puts("     * Generated automatically by makefixed().");
-    puts("     */");
+    puts("/* inffixed.h -- table for decoding fixed codes");
+    puts(" * Generated automatically by makefixed().");
+    puts(" */");
     puts("");
     puts("    /* WARNING: this file should *not* be used by applications.");
     puts("       It is part of the implementation of this library and is");
@@ -557,7 +482,7 @@ z_streamp strm;
 int flush;
 {
     struct inflate_state FAR *state;
-    unsigned char FAR *next;    /* next input */
+    const unsigned char FAR *next; /* next input */
     unsigned char FAR *put;     /* next output */
     unsigned have, left;        /* available input and output */
     unsigned long hold;         /* bit buffer */
@@ -609,19 +534,19 @@ int flush;
             if (
 #endif
                 ((BITS(8) << 8) + (hold >> 8)) % 31) {
-#ifdef SMALL  
+#ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"incorrect header check";
+                strm->msg = "incorrect header check";
 #endif
                 state->mode = BAD;
                 break;
             }
             if (BITS(4) != Z_DEFLATED) {
-#ifdef SMALL  
+#ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"unknown compression method";
+                strm->msg = "unknown compression method";
 #endif
                 state->mode = BAD;
                 break;
@@ -632,7 +557,7 @@ int flush;
 #ifdef SMALL  
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid window size";
+                strm->msg = "invalid window size";
 #endif
                 state->mode = BAD;
                 break;
@@ -648,19 +573,19 @@ int flush;
             NEEDBITS(16);
             state->flags = (int)(hold);
             if ((state->flags & 0xff) != Z_DEFLATED) {
-#ifdef SMALL  
+#ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"unknown compression method";
+                strm->msg = "unknown compression method";
 #endif
                 state->mode = BAD;
                 break;
             }
             if (state->flags & 0xe000) {
-#ifdef SMALL  
+#ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"unknown header flags set";
+                strm->msg = "unknown header flags set";
 #endif
                 state->mode = BAD;
                 break;
@@ -765,10 +690,10 @@ int flush;
             if (state->flags & 0x0200) {
                 NEEDBITS(16);
                 if (hold != (state->check & 0xffff)) {
-#ifdef SMALL  
+#ifdef SMALL
 		    strm->msg = "error";
 #else
-                    strm->msg = (char *)"header crc mismatch";
+                    strm->msg = "header crc mismatch";
 #endif
                     state->mode = BAD;
                     break;
@@ -824,10 +749,10 @@ int flush;
                 state->mode = TABLE;
                 break;
             case 3:
-#ifdef SMALL  
+#ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid block type";
+                strm->msg = "invalid block type";
 #endif
                 state->mode = BAD;
             }
@@ -837,10 +762,10 @@ int flush;
             BYTEBITS();                         /* go to byte boundary */
             NEEDBITS(32);
             if ((hold & 0xffff) != ((hold >> 16) ^ 0xffff)) {
-#ifdef SMALL  
+#ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid stored block lengths";
+                strm->msg = "invalid stored block lengths";
 #endif
                 state->mode = BAD;
                 break;
@@ -877,10 +802,10 @@ int flush;
             DROPBITS(4);
 #ifndef PKZIP_BUG_WORKAROUND
             if (state->nlen > 286 || state->ndist > 30) {
-#ifdef SMALL  
+#ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"too many length or distance symbols";
+                strm->msg = "too many length or distance symbols";
 #endif
                 state->mode = BAD;
                 break;
@@ -903,10 +828,10 @@ int flush;
             ret = inflate_table(CODES, state->lens, 19, &(state->next),
                                 &(state->lenbits), state->work);
             if (ret) {
-#ifdef SMALL  
+#ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid code lengths set";
+                strm->msg = "invalid code lengths set";
 #endif
                 state->mode = BAD;
                 break;
@@ -931,10 +856,10 @@ int flush;
                         NEEDBITS(this.bits + 2);
                         DROPBITS(this.bits);
                         if (state->have == 0) {
-#ifdef SMALL  
+#ifdef SMALL
 			    strm->msg = "error";
 #else
-                            strm->msg = (char *)"invalid bit length repeat";
+                            strm->msg = "invalid bit length repeat";
 #endif
                             state->mode = BAD;
                             break;
@@ -958,10 +883,10 @@ int flush;
                         DROPBITS(7);
                     }
                     if (state->have + copy > state->nlen + state->ndist) {
-#ifdef SMALL  
+#ifdef SMALL
 			strm->msg = "error";
 #else
-                        strm->msg = (char *)"invalid bit length repeat";
+                        strm->msg = "invalid bit length repeat";
 #endif
                         state->mode = BAD;
                         break;
@@ -981,10 +906,10 @@ int flush;
             ret = inflate_table(LENS, state->lens, state->nlen, &(state->next),
                                 &(state->lenbits), state->work);
             if (ret) {
-#ifdef SMALL  
+#ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid literal/lengths set";
+                strm->msg = "invalid literal/lengths set";
 #endif
                 state->mode = BAD;
                 break;
@@ -994,10 +919,10 @@ int flush;
             ret = inflate_table(DISTS, state->lens + state->nlen, state->ndist,
                             &(state->next), &(state->distbits), state->work);
             if (ret) {
-#ifdef SMALL  
+#ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid distances set";
+                strm->msg = "invalid distances set";
 #endif
                 state->mode = BAD;
                 break;
@@ -1043,10 +968,10 @@ int flush;
                 break;
             }
             if (this.op & 64) {
-#ifdef SMALL  
+#ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid literal/length code";
+                strm->msg = "invalid literal/length code";
 #endif
                 state->mode = BAD;
                 break;
@@ -1079,10 +1004,10 @@ int flush;
             }
             DROPBITS(this.bits);
             if (this.op & 64) {
-#ifdef SMALL  
+#ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid distance code";
+                strm->msg = "invalid distance code";
 #endif
                 state->mode = BAD;
                 break;
@@ -1098,16 +1023,16 @@ int flush;
             }
 #ifdef INFLATE_STRICT
             if (state->offset > state->dmax) {
-                strm->msg = (char *)"invalid distance too far back";
+                strm->msg = "invalid distance too far back";
                 state->mode = BAD;
                 break;
             }
 #endif
             if (state->offset > state->whave + out - left) {
-#ifdef SMALL  
+#ifdef SMALL
 		strm->msg = "error";
 #else
-                strm->msg = (char *)"invalid distance too far back";
+                strm->msg = "invalid distance too far back";
 #endif
                 state->mode = BAD;
                 break;
@@ -1160,10 +1085,10 @@ int flush;
                      state->flags ? hold :
 #endif
                      REVERSE(hold)) != state->check) {
-#ifdef SMALL  
+#ifdef SMALL
 		    strm->msg = "error";
 #else
-                    strm->msg = (char *)"incorrect data check";
+                    strm->msg = "incorrect data check";
 #endif
                     state->mode = BAD;
                     break;
@@ -1177,10 +1102,10 @@ int flush;
             if (state->wrap && state->flags) {
                 NEEDBITS(32);
                 if (hold != (state->total & 0xffffffffUL)) {
-#ifdef SMALL  
+#ifdef SMALL
 		    strm->msg = "error";
 #else
-                    strm->msg = (char *)"incorrect length check";
+                    strm->msg = "incorrect length check";
 #endif
                     state->mode = BAD;
                     break;
@@ -1317,7 +1242,7 @@ gz_headerp head;
  */
 local unsigned syncsearch(have, buf, len)
 unsigned FAR *have;
-unsigned char FAR *buf;
+const unsigned char FAR *buf;
 unsigned len;
 {
     unsigned got;

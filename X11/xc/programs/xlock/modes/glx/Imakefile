@@ -1,6 +1,7 @@
 #ifndef XCOMM
 #define XCOMM /**/#
 #endif
+XCOMM $MirOS$
 XCOMM @(#)Sub Imakefile	xlockmore
 XCOMM
 
@@ -37,8 +38,10 @@ INVERTOBJS = $(DOG)i_figureeight$(O)$(S)\
 $(DOG)i_linkage$(OG)i_sphere$(OG)i_spline$(O)$(S)\
 $(DOG)i_threejet$(OG)i_threejetvec$(O)$(S)\
 $(DOG)i_twojet$(OG)i_twojetvec$(O)
+#ifndef MirBSDArchitecture
 XLOCKDEPCPPGLOBJS = $(INVERTOBJS)
 XLOCKMULTCPPGLOBJS = $(DOG)invert$(O)
+#endif
 #if defined(TtfLibrary) && defined(GlttLibrary) && defined(Unstable)
 XLOCKUNSTABLETEXTGLOBJS = $(DOG)text3d$(O)
 #endif
@@ -71,8 +74,10 @@ INVERTSRCS = $(DOG)i_figureeight$(C)$(S)\
 $(DOG)i_linkage$(CG)i_sphere$(CG)i_spline$(C)$(S)\
 $(DOG)i_threejet$(CG)i_threejetvec$(C)$(S)\
 $(DOG)i_twojet$(CG)i_twojetvec$(C)
+#ifndef MirBSDArchitecture
 XLOCKDEPCPPGLSRCS = $(INVERTSRCS)
 XLOCKMULTCPPGLSRCS = $(DOG)invert$(C)
+#endif
 #if defined(TtfLibrary) && defined(GlttLibrary) && defined(Unstable)
 XLOCKUNSTABLETEXTGLSRCS = $(DOG)text3d$(C)
 #endif

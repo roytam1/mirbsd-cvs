@@ -92,24 +92,24 @@ int
 ip_output(struct mbuf *m0, ...)
 {
 	struct ip *ip;
-	struct ifnet *ifp;
+	struct ifnet *ifp = NULL;
 	struct mbuf *m = m0;
 	int hlen = sizeof (struct ip);
 	int len, error = 0;
 	struct route iproute;
-	struct sockaddr_in *dst;
-	struct in_ifaddr *ia;
+	struct sockaddr_in *dst = NULL;
+	struct in_ifaddr *ia ;
 	struct mbuf *opt;
 	struct route *ro;
 	int flags;
 	struct ip_moptions *imo;
 	va_list ap;
 	u_int8_t sproto = 0, donerouting = 0;
-	u_long mtu;
+	u_long mtu = 0;
 #ifdef IPSEC
 	u_int32_t icmp_mtu = 0;
 	union sockaddr_union sdst;
-	u_int32_t sspi;
+	u_int32_t sspi = 0;
 	struct m_tag *mtag;
 	struct tdb_ident *tdbi;
 

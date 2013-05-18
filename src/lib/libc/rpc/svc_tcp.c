@@ -38,18 +38,21 @@
  * and a record/tcp stream.
  */
 
+#include <sys/types.h>
+#include <sys/socket.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
 #include <rpc/rpc.h>
-#include <sys/socket.h>
 #include <errno.h>
 
 #include <netinet/in_systm.h>
 #include <netinet/in.h>
 #include <netinet/ip.h>
 #include <netinet/ip_var.h>
+
+__RCSID("$MirOS: src/lib/libc/rpc/svc_tcp.c,v 1.2 2005/03/06 20:28:44 tg Exp $");
 
 /*
  * Ops vector for TCP/IP based rpc service handle
@@ -125,7 +128,14 @@ struct tcp_conn {  /* kept in xprt->xp_p1 */
  * 0 => use the system default.
  */
 SVCXPRT *
-svctcp_create(int sock, u_int sendsize, u_int recvsize)
+svctcp_create(int sock, unsigned int sendsize, unsigned int recvsize)
+{
+	return svctcp_create_withport(sock, sendsize, recvsize, 0);
+}
+
+SVCXPRT *
+svctcp_create_withport(int sock, unsigned int sendsize, unsigned int recvsize,
+    unsigned short dfltport)
 {
 	bool_t madesock = FALSE;
 	SVCXPRT *xprt;
@@ -143,8 +153,14 @@ svctcp_create(int sock, u_int sendsize, u_int recvsize)
 	memset(&addr, 0, sizeof (addr));
 	addr.sin_len = sizeof(struct sockaddr_in);
 	addr.sin_family = AF_INET;
+	addr.sin_port = htons(dfltport);
 	if (bindresvport(sock, &addr)) {
-		addr.sin_port = 0;
+		if (dfltport) {
+			addr.sin_port = 0;
+			if (bindresvport(sock, &addr))
+				addr.sin_port = 0;
+		} else
+			addr.sin_port = 0;
 		(void)bind(sock, (struct sockaddr *)&addr, len);
 	}
 	if ((getsockname(sock, (struct sockaddr *)&addr, &len) != 0)  ||

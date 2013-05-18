@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: bootp.c,v 1.11 2003/08/11 06:23:09 deraadt Exp $	*/
 /*	$NetBSD: bootp.c,v 1.10 1996/10/13 02:28:59 christos Exp $	*/
 
@@ -95,15 +96,15 @@ bootp(int sock)
 #endif
 
 	bp = &wbuf.wbootp;
-	bzero(bp, sizeof(*bp));
+	memset(bp, 0, sizeof(*bp));
 
 	bp->bp_op = BOOTREQUEST;
 	bp->bp_htype = HTYPE_ETHERNET;	/* 10Mb Ethernet (48 bits) */
 	bp->bp_hlen = 6;
 	bp->bp_xid = htonl(d->xid);
 	MACPY(d->myea, bp->bp_chaddr);
-	bzero(bp->bp_file, sizeof(bp->bp_file));
-	bcopy(vm_rfc1048, bp->bp_vend, sizeof(vm_rfc1048));
+	memset(bp->bp_file, 0, sizeof(bp->bp_file));
+	memmove(bp->bp_vend, vm_rfc1048, sizeof(vm_rfc1048));
 
 	d->myip = myip;
 	d->myport = htons(IPPORT_BOOTPC);
@@ -204,9 +205,9 @@ bootprecv(struct iodesc *d, void *pkt, size_t len, time_t tleft)
 	}
 
 	/* Suck out vendor info */
-	if (bcmp(vm_cmu, bp->bp_vend, sizeof(vm_cmu)) == 0)
+	if (memcmp(bp->bp_vend, vm_cmu, sizeof(vm_cmu)) == 0)
 		vend_cmu(bp->bp_vend);
-	else if (bcmp(vm_rfc1048, bp->bp_vend, sizeof(vm_rfc1048)) == 0)
+	else if (memcmp(bp->bp_vend, vm_rfc1048, sizeof(vm_rfc1048)) == 0)
 		vend_rfc1048(bp->bp_vend, sizeof(bp->bp_vend));
 	else
 		printf("bootprecv: unknown vendor 0x%lx\n", (long)bp->bp_vend);
@@ -300,13 +301,13 @@ vend_rfc1048(u_char *cp, u_int len)
 			break;
 
 		if (tag == TAG_SUBNET_MASK)
-			bcopy(cp, &smask, sizeof(smask));
+			memmove(&smask, cp, sizeof(smask));
 		if (tag == TAG_GATEWAY)
-			bcopy(cp, &gateip.s_addr, sizeof(gateip.s_addr));
+			memmove(&gateip.s_addr, cp, sizeof(gateip.s_addr));
 		if (tag == TAG_SWAPSERVER)
-			bcopy(cp, &swapip.s_addr, sizeof(swapip.s_addr));
+			memmove(&swapip.s_addr, cp, sizeof(swapip.s_addr));
 		if (tag == TAG_DOMAIN_SERVER)
-			bcopy(cp, &nameip.s_addr, sizeof(nameip.s_addr));
+			memmove(&nameip.s_addr, cp, sizeof(nameip.s_addr));
 		if (tag == TAG_ROOTPATH) {
 			strncpy(rootpath, (char *)cp, sizeof(rootpath));
 			rootpath[size] = '\0';
@@ -314,10 +315,6 @@ vend_rfc1048(u_char *cp, u_int len)
 		if (tag == TAG_HOSTNAME) {
 			strncpy(hostname, (char *)cp, sizeof(hostname));
 			hostname[size] = '\0';
-		}
-		if (tag == TAG_DOMAINNAME) {
-			strncpy(domainname, (char *)cp, sizeof(domainname));
-			domainname[size] = '\0';
 		}
 		cp += size;
 	}

@@ -43,6 +43,7 @@
 #include <machine/ctlreg.h>
 
 #include <sparc/stand/common/promdev.h>
+#include <lib/libsa/stand.h>
 
 #define	DVMA_BASE	0xFFF00000
 #define DVMA_MAPLEN	0xE0000	/* 1 MB - 128K (save MONSHORTSEG) */
@@ -96,8 +97,6 @@ dvma_mapout(char *addr, size_t len)
 	return ((char *)va);
 }
 
-extern char *alloc(int);
-
 char *
 dvma_alloc(int len)
 {
@@ -109,7 +108,6 @@ dvma_alloc(int len)
 	return (dvma_mapin(mem, len));
 }
 
-extern void free(void *ptr, int len);
 void
 dvma_free(char *dvma, int len)
 {

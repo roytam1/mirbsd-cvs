@@ -1,3 +1,4 @@
+/**	$MirOS: src/lib/libz/deflate.h,v 1.2 2005/03/14 21:58:16 tg Exp $ */
 /*	$OpenBSD: deflate.h,v 1.7 2005/07/20 15:56:41 millert Exp $	*/
 /* deflate.h -- internal compression state
  * Copyright (C) 1995-2004 Jean-loup Gailly

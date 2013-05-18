@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: readconf.h,v 1.69 2006/03/25 22:22:43 djm Exp $ */
 
 /*
@@ -44,8 +45,6 @@ typedef struct {
 	int     hostbased_authentication;	/* ssh2's rhosts_rsa */
 	int     challenge_response_authentication;
 					/* Try S/Key or TIS, authentication. */
-	int     gss_authentication;	/* Try GSS authentication */
-	int     gss_deleg_creds;	/* Delegate GSS credentials */
 	int     password_authentication;	/* Try password
 						 * authentication. */
 	int     kbd_interactive_authentication; /* Try keyboard-interactive auth. */
@@ -68,18 +67,18 @@ typedef struct {
 	int     number_of_password_prompts;	/* Max number of password
 						 * prompts. */
 	int     cipher;		/* Cipher to use. */
-	char   *ciphers;	/* SSH2 ciphers in order of preference. */
-	char   *macs;		/* SSH2 macs in order of preference. */
+	const char   *ciphers;	/* SSH2 ciphers in order of preference. */
+	const char   *macs;	/* SSH2 macs in order of preference. */
 	char   *hostkeyalgorithms;	/* SSH2 server key types in order of preference. */
 	int	protocol;	/* Protocol in order of preference. */
 	char   *hostname;	/* Real host to connect. */
-	char   *host_key_alias;	/* hostname alias for .ssh/known_hosts */
+	char   *host_key_alias;	/* hostname alias for .etc/ssh/known_hosts */
 	char   *proxy_command;	/* Proxy command for connecting the host. */
 	char   *user;		/* User to log in as. */
 	int     escape_char;	/* Escape character; -2 = none */
 
 	char   *system_hostfile;/* Path for /etc/ssh/ssh_known_hosts. */
-	char   *user_hostfile;	/* Path for $HOME/.ssh/known_hosts. */
+	char   *user_hostfile;	/* Path for $HOME/.etc/ssh/known_hosts. */
 	char   *system_hostfile2;
 	char   *user_hostfile2;
 	char   *preferred_authentications;
@@ -103,6 +102,7 @@ typedef struct {
 	int	enable_ssh_keysign;
 	int	rekey_limit;
 	int	no_host_authentication_for_localhost;
+	int	no_lowdelay;
 	int	identities_only;
 	int	server_alive_interval;
 	int	server_alive_count_max;

@@ -1,7 +1,12 @@
+/**	$MirOS: src/sys/kern/init_main.c,v 1.8 2006/05/26 12:04:59 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.120 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
+/*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
+/*	$NetBSD: kern_xxx.c,v 1.32 1996/04/22 01:38:41 christos Exp $	*/
 
 /*
+ * Copyright (c) 1990-2002, 2003, 2004, 2005, 2006
+ *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
  * Copyright (c) 1995 Christopher G. Demetriou.  All rights reserved.
  * Copyright (c) 1982, 1986, 1989, 1991, 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -61,13 +66,13 @@
 #include <sys/protosw.h>
 #include <sys/reboot.h>
 #include <sys/user.h>
-#ifdef SYSVSHM
+#ifdef	SYSVSHM
 #include <sys/shm.h>
 #endif
-#ifdef SYSVSEM
+#ifdef	SYSVSEM
 #include <sys/sem.h>
 #endif
-#ifdef SYSVMSG
+#ifdef	SYSVMSG
 #include <sys/msg.h>
 #endif
 #include <sys/domain.h>
@@ -97,10 +102,10 @@
 extern void nfs_init(void);
 #endif
 
-const char	copyright[] =
-"Copyright (c) 1982, 1986, 1989, 1991, 1993\n"
-"\tThe Regents of the University of California.  All rights reserved.\n"
-"Copyright (c) 1995-2004 OpenBSD. All rights reserved.  http://www.OpenBSD.org\n";
+/* used by kernfs */
+const char copyright[] =
+    "Copyright (c) 2002-2006 The MirOS Project and its contributors.\n"
+    "See /usr/share/doc/legal/1stREAD or source for all (c) statements";
 
 /* Components of the first process -- never freed. */
 struct	session session0;
@@ -117,6 +122,7 @@ struct	proc *initproc;
 
 int	cmask = CMASK;
 extern	struct user *proc0paddr;
+extern volatile int ticks;	/* XXX should move to sys/x*.h */
 
 void	(*md_diskconf)(void) = NULL;
 struct	vnode *rootvp, *swapdev_vp;
@@ -124,10 +130,6 @@ int	boothowto;
 struct	timeval boottime;
 struct	timeval runtime;
 __volatile int start_init_exec;		/* semaphore for start_init() */
-
-#if !defined(NO_PROPOLICE)
-long	__guard[8];
-#endif
 
 /* XXX return int so gcc -Werror won't complain */
 int	main(void *);
@@ -138,10 +140,11 @@ void	start_update(void *);
 void	start_reaper(void *);
 void	start_crypto(void *);
 void	init_exec(void);
+void	init_ssp(void);
 void	kqueue_init(void);
 
 extern char sigcode[], esigcode[];
-#ifdef SYSCALL_DEBUG
+#ifdef	SYSCALL_DEBUG
 extern char *syscallnames[];
 #endif
 
@@ -152,7 +155,7 @@ struct emul emul_native = {
 	SYS_syscall,
 	SYS_MAXSYSCALL,
 	sysent,
-#ifdef SYSCALL_DEBUG
+#ifdef	SYSCALL_DEBUG
 	syscallnames,
 #else
 	NULL,
@@ -168,21 +171,20 @@ struct emul emul_native = {
 
 
 /*
- * System startup; initialize the world, create process 0, mount root
+ * System startup; initialise the world, create process 0, mount root
  * filesystem, and fork to create init and pagedaemon.  Most of the
  * hard work is done in the lower-level initialization routines including
  * startup(), which does memory initialization and autoconfiguration.
  */
-/* XXX return int, so gcc -Werror won't complain */
 int
-main(framep)
-	void *framep;				/* XXX should go away */
+main(/* XXX should go away */ void *framep)
 {
 	struct proc *p;
 	struct pdevinit *pdev;
 	struct timeval rtv;
 	quad_t lim;
 	int s, i;
+	extern uint32_t rnd_bootpool;
 	extern struct pdevinit pdevinit[];
 	extern void scheduler_start(void);
 	extern void disk_init(void);
@@ -190,61 +192,62 @@ main(framep)
 	extern void realitexpire(void *);
 
 	/*
-	 * Initialize the current process pointer (curproc) before
+	 * Initialise the current process pointer (curproc) before
 	 * any possible traps/probes to simplify trap processing.
 	 */
 	curproc = p = &proc0;
 
 	/*
-	 * Initialize timeouts.
+	 * Initialise timeouts.
 	 */
 	timeout_startup();
 
 	/*
-	 * Attempt to find console and initialize
+	 * Attempt to find console and initialise
 	 * in case of early panic or other messages.
 	 */
 	config_init();		/* init autoconfiguration data structures */
 	consinit();
 	printf("%s\n", copyright);
+	rnd_addpool_add((u_long)ticks);
 
 	uvm_init();
 	disk_init();		/* must come before autoconfiguration */
-	tty_init();		/* initialise tty's */
+	tty_init();		/* initialise ttys */
 	cpu_startup();
 
 	/*
-	 * Initialize mbuf's.  Do this now because we might attempt to
+	 * Initialise mbufs.  Do this now because we might attempt to
 	 * allocate mbufs or mbuf clusters during autoconfiguration.
 	 */
 	mbinit();
 
-	/* Initalize sockets. */
+	/* Initalise sockets. */
 	soinit();
 
-	/* Initialize sysctls (must be done before any processes run) */
+	/* Initialise sysctls (must be done before any processes run) */
 	sysctl_init();
 
 	/*
-	 * Initialize process and pgrp structures.
+	 * Initialise process and pgrp structures.
 	 */
 	procinit();
 
-	/* Initialize file locking. */
+	/* Initialise file locking. */
 	lf_init();
 
 	/*
-	 * Initialize filedescriptors.
+	 * Initialise filedescriptors.
 	 */
 	filedesc_init();
 
 	/*
-	 * Initialize pipes.
+	 * Initialise pipes.
 	 */
 	pipe_init();
 
 	/*
-	 * Initialize kqueues.
+	 * Initialise kqueues.
 	 */
 	kqueue_init();
 
@@ -278,7 +281,7 @@ main(framep)
 	p->p_ucred = crget();
 	p->p_ucred->cr_ngroups = 1;	/* group 0 */
 
-	/* Initialize signal state for process 0. */
+	/* Initialise signal state for process 0. */
 	signal_init();
 	p->p_sigacts = &sigacts0;
 	siginit(p);
@@ -319,7 +322,7 @@ main(framep)
 	 */
 	(void)chgproccnt(0, 1);
 
-	/* Initialize run queues */
+	/* Initialise run queues */
 	rqinit();
 
 	/* Configure the devices */
@@ -328,42 +331,47 @@ main(framep)
 	/* Configure virtual memory system, set vm rlimits. */
 	uvm_init_limits(p);
 
-	/* Initialize the file systems. */
+	/* Initialise the file systems. */
 #if defined(NFSSERVER) || defined(NFSCLIENT)
-	nfs_init();			/* initialize server/shared data */
+	nfs_init();			/* initialise server/shared data */
 #endif
 	vfsinit();
 
 	/* Start real time and statistics clocks. */
 	initclocks();
 
-#ifdef SYSVSHM
-	/* Initialize System V style shared memory. */
+#ifdef	SYSVSHM
+	/* Initialise System V style shared memory. */
 	shminit();
 #endif
 
-#ifdef SYSVSEM
-	/* Initialize System V style semaphores. */
+#ifdef	SYSVSEM
+	/* Initialise System V style semaphores. */
 	seminit();
 #endif
 
-#ifdef SYSVMSG
-	/* Initialize System V style message queues. */
+#ifdef	SYSVMSG
+	/* Initialise System V style message queues. */
 	msginit();
 #endif
 
+#ifdef __sparc__
+	/* insert a little delay here to let things settle down */
+	delay(10000);
+#endif
 	/* Attach pseudo-devices. */
 	randomattach();
 	for (pdev = pdevinit; pdev->pdev_attach != NULL; pdev++)
 		if (pdev->pdev_count > 0)
 			(*pdev->pdev_attach)(pdev->pdev_count);
+	rnd_bootpool += ticks;
 
-#ifdef CRYPTO
+#ifdef	CRYPTO
 	swcr_init();
-#endif /* CRYPTO */
-	
+#endif	/* CRYPTO */
+
 	/*
-	 * Initialize protocols.  Block reception of incoming packets
+	 * Initialise protocols.  Block reception of incoming packets
 	 * until everything is ready.
 	 */
 	s = splimp();
@@ -372,14 +380,8 @@ main(framep)
 	if_attachdomain();
 	splx(s);
 
-#ifdef GPROF
-	/* Initialize kernel profiling. */
-	kmstartup();
-#endif
-
-#if !defined(NO_PROPOLICE)
-	arc4random_bytes(__guard, sizeof(__guard));
-#endif
+	/* initialise stack protector */
+	init_ssp();
 
 	/* init exec and emul */
 	init_exec();
@@ -480,11 +482,12 @@ main(framep)
 	/* Create the crypto kernel thread. */
 	if (kthread_create(start_crypto, NULL, NULL, "crypto"))
 		panic("crypto thread");
-#endif /* CRYPTO */
+#endif	/* CRYPTO */
 
 	microtime(&rtv);
-	srandom((u_long)(rtv.tv_sec ^ rtv.tv_usec));
-
+	add_true_randomness(rtv.tv_sec ^ rtv.tv_usec);
+	add_true_randomness(rnd_bootpool);
+	srandom(arc4random());
 	randompid = 1;
 
 	/*
@@ -509,8 +512,7 @@ static char *initpaths[] = {
 };
 
 void
-check_console(p)
-	struct proc *p;
+check_console(struct proc *p)
 {
 	struct nameidata nd;
 	int error;
@@ -531,8 +533,7 @@ check_console(p)
  * The program is invoked with one argument containing the boot flags.
  */
 void
-start_init(arg)
-	void *arg;
+start_init(void *arg)
 {
 	struct proc *p = arg;
 	vaddr_t addr;
@@ -562,12 +563,12 @@ start_init(arg)
 	/*
 	 * Need just enough stack to hold the faked-up "execve()" arguments.
 	 */
-#ifdef MACHINE_STACK_GROWS_UP
+#ifdef	MACHINE_STACK_GROWS_UP
 	addr = USRSTACK;
 #else
 	addr = USRSTACK - PAGE_SIZE;
 #endif
-	if (uvm_map(&p->p_vmspace->vm_map, &addr, PAGE_SIZE, 
+	if (uvm_map(&p->p_vmspace->vm_map, &addr, PAGE_SIZE,
 	    NULL, UVM_UNKNOWN_OFFSET, 0,
 	    UVM_MAPFLAG(UVM_PROT_RW, UVM_PROT_ALL, UVM_INH_COPY,
 	    UVM_ADV_NORMAL, UVM_FLAG_FIXED|UVM_FLAG_OVERLAY|UVM_FLAG_COPYONW)))
@@ -575,7 +576,7 @@ start_init(arg)
 	p->p_vmspace->vm_maxsaddr = (caddr_t)addr;
 
 	for (pathp = &initpaths[0]; (path = *pathp) != NULL; pathp++) {
-#ifdef MACHINE_STACK_GROWS_UP
+#ifdef	MACHINE_STACK_GROWS_UP
 		ucp = (char *)addr;
 #else
 		ucp = (char *)(addr + PAGE_SIZE);
@@ -591,7 +592,7 @@ start_init(arg)
 			*flagsp++ = 's';
 			options = 1;
 		}
-#ifdef notyet
+#ifdef	notyet
 		if (boothowto & RB_FASTBOOT) {
 			*flagsp++ = 'f';
 			options = 1;
@@ -604,10 +605,10 @@ start_init(arg)
 		if (options != 0) {
 			*flagsp++ = '\0';
 			i = flagsp - flags;
-#ifdef DEBUG
+#ifdef	DEBUG
 			printf("init: copying out flags `%s' %d\n", flags, i);
 #endif
-#ifdef MACHINE_STACK_GROWS_UP
+#ifdef	MACHINE_STACK_GROWS_UP
 			arg1 = ucp;
 			(void)copyout((caddr_t)flags, (caddr_t)ucp, i);
 			ucp += i;
@@ -621,10 +622,10 @@ start_init(arg)
 		 * Move out the file name (also arg 0).
 		 */
 		i = strlen(path) + 1;
-#ifdef DEBUG
+#ifdef	DEBUG
 		printf("init: copying out path `%s' %d\n", path, i);
 #endif
-#ifdef MACHINE_STACK_GROWS_UP
+#ifdef	MACHINE_STACK_GROWS_UP
 		arg0 = ucp;
 		(void)copyout((caddr_t)path, (caddr_t)ucp, i);
 		ucp += i;
@@ -666,35 +667,116 @@ start_init(arg)
 }
 
 void
-start_update(arg)
-	void *arg;
+start_update(void *arg)
 {
 	sched_sync(curproc);
 	/* NOTREACHED */
 }
 
 void
-start_cleaner(arg)
-	void *arg;
+start_cleaner(void *arg)
 {
 	buf_daemon(curproc);
 	/* NOTREACHED */
 }
 
 void
-start_reaper(arg)
-	void *arg;
+start_reaper(void *arg)
 {
 	reaper();
 	/* NOTREACHED */
 }
 
-#ifdef CRYPTO
+#ifdef	CRYPTO
 void
-start_crypto(arg)
-	void *arg;
+start_crypto(void *arg)
 {
 	crypto_thread();
 	/* NOTREACHED */
 }
-#endif /* CRYPTO */
+#endif	/* CRYPTO */
+
+/* ARGSUSED */
+int
+sys_reboot(struct proc *p, void *v, register_t *retval)
+{
+	struct sys_reboot_args /* {
+		syscallarg(int) opt;
+	} */ *uap = v;
+	int error;
+
+	if ((error = suser(p, 0)) != 0)
+		return (error);
+	boot(SCARG(uap, opt));
+	return (0);
+}
+
+#ifdef SYSCALL_DEBUG
+#define	SCDEBUG_CALLS		0x0001	/* show calls */
+#define	SCDEBUG_RETURNS		0x0002	/* show returns */
+#define	SCDEBUG_ALL		0x0004	/* even syscalls that are implemented */
+#define	SCDEBUG_SHOWARGS	0x0008	/* show arguments to calls */
+
+int	scdebug = SCDEBUG_CALLS|SCDEBUG_RETURNS|SCDEBUG_SHOWARGS;
+
+void
+scdebug_call(struct proc *p, register_t code, register_t args[])
+{
+	struct sysent *sy;
+	struct emul *em;
+	int i;
+
+	if (!(scdebug & SCDEBUG_CALLS))
+		return;
+
+	em = p->p_emul;
+	sy = &em->e_sysent[code];
+	if (!(scdebug & SCDEBUG_ALL || code < 0 || code >= em->e_nsysent ||
+	     sy->sy_call == sys_nosys))
+		return;
+
+	printf("proc %d (%s): %s num ", p->p_pid, p->p_comm, em->e_name);
+	if (code < 0 || code >= em->e_nsysent)
+		printf("OUT OF RANGE (%d)", code);
+	else {
+		printf("%d call: %s", code, em->e_syscallnames[code]);
+		if (scdebug & SCDEBUG_SHOWARGS) {
+			printf("(");
+			for (i = 0; i < sy->sy_argsize / sizeof(register_t);
+			    i++)
+				printf("%s0x%lx", i == 0 ? "" : ", ",
+				    (long)args[i]);
+			printf(")");
+		}
+	}
+	printf("\n");
+}
+
+void
+scdebug_ret(p, code, error, retval)
+	struct proc *p;
+	register_t code;
+	int error;
+	register_t retval[];
+{
+	struct sysent *sy;
+	struct emul *em;
+
+	if (!(scdebug & SCDEBUG_RETURNS))
+		return;
+
+	em = p->p_emul;
+	sy = &em->e_sysent[code];
+	if (!(scdebug & SCDEBUG_ALL || code < 0 || code >= em->e_nsysent ||
+	    sy->sy_call == sys_nosys))
+		return;
+
+	printf("proc %d (%s): %s num ", p->p_pid, p->p_comm, em->e_name);
+	if (code < 0 || code >= em->e_nsysent)
+		printf("OUT OF RANGE (%d)", code);
+	else
+		printf("%d ret: err = %d, rv = 0x%lx,0x%lx", code,
+		    error, (long)retval[0], (long)retval[1]);
+	printf("\n");
+}
+#endif /* SYSCALL_DEBUG */

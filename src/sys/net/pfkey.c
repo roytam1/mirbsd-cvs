@@ -1,4 +1,4 @@
-/*	$OpenBSD: pfkey.c,v 1.16 2004/11/26 18:02:22 markus Exp $	*/
+/*	$OpenBSD: pfkey.c,v 1.14 2003/02/16 21:30:13 deraadt Exp $	*/
 
 /*
  *	@(#)COPYRIGHT	1.1 (NRL) 17 January 1995
@@ -165,7 +165,7 @@ pfkey_output(struct mbuf *mbuf, struct socket *socket)
 	void *message;
 	int error = 0;
 
-#ifdef DIAGNOSTIC
+#if DIAGNOSTIC
 	if (!mbuf || !(mbuf->m_flags & M_PKTHDR)) {
 		error = EINVAL;
 		goto ret;
@@ -321,7 +321,6 @@ pfkey_buildprotosw(void)
 				bcopy(&pfkey_protosw_template, p,
 				    sizeof(struct protosw));
 				p->pr_protocol = pfkey_versions[i]->protocol;
-				p->pr_sysctl = pfkey_versions[i]->sysctl;
 				p++;
 			}
 

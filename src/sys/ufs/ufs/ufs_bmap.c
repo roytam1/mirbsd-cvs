@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ufs_bmap.c,v 1.16 2003/06/02 23:28:23 millert Exp $	*/
 /*	$NetBSD: ufs_bmap.c,v 1.3 1996/02/09 22:36:00 christos Exp $	*/
 
@@ -158,7 +159,7 @@ ufs_bmaparray(vp, bn, bnp, ap, nump, runp)
 
 	devvp = VFSTOUFS(vp->v_mount)->um_devvp;
 	for (bp = NULL, ++xap; --num; ++xap) {
-		/* 
+		/*
 		 * Exit the loop if there is no disk address assigned yet and
 		 * the indirect block isn't in the cache, or if we were
 		 * looking for an indirect block and we've found it.
@@ -242,7 +243,7 @@ ufs_getlbns(vp, bn, ap, nump)
 
 #ifdef DIAGNOSTIC
 	if (realbn < 0 && realbn > -NDADDR) {
-		panic ("ufs_getlbns: Invalid indirect block %d specified",
+		panic ("ufs_getlbns: Invalid indirect block %ld specified",
 		    realbn);
 	}
 #endif
@@ -251,7 +252,7 @@ ufs_getlbns(vp, bn, ap, nump)
 	if (bn < NDADDR)
 		return (0);
 
-	/* 
+	/*
 	 * Determine the number of levels of indirection.  After this loop
 	 * is done, blockcnt indicates the number of data blocks possible
 	 * at the given level of indirection, and NIADDR - i is the number
@@ -271,7 +272,7 @@ ufs_getlbns(vp, bn, ap, nump)
 	else
 		metalbn = -(-realbn - bn + NIADDR - i);
 
-	/* 
+	/*
 	 * At each iteration, off is the offset into the bap array which is
 	 * an array of disk addresses at the current level of indirection.
 	 * The logical block number and the offset in that block are stored
@@ -299,7 +300,7 @@ ufs_getlbns(vp, bn, ap, nump)
 	}
 #ifdef DIAGNOSTIC
 	if (realbn < 0 && metalbn != realbn) {
-		panic("ufs_getlbns: indirect block %d not found", realbn);
+		panic("ufs_getlbns: indirect block %ld not found", realbn);
 	}
 #endif
 	if (nump)

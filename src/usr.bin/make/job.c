@@ -1,4 +1,4 @@
-/*	$OpenPackages$ */
+/**	$MirOS: src/usr.bin/make/job.c,v 1.4 2005/11/24 12:37:43 tg Exp $ */
 /*	$OpenBSD: job.c,v 1.59 2005/04/13 02:33:08 deraadt Exp $	*/
 /*	$NetBSD: job.c,v 1.16 1996/11/06 17:59:08 christos Exp $	*/
 
@@ -96,6 +96,7 @@
 
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <sys/time.h>
 #include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -123,6 +124,13 @@
 #include "make.h"
 #include "timestamp.h"
 #include "main.h"
+
+__RCSID("$MirOS: src/usr.bin/make/job.c,v 1.4 2005/11/24 12:37:43 tg Exp $");
+
+/* From $MirBSD: src/sys/sys/types.h,v 1.2 2004/06/13 20:56:51 tg Exp $ */
+#ifndef howmany
+#define	howmany(x, y)	(((x) + ((y) - 1)) / (y))
+#endif
 
 #define TMPPAT	"/tmp/makeXXXXXXXXXX"
 
@@ -251,28 +259,28 @@ typedef struct Job_ {
  * anyway as is and if it causes an error, so be it.
  */
 typedef struct Shell_ {
-    char	  *name;	/* the name of the shell. For Bourne and C
+    const char	  *name;	/* the name of the shell. For Bourne and C
 				 * shells, this is used only to find the
 				 * shell description when used as the single
 				 * source of a .SHELL target. For user-defined
 				 * shells, this is the full path of the shell.
 				 */
     bool	  hasEchoCtl;	/* True if both echoOff and echoOn defined */
-    char	  *echoOff;	/* command to turn off echo */
-    char	  *echoOn;	/* command to turn it back on again */
-    char	  *noPrint;	/* command to skip when printing output from
+    const char	  *echoOff;	/* command to turn off echo */
+    const char	  *echoOn;	/* command to turn it back on again */
+    const char	  *noPrint;	/* command to skip when printing output from
 				 * shell. This is usually the command which
 				 * was executed to turn off echoing */
     int 	  noPLen;	/* length of noPrint command */
     bool	  hasErrCtl;	/* set if can control error checking for
 				 * individual commands */
-    char	  *errCheck;	/* string to turn error checking on */
-    char	  *ignErr;	/* string to turn off error checking */
+    const char	  *errCheck;	/* string to turn error checking on */
+    const char	  *ignErr;	/* string to turn off error checking */
     /*
      * command-line flags
      */
-    char	  *echo;	/* echo commands */
-    char	  *exit;	/* exit on error */
+    const char	  *echo;	/* echo commands */
+    const char	  *exit;	/* exit on error */
 }		Shell;
 
 /*
@@ -360,10 +368,10 @@ static Shell	*commandShell = &shells[DEFSHELL];/* this is the shell to
 						   * commands in the Makefile.
 						   * It is set by the
 						   * Job_ParseShell function */
-static char	*shellPath = NULL,		  /* full pathname of
+static char	*shellPath = NULL;		  /* full pathname of
 						   * executable image */
-		*shellName = NULL,		  /* last component of shell */
-		*shellArgv = NULL;		  /* Custom shell args */
+static const char *shellName = NULL;		  /* last component of shell */
+static char	*shellArgv = NULL;		  /* Custom shell args */
 
 
 static int	maxJobs;	/* The most children we can run at once */
@@ -381,7 +389,7 @@ static fd_set	*outputsp;	/* Set of descriptors of pipes connected to
 static int	outputsn;
 static GNode	*lastNode;	/* The node for which output was most recently
 				 * produced. */
-static char	*targFmt;	/* Format string to use to head output from a
+static const char *targFmt;	/* Format string to use to head output from a
 				 * job when it's not the most-recent job heard
 				 * from */
 
@@ -433,8 +441,8 @@ static void JobCondPassSig(void *, void *);
 static void SigHandler(int);
 static void HandleSigs(void);
 static void JobPassSig(int);
-static int JobCmpPid(void *, void *);
-static int JobPrintCommand(void *, void *);
+static int JobCmpPid(const void *, void *);
+static int JobPrintCommand(const void *, void *);
 static void JobSaveCommand(void *, void *);
 static void JobClose(Job *);
 static void JobFinish(Job *, int *);
@@ -444,8 +452,8 @@ static void JobRestart(Job *);
 static int JobStart(GNode *, int, Job *);
 static char *JobOutput(Job *, char *, char *, int);
 static void JobDoOutput(Job *, bool);
-static Shell *JobMatchShell(char *);
-static void JobInterrupt(int, int);
+static Shell *JobMatchShell(const char *);
+static void JobInterrupt(int, int) __attribute__((noreturn));
 static void JobRestartJobs(void);
 
 static volatile sig_atomic_t got_SIGINT, got_SIGHUP, got_SIGQUIT,
@@ -489,7 +497,7 @@ SigHandler(int sig)
 }
 
 static void
-HandleSigs()
+HandleSigs(void)
 {
 	if (got_SIGINT) {
 		got_SIGINT=0;
@@ -555,7 +563,7 @@ JobCondPassSig(void *jobp,	/* Job to biff */
 /*-
  *-----------------------------------------------------------------------
  * JobPassSig --
- *	Pass a signal to all local jobs if USE_PGRP is defined, 
+ *	Pass a signal to all local jobs if USE_PGRP is defined,
  *	then die ourselves.
  *
  * Side Effects:
@@ -638,8 +646,8 @@ JobPassSig(int signo) /* The signal number we've received */
  *-----------------------------------------------------------------------
  */
 static int
-JobCmpPid(void *job,	/* job to examine */
-    void *pid)		/* process id desired */
+JobCmpPid(const void *job,	/* job to examine */
+    void *pid)			/* process id desired */
 {
     return *(pid_t *)pid - ((Job *)job)->pid;
 }
@@ -672,8 +680,8 @@ JobCmpPid(void *job,	/* job to examine */
  *-----------------------------------------------------------------------
  */
 static int
-JobPrintCommand(void *cmdp,	    /* command string to print */
-    void *jobp)			    /* job for which to print it */
+JobPrintCommand(const void *cmdp,	    /* command string to print */
+    void *jobp)				    /* job for which to print it */
 {
     bool	  noSpecials;	    /* true if we shouldn't worry about
 				     * inserting special commands into
@@ -683,7 +691,7 @@ JobPrintCommand(void *cmdp,	    /* command string to print */
     bool	  errOff = false;   /* true if we turned error checking
 				     * off before printing the command
 				     * and need to turn it back on */
-    char	  *cmdTemplate;     /* Template to use when printing the
+    const char	  *cmdTemplate;     /* Template to use when printing the
 				     * command */
     char	  *cmdStart;	    /* Start of expanded command */
     LstNode	  cmdNode;	    /* Node for replacing the command */
@@ -1194,7 +1202,7 @@ Job_Touch(GNode *gn,		/* the node of the file to touch */
 bool
 Job_CheckCommands(GNode *gn, 		/* The target whose commands need
 				     	 * verifying */
-    void (*abortProc)(char *, ...)) 	/* Function to abort with message */
+    void (*abortProc)(const char *, ...)) /* Function to abort with message */
 {
     if (OP_NOP(gn->type) && Lst_IsEmpty(&gn->commands) &&
 	(gn->type & OP_LIB) == 0) {
@@ -1397,7 +1405,7 @@ JobMakeArgv(Job *job, char **argv)
     int 	  argc;
     static char   args[10];	/* For merged arguments */
 
-    argv[0] = shellName;
+    argv[0] = (char *)shellName;
     argc = 1;
 
     if ((commandShell->exit && *commandShell->exit != '-') ||
@@ -1421,11 +1429,11 @@ JobMakeArgv(Job *job, char **argv)
 	}
     } else {
 	if (!(job->flags & JOB_IGNERR) && commandShell->exit) {
-	    argv[argc] = commandShell->exit;
+	    argv[argc] = (char *)commandShell->exit;
 	    argc++;
 	}
 	if (!(job->flags & JOB_SILENT) && commandShell->echo) {
-	    argv[argc] = commandShell->echo;
+	    argv[argc] = (char *)commandShell->echo;
 	    argc++;
 	}
     }
@@ -2393,13 +2401,11 @@ Job_Empty(void)
  *-----------------------------------------------------------------------
  */
 static Shell *
-JobMatchShell(char *name)     /* Final component of shell path */
+JobMatchShell(const char *name)	/* Final component of shell path */
 {
-    Shell	  *sh;	      /* Pointer into shells table */
-    Shell	  *match;     /* Longest-matching shell */
-    char	  *cp1,
-		  *cp2;
-    char	  *eoname;
+    Shell	  *sh;		/* Pointer into shells table */
+    Shell	  *match;	/* Longest-matching shell */
+    const char	  *cp1, *cp2, *eoname;
 
     eoname = name + strlen(name);
 

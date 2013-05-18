@@ -1,4 +1,4 @@
-/*	$OpenBSD: npx.c,v 1.31 2004/02/01 19:05:21 deraadt Exp $	*/
+/*	$OpenBSD: npx.c,v 1.39 2006/04/19 15:48:17 mickey Exp $	*/
 /*	$NetBSD: npx.c,v 1.57 1996/05/12 23:12:24 mycroft Exp $	*/
 
 #if 0
@@ -602,8 +602,17 @@ npxdna_xmm(struct proc *p)
 	if ((p->p_md.md_flags & MDP_USEDFPU) == 0) {
 		fldcw(&p->p_addr->u_pcb.pcb_savefpu.sv_xmm.sv_env.en_cw);
 		p->p_md.md_flags |= MDP_USEDFPU;
-	} else
+	} else {
+		static double	zero = 0.0;
+
+		/*
+		 * amd fpu does not restore fip, fdp, fop on fxrstor
+		 * thus leaking other process' execution history.
+		 */
+		fnclex();
+		__asm __volatile("ffree %%st(7)\n\tfld %0" : : "m" (zero));
 		fxrstor(&p->p_addr->u_pcb.pcb_savefpu.sv_xmm);
+	}
 
 	return (1);
 }
@@ -612,7 +621,7 @@ npxdna_xmm(struct proc *p)
 int
 npxdna_s87(struct proc *p)
 {
-	static u_short control = __INITIAL_NPXCW__;
+	static u_short control = __NPXCW__;
 
 	if (npx_type == NPX_NONE) {
 		iprintf(("Emul"));

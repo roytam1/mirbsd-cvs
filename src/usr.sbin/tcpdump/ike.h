@@ -59,8 +59,7 @@
 	}
 #define IKE_ATTR_GROUP_DESC_INITIALIZER					\
 	{ "NONE", "MODP_768", "MODP_1024",				\
-	  "E2CN_155", "E2CN_185", "MODP_1536", "NONE", "NONE", "NONE",	\
-	  "NONE", "NONE", "NONE", "NONE", "NONE", "MODP_2048",		\
+	  "E2CN_155", "E2CN_185", "MODP_1536",				\
 	}
 #define IKE_ATTR_GROUP_INITIALIZER					\
 	{ "NONE", "MODP", "ECP", "E2CN",				\
@@ -453,13 +452,6 @@ static const struct vendor_id
 			/* Last "0x01, 0x00" means major v1, minor v0 */
 		},
 		"DPD v1.0"
-	},
-	{
-		{
-			0x4a, 0x13, 0x1c, 0x81, 0x07, 0x03, 0x58, 0x45,
-			0x5c, 0x57, 0x28, 0xf2, 0x0e, 0x95, 0x45, 0x2f,
-		},
-		"NAT-T, RFC 3947"
 	}
 };
 

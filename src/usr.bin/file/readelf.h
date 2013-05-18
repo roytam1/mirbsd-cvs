@@ -1,8 +1,9 @@
+/**	$MirOS$ */
 /*	$OpenBSD: readelf.h,v 1.5 2004/05/19 02:32:36 tedu Exp $ */
 /*
  * Copyright (c) Christos Zoulas 2003.
  * All Rights Reserved.
- * 
+ *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
  * are met:
@@ -226,6 +227,10 @@ typedef struct {
 #define NT_NETBSD_EMULATION	2
 #define NT_FREEBSD_VERSION	1
 #define NT_OPENBSD_VERSION	1
+#define	NT_MIRBSD_VERSION	1
+#define	NT_MIROS_VERSION	1
+#define	NT_MIROS_STRTEST	"MirOS "
+#define	NT_MIROS_STRTLEN	6
 /* GNU executables (name = "GNU") */
 #define NT_GNU_VERSION		1
 

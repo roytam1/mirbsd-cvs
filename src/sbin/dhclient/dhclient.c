@@ -1,3 +1,4 @@
+/**	$MirOS: src/sbin/dhclient/dhclient.c,v 1.3 2005/04/17 04:24:11 tg Exp $ */
 /*	$OpenBSD: dhclient.c,v 1.76 2005/07/16 14:09:51 krw Exp $	*/
 
 /*
@@ -59,6 +60,8 @@
 #include "privsep.h"
 
 #define	CLIENT_PATH "PATH=/usr/bin:/usr/sbin:/bin:/sbin"
+
+__RCSID("$MirOS: src/sbin/dhclient/dhclient.c,v 1.3 2005/04/17 04:24:11 tg Exp $");
 
 time_t cur_time;
 time_t default_lease_time = 43200; /* 12 hours... */
@@ -673,7 +676,7 @@ bind_lease(struct interface_info *ip)
 	/* Set up a timeout to start the renewal process. */
 	add_timeout(ip->client->active->renewal, state_bound, ip);
 
-	note("bound to %s -- renewal in %d seconds.",
+	note("bound to %s -- renewal in %lld seconds.",
 	    piaddr(ip->client->active->address),
 	    ip->client->active->renewal - cur_time);
 	ip->client->state = S_BOUND;
@@ -1095,7 +1098,7 @@ again:
 		ip->client->packet.secs = htons(65535);
 	ip->client->secs = ip->client->packet.secs;
 
-	note("DHCPDISCOVER on %s to %s port %d interval %d",
+	note("DHCPDISCOVER on %s to %s port %d interval %lld",
 	    ip->name, inet_ntoa(sockaddr_broadcast.sin_addr),
 	    ntohs(sockaddr_broadcast.sin_port), ip->client->interval);
 
@@ -1147,7 +1150,7 @@ state_panic(void *ipp)
 				if (cur_time <
 				    ip->client->active->renewal) {
 					ip->client->state = S_BOUND;
-					note("bound: renewal in %d seconds.",
+					note("bound: renewal in %lld seconds.",
 					    ip->client->active->renewal -
 					    cur_time);
 					add_timeout(ip->client->active->renewal,
@@ -1656,16 +1659,16 @@ write_client_lease(struct interface_info *ip, struct client_lease *lease,
 			    lease->options[i].len, 1, 1));
 
 	t = gmtime(&lease->renewal);
-	fprintf(leaseFile, "  renew %d %d/%d/%d %02d:%02d:%02d;\n",
-	    t->tm_wday, t->tm_year + 1900, t->tm_mon + 1, t->tm_mday,
+	fprintf(leaseFile, "  renew %d %lld/%d/%d %02d:%02d:%02d;\n",
+	    t->tm_wday, (int64_t)t->tm_year + 1900, t->tm_mon + 1, t->tm_mday,
 	    t->tm_hour, t->tm_min, t->tm_sec);
 	t = gmtime(&lease->rebind);
-	fprintf(leaseFile, "  rebind %d %d/%d/%d %02d:%02d:%02d;\n",
-	    t->tm_wday, t->tm_year + 1900, t->tm_mon + 1, t->tm_mday,
+	fprintf(leaseFile, "  rebind %d %lld/%d/%d %02d:%02d:%02d;\n",
+	    t->tm_wday, (int64_t)t->tm_year + 1900, t->tm_mon + 1, t->tm_mday,
 	    t->tm_hour, t->tm_min, t->tm_sec);
 	t = gmtime(&lease->expiry);
-	fprintf(leaseFile, "  expire %d %d/%d/%d %02d:%02d:%02d;\n",
-	    t->tm_wday, t->tm_year + 1900, t->tm_mon + 1, t->tm_mday,
+	fprintf(leaseFile, "  expire %d %lld/%d/%d %02d:%02d:%02d;\n",
+	    t->tm_wday, (int64_t)t->tm_year + 1900, t->tm_mon + 1, t->tm_mday,
 	    t->tm_hour, t->tm_min, t->tm_sec);
 	fprintf(leaseFile, "}\n");
 	fflush(leaseFile);

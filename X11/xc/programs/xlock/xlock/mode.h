@@ -2,6 +2,7 @@
 #define __XLOCK_MODE_H__
 
 #if !defined( lint ) && !defined( SABER )
+/* #ident  "$MirOS$" */
 /* #ident  "@(#)mode.h      4.14 99/06/17 xlockmore" */
 
 #endif
@@ -515,7 +516,9 @@ extern void release_last_mode(ModeInfo *);
 #define MODE_pipes
 #define MODE_sproingies
 #ifdef HAVE_CXX
+#ifndef __MirBSD__
 #define MODE_invert
+#endif
 #endif
 #endif
 #ifdef HAVE_CXX

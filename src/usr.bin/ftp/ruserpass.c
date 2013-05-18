@@ -30,16 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)ruserpass.c	8.4 (Berkeley) 4/27/95";
-#else
-#ifndef SMALL
-static char rcsid[] = "$OpenBSD: ruserpass.c,v 1.18 2004/07/20 03:50:26 deraadt Exp $";
-#endif /* SMALL */
-#endif
-#endif /* not lint */
-
 #include <sys/types.h>
 #include <sys/stat.h>
 
@@ -52,6 +42,9 @@ static char rcsid[] = "$OpenBSD: ruserpass.c,v 1.18 2004/07/20 03:50:26 deraadt 
 #include <unistd.h>
 
 #include "ftp_var.h"
+
+__SCCSID("@(#)ruserpass.c	8.4 (Berkeley) 4/27/95");
+__RCSID("$MirOS: src/usr.bin/ftp/ruserpass.c,v 1.2 2005/03/15 18:44:52 tg Exp $");
 
 static	int token(void);
 static	FILE *cfile;

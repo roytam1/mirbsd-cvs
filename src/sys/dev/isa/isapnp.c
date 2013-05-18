@@ -1,3 +1,4 @@
+/**	$MirOS$	*/
 /*	$OpenBSD: isapnp.c,v 1.35 2003/04/27 11:22:53 ho Exp $	*/
 /*	$NetBSD: isapnp.c,v 1.9.4.3 1997/10/29 00:40:43 thorpej Exp $	*/
 
@@ -200,7 +201,7 @@ isapnp_free_region(t, r)
 		return;
 
 	bus_space_unmap(t, r->h, r->length);
-	r->h = NULL;
+	r->h = 0;
 }
 
 
@@ -217,7 +218,7 @@ isapnp_alloc_region(t, r)
 	if (r->length == 0)
 		return 0;
 
-	r->h = NULL;
+	r->h = 0;
 	for (r->base = r->minbase; r->base <= r->maxbase;
 	     r->base += r->align) {
 		error = bus_space_map(t, r->base, r->length, 0, &r->h);

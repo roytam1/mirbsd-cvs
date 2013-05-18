@@ -164,6 +164,20 @@ SSL/TLS Client and Server Tests
 .It
 Handling of S/MIME signed or encrypted mail
 .El
+.Pp
+The
+.Nm
+program has actually two manual pages under
+.Mx .
+This one,
+.Xr openssl 1 ,
+is actually static content and not updated automatically.
+The
+.Xr openssltool 1
+manual page may look not so good, but provides a good and always
+up-to date description of the
+.Nm
+synopsis, subcommands and options.
 .Sh COMMAND SUMMARY
 The
 .Nm
@@ -5575,9 +5589,13 @@ Send the protocol-specific message(s) to switch to TLS for communication.
 .Ar protocol
 is a keyword for the intended protocol.
 Currently, the only supported keywords are
+.Qq esmtp ,
 .Qq smtp
 and
 .Qq pop3 .
+The
+.Qq esmtp
+sends an EHLO before attempting to start TLS.
 .It Fl state
 Prints out the SSL session states.
 .It Fl verify Ar depth
@@ -7834,7 +7852,7 @@ Dump any field whose OID is not recognised by
 Escape the
 .Qq special
 characters required by RFC 2253 in a field that is
-.Dq \& ,+"\*(Lt\*(Gt; .
+.Dq \&\ \&,+"\*(Lt\*(Gt\&; .
 Additionally,
 .Sq #
 is escaped at the beginning of a string
@@ -8391,3 +8409,12 @@ the
 pseudo-commands were added in
 .Nm OpenSSL
 0.9.5a.
+.Pp
+The
+.Xr openssl 1
+manual page appeared in
+.Ox 3.3 ,
+after that what is now the
+.Xr openssltool 1
+manual page got rejected - but eventually made its way into
+.Mx .

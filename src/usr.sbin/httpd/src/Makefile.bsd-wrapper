@@ -1,36 +1,32 @@
+# $MirOS: src/usr.sbin/httpd/src/Makefile.bsd-wrapper,v 1.2 2005/03/13 19:16:41 tg Exp $
 
 .include <bsd.own.mk>
 
-PROG=httpd
-BINDIR=/usr/sbin
-BINOWN=root
-BINGRP=daemon
+PROG=	httpd
+BINDIR=	/usr/sbin
+BINOWN=	root
+BINGRP=	daemon
 
 all: Makefile
 	${MAKE}
 
 .FORCE:	.IGNORE
 
-helpers/GuessOS: 
+helpers/GuessOS:
 	lndir -e Makefile.bsd-wrapper -e obj ${.CURDIR} ${.OBJDIR}
 
 config:	.FORCE
-	sh ${.CURDIR}/Configure -file ${.CURDIR}/Configuration -make ${.CURDIR}/Makefile.tmpl
+	${SHELL} ${.CURDIR}/Configure -file ${.CURDIR}/Configuration -make ${.CURDIR}/Makefile.tmpl
 
 Makefile: helpers/GuessOS
-	sh ${.CURDIR}/Configure -file ${.CURDIR}/Configuration -make ${.CURDIR}/Makefile.tmpl
+	${SHELL} ${.CURDIR}/Configure -file ${.CURDIR}/Configuration -make ${.CURDIR}/Makefile.tmpl
 
-# apache has no man pages in the dist
-
-maninistall:
-	@echo No man pages for apache
-
-install: maninistall
-	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} ${PROG} ${BINDIR} 
+install:
+	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} ${PROG} ${BINDIR}
 
 clean cleandir:
 .if 	exists(${.OBJDIR}/Makefile)
-		 ${MAKE} clean 
+		 ${MAKE} clean
 .endif
 	/bin/rm -f Makefile
 	/bin/rm -f modules/Makefile
@@ -40,9 +36,9 @@ clean cleandir:
 depend:
 	# Nothing here yet
 lint:
-	#Nothing here yet
+	# Nothing here yet
 tags:
-	#Nothing here yet
+	# Nothing here yet
 
-.include<bsd.obj.mk>
-.include<bsd.subdir.mk>
+.include <bsd.obj.mk>
+.include <bsd.subdir.mk>

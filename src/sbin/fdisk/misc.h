@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: misc.h,v 1.11 2004/09/30 08:27:50 otto Exp $	*/
 
 /*
@@ -32,6 +33,8 @@
 #include <machine/param.h>
 #include "cmd.h"
 
+__RCSID("$MirOS$");
+
 /* typedefs */
 
 struct unit_type {
@@ -44,7 +47,7 @@ extern const struct unit_type unit_types[];
 /* Constants */
 #define ASK_HEX 0x01
 #define ASK_DEC 0x02
-#define UNIT_TYPE_DEFAULT 1
+#define UNIT_TYPE_DEFAULT 0
 #define	DO_CONVERSIONS	0x00000001
 #define	DO_ROUNDING	0x00000002
 
@@ -60,4 +63,3 @@ void putlong(void *, u_int32_t);
 u_int32_t getuint(disk_t *, char *, char *, u_int32_t, u_int32_t, u_int32_t, int);
 
 #endif /* _MISC_H */
-

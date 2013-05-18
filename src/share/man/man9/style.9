@@ -1,3 +1,8 @@
+.\" $MirOS: src/share/man/man9/style.9,v 1.6 2006/02/21 02:26:45 tg Exp $
+.\" $OpenBSD: style.9,v 1.40 2005/07/09 08:05:08 jmc Exp $
+.\"-
+.\" Copyright (c) 2002-2006 The MirOS Project.
+.\" Copyright (c) ? OpenBSD
 .\" Copyright (c) 1995 FreeBSD Inc.
 .\" All rights reserved.
 .\"
@@ -21,20 +26,18 @@
 .\" LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
-.\"
-.\"	$OpenBSD: style.9,v 1.40 2005/07/09 08:05:08 jmc Exp $
-.\"
+.\"-
 .Dd June 18, 2001
-.Dt STYLE 9
+.Dt STYLE 9 IMP
 .Os
 .Sh NAME
 .Nm style
 .Nd "Kernel source file style guide (KNF)"
 .Sh DESCRIPTION
 This file specifies the preferred style for kernel source files in the
-.Ox
+.Mx
 source tree.
-It is also a guide for preferred user land code style.
+It is also a guide for preferred userland code style.
 These guidelines should be followed for all new code.
 In general, code can be considered
 .Dq new code
@@ -43,37 +46,50 @@ This is enough to break precedents in the existing code and use the
 current style guidelines.
 .Bd -literal -offset indent
 /*
- * Style guide for the OpenBSD KNF (Kernel Normal Form).
+ * Style guide for the MirOS Project's Coding Styles,
+ * derived from the OpenBSD KNF (Kernel Normal Form).
  */
 
 /*
  * VERY important single-line comments look like this.
  */
 
-/* Most single-line comments look like this. */
+/* almost all small single-line comments look like this */
+/* Others are sentences, thus end with a full stop. */
 
 /*
- * Multi-line comments look like this.  Make them real sentences.
- * Fill them so they look like real paragraphs.
+ * Multi-line comments look like this. Make them real sentences,
+ * in contrast to single-line comments. Fill them so they look
+ * like real paragraphs.
+ * British spelling is preferred in general. Restrict yourself
+ * to the ISO_646.irv:1991 7-bit character set.
  */
 .Ed
 .Pp
 Kernel include files (i.e.,
 .Aq Pa sys/*.h )
-come first; normally, you'll need
+come first; normally, you'll need either
 .Aq Pa sys/types.h
-OR
+or
 .Aq Pa sys/param.h ,
 but not both!
-.Aq Pa sys/types.h
+.Aq Pa sys/param.h
+includes
+.Aq Pa sys/types.h ,
+which in turn
 includes
 .Aq Pa sys/cdefs.h ,
 and it's okay to depend on that.
+Also, add
+.Aq Pa sys/time.h
+before the other system includes, but after
+.Aq Pa sys/types.h .
 .Bd -literal -offset indent
-#include <sys/types.h>	/* Non-local includes in brackets. */
+#include <sys/types.h>	/* non-local includes in brackets */
 .Ed
 .Pp
-If it's a network program, put the network include files next.
+Machine and device includes follow.
+If it's a networked programme, put the network include files next.
 .Bd -literal -offset indent
 #include <net/if.h>
 #include <net/if_dl.h>
@@ -82,70 +98,96 @@ If it's a network program, put the network include files next.
 #include <protocols/rwhod.h>
 .Ed
 .Pp
-Then there's a blank line, followed by the
+Then there's an optional blank line, followed by the
 .Pa /usr/include
 files.
-The
+The list of include files should be sorted by group, i.e.,
+.Aq Pa sys/param.h
+and
+.Aq Pa sys/time.h
+first, then all other system includes sorted,
+then machine and device includes sorted (if possible),
+then network includes sorted (if possible), then
 .Pa /usr/include
-files should be sorted!
+files sorted, then local includes (also sorted if possible).
 .Bd -literal -offset indent
 #include <stdio.h>
 .Ed
 .Pp
 Global pathnames are defined in
-.Pa /usr/include/paths.h .
-Pathnames local to the program go in
-.Pa pathnames.h
+.Aq Pa paths.h .
+Pathnames local to the programme go in
+.Dq Pa pathnames.h
 in the local directory.
 .Bd -literal -offset indent
 #include <paths.h>
 .Ed
 .Pp
-Then there's a blank line, and the user include files.
+Then there's a mandatory blank line, and the user include files.
 .Bd -literal -offset indent
-#include "pathnames.h"	/* Local includes in double quotes. */
+#include "pathnames.h"	/* local includes in double quotes */
+.Ed
+.Pp
+The includes block is separated by another blank line from the file
+identification block.
+Add the CVS (or RCS) ID of the file and, if taking over old source
+code, the SCCS ID as well; place another blank line after that.
+These two macros are defined in
+.Aq Pa sys/cdefs.h :
+.Bd -literal -offset indent
+__SCCSID("@(#)foo.c     4.5 (Berkeley) 4/18/91");
+__RCSID("$MirOS\&$");
 .Ed
 .Pp
 All functions are prototyped somewhere.
 .Pp
 Function prototypes for private functions (i.e., functions not used
 elsewhere) go at the top of the first source module.
-In user land, functions local to one source module should be declared
+In userland, functions local to one source module should be declared
 .Ql static .
-This should not be done in kernel land since it makes it impossible
-to use the kernel debugger.
+This should not be done in kernel land since it makes it almost
+impossible to use the kernel debugger.
 .Pp
 Functions used from other parts of the kernel are prototyped in the
 relevant include file.
 .Pp
 Functions that are used locally in more than one module go into a
 separate header file, e.g.,
-.Pa extern.h .
+.Dq Pa extern.h .
+This file is allowed to precede the, otherwise sorted, list of
+local include files.
 .Pp
 Use of the
 .Li __P
 macro has been deprecated.
 It is allowed in code imported from other sources but should not be
 used in native
-.Ox
+.Mx
 code.
-Prototypes should not have variable names associated with the types; i.e.,
+Only write out prototypes with full variable names in manual pages;
+in all other files, prototypes should not have variable names
+associated with the types; i.e., use:
 .Bd -literal -offset indent
-void	function(int);
+void function(int);
 .Ed
 not:
 .Bd -literal -offset indent -compact
-void	function(int a);
+void function(int a);
 .Ed
 .Pp
-Prototypes may have an extra space after a tab to enable function names
-to line up:
+Lining up prototypes after type names is deprecated because it is
+hard to maintain.
+Existing code may however still use this practice, and there is no
+reason to change it.
+If lining up, prototypes may have an extra space after a tabulator
+to enable function names to line up:
 .Bd -literal -offset indent
 static char	*function(int, const char *);
 static void	 usage(void);
 .Ed
 .Pp
-There should be no space between the function name and the argument list.
+Function and macro names and their argument list, as well as cast
+expressions and the value to be casted, are never separated by a space.
 .Pp
 Use
 .Li __dead
@@ -153,15 +195,18 @@ from
 .Aq Pa sys/cdefs.h
 for functions that don't return, i.e.,
 .Bd -literal -offset indent
-__dead void	abort(void);
+__dead void abort(void);
 .Ed
 .Pp
 In header files, put function prototypes within
 .Dv __BEGIN_DECLS / __END_DECLS
 matching pairs.
-This makes the header file usable from C++.
+This makes the header file usable from languages like C++.
 .Pp
-Macros are capitalized and parenthesized, and should avoid side-effects.
+Labels start at column 2 (i.e. are prefixed with only a single
+space (ASCII 20 hex) character) no matter which block they are in.
+.Pp
+Macros are capitalised and parenthesised and should avoid side-effects.
 If they are an inline expansion of a function, the function is defined
 all in lowercase; the macro has the same name all in uppercase.
 If the macro needs more than a single line, use braces.
@@ -171,15 +216,15 @@ If the macro encapsulates a compound statement, enclose it in a
 loop,
 so that it can safely be used in
 .Dq Li if
-statements.
-Any final statement-terminating semicolon should be
+statements, like shown below.
+Any final statement-terminating semicolon ought to be
 supplied by the macro invocation rather than the macro, to make parsing easier
 for pretty-printers and editors.
 .Bd -literal -offset indent
 #define	MACRO(x, y) do {					\e
 	variable = (x) + (y);					\e
 	(y) += 2;						\e
-} while (0)
+} while (/* CONSTCOND */ 0)
 .Ed
 .Pp
 Enumeration values are all uppercase.
@@ -191,10 +236,7 @@ When declaring variables in structures, declare them sorted by use, then
 by size (largest to smallest), then by alphabetical order.
 The first category normally doesn't apply, but there are exceptions.
 Each one gets its own line.
-Put a tab after the first word, i.e., use
-.Ql int^Ix;
-and
-.Ql struct^Ifoo *x; .
+It is recommended to not line them up either.
 .Pp
 Major structures should be declared at the top of the file in which they
 are used, or in separate header files if they are used in multiple
@@ -204,25 +246,25 @@ Use of the structures should be by separate declarations and should be
 if they are declared in a header file.
 .Bd -literal -offset indent
 struct foo {
-	struct	foo *next;	/* List of active foo */
-	struct	mumble amumble;	/* Comment for mumble */
-	int	bar;
+	struct foo *next;	/* list of active foo */
+	struct mumble amumble;	/* comment for mumble */
+	int bar;
 };
-struct foo *foohead;		/* Head of global foo list */
+struct foo *foohead;		/* head of global foo list */
 .Ed
 .Pp
 Use
 .Xr queue 3
-macros rather than rolling your own lists, whenever possible.
+macros rather than rolling your own lists whenever possible.
 Thus, the previous example would be better written:
 .Bd -literal -offset indent
 #include <sys/queue.h>
-struct	foo {
-	LIST_ENTRY(foo)	link;	/* Queue macro glue for foo lists */
-	struct	mumble amumble;	/* Comment for mumble */
-	int	bar;
+struct foo {
+	LIST_ENTRY(foo) link;	/* queue macro glue for foo lists */
+	struct mumble amumble;	/* comment for mumble */
+	int bar;
 };
-LIST_HEAD(, foo) foohead;	/* Head of global foo list */
+LIST_HEAD(, foo) foohead;	/* head of global foo list */
 .Ed
 .Pp
 Avoid using typedefs for structure types.
@@ -233,20 +275,26 @@ When convention requires a typedef, make its name match the struct tag.
 Avoid typedefs ending in
 .Dq Li \&_t ,
 except as specified in Standard C or by
-.Tn POSIX .
+.Tn POSIX ,
+such as
+.Dq Li uint32_t
+(which requires
+.Aq Pa stdint.h ,
+or its superset
+.Aq Pa inttypes.h ) .
 Don't use the same name for a struct tag and a typedef, as this makes
 the code unusable from C++.
 .Bd -literal -offset indent
-/* Make the structure name match the typedef. */
+/* Make the structure name match the typedef */
 typedef struct _bar {
-	int	level;
+	int level;
 } BAR;
 .Ed
 .Bd -literal -offset indent
 /*
  * All major routines should have a comment briefly describing what
- * they do.  The comment before the "main" routine should describe
- * what the program does.
+ * they do. The comment before the "main" routine should describe
+ * what the programme does.
  */
 int
 main(int argc, char *argv[])
@@ -267,16 +315,18 @@ parts of the switch cascade.
 Elements in a switch statement that cascade should have a FALLTHROUGH comment.
 Numerical arguments should be checked for accuracy.
 Code that cannot be reached should have a NOTREACHED comment.
+The CONSTCOND, FALLTHROUGH, and NOTREACHED comments benefit lint.
 .Bd -literal -offset indent
 while ((ch = getopt(argc, argv, "abn:")) != -1)
-	switch (ch) {		/* Indent the switch. */
-	case 'a':		/* Don't indent the case. */
+	switch (ch) {		/* indent the switch */
+	case 'a':		/* don't indent the case */
 		aflag = 1;
 		/* FALLTHROUGH */
 	case 'b':
 		bflag = 1;
 		break;
 	case 'n':
+		/* it's easier to use strtonum instead */
 		num = strtol(optarg, &ep, 10);
 		if (num <= 0 || *ep != '\e0') {
 			warnx("illegal number, -n argument -- %s",
@@ -298,7 +348,12 @@ Use a space after keywords
 .Li while ,
 .Li for ,
 .Li return ,
+.Li sizeof ,
 .Li switch ) .
+It is recommended to put parentheses around the
+.Li return
+argument as well, although this is not a strict requirement.
+.Pp
 No braces are
 used for control statements with zero or only a single statement unless that
 statement is more than a single line, in which case they are permitted.
@@ -375,6 +430,9 @@ if ((error = function(a1, a2)))
 	exit(error);
 .Ed
 .Pp
+Use positive error codes.
+Negative errors (except \-1) are something only the Other OS does.
+.Pp
 Unary operators don't require spaces; binary operators do.
 Don't use parentheses unless they're required for precedence, the statement
 is confusing without them, or the compiler generates a warning without them.
@@ -385,10 +443,21 @@ a = b->c[0] + ~d == (e || f) || g && h ? i : j >> 1;
 k = !(l & FLAGS);
 .Ed
 .Pp
+Also, it's much better to break before an operator,
+not after it, if you have got to apply line breaks.
+This is especially true for shell scripts.
+The above example could be rewritten as:
+.Bd -literal -offset indent
+a = b->c[0] +
+    ( ~d == (e || f) || g && h ) ? i : ( j >> 1 );
+k = !(l
+    & FLAGS);
+.Ed
+.Pp
 Exits should be 0 on success, or non-zero for errors.
 .Bd -literal -offset indent
 exit(0);	/*
-		 * Avoid obvious comments such as
+		 * avoid obvious comments such as
 		 * "Exit 0 on success."
 		 */
 }
@@ -404,7 +473,8 @@ function(int a1, int a2, float fl, int a4)
 .Pp
 When declaring variables in functions, declare them sorted by size (largest to
 smallest), then in alphabetical order; multiple ones per line are okay.
-Old style function declarations should be avoided.
+Old style function declarations ought to be avoided; we already live in an
+ANSI C world, and ISO C99 is almost there.
 ANSI style function declarations should go in an include file such as
 .Dq Pa extern.h .
 If a line overflows, reuse the type keyword.
@@ -429,29 +499,43 @@ Hiding file declarations in what appears to be a local scope is
 undesirable and will elicit complaints from a good compiler, such as
 .Dq Li gcc -Wtraditional .
 .Pp
-Casts and
+Casts are not followed by a space, the
 .Fn sizeof
-calls are not followed by a space.
+keyword is.
 Note that
 .Xr indent 1
-does not understand this rule.
+comes with a sample
+.Pa .indent.pro
+which
+.Em does
+understand this rule, starting from
+.Mx 9 .
 .Pp
 Use of the
 .Dq register
 specifier is discouraged in new code.
-Optimizing compilers such as gcc can generally do a better job
+Optimising compilers such as gcc can generally do a better job
 of choosing which variables to place in registers to improve
 code performance.
 The exception to this is in functions containing assembly code where the
 .Dq register
 specifier is required for proper code generation in the absence of
-compiler optimization.
+compiler optimisation.
+.Pp
+In C99 code, use
+.Dq __restrict__
+instead of
+.Dq restrict
+if required.
+The
+.Aq Pa sys/cdefs.h
+include file defines them out if an old compiler is used.
 .Pp
 When using
 .Fn longjmp
 or
 .Fn vfork
-in a program, the
+in a programme, the
 .Fl W
 or
 .Fl Wall
@@ -464,7 +548,7 @@ warning: variable `foo' might be clobbered by `longjmp' or `vfork'.
 If any warnings of this type occur, you must apply the
 .Dq volatile
 type-qualifier to the variable in question.
-Failure to do so may result in improper code generation when optimization
+Failure to do so may result in improper code generation when optimisation
 is enabled.
 Note that for pointers, the location of
 .Dq volatile
@@ -551,27 +635,29 @@ or
 .Xr warn 3 ,
 don't roll your own!
 .Bd -literal -offset indent
-if ((four = malloc(sizeof(struct foo))) == NULL)
-	err(1, (char *)NULL);
-if ((six = (int *)overflow()) == NULL)
-	errx(1, "Number overflowed.");
-return (eight);
+	if ((four = malloc(sizeof(struct foo))) == NULL)
+		err(1, NULL);
+	if ((six = (int *)overflow()) == NULL)
+		errx(1, "Number overflowed.");
+	return (eight);
 }
 .Ed
 .Pp
-Old-style function declarations look like this:
+Old-style function declarations looked like this:
 .Bd -literal -offset indent
 static char *
 function(a1, a2, fl, a4)
-	int a1, a2;	/* Declare ints, too, don't default them. */
-	float fl;	/* Beware double vs. float prototype differences. */
-	int a4;		/* List in order declared. */
+	int a1, a2;	/* declare ints, too, don't default them */
+	float fl;	/* beware double vs. float prototype differences */
+	int a4;		/* list in order declared */
 {
 	...
 }
 .Ed
 .Pp
 Use ANSI function declarations unless you explicitly need K&R compatibility.
+Even then you should really think twice about it.
+Even gcc now requires an ANSI C compiler to be built.
 Long parameter lists are wrapped with a normal four space indent.
 .Pp
 Variable numbers of arguments should look like this:
@@ -594,7 +680,7 @@ vaf(const char *fmt, ...)
 static void
 usage(void)
 {
-	extern char *__progname;	/* from crt0.o */
+	extern const char *__progname;	/* from crt0.o */
 .Ed
 .Pp
 Usage statements should look like the manual pages.
@@ -614,8 +700,8 @@ placed in a single set of braces.
 If numbers are used as options, they should be placed first,
 as shown in the example below.
 Uppercase letters take precedence over lowercase.
-Note that the options list in manual pages should be purely alphabetical.
-That is, with no regard to whether an option takes an argument.
+Note that the options list in manual pages should be purely alphabetical,
+except that the no-argument options are listed first.
 .Bd -literal -offset indent
 "usage: f [-12aDde] [-b b_arg] [-m m_arg] req1 req2 [opt1 [opt2]]\en"
 "usage: f [-a | -b] [-c [-de] [-n number]]\en"
@@ -623,16 +709,19 @@ That is, with no regard to whether an option takes an argument.
 .Pp
 The
 .Li __progname
-string, should be used instead of hard-coding the program name.
+string should be used instead of hard-coding the programme's name.
 .Bd -literal -offset indent
-(void)fprintf(stderr, "usage: %s [-ab]\en", __progname);
-exit(1);
+	fprintf(stderr, "usage: %s [-ab]\en", __progname);
+	exit(1);
 }
 .Ed
 .Pp
 New core kernel code should be reasonably compliant with the style guides.
 The guidelines for third-party maintained modules and device drivers are more
-relaxed but at a minimum should be internally consistent with their style.
+relaxed but at a minimum should be internally consistent with their style;
+the current MirPorts Framework package tools are a bad example of style
+inconsistency (such as three different indentation styles: three spaces, four
+spaces and KNF one tab) and a good example of why it must be prevented.
 .Pp
 Stylistic changes (including whitespace changes) are hard on the source
 repository and are to be avoided without good reason.
@@ -641,6 +730,7 @@ from compliance.
 .Pp
 Whenever possible, code should be run through a code checker
 (e.g.,
+.Dq Li make __CRAZY=Yes ,
 .Dq Li gcc -Wall -W -Wtraditional -Wpointer-arith -Wbad-function-cast ... ,
 .Xr lint 1
 or lclint from the ports tree) and produce minimal warnings.
@@ -648,11 +738,58 @@ or lclint from the ports tree) and produce minimal warnings.
 Note that documentation follows its own style guide,
 as documented in
 .Xr mdoc.samples 7 .
+This however does not invalidate the hints given in this guide.
 .Sh FILES
-.Bl -tag -width "/usr/share/misc/license.template " -compact
-.It Pa /usr/share/misc/license.template
-Example license for new code.
+.Bl -tag -width "/usr/share/misc/licence.template " -compact
+.It Pa /usr/share/misc/licence.template
+Licence preferred for new code.
 .El
+.Pp
+.Pa ~/.indent.pro
+should contain at least the following items:
+.Pp
+.Fl bs
+.Fl c0
+.Fl ci4
+.Fl di0
+.Fl ncsp
+.Fl nfc1
+.Fl nlp
+.Fl nlpi
+.Fl Tbool
+.Fl Tint16_t
+.Fl Tint32_t
+.Fl Tint64_t
+.Fl Tint8_t
+.Fl Tintmax_t
+.Fl Tintptr_t
+.Fl Toff_t
+.Fl Tptrdiff_t
+.Fl Tsize_t
+.Fl Tssize_t
+.Fl Ttime_t
+.Fl Tuint16_t
+.Fl Tuint32_t
+.Fl Tuint64_t
+.Fl Tuint8_t
+.Fl Tuintmax_t
+.Fl Tuintptr_t
+.Fl Twchar_t
+.Fl Twint_t
+and a bunch of others.
+Note that the
+.Fl c0
+option might be problematic for existing code and may be better left out.
+.Pp
+A more complete list can be fount at
+.Pa src/usr.bin/indent/.indent.pro
+in the
+.Mx
+source code.
+Even then,
+.Xr indent 1
+does only basic help to apply KNF.
+Be warned.
 .Sh SEE ALSO
 .Xr indent 1 ,
 .Xr err 3 ,
@@ -666,4 +803,6 @@ the
 4.4-Lite2 release, with updates to reflect the current practice and
 desire of the
 .Ox
-project.
+project, with a few annotations and some even deeper changes for the
+.Mx
+source tree, including a different, improved, licence template.

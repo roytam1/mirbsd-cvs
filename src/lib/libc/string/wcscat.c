@@ -33,7 +33,7 @@
 
 #if defined(APIWARN)
 __warn_references(wcscat,
-    "warning: wcscat() is almost always misused, please use wcslcat()");
+    "wcscat() is almost always misused, please use wcslcat()");
 #endif
 
 wchar_t *

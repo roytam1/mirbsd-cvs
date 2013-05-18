@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: ex_visual.c,v 1.6 2002/02/16 21:27:57 millert Exp $	*/
 
 /*-
@@ -11,9 +12,8 @@
 
 #include "config.h"
 
-#ifndef lint
-static const char sccsid[] = "@(#)ex_visual.c	10.13 (Berkeley) 6/28/96";
-#endif /* not lint */
+__SCCSID("@(#)ex_visual.c	10.13 (Berkeley) 6/28/96");
+__RCSID("$MirOS$");
 
 #include <sys/types.h>
 #include <sys/queue.h>
@@ -83,9 +83,10 @@ ex_visual(sp, cmdp)
 
 	if (FL_ISSET(cmdp->iflags, E_C_COUNT))
 		len = snprintf(buf, sizeof(buf),
-		     "%luz%c%lu", sp->lno, pos, cmdp->count);
+		     "%luz%c%lu", (long)(sp->lno), pos, cmdp->count);
 	else
-		len = snprintf(buf, sizeof(buf), "%luz%c", sp->lno, pos);
+		len = snprintf(buf, sizeof(buf), "%luz%c",
+		    (unsigned long)(sp->lno), pos);
 	if (len >= sizeof(buf))
 		len = sizeof(buf) - 1;
 	(void)v_event_push(sp, NULL, buf, len, CH_NOMAP | CH_QUOTED);

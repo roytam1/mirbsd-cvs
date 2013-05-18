@@ -1,7 +1,9 @@
+.\"	$MirOS$
 .\"	$OpenBSD: getopt.1,v 1.8 2003/02/17 13:39:37 jmc Exp $	-*- nroff -*-
 .\"
 .\" This material, written by Henry Spencer, was released by him
 .\" into the public domain and is thus not subject to any copyright.
+.\" Kappes. Just MirOS licence here.
 .\"
 .Dd June 21, 1993
 .Dt GETOPT 1
@@ -85,6 +87,14 @@ encounters an option letter not included in
 .Sh HISTORY
 Written by Henry Spencer, working from a Bell Labs manual page.
 Behavior believed identical to the Bell version.
+.Pp
+Please do not use
+.Nm
+in new scripts, use the
+.Nm getopts
+builtin in
+.Xr ksh 1
+instead.
 .Sh BUGS
 Whatever
 .Xr getopt 3

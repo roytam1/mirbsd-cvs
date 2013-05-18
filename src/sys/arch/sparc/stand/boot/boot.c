@@ -56,6 +56,7 @@ char		fbuf[80], dbuf[128];
 typedef void (*entry_t)(caddr_t, int, int, int, long, long);
 int loadfile(int, vaddr_t *);
 
+int
 main(int argc, char *argv[])
 {
 	int	io;
@@ -64,7 +65,7 @@ main(int argc, char *argv[])
 
 	prom_init();
 
-	printf(">> OpenBSD BOOT %s\n", version);
+	printf(">> MirBSD BOOT %s\n", version);
 
 	file = prom_bootfile;
 	if (file == 0 || *file == 0)

@@ -1,3 +1,4 @@
+/* $MirOS: src/usr.bin/crunch/crunchgen.c,v 1.3 2006/02/24 01:19:46 tg Exp $ */
 /* $OpenBSD: crunchgen.c,v 1.21 2004/08/24 09:11:39 jmc Exp $	 */
 
 /*
@@ -25,6 +26,7 @@
  *			   Computer Science Department
  *			   University of Maryland at College Park
  */
+
 /*
  * ========================================================================
  * crunchgen.c
@@ -32,17 +34,18 @@
  * Generates a Makefile and main C file for a crunched executable,
  * from specs given in a .conf file.
  */
+
+#include <sys/param.h>
+#include <sys/stat.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <ctype.h>
 #include <string.h>
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <sys/param.h>
+__RCSID("$MirOS: src/usr.bin/crunch/crunchgen.c,v 1.3 2006/02/24 01:19:46 tg Exp $");
 
-#define CRUNCH_VERSION	"0.2"
+#define CRUNCH_VERSION	"0.3-MirOS"
 
 #define MAXLINELEN	16384
 #define MAXFIELDS 	 2048
@@ -96,8 +99,6 @@ char            libdir[MAXPATHLEN] = "/usr/lib";
 int             linenum = -1;
 int             goterror = 0;
 
-char           *progname = "crunchgen";
-
 int             verbose, readcache, elf_names;	/* options */
 int             reading_cache;
 
@@ -106,12 +107,12 @@ void            out_of_memory(void);
 void            add_string(strlst_t ** listp, char *str);
 int             is_dir(char *pathname);
 int             is_nonempty_file(char *pathname);
-void            usage(void);
+__dead void     usage(void);
 void            parse_conf_file(void);
 void            gen_outputs(void);
 
-int 
-main(int argc, char *argv[])
+int
+crunchgen_main(int argc, char *argv[])
 {
 	char           *p;
 	int             optc;
@@ -121,9 +122,6 @@ main(int argc, char *argv[])
 	verbose = 1;
 	readcache = 1;
 	*outmkname = *outcfname = *execfname = '\0';
-
-	if (argc > 0)
-		progname = argv[0];
 
 	while ((optc = getopt(argc, argv, "m:c:e:fqD:EL:")) != -1) {
 		switch (optc) {
@@ -180,7 +178,7 @@ main(int argc, char *argv[])
 	    sizeof(infilename))
 		usage();
 
-	/* confname = `basename infilename .conf` */
+	/* confname = $(basename infilename .conf) */
 
 	if ((p = strrchr(infilename, '/')) != NULL)
 		strlcpy(confname, p + 1, sizeof confname);
@@ -203,15 +201,6 @@ main(int argc, char *argv[])
 	exit(goterror);
 }
 
-void 
-usage(void)
-{
-	fprintf(stderr, "%s [-Efq] [-c c-file-name] [-D src-root] [-e exec-file-name]\n"
-	    "\t[-L lib-dir] [-m makefile-name] conf-file\n",
-	    progname);
-	exit(1);
-}
-
 void            parse_one_file(char *filename);
 void            parse_line(char *line, int *fc, char **fv, int nf);
 void            add_srcdirs(int argc, char **argv);
@@ -223,12 +212,14 @@ void            add_special(int argc, char **argv);
 prog_t         *find_prog(char *str);
 void            add_prog(char *progname);
 
-void 
+void
 parse_conf_file(void)
 {
+	extern const char *__progname;
+
 	if (!is_nonempty_file(infilename)) {
 		fprintf(stderr, "%s: fatal: input file \"%s\" not found.\n",
-		    progname, infilename);
+		    __progname, infilename);
 		exit(1);
 	}
 	parse_one_file(infilename);
@@ -238,7 +229,7 @@ parse_conf_file(void)
 	}
 }
 
-void 
+void
 parse_one_file(char *filename)
 {
 	char           *fieldv[MAXFIELDS];
@@ -272,7 +263,7 @@ parse_one_file(char *filename)
 		else if (!strcmp(fieldv[0], "special"))
 			f = add_special;
 		else {
-			fprintf(stderr, "%s:%d: skipping unknown command `%s'.\n",
+			fprintf(stderr, "%s:%d: skipping unknown command '%s'.\n",
 			    curfilename, linenum, fieldv[0]);
 			goterror = 1;
 			continue;
@@ -295,7 +286,7 @@ parse_one_file(char *filename)
 	fclose(cf);
 }
 
-void 
+void
 parse_line(char *line, int *fc, char **fv, int nf)
 {
 	char           *p;
@@ -320,7 +311,7 @@ parse_line(char *line, int *fc, char **fv, int nf)
 		*p = '\0';	/* needed for '#' case */
 }
 
-void 
+void
 add_srcdirs(int argc, char **argv)
 {
 	int             i;
@@ -344,21 +335,21 @@ add_srcdirs(int argc, char **argv)
 		}
 		if (overflow) {
 			goterror = 1;
-			fprintf(stderr, "%s:%d: `%.40s...' is too long, skipping it.\n",
+			fprintf(stderr, "%s:%d: '%.40s...' is too long, skipping it.\n",
 			    curfilename, linenum, argv[i]);
 			continue;
 		}
 		if (is_dir(tmppath))
 			add_string(&srcdirs, tmppath);
 		else {
-			fprintf(stderr, "%s:%d: `%s' is not a directory, skipping it.\n",
+			fprintf(stderr, "%s:%d: '%s' is not a directory, skipping it.\n",
 			    curfilename, linenum, tmppath);
 			goterror = 1;
 		}
 	}
 }
 
-void 
+void
 add_progs(int argc, char **argv)
 {
 	int             i;
@@ -367,7 +358,7 @@ add_progs(int argc, char **argv)
 		add_prog(argv[i]);
 }
 
-void 
+void
 add_prog(char *progname)
 {
 	prog_t         *p1, *p2;
@@ -395,7 +386,7 @@ add_prog(char *progname)
 	p2->goterror = 0;
 }
 
-void 
+void
 add_link(int argc, char **argv)
 {
 	int             i;
@@ -412,7 +403,7 @@ add_link(int argc, char **argv)
 		add_string(&p->links, argv[i]);
 }
 
-void 
+void
 add_libs(int argc, char **argv)
 {
 	int             i;
@@ -421,7 +412,7 @@ add_libs(int argc, char **argv)
 		add_string(&libs, argv[i]);
 }
 
-void 
+void
 add_special(int argc, char **argv)
 {
 	int             i;
@@ -465,7 +456,7 @@ add_special(int argc, char **argv)
 		for (i = 3; i < argc; i++)
 			add_string(&p->objpaths, argv[i]);
 	} else {
-		fprintf(stderr, "%s:%d: bad parameter name `%s', skipping line.\n",
+		fprintf(stderr, "%s:%d: bad parameter name '%s', skipping line.\n",
 		    curfilename, linenum, argv[2]);
 		goterror = 1;
 	}
@@ -502,7 +493,7 @@ void            output_strlst(FILE * outf, strlst_t * lst);
 char           *genident(char *str);
 char           *dir_search(char *progname);
 
-void 
+void
 gen_outputs(void)
 {
 	prog_t         *p;
@@ -520,7 +511,7 @@ gen_outputs(void)
 	    outmkname);
 }
 
-void 
+void
 fillin_program(prog_t * p)
 {
 	char            path[MAXPATHLEN];
@@ -585,7 +576,7 @@ fillin_program(prog_t * p)
 	}
 }
 
-void 
+void
 fillin_program_objs(prog_t * p, char *path)
 {
 	char           *cp, *obj, tempfname[MAXPATHLEN];
@@ -645,7 +636,7 @@ fillin_program_objs(prog_t * p, char *path)
 	unlink(tempfname);
 }
 
-void 
+void
 remove_error_progs(void)
 {
 	prog_t         *p1, *p2;
@@ -668,7 +659,7 @@ remove_error_progs(void)
 	}
 }
 
-void 
+void
 gen_specials_cache(void)
 {
 	FILE           *cachef;
@@ -703,7 +694,7 @@ gen_specials_cache(void)
 	fclose(cachef);
 }
 
-void 
+void
 gen_output_makefile(void)
 {
 	prog_t         *p;
@@ -725,11 +716,11 @@ gen_output_makefile(void)
 	for (p = progs; p != NULL; p = p->next)
 		prog_makefile_rules(outmk, p);
 
-	fprintf(outmk, "\n# ========\n");
+	fprintf(outmk, "\n# ========\n.include <bsd.prog.mk>\n");
 	fclose(outmk);
 }
 
-void 
+void
 gen_output_cfile(void)
 {
 	extern char    *crunched_skel[];
@@ -807,7 +798,7 @@ dir_search(char *progname)
 	return NULL;
 }
 
-void 
+void
 top_makefile_rules(FILE * outmk)
 {
 	prog_t         *p;
@@ -829,16 +820,16 @@ top_makefile_rules(FILE * outmk)
 
 	fprintf(outmk, "%s: %s.o $(CRUNCHED_OBJS)\n",
 	    execfname, execfname);
-	fprintf(outmk, "\t$(CC) -static -o %s %s.o $(CRUNCHED_OBJS) $(LIBS)\n",
+	fprintf(outmk, "\t$(CC) -static -o %s %s.o $(CRUNCHED_OBJS) -Wl,--start-group $(LIBS) -Wl,--end-group\n",
 	    execfname, execfname);
-	fprintf(outmk, "\t$(STRIP) %s\n", execfname);
 	fprintf(outmk, "all: objs exe\nobjs: $(SUBMAKE_TARGETS)\n");
 	fprintf(outmk, "exe: %s\n", execfname);
 	fprintf(outmk, "clean:\n\trm -f %s *.lo *.o *_stub.c\n",
 	    execfname);
+	fprintf(outmk, "\n.include <bsd.own.mk>\n");
 }
 
-void 
+void
 prog_makefile_rules(FILE * outmk, prog_t * p)
 {
 	fprintf(outmk, "\n# -------- %s\n\n", p->name);
@@ -870,7 +861,7 @@ prog_makefile_rules(FILE * outmk, prog_t * p)
 	    elf_names ? "" : "_", p->ident, p->name);
 }
 
-void 
+void
 output_strlst(FILE * outf, strlst_t * lst)
 {
 	for (; lst != NULL; lst = lst->next)
@@ -878,7 +869,7 @@ output_strlst(FILE * outf, strlst_t * lst)
 	fprintf(outf, "\n");
 }
 
-void 
+void
 status(char *str)
 {
 	static int      lastlen = 0;
@@ -897,14 +888,14 @@ status(char *str)
 	lastlen = len;
 }
 
-void 
+void
 out_of_memory(void)
 {
 	fprintf(stderr, "%s: %d: out of memory, stopping.\n", infilename, linenum);
 	exit(1);
 }
 
-void 
+void
 add_string(strlst_t ** listp, char *str)
 {
 	strlst_t       *p1, *p2;
@@ -928,7 +919,7 @@ add_string(strlst_t ** listp, char *str)
 		p1->next = p2;
 }
 
-int 
+int
 is_dir(char *pathname)
 {
 	struct stat     buf;
@@ -938,7 +929,7 @@ is_dir(char *pathname)
 	return S_ISDIR(buf.st_mode);
 }
 
-int 
+int
 is_nonempty_file(char *pathname)
 {
 	struct stat     buf;

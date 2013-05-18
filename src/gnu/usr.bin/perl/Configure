@@ -1,5 +1,5 @@
 #! /bin/sh
-#
+# $MirOS$
 # If these # comments don't work, trim them. Don't worry about any other
 # shell scripts, Configure will trim # comments from them for you.
 #
@@ -111,7 +111,7 @@ export PATH
 inksh=''
 needksh=''
 avoidksh=''
-newsh=/bin/ksh
+newsh=/bin/mksh
 changesh=''
 if (PATH=.; alias -x) >/dev/null 2>&1; then
 		inksh=true
@@ -767,7 +767,7 @@ ccdlflags=''
 dlsrc=''
 ld=''
 lddlflags=''
-usedl=''
+usedl=${USEDL:-''}
 doublesize=''
 ebcdic=''
 fflushNULL=''
@@ -1287,7 +1287,7 @@ case "$sh" in
 	else
 		: Build up a list and do a single loop so we can 'break' out.
 		pth=`echo $PATH | sed -e "s/$p_/ /g"`
-		for xxx in sh bash ksh pdksh ash; do
+		for xxx in mksh sh bash ksh pdksh ash; do
 			for p in $pth; do
 				try="$try ${p}/${xxx}"
 			done
@@ -3144,6 +3144,9 @@ EOM
 		next*) osname=next ;;
 		nonstop-ux) osname=nonstopux ;;
 		openbsd) osname=openbsd
+                	osvers="$3"
+                	;;
+		mirbsd) osname=mirbsd
                 	osvers="$3"
                 	;;
 		os2)	osname=os2
@@ -7871,7 +7874,7 @@ if "$useshrplib"; then
 	solaris)
 		xxx="-R $shrpdir"
 		;;
-	freebsd|netbsd|openbsd)
+	freebsd|mirbsd|netbsd|openbsd)
 		xxx="-Wl,-R$shrpdir"
 		;;
 	bsdos|linux|irix*|dec_osf)
@@ -19658,7 +19661,7 @@ MATH_HAS_NO_SIDE_EFFECTS
 mc300 mc500 mc68000 mc68010 mc68020 mc68030 mc68040
 mc68060 mc68k mc68k32 mc700 mc88000 mc88100 merlin
 mert MiNT mips MIPS_FPSET MIPS_ISA MIPS_SIM MIPS_SZINT
-MIPS_SZLONG MIPS_SZPTR MIPSEB MIPSEL MODERN_C motorola
+MIPS_SZLONG MIPS_SZPTR MIPSEB MIPSEL MirBSD MODERN_C motorola
 mpeix MSDOS MTXINU MULTIMAX mvs MVS n16 ncl_el ncl_mr
 NetBSD news1500 news1700 news1800 news1900 news3700
 news700 news800 news900 NeXT NLS nonstopux ns16000 ns32000
@@ -21598,4 +21601,3 @@ $rm -f kit*isdone ark*isdone
 $rm -rf UU
 
 : End of Configure
-

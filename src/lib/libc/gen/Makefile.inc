@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile.inc,v 1.37 2005/02/01 15:12:28 millert Exp $
+# $MirOS: src/lib/libc/gen/Makefile.inc,v 1.5 2006/01/24 20:14:49 tg Exp $
+# $OpenBSD: Makefile.inc,v 1.37 2005/02/01 15:12:28 millert Exp $
 
 # gen sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/gen ${LIBCSRCDIR}/gen
@@ -25,29 +26,40 @@ SRCS+=  alarm.c assert.c auth_subr.c authenticate.c \
 # indirect reference stubs, to be removed soon.
 SRCS+=	_sys_errlist.c _sys_nerr.c _sys_siglist.c
 
+# for now...
+CFLAGS_auth_subr.o+= -Wno-error
+CFLAGS_authenticate.o+= -Wno-error
+CFLAGS_disklabel.o+= -Wno-error
+CFLAGS_exec.o+= -Wno-cast-qual
+CFLAGS_fstab.o+= -Wno-error
+CFLAGS_fts.o+= -Wno-error
+CFLAGS_ftw.o+= -Wno-cast-qual
+CFLAGS_getcap.o+= -Wno-cast-qual
+CFLAGS_getnetgrent.o+= -Wno-error
+CFLAGS_getusershell.o+= -Wno-cast-qual
+CFLAGS_login_cap.o+= -Wno-error
+CFLAGS_nftw.o+= -Wno-error
+CFLAGS_psignal.o+= -Wno-cast-qual
+CFLAGS_sethostname.o+= -Wno-cast-qual
+CFLAGS_syslog.o+= -Wno-missing-format-attribute		# gcc problem
+CFLAGS_syslog.o+= -Wno-cast-qual
+CFLAGS_ttyname.o+= -Wno-shadow
+CFLAGS__sys_nerr.o+= -Wno-error
+
 # machine-dependent gen sources
 # m-d Makefile.inc must include sources for:
 #	_setjmp() fabs() frexp() infinity isinf() ldexp() modf()
 #	setjmp() sigsetjmp()
 
+# MirOS libkvm helper tool
+SRCS+=	fnlist.c
+
 .include "${LIBCSRCDIR}/arch/${MACHINE_ARCH}/gen/Makefile.inc"
-
-.ifdef _NOTDEF_XXX_
-
-.if (${MACHINE} == "tahoe" )
-errlst.o errlst.po:
-	${CC} -S ${CFLAGS} ${.IMPSRC}
-	ed - < ${LIBCSRCDIR}/${MACHINE}/:errfix errlst.s
-	${AS} -o ${.TARGET} errlst.s
-	rm -f errlst.s
-.endif
-
-.endif	# _NOTDEF_XXX_
 
 MAN+=	alarm.3 auth_subr.3 authenticate.3 basename.3 clock.3 confstr.3 \
 	ctermid.3 ctype.3 daemon.3 devname.3 directory.3 dirname.3 err.3 \
 	exec.3 fnmatch.3 fpgetmask.3 frexp.3 ftok.3 fts.3 ftw.3 getbsize.3 \
-	getcap.3 getcwd.3 getdomainname.3 getdiskbyname.3 getfsent.3 \
+	getcap.3 getcwd.3 getdiskbyname.3 getfsent.3 \
 	getgrent.3 getgrouplist.3 gethostname.3 getloadavg.3 getmntinfo.3 \
 	getnetgrent.3 getpagesize.3 getpass.3 getpwent.3 getttyent.3 \
 	getusershell.3 glob.3 initgroups.3 isalnum.3 isalpha.3 isascii.3 \
@@ -94,7 +106,6 @@ MLINKS+=getcap.3 cgetcap.3 getcap.3 cgetclose.3 getcap.3 cgetent.3 \
 	getcap.3 cgetnum.3 getcap.3 cgetset.3 getcap.3 cgetstr.3 \
 	getcap.3 cgetustr.3 getcap.3 cgetusedb.3
 MLINKS+=getcwd.3 getwd.3
-MLINKS+=getdomainname.3 setdomainname.3
 MLINKS+=getfsent.3 endfsent.3 getfsent.3 getfsfile.3 getfsent.3 getfsspec.3 \
 	getfsent.3 getfstype.3 getfsent.3 setfsent.3
 MLINKS+=getgrent.3 endgrent.3 getgrent.3 setgroupent.3 getgrent.3 getgrgid.3 \

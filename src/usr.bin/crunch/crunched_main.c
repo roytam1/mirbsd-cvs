@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: crunched_main.c,v 1.5 2003/01/27 19:41:30 deraadt Exp $	 */
 
 /*
@@ -25,6 +26,7 @@
  *			   Computer Science Department
  *			   University of Maryland at College Park
  */
+
 /*
  * crunched_main.c - main program for crunched binaries, it branches to a
  * 	particular subprogram based on the value of argv[0].  Also included
@@ -33,23 +35,30 @@
  *	or calls one of them based on argv[1].   This allows the testing of
  *	the crunched binary without creating all the links.
  */
+
+#include <sys/cdefs.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+__RCSID("$MirOS$");
 
 struct stub {
 	char	*name;
-	int	(*f)();
+	int	(*f)(int, char **, char **);
 };
 
 extern struct stub entry_points[];
 
-int 
+int crunched_main(int argc, char **argv, char **envp);
+__dead void crunched_usage(void);
+
+int
 main(int argc, char *argv[], char **envp)
 {
 	char		*slash, *basename;
 	struct stub	*ep;
 
-	if (argv[0] == NULL || *argv[0] == '\0')
+	if (argv == NULL || argv[0] == NULL || *argv[0] == '\0')
 		crunched_usage();
 
 	slash = strrchr(argv[0], '/');
@@ -59,28 +68,25 @@ main(int argc, char *argv[], char **envp)
 		if (!strcmp(basename, ep->name))
 			break;
 
-	if (ep->name)
-		return ep->f(argc, argv, envp);
-	else {
+	if (ep->name == NULL) {
 		fprintf(stderr, "%s: %s not compiled in\n", EXECNAME, basename);
 		crunched_usage();
 	}
+
+	return ep->f(argc, argv, envp);
 }
 
-int 
+int
 crunched_main(int argc, char **argv, char **envp)
 {
-	struct stub	*ep;
-	int		columns, len;
-
-	if (argc <= 1)
+	if (argc <= 1 || argv == NULL)
 		crunched_usage();
 
 	return main(--argc, ++argv, envp);
 }
 
-int 
-crunched_usage()
+__dead void
+crunched_usage(void)
 {
 	int		columns, len;
 	struct stub	*ep;

@@ -6,6 +6,8 @@
 
 #include <machine/asm.h>
 
+	.text
+
 ENTRY(memset)
 	pushl	%edi
 	pushl	%ebx

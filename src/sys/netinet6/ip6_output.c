@@ -167,7 +167,7 @@ ip6_output(m0, opt, ro, flags, im6o, ifpp)
 	struct m_tag *mtag;
 	union sockaddr_union sdst;
 	struct tdb_ident *tdbi;
-	u_int32_t sspi;
+	u_int32_t sspi = 0;
 	struct inpcb *inp;
 	struct tdb *tdb;
 	int s;

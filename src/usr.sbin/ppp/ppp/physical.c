@@ -16,6 +16,7 @@
  * IMPLIED WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED
  * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  *
+ *  $MirOS: src/usr.sbin/ppp/ppp/physical.c,v 1.2 2005/03/13 19:17:16 tg Exp $
  *  $OpenBSD: physical.c,v 1.40 2005/07/17 20:10:53 brad Exp $
  *
  */
@@ -43,6 +44,7 @@
 #if defined(__OpenBSD__) || defined(__NetBSD__)
 #include <sys/ioctl.h>
 #include <util.h>
+#include <signal.h>
 #else
 #include <libutil.h>
 #endif
@@ -580,7 +582,7 @@ physical_DescriptorRead(struct fdescriptor *d, struct bundle *bundle,
         link_PullPacket(&p->link, rbuff, p->input.sz, bundle);
         p->input.sz = 0;
       } else
-        bcopy(rbuff, p->input.buf, p->input.sz);
+        memmove(p->input.buf, rbuff, p->input.sz);
     } else
       /* In -dedicated mode, we just discard input until LCP is started */
       p->input.sz = 0;

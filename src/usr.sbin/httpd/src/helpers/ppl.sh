@@ -10,7 +10,7 @@
 ##
 #
 # This script falls under the Apache License.
-# See http://www.apache.org/docs/LICENSE
+# See /usr/share/doc/legal/LICENSE.httpd
 
 
 list=`
@@ -23,7 +23,7 @@ done |\
 sort |\
 awk '
     BEGIN { list = ""; n = 0; }
-    { 
+    {
         list = list $1;
         n = n + 1;
         if (n == 1 || n == 2) {
@@ -44,12 +44,11 @@ for entry in $list; do
         { printf("%-15s %-15s %-15s\n", $1, $2, $3); }
     '
 done |\
-awk '{ 
-    if (length($0) > 48) { 
+awk '{
+    if (length($0) > 48) {
         printf("%s\n", substr($0, 0, 47));
-    } else { 
-        print $0; 
+    } else {
+        print $0;
     }
 }' |\
 sed -e 's/^/                        [/' -e 's/$/]/'
-

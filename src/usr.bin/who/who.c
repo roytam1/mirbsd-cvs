@@ -1,3 +1,4 @@
+/**	$MirOS: src/usr.bin/who/who.c,v 1.2 2005/03/13 18:34:05 tg Exp $ */
 /*	$OpenBSD: who.c,v 1.17 2004/08/18 21:24:27 jmc Exp $	*/
 /*	$NetBSD: who.c,v 1.4 1994/12/07 04:28:49 jtc Exp $	*/
 
@@ -39,13 +40,6 @@ static char copyright[] =
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
 
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)who.c	8.1 (Berkeley) 6/6/93";
-#endif
-static char rcsid[] = "$OpenBSD: who.c,v 1.17 2004/08/18 21:24:27 jmc Exp $";
-#endif /* not lint */
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <paths.h>
@@ -58,6 +52,9 @@ static char rcsid[] = "$OpenBSD: who.c,v 1.17 2004/08/18 21:24:27 jmc Exp $";
 #include <time.h>
 #include <err.h>
 #include <locale.h>
+
+__SCCSID("@(#)who.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS: src/usr.bin/who/who.c,v 1.2 2005/03/13 18:34:05 tg Exp $");
 
 void  output(struct utmp *);
 void  output_labels(void);
@@ -125,7 +122,7 @@ main(int argc, char *argv[])
 			who_am_i(ufp);
 		} else if (show_quick) {
 			int count = 0;
-	
+
 			while (fread((char *)&usr, sizeof(usr), 1, ufp) == 1) {
 				if (*usr.ut_name && *usr.ut_line) {
 					(void)printf("%-*.*s ", NAME_WIDTH,
@@ -222,7 +219,7 @@ output(struct utmp *up)
 	if (show_term || show_idle) {
 		if (now == 0)
 			time(&now);
-		
+
 		memset(line, 0, sizeof line);
 		strlcpy(line, _PATH_DEV, sizeof line);
 		strlcat(line, up->ut_line, sizeof line);
@@ -234,7 +231,7 @@ output(struct utmp *up)
 			state = '?';
 			idle = 0;
 		}
-		
+
 	}
 
 	(void)printf("%-*.*s ", NAME_WIDTH, UT_NAMESIZE, up->ut_name);
@@ -247,16 +244,16 @@ output(struct utmp *up)
 	(void)printf("%.12s ", ctime(&up->ut_time) + 4);
 
 	if (show_idle) {
-		if (idle < 60) 
+		if (idle < 60)
 			(void)printf("  .   ");
 		else if (idle < (24 * 60 * 60))
-			(void)printf("%02d:%02d ", 
-				     (idle / (60 * 60)),
-				     (idle % (60 * 60)) / 60);
+			(void)printf("%02lld:%02d ",
+				     (int64_t)(idle / (60 * 60)),
+				     (int)(idle % (60 * 60)) / 60);
 		else
 			(void)printf(" old  ");
 	}
-	
+
 	if (*up->ut_host)
 		printf("  (%.*s)", HOST_WIDTH, up->ut_host);
 	(void)putchar('\n');

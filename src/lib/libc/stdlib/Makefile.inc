@@ -1,22 +1,38 @@
-#	$OpenBDS: Makefile.inc,v 1.6 1996/08/21 03:47:21 tholo Exp $
+# $MirOS: src/lib/libc/stdlib/Makefile.inc,v 1.4 2006/03/30 18:36:01 tg Exp $
 
 # stdlib sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/stdlib ${LIBCSRCDIR}/stdlib
 
 SRCS+=	a64l.c abort.c atexit.c atoi.c atof.c atol.c atoll.c bsearch.c \
 	calloc.c cfree.c exit.c ecvt.c gcvt.c getenv.c getopt_long.c \
-	getsubopt.c hcreate.c heapsort.c l64a.c llabs.c lsearch.c malloc.c \
+	getsubopt.c hcreate.c heapsort.c l64a.c llabs.c lsearch.c \
 	merge.c putenv.c qsort.c radixsort.c rand.c random.c \
 	realpath.c setenv.c strtod.c strtol.c strtoll.c strtonum.c strtoul.c \
-	strtoull.c system.c \
+	strtoull.c system.c getprogname.c \
 	tfind.c tsearch.c _rand48.c drand48.c erand48.c jrand48.c lcong48.c \
 	lrand48.c mrand48.c nrand48.c seed48.c srand48.c qabs.c qdiv.c _Exit.c
+
+CFLAGS_bsearch.o+= -Wno-cast-qual
+CFLAGS_ecvt.o+= -Wno-cast-qual
+CFLAGS_getopt_long.o+= -Wno-error
+CFLAGS_hcreate.o+= -Wno-error
+CFLAGS_lsearch.o+= -Wno-cast-qual
+CFLAGS_random.o+= -Wno-cast-qual -Wno-uninitialized
+CFLAGS_strtod.o+= -Wno-error
+CFLAGS_strtol.o+= -Wno-error
+CFLAGS_strtoll.o+= -Wno-cast-qual
+CFLAGS_strtoul.o+= -Wno-error
+CFLAGS_strtoull.o+= -Wno-cast-qual
+CFLAGS_system.o+= -Wno-error
+CFLAGS_tfind.o+= -Wno-cast-qual
+CFLAGS_tsearch.o+= -Wno-cast-qual
+CFLAGS_malloc.o+= -Wno-error
 
 .if   (${MACHINE_ARCH} == "m68k")
 SRCS+=	abs.S div.c labs.c ldiv.c
 LSRCS+=	abs.c
 .elif (${MACHINE_ARCH} == "i386")
-SRCS+=	abs.S div.S labs.S ldiv.S
+SRCS+=	abs.S div.S
 LSRCS+=	abs.c div.c labs.c ldiv.c
 .elif (${MACHINE_ARCH} == "ns32k")
 SRCS+=	abs.S div.c labs.c ldiv.c
@@ -37,6 +53,15 @@ SRCS+=	abs.c div.c labs.c ldiv.c
 SRCS+=	insque.S remque.S
 .else
 SRCS+=	insque.c remque.c
+.endif
+
+MALLOC_TYPE?=mmap
+.if ${MALLOC_TYPE:L} == "mmap"
+SRCS+=	malloc.c
+.elif ${MALLOC_TYPE:L} == "brk"
+SRCS+=	malloc_brk.c
+.else
+.  error MALLOC_TYPE "${MALLOC_TYPE:L}" unknown.
 .endif
 
 MAN+=	a64l.3 abort.3 abs.3 alloca.3 atexit.3 atof.3 atoi.3 atol.3 atoll.3 \

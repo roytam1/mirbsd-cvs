@@ -127,7 +127,7 @@ exec_script_makecmds(p, epp)
 	    cp++)
 		;
 
-	/* collect the shell name; remember it's length for later */
+	/* collect the shell name; remember its length for later */
 	shellname = cp;
 	shellnamelen = 0;
 	if (*cp == '\0')
@@ -171,7 +171,7 @@ check_shell:
 	 * if the script isn't readable, or it's set-id, then we've
 	 * gotta supply a "/dev/fd/..." for the shell to read.
 	 * Note that stupid shells (csh) do the wrong thing, and
-	 * close all open fd's when the start.  That kills this
+	 * close all open fds when the start.  That kills this
 	 * method of implementing "safe" set-id and x-only scripts.
 	 */
 	vn_lock(scriptvp, LK_EXCLUSIVE|LK_RETRY, p);
