@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.29 2006/02/01 15:42:15 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -138,6 +138,7 @@ SHELL=			${MKSH}		# missing ? not an oversight
 
 # this is supposed to be alphabetically supported.
 _MIRPORTS_ADDRESS=	<miros-discuss@MirBSD.org>
+_MIROS_ANONCVS=		anoncvs@unixforge.de:/cvs
 ARCH?=			${MACHINE_ARCH}
 FETCH_CMD?=		/usr/bin/ftp -EV -m
 HAS_CXX?=		base
