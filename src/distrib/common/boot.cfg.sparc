@@ -1,6 +1,6 @@
-# $MirOS: src/distrib/common/boot.cfg.sparc,v 1.4 2007/02/19 20:57:13 tg Exp $
+# $MirOS: src/distrib/common/boot.cfg.sparc,v 1.5 2007/03/08 09:01:59 tg Exp $
 #
-set image /v9/sparc/bsd.rd
+set image /v10/sparc/bsd.rd
 set timeout 12
 echo
 echo ================================================================
