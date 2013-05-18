@@ -1,6 +1,6 @@
-$MirOS$
---- browser/installer/unix/packages-static.orig	Mon Nov 24 13:19:14 2008
-+++ browser/installer/unix/packages-static	Mon Nov 24 13:19:38 2008
+$MirOS: ports/www/firesomething/patches/patch-browser_installer_unix_packages-static,v 1.1.2.1 2008/12/02 19:40:50 bsiegert Exp $
+--- browser/installer/unix/packages-static.orig	Wed Aug 27 01:56:24 2008
++++ browser/installer/unix/packages-static	Tue Dec  2 19:03:02 2008
 @@ -30,15 +30,15 @@ bin/updater.ini
  bin/dictionaries/*
  
@@ -69,9 +69,9 @@ $MirOS$
 -bin/components/libdbusservice.so
 +bin/components/libdbusservice.so._SO_VERSION_
  bin/components/aboutRobots.js
+ bin/components/nsBadCertHandler.js
  
- ; Modules
-@@ -255,10 +255,10 @@ bin/components/nsUrlClassifierLib.js
+@@ -256,10 +256,10 @@ bin/components/nsUrlClassifierLib.js
  bin/components/url-classifier.xpt
  
  ; Kerberos NegotiateAuth
@@ -84,7 +84,7 @@ $MirOS$
  bin/components/mozgnome.xpt
  
  ; [Browser Chrome Files]
-@@ -345,30 +345,30 @@ bin/components/dom_svg.xpt
+@@ -346,30 +346,30 @@ bin/components/dom_svg.xpt
  
  ; [Personal Security Manager]
  ;
@@ -126,7 +126,7 @@ $MirOS$
  
  ; [Updater]
  ;
-@@ -383,8 +383,8 @@ bin/Throbber-small.gif
+@@ -384,8 +384,8 @@ bin/Throbber-small.gif
  
  ; [Extensions]
  ;

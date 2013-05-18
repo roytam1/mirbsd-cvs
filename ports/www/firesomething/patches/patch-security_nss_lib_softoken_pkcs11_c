@@ -1,7 +1,7 @@
-$MirOS$
---- security/nss/lib/softoken/pkcs11.c.orig	Wed Aug 27 02:11:51 2008
-+++ security/nss/lib/softoken/pkcs11.c	Wed Aug 27 02:12:09 2008
-@@ -2548,7 +2548,7 @@ loser:
+$MirOS: ports/www/firesomething/patches/patch-security_nss_lib_softoken_pkcs11_c,v 1.1.2.1 2008/09/06 19:29:01 bsiegert Exp $
+--- security/nss/lib/softoken/pkcs11.c.orig	Fri Jul  4 02:02:03 2008
++++ security/nss/lib/softoken/pkcs11.c	Tue Dec  2 19:03:04 2008
+@@ -2549,7 +2549,7 @@ loser:
          sftk_InitFreeLists();
      }
  

@@ -1,7 +1,7 @@
-$MirOS: ports/www/firesomething/patches/patch-configure_in,v 1.7.2.1 2008/08/24 14:52:26 bsiegert Exp $
+$MirOS: ports/www/firesomething/patches/patch-configure_in,v 1.7.2.2 2008/09/06 19:29:01 bsiegert Exp $
 $OpenBSD: patch-configure_in,v 1.5 2005/04/09 08:11:19 wilfried Exp $
---- configure.in.orig	Wed Jun 25 00:50:54 2008
-+++ configure.in	Tue Aug 26 22:45:18 2008
+--- configure.in.orig	Tue Oct 21 04:08:46 2008
++++ configure.in	Tue Dec  2 19:03:03 2008
 @@ -62,7 +62,7 @@ dnl ====================================
  
  AC_PREREQ(2.13)
@@ -11,7 +11,7 @@ $OpenBSD: patch-configure_in,v 1.5 2005/04/09 08:11:19 wilfried Exp $
  AC_CANONICAL_SYSTEM
  TARGET_CPU="${target_cpu}"
  TARGET_VENDOR="${target_vendor}"
-@@ -852,7 +852,7 @@ tools are selected during the Xcode/Deve
+@@ -870,7 +870,7 @@ tools are selected during the Xcode/Deve
                   int main() { return 0; }],
     result=yes,
     result=no)
@@ -20,7 +20,7 @@ $OpenBSD: patch-configure_in,v 1.5 2005/04/09 08:11:19 wilfried Exp $
    AC_MSG_RESULT($result)
  
    if test "$result" = "no" ; then
-@@ -1540,10 +1540,10 @@ dnl Get mozilla version from central mil
+@@ -1558,10 +1558,10 @@ dnl Get mozilla version from central mil
  MOZILLA_VERSION=`$PERL $srcdir/config/milestone.pl -topsrcdir $srcdir`
  
  dnl Get version of various core apps from the version files.
@@ -35,7 +35,7 @@ $OpenBSD: patch-configure_in,v 1.5 2005/04/09 08:11:19 wilfried Exp $
  
  AC_DEFINE_UNQUOTED(MOZILLA_VERSION,"$MOZILLA_VERSION")
  AC_DEFINE_UNQUOTED(MOZILLA_VERSION_U,$MOZILLA_VERSION)
-@@ -2204,12 +2204,22 @@ case "$target" in
+@@ -2222,12 +2222,22 @@ case "$target" in
  	esac
  	;;
  
@@ -60,7 +60,7 @@ $OpenBSD: patch-configure_in,v 1.5 2005/04/09 08:11:19 wilfried Exp $
  	DSO_LDOPTS="-R$LIBRUNPATH $DSO_LDOPTS"
      fi
      ;;
-@@ -3213,7 +3223,7 @@ then
+@@ -3231,7 +3241,7 @@ then
  			fi
  			;;
  
