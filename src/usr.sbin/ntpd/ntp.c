@@ -38,7 +38,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.15 2007/10/03 21:51:08 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.16 2007/10/03 22:03:06 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -592,19 +592,19 @@ update_scale(double offset)
 time_t
 scale_interval(time_t requested)
 {
-	time_t interval, r;
+	double interval = requested, r;
 
-	interval = requested * conf->scale;
-	r = arc4random() % MAX(5, interval / 10);
-	return (interval + r);
+	r = (interval *= conf->scale) / 10.;
+	if (r > 7.)
+		r = 7.;
+	return (interval + (arc4random() % (int)(r + .5)) - (r / 2.));
 }
 
 time_t
 error_interval(void)
 {
-	time_t interval, r;
+	double interval = INTERVAL_QUERY_PATHETIC, r;
 
-	interval = INTERVAL_QUERY_PATHETIC * QSCALE_OFF_MAX / QSCALE_OFF_MIN;
-	r = arc4random() % (interval / 10);
-	return (interval + r);
+	r = (interval *= QSCALE_OFF_MAX / QSCALE_OFF_MIN) / 10.;
+	return (interval + (arc4random() % (int)(r + .5)) - (r / 2.));
 }
