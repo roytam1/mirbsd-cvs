@@ -1,3 +1,5 @@
+# $MirOS$
+
 /dev/root  /                   cd9660  ro,noauto,noatime            0  0
 /dev/rd0a  /dev                ffs     rw,noauto                    0  0
 swap       /etc                mfs     rw,noauto,noatime,-s=20480   0  0
@@ -7,3 +9,8 @@ proc       /proc               procfs  rw,linux                     0  0
 swap       /tmp                mfs     rw,noauto,noatime,-s=600000  0  0
 swap       /usr/X11R6/lib/X11  mfs     rw,noauto,noatime,-s=20480   0  0
 swap       /var                mfs     rw,noauto,noatime,-s=300000  0  0
+
+# Having /usr/ports on a memory filesystem is actually not feasible.
+# You need a lot more than 64 MiB for the files, with an inode density
+# of 1024 and about 54 MiB usable space, it doesn't even extract! It
+# could be packed on the CD but as it's a moving target... and not small.
