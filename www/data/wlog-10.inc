@@ -995,3 +995,37 @@ Title: continuity
  could improve. Or meet us at <a href="http://www.froscon.de/">conferences</a>
  and pay for our beer ☺ and other beverages (we’re not BeerFSD after all).</p>
 ----
+Date: 12.07.2008 21:15
+Author: bsiegert@
+Title: "Requesting inclusion of mksh (shell) into Mac OS X"
+
+<p>This is the title of the bug report I filed with the Apple Bug Report Tool
+ yesterday. The problem ID is 6069931; I think you can only see your own bug
+ reports in the tracker though, so you may not be able to see my report. FWIW,
+ I filed it against Mac OS X 10.5.4 (the current version), with "Feature (new)"
+ as a severity. For reference, the full text of the bug report follows:</p>
+
+<p>11-Jul-2008 11:58 AM Benny Siegert:</p>
+
+<p>I would like to kindly request the inclusion of mksh as an alternative shell
+ into future versions of Mac OS X.</p>
+
+<p>mksh (the MirOS Korn Shell) is a Korn Shell derivative under a
+ BSD-like licence. It includes the features from the OpenBSD ksh as well
+ as additional bash compatibility. Almost all bash scripts run under
+ mksh, however with a speedup of about a factor 2. The code was checked
+ for security problems by Coverity, Inc. UTF-8 support is fully
+ integrated. With all these features, it is still very small, just 240
+ KiB as an i386 binary. The build process is done by a script called
+ Build.sh, Mac OS is already a fully supported and maintained
+ platform.</p>
+
+<p>This could potentially replace the ksh93 included now as /bin/ksh or
+ be installed side by side as /bin/mksh. In short, it can be regarded a
+ more modern replacement for older ksh releases.</p>
+
+<p>The homepage of mksh is located at <a
+ href="http://mirbsd.de/mksh">http://mirbsd.de/mksh</a>. The current
+ version is available from <a
+ href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R35.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R35.cpio.gz</a>.</p>
+----
