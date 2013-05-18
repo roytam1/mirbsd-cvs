@@ -580,3 +580,22 @@ Subject: when ranting helps
 <p>I wish ranting would help with my internet connection… gotta fight with
  the ISP/Telco now.</p>
 ----
+Date: 21.04.2008 21:33
+Author: bsiegert@
+
+<p>Just returning from a week in the south, and feeling well. By sheer
+ verpeil0ring, I was away the whole time that tg@ spent in Basel, just
+ a few kilometers from here. But those holidays were necessary, and I
+ enjoyed them very much. @work, there are new <i>stagiaires</i> of
+ which I don't even know the name but it does not look as if anything
+ had moved during my absence ;).</p>
+
+<p>I am trying to port ttftot42, a nifty utility for converting
+ TrueType fonts to PostScript Type 42 (which seems to be
+ straightforward) and, more interesting for me, can create AFM files
+ for them. Using those fonts in TeX is only an <tt>afm2tfm</tt> away
+ then. The last version is from 1999 and needs freetype 1. The
+ author&mdash;very responsive indeed!&mdash;says this is not yet fixed
+ but promised to send me a hg snapshot. While here, we now have a
+ mercurial (hg) port ;).</p>
+----
