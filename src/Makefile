@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.128 2008/07/09 23:57:20 tg Exp $
+# $MirOS: src/Makefile,v 1.129 2008/07/10 14:40:53 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -320,11 +320,12 @@ _do-dist:
 .  endif
 .endif
 .ifdef NO_LIVECD
-.  ifndef QUICK_DIST
-	@echo QUICK dist-build mode active:
-.  endif
-.  if ${NO_LIVECD} == "incomplete"
+.  if ${MACHINE_ARCH} == "sparc"
+	@echo SPARC dist-build mode active:
+.  elif ${NO_LIVECD} == "incomplete"
 	@echo Your checkout is not complete:
+.  elif !defined(QUICK_DIST)
+	@echo QUICK dist-build mode active:
 .  endif
 	@echo not building the baselive CD image.
 .endif
