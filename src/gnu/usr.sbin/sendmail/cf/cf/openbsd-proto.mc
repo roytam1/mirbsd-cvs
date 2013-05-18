@@ -1,9 +1,9 @@
 divert(-1)dnl
 #
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.4 2006/03/23 13:20:21 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.5 2006/06/15 19:18:47 tg Exp $
 #
-# Copyright (c) 2002, 2003, 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@MirBSD.de>
+# Copyright (c) 2002, 2003, 2004, 2005, 2007
+#	Thorsten "mirabilos" Glaser <tg@MirBSD.de>
 # Copyright (c) 1998 Sendmail, Inc.  All rights reserved.
 # Copyright (c) 1983 Eric P. Allman.  All rights reserved.
 # Copyright (c) 1988, 1993
@@ -19,7 +19,7 @@ divert(-1)dnl
 #
 
 divert(0)dnl
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.4 2006/03/23 13:20:21 tg Exp $')dnl
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-proto.mc,v 1.5 2006/06/15 19:18:47 tg Exp $')dnl
 dnl VERSIONID(`@(#)openbsd-proto.mc $Revision$')dnl
 OSTYPE(openbsd)dnl
 dnl
@@ -108,6 +108,11 @@ dnl Bounce messages addressed to "address.REDIRECT".  This allows the
 dnl admin to alias a user who has moved to "new_address.REDIRECT" so
 dnl that senders will know the user's new address.
 FEATURE(`redirect')dnl
+dnl
+dnl
+dnl Reject envelope sender addresses whose domain part resolves to
+dnl a "bad" MX record (loopback, etc.)
+FEATURE(`badmx')dnl
 dnl
 dnl
 dnl Accept incoming connections on any IPv4 or IPv6 interface for ports
