@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.41 2008/12/29 23:57:12 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.42 2008/12/30 02:00:11 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -112,9 +112,9 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 	dmesg | sed -ne '/^MirBSD /h;/^MirBSD /!H;${g;p;}' >/var/run/dmesg.boot
 
 	# look if we're DHCP/TFTP enabled
-	if [ -e /usr/mdec/pxeboot ]; then
+	if [ -e usr/libexec/tftpd ]; then
 		mkdir /tmp/tftpboot
-		cp /usr/mdec/pxeboot /tmp/tftpboot/
+		cp /usr/mdec/boot /tmp/tftpboot/
 	fi
 
 	# don't run this twice

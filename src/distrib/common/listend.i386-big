@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386-big,v 1.31 2008/12/10 18:03:21 tg Exp $
+# $MirOS: src/distrib/common/listend.i386-big,v 1.32 2008/12/18 17:20:33 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/ps
@@ -55,7 +55,6 @@ SPECIAL	cd dev; mksh MAKEDEV ramdisk rambig ttyC1 ttyC2 isdns
 
 # extra stuff
 COPY	${DESTDIR}/usr/mdec/mbrmgr		usr/mdec/mbrmgr
-COPY	${DESTDIR}/usr/mdec/pxeboot		usr/mdec/pxeboot
 COPY	${DESTDIR}/usr/share/zoneinfo/UTC	usr/share/zoneinfo/UTC
 SPECIAL	ln usr/share/zoneinfo/UTC etc/localtime
 

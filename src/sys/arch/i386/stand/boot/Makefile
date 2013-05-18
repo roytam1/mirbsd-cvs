@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.25 2009/01/11 14:13:41 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.26 2009/01/12 17:52:44 tg Exp $
 
 SMALL_BOOT?=	No
 
@@ -17,7 +17,8 @@ COPTS+=		${SACFLAGS:N-[DI]*}
 #AFLAGS+=	-Wa,-a
 
 MAN=		boot.8
-MLINKS=		boot.8 boot.cfg.5
+MLINKS+=	boot.8 boot.cfg.5
+MLINKS+=	boot.8 pxeboot.8
 
 .if ${MACHINE_ARCH} == "i386"
 PROG=		boot

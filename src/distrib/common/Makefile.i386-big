@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.i386-big,v 1.15 2008/08/05 22:48:46 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386-big,v 1.16 2008/08/06 00:28:37 tg Exp $
 
 IMAGESIZE=	8192
 IMAGETYPE=	ipldisc
@@ -16,7 +16,6 @@ bsd: ${BSDOBJDIR}/distrib/generic/bsd
 
 cdrom-mdcopy:
 	dd if=/dev/arandom bs=2048 count=1 of=eltorito.loo
-	cp ${DESTDIR}/usr/mdec/pxeboot ${WRKDIR}/v${OSrev}/${MACHINE}/
 
 cdrom-mdboot:
 	getextent_cd9660 -f ${CDROM} b_${MACHINE}.ldr | \

@@ -1,10 +1,10 @@
-# $MirOS: www/src/getting.hts,v 1.18 2008/11/11 01:54:06 tg Exp $
+# $MirOS: www/src/getting.hts,v 1.19 2008/12/10 18:40:18 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname getting "Get MirOS!"
-mws_putheader '$MirOS: www/src/getting.hts,v 1.18 2008/11/11 01:54:06 tg Exp $'
+mws_putheader '$MirOS: www/src/getting.hts,v 1.19 2008/12/10 18:40:18 tg Exp $'
 mws_content <<'EOF'
 <h1>Get MirOS!</h1>
 
@@ -106,8 +106,9 @@ mws_content <<'EOF'
 </ul>
 
 <p>For netinstall, first get the CD image (<tt>cdrom10.iso</tt>, usually
- about 4-5 MiB large) or a (net)bootable kernel (i386: <tt>pxeboot</tt> plus
- <tt>bsd.rd</tt>, sparc: either <tt>bsd.rd.net</tt> or <tt>boot</tt>, which
+ about 4-5 MiB large) or a (net)bootable kernel (i386: <tt>pxeboot</tt> for
+ MirOS #10 or <tt>boot</tt> for MirOS #11, replacing OpenBSD’s pxeboot, plus
+ <tt>bsd.rd</tt>; sparc: either <tt>bsd.rd.net</tt> or <tt>boot</tt>, which
  replaces OpenBSD’s <tt>boot.net</tt>, and <tt>bsd.rd</tt>), or, if you have
  no other means, the <tt>floppy10.fs</tt> image. Then, select <tt>(H)TTP</tt>
  as set location, and use the FQDN as server name and the full path without

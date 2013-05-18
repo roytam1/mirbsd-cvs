@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/share/man/man8/boot_i386.8,v 1.1 2007/10/21 16:17:59 tg Exp $
 .\"	$OpenBSD: boot_i386.8,v 1.13 2005/01/07 11:49:32 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Tobias Weingartner
@@ -169,9 +169,11 @@ system MBR image
 system primary stage bootstrap (PBR)
 .It Pa /usr/mdec/boot
 system second stage bootstrap (usually also installed as
-.Pa /boot )
-.It Pa /usr/mdec/pxeboot
-PXE bootstrap
+.Pa /boot ,
+also known as
+.Pa ldbsd.com
+or
+.Pa pxeboot )
 .El
 .Sh SEE ALSO
 .Xr ddb 4 ,
@@ -191,5 +193,9 @@ wonderful interactions between different operating systems.
 .Pp
 There is no published standard to the MBR and PBR,
 which makes coding these a nightmare.
+There are published standards to PXE and El Torito,
+which makes coding these a nightmare.
+(This is not a contradiction, although the abyss between
+specification and implementation is much worse with ACPI.)
 .\" .Pp
 .\" Somebody *please* write me a decent BIOS, and make them (the masses) use it!
