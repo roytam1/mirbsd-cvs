@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.15 2006/01/03 02:22:45 tg Exp $
+# $MirOS: src/etc/profile,v 1.16 2006/03/28 13:22:57 tg Exp $
 #-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -12,7 +12,7 @@ else
 	TERM=vt220
 fi
 case "${TERM}:$COLORTERM" in
-*:NO|ansi-nt*|vt*)
+*:NO|ansi-nt*|vt*|xterm-r6:*)
 	unset COLORTERM
 	;;
 interix:*|screen:*|wsvt*|xterm*)
