@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.36 2006/01/30 13:01:45 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.37 2006/01/31 14:38:00 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,7 +24,7 @@
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a nontrivial bug.
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.36 2006/01/30 13:01:45 tg Exp $ ========='
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.37 2006/01/31 14:38:00 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -631,8 +631,6 @@ openbsd)
 		lib/libc/locale/_def_monetary.c \
 		lib/libc/locale/_def_numeric.c \
 		lib/libc/locale/_def_time.c \
-		lib/libc/locale/_wcstol.h \
-		lib/libc/locale/_wcstoul.h \
 		lib/libc/locale/_wctrans.c \
 		lib/libc/locale/_wctrans_local.h \
 		lib/libc/locale/iswctype.c \
@@ -648,12 +646,6 @@ openbsd)
 		lib/libc/locale/runetype.h \
 		lib/libc/locale/setlocale.c \
 		lib/libc/locale/setrunelocale.c \
-		lib/libc/locale/wcstod.c \
-		lib/libc/locale/wcstol.c \
-		lib/libc/locale/wcstoll.c \
-		lib/libc/locale/wcstoul.c \
-		lib/libc/locale/wcstoull.c \
-		lib/libc/locale/wctoint.h \
 		lib/libc/md \
 		lib/libc/net/nsap_addr.c \
 		lib/libc/nls \
