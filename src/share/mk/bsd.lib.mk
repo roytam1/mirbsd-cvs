@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.22 2005/10/06 21:47:56 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.23 2005/10/06 22:02:47 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -262,7 +262,7 @@ realinstall:
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/
 .    if ${DEBUGLIBS:L} == "yes"
-	-r -f ${DESTDIR}${LIBDIR}/${SHLIB_SONAME}.dbg
+	-rm -f ${DESTDIR}${LIBDIR}/${SHLIB_SONAME}.dbg
 	cd ${DESTDIR}${LIBDIR} && \
 	    objcopy --only-keep-debug ${SHLIB_SONAME} ${SHLIB_SONAME}.dbg && \
 	    objcopy --strip-debug --add-gnu-debuglink=${SHLIB_SONAME}.dbg \
