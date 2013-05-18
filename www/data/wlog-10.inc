@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.335 2011/05/21 15:56:17 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.336 2011/06/06 21:36:56 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7808,8 +7808,8 @@ Tag: debian mksh pcli
  <tt>REPLY</tt>) as in the “source” shell.</p>
 <p class="boxhead">I’ve added extra spaces and a linewrap below,
  this is really just one big line:</p><div class="boxtext">
-  <tt>nl=$'\n'; x=$(export -p); x=${x//${nl}export/};
-  IFS= read -rs &lt;&lt;&lt;"unset \\\$(export);${x//$nl/\'\$\'\\\\n\'\'}"</tt>
+  <tt>nl=$'\n'; x=$(export -p); x=${x//${nl}export/};</tt>
+  <tt>IFS= read -rs &lt;&lt;&lt;"unset \\\$(export);${x//$nl/\'\$\'\\\\n\'\'}"</tt>
 </div><p class="boxfoot">Of course, this makes a nice function,
  for your <tt>~/.mkshrc</tt> or somesuch.</p>
 ----
