@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.31 2007/03/09 13:05:10 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.32 2007/04/16 17:37:08 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -151,7 +151,7 @@ etc-files:
 .  else
 	cd ../gnu/usr.sbin/sendmail/cf/cf && exec ${MAKE} distribution
 .  endif
-.  for _i in lib/libssl usr.bin/mail usr.bin/ssh
+.  for _i in lib/libssl bin/mksh usr.bin/mail usr.bin/ssh
 	cd ../${_i} && exec ${MAKE} distribution
 .  endfor
 .  if ${CROSS_MODE:L} != "yes"
@@ -249,7 +249,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.31 2007/03/09 13:05:10 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.32 2007/04/16 17:37:08 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \
