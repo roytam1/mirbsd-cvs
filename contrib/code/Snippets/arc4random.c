@@ -1,5 +1,5 @@
 static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
-    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.23 2009/11/29 15:29:24 tg Exp $"
+    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.24 2009/11/29 18:24:21 tg Exp $"
     ;
 
 /*-
@@ -166,6 +166,7 @@ arc4_addrandom(const u_char *dat, size_t datlen)
 		arc4_ctx.s[arc4_ctx.i] = arc4_ctx.s[arc4_ctx.j];
 		arc4_ctx.s[arc4_ctx.j] = si;
 	}
+	arc4_ctx.i++;
 	arc4_ctx.j = arc4_ctx.i;
 }
 

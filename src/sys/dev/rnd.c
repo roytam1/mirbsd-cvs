@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.54 2009/11/09 20:11:56 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.55 2009/11/09 21:36:40 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -1413,6 +1413,7 @@ arc4_addrandom(register const uint8_t *buf, size_t len)
 		    arc4random_state.s[arc4random_state.j];
 		arc4random_state.s[arc4random_state.j] = si;
 	}
+	arc4random_state.i++;
 	arc4random_state.j = arc4random_state.i;
 }
 
