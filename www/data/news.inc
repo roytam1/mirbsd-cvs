@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.122 2009/09/08 17:04:57 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.123 2009/09/25 18:23:32 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1707,4 +1707,41 @@ Tag: bug
 <p>Please note that X.509v3 SSL certificate validation will have prevented
  you from connecting to the wrong server, as this ended up like a MITM
  (man-in-the-middle) attack.</p>
+----
+Title: New MirMake (mandatory update)
+Date: 20.10.2009 21:33
+Author: tg@
+Tag: bug mksh
+
+<p class="boxhead">Due to a bug <a href="@@RELPATH@@mksh.htm#clog">mksh
+ fixed</a> after inheriting it from pdksh via OpenBSD ksh (oksh), which
+ probably got it from AT&amp;T ksh88 (ksh93 exhibits the correct behaviour,
+ as does posh), coupled with the unfortunate lines</p>
+<div class="boxtext"><pre>
+	CC=${CC:Q} ${MKDEP_SH} -a ${MKDEP} ${CFLAGS:M-[ID]*} \
+	    ${CPPFLAGS} $$files; \
+</pre></div><p class="boxfoot">in <tt>&lt;bsd.dep.mk</tt>, where ${MKDEP}
+ can be the mkdep(1) option <tt>-p</tt> as well as additional CPPFLAGS like
+ <tt>-I...</tt> (which I actually found in our tree), you <strong>absolutely
+ must</strong> upgrade your MirMake package, as well as mkdep(1) in the base
+ system, <em>before</em> upgrading to mksh-20091015 or newer. (Note that R40,
+ which will carry the breaking fix, has not been released yet, but FreeWRT
+ uses an mksh-current snapshot bearing it with still major 39 enacted.) It is
+ actually pretty hard to work around, see the mkdep source code for details.
+ There are basically two things to take care of:</p><ul>
+ <li>For each <i>x</i> in <tt>getopts "...x..." c</tt>, make sure you not
+  only case <tt>(x) ... ;;</tt> but also either case <tt>(+x) ... ;;</tt>
+  or have a <tt>(*) ... ;;</tt> default trailing block, because mksh(1)
+  getopts will also catch <tt>foo -x +y -z</tt> sanely. This is, in contrast
+  to oksh, not disablable with a shell option.</li>
+ <li>If you case <tt>(\?) <i>cmds</i> ;;</tt> (either explicitly or via a
+  default block), <strong>special rules</strong> apply: if you do anything
+  other than exiting from there (e.g. via <i>usage</i>), <tt>$OPTIND</tt>
+  will differ: newer shells <em>count</em> this option, olders don't.</li>
+</ul>
+<p>The new distfile {RMD160 (/MirOS/dist/mir/make/mirmake-20091020.cpio.gz)
+ = b9ac1258bc66b3d0d63537cc82d02c91408d1ba8} has been uploaded for your
+ convenience already and will be integrated (after testing) into both The
+ MirPorts Framework and <a href="https://www.freewrt.org/">FreeWRT</a> as
+ soon as we get to it, probably tomorrow.</p>
 ----
