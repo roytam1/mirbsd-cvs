@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# $MirOS: src/gnu/usr.bin/cvs/contrib/Makefile.am,v 1.5 2010/09/16 20:55:48 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/contrib/Makefile.am,v 1.7 2011/12/04 20:32:55 tg Exp $
 # Makefile for GNU CVS contributed sources.
 # Do not use this makefile directly, but only from `../Makefile'.
 #
@@ -57,11 +57,8 @@ POST_UNINSTALL = :
 subdir = contrib
 DIST_COMMON = README $(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(srcdir)/clmerge.in $(srcdir)/cln_hist.in \
-	$(srcdir)/commit_prep.in $(srcdir)/cvs_acls.in \
-	$(srcdir)/log.in $(srcdir)/log_accum.in $(srcdir)/mfpipe.in \
 	$(srcdir)/pvcs2rcs.in $(srcdir)/rcs2log.sh \
-	$(srcdir)/rcslock.in $(srcdir)/sccs2rcs.in \
-	$(srcdir)/validate_repo.in
+	$(srcdir)/sccs2rcs.in $(srcdir)/validate_repo.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/allocsa.m4 \
 	$(top_srcdir)/m4/atexit.m4 $(top_srcdir)/m4/bison.m4 \
@@ -120,8 +117,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 	$(ACLOCAL_M4)
 mkinstalldirs = $(SHELL) $(GNUSYSTEM_AUX_DIR)/mkinstalldirs
 CONFIG_HEADER = $(top_builddir)/config.h
-CONFIG_CLEAN_FILES = validate_repo clmerge cln_hist commit_prep \
-	cvs_acls log log_accum mfpipe pvcs2rcs rcs2log rcslock \
+CONFIG_CLEAN_FILES = validate_repo clmerge cln_hist pvcs2rcs rcs2log \
 	sccs2rcs
 am__installdirs = "$(DESTDIR)$(contribdir)" "$(DESTDIR)$(contribdir)"
 contribSCRIPT_INSTALL = $(INSTALL_SCRIPT)
@@ -253,26 +249,18 @@ contribdir = $(pkgdatadir)/contrib
 contrib_SCRIPTS = \
 	clmerge \
 	cln_hist \
-	commit_prep \
 	cvs2vendor \
-	cvs_acls \
 	debug_check_log \
-	log \
-	log_accum \
-	mfpipe \
-	newcvsroot \
 	pvcs2rcs \
 	rcs-to-cvs \
 	rcs2log \
-	rcslock \
 	sandbox_status \
 	sccs2rcs \
 	validate_repo
 
 contrib_DATA = \
 	README \
-	intro.doc \
-	rcs-5.7-commitid.patch
+	intro.doc
 
 contrib_MANS = \
 	rcs2log.1 \
@@ -337,21 +325,9 @@ clmerge: $(top_builddir)/config.status $(srcdir)/clmerge.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 cln_hist: $(top_builddir)/config.status $(srcdir)/cln_hist.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-commit_prep: $(top_builddir)/config.status $(srcdir)/commit_prep.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-cvs_acls: $(top_builddir)/config.status $(srcdir)/cvs_acls.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-log: $(top_builddir)/config.status $(srcdir)/log.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-log_accum: $(top_builddir)/config.status $(srcdir)/log_accum.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-mfpipe: $(top_builddir)/config.status $(srcdir)/mfpipe.in
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 pvcs2rcs: $(top_builddir)/config.status $(srcdir)/pvcs2rcs.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 rcs2log: $(top_builddir)/config.status $(srcdir)/rcs2log.sh
-	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-rcslock: $(top_builddir)/config.status $(srcdir)/rcslock.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 sccs2rcs: $(top_builddir)/config.status $(srcdir)/sccs2rcs.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
