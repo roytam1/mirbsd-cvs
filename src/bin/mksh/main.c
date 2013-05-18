@@ -4,7 +4,7 @@
 /*	$OpenBSD: table.c,v 1.13 2009/01/17 22:06:44 millert Exp $	*/
 
 /*-
- * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
+ * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -33,7 +33,7 @@
 #include <locale.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/main.c,v 1.157 2009/12/05 17:43:47 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/main.c,v 1.158 2010/01/01 17:44:08 tg Exp $");
 
 extern char **environ;
 
