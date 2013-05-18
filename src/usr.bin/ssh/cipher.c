@@ -36,7 +36,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/cipher.c,v 1.6 2006/06/02 20:50:46 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/cipher.c,v 1.7 2006/08/18 18:05:49 tg Exp $");
 
 #include "xmalloc.h"
 #include "log.h"
@@ -195,8 +195,8 @@ cipher_init(CipherContext *cc, Cipher *cipher,
 	int klen;
 	u_char *junk, *discard;
 
-	arc4random_push(((uint32_t)getpid() * (uint32_t)getppid())
-	    ^ (intptr_t)cc ^ (intptr_t)cipher + do_encrypt);
+	arc4random_push((((uint32_t)getpid() * (uint32_t)getppid())
+	    ^ (intptr_t)cc ^ (intptr_t)cipher) + do_encrypt);
 	if (key && keylen)
 		arc4random_pushb(key, keylen);
 	if (iv && ivlen)
