@@ -1,4 +1,4 @@
-/* $MirOS: src/include/stdint.h,v 1.5 2005/12/17 05:46:13 tg Exp $ */
+/* $MirOS: src/include/stdint.h,v 1.6 2006/12/11 23:54:56 tg Exp $ */
 
 /*-
  * "minimal" replacement for ISO C99 "stdint.h" header file (not com-
@@ -122,8 +122,14 @@ typedef	uint64_t	uintmax_t;
 #define	SIG_ATOMIC_MIN		INT32_MIN
 #define	SIG_ATOMIC_MAX		INT32_MAX
 
+#ifndef SIZE_MAX
 /* size_t is the same as an uintptr_t */
 #define	SIZE_MAX		UINTPTR_MAX
+#endif
+#ifndef SSIZE_MAX
+/* ssize_t is the same as an intptr_t */
+#define	SSIZE_MAX		INTPTR_MAX
+#endif
 
 /* wchar_t is an unsigned short */
 #define	WCHAR_MIN		0
