@@ -36,41 +36,6 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-/*
- * The /dev/apm{,ctl} interface code falls under the following license
- * terms:
- *
- * Copyright (c) 1998-2001 Michael Shalayeff. All rights reserved.
- * Copyright (c) 1995 John T. Kohl.  All rights reserved.
- *
- * Redistribution and use in source and binary forms, with or without
- * modification, are permitted provided that the following conditions
- * are met:
- * 1. Redistributions of source code must retain the above copyright
- *    notice, this list of conditions and the following disclaimer.
- * 2. Redistributions in binary form must reproduce the above copyright
- *    notice, this list of conditions and the following disclaimer in the
- *    documentation and/or other materials provided with the distribution.
- * 3. All advertising materials mentioning features or use of this software
- *    must display the following acknowledgement:
- *	This product includes software developed by the University of
- *	California, Berkeley and its contributors.
- * 4. Neither the name of the University nor the names of its contributors
- *    may be used to endorse or promote products derived from this software
- *    without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
- * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
- * ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
- * OR SERVICES; LOSS OF MIND, USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
- * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
- * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
- * SUCH DAMAGE.
- */
 
 #include <sys/param.h>
 #include <sys/systm.h>
@@ -177,7 +142,6 @@ u_int8_t tctrl_read_data(struct tctrl_softc *);
 void	tctrl_read_event_status(void *);
 void	tctrl_read_ext_status(struct tctrl_softc *);
 int	tctrl_request(struct tctrl_softc *, struct tctrl_req *);
-void	tctrl_tft(struct tctrl_softc *);
 void	tctrl_write_data(struct tctrl_softc *, u_int8_t);
 
 int	apm_record_event(struct tctrl_softc *, u_int);
@@ -294,10 +258,6 @@ tctrl_attach(parent, self, aux)
 	/* Get a few status values */
 	tctrl_bell(sc, 0xff, 0);
 	tctrl_brightness(sc, 0xff, 0);
-
-	/* Blank video if lid is closed during boot */
-	if (sc->sc_ext_status & TS102_EXT_STATUS_LID_DOWN)
-		tctrl_tft(sc);
 
 	sc->sc_regs->intr = TS102_UCTRL_INT_RXNE_REQ|TS102_UCTRL_INT_RXNE_MSK;
 
@@ -549,16 +509,6 @@ tctrl_read_event_status(void *arg)
 		      TS102_LCD_DC_OK : 0);
 #endif
 	}
-	if (v & TS102_EVENT_STATUS_LID_STATUS_CHANGE) {
-		/* blank or restore video if necessary */
-		if (sc->sc_tft_on)
-			tctrl_tft(sc);
-#ifdef TCTRLDEBUG
-		printf("%s: lid %s\n", sc->sc_dev.dv_xname,
-		    (sc->sc_ext_status & TS102_EXT_STATUS_LID_DOWN) ?
-		      "closed" : "opened");
-#endif
-	}
 	if (v & TS102_EVENT_STATUS_EXTERNAL_VGA_STATUS_CHANGE) {
 		printf("%s: external vga %s\n", sc->sc_dev.dv_xname,
 		    sc->sc_ext_status & TS102_EXT_STATUS_EXTERNAL_VGA_ATTACHED ?
@@ -644,34 +594,6 @@ tctrl_brightness(struct tctrl_softc *sc, int mask, int value)
 		sc->sc_brightness = value;
 	else
 		sc->sc_brightness = req.rspbuf[0];
-}
-
-void
-tctrl_tft(struct tctrl_softc *sc)
-{
-	struct tctrl_req req;
-	int enable;
-
-	enable = (sc->sc_ext_status & TS102_EXT_STATUS_LID_DOWN) == 0 &&
-	    sc->sc_tft_on;
-
-	req.cmdbuf[0] = TS102_OP_CTL_BITPORT;
-	req.cmdbuf[1] = ~TS102_BITPORT_TFTPWR;
-	req.cmdbuf[2] = enable ? 0 : TS102_BITPORT_TFTPWR;
-	req.cmdlen = 3;
-	req.rsplen = 2;
-
-	if ((sc->sc_flags & TCTRL_ISXT) != 0 && enable) {
-		sb_auxregbisc(0, AUXIO_TFT, 0);
-		delay(100000);	/* XXX is such a long delay really necessary? */
-	}
-
-	tctrl_request(sc, &req);
-
-	if ((sc->sc_flags & TCTRL_ISXT) != 0 && !enable) {
-		delay(100000);	/* XXX is such a long delay really necessary? */
-		sb_auxregbisc(0, 0, AUXIO_TFT);
-	}
 }
 
 void
@@ -826,9 +748,6 @@ tadpole_set_video(int enabled)
 	sc = (struct tctrl_softc *)tctrl_cd.cd_devs[0];
 	if (sc->sc_tft_on ^ enabled) {
 		sc->sc_tft_on = enabled;
-		/* nothing to do if the lid is down */
-		if ((sc->sc_ext_status & TS102_EXT_STATUS_LID_DOWN) == 0)
-			tctrl_tft(sc);
 	}
 }
 
@@ -926,265 +845,4 @@ tadpole_bell(u_int duration, u_int freq, u_int volume)
 	tctrl_request(sc, &req);
 
 	return (1);
-}
-
-/*
- * /dev/apm{,ctl} interface code
- */
-
-#define	APMUNIT(dev)	(minor(dev)&0xf0)
-#define	APMDEV(dev)	(minor(dev)&0x0f)
-#define APMDEV_NORMAL	0
-#define APMDEV_CTL	8
-
-int	apmkqfilter(dev_t dev, struct knote *kn);
-void	filt_apmrdetach(struct knote *kn);
-int	filt_apmread(struct knote *kn, long hint);
-
-struct filterops apmread_filtops =
-	{ 1, NULL, filt_apmrdetach, filt_apmread};
-
-#define	SCFLAG_OREAD 	(1 << 0)
-#define	SCFLAG_OWRITE	(1 << 1)
-#define	SCFLAG_OPEN	(SCFLAG_OREAD|SCFLAG_OWRITE)
-
-int
-apmopen(dev_t dev, int flag, int mode, struct proc *p)
-{
-	struct tctrl_softc *sc;
-	int error = 0;
-
-	if (tctrl_cd.cd_ndevs == 0 || tctrl_cd.cd_devs[0] == NULL) {
-		return (ENXIO);
-	}
-
-	/* apm0 only */
-	if (APMUNIT(dev) != 0)
-		return (ENODEV);
-
-	sc = (struct tctrl_softc *)tctrl_cd.cd_devs[0];
-
-	switch (APMDEV(dev)) {
-	case APMDEV_CTL:
-		if (!(flag & FWRITE)) {
-			error = EINVAL;
-			break;
-		}
-		if (sc->sc_apmflags & SCFLAG_OWRITE) {
-			error = EBUSY;
-			break;
-		}
-		sc->sc_apmflags |= SCFLAG_OWRITE;
-		break;
-	case APMDEV_NORMAL:
-		if (!(flag & FREAD) || (flag & FWRITE)) {
-			error = EINVAL;
-			break;
-		}
-		sc->sc_apmflags |= SCFLAG_OREAD;
-		break;
-	default:
-		error = ENXIO;
-		break;
-	}
-	return (error);
-}
-
-int
-apmclose(dev_t dev, int flag, int mode, struct proc *p)
-{
-	struct tctrl_softc *sc;
-
-	if (tctrl_cd.cd_ndevs == 0 || tctrl_cd.cd_devs[0] == NULL) {
-		return (ENXIO);
-	}
-
-	/* apm0 only */
-	if (APMUNIT(dev) != 0)
-		return (ENODEV);
-
-	sc = (struct tctrl_softc *)tctrl_cd.cd_devs[0];
-
-	switch (APMDEV(dev)) {
-	case APMDEV_CTL:
-		sc->sc_apmflags &= ~SCFLAG_OWRITE;
-		break;
-	case APMDEV_NORMAL:
-		sc->sc_apmflags &= ~SCFLAG_OREAD;
-		break;
-	}
-	return (0);
-}
-
-int
-apmioctl(dev_t dev, u_long cmd, caddr_t data, int flag, struct proc *p)
-{
-	struct tctrl_softc *sc;
-	struct tctrl_req req;
-	struct apm_power_info *power;
-	u_int8_t c;
-	int error = 0;
-
-	if (tctrl_cd.cd_ndevs == 0 || tctrl_cd.cd_devs[0] == NULL) {
-		return (ENXIO);
-	}
-
-	/* apm0 only */
-	if (APMUNIT(dev) != 0)
-		return (ENODEV);
-
-	sc = (struct tctrl_softc *)tctrl_cd.cd_devs[0];
-
-	switch (cmd) {
-		/* some ioctl names from linux */
-	case APM_IOC_STANDBY:
-		if ((flag & FWRITE) == 0)
-			error = EBADF;
-		else
-			error = EOPNOTSUPP;	/* XXX */
-		break;
-	case APM_IOC_SUSPEND:
-		if ((flag & FWRITE) == 0)
-			error = EBADF;
-		else
-			error = EOPNOTSUPP;	/* XXX */
-		break;
-	case APM_IOC_PRN_CTL:
-		if ((flag & FWRITE) == 0)
-			error = EBADF;
-		else {
-			int flag = *(int *)data;
-			switch (flag) {
-			case APM_PRINT_ON:	/* enable printing */
-				sc->sc_apmflags &= ~SCFLAG_PRINT;
-				break;
-			case APM_PRINT_OFF: /* disable printing */
-				sc->sc_apmflags &= ~SCFLAG_PRINT;
-				sc->sc_apmflags |= SCFLAG_NOPRINT;
-				break;
-			case APM_PRINT_PCT: /* disable some printing */
-				sc->sc_apmflags &= ~SCFLAG_PRINT;
-				sc->sc_apmflags |= SCFLAG_PCTPRINT;
-				break;
-			default:
-				error = EINVAL;
-				break;
-			}
-		}
-		break;
-	case APM_IOC_GETPOWER:
-	        power = (struct apm_power_info *)data;
-
-		if (sc->sc_ext_status &
-		    TS102_EXT_STATUS_INTERNAL_BATTERY_ATTACHED) {
-			req.cmdbuf[0] = TS102_OP_RD_INT_CHARGE_RATE;
-			req.cmdlen = 1;
-			req.rsplen = 2;
-			tctrl_request(sc, &req);
-			if (req.rspbuf[0] != 0)
-				power->battery_state = APM_BATT_CHARGING;
-			else
-				power->battery_state = APM_BATT_UNKNOWN;
-
-			req.cmdbuf[0] = TS102_OP_RD_INT_CHARGE_LEVEL;
-			req.cmdlen = 1;
-			req.rsplen = 3;
-			tctrl_request(sc, &req);
-
-			c = req.rspbuf[0];
-			if (c >= TS102_CHARGE_UNKNOWN)
-				power->battery_life = 0;
-			else {
-				power->battery_life = c;
-				if (power->battery_state != APM_BATT_CHARGING) {
-					if (c < 0x20)
-						power->battery_state =
-						    APM_BATT_CRITICAL;
-					else if (c < 0x40)
-						power->battery_state =
-						    APM_BATT_HIGH;
-					else if (c < 0x66)
-						power->battery_state =
-						    APM_BATT_HIGH;
-				}
-			}
-		} else {
-			power->battery_state = APM_BATTERY_ABSENT;
-			power->battery_life = 0;
-		}
-		power->minutes_left = (u_int)-1;	/* unknown */
-
-		if (sc->sc_ext_status & TS102_EXT_STATUS_MAIN_POWER_AVAILABLE)
-			power->ac_state = APM_AC_ON;
-		else
-			power->ac_state = APM_AC_OFF;
-		break;
-
-	default:
-		error = ENOTTY;
-	}
-
-	return (error);
-}
-
-int
-apm_record_event(struct tctrl_softc *sc, u_int type)
-{
-	static int apm_evindex;
-
-	/* skip if no user waiting */
-	if ((sc->sc_apmflags & SCFLAG_OPEN) == 0)
-		return (1);
-
-	apm_evindex++;
-	KNOTE(&sc->sc_note, APM_EVENT_COMPOSE(type, apm_evindex));
-
-	return (0);
-}
-
-void
-filt_apmrdetach(struct knote *kn)
-{
-	struct tctrl_softc *sc = (struct tctrl_softc *)kn->kn_hook;
-
-	SLIST_REMOVE(&sc->sc_note, kn, knote, kn_selnext);
-}
-
-int
-filt_apmread(struct knote *kn, long hint)
-{
-	/* XXX weird kqueue_scan() semantics */
-	if (hint && !kn->kn_data)
-		kn->kn_data = (int)hint;
-
-	return (1);
-}
-
-int
-apmkqfilter(dev_t dev, struct knote *kn)
-{
-	struct tctrl_softc *sc;
-
-	if (tctrl_cd.cd_ndevs == 0 || tctrl_cd.cd_devs[0] == NULL) {
-		return (ENXIO);
-	}
-
-	/* apm0 only */
-	if (APMUNIT(dev) != 0)
-		return (ENODEV);
-
-	sc = (struct tctrl_softc *)tctrl_cd.cd_devs[0];
-
-	switch (kn->kn_filter) {
-	case EVFILT_READ:
-		kn->kn_fop = &apmread_filtops;
-		break;
-	default:
-		return (1);
-	}
-
-	kn->kn_hook = (caddr_t)sc;
-	SLIST_INSERT_HEAD(&sc->sc_note, kn, kn_selnext);
-
-	return (0);
 }
