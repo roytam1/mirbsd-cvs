@@ -1,14 +1,14 @@
-# $MirOS: www/src/jupp.hts,v 1.22 2009/12/27 19:20:52 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.23 2010/01/03 19:42:19 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.22 2009/12/27 19:20:52 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.23 2010/01/03 19:42:19 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp1</em> for MS-DOS® compatible systems,
- and <em>joe-3.1jupp12</em> for Unix/GNU compatible systems. This page is
+ and <em>joe-3.1jupp14</em> for Unix/GNU compatible systems. This page is
  accessible under <a href="http://mirbsd.de/jupp">http://mirbsd.de/jupp</a>
  canonically.</p>
 
@@ -47,9 +47,14 @@ mws_content <<'EOF'
  <li>bug and security fixes</li>
  <li>tab completion fixes</li>
  <li>code cleanup</li>
- <li>compiles with -Wall -Werror (on <a href="http://mirbsd.de/">MirBSD</a>)</li>
+ <li>compiles with -Wall -Werror (on <a href="http://mirbsd.de/">MirBSD</a>),
+  and __CRAZY=Yes (MirBSD) / -Wall -Wextra, with -Werror and
+  -Wno-missing-field-initializers -Wno-cast-qual -Wno-strict-prototypes
+  -Wno-missing-prototypes -Wno-missing-declarations -Wno-unused (gcc3)
+  plus -Wno-pointer-sign (gcc4)</li>
  <li>improved options menu</li>
  <li>visibled spaces</li>
+ <li>with --disable-getpwnam can be linked statically on (e)glibc</li>
 </ul>
 
 <p>Neat tricks:</p><ul>
@@ -57,6 +62,8 @@ mws_content <<'EOF'
   ^Q f \ [ ^ <i>tab</i> \ n <i>space</i> - ~ ] <i>return return</i></li>
  <li>Jump to first occurrence of word “rtn” in the files:<br />
   <tt>jupp -mold 'ffirst,"\\&lt;rtn\\&gt;",rtn,"i",rtn' /etc/joe/*rc</tt></li>
+ <li>Remove whitespace from EOL: ^K ]</li>
+ <li>Hex Editor: ^O g</li>
 </ul>
 
 <h2 id="docs">Documentation</h2>
@@ -68,8 +75,8 @@ mws_content <<'EOF'
 <h2 id="fetch">Retrieval</h2>
 <h3>Direct download</h3>
 <p>You can download jupp at least from one of the following mirrors:</p><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp12.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp12.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp12.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp12.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp14.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp14.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp14.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp14.cpio.gz</a></li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp1.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp1.cpio.gz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp1.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp1.cpio.gz</a></li>
@@ -77,10 +84,10 @@ mws_content <<'EOF'
 </ul>
 <p>Please do not forget to check the received file’s integry using both
  gzsig(1) and one of the hashes below:</p><ul>
- <li>RMD160 (joe-3.1jupp12.cpio.gz) = 91d8a87138b68511b05b255634a48eec664555e9</li>
- <li>TIGER (joe-3.1jupp12.cpio.gz) = d04e79f98f22eca30e2fd7464c23e2366bce60fdc881215c</li>
- <li>3257471309 427648 /MirOS/dist/jupp/joe-3.1jupp12.cpio.gz</li>
- <li>MD5 (joe-3.1jupp12.cpio.gz) = 4f11eb7ded5b43e4055e7c69000ac169</li>
+ <li>RMD160 (joe-3.1jupp14.cpio.gz) = 4ea677840fd80d95f095478751e5c0648d2cf08d</li>
+ <li>TIGER (joe-3.1jupp14.cpio.gz) = d6bb020431e4628aa51d668b3f9f23d3ed7f995f3473e935</li>
+ <li>1073870147 430009 /MirOS/dist/jupp/joe-3.1jupp14.cpio.gz</li>
+ <li>MD5 (joe-3.1jupp14.cpio.gz) = ffb858edf23774e0cade5f035faaeae7</li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li>RMD160 (joe-2.8jupp1.cpio.gz) = fb79036bc8842354041b1b4c997b3a82580b2d9c</li>
  <li>1183719912 211453 /MirOS/dist/jupp/joe-2.8jupp1.cpio.gz</li>
@@ -90,10 +97,10 @@ mws_content <<'EOF'
 
 <h3>Unpacking</h3>
 <p>Use a command like<br />
- <tt>$ tar xzf joe-3.1jupp12.cpio.gz</tt> # paxtar, bsdtar<br />
- <tt>$ gzip -dc joe-3.1jupp12.cpio.gz | cpio -mid</tt> # any cpio<br />
- <tt>$ pax -r -z &lt;joe-3.1jupp12.cpio.gz</tt> # any POSIX® archiver<br />
- <tt>$ gzip -dc joe-3.1jupp12.cpio.gz | pax -r</tt> # on MS Windows®<br />
+ <tt>$ tar xzf joe-3.1jupp14.cpio.gz</tt> # paxtar, bsdtar<br />
+ <tt>$ gzip -dc joe-3.1jupp14.cpio.gz | cpio -mid</tt> # any cpio<br />
+ <tt>$ pax -r -z &lt;joe-3.1jupp14.cpio.gz</tt> # any POSIX® archiver<br />
+ <tt>$ gzip -dc joe-3.1jupp14.cpio.gz | pax -r</tt> # on MS Windows®<br />
  to extract the distfile. The DOS version requires similar commands.
  Both extract into a sub-directory <tt>jupp/</tt> (not versioned).</p>
 <p>Some browsers already extract the file during downloading; skip the
@@ -116,10 +123,25 @@ $ $SUDO make install</pre>
  GNU autotools. I’d be interested if someone managed to do this with jupp
  3.x for Unix, and if Unicode support and other things were working there.
  On Windows® you can use jupp for Unix with Cygwin or Interix/SFU/SUA.</p>
+<p>This has been tested on: MirBSD/i386 (gcc3.4.6, pcc-20100407, SUNWcc 12.1),
+ Debian (gcc4), Solaris 8 (gcc), Solaris 10 (SUNWcc -xO4 -xipo=2), …</p>
 
 <h2 id="bins">Binaries</h2>
 <p>These pre-compiled binaries are currently available:</p><ul>
  <li>jupp 3.x for Unix:<ul>
+  <li>JOE 3.1jupp14 for Windows® (cygwin stand-alone compiled;
+   comes with its own copy of cygwin1.dll and a setup.inf file for easy
+   installation), self-extracting LHarc archive, right-click on the inf
+   file and select _I_nstall. You may have to acknowledge a warning for
+   a missing digital signature. Edit <tt>C:\WINDOWS\SYSTEM32\JOE\JUPP32RC</tt>
+   to disable the syntax highlighting. Download and checksums:<ul>
+    <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/JWIN31E.EXE">https://www.mirbsd.org/MirOS/dist/jupp/JWIN31E.EXE</a></li>
+    <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/JWIN31E.EXE">http://pub.allbsd.org/MirOS/dist/jupp/JWIN31E.EXE</a></li>
+    <li>RMD160 (JWIN31E.EXE) = 3cb51d7094ea93bdc86d1795dbf53f9fdfba9885</li>
+    <li>TIGER (JWIN31E.EXE) = 41e4e3d3a99093f5277515569e25552c46995162ddbbb6e2</li>
+    <li>2946426661 976016 /MirOS/dist/jupp/JWIN31E.EXE</li>
+    <li>MD5 (JWIN31E.EXE) = db9545586a15d21cd71ad9d6acad607a</li>
+  </ul></li>
   <li>JOE 3.1jupp11 for Windows® (cygwin stand-alone compiled;
    comes with its own copy of cygwin1.dll and a setup.inf file for easy
    installation), self-extracting LHarc archive, right-click on the inf
@@ -184,12 +206,17 @@ $ $SUDO make install</pre>
 </ul>
 
 <h2 id="clog">ChangeLog for Unix</h2>
+<!--
 <p>[2009-09-20] Changes in the current development version:</p><ul>
+-->
+<p id="r3_1j14">[2010-04-08] Changes for joe-3.1jupp14:</p><ul>
  <li>Update diff syntax file from joe-current</li>
  <li>New option <tt>(L)ast</tt> in search-and-replace</li>
  <li>Backport some bugfixes from joe-current</li>
  <li>Let <tt>execmd</tt> cmd accept macros, not just commands</li>
  <li>Let <tt>macros</tt> cmd escape backslash correctly</li>
+ <li>Flag <tt>--disable-getpwnam</tt> to link statically with eglibc</li>
+ <li>Compiler warning cleanup</li>
 </ul>
 <p id="r3_1j12">[2009-10-18] Changes for joe-3.1jupp12:</p><ul>
  <li>Fix gcc warnings caught while porting to Debian sid, and others</li>
