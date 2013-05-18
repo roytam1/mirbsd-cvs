@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.19 2006/07/21 04:26:19 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.20 2006/07/21 19:02:34 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -354,6 +354,15 @@
   too hot for anything productive.</p>
  <p>GNU make sucks.</p>
  <p>Benny should just use the US keyboard layout anywhere.</p>
+ <p>I had a hard time fixing FreeWRT, but I eventually succeeded. MirOS,
+  on the other hand, didn't get short either: I renamed /bin/sh to nbsh,
+  to have the option of changing it to mksh until the bugs are found and
+  fixed (nbsh(1) will be kept anyway, so people can check their scripts,
+  to make sure they still work with ash) while they're reported upstream
+  (to TNF), and we got a pciutils (lspci) port. gecko2 installed MirOS 9
+  and current ports, and we thusly found a small buglet in MirPorts (GNU
+  stuff) which got fixed as well. (growfs(8) works well.) I also did few
+  more minor things to clean up and prepare for other changes.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
