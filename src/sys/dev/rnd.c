@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.23 2006/08/18 12:29:52 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.24 2006/08/22 20:58:24 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -1160,11 +1160,12 @@ randomwrite(dev_t dev, struct uio *uio, int flags)
 		if (!ret) {
 			while (n % sizeof (u_int32_t))
 				((u_int8_t *) buf)[n++] = 0;
+			n /= sizeof (uint32_t);
 			if (minor(dev) == RND_PRND)
-				for (n >>= 2; n; --n)
-					rnd_addpool_add(buf[n]);
+				while (n)
+					rnd_addpool_add(buf[--n]);
 			else
-				add_entropy_words(buf, n / 4);
+				add_entropy_words(buf, n);
 		}
 	}
 
