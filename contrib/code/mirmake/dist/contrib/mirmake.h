@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.30 2008/03/09 13:55:04 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.31 2008/03/09 16:19:49 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006, 2008
@@ -54,8 +54,9 @@
 
 /* Undefining */
 
-#if defined(__INTERIX) || defined(__APPLE__)
+#if defined(__INTERIX) || defined(__APPLE__) || defined(__MidnightBSD__)
 /* neither Interix nor Darwin get these right… */
+/* quell a warning about __pure redefined on MidnightBSD */
 #undef __dead
 #undef __pure
 #endif
