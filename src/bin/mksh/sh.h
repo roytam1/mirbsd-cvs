@@ -8,13 +8,16 @@
 /*	$OpenBSD: c_test.h,v 1.4 2004/12/20 11:34:26 otto Exp $	*/
 /*	$OpenBSD: tty.h,v 1.5 2004/12/20 11:34:26 otto Exp $	*/
 
-#define MKSH_SH_H_ID "$MirOS: src/bin/mksh/sh.h,v 1.95 2007/01/12 02:02:21 tg Exp $"
-#define MKSH_VERSION "R29 2007/01/12"
+#define MKSH_SH_H_ID "$MirOS: src/bin/mksh/sh.h,v 1.113 2007/03/03 21:36:07 tg Exp $"
+#define MKSH_VERSION "R29 2007/02/16"
 
 #if HAVE_SYS_PARAM_H
 #include <sys/param.h>
 #endif
 #include <sys/types.h>
+#if defined(HAVE_MULTI_IDSTRING) && !HAVE_MULTI_IDSTRING
+#undef __RCSID
+#endif
 #if !defined(__RCSID) || !defined(__SCCSID)
 #undef __IDSTRING
 #undef __IDSTRING_CONCAT
@@ -38,41 +41,62 @@
 #include <sys/time.h>
 #include <sys/file.h>
 #include <sys/ioctl.h>
+#if HAVE_SYS_MKDEV_H
+#include <sys/mkdev.h>
+#endif
 #include <sys/mman.h>
 #include <sys/resource.h>
 #include <sys/stat.h>
+#if HAVE_SYS_SYSMACROS_H
+#include <sys/sysmacros.h>
+#endif
 #include <sys/wait.h>
 #include <dirent.h>
 #include <errno.h>
 #include <fcntl.h>
+#if HAVE_LIBGEN_H
 #include <libgen.h>
+#endif
 #include <limits.h>
-#if !defined(__sun__)
+#if HAVE_PATHS_H
 #include <paths.h>
 #endif
 #include <pwd.h>
 #include <setjmp.h>
 #include <signal.h>
 #include <stdarg.h>
+#if HAVE_STDBOOL_H
 #include <stdbool.h>
+#endif
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <termios.h>
 #include <time.h>
-#include <unistd.h>
-
-/* extra headers */
-
-#if defined(__sun__) || defined(__INTERIX)
-#include <sys/mkdev.h>
-#endif
-#if !defined(__OpenBSD__) && !defined(__CYGWIN__)
+#if HAVE_ULIMIT_H
 #include <ulimit.h>
 #endif
-#if defined(__sun__) || defined(__gnu_linux__)
+#include <unistd.h>
+#if HAVE_VALUES_H
 #include <values.h>
+#endif
+
+/* extra types */
+
+#if !HAVE_RLIM_T
+typedef long rlim_t;
+#endif
+
+#if !HAVE_SIG_T
+typedef void (*sig_t)(int);
+#endif
+
+#if !HAVE_STDBOOL_H
+/* kludge, but enough for mksh */
+typedef int bool;
+#define false 0
+#define true 1
 #endif
 
 /* extra macros */
@@ -116,8 +140,6 @@
 #else
 #define __attribute__(x)	/* nothing */
 #endif
-#undef __dead
-#define __dead			__attribute__((noreturn))
 #undef __unused
 #define __unused		__attribute__((unused))
 
@@ -139,9 +161,13 @@
 #define RLIMIT_VMEM RLIMIT_AS
 #endif
 
+#if !defined(MAP_FAILED) && defined(__linux)
+#define MAP_FAILED ((void *)-1)
+#endif
+
 /* OS-dependent additions */
 
-#if !HAVE_SETMODE && !defined(MKSH_SMALL)
+#if !HAVE_SETMODE
 mode_t getmode(const void *, mode_t);
 void *setmode(const char *);
 #endif
@@ -157,7 +183,7 @@ size_t confstr(int, char *, size_t);
 #endif
 
 #ifdef __INTERIX
-#define makedev(x,y)	mkdev((x),(y))
+#define makedev mkdev
 extern int __cdecl seteuid(uid_t);
 extern int __cdecl setegid(gid_t);
 #endif
@@ -201,10 +227,8 @@ EXTERN	uid_t ksheuid;		/* effective uid of shell */
 EXTERN	int exstat;		/* exit status */
 EXTERN	int subst_exstat;	/* exit status of last $(..)/`..` */
 EXTERN	const char *safe_prompt; /* safe prompt if PS1 substitution fails */
-#ifndef EXTERN_DEFINED
-static const char initvsn[] = "KSH_VERSION=@(#)MIRBSD KSH " MKSH_VERSION;
-#endif
-EXTERN	const char *KSH_VERSION I__(initvsn + 16);
+EXTERN	const char initvsn[] I__("KSH_VERSION=@(#)MIRBSD KSH " MKSH_VERSION);
+#define KSH_VERSION	(initvsn + 16)
 
 /*
  * Area-based allocation built on malloc/free
@@ -349,10 +373,6 @@ struct temp {
 #define shl_stdout	(&shf_iob[1])
 #define shl_out		(&shf_iob[2])
 EXTERN int shl_stdout_ok;
-
-#if defined(__sun__) || defined(__CYGWIN__)
-typedef void (*sig_t)(int);
-#endif
 
 /*
  * trap handlers
@@ -719,9 +739,7 @@ extern const struct builtin shbuiltins [], kshbuiltins [];
 #define V_OPTIND	4
 #define V_RANDOM	8
 #define V_HISTSIZE	9
-#if !defined(__sun__) && !defined(MKSH_SMALL)
 #define V_HISTFILE	10
-#endif
 #define V_COLUMNS	13
 #define V_TMOUT		15
 #define V_TMPDIR	16
@@ -1152,13 +1170,13 @@ int c_test(char **);
 /* histrap.c */
 void init_histvec(void);
 void hist_init(Source *);
-#ifdef V_HISTFILE
+#if HAVE_PERSISTENT_HISTORY
 void hist_finish(void);
 #endif
 void histsave(int, const char *, int);
 int c_fc(char **);
 void sethistsize(int);
-#ifdef V_HISTFILE
+#if HAVE_PERSISTENT_HISTORY
 void sethistfile(const char *);
 #endif
 char **histpos(void);
@@ -1199,7 +1217,8 @@ pid_t j_async(void);
 int j_stopped_running(void);
 /* lex.c */
 int yylex(int);
-__dead void yyerror(const char *, ...)
+void yyerror(const char *, ...)
+    __attribute__((noreturn))
     __attribute__((format (printf, 1, 2)));
 Source *pushs(int, Area *);
 void set_prompt(int, Source *);
@@ -1209,12 +1228,14 @@ int promptlen(const char *);
 int include(const char *, int, char **, int);
 int command(const char *);
 int shell(Source *volatile, int volatile);
-__dead void unwind(int);
+void unwind(int)
+    __attribute__((noreturn));
 void newenv(int);
 void quitenv(struct shf *);
 void cleanup_parents_env(void);
 void cleanup_proc_env(void);
-__dead void errorf(const char *, ...)
+void errorf(const char *, ...)
+    __attribute__((noreturn))
     __attribute__((format (printf, 1, 2)));
 void warningf(bool, const char *, ...)
     __attribute__((format (printf, 2, 3)));
