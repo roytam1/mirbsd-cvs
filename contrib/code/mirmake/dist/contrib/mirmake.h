@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.18 2005/11/24 11:43:53 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.19 2005/12/17 05:46:09 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -179,6 +179,13 @@
 				sizeof(struct sockaddr_in) : \
 				sizeof(struct sockaddr)))
 #endif
+#endif
+
+#ifdef __APPLE__
+#define uint8_t u_int8_t
+#define uint16_t u_int16_t
+#define uint32_t u_int32_t
+#define uint64_t u_int64_t
 #endif
 
 #ifdef _MIRMAKE_DEFNS
