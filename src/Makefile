@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.141 2009/03/29 13:04:09 tg Exp $
+# $MirOS: src/Makefile,v 1.142 2009/08/08 14:14:35 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -61,9 +61,10 @@ build-pre:
 	    && ${_STCMD_OBJ} ${MAKE} prereq \
 	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} includes
 	rm -rf ${BSDOBJDIR}/lib
+	cd ${.CURDIR}/lib && ${MAKE} obj && exec ${_STCMD_OBJ} ${MAKE} depend
+
+build-lib:
 	cd ${.CURDIR}/lib \
-	    && ${MAKE} obj \
-	    && ${_STCMD_OBJ} ${MAKE} depend \
 	    && ${_STCMD_OBJ} ${MAKE} \
 	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install NOMAN=yes
 	cd ${.CURDIR} && ${_STCMD_OBJ} ${MAKE} depend
@@ -103,6 +104,7 @@ b-r:
 	touch ${BSDOBJDIR}/permissions.test && rm ${BSDOBJDIR}/permissions.test
 	cd ${.CURDIR} && exec ${MAKE} obj
 	cd ${.CURDIR} && exec ${MAKE} build-pre DESTDIR=
+	cd ${.CURDIR} && exec ${MAKE} build-lib DESTDIR=
 	cd ${.CURDIR} && exec ${MAKE} contbuild DESTDIR=
 
 release:
@@ -338,20 +340,22 @@ _do-dist:
 .if ${DIST_RESTART} == 0
 	cd ${.CURDIR} && exec ${MAKE} b-r
 .elif ${DIST_RESTART} == 1
+	cd ${.CURDIR} && ${MAKE} build-lib && exec ${MAKE} contbuild
+.elif ${DIST_RESTART} == 2
 	cd ${.CURDIR} && exec ${MAKE} contbuild
 .endif
 .ifndef QUICK_DIST2
 	@date
-.  if ${DIST_RESTART} < 3
+.  if ${DIST_RESTART} < 4
 	cd ${.CURDIR}/X11 && exec ${MAKE} b-r
 .  endif
 .endif
 	@date
-.if ${DIST_RESTART} < 4
+.if ${DIST_RESTART} < 5
 	cd ${.CURDIR}/gcc && exec ${MAKE} b-r
 .endif
 	@date
-.if ${DIST_RESTART} < 5
+.if ${DIST_RESTART} < 6
 	cd ${.CURDIR} && exec ${MAKE} release DESTDIR=${BSDRELDIR}/base
 	cd ${.CURDIR}/gcc && \
 	    exec ${SUDO} ${MAKE} install DESTDIR=${BSDRELDIR}/base
@@ -361,7 +365,7 @@ _do-dist:
 .  endif
 .endif
 	@date
-.if ${DIST_RESTART} < 6
+.if ${DIST_RESTART} < 7
 	cd ${.CURDIR} && exec ${MAKE} base-distbuild DESTDIR=${BSDRELDIR}/base
 	cd ${.CURDIR} && exec ${SUDO} ${MAKE} base-distinstall \
 	    DESTDIR=${BSDRELDIR}/base
