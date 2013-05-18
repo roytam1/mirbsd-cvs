@@ -1,8 +1,8 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.16.2.3 2008/06/04 18:21:57 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.17 2008/06/04 18:28:37 tg Exp $ */
 /*	$OpenBSD: ntpd.h,v 1.70 2006/06/04 18:58:13 otto Exp $ */
 
 /*
- * Copyright (c) 2007, 2008 Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2007, 2008, 2009 Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -29,6 +29,7 @@
 #include <arpa/inet.h>
 #include <netdb.h>
 #include <stdarg.h>
+#include <stdbool.h>
 
 #include "ntp.h"
 
@@ -242,6 +243,7 @@ pid_t	 ntp_main(int[2], struct ntpd_conf *);
 int	 priv_adjtime(void);
 void	 priv_settime(double);
 void	 priv_host_dns(char *, u_int32_t);
+void	 chpeertrust(struct ntp_peer *, bool);
 
 /* parse.y */
 int	 parse_config(const char *, struct ntpd_conf *);

@@ -1,7 +1,7 @@
 /*	$OpenBSD: client.c,v 1.69 2006/06/04 18:58:13 otto Exp $ */
 
 /*
- * Copyright (c) 2007 Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2007, 2009 Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  * Copyright (c) 2004 Alexander Guy <alexander.guy@andern.org>
  *
@@ -27,7 +27,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.14 2007/10/03 21:17:31 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/client.c,v 1.15 2007/10/03 22:52:00 tg Exp $");
 
 #ifdef DDEBUG
 #define log_reply	log_info
@@ -284,13 +284,9 @@ client_dispatch(struct ntp_peer *p, u_int8_t settime, uint8_t trace)
 		    log_sockaddr((struct sockaddr *)&p->addr->ss));
 
 	/* every received reply which we do not discard increases trust */
-	if (p->trustlevel < TRUSTLEVEL_MAX) {
-		if (p->trustlevel < TRUSTLEVEL_BADPEER &&
-		    p->trustlevel + 1 >= TRUSTLEVEL_BADPEER)
-			log_info("peer %s now valid",
-			    log_sockaddr((struct sockaddr *)&p->addr->ss));
-		p->trustlevel++;
-	}
+	if (p->trustlevel < TRUSTLEVEL_MAX &&
+	    ++p->trustlevel == TRUSTLEVEL_BADPEER)
+		chpeertrust(p, true);
 
 	log_reply("reply from %s: offset %fs delay %fs, "
 	    "next query %ds", log_sockaddr((struct sockaddr *)&p->addr->ss),

@@ -1,7 +1,7 @@
 /*	$OpenBSD: ntp.c,v 1.92 2006/10/21 07:30:58 henning Exp $ */
 
 /*
- * Copyright (c) 2006, 2007, 2008 Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2006, 2007, 2008, 2009 Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  * Copyright (c) 2004 Alexander Guy <alexander.guy@andern.org>
  *
@@ -38,7 +38,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.22 2008/06/04 18:28:36 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.23 2008/06/04 18:34:12 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -219,9 +219,7 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 				    (struct sockaddr *)&p->addr->ss), timeout);
 				if (p->trustlevel >= TRUSTLEVEL_BADPEER &&
 				    (p->trustlevel /= 2) < TRUSTLEVEL_BADPEER)
-					log_info("peer %s now invalid",
-					    log_sockaddr(
-					    (struct sockaddr *)&p->addr->ss));
+					chpeertrust(p, false);
 				client_nextaddr(p);
 				set_next(p, timeout);
 			}
@@ -645,4 +643,25 @@ error_interval(void)
 
 	r = (interval *= QSCALE_OFF_MAX / QSCALE_OFF_MIN) / 10.;
 	return (interval + (arc4random() % (int)(r + .5)) - (r / 2.));
+}
+
+void
+chpeertrust(struct ntp_peer *p, bool nowvalid)
+{
+	static u_int nvpeers;
+	const char *s = "";
+
+	if (nowvalid)
+		++nvpeers;
+	else {
+		if (nvpeers)
+			--nvpeers;
+		else
+			log_warn("trying to decrease nvpeers below 0");
+		s = "in";
+	}
+
+	log_info("peer %s now %svalid, %u valid peers total",
+	    log_sockaddr((struct sockaddr *)&p->addr->ss),
+	    s, nvpeers);
 }
