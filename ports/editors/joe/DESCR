@@ -41,7 +41,8 @@ versions of MirOS), the “jupp” flavour, not doing tab comple‐
 tion in the search and replace dialogues, as well as -Wall
 -Werror fixes, numerous bug and security fixes. It also con‐
 tains an extension to visibly display tabs and spaces, and
-has a cleaned up, extended and beautified options menu.
+has a cleaned up, extended and beautified options menu, and
+more CUA style keybindings.
 
 Unix integration features: a marked block of text can be
 filtered through a UNIX command, and wherever jupp accepts
