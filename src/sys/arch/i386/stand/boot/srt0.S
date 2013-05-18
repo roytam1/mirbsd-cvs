@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.12 2008/08/05 17:57:07 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.13 2008/08/05 19:05:01 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
@@ -205,7 +205,7 @@ L..e1:	mov	al,dl
 #endif
 
 #ifdef SMALL_BOOT
-	jmp	L..12
+	jmp	LpreFD /* L..12 */
 #else
 	mov	eax,[_rval]
 	cmp	eax,0x6A6D4F00
