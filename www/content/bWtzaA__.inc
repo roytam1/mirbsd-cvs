@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.83 2007/02/18 23:16:30 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.84 2007/02/18 23:28:11 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -150,6 +150,23 @@
  <li>fix 'hd' alias in dot.mkshrc example to not run off
   an ANSI standard 80 column screen; simplify</li>
  <li>integrate MKSH_NEED_MKNOD and MKSH_ASSUME_UTF8 with Build.sh</li>
+ <li>Work around Solaris /usr/ucb/tr, Solaris /usr/xpg4/bin/tr,
+  Minix 3 /usr/bin/tr, and SUSv3 deficiencies</li>
+ <li>Fix compilation on more platforms (Interix, Cygwin, Linux 2.0 libc5,
+  Debian GNU/kFreeBSD, Debian GNU/HURD, &#8230;)</li>
+ <li>Use autoconfiguration for persistent history stuff</li>
+ <li>Fix the code (add "const" in like 1001 places) to be able to
+  build without <tt>-Wno-cast-qual</tt> (hope it's safe now)</li>
+ <li>Optionally use const-debugging versions of strchr(3), strstr(3),
+  to work around deficiencies in ANSI C</li>
+ <li>The above directly led to our own strcasestr(3) implementation
+  for OSes which don't have it</li>
+ <li>Optimise <tt>dot.mkshrc</tt> macros</li>
+ <li>Let <tt>dot.mkshrc</tt> not return failure early</li>
+ <li>Remove shadowing warnings for more OSes</li>
+ <li>Support old ash(1) versions in Build.sh</li>
+ <li>Support use of <tt>_NSIG</tt> for <tt>NSIG</tt></li>
+ <li>Optimise ctags(1) generation</li>
 </ul>
 <p>Upgrading to mksh R28 with these changes is highly recommended:</p><ul>
  <li>For these who build software as root, the regression testsuite
