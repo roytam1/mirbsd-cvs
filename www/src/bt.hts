@@ -3,18 +3,15 @@
 
 mws_setname bt 'BitTorrent information'
 mws_setheadline BitTorrent information
-mws_putheader '$MirOS: www/src/bt.hts,v 1.13 2010/09/26 16:35:22 tg Exp $'
+mws_putheader '$MirOS: www/src/bt.hts,v 1.14 2010/10/08 21:02:55 tg Exp $'
 mws_content <<'EOF'
 <!-- http://www.mirbsd.org/bt.htm#id -->
-<p><strong>Warning:</strong> Not finished yet.</p>
-<h2>For now…</h2>
 <p>The <tt>f.scarywater.net</tt> tracker no longer exists; this is a
  list of <tt>*.torrent</tt> files for The MirOS Project hosted here.
  Please <strong>redownload</strong> these, as they are redone for DHT
  and a new tracker on 2010-09-26, even if you had redownloaded them
  during August/September 2010 as <tt>openbittorrent.com</tt> has also
- bitten the dust, sadly. This webpage will receive rework as
- well in the coming days.</p>
+ bitten the dust, sadly.</p>
 <p><strong>Clarification:</strong> The content is
  unchanged, <em>only the torrent metafile</em> has changed!</p>
 <ul>
@@ -57,7 +54,7 @@ mws_content <<'EOF'
  on/for which they were released. If a lower-case letter &quot;c&quot;
  is added, the snapshot also contains a copy of the CVS repository.</p>
 <h2>Generic information</h2>
-<p>... (live, install, arch, dd to hda, etc)</p>
+<!-- <p>... (live, install, arch, dd to hda, etc)</p> -->
 <p>Releases never contain Live CD functionality. The releases offered
  are always ISO images (single file torrent), dual-arch (appearing as
  <strong>dual</strong> in the torrent list).</p>
