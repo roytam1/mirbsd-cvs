@@ -1,10 +1,10 @@
-# $MirOS: ports/security/gnupg/Makefile,v 1.10 2006/09/14 00:12:59 tg Exp $
+# $MirOS: ports/security/gnupg/Makefile,v 1.11 2006/10/02 02:05:44 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2005/05/17 15:08:34 martin Exp $
 
 COMMENT=		GNU privacy guard - a GPL'd PGP replacement
 VERSION=		1.4.5
 DISTNAME=		gnupg-${VERSION}
-PKGNAME=		${DISTNAME}-3
+PKGNAME=		${DISTNAME}-4
 CATEGORIES=		security
 HOMEPAGE=		http://www.gnupg.org/
 MASTER_SITES=		ftp://ftp.gnupg.org/gcrypt/gnupg/ \
@@ -68,7 +68,8 @@ CONFIGURE_ARGS+=	--enable-idea
 .endif
 
 post-extract:
-.if ${FLAVOR:L:Midea}
+	@rm -f ${WRKSRC}/cipher/idea.c
+.if !${FLAVOR:L:Mno-idea}
 	ln -s ${WRKDIR}/idea.c ${WRKSRC}/cipher/idea.c
 .endif
 
