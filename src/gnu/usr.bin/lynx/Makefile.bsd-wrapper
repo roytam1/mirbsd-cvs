@@ -1,4 +1,5 @@
-# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.28 2009/11/08 19:28:54 tg Exp $
+.error broken
+# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.29 2009/12/26 15:18:41 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.12 2003/05/01 18:59:36 avsm Exp $
 
 MAN=		lynx.1
@@ -8,8 +9,8 @@ FSFISLIB=	No
 
 .include <bsd.own.mk>
 
-# MirOS patchlevel – in sync with MirPorts-3 rev.
-CPPFLAGS+=	-DZCONST=const -DLYNX_VERSION=\"2.8.7rel.1-MirOS-0AAB\"
+# MirOS patchlevel – in sync with MirPorts-0 rev.
+CPPFLAGS+=	-DZCONST=const -DLYNX_VERSION=\"2.8.8dev.7-MirOS-0AAD\"
 
 CFARGS+=	--prefix=/usr \
 		--sysconfdir=/etc \
@@ -107,6 +108,8 @@ lynx.1:	${.CURDIR}/lynx.man
 do-install:
 	${INSTALL_PROGRAM} lynx ${DESTDIR}/usr/bin/lynx
 	${INSTALL_SCRIPT} ${.CURDIR}/samples/oldlynx ${DESTDIR}/usr/bin/
+	cd ${.CURDIR} && ${INSTALL_DOC} AUTHORS CHANGES README \
+	    ${DESTDIR}${HTMLDIR}/lynx_help/
 .for _i in ${HTMLFILES}
 	${INSTALL_DOC} ${.CURDIR}/lynx_help/${_i} \
 	    ${DESTDIR}${HTMLDIR}/lynx_help/${_i}

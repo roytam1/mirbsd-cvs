@@ -1,5 +1,5 @@
 /*
- * $LynxId: userdefs.h,v 1.246 2009/05/28 21:37:22 tom Exp $
+ * $LynxId: userdefs.h,v 1.261 2010/12/08 01:28:43 Doug.Kaufman Exp $
  *
  * Lynx - Hypertext navigation system
  *
@@ -243,6 +243,12 @@
 #define LYNX_LSS_FILE "Lynx_Dir:lynx.lss"
 #endif /* LYNX_LSS_FILE */
 
+/*
+ * FTP_FORMAT uses the same codes as LIST_FORMAT, but applies to files shown
+ * in an ftp listing.
+ */
+#define FTP_FORMAT "%d  %-16.16t %a  %K"
+
 /*******************************************************************
  * Things you must change  -  non-VMS specific
  *  Section 1b).
@@ -360,13 +366,13 @@
  * Comment this line out to disable code that implements command logging
  * and scripting.
  */
-#define EXP_CMD_LOGGING 1
+#define USE_CMD_LOGGING 1
 
 /********************************
  * Comment this line out to disable code that randomizes the names given to
  * temporary files.
  */
-#define EXP_RAND_TEMPNAME 1
+#define USE_RAND_TEMPNAME 1
 
 /********************************
  * Comment this line out to let the user enter his/her email address
@@ -487,12 +493,12 @@
  *   for this distribution (use SHELL syntax including the device
  *   on VMS systems).
  * The default HELPFILE is:
- * http://lynx.isc.org/release/lynx2-8-6/lynx_help/lynx_help_main.html
+ * http://lynx.isc.org/release/lynx2-8-7/lynx_help/lynx_help_main.html
  *   This should be changed here or in lynx.cfg to the local path.
  * The definition here can be overridden at run time by defining a
  * "LYNX_HELPFILE" environment variable.
  */
-#define HELPFILE "http://lynx.isc.org/release/lynx2-8-6/lynx_help/lynx_help_main.html"
+#define HELPFILE "http://lynx.isc.org/release/lynx2-8-7/lynx_help/lynx_help_main.html"
 /* #define HELPFILE "file://localhost/PATH_TO/lynx_help/lynx_help_main.html" */
 
 /*****************************
@@ -501,7 +507,7 @@
  * An index to your CWIS can be placed here or a document containing
  * pointers to lots of interesting places on the web.
  */
-#define DEFAULT_INDEX_FILE "http://www.ncsa.uiuc.edu/SDG/Software/Mosaic/MetaIndex.html"
+#define DEFAULT_INDEX_FILE "http://scout.wisc.edu/"
 
 /*****************************
  * If USE_TRACE_LOG is set FALSE, then when TRACE mode is invoked the
@@ -1179,7 +1185,7 @@
  *
  *  NOTE: This can generate A REAL LOT of mail, be warned!!!
  */
-/* #define ALERTMAIL "webmaster@localhost" *//*error recipient if no owner */
+/* #define ALERTMAIL "webmaster@localhost" */ /*error recipient if no owner */
 
 /*********************************
  * If CHECKMAIL is set to TRUE, the user will be informed (via a status line
@@ -1428,12 +1434,12 @@
  * ignore it. - kw */
 /* $Format: "#define LYNX_VERSION \"$ProjectVersion$\""$ */
 #ifndef LYNX_VERSION
-#define LYNX_VERSION "2.8.7rel.1"
+#define LYNX_VERSION "2.8.8dev.7"
 #endif
 #define LYNX_WWW_HOME "http://lynx.isc.org/"
 #define LYNX_WWW_DIST "http://lynx.isc.org/current/"
 /* $Format: "#define LYNX_DATE \"$ProjectDate$\""$ */
-#define LYNX_DATE "Sun, 05 Jul 2009 16:52:33 -0700"
+#define LYNX_DATE "Sat, 11 Dec 2010 07:26:32 -0800"
 #define LYNX_DATE_OFF 5		/* truncate the automatically-generated date */
 #define LYNX_DATE_LEN 11	/* truncate the automatically-generated date */
 
@@ -1464,7 +1470,7 @@
 #define FNAMES_8_3
 #endif
 
-#ifdef FNAMES_8_3
+#if 1 /* #ifdef FNAMES_8_3 */
 #define HTML_SUFFIX ".htm"
 #else
 #define HTML_SUFFIX ".html"

@@ -1,9 +1,11 @@
-# $MirOS: ports/www/lynx/Makefile,v 1.31 2009/11/08 19:28:57 tg Exp $
+# $MirOS: ports/www/lynx/Makefile,v 1.32 2009/12/26 15:18:41 tg Exp $
+
+BROKEN=			update in progress
 
 COMMENT=		standard text-mode world wide web browser
 CATEGORIES=		www essentials
-VSN=			2.8.7rel.1
-DASH_VER=		3		# in sync with MirOS-0AAB rev.
+VSN=			2.8.8dev.7
+DASH_VER=		0		# in sync with MirOS-0A?? rev.
 DISTNAME=		lynx${VSN:C/[a-z]$//}
 .if ${VSN} != ${VSN:C/[a-z]$//}
 PATCHFILES=		lynx${VSN}.patch.gz:0

@@ -1,4 +1,4 @@
-# $LynxId: makefile.in,v 1.59 2009/03/09 22:43:29 Doug.Kaufman Exp $
+# $LynxId: makefile.in,v 1.64 2010/11/26 19:56:45 Doug.Kaufman Exp $
 # template-makefile for Lynx src directory
 
 SHELL		= @CONFIG_SHELL@
@@ -37,7 +37,7 @@ BUILD_EXEEXT	= @BUILD_EXEEXT@
 YACC		= @YACC@
 
 LIBS		= @LIBS@ $(RESOLVLIB) $(WAISLIB) $(SITE_LIBS)
-LDFLAGS		= @LDFLAGS@
+LDFLAGS		= @EXTRA_LDFLAGS@ @LDFLAGS@
 
 # Symbols inherited from the top-level makefile
 RESOLVLIB	= # FIXME: set in parent makefile
@@ -66,6 +66,8 @@ CC_OPTS		= $(CPP_OPTS) $(CFLAGS)
 LINT		= @LINT@
 LINTOPTS	=
 
+CTAGS		= @CTAGS@
+
 COMPRESS_PROG	=@COMPRESS_PROG@
 COMPRESS_EXT	=@COMPRESS_EXT@
 
@@ -91,16 +93,16 @@ all: lynx$x
 
 # yacc builds .c in target directory, not $(srcdir)
 .c$o:
-@RULE_CC@
+	@RULE_CC@
 	@ECHO_CC@$(CC) $(CC_OPTS) -c $<
 
 .c.i:
-@RULE_CC@
+	@RULE_CC@
 	@ECHO_CC@$(CPP) -C $(CPP_OPTS) $< >$@
 
 lynx$x:   message do_chartrans_stuff $(top_builddir)/LYHelp.h $(OBJS) $(WWWLIB)
 	@echo "Linking and creating Lynx executable"
-	$(CC) $(CC_OPTS) $(LDFLAGS) -o $@  $(OBJS) $(WWWLIB) $(INTLLIB) $(LDFLAGS) $(LIBS)
+	$(CC) $(CC_OPTS) $(LDFLAGS) -o $@  $(OBJS) $(WWWLIB) $(LDFLAGS) $(LIBS) $(INTLLIB)
 	@echo "Copying Lynx executable into top-level directory"
 	rm -f $(top_builddir)/$@
 	cp $@ $(top_builddir)/
@@ -119,14 +121,14 @@ do_chartrans_stuff:
 		BUILD_CC="$(BUILD_CC)" tables
 
 lint:
-	$(LINT) $(LINTOPTS) $(CPP_OPTS) *.c  > $(top_builddir)/lint.lynx
+	$(LINT) $(LINTOPTS) $(CPP_OPTS) $(C_SRC)  2>&1 |tee $(top_builddir)/lint.lynx
 
 clean:
 	rm -f lynx$x core *.core *.leaks *.i *$o *.bak tags TAGS test_* parsdate.c
 	cd chrtrans && $(MAKE) clean
 
 tags:
-	ctags *.[ch]
+	$(CTAGS) *.[ch]
 
 distclean: clean
 
