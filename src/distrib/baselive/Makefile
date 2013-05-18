@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.51 2009/04/16 13:20:22 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.52 2009/06/07 13:13:17 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -336,7 +336,9 @@ cdrom-generate:
 	    -f ${CDROM} -b '$$BootImage$$') 2>/dev/null
 .if ${DUALIVE:L} == "no"
 	getextent_cd9660 -f ${CDROM} b_i386.ldr | \
-	    ${MKSH} ${WRKDIR}/v${OSrev}/i386/bootxx.sh -A -S 2 | \
+	    ${MKSH} ${WRKDIR}/v${OSrev}/i386/bootxx.sh \
+	    -g $$(($$(stat -f %z ${CDROM}) / (512 * 32 * 16))):16:32 \
+	    -A -M 4:0x96 -S 2 | \
 	    dd of=${CDROM} conv=notrunc bs=512 2>/dev/null
 .else
 	getextent_cd9660 -f ${CDROM} b_i386.ldr | \
