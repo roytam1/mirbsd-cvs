@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.397 2011/05/05 00:10:58 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.398 2011/05/06 19:50:19 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1209,6 +1209,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Support empty here document delimiters</li>
  <li>[Robert Luberda] Fix the four-argument form of test(1)</li>
  <li>[tg] Drop the pre-POSIX ability to “test -t” without specifying “fd”</li>
+ <li>[tg] Defer dropping an alias in favour of a POSIX function to when the
+  function is actually defined and check for the closing parenthesis too</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
