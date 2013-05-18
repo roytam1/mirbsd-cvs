@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.334 2011/05/21 15:31:26 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.335 2011/05/21 15:56:17 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7762,4 +7762,54 @@ Title: Progress with other things
  recheck whether your old bugs still apply. Oh, and send patches.
  But pserver, PAM etc. are gone for good, don’t bother.</p>
 <p>PS: It’s still Google Go, Benny. (World of Google’s goo?)</p>
+----
+Date: 06.06.2011 21:36
+Author: tg@
+Title: synchronise environment between two shells
+Tag: debian mksh pcli
+
+<p>(First posting to Plänet Commandline! <tt>Tag: pcli</tt>)</p>
+<p>Vutral asked in IRC how to synchronise two shells’ environment
+ while they’re running. As you may know, POSIX systems cannot change
+ a process’ environment vector after it has been started, only the
+ process itself can. Well, <a href="@@RELPATH@@mksh.htm">the shell</a>
+ can, and we’ll use a variety of things for this.</p>
+<p>This trick assumes you have <tt>$HISTFILE</tt> set to the same
+ pathname in both shells (obviously, they run under the same user).
+ It uses <tt>export -p</tt> to render the current list of exported
+ variables, then transforms the list from newline-separated to a
+ single big one-line export statement.<br />Then it transforms all
+ remaining newlines (which will be part of a single-quoted string,
+ since that’s mksh(1)’s export format) into the sequence
+ <tt>'$'\n''</tt> which means: terminate current single-quoted
+ string, append <tt>$'\n'</tt> and open up a new single-quoted
+ string immediately; concatenate these three.<br />Now, <tt>$'\n'</tt>
+ is just a fancy way of saying newline, and part of mksh because
+ David Korn (yes, the Korn in Korn Shell) strongly suggested to
+ me that this functionality be included – but, as we can see here,
+ it pays off.<br />Finally, the so transformed string is prepended
+ by <tt>unset \$(export);</tt> which, when executed, will cause the
+ shell to unset (and unexport) all currently exported variables.
+ The shell parameters that are not exported, i.e. not in the
+ environment, are not affected by this code (except for <tt>$x</tt>
+ and <tt>$nl</tt>, but… whatever).<br />This string is then passed
+ to <tt>read -s</tt> (plus <tt>-r</tt> and clearing <tt>IFS</tt> to
+ enable raw mode), which means, read into the parameter <tt>$REPLY</tt>
+ (which we conveniently don’t use – but it’s trashed too, thus) but
+ store into history at the same time.</p>
+<p>Ah hah! Now, the persistent history feature comes into effect!
+ After running the below statement in the “source” shell, switch
+ into the terminal running the “destination” shell, press Enter
+ once on the empty line (Ctrl-U to empty it if it wasn’t), then
+ Cursor-Up (↑) to recall… voilà, an insanely large line with the
+ previously created string sorta expanded… and press Enter again
+ to run it. Now your set of exported parameters is the exact same
+ (minus if you exported <tt>IFS</tt>, <tt>nl</tt>, <tt>x</tt> or
+ <tt>REPLY</tt>) as in the “source” shell.</p>
+<p class="boxhead">I’ve added extra spaces and a linewrap below,
+ this is really just one big line:</p><div class="boxtext">
+  <tt>nl=$'\n'; x=$(export -p); x=${x//${nl}export/};
+  IFS= read -rs &lt;&lt;&lt;"unset \\\$(export);${x//$nl/\'\$\'\\\\n\'\'}"</tt>
+</div><p class="boxfoot">Of course, this makes a nice function,
+ for your <tt>~/.mkshrc</tt> or somesuch.</p>
 ----
