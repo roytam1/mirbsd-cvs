@@ -1,6 +1,6 @@
 # $MirOS: src/distrib/common/boot.cfg.i386,v 1.11 2010/01/07 20:56:08 tg Exp $
 #
-set image /v10/i386/bsd.rd
+set image /bsd
 set timeout 12
 macro serial stty com0 9600`set tty com0`boot
 echo
@@ -14,4 +14,3 @@ echo stem, wait twelve seconds or enter the command 'boot'.
 echo
 echo Enter 'serial' for standard COM1:9600,8N1 serial console.
 echo
-#@TEXT@
