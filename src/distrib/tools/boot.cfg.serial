@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/boot.cfg.serial,v 1.1 2009/01/25 20:13:08 tg Exp $
+# $MirOS: src/distrib/tools/boot.cfg.serial,v 1.2 2009/08/15 18:17:04 tg Exp $
 #
 echo
 echo ==================================================================
@@ -17,4 +17,3 @@ echo
 echo Booting MirBSD Installer with serial console at COM1:@,8N1
 echo
 boot /bsd
-v10/i386/bsd.rd
