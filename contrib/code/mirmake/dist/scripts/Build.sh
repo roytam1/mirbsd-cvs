@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.88 2006/10/13 16:41:47 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.89 2006/10/28 19:52:50 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -347,16 +347,21 @@ fi
 add_strlfun=
 if testfunc 'size_t strlcpy(char *, const char *, size_t)' \
     'strlcpy(dst, src, 1)' '' 'char src[3] = "Hi", dst[3];'; then
-	add_strlfun=strlfun.c
+	add_strlfun=$d_src/lib/libc/string/strlfun.c
 fi
 add_arcfour=
-if testfunc 'int arc4random_pushb(const void *, size_t)' \
+if testfunc 'uint32_t arc4random_pushb(const void *, size_t)' \
     'return arc4random_pushb(main, 1)'; then
-	add_arcfour=arc4random.c
+	add_arcfour=$top/dist/contrib/arc4random.c
 	if ! testfunc 'int arc4random(void)' \
 	    'return arc4random()'; then
 		CPPFLAGS="$CPPFLAGS -D_ARC4RANDOM_WRAP"
 	fi
+fi
+add_libohash=
+if testfunc 'u_int32_t ohash_interval(const char *, const char **)' \
+    'return ohash_interval(NULL, NULL);'; then
+	add_libohash=$d_build/ohash/libohash.a
 fi
 
 # build readlink
@@ -468,7 +473,6 @@ sed -e 's/hashinc/sha2.h/g' -e 's/HASH_\{0,1\}/SHA512_/g' \
 sed -e 's/hashinc/tiger.h/g' -e 's/HASH/TIGER/g' \
     $d_src/lib/libc/hash/helper.c >tigerhl.c
 cp  $d_src/lib/libc/hash/{md4,md5,rmd160,sha1,sha2,tiger}.c \
-    $d_src/lib/libc/string/strlfun.c \
     $d_src/lib/libc/stdlib/{getopt_long,strtoll}.c \
     $d_src/lib/libc/stdio/{{,v}asprintf,mktemp}.c .
 SRCS="${add_fgetln%.[co]}.c $add_strlfun $add_arcfour" \
@@ -488,14 +492,14 @@ fi
 cd ${d_build}
 ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
     MAKE_BOOTSTRAP=Yes MKFEATURES=-D_PATH_DEFSYSPATH=\\\"${dt_mk}\\\" \
-    LIBS=$d_build/libmirmake/libmirmake.a clean
+    LDADD="$add_libohash $d_build/libmirmake/libmirmake.a" clean
 ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
     MAKE_BOOTSTRAP=Yes MKFEATURES=-D_PATH_DEFSYSPATH=\\\"${dt_mk}\\\" \
     MKDEP_SH="${new_mirksh} ${d_build}/mkdep.sh" \
-    LIBS=$d_build/libmirmake/libmirmake.a depend
+    LDADD="$add_libohash $d_build/libmirmake/libmirmake.a" depend
 ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
     MAKE_BOOTSTRAP=Yes MKFEATURES=-D_PATH_DEFSYSPATH=\\\"${dt_mk}\\\" \
-    LIBS=$d_build/libmirmake/libmirmake.a make
+    LDADD="$add_libohash $d_build/libmirmake/libmirmake.a" make
 
 chmod 555 $top/Install.sh
 
