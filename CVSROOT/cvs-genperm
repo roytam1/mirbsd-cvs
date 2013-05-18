@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.29 2007/04/03 20:54:43 tg Exp $
+# $MirOS: CVSROOT/cvs-genperm,v 1.30 2007/06/09 23:24:54 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -117,6 +117,8 @@ find "$CVSROOT"$fr | while IFS= read pname; do
 				M=miros-cvsadm
 				[[ $name = contrib/hosted/fwcf@(|/*) ]] && \
 				    M=tg
+				[[ $name = contrib/hosted/libnointl@(|/*) ]] && \
+				    M=miros-cvssrc
 			elif [[ $name = @(contrib|src|X11)@(|/*) ]]; then
 				M=miros-cvssrc
 			elif [[ $name = @(ports)@(|/*) ]]; then
