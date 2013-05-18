@@ -59,7 +59,7 @@ cable solution for all parties.
 REFERENCES:
 [1] also at http://mirbsd.de/MirOS-Licence
 [2] http://www.opensource.org/licenses/historical.php
-[3] http://www.opensource.org/docs/definition_plain.php
+[3] http://www.opensource.org/docs/osd
 [4] http://www.debian.org/social_contract#guidelines
 
 
@@ -71,4 +71,4 @@ REFERENCES:
  spiration, but we'd love you to use it verbatim for your own work.)
 
 ___________________________________________________________________________
-$MirOS: src/share/misc/licence.template,v 1.22 2007/05/18 00:34:34 tg Rel $
+$MirOS: src/share/misc/licence.template,v 1.23 2007/06/05 10:05:25 tg Rel $
