@@ -1,12 +1,12 @@
-# $MirOS: ports/games/bsdgames/Makefile,v 1.11 2006/06/11 10:57:29 tg Exp $
+# $MirOS: ports/games/bsdgames/Makefile,v 1.12 2006/09/14 00:09:19 tg Exp $
 
-COMMENT=			BSD base system games
+COMMENT=		BSD base system games
 CATEGORIES=		games
 CVS_DISTREPO=		anoncvs@anoncvs.ca.openbsd.org:/cvs
 CVS_DISTDATE=		2005/02/16
 CVS_DISTMODS=		src/games
 CVS_DISTFILE=		bsdgames
-PKGNAME=		${_CVS_DISTF:R}-3
+PKGNAME=		${_CVS_DISTF:R}-4
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 
 # BSD

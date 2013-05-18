@@ -57,8 +57,8 @@ Klewitz-Hommelsen: "Richtig!"
 "Bin ich das?" (Schaut sich sein Handy an und blockt das Gespräch.)
 "In letzter Zeit bekomme ich immer mails - 'Lieber Michael, Treffen heut'
  Abend im Club 25.' Wenn ich die Nachricht vorzeige bekommen ich freien
- Eintritt, wenn ich nur wüsste wo der Club 25 ist, aber ich heiße auch nicht
- Michael."
+ Eintritt, wenn ich nur wüsste wo der Club 25 ist, aber ich heiße auch
+ nicht Michael."
   -- Prof. Dr. Witt während der Vorlesung theoretische Informatik als ein
      Handy die ganze Zeit klingelt
 %
@@ -78,8 +78,8 @@ Klewitz-Hommelsen: "Richtig!"
 "Es handelt sich um SM, also nicht Sado-Maso, sondern Shared Medium"
   -- Dr. Schaarschmidt am 13.12.2000 zum Thema "Kanalteilung"
 %
-"Dann mache ich halt nächsten Mittwoch eine nicht vorhersehbare Überprüfung
- der Anwesenheit"
+"Dann mache ich halt nächsten Mittwoch eine nicht vorhersehbare 
+ Überprüfung der Anwesenheit"
   -- Dr. Schaarschmidt am 13.12.2000 als ihm auffiel, dass er die
      Studentenliste vergessen hat.
 %
@@ -88,8 +88,8 @@ Studierende: "Wer ?"
 Witt: "Ich bekomme jeden Mittwoch eine SMS, in der steht: 'Hallo lieber
        Michael, komm doch heute in Club 25, Du bekommst auch dieses oder
        jenes gratis'"
-  -- Prof. Dr. Witt am 09.12.2000 während der Mathevorlesung im 3. Semester
-     nachdem sein Handy piepste.
+  -- Prof. Dr. Witt am 09.12.2000 während der Mathevorlesung im 3.
+     Semester nachdem sein Handy piepste.
 %
 "Bei dem Bitmusterprotokoll ist noch ne ganze Menge Klöterkram dazwischen"
   -- Dr. Schaarschmidt am 08.12.2000 in "Datenübertragung und
@@ -128,18 +128,18 @@ Kommentar eines Studierenden: "Und in Schottland werfen sie Baumstämme"
 "Wenn wir mal -RICHTIG- Mathematik machen...."
   -- Prof. Dr. Witt bei der Erklärung von Beweismethoden am 14.10.1999
 %
-"Mathematik kann man nur betreiben, wenn man Phantasie hat und kreativ ist.
- Hat man die nicht, kann man es vergessen, dann kann man Häuser anstreichen
- oder Autos reparieren."
+"Mathematik kann man nur betreiben, wenn man Phantasie hat und kreativ
+ ist. Hat man die nicht, kann man es vergessen, dann kann man Häuser
+ anstreichen oder Autos reparieren."
   -- Prof. Dr. Witt bei der Erklärung von Diagonalisierung am 14.10.1999
 %
 "Sie sind der neue Datenträger?"
   -- Prof. Dr. Heiden, Medientechnik & Filmgestaltung 3. Semester am
   12.10.2000 zu einem Mitarbeiter mit Bändern unter dem Arm.
 %
-KUW (auf die Uhr von seinem Handy blickend, nachdem es im Hoersaal laut war
-und durch seine Pause wieder etwas leiser wurde): "Ich arbeite jetzt mal mit
-Nachspielzeit."
+KUW (auf die Uhr von seinem Handy blickend, nachdem es im Hoersaal laut
+war und durch seine Pause wieder etwas leiser wurde): "Ich arbeite jetzt
+mal mit Nachspielzeit."
   -- Prof. Dr. Witt, Mathe II, 11.05.2005
 %
 KUW: "Also, haben Sie das verstanden?"
@@ -157,8 +157,8 @@ KUW: "Ja, die is' geil, ne?"
 "So lange das alles moeglich ist, koennen Sie machen, was Sie wollen."
   -- Prof. Dr. Witt, Mathe II, 30.03.2005
 %
-Student: "Was haben Sie damit jetzt gemeint? Sie haben da die 1 weggewischt
-          und..."
+Student: "Was haben Sie damit jetzt gemeint? Sie haben da die 1
+          weggewischt und..."
 KUW (eine 0 schreibend): "...die 0 dran geschrieben."
 Student: "Und darunter? Was haben Sie da hingeschrieben?"
 KUW (wegwischend): "Das kann jetzt wieder weg."
@@ -168,8 +168,8 @@ KUW (vor sich hinmurmelnd): "...mit i ungleich j, im Geiste sind sie
 natürlich gleich..."
   -- Prof. Dr. Witt, Mathe II, ohne Datum
 %
-Jung: "Das stecken Sie locker weg, wenn Sie Herrn Witt hinter sich gebracht
-       haben..."
+Jung: "Das stecken Sie locker weg, wenn Sie Herrn Witt hinter sich
+       gebracht haben..."
 Witt: "Ich hab doch immer gesagt, ich bin der Maßstab hier!"
   -- Prof. Dr. Jung, Prof. Dr. Witt nach einer Frage zu einer
      Wahlpflichtveranstaltung des vierten Semesters, 12.01.2006
@@ -195,11 +195,11 @@ intelligenter als Oliver Kahn sind die Roboter schon!"
 das funktioniert dann auch, aber das gibt es nicht."
   -- Prof. Dr. Becker, Programmiersprache, 04.05.2005
 %
-Becker: "Der vollstaendige Graph Km mit m Knoten hat also m*(m-1)/2 Kanten.
-         Kann mir das jemand begruenden?"
+Becker: "Der vollstaendige Graph Km mit m Knoten hat also m*(m-1)/2
+         Kanten. Kann mir das jemand begruenden?"
 Student: "Folgt das nicht unmittelbar aus der Kombinatorik?"
-Anderer Student: "Thorsten, du sitzt am guenstigsten, geh mal da hin und hau
-                  dem eine rein!"
+Anderer Student: "Thorsten, du sitzt am guenstigsten, geh mal da hin und
+                  hau dem eine rein!"
   -- Prof. Dr. Becker, Graphentheorie, 05.10.2005
 %
 "Die Schleifeninvariante, das ist eine komische Bedingung in diesem
@@ -221,11 +221,13 @@ vdH: "Och, ne,...hm...ja!"
 "Wenn nochmal jemand sagt, ein Kreis hätte keine Ecken, dann sagen Sie:
  doch, er hat unendlich viele; obwohl... lieber nicht, sonst heißt's
  wieder hööööh, typisch Informatiker."
-  -- Prof. Dr. Becker, Graphentheorie, während des Erklärens konvexer Mengen
+  -- Prof. Dr. Becker, Graphentheorie, während des Erklärens konvexer
+     Mengen
 %
-"... Da wissen wir ja, ... also ich weiß es zumindest,
+"... Da wissen wir ja, ... also ich weiß es zumindest, 
  hab's Ihnen auch schonmal gesagt, ..."
-  -- Prof. Dr. von der Hude, Statistik, beim Erklären von unabhängigen Variablen
+  -- Prof. Dr. von der Hude, Statistik, beim Erklären von unabhängigen
+     Variablen
 %
 "Erste Veranstaltung und das Semester nimmt kein Ende..."
   -- Prof. Dr. Jung, Embedded Systems, 28.03.2006
@@ -237,4 +239,47 @@ vdH: "Och, ne,...hm...ja!"
 "Die wichtigen Anrufe, wenn Sie die zu mir durchstellen würden"
   -- Prof. Dr. Pohl, Informationssicherheit, 03.04.2006,
      nachdem ein Handy klingelte
+%
+"Bei der Auswertung des Drucks auf ein Bremspedal sollte man dann
+ natürlich auch das Abtasttheorem beachten, sonst kann's schonmal zu
+ einer ganz speziellen Art der Faltung kommen"
+  -- Prof. Dr. Jung, Signale und digitale Systeme, 04.10.2006
+%
+"Also, dass wir jetzt gegenseitig unsere Versionen vom Bronstein
+ miteinander vergleichen kann nicht Sinn einer mündlichen Prüfung sein."
+  -- Prof. Dr. Jung, Signale und digitale Systeme, 04.10.2006
+%
+"Nachdem wir das Ziel aus den Augen verloren hatten, verdoppelten wir
+ unsere Bemühungen."
+  -- Prof. Dr. Jung, Verteilte und parallele Systeme 2, 10.10.2006
+%
+"Zeitinvarianz ist immer ein endliches Geschäft"
+  -- Prof. Dr. Jung, Signale und digitale Systeme, 18.10.2006
+%
+"Da hat wer nen Socket erfunden und verkauft das als neue Technologie. Ich
+ kann mir auch nen Loch in die Kniescheibe bohren und nen Bild dran
+ aufhängen - auch 'ne neue Technologie."
+  -- Prof. Dr. Jung, Verteilte und parallele Systeme 2, 07.11.2006
+%
+"Wenn man an der Physik nicht vorbeikommt, dann ist das ein sicherer Job"
+  -- Prof. Dr. Jung, Verteilte und parallele Systeme 2, 07.11.2006
+%
+"So, nachdem wir das letzte Kapitel verdaut haben, kommen wir nun zum
+ nächsten Kapitel." - stöhnen geht durch die Reihen - "Jaja, ich weiß,
+ wenn man irgendwas noch nicht verdaut hat und dann weiter ißt, dann gibt
+ es irgendwann das organisierte Erbrechen."
+  -- Prof. Dr. Jung, Signale und digitale Systeme, 22.11.2006
+%
+"Ob diese Räume hier das aushalten, wenn man mehr als Dreisatz macht?"
+  -- Prof. Dr. Jung, Verteilte und parallele Systeme 2, 28.11.2006,
+     nachdem wegen Doppelbelegung ein Ausweichraum bei den Wirtschaftlern
+     gefunden wurde.
+%
+"Die meisten Professoren hier sind in einem Alter, in dem sie
+ schulpflichtige Kinder oder Frauen haben ..."
+  -- Prof. Dr. Berrendorf, Verteilte und parallele Systeme 2, 28.11.2006
+%
+"Vorteile der Digitalisierung: Immer bessere Bilder bei immer
+ schlechterem Fernsehprogramm."
+  -- Prof. Dr. Jung, Signale und digitale Systeme, 17.01.2007
 %
