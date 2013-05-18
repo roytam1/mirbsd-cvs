@@ -18,6 +18,8 @@ SRCS+=	asprintf.c clrerr.c fclose.c fdopen.c feof.c ferror.c fflush.c fgetc.c \
 	fgetwc.c fgetws.c fputwc.c fputws.c fwide.c getwc.c getwchar.c \
 	putwc.c putwchar.c ungetwc.c
 
+SRCS+=	getline.c
+
 CFLAGS_findfp.o+= -Wno-error
 CFLAGS_fputs.o+= -Wno-cast-qual
 CFLAGS_funopen.o+= -Wno-cast-qual
