@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.8 2005/11/15 18:06:56 tg Exp $
+# $MirOS: ports/Makefile,v 1.9 2005/11/15 21:10:19 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -129,6 +129,12 @@ portupgrade: index
 setup: Setup.sh
 	@echo 'Use "make nfo" to generate documentation!'
 	@sleep 3
+	if [[ ! -e ${.CURDIR}/Distfiles ]]; then \
+		${SUDO} mkdir -m 0775 Distfiles; \
+	fi
+	if [[ ! -e ${.CURDIR}/Packages ]]; then \
+		${SUDO} mkdir -m 0775 Packages; \
+	fi
 	env CC='${CC}' SHELL=${SHELL} MKSH=${MKSH} \
 	    ${SUDO} /bin/sh ${.CURDIR}/Setup.sh
 
