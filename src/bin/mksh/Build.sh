@@ -1227,6 +1227,7 @@ case $curdir in
 esac
 cat >>test.sh <<-EOF
 	export PATH='$PATH'
+	check_categories=$check_categories
 	print Testing mksh for conformance:
 	fgrep MirOS: '$srcdir/check.t'
 	fgrep MIRBSD '$srcdir/check.t'
@@ -1235,8 +1236,11 @@ cat >>test.sh <<-EOF
 	perl=perl5
 	\$perl -e print >/dev/null 2>&1 || perl=perl
 	\$perl -e print >/dev/null 2>&1 || exit 1
+	print '\\ufeffprint "moien";' >test.tmp
+	[[ \$(\$perl test.tmp 2>&1) = moien ]] || \\
+	    check_categories=\$check_categories,oldish-perl
 	exec \$perl '$srcdir/check.pl' -s '$srcdir/check.t' \\
-	    -p '$curdir/mksh' -C $check_categories \$*$tsts
+	    -p '$curdir/mksh' -C \$check_categories \$*$tsts
 EOF
 chmod 755 test.sh
 echo set -x >Rebuild.sh
