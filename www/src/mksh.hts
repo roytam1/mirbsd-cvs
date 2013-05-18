@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.509 2013/04/07 14:15:45 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.510 2013/04/26 17:16:12 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R44</h2>
+<h2>mksh(1) R45</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -45,9 +45,9 @@ mws_content <<'EOF'
  href="@@ABSPATH@@/TaC-mksh.txt">full licence terms</a> overview.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R44</strong> from
- <em>5 March 2013</em>.<br />In the oldstable bugfixing-only series, the
- current version is <em>mksh R41c</em> from <em>15 February 2013</em>.</p>
+<p>The current version of mksh is <strong>mksh R45</strong> from
+ <em>26 April 2013</em>.<br />In the oldstable bugfixing-only series, the
+ current version is <em>mksh R44</em> from <em>5 March 2013</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
  for just another account on a Sun E420 on Solaris 11β. Thanks to someone who
@@ -179,29 +179,29 @@ mws_content <<'EOF'
  <em>as well as</em> the hashes and/or checksums below, so you’re sure the
  content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R45.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R45.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R45.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R45.tgz</a></li>
  <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R44.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R44.tgz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R44.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R44.tgz</a></li>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R41c.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R41c.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R41c.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R41c.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
 <!-- cd /MirOS/dist/mir/mksh; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
+  <li>RMD160 (mksh-R45.tgz) = b376357d4aacade3fa888f78b6257ec76affb608</li>
+  <li>TIGER (mksh-R45.tgz) = f9744d917e7a2851bad925e2d078db2d26bfca007f89635c</li>
+  <li>2624626366 346164 /MirOS/dist/mir/mksh/mksh-R45.tgz</li>
+  <li>MD5 (mksh-R45.tgz) = d3d90973119ae689d5300b690600e1dc</li>
+ <li style="list-style:none;">↑ formal release │ stable bugfix series ↓</li>
   <li>RMD160 (mksh-R44.tgz) = 4cf1525c477c4bece519c024cc73ee6ca064d34a</li>
   <li>TIGER (mksh-R44.tgz) = f1658a67757b42cc8f0f39b6736ef329e34d1d248e204d1a</li>
   <li>927023341 346239 /MirOS/dist/mir/mksh/mksh-R44.tgz</li>
   <li>MD5 (mksh-R44.tgz) = fe011686319a8c50d5e237fd5e195fd8</li>
- <li style="list-style:none;">↑ formal release │ stable bugfix series ↓</li>
-  <li>RMD160 (mksh-R41c.tgz) = a7622e1e6dbacf9aaa601cbba2903ef256c2b3b0</li>
-  <li>TIGER (mksh-R41c.tgz) = 153e3c992d74c66219e95f579e9f7ca6926f33639e3768d7</li>
-  <li>1649994040 343671 /MirOS/dist/mir/mksh/mksh-R41c.tgz</li>
-  <li>MD5 (mksh-R41c.tgz) = c3f670b1561514c51c5841a9b8000dab</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d. with our
   <a href="/gzsigkey.cer">current signature key</a>.</li>
 </ul>
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
- so a simple <tt>tar xzf mksh-R44.tgz</tt> will work.</p>
+ so a simple <tt>tar xzf mksh-R45.tgz</tt> will work.</p>
 
 <h3 id="vendorpatching">Patching</h3>
 <p>If you’re a packager/vendor and need to patch mksh and deviate from the
@@ -809,6 +809,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <!--
 <p id="pcur"><i>current</i>: <i>(unfinished…)</i></p>
 -->
+<p id="p45">R45: Neither <tt>-DMKSH_GCC55009</tt> nor HAVE_SILENT_IDIVWRAPV
+ nor <tt>-Wno-overflow</tt> are used any more; mksh employs unsigned integer
+ arithmetic now and emulates signed integer arithmetics with defined wraparound
+ using unsigned C integers. Oh, and a workaround for a workaround for a bug in
+ GNU tar in dietlibc was added (hah, nested sentences are nice!).</p>
 <p id="p44">R44: Please consider switching from R41-stable, which is now
  oldstable; this release is conservative wrt. R43 and may become stable.</p>
 <p id="p43">R43: Unbreaks detection of <tt>sys_siglist[]</tt> and friends’
@@ -1092,6 +1097,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <!--
 <p id="ccur"><i>current</i>: … <i>(unfinished…)</i></p>
 -->
+<p id="c45">R45: mksh in compatibility modes (posix, sh, lksh) no longer
+ parses the <tt>&amp;&gt;</tt> GNU bash I/O redirection (it breaks previously
+ valid scripts). “set -x” output changed. Enjoy the new <tt>dot.mkshrc</tt>
+ provided <tt>PS4</tt> variable and “doch” alias.</p>
 <p id="c44">R44: <tt>"$@"</tt> always generates words.</p>
 <p id="c43">R43: <tt>$'…'</tt> is only allowed where strings are.</p>
 <p id="c42b">R42b: Sorry for the “set -e” breakage.</p>
@@ -1160,14 +1169,17 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
+<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
+-->
  <!-- li>Begin porting mksh to the <a href="http://9fans.net/">Plan 9</a>
   ANSI’n’POSIX Environment (not finished)</li -->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
- <li>[tg] Make “set -x” print whole (reentrant) TCOM trees</li>
+<p id="r45">R45 comes with this bag of changes:</p><ul>
+ <li>[tg] Make “set -x” print the commands run in escaped form</li>
  <li>[tg] <tt>PS4</tt> in <tt>dot.mkshrc</tt> is now timestamped</li>
  <li>[tg] The <tt>&amp;&gt;</tt> GNU bash I/O redir is no longer parsed in
   <tt>-o posix</tt>, <tt>-o sh</tt> modes, lksh (breaks valid scripts)</li>
@@ -1179,8 +1191,18 @@ exec /usr/bin/ld "${args[@]}"</pre>
   repeats the last input line with sudo(8)</li>
  <li>[tg] Use unsigned integers for all calculations, to avoid ISO C “Undefined
   Behaviour” (and implementation-defined behaviour) throughout (most of) the
-  code; emulate signed integer arithmetics using unsigned; not-lksh only
-   <strong>not yet finished, do <em>not</em> use right now!</strong></li>
+  code; emulate signed integer arithmetics using unsigned; not-lksh only</li>
+ <li>[tg] Emulate signed modulo naïvely, for correct sign of the result</li>
+ <li>[tg] Add &lt;&lt;&lt; and &gt;&gt;&gt; for ROL and ROR (rotate left and
+  right, respectively) operations, &lt;&lt;&lt;= and &gt;&gt;&gt; assignments;
+  bitwise AND the RHS of a shift/rotate op with 31 (not for lksh)</li>
+ <li>[tg] Remove a warning by working around a workaround found in dietlibc
+  which works around a bug in broken software such as GNU tar (really!)</li>
+ <li>[tg] Correct and simplify list and categorisation of built-in commands
+  as POSIX special and “everything else” plus a flag to keep assignments</li>
+ <li>[tg] Handle <tt>((foo))</tt> as “let]” internally to avoid a conflict
+  with user-defined functions called <tt>let</tt> (LP#1156707)</li>
+ <li>[tg] Clean up the code</li>
 </ul>
 <p id="r44">R44 contains these bugfixes:</p><ul>
  <li>[tg] "$@" always generates words; bug spotted by engla in IRC</li>
@@ -1659,7 +1681,6 @@ exec /usr/bin/ld "${args[@]}"</pre>
  64-bit arithmetics, possibly using a long typeset flag and something
  similar to <tt>$((#x))</tt> for unsigned arithmetics</li>
 <li>arbitrary-precision arithmetics?</li>
-<li>implement signed integer arithmetics in terms of unsigned ones</li>
 <li><tt>set -o pipefail</tt> (catch like Debian #703800)</li>
 <li><tt>$&amp;</tt> in/after replacements, possibly as array?
  maybe not with that name, see the <tt>&amp;&gt;</tt> disaster.</li>
@@ -1672,6 +1693,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  mostly there, but we keep it open already in C and don’t do dirs,
  this must be rethinked wrt. UI (the UI can also be used for some
  file-based locking builtin)</li>
+<li><tt>exec</tt> with arg parsing, <tt>-c</tt> like ksh93 (keeping
+ <tt>l_assign</tt> stuff exported!), <tt>-a</tt></li>
 </ul>
 EOF
 mws_putfooter

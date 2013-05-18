@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.420 2013/03/24 21:39:54 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.421 2013/04/13 15:13:32 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9949,4 +9949,34 @@ Tag: news pkgsrc
  instructions on how to install pkgsrc for MirBSD.
  <a href="http://miros.s3.amazonaws.com/pbulk/20130329.2011/meta/report.html">Build
  logs</a> are available on S3.</p>
+----
+Title: mksh R45 released
+Date: 26.04.2013 22:24
+Author: tg@
+Tag: debian mksh news
+
+<p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a> R45 has been
+ released today, and R44 has been named the new stable/bugfix-only series.
+ (That’s version 45.1, not 0.45, dear Homebrew/MacOSX packagers.)</p>
+<p>Packagers rejoice: the -DMKSH_GCC55009 dance is no longer needed, and
+ even the run-time check for integer division is gone. Why? Because I
+ realised one cannot use signed integers in C, at all, and rewrote the
+ mksh arithmetics code to use unsigned integers only. Special thanks to
+ the people from musl libc and, to some lesser amount, Natureshadow for
+ providing me with ideas what to replace some functionality with.</p>
+<p class="boxhead">The following entertainment…</p><div class="boxtext">
+ <pre>
+	tg@blau:~ $ echo foo &gt;/bar\ baz
+	/bin/mksh: can't create /bar baz: Permission denied
+	1|tg@blau:~ $ doch
+	tg@blau:~ $ cat /bar\ baz
+	foo
+ </pre>
+</div><p class="boxfoot">… was provided by Tonnerre Lombard; like <a
+ href="http://www.thelocal.se/39784/20120320/">Swedish</a>, German has
+ got a number of words that cannot be expressed in English so I feel
+ not up to the task of explaining this to people who don’t know the
+ German word “doch”, just rest assured it calls the last input line
+ (be careful, this is literally a line, so don’t use backslash-newline
+ sequences) using sudo(8).</p>
 ----
