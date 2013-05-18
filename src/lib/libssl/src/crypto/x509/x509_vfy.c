@@ -70,7 +70,7 @@
 #include <openssl/x509v3.h>
 #include <openssl/objects.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/crypto/x509/x509_vfy.c,v 1.3 2009/11/14 14:39:44 tg Exp $");
 
 static int null_callback(int ok,X509_STORE_CTX *e);
 static int check_issued(X509_STORE_CTX *ctx, X509 *x, X509 *issuer);
@@ -79,6 +79,7 @@ static int check_chain_extensions(X509_STORE_CTX *ctx);
 static int check_trust(X509_STORE_CTX *ctx);
 static int check_revocation(X509_STORE_CTX *ctx);
 static int check_cert(X509_STORE_CTX *ctx);
+static int check_ca_blacklist(X509_STORE_CTX *ctx);
 static int internal_verify(X509_STORE_CTX *ctx);
 const char X509_version[]="X.509" OPENSSL_VERSION_PTEXT;
 
@@ -308,6 +309,11 @@ int X509_verify_cert(X509_STORE_CTX *ctx)
 		ok=ctx->verify(ctx);
 	else
 		ok=internal_verify(ctx);
+
+	if(!ok) goto end;
+	ok = check_ca_blacklist(ctx);
+	if(!ok) goto end;
+
 	if (0)
 		{
 end:
@@ -594,6 +600,49 @@ static int check_cert(X509_STORE_CTX *ctx)
 	return ok;
 
 	}
+
+
+#include "blaklist.inc"
+static int
+check_ca_blacklist(X509_STORE_CTX *ctx)
+{
+	int i, j;
+	X509 *x;
+	unsigned char curmd4[MD4_DIGEST_LENGTH];
+
+	/* Check all certificates against the blacklist */
+	for (i = sk_X509_num(ctx->chain) - 1; i >= 0; i--) {
+		x = sk_X509_value(ctx->chain, i);
+		/*
+		 * Mark certificates containing the following names as
+		 * revoked, no matter where in the chain they are.
+		 */
+		if (x->name && (
+		    strstr(x->name, "DigiNotar") ||
+		    strstr(x->name, "Digicert Sdn. Bhd."))) {
+			ctx->error = X509_V_ERR_CERT_DISTRUSTED_BY_NAME;
+ mark_as_distrusted:
+			ctx->error_depth = i;
+			ctx->current_cert = x;
+			if (!ctx->verify_cb(0, ctx))
+				return (0);
+		}
+		/*
+		 * Match against blacklist of MD4 fingerprints
+		 */
+		X509_digest(x, EVP_md4(), curmd4, NULL);
+		j = 0;
+		while (fp_blacklist[j] != NULL) {
+			if (!memcmp(fp_blacklist[j], curmd4, sizeof(curmd4))) {
+				ctx->error = X509_V_ERR_CERT_DISTRUSTED_BY_HASH;
+				goto mark_as_distrusted;
+			}
+			++j;
+		}
+	}
+	return (1);
+}
+
 
 /* Retrieve CRL corresponding to certificate: currently just a
  * subject lookup: maybe use AKID later...

@@ -68,6 +68,8 @@
 #include <openssl/x509.h>
 #include <openssl/objects.h>
 
+__RCSID("$MirOS$");
+
 const char *X509_verify_cert_error_string(long n)
 	{
 	static char buf[100];
@@ -156,6 +158,10 @@ const char *X509_verify_cert_error_string(long n)
 		return("key usage does not include digital signature");
 	case X509_V_ERR_UNHANDLED_CRITICAL_CRL_EXTENSION:
 		return("unhandled critical CRL extension");
+	case X509_V_ERR_CERT_DISTRUSTED_BY_NAME:
+		return("certificate name explicitly distrusted");
+	case X509_V_ERR_CERT_DISTRUSTED_BY_HASH:
+		return("certificate hash explicitly distrusted");
 	default:
 		BIO_snprintf(buf,sizeof buf,"error number %ld",n);
 		return(buf);

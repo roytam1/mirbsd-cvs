@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* crypto/x509/x509_vfy.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
@@ -313,6 +315,9 @@ struct x509_store_ctx_st      /* X509_STORE_CTX */
 
 /* The application is not happy */
 #define		X509_V_ERR_APPLICATION_VERIFICATION		50
+
+#define		X509_V_ERR_CERT_DISTRUSTED_BY_NAME		2046
+#define		X509_V_ERR_CERT_DISTRUSTED_BY_HASH		2047
 
 /* Certificate verify flags */
 
