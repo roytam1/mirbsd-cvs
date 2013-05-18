@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.26 2006/04/10 21:03:05 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.27 2006/04/10 21:06:26 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -99,12 +99,14 @@ unconfig:
 	-${SUDO} umount -f /dev/svnd0a
 	-${SUDO} vnconfig -u svnd0
 
-.PHONY:	addcontrib clean cleandir cleannobsd gendev it makeimg \
+.PHONY:	addcontrib clean cleandir cleannobsd cleanworkdir gendev it makeimg \
 	nukefiles prepimg tstmnt tstumnt unconfig unpack
 
-clean cleandir cleannobsd:
+clean cleandir cleannobsd: cleanworkdir
 	-rm -f ${CDROM} bsd{,.gz} mkisofs.log mr.fs rdsetroot
 	-rm -rf tempdir tmpmnt
+
+cleanworkdir:
 	-${SUDO} rm -rf workdir
 
 tstmnt:
