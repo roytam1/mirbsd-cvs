@@ -971,6 +971,8 @@ quitenv(struct shf *shf)
 	 * Either main shell is exiting or cleanup_parents_env() was called.
 	 */
 	if (ep->oenv == NULL) {
+		struct block *l;
+
 		if (ep->type == E_NONE) {
 			/* Main shell exiting? */
 #if HAVE_PERSISTENT_HISTORY
@@ -997,6 +999,13 @@ quitenv(struct shf *shf)
 		}
 		if (shf)
 			shf_close(shf);
+#ifdef DEBUG_LEAKS
+		l = e->loc;
+		while (l) {
+			afreeall(&l->area);
+			l = l->next;
+		}
+#endif
 		reclaim();
 #ifdef DEBUG_LEAKS
 #ifndef MKSH_NO_CMDLINE_EDITING
