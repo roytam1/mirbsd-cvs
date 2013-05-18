@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.51 2006/02/26 00:26:24 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.52 2006/03/19 20:24:24 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -119,6 +119,8 @@ T=$tempdir
 trap 'rm -rf $T; exit 1' 1 2 3 13 15
 trap 'rm -rf $T; exit 0' 0
 
+called_with="$*"
+
 [[ -n $localbase ]] || localbase=/usr/mpkg
 [[ -n $xfbase ]] || xfbase=/usr/X11R6
 if [[ $interix = yes ]]; then
@@ -130,7 +132,7 @@ etc=/etc
 let iopt=0
 let nopt=0
 d=0
-while getopts "DE:ehil:U:uX:" opt; do
+while getopts "DE:ehil:NU:uX:" opt; do
 	case $opt {
 	(D)	trap - 0 1 2 3 13 15
 		d=1 ;;
@@ -329,6 +331,7 @@ if [[ $f_ver -ge $mv ]]; then
 				exit 1
 			fi
 		fi
+		rm -f $localbase/bin/mmake
 		cat >$localbase/bin/mmake <<-EOF
 			#!$MKSH
 			exec $m -m $shmk -m $sysmk "\$@"
@@ -500,6 +503,8 @@ EOF
 EOF
 
 cat >$localbase/db/SetEnv.make <<-EOF
+	# called with $called_with
+
 	LOCALBASE=	$localbase
 	PORTSDIR?=	$portsdir
 	SYSCONFDIR?=	$etc
