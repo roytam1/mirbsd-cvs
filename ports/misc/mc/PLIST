@@ -1,4 +1,4 @@
-@comment $MirOS: ports/misc/mc/pkg/PLIST,v 1.6 2006/09/28 20:31:52 tg Exp $
+@comment $MirOS: ports/misc/mc/pkg/PLIST,v 1.7 2007/05/26 00:29:01 tg Exp $
 bin/mc
 bin/mcedit
 bin/mcmfmt
@@ -43,16 +43,16 @@ share/mc/extfs/uzip
 share/mc/extfs/uzoo
 share/mc/mc.ext
 share/mc/mc.hint
-@comment share/mc/mc.hint.cs
-@comment share/mc/mc.hint.es
-@comment share/mc/mc.hint.hu
-@comment share/mc/mc.hint.it
-@comment share/mc/mc.hint.nl
-@comment share/mc/mc.hint.pl
-@comment share/mc/mc.hint.ru
-@comment share/mc/mc.hint.sr
-@comment share/mc/mc.hint.uk
-@comment share/mc/mc.hint.zh
+share/mc/mc.hint.cs
+share/mc/mc.hint.es
+share/mc/mc.hint.hu
+share/mc/mc.hint.it
+share/mc/mc.hint.nl
+share/mc/mc.hint.pl
+share/mc/mc.hint.ru
+share/mc/mc.hint.sr
+share/mc/mc.hint.uk
+share/mc/mc.hint.zh
 share/mc/mc.hlp
 share/mc/mc.lib
 share/mc/mc.menu
