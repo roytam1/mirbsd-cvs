@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/rc,v 1.106 2009/11/02 16:13:23 tg Exp $
+# $MirOS: src/etc/rc,v 1.107 2009/11/02 18:48:59 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -608,7 +608,7 @@ x=$(sysctl -n kern.version | sed 1q)
 EOF)" = @(?) ]] && rm -f /etc/motd
 if [[ ! -s /etc/motd ]]; then
 	install -c -o root -g wheel -m 664 /dev/null /etc/motd
-	print "$x\n" >/etc/motd
+	print -- "$x\n" >/etc/motd
 fi
 
 if [[ -f /var/account/acct ]]; then
