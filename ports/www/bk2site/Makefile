@@ -1,6 +1,9 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.13 2004/02/25 02:35:17 naddy Exp $
 
-COMMENT=			convert Netscape bookmarks into a Yahoo-like website
+BROKEN=		error message during compile
+
+COMMENT=	convert Netscape bookmarks into a Yahoo-like website
 
 DISTNAME=	bk2site-1.1.8
 CATEGORIES=	www
@@ -15,6 +18,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=bk2site/}
 
 CONFIGURE_STYLE=	gnu
+USE_CXX=		Yes
 CONFIGURE_ARGS=		--enable-standard-datadir
 
 post-install:
