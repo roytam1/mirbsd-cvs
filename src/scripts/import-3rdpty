@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.8 2005/07/07 13:06:38 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.9 2005/07/21 18:07:01 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,7 +23,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.8 2005/07/07 13:06:38 tg Exp $ ========='
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.9 2005/07/21 18:07:01 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -34,6 +34,7 @@ while getopts "fhnp" option; do
 	h)	print Syntax:
 		print "\t$0 [-fnp] module tag"
 		print "\t$0 [-fnp] - path vendor tag"
+		print modules: binutils cvs lynx openbsd rcs texinfo -
 		exit 0
 		;;
 	n)	DO_CVS="print -- \$ cvs"
@@ -296,11 +297,13 @@ openbsd)
 		Makefile.cross \
 		bin/chio \
 		bin/csh \
+		bin/df/lfs_df.c \
 		bin/domainname \
 		bin/ksh \
 		bin/rcp \
 		bin/rmail \
 		distrib/alpha \
+		distrib/amd64 \
 		distrib/cats \
 		distrib/crunch \
 		distrib/hp300 \
@@ -314,6 +317,7 @@ openbsd)
 		distrib/i386/ramdisk_cd \
 		distrib/luna88k \
 		distrib/mac68k \
+		distrib/macppc \
 		distrib/mvme68k \
 		distrib/mvme88k \
 		distrib/mvmeppc \
@@ -322,6 +326,7 @@ openbsd)
 		distrib/sgi \
 		distrib/sparc64 \
 		distrib/special/gzip \
+		distrib/special/ifconfig \
 		distrib/vax \
 		distrib/zaurus \
 		etc/afs \
@@ -332,8 +337,10 @@ openbsd)
 		etc/etc.hp300 \
 		etc/etc.hppa \
 		etc/etc.hppa64 \
+		etc/etc.i386/INSTALL.linux \
 		etc/etc.luna88k \
 		etc/etc.mac68k \
+		etc/etc.macppc \
 		etc/etc.mvme68k \
 		etc/etc.mvme88k \
 		etc/etc.mvmeppc \
@@ -344,6 +351,12 @@ openbsd)
 		etc/etc.zaurus \
 		etc/kerberosV \
 		etc/mail \
+		etc/mtree/4.4BSD.root \
+		etc/mtree/4.4BSD.usr \
+		etc/mtree/4.4BSD.var \
+		etc/mtree/BSD.local.dist \
+		etc/mtree/BSD.x11.dist \
+		etc/systrace/usr_sbin_named \
 		games \
 		gnu/egcs \
 		gnu/lib \
@@ -376,17 +389,34 @@ openbsd)
 		lib/libc/arch/m88k \
 		lib/libc/arch/mips \
 		lib/libc/arch/mips64 \
+		lib/libc/arch/powerpc \
 		lib/libc/arch/sparc64 \
 		lib/libc/arch/vax \
+		lib/libc/db/README \
+		lib/libc/db/changelog \
+		lib/libc/db/db2netbsd \
+		lib/libc/db/hash/README \
+		lib/libc/db/mpool/README \
+		lib/libc/db/mpool/mpool.libtp \
 		lib/libc/gmon \
 		lib/libc/locale \
 		lib/libc/md \
 		lib/libc/nls \
+		lib/libc/regex/WHATSNEW \
+		lib/libc/rpc/DISCLAIMER \
+		lib/libc/rpc/README \
 		lib/libc/yp \
 		lib/libcom_err \
+		lib/libcompat/regexp/COPYRIGHT \
 		lib/libcurses++ \
+		lib/libdes/README \
+		lib/libdes/VERSION \
 		lib/libdes/asm \
+		lib/libdes/des_locl.org \
+		lib/libedit/readline/Makefile \
+		lib/libedit/tokenizer.h \
 		lib/libevent/compat \
+		lib/libevent/err.c \
 		lib/libevent/sample \
 		lib/libevent/test \
 		lib/libexpat \
@@ -397,12 +427,23 @@ openbsd)
 		lib/libkadm5srv \
 		lib/libkafs \
 		lib/libkrb5 \
+		lib/libkvm/kvm_alpha.c \
+		lib/libkvm/kvm_arm.c \
+		lib/libkvm/kvm_hppa.c \
+		lib/libkvm/kvm_m68k.c \
+		lib/libkvm/kvm_m88k.c \
+		lib/libkvm/kvm_mips64.c \
+		lib/libkvm/kvm_powerpc.c \
+		lib/libkvm/kvm_sparc64.c \
+		lib/libkvm/kvm_vax.c \
 		lib/libm/arch/alpha \
 		lib/libm/arch/hppa \
 		lib/libm/arch/hppa64 \
 		lib/libm/arch/mc68881 \
 		lib/libm/arch/vax \
 		lib/libm/noieee_src \
+		lib/libpcap/CHANGES \
+		lib/libpcap/README \
 		lib/libpthread/arch/alpha \
 		lib/libpthread/arch/arm \
 		lib/libpthread/arch/hppa \
@@ -411,8 +452,12 @@ openbsd)
 		lib/libpthread/arch/m88k \
 		lib/libpthread/arch/mips \
 		lib/libpthread/arch/mips64 \
+		lib/libpthread/arch/powerpc \
 		lib/libpthread/arch/sparc64 \
 		lib/libpthread/arch/vax \
+		lib/librpcsvc/yp.x \
+		lib/librpcsvc/yppasswd.x \
+		lib/libssl/cert.pem \
 		lib/libssl/crypto/arch/alpha \
 		lib/libssl/crypto/arch/arm \
 		lib/libssl/crypto/arch/hppa \
@@ -420,6 +465,7 @@ openbsd)
 		lib/libssl/crypto/arch/m88k \
 		lib/libssl/crypto/arch/mips \
 		lib/libssl/crypto/arch/mips64 \
+		lib/libssl/crypto/arch/powerpc \
 		lib/libssl/crypto/arch/sparc64 \
 		lib/libssl/crypto/arch/vax \
 		lib/libssl/src/MacOS \
@@ -437,7 +483,14 @@ openbsd)
 		lib/libssl/src/tools \
 		lib/libssl/src/util \
 		lib/libwrap \
+		lib/libz/ChangeLog \
+		lib/libz/README \
+		lib/libz/crc32.h \
+		lib/libz/inffixed.h \
+		lib/libz/trees.h \
 		libexec/comsat \
+		libexec/ftp-proxy \
+		libexec/getNAME \
 		libexec/ld.so/alpha \
 		libexec/ld.so/arm \
 		libexec/ld.so/hppa \
@@ -462,8 +515,10 @@ openbsd)
 		sbin/fsirand \
 		sbin/mount_ados \
 		sbin/mount_lfs \
+		sbin/mount_udf \
 		sbin/mount_xfs \
 		sbin/newlfs \
+		sbin/pdisk \
 		share/doc/psd/13.rcs \
 		share/doc/usd/02.learn \
 		share/doc/usd/30.rogue \
@@ -477,6 +532,7 @@ openbsd)
 		share/man/man4/man4.hppa64 \
 		share/man/man4/man4.luna88k \
 		share/man/man4/man4.mac68k \
+		share/man/man4/man4.macppc \
 		share/man/man4/man4.mvme68k \
 		share/man/man4/man4.mvme88k \
 		share/man/man4/man4.pegasos \
@@ -491,6 +547,7 @@ openbsd)
 		share/man/man8/man8.hppa64 \
 		share/man/man8/man8.luna88k \
 		share/man/man8/man8.mac68k \
+		share/man/man8/man8.macppc \
 		share/man/man8/man8.mvme68k \
 		share/man/man8/man8.mvme88k \
 		share/man/man8/man8.pegasos \
@@ -499,7 +556,13 @@ openbsd)
 		share/man/man8/man8.vax \
 		share/man/man8/man8.zaurus \
 		share/misc/pcvtfonts \
+		share/mk/bsd.nls.mk \
+		share/mk/bsd.port.mk \
+		share/mk/bsd.port.subdir.mk \
+		share/mk/bsd.regress.mk \
 		share/pf \
+		share/termtypes/README \
+		share/termtypes/map3270 \
 		sys/adosfs \
 		sys/arch/alpha \
 		sys/arch/arm \
@@ -557,7 +620,6 @@ openbsd)
 		sys/ufs/lfs \
 		sys/xfs \
 		usr.bin/apply \
-		usr.bin/apropos \
 		usr.bin/ar \
 		usr.bin/asa \
 		usr.bin/asn1_compile \
@@ -591,9 +653,11 @@ openbsd)
 		usr.bin/pmdb/arch/m68k \
 		usr.bin/pmdb/arch/m88k \
 		usr.bin/pmdb/arch/mips64 \
+		usr.bin/pmdb/arch/powerpc \
 		usr.bin/pmdb/arch/sparc64 \
 		usr.bin/pmdb/arch/vax \
 		usr.bin/ranlib \
+		usr.bin/rcs \
 		usr.bin/rdist \
 		usr.bin/rdistd \
 		usr.bin/rsh \
@@ -623,12 +687,18 @@ openbsd)
 		usr.bin/ypcat \
 		usr.bin/ypmatch \
 		usr.bin/ypwhich \
+		usr.sbin/acpid \
+		usr.sbin/acpidump \
 		usr.sbin/afs \
 		usr.sbin/amd \
+		usr.sbin/bgpctl \
+		usr.sbin/bgpd \
 		usr.sbin/bind \
 		usr.sbin/catman \
 		usr.sbin/grfinfo \
 		usr.sbin/hilinfo \
+		usr.sbin/hostapd \
+		usr.sbin/hotplugd \
 		usr.sbin/httpd/conf/ssl.crl \
 		usr.sbin/httpd/conf/ssl.crt \
 		usr.sbin/httpd/conf/ssl.csr \
@@ -640,13 +710,17 @@ openbsd)
 		usr.sbin/httpd/src/regex \
 		usr.sbin/kgmon \
 		usr.sbin/mopd \
+		usr.sbin/ospfctl \
+		usr.sbin/ospfd \
 		usr.sbin/pkg \
 		usr.sbin/pkg_add \
 		usr.sbin/pkg_install \
+		usr.sbin/sasyncd \
 		usr.sbin/ypbind \
 		usr.sbin/yppoll \
 		usr.sbin/ypserv \
 		usr.sbin/ypset \
+		usr.sbin/ztsscale \
 	"
 	vendor=openbsd
 	vpath=src
@@ -742,8 +816,7 @@ texinfo)
 	;;
 *)
 	print Error: unknown module "'$module'"
-	print known are: binutils cvs lynx openbsd rcs texinfo -
-	exit 1
+	exec $0 -h
 	;;
 }
 
