@@ -1,6 +1,6 @@
 mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.21 2011/02/13 00:00:04 tg Exp $'
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.22 2011/03/02 22:54:15 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Content</h2>
 EOF
@@ -27,14 +27,14 @@ mws_content <<'EOF'
  src="@@RELPATH@@pics/open_source_button.png" /></p>
 
 <h3 id="download">Download</h3>
-<p>Current version: kwalletcli 2.03 (2010-11-16)</p><ul>
- <li>RMD160 (kwalletcli-2.03.tar.gz) = 9fbd5d89992fbfba0de9b3a48e98b8b6824e5702</li>
- <li>TIGER (kwalletcli-2.03.tar.gz) = 749dc34b99dc787f88c9fe14dfd7d4ca6040e729cc1ffed5</li>
- <li>4046039585 56962 /MirOS/dist/hosted/kwalletcli/kwalletcli-2.03.tar.gz</li>
- <li>MD5 (kwalletcli-2.03.tar.gz) = 73adff20ae40c03b5da0a49b5bb21c4d</li>
+<p>Current version: kwalletcli 2.10 (2011-04-09)</p><ul>
+ <li>RMD160 (kwalletcli-2.10.tar.gz) = f6f24b34719070e45df99ec6b3e8297f319a9917</li>
+ <li>TIGER (kwalletcli-2.10.tar.gz) = 192b7a0a73d8283f044208f838d13127758eaac3004e6a36</li>
+ <li>2610649908 59376 /MirOS/dist/hosted/kwalletcli/kwalletcli-2.10.tar.gz</li>
+ <li>MD5 (kwalletcli-2.10.tar.gz) = 689a5d3beb513f2e8407ac5ffa97a48b</li>
  <li style="list-style:none;">Mirrors</li>
- <li><a href="https://www.mirbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.03.tar.gz">Germany</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.03.tar.gz">Japan</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.10.tar.gz">Germany</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.10.tar.gz">Japan</a></li>
 </ul>
 
 <h3 id="contents">Ingredients</h3>
@@ -55,12 +55,11 @@ mws_content <<'EOF'
  <li>A pinentry (Assuan protocol) <strong>client</strong> called
   <tt>kwalletcli_getpin(1)</tt> which is used to request information
   from the user which is not <em>yet</em> stored in the KDE Wallet,
-  as well as confirmation whether it should be stored there (script)</li>
+  as well as confirmation whether it should be stored there (script)
+  and serves as generic pinentry/Assuan client as well</li>
 </ul>
 
 <h4 id="wishlist">Wishlist</h4>
-<p><a href="http://bugs.debian.org/603910">Debian #603910</a>: need
- support for ssh-add(1) <tt>-c</tt> query protocol</p>
 <p>Possible extensions include gnome-keyring bindings as well as some
  for the new KDE/GNOME intra-desktop keyring/wallet standard talking
  D-Bus instead of using the libkwalletclient convenience libraries;
@@ -71,9 +70,8 @@ mws_content <<'EOF'
 
 <h2 id="packaging">Packaging</h2>
 <p><a href="http://packages.debian.org/kwalletcli">Debian</a> has a
- kwalletcli (KDE 4) package in squeeze/sid, and it will be released
- with Debian 6.0 when it's ready. The backports repository contains
- a kwalletcli (KDE 3) package for lenny.</p>
+ kwalletcli (KDE 4) package from squeeze onwards. The backports
+ repository contains a kwalletcli (KDE 3) package for lenny.</p>
 <p>Suggested packaging: MidnightBSD mports (for they provide KDE
  anyway), OpenSuSE Build Service (RPM for many platforms), etc.<br />
  If KDE (upstream) desires, they may include it (under The MirOS
@@ -132,7 +130,8 @@ mws_content <<'EOF'
 <p>If you turn “iodebug” in pinentry-kwallet on, it will log the entire
  dialogue with both parent and co-process, including passwords, to a
  file in your home directory. (This can only be done by editing the
- script directly.)</p>
+ script directly, which is why we refrain from warning the user in a
+ dialogue, as an attacker can also remove that warning.)</p>
 
 <h2 id="users">Users</h2>
 <p>The <a href="http://gajim.org/">Gajim</a> Jabber client supports
@@ -145,12 +144,29 @@ mws_content <<'EOF'
  employees on their GNU/Linux desktops easier, since mid-2009.</p>
 
 <h2 id="clog">ChangeLog</h2>
+<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
+-->
+<p id="r2_10">kwalletcli 2.10</p><ul>
  <li>In pinentry-kwallet(1), replace with the slave immediately
   if <tt>$DISPLAY</tt> is unset or empty (as we cannot contact the
   KDE Wallet in that case, anyway). Fixes another case of spurious
   “Do you want to store … in the KDE Wallet?” questions.</li>
  <li>Fix mis-read in recursive call case (parent, not slave).</li>
+ <li>Align look and feel of fallbacks (both xmessage and TUI) with
+  default pinentry GUI style</li>
+ <li>kwalletcli_getpin(1) new options <tt>-m</tt> (message, with one
+  button); <tt>-Y OK</tt> and <tt>-N Cancel</tt> (set button labels)</li>
+ <li><strong>Security fix</strong> in kwalletcli_getpin(1): tty I/O now
+  properly disables echoing input when asking for a passphrase</li>
+ <li>After scanning through ssh(1) and ssh-askpass(1) source, teach
+  kwalletaskpass(1) to use boolean queries for some whitelisted
+  strings and check it works with confirmation (Closes: #608476)</li>
+ <li>Store negative replies to “Do you want to store X in the KDE Wallet?”
+  as “blacklist” in the wallet in kwalletaskpass(1) and pinentry-kwallet(1)
+  to avoid asking the user every time</li>
+ <li>Document limits and raise kwalletcli(1) <tt>-P</tt> limit</li>
+ <li>Have kwalletcli(1) convert passwords from/to proper UTF-8 for Qt</li>
 </ul>
 <p id="r2_03">kwalletcli 2.03</p><ul>
  <li>Fix building the kwalletcli binary with <a
