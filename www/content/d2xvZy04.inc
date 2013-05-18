@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.40 2006/02/21 03:36:06 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.41 2006/02/22 02:35:09 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -502,6 +502,32 @@ celebrate this event, rotate the wlog and start a new one.</p>
   I wonder whether we'll be able to do FOSDEM like we want, since I'm in
   the mood for everything save housework which includes washing clothes,
   for example certain t-shirts.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060223">23.02.2006 by tg@</h3>
+ <p>Commit ID: 10043FE5D720803A93E and 10043FE634705689581. I don't want
+  to continue any more. Fuck, if &#39764;&#29579; had not frozen (due to
+  the heat probably) we've had had a snapshot by end of 22nd of February
+  already. Now thor has aborted with a sig11 in a libjava build and only
+  odem is left compiling (my laptop, at 100% CPU speed of 1200 MHz AMD).
+  It would have completed the task with no problem if there had not been
+  minor (gcc -W* not realising an uninitialised variable was being used)
+  as well as major (use of libcrypto) trouble in vnconfig(8), save a few
+  other problems. I'm doing extra shifts and still cannot guarantee that
+  what we'll sell at FOSDEM will build again when you try, or work as it
+  is expected. (I did test vnconfig(8) though, not all modi tho...)</p>
+ <p>Again, I'm so bored and sick of computers, but can't help it, FOSDEM
+  is a duty. At least we got ourselves included on the flyers by AllBSD,
+  to be presented at FOSDEM too, thanks to the work of Daniel and others
+  (including overnighters). And I'm still trying to finish a functioning
+  and not embarrassing ISO image.</p>
+ <p>When it comes to hardware trouble I'm quite helpless. I'd like to be
+  able to have some holidays, too. Being stuck at home (time between the
+  semesters) doesn't help, it only gives you spare time to sleep (really
+  too) much and not getting any real work done.</p>
+ <p>Oh, by the way... virtually nobody remembered my birthday. The folks
+  at #UnixNL were very friendly, though.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
