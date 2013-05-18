@@ -57,7 +57,7 @@
 #include <tiger.h>
 #include <whirlpool.h>
 
-__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.6 2008/04/06 16:44:27 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.7 2009/05/17 14:09:25 tg Exp $");
 
 #define MAX_DIGEST_LEN			128
 
@@ -85,6 +85,7 @@ typedef struct SYSVSUMContext {
 	off_t len;
 } SYSVSUM_CTX;
 
+typedef uint32_t CDB_CTX;
 typedef uint64_t SIZE_CTX;
 
 union ANY_CTX {
@@ -104,6 +105,7 @@ union ANY_CTX {
 	TIGER_CTX tiger;
 	WHIRLPOOL_CTX whirlpool;
 	SIZE_CTX size;
+	CDB_CTX cdb;
 };
 
 void digest_print(const char *, const char *, const char *);
@@ -118,6 +120,10 @@ void cksum_addpool(const char *) __attribute__((__nonnull__(1)));
 void SIZE_Init(SIZE_CTX *);
 void SIZE_Update(SIZE_CTX *, const uint8_t *, size_t);
 char *SIZE_End(SIZE_CTX *, char *);
+
+void CDB_Init(CDB_CTX *);
+void CDB_Update(CDB_CTX *, const uint8_t *, size_t);
+char *CDB_End(CDB_CTX *, char *);
 
 void CKSUM_Init(CKSUM_CTX *);
 void CKSUM_Update(CKSUM_CTX *, const u_int8_t *, size_t);
@@ -137,7 +143,7 @@ void SYSVSUM_Final(SYSVSUM_CTX *);
 char *SYSVSUM_End(SYSVSUM_CTX *, char *);
 char *SYSVSUM_Data(const u_int8_t *, size_t, char *);
 
-#define NHASHES	16
+#define NHASHES	17
 struct hash_functions {
 	const char *name;
 	size_t digestlen;
@@ -187,6 +193,16 @@ struct hash_functions {
 		(void (*)(void *, const unsigned char *, unsigned int))ADLER32Update,
 		(char *(*)(void *, char *))ADLER32End,
 		digest_printbin_string,
+		digest_print,
+		digest_print_string
+	}, {
+		"CDB",
+		8,
+		NULL,
+		(void (*)(void *))CDB_Init,
+		(void (*)(void *, const unsigned char *, unsigned int))CDB_Update,
+		(char *(*)(void *, char *))CDB_End,
+		digest_printbin_stringle,
 		digest_print,
 		digest_print_string
 	}, {
@@ -602,10 +618,10 @@ digest_filelist(const char *file, struct hash_functions *defhash)
 		return(1);
 	}
 
-	if (defhash < &functions[7])
+	if (defhash < &functions[8])
 		/*
-		 * no GNU format for sum, cksum, sysvsum, suma,
-		 * adler32, size, sfv
+		 * no GNU format for cksum, sum, sysvsum, adler32,
+		 * cdb, suma, sfv, size
 		 */
 		defhash = NULL;
 
@@ -902,6 +918,35 @@ SIZE_End(SIZE_CTX *ctx, char *digest)
 			return (NULL);
 	} else
 		snprintf(digest, 21, "%llu", *ctx);
+
+	return (digest);
+}
+
+void
+CDB_Init(CDB_CTX *ctx)
+{
+	*ctx = 5381;
+}
+
+void
+CDB_Update(CDB_CTX *ctx, const uint8_t *buf, size_t n)
+{
+	register uint32_t h;
+
+	h = *ctx;
+	while (n--)
+		h = ((h << 5) + h) ^ *buf++;
+	*ctx = h;
+}
+
+char *
+CDB_End(CDB_CTX *ctx, char *digest)
+{
+	if (digest == NULL) {
+		if (asprintf(&digest, "%08X", *ctx) == -1)
+			return (NULL);
+	} else
+		snprintf(digest, 17, "%08X", *ctx);
 
 	return (digest);
 }

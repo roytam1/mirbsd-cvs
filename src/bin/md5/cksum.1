@@ -1,4 +1,4 @@
-.\"	$MirOS: src/bin/md5/cksum.1,v 1.21 2008/04/17 20:34:12 tg Exp $
+.\"	$MirOS: src/bin/md5/cksum.1,v 1.22 2009/05/17 14:09:25 tg Exp $
 .\"	$OpenBSD: cksum.1,v 1.5 2005/03/07 23:41:53 jmc Exp $
 .\"
 .\" Copyright (c) 2006, 2007, 2008, 2009
@@ -69,7 +69,7 @@
 .\" .Dd must come before definition of .Mx, because when called
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
-.Dd $Mdocdate: April 17 2008 $
+.Dd $Mdocdate: May 17 2009 $
 .\"
 .\" Implement .Mx (MirBSD)
 .de Mx
@@ -188,6 +188,11 @@ to right (big endian), converted into bytes; the length is not encoded.
 If no file name is specified, the standard input is used and only
 the cryptographic hash is output.
 In the
+.Ar cdb
+case, the output is the DJB
+.Pq CDB hash
+of the input string.
+In the
 .Ar suma
 case, the output is a 33-bit
 .Tn CRC
@@ -213,6 +218,7 @@ The options are as follows:
 Use the specified algorithm(s) instead of the default (cksum).
 Supported algorithms include
 .Ar adler32 ,
+.Ar cdb ,
 .Ar cksum ,
 .Ar md4 ,
 .Ar md5 ,
@@ -279,6 +285,7 @@ and
 options and any GNU long options are rejected, and this
 output mode does not make any sense for many algorithms, such as
 .Ar adler32 ,
+.Ar cdb ,
 .Ar cksum ,
 .Ar sfv ,
 .Ar size ,
@@ -464,6 +471,7 @@ and several times in
 .Sh CAVEATS
 Do not use the
 .Ar adler32 ,
+.Ar cdb ,
 .Ar cksum ,
 .Ar md4 ,
 .Ar md5 ,
@@ -472,8 +480,9 @@ Do not use the
 .Ar size ,
 .Ar sum ,
 .Ar suma ,
+.Ar sysvsum ,
 or
-.Ar sysvsum
+.Ar tiger
 algorithms to detect hostile binary modifications.
 For most of the algorithms listed above, an attacker can trivially produce
 backdoored daemons which have the same checksum as the standard versions.
@@ -488,8 +497,5 @@ has already been successfully mounted on a reduced form of
 Use a cryptographically strong checksum (such as RIPEMD\-160) instead,
 or combine two algorithms from different families, for example,
 .Xr rmd160 ,
-either
-.Xr tiger
-or
 .Xr whirlpool ,
 and, optionally, one of the CRCs.
