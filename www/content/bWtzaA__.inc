@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.42 2006/08/02 14:14:22 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.43 2006/08/08 20:22:31 tg Exp $</small>
 
 <h1>mksh(1) R27e</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -73,7 +73,8 @@
   and &quot;delete&quot; keys to ^A, ^E and ^D, respectively, except
   that &quot;delete&quot; does not act as logoff switch</li>
  <li>Correct <tt>Test.sh</tt> shebang line</li>
- <li>Make sure ^T is bound to 'transpose' as documented</li>
+ <li>Make sure ^T is bound to 'transpose' as documented
+  (bug spotted by hondza)</li>
  <li>Remove the 'stuff' and 'stuff-reset' editing commands</li>
  <li>Correct the manual page regarding the 'abort' command, its
   interaction with 'search-history' and how to exit the latter</li>
@@ -235,13 +236,18 @@
  adds installation hints for various operating systems.</p>
 <p>v1.11 is a minor update to v1.10 with a few build and style fixes only.</p>
 
-<h2 id="plans">Future Plans</h2>
-<p>I'd like to switch the internal integer type to 64 bits
+<h2 id="plans">Future Plans</h2><ul>
+<li>bash-style multiline command line editing, as an option (the current
+ horizontally scrolled one is finally (with R28) bug-free even with
+ multiline and very long prompts optionally with embedded newlines,
+ and more suitable for small terminals)</li>
+<li>I'd like to switch the internal integer type to 64 bits
  signed (any takers?). This includes 2^64-1 (not 2^31-1) as
- maximum valid array index; typeset -i&lt;number&gt; is unsigned.</p>
-<p>Adding <tt>goto</tt> and <tt>label</tt> keywords/commands.</p>
-<p>Adding builtins <tt>realpath</tt>, <tt>fstat</tt>, <tt>lstat</tt>,
- <tt>traverse</tt>.</p>
+ maximum valid array index; typeset -i&lt;number&gt; is unsigned.</li>
+<li>Adding <tt>goto</tt> and <tt>label</tt> keywords/commands.</li>
+<li>Adding builtins <tt>realpath</tt>, <tt>fstat</tt>, <tt>lstat</tt>,
+ <tt>traverse</tt>.</li>
+</ul>
 
 <h2 id="prefetch">Requirements</h2>
 
@@ -292,7 +298,8 @@
 <p>On decent systems, you can just use <tt>tar xzf mksh-R27e.cpio.gz</tt>
  to extract the file. On quite damaged systems such as everything which
  is not MirOS or anything else with <a href="/?MirCpio">MirCpio</a>
- (paxmirabilis), use <tt>gzip -dc mksh-R27e.cpio.gz | cpio -mid</tt></p>
+ (paxmirabilis) or some other kind of paxtar, use <tt>gzip -dc
+ mksh-R27e.cpio.gz | cpio -mid</tt></p>
 <p>Of course, skip the gzip stage (use cat) or the 'z' flag
  if your browser already decompressed the file.</p>
 
@@ -364,7 +371,8 @@
  and uploaded by Bastian "waldi" Blank as a sponsor; it is
  now part of Debian unstable and Debian testing. A Gentoo ebuild
  is available, written by Hanno Boeck, just "emerge mksh" to
- install it. mksh is also part of Fink, named "mirbsdksh" there.</p>
+ install it. mksh is also part of Fink thanks to Andreas "gecko2"
+ Gockel, but called "mirbsdksh" (not mksh) there.</p>
 
 <h3 id="buildsfu">Microsoft Services for Unix</h3>
 <p>It is recommended to use the C shell instead of the
