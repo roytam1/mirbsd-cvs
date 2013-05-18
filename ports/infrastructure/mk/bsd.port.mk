@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.146 2006/11/19 13:17:27 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.147 2006/11/22 17:58:40 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2526,7 +2526,7 @@ ${LOCALBASE}/db/specs: ${CC_SPECS}
 		rm -f $$t; \
 		exit 1; \
 	fi; \
-	if ! ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
+	if ! ${SUDO} ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
 	    -m ${NONBINMODE} $$t $@; then \
 		print -u2 Error: cannot install specs file; \
 		rm -f $$t; \
