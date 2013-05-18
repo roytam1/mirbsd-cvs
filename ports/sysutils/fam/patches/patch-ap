@@ -1,4 +1,4 @@
-$MirOS$
+$MirOS: ports/sysutils/fam/patches/patch-ap,v 1.2 2007/05/12 22:12:38 bsiegert Exp $
 $NetBSD: patch-ap,v 1.10 2005/10/10 22:06:51 joerg Exp $
 
 --- src/mntent_compat.c++.orig	2005-07-24 02:27:46.000000000 +0000
@@ -49,7 +49,7 @@ $NetBSD: patch-ap,v 1.10 2005/10/10 22:06:51 joerg Exp $
 +#include <sys/param.h>
 +#include <sys/ucred.h>
 +#include <sys/mount.h>
-+#if defined(HAVE_SYS_STATVFS_H) && !defined(__APPLE__) && !defined(__DragonFly__)
++#if defined(HAVE_SYS_STATVFS_H) && !defined(__APPLE__) && !defined(__DragonFly__) && !defined(MirBSD)
 +# include <sys/statvfs.h>
 +#endif
 +
@@ -147,7 +147,7 @@ $NetBSD: patch-ap,v 1.10 2005/10/10 22:06:51 joerg Exp $
 +}
 +
 +static struct mntent *
-+#if defined(HAVE_SYS_STATVFS_H) && !defined(__APPLE__) && !defined(__DragonFly__)
++#if defined(HAVE_SYS_STATVFS_H) && !defined(__APPLE__) && !defined(__DragonFly__) && !defined(MirBSD)
 +statfs_to_mntent (struct statvfs *mntbuf)
 +#else
 +statfs_to_mntent (struct statfs *mntbuf)
@@ -158,7 +158,7 @@ $NetBSD: patch-ap,v 1.10 2005/10/10 22:06:51 joerg Exp $
 +	_mntent.mnt_fsname = mntbuf->f_mntfromname;
 +	_mntent.mnt_dir = mntbuf->f_mntonname;
 +	_mntent.mnt_type = mntbuf->f_fstypename;
-+#if defined(HAVE_SYS_STATVFS_H) && !defined(__APPLE__) && !defined(__DragonFly__)
++#if defined(HAVE_SYS_STATVFS_H) && !defined(__APPLE__) && !defined(__DragonFly__) && !defined(MirBSD)
 +	tmp = flags2opts (mntbuf->f_flag);
 +#else
 +	tmp = flags2opts (mntbuf->f_flags);
@@ -178,7 +178,7 @@ $NetBSD: patch-ap,v 1.10 2005/10/10 22:06:51 joerg Exp $
 +struct mntent *
 +getmntent (FILE *fp)
 +{
-+#if defined(HAVE_SYS_STATVFS_H) && !defined(__APPLE__) && !defined(__DragonFly__)
++#if defined(HAVE_SYS_STATVFS_H) && !defined(__APPLE__) && !defined(__DragonFly__) && !defined(MirBSD)
 +	static struct statvfs *mntbuf;
 +#else
 +	static struct statfs *mntbuf;
