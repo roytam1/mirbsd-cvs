@@ -1,4 +1,4 @@
-rcsid_parser='$MirOS: www/mk/parser,v 1.13 2008/12/04 18:23:19 tg Exp $'
+rcsid_parser='$MirOS: www/mk/parser,v 1.14 2008/12/04 18:24:37 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -6,6 +6,8 @@ rcsid_parser='$MirOS: www/mk/parser,v 1.13 2008/12/04 18:23:19 tg Exp $'
 set -A e_author
 set -A e_id
 set -A ei_body
+set -A ei_srcf
+set -A ei_time
 
 nl='
 '
@@ -80,15 +82,13 @@ for srcf in $name; do
 			elif [[ $parser_lctmp = tag ]]; then
 				parser_lctmp=${e_tag[entry]}
 				e_tag[entry]=
-				sp=
 				for x in $parser_lctmp; do
 					if [[ $x != +([0-9a-z_]) ]]; then
 						print -u2 "Invalid tag '$x' in" \
 						    "data/$srcf.inc: $line"
 						continue
 					fi
-					e_tag[entry]=${e_tag[entry]}$sp$x
-					sp=' '
+					e_tag[entry]=${e_tag[entry]}${e_tag[entry]+ }$x
 				done
 			fi
 		else
