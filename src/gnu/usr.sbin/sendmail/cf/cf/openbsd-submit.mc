@@ -1,9 +1,10 @@
 divert(-1)
 #
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-submit.mc,v 1.3 2009/11/18 09:16:14 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-submit.mc,v 1.4 2010/12/19 17:17:57 tg Exp $
+# $OpenBSD: openbsd-submit.mc,v 1.1 2008/10/03 16:29:05 millert Exp $
 #
-# Copyright (c) 2004, 2005, 2006, 2008
-#	Thorsten "mirabilos" Glaser <tg@MirBSD.org>
+# Copyright (c) 2004, 2005, 2006, 2008, 2011
+#	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 # Copyright (c) 2001-2003 Sendmail, Inc. and its suppliers.
 #	All rights reserved.
 #
@@ -14,13 +15,12 @@ divert(-1)
 #
 
 #
-#  This is the prototype file for a set-group-ID sm-msp sendmail that
-#  acts as a initial mail submission program.
+#  This is the prototype file for a set-group-ID sm-msp sendmail
+#  that acts as a initial mail submission program.
 #
 
 divert(0)dnl
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-submit.mc,v 1.3 2009/11/18 09:16:14 tg Exp $')
-VERSIONID(`$OpenBSD: openbsd-submit.mc,v 1.1 2008/10/03 16:29:05 millert Exp $')
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-submit.mc,v 1.4 2010/12/19 17:17:57 tg Exp $')
 define(`confCF_VERSION', `Submit')dnl
 OSTYPE(openbsd)dnl
 define(`_USE_DECNET_SYNTAX_', `1')dnl support DECnet
