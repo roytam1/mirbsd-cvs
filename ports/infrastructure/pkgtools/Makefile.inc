@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.12 2006/01/25 20:50:51 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.13 2006/08/26 23:34:17 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.2 1997/09/21 11:44:03 deraadt Exp $
 
 .ifndef _MODPORTS_INFRASTRUCTURE_PKGTOOLS_MAKEFILE_INC
@@ -50,6 +50,5 @@ PORTABLE?=	no
 .if ${PORTABLE:L} != "yes"
 COPTS+=		-Wall -Werror
 .endif
-CDIAGFLAGS+=	-Wno-unreachable-code
 
 .endif
