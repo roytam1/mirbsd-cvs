@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.133 2010/02/23 22:57:47 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.134 2010/02/25 22:07:51 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1896,7 +1896,7 @@ Date: 25.02.2010 21:40
 Author: tg@
 Tag: mksh
 
-<p>The <a href="@@RELPATH@@mksh.htm#r39b">MirBSD Korn Shell R39c</a> has
+<p>The <a href="@@RELPATH@@mksh.htm#r39c">MirBSD Korn Shell R39c</a> has
  been released. This upgrade is strongly recommended for everyone. Focus
  is on minor but important bug fixes. The recently introduced list of <a
  href="@@RELPATH@@mksh.htm#c39c">caveats</a> contains language-relevant
