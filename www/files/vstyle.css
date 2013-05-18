@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.29 2010/07/13 13:36:11 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.30 2010/07/16 22:31:51 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -81,7 +81,7 @@ body {
 	padding:0px;
 }
 
-body,p,.cont;ent {
+body,p,.content {
 	color:#333333;
 	font-family:"Gentium", Helvetica, sans-serif;
 	line-height:130%;
