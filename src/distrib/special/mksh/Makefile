@@ -1,12 +1,14 @@
-# $MirOS: src/distrib/special/mksh/Makefile,v 1.8 2007/06/05 19:48:45 tg Exp $
+# $MirOS: src/distrib/special/mksh/Makefile,v 1.9 2007/06/05 21:47:47 tg Exp $
 # $miros: src/bin/mksh/Makefile,v 1.29 2007/01/18 16:05:05 tg Exp $
 
 .include <bsd.own.mk>
 
+SRCDIR=		${BSDSRCDIR}/bin/mksh
+.PATH: ${SRCDIR}
+
 PROG=		mksh
 SRCS=		alloc.c edit.c eval.c exec.c expr.c funcs.c histrap.c \
 		jobs.c lex.c main.c misc.c shf.c syn.c tree.c var.c
-.PATH:		${BSDSRCDIR}/bin/mksh
 CPPFLAGS+=	-DMKSH_SMALL -DMKSH_ASSUME_UTF8 -DMKSH_NEED_MKNOD \
 		-DHAVE_ATTRIBUTE=1 -DHAVE_ATTRIBUTE_BOUNDED=1 \
 		-DHAVE_ATTRIBUTE_USED=1 -DHAVE_EXPSTMT=1 -DHAVE_SYS_PARAM_H=1 \
@@ -23,5 +25,12 @@ CPPFLAGS+=	-DMKSH_SMALL -DMKSH_ASSUME_UTF8 -DMKSH_NEED_MKNOD \
 		-DHAVE_ARC4RANDOM_DECL=1 -DHAVE_ARC4RANDOM_PUSH_DECL=1 \
 		-DHAVE_SYS_SIGLIST_DECL=1 -DHAVE_PERSISTENT_HISTORY=0
 COPTS+=		-std=gnu99 -Wall -fno-inline
+
+regress: ${PROG} check.pl check.t
+	-rm -rf regress-dir
+	mkdir -p regress-dir
+	echo export FNORD=666 >regress-dir/.mkshrc
+	HOME=$$(readlink -nf regress-dir) perl ${SRCDIR}/check.pl \
+	    -s ${SRCDIR}/check.t -v -p ./${PROG} -C pdksh,smksh,dutf
 
 .include <bsd.prog.mk>
