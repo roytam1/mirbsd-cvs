@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_mac,v 1.6 2009/06/06 13:43:04 tg Stab $
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_mac,v 1.7 2009/09/08 16:43:02 tg Exp $
 #-
 # see main.c for copyright and licencing information
 
@@ -13,4 +13,4 @@ SYMCP_COMMAND?=	cp
 ARC4RANDOM_C=	#empty
 ARC4RANDOM_O=	#empty
 
-include Make_nix
+include Make_gnu

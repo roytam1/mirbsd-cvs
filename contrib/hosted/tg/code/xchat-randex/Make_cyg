@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_cyg,v 1.5 2009/06/06 10:58:55 tg Stab $
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_cyg,v 1.6 2009/09/08 16:43:02 tg Exp $
 #-
 # see main.c for copyright and licencing information
 
@@ -12,4 +12,4 @@ DLL_COMMAND?=	dllwrap --def ${LIB}.def --dllname ${PLUGIN} \
 DPADD=		${LIB}.def
 PLUGIN=		${LIB}.dll
 
-include Make_nix
+include Make_gnu
