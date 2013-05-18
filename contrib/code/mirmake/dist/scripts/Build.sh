@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.102 2008/03/09 16:20:35 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.103 2008/03/09 16:32:04 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -254,7 +254,7 @@ fi
 ed -s $d_build/mk/bsd.own.mk <<-EOF
 	/^BINOWN/s/root/$binown/p
 	/^BINGRP/s/bin/$bingrp/p
-	/^CONFGRP/s/bin/$confgrp/p
+	/^CONFGRP/s/wheel/$confgrp/p
 	wq
 EOF
 
