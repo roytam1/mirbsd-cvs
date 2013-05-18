@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/rc,v 1.112 2010/10/01 17:22:05 tg Exp $
+# $MirOS: src/etc/rc,v 1.113 2011/01/15 21:52:38 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -144,15 +144,18 @@ if [[ $1 = shutdown ]]; then
 	echo Received shutdown request.
 
 	# empty lopool into compressor arcfour state
+	#XXX send SIGTERM to _most_ processes here
+	#XXX except SIGTERM does not usually ask them to arc4random_atexit()...
 	dd if=/dev/arandom of=/dev/wrandom count=1 2>/dev/null
 	sync 2>/dev/null &	# why not?
-	sleep 7			# wait “long enough”
+	sleep 3.2		# wait “long enough”
 	# cause the kernel to re-stir arc4random
 	dd if=/var/db/host.random of=/dev/arandom 2>/dev/null
 	# save a random seed
 	(dd if=/dev/arandom count=3; dd if=/dev/urandom count=8) \
 	    >/var/db/host.random 2>/dev/null
 	chmod 600 /var/db/host.random
+	[[ -x /usr/sbin/wsconfig ]] && /usr/sbin/wsconfig -s 1 2>&-
 	if [ $? -eq 0 -a -f /etc/rc.shutdown ]; then
 		echo /etc/rc.shutdown in progress...
 		. /etc/rc.shutdown
@@ -168,7 +171,7 @@ if [[ $1 = shutdown ]]; then
 
 		# re-stir again
 		dd if=/dev/urandom of=/dev/arandom bs=4 count=1 2>/dev/null
-		sleep 1
+		sleep 0.1
 		# and append more entropy
 		dd if=/dev/arandom count=1 >>/var/db/host.random 2>/dev/null
 
@@ -325,6 +328,7 @@ while read -p line; do
 	x=$line
 	break
 done
+while read -p line; do : consume until mount is finished; done
 [[ -z $x || $x = *\(*read-only* ]] && mount -uw /
 # root is now writable
 rm -f /fastboot
