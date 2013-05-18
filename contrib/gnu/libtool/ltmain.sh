@@ -1,11 +1,11 @@
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.44 2008/05/02 23:42:40 tg Exp $
-# $miros: contrib/gnu/libtool/ltmain.in,v 1.44 2008/05/02 23:42:40 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.46 2008/05/03 18:55:14 tg Exp $
+# $miros: contrib/gnu/libtool/ltmain.in,v 1.46 2008/05/03 18:55:14 tg Exp $
 #-
 # ltmain.sh - Provide generalized library-building support services.
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
-# Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006
-# Free Software Foundation, Inc.
+# Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006,
+# 2007, 2008  Free Software Foundation, Inc.
 # Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
 # MirLibtool patches contributed 2004, 2005, 2006, 2008 by
 # Thorsten Glaser <tg@mirbsd.de> for the MirOS Project
@@ -48,8 +48,8 @@ EXIT_FAILURE=1
 
 PROGRAM=ltmain.sh
 PACKAGE=libtool
-VERSION=1.5.23a
-TIMESTAMP=" (MirLibtool 2008/05/02 23:45:23)"
+VERSION=1.5.27a
+TIMESTAMP=" (MirLibtool 2008/05/03 21:55:15)"
 
 # Be Bourne compatible (taken from Autoconf:_AS_BOURNE_COMPATIBLE).
 if test -n "${ZSH_VERSION+set}" && (emulate sh) >/dev/null 2>&1; then
@@ -118,14 +118,20 @@ esac
 # These must not be set unconditionally because not all systems understand
 # e.g. LANG=C (notably SCO).
 # We save the old values to restore during execute mode.
-for lt_var in LANG LC_ALL LC_CTYPE LC_COLLATE LC_MESSAGES
+lt_env=
+for lt_var in LANG LANGUAGE LC_ALL LC_CTYPE LC_COLLATE LC_MESSAGES
 do
   eval "if test \"\${$lt_var+set}\" = set; then
 	  save_$lt_var=\$$lt_var
+	  lt_env=\"$lt_var=\$$lt_var \$lt_env\"
 	  $lt_var=C
 	  export $lt_var
 	fi"
 done
+
+if test -n "$lt_env"; then
+  lt_env="env $lt_env"
+fi
 
 # Make sure IFS has a sensible default
 lt_nl='
@@ -488,10 +494,9 @@ do
 
   --version)
     echo "\
-
 $PROGRAM (GNU $PACKAGE) $VERSION$TIMESTAMP
 
-Copyright (C) 2006  Free Software Foundation, Inc.
+Copyright (C) 2008  Free Software Foundation, Inc.
 This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
     echo "\
@@ -801,10 +806,11 @@ if test -z "$show_help"; then
     *.class) xform=class ;;
     *.cpp) xform=cpp ;;
     *.cxx) xform=cxx ;;
-    *.f90) xform=f90 ;;
+    *.[fF][09]?) xform=[fF][09]. ;;
     *.for) xform=for ;;
     *.java) xform=java ;;
     *.obj) xform=obj ;;
+    *.sx) xform=sx ;;
     esac
 
     libobj=`$echo "X$libobj" | $Xsed -e "s/\.$xform$/.lo/"`
@@ -973,7 +979,7 @@ EOF
       $run $rm "$lobj" "$output_obj"
 
       $show "$command"
-      if $run eval "$command"; then :
+      if $run eval $lt_env "$command"; then :
       else
 	test -n "$output_obj" && $run $rm $removelist
 	exit $EXIT_FAILURE
@@ -1045,7 +1051,7 @@ EOF
       command="$command$suppress_output"
       $run $rm "$obj" "$output_obj"
       $show "$command"
-      if $run eval "$command"; then :
+      if $run eval $lt_env "$command"; then :
       else
 	$run $rm $removelist
 	exit $EXIT_FAILURE
@@ -1178,6 +1184,7 @@ EOF
     thread_safe=no
     vinfo=
     vinfo_number=no
+    single_module="${wl}-single_module"
 
     func_infer_tag $base_compile
 
@@ -1574,6 +1581,9 @@ EOF
 	  dir=`$echo "X$arg" | $Xsed -e 's/^-L//'`
 	  ;;
 	-Wl,--library-after=*)
+	  #XXX if a path (after realpathising) is an argument to
+	  #XXX both -L and -Wl,--library-after, the -L call must
+	  #XXX be removed from the list normally
 	  minus_l_command="-Wl,--library-after="
 	  dir=`$echo "X$arg" | $Xsed -e 's/[-_a-zA-Z0-9,]*=//'`
 	  ;;
@@ -1689,6 +1699,11 @@ EOF
 	continue
 	;;
 
+      -multi_module)
+	single_module="${wl}-multi_module"
+	continue
+	;;
+
       -module)
 	module=yes
 	continue
@@ -1702,10 +1717,11 @@ EOF
       # -m* pass through architecture-specific compiler args for GCC
       # -m*, -t[45]*, -txscale* pass through architecture-specific
       # compiler args for GCC
-      # -pg pass through profiling flag for GCC
+      # -p, -pg, --coverage, -fprofile-* pass through profiling flag for GCC
+      # -F/path gives path to uninstalled frameworks, gcc on darwin
       # @file GCC response files
-      -64|-mips[0-9]|-r[0-9][0-9]*|-xarch=*|-xtarget=*|+DA*|+DD*|-q*|-m*|-pg| \
-      -t[45]*|-txscale*|@*)
+      -64|-mips[0-9]|-r[0-9][0-9]*|-xarch=*|-xtarget=*|+DA*|+DD*|-q*|-m*| \
+      -t[45]*|-txscale*|-p|-pg|--coverage|-fprofile-*|-F*|@*)
 
 	# Unknown arguments in both finalize_command and compile_command need
 	# to be aesthetically quoted because they are evaled later.
@@ -1733,9 +1749,9 @@ EOF
 
       -no-install)
 	case $host in
-	*-*-cygwin* | *-*-mingw* | *-*-pw32* | *-*-os2*)
+	*-*-cygwin* | *-*-mingw* | *-*-pw32* | *-*-os2* | *-*-darwin*)
 	  # The PATH hackery in wrapper scripts is required on Windows
-	  # in order for the loader to find any dlls it needs.
+	  # and Darwin in order for the loader to find any dlls it needs.
 	  $echo "$modename: warning: \`-no-install' is ignored for $host" 1>&2
 	  $echo "$modename: warning: assuming \`-no-fast-install' instead" 1>&2
 	  fast_install=no
@@ -2201,7 +2217,12 @@ EOF
 	    continue
 	  fi
 	  name=`$echo "X$deplib" | $Xsed -e 's/^-l//'`
-	  for searchdir in $newlib_search_path $lib_search_path $sys_lib_search_path $shlib_search_path; do
+	  if test "$linkmode" = lib; then
+	    searchdirs="$newlib_search_path $lib_search_path $compiler_lib_search_dirs $sys_lib_search_path $shlib_search_path"
+	  else
+	    searchdirs="$newlib_search_path $lib_search_path $sys_lib_search_path $shlib_search_path"
+	  fi
+	  for searchdir in $searchdirs; do
 	    for search_ext in .la $std_shrext .so .a; do
 	      # Search the libtool library
 	      lib="$searchdir/lib${name}${search_ext}"
@@ -2997,12 +3018,18 @@ EOF
 		  # we do not want to link against static libs,
 		  # but need to link against shared
 		  eval deplibrary_names=`${SED} -n -e 's/^library_names=\(.*\)$/\1/p' $deplib`
+		  eval deplibdir=`${SED} -n -e 's/^libdir=\(.*\)$/\1/p' $deplib`
 		  if test -n "$deplibrary_names" ; then
 		    for tmp in $deplibrary_names ; do
 		      depdepl=$tmp
 		    done
-		    if test -f "$path/$depdepl" ; then
+		    if test -f "$deplibdir/$depdepl" ; then
+		      depdepl="$deplibdir/$depdepl"
+	      	    elif test -f "$path/$depdepl" ; then
 		      depdepl="$path/$depdepl"
+		    else
+		      # Can't find it, oh well...
+		      depdepl=
 		    fi
 		    # do not add paths which are already there
 		    case " $newlib_search_path " in
@@ -3150,9 +3177,10 @@ EOF
 
     case $linkmode in
     oldlib)
-      if test -n "$deplibs"; then
-	$echo "$modename: warning: \`-l' and \`-L' are ignored for archives" 1>&2
-      fi
+      case " $deplibs" in
+      *\ -l* | *\ -L*)
+	$echo "$modename: warning: \`-l' and \`-L' are ignored for archives" 1>&2 ;;
+      esac
 
       if test -n "$dlfiles$dlprefiles" || test "$dlself" != no; then
 	$echo "$modename: warning: \`-dlopen' is ignored for archives" 1>&2
@@ -3291,9 +3319,10 @@ EOF
 	    age="0"
 	    ;;
 	  irix|nonstopux)
-	    current=`expr $number_major + $number_minor - 1`
+	    current=`expr $number_major + $number_minor`
 	    age="$number_minor"
 	    revision="$number_minor"
+	    lt_irix_increment=no
 	    ;;
 	  esac
 	  ;;
@@ -3352,7 +3381,8 @@ EOF
 	  versuffix="$major.$age.$revision"
 	  # Darwin ld doesn't like 0 for these options...
 	  minor_current=`expr $current + 1`
-	  verstring="${wl}-compatibility_version ${wl}$minor_current ${wl}-current_version ${wl}$minor_current.$revision"
+	  xlcverstring="${wl}-compatibility_version ${wl}$minor_current ${wl}-current_version ${wl}$minor_current.$revision"
+	  verstring="-compatibility_version $minor_current -current_version $minor_current.$revision"
 	  ;;
 
 	freebsd-aout)
@@ -3366,8 +3396,11 @@ EOF
 	  ;;
 
 	irix | nonstopux)
-	  major=`expr $current - $age + 1`
-
+	  if test "X$lt_irix_increment" = "Xno"; then
+	    major=`expr $current - $age`
+	  else
+	    major=`expr $current - $age + 1`
+	  fi
 	  case $version_type in
 	    nonstopux) verstring_prefix=nonstopux ;;
 	    *)         verstring_prefix=sgi ;;
@@ -3976,7 +4009,10 @@ EOF
 	     test -n "$hardcode_libdirs"; then
 	    libdir="$hardcode_libdirs"
 	    if test -n "$hardcode_libdir_flag_spec_ld"; then
-	      eval dep_rpath=\"$hardcode_libdir_flag_spec_ld\"
+	      case $archive_cmds in
+	      *\$LD*) eval dep_rpath=\"$hardcode_libdir_flag_spec_ld\" ;;
+	      *)      eval dep_rpath=\"$hardcode_libdir_flag_spec\" ;;
+	      esac
 	    else
 	      eval dep_rpath=\"$hardcode_libdir_flag_spec\"
 	    fi
@@ -4286,9 +4322,10 @@ EOF
       ;;
 
     obj)
-      if test -n "$deplibs"; then
-	$echo "$modename: warning: \`-l' and \`-L' are ignored for objects" 1>&2
-      fi
+      case " $deplibs" in
+      *\ -l* | *\ -L*)
+	$echo "$modename: warning: \`-l' and \`-L' are ignored for objects" 1>&2 ;;
+      esac
 
       if test -n "$dlfiles$dlprefiles" || test "$dlself" != no; then
 	$echo "$modename: warning: \`-dlopen' is ignored for objects" 1>&2
@@ -6423,8 +6460,10 @@ relink_command=\"$relink_command\""
 	if test -f "$dir/$objdir/$dlname"; then
 	  dir="$dir/$objdir"
 	else
-	  $echo "$modename: cannot find \`$dlname' in \`$dir' or \`$dir/$objdir'" 1>&2
-	  exit $EXIT_FAILURE
+	  if test ! -f "$dir/$dlname"; then
+	    $echo "$modename: cannot find \`$dlname' in \`$dir' or \`$dir/$objdir'" 1>&2
+	    exit $EXIT_FAILURE
+	  fi
 	fi
 	;;
 
@@ -6488,12 +6527,10 @@ relink_command=\"$relink_command\""
       fi
 
       # Restore saved environment variables
-      for lt_var in LANG LC_ALL LC_CTYPE LC_COLLATE LC_MESSAGES
+      for lt_var in LANG LANGUAGE LC_ALL LC_CTYPE LC_COLLATE LC_MESSAGES
       do
 	eval "if test \"\${save_$lt_var+set}\" = set; then
 		$lt_var=\$save_$lt_var; export $lt_var
-	      else
-		$lt_unset $lt_var
 	      fi"
       done
 
