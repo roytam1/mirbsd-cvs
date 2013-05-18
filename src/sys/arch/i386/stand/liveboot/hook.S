@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.13 2006/12/11 23:55:02 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.14 2007/01/08 16:51:06 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -32,7 +32,7 @@ lbl_mayskip:
 	.ascii	"\n\rHold down SHIFT to skip the coloured menu"
 	.asciz	" and go directly to the bootloader..."
 lbl_title:
-	.asciz	"MirOS #9-current Setup/Live CD"
+	.asciz	"MirOS #10 Setup/Live CD"
 lbl_menus:
 	.byte	4
 	.word	lbl_menu0
