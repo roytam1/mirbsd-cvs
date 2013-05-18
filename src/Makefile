@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.99 2007/05/09 06:59:43 tg Exp $
+# $MirOS: src/Makefile,v 1.100 2007/05/10 13:09:21 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -190,6 +190,7 @@ _DISTS+=	x11
 .ifndef QUICK_DIST
 _DISTS+=	htman
 .endif
+DIST_RESTART?=	0
 
 .ifdef QUICK_DIST2
 .  include "gcc/Makefile.lang"
@@ -254,7 +255,9 @@ _do-dist:
 	@echo not building the baselive CD image.
 .endif
 	@echo ============================================================
-.ifdef NFS_DIST
+.if ${DIST_RESTART} > 0
+	@print not removing ${BSDOBJDIR:Q} and ${BSDRELDIR:Q}
+.elif defined(NFS_DIST)
 	@for dir in ${BSDOBJDIR} ${BSDRELDIR}; do \
 		if [[ -d $$dir ]]; then \
 			${SUDO} rm -rf $$dir/{*,.*}; \
@@ -274,20 +277,30 @@ _do-dist:
 .endif
 	cd ${.CURDIR} && exec ${MAKE} distrib-dirs DESTDIR=
 	${SUDO} install -d -o 0 -g 0 -m ${DIRMODE} ${BSDRELDIR}/{base,rel,x11}
+.if ${DIST_RESTART} == 0
 	cd ${.CURDIR} && exec ${MAKE} b-r
+.elif ${DIST_RESTART} == 1
+	cd ${.CURDIR} && exec ${MAKE} contbuild
+.endif
 .ifndef QUICK_DIST2
 	@date
+.  if ${DIST_RESTART} < 3
 	cd ${.CURDIR}/X11 && exec ${MAKE} b-r
+.  endif
 .endif
 	@date
+.if ${DIST_RESTART} < 4
 	cd ${.CURDIR}/gcc && exec ${MAKE} b-r
+.endif
 	@date
+.if ${DIST_RESTART} < 5
 	cd ${.CURDIR} && exec ${MAKE} release DESTDIR=${BSDRELDIR}/base
 	cd ${.CURDIR}/gcc && \
 	    exec ${SUDO} ${MAKE} install DESTDIR=${BSDRELDIR}/base
-.ifndef QUICK_DIST2
+.  ifndef QUICK_DIST2
 	cd ${.CURDIR}/X11 && \
 	    exec ${SUDO} ${MAKE} release DESTDIR=${BSDRELDIR}/x11
+.  endif
 .endif
 	@date
 	cd ${.CURDIR} && exec ${MAKE} base-distbuild DESTDIR=${BSDRELDIR}/base
@@ -391,6 +404,9 @@ _do-dist:
 	    ${SUDO} chown -R 0:0 .
 	@echo ============================================================
 	@echo Done with MirOS Build.
+.if ${DIST_RESTART} != 0
+	@${SUDO} touch ${BSDRELDIR}/rel/'Not an official release!'
+.endif
 	@/bin/ls -Fl ${BSDRELDIR}/rel
 .if !defined(NO_LIVECD)
 	@date
