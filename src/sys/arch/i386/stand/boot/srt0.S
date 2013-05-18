@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.26 2009/01/02 04:14:35 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.27 2009/01/02 04:22:36 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
@@ -94,10 +94,10 @@
 	.globl	_C_LABEL(tori_bootflag)
 
 _start:	cli
-	jmp	_star2
+	jmp	Lstart
 	. = _start + 0x08	/* "EL TORITO BOOT INFO TABLE" */
 	.long	0		/* #no longer# filled in by mkisofs: */
-Lbofs:	.long	0xcafebabe	/* LBA address of boot file */
+	.long	0xcafebabe	/* LBA address of boot file */
 	.p2align 4
 _C_LABEL(bios_bootpte):
 	.long	0, 0, 0, 0
@@ -109,7 +109,7 @@ _C_LABEL(tori_bootflag):
 	.long	0
 Lbdev:	.byte	0		/* local copy of BIOS boot device */
 	. = _start + 0x41
-_star2:	mov	bx,SA_LOADSEG
+Lstart:	mov	bx,SA_LOADSEG
 	mov	ss,bx
 	mov	esp,0xC0
 	sti
@@ -233,7 +233,7 @@ LisRel:	UD(5)			/** E: done reloc, or not needed */
 	/* relocation truncation workaround */
 	mov	ax,SA_LOADSEG
 	push	ax
-	mov	eax,offset Lstart - SA_LOADADDR
+	mov	eax,offset Lmain - SA_LOADADDR
 	push	ax
 	lret
 
@@ -241,7 +241,7 @@ LisRel:	UD(5)			/** E: done reloc, or not needed */
  * Code which can assume sane location
  */
 
-Lstart:	UD(6)			/** F: jump successful */
+Lmain:	UD(6)			/** F: jump successful */
 	pop	ax		/* saved future stack base */
 	pop	dx		/* saved BIOS drive */
 	mov	ss,ax
@@ -285,69 +285,6 @@ LpreFD:	/* prepare booting */
 	mov	ax,1
 	lmsw	ax		/* switch to protected mode */
 	data32 jmp 8,offset Lpmode
-
-#ifdef	LOUD
-	/*
-	 * debugging routines for LOUD mode
-	 */
-LiscdM:	.ascii	"CD Drive "			/* drive no */
-Liscd0:	.ascii	"00 on "			/* load seg */
-Liscd1:	.ascii	"0000:0000, "			/* sectors  */
-Liscd2:	.ascii	"0000 sectors starting at "	/* img offs */
-Liscd3:	.asciz	"00000000 LBA\r\n"
-LisfdM:	.ascii	"BIOS Drive "			/* bootdev */
-Lisfd0:	.asciz	"00 initialized.\r\n"
-
-LdebFD:	/* debug message for floppy/hdd boot */
-	mov	al,[Lbdev]
-	mov	di,offset Lisfd0
-	call	LpBY
-	mov	si,offset LisfdM
-	jmp	Lotxt
-
-#ifndef SMALL_BOOT
-LdebCD:	/* debug message for El Torito boot */
-	mov	di,offset Liscd0
-	mov	al,[Lbdev]
-	call	LpBY
-	mov	di,offset Liscd1
-	mov	ax,[12+Ltblk]
-	call	LpWO
-	mov	di,offset Liscd2
-	mov	ax,[14+Ltblk]
-	call	LpWO
-	mov	di,offset Liscd3
-	mov	eax,[4+Ltblk]
-	call	LpDW
-	mov	si,offset LiscdM
-	jmp	Lotxt
-#endif
-
-/* the formatting routines */
-
-LpDW:	push	eax
-	shr	eax,16
-	call	LpWO
-	pop	eax
-	/* fall-through */
-LpWO:	push	ax
-	xchg	ah,al
-	call	LpBY
-	pop	ax
-	/* fall-through */
-LpBY:	mov	ah,al
-	and	ah,0x0F
-	shr	al,4
-	add	ax,0x3030
-	cmp	al,0x39
-	jna	4f
-	add	al,7
-4:	cmp	ah,0x39
-	jna	5f
-	add	ah,7
-5:	stosw
-	ret
-#endif
 
 	/*
 	 * 32-bit code in 16-bit code segment
@@ -401,15 +338,6 @@ Lpmode:	mov	eax,0x10
 	call	_C_LABEL(boot)
 	UD32(35)		/** c: return from C code */
 	jmp	_C_LABEL(_rtt)
-
-#ifdef	DEBUG_OFS
-	. = _start + 0x0900
-Lofsd:	.long	0xfeedcafe	/* just another bad magic */
-#endif
-
-	/*
-	 * End of File. Attention, 32-bit mode!
-	 */
 
 #ifndef SMALL_BOOT
 	/*
