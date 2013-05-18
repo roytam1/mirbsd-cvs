@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.99 2008/11/11 01:53:57 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.100 2008/11/13 00:00:09 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2034,4 +2034,20 @@ Title: small updates
  the current scheme is the compromise looking best to me. Remember that
  it was written with mmap malloc (and omalloc – Otto Moerbeek zĳn malloc)
  and malloc.conf(5) MALLOC_OPTIONS guard/junk/protection in mind.</p>
+----
+Date: 17.11.2008 01:17
+Author: tg@
+Title: aalloc and COFF
+
+<p>I got (E)COFF executables to work, even though I cannot produce them <a
+ href="@@ABSPATH@@/cvs.cgi/src/sys/arch/i386/include/exec.h">except with a
+ hand-crafted binary</a> yet. Maybe these produced by kencc work now.</p>
+<p>I didn’t get the time or nerve to continue hacking on aalloc today… the
+ whole pointers thing in C is so useless. If I could use assembly, it were
+ so trivial. Anyway, the <tt>TPtr</tt> data type will probably have to get
+ lost, and I plan on using more temporary local variables for overview.</p>
+<p>Besides a beer discussion, <a href="@@RELPATH@@irc.htm">IRC</a> channel
+ today featured plans on getting a temporary setup of fast enough machines
+ for crossbuilding OpenJDK; replaced confirmed that someone had success in
+ doing what I planned, although the nōn-free JDK 1.5 only. We’ll see…</p>
 ----
