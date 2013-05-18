@@ -1,10 +1,10 @@
-# $MirOS: ports/devel/gettext/Makefile,v 1.6 2006/12/22 23:33:45 tg Exp $
+# $MirOS: ports/devel/gettext/Makefile,v 1.7 2007/02/22 22:57:46 tg Exp $
 # $FreeBSD: Makefile,v 1.4 1998/11/18 15:09:35 vanilla Exp $
 # $OpenBSD: Makefile,v 1.29 2004/01/31 21:41:56 brad Exp $
 
 COMMENT=		GNU gettext
 DISTNAME=		gettext-0.10.40
-DASH_VER=		2
+DASH_VER=		3
 CATEGORIES=		devel
 MASTER_SITES=		${MASTER_SITE_GNU:=gettext/}
 HOMEPAGE=		http://www.gnu.org/software/gettext/
