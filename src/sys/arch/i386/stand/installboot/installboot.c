@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.14 2006/04/08 00:00:09 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.15 2006/04/08 00:03:00 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -88,7 +88,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.14 2006/04/08 00:00:09 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.15 2006/04/08 00:03:00 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -188,13 +188,13 @@ main(int argc, char *argv[])
 	dev_t devno;
 	bios_diskinfo_t di;
 	long mbrofs;
-	int mbrpart;
+	int mbrpart, usembrpart = 0;
 	off_t isoofs = 0, isolen = 0, imaofs = 0, imasec = 0;
 
 	fprintf(stderr, "MirOS BSD installboot " __BOOT_VER "\n");
 
 	nsectors = nheads = -1;
-	while ((c = getopt(argc, argv, "h:I:i:MnP:S:s:v")) != -1) {
+	while ((c = getopt(argc, argv, "h:I:i:MnP:pS:s:v")) != -1) {
 		switch (c) {
 		case 'h':
 			nheads = atoi(optarg);
@@ -231,6 +231,9 @@ main(int argc, char *argv[])
 				userpt = 0;
 			}
 			break;
+		case 'p':
+			++usembrpart;
+			break;
 		case 'S':
 			imasec = (off_t)strtoll(optarg, NULL, 0);
 			if (imasec < 0)
@@ -252,7 +255,8 @@ main(int argc, char *argv[])
 		}
 	}
 
-	if ((isoofs && imaofs) || (!isoofs && !imaofs && imasec))
+	if ((isoofs && imaofs) || (!isoofs && !imaofs && imasec) ||
+	    (usembrpart && !imaofs) || (usembrpart && imasec))
 		usage();
 
 	if (argc - optind < 3) {
@@ -342,6 +346,9 @@ main(int argc, char *argv[])
 			fprintf(stderr, "%s: %d entries total (%d bytes)\n",
 			    boot, block_count_p[0], curblocklen);
 
+		if (usembrpart)
+			goto do_mbrpart;
+
 		startoff = imasec;
 		goto do_write;
 	}
@@ -383,8 +390,8 @@ main(int argc, char *argv[])
 
 	if (dl.d_type != 0 && dl.d_type != DTYPE_FLOPPY &&
 	    dl.d_type != DTYPE_VND && !force_mbr) {
-		mbrofs = DOSBBSECTOR;
- loop:		if (read_pt(devfd, mbrofs, &mbr, dl.d_secsize))
+ do_mbrpart:	mbrofs = DOSBBSECTOR;
+ loop:		if (read_pt(devfd, mbrofs, &mbr, imaofs ? 512 : dl.d_secsize))
 			err(4, "can't read partition table");
 
 		if (mbr.dmbr_sign != DOSMBR_SIGNATURE)
