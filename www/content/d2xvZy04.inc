@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.24 2006/01/29 19:07:37 bsiegert Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.25 2006/01/30 12:37:20 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -348,6 +348,17 @@ celebrate this event, rotate the wlog and start a new one.</p>
   back) safely &ndash; by train or, preferred, car sharing with somebody
   from the Bonn region, and live there somewhere (a place to sleep). Any
   offers? <a href="mailto:tg@mirbsd.de">Mail</a> me.</p>
+</div>
+
+<div class="wlentry">
+ <h3>31.01.2006 by tg@</h3>
+ <p>bsiegert@ will probably kill me, or use some other means of violence
+  (who knows), but at least it's done. mgcc(1) now aborts if CFLAGS (and
+  COPTS, or rather, _DEFCOPTS) are not honoured, with an optional abort,
+  not yet active, if they are given twice. This depends on a variable to
+  be set in the environment, thus doesn't affect manual builds except by
+  an informal note.</p>
+ <p>More later... if I'm still living by then ;)</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
