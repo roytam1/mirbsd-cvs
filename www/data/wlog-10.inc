@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.130 2009/01/01 17:30:26 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.131 2009/01/02 00:19:11 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2579,4 +2579,24 @@ Title: SYSLINUX, the horrors
  the bootsector is cut off before ldlinux.sys is written. Worse than even
  Microsoft®, who at least don’t go back to the bootsector once the first
  2048 bytes of IO.SYS in DOS 7.10 are loaded.</p>
+----
+Date: 02.01.2009 03:07
+Author: tg@
+Title: GNU GRUB, the horrors
+
+<p>We can use “machine exec grub /boot/grub/stage2” as well as “machine
+ exec grub /boot/grub/core.img” to chain into GNU GRUB-Legacy or GRUB2
+ now. GRUB2 is in rescue mode, though, but catting files works, as does
+ chaining from GRUB 0.9x (mirports/sysutils/pxegrub) to GRUB2.</p>
+<p>Also, “machine exec grub /stage2_eltorito” works, because they are
+ actually the same (it doesn’t care if it’s a CD or not; we might use
+ that in the future too instead of the <tt>tori_bootflag</tt> hack).
+ <strong>However</strong>, while GRUB 0.9x can deal with filesystems
+ created by “mkisofs”, “makefs”, “mkisofs -R”, it cannot deal with one
+ created by “makefs -o rockridge”, neither the old makefs(8) we had 3
+ months ago, nor stock TNF one, nor our new one with my patches. Since
+ GRUB2 just says unknown filesystem, it’s fine… but <b>useless</b>.</p>
+<p>Anyway, I now have a way to boot MS-DOS® from a USB stick (bootbsd
+ → grub → memdisk → DOS) in order to install SYSLINUX on the very same
+ stick… gaaaaaaaaaaaah!</p>
 ----
