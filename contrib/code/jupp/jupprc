@@ -157,11 +157,11 @@
 -syntax diff
 
 *
-+---
++--- 
 -syntax diff
 
 *
-+***
++*** 
 -syntax diff
 
 *
@@ -616,6 +616,7 @@ mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs% %
 \i \i  96  60 | `abc defg  hijk lmno    אבגד הוזח  טיךכ לםמן | E0  224 \i \i
 \i \i 112  70 | pqrs tuvw  xyz{ |}~    נסעף פץצק  רשתû ü‎‏ÿ | F0  240 \i \i
 }
+
 
 :windows
 type		^@ TO ÿ
