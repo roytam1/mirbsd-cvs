@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.11 2008/08/03 21:02:05 tg Exp $	*/
+/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.12 2008/08/04 19:10:54 tg Exp $	*/
 /*	$OpenBSD: stand.h,v 1.46 2007/05/04 21:44:07 reyk Exp $	*/
 /*	$NetBSD: stand.h,v 1.18 1996/11/30 04:35:51 gwr Exp $	*/
 
@@ -122,7 +122,6 @@ extern struct open_file files[];
 	s = ((b) % ((nh) * (ns))) % (ns);
 
 void	*alloc(u_int);
-void	*alloca(size_t);
 void	free(void *, u_int);
 struct	disklabel;
 char	*getdisklabel(const char *, struct disklabel *);

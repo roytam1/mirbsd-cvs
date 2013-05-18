@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.9 2009/01/02 04:58:41 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.10 2009/01/02 05:16:34 tg Exp $ */
 /*	$OpenBSD: diskprobe.c,v 1.29 2007/06/18 22:11:20 krw Exp $	*/
 
 /*
@@ -367,7 +367,7 @@ disksum(int blk)
 	int st, reprobe = 0;
 	char *buf;
 
-	buf = alloca(DEV_BSIZE);
+	buf = alloc(DEV_BSIZE);
 	for (dip = TAILQ_FIRST(&disklist); dip; dip = TAILQ_NEXT(dip, list)) {
 		bios_diskinfo_t *bdi = &dip->bios_info;
 
@@ -392,6 +392,7 @@ disksum(int blk)
 				reprobe = 1;
 		}
 	}
+	free(buf, DEV_BSIZE);
 
 	return reprobe;
 }

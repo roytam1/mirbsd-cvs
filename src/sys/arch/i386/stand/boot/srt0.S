@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.41 2009/01/02 20:55:28 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.42 2009/01/02 20:55:53 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -421,3 +421,10 @@ istackbeg:
 	. = istackbeg + 512
 istackend:
 	.long	0xCAFEBABE
+
+	.bss
+	.globl	_C_LABEL(bounce_buf)
+	.size	bounce_buf, 4096
+	.p2align 4
+_C_LABEL(bounce_buf):
+	.skip	4096

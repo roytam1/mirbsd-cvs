@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/toridev.c,v 1.4 2008/12/28 03:40:15 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/toridev.c,v 1.5 2009/01/02 04:58:41 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.68 2004/03/09 19:12:12 tom Exp $	*/
 
 /*
@@ -42,15 +42,13 @@
 #include "biosdev.h"
 #include "tori.h"
 
-static __inline int CD_rw(u_int64_t, void *);
+static __inline int CD_rd(u_int64_t);
 
 extern int biosdreset(int);
 extern const char *biosdisk_err(u_int);
 extern int biosdisk_errno(u_int);
 
 extern int debug;
-
-u_int8_t tori_iobuf[2048];
 
 struct EDD_CB {
 	u_int8_t  edd_len;   /* size of packet */
@@ -63,7 +61,7 @@ struct EDD_CB {
 };
 
 static __inline int
-CD_rw(u_int64_t daddr, void *buf)
+CD_rd(u_int64_t daddr)
 {
 	int rv;
 	volatile static struct EDD_CB cb;
@@ -75,8 +73,8 @@ CD_rw(u_int64_t daddr, void *buf)
 	/* Fill in parameters */
 	cb.edd_len = sizeof(cb);
 	cb.edd_nblk = 1;
-	cb.edd_seg = ((u_int32_t)buf >> 4) & 0xffff;
-	cb.edd_off = (u_int32_t)buf & 0xf;
+	cb.edd_seg = ((u_int32_t)bounce_buf >> 4) & 0xffff;
+	cb.edd_off = (u_int32_t)bounce_buf & 0xf;
 	cb.edd_daddr = daddr;
 
 	/* if offset/segment are zero, punt */
@@ -92,20 +90,16 @@ CD_rw(u_int64_t daddr, void *buf)
 }
 
 /*
- * Read given sector, handling retry/errors/etc.
+ * Read (remainder of) given sector, handling retry/errors/etc.
  */
 int
 tori_io(daddr_t off, void *buf)
 {
 	int j, error;
-	void *bb = tori_iobuf;
-
-	if (!(off & 3))
-		bb = buf;
 
 	/* Try to do operation up to 5 times */
 	for (error = 1, j = 5; j-- && error;) {
-		error = CD_rw(off >> 2, bb);
+		error = CD_rd(off >> 2);
 		switch (error) {
 		case 0x00:	/* No errors */
 		case 0x11:	/* ECC corrected */
@@ -125,10 +119,8 @@ tori_io(daddr_t off, void *buf)
 		}
 	}
 
-	if (off & 3) {
-		bb += (512*(off & 3));
-		memmove(buf, bb, 2048-(512*(off & 3)));
-	}
+	off = 512 * (off & 3);
+	memcpy(buf, bounce_buf + off, 2048 - off);
 
 #ifdef BIOS_DEBUG
 	if (debug) {

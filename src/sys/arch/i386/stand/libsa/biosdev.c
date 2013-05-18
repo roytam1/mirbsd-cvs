@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.18 2009/01/01 17:46:20 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.19 2009/01/02 05:16:34 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -49,6 +49,7 @@ int biosdisk_errno(u_int);
 static __inline int CHS_rw_real (int, int, int, int, int, int, void *);
 static __inline int CHS_rw (int, int, int, int, int, int, void *);
 static __inline int EDD_rw (int, int, u_int64_t, u_int32_t, void *);
+static __inline int real_io(int, bios_diskinfo_t *, daddr_t, int, void *);
 
 extern int debug;
 #ifndef SMALL_BOOT
@@ -281,10 +282,29 @@ EDD_rw(int rw, int dev, u_int64_t daddr, u_int32_t nblk, void *buf)
 int
 biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 {
+	int n, rv;
+
+ loop:
+	n = MIN(nsect, 4096/DEV_BSIZE);	/* nsect to try this iteration */
+	if (rw != F_READ)
+		memcpy(bounce_buf, buf, n * DEV_BSIZE);
+	if ((rv = real_io(rw, bd, off, n, buf)))
+		return (rv);
+	if (rw == F_READ)
+		memcpy(buf, bounce_buf, n * DEV_BSIZE);
+	if ((nsect -= n)) {
+		buf += n * DEV_BSIZE;
+		off += n;
+		goto loop;
+	}
+	return (0);
+}
+
+static __inline int
+real_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
+{
 	int dev = bd->bios_number;
 	int j, error;
-	void *bb;
-	int bbsize = nsect * DEV_BSIZE;
 
 	if (bd->flags & BDI_EL_TORITO) {	/* It's a CD device */
 		dev &= 0xff;			/* Mask out this flag bit */
@@ -299,32 +319,15 @@ biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 		nsect >>= (ISO_DEFAULT_BLOCK_SHIFT - DEV_BSHIFT);
 	}
 
-	/*
-	 * Use a bounce buffer to not cross 64k DMA boundary, and to
-	 * not access 1 MB or above.
-	 */
-	if (((((u_int32_t)buf) & ~0xffff) !=
-	    (((u_int32_t)buf + bbsize) & ~0xffff)) ||
-	    (((u_int32_t)buf) >= 0x100000)) {
-		/*
-		 * XXX we believe that all the io is buffered
-		 * by fs routines, so no big reads anyway
-		 */
-		bb = alloca(bbsize);
-		if (rw != F_READ)
-			bcopy(buf, bb, bbsize);
-	} else
-		bb = buf;
-
 	/* Try to do operation up to 5 times */
 	for (error = 1, j = 5; j-- && error; ) {
 		/* CHS or LBA access? */
 		if (bd->bios_edd != -1) {
-			error = EDD_rw(rw, dev, off, nsect, bb);
+			error = EDD_rw(rw, dev, off, nsect, buf);
 		} else {
 			int cyl, head, sect;
 			size_t i, n;
-			char *p = bb;
+			char *p = buf;
 
 			/* Handle track boundaries */
 			for (error = i = 0; error == 0 && i < nsect;
@@ -362,9 +365,6 @@ biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 		}
 	}
 
-	if (bb != buf && rw == F_READ)
-		bcopy(bb, buf, bbsize);
-
 #ifdef BIOS_DEBUG
 	if (debug) {
 		if (error != 0)
@@ -387,6 +387,7 @@ bios_getdisklabel(bios_diskinfo_t *bd, struct disklabel *label)
 	struct dos_mbr mbr;
 	int error, i;
 	long mbrofs;
+	const char *rv;
 
 	/* Sanity check */
 	if (bd->bios_heads == 0 || bd->bios_sectors == 0)
@@ -449,19 +450,21 @@ loop:		error = biosd_io(F_READ, bd, mbrofs, 1, &mbr);
 		off = LABELSECTOR;
 
 	/* Load BSD disklabel */
-	buf = alloca(DEV_BSIZE);
+	buf = alloc(DEV_BSIZE);
 #ifdef BIOS_DEBUG
 	if (debug)
 		printf("loading disklabel @ %u\n", off);
 #endif
 	/* read disklabel */
-	error = biosd_io(F_READ, bd, off, 1, buf);
-
-	if (error)
+	if ((error = biosd_io(F_READ, bd, off, 1, buf))) {
+		free(buf, DEV_BSIZE);
 		return ("failed to read disklabel");
+	}
 
 	/* Fill in disklabel */
-	return (getdisklabel(buf, label));
+	rv = getdisklabel(buf, label);
+	free(buf, DEV_BSIZE);
+	return (rv);
 }
 
 int

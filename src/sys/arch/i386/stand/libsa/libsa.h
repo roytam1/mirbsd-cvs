@@ -42,6 +42,8 @@ struct i386_boot_probes {
 	int count;
 };
 
+extern uint8_t bounce_buf[4096];
+
 extern void (*sa_cleanup)(void);
 
 void gateA20(int);
