@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/i386/rc.netselect,v 1.4 2006/09/30 20:50:12 tg Exp $
+# $MirOS: src/distrib/baselive/i386/rc.netselect,v 1.5 2006/09/30 20:59:01 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -36,12 +36,12 @@ print '1) manual/no network, no graphics'
 print '2) automatic network (dhcp), no graphics'
 print '3) automatic network, XFree86 (vesa 1024x768@24bpp) xdm/twm'
 print '4) automatic network, XFree86 (vesa 800x600@16bpp) xdm/twm'
-print '5) automatic network, XFree86 (vesa 640x480@8bpp) xdm/twm'
+#print '5) automatic network, XFree86 (vesa 640x480@8bpp) xdm/twm'
 print '9) temporarily escape into a shell (type "exit" to return)'
 print
 print If you need to plug in any network devices, do it now.
 i=
-while [[ $i != @(1|2|3|4|5) ]]; do
+while [[ $i != @(1|2|3|4) ]]; do
 	print -n "Your choice? "
 	read i
 	[[ $i = 9 ]] && HOME=/dev/.root /bin/mksh -l
