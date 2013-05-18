@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.10 2007/08/09 17:13:09 tg Exp $ */
+/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.11 2007/08/09 17:28:55 tg Exp $ */
 /*	$OpenBSD: arc4random.c,v 1.14 2005/06/06 14:57:59 kjell Exp $	*/
 
 /*
@@ -46,7 +46,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.10 2007/08/09 17:13:09 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.11 2007/08/09 17:28:55 tg Exp $");
 
 #ifdef __GNUC__
 #define inline __inline
@@ -104,14 +104,20 @@ arc4_stir(struct arc4_stream *as)
 		uint8_t charbuf[128];
 		uint32_t intbuf[32];
 		struct {
-			tai64na_t thetime;
+			tai64na_t wtime;
+			struct timespec vtime;
+			struct timespec ptime;
+			struct timespec ntime;
 			pid_t thepid;
 		} alignedbuf;
 	} sbuf;
 
-	taina_time(&sbuf.alignedbuf.thetime);
+	taina_time(&sbuf.alignedbuf.wtime);
 	sbuf.alignedbuf.thepid = arc4_stir_pid = getpid();
-	arc4_addrandom(as, sbuf.charbuf, sizeof (tai64na_t) + sizeof (pid_t));
+	clock_gettime(CLOCK_VIRTUAL, &sbuf.alignedbuf.vtime);
+	clock_gettime(CLOCK_PROF, &sbuf.alignedbuf.ptime);
+	clock_gettime(CLOCK_MONOTONIC, &sbuf.alignedbuf.ntime);
+	arc4_addrandom(as, sbuf.charbuf, sizeof (sbuf.alignedbuf));
 
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_ARND;
