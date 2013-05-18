@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.14 2006/09/29 22:25:35 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.15 2006/10/13 19:18:02 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -122,7 +122,7 @@ ${CBIN}: ${CBIN}.mk ${CBIN}.cache ${CBIN}.c
 	${STRIP} ${STRIP_CBIN} ${CBIN}
 
 ${IMAGE}: ${CBIN}
-	test ! -e ${TMPMOUNT} || (cd ${TOPDIR}/common; ${MAKE} unconfig)
+	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)
 	${SUDO} rm -rf ${WRKDIR}
 	${SUDO} mkdir -p ${WRKDIR}
 	${SUDO} mtree -Udef ${MTREE} -p ${WRKDIR}/
@@ -163,7 +163,7 @@ bsd.rd.net: bsd.st
 	elf2aout $> $@ -b
 
 ${FLOPPY}: bsd.st
-	test ! -e ${TMPMOUNT} || (cd ${TOPDIR}/common; ${MAKE} unconfig)
+	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)
 	${SUDO} rm -rf ${WRKDIR}
 	mkdir -p ${WRKDIR}
 	cp ${BOOT} ${WRKDIR}/boot
