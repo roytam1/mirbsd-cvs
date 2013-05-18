@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/modules,v 1.22 2007/02/05 20:21:55 tg Exp $
+# $MirOS: CVSROOT/modules,v 1.23 2007/06/25 16:51:41 tg Exp $
 # from $OpenBSD: modules,v 1.17 1998/07/12 04:44:24 todd Exp $
 #-
 # Three different line formats are valid:
@@ -58,6 +58,7 @@ jupp		contrib/code/jupp
 mirmake		contrib/code/mirmake
 mksh		src/bin/mksh
 pkgtools	ports/infrastructure/pkgtools
+rdate		src/usr.sbin/rdate
 
 # Hosted projects
 fwcf		contrib/hosted/fwcf
