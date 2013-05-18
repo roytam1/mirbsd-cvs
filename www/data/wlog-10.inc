@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.339 2011/07/11 21:12:40 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.340 2011/07/12 18:11:33 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7823,7 +7823,7 @@ Tag: debian event
  <li>√ Going to drive with some apparently speed-loving brits</li>
  <li>√ Registration accepted</li>
  <li>√ Dienstreiseantrag prepared</li>
- <li>· Sent that beast to the office ticket queue</li>
+ <li>√ Sent that beast to the office ticket queue</li>
 </ul><p>So yes, this means I’m <img alt="going to DebConf 11"
  src="http://kitenet.net/~joey/blog/pics/debconf11_banner.png" />
  to what used to be Yugoslawia when I was there the last time,
