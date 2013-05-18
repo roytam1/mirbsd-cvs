@@ -1,15 +1,17 @@
-# $MirOS: ports/plan9/rc/Makefile,v 1.5 2006/12/20 15:31:35 tg Exp $
+# $MirOS: ports/plan9/rc/Makefile,v 1.6 2008/03/09 17:23:25 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/05/15 03:25:56 markus Exp $
 
 COMMENT=		clone of plan9 shell
 
 VERSION=		1.7.1
 DISTNAME=		rc-${VERSION}
+DASH_VER=		1
 CATEGORIES=		plan9 shells
 RESPONSIBLE=		Benny Siegert <bsiegert@gmx.de>
-MASTER_SITES=		http://www.star.le.ac.uk/~tjg/rc/release/ \
-			ftp://ftp.sys.toronto.edu/pub/rc/
-HOMEPAGE=		http://www.star.le.ac.uk/~tjg/rc/
+
+# web frontend to /n/sources
+MASTER_SITES=		http://cm.bell-labs.com/sources/contrib/quanstro/
+#			ftp://ftp.sys.toronto.edu/pub/rc/
 
 # BSD-like
 PERMIT_PACKAGE_CDROM=	Yes
