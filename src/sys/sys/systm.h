@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/systm.h,v 1.3 2006/10/17 23:16:43 tg Exp $ */
+/**	$MirOS: src/sys/sys/systm.h,v 1.4 2007/03/02 03:13:29 tg Exp $ */
 /*	$OpenBSD: systm.h,v 1.60 2004/01/05 00:16:56 espie Exp $	*/
 /*	$NetBSD: systm.h,v 1.50 1996/06/09 04:55:09 briggs Exp $	*/
 
@@ -101,6 +101,11 @@ extern struct vnode *rootvp;	/* vnode equivalent to above */
 extern dev_t swapdev;		/* swapping device */
 extern struct vnode *swapdev_vp;/* vnode equivalent to above */
 
+/*
+ * fill the below with adler32 - it's statically initialised, and our
+ * adler32() will feed into the pool automatically if the rng is ini-
+ * tialised, else the rng attacher will; cf. kern_time.c for example.
+ */
 extern uint32_t rnd_bootpool;	/* 4-byte entropy for adler32() users */
 
 struct proc;
