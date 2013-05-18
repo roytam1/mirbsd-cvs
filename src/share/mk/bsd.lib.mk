@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.45 2006/09/25 22:09:21 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.46 2006/09/29 21:51:31 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -68,17 +68,17 @@ _LIBS_SHARED=	No
 .  undef SHLIB_SONAME
 .  undef SHLIB_LINKS
 .elif ${RTLD_TYPE} == "dyld"
-LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -dynamiclib \
+LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -dynamiclib \
 		$$(${LORDER} ${SOBJS}|tsort -q) ${LDADD} \
 		-compatibility_version ${SHLIB_VERSION} \
 		-current_version ${SHLIB_VERSION}
 .elif ${RTLD_TYPE} == "GNU"
-LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
+LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 		$$(${LORDER} ${SOBJS}|tsort -q) \
 		-Wl,--start-group ${LDADD} -Wl,--end-group \
 		-Wl,-h,${SHLIB_SONAME:R}
 .else
-LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
+LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 		$$(${LORDER} ${SOBJS}|tsort -q) \
 		-Wl,--start-group ${LDADD} -Wl,--end-group
 .endif
@@ -92,17 +92,17 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 .SUFFIXES:	.out .o .so .S .s .c .m .cc .cxx .y .l .i .ln .m4
 
 .c.o .m.o:
-	@echo "${COMPILE.c} ${CFLAGS_${.TARGET:C/(g|s)o$/.o/}}" \
+	@echo ${COMPILE.c:Q} ${CFLAGS_${.TARGET:C/(g|s)o$/.o/}:M*:Q} \
 	    "${.IMPSRC} -o $@"
-	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
+	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*} \
 	    ${.IMPSRC} -o $@.o
 	@${LD} ${_DISCARD} -r $@.o -o $@
 	@rm -f $@.o
 
 .c.so .m.so:
-	@echo "${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}}" \
-	    "-DPIC ${PICFLAG} ${.IMPSRC} -o $@"
-	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
+	@echo ${COMPILE.c:Q} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*:Q} \
+	    -DPIC ${PICFLAG} "${.IMPSRC} -o $@"
+	@${COMPILE.c} ${CFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*} \
 	    -DPIC ${PICFLAG} ${.IMPSRC} -o $@.o
 	@${LD} ${_DISCARD} -r $@.o -o $@
 	@rm -f $@.o
@@ -111,17 +111,17 @@ LINK.shlib?=	${LINKER} ${CFLAGS} ${SHLIB_FLAGS} -shared \
 	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} -i ${.IMPSRC}
 
 .cc.o .cxx.o:
-	@echo "${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}}" \
+	@echo ${COMPILE.cc:Q} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*:Q} \
 	    "${.IMPSRC} -o $@"
-	@${COMPILE.cc}  ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
+	@${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*} \
 	    ${.IMPSRC} -o $@.o
 	@${LD} ${_DISCARD} -r $@.o -o $@
 	@rm -f $@.o
 
 .cc.so .cxx.so:
-	@echo "${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}}" \
-	    "-DPIC ${PICFLAG} ${.IMPSRC} -o $@"
-	@${COMPILE.cc}  ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}} \
+	@echo ${COMPILE.cc:Q} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*:Q} \
+	    -DPIC ${PICFLAG} "${.IMPSRC} -o $@"
+	@${COMPILE.cc} ${CXXFLAGS_${.TARGET:C/\.(g|s)o$/.o/}:M*} \
 	    -DPIC ${PICFLAG} ${.IMPSRC} -o $@.o
 	@${LD} ${_DISCARD} -r $@.o -o $@
 	@rm -f $@.o
