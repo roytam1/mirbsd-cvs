@@ -1,4 +1,4 @@
-/*	$OpenBSD: bcrypt.c,v 1.19 2004/12/22 17:33:25 otto Exp $	*/
+/*	$OpenBSD: bcrypt.c,v 1.20 2006/04/03 19:55:49 deraadt Exp $	*/
 
 /*
  * Copyright 1997 Niels Provos <provos@physnet.uni-hamburg.de>
@@ -56,6 +56,8 @@
 #include <pwd.h>
 #include <blf.h>
 
+__RCSID("$MirOS$");
+
 /* This implementation is adaptable to current computing power.
  * You can have up to 2^31 rounds which should be enough for some
  * time to come.
@@ -71,7 +73,7 @@ static void encode_base64(u_int8_t *, u_int8_t *, u_int16_t);
 static void decode_base64(u_int8_t *, u_int16_t, const u_int8_t *);
 
 static char    encrypted[_PASSWORD_LEN];
-static char    gsalt[BCRYPT_MAXSALT * 4 / 3 + 1];
+static char    gsalt[7 + (BCRYPT_MAXSALT * 4 + 2) / 3 + 1];
 static char    error[] = ":";
 
 static const u_int8_t Base64Code[] =
@@ -181,6 +183,7 @@ bcrypt(const char *key, const char *salt)
 	u_int8_t ciphertext[4 * BCRYPT_BLOCKS] = "OrpheanBeholderScryDoubt";
 	u_int8_t csalt[BCRYPT_MAXSALT];
 	u_int32_t cdata[BCRYPT_BLOCKS];
+	int n;
 
 	/* Discard "$" identifier */
 	salt++;
@@ -212,9 +215,10 @@ bcrypt(const char *key, const char *salt)
 		return error;
 
 	/* Computer power doesn't increase linear, 2^x should be fine */
-	logr = atoi(salt);
-	if (logr > 31)
+	n = atoi(salt);
+	if (n > 31 || n < 0)
 		return error;
+	logr = (u_int8_t)n;
 	if ((rounds = (u_int32_t) 1 << logr) < BCRYPT_MINROUNDS)
 		return error;
 
