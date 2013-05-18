@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.300 2009/11/22 00:26:29 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.301 2009/11/22 14:27:51 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1064,6 +1064,8 @@ mws_content <<'EOF'
   wording that let people think we’d ever support POSuX character classes</li>
  <li>[tg] New <tt>${%foo}</tt> returning width of $foo in screen columns</li>
  <li>[tg] Fix subtle possible portability problem wrt. <tt>CHILD_MAX</tt></li>
+ <li>[tg] Fix some warnings in code and manual page</li>
+ <li>[tg] Honour <tt>±U</tt> on command line of an interactive shell</li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
