@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.25 2006/01/30 12:37:20 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.26 2006/01/31 12:11:39 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -358,6 +358,9 @@ celebrate this event, rotate the wlog and start a new one.</p>
   not yet active, if they are given twice. This depends on a variable to
   be set in the environment, thus doesn't affect manual builds except by
   an informal note.</p>
+ <p>We now have mmap(2) malloc(3), TCP tuning diffs (SYN packets 4 bytes
+  smaller), and my libc is still working. I am amazed. I will rebuild my
+  entire system then.</p>
  <p>More later... if I'm still living by then ;)</p>
 </div>
 
