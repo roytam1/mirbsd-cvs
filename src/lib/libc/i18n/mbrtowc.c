@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.10 2006/06/03 21:01:25 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.11 2006/06/03 21:01:59 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -30,16 +30,19 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.10 2006/06/03 21:01:25 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.11 2006/06/03 21:01:59 tg Exp $");
 
 size_t
-mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ src,
-    size_t n, mbstate_t *__restrict__ ps)
+mbrtowc(wchar_t *__restrict__ dst, const char *__restrict__ src,
+    size_t len, mbstate_t *__restrict__ ps)
 {
 	static mbstate_t internal_mbstate = { 0, 0 };
 	const unsigned char *s = (const unsigned char *)src;
 	wint_t c, wc;
 	unsigned count;
+
+	if (__predict_false(!len))
+		return ((size_t)(-2));
 
 	if (__predict_false(ps == NULL))
 		ps = &internal_mbstate;
@@ -49,15 +52,12 @@ mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ src,
 		return (0);
 	}
 
-	if (__predict_false(!n))
-		return ((size_t)(-2));
-
 	if ((count = __locale_is_utf8 ? ps->count : 0)) {
 		wc = ps->value << 6;
 		goto conv_state;
 	}
 
-	--n;
+	--len;
 	wc = *s++;
 	if (__predict_true(!__locale_is_utf8 || (wc < 0x80))) {
 		if (__predict_false(wc > MIR18N_SB_CVT)) {
@@ -65,12 +65,10 @@ mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ src,
 			errno = EILSEQ;
 			return ((size_t)(-1));
 		}
-		if (pwc != NULL)
-			*pwc = wc;
-		return (wc ? 1 : 0);
+		/* count == 0 already */
 	} else if (wc < 0xC2) {
 		/* < 0xC0: spurious second byte */
-		/* < 0xC2: would map to 0x80 */
+		/* < 0xC2: non-minimalistic mapping error in 2-byte seqs */
 		goto ilseq;
 	} else if (wc < 0xE0) {
 		count = 1; /* one byte follows */
@@ -84,33 +82,30 @@ mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ src,
 	}
 
  conv_state:
-	/* If there are no more bytes to inspect, make state */
-	if (__predict_false(!n)) {
-		ps->count = count;
-		ps->value = wc >> 6;
-		return ((size_t)(-2));
-	}
+	while (__predict_false(count)) {
+		/* If there are no more bytes to inspect, make state */
+		if (__predict_false(!len)) {
+			ps->count = count;
+			ps->value = wc >> 6;
+			return ((size_t)(-2));
+		}
 
-	--n;
-	if (((c = *s++) & 0xC0) != 0x80)
-		goto ilseq;
-	c &= 0x3F;
-	wc |= c << (6 * --count);
-
-	if (__predict_false(count)) {
-		/* Check for non-minimalistic mapping
-		 * encoding error in 3-byte sequences */
-		if (__predict_false(wc < 0x800))
+		--len;
+		if (((c = *s++) & 0xC0) != 0x80)
 			goto ilseq;
-		else
-			goto conv_state;
+		c &= 0x3F;
+		wc |= c << (6 * --count);
+
+		/* Check for non-minimalistic mapping error in 3-byte seqs */
+		if (__predict_false(count && (wc < 0x0800)))
+			goto ilseq;
 	}
 
 	if (__predict_false(wc > MIR18N_MB_MAX))
 		goto ilseq;
 
-	if (pwc != NULL)
-		*pwc = wc;
+	if (dst != NULL)
+		*dst = wc;
 	ps->count = 0;
-	return ((const char *)s - src);
+	return (wc ? ((const char *)s - src) : 0);
 }

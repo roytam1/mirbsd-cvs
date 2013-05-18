@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.1 2006/06/01 22:17:20 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.2 2006/06/03 21:30:03 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -30,7 +30,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.1 2006/06/01 22:17:20 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.2 2006/06/03 21:30:03 tg Exp $");
 
 size_t
 mbsrtowcs(wchar_t *__restrict__ dst, const char **__restrict__ src,
@@ -65,7 +65,7 @@ mbsrtowcs(wchar_t *__restrict__ dst, const char **__restrict__ src,
 		/* count == 0 already */
 	} else if (wc < 0xC2) {
 		/* < 0xC0: spurious second byte */
-		/* < 0xC2: would map to 0x80 */
+		/* < 0xC2: non-minimalistic mapping error in 2-byte seqs */
 		goto ilseq;
 	} else if (wc < 0xE0) {
 		count = 1; /* one byte follows */
@@ -79,24 +79,14 @@ mbsrtowcs(wchar_t *__restrict__ dst, const char **__restrict__ src,
 	}
 
  conv_state:
-	if (__predict_false(count)) {
-		/* process the second byte in 2- or 3-byte sequences */
+	while (__predict_false(count)) {
 		if (((c = *s++) & 0xC0) != 0x80)
 			goto ilseq;
 		c &= 0x3F;
 		wc |= c << (6 * --count);
-	}
 
-	if (__predict_false(count)) {
-		/* process the third byte in 3-byte sequences */
-		if (((c = *s++) & 0xC0) != 0x80)
-			goto ilseq;
-		c &= 0x3F;
-		wc |= c & 0x3F;
-		count = 0;
-
-		/* Check for non-minimalistic mapping encoding error */
-		if (__predict_false(wc < 0x800))
+		/* Check for non-minimalistic mapping error in 3-byte seqs */
+		if (__predict_false(count && (wc < 0x0800)))
 			goto ilseq;
 	}
 
