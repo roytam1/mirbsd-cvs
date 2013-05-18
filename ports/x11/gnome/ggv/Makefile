@@ -1,8 +1,8 @@
-# $MirOS: ports/x11/gnome/ggv/Makefile,v 1.4 2007/03/31 22:02:11 tg Exp $
+# $MirOS: ports/x11/gnome/ggv/Makefile,v 1.5 2007/04/18 20:05:05 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2005/03/06 10:51:07 alek Exp $
 
 COMMENT=		GNOME frontend for GhostScript
-DISTNAME=		ggv-2.8.4
+DISTNAME=		ggv-2.12.0
 CATEGORIES=		print x11/gnome
 
 HOMEPAGE=		http://www.gnome.org/	
@@ -13,7 +13,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		${MASTER_SITE_GNOME:=sources/ggv/2.8/}	
+MASTER_SITES=		${MASTER_SITE_GNOME:=sources/ggv/2.12/}	
 EXTRACT_SUFX=		.tar.bz2
 
 MODULES=		devel/gettext devel/pkgconfig
