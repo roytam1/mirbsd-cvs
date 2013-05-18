@@ -1,5 +1,5 @@
 #!/bin/mksh -ex
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: contrib/hosted/tg/mksh-spell.UP,v 1.2 2009/09/08 16:43:01 tg Exp $
 #-
 # Copyright (c) 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -27,6 +27,7 @@ cd /git/grimoire.tmp:mksh
 git clone --bare -s /git/grimoire.git copy1.git
 cd /git/grimoire.tmp:mksh/copy1.git
 git tag -d $(git tag -l)
+git branch -D $(git branch -l | fgrep -v master)
 git filter-branch \
     --prune-empty -d /home/tg/.mfs/grimoire.tmp:mksh -f \
     --subdirectory-filter shell-term-fm/mksh \
