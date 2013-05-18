@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.32 2008/11/19 23:26:40 tg Exp $
+# $MirOS: ports/Makefile,v 1.33 2008/12/14 19:27:56 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -134,7 +134,7 @@ bulk-build:
 		${SUDO} mkdir -m 0775 Logs; \
 	fi
 	env BIN_PACKAGES=Yes TRUST_PACKAGES=Yes BULK=Yes BATCH=Yes \
-	    ${MAKE} -k package clean 2>&1 | \
+	    ${MAKE} package clean 2>&1 | \
 	    perl ${.CURDIR}/infrastructure/scripts/portslogger ${.CURDIR}/Logs
 
 portupgrade: index
