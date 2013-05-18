@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.26 2009/01/12 20:13:13 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.27 2009/01/12 21:02:14 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -337,8 +337,12 @@ ENTRY(bootbuf)
 	pop	esi		/* Buffer Source (linear) */
 	pop	ecx		/* Size */
 	pop	ebp		/* Buffer Target (ES:DI) */
-	pop	edx		/* Device (and flags) */
+	pop	ebx		/* Device and flags */
 	pop	edi		/* Initial CS:IP */
+
+	xor	edx,edx
+	dec	edx		/* EDX = 0xFFFFFFFF */
+	mov	dl,bl		/* EDX = 0xFFFFFFzz (z = device) */
 
 	call	prot_to_real
 	.code16
@@ -359,8 +363,8 @@ ENTRY(bootbuf)
 	 * - ECX = source buffer size (up to 64 KiB)
 	 * - EBP = target address as ES:DI (FAR pointer)
 	 * - EDI = initial CS:IP (FAR pointer)
-	 * - EDX = bootbuf flags, currently unused
-	 * -  DL = drive
+	 * - EBX = bootbuf flags, currently unused
+	 * - EDX = drive
 	 * - _C_LABEL(bios_bootpte) = future DS:SI contents (16by)
 	 * - 0000:0600h .. 0000:07FFh are available to put the boot
 	 *   partition table entry in, according to SYSLINUX docs;
@@ -374,7 +378,7 @@ ENTRY(bootbuf)
 	shr	eax,16
 	push	ax		/* future CS */
 	push	di		/* future IP */
-	push	dx		/* future DL (drive) */
+	push	edx		/* future DL (drive) */
 	push	ecx		/* source buffer size */
 	shr	esi,4
 	push	si		/* source buffer segment */
@@ -417,7 +421,7 @@ Ltcseg:	rep	movsb
 Ltcrun:	xor	ax,ax
 	mov	ds,ax
 	mov	si,0x0600
-	pop	dx
+	pop	edx
 	lret			/* future CS:IP on stack */
 Ltcend:	pop	si		/* offset Ltcbeg */
 	mov	cx,offset Ltcend - offset Ltcbeg
