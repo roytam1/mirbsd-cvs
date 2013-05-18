@@ -1,10 +1,10 @@
-/**	$MirOS: src/usr.bin/col/col.c,v 1.11 2007/07/05 23:09:39 tg Exp $ */
+/**	$MirOS: src/usr.bin/col/col.c,v 1.12 2008/08/02 01:48:08 tg Exp $ */
 /*	$OpenBSD: col.c,v 1.9 2003/06/10 22:20:45 deraadt Exp $	*/
 /*	$NetBSD: col.c,v 1.7 1995/09/02 05:48:50 jtc Exp $	*/
 
 /*-
- * Copyright (c) 2007, 2008
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2007, 2008, 2009
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1990, 1993, 1994
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -51,7 +51,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)col.c	8.5 (Berkeley) 5/4/95");
-__RCSID("$MirOS: src/usr.bin/col/col.c,v 1.11 2007/07/05 23:09:39 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/col/col.c,v 1.12 2008/08/02 01:48:08 tg Exp $");
 
 #define	BS	'\b'		/* backspace */
 #define	TAB	'\t'		/* tab */
@@ -198,7 +198,7 @@ main(int argc, char *argv[])
 			clearerr(stdin);
 			ch = 0xFFFD;
 		}
-		if (!iswgraph(ch) && (ch & 0xFF80) != 0xEF80) {
+		if (!iswgraph(ch) && !iswoctet(ch)) {
 			lastc_col = -1;
 			switch (ch) {
 			case BS:		/* can't go back further */
