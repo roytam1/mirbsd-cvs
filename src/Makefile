@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.85 2006/11/17 12:37:04 tg Exp $
+# $MirOS: src/Makefile,v 1.86 2006/11/17 13:17:41 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -194,6 +194,13 @@ _do-dist:
 		 ${SUDO} rm -rf ${HOME}; \
 		 exit 1; }
 .  endif
+.endif
+.ifndef QUICK_DIST
+	@c='${CVSROOT}'; [[ $$c = *@(@)*@(:/)* || -e $$c/CVSROOT/config ]] \
+	    || { print 'To build a full release CVSROOT must point to the'; \
+		 print 'locally mounted MirOS /cvs or a remote repository'; \
+		 ${SUDO} rm -rf ${HOME}; \
+		 exit 1; }
 .endif
 	@echo Initialising sudo as ${SUDO:Q}
 	${SUDO} true
