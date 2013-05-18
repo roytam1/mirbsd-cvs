@@ -1,10 +1,10 @@
-# $MirOS: ports/graphics/imlib/Makefile,v 1.7 2006/06/25 02:46:31 tg Exp $
+# $MirOS: ports/graphics/imlib/Makefile,v 1.8 2006/09/14 00:09:55 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2003/11/14 23:52:42 brad Exp $
 # $FreeBSD: Makefile,v 1.45 1999/03/09 01:08:57 nectar Exp $
 
-COMMENT=			image manipulation library for X11
+COMMENT=		image manipulation library for X11
 DISTNAME=		imlib-1.9.15
-PKGNAME=		${DISTNAME}-2
+PKGNAME=		${DISTNAME}-3
 CATEGORIES=		graphics devel
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/imlib/1.9/}
 HOMEPAGE=		http://freshmeat.net/projects/imlib/
@@ -23,6 +23,7 @@ PERMIT_DISTFILES_FTP=	Yes
 VMEM_WARNING=		Yes
 USE_X11=		Yes
 USE_GMAKE=		Yes
+MODULES+=		devel/pkgconfig
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
