@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.24 2006/08/26 22:46:43 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.25 2006/08/26 23:20:22 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -137,34 +137,37 @@
 #define	__extension__
 #endif
 
-#ifndef __IDSTRING
-#ifdef lint
-#define	__IDSTRING(prefix, string)				\
-	static const char __LINTED__ ## prefix [] = (string)
-#elif defined(__ELF__) && defined(__GNUC__)
-#define	__IDSTRING(prefix, string)				\
+#undef __IDSTRING
+#undef __IDSTRING_CONCAT
+#undef __IDSTRING_EXPAND
+#undef __COPYRIGHT
+#undef __KERNEL_RCSID
+#undef __RCSID
+#undef __SCCSID
+#if defined(__ELF__) && defined(__GNUC__)
+#define __IDSTRING(prefix, string)				\
 	__asm__(".section .comment"				\
-	"\n	.ascii	\"" #prefix ": \""			\
+	"\n	.ascii	\"@(\"\"#)" #prefix ": \""		\
 	"\n	.asciz	\"" string "\""				\
 	"\n	.previous")
 #else
-#define	__IDSTRING(prefix, string)				\
-	static const char __ ## prefix []			\
-	    __attribute__((used)) = (string)
+#define __IDSTRING_CONCAT(l,p)		__LINTED__ ## l ## _ ## p
+#define __IDSTRING_EXPAND(l,p)		__IDSTRING_CONCAT(l,p)
+#define __IDSTRING(prefix, string)				\
+	static const char __IDSTRING_EXPAND(__LINE__,prefix) []	\
+	    __attribute__((used)) = "@(""#)" #prefix ": " string
 #endif
-#endif
-#ifndef __KERNEL_RCSID
+#define __COPYRIGHT(x)		__IDSTRING(copyright,x)
 #ifdef lint
 #define	__KERNEL_RCSID(n,x)	__IDSTRING(rcsid_ ## n,x)
 #else
 #define	__KERNEL_RCSID(n,x)	/* nothing */
 #endif
-#endif
-#ifndef __RCSID
 #define	__RCSID(x)		__IDSTRING(rcsid,x)
-#endif
-#ifndef __SCCSID
 #define	__SCCSID(x)		__IDSTRING(sccsid,x)
+
+#ifndef _DIAGASSERT
+#define _DIAGASSERT(x)		/* nothing */
 #endif
 
 /* Additions */
