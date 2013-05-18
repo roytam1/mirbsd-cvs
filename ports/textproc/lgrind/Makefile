@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.12 2004/04/11 19:12:24 sturm Exp $
 
-COMMENT=			LaTeX vgrind(1) look-alike
+COMMENT=	LaTeX vgrind(1) look-alike
 
 CATEGORIES=	textproc devel print
 
@@ -32,8 +33,8 @@ MAKE_FLAGS=	BASEDIR=${PREFIX} \
 		CC='${CC}' CFLAGS='${CFLAGS}'
 FAKE_FLAGS=	BASEDIR=${WRKINST}${PREFIX}
 
-BUILD_DEPENDS=	:teTeX_base-*:print/teTeX/base
-RUN_DEPENDS=	${BUILD_DEPENDS}
+B_R_DEPENDS+=	:teTeX_base-*:print/teTeX/base
+USE_CXX=	Yes # depends on teTeX, which uses CXX
 
 TEXMF=		${PREFIX}/share/texmf-local
 
