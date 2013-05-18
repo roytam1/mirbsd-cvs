@@ -37,7 +37,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1991, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)init.c	8.2 (Berkeley) 4/28/95");
-__RCSID("$MirOS: src/sbin/init/init.c,v 1.2 2011/02/19 00:53:19 tg Exp $");
+__RCSID("$MirOS: src/sbin/init/init.c,v 1.3 2011/02/19 01:08:34 tg Exp $");
 
 #include <sys/sysctl.h>
 #include <sys/wait.h>
@@ -631,6 +631,8 @@ single_user(void)
 		}
 	} while (wpid != pid && !requested_transition);
 
+	arc4random_stir();
+
 	if (requested_transition)
 		return (state_func_t) requested_transition;
 
@@ -718,6 +720,8 @@ runcom(void)
 			wpid = -1;
 		}
 	} while (wpid != pid);
+
+	arc4random_stir();
 
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGTERM &&
 	    requested_transition == catatonia) {
@@ -1345,6 +1349,7 @@ nice_death(void)
 	}
 
 	arc4random_stir();
+
 	for (i = 0; i < 3; ++i) {
 		if (kill(-1, death_sigs[i]) == -1 && errno == ESRCH)
 			goto die;
