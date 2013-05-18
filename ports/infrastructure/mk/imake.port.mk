@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/imake.port.mk,v 1.5 2005/10/16 11:01:25 bsiegert Exp $
+# $MirOS: ports/infrastructure/mk/imake.port.mk,v 1.6 2005/12/15 01:24:43 tg Exp $
 # $OpenBSD: imake.port.mk,v 1.3 2003/07/28 17:17:05 sturm Exp $
 
 # XXX
@@ -8,6 +8,7 @@
 INSTALL_TARGET+=	install.man
 .endif
 
+USE_X11=		Yes
 XMKMF?=			xmkmf -a
 XMKMF+=			-DPorts
 EXTRA_XAKE_FLAGS+=	CC=${CC:Q} COPTS=${COPTS:Q} CPPFLAGS=${CPPFLAGS:Q}
