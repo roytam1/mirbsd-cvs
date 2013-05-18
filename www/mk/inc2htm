@@ -1,4 +1,4 @@
-# $MirOS: www/mk/inc2htm,v 1.7 2008/02/07 19:59:27 bsiegert Exp $
+# $MirOS: www/mk/inc2htm,v 1.8 2008/04/12 21:15:58 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -24,7 +24,7 @@ function output {
 	efe="${rpath}${name}_${eid}.htm#$eid"
 	title="${e_date[ent]}${e_author[ent]+ by }${e_author[ent]}"
 	subtitle=
-	if [[ ${e_language[ent]} = +([A-Za-z-]) ]]; then
+	if [[ ${e_language[ent]} = +([A-Za-z0-9-]) ]]; then
 		xmllang=" xml:lang=\"${e_language[ent]}\""
 	else
 		xmllang=
