@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.37 2008/12/04 12:40:53 tg Exp $
+# $MirOS: www/Makefile,v 1.38 2008/12/04 13:45:45 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -36,6 +36,7 @@ SRCS+=		oldnews.hts
 SRCS+=		ports.hts
 SRCS+=		projects.hts
 SRCS+=		rss.hts
+TAGCLOUD=	mksh
 WLOGS=		9 10
 
 # legacy content
@@ -63,6 +64,7 @@ CLEANFILES+=	${SRCS:M*.hts:S/hts$/htm~/}
 
 DEPSRCS+=	${SRCS:S,^,src/,}
 INCSRCS+=	${WLOGS:S/^/wlog-/}
+INCSRCS+=	${TAGCLOUD:S/^/tag_/}
 
 .for _i in ${INCSRCS}
 DEPSRCS+=	data/${_i}.cfg
