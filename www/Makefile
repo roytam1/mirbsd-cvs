@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.48 2009/02/16 21:42:11 tg Exp $
+# $MirOS: www/Makefile,v 1.49 2009/02/16 21:48:34 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -37,7 +37,7 @@ SRCS+=		ports.hts
 SRCS+=		projects.hts
 SRCS+=		rss.hts
 SRCS+=		tags.hts
-CLEANFILES+=	tags.out
+CLEANFILES+=	tags.lst tags.out
 TAGCLOUD+=	event
 TAGCLOUD+=	geocache
 TAGCLOUD+=	mksh
@@ -173,6 +173,6 @@ lazy: .PHONY
 	cd ${.CURDIR} && make obj && make depend && \
 	    make && make _reinstall && exec make rs-eurynome rs-heph
 	@echo === TAGS USED/UNUSED/ACCOUNTED FOR ==; cat stamp_tag_* | \
-	    sort -u | comm - tags.out
+	    sort -u | comm - tags.out | tee tags.lst
 
 .include <bsd.obj.mk>
