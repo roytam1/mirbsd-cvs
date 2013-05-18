@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-gcc.sh,v 1.9 2006/06/11 00:24:21 tg Exp $
+# $MirOS: src/scripts/xbuild-gcc.sh,v 1.10 2006/06/11 00:48:35 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -44,6 +44,7 @@ if [[ ! -s $CROSSDIR/T_BASEENV ]]; then
 fi
 
 . $CROSSDIR/T_BASEENV
+export NOMAN=yes
 
 if [[ -z $TARGET ]]; then
 	print -u2 No target given.
@@ -86,6 +87,8 @@ set -x
 	NOPIC=Yes \
 	_CROSSBUILD=defined \
 	all install )
+
+cp $CROSSDIR/host-tools/lib/*.o $CROSSDIR/usr/lib/
 
 set +x
 print
