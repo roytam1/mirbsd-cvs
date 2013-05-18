@@ -1008,12 +1008,9 @@ expand(const char *cp,	/* input word */
 					}
 					break;
 				}
-			else {
+			else
 				/* undo temporary */
 				quote &= ~2;
-				if (f & DOKEEPQCHAR)
-					*dp++ = QCHAR;
-			}
 
 			if (make_magic) {
 				make_magic = false;
