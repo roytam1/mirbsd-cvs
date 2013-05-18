@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.14 2006/02/20 20:56:08 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.15 2006/02/20 21:06:43 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -107,13 +107,19 @@ if [[ -f $PKG_DBDIR/$OLDPKGS/+REQUIRED_BY ]] ; then
 	mv -f $PKG_DBDIR/$OLDPKGS/+REQUIRED_BY $TMPDIR
 fi
 
+if grep -qi '^@comment upgrade-no-scripts' $TMPDIR/+CONTENTS; then
+	fd=-D
+	fa=-I
+else
+	fd=
+	fa=
+fi
+
 if grep -qi '^@option base-package' $TMPDIR/+CONTENTS; then
 	print -u2 "$me: '$OLDPKGS' is a base package, unregistering only"
-	pkg_delete -DU $OLDPKGS && pkg_add -INq "$npkg"
-elif grep -qi '^@comment upgrade-no-scripts' $TMPDIR/+CONTENTS; then
-	pkg_delete -D $OLDPKGS && pkg_add -I "$npkg"
+	pkg_delete $fd -U $OLDPKGS && pkg_add $fa -Nq "$npkg"
 else
-	pkg_delete $OLDPKGS && pkg_add "$npkg"
+	pkg_delete $fd $OLDPKGS && pkg_add $fa "$npkg"
 fi
 
 if [[ -f $TMPDIR/+REQUIRED_BY && -d $PKG_DBDIR/$PKGNAME ]] ; then
