@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/iso/Makefile,v 1.13 2006/04/06 21:59:22 tg Exp $
+# $MirOS: src/distrib/i386/iso/Makefile,v 1.14 2006/04/06 21:59:59 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2003/03/04 20:24:49 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -45,13 +45,13 @@ generate-image:
 	    -V "MirOS #${OSrev} BSD/${MACHINE} boot-only CD" \
 	    -volset "$$(uname -slm) Setup" -sysid "MirOSBSD" \
 	    -no-emul-boot -boot-load-size 4 -boot-info-table \
-	    -pad -o ${CDROM} workdir
+	    -pad -o ${CDROM} workdir 2>&1 | tee mkisofs.log
 
 install:
 	cp ${CDROM} ${DESTDIR}/snapshot/
 
 clean cleandir cleannobsd:
-	-rm -rf ${CDROM} workdir
+	-rm -rf ${CDROM} mkisofs.log workdir
 
 burn-cdrw: burn-cdrw-clean burn-cdr
 

@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.20 2006/04/07 12:41:43 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.21 2006/04/07 23:29:01 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -80,7 +80,7 @@ makeimg: bsd.gz
 	    -V "MirOS #${OSrev} BSD/${MACHINE} Live CD" \
 	    -volset "$$(uname -slm) Live" -sysid "MirOSBSD" \
 	    -no-emul-boot -boot-load-size 4 -boot-info-table \
-	    -pad -o ${CDROM} workdir 2>&1 | tee makeimg.log
+	    -pad -o ${CDROM} workdir 2>&1 | tee mkisofs.log
 
 rdsetroot:	${.CURDIR}/../../common/elfrdsetroot.c
 	${HOSTCC} ${HOSTCFLAGS} -DDEBUG -o $@ ${.ALLSRC}
@@ -92,7 +92,7 @@ unconfig:
 .PHONY: addcontrib gendev it makeimg nukefiles prepimg unconfig unpack
 
 clean cleandir cleannobsd:
-	-rm -f ${CDROM} bsd{,.gz} makeimg.log mr.fs rdsetroot
+	-rm -f ${CDROM} bsd{,.gz} mkisofs.log mr.fs rdsetroot
 	-rm -rf tempdir tmpmnt
 	-${SUDO} rm -rf workdir
 
