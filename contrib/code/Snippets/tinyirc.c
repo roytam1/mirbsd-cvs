@@ -18,14 +18,13 @@
 #else
 #define RELEASE_OS	"unknown OS"
 #endif
-#define RELEASE_VER	"TinyIRC 20081220"
+#define RELEASE_VER	"TinyIRC 20081229"
 #define RELEASE_L	RELEASE_VER " (" RELEASE_OS ") MirOS-contrib"
 #define RELEASE_S	RELEASE_VER " MirOS"
-/* tinyirc 1.0
-
-   TinyIRC Alpha Release
-   Copyright (C) 1994 Nathan I. Laredo
-   Copyright (c) 1999-2008 Thorsten Glaser
+/*-
+   TinyIRC – MirOS Fork
+   Copyright (C) 1994 Nathan I. Laredo <laredo@gnu.org>
+   Copyright (c) 1999-2008 Thorsten Glaser <tg@mirbsd.org>
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License Version 1
@@ -44,10 +43,6 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-   Send your comments and all your spare pocket change to
-   laredo@gnu.ai.mit.edu (Nathan Laredo) or to 1604 Lilac Lane,
-   Plano, TX 75074, USA.  Any donations are welcome.
-
 
    Please visit the MirBSD project pages
    at http://mirbsd.de/ or http://www.mirbsd.org/
@@ -62,6 +57,7 @@
 #include <netinet/in.h>
 #include <ctype.h>
 #include <curses.h>
+#include <errno.h>
 #include <fcntl.h>
 #include <netdb.h>
 #include <pwd.h>
@@ -80,7 +76,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.30 2008/12/29 22:07:07 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.31 2008/12/29 22:12:42 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -105,7 +101,7 @@ int sockfd, sok = 1, stdinfd, stdoutfd, histline, dumb = 0,
     maxcol, maxlin, column;
 char *linein, lineout[LINELEN], *history[HISTLEN], localhost[64],
 *tok_in[256], *tok_out[256], *tmp, serverdata[512], termcap[1024],
-*ptr, *term, *fromhost, IRCNAME[10], inputbuf[512], beenden = 0;
+*ptr, *term, *fromhost, IRCNAME[16], inputbuf[512], beenden = 0;
 char bp[4096], *cap_cm, *cap_cs, *cap_ce, *cap_so, *cap_se, *cap_dc;
 #define NLASTCHAN 12
 char *lastchans[NLASTCHAN];
@@ -343,7 +339,7 @@ static int donick(void)
 {
     if (strcmp(tok_in[0], IRCNAME) == 0) {
 	wasdate = 0;
-	strlcpy(IRCNAME, tok_in[2], 10);
+	strlcpy(IRCNAME, tok_in[2], sizeof (IRCNAME));
     }
     printf("*** %s is now known as %s", tok_in[0], tok_in[2]);
     return 0;
@@ -510,7 +506,7 @@ int donumeric(int num)
 	resetty();
 	tmp = IRCNAME;
 	while ((ch = getchar()) != '\n')
-	    if (strlen(IRCNAME) < 9)
+	    if (strlen(IRCNAME) < sizeof (IRCNAME) - 1)
 		*(tmp++) = ch;
         *tmp = '\0';
 	wasdate = 0;
@@ -1072,8 +1068,9 @@ main(int argc, char *argv[])
 	ircusername = ircusername ? ircusername : userinfo->pw_name;
 	ircgecosname = ircgecosname ? ircgecosname : userinfo->pw_gecos;
     }
-    strlcpy(hostname, DEFAULTSERVER, 64);
-    strlcpy(IRCNAME, getenv("IRCNICK") ? : ircusername, sizeof (IRCNAME));
+    strlcpy(hostname, DEFAULTSERVER, sizeof (hostname));
+    tmp = getenv("IRCNICK");
+    strlcpy(IRCNAME, tmp ? tmp : ircusername, sizeof (IRCNAME));
     if (argc > 1) {
 	for (i = 1; i < argc; i++)
 	    if (argv[i][0] == '-') {
@@ -1085,18 +1082,18 @@ main(int argc, char *argv[])
 		    exit(1);
 		}
 	    } else if (strchr(argv[i], '.')) {
-		strlcpy(hostname, argv[i], 64);
+		strlcpy(hostname, argv[i], sizeof (hostname));
 	    } else if (atoi(argv[i]) > 255) {
 		IRCPORT = atoi(argv[i]);
 	    } else
-		strncpy(IRCNAME, argv[i], sizeof(IRCNAME));
+		strlcpy(IRCNAME, argv[i], sizeof (IRCNAME));
     }
     printf("*** trying port %d of %s\n\n", IRCPORT, hostname);
     if ((sockfd = makeconnect(hostname)) < 0) {
 	fprintf(stderr, "*** %s connection refused, aborting\n", hostname);
 	exit(0);
     }
-    gethostname(localhost, 64);
+    gethostname(localhost, sizeof (hostname));
     snprintf(lineout, LINELEN, "USER %s %s %s :%s\n", ircusername,
 	localhost, hostname, ircgecosname);
     sendline();
