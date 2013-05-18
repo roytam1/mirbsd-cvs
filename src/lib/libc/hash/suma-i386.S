@@ -23,6 +23,15 @@
  */
 
 #ifdef _LIBMIRMAKE
+#ifdef __ELF__
+#define _C_LABEL(name)		name
+#else
+#ifdef __STDC__
+#define _C_LABEL(name)		_ ## name
+#else
+#define _C_LABEL(name)		_/**/name
+#endif
+#endif
 #ifndef _ALIGN_TEXT
 #define _ALIGN_TEXT		.p2align 2, 0x90
 #endif
@@ -39,7 +48,7 @@
 #include <machine/asm.h>
 #endif
 
-RCSID("$MirOS: src/lib/libc/hash/suma-i386.S,v 1.1 2007/05/07 15:21:18 tg Exp $")
+RCSID("$MirOS: src/lib/libc/hash/suma-i386.S,v 1.2 2008/04/06 23:42:43 tg Exp $")
 
 	.intel_syntax noprefix
 	.text
