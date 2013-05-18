@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.8 2007/06/23 22:38:01 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.9 2007/06/23 22:39:45 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.8 2007/06/23 22:38:01 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.9 2007/06/23 22:39:45 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R29</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -656,6 +656,7 @@ mws_content <<'EOF'
  <tt>traverse</tt>.</li>
 <li>for a b in …; do (like make(1) does)</li>
 <li>${foo//bar/baz/g} ${foo:2:3}</li>
+<li>${foo:S/bar/baz/g} ${foo:C/bar/baz/x}</li>
 <li>A sensible website</li>
 <li>Build on more platforms</li>
 <li>Build with platforms' native tools</li>
