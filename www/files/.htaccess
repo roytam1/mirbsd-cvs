@@ -1,16 +1,20 @@
-# $MirOS: www/files/.htaccess,v 1.4 2007/06/08 23:04:15 tg Exp $
+# $MirOS: www/files/.htaccess,v 1.1 2007/06/09 23:29:49 tg Exp $
 
 Options ExecCGI Indexes SymLinksIfOwnerMatch
 IndexOptions -FancyIndexing
 AddHandler cgi-script .cgi
 
-# redirections
-RedirectMatch 301 ^(/man[0-9].*$) /cman$1
-RedirectMatch 301 ^(/manINFO.*$) /cman$1
-RedirectMatch 301 ^(/manPAPERS.*$) /cman$1
-RedirectMatch 301 ^(/manPSD.*$) /cman$1
-RedirectMatch 301 ^(/manSMM.*$) /cman$1
-RedirectMatch 301 ^(/manUSD.*$) /cman$1
+# redirections for HTML documentation
+RedirectMatch 301 ^/cman/(.*\.htm$) /htman/i386/$1
+RedirectMatch 301 ^/cman/(.*$) /htman/i386/$1.htm
+RedirectMatch 301 ^/man/(.*)\.([0-9]|INFO|PAPERS|PSD|SMM|USD)$ /htman/i386/man$2/$1.htm
+RedirectMatch 301 ^/man(i386|sparc)/(.*)\.([0-9]|INFO|PAPERS|PSD|SMM|USD)$ /htman/$1/man$3/$2.htm
+RedirectMatch 301 ^/man(i386|sparc)/man(.*\.htm$) /htman/$1/man$2
+RedirectMatch 301 ^/man(i386|sparc)/man(.*$) /htman/$1/man$2.htm
+RedirectMatch 301 ^/man(i386|sparc)/(.*\.htm$) /htman/$1/man$2
+RedirectMatch 301 ^/man(i386|sparc)/(.*$) /htman/$1/man$2.htm
+RedirectMatch 301 ^/man([0-9]|INFO|PAPERS|PSD|SMM|USD)/(.*\.htm$) /htman/i386/man$1/$2
+RedirectMatch 301 ^/man([0-9]|INFO|PAPERS|PSD|SMM|USD)/(.*$) /htman/i386/man$1/$2.htm
 
 # file types
 AddType 'text/html; charset=utf-8' htm
