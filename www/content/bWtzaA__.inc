@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.111 2007/06/04 22:03:18 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.112 2007/06/05 21:52:10 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -103,6 +103,13 @@
  <li>Optimise signal handling and detection; enable compilers whose
   præprocessor doesn't have <tt>-dD</tt> to generate list of signals</li>
  <li>Optimise mirtoconf meta-checks for persistent history etc.</li>
+ <li>Fix a bug preventing manual page generation on Solaris</li>
+ <li>Add support for the Intel® C Compiler and quieten it a little; fix a few
+  minor buglets (mostly type conversion) its too verbose warnings show, as
+  well as some errno ab-/mis-use</li>
+ <li>Remove support for honouring the <tt>CPP</tt> environment variable;
+  <tt>$CC -E -</tt> is simply used instead in the places where <tt>$CPP</tt>
+  was used previously, because that was used in other places already</li>
 </ul>
 <p>Please use mksh R29f because of below modifications:</p><ul>
  <li>Fix detection of function prototypes (data declaractions were ok)</li>
