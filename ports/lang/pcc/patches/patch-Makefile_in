@@ -1,11 +1,11 @@
-$MirOS: ports/lang/pcc/patches/patch-Makefile_in,v 1.1 2008/10/28 12:00:46 tg Exp $
+$MirOS: ports/lang/pcc/patches/patch-Makefile_in,v 1.2 2011/04/22 13:23:09 tg Exp $
 
 	• Do *not* name targets after directories, files,
 	  etc. is a lession people OUGHT to have learned.
 	⇒ Rewritten build system, submitted upstream.
 
 --- Makefile.in.orig	Fri Jul 18 14:00:15 2008
-+++ Makefile.in	Fri Apr 22 13:04:18 2011
++++ Makefile.in	Fri Apr 22 14:16:02 2011
 @@ -12,23 +12,25 @@ CPPFLAGS=@CPPFLAGS@
  YACC=@YACC@
  LEX=@LEX@
@@ -20,7 +20,7 @@ $MirOS: ports/lang/pcc/patches/patch-Makefile_in,v 1.1 2008/10/28 12:00:46 tg Ex
 +		_nextdir_=$${_thisdir_+$$_thisdir_/}$$subdir; \
 +		echo "===> $$_nextdir_"; \
 +		(_thisdir_=$$_nextdir_; export _thisdir_; \
-+		    cd $$subdir && $(MAKE) $(MFLAGS) $@); \
++		    cd $$subdir && $(MAKE) $(MFLAGS) $@) || exit $$?; \
 +		echo "<=== $$_nextdir_"; \
 +	done
  
@@ -37,7 +37,7 @@ $MirOS: ports/lang/pcc/patches/patch-Makefile_in,v 1.1 2008/10/28 12:00:46 tg Ex
 +		_nextdir_=$${_thisdir_+$$_thisdir_/}$$subdir; \
 +		echo "===> $$_nextdir_"; \
 +		(_thisdir_=$$_nextdir_; export _thisdir_; \
-+		    cd $$subdir && $(MAKE) $(MFLAGS) $@); \
++		    cd $$subdir && $(MAKE) $(MFLAGS) $@) || exit $$?; \
 +		echo "<=== $$_nextdir_"; \
 +	done
  	/bin/rm -rf Makefile config.log stamp-h1 config.status \
