@@ -1,8 +1,8 @@
-# $MirOS: src/scripts/roff2htm,v 1.44 2007/02/19 18:05:05 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.45 2007/08/03 22:55:05 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007
-#	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
+#	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
 # Original version for ekkoBSD by:
 # Copyright (c) 2004
 #	Stephen Paskaluk <sap@mirbsd.org>
@@ -116,9 +116,10 @@ function output_header {
 
 function output_footer {
 	print '<hr /><p style="font-size:xx-small;">Generated on' $gendate 'by
- $MirOS: src/scripts/roff2htm,v 1.44 2007/02/19 18:05:05 tg Exp $</p>
-<p>These manual pages are copyrighted by their respective writers; their
- source is available at our <a href="http://cvs.mirbsd.de/">CVSweb</a>.
+ $MirOS: src/scripts/roff2htm,v 1.45 2007/08/03 22:55:05 tg Exp $</p>
+<p>These manual pages are <a href="../man7/BSD-Licence.htm">copyrighted</a>
+ by their respective writers; their source is available at our <a
+ href="http://cvs.mirbsd.de/">CVSweb</a>.
  The rest is Copyright © 2002-2007 <a href="http://www.mirbsd.org/">The
  MirOS Project</a>, Germany. <i style="font-size:3pt;"><br />
  This product includes material provided by Thorsten Glaser.</i></p>
