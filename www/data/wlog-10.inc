@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.267 2009/12/27 17:45:40 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.268 2009/12/27 19:07:34 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5813,9 +5813,14 @@ Tag: debian
  will need to get up early tomorrow for work, so I am not applying/fixing
  them right now. (bsiegert@ and gecko2@ however are enjoying themselves at
  26C3, see their wlog entries.)</p>
-<p>Note that all of today’s fixes will not make it into the next snapshot
- already, since it’s built (i386) and building X11 already (sparc). On the
- other hand, the next bunch of WTF *.deb files <em>will</em> have them. I
- also need to fix <strong>makefs</strong> upstream for Hurd… and continue
- the T&amp;S questionnaire… *sigh*</p>
+<p>Note that all of today’s fixes will not make it into the next MirBSD
+ snapshot already, since it’s built (i386) and building X11 already (sparc).
+ On the other hand, the next bunch of WTF *.deb files <em>will</em> have
+ them. I also need to fix <strong>makefs</strong> upstream for Hurd… and
+ continue the T&amp;S questionnaire… *sigh*</p>
+<p><strong>Update</strong>: I suppose this is my “Hello, Plänet Debian!”
+ posting (thanks aptituz!)… well, my packages in the archive were already
+ lintian clean, in case someone wonders (I did recheck with 2.3.0 though).
+ My point was, why not use checking tools from one “universe” for another
+ one, viceque versa? (Similar to synergy effects from knowledge.)</p>
 ----
