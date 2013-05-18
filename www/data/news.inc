@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.86 2008/11/11 01:53:56 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.87 2008/11/14 15:58:57 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1150,4 +1150,32 @@ Date: 14.11.2008
  done this step. It would be the first approved “copycenter” (as per Marshall
  Kirk McKusick’s definition) style licence with EU jurisdiction in mind while
  remaining generally usable.</p>
+----
+Title: pcc cpp imported, Reiser CCCP dropped
+Date: 18.11.2008 21:30
+
+<p>The C Præprocessor, cpp(1), in MirOS-current has changed.</p>
+<p><tt>/usr/bin/cpp</tt> is henceforth deprecated in MirOS-current as well as
+ in MirOS-stable; it’s a shell script (overhead!) to call either mcpp(1) or
+ Reiser CCCP. It will be removed in MirOS-current ASAP.</p>
+<p><tt>/usr/bin/mcpp</tt> calls GNU cpp directly. Its manual page used to be
+ called cpp(1) and is now called mcpp(1). Since we are going towards a multi
+ compiler system, people are expected to use “${CC} -E” as C Præprocessor in
+ the future, instead of relying on an external cpp binary, when compiling. A
+ cpp binary will still be provided for the X(7) Windowing System and similar
+ uses. <tt>/usr/bin/mcpp</tt> will be removed some time before MirOS #11</p>
+<p><tt>/usr/libexec/cpp</tt> used to be Reiser CCCP without a manual page.
+ It is now pcc cpp(1) with a manual page.</p>
+<p>ahoka@ came up with the idea of using the (much faster) pcc cpp over the
+ (rather slow) GNU cpp for purposes like Xresources, xdm configuration files,
+ etc. Reiser CCCP could be used too, but it’s lacking in terms of standards
+ and features. However, pcc cpp is under the Caldera licence, and thus, the
+ following text must be reproduced in this announcement. (It’s still much
+ more free than GNU cpp.)</p>
+<p style="font-size:small;">This product includes software developed or
+ owned by Caldera International, Inc.</p>
+<p>Technical issues: pcc cpp uses getopt(3) and, as such, has a command line
+ syntax which is <em>totally different</em> from the CPP standard. It also
+ pre-defines neither <em>any</em> macros nor include paths. Be warned, and
+ expect some breakage until everything is sorted out.</p>
 ----
