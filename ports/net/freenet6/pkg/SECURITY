@@ -1,5 +1,0 @@
-$MirOS$
-
-All the instances of sprintg(), strcat() and strcpy() have been cleaned, whether safe or unsafe.
-
-There are many potential security problems here, noteworthy is the weak choice of random values in DIGEST-MD5.  More patches will be coming.

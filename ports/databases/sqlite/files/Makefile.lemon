@@ -1,8 +1,0 @@
-# $MirOS: ports/databases/sqlite/files/Makefile.lemon,v 1.1 2008/02/28 18:27:21 tg Exp $
-
-PROG=		lemon
-BINDIR=		${BSD_PREFIX}/bin
-
-CPPFLAGS+=	-DLEMPAR_PATH=\"${BSD_PREFIX:Q}/share/lemon/lempar.c\"
-
-.include <bsd.prog.mk>
