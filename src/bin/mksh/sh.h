@@ -1149,7 +1149,7 @@ struct op {
 #define CHAR	1	/* unquoted character */
 #define QCHAR	2	/* quoted character */
 #define COMSUB	3	/* $() substitution (0 terminated) */
-#define EXPRSUB	4	/* $(()) substitution (EOS terminated wdstring) */
+#define EXPRSUB	4	/* $(()) substitution (0 terminated) */
 #define OQUOTE	5	/* opening " or ' */
 #define CQUOTE	6	/* closing " or ' */
 #define OSUBST	7	/* opening ${ subst (followed by { or X) */
