@@ -221,6 +221,7 @@
 ./root/.etc
 ./root/.etc/bin
 ./root/.etc/ssh
+./root/.etc/ssh/known_hosts
 ./root/.profile
 ./var/anoncvs/anoncvs/.hushlogin
 ./var/anoncvs/anoncvs/.plan
