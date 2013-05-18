@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.11 2006/10/16 19:27:50 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.12 2006/10/29 16:49:21 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -97,7 +97,7 @@ addcontrib:
 		exit 1; \
 	fi
 	mkdir -p tempdir
-	cd tempdir; CC=${CC:Q} CFLAGS=${CFLAGS:Q}\ ${COPTS:Q} \
+	cd tempdir; CC=${CC:Q} CFLAGS=${CFLAGS:Q}\ ${COPTS:Q}\ -Ddefutf8 \
 	    ${MKSH} ${BSDSRCDIR}/contrib/code/jupp/configure \
 	    --prefix=/usr --sysconfdir=/etc && \
 	    make && ${SUDO} make install DESTDIR=${WRKDIR:Q}
