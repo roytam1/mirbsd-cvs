@@ -1,5 +1,0 @@
-@comment $MirOS$
-bin/sudoku
-man/cat6/sudoku.0
-share/sudoku/template
-@dirrm share/sudoku

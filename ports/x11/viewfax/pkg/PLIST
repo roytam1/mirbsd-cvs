@@ -1,5 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2002/04/07 01:54:54 naddy Exp $
-bin/viewfax
-lib/X11/viewfax/viewfax.tif
-man/cat1/viewfax.0
-@dirrm lib/X11/viewfax
