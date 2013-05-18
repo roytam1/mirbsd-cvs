@@ -1,6 +1,6 @@
-$MirOS$
---- fortune/datfiles/fortunes2.orig	Thu Feb  3 22:26:16 2005
-+++ fortune/datfiles/fortunes2	Tue Feb 15 16:27:27 2005
+$MirOS: ports/games/bsdgames/patches/patch-fortune_datfiles_fortunes2,v 1.1.7.1 2005/03/18 15:46:07 tg Exp $
+--- fortune/datfiles/fortunes2.orig	Thu Jan  1 00:00:00 1970
++++ fortune/datfiles/fortunes2	Thu Feb 22 21:51:06 2007
 @@ -117,7 +117,7 @@ either.  If you need some help, give us 
  			DELETE A FORTUNE!
  Don't some of these fortunes just drive you nuts?!
@@ -114,7 +114,7 @@ $MirOS$
  %
  	Fred noticed his roommate had a black eye upon returning from a dance.
  "What happened?"  "I was struck by the beauty of the place."
-@@ -1882,10 +1882,10 @@ each other up:
+@@ -1877,10 +1877,10 @@ each other up:
       Bob: Fine.
  		-- Dave Barry
  %
@@ -128,7 +128,7 @@ $MirOS$
  objected.
  	"When I use a word," Humpty Dumpty said, in a rather scornful
  tone, "it means just what I choose it to mean -- neither more nor less."
-@@ -2571,7 +2571,7 @@ Nazareth.
+@@ -2558,7 +2558,7 @@ Nazareth.
  simple, really.  "I didn't, for a long time, but I do now.  You just can't
  hold people, you can't own them.  I mean it's only natural, a natural process
  really.  Meet.  Love.  Part.  Life goes on.  There was never any reason to
@@ -137,7 +137,7 @@ $MirOS$
  those doubt-quotes of Smoky's, heavily indicated.  "I don't hold a grudge.  I
  can't."
  	"You do," Grandfather Trout said.  "And you don't understand."
-@@ -2650,7 +2650,7 @@ singing."
+@@ -2637,7 +2637,7 @@ singing."
  	"Happy birthday to you, happy birthday to you..."
  %
  	On the other hand, the TCP camp also has a phrase for OSI people.
@@ -146,7 +146,7 @@ $MirOS$
  is the Internet philosophy has always been you have extremely bright,
  non-partisan researchers look at a topic, do world-class research, do
  several competing implementations, have a bake-off, determine what works
-@@ -3122,7 +3122,7 @@ know."
+@@ -3109,7 +3109,7 @@ know."
  %
  	"Seven years and six months!"  Humpty Dumpty repeated thoughtfully.
  "An uncomfortable sort of age.  Now if you'd asked MY advice, I'd have
@@ -155,7 +155,7 @@ $MirOS$
  	"I never ask advice about growing,"  Alice said indignantly.
  	"Too proud?"  the other enquired.
  	Alice felt even more indignant at this suggestion.  "I mean,"
-@@ -3262,7 +3262,7 @@ these questions three, ere the other sid
+@@ -3249,7 +3249,7 @@ these questions three, ere the other sid
  	"What is your quest?"
  	"I seek the Holy Grail."
  	"What are four lowercase letters that are not legal flag arguments
@@ -164,7 +164,7 @@ $MirOS$
  	"I, er.... AIIIEEEEEE!"
  %
  	Strange memories on this nervous night in Las Vegas.  Five years later?
-@@ -3565,16 +3565,16 @@ logically experienced citizens."
+@@ -3552,16 +3552,16 @@ logically experienced citizens."
  just a case of "uncontained blade liberation."
  		-- Quarterly Review of Doublespeak (NCTE)
  %
@@ -184,7 +184,7 @@ $MirOS$
  	"Well, what is the song then?" said Alice, who was by this
  time completely bewildered.
  	"I was coming to that," the Knight said.  "The song really is
-@@ -3913,7 +3913,7 @@ country.  We're completely computerized.
+@@ -3900,7 +3900,7 @@ country.  We're completely computerized.
  leads as possible.  We'll tell some twenty-three-year-old loser that his
  real parents can be found at a certain address on the other side of the
  country.  Well, by the time the kid shows up, the family is prepared.  They
@@ -193,7 +193,7 @@ $MirOS$
  yeah, they used to live here... I think they moved out about five years ago.
  I think they went to Iowa, or maybe Idaho.'
  	"Bam, the door shuts in the kid's face and he's back to zero again.
-@@ -3989,7 +3989,7 @@ sing, "Some day my prints will come."
+@@ -3976,7 +3976,7 @@ sing, "Some day my prints will come."
  	A boy spent years collecting postage stamps.  The girl next door bought
  an album too, and started her own collection.  "Dad, she buys everything I've
  bought, and it's taken all the fun out of it for me.  I'm quitting."  "Don't,
@@ -202,7 +202,7 @@ $MirOS$
  	A young girl, Carmen Cohen, was called by her last name by her father,
  and her first name by her mother.  By the time she was ten, didn't know if she
  was Carmen or Cohen.
-@@ -4103,7 +4103,7 @@ White House that's open 24 hours a day. 
+@@ -4090,7 +4090,7 @@ White House that's open 24 hours a day. 
  and by that time of course his wife would have called the cops and reported
  that a bunch of thugs had kidnapped him."
  	"Wouldn't it be a little kinder if you drove about four more blocks
@@ -211,7 +211,7 @@ $MirOS$
  around to the front of the White House?  There's a naked man lying outside
  in the street, bleeding to death...'"
  	"... and we think it's Mr. Colson."
-@@ -4158,7 +4158,7 @@ The New Yorker's comment:
+@@ -4145,7 +4145,7 @@ The New Yorker's comment:
  	"No, we just don't like him."
  	"Oh.  How do they put budgies down anyway?"
  	"Well, it's funny you should be asking that, as I've been reading a
@@ -220,7 +220,7 @@ $MirOS$
  you can either hit them over the head with the book, or shoot them there, just
  above the beak."
  	"Mrs. Conkers flushed hers down the loo."
-@@ -4248,8 +4248,8 @@ questioned as to whether this indicated 
+@@ -4235,8 +4235,8 @@ questioned as to whether this indicated 
  political views.
  	"Well," explained Cotton, "it's like the New Hampshire farmer.  He was
  driving along in his car one day with his wife beside him when his wife said,
@@ -231,7 +231,7 @@ $MirOS$
  	"I ain't moved," added Cotton.  "I found the trend of Government has
  moved farther to the left."
  		-- Bill Adler, "The Washington Wits"
-@@ -4313,7 +4313,7 @@ his assistant and whispered, "Did you ev
+@@ -4300,7 +4300,7 @@ his assistant and whispered, "Did you ev
  	"Why the sea is salt?" whispered back the assistant.  "What do you
  mean?"
  	The director continued: "When I was a little kid, I heard the story of
@@ -240,7 +240,7 @@ $MirOS$
  a moment ago.  It's something like this: Formerly the sea was fresh water and
  salt was rare and expensive.  A miller received from a wizard a wonderful
  machine that just ground salt out of itself all day long.  At first the miller
-@@ -4399,7 +4399,7 @@ There, that ought to patch it.  Dist it 
+@@ -4386,7 +4386,7 @@ There, that ought to patch it.  Dist it 
  	"You have heard me speak of Professor Moriarty?"
  	"The famous scientific criminal, as famous among crooks as --"
  	"My blushes, Watson," Holmes murmured, in a deprecating voice.  "I
@@ -249,7 +249,7 @@ $MirOS$
  		-- A. Conan Doyle, "The Valley of Fear"
  %
  	"You know, it's at times like this when I'm trapped in a Vogon
-@@ -4916,7 +4916,7 @@ hypothesis of an extremely low order of 
+@@ -4903,7 +4903,7 @@ hypothesis of an extremely low order of 
  found and thy program runneth.  And he that was dead came forth...
  		-- John 11:43-44
  %
@@ -258,7 +258,7 @@ $MirOS$
  What's that?  A chartreuse flamethrower?"
  		-- Opus
  %
-@@ -5821,7 +5821,7 @@ inquired, "that the medication the docto
+@@ -5808,7 +5808,7 @@ inquired, "that the medication the docto
  of her life?"
  	She was told that it was.  There was just a moment of silence before
  the woman proceeded bravely on.  "Well, I'm wondering, then, how serious my
@@ -267,7 +267,7 @@ $MirOS$
  %
  A diva who specializes in risque arias is an off-coloratura soprano.
  %
-@@ -5900,7 +5900,7 @@ asked.
+@@ -5887,7 +5887,7 @@ asked.
  masculine."
  	"Unhhh...  Well, why not?"
  	"Because people want a car with a reputation for going when you want
@@ -276,7 +276,7 @@ $MirOS$
  go!'"
  
  	[No, we WON'T explain it; go ask someone who practices an oriental
-@@ -6180,9 +6180,9 @@ I'm doing *great*!  How are you?"
+@@ -6167,9 +6167,9 @@ I'm doing *great*!  How are you?"
  %
  A homeowner's reach should exceed his grasp, or what's a weekend for?
  %
@@ -289,7 +289,7 @@ $MirOS$
  -- So I hit him."
  		-- attributed to Ray Bradbury
  %
-@@ -6542,8 +6542,8 @@ wakes up and gives me hell."
+@@ -6529,8 +6529,8 @@ wakes up and gives me hell."
  	"I make a big racket when I go home," his friend replied.
  	"You do?"
  	"Sure.  I honk the horn, slam the door, turn on all the lights,
@@ -300,7 +300,7 @@ $MirOS$
  	"And what does she say?" his friend asked in disbelief.
  	"She doesn't say anything," his buddy replied.  "She always pretends
  she's asleep."
-@@ -6606,10 +6606,10 @@ A master was asked the question, "What i
+@@ -6593,10 +6593,10 @@ A master was asked the question, "What i
  	"Why do I not see it for myself?"
  	"Because you are thinking of yourself."
  	"What about you: do you see it?"
@@ -314,7 +314,7 @@ $MirOS$
  who is the one that wants to see it?"
  %
  A mathematician, a doctor, and an engineer are walking on the beach and
-@@ -7071,7 +7071,7 @@ Downstairs."  Though Marsh has since gon
+@@ -7058,7 +7058,7 @@ Downstairs."  Though Marsh has since gon
  with Rose she's forever identified.  So much so that she even likes to
  joke about having one named after her, a distinction not without its
  drawbacks.  "I was very flattered when I heard about it, but when I looked
@@ -323,7 +323,7 @@ $MirOS$
  good in beds; better up against a wall.'  I want to tell you that's not
  true.  I'm very good in beds as well."
  %
-@@ -7208,7 +7208,7 @@ enough, when he gets home, the first thi
+@@ -7195,7 +7195,7 @@ enough, when he gets home, the first thi
  "Where's Old Blue?"
  	"Well, Pa," says the boy.  "I was driving on home and Old Blue was
  talking away about this and that when we passed the Buford's farm.  Old Blue,
@@ -332,7 +332,7 @@ $MirOS$
  that your father's been comin' over here and seeing Mrs. Buford all these
  years?'"
  	The father looks at his son -- "You shot that dog, didn't you, boy?"
-@@ -8344,9 +8344,9 @@ Although it is still a truism in industr
+@@ -8331,9 +8331,9 @@ Although it is still a truism in industr
  buying IBM," Bill O'Neil, the chief technology officer at Drexel Burnham
  Lambert, says he knows for a fact that someone has been fired for just that
  reason.  He knows it because he fired the guy.
@@ -344,7 +344,7 @@ $MirOS$
  		-- The Wall Street Journal, December 6, 1989
  %
  Always do right.  This will gratify some people and astonish the rest.
-@@ -8457,7 +8457,7 @@ An actor's a guy who if you ain't talkin
+@@ -8444,7 +8444,7 @@ An actor's a guy who if you ain't talkin
  		-- Marlon Brando
  %
  An Ada exception is when a routine gets
@@ -353,7 +353,7 @@ $MirOS$
  %
  An adequate bootstrap is a contradiction in terms.
  %
-@@ -8806,7 +8806,7 @@ And in the heartbreak years that lie ahe
+@@ -8793,7 +8793,7 @@ And in the heartbreak years that lie ahe
  Be true to yourself and the Grateful Dead.
  		-- Joan Baez
  %
@@ -362,7 +362,7 @@ $MirOS$
  what the dictionary says it means, you go to jail.  No exceptions.
  		-- David Jones
  %
-@@ -9093,7 +9093,7 @@ person, to the right degree, at the righ
+@@ -9080,7 +9080,7 @@ person, to the right degree, at the righ
  and in the right way -- that is not easy.
  		-- Aristotle
  %
@@ -371,7 +371,7 @@ $MirOS$
  first word he speaks. It is a cheap word because it requires no
  explanation, and many men and women have acquired a reputation for
  intelligence who know only this word and have used it in place of
-@@ -10208,7 +10208,7 @@ after they got done, you wanted to be tr
+@@ -10195,7 +10195,7 @@ after they got done, you wanted to be tr
  	"The nurses? The food?" asked Fats, but Bernard shook his head no.
  Fats laughed and said, "Listen , Bernie, you went to the MBH, they did this
  great workup, and when I asked you shy you came to the House of God, all you
@@ -380,7 +380,7 @@ $MirOS$
  why?"
  	"Vhy I come heah?  Vell, said Bernie, "Heah I can complain."
  		-- House of God
-@@ -11441,7 +11441,7 @@ You wait on nature's mischief! Come, thi
+@@ -11428,7 +11428,7 @@ You wait on nature's mischief! Come, thi
  And pall the in the dunnest smoke of hell,
  That my keen knife see not the wound it makes,
  Nor heaven peep through the blanket of the dark,
@@ -389,7 +389,7 @@ $MirOS$
  		-- Lady MacBeth
  %
  Comedy, like Medicine, was never meant to be practiced by the general public.
-@@ -11695,7 +11695,7 @@ CONSULTATION:
+@@ -11682,7 +11682,7 @@ CONSULTATION:
  	Medical term meaning "to share the wealth."
  %
  Contemporary American feminism's simplistic psychology is illustrated by
@@ -398,7 +398,7 @@ $MirOS$
  we ever graduate from the Girl Scouts?  "No" has always been, and always
  will be, part of the dangerous alluring courtship ritual of sex and
  seduction, observable even in the animal kingdom.
-@@ -12319,7 +12319,7 @@ windows by Democrats.
+@@ -12306,7 +12306,7 @@ windows by Democrats.
  Dental health is next to mental health.
  %
  Denver, n:
@@ -407,7 +407,7 @@ $MirOS$
  %
  Depart in pieces, i.e., split.
  %
-@@ -12513,6 +12513,8 @@ an endorsement of Western industrial civ
+@@ -12500,6 +12500,8 @@ an endorsement of Western industrial civ
  %
  Disclose classified information only when a NEED TO KNOW exists.
  %
@@ -416,7 +416,7 @@ $MirOS$
  Disease can be cured; fate is incurable.
  		-- Chinese proverb
  %
-@@ -16842,10 +16844,10 @@ He thinks the Gettysburg Address is wher
+@@ -16829,10 +16831,10 @@ He thinks the Gettysburg Address is wher
  		-- Wanda, "A Fish Called Wanda"
  %
  He thought of Musashi, the Sword Saint, standing in his garden more than
@@ -429,7 +429,7 @@ $MirOS$
  		-- Eric Van Lustbader
  %
  [He] took me into his library and showed me his books, of which he had
-@@ -17461,7 +17463,7 @@ HOGAN'S HEROES DRINKING GAME --
+@@ -17448,7 +17450,7 @@ HOGAN'S HEROES DRINKING GAME --
  -- Sergeant Schultz gives up a secret (two shots if he's bribed with food).
  -- The prisoners listen to the Germans' conversation by a hidden transmitter.
  -- Sergeant Schultz "captures" one of the prisoners after an escape.
@@ -438,7 +438,7 @@ $MirOS$
  -- Carter builds some kind of device (two shots if it's not explosive).
  -- Lebeau wears his apron.
  -- Hogan says "We've got no choice" when the someone claims that the
-@@ -18386,17 +18388,17 @@ I go the way that Providence dictates.
+@@ -18373,17 +18375,17 @@ I go the way that Providence dictates.
  		-- Adolf Hitler
  %
  "I got into an elevator at work and this man followed in after me... I
@@ -463,7 +463,7 @@ $MirOS$
  I'll give it to you straight.  I gave all of the money to my friend Slick,
  and with it he built a nuclear weapon... and I would appreciate it you never
  called me again."
-@@ -18853,11 +18855,11 @@ I know what "custody" [of the children] 
+@@ -18840,11 +18842,11 @@ I know what "custody" [of the children] 
  custody means.  Get even with your old lady.
  		-- Lenny Bruce
  %
@@ -477,16 +477,16 @@ $MirOS$
  		-- Harry Callahan, badge #2211
  %
  I know you believe you understand what you think this fortune says,
-@@ -19208,7 +19210,7 @@ I remember once being on a station platf
+@@ -19195,7 +19197,7 @@ I remember once being on a station platf
  morning.  A black porter was carrying my bags, and as we were waiting for
  the train to come in, he said to me: "Excuse me, Mr. Cooke, I don't want to
  invade your privacy, but I have a bet with a friend of mine.  Who composed
 -the opening theme music of `Omnibus'?  My friend said Virgil Thomson."  I
 +the opening theme music of 'Omnibus'?  My friend said Virgil Thomson."  I
  asked him, "What do you say?" He replied, "I say Aaron Copeland." I said,
- "You're right."  The porter said,  "I knew Thomson doesn't write counterpoint
+ "You're right."  The porter said, "I knew Thomson doesn't write counterpoint
  that way."  I told that to a network president, and he was deeply unimpressed.
-@@ -19496,7 +19498,7 @@ sick and tired.  I'm certainly not!  But
+@@ -19483,7 +19485,7 @@ sick and tired.  I'm certainly not!  But
  that I am!
  		-- Monty Python
  %
@@ -495,7 +495,7 @@ $MirOS$
  "Nonsense, he was obviously referring to all manufacturers of dairy products."
  		-- The Life of Brian
  %
-@@ -19844,7 +19846,7 @@ I went to a Grateful Dead Concert and th
+@@ -19831,7 +19833,7 @@ I went to a Grateful Dead Concert and th
  Great song.
  		-- Fred Reuss
  %
@@ -504,16 +504,16 @@ $MirOS$
  French toast during the Renaissance.
  		-- Stephen Wright
  %
-@@ -22490,7 +22492,7 @@ Have mate's phone bugged.
+@@ -22477,7 +22479,7 @@ Have mate's phone bugged.
  Indecision is the true basis for flexibility.
  %
  Indeed, the first noble truth of Buddhism, usually translated as
 -`all life is suffering,' is more accurately rendered `life is filled
 +'all life is suffering,' is more accurately rendered 'life is filled
  with a sense of pervasive unsatisfactoriness.'
- 		-- M.D. Epstein
+ 		-- M. D. Epstein
  %
-@@ -23571,7 +23573,7 @@ It's difficult to see the picture when y
+@@ -23558,7 +23560,7 @@ It's difficult to see the picture when y
  "It's easier said than done."
  
  ... and if you don't believe it, try proving that it's easier done than
@@ -522,7 +522,7 @@ $MirOS$
  said' than it is done", which really proves that "it's easier said than
  done".
  %
-@@ -24062,7 +24064,7 @@ going to get hit.
+@@ -24049,7 +24051,7 @@ going to get hit.
  Just because the message may never be
  received does not mean it is not worth sending.
  %
@@ -531,7 +531,7 @@ $MirOS$
  are forbidden.  They are less allowed than allowed transitions, if you see
  what I mean.
  		-- From a Part 2 Quantum Mechanics lecture.
-@@ -24074,7 +24076,7 @@ Just because your doctor has a name for 
+@@ -24061,7 +24063,7 @@ Just because your doctor has a name for 
  condition doesn't mean he knows what it is.
  %
  Just close your eyes, tap your heels together three times,
@@ -540,7 +540,7 @@ $MirOS$
  		-- Glynda
  %
  Just give Alice some pencils and she will stay busy for hours.
-@@ -25602,7 +25604,7 @@ MAC user's dynamic debugging list evalua
+@@ -25589,7 +25591,7 @@ MAC user's dynamic debugging list evalua
  %
  "Mach was the greatest intellectual fraud in the last ten years."
  "What about X?"
@@ -549,7 +549,7 @@ $MirOS$
  		;login, 9/1990
  %
  Machine-independent program:
-@@ -27457,7 +27459,7 @@ NEVER swerve to hit a lawyer riding a bi
+@@ -27444,7 +27446,7 @@ NEVER swerve to hit a lawyer riding a bi
  %
  Never tell.  Not if you love your wife ... In fact, if your old lady walks
  in on you, deny it.  Yeah.  Just flat out and she'll believe it: "I'm
@@ -558,7 +558,7 @@ $MirOS$
  On Top Of Me Or I'll Die'.  I didn't know what I was gonna do..."
  		-- Lenny Bruce
  %
-@@ -27616,7 +27618,7 @@ lectures which are really worth the atte
+@@ -27603,7 +27605,7 @@ lectures which are really worth the atte
  No doubt Jack the Ripper excused himself
  on the grounds that it was human nature.
  %
@@ -567,7 +567,7 @@ $MirOS$
  		-- Dr. Who
  %
  No evil can happen to a good man.
-@@ -28118,7 +28120,7 @@ All:   Anton!
+@@ -28105,7 +28107,7 @@ All:   Anton!
  		-- Cheers, The Two Faces of Norm
  
  Woody: What's going on, Mr. Peterson?
@@ -576,7 +576,7 @@ $MirOS$
  		-- Cheers, Call Me, Irresponsible
  
  Sam:  What can I get you, Norm?
-@@ -29498,7 +29500,7 @@ O'Toole's commentary on Murphy's Law:
+@@ -29485,7 +29487,7 @@ O'Toole's commentary on Murphy's Law:
  Ouch!  That felt good!
  		-- Karen Gordon
  %
@@ -585,7 +585,7 @@ $MirOS$
  system, because we can't fix it if it breaks -- nobody can.'"
  
  "TCP/IP is OK if you've got a little informal club, and it doesn't make
-@@ -29602,7 +29604,7 @@ system.
+@@ -29589,7 +29591,7 @@ system.
  Overconfidence breeds error when we take for granted that the game will
  continue on its normal course; when we fail to provide for an unusually
  powerful resource -- a check, a sacrifice, a stalemate.  Afterwards the
@@ -594,7 +594,7 @@ $MirOS$
  move?'
  		-- Fred Reinfeld, "The Complete Chess Course"
  %
-@@ -29822,9 +29824,9 @@ Tom Lasorda's stomach.  Lasorda decided 
+@@ -29809,9 +29811,9 @@ Tom Lasorda's stomach.  Lasorda decided 
  motivational meetings and zeroed in on Guerrero: "How can you play third
  base like that?  You've gotta be thinking about something besides baseball.
  What is it?"
@@ -606,7 +606,7 @@ $MirOS$
  to Sax.'"
  		-- Joe Garagiola, "It's Anybody's Ball Game"
  %
-@@ -29992,7 +29994,7 @@ Periphrasis is the putting of things in 
+@@ -29979,7 +29981,7 @@ Periphrasis is the putting of things in 
  upwards of a figure rather below 10m#." is a periphrasis for The cost may be
  nearly 10m#.  "In Paris there reigns a complete absence of really reliable
  news" is a periphrasis for There is no reliable news in Paris.  "Rarely does
@@ -615,7 +615,7 @@ $MirOS$
  prolonged until quite late in the year's penultimate month" contains a
  periphrasis for November, and another for lingers.  "The answer is in the
  negative" is a periphrasis for No.  "Was made the recipient of" is a
-@@ -31343,7 +31345,7 @@ QOTD:
+@@ -31330,7 +31332,7 @@ QOTD:
  	"I ain't broke, but I'm badly bent."
  %
  QOTD:
@@ -624,7 +624,7 @@ $MirOS$
  %
  QOTD:
  	"I don't think they could put him in a mental hospital.  On the
-@@ -31430,7 +31432,7 @@ QOTD:
+@@ -31417,7 +31419,7 @@ QOTD:
  	"I'll listen to reason when it comes out on CD."
  %
  QOTD:
@@ -633,7 +633,7 @@ $MirOS$
  %
  QOTD:
  	I'm not a nerd -- I'm "socially challenged".
-@@ -31599,7 +31601,7 @@ QOTD:
+@@ -31586,7 +31588,7 @@ QOTD:
  	when I mess things up."
  %
  QOTD:
@@ -642,7 +642,7 @@ $MirOS$
  	"baring your neck."
  %
  QOTD:
-@@ -31930,7 +31932,7 @@ Remember -- only 10% of anything can be 
+@@ -31917,7 +31919,7 @@ Remember -- only 10% of anything can be 
  Remember Darwin; building a better
  mousetrap merely results in smarter mice.
  %
@@ -651,7 +651,7 @@ $MirOS$
  with one, because EVERYONE wants two desserts, but NO ONE wants two
  deserts.
  		-- Miss Oglethorp, Gr. 5, PS. 59
-@@ -34686,7 +34688,7 @@ thing is, so it can't hurt you no more.
+@@ -34673,7 +34675,7 @@ thing is, so it can't hurt you no more.
  		-- R. Bradbury, "The Fog Horn"
  %
  "That's no answer," Job said, "And for someone who's supposed to be
@@ -660,7 +660,7 @@ $MirOS$
  		-- Woody Allen, "Without Feathers"
  %
  That's no moon...
-@@ -36759,7 +36761,7 @@ girl with (apparently) the same basket o
+@@ -36746,7 +36748,7 @@ girl with (apparently) the same basket o
  	"Two weeks ago they were Democratic kittens," he replied, puzzled.
  	"Two weeks ago they had their eyes closed."
  %
@@ -669,7 +669,7 @@ $MirOS$
  for he seems to be passing a critical judgment on them, when he may be
  simply making a limiting statement about himself.
  		-- Sidney Harris
-@@ -37135,7 +37137,7 @@ an ultimatum which demanded that they di
+@@ -37122,7 +37124,7 @@ an ultimatum which demanded that they di
  radical student movements of the Sixties promptly voted itself out of
  existence.  As del Borgo and Margaronis put it, "After much chaotic discussion
  and a confused voice vote, the convention suspended all its other work and
@@ -678,7 +678,7 @@ $MirOS$
  		-- Libertarian Agenda, May 1988
  %
  The most remarkable thing about my mother is that for thirty years she
-@@ -38658,7 +38660,7 @@ conducted them round the choice of bumpe
+@@ -38645,7 +38647,7 @@ conducted them round the choice of bumpe
  he now has 26 thriving branches all over America.  "People like driving
  round in the worst cars available," he said.  Of course they do.
  	"If a driver damages the side of a car and is honest enough to
@@ -687,7 +687,7 @@ $MirOS$
  overlook it.  If they've had a crash and it doesn't involve another vehicle
  we might overlook that too."
  	"Where's the ashtray?" asked on Los Angeles wife, as she settled
-@@ -38850,7 +38852,7 @@ Moral:
+@@ -38837,7 +38839,7 @@ Moral:
  %
  "Then you admit confirming not denying you ever said that?"
  "NO! ... I mean Yes!  WHAT?"
@@ -696,7 +696,7 @@ $MirOS$
  		-- Bloom County
  %
  Theology is an attempt to explain a subject by men who do not understand
-@@ -39606,7 +39608,7 @@ the squaws of the other two hides.
+@@ -39593,7 +39595,7 @@ the squaws of the other two hides.
  There was, it appeared, a mysterious rite of initiation through which,
  in one way or another, almost every member of the team passed.  The term
  that the old hands used for this rite -- West invented the term, not the
@@ -705,7 +705,7 @@ $MirOS$
  to do whatever was necessary for success.  You agreed to forsake, if
  necessary, family, hobbies, and friends -- if you had any of these left
  (and you might not, if you had signed up too many times before).
-@@ -39965,7 +39967,7 @@ They're giving bank robbing a bad name.
+@@ -39952,7 +39954,7 @@ They're giving bank robbing a bad name.
  %
  They're just jealous because they don't have three
  wise men and a virgin in the whole organization.
@@ -714,7 +714,7 @@ $MirOS$
  		ACLU's suit to have a city nativity scene removed.
  %
  They're only trying to make me LOOK paranoid!
-@@ -40266,7 +40268,7 @@ and was lying about twenty feet away.
+@@ -40253,7 +40255,7 @@ and was lying about twenty feet away.
  "Oh no!  My Rolex!  My Rolex!"
  %
  Those lovable Brits department:
@@ -723,7 +723,7 @@ $MirOS$
  %
  Those of you who think you know it all upset those of us who do.
  %
-@@ -40378,7 +40380,7 @@ all appearing on a quiz program, were as
+@@ -40365,7 +40367,7 @@ all appearing on a quiz program, were as
  		service station," said the Missourian.
  	"Wrong."
  	"Old MacDonald had a farm," said the Iowan.
@@ -732,7 +732,7 @@ $MirOS$
  	"Easy," said the Iowan. "E-I-E-I-O."
  %
  Three minutes' thought would suffice to find this out; but thought
-@@ -41260,7 +41262,7 @@ Do.
+@@ -41247,7 +41249,7 @@ Do.
  Or do not.
  There is no try.
  %
@@ -741,7 +741,7 @@ $MirOS$
  %
  Try the Moo Shu Pork.  It is especially good today.
  %
-@@ -43062,6 +43064,8 @@ What fools these morals be!
+@@ -43049,6 +43051,8 @@ What fools these morals be!
  What fools these mortals be.
  		-- Lucius Annaeus Seneca
  %
@@ -750,7 +750,7 @@ $MirOS$
  What goes up must come down.  But don't expect it to come down
  where you can find it.  Murphy's Law applied to Newton's.
  %
-@@ -45198,7 +45202,7 @@ Norm: My ideal weight if I were eleven f
+@@ -45174,7 +45178,7 @@ Norm: My ideal weight if I were eleven f
  		-- Cheers, Bar Wars III: The Return of Tecumseh
  
  Woody: Nice cold beer coming up, Mr. Peterson.
@@ -759,7 +759,7 @@ $MirOS$
  		-- Cheers, Loverboyd
  %
  Woody: Hey, Mr. Peterson, what do you say to a cold one?
-@@ -45229,7 +45233,7 @@ Norm:  Another layer for the winter, Woo
+@@ -45205,7 +45209,7 @@ Norm:  Another layer for the winter, Woo
  Woody: How are you feeling today, Mr. Peterson?
  Norm:  Poor.
  Woody: Oh, I'm sorry to hear that.
@@ -768,7 +768,7 @@ $MirOS$
  		-- Cheers, Strange Bedfellows, Part 3
  
  Woody: Hey, Mr. Peterson, what's the story?
-@@ -46455,7 +46459,7 @@ You know you're in trouble when...
+@@ -46431,7 +46435,7 @@ You know you're in trouble when...
  		her own business.
  (2)	You put your bra on backwards and it fits better.
  (3)	You call Suicide Prevention and they put you on hold.

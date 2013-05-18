@@ -1,6 +1,6 @@
-$MirOS$
---- fortune/datfiles/fortunes.orig	Thu Feb  3 22:23:09 2005
-+++ fortune/datfiles/fortunes	Tue Feb 15 16:27:27 2005
+$MirOS: ports/games/bsdgames/patches/patch-fortune_datfiles_fortunes,v 1.1.7.1 2005/03/18 15:46:07 tg Exp $
+--- fortune/datfiles/fortunes.orig	Thu Jan  1 00:00:00 1970
++++ fortune/datfiles/fortunes	Thu Feb 22 21:51:06 2007
 @@ -1783,7 +1783,7 @@ Ask your boss to reconsider -- it's so d
  for an answer.
  %
@@ -58,7 +58,7 @@ $MirOS$
  %
  Garbage In -- Gospel Out.
 @@ -4858,11 +4858,11 @@ Grandpa Charnock's Law:
- Gravity is a myth:  the Earth sucks.
+ Gravity is a myth: the Earth sucks.
  %
  Gray's Law of Programming:
 -	`_n+1' trivial tasks are expected to be accomplished in the same
@@ -89,7 +89,7 @@ $MirOS$
 +motto is:  'It is very difficult to disprove certain kinds of pain.'"
  		-- Dave Barry, "Pain and Suffering"
  %
- Hier liegt ein Mann ganz obnegleich;
+ Hier liegt ein Mann ganz ohnegleich;
 @@ -5595,7 +5595,7 @@ I am not now, and never have been, a gir
  I am not now, nor have I ever been, a member of the demigodic party.
  		-- Dennis Ritchie

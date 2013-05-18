@@ -1,7 +1,7 @@
-$MirOS$
---- rogue/score.c.orig	Tue Feb 15 17:20:48 2005
-+++ rogue/score.c	Tue Feb 15 17:21:00 2005
-@@ -127,7 +127,7 @@ killed_by(monster, other)
+$MirOS: ports/games/bsdgames/patches/patch-rogue_score_c,v 1.1.7.1 2005/03/18 15:46:07 tg Exp $
+--- rogue/score.c.orig	Thu Jan  1 00:00:00 1970
++++ rogue/score.c	Thu Feb 22 21:51:08 2007
+@@ -125,7 +125,7 @@ killed_by(const object *monster, short o
  	} else {
  		messagef(0, "%s", message_buf);
  	}
@@ -10,7 +10,7 @@ $MirOS$
  	put_scores(monster, other);
  }
  
-@@ -148,8 +148,8 @@ win()
+@@ -146,8 +146,8 @@ win(void)
  	mvaddstr(17, 11, "Congratulations,  you have  been admitted  to  the");
  	mvaddstr(18, 11, "Fighters' Guild.   You return home,  sell all your");
  	mvaddstr(19, 11, "treasures at great profit and retire into comfort.");
@@ -21,7 +21,7 @@ $MirOS$
  	id_all();
  	sell_pack();
  	put_scores((object *) 0, WIN);
-@@ -441,9 +441,9 @@ put_scores(monster, other)
+@@ -428,9 +428,9 @@ put_scores(const object *monster, short 
  		}
  	}
  	refresh();
@@ -33,7 +33,7 @@ $MirOS$
  	}
  	clean_up("");
  }
-@@ -544,7 +544,7 @@ sell_pack()
+@@ -527,7 +527,7 @@ sell_pack(void)
  	if (rogue.gold > MAX_GOLD) {
  		rogue.gold = MAX_GOLD;
  	}
@@ -42,8 +42,8 @@ $MirOS$
  }
  
  int
-@@ -668,6 +668,6 @@ void
- sf_error()
+@@ -645,6 +645,6 @@ void
+ sf_error(void)
  {
  	md_lock(0);
 -	messagef(1, "");

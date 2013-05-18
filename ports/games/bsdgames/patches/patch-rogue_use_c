@@ -1,7 +1,7 @@
-$MirOS$
---- rogue/use.c.orig	Tue Feb 15 17:23:47 2005
-+++ rogue/use.c	Tue Feb 15 17:23:51 2005
-@@ -371,7 +371,7 @@ AGAIN:
+$MirOS: ports/games/bsdgames/patches/patch-rogue_use_c,v 1.1.7.1 2005/03/18 15:46:07 tg Exp $
+--- rogue/use.c.orig	Thu Jan  1 00:00:00 1970
++++ rogue/use.c	Thu Feb 22 21:51:08 2007
+@@ -367,7 +367,7 @@ AGAIN:
  	}
  	if (!(obj = get_letter_object(ch))) {
  		messagef(0, "no such item, try again");
