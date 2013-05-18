@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.26 2007/03/22 17:54:20 tg Exp $
+# $MirOS: ports/Makefile,v 1.27 2007/08/24 14:54:15 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -123,6 +123,17 @@ distfiles-update-locatedb:
 	@PORTSDIR=${.CURDIR} ${SHELL} \
 	    ${.CURDIR}/infrastructure/scripts/distfiles-update-locatedb \
 	    ${DISTFILES_DB}
+
+bulk-build:
+	if [[ ! -e ${.CURDIR}/Bulk ]]; then \
+		${SUDO} mkdir -m 0775 Bulk; \
+	fi
+	if [[ ! -e ${.CURDIR}/Logs ]]; then \
+		${SUDO} mkdir -m 0775 Logs; \
+	fi
+	env BIN_PACKAGES=Yes TRUST_PACKAGES=Yes BULK=Yes BATCH=Yes \
+	    ${MAKE} -k package clean 2>&1 | \
+	    perl ${.CURDIR}/infrastructure/scripts/portslogger ${.CURDIR}/Logs
 
 portupgrade: index
 	@PORTSDIR=${.CURDIR} ${SHELL} \
