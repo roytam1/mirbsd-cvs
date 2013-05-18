@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.261 2009/12/11 17:37:38 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.262 2009/12/12 21:04:32 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5627,4 +5627,41 @@ Tag: mksh rant security
  href="http://groups.google.com/group/android-platform/browse_thread/thread/413d8e10ec68b9fa">my
  proposal</a> to get <a href="@@RELPATH@@mksh.htm">mksh</a> either to
  replace NetBSD® 0.x ash, or, at least, add it for developers.</p>
+----
+Title: RFC: New pkgtools features
+Author: bsiegert@
+Date: 13.12.2009 17:26
+
+<p>Yesterday, I posted the following proposal to the mailing list. I am
+ putting it here, too, for future reference.</p>
+
+<p>I have been thinking about how we can improve the pkgtools with some
+ new and useful features. There are two that would be easy to implement
+ and would give us some kind of "poor man's apt":</p>
+
+<p>Replace <tt>PKG_PATH</tt>, which at the moment is either a single URL
+ or a colon-separated list of local paths, by a simple config file. It
+ could also include a few other directives, like the default pager for
+ MESSAGE files. I am thinking of the following:</p>
+
+<pre>Pager=less
+Source=1,/usr/ports/Packages
+Source=255,https://www.mirbsd.org/MirOS/Packages/i386/</pre>
+
+<p>The "source" lines are just local paths or URLs with a priority
+ value, where 0 is the highest one.</p>
+
+<p>For http, we have the problem of getting the file names. I propose to
+ put an <tt>index.txt</tt> file, with just one filename per line, into
+ each "repository". The indices might be cached so that we know what
+ files are where. For http, we could even automatically update by using
+ an "If-Changed-Since" header, or have something akin to "apt-get
+ update".</p>
+
+<p>It would be very easy to just search the repos in order of priority
+ and take the first match for the pkgspec given. Or we could use
+ <tt>findbestmatchingname()</tt> to decide which package to take.</p>
+
+<p>These changes can be implemented in a reasonable amount of time, I
+ think. Maybe during the CCC?</p>
 ----
