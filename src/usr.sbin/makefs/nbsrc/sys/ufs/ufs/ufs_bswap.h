@@ -1,5 +1,5 @@
-/**	$MirOS: src/usr.sbin/makefs/nbsrc/sys/ufs/ufs/ufs_bswap.h,v 1.4 2008/10/31 19:25:48 tg Exp $ */
-/*	$NetBSD: ufs_bswap.h,v 1.18 2006/01/29 21:42:42 dsl Exp $	*/
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/sys/ufs/ufs/ufs_bswap.h,v 1.5 2009/07/23 19:32:26 tg Exp $ */
+/*	$NetBSD: ufs_bswap.h,v 1.19 2009/10/19 18:41:17 bouyer Exp $	*/
 
 /*
  * Copyright (c) 2009 Thorsten Glaser.
@@ -13,11 +13,6 @@
  * 2. Redistributions in binary form must reproduce the above copyright
  *    notice, this list of conditions and the following disclaimer in the
  *    documentation and/or other materials provided with the distribution.
- * 3. All advertising materials mentioning features or use of this software
- *    must display the following acknowledgement:
- *	This product includes software developed by Manuel Bouyer.
- * 4. The name of the author may not be used to endorse or promote products
- *    derived from this software without specific prior written permission.
  *
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR
  * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES

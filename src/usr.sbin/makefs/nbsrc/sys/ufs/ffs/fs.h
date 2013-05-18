@@ -1,5 +1,5 @@
-/**	$MirOS$ */
-/*	$NetBSD: fs.h,v 1.51 2008/07/31 08:49:47 simonb Exp $	*/
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/sys/ufs/ffs/fs.h,v 1.4 2008/10/31 21:24:26 tg Exp $ */
+/*	$NetBSD: fs.h,v 1.55 2010/01/31 10:54:10 mlelstv Exp $	*/
 
 /*
  * Copyright (c) 1982, 1986, 1993
@@ -30,6 +30,10 @@
  * SUCH DAMAGE.
  *
  *	@(#)fs.h	8.13 (Berkeley) 3/21/95
+ */
+
+/*
+ * NOTE: COORDINATE ON-DISK FORMAT CHANGES WITH THE FREEBSD PROJECT.
  */
 
 #ifndef	_UFS_FFS_FS_H_
@@ -81,7 +85,7 @@
  *
  * The ffsv2 superblock layout (which might contain an ffsv1 filesystem)
  * can be detected by checking for sb->fs_old_flags & FS_FLAGS_UPDATED.
- * This is the default suberblock type for NetBSD since ffsv2 support was added.
+ * This is the default superblock type for NetBSD since ffsv2 support was added.
  */
 #define	BBSIZE		8192
 #define	BBOFF		((off_t)(0))
@@ -418,6 +422,7 @@ struct fs {
 #define	FS_INDEXDIRS	0x008	/* kernel supports indexed directories */
 #define	FS_ACLS		0x010	/* file system has ACLs enabled */
 #define	FS_MULTILABEL	0x020	/* file system is MAC multi-label */
+#define	FS_GJOURNAL	0x40	/* gjournaled file system */
 #define	FS_FLAGS_UPDATED 0x80	/* flags have been moved to new location */
 #define	FS_DOWAPBL	0x100	/* Write ahead physical block logging */
 
@@ -595,8 +600,13 @@ struct ocg {
  * Turn file system block numbers into disk block addresses.
  * This maps file system blocks to device size blocks.
  */
+#if defined (_KERNEL)
+#define	fsbtodb(fs, b)	((b) << ((fs)->fs_fshift - DEV_BSHIFT))
+#define	dbtofsb(fs, b)	((b) >> ((fs)->fs_fshift - DEV_BSHIFT))
+#else
 #define	fsbtodb(fs, b)	((b) << (fs)->fs_fsbtodb)
 #define	dbtofsb(fs, b)	((b) >> (fs)->fs_fsbtodb)
+#endif
 
 /*
  * Cylinder group macros to locate things in cylinder groups.
