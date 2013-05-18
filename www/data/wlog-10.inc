@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.376 2012/01/05 21:22:13 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.377 2012/01/05 21:41:46 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8876,6 +8876,32 @@ Tag: news snapshot
  as <a href="@@RELPATH@@mksh.htm">mksh</a>. Occasionally, they do
  have updates, e.g. <a href="@@RELPATH@@jupp.htm#bins">the latest
  Jupp/Win32 release</a>, or fixes in CVS.</p>
+----
+Date: 04.01.2012 14:23
+Author: bsiegert@
+Title: Quick! A webserver!
+Tag: go
+
+<p>If, like me, you occasionally want to transfer some files via
+ http&mdash;like the sets for a MirOS installation&mdash;but are much
+ too lazy to set up apache, here is a simple web server in nine lines of
+ Go:</p>
+
+<pre><code>package main
+
+import (
+        "log"
+        . "net/http"
+)
+
+func main() {
+        Handle("/", FileServer(Dir(".")))
+        log.Fatal(ListenAndServe(":8080", nil))
+}
+</code></pre>
+
+<p>It simply exports the current directory via http on port 8080.
+ Neat!</p>
 ----
 Date: 05.01.2012 21:41
 Author: tg@
