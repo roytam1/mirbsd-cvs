@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.25 2010/02/08 19:28:09 bsiegert Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.26 2010/06/15 13:17:13 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -276,6 +276,19 @@ tt {
 	background:#242424;
 	color:#FFFFFF;
 	padding:7px;
+}
+
+.distlist img,li {
+	margin-bottom:3px;
+}
+
+.fl {
+	float:left;
+	margin-right:1em;
+}
+
+.cl {
+	clear:left;
 }
 
 .b {
