@@ -1,10 +1,10 @@
-# $MirOS: ports/x11/gtk+/Makefile,v 1.9 2006/09/14 00:15:24 tg Exp $
+# $MirOS: ports/x11/gtk+/Makefile,v 1.10 2006/12/20 15:32:53 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2004/03/30 15:48:29 sturm Exp $
 
 NOT_FOR_PLATFORM=		${NOPIC_PLATFORMS}
 COMMENT=			multi-platform graphical toolkit
 COMMENT-docs=			gtk+-2 documentation
-VERSION=			2.8.6
+VERSION=			2.10.6
 DISTNAME=			gtk+-${VERSION}
 PKGNAME=			gtk+2-${VERSION}-${DASH_VER}
 PKGNAME-docs=			gtk+2-docs-${VERSION}-${DASH_VER}
@@ -18,7 +18,7 @@ PERMIT_PACKAGE_FTP=		Yes
 PERMIT_DISTFILES_CDROM=		Yes
 PERMIT_DISTFILES_FTP=		Yes
 
-MASTER_SITES=			ftp://ftp.gtk.org/pub/gtk/v2.8/
+MASTER_SITES=			ftp://ftp.gtk.org/pub/gtk/v2.10/
 EXTRACT_SUFX=           	.tar.bz2
 
 MULTI_PACKAGES=         	-docs
@@ -46,5 +46,7 @@ AUTOCONF_NEW=			Yes
 CONFIGURE_ARGS+=		--enable-static
 CONFIGURE_ARGS+=		${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= 		--disable-gtk-doc
+CONFIGURE_ARGS+= 		--disable-dependency-tracking
+CONFIGURE_ARGS+= 		--disable-libtool-lock
 
 .include <bsd.port.mk>
