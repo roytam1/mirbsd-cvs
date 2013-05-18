@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/wcwidth.c,v 1.1 2006/06/01 22:17:22 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wcwidth.c,v 1.2 2006/11/01 18:34:05 tg Exp $ */
 /* $XTermId: wcwidth.c,v 1.17 2006/03/20 00:36:19 tom Exp $ */
 /* $XFree86: xc/programs/xterm/wcwidth.c,v 1.8 2006/03/20 00:36:19 dickey Exp $ */
 
@@ -12,11 +12,11 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcwidth.c,v 1.1 2006/06/01 22:17:22 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcwidth.c,v 1.2 2006/11/01 18:34:05 tg Exp $");
 
 struct interval {
-	wint_t first;
-	wint_t last;
+	wchar_t first;
+	wchar_t last;
 };
 
 /* auxiliary function for binary search in interval table */
