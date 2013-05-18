@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.443 2012/03/03 21:44:53 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.444 2012/03/24 21:22:48 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R40d</h2>
+<h2>mksh(1) R40e</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -45,8 +45,8 @@ mws_content <<'EOF'
  href="@@ABSPATH@@/TaC-mksh.txt">full licence terms</a> overview.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R40d</strong> from
- <em>11 December 2011</em>.</p>
+<p>The current version of mksh is <strong>mksh R40e</strong> from
+ <em>24 March 2012</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
  for just another account on a Sun E420 on Solaris 11β. Thanks to someone who
@@ -183,14 +183,14 @@ mws_content <<'EOF'
  extract from the CPIO distfile and is available even on a stock Microsoft®
  Windows® installation (<tt>\WINNT\SYSTEM32\PAX.EXE</tt>).</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40d.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40d.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40d.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40d.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40e.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R40e.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40e.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R40e.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R40d.cpio.gz) = 431b35acc098242cf3262f41d9802839f2ce0b97</li>
- <li>TIGER (mksh-R40d.cpio.gz) = b3c5b6a03a279ad52650ac345ce8095fc5135383e92e4b40</li>
- <li>1091541490 326002 /MirOS/dist/mir/mksh/mksh-R40d.cpio.gz</li>
- <li>MD5 (mksh-R40d.cpio.gz) = c6428401103367730a95b99284bf47dc</li>
+ <li>RMD160 (mksh-R40e.cpio.gz) = 138abac674cface64510926fc5cc3e62b8821236</li>
+ <li>TIGER (mksh-R40e.cpio.gz) = 2e06947db5cb1fe6c38a21a5113615f87ccc219fc1791422</li>
+ <li>2947775569 328113 /MirOS/dist/mir/mksh/mksh-R40e.cpio.gz</li>
+ <li>MD5 (mksh-R40e.cpio.gz) = 27edb8231f22ca6a15e4a8aebbd271cd</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d. with our
   <a href="/gzsigkey.cer">current signature key</a>.</li>
 </ul>
@@ -204,9 +204,9 @@ mws_content <<'EOF'
 <p>The first example is using BSD paxtar (MirOS BSD, OpenBSD, NetBSD®), or
  “bsdtar” (DragonFly); the second and third use cpio(1) or pax(1) and are
  for most operating systems; the fourth is for Debian.</p><ul>
-<li>$ tar xzf mksh-R40d.cpio.gz &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R40d.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R40d.cpio.gz | pax -r &amp;&amp; cd mksh</li>
+<li>$ paxtar xzf mksh-R40e.cpio.gz &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R40e.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R40e.cpio.gz | pax -r &amp;&amp; cd mksh</li>
 </ul>
 
 <h3 id="vendorpatching">Patching</h3>
@@ -741,6 +741,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
  please note: it’s <tt>mksh</tt> or “The MirBSD Korn Shell” (“MidnightBSD
  Korn Shell” is also appropriate), but <em>never</em> <del>Mksh</del> or
  somesuch!</p>
+<p id="p40e">R40e: No longer tries to use GCC and C99 extensions. It has
+ a run-time check in Build.sh which may trigger a core dump; preseed with
+ HAVE_SILENT_IDIVWRAPV=0 in the environment to skip the check and always
+ compile in the safety code; the check is for removing the safety code if
+ it is not needed on the target machine (which obviously cannot be checked
+ when cross-compiling) and segfaults if it is needed (by design). Support
+ for various OSes has improved.</p>
 <p id="p40d">mksh R40d has several new options: <tt>test.sh</tt> ‘-f’ to
  enable running tests that need a fast machine; the preprocessor flag
  <tt>MKSH_DISABLE_DEPRECATED</tt> to disable code that is deprecated and
@@ -969,6 +976,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <h2 id="caveat">Users' Upgrade Caveat</h2>
 <p>This does not necessarily list new features, only these which users
  should be aware of for existing scripts.</p>
+<p id="c40e">R40e: Interpreting "010" as octal number will now emit a warning
+ at run-time. Several bugfixes lead to slightly changed behaviour to conform
+ better to the standards. The worst offending bugs in the persistent history
+ code have been fixed, but its use is still discouraged.</p>
 <p id="c40d">R40d: Interpreting "010" as octal number is now deprecated
  and <em>will</em> be removed soon. You can now use “local” and “set -A”
  together to create function-local arrays. The test(1) built-in command
@@ -1030,7 +1041,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] <tt>MKSH_SMALL</tt> no longer implies <tt>-fno-inline</tt></li>
  <li>[tg] Support optional seed in <tt>${parameter@#seed}</tt> for security</li>
 </ul>
+<!--
 <p>Changes in the current (unreleased) stable branch:</p><ul>
+-->
+<p id="r40e">mksh R40e is another must-have bugfix update:</p><ul>
  <li>[tg, Jilles Tjoelker] skip readonly check in unevaluated ternary twig</li>
  <li>[tg, anonymous] fix all remaining <tt>ifs.sh</tt> testcases</li>
  <li>[tg] No longer try to build with GCC and C99 extensions</li>
@@ -1052,11 +1066,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Better support for tcc; fix GCCism that accidentally crept in</li>
  <li>[tg] Deal with UTF-8 when reporting jobs’ commands</li>
  <li>[RT] Add SkyOS to known OS list</li>
- <li>[tg] Fix regression in mirtoconf output wrt. cached values (introduced
-  with divmod-needed check)</li><!-- nuke that on release/upload -->
  <li>[tg, RT] Support Minix in its variants Minix 3 and Ninix 3 better</li>
  <li>[tg] Drop some Android-specific unused code (lsmod builtin)</li>
- <li>[tg, RT, lewellyn] Support various versions of BSD/OS better</li>
+ <li>[tg, RT, lewellyn] Support QNX and various versions of BSD/OS better</li>
  <li>[tg] More code cleanup and new developer-only debugging functions</li>
  <li>[tg, Andrew Kudryashov] Fix some tab completion related escaping bugs</li>
  <li>[tg, draenog] Honour COLUMNS and LINES from the environment in scripts</li>
