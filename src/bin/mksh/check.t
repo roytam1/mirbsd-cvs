@@ -6488,3 +6488,87 @@ expected-stdout:
 	4 127 .
 	5 127 .
 ---
+name: better-parens-1a
+description:
+	Check support for ((…)) and $((…)) vs (…) and $(…)
+stdin:
+	if ( (echo fubar) | tr u x); then
+		echo ja
+	else
+		echo nein
+	fi
+expected-stdout:
+	fxbar
+	ja
+---
+name: better-parens-1b
+description:
+	Check support for ((…)) and $((…)) vs (…) and $(…)
+stdin:
+	echo $( (echo fubar) | tr u x) $?
+expected-stdout:
+	fxbar 0
+---
+name: better-parens-2a
+description:
+	Check support for ((…)) and $((…)) vs (…) and $(…)
+stdin:
+	if ((echo fubar) | tr u x); then
+		echo ja
+	else
+		echo nein
+	fi
+expected-stdout:
+	fxbar
+	ja
+---
+name: better-parens-2b
+description:
+	Check support for ((…)) and $((…)) vs (…) and $(…)
+stdin:
+	echo $((echo fubar) | tr u x) $?
+expected-stdout:
+	fxbar 0
+---
+name: better-parens-3a
+description:
+	Check support for ((…)) and $((…)) vs (…) and $(…)
+stdin:
+	if ( (echo fubar) | (tr u x)); then
+		echo ja
+	else
+		echo nein
+	fi
+expected-stdout:
+	fxbar
+	ja
+---
+name: better-parens-3b
+description:
+	Check support for ((…)) and $((…)) vs (…) and $(…)
+stdin:
+	echo $( (echo fubar) | (tr u x)) $?
+expected-stdout:
+	fxbar 0
+---
+name: better-parens-4a
+description:
+	Check support for ((…)) and $((…)) vs (…) and $(…)
+stdin:
+	if ((echo fubar) | (tr u x)); then
+		echo ja
+	else
+		echo nein
+	fi
+expected-stdout:
+	fxbar
+	ja
+---
+name: better-parens-4b
+description:
+	Check support for ((…)) and $((…)) vs (…) and $(…)
+stdin:
+	echo $((echo fubar) | (tr u x)) $?
+expected-stdout:
+	fxbar 0
+---
