@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/fdisk/part.c,v 1.4 2006/09/20 20:03:31 tg Exp $	*/
+/**	$MirOS: src/sbin/fdisk/part.c,v 1.5 2009/11/04 13:23:59 tg Exp $	*/
 /*	$OpenBSD: part.c,v 1.42 2006/06/09 17:01:47 deraadt Exp $	*/
 
 /*
@@ -40,7 +40,7 @@
 #include "misc.h"
 #include "mbr.h"
 
-__RCSID("$MirOS: src/sbin/fdisk/part.c,v 1.4 2006/09/20 20:03:31 tg Exp $");
+__RCSID("$MirOS: src/sbin/fdisk/part.c,v 1.5 2009/11/04 13:23:59 tg Exp $");
 
 int	PRT_check_chs(prt_t *partn);
 
@@ -49,19 +49,19 @@ static const struct part_type {
 	char	sname[14];
 } part_types[] = {
 	{ 0x00, "unused      "},   /* unused */
-	{ 0x01, "DOS FAT-12  "},   /* Primary DOS with 12 bit FAT */
+	{ 0x01, "DOS FAT12   "},   /* Primary DOS with 12 bit FAT */
 	{ 0x02, "XENIX /     "},   /* XENIX / filesystem */
 	{ 0x03, "XENIX /usr  "},   /* XENIX /usr filesystem */
-	{ 0x04, "DOS FAT-16  "},   /* Primary DOS with 16 bit FAT */
+	{ 0x04, "DOS FAT16   "},   /* Primary DOS with 16 bit FAT */
 	{ 0x05, "Extended DOS"},   /* Extended DOS */
 	{ 0x06, "DOS > 32MB  "},   /* Primary 'big' DOS (> 32MB) */
 	{ 0x07, "HPFS/QNX/AUX"},   /* OS/2 HPFS, QNX-2 or Advanced UNIX */
 	{ 0x08, "AIX fs      "},   /* AIX filesystem */
 	{ 0x09, "AIX/Coherent"},   /* AIX boot partition or Coherent */
 	{ 0x0A, "OS/2 Bootmgr"},   /* OS/2 Boot Manager or OPUS */
-	{ 0x0B, "Win95 FAT-32"},   /* Primary Win95 w/ 32-bit FAT */
-	{ 0x0C, "Win95 FAT32L"},   /* Primary Win95 w/ 32-bit FAT LBA-mapped */
-	{ 0x0E, "DOS FAT-16  "},   /* Primary DOS w/ 16-bit FAT, CHS-mapped */
+	{ 0x0B, "DOS FAT32   "},   /* Primary DOS w/ 32-bit FAT */
+	{ 0x0C, "DOS FAT32 L "},   /* Primary DOS w/ 32-bit FAT LBA-mapped */
+	{ 0x0E, "DOS FAT16 L "},   /* Primary DOS w/ 16-bit FAT LBA-mapped */
 	{ 0x0F, "Extended LBA"},   /* Extended DOS LBA-mapped */
 	{ 0x10, "OPUS        "},   /* OPUS */
 	{ 0x11, "OS/2 hidden "},   /* OS/2 BM: hidden DOS 12-bit FAT */
