@@ -10,7 +10,8 @@ It's endorsed by the Lynx developers and users.
 Recent SetEnv.{sh,csh} automatically point the path
 correctly to the data directory, if found. Program-
 mes employing OpenSSL will use the SSL_CERT_DIR en-
-vironment variable set thusly.
+vironment variable set thusly. This package is com-
+patible with both OpenSSL 1.x and 0.9.x hashes.
 
 Other programmes must be configured to set the cer-
 tificate store to: ${PREFIX}/share/ca-certificates/
@@ -19,7 +20,13 @@ Java™ programmes can use the “keystore.jks” file in
 the very same directory: -storepass ‘changeit’ – It
 contains RSA, DSS and ECC certificates now. This is
 created with OpenJDK 6 and tested with Sun J2SDK 5.
+The “keystore.gcj” file contains one for GCC’s J2RE
+with an empty string storepass.
 
 GnuTLS users and others requiring a single file set
 the configuration/environment setting SSL_CERT_FILE
 to: ${PREFIX}/share/ca-certificates/pkbundle.pem
+
+M*zilla users can use the shipped certdata.txt (or,
+for now, certdata.c but we’ll probably stop putting
+that into the package shortly).
