@@ -1,4 +1,4 @@
-# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.20 2005/12/18 16:36:51 tg Exp $
+# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.21 2006/01/04 02:00:08 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -16,20 +16,21 @@ CFARGS+=	--enable-static ${CF_PIC} --prefix=/usr --disable-nls \
 		--enable-java-awt=xlib --enable-java-gc=boehm
 FSFMAKE=	${XVARS} ${GMAKE} ${FSFMARGS} ${XARGS}
 CLEANFILES+=	deps.mk gnu/classpath/Configuration.java \
+		gnu/java/net/PlainSocketImpl\$$SocketInputStream.h \
+		gnu/java/net/PlainSocketImpl\$$SocketOutputStream.h \
 		gnu/java/net/natPlainDatagramSocketImpl.cc \
 		gnu/java/net/natPlainSocketImpl.cc \
-		gnu/java/nio/natPipeImpl.cc \
-		gnu/java/nio/natSelectorImpl.cc \
+		gnu/java/nio/natPipeImpl.cc gnu/java/nio/natSelectorImpl.cc \
 		include/java-gc.h include/java-signal-aux.h \
 		include/java-signal.h include/java-threads.h \
-		include/platform.h java/io/natFile.cc \
-		java/io/natFileDescriptor.cc \
-		java/lang/ConcreteProcess.java \
+		include/platform.h java/io/ObjectInputStream\$$GetField.h \
+		java/io/ObjectOutputStream\$$PutField.h java/io/natFile.cc \
+		java/io/natFileDescriptor.cc java/lang/ConcreteProcess.java \
 		java/lang/natConcreteProcess.cc \
-		java/net/natInetAddress.cc \
-		java/net/natNetworkInterface.cc \
-		sysdep/locks.h
-
+		java/lang/reflect/Proxy\$$ProxyData.h \
+		java/lang/reflect/Proxy\$$ProxyType.h \
+		java/net/natInetAddress.cc java/net/natNetworkInterface.cc \
+		lib_gnu_awt_xlib.objectlist libgcj.objectlist sysdep/locks.h
 INSTLIBS=	gcj -gnu-awt-xlib -org-w3c-dom -org-xml-sax
 INSTPROGS=	gij jv-convert rmic rmiregistry
 
