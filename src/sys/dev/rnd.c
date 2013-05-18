@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.38 2008/04/09 05:45:41 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.40 2008/06/13 14:00:04 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -1298,8 +1298,13 @@ rnd_addpool_reinit(void *v)
 {
 	register uint32_t j;
 
-	if (!rnd_attached)
+#ifdef DIAGNOSTIC
+	if (!rnd_attached) {
+		printf("random: premature call of rnd_addpool_reinit\n");
+		timeout_add(&rnd_addpool_timeout, hz << 6);
 		return;
+	}
+#endif
 
 	if (!rnd_addpool_allow) {
 		/* reschedule to try again in ~four minutes if disabled */
@@ -1311,7 +1316,7 @@ rnd_addpool_reinit(void *v)
 	rnd_addpool_buf[rnd_addpool_ptr] = 0;
 	rnd_addpool_ptr = (rnd_addpool_ptr + 1) % rnd_addpool_size;
 	if (j && ++j)	/* don't add all zeroes or all ones */
-		enqueue_randomness(RND_SRC_POOL, j - (random() & 1));
+		enqueue_randomness(RND_SRC_POOL, j ^ arc4random());
 
-	timeout_add(&rnd_addpool_timeout, (hz >> 1) + (random() % hz));
+	timeout_add(&rnd_addpool_timeout, (hz >> 1) + (arc4random() % hz));
 }
