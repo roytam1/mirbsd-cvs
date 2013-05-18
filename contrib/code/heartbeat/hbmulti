@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbmulti,v 1.1 2006/01/28 16:18:59 tg Exp $
+# $MirOS: contrib/code/heartbeat/hbmulti,v 1.2 2006/01/28 16:37:00 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -52,7 +52,7 @@
 # hbmulti once		- run once, beat once only
 #
 # Configuration information is kept in a set of arrays:
-# cf_type		- the type (ipv6:gif0 or simple)
+# cf_type		- the type ([def]ipv6:gif0 or simple)
 # cf_user		- the username (or ipv6 address)
 # cf_pass		- the password
 # cf_host		- the remote server (and ipv6 tunnel server)
@@ -61,6 +61,13 @@
 # after the script has started if needed). The "SENDER" extension is
 # not available in this version of the script, nor does it support a
 # password change operation (MirOS hbServer only).
+#
+# Available cf_type values:
+# "ipv6:"interface	- do an IPv6 tunnel for <interface> but nei-
+#			  ther configure an IP nor any route
+# "defipv6:"interface	- do an IPv6 tunnel and a default route, but
+#			  no IP address ("unnumbered tunnel")
+# "simple"		- just beat, don't do anything locally
 
 
 #=== global configuration ===
@@ -80,7 +87,7 @@ EXT_IF=pppoe0				# name of external interface
 #-- per server
 
 #      variable   server1 server2 ...
-set -A cf_type -- simple ipv6:gif0
+set -A cf_type -- simple defipv6:gif0
 set -A cf_user -- dnsusername "2001:6f8:900:<xxxx>::2"
 set -A cf_pass -- dnspw hagelslag
 set -A cf_host -- dns.server 212.224.0.188
