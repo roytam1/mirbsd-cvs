@@ -1,4 +1,4 @@
-# $MirOS: ports/net/centericq/Makefile,v 1.26 2007/02/08 19:34:58 tg Exp $
+# $MirOS: ports/net/centericq/Makefile,v 1.27 2007/02/22 22:57:54 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/02/03 08:37:55 brad Exp $
 
 # bus error on start
@@ -6,9 +6,8 @@ NOT_FOR_PLATFORM+=	Darwin:*:*
 
 COMMENT=		curses-based multiprotocol IM client implementation
 DISTNAME=		centericq-${V}
-PKGNAME=		${DISTNAME}-${PL}
 V=			4.21.0
-PL=			9
+DASH_VER=		10
 CATEGORIES=		net
 PATCHFILES=		centericq-${V}.msn.patch:0
 PATCH_DIST_STRIP=	-p1

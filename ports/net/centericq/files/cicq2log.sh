@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+# $MirOS: ports/net/centericq/files/cicq2log.sh,v 1.1 2007/02/08 19:35:00 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -45,8 +45,9 @@ nl='
 '
 file=$3
 if [[ -n $file && $file != - ]]; then
-	[[ -f $file && -s $file ]] || file=~/.centericq/$file
+	[[ -f $file && -s $file ]] || filex=~/.centericq/$file
 	[[ -f $file && -s $file ]] || file=${file}/history
+	[[ -f $file && -s $file ]] || file=${filex}/history
 	if ! [[ -f $file && -s $file ]]; then
 		print -u2 warning: cannot open "'$3'", using stdin
 		file=
