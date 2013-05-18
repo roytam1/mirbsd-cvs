@@ -1,4 +1,4 @@
-/* $MirOS: X11/xc/config/imake/imake.c,v 1.3 2005/04/16 18:09:53 tg Exp $ */
+/* $MirOS: X11/xc/config/imake/imake.c,v 1.4 2007/05/16 22:03:52 tg Exp $ */
 
 /***************************************************************************
  *                                                                         *
@@ -885,7 +885,7 @@ parse_utsname(struct utsname *name, char *fmt, char *result, char *msg)
 	case 'l':
 	  {
 	    int mib[2] = { CTL_KERN, KERN_OSPATCHLEVEL };
-	    char ospatchlevel[];
+	    char ospatchlevel[SYS_NMLN];
 	    size_t len = sizeof (ospatchlevel);
 
 	    if (sysctl(mib, sizeof (mib) / sizeof (mib[0]), ospatchlevel,
