@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.34 2008/03/12 22:11:07 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.35 2008/03/12 22:26:37 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006, 2008
@@ -51,7 +51,7 @@
 #include <sys/cdefs.h>
 #include <sys/types.h>
 #include <sys/param.h>
-#if !defined(__APPLE__)
+#if !defined(__APPLE__) && !defined(__GLIBC__)
 #include <sys/endian.h>
 #endif
 
@@ -201,10 +201,6 @@
 #include <stdint.h>
 #elif defined(__INTERIX)
 #define uint64_t u_int64_t
-#endif
-
-#if !defined(__APPLE__) && !defined(__GLIBC__)
-#include <sys/endian.h>
 #endif
 
 /* brain-dead Apple stuff */
