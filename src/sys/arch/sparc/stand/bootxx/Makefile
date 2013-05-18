@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.7 2007/10/16 20:45:28 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/Makefile,v 1.8 2007/10/16 20:57:01 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2003/08/11 06:35:45 deraadt Exp $
 # $NetBSD: Makefile,v 1.2 1995/09/30 21:43:38 pk Exp $
 
@@ -31,15 +31,20 @@ ${PROG}: ${OBJS}
 	@size ${PROG}.elf
 	elf2aout ${PROG}.elf ${PROG} -b
 
-CLEANFILES+=	${PROG}.bin ${PROG}.ofs
+CLEANFILES+=	${PROG}.bin ${PROG}.part*
 mkbin: .PHONY ${PROG}
 	strip -F a.out-sunos-big -s -o ${PROG}.bin ${PROG}
 	print -n '\01\03\01\07\060\0200\0\07' | \
 	    dd of=${PROG}.bin conv=notrunc 2>/dev/null
 	eval $$(nm --target=a.out-sunos-big ${PROG} | \
 	    sed -n '/_start$$/s/^\([0-9a-fA-F]*\) . \(_.*\)$$/\2=0x\1/p'); \
-	typeset -Uui16 ofs; ((ofs = _block_start - _start + 32)); \
-	print $$((ofs)) 0x$${ofs#16#} >${PROG}.ofs
+	typeset -Uui10 ofs tblsz; ((ofs = _block_start - _start + 32)); \
+	dd if=${PROG}.bin bs=$$ofs count=1 of=${PROG}.part1 2>/dev/null; \
+	tblsz=$$(dd if=${PROG}.bin bs=1 skip=$$ofs count=4 2>/dev/null | \
+	    hexdump -e '"0x" 4/1 "%02X"'); \
+	print tblsz=$$tblsz >${PROG}.part2; \
+	dd if=${PROG}.bin of=${PROG}.part3 bs=1 \
+	    skip=$$((ofs + tblsz * 4 + 8)) 2>/dev/null
 
 srt0.o: srt0.S
 	${CC} ${CFLAGS} ${CPPFLAGS} -D_LOCORE -c ${.IMPSRC}
