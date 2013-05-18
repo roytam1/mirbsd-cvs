@@ -1,4 +1,4 @@
-rcsid_parser='$MirOS: www/mk/parser,v 1.15 2008/12/04 18:25:50 tg Exp $'
+rcsid_parser='$MirOS: www/mk/parser,v 1.16 2008/12/04 18:34:05 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -67,20 +67,17 @@ for srcf in $name; do
 			state=1
 			if [[ $parser_lctmp = date ]]; then
 				# split up german format (d.m.yyyy [H:M:S])
-				# date, then pad to dd.mm.yyyy HH:MM:SS and
-				# store for strftm as y m d H M S
+				# date, then pad to dd.mm.yyyy and store as
+				# y m d H M S for strftm
 				IFS=$IFS:.
 				set -A e_tmp ${e_date[entry]}
 				IFS=$save_IFS
 				typeset -i -Z2 e_tmpd=10#0${e_tmp[0]}
 				typeset -i -Z2 e_tmpm=10#0${e_tmp[1]}
 				typeset -i -Z4 e_tmpy=10#0${e_tmp[2]}
-				typeset -i -Z2 e_tmpH=10#0${e_tmp[3]}
-				typeset -i -Z2 e_tmpM=10#0${e_tmp[4]}
-				typeset -i -Z2 e_tmpS=10#0${e_tmp[5]}
-				e_date[entry]="$e_tmpd.$e_tmpm.$e_tmpy $e_tmpH:$e_tmpM:$e_tmpS"
+				e_date[entry]=$e_tmpd.$e_tmpm.$e_tmpy
 				# make sure there are no leading zeroes
-				ei_time[entry]="$((e_tmpy)) $((e_tmpm)) $((e_tmpd)) $((e_tmpH)) $((e_tmpM)) $((e_tmpS))"
+				ei_time[entry]="$((e_tmpy)) $((e_tmpm)) $((e_tmpd)) $((10#0${e_tmp[3]})) $((10#0${e_tmp[4]})) $((10#0${e_tmp[5]}))"
 			elif [[ $parser_lctmp = tag ]]; then
 				parser_lctmp=${e_tag[entry]}
 				e_tag[entry]=
