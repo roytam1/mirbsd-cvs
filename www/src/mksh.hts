@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_putheader '$MirOS: www/src/mksh.hts,v 1.175 2008/10/24 21:39:36 tg Exp $'
 mws_content <<'EOF'
-<h1>mksh(1) R35b</h1>
+<h1>mksh(1) R36</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
  Public Domain Korn Shell (pdksh).</p>
@@ -30,8 +30,8 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R35b</strong> from
- <em>18 July 2008</em>.</p>
+<p>The current version of mksh is <strong>mksh R36</strong> from
+ <em>24 October 2008</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive, which helps
  in keeping mksh portable to several Unixes and compilers, and track down some
@@ -147,14 +147,14 @@ mws_content <<'EOF'
  extract from the CPIO distfile and is available even on a stock Microsoft®
  Windows® installation.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R35b.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R35b.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R35b.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R35b.cpio.gz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R36.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R36.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R36.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R36.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R35b.cpio.gz) = 882cbe0d2c46b8f024288b0f594a4b219e8fbd51</li>
- <li>TIGER (mksh-R35b.cpio.gz) = 753b2a63fce9f226a1ab989c3ecb933046d502b9464c77d0</li>
- <li>4126823992 263452 /MirOS/dist/mir/mksh/mksh-R35b.cpio.gz</li>
- <li>MD5 (mksh-R35b.cpio.gz) = 0e96cd3f8141b7abc679bbb303a8be2c</li>
+ <li>RMD160 (mksh-R36.cpio.gz) = 052a2d445909bd91f43274e7d1af4e0d4d3ec59d</li>
+ <li>TIGER (mksh-R36.cpio.gz) = a49fbd7209808cbf1f5e425da08ec5c6a2a5fe310e655f07</li>
+ <li>1149857679 264858 /MirOS/dist/mir/mksh/mksh-R36.cpio.gz</li>
+ <li>MD5 (mksh-R36.cpio.gz) = 9962d052a1571ba843965c6253819ac4</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
 </ul>
 
@@ -167,11 +167,11 @@ mws_content <<'EOF'
 <p>The first example is using BSD paxtar (MirOS BSD, OpenBSD, NetBSD®), or
  “bsdtar” (DragonFly); the second and third use cpio(1) or pax(1) and are
  for most operating systems; the fourth is for Debian.</p><ul>
-<li>$ tar xzf mksh-R35b.cpio.gz &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R35b.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R35b.cpio.gz | pax -r &amp;&amp; cd mksh</li>
+<li>$ tar xzf mksh-R36.cpio.gz &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R36.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R36.cpio.gz | pax -r &amp;&amp; cd mksh</li>
 <li style="list-style:none;">and, in exceptional cases</li>
-<li>$ tar xzf mksh_35.2.orig.tar.gz &amp;&amp; cd mksh-35.2</li>
+<li>$ tar xzf mksh_36.1.orig.tar.gz &amp;&amp; cd mksh-36.1</li>
 </ul>
 
 <h3 id="compile">Compilation</h3>
@@ -593,33 +593,29 @@ mws_content <<'EOF'
 <li><a href="http://www.debian.org/">Debian</a> GNU/Linux, GNU/HURD and
  GNU/kFreeBSD have an <a href="http://packages.debian.org/mksh">mksh package</a>
  maintained by the MirOS Project and uploaded (sponsored) by Bastian “waldi”
- Blank and Otavio Salvador; the debconf questions were taken from dash. The <a
- href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh_35.2-1.dsc">mksh
- Debian source package</a> is available, too.</li>
+ Blank, Otavio Salvador, and Patrick Schönfeld; the debconf questions were taken
+ from dash. We do not provide an inofficial source package any longer.</li>
 <li><a href="http://www.gentoo.org/">Gentoo GNU/Linux</a> has an mksh <a
  href="http://sources.gentoo.org/viewcvs.py/gentoo-x86/app-shells/mksh/">ebuild</a>
  created by <a href="http://www.hboeck.de/">Hanno Böck</a>.</li>
-<li><a href="http://fedoraproject.org/">Fedora</a> GNU/Linux 8 and Fedora
- GNU/Linux 7, as well as <a
+<li><a href="http://fedoraproject.org/">Fedora</a> GNU/Linux 8, 9, 10, and <a
  href="http://www.redhat.com/rhel/">RHEL</a> 4 and 5 (via EPEL) now
  officially contain <a
  href="http://fedoraproject.org/wiki/Packages/mksh">an mksh
- package</a>. There are some <a
- href="http://fedoraproject.org/wiki/EPEL/FAQ#head-fc43191402d7242da15ebb282c1a7dc948f6c852">Instructions</a>
+ package</a> (<a
+ href="http://cvs.fedoraproject.org/viewvc/devel/mksh/mksh.spec">spec
+ file</a>). There are some <a
+ href="http://fedoraproject.org/wiki/EPEL/FAQ#How_can_I_install_the_packages_from_the_EPEL_software_repository.3F">Instructions</a>
  for activating EPEL (RHEL only), then just type <tt>yum install
  mksh</tt>.</li>
 <li>The <a href="http://en.opensuse.org/Build_Service">OpenSuSE Build
  Service</a> provides an mksh package inside the <a
- href="http://software.opensuse.org/download/shells/">shells repo</a>,
+ href="http://download.opensuse.org/repositories/shells/SLES_9/src/">shells repo</a>,
  thanks to Pascal “loki” Bleser and Marcus “darix” Rückert; the RPMs are
- available for various instances of SuSE, OpenSuSE and Redhat/Fedora Core
- as well as as SRPM (source RPM). There used to be a repository by <a
- href="http://ftp.skynet.be/pub/suser-guru/rpm/packages/System/mksh/">loki</a>
- in the past.</li>
-<li>An <a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-35b-1.src.rpm">inofficial
- <em>portable</em> SRPM</a> (created on Debian GNU/kFreeBSD) is available
- as well. This one contains the <tt>arc4random.c</tt> support routines for
- operating systems from clueless vendors (GNU, Sun, etc).</li>
+ available for various distributions as well as as SRPM (source RPM).
+ The inofficial <em>portable</em> SRPM</a> has been retired; the OBS SRPM
+ has been changed to be buildable on Debian and MirBSD as well as include
+ the <tt>arc4random.c</tt> sample file.</li>
 <li><a href="http://finkproject.org/">Fink</a> delivers an <a
  href="http://pdb.finkproject.org/pdb/package.php/mksh">mksh package</a>
  from Andreas “gecko2” Gockel.</li>
@@ -661,9 +657,8 @@ mws_content <<'EOF'
 <li><a href="http://www.pkgsrc.org/">NetBSD® pkgsrc®</a> (native also on recent
  DragonFly BSD; available for many other operating systems as well) has a <a
  href="http://cvsweb.netbsd.org/bsdweb.cgi/pkgsrc/shells/mksh/">package</a>
- created by the MirOS Project and kept up to date by Blair Sadewitz, a fan.
- And <a href="/MirOS/dist/mir/mksh/ports/mksh-pkgsrc.tgz">this source
- package</a> is provided by the MirOS project in case it’s more recent.</li>
+ created by us and kept up to date by Blair Sadewitz and Adam “replaced” Hoka.
+ We do not provide an inofficial source package any longer.</li>
 <li>The MirPorts Framework brings mksh to OpenBSD, Mac OSX and Interix as
  well as older MirOS BSD versions, which have mksh as native Korn Shell.</li>
 <li><a href="http://www.openbsd.org/">OpenBSD</a> ports do <em>not</em>
@@ -781,6 +776,40 @@ mws_content <<'EOF'
  <li>Cygwin_NT-5.0 1.5.25(0.156/4/2) 2008-04-17 12:11 i586 win2kSP2 (i386 gcc3.4.4)</li>
  <li>Cygwin_NT-5.0 1.5.25(0.156/4/2) 2008-04-17 12:11 i586 win2kSP2 (i386 gcc3.4.4) + arc4random.c</li>
  <li>Debian GNU/Linux 5.0 lenny 2.6.18-4-686 (i386 gcc4.3.2-1)</li>
+ <li style="list-style:none;">– other build system integration –</li>
+ <li>See the <a href="#otheros">Inclusion</a> section for general information</li>
+ <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21) <em>via OBS SRPM package</em></li>
+ <li>Fedora GNU/Linux Core 8 2.6.18-92.1.10.el5 (i386 gcc4.1.2-33) <em>by x86-7 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 8 2.6.18-92.1.10.el5 (amd64 gcc4.1.2-33) <em>by x86-7 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 8 2.6.18-92.1.10.el5 (macppc gcc4.1.2-33) <em>by ppc5 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 8 2.6.18-92.1.10.el5 (ppc64 gcc4.1.2-33) <em>by ppc2 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 9 2.6.18-92.1.10.el5 (i386 gcc4.3.0-8) <em>by x86-5 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 9 2.6.18-92.1.10.el5 (amd64 gcc4.3.0-8) <em>by x86-6 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 9 2.6.18-92.1.10.el5 (macppc gcc4.3.0-8) <em>by ppc7 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 9 2.6.18-92.1.10.el5 (ppc64 gcc4.3.0-8) <em>by ppc5 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 9 2.6.26.6-68.fc9.sparc64.smp (sparc:v8+ gcc4.3.0-11) <em>by daedalus buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 9 2.6.26.6-68.fc9.sparc64.smp (sparc64 gcc4.3.0-11) <em>by korolev buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 9 2.6.18-53.el5 (S/390 gcc4.3.0-8) <em>by zedora3 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 10 2.6.18-92.1.10.el5 (i386 gcc4.3.2-6) <em>by x86-4 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 10 2.6.18-92.1.10.el5 (amd64 gcc4.3.2-6) <em>by x86-7 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 10 2.6.18-92.1.10.el5 (macppc gcc4.3.2-6) <em>by ppc2 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 10 2.6.18-92.1.10.el5 (ppc64 gcc4.3.2-6) <em>by ppc4 buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 10 2.6.26.6-68.fc9.sparc64.smp (sparc:v8+ gcc4.3.2-4) <em>by korolev buildd via Koji/EPEL packager</em></li>
+ <li>Fedora GNU/Linux Core 10 2.6.26.6-68.fc9.sparc64.smp (sparc64 gcc4.3.2-4) <em>by daedalus buildd via Koji/EPEL packager</em></li>
+ <li>Red Hat GNU/Linux RHEL 4 2.6.18-107.el5xen (i386 gcc3.4.6-10) <em>by xenbuilder2 buildd via Koji/EPEL packager</em></li>
+ <li>Red Hat GNU/Linux RHEL 4 2.6.18-107.el5xen (amd64 gcc3.4.6-10) <em>by xenbuilder2 buildd via Koji/EPEL packager</em></li>
+ <li>Red Hat GNU/Linux RHEL 4 2.6.18-92.1.10.el5 (macppc gcc3.4.6-10) <em>by ppc3 buildd via Koji/EPEL packager</em></li>
+ <li>Red Hat GNU/Linux RHEL 5 2.6.18-107.el5xen (i386 gcc4.1.2-42) <em>by xenbuilder2 buildd via Koji/EPEL packager</em></li>
+ <li>Red Hat GNU/Linux RHEL 5 2.6.18-107.el5xen (amd64 gcc4.1.2-42) <em>by xenbuilder2 buildd via Koji/EPEL packager</em></li>
+ <li>Red Hat GNU/Linux RHEL 5 2.6.18-92.1.10.el5 (macppc gcc4.1.2-42) <em>by ppc2 buildd via Koji/EPEL packager</em></li>
+ <li>OpenSuSE GNU/Linux 10.2 2.6.16.60-0.29-xen (i386 gcc4.1.2-20061115) <em>by build14 buildd via OBS SRPM package</em></li>
+ <li>OpenSuSE GNU/Linux 10.2 2.6.16.60-0.29-xen (amd64 gcc4.1.2-20061115) <em>by build20 buildd via OBS SRPM package</em></li>
+ <li>OpenSUSE GNU/Linux 10.3 2.6.16.60-0.29-xen (i386 gcc4.2.1) <em>by build22 buildd via OBS SRPM package</em></li>
+ <li>OpenSUSE GNU/Linux 10.3 2.6.16.60-0.29-xen (amd64 gcc4.2.1) <em>by build14 buildd via OBS SRPM package</em></li>
+ <li>SLES GNU/Linux 9 2.6.16.60-0.29-xen (i386 gcc3.3.3) <em>by build11 buildd via OBS SRPM package</em></li>
+ <li>SLES GNU/Linux 9 2.6.16.60-0.29-xen (amd64 gcc3.3.3) <em>by build13 buildd via OBS SRPM package</em></li>
+ <li>SuSE GNU/Linux Factory 2.6.27 (i386 gcc4.3.2-r141291) <em>by build21 buildd via OBS SRPM package</em></li>
+ <li>SuSE GNU/Linux Factory 2.6.27 (amd64 gcc4.3.2-r140831) <em>by build19 buildd via OBS SRPM package</em></li>
 </ul>
 <h3 id="regress_old">Older Versions</h3>
 <ul>
@@ -895,31 +924,9 @@ mws_content <<'EOF'
  <li>Fedora GNU/Linux Core 7 2.6.18-53.1.6.el5xen (i386 gcc4.1.2-27 Red Hat) <em>by xenbuilder4 buildd via Koji/EPEL packager</em></li>
  <li>Fedora GNU/Linux Core 7 2.6.18-53.1.6.el5xen (amd64 gcc4.1.2-27 Red Hat) <em>by xenbuilder2 buildd via Koji/EPEL packager</em></li>
  <li>Fedora GNU/Linux Core 7 2.6.18-53.1.6.el5 (macppc gcc4.1.2-27 Red Hat) <em>by ppc4 buildd via Koji/EPEL packager</em></li>
- <li>Fedora GNU/Linux Core 8 2.6.18-53.1.6.el5 (macppc64 gcc4.1.2-33 Red Hat) <em>by ppc2 buildd via Koji/EPEL packager</em></li>
- <li>Fedora GNU/Linux Core 8 2.6.18-53.1.6.el5xen (i386 gcc4.1.2-33 Red Hat) <em>by xenbuilder4 buildd via Koji/EPEL packager</em></li>
- <li>Fedora GNU/Linux Core 8 2.6.18-53.1.6.el5xen (amd64 gcc4.1.2-33 Red Hat) <em>by xenbuilder2 buildd via Koji/EPEL packager</em></li>
- <li>Fedora GNU/Linux Core 8 2.6.18-53.1.6.el5 (macppc gcc4.1.2-33 Red Hat) <em>by ppc4 buildd via Koji/EPEL packager</em></li>
- <li>Fedora GNU/Linux Core 9 2.6.18-53.1.6.el5 (macppc64 gcc4.3.0-5 Red Hat) <em>by ppc4 buildd via Koji/EPEL packager</em></li>
- <li>Fedora GNU/Linux Core 9 2.6.18-53.1.6.el5 (i386 gcc4.3.0-5 Red Hat) <em>by hammer2 buildd via Koji/EPEL packager</em></li>
- <li>Fedora GNU/Linux Core 9 2.6.18-53.1.6.el5xen (amd64 gcc4.3.0-5 Red Hat) <em>by xenbuilder1 buildd via Koji/EPEL packager</em></li>
- <li>Fedora GNU/Linux Core 9 2.6.18-53.1.6.el5 (macppc gcc4.3.0-5 Red Hat) <em>by ppc1 buildd via Koji/EPEL packager</em></li>
- <li>Red Hat GNU/Linux RHEL 4 2.6.18-53.1.6.el5 (i386 gcc3.4.6-9 Red Hat) <em>by hammer2 buildd via Koji/EPEL packager</em></li>
- <li>Red Hat GNU/Linux RHEL 4 2.6.18-53.1.6.el5 (macppc gcc3.4.6-9 Red Hat) <em>by ppc2 buildd via Koji/EPEL packager</em></li>
- <li>Red Hat GNU/Linux RHEL 4 2.6.18-53.1.6.el5 (amd64 gcc3.4.6-9 Red Hat) <em>by hammer2 buildd via Koji/EPEL packager</em></li>
- <li>Red Hat GNU/Linux RHEL 5 2.6.18-53.1.6.el5 (i386 gcc4.1.2-14 Red Hat) <em>by hammer2 buildd via Koji/EPEL packager</em></li>
- <li>Red Hat GNU/Linux RHEL 5 2.6.18-53.1.6.el5 (macppc gcc4.1.2-14 Red Hat) <em>by ppc2 buildd via Koji/EPEL packager</em></li>
- <li>Red Hat GNU/Linux RHEL 5 2.6.18-53.1.6.el5 (amd64 gcc4.1.2-14 Red Hat) <em>by hammer2 buildd via Koji/EPEL packager</em></li>
  <li>Fedora GNU/Linux Extras 6 2.6.16.46-0.7-xen (i386 gcc4.1.1-30 Red Hat) <em>by build13 buildd via the openSUSE Build Service</em></li>
- <li>OpenSuSE GNU/Linux 10.2 2.6.16.46-0.7-xen (i386 gcc4.1.2-20061115 SuSE) <em>by build18 buildd via the openSUSE Build Service</em></li>
- <li>OpenSuSE GNU/Linux 10.2 2.6.16.46-0.7-xen (amd64 gcc4.1.2-20061115 SuSE) <em>by build15 buildd via the openSUSE Build Service</em></li>
- <li>OpenSUSE GNU/Linux 10.3 2.6.16.46-0.7-xen (i386 gcc4.2.1 SuSE) <em>by build12 buildd via the openSUSE Build Service</em></li>
- <li>OpenSUSE GNU/Linux 10.3 2.6.16.46-0.7-xen (amd64 gcc4.2.1 SuSE) <em>by build19 buildd via the openSUSE Build Service</em></li>
- <li>SLES GNU/Linux 9 2.6.16.46-0.7-xen (i386 gcc3.3.3 SuSE) <em>by build19 buildd via the openSUSE Build Service</em></li>
- <li>SLES GNU/Linux 9 2.6.16.46-0.7-xen (amd64 gcc3.3.3 SuSE) <em>by build10 buildd via the openSUSE Build Service</em></li>
  <li>SuSE GNU/Linux 10.1 2.6.16.46-0.7-xen (i386 gcc4.1.0 SuSE) <em>by build02 buildd via the openSUSE Build Service</em></li>
  <li>SuSE GNU/Linux 10.1 2.6.16.46-0.7-xen (amd64 gcc4.1.0 SuSE) <em>by build10 buildd via the openSUSE Build Service</em></li>
- <li>SuSE GNU/Linux Factory 2.6.16.46-0.7-xen (i386 gcc4.3.0 SuSE) <em>by build13 buildd via the openSUSE Build Service</em></li>
- <li>SuSE GNU/Linux Factory 2.6.16.46-0.7-xen (amd64 gcc4.3.0-20080221-r132521 SuSE) <em>by build13 buildd via the openSUSE Build Service</em></li>
  <li style="list-style:none;">– even older versions –</li>
  <li>See <a href="mksh_old.htm#regress">the old-mksh site</a></li>
 </ul>
@@ -995,6 +1002,10 @@ mws_content <<'EOF'
   &lt;awmorp@gmail.com&gt; – maybe the rest is a kernel bug?)</li>
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+ <li>Add check for naming the output file “scn” instead of “a.out” or
+  “a.exe” when compiling scn.c, for Haiku, from Adam “replaced” Hoka</li>
+</ul>
+<p id="r36">mksh R36 features the following changes:</p><ul>
  <li>Fix <tt>Build.sh</tt> invocation without ‘-r’, 10x Elias Pipping</li>
  <li>Mention the <strong>MirOS OPTU-8</strong> and <em>MirOS OPTU-16</em>
   encodings in the manual page, now that we have a name for it</li>

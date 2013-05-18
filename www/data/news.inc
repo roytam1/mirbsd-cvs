@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.78 2008/08/29 07:37:57 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.79 2008/09/17 21:12:16 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1001,4 +1001,39 @@ Author: tg@
 </ul>
 <p>We apologise for the inconvenience caused, and will try to solve these
  issues in the next development snapshot.</p>
+----
+Title: mksh R36 released!
+Date: 25.10.2008 18:08
+Author: tg@
+Tag: mksh
+
+<p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell R36</a> has been
+ released yesterday; the <a href="@@RELPATH@@mksh.htm#r36">Changelog</a>
+ contains more details as usual.</p>
+<p>Major changes:</p><ul>
+ <li>Digital UNIX (DEC OSF/1) V2.0 (MIPS) is now supported using the
+  DEC C and ucode toolchain. (We could not run the testsuite, though.)</li>
+ <li>The ‘-Q’ option to <tt>Build.sh</tt> is gone without replacement.</li>
+ <li>A new option can be enabled by adding <tt>-DMKSH_BINSHREDUCED</tt>
+  to <tt>$CPPFLAGS</tt>, intended mostly for Debian. This option adds
+  extra code to determine whether mksh(1) is called as <tt>sh</tt> or
+  <tt>-sh</tt> and switch to “set -o posix” mode if so, disabling brace
+  expansion and some security features, because legacy scripts, such as
+  debconf, depend on such reduced functionality <tt>/bin/sh</tt>s.</li>
+ <li>Input lines beginning with an IFS character of IFS white space are
+  no longer pushed into the history. Some other, less surprising, changes
+  were also made to both Emacs and Vi command line editing modes.</li>
+ <li>The <tt>arc4random.c</tt> contributed file is now stored with the
+  RCS version number appended, and has been updated.</li>
+</ul><p>This is a major update with improved stability and compatibility,
+ and as such recommended in general. It has undergone more extensive
+ testing than mksh R35; if there still be bugs, please report to us.
+ Note that some sorts of behaviour are not considered bugs but expected,
+ sometimes due to historical, sometimes compatibility reasons.</p>
+<p><strong>Request for Assistance:</strong> We are still looking for an
+ OpenBSD committer to import mksh into the ports tree. Furthermore, a
+ Slackware GNU/Linux package is still missing, as well as a PC-BSD PBI,
+ and Macports (former Darwinports) do not carry mksh either. My earlier
+ <a href="@@RELPATH@@permalinks/wlog-10_e20081021-tg-g10008.htm">Minix
+ 3</a> problem persists, as do the Plan 9 and Syllable Desktop ones.</p>
 ----
