@@ -1,4 +1,4 @@
-# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.8 2005/11/18 00:40:03 tg Exp $
+# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.9 2006/02/09 11:15:27 tg Exp $
 #
 # Although you can only netboot a kernel with this, it's still included.
 # Maybe one day someone will include the correct parametres for disc kernels.
@@ -14,6 +14,7 @@ ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
 COMMENT=		"GNU GRUB with support for booting bsd.rd and netboot"
 DISTNAME=       	grub-0.96
+PKGNAME=		${DISTNAME}-1
 CATEGORIES=		sysutils
 MASTER_SITES=		ftp://alpha.gnu.org/gnu/grub/
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
@@ -29,10 +30,11 @@ PERMIT_DISTFILES_FTP=	Yes
 CONFIGURE_STYLE=	gnu
 USE_GMAKE=		Yes
 NO_REGRESS=		Yes
-
-CONFIGURE_ARGS+=	--enable-diskless
+CONFIGURE_ARGS+=	--disable-dependency-tracking
 
 GCC_VERSION!=		${CC} -v 2>&1 | fgrep "cc version" | sed 's!^.*cc version \([0-9\.]*\).*$!\1!'
+DEBUGLIBS=		no		# -g breaks (ICE)
+CPPFLAGS+=		-D_MIRMAKE_H	# do not include in freestanding code
 COPTS+=			-fno-stack-protector
 .if ${OStype} == "MirBSD"
 .if ${GCC_VERSION:M3.4*}
@@ -63,6 +65,7 @@ FLAVOR?=		x3c90x eepro100 ne ns8390 via_rhine
 
 .if ${FLAVOR:L:Mx3c503}
 CONFIGURE_ARGS+=	--enable-3c503
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mx3c503_aui}
@@ -87,122 +90,160 @@ CONFIGURE_ARGS+=	--disable-3c503-shmem
 
 .if ${FLAVOR:L:Mx3c507}
 CONFIGURE_ARGS+=	--enable-3c507
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mx3c509}
 CONFIGURE_ARGS+=	--enable-3c509
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mx3c529}
 CONFIGURE_ARGS+=	--enable-3c529
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mx3c595}
 CONFIGURE_ARGS+=	--enable-3c595
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mx3c90x}
 CONFIGURE_ARGS+=	--enable-3c90x
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mcs89x0}
 CONFIGURE_ARGS+=	--enable-cs89x0
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mdavicom}
 CONFIGURE_ARGS+=	--enable-davicom
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mdepca}
 CONFIGURE_ARGS+=	--enable-depca
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Meepro}
 CONFIGURE_ARGS+=	--enable-eepro
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Meepro100}
 CONFIGURE_ARGS+=	--enable-eepro100
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mepic100}
 CONFIGURE_ARGS+=	--enable-epic100
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mexos205}
 CONFIGURE_ARGS+=	--enable-exos205
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mlance}
 CONFIGURE_ARGS+=	--enable-lance
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mnatsemi}
 CONFIGURE_ARGS+=	--enable-natsemi
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mne}
 CONFIGURE_ARGS+=	--enable-ne
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mne2100}
 CONFIGURE_ARGS+=	--enable-ne2100
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mni5010}
 CONFIGURE_ARGS+=	--enable-ni5010
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mni5210}
 CONFIGURE_ARGS+=	--enable-ni5210
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mni6510}
 CONFIGURE_ARGS+=	--enable-ni6510
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mns8390}
 CONFIGURE_ARGS+=	--enable-ns8390
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Motulip}
 CONFIGURE_ARGS+=	--enable-otulip
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mrtl8139}
 CONFIGURE_ARGS+=	--enable-rtl8139
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Msis900}
 CONFIGURE_ARGS+=	--enable-sis900
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Msk_g16}
 CONFIGURE_ARGS+=	--enable-sk-g16
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Msmc9000}
 CONFIGURE_ARGS+=	--enable-smc9000
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mtiara}
 CONFIGURE_ARGS+=	--enable-tiara
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mtulip}
 CONFIGURE_ARGS+=	--enable-tulip
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mvia_rhine}
 CONFIGURE_ARGS+=	--enable-via-rhine
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mw89c840}
 CONFIGURE_ARGS+=	--enable-w89c840
+HAVE_NETCARD=		defined
 .endif
 
 .if ${FLAVOR:L:Mwd}
 CONFIGURE_ARGS+=	--enable-wd
+HAVE_NETCARD=		defined
+.endif
+
+.ifdef HAVE_NETCARD
+CONFIGURE_ARGS+=	--enable-diskless
+CPPFLAGS+=		-DGRUB_OPENBSD_NETWORKED
+.else
+CONFIGURE_ARGS+=	--disable-diskless
+CPPFLAGS+=		-DGRUB_OPENBSD_LOCAL
 .endif
 
 .if ${FLAVOR:L:Mnopcibios}

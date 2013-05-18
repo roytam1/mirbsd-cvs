@@ -1,7 +1,16 @@
-$MirOS$
+$MirOS: ports/sysutils/pxegrub/patches/patch-stage2_boot_c,v 1.1.7.1 2005/03/18 15:52:19 tg Exp $
 --- stage2/boot.c.orig	Tue Mar 30 11:43:46 2004
-+++ stage2/boot.c	Mon Feb 14 21:14:14 2005
-@@ -95,10 +95,13 @@ load_image (char *kernel, char *arg, ker
++++ stage2/boot.c	Wed Mar 22 12:57:13 2006
+@@ -25,6 +25,8 @@
+ #include "imgact_aout.h"
+ #include "i386-elf.h"
+ 
++void openbsd_boot(kernel_t, int, char *);
++
+ static int cur_addr;
+ entry_func entry_addr;
+ static struct mod_list mll[99];
+@@ -95,10 +97,13 @@ load_image (char *kernel, char *arg, ker
       or bzImage.  */
    lh = (struct linux_kernel_header *) buffer;
    
@@ -16,7 +25,7 @@ $MirOS$
         || suggested_type == KERNEL_TYPE_NETBSD)
        && len > sizeof (Elf32_Ehdr)
        && BOOTABLE_I386_ELF ((*((Elf32_Ehdr *) buffer))))
-@@ -128,13 +131,19 @@ load_image (char *kernel, char *arg, ker
+@@ -128,13 +133,19 @@ load_image (char *kernel, char *arg, ker
  	      str2 = "NetBSD";
  	      type = suggested_type;
  	    }
@@ -37,7 +46,7 @@ $MirOS$
    else if (flags & MULTIBOOT_AOUT_KLUDGE)
      {
        pu.mb = (struct multiboot_header *) (buffer + i);
-@@ -196,11 +205,11 @@ load_image (char *kernel, char *arg, ker
+@@ -196,11 +207,11 @@ load_image (char *kernel, char *arg, ker
  	    }
  	  else
  	    {
@@ -51,7 +60,7 @@ $MirOS$
  	    }
  	}
  
-@@ -607,7 +616,8 @@ load_image (char *kernel, char *arg, ker
+@@ -607,7 +618,8 @@ load_image (char *kernel, char *arg, ker
  	      grub_seek (phdr->p_offset);
  	      filesiz = phdr->p_filesz;
  	      
@@ -61,7 +70,7 @@ $MirOS$
  		memaddr = RAW_ADDR (phdr->p_paddr & 0xFFFFFF);
  	      else
  		memaddr = RAW_ADDR (phdr->p_paddr);
-@@ -1018,3 +1028,10 @@ bsd_boot (kernel_t type, int bootdev, ch
+@@ -1018,3 +1030,10 @@ bsd_boot (kernel_t type, int bootdev, ch
  		     extended_memory, mbi.mem_lower);
      }
  }

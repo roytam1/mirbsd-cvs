@@ -1,4 +1,4 @@
-/* $MirOS$
+/* $MirOS: ports/sysutils/pxegrub/files/openbsd.c,v 1.1.7.1 2005/03/18 15:52:19 tg Exp $
  *
  * Hack to make GRUB boot OpenBSD from the network
  * Booting from the hard drive will require a slightly
@@ -121,17 +121,23 @@ struct diskless_bootinfo_s {
     bios_memmap_t memmap[3];
     bootarg_t ttyarg;
     bios_consdev_t ttyinfo;
+#ifdef GRUB_OPENBSD_NETWORKED
     bootarg_t ip4arg;
     bios_ip4info_t ip4info;
     bootarg_t laarg;
     bios_linkaddr_t lainfo;
+#endif
     bootarg_t endarg;
 };
 
 #include "../netboot/etherboot.h"
 #include "term.h"
+#if defined(GRUB_OPENBSD_NETWORKED)
 extern struct arptable_t arptable[];
 extern unsigned long netmask;
+#elif !defined(GRUB_OPENBSD_LOCAL)
+#error mismatching Makefile
+#endif
 extern long boot_serial_unit;
 extern long boot_serial_speed;
 
@@ -233,6 +239,7 @@ openbsd_boot (kernel_t type, int bootdev, char *arg)
     bv.ttyinfo.consdev = 0;
     bv.ttyinfo.conspeed = 0;
   }
+#ifdef GRUB_OPENBSD_NETWORKED
   bv.ip4arg.ba_type = BOOTARG_IP4INFO;
   bv.ip4arg.ba_size = sizeof(bv.ip4arg)+sizeof(bv.ip4info);
   bv.ip4info.ip4_myaddr = arptable[ARP_CLIENT].ipaddr.s_addr;
@@ -248,6 +255,7 @@ openbsd_boot (kernel_t type, int bootdev, char *arg)
   bv.lainfo.la_addr[3] = arptable[ARP_CLIENT].node[3];
   bv.lainfo.la_addr[4] = arptable[ARP_CLIENT].node[4];
   bv.lainfo.la_addr[5] = arptable[ARP_CLIENT].node[5];
+#endif
   bv.endarg.ba_type = BOOTARG_END;
   bv.endarg.ba_size = sizeof(bv.endarg);
 

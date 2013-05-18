@@ -1,6 +1,6 @@
-$MirOS$
+$MirOS: ports/sysutils/pxegrub/patches/patch-stage2_builtins_c,v 1.1.7.1 2005/03/18 15:52:19 tg Exp $
 --- stage2/builtins.c.orig	Sun Jun 20 13:32:42 2004
-+++ stage2/builtins.c	Mon Feb 14 21:21:22 2005
++++ stage2/builtins.c	Wed Mar 22 13:00:37 2006
 @@ -18,6 +18,14 @@
   *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
   */
@@ -16,7 +16,15 @@ $MirOS$
  /* Include stdio.h before shared.h, because we can't define
     WITHOUT_LIBC_STUBS here.  */
  #ifdef GRUB_UTIL
-@@ -254,6 +262,10 @@ boot_func (char *arg, int flags)
+@@ -81,6 +89,7 @@ static unsigned short bios_drive_map[DRI
+ /* Prototypes for allowing straightfoward calling of builtins functions
+    inside other functions.  */
+ static int configfile_func (char *arg, int flags);
++void openbsd_boot(kernel_t, int, char *);
+ 
+ /* Initialize the data for builtins.  */
+ void
+@@ -254,6 +263,10 @@ boot_func (char *arg, int flags)
        bsd_boot (kernel_type, bootdev, (char *) mbi.cmdline);
        break;
  
@@ -27,7 +35,7 @@ $MirOS$
      case KERNEL_TYPE_LINUX:
        /* Linux */
        linux_boot ();
-@@ -2341,9 +2353,11 @@ kernel_func (char *arg, int flags)
+@@ -2341,9 +2354,11 @@ kernel_func (char *arg, int flags)
  	  else if (grub_memcmp (arg, "freebsd", 7) == 0)
  	    suggested_type = KERNEL_TYPE_FREEBSD;
  	  else if (grub_memcmp (arg, "openbsd", 7) == 0)
@@ -42,7 +50,7 @@ $MirOS$
  	  else if (grub_memcmp (arg, "linux", 5) == 0)
  	    suggested_type = KERNEL_TYPE_LINUX;
  	  else if (grub_memcmp (arg, "biglinux", 8) == 0)
-@@ -3365,6 +3379,8 @@ static struct builtin builtin_savedefaul
+@@ -3365,6 +3380,8 @@ static struct builtin builtin_savedefaul
    " `fallback' is used, next fallback entry is saved."
  };
  
@@ -51,7 +59,7 @@ $MirOS$
  
  #ifdef SUPPORT_SERIAL
  /* serial */
-@@ -3373,6 +3389,7 @@ serial_func (char *arg, int flags)
+@@ -3373,6 +3390,7 @@ serial_func (char *arg, int flags)
  {
    unsigned short port = serial_hw_get_port (0);
    unsigned int speed = 9600;
@@ -59,7 +67,7 @@ $MirOS$
    int word_len = UART_8BITS_WORD;
    int parity = UART_NO_PARITY;
    int stop_bit_len = UART_1_STOP_BIT;
-@@ -3385,7 +3402,6 @@ serial_func (char *arg, int flags)
+@@ -3385,7 +3403,6 @@ serial_func (char *arg, int flags)
        if (grub_memcmp (arg, "--unit=", sizeof ("--unit=") - 1) == 0)
  	{
  	  char *p = arg + sizeof ("--unit=") - 1;
@@ -67,7 +75,7 @@ $MirOS$
  	  
  	  if (! safe_parse_maxint (&p, &unit))
  	    return 1;
-@@ -3499,6 +3515,8 @@ serial_func (char *arg, int flags)
+@@ -3499,6 +3516,8 @@ serial_func (char *arg, int flags)
        return 1;
      }
    
