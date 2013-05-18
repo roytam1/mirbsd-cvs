@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list,v 1.5 2006/08/18 21:36:29 tg Exp $
+# $MirOS: src/distrib/common/list,v 1.6 2006/08/19 14:35:59 tg Exp $
 
 # standard tools in the crunched binary
 COPY	${OBJDIR}/instbin			instbin
@@ -27,7 +27,6 @@ LINK	instbin					sbin/fsck
 LINK	instbin					sbin/fsck_ffs
 LINK	instbin					sbin/ifconfig
 LINK	instbin					sbin/init
-LINK	instbin					sbin/mknod
 LINK	instbin					sbin/mount
 LINK	instbin					sbin/mount_cd9660
 LINK	instbin					sbin/mount_ffs
