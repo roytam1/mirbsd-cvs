@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/dot.xsession,v 1.6 2007/06/15 23:46:48 tg Exp $
+# $MirOS: src/distrib/baselive/dot.xsession,v 1.7 2007/07/31 22:32:12 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -31,15 +31,6 @@ export PATH=/usr/bin:/bin:/usr/X11R6/bin:/usr/sbin:/sbin
 for i in /usr/mpkg/bin /usr/local/bin ~/.etc/bin; do
 	[[ -d $i/. ]] && PATH=$i:$PATH
 done
-
-if [[ -s /etc/kbdtype ]]; then
-	type=$(</etc/kbdtype)
-	[[ $type = *dvorak* ]] && type=dvorak
-	subtype=
-	[[ $type = *.nodead ]] && subtype=nodeadkeys
-	type=${type%%.*}
-	setxkbmap $type $subtype
-fi
 
 [[ -s $HOME/.Xresources ]] && xrdb -undef -load $HOME/.Xresources
 [[ -s $HOME/.Xmodmap ]] && xmodmap $HOME/.Xmodmap

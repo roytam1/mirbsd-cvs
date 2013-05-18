@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.9 2007/07/31 22:32:12 tg Exp $
+# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.10 2007/08/01 15:27:04 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -37,8 +37,25 @@ function get_kbdtype {
 		    egrep '^..\.?(nodead|dvorak)?$' | sort)
 		[[ $resp = +([0-9]) ]] && resp=${layouts[$resp]}
 		[[ $resp = [a-z]* ]] && if kbd $resp; then
-			echo $resp >/etc/kbdtype
-			mv /etc/skel/.Xmodmap /etc/skel/.Xmodmap~
+			ed -s /etc/wsconsctl.conf <<-EOF
+				%g/keyboard.encoding/d
+				$a
+				keyboard.encoding=$resp
+				.
+				wq
+			EOF
+			mv /home/live/.Xmodmap /home/live/.Xmodmap~
+			[[ $resp = *.nodead ]] && \
+			    ed -s /etc/X11/XF86Config <<-EOF
+				%g/Xkb.*nodead/s/^#//
+				wq
+			EOF
+			l=${resp%%.*}
+			[[ $resp = *.dvorak ]] && l=dvorak
+			ed -s /etc/X11/XF86Config <<-EOF
+				%g/XkbLayout/s/us/$l/
+				wq
+			EOF
 			return
 		fi
 		[[ $resp = \? ]] || continue
