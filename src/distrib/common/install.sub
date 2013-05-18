@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.24 2007/09/28 22:54:07 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.25 2008/03/04 23:48:58 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -448,7 +448,9 @@ manual_net_cfg() {
 		pf=http
 	  fi
 	  ftp -mvo /dev/arandom \
-	    $pf://call.mirbsd.org/rn.cgi?bsdrdnet,seed=$RANDOM
+	    $pf://call.mirbsd.org/rn.cgi?"bsdrdnet,arch=$(sysctl -n \
+	    hw.machine),version=$(sysctl -n kern.ostype)_$(sysctl -n \
+	    kern.ospatchlevel)_$(sysctl -n kern.osversion),seed=$RANDOM"
 	  date
 	) &
 	if [[ -x /usr/sbin/ntpd ]]; then
