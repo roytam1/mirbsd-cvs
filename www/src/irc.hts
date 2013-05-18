@@ -1,4 +1,4 @@
-# $MirOS: www/src/irc.hts,v 1.2 2008/01/10 20:27:31 bsiegert Exp $
+# $MirOS: www/src/irc.hts,v 1.3 2009/06/21 11:01:24 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -6,7 +6,7 @@
 mws_setname irc "Internet Relay Chat: synchronously communicating with developers"
 mws_subdir 0
 mws_setheadline The MirOS Project on IRC
-mws_putheader '$MirOS: www/src/irc.hts,v 1.2 2008/01/10 20:27:31 bsiegert Exp $'
+mws_putheader '$MirOS: www/src/irc.hts,v 1.3 2009/06/21 11:01:24 tg Exp $'
 mws_content <<'EOF'
 <p>IRC stands for Internet Relay Chat. The project has two channels that
  allow you to socialize with other users and developers and maybe pose
@@ -18,7 +18,8 @@ mws_content <<'EOF'
 
 <dl>
  <dt>Server</dt>
- <dd><tt>irc.freenode.net</tt>, port 6667</dd>
+ <dd><tt>irc.freenode.net</tt>, port 6697 SSL <span
+  style="font-size:66%">(or port 6667 unencrypted)</span></dd>
  <dt>Encoding (charset)</dt>
  <dd>UTF-8</dd>
 </dl>
@@ -26,10 +27,11 @@ mws_content <<'EOF'
 <p>Then you may join the following channels:</p>
 
 <dl>
- <dt><b>#mirbsd</b></dt>
- <dd>Users and developers of MirOS BSD (German / English).</dd>
- <dt><b>#!/bin/mksh</b></dt>
- <dd>Users and developers of mksh, the MirOS Korn Shell.</dd>
+ <dt><tt>#mirbsd</tt></dt>
+ <dd>Users and developers of MirOS BSD (German / English)
+  or any subprojects of The MirOS Project. Also a social channel.</dd>
+ <dt><tt>#!/bin/mksh</tt></dt>
+ <dd>Users and developers of mksh, the MirOS Korn Shell (English).</dd>
 </dl>
 
 EOF
