@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.19 2009/01/10 13:58:58 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.20 2009/01/11 20:16:32 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -326,6 +326,11 @@ EMUh:
 	pop	esi
 	pop	ebp
 	pop	ebx
+
+	push	eax
+	lahf
+	mov	[esp+12],ah
+	pop	eax
 	iret
 
 #ifndef SMALL_BOOT
