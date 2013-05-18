@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.20 2007/02/28 21:08:22 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.21 2007/02/28 21:17:00 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -29,23 +29,29 @@
 # 4 - fwcf setup: can't create or write to temporary filesystem
 # 5 - fwcf setup: can't bind the tmpfs to /etc
 # 6 - fwcf commit: cannot write to mtd
+# 6 - fwcf restore: cannot write to mtd
 # 7 - fwcf commit: won't write to flash because of unclean setup
 # 8 - fwcf status: differences found
 # 9 - fwcf status: old status file not found
+# 10 - fwcf dump: failed
 # 255 - fwcf erase: failed
 # 255 - internal error
 
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 
 case $1 in
-commit|erase|setup|status) ;;
+commit|erase|setup|status|dump|restore) ;;
 *)	cat >&2 <<EOF
 FreeWRT Configuration Filesytem (fwcf), Version 1.03-beta
 Copyright (c) 2006, 2007
 	Thorsten Glaser <tg@freewrt.org>
 
 Syntax:
-	$0 [commit [-f] | erase | setup [-N] | status [-rq]]
+	$0 commit [-f]
+	$0 erase
+	$0 setup [-N]
+	$0 status [-rq]
+	$0 { dump | restore } [<filename>]
 EOF
 	exit 1 ;;
 esac
@@ -230,6 +236,37 @@ if test $1 = status; then
 	done 3<sold_status 4<snew_status
 	rm -f /tmp/.fwcf/*_status /tmp/.fwcf/*_files
 	exit $gotany
+fi
+
+if test $1 = dump; then
+	fn=$2
+	test -n "$fn" || fn=-
+	cat "$part" | fwcf.helper -UD $fn || exit 10
+	case $fn in
+	-)	echo "fwcf: dump to standard output complete." >&2
+		;;
+	*)	echo "fwcf: dump to '$fn' complete." >&2
+		ls -l "$fn" >&2
+		;;
+	esac
+	exit 0
+fi
+
+if test $1 = restore; then
+	fn=$2
+	test -n "$fn" || fn=-
+	if ! ( fwcf.helper -MD $fn | mtd -F write - fwcf ); then
+		echo 'fwcf: error: cannot write to mtd!' >&2
+		exit 6
+	fi
+	case $fn in
+	-)	echo "fwcf: restore from standard output complete." >&2
+		;;
+	*)	echo "fwcf: restore from '$fn' complete." >&2
+		ls -l "$fn" >&2
+		;;
+	esac
+	exit 0
 fi
 
 echo 'fwcf: cannot be reached...' >&2

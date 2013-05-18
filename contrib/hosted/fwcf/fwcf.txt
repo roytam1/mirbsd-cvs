@@ -65,10 +65,12 @@ to 128 KiB (usually two flash blocks). A custom flash map driver has
 been added to the FreeWRT kernel before the import of fwcf.
 
 The command-line utility will support three operations:
-* fwcf setup		to be run by the rc bootup script early
-* fwcf commit		similar to Cisco ‘write’
-* fwcf erase		similar to Cisco ‘erase startup-config’
-* fwcf status		NEW IN 1.03: check if commit is needed
+• fwcf setup		to be run by the rc bootup script early
+• fwcf commit		similar to Cisco ‘write’
+• fwcf erase		similar to Cisco ‘erase startup-config’
+• fwcf status		NEW IN 1.03: check if commit is needed
+• fwcf dump		NEW IN 1.03: make a backup of the fwcf filesystem
+• fwcf restore		NEW IN 1.03: restore a previously made backup
 
 This utility is implemented as rapid prototype as a shell script in
 ash, using one C helper programme. Later versions will be pure C.
@@ -164,6 +166,28 @@ filesystem, instead.
 
 ¹) Every “MD5” value is padded to be 32 bytes long, at its left
    side, with spaces (just to clarify).
+
+
+2.5. Operation of ‘fwcf dump’ (NEW IN 1.03)
+――――――――――――――――――――――――――――― ┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+A dump of the data currently stored in flash (commit first if you
+have changed anything!) is dumped to the filename argument, or to
+standard output, if none is present.
+
+Note: dumps do not contain any entropy seed. They consist of four
+bytes ADLER-32 of everything afterwards, little-endian, then four
+length bytes (of course only the lower/first three are used), and
+after that, the contents of the “inner filesystem”. That's it. No
+version information, and this is by design.
+
+
+2.6. Operation of ‘fwcf restore’ (NEW IN 1.03)
+―――――――――――――――――――――――――――――――― ┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+A dump created with “fwcf dump” is expected to be read from the
+filename argument, or standard input, if none is present, and
+then written to flash.
 
 
 3. Structure of the fwcf data
@@ -350,23 +374,22 @@ tory of the original source.
 The next major version of the FWCF filesystem specification is
 likely to contain the following changes:
 
-* An additional checksum (probably ADLER32 as well) shall be
+• An additional checksum (probably ADLER32 as well) shall be
   placed inside the compressed portion, to be checked after
   decompression. The idea of adding a random IV has not been
   adopted because we pretty much want the same FWCF blocks,
   except the random padding at the end, to be generated for
   the same input data. (This is not guaranteed because fts()
   may traverse the directory hierarchy differently.)
-* Revisit the current size limits and file types.
-* Implement a r̲e̲a̲l̲ file type “deleted”, replacing the hack
+• Revisit the current size limits and file types.
+• Implement a r̲e̲a̲l̲ file type “deleted”, replacing the hack
   with the .fwcf_deleted file.
-* Some kind of “reboot hook”: check if the filesystem has
+• Some kind of “reboot hook”: check if the filesystem has
   been changed after the last ‘fwcf commit’ operation. (What
   exactly is a change? Do we take care of mtimes? Currently,
   we're tending to a list of MD5 hashes for the files in the
   filesystem, ignoring all non-regular files. This will be
   implemented as “fwcf status” operation.)
-* “fwcf dump”, “fwcf restore” (even for 1.x)
 
 These future directions have come up during or after the
 fwcf 1.00 release process, and from the discussion thereafter.
@@ -374,4 +397,4 @@ They are provided as hint only and not part of the specifi-
 cation itself. They may change without notice.
 
 ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.29 2007/02/28 21:14:31 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.30 2007/02/28 21:17:00 tg Exp $
