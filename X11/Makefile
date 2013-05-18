@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.37 2008/07/19 22:12:09 tg Exp $
+# $MirOS: X11/Makefile,v 1.38 2008/10/05 16:26:12 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -51,6 +51,7 @@ compile:
 	    ${SUBOBJDIR}/xc/exports/lib/{X11,modules,pkgconfig} \
 	    ${SUBOBJDIR}/xc/exports/man \
 	    ${SUBOBJDIR}/xc/exports/man/cat{1,3,4,5,7}
+	cd ${.CURDIR}/extras/bdfctool && ${MAKE} depend && ${MAKE}
 	cd ${.CURDIR}/depends && ${MAKE} depend && ${MAKE} && \
 	    exec ${SUDO} ${MAKE} install X11BASE=${SUBOBJDIR}/xc/exports
 	${SUDO} chown -R $$(id -u) ${SUBOBJDIR}/xc/exports
@@ -61,9 +62,11 @@ compile:
 .if defined(NOFONTS) && ${NOFONTS:L} != "no"
 	echo "#define BuildFonts		NO" >>${CONFHOSTDEF}
 .endif
-	cd xc && exec ${MAKE} ${WORLD} WORLDOPTS="CC=${CC:Q} CXX=${CXX:Q} \
+	cd xc && exec env PATH=${SUBOBJDIR:Q}/extras/bdfctool:$$PATH \
+	    ${MAKE} ${WORLD} WORLDOPTS="CC=${CC:Q} CXX=${CXX:Q} \
 	    COPTS=${COPTS:Q} CPPFLAGS=${CPPFLAGS:Q}" \
 	    CC="${CC}" CXX="${CXX}" COPTS="${COPTS}" CPPFLAGS="${CPPFLAGS}"
+	cd ${.CURDIR}/extras/bdfctool && ${MAKE} cleandir
 	cd ${.CURDIR}/extras && ${MAKE} depend && exec ${MAKE}
 
 install:
@@ -83,7 +86,10 @@ do-install:
 	    ${DESTDIR}/usr/X11R6/man \
 	    ${DESTDIR}/usr/X11R6/man/cat{1,3,4,5,7}
 	cd ${.CURDIR}/depends && exec ${MAKE} install
-	cd xc && ${MAKE} install CC="${CC}" && exec ${MAKE} install.man
+	cd xc && env PATH=${SUBOBJDIR:Q}/extras/bdfctool:$$PATH \
+	    ${MAKE} install CC="${CC}" && \
+	    exec env PATH=${SUBOBJDIR:Q}/extras/bdfctool:$$PATH \
+	    ${MAKE} install.man
 	cd ${.CURDIR}/extras && exec ${MAKE} install
 	/usr/libexec/makewhatis ${DESTDIR}/usr/X11R6/man
 .if !defined(NOFONTS) || ${NOFONTS:L} == "no"
