@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.35 2006/09/20 22:24:49 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.36 2006/09/22 00:09:19 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -131,11 +131,11 @@ _GDIFFLAG=		NEED_GDIFF=yes
 HAS_CXX=		reason
 NO_CXX=			C++ is still broken, please update
 .    endif
-.  endif
-.  if ${_MIRMAKE_VER} >= 20060921
+.  elif ${OSver:R} == 9
+.    if ${OSver:E} > 129
 _CKSUM_SIZE=		#defined
-.  endif
-.  if ${OSver:E} > 129
+.    endif
+.  else
 _CKSUM_SIZE=		#defined
 .  endif
 .endif
@@ -146,7 +146,7 @@ SHELL=			${MKSH}		# missing ? not an oversight
 
 # this is supposed to be alphabetically supported.
 _MIRPORTS_ADDRESS=	<miros-discuss@MirBSD.org>
-_MIROS_ANONCVS=		anoncvs@unixforge.de:/cvs
+_MIROS_ANONCVS=		anoncvs@anoncvs.mirbsd.org:/cvs
 ARCH?=			${MACHINE_ARCH}
 FETCH_CMD?=		/usr/bin/ftp -EV -m
 HAS_CXX?=		base
