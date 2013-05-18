@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/bsdstats,v 1.21 2007/03/13 02:00:22 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.22 2007/04/19 12:59:39 tg Exp $
 # $FreeBSD: ports/sysutils/bsdstats/files/300.statistics,v 1.38 2006/12/05 13:49:45 scrappy Exp $
 
 rpt='http://rpt.bsdstats.org/scripts/'
@@ -40,22 +40,32 @@ function uri_escape
 # weird POST reporting of ports in $qs
 function report_ports
 {
-	#XXX honour http_proxy host/port and $rpt port
+	#XXX honour http_proxy host/port
 	host=${rpt#http://}
 	host=${host%%/*}
 	path=${rpt#*$host}report_ports.php
+	port=0
+	if [[ $host = *:+([0-9]) ]]; then
+		port=${host##*:}
+		host=${host%:*}
+	fi
+	if [[ $host = \[*] ]]; then
+		host=${host#\[}
+		host=${host%]}
+	fi
+	[[ $port -lt 1 || $port -gt 65535 ]] && port=80
 	qs="token=$stats_key&key=$stats_token$qs"
 	qs="POST $path HTTP/1.0
 Host: $host
-User-Agent: bsdstats \$MirOS$
+User-Agent: bsdstats \$MirOS: src/share/misc/bsdstats,v 1.22 2007/04/19 12:59:39 tg Exp $
 Connection: close
 Content-Type: application/x-www-form-urlencoded
 Content-Length: ${#qs}
 
 $qs"
 	res=$(sleep $((RANDOM % 99 + 21)); \
-	    print -r -- "$qs" | nc $host 80 2>/dev/null)
-	print -r "ports report to $host:80 with '$qs' -> ${res:-ERROR}" | \
+	    print -r -- "$qs" | nc $host $port 2>/dev/null)
+	print -r "ports report to $host:$port with '$qs' -> ${res:-ERROR}" | \
 	    logger -t bsdstats
 	[[ $res = *OK* ]] || ok=0
 }
