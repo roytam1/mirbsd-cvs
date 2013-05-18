@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/ada/Make-lang.in,v 1.3 2007/05/19 01:18:29 tg Exp $
+# $MirOS: gcc/gcc/ada/Make-lang.in,v 1.5 2007/06/10 13:03:27 tg Exp $
 #
 # Top level -*- makefile -*- fragment for GNU Ada (GNAT).
 #   Copyright (C) 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
@@ -287,7 +287,9 @@ gnattools: $(GCC_PARTS) $(CONFIG_H) prefix.o force
 	$(MAKE) -C ada $(ADA_TOOLS_FLAGS_TO_PASS) gnattools2
 	$(MAKE) -C ada $(ADA_TOOLS_FLAGS_TO_PASS) gnattools3
 
+ifneq ($(strip ${DO_XNATIVE}),)
 RTS_XDIR:=$(strip $(subst \,/,$(shell $(target_noncanonical)-gnatls -v | grep adalib )))
+endif
 gnattools-xnative: prefix.o force
 	$(MAKE) -C ada $(FLAGS_TO_PASS) $(ADA_FLAGS_TO_PASS) \
 	   ADA_INCLUDES="-I$(RTS_XDIR)../adainclude -I$(RTS_XDIR)" \
