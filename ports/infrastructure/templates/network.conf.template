@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.9 2006/02/01 15:36:57 tg Exp $
+# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.10 2006/02/05 16:31:08 tg Exp $
 # $OpenBSD: network.conf.template,v 1.84 2006/02/05 13:56:19 steven Exp $
 
 #
@@ -150,7 +150,7 @@ MASTER_SITE_GNOME+=	\
 	ftp://ftp.cse.buffalo.edu/pub/Gnome/ \
 	ftp://ftp.yggdrasil.com/mirrors/site/ftp.gnome.org/pub/GNOME/ \
 	ftp://ftp.linux.org.uk/mirrors/ftp.gnome.org/ \
-	ftp://ftp.gnome.org/pub/GNOME
+	ftp://ftp.gnome.org/pub/GNOME/
 	
 MASTER_SITE_PERL_CPAN+=	\
 	http://www.dnsbalance.ring.gr.jp/archives/lang/perl/CPAN/modules/by-module/ \
