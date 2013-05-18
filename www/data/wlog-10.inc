@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.86 2008/10/19 20:30:01 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.87 2008/10/21 22:25:27 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1845,4 +1845,24 @@ Tag: mksh
  Syllable Desktop (which is said to have fixed their signal handling in
  the kernel, however an actual user would have to <em>test</em> it), also
  feel free to contact me, you can probably help.</p>
+----
+Date: 22.10.2008 21:08
+Author: tg@
+Title: All software sucks…
+
+<p>I did not get much further. While I had the brilliant idea to embed a
+ native little-endian BSD disklabel inside the first 512 bytes of the
+ first-stage sparc bootloader (as the code searches for it anywhere in
+ sector #1 inside the partition – or disc, if no MBR partition found –
+ aligned to a long boundary), because an MBR partition would fake about
+ two slices in the Sun disklabel which… could cause issues, the software
+ I wanted to use to create a testcase has… bugs.</p>
+<p>I ended up creating an install-only ISO and wanted to put the rest of
+ the files into a 4.2FFS filesystem with makefs(8). However, that one <a
+ href="http://www.NetBSD.org/cgi-bin/query-pr-single.pl?number=33925">did
+ not want as I do</a>, and that for quite a while. Cheers to TNF! grml…</p>
+<p>The update of Opera to 9.61 also failed for reasons outlined in the <a
+ href="http://cvs.mirbsd.de/ports/www/opera/Makefile">commit message</a>.
+ So we’re still stuck with Opera 9.27…</p>
+<p>I did get libpng updated, but had “fun” with that as well. So long.</p>
 ----
