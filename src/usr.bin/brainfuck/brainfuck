@@ -1,7 +1,0 @@
-#!/usr/bin/perl
-# $MirOS$
-# Public domain by Marko Nippula
-
-$/=$a;while(<>){s/./$&;/g;s/\+|-/P$&$&/g;s/</\$p--/g;s/>/\$p++/g;s/\./
-print chr P/g;s/,/P=ord getc/g;y/[]/{}/;s/{/while(P){/g;s/P/\$m[\$p]/g
-;eval$_;print$@if$@}

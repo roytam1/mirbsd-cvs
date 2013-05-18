@@ -1,4 +1,0 @@
-@comment $MirOS: ports/lang/expect/pkg/PFRAG.shared,v 1.2 2005/04/11 19:20:28 tg Exp $
-@comment $OpenBSD: PFRAG.shared,v 1.5 2003/09/23 23:08:44 jolan Exp $
-lib/expect${VSN}/pkgIndex.tcl
-@lib lib/libexpect${_V}.so.1.2
