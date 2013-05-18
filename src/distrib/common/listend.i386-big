@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386-big,v 1.42 2010/12/12 20:34:32 tg Exp $
+# $MirOS: src/distrib/common/listend.i386-big,v 1.43 2013/03/22 21:10:44 tg Exp $
 
 # missing from mksh here
 LINK	instbin					sbin/mknod
@@ -27,7 +27,6 @@ LINK	instbin					usr/bin/scp
 LINK	instbin					usr/bin/sort
 LINK	instbin					usr/bin/ssh
 LINK	instbin					usr/bin/ssh-keygen
-SPECIAL	mkdir -p var/spool/lock
 LINK	instbin					usr/bin/tip usr/bin/cu
 LINK	instbin					usr/bin/uudecode usr/bin/b64decode
 LINK	instbin					usr/bin/uuencode usr/bin/b64encode
@@ -82,3 +81,8 @@ SPECIAL	chmod 644 etc/pwd.db etc/passwd
 SPECIAL	mkdir -p .etc/ssh
 SPECIAL	chmod 700 .etc .etc/ssh
 SPECIAL	cp ${DESTDIR}/etc/ssh/ssh_known_hosts .etc/ssh/known_hosts
+
+# cu requirements
+SPECIAL	mkdir -p var/log
+SPECIAL	mkdir -p var/spool/lock
+COPY	${DESTDIR}/etc/remote			etc/remote
