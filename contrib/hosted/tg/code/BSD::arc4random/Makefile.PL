@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/code/BSD::arc4random/Makefile.PL,v 1.5 2011/06/05 22:50:05 tg Exp $
+# $MirOS: contrib/hosted/tg/code/BSD::arc4random/Makefile.PL,v 1.6 2011/06/05 22:59:04 tg Exp $
 #-
 # Copyright (c) 2008, 2009, 2011
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -40,14 +40,16 @@ if ($cfg eq 'auto') {
 	if (($^O eq 'gnu') ||
 	    ($^O eq 'gnukfreebsd') ||
 	    ($^O eq 'linux')) {
+		# libbsd has no consistent header
+		# containing the needed prototypes
+		# so we always use our own protos
+		$defs .= ' -DNEED_ARC4RANDOM_DECL';
 		# Debian GNU/HURD, GNU/kFreeBSD, GNU/Linux
 		# either use libbsd (lenny and up):
-		#$incs = '-include /usr/include/bsd/bsd.h';
 		#$libs = '-lbsd';
 		# or use the contributed arc4random.c file
 		$objs = 'arc4random.o';
 		$defs .= ' -DHAVE_SYS_SYSCTL_H=0 -DHAVE_STDINT_H=1';
-		$defs .= ' -DNEED_ARC4RANDOM_DECL';
 	}
 	if (($^O eq 'cygwin') || ($^O eq 'MSWin32') ||
 	    ($^O eq 'irix') ||

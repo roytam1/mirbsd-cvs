@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2008, 2009
+ * Copyright (c) 2008, 2009, 2011
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -48,7 +48,7 @@
 #define __RCSID(x)			__IDSTRING(rcsid,x)
 #endif
 
-__RCSID("$MirOS: contrib/hosted/tg/code/BSD::arc4random/arc4rnd_xs.c,v 1.4 2009/07/16 12:12:52 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/tg/code/BSD::arc4random/arc4rnd_xs.c,v 1.5 2009/10/10 22:43:53 tg Exp $");
 
 #ifdef REDEF_USCORETYPES
 #define u_int32_t	uint32_t
@@ -57,6 +57,7 @@ __RCSID("$MirOS: contrib/hosted/tg/code/BSD::arc4random/arc4rnd_xs.c,v 1.4 2009/
 #ifdef NEED_ARC4RANDOM_DECL
 u_int32_t arc4random(void);
 void arc4random_addrandom(u_char *, int);
+void arc4random_stir(void);
 #endif
 
 XS(XS_BSD__arc4random_arc4random_xs);
@@ -109,6 +110,11 @@ XS(XS_BSD__arc4random_arc4random_addrandom_xs)
 #endif
 
 #if HAVE_ARC4RANDOM_PUSHB
+
+#ifdef NEED_ARC4RANDOM_DECL
+uint32_t arc4random_pushb(const void *, size_t);
+#endif
+
 XS(XS_BSD__arc4random_arc4random_pushb_xs);
 XS(XS_BSD__arc4random_arc4random_pushb_xs)
 {
