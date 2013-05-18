@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/usr.sbin/adduser/adduser,v 1.1 2006/07/08 21:42:56 tg Exp $
+# $MirOS: src/usr.sbin/adduser/adduser,v 1.2 2006/07/08 21:45:06 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -219,6 +219,14 @@ while :; do
 	done
 	[[ $shell = /sbin/nologin ]] || while :; do
 		ask_pass "Login passphrase:"
+		t=$resp
+		ask_pass "Please repeat:"
+		if [[ $t != $resp ]]; then
+			t=
+			print -u2 'ERROR: passwords do not match! Try again.'
+			continue
+		fi
+		t=
 		if [[ -z $resp ]]; then
 			ask_yn "Prevent user from logging in?" yes
 			[[ $resp = y ]] || continue
