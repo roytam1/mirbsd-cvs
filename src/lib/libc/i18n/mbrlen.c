@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mbrlen.c,v 1.2 2006/05/30 22:05:32 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/mbrlen.c,v 1.1 2006/06/01 22:17:20 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -27,16 +27,12 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: contrib/code/libhaible/mbrlen.c,v 1.2 2006/05/30 22:05:32 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbrlen.c,v 1.1 2006/06/01 22:17:20 tg Exp $");
 
 size_t
 mbrlen(const char *__restrict__ s, size_t n, mbstate_t *__restrict__ ps)
 {
 	static mbstate_t internal = { 0, 0 };
-	mbstate_t *nps;
 
-	/* only evaluate ps once, according to TFM */
-	if ((nps = ps) == NULL)
-		nps = &internal;
-	return (mbrtowc(NULL, s, n, nps));
+	return (mbrtowc(NULL, s, n, (ps == NULL) ? &internal : ps));
 }
