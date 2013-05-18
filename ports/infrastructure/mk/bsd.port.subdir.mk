@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.11 2008/03/09 17:22:56 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.12 2008/06/12 19:50:55 tg Exp $
 # $OpenBSD: bsd.port.subdir.mk,v 1.64 2004/04/07 13:06:33 espie Exp $
 # $FreeBSD: bsd.port.subdir.mk,v 1.20 1997/08/22 11:16:15 asami Exp $
 #
@@ -105,7 +105,7 @@ _subdir_fragment= \
 		fi; \
 	done; set -e
 
-.for __target in all fetch package fake extract cleandir configure \
+.for __target in all fetch fetch-all package fake extract cleandir configure \
 		 build describe distclean deinstall install \
 		 reinstall checksum show fetch-makefile \
 		 link-categories unlink-categories regress lib-depends-check \
@@ -173,7 +173,7 @@ README.html:
 _print-packagename:
 	@echo "README"
 
-.PHONY: all fetch package fake extract configure \
+.PHONY: all fetch fetch-all package fake extract configure \
 	build describe distclean deinstall install \
 	reinstall checksum show fetch-makefile \
 	link-categories unlink-categories regress lib-depends-check \
