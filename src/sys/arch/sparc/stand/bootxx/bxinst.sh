@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/sys/arch/sparc/stand/bootxx/bxinst.sh,v 1.4 2007/10/16 21:52:51 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/bootxx/bxinst.sh,v 1.5 2007/10/16 22:01:37 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -49,7 +49,7 @@ while (( i < blktblsz )); do
 done
 
 # read in the extents
-while read blockno numblocks; do
+while read blockno numblocks junk; do
 	while (( numblocks )); do
 		let blktblent[blktblnum++]=blockno++
 		let numblocks--
