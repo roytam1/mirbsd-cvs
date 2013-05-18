@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.28 2008/04/06 22:48:19 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.29 2008/07/11 11:34:27 tg Exp $
 
 wd=$(realpath $(dirname $0))
 version=$(date +%Y%m%d)
@@ -24,10 +24,12 @@ cvs -Rqd ${CVSROOT:-/cvs} co -PA \
     src/lib/libc/stdio/mktemp.c \
     src/lib/libc/stdlib/getopt_long.c src/lib/libc/stdlib/strtoll.c \
     src/lib/libc/string/strlfun.c \
-    src/share/mk/bsd.cfwrap.mk \
-    src/share/mk/bsd.sys.mk src/share/mk/bsd.dep.mk src/share/mk/bsd.lib.mk \
-    src/share/mk/bsd.man.mk src/share/mk/bsd.obj.mk src/share/mk/bsd.own.mk \
-    src/share/mk/bsd.prog.mk src/share/mk/bsd.subdir.mk src/share/mk/sys.mk
+    src/share/mk/bsd.cfwrap.mk src/share/mk/bsd.dep.mk \
+    src/share/mk/bsd.doc.mk src/share/mk/bsd.lib.mk \
+    src/share/mk/bsd.lt.mk src/share/mk/bsd.man.mk \
+    src/share/mk/bsd.obj.mk src/share/mk/bsd.own.mk \
+    src/share/mk/bsd.prog.mk src/share/mk/bsd.subdir.mk \
+    src/share/mk/bsd.sys.mk src/share/mk/sys.mk
 top=$(dirname $(pwd))
 topd=$(dirname $top)
 topf=$(basename $top)
