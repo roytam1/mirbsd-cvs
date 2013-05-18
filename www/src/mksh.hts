@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.411 2011/07/05 20:41:54 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.412 2011/07/06 22:22:12 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1014,6 +1014,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Change the internal hash algorithm from Bob Jenkins’ one-at-a-time
   to its NUL-counting, never-zero MirOS variant <a
   href="@@ABSPATH@@/cvs.cgi/src/kern/include/nzat.h">NZAT</a> to optimise</li>
+ <li>[tg, Arkadiusz Miśkiewicz, Kacper Kornet] Fix mksh taking down the entire
+  terminal, hard, when scripts use <tt>$COLUMNS</tt> and fork off utilities;
+  regression introduced in mksh R37; may also fix Android testing scripts</li>
 </ul>
 <p id="r40">mksh R40 is a major everything release:</p><ul>
  <li>[tg] Correct small mistakes in manpage and build script</li>
