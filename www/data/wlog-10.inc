@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.186 2009/04/22 17:17:17 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.187 2009/04/22 17:27:56 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3844,6 +3844,9 @@ Language: de
  wenn es funktioniert tut sie nicht das, was Nils Weller gerne hätte,
  nämlich automatisch in das Verzeichnis hinabsteigen und dort weiter
  make(1)n.</p>
+<p><strong>Update</strong> 18:40 – Wir haben uns geëinigt, daß wir
+ keine gegenseitigen Kriegserklärungen wollen, also halte ich mich
+ jetzt an „shut up and hack“ und vergesse das Ganze.</p>
 ----
 Date: 22.04.2009 16:53
 Author: tg@
