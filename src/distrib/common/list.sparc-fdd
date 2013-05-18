@@ -1,7 +1,7 @@
-# $MirOS: src/distrib/common/list.sparc-fdd,v 1.12 2009/04/16 13:38:21 tg Exp $
+# $MirOS: src/distrib/common/list.sparc-fdd,v 1.13 2009/04/17 19:17:04 tg Exp $
 
 SRCDIRS	distrib/special sys/arch/sparc/stand
-SRCDIRS	bin sbin usr.bin usr.sbin libexec
+SRCDIRS	bin sbin usr.bin usr.sbin
 
 LIBS	-lutil -locurses -lm -lz
 
@@ -61,7 +61,7 @@ ARGVLINK mksh					-mksh
 ARGVLINK mksh					-sh
 ARGVLINK rm					mv_rm
 
-SPECIAL	rmdir etc/isdn etc/ppp etc/ssh usr/share/zoneinfo
+SPECIAL	rmdir etc/isdn etc/ppp etc/ssh usr/libexec usr/share/zoneinfo
 
 # devices stuff
 SCRIPT	${DESTDIR}/dev/MAKEDEV			dev/MAKEDEV
