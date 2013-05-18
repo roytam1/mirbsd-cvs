@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.sparc,v 1.2 2006/08/18 20:48:46 tg Exp $
+# $MirOS: src/distrib/common/Makefile.sparc,v 1.3 2006/08/18 21:36:29 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.14 2002/05/01 19:21:28 mickey Exp $
 
 #INSTALLBOOT?=	${DESTDIR}/usr/mdec/installboot
@@ -6,8 +6,8 @@ RAWLABEL=
 AOUT_BSDRD=	Yes
 
 cdrom-mdcopy:
-	cp ${BOOTXX} workdir/v${OSrev}/${MACHINE}/
-	ln workdir/v${OSrev}/${MACHINE}/bsd.rd workdir/vmunix	# for kicks
+	cp ${BOOTXX} ${WRKDIR}/v${OSrev}/${MACHINE}/
+	ln ${WRKDIR}/v${OSrev}/${MACHINE}/bsd.rd ${WRKDIR}/vmunix # for kicks
 
 # XXX is this really necessary?
 cdrom-mdboot:
@@ -16,7 +16,7 @@ cdrom-mdboot:
 	${SUDO} vnconfig -v -c ${VND} ${CDROM}
 	${SUDO} disklabel -w ${VND} fakecdrom "MirOS BSD/sparc "
 	${SUDO} ${DESTDIR}/usr/mdec/installboot -v $$(fgrep \
-	    workdir/etc/boot.ldr mkisofs.log | while read start end rest; do \
+	    ${WRKDIR}/etc/boot.ldr mkisofs.log | while read start end rest; do \
 		print -- -s $$start -e $$end; done) dummy ${BOOTXX} ${VND_CRDEV}
 	${SUDO} vnconfig -v -u ${VND}
 	${SUDO} rm -rf ${TMPMOUNT}
