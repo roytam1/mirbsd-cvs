@@ -154,20 +154,6 @@ ISBN: 978-0-201-56324-5 (0-201-56324-X)
 Addison-Wesley Professional, xxi + 324 pages, 1991.
 According to the old <tt>#ksh</tt> topic, this is a “good book”.
 ----
-Title: Solaris ksh93-integration project
-Link: http://www.opensolaris.org/os/project/ksh93-integration/
-
-Homepage of the project attempting to integrate ksh93 in Solaris,
-replacing both ksh88 and their Bourne (nōn-POSIX) <tt>/bin/sh</tt>.
-(Although <tt>mirabilos</tt> thinks that the old ksh88 should not
-be available as <tt>/usr/bin/oksh</tt> but rather ksh88, due to
-oksh’s existence as pdksh derivate.)
-----
-Title: OpenSolaris shell coding style guidelines
-Link: http://www.opensolaris.org/os/project/shell/shellstyle/
-
-[DRAFT] Bourne/Korn Shell Coding Conventions
-----
 Title: Introduction into Korn Shell (ksh) Programming
 Link: http://www.bolthole.com/solaris/ksh.html
 
@@ -182,17 +168,6 @@ tasks and can save you a great deal of time. It may seem daunting at
 first, but with the right instruction you can become highly skilled in
 it. This article will teach you to write your own Korn shells scripts.
 ----
-Title: Programming Language News – Shell
-Link: http://plnews.org/category/Languages__Shell/
-
-Generic shell-related newsfeed.
-----
-Title: Sven Mascheck’s Unix and Shell page
-Link: http://www.in-ulm.de/~mascheck/
-
-Plethora of historic and recent information on shells on
-various unicēs, the shebang, urban legends, etc.
-----
 Title: * Portable Shell::
 Link: http://www.gnu.org/software/autoconf/manual/html_node/Portable-Shell.html
 
@@ -201,6 +176,12 @@ scripts portable (if desirable to not target one specific shell,
 such as ksh93 or mksh, and making that one portable). Interesting
 for archæologists as well.
 ----
+Title: Sven Mascheck’s Unix and Shell page
+Link: http://www.in-ulm.de/~mascheck/
+
+Plethora of historic and recent information on shells on
+various unicēs, the shebang, urban legends, etc.
+----
 Title: GreyCat on processes, environments and inheritance
 Link: http://mywiki.wooledge.org/ProcessManagement
 
@@ -208,11 +189,6 @@ Greg Wooledge’s Wiki ⇒ Notes on process management, such as,
 how to properly kill one. Read also other pages from the
 CategoryShell, although his KornShell page is somewhat out
 of date and doesn’t apply to mksh often.
-----
-Title: Plänet Commandline
-Link: http://planet-commandline.org/?Amber+Screen
-
-RSS/Atom aggregator with topics related to the command line.
 ----
 Title: A Guide to Unix Shell Quoting
 Link: http://www.mpi-inf.mpg.de/~uwe/lehre/unixffb/quoting-guide.html
@@ -224,6 +200,30 @@ Link: http://www.grymoire.com/Unix/Quote.html
 
 Short tutorial for correct quoting in the pre-POSIX Bourne
 Shell, as well as the C Shell.
+----
+Title: Plänet Commandline
+Link: http://planet-commandline.org/?Amber+Screen
+
+RSS/Atom aggregator with topics related to the command line.
+----
+Title: Programming Language News – Shell
+Link: http://plnews.org/category/Languages__Shell/
+
+Generic shell-related newsfeed.
+----
+Title: Solaris ksh93-integration project
+Link: http://www.opensolaris.org/os/project/ksh93-integration/
+
+Homepage of the project attempting to integrate ksh93 in Solaris,
+replacing both ksh88 and their Bourne (nōn-POSIX) <tt>/bin/sh</tt>.
+(Although <tt>mirabilos</tt> thinks that the old ksh88 should not
+be available as <tt>/usr/bin/oksh</tt> but rather ksh88, due to
+oksh’s existence as pdksh derivate.)
+----
+Title: OpenSolaris shell coding style guidelines
+Link: http://www.opensolaris.org/os/project/shell/shellstyle/
+
+[DRAFT] Bourne/Korn Shell Coding Conventions
 ----
 Title: Evolution of shells in Linux – From Bourne to Bash and beyond
 Link: https://www.ibm.com/developerworks/linux/library/l-linux-shells/index.html
