@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/man.cgi,v 1.2 2012/05/21 20:56:29 tg Exp $';
+my $rcsid = '$MirOS: www/files/man.cgi,v 1.3 2012/05/21 22:13:03 tg Exp $';
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -82,12 +82,21 @@ sub tohtml {
 }
 
 if ($query ne "") {
-	@files = <htman/*/man[1-9]/{,.}*${query}*.htm>;
-	my @f;
-	@f = <htman/*/man{3p,PSD,SMM,USD,PAPERS}/*${query}*.htm>;
-	push @files, @f if (@f > 0);
-	@f = <htman/*/manINFO/*${query}*.html>;
-	push @files, @f if (@f > 0);
+	if (length($query) < 3) {
+		@files = <htman/*/man[1-9]/{,.}${query}*.htm>;
+		my @f;
+		@f = <htman/*/man{3p,PSD,SMM,USD,PAPERS}/${query}*.htm>;
+		push @files, @f if (@f > 0);
+		@f = <htman/*/manINFO/${query}*.html>;
+		push @files, @f if (@f > 0);
+	} else {
+		@files = <htman/*/man[1-9]/{,.}*${query}*.htm>;
+		my @f;
+		@f = <htman/*/man{3p,PSD,SMM,USD,PAPERS}/*${query}*.htm>;
+		push @files, @f if (@f > 0);
+		@f = <htman/*/manINFO/*${query}*.html>;
+		push @files, @f if (@f > 0);
+	}
 }
 
 if (@files > 0) {

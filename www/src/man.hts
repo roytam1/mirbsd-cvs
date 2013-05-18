@@ -3,14 +3,14 @@
 
 mws_setname man "Unix manual pages"
 mws_setheadline "MirBSD manpage search"
-mws_putheader '$MirOS: www/src/man.hts,v 1.1 2012/05/19 21:40:14 tg Exp $'
+mws_putheader '$MirOS: www/src/man.hts,v 1.2 2012/05/21 20:56:30 tg Exp $'
 mws_content <<'EOF'
 <h2>Browse all manpages</h2>
 <p>Online manual pages for the <a href="@@RELPATH@@htman/i386/">i386</a>
  and <a href="@@RELPATH@@htman/sparc/">sparc</a> architectures, including
  other HTML format documentation and formatted texinfo pages, are also
  available for direct perusal. The below search form will only search
- through the stock Unix, Perl and XFree86 manpages. See also our <a
+ through the stock Unix®, Perl and XFree86® manpages. See also our <a
  href="@@RELPATH@@wtf.htm">acronym database and web search</a>.</p>
 
 <h2>Look for a manpage by name</h2>
@@ -20,7 +20,8 @@ mws_content <<'EOF'
 </p></form>
 <p>All architectures will be searched by default. The first full match
  of a regular manpage, if any, is displayed directly. This is not an
- apropos(1) search, only manpage name matches are checked.</p>
+ apropos(1) search, only manpage name matches are checked (matches for
+ queries with less than three characters are anchored at the beginning).</p>
 
 <!-- man-result -->
 EOF
