@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.39 2009/01/31 16:07:22 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.40 2009/02/01 14:39:19 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -550,7 +550,7 @@ disk_trylabel(struct diskinfo *dip)
 #ifndef SMALL_BOOT
 	bios_diskinfo_t *bd = &dip->bios_info;
 	struct dos_mbr *mbr = (struct dos_mbr *)bounce_buf;
-	int i, totsiz;
+	int i, totsiz, maybe_sun = 0;
 
 	if (dip->bios_info.flags & BDI_GOODLABEL)
 		return (0);
@@ -574,7 +574,7 @@ disk_trylabel(struct diskinfo *dip)
 		totsiz = 2880;
 
 		if (!(bd->bios_number & 0x80) || bd->flags & BDI_EL_TORITO ||
-		    (bios_bootpte.active & 0x7F) /* || !bios_bootpte.partyp */)
+		    (bios_bootpte.active & 0x7F) || /* !bios_bootpte.partyp */)
 			bios_bootpte.partyp = 0;
 		if (bd->bios_number & 0x80) {
 			/* read MBR */
@@ -583,6 +583,16 @@ disk_trylabel(struct diskinfo *dip)
 				goto nombr;
 			if (mbr->dmbr_sign != DOSMBR_SIGNATURE)
 				goto nombr;
+			if (bounce_buf[0x1FC] == 0xDA &&
+			    bounce_buf[0x1FD] == 0xBE) {
+				for (i = 0x080; i < 0x088; ++i)
+					if (bounce_buf[i])
+						break;
+				if (i == 0x088) {
+					maybe_sun = 1;
+					bios_bootpte.partyp = 0;
+				}
+			}
 			for (i = 0; i < NDOSPART; i++)
 				if (mbr->dmbr_parts[i].dp_typ &&
 				    (mbr->dmbr_parts[i].dp_start +
@@ -630,7 +640,8 @@ disk_trylabel(struct diskinfo *dip)
 			/* 'a' partition covering the "whole" disk */
 			dip->disklabel.d_partitions[0].p_offset = 0;
 			dip->disklabel.d_partitions[0].p_size = totsiz;
-			dip->disklabel.d_partitions[0].p_fstype = FS_OTHER;
+			dip->disklabel.d_partitions[0].p_fstype =
+			    maybe_sun ? FS_MANUAL : FS_OTHER;
 		}
 
 		/* The raw partition is special */
