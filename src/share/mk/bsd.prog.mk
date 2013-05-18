@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.prog.mk,v 1.27 2008/04/10 13:55:56 tg Exp $
+# $MirOS: src/share/mk/bsd.prog.mk,v 1.28 2008/04/10 14:07:46 tg Exp $
 # $OpenBSD: bsd.prog.mk,v 1.44 2005/04/15 17:18:57 espie Exp $
 # $NetBSD: bsd.prog.mk,v 1.55 1996/04/08 21:19:26 jtc Exp $
 # @(#)bsd.prog.mk	5.26 (Berkeley) 6/25/91
@@ -14,7 +14,11 @@ BSD_PROG_MK=1
 .  include <bsd.own.mk>
 .endif
 
-.SUFFIXES:	.out .o .s .S .c .m .cc .C .cxx .cpp .y .l .9 .8 .7 .6 .5 .4 .3 .2 .1 .0
+.if ${LTMIRMAKE:L} == "yes"
+.  include <bsd.lt.mk>
+.endif
+
+.SUFFIXES:	.out .o .lo .s .S .c .m .cc .C .cxx .cpp .y .l .9 .8 .7 .6 .5 .4 .3 .2 .1 .0
 
 .if ${WARNINGS:L} == "yes"
 CFLAGS+=	${CDIAGFLAGS}
@@ -29,7 +33,11 @@ HOSTCFLAGS?=	${CFLAGS}
 .if defined(PROG) && !empty(PROG)
 SRCS?=		${PROG}.c
 .  if !empty(SRCS:N*.h:N*.sh)
+#.    if ${LTMIRMAKE:L} == "yes"
+#OBJS+=		${SRCS:N*.h:N*.sh:R:S/$/.lo/g}
+#.    else
 OBJS+=		${SRCS:N*.h:N*.sh:R:S/$/.o/g}
+#.    endif
 LOBJS+=		${LSRCS:.c=.ln} ${SRCS:M*.c:.c=.ln} \
 		${SRCS:M*.l:.l=.ln} ${SRCS:M*.y:.y=.ln}
 .    for _i in ${SRCS:M*.l} ${SRCS:M*.y}
@@ -44,9 +52,17 @@ CLEANFILES+=	${_i:R}.h
 
 .  if !empty(SRCS:M*.cc) || !empty(SRCS:M*.C) || \
     !empty(SRCS:M*.cxx) || !empty(SRCS:M*.cpp)
+.    if ${LTMIRMAKE:L} == "yes"
+LINKER?=	${LIBTOOL} --tag=CXX --mode=link ${CXX}
+.    else
 LINKER?=	${CXX}
+.    endif
 .  else
+.    if ${LTMIRMAKE:L} == "yes"
+LINKER?=	${LIBTOOL} --tag=CC --mode=link ${CC}
+.    else
 LINKER?=	${CC}
+.    endif
 .  endif
 
 .  if defined(OBJS) && !empty(OBJS)
@@ -71,6 +87,9 @@ all: ${PROG} _SUBDIRUSE
 
 .if !target(clean)
 clean: _SUBDIRUSE
+.  if ${LTMIRMAKE:L} == "yes"
+	-${LIBTOOL} --mode=clean rm ${PROG} *.lo
+.  endif
 	rm -f a.out [Ee]rrs mklog core *.core \
 	    ${PROG} ${OBJS} ${LOBJS} ${CLEANFILES}
 .endif
@@ -91,12 +110,17 @@ afterinstall:
 .  if !target(realinstall)
 realinstall:
 .    if defined(PROG) && !empty(PROG)
-.      if (${OBJECT_FMT} == "Mach-O") && (${LINK.prog} != "NO")
+.      if ${LTMIRMAKE:L} == "yes"
+	${LIBTOOL} --mode=install ${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} \
+	    -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} ${PROG} ${DESTDIR}${BINDIR}/
+.      else
+.        if (${OBJECT_FMT} == "Mach-O") && (${LINK.prog} != "NO")
 	@print -r Relinking ${PROG}
 	${LINK.prog} -o ${PROG}
-.      endif
+.        endif
 	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${BINOWN} -g ${BINGRP} \
 	    -m ${BINMODE} ${PROG} ${DESTDIR}${BINDIR}/
+.      endif
 .    endif
 .  endif
 

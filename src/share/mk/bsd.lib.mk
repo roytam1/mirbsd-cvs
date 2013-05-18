@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.74 2008/08/08 12:42:49 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.75 2008/08/25 19:00:43 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -12,6 +12,10 @@ BSD_LIB_MK=1
 
 .if !defined(BSD_OWN_MK)
 .  include <bsd.own.mk>
+.endif
+
+.if ${LTMIRMAKE:L} == "yes"
+.  include <bsd.lt.mk>
 .endif
 
 .if defined(SHLIB_MAJOR) && !empty(SHLIB_MAJOR) \
@@ -44,7 +48,10 @@ SHLIB_FLAGS?=	-Wl,--image-base,$$((RANDOM % 0x1000 / 4 * 0x40000 + 0x40000000))
 SHLIB_FLAGS?=	${PICFLAG}
 .  endif
 SHLIB_FLAGS+=	${LDFLAGS}
-.  if (${OBJECT_FMT} == "ELF") || (${OBJECT_FMT} == "PE")
+.  if ${LTMIRMAKE:L} == "yes"
+SHLIB_SONAME=	lib${LIB}.la
+SHLIB_FLAGS+=	-rpath ${LIBDIR}
+.  elif (${OBJECT_FMT} == "ELF") || (${OBJECT_FMT} == "PE")
 SHLIB_FLAGS+=	-Wl,-rpath,${LIBDIR} -Wl,-rpath-link,${DESTDIR}${LIBDIR}
 .  endif
 .endif
@@ -52,9 +59,17 @@ SHLIB_LINKS?=
 
 .if !empty(SRCS:M*.cc) || !empty(SRCS:M*.C) || \
     !empty(SRCS:M*.cxx) || !empty(SRCS:M*.cpp)
+.  if ${LTMIRMAKE:L} == "yes"
+LINKER?=	${LIBTOOL} --tag=CXX --mode=link ${CXX}
+.  else
 LINKER?=	${CXX}
+.  endif
 .else
+.  if ${LTMIRMAKE:L} == "yes"
+LINKER?=	${LIBTOOL} --tag=CC --mode=link ${CC}
+.  else
 LINKER?=	${CC}
+.  endif
 .endif
 
 _LIBS_STATIC?=	Yes
@@ -70,6 +85,17 @@ _LIBS_SHARED=	No
 .  undef SHLIB_LINKS
 .elif !defined(SHLIB_VERSION) || empty(SHLIB_VERSION)
 .  error SHLIB_SONAME (${SHLIB_SONAME}) set, but SHLIB_VERSION unset
+.elif ${LTMIRMAKE:L} == "yes"
+.  if ${SHLIB_VERSION} == "-"
+SHLIB_FLAGS+=	-avoid-version
+.  else
+# slow
+#lt_current!=	print $$((${SHLIB_VERSION:R} + ${SHLIB_VERSION:E}))
+lt_revision?=	0
+#lt_age=	${SHLIB_VERSION:E}
+#SHLIB_FLAGS+=	-version-info ${lt_current}:${lt_revision}:${lt_age}
+SHLIB_FLAGS+=	-version-number ${SHLIB_VERSION:R}:${SHLIB_VERSION:E}:${lt_revision}
+.  endif
 .elif ${RTLD_TYPE} == "dyld"
 LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -dynamiclib \
 		$$(${LORDER} ${SOBJS}|tsort -q) ${LDADD} \
@@ -99,7 +125,7 @@ LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
 # .so used for PIC object files.  .ln used for lint output files.
 # .m for objective c files.
 .SUFFIXES:
-.SUFFIXES:	.out .o .so .S .s .c .m .cc .C .cxx .cpp .y .l .i .ln .m4
+.SUFFIXES:	.out .o .so .lo .S .s .c .m .cc .C .cxx .cpp .y .l .i .ln .m4
 
 .c.o .m.o:
 	@print -r -- ${COMPILE.c:Q} \
@@ -166,11 +192,15 @@ _SODISCARD=	-g -x
 .endif
 
 _LIBS=
-.if ${_LIBS_STATIC:L} == "yes"
+.if ${LTMIRMAKE:L} == "yes"
+_LIBS+=		lib${LIB}.la
+.else
+.  if ${_LIBS_STATIC:L} == "yes"
 _LIBS+=		lib${LIB}.a
-.endif
-.if ${_LIBS_SHARED:L} == "yes"
+.  endif
+.  if ${_LIBS_SHARED:L} == "yes"
 _LIBS+=		lib${LIB}_pic.a ${SHLIB_SONAME}
+.  endif
 .endif
 .if ${NOLINT:L} == "no"
 _LIBS+=		llib-l${LIB}.ln
@@ -178,8 +208,23 @@ _LIBS+=		llib-l${LIB}.ln
 
 all: ${_LIBS} _SUBDIRUSE
 
+.if ${LTMIRMAKE:L} == "yes"
+OBJS+=		${SRCS:N*.h:R:S/$/.lo/g}
+.else
 OBJS+=		${SRCS:N*.h:R:S/$/.o/g}
+.endif
 CLEANFILES+=	${SHLIB_LINKS}
+
+.if ${LTMIRMAKE:L} == "yes"
+lib${LIB}.la:: ${OBJS}
+.  if defined(SHLIB_VERSION) && (${SHLIB_VERSION} != "-")
+	@print -r building libtool ${LIB} library \(version ${SHLIB_VERSION}\)
+.  else
+	@print -r building libtool ${LIB} library
+.  endif
+	@rm -f lib${LIB}.la
+	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} ${OBJS} ${LDADD} -o $@
+.endif
 
 lib${LIB}.a:: ${OBJS}
 	@print -r building standard ${LIB} library
@@ -200,18 +245,20 @@ lib${LIB}_pic.a:: ${SOBJS}
 	@${RANLIB} lib${LIB}_pic.a
 .endif
 
+.if ${LTMIRMAKE:L} != "yes"
 ${SHLIB_SONAME}: ${CRTI} ${CRTBEGIN} ${SOBJS} ${DPADD} ${CRTEND} ${CRTN}
-.if defined(SHLIB_VERSION) && (${SHLIB_VERSION} != "-")
+.  if defined(SHLIB_VERSION) && (${SHLIB_VERSION} != "-")
 	@print -r building shared ${LIB} library \(version ${SHLIB_VERSION}\)
-.else
+.  else
 	@print -r building shared library ${SHLIB_SONAME}
-.endif
+.  endif
 	@rm -f ${SHLIB_SONAME}
 	${LINK.shlib} -o $@
-.for _i in ${SHLIB_LINKS}
+.  for _i in ${SHLIB_LINKS}
 	@rm -f ${_i}
 	ln -s ${SHLIB_SONAME} ${_i} || cp ${SHLIB_SONAME} ${_i}
-.endfor
+.  endfor
+.endif
 
 LOBJS+=		${LSRCS:.c=.ln} ${SRCS:M*.c:.c=.ln} \
 		${SRCS:M*.l:.l=.ln} ${SRCS:M*.y:.y=.ln}
@@ -232,6 +279,9 @@ CLEANFILES+=	${_i:R}.h
 
 .if !target(clean)
 clean: _SUBDIRUSE
+.  if ${LTMIRMAKE:L} == "yes"
+	-${LIBTOOL} --mode=clean rm *.la *.lo
+.  endif
 	rm -f a.out [Ee]rrs mklog core *.core ${CLEANFILES}
 	rm -f lib${LIB}.a ${OBJS}
 	rm -f lib${LIB}_pic.a lib${LIB}.so.*.* lib${LIB}{,.*}.dylib ${SOBJS}
@@ -251,40 +301,45 @@ beforeinstall:
 .  endif
 
 realinstall:
-.  if ${_LIBS_STATIC:L} == "yes"
+.  if ${LTMIRMAKE:L} == "yes"
+	${LIBTOOL} --mode=install ${INSTALL} ${INSTALL_COPY} -m ${LIBMODE} \
+	    -o ${LIBOWN} -g ${LIBGRP} lib${LIB}.la ${DESTDIR}${LIBDIR}/
+.  else
+.    if ${_LIBS_STATIC:L} == "yes"
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    lib${LIB}.a ${DESTDIR}${LIBDIR}/
-.    if ${OBJECT_FMT} == "Mach-O"
+.      if ${OBJECT_FMT} == "Mach-O"
 	chmod 600 ${DESTDIR}${LIBDIR}/lib${LIB}.a
 	${RANLIB} ${DESTDIR}${LIBDIR}/lib${LIB}.a
 	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/lib${LIB}.a
+.      endif
 .    endif
-.  endif
-.  ifdef SHLIB_SONAME
-.    if ${OBJECT_FMT} == "Mach-O"
+.    ifdef SHLIB_SONAME
+.      if ${OBJECT_FMT} == "Mach-O"
 	@print -r Relinking dynamic ${LIB} library
 	${LINK.shlib} -install_name ${LIBDIR}/${SHLIB_SONAME} -o ${SHLIB_SONAME}
-.    endif
+.      endif
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m 600 \
 	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/${SHLIB_SONAME}~
-.    if !defined(MKC_DEBG) || ${MKC_DEBG:L} == "no"
+.      if !defined(MKC_DEBG) || ${MKC_DEBG:L} == "no"
 	${STRIP} ${_SODISCARD} ${DESTDIR}${LIBDIR}/${SHLIB_SONAME}~
-.    endif
+.      endif
 	cd ${DESTDIR}${LIBDIR} && \
 	    chmod ${LIBMODE} ${SHLIB_SONAME}~ && \
 	    mv -f ${SHLIB_SONAME}~ ${SHLIB_SONAME}
-.    for _i in ${SHLIB_LINKS}
+.      for _i in ${SHLIB_LINKS}
 	@rm -f ${DESTDIR}${LIBDIR}/${_i}
 	cd ${DESTDIR}${LIBDIR}; \
 	    ln -s ${SHLIB_SONAME} ${_i} || cp ${SHLIB_SONAME} ${_i}
-.    endfor
-.  elif ${_LIBS_SHARED:L} == "yes"
+.      endfor
+.    elif ${_LIBS_SHARED:L} == "yes"
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    lib${LIB}_pic.a ${DESTDIR}${LIBDIR}/
-.    if ${OBJECT_FMT} == "Mach-O"
+.      if ${OBJECT_FMT} == "Mach-O"
 	chmod 600 ${DESTDIR}${LIBDIR}/lib${LIB}_pic.a
 	${RANLIB} ${DESTDIR}${LIBDIR}/lib${LIB}_pic.a
 	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/lib${LIB}_pic.a
+.      endif
 .    endif
 .  endif
 .  if ${NOLINT:L} == "no"
