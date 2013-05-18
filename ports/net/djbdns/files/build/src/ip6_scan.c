@@ -1,10 +1,10 @@
-/* $MirOS: ports/net/djbdns/files/build/src/ip6_scan.c,v 1.4 2006/06/15 01:43:17 tg Exp $ */
-
 #include "scan.h"
 #include "ip4.h"
 #include "ip6.h"
 #include "byte.h"
 #include "fromhex.h"
+
+__RCSID("$MirOS$");
 
 /*
  * IPv6 addresses are really ugly to parse.
@@ -26,7 +26,6 @@ unsigned int ip6_scan(const char *s,char ip[16])
 
   if ((i=ip4_scan(s,ip+12))) {
     const char *c=V4mappedprefix;
-    if (byte_equal(ip+12,4,V6any)) c=V6any;
     for (len=0; len<12; ++len) ip[len]=c[len];
     return i;
   }

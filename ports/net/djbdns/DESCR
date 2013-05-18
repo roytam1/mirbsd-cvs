@@ -37,6 +37,7 @@ several components:
 • dnscachet6 can now listen on an IPv6 instead of IPv6 address too,
   but not (yet) multiple addresses. It uses IPv4/IPv6 transport on
   the outgoing side in both cases, though.
+• 0.0.0.0 is no longer parsed as [::] but as [::FFFF:0.0.0.0] ☺
 
 In the future, the xxxt6 binaries will replace the respective xxx
 binaries with no way to get the v4-only behaviour back. We’re almost
