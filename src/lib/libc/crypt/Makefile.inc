@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/crypt/Makefile.inc,v 1.2 2005/03/06 20:28:34 tg Exp $
+# $MirOS: src/lib/libc/crypt/Makefile.inc,v 1.3 2006/08/18 13:44:33 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2003/08/12 01:22:17 deraadt Exp $
 
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/crypt ${LIBCSRCDIR}/crypt
@@ -15,3 +15,6 @@ MLINKS+=blowfish.3 blf_ecb_decrypt.3 blowfish.3 blf_cbc_encrypt.3
 MLINKS+=blowfish.3 blf_cbc_decrypt.3
 MLINKS+=arc4random.3 arc4random_stir.3 arc4random.3 arc4random_addrandom.3
 MLINKS+=arc4random.3 arc4random_push.3 arc4random.3 arc4random_pushb.3
+
+SRCS+=	arc4pushk.c
+MLINKS+=arc4random.3 arc4random_pushk.3

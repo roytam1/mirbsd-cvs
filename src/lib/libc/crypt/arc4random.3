@@ -1,4 +1,4 @@
-.\" $MirOS: src/lib/libc/crypt/arc4random.3,v 1.6 2006/08/18 13:02:17 tg Exp $
+.\" $MirOS: src/lib/libc/crypt/arc4random.3,v 1.7 2006/09/24 17:48:32 tg Exp $
 .\" $OpenBSD: arc4random.3,v 1.19 2005/07/17 08:50:55 jaredy Exp $
 .\"
 .\" Copyright 1997 Niels Provos <provos@physnet.uni-hamburg.de>
@@ -31,7 +31,7 @@
 .\"
 .\" Manual page, using -mandoc macros
 .\"
-.Dd September 24, 2006
+.Dd $Mdocdate$
 .Dt ARC4RANDOM 3
 .Os
 .Sh NAME
@@ -39,7 +39,8 @@
 .Nm arc4random_stir ,
 .Nm arc4random_addrandom ,
 .Nm arc4random_push ,
-.Nm arc4random_pushb
+.Nm arc4random_pushb ,
+.Nm arc4random_pushk
 .Nd arc4 random number generator
 .Sh SYNOPSIS
 .Fd #include <stdlib.h>
@@ -53,6 +54,8 @@
 .Fn arc4random_push "int value"
 .Ft uint32_t
 .Fn arc4random_pushb "void *buf" "size_t len"
+.Ft uint32_t
+.Fn arc4random_pushk "void *buf" "size_t len"
 .Sh DESCRIPTION
 The
 .Fn arc4random
@@ -112,6 +115,24 @@ The
 returns a 32-bit random value like
 .Fn arc4random
 which can be used by the caller if desired.
+.Pp
+The
+.Fn arc4random_pushk
+function works exactly like the
+.Fn arc4random_pushb
+function, except in that it does not pull in all the other
+.Nm arc4random
+functions, yielding a smaller executable size, dependencies,
+and faster speed.
+Use this in applications that do not use the
+.Nm arc4random
+function suite themselves, but want to push back data to the kernel.
+It also returns a 32-bit random value.
+If more than 256 octets are passed, they are XOR-folded.
+The
+.Pa stdlib.h
+header file defines a macro with the same name as this function,
+which you can use to see if it's available.
 .Sh SEE ALSO
 .Xr rand 3 ,
 .Xr rand48 3 ,
@@ -140,3 +161,6 @@ first appeared in
 .Fn arc4random_pushb
 first appeared in
 .Mx 10 .
+.Fn arc4random_pushk
+first appeared in
+.Mx 11 .
