@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.37 2006/02/15 13:20:34 tg Exp $
+# $MirOS: src/Makefile,v 1.38 2006/02/24 12:26:18 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -7,6 +7,7 @@
 .include <bsd.own.mk>
 .include "Makefile.inc"
 NOMAN?=	no
+CVSROOT?=/cvs
 
   SUBDIR+= lib
   SUBDIR+= include
@@ -166,8 +167,7 @@ _DISTS=	base
 _DISTS=	base x11 htman
 .endif
 
-_INDEX_FILES=	CKSUM RMD160 RMD160.gz ports${OSrev}.ngz \
-		source${OSrev}.ngz xfree${OSrev}.ngz
+_INDEX_FILES=	CKSUM RMD160 RMD160.gz source${OSrev}.ngz xfree${OSrev}.ngz
 
 .ifdef QUICK_DIST
 .  include "gcc/Makefile.lang"
@@ -208,7 +208,7 @@ _do-dist:
 .endif
 .ifdef QUICK_DIST
 	@echo QUICK dist-build mode active:
-	@echo not building XFree86® or HTML manual pages.
+	@echo not building XFree86®, ports or HTML manual pages.
 .endif
 	@echo "============================================================"
 	${SUDO} rm -rf ${BSDOBJDIR} ${BSDRELDIR}
@@ -227,6 +227,13 @@ _do-dist:
 .ifndef QUICK_DIST
 	@date
 	cd ${.CURDIR} && exec ${MAKE} do-htman
+.endif
+	${SUDO} rm -rf ${BSDRELDIR}/rel
+	mkdir ${BSDRELDIR}/rel
+.ifndef QUICK_DIST
+	@date
+	SUDO=${SUDO:Q} OSrev=${OSrev:Q} BSDRELDIR=${BSDRELDIR:Q} \
+	    CVSROOT=${CVSROOT:Q} ${MKSH} ${BSDSRCDIR}/scripts/tarports
 .endif
 	@date
 	@echo "============================================================"
@@ -247,8 +254,6 @@ _do-dist:
 .ifndef BATCH
 	@read a?'Press Return to continue...'
 .endif
-	${SUDO} rm -rf ${BSDRELDIR}/rel
-	${SUDO} mkdir ${BSDRELDIR}/rel
 	cd ${BSDRELDIR}/base/snapshot && ${SUDO} ${INSTALL} -c \
 	    -o root -g wheel -m 444 * ${BSDRELDIR}/rel/
 .for _set in ${_DISTS}
@@ -267,7 +272,6 @@ _do-dist:
 	@/bin/ls -Fl ${BSDRELDIR}/rel
 	@echo "============================================================"
 
-CVSROOT?=/cvs
 cvsup:
 	cd ${.CURDIR} && cvs -Rqz3 -d ${CVSROOT} up -PAd [!BCXcptw]!(*cc) .*
 
