@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.inc,v 1.23 2005/12/18 16:36:50 tg Exp $
+# $MirOS: gcc/Makefile.inc,v 1.24 2006/09/22 04:17:32 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_INC
 _MODGCC_MAKEFILE_INC=1
@@ -28,8 +28,8 @@ LIBGCC_REV=	1.1
 LIBGCJ_REV=	5.0
 LIBOBJC_REV=	3.1
 LIBOBJC_VER=	4:0:1
-LIBCXX_REV=	38.0
-LIBCXX_VER=	38:0:0
+LIBCXX_REV=	39.0
+LIBCXX_VER=	39:0:0
 
 .if ${GCC_NATIVE:L} == "yes"
 GCC_PREFIX=	/usr

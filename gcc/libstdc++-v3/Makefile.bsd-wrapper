@@ -1,4 +1,4 @@
-# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.13 2005/11/22 17:55:24 tg Exp $
+# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.14 2005/12/17 06:04:19 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -9,6 +9,8 @@ CFWRAP_NO_CXXCOM=defined
 CXXOPTS?=	${COPTS}
 CXXOPTS+=	-Wno-unused
 NOMAN=		yes
+# --enable-clocale=ieee_1003.1-2001 is broken although we'd probably
+# support it: try 'fgrep -r _GLIBCXX_NUM_CATEGORIES .' once…
 CFARGS+=	--enable-static ${CF_PIC} --prefix=${GCC_PREFIX} \
 		--enable-fast-install --disable-libtool-lock \
 		--disable-libstdcxx-pch --disable-nls --enable-c99 \

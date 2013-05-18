@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: gcc/libstdc++-v3/configure.host,v 1.2 2005/03/26 09:11:59 tg Exp $
 #
 # configure.host
 #
@@ -182,9 +182,6 @@ case "${host_os}" in
     ;;
   mingw32*)
     os_include_dir="os/mingw32"
-    ;;
-  mirbsd*)
-    os_include_dir="os/bsd/netbsd"
     ;;
   netbsd*)
     os_include_dir="os/bsd/netbsd"
