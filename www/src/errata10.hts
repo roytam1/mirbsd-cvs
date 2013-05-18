@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname errata/10 "Errata for MirOS #10"
-mws_putheader '$MirOS: www/src/errata10.hts,v 1.14 2008/06/21 22:37:19 tg Exp $'
+mws_putheader '$MirOS: www/src/errata10.hts,v 1.15 2008/07/05 01:38:25 tg Exp $'
 mws_content <<'EOF'
 <h1>Errata for MirOS #10</h1>
 
@@ -12,6 +12,11 @@ mws_content <<'EOF'
 <p>By upgrading to the <tt>MIRBSD_10</tt> branch on CVS in the
  <tt>src</tt> module, you gain the following fixes:</p><ul>
 <li>
+ Under some circumstances, arc4random(9) was not properly initialised
+ until the next write to arandom(4), <tt>RNDSTIRARC4</tt> ioctl(2),
+ or (in -current) slow pool full event. This usually was not an issue
+ since <tt>/etc/rc</tt> and the installer re-set arandom(4) at boot.
+</li><li>
  A positive leap second will be introduced at the end of December 2008.
 </li><li>
  Add support for <tt>__restrict__</tt> and <tt>__packed</tt> on PCC
