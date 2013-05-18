@@ -1,6 +1,6 @@
 mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.18 2010/07/19 20:39:20 tg Exp $'
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.19 2010/11/16 09:50:46 tg Exp $'
 mws_content <<'EOF'
 <h2>Table of Content</h2>
 EOF
@@ -59,6 +59,8 @@ mws_content <<'EOF'
 </ul>
 
 <h4 id="wishlist">Wishlist</h4>
+<p><a href="http://bugs.debian.org/603910">Debian #603910</a>: need
+ support for ssh-add(1) <tt>-c</tt> query protocol</p>
 <p>Possible extensions include gnome-keyring bindings as well as some
  for the new KDE/GNOME intra-desktop keyring/wallet standard talking
  D-Bus instead of using the libkwalletclient convenience libraries;
