@@ -46,7 +46,7 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 #
-# $MirOS: www/files/cvs.cgi,v 1.4 2010/07/16 19:23:26 tg Exp $
+# $MirOS: www/files/cvs.cgi,v 1.5 2011/10/25 21:35:51 tg Exp $
 # $FreeBSD: projects/cvsweb/cvsweb.cgi,v 1.291 2005/01/22 12:43:55 scop Exp $
 # $Id$
 # $Idaemons: /home/cvs/cvsweb/cvsweb.cgi,v 1.84 2001/10/07 20:50:10 knu Exp $
@@ -121,7 +121,7 @@ use constant HAS_EDIFF    => eval { require String::Ediff;  };
 
 BEGIN
 {
-  $VERSION = '3.0.5 + $MirOS$';
+  $VERSION = '3.0.5 + $MirOS: www/files/cvs.cgi,v 1.5 2011/10/25 21:35:51 tg Exp $';
 
   $HTML_DOCTYPE =
     '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ' .
@@ -3778,7 +3778,7 @@ EOF
 
   printf(<<EOF, $scriptwhere);
 </table>
-<hr style="width: 100%" />
+<hr style="width: 100%%" />
 <form method="get" action="%s">
 <div style="float: left">
 <label for="f">Diff format:<br />
