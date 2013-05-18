@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.108 2006/03/27 20:59:32 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.109 2006/04/25 20:01:00 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2482,12 +2482,18 @@ describe:
 .    endif
 	@echo -n "|"
 .  endfor
-	@case "${ONLY_FOR_PLATFORM}" in \
-	"")	case "${NOT_FOR_PLATFORM}" in \
-		"")	echo -n "any|" ;; \
-		*)	echo -n "!${NOT_FOR_PLATFORM}|" ;; \
-		esac ;; \
-	*)	echo -n "${ONLY_FOR_PLATFORM}|" ;; \
+	@case "${ONLY_FOR_PLATFORM}!${NOT_FOR_PLATFORM}" in \
+	"!")	echo -n "any|" ;; \
+	*)	sp=; only="${ONLY_FOR_PLATFORM}"; not="${NOT_FOR_PLATFORM}"; \
+		test -z "$$only" || for a in $$only; do \
+			echo -n "$$sp$$a"; \
+			sp=" "; \
+		done; \
+		test -z "$$not" || for a in $$not; do \
+			echo -n "$$sp!$$a"; \
+			sp=" "; \
+		done; \
+		echo -n "|" ;; \
 	esac
 
 .  if defined(_BAD_LICENCING)
