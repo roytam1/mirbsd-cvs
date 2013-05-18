@@ -2396,3 +2396,29 @@ Author: tg@
  Xen/Linux console output that ACPI devices have 256 IRQ lines? This
  would be the one and only reason for me to adopt it…</p>
 ----
+Date: 22.10.2007
+Author: tg@
+
+<p>I played a little around at work, and MirOS does boot fine, even <a
+ href="http://article.gmane.org/gmane.os.miros.general/7327">with
+ networking</a>, in a Xen HVM configuration. Since it was at work, I
+ couldn’t really do much. It was tricky, though. My boss now wants to
+ know if Windows® would also work (I assume so, now I know how).</p>
+<p><a href="https://www.freewrt.org/trac/">FreeWRT</a> nor also has <a
+ href="https://www.freewrt.org/docs/htman/">online manual pages</a>,
+ now guess whose script is doing the job. Right. I’m especially proud
+ of the fact that this was in no way paid work (and that ekkoBSD was
+ not for void either). I thought, after having hacked on it for quite
+ a bit on the last days, that my other project (I am, after all, the
+ provisional project leader until wbx@ is no longer <tt>EAVAIL</tt>)
+ could benefit from it as well – I think manpages are a unique selling
+ point in the embedded GNU/Linux distribution market (others have their
+ own USPs… such as working X11…), and I discussed the idea with wbx@ a
+ long time ago already; now it’s there. Of course, the packagers need
+ to make sure themselves that their do-install targets actually provide
+ the manpages, formatted or not, no matter, to the system.</p>
+<p>herc crashed today due to a panic. This sucks. No idea why, and I
+ had no time to check either, since the system is live. raid(4) boxen
+ seem to tend to crash more often under low-ram, much-I/O situations.
+ No data was lost, though.</p>
+----
