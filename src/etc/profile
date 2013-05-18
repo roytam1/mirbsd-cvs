@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.35 2006/11/16 21:42:00 tg Exp $
+# $MirOS: src/etc/profile,v 1.36 2006/11/17 03:34:52 tg Exp $
 #-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -11,7 +11,8 @@ umask 022
 else
 	TERM=vt220
 fi
-test -n "$LC_ALL$LC_CTYPE$LANG" || if wsconfig -Uq 2>&-; then
+LC_CTYPE=${LC_ALL:-${LC_CTYPE:-${LANG}}}
+test -n "$LC_CTYPE" || if /usr/sbin/wsconfig -Uq 2>&-; then
 	LC_CTYPE=en_US.UTF-8
 	set -o utf8-hack 2>&-
 else
@@ -87,7 +88,7 @@ elif [ -n "$BASH_VERSION" ]; then
 	_shellok=1
 fi
 export BROWSER CVSUMASK EDITOR HOME HOSTNAME IRCNAME IRCPORT IRCSERVER
-export OSNAME PAGER PS1 TERM USER USER_ID
+export LC_CTYPE OSNAME PAGER PS1 TERM USER USER_ID
 unset NOCOLOURPROMPT PSX x
 alias cls='print -n \\033c'
 alias la='ls -Fa'
