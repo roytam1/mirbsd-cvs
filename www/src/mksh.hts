@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.450 2012/04/07 01:12:54 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.451 2012/04/07 10:11:18 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1092,10 +1092,16 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] New <tt>Build.sh</tt> environment configurable: LDSTATIC (empty)</li>
  <li>[tg] Improve LTO effect by always adding our copies of distributed utility
   function sources when linking statically (i.e. LDSTATIC is not empty)</li>
+ <li>[tg] Drop deprecated hack for lines beginning with an exclamation mark</li>
+ <li>[tg] No longer interpret numbers beginning with a 0 digit as octal</li>
+ <li>[tg] Attempt to use <tt>-fwrapv</tt> on more compilers</li>
+ <li>[tg, RT] Better portability to 386BSD</li>
+ <li>[tg] No longer use mkstemp(3) or tempnam(3) functions, do our own</li>
+ <li>[tg] Fix some bugs in the manual page</li>
 </ul>
-<!--
 <p>Changes in the current (unreleased) stable branch:</p><ul>
--->
+ <li>[tg] Fix a bug in the manual page</li>
+</ul>
 <p id="r40f">mksh R40f fixes a critical bug as well as this:</p><ul>
  <li>[tg, RT] Implement fcntl(2)-based advisory locking as an alternative
   iff flock(2) is not found (LP: #912691); keep trying in the face of EINTR</li>
