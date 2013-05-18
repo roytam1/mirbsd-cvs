@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.21 2006/07/03 12:34:53 tg Exp $
+# $MirOS: src/etc/profile,v 1.22 2006/07/03 12:35:26 tg Exp $
 #-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -86,7 +86,7 @@ unset _shellok
 [[ -n $KSH_VERSION ]] && function __shortpath {
 	typeset tilde=~ path=${1:-${PWD:-$(pwd)}}
 	typeset dots= path2=${path#$tilde}
-	[[ $path2 = $path || -z $tilde || $tilde = / ]] || path='~'$path2
+	[[ $path2 = $path || -z $tilde || $tilde = / ]] || path=\~$path2
 	let cmax="${COLUMNS:-80} / 3"
 	(( cmax < 7 )) && let cmax=7
 	while (( (${#dots} + ${#path}) > cmax )); do
