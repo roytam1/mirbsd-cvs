@@ -1,4 +1,4 @@
-# $miros: src/etc/ssl.certs.shar,v 1.33 2011/03/30 08:59:55 tg Exp $
+# $miros: src/etc/ssl.certs.shar,v 1.35 2011/08/30 13:10:50 tg Exp $
 CVS_ID "@(#) $MirOS: ports/essentials/ca-certificates/certdata.txt,v 1.2 2011/03/30 10:16:12 tg Exp $"
 
 BEGINDATA
