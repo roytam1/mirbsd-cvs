@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/catalogues.c,v 1.1 2005/09/22 21:21:09 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/catalogues.c,v 1.2 2005/09/22 21:47:01 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -26,27 +26,35 @@
 #include <locale.h>
 #include <nl_types.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/catalogues.c,v 1.1 2005/09/22 21:21:09 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/catalogues.c,v 1.2 2005/09/22 21:47:01 tg Exp $");
 
 /* fake NLS support */
 
+nl_catd _catopen(const char *, int);
+/* const because of gcc warnings */
+const char *_catgets(nl_catd, int, int, const char *);
+int _catclose(nl_catd);
+
 nl_catd
-_catopen(const char *name, int oflag)
+_catopen(const char *name __attribute__((unused)),
+    int oflag __attribute__((unused)))
 {
-	return (nl_catd) 0;
+	return ((nl_catd) 0);
 }
 
 int
-_catclose(nl_catd catd)
+_catclose(nl_catd catd __attribute__((unused)))
 {
-	return 0;
+	return (0);
 }
 
-char *
-_catgets(nl_catd catd, int set_id, int msg_id, const char *s)
+const char *
+_catgets(nl_catd catd __attribute__((unused)),
+    int set_id __attribute__((unused)),
+    int msg_id __attribute__((unused)),
+    const char *s)
 {
-	/* LINTED interface specification */
-	return (char *) s;
+	return (s);
 }
 
 __weak_alias(catopen, _catopen);

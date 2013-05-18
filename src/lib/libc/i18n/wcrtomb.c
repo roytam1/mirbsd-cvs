@@ -24,13 +24,55 @@
  * of this work, even if advised of the possibility of such damage.
  */
 
+#include <errno.h>
 #include <locale.h>
 #include <wchar.h>
 
 __RCSID("$MirOS: src/lib/libc/i18n/wctob.c,v 1.3 2005/09/22 21:52:28 tg Exp $");
 
-int
-wctob(wint_t c)
+size_t
+wcrtomb(char *__restrict__ sb, wchar_t wc, mbstate_t *__restrict__ ps)
 {
-	return ((c <= (locale_is_utf8 ? 0x7E : 0xFF)) ? (int)c : EOF);
+	static mbstate_t internal_mbstate = { 0, 0 };
+	unsigned char *s = (unsigned char *)sb;
+
+	if (__predict_false(ps == NULL))
+		ps = &internal_mbstate;
+
+	if (__predict_false(s == NULL)) {
+		size_t numb = ps->count;
+		ps->count = 0;
+		return (numb + 1);
+	}
+
+	if (__predict_true(!locale_is_utf8)) {
+		if (wc < 0x0100) {
+			*sb = wc;
+			return (1);
+		}
+		errno = EILSEQ;
+		return ((size_t)(-1));
+	}
+
+	if (__predict_false(ps->count > 0)) {
+		/* process remnants from an earlier conversion state */
+		wc = ps->value;
+		goto do_conv;
+	}
+
+	if (wc < 0x0080) {
+		*s++ = wc;
+	} else if (wc < 0x0800) {
+		ps->count = 1;
+		*s++ = (wc >> 6) | 0xC0;
+	} else {
+		ps->count = 2;
+		*s++ = (wc >> 12) | 0xE0;
+	}
+
+do_conv:
+	while (ps->count) {
+		*s++ = ((wc >> (6 * --ps->count)) & 0x3F) | 0x80;
+	}
+	return (s - (unsigned char *)sb + 1);
 }

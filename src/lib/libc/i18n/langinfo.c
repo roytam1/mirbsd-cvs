@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/gen/i18n.c,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/langinfo.c,v 1.1 2005/09/22 21:21:09 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005
@@ -31,11 +31,15 @@
 #include <locale.h>
 #include <nl_types.h>
 
-__RCSID("$MirOS: src/lib/libc/gen/i18n.c,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/langinfo.c,v 1.1 2005/09/22 21:21:09 tg Exp $");
 
 /* fake locale support */
 
-const _TimeLocale _DefaultTimeLocale = {
+struct lconv *__weak_localeconv(void);
+/* const for gcc's sake */
+const char *__weak_nl_langinfo(nl_item);
+
+_TimeLocale _DefaultTimeLocale = {
 	{ "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"	},
 	{ "Sunday", "Monday", "Tuesday", "Wednesday",
 	  "Thursday", "Friday", "Saturday"			},
@@ -49,7 +53,7 @@ const _TimeLocale _DefaultTimeLocale = {
 	"%H:%M:%S", "%I:%M:%S %p"
 };
 
-const struct lconv _DefaultLocaleConv = {
+struct lconv _DefaultLocaleConv = {
 	".", "", "", "", "", "", "", "", "", "",
 	CHAR_MAX, CHAR_MAX, CHAR_MAX, CHAR_MAX,
 	CHAR_MAX, CHAR_MAX, CHAR_MAX, CHAR_MAX
@@ -61,7 +65,7 @@ __weak_localeconv(void)
 	return (struct lconv *)&_DefaultLocaleConv;
 }
 
-char *
+const char *
 __weak_nl_langinfo(nl_item item)
 {
 	const char *s;
@@ -151,7 +155,7 @@ __weak_nl_langinfo(nl_item item)
 		break;
 	}
 
-	return (char *)s;
+	return (s);
 }
 
 __weak_alias(localeconv, __weak_localeconv);
