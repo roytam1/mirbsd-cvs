@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.228 2008/10/16 19:06:40 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.229 2008/11/01 22:57:22 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -453,10 +453,13 @@ PORTHOME?=		/${PKGNAME}_writes_to_HOME
 MAKE_ENV+=		HOME=${PORTHOME:Q} PATH=${PORTPATH:Q} \
 			PREFIX=${PREFIX:Q} TRUEPREFIX=${PREFIX:Q} \
 			LOCALBASE=${LOCALBASE:Q} X11BASE=${X11BASE:Q} \
-			CC=${_PASS_CC:Q} CXX=${_PASS_CXX:Q} CFLAGS=${CFLAGS:M*:Q} \
-			LDFLAGS=${LDFLAGS:Q} ${DESTDIRNAME}= \
+			CC=${_PASS_CC:Q} LDFLAGS=${LDFLAGS:Q} ${DESTDIRNAME}= \
+			CXX=${_PASS_CXX:Q} CFLAGS=${CFLAGS:M*:Q} \
 			BINOWN=${BINOWN:Q} BINGRP=${BINGRP:Q} \
 			EXTRA_SYS_MK_INCLUDES=\"${PORTSDIR:Q}/infrastructure/mk/mirports.bsd.mk\"
+.if ${NO_CXX:L} == "no"
+MAKE_ENV+=		CXXFLAGS=${CXXFLAGS:M*:Q}
+.endif
 
 .if defined(LDADD) && !empty(LDADD)
 MAKE_ENV+=		LDADD=${LDADD:Q}
@@ -1315,10 +1318,10 @@ MODSIMPLE_configure=	cd ${WRKCONF} && \
 
 MODSIMPLE_configure_env=REALOS=${OStype:Q} MKSH=${MKSH:Q} \
 			ac_cv_path_CC=${_PASS_CC:Q} ac_cv_path_CXX=${_PASS_CXX:Q} \
-			CC=${_PASS_CC:Q} CFLAGS="$$(print -nr -- '${CFLAGS}' | \
+			CC=${_PASS_CC:Q} CFLAGS="$$(print -nr -- ${CFLAGS:Q} | \
 			    sed -e 's${CPPFLAGS:S\\\\\\g}g' \
 			    -e 's/[ 	]*$$//')" \
-			CXX=${_PASS_CXX:Q} CXXFLAGS="$$(print -nr -- '${CXXFLAGS}' | \
+			CXX=${_PASS_CXX:Q} CXXFLAGS="$$(print -nr -- ${CXXFLAGS:Q} | \
 			    sed -e 's${CPPFLAGS:S\\\\\\g}g' \
 			    -e 's/[ 	]*$$//')" \
 			LD=${LD:Q} LDFLAGS=${LDFLAGS:Q} CPPFLAGS=${CPPFLAGS:Q} \
