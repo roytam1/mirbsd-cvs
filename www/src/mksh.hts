@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.105 2008/04/12 00:30:20 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.106 2008/04/17 21:25:09 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -309,12 +309,11 @@ mws_content <<'EOF'
 <h5 id="oe_pcc">Compiler: PCC (BSD)</h5>
 <p>Support for the Caldera/SCO UNIX® based, BSD-licenced portable C compiler
  in the <a href="http://pcc.ludd.ltu.se/">ragge version</a> 0.9.8
- and pcc-071009 has been added with mksh R31d; as of now, you need to use an
- environment option of <tt>HAVE_CAN_OTWO=0 HAVE_CAN_OPTIMISE=0</tt> (disable
- optimisation) because otherwise the “continue” command is broken and thusly
- the regression test suite does not pass. This has been confirmed to be a bug
- in pcc (at least), probably due to sigsetjmp(3)/siglongjmp(3) interaction.
- More recent versions of pcc seem to fail to build even simple executables.</p>
+ and pcc-071009 has been added with mksh R31d. If you happen to have a working
+ binary of pcc, which is rare if pulling from CVS, you can use it to compile
+ mksh. However, for pcc older than pcc-080415, you must disable optimisation
+ and use of its built-in Boolean type by passing <tt>HAVE_CAN_OTWO=0
+ HAVE_CAN_OPTIMISE=0 HAVE_STDBOOL_H=0</tt> in the build environment.</p>
 
 <h5 id="oe_sun">Compiler: SUNpro</h5>
 <p>Support for the <a href="http://developers.sun.com/sunstudio/">SUN Studio
@@ -694,6 +693,7 @@ mws_content <<'EOF'
 <ul>
  <li style="list-style:none;">– tests by the project, using Makefile –</li>
  <li>MirOS #10-current (i386 gcc3.4.6)</li>
+ <li>MirOS #10-current (i386 pcc20080420)</li>
  <li>MirOS #10-current (sparc gcc3.4.6)</li>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
  <li>MirOS #10-current (i386 gcc3.4.6)</li>
@@ -879,12 +879,8 @@ mws_content <<'EOF'
  Plan 9, Syllable – debug these</li>
 <li>Build with more platforms’ native tools or other compilers
  – ACK, kencc, ICC/UWIN, egcs/UWIN, tcc</li>
-<li>Maybe handle base-0 and base-1 “integers” as octets and unicode
- characters, respectively: <tt>typeset -Uui16 x=0#A y=1#€; print $x
- $y</tt> könnte dann <tt>16#41 16#20AC</tt> ausgeben (quasi wie die
- <tt>asc()</tt> Funktion von BASIC), und – vice versa – <tt>typeset
- -Uui0 x=0x40; typeset -Uui1 y=0x263A; print $x $y</tt> würde dann
- <tt>0#@ 1#☺</tt> ausgeben. Currently, bases 2‥36 are valid.</li>
+<li>Add the ability to handle embedded NUL bytes in strings read,
+ for example in the hexdump “utility” (regression test)</li>
 </ul>
 
 <h2 id="clog">Recent Changes</h2>
@@ -896,6 +892,33 @@ mws_content <<'EOF'
  <li>Port to <a href="http://www.syllable.org/">Syllable</a> (much
   improved; support now en par with Plan 9’s, thanks to Anthony Morphett
   &lt;awmorp@gmail.com&gt; – maybe the rest is a kernel bug?)</li>
+ <li>Import the GNU bash- and zsh-style ability to get and set multiple
+  limits in a single invocation from oksh (thanks millert)</li>
+ <li>Some style cleanup; use appropriate integer types</li>
+ <li>Fix a bug in table (e.g. kill -l, tab completion) display: the width
+  of non-ASCII characters is now honoured in the utf8-hack mode</li>
+ <li>Improve handling of invalid UTF-8 in certain areas, and multibyte
+  (UTF-8 / CESU-8) in general</li>
+ <li>When using “typeset -Z«n»” on an integer variable with a base other
+  than ten, zero-pad the value instead of the base – pdksh, oksh, zsh, and
+  AT&amp;T ksh93 are wrong here; GNU bash doesn’t even have typeset</li>
+ <li>Improve parsing of “set +o” output where done (dot.mkshrc, check.t)</li>
+ <li>Improve regression tests</li>
+ <li>Support for base-1 numbers: in non-utf8-hack mode, ‘1#x’ means the same
+  as the ASCII code for ‘x’ (e.g. 78hex), where ‘x’ is any single octet (byte);
+  in utf8-hack mode, ‘x’ is <em>either</em> a <strong>valid and minimalistically
+  encoded</strong> UTF-8 multibyte character in the range 0000‥FFFD, <em>or</em>
+  a single octet <em>with no trailing octets (bytes)</em>, which will then be
+  converted as if it were an ASCII value, or, if bit7 is set, be mapped into the
+  PUA range of EF80‥EFFF assigned by CSUR for this purpose; this mapping is, in
+  both cases, bidirectional; the planned base-0 number support is not possible
+  with the code, so use base-1 (with utf8-hack disabled, or &amp; 0xFF) instead
+  (while it is recommended to parse only single octets, there is a regression
+  test showing correct and safe multibyte parsing, which however is error-prone
+  to implement and thusly not recommended) – “genial” replaced@TNG, “this sounds
+  fun” ggergely, agreed bsiegert@ and others</li>
+ <li>Pull in more current versions of supplied files; use Unicode 5.0</li>
+ <li>Clean up unused definitions in build system; document MKSH_CLS_STRING</li>
 </ul>
 <p id="r33d">mksh R33d is a quick security-update with these changes:</p><ul>
  <li>Move a portability define from <tt>sh.h</tt> to the <tt>setmode.c</tt>

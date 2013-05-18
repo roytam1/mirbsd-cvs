@@ -483,3 +483,56 @@ Title: Geocacheing in Basel
  to rebuild the class libraries you need ecj and paxmirabilis/MirCpio – I
  did the ecj part on Debian and the rest on MirBSD.</p>
 ----
+Date: 20.04.2008 02:34
+Author: tg@
+Title: Back home again
+
+<p>Back home… there just ain’t such place as [::1]… (that’s localhost for all
+ of you who don’t use BSD). Swinging on the bike and going to the ice dealer,
+ the best of them all. It was kind of nice in Switzerland and it’ll be a hard
+ decision for me whether I’m going to move there or not. But after arriving
+ at home, past the bike tour, I fell into sleep pretty soon. Travelling may
+ be interesting, but it sure is tiring.</p>
+<p>Too bad I couldn’t find the two geocaches I looked for on the way back.</p>
+<p>I hacked some <a href="@@RELPATH@@mksh.htm">mksh</a> on the train, until
+ I had no power left in the batteries… the laptop literally just went off
+ all suddenly… and continued that until now. We have some quite interesting
+ new features in now, only sad point is that we still can’t hexdump NUL.</p>
+<p>I should definitively get my new server (tear) running now, for which the
+ only dependency left ought to be the updated vnd(4) crypto stuff. This will
+ take a while, as I’ll design a new on-disc format as well for improved
+ security (think of keys, IVs, and so on). After that’s done I’ll give y’all
+ a snapshot of MirOS-current, and update a <em>lot</em> of ports.</p>
+<p>Maybe I should work on bringing a regular sparc boot floppy into the tree
+ as well – last time, I had to hand-craft one. But it will be lacking.</p>
+<p>There’s so much interesting stuff to do. Working on the Zaurus, ALIX, my
+ SPARcstations (still no big monitor yet, so I couldn’t test Miod’s patch to
+ make tvtwo(4/sparc) work yet), more FreeWRT devices… but I can’t neglect my
+ dayjobs either. And I ought to learn to read and fix Perl *sigh*</p>
+<p>This sucks: I have network (internet) outages since last night. Sometimes,
+ ppp(8) + pppoe(8) still work when pppoe(4) doesn’t, but most of these times,
+ both are unusable. The rest of the time, I sometimes have huge lags. My ISP
+ (which unfortunately is a telco, but they aren’t completely clueless either)
+ wanted to upgrade me from a 4 Mbit/s connection to a 6 Mbit/s connection as
+ the old product doesn’t even exist any more (and I’ll save 10 €/month now),
+ and the cable length (230m) isn’t an issue either. Testing today (as per the
+ salesman I should have it May 1st, per the acknowledgement mail April 15th)
+ I’ve got about 6 Mbit/s down, but my upstream speed is even reduced! WTF?</p>
+----
+Title: <a href="http://pcc.ludd.ltu.se/">pcc</a> sucks
+Author: tg@
+Date: 20.04.2008 03:37
+
+<p>I probably could compile mksh on pcc again… if pcc would compile itself.
+ Hey, this one is about the contrary of OpenBSD, where development versions
+ are stable… pcc should warn before cvs upping.</p>
+<p>Every time I try to build <a href="@@RELPATH@@mksh.htm">mksh</a> with
+ pcc, either it’s totally b0rked or I have to fix it. Today: ragge doesn’t
+ understand autotools. (He added a test to configure.ac which ① gives a
+ syntax error when failing, ② fails when compiling pcc using pcc as the
+ compiler, ③ doesn’t show up if <tt>/lib/cpp</tt> exists (on GNU/Linux, I
+ suppose), ④ produces a broken cpp(1) executable if it fails, ⑤ doesn’t
+ even test for the thing it is supposed to check.)</p>
+<p>Oh, and the charsets of the mails are b0rken. (WTF windows-1252 when I
+ send UTF-8?) See all the ugly details here (XXX insert link).</p>
+----
