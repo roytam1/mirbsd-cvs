@@ -1,5 +1,6 @@
-# $MirOS: ports/infrastructure/templates/4.4BSD.dist,v 1.2 2005/12/17 01:52:24 tg Exp $
-# $OpenBSD: 4.4BSD.dist,v 1.176 2005/06/03 22:25:50 deraadt Exp $
+# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.27 2008/05/07 12:19:49 tg Exp $
+# $miros: src/etc/mtree/4.4BSD.dist,v 1.27 2008/05/07 12:19:49 tg Exp $
+# $OpenBSD: 4.4BSD.dist,v 1.186 2007/05/23 07:28:15 hshoexer Exp $
 
 /set type=dir uname=@BINOWN@ gname=@BINGRP@ mode=0755
 # .
@@ -37,12 +38,12 @@ disklabels
 # ./etc/firmware
 #firmware
 # ./etc/firmware
-#..
+# ..
 
 # ./etc/hotplug
 #hotplug
 # ./etc/hotplug
-#..
+# ..
 
 # ./etc/isakmpd
 isakmpd
@@ -138,9 +139,35 @@ bin		mode=0711
 # ./etc/skel/.etc/bin
 ..
 
+# ./etc/skel/.etc/calendar
+calendar	mode=0700
+# ./etc/skel/.etc/calendar
+..
+
 # ./etc/skel/.etc/ssh
 ssh		mode=0700
 # ./etc/skel/.etc/ssh
+..
+
+# ./etc/skel/.etc/xdg
+xdg		mode=0700
+
+# ./etc/skel/.etc/xdg/cache
+cache		mode=0700
+# ./etc/skel/.etc/xdg/cache
+..
+
+# ./etc/skel/.etc/xdg/config
+config		mode=0700
+# ./etc/skel/.etc/xdg/config
+..
+
+# ./etc/skel/.etc/xdg/data
+data		mode=0700
+# ./etc/skel/.etc/xdg/data
+..
+
+# ./etc/skel/.etc/xdg
 ..
 
 # ./etc/skel/.etc
@@ -208,28 +235,6 @@ proc		mode=0555
 # ./proc
 ..
 
-# ./root
-root		mode=0700
-
-# ./root/.etc
-.etc		mode=0700
-
-# ./root/.etc/bin
-bin		mode=0700
-# ./root/.etc/bin
-..
-
-# ./root/.etc/ssh
-ssh		mode=0700
-# ./root/.etc/ssh
-..
-
-# ./root/.etc
-..
-
-# ./root
-..
-
 # ./sbin
 sbin
 # ./sbin
@@ -258,6 +263,16 @@ bin
 # ./usr/bin
 ..
 
+# ./usr/dbin
+dbin
+# ./usr/dbin
+..
+
+# ./usr/dsbin
+dsbin
+# ./usr/dsbin
+..
+
 # ./usr/include
 include		mode=0755
 
@@ -271,8 +286,13 @@ libmilter	mode=0755
 # ./usr/include/libmilter
 ..
 
+# ./usr/include/ncursesw
+ncursesw	mode=0755
+# ./usr/include/ncursesw
+..
+
 # ./usr/include/openssl
-openssl		mode=0555
+openssl		mode=0755
 # ./usr/include/openssl
 ..
 
@@ -301,6 +321,12 @@ rpcsvc		mode=0755
 
 # ./usr/lib
 lib
+
+# ./usr/lib/i18n
+i18n
+# ./usr/lib/i18n
+..
+
 # ./usr/lib
 ..
 
@@ -321,6 +347,11 @@ site_perl
 ..
 
 # ./usr/libdata/perl5
+..
+
+# ./usr/libdata/pkgconfig
+pkgconfig
+# ./usr/libdata/pkgconfig
 ..
 
 # ./usr/libdata/ssh
@@ -396,12 +427,6 @@ lib
 
 # ./usr/local/lib/X11
 X11
-
-# ./usr/local/lib/X11/app-defaults
-app-defaults
-# ./usr/local/lib/X11/app-defaults
-..
-
 # ./usr/local/lib/X11
 ..
 
@@ -1185,6 +1210,27 @@ usd
 # ./usr/share/doc
 ..
 
+# ./usr/share/i18n
+i18n
+
+# ./usr/share/i18n/csmapper
+csmapper
+# ./usr/share/i18n/csmapper
+..
+
+# ./usr/share/i18n/esdb
+esdb
+# ./usr/share/i18n/esdb
+..
+
+# ./usr/share/i18n/iconv
+iconv
+# ./usr/share/i18n/iconv
+..
+
+# ./usr/share/i18n
+..
+
 # ./usr/share/info
 info
 # ./usr/share/info
@@ -1299,7 +1345,7 @@ zoneinfo	mode=0555
 # ./usr/src
 #src		mode=0775
 # ./usr/src
-#..
+# ..
 
 # ./usr
 ..
@@ -1411,125 +1457,130 @@ vi.recover	mode=01777
 # ./var/tmp
 ..
 
-# ./www
+# ./var/www
 www		mode=755
 
-# ./www/icons
-icons		mode=755
-# ./www/icons
+# ./var/www/bin
+bin		mode=755
+# ./var/www/bin
 ..
 
-#./www/cgi-bin
+# ./var/www/cgi-bin
 cgi-bin		mode=755
-#./www/cgi-bin
+# ./var/www/cgi-bin
 ..
 
-#./www/htdocs
+# ./var/www/conf
+conf		mode=755
+# ./var/www/conf
+..
+
+# ./var/www/htdocs
 htdocs		mode=755
 
-#./www/htdocs/manual
+# ./var/www/htdocs/manual
 manual		mode=755
 
-#./www/htdocs/manual/mod
+# ./var/www/htdocs/manual/mod
 mod		mode=755
 
-#./www/htdocs/manual/mod/mod_ssl
+# ./var/www/htdocs/manual/mod/mod_ssl
 mod_ssl		mode=755
-#./www/htdocs/manual/mod/mod_ssl
+# ./var/www/htdocs/manual/mod/mod_ssl
 ..
 
-#./www/htdocs/manual/mod
+# ./var/www/htdocs/manual/mod
 ..
 
-#./www/htdocs/manual/images
+# ./var/www/htdocs/manual/images
 images		mode=755
-#./www/htdocs/manual/images
+# ./var/www/htdocs/manual/images
 ..
 
-#./www/htdocs/manual/vhosts
+# ./var/www/htdocs/manual/vhosts
 vhosts		mode=755
-#./www/htdocs/manual/vhosts
+# ./var/www/htdocs/manual/vhosts
 ..
 
-#./www/htdocs/manual/misc
+# ./var/www/htdocs/manual/misc
 misc		mode=755
-#./www/htdocs/manual/misc
+# ./var/www/htdocs/manual/misc
 ..
 
-#./www/htdocs/manual/howto
+# ./var/www/htdocs/manual/howto
 howto		mode=755
-#./www/htdocs/manual/howto
+# ./var/www/htdocs/manual/howto
 ..
 
-#./www/htdocs/manual/programs
+# ./var/www/htdocs/manual/programs
 programs	mode=755
-#./www/htdocs/manual/programs
+# ./var/www/htdocs/manual/programs
 ..
 
-#./www/htdocs/manual
+# ./var/www/htdocs/manual
 ..
 
-#./www/htdocs
+# ./var/www/htdocs
 ..
 
-#./www/logs
+# ./var/www/icons
+icons		mode=755
+# ./var/www/icons
+..
+
+# ./var/www/logs
 logs		mode=755
-#./www/logs
+# ./var/www/logs
 ..
 
-#./www/conf
-conf		mode=755
-#./www/conf
-..
-
-#./www/users
+# ./var/www/users
 users		mode=755
-#./www/users
+# ./var/www/users
 ..
 
-#./www
+# ./var/www
 ..
 
-#./var/audit
+# ./var/audit
 audit		mode=2770
-#./var/audit
+# ./var/audit
 ..
 
-#./var/anoncvs
+# ./var/anoncvs
 anoncvs		mode=755
 
-#./var/anoncvs/anoncvs
+# ./var/anoncvs/anoncvs
 anoncvs		mode=755
 
-#./var/anoncvs/anoncvs/bin
+# ./var/anoncvs/anoncvs/bin
 bin		mode=755
-#./var/anoncvs/anoncvs/bin
+# ./var/anoncvs/anoncvs/bin
 ..
 
-#./var/anoncvs/anoncvs/cvs
+# ./var/anoncvs/anoncvs/cvs
 cvs		mode=775 nochange
-#./var/anoncvs/anoncvs/cvs
+# ./var/anoncvs/anoncvs/cvs
 ..
 
-#./var/anoncvs/anoncvs/dev
+# ./var/anoncvs/anoncvs/dev
 dev		mode=755
-#./var/anoncvs/anoncvs/dev
+# ./var/anoncvs/anoncvs/dev
 ..
 
-#./var/anoncvs/anoncvs/etc
+# ./var/anoncvs/anoncvs/etc
 etc		mode=755
-#./var/anoncvs/anoncvs/etc
+# ./var/anoncvs/anoncvs/etc
 ..
 
-#./var/anoncvs/anoncvs/tmp
+# ./var/anoncvs/anoncvs/tmp
 tmp		mode=1777
-#./var/anoncvs/anoncvs/tmp
+# ./var/anoncvs/anoncvs/tmp
 ..
 
-#./var/anoncvs/anoncvs
+# ./var/anoncvs/anoncvs
 ..
 
-#./var/anoncvs
+# ./var/anoncvs
 ..
 
 # ./var
