@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/time/taitime.c,v 1.6 2006/06/12 21:50:11 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
 
 /*-
  * Copyright (c) 2004, 2005, 2006
@@ -6,25 +6,24 @@
  * Based upon code placed into the public domain by
  *	Dan J. Bernstein <djb@cr.yp.to>
  *
- * Licensee is hereby permitted to deal in this work without restric-
- * tion, including unlimited rights to use, publicly perform, modify,
- * merge, distribute, sell, give away or sublicence, provided all co-
- * pyright notices above, these terms and the disclaimer are retained
- * in all redistributions or reproduced in accompanying documentation
- * or other materials provided with binary redistributions.
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
  *
  * Advertising materials mentioning features or use of this work must
  * display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
  *
- * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
- * express, or implied, to the maximum extent permitted by applicable
- * law, without malicious intent or gross negligence; in no event may
- * licensor, an author or contributor be held liable for any indirect
- * or other damage, or direct damage except proven a consequence of a
- * direct error of said person and intended use of this work, loss or
- * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a defect.
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
 #include <sys/param.h>
@@ -32,11 +31,40 @@
 #include "private.h"
 #include "tzfile.h"
 
-__RCSID("$MirOS: src/lib/libc/time/taitime.c,v 1.6 2006/06/12 21:50:11 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/taitime.c,v 1.7 2006/11/01 20:01:21 tg Exp $");
+
+/* private interface */
+tai64_t _leaps[TZ_MAX_LEAPS + 1] = {0};
+int _leaps_initialised = 0;
 
 /* private interface */
 void _pushleap(time_t);
+
+/* XXX which GNUC_PREREQ to use? */
+#ifndef __GNUC__
+/* private interface */
 static __inline tai64_t *_tai_leaps(void);
+static __inline tai64_t *
+_tai_leaps(void)
+{
+	extern void _initialise_leaps(void);
+
+	if (__predict_false(!_leaps_initialised)) {
+		_leaps_initialised = 1;
+		_initialise_leaps();
+	}
+	return (_leaps);
+}
+#else
+extern void _initialise_leaps(void);
+#define _tai_leaps() __extension__({				\
+		if (__predict_false(!_leaps_initialised)) {	\
+			_leaps_initialised = 1;			\
+			_initialise_leaps();			\
+		}						\
+		_leaps;						\
+	})
+#endif
 
 tai64_t
 tai_time(tai64_t *v)
@@ -135,10 +163,6 @@ tai2utc(tai64_t t)
 }
 
 /* private interface */
-tai64_t _leaps[TZ_MAX_LEAPS + 1] = {0};
-int _leaps_initialised = 0;
-
-/* private interface */
 void
 _pushleap(time_t leap)
 {
@@ -149,19 +173,6 @@ _pushleap(time_t leap)
 		++t;
 	*t++ = i;
 	*t = 0;
-}
-
-/* private interface */
-static __inline tai64_t *
-_tai_leaps(void)
-{
-	extern void _initialise_leaps(void);
-
-	if (__predict_false(!_leaps_initialised)) {
-		_leaps_initialised = 1;
-		_initialise_leaps();
-	}
-	return (_leaps);
 }
 
 tai64_t *
@@ -185,6 +196,8 @@ tai_isleap(tai64_t x)
 			++t;
 	return (0);
 }
+
+/* !!! make sure no timet2tai() or tai2timet() calls below this line !!! */
 
 /* normally a macro */
 #undef timet2tai
