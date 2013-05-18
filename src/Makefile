@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.136 2008/08/20 18:26:21 tg Exp $
+# $MirOS: src/Makefile,v 1.137 2008/12/10 18:40:14 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -380,6 +380,7 @@ _do-dist:
 		cd usr && \
 		(umask 002; cvs -Rqz3 -d ${CVSROOT} co -PA ports) && \
 		${MKSH} ${.CURDIR}/scripts/mnt-cvsroot ${ANONCVSROOT} . && \
+		mkdir -m 0775 ports/{Distfiles,Packages} && \
 		${SUDO} chown -R root:wsrc ports && \
 		cd .. && \
 		find usr/ports | sort | cpio -oC512 -Hsv4cpio -Mset | \
