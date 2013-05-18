@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.8 2006/05/30 23:06:32 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.9 2006/06/02 19:45:00 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -30,68 +30,66 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.8 2006/05/30 23:06:32 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.9 2006/06/02 19:45:00 tg Exp $");
 
 size_t
-mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ sb,
+mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ src,
     size_t n, mbstate_t *__restrict__ ps)
 {
 	static mbstate_t internal_mbstate = { 0, 0 };
-	const unsigned char *s = (const unsigned char *)sb;
-	wint_t c, w;
-	size_t frag;
+	const unsigned char *s = (const unsigned char *)src;
+	wint_t c, wc, wc_max;
+	unsigned count;
 
 	if (__predict_false(ps == NULL))
 		ps = &internal_mbstate;
 
-	if (__predict_false(s == NULL)) {
+	if (__predict_false(src == NULL)) {
 		ps->count = 0;
 		return (0);
 	}
 
-	if (__predict_false(!n--))
-		goto not_enough;
+	if (__predict_false(!n))
+		return ((size_t)(-2));
 
-	frag = __locale_is_utf8 ? ps->count : 0;
+	wc_max = __locale_is_utf8 ? MIR18N_MB_MAX : MIR18N_SB_CVT;
 
-	if (__predict_true(frag == 0)) {
-		if ((w = *s++) == L'\0')
-			goto one_char;
-		if (__predict_true(!__locale_is_utf8)) {
-			if (__predict_true(w <= MIR18N_SB_CVT))
-				goto one_char;
+	if ((count = __locale_is_utf8 ? ps->count : 0)) {
+		wc = ps->value << 6;
+		goto conv_state;
+	}
+
+	--n;
+	wc = *s++;
+	if (__predict_true(!__locale_is_utf8 || (wc < 0x80))) {
+		if (__predict_false(wc > MIR18N_SB_CVT)) {
  ilseq:
 			errno = EILSEQ;
 			return ((size_t)(-1));
 		}
-		if (w < 0x80) {
- one_char:
-			if (pwc != NULL)
-				*pwc = w;
-			return (w ? 1 : 0);
-		} else if (w < 0xC2) {
-			/* < 0xC0: spurious second byte */
-			/* < 0xC2: would map to 0x80 */
-			goto ilseq;
-		} else if (w < 0xE0) {
-			frag = 1; /* one byte follows */
-			w = (w & 0x1F) << 6;
-		} else if (w < 0xF0) {
-			frag = 2; /* two bytes follow */
-			w = (w & 0x0F) << 12;
-		} else {
-			/* we don't support more than UCS-2 */
-			goto ilseq;
-		}
-	} else
-		w = ps->value << 6;
+		if (pwc != NULL)
+			*pwc = wc;
+		return (wc ? 1 : 0);
+	} else if (wc < 0xC2) {
+		/* < 0xC0: spurious second byte */
+		/* < 0xC2: would map to 0x80 */
+		goto ilseq;
+	} else if (wc < 0xE0) {
+		count = 1; /* one byte follows */
+		wc = (wc & 0x1F) << 6;
+	} else if (wc < 0xF0) {
+		count = 2; /* two bytes follow */
+		wc = (wc & 0x0F) << 12;
+	} else {
+		/* we don't support more than UCS-2 */
+		goto ilseq;
+	}
 
- conv_byte:
+ conv_state:
 	/* If there are no more bytes to inspect, make state */
 	if (__predict_false(!n)) {
-		ps->count = frag;
-		ps->value = w >> 6;
- not_enough:
+		ps->count = count;
+		ps->value = wc >> 6;
 		return ((size_t)(-2));
 	}
 
@@ -99,22 +97,22 @@ mbrtowc(wchar_t *__restrict__ pwc, const char *__restrict__ sb,
 	if (((c = *s++) & 0xC0) != 0x80)
 		goto ilseq;
 	c &= 0x3F;
-	w |= c << (6 * --frag);
+	wc |= c << (6 * --count);
 
-	if (__predict_false(frag)) {
+	if (__predict_false(count)) {
 		/* Check for non-minimalistic mapping
 		 * encoding error in 3-byte sequences */
-		if (__predict_false(w < 0x800))
+		if (__predict_false(wc < 0x800))
 			goto ilseq;
 		else
-			goto conv_byte;
+			goto conv_state;
 	}
 
-	if (__predict_false(w > MIR18N_MB_MAX))
+	if (__predict_false(wc > MIR18N_MB_MAX))
 		goto ilseq;
 
 	if (pwc != NULL)
-		*pwc = w;
+		*pwc = wc;
 	ps->count = 0;
-	return (s - (const unsigned char *)sb);
+	return ((const char *)s - src);
 }
