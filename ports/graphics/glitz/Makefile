@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/glitz/Makefile,v 1.1 2005/08/20 13:27:33 bsiegert Exp $
+# $MirOS: ports/graphics/glitz/Makefile,v 1.2 2006/02/09 11:11:46 tg Exp $
 
 COMMENT=		"OpenGL image compositing library"
 
@@ -23,7 +23,7 @@ AUTOCONF_NEW=		Yes
 
 .include <bsd.own.mk>
 
-.if ${OStype} == "Darwin"
+.if ${MACHINE_OS} == "Darwin"
 PSEUDO_FLAVORS=		agl
 FLAVOR?=		agl
 .endif

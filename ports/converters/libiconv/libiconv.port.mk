@@ -1,4 +1,4 @@
-# $MirOS: ports/converters/libiconv/libiconv.port.mk,v 1.8 2006/03/19 19:19:40 tg Exp $
+# $MirOS: ports/converters/libiconv/libiconv.port.mk,v 1.9 2006/06/27 18:54:05 tg Exp $
 # $OpenBSD: iconv.port.mk,v 1.4 2001/11/27 17:44:04 brad Exp $
 
 # This is equivalent to USE_MOTIF.
@@ -20,7 +20,7 @@ USE_ICONV=	base
 .    else
 USE_ICONV=	base
 .    endif
-.  elif ${OStype} == "Darwin"
+.  elif ${MACHINE_OS} == "Darwin"
 USE_ICONV=	base
 .  else
 USE_ICONV=	port
@@ -28,7 +28,7 @@ USE_ICONV=	port
 .endif
 
 .if ${USE_ICONV:L} == "gnu"
-.  if ${OStype} == "Darwin"
+.  if ${MACHINE_OS} == "Darwin"
 USE_ICONV=	base
 .  else
 USE_ICONV=	port

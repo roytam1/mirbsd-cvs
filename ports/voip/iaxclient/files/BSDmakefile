@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/voip/iaxclient/files/BSDmakefile,v 1.1 2005/06/17 20:24:21 tg Exp $
 
 LIB=		iaxclient
 NOPIC=		Yes
@@ -12,7 +12,7 @@ CPPFLAGS+=	-Ilibiax2/src -DLIBIAX
 CPPFLAGS+=	-DSPEEX_EC=1
 
 .include <bsd.own.mk>
-.if ${OStype} == "Darwin"
+.if ${MACHINE_OS} == "Darwin"
 CPPFLAGS+=	-DMACOSX
 SRCS+=		portmixer/px_mac_core/px_mac_core.c \
 		portaudio/pa_common/pa_convert.c \

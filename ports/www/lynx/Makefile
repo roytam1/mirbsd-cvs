@@ -1,4 +1,4 @@
-# $MirOS: ports/www/lynx/Makefile,v 1.4 2006/08/16 19:32:26 tg Exp $
+# $MirOS: ports/www/lynx/Makefile,v 1.5 2006/08/26 14:28:18 tg Exp $
 
 COMMENT=			standard text-mode world wide web browser
 CATEGORIES=			www essentials
@@ -34,7 +34,7 @@ CONFIGURE_ARGS+=		--with-ssl --with-zlib --enable-japanese-utf8 \
 		--enable-nested-tables --disable-nls --enable-nsl-fork \
 		--with-screen=ncurses --disable-scrollbar --enable-cjk \
 		--enable-underlines --enable-vertrace --without-bzlib
-.if ${OStype} == "Interix"
+.if ${MACHINE_OS} == "Interix"
 CONFIGURE_ARGS+=		--disable-ipv6
 .endif
 EXTRA_XAKE_FLAGS+=		docdir=${PREFIX}/share/doc/lynx_doc \

@@ -1,4 +1,4 @@
-# $MirOS: ports/net/wget/Makefile,v 1.4 2005/11/10 22:20:49 tg Exp $
+# $MirOS: ports/net/wget/Makefile,v 1.5 2005/11/10 23:45:16 tg Exp $
 # $OpenBSD: Makefile,v 1.35 2003/05/14 15:03:51 brad Exp $
 
 COMMENT=		"retrieve files via HTTP and FTP"
@@ -26,7 +26,7 @@ AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	--disable-nls
 
 .include <mirports.sys.mk>
-.if ${OStype} == "Interix"
+.if ${MACHINE_OS} == "Interix"
 CONFIGURE_ARGS+=	--disable-ipv6
 .endif
 

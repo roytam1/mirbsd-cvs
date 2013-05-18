@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/plan9/kencc/Makefile,v 1.1 2006/03/31 03:50:14 tg Exp $
 
 # sort of hard to add more...
 ONLY_FOR_PLATFORM=	Darwin:*:powerpc MirBSD:*:i386 OpenBSD:*:i386
@@ -23,7 +23,7 @@ PERMIT_PACKAGE_FTP=	Yes
 BUILD_DEPENDS+=		::plan9/9e
 WRKDIST=		${WRKDIR}/install/utils
 
-.if ${OStype} == "Darwin"
+.if ${MACHINE_OS} == "Darwin"
 FBSDORMAC=		MacOSX
 PROCESSOR=		power
 .error CPP_DEFINES=		

@@ -1,4 +1,4 @@
-$MirOS$
+$MirOS: ports/graphics/png/patches/patch-scripts_makefile_openbsd,v 1.2 2005/04/23 13:47:42 bsiegert Exp $
 $OpenBSD: patch-scripts_makefile_openbsd,v 1.9 2004/07/06 21:53:16 brad Exp $
 --- scripts/makefile.openbsd.orig	Fri Dec  3 01:14:31 2004
 +++ scripts/makefile.openbsd	Sat Apr 23 15:31:38 2005
@@ -29,7 +29,7 @@ $OpenBSD: patch-scripts_makefile_openbsd,v 1.9 2004/07/06 21:53:16 brad Exp $
  
 +LDADD= -lz
 +DPADD= ${LIBZ}
-+.if ${OStype} != "Darwin"
++.if ${MACHINE_OS} != "Darwin"
 +# Darwin does not need libm
 +LDADD+= -lm
 +DPADD+= ${LIBM}
@@ -52,7 +52,7 @@ $OpenBSD: patch-scripts_makefile_openbsd,v 1.9 2004/07/06 21:53:16 brad Exp $
  
 -pngtest:	pngtest.o
 +libpng-config:
-+.if ${OStype} == "Darwin"
++.if ${MACHINE_OS} == "Darwin"
 +	( cat scripts/libpng-config-head.in; \
 +	echo prefix=\"$(PREFIX)\"; \
 +	echo I_opts=\"-I$(INCDIR)\"; \

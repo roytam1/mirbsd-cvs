@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/cairo/Makefile,v 1.4 2005/12/16 02:49:54 tg Exp $
+# $MirOS: ports/graphics/cairo/Makefile,v 1.5 2006/02/09 11:11:43 tg Exp $
 
 COMMENT=		"vector graphics library"
 
@@ -33,7 +33,7 @@ CONFIGURE_ARGS=		--enable-static \
 
 .include <mirports.sys.mk>
 
-.if ${OStype} == "Darwin"
+.if ${MACHINE_OS} == "Darwin"
 #CONFIGURE_ARGS+=	--disable-freetype
 .endif
 

@@ -1,4 +1,4 @@
-# $MirOS: ports/voip/iaxcomm/files/BSDmakefile,v 1.2 2005/06/18 00:18:08 tg Exp $
+# $MirOS: ports/voip/iaxcomm/files/BSDmakefile,v 1.3 2005/06/18 00:18:58 tg Exp $
 
 PROG=		iaxcomm
 NOMAN=		Yes
@@ -16,7 +16,7 @@ WXLDADD!=	wx-config --libs
 LDADD+=		-lm ${WXLDADD}
 
 .include <bsd.own.mk>
-.if ${OStype} == "Darwin"
+.if ${MACHINE_OS} == "Darwin"
 CPPFLAGS+=	-DMACOSX
 LDADD+=		-framework CoreAudio -framework AudioToolbox
 

@@ -1,4 +1,4 @@
-# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.9 2006/02/09 11:15:27 tg Exp $
+# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.10 2006/03/22 13:07:47 tg Exp $
 #
 # Although you can only netboot a kernel with this, it's still included.
 # Maybe one day someone will include the correct parametres for disc kernels.
@@ -37,13 +37,13 @@ DEBUGLIBS=		no		# -g breaks (ICE)
 CPPFLAGS+=		-D_MIRMAKE_H	# do not include in freestanding code
 COPTS+=			-fno-stack-protector
 .if ${OStype} == "MirBSD"
-.if ${GCC_VERSION:M3.4*}
+.  if ${GCC_VERSION:M3.4*}
 COPTS+=			-ftrampolines
-.endif
+.  endif
 .elif ${OStype} == "OpenBSD"
-.if ${GCC_VERSION:M3.3*}
+.  if ${GCC_VERSION:M3.3*}
 COPTS+=			-ftrampolines
-.endif
+.  endif
 .endif
 
 FILES=			stage1/stage1 stage2/e2fs_stage1_5 \

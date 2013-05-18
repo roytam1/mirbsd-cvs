@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.11 2005/10/21 20:10:29 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/Makefile.inc,v 1.12 2006/01/25 20:50:51 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.2 1997/09/21 11:44:03 deraadt Exp $
 
 .ifndef _MODPORTS_INFRASTRUCTURE_PKGTOOLS_MAKEFILE_INC
@@ -33,7 +33,7 @@ DPADD+=		${.CURDIR}/../lib/libinstall.a
 PORTABLE=	Yes
 .endif
 
-.if (${OStype} == "Darwin") || (${OStype} == "Interix")
+.if (${MACHINE_OS} == "Darwin") || (${MACHINE_OS} == "Interix")
 CPPFLAGS+=	-I${.SYSMK}
 LDADD+=		-L${.SYSMK} -lmirmake
 .endif
