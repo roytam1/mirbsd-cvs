@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.417 2011/07/17 00:40:19 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.418 2011/07/18 00:35:49 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -970,6 +970,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  href="http://www.frugalware.org/packages/107405">package</a></li>
 <li class="cr">Olivier Duchateau provides Slackware/Zenwalk GNU/Linux <a
  href="http://www.errements.net/slackbuilds/mksh/">packaging</a> for mksh</li>
+<li class="cr"><a href="http://slackbuilds.org/repository/13.37/system/mksh/">A
+ SlackBuild for mksh</a> is also available now</li>
 <li class="cr"><img class="fr" width="262" height="60" alt="[GreenViolet logo]"
  src="@@RELPATH@@pics/logos/lewellyn.png" />(Open)Solaris <a
  href="http://www.greenviolet.net/projects/general-open-source/mksh.gv">packages</a>
