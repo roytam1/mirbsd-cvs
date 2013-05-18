@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.11 2009/01/10 20:28:28 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/dev_i386.c,v 1.12 2009/01/10 22:18:53 tg Exp $	*/
 /*	$OpenBSD: dev_i386.c,v 1.30 2007/06/27 20:29:37 mk Exp $	*/
 
 /*
@@ -39,6 +39,8 @@
 #include "biosdev.h"
 #include <sys/param.h>
 #include <dev/cons.h>
+#include <sys/disklabel.h>
+#include "disk.h"
 
 extern int debug;
 
@@ -149,24 +151,13 @@ devopen(struct open_file *f, const char *fname, char **file)
 void
 devboot(dev_t bootdev, char *p)
 {
-#ifndef SMALL_BOOT
-//	if (i386_toridev) {	//XXX
-		*p++ = 'c';
-		*p++ = 'd';
-		*p++ = '0';
-		*p++ = 'a';
-		*p = '\0';
-		printf(" (El Torito)");
-		return;
-//	}
-#endif
-	if (bootdev & 0x80)
-		*p++ = 'h';
-	else
-		*p++ = 'f';
-	*p++ = 'd';
-	*p++ = '0' + (bootdev & 0x7f);
-	*p++ = 'a';
+	char *cp;
+	if (start_dip) {
+		cp = start_dip->name;
+		while ((*p++ = *cp++))
+			;
+		p[-1] = 'a';
+	}
 	*p = '\0';
 }
 

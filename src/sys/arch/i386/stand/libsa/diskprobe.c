@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.12 2009/01/10 14:49:04 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/diskprobe.c,v 1.13 2009/01/10 22:18:53 tg Exp $ */
 /*	$OpenBSD: diskprobe.c,v 1.29 2007/06/18 22:11:20 krw Exp $	*/
 
 /*
@@ -44,10 +44,13 @@
 #include "biosdev.h"
 #include "libsa.h"
 
+extern int biosdev_lbaprobe(int drive);
+
 #define MAX_CKSUMLEN MAXBSIZE / DEV_BSIZE	/* Max # of blks to cksum */
 
 /* Local Prototypes */
 static int disksum(int);
+static void hardprobe_one(int);
 
 /* List of disk devices we found/probed */
 struct disklist_lh disklist;
@@ -106,76 +109,93 @@ floppyprobe(void)
 	}
 }
 
-
 /* Probe for all BIOS hard disks */
 static void
 hardprobe(void)
 {
-	struct diskinfo *dip;
 	int i;
+
+	hardprobe_one(i386_biosdev);
+	for (i = 0x80; i < 0x88; i++)
+		if (i != i386_biosdev)
+			hardprobe_one(i);
+}
+
+static void
+hardprobe_one(int i)
+{
+	static int cddv = 0;
+	struct diskinfo *dip;
 	u_int bsdunit, type;
 	u_int scsi = 0, ide = 0;
 
-	/* Hard disks */
-	for (i = 0x80; i < 0x88; i++) {
-		dip = alloc(sizeof(struct diskinfo));
-		bzero(dip, sizeof(*dip));
+	dip = alloc(sizeof(struct diskinfo));
+	bzero(dip, sizeof(*dip));
 
-		if (bios_getdiskinfo(i, &dip->bios_info)) {
+	if (bios_getdiskinfo(i, &dip->bios_info)) {
 #ifdef BIOS_DEBUG
-			if (debug)
-				printf(" <!hd%u>", i&0x7f);
+		if (debug)
+			printf(" <!hd%u>", i&0x7f);
 #endif
-			free(dip, 0);
-			break;
-		}
+		free(dip, 0);
+		return;
+	}
 
-		if (!start_dip && i386_biosdev == i)
-			start_dip = dip;
+	if (!start_dip && i386_biosdev == i)
+		start_dip = dip;
 
-		dip->name[0] = 'h';
-		dip->name[1] = 'd';
-		dip->name[2] = '0' + (i & 0x7F);
-		dip->name[3] = '\0';
-		printf(" %s%s", dip->name,
-		    (dip->bios_info.bios_edd > 0 ? "+" : ""));
+	dip->name[0] = 'h';
+	dip->name[1] = 'd';
+	dip->name[2] = '0' + (i & 0x7F);
+	dip->name[3] = '\0';
+	if (biosdev_lbaprobe(i) == 3) {
+		dip->name[0] = 'c';
+		dip->name[2] = '0' + cddv++;
+	}
+	printf(" %s%s", dip->name,
+	    (dip->bios_info.bios_edd > 0 ? "+" : ""));
 
-		/* Try to find the label, to figure out device type */
-		if ((bios_getdisklabel(&dip->bios_info, &dip->disklabel)) ) {
+	/* Try to find the label, to figure out device type */
+	if ((bios_getdisklabel(&dip->bios_info, &dip->disklabel)) ) {
+		if (dip->name[0] == 'c') {
+			dip->bios_info.flags |= (BDI_INVALID | BDI_EL_TORITO);
+			type = 6;	/* CD-ROM */
+			bsdunit = dip->name[2] - '0';
+		} else {
 			printf("*");
 			bsdunit = ide++;
 			type = 0;	/* XXX let it be IDE */
-		} else {
-			/* Best guess */
-			switch (dip->disklabel.d_type) {
-			case DTYPE_SCSI:
-				type = 4;
-				bsdunit = scsi++;
-				dip->bios_info.flags |= BDI_GOODLABEL;
-				break;
-
-			case DTYPE_ESDI:
-			case DTYPE_ST506:
-				type = 0;
-				bsdunit = ide++;
-				dip->bios_info.flags |= BDI_GOODLABEL;
-				break;
-
-			default:
-				dip->bios_info.flags |= BDI_BADLABEL;
-				type = 0;	/* XXX Suggest IDE */
-				bsdunit = ide++;
-			}
 		}
+	} else {
+		/* Best guess */
+		switch (dip->disklabel.d_type) {
+		case DTYPE_SCSI:
+			type = 4;
+			bsdunit = scsi++;
+			dip->bios_info.flags |= BDI_GOODLABEL;
+			break;
 
-		dip->bios_info.checksum = 0; /* just in case */
-		/* Fill out best we can */
-		dip->bios_info.bsd_dev =
-		    MAKEBOOTDEV(type, 0, 0, bsdunit, RAW_PART);
+		case DTYPE_ESDI:
+		case DTYPE_ST506:
+			type = 0;
+			bsdunit = ide++;
+			dip->bios_info.flags |= BDI_GOODLABEL;
+			break;
 
-		/* Add to queue of disks */
-		TAILQ_INSERT_TAIL(&disklist, dip, list);
+		default:
+			dip->bios_info.flags |= BDI_BADLABEL;
+			type = 0;	/* XXX Suggest IDE */
+			bsdunit = ide++;
+		}
 	}
+
+	dip->bios_info.checksum = 0; /* just in case */
+	/* Fill out best we can */
+	dip->bios_info.bsd_dev =
+	    MAKEBOOTDEV(type, 0, 0, bsdunit, RAW_PART);
+
+	/* Add to queue of disks */
+	TAILQ_INSERT_TAIL(&disklist, dip, list);
 }
 
 
@@ -234,14 +254,14 @@ dump_diskinfo(void)
 #endif
 	for (dip = TAILQ_FIRST(&disklist); dip; dip = TAILQ_NEXT(dip, list)) {
 		bios_diskinfo_t *bdi = &dip->bios_info;
-		int d = bdi->bios_number;
 
 		if (bdi->flags & BDI_NOTADISK) {
 			printf("%s\tnone\n", dip->name);
 			continue;
 		}
 		printf("%s\t0x%X\t%s\t%d\t%d\t%d\t0x%X\t0x%X\n",
-		    dip->name, d, (bdi->flags & BDI_BADLABEL)?"*none*":"label",
+		    dip->name, bdi->bios_number,
+		    (bdi->flags & BDI_BADLABEL)?"*none*":"label",
 		    bdi->bios_cylinders, bdi->bios_heads, bdi->bios_sectors,
 		    bdi->flags, bdi->checksum);
 	}

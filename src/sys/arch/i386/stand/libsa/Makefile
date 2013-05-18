@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.23 2009/01/10 11:58:01 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.24 2009/01/10 14:49:04 tg Exp $
 # $OpenBSD: Makefile,v 1.47 2007/05/30 01:25:43 tom Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -36,7 +36,7 @@ beforedepend: ${ZLIB_GENHDRS}
 SRCS+=	machdep.c dev_i386.c exec_i386.c cmd_i386.c loadfile.c
 
 SRCS+=	gidt.S debug_i386.S \
-	biosdev.c bioscons.c gateA20.c apmprobe.c \
+	biosdev.c biosdev2.S bioscons.c gateA20.c apmprobe.c \
 	memprobe.c diskprobe.c pciprobe.c smpprobe.c \
 	cpuprobe.c time.c biosprobe.c \
 	ps2probe.c pxe.c pxe_net.c pxe_call.S
