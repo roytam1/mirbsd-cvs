@@ -4326,6 +4326,7 @@
 ./man3/rpc.htm
 ./man3/rpc_createerr.htm
 ./man3/rpcauth.htm
+./man3/rpmatch.htm
 ./man3/rresvport.htm
 ./man3/rresvport_af.htm
 ./man3/rsa.htm

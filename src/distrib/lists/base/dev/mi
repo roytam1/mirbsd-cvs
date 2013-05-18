@@ -6786,6 +6786,7 @@
 ./usr/share/man/cat3/rpc.0
 ./usr/share/man/cat3/rpc_createerr.0
 ./usr/share/man/cat3/rpcauth.0
+./usr/share/man/cat3/rpmatch.0
 ./usr/share/man/cat3/rresvport.0
 ./usr/share/man/cat3/rresvport_af.0
 ./usr/share/man/cat3/rsa.0
