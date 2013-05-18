@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/qemu/Makefile,v 1.8 2007/06/30 02:31:28 tg Exp $
+# $MirOS: ports/emulators/qemu/snapshot/Makefile,v 1.1 2008/05/07 15:53:06 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2008/04/28 22:52:38 todd Exp $
 
 # no success building on other platforms yet
@@ -26,9 +26,11 @@ BUILD_DEPENDS+=		::textproc/texi2html
 LIB_DEPENDS+=		SDL::devel/sdl
 USE_GMAKE=		Yes
 USE_X11=		Yes
+FILESDIR=		${.CURDIR}/../files
 CONFIGURE_STYLE=	simple
 CONFIGURE_ARGS+=	--prefix=${PREFIX:Q} \
 			--cc=${CC:Q} \
+			--make=${GMAKE:Q} \
 			--interp-prefix=${LOCALBASE:Q}/share/qemu/gnemul-%M \
 			--extra-cflags=${CFLAGS:M*:Q} \
 			--extra-ldflags=${LDFLAGS:M*:Q} \

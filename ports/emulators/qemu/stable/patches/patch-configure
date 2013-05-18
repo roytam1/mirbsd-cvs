@@ -1,6 +1,6 @@
-$MirOS: ports/emulators/qemu/patches/patch-configure,v 1.4 2007/06/30 02:31:28 tg Exp $
+$MirOS: ports/emulators/qemu/stable/patches/patch-configure,v 1.1 2008/05/07 15:46:08 tg Exp $
 --- configure.orig	Sun Sep  4 17:11:09 2005
-+++ configure	Sat Jun 30 02:13:42 2007
++++ configure	Sun May 11 19:41:27 2008
 @@ -21,8 +21,8 @@ prefix=""
  interp_prefix="/usr/gnemul/qemu-%M"
  static="no"
@@ -21,7 +21,7 @@ $MirOS: ports/emulators/qemu/patches/patch-configure,v 1.4 2007/06/30 02:31:28 t
      cpu="powerpc"
    ;;
    mips)
-@@ -103,12 +103,18 @@ if [ "$cpu" = "i386" -o "$cpu" = "x86_64
+@@ -103,13 +103,25 @@ if [ "$cpu" = "i386" -o "$cpu" = "x86_64
      kqemu="yes"
  fi
  ;;
@@ -29,6 +29,9 @@ $MirOS: ports/emulators/qemu/patches/patch-configure,v 1.4 2007/06/30 02:31:28 t
 +bsd="yes"
 +openbsd="yes"
 +oss="yes"
++if [ "$cpu" = "i386" ] ; then
++    kqemu="yes"
++fi
 +;;
  NetBSD)
  bsd="yes"
@@ -38,9 +41,13 @@ $MirOS: ports/emulators/qemu/patches/patch-configure,v 1.4 2007/06/30 02:31:28 t
  bsd="yes"
 +openbsd="yes"
  oss="yes"
++if [ "$cpu" = "i386" -o "$cpu" = "x86_64" ] ; then
++    kqemu="yes"
++fi
  ;;
  Darwin)
-@@ -305,7 +311,7 @@ aa="no"
+ bsd="yes"
+@@ -305,7 +317,7 @@ aa="no"
  `$sdl_config --static-libs | grep \\\-laa > /dev/null` && aa="yes"
  sdl_static_libs=`$sdl_config --static-libs`
  if [ "$aa" = "yes" ] ; then
@@ -49,7 +56,7 @@ $MirOS: ports/emulators/qemu/patches/patch-configure,v 1.4 2007/06/30 02:31:28 t
  fi
  
  if $cc -o $TMPE `$sdl_config --cflags 2> /dev/null` $TMPC $sdl_static_libs 2> /dev/null; then
-@@ -366,7 +372,7 @@ else
+@@ -366,54 +378,13 @@ else
  if test -z "$prefix" ; then
      prefix="/usr/local"
  fi
@@ -58,7 +65,54 @@ $MirOS: ports/emulators/qemu/patches/patch-configure,v 1.4 2007/06/30 02:31:28 t
  datadir="$prefix/share/qemu"
  docdir="$prefix/share/doc/qemu"
  bindir="$prefix/bin"
-@@ -434,9 +440,7 @@ if test "$darwin" = "yes" ; then
+ fi
+ 
+-# kqemu support
+-if test $kqemu = "yes" ; then
+-    # test if the source code is installed
+-    if test '!' -f "kqemu/Makefile" ; then 
+-        kqemu="no"
+-    fi
+-fi
+-  
+-# Linux specific kqemu configuration
+-if test $kqemu = "yes" -a $linux = "yes" ; then
+-# find the kernel path
+-if test -z "$kernel_path" ; then
+-kernel_version=`uname -r`
+-kernel_path="/lib/modules/$kernel_version/build"
+-if test '!' -d "$kernel_path/include" ; then 
+-    kernel_path="/usr/src/linux"
+-    if test '!' -d "$kernel_path/include" ; then 
+-        echo "Could not find kernel includes in /lib/modules or /usr/src/linux - cannot build the kqemu module"
+-        kqemu="no"
+-    fi
+-fi
+-fi
+ 
+-if test $kqemu = "yes" ; then
+-
+-# test that the kernel config is present
+-if test '!' -f "$kernel_path/Makefile" ; then
+-    echo "No Makefile file present in $kernel_path - kqemu cannot be built"
+-    kqemu="no"
+-fi    
+-
+-# find build system (2.6 or legacy)
+-kbuild26="yes"
+-if grep -q "PATCHLEVEL = 4" $kernel_path/Makefile ; then
+-kbuild26="no"
+-fi
+-
+-fi # kqemu
+-
+-fi # kqemu and linux
+-
+-
+ echo "Install prefix    $prefix"
+ echo "BIOS directory    $datadir"
+ echo "binary directory  $bindir"
+@@ -434,9 +405,7 @@ if test "$darwin" = "yes" ; then
      echo "Cocoa support     $cocoa"
  fi
  echo "SDL support       $sdl"
@@ -69,7 +123,25 @@ $MirOS: ports/emulators/qemu/patches/patch-configure,v 1.4 2007/06/30 02:31:28 t
  echo "mingw32 support   $mingw32"
  echo "Adlib support     $adlib"
  echo -n "FMOD support      $fmod"
-@@ -483,7 +487,6 @@ echo "CC=$cc" >> $config_mak
+@@ -445,17 +414,6 @@ if test $fmod = "yes"; then
+ fi
+ echo ""
+ echo "kqemu support     $kqemu"
+-if test $kqemu = "yes" -a $linux = "yes" ; then
+-echo ""
+-echo "KQEMU Linux module configuration:"
+-echo "kernel sources    $kernel_path"
+-echo -n "kbuild type       "
+-if test $kbuild26 = "yes"; then
+-echo "2.6"
+-else
+-echo "2.4"
+-fi
+-fi
+ 
+ if test $sdl_too_old = "yes"; then
+ echo "-> Your SDL version is too old - please upgrade to have SDL support"
+@@ -483,7 +441,6 @@ echo "CC=$cc" >> $config_mak
  if test "$have_gcc3_options" = "yes" ; then
    echo "HAVE_GCC3_OPTIONS=yes" >> $config_mak
  fi
@@ -77,7 +149,7 @@ $MirOS: ports/emulators/qemu/patches/patch-configure,v 1.4 2007/06/30 02:31:28 t
  echo "AR=$ar" >> $config_mak
  echo "STRIP=$strip -s -R .comment -R .note" >> $config_mak
  echo "CFLAGS=$CFLAGS" >> $config_mak
-@@ -567,6 +570,9 @@ fi
+@@ -567,6 +524,9 @@ fi
  if test "$oss" = "yes" ; then
    echo "CONFIG_OSS=yes" >> $config_mak
    echo "#define CONFIG_OSS 1" >> $config_h
@@ -87,7 +159,20 @@ $MirOS: ports/emulators/qemu/patches/patch-configure,v 1.4 2007/06/30 02:31:28 t
  fi
  if test "$fmod" = "yes" ; then
    echo "CONFIG_FMOD=yes" >> $config_mak
-@@ -600,6 +606,19 @@ if [ "$bsd" = "yes" ] ; then
+@@ -583,12 +543,6 @@ echo "\"" >> $config_h
+ 
+ if test $kqemu = "yes" ; then
+   echo "CONFIG_KQEMU=yes" >> $config_mak
+-  if test $linux = "yes" ; then
+-    echo "KERNEL_PATH=$kernel_path" >> $config_mak
+-    if test $kbuild26 = "yes" ; then
+-      echo "CONFIG_KBUILD26=yes" >> $config_mak
+-    fi
+-  fi
+ fi
+ echo "SRC_PATH=$source_path" >> $config_mak
+ echo "TARGET_DIRS=$target_list" >> $config_mak
+@@ -600,6 +554,19 @@ if [ "$bsd" = "yes" ] ; then
    echo "#define _BSD 1" >> $config_h
  fi
  
@@ -107,7 +192,7 @@ $MirOS: ports/emulators/qemu/patches/patch-configure,v 1.4 2007/06/30 02:31:28 t
  for target in $target_list; do 
  
  target_dir="$target"
-@@ -733,7 +752,7 @@ if test "$target_user_only" = "no"; then
+@@ -733,7 +700,7 @@ if test "$target_user_only" = "no"; then
          fi
          echo -n "SDL_CFLAGS=`$sdl_config --cflags`" >> $config_mak
          if [ "${aa}" = "yes" ] ; then

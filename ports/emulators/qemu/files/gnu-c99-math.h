@@ -1,4 +1,4 @@
-/* $MirOS: ports/emulators/qemu/patches/patch-gnu-c99-math_h,v 1.3 2006/12/21 22:59:30 tg Exp $ */
+/* $MirOS: ports/emulators/qemu/snapshot/files/gnu-c99-math.h,v 1.1 2008/05/07 15:53:06 tg Exp $ */
 
 #if (defined(__sun__) || defined(__OpenBSD__)) && defined(__GNUC__)
 

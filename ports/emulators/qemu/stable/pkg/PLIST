@@ -1,5 +1,4 @@
-@comment $MirOS: ports/emulators/qemu/pkg/PLIST,v 1.4 2005/11/17 14:19:22 tg Exp $
-@pkgcfl qvm86-*
+@comment $MirOS: ports/emulators/qemu/stable/pkg/PLIST,v 1.1 2008/05/07 15:46:15 tg Exp $
 bin/qemu
 bin/qemu-img
 bin/qemu-system-mips

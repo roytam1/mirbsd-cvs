@@ -1,4 +1,4 @@
-/* $MirOS: ports/emulators/qemu/patches/patch-vgafont_h,v 1.2 2005/05/03 19:30:06 tg Exp $ */
+/* $MirOS: ports/emulators/qemu/snapshot/files/vgafont.h,v 1.1 2008/05/07 15:53:07 tg Exp $ */
 
 static uint8_t vgafont16[256 * 16] = {
 	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
