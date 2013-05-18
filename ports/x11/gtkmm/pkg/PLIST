@@ -187,7 +187,6 @@ lib/gtkmm/proc/gtkconvert.m4
 lib/gtkmm/proc/gtkmmproc
 lib/gtkmm/proc/list.m4
 lib/gtkmm/proc/stage1.m4
-%%SHARED%%
 lib/libgdkmm.a
 lib/libgdkmm.la
 lib/libgtkmm.a

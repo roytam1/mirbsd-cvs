@@ -1,7 +1,8 @@
+$MirOS$
 $OpenBSD: patch-src_gtkmmproc_Makefile_in,v 1.2 2001/11/01 12:53:44 wilfried Exp $
---- src/gtkmmproc/Makefile.in.orig	Wed Aug  8 19:15:39 2001
-+++ src/gtkmmproc/Makefile.in	Sat Oct 27 02:07:28 2001
-@@ -108,7 +108,7 @@ m4includedir = $(prefix)/lib/gtkmm/proc
+--- src/gtkmmproc/Makefile.in.orig	Sat Jun 15 16:41:12 2002
++++ src/gtkmmproc/Makefile.in	Fri Oct  6 23:46:09 2006
+@@ -112,7 +112,7 @@ m4includedir = $(prefix)/lib/gtkmm/proc
  m4include_HEADERS = doc1.m4 stage1.m4 convert.m4 list.m4 gtkconvert.m4
  
  YFLAGS = -d

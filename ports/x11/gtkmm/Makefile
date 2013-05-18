@@ -1,16 +1,16 @@
-# $MirOS: ports/x11/gtkmm/Makefile,v 1.4 2006/02/09 09:36:24 tg Exp $
+# $MirOS: ports/x11/gtkmm/Makefile,v 1.5 2006/09/14 00:15:26 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2004/02/04 07:39:19 sturm Exp $
 
-COMMENT=			C++ interface for gtk+
-COMMENT-docs=			C++ interface for gtk+ documentation
+BROKEN=			/usr/ports/x11/gtkmm/w-gtkmm-1.2.10-0/gtkmm-1.2.10/src/gtk--/../gtk--/base.h:485: In member function 'interf* G_List_Cpp_Iterator<impl, interf>::operator*() const': error: 'wrap' is not a member of 'Gtk'
+
+COMMENT=		C++ interface for gtk+
+COMMENT-docs=		C++ interface for gtk+ documentation
 
 VERSION=		1.2.10
 DISTNAME=		gtkmm-${VERSION}
 PKGNAME-docs=		gtkmm-docs-${VERSION}-0
 CATEGORIES=		devel x11
-
 HOMEPAGE=		http://gtkmm.sourceforge.net/
-
 
 # LGPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -25,7 +25,7 @@ SUBPACKAGE?=
 
 .if ${SUBPACKAGE} != "-docs"
 BUILD_DEPENDS=		:m4->=1.4:lang/m4
-LIB_DEPENDS=		sigc.0::devel/libsigc++ \
+LIB_DEPENDS=		sigc-1.0.0.0::devel/libsigc++-1 \
 			gdk.1,gtk.1::x11/gtk+1
 .endif
 .if defined(PACKAGING) && ${SUBPACKAGE} == "-docs"
@@ -36,17 +36,17 @@ USE_CXX=		Yes
 USE_X11=		Yes
 NO_REGRESS=		Yes
 USE_GMAKE=		Yes
-CONFIGURE_STYLE=	gnu
+CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-static \
+			--disable-libtool-lock \
 			--enable-docs
 
-MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/scripts
-
 post-install:
-	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/gtkmm/gdk
-	${INSTALL_DATA} ${WRKBUILD}/docs/gdk/*.html ${PREFIX}/share/doc/gtkmm/gdk
-	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/gtkmm/gtk
-	${INSTALL_DATA} ${WRKBUILD}/docs/gtk/*.html ${PREFIX}/share/doc/gtkmm/gtk
+	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/gtkmm/{gdk,gtk}
+	${INSTALL_DATA} ${WRKBUILD}/docs/gdk/*.html \
+	    ${PREFIX}/share/doc/gtkmm/gdk/
+	${INSTALL_DATA} ${WRKBUILD}/docs/gtk/*.html \
+	    ${PREFIX}/share/doc/gtkmm/gtk/
 
 .include <bsd.port.mk>
