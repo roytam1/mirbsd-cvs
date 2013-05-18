@@ -1,5 +1,5 @@
 /*
- * $LynxId: UCdomap.c,v 1.93 2012/02/10 18:44:11 tom Exp $
+ * $LynxId: UCdomap.c,v 1.94 2012/02/20 01:08:51 Thorsten.Glaser Exp $
  *
  *  UCdomap.c
  *  =========
