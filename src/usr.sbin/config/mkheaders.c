@@ -49,6 +49,8 @@
 #include <string.h>
 #include "config.h"
 
+__RCSID("$MirOS$");
+
 static int emitcnt(struct nvlist *);
 static int emitopt(struct nvlist *);
 static int err(const char *, char *, FILE *);
@@ -95,7 +97,7 @@ emitcnt(struct nvlist *head)
 	while (fgets(buf, sizeof(buf), fp) != NULL) {
 		if (nv == NULL)
 			goto writeit;
-		if (sscanf(buf, "#define %99s %d", nam, &cnt) != 2 ||
+		if (sscanf(buf, "#define\t%99s\t%d", nam, &cnt) != 2 ||
 		    strcmp(nam, cntname(nv->nv_name)) != 0 ||
 		    cnt != nv->nv_int)
 			goto writeit;
