@@ -1,18 +1,12 @@
-/* $MirOS: src/lib/libc/i18n/wcsrtombs.c,v 1.6 2007/02/02 21:06:22 tg Exp $ */
-
 /*-
- * Copyright (c) 2006, 2007
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2006, 2007, 2008
+ *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
  * is granted to deal in this work without restriction, including un-
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
- *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
  *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor
@@ -27,7 +21,7 @@
 #include <errno.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcsrtombs.c,v 1.6 2007/02/02 21:06:22 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcsrtombs.c,v 1.7 2008/08/01 23:37:46 tg Exp $");
 
 #ifdef WCSNRTOMBS
 size_t
@@ -69,9 +63,9 @@ wcsrtombs(char *__restrict__ dst, const wchar_t **__restrict__ src,
 	if (__predict_false(wc > WCHAR_MAX)) {
 		errno = EILSEQ;
 		return ((size_t)(-1));
-	} else if (__predict_true(wc < 0x80)) {
+	} else if (__predict_true(wc < 0x80 || iswoctet(wc))) {
 		if (dst != NULL)
-			*d = wc;
+			*d = wc & 0xFF;
 		/* count is already 0 */
 	} else if (wc < 0x0800) {
 		if (dst != NULL)
