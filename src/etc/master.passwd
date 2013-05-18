@@ -121,7 +121,6 @@ _perdition:*:573:573::0:0:MirPorts -- mail/perdition:/nonexistent:/sbin/nologin
 _siproxd:*:574:574::0:0:MirPorts -- telephony/siproxd:/nonexistent:/sbin/nologin
 _netflow:*:575:575::0:0:MirPorts -- net/flow-tools:/nonexistent:/sbin/nologin
 _apache2:*:576:576::0:0:MirPorts -- www/apache-httpd:/nonexistent:/sbin/nologin
-_openvpn:*:577:577::0:0:MirPorts -- net/openvpn:/nonexistent:/sbin/nologin
 _mrtg:*:578:578::0:0:MirPorts -- net/mrtg:/nonexistent:/sbin/nologin
 _hiawatha:*:579:579::0:0:MirPorts -- www/hiawatha:/nonexistent:/sbin/nologin
 _puppet:*:580:580::0:0:MirPorts -- sysutils/ruby-puppet:/nonexistent:/sbin/nologin

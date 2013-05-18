@@ -1,5 +1,5 @@
 # $Id$
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/aliases,v 1.3 2005/12/04 14:01:09 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/aliases,v 1.4 2007/02/02 16:53:51 tg Exp $
 # $OpenBSD: aliases,v 1.4 2003/12/17 19:42:33 henning Exp $
 #
 #  Aliases in this file will NOT be expanded in the header from
@@ -137,7 +137,6 @@ _perdition:	/dev/null
 _siproxd:	/dev/null
 _netflow:	/dev/null
 _apache2:	/dev/null
-_openvpn:	/dev/null
 _mrtg:		/dev/null
 _hiawatha:	/dev/null
 _puppet:	/dev/null
