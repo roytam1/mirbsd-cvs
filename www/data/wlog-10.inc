@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.269 2009/12/27 19:58:50 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.270 2009/12/28 14:58:18 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5824,4 +5824,22 @@ Tag: debian
  lintian clean, in case someone wonders (I did recheck with 2.3.0 though).
  My point was, why not use checking tools from one “universe” for another
  one, viceque versa? (Similar to synergy effects from knowledge.)</p>
+----
+Title: new snapshot upcoming
+Author: tg@
+Date: 29.12.2009 20:51
+Tag: snapshot
+
+<p>I’m almost there: i386 and sparc have compiled complete. Now I “just”
+ need to do some release engineering (consider whether to re-roll the
+ <tt>ports10.ngz</tt> dist set; creating the combined manifold Midi-ISO,
+ various things with checksums and signatures, announce and upload) then
+ we’ll have a new snapshot. Finally, I also plan to create a big ISO to
+ replace the “wtf ist hallowe’en” edition. No new MirGRML but nevertheless
+ bugfixes for <tt>grub.cfg</tt> (memtest and vga modes).</p>
+<p>The other side is that I didn’t have to do much for this, luckily; I
+ was still suffering from some kind of cold+stomach ache. I hate that. I
+ bought vitamines etc. for $alot € yesterday to fight it better though.</p>
+<p>OpenBSD can build the kernel with pcc now, nice. I thought ÆrieBSD was
+ the one with switching to a GNU-free toolchain goal though…</p>
 ----
