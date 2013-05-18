@@ -1,9 +1,9 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.17 2006/02/09 11:11:54 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.18 2006/02/20 18:57:27 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
 .if ${AUTOCONF_NEW:L} == "yes"
-AUTOCONF_VERSION?=	2.59
+AUTOCONF_VERSION?=	2.60
 .else
 AUTOCONF_VERSION?=	2.13
 .endif
