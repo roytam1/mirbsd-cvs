@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
+/* $MirOS: contrib/code/libhaible/wchar.h,v 1.2 2006/05/23 10:39:45 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -81,8 +81,8 @@ size_t	mbrlen(const char *__restrict__, size_t, mbstate_t *__restrict__);
 #endif
 size_t	mbrtowc(wchar_t *__restrict__, const char *__restrict__, size_t,
 	    mbstate_t *__restrict__);
-#ifdef notyet
 int	mbsinit(const mbstate_t *);
+#ifdef notyet
 size_t	mbsrtowcs(wchar_t *__restrict__, const char **__restrict__, size_t,
 	    mbstate_t *__restrict__);
 #endif

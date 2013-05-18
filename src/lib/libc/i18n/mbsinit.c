@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mbsinit.c,v 1.1 2006/05/23 10:39:45 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/mbsinit.c,v 1.2 2006/05/23 11:44:23 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -23,7 +23,7 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/libhaible/mbsinit.c,v 1.2 2006/05/23 11:44:23 tg Exp $");
 
 int
 mbsinit(const mbstate_t *ps)
