@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.13 2007/02/12 20:35:39 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.14 2007/02/12 20:47:47 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -30,19 +30,21 @@
 # 5 - fwcf setup: can't bind the tmpfs to /etc
 # 6 - fwcf commit: cannot write to mtd
 # 7 - fwcf commit: won't write to flash because of unclean setup
+# 8 - fwcf status: differences found
+# 9 - fwcf status: old status file not found
 # 255 - fwcf erase: failed
 # 255 - internal error
 
 export PATH=/bin:/sbin:/usr/bin:/usr/sbin
 
 case $1 in
-setup|commit|erase) ;;
+commit|erase|setup|status) ;;
 *)	cat >&2 <<EOF
 FreeWRT Configuration Filesytem (fwcf), Version 1.02
 Copyright © 2006 by Thorsten Glaser <tg@freewrt.org>
 
 Syntax:
-	$0 [commit | erase | setup]
+	$0 [commit | erase | setup | status]
 EOF
 	exit 1 ;;
 esac

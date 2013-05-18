@@ -6,7 +6,7 @@
                                    Version 1.02 - 12 February 2007
 
 
-Copyright (c) 2006, 2007
+Copyright © 2006, 2007
 	Thorsten Glaser <tg@mirbsd.de>
 
 Provided that these terms and disclaimer and all copyright notices
@@ -68,6 +68,7 @@ The command-line utility will support three operations:
 * fwcf setup		to be run by the rc bootup script early
 * fwcf commit		similar to Cisco 'write'
 * fwcf erase		similar to Cisco 'erase startup-config'
+* fwcf status		NEW IN 1.02: check if commit is needed
 
 This utility is implemented as rapid prototype as a shell script in
 ash, using one C helper programme. Later versions will be pure C.
@@ -91,6 +92,9 @@ the file itself will be removed.
 Data from the end of the fwcf data in the flash partition to the
 end of the 64 KiB block the end of data resides in will be written
 to /dev/urandom.
+
+NEW IN 1.02: Afterwards, a sorted list of all files is given to the
+busybox md5sum applet, the output is stored as /etc/.fwcf_status.gz
 
 If the "fwcf" mtd partition does not start with the four letters
 FWCF on invoking 'fwcf setup', it is erased (i.e. populated with
@@ -131,6 +135,24 @@ flash operation of one entire flash block (usually 64 KiB), so an
 empty fwcf filesystem padded with random data to the next 64 KiB
 will be written instead, for the added benefit of improving the
 quality of the kernel PRNG even over total reconfigurations.
+
+
+2.4. Operation of 'fwcf status' (NEW IN 1.02)
+------------------------------- ┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+For all files in /etc, the md5sum busybox applet is run, output
+stored in a temporary file and compared against the saved values
+from 'fwcf setup'. If the -q flag is not given, the differences
+are shown as <oldmd5><tab><newmd5><tab><file>, where the "MD5"
+is expressed as shown by the busybox applet, or as '<NULL>' if
+the file does not exist on either side, where "old" is the status
+at fwcf setup time (or the /etc from the root fs, if -r is given),
+and "new" is the status of the current (tmpfs) /etc. If there are
+no differences, the exit status is 0, non-0 otherwise.
+
+If the -r flag is given, operation is done against the data that
+is stored in the ROM, without considering the contents of the
+FWCF filesystem, instead.
 
 
 3. Structure of the fwcf data
@@ -341,4 +363,4 @@ They are provided as hint only and not part of the specifi-
 cation itself. They may change without notice.
 
 ________________________________________________________________________
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.21 2007/02/12 20:47:47 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.22 2007/02/12 20:52:47 tg Exp $
