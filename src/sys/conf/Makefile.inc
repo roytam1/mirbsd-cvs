@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.28 2007/06/11 21:21:25 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.29 2007/06/11 21:23:13 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -78,6 +78,8 @@ SYSTEM_LD_TAIL+=; \
 .endif
 .ifndef NO_GZIP
 SYSTEM_LD_GZIP=	echo gzip -n9 $@; rm -f $@.gz; gzip -n9 $@; mv $@.gz $@
+.else
+SYSTEM_LD_GZIP=	:
 .endif
 
 .if ${MKC_USAP:L} == "yes"
