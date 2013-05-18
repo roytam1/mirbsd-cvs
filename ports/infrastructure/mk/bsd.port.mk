@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.199 2008/04/05 21:50:13 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.200 2008/04/05 23:13:10 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1848,6 +1848,7 @@ ${_EXTRACT_COOKIE}: ${_WRKDIR_COOKIE} ${_SYSTRACE_COOKIE}
 	@mkdir -p ${WRKSRC}
 	cd ${WRKSRC} && lndir ${DIST_SOURCEDIR}
 .endif
+	@-cd ${WRKDIST} && chmod -R u+w .
 .if target(post-extract)
 	@cd ${.CURDIR} && exec ${_SYSTRACE_CMD} ${MAKE} post-extract
 .endif
