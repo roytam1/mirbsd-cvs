@@ -1,7 +1,7 @@
-# $MirOS: ports/devel/subversion/Makefile,v 1.13 2007/01/09 22:36:59 tg Exp $
+# $MirOS: ports/devel/subversion/Makefile,v 1.14 2007/05/17 16:37:35 bsiegert Exp $
 
 COMMENT=		Subversion revision control system
-VERSION=		1.4.3
+VERSION=		1.4.5
 DASH_VER=		0
 DISTNAME=		subversion-${VERSION}
 CATEGORIES=		devel net
@@ -34,9 +34,7 @@ CONFIGURE_ARGS+=	--without-berkeley-db
 .endif
 
 
-#
 # We don't support building the apache module (yet).
-#
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
 
@@ -46,14 +44,25 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 
 DOCFILES=		svnsync.txt fsfs ssh-tricks
 
-# Workaround for autotools madness
-post-patch:
-	rm -rf ${WRKSRC}/apr-util/autom4te.cache
+# We have to replicate some of the perl.port.mk logic here.
+MODPERL_ARCH!=		/usr/bin/perl -e 'use Config; print $$Config{archname}, "\n";'
+P5MAN3EXT!=	/usr/bin/perl -e 'use Config; print ".".$$Config{man3ext};'
+P5DLEXT!=	/usr/bin/perl -e 'use Config; print ".".$$Config{dlext};'
+SUBST_VARS+=	P5ARCH P5SITE P5MAN3EXT P5DLEXT
 
 post-build:
+	cd ${WRKBUILD} && ${MAKE_PROGRAM} swig-pl
 	nroff -mdoc ${FILESDIR}/svnup-cvs.1 > ${WRKSRC}/contrib/client-side/svnup-cvs.cat1
 
+# Use of LOCALBASE is intentional so that DESTDIR is not added twice.
 post-install:
+	cd ${WRKBUILD} && ${MAKE_PROGRAM} install-swig-pl \
+	INSTALLSITELIB=${LOCALBASE:Q}/${P5SITE} \
+        INSTALLSITEARCH="\$${INSTALLSITELIB}/${MODPERL_ARCH}" \
+        INSTALLBIN=${LOCALBASE:Q}/bin INSTALLSCRIPT='$${INSTALLBIN}' \
+        INSTALLMAN3DIR=${LOCALBASE:Q}/man/man3 \
+        INSTALLSITEMAN3DIR=${LOCALBASE:Q}/man/man3 \
+        INSTALLVENDORMAN3DIR=${LOCALBASE:Q}/man/man3
 	${INSTALL_SCRIPT} ${WRKSRC}/contrib/client-side/svn_load_dirs.pl ${PREFIX}/bin/svn_load_dirs
 	${INSTALL_SCRIPT} ${FILESDIR}/svnup-cvs ${PREFIX}/bin
 	${INSTALL_MAN} ${WRKSRC}/contrib/client-side/svnup-cvs.cat1 ${PREFIX}/man/cat1/svnup-cvs.0

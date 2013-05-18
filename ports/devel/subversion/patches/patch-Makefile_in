@@ -1,0 +1,13 @@
+$MirOS$
+--- Makefile.in.orig	2007-09-15 02:29:20.000000000 +0200
++++ Makefile.in	2007-09-15 02:29:48.000000000 +0200
+@@ -612,9 +612,6 @@ swig-pl_DEPS = autogen-swig-pl libsvn_cl
+   libsvn_fs libsvn_ra libsvn_repos libsvn_subr libsvn_wc libsvn_swig_perl \
+   $(SWIG_PL_DIR)/native/Makefile
+ swig-pl: $(swig-pl_DEPS)
+-	if test "$(SWIG_PL_DIR)" != "$(SWIG_PL_SRC_DIR)"; then \
+-	  ln -sf $(SWIG_PL_SRC_DIR)/native/*.c $(SWIG_PL_DIR)/native; \
+-	fi
+ 	cd $(SWIG_PL_DIR)/native; $(MAKE)
+ 
+ check-swig-pl: swig-pl swig-pl-lib

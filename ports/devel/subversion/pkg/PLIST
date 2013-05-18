@@ -1,4 +1,4 @@
-@comment $MirOS: ports/devel/subversion/pkg/PLIST,v 1.6 2006/10/07 21:27:47 bsiegert Exp $
+@comment $MirOS: ports/devel/subversion/pkg/PLIST,v 1.7 2006/11/08 16:45:43 bsiegert Exp $
 %%bsddb%%
 bin/svn
 bin/svn_load_dirs
@@ -57,7 +57,31 @@ lib/libsvn_ra_local-1.la
 lib/libsvn_ra_svn-1.la
 lib/libsvn_repos-1.la
 lib/libsvn_subr-1.la
+lib/libsvn_swig_perl-1.la
 lib/libsvn_wc-1.la
+${P5ARCH}/SVN/Base.pm
+${P5ARCH}/SVN/Client.pm
+${P5ARCH}/SVN/Core.pm
+${P5ARCH}/SVN/Delta.pm
+${P5ARCH}/SVN/Fs.pm
+${P5ARCH}/SVN/Ra.pm
+${P5ARCH}/SVN/Repos.pm
+${P5ARCH}/SVN/Wc.pm
+${P5ARCH}/auto/SVN/_Client/_Client.bs
+${P5ARCH}/auto/SVN/_Client/_Client${P5DLEXT}
+@comment ${P5ARCH}/auto/SVN/_Core/.packlist
+${P5ARCH}/auto/SVN/_Core/_Core.bs
+${P5ARCH}/auto/SVN/_Core/_Core${P5DLEXT}
+${P5ARCH}/auto/SVN/_Delta/_Delta.bs
+${P5ARCH}/auto/SVN/_Delta/_Delta${P5DLEXT}
+${P5ARCH}/auto/SVN/_Fs/_Fs.bs
+${P5ARCH}/auto/SVN/_Fs/_Fs${P5DLEXT}
+${P5ARCH}/auto/SVN/_Ra/_Ra.bs
+${P5ARCH}/auto/SVN/_Ra/_Ra${P5DLEXT}
+${P5ARCH}/auto/SVN/_Repos/_Repos.bs
+${P5ARCH}/auto/SVN/_Repos/_Repos${P5DLEXT}
+${P5ARCH}/auto/SVN/_Wc/_Wc.bs
+${P5ARCH}/auto/SVN/_Wc/_Wc${P5DLEXT}
 man/cat1/svnup-cvs.0
 man/man1/svn.1
 man/man1/svnadmin.1
@@ -65,10 +89,29 @@ man/man1/svndumpfilter.1
 man/man1/svnlook.1
 man/man1/svnsync.1
 man/man1/svnversion.1
+man/man3/SVN::Base${P5MAN3EXT}
+man/man3/SVN::Client${P5MAN3EXT}
+man/man3/SVN::Core${P5MAN3EXT}
+man/man3/SVN::Delta${P5MAN3EXT}
+man/man3/SVN::Fs${P5MAN3EXT}
+man/man3/SVN::Ra${P5MAN3EXT}
+man/man3/SVN::Repos${P5MAN3EXT}
+man/man3/SVN::Wc${P5MAN3EXT}
 man/man5/svnserve.conf.5
 man/man8/svnserve.8
 share/doc/subversion/fsfs
 share/doc/subversion/ssh-tricks
 share/doc/subversion/svnsync.txt
 @dirrm share/doc/subversion
+@dirrm ${P5ARCH}/auto/SVN/_Wc
+@dirrm ${P5ARCH}/auto/SVN/_Repos
+@dirrm ${P5ARCH}/auto/SVN/_Ra
+@dirrm ${P5ARCH}/auto/SVN/_Fs
+@dirrm ${P5ARCH}/auto/SVN/_Delta
+@dirrm ${P5ARCH}/auto/SVN/_Core
+@dirrm ${P5ARCH}/auto/SVN/_Client
+@dirrm ${P5ARCH}/auto/SVN
+@dirrm ${P5ARCH}/auto
+@dirrm ${P5ARCH}/SVN
+@dirrm ${P5ARCH}
 @dirrm include/subversion-1
