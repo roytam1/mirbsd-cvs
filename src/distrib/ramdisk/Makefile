@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/ramdisk/Makefile,v 1.11 2006/07/24 00:24:02 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -71,13 +71,8 @@ _RD_KERNELS=	bsd.rd
 _RD_KERNELS+=	bsd.rd.net
 .endif
 
-.if ${FLOPPY:L} != "no"
-ALL_TGTS=	${_RD_KERNELS}
-INST_FILES?=	${_RD_KERNELS}
-.else
-ALL_TGTS=	${_RD_KERNELS} ${FLOPPY}
-INST_FILES?=	${_RD_KERNELS} ${FLOPPY}
-.endif
+ALL_TGTS=	${_RD_KERNELS} ${FLOPPY:S/^no$//}
+INST_FILES?=	${_RD_KERNELS} ${FLOPPY:S/^no$//}
 
 all: ${ALL_TGTS}
 
