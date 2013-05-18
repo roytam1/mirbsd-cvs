@@ -1,4 +1,7 @@
-MD5 (HTML-Tagset-3.10.tar.gz) = 89bdd351272ccd285fa61c5b2ce451ab
-RMD160 (HTML-Tagset-3.10.tar.gz) = 5e9d4deb17c5dd7a481dfa9658795d884105856a
-SHA1 (HTML-Tagset-3.10.tar.gz) = a64f00dbee7c3b382d26f8ee266cc5556ce7f391
-SIZE (HTML-Tagset-3.10.tar.gz) = 8102
+$MirOS$
+
+MD5 (HTML-Tagset-3.20.tar.gz) = d2bfa18fe1904df7f683e96611e87437
+RMD160 (HTML-Tagset-3.20.tar.gz) = 90d330beba53d99b56949eb3f2a77188c8f8f957
+SHA1 (HTML-Tagset-3.20.tar.gz) = cc906acec09b23d5ffa5e1d4f40441f9de1ad777
+SIZE (HTML-Tagset-3.20.tar.gz) = 8150
+TIGER (HTML-Tagset-3.20.tar.gz) = a13e217ede004cbc26b96b11905aee4e0fc2f861eef06630
