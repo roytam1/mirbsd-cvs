@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.43 2009/01/03 13:43:32 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.44 2009/01/10 12:12:19 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -25,15 +25,12 @@
  * - setting up a known environment, with no knowledge about current
  *   CPU state (except that we are in real mode and DL is the BIOS
  *   boot device)
- * - relocate ourselves to a known sane location (0x4000:0x0120)
+ * - relocate ourselves to a known sane location (0x4012:0x0000)
  * - checking if we're called from an El Torito bootable CD-ROM via
  *   the BIOS, or from a PBR, or from within MS-DOS, and take
  *   appropiate set-up action
  * - for El Torito, load in the full boot code again, as we cannot
  *   guarantee that faulty BIOSes load more than the first 2048 bytes
- * - if faulty BIOS makes problems, use the table which can be written
- *   with 'mkisofs -no-emul-boot -boot-load-size 4 -boot-info-table'
- *   into the image to locate start of the boot file; always load 64K
  * - set up some variables, load GDT, set up protected mode and
  *   jump into C code
  */
@@ -230,9 +227,9 @@ Lrel2:	mov	ds,ax		/* source (original or above) */
 	rep	movsd
 
 LisRel:	UD(5)			/** E: done reloc, or not needed */
-	mov	ax,SA_LOADSEG
+	mov	ax,SA_LINKSEG
 	push	ax
-	mov	eax,offset Lmain - SA_LOADADDR
+	mov	eax,offset Lmain - SA_LINKADDR
 	push	ax
 	lret
 
@@ -267,7 +264,7 @@ Lmain:	UD(6)			/** F: jump successful */
 	or	ah,ah
 	jz	LnoCD
 1:	/* this may be a CD */
-	mov	esi,offset Ltblk - SA_LOADADDR
+	mov	esi,offset Ltblk - SA_LINKADDR
 	mov	byte ptr [si],0x13
 	push	dx
 	mov	ax,0x4B01
@@ -294,13 +291,13 @@ LnoCD:
 	pop	dx
 	shl	edx,16
 	pop	dx
-	mov	ebx,offset _rval - SA_LOADADDR
+	mov	ebx,offset _rval - SA_LINKADDR
 	mov	dh,[bx]		/* carry this over to VPAM */
 #ifdef BOOTSELECT_HOOK
 	pop	esi
 #endif
 	cli
-	addr32 data32 lgdt (Gdtr - SA_LOADADDR)
+	addr32 data32 lgdt (Gdtr - SA_LINKADDR)
 	mov	ax,1
 	lmsw	ax		/* switch to protected mode */
 	data32 jmp 8,offset Lpmode
