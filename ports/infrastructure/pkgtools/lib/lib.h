@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.26 2009/11/29 13:26:17 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.27 2009/12/08 20:51:05 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -186,18 +186,18 @@ int		pmatch(const char *, const char *);
 int		findmatchingname(const char *, const char *, matchfn, char *, int); /* doesn't really belong here */
 char		*findbestmatchingname(const char *, const char *); /* neither */
 int		ispkgpattern(const char *);
-char		*strnncpy(char *to, size_t tosize, char *from, size_t cc);
 
 /* File */
 bool		fexists(const char *);
 bool		isdir(const char *);
 bool		islink(const char *);
 bool		islinktodir(const char *);
-bool		isemptydir(const char *fname);
-bool		isemptyfile(const char *fname);
+bool		isemptydir(const char *);
+bool		isemptyfile(const char *);
 bool		isfile(const char *);
 bool		isURL(const char *);
 char		*ensure_tgz(char *);
+bool		pkg_existing(const char *, char *, char *, size_t);
 char		*fileGetURL(char *, char *);
 char		*fileURLFilename(char *, char *, int);
 char		*fileURLHost(char *, char *, int);

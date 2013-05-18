@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.23 2009/11/22 15:34:14 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.24 2009/11/29 13:36:53 bsiegert Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -33,7 +33,21 @@
 #include <libgen.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.23 2009/11/22 15:34:14 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.24 2009/11/29 13:36:53 bsiegert Exp $");
+
+/* valid file extensions for packages, in order of priority
+   (highest to lowest)
+ */
+static const char *pkgexts[] = {
+    	".cgz",
+	".cxz",
+	".clz",
+	".tgz",
+	".tar",
+	".cpio",
+	".tar.gz",
+	NULL
+};
 
 /* Try to find the log dir for an incomplete package specification.
  * Used in pkg_info and pkg_delete. Returns the number of matches,
@@ -89,50 +103,85 @@ int
 trim_end(char *name)
 {
 	size_t n, m;
-	n = strlen(name);
+	const char **suff;
 
-#define check(suff) do {			\
-	if (n > (m = strlen(suff)) &&		\
-	    !strcmp(name + n - m, (suff)))	\
-		goto found;			\
-} while (/* CONSTCOND */ 0)
-	check(".cgz");
-	check(".cxz");
-	check(".clz");
-	check(".tgz");
-	check(".tar");
-	check(".cpio");
-	check(".tar.gz");
-#undef check
+	n = strlen(name);
+	for (suff = pkgexts; *suff; suff++) {
+		if (n > (m = strlen(*suff)) && !strcmp(name + n - m, *suff)) {
+			name[n - m] = '\0';
+			return 1;
+		}
+	}
 	return 0;
- found:
-	name[n - m] = 0;
-	return 1;
 }
 
+/* Try to find a package with the name "fname" in directory "dir",
+   returning the match (full pathname) in "buffer", if any. The return value
+   indicates whether something was found. "buffer" is overwritten in any case.
+ */
+bool
+pkg_existing(const char *dir, char *fname, char *buffer, size_t bufsiz)
+{
+	size_t len;
+	const char **suff;
+	char *cp;
+
+	if (!strcmp(fname, "-")) {
+		strlcpy(buffer, fname, bufsiz);
+		return true;
+	}
+
+	if (ispkgpattern(fname) &&
+			(cp = findbestmatchingname(dir, fname)) != NULL) {
+		if (dir && strcmp(dir, "."))
+			snprintf(buffer, bufsiz, "%s/%s", dir, cp);
+		else
+			strlcpy(buffer, cp, bufsiz);
+		free(cp);
+		return true;
+	}
+
+	/* If it already has a suffix from the allowed ones, try it */
+	snprintf(buffer, bufsiz, "%s/%s", dir, fname);
+	len = strlen(buffer);
+	for (suff = pkgexts; *suff; suff++) {
+		if ((len >= strlen(*suff)) &&
+				!strcmp(buffer + len - strlen(*suff), *suff)
+				&& fexists(buffer) && isfile(buffer))
+			return true;
+	}
+
+	/* if not, try with a suffix */
+	for (suff = pkgexts; *suff; suff++) {
+		snprintf(buffer, bufsiz, "%s/%s%s", dir, fname, *suff);
+		if (fexists(buffer) && isfile(buffer))
+			return true;
+	}
+
+	return false;
+}
 
 /* This fixes errant package names so they end up in .tgz/.cgz.
    XXX returns static storage, so beware! Consume the result
 	before reusing the function.
  */
-#define	CHK_NAME(name,len,ext)	((len >= strlen(ext)) && \
-				 !strcmp(name + len - strlen(ext), ext))
 char *
 ensure_tgz(char *name)
 {
 	static char buffer[FILENAME_MAX];
 	size_t len;
+	const char **suff;
 
 	len = strlen(name);
-	if ((strcmp(name, "-") == 0) ||
-	    CHK_NAME(name,len,".cgz") ||
-	    CHK_NAME(name,len,".cxz") ||
-	    CHK_NAME(name,len,".clz") ||
-	    CHK_NAME(name,len,".tgz") ||
-	    CHK_NAME(name,len,".tar") ||
-	    CHK_NAME(name,len,".cpio") ||
-	    CHK_NAME(name,len,".tar.gz"))
-		return (name);
+	if (!strcmp(name, "-"))
+		return name;
+	
+	for (suff = pkgexts; *suff; suff++) {
+		if ((len >= strlen(*suff)) &&
+				!strcmp(name + len - strlen(*suff), *suff))
+			return name;
+	}
+
 	snprintf(buffer, sizeof(buffer), "%s.cgz", name);
 	return (buffer);
 }
@@ -455,74 +504,26 @@ char *
 fileFindByPath(char *base, char *fname)
 {
 	static char tmp[FILENAME_MAX];
-	char *cp;
+	char *pkg_path;
 
-	if (ispkgpattern(fname)) {
-		if ((cp=findbestmatchingname(".",fname)) != NULL) {
-			strlcpy(tmp, cp, sizeof(tmp));
-			free(cp);
-			return tmp;
-		}
-	} else {
-		strlcpy(tmp, ensure_tgz(fname), sizeof(tmp));
-		if (fexists(tmp) && isfile(tmp)) {
-			return tmp;
-		}
-	}
+	if (pkg_existing(".", fname, tmp, sizeof (tmp)))
+		return tmp;
+	if (base && pkg_existing(dirname(base), fname, tmp, sizeof (tmp)))
+		return tmp;
 
-	if (base) {
-		strlcpy(tmp, base, sizeof(tmp));
-
-		cp = strrchr(tmp, '/');
-		if (cp) {
-			*(cp + 1) = '\0';
-			strlcat(tmp, ensure_tgz(fname), sizeof(tmp));
-			if (ispkgpattern(tmp)) {
-				cp=findbestmatchingname(dirname(tmp),
-							basename(tmp));
-				if (cp) {
-					char *s;
-					s=strrchr(tmp,'/');
-					assert(s != NULL);
-					strlcpy(s+1, cp,
-					    (size_t)(tmp + sizeof(tmp) - (s+1)));
-					free(cp);
-					return tmp;
-				}
-			} else {
-				if (fexists(tmp)) {
-					return tmp;
-				}
-			}
-		}
-	}
-
-	cp = getenv("PKG_PATH");
+	pkg_path = getenv("PKG_PATH");
 	/* Check for ftp://... paths */
-	if (isURL(cp)) {
-		snprintf(tmp, sizeof(tmp), "%s/%s", cp, ensure_tgz(fname));
+	if (isURL(pkg_path)) {
+		/* FIXME need to probe all extensions here, too */
+		snprintf(tmp, sizeof(tmp), "%s/%s", pkg_path,
+				ensure_tgz(fname));
 		return tmp;
 	}
-	while (cp) {
-		char *cp2 = strsep(&cp, ":");
+	while (pkg_path) {
+		char *cp = strsep(&pkg_path, ":");
 
-		snprintf(tmp, sizeof(tmp), "%s/%s", cp2, ensure_tgz(fname));
-		if (ispkgpattern(tmp)) {
-			char *s;
-			s = findbestmatchingname(dirname(tmp),
-						 basename(tmp));
-			if (s){
-				char *t;
-				t=strrchr(tmp, '/');
-				strlcpy(t+1, s, (size_t)(tmp + sizeof(tmp) - (t+1)));
-				free(s);
-				return tmp;
-			}
-		} else {
-			if (fexists(tmp) && isfile(tmp)) {
-				return tmp;
-			}
-		}
+		if (pkg_existing(cp, fname, tmp, sizeof (tmp)))
+			return tmp;
 	}
 
 	return NULL;
