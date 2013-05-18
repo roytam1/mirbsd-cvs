@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.110 2008/04/06 22:25:16 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.111 2008/04/06 22:40:22 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -381,8 +381,8 @@ add_arcfour=
 if testfunc 'uint32_t arc4random_pushb(const void *, size_t)' \
     'return arc4random_pushb(main, 1)'; then
 	add_arcfour=$top/dist/contrib/arc4random.c
-	if ! testfunc 'int arc4random(void)' \
-	    'return arc4random()'; then
+	if ! testfunc 'u_int32_t arc4random(void)' \
+	    'return ((int)arc4random())'; then
 		CPPFLAGS="$CPPFLAGS -D_ARC4RANDOM_WRAP"
 	fi
 fi
