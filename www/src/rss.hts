@@ -1,4 +1,4 @@
-# $MirOS: www/src/rss.hts,v 1.12 2009/09/25 18:28:32 tg Exp $
+# $MirOS: www/src/rss.hts,v 1.13 2011/10/16 01:45:50 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -6,7 +6,7 @@
 mws_setname rss "RSS feeds, mailing lists"
 mws_subdir 0
 mws_setheadline MirOS RSS feeds
-mws_putheader '$MirOS: www/src/rss.hts,v 1.12 2009/09/25 18:28:32 tg Exp $'
+mws_putheader '$MirOS: www/src/rss.hts,v 1.13 2011/10/16 01:45:50 tg Exp $'
 mws_content <<'EOF'
 <h2 id="feeds">Website feeds</h2>
 <p>We offer the following RSS feeds, which can be subscribed to
@@ -17,7 +17,6 @@ mws_content <<'EOF'
  <li><a href="https://www.mirbsd.org/wlog-10.rss">developers’ weblog (post MirOS #10)</a> – <a href="http://feedvalidator.org/check.cgi?url=https%3A//www.mirbsd.org/wlog-10.rss">Valid RSS/2.0!</a></li>
  <li><a href="https://www.mirbsd.org/wlog-9.rss">developers’ weblog (post MirOS #9)</a> – <a href="http://feedvalidator.org/check.cgi?url=https%3A//www.mirbsd.org/wlog-9.rss">Valid RSS/2.0!</a></li>
  <li>… and all feeds from the <a href="tags.htm">Tag cloud</a>, for example:</li>
- <li><a href="https://www.mirbsd.org/tag_event.rss">Events</a> – <a href="http://feedvalidator.org/check.cgi?url=https%3A//www.mirbsd.org/tag_event.rss">Valid RSS/2.0!</a></li>
  <li><a href="https://www.mirbsd.org/tag_mksh.rss">MirBSD Korn Shell</a> – <a href="http://feedvalidator.org/check.cgi?url=https%3A//www.mirbsd.org/tag_mksh.rss">Valid RSS/2.0!</a></li>
  <li>… et cetera…</li>
 </ul>
