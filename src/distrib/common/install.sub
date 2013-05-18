@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/miniroot/install.sub,v 1.24 2006/08/17 14:00:29 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.1 2006/08/17 19:34:14 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1528,6 +1528,19 @@ questions() {
 	ask_yn "Start ntpd(8) by default?" yes
 	if [[ $resp == y ]]; then
 		echo "ntpd_flags=-s		# enabled during install" \
+		    >>/mnt/etc/rc.conf.local
+	fi
+
+	echo 'To keep an estimate of the installed user base and to support'
+	echo 'the hardware MirOS runs on better, the system reports monthly'
+	echo 'to bsdstats.org, a site run by volunteers and not affiliated'
+	echo 'with the MirOS Project, the operating system version, type and'
+	echo 'number of CPU(s) in use.' # and PCI device types.
+	echo 'The information is tied to an anonymous key and not employed'
+	echo 'to collect any personal data about MirOS users.'
+	ask_yn 'Do you want to *disable* sending hardware information?'
+	if [[ $resp == y ]]; then
+		echo "bsdstats_flags=		# disabled during install" \
 		    >>/mnt/etc/rc.conf.local
 	fi
 
