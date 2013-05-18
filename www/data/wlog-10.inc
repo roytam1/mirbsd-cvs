@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.124 2008/12/30 21:41:29 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.125 2008/12/31 00:37:06 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2426,4 +2426,38 @@ Tag: mksh
  type="image/svg+xml" width="256" height="200"><img alt="mksh Logo"
  src="@@RELPATH@@pics/mksh128x100.png" /></object>
 <p>We’ll see what we do with that “m”…</p>
+----
+Date: 31.12.2008 16:47
+Author: tg@
+Title: 25C3 redux
+Tag: event
+
+<p>Did you all read my <a href="@@RELPATH@@permalinks/wlog-10_e20081230-tg.htm">comment
+ on the MD5 CA thing</a>?</p>
+<p>25C3 is over, gecko2@ arrived today, and both he and bogus are just
+ too <strong>verpeilt</strong> – they forgot to distribute the MirOS
+ flyers and CDs at first, then bogus (who had them) got really ill.</p>
+<p>We all somehow are, at the moment. Get better, everyone. (replaced
+ couldn’t get to the BSD@Wien pre-christmas party either…)</p>
+<p style="margin-bottom:0px;">cnuke@ pointed me to a nice IRC quote:</p>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+ <pre>17:57 &lt; jtsn&gt; Der 25C3 ist lustig. Deutsche Vortragende brechen sich vor deutschen Zuhörern auf Englisch einen ab. ;-)
+18:01 &lt; jtsn&gt; Adolfs Werk war sehr nachhaltig. ;-)
+18:01 &lt; jtsn&gt; Das gab's nichtmal in der DDR, das<i>[sic!]</i> Deutsche mit Deutschen auf Russisch reden. ;-)</pre>
+</div><p style="margin-top:0px;">This’ll be my <tt>~/.etc/sig</tt> for
+ a while… it does hold some truth. *looks at this wlog*</p>
+<p>Benny is still alive, yet a little offline, hacking on perl stuff for
+ MirPorts. Good riddance.</p>
+<p>By the way: does anyone know of a way to use a web browser or engine,
+ for instance Webkit, from a shell script to produce a rendered version
+ of a HTML source file (preferably to PostScript® or PDF)?</p>
+----
+Date: 31.12.2008 16:56
+Author: tg@
+Title: IBM X40 – USB stick boot (mission impossible)
+Tag: hardware bug
+
+<p>It’s simply amazing. I wanted to show gecko2@ a USB stick with both
+ grml(-small) and MirBSD on it, using SYSLINUX, but this fscking laptop
+ does not boot from USB stick. So, the ALIX.1c it is, or the VIA C7.</p>
 ----
