@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.16 2007/05/28 13:57:35 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.17 2007/07/11 14:11:47 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -30,11 +30,13 @@
 	.data
 lbl_mayskip:
 	.ascii	"\n\rHold down SHIFT to skip the coloured menu"
-	.asciz	" and go directly to the bootloader..."
+	.ascii	" and go directly to the bootloader...\n"
+	.ascii	"On a WRAP/Soekris, press 4 (Live) or 7 (Setup)"
+	.asciz	" for serial console @38k4,8N1.\n"
 lbl_title:
 	.asciz	"MirOS #10 Setup/Live CD"
 lbl_menus:
-	.byte	7
+	.byte	10
 	.word	lbl_menu0
 	.word	lbl_menu1
 	.word	lbl_menu2
@@ -42,6 +44,9 @@ lbl_menus:
 	.word	lbl_menu4
 	.word	lbl_menu5
 	.word	lbl_menu6
+	.word	lbl_menu7
+	.word	lbl_menu8
+	.word	lbl_menu9
 lbl_menu0:
 	.asciz	"Continue to normal /boot\n"
 lbl_menu1:
@@ -55,6 +60,12 @@ lbl_menu4:
 lbl_menu5:
 	.asciz	"Live-CD, serial console at COM1:115200,8N1\n"
 lbl_menu6:
+	.asciz	"Installer, serial console at COM1:9600,8N1\n"
+lbl_menu7:
+	.asciz	"Installer, serial console at COM1:38400,8N1\n"
+lbl_menu8:
+	.asciz	"Installer, serial console at COM1:115200,8N1\n"
+lbl_menu9:
 	.asciz	"Boot the MirOS installer\n"
 lbl_ask:
 	.ascii	"\nUse the cursor up/down keys to navigate\n"
