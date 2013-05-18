@@ -5,7 +5,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/edit.c,v 1.77 2007/01/14 01:09:08 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/edit.c,v 1.82 2007/02/16 17:46:42 tg Exp $");
 
 /* tty driver characters we are interested in */
 typedef struct {
@@ -739,8 +739,10 @@ x_escape(const char *s, size_t len, int (*putbuf_func) (const char *, size_t))
 				rval = -1;
 				break;
 			}
-			putbuf_func("\\", 1);
+			putbuf_func(s[add] == '\n' ? "'" : "\\", 1);
 			putbuf_func(&s[add], 1);
+			if (s[add] == '\n')
+				putbuf_func("'", 1);
 
 			add++;
 			wlen -= add;
@@ -1072,7 +1074,6 @@ static int	x_arg_defaulted;/* x_arg not explicitly set; defaulted to 1 */
 
 static int	xlp_valid;
 
-static int	x_prefix1 = MKCTRL('['), x_prefix2 = MKCTRL('X');
 static char	**x_histp;	/* history position */
 static int	x_nextcmd;	/* for newline-and-next */
 static char	*xmp;		/* mark pointer */
@@ -2524,10 +2525,10 @@ x_print(int prefix, int key)
 {
 	int f = x_tab[prefix][key];
 
-	if (prefix == 1)
-		shprintf("%s", x_mapout(x_prefix1));
-	if (prefix == 2)
-		shprintf("%s", x_mapout(x_prefix2));
+	if (prefix)
+		/* prefix == 1 || prefix == 2 */
+		shprintf("%s", x_mapout(prefix == 1 ?
+		    MKCTRL('[') : MKCTRL('X')));
 	shprintf("%s%s = ", x_mapout(key), (f & 0x80) ? "~" : "");
 	if ((f & 0x7F) != XFUNC_ins_string)
 		shprintf("%s\n", x_ftab[f & 0x7F].xf_name);
