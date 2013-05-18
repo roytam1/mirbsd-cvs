@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.208 2009/07/07 20:29:37 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.209 2009/07/08 15:55:14 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4365,7 +4365,6 @@ Author: tg@
  <li>with appropriate agents, GnuPG 2 and SSH keys can be made available to
   pure CLI sessions as well, if one has logged in via KDE first (we do this
   at work on our standard desktops, courtesy by me)</li>
- <li><a href="@@ABSPATH@@/MirOS-Licence">
  <li>OSI certified Open Source™ Software under a free, very unrestrictive, <a
   href="@@ABSPATH@@/MirOS-Licence">licence</a></li>
 </ul>
