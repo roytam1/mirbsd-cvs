@@ -216,14 +216,18 @@ start:	movw	$0x1234,0x472			# warm boot
 	xor	eax,eax
 	/* NZATInit */
 	xor	ebx,ebx
-	call	1f
-
-	/* assert: ecx == 0 */
-	lea	esi,[RELOC(_C_LABEL(initial_entropy))]
-	mov	edi,esi
-	mov	cl,4
-	call	1f
-
+	/* NZATUpdateMem */
+1:	lodsb
+	add	ebx,eax
+	inc	ebx
+	mov	edx,ebx
+	shl	edx,10
+	add	ebx,edx
+	mov	edx,ebx
+	shr	edx,6
+	xor	ebx,edx
+	dec	ecx
+	jnz	1b
 	/* NZAATFinish */
 	mov	edx,ebx
 	shl	edx,10
@@ -238,23 +242,11 @@ start:	movw	$0x1234,0x472			# warm boot
 	mov	ebx,eax
 	shl	ebx,15
 	add	eax,ebx
-	jmp	2f
 
-	/* NZATUpdateMem */
-1:	lodsb
-	add	ebx,eax
-	inc	ebx
-	mov	edx,ebx
-	shl	edx,10
-	add	ebx,edx
-	mov	edx,ebx
-	shr	edx,6
-	xor	ebx,edx
-	dec	ecx
-	jnz	1b
-	ret
-
-2:	mov	[edi],eax
+	/* Store the result. */
+	mov	eax,[RELOC(_C_LABEL(initial_entropy))]
+	xor	eax,ebx
+	mov	[RELOC(_C_LABEL(initial_entropy))],eax
 	popfd
 	popad
 	.att_syntax
