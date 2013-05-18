@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.81 2006/06/12 23:39:44 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.82 2006/06/15 19:59:25 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1432,6 +1432,61 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <p>pkgsrc&reg; on Interix sounds funny, MirPorts is easier or better in
   some regards, but lacks others. It's not used at the moment anyway.</p>
  <p>Why must it always be so hot even while raining?</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060616">16.06.2006 by tg@</h3>
+ <p>A shitty day. The weather was superb. Sunny, dry and not too hot due
+  to the still resident rain remnants from yesterday, not sticky either.
+  Yet I had noone to kill time with except my trusty laptop and sparc. I
+  &quot;forgot&quot; to breakfast either, and apparently I'm too late to
+  go shopping now as well. Doesn't matter though, I keep a few things at
+  home for emergency hunger cases ;) and had bought a lot of beer 2 days
+  ago because yesterday was national holiday anyway. I might have diner,
+  no idea with whom though, in the city later.</p>
+ <p style="margin-bottom:0px;>Re. the western frontier&#8230; I've built
+  myself a sparc kernel which does now boot (some delay(9) calls added),
+  but doesn't cleanly execute any binary, save the following one:</p>
+ <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+  <pre>
+	#include &lt;fcntl.h&gt;
+	#include &lt;stdio.h&gt;
+	#include &lt;unistd.h&gt;
+
+	main()
+	{
+		int fd;
+
+		printf("Hello, World!\n");
+		fflush(stdout);
+		if ((fd = open("/dev/console", O_RDWR)) == -1) {
+			fprintf(stderr, "cannot open /dev/console\n");
+		} else {
+			write(fd, "This is the console!\n",
+			    strlen("This is the console!\n"));
+			close(fd);
+		}
+		for (fd = 0; fd &lt; 10; ++fd) {
+			printf(".");
+			fflush(stdout);
+			sleep(2);
+		}
+		printf("\nexiting...\n");
+		fflush(stdout);
+		fflush(stderr);
+		return 0;
+	}
+  </pre>
+ </div><p style="margin-top:0px;">This includes finding and fixing a few
+  bugs in libc, building and installing csu, building and installing the
+  static libc stuff, first, though. And I only get this line: &quot;This
+  is the console!&quot; (Afterwards, I end up in ddb(4) which is sort of
+  cool, really, as I can type &quot;machine prom&quot; to cleanly finish
+  off the infantile operating system.</p>
+ <p>Due to the many recent fixes, I must build and release a snapshot to
+  the public first though, afterwards I might tend to the pending issues
+  (such as gzio support for config(8) and sparc userland). And of course
+  the status report eMail.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
