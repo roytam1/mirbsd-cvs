@@ -119,7 +119,7 @@ S|suncons|Sun Console:\
 	:np:sp#9600:
 
 #
-# Weirdo special case for fast crt's with hardcopy devices
+# Weirdo special case for fast CRTs with hardcopy devices
 #
 8|T9600|CRT with hardcopy:\
 	:nx=T300:tc=9600-baud:

@@ -6,7 +6,7 @@
 #
 #	  Originally written by Toshiharu OHNO
 #
-# $MirOS$
+# $MirOS: src/etc/ppp/ppp.conf.sample,v 1.2 2005/03/06 19:05:58 tg Exp $
 # $OpenBSD: ppp.conf.sample,v 1.21 2002/06/09 06:15:15 todd Exp $
 #
 #################################################################
@@ -367,7 +367,7 @@ PAPServerwithPASSWD:
 #  The important thing here is to allow the lqr packets on both sides.
 #  Without them enabled, we can't tell if the line's dropped - there
 #  should always be carrier on a direct connection.
-#  Here, the server sends lqr's every 10 seconds and quits if five in a
+#  Here, the server sends LQRs every 10 seconds and quits if five in a
 #  row fail.
 #
 #  Make sure you don't have "deny lqr" in your default: on the client !
