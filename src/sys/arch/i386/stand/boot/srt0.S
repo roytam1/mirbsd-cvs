@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.13 2008/08/05 19:05:01 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.14 2008/08/05 19:07:46 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
@@ -150,8 +150,7 @@ LdoRel:	UD(4)			/** D: doing reloc */
 	mov	di,si
 	sub	ax,5		/* make up for stuff above _rval */
 	mov	ds,ax
-	add	bx,RL_VAL
-	sub	bx,5		/* dito */
+	add	bx,(RL_VAL) - 5	/* dito */
 	mov	es,bx
 	rep	movsb
 LisRel:	UD(5)			/** E: done reloc, or not needed */
@@ -208,6 +207,7 @@ L..e1:	mov	al,dl
 	jmp	LpreFD /* L..12 */
 #else
 	mov	eax,[_rval]
+	mov	al,0		/* partp (patched in) doesn't matter */
 	cmp	eax,0x6A6D4F00
 #if 1
 	je	LpreFD
