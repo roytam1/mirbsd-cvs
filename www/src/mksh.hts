@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.193 2008/12/13 21:53:36 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.194 2008/12/17 20:04:26 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -543,6 +543,7 @@ mws_content <<'EOF'
  ChangeLog</a>, these are the packager-visible upgrade notes regarding
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
  support, packaging conventions, bad examples, etc).</p>
+<p>mksh R37 has a new ‘-combine’ <tt>Build.sh</tt> option.</p>
 <p>mksh R36b stays compatible, no surprises there. The ‘-llvm’ option
  to <tt>Build.sh</tt>, however, is new.</p>
 <p>mksh R36’s <tt>Build.sh</tt> script ‘-q’ option is gone. Furthermore,
@@ -1034,6 +1035,9 @@ mws_content <<'EOF'
   on a platform with 32-bit longs for now</li>
  <li>[tg] Implement <tt>$((#…))</tt> unsigned arithmetic calculation,
   needed for arc4random_uniform(3)-in-korn-shell implementation</li>
+ <li>[tg] Really preserve LD_LIBRARY_PATH in <tt>check.pl</tt></li>
+ <li>[tg] New <tt>Build.sh</tt> option ‘-combine’ for building mksh(1) at
+  once with “-fwhole-program --combine” (gcc4, llvm-gcc4)</li>
 </ul>
 <p id="r36b">mksh R36b is a compatible, major bug-fix update:</p><ul>
  <li>[tg] Add check for naming the output file “scn” instead of “a.out” or
