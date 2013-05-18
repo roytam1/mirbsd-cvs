@@ -15,6 +15,7 @@
 ./usr/sbin/isdntel
 ./usr/sbin/isdntelctl
 ./usr/sbin/isdntrace
+./usr/sbin/wsconfig
 ./usr/sbin/wsfontload
 ./usr/sbin/wssetfont
 ./usr/sbin/zzz
@@ -58,6 +59,8 @@
 ./usr/share/man/cat8/ancontrol.0
 ./usr/share/man/cat8/apm.0
 ./usr/share/man/cat8/apmd.0
+./usr/share/man/cat8/boot.0
+./usr/share/man/cat8/boot.cfg.0
 ./usr/share/man/cat8/boot_i386.0
 ./usr/share/man/cat8/fdisk.0
 ./usr/share/man/cat8/iopctl.0
@@ -67,6 +70,7 @@
 ./usr/share/man/cat8/isdntelctl.0
 ./usr/share/man/cat8/isdntrace.0
 ./usr/share/man/cat8/mount_ntfs.0
+./usr/share/man/cat8/pxeboot.0
 ./usr/share/man/cat8/wsfontload.0
 ./usr/share/man/cat8/wssetfont.0
 ./usr/share/man/cat8/zzz.0

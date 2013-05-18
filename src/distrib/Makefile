@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/Makefile,v 1.10 2006/08/17 20:13:25 tg Exp $
+# $MirOS: src/distrib/Makefile,v 1.11 2006/09/29 22:12:05 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -26,7 +26,10 @@ SUBDIR=
 
 .if ${_DESCEND} == "Yes" || ${REL_NO_RAMDISK:L} == "no"
   SUBDIR+=		common
+#  for now, not on sparc
+.  if ${MACHINE} == "i386"
   SUBDIR+=		common/extra
+.  endif
 .endif
 
 .if ${_DESCEND} == "Yes"
