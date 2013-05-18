@@ -26,6 +26,7 @@ Policy: @@PROG@@, Emulation: native
 	native-chown: filename match "@@RW_DIR@@" then permit
 	native-chown: filename match "/<non-existent filename>: *" then deny[enoent]
 	native-chroot: permit
+	native-clock_getres: permit
 	native-clock_gettime: permit
 	native-close: permit
 	native-closefrom: permit
