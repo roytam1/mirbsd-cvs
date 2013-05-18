@@ -1,13 +1,14 @@
-BSD::arc4random version 1.41
+BSD::arc4random version 1.42
 ============================
 
 This module provides a Perl API for the BSDs' arc4random(3) suite
 of functions and adds a few high-level functions, such as the new
-arc4random_uniform(3). The Perl functions are ithreads-safe. Scalars
-can be tied to this package, yielding uniformly distributed random
-numbers with an arbitrary upper bound on read access, contributing
-to the entropy pool on write access. A global $RANDOM variable will
-return 15-bit unsigned random numbers (in [0; 32767]), as in mksh.
+arc4random_uniform(3). The Perl functions are ithreads-safe (only
+if threads::shared is required). Scalars can be tied to this pak-
+kage, yielding uniformly distributed random numbers with an arbi-
+trary upper bound on read access, contributing to the RC4 entropy
+pool on write access. An exported global $RANDOM variable returns
+15-bit unsigned random numbers, from [0; 32767], similar to mksh.
 Furthermore, Perl's internal PRNG is seeded with entropy obtained
 from the arc4random generator once on module load time.
 
@@ -65,6 +66,8 @@ COPYRIGHT AND LICENCE
 
 Copyright (c) 2008, 2009
 	Thorsten "mirabilos" Glaser, MirOS Project
+Copyright (c) 2009
+	Benny Siegert, MirOS Project
 Uploaded to CPAN by: Sebastian "Vutral" Schwarz (PAUSE ID: SJSZ)
 The arc4random(9) PRNG has been invented by the OpenBSD Project.
 The arc4random_uniform algorithm is derived from the code in the
@@ -74,4 +77,4 @@ OpenBSD kernel, published by Damien Miller under the ISC licence
 This module is covered by the MirOS Licence: http://mirbsd.de/MirOS-Licence
 
 ________________________________________________________________________________________
-$MirOS: contrib/hosted/tg/code/BSD::arc4random/README,v 1.2 2009/05/17 13:05:50 tg Exp $
+$MirOS: contrib/hosted/tg/code/BSD::arc4random/README,v 1.3 2009/07/16 12:24:28 tg Exp $

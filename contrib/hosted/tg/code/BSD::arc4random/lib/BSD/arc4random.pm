@@ -1,7 +1,9 @@
-# $MirOS: contrib/hosted/tg/code/BSD::arc4random/lib/BSD/arc4random.pm,v 1.5 2009/10/18 15:02:10 bsiegert Exp $
+# $MirOS: contrib/hosted/tg/code/BSD::arc4random/lib/BSD/arc4random.pm,v 1.6 2009/10/18 15:21:56 tg Exp $
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
+# Copyright (c) 2009
+#	Benny Siegert <bsiegert@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -27,7 +29,7 @@ BEGIN {
 	require Exporter;
 	require DynaLoader;
 	use vars qw($VERSION @ISA @EXPORT @EXPORT_OK %EXPORT_TAGS);
-	$VERSION = "1.41";
+	$VERSION = "1.42";
 	@ISA = qw(Exporter DynaLoader);
 	@EXPORT = qw();
 	@EXPORT_OK = qw(
@@ -346,6 +348,7 @@ L<http://cvs.mirbsd.de/ports/net/irssi/files/randex.pl>
 =head1 COPYRIGHT AND LICENSE
 
 Copyright (c) 2008, 2009 Thorsten "mirabilos" Glaser
+Copyright (c) 2009 Benny Siegert
 
 This module is covered by the MirOS Licence:
 L<http://mirbsd.de/MirOS-Licence>

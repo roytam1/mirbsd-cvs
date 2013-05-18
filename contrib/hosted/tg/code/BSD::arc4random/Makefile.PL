@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: contrib/hosted/tg/code/BSD::arc4random/Makefile.PL,v 1.3 2009/09/08 16:43:01 tg Exp $
 #-
 # Copyright (c) 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -75,7 +75,7 @@ WriteMakefile(
 	PREREQ_PM		=> {},
 	($] >= 5.005 ? (
 	    ABSTRACT_FROM	=> 'lib/BSD/arc4random.pm',
-	    AUTHOR		=> 'Thorsten Glaser <tg@mirbsd.de>'
+	    AUTHOR		=> 'Thorsten Glaser <tg@mirbsd.org>'
 	) : ()),
 	LIBS			=> $libs,
 	DEFINE			=> $defs,
