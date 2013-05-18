@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.4 2006/05/21 10:53:15 tg Exp $ */
+/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.5 2006/05/21 11:10:51 tg Exp $ */
 
 /* Configuration options */
 static const char DEFAULTSERVER[] = "irc.mirbsd.org";
@@ -77,7 +77,7 @@ static const char DEFAULTSERVER[] = "irc.mirbsd.org";
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.4 2006/05/21 10:53:15 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.5 2006/05/21 11:10:51 tg Exp $");
 
 struct dlist {
     char name[64];
@@ -422,7 +422,7 @@ int donumeric(int num)
     return (0);
 }
 
-#define	LISTSIZE	51
+#define	LISTSIZE	52
 #define	DO_JOIN		12
 #define	DO_MSG		18
 #define	DO_PRIVMSG	30
@@ -430,20 +430,23 @@ int donumeric(int num)
 #define	DO_QUOTE	31
 #define	DO_W		46
 #define	DO_WHOIS	49
+#define DO_ME		51
 static const char *cmdlist[LISTSIZE] =
 {"AWAY", "ADMIN", "CONNECT", "CLOSE", "DIE", "DNS", "ERROR", "HELP",
  "HASH", "INVITE", "INFO", "ISON", "JOIN", "KICK", "KILL", "LIST", "LINKS",
  "LUSERS", "MSG", "MODE", "MOTD", "NOTICE", "NICK", "NAMES", "NOTE", "OPER",
  "PART", "PASS", "PING", "PONG", "PRIVMSG", "QUOTE", "QUIT", "REHASH", "RESTART",
  "SERVER", "SQUIT", "STATS", "SUMMON", "TIME", "TOPIC", "TRACE", "USER",
- "USERHOST", "USERS", "VERSION", "W", "WALLOPS", "WHO", "WHOIS", "WHOWAS"};
+ "USERHOST", "USERS", "VERSION", "W", "WALLOPS", "WHO", "WHOIS", "WHOWAS",
+ "ME"};
 static int numargs[LISTSIZE] =
 {1, 1, 3, 1, 1, 1, 1, 1,
  1, 2, 1, 1, 1, 3, 2, 1, 1,
  2, 2, 2, 1, 2, 1, 1, 1, 2,
  1, 1, 1, 1, 2, 0, 1, 1, 1,
  3, 2, 1, 3, 1, 2, 2, 4,
- 1, 1, 1, 1, 1, 1, 1, 1
+ 1, 1, 1, 1, 1, 1, 1, 1,
+ 1
 };
 static int (*docommand[LISTSIZE]) (void) =
 {nop, nop, nop, nop, nop, nop, doerror, nop,
@@ -451,7 +454,8 @@ static int (*docommand[LISTSIZE]) (void) =
  nop, nop, domode, nop, donotice, donick, nop, nop, nop,
  dopart, nop, nop, dopong, doprivmsg, nop, doquit, nop, nop,
  nop, dosquit, nop, nop, dotime, dotopic, nop, nop,
- nop, nop, nop, nop, nop, nop, nop, nop
+ nop, nop, nop, nop, nop, nop, nop, nop,
+ nop
 };
 
 int wordwrapout(char *ptrx, size_t count)
@@ -567,6 +571,21 @@ void parseinput(void)
 	    printf("*** Invalid command");
 	    return;
 	}
+	if (i == DO_ME) {
+		if (object == NULL) {
+		    printf ("*** Nowhere to send");
+		    return;
+		}
+		while ((*linein) && (*linein != ' '))
+			++linein;
+		snprintf(lineout, LINELEN, "PRIVMSG %s :%cACTION%s%c\n",
+		    object->name, 1, linein, 1);
+		outcol = printf("*");
+		j = 0;
+		while(tok_out[++j])
+		   outcol = wordwrapout(tok_out[j], outcol);
+		goto parseinput_done;
+	}
 	if (i == DO_JOIN)
 	    if ((newobj = finditem(tok_out[1], objlist)) != NULL) {
 		object = newobj;
@@ -602,6 +621,7 @@ void parseinput(void)
 	while(tok_out[++j])
 	   outcol = wordwrapout(tok_out[j], outcol);
     }
+ parseinput_done:
     sendline();
     idletimer = time(NULL);
 }
@@ -696,13 +716,15 @@ void userinput(void)
 		histline = HISTLEN - 1;
 	    histupdate();
 	    break;
+	case '\25':		/* ^U */
 	case '\r':
 	case '\n':
 	    if (!curli)
 		return;
 	    tputs_x(tgoto(CM, 0, LI - 1));
 	    tputs_x(CE);
-	    parseinput();
+	    if (ch != '\25')
+		parseinput();
 	    if ((++histline) >= HISTLEN)
 		histline = 0;
 	    curx = curli = 0;
