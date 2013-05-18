@@ -1,11 +1,11 @@
-# $MirOS: ports/archivers/mircpio/Makefile,v 1.20 2011/08/18 15:25:02 tg Exp $
+# $MirOS: ports/archivers/mircpio/Makefile,v 1.21 2012/02/12 02:17:32 tg Exp $
 #-
 # This port must not contain a patches/ directory.
 # The distfile must be plain old cpio, not bcpio, odc, ..., SVR4 or tar.
 
 COMMENT=		MirOS cpio(1), pax(1) and tar(1)
 CATEGORIES=		archivers essentials
-DISTNAME=		paxmirabilis-20120211
+DISTNAME=		paxmirabilis-20120212
 EXTRACT_SUFX=		.cpio.gz
 RESPONSIBLE=		Thorsten Glaser <tg@MirBSD.org>
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/cpio/}
