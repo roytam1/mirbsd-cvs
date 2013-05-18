@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.19 2006/05/28 13:19:11 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.20 2006/05/28 13:24:54 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -1251,8 +1251,8 @@ rnd_addpool_reinit(void *v)
 	register uint32_t j;
 
 	if (!rnd_addpool_allow || !rnd_attached) {
-		/* reschedule in about eight minutes, it's disabled anyway */
-		timeout_add(&rnd_addpool_timeout, hz << 9);
+		/* reschedule in eight minutes if disabled, a half on boot */
+		timeout_add(&rnd_addpool_timeout, hz << (rnd_attached ? 9 : 5));
 		return;
 	}
 
