@@ -293,10 +293,6 @@
 ./etc/ttys
 ./etc/weekly
 ./etc/wsconsctl.conf
-./root/.etc
-./root/.etc/bin
-./root/.etc/ssh
-./root/.profile
 ./var/anoncvs/anoncvs/.hushlogin
 ./var/anoncvs/anoncvs/.plan
 ./var/anoncvs/anoncvs/cvs

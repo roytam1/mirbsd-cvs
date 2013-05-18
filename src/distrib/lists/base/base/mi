@@ -81,7 +81,6 @@
 ./home
 ./mnt
 ./proc
-./root
 ./sbin
 ./sbin/atactl
 ./sbin/badsect
