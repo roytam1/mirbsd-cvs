@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.44 2006/09/16 07:27:41 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.45 2006/09/25 22:09:21 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -56,7 +56,15 @@ LINKER?=	${CXX}
 LINKER?=	${CC}
 .endif
 
-.if defined(SHLIB_SONAME) && empty(SHLIB_SONAME)
+_LIBS_STATIC?=	Yes
+.if ${NOPIC:L} == "no"
+_LIBS_SHARED?=	Yes
+.else
+_LIBS_SHARED=	No
+.endif
+
+.if (${_LIBS_SHARED:L} != "yes") || (!defined(SHLIB_SONAME)) || \
+    (defined(SHLIB_SONAME) && empty(SHLIB_SONAME))
 .  undef SHLIB_SONAME
 .  undef SHLIB_LINKS
 .elif ${RTLD_TYPE} == "dyld"
@@ -151,16 +159,13 @@ _DISCARD=	-X
 _DISCARD=	-x
 .endif
 
-_LIBS=		lib${LIB}.a
-
-.if ${NOPIC:L} == "no"
-_LIBS+=		lib${LIB}_pic.a
+_LIBS=
+.if ${_LIBS_STATIC:L} == "yes"
+_LIBS+=		lib${LIB}.a
 .endif
-
-.ifdef SHLIB_SONAME
-_LIBS+=		${SHLIB_SONAME}
+.if ${_LIBS_SHARED:L} == "yes"
+_LIBS+=		lib${LIB}_pic.a ${SHLIB_SONAME}
 .endif
-
 .if ${NOLINT:L} == "no"
 _LIBS+=		llib-l${LIB}.ln
 .endif
@@ -229,12 +234,14 @@ beforeinstall:
 .  endif
 
 realinstall:
+.  if ${_LIBS_STATIC:L} == "yes"
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    lib${LIB}.a ${DESTDIR}${LIBDIR}/
-.  if ${OBJECT_FMT} == "Mach-O"
+.    if ${OBJECT_FMT} == "Mach-O"
 	chmod 600 ${DESTDIR}${LIBDIR}/lib${LIB}.a
 	${RANLIB} ${DESTDIR}${LIBDIR}/lib${LIB}.a
 	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/lib${LIB}.a
+.    endif
 .  endif
 .  ifdef SHLIB_SONAME
 .    if ${OBJECT_FMT} == "Mach-O"
@@ -249,7 +256,7 @@ realinstall:
 		cp ${SHLIB_SONAME} ${_i}; \
 	fi
 .    endfor
-.  elif ${NOPIC:L} == "no"
+.  elif ${_LIBS_SHARED:L} == "yes"
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    lib${LIB}_pic.a ${DESTDIR}${LIBDIR}/
 .    if ${OBJECT_FMT} == "Mach-O"
