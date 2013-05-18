@@ -144,8 +144,6 @@ void	tctrl_read_ext_status(struct tctrl_softc *);
 int	tctrl_request(struct tctrl_softc *, struct tctrl_req *);
 void	tctrl_write_data(struct tctrl_softc *, u_int8_t);
 
-int	apm_record_event(struct tctrl_softc *, u_int);
-
 struct cfattach tctrl_ca = {
 	sizeof(struct tctrl_softc), tctrl_match, tctrl_attach
 };
@@ -495,14 +493,12 @@ tctrl_read_event_status(void *arg)
 	if (v & TS102_EVENT_STATUS_LOW_POWER_WARNING) {
 		if ((sc->sc_apmflags & SCFLAG_NOPRINT) == 0)
 			printf("%s: LOW POWER WARNING!\n", sc->sc_dev.dv_xname);
-		apm_record_event(sc, APM_BATTERY_LOW);
 	}
 	if (v & TS102_EVENT_STATUS_DC_STATUS_CHANGE) {
 		if ((sc->sc_apmflags & SCFLAG_NOPRINT) == 0)
 			printf("%s: main power %s\n", sc->sc_dev.dv_xname,
 			    (sc->sc_ext_status & TS102_EXT_STATUS_MAIN_POWER_AVAILABLE) ?
 			      "restored" : "removed");
-		apm_record_event(sc, APM_POWER_CHANGE);
 #if 0 /* automatically done for us */
 		tctrl_lcd(sc, ~TS102_LCD_DC_OK,
 		    sc->sc_ext_status & TS102_EXT_STATUS_MAIN_POWER_AVAILABLE ?
