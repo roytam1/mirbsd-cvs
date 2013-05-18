@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/boehm-gc/Makefile,v 1.8 2006/09/14 00:08:04 tg Exp $
+# $MirOS: ports/devel/boehm-gc/Makefile,v 1.9 2007/05/28 13:38:47 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.29 2004/03/04 17:49:26 espie Exp $
 # $FreeBSD: Makefile,v 1.4 1999/01/10 20:12:06 steve Exp $
 
@@ -6,6 +6,7 @@ NOT_FOR_PLATFORM=	*:*:hppa {Open,Mir}BSD:*:powerpc *:*:vax
 
 COMMENT=	garbage collection and memory leak detection for C and C++
 VERSION=	6.8
+DASH_VER=	1
 DISTNAME=	gc${VERSION}
 PKGNAME=	boehm-gc-${VERSION}-${DASH_VER}
 CATEGORIES=	devel
@@ -22,8 +23,9 @@ MAKE_ENV=	CP="cp" \
 		INSTALL_DATA="${INSTALL_DATA}" \
 		INSTALL_MAN="${INSTALL_MAN}"
 
-CONFIGURE_STYLE=autoconf no-autoheader
+CONFIGURE_STYLE=autogen no-autoheader
 AUTOCONF_NEW=	Yes
+AUTOMAKE_VERSION= 1.9
 CONFIGURE_ARGS= ${CONFIGURE_SHARED} --enable-full-debug
 
 # XXX the below causes failures still
