@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.300 2010/07/13 13:43:33 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.301 2010/07/13 14:17:53 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6811,4 +6811,37 @@ root@debian-mipsel:~ # ./a.out
  cheap entropy (code paths checked on both) but not for every call
  of <tt>$RANDOM</tt>. On things like Debian/m68k mksh(1) ought to
  have gained a possibly noticeable speed-up.</p>
+----
+Title: What’s with mksh bugs at the moment?
+Author: tg@
+Date: 21.07.2010 11:39
+Tag: debian mksh
+
+<p>Well, I suppose I should be happy that <a
+ href="@@RELPATH@@mksh.htm">mksh</a> is actually used…</p>
+<ul>
+ <li>[tg] Correct shf buffer I/O routines to avoid a memory corruption bug
+  discovered by Waldemar Brodkorb and other bad effects</li>
+ <li>[tg] Fix NULL pointer dereference during iteration loop when checking
+  for alias recursion; discovered by Michal Hlavinka</li>
+</ul>
+<p>That’s OpenADK (Waldemar’s fork of FreeWRT, which is Waldemar’s fork of
+ OpenWrt), and Red Hat Enterprise Linux, respectively. Popcon in Debian and
+ its derivates is also pleasant.</p>
+<p>I could use some help bugfixing this though:</p>
+<pre>
+	(sleep 3; exit 12) &amp;
+	bgprocpid=$!
+	sleep 6
+	# background process is done by now
+	wait $bgprocpid
+	# POSIX mandates that, since $! was asked
+	# for, wait is to reply its errorlevel
+</pre>
+<p>Somehow, JF_KNOWN is never set – and I can’t debug this with gdb(1).</p>
+<p>(There’s also a dashism in some *buntu start scripts that does pretty
+ much the same except it uses “wait %1” there. In fact it doesn’t even
+ seem to use $! – no idea whether we can support that at all in a POSIX
+ shell – which dash clearly isn’t… – without keeping track of background
+ processes forever.)</p>
 ----
