@@ -3,12 +3,13 @@
 COMMENT=		"MirPorts Framework package tools"
 CATEGORIES=		essentials infrastructure
 CVS_DISTREPO=		_anoncvs@anoncvs.66h.42h.de:/cvs
-CVS_DISTDATE=		2006/03/19 19:40
+# When updating the port, you MUST update the file
+# ports/infrastructure/pkgtools/VERSION to match this!
+CVS_DISTDATE=		2006/02/21
 CVS_DISTMODS=		ports/infrastructure/pkgtools
 CVS_DISTFILE=		pkgtools
 PKGNAME=		${_CVS_DISTF:R}-0
-# well it's Benny Siegert <bsiegert@> for the package tools themselves
-RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
+RESPONSIBLE=		Benny Siegert <bsiegert@mirbsd.org>
 HOMEPAGE=		http://www.66h.42h.de/?ports
 
 # 2-clause UCB-style
