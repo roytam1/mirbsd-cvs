@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/pxeboot/Makefile,v 1.8 2008/08/01 11:25:01 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/pxeboot/Makefile,v 1.9 2008/08/01 15:43:46 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2007/11/25 18:25:32 deraadt Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -8,7 +8,7 @@ SADIR=${.CURDIR}/..
 
 .include "${KERNBASE}/Makefile.inc"
 
-CPPFLAGS+=	${DEBUGFLAGS} -DLINKADDR=${LINKADDR} \
+CPPFLAGS+=	${DEBUGFLAGS} \
 		-D__INTERNAL_LIBSA_CREAD -DIN_PXEBOOT
 CPPFLAGS+=	${SACFLAGS:M-[DI]*}
 COPTS+=		${SACFLAGS:N-[DI]*}
@@ -25,8 +25,8 @@ SIZE?=		size
 LDFLAGS+=	-nostdlib -Bstatic
 INSTALL_STRIP=
 
-LDFLAGS+=	-Ttext $(LINKADDR) -N -x -noinhibit-exec
-CLEANFILES+=	${.CURDIR}/disasm ld.out
+LDFLAGS+=	-Ttext $(M_LINKADDR) -N -x -noinhibit-exec
+CLEANFILES+=	ld.out
 CLEANFILES+=	crt0.o
 SRCS=		srt0.S
 
@@ -46,11 +46,6 @@ ${PROG}: $(OBJS) $(DPADD)
 	@$(SIZE) ${PROG}
 	strip --strip-all -R .comment ${PROG}
 	objcopy -O binary ${PROG}
-
-disasm:	${.CURDIR}/disasm
-
-${.CURDIR}/disasm:	${PROG}
-	ndisasm -b16 -o${LINKADDR} ${PROG} >${.CURDIR}/disasm
 
 .else
 NOPROG=	yes

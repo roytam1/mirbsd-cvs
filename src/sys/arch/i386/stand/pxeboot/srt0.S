@@ -79,7 +79,7 @@ _start:
 	movw	%ax, %ds
 	xorw	%si, %si		/* Where we're coming from */
 
-	movw	$(LINKADDR >> 4), %ax
+	movw	$(SA_LINKADDR >> 4), %ax
 	movw	%ax, %es		/* Set %es = 0x4000 */
 	xorw	%di, %di		/* Where we're going to */
 
@@ -89,7 +89,7 @@ _start:
 	cld
 	rep; movsb			/* Copy into place */
 
-	jmpl	$(LINKADDR >> 4), $(relocated-_start)	/* Now relocate */
+	jmpl	$(SA_LINKADDR >> 4), $(relocated-_start)	/* Now relocate */
 
 relocated:
 	/*
@@ -106,7 +106,7 @@ relocated:
 	cli
 	push	%cs
 	pop	%ds
-	addr32 data32 lgdt (Gdtr - LINKADDR)
+	addr32 data32 lgdt (Gdtr - SA_LINKADDR)
 
 	movl	%cr0, %eax
 	orl	$CR0_PE, %eax

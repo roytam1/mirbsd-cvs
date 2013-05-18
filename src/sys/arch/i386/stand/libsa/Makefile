@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.21 2008/08/03 21:02:04 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.22 2009/01/03 13:43:32 tg Exp $
 # $OpenBSD: Makefile,v 1.47 2007/05/30 01:25:43 tom Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -8,7 +8,7 @@ S=		${.CURDIR}/../../../..
 SADIR=		${.CURDIR}/..
 DIR_SA=		$S/lib/libsa
 DIR_KERN=	$S/lib/libkern
-CPPFLAGS+=	-DLINKADDR=${LINKADDR} -DHEAP_LIMIT=${HEAP_LIMIT}
+CPPFLAGS+=	-DHEAP_LIMIT=${HEAP_LIMIT}
 CPPFLAGS+=	-I$S/stand/boot -I$S/lib/libsa
 CPPFLAGS+=	-D__INTERNAL_LIBSA_CREAD #-DCOMPAT_UFS
 CPPFLAGS+=	${SACFLAGS:M-[DI]*}

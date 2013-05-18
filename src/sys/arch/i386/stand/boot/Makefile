@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.16 2008/12/31 16:38:36 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.17 2009/01/03 13:42:11 tg Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
@@ -30,7 +30,7 @@ LDFLAGS+=	-nostdlib -Bstatic --no-undefined
 INSTALL_STRIP=
 .PATH:		${S}/stand/boot
 
-LDFLAGS+=	-Ttext $(LINKADDR) -N -noinhibit-exec
+LDFLAGS+=	-Ttext $(M_LINKADDR) -N -noinhibit-exec
 SRCS=		srt0.S
 
 .ifdef BOOTSELECT_HOOK
@@ -38,7 +38,7 @@ SRCS+=		hook.S
 CPPFLAGS+=	-DBOOTSELECT_HOOK
 .endif
 
-CLEANFILES+=	${.CURDIR}/disasm testmkr ${PROG}.{elf,nm,tmp} ld.out
+CLEANFILES+=	testmkr ${PROG}.{elf,nm,tmp} ld.out
 SRCS+=		boot.c bootarg.c cmd.c conf.c vars.c
 LDADD+=		${LLIBSA}
 DPADD+=		${DLIBSA}
@@ -68,11 +68,6 @@ ${PROG}:	$(OBJS) $(DPADD)
 	strip --strip-all -R .comment ${PROG}.tmp
 	objcopy -O binary ${PROG}.tmp ${PROG}
 	@-rm -f ${PROG}.tmp
-
-disasm:	${.CURDIR}/disasm
-
-${.CURDIR}/disasm:	${PROG}
-	ndisasm -b16 -o${LINKADDR} ${PROG} >${.CURDIR}/disasm
 
 testmkr: ${PROG}
 	cat /usr/mdec/mbrldr ${PROG} | dd conv=osync of=$@

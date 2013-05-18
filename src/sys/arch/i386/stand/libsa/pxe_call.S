@@ -104,7 +104,7 @@ ENTRY(pxecall_pxenv)
 	 * %(e)di up here.  Remember to relocate it!
 	 */
 	movl	$_C_LABEL(pxe_command_buf), %edi
-	subl	$LINKADDR, %edi
+	subl	$SA_LINKADDR, %edi
 
 	call	prot_to_real			/* Enter real mode */
 	.code16
@@ -134,7 +134,7 @@ _C_LABEL(pxenv_seg) = . - 2
 	.globl	prot_to_real
 prot_to_real:
 	.code32
-	ljmp	$S16TEXT, $p2r16 - LINKADDR
+	ljmp	$S16TEXT, $p2r16 - SA_LINKADDR
 p2r16:
 	.code16
 
@@ -147,16 +147,16 @@ p2r16:
 	movl	%eax, %cr0
 
 	/* reload real cs:ip */
-	data32 ljmp	$(LINKADDR >> 4), $p2r16real - LINKADDR
+	data32 ljmp	$(SA_LINKADDR >> 4), $p2r16real - SA_LINKADDR
 p2r16real:
 	xorw	%ax, %ax		/* Reset segment registers: */
 	movw	%ax, %ss		/* %ss: for our stack */
 
-	movw	$LINKADDR >> 4, %ax	/* We're linked to LINKADDR/16:0000 */
+	movw	$SA_LINKADDR >> 4, %ax	/* We're linked to SA_LINKADDR/16:0000 */
 	movw	%ax, %ds		/* %ds: so we can get at Idtr_real */
 
 	.extern	Idtr_real
-	data32 addr32 lidt (Idtr_real - LINKADDR);	/* Set up IDT for real mode */
+	data32 addr32 lidt (Idtr_real - SA_LINKADDR);	/* Set up IDT for real mode */
 
 	movw	%cs, %ax
 	movw	%ax, %ds
@@ -169,7 +169,7 @@ p2r16real:
 	 * that it's relative to our 16-bit %cs.
 	 */
 	popl	%eax
-	subl	$LINKADDR, %eax
+	subl	$SA_LINKADDR, %eax
 	pushw	%ax
 	ret
 
@@ -182,9 +182,9 @@ p2r16real:
 real_to_prot:
 	.code16
 
-	movw	$LINKADDR >> 4, %ax	/* We're linked to LINKADDR/16:0000 */
+	movw	$SA_LINKADDR >> 4, %ax	/* We're linked to SA_LINKADDR/16:0000 */
 	movw	%ax, %ds
-	data32 addr32 lgdt (Gdtr - LINKADDR)	/* Reload the GDT */
+	data32 addr32 lgdt (Gdtr - SA_LINKADDR)	/* Reload the GDT */
 
 	movl	%cr0, %eax		/* Enable protected mode */
 	orl	$CR0_PE, %eax
@@ -205,7 +205,7 @@ r2p32:
 
 	xorl	%eax, %eax
 	popw	%ax			/* 16-bit return addr on stack */
-	addl	$LINKADDR, %eax
+	addl	$SA_LINKADDR, %eax
 	pushl	%eax			/* Now have correct 32-bit ret addr */
 	ret
 
