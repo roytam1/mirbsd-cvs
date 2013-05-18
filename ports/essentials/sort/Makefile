@@ -1,4 +1,4 @@
-# $MirOS: ports/essentials/sort/Makefile,v 1.1 2005/04/18 22:03:24 bsiegert Exp $
+# $MirOS: ports/essentials/sort/Makefile,v 1.2 2006/09/14 00:09:16 tg Exp $
 
 COMMENT=			MirOS sort(1)
 CATEGORIES=		essentials
@@ -17,7 +17,7 @@ WRKDIST=		${WRKDIR}/sort
 EXTRA_FAKE_FLAGS=	BINDIR=${PREFIX}/bin MANDIR=${PREFIX}/man/cat
 
 do-configure:
-	@cd ${WRKBUILD} && exec ${_SYSTRACE_CMD} ${SETENV} ${MAKE_ENV} \
+	@cd ${WRKBUILD} && exec ${SETENV} ${MAKE_ENV} \
 	    ${MAKE_PROGRAM} ${MAKE_FLAGS} -f ${MAKE_FILE} obj
 
 .include <bsd.port.mk>
