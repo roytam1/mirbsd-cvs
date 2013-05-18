@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.389 2012/05/19 23:07:42 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.390 2012/06/15 08:06:14 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9110,4 +9110,52 @@ Tag: debian pcli tip
  pending) and Clang/LLVM scan-build. Uhm, what can I say more, grab
  me in IRC if you need it. Ah, and some other mksh things coming up
  that may be of interest to people needing to support legacy scripts.</p>
+----
+Date: 14.07.2012 22:17:01
+Author: tg@
+Title: bubulle’s Cool prompt for git users with mksh
+Tag: debian mksh pcli tip
+
+<p class="boxhead">Originally <a
+ href="http://www.perrier.eu.org/weblog/2012/07/15#cool-prompt">posted
+ by bubulle</a> on Planet Debian, a shell prompt that displays the
+ current git branch, in colour on some terminals, after the current
+ working directory. The following snippet does similar things for
+ <a href="@@RELPATH@@mksh.htm">mksh</a> users, except it doesn’t
+ redefine your prompt but amend it – just throw it at the bottom of
+ your <tt>~/.mkshrc</tt> before that last line beginning with a colon
+ (copy from <a href="@@ABSPATH@@/cvs.cgi/contrib/hosted/tg/deb/mksh/debian/.mkshrc?rev=HEAD"><tt>/etc/skel/.mkshrc</tt></a>
+ if you haven’t done that yet):</p><div class="boxtext">
+ <pre>
+	function parse_git_branch {
+		git branch 2&gt;/dev/null | sed -n '/^\* \(.*\)/s//(\1)/p'
+	}
+
+	function amend_prompt_with_git {
+		local p q='$(parse_git_branch)' r
+
+		if [[ $TERM = @(xterm-color|xterm|screen*) ]]; then
+			if [[ ${PS1:1:1} = $'\r' ]]; then
+				p=${PS1:0:1}
+			else
+				p=$'\001'
+				PS1=$p$'\r'$PS1
+			fi
+			q=$p$'\e[1;33m'$p$q$p$'\e[0m'$p
+		fi
+
+		p=${PS1%%*( )[#$]*( )}
+		if [[ $p != "$PS1" ]]; then
+			# prompt ends with space + #-or-$ + space, we can amend
+			r=${PS1: ${#p}}
+			PS1=$p$q$r
+		fi
+	}
+	amend_prompt_with_git
+	unset -f amend_prompt_with_git
+ </pre>
+</div><p class="boxfoot">The indirection by use of a function is not
+ strictly necessary but allows the use of locals. I took the liberty
+ of adding an asterisk after “screen” to match the GNU/Linux nonsense
+ of having <tt>TERM=screen.xterm</tt> or somesuch.</p>
 ----
