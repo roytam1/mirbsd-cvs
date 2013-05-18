@@ -1,0 +1,14 @@
+$MirOS$
+
+	Fixing upstream’s bugs for him
+
+--- misc.c.orig	Wed Mar  4 16:11:42 2009
++++ misc.c	Fri Apr 17 14:45:45 2009
+@@ -27,6 +27,7 @@
+  * Various utility functions
+  */
+ #include "misc.h"
++#include <ctype.h>
+ #include <stdio.h>
+ #include <stdlib.h>
+ #include <stdarg.h>

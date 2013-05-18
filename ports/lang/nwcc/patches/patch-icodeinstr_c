@@ -1,0 +1,15 @@
+$MirOS$
+
+	Fixing upstream’s bugs for him
+
+--- icodeinstr.c.orig	Wed Mar  4 16:11:42 2009
++++ icodeinstr.c	Fri Apr 17 14:44:35 2009
+@@ -54,6 +54,8 @@
+ #include "inlineasm.h"
+ #include "n_libc.h"
+ 
++extern void decode_bitfield(struct type *, struct vreg *, struct icode_list *);
++
+ struct icode_instr *
+ alloc_icode_instr(void) {
+ 	static unsigned long seq;

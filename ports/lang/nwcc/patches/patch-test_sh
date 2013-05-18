@@ -1,9 +1,9 @@
-$MirOS$
+$MirOS: ports/lang/nwcc/patches/patch-test_sh,v 1.1 2008/10/30 17:11:16 tg Exp $
 
 	Add MirBSD; honour $CC, $CFLAGS
 
---- test.sh.orig	Sat Aug 16 00:17:14 2008
-+++ test.sh	Thu Oct 30 16:43:36 2008
+--- test.sh.orig	Wed Mar  4 16:18:03 2009
++++ test.sh	Fri Apr 17 14:26:27 2009
 @@ -57,7 +57,7 @@ SYS=`uname -s`
  MACH=`uname -m`
  
@@ -13,7 +13,7 @@ $MirOS$
  	if test "$MACH" = "x86_64" || test "$MACH" = "amd64"; then
  		if test "$NWCC_ASM" != ""; then
  			BASEASM=`basename $NWCC_ASM`
-@@ -124,8 +124,9 @@ if test `uname -p` = sparc; then
+@@ -126,8 +126,9 @@ if test `uname -p` = sparc; then
  	GCC_CFLAGS="-m64"
  fi
  

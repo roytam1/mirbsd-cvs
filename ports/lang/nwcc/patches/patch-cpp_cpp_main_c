@@ -1,7 +1,7 @@
-$MirOS$
---- cpp/cpp_main.c.orig	Sat Aug 16 00:17:14 2008
-+++ cpp/cpp_main.c	Thu Oct 30 16:29:59 2008
-@@ -206,6 +206,11 @@ static struct input_file	nullinput;
+$MirOS: ports/lang/nwcc/patches/patch-cpp_cpp_main_c,v 1.1 2008/10/30 17:11:16 tg Exp $
+--- cpp/cpp_main.c.orig	Wed Mar  4 16:13:06 2009
++++ cpp/cpp_main.c	Fri Apr 17 14:24:23 2009
+@@ -229,6 +229,11 @@ static struct input_file	nullinput;
  		sprintf(buf, "%d", __OpenBSD__);
  		tmp_pre = tmp_pre_macro("__OpenBSD__", buf);
  		APPEND_LIST(predef, predef_tail, tmp_pre);

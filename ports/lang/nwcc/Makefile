@@ -1,7 +1,9 @@
-# $MirOS$
+# $MirOS: ports/lang/nwcc/Makefile,v 1.1 2008/10/30 17:11:15 tg Exp $
+
+BROKEN=			does not build nwcpp due to bogus Makefile
 
 COMMENT=		Nils R. Weller’s C Compiler
-DISTNAME=		nwcc_0.7.6
+DISTNAME=		nwcc_0.7.8
 CATEGORIES=		lang devel
 HOMEPAGE=		http://nwcc.sourceforge.net/
 
@@ -15,7 +17,7 @@ PKGNAME=		${DISTNAME:S/_/-/}-${DASH_VER}
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=nwcc/}
 
 CONFIGURE_STYLE=	simple
-CONFIGURE_ARGS+=	--installprefix=${WRKINST:Q}${TRUEPREFIX:Q}
+CONFIGURE_ARGS+=	--installprefix=${TRUEPREFIX:Q}
 ALL_TARGET=		nwcc
 
 post-install:

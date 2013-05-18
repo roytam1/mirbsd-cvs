@@ -1,0 +1,15 @@
+$MirOS$
+
+	Fixing upstream’s bugs for him
+
+--- sparc_emit_as.c.orig	Wed Mar  4 16:11:42 2009
++++ sparc_emit_as.c	Fri Apr 17 14:43:56 2009
+@@ -1276,7 +1276,7 @@ getisn:
+ static void
+ emit_load_addrlabel(struct reg *r, struct icode_instr *ii) {
+ 	char	buf[128];
+-	sprintf(buf, ".%s", ii->dat);
++	sprintf(buf, ".%s", (char *)ii->dat);
+ 	load_sym_addr(r, NULL, buf);
+ }
+ 

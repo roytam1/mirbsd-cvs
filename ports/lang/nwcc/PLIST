@@ -1,6 +1,7 @@
-@comment $MirOS$
+@comment $MirOS: ports/lang/nwcc/PLIST,v 1.1 2008/10/30 17:11:15 tg Exp $
 bin/nwcc
 bin/nwcc1
+lib/dynlibnwcc.o
 lib/libnwcc.o
 nwcc/bin/nwcc
 nwcc/bin/nwcc1
