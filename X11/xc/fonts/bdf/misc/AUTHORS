@@ -36,6 +36,11 @@ Janne V. Kujala <jvk@iki.fi> contributed 4x6. Daniel Yacob
 <tzz@lifelogs.com> did some 7x14. Mikael Öhman <micketeer@gmail.com>
 worked on 6x12.
 
+Thorsten Glaser revised a bit on all fonts bearing the RCS ID (like
+$MirOS$
+for this file) of The MirOS Project (new glyphs; slashed zero; some
+bugfixing). They all were edited using http://mirbsd.de/jupp (really).
+
 The fonts are still maintained by Markus Kuhn and the original
 distribution can be found at:
 
