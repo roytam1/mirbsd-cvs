@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.334 2010/04/20 09:15:43 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.335 2010/04/27 21:53:09 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -671,6 +671,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
  msc – I could not get gcc-egcs, gcc-2.95, gcc-mingw, icc to work) but the
  platform itself is very flakey, and even some regression tests crash, due
  to target limitations apparently. Within these limits, mksh is usable.</p>
+
+<h5 id="oe_winapi">OS: Windows</h5>
+<p>Michael Langguth, partially under work sponsored by his employer <a
+ href="http://www.scalaris.com/">Scalaris AG</a>, is currently working
+ on porting mksh to native Win32 (WinAPI) to replace the MKS toolkit in
+ the long term. Progress is promising, but still a long way to go. The
+ result will probably not be part of mksh itself, but a separate product;
+ some core patches will however end up in core mksh.</p>
 
 <h3 id="postbuild">After compiling</h3>
 <p>The <tt>Build.sh</tt> script generates an executable (“mksh”, except on
