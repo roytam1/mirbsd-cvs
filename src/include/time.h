@@ -1,10 +1,10 @@
-/**	$MirOS: src/include/time.h,v 1.3 2005/11/21 19:31:54 tg Exp $ */
+/**	$MirOS: src/include/time.h,v 1.4 2006/06/12 21:41:32 tg Exp $ */
 /*	$OpenBSD: time.h,v 1.16 2003/08/01 17:38:33 avsm Exp $	*/
 /*	$NetBSD: time.h,v 1.9 1994/10/26 00:56:35 cgd Exp $	*/
 
 /*
- * Copyright (c) 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2004, 2005, 2006
+ *	Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1989 The Regents of the University of California.
  * All rights reserved.
  *
@@ -37,6 +37,15 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
+ *
+ * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
+ * express, or implied, to the maximum extent permitted by applicable
+ * law, without malicious intent or gross negligence; in no event may
+ * licensor, an author or contributor be held liable for any indirect
+ * or other damage, or direct damage except proven a consequence of a
+ * direct error of said person and intended use of this work, loss or
+ * other issues arising in any way out of its use, even if advised of
+ * the possibility of such damage or existence of a nontrivial bug.
  *
  *	@(#)time.h	5.12 (Berkeley) 3/9/91
  */
@@ -154,7 +163,7 @@ time_t timeoff(struct tm *, const long);
  * tai64 and mjd handling functions
  */
 
-/* Get current time */
+/* get current time */
 tai64_t	tai_time(tai64_t *)
 		__attribute__((__bounded__(__minbytes__,1,8)));
 void	taina_time(tai64na_t *)
@@ -162,22 +171,23 @@ void	taina_time(tai64na_t *)
 tai64_t *tai_leaps(void);
 int	tai_isleap(tai64_t);
 
-/* Conversion routines */
+/* in-core basic conversion */
 #define __TAI64_BIAS	0x4000000000000000ULL
 /* these are normally macros */
 tai64_t	timet2tai(time_t);
 #define	timet2tai(x)	((tai64_t)((time_t)(x) + __TAI64_BIAS))
 time_t	tai2timet(tai64_t);
 #define	tai2timet(x)	((time_t)((tai64_t)(x) - __TAI64_BIAS))
+
+/* in-core advanced conversion */
 tai64_t	utc2tai(int64_t);
 int64_t	tai2utc(tai64_t);
 tai64_t	mjd2tai(mjd_t);
 mjd_t	tai2mjd(tai64_t);
-
 struct tm mjd2tm(mjd_t);
 mjd_t tm2mjd(struct tm);
 
-/* Conversion between tai64 and DJB-compatible TAI64NA on the wire values */
+/* on-the-wire DJB-compatible conversion */
 void	exporttai(uint8_t *, tai64na_t *)
 		__attribute__((__bounded__(__minbytes__,1,16)))
 		__attribute__((__bounded__(__minbytes__,2,16)));
