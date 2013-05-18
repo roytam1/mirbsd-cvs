@@ -147,6 +147,8 @@ int	getpropint(int node, char *name, int deflt);
 
 /* Frequently used options node */
 extern int optionsnode;
+/* Machine type */
+extern char mainbus_model[30];
 
 /*
  * The romprop function gets physical and virtual addresses from the PROM
