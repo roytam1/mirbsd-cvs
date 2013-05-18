@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.17 2008/12/28 17:32:18 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.18 2008/12/28 19:04:31 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
@@ -106,8 +106,10 @@ Lbdev:	.byte	0		/* local copy of BIOS boot device */
 _C_LABEL(tori_bootflag):
 	.long	0
 #endif
+	.p2align 2
 _C_LABEL(bios_bootpart):
-	.long	0, 0
+Lbbpo:	.long	0
+Lbbps:	.long	0
 #ifndef SMALL_BOOT
 	.p2align 4
 Ltblk:	.long	0x13,0,0,0	/* El Torito parameter block */
@@ -165,6 +167,12 @@ Linit:	pop	di
 	inc	di
 Llxdx:	pop	ax		/* we have a drive in DL */
 	push	dx
+	or	di,di
+	jnz	Llxok		/* CD have no MBR entry */
+	mov	eax,es:[bx+8]
+	mov	cs:[0x0150+Lbbpo-_rval],eax
+	mov	eax,es:[bx+12]
+	mov	cs:[0x0150+Lbbps-_rval],eax
 Llxok:	push	di
 	mov	ax,0x000C	/* SYSLINUX: final cleanup */
 	xor	dx,dx		/* clean up everything */
