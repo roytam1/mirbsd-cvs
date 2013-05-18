@@ -1,11 +1,11 @@
-$MirOS$
+$MirOS: ports/lang/llvm/patches/patch-tools_lto_LTOCodeGenerator_cpp,v 1.1 2008/11/10 01:01:32 tg Exp $
 
 	1) Support branding, especially via CPPFLAGS
 	2) Fix whitespace mistake
 
---- tools/lto/LTOCodeGenerator.cpp.orig	Thu Jan  1 00:00:00 1970
-+++ tools/lto/LTOCodeGenerator.cpp	Mon Nov 10 00:59:12 2008
-@@ -56,11 +56,14 @@ using namespace llvm;
+--- tools/lto/LTOCodeGenerator.cpp.orig	Thu Jan  1 01:00:00 1970
++++ tools/lto/LTOCodeGenerator.cpp	Fri Dec  4 20:45:00 2009
+@@ -59,11 +59,14 @@ using namespace llvm;
  static cl::opt<bool> DisableInline("disable-inlining",
    cl::desc("Do not run the inliner pass"));
  

@@ -1,0 +1,41 @@
+$MirOS$
+--- tools/clang/lib/Frontend/InitHeaderSearch.cpp.orig	Thu Jan  1 01:00:00 1970
++++ tools/clang/lib/Frontend/InitHeaderSearch.cpp	Fri Dec  4 21:01:44 2009
+@@ -432,7 +432,9 @@ void InitHeaderSearch::AddDefaultCInclud
+     break;
+   }
+ 
++#if 0 /* not desired for MirOS/MirPorts */
+   AddPath("/usr/local/include", System, false, false, false);
++#endif
+   AddPath("/usr/include", System, false, false, false);
+ }
+ 
+@@ -457,6 +459,11 @@ void InitHeaderSearch::AddDefaultCPlusPl
+     AddPath("/lib/gcc/i686-pc-cygwin/3.4.4/include/c++",
+         System, true, false, false);
+     break;
++  case llvm::Triple::MidnightBSD:
++    // MidnightBSD 0.2-current
++    AddPath("/usr/include/c++/3.4", System, true, false, false);
++    AddPath("/usr/include/c++/3.4/backward", System, true, false, false);
++    break;
+   case llvm::Triple::MinGW64:
+     // Try gcc 4.4.0
+     AddMinGWCPlusPlusIncludePaths("c:/MinGW/lib/gcc", "mingw64", "4.4.0");
+@@ -468,6 +475,15 @@ void InitHeaderSearch::AddDefaultCPlusPl
+     AddMinGWCPlusPlusIncludePaths("c:/MinGW/lib/gcc", "mingw32", "4.4.0");
+     // Try gcc 4.3.0
+     AddMinGWCPlusPlusIncludePaths("c:/MinGW/lib/gcc", "mingw32", "4.3.0");
++    break;
++  case llvm::Triple::MirBSD:
++    // MirOS BSD #10-current
++    AddPath("/usr/include/gxx", System, true, false, false);
++    AddPath("/usr/include/gxx/i386-ecce-mirbsd10", System, true, false, false);
++    AddPath("/usr/include/gxx/i386-ecce-mirbsd11", System, true, false, false);
++    AddPath("/usr/include/gxx/sparc-ecce-mirbsd10", System, true, false, false);
++    AddPath("/usr/include/gxx/sparc-ecce-mirbsd11", System, true, false, false);
++    AddPath("/usr/include/gxx/backward", System, true, false, false);
+     break;
+   case llvm::Triple::Darwin:
+     AddGnuCPlusPlusIncludePaths("/usr/include/c++/4.2.1",

@@ -1,7 +1,7 @@
-# $MirOS: ports/lang/llvm/Makefile,v 1.7 2008/11/10 01:01:32 tg Exp $
+# $MirOS: ports/lang/llvm/Makefile,v 1.8 2008/11/10 02:11:03 tg Exp $
 
 COMMENT=		Low Level Virtual Machine compiler infrastructure
-SVN_DISTREV=		58935
+SVN_DISTREV=		90573
 CATEGORIES=		lang devel
 HOMEPAGE=		http://clang.llvm.org/
 
@@ -34,6 +34,7 @@ USE_CXX=		Yes
 USE_GMAKE=		Yes
 BUILD_DEPENDS+=		:bison-*:devel/bison
 BUILD_DEPENDS+=		:groff-*-!no_x11:textproc/groff
+LIB_DEPENDS+=		ffi::devel/libffi
 LIB_DEPENDS+=		ltdl::devel/libtool
 
 MODGNU_RECURSE_DIRS=	${WRKSRC}/autoconf
@@ -63,6 +64,7 @@ CONFIGURE_ARGS+=	--enable-optimized \
 			${CONFIGURE_SHARED} \
 			--enable-static
 EXTRA_XAKE_FLAGS+=	VERBOSE=1 \
+			_CCLD=${_CCLD:Q} \
 			DISABLE_AUTO_DEPENDENCIES=1
 CPPFLAGS+=		-DLLVM_VERSION_INFO_SVN=\"r${SVN_DISTREV}-MirPorts-${DASH_VER}\"
 
@@ -75,21 +77,15 @@ pre-build:
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/llvm/clang
-	cd ${WRKSRC}/tools/clang/utils && ${INSTALL_SCRIPT} scan-build \
-	    CheckBuiltinMacros.sh FindSpecRefs ccc ccc-analyzer ubiviz \
-	    ${PREFIX}/share/llvm/clang/
-	cd ${WRKSRC}/tools/clang/utils && ${INSTALL_DATA} scanview.css \
-	    sorttable.js ${PREFIX}/share/llvm/clang/
-	cd ${PREFIX}/bin && \
-	    ln -s ../share/llvm/clang/ccc . && \
-	    ln -s ../share/llvm/clang/scan-build .
+	cd ${WRKSRC}/tools/clang/tools && \
+	    pax -rw scan-{build,view} ${PREFIX}/share/llvm/clang/
+	mv ${PREFIX}/share/llvm/clang/scan-build/scan-build ${PREFIX}/bin/
+	cd ${WRKSRC}/tools/clang && \
+	    pax -rw utils ${PREFIX}/share/llvm/clang/
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/llvm/clang-www
 	cd ${WRKSRC}/tools/clang/www && \
 	    pax -rw . ${PREFIX}/share/doc/llvm/clang-www/
-	chmod 0600 ${PREFIX}/bin/gcc{as,ld}
-	for file in ${PREFIX}/bin/gcc{as,ld}; do \
-		print ',g'${WRKINST:Q}'s///\nwq' | ed -s $$file; \
-	done
-	chmod ${BINMODE} ${PREFIX}/bin/gcc{as,ld}
+	# their pathfinding does not work, d'oh…
+	mv ${PREFIX}/libexec/clang-cc ${PREFIX}/bin/
 
 .include <bsd.port.mk>

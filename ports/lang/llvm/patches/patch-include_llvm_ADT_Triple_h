@@ -1,0 +1,23 @@
+$MirOS$
+--- include/llvm/ADT/Triple.h.orig	Thu Jan  1 01:00:00 1970
++++ include/llvm/ADT/Triple.h	Fri Dec  4 21:24:14 2009
+@@ -17,6 +17,8 @@
+ // this file.  Undefine them here.
+ #undef mips
+ #undef sparc
++#undef MirBSD
++#undef OpenBSD
+ 
+ namespace llvm {
+ class StringRef;
+@@ -91,8 +93,10 @@ public:
+     FreeBSD,
+     Linux,
+     Lv2,        // PS3
++    MidnightBSD,
+     MinGW32,
+     MinGW64,
++    MirBSD,
+     NetBSD,
+     OpenBSD,
+     Psp,

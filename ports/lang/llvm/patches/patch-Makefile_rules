@@ -1,15 +1,15 @@
-$MirOS$
---- Makefile.rules.orig	Fri Oct  3 21:24:29 2008
-+++ Makefile.rules	Sat Nov  1 23:29:09 2008
-@@ -223,10 +223,8 @@ else
-   ifeq ($(ENABLE_OPTIMIZED),1)
-     BuildMode := Release
-     # Don't use -fomit-frame-pointer on Darwin or FreeBSD.
--    ifneq ($(OS),FreeBSD)
--    ifneq ($(OS),Darwin)
-+    ifeq (,$(filter FreeBSD MidnightBSD MirBSD Darwin,$(OS)))
-       OmitFramePointer := -fomit-frame-pointer
--    endif
-     endif
+$MirOS: ports/lang/llvm/patches/patch-Makefile_rules,v 1.1 2008/11/02 03:07:48 tg Exp $
+--- Makefile.rules.orig	Thu Jan  1 01:00:00 1970
++++ Makefile.rules	Fri Dec  4 21:02:37 2009
+@@ -315,10 +315,8 @@ CPP.Defines :=
+ ifeq ($(ENABLE_OPTIMIZED),1)
+   BuildMode := Release
+   # Don't use -fomit-frame-pointer on Darwin or FreeBSD.
+-  ifneq ($(HOST_OS),FreeBSD)
+-  ifneq ($(HOST_OS),Darwin)
++  ifeq (,$(filter FreeBSD MidnightBSD MirBSD Darwin,$(HOST_OS)))
+     OmitFramePointer := -fomit-frame-pointer
+-  endif
+   endif
  
-     # Darwin requires -fstrict-aliasing to be explicitly enabled.
+   # Darwin requires -fstrict-aliasing to be explicitly enabled.

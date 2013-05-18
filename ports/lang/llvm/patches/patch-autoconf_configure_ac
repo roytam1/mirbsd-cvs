@@ -1,6 +1,6 @@
-$MirOS: ports/lang/llvm/patches/patch-autoconf_configure_ac,v 1.2 2008/11/02 17:05:39 tg Exp $
---- autoconf/configure.ac.orig	Thu Jan  1 00:00:00 1970
-+++ autoconf/configure.ac	Sun Nov  9 16:26:05 2008
+$MirOS: ports/lang/llvm/patches/patch-autoconf_configure_ac,v 1.3 2008/11/09 19:40:04 tg Exp $
+--- autoconf/configure.ac.orig	Thu Jan  1 01:00:00 1970
++++ autoconf/configure.ac	Fri Dec  4 21:12:33 2009
 @@ -130,6 +130,16 @@ AC_CACHE_CHECK([type of operating system
      llvm_cv_no_link_all_option="-Wl,--no-whole-archive"
      llvm_cv_os_type="FreeBSD"
@@ -18,7 +18,18 @@ $MirOS: ports/lang/llvm/patches/patch-autoconf_configure_ac,v 1.2 2008/11/02 17:
    *-*-openbsd*)
      llvm_cv_link_all_option="-Wl,--whole-archive"
      llvm_cv_no_link_all_option="-Wl,--no-whole-archive"
-@@ -896,8 +906,8 @@ eval LLVM_PREFIX="${prefix}";
+@@ -215,6 +225,10 @@ AC_CACHE_CHECK([type of operating system
+     llvm_cv_target_os_type="Darwin" ;;
+   *-*-freebsd*)
+     llvm_cv_target_os_type="FreeBSD" ;;
++  *-*-midnightbsd*)
++    llvm_cv_target_os_type="MidnightBSD" ;;
++  *-*-mirbsd*)
++    llvm_cv_target_os_type="MirBSD" ;;
+   *-*-openbsd*)
+     llvm_cv_target_os_type="OpenBSD" ;;
+   *-*-netbsd*)
+@@ -1286,8 +1300,8 @@ eval LLVM_PREFIX="${prefix}";
  eval LLVM_BINDIR="${prefix}/bin";
  eval LLVM_LIBDIR="${prefix}/lib";
  eval LLVM_DATADIR="${prefix}/share/llvm";
