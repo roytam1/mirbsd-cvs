@@ -1,10 +1,10 @@
-# $MirOS: ports/devel/libglade/Makefile,v 1.7 2007/01/07 00:27:50 bsiegert Exp $
+# $MirOS: ports/devel/libglade/Makefile,v 1.8 2007/01/07 00:29:49 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/12/22 06:31:05 espie Exp $
 
 COMMENT=		library for loading GLADE interface files at runtime
 V=			2.5.1
 DISTNAME=		libglade-${V}
-PKGNAME=		libglade2-${V}-0
+PKGNAME=		libglade2-${V}-1
 CATEGORIES=		devel
 HOMEPAGE=		http://www.gnome.org
 MASTER_SITES=		${MASTER_SITE_GNOME:=sources/libglade/2.5/}
@@ -24,6 +24,10 @@ USE_X11=		Yes
 CONFIGURE_STYLE= 	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+= 	${CONFIGURE_SHARED}
+CONFIGURE_ARGS+= 	--enable-static
+CONFIGURE_ARGS+= 	--disable-dependency-tracking
+CONFIGURE_ARGS+= 	--disable-libtool-lock
+CONFIGURE_ARGS+= 	--with-xml-catalog=${LOCALBASE}/db/xmlcatalog
 
 # Build the libglade-convert script even if we don't have Python.
 # Other ports that need it will have to have a python-expat *_DEPENDS.
