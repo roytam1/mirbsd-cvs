@@ -1,5 +1,5 @@
-/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.12 2006/10/17 23:16:44 tg Exp $ */
-/*	$OpenBSD: machdep.c,v 1.317 2005/04/02 02:44:58 tedu Exp $	*/
+/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.13 2006/10/18 10:58:29 tg Exp $ */
+/*	$OpenBSD: machdep.c,v 1.310 2004/11/02 21:20:59 miod Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
 /*-
@@ -2913,20 +2913,6 @@ consinit()
 	initted = 1;
 	cninit();
 }
-
-#if (NPCKBC > 0) && (NPCKBD == 0)
-/*
- * glue code to support old console code with the
- * mi keyboard controller driver
- */
-int
-pckbc_machdep_cnattach(kbctag, kbcslot)
-	pckbc_tag_t kbctag;
-	pckbc_slot_t kbcslot;
-{
-	return (ENXIO);
-}
-#endif
 
 #ifdef KGDB
 void

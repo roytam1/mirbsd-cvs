@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/i386/include/types.h,v 1.2 2005/03/06 21:26:59 tg Exp $ */
 /*	$NetBSD: types.h,v 1.12 1995/12/24 01:08:03 mycroft Exp $	*/
 /*	$OpenBSD: types.h,v 1.13 2003/06/02 23:27:47 millert Exp $	*/
 
@@ -76,7 +76,5 @@ typedef	unsigned long long	 uint64_t;
 
 typedef	int			  intptr_t;
 typedef	unsigned int		 uintptr_t;
-
-#define __HAVE_NWSCONS
 
 #endif	/* _MACHTYPES_H_ */
