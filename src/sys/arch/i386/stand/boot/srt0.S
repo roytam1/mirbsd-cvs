@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.72 2009/01/31 18:51:18 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.73 2009/03/15 17:14:14 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -46,6 +46,7 @@
 	.globl	i386_dosdev
 	.globl	pxe_bang
 	.globl	pxe_plus
+	.globl	pxecall_addr
 
 _start:	cli
 	call	Linit
@@ -84,6 +85,10 @@ pxe_plus:
 bios_bootpte:
 	.size	bios_bootpte,16
 	.long	0, 0, 0, 0	/* 16 bytes from initial DS:SI */
+	. = _start + 32
+pxecall_addr:
+	.size	pxecall_addr,4
+	.long	0		/* PXE RM entry point (FAR pointer) */
 
 #ifndef SMALL_BOOT
 	/* Multiboot header */
@@ -393,12 +398,6 @@ Lmb2rm:	mov	edi,offset Ldrvi
 
 #ifdef USE_PXE
 	.code32
-
-	.p2align 2
-	.globl	pxecall_addr
-pxecall_addr:
-	.long	0
-
 	.globl	pxecall_bang
 pxecall_bang:
 	push	ebp
@@ -418,7 +417,7 @@ pxecall_bang:
 	push	ss
 	push	di
 	push	bx
-	lcall	ds:[pxecall_addr]
+	lcall	ds:[32]		/* pxecall_addr */
 	add	sp,6
 	movzx	ebx,ax
 
@@ -451,7 +450,7 @@ pxecall_plus:
 
 	push	ss
 	pop	es
-	lcall	ds:[pxecall_addr]
+	lcall	ds:[32]		/* pxecall_addr */
 	movzx	ebx,ax
 
 	call	real_to_prot
