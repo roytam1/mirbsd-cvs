@@ -1,8 +1,12 @@
-# $MirOS: gcc/Makefile,v 1.17 2006/03/01 14:05:15 tg Exp $
+# $MirOS: gcc/Makefile,v 1.18 2006/03/01 14:17:06 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
 .include "${BSDSRCDIR}/Makefile.inc"
+.include "Makefile.inc"
+
+_STFILE_PFX=	${DESTDIR}${GCC_PREFIX}/.policy.mk
+_STCMD_PFX=	${_STCMD} -f ${_STFILE_PFX}
 
 .if ${OStype} != "MirBSD"
 GCC_NATIVE=	No
@@ -28,8 +32,10 @@ EXTRA_ENV:=	${EXTRA_ENV:S!PATH=!PATH=${BSDMAKE:H}:${CC:H}:!}
 _STCMD=
 _STFILE_SUB=
 _STFILE_DEST=
+_STFILE_PFX=
 _STCMD_SUB=
 _STCMD_DEST=
+_STCMD_PFX=
 .endif
 
 .MAIN: all
@@ -48,20 +54,14 @@ ${_i}: ${_STFILE_SUB}
 .for _i in ${INSTALL_TGTS}
 ${_i}:
 .  if ${GCC_NATIVE:L} == "yes"
-.    ifdef _CROSSBUILD
 	d="${DESTDIR}${GCC_PREFIX}"; cd $${d:-/}; [[ -n $$d ]] || d="/:/*"; \
 	    env WRITEDIR="$$d" NOWRITEDIR="${SUBOBJDIR}" ${EXTRA_ENV} \
 	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${BSDMAKE}
-.    else
-	d="${DESTDIR}"; cd $${d:-/}; [[ -n $$d ]] || d="/:/*"; \
-	    env WRITEDIR="$$d" NOWRITEDIR="${SUBOBJDIR}" ${EXTRA_ENV} \
-	    ${SUDO} ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${BSDMAKE}
-.    endif
 .  endif
 	cd ${.CURDIR} && ${EXTRA_ENV} exec \
-	    ${_STCMD_DEST} ${BSDMAKE} -f Makefile.sub $@
+	    ${_STCMD_PFX} ${BSDMAKE} -f Makefile.sub $@
 .  if ${GCC_NATIVE:L} == "yes"
-	sleep 1; ${SUDO} rm -f ${_STFILE_DEST}
+	sleep 1; ${SUDO} rm -f ${_STFILE_PFX}
 .  endif
 .endfor
 
