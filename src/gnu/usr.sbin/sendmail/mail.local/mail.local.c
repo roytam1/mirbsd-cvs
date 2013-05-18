@@ -18,8 +18,8 @@ SM_IDSTR(copyright,
      Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n")
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/mail.local/mail.local.c,v 1.4 2008/05/07 11:57:04 tg Exp $")
-SM_IDSTR(id, "@(#)$Sendmail: mail.local.c,v 8.256 2008/02/19 07:13:30 gshapiro Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/mail.local/mail.local.c,v 1.5 2008/05/07 13:15:22 tg Exp $")
+SM_IDSTR(id, "@(#)$Id$")
 
 #include <stdlib.h>
 #include <sm/errstring.h>

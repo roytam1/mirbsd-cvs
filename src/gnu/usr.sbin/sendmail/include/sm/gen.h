@@ -6,8 +6,8 @@
  * forth in the LICENSE file which can be found at the top level of
  * the sendmail distribution.
  *
- *	$MirOS$
- *	$Sendmail: gen.h,v 1.23 2003/11/04 18:51:54 ca Exp $
+ *	$MirOS: src/gnu/usr.sbin/sendmail/include/sm/gen.h,v 1.6 2008/05/07 13:15:20 tg Exp $
+ *	$Id$
  */
 
 /*
@@ -31,13 +31,16 @@
 # include <sys/cdefs.h>
 # define SM_RCSID(str)		__RCSID(str);
 # define SM_IDSTR(id,str)	__IDSTRING(id,str);
+# define SM_COPYRIGHT(str)	__COPYRIGHT(str);
 #else
 # ifdef lint
 #  define SM_RCSID(str)
 #  define SM_IDSTR(id,str)
+#  define SM_COPYRIGHT(str)
 # else /* lint */
 #  define SM_RCSID(str) SM_UNUSED(static const char RcsId[]) = str;
 #  define SM_IDSTR(id,str) SM_UNUSED(static const char id[]) = str;
+#  define SM_COPYRIGHT(str) SM_UNUSED(static char copyright[]) = str;
 # endif /* lint */
 #endif
 

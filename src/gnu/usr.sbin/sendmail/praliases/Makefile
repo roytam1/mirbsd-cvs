@@ -1,5 +1,5 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/praliases/Makefile,v 1.3 2008/05/07 13:15:23 tg Exp $
-#	$OpenBSD: Makefile,v 1.4 2001/09/11 19:02:49 millert Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/praliases/Makefile,v 1.4 2010/12/19 14:53:48 tg Exp $
+# $OpenBSD: Makefile,v 1.4 2001/09/11 19:02:49 millert Exp $
 
 PROG=	praliases
 MAN=	praliases.8

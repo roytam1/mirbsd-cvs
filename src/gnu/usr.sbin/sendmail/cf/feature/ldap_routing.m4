@@ -11,8 +11,8 @@ divert(-1)
 #
 
 divert(0)
-dnl VERSIONID(`$Sendmail: ldap_routing.m4,v 8.15 2007/05/01 17:38:25 ca Exp $')
-VERSIONID(`$MirOS$')
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/feature/ldap_routing.m4,v 1.4 2009/01/30 09:38:43 tg Exp $')
+VERSIONID(`$Id$')
 divert(-1)
 
 # Check first two arguments.  If they aren't set, may need to warn in proto.m4

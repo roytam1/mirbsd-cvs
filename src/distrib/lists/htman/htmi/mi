@@ -398,7 +398,6 @@
 ./man1/podchecker.htm
 ./man1/podselect.htm
 ./man1/pr.htm
-./man1/praliases.htm
 ./man1/printenv.htm
 ./man1/printf.htm
 ./man1/procmap.htm
@@ -6788,6 +6787,7 @@
 ./man8/pppd.htm
 ./man8/pppoe.htm
 ./man8/pppstats.htm
+./man8/praliases.htm
 ./man8/pstat.htm
 ./man8/pwd_mkdb.htm
 ./man8/quot.htm

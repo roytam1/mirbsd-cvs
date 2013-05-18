@@ -1,5 +1,5 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/libmilter/Makefile,v 1.8 2008/05/07 13:15:20 tg Exp $
-#	$OpenBSD: Makefile,v 1.11 2007/02/04 13:17:35 millert Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/libmilter/Makefile,v 1.9 2009/09/12 20:33:08 tg Exp $
+# $OpenBSD: Makefile,v 1.11 2007/02/04 13:17:35 millert Exp $
 
 .include <bsd.own.mk>
 

@@ -1,5 +1,5 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/Makefile.inc,v 1.6 2006/03/23 13:31:43 tg Exp $
-#	$OpenBSD: Makefile.inc,v 1.17 2006/02/04 09:46:23 mbalmer Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/Makefile.inc,v 1.7 2008/05/07 13:15:14 tg Exp $
+# $OpenBSD: Makefile.inc,v 1.17 2006/02/04 09:46:23 mbalmer Exp $
 
 .ifndef _MODSRC_GNU_USR_SBIN_SENDMAIL_MAKEFILE_INC
 _MODSRC_GNU_USR_SBIN_SENDMAIL_MAKEFILE_INC=1

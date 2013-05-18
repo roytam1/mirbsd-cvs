@@ -9,8 +9,8 @@
  * the sendmail distribution.
  *
  *
- *	$MirOS$
- *	$Sendmail: pathnames.h,v 8.36 2002/04/09 22:40:26 gshapiro Exp $
+ *	$MirOS: src/gnu/usr.sbin/sendmail/include/sendmail/pathnames.h,v 1.2 2005/05/04 11:47:39 tg Exp $
+ *	$Id$
  */
 
 #ifndef SM_PATHNAMES_H

@@ -1,5 +1,5 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/editmap/Makefile,v 1.2 2005/03/13 15:11:44 tg Exp $
-#	$OpenBSD: Makefile,v 1.3 2000/05/15 03:37:32 millert Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/editmap/Makefile,v 1.3 2008/05/07 13:15:19 tg Exp $
+# $OpenBSD: Makefile,v 1.3 2000/05/15 03:37:32 millert Exp $
 
 PROG=	editmap
 MAN=	editmap.8

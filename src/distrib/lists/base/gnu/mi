@@ -52,7 +52,7 @@
 ./usr/bin/strings
 ./usr/bin/texindex
 ./usr/bin/xsubpp
-./usr/lib/libmilter.so.2.1
+./usr/lib/libmilter.so.2.2
 ./usr/lib/libperl.so.10.1
 ./usr/libdata/perl5/AnyDBM_File.pm
 ./usr/libdata/perl5/Attribute
@@ -1234,6 +1234,7 @@
 ./usr/share/doc/papers/cvs-paper/cvs-paper.ms
 ./usr/share/doc/smm/08.sendmailop
 ./usr/share/doc/smm/08.sendmailop/Makefile
+./usr/share/doc/smm/08.sendmailop/README
 ./usr/share/doc/smm/08.sendmailop/op.me
 ./usr/share/doc/smm/09.sendmail
 ./usr/share/doc/smm/09.sendmail/Makefile
@@ -1380,7 +1381,6 @@
 ./usr/share/man/cat1/pod2usage.0
 ./usr/share/man/cat1/podchecker.0
 ./usr/share/man/cat1/podselect.0
-./usr/share/man/cat1/praliases.0
 ./usr/share/man/cat1/prove.0
 ./usr/share/man/cat1/psed.0
 ./usr/share/man/cat1/pstruct.0
@@ -1760,6 +1760,7 @@
 ./usr/share/man/cat8/mailstats.0
 ./usr/share/man/cat8/makemap.0
 ./usr/share/man/cat8/newaliases.0
+./usr/share/man/cat8/praliases.0
 ./usr/share/man/cat8/sendmail.0
 ./usr/share/man/cat8/smrsh.0
 ./usr/share/sendmail/README
@@ -1768,8 +1769,6 @@
 ./usr/share/sendmail/cf/Makefile
 ./usr/share/sendmail/cf/chez.cs.mc
 ./usr/share/sendmail/cf/clientproto.mc
-./usr/share/sendmail/cf/courtesan-nonet.mc
-./usr/share/sendmail/cf/courtesan.mc
 ./usr/share/sendmail/cf/cs-hpux10.mc
 ./usr/share/sendmail/cf/cs-hpux9.mc
 ./usr/share/sendmail/cf/cs-osf1.mc
@@ -1792,8 +1791,6 @@
 ./usr/share/sendmail/cf/mail.cs.mc
 ./usr/share/sendmail/cf/mail.eecs.mc
 ./usr/share/sendmail/cf/mailspool.cs.mc
-./usr/share/sendmail/cf/openbsd-bulk.mc
-./usr/share/sendmail/cf/openbsd-lists.mc
 ./usr/share/sendmail/cf/openbsd-localhost.mc
 ./usr/share/sendmail/cf/openbsd-proto.mc
 ./usr/share/sendmail/cf/openbsd-submit.mc

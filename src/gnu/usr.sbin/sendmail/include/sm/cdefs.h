@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.sbin/sendmail/include/sm/cdefs.h,v 1.2 2009/11/18 08:44:25 tg Exp $ */
 /*
  * Copyright (c) 2000-2002 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
@@ -154,7 +154,7 @@
 # endif
 
 # ifndef NONNULL
-#  ifdef __OpenBSD__
+#  if defined(__OpenBSD__) || (__GNUC__ > 3)
 #   define NONNULL(x, ...) __attribute__((nonnull (x, ## __VA_ARGS__)))
 #  else
 #   define NONNULL(x, ...)

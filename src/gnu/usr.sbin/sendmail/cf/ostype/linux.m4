@@ -1,5 +1,7 @@
 divert(-1)
 #
+# Copyright (c) 2010
+#	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 # Copyright (c) 1998-2000 Sendmail, Inc. and its suppliers.
 #	All rights reserved.
 # Copyright (c) 1983 Eric P. Allman.  All rights reserved.
@@ -13,8 +15,9 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$Sendmail: linux.m4,v 8.13 2000/09/17 17:30:00 gshapiro Exp $')
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/ostype/openbsd.m4,v 1.5 2008/05/07 13:15:17 tg Exp $')
+VERSIONID(`$Id$')
 define(`confEBINDIR', `/usr/sbin')
 ifdef(`PROCMAIL_MAILER_PATH',,
 	define(`PROCMAIL_MAILER_PATH', `/usr/bin/procmail'))
-FEATURE(local_procmail)
+FEATURE(local_procmail, `', `', `SPfhn8')

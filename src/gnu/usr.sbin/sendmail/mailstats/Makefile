@@ -1,5 +1,5 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/mailstats/Makefile,v 1.2 2005/03/13 15:11:48 tg Exp $
-#	$OpenBSD: Makefile,v 1.4 2001/09/11 19:02:49 millert Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/mailstats/Makefile,v 1.3 2008/05/07 13:15:23 tg Exp $
+# $OpenBSD: Makefile,v 1.4 2001/09/11 19:02:49 millert Exp $
 
 PROG=	mailstats
 MAN=	mailstats.8

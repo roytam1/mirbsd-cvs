@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.33 2009/10/19 20:43:48 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.34 2010/12/11 14:55:28 tg Exp $
 #-
-# Copyright (c) 2004, 2005, 2006, 2007, 2008, 2009
+# Copyright (c) 2004, 2005, 2006, 2007, 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -19,7 +19,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.33 2009/10/19 20:43:48 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.34 2010/12/11 14:55:28 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -31,7 +31,7 @@ while getopts "fhnp" option; do
 		print -u2 "\t$0 [-fnp] module tag"
 		print -u2 "\t$0 [-fnp] - path vendor tag"
 		print -u2 modules: binutils cdk cvs expat lynx openbsd png
-		print -u2 \\trcs texinfo -
+		print -u2 \\trcs sendmail texinfo -
 		exit 0
 		;;
 	(n)	DO_CVS="print -- \$ cvs"
@@ -575,9 +575,13 @@ case $module {
 		gnu/usr.sbin/Makefile.inc \
 		gnu/usr.sbin/mkhybrid \
 		gnu/usr.sbin/sendmail/CACerts \
+		gnu/usr.sbin/sendmail/cf/cf/README \
 		gnu/usr.sbin/sendmail/cf/cf/corpse.mc \
+		gnu/usr.sbin/sendmail/cf/cf/courtesan-nonet.mc \
+		gnu/usr.sbin/sendmail/cf/cf/courtesan.mc \
 		gnu/usr.sbin/sendmail/cf/cf/lucifier.mc \
-		gnu/usr.sbin/sendmail/doc/op/README \
+		gnu/usr.sbin/sendmail/cf/cf/openbsd-bulk.mc \
+		gnu/usr.sbin/sendmail/cf/cf/openbsd-lists.mc \
 		include/rpcsvc \
 		include/wchar.h \
 		include/wctype.h \
@@ -1252,6 +1256,65 @@ case $module {
 	vendor=FSF
 	vpath=src/gnu/usr.bin/rcs
 	;;
+(sendmail)
+	IGNORELIST="\
+		Build \
+		CACerts \
+		INSTALL \
+		PGPKEYS \
+		cf/cf/*.cf \
+		cf/cf/Build \
+		cf/cf/README \
+		devtools \
+		doc/op/op.ps \
+		editmap/Build \
+		editmap/Makefile.m4 \
+		editmap/editmap.0 \
+		libmilter/Build \
+		libmilter/Makefile.m4 \
+		libsm/Build \
+		libsm/Makefile.m4 \
+		libsmdb/Build \
+		libsmdb/Makefile.m4 \
+		libsmutil/Build \
+		libsmutil/Makefile.m4 \
+		mail.local/Build \
+		mail.local/Makefile.m4 \
+		mail.local/mail.local.0 \
+		mailstats/Build \
+		mailstats/Makefile.m4 \
+		mailstats/mailstats.0 \
+		makemap/Build \
+		makemap/Makefile.m4 \
+		makemap/makemap.0 \
+		praliases/Build \
+		praliases/Makefile.m4 \
+		praliases/praliases.0 \
+		rmail/Build \
+		rmail/Makefile.m4 \
+		rmail/rmail.0 \
+		sendmail/Build \
+		sendmail/Makefile.m4 \
+		sendmail/aliases.0 \
+		sendmail/mailq.0 \
+		sendmail/makesendmail \
+		sendmail/newaliases.0 \
+		sendmail/sendmail.0 \
+		smrsh/Build \
+		smrsh/Makefile.m4 \
+		smrsh/smrsh.0 \
+		test \
+		vacation/Build \
+		vacation/Makefile.m4 \
+		vacation/vacation.0 \
+	"
+	RENAMELIST="\
+		sendmail/mailq.1^sendmail/mailq.8 \
+		sendmail/newaliases.1^sendmail/newaliases.8 \
+	"
+	vendor=sendmail
+	vpath=src/gnu/usr.sbin/sendmail
+	;;
 (texinfo)
 	IGNORELIST="\
 		ABOUT-NLS \
@@ -1416,7 +1479,12 @@ case $module {
 }
 
 if [[ $ignlist = 1 ]]; then
-	print -- $IGNORELIST
+	if [[ -n $RENAMELIST ]]; then
+		print -ru2 Cannot do this, we have a RENAMELIST of: $RENAMELIST
+		print -r -- $IGNORELIST
+		exit 1
+	fi
+	print -r -- $IGNORELIST
 	exit 0
 fi
 
@@ -1517,6 +1585,16 @@ case $module {
 	print -u2 not implemented yet
 	exit 1
 	;;
+(sendmail)
+	[[ $tag = sendmail-8_+([0-9])_+([0-9])?(_@(Alpha|Beta)+([0-9])) ]] || \
+	    tagerr=1
+	realtag=$tag
+	tagformat=sendmail-8_12_34_Alpha1
+	if [[ ! -e cf/m4/cf.m4 ]]; then
+		print -u2 Error: must be in src directory to commit.
+		exit 1
+	fi
+	;;
 (texinfo)
 	print -u2 not implemented yet
 	exit 1
@@ -1547,6 +1625,9 @@ case $module {
 }
 
 [[ -n $IGNORELIST ]] && rm -rf $IGNORELIST
+[[ -n $RENAMELIST ]] && for r in $RENAMELIST; do
+	mv -f "${r%'^'*}" "${r#*'^'}"
+done
 find . -type f | xargs chmod a-x
 
 ${DO_CVS:-cvs} -d ${CVSROOT:-/cvs} import -I ! -I CVS -I .svn \

@@ -1,6 +1,6 @@
 /*
 ** Copyright (c) 2006 Thorsten Glaser
-** Copyright (c) 1999-2002 Sendmail, Inc. and its suppliers.
+** Copyright (c) 1999-2002, 2004, 2009 Sendmail, Inc. and its suppliers.
 **	All rights reserved.
 **
 ** By using this file, you agree to the terms and conditions set
@@ -9,8 +9,8 @@
 */
 
 #include <sm/gen.h>
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/libsmdb/smdb1.c,v 1.2 2006/10/28 21:18:09 tg Exp $")
-SM_RCSID("@(#)$Sendmail: smdb1.c,v 8.59 2004/08/03 20:58:39 ca Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/libsmdb/smdb1.c,v 1.3 2008/05/07 13:15:22 tg Exp $")
+SM_RCSID("@(#)$Id$")
 
 #include <unistd.h>
 #include <stdlib.h>
@@ -403,15 +403,19 @@ smdb1_cursor(database, cursor, flags)
 	if (db1->smdb1_cursor_in_use)
 		return SMDBE_ONLY_SUPPORTS_ONE_CURSOR;
 
-	db1->smdb1_cursor_in_use = true;
 	db1_cursor = (SMDB_DB1_CURSOR *) malloc(sizeof(SMDB_DB1_CURSOR));
-	db1_cursor->db = db1;
-
-	cur = (SMDB_CURSOR *) malloc(sizeof(SMDB_CURSOR));
-
-	if (cur == NULL)
+	if (db1_cursor == NULL)
 		return SMDBE_MALLOC;
 
+	cur = (SMDB_CURSOR *) malloc(sizeof(SMDB_CURSOR));
+	if (cur == NULL)
+	{
+		free(db1_cursor);
+		return SMDBE_MALLOC;
+	}
+
+	db1->smdb1_cursor_in_use = true;
+	db1_cursor->db = db1;
 	cur->smdbc_impl = db1_cursor;
 	cur->smdbc_close = smdb1_cursor_close;
 	cur->smdbc_del = smdb1_cursor_del;
@@ -508,7 +512,12 @@ smdb_db_open(database, db_name, mode, mode_mask, sff, type, user_info,
 	smdb_db = smdb_malloc_database();
 	db1 = smdb1_malloc_database();
 	if (smdb_db == NULL || db1 == NULL)
+	{
+		(void) smdb_unlock_file(lock_fd);
+		smdb_free_database(smdb_db);
+		free(db1);
 		return SMDBE_MALLOC;
+	}
 	db1->smdb1_lock_fd = lock_fd;
 
 	params = NULL;
