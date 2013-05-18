@@ -654,15 +654,19 @@ Title: sometimes, ranting doesn’t help…
  with you either moved away, is working or ill? And: if you were to move away
  yourself, would the situation improve, worsen or stay the same?</p>
 ----
-Date: 29.04.2008 21:37
+Date: 29.04.2008 22:02
 Author: tg@
 Title: be careful what you wish for…
 
 <p>… as you could get it. This is because gecko2@ asked for some more cvs
  commit eMail “spam” ☺</p>
 <p>While on the spam topic: do <strong>not</strong> send an eMail to one of
- the following addresses: junk@mirbsd.org junk@66h.42h.de junk@mirbsd.de
- &lt;junk@mirbsd.org&gt; &lt;junk@66h.42h.de&gt; &lt;junk@mirbsd.de&gt;</p>
+ the following addresses: <a href="mailto:junk@mirbsd.org">junk@mirbsd.org</a>
+ <a href="mailto:junk@66h.42h.de">junk@66h.42h.de</a> or <a
+ href="mailto:junk@mirbsd.de">junk@mirbsd.de</a>, or, again, <a
+ href="mailto:junk@mirbsd.org">&lt;junk@mirbsd.org&gt;</a> <a
+ href="mailto:junk@66h.42h.de">junk@66h.42h.de&gt;</a> <a
+ href="mailto:junk@mirbsd.de">junk@mirbsd.de&gt;</a> (greytrapping)</p>
 <p>Luckily, my internet uplink has been stable for more than 4⅓ days now,
  after repeated phoning (an 0800 number then) and resetting the NTBBA.</p>
 <p>Some more statistics:</p><!-- RSS stop -->
@@ -675,7 +679,12 @@ Title: be careful what you wish for…
  one of them even is sort of a “<tt>lost+found</tt>” directory virtual
  cache overload.</p>
 <p>BOINC continues, I’m in 9 projects now: <img alt="BOINC stats"
- src="http://www.boincstats.com/signature/user_1525395.gif" /></p>
+ src="http://www.boincstats.com/signature/user_1525395.gif" /><br />
+ While only 8 projects show up at the moment, this’ll improve once
+ the last project delivers in a result (it were more projects actually,
+ but some don’t even work on hephaistos…) – now the first WCG valid WU
+ returned from MirBSD! (MidnightBSD can’t, because I can’t run brandelf
+ on the signed binaries of the apps… sucks to be FreeBSD derived ☻☺)</p>
 <p>Ah, and, by the way: XTaran did not like external links, especially not
  secure links (https) in my wlog entries, so Planet Symlink doesn’t get
  them now (as it pulls via RSS), but you can look at it on the wlog.</p>
