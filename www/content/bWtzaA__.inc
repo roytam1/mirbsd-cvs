@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.102 2007/05/10 19:49:57 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.103 2007/05/13 19:34:26 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -98,6 +98,12 @@
  <li>Fix a null pointer dereference in error path, mis-use of strchr(3)
   to search for a NUL byte, and two possible out-of-bounds array
   accesses, found by Coverity Scan, many thanks!</li>
+ <li>Optimise <tt>dot.mkshrc</tt> further</li>
+ <li>Fix a cursor mis-positioning on backspace bug, reported by David
+  Ramsey again, thanks!</li>
+ <li>Fix a scrollbar mis-display on delete bug, reported by David Ramsey</li>
+ <li>Fix a scrollbar mis-display on insertion bug, discovered while
+  fixing the above bug</li>
 </ul>
 <p>Portability improvements in mksh R29d contain:</p><ul>
  <li>Unbreak testsuite on Mac OSX (whose brain-dead file system does
