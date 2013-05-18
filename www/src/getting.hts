@@ -1,11 +1,11 @@
-# $MirOS: www/src/getting.hts,v 1.22 2009/10/31 19:55:50 bsiegert Exp $
+# $MirOS: www/src/getting.hts,v 1.23 2010/08/28 20:31:24 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname getting "Get MirOS!"
 mws_setheadline Get MirOS!
-mws_putheader '$MirOS: www/src/getting.hts,v 1.22 2009/10/31 19:55:50 bsiegert Exp $'
+mws_putheader '$MirOS: www/src/getting.hts,v 1.23 2010/08/28 20:31:24 tg Exp $'
 mws_content <<'EOF'
 <p>MirOS consists of several parts: the base system (including X11), the
  MirPorts framework, and the source tree.</p>
@@ -43,8 +43,9 @@ mws_content <<'EOF'
 
 <p>The preferred download method is BitTorrent, as it means lower bandwidth
  costs for us. You will find all downloads on <a href="@@RELPATH@@bt.htm">our
- Torrent overview page</a> – the former tracker <tt>f.scarywater.net</tt> no
- longer exists, so please redownload all *.torrent files. <b>Please leave
+ Torrent overview page</a> – the former trackers <tt>f.scarywater.net</tt> and
+ <tt>openbittorrent.com</tt> no longer exist, so please redownload (if older
+ than 2010-09-26) all *.torrent files. <b>Please leave
  the download window open for as long as possible after you finish.</b></p>
 
 <table>

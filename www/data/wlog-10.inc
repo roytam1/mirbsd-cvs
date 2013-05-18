@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.309 2010/08/28 20:31:16 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.310 2010/09/16 21:25:16 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7087,4 +7087,40 @@ Tag: snapshot
  I an (unofficial) “WTF” *.deb package from it, since Debian’s has, as we
  discovered years ago, some broken (but hey, ISO compliant!) date format.</p>
 <p>I’d suggest let me finish doing, unbreaking ;-) and testing it.</p>
+----
+Title: Minor annoyances, BitTorrent trackers; construction work finished
+Author: tg@
+Date: 26.09.2010 16:32
+Tag: news rant release security snapshot
+
+<p><tt>openbittorrent.com</tt> has, apparently, bitten the dust as well.
+ Oh the joy. DHT to the rescue, over the last few days, for those who
+ could do it. I’m now running <tt>bttrack.py</tt>, yes the original, on
+ <tt>eurynome</tt> and have (<strong>again</strong>) reannounced this
+ project’s torrents. <strong>Please <a href="@@RELPATH@@bt.htm">download
+ the *.torrent files</a> again.</strong> And don’t bother asking, I’m not
+ running a public tracker.</p>
+<p>The updated CVS and new RNG code seem to behave well; I also fixed old
+ bugs in the process. I will probably update our main server within some
+ foreseeable future (this would be the ideal time to push out a snapshot
+ again as well, even if it’s “just” netinstall).</p>
+<p>People have shown interest in my djbdns patches. Consider forking,
+ even putting it into the base system. I need to solve the problem of
+ the remaining non-v4-transport-capable v6-transport binaries though,
+ I think only dnscachet6 is remaining, so we’ll get only one set of
+ binaries again. Also look for SRV RR patches. I wonder whether someone
+ will code DNSSEC support…</p>
+<p>The msdosfs LFN code is also still on my TODO, as are some other
+ things. But hey, at least there’s movement; even Benny, despite being
+ offline, unreachable by phone, etc. commits Google-Goo code. (Hi!)</p>
+<p><a href="@@RELPATH@@mksh.htm">mksh</a> currently is being reviewed
+ by the Android Security team, who like it on a first look. I’ve already
+ addresses the first concerns even. I might release R39d soonish, also
+ because I’d like a stable release before going on to associative, and
+ since it’s easier to do than prohibit, multidimensional arrays – which
+ have been welcomed in <tt>#ksh</tt> already…</p>
+<p>You might want to update src/sys/net/netisr.h if running #10-stable,
+ or upgrade to the latest kernel. I ran dieharder, and the results look
+ good. The latest RNG subsystem pulls from many more sources and mixes
+ better; I’ll summarise it later probably.</p>
 ----

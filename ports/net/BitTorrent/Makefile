@@ -1,4 +1,4 @@
-# $MirOS: ports/net/BitTorrent/Makefile,v 1.7 2008/10/04 19:09:43 tg Exp $
+# $MirOS: ports/net/BitTorrent/Makefile,v 1.8 2008/10/05 00:41:29 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2004/04/15 03:41:14 jolan Exp $
 
 # note to porters: if you want to add a new version of mainline bittorrent
@@ -8,6 +8,7 @@
 
 COMMENT=		cooperative file distribution system implemented in Python
 DISTNAME=		BitTorrent-3.4.2
+DASH_VER=		1
 CATEGORIES=		net
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=bittorrent/}
 HOMEPAGE=		http://bittorrent.com/

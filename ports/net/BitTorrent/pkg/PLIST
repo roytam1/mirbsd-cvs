@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/net/BitTorrent/pkg/PLIST,v 1.1.7.1 2005/03/18 15:47:59 tg Exp $
 @comment $OpenBSD: PLIST,v 1.2 2003/09/27 14:40:32 jolan Exp $
 bin/btcompletedir.py
 bin/btdownloadcurses.py
@@ -12,6 +12,7 @@ bin/btrename.py
 bin/btshowmetainfo.py
 @comment bin/bttest.py
 bin/bttrack.py
+@comment lib/python${MODPY_VERSION}/site-packages/BitTorrent-3.4.2-py${MODPY_VERSION}.egg-info
 lib/python${MODPY_VERSION}/site-packages/BitTorrent/Choker.py
 lib/python${MODPY_VERSION}/site-packages/BitTorrent/Choker.pyc
 lib/python${MODPY_VERSION}/site-packages/BitTorrent/Connecter.py
