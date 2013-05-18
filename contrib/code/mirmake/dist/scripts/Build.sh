@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.127 2008/12/29 20:15:14 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.128 2009/03/29 13:04:12 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -272,6 +272,7 @@ EOF
 
 # Build bmake
 cd $d_build
+cp $d_script/../contrib/fgetln.c .
 if ! $OLDMAKE -f Makefile.boot bmake CC="$CC" MACHINE="${new_machin}" \
     MACHINE_ARCH="${new_macarc}" MACHINE_OS="${new_machos}" \
     MKSH="${new_mirksh}"; then
