@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.34 2008/03/21 19:22:16 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.35 2008/03/22 22:26:29 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -557,21 +557,19 @@ arc4_stir(void)
 
 	s = splhigh();
 	arc4random_state.i--;
-	if (initial_entropy_ptr < 0) {
-		/* before initial slow pool depletion */
+	if ((initial_entropy_ptr >= 0) /* initialised */ &&
+	    (initial_entropy_ptr < sizeof (initial_entropy)) /* not full */ &&
+	    (random_state.entropy_count > 8) /* some real entropy left */) {
+		extract_entropy(&si, 1);
+		if (initial_entropy_ptr < sizeof (initial_entropy))
+			initial_entropy[initial_entropy_ptr++] = si;
+		else /* don't waste it */
+			buf[0] ^= si;
+	}
+	if (initial_entropy_ptr != sizeof (initial_entropy))
 		for (n = 255; n >= 0; n--)
 			buf[n] = buf[n % len];
-	} else if (initial_entropy_ptr < sizeof (initial_entropy)) {
-		/* add into the slow pool if we still have real entropy */
-		if (random_state.entropy_count > 8) {
-			uint8_t tbuf;
-
-			/* tmp buffer, in case extract_entropy does this too */
-			extract_entropy(&tbuf, 1);
-			if (initial_entropy_ptr < sizeof (initial_entropy))
-				initial_entropy[initial_entropy_ptr++] = tbuf;
-		}
-	} else {
+	else {
 		/* the slow pool is full, use and empty it */
 		for (n = 255; n >= 0; n--)
 			buf[n] = buf[n % len] ^
