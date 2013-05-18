@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: mount_procfs.8,v 1.22 2003/12/08 11:30:28 jmc Exp $
 .\"	$NetBSD: mount_procfs.8,v 1.6 1995/03/18 14:58:10 cgd Exp $
 .\"
@@ -34,7 +35,7 @@
 .\"
 .\"	@(#)mount_procfs.8	8.2 (Berkeley) 3/27/94
 .\"
-.Dd March 27, 1994
+.Dd $Mdocdate$
 .Dt MOUNT_PROCFS 8
 .Os
 .Sh NAME
@@ -240,6 +241,7 @@ The block size of the filesystem is the system page size.
 .Sh SEE ALSO
 .Xr mount 2 ,
 .Xr sigaction 2 ,
+.Xr sysctl 3 ,
 .Xr fstab 5 ,
 .Xr mount 8 ,
 .Xr umount 8
@@ -253,3 +255,10 @@ This filesystem may not be NFS-exported
 since most of the functionality of
 .Dv procfs
 requires that state be maintained.
+.Pp
+When changing the
+.Ic kern.allowpsa
+and/or
+.Ic kern.allowpse
+sysctl, this filesystem must be unmounted and
+remounted for the new permission bits to become active.
