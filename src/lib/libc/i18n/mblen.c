@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mblen.c,v 1.1 2006/05/30 19:49:45 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/mblen.c,v 1.1 2006/06/01 22:17:20 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -27,19 +27,13 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: contrib/code/libhaible/mblen.c,v 1.1 2006/05/30 19:49:45 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mblen.c,v 1.1 2006/06/01 22:17:20 tg Exp $");
 
 int
 mblen(const char *s, size_t n)
 {
-	mbstate_t state;
+	mbstate_t state = { 0, 0 };
 	int rv;
 
-	if (s == NULL)
-		return (0);
-
-	bzero(&state, sizeof (mbstate_t));
-	if ((rv = mbrtowc(NULL, s, n, &state)) < 0)
-		return (-1);
-	return (rv);
+	return (((rv = mbrtowc(NULL, s, n, &state)) < 0) ? -1 : rv);
 }

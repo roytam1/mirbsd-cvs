@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mbstowcs.c,v 1.2 2006/05/30 23:14:19 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/mbstowcs.c,v 1.1 2006/06/01 22:17:20 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -23,14 +23,13 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: contrib/code/libhaible/mbstowcs.c,v 1.2 2006/05/30 23:14:19 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbstowcs.c,v 1.1 2006/06/01 22:17:20 tg Exp $");
 
 size_t
 mbstowcs(wchar_t *__restrict__ pwcs, const char *__restrict__ s, size_t n)
 {
-	mbstate_t state;
+	mbstate_t state = { 0, 0 };
 	const char *sb = s;
 
-	bzero(&state, sizeof (mbstate_t));
 	return (mbsrtowcs(pwcs, &sb, n, &state));
 }

@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/wctomb.c,v 1.1 2006/05/30 20:04:22 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wctomb.c,v 1.1 2006/06/01 22:17:21 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -27,16 +27,12 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: contrib/code/libhaible/wctomb.c,v 1.1 2006/05/30 20:04:22 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wctomb.c,v 1.1 2006/06/01 22:17:21 tg Exp $");
 
 int
 wctomb(char *s, const wchar_t c)
 {
-	mbstate_t state;
+	mbstate_t state = { 0, 0 };
 
-	if (s == NULL)
-		return (0);
-
-	bzero(&state, sizeof (mbstate_t));
-	return (wcrtomb(s, c, &state));
+	return (s ? wcrtomb(s, c, &state) : 0);
 }
