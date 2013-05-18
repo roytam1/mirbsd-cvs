@@ -1,4 +1,4 @@
-# Copyright (c) 2008, 2009
+# Copyright (c) 2008, 2009, 2012
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -21,16 +21,16 @@
 
 use vars qw($VERSION %IRSSI);
 $VERSION = sprintf "%d.%02d",
-    q$MirOS: ports/net/irssi/files/randex.pl,v 1.14 2009/08/02 14:35:00 tg Exp $
+    q$MirOS: ports/net/irssi/files/randex.pl,v 1.15 2009/10/24 18:28:24 tg Exp $
     =~ m/,v (\d+)\.(\d+) /;
 # do not send mail to junk@mirbsd.org
 %IRSSI = (
 	authors		=> 'Thorsten Glaser',
 	contact		=> 'tg@mirbsd.org',
 	name		=> 'randex',
-	description	=> 'implement MirSirc\'s randex protocol',
+	description	=> 'implement MirSirc RANDEX protocol',
 	license		=> 'MirOS',
-	url		=> 'http://cvs.mirbsd.de/ports/net/sirc/dist/dsircp',
+	url		=> 'https://www.mirbsd.org/cvs.cgi/ports/net/irssi/files/randex.pl',
 	changed		=> $VERSION,
 	modules		=> 'BSD::arc4random',
 	commands	=> "randex"
@@ -42,35 +42,38 @@ use File::Path qw(mkpath);
 use File::Basename qw(dirname);
 
 our $irssi_ctcp_version_reply = '';
-my $running_sum;
+my $running_sum = $RANDOM;
 
-sub
-adler32
-{
-	my ($n, $buf) = @_;
-	my ($s1, $s2);
+# from src/gnu/usr.bin/perl/t/op/hash.t
+use constant MASK_U32 => 2**32;
 
-	$s1 = $n & 0xFFFF;
-	$s2 = ($n >> 16) & 0xFFFF;
+sub NZATUpdateString {
+	my ($h, $s) = @_;
+	my @c = split //, $s;
 
-	$n = 0;
-	foreach my $ch (unpack("C*", $buf)) {
-		$s1 += $ch;
-		$s2 += $s1;
-		if ($n == 5552) {
-			$s1 %= 65521;
-			$s2 %= 65521;
-			$n = 0;
-		}
+	for (@c) {
+		$h = ($h + 1 + ord) * 1025;
+		$h %= MASK_U32;
+		$h ^= $h >> 6;
 	}
+	$h;
+}
+sub NZAATFinish {
+	my $h = shift;
 
-	$n = ($s1 % 65521) | (($s2 % 65521) << 16);
-	return ($n);
+	$h *= 1025;
+	$h %= MASK_U32;
+	$h ^= $h >> 6;
+	$h += $h << 3;
+	$h %= MASK_U32;
+	$h ^= $h >> 11;
+#	$h %= MASK_U32;
+	$h += $h << 15;
+	$h %= MASK_U32;
+	$h;
 }
 
-sub
-cmd_randex
-{
+sub cmd_randex {
 	my ($data, $server, $witem) = @_;
 	my $recip = undef;
 	my $towho = "";
@@ -323,13 +326,11 @@ Irssi::settings_add_int("randex", "arc4stir_interval", 7200);
 		if (! -s $randfile) {
 			$randfile = $ENV{'HOME'} . "/.pgp/randseed.bin";
 		}
-	}
 
-	# IMPORTANT!: do *not* use ~/.gnupg/random_seed,
-	# since it is not just a binary chunk of entropy
-	# but a dumped internal data structure; gpg WILL
-	# NOT LOAD a randseed file we write, pgp-2.6.3in
-	# however is ok with it as are OpenSSL, PuTTY, …
+		if (! -s $randfile) {
+			$randfile = $ENV{'HOME'} . "/.gnupg/random_seed";
+		}
+	}
 
 	Irssi::settings_add_str("randex", "randfile", $randfile);
 }
