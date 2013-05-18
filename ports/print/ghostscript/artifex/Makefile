@@ -1,23 +1,22 @@
-# $MirOS: ports/print/ghostscript/afpl/Makefile,v 1.5 2005/12/29 20:04:59 tg Exp $
+# $MirOS: ports/print/ghostscript/afpl/Makefile,v 1.6 2006/02/09 11:15:13 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2004/05/23 18:51:59 sturm Exp $
 
 COMMENT=		"AFPL PostScript interpreter"
-VERSION=		8.53
-DISTNAME=		ghostscript-${VERSION}
+VERSION=		8.54
+DISTNAME=		ghostscript-${VERSION}-gpl
+PKGNAME=		ghostscript-${VERSION}-0
 CATEGORIES=		print lang textproc
-DIR=			AFPL/gs${VERSION:S/.//}
+DIR=			GPL/gs${VERSION:S/.//}
 MASTER_SITES=		${GS_SITES}
 MASTER_SITES1=		${PDF_SITES}
 HOMEPAGE=		http://www.cs.wisc.edu/~ghost/
 
 SUBST_VARS+=		VERSION
-DIST_SUBDIR=		gs
 
-# Aladdin license
-# License: COPY GPL BSD
-PERMIT_DISTFILES_CDROM=	"Aladdin wants fee for commercial redistribution"
+# GPL, except for the CMap files
+PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
-PERMIT_PACKAGE_CDROM=	"Aladdin wants fee for commercial redistribution"
+PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 JPEGDIR=		graphics/jpeg

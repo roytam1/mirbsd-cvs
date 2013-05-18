@@ -2,5 +2,6 @@
 #
 GS_SITES+= ftp://ftp.mirror.ac.uk/sites/mirror.cs.wisc.edu/pub/mirrors/ghost/${DIR}/
 GS_SITES+= ftp://ftp.fh-koblenz.de/pub/Ghostscript/${DIR}/
+GS_SITES+= ftp://128.105.103.11/pub/mirrors/ghost/${DIR}/
 
 PDF_SITES= http://www.users.dircon.co.uk/~typhoon/ghostscript/
