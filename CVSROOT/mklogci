@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/mklogci,v 1.34 2008/07/03 17:32:16 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.35 2008/07/03 18:09:36 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -83,20 +83,20 @@ function addnames {
 	[[ -z $dir ]] && dir=.
 
 	line=$(printf '%-15s:' "$dir")
-	let i=0
-	let linln=${#line}
+	i=0
+	linln=${#line}
 	line="	$line"
 	while (( i < ${#add_names[*]} )); do
 		while :; do
 			linadd=${add_names[i++]}
 			line="$line $linadd"
-			let "linln += ${#linadd} + 1"
+			(( linln += ${#linadd} + 1 ))
 			(( i < ${#add_names[*]} )) || break
 			(( (linln + 1 + ${#add_names[i]}) < 72 )) || break
 		done
 		print -r -- "$line"
 		line='			'
-		let linln=16
+		linln=16
 	done
 }
 
@@ -239,6 +239,7 @@ set -A files
 set -A fold
 set -A fnew
 integer i=0
+integer j
 nl='
 '
 
@@ -318,16 +319,16 @@ while IFS= read ${_i} -r line; do
 
 	case $status {
 	(changed)
-		for i in $line; do
-			changed_files[${#changed_files[*]}]=$i
+		for f in $line; do
+			changed_files[${#changed_files[*]}]=$f
 		done ;;
 	(added)
-		for i in $line; do
-			added_files[${#added_files[*]}]=$i
+		for f in $line; do
+			added_files[${#added_files[*]}]=$f
 		done ;;
 	(removed)
-		for i in $line; do
-			removed_files[${#removed_files[*]}]=$i
+		for f in $line; do
+			removed_files[${#removed_files[*]}]=$f
 		done ;;
 	(log)
 		log_lines[${#log_lines[*]}]=$line
@@ -343,7 +344,7 @@ done
     while [[ ${log_lines[${#log_lines[*]}-1]} = *([	 ]) ]]; do
 	unset log_lines[${#log_lines[*]}-1]
 done
-let i=0
+i=0
 while (( i < ${#log_lines[*]} )); do
 	[[ ${log_lines[i]} = *([	 ]) ]] || break
 	let ++i
@@ -395,7 +396,7 @@ fi
 leave=$(getdirs "$repo/$pathr")
 
 # Look for a log file which matches this log message
-let i=0
+i=0
 lmsg=$(<$msgf)
 while :; do
 	if [[ ! -e $prefix.msg.$i.$id ]]; then
@@ -408,23 +409,23 @@ done
 
 # Write information collected during this run
 [[ ${#changed_files[*]} -gt 0 ]] && print -r -- "$pathd/" >>$prefix.chg.$i.$id
-let j=0
+j=0
 while (( j < ${#changed_files[*]} )); do
 	print -r -- "${changed_files[j++]}" >>$prefix.chg.$i.$id
 done
 [[ ${#added_files[*]} -gt 0 ]] && print -r -- "$pathd/" >>$prefix.add.$i.$id
-let j=0
+j=0
 while (( j < ${#added_files[*]} )); do
 	print -r -- "${added_files[j++]}" >>$prefix.add.$i.$id
 done
 [[ ${#removed_files[*]} -gt 0 ]] && print -r -- "$pathd/" >>$prefix.del.$i.$id
-let j=0
+j=0
 while (( j < ${#removed_files[*]} )); do
 	print -r -- "${removed_files[j++]}" >>$prefix.del.$i.$id
 done
 
 # Collect changeset diff information
-let j=0
+j=0
 while (( j < ${#files[*]} )); do
 	fn=$pathr/${files[j]}
 	old=${fold[j]}
@@ -442,9 +443,9 @@ module=$(<$modf)
 
 # Prepare the final commit message
 makeheader >$tmpf
-let i=0
+i=0
 while [[ -e $prefix.msg.$i.$id ]]; do
-	let j=0
+	j=0
 	if [[ -s $prefix.chg.$i.$id ]]; then
 		print Modified files: >>$tmpf
 		addflist <$prefix.chg.$i.$id >>$tmpf
