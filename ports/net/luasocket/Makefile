@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/luasocket/Makefile,v 1.2 2009/08/29 13:04:28 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2009/08/22 20:28:40 robert Exp $
 
 COMMENT=		network support for the lua language
@@ -16,28 +16,28 @@ PERMIT_DISTFILES_FTP=	Yes
 MODULES=		lang/lua
 NO_REGRESS=		Yes
 SHARED_ONLY=		Yes
+MAKE_FILE=		${.CURDIR}/Makefile.luasocket
+EXTRA_XAKE_FLAGS+=	LUALIBDIR=${TRUEPREFIX:Q}/lib/lua/5.1
+EXTRA_XAKE_FLAGS+=	MAKEFILE_BUNDLE=${.CURDIR}/Makefile.bundle
 
-MAKE_FILE=	makefile
-SHAREDIR=	${PREFIX}/share/lua/5.1
-LIBDIR=		${PREFIX}/lib/lua/5.1
+SHAREDIR=		${PREFIX:Q}/share/lua/5.1
 
-do-install:
-	${INSTALL_DATA_DIR} ${SHAREDIR}/socket ${SHAREDIR}/mime
-	${INSTALL_DATA_DIR} ${LIBDIR}/socket ${LIBDIR}/mime
-	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/luasocket
-	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/luasocket
-	${INSTALL_DATA} ${WRKSRC}/src/socket.so ${LIBDIR}/socket/core.so
-	${INSTALL_DATA} ${WRKSRC}/src/unix.so ${LIBDIR}/socket/unix.so
-	${INSTALL_DATA} ${WRKSRC}/src/mime.so ${LIBDIR}/mime/core.so
-	${INSTALL_DATA} ${WRKSRC}/src/socket.lua ${SHAREDIR}
-	${INSTALL_DATA} ${WRKSRC}/src/ltn12.lua ${SHAREDIR}
-	${INSTALL_DATA} ${WRKSRC}/src/mime.lua ${SHAREDIR}
-	${INSTALL_DATA} ${WRKSRC}/src/ftp.lua ${SHAREDIR}/socket
-	${INSTALL_DATA} ${WRKSRC}/src/http.lua ${SHAREDIR}/socket
-	${INSTALL_DATA} ${WRKSRC}/src/smtp.lua ${SHAREDIR}/socket
-	${INSTALL_DATA} ${WRKSRC}/src/tp.lua ${SHAREDIR}/socket
-	${INSTALL_DATA} ${WRKSRC}/src/url.lua ${SHAREDIR}/socket
-	${INSTALL_DATA} ${WRKSRC}/doc/* ${PREFIX}/share/doc/luasocket
-	${INSTALL_DATA} ${WRKSRC}/samples/* ${PREFIX}/share/examples/luasocket
+pre-install:
+	${INSTALL_DATA_DIR} ${SHAREDIR}/{mime,socket} \
+	    ${PREFIX:Q}/lib/lua/5.1/{mime,socket} \
+	    ${PREFIX:Q}/share/doc/luasocket \
+	    ${PREFIX:Q}/share/examples/luasocket/{etc,test}
+
+post-install:
+	${INSTALL_DATA} ${WRKSRC}/{LICENSE,NEW,README} ${WRKSRC}/doc/* \
+	    ${PREFIX}/share/doc/luasocket/
+	${INSTALL_DATA} ${WRKSRC}/samples/* ${PREFIX}/share/examples/luasocket/
+	${INSTALL_DATA} ${WRKSRC}/etc/* \
+	    ${PREFIX}/share/examples/luasocket/etc/
+	${INSTALL_DATA} ${WRKSRC}/test/* \
+	    ${PREFIX}/share/examples/luasocket/test/
+	cd ${WRKSRC}/src && \
+	    ${INSTALL_DATA} {ltn12,mime,socket}.lua ${SHAREDIR}/ && \
+	    ${INSTALL_DATA} {ftp,http,smtp,tp,url}.lua ${SHAREDIR}/socket/
 
 .include <bsd.port.mk>

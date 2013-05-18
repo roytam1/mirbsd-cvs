@@ -1,0 +1,12 @@
+# $MirOS$
+#-
+# set: LIB SRCS SOBJS LIBDIR SRCDIR
+
+SHLIB_SONAME=	${LIB}.so
+SHLIB_VERSION=	-
+NOPICINSTALL=	no
+_LIBS_STATIC=	no
+
+.PATH: ${SRCDIR}
+
+.include <bsd.lib.mk>
