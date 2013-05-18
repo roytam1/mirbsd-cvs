@@ -398,8 +398,11 @@ else
 	LDFLAGS=$LDSTATIC
 fi
 
-test x"$TARGET_OS" = x"" && TARGET_OS=`uname -s 2>/dev/null || uname`
-if test x"$TARGET_OS" = x""; then
+if test -z "$TARGET_OS"; then
+	x=`uname -s 2>/dev/null || uname`
+	test x"$x" = x"`uname -n 2>/dev/null`" || TARGET_OS=$x
+fi
+if test -z "$TARGET_OS"; then
 	echo "$me: Set TARGET_OS, your uname is broken!" >&2
 	exit 1
 fi
