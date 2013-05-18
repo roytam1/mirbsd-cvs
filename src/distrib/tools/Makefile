@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.6 2007/10/01 21:52:20 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.7 2007/10/01 21:59:14 tg Exp $
 
 all: sundsklbl
 
@@ -55,7 +55,7 @@ makecdimage: .PHONY
 makebootcd: makebootcd_${MACHINE}
 
 makebootcd_i386: .PHONY
-	/usr/mdec/installboot -S 24 -v -I $$(fgrep \
+	/usr/mdec/installboot -S 24 -v -h 16 -s 63 -I $$(fgrep \
 	    b_i386.ldr mkisofs.log | \
 	    while read start end rest; do \
 		print -- $$start $$end; \

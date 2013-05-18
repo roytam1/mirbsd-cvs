@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.i386-big,v 1.9 2007/10/01 20:54:54 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386-big,v 1.10 2007/10/01 21:19:52 tg Exp $
 
 IMAGESIZE=	8192
 IMAGETYPE=	ipldisc
@@ -19,7 +19,7 @@ cdrom-mdcopy:
 	cp ${DESTDIR}/usr/mdec/pxeboot ${WRKDIR}/v${OSrev}/${MACHINE}/
 
 cdrom-mdboot:
-	${DESTDIR}/usr/mdec/installboot -v -I $$(fgrep \
+	${DESTDIR}/usr/mdec/installboot -v -h 16 -s 63 -I $$(fgrep \
 	    ${WRKDIR}/b_${MACHINE}.ldr mkisofs.log | \
 	    while read start end rest; do \
 		print -- $$start $$end; \
