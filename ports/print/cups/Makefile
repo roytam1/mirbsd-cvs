@@ -3,7 +3,7 @@
 COMMENT=		"Common Unix Printing System"
 
 VERSION=		1.2.1
-DASH_VER=		-0
+DASH_VER=		-1
 DISTNAME=		cups-${VERSION}-source
 PKGNAME=		${DISTNAME:S/-source//}${DASH_VER}
 CATEGORIES=		print sysutils
@@ -60,7 +60,7 @@ post-configure:
 
 post-install:
 	@${INSTALL_DATA_DIR} ${PREFIX}/share/examples/cups
-	@cd ${WRKINST}/etc/cups && cp -Rp * ${PREFIX}/share/examples/cups
+	@cd ${WRKINST}${SYSCONFDIR}/cups && cp -Rp * ${PREFIX}/share/examples/cups
 	@${INSTALL_DATA} ${WRKBUILD}/init/cups.sh ${PREFIX}/share/cups
 	@${INSTALL_DATA} ${FILESDIR}/README.MirBSD ${PREFIX}/share/doc/cups
 .for file in cups-enable cups-disable

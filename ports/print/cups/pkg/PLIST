@@ -101,6 +101,8 @@ man/man8/lpinfo.8
 man/man8/lpmove.8
 man/man8/reject.8
 sbin/accept
+sbin/cups-disable
+sbin/cups-enable
 sbin/cupsaddsmb
 sbin/cupsd
 sbin/cupsdisable
@@ -857,6 +859,7 @@ share/doc/cups/sv/images/button-view-printable-version.gif
 share/doc/cups/sv/index.html
 share/examples/cups/cupsd.conf
 @sample ${SYSCONFDIR}/cups/cupsd.conf
+share/examples/cups/cupsd.conf.default
 share/examples/cups/mime.convs
 @sample ${SYSCONFDIR}/cups/mime.convs
 share/examples/cups/mime.types
@@ -872,8 +875,10 @@ share/examples/cups/mime.types
 @mode
 share/locale/es/cups_es.po
 share/locale/ja/cups_ja.po
+share/locale/pl/cups_pl.po
 share/locale/sv/cups_sv.po
 @dirrm share/locale/sv
+@dirrm share/locale/pl
 @dirrm share/locale/ja
 @dirrm share/locale/es
 @dirrm share/locale
