@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/rc,v 1.99 2009/07/18 14:09:06 tg Exp $
+# $MirOS: src/etc/rc,v 1.100 2009/08/10 16:26:57 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -491,7 +491,7 @@ if [[ $nfs_server = YES && -s /etc/exports && \
     $(stripcom /etc/exports | wc -l) -ne 0 ]]; then
 	rm -f /var/db/mountdtab
 	echo -n >/var/db/mountdtab
-	echo -n ' mountd';		mountd
+	echo -n ' mountd';		mountd $mountd_flags
 	echo -n ' nfsd';		nfsd $nfsd_flags
 	if [[ $lockd = YES ]]; then
 		echo -n ' rpc.lockd';	rpc.lockd
