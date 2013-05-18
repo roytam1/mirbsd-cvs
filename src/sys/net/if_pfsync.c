@@ -924,7 +924,7 @@ pfsync_pack_state(u_int8_t action, struct pf_state *st, int compress)
 	struct pfsync_state_upd *up = NULL;
 	struct pfsync_state_del *dp = NULL;
 	struct pf_rule *r;
-	u_long secs;
+	time_t secs;
 	int s, ret = 0;
 	u_int8_t i = 255, newaction = 0;
 

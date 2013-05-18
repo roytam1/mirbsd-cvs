@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/pf_norm.c,v 1.6 2006/06/12 20:19:16 tg Exp $ */
+/**	$MirOS: src/sys/net/pf_norm.c,v 1.7 2006/08/16 18:46:15 tg Exp $ */
 /*	$OpenBSD: pf_norm.c,v 1.87 2004/05/11 07:34:11 dhartmei Exp $ */
 
 /*
@@ -87,7 +87,7 @@ struct pf_fragment {
 	u_int8_t	fr_flags;	/* status flags */
 	u_int16_t	fr_id;		/* fragment id for reassemble */
 	u_int16_t	fr_max;		/* fragment data max */
-	u_int32_t	fr_timeout;
+	u_int32_t	fr_timeout;	/* XXX time_t vs uint32_t */
 #define fr_queue	fr_u.fru_queue
 #define fr_cache	fr_u.fru_cache
 	union {

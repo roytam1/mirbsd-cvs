@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/vfs_syscalls.c,v 1.5 2005/07/04 00:10:43 tg Exp $ */
+/**	$MirOS: src/sys/kern/vfs_syscalls.c,v 1.6 2006/01/22 01:29:47 tg Exp $ */
 /*	$OpenBSD: vfs_syscalls.c,v 1.125 2005/06/17 20:39:14 millert Exp $	*/
 /*	$NetBSD: vfs_syscalls.c,v 1.71 1996/04/23 10:29:02 mycroft Exp $	*/
 
@@ -272,7 +272,7 @@ update:
 	 */
 	error = VFS_MOUNT(mp, SCARG(uap, path), SCARG(uap, data), &nd, p);
 	if (!error) {
-		mp->mnt_stat.f_ctime = time.tv_sec;
+		mp->mnt_stat.f_ctime = time.tv_sec; /* XXX uint32_t vs time_t */
 	}
 	if (mp->mnt_flag & MNT_UPDATE) {
 		vrele(vp);

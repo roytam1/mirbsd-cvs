@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sys/kern/kern_synch.c,v 1.2 2005/03/06 21:28:00 tg Exp $	*/
 /*	$OpenBSD: kern_synch.c,v 1.54 2004/01/26 01:27:02 deraadt Exp $	*/
 /*	$NetBSD: kern_synch.c,v 1.37 1996/04/22 01:38:37 christos Exp $	*/
 
@@ -708,10 +708,11 @@ mi_switch()
 	 */
 	microtime(&tv);
 	if (timercmp(&tv, &runtime, <)) {
-#ifdef	DEBUG
+#ifdef DEBUG
 		printf("time is not monotonic! "
-		    "tv=%ld.%06ld, runtime=%ld.%06ld\n",
-		    tv.tv_sec, tv.tv_usec, runtime.tv_sec, runtime.tv_usec);
+		    "tv=%lld.%06ld, runtime=%lld.%06ld\n",
+		    (int64_t)tv.tv_sec, tv.tv_usec,
+		    (int64_t)runtime.tv_sec, runtime.tv_usec);
 #endif
 	} else {
 		timersub(&tv, &runtime, &tv);

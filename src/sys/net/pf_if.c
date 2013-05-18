@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/net/pf_if.c,v 1.4 2005/12/20 19:41:34 tg Exp $ */
 /*	$OpenBSD: pf_if.c,v 1.12 2004/04/28 02:43:09 pb Exp $ */
 
 /*
@@ -592,9 +592,9 @@ pfi_fill_oldstatus(struct pf_status *pfs)
 int
 pfi_clr_istats(const char *name, int *nzero, int flags)
 {
-	struct pfi_kif	*p;
-	int		 n = 0, s;
-	long		 tzero = time.tv_sec;
+	struct pfi_kif *p;
+	int n = 0, s;
+	time_t tzero = time.tv_sec;
 
 	s = splsoftnet();
 	ACCEPT_FLAGS(PFI_FLAG_GROUP|PFI_FLAG_INSTANCE);

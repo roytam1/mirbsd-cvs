@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/sysctl.h,v 1.2 2005/03/06 21:28:34 tg Exp $ */
+/**	$MirOS: src/sys/sys/sysctl.h,v 1.3 2006/08/23 12:24:45 tg Exp $ */
 /*	$NetBSD: sysctl.h,v 1.99 2003/09/28 13:02:19 dsl Exp $	*/
 /*	$OpenBSD: sysctl.h,v 1.77 2004/04/19 22:52:33 tedu Exp $	*/
 /*	$NetBSD: sysctl.h,v 1.16 1996/04/09 20:55:36 cgd Exp $	*/
@@ -388,8 +388,7 @@ struct kinfo_proc2 {
 	u_int32_t p_tdev;		/* DEV_T: controlling tty dev */
 
 	u_int32_t p_estcpu;		/* U_INT: Time averaged value of p_cpticks. */
-	u_int32_t p_rtime_sec;		/* STRUCT TIMEVAL: Real time. */
-	u_int32_t p_rtime_usec;		/* STRUCT TIMEVAL: Real time. */
+	u_int64_t p_rtime_sec_32;	/* dummy (unused) */
 	int32_t	p_cpticks;		/* INT: Ticks of cpu time. */
 	u_int32_t p_pctcpu;		/* FIXPT_T: %cpu for this process during p_swtime */
 	u_int32_t p_swtime;		/* U_INT: Time swapped in or out. */
@@ -462,6 +461,8 @@ struct kinfo_proc2 {
 	u_int32_t p_svgid;		/* GID_T: saved group id */
 	char    p_emul[KI_EMULNAMELEN];	/* syscall emulation name */
 	u_int64_t p_rlim_rss_cur;	/* RLIM_T: soft limit for rss */
+	time_t p_rtime_sec;		/* STRUCT TIMEVAL: Real time. */
+	u_int32_t p_rtime_usec;		/* STRUCT TIMEVAL: Real time. */
 };
 
 /*

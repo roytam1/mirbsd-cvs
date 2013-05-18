@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sys/netisdn/i4b_l4mgmt.c,v 1.2 2005/03/06 21:28:27 tg Exp $	*/
 /*	$NetBSD: i4b_l4mgmt.c,v 1.13 2003/10/03 16:38:44 pooka Exp $	*/
 
 /*
@@ -52,6 +52,8 @@
 #else
 #include <sys/random.h>
 #endif
+#elif defined(__OpenBSD__)
+#include <dev/rndvar.h>
 #endif
 
 #ifdef __FreeBSD__
@@ -293,7 +295,9 @@ get_rand_cr(int unit)
 	{
 		int found = 1;
 		
-#if defined(__FreeBSD__)
+#if defined(__OpenBSD__)
+		get_random_bytes((void *)&val, sizeof (val));
+#elif defined(__FreeBSD__)
 
 #ifdef RANDOMDEV
 		read_random((char *)&val, sizeof(val));

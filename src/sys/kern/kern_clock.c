@@ -240,11 +240,11 @@ hardclock(frame)
  * compute the second argument to timeout_add() from an absolute time.
  */
 int
-hzto(tv)
-	struct timeval *tv;
+hzto(struct timeval *tv)
 {
 	unsigned long ticks;
-	long sec, usec;
+	time_t sec;
+	long usec;
 	int s;
 
 	/*

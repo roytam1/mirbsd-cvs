@@ -110,7 +110,7 @@ struct randomtab {
 	u_int32_t ru_seed, ru_seed2;
 	u_int32_t ru_a, ru_b;
 	u_int32_t ru_g;
-	long ru_reseed;
+	time_t ru_reseed;
 };
 
 static struct randomtab randomtab_32 = {

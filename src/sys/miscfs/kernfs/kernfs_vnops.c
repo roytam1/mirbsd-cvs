@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/miscfs/kernfs/kernfs_vnops.c,v 1.4 2005/12/19 23:14:47 tg Exp $ */
+/**	$MirOS: src/sys/miscfs/kernfs/kernfs_vnops.c,v 1.5 2006/06/12 20:19:15 tg Exp $ */
 /*	$OpenBSD: kernfs_vnops.c,v 1.42 2004/11/18 17:12:33 millert Exp $	*/
 /*	$NetBSD: kernfs_vnops.c,v 1.43 1996/03/16 23:52:47 christos Exp $	*/
 
@@ -78,7 +78,13 @@ const struct kern_target kern_targets[] = {
      /*        name            data          tag           type  ro/rw */
      { DT_DIR, N("."),         0,            KTT_NULL,     VDIR, DIR_MODE   },
      { DT_DIR, N(".."),        0,            KTT_NULL,     VDIR, DIR_MODE   },
+#if defined(_BSD_TIME_T_IS_64_BIT)
      { DT_REG, N("boottime"),  &boottime.tv_sec, KTT_INT64,   VREG, READ_MODE  },
+#elif defined(_BSD_TIME_T_IS_INT)
+     { DT_REG, N("boottime"),  &boottime.tv_sec, KTT_INT,  VREG, READ_MODE  },
+#else
+#error which time_t do we have?
+#endif
      { DT_REG, N("byteorder"), &byteorder,   KTT_INT,      VREG, READ_MODE  },
      { DT_REG, N("copyright"), (void*)copyright,KTT_STRING,   VREG, READ_MODE  },
      { DT_REG, N("hostname"),  0,            KTT_HOSTNAME, VREG, WRITE_MODE },

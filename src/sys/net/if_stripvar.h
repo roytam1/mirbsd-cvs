@@ -35,7 +35,7 @@ struct st_softc {
 #define ST_PROBE_SENT	0x1		/*    probe sent, answer pending */
 #define ST_DEAD		0x2		/*    no answer to probe; do reset */
 
-	long sc_statetimo;		/* When (secs) current state ends */
+	time_t sc_statetimo;		/* When (secs) current state ends */
 
 	caddr_t	sc_bpf;			/* BPF data */
 	struct timeout sc_timo;

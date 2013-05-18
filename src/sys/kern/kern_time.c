@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/kern_time.c,v 1.2 2005/03/06 21:28:02 tg Exp $ */
+/**	$MirOS: src/sys/kern/kern_time.c,v 1.3 2006/06/11 02:22:06 tg Exp $ */
 /*	$OpenBSD: kern_time.c,v 1.39 2004/02/15 02:34:14 tedu Exp $	*/
 /*	$NetBSD: kern_time.c,v 1.20 1996/02/18 11:57:06 fvdl Exp $	*/
 
@@ -96,7 +96,7 @@ settime(struct timeval *tv)
 	 */
 	if (securelevel > 1 && timercmp(tv, &time, <)) {
 		printf("denied attempt to set clock back %lld seconds\n",
-		    (long long)(time.tv_sec - tv->tv_sec));
+		    (int64_t)(time.tv_sec - tv->tv_sec));
 		return (EPERM);
 	}
 

@@ -1021,7 +1021,7 @@ bahintr(sc)
 {
 	u_char isr, maskedisr;
 	int buffer;
-	u_long newsec;
+	time_t newsec;
 
 	isr = sc->sc_base->status;
 	maskedisr = isr & sc->sc_intmask;

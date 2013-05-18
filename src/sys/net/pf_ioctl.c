@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/net/pf_ioctl.c,v 1.4 2005/12/20 19:41:34 tg Exp $ */
 /*	$OpenBSD: pf_ioctl.c,v 1.119 2004/05/05 23:16:03 frantzen Exp $ */
 
 /*
@@ -1546,7 +1546,7 @@ pfioctl(dev_t dev, u_long cmd, caddr_t addr, int flags, struct proc *p)
 		TAILQ_FOREACH(kif, &pfi_statehead, pfik_w_states)
 			RB_FOREACH(state, pf_state_tree_ext_gwy,
 			    &kif->pfik_ext_gwy) {
-				int	secs = time.tv_sec;
+				time_t secs = time.tv_sec;
 
 				if ((nr+1) * sizeof(*p) > (unsigned)ps->ps_len)
 					break;
@@ -2634,7 +2634,7 @@ pfioctl(dev_t dev, u_long cmd, caddr_t addr, int flags, struct proc *p)
 		s = splsoftnet();
 		p = psn->psn_src_nodes;
 		RB_FOREACH(n, pf_src_tree, &tree_src_tracking) {
-			int	secs = time.tv_sec;
+			time_t secs = time.tv_sec;
 
 			if ((nr + 1) * sizeof(*p) > (unsigned)psn->psn_len)
 				break;

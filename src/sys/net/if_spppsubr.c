@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/if_spppsubr.c,v 1.6 2006/09/20 17:58:52 tg Exp $ */
+/**	$MirOS: src/sys/net/if_spppsubr.c,v 1.7 2006/09/24 18:41:15 tg Exp $ */
 /*	$OpenBSD: if_spppsubr.c,v 1.34 2005/06/08 06:55:33 henning Exp $	*/
 /*
  * Synchronous PPP/Cisco link level subroutines.
@@ -1126,11 +1126,7 @@ sppp_cisco_input(struct sppp *sp, struct mbuf *m)
 			++sp->pp_loopcnt;
 
 			/* Generate new local sequence number */
-#if defined (__FreeBSD__) || defined (__NetBSD__) || defined(__OpenBSD__)
 			sp->pp_seq = arc4random();
-#else
-			sp->pp_seq ^= time.tv_sec ^ time.tv_usec;
-#endif
 			break;
 		}
 		sp->pp_loopcnt = 0;
@@ -2491,11 +2487,7 @@ sppp_lcp_scr(struct sppp *sp)
 
 	if (sp->lcp.opts & (1 << LCP_OPT_MAGIC)) {
 		if (! sp->lcp.magic)
-#if defined (__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
 			sp->lcp.magic = arc4random();
-#else
-			sp->lcp.magic = time.tv_sec + time.tv_usec;
-#endif
 		opt[i++] = LCP_OPT_MAGIC;
 		opt[i++] = 6;
 		opt[i++] = sp->lcp.magic >> 24;

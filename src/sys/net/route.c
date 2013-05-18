@@ -1079,7 +1079,7 @@ rt_timer_add(struct rtentry *rt, void (*func)(struct rtentry *,
 	     struct rttimer *), struct rttimer_queue *queue)
 {
 	struct rttimer *r;
-	long current_time;
+	time_t current_time;
 
 	current_time = mono_time.tv_sec;
 
@@ -1124,7 +1124,7 @@ rt_timer_timer(void *arg)
 	struct timeout *to = (struct timeout *)arg;
 	struct rttimer_queue *rtq;
 	struct rttimer *r;
-	long current_time;
+	time_t current_time;
 	int s;
 
 	current_time = mono_time.tv_sec;

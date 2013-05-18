@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/net/pfvar.h,v 1.7 2005/12/20 19:41:40 tg Exp $ */
 /*	$OpenBSD: pfvar.h,v 1.194 2004/05/11 07:34:11 dhartmei Exp $ */
 
 /*
@@ -564,8 +564,8 @@ struct pf_src_node {
 	u_int32_t	 bytes;
 	u_int32_t	 packets;
 	u_int32_t	 states;
-	u_int32_t	 creation;
-	u_int32_t	 expire;
+	u_int32_t	 creation;	/* XXX time_t vs uint32_t */
+	u_int32_t	 expire;	/* XXX time_t vs uint32_t */
 	sa_family_t	 af;
 	u_int8_t	 ruletype;
 };
@@ -631,8 +631,8 @@ struct pf_state {
 	struct pfi_kif	*rt_kif;
 	struct pf_src_node	*src_node;
 	struct pf_src_node	*nat_src_node;
-	u_int32_t	 creation;
-	u_int32_t	 expire;
+	u_int32_t	 creation;	/* XXX time_t vs uint32_t */
+	u_int32_t	 expire;	/* XXX time_t vs uint32_t */
 	u_int32_t	 pfsync_time;
 	u_int32_t	 packets[2];
 	u_int32_t	 bytes[2];
@@ -802,7 +802,7 @@ struct pfi_if {
 	u_int64_t			 pfif_bytes[2][2][2];
 	u_int64_t			 pfif_addcnt;
 	u_int64_t			 pfif_delcnt;
-	long				 pfif_tzero;
+	time_t				 pfif_tzero;
 	int				 pfif_states;
 	int				 pfif_rules;
 	int				 pfif_flags;
@@ -958,7 +958,7 @@ struct pf_status {
 	u_int32_t	running;
 	u_int32_t	states;
 	u_int32_t	src_nodes;
-	u_int32_t	since;
+	u_int32_t	since;		/* XXX time_t vs uint32_t */
 	u_int32_t	debug;
 	u_int32_t	hostid;
 	char		ifname[IFNAMSIZ];

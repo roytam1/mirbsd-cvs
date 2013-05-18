@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/netinet/tcp_subr.c,v 1.3 2005/03/31 23:45:43 tg Exp $	*/
+/**	$MirOS: src/sys/netinet/tcp_subr.c,v 1.4 2005/07/01 14:16:08 tg Exp $	*/
 /*	$OpenBSD: tcp_subr.c,v 1.85 2004/11/25 15:32:08 markus Exp $	*/
 /*	$NetBSD: tcp_subr.c,v 1.22 1996/02/13 23:44:00 christos Exp $	*/
 
@@ -1114,7 +1114,7 @@ tcp_signature_apply(fstate, data, len)
 u_int8_t tcp_rndiss_sbox[128];
 u_int16_t tcp_rndiss_msb;
 u_int16_t tcp_rndiss_cnt;
-long tcp_rndiss_reseed;
+time_t tcp_rndiss_reseed;
 
 u_int16_t
 tcp_rndiss_encrypt(val)

@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/dev/pci/ncr.c,v 1.2 2005/03/06 21:27:48 tg Exp $ */
 /*	$OpenBSD: ncr.c,v 1.68 2003/11/07 10:16:45 jmc Exp $	*/
 /*	$NetBSD: ncr.c,v 1.63 1997/09/23 02:39:15 perry Exp $	*/
 
@@ -1622,7 +1622,7 @@ static char *ncr_name (ncb_p np)
  */
 #ifdef __OpenBSD__
 static unsigned long script_kvars[] = {
-	(unsigned long)&mono_time.tv_sec,
+	(unsigned long)&mono_time.tv_sec,	/* XXX time_t vs u_long */
 	(unsigned long)&mono_time,
 	(unsigned long)&ncr_cache,
 };
