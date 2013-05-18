@@ -1,7 +1,7 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.22 2007/01/22 18:39:15 bsiegert Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.23 2007/03/08 10:55:15 tg Exp $
 #-
-# Copyright (c) 2006
+# Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
 # Copyright (c) 2005, 2007
 #	Benny Siegert <bsiegert@66h.42h.de>
@@ -22,8 +22,6 @@
 # of said person's immediate fault when using the work as intended.
 #-
 # wrapper for pkg_add to upgrade packages
-# This is only a "rapid prototype", the final implementation might
-# be as a part of pkg_add.
 
 me=${0##*/}
 
@@ -109,12 +107,12 @@ EOF
 	[[ -f $stubpkgdir/+DEPENDS ]] && while read package; do
 		if [[ -d $PKG_DBDIR/$package ]] ; then
 			print -r -- "shlibs-$OLDPKGS" >> $PKG_DBDIR/$package/+REQUIRED_BY
-			print -u2 -r "Debug: Dependency of shlibs-$OLDPKGS on $package successully registered"
+#			print -u2 -r "Debug: Dependency of shlibs-$OLDPKGS on $package successully registered"
 		else
 			print -u2 -r "Warning: Dependency $package missing!"
 		fi
 	done < $stubpkgdir/+DEPENDS
-	
+
 	# Register the package
 	mv -f $stubpkgdir $PKG_DBDIR
 	mv -f $oldcontents_new $oldcontents
@@ -235,10 +233,8 @@ fi
 		    >/dev/null 2>&1; then
 			print "/^$OLDPKGS\$/d\nwq" | ed -s \
 			    $PKG_DBDIR/$package/+REQUIRED_BY
-			# this line will die once this code is tested
-			# in production for a while...
-			print -u2 "Debug: dependency of $OLDPKGS on" \
-			    "$package successfully removed"
+#			print -u2 "Debug: dependency of $OLDPKGS on" \
+#			    "$package successfully removed"
 		else
 			print -u2 "Notice: $OLDPKGS was not registered" \
 			    "as dependency of $package"
@@ -257,18 +253,16 @@ done <$TMPDIR/+DEPENDS
 		    >/dev/null 2>&1; then
 			print "/^$OLDPKGS\$/d\nwq" | ed -s \
 			    $PKG_DBDIR/$package/+DEPENDS
-			# this line will die once this code is tested
-			# in production for a while...
-			print -u2 "Debug: dependency of $package on" \
-			    "$OLDPKGS successfully removed"
+#			print -u2 "Debug: dependency of $package on" \
+#			    "$OLDPKGS successfully removed"
 		else
 			print -u2 "Notice: $package was not registered" \
 			    "as dependency of $OLDPKGS"
 		fi
 		# and add new version (at the bottom, but that's irrelevant)
 		print -r -- "$PKGNAME" >>$PKG_DBDIR/$package/+DEPENDS
-		print -u2 "Debug: dependency of $package on" \
-		    "$PKGNAME successfully added"
+#		print -u2 "Debug: dependency of $package on" \
+#		    "$PKGNAME successfully added"
 	else
 		print -u2 "Notice: Dependency of $package on $OLDPKGS" \
 		    "was not found there (forward)"
