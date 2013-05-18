@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.133 2006/10/06 20:01:06 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.134 2006/10/13 17:09:19 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1808,14 +1808,14 @@ ${_BULK_COOKIE}: ${_PACKAGE_COOKIES}
 # The real targets. Note that some parts always get run, some parts can be
 # disabled, and there are hooks to override behavior.
 
+.if ${MACHINE_OS} == "Darwin"
+${_WRKDIR_COOKIE}: ${LOCALBASE}/db/specs
+.else
 ${_WRKDIR_COOKIE}:
+.endif
 	@rm -rf ${WRKDIR}
 	@mkdir -p ${WRKDIR} ${WRKDIR}/bin
 	@ln -s ${_MIRMAKE_EXE} ${WRKDIR}/bin/make
-.if ${MACHINE_OS} == "Darwin"
-	@${CC} -dumpspecs | sed \
-	    's#/usr/bin/libtool#${LOCALBASE}/db/libtool#g' >${WRKDIR}/specs
-.endif
 	@${_MAKE_COOKIE} $@
 
 ${_EXTRACT_COOKIE}: ${_WRKDIR_COOKIE} ${_SYSTRACE_COOKIE}
@@ -2450,6 +2450,25 @@ _fetch-onefile:
 .  endif
 	@echo '\t $${EXEC} $${FETCH} "$$@"'
 .endfor
+
+# foobar
+
+.if ${MACHINE_OS} == "Darwin"
+.  if exists(${CC})
+CC_SPECS=	${CC}
+.  elif exists(/usr/bin/${CC})
+CC_SPECS=	/usr/bin/${CC}
+.  else
+CC_SPECS!=	which ${CC:Q} 2>&- || which $$(echo ${CC:Q}|sed 's/ .*//') 2>&-
+.    if !exists(${CC_SPECS})
+CC_SPECS:=
+.    endif
+.  endif
+
+${LOCALBASE}/db/specs: ${CC_SPECS}
+	@${CC} -dumpspecs | sed \
+	    's#/usr/bin/libtool#${LOCALBASE}/db/libtool#g' >$@
+.endif
 
 # This target generates an index entry suitable for aggregation into
 # a large index.  Format is:
