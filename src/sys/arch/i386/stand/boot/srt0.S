@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.78 2009/10/24 14:19:36 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.79 2009/10/24 15:39:41 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -321,7 +321,7 @@ Lnocom:	/* flags are (already) okay */
 
 LdoRel:	mov	ax,0x3000
 	mov	ss,ax
-	mov	esp,0x0000FFFC
+	mov	esp,0x0000FF7C
 	cmp	ebp,SA_LINKADDR
 	je	LisRel
 
@@ -333,7 +333,7 @@ LdoRel:	mov	ax,0x3000
 	mov	cx,0xFFF0
 	rep	movsb
 
-	/* assumes flags=0, SS:ESP set up to 3000:0000FFFCh */
+	/* assumes flags=0, SS:ESP set up to 3000:0000FF7Ch */
 LisRel:	mov	ax,SA_LINKSEG
 	mov	ds,ax
 	mov	es,ax
@@ -420,7 +420,7 @@ Liscmd:	/* a command line was found */
 	call	real_to_prot
 Lsta32:	.code32
 	/* ensure stack is 32-bit aligned */
-	mov	esp,0x0003FFFC
+	mov	esp,0x0003FF7C
 	/* zero out .bss section */
 	xor	eax,eax
 	push	eax
@@ -460,7 +460,7 @@ Lsta32:	.code32
 #ifndef SMALL_BOOT
 	/* Multiboot entry point */
 	.p2align 4,0x90
-Lmbrun:	mov	esp,0x0003FFFC
+Lmbrun:	mov	esp,0x0003FF7C
 	xor	eax,eax
 	push	eax
 	popfd
