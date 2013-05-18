@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.85 2008/05/01 00:52:31 tg Exp $
 #-
 # Copyright (c) 2005, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -209,6 +209,7 @@ if [[ -d $etc || $etc != @($localbase/)* ]]; then
 fi
 [[ $myuid = root ]] || export BINOWN=$myuid
 [[ $mygid = bin ]] || export BINGRP=$mygid
+[[ $myuid = root ]] || export BINMODE=755
 if [[ $isinterix = no && $myuid != root ]]; then
 	# mostly copied from above (%% paths), except for the export
 	case :$LD_LIBRARY_PATH: in
@@ -562,6 +563,8 @@ EOF
 	PKG_TMPDIR='$PKG_TMPDIR'
 	export PKG_TMPDIR
 EOF
+[[ $myuid = root ]] || \
+    print 'BINMODE=755; export BINMODE' >>$localbase/db/SetEnv.sh
 cat >>$localbase/db/SetEnv.sh <<-'EOF'
 	if [ -z "$SSL_CERT_DIR" -a -d $LOCALBASE/share/ca-certificates/. ]; then
 		SSL_CERT_DIR=$LOCALBASE/share/ca-certificates
@@ -604,6 +607,7 @@ EOF
 [[ $usetmpdir = 1 ]] && cat >>$localbase/db/SetEnv.csh <<-EOF
 	setenv PKG_TMPDIR '$PKG_TMPDIR'
 EOF
+[[ $myuid = root ]] || print 'setenv BINMODE 755' >>$localbase/db/SetEnv.csh
 cat >$localbase/db/SetEnv.csh <<-'EOF'
 	#XXX convert this to csh
 	#if [ -z "$SSL_CERT_DIR" -a -d $LOCALBASE/share/ca-certificates/. ]; then
@@ -637,6 +641,7 @@ EOF
     cat >>$localbase/db/SetEnv.make <<-EOF
 	DISTDIR=	$DISTDIR
 EOF
+[[ $myuid = root ]] || print 'BINMODE?=	755' >>$localbase/db/SetEnv.make
 
 . $localbase/db/SetEnv.sh
 
