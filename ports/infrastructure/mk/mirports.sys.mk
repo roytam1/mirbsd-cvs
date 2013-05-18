@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.51 2008/05/03 18:58:38 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.52 2008/10/05 16:10:05 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -57,7 +57,7 @@ OSrev=	${OSREV:S/.//}
 
 .if ${OStype} == "Darwin"
 CPPFLAGS+=		-D__unix__=1
-LDFLAGS+=		-specs=${LOCALBASE}/db/specs
+LDFLAGS+=		-specs=${LOCALBASE}/db/specs.${_ORIG_CC:S!/!_!g}
 NOPIC=			No	# XXX
 LDCONFIG=
 HAS_CKSUM?=		md
@@ -114,7 +114,7 @@ _GDIFFLAG=		NEED_GDIFF=yes
 #---
 
 .if ${OStype} == "MidnightBSD"
-LDFLAGS+=		-specs=${LOCALBASE}/db/specs
+LDFLAGS+=		-specs=${LOCALBASE}/db/specs.${_ORIG_CC:S!/!_!g}
 .  ifndef BOOTSTRAP	# Install these first
 M4=			${LOCALBASE}/bin/gm4
 .  endif

@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.224 2008/10/12 14:01:16 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.225 2008/10/12 15:25:16 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1975,7 +1975,7 @@ ${_BULK_COOKIE}: ${_PACKAGE_COOKIES}
 # disabled, and there are hooks to override behavior.
 
 .if (${MACHINE_OS} == "Darwin") || (${OStype} == "MidnightBSD")
-${_WRKDIR_COOKIE}: ${LOCALBASE}/db/specs
+${_WRKDIR_COOKIE}: ${LOCALBASE}/db/specs.${_ORIG_CC:S!/!_!g}
 .else
 ${_WRKDIR_COOKIE}:
 .endif
@@ -2676,7 +2676,7 @@ CC_SPECS:=
 .    endif
 .  endif
 
-${LOCALBASE}/db/specs: ${CC_SPECS}
+${LOCALBASE}/db/specs.${_ORIG_CC:S!/!_!g}: ${CC_SPECS}
 	@if ! t=$$(mktemp /tmp/XXXXXXXXXXXX); then \
 		print -u2 Error: cannot make temporary file; \
 		exit 1; \
