@@ -104,4 +104,4 @@
 #define	MD_INIT_SECTION_EPILOGUE MD_SECTION_EPILOGUE(.init)
 #define	MD_FINI_SECTION_EPILOGUE MD_SECTION_EPILOGUE(.fini)
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/csu/sparc_elf/dot_init.h,v 1.2 2006/10/15 01:04:01 tg Exp $");

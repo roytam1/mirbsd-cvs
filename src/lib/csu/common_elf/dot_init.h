@@ -1,4 +1,9 @@
-/* $MirOS: src/lib/csu/common_elf/dot_init.h,v 1.2 2005/04/29 00:38:55 tg Exp $ */
+/* $MirOS: src/lib/csu/common_elf/dot_init.h,v 1.3 2006/10/15 01:04:00 tg Exp $ */
+
+#ifdef HAVE_MD_DOT_INIT
+#include "md_init.h"
+#else
+
 /* $NetBSD: dot_init.h,v 1.1 2001/05/11 22:44:15 ross Exp $ */
 
 /*-
@@ -53,4 +58,6 @@
 #define	MD_INIT_SECTION_EPILOGUE
 #define	MD_FINI_SECTION_EPILOGUE
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/csu/common_elf/dot_init.h,v 1.3 2006/10/15 01:04:00 tg Exp $");
+
+#endif /* !HAVE_MD_DOT_INIT */

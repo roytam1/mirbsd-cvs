@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/csu/i386_elf/dot_init.h,v 1.3 2005/04/25 23:11:38 tg Exp $ */
+/* $MirOS: src/lib/csu/i386_elf/dot_init.h,v 1.4 2006/06/15 19:18:48 tg Exp $ */
 /* $NetBSD: dot_init.h,v 1.3 2002/11/22 06:45:00 thorpej Exp $ */
 
 /*-
@@ -74,4 +74,4 @@
 	"\n	call " __STRING(func)		\
 	"\n	.previous");
 
-__RCSID("$MirOS: src/lib/csu/i386_elf/dot_init.h,v 1.3 2005/04/25 23:11:38 tg Exp $");
+__RCSID("$MirOS: src/lib/csu/i386_elf/dot_init.h,v 1.4 2006/06/15 19:18:48 tg Exp $");
