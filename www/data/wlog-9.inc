@@ -1833,3 +1833,25 @@ Date: 31.08.2007
 
 <p>I mean, really.</p>
 ----
+Date: 02.09.2007
+Author: tg@
+
+<p>Yesterday morning, wbx@ prodded me to hunt that bsd.rd vs bootloader,
+ bsd.rd.net working, bug, together. Turns out I had to fix an error in a
+ check if the kernel is not too big, turns out bsd.rd was too big, so we
+ decided to bump the RELOC value a little.</p>
+<p>Forking is “in”: MirBSD, FreeWRT, Ewe, GForge… what’s next?</p>
+<p>Things that suck: too small partitions for mirroring <tt>/cvs</tt> on
+ a 2 GiB drive which also hosts a #7quater installation, with too big of
+ a block and fragment size to fit all comma-v files.</p>
+<p>I’m somehow not in a hacking mood right now, we basically just need a
+ few more people testing #10RC6, then recompiling (from a clean install)
+ it and releasing that. Or so I think.</p>
+<p>The weekend is intended for relaxing, I think I have done so. I’m not
+ even in the mood to bike to the city and have some big dinner, for me a
+ couple of butterbread and some sinalco cola+cherry juice+beer will last
+ that evening. The only thing which sucks is that I have to wash clothes
+ because I’m going to Berlin this week (business trip). I really hope my
+ laziness will allow me to get a set of clean clothes for THAT ☺</p>
+<p>I wonder where Benny is, this weekend. Probably relaxing, too ☻☺</p>
+----
