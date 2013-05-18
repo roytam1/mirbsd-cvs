@@ -1,4 +1,4 @@
-# $MirOS: www/files/.htaccess,v 1.8 2008/11/19 05:25:16 tg Exp $
+# $MirOS: www/files/.htaccess,v 1.9 2008/12/04 13:46:34 tg Exp $
 
 Options ExecCGI Indexes FollowSymLinks
 IndexOptions -FancyIndexing
@@ -31,6 +31,9 @@ RedirectMatch 301 ^/man/(.*)\.(INFO|info)$ /htman/i386/manINFO/$1.html
 RewriteEngine On
 RewriteCond %{QUERY_STRING} ^([^/]+)$
 RewriteRule ^(index.php)?$ /%1.htm? [R=301,L]
+
+# redirects for broken links from external
+RedirectMatch 301 ^/jupp$ /jupp.htm
 
 # file types
 AddType 'text/html; charset=utf-8' htm
