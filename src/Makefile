@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.132 2008/07/14 12:14:38 tg Exp $
+# $MirOS: src/Makefile,v 1.133 2008/07/19 21:11:21 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -249,14 +249,6 @@ dist-q:
 	-[[ -d ${BSDRELDIR}/rel && -s ${.CURDIR}/Build.log ]] && \
 	    ${SUDO} cp ${.CURDIR}/Build.log ${BSDRELDIR}/rel/
 
-dist-ql: dist-q
-	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:M*:Q} \
-	    HOME=/ PATH=${_SAFEPATH} TZ=UTC ${MAKE} _do-livecd
-
-dist-qlq: dist-q
-	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:M*:Q} \
-	    HOME=/ PATH=${_SAFEPATH} TZ=UTC BATCH=Yes ${MAKE} _do-livecd
-
 _DISTS=		base
 .ifdef QUICK_DIST2
 QUICK_DIST=	implied
@@ -481,31 +473,12 @@ _do-dist:
 	@date
 	@echo ============================================================
 
-_do-livecd:
-	@echo ============================================================
-.if (${MACHINE_ARCH} == "sparc")
-	@echo Cannot build the Baselive CD on sparc.
-.elif !exists(${BSDSRCDIR}/contrib/code/Snippets/tinyirc.c) || \
-    !exists(${BSDSRCDIR}/contrib/code/jupp/jupprc)
-	@echo Cannot build the Baselive CD: your checkout is incomplete.
-.elif defined(QUICK_DIST2)
-	@echo Cannot build the Baselive CD: QUICK_DIST mode selected.
-.else
-	cd ${BSDSRCDIR}/distrib/baselive && \
-	    BATCH=${BATCH:Q} ${MAKE} it #cleanworkdir
-	@echo
-	@echo Done with MirOS Baselive-CD generation.
-	@/bin/ls -Fl ${BSDOBJDIR}/distrib/baselive/livecd${OSrev}.iso
-	@echo ============================================================
-.endif
-
 cflags:
 	@print -r -- CFLAGS=\'${CFLAGS:N-Werror:Q} ${COPTS:N-Werror:Q}\'
 
-.PHONY:	_do-dist _do-livecd afterinstall b-r base-distbuild base-distinstall \
-	beforeinstall build-pre cflags cleandir contbuild dist dist-q \
-	dist-ql dist-qlq distrib-dirs do-htman mksystrace mksystrace-dest \
-	mksystrace-obj release
+.PHONY:	afterinstall b-r base-distbuild base-distinstall beforeinstall \
+	build-pre cflags cleandir contbuild dist dist-q distrib-dirs \
+	do-htman mksystrace mksystrace-dest mksystrace-obj release _do-dist
 
 .include <bsd.subdir.mk>
 
