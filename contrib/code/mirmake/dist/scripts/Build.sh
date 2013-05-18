@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.112 2008/04/06 22:41:52 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.113 2008/04/06 22:42:55 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -159,7 +159,7 @@ export CC=${CC:-gcc}
 export COPTS="${CFLAGS:--O2 -fno-strict-aliasing}"
 export CPPFLAGS="$CPPFLAGS -D_MIRMAKE_DEFNS -isystem $d_build/F -include $d_build/F/mirmake.h"
 export CFLAGS="$COPTS $CPPFLAGS"
-eval export NROFF="${NROFF:-nroff}"
+eval export "NROFF=\"${NROFF:-nroff}\""
 
 echo | $NROFF -v 2>&1 | grep GNU >/dev/null 2>&1 && NROFF="$NROFF -c"
 
