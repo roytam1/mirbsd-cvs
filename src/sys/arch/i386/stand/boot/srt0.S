@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.37 2009/01/02 07:43:23 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.38 2009/01/02 16:18:21 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -90,6 +90,9 @@
 	.globl	_C_LABEL(edata)
 	.globl	_C_LABEL(end)
 	.globl	_ASM_LABEL(pmm_init)
+#ifndef SMALL_BOOT
+	.globl	_ASM_LABEL(pmm_leave)
+#endif
 
 _start:	cli
 	jmp	Lstart
@@ -403,7 +406,7 @@ Lmbrun:	mov	edx,[ebx+12]		/* boot_device */
 	/* relocated */
 Lmb2rm:	lgdt	Gdtr
 	mov	ebx,offset Lmbret - SA_LINKADDR
-	call	pmm_leave		/* gidt.S */
+	call	_ASM_LABEL(pmm_leave)	/* gidt.S */
 	.code16
 Lmbret:	mov	ax,0xB800
 	mov	gs,ax

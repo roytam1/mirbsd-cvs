@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.9 2009/01/02 02:18:56 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.10 2009/01/02 04:14:35 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -44,7 +44,7 @@
 	mov	$0xb8000, %eax	; \
 	mov	$0x47314730, (%eax)
 #define	gidt_debug1		; \
-	mov	$(0xb8000 - LINKADDR), %eax	; \
+	mov	$(0xb8000 - SA_LINKADDR), %eax	; \
 	mov	$0x4f314f30, (%eax)
 #define	gidt_debug2		; \
 	mov	$0xb8004, %eax	; \
@@ -66,7 +66,7 @@
 #define prot2real						\
 	gidt_debug0;						\
 								\
-	ljmp	$S16TEXT, $1f - LINKADDR;			\
+	ljmp	$S16TEXT, $1f - SA_LINKADDR;			\
 1:								\
 	.code16;						\
 	movw	$S16DATA, %ax;					\
@@ -79,7 +79,7 @@
 	movl	%eax, %cr0;					\
 								\
 	/* reload real cs:ip */					\
-	data32 ljmp	$(LINKADDR >> 4), $1f - LINKADDR;	\
+	data32 ljmp	$(SA_LINKADDR >> 4), $1f - SA_LINKADDR;	\
 1:								\
 	movw	%cs, %ax;	/* setup: %ds, %es = %cs */	\
 	movw	%ax, %ds;					\
@@ -89,14 +89,14 @@
 								\
 	gidt_debug2;						\
 								\
-	data32 addr32 lidt (Idtr_real - LINKADDR); /* load idtr for real mode */
+	data32 addr32 lidt (Idtr_real - SA_LINKADDR); /* load idtr for real mode */
 
 #define real2prot						\
 	gidt_debug3;						\
 								\
-	movw	$LINKADDR >> 4, %ax;				\
+	movw	$SA_LINKADDR >> 4, %ax;				\
 	movw	%ax, %ds;					\
-	data32 addr32 lgdt (Gdtr - LINKADDR); 	/* load the gdtr */	\
+	data32 addr32 lgdt (Gdtr - SA_LINKADDR);		\
 								\
 	movl	%cr0, %eax;	/* enable pmmm */		\
 	orl	$CR0_PE, %eax;					\
@@ -121,10 +121,8 @@
 
 	.text
 	.code32
-	.globl	_ASM_LABEL(pmm_init)
-	.globl	_ASM_LABEL(pmm_leave)
-	.globl	_C_LABEL(_rtt)
 
+	.globl	_C_LABEL(_rtt)
 ENTRY(_rtt)
 #ifdef GIDT_DEBUG
 	movl	$0xb8000, %ebx
@@ -194,6 +192,7 @@ Idtr:	.word	. - idt - 1
 	mov	al,(0x80 | SDT_SYS386TGT); stosb;	\
 	mov	eax,ebx; shr eax,16; stosw		\
 
+	.globl	_ASM_LABEL(pmm_init)
 pmm_init:
 	mov	edi,offset idt
 	cld
@@ -250,19 +249,19 @@ gdt:
 	.byte	0xf | 0 | 0x40 | 0x80	# hilimit, xx, 32bit, 4k granularity
 	.byte	0			# hibase
 		/* 0x18 : 16 bit code */
-	.word	0xFFFF			# lolimit
-	.word	(LINKADDR & 0xffff)	# lobase
-	.byte	(LINKADDR >> 16) & 0xff	# midbase
-	.byte	SDT_MEMERAC | 0 | 0x80	# RXAC, dpl = 0, present
+	.word	0xFFFF				# lolimit
+	.word	(SA_LINKADDR & 0xffff)		# lobase
+	.byte	(SA_LINKADDR >> 16) & 0xff	# midbase
+	.byte	SDT_MEMERAC | 0 | 0x80		# RXAC, dpl = 0, present
 	.byte	0x0 | 0 | 0 | 0		# hilimit, xx, 16bit, byte granularity
-	.byte	(LINKADDR >> 20) & 0xff	# hibase
+	.byte	(SA_LINKADDR >> 20) & 0xff	# hibase
 		/* 0x20 : 16 bit data */
-	.word	0xFFFF			# lolimit
-	.word	(LINKADDR & 0xffff)	# lobase
-	.byte	(LINKADDR >> 16) & 0xff	# midbase
-	.byte	SDT_MEMRWA | 0 | 0x80	# RWA, dpl = 0, present
+	.word	0xFFFF				# lolimit
+	.word	(SA_LINKADDR & 0xffff)		# lobase
+	.byte	(SA_LINKADDR >> 16) & 0xff	# midbase
+	.byte	SDT_MEMRWA | 0 | 0x80		# RWA, dpl = 0, present
 	.byte	0x0 | 0 | 0 | 0		# hilimit, xx, 16bit, byte granularity
-	.byte	(LINKADDR >> 20) & 0xff	# hibase
+	.byte	(SA_LINKADDR >> 20) & 0xff	# hibase
 
 .globl Gdtr
 Gdtr:	.word	. - gdt - 1
@@ -352,9 +351,9 @@ EMUh:
 
 	push	%ds
 
-	addr32  movw (_C_LABEL(BIOS_regs)+(BIOSR_ES) - LINKADDR), %ax
+	addr32  movw (_C_LABEL(BIOS_regs)+(BIOSR_ES) - SA_LINKADDR), %ax
 	movw	%ax, %es
-	addr32  movw (_C_LABEL(BIOS_regs)+(BIOSR_DS) - LINKADDR), %ax
+	addr32  movw (_C_LABEL(BIOS_regs)+(BIOSR_DS) - SA_LINKADDR), %ax
 	movw	%ax, %ds
 
 	# data32 movl $Leax, %eax
@@ -368,14 +367,14 @@ intno	= . - 1
 
 	pop	%ds
 
-	addr32 movl %ebx, (_C_LABEL(BIOS_regs)+(BIOSR_BX) - LINKADDR)
+	addr32 movl %ebx, (_C_LABEL(BIOS_regs)+(BIOSR_BX) - SA_LINKADDR)
 	movw	%es, %bx
-	addr32 movw %bx, (_C_LABEL(BIOS_regs)+(BIOSR_ES) - LINKADDR)
+	addr32 movw %bx, (_C_LABEL(BIOS_regs)+(BIOSR_ES) - SA_LINKADDR)
 	movb	%ah, %bh
 	lahf
 	xchgb	%ah, %bh
 
-	addr32 movl %eax, (2f - LINKADDR)
+	addr32 movl %eax, (2f - SA_LINKADDR)
 
 	real2prot
 
@@ -412,6 +411,7 @@ intno	= . - 1
 	popa
 	iret
 
+#ifndef SMALL_BOOT
 /* Call buffer at 07c0:0000 in real mode to simulate a BIOS boot */
 ENTRY(bootbuf)
 	cli
@@ -434,7 +434,7 @@ ENTRY(bootbuf)
 
 	/*-
 	 * Now the machine status is as follows:
-	 * - CS = DS = ES = 4012h = (LINKADDR >> 4)
+	 * - CS = DS = ES = 4012h = (SA_LINKADDR >> 4)
 	 * - SS:SP = 0000:06FCh
 	 * - EFLAGS = 0
 	 * - ESI = linear address of source buffer (must be para aligned)
@@ -467,7 +467,7 @@ ENTRY(bootbuf)
 	xor	ecx,ecx
 	mov	es,cx
 	mov	edi,0x0600
-	mov	esi,offset _C_LABEL(bios_bootpte) - LINKADDR
+	mov	esi,offset _C_LABEL(bios_bootpte) - SA_LINKADDR
 	mov	cx,4
 	rep	movsd
 	push	es		/* temporary CS */
@@ -507,10 +507,12 @@ Ltcend:	pop	si		/* offset Ltcbeg */
 	lret			/* temporary CS:IP (0000:0610h) on stack */
 
 	.code32
+	.globl	_ASM_LABEL(pmm_leave)
 pmm_leave:
 	.att_syntax
 	prot2real
 	.intel_syntax noprefix
 	jmp	bx
+#endif
 
 	.end
