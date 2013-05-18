@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.89 2006/10/28 19:52:50 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.90 2006/11/07 00:18:57 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -500,6 +500,8 @@ ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
 ${d_build}/bmake -m ${d_build}/mk NOMAN=yes NOOBJ=yes \
     MAKE_BOOTSTRAP=Yes MKFEATURES=-D_PATH_DEFSYSPATH=\\\"${dt_mk}\\\" \
     LDADD="$add_libohash $d_build/libmirmake/libmirmake.a" make
+
+[[ -e ${d_build}/make ]] || exit 1
 
 chmod 555 $top/Install.sh
 
