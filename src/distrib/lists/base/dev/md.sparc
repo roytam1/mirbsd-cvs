@@ -58,7 +58,6 @@
 ./usr/include/sparc/z8530var.h
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/SYSCALLS.c.X
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/cc1
-./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/cc1obj
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/cc1plus
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/collect2
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/crtbegin.o
@@ -303,18 +302,6 @@
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/include/c++/valarray
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/include/c++/vector
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/include/limits.h
-./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/include/objc
-./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/include/objc/NXConstStr.h
-./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/include/objc/Object.h
-./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/include/objc/Protocol.h
-./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/include/objc/encoding.h
-./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/include/objc/hash.h
-./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/include/objc/objc-api.h
-./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/include/objc/objc-list.h
-./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/include/objc/objc.h
-./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/include/objc/sarray.h
-./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/include/objc/thr.h
-./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/include/objc/typedstream.h
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/include/syslimits.h
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/install-tools
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/install-tools/gsyslimits.h
@@ -328,8 +315,6 @@
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/libgcov.a
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/libgpc.a
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/libiberty.a
-./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/libobjc.a
-./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/libobjc.la
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/libstdc++.a
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/libstdc++.la
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/libsupc++.a

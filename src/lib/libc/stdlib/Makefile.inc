@@ -1,10 +1,10 @@
-# $MirOS: src/lib/libc/stdlib/Makefile.inc,v 1.9 2010/12/23 18:11:45 tg Exp $
+# $MirOS: src/lib/libc/stdlib/Makefile.inc,v 1.10 2010/12/23 18:33:33 tg Exp $
 
 # stdlib sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/stdlib ${LIBCSRCDIR}/stdlib
 
 SRCS+=	a64l.c abort.c atexit.c atoi.c atof.c atol.c atoll.c bsearch.c \
-	calloc.c cfree.c exit.c ecvt.c gcvt.c getenv.c getopt_long.c \
+	cfree.c exit.c ecvt.c gcvt.c getenv.c getopt_long.c \
 	getsubopt.c hcreate.c heapsort.c l64a.c llabs.c lsearch.c \
 	merge.c putenv.c qsort.c radixsort.c rand.c random.c \
 	realpath.c rpmatch.c \
@@ -47,11 +47,11 @@ SRCS+=	insque.S remque.S
 SRCS+=	insque.c remque.c
 .endif
 
-MALLOC_TYPE?=mmap
+MALLOC_TYPE?=omalloc
 .if ${MALLOC_TYPE:L} == "mmap"
-SRCS+=	malloc_mmap.c
+SRCS+=	malloc_mmap.c calloc.c
 .elif ${MALLOC_TYPE:L} == "brk"
-SRCS+=	malloc_brk.c
+SRCS+=	malloc_brk.c calloc.c
 .elif ${MALLOC_TYPE:L} == "omalloc"
 SRCS+=	malloc.c
 .else

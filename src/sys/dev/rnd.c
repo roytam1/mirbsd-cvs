@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/dev/rnd.c,v 1.69 2010/09/25 14:11:46 tg Exp $ */
+/* $MirOS: src/sys/dev/rnd.c,v 1.70 2010/12/23 19:25:32 tg Exp $ */
 
 /*-
  * rnd.c -- A strong random number generator
@@ -670,7 +670,9 @@ enqueue_randomness(int state, int val)
 		if (rnd_qlen() > QEVSLOW && nbits < QEVSBITS) {
 			rndstats.rnd_drople++;
 			drop.why[0] = 2;
+#ifdef DIAGNOSTIC
  do_a_drop_with_delta:
+#endif
 			drop.delta2 = delta2;
 			drop.delta3 = delta3;
 			goto do_a_drop;

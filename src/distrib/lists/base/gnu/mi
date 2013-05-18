@@ -1161,7 +1161,10 @@
 ./usr/sbin/mailstats
 ./usr/sbin/praliases
 ./usr/share/doc/html/lynx_help
+./usr/share/doc/html/lynx_help/AUTHORS
+./usr/share/doc/html/lynx_help/CHANGES
 ./usr/share/doc/html/lynx_help/Lynx_users_guide.html
+./usr/share/doc/html/lynx_help/README
 ./usr/share/doc/html/lynx_help/about_lynx.html
 ./usr/share/doc/html/lynx_help/help_files.txt
 ./usr/share/doc/html/lynx_help/keystrokes
