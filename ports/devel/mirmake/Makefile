@@ -1,11 +1,11 @@
-# $MirOS: ports/devel/mirmake/Makefile,v 1.35 2008/04/12 00:20:55 tg Exp $
+# $MirOS: ports/devel/mirmake/Makefile,v 1.36 2008/10/13 20:47:31 tg Exp $
 #-
 # This port should contain no patches.
 
 COMMENT=		portable MirOS make(1) variant
-DISTNAME=		mirmake-20081013
+DISTNAME=		mirmake-20081229
 CATEGORIES=		devel essentials
-RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/make/}
 EXTRACT_SUFX=		.cpio.gz
 
@@ -21,12 +21,9 @@ FLAVOURS=		wrapper setup
 WRKDIST=		${WRKDIR}/mirmake
 NO_REGRESS=		Yes
 USE_CCACHE=		No
-MAKE_ENV+=		NROFF=${NROFF:M*:Q}
 
 do-build:
-	cd ${WRKBUILD} && ${SETENV} ${MAKE_ENV} CC=${_ORIG_CC:Q} \
-	    CFLAGS=${CFLAGS:M*:Q:S${CPPFLAGS:M*:Q}} \
-	    ${MKSH} ./Build.sh \
+	cd ${WRKBUILD} && ${SETENV} ${MAKE_ENV} ${MKSH} Build.sh \
 	    ${OStype} ${PREFIX:Q} man/cat mmake \
 	    ${MACHINE} ${MACHINE_ARCH} ${MACHINE_OS} \
 	    ${MKSH:Q} ${BINOWN:Q}:${BINGRP:Q}
@@ -37,3 +34,6 @@ do-install:
 .include <bsd.port.mk>
 
 _CIPHERS+=		cksum
+MAKE_ENV+=		NROFF=${NROFF:M*:Q}
+MAKE_ENV+=		CC=${_ORIG_CC:Q}
+MAKE_ENV+=		CFLAGS=${CFLAGS:M*:Q:S${CPPFLAGS:M*:Q}}
