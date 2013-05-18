@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.sparc-big,v 1.12 2009/06/29 19:43:33 tg Exp $
+# $MirOS: src/distrib/common/Makefile.sparc-big,v 1.13 2009/08/11 15:30:47 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.14 2002/05/01 19:21:28 mickey Exp $
 
 RAWLABEL=
@@ -8,7 +8,7 @@ AOUT_BSDRD=	Yes
 FLOPPY=		no
 
 cdrom-mdcopy:
-	cp ${BOOT} v${OSrev}/${MACHINE}/boot.net
+	cp ${WRKDIR}/b_sparc.ldr v${OSrev}/${MACHINE}/boot.net
 	# fix path to default kernel file in second-stage boot loader
 	set -A dump -- $$(dd if=${WRKDIR}/b_sparc.ldr bs=4 count=64 | \
 	    hexdump -ve '1/1 "%02X"' | sed 's/\(........\)/ \1/g'); i=0; \
