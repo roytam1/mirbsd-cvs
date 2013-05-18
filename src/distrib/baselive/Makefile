@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.21 2007/07/09 00:24:55 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.22 2007/07/11 16:08:55 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -104,6 +104,9 @@ addcontrib:
 	    print 'PROG=tinyirc\nLDADD=-ltermcap\nNOMAN=yes\n.include' \
 	    '<bsd.prog.mk>' >mkirc && make -f mkirc && \
 	    ${SUDO} make -f mkirc install BINDIR=${WRKDIR}/usr/bin
+	${SUDO} install -o 0 -g 0 -m 644 \
+	    ${BSDSRCDIR}/contrib/samples/dot.Xmodmap \
+	    ${WRKDIR}/etc/skel/.Xmodmap
 
 prepimg:
 	cd ${WRKDIR} && MACHINE=${MACHINE} \
