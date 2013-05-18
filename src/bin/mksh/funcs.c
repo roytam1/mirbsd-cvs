@@ -1741,7 +1741,7 @@ c_dot(const char **wp)
 		argc = 0;
 		argv = NULL;
 	}
-	if ((i = include(file, argc, argv, 0)) < 0) {
+	if ((i = include(file, argc, argv, false)) < 0) {
 		/* should not happen */
 		bi_errorf("%s: %s", cp, strerror(errno));
 		return (1);

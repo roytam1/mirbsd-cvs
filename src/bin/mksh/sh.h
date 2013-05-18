@@ -1804,7 +1804,7 @@ void set_prompt(int, Source *);
 void pprompt(const char *, int);
 int promptlen(const char *);
 /* main.c */
-int include(const char *, int, const char **, int);
+int include(const char *, int, const char **, bool);
 int command(const char *, int);
 int shell(Source * volatile, volatile bool);
 /* argument MUST NOT be 0 */
