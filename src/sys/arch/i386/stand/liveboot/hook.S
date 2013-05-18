@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.14 2007/01/08 16:51:06 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/liveboot/hook.S,v 1.15 2007/05/26 21:18:26 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -44,7 +44,7 @@ lbl_menu0:
 lbl_menu1:
 	.asciz	"Boot into the Live-CD\n"
 lbl_menu2:
-	.asciz	"Boot the Live-CD dd(1)d onto hard disc\n"
+	.asciz	"Boot the Live-CD from 2nd CD drive or hard disc\n"
 lbl_menu3:
 	.asciz	"Boot the MirOS installer\n"
 lbl_ask:

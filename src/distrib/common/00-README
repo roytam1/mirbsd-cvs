@@ -43,6 +43,11 @@ If you encounter boot problems...
 ... use 'change pcibios' and set flags to something else (e.g. 0x40)
 ... try to play around until it works, in general ;-)
 
+Problems with the live CD...
+... try using the "2nd CD drive or hard disc" option and, when
+    asked, enter "cd1a" or similar as root device name
+... escape to a shell and change "vesa" in /etc/X11/XF86Config
+
 
 About MirOS BSD
 ===============
@@ -167,4 +172,4 @@ code is available at http://www.mirbsd.org/ and its mirrors; further
 information can be found at /usr/share/doc/legal/ as well.
 
 _______________________________________________________________________
-$MirOS: src/distrib/common/00-README,v 1.5 2007/01/25 13:32:44 tg Exp $
+$MirOS: src/distrib/common/00-README,v 1.6 2007/03/08 09:01:58 tg Exp $
