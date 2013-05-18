@@ -2,6 +2,8 @@
 .if "0" == "1"
 #endif
 
+/* Debian: gcc -O2 -s -o tinyirc tinyirc.c -lbsd -ltermcap -lz */
+
 /* Configuration options */
 /* please change the default server to one near you. */
 #define DEFAULTSERVER	"irc.mirbsd.org"
@@ -15,10 +17,12 @@
 #define RELEASE_OS	"OpenBSD"
 #elif defined(__CYGWIN32__)
 #define RELEASE_OS	"GNU/Cygwin32"
+#elif defined(__gnu_linux__)
+#define RELEASE_OS	"GNU/Linux"
 #else
 #define RELEASE_OS	"unknown OS"
 #endif
-#define RELEASE_VER	"TinyIRC 20090108"
+#define RELEASE_VER	"TinyIRC 20090117"
 #define RELEASE_L	RELEASE_VER " (" RELEASE_OS ") MirOS-contrib"
 #define RELEASE_S	RELEASE_VER " MirOS"
 /*-
@@ -76,7 +80,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.32 2008/12/29 22:19:26 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.33 2009/01/08 20:23:32 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -86,7 +90,7 @@ __RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.32 2008/12/29 22:19:26 tg E
 u_int32_t arc4random(void);
 uint32_t arc4random_pushb(const void *, size_t);
 #elif !defined(__MirBSD__)
-#define arc4random_pushb(buf, len) arc4random_addrandom((u_char *)(buf),
+#define arc4random_pushb(buf, len) arc4random_addrandom((u_char *)(buf), \
 	    (int)(len))
 #endif
 
