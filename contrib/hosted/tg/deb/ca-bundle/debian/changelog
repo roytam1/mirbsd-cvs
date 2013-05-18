@@ -1,3 +1,10 @@
+ca-bundle (20111111) xwtf; urgency=low
+
+  * Drop Build-Depends-Indep from debian/control, always broken
+  * Mention nssckbi certdata.txt in package description
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Fri, 11 Nov 2011 23:41:22 +0000
+
 ca-bundle (20110906) wtf; urgency=high
 
   * nssckbi: explicitly distrust DigiNotar

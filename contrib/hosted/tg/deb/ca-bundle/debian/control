@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/control,v 1.12 2011/04/24 17:02:37 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/control,v 1.13 2011/11/11 23:39:30 tg Exp $
 #-
 Source: ca-bundle
 Origin: WTF
@@ -33,6 +33,7 @@ Description: ca-certificates and -java replacement (WTF suite, from MirBSD)
  Mozilla ckbi source builds. It will also replace KDE and J2RE/J2SDK
  keystore files. This package installs hashed symlinks usable with
  both OpenSSL 1.0.0 and OpenSSL 0.x / GnuTLS into /etc/ssl/certs.
+ It also provides an NSS ckbi certdata.txt source file.
  .
  Note that the ksslcalist format used by KDE 3 and KDE 4 is FUBAR BAD,
  as it uses the DN of a certificate as index/primary key into the cert
