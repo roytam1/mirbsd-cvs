@@ -1,4 +1,4 @@
-# $MirOS: ports/print/teTeX/base/Makefile,v 1.3 2006/02/09 11:15:15 tg Exp $
+# $MirOS: ports/print/teTeX/base/Makefile,v 1.4 2006/09/14 00:12:46 tg Exp $
 # $OpenBSD: Makefile,v 1.25 2003/04/04 21:19:23 sturm Exp $
 
 COMMENT=			TeX distribution, executables
@@ -42,7 +42,7 @@ CONFIGURE_ARGS+=--with-system-t1lib \
 		--with-t1lib-libdir=${PREFIX}/lib \
 		--with-t1lib-include=${PREFIX}/include
 LIB_DEPENDS+=	t1.4::devel/t1lib
-RUN_DEPENDS+=	:ghostscript-*:print/ghostscript/gnu
+RUN_DEPENDS+=	:ghostscript-*:print/ghostscript/artifex
 USE_X11=	Yes
 .endif
 
