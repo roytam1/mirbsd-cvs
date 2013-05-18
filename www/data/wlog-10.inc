@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.361 2011/08/27 19:34:55 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.362 2011/09/01 21:36:22 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8473,4 +8473,69 @@ Tag: debian fun rant
 <p>SCNR.</p>
 <p>But trying to “cvs co” a websvn repository view… honestly!</p>
 <p>Yes, I’m biased. And known to be proud of the things I use.</p>
+----
+Date: 03.09.2011 17:20
+Author: tg@
+Title: MirOS BSD users portrait – polarhome, Sweden
+Tag: news
+
+<p>Zoltan Arpadffy has let us know that he has set up a MirBSD
+ installation at <a href="http://polarhome.com/">polarhome</a>
+ in Stockholm, to aid its “purpose [to] serve the healthy part
+ of the already, rather badly MS infected Universe - and MirOS
+ is definetevly on that part”. He wrote that “MirBSD is a very
+ nice easy to use BSD system”, thanking us with “gratitude and
+ respect for developing a such a nice OS”. He also sent a list
+ of things he ran into while installing (although we can guess
+ some of them are related to using VirtualBox, which is not at
+ all supported, as base) so we can fix them, and offered help,
+ e.g. in adding ports of software they use.<br />Well, Zoltan,
+ you’re definitively welcome ☺</p>
+<p>polarhome.com is non commercial, educational effort for
+ popularization of shell enabled operating systems and Internet
+ services, offering shell accounts, mail and other online
+ services on all available systems (currently on Linux, OpenVMS,
+ Solaris, OpenIndiana, AIX, QNX, IRIX, HP-UX, Tru64, SCO OpenUnix,
+ UnixWare, FreeBSD, OpenBSD, NetBSD, DragonFly BSD, MirBSD, Ultrix
+ and OPENSTEP).</p>
+<p>Well guys, talk to us – we know we have one to several hundred
+ users world-wide but don’t really get a lot of feedback (so we
+ assume you like it).</p>
+----
+Date: 29.07.2011
+Author: tg@
+Title: Photos from the (inofficial) DC11 Booth Party ☺
+Tag: debian event fun
+
+<p>The pictures are hypertext references to large versions. Of
+ course, your photographer (me, although Samuel helped to set
+ up the PocketPC’s camera application correctly, 10x) also had
+ some Kruškovac ☺ (imported from Croatia into Bosnia)…</p>
+<p><a href="@@RELPATH@@pics/wlog/dc11-bp1.jpg"><img
+ alt="spontaneous late night meeting at Front Desk"
+ src="@@RELPATH@@pics/wlog/dc11_bp1.jpg" /></a></p>
+<p>Of course we were not above closing Front Desk either ☻☺</p>
+<p><a href="@@RELPATH@@pics/wlog/dc11-bp2.jpg"><img
+ alt="Best Friends" src="@@RELPATH@@pics/wlog/dc11_bp2.jpg" /></a></p>
+----
+Date: 03.09.2011 17:34
+Author: tg@
+Title: Saturday Noon Cat wlog-entry-writing
+Tag: debian fun geocache
+
+<p>As <a href="@@RELPATH@@permalinks/wlog-10_e20080725-tg.htm">written
+ about here earlier</a>, cats have a nice life. I walked into my home
+ seeing three cats in a row, all black: two lazing around, the third
+ (with white spots, and belonging to a different neighbour from the
+ other two) ambulating. I went up and got my PocketPC with the already
+ mentioned camera application to take a shoot. Sadly, the more shy cat
+ went away, but I got some pictures of the other two – here they are,
+ internet photo stars ☺ follow the hyperlink to get a large version.</p>
+<p><a href="@@RELPATH@@pics/wlog/cats-1.jpg"><img
+ alt="two of three black cats I met today… in a row!"
+ src="@@RELPATH@@pics/wlog/cats_1.jpg" /></a></p>
+<p>Later I came back from geocaching (2 GC.COM-only, 1 OC-only *yay!*
+ found, one not found due to not taking <em>any</em> hardware with me)
+ the bigger guy lazed around in the bush next to where I usually park
+ my bike. Lucky…</p>
 ----
