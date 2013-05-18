@@ -20,22 +20,33 @@
 
 #include <sys/param.h>
 #include <err.h>
+#include <errno.h>
 #include <limits.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $");
+__RCSID("$MirOS: www/mk/strftm.c,v 1.1 2008/11/08 16:28:46 tg Exp $");
 
 extern const char *__progname;
 
 char buf[4096];
 
 #define CONVERT(num, elem, name, minval, maxval) do {			\
-	const char *e;							\
+	const char *e = NULL;						\
+	char *ep;							\
+	long long res;							\
 									\
-	tm.elem = strtonum(argv[num], (minval), (maxval), &e);		\
+	tm.elem = res = strtoll(argv[num], &ep, 0);			\
+	if (ep == argv[num] || *ep != '\0')				\
+		e = "invalid";						\
+	else if ((res == LLONG_MIN && errno == ERANGE) ||		\
+	    res < (minval))						\
+		e = "too small";					\
+	else if ((res == LLONG_MAX && errno == ERANGE) ||		\
+	    res > (maxval))						\
+		e = "too large";					\
 	if (e != NULL)							\
 		errx(2, "%s value 「%s」 is %s", (name), argv[num], e);	\
 } while (/* CONSTCOND */ 0)
