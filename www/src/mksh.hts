@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.499 2013/02/18 23:19:39 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.500 2013/02/19 19:29:12 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1158,7 +1158,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
- <li>…</li>
+ <li>[tg] "$@" always generates words; bug spotted by engla in IRC</li>
+ <li>[tg] Optimise print_columns display to use the screen space better</li>
 </ul>
 <p id="r43">Please upgrade to mksh R43 (or stick on R41c) because of…</p><ul>
  <li>[tg] Do not permit <tt>$'…'</tt> and <tt>$"…"</tt> in anything that
