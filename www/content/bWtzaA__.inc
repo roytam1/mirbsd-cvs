@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.89 2007/03/05 21:34:53 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.90 2007/03/10 21:49:14 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -520,8 +520,8 @@
 <h2 id="fetch">Getting The Source</h2>
 
 <p>The current version is:</p><ul>
- <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29.cpio.gz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29b.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29b.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29b.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29b.cpio.gz</a></li>
  <li>Please use gzsig(1) to verify the integrity of the distfile instead!
   Hashes are only so you know which distfile you want.</li>
  <li>RMD160 (mksh-R29b.cpio.gz) = a329df3c012819dc5fb593dda5d9a52951bda81b</li>
