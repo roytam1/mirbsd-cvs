@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.8 2006/02/23 17:45:03 tg Exp $
+# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.9 2006/02/24 11:55:15 tg Exp $
 
 # extra
 
@@ -46,6 +46,10 @@ SPECIAL	sed 's!^.*rmitRootLogi.*!PermitRootLogin yes!' <${DESTDIR}/etc/ssh/sshd_
 SPECIAL	sed 's!^root:.*!root:x:0:0:daemon:0:0:MirOS Ramdisk Root:/:/bin/mksh!' <${DESTDIR}/etc/master.passwd >etc/master.passwd
 
 SPECIAL	/usr/sbin/pwd_mkdb -d ./etc /etc/master.passwd
+
+SPECIAL	mkdir -p .etc/ssh
+SPECIAL	chmod 700 .etc .etc/ssh
+SPECIAL	cp ${DESTDIR}/etc/skel/.etc/ssh/known_hosts .etc/ssh/known_hosts
 
 # stuff
 
