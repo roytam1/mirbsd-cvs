@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.5 2006/04/10 19:10:50 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.6 2006/04/10 19:11:52 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006
@@ -418,14 +418,8 @@ LpreCD:	UD(13)			/** M: cd-rom boot */
 LpreFD:	/* prepare booting */
 #ifdef BOOTSELECT_HOOK
 	UD(37)			/** e: calling the hook */
-	xor	eax,eax
 	call	Lhook
 	push	eax
-#if 0
-	add	ax,0x4030
-		gs mov [(0x0C86)], ax; \
-		push ax; xor ax,ax; int 0x16; pop ax
-#endif
 #endif
 	UD(14)			/** N: preparing 32-bit */
 	xor	edx,edx
@@ -537,11 +531,6 @@ Lpmode:	mov	eax,0x10
 	/* store saved hook value */
 	pop	ecx
 	mov	[_C_LABEL(hook_value)],ecx
-#if 0
-	mov ebx,(0xB8C88); \
-	add	cx,0x4030
-		mov word ptr [ebx],cx
-#endif
 #endif
 	/* store saved BIOS boot device */
 	pop	edx
