@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/roff2htm,v 1.11 2005/11/15 20:30:18 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.12 2005/11/15 20:33:06 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005
@@ -124,7 +124,7 @@ output_header()
 		</head><body>
 		<h1>MirOS Manual: <a href="../man${2}/${1}.htm"><tt>${1}(${2})</tt></a></h1>
 		<p style="font-size:xx-small;">Generated on ${gendate} by
-		 \$MirOS: src/scripts/roff2htm,v 1.11 2005/11/15 20:30:18 tg Exp $</p>
+		 \$MirOS: src/scripts/roff2htm,v 1.12 2005/11/15 20:33:06 tg Exp $</p>
 		<hr />
 	EOF
 }
@@ -179,7 +179,7 @@ convert_all()
 	gendate=$(date +"%F %T")	# current time
 	tp=${2:-$(pwd)/mbsdman}		# target basepath
 
-	for x in $(jot 9 1) 3p; do
+	for x in 1 2 3 3p 4 5 6 7 8 9; do
 		mkdir -p $tp/man$x	# one per section
 		print DirectoryIndex /dev/null >$tp/man$x/.htaccess
 	done
