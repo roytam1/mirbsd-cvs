@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$NetBSD: locale.c,v 1.5 2006/02/16 19:19:49 tnozaki Exp $	*/
 
 /*-
@@ -29,17 +30,12 @@
  */
 
 #include <sys/cdefs.h>
-#if defined(LIBC_SCCS) && !defined(lint)
+__RCSID("$MirOS$");
 __RCSID("$NetBSD: locale.c,v 1.5 2006/02/16 19:19:49 tnozaki Exp $");
-#endif /* LIBC_SCCS and not lint */
 
 /*
  * XXX: implement missing era_* (LC_TIME) keywords (require libc &
  *	nl_langinfo(3) extensions)
- *
- * XXX: correctly handle reserved 'charmap' keyword and '-m' option (require
- *      localedef(1) implementation).  Currently it's handled via
- *	nl_langinfo(CODESET).
  */
 
 #include <sys/types.h>
@@ -53,32 +49,22 @@ __RCSID("$NetBSD: locale.c,v 1.5 2006/02/16 19:19:49 tnozaki Exp $");
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stringlist.h>
 #include <unistd.h>
 
-#ifdef CITRUS
-#include "citrus_namespace.h"
-#include "citrus_region.h"
-#include "citrus_lookup.h"
-#endif
-#include "rune.h"
+extern const char *__progname;
 
 /* Local prototypes */
-void	init_locales_list(void);
-void	init_locales_list_alias(void);
-void	list_charmaps(void);
-void	list_locales(void);
-const char *lookup_localecat(int);
-char	*kwval_lconv(int);
-int	kwval_lookup(char *, char **, int *, int *);
-void	showdetails(char *);
-void	showkeywordslist(void);
-void	showlocale(void);
-void	usage(void);
+static void list_charmaps(void);
+static void list_locales(void);
+static const char *lookup_localecat(int);
+static char *kwval_lconv(int);
+static int kwval_lookup(char *, char **, int *, int *);
+static void showdetails(char *);
+static void showkeywordslist(void);
+static void showlocale(void);
+__dead static void usage(void);
 
 /* Global variables */
-static StringList *locales = NULL;
-
 int	all_locales = 0;
 int	all_charmaps = 0;
 int	prt_categories = 0;
@@ -116,12 +102,14 @@ struct _lcinfo {
 #define KW_N_SEP_BY_SPACE 	(KW_ZERO+14)
 #define KW_P_SIGN_POSN 		(KW_ZERO+15)
 #define KW_N_SIGN_POSN 		(KW_ZERO+16)
+#ifdef __NetBSD__
 #define KW_INT_P_CS_PRECEDES 	(KW_ZERO+17)
 #define KW_INT_P_SEP_BY_SPACE 	(KW_ZERO+18)
 #define KW_INT_N_CS_PRECEDES 	(KW_ZERO+19)
 #define KW_INT_N_SEP_BY_SPACE 	(KW_ZERO+20)
 #define KW_INT_P_SIGN_POSN 	(KW_ZERO+21)
 #define KW_INT_N_SIGN_POSN 	(KW_ZERO+22)
+#endif
 
 struct _kwinfo {
 	const char	*name;
@@ -156,12 +144,14 @@ struct _kwinfo {
 	{ "n_sep_by_space",	0, LC_MONETARY,	KW_N_SEP_BY_SPACE, "" },
 	{ "p_sign_posn",	0, LC_MONETARY,	KW_P_SIGN_POSN, "" },
 	{ "n_sign_posn",	0, LC_MONETARY,	KW_N_SIGN_POSN, "" },
+#ifdef KW_INT_P_CS_PRECEDES
 	{ "int_p_cs_precedes",	0, LC_MONETARY,	KW_INT_P_CS_PRECEDES, "" },
 	{ "int_p_sep_by_space",	0, LC_MONETARY,	KW_INT_P_SEP_BY_SPACE, "" },
 	{ "int_n_cs_precedes",	0, LC_MONETARY,	KW_INT_N_CS_PRECEDES, "" },
 	{ "int_n_sep_by_space",	0, LC_MONETARY,	KW_INT_N_SEP_BY_SPACE, "" },
 	{ "int_p_sign_posn",	0, LC_MONETARY,	KW_INT_P_SIGN_POSN, "" },
 	{ "int_n_sign_posn",	0, LC_MONETARY,	KW_INT_N_SIGN_POSN, "" },
+#endif
 
 	{ "d_t_fmt",		1, LC_TIME,	D_T_FMT, "" },
 	{ "d_fmt",		1, LC_TIME,	D_FMT, "" },
@@ -207,11 +197,15 @@ struct _kwinfo {
 	{ "abmon_10",		1, LC_TIME,	ABMON_10, "" },
 	{ "abmon_11",		1, LC_TIME,	ABMON_11, "" },
 	{ "abmon_12",		1, LC_TIME,	ABMON_12, "" },
+#ifdef ERA
 	{ "era",		1, LC_TIME,	ERA, "(unavailable)" },
 	{ "era_d_fmt",		1, LC_TIME,	ERA_D_FMT, "(unavailable)" },
 	{ "era_d_t_fmt",	1, LC_TIME,	ERA_D_T_FMT, "(unavailable)" },
 	{ "era_t_fmt",		1, LC_TIME,	ERA_T_FMT, "(unavailable)" },
+#endif
+#ifdef ALT_DIGITS
 	{ "alt_digits",		1, LC_TIME,	ALT_DIGITS, "" },
+#endif
 
 	{ "yesexpr",		1, LC_MESSAGES, YESEXPR, "" },
 	{ "noexpr",		1, LC_MESSAGES, NOEXPR, "" },
@@ -253,7 +247,7 @@ main(int argc, char *argv[])
 	/* validate arguments */
 	if (all_locales && all_charmaps)
 		usage();
-	if ((all_locales || all_charmaps) && argc > 0) 
+	if ((all_locales || all_charmaps) && argc > 0)
 		usage();
 	if ((all_locales || all_charmaps) && (prt_categories || prt_keywords))
 		usage();
@@ -301,197 +295,33 @@ main(int argc, char *argv[])
 void
 usage(void)
 {
-	printf("usage: locale [ -a | -m ]\n"
-               "       locale [ -ck ] name ...\n");
+	printf("usage:\t%s [ -a | -m ]\n\t%s [ -ck ] name ...\n\t%s -k list\n",
+	    __progname, __progname, __progname);
 	exit(1);
 }
 
 /*
  * Output information about all available locales
- *
- * XXX actually output of this function does not guarantee that locale
- *     is really available to application, since it can be broken or
- *     inconsistent thus setlocale() will fail.  Maybe add '-V' function to
- *     also validate these locales?
  */
 void
 list_locales(void)
 {
-	size_t i;
-
-	init_locales_list();
-	for (i = 0; i < locales->sl_cur; i++) {
-		printf("%s\n", locales->sl_str[i]);
-	}
-}
-
-/*
- * qsort() helper function
- */
-static int
-scmp(const void *s1, const void *s2)
-{
-	return strcmp(*(const char **)s1, *(const char **)s2);
+	/* Hard-coded on MirOS:
+	 * C		Standard 7-bit (8-bit clean) single-byte locale
+	 * xx_XX.CESU-8	The only other locale (multi-byte LC_CTYPE)
+	 * en_US.UTF-8	Since nobody knows what CESU-8 is, we use this…
+	 * POSIX	This one is mandated by SUSv3
+	 */
+	printf("C\nen_US.CESU-8\nen_US.UTF-8\nPOSIX\n");
 }
 
 /*
  * Output information about all available charmaps
- *
- * XXX this function is doing a task in hackish way, i.e. by scaning
- *     list of locales, spliting their codeset part and building list of
- *     them.
  */
 void
 list_charmaps(void)
 {
-	size_t i;
-	char *s, *cs;
-	StringList *charmaps;
-
-	/* initialize StringList */
-	charmaps = sl_init();
-	if (charmaps == NULL)
-		err(1, "could not allocate memory");
-
-	/* fetch locales list */
-	init_locales_list();
-
-	/* split codesets and build their list */
-	for (i = 0; i < locales->sl_cur; i++) {
-		s = locales->sl_str[i];
-		if ((cs = strchr(s, '.')) != NULL) {
-			cs++;
-			if (sl_find(charmaps, cs) == NULL)
-				sl_add(charmaps, cs);
-		}
-	}
-
-	/* add US-ASCII, if not yet added */
-	if (sl_find(charmaps, "US-ASCII") == NULL)
-		sl_add(charmaps, "US-ASCII");
-
-	/* sort the list */
-	qsort(charmaps->sl_str, charmaps->sl_cur, sizeof(char *), scmp);
-
-	/* print results */
-	for (i = 0; i < charmaps->sl_cur; i++) {
-		printf("%s\n", charmaps->sl_str[i]);
-	}
-}
-
-/*
- * Retrieve sorted list of system locales (or user locales, if PATH_LOCALE
- * environment variable is set)
- */
-void
-init_locales_list(void)
-{
-	DIR *dirp;
-	struct dirent *dp;
-	char *s;
-
-	/* why call this function twice ? */
-	if (locales != NULL)
-		return;
-
-	/* initialize StringList */
-	locales = sl_init();
-	if (locales == NULL)
-		err(1, "could not allocate memory");
-
-	/* get actual locales directory name */
-	setlocale(LC_CTYPE, "C");
-	if (_PathLocale == NULL)
-		errx(1, "unable to find locales storage");
-
-	/* open locales directory */
-	dirp = opendir(_PathLocale);
-	if (dirp == NULL)
-		err(1, "could not open directory '%s'", _PathLocale);
-
-	/* scan directory and store its contents except "." and ".." */
-	while ((dp = readdir(dirp)) != NULL) {
-		/* exclude "." and "..", _LOCALE_ALIAS_NAME */
-		if ((dp->d_name[0] != '.' || (dp->d_name[1] != '\0' &&
-		    (dp->d_name[1] != '.' ||  dp->d_name[2] != '\0'))) &&
-		    strcmp(_LOCALE_ALIAS_NAME, dp->d_name) != 0) {
-			s = strdup(dp->d_name);
-			if (s == NULL)
-				err(1, "could not allocate memory");
-			sl_add(locales, s);
-		}
-	}
-	closedir(dirp);
-
-        /* make sure that 'POSIX' and 'C' locales are present in the list.
-	 * POSIX 1003.1-2001 requires presence of 'POSIX' name only here, but
-         * we also list 'C' for constistency
-         */
-	if (sl_find(locales, "POSIX") == NULL)
-		sl_add(locales, "POSIX");
-
-	if (sl_find(locales, "C") == NULL)
-		sl_add(locales, "C");
-
-	init_locales_list_alias();
-
-	/* make output nicer, sort the list */
-	qsort(locales->sl_str, locales->sl_cur, sizeof(char *), scmp);
-}
-
-void
-init_locales_list_alias(void)
-{
-	char aliaspath[PATH_MAX];
-#ifdef CITRUS
-	struct _lookup *hlookup;
-	struct _region key, dat;
-#else
-	FILE *fp;
-#endif
-	size_t n;
-	char *s, *t;
-
-	_DIAGASSERT(locales != NULL);
-	_DIAGASSERT(_PathLocale != NULL);
-
-	(void)snprintf(aliaspath, sizeof(aliaspath),
-		"%s/" _LOCALE_ALIAS_NAME, _PathLocale);
-
-#ifdef CITRUS
-	if (_lookup_seq_open(&hlookup, aliaspath,
-	    _LOOKUP_CASE_SENSITIVE) == 0) {
-		while (_lookup_seq_next(hlookup, &key, &dat) == 0) {
-			n = _region_size((const struct _region *)&key);
-			s = _region_head((const struct _region *)&key);
-			for (t = s; n > 0 && *s!= '/'; --n, ++s);
-#else
-	fp = fopen(aliaspath, "r");
-	if (fp != NULL) {
-		while ((s = fgetln(fp, &n)) != NULL) {
-			_DIAGASSERT(n > 0);
-			if (*s == '#' || *s == '\n')
-				continue;
-			for (t = s; n > 0 && strchr("/ \t\n", *s) == NULL;
-			    --n, ++s);
-#endif
-			n = (size_t)(s - t);
-			s = malloc(n);
-			if (s == NULL)
-				err(1, "could not allocate memory");
-			memcpy(s, t, n);
-			s[n] = '\0';
-			if (sl_find(locales, s) == NULL)
-				sl_add(locales, s);
-			else
-				free(s);
-		}
-#ifdef CITRUS
-		_lookup_seq_close(hlookup);
-#else
-		fclose(fp);
-#endif
-	}
+	printf("UTF-8\nISO_646.irv:1991\n");
 }
 
 /*
@@ -598,6 +428,7 @@ kwval_lconv(int id)
 		case KW_N_SIGN_POSN:
 			rval = &(lc->n_sign_posn);
 			break;
+#ifdef KW_INT_P_CS_PRECEDES
 		case KW_INT_P_CS_PRECEDES:
 			rval = &(lc->int_p_cs_precedes);
 			break;
@@ -616,6 +447,7 @@ kwval_lconv(int id)
 		case KW_INT_N_SIGN_POSN:
 			rval = &(lc->int_n_sign_posn);
 			break;
+#endif
 		default:
 			break;
 	}

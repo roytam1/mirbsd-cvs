@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/Makefile,v 1.11 2006/06/30 23:18:06 tg Exp $
+# $MirOS: src/usr.bin/Makefile,v 1.12 2006/11/01 22:59:00 tg Exp $
 # $OpenBSD: Makefile,v 1.90 2004/05/02 17:55:09 millert Exp $
 
 .include <bsd.own.mk>
@@ -72,6 +72,7 @@
   SUBDIR+= less
   SUBDIR+= lex
   SUBDIR+= lndir
+  SUBDIR+= locale
   SUBDIR+= locate
   SUBDIR+= lock
   SUBDIR+= logger
