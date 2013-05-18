@@ -3,7 +3,7 @@
 #define mir18n_attributes
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/tbl_attr.c,v 1.5 2007/07/15 19:24:21 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/tbl_attr.c,v 1.6 2008/07/04 22:03:19 tg Exp $");
 
 /* generated automatically from UnicodeData-5.0.0d10.txt (BMP) */
 /* added attributes to U+1E9E uppercase eszett */
@@ -14771,8 +14771,6 @@ static const unsigned char attribute_table_pageff[256] = {
 	/* 0xfffe */ 0,
 	/* 0xffff */ 0
 };
-
-extern const unsigned char __C_attribute_table_pg[256];
 
 const unsigned char * const attribute_table[0x100] = {
 	__C_attribute_table_pg, attribute_table_page01,
