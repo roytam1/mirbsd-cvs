@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.326 2010/03/14 11:58:27 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.327 2010/03/14 19:45:17 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -816,6 +816,12 @@ mws_content <<'EOF'
  href="http://www.errements.net/slackbuilds/mksh/">packaging</a> for mksh</li>
 <li>Matt “lewellyn” Lewandowsky has created (Open)Solaris <a
  href="http://www.greenviolet.net/projects/general-open-source/mksh.gv">packages</a></li>
+<li>Apparently, there is an <a href="http://www.openpkg.org/product/packages/?package=mksh">OpenPKG
+ package</a> as well</li>
+<li><a href="http://svn.rpmforge.net/svn/trunk/rpms/mksh/mksh.spec">Dag
+ Wieers</a> has an RPMforge package too, based on Fedora’s by Robert Scheck</li>
+<li>The <a href="http://cvs.pld-linux.org/cgi-bin/cvsweb.cgi/packages/mksh/mksh.spec">PLD
+ Linux Distribution</a> also has one</li>
 <li>There are probably many more, please drop us a note!</li>
 <li><a href="http://linux.softpedia.com/get/System/Shells/MirBSD-Korn-Shell-24602.shtml">Softpedia</a>
  lists mksh, just like the FSF/UNESCO directory.</li>
