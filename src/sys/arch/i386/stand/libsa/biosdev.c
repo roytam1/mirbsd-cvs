@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.14 2008/12/28 20:17:32 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.15 2008/12/28 21:23:24 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -825,7 +825,7 @@ disk_trylabel(struct diskinfo *dip)
 		st = NULL;
 	}
  out:
-	if (dip->bios_info.flags & BDI_BADLABEL)
+	if ((dip->bios_info.flags & BDI_BADLABEL) && st == NULL)
 		st = "*none*";
 	if (st != NULL) {
 		printf("%s\n", st);
