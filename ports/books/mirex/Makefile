@@ -1,10 +1,10 @@
-# $MirOS: ports/books/mirex/Makefile,v 1.10 2006/06/15 19:18:42 tg Exp $
+# $MirOS: ports/books/mirex/Makefile,v 1.11 2006/09/14 00:07:29 tg Exp $
 
-COMMENT=			MirOS sample files, keys and information
+COMMENT=		MirOS sample files, keys and information
 CATEGORIES=		books
 CVS_DISTREPO=		${_MIROS_ANONCVS}
-CVS_DISTDATE=		2006/05/28
-CVS_DISTMODS=		contrib/samples src/share/doc/README
+CVS_DISTDATE=		2006/10/17 21:42
+CVS_DISTMODS=		contrib/samples src/share/doc/README src/share/misc
 CVS_DISTFILE=		mirex
 PKGNAME=		${_CVS_DISTF:R}-0
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
@@ -33,5 +33,7 @@ pre-install:
 .for _k in ${KEYS}
 	${INSTALL_DATA} ${WRKBUILD}/gzsigkey.${_k} ${DATA_DIR}/
 .endfor
+	cd ${WRKDIR}/src/share/misc && ${INSTALL_DATA} \
+	    acronyms getopt *.template utf-8-demo ${DATA_DIR}/
 
 .include <bsd.port.mk>
