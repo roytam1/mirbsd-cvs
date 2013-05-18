@@ -89,7 +89,7 @@ wcstoul			#wchar.h	-
 wcstoull		#wchar.h	-
 wcswcs			 wchar.h	H:wmemchr	string/wcsstr.c
 wcswidth		 wchar.h	-		libhaible/wcswidth.c
-wcsxfrm			#wchar.h	H:wmemchr
+wcsxfrm			 wchar.h	H:wmemchr	libhaible/wcsxfrm.c
 wctob			 wchar.h	C:wctob		i18n/wctob.c
 wctomb			 stdlib.h	C:wctomb	libhaible/wctomb.c
 wctrans			 wctype.h	H:wctrans	libhaible/wctrans.c
