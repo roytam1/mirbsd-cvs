@@ -1,9 +1,9 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.24 2010/01/01 18:27:41 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.25 2010/10/08 19:55:26 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.18 2005/05/27 21:28:12 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
 /*-
- * Copyright (c) 2005, 2006
+ * Copyright (c) 2005, 2006, 2011
  *	Thorsten "mirabilos" Glaser <tg@MirBSD.org>
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -119,7 +119,7 @@
  * GCC1 and some versions of GCC2 declare dead (non-returning) and
  * pure (no side effects) functions using "volatile" and "const";
  * unfortunately, these then cause warnings under "-ansi -pedantic".
- * GCC >= 2.5 uses the __attribute__((attrs)) style.  All of these
+ * GCC >= 2.5 uses the __attribute__((__attrs__)) style. All of these
  * work for GNU C++ (modulo a slight glitch in the C++ grammar in
  * the distribution version of 2.5.5).
  * For GCC 3, the ANSI parser seems to be able to cope with attributes.
@@ -184,9 +184,7 @@
 #define __weak_extern(sym)	__asm__(".weak " #sym);
 #endif
 
-#if __GNUC__ >= 3
-#define	__packed		__attribute__((packed))
-#elif __GNUC_PREREQ__(2, 7)
+#if (__GNUC__ >= 3) || __GNUC_PREREQ__(2, 7)
 #define	__packed		__attribute__((__packed__))
 #elif defined(__PCC__)
 #define	__packed		_Pragma("packed 1")
@@ -204,15 +202,18 @@
 #define __restrict__
 #define __unused
 #define __a_used
+#define __a_deprecated
 #elif defined(__PCC__)
 #define __aligned(x)		_Pragma("aligned " #x)
 #define __restrict__		restrict
-#define __unused		__attribute__((unused))
+#define __unused		__attribute__((__unused__))
 #define __a_used
+#define __a_deprecated
 #else
-#define __aligned(x)		__attribute__((aligned (x)))
-#define __unused		__attribute__((unused))
-#define __a_used		__attribute__((used))
+#define __aligned(x)		__attribute__((__aligned__ (x)))
+#define __unused		__attribute__((__unused__))
+#define __a_used		__attribute__((__used__))
+#define __a_deprecated		__attribute__((__deprecated__))
 #endif
 
 #if defined(__ELF__) && defined(__GNUC__) && \
