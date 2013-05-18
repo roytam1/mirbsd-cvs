@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.106 2006/03/02 01:17:37 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.107 2006/03/23 21:36:22 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2439,6 +2439,9 @@ _EXTRA_DESCRIBE+=	"(uses PKZip)"
 .endif
 .if ${_USE_BZIP2:L} == "yes"
 _EXTRA_DESCRIBE+=	"(uses BZip2)"
+.endif
+.if ${NO_SYSTRACE:L} != "no"
+_EXTRA_DESCRIBE+=	"(disables systrace)"
 .endif
 .for _i in ${EMUL}
 _EXTRA_DESCRIBE+=	"(uses ${_i} personality)"
