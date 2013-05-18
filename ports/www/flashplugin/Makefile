@@ -1,4 +1,4 @@
-# $MirOS: ports/www/flashplugin/Makefile,v 1.3 2005/04/11 15:57:04 tg Exp $
+# $MirOS: ports/www/flashplugin/Makefile,v 1.4 2006/09/14 00:14:35 tg Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 
@@ -26,7 +26,7 @@ IGNORE+=	"additional restrictions shown at the licence page,"
 IGNORE+=	"http://www.macromedia.com/shockwave/download/license/desktop/"
 IGNORE+=	"Build this port with NO_IGNORE=Yes if you understood."
 
-RUN_DEPENDS=    :redhat_base->=8.0:emulators/redhat/base
+RUN_DEPENDS+=	::emulators/fedora
 
 NO_BUILD=	Yes
 NO_REGRESS=	Yes

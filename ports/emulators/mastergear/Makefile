@@ -20,7 +20,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=	${HOMEPAGE}
 EXTRACT_SUFX=	.tar.Z
 
-RUN_DEPENDS=	:redhat_base-*:emulators/redhat/base
+RUN_DEPENDS+=		::emulators/fedora
 
 USE_X11=	Yes
 NO_BUILD=	Yes

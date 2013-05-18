@@ -1,4 +1,4 @@
-# $MirOS: ports/math/maple/Makefile,v 1.4 2006/09/14 00:10:57 tg Exp $
+# $MirOS: ports/math/maple/Makefile,v 1.5 2007/03/31 22:02:03 tg Exp $
 # $OpenBSD: Makefile,v 1.22 2002/12/29 19:43:50 fgsch Exp $
 # XXX This port installs in a somewhat unusual way.
 
@@ -22,7 +22,7 @@ TRUEMAPLE_DIR?=${TRUEPREFIX}/maple
 DISTNAME=	maple-5.5
 CATEGORIES=     math
 
-RUN_DEPENDS=	:redhat_base-*:emulators/redhat/base
+RUN_DEPENDS+=		::emulators/fedora
 
 PERMIT_DISTFILES_CDROM=	"commercial"
 PERMIT_DISTFILES_FTP=	"commercial"

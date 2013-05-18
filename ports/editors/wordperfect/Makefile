@@ -1,4 +1,4 @@
-# $MirOS: ports/editors/wordperfect/Makefile,v 1.4 2005/07/07 21:20:43 bsiegert Exp $
+# $MirOS: ports/editors/wordperfect/Makefile,v 1.5 2006/09/14 00:09:06 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2004/01/25 21:10:50 pvalchev Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
@@ -19,7 +19,7 @@ MASTER_SITES=	see_do-fetch_target
 
 DISTNAME=	WordPerfect
 
-RUN_DEPENDS=    :redhat_base-*:emulators/redhat/base
+RUN_DEPENDS+=		::emulators/fedora
 
 IS_INTERACTIVE=	yes
 

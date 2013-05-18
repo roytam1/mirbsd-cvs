@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/blender/Makefile,v 1.4 2005/07/07 21:21:35 bsiegert Exp $
+# $MirOS: ports/graphics/blender/Makefile,v 1.5 2006/09/14 00:09:47 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2002/12/29 20:08:46 fgsch Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
@@ -19,7 +19,7 @@ PERMIT_DISTFILES_FTP=	"no commercial use"
 MASTER_SITES=	ftp://ftp.cs.umn.edu/pub/blender/pub/ \
 		http://www.download.blender.pl/mirror/
 
-RUN_DEPENDS=	:redhat_base-*:emulators/redhat/base
+RUN_DEPENDS+=		::emulators/fedora
 
 INSTALL_STRIP=
 NO_BUILD=	Yes

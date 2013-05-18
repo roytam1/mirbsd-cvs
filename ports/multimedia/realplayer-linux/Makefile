@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/realplayer-linux/Makefile,v 1.2 2006/03/24 13:57:07 tg Exp $
+# $MirOS: ports/multimedia/realplayer-linux/Makefile,v 1.3 2006/09/14 00:11:28 tg Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
@@ -16,7 +16,7 @@ PERMIT_PACKAGE_FTP=	"commercial, redistribution not permitted"
 PERMIT_DISTFILES_CDROM=	"commercial, redistribution not permitted"
 PERMIT_DISTFILES_FTP=	"commercial, redistribution not permitted"
 
-RUN_DEPENDS=		:redhat_base->=6.2:emulators/redhat/base
+RUN_DEPENDS+=		::emulators/fedora
 BUILD_DEPENDS=		::converters/rpm2cpio
 
 NO_REGRESS=		Yes

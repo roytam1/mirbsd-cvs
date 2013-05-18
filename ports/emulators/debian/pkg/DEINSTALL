@@ -1,8 +1,0 @@
-#!/bin/sh
-# $MirOS$
-
-PATH=/bin:/usr/bin:/sbin:/usr/sbin
-PREFIX=${PKG_PREFIX:-/usr/local}
-
-$PREFIX/emul/linux/linuxctl deregister ${PREFIX}/emul/debian dbl
-exit 0

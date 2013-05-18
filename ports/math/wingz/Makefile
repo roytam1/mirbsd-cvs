@@ -1,4 +1,4 @@
-# $MirOS: ports/math/wingz/Makefile,v 1.4 2005/07/07 21:23:29 bsiegert Exp $
+# $MirOS: ports/math/wingz/Makefile,v 1.5 2006/09/14 00:11:02 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2002/10/27 18:29:15 naddy Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
@@ -18,8 +18,12 @@ PERMIT_PACKAGE_FTP=	"shareware"
 PERMIT_DISTFILES_CDROM=	"shareware"
 PERMIT_DISTFILES_FTP=	Yes
 
+WRKDIST=	${WRKDIR}
+USE_X11=	Yes
 NO_BUILD=	Yes
 NO_REGRESS=	Yes
+
+RUN_DEPENDS+=		::emulators/fedora
 
 do-configure:
 	@cd ${WRKDIST} && \
@@ -31,10 +35,4 @@ do-install:
 	${INSTALL_DATA} ${WRKDIST}/Wingz/Wingz.Xdefs ${PREFIX}/lib/X11/app-defaults/Wingz
 	@install -m 666 /dev/null ${PREFIX}/lib/X11/Wingz/.wingz
 	
-RUN_DEPENDS=    :redhat_base-*:emulators/redhat/base
-
-WRKDIST=	${WRKDIR}
-
-USE_X11=	Yes
-
 .include <bsd.port.mk>

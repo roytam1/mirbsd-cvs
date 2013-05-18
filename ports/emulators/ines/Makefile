@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/ines/Makefile,v 1.4 2005/07/07 21:20:45 bsiegert Exp $
+# $MirOS: ports/emulators/ines/Makefile,v 1.5 2006/09/14 00:09:10 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2003/04/10 18:08:56 jsyn Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
@@ -19,7 +19,7 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=	${HOMEPAGE}
 EXTRACT_SUFX=	.tar.Z
 
-RUN_DEPENDS=	:redhat_base-*:emulators/redhat/base
+RUN_DEPENDS+=		::emulators/fedora
 
 USE_X11=	Yes
 NO_BUILD=	Yes

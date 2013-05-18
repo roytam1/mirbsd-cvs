@@ -1,4 +1,4 @@
-# $MirOS: ports/security/uvscan/Makefile,v 1.4 2005/07/07 21:26:27 bsiegert Exp $
+# $MirOS: ports/security/uvscan/Makefile,v 1.5 2006/09/14 00:13:24 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2004/01/14 19:20:39 jakob Exp $
 # $NetBSD: Makefile,v 1.1.1.1 2000/06/05 12:01:24 rh Exp $
 
@@ -21,7 +21,7 @@ PERMIT_PACKAGE_FTP=	"Commercial software"
 PERMIT_DISTFILES_CDROM=	"Commercial software"
 PERMIT_DISTFILES_FTP=	"Commercial software"
 
-RUN_DEPENDS=	:redhat_base-*:emulators/redhat/base \
+RUN_DEPENDS+=		::emulators/fedora \
 		:uvscan_dat-*:security/uvscan_dat
 
 NO_BUILD=	Yes

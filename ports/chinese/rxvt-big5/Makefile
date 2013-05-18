@@ -1,4 +1,4 @@
-# $MirOS: ports/chinese/rxvt-big5/Makefile,v 1.4 2005/07/07 21:17:56 bsiegert Exp $
+# $MirOS: ports/chinese/rxvt-big5/Makefile,v 1.5 2006/09/14 00:07:33 tg Exp $
 
 BROKEN=		the PLIST just doesnt look right to me...
 
@@ -26,7 +26,7 @@ EXTRACT_ONLY=
 DIST_SUBDIR=	rpm
 
 BUILD_DEPENDS=	:rpm->=3.0.6p1:misc/rpm
-RUN_DEPENDS=	::emulators/redhat/base \
+RUN_DEPENDS+=	::emulators/fedora \
 		::chinese/taipeifonts
 
 NO_BUILD=	Yes

@@ -6,8 +6,7 @@
 # Subdirectory MUST define DIRNAME, LOCATION and PROGRAM_V.
 
 .if ${EMUL} == "linux"
-BUILD_DEPENDS=		:redhat_base-*:emulators/redhat/base 
-RUN_DEPENDS=		${BUILD_DEPENDS}
+B_R_DEPENDS+=		::emulators/fedora
 SUPPORTED=		supported
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 .endif

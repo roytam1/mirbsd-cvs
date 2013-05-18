@@ -1,4 +1,4 @@
-# $MirOS: ports/games/adom/Makefile,v 1.3 2005/04/11 15:55:24 tg Exp $
+# $MirOS: ports/games/adom/Makefile,v 1.4 2006/09/14 00:09:17 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2003/10/18 15:46:53 sturm Exp $
 # Author: Thomas Biskup <rpg@saranxis.ruhr.de>
 
@@ -31,7 +31,7 @@ ADOMOWN?=	games
 # can't be changed except by patching the binary
 HISCORE_DIR=	/var/lib/adom
 
-RUN_DEPENDS+=	:redhat_base-*:emulators/redhat/base
+RUN_DEPENDS+=		::emulators/fedora
 
 do-install:
 	@${INSTALL_DATA_DIR} ${ADOM_DOC}
