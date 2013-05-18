@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/bsdstats,v 1.18 2007/03/09 13:46:11 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.19 2007/03/11 18:51:02 tg Exp $
 # $FreeBSD: /usr/local/www/cvsroot/FreeBSD/ports/sysutils/bsdstats/files/300.statistics,v 1.33 2006/10/04 04:51:41 scrappy Exp $
 
 rpt='http://rpt.bsdstats.org/scripts/'
@@ -134,6 +134,9 @@ if (( $(date -r $stats_report_time +%Y%m) < $(date -r $now +%Y%m) )); then
 	    /usr/bin/ftp -Vo - "$rpt$uri" 2>/dev/null)
 	print -r "done $uri -> ${res:-ERROR}" | logger -t bsdstats
 	(( ok )) && stats_report_time=$(date +%s)
+	(( ok )) && print "Reported successfully on $(date)"
+else
+	print "Nothing to do for now..."
 fi
 install -c -o root -g staff -m 640 /dev/null /var/db/bsdstats.new
 print "stats_key=$stats_key" >/var/db/bsdstats.new
