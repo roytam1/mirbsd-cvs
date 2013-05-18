@@ -1,4 +1,4 @@
-# $MirOS: src/kern/z/Makefile.inc,v 1.2 2007/08/14 20:52:57 tg Exp $
+# $MirOS: src/kern/z/Makefile.inc,v 1.3 2008/08/01 14:59:56 tg Exp $
 
 .include "${KERNBASE}/Makefile.inc"
 
@@ -12,8 +12,19 @@ ZLIB_OBJS=	${ZLIB_SRCS:S/.c$/.o/}
 HOSTCC?=	${CC}
 HOSTCFLAGS?=	${CFLAGS}
 HOSTLDFLAGS?=	${LDFLAGS}
-CPPFLAGS+=	-I${KERNBASE}/z -I.
 HOSTCPPFLAGS?=	${CPPFLAGS}
+.if ${CPPFLAGS:N1:S-I${KERNBASE}/z1:M1} == ""
+CPPFLAGS+=	-I${KERNBASE}/z
+.endif
+.if ${CPPFLAGS:M-I.} == ""
+CPPFLAGS+=	-I.
+.endif
+.if ${HOSTCPPFLAGS:N1:S-I${KERNBASE}/z1:M1} == ""
+HOSTCPPFLAGS+=	-I${KERNBASE}/z
+.endif
+.if ${HOSTCPPFLAGS:M-I.} == ""
+HOSTCPPFLAGS+=	-I.
+.endif
 
 crc32.h: mk_crc32
 	./mk_crc32

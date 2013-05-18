@@ -85,13 +85,15 @@
 #include "inflate.h"
 #include "inffast.h"
 
-zRCSID("$MirOS: src/kern/z/inflate.c,v 1.2 2008/08/01 13:46:10 tg Exp $")
+zRCSID("$MirOS: src/kern/z/inflate.c,v 1.3 2008/08/01 14:59:58 tg Exp $")
 
 #ifdef MAKEFIXED
 #  ifndef BUILDFIXED
 #    define BUILDFIXED
 #  endif
 #endif
+
+ZCONST char zERRMSG[] = "error";
 
 /* function prototypes */
 local void fixedtables OF((struct inflate_state FAR *state));

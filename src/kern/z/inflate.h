@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/z/inflate.h,v 1.2 2008/08/01 13:46:10 tg Exp $ */
+/* $MirOS: src/kern/z/inflate.h,v 1.3 2008/08/01 14:59:58 tg Exp $ */
 
 /* inflate.h -- internal inflate state definition
  * Copyright (C) 1995-2004 Mark Adler
@@ -117,7 +117,7 @@ struct inflate_state {
 };
 
 #ifdef SMALL
-ZEXTERN ZCONST char zERRMSG[] = "error";
+ZEXTERN ZCONST char zERRMSG[];
 #define zSETSMSG(x)	strm->msg = zERRMSG
 #else
 #define zSETSMSG(x)	strm->msg = (ZCONST char *)x
