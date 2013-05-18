@@ -2,9 +2,10 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.217 2009/04/05 15:55:16 tg Exp $'
+mws_setrss "tag_mksh.rss"
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.218 2009/04/07 20:39:58 tg Exp $'
 mws_content <<'EOF'
-<h1>mksh(1) R37b</h1>
+<h1>mksh(1) R37c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
  Public Domain Korn Shell (pdksh).</p>
@@ -35,8 +36,8 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R37b</strong> from
- <em>5 April 2009</em>.</p>
+<p>The current version of mksh is <strong>mksh R37c</strong> from
+ <em>7 April 2009</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive, which helps
  in keeping mksh portable to several Unixes and compilers, and track down some
@@ -162,14 +163,14 @@ mws_content <<'EOF'
  extract from the CPIO distfile and is available even on a stock Microsoft®
  Windows® installation.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R37b.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R37b.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R37b.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R37b.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R37c.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R37c.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R37c.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R37c.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R37b.cpio.gz) = f2dc6ba853ffad391f3954a75cc92cb8e85c7dc5</li>
- <li>TIGER (mksh-R37b.cpio.gz) = 3793d4069407308213a4620c9ff2cc67d45d670889541c2e</li>
- <li>3671511001 266868 /MirOS/dist/mir/mksh/mksh-R37b.cpio.gz</li>
- <li>MD5 (mksh-R37b.cpio.gz) = 12d8f271ad57593545476c7f0ec35d97</li>
+ <li>RMD160 (mksh-R37c.cpio.gz) = 3403ae2195a1f369df2ee64fbb3ec2a4c62d2212</li>
+ <li>TIGER (mksh-R37c.cpio.gz) = d06fd072a26d552047d4597e0f65f5aaa1d1fb38d21014ce</li>
+ <li>3018305415 268074 /MirOS/dist/mir/mksh/mksh-R37c.cpio.gz</li>
+ <li>MD5 (mksh-R37c.cpio.gz) = ecd6b95dbdb5ead1fc065a3044142379</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
 </ul>
 
@@ -182,9 +183,9 @@ mws_content <<'EOF'
 <p>The first example is using BSD paxtar (MirOS BSD, OpenBSD, NetBSD®), or
  “bsdtar” (DragonFly); the second and third use cpio(1) or pax(1) and are
  for most operating systems; the fourth is for Debian.</p><ul>
-<li>$ tar xzf mksh-R37b.cpio.gz &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R37b.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R37b.cpio.gz | pax -r &amp;&amp; cd mksh</li>
+<li>$ tar xzf mksh-R37c.cpio.gz &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R37c.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R37c.cpio.gz | pax -r &amp;&amp; cd mksh</li>
 </ul>
 
 <h3 id="compile">Compilation</h3>
@@ -575,11 +576,13 @@ mws_content <<'EOF'
  ChangeLog</a>, these are the packager-visible upgrade notes regarding
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
  support, packaging conventions, bad examples, etc).</p>
-<p>mksh R37c now honours <tt>-DMKSH_CONSERVATIVE_FDS</tt> and ACK.</p>
+<p>mksh R37c now honours <tt>-DMKSH_CONSERVATIVE_FDS</tt> and ACK.
+ The regression test suite keeps <tt>LOCPATH</tt> around.</p>
 <p>mksh R37b now honours <tt>-DMKSH_UNEMPLOYED</tt> for the jobless
  mode required on, at least, Minix 3.</p>
 <p>Freshmeat announcements <strong>have ceased</strong> because the
- site switched to a very user-unfriendly HTML (especially Lynx).</p>
+ site switched to a very user-unfriendly HTML (especially Lynx). Use
+ the <a href="@@RELPATH@@tag_mksh.rss">RSS feed</a> instead.</p>
 <p>mksh R37 has a new ‘-combine’ <tt>Build.sh</tt> option. The
  <tt>-DMKSH_AFREE_DEBUG</tt> flag is gone due to a new allocator,
  which however honours <tt>-DUSE_REALLOC_MALLOC=0</tt>.</p>
@@ -1034,6 +1037,7 @@ mws_content <<'EOF'
  <li>[tg] Retain <tt>LOCPATH</tt> (for glibc locale) in <tt>check.pl</tt></li>
  <li>[tg] Document, simplify and clean up the code better</li>
  <li>[tg] Use <i>mirbsd.org</i> eMail addresses consistently</li>
+</ul>
 <p id="r37b">mksh R37b comes with the following fixes on top:</p><ul>
  <li>[tg] Clean up build system and <tt>dot.mkshrc</tt> some more</li>
  <li>[tg] Add getrusage(2) implementation using times(3) if none found</li>

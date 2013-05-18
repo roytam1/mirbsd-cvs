@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.106 2009/03/29 15:10:24 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.107 2009/04/05 15:55:16 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1506,4 +1506,25 @@ Tag: mksh rant
  both in Lynx and Opera, so I don’t know if this announcement has
  made it to there. I probably will cease to use Freshmeat, similarily
  as Slashdot, when it became unusable in Lynx. Damn “Web 2.0”!</p>
+----
+Title: mksh R37c released (no more fm.net broadcasts)
+Date: 07.04.2009 22:35
+Author: tg@
+Tag: mksh
+
+<p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell R37c</a> has been
+ released. You do not need to update if you are already running <a
+ href="@@RELPATH@@permalinks/news_e20090405-tg.htm">R37b</a>, unless one
+ of the following items affects you:</p><ul>
+<li>Fix a file descriptor bug on Minix 3 (all users are affected,
+ unless their Minix 3 version supports &gt;64 fds already)</li>
+<li>Support ACK on Minix 3 by means of a workaround</li>
+<li>Change structure alignment and padding (affects people getting a
+ SIGBUS or sometimes SIGSEGV on strict-alignment arches, e.g. IA64)</li>
+</ul>
+<p>Since bsiegert@ has not indicated willingness to take over Freshmeat
+ announcements of mksh releases, and I am almost unable and certainly
+ unwilling to, this ceases our use of said site's services. Please use <a
+ href="@@RELPATH@@tag_mksh.rss">https://www.mirbsd.org/tag_mksh.rss</a>
+ to keep informed about things related to the MirBSD Korn Shell.</p>
 ----
