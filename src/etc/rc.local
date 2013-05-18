@@ -1,5 +1,5 @@
 # $Id$
-# $MirOS: src/etc/rc.local,v 1.6 2007/01/18 23:55:01 tg Exp $
+# $MirOS: src/etc/rc.local,v 1.7 2008/03/23 15:32:28 tg Exp $
 # $OpenBSD: rc.local,v 1.38 2005/03/29 21:41:59 uwe Exp $
 
 # site-specific startup actions, daemons, and other things which
@@ -27,7 +27,7 @@ fi
 
 if [[ -x /usr/mpkg/bin/svscanboot ]]; then
 	echo -n ' daemontools'
-	/usr/mpkg/bin/pgrphack /usr/mpkg/bin/svscanboot &
+	/bin/mksh -T- /usr/mpkg/bin/svscanboot
 fi
 
 echo '.'
