@@ -1,8 +1,8 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.19 2005/12/17 05:46:09 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.8 2006/06/16 23:03:39 tg Rel $ */
 
 /*-
  * Copyright (c) 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten Glaser <tg@mirbsd.de>
  * Based upon some code
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.
@@ -19,8 +19,12 @@
  * All advertising materials mentioning features or use of this soft-
  * ware must display the following acknowledgement:
  *	This product includes material provided by Thorsten Glaser.
- * The acknowledgement needs not to be reprinted if this software was
- * only used in compiling the redistributed work.
+ * This acknowledgement does not need to be reprinted if this work is
+ * linked into a bigger work whose licence does not allow such clause
+ * and the author of this work is given due credit in the bigger work
+ * or its documentation. Specifically, re-using this code in any work
+ * covered by the GNU General Public License version 1 or Library Ge-
+ * neral Public License (any version) is permitted.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
  * express, or implied, to the maximum extent permitted by applicable
