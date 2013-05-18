@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.56 2009/11/15 12:54:30 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.57 2010/01/07 20:56:08 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -139,6 +139,9 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 
 	# Now we can try to access an eKey if there is one
 	[[ -x /usr/libexec/ekeyrng ]] && /usr/libexec/ekeyrng
+
+	# Enable mouse, if any, for extra possible entropy and copy/paste
+	[[ -x /usr/sbin/wsmoused ]] && /usr/sbin/wsmoused
 
 	# look if we're DHCP/TFTP enabled
 	if [ -e usr/libexec/tftpd ]; then
