@@ -279,7 +279,7 @@ ipx_ifinit(ifp, ia, sipx, scrub)
 		rtinit(&(ia->ia_ifa), (int)RTM_ADD, RTF_UP);
 	}
 	ia->ia_flags |= IFA_ROUTE;
-	rnd_bootpool_add(ia, sizeof(*ia));
+	rnd_lopool_addh(ia, sizeof(*ia));
 	splx(s);
 	return (0);
 }

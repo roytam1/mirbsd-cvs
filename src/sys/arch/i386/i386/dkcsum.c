@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/dkcsum.c,v 1.8 2009/11/09 19:43:44 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/dkcsum.c,v 1.9 2010/09/12 18:19:58 tg Exp $ */
 /*	$OpenBSD: dkcsum.c,v 1.19 2005/08/01 16:46:55 krw Exp $	*/
 
 /*-
@@ -145,7 +145,7 @@ dkcsumattach(void)
 		/* Find the BIOS device */
 		hit = 0;
 		for (bdi = bios_diskinfo; bdi->bios_number != -1; bdi++) {
-			rnd_bootpool_add(bdi, sizeof(*bdi));
+			rnd_lopool_addh(bdi, sizeof(*bdi));
 
 			/* Skip non-harddrives and bootable CD-ROMs */
 			if ((!(bdi->bios_number & 0x80)) ||

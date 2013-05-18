@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $ */
+/* $MirOS: src/sys/crypto/randcore.c,v 1.1 2010/09/19 18:55:33 tg Exp $ */
 
 /*-
  * Copyright © 2010
@@ -74,7 +74,7 @@ struct timeout rnd_lopool_timeout;
  * size, stack, and timing information, into the hash lopool.
  * We use Bob Jenkins’ one-at-a-time hash only for folding the
  * user-specified information into 32 oaat hashes (128 bytes)
- * and count the bytes we added. (rnd_bootpool_add adds an oaat
+ * and count the bytes we added. (rnd_lopool_addh adds an oaat
  * hash of the data, not the data itself.) Once the content is
  * 128 bytes or more, rnd_lopool_dequeue collapses them into
  * lopool_collapse where it will be picked up by the next run
@@ -116,7 +116,7 @@ rnd_pool_add(struct rnd_pooladd *sa, const void *d, size_t n)
  * filesystem superblock or other data of few entropic value
  */
 void
-rnd_bootpool_add(const void *vp, size_t n)
+rnd_lopool_addh(const void *vp, size_t n)
 {
 	struct rnd_pooladd pa;
 	uint32_t h;

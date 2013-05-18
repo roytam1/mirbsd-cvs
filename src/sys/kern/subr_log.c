@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/subr_log.c,v 1.4 2008/04/09 05:45:43 tg Exp $ */
+/**	$MirOS: src/sys/kern/subr_log.c,v 1.5 2008/04/09 06:07:15 tg Exp $ */
 /*	$OpenBSD: subr_log.c,v 1.13 2005/04/20 00:08:50 deraadt Exp $	*/
 /*	$NetBSD: subr_log.c,v 1.11 1996/03/30 22:24:44 christos Exp $	*/
 
@@ -83,7 +83,7 @@ initmsgbuf(buf, bufsize)
 	struct msgbuf *mbp;
 	long new_bufs;
 
-	rnd_bootpool_add(buf, bufsize);
+	rnd_lopool_addh(buf, bufsize);
 
 	/* Sanity-check the given size. */
 	if (bufsize < sizeof(struct msgbuf))

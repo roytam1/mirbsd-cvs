@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/disksubr.c,v 1.7 2009/02/09 11:26:41 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/disksubr.c,v 1.8 2009/02/09 13:09:19 tg Exp $ */
 /*	$OpenBSD: disksubr.c,v 1.44 2004/03/17 14:16:04 miod Exp $	*/
 /*	$NetBSD: disksubr.c,v 1.21 1996/05/03 19:42:03 christos Exp $	*/
 
@@ -335,7 +335,7 @@ readdisklabel(dev_t dev, void (*strat)(struct buf *), struct disklabel *lp,
 		bp->b_flags = B_BUSY | B_READ;
 		(*strat)(bp);
 		if (!biowait(bp))
-			rnd_bootpool_add(bp->b_data, lp->d_secsize);
+			rnd_lopool_addh(bp->b_data, lp->d_secsize);
 	}
 
 	/* next, dig out disk label */

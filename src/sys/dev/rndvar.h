@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.25 2010/09/12 21:25:18 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.26 2010/09/19 18:55:35 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
@@ -101,9 +101,9 @@ void arc4random_buf(void *, size_t)
     __attribute__((bounded (string, 1, 2)));
 u_int32_t arc4random(void);
 
-void rnd_bootpool_add(const void *, size_t)
-    __attribute__((bounded (string, 1, 2)));
 void rnd_lopool_add(const void *, size_t)
+    __attribute__((bounded (string, 1, 2)));
+void rnd_lopool_addh(const void *, size_t)
     __attribute__((bounded (string, 1, 2)));
 void rnd_lopool_addv(unsigned long);
 

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/netinet6/in6.c,v 1.6 2008/10/05 01:42:36 tg Exp $ */
+/**	$MirOS: src/sys/netinet6/in6.c,v 1.7 2010/09/19 18:55:42 tg Exp $ */
 /*	$OpenBSD: in6.c,v 1.60 2004/10/07 12:08:25 henning Exp $	*/
 /*	$KAME: in6.c,v 1.372 2004/06/14 08:14:21 itojun Exp $	*/
 
@@ -733,7 +733,7 @@ in6_control(so, cmd, data, ifp, p)
 		 */
 		pfxlist_onlink_check();
 
-		rnd_bootpool_add(ia, sizeof(*ia));
+		rnd_lopool_addh(ia, sizeof(*ia));
 		break;
 	}
 
