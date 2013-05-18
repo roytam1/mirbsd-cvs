@@ -1,6 +1,6 @@
---- bncsetup.orig	Tue Feb 27 11:25:23 2001
-+++ bncsetup	Tue Feb 27 11:29:02 2001
-@@ -63,15 +63,8 @@
+--- bncsetup.orig	Mon Feb  7 02:50:44 2005
++++ bncsetup	Sat Jun  7 18:21:37 2008
+@@ -91,15 +91,8 @@ altconf()
  
  }
  
@@ -17,7 +17,7 @@
  CRCYS=$(cat $TMPFILE | grep '\$' | tail -1 )
  
  
-@@ -201,13 +194,13 @@
+@@ -244,13 +237,13 @@ ERRORLEVEL=$?
  
  if [ x$ERRORLEVEL = x0 ]
  then 
