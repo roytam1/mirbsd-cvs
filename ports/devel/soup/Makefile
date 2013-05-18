@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/soup/Makefile,v 1.5 2005/07/24 16:53:12 bsiegert Exp $
+# $MirOS: ports/devel/soup/Makefile,v 1.6 2005/12/27 23:18:02 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.4 2003/12/04 23:07:25 pvalchev Exp $
 
 COMMENT=		"SOAP (Simple Object Access Protocol) implementation in C"
@@ -23,7 +23,6 @@ LIB_DEPENDS=		glib.1.2,gmodule.1.2::devel/glib1 \
 			popt::devel/popt \
 			xml2.6::textproc/libxml
 
-SEPARATE_BUILD= 	concurrent
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes

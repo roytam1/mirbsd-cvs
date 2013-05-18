@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/atlas/Makefile,v 1.2 2005/07/07 21:18:52 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/02/25 02:35:15 naddy Exp $
 
 COMMENT=	"C++ reference implementation of the Atlas protocol"
@@ -21,7 +21,6 @@ LIB_DEPENDS=	SDL::devel/sdl \
 USE_X11=	Yes
 USE_CXX=	Yes
 
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE=autoconf
 CONFIGURE_ARGS=	${CONFIGURE_SHARED}
 

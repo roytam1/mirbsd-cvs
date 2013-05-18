@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/sdlmm/Makefile,v 1.2 2005/07/07 21:20:29 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/01/02 18:06:32 espie Exp $
 
 COMMENT=	"C++ wrapper for the Simple DirectMedia Layer"
@@ -20,7 +20,6 @@ LIB_DEPENDS=	SDL::devel/sdl
 USE_X11=	Yes
 USE_CXX=	Yes
 
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS=	${CONFIGURE_SHARED}
 CONFIGURE_ENV+=	LIBS="${LIBS} -lstdc++ -lm"

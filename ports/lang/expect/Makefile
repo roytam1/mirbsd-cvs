@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/lang/expect/Makefile,v 1.2 2005/04/11 19:20:26 tg Exp $
 # $OpenBSD: Makefile,v 1.42 2004/04/18 19:55:47 jolan Exp $
 
 COMMENT=	"sophisticated scripter based on Tcl/Tk"
@@ -21,7 +21,6 @@ FLAVORS=	no_tk
 FLAVOR?=
 
 SUBST_VARS+=		V _V
-SEPARATE_BUILD=		concurrent
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--with-tclconfig="${LOCALBASE}/lib/tcl8.4"\

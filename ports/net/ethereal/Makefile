@@ -1,4 +1,4 @@
-# $MirOS: ports/net/ethereal/Makefile,v 1.4 2005/07/07 21:24:09 bsiegert Exp $
+# $MirOS: ports/net/ethereal/Makefile,v 1.5 2006/01/01 05:25:28 tg Exp $
 # $OpenBSD: Makefile,v 1.90 2004/05/10 06:14:43 jakob Exp $
 
 BROKEN=		"many security problems"
@@ -26,7 +26,6 @@ PERMIT_DISTFILES_FTP=	Yes
 CONFIGURE_STYLE=	gnu
 USE_GMAKE=		Yes
 SUBST_VARS+=		VERSION
-SEPARATE_BUILD=		concurrent
 
 FLAVORS=	snmp adns gtk1
 PSEUDO_FLAVORS=	no_x11

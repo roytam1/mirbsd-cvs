@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/libshout/Makefile,v 1.1.7.1 2005/03/18 15:48:30 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/07/26 11:38:50 sturm Exp $
 
 COMMENT=	"library for communicating with an icecast server"
@@ -21,7 +21,6 @@ CONFIGURE_STYLE=autoconf no-autoheader
 AUTOCONF_NEW=	Yes
 CONFIGURE_ARGS=	${CONFIGURE_SHARED} --disable-pkgconfig
 
-SEPARATE_BUILD=	simple
 
 FAKE_FLAGS=	docdir='${PREFIX}/share/examples/libshout'
 

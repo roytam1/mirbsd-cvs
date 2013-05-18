@@ -35,7 +35,6 @@ CONFIGURE_ARGS+=	--disable-gii
 .endif
 
 CONFIGURE_STYLE=	autoconf
-SEPARATE_BUILD=		Yes
 
 pre-build:
 	@cd ${WRKBUILD} && ${MAKE_PROGRAM} depend

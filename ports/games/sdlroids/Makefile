@@ -20,7 +20,6 @@ LIB_DEPENDS=		SDL::devel/sdl \
 USE_X11=		Yes
 USE_CXX=		Yes
 
-SEPARATE_BUILD=		concurrent
 CONFIGURE_STYLE= 	gnu
 
 .include <bsd.port.mk>

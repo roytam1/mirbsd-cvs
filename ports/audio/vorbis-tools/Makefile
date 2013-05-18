@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/vorbis-tools/Makefile,v 1.3 2005/11/09 21:15:02 bsiegert Exp $
+# $MirOS: ports/audio/vorbis-tools/Makefile,v 1.4 2005/12/29 20:45:21 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2003/12/14 00:52:22 naddy Exp $
 
 COMMENT=		"play, encode, and manage Ogg Vorbis files"
@@ -26,7 +26,6 @@ CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		yes
 CONFIGURE_ENV+=		PTHREAD_CFLAGS="-pthread" PTHREAD_LIBS="-pthread"
 CONFIGURE_ARGS+=	--disable-nls
-SEPARATE_BUILD=		simple
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/vorbis-tools

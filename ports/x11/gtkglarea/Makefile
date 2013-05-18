@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/gtkglarea/Makefile,v 1.2 2005/03/30 18:13:57 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.21 2003/10/08 17:13:16 sturm Exp $
 
 COMMENT=		"OpenGL widget for GTK+ GUI toolkit"
@@ -18,7 +18,6 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 USE_X11=		Yes
-SEPARATE_BUILD=		concurrent
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static --with-lib-GL

@@ -1,4 +1,4 @@
-# $MirOS: ports/net/samba2/Makefile,v 1.1.7.1 2005/03/18 15:49:02 tg Exp $
+# $MirOS: ports/net/samba2/Makefile,v 1.2 2005/08/21 11:49:51 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2003/10/26 09:33:23 sturm Exp $
 
 COMMENT=	"SMB and CIFS client and server for UNIX"
@@ -32,7 +32,6 @@ SUBST_VARS+=	SAMBA_SPOOL CONFDIR
 
 LIB_DEPENDS+=	popt::devel/popt \
 		readline::devel/libreadline
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE=autoconf
 CONFIGURE_ARGS=	--libdir="${PREFIX}/lib/samba" \
 		--localstatedir="/var" \

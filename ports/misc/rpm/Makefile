@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/misc/rpm/Makefile,v 1.2 2005/07/07 21:23:50 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.11 2002/12/29 19:49:40 fgsch Exp $
 
 COMMENT=	"redhat package manager"
@@ -28,6 +28,5 @@ CONFIGURE_ENV+=		varprefix=/var
 
 MAKE_FLAGS=	librpm_la_LDFLAGS='-version-info 0:1:0'
 
-SEPARATE_BUILD=		simple
 
 .include <bsd.port.mk>

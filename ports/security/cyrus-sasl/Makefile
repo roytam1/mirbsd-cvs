@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/security/cyrus-sasl/Makefile,v 1.1.7.1 2005/03/18 15:51:21 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/02/17 03:26:02 kevlo Exp $
 
 COMMENT=	"RFC 2222 SASL (Simple Authentication and Security Layer)"
@@ -13,7 +13,6 @@ PERMIT_PACKAGE_FTP=	yes
 PERMIT_DISTFILES_CDROM=	yes
 PERMIT_DISTFILES_FTP=	yes
 
-SEPARATE_BUILD=		concurrent
 
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/config ${WRKSRC}/saslauthd/config
 

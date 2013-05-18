@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/gnome/libgnomeui/Makefile,v 1.2 2005/12/29 19:35:00 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.8 2004/12/15 13:57:56 alek Exp $
 
 COMMENT=		"user interface components for GNOME"
@@ -24,7 +24,6 @@ BUILD_DEPENDS=		:gnome-common-*:x11/gnome/common
 LIB_DEPENDS=		bonoboui-2::x11/gnome/libbonoboui \
 			gnome-keyring::x11/gnome/keyring
 
-SEPARATE_BUILD= 	concurrent
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		yes

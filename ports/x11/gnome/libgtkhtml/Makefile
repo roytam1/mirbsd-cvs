@@ -20,7 +20,6 @@ EXTRACT_SUFX=		.tar.bz2
 BUILD_DEPENDS=		:pkgconfig->=0.14.0p1:devel/pkgconfig
 LIB_DEPENDS=		gailutil.17::x11/gnome/gail
 
-SEPARATE_BUILD= 	concurrent
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}

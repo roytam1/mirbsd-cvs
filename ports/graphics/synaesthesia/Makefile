@@ -21,7 +21,6 @@ FLAVOR?=	esd
 
 LIB_DEPENDS=		SDL.::devel/sdl
 
-SEPARATE_BUILD=		concurrent
 USE_X11=		Yes
 USE_GMAKE=		Yes
 USE_CXX=		Yes

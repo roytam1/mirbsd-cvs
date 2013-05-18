@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/libvorbis/Makefile,v 1.2 2005/11/09 19:44:58 bsiegert Exp $
+# $MirOS: ports/audio/libvorbis/Makefile,v 1.3 2005/12/28 16:37:55 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/12/14 00:52:22 naddy Exp $
 
 COMMENT=		"audio compression codec library"
@@ -20,6 +20,5 @@ CONFIGURE_STYLE=	autogen
 AUTOMAKE_VERSION=	1.9
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} --with-ogg=${LOCALBASE}
-SEPARATE_BUILD=		simple
 
 .include <bsd.port.mk>

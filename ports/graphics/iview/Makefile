@@ -21,7 +21,6 @@ LIB_DEPENDS=	SDL_image::devel/sdl-image
 USE_X11=	Yes
 USE_CXX=	Yes
 
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE= autoconf
 CONFIGURE_ENV=	LDFLAGS="-L${X11BASE}/lib"
 

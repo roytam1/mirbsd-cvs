@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/autoconf/2.13/Makefile,v 1.2 2005/04/26 18:03:25 tg Exp $
+# $MirOS: ports/devel/autoconf/2.13/Makefile,v 1.4 2005/07/07 21:18:53 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/02/15 14:02:54 espie Exp $
 
 COMMENT=	"automatically configure source code on many Un*x platforms"
@@ -16,7 +16,6 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 CONFIGURE_ARGS+=--program-suffix=${SUFFIX}
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE=gnu dest
 CONFIGURE_ENV=	M4=/usr/bin/m4
 

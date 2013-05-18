@@ -15,7 +15,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=mutella/}
 
-SEPARATE_BUILD=		simple
 CONFIGURE_STYLE=	gnu	
 
 .include <bsd.port.mk>

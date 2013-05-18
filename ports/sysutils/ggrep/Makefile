@@ -19,7 +19,6 @@ MASTER_SITES=	${MASTER_SITE_GNU:=grep/}
 MODULES=	devel/gettext
 LIB_DEPENDS=	pcre.0::devel/pcre
 
-SEPARATE_BUILD=	simple
 CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS=	--program-prefix=g
 CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \

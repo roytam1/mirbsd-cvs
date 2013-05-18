@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/libwnck/Makefile,v 1.2 2005/05/01 13:40:33 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.8 2004/12/10 20:34:00 marcm Exp $
 
 COMMENT=		"window navigator construction kit"
@@ -23,7 +23,6 @@ BUILD_DEPENDS= 		:pkgconfig-*:devel/pkgconfig
 LIB_DEPENDS=		gdk-x11-2.0.0.10,gdk_pixbuf-2.0.0.10,gtk-x11-2.0.0.10::x11/gtk+ \
 			startup-notification-1::devel/startup-notification
 
-SEPARATE_BUILD=		concurrent
 USE_X11=		Yes
 USE_GMAKE=		Yes
 CONFIGURE_STYLE= 	autoconf

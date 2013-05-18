@@ -1,4 +1,4 @@
-# $MirOS: ports/net/samba/Makefile,v 1.2 2005/07/07 21:24:58 bsiegert Exp $
+# $MirOS: ports/net/samba/Makefile,v 1.3 2006/01/01 03:49:12 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2003/10/26 09:33:23 sturm Exp $
 
 BROKEN=		does not function correctly sometimes
@@ -40,7 +40,6 @@ CONFDIR=	${SYSCONFDIR}/samba
 SAMBA_LOGDIR=	/var/log
 SUBST_VARS=	CONFDIR
 
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE=autoconf
 AUTOCONF_NEW=	Yes
 CONFIGURE_ARGS=	--libdir="${PREFIX}/lib/samba" \

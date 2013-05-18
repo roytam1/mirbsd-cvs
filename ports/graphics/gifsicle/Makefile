@@ -23,7 +23,6 @@ FLAVOR?=
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS=		--enable-gifdiff
 
-SEPARATE_BUILD=		concurrent
 
 .if ${FLAVOR:L:Mno_x11}
 CONFIGURE_ARGS+=	--disable-gifview

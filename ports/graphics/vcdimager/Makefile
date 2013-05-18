@@ -17,6 +17,5 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	gnu
-SEPARATE_BUILD=		concurrent
 
 .include <bsd.port.mk>

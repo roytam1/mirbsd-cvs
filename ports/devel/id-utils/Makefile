@@ -26,7 +26,6 @@ post-install:
 
 # International files don't want to be built separately
 #
-SEPARATE_BUILD=	simple
 CONFIGURE_STYLE=gnu
 USE_GMAKE=	Yes
 

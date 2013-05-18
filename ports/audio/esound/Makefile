@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/esound/Makefile,v 1.2 2005/07/07 21:17:14 bsiegert Exp $
+# $MirOS: ports/audio/esound/Makefile,v 1.3 2005/12/16 01:01:01 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.34 2004/11/21 17:51:44 espie Exp $
 # $FreeBSD: Makefile,v 1.8 1999/03/09 01:08:46 nectar Exp $
 
@@ -19,7 +19,6 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE= autoconf
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= --with-libwrap

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/gnome/metacity/Makefile,v 1.2 2005/03/25 23:13:51 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2004/12/15 13:57:57 alek Exp $
 
 COMMENT=		"Boring window manager for the adult in you."
@@ -26,7 +26,6 @@ LIB_DEPENDS=		gconf-2::devel/gconf \
 			glade-2.0.0.0::devel/libglade \
 			startup-notification-1::devel/startup-notification
 
-SEPARATE_BUILD=		concurrent
 USE_X11=		Yes
 USE_GMAKE=		Yes
 CONFIGURE_STYLE= 	autoconf

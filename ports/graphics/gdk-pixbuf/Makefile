@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/graphics/gdk-pixbuf/Makefile,v 1.3 2005/07/07 21:21:39 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.30 2004/03/02 07:57:21 brad Exp $
 
 COMMENT=	"GdkPixbuf graphics library"
@@ -17,7 +17,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	${MASTER_SITE_GNOME:=sources/gdk-pixbuf/0.22/}
 
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE=autoconf
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= --disable-modules \

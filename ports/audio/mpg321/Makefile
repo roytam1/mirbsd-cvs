@@ -21,7 +21,6 @@ LIB_DEPENDS=	ao.3::audio/libao \
 		mad.2::audio/libmad
 USE_CXX=	Yes
 
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS=	--disable-mpg123-symlink
 CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \

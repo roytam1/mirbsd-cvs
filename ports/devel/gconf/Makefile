@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/gconf/Makefile,v 1.4 2005/10/12 19:52:50 bsiegert Exp $
+# $MirOS: ports/devel/gconf/Makefile,v 1.5 2005/12/28 18:31:29 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2004/12/30 04:30:12 marcm Exp $
 
 COMMENT=		"configuration database system for GNOME"
@@ -22,7 +22,6 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-SEPARATE_BUILD=		concurrent
 
 DEFAULT_GCONF_SOURCE=	xml::/var/db/gconf/gconf.xml.defaults
 

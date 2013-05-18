@@ -18,7 +18,6 @@ RUN_DEPENDS=	:findutils-*:misc/findutils
 
 NO_REGRESS=	Yes
 
-SEPARATE_BUILD=	concurrent
 
 CONFIGURE_STYLE= gnu
 

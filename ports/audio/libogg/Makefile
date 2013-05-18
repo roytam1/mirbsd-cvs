@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/libogg/Makefile,v 1.2 2005/11/03 19:23:32 bsiegert Exp $
+# $MirOS: ports/audio/libogg/Makefile,v 1.3 2005/12/28 16:37:51 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/12/14 00:52:21 naddy Exp $
 
 COMMENT=		"Ogg bitstream library"
@@ -19,6 +19,5 @@ CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
-SEPARATE_BUILD=		simple
 
 .include <bsd.port.mk>

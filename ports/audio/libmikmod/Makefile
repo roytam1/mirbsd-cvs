@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/audio/libmikmod/Makefile,v 1.2 2005/07/07 21:17:18 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/01/24 19:57:34 pvalchev Exp $
 
 COMMENT=	"mikmod sound library"
@@ -16,7 +16,6 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=	${HOMEPAGE}/files/libmikmod/ \
 		${MASTER_SITE_SUNSITE:=apps/sound/libs/}
 
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE= autoconf
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= --disable-dl \

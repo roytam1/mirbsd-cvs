@@ -23,7 +23,6 @@ NO_REGRESS=	Yes
 WRKDIST=	${WRKDIR}/umoria
 WRKSRC=		${WRKDIST}
 
-SEPARATE_BUILD= concurrent
 MAKE_ENV=	CC="${CC}" CFLAGS="${CFLAGS}"
 
 do-build:

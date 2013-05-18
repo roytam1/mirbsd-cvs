@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/misc/cdrchive/Makefile,v 1.2 2005/07/07 21:23:36 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.10 2004/02/25 02:35:16 naddy Exp $
 
 COMMENT=		"Qt-based CD creation tool"
@@ -21,7 +21,6 @@ MODULES=		x11/qt2
 
 RUN_DEPENDS=		:cdrtools-*:sysutils/cdrtools
 
-SEPARATE_BUILD=		concurrent
 
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS=		--datadir=${PREFIX}/share/doc/cdrchive \

@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/popt/Makefile,v 1.1.7.1 2005/03/18 15:45:22 tg Exp $
+# $MirOS: ports/devel/popt/Makefile,v 1.2 2005/10/11 20:43:30 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2003/07/15 16:50:22 jolan Exp $
 
 COMMENT=		"getopt(3)-like library with a number of enhancements"
@@ -16,7 +16,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 EXTRA_MAKE_FLAGS=	libpopt_la_LDFLAGS="-version-info 3:0:3"
 USE_GMAKE=		Yes
-SEPARATE_BUILD=		concurrent
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}

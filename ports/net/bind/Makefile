@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/bind/Makefile,v 1.2 2005/07/07 21:24:01 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.42 2003/04/10 18:08:56 jsyn Exp $
 
 COMMENT=		"ISC BIND 9 libraries, audited OpenBSD version"
@@ -31,7 +31,6 @@ PERMIT_DISTFILES_FTP=	Yes
 WRKDIST=		${WRKDIR}/src/usr.sbin/bind/
 ETCDIR=			${WRKDIR}/src/etc/bind/
 
-SEPARATE_BUILD=		concurrent
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--with-libtool ${CONFIGURE_SHARED} \
 			--localstatedir=/var \

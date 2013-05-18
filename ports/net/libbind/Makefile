@@ -24,7 +24,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 WRKSRC=			${WRKDIST}/lib/bind
 
-SEPARATE_BUILD=		concurrent
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--with-libtool \
 			${CONFIGURE_SHARED} \

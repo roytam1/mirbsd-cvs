@@ -20,7 +20,6 @@ MASTER_SITES=		${HOMEPAGE}
 
 LIB_DEPENDS=		net::net/libnet
 
-SEPARATE_BUILD=		concurrent
 CONFIGURE_STYLE=	gnu
 
 NO_REGRESS=		Yes

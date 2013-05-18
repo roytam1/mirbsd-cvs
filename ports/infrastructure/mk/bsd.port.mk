@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.97 2006/02/01 18:54:04 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.98 2006/02/05 17:02:21 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -383,22 +383,14 @@ _BULK_COOKIE=		${BULK_COOKIES_DIR}/${FULLPKGNAME}
 .if ${FAKE:L} == "yes"
 _FAKE_COOKIE=		${WRKINST}/.fake_done
 _INSTALL_PRE_COOKIE=	${WRKINST}/.install_started
-.elif defined(SEPARATE_BUILD)
-_INSTALL_PRE_COOKIE=	${WRKBUILD}/.install_started
 .else
 _INSTALL_PRE_COOKIE=	${WRKDIR}/.install_started
 _FAKE_COOKIE=		${WRKDIR}/.fake_done
 .endif
 _PACKAGE_COOKIE=	${PKGFILE}
-.if defined(SEPARATE_BUILD)
-_CONFIGURE_COOKIE=	${WRKBUILD}/.configure_done
-_BUILD_COOKIE=		${WRKBUILD}/.build_done
-_REGRESS_COOKIE=	${WRKBUILD}/.regress_done
-.else
 _CONFIGURE_COOKIE=	${WRKDIR}/.configure_done
 _BUILD_COOKIE=		${WRKDIR}/.build_done
 _REGRESS_COOKIE=	${WRKDIR}/.regress_done
-.endif
 
 _ALL_COOKIES=		${_EXTRACT_COOKIE} ${_PATCH_COOKIE} \
 			${_CONFIGURE_COOKIE} ${_INSTALL_PRE_COOKIE} \
@@ -505,29 +497,16 @@ WRKINST?=		${WRKDIR}/fake-${ARCH}${_FLAVOR_EXT2}
 .endif
 
 .if !empty(WRKOBJDIR_${PKGPATH})
-.  if defined(SEPARATE_BUILD) && ${SEPARATE_BUILD:L:Mflavored}
-WRKDIR?=		${WRKOBJDIR_${PKGPATH}}/${PKGNAME}
-.  else
 WRKDIR?=		${WRKOBJDIR_${PKGPATH}}/${PKGNAME}${_FLAVOR_EXT2}
-.  endif
 .else
-.  if defined(SEPARATE_BUILD) && ${SEPARATE_BUILD:L:Mflavored}
-WRKDIR?=		${.CURDIR}/w-${PKGNAME}
-.  else
 WRKDIR?=		${.CURDIR}/w-${PKGNAME}${_FLAVOR_EXT2}
-.  endif
 .endif
 
 WRKDIST?=		${WRKDIR}/${DISTNAME}
 WRKSRC?=		${WRKDIST}
 
-.if defined(SEPARATE_BUILD)
-WRKBUILD?=		${WRKDIR}/build-${MACHINE_ARCH}${_FLAVOR_EXT2}
-WRKPKG?=		${WRKBUILD}/pkg
-.else
 WRKBUILD?=		${WRKSRC}
 WRKPKG?=		${WRKDIR}/pkg
-.endif
 WRKCONF?=		${WRKBUILD}
 
 ALL_TARGET?=		all
@@ -977,11 +956,7 @@ CONFIGURE_SCRIPT?=	configure
 .if ${CONFIGURE_SCRIPT:M/*}
 _CONFIGURE_SCRIPT=	${CONFIGURE_SCRIPT}
 .else
-.  if defined(SEPARATE_BUILD)
-_CONFIGURE_SCRIPT=	${WRKSRC}/${CONFIGURE_SCRIPT}
-.  else
 _CONFIGURE_SCRIPT=	./${CONFIGURE_SCRIPT}
-.  endif
 .endif
 
 CONFIGURE_ENV+=		PATH=${PORTPATH:Q}

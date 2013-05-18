@@ -24,7 +24,6 @@ USE_GMAKE=		Yes
 USE_X11=		Yes
 
 CONFIGURE_STYLE=	autoconf dest
-SEPARATE_BUILD=		Simple
 
 pre-patch:
 	@ln -s . ${WRKSRC}/mtools

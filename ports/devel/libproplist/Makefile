@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/libproplist/Makefile,v 1.2 2005/07/07 21:19:13 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.21 2002/12/29 20:19:11 fgsch Exp $
 
 COMMENT=	"GNUstep/OPENSTEP property lists compatibility library"
@@ -14,7 +14,6 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 USE_GMAKE=	Yes
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE= autoconf
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= --enable-static

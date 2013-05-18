@@ -25,7 +25,6 @@ LIB_DEPENDS=	SDL::devel/sdl
 USE_X11=	Yes
 USE_CXX=	Yes
 
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE= gnu
 
 SONGS=	forelise jonny saints ungarian fruehling oldmacdonald tempest

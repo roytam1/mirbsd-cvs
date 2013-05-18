@@ -24,7 +24,6 @@ LIB_DEPENDS=	xmms.2::audio/xmms \
 USE_X11=	Yes
 USE_CXX=	Yes
 
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS=	${CONFIGURE_SHARED} \
 		--with-glib-prefix=${LOCALBASE} \

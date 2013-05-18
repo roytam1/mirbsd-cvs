@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.5 2005/11/15 19:33:59 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.6 2005/12/20 19:57:55 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2000 Marc Espie
@@ -169,7 +169,7 @@ Short hand for mmake clean=depends.
 Configure the port.
 Might be a void operation.
 Unless overridden, configure creates the ${WRKBUILD}
-directory (see SEPARATE_BUILD), runs ${SCRIPTDIR}/configure if it exists,
+directory, runs ${SCRIPTDIR}/configure if it exists,
 and runs whatever configuration methods are recorded in
 .Ev CONFIGURE_STYLE .
 .It Ar depends
@@ -1393,19 +1393,6 @@ ${SED_PLIST} is invoked as a pipeline after inserting PFRAG.shared fragments.
 .It Ev SCRIPTDIR
 Location for scripts related to the current port (default: scripts.${ARCH}
 or scripts).
-.It Ev SEPARATE_BUILD
-Many gnu configure ports can be built in a directory distinct from the
-place they were unpacked.
-For some specific ports, this is even mandatory.
-Set to
-.Sq simple
-if this is the case.
-The ports infrastructure will generate a separate ${WRKBUILD} directory
-in which the port will be configured and built.
-Wipe ${WRKBUILD} to start anew, but skipping the extract/patch stage.
-Set to
-.Sq flavored
-if distinct flavors of the port may share a common source tree.
 .It Ev SUBPACKAGE
 Set to the sub package suffix when building a package in a multi-package port.
 Read-only.
@@ -1552,8 +1539,7 @@ likely to see a message like
 with the default process limits.
 .It Ev WRKBUILD
 Subdirectory of ${WRKDIR} where the actual build occurs.
-Defaults to ${WRKSRC}, unless SEPARATE_BUILD is involved, in which case
-it is set to an appropriate value.
+Defaults to ${WRKSRC}.
 .It Ev WRKDIR
 Location where all port activity occurs.
 Apart from the actual port, may
@@ -1904,6 +1890,14 @@ Port has cryptographic issues.
 focuses on
 .Ev PERMIT_PACKAGE_{FTP,CDROM}
 instead.
+.It Ev SEPARATE_BUILD
+On
+.Ox
+this could be used to have different WRKBUILD and WRKSRC,
+in the hope the port didn't write to its source directory.
+While this way to build is recommended by the GCC SC, it
+has proven to be the source of much trouble, so it got
+removed in the MirPorts Framework.
 .It Ev USE_AUTOCONF
 Use
 .Ev CONFIGURE_STYLE

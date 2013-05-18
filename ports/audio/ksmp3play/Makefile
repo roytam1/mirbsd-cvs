@@ -19,7 +19,6 @@ LIB_DEPENDS=	SDL::devel/sdl \
 MASTER_SITES=	http://www.xanadunet.net/ksmp3play/
 
 USE_CXX=	Yes
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE= gnu
 CONFIGURE_ENV=	CFLAGS="-I${LOCALBASE}/include ${CFLAGS}" \
 		LIBS="-liberty"

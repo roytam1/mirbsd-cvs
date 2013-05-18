@@ -21,7 +21,6 @@ PERMIT_DISTFILES_FTP=   Yes
 FLAVORS=	apop 
 FLAVOR?=
 
-SEPARATE_BUILD= concurrent
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS+= --localstatedir="/var/spool/spop3d" \
 		 --mandir="${PREFIX}/man" \

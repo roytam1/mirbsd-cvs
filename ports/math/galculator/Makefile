@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/math/galculator/Makefile,v 1.2 2005/03/25 23:13:48 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2004/05/27 20:10:19 naddy Exp $
 
 COMMENT=	"GTK2-based scientific calculator"
@@ -19,7 +19,6 @@ MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=galculator/}
 LIB_DEPENDS=	glade-2.0.0.0::devel/libglade
 BUILD_DEPENDS=	::textproc/intltool
 
-SEPARATE_BUILD=	simple
 USE_GMAKE=	Yes
 USE_CXX=	Yes
 USE_X11=	Yes

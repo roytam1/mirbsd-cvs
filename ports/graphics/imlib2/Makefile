@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/imlib2/Makefile,v 1.3 2005/12/16 15:41:32 tg Exp $
+# $MirOS: ports/graphics/imlib2/Makefile,v 1.4 2005/12/28 19:00:35 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/18 02:01:25 jolan Exp $
 
 COMMENT=		"image manipulation library"
@@ -21,7 +21,6 @@ MODULES+=		devel/pkgconfig
 LIB_DEPENDS+=		png.2::graphics/png \
 			tiff.35::graphics/tiff
 
-SEPARATE_BUILD=		concurrent
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}

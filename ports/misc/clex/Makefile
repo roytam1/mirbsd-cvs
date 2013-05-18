@@ -17,7 +17,6 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		${HOMEPAGE:=download/}
 EXTRACT_SUFX=		.src.tar.gz
 
-SEPARATE_BUILD=		simple
 CONFIGURE_STYLE=	gnu
 
 .include <bsd.port.mk>

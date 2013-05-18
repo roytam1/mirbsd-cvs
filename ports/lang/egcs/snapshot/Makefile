@@ -258,7 +258,6 @@ CONFIGURE_ARGS += --with-gnu-ld
 
 CONFIGURE_ARGS += ${CONFIGURE_SHARED}
 
-SEPARATE_BUILD=concurrent
 
 
 

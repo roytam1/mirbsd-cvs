@@ -29,7 +29,6 @@ FAKE_FLAGS=	DESTDIR="${WRKINST}" INSTALL_IRC='$${bindir}/ircII' \
 
 NO_REGRESS=	Yes
 
-SEPARATE_BUILD=	simple
 CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS=	--enable-ipv6 --exec-prefix="${PREFIX}"
 

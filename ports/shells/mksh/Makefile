@@ -1,4 +1,4 @@
-# $MirOS: ports/shells/mksh/Makefile,v 1.10 2006/01/27 11:32:44 tg Exp $
+# $MirOS: ports/shells/mksh/Makefile,v 1.11 2006/01/30 12:37:21 tg Exp $
 
 COMMENT=		"MirBSD Korn Shell"
 DISTNAME=		mksh-R26c
@@ -19,7 +19,6 @@ MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/mksh/}
 EXTRACT_SUFX=		.cpio.gz
 
 WRKDIST=		${WRKDIR}/mksh
-SEPARATE_BUILD=		flavored
 
 .if !${FLAVOR:L:Mstatic}
 BF+=			-d

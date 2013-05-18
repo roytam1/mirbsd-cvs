@@ -37,7 +37,6 @@ RUN_DEPENDS+=	:python-${PYTHON_VER}*:lang/python/${PYTHON_VER}
 CONFIGURE_ARGS+=--without-python
 .endif
 
-SEPARATE_BUILD=	simple
 
 post-install:
 	${INSTALL_DATA} ${WRKBUILD}/conf/ices.conf.dist \

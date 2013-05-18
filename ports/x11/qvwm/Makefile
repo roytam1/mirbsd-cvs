@@ -20,7 +20,6 @@ FLAVOR?=
 
 USE_X11=	Yes
 
-SEPARATE_BUILD=	flavored
 CONFIGURE_STYLE= gnu
 
 # the build-scheme will get confused otherwise

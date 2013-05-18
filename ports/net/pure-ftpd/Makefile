@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/pure-ftpd/Makefile,v 1.2 2005/07/07 21:24:52 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.31 2004/03/08 03:57:16 brad Exp $
 
 COMMENT=	"small, easy to set up, fast and very secure FTP server"
@@ -22,7 +22,6 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS+= --with-everything \
 		 --with-paranoidmsg \

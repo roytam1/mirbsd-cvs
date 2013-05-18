@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/nasm/Makefile,v 1.2 2005/04/10 21:50:16 tg Exp $
+# $MirOS: ports/lang/nasm/Makefile,v 1.3 2005/04/11 15:55:53 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2004/04/07 22:54:23 brad Exp $
 
 # XXX why?
@@ -18,7 +18,6 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE= gnu
 
 NO_REGRESS=	Yes

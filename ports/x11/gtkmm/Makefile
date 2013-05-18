@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/gtkmm/Makefile,v 1.3 2005/07/07 21:28:53 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.15 2004/02/04 07:39:19 sturm Exp $
 
 COMMENT=		"C++ interface for gtk+"
@@ -32,7 +32,6 @@ LIB_DEPENDS=		sigc.0::devel/libsigc++ \
 PKG_ARCH=		*
 .endif
 
-SEPARATE_BUILD=		concurrent
 USE_CXX=		Yes
 USE_X11=		Yes
 NO_REGRESS=		Yes

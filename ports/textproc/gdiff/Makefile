@@ -18,7 +18,6 @@ MASTER_SITES=	${MASTER_SITE_GNU:=diffutils/}
 
 MODULES=	devel/gettext
 
-SEPARATE_BUILD=	simple
 CONFIGURE_STYLE=gnu
 MODGNU_CONFIG_GUESS_DIRS+= ${WRKSRC}/config
 CONFIGURE_ARGS=	--program-prefix=g

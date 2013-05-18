@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/libgnomecanvas/Makefile,v 1.3 2005/07/07 21:28:47 bsiegert Exp $
+# $MirOS: ports/x11/gnome/libgnomecanvas/Makefile,v 1.4 2005/12/29 17:46:58 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.10 2004/12/27 18:57:58 sturm Exp $
 
 COMMENT=		"graphics library for GNOME"
@@ -25,7 +25,6 @@ LIB_DEPENDS=		art_lgpl_2::graphics/libart \
 			glade-2.0.0.0::devel/libglade \
 			pangoft2-1.0.0.0::devel/pango
 
-SEPARATE_BUILD=		concurrent
 USE_X11=		Yes
 USE_GMAKE=		Yes
 CONFIGURE_STYLE= 	autoconf

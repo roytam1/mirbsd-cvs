@@ -19,7 +19,6 @@ MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=nap/} \
 		http://quasar.mathstat.uottawa.ca/~selinger/nap/ \
 		http://theory.stanford.edu/~selinger/nap/
 	      	
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE= gnu
 
 post-install:

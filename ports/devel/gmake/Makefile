@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/gmake/Makefile,v 1.4 2005/07/07 21:19:04 bsiegert Exp $
+# $MirOS: ports/devel/gmake/Makefile,v 1.5 2005/12/04 20:06:54 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/04/06 03:12:19 brad Exp $
 #-
 # This port must not have dependencies, or list them in CVSROOT/modules.
@@ -16,7 +16,6 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-SEPARATE_BUILD=	simple
 CONFIGURE_STYLE=gnu
 CONFIGURE_ARGS= --program-prefix="g" --disable-nls
 CONFIGURE_ENV+=	MAKEINFO="makeinfo --no-split"

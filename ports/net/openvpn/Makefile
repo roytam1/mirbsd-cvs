@@ -1,4 +1,4 @@
-# $MirOS: ports/net/openvpn/Makefile,v 1.5 2005/12/15 13:07:22 tg Exp $
+# $MirOS: ports/net/openvpn/Makefile,v 1.6 2006/02/07 20:17:31 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2003/12/30 21:29:53 sturm Exp $
 
 COMMENT=		"easy-to-use, robust, highly configurable VPN solution"
@@ -26,7 +26,6 @@ LDSTATIC=		-static
 LIB_DEPENDS+=		lzo2:lzo->=2.*:archivers/lzo
 .endif
 
-SEPARATE_BUILD=	concurrent
 USE_GMAKE=	Yes
 CONFIGURE_STYLE=autoconf
 AUTOCONF_NEW=	Yes

@@ -17,7 +17,6 @@ LIB_DEPENDS=	gdbm.::databases/gdbm
 CONFIGURE_STYLE=autoconf
 CONFIGURE_ENV=	LDFLAGS=-L${LOCALBASE}/lib CPPFLAGS=-I${LOCALBASE}/include
 CONFIGURE_ARGS=	`$(CC) -dumpmachine`
-SEPARATE_BUILD=	simple
 
 pre-configure:
 	@cp ${FILESDIR}/openbsdplay.c ${WRKSRC}/config/openbsdplay.c

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/multimedia/mjpegtools/Makefile,v 1.2 2005/03/30 18:13:38 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/07/09 11:58:39 sturm Exp $
 
 COMMENT=		"tools to edit/modify/encode video streams"
@@ -23,7 +23,6 @@ LIB_DEPENDS=		SDL.2:sdl-*-!no_x11:devel/sdl \
 			jpeg.62::graphics/jpeg \
 			png.4::graphics/png
 
-SEPARATE_BUILD=		concurrent
 
 AUTOCONF_NEW=	Yes
 CONFIGURE_STYLE=	autoconf

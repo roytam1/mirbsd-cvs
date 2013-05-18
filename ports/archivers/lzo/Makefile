@@ -1,4 +1,4 @@
-# $MirOS: ports/archivers/lzo/Makefile,v 1.1.7.1 2005/03/18 15:42:41 tg Exp $
+# $MirOS: ports/archivers/lzo/Makefile,v 1.2 2005/12/15 13:01:18 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2004/02/23 00:33:34 naddy Exp $
 
 COMMENT=		"portable speedy lossless data compression library"
@@ -13,7 +13,6 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-SEPARATE_BUILD=		simple
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \

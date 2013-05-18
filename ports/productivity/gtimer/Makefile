@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/productivity/gtimer/Makefile,v 1.2 2005/03/30 18:13:45 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.3 2003/07/16 17:37:47 naddy Exp $
 
 COMMENT=		"GTK-based time tracker"
@@ -23,7 +23,6 @@ USE_X11=		Yes
 USE_GMAKE=		Yes
 
 CONFIGURE_STYLE=	gnu
-SEPARATE_BUILD=		concurrent
 
 post-install:
 	${INSTALL_MAN} ${WRKSRC}/gtimer.1 ${PREFIX}/man/man1

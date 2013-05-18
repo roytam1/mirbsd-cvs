@@ -1,4 +1,4 @@
-# $MirOS: ports/shells/bash/Makefile,v 1.2 2006/01/03 01:48:30 tg Exp $
+# $MirOS: ports/shells/bash/Makefile,v 1.3 2006/01/03 01:53:38 tg Exp $
 # $OpenBSD: Makefile,v 1.27 2004/01/13 20:09:39 naddy Exp $
 
 COMMENT=	"GNU Bourne Again Shell"
@@ -23,7 +23,6 @@ PATCHFILES+=	bash205b-${i}:0
 FLAVORS=	static
 FLAVOR?=
 
-SEPARATE_BUILD=	concurrent
 
 CONFIGURE_STYLE= gnu
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/support

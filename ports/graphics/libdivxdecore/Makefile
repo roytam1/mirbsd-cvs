@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/graphics/libdivxdecore/Makefile,v 1.1.7.1 2005/03/18 15:46:59 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2002/10/24 23:23:36 fgsch Exp $
 
 COMMENT=	"opendivx decoding API"
@@ -14,7 +14,6 @@ PERMIT_DISTFILES_CDROM=	"No commercial use plus patent issue"
 PERMIT_DISTFILES_FTP=	Yes
 
 USE_CXX=		Yes
-SEPARATE_BUILD=		concurrent
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static

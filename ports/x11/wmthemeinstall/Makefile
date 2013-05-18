@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/wmthemeinstall/Makefile,v 1.2 2005/03/30 18:14:05 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.13 2002/09/17 14:35:04 wilfried Exp $
 # $FreeBSD: ports/x11-wm/wmthemeinstall/Makefile,v 1.5 2000/10/05 06:42:57 reg Exp $
 
@@ -17,7 +17,6 @@ PERMIT_DISTFILES_FTP=	Yes
 RUN_DEPENDS=		:windowmaker-*:x11/windowmaker
 LIB_DEPENDS=		gtk.1,gdk.1::x11/gtk+1
 
-SEPARATE_BUILD=		concurrent
 USE_X11=		Yes
 USE_GMAKE=		Yes
 NO_REGRESS=		Yes

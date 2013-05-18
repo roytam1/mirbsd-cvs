@@ -15,7 +15,6 @@ PERMIT_DISTFILES_FTP=	Yes
 RUN_DEPENDS=		:windowmaker-*:x11/windowmaker
 LIB_DEPENDS=		PropList.2::devel/libproplist
 
-SEPARATE_BUILD=		concurrent
 USE_X11=		Yes
 USE_CXX=		Yes
 USE_GMAKE=		Yes

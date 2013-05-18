@@ -20,7 +20,6 @@ LIB_DEPENDS=	gtk.1,gdk.1::x11/gtk+1
 
 USE_X11=	Yes
 
-SEPARATE_BUILD=	simple
 CONFIGURE_STYLE=gnu
 
 .include <bsd.port.mk>

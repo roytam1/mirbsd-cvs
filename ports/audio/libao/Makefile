@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/libao/Makefile,v 1.3 2005/11/09 20:34:15 bsiegert Exp $
+# $MirOS: ports/audio/libao/Makefile,v 1.4 2005/12/29 19:49:11 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2003/10/08 16:01:45 naddy Exp $
 
 COMMENT=		"portable audio output library"
@@ -38,7 +38,6 @@ MULTI_PACKAGES+=	-esd
 
 SUBPACKAGE?=
 
-SEPARATE_BUILD=		simple
 CONFIGURE_STYLE=	autogen no-autoheader
 AUTOMAKE_VERSION=	1.9
 AUTOCONF_NEW=		yes

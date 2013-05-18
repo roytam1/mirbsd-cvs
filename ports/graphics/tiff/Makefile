@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/tiff/Makefile,v 1.8 2005/07/06 19:21:31 bsiegert Exp $
+# $MirOS: ports/graphics/tiff/Makefile,v 1.9 2005/09/22 12:51:47 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.29 2004/05/18 23:35:35 brad Exp $
 
 COMMENT=		"library routines for working with TIFF images"
@@ -28,7 +28,6 @@ FLAVOR?=
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-SEPARATE_BUILD=		flavored
 SUBST_VARS+=		V _V
 
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}

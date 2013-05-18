@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/libglade/Makefile,v 1.3 2005/07/07 21:19:10 bsiegert Exp $
+# $MirOS: ports/devel/libglade/Makefile,v 1.4 2005/12/28 18:20:52 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/12/22 06:31:05 espie Exp $
 
 COMMENT=		"library for loading GLADE interface files at runtime"
@@ -20,7 +20,6 @@ MODULES=		devel/gettext devel/pkgconfig
 LIB_DEPENDS=		gdk-x11-2.0.0.0,gdk_pixbuf-2.0.0.0,gtk-x11-2.0.0.0::x11/gtk+ \
 			xml:textproc/libxml
 
-SEPARATE_BUILD=		concurrent
 USE_X11=		Yes
 CONFIGURE_STYLE= 	autoconf
 AUTOCONF_NEW=		Yes

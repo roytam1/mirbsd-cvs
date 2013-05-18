@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/libgphoto2/Makefile,v 1.2 2005/07/07 21:21:47 bsiegert Exp $
+# $MirOS: ports/graphics/libgphoto2/Makefile,v 1.3 2005/12/29 21:58:14 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2004/04/14 18:39:57 brad Exp $
 
 COMMENT=		'digital camera library'
@@ -18,7 +18,6 @@ PERMIT_DISTFILES_CDROM=	Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/libgphoto2_port
-SEPARATE_BUILD=		simple
 CONFIGURE_ARGS=		--disable-nls
 
 SUBST_VARS+=		VERSION

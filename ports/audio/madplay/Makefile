@@ -29,7 +29,6 @@ LIB_DEPENDS+=   esd.2::audio/esound
 CONFIGURE_ARGS+= --without-esd
 .endif
 
-SEPARATE_BUILD=	simple
 CONFIGURE_STYLE=gnu
 CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
 		LDFLAGS="-L${LOCALBASE}/lib"

@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/gphoto2/Makefile,v 1.6 2005/12/29 23:12:50 tg Exp $
+# $MirOS: ports/graphics/gphoto2/Makefile,v 1.7 2005/12/30 01:47:45 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/04/14 18:41:15 brad Exp $
 
 COMMENT=		'digital camera command-line interface'
@@ -17,7 +17,6 @@ PERMIT_DISTFILES_CDROM=	Yes
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-SEPARATE_BUILD=		simple
 CONFIGURE_ARGS+=	--disable-nls \
 			--with-aalib
 

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/graphics/gle/Makefile,v 1.1.7.1 2005/03/18 15:46:51 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2003/09/22 22:53:37 pvalchev Exp $
 
 COMMENT=		"OpenGL Extrusion library"
@@ -18,7 +18,6 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=		http://www.linas.org/gle/pub/
 USE_CXX=		Yes		# needs libGLU
 USE_X11=		Yes
-SEPARATE_BUILD= 	concurrent
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ENV=		CPPFLAGS="-I${LOCALBASE}/include" \
 			LDFLAGS="-L${LOCALBASE}/lib -L${X11BASE}/lib -lXi"

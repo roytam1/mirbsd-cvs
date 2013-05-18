@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/print/freetype/Makefile,v 1.2 2005/07/07 21:25:29 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.31 2004/02/04 07:39:18 sturm Exp $
 # $FreeBSD: Makefile,v 1.6 1998/06/21 02:42:33 jseger Exp $
 
@@ -18,7 +18,6 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 USE_GMAKE=	Yes
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE= autoconf dest no-autoheader
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= --enable-static --disable-nls

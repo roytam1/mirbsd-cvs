@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/graphics/gtksee/Makefile,v 1.2 2005/03/30 18:13:31 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.16 2004/04/18 23:20:28 jcs Exp $
 
 COMMENT=	"image viewer similar to ACDSee for Windows"
@@ -22,7 +22,6 @@ RUN_DEPENDS=	:bzip-*:archivers/bzip \
 
 USE_X11=	Yes
 
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE= gnu
 CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include/libpng -I${LOCALBASE}/include" \
 		LDFLAGS="-L${LOCALBASE}/lib"

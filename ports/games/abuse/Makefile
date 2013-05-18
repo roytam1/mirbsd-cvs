@@ -28,7 +28,6 @@ BROKEN=		"gmake loops forever"
 USE_X11=	Yes
 USE_GMAKE=	Yes
 USE_CXX=	Yes
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE=gnu dest
 
 post-extract:

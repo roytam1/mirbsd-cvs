@@ -23,7 +23,6 @@ LIB_DEPENDS=	gphoto2,gphoto2_port::graphics/libgphoto2 \
 
 MODULES=	converters/libiconv
 
-SEPARATE_BUILD=	concurrent
 
 USE_CXX=	Yes
 

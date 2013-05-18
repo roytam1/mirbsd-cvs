@@ -32,7 +32,6 @@ FAKE_FLAGS=		${DESTDIRNAME}=${WRKINST} \
 USE_X11=		Yes
 CONFIGURE_STYLE=	gnu
 
-SEPARATE_BUILD=		concurrent
 
 .if ${MACHINE_ARCH} == "sparc64"
 PATCH_LIST=		patch-* gcc-*

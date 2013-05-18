@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/audio/gom/Makefile,v 1.1.7.1 2005/03/18 15:42:52 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2002/12/29 19:29:56 fgsch Exp $
 
 COMMENT=	"generic audio mixer"
@@ -17,7 +17,6 @@ PERMIT_DISTFILES_FTP=	Yes
 FLAVORS=	no_x11
 FLAVOR?=
 
-SEPARATE_BUILD=	concurrent
 AUTOCONF_NEW=	Yes
 CONFIGURE_STYLE=autoconf
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED}

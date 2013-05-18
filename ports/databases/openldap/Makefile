@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/openldap/Makefile,v 1.4 2005/10/13 23:01:52 tg Exp $
+# $MirOS: ports/databases/openldap/Makefile,v 1.5 2005/10/13 23:25:33 tg Exp $
 # $OpenBSD: Makefile,v 1.40 2004/04/04 21:53:37 jakob Exp $
 
 COMMENT=	"Open source LDAP software (client)"
@@ -30,7 +30,6 @@ MASTER_SITES=	ftp://ftp.OpenLDAP.org/pub/OpenLDAP/openldap-release/ \
 
 EXTRACT_SUFX=		.tgz
 
-SEPARATE_BUILD=		concurrent
 CONFIGURE_STYLE=	autoconf
 
 .include <mirports.sys.mk>

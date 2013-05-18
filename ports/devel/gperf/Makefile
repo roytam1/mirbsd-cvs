@@ -15,7 +15,6 @@ PERMIT_DISTFILES_FTP=	Yes
 MASTER_SITES=	${MASTER_SITE_GNU:=gperf/}
 
 USE_CXX=		Yes
-# Don't use SEPARATE_BUILD, the doc doesn't like it
 CONFIGURE_STYLE=	gnu
 # and it also insists upon installing under $(prefix)/doc...
 FAKE_FLAGS=docdir='$$(prefix)/share/doc/gperf'

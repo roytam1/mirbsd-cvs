@@ -21,7 +21,6 @@ CONFIGURE_ARGS=		--with-install-root=${WRKINST}
 
 NO_REGRESS=	Yes
 
-SEPARATE_BUILD=	concurrent
 
 .include <bsd.port.mk>
 

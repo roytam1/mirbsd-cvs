@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/lang/squeak/Makefile,v 1.2 2005/04/10 21:50:19 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/05/17 15:04:03 espie Exp $
 
 NOT_FOR_PLATFORM=	${LP64_PLATFORMS}
@@ -39,7 +39,6 @@ EXTRACT_ONLY=Squeak-$V-src.tar.gz ${IMAGE}
 WRKDIST=${WRKDIR}/Squeak-$V
 WRKSRC=	${WRKDIST}/src/unix
 
-SEPARATE_BUILD=simple
 
 CONFIGURE_STYLE=gnu
 CONFIGURE_ENV=RANLIB=ranlib

@@ -1,4 +1,4 @@
-# $MirOS: ports/www/squid/Makefile,v 1.3 2005/09/05 12:43:44 bsiegert Exp $
+# $MirOS: ports/www/squid/Makefile,v 1.4 2005/09/06 17:43:04 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.61 2004/04/21 11:11:19 brad Exp $
 
 COMMENT=	"WWW and FTP proxy cache and accelerator"
@@ -53,7 +53,6 @@ SUBST_VARS=	SQUIDDIR
 FLAVORS=	transparent
 FLAVOR?=
 
-#SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE= autoconf no-autoheader
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/cfgaux
 CONFIGURE_ARGS=	--enable-removal-policies="lru heap" \

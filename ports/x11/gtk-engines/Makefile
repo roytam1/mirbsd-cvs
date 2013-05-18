@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/gtk-engines/Makefile,v 1.5 2005/12/29 22:11:35 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.6 2004/12/17 15:18:33 alek Exp $
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
@@ -22,7 +22,6 @@ EXTRACT_SUFX=		.tar.bz2
 LIB_DEPENDS=		gdk-x11-2.0.0.800,gdk_pixbuf-2.0.0.800,gtk-x11-2.0.0.800::x11/gtk+
 MODULES=		devel/pkgconfig
 
-SEPARATE_BUILD=		concurrent
 USE_X11=		Yes
 CONFIGURE_STYLE= 	autoconf
 AUTOCONF_NEW=		Yes

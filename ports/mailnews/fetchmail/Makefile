@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/fetchmail/Makefile,v 1.1.7.1 2005/03/18 15:49:34 tg Exp $
+# $MirOS: ports/mailnews/fetchmail/Makefile,v 1.2 2005/12/15 18:50:23 tg Exp $
 # $OpenBSD: Makefile,v 1.104 2005/10/27 21:58:51 bernd Exp $
 
 COMMENT=		"mail retrieval utility for POP2, POP3, IMAP, and more"
@@ -14,7 +14,6 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-SEPARATE_BUILD=		concurrent
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--disable-nls --enable-inet6 --with-ssl \
 			--without-kerberos --enable-NTLM

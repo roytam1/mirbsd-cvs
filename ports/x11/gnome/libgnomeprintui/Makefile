@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/gnome/libgnomeprintui/Makefile,v 1.2 2005/03/25 23:13:50 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.8 2004/12/15 13:57:56 alek Exp $
 
 COMMENT=		"user interface components for libgnomeprint"
@@ -25,7 +25,6 @@ RUN_DEPENDS=		:gnome-icon-theme->=1.2.0:x11/gnome/icon-theme
 LIB_DEPENDS=		gnomecanvas-2::x11/gnome/libgnomecanvas \
 			gnomeprint-2-2::x11/gnome/libgnomeprint
 
-SEPARATE_BUILD= 	concurrent
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes

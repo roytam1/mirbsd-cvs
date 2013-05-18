@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/plan9/rc/Makefile,v 1.2 2005/07/06 19:21:34 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.13 2003/05/15 03:25:56 markus Exp $
 
 COMMENT=		"clone of plan9 shell"
@@ -22,7 +22,6 @@ PERMIT_DISTFILES_FTP=	Yes
 FLAVORS=		static
 FLAVOR?=
 
-SEPARATE_BUILD=		flavored
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	--with-history --with-editline

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/gnome/librsvg/Makefile,v 1.3 2005/07/07 21:28:48 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.12 2004/12/23 05:03:09 marcm Exp $
 
 COMMENT=		"SAX-based render library for SVG files"
@@ -33,7 +33,6 @@ LIB_DEPENDS=		art_lgpl_2.5::graphics/libart \
 			croco-0.6.3.0::textproc/libcroco \
 			xml2.6::textproc/libxml
 
-SEPARATE_BUILD=		concurrent
 
 USE_X11=		Yes
 USE_GMAKE=		Yes

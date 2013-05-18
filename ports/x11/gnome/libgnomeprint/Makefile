@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/libgnomeprint/Makefile,v 1.2 2005/03/20 16:46:35 bsiegert Exp $
+# $MirOS: ports/x11/gnome/libgnomeprint/Makefile,v 1.4 2005/07/06 19:21:40 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.9 2004/12/15 13:57:56 alek Exp $
 
 COMMENT=		"printing framework for GNOME"
@@ -45,7 +45,6 @@ CONFIGURE_ARGS+=	--with-cups
 MULTI_PACKAGES+=	-cups
 .endif
 
-SEPARATE_BUILD=		flavored
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes

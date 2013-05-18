@@ -18,7 +18,6 @@ MASTER_SITES=		ftp://truffula.com/pub/
 
 LIB_DEPENDS=		dockapp::devel/libdockapp
 
-SEPARATE_BUILD=		concurrent
 USE_X11=		Yes
 CONFIGURE_STYLE=	gnu
 

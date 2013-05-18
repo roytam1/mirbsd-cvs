@@ -22,7 +22,6 @@ MODULES+=	converters/libiconv
 VMEM_WARNING=	Yes
 
 USE_CXX=	Yes
-SEPARATE_BUILD=	simple
 CONFIGURE_STYLE= gnu
 
 .include <bsd.port.mk>

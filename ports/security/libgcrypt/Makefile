@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/security/libgcrypt/Makefile,v 1.1.7.1 2005/03/18 15:51:30 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2004/05/08 06:41:47 sturm Exp $
 
 COMMENT=		"crypto library based on code used in GnuPG"
@@ -21,7 +21,6 @@ MASTER_SITES=	ftp://ftp.gnupg.org/gcrypt/libgcrypt/ \
 
 LIB_DEPENDS=		gpg-error::security/libgpg-error
 
-SEPARATE_BUILD=		concurrent
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes

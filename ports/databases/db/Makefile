@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/db/Makefile,v 1.5 2005/07/25 20:31:58 bsiegert Exp $
+# $MirOS: ports/databases/db/Makefile,v 1.6 2005/07/26 20:07:37 bsiegert Exp $
 
 COMMENT=		"Berkeley DB, revision 4"
 COMMENT-doc=		"Berkeley DB documentation, revision 4"
@@ -39,7 +39,6 @@ MULTI_PACKAGES=		-doc
 CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
 AUTOGEN=		${SHELL} -c 'cd dist && . ./s_config'
-SEPARATE_BUILD=		flavored
 CONFIGURE_SCRIPT=	${WRKSRC}/dist/configure
 CONFIGURE_ARGS+=	--enable-compat185 
 CONFIGURE_ARGS+=	--enable-dump185

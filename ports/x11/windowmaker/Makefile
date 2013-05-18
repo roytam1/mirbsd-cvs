@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/windowmaker/Makefile,v 1.2 2005/07/07 21:29:24 bsiegert Exp $
+# $MirOS: ports/x11/windowmaker/Makefile,v 1.3 2006/01/01 05:25:31 tg Exp $
 # $OpenBSD: Makefile,v 1.57 2003/08/16 19:06:07 tedu Exp $
 
 COMMENT=		'window manager that emulates NEXTSTEP(tm)'
@@ -23,7 +23,6 @@ MASTER_SITES=		${MASTER_SITE_WINDOWMAKER:=source/release/}
 EXTRACT_SUFX=		.tar.bz2
 
 NO_REGRESS=		Yes
-#SEPARATE_BUILD=		concurrent
 USE_X11=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes

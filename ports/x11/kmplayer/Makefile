@@ -35,6 +35,5 @@ LIB_DEPENDS=kdecore.4,DCOP,kdefx,kdesu,kdeui,kio,kmediaplayer,kparts::x11/kde/li
 
 RUN_DEPENDS=:mplayer-*:x11/mplayer
 
-SEPARATE_BUILD=flavored
 
 .include <bsd.port.mk>

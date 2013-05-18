@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/libdvdread/Makefile,v 1.1.7.1 2005/03/18 15:44:50 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2003/02/25 00:58:53 espie Exp $
 
 CATEGORIES=	devel
@@ -15,6 +15,5 @@ PERMIT_PACKAGE_FTP=	Yes
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
-SEPARATE_BUILD=		Yes
 
 .include <bsd.port.mk>

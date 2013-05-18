@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/jftpgw/Makefile,v 1.1.7.1 2005/03/18 15:48:26 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2004/08/11 18:45:42 brad Exp $
 
 COMMENT=	"FTP proxy"
@@ -15,7 +15,6 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE=autoconf
 AUTOCONF_NEW=	Yes
 CONFIGURE_ARGS+= --enable-crypt \

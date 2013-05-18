@@ -1,4 +1,4 @@
-# $MirOS: ports/editors/xemacs21/Makefile,v 1.2 2005/07/06 19:21:30 bsiegert Exp $
+# $MirOS: ports/editors/xemacs21/Makefile,v 1.3 2006/02/01 15:42:14 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2003/07/06 18:34:48 naddy Exp $
 
 COMMENT=		"heavily customizable and extensible editor"
@@ -34,19 +34,6 @@ MASTER_SITES= 	ftp://ftp.xemacs.org/pub/xemacs/xemacs-21.4/ \
 
 # this one is not "toggle-able" in the configure script
 MODULES=	devel/gettext
-
-# XEmacs symlinks a lot of files in its source tree
-# preventing safe SEPARATE_BUILD
-# (In facts, files modified in the source tree
-# are not platform-specific (elisp bytecode) but
-# you cannot build the package on different systems
-# sharing the same ports tree w/o risking race
-# problems (yes, building over nfs is stupid but...)) 
-# (there are flavors (mule) issues too)
-# Lots of configure.in changes are needed to restore
-# a more logical behaviour (eech)
-# Therefore, this is commented out for now:
-# SEPARATE_BUILD=		simple
 
 #USE_GMAKE=		Yes
 

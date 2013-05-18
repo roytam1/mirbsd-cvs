@@ -22,7 +22,6 @@ MODULES=		devel/gettext
 LIB_DEPENDS=		xml.9::textproc/libxml1 \
 			gtk.1.2,gdk.1.2::x11/gtk+1
 
-SEPARATE_BUILD=		concurrent
 USE_X11=		Yes
 CONFIGURE_STYLE= 	gnu
 CONFIGURE_ARGS+= 	${CONFIGURE_SHARED}

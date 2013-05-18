@@ -19,7 +19,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 LIB_DEPENDS=		Xg.0.0,frame.0.0,plan9c.0.0::plan9/9libs
 
-SEPARATE_BUILD=		simple
 USE_X11=		Yes
 CONFIGURE_STYLE= 	gnu
 CONFIGURE_ARGS=		--with-9libs=${LOCALBASE}/include/9libs

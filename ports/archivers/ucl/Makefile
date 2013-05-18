@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/archivers/ucl/Makefile,v 1.2 2005/03/25 23:13:56 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.4 2003/05/24 02:40:42 jolan Exp $
 
 COMMENT=	"portable lossless data compression library"
@@ -22,7 +22,6 @@ BUILD_DEPENDS=	:nasm-*:lang/nasm
 .endif
 
 CONFIGURE_STYLE=	gnu
-SEPARATE_BUILD=		concurrent
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} --enable-static
 MAKE_FLAGS=		CFLAGS_O=""
 

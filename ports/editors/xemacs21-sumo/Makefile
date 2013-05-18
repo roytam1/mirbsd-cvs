@@ -41,7 +41,6 @@ MASTER_SITES= 	ftp://ftp.xemacs.org/pub/xemacs/packages/ \
 
 # build/configuration variables
 
-SEPARATE_BUILD=	concurrent
 
 FLAVORS=mule
 FLAVOR?=

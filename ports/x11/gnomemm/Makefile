@@ -30,7 +30,6 @@ LIB_DEPENDS=		gdkmm.2,gtkmm.2::x11/gtkmm \
 PKG_ARCH=		*
 .endif
 
-SEPARATE_BUILD=		concurrent
 USE_X11=		Yes
 NO_REGRESS=		Yes
 USE_GMAKE=		Yes

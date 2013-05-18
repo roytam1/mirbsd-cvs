@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/gnome/terminal/Makefile,v 1.1.7.1 2005/03/18 16:00:34 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2004/12/15 13:57:57 alek Exp $
 
 COMMENT=		"GNOME terminal"
@@ -28,7 +28,6 @@ LIB_DEPENDS=		gnomeui-2::x11/gnome/libgnomeui \
 			startup-notification-1::devel/startup-notification \
 			vte::devel/vte
 
-SEPARATE_BUILD= 	concurrent
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes

@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/help2man/Makefile,v 1.2 2005/05/21 02:47:42 tg Exp $
+# $MirOS: ports/devel/help2man/Makefile,v 1.3 2005/11/10 21:13:45 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2002/11/13 19:04:53 naddy Exp $
 
 COMMENT=	"GNU help2man"
@@ -18,7 +18,6 @@ PERMIT_DISTFILES_FTP=	Yes
 BUILD_DEPENDS+=		::essentials/texinfo
 .endif
 
-SEPARATE_BUILD=		concurrent
 CONFIGURE_STYLE=	gnu
 INSTALL_STRIP=
 

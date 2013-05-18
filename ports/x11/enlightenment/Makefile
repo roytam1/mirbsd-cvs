@@ -22,7 +22,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 USE_X11=	Yes
 USE_GMAKE=	Yes
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS=	--enable-fsstd
 CONFIGURE_ENV=	CPPFLAGS="-I${X11BASE}/include -I${LOCALBASE}/include -I${LOCALBASE}/include/freetype1/freetype" \

@@ -17,7 +17,6 @@ MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=nail/}
 
 MODULES=		converters/libiconv
 
-SEPARATE_BUILD=		concurrent
 CONFIGURE_STYLE=	autoconf
 CONFIGURE_ARGS=		--with-rcfile="${SYSCONFDIR}/nail.rc" --with-openssl
 CONFIGURE_ENV+=		LIBS="-L${ICONV_PREFIX}/lib -liconv"

@@ -21,7 +21,6 @@ MODULES=	devel/gettext
 
 CONFIGURE_STYLE=gnu old
 CONFIGURE_ARGS=	--srcdir=${WRKSRC} ${WRKBUILD}
-SEPARATE_BUILD=	simple
 
 MAKE_FLAGS=	INSTALL='install -c' \
 		INSTALL_PROGRAM='install -c -s -m 555' \

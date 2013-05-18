@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/lang/tcl/8.4/Makefile,v 1.3 2005/07/07 21:22:38 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/05/20 21:25:44 miod Exp $
 # Uses pthreads (can but does not at the moment)
 
@@ -26,7 +26,6 @@ FAKE_FLAGS=	INSTALL="install -c" INSTALL_ROOT="${WRKINST}" \
 		UNIX_INCLUDE_INSTALL_DIR='$$(BASE_INCLUDE_DIR)/unix' \
 		MAN_INSTALL_DIR='$${INSTALL_ROOT}$$(TCL_LIBRARY)/man'
 
-SEPARATE_BUILD=		concurrent
 CONFIGURE_STYLE=	autoconf no-autoheader
 CONFIGURE_ARGS+=	--enable-static
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}

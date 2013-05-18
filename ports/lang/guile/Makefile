@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/guile/Makefile,v 1.2 2005/07/06 19:21:31 bsiegert Exp $
+# $MirOS: ports/lang/guile/Makefile,v 1.3 2005/12/16 15:42:11 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2002/12/29 20:41:07 fgsch Exp $
 
 COMMENT=		"GNU's Ubiquitous Intelligent Language for Extension"
@@ -18,7 +18,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 LIB_DEPENDS=		ltdl::devel/libtool
 
-SEPARATE_BUILD=		simple
 CONFIGURE_STYLE=	autoconf no-autoheader
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/guile-readline
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}

@@ -1,4 +1,4 @@
-# $MirOS: ports/www/mod_jk/Makefile,v 1.1.7.1 2005/03/18 15:59:43 tg Exp $
+# $MirOS: ports/www/mod_jk/Makefile,v 1.3 2005/07/07 21:27:46 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2004/01/02 08:19:54 sturm Exp $
 
 IGNORE=		"might be broken, used to use Libtool"
@@ -22,7 +22,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		${MASTER_SITE_APACHE:=jakarta/tomcat-connectors/jk/source/}
 
-SEPARATE_BUILD=		concurrent
 NO_REGRESS=		Yes
 USE_GMAKE=		Yes
 

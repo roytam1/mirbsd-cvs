@@ -18,7 +18,6 @@ MASTER_SITES=	${HOMEPAGE}download/
 
 LIB_DEPENDS=	lzo.1::archivers/lzo
 
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE= gnu
 CONFIGURE_ENV=	CPPFLAGS="-I${LOCALBASE}/include" \
 		LDFLAGS="-L${LOCALBASE}/lib"

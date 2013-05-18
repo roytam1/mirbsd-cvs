@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/gnome/gail/Makefile,v 1.1.7.1 2005/03/18 16:00:23 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2004/12/15 13:57:56 alek Exp $
 
 COMMENT=		"GNOME Accessibility Implementation Library"
@@ -23,7 +23,6 @@ BUILD_DEPENDS= 		:pkgconfig-*:devel/pkgconfig
 LIB_DEPENDS= 		atk-1.0.800.0::devel/atk \
 			gnomecanvas-2::x11/gnome/libgnomecanvas
 
-SEPARATE_BUILD=		concurrent
 USE_X11=		Yes
 USE_GMAKE=		Yes
 CONFIGURE_STYLE= 	autoconf

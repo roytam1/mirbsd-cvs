@@ -20,7 +20,6 @@ PERMIT_PACKAGE_CDROM=No
 CONFIGURE_STYLE=simple
 CONFIGURE_SCRIPT=Configure
 CONFIGURE_ARGS=-dse -Doptimize="${CFLAGS}" -Dlocal=${PREFIX}
-SEPARATE_BUILD=concurrent
 
 pre-configure: 
 	cp ${FILESDIR}/openbsd-hints ${WRKSRC}/hints/openbsd.sh

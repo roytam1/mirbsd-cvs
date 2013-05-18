@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/libmng/Makefile,v 1.3 2006/01/11 17:29:55 tg Exp $
+# $MirOS: ports/graphics/libmng/Makefile,v 1.4 2006/01/11 17:30:16 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2003/12/23 23:50:56 brad Exp $
 
 COMMENT=		"Multiple-image Network Graphics (MNG) reference library"
@@ -16,7 +16,6 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-SEPARATE_BUILD=		simple
 CONFIGURE_STYLE=	autogen no-autoheader
 AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9

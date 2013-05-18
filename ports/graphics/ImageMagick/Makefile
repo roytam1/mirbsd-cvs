@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/ImageMagick/Makefile,v 1.6 2005/12/16 15:39:51 tg Exp $
+# $MirOS: ports/graphics/ImageMagick/Makefile,v 1.7 2005/12/16 15:40:10 tg Exp $
 # $OpenBSD: Makefile,v 1.83 2005/06/28 18:08:23 naddy Exp $
 
 COMMENT=	"image processing tools"
@@ -34,7 +34,6 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 USE_CXX=	Yes
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE= autoconf
 AUTOCONF_NEW=	Yes
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED}

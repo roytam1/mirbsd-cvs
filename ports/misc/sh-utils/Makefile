@@ -15,7 +15,6 @@ MASTER_SITES=		${MASTER_SITE_GNU:=sh-utils/}
 
 MODULES=		devel/gettext
 
-SEPARATE_BUILD=		concurrent
 USE_GMAKE=		Yes
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS=		--program-prefix="g"

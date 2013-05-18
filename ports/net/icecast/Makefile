@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/icecast/Makefile,v 1.1.7.1 2005/03/18 15:48:21 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/05/13 10:48:36 naddy Exp $
 
 COMMENT=	"server for streaming Ogg Vorbis and MP3"
@@ -26,7 +26,6 @@ LIB_DEPENDS=	curl.2::net/curl \
 		xslt.1::textproc/libxslt \
 		vorbis.2,vorbisenc.2::audio/libvorbis
 
-SEPARATE_BUILD=	simple
 
 post-build:
 	@sed -e 's,##PREFIX##,${TRUEPREFIX},g' < ${FILESDIR}/README.OpenBSD > \

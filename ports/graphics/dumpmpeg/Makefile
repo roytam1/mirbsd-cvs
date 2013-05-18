@@ -21,7 +21,6 @@ LIB_DEPENDS=	smpeg.1.3:smpeg-*:devel/smpeg
 USE_X11=	Yes
 USE_CXX=	Yes
 
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE= gnu
 
 .include <bsd.port.mk>

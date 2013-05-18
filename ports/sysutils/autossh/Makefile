@@ -21,7 +21,6 @@ EXTRACT_SUFX=		.tgz
 
 NO_REGRESS=		Yes
 
-SEPARATE_BUILD=		concurrent
 
 DEFS=			-D"SSH_PATH=\"/usr/bin/ssh\"" -D"VER=\"${VERSION}\""
 

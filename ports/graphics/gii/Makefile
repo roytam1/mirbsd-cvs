@@ -18,7 +18,6 @@ USE_X11=	Yes
 USE_GMAKE=	Yes
 
 CFLAGS+=	-pthread
-SEPARATE_BUILD= concurrent
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS+= ${CONFIGURE_SHARED}
 CONFIGURE_ARGS+= --enable-static --enable-mutexes="int"

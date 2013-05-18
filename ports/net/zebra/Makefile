@@ -29,7 +29,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 USE_GMAKE=	Yes
 CONFDIR=	${SYSCONFDIR}/zebra
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE= gnu old
 CONFIGURE_ARGS+= --enable-vtysh --sysconfdir=${CONFDIR}
 CONFIGURE_ENV=	LIBS=-lcurses

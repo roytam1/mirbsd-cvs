@@ -21,7 +21,6 @@ MASTER_SITES=		${HOMEPAGE}
 
 NO_REGRESS=		Yes
 
-SEPARATE_BUILD=		concurrent
 
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--with-target=BSD \

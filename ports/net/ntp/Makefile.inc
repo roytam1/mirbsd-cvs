@@ -26,7 +26,6 @@ SUBPACKAGE?=
 PKG_ARCH=	*
 .endif
 
-SEPARATE_BUILD=	concurrent
 AUTOCONF_NEW=	Yes
 CONFIGURE_STYLE= autoconf
 CONFIGURE_ARGS+= --bindir='${PREFIX}/sbin' \

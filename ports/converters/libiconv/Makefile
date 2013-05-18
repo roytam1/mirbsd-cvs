@@ -1,4 +1,4 @@
-# $MirOS: ports/converters/libiconv/Makefile,v 1.4 2005/07/19 18:10:06 bsiegert Exp $
+# $MirOS: ports/converters/libiconv/Makefile,v 1.5 2006/02/01 17:23:35 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2003/12/24 00:08:02 brad Exp $
 
 COMMENT=	"character set conversion library"
@@ -14,7 +14,6 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-SEPARATE_BUILD=	concurrent
 CONFIGURE_STYLE=autoconf
 AUTOCONF_NEW=	Yes
 VMEM_WARNING=	Yes

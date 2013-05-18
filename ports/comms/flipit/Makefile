@@ -11,7 +11,6 @@ HOMEPAGE=	http://www.lickey.com/flipit/
 
 CONFIGURE_STYLE=gnu
 
-SEPARATE_BUILD= simple
 
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/fvwm2/Makefile,v 1.3 2005/07/07 21:28:43 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.31 2004/02/04 07:39:19 sturm Exp $
 
 COMMENT=	"multiple virtual desktop window manager, with icons"
@@ -62,7 +62,6 @@ SUBST_VARS=	VERSION
 
 USE_X11=	Yes
 
-SEPARATE_BUILD= concurrent
 CONFIGURE_STYLE= gnu
 CONFIGURE_ARGS+= --enable-extras \
 		 --without-gnome
