@@ -4,7 +4,7 @@ are essential for generating or displaying the on-line manual pages.
 
 This basic package contains the necessary components to format text
 in ASCII, Latin-1, and UTF-8 (groff's default). If you require the
-full GNU groff toolchain, install the no-console flavour instead.
+full GNU groff toolchain, install the !no_x11 flavour instead.
 
 Besides these, the groff package contains man pages describing the language
 and its macro sets, info documentation, and a number of supplementary

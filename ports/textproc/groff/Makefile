@@ -1,4 +1,4 @@
-# $MirOS: ports/textproc/groff/Makefile,v 1.4 2006/10/27 15:52:27 tg Exp $
+# $MirOS: ports/textproc/groff/Makefile,v 1.5 2007/04/03 19:45:31 tg Exp $
 
 # probably easy to add others, but packing list is different
 ONLY_FOR_PLATFORM=		MirBSD:*:* Interix:*:*
@@ -22,7 +22,7 @@ PERMIT_DISTFILES_FTP=		Yes
 PERMIT_PACKAGE_CDROM=		Yes
 PERMIT_PACKAGE_FTP=		Yes
 
-FLAVORS=			console
+FLAVORS=			no_x11
 FLAVOR?=
 
 MULTI_PACKAGES=			-docs
@@ -35,7 +35,7 @@ PERMIT_PACKAGE_FTP=		"GNU FDL 1.2"
 B_R_DEPENDS+=			${GROFF_DEPENDS}
 .endif
 
-.if !${FLAVOR:L:Mconsole}
+.if !${FLAVOR:Mno_x11}
 GROFF_DEPENDS+=			:ghostscript-*:print/ghostscript/artifex
 GROFF_DEPENDS+=			:psutils-*:print/psutils
 GROFF_DEPENDS+=			:netpbm-*:graphics/netpbm
@@ -48,7 +48,7 @@ AUTOCONF_NEW=			Yes
 CONFIGURE_ENV+=			PAGE=A4
 EXTRA_XAKE_FLAGS+=		indexdir=/usr/share/dict/papers
 
-.if ${FLAVOR:L:Mconsole}
+.if ${FLAVOR:Mno_x11}
 CONFIGURE_ARGS+=		--without-x
 CONFIGURE_ARGS+=		--without-gs
 EXTRA_XAKE_FLAGS+=		make_html= make_install_html=

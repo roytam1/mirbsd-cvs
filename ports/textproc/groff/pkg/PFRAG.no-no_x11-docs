@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/textproc/groff/pkg/PFRAG.no-console-docs,v 1.1 2006/08/10 23:01:33 tg Exp $
 man/man1/addftinfo.1
 man/man1/afmtodit.1
 man/man1/eqn2graph.1

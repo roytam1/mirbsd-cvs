@@ -1,5 +1,5 @@
-@comment $MirOS$
-!%%console%%
+@comment $MirOS: ports/textproc/groff/pkg/PLIST,v 1.1 2006/08/10 23:01:33 tg Exp $
+!%%no_x11%%
 bin/gdiffmk
 bin/geqn
 bin/ggrn
