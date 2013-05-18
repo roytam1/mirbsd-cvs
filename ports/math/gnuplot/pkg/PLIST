@@ -1,10 +1,31 @@
-@comment $MirOS$
+@comment $MirOS: ports/math/gnuplot/pkg/PLIST,v 1.1.7.1 2005/03/18 15:50:05 tg Exp $
 @comment $OpenBSD: PLIST,v 1.9 2003/05/02 18:03:21 naddy Exp $
 !%%no_x11%%
+@unexec install-info --delete --info-dir=%D/info %D/info/gnuplot.info
 bin/gnuplot
-@info info/gnuplot.info
+info/gnuplot.info
 man/man1/gnuplot.1
 man/man1/lasergnu.1
-share/gnuplot/4.0/gnuplot.gih
-@dirrm share/gnuplot/4.0
+share/emacs/site-lisp/gnuplot-gui.el
+share/emacs/site-lisp/gnuplot-gui.elc
+share/emacs/site-lisp/gnuplot.el
+share/emacs/site-lisp/gnuplot.elc
+share/emacs/site-lisp/info-look.20.2.el
+share/emacs/site-lisp/info-look.20.3.el
+share/gnuplot/4.2/PostScript/8859-1.ps
+share/gnuplot/4.2/PostScript/8859-15.ps
+share/gnuplot/4.2/PostScript/8859-2.ps
+share/gnuplot/4.2/PostScript/cp1250.ps
+share/gnuplot/4.2/PostScript/cp437.ps
+share/gnuplot/4.2/PostScript/cp850.ps
+share/gnuplot/4.2/PostScript/cp852.ps
+share/gnuplot/4.2/PostScript/koi8r.ps
+share/gnuplot/4.2/PostScript/koi8u.ps
+share/gnuplot/4.2/PostScript/prologue.ps
+share/gnuplot/4.2/gnuplot.gih
+@dirrm share/gnuplot/4.2/PostScript
+@dirrm share/gnuplot/4.2
 @dirrm share/gnuplot
+@dirrm share/emacs/site-lisp
+@dirrm share/emacs
+@exec install-info --info-dir=%D/info %D/info/gnuplot.info

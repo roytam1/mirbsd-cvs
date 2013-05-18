@@ -1,16 +1,11 @@
-# $MirOS: ports/math/gnuplot/Makefile,v 1.2 2006/02/09 11:12:04 tg Exp $
+# $MirOS: ports/math/gnuplot/Makefile,v 1.3 2006/09/14 00:10:55 tg Exp $
 # $OpenBSD: Makefile,v 1.25 2004/02/04 15:02:09 xsa Exp $
 
-COMMENT=			command-driven interactive function plotting program
+COMMENT=	command-driven interactive function plotting program
 
-DISTNAME=	gnuplot-4.0.0
+DISTNAME=	gnuplot-4.2.2
 CATEGORIES=	math graphics
-MASTER_SITES=	ftp://ftp.gnuplot.info/pub/gnuplot/ \
-		ftp://ftp.gnuplot.vt.edu/pub/gnuplot/ \
-		ftp://ftp.irisa.fr/pub/gnuplot/ \
-		ftp://ftp.ucc.ie/pub/gnuplot/ \
-		ftp://ftp.cc.monash.edu.au/pub/gnuplot/ \
-		${MASTER_SITE_GNU:=gnuplot/}
+MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=gnuplot/}
 
 HOMEPAGE=	http://www.gnuplot.info/
 
@@ -25,8 +20,12 @@ FLAVOR?=
 MODULES+=		graphics/png
 
 CONFIGURE_STYLE= gnu
-CONFIGURE_ARGS=	--without-linux-vga --without-gd \
-		--with-png --with-gnu-readline --with-lasergnu
+CONFIGURE_ARGS+=	--without-linux-vga
+CONFIGURE_ARGS+=	--without-gd
+CONFIGURE_ARGS+=	--with-png
+CONFIGURE_ARGS+=	--with-gnu-readline
+CONFIGURE_ARGS+=	--with-lasergnu
+CONFIGURE_ARGS+=	--disable-wxwidgets
 NO_REGRESS=	Yes
 
 .if ${FLAVOR:L:Mno_x11}
