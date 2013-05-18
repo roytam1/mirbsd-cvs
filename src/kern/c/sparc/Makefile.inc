@@ -1,4 +1,4 @@
-# $MirOS: src/kern/c/sparc/Makefile.inc,v 1.9 2008/10/18 17:45:50 tg Exp $
+# $MirOS: src/kern/c/sparc/Makefile.inc,v 1.10 2008/12/27 21:29:31 tg Exp $
 
 XSRCS+=		htonl.c htons.c ntohl.c ntohs.c
 
@@ -15,6 +15,7 @@ LSRCS+=		Lbzero.c Lffs.c
 CFLAGS_memchr.o= -Wno-cast-qual
 
 XSRCS+=		mul.S umul.S
+KUSRCS+=	fixunsdfsi.S
 XSRCS+=		saveregs.S
 
 XSRCS+=		rem.S sdiv.S udiv.S urem.S

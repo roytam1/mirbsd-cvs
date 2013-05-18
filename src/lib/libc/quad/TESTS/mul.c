@@ -35,7 +35,7 @@
 #include <stdio.h>
 
 int
-main()
+main(void)
 {
 	union { long long q; unsigned int v[2]; } a, b, m;
 	char buf[300];
@@ -58,5 +58,5 @@ main()
 		printf("  = %X%08X * %X%08X => %X%08X\n",
 		    a.v[0], a.v[1], b.v[0], b.v[1], m.v[0], m.v[1]);
 	}
-	exit(0);
+	return (0);
 }

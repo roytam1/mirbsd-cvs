@@ -1,11 +1,19 @@
-#	$OpenBSD: Makefile,v 1.2 1996/08/19 08:30:55 tholo Exp $
+# $MirOS$
 
-all: mul divrem
+.include <bsd.own.mk>
 
-MUL=	mul.c ../muldi3.c
-mul: ${MUL}
-	gcc -g -DSPARC_XXX ${MUL} -o $@
+KERNBASE?=	${.CURDIR}/../../../../kern
+NOMAN=		Yes
+CLEANFILES+=	divrem divrem.o mul mul.o muldi3.o qdivrem.o
+F=		MKC_DEBG=Yes
 
-DIVREM=	divrem.c ../qdivrem.c
-divrem: ${DIVREM}
-	gcc -g -DSPARC_XXX ${DIVREM} -o $@
+all:
+	cd ${.CURDIR} && exec ${MAKE} $F mul PROG=mul \
+	    SRCS='mul.c muldi3.c'
+	cd ${.CURDIR} && exec ${MAKE} $F divrem PROG=divrem \
+	    SRCS='divrem.c qdivrem.c'
+
+.PATH: ${KERNBASE}/c
+
+.include "${KERNBASE}/Makefile.inc"
+.include <bsd.prog.mk>

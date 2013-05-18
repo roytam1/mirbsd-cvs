@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/Makefile.inc,v 1.10 2007/02/06 15:55:11 tg Exp $
+# $MirOS: src/lib/libc/Makefile.inc,v 1.11 2008/08/01 16:14:47 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.11 2005/06/17 20:37:31 drahn Exp $
 
 .ifndef LIBCSRCDIR
@@ -29,7 +29,6 @@ AINC+=  -nostdinc -idirafter ${DESTDIR}/usr/include
 .include "${LIBCSRCDIR}/i18n/Makefile.inc"
 .include "${LIBCSRCDIR}/net/Makefile.inc"
 .include "${LIBCSRCDIR}/ohash/Makefile.inc"
-.include "${LIBCSRCDIR}/quad/Makefile.inc"
 .include "${LIBCSRCDIR}/regex/Makefile.inc"
 .include "${LIBCSRCDIR}/rpc/Makefile.inc"
 .include "${LIBCSRCDIR}/stdio/Makefile.inc"

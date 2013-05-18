@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/libgcc2.c,v 1.4 2006/03/01 20:08:10 tg Exp $ */
+/* $MirOS: gcc/gcc/libgcc2.c,v 1.5 2009/09/12 13:52:37 tg Exp $ */
 
 /* More subroutines needed by GCC output code on some machines.  */
 /* Compile this one with gcc.  */
@@ -1274,6 +1274,7 @@ __fixxfdi (XFtype a)
 #endif
 
 #ifdef L_fixunsdfdi
+#ifndef _LIBC_PROVIDES_QUAD_
 #define WORD_SIZE (sizeof (Wtype) * BITS_PER_UNIT)
 #define HIGH_WORD_COEFF (((UDWtype) 1) << WORD_SIZE)
 
@@ -1293,9 +1294,11 @@ __fixunsdfDI (DFtype a)
   /* Assemble result from the two parts.  */
   return ((UDWtype) hi << WORD_SIZE) | lo;
 }
+#endif /* _LIBC_PROVIDES_QUAD_ */
 #endif
 
 #ifdef L_fixdfdi
+#ifndef _LIBC_PROVIDES_QUAD_
 DWtype
 __fixdfdi (DFtype a)
 {
@@ -1303,9 +1306,11 @@ __fixdfdi (DFtype a)
     return - __fixunsdfDI (-a);
   return __fixunsdfDI (a);
 }
+#endif /* _LIBC_PROVIDES_QUAD_ */
 #endif
 
 #ifdef L_fixunssfdi
+#ifndef _LIBC_PROVIDES_QUAD_
 #define WORD_SIZE (sizeof (Wtype) * BITS_PER_UNIT)
 #define HIGH_WORD_COEFF (((UDWtype) 1) << WORD_SIZE)
 
@@ -1330,9 +1335,11 @@ __fixunssfDI (SFtype original_a)
   /* Assemble result from the two parts.  */
   return ((UDWtype) hi << WORD_SIZE) | lo;
 }
+#endif /* _LIBC_PROVIDES_QUAD_ */
 #endif
 
 #ifdef L_fixsfdi
+#ifndef _LIBC_PROVIDES_QUAD_
 DWtype
 __fixsfdi (SFtype a)
 {
@@ -1340,6 +1347,7 @@ __fixsfdi (SFtype a)
     return - __fixunssfDI (-a);
   return __fixunssfDI (a);
 }
+#endif /* _LIBC_PROVIDES_QUAD_ */
 #endif
 
 #if defined(L_floatdixf) && (LIBGCC2_LONG_DOUBLE_TYPE_SIZE == 96)
@@ -1377,6 +1385,7 @@ __floatditf (DWtype u)
 #endif
 
 #ifdef L_floatdidf
+#ifndef _LIBC_PROVIDES_QUAD_
 #define WORD_SIZE (sizeof (Wtype) * BITS_PER_UNIT)
 #define HIGH_HALFWORD_COEFF (((UDWtype) 1) << (WORD_SIZE / 2))
 #define HIGH_WORD_COEFF (((UDWtype) 1) << WORD_SIZE)
@@ -1391,9 +1400,11 @@ __floatdidf (DWtype u)
 
   return d;
 }
+#endif /* _LIBC_PROVIDES_QUAD_ */
 #endif
 
 #ifdef L_floatdisf
+#ifndef _LIBC_PROVIDES_QUAD_
 #define WORD_SIZE (sizeof (Wtype) * BITS_PER_UNIT)
 #define HIGH_HALFWORD_COEFF (((UDWtype) 1) << (WORD_SIZE / 2))
 #define HIGH_WORD_COEFF (((UDWtype) 1) << WORD_SIZE)
@@ -1435,6 +1446,7 @@ __floatdisf (DWtype u)
 
   return (SFtype) f;
 }
+#endif /* _LIBC_PROVIDES_QUAD_ */
 #endif
 
 #if defined(L_fixunsxfsi) && LIBGCC2_LONG_DOUBLE_TYPE_SIZE == 96
@@ -1460,6 +1472,7 @@ __fixunsxfSI (XFtype a)
 #endif
 
 #ifdef L_fixunsdfsi
+#ifndef _LIBC_PROVIDES_QUAD_
 /* Reenable the normal types, in case limits.h needs them.  */
 #undef char
 #undef short
@@ -1479,6 +1492,7 @@ __fixunsdfSI (DFtype a)
     return (Wtype) (a + Wtype_MIN) - Wtype_MIN;
   return (Wtype) a;
 }
+#endif /* _LIBC_PROVIDES_QUAD_ */
 #endif
 
 #ifdef L_fixunssfsi

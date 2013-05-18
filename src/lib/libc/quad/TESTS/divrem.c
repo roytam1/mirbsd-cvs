@@ -36,7 +36,7 @@
 #include <stdio.h>
 
 int
-main()
+main(void)
 {
 	union { long long q; unsigned int v[2]; } a, b, q, r;
 	char buf[300];
@@ -63,5 +63,5 @@ main()
 		    a.v[0], a.v[1], b.v[0], b.v[1], q.v[0], q.v[1],
 		    a.v[0], a.v[1], b.v[0], b.v[1], r.v[0], r.v[1]);
 	}
-	exit(0);
+	return (0);
 }
