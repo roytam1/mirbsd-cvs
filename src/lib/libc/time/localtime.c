@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/lib/libc/time/localtime.c,v 1.12 2007/02/07 20:43:24 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005, 2007
@@ -28,7 +28,7 @@
 
 #include <sys/param.h>
 __SCCSID("@(#)localtime.c	7.80");
-__RCSID("$MirOS: src/lib/libc/time/localtime.c,v 1.11 2006/11/01 20:01:21 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/localtime.c,v 1.12 2007/02/07 20:43:24 tg Exp $");
 
 /*
 ** Leap second handling from Bradley White (bww@k.gp.cs.cmu.edu).
@@ -182,7 +182,7 @@ static int tzparse(const char *name, struct state *sp, int lastditch);
 time_t *tm_getleaps(void);
 void _initialise_leaps(void);
 
-/* private interface; sync with tailibc.c */
+/* private interface; sync with taileaps.c */
 extern bool _leaps_initialised;
 extern tai64_t _leaps[];
 extern void _pushleap(time_t);

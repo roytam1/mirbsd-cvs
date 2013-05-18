@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/time/Makefile.inc,v 1.2 2005/03/06 20:28:50 tg Exp $
+# $MirOS: src/lib/libc/time/Makefile.inc,v 1.3 2007/02/07 20:43:24 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.8 2000/08/22 16:19:50 millert Exp $
 
 .PATH: ${LIBCSRCDIR}/time
@@ -6,7 +6,7 @@
 SRCS+=	asctime.c difftime.c localtime.c strftime.c strptime.c
 MAN+=	ctime.3 strftime.3 strptime.3 taitime.3 time2posix.3 tzfile.5 tzset.3
 
-UIF_KUSRCS+=	tai_leaps.c tailibc.c -DL_tai_leaps
+SRCS+=		taileaps.c
 UIF_KUSRCS+=	tai_time.c tailibc.c -DL_tai_time
 UIF_KUSRCS+=	taina_time.c tailibc.c -DL_taina_time
 UIF_KUSRCS+=	tai_djb.c tailibc.c -DL_djbtai

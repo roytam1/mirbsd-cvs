@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/lib/libc/time/tailibc.c,v 1.1 2007/02/07 20:43:24 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005, 2006, 2007
@@ -27,46 +27,8 @@
 #include <sys/param.h>
 #include <sys/time.h>
 #include <sys/taitime.h>
-#include <stdbool.h>
-#include <stdint.h>
-#include "private.h"
-#include "tzfile.h"
 
-__RCSID("$MirOS: src/lib/libc/time/taitime.c,v 1.9 2006/12/20 17:15:34 tg Exp $");
-
-#ifdef L_tai_leaps
-/* private interface */
-tai64_t _leaps[TZ_MAX_LEAPS + 1];
-bool _leaps_initialised = false;
-void _pushleap(time_t);
-extern void _initialise_leaps(void);
-
-tai64_t *
-tai_leaps(void)
-{
-	if (__predict_false(!_leaps_initialised)) {
-		_leaps[0] = 0;
-		_leaps_initialised = true;
-		_initialise_leaps();
-		if (__predict_false(!_leaps_initialised))
-			/* so we have a sanely usable result */
-			_leaps[0] = 0;
-	}
-	return (_leaps);
-}
-
-/* private interface */
-void
-_pushleap(time_t leap)
-{
-	tai64_t *t = _leaps;
-
-	while (__predict_true(*t))
-		++t;
-	*t++ = timet2tai(leap);
-	*t = 0;
-}
-#endif
+__RCSID("$MirOS: src/lib/libc/time/tailibc.c,v 1.1 2007/02/07 20:43:24 tg Exp $");
 
 #ifdef L_tai_time
 tai64_t
