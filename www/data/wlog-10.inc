@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.139 2009/01/15 21:26:48 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.140 2009/01/18 20:37:34 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2593,7 +2593,7 @@ Title: SYSLINUX, the horrors
 ----
 Date: 02.01.2009 03:07
 Author: tg@
-Title: GNU GRUB, the horrors [updated 2 times]
+Title: GNU GRUB, the horrors [updated 3 times]
 
 <p>We can use “machine exec grub /boot/grub/stage2” as well as “machine
  exec grub /boot/grub/core.img” to chain into GNU GRUB-Legacy or GRUB2
@@ -2620,6 +2620,9 @@ Title: GNU GRUB, the horrors [updated 2 times]
  see my earlier post. And it can’t load an MS-DOS® boot sector, however,
  chaining to GRUB then from there to DOS works. (So much for my plans to
  directly load an IO.SYS file.)</p>
+<p><strong>3. Update</strong> 18.01.2009: Even GRUB2 could operate on the
+ filesystem. As could various OSes and tools (from Schily and others). Just
+ grub-legacy can’t. What was it? Padding was missing…</p>
 ----
 Date: 06.01.2009 19:55
 Author: tg@
