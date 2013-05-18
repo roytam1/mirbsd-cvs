@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/libsa/biosdev2.S,v 1.6 2009/01/12 20:13:12 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/libsa/biosdev2.S,v 1.7 2009/01/15 22:03:26 tg Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -72,10 +72,9 @@ biosdev_lbaprobe:
 	cmp	bx,0xAA55
 	jne	LnoLBA
 	and	cl,7
-	or	dh,cl
-	or	ah,ah
-	jz	LnoCD
-	cmp	dl,0x88
+	or	dh,cl		/* feature mask */
+	or	dh,8		/* LBA flag */
+LnoLBA:	cmp	dl,0x88
 	jb	LnoCD
 	push	edx
 	push	ss
@@ -89,15 +88,14 @@ biosdev_lbaprobe:
 	jne	LnoCD
 	test	byte ptr ds:[1],0x0F
 	jne	LnoCD
-	or	dh,16
-LnoCD:	or	dh,8
-LnoLBA:	call	real_to_prot
+	or	dh,16		/* CD flag */
+LnoCD:	call	real_to_prot
 	.code32
 	pop	edi
 	pop	esi
 	pop	ebx
-	mov	eax,edx
-	shr	eax,8
+	xor	eax,eax
+	mov	al,dh
 	popfd
 	pop	ebp
 	ret

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.37 2009/01/11 22:49:51 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.38 2009/01/26 15:27:08 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -81,8 +81,23 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 	/* kernel interface, binary compatibility */
 	pdi->old_bios_edd = -1;
 
+	pdi->flags &= ~(BDI_LBA | BDI_EL_TORITO);
+	lback = biosdev_lbaprobe(dev);
+
 	/* Just reset, don't check return code */
 	rv = biosdreset(dev);
+
+	if (lback & 0x10) {
+		pdi->bios_number = dev;
+		/* CD-ROM, we don’t care what the BIOS says for CHS or LBA */
+		pdi->bios_heads = 16;
+		pdi->bios_cylinders = 16;
+		pdi->bios_sectors = 32;
+		/* https://www.mirbsd.org/permalinks/news_e20090126-tg.htm */
+		pdi->flags |= BDI_LBA | BDI_EL_TORITO;
+		pdi->old_bios_edd = (lback | 9) & 7;
+		return (0);
+	}
 
 #ifdef BIOS_DEBUG
 	if (debug)
@@ -105,13 +120,13 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 	}
 #endif
 
-	lback = biosdev_lbaprobe(dev);
-
-	if ((rv & 0xff) && ((lback & 0x19) != 0x19)) {
-		if ((lback & 0x09) == 0x09)
-			printf("bios_getdiskinfo(%X): LBA but no CHS, not "
-			    "a CD-ROM? please report %X\n", dev, lback);
-		return 1;
+	if (rv & 0xFF) {
+		if ((lback & 0x09) != 0x09)
+			return (1);
+		printf("bios_getdiskinfo(%X): LBA but no CHS: %X\n", dev, lback);
+		pdi->bios_heads = 15;
+		pdi->bios_cylinders = 15;
+		pdi->bios_sectors = 63;
 	}
 
 	/* Fix up info */
@@ -120,16 +135,9 @@ bios_getdiskinfo(int dev, bios_diskinfo_t *pdi)
 	pdi->bios_cylinders &= 0x3ff;
 	pdi->bios_cylinders++;
 
-	pdi->flags &= ~(BDI_LBA | BDI_EL_TORITO);
 	if ((lback & 0x09) == 0x09) {
 		pdi->flags |= BDI_LBA;
 		pdi->old_bios_edd = lback & 7;
-		if (lback & 0x10) {
-			pdi->bios_heads = 16;
-			pdi->bios_cylinders = 16;
-			pdi->bios_sectors = 32;
-			pdi->flags |= BDI_EL_TORITO;
-		}
 	} else if (pdi->bios_cylinders < 2 || pdi->bios_heads < 2 ||
 	    pdi->bios_sectors < 1) {
 #ifdef BIOS_DEBUG
