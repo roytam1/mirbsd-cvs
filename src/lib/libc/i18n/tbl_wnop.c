@@ -1,12 +1,12 @@
-/* $MirOS: contrib/code/libhaible/tow_nop.c,v 1.1 2006/05/30 10:48:54 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/tbl_wnop.c,v 1.1 2006/06/01 22:03:19 tg Exp $ */
 
 #include <sys/types.h>
 
-__RCSID("$MirOS: contrib/code/libhaible/tow_nop.c,v 1.1 2006/05/30 10:48:54 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/tbl_wnop.c,v 1.1 2006/06/01 22:03:19 tg Exp $");
 
 /* for towlower and towupper tables */
 
-const uint16_t nop_page[256] = {
+const uint16_t mir18n_attribute_nop_page[256] = {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
