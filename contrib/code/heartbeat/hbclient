@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/hbclient,v 1.9 2006/07/28 13:15:19 tg Exp $
+# $MirOS: contrib/code/heartbeat/hbclient,v 1.10 2006/07/28 13:18:25 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
@@ -65,6 +65,12 @@
 # [...]
 # --- end /etc/ppp/ip-up
 #
+# You also need to configure the following line in /etc/pf.conf
+# if you have a subnet:
+#	rdr on $TUNNEL inet6 from any to $MYUSER -> 2001:x:y:z:a:b:c:d
+# If not, add the following to /etc/hostname.gif4589:
+#	!/sbin/ifconfig \$if inet6 ${MYUSER} ${MYUSER%2}1 prefixlen 128
+#
 # Invocation if not run via daemontools:
 # hbclient &		- run as background process, beating
 # hbclient down		- run once, tell the server the tunnel is down
@@ -109,11 +115,6 @@ EXT_IF="pppoe0"				# name of external interface
 # where do I want my tunnel to arrive?
 TUNNEL="gif4589"			# name of external interface
 
-# do I have a subnet? (if yes, place a line similar to
-#	rdr on $TUNNEL inet6 from any to $MYUSER -> 2001:x:y:z:a:b:c:d
-# into your /etc/pf.conf file to be ping-able)
-SUBNET=1				# comment if you only have a tunnel
-
 #=== per-OS configuration (SixXS mode) ===
 
 # get IPv4 address of external interface
@@ -135,21 +136,6 @@ function getip
 		done
 		[[ $gotit = 1 ]] || print 0.0.0.0
 	fi
-}
-
-# set up tunnel interface
-function setup
-{
-}
-
-# throw the tunnel through IPv4 land
-function throw
-{
-}
-
-# clean up, remove interfaces and routes
-function clean
-{
 }
 
 #=== subroutines (not configurable) ===
@@ -220,8 +206,6 @@ function destruct
 	logall received destruct
 	[[ -n $GENPID ]] && rm -f /var/run/$TUNNEL.pid
 	do_disable
-	throw
-	clean
 	log bye
 	exit ${1:-0}
 }
@@ -299,7 +283,6 @@ fi
 # set up
 log Entering setup for $MYUSER
 [[ -n $GENPID ]] && print $$ >/var/run/$TUNNEL.pid
-setup
 
 # trap exits
 trap 'destruct 0' HUP TERM
@@ -317,7 +300,6 @@ while : ; do
 			logall ERROR: $MYUSER cannot find new IP, disabling
 			do_disable
 		fi
-		throw $NEW_IP
 		OLD_IP=$NEW_IP
 	fi
 	[[ -n $NEW_IP ]] && do_heartbeat $NEW_IP
