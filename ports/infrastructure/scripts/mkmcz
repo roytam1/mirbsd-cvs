@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/scripts/mkmcz,v 1.5 2005/12/16 11:09:00 tg Exp $
+# $MirOS: ports/infrastructure/scripts/mkmcz,v 1.6 2005/12/16 11:14:51 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -48,7 +48,7 @@ fi
 if [[ $CVS = svn ]]; then
 	CVSARGS="co --non-interactive -q $repo"
 else
-	CVSARGS="-qz6 -d $repo co -PA"
+	CVSARGS="-qd $repo co -PA"
 fi
 
 export TZ=UTC
