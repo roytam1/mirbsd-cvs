@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.179 2008/10/26 22:46:46 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.180 2008/10/28 12:00:44 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -344,9 +344,7 @@ mws_content <<'EOF'
 <h6>Using SUNWcc on MirBSD</h6>
 <pre> $ SP=/home/tg/Misc/suncc/sunstudio12
  $ LD_LIBRARY_PATH=$SP/prod/lib/sys:$SP/prod/lib CC=$SP/prod/bin/cc \
-   LDFLAGS="-Yl,$SP/S" HAVE_EXPSTMT=0 sh …/Build.sh -r</pre>
-<p>The <tt>HAVE_EXPSTMT=0</tt> part is required because we trigger internal
- compiler errors quite regularily with this compiler.</p>
+   LDFLAGS="-Yl,$SP/S" sh /usr/src/bin/mksh/Build.sh -r</pre>
 
 <h5 id="oe_tcc">Compiler: tcc (Tiny C)</h5>
 <p>Support for Fabrice Bellard’s tcc appeared in mksh R31, although its
@@ -749,6 +747,7 @@ mws_content <<'EOF'
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
  <li>MirOS #10-current (i386 pcc20081028)</li>
  <li>MirOS #10-current (i386 pcc20081028-MirPorts-0)</li>
+ <li>MirOS #10-current (i386 SUNWcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
  <li>MidnightBSD 0.2.1-RELEASE-p2 (i386 pcc20081028-MirPorts-0)</li>
 </ul>
 <h3 id="regress_rel">Current Release</h3>
@@ -757,7 +756,6 @@ mws_content <<'EOF'
  <li>MirOS #10-current (i386 gcc3.4.6)</li>
  <li>MirOS #10-current (sparc gcc3.4.6)</li>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
- <li>MirOS #10-current (i386 SUNWcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
  <li>DragonFly 1.9-DEVELOPMENT Feb 17, 2007 (i386 gcc3.4.6)</li>
  <li>NetBSD 3.0_STABLE (i386 gcc3.3.3_nb3_20040520)</li>
  <li>OpenBSD 4.3 GENERIC#207 (zaurus gcc3.3.5)</li>
@@ -1010,6 +1008,8 @@ mws_content <<'EOF'
  <li>[ahoka] Add mirtoconf check for nice(3), missing on Haiku</li>
  <li>[ahoka] Begin porting to <a href="http://www.haiku-os.org/">Haiku</a>
   and, implicitly, BeOS (not finished yet)</li>
+ <li>[tg] Remove all uses of the statements-as-expressions feature by
+  rewriting the source code accordingly and optimising some parts</li>
 </ul>
 <p id="r36">mksh R36 features the following changes:</p><ul>
  <li>Fix <tt>Build.sh</tt> invocation without ‘-r’, 10x Elias Pipping</li>
