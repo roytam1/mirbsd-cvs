@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.23 2009/12/06 17:12:13 tg Exp $ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.24 2009/12/06 18:22:38 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
    Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005, 2006, 2007,
@@ -63,43 +63,17 @@ Boston, MA 02111-1307, USA.  */
 
 /* Look for the include files in the system-defined places.  */
 
-/* MIRBSD_NATIVE is defined when gcc is integrated into the MirOS
-   source tree so it can be configured appropriately.  The same
-   applies for MIRBSD_CROSS, except it's used in cross-compiling,
-   but only outside of the mbsd-bug package or other standardised
-   cross-build environments that use sysroot instead, because the
-   include path is *emptied* by MIRBSD_CROSS.  */
-
-#ifdef MIRBSD_NATIVE
-
-#undef GPLUSPLUS_INCLUDE_DIR
-#define GPLUSPLUS_INCLUDE_DIR		"/usr/include/gxx"
-
-#undef GCC_INCLUDE_DIR
-#define GCC_INCLUDE_DIR			"/usr/include"
-
-#else
-
-/* Not sure how to do this best.  We use MIRBSD_NATIVE to
-   cross-compile the native compiler, though.  */
-
-#undef GCC_INCLUDE_DIR
-#define GCC_INCLUDE_DIR			GPLUSPLUS_INCLUDE_DIR "/.."
-
-#endif
-
 #undef INCLUDE_DEFAULTS
-#define INCLUDE_DEFAULTS				\
-  {							\
-    { GPLUSPLUS_INCLUDE_DIR, "G++", 1, 1, 0 },		\
-    { GPLUSPLUS_TOOL_INCLUDE_DIR, "G++", 1, 1, 0 },	\
-    { GPLUSPLUS_BACKWARD_INCLUDE_DIR, "G++", 1, 1, 0 },	\
-    { GCC_INCLUDE_DIR, "GCC", 0, 0, 0 },		\
-    { 0, 0, 0, 0, 0 }					\
-  }
+#define INCLUDE_DEFAULTS {					\
+	{ GPLUSPLUS_INCLUDE_DIR, "G++", 1, 1, 0 },		\
+	{ GPLUSPLUS_TOOL_INCLUDE_DIR, "G++", 1, 1, 0 },		\
+	{ GPLUSPLUS_BACKWARD_INCLUDE_DIR, "G++", 1, 1, 0 },	\
+	{ GCC_INCLUDE_DIR, "GCC", 0, 0, 0 },			\
+	{ "/usr/include", NULL, 0, 0, 1 },			\
+	{ NULL, NULL, 0, 0, 0 }					\
+}
 
-/* Under MirOS, the normal location of the various *crt*.o files is the
-   /usr/lib directory.  */
+/* MirOS provides most *crt*.o files in the /usr/lib directory.  */
 
 #undef STANDARD_STARTFILE_PREFIX
 #define STANDARD_STARTFILE_PREFIX	"/usr/lib/"

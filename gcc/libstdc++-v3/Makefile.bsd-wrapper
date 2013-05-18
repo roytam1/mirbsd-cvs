@@ -1,4 +1,4 @@
-# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.15 2006/11/03 01:14:04 tg Exp $
+# $MirOS: gcc/libstdc++-v3/Makefile.bsd-wrapper,v 1.16 2008/12/26 16:01:21 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -16,8 +16,7 @@ CFARGS+=	--enable-static ${CF_PIC} --prefix=${GCC_PREFIX} \
 		--disable-libstdcxx-pch --disable-nls --enable-c99 \
 		--enable-long-long --disable-libstdcxx-debug \
 		--enable-cxx-flags="${FSFCXXFLAGS:C/ *$//}" \
-		--disable-symvers --enable-version-specific-runtime-libs \
-		--with-gxx-include-dir=${GCC_PREFIX}/include/gxx
+		--disable-symvers --enable-version-specific-runtime-libs
 XARGS+=		LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
 		LIBIBERTY_SRC="${GNU_LIBIBERTY_SRC}" \
 		SECTION_FLAGS= CXX="${CC}"

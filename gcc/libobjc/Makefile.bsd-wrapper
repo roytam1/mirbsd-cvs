@@ -1,9 +1,10 @@
-# $MirOS: gcc/libobjc/Makefile.bsd-wrapper,v 1.9 2005/12/17 06:04:19 tg Exp $
+# $MirOS: gcc/libobjc/Makefile.bsd-wrapper,v 1.10 2008/12/26 16:01:20 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
 
 NOMAN=		yes
+VSLIBDIR=	${GCC_PREFIX}/lib/gcc/${GCCTARGET}/${GCCVERSION}
 CFARGS+=	--enable-static ${CF_PIC} --disable-libtool-lock \
 		--prefix=${GCC_PREFIX} ${OBJC_GC}
 CFARGS+=	--enable-version-specific-runtime-libs
@@ -43,9 +44,9 @@ LIBFILES+=	libobjc*.so.${LIBOBJC_REV}
 
 post-install:
 	${INSTALL} -d -o ${BINOWN} -g ${BINGRP} -m ${DIRMODE} \
-	    ${DESTDIR}${GCC_PREFIX}/include/objc
-	cd ${.CURDIR}/objc; ${INSTALL_DATA} ${INCS} \
-	    ${DESTDIR}${GCC_PREFIX}/include/objc/
-	cd ${DESTDIR}${GCC_PREFIX}/lib/gcc/${GCCTARGET}/${GCCVERSION} \
-	    && chown -h ${LIBOWN}:${LIBGRP} ${LIBFILES} \
-	    && chmod ${LIBMODE} ${LIBFILES}
+	    ${DESTDIR:Q}${VSLIBDIR:Q}/include/objc
+	cd ${.CURDIR}/objc && ${INSTALL_DATA} ${INCS} \
+	    ${DESTDIR:Q}${VSLIBDIR:Q}/include/objc/
+	cd ${DESTDIR:Q}${VSLIBDIR:Q} && \
+	    chown -h ${LIBOWN}:${LIBGRP} ${LIBFILES} && \
+	    chmod ${LIBMODE} ${LIBFILES}

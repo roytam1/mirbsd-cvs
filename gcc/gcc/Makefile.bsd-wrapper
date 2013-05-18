@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.53 2008/12/26 16:01:19 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.54 2009/04/17 16:30:08 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -81,12 +81,10 @@ XARGS+=		TCFLAGS="${FSFCFLAGS}"
 .endif
 XARGS+=		CC_FOR_BUILD=${HOSTCC:C/ *$//:Q}
 .if ${GCC_NATIVE:L} == "yes"
-CPPFLAGS+=	-DMIRBSD_NATIVE
 XARGS+=		BUILD_LIBIBERTY="-liberty" LIBIBERTY="-liberty" \
 		SUB_LIBERTY="-liberty" STMP_FIXINC=stmp-fixinc-fake
 M_CPP=		mcpp
 .else
-CPPFLAGS+=	-DMIRBSD_CROSS
 _LIBERTY?=	${GNU_LIBIBERTY_SRC}/obj/libiberty.a
 XARGS+=		BUILD_LIBIBERTY="${_LIBERTY}" LIBIBERTY="${_LIBERTY}" \
 		SUB_LIBERTY="${_LIBERTY}" WITH_SHARED_LIBGPC=no
@@ -103,7 +101,6 @@ CFARGS+=	--prefix=${GCC_PREFIX} --libexecdir=${GCC_PREFIX}/lib \
 		--disable-threads ${OBJC_GC} --enable-shared \
 		--enable-stack-protector --disable-sjlj-exceptions \
 		--with-local-prefix=${GCC_PREFIX} --disable-nls \
-		--with-gxx-include-dir=${GCC_PREFIX}/include/gxx \
 		--enable-version-specific-runtime-libs ${__LANGS}
 .if (${CROSS_MODE:L} == "yes") && !defined(_CROSSBUILD)
 # required if build != (host == target), for the chained auto-build.h call
