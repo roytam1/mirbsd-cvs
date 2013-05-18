@@ -38,7 +38,7 @@
 #endif
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/funcs.c,v 1.213 2012/05/04 20:08:24 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/funcs.c,v 1.214 2012/05/04 20:49:03 tg Exp $");
 
 #if HAVE_KILLPG
 /*
@@ -2295,7 +2295,7 @@ c_exitreturn(const char **wp)
 	}
 
 	if (how == LEXIT && !really_exit && j_stopped_running()) {
-		really_exit = 1;
+		really_exit = true;
 		how = LSHELL;
 	}
 
