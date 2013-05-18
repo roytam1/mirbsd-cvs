@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/libkern/Makefile,v 1.3 2006/06/16 21:52:53 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/libkern/Makefile,v 1.4 2007/02/05 20:16:15 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2003/06/01 17:00:39 deraadt Exp $
 
 LIB=	kern
@@ -25,6 +25,7 @@ SRCS+=	saveregs.S
 
 KERNBASE?=	${.CURDIR}/../../../../../kern
 KERNSTAND=	#defined
+SMALL=		#defined
 .include "${KERNBASE}/c/Makefile.inc"
 
 ${OBJS}:	${.CURDIR}/../Makefile.inc
