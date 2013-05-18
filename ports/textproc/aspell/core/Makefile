@@ -1,7 +1,9 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.5 2004/04/09 06:42:42 jolan Exp $
 
-COMMENT=			spell checker designed to eventually replace Ispell
+COMMENT=	spell checker designed to eventually replace ispell
 DISTNAME=	aspell-0.50.5
+DASH_VER=	1
 DICT=		en-0.51-1
 DIST_SUBDIR=	aspell
 CATEGORIES=	textproc
@@ -18,8 +20,10 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-CONFIGURE_STYLE=gnu
-CONFIGURE_ARGS+=${CONFIGURE_SHARED} --enable-static
+CONFIGURE_STYLE=	autoconf
+AUTOCONF_NEW=		Yes
+USE_CXX=		Yes
+CONFIGURE_ARGS+=	${CONFIGURE_SHARED} --enable-static
 
 post-build:
 .for i in ${DICT}
