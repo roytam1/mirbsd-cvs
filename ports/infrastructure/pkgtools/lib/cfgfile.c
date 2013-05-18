@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.1 2009/12/22 22:26:51 bsiegert Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -37,7 +37,7 @@
 #endif
 #define CFG_FILE SYSCONFDIR "/pkgtools/pkgtools.conf"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/cfgfile.c,v 1.1.2.1 2009/12/22 22:26:51 bsiegert Exp $");
 
 typedef SLIST_HEAD(cfg_varlist, cfg_var) cfg_varlist;
 struct cfg_var {
@@ -119,7 +119,7 @@ cfg_read_config(void)
 		if (!line)
 			break;
 		if (line[len - 1] == '\n')
-			line[len - 1] = '\0';
+			line[--len] = '\0';
 		line_end = false;
 		for (i = 0; i < len; i++) {
 			switch (line[i]) {
@@ -245,8 +245,7 @@ char
 					}
 					strlcat(rv, var->val, rv_size);
 					rv_cp = rv + strlen(rv);
-					rv_len += n;
-					len -= strlen(string) - 1;
+					len -= strlen(string) + 1;
 				}
 		}
 		string = cp + 1;	
