@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.413 2013/01/04 17:32:10 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.414 2013/01/11 00:11:04 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9703,4 +9703,37 @@ Tag: debian
  I see no reason to use it any more, <em>at all</em>. Use gzip(1) if
  you care for compatibility or have an issue with xz not having a free
  copyright licence, and xz otherwise.</p>
+----
+Date: 13.01.2013 15:24
+Author: tg@
+Title: PSA: Unicode codepoints, referring to
+Tag: debian rant
+
+<p><a href="@@RELPATH@@wtf.cgi?PSA">PSA</a>: Referring to Unicode
+ codepoints.</p>
+<p>If your Unicode codepoint is, numerically, between 0 and 65533,
+ inclusive, convert it to hexadecimal and zero-pad it to four nibbles.
+ For example, the Euro sign € is Unicode codepoint #8364 which is 20AC
+ hex; the Eszett ß is 223 which is DF hex, padded 00DF.<br />
+ Then write an uppercase ‘U’, a plus sign ‘+’, and the four nibbles:
+ U+20AC U+00DF<br />In <a href="@@RELPATH@@mksh.htm">mksh</a>, <a
+ href="@@ABSPATH@@/cvs.cgi/contrib/hosted/tg/code/MirJSON/json.txt?rev=HEAD">JSON</a>,
+ etc. it’s a backslash ‘\’, a lower-case ‘u’ and four nibbles.</p>
+<p>Otherwise, your Unicode codepoint will be, numerically, between
+ 65536 and 1114111, inclusive, that is hex 10000 to 10FFFF. (There’s
+ nothing on 65534 and 65535, nor above these figures.) In this case,
+ convert it to hex, zero-pad it <strong>to eight nibbles</strong> and
+ write it as an uppercase ‘U’, <strong>a hyphen-minus ‘-’</strong> and
+ the <strong>eight</strong> nibbles. In C-like escapes for environments
+ supporting the Unicode SMP, that’s a backslash ‘\’, an upper-case ‘U’
+ and eight nibbles. <em>Do not, in either case, use less (or more) hex
+ digits than specified here.</em> For example, there’s a famous Unicode
+ codepoint U-0001F4A9 “PILE OF POO”. <strong>That’s not the same as
+ U+1F4A9</strong>. The latter reads as U+1F4A “GREEK CAPITAL LETTER
+ OMICRON WITH PSILI AND VARIA” and a digit 9 (Ὂ9). Be educated.</p>
+<!-- RSS stop --><p>Since this wlog runs on MirBSD, which limits itself
+ to the Unicode BMP voluntarily, and as nōn-BMP is not widespread anyway,
+ I cannot reproduce the “PILE OF POO” here, but you can <a
+ href="https://duckduckgo.com/?kp=-1&amp;kl=wt-wt&amp;kb=t&amp;kh=1&amp;kj=g2&amp;km=l&amp;ka=monospace&amp;ku=1&amp;ko=s&amp;k1=-1&amp;kv=1&amp;t=debian&amp;q=unicode+pile+of+poo">just
+ duckduckgo it</a>.</p>
 ----
