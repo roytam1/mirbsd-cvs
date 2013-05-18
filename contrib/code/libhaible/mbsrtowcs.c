@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.7 2006/05/30 21:52:32 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.8 2006/05/30 21:56:46 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -25,7 +25,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.7 2006/05/30 21:52:32 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.8 2006/05/30 21:56:46 tg Exp $");
 
 size_t
 mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
@@ -90,9 +90,10 @@ mbsrtowcs(wchar_t *__restrict__ pwcs, const char **__restrict__ s,
 				if (w < (1 << (5 * num + 6)))
 					goto bad_input_backup;
 			}
-			if (pwcs != NULL)
+			if (pwcs != NULL) {
 				pwcs[rv] = w;
-			ps->count = 0;
+				ps->count = 0;
+			}
 			rv++;
 			continue;
  bad_input_backup:
