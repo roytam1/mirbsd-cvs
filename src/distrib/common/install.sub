@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.18 2007/06/22 20:06:57 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.19 2007/06/30 02:40:52 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -82,8 +82,6 @@
 . install.md
 
 set_term() {
-	typeset _tables
-
 	typeset TERMS=vt100,vt220,wsvt25,dumb,$MDTERM
 	echo "Possible types: ${MDTERMS:-${TERMS%,}}"
 	ask "Terminal type?" ${TERM:-${MDTERM:-vt220}}
@@ -91,14 +89,24 @@ set_term() {
 	export TERM
 
 	[[ -x /sbin/kbd ]] || return
-	_tables=$(bsort $(kbd -l | egrep -v "^(user|tables|encoding)"))
 	while :; do
 		ask "kbd(8) mapping? ('?' for list)" "none"
-		case $resp in
-		none)	return ;;
-		"?")	echo "Major tables: $_tables" ;;
-		*)	kbd $resp && { echo $resp >/tmp/kbdtype ; return ; } ;;
-		esac
+		[[ $resp = none ]] && return
+		[[ $resp = @(\?|+([0-9])) && -z ${layouts[0]} ]] && \
+		    set -A layouts -- $(kbd -lq | \
+		    egrep '^..\.?(nodead|dvorak)?$' | sort)
+		[[ $resp = +([0-9]) ]] && resp=${layouts[$resp]}
+		[[ $resp = [a-z]* ]] && if kbd $resp; then
+			echo $resp >/tmp/kbdtype
+			return
+		fi
+		[[ $resp = \? ]] || continue
+		print Available keyboard mappings:
+		typeset -iR3 i=0
+		while (( i < ${#layouts[*]} )); do
+			print "$i) ${layouts[i]}"
+			let i++
+		done | rs
 	done
 }
 
