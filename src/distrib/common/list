@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramdisk/list,v 1.7 2006/08/17 13:49:42 tg Exp $
+# $MirOS: src/distrib/common/list,v 1.1 2006/08/17 19:34:15 tg Exp $
 
 # standard tools in the crunched binary
 COPY	${OBJDIR}/instbin			instbin
@@ -9,7 +9,7 @@ LINK	instbin					bin/date
 LINK	instbin					bin/dd
 LINK	instbin					bin/df
 LINK	instbin					bin/ed
-LINK	instbin					bin/expr #
+#LINK	instbin					bin/expr
 LINK	instbin					bin/hostname
 LINK	instbin					bin/ln
 LINK	instbin					bin/ls
@@ -48,7 +48,7 @@ LINK	instbin					usr/bin/grep usr/bin/egrep usr/bin/fgrep
 LINK	instbin					usr/bin/hexdump usr/bin/hd usr/bin/od
 LINK	instbin					usr/bin/mktemp
 LINK	instbin					usr/bin/nc
-LINK	instbin					usr/bin/printf #
+#LINK	instbin					usr/bin/printf
 LINK	instbin					usr/bin/sed
 LINK	instbin					usr/mdec/installboot
 LINK	instbin					usr/sbin/sysctl
