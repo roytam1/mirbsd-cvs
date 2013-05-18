@@ -1,4 +1,4 @@
-# $MirOS: ports/net/curl/Makefile,v 1.8 2007/02/22 22:57:54 tg Exp $
+# $MirOS: ports/net/curl/Makefile,v 1.9 2007/05/08 21:05:53 tg Exp $
 # $OpenBSD: Makefile,v 1.44 2004/05/18 23:30:45 brad Exp $
 
 COMMENT=		get files from FTP, Gopher, HTTP or HTTPS servers
@@ -22,7 +22,6 @@ PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		yes
-AUTOCONF_VERSION=	2.61
 MODGNU_TYPESCAN=	recv send strdup strstr getnameinfo
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED} \
 			--enable-static \
