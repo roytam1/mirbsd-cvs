@@ -1,11 +1,11 @@
-# $MirOS: www/src/jupp.hts,v 1.10 2009/07/18 18:11:25 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.11 2009/07/19 11:33:06 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.10 2009/07/18 18:11:25 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.11 2009/07/19 11:33:06 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp1</em> for MS-DOS® compatible systems,
  and <em>joe-3.1jupp10</em> for Unix/GNU compatible systems. This page is
@@ -160,6 +160,9 @@ $ $SUDO make install</pre>
   demand, even if I still loathe it personally, like Rob Pike</li>
  <li>Add language/syntax selection into jupprc, with Python settings
   adhering to the most common coding standards</li>
+ <li>The <tt>termidx</tt> binary can now be disabled as a configure
+  time option, it will not be compiled or installed; it isn't used
+  normally anyway, especially not on modern Unix-like OSes</li>
 </ul>
 <p id="r3_1j10">[2008-08-25] Changes for joe-3.1jupp10:</p><ul>
  <li>Build fixes (rcsid, symbol clashes) for Mac OSX iPhoneOS 2.0</li>
