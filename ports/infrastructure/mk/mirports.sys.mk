@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.32 2006/07/23 17:42:35 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.33 2006/08/10 16:45:48 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -58,6 +58,7 @@ OSver=	${OSREV:C/^([0-9]*\.[0-9]*)\..*$/\1/}
 
 .if ${OStype} == "Darwin"
 CPPFLAGS+=		-D__unix__=1
+LDFLAGS+=		-specs=${WRKDIR}/specs
 NOPIC=			No	# XXX
 LDCONFIG=
 _CKSUM_A=

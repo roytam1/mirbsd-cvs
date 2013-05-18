@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.121 2006/07/23 17:42:34 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.122 2006/08/10 16:45:47 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1788,6 +1788,10 @@ ${_WRKDIR_COOKIE}:
 	@rm -rf ${WRKDIR}
 	@mkdir -p ${WRKDIR} ${WRKDIR}/bin
 	@ln -s ${_MIRMAKE_EXE} ${WRKDIR}/bin/make
+.if ${OStype} == "Darwin"
+	@${CC} -dumpspecs | sed \
+	    's#/usr/bin/libtool#${LOCALBASE}/db/libtool#g' >${WRKDIR}/specs
+.endif
 	@${_MAKE_COOKIE} $@
 
 ${_EXTRACT_COOKIE}: ${_WRKDIR_COOKIE} ${_SYSTRACE_COOKIE}
