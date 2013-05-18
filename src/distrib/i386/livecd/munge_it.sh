@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.24 2006/04/11 21:11:09 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.25 2006/04/12 22:53:46 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -35,6 +35,9 @@ ed -s etc/X11/xdm/Xresources <<-'EOF'
 	/^Chooser.label.label:/s/CLIENTHOST/Live-CD/
 	wq
 EOF
+cat >>etc/exports <<-'EOF'
+	/ -ro -maproot=root
+EOF
 ed -s etc/group <<-'EOF'
 	/^wheel:/s/$/,live/
 	/^operator:/s/$/,live/
@@ -46,6 +49,10 @@ ed -s etc/group <<-'EOF'
 	/^nobody:/i
 		live:*:32762:
 	.
+	wq
+EOF
+ed -s etc/inetd.conf <<-'EOF'
+	%g/^.tftp/s/^.//
 	wq
 EOF
 ed -s etc/master.passwd <<-'EOF'
@@ -64,7 +71,7 @@ ed -s etc/ntpd.conf <<-'EOF'
 EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.24 2006/04/11 21:11:09 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.25 2006/04/12 22:53:46 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -158,6 +165,14 @@ install -c -o root -g staff -m 644 $myplace/rc.netselect etc/rc.netselect
 (cd dev; mksh ./MAKEDEV std rd0a)
 pwd_mkdb -pd $(readlink -nf etc) master.passwd
 dd if=/dev/urandom bs=4096 count=1 of=var/db/host.random
+mkdir -p tftpboot/etc
+(cd tftpboot; ln -s ../bsd; ln -s ../usr/mdec/pxeboot)
+cat >tftpboot/etc/boot.cfg <<-'EOF'
+	echo
+	echo To boot from NFS, enter "nfs" as root device when asked.
+	echo
+	boot /bsd -a
+EOF
 
 mv root dev/.root
 rm -rf usr/X11R6/lib/X11/doc \

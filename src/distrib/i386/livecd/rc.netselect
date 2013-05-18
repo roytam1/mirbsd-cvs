@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/rc.netselect,v 1.5 2006/04/10 21:51:52 tg Exp $
+# $MirOS: src/distrib/i386/livecd/rc.netselect,v 1.6 2006/04/11 18:13:24 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -103,6 +103,8 @@ function do_netconf
 	else
 		print dhcp >/etc/hostname.$1
 		print rdate_flags=\"-ncv 81.169.176.177\" >>/etc/rc.conf.local
+		print portmap=YES >>/etc/rc.conf.local
+		print nfs_server=YES >>/etc/rc.conf.local
 		print -n >/tmp/try_rnd
 	fi
 }
