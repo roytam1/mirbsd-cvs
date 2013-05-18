@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.181 2009/04/11 18:35:42 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.182 2009/04/16 14:25:59 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3755,6 +3755,7 @@ Tag: hardware snapshot
 Date: 16.04.2009 14:20
 Author: tg@
 Title: life, sparc and everything
+Language: de
 
 <p>Habe „nur“ noch ein paar kleine Bugs fixen müssen, auch im Bootloader auf
  sparc (oO), aber jetzt tut alles, wie es soll. Damit kann ich also noch nen
@@ -3767,4 +3768,35 @@ Title: life, sparc and everything
  <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
  <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
  <br />Paar mehr, schön nach Feierabend oder so.</p>
+----
+Date: 17.04.2009 15:03
+Author: tg@
+Title: Gibts eigentlich keinen tuënden Compiler?
+Tag: bug pcc rant
+Language: de
+
+<p>pcc ist mal wieder kaputt – -O ist gebrochen, tat aber mal. nwcc ist auch
+ ein Haufen Scheiße, so kaputte Makefiles, hartkodiertes Fehlverhalten sowie
+ unmögliche Annahmen sieht man selten. Selbst die Linux Kernel-Makefiles (in
+ FreeWRT gesehen) sind mittlerweile besser. *seufz…*</p>
+<p>Ich hab mal unseren nwcc-Port updatet, allerdings krieg ich das Ding weil
+ es keinen cpp findet („gcc -E” gibts natürlich nicht, welcher Idiot kodiert
+ sowas bitte hart? – und nwcpp baut er dank kaputtem Makefile net enz) nicht
+ ans Laufen und habs daher als BROKEN markiert.</p>
+<p>pcc hab ich nicht updatet, wir haben einen, der tut, aber Upstream – wenn
+ auch nur mit YACC=yacc konfiguriert – baut mit -O2 ne kaputt mksh… -O0 aber
+ funktioniert.</p>
+<p>Ich weiß ja gar nicht, ob ich die <i xml:lang="en">inner workings</i> vom
+ SUNWcc sehen will… außerdem wollte ich ja mal nen Ausflug nach ARM machen –
+ dann unterstützte SunPRO nicht mehr alle unsere Plattformen.</p>
+<p>TenDRA ist mit Ten15 schizophren und tut auch irgendwie nur so halbwegs –
+ auf Debian krieg ich damit immerhin manchmal eine mksh(1) gebaut, aber…</p>
+<p>Fabrice Bellards tcc ist ja ein schlechter Witz, der tut <em>net enz</em>
+ auf Debian… was aber wohl an glibc liegt.</p>
+<p>Von OpenWatcom, den MIPSpro-Ergüssen und so hört man auch nichts. Aber da
+ ich die Vendor-Compiler wie Digital Mars, Borland C++ Builder, usw. bereits
+ unter Cygwin, Interix, PW32 und UWIN „genießen“ durfte, hege ich kein allzu
+ großes Verlangen danach. MIPSpro ist eh’ seltsam.</p>
+<p>gcc4 ist ja erwiesenermaßen absolut selbstdisqualifizierend, LLVM ekliges
+ CFrustFrust, also bleibt wohl nur noch gcc3 übrig… ☹</p>
 ----
