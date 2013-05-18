@@ -1,4 +1,4 @@
-$MirOS: contrib/code/libhaible/OVERVIEW,v 1.16 2006/05/30 23:14:19 tg Exp $
+$MirOS: contrib/code/libhaible/OVERVIEW,v 1.17 2006/05/30 23:25:39 tg Exp $
 $function name		header		manpage		source location
 $ 
 $ Info: # = commented out
@@ -73,7 +73,7 @@ wcsncmp			 wchar.h	C:wmemchr	string/wcsncmp.c
 wcsncpy			 wchar.h	C:wmemchr	string/wcsncpy.c
 wcspbrk			 wchar.h	C:wmemchr	string/wcspbrk.c
 wcsrchr			 wchar.h	C:wmemchr	string/wcsrchr.c
-wcsrtombs		 wchar.h	H:wcsrtombs
+wcsrtombs		 wchar.h	H:wcsrtombs	libhaible/wcsrtombs.c
 wcsspn			 wchar.h	C:wmemchr	string/wcsspn.c
 wcsstr			 wchar.h	C:wmemchr	string/wcsstr.c
 wcstod			 wchar.h	-		locale/wcstod.c
@@ -83,7 +83,6 @@ wcstol			 wchar.h	-		locale/wcstol.c
 wcstold			 wchar.h	-		locale/wcstod.c
 wcstoll			 wchar.h	-		locale/wcstoll.c
 wcstombs		 stdlib.h	C:wcstombs	libhaible/wcstombs.c
-wcstombs	dep	 stdlib.h	C:wcstombs	STUB! i18n/multibyte.c
 wcstoul			 wchar.h	-		locale/wcstoul.c
 wcstoull		 wchar.h	-		locale/wcstoull.c
 wcswcs			 wchar.h	H:wmemchr	string/wcsstr.c

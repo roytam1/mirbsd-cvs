@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/mbstowcs.c,v 1.1 2006/05/30 19:49:45 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/wcstombs.c,v 1.1 2006/05/30 20:04:22 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -23,13 +23,14 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: contrib/code/libhaible/mbstowcs.c,v 1.1 2006/05/30 19:49:45 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/wcstombs.c,v 1.1 2006/05/30 20:04:22 tg Exp $");
 
 size_t
 wcstombs(char *__restrict__ s, const wchar_t *__restrict__ pwcs, size_t n)
 {
 	mbstate_t state;
+	const wchar_t *src = pwcs;
 
 	bzero(&state, sizeof (mbstate_t));
-	return (mbsrtowcs(s, &pwcs, n, &state));
+	return (wcsrtombs(s, &src, n, &state));
 }
