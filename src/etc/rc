@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.48 2006/08/19 15:51:45 tg Exp $
+# $MirOS: src/etc/rc,v 1.49 2006/08/22 21:51:40 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -200,7 +200,7 @@ swapctl -A -t blk
 x=$(sysctl machdep.console_device); consdev=${x#machdep.console_device=}
 consinfo="$(stty -f /dev/console speed) $consdev"
 print -u2 console information: $consinfo
-[[ -e /dev/$consdev ]] || consdev=nochg		# XXX correct?
+[[ -e /dev/$consdev || $consdev = console ]] || consdev=nochg
 
 # pick up configuration options
 . /etc/rc.conf
