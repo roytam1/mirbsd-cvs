@@ -1,6 +1,6 @@
 /*-
- * Copyright (c) 2007
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2007, 2011
+ *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
@@ -26,7 +26,7 @@
 #include <string.h>
 #endif
 
-__RCSID("$MirOS: src/lib/libc/string/strndup.c,v 1.2 2007/06/16 19:45:52 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/string/strndup.c,v 1.3 2007/06/16 21:05:15 tg Exp $");
 
 #ifdef WIDEC
 #define strndup	wcsndup
@@ -45,7 +45,7 @@ strndup(const char_t *s, size_t max)
 	char_t *cp;
 
 	n = strlen(s);
-	n = MAX(n, max);
+	n = MIN(n, max);
 	if ((cp = calloc(n + 1, sizeof (char_t))) != NULL)
 		memcpy(cp, s, n * sizeof (char_t));
 	cp[n] = NUL;
