@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.34 2006/08/11 00:54:18 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.35 2006/08/18 22:51:08 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -494,6 +494,17 @@
   and build a snapshot afterwards, maybe without live cd for now, though
   that'd suck. The sparc live cd is not completed, although the miniroot
   should be buildable now, for the first time in MirOS ever.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060819">19.08.2006 by tg@</h3>
+ <p>I unbroke HEAD, so snapshots can be built. I couldn't yet finally do
+  the required work on the baselive CD, due to distraction (chess with a
+  friend who needed attention) in the evening. Expect a new snapshot (of
+  i386 only) soon (sparc will take fairly longer).</p>
+ <p>tyler@ yelled at me in Jabber today to "STOP COMMITTING SO MUCH :p",
+  and then begged for MirPorts ${SYSCONFDIR}/screenrc&#8230; seems as if
+  he found a unique selling point, finally&#8230;</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
