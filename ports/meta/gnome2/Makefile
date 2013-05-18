@@ -1,7 +1,8 @@
-# $MirOS: ports/meta/gnome2/Makefile,v 1.8 2007/04/13 19:32:38 bsiegert Exp $
+# $MirOS: ports/meta/gnome2/Makefile,v 1.9 2007/07/31 20:57:08 bsiegert Exp $
 
 COMMENT=		meta package to install all of GNOME 2
 VERSION=		2.18.2
+DASH_VER=		1
 PKGNAME=		meta-gnome2-${VERSION}-${DASH_VER}
 CATEGORIES=		meta x11/gnome
 HOMEPAGE=		http://www.gnome.org/
@@ -54,7 +55,7 @@ B_R_DEPENDS+=		::x11/gnome/gail
 B_R_DEPENDS+=		::x11/libxklavier
 B_R_DEPENDS+=		::x11/gnome/applets2
 B_R_DEPENDS+=		::x11/gnome/metacity
-B_R_DEPENDS+=		::devel/libcroco
+B_R_DEPENDS+=		::textproc/libcroco
 B_R_DEPENDS+=		::x11/gnome/librsvg
 B_R_DEPENDS+=		::x11/gnome/libgnomeprint
 B_R_DEPENDS+=		::x11/gnome/libgnomeprintui
