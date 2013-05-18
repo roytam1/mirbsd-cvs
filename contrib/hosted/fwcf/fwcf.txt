@@ -3,7 +3,7 @@
 
                       Specification Document
 
-                                  Version 1.00 - 24 September 2006
+                                   Version 1.01 - 20 December 2006
 
 
 Copyright (c) 2006
@@ -295,5 +295,33 @@ would really appreciate users to credit his name and that of the
 FreeWRT Project in derived works and/or links to the CVS reposi-
 tory of the original source.
 
+
+8. Future directions
+--------------------
+
+The next major version of the FWCF filesystem specification is
+likely to contain the following changes:
+
+* An additional checksum (probably ADLER32 as well) shall be
+  placed inside the compressed portion, to be checked after
+  decompression. The idea of adding a random IV has not been
+  adopted because we pretty much want the same FWCF blocks,
+  except the random padding at the end, to be generated for
+  the same input data. (This is not guaranteed because fts()
+  may traverse the directory hierarchy differently.)
+* Revisit the current size limits and file types.
+* Implement a file type "deleted", to enable the user to
+  remove a file from the underlying (squashfs) repository.
+* Some kind of "reboot hook": check if the filesystem has
+  been changed after the last 'fwcf commit' operation. (What
+  exactly is a change? Do we take care of mtimes? Currently,
+  we're tending to a list of MD5 hashes for the files in the
+  filesystem, ignoring all non-regular files.)
+
+These future directions have come up during or after the
+fwcf 1.00 release process, and from the discussion thereafter.
+They are provided as hint only and not part of the specifi-
+cation itself. They may change without notice.
+
 ________________________________________________________________________
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.15 2006/09/26 10:05:29 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.16 2006/12/11 23:54:54 tg Exp $
