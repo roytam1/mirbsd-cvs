@@ -1,10 +1,10 @@
-# $MirOS: ports/print/ghostscript/artifex/Makefile,v 1.3 2006/10/06 16:32:43 tg Exp $
+# $MirOS: ports/print/ghostscript/artifex/Makefile,v 1.4 2006/10/06 16:33:40 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2004/05/23 18:51:59 sturm Exp $
 
 COMMENT=		GPL'd PostScript interpreter
 VERSION=		8.54
 DISTNAME=		ghostscript-${VERSION}-gpl
-PKGNAME=		ghostscript-${VERSION}-0
+PKGNAME=		ghostscript-${VERSION}-1
 CATEGORIES=		print lang textproc
 DIR=			GPL/gs${VERSION:S/.//}
 MASTER_SITES=		${GS_SITES}
@@ -24,6 +24,7 @@ PNGDIR=			graphics/png
 
 BUILD_DEPENDS+=		::${JPEGDIR}:patch ::${PNGDIR}:patch
 RUN_DEPENDS+=		:gs-fonts-std-*:print/ghostscript/fonts-std
+LIB_DEPENDS+=		jpeg::${JPEGDIR}
 MODULES+=		graphics/png
 
 WRKDIST=		${WRKDIR}/${DISTNAME}
@@ -31,8 +32,6 @@ WRKSRC=			${WRKDIST}/src
 WRKBUILD=		${WRKDIST}
 BASE_FLAGS=		INSTALL_PROGRAM=${INSTALL_SCRIPT:Q} \
 			INSTALL_DATA=${INSTALL_DATA:Q} \
-			SHARE_LIBPNG=1 \
-			SHARE_ZLIB=1 \
 			CFLAGS_STANDARD=${CFLAGS:M*:Q} \
 			XLDFLAGS=-L${LOCALBASE}/lib \
 			XINCLUDE=-I${X11BASE}/include \
@@ -42,7 +41,9 @@ BASE_FLAGS=		INSTALL_PROGRAM=${INSTALL_SCRIPT:Q} \
 			GLGENDIR=./objects \
 			PSOBJDIR=./objects \
 			PSGENDIR=./objects \
-			STDLIBS='-pthread -lm'
+			ZI_=/usr/include \
+			SYNC=nosync \
+			STDLIBS=-lm
 
 PDFDIR=			share/ghostscript/${VERSION}/lib
 
@@ -95,7 +96,8 @@ NO_REGRESS=		Yes
 EXTRA_FAKE_FLAGS=	${BASE_FLAGS} prefix=${WRKINST}${PREFIX}
 
 post-extract:
-	ln -s ${WRKDIR}/${JPEGDIR}/jpeg* ${WRKDIST}/jpeg
+	rm -rf ${WRKDIST}/{jpeg,libpng}
+	ln -s ${WRKDIR}/${JPEGDIR}/jpeg-6* ${WRKDIST}/jpeg
 	ln -s ${WRKDIR}/${PNGDIR}/libpng* ${WRKDIST}/libpng
 
 do-configure:
