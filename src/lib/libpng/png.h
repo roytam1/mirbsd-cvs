@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libpng/png.h,v 1.2 2005/03/06 20:29:15 tg Exp $ */
 
 /* png.h - header file for MirOS in-tree PNG library
  *
@@ -12,7 +12,7 @@
  * with the following copyright holders:
  *
  * Copyright (c) 2004 Thorsten Glaser, The MirOS Project
- * Copyright (c) 2004 Glenn Randers-Pehrson
+ * Copyright (c) 2004, 2006 Glenn Randers-Pehrson
  * Copyright (c) 2000-2002 Glenn Randers-Pehrson
  * Copyright (c) 1998, 1999, 2000 Glenn Randers-Pehrson
  * Copyright (c) 1996, 1997 Andreas Dilger
@@ -116,9 +116,9 @@
  */
 
 /* Version information for png.h - this should match the version in png.c */
-#define PNG_LIBPNG_VER_STRING "1.2.8-MirOS"
+#define PNG_LIBPNG_VER_STRING "1.2.10-MirOS"
 #define PNG_HEADER_VERSION_STRING \
-   " libpng version 1.2.8-MirOS - December 3, 2004 (header)\n"
+   " libpng version 1.2.10-MirOS - June 9, 2006 (header)\n"
 
 #define PNG_LIBPNG_VER_SONUM   0
 #define PNG_LIBPNG_VER_DLLNUM  13
@@ -126,7 +126,7 @@
 /* These should match the first 3 components of PNG_LIBPNG_VER_STRING: */
 #define PNG_LIBPNG_VER_MAJOR   1
 #define PNG_LIBPNG_VER_MINOR   2
-#define PNG_LIBPNG_VER_RELEASE 8
+#define PNG_LIBPNG_VER_RELEASE 10
 /* This should match the numeric part of the final component of
  * PNG_LIBPNG_VER_STRING, omitting any leading zero: */
 
@@ -154,7 +154,7 @@
  * Versions 0.7 through 1.0.0 were in the range 0 to 100 here (only
  * version 1.0.0 was mis-numbered 100 instead of 10000).  From
  * version 1.0.1 it's    xxyyzz, where x=major, y=minor, z=release */
-#define PNG_LIBPNG_VER 10208 /* 1.2.8 */
+#define PNG_LIBPNG_VER 10210 /* 1.2.10 */
 
 #ifndef PNG_VERSION_INFO_ONLY
 /* include the compression library's header */
@@ -178,14 +178,14 @@
  */
 
 #if defined(PNG_USER_PRIVATEBUILD)
-#  define PNG_LIBPNG_BUILD_TYPE PNG_LIBPNG_BUILD_BASE_TYPE | \
-          PNG_LIBPNG_BUILD_PRIVATE
+#  define PNG_LIBPNG_BUILD_TYPE \
+          (PNG_LIBPNG_BUILD_BASE_TYPE | PNG_LIBPNG_BUILD_PRIVATE)
 #else
 #  if defined(PNG_LIBPNG_SPECIALBUILD)
-#    define PNG_LIBPNG_BUILD_TYPE PNG_LIBPNG_BUILD_BASE_TYPE | \
-            PNG_LIBPNG_BUILD_SPECIAL
+#    define PNG_LIBPNG_BUILD_TYPE \
+            (PNG_LIBPNG_BUILD_BASE_TYPE | PNG_LIBPNG_BUILD_SPECIAL)
 #  else
-#    define PNG_LIBPNG_BUILD_TYPE PNG_LIBPNG_BUILD_BASE_TYPE
+#    define PNG_LIBPNG_BUILD_TYPE (PNG_LIBPNG_BUILD_BASE_TYPE)
 #  endif
 #endif
 
@@ -257,7 +257,7 @@ PNG_EXPORT_VAR (const int) png_pass_ystart[7];
 PNG_EXPORT_VAR (const int) png_pass_yinc[7];
 PNG_EXPORT_VAR (const int) png_pass_mask[7];
 PNG_EXPORT_VAR (const int) png_pass_dsp_mask[7];
-#ifdef PNG_HAVE_ASSEMBLER_COMBINE_ROW
+#ifdef PNG_USE_PNGGCCRD
 PNG_EXPORT_VAR (const int) png_pass_width[7];
 #endif
 /* This isn't currently used.  If you need it, see png.c for more details.
@@ -696,8 +696,10 @@ typedef png_info FAR * FAR * png_infopp;
 #define PNG_UINT_31_MAX ((png_uint_32)0x7fffffffL)
 #define PNG_UINT_32_MAX ((png_uint_32)(-1))
 #define PNG_SIZE_MAX ((png_size_t)(-1))
+#if defined(PNG_1_0_X) || defined (PNG_1_2_X)
 /* PNG_MAX_UINT is deprecated; use PNG_UINT_31_MAX instead. */
 #define PNG_MAX_UINT PNG_UINT_31_MAX
+#endif
 
 /* These describe the color_type field in png_info. */
 /* color type masks */
@@ -1158,7 +1160,7 @@ struct png_struct_def
 /* This triggers a compiler error in png.c, if png.c and png.h
  * do not agree upon the version number.
  */
-typedef png_structp version_1_2_8;
+typedef png_structp version_1_2_10;
 
 typedef png_struct FAR * FAR * png_structpp;
 
@@ -1244,11 +1246,14 @@ extern PNG_EXPORT(void,png_write_chunk_end) PNGARG((png_structp png_ptr));
 extern PNG_EXPORT(png_infop,png_create_info_struct)
    PNGARG((png_structp png_ptr));
 
+#if defined(PNG_1_0_X) || defined (PNG_1_2_X)
 /* Initialize the info structure (old interface - DEPRECATED) */
 extern PNG_EXPORT(void,png_info_init) PNGARG((png_infop info_ptr));
 #undef png_info_init
 #define png_info_init(info_ptr) png_info_init_3(&info_ptr,\
     png_sizeof(png_info));
+#endif
+
 extern PNG_EXPORT(void,png_info_init_3) PNGARG((png_infopp info_ptr,
     png_size_t png_info_struct_size));
 
@@ -1285,9 +1290,16 @@ extern PNG_EXPORT(void,png_convert_from_time_t) PNGARG((png_timep ptime,
 #if defined(PNG_READ_EXPAND_SUPPORTED)
 /* Expand data to 24-bit RGB, or 8-bit grayscale, with alpha if available. */
 extern PNG_EXPORT(void,png_set_expand) PNGARG((png_structp png_ptr));
-extern PNG_EXPORT(void,png_set_gray_1_2_4_to_8) PNGARG((png_structp png_ptr));
+#if !defined(PNG_1_0_X)
+extern PNG_EXPORT(void,png_set_expand_gray_1_2_4_to_8) PNGARG((png_structp
+  png_ptr));
+#endif
 extern PNG_EXPORT(void,png_set_palette_to_rgb) PNGARG((png_structp png_ptr));
 extern PNG_EXPORT(void,png_set_tRNS_to_alpha) PNGARG((png_structp png_ptr));
+#if defined(PNG_1_0_X) || defined (PNG_1_2_X)
+/* Deprecated */
+extern PNG_EXPORT(void,png_set_gray_1_2_4_to_8) PNGARG((png_structp png_ptr));
+#endif
 #endif
 
 #if defined(PNG_READ_BGR_SUPPORTED) || defined(PNG_WRITE_BGR_SUPPORTED)
@@ -1408,12 +1420,14 @@ extern PNG_EXPORT(void,png_set_gamma) PNGARG((png_structp png_ptr,
 #endif
 #endif
 
+#if defined(PNG_1_0_X) || defined (PNG_1_2_X)
 #if defined(PNG_READ_EMPTY_PLTE_SUPPORTED) || \
     defined(PNG_WRITE_EMPTY_PLTE_SUPPORTED)
 /* Permit or disallow empty PLTE (0: not permitted, 1: permitted) */
 /* Deprecated and will be removed.  Use png_permit_mng_features() instead. */
 extern PNG_EXPORT(void,png_permit_empty_plte) PNGARG((png_structp png_ptr,
    int empty_plte_permitted));
+#endif
 #endif
 
 #if defined(PNG_WRITE_FLUSH_SUPPORTED)
@@ -2129,10 +2143,11 @@ extern PNG_EXPORT(png_uint_32,png_get_sCAL_s) PNGARG((png_structp png_ptr,
 #ifdef PNG_FLOATING_POINT_SUPPORTED
 extern PNG_EXPORT(void,png_set_sCAL) PNGARG((png_structp png_ptr,
    png_infop info_ptr, int unit, double width, double height));
-#endif
+#else
 #ifdef PNG_FIXED_POINT_SUPPORTED
 extern PNG_EXPORT(void,png_set_sCAL_s) PNGARG((png_structp png_ptr,
    png_infop info_ptr, int unit, png_charp swidth, png_charp sheight));
+#endif
 #endif
 #endif /* PNG_sCAL_SUPPORTED || PNG_WRITE_sCAL_SUPPORTED */
 
@@ -2229,7 +2244,9 @@ extern PNG_EXPORT(void, png_write_png) PNGARG((png_structp png_ptr,
 #define png_debug2(l, m, p1, p2)
 #endif
 
+#if 0
 extern PNG_EXPORT(png_bytep,png_sig_bytes) PNGARG((void));
+#endif
 
 extern PNG_EXPORT(png_charp,png_get_copyright) PNGARG((png_structp png_ptr));
 extern PNG_EXPORT(png_charp,png_get_header_ver) PNGARG((png_structp png_ptr));
@@ -2374,6 +2391,44 @@ extern PNG_EXPORT(png_uint_32,png_get_user_height_max) PNGARG((png_structp
 
 #endif /* PNG_READ_COMPOSITE_NODIV_SUPPORTED */
 
+/* Inline macros to do direct reads of bytes from the input buffer.  These
+ * require that you are using an architecture that uses PNG byte ordering
+ * (MSB first) and supports unaligned data storage.  I think that PowerPC
+ * in big-endian mode and 680x0 are the only ones that will support this.
+ * The x86 line of processors definitely do not.  The png_get_int_32()
+ * routine also assumes we are using two's complement format for negative
+ * values, which is almost certainly true.
+ */
+#if defined(PNG_READ_BIG_ENDIAN_SUPPORTED)
+#  define png_get_uint_32(buf) ( *((png_uint_32p) (buf)))
+#  define png_get_uint_16(buf) ( *((png_uint_16p) (buf)))
+#  define png_get_int_32(buf)  ( *((png_int_32p)  (buf)))
+#else
+extern PNG_EXPORT(png_uint_32,png_get_uint_32) PNGARG((png_bytep buf));
+extern PNG_EXPORT(png_uint_16,png_get_uint_16) PNGARG((png_bytep buf));
+extern PNG_EXPORT(png_int_32,png_get_int_32) PNGARG((png_bytep buf));
+#endif /* !PNG_READ_BIG_ENDIAN_SUPPORTED */
+extern PNG_EXPORT(png_uint_32,png_get_uint_31)
+  PNGARG((png_structp png_ptr, png_bytep buf));
+/* No png_get_int_16 -- may be added if there's a real need for it. */
+
+/* Place a 32-bit number into a buffer in PNG byte order (big-endian).
+ */
+extern PNG_EXPORT(void,png_save_uint_32)
+   PNGARG((png_bytep buf, png_uint_32 i));
+extern PNG_EXPORT(void,png_save_int_32)
+   PNGARG((png_bytep buf, png_int_32 i));
+
+/* Place a 16-bit number into a buffer in PNG byte order.
+ * The parameter is declared unsigned int, not png_uint_16,
+ * just to avoid potential problems on pre-ANSI C compilers.
+ */
+extern PNG_EXPORT(void,png_save_uint_16)
+   PNGARG((png_bytep buf, unsigned int i));
+/* No png_save_int_16 -- may be added if there's a real need for it. */
+
+/* ************************************************************************* */
+
 /* These next functions are used internally in the code.  They generally
  * shouldn't be used unless you are writing code to add or replace some
  * functionality in libpng.  More information about most functions can
@@ -2426,7 +2481,7 @@ extern PNG_EXPORT(png_uint_32,png_get_user_height_max) PNGARG((png_structp
 #define PNG_RGB_TO_GRAY      0x600000L  /* two bits, RGB_TO_GRAY_ERR|WARN */
                        /*    0x800000L     Unused */
 #define PNG_ADD_ALPHA       0x1000000L  /* Added to libpng-1.2.7 */
-                       /*   0x2000000L  unused */
+#define PNG_EXPAND_tRNS     0x2000000L  /* Added to libpng-1.2.9 */
                        /*   0x4000000L  unused */
                        /*   0x8000000L  unused */
                        /*  0x10000000L  unused */
@@ -2510,7 +2565,9 @@ extern PNG_EXPORT(png_uint_32,png_get_user_height_max) PNGARG((png_structp
 #ifdef PNG_USE_GLOBAL_ARRAYS
    PNG_EXPORT_VAR (const png_byte) png_sig[8];
 #else
+#if 0
 #define png_sig png_sig_bytes(NULL)
+#endif
 #endif
 #endif /* PNG_NO_EXTERN */
 
@@ -2564,31 +2621,7 @@ PNG_EXPORT_VAR (const png_byte) png_tRNS[5];
 PNG_EXPORT_VAR (const png_byte) png_zTXt[5];
 #endif /* PNG_USE_GLOBAL_ARRAYS */
 
-
-/* Inline macros to do direct reads of bytes from the input buffer.  These
- * require that you are using an architecture that uses PNG byte ordering
- * (MSB first) and supports unaligned data storage.  I think that PowerPC
- * in big-endian mode and 680x0 are the only ones that will support this.
- * The x86 line of processors definitely do not.  The png_get_int_32()
- * routine also assumes we are using two's complement format for negative
- * values, which is almost certainly true.
- */
-#if defined(PNG_READ_BIG_ENDIAN_SUPPORTED)
-#  if defined(PNG_pCAL_SUPPORTED) || defined(PNG_oFFs_SUPPORTED)
-#    define png_get_int_32(buf) ( *((png_int_32p) (buf)))
-#  endif
-#  define png_get_uint_32(buf) ( *((png_uint_32p) (buf)))
-#  define png_get_uint_16(buf) ( *((png_uint_16p) (buf)))
-#else
-#  if defined(PNG_pCAL_SUPPORTED) || defined(PNG_oFFs_SUPPORTED)
-PNG_EXTERN png_int_32 png_get_int_32 PNGARG((png_bytep buf));
-#  endif
-PNG_EXTERN png_uint_32 png_get_uint_32 PNGARG((png_bytep buf));
-PNG_EXTERN png_uint_16 png_get_uint_16 PNGARG((png_bytep buf));
-#endif /* !PNG_READ_BIG_ENDIAN_SUPPORTED */
-PNG_EXTERN png_uint_32 png_get_uint_31 PNGARG((png_structp png_ptr,
-  png_bytep buf));
-
+#if defined(PNG_1_0_X) || defined (PNG_1_2_X)
 /* Initialize png_ptr struct for reading, and allocate any other memory.
  * (old interface - DEPRECATED - use png_create_read_struct instead).
  */
@@ -2596,12 +2629,17 @@ extern PNG_EXPORT(void,png_read_init) PNGARG((png_structp png_ptr));
 #undef png_read_init
 #define png_read_init(png_ptr) png_read_init_3(&png_ptr, \
     PNG_LIBPNG_VER_STRING,  png_sizeof(png_struct));
+#endif
+
 extern PNG_EXPORT(void,png_read_init_3) PNGARG((png_structpp ptr_ptr,
     png_const_charp user_png_ver, png_size_t png_struct_size));
+#if defined(PNG_1_0_X) || defined (PNG_1_2_X)
 extern PNG_EXPORT(void,png_read_init_2) PNGARG((png_structp png_ptr,
     png_const_charp user_png_ver, png_size_t png_struct_size, png_size_t
     png_info_size));
+#endif
 
+#if defined(PNG_1_0_X) || defined (PNG_1_2_X)
 /* Initialize png_ptr struct for writing, and allocate any other memory.
  * (old interface - DEPRECATED - use png_create_write_struct instead).
  */
@@ -2609,6 +2647,8 @@ extern PNG_EXPORT(void,png_write_init) PNGARG((png_structp png_ptr));
 #undef png_write_init
 #define png_write_init(png_ptr) png_write_init_3(&png_ptr, \
     PNG_LIBPNG_VER_STRING, png_sizeof(png_struct));
+#endif
+
 extern PNG_EXPORT(void,png_write_init_3) PNGARG((png_structpp ptr_ptr,
     png_const_charp user_png_ver, png_size_t png_struct_size));
 extern PNG_EXPORT(void,png_write_init_2) PNGARG((png_structp png_ptr,
@@ -2707,23 +2747,6 @@ PNG_EXTERN void png_calculate_crc PNGARG((png_structp png_ptr, png_bytep ptr,
 #if defined(PNG_WRITE_FLUSH_SUPPORTED)
 PNG_EXTERN void png_flush PNGARG((png_structp png_ptr));
 #endif
-
-
-/* Place a 32-bit number into a buffer in PNG byte order (big-endian).
- * The only currently known PNG chunks that use signed numbers are
- * the ancillary extension chunks, oFFs and pCAL.
- */
-PNG_EXTERN void png_save_uint_32 PNGARG((png_bytep buf, png_uint_32 i));
-
-#if defined(PNG_WRITE_pCAL_SUPPORTED) || defined(PNG_WRITE_oFFs_SUPPORTED)
-PNG_EXTERN void png_save_int_32 PNGARG((png_bytep buf, png_int_32 i));
-#endif
-
-/* Place a 16-bit number into a buffer in PNG byte order.
- * The parameter is declared unsigned int, not png_uint_16,
- * just to avoid potential problems on pre-ANSI C compilers.
- */
-PNG_EXTERN void png_save_uint_16 PNGARG((png_bytep buf, unsigned int i));
 
 /* simple function to write the signature */
 PNG_EXTERN void png_write_sig PNGARG((png_structp png_ptr));

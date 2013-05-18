@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libpng/Makefile,v 1.2 2005/04/22 21:57:08 tg Exp $
+# $MirOS: src/lib/libpng/Makefile,v 1.3 2005/10/21 11:02:51 tg Exp $
 
 SHLIB_VERSION?= 7.0
 LIB=		png
@@ -12,7 +12,7 @@ INCS=		png.h pngconf.h
 
 .include <bsd.own.mk>
 COPTS+=		-Wall
-CPPFLAGS+=	-DPNG_NO_ASSEMBLER_CODE -DPNG_USE_PNGGCCRD
+CPPFLAGS+=	-DPNG_NO_ASSEMBLER_CODE
 
 includes:
 .for _i in ${INCS}
