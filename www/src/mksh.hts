@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.36 2007/07/26 22:08:30 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.37 2007/07/26 22:48:11 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.36 2007/07/26 22:08:30 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.37 2007/07/26 22:48:11 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R30</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -455,8 +455,14 @@ mws_content <<'EOF'
  package mksh, but an <a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-obsdport.tgz">inofficial
  port</a> is available.</li>
 <li>ChinaLinux mirrors (and apparently packages) mksh.</li>
-<li>Some US-American Apple Users' Group packages mksh.</li>
+<li>Some US-American Apple Users' Group (the <a
+ href="http://www.hmug.org/pub/MacOS_X/BSD/Applications/Shells/mksh/">HMUG</a>)
+ packages mksh for Darwin, too.</li>
+<li>Frugalware Linux contains a broken mksh package; the build logs show
+ the problem is on their side.</li>
 <li>There are probably many more, please drop us a note!</li>
+<li><a href="http://linux.softpedia.com/get/System/Shells/MirBSD-Korn-Shell-24602.shtml">Softpedia</a>
+ lists mksh, but with wrong licencing information.</li>
 </ul>
 <p>These packages are not official and have not always been tested by mksh
  developers; please keep this in mind.</p>
@@ -520,57 +526,56 @@ mws_content <<'EOF'
 <p>The MirOS Project has tested mksh on the following operating systems,
  asked people to test, and hunted mksh down in these packaging systems:</p>
 <ul>
- <li>mksh R30β<ul>
-  <li>MirOS #10 RC2 (i386 gcc3.4.6)</li>
-  <li>MirOS #10 RC1 (i386 SUNcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
-  <li>MirOS #7-stable (sparc gcc2.95)</li>
-  <li>AIX 5.3 (powerpc gcc4.0.0, LD 1.65 04/06/2005)</li>
-  <li>AIX 5.3 32-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
-  <li>AIX 5.3 64-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
-  <li>HP-UX 11i B.11.11 (PA-RISC gcc3.4.2) <em>no regression test run</em></li>
-  <li>HP-UX 11i B.11.11 (PA-RISC hpC B.11.X.36086-36089-36092.GP, ld B.11.60 070209)</li>
-  <li>HP-UX 11i B.11.23 (IA64 gcc3.4.3)</li>
-  <li>HP-UX 11i B.11.31 (PA-RISC hpC B.11.X.36086-36089-36092.GP, ld B.11.60 070209)</li>
-  <li>HP-UX 11i B.11.31 (IA64 hpC B3910B A.06.14 [Feb 22 2007], ld B.12.43 92453-07)</li>
-  <li>Interix 3.5 (i386 gcc3.3 win2k) <em>with Perl from pkgsrc®</em></li>
-  <li>Interix 3.5 (i386 msc CL.EXE 13.00.9466 (standard), LINK.EXE 7.00.9466)</li>
-  <li>Interix 3.5 (i386 msc CL.EXE 14.00.50727.42 (optimising), LINK.EXE 8.00.50727.42)</li>
-  <li>Cygwin 1.5.19(0.150/4/2) 2006-01-20 13:28 (i386 gcc3.4.4 win2k)</li>
-  <li>UWIN-NT 2006-02-14 (i386 bcpp BCC32.EXE 5.5.1, ILINK32.EXE 5.00) <em>result doesn't pass regress</em></li>
-  <li>UWIN-NT 2006-02-14 (i386 dmc DMC.EXE 8.42n, LINK.EXE OPTLINK 7.50B1) <em>with kludges</em></li>
-  <li>UWIN-NT 2006-02-14 (i386 msc CL.EXE 13.00.9466, LINK.EXE 7.00.9466) <em>with kludges</em></li>
-  <li>Solaris 8 Generic_117350-41 (sparc,V8+ sun4u gcc3.4.3)</li>
-  <li>Solaris 8 Generic_117350-41 (sparc64,V9 sun4u gcc3.4.3)</li>
-  <li>Solaris 10 Generic_125100-04 (sparc,V8+ sun4u gcc3.4.6)</li>
-  <li>Solaris 10 Generic_125100-04 (sparc64,V9 sun4u gcc3.4.6)</li>
-  <li>Solaris 10 Generic_125100-04 (sparc,V8+ sun4u SUNcc5.8 121015-04, ld 5.10-1.482)</li>
-  <li>Solaris 10 Generic_125100-04 (sparc64,V9 sun4u SUNcc5.8 121015-04, ld 5.10-1.482)</li>
-  <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3)</li>
-  <li>FreeWRT GNU/Linux 1.1/trunk 2.4.34 (mipsel uClibc/brcm gcc3.4.4)</li>
-  <li>FreeWRT GNU/Linux 1.1/trunk 2.6.19.1 (mipsel uClibc/rb gcc3.4.4)</li>
-  <li>FreeWRT GNU/Linux 1.1/trunk 2.6.19.1 (i386 uClibc/WRAP gcc3.4.4)</li>
-  <li>Debian GNU/Linux 3.1 sarge 2.6.8-3 (alpha gcc1:3.3.5-13)</li>
-  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21)</li>
-  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 icc9.1.042)</li>
-  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 icc10.0.023)</li>
-  <li>Red Hat Enterprise Linux 5 2.6.18-8.1.6.el5 (IA64 icc9.1.047)</li>
-  <li>Oracle Enterprise Linux 4 2.6.9-42.0.0.0.1.ELsmp (amd64 gcc3.4.6)</li>
-  <li>Debian GNU/kFreeBSD 4.0 sid 5.4-1-486 (i386 gcc4.1.2-12)</li>
-  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc1:3.3.6-15)</li>
-  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc3.4.6-5)</li>
-  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.0.3-7)</li>
-  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.1.2-13)</li>
-  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2-20070609-1)</li>
-  <li>Debian GNU 4.0 sid GNU-Mach/1.3.99 Hurd/0.3 (i386 gcc4.1.2-7)</li>
-  <li>DragonFly 1.9-DEVELOPMENT Feb 20, 2007 (i386 gcc3.4.6)</li>
-  <li>NetBSD 3.0_STABLE (i386 gcc3.3.3)</li>
-  <li>OpenBSD 4.1-current GENERIC#1241 May 17, 2007 (sparc64 gcc3.3.5)</li>
-  <li>FreeBSD 6.2-RELEASE (IA64 gcc3.4.6)</li>
-  <li>Mac OSX Tiger 10.4.10 Darwin 8.10.0 (macppc gcc4.0.1 Apple build 5363)</li>
-  <li>Mac OSX Tiger 10.4.10 (build 8R2232) Darwin 8.10.1 (i386 gcc4.0.1 Apple build 5367)</li>
-  <li>– tests by third parties –</li>
-  <li>MidnightBSD 0.2-CURRENT (i386 gcc3.4.4 20050518)</li>
- </ul></li>
+ <li>MirOS #10 RC2 (i386 gcc3.4.6)</li>
+ <li>MirOS #10 RC1 (i386 SUNcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
+ <li>MirOS #7-stable (sparc gcc2.95)</li>
+ <li>AIX 5.3 (powerpc gcc4.0.0, LD 1.65 04/06/2005)</li>
+ <li>AIX 5.3 32-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
+ <li>AIX 5.3 64-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
+ <li>HP-UX 11i B.11.11 (PA-RISC gcc3.4.2) <em>no regression test run</em></li>
+ <li>HP-UX 11i B.11.11 (PA-RISC hpC B.11.X.36086-36089-36092.GP, ld B.11.60 070209)</li>
+ <li>HP-UX 11i B.11.23 (IA64 gcc3.4.3)</li>
+ <li>HP-UX 11i B.11.31 (PA-RISC hpC B.11.X.36086-36089-36092.GP, ld B.11.60 070209)</li>
+ <li>HP-UX 11i B.11.31 (IA64 hpC B3910B A.06.14 [Feb 22 2007], ld B.12.43 92453-07)</li>
+ <li>Interix 3.5 (i386 gcc3.3 win2k) <em>with Perl from pkgsrc®</em></li>
+ <li>Interix 3.5 (i386 msc CL.EXE 13.00.9466 (standard), LINK.EXE 7.00.9466)</li>
+ <li>Interix 3.5 (i386 msc CL.EXE 14.00.50727.42 (optimising), LINK.EXE 8.00.50727.42)</li>
+ <li>Cygwin 1.5.19(0.150/4/2) 2006-01-20 13:28 (i386 gcc3.4.4 win2k)</li>
+ <li>UWIN-NT 2006-02-14 (i386 bcpp BCC32.EXE 5.5.1, ILINK32.EXE 5.00) <em>result doesn't pass regress</em></li>
+ <li>UWIN-NT 2006-02-14 (i386 dmc DMC.EXE 8.42n, LINK.EXE OPTLINK 7.50B1) <em>with kludges</em></li>
+ <li>UWIN-NT 2006-02-14 (i386 msc CL.EXE 13.00.9466, LINK.EXE 7.00.9466) <em>with kludges</em></li>
+ <li>Solaris 8 Generic_117350-41 (sparc,V8+ sun4u gcc3.4.3)</li>
+ <li>Solaris 8 Generic_117350-41 (sparc64,V9 sun4u gcc3.4.3)</li>
+ <li>Solaris 10 Generic_125100-04 (sparc,V8+ sun4u gcc3.4.6)</li>
+ <li>Solaris 10 Generic_125100-04 (sparc64,V9 sun4u gcc3.4.6)</li>
+ <li>Solaris 10 Generic_125100-04 (sparc,V8+ sun4u SUNcc5.8 121015-04, ld 5.10-1.482)</li>
+ <li>Solaris 10 Generic_125100-04 (sparc64,V9 sun4u SUNcc5.8 121015-04, ld 5.10-1.482)</li>
+ <li>ecce!GNU/Linux 1.00 2.0.38a (i386 libc5 gcc2.7.2.3)</li>
+ <li>FreeWRT GNU/Linux 1.1/trunk 2.4.34 (mipsel uClibc/brcm gcc3.4.4)</li>
+ <li>FreeWRT GNU/Linux 1.1/trunk 2.6.19.1 (mipsel uClibc/rb gcc3.4.4)</li>
+ <li>FreeWRT GNU/Linux 1.1/trunk 2.6.19.1 (i386 uClibc/WRAP gcc3.4.4)</li>
+ <li>Debian GNU/Linux 3.1 sarge 2.6.8-3 (alpha gcc1:3.3.5-13)</li>
+ <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21)</li>
+ <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 icc9.1.042)</li>
+ <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 icc10.0.023)</li>
+ <li>Red Hat Enterprise Linux 5 2.6.18-8.1.6.el5 (IA64 icc9.1.047)</li>
+ <li>Oracle Enterprise Linux 4 2.6.9-42.0.0.0.1.ELsmp (amd64 gcc3.4.6)</li>
+ <li>Debian GNU/kFreeBSD 4.0 sid 5.4-1-486 (i386 gcc4.1.2-12)</li>
+ <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc1:3.3.6-15)</li>
+ <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc3.4.6-5)</li>
+ <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.0.3-7)</li>
+ <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.1.2-13)</li>
+ <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2-20070609-1)</li>
+ <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2.1-1)</li>
+ <li>Debian GNU 4.0 sid GNU-Mach/1.3.99 Hurd/0.3 (i386 gcc4.1.2-7)</li>
+ <li>DragonFly 1.9-DEVELOPMENT Feb 20, 2007 (i386 gcc3.4.6)</li>
+ <li>NetBSD 3.0_STABLE (i386 gcc3.3.3)</li>
+ <li>OpenBSD 4.1-current GENERIC#1241 May 17, 2007 (sparc64 gcc3.3.5)</li>
+ <li>FreeBSD 6.2-RELEASE (IA64 gcc3.4.6)</li>
+ <li>Mac OSX Tiger 10.4.10 Darwin 8.10.0 (macppc gcc4.0.1 Apple build 5363)</li>
+ <li>Mac OSX Tiger 10.4.10 (build 8R2232) Darwin 8.10.1 (i386 gcc4.0.1 Apple build 5367)</li>
+ <li>– tests by third parties –</li>
+ <li>MidnightBSD 0.2-CURRENT (i386 gcc3.4.4 20050518)</li>
 </ul>
 
 <h2 id="vsn">Recommendations on version numbering</h2>
