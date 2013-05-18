@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.1 2006/05/30 21:29:48 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -22,7 +22,7 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/code/libhaible/mbsrtowcs.c,v 1.1 2006/05/30 21:29:48 tg Exp $");
 
 size_t
 mbsrtowcs(wchar_t *__restrict__ dest, const char **__restrict__ srcp,
@@ -40,24 +40,27 @@ mbsrtowcs(wchar_t *__restrict__ dest, const char **__restrict__ srcp,
 	src = *srcp;
 	if (!__locale_is_utf8) {
 		if (dest == NULL)
-			for ( ; len > 0; src++, cnt++, len--) {
+			while (len > 0) {
 				dest[cnt] = (wchar_t)(c = *src);
 				if (c == '\0') {
 					src = NULL;
 					break;
 				}
+				src++; cnt++; len--;
+			}
 		else	/* ignore dest and len */
-			for ( ; ; src++, cnt++) {
+			while (1) {
 				if (*src == '\0') {
 					src = NULL;
 					break;
 				}
+				src++; cnt++;
 			}
 		*srcp = src;
 		return (cnt);
 	}
 	if (dest != NULL) {
-		for ( ; len > 0; cnt++, len--) {
+		for ( ; len > 0; len--) {
 			const unsigned char *s2 = src;
 			if (ps->count == 0) {
 				c = *src;
@@ -68,6 +71,7 @@ mbsrtowcs(wchar_t *__restrict__ dest, const char **__restrict__ srcp,
 						break;
 					}
 					src++;
+					cnt++;
 					continue;
 				} else if (c < 0xC2)
 					goto bad_input;
@@ -96,16 +100,15 @@ mbsrtowcs(wchar_t *__restrict__ dest, const char **__restrict__ srcp,
 			}
 			dest[cnt] = wc;
 			ps->count = 0;
+			cnt++;
 			continue;
  bad_input_backup:
 			src = s2;
 			goto bad_input;
 		}
-		*srcp = src;
-		return (cnt);
 	} else {
 		/* ignore dest and len */
-		for ( ; ; cnt++) {
+		while (1) {
 			const unsigned char *s2 = src;
 			if (ps->count == 0) {
 				c = *src;
@@ -115,6 +118,7 @@ mbsrtowcs(wchar_t *__restrict__ dest, const char **__restrict__ srcp,
 						break;
 					}
 					src++;
+					cnt++;
 					continue;
 				} else if (c < 0xC2)
 					goto bad_input;
@@ -142,14 +146,15 @@ mbsrtowcs(wchar_t *__restrict__ dest, const char **__restrict__ srcp,
 					goto bad_input_backup2;
 			}
 			ps->count = 0;
+			cnt++;
 			continue;
  bad_input_backup2:
 			src = s2;
 			goto bad_input;
 		}
-		*srcp = src;
-		return (cnt);
 	}
+	*srcp = src;
+	return (cnt);
  bad_input:
 	*srcp = src;
 	errno = EILSEQ;
