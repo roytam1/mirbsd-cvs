@@ -1,21 +1,24 @@
-/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.6 2006/08/18 13:02:17 tg Exp $ */
+/**	$MirOS: src/lib/libc/crypt/arc4random.c,v 1.7 2006/08/19 02:03:08 tg Exp $ */
 /*	$OpenBSD: arc4random.c,v 1.14 2005/06/06 14:57:59 kjell Exp $	*/
 
 /*
- * Copyright (c) 2006 Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2006, 2007 Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 1996, David Mazieres <dm@uun.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
  * copyright notice and this permission notice appear in all copies.
  *
- * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
- * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
- * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
- * ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
- * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
- * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
- * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ * The following disclaimer must also be retained:
+ *
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
 /*
@@ -43,7 +46,7 @@
 #include <time.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.6 2006/08/18 13:02:17 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.7 2006/08/19 02:03:08 tg Exp $");
 
 #ifdef __GNUC__
 #define inline __inline
@@ -193,7 +196,7 @@ arc4random_pushb(const void *buf, size_t len)
 	int mib[2];
 	uint8_t sbuf[256];
 
-	v = (random() << 16) + len;
+	v = (rand() << 16) + len;
 	for (j = 0; j < len; ++j)
 		v += ((uint8_t *)buf)[j];
 	len = MIN(len, 256 - sizeof (tai64na_t));
@@ -208,8 +211,8 @@ arc4random_pushb(const void *buf, size_t len)
 	j = sizeof (i);
 
 	if (sysctl(mib, 2, &i, &j, sbuf, len) != 0)
-		i = (((v & 1) + 1) * (random() & 0xFF)) ^ arc4random()
-		    ^ *((uint32_t *)(sbuf + (len - 4)));
+		i = (((v & 1) + 1) * (rand() & 0xFF)) ^ arc4random() ^
+		    *((uint32_t *)(sbuf + (len - 4)));
 
 	len = sizeof (uint32_t);
 	memmove(sbuf, &v, len);
