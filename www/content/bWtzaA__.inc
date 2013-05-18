@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.44 2006/08/08 20:39:27 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.45 2006/08/09 20:46:44 tg Exp $</small>
 
 <h1>mksh(1) R27e</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -79,6 +79,13 @@
  <li>Correct the manual page regarding the 'abort' command, its
   interaction with 'search-history' and how to exit the latter</li>
  <li>Bring back "set -o posix" turning off 'braceexpand'</li>
+ <li>Mention IRC channel in manual page</li>
+ <li>Merge <tt>gensigs.sh</tt> into <tt>Build.sh</tt>, eliminating
+  the need for <tt>$SHELL</tt> and making it more robust to broken
+  user shells such as zsh, use the mksh just built for <tt>Test.sh</tt>;
+  simplify CPPFLAGS and reduce size of generated table</li>
+ <li>Run the signal name generator only if needed</li>
+ <li>Use the -c option to GNU nroff, always</li>
 </ul>
 <p>We recommend mksh <b>R27e</b> to be used:</p><ul>
  <li>Allow <tt>Test.sh</tt> to be passed parameters (-v)</li>
