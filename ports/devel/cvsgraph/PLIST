@@ -1,9 +1,0 @@
-@comment $MirOS$
-bin/cvsgraph
-man/man1/cvsgraph.1
-man/man5/cvsgraph.conf.5
-share/doc/cvsgraph/README
-share/examples/cvsgraph/cvsgraph.conf
-@sample ${SYSCONFDIR}/cvsgraph.conf
-@dirrm share/examples/cvsgraph
-@dirrm share/doc/cvsgraph
