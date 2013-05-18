@@ -26,6 +26,7 @@ If you encounter boot problems...
 ... disable "IDE Prefetch" in the BIOS
 ... disable apm in UKC ('boot -c')
 ... disable ehci, ohci and uhci (USB) in UKC
+... use 'change pcibios' and set flags to something else (e.g. 0)
 
 
 About MirOS BSD
@@ -121,4 +122,4 @@ code is available at http://www.mirbsd.org/ and its mirrors; further
 information can be found at /usr/share/doc/legal/ as well.
 
 _________________________________________________________________________
-$MirOS: src/distrib/i386/iso/00-README,v 1.8 2006/04/10 21:40:35 tg Exp $
+$MirOS: src/distrib/i386/iso/00-README,v 1.9 2006/05/12 21:29:40 tg Exp $
