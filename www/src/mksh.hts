@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.119 2008/05/17 20:38:27 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.120 2008/05/20 19:00:44 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -587,7 +587,7 @@ mws_content <<'EOF'
 <li><a href="http://www.sourcemage.org/">SMGL</a> (Sourcemage GNU/Linux) has an
  <a href="http://distro.ibiblio.org/pub/linux/distributions/sourcemage/codex/test/shell-term-fm/mksh/">mksh
  spell</a> in their grimoire, developed by the MirOS Project together with
- Daniel “morfic” Goller.</li>
+ Daniel “morfic” Goller, updated by Thomas “sobukus” Orgis.</li>
 <li>In the <a href="https://www.freewrt.org/trac/">FreeWRT Embedded GNU/Linux
  Appliance Development Kit (meta distribution)</a>, the <a
  href="https://www.freewrt.org/svn/trunk/freewrt/package/mksh/">mksh
@@ -975,6 +975,8 @@ mws_content <<'EOF'
  <li>Add realpath(3) builtin, to further speed up logins and chdirs</li>
  <li>Optimise the code somewhat by making use of possible assumptions</li>
  <li>Set the “C” locale in <tt>test.sh</tt> as well to quell warnings</li>
+ <li>Split the regression tests that use locale between <tt>en_US.utf8</tt>
+  and <tt>en_US.UTF-8</tt>, since not all OSes support either one</li>
 </ul>
 <p id="r33d">mksh R33d is a quick security-update with these changes:</p><ul>
  <li>Move a portability define from <tt>sh.h</tt> to the <tt>setmode.c</tt>
