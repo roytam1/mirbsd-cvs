@@ -1,7 +1,7 @@
 #!/bin/sh
-# $MirOS: contrib/samples/dot.xinitrc,v 1.3 2005/12/17 05:46:11 tg Exp $
+# $MirOS: contrib/samples/dot.xinitrc,v 1.4 2008/11/08 22:24:29 tg Exp $
 #-
-# Copyright (c) 2003, 2004, 2005
+# Copyright (c) 2003, 2004, 2005, 2009
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 #
 # Licensee is hereby permitted to deal in this work without restric-
@@ -62,8 +62,9 @@ if [ -e /usr/local/lib/X11/fonts/terminus ]; then
 	    -bg cornflowerblue -e tail -f /var/log/messages &
 fi
 
-# Screen saver off
+# disable DPMS and turn off screen saver
 xset s off
+xset -dpms
 
 [ -s $HOME/.xinitrc.local ] && . $HOME/.xinitrc.local
 
