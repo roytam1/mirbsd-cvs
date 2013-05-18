@@ -37,14 +37,24 @@
 #include <sys/ioctl.h>
 #include <fcntl.h>
 #include <signal.h>
+#include <stdbool.h>
 #include <stdint.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.5 2007/07/09 22:53:37 tg Exp $");
+__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.6 2007/07/10 15:12:43 tg Exp $");
+
+#if defined(SIGPROF) && defined(ITIMER_PROF)
+#define MAYPROF
+#else
+#undef MAYPROF
+#endif
 
 volatile sig_atomic_t glocke;
 useconds_t littlesleep = 2000;
 uint8_t obuf[1024];
+#ifdef MAYPROF
+	bool doprof = false;
+#endif
 
 static void laeuten(int);
 static int getbits(void);
@@ -79,7 +89,11 @@ getbits(void)
 	};
 
 	glocke = 0;
-	setitimer(ITIMER_REAL, &itv, NULL);
+	setitimer(
+#ifdef MAYPROF
+	    doprof ? ITIMER_PROF :
+#endif
+	    ITIMER_REAL, &itv, NULL);
 	while (!glocke)
 		++count;
 
@@ -122,12 +136,33 @@ int
 main(int argc, char *argv[])
 {
 	size_t num;
-	int c;
+	int c = 0;
+	char *cp;
 
+#ifdef MAYPROF
+	signal(SIGPROF, laeuten);
+#endif
 	signal(SIGALRM, laeuten);
-	if (argc > 1 && argv[1][0] == '-' && argv[1][1] == 'r')
-		goto out_bytes;
-	if (argc > 1) {
+	if (argc == 2 && *(cp = argv[1]) == '-') {
+		switch (argv[1][1]) {
+		case 'r':
+			c = 1;
+			break;
+		case 'p':
+			doprof = true;
+			break;
+		}
+		switch (argv[1][2]) {
+		case 'r':
+			c = 1;
+			break;
+		case 'p':
+			doprof = true;
+			break;
+		}
+		if (c)
+			goto out_bytes;
+	} else if (argc > 1) {
 		write(2, emsg, sizeof (emsg) - 1);
 		return (1);
 	}
@@ -156,13 +191,15 @@ main(int argc, char *argv[])
 	goto main_loop;
 
  out_bytes:
-	if ((c = argv[1][2]) > '0' && c <= '9') {
+	while (*cp < '0' || *cp > '9')
+		++cp;
+	if ((c = cp[0]) > '0' && c <= '9') {
 		num = c - '0';
-		if ((c = argv[1][3]) >= '0' && c <= '9') {
+		if ((c = cp[1]) >= '0' && c <= '9') {
 			num = num * 10 + c - '0';
-			if ((c = argv[1][4]) >= '0' && c <= '9') {
+			if ((c = cp[2]) >= '0' && c <= '9') {
 				num = num * 10 + c - '0';
-				if ((c = argv[1][5]) >= '0' && c <= '9')
+				if ((c = cp[3]) >= '0' && c <= '9')
 					num = num * 10 + c - '0';
 			}
 		}
