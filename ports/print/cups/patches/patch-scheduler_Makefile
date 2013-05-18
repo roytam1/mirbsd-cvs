@@ -1,10 +1,10 @@
-$MirOS: ports/print/cups/patches/patch-scheduler_Makefile,v 1.1.7.1 2005/03/18 15:51:00 tg Exp $
---- scheduler/Makefile.orig	Sun Mar  5 16:47:49 2006
-+++ scheduler/Makefile	Mon Jun 19 20:06:13 2006
-@@ -127,22 +127,6 @@ install:	all
- 	echo Creating $(SERVERROOT)/ppd...
- 	$(INSTALL_DIR) -m 755 $(SERVERROOT)/ppd
- 	-chgrp $(CUPS_GROUP) $(SERVERROOT)/ppd
+$MirOS: ports/print/cups/patches/patch-scheduler_Makefile,v 1.2 2006/06/21 19:25:35 bsiegert Exp $
+--- scheduler/Makefile.orig	Mon Sep 11 20:29:46 2006
++++ scheduler/Makefile	Wed Nov  8 18:15:12 2006
+@@ -134,22 +134,6 @@ install:	all
+ 	echo Creating $(SERVERROOT)/ssl...
+ 	$(INSTALL_DIR) -m 700 $(SERVERROOT)/ssl
+ 	-chgrp $(CUPS_GROUP) $(SERVERROOT)/ssl
 -	echo Creating $(STATEDIR)...
 -	$(INSTALL_DIR) -m 755 $(STATEDIR)
 -	echo Creating $(STATEDIR)/certs...
@@ -24,7 +24,7 @@ $MirOS: ports/print/cups/patches/patch-scheduler_Makefile,v 1.1.7.1 2005/03/18 1
  #	echo Creating $(CACHEDIR)/ppd...
  #	$(INSTALL_DIR) -m 755 $(CACHEDIR)/ppd
  #	-chgrp $(CUPS_GROUP) $(CACHEDIR)/ppd
-@@ -179,13 +163,13 @@ uninstall:	all
+@@ -186,13 +170,13 @@ uninstall:	all
  
  cupsd:	$(CUPSDOBJS) libmime.a ../cups/$(LIBCUPS)
  	echo Linking $@...
@@ -40,7 +40,7 @@ $MirOS: ports/print/cups/patches/patch-scheduler_Makefile,v 1.1.7.1 2005/03/18 1
  		$(LIBZ) $(SSLLIBS) $(LIBSLP) $(LIBLDAP) $(PAMLIBS) \
  		../cups/libcups.a $(COMMONLIBS) $(LIBZ) $(LIBPAPER) \
  		$(LIBMALLOC) $(CUPSDLIBS)
-@@ -197,7 +181,7 @@ cupsd-static:	$(CUPSDOBJS) libmime.a ../
+@@ -204,7 +188,7 @@ cupsd-static:	$(CUPSDOBJS) libmime.a ../
  
  cups-deviced:	cups-deviced.o util.o ../cups/$(LIBCUPS)
  	echo Linking $@...
@@ -49,7 +49,7 @@ $MirOS: ports/print/cups/patches/patch-scheduler_Makefile,v 1.1.7.1 2005/03/18 1
  
  
  #
-@@ -206,7 +190,7 @@ cups-deviced:	cups-deviced.o util.o ../c
+@@ -213,7 +197,7 @@ cups-deviced:	cups-deviced.o util.o ../c
  
  cups-driverd:	cups-driverd.o util.o ../cups/$(LIBCUPS)
  	echo Linking $@...
@@ -58,7 +58,7 @@ $MirOS: ports/print/cups/patches/patch-scheduler_Makefile,v 1.1.7.1 2005/03/18 1
  
  
  #
-@@ -215,7 +199,7 @@ cups-driverd:	cups-driverd.o util.o ../c
+@@ -222,7 +206,7 @@ cups-driverd:	cups-driverd.o util.o ../c
  
  cups-lpd:	cups-lpd.o ../cups/$(LIBCUPS)
  	echo Linking $@...
@@ -67,7 +67,7 @@ $MirOS: ports/print/cups/patches/patch-scheduler_Makefile,v 1.1.7.1 2005/03/18 1
  
  
  #
-@@ -224,7 +208,7 @@ cups-lpd:	cups-lpd.o ../cups/$(LIBCUPS)
+@@ -231,7 +215,7 @@ cups-lpd:	cups-lpd.o ../cups/$(LIBCUPS)
  
  cups-polld:	cups-polld.o ../cups/$(LIBCUPS)
  	echo Linking $@...
@@ -76,7 +76,7 @@ $MirOS: ports/print/cups/patches/patch-scheduler_Makefile,v 1.1.7.1 2005/03/18 1
  
  
  #
-@@ -244,7 +228,7 @@ libmime.a:	$(MIMEOBJS)
+@@ -251,7 +235,7 @@ libmime.a:	$(MIMEOBJS)
  
  testdirsvc:	testdirsvc.o
  	echo Linking $@...
@@ -85,7 +85,16 @@ $MirOS: ports/print/cups/patches/patch-scheduler_Makefile,v 1.1.7.1 2005/03/18 1
  
  
  #
-@@ -253,7 +237,7 @@ testdirsvc:	testdirsvc.o
+@@ -260,7 +244,7 @@ testdirsvc:	testdirsvc.o
+ 
+ testlpd:	testlpd.o ../cups/libcups.a cups-lpd
+ 	echo Linking $@...
+-	$(CC) $(LDFLAGS) -o testlpd testlpd.o ../cups/libcups.a \
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o testlpd testlpd.o ../cups/libcups.a \
+ 		$(COMMONLIBS) $(LIBZ) $(SSLLIBS)
+ 
+ 
+@@ -270,7 +254,7 @@ testlpd:	testlpd.o ../cups/libcups.a cup
  
  testmime:	testmime.o libmime.a ../cups/libcups.a
  	echo Linking $@...
@@ -94,12 +103,21 @@ $MirOS: ports/print/cups/patches/patch-scheduler_Makefile,v 1.1.7.1 2005/03/18 1
  		$(COMMONLIBS) $(LIBZ) $(SSLLIBS)
  
  
-@@ -263,7 +247,7 @@ testmime:	testmime.o libmime.a ../cups/l
+@@ -280,7 +264,7 @@ testmime:	testmime.o libmime.a ../cups/l
  
- testspeed:	testspeed.o ../cups/$(LIBCUPS)
+ testspeed:	testspeed.o ../cups/libcups.a
  	echo Linking $@...
--	$(CC) $(LDFLAGS) -o testspeed testspeed.o $(LIBS)
-+	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o testspeed testspeed.o $(LIBS)
+-	$(CC) $(LDFLAGS) -o testspeed testspeed.o ../cups/libcups.a \
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o testspeed testspeed.o ../cups/libcups.a \
+ 		$(COMMONLIBS) $(LIBZ) $(SSLLIBS)
  
  
- #
+@@ -290,7 +274,7 @@ testspeed:	testspeed.o ../cups/libcups.a
+ 
+ testsub:	testsub.o ../cups/libcups.a
+ 	echo Linking $@...
+-	$(CC) $(LDFLAGS) -o testsub testsub.o ../cups/libcups.a \
++	$(LIBTOOL) --mode=link $(CC) $(LDFLAGS) -o testsub testsub.o ../cups/libcups.a \
+ 		$(LIBGSSAPI) $(SSLLIBS) $(COMMONLIBS) $(LIBZ)
+ 
+ 

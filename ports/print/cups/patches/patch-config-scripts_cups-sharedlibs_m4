@@ -1,6 +1,6 @@
 $MirOS$
---- config-scripts/cups-sharedlibs.m4.orig	Mon May 22 15:33:38 2006
-+++ config-scripts/cups-sharedlibs.m4	Tue Jul 25 17:06:02 2006
+--- config-scripts/cups-sharedlibs.m4.orig	Wed May 24 03:00:12 2006
++++ config-scripts/cups-sharedlibs.m4	Wed Nov  8 18:01:54 2006
 @@ -51,7 +51,7 @@ if test x$enable_shared != xno; then
  			LIBCUPS="libcups.so.2"
  			LIBCUPSIMAGE="libcupsimage.so.2"
@@ -10,20 +10,3 @@ $MirOS$
  			;;
  		Darwin*)
  			LIBCUPS="libcups.2.dylib"
-@@ -145,11 +145,11 @@ if test "$DSO" != ":"; then
-                 *BSD*)
-                         # *BSD...
- 			if test $exec_prefix != /usr; then
--				DSOFLAGS="-Wl,-R\$(libdir) $DSOFLAGS"
--				DSO32FLAGS="-Wl,-R\$(LIB32DIR) $DSO32FLAGS"
--				DSO64FLAGS="-Wl,-R\$(LIB64DIR) $DSO64FLAGS"
--				LDFLAGS="$LDFLAGS -Wl,-R\$(libdir)"
--				EXPORT_LDFLAGS="-Wl,-R\$(libdir)"
-+				DSOFLAGS="-Wl,-R\${libdir} $DSOFLAGS"
-+				DSO32FLAGS="-Wl,-R\${LIB32DIR} $DSO32FLAGS"
-+				DSO64FLAGS="-Wl,-R\${LIB64DIR} $DSO64FLAGS"
-+				LDFLAGS="$LDFLAGS -Wl,-R\${libdir}"
-+				EXPORT_LDFLAGS="-Wl,-R\${libdir}"
- 			fi
- 			;;
-                 IRIX | Linux | GNU)

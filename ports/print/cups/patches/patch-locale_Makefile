@@ -1,7 +1,7 @@
-$MirOS$
---- locale/Makefile.orig	Mon Jun 19 20:04:23 2006
-+++ locale/Makefile	Mon Jun 19 20:04:00 2006
-@@ -103,8 +103,8 @@ pot:
+$MirOS: ports/print/cups/patches/patch-locale_Makefile,v 1.1 2006/06/21 19:25:35 bsiegert Exp $
+--- locale/Makefile.orig	Tue May 30 22:30:47 2006
++++ locale/Makefile	Wed Nov  8 18:01:54 2006
+@@ -105,8 +105,8 @@ pot:
  #
  
  translate:	translate.o ../cups/$(LIBCUPS)

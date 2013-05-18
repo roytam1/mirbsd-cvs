@@ -1,7 +1,7 @@
-$MirOS: ports/print/cups/patches/patch-scheduler_cups-lpd_c,v 1.1.7.1 2005/03/18 15:51:00 tg Exp $
---- scheduler/cups-lpd.c.orig	Mon Apr 24 13:49:36 2006
-+++ scheduler/cups-lpd.c	Tue May  9 17:39:40 2006
-@@ -1367,7 +1367,7 @@ remove_jobs(const char *dest,		/* I - De
+$MirOS: ports/print/cups/patches/patch-scheduler_cups-lpd_c,v 1.2 2006/06/21 19:25:35 bsiegert Exp $
+--- scheduler/cups-lpd.c.orig	Tue Oct 10 21:46:40 2006
++++ scheduler/cups-lpd.c	Wed Nov  8 18:01:54 2006
+@@ -1368,7 +1368,7 @@ remove_jobs(const char *dest,		/* I - De
  
      request = ippNewRequest(IPP_CANCEL_JOB);
  

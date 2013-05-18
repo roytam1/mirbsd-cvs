@@ -1,7 +1,7 @@
-$MirOS: ports/print/cups/patches/patch-berkeley_lpq_c,v 1.1.7.1 2005/03/18 15:51:00 tg Exp $
---- berkeley/lpq.c.orig	Tue Mar 28 15:59:54 2006
-+++ berkeley/lpq.c	Tue May  9 17:39:25 2006
-@@ -385,9 +385,9 @@ show_jobs(const char *command,		/* I - C
+$MirOS: ports/print/cups/patches/patch-berkeley_lpq_c,v 1.2 2006/06/21 19:25:33 bsiegert Exp $
+--- berkeley/lpq.c.orig	Tue Sep  5 22:45:24 2006
++++ berkeley/lpq.c	Wed Nov  8 18:01:54 2006
+@@ -384,9 +384,9 @@ show_jobs(const char *command,		/* I - C
    if (dest == NULL)
    {
      if (id)

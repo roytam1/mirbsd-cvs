@@ -1,7 +1,7 @@
-$MirOS: ports/print/cups/patches/patch-systemv_cancel_c,v 1.1.7.1 2005/03/18 15:51:00 tg Exp $
---- systemv/cancel.c.orig	Wed Feb  8 18:39:33 2006
-+++ systemv/cancel.c	Tue May  9 17:39:40 2006
-@@ -275,7 +275,7 @@ main(int  argc,				/* I - Number of comm
+$MirOS: ports/print/cups/patches/patch-systemv_cancel_c,v 1.2 2006/06/21 19:25:36 bsiegert Exp $
+--- systemv/cancel.c.orig	Tue Sep  5 22:45:24 2006
++++ systemv/cancel.c	Wed Nov  8 18:01:54 2006
+@@ -280,7 +280,7 @@ main(int  argc,				/* I - Number of comm
        }
        else
        {
