@@ -1,6 +1,0 @@
-@comment $MirOS$
-include/ucl/ucl.h
-include/ucl/uclconf.h
-include/ucl/uclutil.h
-lib/libucl.la
-@dirrm include/ucl

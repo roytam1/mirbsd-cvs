@@ -1,8 +1,0 @@
-; $MirOS: contrib/hosted/tg/code/xchat-randex/randex.def,v 1.1 2009/06/05 23:42:21 tg Exp $
-
-LIBRARY RANDEX
-DESCRIPTION "MirOS RANDEX plugin for XChat"
-EXPORTS
-xchat_plugin_init
-xchat_plugin_deinit
-xchat_plugin_get_info
