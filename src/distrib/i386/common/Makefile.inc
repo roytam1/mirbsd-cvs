@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.13 2006/04/07 13:09:33 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.14 2006/04/09 08:39:44 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -104,13 +104,13 @@ rd_setup: ${CBIN}
 	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
 	${SUDO} disklabel -w -r ${VND} ${DISKTYPE}
 	${SUDO} newfs ${NEWFSARGS} ${VND_RDEV}
-	${SUDO} fsck ${VND_RDEV}
 	mkdir -p ${MOUNT_POINT}
 	${SUDO} mount ${VND_DEV} ${MOUNT_POINT}
 
 rd_teardown:
 	@df -i ${MOUNT_POINT}
 	-${SUDO} umount ${MOUNT_POINT}
+	${SUDO} fsck -f ${VND_RDEV}
 	-${SUDO} vnconfig -u ${VND}
 	cp ${REALIMAGE} ${IMAGE}
 	rm ${REALIMAGE}
