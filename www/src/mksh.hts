@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.436 2011/12/11 19:18:32 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.437 2011/12/11 19:43:28 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -859,7 +859,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  Töpper, since the Arch Hurd guys were faster.</li>
 <li class="cr"><img class="fr" width="58" height="48" alt="[T2 logo]"
  src="@@RELPATH@@pics/logos/t2.png" /><a
- href="http://t2-project.org/">T2 SDE</a> (ROCK Linux) contains a dusty <a
+ href="http://t2-project.org/">T2 SDE</a> (ROCK Linux) contains a <a
  href="http://t2-project.org/packages/mksh.html">package</a> as well.</li>
 <li class="cr"><img class="fr" width="64" height="64" alt="[FreeBSD logo]"
  src="@@RELPATH@@pics/logos/freebsd.png" /><a
