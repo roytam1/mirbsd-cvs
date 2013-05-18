@@ -1,10 +1,10 @@
-# $MirOS: www/src/getting.hts,v 1.11 2008/03/28 02:50:16 tg Exp $
+# $MirOS: www/src/getting.hts,v 1.12 2008/04/22 13:14:43 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname getting "Get MirOS!"
-mws_putheader '$MirOS: www/src/getting.hts,v 1.11 2008/03/28 02:50:16 tg Exp $'
+mws_putheader '$MirOS: www/src/getting.hts,v 1.12 2008/04/22 13:14:43 tg Exp $'
 mws_content <<'EOF'
 <h1>Get MirOS!</h1>
 
@@ -68,7 +68,10 @@ mws_content <<'EOF'
     href="/MirOS/v10/cdrom10-57600,8n1.iso">serial console @57600,8N1</a> – <a
     href="http://f.scarywater.net/miros/">via BitTorrent</a></p>
    <p>Netinstall: go to one of the mirrors listed below and pull from
-    the <tt>/MirOS/v10/{i386,sparc}/</tt> directory.</p></td>
+    the <tt>/MirOS/v10/{i386,sparc}/</tt> directory.</p>
+   <p>Please see <a href="permalinks/news_e20080320-nn.htm#hashes">this
+    news item</a> for information regarding hashes of the release ISO.</p>
+  </td>
  </tr><tr>
   <td><p><b>MirOS #9semel (stable, i386)</b></p>
    <p>Released 25.06.2006 (<a href="http://marc.info/?m=115110448632235">Release

@@ -709,9 +709,11 @@ Date: 20.03.2008
  <li><a href="http://server.leveldown.de/~nezza/MIR80316.ISO">Germany 2</a></li>
  <li><a href="http://www.mirbsd.org/MirOS/ISOs/MIR80316.ISO">Germany 1</a></li>
 </ul>
-<p>Due to popular request: the SFV (CRC32) of the ISO is 76D0638A, more
- hashes are <a href="/MirOS/v10/CKSUM.gz">here</a>, and for these who
- still use the insecure MD5, check 0afb38491f7557b1f7bc9ec8997ca5b4</p>
+<p id="hashes">Due to popular request: the SFV (CRC32) of the ISO is
+ 76D0638A, more hashes are <a href="/MirOS/v10/CKSUM.gz">here</a>, and
+ for these who still use the insecure MD5, 0afb38491f7557b1f7bc9ec8997ca5b4
+ should matche. Note: the <tt>CKSUM.gz</tt> file hyperlinked in this
+ paragraph is, of course, gzsig(1)d.</p>
 <p>Note to avoid confusion: the release CD is <em>no Live CD</em>, but
  we <em>do</em> have Live CDs. However, only development snapshots are
  distributed as Live CD. It would not fit on a release CD due to the
