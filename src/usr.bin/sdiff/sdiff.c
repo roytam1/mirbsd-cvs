@@ -27,7 +27,7 @@
 #include "common.h"
 #include "extern.h"
 
-__RCSID("$MirOS: src/usr.bin/sdiff/sdiff.c,v 1.2 2007/05/07 02:40:07 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/sdiff/sdiff.c,v 1.3 2007/05/07 02:46:04 tg Exp $");
 
 #define WIDTH 130
 /*
@@ -1040,7 +1040,7 @@ int_usage(void)
 static void
 usage(void)
 {
-	extern char *__progname;
+	extern const char *__progname;
 
 	fprintf(stderr,
 	    "usage: %s [-abdilstW] [-I regexp] [-o outfile] [-w width] file1 file2\n",
