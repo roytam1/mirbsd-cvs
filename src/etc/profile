@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/profile,v 1.64 2009/09/06 15:08:00 tg Exp $
+# $MirOS: src/etc/profile,v 1.65 2009/09/06 17:09:27 tg Exp $
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/mpkg/bin
 umask 022
@@ -88,7 +88,7 @@ if [ -O /var/run/ssh-agent/$USER_ID ]; then
 	# If the agent is not running, remove stale files
 	[[ -e $_dir/socket ]] || rm -f $_dir/{agent,keyread}
 	# Start ssh-agent if it is not already started
-	[[ -e $_dir/agent ]] || \
+	[[ -e $_dir/agent || -S $SSH_AUTH_SOCK ]] || \
 	    (cd /; ssh-agent -s -a $_dir/socket) >$_dir/agent
 	# Do the following only if ssh-agent is running
 	if [[ -e $_dir/socket ]]; then
@@ -100,4 +100,4 @@ if [ -O /var/run/ssh-agent/$USER_ID ]; then
 	unset _dir
 fi
 
-: $MirOS: src/etc/profile,v 1.64 2009/09/06 15:08:00 tg Exp $
+: $MirOS: src/etc/profile,v 1.65 2009/09/06 17:09:27 tg Exp $
