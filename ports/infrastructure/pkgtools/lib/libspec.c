@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/libspec.c,v 1.1.2.1 2010/05/31 20:25:19 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/libspec.c,v 1.1.2.2 2010/06/12 20:27:11 bsiegert Exp $ */
 
 /*-
  * Copyright (c) 2010
@@ -32,7 +32,7 @@
 #include <err.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/libspec.c,v 1.1.2.1 2010/05/31 20:25:19 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/libspec.c,v 1.1.2.2 2010/06/12 20:27:11 bsiegert Exp $");
 
 /* special value for major below if the libspec was of the ".la" type */
 #define LIBSPEC_LA -1
@@ -182,7 +182,8 @@ match_libspec(char *spec, const char *prefix, ld_type_t ld_type)
 			diag(" searching for libtool library %s in %s",
 				ls.libname, ls.path ? ls.path : "lib");
 			snprintf(filename, sizeof (filename), "%s/%s/lib%s",
-					prefix, ls.path, ls.libname);
+					prefix, ls.path ? ls.path : "lib",
+					ls.libname);
 			if (!fexists(filename)) {
 				diag(" - not found\n");
 				return false;
