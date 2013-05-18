@@ -32,6 +32,8 @@
 
 #include "cd9660_eltorito.h"
 
+__RCSID("$MirOS$");
+
 uint8_t bp[2048];
 char *buf = bp;
 #define vd ((struct iso_primary_descriptor *)bp)
