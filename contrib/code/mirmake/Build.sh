@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.33 2008/05/03 01:09:28 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -130,7 +130,7 @@ ms=NONE
 echo "Checking for mirbsdksh..."
 for s in $MKS $MKSH $mktest $SHELL; do
 	echo "Trying ${s}..."
-	t=`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(2[6-9]|[3-9][0-9]|[1-9][0-9][0-9])\ +([0-9])/+([0-9])/+([0-9])?(\ *) ]]; then echo yes; else echo no; fi' 2>/dev/null`
+	t=`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(3[3-9]|[4-9][0-9]|[1-9][0-9][0-9])\ +([0-9])/+([0-9])/+([0-9])?(\ *) ]]; then echo yes; else echo no; fi' 2>/dev/null`
 	if [ x"$t" = x"yes" ]; then
 		echo "Found mirbsdksh: $s"
 		ms=$s
@@ -157,8 +157,8 @@ fi
 if [ x"$ms" = x"NONE" ]; then
 	echo "Error: could not find a mirbsdksh compatible shell."
 	echo "Please go to <http://mirbsd.de/mksh> and install it before"
-	echo "continuing. At the moment, mksh R26 or higher is required;"
-	echo "using a recent one like mksh R32 is highly recommended."
+	echo "continuing. At the moment, mksh R33 or higher is required;"
+	echo "using a recent one like mksh R33d is highly recommended."
 	exit 1
 fi
 
