@@ -121,7 +121,7 @@
 #include <openssl/ssl.h>
 #include "s_apps.h"
 
-__RCSID("$MirOS: src/lib/libssl/src/apps/s_cb.c,v 1.4 2007/09/28 12:41:53 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/apps/s_cb.c,v 1.5 2008/05/22 22:00:40 tg Exp $");
 
 int verify_depth=0;
 int verify_error=X509_V_OK;
@@ -132,15 +132,7 @@ int MS_CALLBACK verify_callback(int ok, X509_STORE_CTX *ctx)
 	X509 *err_cert;
 	int err,depth;
 
-#ifdef MBSD_CB_ARND
-	{
-		uint32_t oldentropy, newentropy;
-
-		RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
-		newentropy = arc4random_pushb(&oldentropy, sizeof (uint32_t));
-		RAND_add(&newentropy, 4, 3.9);
-	}
-#endif
+	app_RAND_pushback();
 
 	err_cert=X509_STORE_CTX_get_current_cert(ctx);
 	err=	X509_STORE_CTX_get_error(ctx);
@@ -188,15 +180,7 @@ int MS_CALLBACK verify_callback(int ok, X509_STORE_CTX *ctx)
 
 int set_cert_stuff(SSL_CTX *ctx, char *cert_file, char *key_file)
 	{
-#ifdef MBSD_CB_ARND
-	{
-		uint32_t oldentropy, newentropy;
-
-		RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
-		newentropy = arc4random_pushb(&oldentropy, sizeof (uint32_t));
-		RAND_add(&newentropy, 4, 3.9);
-	}
-#endif
+	app_RAND_pushback();
 	if (cert_file != NULL)
 		{
 		/*
@@ -255,15 +239,7 @@ long MS_CALLBACK bio_dump_cb(BIO *bio, int cmd, const char *argp, int argi,
 	{
 	BIO *out;
 
-#ifdef MBSD_CB_ARND
-	{
-		uint32_t oldentropy, newentropy;
-
-		RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
-		newentropy = arc4random_pushb(&oldentropy, sizeof (uint32_t));
-		RAND_add(&newentropy, 4, 3.9);
-	}
-#endif
+	app_RAND_pushback();
 
 	out=(BIO *)BIO_get_callback_arg(bio);
 	if (out == NULL) return(ret);
@@ -289,15 +265,7 @@ void MS_CALLBACK apps_ssl_info_callback(const SSL *s, int where, int ret)
 	char *str;
 	int w;
 
-#ifdef MBSD_CB_ARND
-	{
-		uint32_t oldentropy, newentropy;
-
-		RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
-		newentropy = arc4random_pushb(&oldentropy, sizeof (uint32_t));
-		RAND_add(&newentropy, 4, 3.9);
-	}
-#endif
+	app_RAND_pushback();
 
 	w=where& ~SSL_ST_MASK;
 
@@ -336,15 +304,7 @@ void MS_CALLBACK msg_cb(int write_p, int version, int content_type, const void *
 	BIO *bio = arg;
 	const char *str_write_p, *str_version, *str_content_type = "", *str_details1 = "", *str_details2= "";
 
-#ifdef MBSD_CB_ARND
-	{
-		uint32_t oldentropy, newentropy;
-
-		RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
-		newentropy = arc4random_pushb(&oldentropy, sizeof (uint32_t));
-		RAND_add(&newentropy, 4, 3.9);
-	}
-#endif
+	app_RAND_pushback();
 
 	str_write_p = write_p ? ">>>" : "<<<";
 

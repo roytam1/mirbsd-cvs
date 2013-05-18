@@ -126,7 +126,7 @@
 #include <openssl/dsa.h>
 #endif
 
-__RCSID("$MirOS: src/lib/libssl/src/apps/dhparam.c,v 1.3 2007/09/28 12:41:52 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/apps/dhparam.c,v 1.4 2008/05/22 22:00:40 tg Exp $");
 
 #undef PROG
 #define PROG	dhparam_main
@@ -545,15 +545,7 @@ static void MS_CALLBACK dh_cb(int p, int n, void *arg)
 	if (p == 2) c='*';
 	if (p == 3) c='\n';
 	BIO_write((BIO *)arg,&c,1);
-#ifdef MBSD_CB_ARND
-	{
-		uint32_t oldentropy, newentropy;
-
-		RAND_bytes((u_char *)&oldentropy, sizeof (uint32_t));
-		newentropy = arc4random_pushb(&oldentropy, sizeof (uint32_t));
-		RAND_add(&newentropy, 4, 3.9);
-	}
-#endif
+	app_RAND_pushback();
 	(void)BIO_flush((BIO *)arg);
 #ifdef LINT
 	p=n;
