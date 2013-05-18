@@ -25,7 +25,7 @@
 #include <lib/libsa/stand.h>
 #include <lib/libsa/fat.h>
 
-__RCSID("$MirOS: src/sys/lib/libsa/fat.c,v 1.13 2009/01/15 21:32:27 tg Exp $");
+__RCSID("$MirOS: src/sys/lib/libsa/fat.c,v 1.14 2009/01/15 21:42:50 tg Exp $");
 
 #if BYTE_ORDER != LITTLE_ENDIAN
 #define getlew(ofs) (buf[(ofs)] + ((unsigned)buf[(ofs) + 1] << 8))
@@ -405,7 +405,7 @@ fat_readdir(struct open_file *f, char *name)
 
 	/* reset? */
 	if (name == NULL) {
-		((struct fat_file *)f->f_fsdata)->nodeseekp = 0;
+		fat_seek(f, 0, SEEK_SET);
 		return (0);
 	}
 
