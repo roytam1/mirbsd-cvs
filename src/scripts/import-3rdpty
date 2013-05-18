@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.41 2006/06/01 23:33:37 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.42 2006/06/02 19:19:59 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,7 +24,7 @@
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a nontrivial bug.
 
-print -ru2 -- '========= $MirOS: src/scripts/import-3rdpty,v 1.41 2006/06/01 23:33:37 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: src/scripts/import-3rdpty,v 1.42 2006/06/02 19:19:59 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -467,7 +467,6 @@ lynx)
 		po \
 		samples/*VMS* \
 		samples/lynx.com \
-		scripts \
 		src/*.opt \
 		src/Xsystem.c \
 		src/chrtrans/*.com \
