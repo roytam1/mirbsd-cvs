@@ -1,8 +1,9 @@
-# $MirOS: ports/net/luasocket/Makefile,v 1.3 2009/08/29 13:50:13 tg Exp $
+# $MirOS: ports/net/luasocket/Makefile,v 1.4 2009/08/30 18:25:10 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2009/08/22 20:28:40 robert Exp $
 
 COMMENT=		network support for the lua language
 DISTNAME=		luasocket-2.0.1
+DASH_VER=		1
 CATEGORIES=		net
 MASTER_SITES=		http://luaforge.net/frs/download.php/1589/
 HOMEPAGE=		http://www.cs.princeton.edu/~diego/professional/luasocket/
