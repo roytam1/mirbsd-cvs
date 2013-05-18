@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.14 2008/08/05 19:07:46 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.15 2008/12/28 16:12:10 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
@@ -105,18 +105,21 @@ Lbdev:	.byte	0		/* local copy of BIOS boot device */
 _C_LABEL(tori_bootflag):
 	.long	0
 #endif
-	. = _start + 0x40
+	. = _start + 0x41
 _star2:	mov	bx,SA_LOADSEG
 	mov	ss,bx
 	mov	esp,0xC0
 	sti
-	push	dx
 	call	Linit
 _rval:	.long	0x6A6D4F00	/* _start + 0x50 */
 Linit:	pop	di
 	mov	ax,0xB800
 	mov	gs,ax		/* for UD() */
 	UD(0)			/** @: we're here */
+	cmp	di,0x0150	/* test for .COM offset */
+	jne	Ldxok
+	mov	dl,0x80		/* fake HDD boot on DOS */
+Ldxok:	push	dx
 	mov	ax,bx
 	add	ah,0x10		/* add 64K (apparent max. code size) */
 	push	ax		/* future SS */
