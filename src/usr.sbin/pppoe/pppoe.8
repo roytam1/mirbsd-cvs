@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.sbin/pppoe/pppoe.8,v 1.4 2005/06/26 17:05:15 tg Exp $
+.\"	$MirOS: src/usr.sbin/pppoe/pppoe.8,v 1.5 2005/12/04 15:02:29 tg Exp $
 .\"	$OpenBSD: pppoe.8,v 1.18 2005/02/18 12:19:22 jmc Exp $
 .\"
 .\" Copyright (c) 2000 Network Security Technologies, Inc.
@@ -26,7 +26,7 @@
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
 .\"
-.Dd February 8, 2000
+.Dd $Mdocdate$
 .Dt PPPOE 8
 .Os
 .Sh NAME
@@ -233,8 +233,13 @@ to adjust the maximum segment size on outgoing SYN packets.
 .Re
 .Pp
 For an explanation how PPPoE is further encapsulated on the way
-to your ISP, and why 1454 is the optimum MTU, go to
+to your ISP, and why 1454 is the optimum MTU for native IPv4 and
+native IPv6 connections, go to
 .Pa http://www.mynetwatchman.com/kb/adsl/pppoemtu.htm .
+Tunneled IPv6 connections using
+.Xr gif 4
+tunnels have an optimum MTU of 1434, the difference is just
+the size of an IPv4 header for the simple encapsulation.
 .Sh HISTORY
 This implementation of
 .Nm pppoe
