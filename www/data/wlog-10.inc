@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.80 2008/09/20 19:27:10 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.81 2008/10/05 01:00:39 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1668,7 +1668,7 @@ Author: tg@
 ----
 Date: 05.10.2008 00:47
 Author: tg@
-Subject: I agree with RMS
+Title: I agree with RMS
 
 <p>This may come shocking to you, but, yes, I indeed agree with <a
  href="http://www.stallman.org/">Richard M. “FSF” Stallman</a>. While
