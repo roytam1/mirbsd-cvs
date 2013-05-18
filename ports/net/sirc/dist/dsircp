@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.9.2.1 2007/01/08 22:49:06 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.9.2.4 2007/01/09 00:05:23 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -202,7 +202,7 @@ sub newfh {
 sub REAPER {
   my $child;
   while (($child = waitpid(-1,WNOHANG)) > 0) {
-    #XXX $?;		# do something sensitive with it
+    &tell("*\cbI\cb* Child $child exited with status $?");
   }
   # loathe sysV: it makes us not only reinstate
   # the handler, but place it after the wait
@@ -212,9 +212,7 @@ $SIG{CHLD} = \&REAPER;
 $ssl_pid = 0;
 $ssl_efd = '';
 
-sub connect {
-  $_[0]=&newfh;
-  local($fh, $host, $port, $use_ssl)=@_;
+sub ssl_cleanup {
   if ($ssl_efd ne '') {
     while (my $x = <$ssl_efd>) {
       &tell("*\cbE\cb* TLS: $x");
@@ -223,6 +221,12 @@ sub connect {
     delete $buffer{$ssl_efd};
     $ssl_efd = '';
   }
+}
+
+sub connect {
+  $_[0]=&newfh;
+  local($fh, $host, $port, $use_ssl)=@_;
+  &ssl_cleanup;
   if ($ssl_pid) {
     kill TERM => $ssl_pid;
   }
@@ -239,9 +243,9 @@ sub connect {
       return 0;
     }
     if (!socketpair($sce, $spe, &AF_UNIX, &SOCK_STREAM, &PF_UNSPEC)) {
+      &tell("*\cbE\cb* Cannot create a second socket pair: $!");
       close($scfh);
       close($spfh);
-      &tell("*\cbE\cb* Cannot create a second socket pair: $!");
       return 0;
     }
     if ($pid = fork) {
@@ -256,11 +260,11 @@ sub connect {
       exec "openssl s_client -quiet -connect ${host}:${port}";
     }
     if (!defined $pid) {
+      &tell("*\cbE\cb* Cannot fork: $!");
       close($scfh);
       close($spfh);
       close($sce);
       close($spe);
-      &tell("*\cbE\cb* Cannot fork: $!");
       return 0;
     }
     close($scfh);
@@ -1140,14 +1144,7 @@ sub docommand {
       $port || ($port=$port0);
       if ($connected) {
 	&sl("QUIT :changing servers");
-	if ($ssl_efd ne '') {
-	  while (my $x = <$ssl_efd>) {
-	    &tell("*\cbE\cb* TLS: $x");
-	  }
-	  close($ssl_efd);
-	  delete $buffer{$ssl_efd};
-	}
-	$ssl_efd = '';
+	&ssl_cleanup;
 	close($S);
 	delete $buffer{$S};
       }
@@ -1450,15 +1447,8 @@ sub docommand {
       &tell("*\cbE\cb* You must specify a nick!");
     }
   } elsif ($cmd eq 'DISCONNECT' || $cmd eq 'DIS') {
+    &ssl_cleanup;
     &tell("*** Disconnecting from $server");
-    if ($ssl_efd ne '') {
-      while (my $x = <$ssl_efd>) {
-	&tell("*\cbE\cb* TLS: $x");
-      }
-      close($ssl_efd);
-      delete $buffer{$ssl_efd};
-    }
-    $ssl_efd = '';
     close($S);
     delete $buffer{$S};
     $connected=0;
@@ -2368,10 +2358,8 @@ while (1) {
    (($leftover && $fh eq $ssl_efd) || vec($rout, fileno($ssl_efd), 1))) {
     &gl($ssl_efd) || next;
     if ($_ eq '') {
+      &ssl_cleanup;
       &tell("*\cbE\cb* Connection to TLS stderr lost");
-      close($ssl_efd);
-      delete $buffer{$ssl_efd};
-      $ssl_efd = '';
       next;
     }
     chop;
@@ -2386,15 +2374,8 @@ while (1) {
   if ($connected && (($leftover && $fh eq $S) || vec($rout, fileno($S), 1))) {
     &gl($S) || next;
     if ($_ eq '') {
+      &ssl_cleanup;
       &tell("*\cbE\cb* Connection to server lost");
-      if ($ssl_efd ne '') {
-	while (my $x = <$ssl_efd>) {
-	  &tell("*\cbE\cb* TLS: $x");
-	}
-	close($ssl_efd);
-	delete $buffer{$ssl_efd};
-      }
-      $ssl_efd = '';
       close($S);
       delete $buffer{$S};
       $connected=0;
