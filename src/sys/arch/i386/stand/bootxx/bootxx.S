@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.16 2009/01/31 18:51:19 tg Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -187,12 +187,15 @@ Lldlp:	pusha
 	popa
 	jmp	Lldlp
 Lldok:	/* increment load address by sector size */
-	add	bh,2		/* 512 bytes */
+	mov	ah,2		/* 512 bytes */
 	.globl	secsz
 	.type	secsz,@object
 	.size	secsz,1
 	secsz = . - 1		/* the "2" above */
-L...1:	mov	4[si],bx
+L...1:	add	bh,ah		/* add the 512 bytes */
+	mov	4[si],bx
+	add	ah,bh		/* again */
+	jc	Ldone		/* last block completes (64 KiB - bootxx) */
 	/* increment quadword by one */
 	add	dword ptr 8[si],1
 	adc	dword ptr 12[si],0
@@ -204,7 +207,7 @@ L...1:	mov	4[si],bx
 	dec	bp
 	jnz	Lloop
 
-	/* check bootloader magic */
+Ldone:	/* check bootloader magic */
 	xor	eax,eax
 	push	ax		/* return address */
 	mov	ax,[partp]
