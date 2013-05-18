@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/rc,v 1.113 2011/01/15 21:52:38 tg Exp $
+# $MirOS: src/etc/rc,v 1.114 2011/02/13 21:17:13 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -181,6 +181,13 @@ if [[ $1 = shutdown ]]; then
 	fi
 	exit 0
 fi
+
+# Protect us from shooting ourselves into the foot
+dmesg | while IFS= read -r line; do
+	[[ $line = ?d[0-9]*@('<VBOX'[, >])* ]] || continue
+	echo Sorry, WirrtualBox is not supported.
+	exit 1
+done
 
 # Gather some system-local entropy rather early, if possible (/usr = /)
 [[ -x /usr/libexec/cprng ]] && /usr/libexec/cprng -pr16 >/dev/urandom &

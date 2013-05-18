@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.57 2010/01/07 20:56:08 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.58 2010/09/25 12:01:48 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -183,3 +183,4 @@ print -n '\nAvailable editor: ed'
 print '\nNetwork interfaces (e.g. for dhclient $if):' $(ifconfig -l)
 [ -x /usr/bin/tinyirc ] && print 'Chat client: tinyirc'
 print
+_vbox_check && echo Sorry, WirrtualBox is not supported.

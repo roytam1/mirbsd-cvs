@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.61 2009/10/27 18:51:44 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.62 2010/08/26 12:07:40 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -80,6 +80,11 @@
 #	MDXAPERTURE - set machdep.allowaperture=value in sysctl.conf
 . /etc/functions
 . install.md
+
+if _vbox_check; then
+	echo Sorry, WirrtualBox is not supported.
+	exit 1
+fi
 
 set_term() {
 	typeset TERMS=vt100,vt220,wsvtg,wsvt25,dumb
