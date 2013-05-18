@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/Y3Zzd2Vi.inc,v 1.9 2006/01/13 03:49:34 tg Exp $</small>
+<!-- PageID: cvsweb -->
+<small class="rcsid">$MirOS: www/content/Y3Zzd2Vi.inc,v 1.10 2006/01/24 22:31:44 tg Exp $</small>
 <h1>Accessing the MirOS source by CVSweb</h1>
 
 <h3>Short introduction into CVSweb</h3>

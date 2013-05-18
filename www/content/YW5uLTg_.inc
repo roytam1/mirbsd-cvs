@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/YW5uLTg_.inc,v 1.6 2006/01/13 03:49:35 tg Exp $</small>
+<!-- PageID: ann-8 -->
+<small class="rcsid">$MirOS: www/content/YW5uLTg_.inc,v 1.7 2006/01/15 22:42:37 tg Exp $</small>
 
 <p style="font-size:smaller; text-align:right;">Codename: WTF we have a release?</p>
 

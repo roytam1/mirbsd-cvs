@@ -1,3 +1,4 @@
+<!-- PageID: ann-7 -->
 <h1>MirOS #7quinquies</h1>
 
 <p>The MirOS Team is proud to announce the immediate release of MirOS BSD
@@ -281,7 +282,7 @@ to <tt>ksh</tt> - using tcsh or GNU bash is not officially supported.</p>
 <p>Please read the full stuff at <a href="/?about">About MirOS</a>.</p>
 
 <pre>
-# $MirOS: www/content/YW5uLTc_.inc,v 1.7 2005/12/14 23:43:03 tg Exp $
+# $MirOS: www/content/YW5uLTc_.inc,v 1.8 2006/01/13 03:49:35 tg Exp $
 # $OpenBSD: COPYRIGHT,v 1.2 2001/01/29 02:11:07 niklas Exp $
 # @(#)COPYRIGHT	5.1 (Berkeley) 7/1/91
 

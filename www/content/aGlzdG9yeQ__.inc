@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/aGlzdG9yeQ__.inc,v 1.2 2005/02/05 22:43:39 tg Exp $</small>
+<!-- PageID: history -->
+<small class="rcsid">$MirOS: www/content/aGlzdG9yeQ__.inc,v 1.3 2006/01/15 22:42:37 tg Exp $</small>
 <h1>History of MirOS</h1>
 
 <p>On <a href="http://marc.theaimsgroup.com/?m=103065556502499">August

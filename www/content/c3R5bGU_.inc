@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/c3R5bGU_.inc,v 1.6 2004/11/12 17:54:23 tg Exp $</small>
+<!-- PageID: style -->
+<small class="rcsid">$MirOS: www/content/c3R5bGU_.inc,v 1.2 2005/02/05 22:43:39 tg Exp $</small>
 <h1>Stylesheet Selector</h1>
 <p>The MirOS project website has a number of CSS style sheets to
  offer in order to improve usability and readability on web browsers

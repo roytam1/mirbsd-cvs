@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy0w.inc,v 1.3 2004/04/28 17:24:57 tg Exp $</small>
+<!-- PageID: wlog-0 -->
+<small class="rcsid">$MirOS: www/content/d2xvZy0w.inc,v 1.2 2005/02/05 22:43:41 tg Exp $</small>
 <h1>BSD-mirabile</h1>
 <p>This is an archived weblog of the development from OpenBSD-current-mirabile
  to <a href="/?main">MirOS</a>. All entries are courtesy of the developer

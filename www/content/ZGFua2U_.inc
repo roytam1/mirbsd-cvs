@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/ZGFua2U_.inc,v 1.4 2005/12/22 02:54:48 tg Exp $</small>
+<!-- PageID: danke -->
+<small class="rcsid">$MirOS: www/content/ZGFua2U_.inc,v 1.5 2006/01/19 01:23:56 tg Exp $</small>
 <h1>Donating to the MirOS Project</h1>
 <h2>Considering to donate?</h2>
 <p>Thanks for considering to donate. You can contact the individual

@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.7 2005/10/03 23:27:34 tg Exp $</small>
+<!-- PageID: about -->
+<small class="rcsid">$MirOS: www/content/YWJvdXQ_.inc,v 1.8 2005/12/07 00:58:36 tg Exp $</small>
 <h1>About MirOS, MirBSD, MirPorts</h1>
 
 <p>The MirOS project presents a Europe-based open source operating

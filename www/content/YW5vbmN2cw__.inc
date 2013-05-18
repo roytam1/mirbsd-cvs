@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/YW5vbmN2cw__.inc,v 1.9 2006/01/13 03:49:35 tg Exp $</small>
+<!-- PageID: anoncvs -->
+<small class="rcsid">$MirOS: www/content/YW5vbmN2cw__.inc,v 1.10 2006/01/24 22:31:44 tg Exp $</small>
 <h1>Anonymous CVS access to the MirOS repository</h1>
 
 <h3 id="what">What is anonCVS?</h3>

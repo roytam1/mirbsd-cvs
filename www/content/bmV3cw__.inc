@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.50 2006/01/24 22:31:44 tg Exp $</small>
+<!-- PageID: news -->
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.51 2006/01/26 23:40:48 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
 

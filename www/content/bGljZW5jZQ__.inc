@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/bGljZW5jZQ__.inc,v 1.4 2006/01/20 13:08:09 tg Exp $</small>
+<!-- PageID: licence -->
+<small class="rcsid">$MirOS: www/content/bGljZW5jZQ__.inc,v 1.5 2006/01/24 22:31:44 tg Exp $</small>
 <h1>The MirOS Licence Template</h1>
 
 <pre>/* &#36;MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $ */

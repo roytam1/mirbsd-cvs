@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.19 2006/01/24 22:31:44 tg Exp $</small>
+<!-- PageID: wlog-8 -->
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.20 2006/01/26 23:16:56 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>

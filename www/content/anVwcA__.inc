@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.4 2005/12/06 13:37:53 tg Exp $</small>
+<!-- PageID: jupp -->
+<small class="rcsid">$MirOS: www/content/anVwcA__.inc,v 1.5 2006/01/13 03:49:35 tg Exp $</small>
 <h1>jupp &ndash; the Editor</h1>
 <p>
  The current version is <em>joe-3.1jupp4</em>.

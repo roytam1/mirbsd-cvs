@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.75 2005/12/06 13:37:53 tg Exp $</small>
+<!-- PageID: wlog-7 -->
+<small class="rcsid">$MirOS: www/content/d2xvZy03.inc,v 1.76 2006/01/13 03:49:36 tg Exp $</small>
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the

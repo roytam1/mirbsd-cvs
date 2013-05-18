@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/aXNkbg__.inc,v 1.3 2005/08/03 00:07:06 tg Exp $</small>
+<!-- PageID: isdn -->
+<small class="rcsid">$MirOS: www/content/aXNkbg__.inc,v 1.4 2005/12/06 13:37:53 tg Exp $</small>
 <h1><a href="/?isdn">ISDN4MirBSD</a> HowTo</h1>
 
 <h2>Some useful Links</h2>

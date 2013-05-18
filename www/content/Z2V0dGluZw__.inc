@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.7 2006/01/13 03:49:35 tg Exp $</small>
+<!-- PageID: getting -->
+<small class="rcsid">$MirOS: www/content/Z2V0dGluZw__.inc,v 1.8 2006/01/20 13:08:09 tg Exp $</small>
 <h1>How to get MirOS</h1>
 
 <h3>Introduction</h3>

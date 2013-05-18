@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/bWFpbA__.inc,v 1.2 2005/02/05 22:43:39 tg Exp $</small>
+<!-- PageID: mail -->
+<small class="rcsid">$MirOS: www/content/bWFpbA__.inc,v 1.3 2006/01/20 13:08:09 tg Exp $</small>
 <h1>The Mailing Lists</h1>
 
 <p>We've got a <a href="mailto:miros-discuss@66h.42h.de">discussion

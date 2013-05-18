@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/YW5hcmdlZWs_.inc,v 1.8 2005/09/12 00:43:24 tg Exp $</small>
+<!-- PageID: anargeek -->
+<small class="rcsid">$MirOS: www/content/YW5hcmdlZWs_.inc,v 1.9 2005/12/06 18:39:02 tg Exp $</small>
 <h1><a href="http://anargeek.net/">Anargeek</a></h1>
 <p>Go <a href="#manifest">directly to the manifesto</a>, or read the <a
  href="#koffie">unrelated side note</a> about coffee.</p>

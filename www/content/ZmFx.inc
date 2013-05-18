@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/ZmFx.inc,v 1.3 2005/12/15 18:24:41 tg Exp $</small>
+<!-- PageID: faq -->
+<small class="rcsid">$MirOS: www/content/ZmFx.inc,v 1.4 2006/01/03 03:44:28 tg Exp $</small>
 
 <h1>FAQ</h1>
 

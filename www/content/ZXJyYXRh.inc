@@ -1,7 +1,8 @@
+<!-- PageID: errata -->
 <!-- Editing note: this file is reverse chronologically
      sorted, i.e. add new entries at the top not bottom -->
 
-<small class="rcsid">$MirOS: www/content/ZXJyYXRh.inc,v 1.1 2006/01/13 22:42:14 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/ZXJyYXRh.inc,v 1.2 2006/01/15 22:42:37 tg Exp $</small>
 
 <h1>Errata</h1>
 

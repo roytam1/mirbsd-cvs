@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/d2FudA__.inc,v 1.3 2005/12/06 00:00:44 tg Exp $</small>
+<!-- PageID: want -->
+<small class="rcsid">$MirOS: www/content/d2FudA__.inc,v 1.4 2006/01/15 22:42:38 tg Exp $</small>
 <h1>Hardware wishlist</h1>
 
 <p>Alphabetically sorted by developers; short-term first,

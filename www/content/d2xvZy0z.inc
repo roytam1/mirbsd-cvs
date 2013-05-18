@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy0z.inc,v 1.3 2004/04/28 17:24:58 tg Exp $</small>
+<!-- PageID: wlog-3 -->
+<small class="rcsid">$MirOS: www/content/d2xvZy0z.inc,v 1.2 2005/02/05 22:43:41 tg Exp $</small>
 <p><img src="/pics/logo-mirbsd.png" width="240" height="60" alt="Logo" /></p>
 <h1>MirBSD - Next to Perfection</h1>
 <p>This is an archived weblog of the development leading to <a

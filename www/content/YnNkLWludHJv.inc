@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/YnNkLWludHJv.inc,v 1.2 2005/02/05 22:43:38 tg Exp $</small>
+<!-- PageID: bsd-intro -->
+<small class="rcsid">$MirOS: www/content/YnNkLWludHJv.inc,v 1.3 2005/08/03 00:07:05 tg Exp $</small>
 <h1>What is BSD? What is OpenBSD?</h1>
 
 <h2>Introduction</h2>

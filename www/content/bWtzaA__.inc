@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.16 2005/12/06 18:12:48 tg Exp $</small>
+<!-- PageID: mksh -->
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.17 2006/01/13 03:49:36 tg Exp $</small>
 
 <h1>mksh R26</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable

@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/cHJvamVjdHM_.inc,v 1.3 2005/07/24 15:59:24 tg Exp $</small>
+<!-- PageID: projects -->
+<small class="rcsid">$MirOS: www/content/cHJvamVjdHM_.inc,v 1.4 2005/12/14 23:43:04 tg Exp $</small>
 <h1>Project Ideas</h1>
 
 <p>The following project ideas can be submitted to the MirOS Project

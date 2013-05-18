@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/ZGV2ZWw_.inc,v 1.6 2005/08/20 12:34:22 tg Exp $</small>
+<!-- PageID: devel -->
+<small class="rcsid">$MirOS: www/content/ZGV2ZWw_.inc,v 1.7 2005/10/03 23:05:47 tg Exp $</small>
 <h1>MirOS Project Members</h1>
 <p>The links below show details about every MirOS Project
  team member - developer or contributor. The content is whatever

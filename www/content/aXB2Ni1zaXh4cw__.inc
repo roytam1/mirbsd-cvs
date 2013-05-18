@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/aXB2Ni1zaXh4cw__.inc,v 1.2 2005/02/05 22:43:39 tg Exp $</small>
+<!-- PageID: ipv6-sixxs -->
+<small class="rcsid">$MirOS: www/content/aXB2Ni1zaXh4cw__.inc,v 1.3 2005/08/03 00:07:06 tg Exp $</small>
 <h1>IPv6 with SixXS and MirOS</h1>
 
 <h3>Introduction</h3>

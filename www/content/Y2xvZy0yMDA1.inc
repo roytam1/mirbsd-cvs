@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA1.inc,v 1.6 2005/12/07 00:41:16 tg Exp $</small>
+<!-- PageID: clog-2005 -->
+<small class="rcsid">$MirOS: www/content/Y2xvZy0yMDA1.inc,v 1.7 2006/01/20 13:08:09 tg Exp $</small>
 <h1>2005 snapshots of MirOS-current</h1>
 <h3>Infos &ndash; <a href="#eof">bottom</a></h3>
 

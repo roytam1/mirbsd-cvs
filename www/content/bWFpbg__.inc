@@ -1,4 +1,5 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.40 2006/01/20 13:08:09 tg Exp $</small>
+<!-- PageID: main -->
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.41 2006/01/22 11:53:18 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Welcome to the MirOS Project!</h2>
 <p>This project is driven by a small number of people, that's why this
