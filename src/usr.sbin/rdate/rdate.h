@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/rdate/rdate.h,v 1.2 2007/08/16 10:38:29 tg Exp $ */
+/* $MirOS: src/usr.sbin/rdate/rdate.h,v 1.3 2010/07/03 18:33:57 tg Exp $ */
 
 /* This macro is not implemented on all operating systems */
 #ifndef	SA_LEN
@@ -11,12 +11,6 @@
 
 #ifdef EXT_A4R
 extern u_int32_t arc4random(void);
-#endif
-
-#ifdef __MirBSD__
-#define tick2utc(tv)	tai2utc(timet2tai(tv))
-#else
-extern time_t tick2utc(time_t);		/* from ntpleaps.c */
 #endif
 
 void ntp_client(const char *, int, struct timeval *, struct timeval *,

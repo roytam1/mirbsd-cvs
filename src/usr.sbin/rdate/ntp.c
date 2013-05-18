@@ -1,7 +1,8 @@
 /*	$OpenBSD: ntp.c,v 1.27 2004/10/26 09:48:59 henning Exp $	*/
 
 /*
- * Copyright (c) 2002, 2004, 2005, 2006, 2007, 2009 by Thorsten Glaser.
+ * Copyright (c) 2002, 2004, 2005, 2006, 2007, 2009, 2011
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1996, 1997 by N.M. Maclaren. All rights reserved.
  * Copyright (c) 1996, 1997 by University of Cambridge. All rights reserved.
  *
@@ -31,9 +32,6 @@
 
 #include <sys/param.h>
 #include <sys/socket.h>
-#if defined(MirBSD) && (MirBSD> 0x09AC)
-#include <sys/taitime.h>
-#endif
 #include <sys/time.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -43,6 +41,7 @@
 #include <errno.h>
 #include <fcntl.h>
 #include <float.h>
+#include <inttypes.h>
 #include <limits.h>
 #include <math.h>
 #include <netdb.h>
@@ -54,7 +53,7 @@
 
 #include "rdate.h"
 
-__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.19 2009/12/24 11:41:23 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.20 2010/07/03 18:33:57 tg Exp $");
 
 /*
  * NTP definitions.  Note that these assume 8-bit bytes - sigh.  There
@@ -113,10 +112,14 @@ static int sync_ntp(int, const struct sockaddr *, double *, double *, int);
 static int write_packet(int, struct ntp_data *, int);
 static int read_packet(int, struct ntp_data *, double *, double *);
 static void unpack_ntp(struct ntp_data *, u_char *);
-static double current_time(double);
+static double current_time(void);
 static void create_timeval(double, struct timeval *, struct timeval *);
 static void debug_packet(const struct ntp_data *);
 static double dabs(double);
+
+#ifndef SYSKERN_MIRTIME_H
+time_t timet2posix(time_t);
+#endif
 
 static double
 dabs(double v)
@@ -205,7 +208,7 @@ sync_ntp(int fd, const struct sockaddr *peer, double *offset, double *error,
 	double minerr = 0.1;		/* Maximum ignorable variation */
 	struct ntp_data data;
 
-	deadline = current_time(JAN_1970) + delay;
+	deadline = current_time() + JAN_1970 + delay;
 	*offset = 0.0;
 	*error = NTP_INSANITY;
 
@@ -217,7 +220,7 @@ sync_ntp(int fd, const struct sockaddr *peer, double *offset, double *error,
 	while (accepts < MAX_QUERIES && attempts < 2 * MAX_QUERIES) {
 		memset(&data, 0, sizeof(data));
 
-		if (current_time(JAN_1970) > deadline) {
+		if ((current_time() + JAN_1970) > deadline) {
 			warnx("Not enough valid responses received in time");
 			return (-1);
 		}
@@ -302,7 +305,7 @@ write_packet(int fd, struct ntp_data *data, int nver)
 
 	memcpy(packet + NTP_TRANSMIT, &data->xmitck, sizeof (u_int64_t));
 
-	data->originate = current_time(JAN_1970);
+	data->originate = current_time() + JAN_1970;
 
 	length = write(fd, packet, sizeof(packet));
 
@@ -430,7 +433,7 @@ unpack_ntp(struct ntp_data *data, u_char *packet)
 	int32_t i;
 	double d;
 
-	data->current = current_time(JAN_1970);
+	data->current = current_time() + JAN_1970;
 
 	data->status = (packet[0] >> 6);
 	data->version = (packet[0] >> 3) & 0x07;
@@ -455,18 +458,20 @@ unpack_ntp(struct ntp_data *data, u_char *packet)
 }
 
 /*
- * Get the current UTC time in seconds since the Epoch plus an offset
- * (usually the time from the beginning of the century to the Epoch)
+ * Get the current time in POSIX notation
  */
-double
-current_time(double offset)
+static double
+current_time(void)
 {
-	struct timeval current;
+	register double d;
+	struct timeval tv;
 
-	if (gettimeofday(&current, NULL))
+	if (gettimeofday(&tv, NULL))
 		err(1, "Could not get local time of day");
-
-	return (offset + tick2utc(current.tv_sec) + 1.0e-6 * current.tv_usec);
+	d = tv.tv_usec;
+	d /= 1000000;
+	d += timet2posix(tv.tv_sec);
+	return (d);
 }
 
 /*
@@ -520,3 +525,88 @@ debug_packet(const struct ntp_data *data)
 	printf("Delay:       %f\n", (data->current - data->originate) -
 	    (data->transmit - data->receive));
 }
+
+#ifndef SYSKERN_MIRTIME_H
+/*
+ * Converts a time_t measured in kernel ticks into POSIX time_t
+ * using leap second information stored in /etc/localtime or an
+ * equivalent indicator (e.g. the TZ environment variable).
+ * If the kernel time is already measured POSIXly brok^Wcorrect
+ * and a POSIX conformant time zone is set, this is a no-op.
+ * Algorithm partially from Dan J. Bernstein.
+ */
+time_t
+timet2posix(time_t kerneltick)
+{
+	struct tm *tm;
+	int64_t day;
+	int x, y, sec;
+
+	tm = localtime(&kerneltick);
+
+	/* get the seconds out first */
+	sec = tm->tm_sec + 60 * tm->tm_min + 3600 * tm->tm_hour -
+	    tm->tm_gmtoff;
+
+	/* pull the year; adjust for year 0 not existing */
+	if ((day = tm->tm_year + 1900LL) < 0)
+		++day;
+
+	/* split year into y(ear in Gregorian Period) and convenient day */
+	y = day % 400;
+	day /= 400;
+	day *= 146097;
+	day -= 678882;
+	/* add day of month */
+	day += tm->tm_mday;
+
+	/* normalise seconds into days */
+	while (sec < 0) {
+		--day;
+		sec += 86400;
+	}
+	while (sec > 86400) {
+		++day;
+		sec -= 86400;
+	}
+
+	/* assign x the month and normalise into years */
+	x = tm->tm_mon;
+	while (x < 0) {
+		--y;
+		x += 12;
+	}
+	y += x / 12;
+	x %= 12;
+
+	/* calculate x as month since march, adjust year for it */
+	if (x < 2) {
+		x += 10;
+		--y;
+	} else
+		x -= 2;
+
+	/* add length of month since march by fixed-point arithmetic */
+	day += (306 * x + 5) / 10;
+
+	/* normalise 400-year cycles again */
+	while (y < 0) {
+		day -= 146097;
+		y += 400;
+	}
+	day += 146097 * (y / 400);
+	y %= 400;
+
+	/* add by year, 4 years, 100 years, 400 years */
+	day += 365 * (y % 4);
+	y /= 4;
+	day += 1461 * (y % 25);
+	day += 36524 * (y / 25);
+
+	/* convert to POSIX timestamp */
+	day -= 40587;
+	day *= 86400;
+	day += sec > 86399 ? 86399 : sec;
+	return (day);
+}
+#endif
