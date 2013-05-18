@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.8 2008/08/01 19:07:43 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.9 2008/08/01 19:10:59 tg Exp $ */
 
 /*-
  * Copyright (c) 2008
@@ -24,6 +24,16 @@
 #define __LIBCKERN_H_
 
 #include <sys/types.h>
+
+#ifndef NULL
+#ifdef __GNUG__
+#define	NULL		__null
+#elif defined(lint)
+#define	NULL		0
+#else
+#define	NULL		((void *)((__PTRDIFF_TYPE__)0UL))
+#endif
+#endif
 
 #if !defined(_WCHAR_H_)
 typedef __WCHAR_TYPE__	wchar_t;
