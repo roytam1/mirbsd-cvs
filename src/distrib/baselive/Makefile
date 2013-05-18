@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.2 2006/08/18 22:18:24 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.3 2006/08/18 22:32:40 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -12,7 +12,14 @@ all install:
 
 it: ${CDROM}
 
+.ifdef FINISHED_WORK
 ${CDROM}: unpack gendev addcontrib prepimg nukefiles makeimg
+.else
+${CDROM}:
+	@print -u2 The baselive cd infrastructure is not ready yet.
+	@print -u2 Please try again later.
+	@touch $@
+.endif
 
 unpack:
 	mkdir -p workdir/v${OSrev}
@@ -40,11 +47,11 @@ mr.fs:
 	-${SUDO} vnconfig -u svnd0
 
 addcontrib:
-	if [[ ! -s ${BSDSRCDIR}/contrib/code/jupp/jupprc ]]; then \
+	@if [[ ! -s ${BSDSRCDIR}/contrib/code/jupp/jupprc ]]; then \
 		print -u2 Aborted: your checkout not complete; \
 		exit 1; \
 	fi
-	if [[ ! -s ${BSDSRCDIR}/contrib/code/Snippets/tinyirc.c ]]; then \
+	@if [[ ! -s ${BSDSRCDIR}/contrib/code/Snippets/tinyirc.c ]]; then \
 		print -u2 Aborted: your checkout not complete; \
 		exit 1; \
 	fi
