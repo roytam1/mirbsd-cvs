@@ -1,0 +1,251 @@
+.\" $MirOS$
+.\"
+.\" Copyright (c) 2009 Benny Siegert
+.\"
+.\" Provided that these terms and disclaimer and all copyright notices
+.\" are retained or reproduced in an accompanying document, permission
+.\" is granted to deal in this work without restriction, including un-
+.\" limited rights to use, publicly perform, distribute, sell, modify,
+.\" merge, give away, or sublicence.
+.\"
+.\" This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+.\" the utmost extent permitted by applicable law, neither express nor
+.\" implied; without malicious intent or gross negligence. In no event
+.\" may a licensor, author or contributor be held liable for indirect,
+.\" direct, other damage, loss, or other issues arising in any way out
+.\" of dealing in the work, even if advised of the possibility of such
+.\" damage or existence of a defect, except proven that it results out
+.\" of said person's immediate fault when using the work as intended.
+.\"-
+.\" Try to make GNU groff and AT&T nroff more compatible
+.\" * ` generates ‘ in gnroff, so use \`
+.\" * ' generates ’ in gnroff, \' generates ´, so use \*(aq
+.\" * - generates ‐ in gnroff, \- generates −, so .tr it to -
+.\"   thus use - for hyphens and \- for minus signs and option dashes
+.\" * ~ is size-reduced and placed atop in groff, so use \*(TI
+.\" * ^ is size-reduced and placed atop in groff, so use \*(ha
+.\" * \(en does not work in nroff, so use \*(en
+.\" The section after the "doc" macropackage has been loaded contains
+.\" additional code to convene between the UCB mdoc macropackage (and
+.\" its variant as BSD mdoc in groff) and the GNU mdoc macropackage.
+.\"
+.ie \n(.g \{\
+.	if \*[.T]ascii .tr \-\N'45'
+.	if \*[.T]latin1 .tr \-\N'45'
+.	if \*[.T]utf8 .tr \-\N'45'
+.	ds <= \[<=]
+.	ds >= \[>=]
+.	ds Rq \[rq]
+.	ds Lq \[lq]
+.	ds sL \(aq
+.	ds sR \(aq
+.	if \*[.T]utf8 .ds sL `
+.	if \*[.T]ps .ds sL `
+.	if \*[.T]utf8 .ds sR '
+.	if \*[.T]ps .ds sR '
+.	ds aq \(aq
+.	ds TI \(ti
+.	ds ha \(ha
+.	ds en \(en
+.\}
+.el \{\
+.	ds aq '
+.	ds TI ~
+.	ds ha ^
+.	ds en \(em
+.\}
+.\"
+.\" Implement .Dd with the Mdocdate RCS keyword
+.\"
+.rn Dd xD
+.de Dd
+.ie \\$1$Mdocdate: \{\
+.	xD \\$2 \\$3, \\$4
+.\}
+.el .xD \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8
+..
+.\"
+.\" .Dd must come before definition of .Mx, because when called
+.\" with -mandoc, it might implement .Mx itself, but we want to
+.\" use our own definition. And .Dd must come *first*, always.
+.\"
+.Dd $Mdocdate: November 22 2009 $
+.\"
+.\" Check which macro package we use
+.\"
+.ie \n(.g \{\
+.	ie d volume-ds-1 .ds tT gnu
+.	el .ds tT bsd
+.\}
+.el .ds tT ucb
+.\"
+.\" Implement .Mx (MirBSD)
+.\"
+.ie "\*(tT"gnu" \{\
+.	eo
+.	de Mx
+.	nr curr-font \n[.f]
+.	nr curr-size \n[.ps]
+.	ds str-Mx \f[\n[curr-font]]\s[\n[curr-size]u]
+.	ds str-Mx1 \*[Tn-font-size]\%MirOS\*[str-Mx]
+.	if !\n[arg-limit] \
+.	if \n[.$] \{\
+.	ds macro-name Mx
+.	parse-args \$@
+.	\}
+.	if (\n[arg-limit] > \n[arg-ptr]) \{\
+.	nr arg-ptr +1
+.	ie (\n[type\n[arg-ptr]] == 2) \
+.	as str-Mx1 \~\*[arg\n[arg-ptr]]
+.	el \
+.	nr arg-ptr -1
+.	\}
+.	ds arg\n[arg-ptr] "\*[str-Mx1]
+.	nr type\n[arg-ptr] 2
+.	ds space\n[arg-ptr] "\*[space]
+.	nr num-args (\n[arg-limit] - \n[arg-ptr])
+.	nr arg-limit \n[arg-ptr]
+.	if \n[num-args] \
+.	parse-space-vector
+.	print-recursive
+..
+.	ec
+.	ds sP \s0
+.	ds tN \*[Tn-font-size]
+.\}
+.el \{\
+.	de Mx
+.	nr cF \\n(.f
+.	nr cZ \\n(.s
+.	ds aa \&\f\\n(cF\s\\n(cZ
+.	if \\n(aC==0 \{\
+.		ie \\n(.$==0 \&MirOS\\*(aa
+.		el .aV \\$1 \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
+.	\}
+.	if \\n(aC>\\n(aP \{\
+.		nr aP \\n(aP+1
+.		ie \\n(C\\n(aP==2 \{\
+.			as b1 \&MirOS\ #\&\\*(A\\n(aP\\*(aa
+.			ie \\n(aC>\\n(aP \{\
+.				nr aP \\n(aP+1
+.				nR
+.			\}
+.			el .aZ
+.		\}
+.		el \{\
+.			as b1 \&MirOS\\*(aa
+.			nR
+.		\}
+.	\}
+..
+.\}
+.\"-
+.Dt PKGTOOLS.CONF 5
+.Os
+.Sh NAME
+.Nm pkgtools.conf
+.Nd MirPorts pkgtools configuration
+.Sh DESCRIPTION
+The
+.Nm
+file contains configuration options for the MirPorts package tools.
+At the moment, there are two things that can be set: the pager and the
+.Qq source list 
+.Pq see below .
+Variable definitions and commands are one line each.
+A
+.Sq #
+character is used for the beginning of a comment.
+The rest of the line is ignored.
+Blank lines are also ignored.
+.Pp
+If the configuration file is not found or not readable, a warning
+message is printed and minimal defaults are used:
+the pager is set to
+.Pa /bin/cat ,
+and the source list to the current working directory only.
+.Sh VARIABLES
+Variables can be used anywhere in the arguments to commands or in the
+definition of other variables.
+A line of the form
+.Dl VAR=value
+sets a variable.
+The value is expanded immediately, like for shell variables, and
+similar to the := form of declaration in
+.Xr make 1 .
+.Pp
+To refer to the value of a variable, the notation
+.Ev ${VARIABLE}
+or
+.Ev $(VARIABLE)
+is used, just like in
+.Xr make 1 .
+.Sh CONFIGURATION DIRECTIVES
+The following configuration directives are supported:
+.Bl -tag -width 3n
+.It Cm Pager Ar /path/to/pager
+Sets the full path to the pager used
+.Pq e.g. Pa /bin/cat , Pa /usr/bin/less .
+A pager is a program that displays text files on the screen.
+It is used by
+.Xr pkg_add 1
+to display messages
+.Pq the DISPLAY file
+during the installation of a package.
+If the program is interactive, the installation stops at that point to
+allow you to read the message.
+Use
+.Pa /bin/cat
+for unattended installations.
+.It Cm Source Ar priority path
+Adds a
+.Qq package source ,
+or a package repository, located at
+.Ar path ,
+to the list.
+.Ar path
+may either be a directory name or a URL using the ftp, http or https
+protocol.
+.Ar priority
+is a positive number or 0.
+All given sources are inserted into the list in the order of the
+priority given, lowest first.
+The order in which two entries with the same priority end up is
+undefined.
+Priority 1 is reserved for internal use.
+For example, to place a remote repository at the end, use a high
+value, such as 255, for
+.Ar priority .
+Note that an entry for the current directory with priority 0
+.Pq Cm Source "0 ."
+should always be present so that this directory is searched first.
+.Pp
+The source list is used by
+.Xr pkg_info 1
+to find uninstalled packages;
+.Xr pkg_add 1
+uses it to locate the package(s) given as argument(s) as well as for
+the automatic addition of dependencies.
+.El
+.Sh EXAMPLE
+.Bd -literal
+# Configuration file for MirPorts pkgtools
+#
+PORTSDIR=/usr/ports
+
+Source 0 .
+Source 2 ${PORTSDIR}/Packages
+Pager /usr/bin/less
+.Ed
+.Sh FILES
+.Pa /etc/pkgtools/pkgtools.conf
+.Sh SEE ALSO
+.Xr ports 7 ,
+.Xr pkg_add 1 ,
+.Xr pkg_info 1 ,
+.Xr pkg_delete 1 ,
+.Xr pkg_upgrade 1 .
+.Sh HISTORY
+A configuration file for the package tools was introduced by
+.Mx
+in 2010.
