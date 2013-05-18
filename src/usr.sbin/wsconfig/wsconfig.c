@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: src/usr.sbin/wsconfig/wsconfig.c,v 1.1 2006/08/16 23:12:06 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -33,6 +33,8 @@
 #include <string.h>
 #include <unistd.h>
 
+__RCSID("$MirOS$");
+
 #define DEFDEV	"/dev/ttyCcfg"
 
 __dead void usage(void);
@@ -53,7 +55,7 @@ main(int argc, char **argv)
 			break;
 		case 's':
 			action = 1;
-			nr = strtonum(optarg, 0, 255, &est);
+			nr = strtonum(optarg, 1, 255, &est);
 			if (est)
 				errx(1, "console number %s is %s", optarg, est);
 			break;
