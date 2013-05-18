@@ -929,7 +929,7 @@ Date: 09.07.2008 18:20
  as this is a new system and VMware has issues, this will probably take
  a while. However, all data should be available from some place anytime.</p>
 ----
-Title: mksh R35 released!
+Title: mksh R35 released! [Update: R35b]
 Date: 11.07.2008
 Author: tg@
 
@@ -948,4 +948,6 @@ Author: tg@
  <a href="/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> (<a
  href="http://www.cl.cam.ac.uk/~mgk25/iso-paper.html">ISO A4 paper</a>, we
  don’t support Imperial units, as even the USA has converted to Metric)</p>
+<p><strong>Update 18.07.2008</strong> – mksh R35b is out, with major bug
+ fixes, read the <a href="@@RELPATH@@mksh.htm#r35b">changelog</a>.</p>
 ----
