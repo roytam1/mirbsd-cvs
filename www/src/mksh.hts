@@ -4,11 +4,12 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.262 2009/08/02 10:31:15 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.263 2009/08/02 17:54:53 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
- <li><a href="#irc">Support</a> (IRC, manual page, mailing lists, …)</li>
+ <li><a href="#irc">Documentation and Support</a> (IRC, manual page,
+  mailing lists, RSS feeds, …)</li>
  <li><a href="#build">Installation</a></li>
  <li><a href="#upgrade">Upgrade</a> your packages from older mksh</li>
  <li>Inclusion in <a href="#otheros">operating systems</a></li>
@@ -138,6 +139,8 @@ mws_content <<'EOF'
  Reading books about Korn Shells in general is recommended as further help,
  but beware of the <a href="mksh_old.htm#contrib">differences</a> to other shells. Some
  ISBNs are listed at the end of the manual page.</p>
+<p>The <a href="@@RELPATH@@tag_mksh.rss">RSS feed</a> collects news and wlog
+ entries regarding mksh.</p>
 <p>If you require additional assistance or want to discuss bugs, features
  or enhancements, write to the <a href="mailto:miros-discuss@mirbsd.org">mailing
  list</a> (or <a href="mailto:postmaster@mirbsd.org">subscribe</a> to it).
