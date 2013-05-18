@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdio.h,v 1.5 2006/10/02 02:56:58 tg Exp $ */
+/**	$MirOS: src/include/stdio.h,v 1.6 2006/11/20 23:06:46 tg Exp $ */
 /*	$OpenBSD: stdio.h,v 1.32 2005/05/11 18:39:19 espie Exp $	*/
 /*	$NetBSD: stdio.h,v 1.18 1996/04/25 18:29:21 jtc Exp $	*/
 
@@ -367,7 +367,7 @@ __END_DECLS
 #if defined(__GNUC__)
 static __inline int __sputc(int _c, FILE *_p) {
 	if (--_p->_w >= 0 || (_p->_w >= _p->_lbfsize && (char)_c != '\n'))
-		return (*_p->_p++ = _c);
+		return (*_p->_p++ = (unsigned char)_c);
 	else
 		return (__swbuf(_c, _p));
 }
