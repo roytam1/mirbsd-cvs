@@ -1,9 +1,9 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.33 2008/07/22 21:56:12 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.34 2008/07/22 22:36:05 tg Exp $
 
 .include <bsd.own.mk>
 
 # common variables
-REALOBJDIR!=	readlink -nf ${.OBJDIR}
+REALOBJDIR!=	realpath ${.OBJDIR}
 TOPDIR?=	${.CURDIR}/..
 
 .MAIN: all

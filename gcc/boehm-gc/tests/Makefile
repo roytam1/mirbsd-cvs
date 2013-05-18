@@ -1,4 +1,4 @@
-# $MirOS: gcc/boehm-gc/tests/Makefile,v 1.2 2005/05/23 13:02:41 tg Exp $
+# $MirOS: gcc/boehm-gc/tests/Makefile,v 1.3 2005/11/22 18:17:18 tg Exp $
 
 .ifdef TEST
 
@@ -8,7 +8,7 @@ PROG=		gctest
 PROG=		threads
 .  endif
 NOMAN=		yes
-REALOBJDIR!=	readlink -f ${.OBJDIR}
+REALOBJDIR!=	realpath ${.OBJDIR}
 LDADD=		${REALOBJDIR}/../.libs/libgcjgc.a
 DPADD=		${REALOBJDIR}/../.libs/libgcjgc.la
 CPPFLAGS+=	-I${.CURDIR}/../include

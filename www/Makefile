@@ -1,11 +1,11 @@
-# $MirOS: www/Makefile,v 1.32 2008/09/17 21:52:04 tg Exp $
+# $MirOS: www/Makefile,v 1.33 2008/09/19 07:29:48 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 .ifndef TOP
-TOP!=		readlink -nf ${.CURDIR:Q}
-DST!=		readlink -nf ${.OBJDIR:Q}
+TOP!=		realpath ${.CURDIR:Q}
+DST!=		realpath ${.OBJDIR:Q}
 MAKEFLAGS+=	TOP=${TOP:Q} DST=${DST:Q}
 .endif
 

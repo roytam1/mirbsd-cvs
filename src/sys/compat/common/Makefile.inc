@@ -1,11 +1,11 @@
-# $MirOS: src/sys/compat/common/Makefile.inc,v 1.3 2006/02/01 19:22:45 tg Exp $
+# $MirOS: src/sys/compat/common/Makefile.inc,v 1.4 2007/02/08 19:00:23 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.7 2002/07/14 09:20:24 mdw Exp $
 # $NetBSD: Makefile.inc,v 1.5 1996/05/20 17:23:59 mrg Exp $
 #
 #	NOTE: $S must correspond to the top of the 'sys' tree
 
-PWD!=		readlink -nf .
-COMPATDIR!=	readlink -nf $S/compat/common
+PWD!=		realpath .
+COMPATDIR!=	realpath $S/compat/common
 COMPATDST?=	lib/compat
 COMPATLIB=	${COMPATDST}/libcompat.a
 

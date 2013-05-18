@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+# $MirOS: contrib/samples/import-3rdpty,v 1.23 2008/05/03 01:09:31 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -19,7 +19,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.22 2008/04/30 19:24:51 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.23 2008/05/03 01:09:31 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -1458,7 +1458,7 @@ case $module {
 	[[ $tag = [0-9][0-9]@(0[1-9]|1[0-2])@(0[1-9]|[1-2][0-9]|3[01]) ]] || tagerr=1
 	realtag=binutils-20$tag
 	tagformat=YYMMDD
-	if [[ $(basename $(readlink -nf .)) != binutils-+([0-9]) ]]; then
+	if [[ $(basename $(realpath .)) != binutils-+([0-9]) ]]; then
 		print -u2 Error: must be in combined src directory to commit.
 		exit 1
 	fi
@@ -1504,7 +1504,7 @@ case $module {
 	    || tagerr=1
 	realtag=cvs-$tag
 	tagformat=YYYYMMDDhhmm
-	if [[ $(basename $(readlink -nf .)) != src ]]; then
+	if [[ $(basename $(realpath .)) != src ]]; then
 		print -u2 Error: must be in src directory to commit.
 		exit 1
 	fi

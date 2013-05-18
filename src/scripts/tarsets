@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/tarsets,v 1.8 2007/06/15 16:07:08 tg Exp $
+# $MirOS: src/scripts/tarsets,v 1.9 2007/06/16 21:12:41 tg Exp $
 #-
 # Copyright (c) 2004, 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -20,7 +20,7 @@
 # of said person's immediate fault when using the work as intended.
 
 me=${0##*/}
-cwd=$(readlink -nf .)
+cwd=$(realpath .)
 arch=${MACHINE:-$(uname -m)}
 
 function tarsets {

@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: src/scripts/mnt-cvsroot,v 1.14 2007/06/10 11:05:11 tg Exp $
+# $MirOS: src/scripts/mnt-cvsroot,v 1.15 2008/03/09 20:08:59 tg Exp $
 #-
 # Copyright (c) 2005, 2008
 #	Thorsten “mirabilos” Glaser <tg@66h.42h.de>
@@ -35,7 +35,7 @@ newroot=$1
 useroot=0
 if [[ $newroot = - ]]; then
 	shift
-	newroot=$(readlink -nf "$1")
+	newroot=$(realpath "$1")
 	[[ -d $newroot ]] && if [[ -d $newroot/CVS ]]; then
 		newroot=$newroot/CVS/$fn
 	else
@@ -61,7 +61,7 @@ fi
 set -A arg
 let i=0
 for name in "$@"; do
-	arg[i++]="$(readlink -nf "$name")"
+	arg[i++]=$(realpath "$name")
 done
 
 if ! T="$(mktemp ${arg[0]}/$me.XXXXXXXXXX)"; then

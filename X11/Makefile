@@ -1,9 +1,9 @@
-# $MirOS: X11/Makefile,v 1.36 2008/06/11 10:11:45 tg Exp $
+# $MirOS: X11/Makefile,v 1.37 2008/07/19 22:12:09 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
 
-SUBOBJDIR!=	readlink -nf ${.OBJDIR} 2>/dev/null
+SUBOBJDIR!=	realpath ${.OBJDIR}
 BINDIST=	programs/Xserver/hw/xfree86/etc/bindist
 HOSTDEF=	xc/${BINDIST}/OpenBSD-${MACHINE}/host.def
 CONFHOSTDEF=	xc/config/cf/host.def

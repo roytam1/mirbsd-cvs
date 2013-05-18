@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.36 2008/07/19 22:06:03 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.37 2008/07/22 19:48:47 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -23,7 +23,7 @@
 # system generated live CD distribution.
 
 set -ex
-myplace=$(readlink -nf $(dirname "$0"))
+myplace=$(realpath $(dirname "$0"))
 
 ed -s etc/X11/XF86Config <<-'EOF'
 	/FontPath.*local/s/^/#/
@@ -78,7 +78,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.36 2008/07/19 22:06:03 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.37 2008/07/22 19:48:47 tg Exp $
 	.
 	/cprng.*pr16/d
 	i
@@ -189,7 +189,7 @@ install -c -o root -g bin -m 555 \
     $myplace/evilwm-session usr/local/bin/evilwm-session
 
 (cd dev; mksh ./MAKEDEV std rd0a)
-pwd_mkdb -pd $(readlink -nf etc) master.passwd
+pwd_mkdb -pd $(realpath etc) master.passwd
 ( ( dd if=/dev/prandom bs=64 count=7; \
     dd if=/dev/arandom bs=64 count=56; \
     dd if=/dev/urandom bs=64 count=1; \

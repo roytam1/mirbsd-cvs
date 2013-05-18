@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/systrace.mk,v 1.5 2006/10/15 00:16:49 tg Exp $
+# $MirOS: src/scripts/systrace.mk,v 1.6 2007/06/10 11:05:11 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -53,7 +53,7 @@ done
 
 mydir=${0%/*}
 [[ $mydir = $0 ]] && mydir=.
-mydir=$(readlink -nf $mydir)
+mydir=$(realpath $mydir)
 
 for prog in "${progs[@]}"; do
 	sed "s#@@PROG@@#$prog#g" <$mydir/systrace.sed

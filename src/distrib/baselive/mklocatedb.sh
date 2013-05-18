@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/mklocatedb.sh,v 1.7 2007/07/11 16:01:07 tg Exp $
+# $MirOS: src/distrib/baselive/mklocatedb.sh,v 1.8 2008/07/07 13:57:13 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -37,7 +37,7 @@ function cleanup
 
 set -x
 set -e
-root=$(readlink -nf .)
+root=$(realpath .)
 set +e
 rm -f $root/../locatedb.tmp $root/../locatedb.vnd
 [[ -e $root/../locatedb.tmp ]] && exit 1

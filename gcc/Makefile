@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile,v 1.20 2006/03/01 20:08:09 tg Exp $
+# $MirOS: gcc/Makefile,v 1.21 2006/07/01 00:35:00 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -13,7 +13,7 @@ GCC_NATIVE=	No
 .endif
 GCC_NATIVE?=	Yes
 
-SUBOBJDIR!=	readlink -nf ${.OBJDIR}
+SUBOBJDIR!=	realpath ${.OBJDIR}
 BSDMAKE!=	whence -p ${MAKE}
 CC!=		whence -p ${CC}
 
