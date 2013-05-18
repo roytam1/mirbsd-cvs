@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.36 2008/06/13 19:39:00 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.37 2008/07/09 23:32:02 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -703,7 +703,7 @@ v4_config() {
 }
 
 v6_config() {
-	typeset _ifs=$1 _media=$2 _name=$3 _hn=$4 _addr _prefixlen _prompt
+	typeset _ifs=$1 _media=$2 _name=$3 _hn=$4 _addr _prefixlen _prompt _eui
 
 	ifconfig lo0 inet6 >/dev/null 2>&1 || return
 
@@ -711,6 +711,7 @@ v6_config() {
 	[[ -n $2 ]] && { _addr=$2; _prefixlen=$3; }
 
 	[[ -x /sbin/rtsol ]] && _prompt="or 'rtsol' "
+	echo To append EUI64 automatically, let the address end with two colons.
 	_prompt="IPv6 address for $_ifs? (${_prompt}or 'none')"
 	ask_until "$_prompt" "${_addr:-none}"
 
@@ -725,18 +726,20 @@ v6_config() {
 		echo "up\nrtsol $media" >>$_hn
 		return
 		;;
+	*::)	_eui=eui64
+		;;
 	esac
 
 	_addr=$resp
 	ask_until "IPv6 prefix length for $_ifs?" "${_prefixlen:=64}"
-	ifconfig $_ifs inet6 $_addr prefixlen $resp up || return
-	echo "inet6 $_addr $resp $media" >>$_hn
+	ifconfig $_ifs inet6 $_addr prefixlen $resp $_eui up || return
+	echo inet6 $_addr $resp $_eui $media >>$_hn
 	addhostent "$_addr" "$_name"
 
 	v6_defroute $_ifs
 	[[ $resp = none ]] && return
 	route -n add -inet6 default "$resp" || return
-	echo "!route -qn add -inet6 default $resp" >>$_hn
+	echo "route add -inet6 default $resp" >>$_hn
 }
 
 v4_defroute() {
@@ -751,9 +754,9 @@ v4_defroute() {
 	while :; do
 		ask_until "$_prompt" "$_dr"
 		[[ $resp = @(none|dhcp) ]] && break
-		route delete -inet default >/dev/null 2>&1
+		route -n delete -inet default >/dev/null 2>&1
 		route -n add -inet default "$resp" && {
-			echo "route -n add -inet default $resp" \
+			echo "route add -inet default $resp" \
 			    >/tmp/hostname.local
 			break
 		}
