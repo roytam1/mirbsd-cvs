@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.26 2010/11/12 21:05:26 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.27 2010/11/12 21:11:00 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -143,7 +143,7 @@ while getopts ":0:1AB:g:h:M:O:p:S:s:" ch; do
 		numsecs=99
 		;;
 	(B)	if (( (bsh = OPTARG) < 9 || OPTARG > 15 )); then
-			print -u2 error: invalid block size "2^'$OPTARG'"
+			print -u2 Error: invalid block size "2^'$OPTARG'"
 			exit 1
 		fi
 		;;
@@ -156,43 +156,46 @@ while getopts ":0:1AB:g:h:M:O:p:S:s:" ch; do
 		set -A g_code -- $OPTARG
 		IFS=$saveIFS ;;
 	(h)	if (( (numheads = OPTARG) < 1 || OPTARG > 256 )); then
-			print -u2 warning: invalid head count "'$OPTARG'"
+			print -u2 Warning: invalid head count "'$OPTARG'"
 			numheads=0
 		fi ;;
 	(M)	if [[ $OPTARG != +([0-9])?(:?(0[Xx])+([0-9])) ]]; then
-			print -u2 warning: invalid partition info "'$OPTARG'"
+			print -u2 Warning: invalid partition info "'$OPTARG'"
 			mbrpno=0
 			mbrptp=0
-		fi
-		saveIFS=$IFS
-		IFS=:
-		set -A mbr_code -- $OPTARG
-		IFS=$saveIFS
-		(( mbrpno = mbr_code[0] ))
-		(( mbrptp = mbr_code[1] ))
-		if (( mbrpno < 1 || mbrpno > 4 )); then
-			print -u2 warning: invalid partition number "'$OPTARG'"
-			mbrpno=0
-		fi
-		if (( mbrptp < 1 || mbrptp > 255 )); then
-			print -u2 warning: invalid partition type "'$OPTARG'"
-			mbrptp=0
+		else
+			saveIFS=$IFS
+			IFS=:
+			set -A mbr_code -- $OPTARG
+			IFS=$saveIFS
+			(( mbrpno = mbr_code[0] ))
+			(( mbrptp = mbr_code[1] ))
+			if (( mbrpno < 1 || mbrpno > 4 )); then
+				print -u2 Warning: invalid partition \
+				    number "'$OPTARG'"
+				mbrpno=0
+			fi
+			if (( mbrptp < 1 || mbrptp > 255 )); then
+				print -u2 Warning: invalid partition \
+				    type "'$OPTARG'"
+				mbrptp=0
+			fi
 		fi ;;
 	(O)	if [[ $OPTARG != +([0-9]) ]]; then
-			print -u2 warning: invalid partition offset "'$OPTARG'"
+			print -u2 Warning: invalid partition offset "'$OPTARG'"
 		else
 			pofs=$OPTARG
 		fi ;;
 	(p)	if (( (partp = OPTARG) < 1 || OPTARG > 255 )); then
-			print -u2 warning: invalid partition type "'$OPTARG'"
+			print -u2 Warning: invalid partition type "'$OPTARG'"
 			partp=0
 		fi ;;
 	(S)	if (( (sscale = OPTARG) < 0 || OPTARG > 24 )); then
-			print -u2 error: invalid input scale "'$OPTARG'"
+			print -u2 Error: invalid input scale "'$OPTARG'"
 			exit 1
 		fi ;;
 	(s)	if (( (numsecs = OPTARG) < 1 || OPTARG > 63 )); then
-			print -u2 warning: invalid sector count "'$OPTARG'"
+			print -u2 Warning: invalid sector count "'$OPTARG'"
 			numsecs=0
 		fi ;;
 	(*)	print -u2 'Syntax:
@@ -225,7 +228,7 @@ if (( psz )); then
 	    "$psz * $((1 << bsh))" | bc) bytes\) in ${g_code[0]} cylinders, \
 	    ${g_code[1]} heads, ${g_code[2]} sectors per track
 	if (( numsecs == 0 || (numsecs != 99 && numheads == 0) )); then
-		print -u2 warning: using these values for C/H/S boot
+		print -u2 Warning: using these values for C/H/S boot
 		numheads=${g_code[1]}
 		numsecs=${g_code[2]}
 	fi
@@ -233,7 +236,7 @@ if (( psz )); then
 fi
 if (( mbrpno )); then
 	bkend=0x1BE
-	(( psz )) || print -u2 warning: no geometry given, will not \
+	(( psz )) || print -u2 Warning: no geometry given, will not \
 	    create an MBR partition table entry
 fi
 
@@ -242,12 +245,12 @@ if (( numsecs == 99 )); then
 	numsecs=0
 else
 	if (( !numheads )); then
-		print -u2 warning: using default value of 16 heads
+		print -u2 Warning: using default value of 16 heads
 		numheads=16
 	fi
 
 	if (( !numsecs )); then
-		print -u2 warning: using default value of 63 sectors
+		print -u2 Warning: using default value of 63 sectors
 		numsecs=63
 	fi
 fi
@@ -263,7 +266,7 @@ print -u2 "using $wrec blocks, $((curptr-begptr)) bytes ($((bkend-curptr)) free)
 
 # fill the block table
 if (( curptr-- > bkend )); then
-	print -u2 error: too many blocks
+	print -u2 Error: too many blocks
 	exit 1
 fi
 while (( ++curptr < bkend )); do
