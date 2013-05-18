@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+.\" $MirOS: src/usr.sbin/getextent_cd9660/getextent_cd9660.1,v 1.1 2008/08/05 22:36:06 tg Exp $
 .\"-
 .\" Copyright (c) 2008
 .\"	Thorsten Glaser <tg@mirbsd.org>
@@ -18,7 +18,7 @@
 .\" damage or existence of a defect, except proven that it results out
 .\" of said person's immediate fault when using the work as intended.
 .\"-
-.Dd $Mdocdate$
+.Dd $Mdocdate: August 5 2008 $
 .Dt GETEXTENT_CD9660 1
 .Os
 .Sh NAME
@@ -60,6 +60,13 @@ flags determine the format of the output.
 Column order is: start_block end_block size name.
 If none of these flags are specified, the default is
 .Fl ben .
+.Pp
+The special files
+.Pa $BootCatalog$
+and
+.Pa $BootImage$
+are a somewhat crude attempt at parsing the El Torito volume descriptor
+and boot catalogue to find out the default boot image.
 .Sh HISTORY
 A
 .Nm
