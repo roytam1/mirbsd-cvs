@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.472 2012/10/21 17:42:53 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.473 2012/10/21 22:08:51 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1186,7 +1186,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg, Andrew Kudryashov] Fix <tt>~/nonexistant</tt> tab completion</li>
  <li>[tg] Optimise sh -c “[^]\t\n"-$&amp;-*;-?[\\`|]*” to exec, inspired by
   Jilles Tjoelker (<em>experimental</em>, not as good as it could be)</li>
- <li>[tg] Fix <tt>$?</tt> inside <tt>eval</tt></li>
+ <li>[tg] Fix <tt>$?</tt> inside <tt>eval</tt> (RedHat BZ#865121)</li>
 </ul>
 <p>Changes in the current (unreleased) stable branch:</p><ul>
  <li>[tg] Fix a bug in the manual page</li>
