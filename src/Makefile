@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.75 2006/10/29 12:13:30 tg Exp $
+# $MirOS: src/Makefile,v 1.76 2006/10/29 12:24:02 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -295,9 +295,9 @@ _do-dist:
 	    ${SUDO} tee CKSUM~ | fgrep RMD160 | ${SUDO} sort -uo RMD160; \
 	    fgrep -v RMD160 CKSUM~ | ${SUDO} sort -k3 -uo CKSUM; \
 	    ${SUDO} rm -f CKSUM~; \
-	    chmod 755 $$(find . -type d); \
-	    chmod 444 $$(find . -type f); \
-	    chown -R 0:0 .
+	    ${SUDO} chmod 755 $$(find . -type d); \
+	    ${SUDO} chmod 444 $$(find . -type f); \
+	    ${SUDO} chown -R 0:0 .
 	@echo ============================================================
 	@echo Done with MirOS Build.
 	@date
