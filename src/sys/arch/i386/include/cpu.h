@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.8 2008/04/09 05:07:02 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/cpu.h,v 1.9 2008/06/13 13:11:50 tg Exp $ */
 /*	$OpenBSD: cpu.h,v 1.59 2004/04/02 22:28:41 tedu Exp $	*/
 /*	$NetBSD: cpu.h,v 1.35 1996/05/05 19:29:26 christos Exp $	*/
 
@@ -195,7 +195,7 @@ extern int i386_has_sse2;
 
 /* machdep.c */
 void	dumpconf(void);
-void	cpu_reset(void);
+void	cpu_reset(void) __dead;
 void	i386_proc0_tss_ldt_init(void);
 void	cpuid(u_int32_t, u_int32_t *);
 

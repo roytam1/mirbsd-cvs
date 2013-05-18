@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.19 2008/03/10 18:54:48 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.20 2008/04/09 05:45:40 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.310 2004/11/02 21:20:59 miod Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -2238,7 +2238,6 @@ haltsys:
 
 	printf("rebooting... %X\n", arc4random());
 	cpu_reset();
-	for(;;) ;
 	/*NOTREACHED*/
 }
 
@@ -2967,6 +2966,7 @@ cpu_reset()
 #endif
 
 	for (;;);
+	/*NOTREACHED*/
 }
 
 /*
