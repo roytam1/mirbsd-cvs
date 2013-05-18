@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.15 2006/01/17 23:43:12 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.16 2006/01/18 07:02:40 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -207,8 +207,8 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <p>I had announced the <a href="/?clog-2006#snap0113">snapshot of Jan
   13</a> on FM and it actually showed up.</p>
  <p><tt>*.mirsolutions.de</tt> works, once again. Costly phone call to
-  the provider sponsored by yours truly. Now go and click some ads, or
-  better, <a href="/?danke">donate</a> some money via PayPal.</p>
+  the provider sponsored by yours truly. Now go and <a href="/?danke">
+  donate</a> some money via PayPal.</p>
  <p><a href="http://article.gmane.org/gmane.os.miros.general/1635">The
   comment</a> on the GPLv3 actually got modded <tt>+1, Insightful</tt>
   on <a href="http://www.symlink.lu/">Symlink</a>, the German slashdot
