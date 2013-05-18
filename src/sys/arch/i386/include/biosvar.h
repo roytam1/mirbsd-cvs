@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: biosvar.h,v 1.42 2003/11/27 00:31:55 espie Exp $	*/
 
 /*
@@ -159,7 +160,7 @@ typedef struct _bios_diskinfo {
 #define BDI_BADLABEL	0x00000004	/* Had another disklabel */
 #define BDI_EL_TORITO	0x00000008	/* 2,048-byte sectors */
 #define BDI_NOTADISK	0x00000010	/* not a disc */
-#define BDI_LBA		0x00000020	/* EDD access via LBA functions *.
+#define BDI_LBA		0x00000020	/* EDD access via LBA functions */
 #define BDI_PICKED	0x80000000	/* kernel-only: cksum matched */
 
 } bios_diskinfo_t;
