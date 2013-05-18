@@ -44,7 +44,7 @@
  * The previous signal state is NOT restored.
  */
 
-#include "DEFS.h"
+#include <machine/asm.h>
 #include <machine/trap.h>	/* T_FLUSHWIN */
 #define	CCFSZ	96		/* from locore.S */
 

@@ -39,7 +39,7 @@
  * that it really matters, by using `fbul,a'.
  */
 
-#include "DEFS.h"
+#include <machine/asm.h>
 
 	.align	8
 Lbig:

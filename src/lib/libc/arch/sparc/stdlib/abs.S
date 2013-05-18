@@ -39,7 +39,7 @@ RCSID("$OpenBSD: abs.S,v 1.3 2003/06/02 20:18:32 millert Exp $")
 
 /* abs - int absolute value */
 
-#include "DEFS.h"
+#include <machine/asm.h>
 
 NENTRY(labs)
 ENTRY(abs)

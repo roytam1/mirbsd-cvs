@@ -34,7 +34,7 @@
 
 /* fabs - floating absolute value */
 
-#include "DEFS.h"
+#include <machine/asm.h>
 
 ENTRY(fabs)
 	std	%o0, [%sp + 32]		! return value => %f0:f1

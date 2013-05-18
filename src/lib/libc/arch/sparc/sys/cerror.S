@@ -32,7 +32,7 @@
  * SUCH DAMAGE.
  */
 
-#include "DEFS.h"
+#include <machine/asm.h>
 #include "SYS.h"
 
 	.globl	_C_LABEL(errno)
