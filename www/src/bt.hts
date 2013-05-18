@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname bt 'BitTorrent information'
-mws_putheader '$MirOS: www/src/bt.hts,v 1.2 2008/05/14 21:43:32 tg Exp $'
+mws_putheader '$MirOS: www/src/bt.hts,v 1.3 2008/06/03 18:05:09 tg Exp $'
 mws_content <<'EOF'
 <!-- http://www.mirbsd.org/bt.htm#id -->
 <h1>BitTorrent information</h1>
@@ -17,7 +17,7 @@ mws_content <<'EOF'
  maybe you're lucky and someone's online and just not shown. Also,
  most of the recent torrents are multi-tracked.</p>
 <p>The last field in the table denotes the architectures the torrent's
- contents are for: i386, sparc, or dual-arch. Releases are always
+ contents are for: i386, sparc, d(ua)live or dual(-arch). Releases are always
  labelled #&lt;versionnumber&gt;&lt;additional info&gt; while snapshots
  are usually labelled with their release date, rarely after the events
  on/for which they were released. If a lower-case letter &quot;c&quot;
@@ -25,11 +25,19 @@ mws_content <<'EOF'
 <h2>Generic information</h2>
 <p>... (live, install, arch, dd to hda, etc)</p>
 <p>Releases never contain Live CD functionality. The releases offered
- are always ISO images (single file torrent), dual-arch.</p>
+ are always ISO images (single file torrent), dual-arch (appearing as
+ <strong>dual</strong> in the torrent list).</p>
 <p>Snapshots are usually Live+Install CD ISOs for i386, and currently,
  multi-file downloads for sparc (since there isn't a point in making a
  live CD for sparc yet) missing a miniroot. Snapshots are almost always
- only for a single architecture.</p>
+ only for a single architecture, appearing as <strong>i386</strong> or
+ <strong>sparc</strong> in the torrent list.</p>
+<p>The new <em>dualive</em> (appears as <strong>dlive</strong> in the
+ torrent list for shortness) format is an ISO 9660 image bootable as
+ Install CD (and HDD etc.) on sparc and as Live+Install CD, DVD, HDD,
+ USB-Stick, CF/SD/MMC/… Card on i386. They sometimes contain very few
+ selected binary packages, usually for both architectures, as the size
+ of the image is pretty much at the capacity limit.</p>
 <h2>Information about specific torrents</h2>
 <h3>Releases</h3>
 <p>If you're helping us to seed, please seed as many old releases as
