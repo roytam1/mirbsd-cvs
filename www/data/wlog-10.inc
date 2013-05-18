@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.241 2009/09/25 19:58:35 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.242 2009/09/25 20:06:19 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -5130,4 +5130,42 @@ Author: tg@
 </ul>
 <p>Please do report any bugs (possibly with patches) again ☺ Things
  still look great in Lynx, so I̲ am content in any case…</p>
+----
+Title: mkshdroid, brother of the iShell
+Date: 02.10.2009 17:38
+Author: tg@
+Tag: mksh
+
+<p>As <a href="http://thread.gmane.org/gmane.os.miros.general/8946">sent to
+ the mailing list</a> I had a chance to compile mksh for Android today,
+ thanks to Waldemar confirming that it works (with OpenADK's eglibc linked
+ in statically) and CeKay's help in mastering the SDK and NDK. The posting
+ contains all relevant information; it is virtually impossible to write an
+ <tt>Android.mk</tt> file though.</p>
+<p>On the other hand, I <em>did</em> submit a patch for Bionic (the libc)
+ to have <tt>sys_signame[]</tt> like real BSDs, so that we could simply
+ hard-code the appropriate CFLAGS and CPPFLAGS and let the NDK compile the
+ mksh source *.c files (signames.inc would no longer be needed).</p>
+<p>Maybe (especially once our company is also cleared for contribution; the
+ Bionic patch of today I did in my "lunch break" and has no copyright claim
+ from my employer) we'll submit <a href="@@RELPATH@@mksh.htm">mksh</a> for
+ inclusion somewhere, as this would be the first <em>really</em> usable
+ shell. For this reason, I have uploaded a binary (gunzip(1) first) at
+ <a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-20090929-android15.gz">ports/mksh-20090929-android15.gz</a>
+ (MD5 <tt>f92ab0becb62b2f4020be42290a91fc0</tt>) which you can place in, for
+ instance, <tt>/data/mksh</tt> then put a (modified, as the ls(1) and id(1)
+ and possibly other utilities are more than reduced) <tt>dot.mkshrc</tt> from
+ the source (<a href="@@ABSPATH@@/cvs.cgi/mksh/dot.mkshrc?rev=1.49">CVSweb</a>)
+ as <tt>/data/.mkshrc</tt> and run it from adb (which, by the way, is the one
+ responsible for some cursor keys etc. not working, as Android and mksh(1) do
+ both fine in that regard) with <tt># HOME=/data /data/mksh</tt> in the shell.
+ I may post an Android specific patch for <tt>dot.mkshrc</tt> some day.</p>
+<!-- RSS stop --><p>On a side note, <a href="http://www.tarent.com/">my
+ employer</a> is still looking for Java&trade; developers in Bonn or Berlin.
+ The actual advertisement is on Xing; look and submit an application if you
+ can find yourself there (knowing German is an <strong>important</strong>
+ bonus); if it will not work out at the moment, we may file it for later
+ perusal if desired. These are the cool guys that let me wreck havo^W^Wfix
+ *buntu at work with mksh, MirSirc and Lynx and let CeKay play with Android
+ and the student workers with Lego robots.</p>
 ----
