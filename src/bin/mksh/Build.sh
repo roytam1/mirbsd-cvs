@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: src/bin/mksh/Build.sh,v 1.31 2006/07/01 14:39:41 tg Exp $
+# $MirOS: src/bin/mksh/Build.sh,v 1.28 2006/05/27 11:30:07 tg Exp $
 #-
 # This script recognises CC, CFLAGS, CPPFLAGS, LDFLAGS, LIBS and NROFF.
 
@@ -9,14 +9,14 @@ case $SHELL in
 esac
 CC="${CC:-gcc}"
 CFLAGS="${CFLAGS--O2 -fno-strict-aliasing -fno-strength-reduce -Wall}"
-export SHELL
+export SHELL CC
 srcdir="${srcdir:-`dirname "$0"`}"
 curdir="`pwd`"
 
 e=echo
 q=0
 r=0
-x=0
+LDSTATIC=-static
 
 while [ -n "$1" ]; do
 	case $1 in
@@ -30,9 +30,6 @@ while [ -n "$1" ]; do
 	-r)
 		r=1
 		;;
-	-x)
-		x=1
-		;;
 	*)
 		echo "$0: Unknown option '$1'!" >&2
 		exit 1
@@ -44,15 +41,13 @@ done
 v()
 {
 	$e "$*"
-	eval "$@"
+	eval "$*"
 }
 
-[ $x = 1 ] || LDSTATIC=-static
-[ $x = 1 ] || SRCS=
-SRCS="alloc.c edit.c eval.c exec.c expr.c funcs.c histrap.c $SRCS"
+SRCS="alloc.c edit.c eval.c exec.c expr.c funcs.c histrap.c"
 SRCS="$SRCS jobs.c lex.c main.c misc.c shf.c syn.c tree.c var.c"
 
-[ $x = 1 ] || case "`uname -s 2>/dev/null || uname`" in
+case "`uname -s 2>/dev/null || uname`" in
 Darwin)
 	LDSTATIC= # never works
 	CPPFLAGS="$CPPFLAGS -D_FILE_OFFSET_BITS=64"
@@ -72,11 +67,11 @@ SunOS)
 	CPPFLAGS="$CPPFLAGS -D_BSD_SOURCE -D_POSIX_C_SOURCE=200112L"
 	CPPFLAGS="$CPPFLAGS -D__EXTENSIONS__"
 	CPPFLAGS="$CPPFLAGS -D_FILE_OFFSET_BITS=64 -DNEED_COMPAT"
+	CFLAGS="$CFLAGS -Wno-char-subscripts"
 	LDSTATIC= # alternatively you need libdl... same suckage as above
 	;;
 esac
 
-export CC CPPFLAGS
 v $SHELL "'$srcdir/gensigs.sh'" || exit 1
 (v "cd '$srcdir' && exec $CC $CFLAGS -I'$curdir' $CPPFLAGS" \
     "$LDFLAGS $LDSTATIC -o '$curdir/mksh' $SRCS $LIBS") || exit 1
@@ -85,8 +80,8 @@ test -x mksh || exit 1
     || rm -f mksh.cat1
 [ $q = 1 ] || v size mksh
 echo '#!/bin/sh' >Test.sh
-echo "exec perl '$srcdir/check.pl' -s '$srcdir/check.t' -p '$curdir/mksh' -C pdksh \$*" >>Test.sh
-chmod 755 Test.sh
+echo "exec perl '$srcdir/check.pl' -s '$srcdir/check.t' -p '$curdir/mksh' -C pdksh" >>Test.sh
+chmod 555 Test.sh
 $e
 $e To test mirbsdksh, execute ./Test.sh
 $e
