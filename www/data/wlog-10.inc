@@ -245,3 +245,84 @@ Author: bsiegert@
  you a wide variety of pre-built packages for the new release.
  Enjoy!</p>
 ----
+Title: On Firefox Updates
+Date: 02.04.2008
+
+<p>When Mozilla Firefox(TM) aka <tt>www/firesomething</tt> version
+ 1.5.0.10 came out over a year ago, I tried porting it (of course).
+ However, not only did the build not finish, it filled the entire
+ filesystem before failing. At the time, I was updating from something
+ like 1.5.0.4 so I did not know which version exactly caused the
+ problem. Thus, I made incremental updates up to 1.5.0.8, where I
+ seemingly lost interest. Now, with a faster build machine, I
+ continued the updates, discovering that 1.5.0.10 is really the
+ version that fails.</p>
+
+<p>A diff between <tt>firefox-1.5.0.9-source.tar.bz2</tt> and
+ <tt>firefox-1.5.0.10-source.tar.bz2</tt> is 10 MiB. Most of that is
+ in CVS directories, which are included in their fucking releases,
+ believe it or not. If you leave out those changes, the diff is still
+ 5 MiB and 155000 lines, of which 90% are in <tt>security/</tt>.  Mind
+ you, the whole source tarball, from calling the directory
+ <tt>mozilla</tt> instead of adding a version number to including CVS
+ directories to using several different build systems, leaving unused
+ configure scripts in the tree, etc., positively REEKS of a flagrant
+ disrespect for those that build from source. All this seems to be
+ meant to encourage you to use official Mozilla builds&mdash;which is
+ fine if you happen to be on one of the few supported platforms:
+ Windows, Mac OS X, and Linux i386. We are not.</p>
+
+<p>Anyway: in their infinite wisdom, the Firefox developers chose to
+ upgrade the included NSS libraries (Netscape Security) from 3.10.x to
+ 3.11.4 <em>in a minor security update</em>. This version sports
+ extensive internal restructurations&mdash;another nice way of saying
+ "fuck you, porters". Thank you, Mozilla project. Of course, the NSS
+ update is not explicitly mentioned in the release notes.</p>
+
+<p><a
+ href="http://www.mozilla.org/projects/security/pki/nss/tech-notes/tn6.html">This
+ tech note</a> says: "The low-level freebl cryptographic code has been
+ separated from softoken on all platforms. Even on platforms for which
+ there is only one implementation of freebl, there is now a separate
+ freebl shared library. The freebl library implements a private
+ interface internal to NSS." This new library is the core of the
+ problem. After the NSS libraries are built, they are
+ cryptographically signed by a program called <tt>shlibsign</tt>
+ which, in turn, dumps core, generating a 3 GiB core dump in my
+ case!</p>
+
+<p>I had suspected a problem related to our security features,
+ especially W^X. The page about <a
+ href="http://developer.mozilla.org/en/docs/Building_on_Fedora_Core_5">Building
+ on Fedora Core 5</a> says: "For those with SELinux in enforcing mode,
+ you are likely to run into problems both with the shlibsign during
+ the build process and with the running the final build related to
+ SELinux denying execmod permission&nbsp;..." However, with some
+ difficulty, I managed to build a debug version of everything for
+ analyis with gdb. During the start of shlibsign, one of the init
+ procedures loads the native freebl (?) module, which promptly loads
+ itself. On and on, until memory exhaustion.</p>
+
+<p>This comment in <tt>security/nss/lib/freebl/Makefile</tt> provided
+ a clue to the solution:</p>
+
+<pre># The blapi functions are defined not only in the freebl shared
+# libraries but also in the shared libraries linked with loader.c
+# (libsoftokn3.so and libssl3.so).  We need to use GNU ld's
+# -Bsymbolic option or the equivalent option for other linkers
+# to bind the blapi function references in FREEBLVector vector
+# (ldvector.c) to the blapi functions defined in the freebl
+# shared libraries.
+ifeq (,$(filter-out BSD_OS FreeBSD Linux NetBSD, $(OS_TARGET)))
+    MKSHLIB += -Wl,-Bsymbolic
+endif</pre>
+
+<p>Adding MirBSD to the OS list fixes the build. And it works!</p>
+
+<p>Now, firefox 1.5 is old and unsupported. So why was this update
+ important? It makes further updates possible. The same bug was
+ holding up my long-finished firesomething-2.0 port. I already have a
+ package for firefox 2.0.0.13 but the port needs just a little more
+ work. I am also confident I will be able to provide a working port
+ for firesomething 3 when released.</p>
+----
