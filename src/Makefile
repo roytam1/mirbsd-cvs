@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.105 2007/06/08 11:17:31 tg Exp $
+# $MirOS: src/Makefile,v 1.106 2007/06/09 18:49:39 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -159,24 +159,24 @@ do-htman:
 
 do-htinfo:
 	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/bfd/doc && \
-	    rm -f {bfd,bfdint}.html &&
+	    rm -f {bfd,bfdint}.html && \
 	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc \
 	    ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc/bfd.texinfo && \
 	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc \
 	    ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc/bfdint.texi && \
 	    cp {bfd,bfdint}.html ${BSDOBJDIR}/htman/texinfo/
 	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/binutils/doc && \
-	    rm -f binutils.html &&
+	    rm -f binutils.html && \
 	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/binutils/doc \
 	    ${BSDSRCDIR}/gnu/usr.bin/binutils/binutils/doc/binutils.texi && \
 	    cp binutils.html ${BSDOBJDIR}/htman/texinfo/
 	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/gas/doc && \
-	    rm -f as.html &&
+	    rm -f as.html && \
 	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/binutils/gas/doc \
 	    ${BSDSRCDIR}/gnu/usr.bin/binutils/gas/doc/as.texinfo && \
 	    cp as.html ${BSDOBJDIR}/htman/texinfo/
 	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/gdb/doc && \
-	    rm -f {gdb,gdbint,stabs,annotate}.html &&
+	    rm -f {gdb,gdbint,stabs,annotate}.html && \
 	    makeinfo --no-split --html \
 	    -I ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/mi \
 	    -I ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc \
@@ -189,7 +189,7 @@ do-htinfo:
 	    ${BSDSRCDIR}/gnu/usr.bin/binutils/gdb/doc/annotate.texinfo && \
 	    cp {gdb,gdbint,stabs,annotate}.html ${BSDOBJDIR}/htman/texinfo/
 	cd ${BSDOBJDIR}/gnu/usr.bin/binutils/ld && \
-	    rm -f ld{,int}.html &&
+	    rm -f ld{,int}.html && \
 	    makeinfo --no-split --html \
 	    -I ${BSDSRCDIR}/gnu/usr.bin/binutils/ld \
 	    -I ${BSDSRCDIR}/gnu/usr.bin/binutils/bfd/doc \
@@ -200,14 +200,14 @@ do-htinfo:
 	    ${BSDSRCDIR}/gnu/usr.bin/binutils/ld/ldint.texinfo && \
 	    cp ld{,int}.html ${BSDOBJDIR}/htman/texinfo/
 	cd ${BSDOBJDIR}/gnu/usr.bin/cvs/doc && \
-	    rm -f cvs{,client}.html &&
+	    rm -f cvs{,client}.html && \
 	    makeinfo --no-split --html -I ${BSDSRCDIR}/gnu/usr.bin/cvs/doc \
 	    ${BSDSRCDIR}/gnu/usr.bin/cvs/doc/cvs.texinfo && \
 	    makeinfo --no-split --html \
 	    ${BSDSRCDIR}/gnu/usr.bin/cvs/doc/cvsclient.texi && \
 	    cp cvs{,client}.html ${BSDOBJDIR}/htman/texinfo/
 	cd ${BSDOBJDIR}/gcc/gcc && \
-	    rm -f {cpp{,internals},gcc{,int}}.html &&
+	    rm -f {cpp{,internals},gcc{,int}}.html && \
 	    makeinfo --no-split --html -I ${BSDSRCDIR}/gcc/gcc/doc/include \
 	    ${BSDSRCDIR}/gcc/gcc/doc/cpp.texi && \
 	    makeinfo --no-split --html -I ${BSDSRCDIR}/gcc/gcc/doc/include \
@@ -219,7 +219,7 @@ do-htinfo:
 	    cp {cpp{,internals},gcc{,int}}.html ${BSDOBJDIR}/htman/texinfo/
 .if ${NO_ADA:L} == "no"
 	cd ${BSDOBJDIR}/gcc/gcc && \
-	    rm -f gnat{_ugn_unw,_rm,-style}.html &&
+	    rm -f gnat{_ugn_unw,_rm,-style}.html && \
 	    makeinfo --no-split --html \
 	    -I ${BSDSRCDIR}/gcc/gcc/doc/include -I ${BSDSRCDIR}/gcc/gcc/ada \
 	    doc/gnat_ugn_unw.texi && \
