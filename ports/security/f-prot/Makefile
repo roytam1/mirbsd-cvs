@@ -1,4 +1,4 @@
-# $MirOS: ports/security/f-prot/Makefile,v 1.7 2006/09/14 00:12:58 tg Exp $
+# $MirOS: ports/security/f-prot/Makefile,v 1.8 2006/12/23 04:02:26 tg Exp $
 
 .include <mirports.sys.mk>
 
@@ -9,9 +9,10 @@ EMUL=			openbsd
 
 COMMENT=		personal use freeware virus scanner
 CATEGORIES=		security sysutils virus
-V=			4.6.2
-DISTNAME=		fp-openbsd-ws-${V}
-PKGNAME=		f-prot-${V}-0
+VERSION=		4.6.2
+DASH_VER=		1
+DISTNAME=		fp-openbsd-ws-${VERSION}
+PKGNAME=		f-prot-${VERSION}-${DASH_VER}
 HOMEPAGE=		http://www.f-prot.com/
 MASTER_SITES=		http://files.f-prot.com/files/bsd-x86/
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
@@ -24,7 +25,6 @@ PERMIT_PACKAGE_FTP=	"must not distribute"
 
 SUBST_VARS+=		BINOWN
 WRKDIST=		${WRKDIR}/f-prot
-FPDIR=			${PREFIX}/f-prot
 DOCDIR=			${PREFIX}/share/doc/f-prot
 DATAS=			ENGLISH.TX0 MACRO.DEF SIGN.DEF SIGN2.DEF f-prot
 DOCS=			../CHANGES ../LICENSE ../LICENSE-FPAV \
@@ -41,18 +41,18 @@ DOCS=			../CHANGES ../LICENSE ../LICENSE-FPAV \
 NO_BUILD=		Yes
 
 do-install:
-	${INSTALL_DATA_DIR} ${FPDIR} ${DOCDIR}
+	${INSTALL_DATA_DIR} ${PREFIX}/f-prot ${DOCDIR}
 .for _i in ${DATAS}
-	${INSTALL_DATA} ${WRKSRC}/${_i} ${FPDIR}/
+	${INSTALL_DATA} ${WRKSRC}/${_i} ${PREFIX}/f-prot/
 .endfor
 	${INSTALL_MAN} ${WRKSRC}/man_pages/f-prot.1 \
 	    ${PREFIX}/man/man1/
 .for _i in ${DOCS}
 	${INSTALL_DATA} ${WRKSRC}/doc_ws/${_i} ${DOCDIR}/
 .endfor
-	chmod 555 ${FPDIR}/f-prot
-	${INSTALL_SCRIPT} ${WRKSRC}/f-prot.sh ${FPDIR}/
-	ln -s ${FPDIR}/f-prot.sh ${PREFIX}/bin/f-prot
+	chmod 555 ${PREFIX}/f-prot/f-prot
+	${INSTALL_SCRIPT} ${WRKSRC}/f-prot.sh ${PREFIX}/f-prot/
+	ln -sf ${TRUEPREFIX}/f-prot/f-prot.sh ${PREFIX}/bin/f-prot
 	${INSTALL_DATA} ${FILESDIR}/KEY.ASC ${DOCDIR}/
 
 .include <bsd.port.mk>
