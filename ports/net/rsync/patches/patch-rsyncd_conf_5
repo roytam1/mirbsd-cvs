@@ -1,7 +1,7 @@
-$MirOS: ports/net/rsync/patches/patch-rsyncd_conf_5,v 1.2 2008/04/02 00:06:04 tg Exp $
---- rsyncd.conf.5.orig	Mon Dec 29 02:03:14 2008
-+++ rsyncd.conf.5	Tue Dec 30 02:50:27 2008
-@@ -758,8 +758,8 @@ A more sophisticated example would be:
+$MirOS: ports/net/rsync/patches/patch-rsyncd_conf_5,v 1.3 2008/12/30 03:01:32 tg Exp $
+--- rsyncd.conf.5.orig	Fri Sep 23 16:35:31 2011
++++ rsyncd.conf.5	Wed Jan  4 23:02:19 2012
+@@ -764,8 +764,8 @@ A more sophisticated example would be:
  .PP 
  .nf 
  

@@ -1,12 +1,14 @@
-$MirOS: ports/net/rsync/patches/patch-configure_in,v 1.1 2008/04/02 00:06:04 tg Exp $
---- configure.in.orig	Fri May  8 17:06:50 2009
-+++ configure.in	Sun May 17 17:46:38 2009
-@@ -409,34 +409,8 @@ fi
+$MirOS$
+--- configure.ac.orig	Fri Sep 23 16:13:29 2011
++++ configure.ac	Wed Jan  4 23:00:52 2012
+@@ -428,36 +428,8 @@ fi
  
  AC_SEARCH_LIBS(inet_ntop, resolv)
  
--# Solaris and HP-UX weirdness:
--# Search for libiconv_open (not iconv_open) to discover if -liconv is needed!
+-# For OS X, Solaris, HP-UX, etc.: figure out if -liconv is needed.  We'll
+-# accept either iconv_open or libiconv_open, since some include files map
+-# the former to the latter.
+-AC_SEARCH_LIBS(iconv_open, iconv)
 -AC_SEARCH_LIBS(libiconv_open, iconv)
 +AM_ICONV
  
@@ -37,13 +39,14 @@ $MirOS: ports/net/rsync/patches/patch-configure_in,v 1.1 2008/04/02 00:06:04 tg 
  AC_CHECK_FUNCS(inet_ntop, , [AC_LIBOBJ(lib/inet_ntop)])
  AC_CHECK_FUNCS(inet_pton, , [AC_LIBOBJ(lib/inet_pton)])
  
-@@ -551,19 +525,19 @@ AC_CHECK_FUNCS(waitpid wait4 getcwd strd
+@@ -572,20 +544,20 @@ AC_CHECK_FUNCS(waitpid wait4 getcwd strd
      memmove lchown vsnprintf snprintf vasprintf asprintf setsid strpbrk \
      strlcat strlcpy strtol mallinfo getgroups setgroups geteuid getegid \
      setlocale setmode open64 lseek64 mkstemp64 mtrace va_copy __va_copy \
--    strerror putenv iconv_open locale_charset nl_langinfo getxattr \
-+    strerror putenv locale_charset nl_langinfo getxattr \
-     extattr_get_link sigaction sigprocmask setattrlist)
+-    seteuid strerror putenv iconv_open locale_charset nl_langinfo getxattr \
++    seteuid strerror putenv locale_charset nl_langinfo getxattr \
+     extattr_get_link sigaction sigprocmask setattrlist \
+     utimensat)
  
 -dnl cygwin iconv.h defines iconv_open as libiconv_open
 -if test x"$ac_cv_func_iconv_open" != x"yes"; then
@@ -63,15 +66,17 @@ $MirOS: ports/net/rsync/patches/patch-configure_in,v 1.1 2008/04/02 00:06:04 tg 
  AC_ARG_ENABLE(iconv-open,
      AC_HELP_STRING([--disable-iconv-open],
  	    [disable all use of iconv_open() function]),
-@@ -589,6 +563,19 @@ if test x"$enable_iconv" != x"no"; then
+@@ -611,6 +583,21 @@ if test x"$enable_iconv" != x"no"; then
  	AC_DEFINE(UTF8_CHARSET, "UTF-8", [String to pass to iconv() for the UTF-8 charset.])
  fi
  
 +if test x"$enable_iconv" != x"no"; then
 +	LIBS="$LIBICONV $LIBS"
 +
-+	# Solaris and HP-UX weirdness:
-+	# Search for libiconv_open (not iconv_open) to discover if -liconv is needed!
++	# For OS X, Solaris, HP-UX, etc.: figure out if -liconv is needed.  We'll
++	# accept either iconv_open or libiconv_open, since some include files map
++	# the former to the latter.
++	AC_SEARCH_LIBS(iconv_open, iconv)
 +	AC_SEARCH_LIBS(libiconv_open, iconv)
 +
 +	dnl cygwin iconv.h defines iconv_open as libiconv_open
@@ -83,7 +88,7 @@ $MirOS: ports/net/rsync/patches/patch-configure_in,v 1.1 2008/04/02 00:06:04 tg 
  AC_CACHE_CHECK([whether chown() modifies symlinks],rsync_cv_chown_modifies_symlink,[
    AC_TRY_RUN([
  #if HAVE_UNISTD_H
-@@ -819,7 +806,7 @@ rm -rf conftest*
+@@ -845,7 +832,7 @@ rm -rf conftest*
  cat > conftest.$ac_ext <<EOF
  int main() { return 0; }
  EOF
@@ -92,12 +97,14 @@ $MirOS: ports/net/rsync/patches/patch-configure_in,v 1.1 2008/04/02 00:06:04 tg 
  if test -f conftest..o; then
      rsync_cv_DASHC_WORKS_WITH_DASHO=yes
  else
-@@ -950,7 +937,7 @@ else
- 	AC_DEFINE(HAVE_OSX_XATTRS, 1, [True if you have Mac OS X xattrs])
- 	AC_DEFINE(SUPPORT_XATTRS, 1)
+@@ -978,8 +965,8 @@ else
+ 	AC_DEFINE(NO_DEVICE_XATTRS, 1, [True if device files do not support xattrs])
+ 	AC_DEFINE(NO_SPECIAL_XATTRS, 1, [True if special files do not support xattrs])
  	;;
 -    freebsd*)
+-	AC_MSG_RESULT(Using FreeBSD extattrs)
 +    freebsd* | midnightbsd*)
- 	AC_MSG_RESULT(Using FreeBSD extattrs)
++	AC_MSG_RESULT(Using MidnightBSD extattrs)
  	AC_DEFINE(HAVE_FREEBSD_XATTRS, 1, [True if you have FreeBSD xattrs])
  	AC_DEFINE(SUPPORT_XATTRS, 1)
+ 	;;

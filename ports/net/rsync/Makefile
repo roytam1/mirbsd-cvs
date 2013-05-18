@@ -1,8 +1,8 @@
-# $MirOS: ports/net/rsync/Makefile,v 1.19 2008/12/30 03:01:32 tg Exp $
+# $MirOS: ports/net/rsync/Makefile,v 1.20 2009/05/17 17:51:07 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2004/05/11 13:39:17 naddy Exp $
 
 COMMENT=		mirroring/synchronisation over low bandwidth links
-VERSION=		3.0.6
+VERSION=		3.0.9
 CATEGORIES=		net
 HOMEPAGE=		http://rsync.samba.org/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
@@ -57,9 +57,8 @@ post-install:
 	-rm -f ${PREFIX}/man/man*/*
 .else
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/rsync
-	cd ${WRKSRC} && ${INSTALL_DATA} COPYING NEWS OLDNEWS README TODO \
-	    csprotocol.txt rsync3.txt rsyncsh.txt tech_report.tex \
-	    ${PREFIX}/share/doc/rsync/
+	cd ${WRKSRC} && ${INSTALL_DATA} NEWS OLDNEWS README TODO rsync3.txt \
+	    csprotocol.txt tech_report.tex ${PREFIX}/share/doc/rsync/
 .endif
 
 .include <bsd.port.mk>
