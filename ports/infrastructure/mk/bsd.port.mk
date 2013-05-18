@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.138 2006/11/03 23:41:25 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.139 2006/11/03 23:47:32 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -416,6 +416,7 @@ CHECKSUM_FILE?=		${.CURDIR}/distinfo
 
 # Don't touch!!! Used for generating checksums.
 .ifdef _CKSUM_SIZE
+_CKSUM_SIZE:=1
 _CIPHERS=		rmd160 tiger sha1 md5
 .else
 _CIPHERS=		rmd160 sha1 md5
@@ -1669,9 +1670,25 @@ fetch:
 checksum: fetch
 .  if !defined(NO_CHECKSUM)
 	@checksum_file=${CHECKSUM_FILE}; \
+	integer new_cksum=0${_CKSUM_SIZE}; \
 	if [ ! -f $$checksum_file ]; then \
 		${ECHO_MSG} ">> No checksum file."; \
 	else \
+		if (( new_cksum )); then \
+			syntax=; first=; \
+			for cipher in ${_CIPHERS}; do \
+				if ! (echo | ${_CKSUM_A} $$cipher \
+				    >/dev/null 2>&1); then \
+					${ECHO_MSG} ">> No $$cipher found on this system."; \
+				else \
+					syntax="$$syntax$$first$$cipher"; \
+					first=" -a "; \
+				fi; \
+			done; \
+			rm -f ${WRKDIR}/.sums; \
+			(cd ${DISTDIR} && ${_CKSUM_A} $$syntax \
+			    ${_CKSUMFILES} >${WRKDIR}/.sums); \
+		fi; \
 		cd ${DISTDIR}; OK=true; list=; \
 		for file in ${_CKSUMFILES}; do \
 			match=; \
@@ -1683,7 +1700,12 @@ checksum: fetch
 						${ECHO_MSG} ">> No cksum recorded for $$file."; \
 						continue; \
 					fi; \
-					t=$$(cksum "$$file"); \
+					if (( new_cksum )); then \
+						t=$$(grep "$$file\$$" \
+						    ${WRKDIR}/.sums || true); \
+					else \
+						t=$$(cksum "$$file"); \
+					fi; \
 					if [[ $$s = $$t ]]; then \
 						match=1; \
 						${ECHO_MSG} ">> cksum OK for $$file."; \
@@ -1693,7 +1715,7 @@ checksum: fetch
 					fi; \
 					continue; \
 				fi; \
-				if ! (echo | ${_CKSUM_A} $$cipher \
+				(( new_cksum )) || if ! (echo | ${_CKSUM_A} $$cipher \
 				    >/dev/null 2>&1); then \
 					${ECHO_MSG} ">> No $$cipher found on this system."; \
 					continue; \
@@ -1712,8 +1734,13 @@ checksum: fetch
 					echo "   the file is not in the "'$$'"{IGNOREFILES} list."; \
 					OK=false;; \
 				*) \
-					CKSUM=$$(${_CKSUM_A} $$cipher <$$file); \
-					case "$$CKSUM" in \
+					if (( new_cksum )); then \
+						CKSUM=$$(grep -i "^$$cipher " \
+						    ${WRKDIR}/.sums | sed 's/^.*= //'); \
+					else \
+						CKSUM=$$(${_CKSUM_A} $$cipher <$$file); \
+					fi; \
+					case $$CKSUM in \
 				  	"$$4") \
 						match=1; \
 						${ECHO_MSG} ">> Checksum OK for $$file. ($$cipher)";; \
