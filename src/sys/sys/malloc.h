@@ -55,6 +55,7 @@
 #define	M_WAITOK	0x0000
 #define	M_NOWAIT	0x0001
 #define M_CANFAIL	0x0002
+#define	M_ZERO		0x0004
 
 /*
  * Types of memory to be allocated

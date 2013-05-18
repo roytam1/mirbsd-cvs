@@ -147,8 +147,11 @@ malloc(size, type, flags)
 #endif
 
 #ifdef MALLOC_DEBUG
-	if (debug_malloc(size, type, flags, (void **)&va))
+	if (debug_malloc(size, type, flags, (void **)&va)) {
+		if ((flags & M_ZERO) && va != NULL)
+			memset(va, 0, size);
 		return ((void *) va);
+	}
 #endif
 
 	if (size > 65535 * PAGE_SIZE)
@@ -307,6 +310,9 @@ out:
 out:
 #endif
 	splx(s);
+
+	if ((flags & M_ZERO) && va != NULL)
+		memset(va, 0, size);
 	return ((void *) va);
 }
 
@@ -575,8 +581,8 @@ sysctl_malloc(name, namelen, oldp, oldlenp, newp, newlen, p)
 					totlen += strlen(memname[i]);
 				totlen++;
 			}
-			memall = malloc(totlen + M_LAST, M_SYSCTL, M_WAITOK);
-			bzero(memall, totlen + M_LAST);
+			memall = malloc(totlen + M_LAST, M_SYSCTL,
+			    M_WAITOK|M_ZERO);
 			for (siz = 0, i = 0; i < M_LAST; i++) {
 				snprintf(memall + siz, 
 				    totlen + M_LAST - siz,
