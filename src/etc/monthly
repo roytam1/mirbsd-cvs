@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/etc/monthly,v 1.9 2007/04/17 22:32:42 tg Exp $
+# $MirOS: src/etc/monthly,v 1.10 2007/06/16 22:08:07 tg Exp $
 # $OpenBSD: monthly,v 1.5 1998/02/02 23:08:57 millert Exp $
 
 umask 022
@@ -16,9 +16,15 @@ else
 	echo "Nothing to do!"
 fi
 
-[[ -e /var/log/wtmp.0 ]] && gzip -n9 /var/log/wtmp.0
-if [[ -e /var/log/wtmp.0.gz ]]; then
-	echo ""
-	echo "Doing login accounting for the past month:"
-	gzip -dc /var/log/wtmp.0 | ac -pw - | sort -nr +1
+if [[ -e /var/log/wtmp ]]; then
+	print
+	print Doing login accounting for the time since last run
+	print and rotating login accounting log file:
+	ac -p | sort -nr +1
+	[[ -e /var/log/wtmp.0 ]] && gzip -n9 /var/log/wtmp.0
+	install -c -o root -g wheel -m 640 /dev/null /var/log/wtmp.1
+	mv /var/log/wtmp.0.gz /var/log/wtmp.1.gz
+	mv /var/log/wtmp /var/log/wtmp.0
+	mv /var/log/wtmp.1 /var/log/wtmp
+	gzip -n9 /var/log/wtmp.0
 fi
