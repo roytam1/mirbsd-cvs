@@ -1,4 +1,4 @@
-.\"	$MirOS: src/bin/md5/cksum.1,v 1.10 2006/06/04 11:46:49 tg Exp $
+.\"	$MirOS: src/bin/md5/cksum.1,v 1.11 2006/09/17 19:28:57 tg Exp $
 .\"	$OpenBSD: cksum.1,v 1.5 2005/03/07 23:41:53 jmc Exp $
 .\"
 .\" Copyright (c) 2006
@@ -35,7 +35,7 @@
 .\"
 .\"	@(#)cksum.1	8.2 (Berkeley) 4/28/95
 .\"
-.Dd March 16, 2005
+.Dd September 17, 2006
 .Dt CKSUM 1
 .Os
 .Sh NAME
@@ -113,6 +113,10 @@ case, the output is a 33-bit
 .Tn CRC
 over the file, expressed as eight sedecimal numbers.
 Both input processing and binary output are in little-endian convention.
+In the
+.Ar size
+case, the output is a decimal unsigned 64-bit quantity denominating the
+size of the data read; binary representation is big-endian.
 .El
 .Pp
 The
@@ -138,6 +142,7 @@ Supported algorithms include
 .Ar sha256 ,
 .Ar sha384 ,
 .Ar sha512 ,
+.Ar size ,
 .Ar sum ,
 .Ar suma ,
 .Ar sysvsum ,
@@ -344,6 +349,7 @@ Do not use the
 .Ar md5 ,
 .Ar sfv ,
 .Ar sha1 ,
+.Ar size ,
 .Ar sum ,
 .Ar suma ,
 or

@@ -1,4 +1,4 @@
-/**	$MirOS: src/bin/md5/md5.c,v 1.13 2006/06/08 19:03:00 tg Exp $ */
+/**	$MirOS: src/bin/md5/md5.c,v 1.14 2006/09/17 19:28:57 tg Exp $ */
 /*	$OpenBSD: md5.c,v 1.32 2004/12/29 17:32:44 millert Exp $	*/
 
 /*
@@ -42,9 +42,11 @@
 #include "crc.h"
 #include "suma.h"
 
-__RCSID("$MirOS: src/bin/md5/md5.c,v 1.13 2006/06/08 19:03:00 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/md5.c,v 1.14 2006/09/17 19:28:57 tg Exp $");
 
 #define MAX_DIGEST_LEN	128
+
+typedef uint64_t SIZE_CTX;
 
 union ANY_CTX {
 	CKSUM_CTX cksum;
@@ -61,6 +63,7 @@ union ANY_CTX {
 	ADLER32_CTX adler32;
 	SFV_CTX sfv;
 	TIGER_CTX tiger;
+	SIZE_CTX size;
 };
 
 void digest_print(const char *, const char *, const char *);
@@ -71,7 +74,11 @@ void digest_printbin_pad(const char *);
 void digest_printbin_string(const char *);
 void digest_printbin_stringle(const char *);
 
-#define NHASHES	14
+void SIZE_Init(SIZE_CTX *);
+void SIZE_Update(SIZE_CTX *, const uint8_t *, size_t);
+char *SIZE_End(SIZE_CTX *, char *);
+
+#define NHASHES	15
 struct hash_functions {
 	const char *name;
 	size_t digestlen;
@@ -221,6 +228,16 @@ struct hash_functions {
 		(void (*)(void *, const unsigned char *, unsigned int))TIGERUpdate,
 		(char *(*)(void *, char *))TIGEREnd,
 		digest_printbin_string,
+		digest_print,
+		digest_print_string
+	}, {
+		"SIZE",
+		16,
+		NULL,
+		(void (*)(void *))SIZE_Init,
+		(void (*)(void *, const unsigned char *, unsigned int))SIZE_Update,
+		(char *(*)(void *, char *))SIZE_End,
+		digest_printbin_pad,
 		digest_print,
 		digest_print_string
 	}, {
@@ -709,8 +726,11 @@ digest_printbin_pad(const char *digest)
 	char *c;
 
 	one = strtoll(digest, &c, 10);
-	two = strtoll(++c, NULL, 10);
-	if (asprintf(&c, "%016llX%016llX", one, two) == -1)
+	if (*c) {
+		two = strtoll(++c, NULL, 10);
+		if (asprintf(&c, "%016llX%016llX", one, two) == -1)
+			return;
+	} else if (asprintf(&c, "%016llX", one) == -1)
 		return;
 	digest_printbin_string(c);
 	free(c);
@@ -747,4 +767,28 @@ digest_printbin_stringle(const char *digest)
 		return;
 	digest_printbin_string(c);
 	free(c);
+}
+
+void
+SIZE_Init(SIZE_CTX *ctx)
+{
+	*ctx = 0;
+}
+
+void
+SIZE_Update(SIZE_CTX *ctx, const uint8_t *buf __attribute__((unused)), size_t n)
+{
+	*ctx += n;
+}
+
+char *
+SIZE_End(SIZE_CTX *ctx, char *digest)
+{
+	if (digest == NULL) {
+		if (asprintf(&digest, "%llu", *ctx) == -1)
+			return (NULL);
+	} else
+		snprintf(digest, 21, "%llu", *ctx);
+
+	return (digest);
 }
