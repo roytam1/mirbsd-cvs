@@ -1,16 +1,10 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.4 2004/02/02 01:45:44 naddy Exp $
 
-BROKEN=			unfetchable distfiles
-
 COMMENT=		multi-window tail(1) utility
-
-DISTNAME=	multitail-3.0.6
-CATEGORIES=	sysutils
-
-HOMEPAGE=	http://www.vanheusden.com/multitail/	
-
-MASTER_SITES=	${HOMEPAGE}
-
+DISTNAME=		multitail-3.0.6
+CATEGORIES=		sysutils
+HOMEPAGE=		http://www.vanheusden.com/multitail/	
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -18,7 +12,9 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-EXTRACT_SUFX=	.tgz
+MASTER_SITES=		${HOMEPAGE} \
+			${MASTER_SITE_FINK}
+EXTRACT_SUFX=		.tgz
 
 NO_REGRESS=	Yes
 

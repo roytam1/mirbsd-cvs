@@ -1,13 +1,11 @@
-# $MirOS: ports/math/grace/Makefile,v 1.5 2008/05/07 22:48:31 tg Exp $
+# $MirOS: ports/math/grace/Makefile,v 1.6 2008/10/16 19:43:54 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2004/01/11 11:12:52 sturm Exp $
 # $FreeBSD: ports/math/grace/Makefile,v 1.18 2001/04/25 05:59:19 lkoeller Exp $
 
-BROKEN=			unfetchable distfile
-
 COMMENT=		GRaphing, Advanced Computation and Exploration of data
-DISTNAME=	grace-5.1.14
-CATEGORIES=	math
-HOMEPAGE=	http://plasma-gate.weizmann.ac.il/Grace/
+DISTNAME=		grace-5.1.14
+CATEGORIES=		math
+HOMEPAGE=		http://plasma-gate.weizmann.ac.il/Grace/
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -19,7 +17,8 @@ GRACE_SITES=	ftp://plasma-gate.weizmann.ac.il/pub/grace/src/ \
 		ftp://ftp.fu-berlin.de/unix/graphics/grace/src/ \
 		ftp://ftp.u-aizu.ac.jp/pub/SciEng/math/grace/src/ \
 		ftp://freedom7.swmed.edu/pub/mirrors/grace/src/
-MASTER_SITES=	${GRACE_SITES} ${GRACE_SITES:S/\/$/\/old\//g}
+MASTER_SITES=	${GRACE_SITES} ${GRACE_SITES:S/\/$/\/old\//g} \
+		${MASTER_SITE_FINK}
 
 CONFIGURE_STYLE=	gnu
 MODGNU_RECURSE_DIRS=	${WRKSRC}/ac-tools

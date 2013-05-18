@@ -1,13 +1,10 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.26 2004/04/28 12:29:02 naddy Exp $
 
-BROKEN=			unfetchable distfile
-
 COMMENT=		ftp replacement with advanced user interface
-
 DISTNAME=		ncftp-3.1.7
 CATEGORIES=		net
 HOMEPAGE=		http://www.ncftp.com/ncftp/
-
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -15,7 +12,8 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		ftp://ftp.ncftp.com/ncftp/
+MASTER_SITES=		ftp://ftp.ncftp.com/ncftp/ \
+			${MASTER_SITE_FINK}
 MASTER_SITES0=		ftp://ftp.kame.net/pub/kame/misc/
 DISTFILES=		${DISTNAME}-src.tar.gz
 

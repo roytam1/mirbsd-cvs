@@ -1,16 +1,9 @@
-# $MirOS: ports/graphics/sane-backends/Makefile,v 1.5 2008/03/09 17:22:54 tg Exp $
+# $MirOS: ports/graphics/sane-backends/Makefile,v 1.6 2008/10/14 19:38:24 tg Exp $
 # Original from: Antoine Jacoutot <ajacoutot@lphp.org>
 
-BROKEN=		unfetchable distfile
-
 COMMENT=	API for accessing scanners, backends
-
 DISTNAME=	sane-backends-1.0.14
 CATEGORIES=	graphics
-MASTER_SITES=	ftp://ftp.sane-project.org/pub/sane/${DISTNAME}/ \
-		http://gd.tuwien.ac.at/hci/sane/${DISTNAME}/ \
-		ftp://gd.tuwien.ac.at/hci/sane/${DISTNAME}/
-
 HOMEPAGE=	http://www.sane-project.org/
 
 # GPLv2
@@ -18,6 +11,11 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM= Yes
 PERMIT_DISTFILES_FTP=	Yes
+
+MASTER_SITES=	ftp://ftp.sane-project.org/pub/sane/${DISTNAME}/ \
+		http://gd.tuwien.ac.at/hci/sane/${DISTNAME}/ \
+		ftp://gd.tuwien.ac.at/hci/sane/${DISTNAME}/ \
+		${MASTER_SITE_FINK}
 
 MODULES=	devel/gettext
 LIB_DEPENDS=	usb.7::devel/libusb \
