@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.134 2008/07/26 20:21:08 tg Exp $
+# $MirOS: src/Makefile,v 1.135 2008/08/19 17:17:30 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -435,6 +435,10 @@ _do-dist:
 	@date
 	cd ${BSDRELDIR}/base/snapshot && ${SUDO} ${INSTALL} -c \
 	    -o root -g wheel -m 444 * ${BSDRELDIR}/rel/
+	${SUDO} ${INSTALL} -c -o root -g wheel -m 444 \
+	    ${BSDSRCDIR}/distrib/empty.ngz ${BSDRELDIR}/rel/fixes${OSrev}.ngz
+	${SUDO} ${INSTALL} -c -o root -g wheel -m 444 \
+	    ${BSDSRCDIR}/distrib/empty.ngz ${BSDRELDIR}/rel/site${OSrev}.ngz
 .for _set in ${_DISTS}
 	-cd ${BSDSRCDIR}/distrib/lists/${_set} && \
 	    DESTDIR=${BSDRELDIR:Q}/${_set} RELEASEDIR=${BSDRELDIR:Q}/rel \
@@ -447,8 +451,6 @@ _do-dist:
 		echo CKSUM; \
 		echo CKSUM.gz; \
 		echo index.txt; \
-		echo fixes${OSrev}.ngz; \
-		echo site${OSrev}.ngz; \
 	    ) | ${SUDO} sort -uo index.txt; \
 	    sort -k3 |& exec 3>&p; exec 4<&p; \
 	    sort |& exec 5>&p; exec 6<&p; \
