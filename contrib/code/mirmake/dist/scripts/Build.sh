@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.131 2009/11/09 21:36:36 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.132 2009/11/09 22:40:59 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -110,6 +110,7 @@ Interix:*:*)
 	;;
 esac
 
+dunused=
 case $new_machos in
 Darwin)
 	_obfm=Mach-O
@@ -146,12 +147,17 @@ GNU)
 	_obfm=ELF
 	_rtld=GNU
 	# XXX noone sane uses Linux with a.out libc4 these days?
+
+	# these guys apparently do not care about honouring earlier
+	# namespace uses; just make sure __unused is not used in code
+	# we intend to port, otherwise it may break on GNU/Linux
+	dunused='-D__unused=__unused '
 	;;
 esac
 
 export CC=${CC:-gcc}
 export COPTS="${CFLAGS:--O2 -fno-strict-aliasing}"
-export CPPFLAGS="$CPPFLAGS -D_MIRMAKE_DEFNS -isystem $d_build/F -isystem $d_build/F/ni -include $d_build/F/mirmake.h"
+export CPPFLAGS="$CPPFLAGS -D_MIRMAKE_DEFNS -isystem $d_build/F -isystem $d_build/F/ni ${dunused}-include $d_build/F/mirmake.h"
 export CFLAGS="$COPTS $CPPFLAGS"
 eval export "NROFF=\"${NROFF:-nroff}\""
 
@@ -267,6 +273,10 @@ ed -s $d_build/mk/bsd.own.mk <<-EOF
 	/^BINOWN/s/root/$binown/p
 	/^BINGRP/s/bin/$bingrp/p
 	/^CONFGRP/s/wheel/$confgrp/p
+	wq
+EOF
+ed -s $d_build/mk/sys.mk <<-EOF
+	,g/@@dunused@@/s//${dunused}/g
 	wq
 EOF
 
