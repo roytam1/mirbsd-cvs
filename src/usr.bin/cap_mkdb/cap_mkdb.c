@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.3 2006/10/28 19:32:38 tg Exp $ */
+/**	$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.4 2006/10/28 19:34:43 tg Exp $ */
 /*	$OpenBSD: cap_mkdb.c,v 1.13 2003/09/26 21:25:34 tedu Exp $	*/
 /*	$NetBSD: cap_mkdb.c,v 1.5 1995/09/02 05:47:12 jtc Exp $	*/
 
@@ -49,7 +49,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)cap_mkdb.c	8.2 (Berkeley) 4/27/95");
-__RCSID("$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.3 2006/10/28 19:32:38 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/cap_mkdb/cap_mkdb.c,v 1.4 2006/10/28 19:34:43 tg Exp $");
 
 void	 db_build(char **);
 void	 dounlink(void);
@@ -205,7 +205,9 @@ db_build(char **ifiles)
 			for (t = memchr((char *)data.data + 1, ',', data.size - 1);
 			     t;
 			     t = memchr(t, ',', data.size - (t - (char *)data.data)))
-				*t++ = ':';
+				if (t++, ((t <= (char *)data.data + 2) ||
+				    (t[-2] != '\\')))
+					t[-1] = ':';
 
 			if (memchr((char *)data.data + 1, '\0', data.size - 2)) {
 				warnx("NUL in entry: %.*s", (int)MIN(len, 20), bp);
