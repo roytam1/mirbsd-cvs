@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/if.h,v 1.4 2005/12/19 22:22:10 tg Exp $ */
+/**	$MirOS: src/sys/net/if.h,v 1.5 2005/12/20 19:41:25 tg Exp $ */
 /*	$OpenBSD: if.h,v 1.76 2005/06/14 04:00:39 henning Exp $	*/
 /*	$NetBSD: if.h,v 1.23 1996/05/07 02:40:27 thorpej Exp $	*/
 
@@ -260,9 +260,9 @@ struct ifnet {				/* and the entries */
 /*
  * Some convenience macros used for setting ifi_baudrate.
  */
-#define	IF_Kbps(x)	((x) * 1000)		/* kilobits/sec. */
-#define	IF_Mbps(x)	(IF_Kbps((x) * 1000))	/* megabits/sec. */
-#define	IF_Gbps(x)	(IF_Mbps((x) * 1000))	/* gigabits/sec. */
+#define	IF_Kbps(x)	((x) * 1000ULL)			/* kilobits/sec. */
+#define	IF_Mbps(x)	(IF_Kbps((x) * 1000ULL))	/* megabits/sec. */
+#define	IF_Gbps(x)	(IF_Mbps((x) * 1000ULL))	/* gigabits/sec. */
 
 /* Capabilities that interfaces can advertise. */
 #define	IFCAP_CSUM_IPv4		0x00000001	/* can do IPv4 header csum */
