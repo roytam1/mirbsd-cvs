@@ -3,7 +3,7 @@
 
 mws_setname hosted/ksh-chan "The #ksh on Freenode page"
 mws_setheadline 'Channel page for #ksh'
-mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.7 2010/05/24 14:24:02 tg Exp $'
+mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.8 2010/06/19 17:13:54 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of contents</h2>
 EOF
@@ -48,7 +48,8 @@ mws_content <<'EOF'
 <p><a href="http://www.kornshell.com/">AT&amp;T Korn Shell</a>: latest is
  ksh93u- dated 2010-06-14 (14 June 2010)</p>
 <p><a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a>: latest is
- mksh R39c, dated 2010-02-25 (25 February 2010)</p>
+ mksh R39c, dated 2010-02-25 (25 February 2010); link to <a
+ href="@@RELPATH@@mksh.htm#clog">development trunk changelog</a></p>
 <p><a href="http://www.cs.mun.ca/~michael/pdksh/">Public Domain Korn
  Shell</a>: latest is pdksh-5.2.14 dated 1999-07-13 (13 July 1999)</p>
 
@@ -83,7 +84,8 @@ done | mws_content
 mws_content <<'EOF'
 <hr />
 <p>This page is hosted on the website of The MirOS Project, but not
- a part of it. However, mksh(1) is.</p>
+ a part of it. However, mksh(1) is. Use memoserv on Freenode for
+ sending “mirabilos” updates to this webpage.</p>
 EOF
 mws_putfooter
 exit 0
