@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.25 2006/11/16 23:25:54 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.26 2006/11/20 21:20:07 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -169,6 +169,8 @@ CONFIGURE_ENV+=		ac_cv_func_lseek=yes
 CONFIGURE_ENV+=		ac_cv_func_truncate=yes
 # reported to be misused by bsiegert@
 CONFIGURE_ENV+=		ac_cv_func_malloc_0_nonnull=yes
+# check prevented by systrace
+CONFIGURE_ENV+=		ac_cv_sys_long_file_names=yes
 .endif
 
 .if defined(LDADD) && !empty(LDADD)
