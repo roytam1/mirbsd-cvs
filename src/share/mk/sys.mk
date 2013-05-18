@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.37 2005/11/10 12:59:34 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.38 2005/11/17 18:30:03 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -28,7 +28,7 @@ OSNAME!=	uname -s
 .endif
 OSname=		${OSNAME:L}
 OStriplet?=	${MACHINE_ARCH}-ecce-${OSname}${OSrev}
-_MIRMAKE_VER=	20051110
+_MIRMAKE_VER=	20051119
 
 .SUFFIXES:	.out .a .ln .o .s .S .c .m .cc .cxx .y .l .i .h .sh .m4
 .LIBS:		.a

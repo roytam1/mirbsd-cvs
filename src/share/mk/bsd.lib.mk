@@ -53,6 +53,11 @@ LINKER?=	${CXX}
 LINKER?=	${CC}
 .endif
 
+.if defined(LDADD_CYCLIC) && defined(LDADD) && !empty(LDADD)
+# This has "a significant performance cost", cf. ld(texinfo)
+LDADD:=		-Wl,--start-group ${LDADD} -Wl,--end-group
+.endif
+
 .if defined(SHLIB_SONAME) && empty(SHLIB_SONAME)
 .  undef SHLIB_SONAME
 .  undef SHLIB_LINKS

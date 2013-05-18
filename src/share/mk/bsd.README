@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.README,v 1.7 2005/08/21 11:45:49 tg Exp $
+# $MirOS: src/share/mk/bsd.README,v 1.8 2005/08/28 19:39:01 tg Exp $
 # $OpenBSD: bsd.README,v 1.37 2005/04/15 17:18:57 espie Exp $
 # $NetBSD: bsd.README,v 1.17 1996/04/13 02:08:08 thorpej Exp $
 # @(#)bsd.README	5.1 (Berkeley) 5/11/90
@@ -303,6 +303,12 @@ LDADD		Additional loader objects.  Usually used for libraries.
 		libraries, use:
 
 			LDADD+=-lutil -lcompat
+
+		There can only be library invocations (-lfoo) and
+		objects directly given.
+
+LDADD_CYCLIC	Define this to make the order of LDADD objects irrelevant.
+		This is, according to the ld(texinfo) manual, slow.
 
 LDFLAGS		Additional loader flags.
 
