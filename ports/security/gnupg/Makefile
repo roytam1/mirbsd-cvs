@@ -1,4 +1,4 @@
-# $MirOS: ports/security/gnupg/Makefile,v 1.15 2007/02/22 22:57:55 tg Exp $
+# $MirOS: ports/security/gnupg/Makefile,v 1.16 2007/03/11 20:41:15 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2005/05/17 15:08:34 martin Exp $
 
 COMMENT=		GNU privacy guard - a GPL'd PGP replacement
@@ -52,17 +52,17 @@ CONFIGURE_ARGS+=	--without-readline
 CONFIGURE_ENV+=		gnupg_cv_ipc_rmid_deferred_release=no
 .endif
 
-FLAVORS=		no-idea
+FLAVORS=		no_idea
 
 .include <mirports.sys.mk>
 
 .if ${MKC_USAP:L} == "yes"
-FLAVOR?=		no-idea
+FLAVOR?=		no_idea
 .else
 FLAVOR?=
 .endif
 
-.if ${FLAVOR:L:Mno-idea}
+.if ${FLAVOR:L:Mno_idea}
 SUPDISTFILES=		idea.c.gz:0
 CONFIGURE_ARGS+=	--disable-idea
 .else
@@ -73,7 +73,7 @@ CONFIGURE_ARGS+=	--enable-idea
 
 post-extract:
 	@rm -f ${WRKSRC}/cipher/idea.c
-.if !${FLAVOR:L:Mno-idea}
+.if !${FLAVOR:L:Mno_idea}
 	ln -s ${WRKDIR}/idea.c ${WRKSRC}/cipher/idea.c
 .endif
 
