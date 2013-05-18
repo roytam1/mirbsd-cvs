@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/conf/GENERIC,v 1.13 2007/06/10 18:14:58 tg Exp $
+# $MirOS: src/sys/arch/sparc/conf/GENERIC,v 1.14 2007/06/10 18:15:25 tg Exp $
 # $OpenBSD: GENERIC,v 1.75 2004/03/09 15:24:27 miod Exp $
 # $NetBSD: GENERIC,v 1.48 1997/08/23 19:19:01 mjacob Exp $
 
@@ -130,10 +130,6 @@ option		SUN4M		# sun4m - SS10, SS20, Classic, etc.
 #option		KGDBRATE=38400	# baud rate
 
 maxusers	20		# estimated number of users
-
-# note: conversion to use vt100 exclusively is in progress!
-option		WSEMUL_SUN	# provide sun terminal emulation; required
-option		WSEMUL_NO_VT100	# do not provide vt100 terminal emulation
 
 # Generic swap; second partition of root disk or network.
 config		bsd	swap generic
