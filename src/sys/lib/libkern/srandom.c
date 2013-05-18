@@ -1,7 +1,7 @@
-/* $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $ */
+/* $MirOS: src/share/misc/licence.template,v 1.7 2006/04/09 22:08:49 tg Rel $ */
 
 /*-
- * Copyright (c) 2003, 2006
+ * Copyright (c) 2006
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
@@ -20,36 +20,28 @@
  * other issues arising in any way out of its use, even if advised of
  * the possibility of such damage or existence of a nontrivial bug.
  *-
- * Quick-Seed the pseudo-random number generator.
- * Here is no simple "let" operation, but an xor and rotation ops, so
- * nobody knows the exact state of the seed after this operation.
+ * Reinitialise the 31-bit PRNG but retain a little state information
  */
 
 #include <sys/types.h>
+#include <lib/libkern/libkern.h>
 
 extern u_long _randseed;
 
-void	srandom(u_long);
-u_long	random(void);
-
 void
-srandom(u_long seed)
+srandom(u_long newseed)
 {
-	u_long s1, s2;
+	u_long t = _randseed;
 
-	s1 = (_randseed & 0xFF) << 24;
-	s2 = s1 + (_randseed & 0xFFFFFF) + (seed & 0x0F);
-	s1 = s2 ^ (seed & 0x000FFFF0);
-	seed >>= 20;
-	while (seed) {
+	_randseed ^= newseed;
+	while (_randseed & ~0x7FFFFFFF)
+		_randseed = (_randseed >> 31) + (_randseed & 0x7FFFFFFF);
+
+	t ^= (random() << 1) | (random() & 1);
+	_randseed = newseed & 0x7FFFFFFF;
+
+	while (t) {
 		random();
-		if (seed & 1)
-			random();
-		seed >>= 1;
+		t >>= 1;
 	}
-	s2 = (s1 & 0x7F) << 24;
-	s1 = (s1 & 0xFFFFFF80) >> 7;
-	_randseed ^= (s1 & 0x01FFFFFF);
-	random();
-	_randseed = (_randseed ^ s2) & 0x7FFFFFFF;
 }

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.17 2006/05/28 02:52:58 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.18 2006/05/28 02:55:16 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -1165,7 +1165,7 @@ randomwrite(dev_t dev, struct uio *uio, int flags)
 	if (minor(dev) == RND_ARND && !ret)
 		arc4random_initialized = 0;
 	if (minor(dev) == RND_PRND && !ret)
-		srandom(rnd_attached ? arc4random() : time.tv_sec);
+		srandom(arc4random());
 
 	add_timer_randomness((u_long)dev ^ (u_long)uio ^ (u_long)buf);
 	FREE(buf, M_TEMP);
