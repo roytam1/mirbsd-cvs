@@ -1,4 +1,4 @@
-.\" $LynxId: lynx.man,v 1.75 2007/07/01 23:42:16 tom Exp $
+.\" $LynxId: lynx.man,v 1.80 2008/02/17 19:14:40 Paul.B.Mahol Exp $
 .nr N -1
 .nr D 5
 .TH LYNX 1
@@ -207,16 +207,16 @@ it is equivalent to setting the \fBCOLORTERM\fR environment variable.
 library like \fBncurses\fR, Lynx relies completely on the terminal
 description to determine whether color mode is possible, and
 this flag is not needed and thus unavailable.)
-A saved show_color=always setting found in a .lynxrc file at
+A saved show_color=always setting found in a .etc/lynxrc file at
 startup has the same effect.  A saved show_color=never found
-in .lynxrc on startup is overridden by this flag.
+in .etc/lynxrc on startup is overridden by this flag.
 .TP
 .B \-connect_timeout\fR=\fIN
 Sets the connection timeout, where N is given in seconds.
 .TP
 .B \-cookie_file\fR=\fIFILENAME
 specifies a file to use to read cookies.
-If none is specified, the default value is ~/.lynx_cookies
+If none is specified, the default value is ~/.etc/cookies.txt
 for most systems, but ~/cookies for MS-DOS.
 .TP
 .B \-cookie_save_file\fR=\fIFILENAME
@@ -358,7 +358,7 @@ do justification of text.
 .B \-link\fR=\fINUMBER
 starting count for lnk#.dat files produced by \fB\-crawl\fR.
 .TP
-.B -listonly
+.B \-listonly
 for \fB-dump\fR, show only the list of links.
 .TP
 .B \-localhost
@@ -371,6 +371,8 @@ Lynx was compiled with local execution enabled).
 .B \-lss\fR=\fIFILENAME
 specify filename containing color-style information.
 The default is lynx.lss.
+If you give an empty filename, \fBlynx\fP uses a built-in monochrome
+scheme which imitates the non-color-style configuration.
 .TP
 .B \-mime_header
 prints the MIME header of a fetched document along with its
@@ -401,7 +403,7 @@ within a mailto URL or form ACTION.
 .TP
 .B \-nocolor
 force color mode off, overriding terminal capabilities and any
--color flags, COLORTERM variable, and saved .lynxrc settings.
+-color flags, COLORTERM variable, and saved .etc/lynxrc settings.
 .TP
 .B \-noexec
 disable local program execution. (DEFAULT)
@@ -417,6 +419,9 @@ disable mailing of error messages to document owners.
 .TP
 .B \-nomargins
 disable left/right margins in the default style sheet.
+.TP
+.B \-nomore
+disable -more- string in statusline messages.
 .TP
 .B \-nonrestarting_sigwinch
 This flag is not available on all systems,
@@ -612,7 +617,7 @@ your domain (utmp required for selectivity).
 - disallow USENET News posting.
 
 .I options_save
-- disallow saving options in .lynxrc.
+- disallow saving options in .etc/lynxrc.
 
 .I outside_ftp
 - disallow ftps for people coming from outside your
@@ -664,6 +669,15 @@ toggles showing arrows at ends of the scrollbar.
 .TP
 .B \-selective
 require .www_browsable files to browse directories.
+.TP
+.B \-session\fR=\fIFILENAME
+resumes from specified file on startup and saves session to that file on exit.
+.TP
+.B \-sessionin\fR=\fIFILENAME
+resumes session from specified file.
+.TP
+.B \-sessionout\fR=\fIFILENAME
+saves session to specified file.
 .TP
 .B \-short_url
 show very long URLs in the status line with "..." to represent the
@@ -763,7 +777,7 @@ Logically OR the values to combine options:
 .br
 4=TRST (table layout)
 .br
-8=config (lynx.cfg, .lynxrc, .lynx-keymaps, mime.types and mailcap contents)
+8=config (lynx.cfg, .etc/lynxrc, .lynx-keymaps, mime.types and mailcap contents)
 .br
 16=binary string copy/append, used in form data construction.
 .br
@@ -781,7 +795,7 @@ traverse all http links derived from startfile.  When used with
 is output to a file, intended for indexing.  See CRAWL.announce
 for more information.
 .TP
-.B trim_input_fields
+.B \-trim_input_fields
 trim input text/textarea fields in forms.
 .TP
 .B \-underline_links

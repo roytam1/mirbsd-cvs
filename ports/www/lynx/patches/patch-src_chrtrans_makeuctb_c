@@ -1,42 +1,43 @@
-$MirOS: ports/www/lynx/patches/patch-src_chrtrans_makeuctb_c,v 1.4 2007/05/20 12:06:20 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-src_chrtrans_makeuctb_c,v 1.5 2007/08/03 12:14:24 tg Exp $
 
 	security - string cleanup
 
---- src/chrtrans/makeuctb.c.orig	Thu Aug  2 23:24:04 2007
-+++ src/chrtrans/makeuctb.c	Fri Aug  3 12:00:20 2007
+--- src/chrtrans/makeuctb.c.orig	Sun Feb 17 22:00:35 2008
++++ src/chrtrans/makeuctb.c	Sun Mar  9 17:50:39 2008
 @@ -301,6 +301,7 @@ int main(int argc, char **argv)
      int fp0 = 0, fp1 = 0, un0, un1;
      char *p, *p1;
      char *tbuf, ch;
-+    size_t plen;
++    size_t outnamesz, plen;
  
      if (argc < 2 || argc > 5) {
  	usage();
-@@ -328,11 +329,11 @@ int main(int argc, char **argv)
+@@ -327,12 +328,12 @@ int main(int argc, char **argv)
+     } else if (ctbl == stdin) {
  	chdr = stdout;
  	hdrname = "stdout";
-     } else {
+-    } else if ((outname = (char *) malloc(strlen(tblname) + 3)) != 0) {
 -	strcpy(outname, tblname);
-+	strlcpy(outname, tblname, 256);
++    } else if ((outname = (char *) malloc(outnamesz = strlen(tblname) + 3)) != 0) {
++	strlcpy(outname, tblname, outnamesz);
  	hdrname = outname;
  	if ((p = strrchr(outname, '.')) == 0)
  	    p = outname + strlen(outname);
 -	strcpy(p, ".h");
-+	strlcpy(p, ".h", 256 - (p - outname));
-     }
- 
-     if (chdr == 0) {
-@@ -541,7 +542,8 @@ int main(int argc, char **argv)
- 		continue;
- 	    }
- 
--	    tbuf = (char *) malloc(4 * strlen(p));
-+	    plen = 4 * strlen(p);
-+	    tbuf = (char *) malloc(plen);
++	strlcpy(p, ".h", outnamesz - (p - outname));
+     } else {
+ 	perror("malloc");
+ 	done(EX_NOINPUT);
+@@ -548,7 +549,7 @@ int main(int argc, char **argv)
+ 	     * Allocate a string large enough for the worst-case use in the
+ 	     * loop using sprintf.
+ 	     */
+-	    tbuf = (char *) malloc(5 * strlen(p));
++	    tbuf = (char *) malloc(plen = 5 * strlen(p));
  
  	    if (!(p1 = tbuf)) {
  		fprintf(stderr, "%s: Out of memory\n", tblname);
-@@ -578,7 +580,7 @@ int main(int argc, char **argv)
+@@ -585,7 +586,7 @@ int main(int argc, char **argv)
  		for (ch = *(++p); (ch = *p) != '\0'; p++, p1++) {
  		    if (UCH(ch) < 32 || ch == '\\' || ch == '\"' ||
  			UCH(ch) >= 127) {

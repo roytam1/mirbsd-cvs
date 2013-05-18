@@ -1,9 +1,9 @@
-$MirOS$
+$MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.7 2007/05/20 12:06:19 tg Exp $
 
 	mostly site policy and compatibility, usability
 
---- lynx.cfg.orig	Thu May 17 22:52:59 2007
-+++ lynx.cfg	Sun May 20 11:17:21 2007
+--- lynx.cfg.orig	Sun Feb 17 22:00:35 2008
++++ lynx.cfg	Sun Mar  9 17:50:38 2008
 @@ -93,12 +93,12 @@
  #
  # Normally we expect you will connect to a remote site, e.g., the Lynx starting
@@ -19,7 +19,25 @@ $MirOS$
  #
  # Your choice of STARTFILE should reflect your site's needs, and be a URL that
  # you can connect to reliably.  Otherwise users will become confused and think
-@@ -409,7 +409,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -292,7 +292,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+ # your browsing history when closing/starting current lynx session if
+ # no command-line session switches override this setting.
+ # This setting is useful only if SESSION_FILE is defined here or in the user's
+-# .lynxrc file.
++# .etc/lynxrc file.
+ #
+ #AUTO_SESSION:FALSE
+ 
+@@ -305,7 +305,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+ # (The current working directory may be changed inside lynx)
+ #
+ # If you do not want this feature, leave the setting commented.
+-# Uses can still customize SESSION_FILE and AUTO_SESSION via their .lynxrc file.
++# Uses can still customize SESSION_FILE and AUTO_SESSION via their .etc/lynxrc file.
+ #
+ #SESSION_FILE:lynx_session
+ 
+@@ -448,7 +448,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # values and their relationship to the locale value is not.  GNU libiconv
  # happens to give useful values, but other implementations are not guaranteed
  # to do this.
@@ -28,16 +46,19 @@ $MirOS$
  
  
  .h2 ASSUME_CHARSET
-@@ -424,7 +424,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -461,9 +461,9 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+ # See above on how this interacts with "raw mode" and the Display
+ # Character Set.
  # ASSUME_CHARSET can also be changed via the 'o'ptions menu but will
- # not be saved as permanent value in user's .lynxrc file to avoid more chaos.
+-# not be saved as permanent value in user's .lynxrc file to avoid more chaos.
++# not be saved as permanent value in user's .etc/lynxrc file to avoid more chaos.
  #
 -#ASSUME_CHARSET:iso-8859-1
 +ASSUME_CHARSET:utf-8
  
  
  .h2 ASSUMED_DOC_CHARSET_CHOICE
-@@ -552,7 +552,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -591,7 +591,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # the 'o'ptions menu and save that preference in their RC file.
  # This may be a comma-separated list of languages in decreasing preference.
  #
@@ -46,7 +67,7 @@ $MirOS$
  
  
  .h2 PREFERRED_CHARSET
-@@ -571,7 +571,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -610,7 +610,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # the sending of an unacceptable response is also allowed.  See RFC 2068
  # (http://www.ics.uci.edu/pub/ietf/uri/rfc2068.txt).
  #
@@ -55,7 +76,7 @@ $MirOS$
  
  
  .h2 CHARSETS_DIRECTORY
-@@ -652,22 +652,22 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -691,22 +691,22 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # Set the threshold # of lines Lynx must render before it
  # redraws the screen in PARTIAL mode.  Anything < 0 implies
  # use of the screen size.
@@ -85,7 +106,7 @@ $MirOS$
  # Quoting from
  #	http://www.romulus2.com/articles/guides/misc/bitsbytes.shtml
  # In December 1998, the International Electrotechnical Commission (IEC)
-@@ -677,9 +677,6 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -716,9 +716,6 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # metric prefixes and adding the first two letters of the word "binary".  Thus,
  # for instance, instead of Kilobyte (KB) or Gigabyte (GB), the new terms would
  # be kibibyte (KiB) or gibibyte (GiB).
@@ -95,7 +116,7 @@ $MirOS$
  #SHOW_KB_NAME:KiB
  
  .h1 Timeouts
-@@ -811,8 +808,8 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -850,8 +847,8 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # number of documents to cache (rather than the maximum number only if
  # DEFAULT_VIRTUAL_MEMORY_SIZE has been exceeded, as with VAXC/VAX).
  #
@@ -106,7 +127,7 @@ $MirOS$
  
  
  .h2 SOURCE_CACHE
-@@ -828,7 +825,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -867,7 +864,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # NONE is the default; the document source is not cached, and is reloaded
  #   from the network when needed.
  #
@@ -115,7 +136,7 @@ $MirOS$
  
  
  .h2 SOURCE_CACHE_FOR_ABORTED
-@@ -838,7 +835,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -877,7 +874,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # be preserved (and used as cache), if set to DROP lynx will drop the
  # source cache for that document (i.e. only completely downloaded documents
  # will be cached in that case).
@@ -124,7 +145,7 @@ $MirOS$
  
  .h2 ALWAYS_RESUBMIT_POSTS
  # If ALWAYS_RESUBMIT_POSTS is set TRUE, Lynx always will resubmit forms
-@@ -1076,7 +1073,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -1115,7 +1112,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # default or that defined here can be toggled via the -force_secure
  # command line switch.
  #
@@ -133,7 +154,7 @@ $MirOS$
  
  
  .h1 Internal Behavior
-@@ -1263,7 +1260,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -1304,7 +1301,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # line break.  Note that the valid way to insert extra blank lines in HTML
  # is via a PRE block with only newlines in the block.
  #
@@ -142,7 +163,16 @@ $MirOS$
  
  
  .h2 TAGSOUP
-@@ -1366,7 +1363,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -1339,7 +1336,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+ # does not preempt validity checking, which has to be controlled separately
+ # (see below).
+ # The default is defined in userdefs.h and can be overridden here, or
+-# in the .lynxrc file via an o(ptions) screen setting.  It may also be
++# in the .etc/lynxrc file via an o(ptions) screen setting.  It may also be
+ # toggled via the -accept_all_cookies command line switch.
+ #
+ #ACCEPT_ALL_COOKIES:FALSE
+@@ -1407,16 +1404,16 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # The default is FALSE, so that the feature needs to be enabled here
  # explicitly if you want it.
  #
@@ -151,16 +181,18 @@ $MirOS$
  
  
  .h2 COOKIE_FILE
-@@ -1375,7 +1372,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+ # COOKIE_FILE is the default file from which persistent cookies are read
+ # at startup (if the file exists), if Lynx was compiled with
  # USE_PERSISTENT_COOKIES and the PERSISTENT_COOKIES option is enabled.
- # The cookie file can also be specified in .lynxrc or on the command line.
+-# The cookie file can also be specified in .lynxrc or on the command line.
++# The cookie file can also be specified in .etc/lynxrc or on the command line.
  #
 -#COOKIE_FILE:~/.lynx_cookies
 +#COOKIE_FILE:~/.etc/cookies.txt
  
  
  .h2 COOKIE_SAVE_FILE
-@@ -1388,7 +1385,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -1429,7 +1426,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # COOKIE_FILE if it is not set.  With a non-interactive Lynx session (e.g.,
  # -dump), cookies will only be saved to file if COOKIE_SAVE_FILE is set.
  #
@@ -169,7 +201,25 @@ $MirOS$
  
  
  .h1 Mail-related
-@@ -1529,7 +1526,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -1516,7 +1513,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+ .h2 VI_KEYS_ALWAYS_ON
+ .h2 EMACS_KEYS_ALWAYS_ON
+ # Vi or Emacs movement keys, i.e. familiar hjkl or ^N^P^F^B .
+-# These are defaults, which can be changed in the Options Menu or .lynxrc .
++# These are defaults, which can be changed in the Options Menu or .etc/lynxrc .
+ #VI_KEYS_ALWAYS_ON:FALSE
+ #EMACS_KEYS_ALWAYS_ON:FALSE
+ 
+@@ -1531,7 +1528,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+ # allowing immediate access by entering the number on the keyboard,
+ # or numbers on the numeric key-pad work like arrows;
+ # the "FIELDS" options cause form fields also to be numbered.
+-# This may be overridden by the keypad_mode setting in .lynxrc,
++# This may be overridden by the keypad_mode setting in .etc/lynxrc,
+ # and can also be changed via the Options Menu.
+ #
+ #DEFAULT_KEYPAD_MODE:NUMBERS_AS_ARROWS
+@@ -1570,7 +1567,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # It will be prepended by the user's home directory.
  # NOTE that a file ending in .html or other suffix mapped to text/html
  # should be used to ensure its treatment as HTML.  The built-in default
@@ -178,16 +228,37 @@ $MirOS$
  # the HOME directory is desired, the path should begin with "./" (e.g.,
  # ./BM/lynx_bookmarks.html), but the subdirectory must already exist.
  # Lynx will create the bookmark file, if it does not already exist, on
-@@ -1541,7 +1538,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -1580,9 +1577,9 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+ # The user can re-define the default bookmark file, as well as a set
+ # of sub-bookmark files if multiple bookmark file support is enabled
  # (see below), via the 'o'ptions menu, and can save those definitions
- # in the .lynxrc file.
+-# in the .lynxrc file.
++# in the .etc/lynxrc file.
  #
 -#DEFAULT_BOOKMARK_FILE:lynx_bookmarks.html
 +#DEFAULT_BOOKMARK_FILE:./.etc/bookmark.htm
  
  
  .h2 MULTI_BOOKMARK_SUPPORT
-@@ -1920,7 +1917,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+@@ -1593,7 +1590,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+ # bookmark file will be available initially.  The definition here will
+ # override that in userdefs.h.  The user can turn on multiple bookmark
+ # support via the 'o'ptions menu, and can save that choice as the startup
+-# default via the .lynxrc file.  When on, the setting can be STANDARD or
++# default via the .etc/lynxrc file.  When on, the setting can be STANDARD or
+ # ADVANCED.  If SUPPORT is set to the latter, and the user mode also is
+ # ADVANCED, the VIEW_BOOKMARK command will invoke a statusline prompt at
+ # which the user can enter the letter token (A - Z) of the desired bookmark,
+@@ -1836,7 +1833,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
+ .h2 NO_DOT_FILES
+ # If NO_DOT_FILES is TRUE (normal default via userdefs.h), the user will not
+ # be allowed to specify files beginning with a dot in reply to output filename
+-# prompts, and files beginning with a dot (e.g., file://localhost/path/.lynxrc)
++# prompts, and files beginning with a dot (e.g., file://localhost/path/.etc/lynxrc)
+ # will not be included in the directory browser's listings.  If set FALSE, you
+ # can force it to be treated as TRUE via -restrictions=dotfiles.  If set FALSE
+ # and not forced TRUE, the user can regulate it via the 'o'ptions menu (and
+@@ -1970,7 +1967,7 @@ DEFAULT_INDEX_FILE:http://lynx.isc.org/
  # prefer the more conservative action of requiring an explicit Y or y to
  # confirm.  The default defined here will override that in userdefs.h.
  #
@@ -196,7 +267,7 @@ $MirOS$
  
  
  .h1 HTML Parsing
-@@ -2257,7 +2254,7 @@ MINIMAL_COMMENTS:TRUE
+@@ -2307,7 +2304,7 @@ MINIMAL_COMMENTS:TRUE
  # XLOADIMAGE_COMMAND definition.
  # If you use xli, you may want to add the -quiet flag.
  #
@@ -205,7 +276,7 @@ $MirOS$
  
  .h2 VIEWER
  # MIME types may be assigned to external viewers using
-@@ -3208,7 +3205,7 @@ COLOR:6:brightred:black
+@@ -3264,7 +3261,7 @@ COLOR:6:brightred:black
  # otherwise. Set this setting to TRUE if you prefer numbered links, but wish
  # to get valid HTML source when printing or mailing when in psrc view.
  # Default is FALSE.
@@ -214,7 +285,7 @@ $MirOS$
  
  
  .h1 HTML Parsing
-@@ -3241,13 +3238,11 @@ COLOR:6:brightred:black
+@@ -3297,13 +3294,11 @@ COLOR:6:brightred:black
  
  .h2 JUSTIFY
  # JUSTIFY - Appearance
@@ -232,7 +303,7 @@ $MirOS$
  
  .h2 JUSTIFY_MAX_VOID_PERCENT
  # JUSTIFY_MAX_VOID_PERCENT - Appearance
-@@ -3275,7 +3270,7 @@ COLOR:6:brightred:black
+@@ -3331,7 +3326,7 @@ COLOR:6:brightred:black
  # explicit activation can also be requested with the -tna command line
  # option.
  #
@@ -241,7 +312,7 @@ $MirOS$
  
  .h2 LEFTARROW_IN_TEXTFIELD_PROMPT
  # LEFTARROW_IN_TEXTFIELD_PROMPT
-@@ -3285,7 +3280,7 @@ COLOR:6:brightred:black
+@@ -3341,7 +3336,7 @@ COLOR:6:brightred:black
  # only if the contents of the fields have been changed since entering it.
  # If set to TRUE, the confirmation prompt is always issued.
  #
@@ -250,16 +321,34 @@ $MirOS$
  
  
  .h1 Timeouts
-@@ -3322,7 +3317,7 @@ COLOR:6:brightred:black
+@@ -3364,13 +3359,13 @@ COLOR:6:brightred:black
+ 
+ .h2 ENABLE_LYNXRC
+ # The forms-based O'ptions menu shows a (!) marker beside items which are not
+-# saved to ~/.lynxrc -- the reason for disabling some of these items is that
+-# they are likely to cause confusion if they are read from the .lynxrc file for
++# saved to ~/.etc/lynxrc -- the reason for disabling some of these items is that
++# they are likely to cause confusion if they are read from the .etc/lynxrc file for
+ # each session.  However, they can be enabled or disabled using the
+ # ENABLE_LYNXRC settings.  The default (compiled-in) settings are shown below.
+-# The second column is the name by which a setting is saved to .lynxrc (which
++# The second column is the name by which a setting is saved to .etc/lynxrc (which
+ # is chosen where possible to correspond with lynx.cfg).  Use "OFF" to disable
+-# writing a setting, "ON" to enable it.  Settings are read from .lynxrc after
++# writing a setting, "ON" to enable it.  Settings are read from .etc/lynxrc after
+ # the corresponding data from lynx.cfg, so they override lynx.cfg, which is
+ # probably what users expect.
+ #
+@@ -3378,7 +3373,7 @@ COLOR:6:brightred:black
  # one lynx.cfg setting.
  .nf
  #ENABLE_LYNXRC:accept_all_cookies:ON
 -#ENABLE_LYNXRC:assume_charset:OFF
 +ENABLE_LYNXRC:assume_charset:ON
+ #ENABLE_LYNXRC:auto_session:OFF
  #ENABLE_LYNXRC:bookmark_file:ON
  #ENABLE_LYNXRC:case_sensitive_searching:ON
- #ENABLE_LYNXRC:character_set:ON
-@@ -3337,34 +3332,35 @@ COLOR:6:brightred:black
+@@ -3394,35 +3389,35 @@ COLOR:6:brightred:black
  #ENABLE_LYNXRC:emacs_keys:ON
  #ENABLE_LYNXRC:file_editor:ON
  #ENABLE_LYNXRC:file_sorting_method:ON
@@ -292,17 +381,18 @@ $MirOS$
 -#ENABLE_LYNXRC:scrollbar:OFF
 +ENABLE_LYNXRC:scrollbar:ON
  #ENABLE_LYNXRC:select_popups:ON
+ #ENABLE_LYNXRC:session_file:OFF
 -#ENABLE_LYNXRC:set_cookies:OFF
 +ENABLE_LYNXRC:set_cookies:ON
  #ENABLE_LYNXRC:show_color:ON
  #ENABLE_LYNXRC:show_cursor:ON
  #ENABLE_LYNXRC:show_dotfiles:ON
 -#ENABLE_LYNXRC:show_kb_rate:OFF
-+ENABLE_LYNXRC:show_kb_name:OFF
 +ENABLE_LYNXRC:show_kb_rate:ON
  #ENABLE_LYNXRC:sub_bookmarks:ON
- #ENABLE_LYNXRC:tagsoup:OFF
+-#ENABLE_LYNXRC:tagsoup:OFF
 -#ENABLE_LYNXRC:underline_links:OFF
++ENABLE_LYNXRC:tagsoup:ON
 +ENABLE_LYNXRC:underline_links:ON
  #ENABLE_LYNXRC:user_mode:ON
  #ENABLE_LYNXRC:useragent:OFF

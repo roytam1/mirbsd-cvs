@@ -1,7 +1,5 @@
-/* $MirOS: src/gnu/usr.bin/lynx/src/chrtrans/makeuctb.c,v 1.4 2006/10/02 23:12:27 tg Exp $ */
-
 /*
- * $LynxId: makeuctb.c,v 1.35 2007/07/31 20:32:32 Tim.Larson Exp $
+ * $LynxId: makeuctb.c,v 1.37 2008/01/09 23:29:20 tom Exp $
  *
  *  makeuctb.c, derived from conmakehash.c   - kw
  *
@@ -296,14 +294,14 @@ int main(int argc, char **argv)
 
     FILE *ctbl;
     char buffer[65536];
-    char outname[256];
+    char *outname = 0;
     unsigned n;
     int fontlen;
     int i, nuni, nent;
     int fp0 = 0, fp1 = 0, un0, un1;
     char *p, *p1;
     char *tbuf, ch;
-    size_t plen;
+    size_t outnamesz, plen;
 
     if (argc < 2 || argc > 5) {
 	usage();
@@ -330,12 +328,15 @@ int main(int argc, char **argv)
     } else if (ctbl == stdin) {
 	chdr = stdout;
 	hdrname = "stdout";
-    } else {
-	strlcpy(outname, tblname, 256);
+    } else if ((outname = (char *) malloc(outnamesz = strlen(tblname) + 3)) != 0) {
+	strlcpy(outname, tblname, outnamesz);
 	hdrname = outname;
 	if ((p = strrchr(outname, '.')) == 0)
 	    p = outname + strlen(outname);
-	strlcpy(p, ".h", 256 - (p - outname));
+	strlcpy(p, ".h", outnamesz - (p - outname));
+    } else {
+	perror("malloc");
+	done(EX_NOINPUT);
     }
 
     if (chdr == 0) {
@@ -544,8 +545,11 @@ int main(int argc, char **argv)
 		continue;
 	    }
 
-	    plen = 4 * strlen(p);
-	    tbuf = (char *) malloc(plen);
+	    /*
+	     * Allocate a string large enough for the worst-case use in the
+	     * loop using sprintf.
+	     */
+	    tbuf = (char *) malloc(plen = 5 * strlen(p));
 
 	    if (!(p1 = tbuf)) {
 		fprintf(stderr, "%s: Out of memory\n", tblname);

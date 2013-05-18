@@ -1,4 +1,4 @@
-@comment $MirOS: ports/www/lynx/pkg/PLIST,v 1.6 2007/05/20 12:06:20 tg Exp $
+@comment $MirOS: ports/www/lynx/pkg/PLIST,v 1.7 2007/08/03 12:14:24 tg Exp $
 bin/lynx
 bin/oldlynx
 man/man1/lynx.1
@@ -53,6 +53,7 @@ share/doc/lynx/lynx_doc/samples/lynx-keymaps
 @comment share/doc/lynx/lynx_doc/samples/lynx.lss.orig
 share/doc/lynx/lynx_doc/samples/lynx_bookmarks.htm
 share/doc/lynx/lynx_doc/samples/lynxdump
+@comment share/doc/lynx/lynx_doc/samples/lynxdump.orig
 share/doc/lynx/lynx_doc/samples/mailcap
 share/doc/lynx/lynx_doc/samples/mailto-form.pl
 share/doc/lynx/lynx_doc/samples/midnight.lss

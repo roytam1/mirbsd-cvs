@@ -2,8 +2,7 @@
 
 COMMENT=		standard text-mode world wide web browser
 CATEGORIES=		www essentials
-VERSION=		2.8.7dev.7
-DASH_VER=		3
+VERSION=		2.8.7dev.8
 DISTNAME=		lynx${VERSION:C/[a-z]$//}
 .if ${VERSION} != ${VERSION:C/[a-z]$//}
 PATCHFILES=		lynx${VERSION}.patch.gz:0

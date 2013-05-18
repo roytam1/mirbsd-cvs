@@ -1,11 +1,11 @@
-$MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.8 2007/05/20 12:06:20 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.9 2007/08/03 12:14:24 tg Exp $
 
 	Upstream (Lynx) should at least enable KANJI_CODE_OVERRIDE by
 	default and incorporate the #ifndef LYNX_VERSION part.
 	Setting PREFERRED_LANGUAGE to "" is a sensible thing to do too.
 
---- userdefs.h.orig	Thu Aug  2 23:24:04 2007
-+++ userdefs.h	Fri Aug  3 12:01:19 2007
+--- userdefs.h.orig	Sun Feb 17 22:00:35 2008
++++ userdefs.h	Sun Mar  9 17:50:39 2008
 @@ -333,7 +333,7 @@
   * use any default viewers for image types.  Note that open is used as
   * the default for NeXT, instead of the XLOADIMAGE_COMMAND definition.
@@ -61,17 +61,35 @@ $MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.8 2007/05/20 12:06:20 tg Exp
  
  /********************************
   * BIBP_GLOBAL_SERVER is the default global server for bibp: links, used
-@@ -1371,7 +1372,9 @@
+@@ -1414,7 +1415,9 @@
   * the version definition with the Project Version on checkout.  Just
   * ignore it. - kw */
  /* $Format: "#define LYNX_VERSION \"$ProjectVersion$\""$ */
 +#ifndef LYNX_VERSION
- #define LYNX_VERSION "2.8.7dev.7"
+ #define LYNX_VERSION "2.8.7dev.8"
 +#endif
  #define LYNX_WWW_HOME "http://lynx.isc.org/"
  #define LYNX_WWW_DIST "http://lynx.isc.org/current/"
  /* $Format: "#define LYNX_DATE \"$ProjectDate$\""$ */
-@@ -1559,11 +1562,11 @@
+@@ -1451,7 +1454,7 @@
+ #ifdef FNAMES_8_3
+ #define FNAME_LYNXRC "lynx.rc"
+ #else
+-#define FNAME_LYNXRC ".lynxrc"
++#define FNAME_LYNXRC ".etc/lynxrc"
+ #endif /* FNAMES_8_3 */
+ #endif
+ 
+@@ -1459,7 +1462,7 @@
+ #ifdef FNAMES_8_3
+ #define FNAME_LYNX_COOKIES "cookies"
+ #else
+-#define FNAME_LYNX_COOKIES ".lynx_cookies"
++#define FNAME_LYNX_COOKIES ".etc/cookies.txt"
+ #endif /* FNAMES_8_3 */
+ #endif
+ 
+@@ -1625,11 +1628,11 @@
  
  /*****************************
   * Uncomment the following line to enable the kanji code override routine.
@@ -83,5 +101,5 @@ $MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.8 2007/05/20 12:06:20 tg Exp
 -/*#define KANJI_CODE_OVERRIDE */
 +#define KANJI_CODE_OVERRIDE
  
- 
- /****************************************************************
+ /**************************
+  * SSL_CERT_FILE contains valid SSL CA certificates.  Set this to a string

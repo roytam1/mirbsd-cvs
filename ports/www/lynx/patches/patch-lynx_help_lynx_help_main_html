@@ -1,9 +1,9 @@
-$MirOS$
+$MirOS: ports/www/lynx/patches/patch-lynx_help_lynx_help_main_html,v 1.2 2007/05/20 12:06:19 tg Exp $
 
 	we install these, so link to them
 
 --- lynx_help/lynx_help_main.html.orig	Thu May 17 22:52:59 2007
-+++ lynx_help/lynx_help_main.html	Sun May 20 11:32:03 2007
++++ lynx_help/lynx_help_main.html	Sun Mar  9 17:50:39 2008
 @@ -23,6 +23,10 @@
   -- credits, copyright etc
  <li><a href="lynx-dev.html">About Lynx-Dev</a>
