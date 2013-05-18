@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.25 2006/08/26 23:20:22 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.26 2006/11/07 00:06:58 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -9,12 +9,11 @@
  * This code is derived from software contributed to Berkeley by
  * Berkeley Software Design, Inc.
  *
- * Licensee is hereby permitted to deal in this work without restric-
- * tion, including unlimited rights to use, publicly perform, modify,
- * merge, distribute, sell, give away or sublicence, provided all co-
- * pyright notices above, these terms and the disclaimer are retained
- * in all redistributions or reproduced in accompanying documentation
- * or other materials provided with binary redistributions.
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
  *
  * Advertising materials mentioning features or use of this work must
  * display the following acknowledgement:
@@ -22,16 +21,17 @@
  * This acknowledgement does not need to be reprinted if this work is
  * linked into a bigger work whose licence does not allow such clause
  * and the author of this work is given due credit in the bigger work
- * or its documentation.
+ * or its accompanying documents, where such information is generally
+ * kept, provided that said credits are retained.
  *
- * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
- * express, or implied, to the maximum extent permitted by applicable
- * law, without malicious intent or gross negligence; in no event may
- * licensor, an author or contributor be held liable for any indirect
- * or other damage, or direct damage except proven a consequence of a
- * direct error of said person and intended use of this work, loss or
- * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a defect.
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  *-
  * Add here: macros not defined on every operating system, for easier
  * patching of ported apps. Same for definitions of libmirmake, these
@@ -196,6 +196,22 @@
 #include <stdint.h>
 #elif defined(__INTERIX)
 #define uint64_t u_int64_t
+#endif
+
+/* brain-dead Apple stuff */
+#ifdef OSSwapLittleToHostInt16
+#define letoh16(x)	OSSwapLittleToHostInt16(x)
+#define letoh32(x)	OSSwapLittleToHostInt32(x)
+#define letoh64(x)	OSSwapLittleToHostInt64(x)
+#define betoh16(x)	OSSwapBigToHostInt16(x)
+#define betoh32(x)	OSSwapBigToHostInt32(x)
+#define betoh64(x)	OSSwapBigToHostInt64(x)
+#define htole16(x)	OSSwapHostToLittleInt16(x)
+#define htole32(x)	OSSwapHostToLittleInt32(x)
+#define htole64(x)	OSSwapHostToLittleInt64(x)
+#define htobe16(x)	OSSwapHostToBigInt16(x)
+#define htobe32(x)	OSSwapHostToBigInt32(x)
+#define htobe64(x)	OSSwapHostToBigInt64(x)
 #endif
 
 #ifdef _MIRMAKE_DEFNS
