@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/miniroot/install.sub,v 1.15 2005/12/07 07:34:34 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sub,v 1.16 2005/12/07 12:45:55 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1149,19 +1149,20 @@ install_mounted_fs() {
 }
 
 install_cdrom() {
-	local _drive _part=c _fstype
+	local _drive _part=c _fstype _err=0
 
 	get_drive "CD-ROM" "$CDDEVS" || return
 	_drive=$resp
 
-	set -- $(disklabel $_drive 2>&1 | grep '^  c: ')
-	case $4 in
-	ISO9660) _fstype=cd9660 ;;
-	UDF)	 _fstype=udf ;;
-	*)	 get_partition $_drive "cd9660" || return
-		 set -- $resp
-		 _part=$1
-		 [[ -n $2 ]] && _fstype=$2
+	set -- $(disklabel $_drive 2>&1 | grep '^  c: ') || _err=1
+	case $_err:$4 in
+	1*|0:ISO9660)
+		_fstype=cd9660 ;;
+	0:UDF)	_fstype=udf ;;
+	*)	get_partition $_drive "cd9660" || return
+		set -- $resp
+		_part=$1
+		[[ -n $2 ]] && _fstype=$2
 		;;
 	esac
 
