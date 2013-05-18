@@ -181,4 +181,5 @@ Date: 19.06.2007
  install mksh, simply type <tt>yum install mksh</tt> (for RHEL, you'll have
  to <a href="http://fedoraproject.org/wiki/EPEL/FAQ#head-fc43191402d7242da15ebb282c1a7dc948f6c852">enable
  the EPEL repository</a> first).</p>
+<p>The Fink package manager for Mac OSX now also contains mksh R29f.</p>
 ----
