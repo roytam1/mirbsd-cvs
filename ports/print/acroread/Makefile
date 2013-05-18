@@ -1,13 +1,14 @@
-# $MirOS: ports/print/acroread/Makefile,v 1.4 2005/07/07 21:25:23 bsiegert Exp $
+# $MirOS: ports/print/acroread/Makefile,v 1.5 2006/09/14 00:12:37 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2003/08/18 02:17:18 brad Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
 EMUL=			linux
 
-COMMENT=			view, distribute and print PDF documents
+COMMENT=		view, distribute and print PDF documents
 CATEGORIES=		print
 DISTNAME=		linux-5010
-PKGNAME=		acroread-5.10-0
+DASH_VER=		1
+PKGNAME=		acroread-5.10-${DASH_VER}
 MASTER_SITES=		http://ardownload.adobe.com/pub/adobe/acrobatreader/unix/5.x/
 
 PERMIT_PACKAGE_CDROM=	"commercial software"
@@ -15,7 +16,7 @@ PERMIT_PACKAGE_FTP=	"commercial software"
 PERMIT_DISTFILES_CDROM=	"commercial software"
 PERMIT_DISTFILES_FTP=	"Adobe are control freaks"
 
-RUN_DEPENDS+=		::emulators/redhat/base
+RUN_DEPENDS+=		::emulators/fedora
 
 WRKDIST=		${WRKDIR}/installers
 NO_BUILD=		Yes

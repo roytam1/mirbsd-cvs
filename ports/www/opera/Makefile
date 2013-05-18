@@ -1,4 +1,4 @@
-# $MirOS: ports/www/opera/Makefile,v 1.25 2008/02/24 14:21:57 tg Exp $
+# $MirOS: ports/www/opera/Makefile,v 1.26 2008/04/04 21:35:52 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2005/11/22 21:44:22 sturm Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
@@ -6,6 +6,7 @@ EMUL=			linux
 
 COMMENT=		fast and customisable WWW browser
 VERS=			9.27
+DASH_VER=		1
 DISTNAME=		opera-${VERS}-20080331.1-static-qt.i386-en
 PKGNAME=		opera-${VERS}-${DASH_VER}
 CATEGORIES=		www
@@ -43,25 +44,16 @@ MASTER_SITES=		${MASTER_SITES_OPERA:=linux/${VERS:S/.0$/00/:S/.//}/final/en/i386
 MASTER_SITES0=		http://files.opera-info.de/philo/lng/
 MASTER_SITES1=		http://opera-fansite.de/files/skins/
 
-RUN_DEPENDS=		:debian-libs->=3.1-2:emulators/debian
+RUN_DEPENDS=		::emulators/fedora
 
 NO_BUILD=		Yes
 NO_REGRESS=		Yes
-
-DBL_FILES=		${PREFIX}/libexec/opera ${PREFIX}/libexec/works \
-			${PREFIX}/share/opera/plugins/operaplugincleaner \
-			${PREFIX}/share/opera/plugins/operapluginwrapper
 
 do-install:
 	cd ${WRKBUILD} && ${SHELL} ./install.sh \
 	    --prefix=${PREFIX} \
 	    --exec_prefix=${PREFIX}/libexec \
 	    --plugindir=${PREFIX}/share/opera/plugins
-	chmod 600 ${PREFIX}/libexec/opera
-.for _i in ${DBL_FILES}
-	perl -i -pe 's!/lib/ld-linux\.so\.2!/dbl/ld-linux.so.2!' ${_i}
-.endfor
-	chmod ${BINMODE} ${PREFIX}/libexec/opera
 	sed -e 's:@PREFIX@:${TRUEPREFIX}:g' \
 	    -e 's:@SHELL@:${MKSH}:g' \
 	    -e 's:@LOCALBASE@:${LOCALBASE}:g' \
@@ -70,11 +62,13 @@ do-install:
 	rmdir ${PREFIX}/share/doc/opera
 	for f in ${PREFIX}/share/opera/ini/pluginpath.ini \
 	    ${PREFIX}/share/opera/java/opera.policy; do \
-		print '%g!${PREFIX}!s!!${TRUEPREFIX}!g\nwq' \
-		    | ed -s $$f; \
+		print '%g!${PREFIX}!s!!${TRUEPREFIX}!g\nwq' | \
+		    ed -s $$f; \
 	done
-	print '/^.usr.lib.opera.plugins/s!!${TRUEPREFIX}/share/opera/plugins!\nwq' \
-	    | ed -s ${PREFIX}/share/opera/ini/pluginpath.ini
+	print '/^.usr.lib.opera.plugins/s!!${TRUEPREFIX}/share/opera/plugins!\nwq' | \
+	    ed -s ${PREFIX}/share/opera/ini/pluginpath.ini
+	sed -e 's:@PREFIX@:${TRUEPREFIX}:g' ${FILESDIR}/pluginpaths \
+	    >>${PREFIX}/share/opera/ini/pluginpath.ini
 	cd ${FULLDISTDIR}; cp ${OPERA_LANG_FILES} ${PREFIX}/share/opera/locale/
 	cd ${FULLDISTDIR}; cp ${OPERA_SKIN_FILES} ${PREFIX}/share/opera/skin/
 

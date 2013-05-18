@@ -1,4 +1,4 @@
-@comment $MirOS: ports/www/opera/pkg/PLIST,v 1.6 2006/12/20 21:39:32 tg Exp $
+@comment $MirOS: ports/www/opera/pkg/PLIST,v 1.7 2007/04/30 12:47:16 tg Exp $
 @comment $OpenBSD: PLIST,v 1.21 2005/07/07 18:30:29 sturm Exp $
 @unexec rm -f %D/share/opera/styles/browser.css
 @unexec rm -f %D/share/opera/styles/user.css
@@ -6,7 +6,7 @@ bin/opera
 libexec/missingsyms.so
 libexec/opera
 libexec/spellcheck.so
-@comment libexec/works
+libexec/works
 man/man1/opera.1
 share/opera/LICENSE
 share/opera/chartables.bin
@@ -28,8 +28,8 @@ share/opera/ini/standard_mouse.ini
 share/opera/ini/standard_toolbar.ini
 share/opera/ini/unix_keyboard.ini
 share/opera/ini/xmlentities.ini
-@comment share/opera/java/opera.jar
-@comment share/opera/java/opera.policy
+share/opera/java/opera.jar
+share/opera/java/opera.policy
 share/opera/lngcode.txt
 share/opera/locale/en/default.adr
 share/opera/locale/en/license.txt
@@ -97,7 +97,7 @@ share/opera/svg-sebd.dat
 @dirrm share/opera/plugins
 @dirrm share/opera/locale/en
 @dirrm share/opera/locale
-@comment @dirrm share/opera/java
+@dirrm share/opera/java
 @dirrm share/opera/ini
 @dirrm share/opera/images
 @dirrm share/opera/config
