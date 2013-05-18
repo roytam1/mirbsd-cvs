@@ -138,6 +138,3 @@
 ./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/units/wincrt.pas
 ./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/units/windos.pas
 ./usr/lib/libi386.a
-./usr/lib/libobjc_gc.a
-./usr/lib/libobjc_gc.la
-./usr/lib/libobjc_gc.so.3.1

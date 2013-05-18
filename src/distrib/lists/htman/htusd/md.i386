@@ -1,16 +1,6 @@
 ./man1/daicctl.htm
 ./man1/dtmfdecode.htm
-./man1/gcj.htm
-./man1/gcjh.htm
-./man1/gij.htm
-./man1/grepjar.htm
-./man1/jar.htm
-./man1/jcf-dump.htm
-./man1/jv-convert.htm
-./man1/jv-scan.htm
 ./man1/pctr.htm
-./man1/rmic.htm
-./man1/rmiregistry.htm
 ./man4/apm.htm
 ./man4/bios.htm
 ./man4/cpu.htm
