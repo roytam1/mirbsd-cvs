@@ -1,9 +1,7 @@
-# $MirOS$
+# $MirOS: src/distrib/i386/common/listpre.small,v 1.1 2006/05/15 19:20:15 tg Exp $
 
 SRCDIRS distrib/ramtools distrib/special
 SRCDIRS bin sbin usr.bin usr.sbin
 SRCDIRS sys/arch/i386/stand libexec
 
-#LIBS	-lutil -lotermcap -ll -lm -ldes -lkvm -lz
-#XXX this probably won't be enough
-LIBS	-lutil -lotermcap -ll -lm
+LIBS	-lutil -lotermcap -ll -lm -lz
