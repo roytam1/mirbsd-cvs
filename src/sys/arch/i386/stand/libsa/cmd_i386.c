@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.13 2009/01/01 23:29:00 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.14 2009/01/01 23:59:02 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -293,12 +293,14 @@ Xmdexec(void)
 	if (cmd.argc != 3) {
  synerr:
 		printf("machine exec <type> <file>\n");
-		printf("	types: sector\n");
+		printf("	types: grub sector\n");
 		return (0);
 	}
 
 	if (!strcmp(cmd.argv[1], "sector"))
 		type = 1;
+	else if (!strcmp(cmd.argv[1], "grub"))
+		type = 2;
 	else
 		goto synerr;
 
@@ -324,6 +326,10 @@ Xmdexec(void)
 	switch (type) {
 	case 1:
 		jaddr = baddr = 0x00007C00;
+		break;
+	case 2:
+		baddr = 0x00008000;
+		jaddr = 0x00008200;
 		break;
 	}
 
