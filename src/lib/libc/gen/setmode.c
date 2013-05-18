@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/gen/setmode.c,v 1.7 2007/03/04 03:46:41 tg Exp $ */
+/**	$MirOS: src/lib/libc/gen/setmode.c,v 1.8 2007/03/04 03:47:14 tg Exp $ */
 /*	$OpenBSD: setmode.c,v 1.17 2005/08/08 08:05:34 espie Exp $	*/
 /*	$NetBSD: setmode.c,v 1.15 1997/02/07 22:21:06 christos Exp $	*/
 
@@ -57,7 +57,7 @@
 #endif
 
 __SCCSID("@(#)setmode.c	8.2 (Berkeley) 3/25/94");
-__RCSID("$MirOS: src/lib/libc/gen/setmode.c,v 1.7 2007/03/04 03:46:41 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/setmode.c,v 1.8 2007/03/04 03:47:14 tg Exp $");
 
 /* for mksh */
 #ifdef ksh_isdigit
@@ -80,7 +80,7 @@ typedef struct bitcmd {
 #define	CMD2_OBITS	0x08
 #define	CMD2_UBITS	0x10
 
-static BITCMD	*addcmd(BITCMD *, int, int, int, u_int);
+static BITCMD	*addcmd(BITCMD *, int, int, int, unsigned);
 static void	 compress_mode(BITCMD *);
 #ifdef SETMODE_DEBUG
 static void	 dumpmode(BITCMD *);
@@ -187,7 +187,7 @@ setmode(const char *p)
 	sigset_t signset, sigoset;
 	mode_t mask;
 	int equalopdone = 0, permXbits, setlen;
-	u_long perml;
+	unsigned long perml;
 
 	if (!*p)
 		return (NULL);
@@ -206,7 +206,7 @@ setmode(const char *p)
 
 	setlen = SET_LEN + 2;
 
-	if ((set = malloc((u_int)(sizeof(BITCMD) * setlen))) == NULL)
+	if ((set = calloc(sizeof(BITCMD), setlen)) == NULL)
 		return (NULL);
 	saveset = set;
 	endset = set + (setlen - 2);
@@ -356,7 +356,7 @@ setmode(const char *p)
 }
 
 static BITCMD *
-addcmd(BITCMD *set, int op, int who, int oparg, u_int mask)
+addcmd(BITCMD *set, int op, int who, int oparg, unsigned mask)
 {
 	switch (op) {
 	case '=':
