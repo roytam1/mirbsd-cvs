@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.16 2007/05/26 22:12:49 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.17 2007/06/15 23:46:48 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1439,6 +1439,8 @@ FATAL ERROR:	Cannot mount filesystems. Double-check your configuration
 __EOT
 		exit
 	done </etc/fstab
+	[[ -s /mnt/var/db/host.random ]] && \
+	    cat /mnt/var/db/host.random >/dev/arandom
 }
 
 # Preen all filesystems in /etc/fstab that have a /sbin/fsck_XXX,

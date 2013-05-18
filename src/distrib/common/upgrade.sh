@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/upgrade.sh,v 1.3 2006/12/20 22:45:48 tg Exp $
+# $MirOS: src/distrib/common/upgrade.sh,v 1.4 2007/03/10 04:13:12 tg Exp $
 # $OpenBSD: upgrade.sh,v 1.61 2005/04/02 14:27:08 krw Exp $
 # $NetBSD: upgrade.sh,v 1.2.4.5 1996/08/27 18:15:08 gwr Exp $
 #
@@ -133,3 +133,11 @@ install_sets
 
 # Perform final steps common to both an install and an upgrade.
 finish_up
+
+( ( dd if=/dev/prandom bs=64 count=1; \
+    dd if=/dev/arandom bs=64 count=8; \
+    dd if=/dev/urandom bs=64 count=55; \
+  ) 2>/dev/wrandom | dd of=/mnt/var/db/host.random; \
+    chown 0:0 /mnt/var/db/host.random; \
+    chmod 600 /mnt/var/db/host.random) \
+    >/dev/wrandom 2>&1
