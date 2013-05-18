@@ -370,6 +370,26 @@ msdosfs_mountfs(devvp, mp, p, argp)
 			error = EFTYPE;
 			goto error_exit;
 		}
+#ifdef DIAGNOSTIC
+		if (pmp->pm_BytesPerSec != 512 && pmp->pm_BytesPerSec != 1024 &&
+		    pmp->pm_BytesPerSec != 2048 && pmp->pm_BytesPerSec != 4096)
+			printf("msdosfs: WARNING: invalid bytes per sector %u,"
+			    " mounting anyway\n", (u_int)pmp->pm_BytesPerSec);
+		if (pmp->pm_BytesPerSec & (pmp->pm_BytesPerSec - 1))
+			printf("msdosfs: WARNING: bytes per sector not a power"
+			    " of two, mounting anyway\n");
+		if (SecPerClust & (SecPerClust - 1))
+			printf("msdosfs: WARNING: sectors per cluster %u not a"
+			    " power of two, mounting anyway\n",
+			    (u_int)SecPerClust);
+		else if ((((uint32_t)pmp->pm_BytesPerSec) *
+		    ((uint32_t)SecPerClust)) > 32768)
+			printf("msdosfs: WARNING: bytes per cluster %u (%u*%u)"
+			    " larger than allowed 32768, mounting anyway\n",
+			    (u_int)pmp->pm_BytesPerSec, (u_int)SecPerClust,
+			    (u_int)(((uint32_t)pmp->pm_BytesPerSec) *
+			    ((uint32_t)SecPerClust)));
+#endif
 	}
 
 	if (pmp->pm_Sectors == 0) {
