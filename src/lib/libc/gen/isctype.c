@@ -1,8 +1,6 @@
-/* $MirOS: src/lib/libc/gen/isctype.c,v 1.8 2007/03/22 03:06:49 tg Exp $ */
-
 /*-
- * Copyright (c) 2006, 2007
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2008
+ *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
@@ -24,7 +22,7 @@
 #include <ctype.h>
 #include <stdio.h>
 
-__RCSID("$MirOS: src/lib/libc/gen/isctype.c,v 1.8 2007/03/22 03:06:49 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/isctype.c,v 1.9 2007/03/22 03:57:49 tg Exp $");
 
 #undef isalnum
 #undef isalpha
@@ -38,10 +36,12 @@ __RCSID("$MirOS: src/lib/libc/gen/isctype.c,v 1.8 2007/03/22 03:06:49 tg Exp $")
 #undef isprint
 #undef ispunct
 #undef isspace
+#undef istitle
 #undef isupper
 #undef isxdigit
 #undef toascii
 #undef tolower
+#undef totitle
 #undef toupper
 
 #define __CTYPE_IMPL2(t)			\
@@ -64,6 +64,12 @@ __CTYPE_IMPL2(upper)
 __CTYPE_IMPL2(xdigit)
 
 int
+istitle(int c)
+{
+	return (0);
+}
+
+int
 isascii(int c)
 {
 	return ((unsigned int)c < 0x80);
@@ -79,6 +85,12 @@ int
 tolower(int c)
 {
 	return (((c) >= 'A') && ((c) <= 'Z') ? (c) - 'A' + 'a' : (c));
+}
+
+int
+totitle(int c)
+{
+	return (((c) >= 'a') && ((c) <= 'z') ? (c) - 'a' + 'A' : (c));
 }
 
 int

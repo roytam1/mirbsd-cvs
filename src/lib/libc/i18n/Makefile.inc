@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.33 2008/11/22 14:00:50 tg Exp $
+# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.34 2008/11/22 14:14:19 tg Exp $
 
 .PATH: ${LIBCSRCDIR}/i18n
 .PATH: ${LIBCSRCDIR}/locale
@@ -9,6 +9,7 @@ SRCS+=	${MIRI18N_GEND}
 SRCS+=	tbl_att0.c
 SRCS+=	tbl_attr.c
 SRCS+=	tbl_towl.c
+SRCS+=	tbl_towt.c
 SRCS+=	tbl_towu.c
 SRCS+=	tbl_wnop.c
 
@@ -85,8 +86,8 @@ UNIFDEF_SRCS+=	p9¾_utfrrune.c runestuff.c -DL_utfrrune
 UNIFDEF_SRCS+=	p9¾_utfrune.c runestuff.c -DL_utfrune
 UNIFDEF_SRCS+=	p9¾_utfutf.c runestuff.c -DL_utfutf
 
-.for _i in alnum alpha blank cntrl digit graph lower print punct space upper \
-    xdigit
+.for _i in alnum alpha blank cntrl digit graph lower print punct space \\
+    title upper xdigit
 MIRI18N_GEND+=	isw${_i}.c
 
 isw${_i}.c: iswTYPE.c
@@ -99,6 +100,8 @@ MIRI18N_GEND+=	tow${_i}.c
 tow${_i}.c: towTYPE.c
 	sed 's!@@TYPE@@!${_i}!g' <$> >$@
 .endfor
+
+SRCS+=	towtitle.c
 
 MAN+=	catgets.3
 MLINKS+=catgets.3 catopen.3

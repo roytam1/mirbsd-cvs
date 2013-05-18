@@ -1,18 +1,12 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
-
 /*-
- * Copyright (c) 2006
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2006, 2008
+ *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
  * is granted to deal in this work without restriction, including un-
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
- *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
  *
  * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor
@@ -29,7 +23,7 @@
 #define mir18n_attributes
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/wctype.c,v 1.3 2006/11/01 20:01:20 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wctype.c,v 1.4 2007/02/02 21:06:23 tg Exp $");
 
 /* this is, admittedly, taken from libutf8 */
 struct ctype_property {
@@ -54,6 +48,7 @@ static struct ctype_property all_properties[] = {
 	{ "print", wctype_print },
 	{ "punct", wctype_punct },
 	{ "space", wctype_space },
+	{ "title", wctype_title },
 	{ "upper", wctype_upper },
 	{ "xdigit", wctype_xdigit }
 };
