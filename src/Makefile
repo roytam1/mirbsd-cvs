@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.82 2006/11/17 01:47:47 tg Exp $
+# $MirOS: src/Makefile,v 1.83 2006/11/17 01:48:55 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -108,9 +108,13 @@ do-htman:
 	cd ${BSDOBJDIR}/htman && env WRITEDIR=${BSDOBJDIR:Q}/htman \
 	    ${SHELL} ${BSDSRCDIR}/scripts/systrace.mk ${MAKE} ${SHELL}
 .for _set _dir in x11 X11R6 base share
-	cd ${BSDRELDIR}/${_set}/usr/${_dir}/man \
-	    && find * -type f | cpio -pdlu ${BSDOBJDIR}/htman/man
+	cd ${BSDRELDIR}/${_set}/usr/${_dir}/man && \
+	    find * -type f | cpio -pdlu ${BSDOBJDIR}/htman/man
 .endfor
+	cd ${BSDOBJDIR}/htman && tar xzf \
+	    ${BSDRELDIR}/rel/pkgutl${OSrev}.ngz usr/mpkg/man/cat?/*.0
+	cd ${BSDOBJDIR}/htman/usr/mpkg/man && \
+	    find * -type f | cpio -pdlu ${BSDOBJDIR}/htman/man
 .for _doc in papers psd smm usd
 	mkdir -p ${BSDOBJDIR}/htman/papers/${_doc}
 	cd ${BSDOBJDIR}/htman/papers/${_doc} \
