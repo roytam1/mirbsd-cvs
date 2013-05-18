@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/Makefile.inc,v 1.20 2009/03/02 17:45:54 bsiegert Exp $
+# $MirOS: ports/lang/python/Makefile.inc,v 1.21 2009/05/30 20:38:24 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.32 2005/06/06 20:47:04 alek Exp $
 
 .include <mirports.sys.mk>
@@ -37,8 +37,11 @@ AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 # --srcdir is needed for systrace to work correctly
 CONFIGURE_ARGS+=	--with-fpectl --with-threads --srcdir=${WRKSRC:Q}
-.if ${OStype} != "Interix"
+.if ${OStype:NInterix:NDarwin}
 CONFIGURE_ARGS+=	--enable-ipv6
+.endif
+.if ${OStype:MDarwin}
+CONFIGURE_ARGS+=	MACOSX_DEPLOYMENT_TARGET=
 .endif
 
 # THREAD_STACK_SIZE value might be changed by particular python release
@@ -68,7 +71,11 @@ SED_PLIST+=	| sed -e '/^IFNIS:/s///'
 # Same algorithm as in configure
 _MD_SYSTEM!=	uname -s | tr -d '[/ ]' | tr '[[A-Z]]' '[[a-z]]'
 _MD_RELEASE!=	uname -r | tr -d '[/ ]' | sed 's/^[[A-Z]]\.//' | sed 's/\..*//'
+.if ${OStype:MDarwin}
+MACHDEP=	${_MD_SYSTEM}
+.else
 MACHDEP=	${_MD_SYSTEM}${_MD_RELEASE}
+.endif
 SUBST_VARS+=	MACHDEP PATCHLEVEL
 
 post-extract:

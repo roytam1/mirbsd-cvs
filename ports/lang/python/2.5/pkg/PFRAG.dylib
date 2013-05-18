@@ -33,7 +33,10 @@ lib/python${VERSION}/lib-dynload/_Scrap.so
 lib/python${VERSION}/lib-dynload/_Snd.so
 lib/python${VERSION}/lib-dynload/_TE.so
 lib/python${VERSION}/lib-dynload/_Win.so
+lib/python${VERSION}/lib-dynload/autoGIL.so
 lib/python${VERSION}/lib-dynload/gestalt.so
+lib/python${VERSION}/lib-dynload/icglue.so
+lib/python${VERSION}/lib-dynload/nis.so
 lib/python${VERSION}/plat-mac/Audio_mac.py
 lib/python${VERSION}/plat-mac/Audio_mac.pyc
 lib/python${VERSION}/plat-mac/Audio_mac.pyo
@@ -279,6 +282,7 @@ lib/python${VERSION}/plat-mac/cfmfile.pyc
 lib/python${VERSION}/plat-mac/cfmfile.pyo
 lib/python${VERSION}/plat-mac/dialogs.rsrc
 lib/python${VERSION}/plat-mac/errors.rsrc
+lib/python${VERSION}/plat-mac/errors.rsrc.df.rsrc
 lib/python${VERSION}/plat-mac/findertools.py
 lib/python${VERSION}/plat-mac/findertools.pyc
 lib/python${VERSION}/plat-mac/findertools.pyo

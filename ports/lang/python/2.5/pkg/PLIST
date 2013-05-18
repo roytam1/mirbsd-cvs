@@ -1,4 +1,4 @@
-@comment $MirOS: ports/lang/python/2.5/pkg/PLIST,v 1.11 2009/05/30 20:38:27 tg Exp $
+@comment $MirOS: ports/lang/python/2.5/pkg/PLIST,v 1.12 2009/05/30 21:49:03 tg Exp $
 @option no-default-conflict
 @pkgcfl python-2.5*
 bin/pydoc${VERSION}
@@ -445,9 +445,6 @@ lib/python${VERSION}/bsddb/dbtables.pyo
 lib/python${VERSION}/bsddb/dbutils.py
 lib/python${VERSION}/bsddb/dbutils.pyc
 lib/python${VERSION}/bsddb/dbutils.pyo
-lib/python${VERSION}/bsddb/test/__init__.py
-lib/python${VERSION}/bsddb/test/__init__.pyc
-lib/python${VERSION}/bsddb/test/__init__.pyo
 lib/python${VERSION}/bsddb/test/test_1413192.py
 lib/python${VERSION}/bsddb/test/test_1413192.pyc
 lib/python${VERSION}/bsddb/test/test_1413192.pyo
@@ -1029,9 +1026,6 @@ lib/python${VERSION}/email/iterators.pyo
 lib/python${VERSION}/email/message.py
 lib/python${VERSION}/email/message.pyc
 lib/python${VERSION}/email/message.pyo
-lib/python${VERSION}/email/mime/__init__.py
-lib/python${VERSION}/email/mime/__init__.pyc
-lib/python${VERSION}/email/mime/__init__.pyo
 lib/python${VERSION}/email/mime/application.py
 lib/python${VERSION}/email/mime/application.pyc
 lib/python${VERSION}/email/mime/application.pyo
@@ -1062,9 +1056,6 @@ lib/python${VERSION}/email/parser.pyo
 lib/python${VERSION}/email/quoprimime.py
 lib/python${VERSION}/email/quoprimime.pyc
 lib/python${VERSION}/email/quoprimime.pyo
-lib/python${VERSION}/email/test/__init__.py
-lib/python${VERSION}/email/test/__init__.pyc
-lib/python${VERSION}/email/test/__init__.pyo
 lib/python${VERSION}/email/test/data/PyBanner048.gif
 lib/python${VERSION}/email/test/data/audiotest.au
 lib/python${VERSION}/email/test/data/msg_01.txt
@@ -1786,6 +1777,7 @@ lib/python${VERSION}/lib-dynload/_sqlite3.so
 lib/python${VERSION}/lib-dynload/_ssl.so
 lib/python${VERSION}/lib-dynload/_struct.so
 lib/python${VERSION}/lib-dynload/_testcapi.so
+@comment lib/python${VERSION}/lib-dynload/_tkinter.so
 lib/python${VERSION}/lib-dynload/_weakref.so
 lib/python${VERSION}/lib-dynload/array.so
 lib/python${VERSION}/lib-dynload/audioop.so
@@ -2078,9 +2070,6 @@ lib/python${VERSION}/sqlite3/__init__.pyo
 lib/python${VERSION}/sqlite3/dbapi2.py
 lib/python${VERSION}/sqlite3/dbapi2.pyc
 lib/python${VERSION}/sqlite3/dbapi2.pyo
-lib/python${VERSION}/sqlite3/test/__init__.py
-lib/python${VERSION}/sqlite3/test/__init__.pyc
-lib/python${VERSION}/sqlite3/test/__init__.pyo
 lib/python${VERSION}/sqlite3/test/dbapi.py
 lib/python${VERSION}/sqlite3/test/dbapi.pyc
 lib/python${VERSION}/sqlite3/test/dbapi.pyo
