@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/xlint/xlint/xlint.c,v 1.3 2006/07/03 14:45:59 tg Exp $ */
+/**	$MirOS: src/usr.bin/xlint/xlint/xlint.c,v 1.4 2006/09/21 21:48:41 tg Exp $ */
 /*	$OpenBSD: xlint.c,v 1.16 2004/05/11 02:08:07 millert Exp $	*/
 /*	$NetBSD: xlint.c,v 1.3 1995/10/23 14:29:30 jpo Exp $	*/
 
@@ -50,7 +50,7 @@
 #include "lint.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/usr.bin/xlint/xlint/xlint.c,v 1.3 2006/07/03 14:45:59 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/xlint/xlint/xlint.c,v 1.4 2006/09/21 21:48:41 tg Exp $");
 
 /* directory for temporary files */
 static	const	char *tmpdir;
@@ -324,16 +324,7 @@ main(argc, argv)
 	libs = xcalloc(1, sizeof (char *));
 	libsrchpath = xcalloc(1, sizeof (char *));
 
-	appcstrg(&cppflags, "-x");
-	appcstrg(&cppflags, "c");
-	appcstrg(&cppflags, "-undef");
-	/* even with -undef cpp still identifies as GNUC */
-	appcstrg(&cppflags, "-U__GNUC__");
-#if defined(__GNUC__) && __GNUC__ < 3
-	appcstrg(&cppflags, "-$");
-#endif
 	appcstrg(&cppflags, "-C");
-	appcstrg(&cppflags, "-Wcomment");
 #ifdef	__OpenBSD__
 	appcstrg(&cppflags, "-D__OpenBSD__");
 #endif
@@ -343,8 +334,6 @@ main(argc, argv)
 	appcstrg(&cppflags, "-Dlint");		/* XXX don't def. with -s */
 	appdef(&cppflags, "lint");
 	appdef(&cppflags, "unix");
-
-	appcstrg(&lcppflgs, "-Wtraditional");
 
 	if (uname(&un) == -1)
 		err(1, "uname");
@@ -416,9 +405,6 @@ main(argc, argv)
 			if (tflag)
 				usage();
 			freelst(&lcppflgs);
-			appcstrg(&lcppflgs, "-trigraphs");
-			appcstrg(&lcppflgs, "-Wtrigraphs");
-			appcstrg(&lcppflgs, "-pedantic");
 			appcstrg(&lcppflgs, "-D__STRICT_ANSI__");
 			appcstrg(&l1flags, "-s");
 			appcstrg(&l2flags, "-s");
@@ -429,7 +415,7 @@ main(argc, argv)
 			if (sflag)
 				usage();
 			freelst(&lcppflgs);
-			appcstrg(&lcppflgs, "-traditional");
+			appcstrg(&lcppflgs, "-t");
 			appstrg(&lcppflgs, concat2("-D", MACHINE));
 			appstrg(&lcppflgs, concat2("-D", MACHINE_ARCH));
 			appcstrg(&l1flags, "-t");
@@ -583,7 +569,7 @@ fname(name, last)
 
 	/* run cpp */
 
-	path = strdup("/usr/bin/cpp");
+	path = strdup("/usr/libexec/cpp");
 
 	appcstrg(&args, path);
 	applst(&args, cppflags);

@@ -1,11 +1,12 @@
-# $MirOS: ports/plan9/kencc/Makefile,v 1.4 2007/04/13 19:40:49 bsiegert Exp $
+# $MirOS: ports/plan9/kencc/Makefile,v 1.5 2008/10/04 19:03:34 tg Exp $
 
 # sort of hard to add more...
 ONLY_FOR_PLATFORM=	Darwin:*:powerpc MirBSD:*:i386 OpenBSD:*:i386
 
-COMMENT=			Plan 9 compiler suite
+COMMENT=		Plan 9 compiler suite
 CATEGORIES=		devel lang plan9
 V=			20060303
+DASH_VER=		1
 DISTNAME=		kencc-${V}
 DIST_SUBDIR=		inferno-${V}
 DISTFILES=		FreeBSD.tgz MacOSX.tgz inferno.tgz utils.tgz
@@ -90,7 +91,7 @@ do-build:
 	${NROFF} -man ${MANSRC}/10/${_i} >${WRKSRC}/cat1/${_i}.0
 .endfor
 	print '#!${MKSH}' >${WRKSRC}/9cpp
-	print 'exec /usr/bin/cpp -undef \\' >>${WRKSRC}/9cpp
+	print 'exec /usr/libexec/cpp \\' >>${WRKSRC}/9cpp
 .for _i in ${CPP_DEFINES}
 	print '\t-D${_i} \\' >>${WRKSRC}/9cpp
 .endfor

@@ -79,7 +79,7 @@ struct commandline {
 static char    *cmdname;
 
 static char    *svcclosetime = "120";
-static char    *CPP = "/usr/bin/cpp";
+static char    *CPP = "/usr/libexec/cpp";
 static char     CPPFLAGS[] = "-C";
 static char     pathbuf[MAXPATHLEN];
 static char    *allv[] = {
