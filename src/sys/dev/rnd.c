@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.59 2010/09/12 12:24:30 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.60 2010/09/12 18:20:00 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -1341,53 +1341,70 @@ rnd_shutdown(void)
 	splx(s);
 }
 
+struct rnd_pooladd {
+	union {
+		struct timeval tv;
+#if defined(I586_CPU) || defined(I686_CPU)
+		unsigned long long tsc;
+#endif
+	} u;
+	const void *sp, *dp;
+	size_t sz;
+};
+
+void rnd_pool_add(struct rnd_pooladd *, const void *, size_t);
+
+void
+rnd_pool_add(struct rnd_pooladd *sa, const void *d, size_t n)
+{
+#if defined(I586_CPU) || defined(I686_CPU)
+	if (pentium_mhz) {
+		__asm __volatile("rdtsc" : "=A" (sa->u.tsc));
+	} else
+#endif
+	    {
+		/* cannot use memcpy since time is volatile */
+		sa->u.tv.tv_sec = time.tv_sec;
+		sa->u.tv.tv_usec = time.tv_usec;
+	}
+	sa->sp = sa;
+
+	// addtopool: sa, sizeof(*sa)
+	// addtopool: d, n
+	// poolcontent += n
+}
+
 void
 rnd_bootpool_add(const void *vp, size_t n)
 {
-	register uint32_t h;
-	struct {
-		union {
-			struct timeval tv;
-#if defined(I586_CPU) || defined(I686_CPU)
-			unsigned long long tsc;
-#endif
-		} u;
-		const void *sp, *dp;
-		size_t sz;
-		uint32_t h;
-	} fs;
+	struct rnd_pooladd pa;
+	uint32_t h;
+
+	pa.dp = vp;
+	pa.sz = n;
 
 	do {
 		h = arc4random() & 0xFFFFFF00;
 	} while (!h);
 
-	fs.sp = &fs;
-	fs.dp = vp;
-	fs.sz = n;
-
-#if defined(I586_CPU) || defined(I686_CPU)
-	if (pentium_mhz) {
-		__asm __volatile("rdtsc" : "=A" (fs.u.tsc));
-	} else
-#endif
-	    {
-		/* cannot use memcpy since time is volatile */
-		fs.u.tv.tv_sec = time.tv_sec;
-		fs.u.tv.tv_usec = time.tv_usec;
-	}
-
 	h = OAAT0Final(OAAT0Update(h, vp, n));
-	fs.h = h;
-	rnd_lopool_add(&fs, sizeof(fs));
+	rnd_pool_add(&pa, &h, sizeof(h));
 }
 
 void
 rnd_lopool_add(const void *buf, size_t len)
 {
+	struct rnd_pooladd pa;
+
+	pa.dp = buf;
+	pa.sz = len;
+	rnd_pool_add(&pa, buf, len);
 }
 
 void
 rnd_lopool_addv(unsigned long v)
 {
-	rnd_lopool_add(&v, sizeof(v));
+	struct rnd_pooladd pa;
+
+	rnd_pool_add(&pa, &v, sizeof(v));
 }

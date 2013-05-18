@@ -27,11 +27,8 @@
  */
 
 #include <machine/asm.h>
-#ifdef _KERNEL
-#include <dev/rndvar.h>
-#endif
 
-RCSID("$MirOS: src/kern/z/adler32_i386.S,v 1.11 2008/08/01 13:46:08 tg Exp $")
+RCSID("$MirOS: src/kern/z/adler32_i386.S,v 1.12 2010/09/12 18:19:56 tg Exp $")
 
 #define BASE	65521	/* largest prime smaller than 65536 */
 #define NMAX	5552	/* largest n: 255n(n+1)/2 + (n+1)(BASE-1) <= 2^32-1 */

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/in_cksum.s,v 1.6 2009/03/02 17:56:56 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/in_cksum.s,v 1.7 2010/09/12 18:19:58 tg Exp $ */
 /*	$OpenBSD: in_cksum.s,v 1.7 2005/05/21 19:13:55 brad Exp $	*/
 /*	$NetBSD: in_cksum.S,v 1.2 2003/08/07 16:27:54 agc Exp $	*/
 
@@ -71,7 +71,6 @@
 
 #include <machine/asm.h>
 #include "assym.h"
-#include <dev/rndvar.h>
 
 /* LINTSTUB: include <sys/types.h> */
 /* LINTSTUB: include <machine/param.h> */

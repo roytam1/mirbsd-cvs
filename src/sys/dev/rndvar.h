@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.22 2010/09/12 17:10:45 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.23 2010/09/12 18:20:00 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
@@ -37,8 +37,6 @@
 #ifndef POOLWORDS
 #define POOLWORDS 1024	/* Power of 2 - note that this is 32-bit words */
 #endif
-
-#ifndef _ASM_SOURCE
 
 #include <sys/slibkern.h>
 
@@ -110,6 +108,5 @@ void rnd_lopool_add(const void *, size_t)
 void rnd_lopool_addv(unsigned long);
 
 #endif /* _KERNEL */
-#endif /* !_ASM_SOURCE */
 
 #endif /* __RNDVAR_H__ */
