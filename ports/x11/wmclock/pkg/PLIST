@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.1.1.1 2001/11/06 13:57:08 wilfried Exp $
-bin/wmclock
-man/man1/wmclock.1

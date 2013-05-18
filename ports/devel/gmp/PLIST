@@ -1,8 +1,0 @@
-@comment $MirOS$
-@unexec install-info --delete --info-dir=%D/info %D/info/gmp.info
-include/gmp.h
-include/gmpxx.h
-info/gmp.info
-lib/libgmp.la
-lib/libgmpxx.la
-@exec install-info --info-dir=%D/info %D/info/gmp.info

@@ -1,9 +1,0 @@
-#!/bin/sh
-# $MirOS$
-
-LD_LIBRARY_PATH=@PREFIX@/ocs-@VERSION@/lib/@OSARCH@:$LD_LIBRARY_PATH
-OCS=@PREFIX@/ocs-@VERSION@
-PATH=@PREFIX@/ocs-@VERSION@/bin:$PATH
-
-export LD_LIBRARY_PATH OCS PATH
-exec "@PREFIX@/ocs-@VERSION@/bin/$(basename "$0")" "$@"
