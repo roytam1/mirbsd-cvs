@@ -1,4 +1,4 @@
-@comment $MirOS: ports/www/firesomething/pkg/PLIST,v 1.13 2008/12/08 20:31:26 bsiegert Exp $
+@comment $MirOS: ports/www/firesomething/pkg/PLIST,v 1.14 2008/12/08 22:38:53 tg Exp $
 @comment $OpenBSD: PLIST,v 1.13 2005/09/24 16:19:29 bernd Exp $
 @pkgcfl mozilla-firebird-*
 @pkgcfl mozilla-firefox-*
@@ -31,6 +31,7 @@ firesomething/components/FeedConverter.js
 firesomething/components/FeedProcessor.js
 firesomething/components/FeedWriter.js
 firesomething/components/WebContentConverter.js
+firesomething/components/aboutRights.js
 firesomething/components/aboutRobots.js
 firesomething/components/browser.xpt
 firesomething/components/fuelApplication.js
