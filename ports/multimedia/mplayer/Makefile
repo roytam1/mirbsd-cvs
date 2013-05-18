@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/mplayer/Makefile,v 1.20 2008/10/04 19:03:19 tg Exp $
+# $MirOS: ports/multimedia/mplayer/Makefile,v 1.21 2008/11/08 23:03:53 tg Exp $
 # $OpenBSD: Makefile,v 1.83 2005/05/09 12:24:38 biorn Exp $
 
 # May not be hard to add more.
@@ -56,8 +56,6 @@ CONFIGURE_ARGS+=--disable-alsa \
 		--disable-vesa \
 		--disable-directfb \
 		--enable-cdparanoia \
-		--with-extraincdir=${LOCALBASE}/include/libpng:${LOCALBASE}/include \
-		--with-extralibdir=${LOCALBASE}/lib \
 		--prefix=${PREFIX:Q} \
 		--cc=${_PASS_CC:Q} \
 		--confdir=${CONFDIR}
@@ -65,6 +63,9 @@ CONFIGURE_ARGS+=--disable-alsa \
 CONFIGURE_ARGS+=--enable-ossaudio \
 		--enable-tv-bsdbt848
 CONFIGURE_ENV+=	TMPDIR=${WRKBUILD}
+
+CF_INCDIR:=	${LOCALBASE:Q}/include/libpng:${LOCALBASE:Q}/include
+CF_LIBDIR:=	${LOCALBASE:Q}/lib
 
 .if ${MACHINE_ARCH:Mi386}
 CONFIGURE_ARGS+=--enable-runtime-cpudetection
@@ -87,7 +88,7 @@ FLAVOUR+=	mad
 CONFIGURE_ARGS+=--disable-liblzo
 .else
 LIB_DEPENDS+=	lzo2:lzo->=2.*:archivers/lzo
-CPPFLAGS+=	-I${LOCALBASE}/include/lzo
+CF_INCDIR:=	${LOCALBASE:Q}/include/lzo:${CF_INCDIR}
 CONFIGURE_ARGS+=--enable-liblzo
 .endif
 
@@ -199,6 +200,9 @@ CONFIGURE_ARGS+=--disable-caca
 .if ${USE_CXX:L} != "yes"
 EXTRA_XAKE_FLAGS+=	CXX=${_PASS_CXX:Q}
 .endif
+
+CONFIGURE_ARGS+=	--with-extraincdir=${CF_INCDIR} \
+			--with-extralibdir=${CF_LIBDIR}
 
 NO_REGRESS=		Yes
 
