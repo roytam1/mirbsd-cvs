@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.5 2006/02/20 22:37:15 tg Exp $ */
+/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.6 2006/02/20 22:41:28 tg Exp $ */
 /*	$OpenBSD: vnconfig.c,v 1.16 2004/09/14 22:35:51 deraadt Exp $	*/
 /*
  * Copyright (c) 2006 Thorsten Glaser
@@ -56,36 +56,47 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.5 2006/02/20 22:37:15 tg Exp $");
+#include <openssl/asn1.h>
+#include <openssl/err.h>
+#include <openssl/evp.h>
+#include <openssl/pem.h>
+
+__RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.6 2006/02/20 22:41:28 tg Exp $");
 
 #define DEFAULT_VND	"vnd0"
 
 #define VND_CONFIG	1
 #define VND_UNCONFIG	2
 #define VND_GET		3
+#define VND_MAKEKEY	4
 
 int verbose = 0;
 
 __dead void usage(void);
 int config(char *, char *, int, char *, size_t, u_int32_t);
 int getinfo(const char *);
-
-/*
- * do NOT add the trailing NUL character to the length,
- * as tempting as it is, because it breaks compatibility
- */
-#define strbytes(x)	( ((x) == NULL) ? 0 : strlen(x) )
+static void extract_key(FILE *, char **, int *);
+static int make_key(const char *, FILE *);
 
 int
 main(int argc, char **argv)
 {
-	int ch, rv, action = VND_CONFIG, flags = 0;
+	int ch, rv, action = VND_CONFIG, flags = 0, keylen;
 	char *key = NULL;
+	char *keyfile = NULL;
+	FILE *keyfp = NULL;
 
-	while ((ch = getopt(argc, argv, "cklruv")) != -1) {
+	while ((ch = getopt(argc, argv, "cf:K:klruv")) != -1) {
 		switch (ch) {
 		case 'c':
 			action = VND_CONFIG;
+			break;
+		case 'f':
+			keyfile = optarg;
+			break;
+		case 'K':
+			action = VND_MAKEKEY;
+			key = optarg;
 			break;
 		case 'l':
 			action = VND_GET;
@@ -98,6 +109,9 @@ main(int argc, char **argv)
 			break;
 		case 'k':
 			key = getpass("Encryption key: ");
+			if (key == NULL)
+				errx(1, "getpass");
+			keylen = strlen(key);
 			break;
 		case 'r':
 			flags |= VNDIOC_OPT_RDONLY;
@@ -111,18 +125,30 @@ main(int argc, char **argv)
 	argc -= optind;
 	argv += optind;
 
+	if (keyfile) {
+		keyfp = fopen(keyfile, (action == VND_MAKEKEY) ? "wb" : "rb");
+		if (keyfp == NULL)
+			err(1, "fopen");
+		if (action != VND_MAKEKEY)
+			extract_key(keyfp, &key, &keylen);
+	}
+
 	if (action == VND_CONFIG && argc == 2)
-		rv = config(argv[0], argv[1], action, key, strbytes(key),
+		rv = config(argv[0], argv[1], action, key, keylen,
 		    flags);
 	else if (action == VND_UNCONFIG && argc == 1)
-		rv = config(argv[0], NULL, action, key, strbytes(key),
+		rv = config(argv[0], NULL, action, key, keylen,
 		    flags | VNDIOC_OPT_RDONLY);
 	else if (action == VND_GET)
 		rv = getinfo(argc ? argv[0] : NULL);
+	else if (action == VND_MAKEKEY)
+		rv = make_key(key, keyfp);
 	else
 		usage();
 
-	exit(rv);
+	if (keyfp)
+		fclose(keyfp);
+	return (rv);
 }
 
 int
@@ -226,11 +252,97 @@ config(char *dev, char *file, int action, char *key, size_t klen,
 __dead void
 usage(void)
 {
-	extern char *__progname;
+	extern const char *__progname;
 
 	(void)fprintf(stderr,
-	    "usage: %s [-c] [-krv] rawdev regular-file\n"
+	    "usage: %s [-c] [-krv] [-f keyfile] rawdev regular-file\n"
 	    "       %s -u [-v] rawdev\n"
-	    "       %s -l [rawdev]\n", __progname, __progname, __progname);
+	    "       %s -K algorithm -f keyfile\n"
+	    "       %s -l [rawdev]\n",
+	    __progname, __progname, __progname, __progname);
 	exit(1);
+}
+
+#define PEM_STRING_ASN1_OCTET_STRING "ASN1 OCTET STRING"
+
+static int
+make_key(const char *algo, FILE *fp)
+{
+	ASN1_OCTET_STRING *aos;
+	const EVP_CIPHER *enc = NULL;
+#define KBUF_ELEM	(72 / 4)
+	uint32_t kbuf[KBUF_ELEM];
+	int i;
+
+	if (algo == NULL || fp == NULL)
+		usage();
+
+	ERR_load_crypto_strings();
+	OpenSSL_add_all_ciphers();
+	if ((aos = ASN1_OCTET_STRING_new()) == NULL)
+		errx(2, "cannot create ASN.1 octet string: %s",
+		    ERR_error_string(ERR_get_error(), NULL));
+	if ((enc = EVP_get_cipherbyname(algo)) == NULL)
+		errx(2, "unknown cipher '%s': %s", algo,
+		    ERR_error_string(ERR_get_error(), NULL));
+
+	for (i = 0; i < KBUF_ELEM; ++i)
+		kbuf[i] = arc4random();
+
+	i = ASN1_STRING_set(aos, kbuf, sizeof (kbuf));
+	bzero(kbuf, sizeof (kbuf));
+	if (!i)
+		errx(2, "cannot set ASN.1 octet string: %s",
+		    ERR_error_string(ERR_get_error(), NULL));
+
+	i = PEM_ASN1_write(i2d_ASN1_OCTET_STRING,
+	    PEM_STRING_ASN1_OCTET_STRING, fp, (char *)aos,
+	    enc, NULL, 0, NULL, NULL);
+	ASN1_STRING_free(aos);
+	if (!i)
+		errx(2, "cannot encode svnd keyfile: %s",
+		    ERR_error_string(ERR_get_error(), NULL));
+	return (0);
+}
+
+static void
+extract_key(FILE *fp, char **key, int *klen)
+{
+	ASN1_OCTET_STRING *aos;
+	unsigned char *p;
+
+	if (fp == NULL || key == NULL || klen == NULL)
+		usage();
+
+	ERR_load_crypto_strings();
+	OpenSSL_add_all_ciphers();
+	if ((aos = (ASN1_OCTET_STRING *)PEM_ASN1_read(
+	    (char *(*)(char **, unsigned char **, long))d2i_ASN1_OCTET_STRING,
+	    PEM_STRING_ASN1_OCTET_STRING, fp, NULL, NULL, NULL)) == NULL) {
+		ERR_print_errors_fp(stderr);
+		errx(2, "cannot decode svnd keyfile");
+	}
+
+	*klen = ASN1_STRING_length(aos);
+	if (*klen < 1) {
+		ASN1_STRING_free(aos);
+		ERR_print_errors_fp(stderr);
+		errx(2, "svnd keyfile too small: %d", *klen);
+	}
+
+	*key = malloc(*klen);
+	if (*key == NULL)
+		err(1, "malloc of %d bytes", *klen);
+
+	p = ASN1_STRING_data(aos);
+	if (p == NULL) {
+		ASN1_STRING_free(aos);
+		ERR_print_errors_fp(stderr);
+		errx(2, "cannot get ASN.1 string");
+	}
+
+	memcpy(*key, p, *klen);
+	ASN1_STRING_free(aos);
+	EVP_cleanup();
+	ERR_free_strings();
 }
