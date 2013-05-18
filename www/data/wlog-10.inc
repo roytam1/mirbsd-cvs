@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.170 2009/03/14 18:38:51 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.171 2009/03/15 12:52:56 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3557,4 +3557,47 @@ should explain what identifiers like $D$ above mean.}
 <p>To make the table only one column wide, replace <tt>table*</tt> by
  <tt>table</tt> and <tt>\textwidth</tt> by <tt>\columnwidth</tt> in the
  example above. Do however leave the asterisk in <tt>tabular*</tt>.</p>
+----
+Author: tg@
+Title: Die erste Frühlingsluft
+Date: 21.03.2009 00:59
+
+<p>Kurz nach Mitternacht (oder genauer, 23:31:56 UTC). Ich stehe am
+ Fenster und atme die frische Frühlingsluft. Gleich in zweierlei
+ Bedeutungen, denn es friert nachts; dies ändert jedoch nichts daran,
+ daß es die letzten und nächsten Tage wunderbares Wetter hat.</p>
+<p>Diese Nacht hatte ich keine Kerze an wie sonst. Ich las und
+ unterhielt mich ein wenig, primär via IRC. Auch nicht habe ich
+ produktiv gehackt oder dergleichen (für alle, die noch nicht
+ lange hier mitlesen: hacken bedeutet nicht cracken). Ich frage
+ mich, ob dies zum nächsten Fest anders sein wird. Das Leben gut
+ zu verwalten ist definitiv nicht einfach, insbesondere mit einem
+ Achtstundenjob, dem inneren Schweinehund, und einfach <em>zu</em>
+ vielen guten Ideën (zum Beispiel mksh(1) betreffend).</p>
+<p>Nichtsdestoweniger gilt es, aus den paar guten, paar schlechten,
+ und vielen mittelmäßigen Impressionen das Beste zu machen. Einen
+ Kompromiß zu nehmen, damit man zum Beispiel mit dem Zwischenprodukt
+ bereits arbeiten kann (gutes Fallbeispiel, wann es in die Hose
+ geht, wenn man das nicht macht, ist "FreeWRT 1.1", more like 3.0).</p>
+<p>Dummerweise habe ich die meisten guten Ideën afk oder doch
+ zumindest im Zug oder dergleichen; außerdem ist es oft diffizil,
+ beim Tippen nicht alles wieder zu vergessen, bedingt durch die
+ langsamere Verarbeitungsgeschwindigkeit sowohl von Worten als
+ auch der physischen Mittel, sowie dadurch, daß das in-Worte-gießen
+ ebenfalls den Geist beansprucht. So manches Mal wünsche ich mir,
+ nur für mich zu hacken und es nicht zu publizieren, neue Versionen
+ zu produzieren "müssen" (selbstauferlegter Druck), so nehmt es mir
+ nicht übel. Keine Angst, weiter geht's immer.</p>
+<p>Veränderungen sind auch nichts Feines. Im Großen (in was für
+ einer Welt wachsen unsere Kinder eigentlich auf?) wie im Kleinen
+ (die Java&trade;-Fuzzis machen meinen Cachewolf kaputt). *seufz*
+ Vielleicht muß man echt alles selber machen. Aber ein portables
+ GUI-Toolkit für X11 und WinCE, das nicht Qt heißt oder sonstwie
+ was komisches Objektorientiertes (außer TP) braucht? Naja, packen
+ wir an, was wir können, und machen weiter, in der Hoffnung, es
+ werde nicht zu schlimm, und daß auch andere anpacken. (Ist das
+ eigentlich typisch deutsch? Jedenfalls bin ich Eifler genug, um
+ da keinen großen Aufschrei mehr zu machen. Oder einfach von der
+ harten Realität abgestumpft.)</p>
+<p>Rückblicke sind kraß. Da merkt man echt, wie alt man ist/wird.</p>
 ----
