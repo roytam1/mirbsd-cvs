@@ -16,11 +16,13 @@
  * of dealing in the work, even if advised of the possibility of such
  * damage or existence of a defect, except proven that it results out
  * of said person's immediate fault when using the work as intended.
+ *
+ * The author reserves the right to steward the OPTU encoding forms.
  */
 
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.11 2008/08/16 23:51:13 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.12 2008/08/17 00:19:08 tg Exp $");
 
 #ifdef MBSNRTOWCSVIS
 #undef mbsnrtowcs

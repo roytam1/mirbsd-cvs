@@ -16,12 +16,14 @@
  * of dealing in the work, even if advised of the possibility of such
  * damage or existence of a defect, except proven that it results out
  * of said person's immediate fault when using the work as intended.
+ *
+ * The author reserves the right to steward the OPTU encoding forms.
  */
 
 #include <errno.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcsrtombs.c,v 1.7 2008/08/01 23:37:46 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcsrtombs.c,v 1.8 2008/11/22 11:22:10 tg Exp $");
 
 #ifdef WCSNRTOMBS
 size_t
