@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.57 2006/03/30 02:29:25 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.58 2006/03/31 04:05:28 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -964,6 +964,29 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <p>The only positive thing is that, despite the rain, it's been a nice,
   quite interesting, day in various regards. Too bad I'm still awake and
   probably won't make it in time tomorrow either...</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060331">31.03.2006 by tg@</h3>
+ <p>Today, it's porting kencc and fixing gcc. Duh.</p>
+ <p>It was a fucked up day, the weather was bad, people, events were bad
+  and this day should be banned...</p>
+ <p>... at least I got gcc working.</p>
+ <p>I can't seem to either run (kernel) or convert (binutils) a COFF (or
+  ECOFF, tried both) executable. Why?</p>
+ <p>The solution is probably <em>really</em> to teach 8l ELF... although
+  this will be very much work since 8l is not the only linker.</p>
+ <p>Benny is still not committing, he rather wants to go to bed. He sent
+  out an announcement for the MirOS #8-stale sendmail(8) security update
+  though (after I MFC'd it ;).</p>
+ <p>Did I mention gcc is a pile of crap? Well, I had to pay for using an
+  alpha version of GP &ndash; but the rest <strong>still</strong> is the
+  biggest pile of... interesting stuff... we have in the OS.</p>
+ <p>Well, kencc doesn't do Propolice, W^X, NXSTACK, NXHEAP etc. (and ELF
+  might help with the latter three but I don't know if I'm up to it, and
+  Theo won't do it, see above...) so it's probably only going to be used
+  as an alternative compiler for those who dare. Security checks (format
+  string warnings, __attribute__ stuff etc.) are done with gcc.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
