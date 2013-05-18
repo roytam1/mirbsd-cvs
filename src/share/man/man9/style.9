@@ -1,6 +1,6 @@
-.\" $MirOS: src/share/man/man9/style.9,v 1.11 2008/12/27 20:10:05 tg Exp $
+.\" $MirOS: src/share/man/man9/style.9,v 1.12 2009/05/16 14:09:05 tg Exp $
 .\"-
-.\" Copyright (c) 2002-2009 The MirOS Project.
+.\" Copyright (c) 2002-2010 The MirOS Project.
 .\" Copyright (c) ? OpenBSD
 .\" Copyright (c) 1995 FreeBSD Inc.
 .\" All rights reserved.
@@ -28,7 +28,7 @@
 .\"
 .\"	$OpenBSD: style.9,v 1.50 2008/11/14 13:42:05 tedu Exp $
 .\"
-.Dd $Mdocdate: December 27 2008 $
+.Dd $Mdocdate: May 16 2009 $
 .Dt STYLE 9
 .Os
 .Sh NAME
@@ -474,6 +474,28 @@ if (test)
 else if (bar) {
 	stmt;
 	stmt;
+} else
+	stmt;
+.Ed
+.Pp
+Avoid doing multiple assignments in one statement, like this:
+.Bd -literal -offset indent
+/* bad example */
+if (foo) {
+	stmt;
+	stmt;
+else if (bad)
+	*wp++ = QCHAR, *wp++ = c;
+else
+	stmt;
+
+/* write this as */
+if (foo) {
+	stmt;
+	stmt;
+else if (good) {
+	*wp++ = QCHAR;
+	*wp++ = c;
 } else
 	stmt;
 .Ed

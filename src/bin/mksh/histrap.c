@@ -26,7 +26,7 @@
 #include <sys/file.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/histrap.c,v 1.90 2009/12/12 22:27:08 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/histrap.c,v 1.91 2010/01/25 16:12:55 tg Exp $");
 
 /*-
  * MirOS: This is the default mapping type, and need not be specified.
@@ -790,8 +790,10 @@ hist_count_lines(unsigned char *base, int bytes)
 		case sn4:
 			state = sline; break;
 		case sline:
-			if (*base == '\0')
-				lines++, state = shdr;
+			if (*base == '\0') {
+				lines++;
+				state = shdr;
+			}
 		}
 		base++;
 	}

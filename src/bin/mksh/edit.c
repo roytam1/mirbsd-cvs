@@ -25,7 +25,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/edit.c,v 1.187 2009/12/12 22:27:05 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/edit.c,v 1.188 2010/01/08 22:21:04 tg Exp $");
 
 /* tty driver characters we are interested in */
 typedef struct {
@@ -4034,7 +4034,7 @@ vi_cmd(int argcnt, const char *cmd)
 		case 'g':
 			if (!argcnt)
 				argcnt = hlast;
-			/* FALLTHRU */
+			/* FALLTHROUGH */
 		case 'G':
 			if (!argcnt)
 				argcnt = 1;
@@ -4188,7 +4188,7 @@ vi_cmd(int argcnt, const char *cmd)
 			c3 = 1;
 			srchlen = 0;
 			lastsearch = *cmd;
-			/* FALLTHRU */
+			/* FALLTHROUGH */
 		case 'n':
 		case 'N':
 			if (lastsearch == ' ')
