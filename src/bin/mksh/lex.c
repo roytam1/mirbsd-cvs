@@ -2,7 +2,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/lex.c,v 1.53 2008/02/27 01:00:09 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/lex.c,v 1.54 2008/03/01 21:10:25 tg Exp $");
 
 /*
  * states while lexing word
@@ -854,9 +854,7 @@ yylex(int cf)
 		while (dp < ident+IDENT)
 			if ((c = *sp++) == CHAR)
 				*dp++ = *sp++;
-			else if ((c == OQUOTE) || (c == CQUOTE))
-				;
-			else
+			else if ((c != OQUOTE) && (c != CQUOTE))
 				break;
 	else
 		while (dp < ident+IDENT && (c = *sp++) == CHAR)
