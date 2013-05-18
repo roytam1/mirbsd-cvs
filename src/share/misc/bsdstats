@@ -1,8 +1,29 @@
-# $MirOS: src/share/misc/bsdstats,v 1.4 2006/09/19 03:21:24 tg Exp $
+# $MirOS: src/share/misc/bsdstats,v 1.5 2006/10/03 00:04:34 tg Exp $
+# $FreeBSD: /repoman/r/pcvs/ports/sysutils/bsdstats/files/300.statistics,v 1.30 2006/10/02 12:07:30 scrappy Exp $
 
-function uri_escape
-{
-	print -nr -- "$*" | hexdump -ve '1/1 "-%02x"' | sed s/-/%/g
+print -u2 'Error:\tbsdstats.org code is currently disabled'
+print -u2 '\tbecause they fubar'\''d something...'
+exit 0
+
+unset HTTP_USER_AGENT
+rpt='http://rpt.bsdstats.org/scripts/'
+
+# RFC 2396
+uri_escape () {
+    echo ${1+$@} | sed -e '
+        s/%/%25/g
+        s/;/%3b/g
+        s,/,%2f,g
+        s/?/%3f/g
+        s/:/%3a/g
+        s/@/%40/g
+        s/&/%26/g
+        s/=/%3d/g
+        s/+/%2b/g
+        s/\$/%24/g
+        s/,/%2c/g
+        s/ /%20/g
+        '
 }
 
 stats_token=
@@ -15,9 +36,11 @@ integer stats_report_time=0
 print "last report time was: $stats_report_time ($(date -r $stats_report_time))"
 if [[ -z $stats_token || -z $stats_key ]]; then
 	stats_report_time=0
-	stats_key=$(uri_escape $(openssl rand -base64 16))
+	stats_key=$(uri_escape $(openssl rand -base64 32))
 	sleep $((RANDOM % 120))
-	res=$(ftp -V -o - http://bsdstats.org/scripts/getid.php?key=$stats_key 2>&-)
+	uri="${rpt}getid.php?key=$stats_key"
+	res=$(ftp -V -o - "$uri" 2>&-)
+	print -r "firstrun $uri -> ${res:-ERROR}"
 	stats_token=$(uri_escape $(eval $res; print -nr -- "$KEY"))
 	stats_token_time=$(date +%s)
 fi
@@ -57,17 +80,25 @@ if (( stats_report_time <= (now - (14 * 86400) + 7200) )); then
 			}
 		fi
 	fi
-	uri="http://bsdstats.org/scripts/report_system.php?key=$stats_token&rel=$(uri_escape $version)&arch=$(uname -m)&opsys=$(uname -s)"
+	uri="${rpt}enable_token.php?token=$stats_key&key=$stats_token"
+	sleep $((RANDOM % 120))
+	res=$(ftp -V -o - "$uri" 2>&-)
+	print -r "init $uri -> ${res:-ERROR}"
+	uri="${rpt}report_system.php?token=$stats_key&key=$stats_token&rel=$(uri_escape $version)&arch=$(uname -m)&opsys=$(uname -s)"
 	sleep $((RANDOM % 120))
 	res=$(ftp -V -o - "$uri" 2>&-)
 	print -r "system report $uri -> ${res:-ERROR}"
 	[[ $res = OK ]] || ok=0
 	cpu=$(sysctl -n hw.model)
-	uri="http://bsdstats.org/scripts/report_cpu.php?key=$stats_token&vendor=$(print -r -- "$cpu" | cut -d' ' -f1)&cpu_type=$(uri_escape $(print -r -- "$cpu" | cut -d' ' -f2-))&cpus=1"
+	uri="${rpt}report_cpu.php?token=$stats_key&key=$stats_token&vendor=$(print -r -- "$cpu" | cut -d' ' -f1)&cpu_type=$(uri_escape $(print -r -- "$cpu" | cut -d' ' -f2-))&cpus=1"
 	sleep $((RANDOM % 120))
 	res=$(ftp -V -o - "$uri" 2>&-)
 	print -r "cpu report $uri -> ${res:-ERROR}"
 	[[ $res = OK ]] || ok=0
+	uri="${rpt}disable_token.php?token=$stats_key&key=$stats_token"
+	sleep $((RANDOM % 120))
+	res=$(ftp -V -o - "$uri" 2>&-)
+	print -r "done $uri -> ${res:-ERROR}"
 	(( ok )) && stats_report_time=$(date +%s)
 fi
 install -c -o root -g staff -m 640 /dev/null /var/db/bsdstats.new
