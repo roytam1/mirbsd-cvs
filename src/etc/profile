@@ -33,8 +33,9 @@ IRCNAME="MirOS packages a kernel, userland and the attitude"
 IRCPORT=6667
 IRCSERVER=irc.eu.freenode.net
 LC_CTYPE=en_US.UTF-8
-: ${OSNAME:=$(ulimit -c 0; uname -s 2>/dev/null)}
-: ${OSNAME:=unknown}
+#: ${OSNAME:=$(ulimit -c 0; uname -s 2>/dev/null)}
+#: ${OSNAME:=unknown}
+: ${OSNAME:=MirBSD}
 PAGER=/usr/bin/less
 if [ -n "$KSH_VERSION" ]; then
 	test -z "$USER" || PS1="\$PWD $PS1"
@@ -96,4 +97,4 @@ if [ -O /var/run/ssh-agent/$USER_ID ]; then
 	unset _dir
 fi
 
-: $MirOS: src/etc/profile,v 1.55 2008/03/27 13:48:27 tg Exp $
+: $MirOS: src/etc/profile,v 1.56 2008/05/07 12:16:12 tg Exp $
