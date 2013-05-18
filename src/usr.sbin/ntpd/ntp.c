@@ -38,7 +38,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.18 2007/10/09 13:28:09 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.19 2008/05/13 12:20:05 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -450,16 +450,6 @@ priv_adjtime(void)
 
 	if (conf->trace > 2)
 		log_info("priv_adjtime, %d peers", offset_cnt);
-	if (conf->trace > 4 || (conf->trace && conf->debug))
-		for (i = 0; i < offset_cnt; ++i)
-			log_info("peer %2d: %s, trust %d "
-			    " st %2d dst %3dms ofs %6.1fms addr %s", i,
-			    peers[i]->update.good ? "good" : "bad ",
-			    peers[i]->trustlevel < TRUSTLEVEL_BADPEER ? 0 : 1,
-			    peers[i]->update.status.stratum,
-			    (int)((peers[i]->update.delay + .0005) * 1000.),
-			    peers[i]->update.offset * 1000.,
-			    log_sockaddr((struct sockaddr *)&peers[i]->addr->ss));
 
 	weight_cnt = 0;
 	weight_half = 0;
@@ -495,6 +485,17 @@ priv_adjtime(void)
 		if (peers[i]->update.good)
 			offset_median += peers[i]->update.offset *
 			    ((double)(peers[i]->update.good) / weight_cnt);
+
+	if (conf->trace > 4 || (conf->trace && conf->debug))
+		for (i = 0; i < offset_cnt; ++i)
+			log_info("peer %2d: trust %d st %2d dst %3dms"
+			    " ofs %6.1fms weight %4d addr %s", i,
+			    peers[i]->trustlevel < TRUSTLEVEL_BADPEER ? 0 : 1,
+			    peers[i]->update.status.stratum,
+			    (int)((peers[i]->update.delay + .0005) * 1000.),
+			    peers[i]->update.offset * 1000.,
+			    peers[i]->update.good,
+			    log_sockaddr((struct sockaddr *)&peers[i]->addr->ss));
 
 	if (offset_cnt > 1 && offset_cnt % 2 == 0) {
 		conf->status.rootdelay =
