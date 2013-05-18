@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.20 2006/10/17 21:08:04 tg Exp $
+# $MirOS: ports/Makefile,v 1.21 2006/11/16 23:34:21 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -148,8 +148,16 @@ setup: Setup.sh
 		${SUDO} rmdir /usr/mpkg/lib/X11/app-defaults; \
 	fi
 	${SUDO} ln -sf /etc/X11/app-defaults /usr/mpkg/lib/X11/app-defaults
-	env CC=${CC:Q} SHELL=${MKSH} MKSH=${MKSH} \
-	    ${SUDO} /bin/sh ${.CURDIR}/Setup.sh -T
+	${SUDO} rm -rf /usr/mpkg/.sst /etc/.mirports.test.*
+	(echo "Policy: /usr/bin/env, Emulation: native"; \
+	    cat ${.CURDIR}/infrastructure/templates/systrace.filter) \
+	    | ${SUDO} dd of=/usr/mpkg/.sst
+	printf '%s\n%s\n%s\n%s\n%s\nwq\n' '%g!PORTSDIR!d' '%g!PKG_TMPDIR!d' \
+	    '%g!TMPDIR!s!..TMPDIR.!/etc/.mirports.test.*!g' '%g!DISTDIR!d' \
+	    '%g!WRKDIR!s!..WRKDIR.!/usr/mpkg!g' | ${SUDO} ed -s /usr/mpkg/.sst
+	/bin/systrace -e -i -a -f /usr/mpkg/.sst /usr/bin/env CC=${CC:Q} \
+	    SHELL=${MKSH} MKSH=${MKSH} ${SUDO} /bin/sh ${.CURDIR}/Setup.sh -T
+	${SUDO} rm -rf /usr/mpkg/.sst /etc/.mirports.test.*
 
 nfo: Setup.sh.nfo Setup.sh.htm
 

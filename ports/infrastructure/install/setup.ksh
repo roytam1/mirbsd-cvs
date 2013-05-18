@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.67 2006/10/13 17:25:59 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.68 2006/10/17 21:08:05 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -719,7 +719,7 @@ fi
 
 # End of installation programme
 
-if [[ $ismirbsd$isopenbsd = *yes* && $myuid = root ]]; then
+(( topt )) || if [[ $ismirbsd$isopenbsd = *yes* && $myuid = root ]]; then
 	print Augmenting user and group database...
 	$SHELL $portsdir/infrastructure/install/mkuserdb.ksh
 else
