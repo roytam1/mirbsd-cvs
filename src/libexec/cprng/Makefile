@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: src/libexec/cprng/Makefile,v 1.1 2007/07/07 20:32:06 tg Exp $
 
 PROG=		cprng
-NOMAN=		Yes
+MAN=		cprng.8
 LDSTATIC=	-static
 LDFLAGS+=	-Wl,-n -Wl,-s
 
