@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $ */
+/* $MirOS: src/lib/libc/gen/isctype.c,v 1.2 2006/11/01 19:49:33 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -26,7 +26,7 @@
 #include <stdio.h>
 #include "mir18n.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/gen/isctype.c,v 1.2 2006/11/01 19:49:33 tg Exp $");
 
 #undef isalnum
 #undef isalpha
@@ -51,27 +51,27 @@ __IDSTRING(CTYPE_NUM_CHARS, "ctype ('C' locale) handles 8 bits");
 __IDSTRING(CTYPE_NUM_CHARS, "ctype ('C' locale) handles 7 bits");
 #endif
 
-#define __CTYPE_IMPL(t)							     \
+#define __CTYPE_IMPL(t,v)						     \
 	int is ## t (int c)						     \
 	{								     \
-		if ((c < 0) || (c > (CTYPE_NUM_CHARS - 1)))		     \
+		if ((c < 0) || (c >= v))				     \
 			return (0);					     \
 		return ((__C_attribute_table_pg[c] & (_ctp_ ## t & 0xFF)) && \
 		    !(__C_attribute_table_pg[c] & (_ctp_ ## t >> 8)));	     \
 	}
 
-__CTYPE_IMPL(alnum)
-__CTYPE_IMPL(alpha)
-__CTYPE_IMPL(blank)
-__CTYPE_IMPL(cntrl)
-__CTYPE_IMPL(digit)
-__CTYPE_IMPL(graph)
-__CTYPE_IMPL(lower)
-__CTYPE_IMPL(print)
-__CTYPE_IMPL(punct)
-__CTYPE_IMPL(space)
-__CTYPE_IMPL(upper)
-__CTYPE_IMPL(xdigit)
+__CTYPE_IMPL(alnum,128)
+__CTYPE_IMPL(alpha,128)
+__CTYPE_IMPL(blank,128)
+__CTYPE_IMPL(cntrl,CTYPE_NUM_CHARS)
+__CTYPE_IMPL(digit,128)
+__CTYPE_IMPL(graph,128)
+__CTYPE_IMPL(lower,128)
+__CTYPE_IMPL(print,CTYPE_NUM_CHARS)
+__CTYPE_IMPL(punct,128)
+__CTYPE_IMPL(space,128)
+__CTYPE_IMPL(upper,128)
+__CTYPE_IMPL(xdigit,128)
 
 int isascii(int c)
 {

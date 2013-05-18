@@ -1,4 +1,4 @@
-/* $MirOS: src/include/ctype.h,v 1.3 2006/11/02 00:07:06 tg Exp $ */
+/* $MirOS: src/include/ctype.h,v 1.5 2006/11/02 01:35:48 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -68,16 +68,26 @@ int	toascii(int);
 
 #if !defined(_ANSI_LIBRARY) && !defined(lint)
 
+/*
+ * Kludge for the macro version:
+ * ANSI requires that only the 7-bit ASCII range is letters.
+ * With ISO-8859-1, 0x80..0x9F are cntrl, and 0xA0..0xFF are
+ * print, but with UTF-8, they are neither cntrl, nor print.
+ * So I decided to have a pure ISO_646.irv:1991 macro imple-
+ * mentation, and the function implementation return cntrl /
+ * print if MIR18N_C_CSET == 2, 0 otherwise, for 8bit chars.
+ */
+
 #ifdef __GNUC__
 #define __CTYPE_IMPL(c,t) __extension__({				\
 	unsigned __CTYPE_Ic = (c);					\
-	(__CTYPE_Ic > 255) ? 0 :					\
+	(__CTYPE_Ic > 127) ? 0 :					\
 	 ((__C_attribute_table_pg[__CTYPE_Ic] & (_ctp_ ## t & 0xFF)) &&	\
 	 !(__C_attribute_table_pg[__CTYPE_Ic] & (_ctp_ ## t >> 8)));	\
 })
 #else
 #define __CTYPE_IMPL(c,t)						\
-	(((((int)(c)) < 0) || (((int)(c)) > 255)) ? 0 :			\
+	(((((int)(c)) < 0) || (((int)(c)) > 127)) ? 0 :			\
 	 ((__C_attribute_table_pg[((int)(c))] & (_ctp_ ## t & 0xFF)) &&	\
 	 !(__C_attribute_table_pg[((int)(c))] & (_ctp_ ## t >> 8))))
 #endif
