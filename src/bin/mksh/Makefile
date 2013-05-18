@@ -1,4 +1,4 @@
-# $MirOS: src/bin/mksh/Makefile,v 1.76 2009/07/30 19:11:09 tg Exp $
+# $MirOS: src/bin/mksh/Makefile,v 1.77 2009/07/30 19:18:06 tg Stab $
 #-
 # Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -79,7 +79,9 @@ clean-extra: .PHONY
 	-rm -rf build-dir regress-dir printf.o printf.ln
 
 distribution:
-	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${CONFGRP} -m 0644 \
-	    ${.CURDIR}/dot.mkshrc ${DESTDIR}/etc/skel/.mkshrc
+	sed 's!\$$I''d\([:$$]\)!$$M''irSecuCron\1!g' \
+	    ${.CURDIR}/dot.mkshrc >${DESTDIR}/etc/skel/.mkshrc
+	chown ${BINOWN}:${CONFGRP} ${DESTDIR}/etc/skel/.mkshrc
+	chmod 0644 ${DESTDIR}/etc/skel/.mkshrc
 
 .include <bsd.prog.mk>
