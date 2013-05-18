@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.7 2006/02/21 23:42:54 tg Exp $ */
+/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.8 2006/02/22 00:22:00 tg Exp $ */
 /*	$OpenBSD: vnconfig.c,v 1.16 2004/09/14 22:35:51 deraadt Exp $	*/
 /*
  * Copyright (c) 2006 Thorsten Glaser
@@ -61,7 +61,7 @@
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 
-__RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.7 2006/02/21 23:42:54 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.8 2006/02/22 00:22:00 tg Exp $");
 
 #define DEFAULT_VND	"vnd0"
 
@@ -69,6 +69,8 @@ __RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.7 2006/02/21 23:42:54 tg E
 #define VND_UNCONFIG	2
 #define VND_GET		3
 #define VND_MAKEKEY	4
+
+#define BLF_MAX_BYTES	72
 
 int verbose = 0;
 
@@ -276,7 +278,7 @@ make_key(const char *algo, FILE *fp, const char *key2)
 {
 	ASN1_OCTET_STRING *aos;
 	const EVP_CIPHER *enc = NULL;
-#define KBUF_ELEM	(72 / 4)
+#define KBUF_ELEM	(BLF_MAX_BYTES / 4)
 	uint32_t kbuf[KBUF_ELEM];
 	int i;
 	size_t kbuflen = sizeof (kbuf);
@@ -343,7 +345,8 @@ extract_key(FILE *fp, char **key, int *klen)
 		ASN1_STRING_free(aos);
 		ERR_print_errors_fp(stderr);
 		errx(2, "svnd keyfile too small: %d", *klen);
-	}
+	} else if (*klen > BLF_MAX_BYTES)
+		*klen = BLF_MAX_BYTES;
 
 	*key = malloc(*klen);
 	if (*key == NULL)
