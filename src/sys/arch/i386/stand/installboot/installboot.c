@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.11 2006/04/07 23:47:52 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.12 2006/04/07 23:53:07 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -88,7 +88,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.11 2006/04/07 23:47:52 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.12 2006/04/07 23:53:07 tg Exp $");
 
 extern	char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -189,7 +189,7 @@ main(int argc, char *argv[])
 	bios_diskinfo_t di;
 	long mbrofs;
 	int mbrpart;
-	long isoofs = 0, isolen = 0, imaofs = 0;
+	off_t isoofs = 0, isolen = 0, imaofs = 0;
 
 	fprintf(stderr, "MirOS BSD installboot " __BOOT_VER "\n");
 
@@ -204,12 +204,12 @@ main(int argc, char *argv[])
 			} else	userspec = 1;
 			break;
 		case 'I':
-			isoofs = strtol(optarg, NULL, 0);
+			isoofs = (off_t)strtoll(optarg, NULL, 0);
 			if (isoofs < 1)
 				errx(1, "invalid bootstart argument");
 			break;
 		case 'i':
-			imaofs = strtol(optarg, NULL, 0);
+			imaofs = (off_t)strtoll(optarg, NULL, 0);
 			if (imaofs < 1)
 				errx(1, "invalid bootstart argument");
 			break;
@@ -259,7 +259,7 @@ main(int argc, char *argv[])
 	realdev = dev = argv[optind + 2];
 
 	if (isoofs || imaofs) {
-		isolen = strtol(boot, NULL, 0);
+		isolen = (off_t)strtoll(boot, NULL, 0);
 		if (isolen <= (isoofs ? isoofs : 4))
 			errx(1, "invalid boot%s argument",
 			    isoofs ? "end" : "len");
