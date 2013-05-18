@@ -1,4 +1,2 @@
-#!/bin/mksh
-# $MirOS$
-
+#!/bin/sh
 exit 0
