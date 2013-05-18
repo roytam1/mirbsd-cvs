@@ -1,10 +1,10 @@
-/* $MirOS: src/usr.bin/oldroff/tbl/tb.c,v 1.2 2006/10/03 19:51:11 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/tbl/tb.c,v 1.3 2008/11/08 23:04:53 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004, 2005
+ * Copyright (c) 2003, 2004, 2005, 2010
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
@@ -48,7 +48,7 @@
 
 # include "t..c"
 __SCCSID("@(#)tb.c	4.6 (Berkeley) 4/18/91");
-__RCSID("$MirOS: src/usr.bin/oldroff/tbl/tb.c,v 1.2 2006/10/03 19:51:11 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/oldroff/tbl/tb.c,v 1.3 2008/11/08 23:04:53 tg Exp $");
 
 checkuse()
 {
@@ -94,7 +94,7 @@ if (spvecs[spcount])
 	return(spvecs[spcount++]);
 if (spcount>=MAXVEC)
 	error("Too many characters in table");
-spvecs[spcount++]= pp = calloc(MAXCHS+200,1);
+spvecs[spcount++]= pp = calloc(MAXCHS+BUFSIZ,1);
 if (pp == 0)
 	error("no space for characters");
 return(pp);
