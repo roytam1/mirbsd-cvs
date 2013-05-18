@@ -1,6 +1,7 @@
-/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.4 2005/12/04 15:02:33 tg Exp $ */
+/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.5 2006/02/20 22:37:15 tg Exp $ */
 /*	$OpenBSD: vnconfig.c,v 1.16 2004/09/14 22:35:51 deraadt Exp $	*/
 /*
+ * Copyright (c) 2006 Thorsten Glaser
  * Copyright (c) 1993 University of Utah.
  * Copyright (c) 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -55,7 +56,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.4 2005/12/04 15:02:33 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.5 2006/02/20 22:37:15 tg Exp $");
 
 #define DEFAULT_VND	"vnd0"
 
@@ -66,8 +67,14 @@ __RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.4 2005/12/04 15:02:33 tg E
 int verbose = 0;
 
 __dead void usage(void);
-int config(char *, char *, int, char *, u_int32_t);
+int config(char *, char *, int, char *, size_t, u_int32_t);
 int getinfo(const char *);
+
+/*
+ * do NOT add the trailing NUL character to the length,
+ * as tempting as it is, because it breaks compatibility
+ */
+#define strbytes(x)	( ((x) == NULL) ? 0 : strlen(x) )
 
 int
 main(int argc, char **argv)
@@ -105,9 +112,10 @@ main(int argc, char **argv)
 	argv += optind;
 
 	if (action == VND_CONFIG && argc == 2)
-		rv = config(argv[0], argv[1], action, key, flags);
+		rv = config(argv[0], argv[1], action, key, strbytes(key),
+		    flags);
 	else if (action == VND_UNCONFIG && argc == 1)
-		rv = config(argv[0], NULL, action, key,
+		rv = config(argv[0], NULL, action, key, strbytes(key),
 		    flags | VNDIOC_OPT_RDONLY);
 	else if (action == VND_GET)
 		rv = getinfo(argc ? argv[0] : NULL);
@@ -163,7 +171,8 @@ query:
 }
 
 int
-config(char *dev, char *file, int action, char *key, u_int32_t flags)
+config(char *dev, char *file, int action, char *key, size_t klen,
+    u_int32_t flags)
 {
 	struct vnd_ioctl vndio;
 	FILE *f;
@@ -181,7 +190,7 @@ config(char *dev, char *file, int action, char *key, u_int32_t flags)
 	}
 	vndio.vnd_file = file;
 	vndio.vnd_key = (u_char *)key;
-	vndio.vnd_keylen = key == NULL ? 0 : strlen(key);
+	vndio.vnd_keylen = klen;
 	vndio.vnd_options = flags;
 
 	/*
@@ -210,7 +219,7 @@ config(char *dev, char *file, int action, char *key, u_int32_t flags)
 	fflush(stdout);
  out:
 	if (key)
-		memset(key, 0, strlen(key));
+		memset(key, 0, klen);
 	return (rv < 0);
 }
 
