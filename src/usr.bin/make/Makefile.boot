@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/make/Makefile.boot,v 1.8 2005/11/24 13:26:56 tg Exp $
+# $MirOS: src/usr.bin/make/Makefile.boot,v 1.9 2005/11/24 13:51:53 tg Exp $
 # $OpenPackages: Makefile.boot,v 1.5 2001/04/06 00:09:55 will Exp $
 # $OpenBSD: Makefile.boot,v 1.8 2001/05/29 12:41:18 espie Exp $
 #
@@ -40,10 +40,13 @@ CFLAGS= -Iohash -I. ${DEFS} ${DEFS_RE} ${COPTS} -DMACHINE=\"${MACHINE}\" \
 	-DIN_MIRMAKE
 LIBS=	ohash/libohash.a
 
+# can be overridden
+getopt_long_o=getopt_long.o
+
 OBJ=	arch.o buf.o compat.o cond.o dir.o for.o job.o main.o make.o \
 	parse.o str.o suff.o targ.o var.o util.o error.o lowparse.o \
 	varmodifiers.o memory.o cmd_exec.o timestamp.o parsevar.o \
-	varname.o init.o strlfun.o getopt_long.o fgetln.o
+	varname.o init.o strlfun.o ${getopt_long_o} fgetln.o
 
 LIBOBJ=	lst.lib/lstAddNew.o lst.lib/lstAppend.o \
 	lst.lib/lstConcat.o lst.lib/lstConcatDestroy.o lst.lib/lstDeQueue.o \
