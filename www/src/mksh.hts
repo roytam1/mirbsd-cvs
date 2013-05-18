@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.40 2007/07/31 13:58:28 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.41 2007/07/31 15:36:20 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.40 2007/07/31 13:58:28 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.41 2007/07/31 15:36:20 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R30</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -266,7 +266,6 @@ mws_content <<'EOF'
  with <tt>/Gs-</tt> to disable the stack checks (missing support in libc
  for them, they used to be off by default) and remove <tt>/Ze</tt>.</p>
 <p>On Interix, this compiler is maturely usable and a good choice.</p>
-<p>
 
 <h5 id="oe_sun">Compiler: SUNpro</h5>
 <p>Support for the <a href="http://developer.sun.com/sunstudio">SUN Studio
