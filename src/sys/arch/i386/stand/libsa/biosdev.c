@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.6 2008/08/01 11:24:59 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.7 2008/11/08 23:04:07 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -516,7 +516,8 @@ biosopen(struct open_file *f, ...)
 		return EPART;
 	}
 
-	cp++;	/* skip ':' */
+	if (*cp == ':')
+		cp++;
 	if (*cp != 0)
 		*file = cp;
 	else
@@ -576,7 +577,8 @@ biosopen(struct open_file *f, ...)
 
 	f->f_devdata = dip;
 
-	cp++;	/* skip ':' */
+	if (*cp == ':')
+		cp++;
 	if (*cp != 0)
 		*file = cp;
 	else

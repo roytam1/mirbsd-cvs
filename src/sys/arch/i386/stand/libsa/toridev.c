@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/toridev.c,v 1.2 2008/08/01 11:25:00 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/toridev.c,v 1.3 2008/11/08 23:04:08 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.68 2004/03/09 19:12:12 tom Exp $	*/
 
 /*
@@ -200,7 +200,8 @@ toriopen(struct open_file *f, ...)
 		return ENXIO;
 	}
 
-	cp++;	/* skip ':' */
+	if (*cp == ':')
+		cp++;
 	if (*cp != 0)
 		*file = cp;
 	else
