@@ -1,8 +1,9 @@
-ca-bundle (20110906) unstable; urgency=high
+ca-bundle (20110906) wtf; urgency=high
 
   * nssckbi: explicitly distrust DigiNotar
+  * Fix maintainer scripts and drop dh_installdirs
 
- -- Thorsten Glaser <tg@mirbsd.de>  Tue, 06 Sep 2011 18:31:12 +0000
+ -- Thorsten Glaser <tg@mirbsd.de>  Tue, 06 Sep 2011 20:18:23 +0000
 
 ca-bundle (20110830) unstable; urgency=high
 

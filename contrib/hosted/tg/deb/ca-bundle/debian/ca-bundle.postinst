@@ -1,12 +1,32 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/ca-bundle.postinst,v 1.2 2009/11/23 14:21:29 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/jupp/debian/jupp.postinst,v 1.10 2011/09/06 20:07:39 tg Exp $
 
 set -e
+
+# This maintainer script can be called the following ways:
+#
+# * new-postinst "configure" [$most_recently_configured_version]
+# The package is unpacked; all dependencies are unpacked and, when there
+# are no circular dependencies, configured.
+#
+# * old-postinst "abort-upgrade" $new_version
+# * conflictors-postinst "abort-remove" "in-favour" $package
+#	$new_version
+# * postinst "abort-remove"
+# * deconfigureds-postinst "abort-deconfigure" "in-favour"
+#	$failed_install_package $fip_version ["removing"
+#	$conflicting_package $cp_version]
+# The package is unpacked; all dependencies are at least Half-Installed,
+# previously been configured, and not removed. In some error situations,
+# dependencies may not be even fully unpacked.
+#
+# * postinst "triggered" "${triggers[*]}"
+# For trigger-only calls, i.e. if "configure" is not called.
 
 case $1 in
 configure)
 	# on first installation
-	if [ -z "$2" ]; then
+	if test -z "$2"; then
 		rm -f /etc/ssl/certs/ca-certificates.crt* \
 		    /etc/ssl/certs/java/cacerts
 	fi
@@ -74,8 +94,11 @@ configure)
 abort-upgrade|abort-remove|abort-deconfigure)
 	;;
 
+triggered)
+	;;
+
 *)
-	echo "postinst called with unknown argument '$1'" >&2
+	echo >&2 "postinst called with unknown subcommand '$1'"
 	exit 1
 	;;
 esac
