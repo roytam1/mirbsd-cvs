@@ -181,14 +181,16 @@ read_conf(void)
 int
 docmd(void)
 {
-	char *p = NULL;
+	char *p = NULL, *cp;
 	const struct cmd_table *ct = cmd_table, *cs;
+	int rv;
 
 	cmd.argc = 1;
 	if (cmd.cmd == NULL) {
 
 		/* command */
 		p = cmd_buf;
+ cmdparse_loop:
 		while (*p == ' ' || *p == '\t')
 			++p;
 		if (*p == '#' || *p == '\0') { /* comment or empty string */
@@ -197,6 +199,13 @@ docmd(void)
 #endif
 			return 0;
 		}
+		cp = p;
+		while (*cp && *cp != '`')
+			++cp;
+		if (*cp == '`')
+			*cp++ = '\0';
+		else
+			cp = NULL;
 		ct = cmd_table;
 		cs = NULL;
 		cmd.argv[cmd.argc] = p; /* in case it's shortcut boot */
@@ -216,7 +225,8 @@ docmd(void)
 			p = whatcmd(&cs, p);
 			if (cs == NULL) {
 				printf("%s: syntax error\n", ct->cmd_name);
-				return 0;
+				rv = 0;
+				goto cmdparse_next;
 			}
 			ct = cs;
 		}
@@ -230,7 +240,15 @@ docmd(void)
 	}
 	cmd.argv[cmd.argc] = NULL;
 
-	return (*cmd.cmd->cmd_exec)();
+	rv = (*cmd.cmd->cmd_exec)();
+ cmdparse_next:
+	if (rv == 0 && cp != NULL && *cp != '\0') {
+		ct = cmd_table;
+		cmd.argc = 1;
+		p = cp;
+		goto cmdparse_loop;
+	}
+	return (rv);
 }
 
 static char *
