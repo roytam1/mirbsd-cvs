@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.sparc,v 1.5 2006/10/13 19:18:02 tg Exp $
+# $MirOS: src/distrib/common/Makefile.sparc,v 1.6 2007/08/12 21:17:58 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.14 2002/05/01 19:21:28 mickey Exp $
 
 #INSTALLBOOT?=	${DESTDIR}/usr/mdec/installboot
@@ -21,7 +21,7 @@ cdrom-mdboot:
 	${SUDO} vnconfig -v -c ${VND} ${CDROM}
 	${SUDO} disklabel -w ${VND} fakecdrom "MirOS BSD/sparc "
 	${SUDO} ${DESTDIR}/usr/mdec/installboot -v $$(fgrep \
-	    ${WRKDIR}/boot.ldr mkisofs.log | while read start end rest; do \
+	    ${WRKDIR}/b_${MACHINE}.ldr mkisofs.log | while read start end rest; do \
 		print -- -s $$start -e $$end; done) dummy ${BOOTXX} ${VND_CRDEV}
 	${SUDO} vnconfig -v -u ${VND}
 	${SUDO} rm -rf ${TMPMOUNT}
