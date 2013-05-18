@@ -882,3 +882,45 @@ Date: 08.07.2008 22:19
  only using DNSSEC is a fix… I wonder if this is truth or advertising
  for a technique without wide-spread use.</p>
 ----
+Title: anoncvs mirror naming scheme changed
+Date: 09.07.2008 18:20
+
+<p>As mentioned on the <a href="@@RELPATH@@getting.htm">Downloads</a> page,
+ the naming scheme of the anoncvs mirrors changed. We now have:</p><ul>
+ <li>master system, restricted access, ssh, rsync + cvs: <ul>
+  <li>offering: <tt>/MirOS</tt> <tt>/Pkgs</tt> <tt>/cvs</tt> <tt>/ncvs</tt> <tt>/ocvs</tt></li>
+  <li><tt>_anoncvs@herc.mirbsd.org</tt> (private, IPv4 + IPv6)</li>
+  <li><tt>_anoncvs@herc.66h.42h.de</tt> (private, IPv4 + IPv6)</li>
+ </ul></li>
+ <li>primary mirror, ssh, rsync + cvs, currently the same as 2.anoncvs: <ul>
+  <li><tt>anoncvs@anoncvs.mirbsd.org</tt> (public, IPv4 + IPv6)</li>
+  <li><tt>anoncvs@anoncvs4.mirbsd.org</tt> (public, IPv4 only)</li>
+  <li><tt>anoncvs@anoncvs6.mirbsd.org</tt> (public, IPv6 only)</li>
+ </ul></li>
+ <li>hephaistos (unixforge.de), Germany, ssh, rsync + cvs: <ul>
+  <li>85.214.23.162,85.214.112.97,2001:470:1f0b:f0::4669:6e6b,2001:470:1f0b:f0::6d69:7262:7364,2001:470:1f0b:f0:230:48ff:fe53:976,unixforge.de,1.anoncvs.mirbsd.org,1.anoncvs4.mirbsd.org,1.anoncvs6.mirbsd.org ssh-dss AAAAB3NzaC1kc3MAAACBAJmb9uS6pPtt2OhOhbyJTfoOH1IKzQX/ofA+Wm628FN7/NDv05R5etx7/5M5HJ370GTmwT81MnXMeh01FeifBqthadbOEXEn8rKAQtNRYq7anXgQua8IPu2yyy8OqHqcM22aHG64ex+lNqmD6crYMoaSsPoJzHwCtNi71rpJgoDnAAAAFQDDOoUXGc6wpOK4UYFOGG8dOTEvWwAAAIB9JT+bljVQG7gHzG9trqCXsMvtBAuMn/19LxKF+2JcS2Dk2oGLm3RNMCDU99OCx4FTYfKp4pLV+kV3P5lCvf0i8u7Wo7xIdrylNvnfIp2XRAB2PqZbnY0o8DIgs3aa8N1Dx/1yHBTFTiZjzzAaoZZlK9Fnxaxdme1+2FT5XuXBnwAAAIA1ciMxJOXqbxzMXC3V7yhV1XkA9Ygd3XfGfICIBaxRl9xSjGYQ/84u0aKpKSa6Y9iNDBhfgGUKUwcPOkRumuWeZ+AJ3daur98/jL+BmNutpPbAmUaxiC7z0akN9ihdm56oLbnU7cybgGWMomikvEg/zqNx4khpQeRb0rdSGub/ug==</li>
+  <li>85.214.23.162,85.214.112.97,2001:470:1f0b:f0::4669:6e6b,2001:470:1f0b:f0::6d69:7262:7364,2001:470:1f0b:f0:230:48ff:fe53:976,unixforge.de,1.anoncvs.mirbsd.org,1.anoncvs4.mirbsd.org,1.anoncvs6.mirbsd.org ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA60xpci97hqTWvuoivnnT58MT+vPcBJmoH+YLn/Yx1ryU4aZdw6l/RsqmDj70NleZ0twIYd9l5qzE4byJxenY/vhF3KJKMoEqVms4TrKAO9Efrk+eUDQm74tAkhGjD589o9ilk5Z/aeRpUfIUCGxJwmOzaFZ+gFEWWrbLqOfEVad/jawMnwl6vIoAZWucOUjUQaTuqsof+lIX+XJ/8A3SD6DfdmLwRcyx/EOd3+vAA3DBFHuef+/w0hoCb5n3mN7VfRovqNeyQ3LxAfE5fQNnbzFsYM9VCC5xDhOa6Kxji51lHTMyTz3SPXHV7dRvQ+4bdJ2I3yYXztGraI4bNIbBTQ==</li>
+  <li>offering: <tt>/cvs</tt></li>
+  <li><tt>anoncvs@1.anoncvs.mirbsd.org</tt> (public, IPv4 + IPv6)</li>
+  <li><tt>anoncvs@1.anoncvs4.mirbsd.org</tt> (public, IPv4 only)</li>
+  <li><tt>anoncvs@1.anoncvs6.mirbsd.org</tt> (public, IPv6 only)</li>
+ </ul></li>
+ <li>eurynome (VMware instance), Germany, ssh, rsync + cvs: <ul>
+  <li>81.169.181.30,2001:6f8:94d:10::10,eurynome.mirbsd.org,2.anoncvs.mirbsd.org,2.anoncvs4.mirbsd.org,2.anoncvs6.mirbsd.org,anoncvs.mirbsd.org,anoncvs4.mirbsd.org,anoncvs6.mirbsd.org,eurynome.ig42.org ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCwJxvaewQQOy/uF//DXubgN9MSg9bxInt5dkz5rofYhjBCXn4EFu967bwVGwwvLHOt5QyIivQUbARYh/xQtVyzN25ipyEiPv01RToNeuL+sak3Kco6nJKvFW8UeVA8tqAeuKjqBKsn/AbibsJZZG4vA//C3OR8QO+HmbQYMva99IMj2cJrdbFdwDvbz+AZY50xwBEtfTDO9+Um4DQbWkNbckcnsXGLE3WO+xZq/PzALMxGJKzDqKQfSvtKDuXZwz6VGrLnofNNx8L3MXo97ud9aI7BgEaIGzPjH68Xgv9L8EjizqXZUoW2XEw3L2GhijJYyYXsVDS7jqSKI0D5aWyHYb+cs6cOseE7qMPCNQ6KPko7diWSGi5yOnyeX/l1WMKlT1sdFLCI7VIuAjM6qmcybr+wVXFQty2rGT44zywy9rcNj0MoIWzMEk2W8V/DwLGsG8wY5p/Xm7uIkWhqsMxrqszFoV4LImzr19fIqOg3ZkB3NzlrxDGA2ftb7KVmjf7uxXGBSCAdEn+ViIEJroaV2rAesb5Q2y0wQqnvf46o/MihFSavKnRttH8fGARs1EByLnDygtVoXrku9LQ004mHtiaGBJYaZMZqjgKcXRzXg2c8WET6DJ0rUVciDNT1iKklGlbPNASKk+4I023o/6zAuDcknyW1jbAWYSScltqmlQ==</li>
+  <li>offering: <tt>/MirOS</tt> <tt>/Pkgs</tt> <tt>/cvs</tt> (<tt>/Distfiles</tt> <tt>/www</tt> not yet)</li>
+  <li><tt>anoncvs@2.anoncvs.mirbsd.org</tt> (public, IPv4 + IPv6)</li>
+  <li><tt>anoncvs@2.anoncvs4.mirbsd.org</tt> (public, IPv4 only)</li>
+  <li><tt>anoncvs@2.anoncvs6.mirbsd.org</tt> (public, IPv6 only)</li>
+ </ul></li>
+ <li>allbsd.org, Japan, IPv4 + IPv6, rsync only: <ul>
+  <li>offering: <tt>/MirOS</tt> <tt>/cvs</tt></li>
+  <li><tt>rsync://rsync.allbsd.org/miros-cvs/</tt> = <tt>/cvs</tt></li>
+  <li><tt>rsync://rsync.allbsd.org/miros-ftp/</tt> = <tt>/MirOS</tt></li>
+ </ul></li>
+</ul>
+
+<p>We are in the process of setting up eurynome (see above) to take over
+ most functions from <tt>www.mirbsd.org</tt> and mirror everything, but,
+ as this is a new system and VMware has issues, this will probably take
+ a while. However, all data should be available from some place anytime.</p>
+----
