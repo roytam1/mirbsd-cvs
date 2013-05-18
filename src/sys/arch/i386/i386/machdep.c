@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.20 2008/04/09 05:45:40 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.21 2009/03/01 11:58:35 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.310 2004/11/02 21:20:59 miod Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -2935,6 +2935,7 @@ void
 cpu_reset()
 {
 	struct region_descriptor region;
+	uint8_t b;
 
 	disable_intr();
 
@@ -2946,6 +2947,35 @@ cpu_reset()
 	delay(100000);
 	outb(IO_KBD + KBCMDP, KBC_PULSE0);
 	delay(100000);
+
+	/*
+	 * Attempt to force a reset via the Reset Control register at
+	 * I/O port 0xcf9.  Bit 2 forces a system reset when it
+	 * transitions from 0 to 1.  Bit 1 selects the type of reset
+	 * to attempt: 0 selects a "soft" reset, and 1 selects a
+	 * "hard" reset.  We try a "hard" reset.  The first write sets
+	 * bit 1 to select a "hard" reset and clears bit 2.  The
+	 * second write forces a 0 -> 1 transition in bit 2 to trigger
+	 * a reset.
+	 */
+	outb(0xcf9, 0x2);
+	outb(0xcf9, 0x6);
+	delay(500000);  /* wait 0.5 sec to see if that did it */
+
+	/*
+	 * Attempt to force a reset via the Fast A20 and Init register
+	 * at I/O port 0x92.  Bit 1 serves as an alternate A20 gate.
+	 * Bit 0 asserts INIT# when set to 1.  We are careful to only
+	 * preserve bit 1 while setting bit 0.  We also must clear bit
+	 * 0 before setting it if it isn't already clear.
+	 */
+	b = inb(0x92);
+	if (b != 0xff) {
+		if ((b & 0x1) != 0)
+			outb(0x92, b & 0xfe);
+		outb(0x92, b | 0x1);
+		delay(500000);  /* wait 0.5 sec to see if that did it */
+	}
 
 	/*
 	 * Try to cause a triple fault and watchdog reset by setting the
