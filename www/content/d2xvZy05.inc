@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.65 2006/11/12 22:19:06 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.66 2006/11/13 21:54:30 bsiegert Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1125,6 +1125,20 @@ plot [150:200] 	"bs06.4Kmin.txt" using 1:3 with lines title "exc{\350}s en chlor
  checker in perl. I already got rid of all calls to <tt>pkg dependencies
  check</tt> in bsd.port.mk; these can be replaced by calling
  <tt>pkg_info -qe</tt>.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20061113b">13.11.2006 by tg@</h3>
+ <p>An update to the wlog entry of two days ago: I found out that gcc is
+  not entirely consistently with the const qualifier and a means to cast
+  it away: define a union with two slots &ndash; a <tt>const void *</tt>
+  and a <tt>void *</tt> one&#8230; maybe required for const-correctness,
+  because some of the interfaces (such as execve(2)) suck, but it is NOT
+  an excuse for bad code, so don't you ever use it unless impossible AND
+  guaranteed.</p>
+ <p>I did upload a St. Martin snapshot to unixforge (you can download it
+  <a href="http://www.mirbsd.org/MirOS/ISOs/">here</a>), but there isn't
+  a changelog yet, that's why it wasn't announced. Just so you know.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
