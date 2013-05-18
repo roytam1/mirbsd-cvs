@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.38 2006/05/15 19:56:42 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.39 2006/05/15 20:06:58 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -68,16 +68,16 @@ ed -s etc/master.passwd <<-'EOF'
 	.
 	wq
 EOF
-ed -s etc/ntpd.conf <<-'EOF'
-	/^.server /d
-	i
-		server 81.169.176.177
-	.
-	wq
-EOF
+#ed -s etc/ntpd.conf <<-'EOF'
+#	/^.server /d
+#	i
+#		server ntp.mirbsd.org
+#	.
+#	wq
+#EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.38 2006/05/15 19:56:42 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.39 2006/05/15 20:06:58 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -116,9 +116,9 @@ ed -s etc/rc <<-'EOF'
 		    cp /stand/locate.database /var/db/locate.database
 	.
 	/load arp tables/i
-		if [[ -e /tmp/try_rnd ]]; then
-			( /usr/bin/ftp -r 120 -Vo - http://tg.mirsolutions.de/rnd_bin.cgi 2>&1 | /bin/cksum -ba sha512 >/dev/prandom ) &
-		fi
+		#if [[ -e /tmp/try_rnd ]]; then
+		#	( /usr/bin/ftp -r 120 -Vo - http://tg.mirsolutions.de/rnd_bin.cgi 2>&1 | /bin/cksum -ba sha512 >/dev/prandom ) &
+		#fi
 
 	.
 	/rd0c/d

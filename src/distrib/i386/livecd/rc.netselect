@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/rc.netselect,v 1.14 2006/05/08 19:10:43 tg Exp $
+# $MirOS: src/distrib/i386/livecd/rc.netselect,v 1.15 2006/05/15 20:02:17 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -25,10 +25,10 @@
 
 function show_info
 {
-	print
-	print To get support, use lynx\(1\) with the following resources:
-	print online man pages: http://mirbsd.mirsolutions.de/cman/
-	print interactive help: http://mirbsd.mirsolutions.de/?irc
+#	print
+#	print To get support, use lynx\(1\) with the following resources:
+#	print online man pages: http://mirbsd.mirsolutions.de/cman/
+#	print interactive help: http://mirbsd.mirsolutions.de/?irc
 }
 
 function get_passwd
@@ -57,8 +57,8 @@ function set_hostname
 	print livecd.$rndpfx.invalid.mirbsd.org >/etc/myname
 	print ::1 livecd livecd.$rndpfx.invalid.mirbsd.org >>/etc/hosts
 	print 127.0.0.1 livecd livecd.$rndpfx.invalid.mirbsd.org >>/etc/hosts
-	print 81.169.176.177 mirbsd.org www.mirbsd.org anoncvs.66h.42h.de \
-	    tg.mirsolutions.de mirbsd.mirsolutions.de >>/etc/hosts
+#	print 81.169.176.177 mirbsd.org www.mirbsd.org anoncvs.66h.42h.de \
+#	    tg.mirsolutions.de mirbsd.mirsolutions.de >>/etc/hosts
 	print 172.23.42.1 livecd >>/etc/hosts
 	print 172.23.42.10 bpclnt10 >>/etc/hosts
 	print 172.23.42.11 bpclnt11 >>/etc/hosts
@@ -114,7 +114,7 @@ function do_netconf
 		#print ntpd_flags=NO >>/etc/rc.conf.local
 	else
 		print dhcp >/etc/hostname.$1
-		print rdate_flags=\"-ncv 81.169.176.177\" >>/etc/rc.conf.local
+		print rdate_flags=\"-ncv ntp.mirbsd.org\" >>/etc/rc.conf.local
 		print rtsold_flags=-am >>/etc/rc.conf.local
 		print -n >/tmp/try_rnd
 	fi
