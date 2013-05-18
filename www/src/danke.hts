@@ -4,7 +4,7 @@
 mws_setname donations "Donations"
 mws_subdir 0
 mws_setheadline Donating to the MirOS Project
-mws_putheader '$MirOS: www/src/danke.hts,v 1.7 2008/11/08 22:24:37 tg Exp $'
+mws_putheader '$MirOS: www/src/danke.hts,v 1.8 2009/06/21 11:01:23 tg Exp $'
 mws_content <<'EOF'
 <h2>Considering to donate?</h2>
 <p>Thanks for considering to donate. You can contact the individual
@@ -15,7 +15,9 @@ mws_content <<'EOF'
  lost.</p>
 <p>After a successful donation, you may be listed below &ndash; this
  is an opt-in, and you must explicitly state that. Please note that
- some persons who donate webhosting, domains etc. are not listed
+ some persons who donate <!-- sponsored link --><a
+ href="http://www.webhostingsearch.com/">webhosting</a>, domains etc.
+ are not listed
  on this page; they can be found <a href="devel.htm#sponsors">here</a>
  instead..</p>
 
@@ -48,6 +50,9 @@ mws_content <<'EOF'
  (&euro;) to European developers either.</p>
 
 <h2>Online donations</h2>
+
+<p>Note: it’s unknown whether the below form still works. Send Paypal
+ things to <tt>tg@mirbsd.org</tt> directly.</p>
 
 <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
  <p>Donate to <a href="mailto:tg@mirbsd.org">tg@</a> using

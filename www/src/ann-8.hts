@@ -3,7 +3,7 @@
 
 mws_setname legacy/ann-8 "MirOS Legacy Content"
 mws_setheadline 'MirOS #8'
-mws_putheader '$MirOS: www/src/ann-8.hts,v 1.1 2008/09/17 21:12:22 tg Exp $'
+mws_putheader '$MirOS: www/src/ann-8.hts,v 1.2 2009/06/21 11:01:22 tg Exp $'
 mws_content <<'EOF'
 <p id="top" style="font-size:smaller; text-align:right;">Codename:
  WTF we have a release?</p>
@@ -276,10 +276,12 @@ mws_content <<'EOF'
 
 <p>The MirOS Project is needing money to be able to keep up with the expenses
  originating in caffe&iuml;ne supplies and especially the fee for the leased
- dedicated server. Please visit the <a href="@@RELPATH@@danke.htm">donations page</a> and
- consider donating a small amount of money (feel free to mention to list or
- not list your name on the page). There are also other ways of helping us,
- for example by our partner programmes and advertises.</p>
+ <!-- sponsored link --><a
+ href="http://www.webhostingsearch.com/dedicated-server.php">dedicated
+ server</a>. Please visit the <a href="@@RELPATH@@danke.htm">donations
+ page</a> and consider donating a small amount of money (feel free to mention
+ to list or not list your name on the page). There are also other ways of
+ helping us, for example by our partner programmes and advertises.</p>
 
 
 <h2 id="credits">Credits</h2>
