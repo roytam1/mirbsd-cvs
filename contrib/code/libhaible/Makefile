@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.19 2006/05/30 19:49:44 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.20 2006/05/30 20:04:22 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
@@ -67,6 +67,9 @@ CLEANFILES+=	${GENERATED}
 beforedepend: ${GENERATED}
 
 # manual pages
+MAN+=		catgets.3
+MLINKS+=	catgets.3 catopen.3
+MLINKS+=	catgets.3 catclose.3
 
 # reachover for libc
 .include <bsd.own.mk>

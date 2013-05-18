@@ -1,13 +1,13 @@
-$MirOS: contrib/code/libhaible/OVERVIEW,v 1.8 2006/05/30 19:27:19 tg Exp $
+$MirOS: contrib/code/libhaible/OVERVIEW,v 1.11 2006/05/30 20:06:20 tg Exp $
 $function name		header		manpage		source location
 $ 
 $ Info: # = commented out
 $  
 __mb_cur_max		 stdlib.h	-		i18n/isutf8.c
 btowc			 wchar.h	C:btowc		i18n/btowc.c
-catclose		 nl_types.h	-		i18n/catalogues.c
-catgets			 nl_types.h	-		i18n/catalogues.c
-catopen			 nl_types.h	-		i18n/catalogues.c
+catclose		 nl_types.h	H:catgets	i18n/catalogues.c
+catgets			 nl_types.h	H:catgets	i18n/catalogues.c
+catopen			 nl_types.h	H:catgets	i18n/catalogues.c
 fgetwc			 wchar.h	C:getwc		stdio/fgetwc.c
 fgetws			 wchar.h	C:fgetws	stdio/fgetws.c
 fputwc			 wchar.h	C:putwc		stdio/fputwc.c
