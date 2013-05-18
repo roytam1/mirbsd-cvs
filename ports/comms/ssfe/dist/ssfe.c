@@ -76,7 +76,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: ports/comms/ssfe/dist/ssfe.c,v 1.5 2005/12/18 16:38:20 tg Exp $");
+__RCSID("$MirOS: ports/comms/ssfe/dist/ssfe.c,v 1.6 2006/01/01 05:22:52 tg Exp $");
 
 #define BUF_SIZE 4096
 #define MAX_COLS 4096
@@ -525,8 +525,11 @@ int rc; {
     memset(dtsc, 0, sizeof (dtsc));
     strlcpy(dtsc, "\r\n     ", sizeof (dtsc));
     j = strlen(dtsc);
-    while ((readbuf[i] > 0x7E) && (j < sizeof (dtsc)))
-      dtsc[j++] = readbuf[i++];
+    dtsc[j++] = readbuf[i++];
+    if (readbuf[i-1] >= 0xC0)
+      while ((readbuf[i] < 0xC0) && (readbuf[i] > 0x7F) &&
+       (j < sizeof (dtsc)))
+	dtsc[j++] = readbuf[i++];
     strlcat(dtsc, "    ", sizeof (dtsc));
   } else if ((readbuf[2] == ':') && (readbuf[5] == '|')) {
     strlcpy(dtsc, "\r\n     |    ", sizeof (dtsc));
