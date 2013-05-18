@@ -1,5 +1,7 @@
-MD5 (libxslt-1.1.20.tar.gz) = 4ea2dc22a23bf2aa570f868aa86357f8
-RMD160 (libxslt-1.1.20.tar.gz) = f2882ff47312de3b6317136ef751d4b42ab15a53
-SHA1 (libxslt-1.1.20.tar.gz) = 1ca621c042b4f3d9a7e730c53961b89bcce2c645
-SIZE (libxslt-1.1.20.tar.gz) = 3689759
-TIGER (libxslt-1.1.20.tar.gz) = e262d2bfeb4c16fac658d6f62f2da5f49c6379080394bf27
+$MirOS$
+
+MD5 (libxslt-1.1.24.tar.gz) = e83ec5d27fc4c10c6f612879bea9a153
+RMD160 (libxslt-1.1.24.tar.gz) = 41e7721eeed722c45310877d045422b47ab32973
+SHA1 (libxslt-1.1.24.tar.gz) = b5402e24abff5545ed76f6a55049cbebc664bd58
+SIZE (libxslt-1.1.24.tar.gz) = 3363961
+TIGER (libxslt-1.1.24.tar.gz) = bfd66d42484134cd826837e48590ff78e18d8901d2f53438
