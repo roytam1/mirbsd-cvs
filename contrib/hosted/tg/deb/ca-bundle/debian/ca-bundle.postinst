@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/ca-bundle.postinst,v 1.2 2009/11/23 14:21:29 tg Exp $
 
 set -e
 
@@ -20,15 +20,39 @@ configure)
 	# create necessary directories
 	mkdir -p /etc/ssl/certs/java
 
+	# drop all broken symbolic links
+	find /etc/ssl/certs -type l -print | while read f; do
+		test -f "$f" || rm -f "$f"
+	done
+
 	# install the PEM certificate files (for OpenSSL)
 	(cd /usr/share/ca-bundle/certs; for f in *; do
 		if test -h /etc/ssl/certs/$f; then
+			# drop any symlink to old packages
+			r=$(readlink /etc/ssl/certs/$f)
+			case $r in
+			/usr/share/ca-bundle/*)
+				rm -f /etc/ssl/certs/$f
+				;;
+			/usr/share/ca-certificates/*)
+				rm -f /etc/ssl/certs/$f
+				;;
+			/usr/share/ca-certificates-java/*)
+				rm -f /etc/ssl/certs/$f
+				;;
+			esac
+			# keep any non-broken symlinks...
 			if test -f /etc/ssl/certs/$f; then
+				# ... to stuff not ours
 				continue
 			else
 				rm -f /etc/ssl/certs/$f
 			fi
 		elif test -f /etc/ssl/certs/$f; then
+			# keep any non-symlink files
+			continue
+		elif test -d /etc/ssl/certs/$f; then
+			# keep any non-symlink dirs (oO?)
 			continue
 		fi
 		ln -sf /usr/share/ca-bundle/certs/$f /etc/ssl/certs/$f
