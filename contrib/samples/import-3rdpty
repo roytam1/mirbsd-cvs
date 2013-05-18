@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.43 2012/02/19 18:26:26 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.44 2012/08/23 17:45:46 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -19,7 +19,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.43 2012/02/19 18:26:26 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.44 2012/08/23 17:45:46 tg Exp $ ========='
 
 set -A PRECMDS --
 ignlist=0
@@ -1263,39 +1263,52 @@ case $module {
 		Build \
 		CACerts \
 		INSTALL \
+		Makefile \
 		PGPKEYS \
 		cf/cf/*.cf \
 		cf/cf/Build \
 		cf/cf/README \
 		devtools \
+		doc/op/Makefile \
 		doc/op/op.ps \
 		editmap/Build \
+		editmap/Makefile \
 		editmap/Makefile.m4 \
 		editmap/editmap.0 \
 		libmilter/Build \
+		libmilter/Makefile \
 		libmilter/Makefile.m4 \
 		libsm/Build \
+		libsm/Makefile \
 		libsm/Makefile.m4 \
 		libsmdb/Build \
+		libsmdb/Makefile \
 		libsmdb/Makefile.m4 \
 		libsmutil/Build \
+		libsmutil/Makefile \
 		libsmutil/Makefile.m4 \
 		mail.local/Build \
+		mail.local/Makefile \
 		mail.local/Makefile.m4 \
 		mail.local/mail.local.0 \
 		mailstats/Build \
+		mailstats/Makefile \
 		mailstats/Makefile.m4 \
 		mailstats/mailstats.0 \
 		makemap/Build \
+		makemap/Makefile \
 		makemap/Makefile.m4 \
 		makemap/makemap.0 \
 		praliases/Build \
+		praliases/Makefile \
 		praliases/Makefile.m4 \
 		praliases/praliases.0 \
 		rmail/Build \
+		rmail/Makefile \
 		rmail/Makefile.m4 \
 		rmail/rmail.0 \
 		sendmail/Build \
+		sendmail/Makefile \
 		sendmail/Makefile.m4 \
 		sendmail/aliases.0 \
 		sendmail/mailq.0 \
@@ -1303,10 +1316,12 @@ case $module {
 		sendmail/newaliases.0 \
 		sendmail/sendmail.0 \
 		smrsh/Build \
+		smrsh/Makefile \
 		smrsh/Makefile.m4 \
 		smrsh/smrsh.0 \
 		test \
 		vacation/Build \
+		vacation/Makefile \
 		vacation/Makefile.m4 \
 		vacation/vacation.0 \
 	"
