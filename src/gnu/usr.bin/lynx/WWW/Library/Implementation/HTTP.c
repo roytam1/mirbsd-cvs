@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/lynx/WWW/Library/Implementation/HTTP.c,v 1.2 2005/03/27 22:42:33 tg Exp $ */
 
 /*	HyperText Tranfer Protocol	- Client implementation		HTTP.c
  *	==========================
@@ -433,7 +433,7 @@ static int HTLoadHTTP(const char *arg,
     BOOL had_header;		/* Have we had at least one header? */
     char *line_buffer;
     char *line_kept_clean;
-    int real_length_of_line;
+    int real_length_of_line = 0;
     BOOL extensions;		/* Assume good HTTP server */
     char *linebuf = NULL;
     char temp[80];

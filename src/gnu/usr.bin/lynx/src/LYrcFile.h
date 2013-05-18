@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/LYrcFile.h,v 1.2 2005/03/27 22:42:39 tg Exp $ */
 
 #ifndef LYRCFILE_H
 #define LYRCFILE_H
@@ -148,9 +148,11 @@
 #define RC_NO_FORCED_CORE_DUMP          "no_forced_core_dump"
 #define RC_NO_FROM_HEADER               "no_from_header"
 #define RC_NO_ISMAP_IF_USEMAP           "no_ismap_if_usemap"
+#define RC_NO_MARGINS                   "no_margins"
 #define RC_NO_PROXY                     "no_proxy"
 #define RC_NO_REFERER_HEADER            "no_referer_header"
 #define RC_NO_TABLE_CENTER              "no_table_center"
+#define RC_NO_TITLE                     "no_title"
 #define RC_NUMBER_FIELDS_ON_LEFT        "number_fields_on_left"
 #define RC_NUMBER_LINKS_ON_LEFT         "number_links_on_left"
 #define RC_OUTGOING_MAIL_CHARSET        "outgoing_mail_charset"
