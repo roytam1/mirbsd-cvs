@@ -1,4 +1,6 @@
 /*
+ * $LynxId: LYCharUtils.c,v 1.117 2012/02/10 18:36:39 tom Exp $
+ *
  *  Functions associated with LYCharSets.c and the Lynx version of HTML.c - FM
  *  ==========================================================================
  */
@@ -50,7 +52,7 @@ int OL_VOID = -29998;		/* flag for whether a count is set */
  *  converts any angle-brackets to "&lt;" or "&gt;". - FM
  */
 void LYEntify(char **str,
-	      BOOLEAN isTITLE)
+	      int isTITLE)
 {
     char *p = *str;
     char *q = NULL, *cp = NULL;
@@ -111,12 +113,19 @@ void LYEntify(char **str,
      * Allocate space and convert.  - FM
      */
     q = typecallocn(char,
-		    (strlen(*str) + (4 * amps) + (3 * lts) + (3 * gts) + 1));
+		    (strlen(*str)
+		     + (unsigned)(4 * amps)
+		     + (unsigned)(3 * lts)
+		     + (unsigned)(3 * gts) + 1));
     if ((cp = q) == NULL)
 	outofmem(__FILE__, "LYEntify");
+
+    assert(cp != NULL);
+    assert(q != NULL);
+
     for (p = *str; *p; p++) {
 #ifdef CJK_EX
-	if (HTCJK != NOCJK) {
+	if (IS_CJK_TTY) {
 	    switch (state) {
 	    case S_text:
 		if (*p == '\033') {
@@ -224,6 +233,62 @@ void LYEntify(char **str,
 }
 
 /*
+ * Callers to LYEntifyTitle/LYEntifyValue do not look at the 'target' param.
+ * Optimize things a little by avoiding the memory allocation if not needed,
+ * as is usually the case.
+ */
+static BOOL MustEntify(const char *source)
+{
+    BOOL result;
+
+#ifdef CJK_EX
+    if (IS_CJK_TTY && strchr(source, '\033') != 0) {
+	result = TRUE;
+    } else
+#endif
+    {
+	size_t length = strlen(source);
+	size_t reject = strcspn(source, "<&>");
+
+	result = (BOOL) (length != reject);
+    }
+
+    return result;
+}
+
+/*
+ * Wrappers for LYEntify() which do not assume that the source was allocated,
+ * e.g., output from gettext().
+ */
+const char *LYEntifyTitle(char **target, const char *source)
+{
+    const char *result = 0;
+
+    if (MustEntify(source)) {
+	StrAllocCopy(*target, source);
+	LYEntify(target, TRUE);
+	result = *target;
+    } else {
+	result = source;
+    }
+    return result;
+}
+
+const char *LYEntifyValue(char **target, const char *source)
+{
+    const char *result = 0;
+
+    if (MustEntify(source)) {
+	StrAllocCopy(*target, source);
+	LYEntify(target, FALSE);
+	result = *target;
+    } else {
+	result = source;
+    }
+    return result;
+}
+
+/*
  *  This function trims characters <= that of a space (32),
  *  including HT_NON_BREAK_SPACE (1) and HT_EN_SPACE (2),
  *  but not ESC, from the heads of strings. - FM
@@ -259,7 +324,7 @@ void LYTrimTail(char *str)
     if (isEmpty(str))
 	return;
 
-    i = strlen(str) - 1;
+    i = (int) strlen(str) - 1;
     while (i >= 0) {
 	if (WHITE(str[i]))
 	    str[i] = '\0';
@@ -272,7 +337,7 @@ void LYTrimTail(char *str)
 /*
  * This function should receive a pointer to the start
  * of a comment.  It returns a pointer to the end ('>')
- * character of comment, or it's best guess if the comment
+ * character of comment, or its best guess if the comment
  * is invalid. - FM
  */
 char *LYFindEndOfComment(char *str)
@@ -291,7 +356,7 @@ char *LYFindEndOfComment(char *str)
 	 */
 	return NULL;
 
-    if (strncmp(str, "<!--", 4))
+    if (StrNCmp(str, "<!--", 4))
 	/*
 	 * We don't have the start of a comment, so return the beginning of the
 	 * string.  - FM
@@ -400,7 +465,7 @@ void LYFillLocalFileURL(char **href,
     if (isEmpty(*href))
 	return;
 
-    if (!strcmp(*href, "//") || !strncmp(*href, "///", 3)) {
+    if (!strcmp(*href, "//") || !StrNCmp(*href, "///", 3)) {
 	if (base != NULL && isFILE_URL(base)) {
 	    StrAllocCopy(temp, STR_FILE_URL);
 	    StrAllocCat(temp, *href);
@@ -412,10 +477,10 @@ void LYFillLocalFileURL(char **href,
 	    StrAllocCat(*href, "//localhost");
 	} else if (!strcmp(*href, "file://")) {
 	    StrAllocCat(*href, "localhost");
-	} else if (!strncmp(*href, "file:///", 8)) {
+	} else if (!StrNCmp(*href, "file:///", 8)) {
 	    StrAllocCopy(temp, (*href + 7));
 	    LYLocalFileToURL(href, temp);
-	} else if (!strncmp(*href, "file:/", 6) && !LYIsHtmlSep(*(*href + 6))) {
+	} else if (!StrNCmp(*href, "file:/", 6) && !LYIsHtmlSep(*(*href + 6))) {
 	    StrAllocCopy(temp, (*href + 5));
 	    LYLocalFileToURL(href, temp);
 	}
@@ -431,7 +496,7 @@ void LYFillLocalFileURL(char **href,
     }
 
     /* use below: strlen("file://localhost/") = 17 */
-    if (!strncmp(*href, "file://localhost/", 17)
+    if (!StrNCmp(*href, "file://localhost/", 17)
 	&& (strlen(*href) == 19)
 	&& LYIsDosDrive(*href + 17)) {
 	/*
@@ -481,6 +546,25 @@ void LYFillLocalFileURL(char **href,
 
     FREE(temp);
     return;
+}
+
+void LYAddMETAcharsetToStream(HTStream *target, int disp_chndl)
+{
+    char *buf = 0;
+
+    if (disp_chndl == -1)
+	/*
+	 * -1 means use current_char_set.
+	 */
+	disp_chndl = current_char_set;
+
+    if (target != 0 && disp_chndl >= 0) {
+	HTSprintf0(&buf, "<META %s content=\"text/html;charset=%s\">\n",
+		   "http-equiv=\"content-type\"",
+		   LYCharSet_UC[disp_chndl].MIMEname);
+	(*target->isa->put_string) (target, buf);
+	FREE(buf);
+    }
 }
 
 /*
@@ -922,59 +1006,6 @@ void LYGetChartransInfo(HTStructured * me)
 				      UCT_STAGE_STRUCTURED);
 }
 
-/*
- * Given an UCS character code, will fill buffer passed in as q with the code's
- * UTF-8 encoding.
- * If terminate = YES, terminates string on success and returns pointer
- *		       to beginning.
- * If terminate = NO,	does not terminate string, and returns pointer
- *		       next char after the UTF-8 put into buffer.
- * On failure, including invalid code or 7-bit code, returns NULL.
- */
-static char *UCPutUtf8ToBuffer(char *q, UCode_t code, BOOL terminate)
-{
-    char *q_in = q;
-
-    if (!q)
-	return NULL;
-    if (code > 127 && code < 0x7fffffffL) {
-	if (code < 0x800L) {
-	    *q++ = (char) (0xc0 | (code >> 6));
-	    *q++ = (char) (0x80 | (0x3f & (code)));
-	} else if (code < 0x10000L) {
-	    *q++ = (char) (0xe0 | (code >> 12));
-	    *q++ = (char) (0x80 | (0x3f & (code >> 6)));
-	    *q++ = (char) (0x80 | (0x3f & (code)));
-	} else if (code < 0x200000L) {
-	    *q++ = (char) (0xf0 | (code >> 18));
-	    *q++ = (char) (0x80 | (0x3f & (code >> 12)));
-	    *q++ = (char) (0x80 | (0x3f & (code >> 6)));
-	    *q++ = (char) (0x80 | (0x3f & (code)));
-	} else if (code < 0x4000000L) {
-	    *q++ = (char) (0xf8 | (code >> 24));
-	    *q++ = (char) (0x80 | (0x3f & (code >> 18)));
-	    *q++ = (char) (0x80 | (0x3f & (code >> 12)));
-	    *q++ = (char) (0x80 | (0x3f & (code >> 6)));
-	    *q++ = (char) (0x80 | (0x3f & (code)));
-	} else {
-	    *q++ = (char) (0xfc | (code >> 30));
-	    *q++ = (char) (0x80 | (0x3f & (code >> 24)));
-	    *q++ = (char) (0x80 | (0x3f & (code >> 18)));
-	    *q++ = (char) (0x80 | (0x3f & (code >> 12)));
-	    *q++ = (char) (0x80 | (0x3f & (code >> 6)));
-	    *q++ = (char) (0x80 | (0x3f & (code)));
-	}
-    } else {
-	return NULL;
-    }
-    if (terminate) {
-	*q = '\0';
-	return q_in;
-    } else {
-	return q;
-    }
-}
-
 	/* as in HTParse.c, saves some calls - kw */
 static const char *hex = "0123456789ABCDEF";
 
@@ -1062,11 +1093,11 @@ static const char *hex = "0123456789ABCDEF";
 char **LYUCFullyTranslateString(char **str,
 				int cs_from,
 				int cs_to,
-				BOOLEAN do_ent,
-				BOOL use_lynx_specials,
-				BOOLEAN plain_space,
-				BOOLEAN hidden,
-				BOOL Back,
+				int do_ent,
+				int use_lynx_specials,
+				int plain_space,
+				int hidden,
+				int Back,
 				CharUtil_st stype)
 {
     char *p;
@@ -1079,7 +1110,6 @@ char **LYUCFullyTranslateString(char **str,
     int uck;
     int lowest_8;
     UCode_t code = 0;
-    long int lcode;
     BOOL output_utf8 = 0, repl_translated_C0 = 0;
     size_t len;
     const char *name = NULL;
@@ -1120,15 +1150,13 @@ char **LYUCFullyTranslateString(char **str,
 #ifdef KANJI_CODE_OVERRIDE
     static unsigned char sjis_1st = '\0';
 
-#ifdef CONV_JISX0201KANA_JISX0208KANA
     unsigned char sjis_str[3];
-#endif
 #endif
 
     /*
      * Make sure we have a non-empty string.  - FM
      */
-    if (!str || isEmpty(*str))
+    if (isEmpty(*str))
 	return str;
 
     /*
@@ -1142,9 +1170,10 @@ char **LYUCFullyTranslateString(char **str,
      * iso-8859-1 (and we are not called to back-translate), or if we are in
      * CJK mode.
      */
-    if ((HTCJK != NOCJK)
+    if (IS_CJK_TTY
 #ifdef EXP_JAPANESEUTF8_SUPPORT
 	&& (strcmp(LYCharSet_UC[cs_from].MIMEname, "utf-8") != 0)
+	&& (strcmp(LYCharSet_UC[cs_to].MIMEname, "utf-8") != 0)
 #endif
 	) {
 	no_bytetrans = TRUE;
@@ -1205,12 +1234,12 @@ char **LYUCFullyTranslateString(char **str,
 #define CHUNK (chunk ? chunk : (chunk = HTChunkCreate2(128, len+1)))
 
 #define REPLACE_STRING(s) \
-		if (q != qs) HTChunkPutb(CHUNK, qs, q-qs); \
+		if (q != qs) HTChunkPutb(CHUNK, qs, (int) (q - qs)); \
 		HTChunkPuts(CHUNK, s); \
 		qs = q = *str
 
 #define REPLACE_CHAR(c) if (q > p) { \
-		HTChunkPutb(CHUNK, qs, q-qs); \
+		HTChunkPutb(CHUNK, qs, (int) (q - qs)); \
 		qs = q = *str; \
 		*q++ = c; \
 	    } else \
@@ -1234,8 +1263,7 @@ char **LYUCFullyTranslateString(char **str,
 		} else if (sjis_1st && IS_SJIS_LO(code)) {
 		    sjis_1st = '\0';
 		} else {
-#ifdef CONV_JISX0201KANA_JISX0208KANA
-		    if (0xA1 <= code && code <= 0xDF) {
+		    if (conv_jisx0201kana && 0xA1 <= code && code <= 0xDF) {
 			sjis_str[2] = '\0';
 			JISx0201TO0208_SJIS(UCH(code),
 					    sjis_str, sjis_str + 1);
@@ -1243,12 +1271,11 @@ char **LYUCFullyTranslateString(char **str,
 			p++;
 			continue;
 		    }
-#endif
 		}
 	    }
 #endif
 	    if (*p == '\033') {
-		if ((HTCJK != NOCJK && !hidden) || stype != st_HTML) {
+		if ((IS_CJK_TTY && !hidden) || stype != st_HTML) {
 		    state = S_esc;
 		    if (stype == st_URL) {
 			REPLACE_STRING("%1B");
@@ -1329,7 +1356,7 @@ char **LYUCFullyTranslateString(char **str,
 
 	case S_nonascii_text:
 	    if (*p == '\033') {
-		if ((HTCJK != NOCJK && !hidden) || stype != st_HTML) {
+		if ((IS_CJK_TTY && !hidden) || stype != st_HTML) {
 		    state = S_esc;
 		    if (stype == st_URL) {
 			REPLACE_STRING("%1B");
@@ -1392,6 +1419,20 @@ char **LYUCFullyTranslateString(char **str,
 		    } else {
 			*(unsigned char *) p = UCH(173);
 		    }
+#ifdef EXP_JAPANESEUTF8_SUPPORT
+		} else if (output_utf8) {
+		    if ((!strcmp(LYCharSet_UC[cs_from].MIMEname, "euc-jp") &&
+			 (IS_EUC((unsigned char) (*p),
+				 (unsigned char) (*(p + 1))))) ||
+			(!strcmp(LYCharSet_UC[cs_from].MIMEname, "shift_jis") &&
+			 (IS_SJIS_2BYTE((unsigned char) (*p),
+					(unsigned char) (*(p + 1)))))) {
+			code = UCTransJPToUni(p, 2, cs_from);
+			p++;
+			state = S_check_uni;
+			break;
+		    }
+#endif
 		} else if (code < 127 || T.transp) {
 		    state = S_got_outchar;
 		    break;
@@ -1508,146 +1549,12 @@ char **LYUCFullyTranslateString(char **str,
 	     * (3) Is 127 and we don't have HTPassHighCtrlRaw or HTCJK set.
 	     * (4) Is 128 - 159 and we don't have HTPassHighCtrlNum set.
 	     */
-	    if ((((what == P_hex) ? sscanf(cp, "%lx", &lcode) :
-		  sscanf(cp, "%ld", &lcode)) != 1) ||
-		lcode > 0x7fffffffL || lcode < 0) {
+	    if (UCScanCode(&code, cp, (BOOL) (what == P_hex))) {
+		code = LYcp1252ToUnicode(code);
+		state = S_check_uni;
+	    } else {
 		state = S_recover;
 		break;
-	    } else {
-		code = lcode;
-		if ((code == 1) ||
-		    (code > 127 && code < 156)) {
-		    /*
-		     * Assume these are Microsoft code points, inflicted on
-		     * us by FrontPage.  - FM
-		     *
-		     * MS FrontPage uses syntax like &#153; in 128-159
-		     * range and doesn't follow Unicode standards for this
-		     * area.  Windows-1252 codepoints are assumed here.
-		     */
-		    switch (code) {
-		    case 1:
-			/*
-			 * WHITE SMILING FACE
-			 */
-			code = 0x263a;
-			break;
-		    case 128:
-			/*
-			 * EURO currency sign
-			 */
-			code = 0x20ac;
-			break;
-		    case 130:
-			/*
-			 * SINGLE LOW-9 QUOTATION MARK (sbquo)
-			 */
-			code = 0x201a;
-			break;
-		    case 132:
-			/*
-			 * DOUBLE LOW-9 QUOTATION MARK (bdquo)
-			 */
-			code = 0x201e;
-			break;
-		    case 133:
-			/*
-			 * HORIZONTAL ELLIPSIS (hellip)
-			 */
-			code = 0x2026;
-			break;
-		    case 134:
-			/*
-			 * DAGGER (dagger)
-			 */
-			code = 0x2020;
-			break;
-		    case 135:
-			/*
-			 * DOUBLE DAGGER (Dagger)
-			 */
-			code = 0x2021;
-			break;
-		    case 137:
-			/*
-			 * PER MILLE SIGN (permil)
-			 */
-			code = 0x2030;
-			break;
-		    case 139:
-			/*
-			 * SINGLE LEFT-POINTING ANGLE QUOTATION MARK (lsaquo)
-			 */
-			code = 0x2039;
-			break;
-		    case 145:
-			/*
-			 * LEFT SINGLE QUOTATION MARK (lsquo)
-			 */
-			code = 0x2018;
-			break;
-		    case 146:
-			/*
-			 * RIGHT SINGLE QUOTATION MARK (rsquo)
-			 */
-			code = 0x2019;
-			break;
-		    case 147:
-			/*
-			 * LEFT DOUBLE QUOTATION MARK (ldquo)
-			 */
-			code = 0x201c;
-			break;
-		    case 148:
-			/*
-			 * RIGHT DOUBLE QUOTATION MARK (rdquo)
-			 */
-			code = 0x201d;
-			break;
-		    case 149:
-			/*
-			 * BULLET (bull)
-			 */
-			code = 0x2022;
-			break;
-		    case 150:
-			/*
-			 * EN DASH (ndash)
-			 */
-			code = 0x2013;
-			break;
-		    case 151:
-			/*
-			 * EM DASH (mdash)
-			 */
-			code = 0x2014;
-			break;
-		    case 152:
-			/*
-			 * SMALL TILDE (tilde)
-			 */
-			code = 0x02dc;
-			break;
-		    case 153:
-			/*
-			 * TRADE MARK SIGN (trade)
-			 */
-			code = 0x2122;
-			break;
-		    case 155:
-			/*
-			 * SINGLE RIGHT-POINTING ANGLE QUOTATION MARK (rsaquo)
-			 */
-			code = 0x203a;
-			break;
-		    default:
-			/*
-			 * Do not attempt a conversion to valid Unicode values.
-			 */
-			break;
-		    }
-		}
-		state = S_check_uni;
 	    }
 	    break;
 
@@ -1660,9 +1567,9 @@ char **LYUCFullyTranslateString(char **str,
 	     */
 	    if ((code < 32 &&
 		 code != 9 && code != 10 && code != 13 &&
-		 HTCJK == NOCJK) ||
+		 !IS_CJK_TTY) ||
 		(code == 127 &&
-		 !(HTPassHighCtrlRaw || HTCJK != NOCJK)) ||
+		 !(HTPassHighCtrlRaw || IS_CJK_TTY)) ||
 		(code > 127 && code < 160 &&
 		 !HTPassHighCtrlNum)) {
 		state = S_recover;
@@ -1747,10 +1654,10 @@ char **LYUCFullyTranslateString(char **str,
 		/*
 		 * Not found; look for replacement string.
 		 */
-		       (uck = UCTransUniCharStr(replace_buf,
-						60, code,
-						cs_to,
-						0) >= 0)) {
+		       UCTransUniCharStr(replace_buf,
+					 60, code,
+					 cs_to,
+					 0) >= 0) {
 		state = S_got_outstring;
 		break;
 	    }
@@ -1783,7 +1690,8 @@ char **LYUCFullyTranslateString(char **str,
 		 */
 	    } else if (code == 8204 || code == 8205 ||
 		       code == 8206 || code == 8207) {
-		CTRACE((tfp, "LYUCFullyTranslateString: Ignoring '%ld'.\n", code));
+		CTRACE((tfp, "LYUCFullyTranslateString: Ignoring '%"
+			PRI_UCode_t "'.\n", code));
 		replace_buf[0] = '\0';
 		state = S_got_outstring;
 		break;
@@ -1800,7 +1708,7 @@ char **LYUCFullyTranslateString(char **str,
 		break;
 		/*
 		 * If it's ASCII, or is 8-bit but HTPassEightBitNum is set or
-		 * the character set is "ISO Latin 1", use it's value.  - FM
+		 * the character set is "ISO Latin 1", use its value.  - FM
 		 */
 	    } else if (code < 161 ||
 		       (code < 256 &&
@@ -1856,7 +1764,8 @@ char **LYUCFullyTranslateString(char **str,
 	    } else if (!T.output_utf8 && stype == st_HTML && !hidden &&
 		       !(HTPassEightBitRaw &&
 			 UCH(*p) >= lowest_8)) {
-		sprintf(replace_buf, "U%.2lX", code);
+		sprintf(replace_buf, "U%.2" PRI_UCode_t "", code);
+
 		state = S_got_outstring;
 	    } else {
 		puni = p;
@@ -1902,7 +1811,7 @@ char **LYUCFullyTranslateString(char **str,
 	case S_got_oututf8:
 	    if (code > 255 ||
 		(code >= 128 && LYCharSet_UC[cs_to].enc == UCT_ENC_UTF8)) {
-		UCPutUtf8ToBuffer(replace_buf, code, YES);
+		UCConvertUniToUtf8(code, replace_buf);
 		state = S_got_outstring;
 	    } else {
 		state = S_got_outchar;
@@ -1986,7 +1895,7 @@ char **LYUCFullyTranslateString(char **str,
 
     *q = '\0';
     if (chunk) {
-	HTChunkPutb(CHUNK, qs, q - qs + 1);	/* also terminates */
+	HTChunkPutb(CHUNK, qs, (int) (q - qs + 1));	/* also terminates */
 	if (stype == st_URL || stype == st_other) {
 	    LYTrimHead(chunk->data);
 	    LYTrimTail(chunk->data);
@@ -2008,9 +1917,9 @@ char **LYUCFullyTranslateString(char **str,
 BOOL LYUCTranslateHTMLString(char **str,
 			     int cs_from,
 			     int cs_to,
-			     BOOL use_lynx_specials,
-			     BOOLEAN plain_space,
-			     BOOLEAN hidden,
+			     int use_lynx_specials,
+			     int plain_space,
+			     int hidden,
 			     CharUtil_st stype)
 {
     BOOL ret = YES;
@@ -2027,7 +1936,7 @@ BOOL LYUCTranslateHTMLString(char **str,
 BOOL LYUCTranslateBackFormData(char **str,
 			       int cs_from,
 			       int cs_to,
-			       BOOLEAN plain_space)
+			       int plain_space)
 {
     char **ret;
 
@@ -2056,9 +1965,9 @@ char *LYParseTagParam(char *from,
 	}
 	if (strlen(string) < len)
 	    return NULL;
-    } while (strncasecomp(string, name, len) != 0);
+    } while (strncasecomp(string, name, (int) len) != 0);
     string += len;
-    while (*string != '\0' && (UCH(isspace(*string)) || *string == '=')) {
+    while (*string != '\0' && (isspace(UCH(*string)) || *string == '=')) {
 	string++;
     }
 
@@ -2099,7 +2008,7 @@ void LYParseRefreshURL(char *content,
 	cp1 = cp;
 	while (*cp1 && isdigit(UCH(*cp1)))
 	    cp1++;
-	StrnAllocCopy(Seconds, cp, cp1 - cp);
+	StrnAllocCopy(Seconds, cp, (int) (cp1 - cp));
     }
     *p_seconds = Seconds;
     *p_address = LYParseTagParam(content, "URL");
@@ -2113,10 +2022,10 @@ void LYParseRefreshURL(char *content,
  *  This function processes META tags in HTML streams. - FM
  */
 void LYHandleMETA(HTStructured * me, const BOOL *present,
-		  const char **value,
+		  STRING2PTR value,
 		  char **include GCC_UNUSED)
 {
-    char *http_equiv = NULL, *name = NULL, *content = NULL;
+    char *http_equiv = NULL, *name = NULL, *content = NULL, *charset = NULL;
     char *href = NULL, *id_string = NULL, *temp = NULL;
     char *cp, *cp0, *cp1 = NULL;
     int url_type = 0;
@@ -2166,11 +2075,214 @@ void LYHandleMETA(HTStructured * me, const BOOL *present,
 	    FREE(content);
 	}
     }
+    if (present[HTML_META_CHARSET] &&
+	non_empty(value[HTML_META_CHARSET])) {
+	StrAllocCopy(charset, value[HTML_META_CHARSET]);
+	convert_to_spaces(charset, TRUE);
+	LYUCTranslateHTMLString(&charset, me->tag_charset, me->tag_charset,
+				NO, NO, YES, st_other);
+	if (*charset == '\0') {
+	    FREE(charset);
+	}
+    }
     CTRACE((tfp,
-	    "LYHandleMETA: HTTP-EQUIV=\"%s\" NAME=\"%s\" CONTENT=\"%s\"\n",
-	    (http_equiv ? http_equiv : "NULL"),
-	    (name ? name : "NULL"),
-	    (content ? content : "NULL")));
+	    "LYHandleMETA: HTTP-EQUIV=\"%s\" NAME=\"%s\" CONTENT=\"%s\" CHARSET=\"%s\"\n",
+	    NONNULL(http_equiv),
+	    NONNULL(name),
+	    NONNULL(content),
+	    NONNULL(charset)));
+
+    /*
+     * Check for a text/html Content-Type with a charset directive, if we
+     * didn't already set the charset via a server's header.  - AAC & FM
+     */
+    if (isEmpty(me->node_anchor->charset) &&
+	(charset ||
+	 (!strcasecomp(NonNull(http_equiv), "Content-Type") && content))) {
+	LYUCcharset *p_in = NULL;
+	LYUCcharset *p_out = NULL;
+
+	if (charset) {
+	    LYLowerCase(charset);
+	} else {
+	    LYUCTranslateHTMLString(&content, me->tag_charset, me->tag_charset,
+				    NO, NO, YES, st_other);
+	    LYLowerCase(content);
+	}
+
+	if ((cp1 = charset) != NULL ||
+	    (cp1 = strstr(content, "charset")) != NULL) {
+	    BOOL chartrans_ok = NO;
+	    char *cp3 = NULL, *cp4;
+	    int chndl;
+
+	    if (!charset)
+		cp1 += 7;
+	    while (*cp1 == ' ' || *cp1 == '=' || *cp1 == '"')
+		cp1++;
+
+	    StrAllocCopy(cp3, cp1);	/* copy to mutilate more */
+	    for (cp4 = cp3; (*cp4 != '\0' && *cp4 != '"' &&
+			     *cp4 != ';' && *cp4 != ':' &&
+			     !WHITE(*cp4)); cp4++) {
+		;		/* do nothing */
+	    }
+	    *cp4 = '\0';
+	    cp4 = cp3;
+	    chndl = UCGetLYhndl_byMIME(cp3);
+
+#ifdef CAN_SWITCH_DISPLAY_CHARSET
+	    /* Allow a switch to a more suitable display charset */
+	    if (Switch_Display_Charset(chndl, SWITCH_DISPLAY_CHARSET_MAYBE)) {
+		/* UCT_STAGE_STRUCTURED and UCT_STAGE_HTEXT
+		   should have the same setting for UCInfoStage. */
+		HTAnchor_getUCInfoStage(me->node_anchor, UCT_STAGE_STRUCTURED);
+
+		me->outUCLYhndl = current_char_set;
+		HTAnchor_setUCInfoStage(me->node_anchor,
+					current_char_set,
+					UCT_STAGE_HTEXT,
+					UCT_SETBY_MIME);	/* highest priorty! */
+		HTAnchor_setUCInfoStage(me->node_anchor,
+					current_char_set,
+					UCT_STAGE_STRUCTURED,
+					UCT_SETBY_MIME);	/* highest priorty! */
+		me->outUCI = HTAnchor_getUCInfoStage(me->node_anchor,
+						     UCT_STAGE_HTEXT);
+		/* The SGML stage will be reset in change_chartrans_handling */
+	    }
+#endif
+
+	    if (UCCanTranslateFromTo(chndl, current_char_set)) {
+		chartrans_ok = YES;
+		StrAllocCopy(me->node_anchor->charset, cp4);
+		HTAnchor_setUCInfoStage(me->node_anchor, chndl,
+					UCT_STAGE_PARSER,
+					UCT_SETBY_STRUCTURED);
+	    } else if (chndl < 0) {
+		/*
+		 * Got something but we don't recognize it.
+		 */
+		chndl = UCLYhndl_for_unrec;
+		if (chndl < 0)	/* UCLYhndl_for_unrec not defined :-( */
+		    chndl = UCLYhndl_for_unspec;	/* always >= 0 */
+		if (UCCanTranslateFromTo(chndl, current_char_set)) {
+		    chartrans_ok = YES;
+		    HTAnchor_setUCInfoStage(me->node_anchor, chndl,
+					    UCT_STAGE_PARSER,
+					    UCT_SETBY_STRUCTURED);
+		}
+	    }
+	    if (chartrans_ok) {
+		p_in = HTAnchor_getUCInfoStage(me->node_anchor,
+					       UCT_STAGE_PARSER);
+		p_out = HTAnchor_setUCInfoStage(me->node_anchor,
+						current_char_set,
+						UCT_STAGE_HTEXT,
+						UCT_SETBY_DEFAULT);
+		if (!p_out) {
+		    /*
+		     * Try again.
+		     */
+		    p_out = HTAnchor_getUCInfoStage(me->node_anchor,
+						    UCT_STAGE_HTEXT);
+		}
+		if (!strcmp(p_in->MIMEname, "x-transparent")) {
+		    HTPassEightBitRaw = TRUE;
+		    HTAnchor_setUCInfoStage(me->node_anchor,
+					    HTAnchor_getUCLYhndl(me->node_anchor,
+								 UCT_STAGE_HTEXT),
+					    UCT_STAGE_PARSER,
+					    UCT_SETBY_DEFAULT);
+		}
+		if (!strcmp(p_out->MIMEname, "x-transparent")) {
+		    HTPassEightBitRaw = TRUE;
+		    HTAnchor_setUCInfoStage(me->node_anchor,
+					    HTAnchor_getUCLYhndl(me->node_anchor,
+								 UCT_STAGE_PARSER),
+					    UCT_STAGE_HTEXT,
+					    UCT_SETBY_DEFAULT);
+		}
+		if ((p_in->enc != UCT_ENC_CJK)
+#ifdef EXP_JAPANESEUTF8_SUPPORT
+		    && (p_in->enc != UCT_ENC_UTF8)
+#endif
+		    ) {
+		    HTCJK = NOCJK;
+		    if (!(p_in->codepoints &
+			  UCT_CP_SUBSETOF_LAT1) &&
+			chndl == current_char_set) {
+			HTPassEightBitRaw = TRUE;
+		    }
+		} else if (p_out->enc == UCT_ENC_CJK) {
+		    Set_HTCJK(p_in->MIMEname, p_out->MIMEname);
+		}
+		LYGetChartransInfo(me);
+		/*
+		 * Update the chartrans info homologously to a Content-Type
+		 * MIME header with a charset parameter.  - FM
+		 */
+		if (me->UCLYhndl != chndl) {
+		    HTAnchor_setUCInfoStage(me->node_anchor, chndl,
+					    UCT_STAGE_MIME,
+					    UCT_SETBY_STRUCTURED);
+		    HTAnchor_setUCInfoStage(me->node_anchor, chndl,
+					    UCT_STAGE_PARSER,
+					    UCT_SETBY_STRUCTURED);
+		    me->inUCLYhndl = HTAnchor_getUCLYhndl(me->node_anchor,
+							  UCT_STAGE_PARSER);
+		    me->inUCI = HTAnchor_getUCInfoStage(me->node_anchor,
+							UCT_STAGE_PARSER);
+		}
+		UCSetTransParams(&me->T,
+				 me->inUCLYhndl, me->inUCI,
+				 me->outUCLYhndl, me->outUCI);
+	    } else {
+		/*
+		 * Cannot translate.  If according to some heuristic the given
+		 * charset and the current display character both are likely to
+		 * be like ISO-8859 in structure, pretend we have some kind of
+		 * match.
+		 */
+		BOOL given_is_8859 = (BOOL) (!StrNCmp(cp4, "iso-8859-", 9) &&
+					     isdigit(UCH(cp4[9])));
+		BOOL given_is_8859like = (BOOL) (given_is_8859
+						 || !StrNCmp(cp4, "windows-", 8)
+						 || !StrNCmp(cp4, "cp12", 4)
+						 || !StrNCmp(cp4, "cp-12", 5));
+		BOOL given_and_display_8859like = (BOOL) (given_is_8859like &&
+							  (strstr(LYchar_set_names[current_char_set],
+								  "ISO-8859") ||
+							   strstr(LYchar_set_names[current_char_set],
+								  "windows-")));
+
+		if (given_is_8859) {
+		    cp1 = &cp4[10];
+		    while (*cp1 &&
+			   isdigit(UCH((*cp1))))
+			cp1++;
+		    *cp1 = '\0';
+		}
+		if (given_and_display_8859like) {
+		    StrAllocCopy(me->node_anchor->charset, cp4);
+		    HTPassEightBitRaw = TRUE;
+		}
+		HTAlert(*cp4 ? cp4 : me->node_anchor->charset);
+
+	    }
+	    FREE(cp3);
+
+	    if (me->node_anchor->charset) {
+		CTRACE((tfp,
+			"LYHandleMETA: New charset: %s\n",
+			me->node_anchor->charset));
+	    }
+	}
+	/*
+	 * Set the kcode element based on the charset.  - FM
+	 */
+	HText_setKcode(me->text, me->node_anchor->charset, p_in);
+    }
 
     /*
      * Make sure we have META name/value pairs to handle.  - FM
@@ -2283,196 +2395,13 @@ void LYHandleMETA(HTStructured * me, const BOOL *present,
 	}
 
 	/*
-	 * Check for a text/html Content-Type with a charset directive, if we
-	 * didn't already set the charset via a server's header.  - AAC & FM
-	 */
-    } else if (isEmpty(me->node_anchor->charset) &&
-	       !strcasecomp(NonNull(http_equiv), "Content-Type")) {
-	LYUCcharset *p_in = NULL;
-	LYUCcharset *p_out = NULL;
-
-	LYUCTranslateHTMLString(&content, me->tag_charset, me->tag_charset,
-				NO, NO, YES, st_other);
-	LYLowerCase(content);
-
-	if ((cp1 = strstr(content, "charset")) != NULL) {
-	    BOOL chartrans_ok = NO;
-	    char *cp3 = NULL, *cp4;
-	    int chndl;
-
-	    cp1 += 7;
-	    while (*cp1 == ' ' || *cp1 == '=' || *cp1 == '"')
-		cp1++;
-
-	    StrAllocCopy(cp3, cp1);	/* copy to mutilate more */
-	    for (cp4 = cp3; (*cp4 != '\0' && *cp4 != '"' &&
-			     *cp4 != ';' && *cp4 != ':' &&
-			     !WHITE(*cp4)); cp4++) {
-		;		/* do nothing */
-	    }
-	    *cp4 = '\0';
-	    cp4 = cp3;
-	    chndl = UCGetLYhndl_byMIME(cp3);
-
-#ifdef CAN_SWITCH_DISPLAY_CHARSET
-	    /* Allow a switch to a more suitable display charset */
-	    if (Switch_Display_Charset(chndl, SWITCH_DISPLAY_CHARSET_MAYBE)) {
-		/* UCT_STAGE_STRUCTURED and UCT_STAGE_HTEXT
-		   should have the same setting for UCInfoStage. */
-		int structured = HTAnchor_getUCInfoStage(me->node_anchor,
-							 UCT_STAGE_STRUCTURED);
-
-		me->outUCLYhndl = current_char_set;
-		HTAnchor_setUCInfoStage(me->node_anchor,
-					current_char_set,
-					UCT_STAGE_HTEXT,
-					UCT_SETBY_MIME);	/* highest priorty! */
-		HTAnchor_setUCInfoStage(me->node_anchor,
-					current_char_set,
-					UCT_STAGE_STRUCTURED,
-					UCT_SETBY_MIME);	/* highest priorty! */
-		me->outUCI = HTAnchor_getUCInfoStage(me->node_anchor,
-						     UCT_STAGE_HTEXT);
-		/* The SGML stage will be reset in change_chartrans_handling */
-	    }
-#endif
-
-	    if (UCCanTranslateFromTo(chndl, current_char_set)) {
-		chartrans_ok = YES;
-		StrAllocCopy(me->node_anchor->charset, cp4);
-		HTAnchor_setUCInfoStage(me->node_anchor, chndl,
-					UCT_STAGE_PARSER,
-					UCT_SETBY_STRUCTURED);
-	    } else if (chndl < 0) {
-		/*
-		 * Got something but we don't recognize it.
-		 */
-		chndl = UCLYhndl_for_unrec;
-		if (chndl < 0)	/* UCLYhndl_for_unrec not defined :-( */
-		    chndl = UCLYhndl_for_unspec;	/* always >= 0 */
-		if (UCCanTranslateFromTo(chndl, current_char_set)) {
-		    chartrans_ok = YES;
-		    HTAnchor_setUCInfoStage(me->node_anchor, chndl,
-					    UCT_STAGE_PARSER,
-					    UCT_SETBY_STRUCTURED);
-		}
-	    }
-	    if (chartrans_ok) {
-		p_in = HTAnchor_getUCInfoStage(me->node_anchor,
-					       UCT_STAGE_PARSER);
-		p_out = HTAnchor_setUCInfoStage(me->node_anchor,
-						current_char_set,
-						UCT_STAGE_HTEXT,
-						UCT_SETBY_DEFAULT);
-		if (!p_out) {
-		    /*
-		     * Try again.
-		     */
-		    p_out = HTAnchor_getUCInfoStage(me->node_anchor,
-						    UCT_STAGE_HTEXT);
-		}
-		if (!strcmp(p_in->MIMEname, "x-transparent")) {
-		    HTPassEightBitRaw = TRUE;
-		    HTAnchor_setUCInfoStage(me->node_anchor,
-					    HTAnchor_getUCLYhndl(me->node_anchor,
-								 UCT_STAGE_HTEXT),
-					    UCT_STAGE_PARSER,
-					    UCT_SETBY_DEFAULT);
-		}
-		if (!strcmp(p_out->MIMEname, "x-transparent")) {
-		    HTPassEightBitRaw = TRUE;
-		    HTAnchor_setUCInfoStage(me->node_anchor,
-					    HTAnchor_getUCLYhndl(me->node_anchor,
-								 UCT_STAGE_PARSER),
-					    UCT_STAGE_HTEXT,
-					    UCT_SETBY_DEFAULT);
-		}
-		if ((p_in->enc != UCT_ENC_CJK)
-#ifdef EXP_JAPANESEUTF8_SUPPORT
-		    && (p_in->enc != UCT_ENC_UTF8)
-#endif
-		    ) {
-		    HTCJK = NOCJK;
-		    if (!(p_in->codepoints &
-			  UCT_CP_SUBSETOF_LAT1) &&
-			chndl == current_char_set) {
-			HTPassEightBitRaw = TRUE;
-		    }
-		} else if (p_out->enc == UCT_ENC_CJK) {
-		    Set_HTCJK(p_in->MIMEname, p_out->MIMEname);
-		}
-		LYGetChartransInfo(me);
-		/*
-		 * Update the chartrans info homologously to a Content-Type
-		 * MIME header with a charset parameter.  - FM
-		 */
-		if (me->UCLYhndl != chndl) {
-		    HTAnchor_setUCInfoStage(me->node_anchor, chndl,
-					    UCT_STAGE_MIME,
-					    UCT_SETBY_STRUCTURED);
-		    HTAnchor_setUCInfoStage(me->node_anchor, chndl,
-					    UCT_STAGE_PARSER,
-					    UCT_SETBY_STRUCTURED);
-		    me->inUCLYhndl = HTAnchor_getUCLYhndl(me->node_anchor,
-							  UCT_STAGE_PARSER);
-		    me->inUCI = HTAnchor_getUCInfoStage(me->node_anchor,
-							UCT_STAGE_PARSER);
-		}
-		UCSetTransParams(&me->T,
-				 me->inUCLYhndl, me->inUCI,
-				 me->outUCLYhndl, me->outUCI);
-	    } else {
-		/*
-		 * Cannot translate.  If according to some heuristic the given
-		 * charset and the current display character both are likely to
-		 * be like ISO-8859 in structure, pretend we have some kind of
-		 * match.
-		 */
-		BOOL given_is_8859 = (BOOL) (!strncmp(cp4, "iso-8859-", 9) &&
-					     isdigit(UCH(cp4[9])));
-		BOOL given_is_8859like = (BOOL) (given_is_8859
-						 || !strncmp(cp4, "windows-", 8)
-						 || !strncmp(cp4, "cp12", 4)
-						 || !strncmp(cp4, "cp-12", 5));
-		BOOL given_and_display_8859like = (BOOL) (given_is_8859like &&
-							  (strstr(LYchar_set_names[current_char_set],
-								  "ISO-8859") ||
-							   strstr(LYchar_set_names[current_char_set],
-								  "windows-")));
-
-		if (given_is_8859) {
-		    cp1 = &cp4[10];
-		    while (*cp1 &&
-			   isdigit(UCH((*cp1))))
-			cp1++;
-		    *cp1 = '\0';
-		}
-		if (given_and_display_8859like) {
-		    StrAllocCopy(me->node_anchor->charset, cp4);
-		    HTPassEightBitRaw = TRUE;
-		}
-		HTAlert(*cp4 ? cp4 : me->node_anchor->charset);
-
-	    }
-	    FREE(cp3);
-
-	    if (me->node_anchor->charset) {
-		CTRACE((tfp,
-			"LYHandleMETA: New charset: %s\n",
-			me->node_anchor->charset));
-	    }
-	}
-	/*
-	 * Set the kcode element based on the charset.  - FM
-	 */
-	HText_setKcode(me->text, me->node_anchor->charset, p_in);
-
-	/*
 	 * Check for a Refresh directive.  - FM
 	 */
     } else if (!strcasecomp(NonNull(http_equiv), "Refresh")) {
 	char *Seconds = NULL;
 
+	LYUCTranslateHTMLString(&content, me->tag_charset, me->tag_charset,
+				NO, NO, YES, st_other);
 	LYParseRefreshURL(content, &Seconds, &href);
 
 	if (Seconds) {
@@ -2480,7 +2409,7 @@ void LYHandleMETA(HTStructured * me, const BOOL *present,
 		/*
 		 * We found a URL field, so check it out.  - FM
 		 */
-		if (!(url_type = LYLegitimizeHREF(me, &href, TRUE, FALSE))) {
+		if (!LYLegitimizeHREF(me, &href, TRUE, FALSE)) {
 		    /*
 		     * The specs require a complete URL, but this is a
 		     * Netscapism, so don't expect the author to know that.  -
@@ -2531,7 +2460,7 @@ void LYHandleMETA(HTStructured * me, const BOOL *present,
 #ifndef DONT_TRACK_INTERNAL_LINKS
 	    /* id_string seems to be used wrong below if given.
 	       not that it matters much.  avoid setting it here. - kw */
-	    if ((strncmp(href, "http", 4) == 0) &&
+	    if ((StrNCmp(href, "http", 4) == 0) &&
 		(cp = strchr(href, '#')) != NULL) {
 		StrAllocCopy(id_string, cp);
 		*cp = '\0';
@@ -2593,11 +2522,10 @@ void LYHandleMETA(HTStructured * me, const BOOL *present,
 	while (*cp != '\0' && strncasecomp(cp, "filename", 8))
 	    cp++;
 	if (*cp != '\0') {
-	    cp += 8;
-	    while ((*cp != '\0') && (WHITE(*cp) || *cp == '='))
+	    cp = LYSkipBlanks(cp + 8);
+	    if (*cp == '=')
 		cp++;
-	    while (*cp != '\0' && WHITE(*cp))
-		cp++;
+	    cp = LYSkipBlanks(cp);
 	    if (*cp != '\0') {
 		StrAllocCopy(me->node_anchor->SugFname, cp);
 		if (*me->node_anchor->SugFname == '"') {
@@ -2605,21 +2533,26 @@ void LYHandleMETA(HTStructured * me, const BOOL *present,
 				     '"')) != NULL) {
 			*(cp + 1) = '\0';
 			HTMIME_TrimDoubleQuotes(me->node_anchor->SugFname);
+			if (isEmpty(me->node_anchor->SugFname)) {
+			    FREE(me->node_anchor->SugFname);
+			}
 		    } else {
 			FREE(me->node_anchor->SugFname);
 		    }
-		    if (me->node_anchor->SugFname != NULL &&
-			*me->node_anchor->SugFname == '\0') {
-			FREE(me->node_anchor->SugFname);
+		}
+#if defined(UNIX) && !defined(DOSPATH)
+		/*
+		 * If blanks are not legal for local filenames, replace them
+		 * with underscores.
+		 */
+		if ((cp = me->node_anchor->SugFname) != NULL) {
+		    while (*cp != '\0') {
+			if (isspace(UCH(*cp)))
+			    *cp = '_';
+			++cp;
 		    }
 		}
-		if ((cp = me->node_anchor->SugFname) != NULL) {
-		    while (*cp != '\0' && !WHITE(*cp))
-			cp++;
-		    *cp = '\0';
-		    if (*me->node_anchor->SugFname == '\0')
-			FREE(me->node_anchor->SugFname);
-		}
+#endif
 	    }
 	}
 	/*
@@ -2648,6 +2581,7 @@ void LYHandleMETA(HTStructured * me, const BOOL *present,
     FREE(http_equiv);
     FREE(name);
     FREE(content);
+    FREE(charset);
 }
 
 /*
@@ -2660,10 +2594,10 @@ void LYHandleMETA(HTStructured * me, const BOOL *present,
  *  end tag is present or not in the markup. - FM
  */
 void LYHandlePlike(HTStructured * me, const BOOL *present,
-		   const char **value,
+		   STRING2PTR value,
 		   char **include GCC_UNUSED,
 		   int align_idx,
-		   BOOL start)
+		   int start)
 {
     if (TRUE) {
 	/*
@@ -2752,7 +2686,7 @@ void LYHandlePlike(HTStructured * me, const BOOL *present,
 	}
 
 	/*
-	 * Mark that we are starting a new paragraph and don't have any of it's
+	 * Mark that we are starting a new paragraph and don't have any of its
 	 * text yet.  - FM
 	 */
 	me->inP = FALSE;
@@ -2767,9 +2701,9 @@ void LYHandlePlike(HTStructured * me, const BOOL *present,
  *  an end tag. - FM
  */
 void LYHandleSELECT(HTStructured * me, const BOOL *present,
-		    const char **value,
+		    STRING2PTR value,
 		    char **include GCC_UNUSED,
-		    BOOL start)
+		    int start)
 {
     int i;
 
@@ -2784,31 +2718,12 @@ void LYHandleSELECT(HTStructured * me, const BOOL *present,
 	me->select_disabled = FALSE;
 
 	/*
-	 * Make sure we're in a form.
-	 */
-	if (!me->inFORM) {
-	    if (LYBadHTML(me))
-		CTRACE((tfp,
-			"Bad HTML: SELECT start tag not within FORM tag\n"));
-
-	    /*
-	     * We should have covered all crash possibilities with the current
-	     * TagSoup parser, so we'll allow it because some people with other
-	     * browsers use SELECT for "information" popups, outside of FORM
-	     * blocks, though no Lynx user would do anything that awful, right? 
-	     * - FM
-	     */
-	       /***
-	    return;
-		***/
-	}
-
-	/*
 	 * Check for unclosed TEXTAREA.
 	 */
 	if (me->inTEXTAREA) {
-	    if (LYBadHTML(me))
-		CTRACE((tfp, "Bad HTML: Missing TEXTAREA end tag\n"));
+	    if (LYBadHTML(me)) {
+		LYShowBadHTML("Bad HTML: Missing TEXTAREA end tag\n");
+	    }
 	}
 
 	/*
@@ -2882,8 +2797,9 @@ void LYHandleSELECT(HTStructured * me, const BOOL *present,
 	 * Make sure we had a select start tag.
 	 */
 	if (!me->inSELECT) {
-	    if (LYBadHTML(me))
-		CTRACE((tfp, "Bad HTML: Unmatched SELECT end tag\n"));
+	    if (LYBadHTML(me)) {
+		LYShowBadHTML("Bad HTML: Unmatched SELECT end tag\n");
+	    }
 	    return;
 	}
 
@@ -2940,7 +2856,6 @@ void LYHandleSELECT(HTStructured * me, const BOOL *present,
 			HText_appendCharacter(me->text, *ptr);
 		    ptr++;
 		}
-		HText_setIgnoreExcess(me->text, TRUE);
 	    }
 	    for (; non_empty(ptr); ptr++) {
 		if (*ptr == ' ')
@@ -2956,7 +2871,6 @@ void LYHandleSELECT(HTStructured * me, const BOOL *present,
 		HText_setLastChar(me->text, ']');
 		me->in_word = YES;
 	    }
-	    HText_setIgnoreExcess(me->text, FALSE);
 	}
 	HTChunkClear(&me->option);
 
@@ -2980,8 +2894,8 @@ void LYHandleSELECT(HTStructured * me, const BOOL *present,
  *  URLs. - FM
  */
 int LYLegitimizeHREF(HTStructured * me, char **href,
-		     BOOL force_slash,
-		     BOOL strip_dots)
+		     int force_slash,
+		     int strip_dots)
 {
     int url_type = 0;
     char *p = NULL;
@@ -3000,7 +2914,7 @@ int LYLegitimizeHREF(HTStructured * me, char **href,
 	 */
 
 	/*  Before working on spaces check if we have any, usually none. */
-	for (p = *href; (*p && !isspace(*p)); p++) ;
+	p = LYSkipNonBlanks(*href);
 
 	if (*p) {		/* p == first space character */
 	    /* no reallocs below, all converted in place */
@@ -3075,7 +2989,7 @@ int LYLegitimizeHREF(HTStructured * me, char **href,
 
 	temp = HTParse(*href, Base, PARSE_ALL);
 	path = HTParse(temp, "", PARSE_PATH + PARSE_PUNCTUATION);
-	if (!strncmp(path, "/..", 3)) {
+	if (!StrNCmp(path, "/..", 3)) {
 	    cp = (path + 3);
 	    if (LYIsHtmlSep(*cp) || *cp == '\0') {
 		if (Base[4] == 's') {
@@ -3093,7 +3007,7 @@ int LYLegitimizeHREF(HTStructured * me, char **href,
 	    if (*cp == '\0') {
 		StrAllocCopy(*href, "/");
 	    } else if (LYIsHtmlSep(*cp)) {
-		while (!strncmp(cp, "/..", 3)) {
+		while (!StrNCmp(cp, "/..", 3)) {
 		    if (*(cp + 3) == '/') {
 			cp += 3;
 			continue;
@@ -3182,7 +3096,7 @@ void LYCheckForContentBase(HTStructured * me)
  *  or ID attribute was present in the tag. - FM
  */
 void LYCheckForID(HTStructured * me, const BOOL *present,
-		  const char **value,
+		  STRING2PTR value,
 		  int attribute)
 {
     HTChildAnchor *ID_A = NULL;
@@ -3391,7 +3305,7 @@ BOOLEAN LYCheckForCSI(HTParentAnchor *anchor,
 BOOLEAN LYCommentHacks(HTParentAnchor *anchor,
 		       const char *comment)
 {
-    const char *cp = comment;
+    const char *cp;
     size_t len;
 
     if (comment == NULL)
@@ -3400,7 +3314,7 @@ BOOLEAN LYCommentHacks(HTParentAnchor *anchor,
     if (!(anchor && anchor->address))
 	return FALSE;
 
-    if (strncmp(comment, "!--X-Message-Id: ", 17) == 0) {
+    if (StrNCmp(comment, "!--X-Message-Id: ", 17) == 0) {
 	char *messageid = NULL;
 	char *p;
 
@@ -3445,7 +3359,7 @@ BOOLEAN LYCommentHacks(HTParentAnchor *anchor,
 	    return FALSE;
 	}
     }
-    if (strncmp(comment, "!--X-Subject: ", 14) == 0) {
+    if (StrNCmp(comment, "!--X-Subject: ", 14) == 0) {
 	char *subject = NULL;
 	char *p;
 
@@ -3511,6 +3425,9 @@ void LYformTitle(char **dst,
 
 	if ((tmp_buffer = (char *) malloc(strlen(src) + 1)) == 0)
 	    outofmem(__FILE__, "LYformTitle");
+
+	assert(tmp_buffer != NULL);
+
 	switch (kanji_code) {	/* 1997/11/22 (Sat) 09:28:00 */
 	case EUC:
 	    TO_EUC((const unsigned char *) src, (unsigned char *) tmp_buffer);

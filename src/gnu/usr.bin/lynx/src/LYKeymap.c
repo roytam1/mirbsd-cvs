@@ -1,4 +1,4 @@
-/* $LynxId: LYKeymap.c,v 1.64 2007/05/13 15:34:50 Thorsten.Glaser Exp $ */
+/* $LynxId: LYKeymap.c,v 1.83 2012/02/12 18:35:32 tom Exp $ */
 #include <HTUtils.h>
 #include <LYUtils.h>
 #include <LYGlobalDefs.h>
@@ -17,7 +17,7 @@
 #include <rot13_kb.h>
 #endif
 
-#define PUTS(buf)    (*target->isa->put_block)(target, buf, strlen(buf))
+#define PUTS(buf)    (*target->isa->put_block)(target, buf, (int) strlen(buf))
 
 #ifdef EXP_KEYBOARD_LAYOUT
 int current_layout = 0;		/* Index into LYKbLayouts[]   */
@@ -37,10 +37,6 @@ const char *LYKbLayoutNames[] =
     (char *) 0
 };
 #endif /* EXP_KEYBOARD_LAYOUT */
-
-struct _HTStream {
-    HTStreamClass *isa;
-};
 
 /* * * Tables mapping LynxKeyCodes to LynxActionCodes  * * */
 
@@ -79,10 +75,10 @@ LYK_REFRESH,      LYK_ACTIVATE,     LYK_DOWN_TWO,      0,
 LYK_UP_TWO,       LYK_CHG_CENTER,   LYK_RELOAD,    LYK_TO_CLIPBOARD,
 /* ^P */            /* XON */       /* ^R */       /* ^S */
 
-LYK_TRACE_TOGGLE,       0,        LYK_SWITCH_DTD,  LYK_REFRESH,
+LYK_TRACE_TOGGLE,  LYK_NEXT_DOC,  LYK_SWITCH_DTD,  LYK_REFRESH,
 /* ^T */            /* ^U */        /* ^V */       /* ^W */
 
-0,                      0,              0,             0,
+LYK_CACHE_JAR,          0,   LYK_MAXSCREEN_TOGGLE,     0,
 /* ^X */            /* ^Y */        /* ^Z */       /* ESC */
 
 0,                      0,              0,             0,
@@ -382,7 +378,7 @@ LYKeymap_t key_override[KEYMAP_SIZE] = {
     0,                  0,              0,            0,
 /* ^P */            /* XON */       /* ^R */      /* XOFF */
 
-    0,            LYK_PREV_DOC,         0,            0,
+    0,            LYK_NEXT_DOC,         0,            0,
 /* ^T */            /* ^U */        /* ^V */      /* ^W */
 
     0,                  0,              0,            0,
@@ -747,8 +743,14 @@ static Kcmd revmap[] = {
 	LYK_ACTIVATE, "ACTIVATE",
 	"go to the document given by the current link" ),
     DATA(
-	LYK_SUBMIT, "MOUSE_SUBMIT",
+	LYK_MOUSE_SUBMIT, "MOUSE_SUBMIT",
 	"DO NOT MAP:  follow current link, submit" ),
+    DATA(
+	LYK_SUBMIT, "SUBMIT",
+	"prompt and submit form" ),
+    DATA(
+	LYK_RESET, "RESET",
+	"reset fields on current form" ),
     DATA(
 	LYK_GOTO, "GOTO",
 	"go to a document given as a URL" ),
@@ -893,7 +895,7 @@ static Kcmd revmap[] = {
     DATA(
 	LYK_INSERT_FILE, "INSERTFILE",
 	"insert file into a textarea (just above cursorline)" ),
-#ifdef EXP_ADDRLIST_PAGE
+#ifdef USE_ADDRLIST_PAGE
     DATA(
 	LYK_ADDRLIST, "ADDRLIST",
 	"like LIST command, but always shows the links' URLs" ),
@@ -947,6 +949,9 @@ static Kcmd revmap[] = {
     DATA(
 	LYK_CHDIR, "CHDIR",
 	"change current directory" ),
+    DATA(
+	LYK_PWD, "PWD",
+	"print current directory" ),
 #endif
 #ifdef USE_CURSES_PADS
     DATA(
@@ -971,6 +976,16 @@ static Kcmd revmap[] = {
     DATA(
 	LYK_NESTED_TABLES, "NESTED_TABLES",
 	"toggle nested-table parsing on/off" ),
+#endif
+#ifdef USE_CACHEJAR
+    DATA(
+	LYK_CACHE_JAR, "CACHE_JAR",
+	"examine list of cached documents" ),
+#endif
+#ifdef USE_MAXSCREEN_TOGGLE
+    DATA(
+	LYK_MAXSCREEN_TOGGLE, "MAXSCREEN_TOGGLE",
+	"toggle max screen and normal" ),
 #endif
     DATA(
 	LYK_UNKNOWN, NULL,
@@ -1071,7 +1086,7 @@ static struct emap ekmap[] = {
 /* *INDENT-ON* */
 
 /*
- * Build a list of Lynx's commands, for use in the tab-completion in LYgetstr.
+ * Build a list of Lynx' commands, for use in the tab-completion in LYgetstr.
  */
 HTList *LYcommandList(void)
 {
@@ -1117,8 +1132,8 @@ Kcmd *LYKeycodeToKcmd(LYKeymapCode code)
  */
 Kcmd *LYStringToKcmd(const char *name)
 {
-    unsigned need = strlen(name);
-    unsigned j;
+    size_t need = strlen(name);
+    size_t j;
     BOOL exact = FALSE;
     Kcmd *result = 0;
     Kcmd *maybe = 0;
@@ -1129,7 +1144,7 @@ Kcmd *LYStringToKcmd(const char *name)
 		result = revmap + j;
 		break;
 	    } else if (!exact
-		       && !strncasecomp(revmap[j].name, name, need)) {
+		       && !strncasecomp(revmap[j].name, name, (int) need)) {
 		if (maybe == 0) {
 		    maybe = revmap + j;
 		} else {
@@ -1146,7 +1161,7 @@ Kcmd *LYStringToKcmd(const char *name)
 }
 
 char *LYKeycodeToString(int c,
-			BOOLEAN upper8)
+			int upper8)
 {
     static char buf[30];
     unsigned n;
@@ -1161,16 +1176,17 @@ char *LYKeycodeToString(int c,
     }
 
     if (!named) {
-	if (c > ' '
-	    && c < 0177)
+	if (c <= 0377
+	    && TOASCII(c) > TOASCII(' ')
+	    && TOASCII(c) < 0177)
 	    sprintf(buf, "%c", c);
 	else if (upper8
-		 && c > ' '
+		 && TOASCII(c) > TOASCII(' ')
 		 && c <= 0377
 		 && c <= LYlowest_eightbit[current_char_set])
 	    sprintf(buf, "%c", c);
-	else if (c < ' ')
-	    sprintf(buf, "^%c", c | 0100);
+	else if (TOASCII(c) < TOASCII(' '))
+	    sprintf(buf, "^%c", FROMASCII(TOASCII(c) | 0100));
 	else if (c >= 0400)
 	    sprintf(buf, "key-0x%x", c);
 	else
@@ -1183,7 +1199,7 @@ int LYStringToKeycode(char *src)
 {
     unsigned n;
     int key = -1;
-    int len = strlen(src);
+    int len = (int) strlen(src);
 
     if (len == 1) {
 	key = *src;
@@ -1192,13 +1208,13 @@ int LYStringToKeycode(char *src)
     } else if (len > 2 && !strncasecomp(src, "0x", 2)) {
 	char *dst = 0;
 
-	key = strtol(src, &dst, 0);
-	if (!isEmpty(dst))
+	key = (int) strtol(src, &dst, 0);
+	if (non_empty(dst))
 	    key = -1;
     } else if (len > 6 && !strncasecomp(src, "key-", 4)) {
 	char *dst = 0;
 
-	key = strtol(src + 4, &dst, 0);
+	key = (int) strtol(src + 4, &dst, 0);
 	if (isEmpty(dst))
 	    key = -1;
     }
@@ -1244,8 +1260,8 @@ static char *pretty_html(int c)
 		if (c == table[n].code) {
 		    found = TRUE;
 		    strcpy(dst, table[n].name);
-		    adj += strlen(dst) - 1;
-		    dst += strlen(dst);
+		    adj += (int) strlen(dst) - 1;
+		    dst += (int) strlen(dst);
 		    break;
 		}
 	    }
@@ -1253,7 +1269,7 @@ static char *pretty_html(int c)
 		*dst++ = (char) c;
 	    }
 	}
-	adj -= (dst - buf) - PRETTY_LEN;
+	adj -= (int) (dst - buf) - PRETTY_LEN;
 	while (adj-- > 0)
 	    *dst++ = ' ';
 	*dst = 0;
@@ -1263,7 +1279,7 @@ static char *pretty_html(int c)
     return 0;
 }
 
-static char *format_binding(LYKeymap_t * table, int i)
+static char *format_binding(LYKeymap_t *table, int i)
 {
     LYKeymapCode the_key = (LYKeymapCode) table[i];
     char *buf = 0;
@@ -1285,8 +1301,7 @@ static char *format_binding(LYKeymap_t * table, int i)
 
 /* if both is true, produce an additional line for the corresponding
    uppercase key if its binding is different. - kw */
-static void print_binding(HTStream *target, int i,
-			  BOOLEAN both)
+static void print_binding(HTStream *target, int i, int both)
 {
     char *buf;
     LYKeymapCode lac1 = LYK_UNKNOWN;	/* 0 */
@@ -1344,15 +1359,32 @@ int lecname_to_lec(const char *func)
 {
     int i;
     struct emap *mp;
+    int result = -1;
 
     if (non_empty(func)) {
 	for (i = 0, mp = ekmap; (*mp).name != NULL; mp++, i++) {
 	    if (strcmp((*mp).name, func) == 0) {
-		return (*mp).code;
+		result = (*mp).code;
+		break;
 	    }
 	}
     }
-    return (-1);
+    return result;
+}
+
+const char *lec_to_lecname(int code)
+{
+    struct emap *mp;
+    int i;
+    const char *result = 0;
+
+    for (i = 0, mp = ekmap; (*mp).name != NULL; mp++, i++) {
+	if ((*mp).code == code) {
+	    result = (*mp).name;
+	    break;
+	}
+    }
+    return result;
 }
 
 /*
@@ -1366,32 +1398,37 @@ int lkcstring_to_lkc(const char *src)
 {
     int c = -1;
 
-    if (strlen(src) == 1)
+    if (strlen(src) == 1) {
 	c = *src;
-    else if (strlen(src) == 2 && *src == '^')
+    } else if (strlen(src) == 2 && *src == '^') {
 	c = src[1] & 037;
-    else if (strlen(src) >= 2 && isdigit(UCH(*src))) {
-	if (sscanf(src, "%i", &c) != 1)
-	    return (-1);
+    } else if (strlen(src) >= 2 && isdigit(UCH(*src))) {
+	char *next = 0;
+
+	c = (int) strtol(src, &next, 0);
+	if (next != 0 && *next != '\0')
+	    c = (-1);
 #ifdef USE_KEYMAPS
     } else {
 	map_string_to_keysym(src, &c);
 #ifndef USE_SLANG
 	if (c >= 0) {
 	    if ((c & LKC_MASK) > 255 && !(c & LKC_ISLKC))
-		return (-1);	/* Don't accept untranslated curses KEY_* */
+		c = (-1);	/* Don't accept untranslated curses KEY_* */
 	    else
 		c &= ~LKC_ISLKC;
 	}
 #endif
 #endif
     }
-    if (c == CH_ESC)
+
+    if (c == CH_ESC) {
 	escape_bound = 1;
-    if (c < -1)
-	return (-1);
-    else
-	return c;
+    } else if (c < -1) {
+	c = (-1);
+    }
+
+    return c;
 }
 
 static int LYLoadKeymap(const char *arg GCC_UNUSED,
@@ -1462,7 +1499,7 @@ GLOBALDEF HTProtocol LYLynxKeymap =
  */
 int remap(char *key,
 	  const char *func,
-	  BOOLEAN for_dired)
+	  int for_dired)
 {
     Kcmd *mp;
     int c;
@@ -1510,12 +1547,12 @@ typedef struct {
 /*
  * Save the given keys in the table, setting them to the map'd value.
  */
-static void set_any_keys(ANY_KEYS * table, int size)
+static void set_any_keys(ANY_KEYS * table, size_t size)
 {
-    int j, k;
+    size_t j, k;
 
     for (j = 0; j < size; ++j) {
-	k = table[j].code + 1;
+	k = (size_t) (table[j].code + 1);
 	table[j].save = keymap[k];
 	keymap[k] = table[j].map;
     }
@@ -1524,12 +1561,12 @@ static void set_any_keys(ANY_KEYS * table, int size)
 /*
  * Restore the given keys from the table.
  */
-static void reset_any_keys(ANY_KEYS * table, int size)
+static void reset_any_keys(ANY_KEYS * table, size_t size)
 {
-    int j, k;
+    size_t j, k;
 
     for (j = 0; j < size; ++j) {
-	k = table[j].code + 1;
+	k = (size_t) (table[j].code + 1);
 	keymap[k] = table[j].save;
     }
 }

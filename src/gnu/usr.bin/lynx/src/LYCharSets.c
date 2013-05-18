@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYCharSets.c,v 1.66 2010/09/25 12:46:05 tom Exp $
+ * $LynxId: LYCharSets.c,v 1.67 2012/02/10 18:43:40 tom Exp $
  */
 #include <HTUtils.h>
 #include <HTCJK.h>
@@ -28,7 +28,7 @@ int forced_UCLYhdnl;
 int LYNumCharsets = 0;		/* Will be initialized later by UC_Register. */
 int current_char_set = -1;	/* will be intitialized later in LYMain.c */
 int linedrawing_char_set = -1;
-const char **p_entity_values = NULL;	/* Pointer, for HTML_put_entity() */
+STRING2PTR p_entity_values = NULL;	/* Pointer, for HTML_put_entity() */
 
 			      /* obsolete and probably not used(???)        */
 			      /* will be initialized in HTMLUseCharacterSet */
@@ -346,7 +346,7 @@ const char *SevenBitApproximations[] =
 /*
  * Add the array name to LYCharSets
  */
-const char **LYCharSets[MAXCHARSETS] =
+STRING2PTR LYCharSets[MAXCHARSETS] =
 {
     ISO_Latin1,			/* ISO Latin 1          */
     SevenBitApproximations,	/* 7 Bit Approximations */
@@ -523,7 +523,7 @@ void HTMLSetCharacterHandling(int i)
 void Set_HTCJK(const char *inMIMEname,
 	       const char *outMIMEname)
 {
-    /* need not check for synonyms: MIMEname's got from LYCharSet_UC */
+    /* need not check for synonyms: MIMEnames got from LYCharSet_UC */
 
     if (LYRawMode) {
 	if ((!strcmp(inMIMEname, "euc-jp") ||

@@ -1,4 +1,7 @@
-/*		Chunk handling:	Flexible arrays
+/*
+ * $LynxId: HTChunk.c,v 1.27 2012/02/07 11:28:44 tom Exp $
+ *
+ *		Chunk handling:	Flexible arrays
  *		===============================
  *
  */
@@ -44,6 +47,9 @@ HTChunk *HTChunkCreateMayFail(int grow, int failok)
 	    return ch;
 	}
     }
+
+    assert(ch != NULL);
+
     HTChunkInit(ch, grow);
     ch->failok = failok;
     return ch;
@@ -59,13 +65,16 @@ HTChunk *HTChunkCreate2(int grow, size_t needed)
     if (ch == NULL)
 	outofmem(__FILE__, "HTChunkCreate2");
 
+    assert(ch != NULL);
+
     HTChunkInit(ch, grow);
-    if (needed > 0) {
-	ch->allocated = needed - 1 - ((needed - 1) % ch->growby)
-	    + ch->growby;	/* Round up */
-	CTRACE((tfp, "HTChunkCreate2: requested %d, allocate %d\n",
-		(int) needed, ch->allocated));
-	ch->data = typecallocn(char, ch->allocated);
+    if (needed-- > 0) {
+	/* Round up */
+	ch->allocated = (int) (needed - (needed % (size_t) ch->growby)
+			       + (unsigned) ch->growby);
+	CTRACE((tfp, "HTChunkCreate2: requested %d, allocate %u\n",
+		(int) needed, (unsigned) ch->allocated));
+	ch->data = typecallocn(char, (unsigned) ch->allocated);
 
 	if (!ch->data)
 	    outofmem(__FILE__, "HTChunkCreate2 data");
@@ -83,13 +92,19 @@ void HTChunkClear(HTChunk *ch)
     ch->allocated = 0;
 }
 
-/*	Free a chunk
- *	------------
+/*     Free a chunk (and its chain, if any)
+ *     ------------------------------------
  */
 void HTChunkFree(HTChunk *ch)
 {
-    FREE(ch->data);
-    FREE(ch);
+    HTChunk *next;
+
+    do {
+	next = ch->next;
+	FREE(ch->data);
+	FREE(ch);
+	ch = next;
+    } while (ch != NULL);
 }
 
 /*	Realloc the chunk
@@ -102,7 +117,7 @@ BOOL HTChunkRealloc(HTChunk *ch, int growby)
     ch->allocated = ch->allocated + growby;
 
     data = (ch->data
-	    ? (char *) realloc(ch->data, ch->allocated)
+	    ? typeRealloc(char, ch->data, ch->allocated)
 	    : typecallocn(char, ch->allocated));
 
     if (data) {
@@ -118,18 +133,29 @@ BOOL HTChunkRealloc(HTChunk *ch, int growby)
 
 /*	Append a character
  *	------------------
- *
- * Warning:  the code of this function is repeated within the macro
- * HTChunkPutUtf8Char in SGML.c.  Change the macro or undefine it in SGML.c
- * when changing this function.  -VH
  */
-void HTChunkPutc(HTChunk *ch, char c)
+void HTChunkPutc(HTChunk *ch, unsigned c)
 {
     if (ch->size >= ch->allocated) {
 	if (!HTChunkRealloc(ch, ch->growby))
 	    return;
     }
-    ch->data[ch->size++] = c;
+    ch->data[ch->size++] = (char) c;
+}
+
+/* like above but no realloc: extend to another chunk if necessary */
+HTChunk *HTChunkPutc2(HTChunk *ch, int c)
+{
+    if (ch->size >= ch->allocated) {
+	HTChunk *chunk = HTChunkCreateMayFail(ch->growby, ch->failok);
+
+	ch->next = chunk;
+	ch = chunk;
+	HTChunkPutc(ch, UCH(c));
+    } else {
+	ch->data[ch->size++] = (char) c;
+    }
+    return ch;
 }
 
 /*	Ensure a certain size
@@ -142,7 +168,7 @@ void HTChunkEnsure(HTChunk *ch, int needed)
     ch->allocated = needed - 1 - ((needed - 1) % ch->growby)
 	+ ch->growby;		/* Round up */
     ch->data = (ch->data
-		? (char *) realloc(ch->data, ch->allocated)
+		? typeRealloc(char, ch->data, ch->allocated)
 		: typecallocn(char, ch->allocated));
 
     if (ch->data == NULL)
@@ -162,8 +188,31 @@ void HTChunkPutb(HTChunk *ch, const char *b, int l)
 	if (!HTChunkRealloc(ch, growby))
 	    return;
     }
-    memcpy(ch->data + ch->size, b, l);
+    MemCpy(ch->data + ch->size, b, l);
     ch->size += l;
+}
+
+/* like above but no realloc: extend to another chunk if necessary */
+HTChunk *HTChunkPutb2(HTChunk *ch, const char *b, int l)
+{
+    if (l <= 0)
+	return ch;
+    if (ch->size + l > ch->allocated) {
+	HTChunk *chunk;
+	int m = ch->allocated - ch->size;
+
+	MemCpy(ch->data + ch->size, b, (unsigned) m);
+	ch->size += m;
+
+	chunk = HTChunkCreateMayFail(ch->growby, ch->failok);
+	ch->next = chunk;
+	ch = chunk;
+	HTChunkPutb(ch, b + m, l - m);
+    } else {
+	MemCpy(ch->data + ch->size, b, (unsigned) l);
+	ch->size += l;
+    }
+    return ch;
 }
 
 #define PUTC(code)  ch->data[ch->size++] = (char)(code)
@@ -258,9 +307,30 @@ void HTChunkPuts(HTChunk *ch, const char *s)
 	for (p = s; *p; p++) {
 	    if (ch->size >= ch->allocated) {
 		if (!HTChunkRealloc(ch, ch->growby))
-		    return;
+		    break;
 	    }
 	    ch->data[ch->size++] = *p;
 	}
     }
+}
+
+/* like above but no realloc: extend to another chunk if necessary */
+HTChunk *HTChunkPuts2(HTChunk *ch, const char *s)
+{
+    const char *p;
+
+    if (s != NULL) {
+	for (p = s; *p; p++) {
+	    if (ch->size >= ch->allocated) {
+		HTChunk *chunk = HTChunkCreateMayFail(ch->growby, ch->failok);
+
+		ch->next = chunk;
+		ch = chunk;
+		HTChunkPuts(ch, p);
+		break;
+	    }
+	    ch->data[ch->size++] = *p;
+	}
+    }
+    return ch;
 }

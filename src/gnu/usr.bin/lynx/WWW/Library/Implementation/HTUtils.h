@@ -1,5 +1,5 @@
 /*
- * $LynxId: HTUtils.h,v 1.103 2010/10/27 00:08:52 tom Exp $
+ * $LynxId: HTUtils.h,v 1.109 2012/02/10 18:44:24 tom Exp $
  *
  * Utility macros for the W3 code library
  * MACROS FOR GENERAL USE
@@ -78,7 +78,7 @@ char *alloca();
 #define HAVE_STDLIB_H 1
 #endif
 
-/* Accommodate non-autoconf'd Makefile's (VMS, DJGPP, etc) */
+/* Accommodate non-autoconf'd Makefiles (VMS, DJGPP, etc) */
 
 #ifndef NO_ARPA_INET_H
 #define HAVE_ARPA_INET_H 1
@@ -195,6 +195,16 @@ extern int ignore_unused;
  * so we do not want to include windows.h if we want winsock2.h
  */
 #if defined(_WINDOWS) && !defined(__CYGWIN__)
+
+#ifndef __GNUC__
+#pragma warning (disable : 4100)	/* unreferenced formal parameter */
+#pragma warning (disable : 4127)	/* conditional expression is constant */
+#pragma warning (disable : 4201)	/* nameless struct/union */
+#pragma warning (disable : 4214)	/* bit field types other than int */
+#pragma warning (disable : 4310)	/* cast truncates constant value */
+#pragma warning (disable : 4514)	/* unreferenced inline function has been removed */
+#pragma warning (disable : 4996)	/* This function or variable may be unsafe. ... */
+#endif
 
 #if defined(USE_WINSOCK2_H) && (_MSC_VER >= 1300) && (_MSC_VER < 1400)
 #include <winsock2.h>		/* includes windows.h, in turn windef.h */
@@ -385,6 +395,9 @@ typedef char BOOLEAN;		/* Logical value */
 #define YES (BOOLEAN)1
 #define NO (BOOLEAN)0
 #endif
+
+#define STRING1PTR const char *
+#define STRING2PTR const char * const *
 
 extern BOOL LYOutOfMemory;	/* Declared in LYexit.c - FM */
 
@@ -705,11 +718,11 @@ extern int WWW_TraceMask;
 
 #if defined(USE_GNUTLS_FUNCS)
 #include <tidy_tls.h>
-#define USE_GNUTLS_INCL 1	/* do this for the ".c" ifdef's */
+#define USE_GNUTLS_INCL 1	/* do this for the ".c" ifdefs */
 #elif defined(USE_GNUTLS_INCL)
 #include <gnutls/openssl.h>
 /*
- * GNUTLS's implementation of OpenSSL is very incomplete and rudimentary.
+ * GNUTLS' implementation of OpenSSL is very incomplete and rudimentary.
  * For a start, let's make it compile (TD - 2003/4/13).
  */
 #ifndef SSL_VERIFY_PEER
@@ -731,6 +744,12 @@ extern int WWW_TraceMask;
 
 #undef free_func
 #endif /* USE_SSL */
+
+#ifdef HAVE_BSD_STDLIB_H
+#include <bsd/stdlib.h>		/* prototype for arc4random.h */
+#elif defined(HAVE_BSD_RANDOM_H)
+#include <bsd/random.h>		/* prototype for arc4random.h */
+#endif
 
 #ifdef HAVE_LIBDMALLOC
 #include <dmalloc.h>		/* Gray Watson's library */

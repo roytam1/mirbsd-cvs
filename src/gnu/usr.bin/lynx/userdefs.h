@@ -1,5 +1,5 @@
 /*
- * $LynxId: userdefs.h,v 1.261 2010/12/08 01:28:43 Doug.Kaufman Exp $
+ * $LynxId: userdefs.h,v 1.266 2011/06/06 00:35:56 tom Exp $
  *
  * Lynx - Hypertext navigation system
  *
@@ -635,8 +635,8 @@
 * least recently displayed documents will be freed until one or the other
 * value is no longer exceeded.  The value can be modified in lynx.cfg.
 *
-* The Unix and VMS but not VAXC implementations use the C library malloc's
-* and calloc's for memory allocation, and procedures for taking the actual
+* The Unix and VMS but not VAXC implementations use the C library malloc
+* and calloc for memory allocation, and procedures for taking the actual
 * amount of cache into account still need to be developed.  They use only
 * the DEFAULT_CACHE_SIZE value, and that specifies the absolute maximum
 * number of documents to cache (rather than the maximum number only if
@@ -1434,12 +1434,12 @@
  * ignore it. - kw */
 /* $Format: "#define LYNX_VERSION \"$ProjectVersion$\""$ */
 #ifndef LYNX_VERSION
-#define LYNX_VERSION "2.8.8dev.8"
+#define LYNX_VERSION "2.8.8dev.10"
 #endif
 #define LYNX_WWW_HOME "http://lynx.isc.org/"
 #define LYNX_WWW_DIST "http://lynx.isc.org/current/"
 /* $Format: "#define LYNX_DATE \"$ProjectDate$\""$ */
-#define LYNX_DATE "Mon, 10 Jan 2011 03:56:05 -0800"
+#define LYNX_DATE "Sun, 12 Feb 2012 18:46:17 -0800"
 #define LYNX_DATE_OFF 5		/* truncate the automatically-generated date */
 #define LYNX_DATE_LEN 11	/* truncate the automatically-generated date */
 
@@ -1500,6 +1500,14 @@
 #endif /* FNAMES_8_3 */
 #endif
 
+#ifndef BLAT_MAIL
+#define BLAT_MAIL "blat"
+#endif
+
+#ifndef ALTBLAT_MAIL
+#define ALTBLAT_MAIL "blatj"
+#endif
+
 #define BIN_SUFFIX  ".bin"
 #define TEXT_SUFFIX ".txt"
 
@@ -1519,28 +1527,24 @@
 
 #ifdef DOSPATH
 
+/*
+ * Define this to setup feature that uses directory of lynx.exe to locate
+ * associated configuration files.
+#define USE_PROGRAM_DIR 1
+ */
+
 #ifdef _WINDOWS
-#ifdef SYSTEM_MAIL
-#undef SYSTEM_MAIL
+
+#ifndef USE_BLAT_MAILER
+#define USE_BLAT_MAILER 1
 #endif
-#ifdef SYSTEM_MAIL_FLAGS
-#undef SYSTEM_MAIL_FLAGS
-#endif
-#ifdef USE_ALT_BLAT_MAILER
-#define SYSTEM_MAIL		"BLAT"
-#define SYSTEM_MAIL_FLAGS	""
-#else
-#define SYSTEM_MAIL		"BLATJ"
-#define SYSTEM_MAIL_FLAGS	""
-#endif
+
 #else
 /* have to define something... */
-#ifdef SYSTEM_MAIL
 #undef SYSTEM_MAIL
-#endif /* SYSTEM_MAIL */
-#define SYSTEM_MAIL "sendmail"
-#define SYSTEM_MAIL_FLAGS "-t -oi"
-#endif
+#define SYSTEM_MAIL             "sendmail"
+#define SYSTEM_MAIL_FLAGS       "-t -oi"
+#endif /* _WINDOWS */
 
 /*
 **  The following executables may be used at run time.  Unless you change
@@ -1609,7 +1613,7 @@
 #if       ! defined(NOT_ASCII)
 /*****************************
  * SUPPORT_MULTIBYTE_EDIT provides better support of CJK characters to
- * Lynx's Line Editor.  JIS X0201 Kana is partially supported.  The
+ * Lynx' Line Editor.  JIS X0201 Kana is partially supported.  The
  * reason why I didn't support it fully is I think supporting it is not
  * required so much and I don't have an environment to test it. - TH
  */
@@ -1631,8 +1635,8 @@
 #define MARK_HIDDEN_LINKS
 
 /*****************************
- * USE_TH_JP_AUTO_DETECT, CONV_JISX0201KANA_JISX0208KANA,
- * and KANJI_CODE_OVERRIDE are the macros for Japanese. - TH
+ * USE_TH_JP_AUTO_DETECT and KANJI_CODE_OVERRIDE are the macros
+ * for Japanese. - TH
  */
 /*****************************
  * USE_TH_JP_AUTO_DETECT enables a new Japanese charset detection routine.
@@ -1644,13 +1648,6 @@
  * Lynx falls back to the old assumption of the three kanji codes mixed.
  */
 #define USE_TH_JP_AUTO_DETECT
-
-/*****************************
- * If CONV_JISX0201KANA_JISX0208KANA is set, Lynx will convert
- * JIS X0201 Kana to JIS X0208 Kana, i.e., convert half-width kana
- * to full-width.
- */
-#define CONV_JISX0201KANA_JISX0208KANA
 
 /*****************************
  * Uncomment the following line to enable the kanji code override routine.

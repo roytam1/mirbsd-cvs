@@ -1,3 +1,5 @@
+# $LynxId: help_files.txt,v 1.12 2012/01/31 10:52:22 tom Exp $
+#
 # Format:
 #	KEYWORD=<filename>.html
 # No space is allowed.
@@ -7,7 +9,7 @@
 # 	... href="@KEYWORD@#section>...</a>
 # 	... href="../@KEYWORD#section>...</a>
 #
-# Help files which are used in Lynx's help directory.
+# Help files which are used in Lynx' help directory.
 # Each filename has to end with '.html' otherwise install-help will fail.
 #
 ABOUT_LYNX=about_lynx.html

@@ -1,4 +1,4 @@
-.\" $LynxId: lynx.man,v 1.89 2010/09/27 10:49:29 tom Exp $
+.\" $LynxId: lynx.man,v 1.90 2012/02/05 19:09:07 tom Exp $
 .nr N -1
 .nr D 5
 .TH LYNX 1
@@ -250,6 +250,10 @@ but to the standard output.
 .B \-curses_pads
 toggles the use of curses "pad" feature which supports
 left/right scrolling of the display.
+The feature is normally available for curses configurations,
+but inactive.
+To activate it, use the "|" character or the LINEWRAP_TOGGLE command.
+Toggling this option makes the feature altogether unavailable.
 .TP
 .B \-debug_partial
 separate incremental display stages with MessageSecs delay
@@ -659,13 +663,13 @@ outside your domain (utmp required for selectivity).
 disallow most print options.
 .TP
 .B shell
-disallow shell escapes and lynxexec or lynxprog G)oto's.
+disallow shell escapes and lynxexec or lynxprog G)oto.
 .TP
 .B suspend
 disallow Unix Control-Z suspends with escape to shell.
 .TP
 .B telnet_port
-disallow specifying a port in telnet G)oto's.
+disallow specifying a port in telnet G)oto.
 .TP
 .B useragent
 disallow modifications of the User-Agent header.
@@ -733,7 +737,7 @@ lynx -source . >foo.html
 .IP
 generates HTML source listing the files in the current directory.
 Each file is marked by an HREF relative to the parent directory.
-Add a trailing slash to make the HREF's relative to the current directory:
+Add a trailing slash to make the HREFs relative to the current directory:
 .sp
 .RS
 lynx -source ./ >foo.html
@@ -1197,7 +1201,7 @@ and the WWW community.  Also a special thanks to Foteos Macrides who ported
 much of \fILynx\fP to VMS and did or organized most of its development since the
 departures of Lou Montulli and Garrett Blythe from the University of Kansas
 in the summer of 1994 through the release of v2.7.2, and to everyone
-on the net who has contributed to \fILynx\fP's development either directly (through
+on the net who has contributed to \fILynx\fP' development either directly (through
 patches, comments or bug reports) or indirectly (through inspiration and
 development of other systems).
 .SH AUTHORS

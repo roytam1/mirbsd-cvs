@@ -7,6 +7,7 @@ umask 077
 MYTMP=$TMPDIR/mytmp$$
 mkdir $MYTMP || exit 1
 trap 'cd /; rm -rf $MYTMP' 0 1 2 5 15
+mkdir $MYTMP/.etc || exit 1
 if test -f $HOME/.etc/lynxrc ; then
   cp $HOME/.etc/lynxrc $MYTMP/.etc/lynxrc
 fi

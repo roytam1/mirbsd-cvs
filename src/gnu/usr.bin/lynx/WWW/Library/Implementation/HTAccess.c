@@ -1,5 +1,5 @@
 /*
- * $LynxId: HTAccess.c,v 1.73 2010/10/03 22:49:46 tom Exp $
+ * $LynxId: HTAccess.c,v 1.76 2012/02/04 00:15:53 tom Exp $
  *
  *		Access Manager					HTAccess.c
  *		==============
@@ -286,7 +286,7 @@ BOOL override_proxy(const char *addr)
     }
 
     if (NULL != (p = HTParsePort(Host, &port))) {	/* Port specified */
-	*p++ = 0;		/* Chop off port */
+	*p = 0;			/* Chop off port */
     } else {			/* Use default port */
 	acc_method = HTParse(addr, "", PARSE_ACCESS);
 	if (acc_method != NULL) {
@@ -687,6 +687,11 @@ static int HTLoad(const char *addr,
     HTProtocol *p;
     int status = get_physical(addr, anchor);
 
+    if (reloading) {
+	FREE(anchor->charset);
+	FREE(anchor->UCStages);
+    }
+
     if (status == HT_FORBIDDEN) {
 	/* prevent crash if telnet or similar was forbidden by rule. - kw */
 	LYFixCursesOn("show alert:");
@@ -890,15 +895,16 @@ static BOOL HTLoadDocument(const char *full_address,	/* may include #fragment */
 	 * based on an If-Modified-Since check, etc.) but the code for doing
 	 * those other things isn't available yet.
 	 */
-	if (LYoverride_no_cache ||
+	if (!reloading &&
+	    (LYoverride_no_cache ||
 #ifdef DONT_TRACK_INTERNAL_LINKS
-	    !HText_hasNoCacheSet(text) ||
-	    !HText_AreDifferent(anchor, full_address)
+	     !HText_hasNoCacheSet(text) ||
+	     !HText_AreDifferent(anchor, full_address)
 #else
-	    ((LYinternal_flag || !HText_hasNoCacheSet(text)) &&
-	     !isLYNXIMGMAP(full_address))
+	     ((LYinternal_flag || !HText_hasNoCacheSet(text)) &&
+	      !isLYNXIMGMAP(full_address))
 #endif /* TRACK_INTERNAL_LINKS */
-	    ) {
+	    )) {
 	    CTRACE((tfp, "HTAccess: Document already in memory.\n"));
 	    HText_select(text);
 
@@ -989,7 +995,7 @@ static BOOL HTLoadDocument(const char *full_address,	/* may include #fragment */
 	 * subsequent access attempts.  We'll check recursively, and retrieve
 	 * the final URL if we had multiple redirections to it.  If we just
 	 * went to HTLoad now, as Lou originally had this, we couldn't do
-	 * Lynx's security checks and alternate handling of some URL types. 
+	 * Lynx' security checks and alternate handling of some URL types. 
 	 * So, instead, we'll go all the way back to the top of getfile in
 	 * LYGetFile.c when the status is HT_REDIRECTING.  This may seem
 	 * bizarre, but it works like a charm!  - FM

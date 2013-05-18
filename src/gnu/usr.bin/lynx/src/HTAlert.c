@@ -1,4 +1,7 @@
-/*	Displaying messages and getting input for Lynx Browser
+/*
+ * $LynxId: HTAlert.c,v 1.95 2012/02/08 01:45:28 tom Exp $
+ *
+ *	Displaying messages and getting input for Lynx Browser
  *	==========================================================
  *
  *	REPLACE THIS MODULE with a GUI version in a GUI environment!
@@ -37,7 +40,7 @@
 #ifdef HAVE_NAPMS
 #define LYSleep(n) napms(n)
 #else
-#define LYSleep(n) sleep(n)
+#define LYSleep(n) sleep((unsigned)n)
 #endif
 
 /*	Issue a message about a problem.		HTAlert()
@@ -120,7 +123,7 @@ void HTUserMsg(const char *Msg)
 	CTRACE((tfp, "User message: %s\n", Msg));
 	LYstore_message(Msg);
 #if !(defined(USE_SLANG) || defined(WIDEC_CURSES))
-	if (HTCJK != NOCJK) {
+	if (IS_CJK_TTY) {
 	    clearok(curscr, TRUE);
 	    LYrefresh();
 	}
@@ -149,7 +152,7 @@ void HTProgress(const char *Msg)
     statusline(Msg);
     LYstore_message(Msg);
     CTRACE((tfp, "%s\n", Msg));
-    LYSleepDebug();
+    LYSleepDelay();
 }
 
 const char *HTProgressUnits(int rate)
@@ -168,22 +171,23 @@ const char *HTProgressUnits(int rate)
 	)? kbunits : bunits;
 }
 
-static const char *sprint_bytes(char *s, long n, const char *was_units)
+static const char *sprint_bytes(char *s, off_t n, const char *was_units)
 {
-    static long kb_units = 1024;
+    static off_t kb_units = 1024;
     const char *u = HTProgressUnits(LYTransferRate);
 
     if (LYTransferRate == rateKB || LYTransferRate == rateEtaKB_maybe) {
 	if (n >= 10 * kb_units) {
-	    sprintf(s, "%ld", n / kb_units);
+	    sprintf(s, "%" PRI_off_t, CAST_off_t (n / kb_units));
 	} else if (n > 999) {	/* Avoid switching between 1016b/s and 1K/s */
-	    sprintf(s, "%.2g", ((double) n) / kb_units);
+	    sprintf(s, "%.2g", ((double) n) / (double) kb_units);
 	} else {
-	    sprintf(s, "%ld", n);
+	    sprintf(s, "%" PRI_off_t, CAST_off_t (n));
+
 	    u = HTProgressUnits(rateBYTES);
 	}
     } else {
-	sprintf(s, "%ld", n);
+	sprintf(s, "%" PRI_off_t, CAST_off_t (n));
     }
 
     if (!was_units || was_units != u)
@@ -208,10 +212,10 @@ static char *sprint_tbuf(char *s, long t)
 /*	Issue a read-progress message.			HTReadProgress()
  *	------------------------------
  */
-void HTReadProgress(long bytes, long total)
+void HTReadProgress(off_t bytes, off_t total)
 {
-    static long bytes_last, total_last;
-    static long transfer_rate = 0;
+    static off_t bytes_last, total_last;
+    static off_t transfer_rate = 0;
     static char *line = NULL;
     char bytesp[80], totalp[80], transferp[80];
     int renew = 0;
@@ -223,7 +227,7 @@ void HTReadProgress(long bytes, long total)
     static double first, last, last_active;
 
     gettimeofday(&tv, (struct timezone *) 0);
-    now = tv.tv_sec + tv.tv_usec / 1000000.;
+    now = (double) tv.tv_sec + (double) tv.tv_usec / 1000000.;
 #else
 #if defined(HAVE_FTIME) && defined(HAVE_SYS_TIMEB_H)
     static double now, first, last, last_active;
@@ -247,11 +251,14 @@ void HTReadProgress(long bytes, long total)
 	bytes = bytes_last;
 	total = total_last;
     }
+
+    /* 1 sec delay for transfer_rate calculation without g-t-o-d */
     if ((bytes > 0) &&
-	(now > first))
-	/* 1 sec delay for transfer_rate calculation without g-t-o-d */  {
-	if (transfer_rate <= 0)	/* the very first time */
-	    transfer_rate = (long) ((bytes) / (now - first));	/* bytes/sec */
+	(now > first)) {
+	if (transfer_rate <= 0) {	/* the very first time */
+	    transfer_rate = (off_t) ((double) (bytes) / (now - first));
+	    /* bytes/sec */
+	}
 	total_last = total;
 
 	/*
@@ -277,7 +284,7 @@ void HTReadProgress(long bytes, long total)
 		if (bytes_last != bytes)
 		    last_active = now;
 		bytes_last = bytes;
-		transfer_rate = (long) (bytes / (now - first));		/* more accurate value */
+		transfer_rate = (off_t) ((double) bytes / (now - first));	/* more accurate value */
 	    }
 
 	    if (total > 0)
@@ -286,16 +293,50 @@ void HTReadProgress(long bytes, long total)
 		was_units = 0;
 	    sprint_bytes(bytesp, bytes, was_units);
 
-	    if (total > 0)
-		HTSprintf0(&line, gettext("Read %s of %s of data"), bytesp, totalp);
-	    else
+	    switch ((TransferRate) LYTransferRate) {
+#ifdef USE_PROGRESSBAR
+	    case rateBAR:
+		/*
+		 * If we know the total size of the file, we can compute
+		 * a percentage, and show a corresponding progress bar.
+		 */
 		HTSprintf0(&line, gettext("Read %s of data"), bytesp);
 
-	    if (LYTransferRate != rateOFF
-		&& transfer_rate > 0) {
-		sprint_bytes(transferp, transfer_rate, 0);
-		HTSprintf(&line, gettext(", %s/sec"), transferp);
+		if (total > 0) {
+		    float percent = (float) bytes / (float) total;
+		    int meter = (int) (((float) LYcolLimit * percent) - 5);
+
+		    CTRACE((tfp, "rateBAR: bytes: %" PRI_off_t ", total: "
+			    "%" PRI_off_t "\n",
+			    CAST_off_t (bytes),
+			    CAST_off_t (total)));
+		    CTRACE((tfp, "meter = %d\n", meter));
+
+		    HTSprintf0(&line, "%d%% ", (int) (percent * 100));
+		    while (meter-- > 0)
+			StrAllocCat(line, "I");
+
+		    CTRACE((tfp, "%s\n", line));
+		    CTRACE_FLUSH(tfp);
+		}
+		break;
+#endif
+	    default:
+		if (total > 0) {
+		    HTSprintf0(&line, gettext("Read %s of %s of data"),
+			       bytesp, totalp);
+		} else {
+		    HTSprintf0(&line, gettext("Read %s of data"), bytesp);
+		}
+
+		if (LYTransferRate != rateOFF
+		    && transfer_rate > 0) {
+		    sprint_bytes(transferp, transfer_rate, 0);
+		    HTSprintf(&line, gettext(", %s/sec"), transferp);
+		}
+		break;
 	    }
+
 #ifdef USE_READPROGRESS
 	    if (LYTransferRate == rateEtaBYTES
 		|| LYTransferRate == rateEtaKB) {
@@ -312,7 +353,22 @@ void HTReadProgress(long bytes, long total)
 	    }
 #endif
 
-	    StrAllocCat(line, ".");
+	    switch ((TransferRate) LYTransferRate) {
+#ifdef USE_PROGRESSBAR
+	    case rateBAR:
+		/*
+		 * If we were not able to show a progress bar, just show
+		 * a "." for progress.
+		 */
+		if (total <= 0)
+		    StrAllocCat(line, ".");
+		break;
+#endif
+	    default:
+		StrAllocCat(line, ".");
+		break;
+	    }
+
 	    if (total < -1)
 		StrAllocCat(line, gettext(" (Press 'z' to abort)"));
 
@@ -320,7 +376,7 @@ void HTReadProgress(long bytes, long total)
 	    statusline(line);
 	    CTRACE((tfp, "%s\n", line));
 	}
-	}
+    }
 #ifdef LY_FIND_LEAKS
     FREE(line);
 #endif
@@ -500,7 +556,7 @@ BOOL confirm_post_resub(const char *address,
     char buf[240];
     char *temp = NULL;
     BOOL res;
-    size_t maxlen = LYcolLimit - 5;
+    size_t maxlen = (size_t) (LYcolLimit - 5);
 
     if (!address) {
 	return (NO);
@@ -567,20 +623,17 @@ BOOL confirm_post_resub(const char *address,
 char *HTPrompt(const char *Msg, const char *deflt)
 {
     char *rep = NULL;
-    char Tmp[200];
-
-    Tmp[0] = '\0';
-    Tmp[sizeof(Tmp) - 1] = '\0';
+    bstring *data = NULL;
 
     _statusline(Msg);
-    if (deflt)
-	strncpy(Tmp, deflt, sizeof(Tmp) - 1);
+    BStrCopy0(data, deflt ? deflt : "");
 
     if (!dump_output_immediately)
-	LYgetstr(Tmp, VISIBLE, sizeof(Tmp), NORECALL);
+	LYgetBString(&data, VISIBLE, 0, NORECALL);
 
-    StrAllocCopy(rep, Tmp);
+    StrAllocCopy(rep, data->str);
 
+    BStrFree(data);
     return rep;
 }
 
@@ -591,14 +644,14 @@ char *HTPrompt(const char *Msg, const char *deflt)
 char *HTPromptPassword(const char *Msg)
 {
     char *result = NULL;
-    char pw[120];
-
-    pw[0] = '\0';
+    bstring *data = NULL;
 
     if (!dump_output_immediately) {
 	_statusline(Msg ? Msg : PASSWORD_PROMPT);
-	LYgetstr(pw, HIDDEN, sizeof(pw), NORECALL);	/* hidden */
-	StrAllocCopy(result, pw);
+	BStrCopy0(data, "");
+	LYgetBString(&data, HIDDEN, 0, NORECALL);
+	StrAllocCopy(result, data->str);
+	BStrFree(data);
     } else {
 	printf("\n%s\n", PASSWORD_REQUIRED);
 	StrAllocCopy(result, "");
@@ -632,7 +685,7 @@ char *HTPromptPassword(const char *Msg)
 void HTPromptUsernameAndPassword(const char *Msg,
 				 char **username,
 				 char **password,
-				 BOOL IsProxy)
+				 int IsProxy)
 {
     if ((IsProxy == FALSE &&
 	 authentication_info[0] && authentication_info[1]) ||
@@ -813,11 +866,11 @@ BOOL HTConfirmCookie(domain_entry * de, const char *server,
 	space_free = (LYcolLimit
 		      - (LYstrCells(prompt)
 			 - 10)	/* %s and %.*s and %.*s chars */
-		      -strlen(server));
+		      -(int) strlen(server));
 	if (space_free < 0)
 	    space_free = 0;
-	namelen = strlen(name);
-	valuelen = strlen(value);
+	namelen = (int) strlen(name);
+	valuelen = (int) strlen(value);
 	if ((namelen + valuelen) > space_free) {
 	    /*
 	     * Argh...  there isn't enough space on our single line for
@@ -858,7 +911,7 @@ BOOL HTConfirmCookie(domain_entry * de, const char *server,
 		 * (O/N/Toujours/Jamais)           - French
 		 */
 		char *p = gettext("Y/N/A/V");	/* placeholder for comment */
-		char *s = "YNAV\007\003";	/* see ADVANCED_COOKIE_CONFIRMATION */
+		const char *s = "YNAV\007\003";		/* see ADVANCED_COOKIE_CONFIRMATION */
 
 		if (strchr(s, ch) == 0
 		    && isalpha(ch)
@@ -1072,10 +1125,10 @@ int HTConfirmPostRedirect(const char *Redirecting_url, int server_status)
     return (result);
 }
 
-#define okToSleep() (!crawl && !traversal && LYCursesON)
+#define okToSleep() (!crawl && !traversal && LYCursesON && !no_pause)
 
 /*
- * Sleep for the given message class's time.
+ * Sleep for the given message class' time.
  */
 void LYSleepAlert(void)
 {
@@ -1083,10 +1136,10 @@ void LYSleepAlert(void)
 	LYSleep(AlertSecs);
 }
 
-void LYSleepDebug(void)
+void LYSleepDelay(void)
 {
     if (okToSleep())
-	LYSleep(DebugSecs);
+	LYSleep(DelaySecs);
 }
 
 void LYSleepInfo(void)
@@ -1101,13 +1154,13 @@ void LYSleepMsg(void)
 	LYSleep(MessageSecs);
 }
 
-#ifdef EXP_CMD_LOGGING
+#ifdef USE_CMD_LOGGING
 void LYSleepReplay(void)
 {
     if (okToSleep())
 	LYSleep(ReplaySecs);
 }
-#endif /* EXP_CMD_LOGGING */
+#endif /* USE_CMD_LOGGING */
 
 /*
  * LYstrerror emulates the ANSI strerror() function.

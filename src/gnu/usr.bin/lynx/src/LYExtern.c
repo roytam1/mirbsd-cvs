@@ -1,4 +1,6 @@
 /*
+ * $LynxId: LYExtern.c,v 1.49 2012/02/10 18:36:39 tom Exp $
+ *
  External application support.
  This feature allows lynx to pass a given URL to an external program.
  It was written for three reasons.
@@ -50,7 +52,7 @@ static char *decode_string(char *s)
 	    /* Do nothing if at the end of the string. Or if the chars
 	       are not hex-digits. */
 	    if (!*(s + 1) || !*(s + 2)
-		|| !(isxdigit(*(s + 1)) && isxdigit(*(s + 2)))) {
+		|| !(isxdigit(UCH(*(s + 1))) && isxdigit(UCH(*(s + 2))))) {
 		*p = *s;
 		continue;
 	    }
@@ -65,17 +67,76 @@ static char *decode_string(char *s)
 
 #ifdef WIN_EX
 /*
- * Quote the path to make it safe for shell command processing.
+ *  Delete dangerous characters as local path.
+ *  We delete '<>|' and also '%"'.
+ *  '%' should be deleted because it's difficut to escape for all cases.
+ *  So we can't treat paths which include '%'.
+ *  '"' should be deleted because it's an obstacle to quote whole path.
  */
-char *quote_pathname(char *pathname)
+static void delete_danger_characters(char *src)
 {
-    char *result = NULL;
+    char *dst;
 
-    if (strchr(pathname, ' ') != NULL) {
-	HTSprintf0(&result, "\"%s\"", pathname);
-    } else {
-	StrAllocCopy(result, pathname);
+    for (dst = src; *src != '\0'; src++) {
+	if (strchr("<>|%\"", *src) == NULL) {
+	    *dst = *src;
+	    dst++;
+	}
     }
+    *dst = '\0';
+}
+
+static char *escapeParameter(CONST char *parameter)
+{
+    size_t i;
+    size_t last = strlen(parameter);
+    size_t n = 0;
+    size_t encoded = 0;
+    size_t escaped = 0;
+    char *result;
+    char *needs_encoded = "<>|";
+    char *needs_escaped = "%";
+    char *needs_escaped_NT = "%&^";
+
+    for (i = 0; i < last; ++i) {
+	if (strchr(needs_encoded, parameter[i]) != NULL) {
+	    ++encoded;
+	}
+	if (system_is_NT) {
+	    if (strchr(needs_escaped_NT, parameter[i]) != NULL) {
+		++escaped;
+	    }
+	} else if (strchr(needs_escaped, parameter[i]) != NULL) {
+	    ++escaped;
+	}
+    }
+
+    result = (char *) malloc(last + encoded * 2 + escaped + 1);
+    if (result == NULL)
+	outofmem(__FILE__, "escapeParameter");
+
+    n = 0;
+    for (i = 0; i < last; i++) {
+	if (strchr(needs_encoded, parameter[i]) != NULL) {
+	    sprintf(result + n, "%%%02X", (unsigned char) parameter[i]);
+	    n += 3;
+	    continue;
+	}
+	if (system_is_NT) {
+	    if (strchr(needs_escaped_NT, parameter[i]) != NULL) {
+		result[n++] = '^';
+		result[n++] = parameter[i];
+		continue;
+	    }
+	} else if (strchr(needs_escaped, parameter[i]) != NULL) {
+	    result[n++] = '%';	/* parameter[i] is '%' */
+	    result[n++] = parameter[i];
+	    continue;
+	}
+	result[n++] = parameter[i];
+    }
+    result[n] = '\0';
+
     return result;
 }
 #endif /* WIN_EX */
@@ -103,62 +164,66 @@ static char *format_command(char *command,
     char *cmdbuf = NULL;
 
 #if defined(WIN_EX)
-    if (*param != '"' && strchr(param, ' ') != NULL) {
-	char *cp = quote_pathname(param);
+    char pram_string[LY_MAXPATH];
+    char *escaped = NULL;
 
-	format(&cmdbuf, command, cp);
-	FREE(cp);
-    } else {
-	char pram_string[LY_MAXPATH];
-
-	LYstrncpy(pram_string, param, sizeof(pram_string) - 1);
+    if (strnicmp("file://localhost/", param, 17) == 0) {
+	/* decode local path parameter for programs to be
+	   able to interpret - TH */
+	LYStrNCpy(pram_string, param, sizeof(pram_string) - 1);
 	decode_string(pram_string);
 	param = pram_string;
-
-	if (isMAILTO_URL(param)) {
-	    format(&cmdbuf, command, param + 7);
-	} else if (strnicmp("telnet://", param, 9) == 0) {
-	    char host[sizeof(pram_string)];
-	    int last_pos;
-
-	    strcpy(host, param + 9);
-	    last_pos = strlen(host) - 1;
-	    if (last_pos > 1 && host[last_pos] == '/')
-		host[last_pos] = '\0';
-
-	    format(&cmdbuf, command, host);
-	} else if (strnicmp("file://localhost/", param, 17) == 0) {
-	    char e_buff[LY_MAXPATH], *p;
-
-	    p = param + 17;
-	    *e_buff = 0;
-	    if (strchr(p, ':') == NULL) {
-		sprintf(e_buff, "%.3s/", windows_drive);
-	    }
-	    strncat(e_buff, p, sizeof(e_buff) - strlen(e_buff) - 1);
-	    p = strrchr(e_buff, '.');
-	    if (p) {
-		trimPoundSelector(p);
-	    }
-
-	    /* Less ==> short filename with backslashes,
-	     * less ==> long filename with forward slashes, may be quoted
-	     */
-	    if (ISUPPER(command[0])) {
-		format(&cmdbuf,
-		       command, HTDOS_short_name(e_buff));
-	    } else {
-		if (*e_buff != '"' && strchr(e_buff, ' ') != NULL) {
-		    p = quote_pathname(e_buff);
-		    LYstrncpy(e_buff, p, sizeof(e_buff) - 1);
-		    FREE(p);
-		}
-		format(&cmdbuf, command, e_buff);
-	    }
-	} else {
-	    format(&cmdbuf, command, param);
-	}
+    } else {
+	/* encode or escape URL parameter - TH */
+	escaped = escapeParameter(param);
+	param = escaped;
     }
+
+    if (isMAILTO_URL(param)) {
+	format(&cmdbuf, command, param + 7);
+    } else if (strnicmp("telnet://", param, 9) == 0) {
+	char host[sizeof(pram_string)];
+	int last_pos;
+
+	LYStrNCpy(host, param + 9, sizeof(host));
+	last_pos = strlen(host) - 1;
+	if (last_pos > 1 && host[last_pos] == '/')
+	    host[last_pos] = '\0';
+
+	format(&cmdbuf, command, host);
+    } else if (strnicmp("file://localhost/", param, 17) == 0) {
+	char e_buff[LY_MAXPATH], *p;
+
+	p = param + 17;
+	delete_danger_characters(p);
+	*e_buff = 0;
+	if (strchr(p, ':') == NULL) {
+	    sprintf(e_buff, "%.3s/", windows_drive);
+	}
+	strncat(e_buff, p, sizeof(e_buff) - strlen(e_buff) - 1);
+	p = strrchr(e_buff, '.');
+	if (p) {
+	    trimPoundSelector(p);
+	}
+
+	/* Less ==> short filename with backslashes,
+	 * less ==> long filename with forward slashes, may be quoted
+	 */
+	if (ISUPPER(command[0])) {
+	    char *short_name = HTDOS_short_name(e_buff);
+
+	    p = quote_pathname(short_name);
+	    format(&cmdbuf, command, p);
+	    FREE(p);
+	} else {
+	    p = quote_pathname(e_buff);
+	    format(&cmdbuf, command, p);
+	    FREE(p);
+	}
+    } else {
+	format(&cmdbuf, command, param);
+    }
+    FREE(escaped);
 #else
     format(&cmdbuf, command, param);
 #endif
@@ -171,11 +236,12 @@ static char *format_command(char *command,
  * allow the user to select one.  Return the selected command.
  */
 static char *lookup_external(char *param,
-			     BOOL only_overriders)
+			     int only_overriders)
 {
     int pass, num_disabled, num_matched, num_choices, cur_choice;
-    int length = 0;
+    size_t length = 0;
     char *cmdbuf = NULL;
+    char **actions = 0;
     char **choices = 0;
     lynx_list_item_type *ptr = 0;
 
@@ -195,8 +261,11 @@ static char *lookup_external(char *param,
 			length++;
 		    } else if (pass != 0) {
 			cmdbuf = format_command(ptr->command, param);
-			if (length > 1)
-			    choices[num_choices] = cmdbuf;
+			if (length > 1) {
+			    actions[num_choices] = cmdbuf;
+			    choices[num_choices] =
+				format_command(ptr->menu_name, param);
+			}
 		    }
 		    num_choices++;
 		}
@@ -204,8 +273,10 @@ static char *lookup_external(char *param,
 	}
 	if (length > 1) {
 	    if (pass == 0) {
+		actions = typecallocn(char *, length + 1);
 		choices = typecallocn(char *, length + 1);
 	    } else {
+		actions[num_choices] = 0;
 		choices[num_choices] = 0;
 	    }
 	}
@@ -221,12 +292,11 @@ static char *lookup_external(char *param,
 	cur_choice = LYhandlePopupList(-1,
 				       0,
 				       old_x,
-				       (const char **) choices,
+				       (STRING2PTR) choices,
 				       -1,
 				       -1,
 				       FALSE,
-				       TRUE,
-				       FALSE);
+				       TRUE);
 	wmove(LYwin, old_y, old_x);
 	CTRACE((tfp, "selected choice %d of %d\n", cur_choice, num_choices));
 	if (cur_choice < 0) {
@@ -235,18 +305,20 @@ static char *lookup_external(char *param,
 	}
 	for (pass = 0; choices[pass] != 0; pass++) {
 	    if (pass == cur_choice) {
-		cmdbuf = choices[pass];
+		cmdbuf = actions[pass];
 	    } else {
-		FREE(choices[pass]);
+		FREE(actions[pass]);
 	    }
+	    FREE(choices[pass]);
 	}
+	FREE(actions);
 	FREE(choices);
     }
     return cmdbuf;
 }
 
 BOOL run_external(char *param,
-		  BOOL only_overriders)
+		  int only_overriders)
 {
 #ifdef WIN_EX
     int status;

@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYMain.c,v 1.226 2010/12/11 14:19:47 tom Exp $
+ * $LynxId: LYMain.c,v 1.236 2012/02/10 01:19:45 tom Exp $
  */
 #include <HTUtils.h>
 #include <HTTP.h>
@@ -16,6 +16,7 @@
 #include <HTML.h>
 #include <LYUtils.h>
 #include <LYGlobalDefs.h>
+#include <LYMail.h>
 #include <LYOptions.h>
 #include <LYSignal.h>
 #include <LYGetFile.h>
@@ -350,6 +351,15 @@ BOOLEAN no_table_center = FALSE;	/* 1998/10/09 (Fri) 15:12:49 */
 
 #if USE_BLAT_MAILER
 BOOLEAN mail_is_blat = TRUE;
+BOOLEAN mail_is_altblat = USE_ALT_BLAT_MAILER;
+
+#if USE_ALT_BLAT_MAILER
+#define THIS_BLAT_MAIL ALTBLAT_MAIL
+#define THAT_BLAT_MAIL BLAT_MAIL
+#else
+#define THIS_BLAT_MAIL BLAT_MAIL
+#define THAT_BLAT_MAIL ALTBLAT_MAIL
+#endif
 #endif
 
 #ifdef USE_BLINK
@@ -562,6 +572,8 @@ int cookie_noprompt;
 #ifdef USE_SSL
 int ssl_noprompt = FORCE_PROMPT_DFT;
 #endif
+BOOLEAN conv_jisx0201kana = TRUE;
+BOOLEAN wait_viewer_termination = FALSE;
 
 int connect_timeout = 18000; /*=180000*0.1 - used in HTDoConnect.*/
 int reading_timeout = 18000; /*=180000*0.1 - used in HTDoConnect.*/
@@ -616,6 +628,10 @@ int LYNoZapKey = 0;		/* 0: off (do z checking), 1: full, 2: initially */
 #endif
 
 BOOLEAN FileInitAlreadyDone = FALSE;
+
+#ifdef USE_PROGRAM_DIR
+char *program_dir = NULL;
+#endif
 
 static BOOLEAN stack_dump = FALSE;
 static char *terminal = NULL;
@@ -794,6 +810,7 @@ static void free_lynx_globals(void)
 #endif
     FREE(startrealm);
     FREE(personal_mail_address);
+    FREE(personal_mail_name);
     FREE(anonftp_password);
     FREE(URLDomainPrefixes);
     FREE(URLDomainSuffixes);
@@ -802,6 +819,7 @@ static void free_lynx_globals(void)
     FREE(LYTransferName);
     FREE(LYTraceLogPath);
     FREE(lynx_cfg_file);
+    FREE(SSL_cert_file);
 #if defined(USE_COLOR_STYLE)
     FREE(lynx_lss_file2);
     FREE(lynx_lss_file);
@@ -811,7 +829,7 @@ static void free_lynx_globals(void)
     LYFreeHilites(0, nlinks);
     nlinks = 0;
     LYFreeStringList(LYcommandList());
-    HTInitProgramPaths();
+    HTInitProgramPaths(FALSE);
 #if EXTENDED_STARTFILE_RECALL
     FREE(nonoption);
 #endif
@@ -932,6 +950,27 @@ static void append_ssl_version(char **target,
 }
 #endif /* USE_SSL */
 
+/* Set the text message domain.  */
+void LYSetTextDomain(void)
+{
+#if defined(HAVE_LIBINTL_H) || defined(HAVE_LIBGETTEXT_H)
+    const char *cp;
+
+    if ((cp = LYGetEnv("LYNX_LOCALEDIR")) == 0) {
+#ifdef USE_PROGRAM_DIR
+	char *localedir = NULL;
+
+	HTSprintf0(&localedir, "%s\\locale", program_dir);
+	cp = localedir;
+#else
+	cp = LOCALEDIR;
+#endif
+    }
+    bindtextdomain(NLS_TEXTDOMAIN, cp);
+    textdomain(NLS_TEXTDOMAIN);
+#endif
+}
+
 static void SetLocale(void)
 {
 #ifdef LOCALE
@@ -940,17 +979,7 @@ static void SetLocale(void)
      */
     setlocale(LC_ALL, "");
 #endif /* LOCALE */
-    /* Set the text message domain.  */
-#if defined(HAVE_LIBINTL_H) || defined(HAVE_LIBGETTEXT_H)
-    {
-	const char *cp;
-
-	if ((cp = LYGetEnv("LYNX_LOCALEDIR")) == 0)
-	    cp = LOCALEDIR;
-	bindtextdomain(NLS_TEXTDOMAIN, cp);
-	textdomain(NLS_TEXTDOMAIN);
-    }
-#endif /* HAVE_LIBINTL_H */
+    LYSetTextDomain();
 }
 
 /*
@@ -980,6 +1009,20 @@ int main(int argc,
 #if defined(GETUID) && defined(SETUID)
     setuid(getuid());
 #endif
+
+#ifdef LY_FIND_LEAKS
+    /*
+     * Register the final function to be executed when being exited.  Will
+     * display memory leaks if the -find-leaks option is used.  This should
+     * be the first call to atexit() for leak-checking, which ensures that 
+     * all of the other functions will be invoked before LYLeaks().
+     */
+    atexit(LYLeaks);
+    /*
+     * Register the function which will free our allocated globals.
+     */
+    atexit(free_lynx_globals);
+#endif /* LY_FIND_LEAKS */
 
 #ifdef    NOT_ASCII
     FixCharacters();
@@ -1062,6 +1105,15 @@ int main(int argc,
      */
     pgm = argv[0];
     cp = NULL;
+#ifdef USE_PROGRAM_DIR
+    StrAllocCopy(program_dir, pgm);
+    if ((cp = strrchr(program_dir, '\\')) != NULL) {
+	*cp = '\0';
+    } else {
+	FREE(program_dir);
+	StrAllocCopy(program_dir, ".");
+    }
+#endif
     if ((cp = LYLastPathSep(pgm)) != NULL) {
 	pgm = cp + 1;
     }
@@ -1095,18 +1147,6 @@ int main(int argc,
     }
     LYOpenTraceLog();
 
-#ifdef LY_FIND_LEAKS
-    /*
-     * Register the final function to be executed when being exited.  Will
-     * display memory leaks if the -find-leaks option is used.
-     */
-    atexit(LYLeaks);
-    /*
-     * Register the function which will free our allocated globals.
-     */
-    atexit(free_lynx_globals);
-#endif /* LY_FIND_LEAKS */
-
     SetLocale();
 
     /*
@@ -1133,8 +1173,8 @@ int main(int argc,
 
 #ifndef VMS
     StrAllocCopy(list_format, LIST_FORMAT);
-#endif /* !VMS */
     StrAllocCopy(ftp_format, FTP_FORMAT);
+#endif /* !VMS */
 
     AlertSecs = SECS2Secs(ALERTSECS);
     DelaySecs = SECS2Secs(DEBUGSECS);
@@ -1154,11 +1194,7 @@ int main(int argc,
     StrAllocCopy(language, PREFERRED_LANGUAGE);
     StrAllocCopy(pref_charset, PREFERRED_CHARSET);
     StrAllocCopy(system_mail, SYSTEM_MAIL);
-#ifdef SYSTEM_MAIL_FLAGS
     StrAllocCopy(system_mail_flags, SYSTEM_MAIL_FLAGS);
-#else
-    StrAllocCopy(system_mail_flags, "");
-#endif
 
     StrAllocCopy(LYUserAgent, LYNX_NAME);
     StrAllocCat(LYUserAgent, "/");
@@ -1198,15 +1234,16 @@ int main(int argc,
     else if ((ccp = LYGetEnv("TMP")) != NULL)
 	StrAllocCopy(lynx_temp_space, ccp);
 #endif
-    else
-#ifdef TEMP_SPACE
+    else {
+#if defined(USE_PROGRAM_DIR)
+	StrAllocCopy(lynx_temp_space, program_dir);
+#elif defined(TEMP_SPACE)
 	StrAllocCopy(lynx_temp_space, TEMP_SPACE);
 #else
-    {
 	puts(gettext("You MUST define a valid TMP or TEMP area!"));
 	exit_immediately(EXIT_FAILURE);
-    }
 #endif
+    }
 
 #ifdef WIN_EX			/* for Windows 2000 ... 1999/08/23 (Mon) 08:24:35 */
     if (access(lynx_temp_space, 0) != 0)
@@ -1424,6 +1461,15 @@ int main(int argc,
 	    (cp = LYGetEnv("lynx_cfg")) != NULL)
 	    StrAllocCopy(lynx_cfg_file, cp);
     }
+#ifdef USE_PROGRAM_DIR
+    if (!lynx_cfg_file) {
+	HTSprintf0(&lynx_cfg_file, "%s\\lynx.cfg", program_dir);
+	if (!LYCanReadFile(lynx_cfg_file)) {
+	    FREE(lynx_cfg_file);
+	    lynx_cfg_file = NULL;
+	}
+    }
+#endif
 
     /*
      * If we still don't have a configuration file, use the userdefs.h
@@ -1552,6 +1598,11 @@ int main(int argc,
 	    StrAllocCopy(lynx_lss_file, LYNX_LSS_FILE);
 
 	LYTildeExpand(&lynx_lss_file, TRUE);
+#ifdef USE_PROGRAM_DIR
+	if (!isEmpty(lynx_lss_file) && !LYCanReadFile(lynx_lss_file)) {
+	    HTSprintf0(&lynx_lss_file, "%s\\lynx.lss", program_dir);
+	}
+#endif
 
 	/*
 	 * If the lynx-style file is not available, inform the user and exit.
@@ -1618,7 +1669,7 @@ int main(int argc,
      * If the input is not a tty, we are either running in cron, or are
      * getting input via a pipe:
      *
-     * a) in cron, none of stdin/stdout/stderr are tty's.
+     * a) in cron, none of stdin/stdout/stderr are ttys.
      * b) from a pipe, we should have either "-" or "-stdin" options.
      */
     if (!LYGetStdinArgs
@@ -1705,6 +1756,16 @@ int main(int argc,
     if (LYCookieSaveFile != NULL) {
 	LYTildeExpand(&LYCookieSaveFile, FALSE);
     }
+#ifdef USE_PROGRAM_DIR
+    if (is_url(helpfile) == 0) {
+	char *tmp = NULL;
+
+	HTSprintf0(&tmp, "%s\\%s", program_dir, helpfile);
+	FREE(helpfile);
+	LYLocalFileToURL(&helpfile, tmp);
+	FREE(tmp);
+    }
+#endif
 
     /*
      * In dump_output_immediately mode, LYCookieSaveFile defaults to
@@ -3032,9 +3093,9 @@ disallow telnets coming from outside your domain" },
 	{ "print", "disallow most print options" },
 	{ "shell", "\
 disallow shell escapes, and lynxexec, lynxprog or lynxcgi\n\
-G)oto's" },
+G)oto" },
 	{ "suspend", "disallow Control-Z suspends with escape to shell" },
-	{ "telnet_port", "disallow specifying a port in telnet G)oto's" },
+	{ "telnet_port", "disallow specifying a port in telnet G)oto" },
 	{ "useragent", "disallow modifications of the User-Agent header" },
     };
     /* *INDENT-ON* */
@@ -3240,6 +3301,12 @@ static Config_Type Arg_Table [] =
       "accept_all_cookies", 4|SET_ARG,		LYAcceptAllCookies,
       "\naccept cookies without prompting if Set-Cookie handling\nis on"
    ),
+#if USE_BLAT_MAILER
+   PARSE_SET(
+      "altblat",	4|TOGGLE_ARG,		mail_is_altblat,
+      "select mail tool (`"THIS_BLAT_MAIL"' ==> `"THAT_BLAT_MAIL"')"
+   ),
+#endif
    PARSE_FUN(
       "anonymous",	2|FUNCTION_ARG,		anonymous_fun,
       "apply restrictions for anonymous account,\nsee also -restrictions"
@@ -3479,13 +3546,13 @@ soon as they are seen)"
       "historical",	4|TOGGLE_ARG,		historical_comments,
       "toggles use of '>' or '-->' as terminator for comments"
    ),
-   PARSE_SET(
-      "html5_charsets",	4|TOGGLE_ARG,		html5_charsets,
-      "toggles use of '>' or '-->' as terminator for comments"
-   ),
    PARSE_FUN(
       "homepage",	4|NEED_FUNCTION_ARG,	homepage_fun,
       "=URL\nset homepage separate from start page"
+   ),
+   PARSE_SET(
+      "html5_charsets",	4|TOGGLE_ARG,		html5_charsets,
+      "toggles use of HTML5 charset replacements"
    ),
    PARSE_SET(
       "image_links",	4|TOGGLE_ARG,		clickable_images,
@@ -3556,7 +3623,7 @@ soon as they are seen)"
 #if USE_BLAT_MAILER
    PARSE_SET(
       "noblat",		4|TOGGLE_ARG,		mail_is_blat,
-      "select mail tool (`BLAT' ==> `sendmail')"
+      "select mail tool (`"THIS_BLAT_MAIL"' ==> `"SYSTEM_MAIL"')"
    ),
 #endif
    PARSE_FUN(
