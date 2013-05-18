@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/luaposix/Makefile,v 1.2 2009/08/29 12:59:56 tg Exp $
+# $MirOS: ports/devel/luaposix/Makefile,v 1.3 2009/08/29 13:17:55 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2008/06/11 05:04:37 landry Exp $
 
 COMMENT=		posix library for the lua language
@@ -27,7 +27,7 @@ EXTRA_XAKE_FLAGS+=	LIB=posix \
 			LIBDIR=${TRUEPREFIX:Q}/lib/lua/5.1
 
 .if (${MACHINE_OS} == "Darwin")
-LDFLAGS+=	-bundle undefined dynamic_lookup
+LDFLAGS+=		-bundle -undefined dynamic_lookup
 .endif
 
 pre-install:

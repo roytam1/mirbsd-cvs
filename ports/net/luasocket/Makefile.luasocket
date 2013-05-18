@@ -1,10 +1,10 @@
-# $MirOS$
+# $MirOS: ports/net/luasocket/Makefile.luasocket,v 1.1 2009/08/29 13:50:13 tg Exp $
 
 CPPFLAGS+=	-DLUASOCKET_DEBUG
 CPPFLAGS+=	-DUNIX_HAS_SUN_LEN
 
 .if (${MACHINE_OS} == "Darwin")
-LDFLAGS+=	-bundle undefined dynamic_lookup
+LDFLAGS+=	-bundle -undefined dynamic_lookup
 .endif
 
 SRCS_MIME=	mime.c
