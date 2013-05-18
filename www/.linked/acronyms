@@ -1,4 +1,4 @@
-$MirOS: src/share/misc/acronyms,v 1.104 2011/04/22 17:55:26 tg Exp $
+$MirOS: src/share/misc/acronyms,v 1.105 2011/04/24 17:04:19 tg Exp $
 $NetBSD: acronyms,v 1.206 2011/03/26 12:39:16 dholland Exp $
 $NetBSD: acronyms.comp,v 1.124 2011/03/26 12:40:07 dholland Exp $
 10Q	thank you
@@ -1763,6 +1763,7 @@ SBU	standard build unit
 SC	store conditional
 SCA	source code analyzer
 SCADA	supervisory control and data acquisition
+SCC	second class citizen
 SCC	single chip cloud
 SCC	source code control
 SCCS	source code control system
