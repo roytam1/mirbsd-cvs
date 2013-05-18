@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/crunch/crunchgen.c,v 1.3 2006/02/24 01:19:46 tg Exp $ */
+/* $MirOS: src/usr.bin/crunch/crunchgen.c,v 1.4 2006/02/24 11:55:14 tg Exp $ */
 /* $OpenBSD: crunchgen.c,v 1.21 2004/08/24 09:11:39 jmc Exp $	 */
 
 /*
@@ -43,7 +43,7 @@
 #include <ctype.h>
 #include <string.h>
 
-__RCSID("$MirOS: src/usr.bin/crunch/crunchgen.c,v 1.3 2006/02/24 01:19:46 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/crunch/crunchgen.c,v 1.4 2006/02/24 11:55:14 tg Exp $");
 
 #define CRUNCH_VERSION	"0.3-MirOS"
 
@@ -435,8 +435,17 @@ add_special(int argc, char **argv)
 	} else if (!strcmp(argv[2], "srcdir")) {
 		if (argc != 4)
 			goto argcount;
-		if ((p->srcdir = strdup(argv[3])) == NULL)
-			out_of_memory();
+		p->srcdir = NULL;
+		if (argv[3][0] != '/' && topdir[0] != '\0') {
+			if (asprintf(&(p->srcdir), "%s/%s",
+			    topdir, argv[3]) == -1)
+				p->srcdir = NULL;
+			else if (!is_dir(p->srcdir))
+				p->srcdir = NULL;
+		}
+		if (p->srcdir == NULL)
+			if ((p->srcdir = strdup(argv[3])) == NULL)
+				out_of_memory();
 	} else if (!strcmp(argv[2], "mf_name")) {
 		if (argc != 4)
 			goto argcount;
