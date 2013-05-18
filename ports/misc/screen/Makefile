@@ -1,4 +1,4 @@
-# $MirOS: ports/misc/screen/Makefile,v 1.19 2007/04/17 23:41:02 tg Exp $
+# $MirOS: ports/misc/screen/Makefile,v 1.20 2007/05/10 13:02:22 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2004/01/17 05:34:28 brad Exp $
 
 NOT_FOR_PLATFORM=	Interix:*:*
@@ -44,8 +44,8 @@ post-extract:
 	@rm -f ${WRKSRC}/doc/screen.info*
 
 post-install:
-	cd ${PREFIX}/bin && mv -f screen-${VERSION} screen
-	chmod ${BINMODE} ${PREFIX}/bin/screen
+	cd ${PREFIX}/bin && rm -f screen && \
+	    mv screen-${VERSION} screen && chmod ${BINMODE} screen
 	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/screen
 	${INSTALL_DATA} ${WRKSRC}/etc/etcscreenrc \
 	    ${PREFIX}/share/examples/screen/screenrc
