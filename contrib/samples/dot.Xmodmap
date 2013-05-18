@@ -1,6 +1,6 @@
-! $MirOS: contrib/samples/dot.Xmodmap,v 1.24.4.4 2012/07/04 23:01:08 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap,v 1.24.4.5 2012/08/03 17:36:33 tg Exp $
 !-
-! Copyright © 2004, 2007, 2008, 2010, 2012
+! Copyright © 2004, 2007, 2008, 2010, 2012, 2013
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 !
 ! Provided that these terms and disclaimer and all copyright notices
@@ -28,7 +28,8 @@
 !
 ! This file has been modified to work on wheezy (remember X -retro);
 ! U+009B is not allowed, the rest is m̲o̲s̲t̲l̲y̲ documented in "kbd-xf86"
-! in this directory.
+! in this directory. Additionally, uxterm works with Mode_switch now
+! and doesn’t need Meta_L, so replace as the latter hinders X apps.
 !
 ! Diversions from pristine XFree86(R) and Windows(R) 2000 US layout:
 ! • The Alt_L key generates Meta_L	(adds 0x80 to latin1 code)
@@ -178,7 +179,7 @@ keycode	0x68 =	KP_Enter	Return
 
 keycode	0x25 =	Control_L	Control_L
 keycode	0x85 =	Alt_L		Alt_L
-keycode	0x40 =	Meta_L		Meta_L
+keycode	0x40 =	Mode_switch	Meta_L
 keycode	0x41 =	space		space		U00A0		U3000
 keycode	0x6C =	Alt_R		Alt_R
 keycode	0x86 =	Meta_R		Meta_R
