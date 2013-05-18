@@ -1,4 +1,4 @@
-/*	$MirOS: src/include/nl_types.h,v 1.4 2006/05/30 20:28:15 tg Exp $	*/
+/*	$MirOS: src/include/nl_types.h,v 1.5 2006/06/02 02:45:36 tg Exp $	*/
 /*	$OpenBSD: nl_types.h,v 1.7 2002/02/16 21:27:17 millert Exp $	*/
 /*	$NetBSD: nl_types.h,v 1.6 1996/05/13 23:11:15 jtc Exp $	*/
 
@@ -52,7 +52,7 @@ typedef int nl_item;
 __BEGIN_DECLS
 extern nl_catd 	catopen(const char *, int);
 extern char    *catgets(nl_catd, int, int, const char *)
-    __attribute__((format_arg(3)));
+    __attribute__((format_arg(4)));
 extern int	catclose(nl_catd);
 __END_DECLS
 
