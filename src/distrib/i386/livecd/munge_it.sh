@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.1 2006/04/05 22:38:12 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.2 2006/04/05 23:14:40 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -34,7 +34,7 @@ ed -s etc/X11/xdm/Xresources <<-'EOF'
 	/^xlogin.greeting:/s/CLIENTHOST/the MirOS BSD Live CD/
 	/^Chooser.label.label:/s/CLIENTHOST/Live-CD/
 	wq
-'EOF'
+EOF
 ed -s etc/group <<-'EOF'
 	/^wheel:/s/$/,live/
 	/^operator:/s/$/,live/
@@ -47,23 +47,23 @@ ed -s etc/group <<-'EOF'
 		live:*:32762:
 	.
 	wq
-'EOF'
+EOF
 ed -s etc/master.passwd <<-'EOF'
 	/^nobody:/i
 		live:$2a$04$NCMhVFfIg3afYRXLCDGjcOPYJxem4lxSLcthQT5AaejUaAAvIWdCW:32762:32762:staff:0:0:MirOS BSD Live CD User:/home/live:/bin/mksh
 	.
 	wq
-'EOF'
+EOF
 ed -s etc/ntpd.conf <<-'EOF'
 	/^.server /d
 	i
 		server 81.169.176.177
 	.
 	wq
-'EOF'
+EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS$
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.2 2006/04/05 23:14:40 tg Exp $
 	.
 	/^rm.*fastboot$/a
 
@@ -94,15 +94,15 @@ ed -s etc/rc.conf <<-'EOF'
 	/^ntpd_flags/s/NO/""/
 	/^wsmoused_flags/s/NO/"-2"/
 	wq
-'EOF'
+EOF
 ed -s etc/rc.securelevel <<-'EOF'
 	/^securelevel/s/1/-1/
 	wq
-'EOF'
+EOF
 ed -s etc/sudoers <<-'EOF'
 	%g/@ROOT@/s//live/
 	wq
-'EOF'
+EOF
 ed -s etc/sysctl.conf <<-'EOF'
 	/^.ddb.console/s/^.//
 	/^.kern.seminfo.semmni/s/^.//
@@ -114,12 +114,12 @@ ed -s etc/sysctl.conf <<-'EOF'
 	/^.kern.emul.linux/s/^.//
 	/^.kern.emul.openbsd/s/^.//
 	wq
-'EOF'
+EOF
 ed -s etc/ttys <<-'EOF'
 	/^tty00/s/unknown/vt220/
 	s/off/on secure/
 	wq
-'EOF'
+EOF
 ed -s var/cron/tabs/root <<-'EOF'
 	/daily/s/^/#/
 	/weekly/s/^/#/
@@ -128,12 +128,11 @@ ed -s var/cron/tabs/root <<-'EOF'
 	/randomnumbers.info/s/^.//
 	/fourmilab.ch/s/^.//
 	wq
-'EOF'
+EOF
 
-install -c -o root -g staff -m 644 \
-    $myplace/etc/X11/XF86Config etc/X11/XF86Config
-install -c -o root -g staff -m 644 $myplace/etc/fstab etc/fstab
-install -c -o root -g staff -m 644 $myplace/etc/rc.netselect etc/rc.netselect
+install -c -o root -g staff -m 644 $myplace/XF86Config etc/X11/XF86Config
+install -c -o root -g staff -m 644 $myplace/fstab etc/fstab
+install -c -o root -g staff -m 644 $myplace/rc.netselect etc/rc.netselect
 
 pwd_mkdb -pd $(readlink -nf etc) master.passwd
 dd if=/dev/urandom bs=4096 count=1 of=var/db/host.random

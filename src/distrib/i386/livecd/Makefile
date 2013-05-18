@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.4 2006/04/05 23:20:01 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.5 2006/04/05 23:23:54 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -19,11 +19,12 @@ unpack:
 
 prepimg:
 	cd workdir && ${SUDO} mksh ${.CURDIR}/munge_it.sh
-	dd if=${DESTDIR}/usr/mdec/boot obs=2048 conv=osync \
+	${SUDO} dd if=${DESTDIR}/usr/mdec/boot obs=2048 conv=osync \
 	    of=workdir/etc/boot.386
-	dd if=${REALOBJDIR}/../ramdisk/bsd.rd obs=2048 conv=osync \
+	${SUDO} dd if=${REALOBJDIR}/../ramdisk/bsd.rd obs=2048 conv=osync \
 	    of=workdir/bsd
-	cp ${.CURDIR}/boot.cfg workdir/etc/
+	${SUDO} install -c -o root -g wheel -m 644 ${.CURDIR}/boot.cfg \
+	    workdir/etc/
 
 nukefiles:
 	cd workdir/usr && ${SUDO} rm -rf X11R6/lib/X11/doc X11R6/man \
