@@ -1,6 +1,26 @@
-/**	$MirOS: src/usr.sbin/config/main.c,v 1.5 2005/12/20 00:31:00 tg Exp $ */
+/**	$MirOS: src/usr.sbin/config/main.c,v 1.6 2007/02/12 18:57:49 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.37 2005/04/28 22:28:00 deraadt Exp $	*/
 /*	$NetBSD: main.c,v 1.22 1997/02/02 21:12:33 thorpej Exp $	*/
+
+/*-
+ * Copyright (c) 2007
+ *	Thorsten Glaser <tg@mirbsd.de>
+ *
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
+ *
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
+ */
 
 /*
  * Copyright (c) 1992, 1993
@@ -55,13 +75,9 @@
 
 __COPYRIGHT("@(#) Copyright (c) 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
-__RCSID("$MirOS: src/usr.sbin/config/main.c,v 1.5 2005/12/20 00:31:00 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/config/main.c,v 1.6 2007/02/12 18:57:49 tg Exp $");
 
-int	firstfile(const char *);
-int	yyparse(void);
-
-extern char *optarg;
-extern int optind;
+int yyparse(void);
 
 static struct hashtab *mkopttab;
 static struct nvlist **nextopt;
@@ -69,6 +85,8 @@ static struct nvlist **nextdefopt;
 static struct nvlist **nextmkopt;
 
 static __dead void stop(void);
+void usage(void) __dead;
+int optcmp(const void *, const void *);
 static int do_option(struct hashtab *, struct nvlist ***,
     const char *, const char *, const char *);
 static int crosscheck(void);
@@ -315,50 +333,78 @@ mksymlinks(void)
 }
 
 /*
- * Create config_file.h that defines a macro with the content of conffile,
+ * Create config.txt that defines the content of conffile,
  * useful to recover a lost kernel configuration.
- * Each line is prefixed with =CF=
- * Note : the current position of the configuration stream is modified.
+ * Note: the current position of the configuration stream is modified.
  */
+static void mkcfgfile_r(FILE *, FILE *);
+
 static int
 mkcfgfile(void)
 {
 	FILE *cfgh;
 	FILE *cfgfp;
-	int newline;
-	int c;
 
-	if ((cfgh = fopen("config_file.h", "w")) == NULL ||
+	if ((cfgh = fopen("config.txt", "w")) == NULL ||
 	    (cfgfp = getfp()) == NULL)
 		return (-1);
 	rewind(cfgfp);
-	fprintf(cfgh, "static const char kern_config[] __attribute__((used)) = \"\\\n"
-		      "START CONFIG FILE\\n\\\n");
-	newline = 1;
-	while ((c = getc(cfgfp)) != EOF) {
-		if (newline) {
-			fprintf(cfgh, "=CF=");
-			newline = 0;
-		}
-		switch (c) {
-		    case '\\':
-		    case '"':
-			fputc('\\', cfgh);
-			break;
-		    case '\n':
-			fprintf(cfgh, "\\n\\\n");
-			newline = 1;
-			continue;
-		}
-		fputc(c, cfgh);
-	}
-	if (!newline) {
-		fprintf(cfgh, "\\n\\\n");
-	}
-	fprintf(cfgh, "END CONFIG FILE\\n\";\n");
+	mkcfgfile_r(cfgh, cfgfp);
 	fclose(cfgh);
 
 	return (0);
+}
+
+static void
+mkcfgfile_r(FILE *cfgh, FILE *cfgfp)
+{
+	char *cp, *p, *fp;
+	size_t n;
+
+	while ((cp = fgetln(cfgfp, &n)) != NULL) {
+		if ((n < 8) || (cp[n - 1] != '\n'))
+			goto tooshort;
+		if (strncmp(cp, "include", 7))
+			goto tooshort;
+		cp[n - 1] = '\0';
+		p = cp + 7;
+		while (isspace(*p))
+			++p;
+		if (*p++ != '"')
+			goto noinclude;
+		fp = p;
+		while (*p && *p != '"')
+			++p;
+		if (*p != '"')
+			goto noinclude;
+		fprintf(cfgh, "## BEGIN ## %s\n", cp);
+		*p = '\0';
+		{
+			char *s;
+			FILE *sfp;
+
+			/* Kludge until files.* files are fixed. */
+			if (strncmp(fp, "../../../", 9) == 0)
+				fp += 9;
+
+			s = (*fp == '/') ? strdup(fp) : sourcepath(fp);
+			if ((sfp = fopen(s, "r")) == NULL) {
+				error("cannot open %s for reading: %s\n",
+				    s, strerror(errno));
+				free(s);
+				return;
+			}
+			free(s);
+			mkcfgfile_r(cfgh, sfp);
+			fclose(sfp);
+		}
+		*p = '"';
+		fprintf(cfgh, "##  END  ## ");
+ noinclude:
+		cp[n - 1] = '\n';
+ tooshort:
+		fwrite(cp, 1, n, cfgh);
+	}
 }
 
 static __dead void

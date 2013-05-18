@@ -52,11 +52,12 @@
 #include "config.h"
 #include "sem.h"
 
+__RCSID("$MirOS$");
+
 #define	FORMAT(n) ((n) > -10 && (n) < 10 ? "%d" : "0x%x")
 
 #define	stop(s)	error(s), exit(1)
 
-int	include(const char *, int);
 void	yyerror(const char *);
 int	yylex(void);
 

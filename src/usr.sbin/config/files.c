@@ -48,6 +48,8 @@
 #include <string.h>
 #include "config.h"
 
+__RCSID("$MirOS$");
+
 extern const char *yyfile;
 
 /*
@@ -356,7 +358,7 @@ fixfsel(const char *name, void *context)
  * As for fixfsel above, but we do not need the flat list.
  */
 static int
-fixsel(const char *name, void *context)
+fixsel(const char *name, void *context __attribute__((unused)))
 {
 
 	return (ht_lookup(selecttab, name) != NULL);

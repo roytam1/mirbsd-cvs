@@ -49,8 +49,9 @@
 #include <stdarg.h>
 #include "config.h"
 
-static void nomem(void);
-static void vxerror(const char *, int, const char *, va_list);
+static void nomem(void) __dead;
+static void vxerror(const char *, int, const char *, va_list)
+    __attribute__((format (printf, 3, 0)));
 
 /*
  * Malloc, with abort on error.
@@ -195,7 +196,7 @@ vxerror(const char *file, int line, const char *fmt, va_list ap)
 /*
  * Internal error, abort.
  */
-__dead void
+void
 panic(const char *fmt, ...)
 {
 	va_list ap;

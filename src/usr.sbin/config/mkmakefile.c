@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/config/mkmakefile.c,v 1.2 2006/01/15 23:46:36 tg Exp $ */
 /*	$OpenBSD: mkmakefile.c,v 1.16 2004/01/04 18:30:05 deraadt Exp $	*/
 /*	$NetBSD: mkmakefile.c,v 1.34 1997/02/02 21:12:36 thorpej Exp $	*/
 
@@ -175,7 +175,7 @@ static int
 emitdefs(FILE *fp)
 {
 	struct nvlist *nv;
-	char *sp;
+	const char *sp;
 
 	if (fputs("IDENT=", fp) < 0)
 		return (1);

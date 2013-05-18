@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.sbin/config/sem.c,v 1.2 2005/03/13 19:16:18 tg Exp $ */
 /*	$OpenBSD: sem.c,v 1.30 2004/01/04 18:30:05 deraadt Exp $	*/
 /*	$NetBSD: sem.c,v 1.10 1996/11/11 23:40:11 gwr Exp $	*/
 
@@ -51,7 +51,7 @@
 #include "config.h"
 #include "sem.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/config/sem.c,v 1.2 2005/03/13 19:16:18 tg Exp $");
 
 /*
  * config semantics.
@@ -601,12 +601,12 @@ static int
 lresolve(struct nvlist **nvp, const char *name, const char *what,
     struct nvlist *dflt, int part)
 {
-	int err;
+	int errv;
 
-	while ((err = resolve(nvp, name, what, dflt, part)) == 0 &&
+	while ((errv = resolve(nvp, name, what, dflt, part)) == 0 &&
 	    (*nvp)->nv_next != NULL)
 		nvp = &(*nvp)->nv_next;
-	return (err);
+	return (errv);
 }
 
 /*

@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.24 2007/02/07 05:15:56 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.25 2007/02/07 20:43:23 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -54,7 +54,7 @@ STRIPFLAGS=	-g -X -x -R .comment
 #	${SYSTEM_LD_HEAD}
 #	${SYSTEM_LD} swapxxx.o
 #	${SYSTEM_LD_TAIL}
-SYSTEM_OBJ?=	locore.o init_ssp.o \
+SYSTEM_OBJ?=	locore.o init_ssp.o config_gz.o \
 		param.o ioconf.o ${OBJS} ${LIBKERN} ${LIBCOMPAT}
 SYSTEM_DEP?=	Makefile ${SYSTEM_OBJ}
 SYSTEM_LD_HEAD?=rm -f $@
@@ -62,20 +62,19 @@ SYSTEM_LD?=	@echo ${LD} ${LINKFLAGS} -o $@ '$${SYSTEM_OBJ}' vers.o; \
 		${LD} ${LINKFLAGS} -o $@ ${SYSTEM_OBJ} vers.o
 SYSTEM_LD_TAIL?=@${SIZE} $@; chmod 755 $@
 DEBUG?=
+SYSTEM_LD_TAIL+=; \
+		echo cp $@ $@.unstripped; \
+		rm -f $@.unstripped; cp $@ $@.unstripped; \
+		echo Running kvm_mkdb...; kvm_mkdb -o . ./$@
 .if ${DEBUG} == "-g"
 LINKFLAGS+=	-X
 SYSTEM_LD_TAIL+=; \
-		echo cp $@ $@.gdb; rm -f $@.gdb; cp $@ $@.gdb; \
 		echo ${STRIP} ${STRIPFLAGS} $@; ${STRIP} ${STRIPFLAGS} $@
 .else
 LINKFLAGS+=	-x
 SYSTEM_LD_TAIL+=; \
 		objcopy -R .comment $@
 .endif
-
-SYSTEM_LD_TAIL+=; \
-		echo Running kvm_mkdb...; kvm_mkdb -o . ./$@
-
 .ifndef NO_GZIP
 SYSTEM_LD_GZIP=	echo gzip -n9 $@; rm -f $@.gz; gzip -n9 $@; mv $@.gz $@
 .endif
@@ -146,12 +145,19 @@ autoconf.o conf.o: Makefile
 # depend on maxusers
 machdep.o: Makefile
 
+config_gz.o: $S/conf/config_gz.S config.gz
+	${NORMAL_S}
+
+config.gz: config.txt
+	-@rm -f $@
+	gzip -n9 <$> >$@
+
 HOSTCPPFLAGS+=	-I${BSDSRCDIR}/lib/libz
 .PATH: ${BSDSRCDIR}/lib/libz
 .include "${BSDSRCDIR}/lib/libz/Makefile.gen"
 
 clean::
-	rm -f eddep *bsd *bsd.gdb tags *.[io] [a-z]*.s \
+	rm -f eddep *bsd *.unstripped tags *.[io] [a-z]*.s config.gz \
 	    [Ee]rrs linterrs makelinks genassym genassym.o assym.h
 
 depend:: .depend

@@ -1,4 +1,4 @@
-# $MirOS: src/etc/root.profile,v 1.1 2006/09/24 18:13:38 tg Exp $
+# $MirOS: src/etc/root.profile,v 1.2 2006/10/18 23:02:23 tg Exp $
 #-
 # initialisation for bourne shell (worst case)
 
@@ -21,5 +21,21 @@ if test -z "$USER_ID"; then
 fi
 
 Lretrocfg() {		# retrieve kernel config file
-	$SUDO zcat -f ${1:-/bsd} | strings -n4 | sed -n 's/^=CF=//p'
+	local Tin
+	local Tout
+	Tin=
+	Tout=
+	if Tin=$(mktemp /tmp/Lretrocfg.iXXXXXXXXXX) && \
+	    Tout=$(mktemp /tmp/Lretrocfg.oXXXXXXXXXX); then
+		if $SUDO zcat -f ${1:-/bsd} >$Tin 2>/dev/null && \
+		    objcopy -O binary --set-section-flags .config.gz=alloc \
+		    -j .config.gz $Tin $Tout >/dev/null 2>&1; then
+			zcat <$Tout
+		else
+			print -u2 Error: no .config.gz stored in "${1:-/bsd}"
+		fi
+	else
+		print -u2 Error: cannot mktemp
+	fi
+	rm -f $Tin $Tout
 }

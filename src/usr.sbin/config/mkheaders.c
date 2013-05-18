@@ -148,7 +148,7 @@ emitopt(struct nvlist *nv)
 			    option->nv_name);
 	}
 
-	if (totlen < 0 || totlen >= sizeof new_contents) {
+	if (totlen < 0 || (size_t)totlen >= sizeof new_contents) {
 		fprintf(stderr, "config: string too long\n");
 		return (1);
 	}

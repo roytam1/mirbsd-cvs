@@ -60,6 +60,8 @@ static int emitlocnames(FILE *);
 static int emitpseudo(FILE *);
 static int emitpv(FILE *);
 static int emitroots(FILE *);
+short addlocname(const char *);
+void addlocnami(short);
 
 #define	SEP(pos, max)	(((u_int)(pos) % (max)) == 0 ? "\n\t" : " ")
 
@@ -213,13 +215,13 @@ static int nlocnami, maxlocnami = 8;
 static short *locnami;
 
 void
-addlocnami(short index)
+addlocnami(short idx)
 {
 	if (locnami == NULL || nlocnami+1 > maxlocnami) {
 		maxlocnami *= 4;
 		locnami = (short *)erealloc(locnami, maxlocnami * sizeof(short));
 	}
-	locnami[nlocnami++] = index;
+	locnami[nlocnami++] = idx;
 }
 
 
@@ -395,7 +397,7 @@ struct cfdata cfdata[] = {\n\
 			    i->i_locoff);
 			loc = locbuf;
 		} else
-			loc = "loc";
+			loc = (char *)"loc";
 		if (fprintf(fp, "\
     {&%s_ca,%s&%s_cd,%s%2d, %s, %7s, %#4x, pv+%2d, %d, %s%d, %4d},\n",
 		    attachment, strlen(attachment) < 6 ? "\t\t" : "\t",
