@@ -896,7 +896,7 @@ ipx_print(struct sockaddr *sa)
 	else
 		*cport = 0;
 
-	snprintf(mybuf, sizeof mybuf, "%lxH.%s%s", ntohl(net.long_e),
+	snprintf(mybuf, sizeof mybuf, "%xH.%s%s", ntohl(net.long_e),
 	    host, cport);
 	upHex(mybuf);
 	return(mybuf);
