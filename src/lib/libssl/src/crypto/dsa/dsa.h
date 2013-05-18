@@ -79,9 +79,7 @@
 # include <openssl/dh.h>
 #endif
 
-#ifndef OPENSSL_DSA_MAX_MODULUS_BITS
-# define OPENSSL_DSA_MAX_MODULUS_BITS	10000
-#endif
+#define OPENSSL_DSA_MAX_MODULUS_BITS	3072
 
 #define DSA_FLAG_CACHE_MONT_P	0x01
 #define DSA_FLAG_NO_EXP_CONSTTIME       0x02 /* new with 0.9.7h; the built-in DSA
