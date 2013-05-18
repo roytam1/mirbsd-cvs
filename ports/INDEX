@@ -1806,7 +1806,7 @@ thcrut-0.1-0|net/thcrut,||local network discovery tool|http://www.thehackerschoi
 tightvnc-1.2.7-0-viewer|net/tightvnc,||client for cross-platform remote desktop access (uses X11)|http://www.tightvnc.org/|net/tightvnc/pkg/DESCR-viewer|The MirPorts mailing list <miros-discuss@MirBSD.org>|net|jpeg.62.::graphics/jpeg|||MirBSD:*:* OpenBSD:*:*|y|y|y|y
 tintin-1.5.6-0|net/tintin++,||client program to help playing muds||net/tintin++/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|net games||||any|y|y|y|y
 tinyfugue-4.0s1-2|net/tinyfugue,||programmable MUD client, with macro support and more|http://tf.tcp.com/~hawkeye/tf/|net/tinyfugue/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|net games||||any|y|y|y|y
-tinyirc-20090802235959-0|net/tinyirc,||minimalistic IRC client||net/tinyirc/DESCR|Thorsten Glaser <tg@mirbsd.org>|net||||any|y|y|y|y
+tinyirc-20091227235959-0|net/tinyirc,||minimalistic IRC client||net/tinyirc/DESCR|Thorsten Glaser <tg@mirbsd.org>|net||||any|y|y|y|y
 tircproxy-0.4.5-0|net/tircproxy,||transparent IRC proxy|http://bre.klaki.net/programs/tircproxy/|net/tircproxy/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|net||||any|y|y|y|y
 tkirc-2.46-0|net/tkirc,||ircII internet relay chat client (uses X11)|http://netsplit.de/tkirc2/|net/tkirc/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|net|||ircII-*:net/ircII tk-8.4.*:x11/tk/8.4|any|y|y|y|y
 tor-0.1.2.19-0|net/tor,||Anonymising overlay network for TCP|http://tor.eff.org/|net/tor/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|net security||:devel/metaauto autoconf->=2.61-1,<2.62:devel/autoconf/2.61||any|y|y|y|y
