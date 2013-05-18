@@ -1,4 +1,4 @@
-# $MirOS: ports/games/bsdgames/Makefile,v 1.3 2005/08/21 11:48:50 tg Exp $
+# $MirOS: ports/games/bsdgames/Makefile,v 1.4 2005/11/19 22:51:37 tg Exp $
 
 COMMENT=		"BSD base system games"
 CATEGORIES=		games
@@ -19,7 +19,6 @@ PERMIT_PACKAGE_FTP=	Yes
 ERRORS+=		"You must use sudo."
 .endif
 
-WRKDIST=		${WRKDIR}/src/games
 PREFIX=			/usr
 EXTRA_MAKE_FLAGS=	HOSTCC="${CC}"
 EXTRA_FAKE_FLAGS=	MANDIR=${PREFIX}/share/man/cat
