@@ -924,11 +924,15 @@ vr_list_rx_init(sc)
 		    0, cd->vr_rx_chain[i].vr_map->dm_mapsize,
 		    BUS_DMASYNC_PREREAD);
 
-		d->vr_status = htole32(VR_RXSTAT);
 		d->vr_data =
 		    htole32(cd->vr_rx_chain[i].vr_map->dm_segs[0].ds_addr +
 		    sizeof(u_int64_t));
 		d->vr_ctl = htole32(VR_RXCTL | VR_RXLEN);
+
+		bus_dmamap_sync(sc->sc_dmat, sc->sc_listmap, 0,
+		    sc->sc_listmap->dm_mapsize, BUS_DMASYNC_PREWRITE);
+
+		d->vr_status = htole32(VR_RXSTAT);
 
 		if (i == (VR_RX_LIST_CNT - 1)) {
 			cd->vr_rx_chain[i].vr_nextdesc =
