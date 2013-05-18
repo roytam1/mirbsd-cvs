@@ -38,7 +38,7 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.21.2.3 2008/06/04 17:57:43 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.21.2.4 2008/06/04 18:01:31 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -257,6 +257,7 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 
 		if (ntp_usr1) {
 			log_info("ntp engine reset");
+			conf->scale = 1;
 			j = 0;
 			TAILQ_FOREACH(p, &conf->ntp_peers, entry) {
 				bzero(p->reply, sizeof (p->reply));
