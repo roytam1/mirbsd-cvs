@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS$
+# $MirOS: X11/xc/programs/xdm/config/Xsession,v 1.9 2007/02/19 05:30:40 tg Exp $
 #
 # $Xorg: Xsession,v 1.4 2000/08/17 19:54:17 cpqbld Exp $
 #
@@ -82,8 +82,11 @@ else
 
 	xclock -render -update 1 -geometry 50x50-1+1 &
 	xconsole -iconic &
-	xterm -geometry 80x24 &
-	sleep 1
-	twm
+	#xterm -geometry 80x24+0+0 &
+	(
+		whence -p twm && exec twm	# standard window manager
+		whence -p evilwm && exec evilwm	# shouldn't be the default
+		exec xterm			# last resort
+	)
 fi
 do_exit
