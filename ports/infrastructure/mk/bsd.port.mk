@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.160 2007/03/02 00:31:52 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.161 2007/03/02 01:10:34 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2105,6 +2105,7 @@ ${_FAKE_COOKIE}: ${_BUILD_COOKIE} ${WRKPKG}/mtree.spec
 		echo >&2 "Error: your umask is \"$$(${SH} -c umask)"\".; \
 		exit 1; \
 	fi
+	@${SUDO} rm -rf ${WRKINST}
 	@${SUDO} ${INSTALL_PROGRAM_DIR} ${WRKINST}
 	@${SUDO} /usr/sbin/mtree -U -e -d -n -p ${WRKINST} \
 		-f ${WRKPKG}/mtree.spec  >/dev/null
