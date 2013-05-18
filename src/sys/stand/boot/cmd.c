@@ -492,9 +492,7 @@ Xls(void)
 			return 0;
 		}
 
-		/* no strlen in lib !!! */
-		for (p = cmd.path; *p; p++)
-			;
+		p = cmd.path + strlen(cmd.path);
 		*p++ = '/';
 		*p = '\0';
 
