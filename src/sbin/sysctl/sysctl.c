@@ -1,8 +1,10 @@
-/**	$MirOS: src/sbin/sysctl/sysctl.c,v 1.4 2005/11/23 18:12:09 tg Exp $ */
+/**	$MirOS: src/sbin/sysctl/sysctl.c,v 1.5 2010/09/25 01:08:50 tg Exp $ */
 /*	$OpenBSD: sysctl.c,v 1.123 2005/07/20 16:56:12 miod Exp $	*/
 /*	$NetBSD: sysctl.c,v 1.9 1995/09/30 07:12:50 thorpej Exp $	*/
 
 /*
+ * Copyright (c) 2011
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -75,6 +77,7 @@
 #include <netinet6/pim6_var.h>
 #endif
 
+#include <sys/vmmeter.h>
 #include <uvm/uvm_swap_encrypt.h>
 
 #include <ufs/ufs/quota.h>
@@ -98,6 +101,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <unistd.h>
 
 #ifdef CPU_BIOS
 #include <machine/biosvar.h>
@@ -106,7 +110,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)sysctl.c	8.5 (Berkeley) 5/9/95");
-__RCSID("$MirOS: src/sbin/sysctl/sysctl.c,v 1.4 2005/11/23 18:12:09 tg Exp $");
+__RCSID("$MirOS: src/sbin/sysctl/sysctl.c,v 1.5 2010/09/25 01:08:50 tg Exp $");
 
 struct ctlname topname[] = CTL_NAMES;
 struct ctlname kernname[] = CTL_KERN_NAMES;
@@ -494,6 +498,39 @@ parse(char *string, int flags)
 		    mib[1] == VM_VTEXTMIN ||
 		    mib[1] == VM_VNODEMIN) {
 			break;
+		} else if (mib[1] == VM_METER) {
+			struct vmtotal vmm;
+			unsigned pgszK;
+
+			pgszK = getpagesize() / 1024;
+			if (pgszK * 1024 != getpagesize()) {
+				(void)puts("pagesize not KiB");
+				return;
+			}
+#define pgtok(v) ((unsigned)(v) * pgszK)
+			size = sizeof(vmm);
+			if (sysctl(mib, 2, &vmm, &size, NULL, 0) == -1) {
+				if (flags == 0)
+					return;
+				if (!nflag)
+					(void)printf("%s: ", string);
+				(void)puts("can't find vm meter");
+				return;
+			}
+			if (!nflag)
+				(void)printf("%s%s", string, equ);
+			(void)printf("{ proc: runq=%u dskwait=%u pgwait=%u "
+			    "sleep=%u swp=%u | KiB: free=%u act/tot vm=%u/%u "
+			    "rm=%u/%u shm vm=%u/%u rm=%u/%u }\n",
+			    (unsigned)vmm.t_rq, (unsigned)vmm.t_dw,
+			    (unsigned)vmm.t_pw, (unsigned)vmm.t_sl,
+			    (unsigned)vmm.t_sw, pgtok(vmm.t_free),
+			    pgtok(vmm.t_avm), pgtok(vmm.t_vm),
+			    pgtok(vmm.t_arm), pgtok(vmm.t_rm),
+			    pgtok(vmm.t_avmshr), pgtok(vmm.t_vmshr),
+			    pgtok(vmm.t_armshr), pgtok(vmm.t_rmshr));
+#undef pgtok
+			return;
 		}
 		if (flags == 0)
 			return;
