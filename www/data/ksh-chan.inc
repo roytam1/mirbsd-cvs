@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.3 2010/08/27 20:23:27 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.4 2011/07/17 00:40:15 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -190,4 +190,15 @@ Title: Plänet Commandline
 Link: http://planet-commandline.org/?Amber+Screen
 
 RSS/Atom aggregator with topics related to the command line.
+----
+Title: A Guide to Unix Shell Quoting
+Link: http://www.mpi-inf.mpg.de/~uwe/lehre/unixffb/quoting-guide.html
+
+Uwe Waldmann’s lengthy, exhaustive guide to quoting correctly.
+----
+Title: UNIX Shell Quote Tutorial
+Link: http://www.grymoire.com/Unix/Quote.html
+
+Short tutorial for correct quoting in the pre-POSIX Bourne
+Shell, as well as the C Shell.
 ----
