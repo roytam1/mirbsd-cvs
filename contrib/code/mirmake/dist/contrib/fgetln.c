@@ -1,8 +1,6 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/fgetln.c,v 1.4 2009/05/20 10:22:33 tg Exp $ */
-
 /*-
- * Copyright (c) 2007
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2007, 2009
+ *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
@@ -27,7 +25,7 @@
 #include <stdio.h>
 #include <string.h>
 
-__RCSID("$MirOS: contrib/code/mirmake/dist/contrib/fgetln.c,v 1.4 2009/05/20 10:22:33 tg Exp $");
+__RCSID("$MirOS: contrib/code/mirmake/dist/contrib/fgetln.c,v 1.5 2009/05/20 10:40:28 tg Exp $");
 
 #if defined(__GLIBC__)
 
@@ -42,6 +40,7 @@ fgetln(FILE *stream, size_t *len)
 	static size_t lbsz = 0;
 
 	if ((*len = getline(&lb, &lbsz, stream)) != (size_t)-1)
+		/* getdelim ensures *len is not 0 here */
 		return (lb);
 
 	/* not required by manpage, but reference implementation does this */
