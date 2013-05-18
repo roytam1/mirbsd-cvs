@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.268 2009/12/06 19:26:59 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.269 2009/12/12 23:48:51 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -122,6 +122,12 @@ ERRORS+=		"Distfiles are marked as permit CDROM but not FTP."
 show:
 .  for _s in ${show}
 	@echo ${${_s}:Q}
+.  endfor
+.elif defined(dump)
+.MAIN: show
+show:
+.  for _s in ${dump}
+	@echo ${_s:Q:Q}=${${_s}:Q:Q}
 .  endfor
 .elif defined(clean)
 .MAIN: clean
