@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/Makefile.inc,v 1.9 2007/04/03 19:44:08 tg Exp $
+# $MirOS: ports/lang/python/Makefile.inc,v 1.10 2007/07/19 22:10:20 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.32 2005/06/06 20:47:04 alek Exp $
 
 .include <mirports.sys.mk>
@@ -18,7 +18,7 @@ COMMENT-tests=		Python test suite
 COMMENT-tkinter=	tk GUI module for Python
 COMMENT-tools=		extra tools for Python
 
-PKGNAME=		python-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
+PKGNAME=		python-${VERSION}${PATCHLEVEL}-${DASH_VER}
 DISTNAME=		Python-${VERSION}${PATCHLEVEL}
 CATEGORIES=		lang
 MASTER_SITES=		ftp://ftp.python.org/pub/${PSUBDIR}/ \
@@ -175,14 +175,14 @@ LIB_DEPENDS+=		expat.4.0:expat->=1.95.6:textproc/expat
 FULLPKGNAME=		${PKGNAME}${FLAVOR_EXT:S/-no_bsddb//:S/-no_expat//:S/-no_gdbm//:S/-no_idle//:S/-no_mpz//:S/-no_tkinter//}
 .endif
 
-FULLPKGNAME-bsddb=	python-bsddb-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
-FULLPKGNAME-expat=	python-expat-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
-FULLPKGNAME-gdbm=	python-gdbm-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
-FULLPKGNAME-idle=	python-idle-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
-FULLPKGNAME-mpz=	python-mpz-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
-FULLPKGNAME-tests=	python-tests-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
-FULLPKGNAME-tkinter=	python-tkinter-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
-FULLPKGNAME-tools=	python-tools-${VERSION}${PATCHLEVEL}${PKG_PATCHLEVEL}
+FULLPKGNAME-bsddb=	python-bsddb-${VERSION}${PATCHLEVEL}-${DASH_VER}
+FULLPKGNAME-expat=	python-expat-${VERSION}${PATCHLEVEL}-${DASH_VER}
+FULLPKGNAME-gdbm=	python-gdbm-${VERSION}${PATCHLEVEL}-${DASH_VER}
+FULLPKGNAME-idle=	python-idle-${VERSION}${PATCHLEVEL}-${DASH_VER}
+FULLPKGNAME-mpz=	python-mpz-${VERSION}${PATCHLEVEL}-${DASH_VER}
+FULLPKGNAME-tests=	python-tests-${VERSION}${PATCHLEVEL}-${DASH_VER}
+FULLPKGNAME-tkinter=	python-tkinter-${VERSION}${PATCHLEVEL}-${DASH_VER}
+FULLPKGNAME-tools=	python-tools-${VERSION}${PATCHLEVEL}-${DASH_VER}
 
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
