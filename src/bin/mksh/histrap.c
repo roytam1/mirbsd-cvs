@@ -3,7 +3,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/histrap.c,v 1.70 2008/09/30 19:36:16 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/histrap.c,v 1.71 2008/10/13 23:06:02 tg Exp $");
 
 /*-
  * MirOS: This is the default mapping type, and need not be specified.
@@ -864,7 +864,8 @@ histload(Source *s, unsigned char *base, int bytes)
 					histinsert(s, lno, (char *)line);
 				} else {
 					s->line = lno--;
-					histsave(&lno, line, false, false);
+					histsave(&lno, (char *)line, false,
+					    false);
 				}
 				state = shdr;
 			}
