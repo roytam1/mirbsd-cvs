@@ -33,7 +33,7 @@
 # endif
 #endif
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.6 2010/09/15 20:57:02 tg Exp $");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.8 2010/09/19 00:42:40 tg Exp $");
 
 /* The RCS -k options, and a set of enums that must match the array.
    These come first so that we can use enum kflag in function
@@ -7280,6 +7280,7 @@ rcs_change_text (const char *name, char *textbuf, size_t textlen,
 /* Walk the deltas in RCS to get to revision VERSION.
 
    If OP is RCS_ANNOTATE, then write annotations using cvs_output.
+   If OP is RCS_ANNOTATE_BACKWARDS, do the same backwards.
 
    If OP is RCS_FETCH, then put the contents of VERSION into a
    newly-malloc'd array and put a pointer to it in *TEXT.  Each line
@@ -7308,6 +7309,7 @@ RCS_deltas (RCSNode *rcs, FILE *fp, struct rcsbuffer *rcsbuf,
     RCSVers *vers;
     RCSVers *prev_vers;
     RCSVers *trunk_vers;
+    RCSVers *top_vers;
     char *next;
     int ishead, isnext, isversion, onbranch;
     Node *node;
@@ -7330,6 +7332,7 @@ RCS_deltas (RCSNode *rcs, FILE *fp, struct rcsbuffer *rcsbuf,
     vers = NULL;
     prev_vers = NULL;
     trunk_vers = NULL;
+    top_vers = NULL;
     next = NULL;
     onbranch = 0;
     foundhead = 0;
@@ -7377,12 +7380,31 @@ RCS_deltas (RCSNode *rcs, FILE *fp, struct rcsbuffer *rcsbuf,
 	    vers = node->data;
 	    next = vers->next;
 
+	    /* The top version is either HEAD or
+	       the last version on the branch.  */
+	    if (top_vers == NULL ||
+		(onbranch && (op == RCS_ANNOTATE_BACKWARDS)))
+		top_vers = vers;
+
 	    /* Compare key and trunkversion now, because key points to
 	       storage controlled by rcsbuf_getkey.  */
 	    if (STREQ (branchversion, key))
 	        isversion = 1;
 	    else
 	        isversion = 0;
+
+	    if ((op == RCS_ANNOTATE_BACKWARDS) && STREQ (version, key)) {
+		if (onbranch) {
+		    unsigned int ln;
+
+		    for (ln = 0; ln < curlines.nlines; ++ln)
+			curlines.vector[ln]->vers = NULL;
+		} else {
+		    foundhead = 1;
+		    linevector_copy (&headlines, &curlines);
+		    break;
+		}
+	    }
 	}
 
 	while (1)
@@ -7410,17 +7432,27 @@ RCS_deltas (RCSNode *rcs, FILE *fp, struct rcsbuffer *rcsbuf,
 		rcsbuf_valpolish (rcsbuf, value, 0, &vallen);
 		if (ishead)
 		{
-		    if (! linevector_add (&curlines, value, vallen, NULL, 0))
+		    if (! linevector_add (&curlines, value, vallen,
+			   (op == RCS_ANNOTATE_BACKWARDS) ? vers : NULL, 0))
 			error (1, 0, "invalid rcs file %s", rcs->print_path);
 
 		    ishead = 0;
 		}
 		else if (isnext)
 		{
+		    RCSVers *addv, *delv;
+
+		    if (op == RCS_ANNOTATE_BACKWARDS) {
+			addv = onbranch ? NULL : prev_vers;
+			delv = onbranch ? vers : NULL;
+		    } else {
+			addv = onbranch ? vers : NULL;
+			delv = onbranch ? NULL : prev_vers;
+		    }
+
 		    if (! apply_rcs_changes (&curlines, value, vallen,
 					     rcs->path,
-					     onbranch ? vers : NULL,
-					     onbranch ? NULL : prev_vers))
+					     addv, delv))
 			error (1, 0, "invalid change text in %s", rcs->print_path);
 		}
 		break;
@@ -7436,7 +7468,9 @@ RCS_deltas (RCSNode *rcs, FILE *fp, struct rcsbuffer *rcsbuf,
 	        /* This is the version we want.  */
 		linevector_copy (&headlines, &curlines);
 		foundhead = 1;
-		if (onbranch)
+		/* If we are annotating backwards, we have to
+		   continue tracking when we're tracking a branch.  */
+		if (onbranch && !(op == RCS_ANNOTATE_BACKWARDS))
 		{
 		    /* We have found this version by tracking up a
                        branch.  Restore back to the lines we saved
@@ -7525,6 +7559,7 @@ RCS_deltas (RCSNode *rcs, FILE *fp, struct rcsbuffer *rcsbuf,
     switch (op)
     {
 	case RCS_ANNOTATE:
+	case RCS_ANNOTATE_BACKWARDS:
 	    {
 		unsigned int ln;
 

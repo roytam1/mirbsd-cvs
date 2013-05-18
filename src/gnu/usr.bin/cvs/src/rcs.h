@@ -1,4 +1,4 @@
-/* $MirOS: ports/devel/cvs/patches/patch-src_rcs_h,v 1.2 2010/09/15 20:57:02 tg Exp $ */
+/* $MirOS: ports/devel/cvs/patches/patch-src_rcs_h,v 1.3 2010/09/18 23:14:08 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -191,7 +191,7 @@ typedef void (*RCSCHECKOUTPROC) (void *, const char *, size_t);
 struct rcsbuffer;
 
 /* What RCS_deltas is supposed to do.  */
-enum rcs_delta_op {RCS_ANNOTATE, RCS_FETCH};
+enum rcs_delta_op {RCS_ANNOTATE, RCS_ANNOTATE_BACKWARDS, RCS_FETCH};
 
 /*
  * exported interfaces

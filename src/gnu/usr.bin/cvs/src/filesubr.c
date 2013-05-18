@@ -22,8 +22,6 @@
 #include "save-cwd.h"
 #include "xsize.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_filesubr_c,v 1.1 2010/09/15 20:57:00 tg Exp $");
-
 static int deep_remove_dir (const char *path);
 
 /*
@@ -797,11 +795,6 @@ last_component (const char *path)
    The workaround is to put -f in inetd.conf which means that
    get_homedir won't get called until after the switch in user ID.
 
-   NOTE: the above paragraph is not sufficient if the HOME environment
-   variable is set, it overrides the uid based password lookup, hence
-   the change_uid logic path that blocks the HOME environment variable
-   when the uid gets changed.
-
    The whole concept of a "home directory" on the server is pretty
    iffy, although I suppose some people probably are relying on it for
    .cvsrc and such, in the cases where it works.  */
@@ -809,25 +802,15 @@ char *
 get_homedir (void)
 {
     static char *home = NULL;
-    static uid_t home_uid = 0;
-    static int changed_uid = 0;
     char *env;
-    uid_t uid;
     struct passwd *pw;
-
-    uid = getuid();
-    if (home && home_uid != uid) {
-        home = NULL;
-        home_uid = uid;
-        changed_uid = 1;
-    }
 
     if (home != NULL)
 	return home;
 
-    if (!server_active && ((env = getenv ("HOME")) != NULL) && !changed_uid)
+    if (!server_active && (env = getenv ("HOME")) != NULL)
 	home = env;
-    else if ((pw = (struct passwd *) getpwuid (uid))
+    else if ((pw = (struct passwd *) getpwuid (getuid ()))
 	     && pw->pw_dir)
 	home = xstrdup (pw->pw_dir);
     else

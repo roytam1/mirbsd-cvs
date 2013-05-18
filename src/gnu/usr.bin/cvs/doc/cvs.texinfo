@@ -2,7 +2,7 @@
 @comment Documentation for CVS.
 @setfilename cvs.info
 @afourpaper
-@comment $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.6 2010/09/16 17:05:44 tg Exp $
+@comment $MirOS: ports/devel/cvs/patches/patch-doc_cvs_texinfo,v 1.7 2010/09/18 23:14:06 tg Exp $
 @macro copyleftnotice
 @noindent
 Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -7198,7 +7198,7 @@ The date (UTC) the revision was checked in, in a format suitable
 for the Berkeley mdoc macro processing.
 
 @example
-$Mdocdate: September 16 2010 $
+$Mdocdate: September 18 2010 $
 @end example
 
 @cindex Header keyword
@@ -8404,6 +8404,31 @@ option to turn the display on.  So if you have
 @samp{-N} in the @file{~/.cvsrc} entry for @samp{log},
 you may need to use @samp{-f} to show the tag names.
 
+@item -g
+Forges group-writable permissions on files in the working copy.
+This option is typically used when you have multiple users sharing
+a single checked out source tree, allowing them to operate their
+shells with a less dangerous umask at the expense of @sc{cvs} security.
+To use this feature, create a directory to hold the checked-out
+source tree, set it to a private group, and set up the directory
+such that files created under it inherit the gid of the directory.
+On BSD systems, this occurs automatically. On SYSV systems and
+GNU/Linux, the sgid bit must be set on the directory for this.
+The users who are to share the checked out tree must be placed in
+that group which owns the directory.
+
+Note that the sharing of a single checked-out source tree is very
+different from giving several users access to a common @sc{cvs} repository.
+Access to a common @sc{cvs} repository already maintains shared group-write
+permissions and does not require this option.
+
+Due to the security implications, setting this option globally in
+your @file{.cvsrc} file is strongly discouraged; if you must, ensure
+all source checkouts are "firewalled" within a private group or a
+private mode 0700 directory.
+
+This option is a MidnightBSD extension merged into MirBSD @sc{cvs}.
+
 @item -H
 @itemx --help
 Display usage information about the specified @samp{cvs_command}
@@ -8765,11 +8790,12 @@ When a command expects a specific revision,
 the name of a branch is interpreted as the most recent
 revision on that branch.
 
-As a MirOS CVS extension, specifying @samp{BASE} as the @var{date} portion
-of the argument yields the @emph{base revision} of the branch specified by
-the @var{tag} portion of the argument, i.e. the revision on the parent
-branch the @var{tag} branch split off, or, where both branches were the
-same.  This option has not received very much testing, beware!
+As a MirOS @sc{cvs} extension, specifying @samp{BASE} as the @var{date}
+portion of the argument yields the @emph{base revision} of the branch
+specified by the @var{tag} portion of the argument, i.e. the revision
+on the parent branch the @var{tag} branch split off, or, where both
+branches were the same.
+This option has not received very much testing, beware!
 
 Specifying the @samp{-q} global option along with the
 @samp{-r} command option is often useful, to suppress
@@ -9180,7 +9206,9 @@ Changes: nothing.
 
 For each file in @var{files}, print the head revision
 of the trunk, together with information on the last
-modification for each line.  
+modification for each line.  If backwards annotation
+is requested, show the first modification after the
+specified revision.
 
 @menu
 * annotate options::            annotate options
@@ -9196,6 +9224,9 @@ These standard options are supported by @code{annotate}
 them):
 
 @table @code
+@item -b
+Backwards, show when a line was removed.
+
 @item -l
 Local directory only, no recursion.
 
@@ -9538,8 +9569,8 @@ that the argument file contains the log message.
 At @code{commit}, a unique commitid is placed in the @sc{rcs}
 file inside the repository. All files committed at once
 get the same commitid, a string consisting only of hexadecimal
-digits (usually 16 in GNU CVS, 19 in MirBSD and MirDebian GNU CVS).
-FSF GNU CVS 1.11, MirOS GNU CVS 1.11, and OpenBSD OpenCVS do not
+digits (usually 16 in GNU @sc{cvs}, 19 in MirBSD and MirDebian GNU @sc{cvs}).
+FSF GNU @sc{cvs} 1.11, MirOS GNU @sc{cvs} 1.11, and OpenBSD OpenCVS do not
 support commitids yet.
 The commitid can be retrieved with
 the @code{log} and @code{status} command; see @ref{log} and
@@ -11708,6 +11739,10 @@ your changes}.
 @item -f
 Do not read the @file{~/.cvsrc} file.  See @ref{Global
 options}.
+
+@item -g
+Set the umask to allow group writable permissions in
+the working copy.  See @ref{Global options}.
 
 @item -H
 @itemx --help
@@ -14484,7 +14519,7 @@ Unique Session ID of the @sc{cvs} process. This is a
 random string of printable characters of at least 16
 characters length. Users should assume that it may
 someday grow to at most 256 characters in length.
-Currently, MirBSD/MirDebian/MirPorts GNU CVS uses 19 characters.
+Currently, MirBSD/MirDebian/MirPorts GNU @sc{cvs} uses 19 characters.
 @end table
 
 If you want to pass a value to the administrative files
@@ -15850,7 +15885,8 @@ the file @file{doc/ChangeLog} in the @sc{cvs} source
 distribution.
 
 The MirOS Project uses @sc{cvs} heavily in MirOS BSD and the
-MirPorts Framework and has enhanced it. Responsible:
+MirPorts Framework and has enhanced it as well as packaged it
+for the MirDebian "WTF" repository. Responsible:
 
 @display
 Thorsten Glaser <@t{tg@@mirbsd.org}>

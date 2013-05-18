@@ -28,7 +28,7 @@
 #include <bsd/bsd.h>
 #endif
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.7 2010/09/15 23:41:21 tg Exp $");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.8 2010/09/18 23:14:07 tg Exp $");
 
 const char *program_name;
 const char *program_path;
@@ -289,6 +289,7 @@ static const char *const opt_usage[] =
     "    -q           Cause CVS to be somewhat quiet.\n",
     "    -r           Make checked-out files read-only.\n",
     "    -w           Make checked-out files read-write (default).\n",
+    "    -g           Force group-write permissions on checked-out files.\n",
     "    -n           Do not execute anything that will change the disk.\n",
     "    -t           Show trace of program execution (repeat for more\n",
     "                 verbosity) -- try with -n.\n",
@@ -485,7 +486,7 @@ main (int argc, char **argv)
     int help = 0;		/* Has the user asked for help?  This
 				   lets us support the `cvs -H cmd'
 				   convention to give help for cmd. */
-    static const char short_options[] = "+QqrwtnRvb:T:e:d:Hfz:s:xal";
+    static const char short_options[] = "+QqrwgtnRvb:T:e:d:Hfz:s:xal";
     static struct option long_options[] =
     {
         {"help", 0, NULL, 'H'},
@@ -631,6 +632,13 @@ main (int argc, char **argv)
 		break;
 	    case 'w':
 		cvswrite = 1;
+		break;
+	    case 'g':
+		/*
+		 * Force full write permissions for the group.
+		 * See the user's manual for details and dangers.
+		 */
+		umask(umask(S_IRWXG|S_IRWXO) & S_IRWXO);
 		break;
 	    case 't':
 		trace++;

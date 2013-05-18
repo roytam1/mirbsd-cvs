@@ -15,7 +15,7 @@
 #include "getline.h"
 #include "history.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_parseinfo_c,v 1.3 2010/09/15 20:57:02 tg Exp $");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_parseinfo_c,v 1.4 2010/09/18 22:35:09 tg Exp $");
 
 /*
  * Parse the INFOFILE file for the specified REPOSITORY.  Invoke CALLPROC for
@@ -249,7 +249,7 @@ readSizeT (const char *infopath, const char *option, const char *p,
 	    default:
 		error (0, 0,
     "%s: Unknown %s factor: `%c'",
-		       infopath, option, p[strlen(p)]);
+		       infopath, option, p[strlen(p) - 1]);
 		return false;
 	}
 	TRACE (TRACE_DATA, "readSizeT(): Found factor %zu for %s",

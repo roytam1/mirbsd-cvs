@@ -15,7 +15,7 @@
 
 #include "cvs.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_status_c,v 1.1 2010/09/15 20:57:03 tg Exp $");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_status_c,v 1.2 2010/09/18 23:52:27 tg Exp $");
 
 static Dtype status_dirproc (void *callerdat, const char *dir,
                              const char *repos, const char *update_dir,
@@ -217,7 +217,9 @@ status_fileproc (void *callerdat, struct file_info *finfo)
 
 	/* Only add the UTC timezone if there is a time to use.
 	 * ts_rcs sometimes contains only "=" character so we check len > 1 */
-	if (!server_active && strlen (vers->ts_rcs) > 1)
+	if (!server_active && strlen (vers->ts_rcs) > 1 &&
+	    /* prevent an ugly error message */
+	    strcmp(vers->ts_rcs, "Result of merge") != 0)
 	{
 	    /* Convert from the asctime() format to ISO 8601 */
 	    char *buf;

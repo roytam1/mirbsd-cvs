@@ -18,6 +18,9 @@
 
 #include "cvs.h"
 #include "buffer.h"
+#include "pagealign_alloc.h"
+
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_zlib_c,v 1.1 2010/09/18 23:14:08 tg Exp $");
 
 #if defined (SERVER_SUPPORT) || defined (CLIENT_SUPPORT)
 
@@ -45,8 +48,10 @@ struct compress_buffer
 {
     /* The underlying buffer.  */
     struct buffer *buf;
+
     /* The compression information.  */
     z_stream zstr;
+    int level;
 };
 
 static void compress_error (int, int, z_stream *, const char *);
@@ -95,6 +100,7 @@ compress_buffer_initialize (struct buffer *buf, int input, int level,
     memset (n, 0, sizeof *n);
 
     n->buf = buf;
+    n->level = level;
 
     if (input)
 	zstatus = inflateInit (&n->zstr);
@@ -150,7 +156,7 @@ compress_buffer_input (void *closure, char *data, size_t need, size_t size,
 	bd = xmalloc (sizeof (struct buffer_data));
 	if (bd == NULL)
 	    return -2;
-	bd->text = xmalloc (BUFFER_DATA_SIZE);
+	bd->text = pagealign_xalloc (BUFFER_DATA_SIZE);
 	if (bd->text == NULL)
 	{
 	    free (bd);
@@ -193,15 +199,23 @@ compress_buffer_input (void *closure, char *data, size_t need, size_t size,
 	bd->size = cb->zstr.avail_in;
 	bd->bufp = (char *) cb->zstr.next_in;
 
+	sofar = size - cb->zstr.avail_out;
+
 	if (zstatus == Z_STREAM_END)
+	{
+	    /* If we read any data, then return it, relying on the fact that
+	     * we will get Z_STREAM_END on the next read too.
+	     */
+	    if (sofar > 0) break;
+
+	    /* Otherwise, return EOF.  */
 	    return -1;
+	}
 
 	/* If we have obtained NEED bytes, then return, unless NEED is
            zero and we haven't obtained anything at all.  If NEED is
-           zero, we will keep reading from the underlying buffer until
-           we either can't read anything, or we have managed to
-           inflate at least one byte.  */
-	sofar = size - cb->zstr.avail_out;
+           zero, we will attempt at least one nonblocking read and see if
+	   we can inflate anything then.  */
 	if (sofar > 0 && sofar >= need)
 	    break;
 
@@ -217,10 +231,23 @@ compress_buffer_input (void *closure, char *data, size_t need, size_t size,
 	   would fetch all the available bytes, and at least one byte.  */
 
 	status = (*cb->buf->input) (cb->buf->closure, bd->text,
-				    need > 0 ? 1 : 0,
-				    BUFFER_DATA_SIZE, &nread);
-	if (status != 0)
+				    need ? 1 : 0, BUFFER_DATA_SIZE, &nread);
+
+	if (status == -2)
+	    /* Don't try to recover from memory allcoation errors.  */
 	    return status;
+
+	if (status != 0)
+	{
+	    /* If we read any data, then return it, relying on the fact that
+	     * we will get the same error reading the underlying buffer
+	     * on the next read too.
+	     */
+	    if (sofar > 0) break;
+
+	    /* Otherwise, return EOF.  */
+	    return status;
+	}
 
 	/* If we didn't read anything, then presumably the buffer is
            in nonblocking mode, and we should just get out now with
@@ -242,19 +269,39 @@ compress_buffer_input (void *closure, char *data, size_t need, size_t size,
 
 
 
-/* Output data to a compression buffer.  */
+extern int gzip_level;
+
+/* Output data to a compression buffer.
+ *
+ * GLOBALS
+ *   gzip_level		If GZIP_LEVEL has changed to a value different from
+ *			CLOSURE->level, then set the compression level on the
+ *			stream to the new value.
+ */
 static int
 compress_buffer_output (void *closure, const char *data, size_t have,
 			size_t *wrote)
 {
     struct compress_buffer *cb = closure;
 
+    /* This is only used within the while loop below, but allocated here for
+     * efficiency.
+     */
+    static char *buffer = NULL;
+    if (!buffer)
+	buffer = pagealign_xalloc (BUFFER_DATA_SIZE);
+
+    if (cb->level != gzip_level)
+    {
+	cb->level = gzip_level;
+	deflateParams (&cb->zstr, gzip_level, Z_DEFAULT_STRATEGY);
+    }
+
     cb->zstr.avail_in = have;
     cb->zstr.next_in = (unsigned char *) data;
 
     while (cb->zstr.avail_in > 0)
     {
-	char buffer[BUFFER_DATA_SIZE];
 	int zstatus;
 
 	cb->zstr.avail_out = BUFFER_DATA_SIZE;
@@ -288,12 +335,18 @@ compress_buffer_flush (void *closure)
 {
     struct compress_buffer *cb = closure;
 
+    /* This is only used within the while loop below, but allocated here for
+     * efficiency.
+     */
+    static char *buffer = NULL;
+    if (!buffer)
+	buffer = pagealign_xalloc (BUFFER_DATA_SIZE);
+
     cb->zstr.avail_in = 0;
     cb->zstr.next_in = NULL;
 
     while (1)
     {
-	char buffer[BUFFER_DATA_SIZE];
 	int zstatus;
 
 	cb->zstr.avail_out = BUFFER_DATA_SIZE;
@@ -363,19 +416,10 @@ compress_buffer_shutdown_input (struct buffer *buf)
     struct compress_buffer *cb = buf->closure;
     int zstatus;
 
-    /* Pick up any trailing data, such as the checksum.  */
-    while (1)
-    {
-	int status;
-	size_t nread;
-	char buf[100];
-
-	status = compress_buffer_input (cb, buf, 0, sizeof buf, &nread);
-	if (status == -1)
-	    break;
-	if (status != 0)
-	    return status;
-    }
+    /* Don't make any attempt to pick up trailing data since we are shutting
+     * down.  If the client doesn't know we are shutting down, we might not
+     * see the EOF we are expecting.
+     */
 
     zstatus = inflateEnd (&cb->zstr);
     if (zstatus != Z_OK)
@@ -396,10 +440,15 @@ compress_buffer_shutdown_output (struct buffer *buf)
     struct compress_buffer *cb = buf->closure;
     int zstatus, status;
 
+    /* This is only used within the while loop below, but allocated here for
+     * efficiency.
+     */
+    static char *buffer = NULL;
+    if (!buffer)
+	buffer = pagealign_xalloc (BUFFER_DATA_SIZE);
+
     do
     {
-	char buffer[BUFFER_DATA_SIZE];
-
 	cb->zstr.avail_out = BUFFER_DATA_SIZE;
 	cb->zstr.next_out = (unsigned char *) buffer;
 

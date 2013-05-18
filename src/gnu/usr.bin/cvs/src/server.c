@@ -20,7 +20,7 @@
 #include "getline.h"
 #include "getnline.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.3 2010/09/15 23:41:21 tg Exp $");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.4 2010/09/19 18:42:03 tg Exp $");
 
 int server_active = 0;
 
@@ -801,14 +801,6 @@ serve_root (char *arg)
 	return;
     }
 
-    if (root_allow_used() && !root_allow_ok(arg))
-    {
-	if (alloc_pending (80 + strlen (arg)))
-	    sprintf (pending_error_text,
-		     "E Bad root %s", arg);
-	return;
-    }
-
     /* Set original_parsed_root here, not because it can be changed in the
      * client Redirect sense, but so we don't have to switch in code that
      * runs in both modes to decide which to print.
@@ -832,6 +824,14 @@ E Protocol error: Root says \"%s\" but pserver says \"%s\"",
 	}
     }
 # endif
+
+    if (root_allow_used() && !root_allow_ok(arg))
+    {
+	if (alloc_pending (80 + strlen (arg)))
+	    sprintf (pending_error_text,
+		     "E Bad root %s", arg);
+	return;
+    }
 
     /* For pserver, this will already have happened, and the call will do
        nothing.  But for rsh, we need to do it now.  */
@@ -6283,8 +6283,12 @@ size_t MaxProxyBufferSize = (size_t)(8 * 1024 * 1024); /* 8 megabytes,
 
 static const char *const server_usage[] =
 {
+#ifdef ALLOW_CONFIG_OVERRIDE
     "Usage: %s %s [-c config-file]\n",
     "\t-c config-file\tPath to an alternative CVS config file.\n",
+#else
+    "Usage: %s %s\n",
+#endif
     "Normally invoked by a cvs client on a remote machine.\n",
     NULL
 };
@@ -6301,8 +6305,8 @@ parseServerOptions (int argc, char **argv)
     {
 	switch (c)
 	{
-#ifdef ALLOW_CONFIG_OVERRIDE
 	    case 'c':
+#ifdef ALLOW_CONFIG_OVERRIDE
 		if (gConfigPath) free (gConfigPath);
 		gConfigPath = xstrdup (optarg);
 		break;

@@ -20,7 +20,7 @@
 #include "buffer.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_client_c,v 1.2 2010/09/15 23:41:21 tg Exp $");
+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_client_c,v 1.3 2010/09/18 22:35:09 tg Exp $");
 
 #ifdef CLIENT_SUPPORT
 
@@ -4535,9 +4535,10 @@ warning: ignoring -k options due to server limitations");
 	/* File no longer exists.  Don't do anything, missing files
 	   just happen.  */
     }
-    else if (vers->ts_rcs == NULL
-             || args->force
-             || strcmp (vers->ts_user, vers->ts_rcs) != 0)
+    else if (!vers->ts_rcs || args->force
+	     || strcmp (vers->ts_conflict
+		        ? vers->ts_conflict : vers->ts_rcs, vers->ts_user)
+	     || (vers->ts_conflict && !strcmp (cvs_cmd_name, "diff")))
     {
 	if (args->no_contents
 	    && supported_request ("Is-modified"))

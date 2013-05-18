@@ -65,4 +65,7 @@ Note that it is the opinion of the MirBSD founder that the CVSROOT
 environment variable ought to *never* be set at all. This prevents
 a lot of trouble. Almost all CVS tutorials are perceived bogus.
 
+This version appears to have trouble with the testsuite for write
+proxies. Other than that, everything appears to work well.
+
 $MirOS: ports/devel/cvs/patches/patch-MINOR-BUGS,v 1.1 2010/09/15 20:56:57 tg Exp $
