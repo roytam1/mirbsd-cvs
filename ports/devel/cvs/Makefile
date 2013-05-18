@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/cvs/Makefile,v 1.14 2010/09/16 21:26:09 tg Exp $
+# $MirOS: ports/devel/cvs/Makefile,v 1.15 2010/09/18 22:35:07 tg Exp $
 
 IGNORE=wip
 
@@ -46,6 +46,9 @@ CONFIGURE_ENV+=		ac_cv_path_PS2PDF=false
 .if exists(/usr/lib/libposixtz.so)
 REGRESS_ENV+=		GETDATE_LD_PRELOAD=/usr/lib/libposixtz.so
 .endif
+# this is ugly ugly ugly… get ssh to localhost working if you can
+REGRESS_ENV+=		SSH_AUTH_SOCK=${SSH_AUTH_SOCK:Q}
+REGRESS_IS_INTERACTIVE=	Yes
 
 pre-configure:
 	print '%g/\(MirPorts-\)QQ/s//\1${DASH_VER}/g\nwq' | \

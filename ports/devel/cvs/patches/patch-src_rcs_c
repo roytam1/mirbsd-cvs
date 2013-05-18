@@ -1,11 +1,11 @@
-$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.6 2010/09/15 20:57:02 tg Exp $
+$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.7 2010/09/18 23:14:07 tg Exp $
 --- src/rcs.c.orig	Wed Sep 28 15:25:37 2005
-+++ src/rcs.c	Sat Sep 18 23:08:52 2010
++++ src/rcs.c	Sun Sep 19 00:03:32 2010
 @@ -33,6 +33,8 @@
  # endif
  #endif
  
-+__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.6 2010/09/15 20:57:02 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.7 2010/09/18 23:14:07 tg Exp $");
 +
  /* The RCS -k options, and a set of enums that must match the array.
     These come first so that we can use enum kflag in function
@@ -174,7 +174,15 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.6 2010/09/15 20:57:02 tg Exp
  			     ftm->tm_mon + 1, ftm->tm_mday, ftm->tm_hour,
  			     ftm->tm_min, ftm->tm_sec);
      if (flags & RCS_FLAGS_DEAD)
-@@ -7263,6 +7308,7 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
+@@ -7235,6 +7280,7 @@ rcs_change_text (const char *name, char 
+ /* Walk the deltas in RCS to get to revision VERSION.
+ 
+    If OP is RCS_ANNOTATE, then write annotations using cvs_output.
++   If OP is RCS_ANNOTATE_BACKWARDS, do the same backwards.
+ 
+    If OP is RCS_FETCH, then put the contents of VERSION into a
+    newly-malloc'd array and put a pointer to it in *TEXT.  Each line
+@@ -7263,6 +7309,7 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
      RCSVers *vers;
      RCSVers *prev_vers;
      RCSVers *trunk_vers;
@@ -182,15 +190,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.6 2010/09/15 20:57:02 tg Exp
      char *next;
      int ishead, isnext, isversion, onbranch;
      Node *node;
-@@ -7270,6 +7316,7 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
-     struct linevector curlines;
-     struct linevector trunklines;
-     int foundhead;
-+    int backwards;
- 
-     assert (version);
- 
-@@ -7285,10 +7332,17 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
+@@ -7285,6 +7332,7 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
      vers = NULL;
      prev_vers = NULL;
      trunk_vers = NULL;
@@ -198,23 +198,14 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.6 2010/09/15 20:57:02 tg Exp
      next = NULL;
      onbranch = 0;
      foundhead = 0;
- 
-+    if (op == RCS_ANNOTATE_BACKWARDS) {
-+	backwards = 1;
-+	op = RCS_ANNOTATE;
-+    } else
-+	backwards = 0;
-+
-     linevector_init (&curlines);
-     linevector_init (&headlines);
-     linevector_init (&trunklines);
-@@ -7332,12 +7386,30 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
+@@ -7332,12 +7380,31 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
  	    vers = node->data;
  	    next = vers->next;
  
 +	    /* The top version is either HEAD or
 +	       the last version on the branch.  */
-+	    if (top_vers == NULL || (onbranch && backwards))
++	    if (top_vers == NULL ||
++		(onbranch && (op == RCS_ANNOTATE_BACKWARDS)))
 +		top_vers = vers;
 +
  	    /* Compare key and trunkversion now, because key points to
@@ -224,7 +215,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.6 2010/09/15 20:57:02 tg Exp
  	    else
  	        isversion = 0;
 +
-+	    if (backwards && STREQ (version, key)) {
++	    if ((op == RCS_ANNOTATE_BACKWARDS) && STREQ (version, key)) {
 +		if (onbranch) {
 +		    unsigned int ln;
 +
@@ -239,13 +230,13 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.6 2010/09/15 20:57:02 tg Exp
  	}
  
  	while (1)
-@@ -7365,17 +7437,27 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
+@@ -7365,17 +7432,27 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
  		rcsbuf_valpolish (rcsbuf, value, 0, &vallen);
  		if (ishead)
  		{
 -		    if (! linevector_add (&curlines, value, vallen, NULL, 0))
 +		    if (! linevector_add (&curlines, value, vallen,
-+					  backwards ? vers : NULL, 0))
++			   (op == RCS_ANNOTATE_BACKWARDS) ? vers : NULL, 0))
  			error (1, 0, "invalid rcs file %s", rcs->print_path);
  
  		    ishead = 0;
@@ -254,7 +245,7 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.6 2010/09/15 20:57:02 tg Exp
  		{
 +		    RCSVers *addv, *delv;
 +
-+		    if (backwards) {
++		    if (op == RCS_ANNOTATE_BACKWARDS) {
 +			addv = onbranch ? NULL : prev_vers;
 +			delv = onbranch ? vers : NULL;
 +		    } else {
@@ -270,14 +261,22 @@ $MirOS: ports/devel/cvs/patches/patch-src_rcs_c,v 1.6 2010/09/15 20:57:02 tg Exp
  			error (1, 0, "invalid change text in %s", rcs->print_path);
  		}
  		break;
-@@ -7391,7 +7473,9 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
+@@ -7391,7 +7468,9 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
  	        /* This is the version we want.  */
  		linevector_copy (&headlines, &curlines);
  		foundhead = 1;
 -		if (onbranch)
 +		/* If we are annotating backwards, we have to
 +		   continue tracking when we're tracking a branch.  */
-+		if (onbranch && !backwards)
++		if (onbranch && !(op == RCS_ANNOTATE_BACKWARDS))
  		{
  		    /* We have found this version by tracking up a
                         branch.  Restore back to the lines we saved
+@@ -7480,6 +7559,7 @@ RCS_deltas (RCSNode *rcs, FILE *fp, stru
+     switch (op)
+     {
+ 	case RCS_ANNOTATE:
++	case RCS_ANNOTATE_BACKWARDS:
+ 	    {
+ 		unsigned int ln;
+ 
