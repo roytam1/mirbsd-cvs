@@ -1,9 +1,10 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.20 2004/01/02 05:11:08 brad Exp $
 # $FreeBSD: ports/databases/xmysqladmin/Makefile,v 1.25 1999/11/23 02:59:09 billf Exp $
 
-BROKEN=		"uses old MySQL API"
+BROKEN=		uses old MySQL API
 
-COMMENT=			X11 front end to the mysqladmin command
+COMMENT=	X11 front end to the mysqladmin command
 
 DISTNAME=	xmysqladmin-1.0
 CATEGORIES=	databases
