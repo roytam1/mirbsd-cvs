@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.60 2006/09/19 11:50:10 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.61 2006/09/30 02:26:03 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -299,11 +299,15 @@
  Microsoft&reg; Services for Unix 3.5, GNU/Linux at least with
  glibc and uClibc, Sun Solaris 8 and 9 (other versions might
  work; OpenSolaris requires mksh-current). Not supported are
- basically any others, e.g. IRIX, SCO Unixware, BSD/OS, AIX,
- OSF/1 and Tru64, Plan 9. Patches to add support for compilers
+ basically any others. Patches to add support for compilers
  other than GCC and platforms other than these listed above,
  especially these supported by NetBSD&reg; pkgsrc&reg;, are
- welcome &ndash; a port to Plan 9 APE has been started.</p>
+ welcome &ndash; a port to Plan 9 APE has been started, as
+ are ports to Minix 3 (no job control, but not worse than a
+ Plan 9 port) and the UNIX&reg;en supported by pkgsrc&reg;,
+ i.e., IRIX, AIX, HP-UX, BSD/OS (should work), OSF/1 (Tru64),
+ SCO Unixware (did I miss any?). Of course, we need shell
+ accounts on them boxes for that.</p>
 
 <p>ed(1) is the standard <tt>FCEDIT</tt> history editor and
  as such must be located in <tt>/bin/ed</tt> &ndash; note that
@@ -460,6 +464,10 @@
 <p>The MirOS Project has tested mksh on the following operating systems,
  asked people to test, and hunted mksh down in these packaging systems:</p>
 <ul>
+ <li>mksh-current<ul>
+  <li>OpenSolaris Build 47</li>
+  <li>Linux td156 2.6.8-3-mckinley-smp #1 SMP Sat Jul 15 11:48:36 UTC 2006 ia64 GNU/Linux</li>
+ </ul></li>
  <li>mksh R28<ul>
   <li>MirOS BSD #9-stable (i386)</li>
   <li>MirOS BSD #7-stable (sparc)</li>
