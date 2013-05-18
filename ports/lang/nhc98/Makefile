@@ -1,8 +1,8 @@
-# $MirOS: ports/lang/nhc98/Makefile,v 1.4 2008/10/04 19:03:14 tg Exp $
+# $MirOS: ports/lang/nhc98/Makefile,v 1.5 2009/04/18 19:55:57 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.2 2004/05/16 23:37:58 pvalchev Exp $
 # $NetBSD: Makefile,v 1.29 2004/03/26 21:19:53 wiz Exp $
 
-BROKEN=		assembler error in Integer runtime
+BROKEN=		Segmentation fault (core dumped)
 
 NOT_FOR_PLATFORM=	${LP64_PLATFORMS}
 
@@ -23,24 +23,25 @@ PATCHFILES=	patch-${V}-typesyn:0 patch-${V}-ghc6:0
 
 USE_GMAKE=	Yes
 CONFIGURE_STYLE=simple
-CONFIGURE_ARGS=--installdir=${PREFIX}
+CONFIGURE_ARGS+=--installdir=${PREFIX:Q}
 
 # if you use ghc to build nhc98, it will run 2.5x faster than with gcc
 # so we relegate the gcc path to archs with no ghc
-.if ${OStype} == "OpenBSD" && (${MACHINE_ARCH} == "i386" || ${MACHINE_ARCH} == "sparc")
-MODULES=	lang/ghc
+.if (${OStype} == "OpenBSD") && (${MACHINE_ARCH} == "i386" || ${MACHINE_ARCH} == "sparc")
+MODULES+=	lang/ghc
 CONFIGURE_ARGS+=--buildwith=ghc
 .else
-CONFIGURE_ARGS+=--buildwith=${CC}
+CONFIGURE_ARGS+=--buildwith=${CC:Q}
 .endif
 
-EXTRA_XAKE_FLAGS=	OPT=${CFLAGS:Q}
+EXTRA_XAKE_FLAGS+=	OPT=${CFLAGS:Q}
 
-REGRESS_DEPENDS=::lang/python/2.2
-REGRESS_RESULT=	${WRKSRC}/../${DISTNAME}-regress/actual.result 
-REGRESS_FLAGS=	TEST_HC="${WRKSRC}/script/nhc98" WAY="normal"
-REGRESS_FLAGS+=	EXTRA_RUNTEST_OPTS="--output-summary=${REGRESS_RESULT}" \
-		PYTHON="${LOCALBASE}/bin/python2.2"
+NO_REGRESS=	we don't have python 2.2 any more, bsiegert@ please update to use 2.5
+#REGRESS_DEPENDS+=::lang/python/2.2
+#REGRESS_RESULT=	${WRKSRC}/../${DISTNAME}-regress/actual.result
+#REGRESS_FLAGS=	TEST_HC=${WRKSRC:Q}/script/nhc98 WAY=normal
+#REGRESS_FLAGS+=	EXTRA_RUNTEST_OPTS=--output-summary=${REGRESS_RESULT:Q} \
+#		PYTHON=${LOCALBASE:Q}/bin/python2.2
 
 # BSDish
 PERMIT_PACKAGE_CDROM=	Yes
