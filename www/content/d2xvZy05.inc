@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.53 2006/10/23 13:28:16 bsiegert Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.54 2006/10/24 11:26:56 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -949,7 +949,7 @@ plot [150:200] 	"bs06.4Kmin.txt" using 1:3 with lines title "exc{\350}s en chlor
 </div>
 
 <div class="wlentry">
- <h3 id="e2006104">24.10.2006 by tg@</h3>
+ <h3 id="e20061024">24.10.2006 by tg@</h3>
  <p>After the odds and ends from last time, now the Health End: I'll not
   be available/online for a few days &ndash; I have an appointment at my
   dentist (ouch!) tomorrow, for 1&#189; hours. I'll be recovering at the
@@ -988,6 +988,15 @@ plot [150:200] 	"bs06.4Kmin.txt" using 1:3 with lines title "exc{\350}s en chlor
   sparc one as well, dual-boot CDs will be much easier. (The sparc stuff
   needs a fake disklabel, but we could even hardcode that, much like the
   hardcoded MBR for macppc.)</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20061028">28.10.2006 by tg@</h3>
+ <p>I'm back, and we have libncursesw-5.5 as libcurses replacement in da
+  tree. One of my teeth still aches, but the doctor will see after it on
+  tuesday and pull the strings from the other wounds. (Yuck.)</p>
+ <p>Let's see when I can tend to the other projects&#8230; (someone want
+  to take on wsconfig(8)?)</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
