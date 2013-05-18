@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.107 2008/04/20 03:46:17 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.108 2008/04/20 21:58:50 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -923,6 +923,12 @@ mws_content <<'EOF'
   fun” ggergely, agreed bsiegert@ and others</li>
  <li>Pull in more current versions of supplied files; use Unicode 5.0</li>
  <li>Clean up unused definitions in build system; document MKSH_CLS_STRING</li>
+ <li>Remove advertising clause from <tt>copyright</tt> file; while we’d be
+  pleased to be mentioned if something contains our code, tg@ will no longer
+  enforce the requirement to advertise with that specific formula, and we’d
+  prefer if people remember the OpenHAL vs ath5k incident and that they cannot
+  simply change licencing of existing code; patches sent to the MirOS Project
+  for inclusion shall be accepted if they’re agreed to match this licence</li>
 </ul>
 <p id="r33d">mksh R33d is a quick security-update with these changes:</p><ul>
  <li>Move a portability define from <tt>sh.h</tt> to the <tt>setmode.c</tt>
