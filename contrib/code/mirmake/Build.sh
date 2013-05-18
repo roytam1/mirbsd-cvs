@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/Build.sh,v 1.22 2006/08/26 23:31:19 tg Exp $
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.23 2006/08/26 23:44:55 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -41,7 +41,8 @@ if [ x"$MAC" = x"" ]; then
 fi
 
 if [ x"$MAR" = x"" ]; then
-	MAR=`arch -s 2>/dev/null || arch 2>/dev/null || echo unknown`
+	MAR=`arch -s 2>/dev/null || arch 2>/dev/null || \
+	    uname -p 2>/dev/null || echo unknown`
 fi
 
 if [ x"$MOS" = x"" ]; then
