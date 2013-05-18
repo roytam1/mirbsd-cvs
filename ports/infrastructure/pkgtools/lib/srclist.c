@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/srclist.c,v 1.1.2.1 2010/03/04 18:03:39 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/srclist.c,v 1.1.2.2 2010/03/06 15:25:23 bsiegert Exp $ */
 
 /*-
  * Copyright (c) 2010
@@ -31,7 +31,7 @@
 #include <err.h>
 #include "lib.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/srclist.c,v 1.1.2.1 2010/03/04 18:03:39 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/srclist.c,v 1.1.2.2 2010/03/06 15:25:23 bsiegert Exp $");
 
 /* A word on memory management:
  * The strings to be entered into "source" above are just the pointers
@@ -109,6 +109,7 @@ findmatchingname_srcs(const struct cfg_sourcelist *sources, const char *pattern)
 	TAILQ_INIT(state.matches);
 
 	LIST_FOREACH(sp, sources, entries) {
+		state.current_src = sp->source;
 		if (sp->remote)
 			findmatchingname_file(src_index_name(sp->source),
 					pattern, srciter_matchfn,

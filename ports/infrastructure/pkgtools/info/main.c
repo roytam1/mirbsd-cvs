@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/info/main.c,v 1.2 2006/12/09 17:34:38 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/info/main.c,v 1.2.2.1 2009/12/29 17:09:31 bsiegert Exp $ */
 /*	$OpenBSD: main.c,v 1.15 2003/07/04 17:31:19 avsm Exp $	*/
 
 /*
@@ -24,9 +24,9 @@
 #include "lib.h"
 #include "info.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/info/main.c,v 1.2 2006/12/09 17:34:38 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/info/main.c,v 1.2.2.1 2009/12/29 17:09:31 bsiegert Exp $");
 
-static char Options[] = "acDde:fIikLl:mPpqRrsvh";
+static char Options[] = "acDdE:e:fIikLl:mPpqRrsvh";
 
 int	Flags		= 0;
 bool	AllInstalled	= false;
@@ -35,6 +35,7 @@ const char *InfoPrefix	= "";
 char PlayPen[FILENAME_MAX];
 size_t PlayPenSize	= sizeof(PlayPen);
 char *CheckPkg		= NULL;
+char *FindPkg		= NULL;
 
 static __dead void usage(void);
 
@@ -63,6 +64,10 @@ main(int argc, char **argv)
 
 	case 'd':
 	    Flags |= SHOW_DESC;
+	    break;
+
+	case 'E':
+	    FindPkg = optarg;
 	    break;
 
 	case 'e':
@@ -154,7 +159,7 @@ main(int argc, char **argv)
 	*pkgs++ = *argv++;
 
     /* If no packages, yelp */
-    if (pkgs == start && !AllInstalled && !CheckPkg)
+    if (pkgs == start && !AllInstalled && !CheckPkg && !FindPkg)
 	pwarnx("missing package name(s)"), usage();
     *pkgs = NULL;
     return pkg_perform(start);

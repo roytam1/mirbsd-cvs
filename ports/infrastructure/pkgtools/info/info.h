@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/info/info.h,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/info/info.h,v 1.2 2006/12/09 17:34:38 bsiegert Exp $ */
 /* $OpenBSD: info.h,v 1.3 1998/11/19 04:12:55 espie Exp $ */
 
 /*
@@ -49,6 +49,7 @@ extern const char *InfoPrefix;
 extern char PlayPen[];
 extern size_t PlayPenSize;
 extern char *CheckPkg;
+extern char *FindPkg;
 
 extern void	show_file(const char *, const char *);
 extern void	show_plist(const char *, package_t *, pl_ent_t);

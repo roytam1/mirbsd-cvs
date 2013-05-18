@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.5 2006/12/09 17:34:38 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.6 2009/11/29 17:39:43 bsiegert Exp $ */
 /*	$OpenBSD: perform.c,v 1.16 2003/08/23 09:14:43 tedu Exp $	*/
 
 /* This is MirPorts pkg_install, based on:
@@ -33,7 +33,7 @@
 #include <ctype.h>
 #include <libgen.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.5 2006/12/09 17:34:38 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.6 2009/11/29 17:39:43 bsiegert Exp $");
 
 static char    *Home;
 
@@ -199,12 +199,36 @@ bail:
 
 /* fn to be called for pkgs found */
 static int
-foundpkg(const char *found, char *data __attribute__((unused)),
-    int unused __attribute__((unused)))
+foundpkg(const char *found, char *data, int len)
 {
     if(!Quiet)
-	printf("%s\n", found);
+	printf(len ? "%-30s%s\n" : "%s%s", found, data);
     return 0;
+}
+
+static int
+findpkg_srcs(char *pkgspec, const char *dbdir)
+{
+	struct matchlist *matches;
+	struct match *mp;
+	int found;
+	char *msg;
+
+	/* look for an installed package first */
+	if (!(msg = strdup(" (installed)")))
+		err(1, NULL);
+	found = findmatchingname(dbdir, pkgspec, foundpkg, msg, strlen(msg));
+
+	matches = findmatchingname_srcs(cfg_get_sourcelist(), pkgspec);
+	TAILQ_FOREACH(mp, matches, entries) {
+		found++;
+		if (!Quiet)
+			printf("%-30s at %s\n", mp->pkgname, mp->source);
+	}
+	
+	matchlist_destroy(matches);
+	free(matches);
+	return found;
 }
 
 /* check if a package "pkgspec" (which can be a pattern) is installed */
@@ -215,8 +239,12 @@ check4pkg(char *pkgspec, const char *dbdir)
 	if (strpbrk(pkgspec, "<>[]?*{")) {
 	    /* expensive (pattern) match */
 	    int found;
+	    char *empty;
 
-	    found=findmatchingname(dbdir, pkgspec, foundpkg, NULL, 0);
+	    if (!(empty = strdup("")))
+		    err(1, NULL);
+
+	    found=findmatchingname(dbdir, pkgspec, foundpkg, empty, 0);
 	    return !found;
 	} else {
 		/* simple match */
@@ -259,9 +287,11 @@ pkg_perform(char **pkgs)
 	if (!tmp)
 		tmp = DEF_LOG_DIR;
 	/* Overriding action? */
-	if (CheckPkg) {
+	if (CheckPkg)
 		err_cnt += check4pkg(CheckPkg, tmp);
-	} else if (AllInstalled) {
+	else if (FindPkg)
+		err_cnt += findpkg_srcs(FindPkg, tmp);
+	else if (AllInstalled) {
 		struct dirent  *dp;
 		DIR            *dirp;
 
