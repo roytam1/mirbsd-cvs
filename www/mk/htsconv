@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.24 2008/07/24 12:06:15 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.25 2008/07/24 13:09:38 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -23,7 +23,7 @@ function mws_setrss {
 
 function mws_subdir {
 	if [[ $1 = - ]]; then
-		mws__relpath=$mws__abspath
+		mws__relpath=$mws__abspath/
 		return
 	fi
 	integer i=$1
