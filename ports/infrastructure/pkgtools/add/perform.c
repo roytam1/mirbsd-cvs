@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.19 2007/01/19 23:11:18 bsiegert Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.20 2007/03/30 23:20:10 bsiegert Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.19 2007/01/19 23:11:18 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.20 2007/03/30 23:20:10 bsiegert Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -281,7 +281,9 @@ pkg_do(char *pkg)
 	    printf("Package '%s' needs %s binary emulation\n", PkgName, p->name);
 
 	if (!have_emulation(p->name)) {
-	    pwarnx("Package requires %s binary emulation layer, which is not enabled or not available! See the compat_%s(8) manpage for details.%s",
+	    pwarnx("Package requires %s binary emulation layer, which is not"
+		   " enabled or not available! See the compat_%s(8) manpage"
+		   " for details.%s",
 		    p->name, p->name, Force ? " (continuing anyway)" : "");
 	    if (!Force)
 		goto bomb;
