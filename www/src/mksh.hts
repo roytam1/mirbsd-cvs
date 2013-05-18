@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.28 2007/07/23 14:39:36 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.29 2007/07/24 11:32:10 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.28 2007/07/23 14:39:36 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.29 2007/07/24 11:32:10 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R29</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -249,14 +249,21 @@ mws_content <<'EOF'
 <p>mksh enables the ICC stack protector option automaticaly. Compilates
  usually require the Intel shared libraries to be around.</p>
 
-<h5 id="oe_msc">Compiler: Microsoft® C/C++ Standard</h5>
+<h5 id="oe_msc">Compiler: Microsoft® C/C++</h5>
 <p>Support for the Microsoft® C Compiler on Interix and UWIN, with the
  respective <tt>/usr/bin/cc</tt> wrappers, appeared in mksh R30.
  The following product versions have been tested:</p>
-<pre>CL.EXE: Microsoft (R) 32-bit C/C++ Standard Compiler Version 13.00.9466 for 80x86
-LINK.EXE: Microsoft (R) Incremental Linker Version 7.00.9466
-(both are part of the .NET Common Language Runtime redistributable)</pre>
+<p><tt>CL.EXE: Microsoft (R) 32-bit C/C++ Standard Compiler Version 13.00.9466 for 80x86<br />
+ LINK.EXE: Microsoft (R) Incremental Linker Version 7.00.9466</tt><br />
+ (both are part of the .NET Common Language Runtime redistributable)</p>
+<p><tt>CL.EXE: Microsoft (R) 32-bit C/C++ Optimizing Compiler Version 14.00.50727.42 for 80x86<br />
+ LINK.EXE: Microsoft (R) Incremental Linker Version 8.00.50727.42</tt><br />
+ (both are part of Visual Studio 2005 C++ Expreß)<br />
+ You'll have to change Interix' cc(1) wrapper though: replace <tt>/Op</tt>
+ with <tt>/Gs-</tt> to disable the stack checks (missing support in libc
+ for them, they used to be off by default) and remove <tt>/Ze</tt>.</p>
 <p>On Interix, this compiler is maturely usable and a good choice.</p>
+<p>
 
 <h5 id="oe_sun">Compiler: SUNpro</h5>
 <p>Support for the <a href="http://developer.sun.com/sunstudio">SUN Studio
@@ -307,6 +314,11 @@ LINK.EXE: Microsoft (R) Incremental Linker Version 7.00.9466
 <p>Due to the unavailability of ttys, job control will never be supported.</p>
 <p>The APE (ANSI'n'POSIX Environment) is required to build mksh; I don't
  remember which compiler I used, but I think it was GCC.</p>
+
+<h5 id="oe_pw32">OS: PW32 on Win2k</h5>
+<p>PW32 is not supported yet – killpg() and getrlimit() are missing, and
+ it's possible that PW32 and Minix 3, at least, need job control disabled
+ or worked around. Maybe peek at how ash/bash for PW32 do it. gcc works.</p>
 
 <h5 id="oe_openbsd">OS: OpenBSD</h5>
 <p>The setlocale(3) call in OpenBSD's libc is broken and will always return
@@ -497,7 +509,8 @@ LINK.EXE: Microsoft (R) Incremental Linker Version 7.00.9466
   <li>HP-UX 11i B.11.31 (PA-RISC hpC B.11.X.36086-36089-36092.GP, ld B.11.60 070209)</li>
   <li>HP-UX 11i B.11.31 (IA64 hpC B3910B A.06.14 [Feb 22 2007], ld B.12.43 92453-07)</li>
   <li>Interix 3.5 (i386 gcc3.3 win2k) <em>with Perl from pkgsrc®</em></li>
-  <li>Interix 3.5 (i386 msc CL.EXE 13.00.9466, LINK.EXE 7.00.9466)</li>
+  <li>Interix 3.5 (i386 msc CL.EXE 13.00.9466 (standard), LINK.EXE 7.00.9466)</li>
+  <li>Interix 3.5 (i386 msc CL.EXE 14.00.50727.42 (optimising), LINK.EXE 8.00.50727.42)</li>
   <li>Cygwin 1.5.19(0.150/4/2) 2006-01-20 13:28 (i386 gcc3.4.4 win2k)</li>
   <li>UWIN-NT 2006-02-14 (i386 bcpp BCC32.EXE 5.5.1, ILINK32.EXE 5.00) <em>result doesn't pass regress</em></li>
   <li>UWIN-NT 2006-02-14 (i386 dmc DMC.EXE 8.42n, LINK.EXE OPTLINK 7.50B1) <em>with kludges</em></li>
