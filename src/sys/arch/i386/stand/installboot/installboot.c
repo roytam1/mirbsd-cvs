@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.32 2009/06/07 11:46:28 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.33 2009/06/07 13:08:57 tg Exp $ */
 /*	$OpenBSD: installboot.c,v 1.47 2004/07/15 21:44:16 tom Exp $	*/
 /*	$NetBSD: installboot.c,v 1.5 1995/11/17 23:23:50 gwr Exp $ */
 
@@ -92,7 +92,7 @@
 #include <unistd.h>
 #include <util.h>
 
-__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.32 2009/06/07 11:46:28 tg Exp $");
+__RCSID("$MirOS: src/sys/arch/i386/stand/installboot/installboot.c,v 1.33 2009/06/07 13:08:57 tg Exp $");
 
 extern const char *__progname;
 int	verbose, nowrite, nheads, nsectors, userspec = 0;
@@ -126,6 +126,8 @@ int	force_mbr = 0;		/* install into MBR */
 int	userpt = 0;		/* user defined partition type, self-local */
 
 int biosdev;
+
+static const char T_warning[] = "warning: ";
 
 char		*loadprotoblocks(char *, long *);
 int		loadblocknums(char *, int, struct disklabel *);
@@ -377,22 +379,20 @@ main(int argc, char *argv[])
 			*bblkend++ = arc4random() & 0xFF;
 
 	if (nheads == -1 || nsectors == -1) {
-		fprintf(stderr, "warning: Unable to get BIOS geometry, "
-		    "must/should specify -h and -s\nwarning: the drive "
-		    "may not boot in non-LBA mode\n");
-		if (nheads == -1 && dl.d_nsectors > 0)
-			nheads = dl.d_secpercyl / dl.d_nsectors;
-		if (nsectors == -1)
-			nsectors = dl.d_nsectors;
+		fprintf(stderr, "%sUnable to get BIOS geometry, "
+		    "must/should specify -h and -s\n%sthe drive "
+		    "may not boot in non-LBA mode\n", T_warning, T_warning);
+		nsectors = -1;
 	}
 
 	fprintf(stderr, "writing bootblock to sector %ld (0x%lX)\n",
 	    (long)startoff, (unsigned long)startoff);
-	if (nsectors == 99) {
+	if (nsectors == 99 || nsectors == -1) {
+		if (verbose || nsectors == -1)
+			fprintf(stderr, "%susing automatic disc geometry\n",
+			    nsectors == -1 ? T_warning : "");
 		nheads = 0;
 		nsectors = 0;
-		if (verbose)
-			fprintf(stderr, "using automatic disc geometry\n");
 	} else if (verbose)
 		fprintf(stderr, "using disc geometry of %d heads, %d sectors"
 		    " per track\n", nheads, nsectors);

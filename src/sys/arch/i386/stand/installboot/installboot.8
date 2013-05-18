@@ -1,4 +1,4 @@
-.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.18 2009/06/07 11:46:28 tg Exp $
+.\"	$MirOS: src/sys/arch/i386/stand/installboot/installboot.8,v 1.19 2009/06/07 13:22:38 tg Exp $
 .\"	$OpenBSD: installboot.8,v 1.28 2007/05/31 19:20:03 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Michael Shalayeff
@@ -70,6 +70,7 @@ If not specified, this defaults to d_nsectors from the disklabel.
 If not specified, this defaults to the value retrieved from the BIOS
 at boot time, available via
 .Xr sysctl 8 .
+If not available, automatic geometry detection is used.
 Valid are values from 1 to 63, inclusive.
 .It Fl h Ar tracks-per-cyl
 Used to specify the tracks-per-cylinder value if the drive has
@@ -80,6 +81,7 @@ If not specified, this defaults to d_ntracks from the disklabel.
 If not specified, this defaults to the value retrieved from the BIOS
 at boot time, available via
 .Xr sysctl 8 .
+If not available, automatic geometry detection is used.
 Valid are values from 1 to 256, inclusive.
 .It Fl P Ar partition-type
 Use the
