@@ -1855,3 +1855,70 @@ Author: tg@
  laziness will allow me to get a set of clean clothes for THAT ☺</p>
 <p>I wonder where Benny is, this weekend. Probably relaxing, too ☻☺</p>
 ----
+Title: Talk feedback: recursive make
+Author: bsiegert@
+Date: 02.09.2007
+
+<p>Diego Biurrun, who was both actually present and interested in my
+ FrOSCon talk, pointed me to a paper called "Recursive Make Considered
+ Harmful" <a href="#bsiegert-20070902-ref1">[1]</a>. (Thank you!) In
+ response to the question he asked about this during the Q&amp;A
+ session, I said that recursive Make is automake's default and only
+ behavior. This is not true.</p>
+
+<p>The author of the paper starts with an example project very much like
+ mine (two .c files, one header) and creates an artificial module
+ boundary. Unsurprisingly, dependencies do not work as they should any
+ more. I have witnessed this phenomenon and have seen large recursive
+ build systems fall apart. Continuing a mozilla build for example takes
+ unacceptably long, and you see many IDL files unnecessarily being
+ regenerated.</p>
+
+<p>However, implementing the one-Makefile-per-project technique outlined
+ by Miller is actually very easy to do in automake. Older automake
+ versions did not have good support for source files in other
+ directories but this has not been a problem at least since automake
+ 1.8.</p>
+
+<p>If you paid close attention, the Makefile.am I created in the talk
+ was not really recursive because only one Makefile actually did some
+ compiling. In fact, you can merge Makefile.am and src/Makefile.am into
+ one file, like this:</p>
+
+<blockquote><pre>ACLOCAL_AMFLAGS = -I .
+
+bin_PROGRAMS = hw
+hw_SOURCES = src/main.c src/hello.h
+hw_LDADD = libhello.la
+
+lib_LTLIBRARIES = libhello.la
+libhello_la_SOURCES = src/hello.c src/hello.h
+libhello_la_LDFLAGS = -version-info ${LIBHELLO_VER}
+</pre></blockquote>
+
+<p>If you insert all your targets into one Makefile.am, the
+ automatically inserted stuff from automake only needs to be inserted
+ once, thus you get a lower overhead. Dependency tracking should be even
+ more efficient, and build times should decrease. One technique proposed
+ by Miller is to use per-project Makefile fragments which are included
+ by the main Makefile. Automake supports an <tt>include</tt> directive,
+ which is directly evaluated during the automake run and thus fully
+ portable.</p>
+
+<p>One problem I see with this approach is that all objects are put into
+ one directory. Thus, you will have problems if different files in
+ different directories have the same name. For example, compiling both
+ <tt>foo/main.c</tt> and <tt>bar/main.c</tt> inside the same Makefile.am
+ will not work. I do not know if there is an easy solution to this
+ problem&mdash;perhaps an automake option to put the object files in
+ subdirectories. Any automake expert reading this, please contact me if
+ you know of something.</p>
+
+<h3>References</h3>
+
+<ol><li><p><a name="bsiegert-20070902-ref1"></a>Miller, P.&nbsp;A.,
+ Recursive Make Considered Harmful, <i>AUUGN Journal of AUUG Inc.</i>,
+ <b>19</b> (1), 14&ndash;25 (1998).</p>
+ <p>URL: <a
+ href="http://miller.emu.id.au/pmiller/books/rmch/">http://miller.emu.id.au/pmiller/books/rmch/</a></p></li></ol>
+----
