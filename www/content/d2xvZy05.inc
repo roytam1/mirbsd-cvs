@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.68 2006/11/24 00:40:00 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.69 2007/01/05 17:49:23 bsiegert Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1162,7 +1162,6 @@ plot [150:200] 	"bs06.4Kmin.txt" using 1:3 with lines title "exc{\350}s en chlor
  <p>This wlog entry was written on the flight from Dresden to Stuttgart.
   Flying is great: While it would take me about eight hours using
   so-called high-speed trains, the flight is only 50 minutes!</p>
-
  <p>So we are in 2007 now. 23c3 is over. It was fun, even if tg@ did not
   manage to come. My security-related highlight was the talk "A not so
   smart card", where it was shown how trivial it is to duplicate a Swiss
@@ -1176,8 +1175,43 @@ plot [150:200] 	"bs06.4Kmin.txt" using 1:3 with lines title "exc{\350}s en chlor
 </div>
 
 <div class="wlentry">
- <h3 id="e20070105">05.01.2007 by tg@</h3>
- <p>Yay! Benny lives!</p>
+ <h3 id="e20070319">19.03.2007 by bsiegert@</h3>
+ <p>I should write more often. That said, I am in the middle of the
+  period of my diploma examinations. So far, everything went really
+  well&mdash;in the TOEIC (Test of English for International
+  Communication) for example, I scored 985 out of 990.</p>
+
+ <p>Some MirOS-related news: I actually added a feature to MirLibtool:
+  code for treating <tt>-Wl,--library-after</tt>, our equivalent to
+  <tt>-idirafter</tt> for include files. I was surprised that libtool
+  itself is quite readable code. One disadvantage of my patch: The
+  library-after parameter is written into the <tt>.la</tt> file; older
+  libtools trying to link against the file might barf with an "unhandled
+  library argument" error message. This is not an issue inside MirPorts
+  but could be an obstacle against including it upstream.</p>
+
+ <p>I am currently doing a bulk build of all packages on schaaf (a
+  hopelessly slow 667MHz VIA C3). Doing a bulk build is very easy. You
+  need to do the following things:</p>
+
+ <ol>
+  <li>Start on a freshly installed MirOS system with plenty of space on
+   the hard disk. Set up MirPorts via <tt>make setup</tt>.</li>
+  <li>Set some variables we need via <tt>export BIN_PACKAGES=Yes
+   TRUST_PACKAGES=Yes BULK=Yes BATCH=Yes</tt>.</li>
+  <li>Go to <tt>/usr/ports</tt> and create a <tt>Logs</tt>
+   directory.</li>
+  <li>In <tt>/usr/ports</tt>, run the command <tt>mmake -k package clean
+   2&gt;&amp;1 | perl /usr/ports/infrastructure/scripts/portslogger
+   /usr/ports/Logs</tt>.</li>
+  <li>Wait a few days for the build to be over. Note that <tt>make
+   -k</tt> is needed to skip ports that don't build. Some of those will
+   have a bulk cookie and a package file that is 0 bytes.</li>
+  <li>Now comes the fun (?) part: check the build log of all packages
+   that failed to build. Start with the packages with 0 bytes.</li>
+ </ol>
 </div>
 
+<p>Update: I had to cancel the bulk build as the machine was running
+ too hot.</p>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
