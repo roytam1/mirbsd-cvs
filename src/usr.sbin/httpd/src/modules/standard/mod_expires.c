@@ -285,7 +285,7 @@ static char *check_code(pool *p, const char *code, char **real_code)
     while (word[0]) {
         /* <num>
          */
-        if (ap_isdigit(word[0])) {
+        if (isdigit((unsigned char)word[0])) {
             num = atoi(word);
         }
         else {

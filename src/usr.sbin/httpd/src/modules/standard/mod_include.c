@@ -300,7 +300,7 @@ otilde\365oslash\370ugrave\371uacute\372yacute\375"     /* 6 */
 
         /* is it numeric ? */
         if (s[1] == '#') {
-            for (j = 2, val = 0; j < i && ap_isdigit(s[j]); j++) {
+            for (j = 2, val = 0; j < i && isdigit((unsigned char)s[j]); j++) {
                 val = val * 10 + s[j] - '0';
             }
             s += i;

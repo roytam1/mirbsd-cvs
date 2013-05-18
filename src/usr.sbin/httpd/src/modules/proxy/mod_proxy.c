@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/mod_proxy.c,v 1.2 2005/03/13 19:16:51 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/mod_proxy.c,v 1.3 2005/04/17 04:38:37 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -690,7 +690,7 @@ static const char *
     ap_get_module_config(s->module_config, &proxy_module);
     int *New;
 
-    if (!ap_isdigit(arg[0]))
+    if (!isdigit((unsigned char)arg[0]))
         return "AllowCONNECT: port number must be numeric";
 
     New = ap_push_array(conf->allowed_connect_ports);

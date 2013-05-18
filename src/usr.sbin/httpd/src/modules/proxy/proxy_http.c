@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_http.c,v 1.4 2005/04/19 14:37:55 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_http.c,v 1.5 2005/05/04 18:31:07 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -69,7 +69,7 @@
 #ifndef __RCSID
 #define	__RCSID(x)	static const char __rcsid[] = (x)
 #endif
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_http.c,v 1.4 2005/04/19 14:37:55 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_http.c,v 1.5 2005/05/04 18:31:07 tg Exp $");
 
 /*
  * Canonicalise http-like URLs.
@@ -235,7 +235,7 @@ int ap_proxy_http_handler(request_rec *r, cache_req *c, char *url,
 	strp2 = strrchr(desthost, ':');
     if (strp2 != NULL) {
         *(strp2++) = '\0';
-        if (ap_isdigit(*strp2)) {
+        if (isdigit((unsigned char)*strp2)) {
             destport = atoi(strp2);
             destportstr = strp2;
         }

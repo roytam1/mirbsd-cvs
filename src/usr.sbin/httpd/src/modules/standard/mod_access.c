@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/standard/mod_access.c,v 1.2 2005/03/13 19:16:55 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -150,7 +150,7 @@ static const char *order(cmd_parms *cmd, void *dv, char *arg)
 
 static int is_ip(const char *host)
 {
-    while ((*host == '.') || ap_isdigit(*host))
+    while ((*host == '.') || isdigit((unsigned char)*host))
 	host++;
     return (*host == '\0');
 }

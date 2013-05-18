@@ -260,7 +260,7 @@ static double get_x_coord(const char *args)
         return (-1);            /* in case we aren't passed anything */
     }
 
-    while (*args && !ap_isdigit(*args) && *args != ',') {
+    while (*args && !isdigit((unsigned char)*args) && *args != ',') {
         args++;                 /* jump to the first digit, but not past
                                    a comma or end */
     }
@@ -292,7 +292,7 @@ static double get_y_coord(const char *args)
         start_of_y++;           /* start looking at the character after
                                    the comma */
 
-        while (*start_of_y && !ap_isdigit(*start_of_y)) {
+        while (*start_of_y && !isdigit((unsigned char)*start_of_y)) {
             start_of_y++;       /* jump to the first digit, but not
                                    past the end */
 	}
@@ -749,14 +749,14 @@ static int imap_handler(request_rec *r)
             while (ap_isspace(*string_pos)) {      /* past whitespace */
                 string_pos++;
 	    }
-            while (ap_isdigit(*string_pos)) {      /* and the 1st number */
+            while (isdigit((unsigned char)*string_pos)) {    /* and 1st number */
                 string_pos++;
 	    }
             string_pos++;       /* skip the ',' */
             while (ap_isspace(*string_pos)) {      /* past any more whitespace */
                 string_pos++;
 	    }
-            while (ap_isdigit(*string_pos)) {      /* 2nd number */
+            while (isdigit((unsigned char)*string_pos)) {      /* 2nd number */
                 string_pos++;
 	    }
             vertex++;

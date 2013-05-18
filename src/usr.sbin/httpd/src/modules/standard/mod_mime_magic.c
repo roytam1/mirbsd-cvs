@@ -1115,7 +1115,7 @@ static int parse(server_rec *serv, pool *p, char *l, int lineno)
 	s = l;
 	if (*l == '+' || *l == '-')
 	    l++;
-	if (ap_isdigit((unsigned char) *l)) {
+	if (isdigit((unsigned char) *l)) {
 	    m->in.offset = ap_strtol(l, &t, 0);
 	    if (*s == '-')
 		m->in.offset = -m->in.offset;
@@ -1130,7 +1130,7 @@ static int parse(server_rec *serv, pool *p, char *l, int lineno)
     }
 
 
-    while (ap_isdigit((unsigned char) *l))
+    while (isdigit((unsigned char) *l))
 	++l;
     EATAB;
 
@@ -1403,7 +1403,7 @@ static char *getstr(server_rec *serv, register char *s, register char *p,
 /* Single hex char to int; -1 if not a hex char. */
 static int hextoint(int c)
 {
-    if (ap_isdigit((unsigned char) c))
+    if (isdigit((unsigned char) c))
 	return c - '0';
     if ((c >= 'a') && (c <= 'f'))
 	return c + 10 - 'a';
@@ -2266,10 +2266,10 @@ static int revision_suffix(request_rec *r)
 
     /* check for recognized revision suffix */
     suffix_pos = strlen(r->filename) - 1;
-    if (!ap_isdigit(r->filename[suffix_pos])) {
+    if (!isdigit((unsigned char)r->filename[suffix_pos])) {
 	return 0;
     }
-    while (suffix_pos >= 0 && ap_isdigit(r->filename[suffix_pos]))
+    while (suffix_pos >= 0 && isdigit((unsigned char)r->filename[suffix_pos]))
 	suffix_pos--;
     if (suffix_pos < 0 || r->filename[suffix_pos] != '@') {
 	return 0;

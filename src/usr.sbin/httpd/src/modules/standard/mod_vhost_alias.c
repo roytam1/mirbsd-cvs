@@ -214,7 +214,7 @@ static const char *vhost_alias_set(cmd_parms *cmd, void *dummy, char *map)
 	    ++p;
 	}
 	/* digit N */
-	if (ap_isdigit(*p)) {
+	if (isdigit((unsigned char)*p)) {
 	    ++p;
 	}
 	else {
@@ -234,7 +234,7 @@ static const char *vhost_alias_set(cmd_parms *cmd, void *dummy, char *map)
 	    ++p;
 	}
 	/* digit M */
-	if (ap_isdigit(*p)) {
+	if (isdigit((unsigned char)*p)) {
 	    ++p;
 	}
 	else {

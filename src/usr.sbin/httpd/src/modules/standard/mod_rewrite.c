@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.3 2005/04/17 04:38:40 tg Exp $ */
+/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.4 2005/05/04 18:31:07 tg Exp $ */
 /*	$OpenBSD: mod_rewrite.c,v 1.24 2005/02/09 12:13:10 henning Exp $ */
 
 /* ====================================================================
@@ -103,7 +103,7 @@
 #ifndef __RCSID
 #define	__RCSID(x)	static const char __rcsid[] = (x)
 #endif
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.3 2005/04/17 04:38:40 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.4 2005/05/04 18:31:07 tg Exp $");
 
 /*
 ** +-------------------------------------------------------+
@@ -886,7 +886,7 @@ static const char *cmd_rewriterule_setflag(pool *p, rewriterule_entry *cfg,
             else if (strcasecmp(val, "seeother") == 0) {
                 status = HTTP_SEE_OTHER;
             }
-            else if (ap_isdigit(*val)) {
+            else if (isdigit((unsigned char)*val)) {
                 status = atoi(val);
             }
             if (!ap_is_HTTP_REDIRECT(status)) {
@@ -2428,7 +2428,7 @@ static void do_expand(request_rec *r, char *input, char *buffer, int nbuf,
 	    space -= span;
 	    continue;
 	}
-	else if (ap_isdigit(inp[1])) {
+	else if (isdigit((unsigned char)inp[1])) {
 	    int n = inp[1] - '0';
 	    backrefinfo *bri = NULL;
 	    if (inp[0] == '$') {

@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/httpd/src/main/http_protocol.c,v 1.3 2005/04/17 04:38:35 tg Exp $ */
+/**	$MirOS: src/usr.sbin/httpd/src/main/http_protocol.c,v 1.4 2005/12/04 15:33:03 tg Exp $ */
 /*	$OpenBSD: http_protocol.c,v 1.29 2005/11/11 15:09:54 cloder Exp $ */
 
 /* ====================================================================
@@ -156,7 +156,7 @@ static enum byterange_token
 	return BYTERANGE_EMPTY;
     }
 
-    if (ap_isdigit(*r->range))
+    if (isdigit((unsigned char)*r->range))
 	*start = ap_strtol(r->range, (char **)&r->range, 10);
     else
 	*start = -1;
@@ -171,7 +171,7 @@ static enum byterange_token
     while (ap_isspace(*r->range))
         ++r->range;
 
-    if (ap_isdigit(*r->range))
+    if (isdigit((unsigned char)*r->range))
 	*end = ap_strtol(r->range, (char **)&r->range, 10);
     else
 	*end = -1;
@@ -1014,8 +1014,8 @@ static int read_request_line(request_rec *r)
     if (strlen(r->protocol) == 8
         && r->protocol[0] == 'H' && r->protocol[1] == 'T'
 	&& r->protocol[2] == 'T' && r->protocol[3] == 'P'
-        && r->protocol[4] == '/' && ap_isdigit(r->protocol[5])
-	&& r->protocol[6] == '.' && ap_isdigit(r->protocol[7])) {
+        && r->protocol[4] == '/' && isdigit((unsigned char)r->protocol[5])
+	&& r->protocol[6] == '.' && isdigit((unsigned char)r->protocol[7])) {
         r->proto_num = HTTP_VERSION(r->protocol[5] - '0', r->protocol[7] - '0');
     }
     else {
@@ -2770,9 +2770,9 @@ API_EXPORT(void) ap_send_error_response(request_rec *r, int recursive_error)
          */
         if (r->status_line != NULL
             && strlen(r->status_line) > 4       /* long enough */
-            && ap_isdigit(r->status_line[0])
-            && ap_isdigit(r->status_line[1])
-            && ap_isdigit(r->status_line[2])
+            && isdigit((unsigned char)r->status_line[0])
+            && isdigit((unsigned char)r->status_line[1])
+            && isdigit((unsigned char)r->status_line[2])
             && ap_isspace(r->status_line[3])
             && ap_isalnum(r->status_line[4])) {
             title = r->status_line;

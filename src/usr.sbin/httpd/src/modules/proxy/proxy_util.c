@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_util.c,v 1.3 2005/04/17 04:38:38 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_util.c,v 1.4 2005/05/04 18:31:07 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -71,7 +71,7 @@
 #ifndef __RCSID
 #define	__RCSID(x)	static const char __rcsid[] = (x)
 #endif
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_util.c,v 1.3 2005/04/17 04:38:38 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_util.c,v 1.4 2005/05/04 18:31:07 tg Exp $");
 
 static int proxy_match_ipaddr(struct dirconn_entry *This, request_rec *r);
 static int proxy_match_domainname(struct dirconn_entry *This, request_rec *r);
@@ -85,7 +85,7 @@ int ap_proxy_hex2c(const char *x)
     int ch;
 
     ch = x[0];
-    if (ap_isdigit(ch))
+    if (isdigit((unsigned char)ch))
         i = ch - '0';
     else if (ap_isupper(ch))
         i = ch - ('A' - 10);
@@ -94,7 +94,7 @@ int ap_proxy_hex2c(const char *x)
     i <<= 4;
 
     ch = x[1];
-    if (ap_isdigit(ch))
+    if (isdigit((unsigned char)ch))
         i += ch - '0';
     else if (ap_isupper(ch))
         i += ch - ('A' - 10);
@@ -928,7 +928,7 @@ const char *
     struct per_thread_data *ptd = get_per_thread_data();
 
     for (i = 0; host[i] != '\0'; i++)
-        if (!ap_isdigit(host[i]) && host[i] != '.')
+        if (!isdigit((unsigned char)host[i]) && host[i] != '.')
             break;
 
     if (host[i] != '\0') {
@@ -1012,7 +1012,7 @@ int ap_proxy_is_ipaddr(struct dirconn_entry *This, pool *p)
         if (*addr == '/' && quads > 0)  /* netmask starts here. */
             break;
 
-        if (!ap_isdigit(*addr))
+        if (!isdigit((unsigned char)*addr))
             return 0;           /* no digit at start of quad */
 
         ip_addr[quads] = ap_strtol(addr, &tmp, 0);
@@ -1034,7 +1034,7 @@ int ap_proxy_is_ipaddr(struct dirconn_entry *This, pool *p)
     for (This->addr.s_addr = 0, i = 0; i < quads; ++i)
         This->addr.s_addr |= htonl(ip_addr[i] << (24 - 8 * i));
 
-    if (addr[0] == '/' && ap_isdigit(addr[1])) {        /* net mask follows: */
+    if (addr[0] == '/' && isdigit((unsigned char)addr[1])) { /* net mask follows: */
         char *tmp;
 
         ++addr;

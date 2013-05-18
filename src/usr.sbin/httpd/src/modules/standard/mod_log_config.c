@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_log_config.c,v 1.3 2005/04/17 04:38:40 tg Exp $ */
+/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_log_config.c,v 1.4 2005/05/04 18:31:07 tg Exp $ */
 /*	$OpenBSD: mod_log_config.c,v 1.17 2005/02/09 12:13:10 henning Exp $ */
 
 /* ====================================================================
@@ -193,7 +193,7 @@
 #ifndef __RCSID
 #define	__RCSID(x)	static const char __rcsid[] = (x)
 #endif
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_log_config.c,v 1.3 2005/04/17 04:38:40 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_log_config.c,v 1.4 2005/05/04 18:31:07 tg Exp $");
 
 module MODULE_VAR_EXPORT config_log_module;
 
@@ -723,7 +723,7 @@ static char *parse_log_item(pool *p, log_format_item *it, const char **sa)
         case '8':
         case '9':
             i = *s - '0';
-            while (ap_isdigit(*++s)) {
+            while (isdigit((unsigned char)*++s)) {
                 i = i * 10 + (*s) - '0';
             }
             if (!it->conditions) {

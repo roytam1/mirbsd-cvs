@@ -1,5 +1,5 @@
 # Build wrapper for the HTTP daemon
-# $MirOS: src/usr.sbin/httpd/Makefile.bsd-wrapper,v 1.5 2005/12/04 15:32:58 tg Exp $
+# $MirOS: src/usr.sbin/httpd/Makefile.bsd-wrapper,v 1.6 2005/12/04 15:51:50 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.57 2005/09/27 16:27:22 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -178,7 +178,6 @@ INCFILES= \
 	src/include/explain.h \
 	src/include/fnmatch.h \
 	src/include/fdcache.h \
-	src/include/hsregex.h \
 	src/include/http_conf_globals.h \
 	src/include/http_config.h \
 	src/include/http_core.h \

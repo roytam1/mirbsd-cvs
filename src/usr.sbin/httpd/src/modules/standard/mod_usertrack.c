@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/standard/mod_usertrack.c,v 1.2 2005/03/13 19:16:57 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/standard/mod_usertrack.c,v 1.3 2005/05/04 18:31:08 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -103,7 +103,7 @@
 #ifndef __RCSID
 #define	__RCSID(x)	static const char __rcsid[] = (x)
 #endif
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_usertrack.c,v 1.2 2005/03/13 19:16:57 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_usertrack.c,v 1.3 2005/05/04 18:31:08 tg Exp $");
 
 module MODULE_VAR_EXPORT usertrack_module;
 
@@ -414,7 +414,8 @@ static const char *set_cookie_exp(cmd_parms *parms, void *dummy,
     cls  = ap_get_module_config(parms->server->module_config,
                                 &usertrack_module);
     /* The simple case first - all numbers (we assume) */
-    if (ap_isdigit(arg[0]) && ap_isdigit(arg[strlen(arg) - 1])) {
+    if (isdigit((unsigned char)arg[0]) &&
+        isdigit((unsigned char)arg[strlen(arg) - 1])) {
         cls->expires = atol(arg);
         return NULL;
     }
@@ -433,7 +434,7 @@ static const char *set_cookie_exp(cmd_parms *parms, void *dummy,
     /* {<num> <type>}* */
     while (word[0]) {
         /* <num> */
-	if (ap_isdigit(word[0]))
+	if (isdigit((unsigned char)word[0]))
             num = atoi(word);
         else
             return "bad expires code, numeric value expected.";

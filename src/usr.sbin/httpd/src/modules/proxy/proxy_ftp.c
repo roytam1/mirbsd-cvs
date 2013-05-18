@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_ftp.c,v 1.3 2005/04/17 04:38:38 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_ftp.c,v 1.4 2005/04/19 14:37:54 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -197,8 +197,10 @@ static int ftp_getrc(BUFF *ctrl)
     if (len == -1)
         return -1;
 /* check format */
-    if (len < 5 || !ap_isdigit(linebuff[0]) || !ap_isdigit(linebuff[1]) ||
-     !ap_isdigit(linebuff[2]) || (linebuff[3] != ' ' && linebuff[3] != '-'))
+    if (len < 5 || !isdigit((unsigned char)linebuff[0]) ||
+        !isdigit((unsigned char)linebuff[1]) ||
+        !isdigit((unsigned char)linebuff[2]) ||
+        (linebuff[3] != ' ' && linebuff[3] != '-'))
         status = 0;
     else
         status = 100 * linebuff[0] + 10 * linebuff[1] + linebuff[2] - 111 * '0';
@@ -237,8 +239,10 @@ static int ftp_getrc_msg(BUFF *ctrl, char *msgbuf, int msglen)
     len = ap_bgets(linebuff, sizeof linebuff, ctrl);
     if (len == -1)
         return -1;
-    if (len < 5 || !ap_isdigit(linebuff[0]) || !ap_isdigit(linebuff[1]) ||
-     !ap_isdigit(linebuff[2]) || (linebuff[3] != ' ' && linebuff[3] != '-'))
+    if (len < 5 || !isdigit((unsigned char)linebuff[0]) ||
+        !isdigit((unsigned char)linebuff[1]) ||
+        !isdigit((unsigned char)linebuff[2]) ||
+        (linebuff[3] != ' ' && linebuff[3] != '-'))
         status = 0;
     else
         status = 100 * linebuff[0] + 10 * linebuff[1] + linebuff[2] - 111 * '0';
@@ -392,8 +396,9 @@ static long int send_dir(BUFF *data, request_rec *r, cache_req *c, char *cwd)
             n = strlen(buf);
         }
         /* Handle unix style or DOS style directory  */
-        else if (buf[0] == 'd' || buf[0] == '-' || buf[0] == 'l' || ap_isdigit(buf[0])) {
-            if (ap_isdigit(buf[0])) {   /* handle DOS dir */
+        else if (buf[0] == 'd' || buf[0] == '-' || buf[0] == 'l' ||
+            isdigit((unsigned char)buf[0])) {
+            if (isdigit((unsigned char)buf[0])) {   /* handle DOS dir */
                 searchptr = strchr(buf, '<');
                 if (searchptr != NULL)
                     *searchptr = '[';
@@ -628,7 +633,7 @@ int ap_proxy_ftp_handler(request_rec *r, cache_req *c, char *url)
     strp2 = strchr(desthost, ':');
     if (strp2 != NULL) {
         *(strp2++) = '\0';
-        if (ap_isdigit(*strp2)) {
+        if (isdigit((unsigned char)*strp2)) {
             destport = atoi(strp2);
             destportstr = strp2;
         }
@@ -1188,7 +1193,7 @@ lpsvagain:
                 len = 0;
             }
             else if (i == 213) {/* Size command ok */
-                for (j = 0; j < sizeof resp && ap_isdigit(resp[j]); j++);
+                for (j = 0; j < sizeof resp && isdigit((unsigned char)resp[j]); j++);
                 resp[j] = '\0';
                 if (resp[0] != '\0')
                     size = ap_pstrdup(p, resp);

@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/main/util.c,v 1.3 2005/04/17 04:38:35 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/main/util.c,v 1.4 2005/05/04 18:31:07 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -84,7 +84,7 @@
 #ifndef __RCSID
 #define	__RCSID(x)	static const char __rcsid[] = (x)
 #endif
-__RCSID("$MirOS: src/usr.sbin/httpd/src/main/util.c,v 1.3 2005/04/17 04:38:35 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/main/util.c,v 1.4 2005/05/04 18:31:07 tg Exp $");
 
 /* we assume the folks using this ensure 0 <= c < 256... which means
  * you need a cast to (unsigned char) first, you can't just plug a
@@ -396,7 +396,7 @@ API_EXPORT(char *) ap_pregsub(pool *p, const char *input, const char *source,
     while ((c = *src++) != '\0') {
 	if (c == '&')
 	    no = 0;
-	else if (c == '$' && ap_isdigit(*src))
+	else if (c == '$' && isdigit((unsigned char)*src))
 	    no = *src++ - '0';
 	else
 	    no = 10;
@@ -421,7 +421,7 @@ API_EXPORT(char *) ap_pregsub(pool *p, const char *input, const char *source,
     while ((c = *src++) != '\0') {
 	if (c == '&')
 	    no = 0;
-	else if (c == '$' && ap_isdigit(*src))
+	else if (c == '$' && isdigit((unsigned char)*src))
 	    no = *src++ - '0';
 	else
 	    no = 10;
@@ -1771,7 +1771,7 @@ API_EXPORT(int) ap_is_url(const char *u)
 
     for (x = 0; u[x] != ':'; x++) {
 	if ((!u[x]) ||
-	    ((!ap_isalpha(u[x])) && (!ap_isdigit(u[x])) &&
+	    ((!ap_isalpha(u[x])) && (!isdigit((unsigned char)u[x])) &&
 	     (u[x] != '+') && (u[x] != '-') && (u[x] != '.'))) {
 	    return 0;
 	}

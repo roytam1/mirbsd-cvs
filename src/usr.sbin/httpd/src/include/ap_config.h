@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/httpd/src/include/ap_config.h,v 1.2 2005/03/13 19:16:44 tg Exp $ */
+/**	$MirOS: src/usr.sbin/httpd/src/include/ap_config.h,v 1.3 2005/04/17 04:38:32 tg Exp $ */
 /*	$OpenBSD: ap_config.h,v 1.20 2005/02/09 12:13:09 henning Exp $ */
 
 /* ====================================================================
@@ -194,11 +194,7 @@ extern "C" {
 #include <errno.h>
 #include <memory.h>
 
-#if defined(USE_HSREGEX)
-#include "hsregex.h"
-#else
 #include <regex.h>
-#endif
 
 #include <sys/resource.h>
 #include <sys/mman.h>

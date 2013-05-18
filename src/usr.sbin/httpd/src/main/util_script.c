@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/main/util_script.c,v 1.2 2005/03/13 19:16:49 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/main/util_script.c,v 1.3 2005/04/17 04:38:35 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -172,7 +172,7 @@ API_EXPORT(char **) ap_create_environment(pool *p, table *t)
 	}
 	env[j] = ap_pstrcat(p, elts[i].key, "=", elts[i].val, NULL);
 	whack = env[j];
-	if (ap_isdigit(*whack)) {
+	if (isdigit((unsigned char)*whack)) {
 	    *whack++ = '_';
 	}
 	while (*whack != '=') {

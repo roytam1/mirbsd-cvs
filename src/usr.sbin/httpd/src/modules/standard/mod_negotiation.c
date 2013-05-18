@@ -547,7 +547,7 @@ static void parse_negotiate_header(request_rec *r, negotiation_state *neg)
         if (strcmp(tok, "trans") == 0 ||
             strcmp(tok, "vlist") == 0 ||
             strcmp(tok, "guess-small") == 0 ||
-            ap_isdigit(tok[0]) ||
+            isdigit((unsigned char)tok[0]) ||
             strcmp(tok, "*") == 0) {
 
             /* The user agent supports transparent negotiation */
