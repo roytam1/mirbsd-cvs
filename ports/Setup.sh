@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.20 2005/12/18 16:36:25 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.21 2006/01/13 03:49:23 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -63,13 +63,13 @@ export isinterix
 if test $isinterix = no; then
 	p=$localbase/bin
 	for a in /usr/local/bin /usr/bin /bin $xfbase/bin /usr/X11R6/bin \
-	    /usr/sbin /sbin $localbase/sbin; do
+	    /usr/sbin /sbin; do
 		case :$p: in
 		*:$a:*)	continue ;;
 		esac
 		test -d $a && p=$p:$a
 	done
-	PATH=$p; export PATH
+	PATH=$p:$localbase/sbin; export PATH
 else
 	# On Interix, /usr/bin is /bin; gzip lives in /usr/contrib/bin;
 	# gcc has yet its own directory; we have X11R5 as well
