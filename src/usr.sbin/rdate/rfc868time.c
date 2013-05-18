@@ -55,7 +55,7 @@
 
 #include "rdate.h"
 
-__RCSID("$MirOS: src/usr.sbin/rdate/rfc868time.c,v 1.4 2007/05/14 22:11:44 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/rfc868time.c,v 1.5 2007/08/10 23:52:24 tg Exp $");
 #ifdef MirBSD
 __RCSID("$NetBSD: rdate.c,v 1.3 1996/02/22 06:59:18 thorpej Exp $");
 __RCSID("$OpenBSD: rfc868time.c,v 1.6 2004/02/16 21:25:41 jakob Exp $");
@@ -78,7 +78,7 @@ rfc868time_client (const char *hostname, int family, struct timeval *new,
 	hints.ai_family = family;
 	hints.ai_socktype = SOCK_STREAM;
 	/* XXX what about rfc868 UDP
-	 * probably not due to the Y2038 issue  -mirabile */
+	 * probably not due to the Y2038 issue  -mirabilos */
 	error = getaddrinfo(hostname, "time", &hints, &res0);
 	if (error) {
 		errx(1, "%s: %s", hostname, gai_strerror(error));

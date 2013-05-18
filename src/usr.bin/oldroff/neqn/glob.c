@@ -1,11 +1,11 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/oldroff/neqn/glob.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
  * Copyright (c) 2003, 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms,

@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/sng/Makefile,v 1.5 2006/12/23 05:40:57 tg Exp $
+# $MirOS: ports/graphics/sng/Makefile,v 1.6 2007/02/22 22:57:51 tg Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/04/28 09:25:42 wilfried Exp $
 
 COMMENT=		PNG to ASCII compiler and decompiler
@@ -7,7 +7,7 @@ DASH_VER=		1
 CATEGORIES=		graphics
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=sng/}
 HOMEPAGE=		http://sng.sourceforge.net/
-RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 
 # zlib license
 PERMIT_PACKAGE_CDROM=	Yes

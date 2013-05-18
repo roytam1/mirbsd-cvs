@@ -1,4 +1,4 @@
-# $MirOS: ports/misc/screen/Makefile,v 1.23 2008/03/09 17:23:13 tg Exp $
+# $MirOS: ports/misc/screen/Makefile,v 1.24 2008/10/13 20:52:27 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2004/01/17 05:34:28 brad Exp $
 
 NOT_FOR_PLATFORM=	Interix:*:*
@@ -11,7 +11,7 @@ CATEGORIES=		misc
 MASTER_SITES=		http://ftp.uni-erlangen.de/pub/utilities/screen/ \
 			ftp://ftp.uni-erlangen.de/pub/utilities/screen/
 HOMEPAGE=		http://www.gnu.org/software/screen/
-RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 
 # GNU GPLv2
 PERMIT_PACKAGE_CDROM=	Yes

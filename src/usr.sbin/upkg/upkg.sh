@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: src/usr.sbin/upkg/upkg.sh,v 1.5 2005/11/03 19:20:51 bsiegert Exp $
+# $MirOS: src/usr.sbin/upkg/upkg.sh,v 1.6 2006/09/20 22:24:51 tg Exp $
 #-
 # Copyright (c) 2005
-#	Benny Siegert <bsiegert@66h.42h.de>
+#	Benny Siegert <bsiegert@mirbsd.org>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,

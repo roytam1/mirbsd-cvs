@@ -1,8 +1,8 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: ports/net/freenet-project/files/run,v 1.1.7.1 2005/03/18 15:49:24 tg Exp $
 #-
 # Copyright (c) 2003
-#	Thorsten Glaser <x86@ePost.de>, for the MirOS Project
+#	Thorsten Glaser <tg@mirbsd.de>, for the MirOS Project
 #
 # Subject to these terms, everybody who obtained a copy of this work
 # is hereby permitted to deal in the work without restriction inclu-

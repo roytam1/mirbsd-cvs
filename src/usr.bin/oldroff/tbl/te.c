@@ -1,11 +1,11 @@
-/* $MirOS: src/usr.bin/oldroff/tbl/te.c,v 1.2 2006/02/03 21:03:38 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/tbl/te.c,v 1.3 2006/10/03 19:51:11 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
  * Copyright (c) 2003, 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms,
@@ -46,7 +46,7 @@
 
 # include "t..c"
 __SCCSID("@(#)te.c	4.3 (Berkeley) 4/18/91");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/oldroff/tbl/te.c,v 1.3 2006/10/03 19:51:11 tg Exp $");
 
 error(s)
 	char *s;

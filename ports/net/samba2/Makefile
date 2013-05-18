@@ -1,4 +1,4 @@
-# $MirOS: ports/net/samba2/Makefile,v 1.9 2006/12/28 21:14:42 tg Exp $
+# $MirOS: ports/net/samba2/Makefile,v 1.10 2008/08/19 18:07:27 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2003/10/26 09:33:23 sturm Exp $
 
 COMMENT=		SMB and CIFS client and server for UNIX
@@ -9,7 +9,7 @@ MASTER_SITES=		http://us1.samba.org/samba/ftp/old-versions/ \
 			http://ca.samba.org/samba/ftp/old-versions/ \
 			http://us4.samba.org/samba/ftp/old-versions/
 HOMEPAGE=		http://www.samba.org/
-RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 
 # GPL
 PERMIT_DISTFILES_CDROM=	Yes

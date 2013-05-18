@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/init_main.c,v 1.20 2008/04/09 05:45:42 tg Exp $ */
+/**	$MirOS: src/sys/kern/init_main.c,v 1.21 2008/06/13 14:00:05 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.120 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
 /*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
@@ -6,7 +6,7 @@
 
 /*
  * Copyright (c) 1990-2002, 2003, 2004, 2005, 2006
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 1995 Christopher G. Demetriou.  All rights reserved.
  * Copyright (c) 1982, 1986, 1989, 1991, 1992, 1993
  *	The Regents of the University of California.  All rights reserved.

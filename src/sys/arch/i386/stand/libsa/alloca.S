@@ -1,8 +1,8 @@
-/* $MirOS: src/sys/arch/i386/stand/libsa/alloca.S,v 1.3 2005/12/17 05:46:24 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/libsa/alloca.S,v 1.4 2008/08/01 10:58:17 tg Exp $ */
 
 /*-
  * Copyright (c) 2003
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,

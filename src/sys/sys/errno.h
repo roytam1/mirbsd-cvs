@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/sys/errno.h,v 1.5 2005/12/19 22:49:50 tg Exp $ */
+/**	$MirOS: src/sys/sys/errno.h,v 1.6 2006/01/31 20:47:13 tg Exp $ */
 /*	$OpenBSD: errno.h,v 1.14 2005/06/17 21:48:03 espie Exp $	*/
 /*	$NetBSD: errno.h,v 1.10 1996/01/20 01:33:53 jtc Exp $	*/
 
 /*
  * Copyright (c) 2003, 2005
- *	Thorsten "mirabile" Glaser <tg@mirbsd.de>.  All rights reserved.
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.de>.  All rights reserved.
  * Copyright (c) 1982, 1986, 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
  * (c) UNIX System Laboratories, Inc.

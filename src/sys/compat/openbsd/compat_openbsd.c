@@ -1,9 +1,9 @@
-/**	$MirOS: src/sys/compat/openbsd/compat_openbsd.c,v 1.2 2006/06/12 20:35:54 tg Exp $ */
+/**	$MirOS: src/sys/compat/openbsd/compat_openbsd.c,v 1.3 2006/06/16 18:43:32 tg Exp $ */
 /* 	$OpenBSD: compat_aout.c,v 1.1 2003/06/24 22:45:33 espie Exp $ */
 
 /*
  * Copyright (c) 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 2003 Marc Espie
  * All rights reserved.
  *

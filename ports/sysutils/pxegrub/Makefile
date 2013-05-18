@@ -1,4 +1,4 @@
-# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.14 2008/03/09 17:23:34 tg Exp $
+# $MirOS: ports/sysutils/pxegrub/Makefile,v 1.15 2008/10/04 19:03:42 tg Exp $
 #
 # Although you can only netboot a kernel with this, it's still included.
 # Maybe one day someone will include the correct parametres for disc kernels.
@@ -17,7 +17,7 @@ DISTNAME=       	grub-0.96
 PKGNAME=		${DISTNAME}-1
 CATEGORIES=		sysutils
 MASTER_SITES=		ftp://alpha.gnu.org/gnu/grub/
-RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 HOMEPAGE=		http://www.gnu.org/software/grub/ \
 			http://www.berger.to/openbsd/pxegrub.html
 

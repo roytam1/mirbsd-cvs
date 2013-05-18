@@ -1,9 +1,9 @@
-/**	$MirOS: src/sys/sys/endian.h,v 1.2 2005/03/06 21:28:34 tg Exp $ */
+/**	$MirOS: src/sys/sys/endian.h,v 1.3 2006/07/01 13:08:56 tg Exp $ */
 /*	$OpenBSD: endian.h,v 1.14 2004/01/11 19:17:31 brad Exp $	*/
 
 /*-
  * Copyright (c) 2004, 2006
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 1997 Niklas Hallqvist.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

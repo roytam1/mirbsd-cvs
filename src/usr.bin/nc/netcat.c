@@ -1,7 +1,7 @@
-/* $MirOS: src/usr.bin/nc/netcat.c,v 1.5 2005/11/23 20:38:22 tg Exp $ */
+/* $MirOS: src/usr.bin/nc/netcat.c,v 1.6 2006/02/27 23:01:45 tg Exp $ */
 /* $OpenBSD: netcat.c,v 1.81 2005/05/28 16:57:48 marius Exp $ */
 /*
- * Copyright (c) 2004 Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ * Copyright (c) 2004 Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 2001 Eric Jackson <ericj@monkey.org>
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,7 +54,7 @@
 #include <fcntl.h>
 #include "atomicio.h"
 
-__RCSID("$MirOS: src/usr.bin/nc/netcat.c,v 1.5 2005/11/23 20:38:22 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/nc/netcat.c,v 1.6 2006/02/27 23:01:45 tg Exp $");
 
 #undef BUFSIZ
 #define BUFSIZ 4096

@@ -1,11 +1,11 @@
-/**	$MirOS: src/usr.bin/make/main.c,v 1.7 2007/06/21 14:17:07 tg Exp $ */
+/**	$MirOS: src/usr.bin/make/main.c,v 1.8 2008/04/06 23:19:17 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: main.c,v 1.69 2006/09/26 18:20:50 mk Exp $ */
 /*	$NetBSD: main.c,v 1.34 1997/03/24 20:56:36 gwr Exp $	*/
 
 /*
  * Copyright (c) 2005
- *	Thorsten "mirabile" Glaser <tg@MirBSD.org>
+ *	Thorsten "mirabilos" Glaser <tg@MirBSD.org>
  * Copyright (c) 1988, 1989, 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
  * Copyright (c) 1989 by Berkeley Softworks
@@ -85,7 +85,7 @@
 
 #define MAKEFLAGS	".MAKEFLAGS"
 
-__RCSID("$MirOS: src/usr.bin/make/main.c,v 1.7 2007/06/21 14:17:07 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/make/main.c,v 1.8 2008/04/06 23:19:17 tg Exp $");
 
 static LIST		to_create; 	/* Targets to be made */
 Lst create = &to_create;

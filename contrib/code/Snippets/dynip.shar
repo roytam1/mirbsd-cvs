@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/Snippets/dynip.shar,v 1.4 2008/05/03 01:09:23 tg Exp $
+# $MirOS: contrib/code/Snippets/dynip.shar,v 1.5 2008/11/08 22:24:23 tg Exp $
 #-
 # Copyright (c) 2000, 2001, 2002, 2003, 2004
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
@@ -32,7 +32,7 @@
 echo x - ip-up
 sed 's/^X//' >ip-up << 'END-of-ip-up'
 X#!/bin/mksh
-X# from $MirOS: contrib/code/Snippets/dynip.shar,v 1.4 2008/05/03 01:09:23 tg Exp $
+X# from $MirOS: contrib/code/Snippets/dynip.shar,v 1.5 2008/11/08 22:24:23 tg Exp $
 X# $Id$
 X
 X# This script is called with mirbsdksh when your ppp(8) or pppd(8)
@@ -70,7 +70,7 @@ X#( /service/tinymaster/root/make.sh dialin 2>&1 | logger -t MirDNS ) &
 X
 X# DynDNS
 XDCMD="SC=\$(sysctl -n kern.allowpsa)\nsysctl -w kern.allowpsa=0 >/dev/null"
-XLCMD="sudo -u nobody lynx -dump -useragent='Lynx2IP4Up2/OpenBSD x86@ePost.de'"
+XLCMD="sudo -u nobody lynx -dump -useragent='Lynx2IP4Up2/OpenBSD tg@mirbsd.de'"
 Xif [ -n "$CJBNET_USER" ]; then
 X	DCMD="$DCMD\nRES=\"\$($LCMD 'http://www.cjb.net/cgi-bin/dynip.cgi?"
 X	DCMD="${DCMD}username=${CJBNET_USER}&password=${CJBNET_PASS}' 2>&1)\""
@@ -99,7 +99,7 @@ END-of-ip-up
 echo x - ip-down
 sed 's/^X//' >ip-down << 'END-of-ip-down'
 X#!/bin/mksh
-X# from $MirOS: contrib/code/Snippets/dynip.shar,v 1.4 2008/05/03 01:09:23 tg Exp $
+X# from $MirOS: contrib/code/Snippets/dynip.shar,v 1.5 2008/11/08 22:24:23 tg Exp $
 X# $Id$
 X
 X# This script is called with mirbsdksh after your ppp(8) or pppd(8)

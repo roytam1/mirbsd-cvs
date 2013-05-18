@@ -2,7 +2,7 @@
 
 /*-
  * Copyright (c) 2004, 2005, 2007, 2008
- *	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -35,7 +35,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.17 2008/05/13 20:50:00 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.18 2008/06/04 18:28:36 tg Exp $");
 
 void		sighdlr(int);
 __dead void	usage(void);

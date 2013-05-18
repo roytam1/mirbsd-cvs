@@ -1,11 +1,11 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.3 2005/04/13 18:28:00 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.4 2007/01/22 17:40:08 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
  * Copyright (c) 2003, 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms,
@@ -53,7 +53,7 @@ extern
 #include "pathnames.h"
 
 __SCCSID("@(#)n10.c	4.6 (Berkeley) 4/18/91");
-__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.3 2005/04/13 18:28:00 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n10.c,v 1.4 2007/01/22 17:40:08 tg Exp $");
 
 /*
 nroff10.c

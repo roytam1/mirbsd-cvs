@@ -1,10 +1,10 @@
-# $MirOS: ports/shells/tcsh/Makefile,v 1.2 2006/09/14 00:13:26 tg Exp $
+# $MirOS: ports/shells/tcsh/Makefile,v 1.3 2008/03/09 17:23:32 tg Exp $
 
 COMMENT=			C shell with file name completion and command line editing
 DISTNAME=	tcsh-6.13.00
 CATEGORIES=	shells
 HOMEPAGE=	http://www.tcsh.org
-RESPONSIBLE=	Stephen Paskaluk <sap@66h.42h.de>
+RESPONSIBLE=	Stephen Paskaluk <sap@mirbsd.org>
 
 # BSD licensed
 PERMIT_PACKAGE_CDROM=	Yes

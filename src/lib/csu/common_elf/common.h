@@ -1,11 +1,11 @@
-/* $MirOS: src/lib/csu/common_elf/common.h,v 1.4 2006/06/15 19:18:48 tg Exp $
+/* $MirOS: src/lib/csu/common_elf/common.h,v 1.5 2006/10/15 01:04:00 tg Exp $
  * derived from the following files:
  * $NetBSD: common.h,v 1.10 2004/08/26 20:57:47 thorpej Exp $
  */
 
 /*
  * Copyright (c) 2003, 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@MirBSD.de>
+ *	Thorsten "mirabilos" Glaser <tg@MirBSD.de>
  * Copyright (c) 1995 Christopher G. Demetriou
  * All rights reserved.
  *
@@ -47,7 +47,7 @@
 #include <sys/syscall.h>
 #include <stdlib.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/csu/common_elf/common.h,v 1.5 2006/10/15 01:04:00 tg Exp $");
 
 typedef void Obj_Entry;
 

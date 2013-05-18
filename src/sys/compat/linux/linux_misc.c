@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/compat/linux/linux_misc.c,v 1.3 2005/07/03 21:18:58 tg Exp $ */
+/**	$MirOS: src/sys/compat/linux/linux_misc.c,v 1.4 2005/12/28 22:24:54 tg Exp $ */
 /*	$OpenBSD: linux_misc.c,v 1.58 2005/02/17 18:07:36 jfb Exp $	*/
 /*	$NetBSD: linux_misc.c,v 1.27 1996/05/20 01:59:21 fvdl Exp $	*/
 
 /*-
  * Copyright (c) 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 1995, 1998, 1999 The NetBSD Foundation, Inc.
  * All rights reserved.
  *

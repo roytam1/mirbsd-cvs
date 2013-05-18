@@ -1,8 +1,8 @@
-/* $MirOS: src/usr.bin/readlink/readlink.c,v 1.4 2005/12/17 05:46:29 tg Exp $ */
+/* $MirOS: src/usr.bin/readlink/readlink.c,v 1.5 2006/03/18 23:26:05 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
- *	Thorsten "mirabile" Glaser <tg@MirBSD.org>
+ *	Thorsten "mirabilos" Glaser <tg@MirBSD.org>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -30,7 +30,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.bin/readlink/readlink.c,v 1.4 2005/12/17 05:46:29 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/readlink/readlink.c,v 1.5 2006/03/18 23:26:05 tg Exp $");
 
 int main(int, char **);
 __dead void usage(void);

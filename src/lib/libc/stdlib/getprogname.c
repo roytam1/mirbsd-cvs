@@ -1,8 +1,8 @@
-/* $MirOS: src/lib/libc/stdlib/getprogname.c,v 1.4 2006/11/01 20:01:20 tg Exp $ */
+/* $MirOS: src/lib/libc/stdlib/getprogname.c,v 1.5 2008/03/16 16:41:48 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -24,7 +24,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-__RCSID("$MirOS: src/lib/libc/stdlib/getprogname.c,v 1.4 2006/11/01 20:01:20 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdlib/getprogname.c,v 1.5 2008/03/16 16:41:48 tg Exp $");
 
 extern char *__progname;
 

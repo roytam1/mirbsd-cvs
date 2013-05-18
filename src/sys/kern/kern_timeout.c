@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/kern/kern_timeout.c,v 1.2 2005/03/06 21:28:02 tg Exp $ */
 /*	$NetBSD: kern_timeout.c,v 1.13 2003/10/30 04:32:56 thorpej Exp $	*/
 /*	$OpenBSD: kern_timeout.c,v 1.18 2003/06/03 12:05:25 art Exp $	*/
 
@@ -39,7 +39,7 @@
  */
 
 /*
- * Copyright (c) 2003, 2005 Thorsten Glaser <tg@66h.42h.de>
+ * Copyright (c) 2003, 2005 Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2001 Thomas Nordin <nordin@openbsd.org>
  * Copyright (c) 2000-2001 Artur Grabowski <art@openbsd.org>
  * All rights reserved.

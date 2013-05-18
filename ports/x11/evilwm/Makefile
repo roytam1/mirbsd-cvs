@@ -1,11 +1,11 @@
-# $MirOS: ports/x11/evilwm/Makefile,v 1.7 2008/03/09 17:23:42 tg Exp $
+# $MirOS: ports/x11/evilwm/Makefile,v 1.8 2008/05/25 20:56:39 tg Exp $
 
 COMMENT=		minimalist window manager for keyboard or mouse
 CATEGORIES=		x11
 V=			0.99.18
 PKGNAME=		evilwm-${V}-${PL}
 HOMEPAGE=		http://www.6809.org.uk/evilwm/
-RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 
 # BSD-style
 PERMIT_DISTFILES_CDROM=	Yes

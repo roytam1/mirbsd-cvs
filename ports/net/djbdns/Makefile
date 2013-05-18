@@ -1,4 +1,4 @@
-# $MirOS: ports/net/djbdns/Makefile,v 1.34 2008/05/01 00:52:34 tg Exp $
+# $MirOS: ports/net/djbdns/Makefile,v 1.35 2008/10/27 21:40:36 tg Exp $
 
 COMMENT=		collection of Domain Name System server and tools
 VERSION=		1.05
@@ -7,7 +7,7 @@ DISTNAME=		djbdns-${VERSION}
 DASH_VER=		34
 MANVER=			20031023
 HOMEPAGE=		http://cr.yp.to/djbdns.html
-RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 
 # Public Domain: http://cr.yp.to/distributors.html
 PERMIT_PACKAGE_CDROM=	Yes

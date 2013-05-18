@@ -1,4 +1,4 @@
-# $MirOS: ports/net/freenet-project/Makefile,v 1.5 2006/09/14 00:11:42 tg Exp $
+# $MirOS: ports/net/freenet-project/Makefile,v 1.6 2008/10/16 19:43:58 tg Exp $
 
 BROKEN=			unfetchable distfile
 
@@ -10,7 +10,7 @@ EXTRACT_SUFX=	.jar
 CATEGORIES=	net
 HOMEPAGE=	http://www.freenetproject.org/
 MASTER_SITES=	${HOMEPAGE}snapshots/
-RESPONSIBLE=	Thorsten Glaser <tg@66h.42h.de>
+RESPONSIBLE=	Thorsten Glaser <tg@mirbsd.org>
 
 DISTFILES=	freenet-${VERSION}.jar freenet-ext.jar
 SCRIPTS=	configure run j update.sh

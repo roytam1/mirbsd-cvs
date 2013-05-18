@@ -1,10 +1,10 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/compat/common/kern_resource_35.c,v 1.1.7.1 2005/03/06 16:33:43 tg Exp $ */
 /*	$OpenBSD: kern_resource.c,v 1.26 2003/12/11 23:02:30 millert Exp $	*/
 /*	$NetBSD: kern_resource.c,v 1.38 1996/10/23 07:19:38 matthias Exp $	*/
 
 /*-
  * Copyright (c) 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 1982, 1986, 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
  * (c) UNIX System Laboratories, Inc.

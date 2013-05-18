@@ -1,8 +1,8 @@
-/* $MirOS: ports/mailnews/pine/files/ckp_bso.c,v 1.2 2005/05/04 23:24:45 tg Exp $ */
+/* $MirOS: ports/mailnews/pine/files/ckp_bso.c,v 1.3 2005/12/15 14:24:18 tg Exp $ */
 
 /*-
  * Copyright (c) 2004
- *	Thorsten "mirabile" Glaser <tg@mirbsd.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -25,7 +25,7 @@
 #include <login_cap.h>
 #include <bsd_auth.h>
 
-__RCSID("$MirOS: ports/mailnews/pine/files/ckp_bso.c,v 1.2 2005/05/04 23:24:45 tg Exp $");
+__RCSID("$MirOS: ports/mailnews/pine/files/ckp_bso.c,v 1.3 2005/12/15 14:24:18 tg Exp $");
 
 struct passwd *
 checkpw (struct passwd *pw, char *pass, int argc, char *argv[])

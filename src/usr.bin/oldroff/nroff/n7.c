@@ -1,11 +1,11 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n7.c,v 1.2 2005/12/15 01:10:09 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/nroff/n7.c,v 1.3 2006/06/02 00:06:40 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
  * Copyright (c) 2003, 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms,

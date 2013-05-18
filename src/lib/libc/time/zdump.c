@@ -1,9 +1,9 @@
-/**	$MirOS: src/lib/libc/time/zdump.c,v 1.6 2006/11/01 20:01:21 tg Exp $ */
+/**	$MirOS: src/lib/libc/time/zdump.c,v 1.7 2007/07/05 23:09:34 tg Exp $ */
 /*	$OpenBSD: zdump.c,v 1.17 2005/08/08 08:05:38 espie Exp $ */
 
 /*-
  * Copyright (c) 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Based upon work placed in the public domain Feb 14, 2003 by
  *	Arthur David Olson (arthur_david_olson@nih.gov)
  *
@@ -46,7 +46,7 @@
 #define ZDUMP_HI_YEAR	2500
 #endif /* !defined ZDUMP_HI_YEAR */
 
-__RCSID("$MirOS: src/lib/libc/time/zdump.c,v 1.6 2006/11/01 20:01:21 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/time/zdump.c,v 1.7 2007/07/05 23:09:34 tg Exp $");
 
 #ifndef MAX_STRING_LENGTH
 #define MAX_STRING_LENGTH	1024

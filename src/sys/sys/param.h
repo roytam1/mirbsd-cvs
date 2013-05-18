@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/param.h,v 1.76 2008/08/02 00:46:10 tg Exp $ */
+/**	$MirOS: src/sys/sys/param.h,v 1.77 2008/10/12 17:40:40 tg Exp $ */
 /*	$OpenBSD: param.h,v 1.54 2004/02/27 18:06:55 deraadt Exp $	*/
 /*	$NetBSD: param.h,v 1.23 1996/03/17 01:02:29 thorpej Exp $	*/
 
@@ -6,7 +6,7 @@
  * Copyright (c) 2003, 2004, 2005, 2006
  *	The MirOS Project.  All rights reserved.
  * Copyright (c) 2002, 2003, 2007, 2008
- *	Thorsten “mirabilos” Glaser <tg@66h.42h.de>
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1982, 1986, 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
  * (c) UNIX System Laboratories, Inc.

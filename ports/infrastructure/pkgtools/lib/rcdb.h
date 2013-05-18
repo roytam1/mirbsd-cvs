@@ -1,11 +1,11 @@
-/**	$MirOS$ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/rcdb.h,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
 /**	_MirBSD: db.h,v 1.4 2004/02/11 16:34:07 tg Exp $	*/
 /*	$OpenBSD: db.h,v 1.8 2004/01/22 21:48:02 espie Exp $	*/
 /*	$NetBSD: db.h,v 1.13 1994/10/26 00:55:48 cgd Exp $	*/
 
 /*-
  * Copyright (c) 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 1990, 1993, 1994
  *	The Regents of the University of California.  All rights reserved.
  *

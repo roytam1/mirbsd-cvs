@@ -1,7 +1,7 @@
-/* $MirOS: src/gnu/usr.bin/binutils/include/elf/common.h,v 1.3 2005/06/05 21:24:36 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/include/elf/common.h,v 1.4 2005/07/07 16:23:08 tg Exp $ */
 
 /* ELF support for BFD.
-   Copyright (c) 2004 Thorsten "mirabile" Glaser.
+   Copyright (c) 2004 Thorsten "mirabilos" Glaser.
    Copyright 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
    2001, 2002, 2003, 2004
    Free Software Foundation, Inc.

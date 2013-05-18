@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/csu/common_elf/common.c,v 1.4 2006/06/02 00:18:01 tg Exp $
+/* $MirOS: src/lib/csu/common_elf/common.c,v 1.5 2006/10/15 01:04:00 tg Exp $
  * derived from the following files:
  * $NetBSD: common.c,v 1.16 2004/08/26 21:01:12 thorpej Exp $
  * $OpenBSD: crt0.c,v 1.11 2003/06/27 22:30:38 deraadt Exp $
@@ -6,7 +6,7 @@
 
 /*
  * Copyright (c) 2003, 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 1995 Christopher G. Demetriou
  * All rights reserved.
  *
@@ -44,7 +44,7 @@
 #error	not a stand-alone file
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/csu/common_elf/common.c,v 1.5 2006/10/15 01:04:00 tg Exp $");
 
 static char *
 _strrchr(char *p, int ch)

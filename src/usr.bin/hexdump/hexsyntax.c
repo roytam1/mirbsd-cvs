@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/hexdump/hexsyntax.c,v 1.2 2005/03/13 18:33:01 tg Exp $ */
 /*	$OpenBSD: hexsyntax.c,v 1.8 2003/06/12 20:58:09 deraadt Exp $	*/
 /*	$NetBSD: hexsyntax.c,v 1.8 1998/04/08 23:48:57 jeremy Exp $	*/
 
@@ -6,7 +6,7 @@
  * Copyright (c) 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
  * Copyright (c) 2002, 2003, 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -44,7 +44,7 @@
 #include "hexdump.h"
 
 __SCCSID("@(#)hexsyntax.c	5.2 (Berkeley) 5/8/90");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/hexdump/hexsyntax.c,v 1.2 2005/03/13 18:33:01 tg Exp $");
 
 off_t skip;				/* bytes to skip */
 

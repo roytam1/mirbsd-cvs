@@ -1,4 +1,4 @@
-/* $MirOS$
+/* $MirOS: src/lib/csu/common_elf/crtbegin.c,v 1.2 2005/03/06 20:28:21 tg Exp $
  * derived from the following files:
  * $NetBSD: crtbegin.c,v 1.26 2004/08/28 00:19:22 thorpej Exp $
  * $OpenBSD: crtbegin.c,v 1.10 2004/10/10 18:29:15 kettenis Exp $
@@ -6,7 +6,7 @@
 
 /*-
  * Copyright (c) 2003, 2004, 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 1998, 2001, 2002 The NetBSD Foundation, Inc.
  * All rights reserved.
  *
@@ -49,7 +49,7 @@
 
 #include "dot_init.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/csu/common_elf/crtbegin.c,v 1.2 2005/03/06 20:28:21 tg Exp $");
 
 /*
  * Run-time module which handles constructors and destructors.

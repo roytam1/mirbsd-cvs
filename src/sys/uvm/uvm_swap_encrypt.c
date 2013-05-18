@@ -1,8 +1,8 @@
-/**	$MirOS: src/sys/uvm/uvm_swap_encrypt.c,v 1.2.4.10 2008/03/21 20:19:12 tg Exp $ */
+/**	$MirOS: src/sys/uvm/uvm_swap_encrypt.c,v 1.3 2008/03/21 20:57:33 tg Exp $ */
 /*	$OpenBSD: uvm_swap_encrypt.c,v 1.12 2003/12/26 10:04:49 markus Exp $	*/
 
 /*-
- * Copyright 2008 Thorsten Glaser <tg@66h.42h.de>
+ * Copyright 2008 Thorsten Glaser <tg@mirbsd.org>
  * Copyright 1999 Niels Provos <provos@citi.umich.edu>
  * All rights reserved.
  *

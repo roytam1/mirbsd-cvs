@@ -1,4 +1,4 @@
-# $MirOS: ports/net/freenet6/Makefile,v 1.4 2006/09/14 00:11:43 tg Exp $
+# $MirOS: ports/net/freenet6/Makefile,v 1.5 2008/10/04 19:03:20 tg Exp $
 
 COMMENT=			Freenet6 IPv6 Tunnel Broker Client
 NO_REGRESS=	Yes
@@ -7,7 +7,7 @@ CATEGORIES=	net
 DISTNAME=	freenet6-2.1
 
 HOMEPAGE=	http://www.freenet6.net/
-RESPONSIBLE=	Stephen Paskaluk <sap@66h.42h.de>
+RESPONSIBLE=	Stephen Paskaluk <sap@mirbsd.org>
 
 # GNU General Public License, Version 2
 PERMIT_PACKAGE_CDROM=   Yes

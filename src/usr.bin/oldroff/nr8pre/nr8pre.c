@@ -1,8 +1,8 @@
-/* $MirOS: src/usr.bin/oldroff/nr8pre/nr8pre.c,v 1.2 2005/04/16 03:22:00 tg Exp $ */
+/* $MirOS: src/usr.bin/oldroff/nr8pre/nr8pre.c,v 1.3 2005/12/17 05:46:29 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -29,7 +29,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.bin/oldroff/nr8pre/nr8pre.c,v 1.2 2005/04/16 03:22:00 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/oldroff/nr8pre/nr8pre.c,v 1.3 2005/12/17 05:46:29 tg Exp $");
 
 #define	putstr(x)	fputs((x), stdout)
 

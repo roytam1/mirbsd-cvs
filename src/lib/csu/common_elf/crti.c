@@ -1,9 +1,9 @@
-/* $MirOS: src/lib/csu/common_elf/crti.c,v 1.5 2005/12/17 05:46:13 tg Exp $ */
+/* $MirOS: src/lib/csu/common_elf/crti.c,v 1.6 2006/10/15 01:04:00 tg Exp $ */
 /* From: $NetBSD: crti.c,v 1.2 2002/11/23 17:21:22 thorpej Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,
@@ -24,7 +24,7 @@
 
 /* this is safe because it's either in .comment or in .data and ld reorders */
 #include <sys/cdefs.h>
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/csu/common_elf/crti.c,v 1.6 2006/10/15 01:04:00 tg Exp $");
 
 /*-
  * Mark all objects having a PT_NOTE section identifying

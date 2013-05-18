@@ -1,9 +1,9 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/dev/rd.c,v 1.2 2005/03/06 21:27:35 tg Exp $ */
 /*	$OpenBSD: rd.c,v 1.1 2001/05/11 07:04:47 deraadt Exp $	*/
 
 /*
  * Copyright (c) 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 1995 Gordon W. Ross
  * All rights reserved.
  *

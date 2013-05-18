@@ -1,11 +1,11 @@
-/**	$MirOS: src/sbin/disklabel/disklabel.c,v 1.4 2005/04/30 21:49:24 tg Exp $ */
+/**	$MirOS: src/sbin/disklabel/disklabel.c,v 1.5 2007/09/18 20:14:25 tg Exp $ */
 /*	$OpenBSD: disklabel.c,v 1.95 2005/04/30 07:09:37 deraadt Exp $	*/
 
 /*
  * Copyright (c) 1987, 1993
  *	The Regents of the University of California.  All rights reserved.
  * Copyright (c) 2004
- *	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  *
  * This code is derived from software contributed to Berkeley by
  * Symmetric Computer Systems.
@@ -60,7 +60,7 @@
 
 __COPYRIGHT("@(#) Copyright (c) 1987, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
-__RCSID("$MirOS: src/sbin/disklabel/disklabel.c,v 1.4 2005/04/30 21:49:24 tg Exp $");
+__RCSID("$MirOS: src/sbin/disklabel/disklabel.c,v 1.5 2007/09/18 20:14:25 tg Exp $");
 
 /*
  * Disklabel: read and write disklabels.

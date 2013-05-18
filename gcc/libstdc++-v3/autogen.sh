@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: gcc/libstdc++-v3/autogen.sh,v 1.10 2005/12/20 22:19:31 tg Exp $
+# $MirOS: gcc/libstdc++-v3/autogen.sh,v 1.11 2006/06/29 22:17:25 tg Exp $
 #-
 # Copyright (c) 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+#	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,

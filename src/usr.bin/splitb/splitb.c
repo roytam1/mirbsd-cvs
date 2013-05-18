@@ -1,8 +1,8 @@
-/* $MirOS: src/usr.bin/splitb/splitb.c,v 1.4 2005/03/17 09:27:37 tg Exp $ */
+/* $MirOS: src/usr.bin/splitb/splitb.c,v 1.5 2005/12/17 05:46:29 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,

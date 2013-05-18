@@ -1,9 +1,9 @@
-# $MirOS: ports/multimedia/libmatroska/Makefile,v 1.2 2005/08/21 11:49:29 tg Exp $
+# $MirOS: ports/multimedia/libmatroska/Makefile,v 1.3 2006/09/14 00:11:26 tg Exp $
 
 COMMENT=			extensible open standard Audio/Video container format
 CATEGORIES=		graphics multimedia
 DISTNAME=		libmatroska-0.7.0
-RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 HOMEPAGE=		http://matroska.org/
 MASTER_SITES=		http://dl.matroska.org/downloads/libmatroska/
 EXTRACT_SUFX=		.tar.bz2

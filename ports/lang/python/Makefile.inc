@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/Makefile.inc,v 1.17 2008/08/08 20:47:36 tg Exp $
+# $MirOS: ports/lang/python/Makefile.inc,v 1.18 2008/08/19 18:07:29 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.32 2005/06/06 20:47:04 alek Exp $
 
 .include <mirports.sys.mk>
@@ -29,8 +29,6 @@ PERMIT_DISTFILES_FTP=	Yes
 LIB_DEPENDS+=		bz2::archivers/bzip2
 
 # Python wants GNU libreadline so badly.
-# XXX both PSF and FSF say Python licence is GPL compatible,
-# XXX but I doubt it a little. -mirabile
 MODULES+=		devel/libreadline
 CPPFLAGS+=		-I${WRKDIR}/include	# XXX hack, see below
 

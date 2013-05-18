@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/ufs/ffs/ffs_vfsops.c,v 1.8 2006/08/22 21:01:09 tg Exp $ */
+/**	$MirOS: src/sys/ufs/ffs/ffs_vfsops.c,v 1.9 2006/08/22 21:01:34 tg Exp $ */
 /*	$OpenBSD: ffs_vfsops.c,v 1.70 2005/07/03 20:14:02 drahn Exp $	*/
 /*	$NetBSD: ffs_vfsops.c,v 1.19 1996/02/09 22:22:26 christos Exp $	*/
 
 /*
  * Copyright (c) 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 1989, 1991, 1993, 1994
  *	The Regents of the University of California.  All rights reserved.
  *

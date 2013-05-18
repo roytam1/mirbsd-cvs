@@ -1,11 +1,11 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/i386/include/disklabel.h,v 1.2 2005/03/06 21:26:59 tg Exp $ */
 /*	$OpenBSD: disklabel.h,v 1.26 2003/11/16 20:30:06 avsm Exp $	*/
 /*	$NetBSD: disklabel.h,v 1.3 1996/03/09 20:52:54 ghudson Exp $	*/
 
 /*
  * Copyright (c) 1994 Christopher G. Demetriou
  * Copyright (c) 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

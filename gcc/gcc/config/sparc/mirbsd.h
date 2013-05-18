@@ -1,11 +1,11 @@
-/* $MirOS: gcc/gcc/config/sparc/mirbsd.h,v 1.2 2006/06/12 21:59:36 tg Exp $ */
+/* $MirOS: gcc/gcc/config/sparc/mirbsd.h,v 1.3 2006/09/20 17:45:31 tg Exp $ */
 
 /* Definitions of target machine for GCC,
    for sparc/ELF MirOS BSD systems.
    Copyright (C) 2001, 2002, 2005, 2006
    Free Software Foundation, Inc.
    Contributed by matthew green <mrg@eterna.com.au>
-   Hacked by Thorsten Glaser <tg@66h.42h.de>
+   Hacked by Thorsten Glaser <tg@mirbsd.org>
 
 This file is part of GCC.
 

@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/binutils/libiberty/cplus-dem.c,v 1.3 2005/03/28 21:25:12 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/binutils/libiberty/cplus-dem.c,v 1.4 2005/06/05 21:24:45 tg Exp $ */
 
 /* Demangler for GNU C++
    Copyright 1989, 1991, 1994, 1995, 1996, 1997, 1998, 1999,
@@ -7,7 +7,7 @@
    Written by James Clark (jjc@jclark.uucp)
    Rewritten by Fred Fish (fnf@cygnus.com) for ARM and Lucid demangling
    Modified by Satish Pai (pai@apollo.hp.com) for HP demangling
-   API broken by Thorsten Glaser (tg@66h.42h.de)
+   API broken by Thorsten Glaser (tg@mirbsd.org)
 
 This file is part of the libiberty library.
 Libiberty is free software; you can redistribute it and/or
@@ -47,7 +47,7 @@ Boston, MA 02110-1301, USA.  */
 #include "config.h"
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/binutils/libiberty/cplus-dem.c,v 1.3 2005/03/28 21:25:12 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/binutils/libiberty/cplus-dem.c,v 1.4 2005/06/05 21:24:45 tg Exp $");
 
 #include "safe-ctype.h"
 

@@ -4,7 +4,7 @@
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
  * Copyright (c) 2003, 2004, 2007
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms,
@@ -43,7 +43,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)e.y	4.2 (Berkeley) 4/17/91");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/oldroff/neqn/ey.y,v 1.1 2007/04/28 00:12:50 tg Exp $");
 
 #include "e.h"
 int	fromflg;

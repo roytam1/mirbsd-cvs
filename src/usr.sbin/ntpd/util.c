@@ -1,9 +1,9 @@
-/**	$MirOS: src/usr.sbin/ntpd/util.c,v 1.2 2005/03/13 19:17:10 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/util.c,v 1.3 2007/02/08 01:27:38 tg Exp $ */
 /*	$OpenBSD: util.c,v 1.10 2004/12/08 15:47:38 mickey Exp $ */
 
 /*
  * Copyright (c) 2004, 2007
- *	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 2004 Alexander Guy <alexander.guy@andern.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -25,7 +25,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/util.c,v 1.2 2005/03/13 19:17:10 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/util.c,v 1.3 2007/02/08 01:27:38 tg Exp $");
 
 double
 gettime(void)

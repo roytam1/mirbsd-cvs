@@ -1,9 +1,9 @@
-(* $MirOS: gcc/gcc/p/units/md5.pas,v 1.3 2005/03/29 00:07:08 tg Exp $
+(* $MirOS: gcc/gcc/p/units/md5.pas,v 1.4 2005/12/17 05:46:11 tg Exp $
  *-
  * Copyright (c) 2005
  *	Free Software Foundation, Inc. <gpc@gnu.de>
  * written by:
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  *	Frank Heckenbach
  *
  * Licensee is hereby permitted to deal in this work without restric-

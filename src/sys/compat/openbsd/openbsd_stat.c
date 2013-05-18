@@ -1,8 +1,8 @@
-/* $MirOS: src/sys/compat/openbsd/openbsd_stat.c,v 1.1.7.1 2005/03/06 16:33:43 tg Exp $ */
+/* $MirOS: src/sys/compat/openbsd/openbsd_stat.c,v 1.2 2005/12/17 05:46:25 tg Exp $ */
 
 /*-
  * Copyright (c) 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  *
  * Licensee is hereby permitted to deal in this work without restric-
  * tion, including unlimited rights to use, publicly perform, modify,

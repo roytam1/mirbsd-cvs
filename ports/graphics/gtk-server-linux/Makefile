@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/graphics/gtk-server-linux/Makefile,v 1.1.1.1 2008/08/08 15:53:57 tg Exp $
 
 ONLY_FOR_PLATFORM=	*:*:i386
 NOT_FOR_PLATFORM=	Darwin:*:* Interix:*:*
@@ -7,7 +7,7 @@ EMUL=			linux
 CATEGORIES=		graphics devel
 COMMENT=		scripting server for GTK+1 toolkit
 DISTNAME=		gtk-server-20080808
-RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 HOMEPAGE=		http://www.gtk-server.org/
 
 # GNU GPLv2

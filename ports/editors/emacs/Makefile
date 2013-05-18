@@ -1,4 +1,4 @@
-# $MirOS: ports/editors/emacs/Makefile,v 1.7 2008/03/09 17:22:35 tg Exp $
+# $MirOS: ports/editors/emacs/Makefile,v 1.8 2008/05/20 19:33:52 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2004/02/04 07:39:18 sturm Exp $
 
 COMMENT=		GNU editor: extensible, customizable, self documenting
@@ -10,7 +10,7 @@ DISTNAME=		emacs-${VERSION}
 FULLPKGNAME-el=		emacs-el-${VERSION}-${DASH_VER}
 FULLPKGNAME-leim=	emacs-leim-${VERSION}-${DASH_VER}
 CATEGORIES=		editors
-RESPONSIBLE=		Stephen Paskaluk <sap@66h.42h.de>
+RESPONSIBLE=		Stephen Paskaluk <sap@mirbsd.org>
 HOMEPAGE=		http://www.gnu.org/software/emacs/
 
 # GPL

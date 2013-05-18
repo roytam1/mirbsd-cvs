@@ -1,4 +1,4 @@
-# $MirOS: ports/voip/linphone/Makefile,v 1.4 2008/03/09 17:23:36 tg Exp $
+# $MirOS: ports/voip/linphone/Makefile,v 1.5 2008/05/07 22:48:44 tg Exp $
 
 COMMENT=			SIP telephony (VoIP) client
 CATEGORIES=		comms net voip
@@ -6,7 +6,7 @@ _V=			0.12.2
 DISTNAME=		linphone-${_V}
 HOMEPAGE=		http://www.linphone.org/?lang=us
 MASTER_SITES=		http://simon.morlat.free.fr/download/${_V}/source/
-RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 
 # GNU GPL
 PERMIT_DISTFILES_CDROM=	Yes

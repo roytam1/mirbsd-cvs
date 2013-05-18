@@ -1,8 +1,8 @@
-/* $MirOS: src/sys/kern/init_ssp.c,v 1.2 2005/12/17 05:46:26 tg Exp $ */
+/* $MirOS: src/sys/kern/init_ssp.c,v 1.3 2006/12/11 23:55:05 tg Exp $ */
 
 /*-
  * Copyright (c) 2004
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) by The OpenBSD Project.
  *
  * Provided that these terms and disclaimer and all copyright notices

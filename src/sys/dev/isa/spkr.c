@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/dev/isa/spkr.c,v 1.2 2005/03/06 21:27:43 tg Exp $ */
 /*	$OpenBSD: spkr.c,v 1.7 2002/03/14 01:26:56 millert Exp $	*/
 /*	$NetBSD: spkr.c,v 1.1 1998/04/15 20:26:18 drochner Exp $	*/
 
@@ -6,7 +6,7 @@
  * Copyright (c) 1990 Eric S. Raymond (esr@snark.thyrsus.com)
  * Copyright (c) 1990 Andrew A. Chernov (ache@astral.msk.su)
  * Copyright (c) 1990 Lennart Augustsson (lennart@augustsson.net)
- * Copyright (c) 2002 Thorsten "mirabile" Glaser (tg@66h.42h.de)
+ * Copyright (c) 2002 Thorsten "mirabilos" Glaser (tg@mirbsd.org)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

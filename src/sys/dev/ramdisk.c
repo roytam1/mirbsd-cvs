@@ -1,9 +1,9 @@
-/**	$MirOS: src/sys/dev/ramdisk.c,v 1.2 2005/03/06 21:27:35 tg Exp $ */
+/**	$MirOS: src/sys/dev/ramdisk.c,v 1.3 2005/07/04 00:10:41 tg Exp $ */
 /*	$OpenBSD: ramdisk.c,v 1.26 2005/06/30 23:49:08 miod Exp $	*/
 /*	$NetBSD: ramdisk.c,v 1.8 1996/04/12 08:30:09 leo Exp $	*/
 
 /*
- * Copyright (c) 2004 Thorsten "mirabile" Glaser.
+ * Copyright (c) 2004 Thorsten "mirabilos" Glaser.
  * Copyright (c) 1995 Gordon W. Ross, Leo Weppelman.
  * All rights reserved.
  *

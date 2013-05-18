@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.10 2007/09/28 18:33:23 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.11 2007/09/28 18:58:24 tg Exp $	*/
 /*	$OpenBSD: autoconf.c,v 1.52 2003/10/15 03:56:21 david Exp $	*/
 /*	$NetBSD: autoconf.c,v 1.20 1996/05/03 19:41:56 christos Exp $	*/
 
 /*-
  * Copyright (c) 2004, 2007
- *	Thorsten “mirabilos” Glaser <tg@66h.42h.de>
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
  *

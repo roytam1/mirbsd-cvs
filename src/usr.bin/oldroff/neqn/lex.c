@@ -3,7 +3,7 @@
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
  * Copyright (c) 2003, 2004, 2005
- *	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms,
@@ -42,7 +42,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)lex.c	4.4 (Berkeley) 4/17/91");
-__RCSID("$MirOS: src/usr.bin/oldroff/neqn/lex.c,v 1.1.7.1 2005/03/06 16:56:02 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/oldroff/neqn/lex.c,v 1.2 2007/04/28 00:12:50 tg Exp $");
 
 #include <stdlib.h>
 

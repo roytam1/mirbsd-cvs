@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/libslang/Makefile,v 1.2 2005/07/07 21:19:14 bsiegert Exp $
+# $MirOS: ports/devel/libslang/Makefile,v 1.3 2006/09/14 00:08:23 tg Exp $
 # $OpenBSD: Makefile,v 1.39 2004/03/04 17:49:26 espie Exp $
 
 COMMENT=			stack-based interpreter for terminal applications
@@ -11,7 +11,7 @@ MASTER_SITES=	ftp://space.mit.edu/pub/davis/slang/v1.4/ \
 		http://gd.tuwien.ac.at/editors/davis/slang/v1.4/
 
 HOMEPAGE=	http://www.s-lang.org/
-RESPONSIBLE=	Stephen Paskaluk <sap@66h.42h.de>
+RESPONSIBLE=	Stephen Paskaluk <sap@mirbsd.org>
 
 
 # Artistic

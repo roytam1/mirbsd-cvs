@@ -1,4 +1,4 @@
-# $MirOS: ports/essentials/patch/Makefile,v 1.4 2006/01/01 02:46:00 tg Exp $
+# $MirOS: ports/essentials/patch/Makefile,v 1.5 2006/09/14 00:09:16 tg Exp $
 #-
 # This port must not contain a patches/ directory.
 
@@ -11,7 +11,7 @@ CATEGORIES=		essentials
 DISTNAME=		patch-20051110
 PKGNAME=		${DISTNAME}-1
 EXTRACT_SUFX=		.cpio.gz
-RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/patch/}
 
 # BSD-style

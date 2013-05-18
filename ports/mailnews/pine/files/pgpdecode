@@ -1,10 +1,10 @@
 #!/bin/sh
-# $MirOS: ports/mailnews/pine/files/pgpdecode,v 1.1.7.1 2005/03/18 15:49:47 tg Exp $
+# $MirOS: ports/mailnews/pine/files/pgpdecode,v 1.2 2006/09/20 22:24:49 tg Exp $
 #
 # ---------- pgpdecode ---------
 # 21.03.96 Roland Rosenfeld <roland@spinnaker.rhein.de>
 # Sun Mar 24 12:01:21 MET 1996 Andreas Klemm <andreas@knobel.gun.de>
-# Tue May 11 14:38:34 UTC 2004 Thorsten Glaser <x86@ePost.de>
+# Tue May 11 14:38:34 UTC 2004 Thorsten Glaser <tg@mirbsd.de>
 
 T=$(mktemp /tmp/pgpdecode.XXXXXXXXXX) || exit 1
 S=$(mktemp /tmp/pgpdecode.XXXXXXXXXX) || { rm -f $T; exit 1; }

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/disksubr.c,v 1.4 2007/07/18 10:34:00 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/disksubr.c,v 1.5 2008/07/08 12:54:23 tg Exp $ */
 /*	$OpenBSD: disksubr.c,v 1.44 2004/03/17 14:16:04 miod Exp $	*/
 /*	$NetBSD: disksubr.c,v 1.21 1996/05/03 19:42:03 christos Exp $	*/
 
@@ -6,7 +6,7 @@
  * Copyright (c) 1996 Theo de Raadt
  * Copyright (c) 1982, 1986, 1988 Regents of the University of California.
  * Copyright (c) 2004, 2007, 2008
- *	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without

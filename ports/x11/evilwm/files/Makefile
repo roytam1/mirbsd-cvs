@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/x11/evilwm/files/Makefile,v 1.1.7.1 2005/03/18 16:00:17 tg Exp $
 
 PROG=	evilwm
 MAN=	evilwm.1
@@ -33,7 +33,7 @@ CPPFLAGS+=	-DINFOBANNER
 
 # Starting with evilwm 0.99.14, the "new move behaviour" is to only move a
 # window if you move it by 5 or more pixels. In my experience, if you move
-# a window by accident, it doesn't help - but rather annoy. -mirabile
+# a window by accident, it doesn't help - but rather annoy. -mirabilos
 # Uncomment the line below to revert this.
 #CPPFLAGS+=	-DOLD_MOVE_BEHAVIOUR
 

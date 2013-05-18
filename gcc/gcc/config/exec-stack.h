@@ -1,8 +1,8 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/config/exec-stack.h,v 1.1 2005/03/25 18:49:28 tg Exp $ */
 
 /* Enable stack execution around trampolines.
    Copyright (c) 2005 Free Software Foundation, Inc.
-   Contributed by Thorsten Glaser <tg@66h.42h.de>
+   Contributed by Thorsten Glaser <tg@mirbsd.org>
 
 This file is part of GNU CC.
 
