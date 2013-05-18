@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.10 2007/05/07 23:40:20 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.subdir.mk,v 1.11 2008/03/09 17:22:56 tg Exp $
 # $OpenBSD: bsd.port.subdir.mk,v 1.64 2004/04/07 13:06:33 espie Exp $
 # $FreeBSD: bsd.port.subdir.mk,v 1.20 1997/08/22 11:16:15 asami Exp $
 #
@@ -160,11 +160,14 @@ README.html:
 	cd ${.CURDIR}; \
 	echo "<dt><a href=\"${PKGDEPTH}$$dir/$$name.html\">$d</a><dd>$$comment" >>$@.tmp
 .endfor
-	@cat ${README} | \
-		sed -e 's%%CATEGORY%%'$$(echo ${.CURDIR} | sed -e 's.*/\([^/]*\)$$\1')'g' \
-			-e '/%%DESCR%%/r${.CURDIR}/pkg/DESCR' -e '//d' \
-			-e '/%%SUBDIR%%/r$@.tmp' -e '//d' \
-		> $@
+	@f=${.CURDIR:Q}/pkg/DESCR; \
+	 [[ -e $$f ]] || f=${.CURDIR:Q}/DESCR; \
+	 sed -e \
+	    's%%CATEGORY%%'$$(echo ${.CURDIR:Q} | \
+	    sed -e 's.*/\([^/]*\)$$\1')'g' \
+	    -e '/%%DESCR%%/r'"$$f" -e '//d' \
+	    -e '/%%SUBDIR%%/r$@.tmp' -e '//d' \
+	    <${README:Q} >$@
 	@rm $@.tmp
 
 _print-packagename:
