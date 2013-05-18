@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.149 2012/01/15 20:49:52 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.150 2012/11/30 23:40:24 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -2017,4 +2017,21 @@ Tag: mksh
   (and more, including binaries; just browse that directory tree)</li>
  <li><a href="http://news.gmane.org/gmane.os.miros.mksh">mailing list</a></li>
 </ul>
+----
+Title: mksh R42b and R41c released
+Date: 15.02.2013
+Author: tg@
+Tag: mksh
+
+<p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a> must-have
+ bugfix releases R42b (for the current formal release series) and
+ R41c (for the last bugfix-only stable series) have been issued.
+ Debian testing/unstable users get the fixes through their package
+ management, versioned 40.9.20120630-7 targetting wheezy (hopefully).
+ Debian experimental users will receive a 42b-1 upload, closer to
+ what other distro packages provide, soonish, targetting jessie.</p>
+<p>Since we lack anything better (that, unless Freshmeat, is actually
+ usable), by request of our packagers, new mksh(1) releases will be
+ announced on our <a href="@@RELPATH@@rss.htm">miros-mksh@ mailing
+ list</a> starting now.</p>
 ----

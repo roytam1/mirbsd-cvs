@@ -1,4 +1,4 @@
-# $MirOS: www/src/rss.hts,v 1.13 2011/10/16 01:45:50 tg Exp $
+# $MirOS: www/src/rss.hts,v 1.14 2011/10/16 01:46:46 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -6,7 +6,7 @@
 mws_setname rss "RSS feeds, mailing lists"
 mws_subdir 0
 mws_setheadline MirOS RSS feeds
-mws_putheader '$MirOS: www/src/rss.hts,v 1.13 2011/10/16 01:45:50 tg Exp $'
+mws_putheader '$MirOS: www/src/rss.hts,v 1.14 2011/10/16 01:46:46 tg Exp $'
 mws_content <<'EOF'
 <h2 id="feeds">Website feeds</h2>
 <p>We offer the following RSS feeds, which can be subscribed to
@@ -37,6 +37,12 @@ mws_content <<'EOF'
   <a href="http://marc.info/?l=miros-changes">MARC</a> and <a
   href="http://dir.gmane.org/gmane.os.miros.cvs">GMane</a> offer
   more feeds and further ways to read this mailing list</li>
+ <li><a href="mailto:miros-mksh@mirbsd.org">miros-mksh@</a>: a <a
+  href="http://rss.gmane.org/messages/complete/gmane.os.miros.mksh">mailing
+  list for topics related to mksh, the MirBSD Korn Shell</a>: for everything
+  related to <a href="mksh.htm">mksh</a>: discussions and notifications; <a
+  href="http://dir.gmane.org/gmane.os.miros.mksh">GMane</a> offers
+  more feeds and further ways to read this mailing list</li>
 </ul>
 
 <p>We've got a <a href="mailto:miros-discuss@mirbsd.org">discussion
@@ -44,8 +50,14 @@ mws_content <<'EOF'
  public. All subscribers of the CVS changes mailing list automatically
  are on the discussion mailing list as well. In order to subscribe, send
  a mail to <a href="mailto:postmaster@mirbsd.org">the postmaster</a>.
+ Additionally, we’ve got a <a href="mailto:miros-mksh@mirbsd.org">mailing
+ list for topics related to mksh, the MirBSD Korn Shell</a>, which is open
+ for eMails from the public, for discussion and announcements, which will
+ also be sent to miros-discuss@ so you need not subscribe there; in the
+ future, mksh(1) commit mails will also be sent to the miros-mksh@ list
+ (but <em>not</em> to miros-discuss@ only miros-changes@ as usual).
  We've also got an internal developers-only list, although our development
- process is usually done in IRC entirely.</p>
+ process is usually done in IRC and IRL entirely.</p>
 
 <p>Please note that, when subscribing to these mailing lists, you agree
  that you are responsible for your own spam and malware filtering; we

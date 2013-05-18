@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.494 2013/02/11 17:18:02 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.495 2013/02/11 21:25:50 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R42</h2>
+<h2>mksh(1) R42b</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -45,9 +45,9 @@ mws_content <<'EOF'
  href="@@ABSPATH@@/TaC-mksh.txt">full licence terms</a> overview.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R42</strong> from
- <em>11 February 2013</em>.<br />In the stable bugfixing-only series, the
- current version is <em>mksh R41b</em> from <em>10 February 2013</em>.</p>
+<p>The current version of mksh is <strong>mksh R42b</strong> from
+ <em>15 February 2013</em>.<br />In the stable bugfixing-only series, the
+ current version is <em>mksh R41c</em> from <em>15 February 2013</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
  for just another account on a Sun E420 on Solaris 11β. Thanks to someone who
@@ -179,27 +179,28 @@ mws_content <<'EOF'
  <em>as well as</em> the hashes and/or checksums below, so you’re sure the
  content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R42.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R42.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R42.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R42.tgz</a></li>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R41b;.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R41b.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R41b.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R41b.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R42b.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R42b.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R42b.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R42b.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R41c;.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R41c.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R41c.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R41c.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R42.tgz) = 1ec6462ca208922ecf48762d4144701983345fe7</li>
- <li>TIGER (mksh-R42.tgz) = 853e322026b0ecd80ffc0e744bcf8ce1eabfa491a559c255</li>
- <li>3587716028 345721 /MirOS/dist/mir/mksh/mksh-R42.tgz</li>
- <li>MD5 (mksh-R42.tgz) = f1ad261f79f6ac45e8d5cc5bea191090</li>
- <li>RMD160 (mksh-R41b.tgz) = 93ebfcae5f2211d0bd677e8482fff94fae648c16</li>
- <li>TIGER (mksh-R41b.tgz) = 3ba0cec16a4e918f4fd19867358e365b55b41491ce686291</li>
- <li>1308214248 343553 /MirOS/dist/mir/mksh/mksh-R41b.tgz</li>
- <li>MD5 (mksh-R41b.tgz) = d9f6fc6669079faa88dcf7c8c2442c18</li>
+  <li>RMD160 (mksh-R42b.tgz) = af4359c9d724666ad7a46c67c176a4409354bb38</li>
+  <li>TIGER (mksh-R42b.tgz) = e5479a4b3c0753cadccf4fc0e8939059583700db28daf4e9</li>
+  <li>1020788271 345790 /MirOS/dist/mir/mksh/mksh-R42b.tgz</li>
+  <li>MD5 (mksh-R42b.tgz) = 8b4b9182eb63b47390f164246959b661</li>
+ <li style="list-style:none;">↑ formal release │ stable bugfix series ↓</li>
+  <li>RMD160 (mksh-R41c.tgz) = a7622e1e6dbacf9aaa601cbba2903ef256c2b3b0</li>
+  <li>TIGER (mksh-R41c.tgz) = 153e3c992d74c66219e95f579e9f7ca6926f33639e3768d7</li>
+  <li>1649994040 343671 /MirOS/dist/mir/mksh/mksh-R41c.tgz</li>
+  <li>MD5 (mksh-R41c.tgz) = c3f670b1561514c51c5841a9b8000dab</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d. with our
   <a href="/gzsigkey.cer">current signature key</a>.</li>
 </ul>
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
- so a simple <tt>tar xzf mksh-R42.tgz</tt> will work.</p>
+ so a simple <tt>tar xzf mksh-R42b.tgz</tt> will work.</p>
 
 <h3 id="vendorpatching">Patching</h3>
 <p>If you’re a packager/vendor and need to patch mksh and deviate from the
@@ -807,6 +808,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <!--
 <p id="pcur"><i>current</i>: <i>(unfinished…)</i></p>
 -->
+<p id="p42b">R42b: Dear packagers, please consider subscribing to our <a
+ href="@@RELPATH@@rss.htm">miros-mksh mailing list</a> or use the RSS feed.</p>
 <p id="p42">R42: <tt>MKSH_DISABLE_EXPERIMENTAL</tt> was made a no-op again
  for this release, like <tt>MKSH_DISABLE_DEPRECATED</tt> was for R41. There
  is a new option <tt>DEBUG_LEAKS</tt> which is implied by <tt>DEBUG</tt>,
@@ -814,6 +817,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  vs. sys/time.h and sys_errlist[] changed. The default <tt>dot.mkshrc</tt>
  now uses <tt>${ foo;}</tt> constructs ipv <tt>$(foo)</tt> to save a fork(2)
  at the cost of using a file in $TMPDIR; adjust if you really need.</p>
+<p id="p41c">R41c: Dear packagers, please consider subscribing to our <a
+ href="@@RELPATH@@rss.htm">miros-mksh mailing list</a> or use the RSS feed.</p>
 <p id="p41b">R41b: Some bugfixes in Build.sh and the code; GCC now adds
  <tt>-fno-asynchronous-unwind-tables</tt>.</p>
 <p id="p41">R41: We’re using POSIX ustar archives now. Honours
@@ -1075,10 +1080,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <!--
 <p id="ccur"><i>current</i>: … <i>(unfinished…)</i></p>
 -->
+<p id="c42b">R42b: Sorry for the “set -e” breakage.</p>
 <p id="c42">R42: <tt>${ foo;}</tt> constructs now handle <tt>local</tt>,
  <tt>return</tt> and <tt>exit</tt> like functions do; <tt>dot.mksh</tt>
  makes use of them to avoid fork(2)s. <tt>$'…'</tt> works in more places;
  here strings now use the full recursive parser.</p>
+<p id="c41c">R41c: Sorry for the “set -e” breakage.</p>
 <p id="c41b">R41b: The ERR and EXIT traps are called correctly; in “set -e”
  mode, functions correctly cause the shell to exit if they return nonzero,
  even if they contain a list.</p>
@@ -1148,6 +1155,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+<p id="r42b">mksh R42b and <span id="r41c">R41c</span> fix regressions:</p><ul>
+ <li>[tg] Correctly initialise memory (Debian #700604)</li>
+ <li>[tg] LP#1104543 fix was too strict (Debian #700526)</li>
+</ul>
 <p id="r42">mksh R42 brings back the release\ {early,often} scheme:</p><ul>
  <li>[tg] Make <tt>-DMKSH_DISABLE_EXPERIMENTAL</tt> a nop again</li>
  <li>[tg] Quell some LLVM+Clang warnings; overhaul scan-build assert(3)s</li>
