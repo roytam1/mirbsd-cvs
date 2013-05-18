@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/fgetln.c,v 1.2 2007/03/31 00:04:54 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/fgetln.c,v 1.3 2008/04/06 22:35:24 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -19,7 +19,7 @@
  * damage or existence of a defect, except proven that it results out
  * of said person's immediate fault when using the work as intended.
  *-
- * fgetln() wrapper for operating systems with getline()
+ * fgetln() wrapper for operating systems with getline() – glibc
  */
 
 #define _GNU_SOURCE		/* for getline() */
@@ -27,7 +27,9 @@
 #include <stdio.h>
 #include <string.h>
 
-__RCSID("$MirOS: contrib/code/mirmake/dist/contrib/fgetln.c,v 1.2 2007/03/31 00:04:54 tg Exp $");
+__RCSID("$MirOS: contrib/code/mirmake/dist/contrib/fgetln.c,v 1.3 2008/04/06 22:35:24 tg Exp $");
+
+#if defined(__GLIBC__)
 
 #if !defined(_MIRMAKE_H) || !defined(_MIRMAKE_DEFNS)
 char *fgetln(FILE *, size_t *);
@@ -42,3 +44,4 @@ fgetln(FILE *stream, size_t *len)
 	*len = getline(&lb, &lbsz, stream);
 	return ((*len == (size_t)-1) ? NULL : lb);
 }
+#endif
