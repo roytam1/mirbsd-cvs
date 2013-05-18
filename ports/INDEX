@@ -20,7 +20,7 @@ lzma-4.32.7-0|archivers/lzma,||LZMA compressor with gzip-like interface (uses C+
 lzo-2.02-0|archivers/lzo,||portable speedy lossless data compression library|http://www.oberhumer.com/opensource/lzo/|archivers/lzo/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|archivers devel||:devel/metaauto autoconf->=2.61-1,<2.62:devel/autoconf/2.61||any|y|y|y|y
 macutil-2.0b3-0|archivers/macutil,||several programs to handle macintosh files and archives||archivers/macutil/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|archivers||||any|n|n|n|n
 makeself-1.5.5-0|archivers/makeself,||script generating a self-extractible .tgz from a directory|http://www.megastep.org/makeself/|archivers/makeself/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|archivers misc||||any|y|y|y|y
-paxmirabilis-20091004-0|archivers/mircpio,||MirOS cpio(1), pax(1) and tar(1)||archivers/mircpio/DESCR|Thorsten Glaser <tg@MirBSD.org>|archivers essentials||||any|y|y|y|y
+paxmirabilis-20091027-0|archivers/mircpio,||MirOS cpio(1), pax(1) and tar(1)||archivers/mircpio/DESCR|Thorsten Glaser <tg@MirBSD.org>|archivers essentials||||any|y|y|y|y
 mpczar-20081101-0|archivers/mpczar,||MirPorts CpioZ archiver for distfiles||archivers/mpczar/DESCR|Thorsten Glaser <tg@mirbsd.de>|archivers essentials|||paxmirabilis->=20081030:archivers/mircpio|any|y|y|y|y
 nulib-3.25-0|archivers/nulib,||NuFX archiver||archivers/nulib/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|archivers||||any|n|n|n|y
 p5-Archive-Tar-1.40-0|archivers/p5-Archive-Tar,||perl interface to tar archives||archivers/p5-Archive-Tar/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|archivers perl5||:devel/p5-Package-Constants|:devel/p5-Package-Constants|any|y|y|y|y
