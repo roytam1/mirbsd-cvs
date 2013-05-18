@@ -1,8 +1,10 @@
-/**	$MirOS: src/sys/arch/sparc/stand/common/srt0.S,v 1.4 2009/04/16 12:46:53 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/stand/common/srt0.S,v 1.5 2009/04/17 18:57:08 tg Exp $ */
 /*	$OpenBSD: srt0.S,v 1.2 2002/08/11 12:20:43 art Exp $	*/
 /*	$NetBSD: srt0.S,v 1.5.4.2 1996/07/17 01:51:46 jtc Exp $	*/
 
 /*
+ * Copyright © 2009, 2010
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1994 Paul Kranenburg
  * All rights reserved.
  *
@@ -37,6 +39,7 @@
 #include <machine/asm.h>
 
 #define	CCFSZ	96
+#define fofs_text 0x20
 
 	.file	"str0.s"
 
@@ -79,11 +82,29 @@ _le_disklabel_start:
 	.byte	0x00, 0x00
 	.byte	0x90, 0x90
 
+	/* ... and ustar header ... */
+	. = start + 0x101 - fofs_text
+	.globl	_ustar_magic
+_ustar_magic:
+	.asciz	"ustar"
+	.ascii	"00"
+
 	. = _le_disklabel_start + 404 - 4
 	.byte	0x00, 0x00, 0x90, 0x90
 	.globl	_le_disklabel_end
 _le_disklabel_end:
 	.p2align 3
+
+	. = start + 0x1F4 - fofs_text
+	.globl	_ustar_padding
+_ustar_padding:
+	.byte	0, 0
+	.long	0xDEADBEEF
+	.word	0xCAFE
+	. = start + 510 - fofs_text
+	.byte	0x55, 0xAA
+	/* here: 0x200 in file */
+	.p2align 3	/* just in case */
 #else
 #ifndef SMALL_BOOT
 	/*

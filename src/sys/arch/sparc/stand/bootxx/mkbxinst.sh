@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.18 2009/07/24 16:45:11 tg Exp $'
+rcsid='$MirOS: src/sys/arch/sparc/stand/bootxx/mkbxinst.sh,v 1.19 2009/10/03 17:38:11 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -44,9 +44,12 @@ done
 set -A sect_text -- $(objdump -wh --target=a.out-sunos-big $1 | fgrep .text)
 (( fofs_text = 0x${sect_text[5]} ))
 
+(( fofs_text == 0x20 )) || die 1 Adjust fofs_text in srt0.S and here
+
 typeset -Uui10 ofs tblsz
 (( ofs = sym_block_start - sym_start + fofs_text ))
 strip -F a.out-sunos-big -s -o $T $1
+(( $(stat -f %z $T) <= (15 * 512) )) || die bootxx too big
 tblsz=$(dd if=$T bs=1 skip=$ofs count=4 2>/dev/null | \
     hexdump -ve '"0x" 4/1 "%02X"')
 part1=$(dd if=$T bs=1 skip=8 count=$((ofs - 8)) 2>/dev/null | \
