@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2010
+ * Copyright (c) 2010, 2011
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -22,11 +22,13 @@
  */
 
 #include <sys/param.h>
+#include <sys/time.h>
 #include <sys/socket.h>
 
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
+#include <err.h>
 #include <netdb.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,7 +40,7 @@
 #include "ntpd.h"
 #endif
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: src/usr.sbin/rdate/cutil.c,v 1.1 2010/07/03 18:33:57 tg Exp $");
 
 const char *
 log_sockaddr(struct sockaddr *sa)
@@ -75,4 +77,21 @@ log_sockaddr(struct sockaddr *sa)
 	/* append port and return whole string */
 	snprintf(buf + strlen(buf), 8, portfmtstr, (unsigned int)s_port);
 	return (buf);
+}
+
+/* get the current POSIX time in NTP format */
+double
+gettime(void)
+{
+	register double d;
+	struct timeval tv;
+
+	if (gettimeofday(&tv, NULL))
+		err(1, "Could not get local time of day");
+	d = tv.tv_usec;
+	d /= 1000000;
+	d += timet2posix(tv.tv_sec);
+	/* 1970 - 1900 in POSIX seconds */
+	d += 2208988800.0;
+	return (d);
 }

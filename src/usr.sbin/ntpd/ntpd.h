@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.19 2009/12/24 11:40:38 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.20 2011/01/30 03:06:04 tg Exp $ */
 /*	$OpenBSD: ntpd.h,v 1.70 2006/06/04 18:58:13 otto Exp $ */
 
 /*
@@ -248,7 +248,6 @@ void		 log_debug(const char *, ...)
     __attribute__((nonnull (1)));
 __dead void	 fatal(const char *);
 __dead void	 fatalx(const char *);
-const char *	 log_sockaddr(struct sockaddr *);
 
 /* buffer.c */
 struct buf	*buf_open(size_t);
@@ -308,9 +307,12 @@ time_t	error_interval(void);
 void	set_next(struct ntp_peer *, time_t);
 
 /* util.c */
-double			gettime(void);
 void			d_to_tv(double, struct timeval *);
 double			lfp_to_d(struct l_fixedpt);
 struct l_fixedpt	d_to_lfp(double);
 double			sfp_to_d(struct s_fixedpt);
 struct s_fixedpt	d_to_sfp(double);
+
+/* ../rdate/cutil.c */
+const char *log_sockaddr(struct sockaddr *);
+double gettime(void);

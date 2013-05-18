@@ -53,7 +53,7 @@
 
 #include "rdate.h"
 
-__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.20 2010/07/03 18:33:57 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.21 2011/11/20 22:02:42 tg Exp $");
 
 /*
  * NTP definitions.  Note that these assume 8-bit bytes - sigh.  There
@@ -63,7 +63,6 @@ __RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.20 2010/07/03 18:33:57 tg Exp $");
  * contain a lot of extra assumptions.
  */
 
-#define JAN_1970   2208988800.0		/* 1970 - 1900 in seconds */
 #define NTP_SCALE  4294967296.0		/* 2^32, of course! */
 
 #define NTP_MODE_CLIENT       3		/* NTP client mode */
@@ -112,14 +111,9 @@ static int sync_ntp(int, const struct sockaddr *, double *, double *, int);
 static int write_packet(int, struct ntp_data *, int);
 static int read_packet(int, struct ntp_data *, double *, double *);
 static void unpack_ntp(struct ntp_data *, u_char *);
-static double current_time(void);
 static void create_timeval(double, struct timeval *, struct timeval *);
 static void debug_packet(const struct ntp_data *);
 static double dabs(double);
-
-#ifndef SYSKERN_MIRTIME_H
-time_t timet2posix(time_t);
-#endif
 
 static double
 dabs(double v)
@@ -208,7 +202,7 @@ sync_ntp(int fd, const struct sockaddr *peer, double *offset, double *error,
 	double minerr = 0.1;		/* Maximum ignorable variation */
 	struct ntp_data data;
 
-	deadline = current_time() + JAN_1970 + delay;
+	deadline = gettime() + delay;
 	*offset = 0.0;
 	*error = NTP_INSANITY;
 
@@ -220,7 +214,7 @@ sync_ntp(int fd, const struct sockaddr *peer, double *offset, double *error,
 	while (accepts < MAX_QUERIES && attempts < 2 * MAX_QUERIES) {
 		memset(&data, 0, sizeof(data));
 
-		if ((current_time() + JAN_1970) > deadline) {
+		if (gettime() > deadline) {
 			warnx("Not enough valid responses received in time");
 			return (-1);
 		}
@@ -305,7 +299,7 @@ write_packet(int fd, struct ntp_data *data, int nver)
 
 	memcpy(packet + NTP_TRANSMIT, &data->xmitck, sizeof (u_int64_t));
 
-	data->originate = current_time() + JAN_1970;
+	data->originate = gettime();
 
 	length = write(fd, packet, sizeof(packet));
 
@@ -433,7 +427,7 @@ unpack_ntp(struct ntp_data *data, u_char *packet)
 	int32_t i;
 	double d;
 
-	data->current = current_time() + JAN_1970;
+	data->current = gettime();
 
 	data->status = (packet[0] >> 6);
 	data->version = (packet[0] >> 3) & 0x07;
@@ -455,23 +449,6 @@ unpack_ntp(struct ntp_data *data, u_char *packet)
 
 	/* See write_packet for why this isn't an endian problem. */
 	memcpy(&data->recvck, packet + NTP_ORIGINATE, sizeof (u_int64_t));
-}
-
-/*
- * Get the current time in POSIX notation
- */
-static double
-current_time(void)
-{
-	register double d;
-	struct timeval tv;
-
-	if (gettimeofday(&tv, NULL))
-		err(1, "Could not get local time of day");
-	d = tv.tv_usec;
-	d /= 1000000;
-	d += timet2posix(tv.tv_sec);
-	return (d);
 }
 
 /*

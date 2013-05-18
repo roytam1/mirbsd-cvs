@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/rdate/rdate.h,v 1.3 2010/07/03 18:33:57 tg Exp $ */
+/* $MirOS: src/usr.sbin/rdate/rdate.h,v 1.4 2011/11/20 22:02:43 tg Exp $ */
 
 /* This macro is not implemented on all operating systems */
 #ifndef	SA_LEN
@@ -13,6 +13,10 @@
 extern u_int32_t arc4random(void);
 #endif
 
+#ifndef SYSKERN_MIRTIME_H
+time_t timet2posix(time_t);
+#endif
+
 void ntp_client(const char *, int, struct timeval *, struct timeval *,
     int, int);
 void rfc868time_client (const char *, int, struct timeval *,
@@ -21,3 +25,4 @@ void rfc868time_client (const char *, int, struct timeval *,
 extern int debug;
 
 const char *log_sockaddr(struct sockaddr *);
+double gettime(void);

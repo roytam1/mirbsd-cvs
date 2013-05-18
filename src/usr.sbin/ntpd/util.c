@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/util.c,v 1.4 2008/11/08 23:04:56 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/util.c,v 1.5 2011/11/20 20:08:37 tg Exp $ */
 /*	$OpenBSD: util.c,v 1.10 2004/12/08 15:47:38 mickey Exp $ */
 
 /*
@@ -24,21 +24,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/util.c,v 1.4 2008/11/08 23:04:56 tg Exp $");
-
-double
-gettime(void)
-{
-	register double d;
-	struct timeval tv;
-
-	gettimeofday(&tv, NULL);
-	d = tv.tv_usec;
-	d /= 1000000;
-	d += timet2posix(tv.tv_sec);
-	return (d);
-}
-
+__RCSID("$MirOS: src/usr.sbin/ntpd/util.c,v 1.5 2011/11/20 20:08:37 tg Exp $");
 
 void
 d_to_tv(double d, struct timeval *tv)
