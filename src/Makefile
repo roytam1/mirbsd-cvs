@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.34 2006/02/14 20:47:51 tg Exp $
+# $MirOS: src/Makefile,v 1.35 2006/02/14 22:06:15 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -244,8 +244,8 @@ _do-dist:
 .endif
 	${SUDO} rm -rf ${BSDRELDIR}/rel
 	${SUDO} mkdir ${BSDRELDIR}/rel
-	cd ${DESTDIR}/snapshot && ${SUDO} ${INSTALL} -c -o root -g wheel \
-	    -m 444 * ${BSDRELDIR}/rel/
+	cd ${BSDRELDIR}/base/snapshot && ${SUDO} ${INSTALL} -c \
+	    -o root -g wheel -m 444 * ${BSDRELDIR}/rel/
 .for _set in ${_DISTS}
 	-cd ${BSDSRCDIR}/distrib/lists/${_set} && \
 	    DESTDIR="${BSDRELDIR}/${_set}" RELEASEDIR="${BSDRELDIR}/rel" \
