@@ -1,8 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PLIST,v 1.6 2003/12/31 19:14:10 naddy Exp $
-${P5SITE}/FreezeThaw.pm
-@comment ${P5ARCH}/auto/FreezeThaw/.packlist
-man/man3/FreezeThaw${P5MAN3EXT}
-@comment @dirrm ${P5ARCH}/auto/FreezeThaw
-@comment @dirrm ${P5ARCH}/auto
-@comment @dirrm ${P5ARCH}

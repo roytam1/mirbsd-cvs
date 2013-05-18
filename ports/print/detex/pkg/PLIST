@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2002/04/07 01:54:52 naddy Exp $
-bin/detex
-man/man1/detex.1
