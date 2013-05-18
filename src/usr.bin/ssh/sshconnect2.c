@@ -65,7 +65,7 @@
 #include "schnorr.h"
 #include "jpake.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sshconnect2.c,v 1.14 2008/12/27 21:17:59 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect2.c,v 1.15 2009/03/22 15:01:24 tg Exp $");
 
 /* for now */
 extern const EVP_MD *evp_ssh_sha256(void);
@@ -198,7 +198,7 @@ struct Authctxt {
 	void *methoddata;
 };
 struct Authmethod {
-	char	*name;		/* string to compare against server's list */
+	const char *name;	/* string to compare against server's list */
 	int	(*userauth)(Authctxt *authctxt);
 	void	(*cleanup)(Authctxt *authctxt);
 	int	*enabled;	/* flag in option struct that enables method */
@@ -208,7 +208,7 @@ struct Authmethod {
 void	input_userauth_success(int, u_int32_t, void *);
 void	input_userauth_failure(int, u_int32_t, void *);
 void	input_userauth_banner(int, u_int32_t, void *);
-void	input_userauth_error(int, u_int32_t, void *);
+void	input_userauth_error(int, u_int32_t, void *) __dead;
 void	input_userauth_info_req(int, u_int32_t, void *);
 void	input_userauth_pk_ok(int, u_int32_t, void *);
 void	input_userauth_passwd_changereq(int, u_int32_t, void *);

@@ -1,4 +1,4 @@
-/* $OpenBSD: monitor.c,v 1.101 2009/02/12 03:26:22 djm Exp $ */
+/* $OpenBSD: monitor.c,v 1.104 2009/06/12 20:43:22 andreas Exp $ */
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * Copyright 2002 Markus Friedl <markus@openbsd.org>
@@ -69,8 +69,9 @@
 #include "compat.h"
 #include "ssh2.h"
 #include "jpake.h"
+#include "roaming.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.13 2008/12/16 20:55:23 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.14 2009/03/22 15:01:16 tg Exp $");
 
 /* Imports */
 extern ServerOptions options;
@@ -79,10 +80,10 @@ extern Newkeys *current_keys[];
 extern z_stream incoming_stream;
 extern z_stream outgoing_stream;
 extern u_char session_id[];
-extern Buffer input, output;
 extern Buffer auth_debug;
 extern int auth_debug_init;
 extern Buffer loginmsg;
+extern struct monitor *pmonitor;
 
 /* State exported from the child */
 
@@ -105,6 +106,8 @@ struct {
 	u_int ilen;
 	u_char *output;
 	u_int olen;
+	u_int64_t sent_bytes;
+	u_int64_t recv_bytes;
 } child_state;
 
 /* Functions on the monitor that answer unprivileged requests */
@@ -123,7 +126,7 @@ int mm_answer_keyallowed(int, Buffer *);
 int mm_answer_keyverify(int, Buffer *);
 int mm_answer_pty(int, Buffer *);
 int mm_answer_pty_cleanup(int, Buffer *);
-int mm_answer_term(int, Buffer *);
+int mm_answer_term(int, Buffer *) __dead;
 int mm_answer_rsa_keyallowed(int, Buffer *);
 int mm_answer_rsa_challenge(int, Buffer *);
 int mm_answer_rsa_response(int, Buffer *);
@@ -144,7 +147,7 @@ static u_int key_bloblen = 0;
 static int key_blobtype = MM_NOKEY;
 static char *hostbased_cuser = NULL;
 static char *hostbased_chost = NULL;
-static char *auth_method = "unknown";
+static const char *auth_method = "unknown";
 static u_int session_id2_len = 0;
 static u_char *session_id2 = NULL;
 static pid_t monitor_child_pid;
@@ -251,7 +254,7 @@ monitor_permit_authentications(int permit)
 }
 
 void
-monitor_child_preauth(Authctxt *_authctxt, struct monitor *pmonitor)
+monitor_child_preauth(Authctxt *_authctxt, struct monitor *pmonitor_)
 {
 	struct mon_table *ent;
 	int authenticated = 0;
@@ -276,7 +279,7 @@ monitor_child_preauth(Authctxt *_authctxt, struct monitor *pmonitor)
 	/* The first few requests do not require asynchronous access */
 	while (!authenticated) {
 		auth_method = "unknown";
-		authenticated = (monitor_read(pmonitor, mon_dispatch, &ent) == 1);
+		authenticated = (monitor_read(pmonitor_, mon_dispatch, &ent) == 1);
 		if (authenticated) {
 			if (!(ent->flags & MON_AUTHDECIDE))
 				fatal("%s: unexpected authentication from %d",
@@ -311,7 +314,7 @@ monitor_child_preauth(Authctxt *_authctxt, struct monitor *pmonitor)
 	debug("%s: %s has been authenticated by privileged process",
 	    __func__, authctxt->user);
 
-	mm_get_keystate(pmonitor);
+	mm_get_keystate(pmonitor_);
 }
 
 static void
@@ -327,9 +330,9 @@ monitor_child_handler(int sig)
 }
 
 void
-monitor_child_postauth(struct monitor *pmonitor)
+monitor_child_postauth(struct monitor *pmonitor_)
 {
-	monitor_set_child_handler(pmonitor->m_pid);
+	monitor_set_child_handler(pmonitor_->m_pid);
 	signal(SIGHUP, &monitor_child_handler);
 	signal(SIGTERM, &monitor_child_handler);
 	signal(SIGINT, &monitor_child_handler);
@@ -351,20 +354,20 @@ monitor_child_postauth(struct monitor *pmonitor)
 	}
 
 	for (;;)
-		monitor_read(pmonitor, mon_dispatch, NULL);
+		monitor_read(pmonitor_, mon_dispatch, NULL);
 }
 
 void
-monitor_sync(struct monitor *pmonitor)
+monitor_sync(struct monitor *pmonitor_)
 {
 	if (options.compression) {
 		/* The member allocation is not visible, so sync it */
-		mm_share_sync(&pmonitor->m_zlib, &pmonitor->m_zback);
+		mm_share_sync(&pmonitor_->m_zlib, &pmonitor_->m_zback);
 	}
 }
 
 int
-monitor_read(struct monitor *pmonitor, struct mon_table *ent,
+monitor_read(struct monitor *pmonitor_, struct mon_table *ent,
     struct mon_table **pent)
 {
 	Buffer m;
@@ -373,7 +376,7 @@ monitor_read(struct monitor *pmonitor, struct mon_table *ent,
 
 	buffer_init(&m);
 
-	mm_request_receive(pmonitor->m_sendfd, &m);
+	mm_request_receive(pmonitor_->m_sendfd, &m);
 	type = buffer_get_char(&m);
 
 	debug3("%s: checking request %d", __func__, type);
@@ -388,7 +391,7 @@ monitor_read(struct monitor *pmonitor, struct mon_table *ent,
 		if (!(ent->flags & MON_PERMIT))
 			fatal("%s: unpermitted request %d", __func__,
 			    type);
-		ret = (*ent->f)(pmonitor->m_sendfd, &m);
+		ret = (*ent->f)(pmonitor_->m_sendfd, &m);
 		buffer_free(&m);
 
 		/* The child may use this request only once, disable it */
@@ -1019,7 +1022,6 @@ mm_session_close(Session *s)
 int
 mm_answer_pty(int sock, Buffer *m)
 {
-	extern struct monitor *pmonitor;
 	Session *s;
 	int res, fd0;
 
@@ -1282,7 +1284,6 @@ mm_answer_rsa_response(int sock, Buffer *m)
 int
 mm_answer_term(int sock, Buffer *req)
 {
-	extern struct monitor *pmonitor;
 	int res, status;
 
 	debug3("%s: tearing down sessions", __func__);
@@ -1301,7 +1302,7 @@ mm_answer_term(int sock, Buffer *req)
 }
 
 void
-monitor_apply_keystate(struct monitor *pmonitor)
+monitor_apply_keystate(struct monitor *pmonitor_)
 {
 	if (compat20) {
 		set_newkeys(MODE_IN);
@@ -1333,19 +1334,24 @@ monitor_apply_keystate(struct monitor *pmonitor)
 
 	/* Update with new address */
 	if (options.compression)
-		mm_init_compression(pmonitor->m_zlib);
+		mm_init_compression(pmonitor_->m_zlib);
 
 	/* Network I/O buffers */
 	/* XXX inefficient for large buffers, need: buffer_init_from_string */
-	buffer_clear(&input);
-	buffer_append(&input, child_state.input, child_state.ilen);
+	buffer_clear(packet_get_input());
+	buffer_append(packet_get_input(), child_state.input, child_state.ilen);
 	memset(child_state.input, 0, child_state.ilen);
 	xfree(child_state.input);
 
-	buffer_clear(&output);
-	buffer_append(&output, child_state.output, child_state.olen);
+	buffer_clear(packet_get_output());
+	buffer_append(packet_get_output(), child_state.output,
+		      child_state.olen);
 	memset(child_state.output, 0, child_state.olen);
 	xfree(child_state.output);
+
+	/* Roaming */
+	if (compat20)
+		roam_set_bytes(child_state.sent_bytes, child_state.recv_bytes);
 }
 
 static Kex *
@@ -1390,7 +1396,7 @@ mm_get_kex(Buffer *m)
 /* This function requries careful sanity checking */
 
 void
-mm_get_keystate(struct monitor *pmonitor)
+mm_get_keystate(struct monitor *pmonitor_)
 {
 	Buffer m;
 	u_char *blob, *p;
@@ -1401,7 +1407,7 @@ mm_get_keystate(struct monitor *pmonitor)
 	debug3("%s: Waiting for new keys", __func__);
 
 	buffer_init(&m);
-	mm_request_receive_expect(pmonitor->m_sendfd, MONITOR_REQ_KEYEXPORT, &m);
+	mm_request_receive_expect(pmonitor_->m_sendfd, MONITOR_REQ_KEYEXPORT, &m);
 	if (!compat20) {
 		child_state.ssh1protoflags = buffer_get_int(&m);
 		child_state.ssh1cipher = buffer_get_int(&m);
@@ -1413,7 +1419,7 @@ mm_get_keystate(struct monitor *pmonitor)
 		goto skip;
 	} else {
 		/* Get the Kex for rekeying */
-		*pmonitor->m_pkex = mm_get_kex(&m);
+		*pmonitor_->m_pkex = mm_get_kex(&m);
 	}
 
 	blob = buffer_get_string(&m, &bloblen);
@@ -1460,6 +1466,12 @@ mm_get_keystate(struct monitor *pmonitor)
 	debug3("%s: Getting Network I/O buffers", __func__);
 	child_state.input = buffer_get_string(&m, &child_state.ilen);
 	child_state.output = buffer_get_string(&m, &child_state.olen);
+
+	/* Roaming */
+	if (compat20) {
+		child_state.sent_bytes = buffer_get_int64(&m);
+		child_state.recv_bytes = buffer_get_int64(&m);
+	}
 
 	buffer_free(&m);
 }

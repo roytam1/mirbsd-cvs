@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-add.c,v 1.90 2007/09/09 11:38:01 sobrado Exp $ */
+/* $OpenBSD: ssh-add.c,v 1.91 2009/08/27 17:44:52 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -58,7 +58,7 @@
 #include "pathnames.h"
 #include "misc.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh-add.c,v 1.6 2006/09/20 21:41:04 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-add.c,v 1.7 2007/09/13 13:52:54 tg Exp $");
 
 /* argv0 */
 extern char *__progname;
@@ -192,9 +192,6 @@ add_file(AuthenticationConnection *ac, const char *filename)
 		if (confirm != 0)
 			fprintf(stderr,
 			    "The user has to confirm each use of the key\n");
-	} else if (ssh_add_identity(ac, private, comment)) {
-		fprintf(stderr, "Identity added: %s (%s)\n", filename, comment);
-		ret = 0;
 	} else {
 		fprintf(stderr, "Could not add identity: %s\n", filename);
 	}

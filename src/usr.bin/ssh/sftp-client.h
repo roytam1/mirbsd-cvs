@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: sftp-client.h,v 1.18 2009/08/18 18:36:20 djm Exp $ */
 
 /*
@@ -86,7 +87,7 @@ int do_setstat(struct sftp_conn *, char *, Attrib *);
 int do_fsetstat(struct sftp_conn *, char *, u_int, Attrib *);
 
 /* Canonicalise 'path' - caller must free result */
-char *do_realpath(struct sftp_conn *, char *);
+char *do_realpath(struct sftp_conn *, const char *);
 
 /* Get statistics for filesystem hosting file at "path" */
 int do_statvfs(struct sftp_conn *, const char *, struct sftp_statvfs *, int);

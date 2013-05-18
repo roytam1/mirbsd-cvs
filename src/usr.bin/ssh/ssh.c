@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh.c,v 1.325 2009/03/17 21:37:00 markus Exp $ */
+/* $OpenBSD: ssh.c,v 1.326 2009/07/02 02:11:47 dtucker Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -43,6 +43,7 @@
 #include <sys/types.h>
 #include <sys/time.h>
 #include <sys/ioctl.h>
+#include <sys/param.h>
 #include <sys/queue.h>
 #include <sys/resource.h>
 #include <sys/socket.h>
@@ -95,7 +96,7 @@
 #include "scard.h"
 #endif
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.26 2009/03/22 15:01:22 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.27 2009/10/02 16:58:49 tg Exp $");
 
 extern char *__progname;
 
@@ -186,18 +187,14 @@ static int ssh_session(void);
 static int ssh_session2(void);
 static void load_public_identity_files(void);
 
-/* from muxclient.c */
-void muxclient(const char *);
-void muxserver_listen(void);
-
 /*
  * Main program for the ssh client.
  */
 int
 main(int ac, char **av)
 {
-	int i, opt, exit_status, use_syslog;
-	char *p, *cp, *line, *argv0, buf[256];
+	int i, r, opt, exit_status, use_syslog;
+	char *p, *cp, *line, *argv0, buf[MAXPATHLEN];
 	struct stat st;
 	struct passwd *pw;
 	int dummy, timeout_ms;
@@ -598,9 +595,10 @@ main(int ac, char **av)
 			fatal("Can't open user config file %.100s: "
 			    "%.100s", config, strerror(errno));
 	} else {
-		snprintf(buf, sizeof buf, "%.100s/%.100s", pw->pw_dir,
+		r = snprintf(buf, sizeof buf, "%s/%s", pw->pw_dir,
 		    _PATH_SSH_USER_CONFFILE);
-		(void)read_config_file(buf, host, &options, 1);
+		if (r > 0 && (size_t)r < sizeof(buf))
+			(void)read_config_file(buf, host, &options, 1);
 
 		/* Read systemwide configuration file after use config. */
 		(void)read_config_file(_PATH_HOST_CONFIG_FILE, host,
@@ -746,9 +744,9 @@ main(int ac, char **av)
 	 * directory if it doesn't already exist.
 	 * XXX create ~/.etc first?
 	 */
-	snprintf(buf, sizeof buf, "%.100s%s%.100s", pw->pw_dir,
+	r = snprintf(buf, sizeof buf, "%s%s%s", pw->pw_dir,
 	    strcmp(pw->pw_dir, "/") ? "/" : "", _PATH_SSH_USER_DIR);
-	if (stat(buf, &st) < 0)
+	if (r > 0 && (size_t)r < sizeof(buf) && stat(buf, &st) < 0)
 		if (mkdir(buf, 0700) < 0)
 			error("Could not create directory '%.200s'.", buf);
 
@@ -813,7 +811,8 @@ main(int ac, char **av)
 
 /* Callback for remote forward global requests */
 static void
-ssh_confirm_remote_forward(int type, u_int32_t seq, void *ctxt)
+ssh_confirm_remote_forward(int type, u_int32_t seq __attribute__((unused)),
+    void *ctxt)
 {
 	Forward *rfwd = (Forward *)ctxt;
 
@@ -927,7 +926,7 @@ ssh_session(void)
 	int interactive = 0;
 	int have_tty = 0;
 	struct winsize ws;
-	char *cp;
+	const char *cp;
 	const char *display;
 
 	/* Enable compression if requested. */
@@ -1083,7 +1082,7 @@ ssh_session(void)
 
 /* request pty/x11/agent/tcpfwd/shell for channel */
 static void
-ssh_session2_setup(int id, void *arg)
+ssh_session2_setup(int id, void *arg __attribute__((unused)))
 {
 	extern char **environ;
 	const char *display;

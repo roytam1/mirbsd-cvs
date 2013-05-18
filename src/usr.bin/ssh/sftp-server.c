@@ -1,4 +1,4 @@
-/* $OpenBSD: sftp-server.c,v 1.84 2008/06/26 06:10:09 djm Exp $ */
+/* $OpenBSD: sftp-server.c,v 1.87 2009/08/31 20:56:02 djm Exp $ */
 /*
  * Copyright (c) 2000-2004 Markus Friedl.  All rights reserved.
  *
@@ -41,7 +41,9 @@
 #include "sftp.h"
 #include "sftp-common.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sftp-server.c,v 1.10 2008/03/02 21:14:22 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sftp-server.c,v 1.11 2008/12/16 20:55:28 tg Exp $");
+
+extern const char *__progname;
 
 /* helper */
 #define get_int64()			buffer_get_int64(&iqueue);
@@ -321,7 +323,7 @@ handle_close(int handle)
 }
 
 static void
-handle_log_close(int handle, char *emsg)
+handle_log_close(int handle, const char *emsg)
 {
 	if (handle_is_ok(handle, HANDLE_FILE)) {
 		logit("%s%sclose \"%s\" bytes read %llu written %llu",
@@ -1292,10 +1294,9 @@ sftp_server_cleanup_exit(int i)
 static void
 sftp_server_usage(void)
 {
-	extern char *__progname;
-
 	fprintf(stderr,
-	    "usage: %s [-he] [-l log_level] [-f log_facility]\n", __progname);
+	    "usage: %s [-he] [-l log_level] [-f log_facility] [-u umask]\n",
+	    __progname);
 	exit(1);
 }
 
@@ -1307,13 +1308,12 @@ sftp_server_main(int argc, char **argv, struct passwd *user_pw)
 	ssize_t len, olen, set_size;
 	SyslogFacility log_facility = SYSLOG_FACILITY_AUTH;
 	char *cp, buf[4*4096];
-
-	extern char *optarg;
-	extern char *__progname;
+	const char *errmsg;
+	mode_t mask;
 
 	log_init(__progname, log_level, log_facility, log_stderr);
 
-	while (!skipargs && (ch = getopt(argc, argv, "C:f:l:che")) != -1) {
+	while (!skipargs && (ch = getopt(argc, argv, "f:l:u:che")) != -1) {
 		switch (ch) {
 		case 'c':
 			/*
@@ -1334,6 +1334,13 @@ sftp_server_main(int argc, char **argv, struct passwd *user_pw)
 			log_facility = log_facility_number(optarg);
 			if (log_facility == SYSLOG_FACILITY_NOT_SET)
 				error("Invalid log facility \"%s\"", optarg);
+			break;
+		case 'u':
+			mask = (mode_t)strtonum(optarg, 0, 0777, &errmsg);
+			if (errmsg != NULL)
+				fatal("Invalid umask \"%s\": %s",
+				    optarg, errmsg);
+			(void)umask(mask);
 			break;
 		case 'h':
 		default:

@@ -1,4 +1,4 @@
-/* $OpenBSD: sshconnect.c,v 1.212 2008/10/14 18:11:33 stevesk Exp $ */
+/* $OpenBSD: sshconnect.c,v 1.214 2009/05/28 16:50:16 andreas Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -47,9 +47,10 @@
 #include "atomicio.h"
 #include "misc.h"
 #include "dns.h"
+#include "roaming.h"
 #include "version.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sshconnect.c,v 1.14 2008/12/16 22:13:31 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect.c,v 1.15 2008/12/27 21:17:59 tg Exp $");
 
 char *client_version_string = NULL;
 char *server_version_string = NULL;
@@ -78,7 +79,7 @@ ssh_proxy_connect(const char *host, u_short port, const char *proxy_command)
 	char *shell, strport[NI_MAXSERV];
 
 	if ((shell = getenv("SHELL")) == NULL)
-		shell = _PATH_BSHELL;
+		shell = (char *)_PATH_BSHELL;
 
 	/* Convert the port number into a string. */
 	snprintf(strport, sizeof strport, "%hu", port);
@@ -125,7 +126,7 @@ ssh_proxy_connect(const char *host, u_short port, const char *proxy_command)
 		/* Stderr is left as it is so that error messages get
 		   printed on the user's terminal. */
 		argv[0] = shell;
-		argv[1] = "-c";
+		argv[1] = (char *)"-c";
 		argv[2] = command_string;
 		argv[3] = NULL;
 
@@ -406,7 +407,7 @@ ssh_connect(const char *host, struct sockaddr_storage * hostaddr,
  * Waits for the server identification string, and sends our own
  * identification string.
  */
-static void
+void
 ssh_exchange_identification(int timeout_ms)
 {
 	char buf[256], remote_version[256];	/* must be same size! */
@@ -445,7 +446,7 @@ ssh_exchange_identification(int timeout_ms)
 				}
 			}
 
-			len = atomicio(read, connection_in, &buf[i], 1);
+			len = roaming_atomicio(read, connection_in, &buf[i], 1);
 
 			if (len != 1 && errno == EPIPE)
 				fatal("ssh_exchange_identification: "
@@ -531,7 +532,8 @@ ssh_exchange_identification(int timeout_ms)
 	    compat20 ? PROTOCOL_MINOR_2 : minor1,
 	    SSH_VERSION, (unsigned)(arc4random() & 0xFFFF),
 	    compat20 ? "\r\n" : "\n");
-	if (atomicio(vwrite, connection_out, buf, strlen(buf)) != strlen(buf))
+	if (roaming_atomicio(vwrite, connection_out, buf, strlen(buf))
+	    != strlen(buf))
 		fatal("write: %.100s", strerror(errno));
 	client_version_string = xstrdup(buf);
 	chop(client_version_string);
@@ -821,7 +823,7 @@ check_host_key(char *hostname, struct sockaddr *hostaddr, u_short port,
 		if (readonly == ROQUIET)
 			goto fail;
 		if (options.check_host_ip && host_ip_differ) {
-			char *key_msg;
+			const char *key_msg;
 			if (ip_status == HOST_NEW)
 				key_msg = "is unknown";
 			else if (ip_status == HOST_OK)
@@ -1141,7 +1143,7 @@ warn_changed_key(Key *host_key)
 int
 ssh_local_cmd(const char *args)
 {
-	char *shell;
+	const char *shell;
 	pid_t pid;
 	int status;
 

@@ -25,6 +25,8 @@
 
 #include "roaming.h"
 
+__RCSID("$MirOS$");
+
 int resume_in_progress = 0;
 
 u_int64_t
@@ -34,13 +36,15 @@ get_recv_bytes(void)
 }
 
 ssize_t
-roaming_write(int fd, const void *buf, size_t count, int *cont)
+roaming_write(int fd, const void *buf, size_t count,
+    int *cont __attribute__((unused)))
 {
 	return write(fd, buf, count);
 }
 
 ssize_t
-roaming_read(int fd, void *buf, size_t count, int *cont)
+roaming_read(int fd, void *buf, size_t count,
+    int *cont __attribute__((unused)))
 {
 	if (cont)
 		*cont = 0;
@@ -48,7 +52,7 @@ roaming_read(int fd, void *buf, size_t count, int *cont)
 }
 
 void
-add_recv_bytes(u_int64_t num)
+add_recv_bytes(u_int64_t num __attribute__((unused)))
 {
 }
 

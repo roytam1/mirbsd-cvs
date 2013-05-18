@@ -1,4 +1,4 @@
-/* $OpenBSD: sshd.c,v 1.366 2009/01/22 10:02:34 djm Exp $ */
+/* $OpenBSD: sshd.c,v 1.367 2009/05/28 16:50:16 andreas Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -98,9 +98,10 @@
 #include "monitor_mm.h"
 #include "monitor.h"
 #include "monitor_wrap.h"
+#include "roaming.h"
 #include "version.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.17 2008/12/27 21:18:00 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.18 2009/03/22 15:01:25 tg Exp $");
 
 #ifndef O_NOCTTY
 #define O_NOCTTY	0
@@ -118,7 +119,7 @@ extern char *__progname;
 ServerOptions options;
 
 /* Name of the server configuration file. */
-char *config_file_name = _PATH_SERVER_CONFIG_FILE;
+const char *config_file_name = _PATH_SERVER_CONFIG_FILE;
 
 /*
  * Debug mode flag.  This can be set on the command line.  If debug
@@ -370,7 +371,7 @@ sshd_exchange_identification(int sock_in, int sock_out)
 	int mismatch;
 	int remote_major, remote_minor;
 	int major, minor;
-	char *s, *newline = "\n";
+	const char *s, *newline = "\n";
 	char buf[256];			/* Must not be larger than remote_version. */
 	char remote_version[256];	/* Must be at least as big as buf. */
 
@@ -391,7 +392,7 @@ sshd_exchange_identification(int sock_in, int sock_out)
 	server_version_string = xstrdup(buf);
 
 	/* Send our protocol version identification. */
-	if (atomicio(vwrite, sock_out, server_version_string,
+	if (roaming_atomicio(vwrite, sock_out, server_version_string,
 	    strlen(server_version_string))
 	    != strlen(server_version_string)) {
 		logit("Could not write ident string to %s", get_remote_ipaddr());
@@ -401,7 +402,7 @@ sshd_exchange_identification(int sock_in, int sock_out)
 	/* Read other sides version identification. */
 	memset(buf, 0, sizeof(buf));
 	for (i = 0; i < sizeof(buf) - 1; i++) {
-		if (atomicio(read, sock_in, &buf[i], 1) != 1) {
+		if (roaming_atomicio(read, sock_in, &buf[i], 1) != 1) {
 			logit("Did not receive identification string from %s",
 			    get_remote_ipaddr());
 			cleanup_exit(255);
@@ -429,7 +430,7 @@ sshd_exchange_identification(int sock_in, int sock_out)
 	if (sscanf(client_version_string, "SSH-%d.%d-%[^\n]\n",
 	    &remote_major, &remote_minor, remote_version) != 3) {
 		s = "Protocol mismatch.\n";
-		(void) atomicio(vwrite, sock_out, s, strlen(s));
+		(void) atomicio(vwrite, sock_out, (char *)s, strlen(s));
 		close(sock_in);
 		close(sock_out);
 		logit("Bad protocol version identification '%.100s' from %s",
@@ -490,7 +491,7 @@ sshd_exchange_identification(int sock_in, int sock_out)
 
 	if (mismatch) {
 		s = "Protocol major versions differ.\n";
-		(void) atomicio(vwrite, sock_out, s, strlen(s));
+		(void) atomicio(vwrite, sock_out, (char *)s, strlen(s));
 		close(sock_in);
 		close(sock_out);
 		logit("Protocol major versions differ for %s: %.200s vs. %.200s",
@@ -1189,8 +1190,6 @@ server_accept_loop(int *sock_in, int *sock_out, int *newsock, int *config_s)
 int
 main(int ac, char **av)
 {
-	extern char *optarg;
-	extern int optind;
 	int opt, i, on = 1;
 	int sock_in = -1, sock_out = -1, newsock = -1;
 	const char *remote_ip;
@@ -1499,7 +1498,7 @@ main(int ac, char **av)
 			debug("rexec_argv[%d]='%s'", i, saved_argv[i]);
 			rexec_argv[i] = saved_argv[i];
 		}
-		rexec_argv[rexec_argc] = "-R";
+		rexec_argv[rexec_argc] = (char *)"-R";
 		rexec_argv[rexec_argc + 1] = NULL;
 	}
 

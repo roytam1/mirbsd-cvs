@@ -49,6 +49,8 @@
 #include "log.h"
 #include "ssh.h"
 
+__RCSID("$MirOS$");
+
 /* remove newline at end of string */
 char *
 chop(char *s)
@@ -431,7 +433,7 @@ colon(char *cp)
 
 /* function to assist building execv() arguments */
 void
-addargs(arglist *args, char *fmt, ...)
+addargs(arglist *args, const char *fmt, ...)
 {
 	va_list ap;
 	char *cp;
@@ -458,7 +460,7 @@ addargs(arglist *args, char *fmt, ...)
 }
 
 void
-replacearg(arglist *args, u_int which, char *fmt, ...)
+replacearg(arglist *args, u_int which, const char *fmt, ...)
 {
 	va_list ap;
 	char *cp;

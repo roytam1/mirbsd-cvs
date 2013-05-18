@@ -33,6 +33,8 @@
 #include "buffer.h"
 #include "roaming.h"
 
+__RCSID("$MirOS$");
+
 static size_t out_buf_size = 0;
 static char *out_buf = NULL;
 static size_t out_start;
@@ -45,7 +47,7 @@ int roaming_enabled = 0;
 int resume_in_progress = 0;
 
 int
-get_snd_buf_size()
+get_snd_buf_size(void)
 {
 	int fd = packet_get_connection_out();
 	int optval, optvallen;
@@ -57,7 +59,7 @@ get_snd_buf_size()
 }
 
 int
-get_recv_buf_size()
+get_recv_buf_size(void)
 {
 	int fd = packet_get_connection_in();
 	int optval, optvallen;
@@ -131,7 +133,8 @@ buf_append(const char *buf, size_t count)
 }
 
 ssize_t
-roaming_write(int fd, const void *buf, size_t count, int *cont)
+roaming_write(int fd, const void *buf, size_t count,
+    int *cont __attribute__((unused)))
 {
 	ssize_t ret;
 
@@ -147,7 +150,8 @@ roaming_write(int fd, const void *buf, size_t count, int *cont)
 }
 
 ssize_t
-roaming_read(int fd, void *buf, size_t count, int *cont)
+roaming_read(int fd, void *buf, size_t count,
+    int *cont __attribute__((unused)))
 {
 	ssize_t ret = read(fd, buf, count);
 	if (ret > 0) {

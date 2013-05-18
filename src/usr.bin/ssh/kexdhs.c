@@ -1,4 +1,4 @@
-/* $OpenBSD: kexdhs.c,v 1.9 2006/11/06 21:25:28 markus Exp $ */
+/* $OpenBSD: kexdhs.c,v 1.10 2009/06/21 07:37:15 dtucker Exp $ */
 /*
  * Copyright (c) 2001 Markus Friedl.  All rights reserved.
  *
@@ -39,7 +39,7 @@
 #include "ssh2.h"
 #include "monitor_wrap.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/kexdhs.c,v 1.4 2008/12/16 20:55:22 tg Exp $");
 
 void
 kexdh_server(Kex *kex)
@@ -133,7 +133,9 @@ kexdh_server(Kex *kex)
 	}
 
 	/* sign H */
-	PRIVSEP(key_sign(server_host_key, &signature, &slen, hash, hashlen));
+	if (PRIVSEP(key_sign(server_host_key, &signature, &slen, hash,
+	    hashlen)) < 0)
+		fatal("kexdh_server: key_sign failed");
 
 	/* destroy_sensitive_data(); */
 

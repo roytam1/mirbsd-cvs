@@ -1,5 +1,5 @@
-/* $MirOS: src/usr.bin/ssh/kex.h,v 1.5 2006/09/20 21:40:59 tg Exp $ */
-/* $OpenBSD: kex.h,v 1.46 2007/06/07 19:37:34 pvalchev Exp $ */
+/* $MirOS: src/usr.bin/ssh/kex.h,v 1.6 2007/06/16 15:41:50 tg Exp $ */
+/* $OpenBSD: kex.h,v 1.47 2009/05/27 06:34:36 andreas Exp $ */
 
 /*
  * Copyright (c) 2000, 2001 Markus Friedl.  All rights reserved.
@@ -29,6 +29,8 @@
 
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
+
+#define KEX_COOKIE_LEN	16
 
 #define	KEX_DH1			"diffie-hellman-group1-sha1"
 #define	KEX_DH14		"diffie-hellman-group14-sha1"

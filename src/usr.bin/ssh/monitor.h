@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/ssh/monitor.h,v 1.3 2006/04/19 10:40:49 tg Exp $ */
+/* $MirOS: src/usr.bin/ssh/monitor.h,v 1.4 2008/12/16 20:55:23 tg Exp $ */
 /* $OpenBSD: monitor.h,v 1.15 2008/11/04 08:22:13 djm Exp $ */
 
 /*
@@ -74,7 +74,7 @@ void monitor_sync(struct monitor *);
 
 struct Authctxt;
 void monitor_child_preauth(struct Authctxt *, struct monitor *);
-void monitor_child_postauth(struct monitor *);
+__dead void monitor_child_postauth(struct monitor *);
 
 struct mon_table;
 int monitor_read(struct monitor*, struct mon_table *, struct mon_table **);

@@ -1,4 +1,4 @@
-/* $OpenBSD: servconf.c,v 1.194 2009/01/22 10:02:34 djm Exp $ */
+/* $OpenBSD: servconf.c,v 1.195 2009/04/14 21:10:54 jj Exp $ */
 /*
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
@@ -40,7 +40,7 @@
 #include "channels.h"
 #include "groupaccess.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.21 2008/12/16 22:13:29 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.22 2009/03/22 15:01:19 tg Exp $");
 
 static void add_listen_addr(ServerOptions *, char *, int);
 static void add_one_listen_addr(ServerOptions *, char *, int);
@@ -364,7 +364,7 @@ static struct {
 
 static struct {
 	int val;
-	char *text;
+	const char *text;
 } tunmode_desc[] = {
 	{ SSH_TUNMODE_NO, "no" },
 	{ SSH_TUNMODE_POINTOPOINT, "point-to-point" },
@@ -1281,7 +1281,7 @@ parse_server_match_config(ServerOptions *options, const char *user,
 /*
  * Copy any supported values that are set.
  *
- * If the preauth flag is set, we do not bother copying the the string or
+ * If the preauth flag is set, we do not bother copying the string or
  * array values that are not used pre-authentication, because any that we
  * do use must be explictly sent in mm_getpwnamallow().
  */
@@ -1437,7 +1437,8 @@ dump_config(ServerOptions *o)
 	u_int i;
 	int ret;
 	struct addrinfo *ai;
-	char addr[NI_MAXHOST], port[NI_MAXSERV], *s = NULL;
+	char addr[NI_MAXHOST], port[NI_MAXSERV];
+	const char *s = NULL;
 
 	/* these are usually at the top of the config */
 	for (i = 0; i < o->num_ports; i++)

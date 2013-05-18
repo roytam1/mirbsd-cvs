@@ -34,7 +34,7 @@
 #include "uidswap.h"
 #include "monitor_wrap.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/auth1.c,v 1.8 2008/03/02 21:14:18 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth1.c,v 1.9 2008/12/16 20:55:19 tg Exp $");
 
 /* import */
 extern ServerOptions options;
@@ -286,7 +286,7 @@ do_authloop(Authctxt *authctxt)
 
 		/* Special handling for root */
 		if (authenticated && authctxt->pw->pw_uid == 0 &&
-		    !auth_root_allowed((char *)meth->name))
+		    !auth_root_allowed(meth->name))
 			authenticated = 0;
 
  skip:

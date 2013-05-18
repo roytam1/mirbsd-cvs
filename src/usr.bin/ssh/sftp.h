@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: sftp.h,v 1.9 2008/06/13 00:12:02 dtucker Exp $ */
 
 /*
@@ -97,5 +98,5 @@
 
 struct passwd;
 
-int	sftp_server_main(int, char **, struct passwd *);
-void	sftp_server_cleanup_exit(int) __attribute__((noreturn));
+__dead int sftp_server_main(int, char **, struct passwd *);
+__dead void sftp_server_cleanup_exit(int);

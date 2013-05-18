@@ -1,4 +1,4 @@
-/* $OpenBSD: session.c,v 1.245 2009/01/22 09:46:01 djm Exp $ */
+/* $OpenBSD: session.c,v 1.246 2009/04/17 19:23:06 stevesk Exp $ */
 /*
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
@@ -79,7 +79,7 @@
 #include "monitor_wrap.h"
 #include "sftp.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.21 2008/12/27 21:17:56 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.22 2009/03/22 15:01:20 tg Exp $");
 
 #define IS_INTERNAL_SFTP(c) \
 	(!strncmp(c, INTERNAL_SFTP_NAME, sizeof(INTERNAL_SFTP_NAME) - 1) && \
@@ -89,7 +89,6 @@ __RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.21 2008/12/27 21:17:56 tg Exp $")
 
 /* func */
 
-Session *session_new(void);
 void	session_set_fds(Session *, int, int, int, int);
 void	session_pty_cleanup(Session *);
 void	session_proctitle(Session *);
@@ -788,8 +787,8 @@ do_motd(void)
 	char buf[256];
 
 	if (options.print_motd) {
-		f = fopen(login_getcapstr(lc, "welcome", "/etc/motd",
-		    "/etc/motd"), "r");
+		f = fopen(login_getcapstr(lc, (char *)"welcome",
+		    (char *)"/etc/motd", (char *)"/etc/motd"), "r");
 		if (f) {
 			while (fgets(buf, sizeof(buf), f))
 				fputs(buf, stdout);
@@ -813,7 +812,7 @@ check_quietlogin(Session *s, const char *command)
 	if (command != NULL)
 		return 1;
 	snprintf(buf, sizeof(buf), "%.200s/.hushlogin", pw->pw_dir);
-	if (login_getcapbool(lc, "hushlogin", 0) || stat(buf, &st) >= 0)
+	if (login_getcapbool(lc, (char *)"hushlogin", 0) || stat(buf, &st) >= 0)
 		return 1;
 	return 0;
 }
@@ -1080,9 +1079,9 @@ do_nologin(struct passwd *pw)
 	FILE *f = NULL;
 	char buf[1024];
 
-	if (!login_getcapbool(lc, "ignorenologin", 0) && pw->pw_uid)
-		f = fopen(login_getcapstr(lc, "nologin", _PATH_NOLOGIN,
-		    _PATH_NOLOGIN), "r");
+	if (!login_getcapbool(lc, (char *)"ignorenologin", 0) && pw->pw_uid)
+		f = fopen(login_getcapstr(lc, (char *)"nologin",
+		    (char *)_PATH_NOLOGIN, (char *)_PATH_NOLOGIN), (char *)"r");
 	if (f) {
 		/* /etc/nologin exists.  Print its contents and exit. */
 		logit("User %.100s not allowed because %s exists",
@@ -1301,7 +1300,7 @@ do_child(Session *s, const char *command)
 	 */
 	env = do_setup_env(s, shell);
 
-	shell = login_getcapstr(lc, "shell", (char *)shell, (char *)shell);
+	shell = login_getcapstr(lc, (char *)"shell", (char *)shell, (char *)shell);
 
 	/* we have to stash the hostname before we close our socket. */
 	if (options.use_login)
@@ -1325,7 +1324,7 @@ do_child(Session *s, const char *command)
 	/* Change current directory to the user's home directory. */
 	if (chdir(pw->pw_dir) < 0) {
 		/* Suppress missing homedir warning for chroot case */
-		r = login_getcapbool(lc, "requirehome", 0);
+		r = login_getcapbool(lc, (char *)"requirehome", 0);
 		if (r || options.chroot_directory == NULL)
 			fprintf(stderr, "Could not chdir to home "
 			    "directory %s: %s\n", pw->pw_dir,
@@ -1344,11 +1343,10 @@ do_child(Session *s, const char *command)
 
 #ifndef SMALL
 	if (s->is_subsystem == SUBSYSTEM_INT_SFTP) {
-		extern int optind, optreset;
 		int i;
 		char *p, *args;
 
-		setproctitle("%s@internal-sftp-server", s->pw->pw_name);
+		setproctitle("%s@%s", s->pw->pw_name, INTERNAL_SFTP_NAME);
 		args = xstrdup(command ? command : "sftp-server");
 		for (i = 0, (p = strtok(args, " ")); p; (p = strtok(NULL, " ")))
 			if (i < ARGV_MAX - 1)
@@ -1403,7 +1401,7 @@ do_child(Session *s, const char *command)
 	 * option to execute the command.
 	 */
 	argv[0] = (char *) shell0;
-	argv[1] = "-c";
+	argv[1] = (char *)"-c";
 	argv[2] = (char *) command;
 	argv[3] = NULL;
 	execve(shell, argv, env);
@@ -1908,7 +1906,7 @@ session_pty_cleanup(Session *s)
 	PRIVSEP(session_pty_cleanup2(s));
 }
 
-static char *
+static const char *
 sig2name(int sig)
 {
 #define SSH_SIG(x) if (sig == SIG ## x) return #x

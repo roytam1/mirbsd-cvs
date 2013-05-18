@@ -1,5 +1,5 @@
-# $MirOS: src/usr.bin/ssh/sshd/Makefile,v 1.5 2008/03/02 21:14:24 tg Exp $
-# $OpenBSD: Makefile,v 1.68 2008/11/04 08:22:13 djm Exp $
+# $MirOS: src/usr.bin/ssh/sshd/Makefile,v 1.6 2008/12/16 20:55:35 tg Exp $
+# $OpenBSD: Makefile,v 1.69 2009/05/28 16:50:16 andreas Exp $
 
 .PATH:		${.CURDIR}/..
 
@@ -17,9 +17,19 @@ SRCS=	sshd.c auth-rhosts.c auth-passwd.c auth-rsa.c auth-rh-rsa.c \
 	auth-bsdauth.c auth2-hostbased.c auth2-kbdint.c \
 	auth2-none.c auth2-passwd.c auth2-pubkey.c \
 	monitor_mm.c monitor.c monitor_wrap.c \
-	kexdhs.c kexgexs.c sftp-server.c sftp-common.c auth2-jpake.c
+	kexdhs.c kexgexs.c sftp-server.c sftp-common.c auth2-jpake.c \
+	roaming_common.c
 
 DPADD+=	${LIBCRYPTO} ${LIBUTIL} ${LIBZ} ${LIBDES}
 LDADD+=	-lcrypto -lutil -lz -ldes
+
+CFLAGS_auth1.o+=	-Wno-unused
+CFLAGS_auth2.o+=	-Wno-unused
+CFLAGS_auth2-chall.o+=	-Wno-unused
+CFLAGS_monitor.o+=	-Wno-unused
+CFLAGS_monitor_wrap.o+=	-Wno-unused
+CFLAGS_session.o+=	-Wno-unused
+CFLAGS_sshd.o+=		-Wno-unused
+CFLAGS_serverloop.o+=	-Wno-unused
 
 .include <bsd.prog.mk>

@@ -1,4 +1,4 @@
-/* $OpenBSD: channels.c,v 1.295 2009/02/12 03:00:56 djm Exp $ */
+/* $OpenBSD: channels.c,v 1.296 2009/05/25 06:48:00 andreas Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -72,6 +72,8 @@
 #include "key.h"
 #include "authfd.h"
 #include "pathnames.h"
+
+__RCSID("$MirOS$");
 
 /* -- channel core */
 
@@ -159,7 +161,7 @@ static u_int x11_fake_data_len;
 static int IPv4or6 = AF_UNSPEC;
 
 /* helper */
-static void port_open_helper(Channel *c, char *rtype);
+static void port_open_helper(Channel *c, const char *rtype);
 
 /* non-blocking connect helpers */
 static int connect_next(struct channel_connect *);
@@ -252,8 +254,8 @@ channel_register_fds(Channel *c, int rfd, int wfd, int efd,
  * remote_name to be freed.
  */
 Channel *
-channel_new(char *ctype, int type, int rfd, int wfd, int efd,
-    u_int window, u_int maxpack, int extusage, char *remote_name, int nonblock)
+channel_new(const char *ctype, int type, int rfd, int wfd, int efd,
+    u_int window, u_int maxpack, int extusage, const char *remote_name, int nonblock)
 {
 	int found;
 	u_int i;
@@ -653,7 +655,7 @@ channel_send_open(int id)
 }
 
 void
-channel_request_start(int id, char *service, int wantconfirm)
+channel_request_start(int id, const char *service, int wantconfirm)
 {
 	Channel *c = channel_lookup(id);
 
@@ -1310,7 +1312,7 @@ channel_post_x11_listener(Channel *c, fd_set *readset, fd_set *writeset)
 }
 
 static void
-port_open_helper(Channel *c, char *rtype)
+port_open_helper(Channel *c, const char *rtype)
 {
 	int direct;
 	char buf[1024];
@@ -1384,7 +1386,7 @@ channel_post_port_listener(Channel *c, fd_set *readset, fd_set *writeset)
 	struct sockaddr_storage addr;
 	int newsock, nextstate;
 	socklen_t addrlen;
-	char *rtype;
+	const char *rtype;
 
 	if (FD_ISSET(c->sock, readset)) {
 		debug("Connection to port %d forwarding "
@@ -2296,7 +2298,7 @@ channel_input_open_confirmation(int type, u_int32_t seq, void *ctxt)
 	packet_check_eom();
 }
 
-static char *
+static const char *
 reason2txt(int reason)
 {
 	switch (reason) {
@@ -2409,7 +2411,7 @@ channel_input_status_confirm(int type, u_int32_t seq, void *ctxt)
 	int id;
 
 	/* Reset keepalive timeout */
-	keep_alive_timeouts = 0;
+	packet_set_alive_timeouts(0);
 
 	id = packet_get_int();
 	packet_check_eom();
@@ -2920,7 +2922,7 @@ channel_connect_ctx_free(struct channel_connect *cctx)
 
 /* Return CONNECTING channel to remote host, port */
 static Channel *
-connect_to(const char *host, u_short port, char *ctype, char *rname)
+connect_to(const char *host, u_short port, const char *ctype, const char *rname)
 {
 	struct addrinfo hints;
 	int gaierr;
@@ -2957,7 +2959,7 @@ connect_to(const char *host, u_short port, char *ctype, char *rname)
 }
 
 Channel *
-channel_connect_by_listen_address(u_short listen_port, char *ctype, char *rname)
+channel_connect_by_listen_address(u_short listen_port, const char *ctype, char *rname)
 {
 	int i;
 
@@ -2976,7 +2978,8 @@ channel_connect_by_listen_address(u_short listen_port, char *ctype, char *rname)
 
 /* Check if connecting to that port is permitted and connect. */
 Channel *
-channel_connect_to(const char *host, u_short port, char *ctype, char *rname)
+channel_connect_to(const char *host, u_short port, const char *ctype,
+    const char *rname)
 {
 	int i, permit, permit_adm = 1;
 

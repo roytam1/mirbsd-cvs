@@ -1,5 +1,5 @@
-/* $MirOS: src/usr.bin/ssh/readconf.h,v 1.11 2008/12/16 20:55:25 tg Exp $ */
-/* $OpenBSD: readconf.h,v 1.78 2009/02/12 03:00:56 djm Exp $ */
+/* $MirOS: src/usr.bin/ssh/readconf.h,v 1.12 2009/03/22 15:01:19 tg Exp $ */
+/* $OpenBSD: readconf.h,v 1.79 2009/06/27 09:35:06 andreas Exp $ */
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
@@ -121,6 +121,8 @@ typedef struct {
 	char	*local_command;
 	int	permit_local_command;
 	int	visual_host_key;
+
+	int	use_roaming;
 
 }       Options;
 

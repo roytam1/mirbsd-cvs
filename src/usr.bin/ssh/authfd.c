@@ -1,4 +1,4 @@
-/* $OpenBSD: authfd.c,v 1.80 2006/08/03 03:34:41 deraadt Exp $ */
+/* $OpenBSD: authfd.c,v 1.81 2009/08/27 17:44:52 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -62,7 +62,7 @@
 #include "atomicio.h"
 #include "misc.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/authfd.c,v 1.5 2006/09/20 21:40:56 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/authfd.c,v 1.6 2008/12/16 22:13:27 tg Exp $");
 
 static int agent_present = 0;
 
@@ -417,7 +417,6 @@ ssh_agent_sign(AuthenticationConnection *auth,
     u_char **sigp, u_int *lenp,
     u_char *data, u_int datalen)
 {
-	extern int datafellows;
 	Buffer msg;
 	u_char *blob;
 	u_int blen;
@@ -543,12 +542,6 @@ ssh_add_identity_constrained(AuthenticationConnection *auth, Key *key,
 	type = buffer_get_char(&msg);
 	buffer_free(&msg);
 	return decode_reply(type);
-}
-
-int
-ssh_add_identity(AuthenticationConnection *auth, Key *key, const char *comment)
-{
-	return ssh_add_identity_constrained(auth, key, comment, 0, 0);
 }
 
 /*

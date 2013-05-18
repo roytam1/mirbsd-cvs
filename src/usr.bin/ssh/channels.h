@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: channels.h,v 1.98 2009/02/12 03:00:56 djm Exp $ */
 
 /*
@@ -117,7 +118,7 @@ struct Channel {
 	int     extended_usage;
 	int	single_connection;
 
-	char   *ctype;		/* type */
+	const char *ctype;	/* type */
 
 	/* callback */
 	channel_callback_fn	*open_confirm;
@@ -184,14 +185,14 @@ struct Channel {
 
 Channel	*channel_by_id(int);
 Channel	*channel_lookup(int);
-Channel *channel_new(char *, int, int, int, int, u_int, u_int, int, char *, int);
+Channel *channel_new(const char *, int, int, int, int, u_int, u_int, int, const char *, int);
 void	 channel_set_fds(int, int, int, int, int, int, int, u_int);
 void	 channel_free(Channel *);
 void	 channel_free_all(void);
 void	 channel_stop_listening(void);
 
 void	 channel_send_open(int);
-void	 channel_request_start(int, char *, int);
+void	 channel_request_start(int, const char *, int);
 void	 channel_register_cleanup(int, channel_callback_fn *, int);
 void	 channel_register_open_confirm(int, channel_callback_fn *, void *);
 void	 channel_register_filter(int, channel_infilter_fn *,
@@ -237,8 +238,8 @@ void	 channel_clear_permitted_opens(void);
 void	 channel_clear_adm_permitted_opens(void);
 void 	 channel_print_adm_permitted_opens(void);
 int      channel_input_port_forward_request(int, int);
-Channel	*channel_connect_to(const char *, u_short, char *, char *);
-Channel	*channel_connect_by_listen_address(u_short, char *, char *);
+Channel	*channel_connect_to(const char *, u_short, const char *, const char *);
+Channel	*channel_connect_by_listen_address(u_short, const char *, char *);
 int	 channel_request_remote_forwarding(const char *, u_short,
 	     const char *, u_short);
 int	 channel_setup_local_fwd_listener(const char *, u_short,

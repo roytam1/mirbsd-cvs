@@ -1,5 +1,5 @@
-/* $MirOS: src/usr.bin/ssh/auth.h,v 1.10 2008/03/02 21:14:18 tg Exp $ */
-/* $OpenBSD: auth.h,v 1.62 2008/11/04 08:22:12 djm Exp $ */
+/* $MirOS: src/usr.bin/ssh/auth.h,v 1.11 2008/12/16 20:55:18 tg Exp $ */
+/* $OpenBSD: auth.h,v 1.63 2009/08/15 18:56:34 fgsch Exp $ */
 
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
@@ -111,7 +111,7 @@ void	do_authentication2(Authctxt *);
 
 void	auth_log(Authctxt *, int, const char *, const char *);
 void	userauth_finish(Authctxt *, int, char *);
-int	auth_root_allowed(char *);
+int	auth_root_allowed(const char *);
 
 char	*auth2_read_banner(void);
 
@@ -157,5 +157,4 @@ struct passwd *fakepw(void);
 
 #define AUTH_FAIL_MSG "Too many authentication failures for %.100s"
 
-#define SKEY_PROMPT "\nS/Key Password: "
 #endif

@@ -1,4 +1,4 @@
-/* $OpenBSD: kexgexs.c,v 1.11 2009/01/01 21:17:36 djm Exp $ */
+/* $OpenBSD: kexgexs.c,v 1.12 2009/06/21 07:37:15 dtucker Exp $ */
 /*
  * Copyright (c) 2000 Niels Provos.  All rights reserved.
  * Copyright (c) 2001 Markus Friedl.  All rights reserved.
@@ -42,7 +42,7 @@
 #include "compat.h"
 #include "monitor_wrap.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/kexgexs.c,v 1.4 2008/12/16 20:55:22 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/kexgexs.c,v 1.5 2009/03/22 15:01:16 tg Exp $");
 
 void
 kexgex_server(Kex *kex)
@@ -175,7 +175,9 @@ kexgex_server(Kex *kex)
 	}
 
 	/* sign H */
-	PRIVSEP(key_sign(server_host_key, &signature, &slen, hash, hashlen));
+	if (PRIVSEP(key_sign(server_host_key, &signature, &slen, hash,
+	    hashlen)) < 0)
+		fatal("kexgex_server: key_sign failed");
 
 	/* destroy_sensitive_data(); */
 

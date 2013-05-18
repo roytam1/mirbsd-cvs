@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-keygen.c,v 1.173 2009/02/21 19:32:04 tobias Exp $ */
+/* $OpenBSD: ssh-keygen.c,v 1.175 2009/08/27 17:33:49 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1994 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -13,8 +13,8 @@
  */
 
 #include <sys/param.h>
-#include <sys/stat.h>
 #include <sys/socket.h>
+#include <sys/stat.h>
 
 #include <openssl/evp.h>
 #include <openssl/pem.h>
@@ -45,7 +45,7 @@
 #include "scard.h"
 #endif
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.20 2008/12/16 20:55:29 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.21 2009/03/22 15:01:21 tg Exp $");
 
 /* Number of bits in the RSA/DSA key.  This value can be set on the command line. */
 #define DEFAULT_BITS		2048
@@ -603,7 +603,7 @@ do_fingerprint(struct passwd *pw)
 	public = key_load_public(identity_file, &comment);
 	if (public != NULL) {
 		fp = key_fingerprint(public, fptype, rep);
-		ra = key_fingerprint(public, fptype, SSH_FP_RANDOMART);
+		ra = key_fingerprint(public, SSH_FP_MD5, SSH_FP_RANDOMART);
 		printf("%u %s %s (%s)\n", key_size(public), fp, comment,
 		    key_type(public));
 		if (log_level >= SYSLOG_LEVEL_VERBOSE)
@@ -668,7 +668,7 @@ do_fingerprint(struct passwd *pw)
 			}
 			comment = *cp ? cp : comment;
 			fp = key_fingerprint(public, fptype, rep);
-			ra = key_fingerprint(public, fptype, SSH_FP_RANDOMART);
+			ra = key_fingerprint(public, SSH_FP_MD5, SSH_FP_RANDOMART);
 			printf("%u %s %s (%s)\n", key_size(public), fp,
 			    comment ? comment : "no comment", key_type(public));
 			if (log_level >= SYSLOG_LEVEL_VERBOSE)
@@ -698,7 +698,7 @@ print_host(FILE *f, const char *name, Key *public, int hash)
 		fptype = print_bubblebabble ? SSH_FP_SHA1 : SSH_FP_MD5;
 		rep =    print_bubblebabble ? SSH_FP_BUBBLEBABBLE : SSH_FP_HEX;
 		fp = key_fingerprint(public, fptype, rep);
-		ra = key_fingerprint(public, fptype, SSH_FP_RANDOMART);
+		ra = key_fingerprint(public, SSH_FP_MD5, SSH_FP_RANDOMART);
 		printf("%u %s %s (%s)\n", key_size(public), fp, name,
 		    key_type(public));
 		if (log_level >= SYSLOG_LEVEL_VERBOSE)
@@ -985,7 +985,8 @@ do_change_passphrase(struct passwd *pw)
  * Print the SSHFP RR.
  */
 static int
-do_print_resource_record(struct passwd *pw, char *fname, char *hname)
+do_print_resource_record(struct passwd *pw, const char *fname,
+    const char *hname)
 {
 	Key *public;
 	char *comment = NULL;

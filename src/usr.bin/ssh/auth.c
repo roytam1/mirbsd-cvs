@@ -53,11 +53,10 @@
 #include "packet.h"
 #include "monitor_wrap.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/auth.c,v 1.9 2008/12/16 20:55:18 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth.c,v 1.10 2008/12/16 22:13:26 tg Exp $");
 
 /* import */
 extern ServerOptions options;
-extern int use_privsep;
 
 /* Debugging messages */
 Buffer auth_debug;
@@ -206,7 +205,7 @@ auth_log(Authctxt *authctxt, int authenticated, const char *method,
  * Check whether root logins are disallowed.
  */
 int
-auth_root_allowed(char *method)
+auth_root_allowed(const char *method)
 {
 	switch (options.permit_root_login) {
 	case PERMIT_YES:
@@ -381,7 +380,8 @@ secure_filename(FILE *f, const char *file, struct passwd *pw,
 }
 
 FILE *
-auth_openkeyfile(const char *file, struct passwd *pw, int strict_modes)
+auth_openkeyfile(const char *file, struct passwd *pw,
+    int strict_modes __attribute__((unused)))
 {
 	char line[1024];
 	struct stat st;

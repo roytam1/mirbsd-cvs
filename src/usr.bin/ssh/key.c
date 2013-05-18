@@ -50,7 +50,7 @@
 #include "buffer.h"
 #include "log.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/key.c,v 1.3 2008/07/06 16:08:01 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/key.c,v 1.4 2008/12/16 20:55:22 tg Exp $");
 
 static void key_gen_callback(int, int, void *);
 
@@ -339,7 +339,7 @@ key_fingerprint_randomart(u_char *dgst_raw, u_int dgst_raw_len, const Key *k)
 	 * Chars to be used after each other every time the worm
 	 * intersects with itself.  Matter of taste.
 	 */
-	char	*augmentation_string = " .o+=*BOX@%&#/^SE";
+	const char *augmentation_string = " .o+=*BOX@%&#/^SE";
 	char	*retval, *p;
 	u_char	 field[FLDSIZE_X][FLDSIZE_Y];
 	u_int	 i, b;
@@ -994,10 +994,10 @@ key_gen_callback(int p, int n, void *arg)
 	} oldentropy;
 	uint32_t newentropy;
 
-	RAND_bytes(oldentropy.byone, sizeof (oldentropy));
+	RAND_bytes(oldentropy.byone, sizeof(oldentropy));
 	oldentropy.byfour[0] ^= (uint32_t)p;
 	oldentropy.byfour[1] ^= (uint32_t)n;
 	oldentropy.byfour[2] ^= (uint32_t)arg;
-	newentropy = arc4random_pushb(oldentropy.byone, sizeof (oldentropy));
+	newentropy = arc4random_pushb(oldentropy.byone, sizeof(oldentropy));
 	RAND_add(&newentropy, 4, 3.9);
 }

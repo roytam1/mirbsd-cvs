@@ -99,7 +99,7 @@
 #include "misc.h"
 #include "progressmeter.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/scp.c,v 1.17 2008/12/16 22:13:28 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/scp.c,v 1.18 2008/12/27 21:17:56 tg Exp $");
 
 #define COPY_BUFLEN	16384
 
@@ -123,12 +123,12 @@ int verbose_mode = 0;
 int showprogress = 1;
 
 /* This is the program to execute for the secured connection. ("ssh" or -S) */
-char *ssh_program = _PATH_SSH_PROGRAM;
+const char *ssh_program = _PATH_SSH_PROGRAM;
 
 /* This is used to store the pid of ssh_program */
 pid_t do_cmd_pid = -1;
 
-static void
+static __dead void
 killchild(int signo)
 {
 	if (do_cmd_pid > 1) {
@@ -257,9 +257,9 @@ typedef struct {
 } BUF;
 
 BUF *allocbuf(BUF *, int, int);
-void lostconn(int);
+static __dead void lostconn(int);
 int okname(char *);
-void run_err(const char *,...);
+static void run_err(const char *,...) __attribute__((format (printf, 1, 2)));
 void verifydir(char *);
 
 struct passwd *pwd;
@@ -276,7 +276,7 @@ void sink(int, char *[]);
 void source(int, char *[]);
 void tolocal(int, char *[]);
 void toremote(char *, int, char *[]);
-void usage(void);
+static __dead void usage(void);
 
 int
 main(int argc, char **argv)
@@ -284,8 +284,6 @@ main(int argc, char **argv)
 	int ch, fflag, tflag, status, n;
 	double speed;
 	char *targ, *endp, **newargv;
-	extern char *optarg;
-	extern int optind;
 
 	/* Ensure that fds 0, 1 and 2 are open or directed to /dev/null */
 	sanitise_stdfd();
@@ -479,7 +477,7 @@ toremote(char *targ, int argc, char **argv)
 
 	*targ++ = 0;
 	if (*targ == 0)
-		targ = ".";
+		targ = (char *)".";
 
 	arg = xstrdup(argv[argc - 1]);
 	if ((thost = strrchr(arg, '@'))) {
@@ -511,7 +509,7 @@ toremote(char *targ, int argc, char **argv)
 
 			*src++ = 0;
 			if (*src == 0)
-				src = ".";
+				src = (char *)".";
 			host = strrchr(argv[i], '@');
 
 			if (host) {
@@ -578,7 +576,7 @@ tolocal(int argc, char **argv)
 		}
 		*src++ = 0;
 		if (*src == 0)
-			src = ".";
+			src = (char *)".";
 		if ((host = strrchr(argv[i], '@')) == NULL) {
 			host = argv[i];
 			suser = NULL;
@@ -718,7 +716,7 @@ next:			if (fd != -1) {
 			fd = -1;
 		}
 		if (!haderr)
-			(void) atomicio(vwrite, remout, "", 1);
+			(void) atomicio(vwrite, remout, (char *)"", 1);
 		else
 			run_err("%s: %s", name, strerror(haderr));
 		(void) response();
@@ -774,7 +772,7 @@ rsource(char *name, struct stat *statp)
 		source(1, vect);
 	}
 	(void) closedir(dirp);
-	(void) atomicio(vwrite, remout, "E\n", 2);
+	(void) atomicio(vwrite, remout, (char *)"E\n", 2);
 	(void) response();
 }
 
@@ -847,7 +845,8 @@ sink(int argc, char **argv)
 	mode_t mode, omode, mask;
 	off_t size, statbytes;
 	int setimes, targisdir, wrerrno = 0;
-	char ch, *cp, *np, *targ, *why, *vect[1], buf[2048];
+	char ch, *cp, *np, *targ, *vect[1], buf[2048];
+	const char *why;
 	struct timeval tv[2];
 
 #define	atime	tv[0]
@@ -866,7 +865,7 @@ sink(int argc, char **argv)
 	if (targetshouldbedirectory)
 		verifydir(targ);
 
-	(void) atomicio(vwrite, remout, "", 1);
+	(void) atomicio(vwrite, remout, (char *)"", 1);
 	if (stat(targ, &stb) == 0 && S_ISDIR(stb.st_mode))
 		targisdir = 1;
 	for (first = 1;; first = 0) {
@@ -894,7 +893,7 @@ sink(int argc, char **argv)
 			continue;
 		}
 		if (buf[0] == 'E') {
-			(void) atomicio(vwrite, remout, "", 1);
+			(void) atomicio(vwrite, remout, (char *)"", 1);
 			return;
 		}
 		if (ch == '\n')
@@ -916,7 +915,7 @@ sink(int argc, char **argv)
 			atime.tv_usec = strtol(cp, &cp, 10);
 			if (!cp || *cp++ != '\0')
 				SCREWUP("atime.usec not delimited");
-			(void) atomicio(vwrite, remout, "", 1);
+			(void) atomicio(vwrite, remout, (char *)"", 1);
 			continue;
 		}
 		if (*cp != 'C' && *cp != 'D') {
@@ -1007,7 +1006,7 @@ sink(int argc, char **argv)
 bad:			run_err("%s: %s", np, strerror(errno));
 			continue;
 		}
-		(void) atomicio(vwrite, remout, "", 1);
+		(void) atomicio(vwrite, remout, (char *)"", 1);
 		if ((bp = allocbuf(&buffer, ofd, COPY_BUFLEN)) == NULL) {
 			(void) close(ofd);
 			continue;
@@ -1095,7 +1094,7 @@ bad:			run_err("%s: %s", np, strerror(errno));
 			run_err("%s: %s", np, strerror(wrerrno));
 			break;
 		case NO:
-			(void) atomicio(vwrite, remout, "", 1);
+			(void) atomicio(vwrite, remout, (char *)"", 1);
 			break;
 		case DISPLAYED:
 			break;
@@ -1149,7 +1148,7 @@ usage(void)
 	exit(1);
 }
 
-void
+static void
 run_err(const char *fmt,...)
 {
 	static FILE *fp;

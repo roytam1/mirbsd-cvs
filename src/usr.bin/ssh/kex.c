@@ -1,4 +1,4 @@
-/* $OpenBSD: kex.c,v 1.79 2007/06/05 06:52:37 djm Exp $ */
+/* $OpenBSD: kex.c,v 1.81 2009/05/27 06:34:36 andreas Exp $ */
 /*
  * Copyright (c) 2000, 2001 Markus Friedl.  All rights reserved.
  *
@@ -46,9 +46,7 @@
 #include "dispatch.h"
 #include "monitor.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/kex.c,v 1.6 2007/06/16 15:41:50 tg Exp $");
-
-#define KEX_COOKIE_LEN	16
+__RCSID("$MirOS: src/usr.bin/ssh/kex.c,v 1.8 2008/12/16 22:13:28 tg Exp $");
 
 extern const EVP_MD *evp_ssh_sha256(void);
 

@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/ssh/lib/Makefile,v 1.8 2008/12/16 22:12:31 tg Exp $
+# $MirOS: src/usr.bin/ssh/lib/Makefile,v 1.9 2008/12/27 21:18:01 tg Exp $
 # $OpenBSD: Makefile,v 1.58 2008/11/04 08:22:13 djm Exp $
 
 .PATH:		${.CURDIR}/..
@@ -16,6 +16,8 @@ SRCS=	authfd.c authfile.c bufaux.c bufbn.c buffer.c canohost.c channels.c \
 SRCS+=	md-sha256.c
 
 NOPIC=		yes
+
+CFLAGS_channels.o+=	-Wno-unused
 
 install:
 

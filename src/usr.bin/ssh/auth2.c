@@ -1,4 +1,4 @@
-/* $OpenBSD: auth2.c,v 1.120 2008/11/04 08:22:12 djm Exp $ */
+/* $OpenBSD: auth2.c,v 1.121 2009/06/22 05:39:28 dtucker Exp $ */
 /*
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
@@ -30,8 +30,8 @@
 
 #include <fcntl.h>
 #include <pwd.h>
-#include <string.h>
 #include <stdarg.h>
+#include <string.h>
 #include <unistd.h>
 
 #include "atomicio.h"
@@ -49,7 +49,7 @@
 #include "pathnames.h"
 #include "monitor_wrap.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/auth2.c,v 1.8 2008/03/02 21:14:18 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth2.c,v 1.9 2008/12/16 20:55:19 tg Exp $");
 
 /* import */
 extern ServerOptions options;
