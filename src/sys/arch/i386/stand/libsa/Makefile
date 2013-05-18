@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.7 2005/10/20 12:47:52 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.8 2006/10/15 01:35:54 tg Exp $
 # $OpenBSD: Makefile,v 1.44 2004/06/26 05:19:37 tom Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -14,6 +14,10 @@ CPPFLAGS+=	-D__INTERNAL_LIBSA_CREAD #-DCOMPAT_UFS
 CPPFLAGS+=	${SACFLAGS:M-[DI]*}
 COPTS+=		${SACFLAGS:N-[DI]*} ${DEBUGFLAGS}
 DEBUGLIBS=	No
+KERNSTAND=	#defined
+KERNBASE?=	$S/../kern
+
+.include "${KERNBASE}/c/Makefile.inc"
 
 # i386 stuff (so, it will possibly load in the same 64k)
 SRCS+=	machdep.c dev_i386.c exec_i386.c cmd_i386.c loadfile.c

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/net/Makefile.inc,v 1.3 2005/07/09 13:23:31 tg Exp $
+# $MirOS: src/lib/libc/net/Makefile.inc,v 1.4 2005/09/22 20:40:02 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.41 2005/08/06 20:30:03 espie Exp $
 
 # net sources
@@ -21,12 +21,6 @@ SRCS+=	base64.c freeaddrinfo.c gai_strerror.c getaddrinfo.c gethostnamadr.c \
 
 # IPv6
 SRCS+=	ip6opt.c rthdr.c vars6.c
-
-# machine-dependent net sources
-# m-d Makefile.inc must include sources for:
-#	htonl() htons() ntohl() ntohs()
-
-.include "${LIBCSRCDIR}/arch/${MACHINE_ARCH}/net/Makefile.inc"
 
 MAN+=	byteorder.3 ethers.3 gai_strerror.3 getaddrinfo.3 gethostbyname.3 \
 	getifaddrs.3 getnameinfo.3 getnetent.3 getprotoent.3 \

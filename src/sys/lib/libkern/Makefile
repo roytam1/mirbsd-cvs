@@ -1,14 +1,15 @@
-# $MirOS: src/sys/lib/libkern/Makefile,v 1.3 2005/07/21 21:52:23 tg Exp $
+# $MirOS: src/sys/lib/libkern/Makefile,v 1.4 2006/06/17 22:12:49 tg Exp $
 # $NetBSD: Makefile,v 1.31 1996/08/10 04:01:31 mycroft Exp $
 # $OpenBSD: Makefile,v 1.18 2004/11/28 07:20:25 mickey Exp $
 
-LIB=	kern
-NOPIC=	yes
+LIB=		kern
+NOPIC=		yes
 
 MACHINE=	${XMACHINE}
 MACHINE_ARCH=	${XMACHINE_ARCH}
 
-M=	${.CURDIR}/arch/${MACHINE_ARCH}
+M=		${.CURDIR}/arch/${MACHINE_ARCH}
+KERNBASE?=	$S/../kern
 
 CPPFLAGS=	-I$M ${KERNCPPFLAGS}
 
@@ -16,6 +17,8 @@ CPPFLAGS=	-I$M ${KERNCPPFLAGS}
 .PATH:	$M
 .include "$M/Makefile.inc"
 .endif
+
+.include "${KERNBASE}/c/Makefile.inc"
 
 # Quad support
 SRCS+=	adddi3.c anddi3.c ashldi3.c ashrdi3.c cmpdi2.c divdi3.c iordi3.c \
