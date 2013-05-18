@@ -733,6 +733,11 @@ stop		^[ )
 :main			Text editing window
 :inherit windows
 
+begin_marking,uparw,toggle_marking	^[ [ 1 ; 2 A	xterm shift-up mark
+begin_marking,dnarw,toggle_marking	^[ [ 1 ; 2 B	xterm shift-down mark
+begin_marking,rtarw,toggle_marking	^[ [ 1 ; 2 C	xterm shift-right mark
+begin_marking,ltarw,toggle_marking	^[ [ 1 ; 2 D	xterm shift-left mark
+
  Ispell
 :def ispellfile filt,"cat >ispell.tmp;ispell ispell.tmp </dev/tty >/dev/tty;cat ispell.tmp;/bin/rm ispell.tmp",rtn,retype
 :def ispellword psh,nextword,markk,prevword,markb,filt,"cat >ispell.tmp;ispell ispell.tmp </dev/tty >/dev/tty;tr -d <ispell.tmp '\\012';/bin/rm ispell.tmp",rtn,retype,nextword
