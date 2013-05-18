@@ -1,7 +1,7 @@
 /*	$OpenBSD: arc4random.c,v 1.20 2008/10/03 18:46:04 otto Exp $	*/
 
 /*
- * Copyright (c) 2006, 2007, 2008 Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2006, 2007, 2008, 2009 Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1996, David Mazieres <dm@uun.org>
  * Copyright (c) 2008, Damien Miller <djm@openbsd.org>
  *
@@ -46,7 +46,7 @@
 #include <unistd.h>
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.18 2008/12/06 18:05:33 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.19 2008/12/27 21:17:54 tg Exp $");
 
 #ifdef __GNUC__
 #define inline __inline
@@ -135,18 +135,21 @@ arc4_stir(void)
 			pid_t thepid;
 		} alignedbuf;
 	} sbuf;
+	volatile uint8_t carryover;
 
 	if (!rs_initialized) {
 		arc4_init();
 		rs_initialized = true;
 	}
 
+	carryover ^= (arc4_getbyte() & 0x0F);
 	taina_time(&sbuf.alignedbuf.wtime);
 	sbuf.alignedbuf.thepid = arc4_stir_pid = getpid();
 	clock_gettime(CLOCK_VIRTUAL, &sbuf.alignedbuf.vtime);
 	clock_gettime(CLOCK_PROF, &sbuf.alignedbuf.ptime);
 	clock_gettime(CLOCK_MONOTONIC, &sbuf.alignedbuf.ntime);
 	arc4_addrandom(sbuf.charbuf, sizeof (sbuf.alignedbuf));
+	carryover ^= (arc4_getbyte() & 0xF0);
 
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_ARND;
@@ -155,7 +158,7 @@ arc4_stir(void)
 	sysctl(mib, 2, sbuf.charbuf, &len, NULL, 0);
 
 	/* discard by a randomly fuzzed factor as well */
-	len = 256 * 4 + (arc4_getbyte() & 0x0F);
+	len = 256 * 4 + (arc4_getbyte() & 0x0F) + carryover;
 	arc4_addrandom(sbuf.charbuf, sizeof (sbuf));
 
 	/*
@@ -324,7 +327,7 @@ arc4random_pushb(const void *buf, size_t len)
 	if (sysctl(mib, 2, &i, &j, &idat.buf[0], len) != 0)
 		i = idat.xbuf[0] ^
 		    (((v & 1) + 1) * (rand() & 0xFF)) ^ arc4random();
-	idat.xbuf[1] ^= tr;
+	/* idat.xbuf[1] ^= tr; // dead because of the following line: */
 
 	taina_time(&idat.tai64tm);
 	idat.xbuf[0] ^= v;
