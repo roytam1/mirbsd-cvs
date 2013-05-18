@@ -63,7 +63,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.17 2008/12/02 16:37:00 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.18 2008/12/02 16:46:19 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -511,6 +511,7 @@ int donumeric(int num)
 #define DO_DESCRIBE	52
 #define DO_CTCP		53
 #define DO_NOTICE	21
+#define DO_NAMES	23
 static const char *cmdlist[LISTSIZE] =
 {"AWAY", "ADMIN", "CONNECT", "CLOSE", "DIE", "DNS", "ERROR", "HELP",
  "HASH", "INVITE", "INFO", "ISON", "JOIN", "KICK", "KILL", "LIST", "LINKS",
@@ -661,8 +662,8 @@ void parseinput(void)
 	}
 	if (i == DO_ME) {
 		if (object == NULL) {
-		    printf ("*** Nowhere to send");
-		    return;
+			printf("*** Nowhere to send");
+			return;
 		}
 		while ((*linein) && (*linein != ' '))
 			++linein;
@@ -683,7 +684,7 @@ void parseinput(void)
 		while ((*linein) && (*linein != ' '))
 			++linein;
 		if (!*tmp || !*linein || tmp >= linein) {
-			printf ("*** Nothing to send");
+			printf("*** Nothing to send");
 			return;
 		}
 		*linein++ = '\0';
@@ -714,7 +715,7 @@ void parseinput(void)
 		while ((*linein) && (*linein != ' '))
 			++linein;
 		if (!*tmp || !*linein || tmp >= linein) {
-			printf ("*** Nothing to send");
+			printf("*** Nothing to send");
 			return;
 		}
 		*linein++ = '\0';
@@ -744,10 +745,19 @@ void parseinput(void)
 	if (i == DO_MSG)
 	    i = DO_PRIVMSG;
 	if (i == DO_W) {
-		snprintf(lineout, LINELEN, "WHOIS %s %s\n",
+		snprintf(lineout, LINELEN, "WHOIS %s %s",
 		    tok_out[1], tok_out[1]);
 		outcol = printf("= %s", lineout);
-		goto parseinput_done;
+		goto parseinput_cont;
+	}
+	if (i == DO_NAMES && !tok_out[1]) {
+		if (object == NULL) {
+			printf("*** Nowhere to send");
+			return;
+		}
+		snprintf(lineout, LINELEN, "NAMES %s", object->name);
+		outcol = printf("= %s", lineout);
+		goto parseinput_cont;
 	}
 
 	if (i == DO_PRIVMSG || i == DO_JOIN || i == DO_NOTICE)
@@ -765,6 +775,7 @@ void parseinput(void)
 		   tok_out[j + 1] != NULL) ? " :" : " "), tok_out[j]);
 	   outcol = wordwrapout(tok_out[j], outcol);
 	}
+ parseinput_cont:
 	strlcat(lineout, "\n", LINELEN);
     } else {
 	j = 0;
