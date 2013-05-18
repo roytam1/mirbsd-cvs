@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/crypto/deflate.c,v 1.2 2005/03/06 21:27:33 tg Exp $ */
+/* $MirOS: src/sys/crypto/deflate.c,v 1.3 2005/07/03 21:19:00 tg Exp $ */
 /* $OpenBSD: deflate.c,v 1.4 2005/03/24 11:43:40 hshoexer Exp $ */
 
 /*
@@ -63,8 +63,8 @@ deflate_global(u_int8_t *data, u_int32_t size, int comp, u_int8_t **out)
 		buf[j].flag = 0;
 
 	zbuf.next_in = data;	/* data that is going to be processed */
-	zbuf.zalloc = z_alloc;
-	zbuf.zfree = z_free;
+	zbuf.zalloc = zcalloc;
+	zbuf.zfree = zcfree;
 	zbuf.opaque = Z_NULL;
 	zbuf.avail_in = size;	/* Total length of data to be processed */
 
@@ -98,7 +98,7 @@ deflate_global(u_int8_t *data, u_int32_t size, int comp, u_int8_t **out)
 
 	error = comp ? inflateInit2(&zbuf, window_inflate) :
 	    deflateInit2(&zbuf, Z_DEFAULT_COMPRESSION, Z_METHOD,
-	    window_deflate, Z_MEMLEVEL, Z_DEFAULT_STRATEGY, MINCOMP);
+	    window_deflate, Z_MEMLEVEL, Z_DEFAULT_STRATEGY);
 
 	if (error != Z_OK)
 		goto bad;
@@ -164,7 +164,7 @@ bad:
 }
 
 void *
-z_alloc(void *nil, u_int type, u_int size)
+zcalloc(void *nil, u_int type, u_int size)
 {
 	void *ptr;
 
@@ -173,7 +173,7 @@ z_alloc(void *nil, u_int type, u_int size)
 }
 
 void
-z_free(void *nil, void *ptr, u_int size)
+zcfree(void *nil, void *ptr)
 {
 	free(ptr, M_CRYPTO_DATA);
 }

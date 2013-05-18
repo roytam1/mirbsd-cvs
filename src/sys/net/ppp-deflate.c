@@ -1,4 +1,4 @@
-/**	$MirOS$	*/
+/**	$MirOS: src/sys/net/ppp-deflate.c,v 1.2 2005/03/06 21:28:17 tg Exp $	*/
 /*	$OpenBSD: ppp-deflate.c,v 1.7 2002/09/13 00:12:07 deraadt Exp $	*/
 /*	$NetBSD: ppp-deflate.c,v 1.1 1996/03/15 02:28:09 paulus Exp $	*/
 
@@ -45,7 +45,7 @@
 #include <sys/mbuf.h>
 #include <net/ppp_defs.h>
 #define	_BSD_STANDXX
-#include <net/zlib.h>
+#include <zlib.h>
 
 #define PACKETPTR	struct mbuf *
 #include <net/ppp-comp.h>
@@ -69,7 +69,7 @@ struct deflate_state {
 #define DEFLATE_OVHD	2		/* Deflate overhead/packet */
 
 static void	*zalloc(void *, u_int items, u_int size);
-static void	zfree(void *, void *ptr, u_int nb);
+static void	zfree(void *, void *ptr);
 static void	*z_comp_alloc(u_char *options, int opt_len);
 static void	*z_decomp_alloc(u_char *options, int opt_len);
 static void	z_comp_free(void *state);
@@ -138,10 +138,9 @@ zalloc(notused, items, size)
 }
 
 void
-zfree(notused, ptr, nbytes)
+zfree(notused, ptr)
     void *notused;
     void *ptr;
-    u_int nbytes;
 {
     FREE(ptr, M_DEVBUF);
 }

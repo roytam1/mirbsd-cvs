@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/conf/Makefile.i386,v 1.5 2005/05/04 22:01:08 tg Exp $
+# $MirOS: src/sys/arch/i386/conf/Makefile.i386,v 1.6 2005/07/04 04:33:35 tg Exp $
 # $OpenBSD: Makefile.i386,v 1.40 2004/05/11 04:01:00 deraadt Exp $
 
 # Makefile for MirOS BSD and derived operating environments
@@ -34,7 +34,7 @@ S!=	cd ../../../..; pwd
 .endif
 I386=	$S/arch/i386
 
-INCLUDES=	-nostdinc -I. -I$S/arch -I$S
+INCLUDES=	-nostdinc -I. -I$S/arch -I$S -I${BSDSRCDIR}/lib/libz
 CPPFLAGS=	${INCLUDES} ${IDENT} -D_KERNEL -Di386
 CDIAGFLAGS=	-Werror -Wall -Wstrict-prototypes -Wmissing-prototypes \
 		-Wno-uninitialized -Wno-format -Wno-main
@@ -57,7 +57,7 @@ LINKFLAGS=	-Ttext 0xD0100120 -e start -N
 STRIPFLAGS=	-g -X -x
 
 HOSTCC=		${CC}
-HOSTED_CPPFLAGS=${CPPFLAGS:S/^-nostdinc$//}
+HOSTED_CPPFLAGS=${CPPFLAGS:N-nostdinc:N-D_KERNEL}
 HOSTED_CFLAGS=	${CFLAGS}
 
 ### find out what to use for libkern
@@ -145,6 +145,12 @@ tai_make: tai_make.o
 
 tai_make.o: $S/lib/libkern/tai_make.c
 	${HOSTED_C}
+
+.PATH: ${BSDSRCDIR}/lib/libz
+.include "${BSDSRCDIR}/lib/libz/Makefile.gen"
+
+# libz generated headers
+.depend: crc32.h inffixed.h trees.h
 
 newvers: ${SYSTEM_DEP} ${SYSTEM_SWAP_DEP}
 	${SHELL} $S/conf/newvers.sh "${OSrev}" "${OSrpl}" \
