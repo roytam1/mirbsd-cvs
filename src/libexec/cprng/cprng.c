@@ -46,7 +46,7 @@
 #include <stdint.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.12 2007/09/28 20:04:13 tg Exp $");
+__RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.13 2008/12/27 22:15:31 tg Exp $");
 
 #ifndef MAYPROF
 #if defined(SIGPROF) && defined(ITIMER_PROF)
@@ -56,12 +56,12 @@ __RCSID("$MirOS: src/libexec/cprng/cprng.c,v 1.12 2007/09/28 20:04:13 tg Exp $")
 #endif
 #endif
 
-volatile sig_atomic_t glocke;
-useconds_t littlesleep = 2000;
-uint8_t obuf[1024];
-uint64_t intropy = 0;
+static volatile sig_atomic_t glocke;
+static useconds_t littlesleep = 2000;
+static uint8_t obuf[1024];
+static uint64_t intropy = 0;
 #if MAYPROF
-bool doprof = false;
+static bool doprof = false;
 #endif
 
 static void laeuten(int);
