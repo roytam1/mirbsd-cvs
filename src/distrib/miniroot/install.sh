@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/miniroot/install.sh,v 1.6 2005/12/06 12:44:02 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sh,v 1.7 2005/12/15 00:51:18 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -359,19 +359,6 @@ __EOT
 ask_yn "Configure the network?" yes
 [[ $resp == y ]] && donetconfig
 
-_oifs=$IFS
-IFS=
-while :; do
-	askpass "Password for root account? (will not echo)"
-	_password=$resp
-
-	askpass "Password for root account? (again)"
-	[[ $resp == $_password ]] && break
-
-	echo "Passwords do not match, try again."
-done
-IFS=$_oifs
-
 install_sets
 
 # Remount all filesystems in /etc/fstab with the options from /etc/fstab, i.e.
@@ -383,6 +370,42 @@ done </etc/fstab
 
 # Handle questions...
 questions
+
+# Create initial user as root replacement
+cat <<EOF
+We will now create a user account on your system, which you can then
+use to log in and work with the system, as well as do administrative
+tasks using sudo(8). The newly created user account will be added to
+the class 'staff', and the group 'wheel' for being able to use sudo.
+EOF
+_oifs=$IFS
+IFS=; _rootuser=; full=; _rootuid=3000
+while :; do
+	ask_until "User name?" $_rootuser
+	_rootuser=$resp
+	ask "Full name?" $full
+	full=$resp
+	ask "User ID?" $_rootuid
+	let _rootuid=$resp
+	askpass "Password? (will not echo)"
+	_password=$resp
+	askpass "Password? (again)"
+
+	if (( (_rootuid < 1000) || (_rootuid > 32765) )); then
+		print UID mismatch, must be between 1000 and 32765.
+	elif [[ $resp != $pass ]]; then
+		print Passwords do not match.
+	elif [[ $_rootuser != *([a-z]) ]]; then
+		print Username is not alphabetic.
+	elif [[ $full = *:* ]]; then
+		print Full name contains a colon.
+	else
+		ask_yn "Everything ok?"
+		[[ $resp = y ]] && break
+	fi
+done
+IFS=$_oifs
+_rootline=":$_rootuid:$_rootuid:staff:0:0:$full:/home/$_rootuser:/bin/mksh"
 
 echo -n "Saving configuration files..."
 
@@ -428,11 +451,24 @@ kern /kern kernfs rw,noauto 0 0
 proc /proc procfs rw,linux 0 0
 __EOF
 
-_encr=$(/mnt/usr/bin/encrypt -b 8 -- "$_password")
-echo "1,s@^root::@root:${_encr}:@
-w
-q" | ed /mnt/etc/master.passwd 2>/dev/null
-/mnt/usr/sbin/pwd_mkdb -p -d /mnt/etc /etc/master.passwd
+# Generate initial user
+ed -s /mnt/etc/master.passwd <<EOF
+\$i
+$_rootuser:$(/mnt/usr/bin/encrypt -b 8 -- "$_password")$_rootline
+.
+wq
+EOF
+ed -s /mnt/etc/group <<EOF
+/^wheel:/s/\$/,$_rootuser/
+\$i
+$_rootuser:*:$_rootuid:
+.
+wq
+EOF
+print "/^@ROOT@/s//$_rootuser\nwq" | ed -s /mnt/etc/sudoers
+cp -r /mnt/etc/skel /mnt/home/$_rootuser
+chmod 711 /mnt/home/$_rootuser
+chown -R $_rootuid:$_rootuid /mnt/home/$_rootuser
 
 echo "done.\nGenerating initial host.random file..."
 dd if=/dev/urandom of=/mnt/var/db/host.random bs=1024 count=64
