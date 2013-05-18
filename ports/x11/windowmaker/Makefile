@@ -1,5 +1,9 @@
-# $MirOS: ports/x11/windowmaker/Makefile,v 1.6 2006/02/09 12:25:14 tg Exp $
+# $MirOS: ports/x11/windowmaker/Makefile,v 1.7 2006/03/06 22:30:04 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.57 2003/08/16 19:06:07 tedu Exp $
+
+# ranlib: unable to copy file '/usr/ports/x11/windowmaker/w-windowmaker-0.92.0-0/fake-i386/usr/mpkg/lib/libWINGs.a' reason: Permission denied
+# fixed in automake-1.4p6-4
+BROKEN=			please convert this port to CONFIGURE_STYLE=automake
 
 COMMENT=		'window manager that emulates NEXTSTEP(tm)'
 COMMENT-lang=		"language subpackage for Window Maker"
@@ -9,9 +13,7 @@ PL=			0
 DISTNAME=		WindowMaker-${V}
 PKGNAME=		${DISTNAME:L}-${PL}
 CATEGORIES=		x11 x11/windowmaker
-
 HOMEPAGE=		http://www.windowmaker.org/
-
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -50,6 +52,7 @@ MODULES=		devel/gettext graphics/png
 LIB_DEPENDS=		jpeg::graphics/jpeg \
 			tiff::graphics/tiff \
 			ungif::graphics/libungif
+USE_CXX=		Yes
 .endif
 
 post-patch:
