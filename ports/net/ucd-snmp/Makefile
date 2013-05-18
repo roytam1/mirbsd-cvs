@@ -1,4 +1,4 @@
-# $MirOS: ports/net/ucd-snmp/Makefile,v 1.5 2007/02/22 21:46:50 tg Exp $
+# $MirOS: ports/net/ucd-snmp/Makefile,v 1.6 2008/05/02 13:31:16 tg Exp $
 # $OpenBSD: Makefile,v 1.38 2003/04/22 15:15:57 danh Exp $
 
 COMMENT=		extensible SNMP implementation
@@ -9,6 +9,7 @@ CATEGORIES=     	net
 MASTER_SITES=   	${MASTER_SITE_SOURCEFORGE:=net-snmp/}
 HOMEPAGE=		http://net-snmp.sourceforge.net/
 
+# various BSD-styles
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
