@@ -1,7 +1,6 @@
-# $MirOS: src/sys/arch/i386/stand/fdboot/Makefile,v 1.10 2009/01/10 13:41:18 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/fdboot/Makefile,v 1.11 2009/01/10 22:18:52 tg Exp $
 
 #BOOTSELECT_HOOK=yes
-CPPFLAGS+=	-DSMALL_BOOT
 BOOTLDR_PATH=	${.CURDIR}/../boot
 NOMAN=		yes
 SMALL_BOOT=	Yes

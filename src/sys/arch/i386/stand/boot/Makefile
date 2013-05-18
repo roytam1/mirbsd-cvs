@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.28 2009/01/31 18:49:26 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.29 2009/02/01 10:31:14 tg Exp $
 
 SMALL_BOOT?=	No
 
@@ -48,6 +48,9 @@ DPADD+=		${DLIBSA}
 # comment this out if trouble
 CPPFLAGS+=	-DUSE_PXE -DIN_PXEBOOT
 SRCS+=		net.c
+.else
+CPPFLAGS+=	-DSMALL_BOOT
+V=		${REAL_V}-small
 .endif
 
 all:		${PROG}
