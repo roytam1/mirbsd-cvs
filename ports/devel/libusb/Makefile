@@ -1,10 +1,10 @@
-# $MirOS: ports/devel/libusb/Makefile,v 1.6 2006/09/14 00:08:24 tg Exp $
+# $MirOS: ports/devel/libusb/Makefile,v 1.7 2008/08/26 18:46:02 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2004/04/21 03:04:14 naddy Exp $
 
 COMMENT=		USB access library
 DISTNAME=		libusb-0.1.12
 CATEGORIES=		devel
-HOMEPAGE=		http://libusb.sourceforge.net/
+HOMEPAGE=		http://www.libusb.org/
 
 # LGPL
 PERMIT_PACKAGE_CDROM=   Yes
