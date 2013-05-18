@@ -79,7 +79,7 @@ Author: tg@
 ----
 Date: 15.03.2008
 Author: tg@
-Subject: The Unicode Release
+Title: The Unicode Release
 
 <p>MirOS ξ (MirOS xi) is not only our eleventh release (as I started
  counting at zero), it is also the Unicode release. While it finally
@@ -540,7 +540,7 @@ Date: 20.04.2008 03:52
 ----
 Date: 20.04.2008 21:42
 Author: tg@
-Subject: more rants
+Title: more rants
 
 <p>I already ranted about pcc… well, I got a reply to my <em>first</em> mail
  to the pcc list (where the second one cleared up the five things mentioned
@@ -569,7 +569,7 @@ Subject: more rants
 ----
 Date: 21.04.2008 11:36
 Author: tg@
-Subject: when ranting helps
+Title: when ranting helps
 
 <p>Today’s <a href="http://pcc.ludd.ltu.se/">pcc</a> from anoncvs bootstraps
  successfully and builds mksh just fine, and is amazingly fast (almost en
@@ -601,7 +601,7 @@ Author: bsiegert@
 ----
 Date: 21.04.2008 20:13
 Author: tg@
-Subject: more creative uses for ttftot42
+Title: more creative uses for ttftot42
 
 <p>The ttftot42 utility I asked bsiegert@ to port was actually mentioned
  in some GNU groff documentation as a possible way to use OpenType fonts
@@ -623,4 +623,8 @@ Subject: more creative uses for ttftot42
 </div><p style="margin-top:0px;">(not using pppoe(4), to enable debugging)</p>
 <p>For me, this very much looks like my ISP doesn’t like my nose or something
  and wants the ADSL (ppp(8)+pppoe(8)) session to terminate.</p>
+<p>Another unrelated side note: MirOS <tt>ports/math/boinc</tt> definitively
+ is able to return valid results to some projects (although some of these
+ which work require setting the primary platform to Lunox, but I’m trying to
+ get that bug on their server-side fixed.</p>
 ----
