@@ -6,10 +6,6 @@
 
 #include <machine/asm.h>
 
-#include "abi.h"
-
-RCSID("$NetBSD: s_ceil.S,v 1.8 2011/06/18 21:24:51 joerg Exp $")
-
 ENTRY(ceil)
 	subl	$8,%esp
 
@@ -20,7 +16,7 @@ ENTRY(ceil)
 	movw	%dx,(%esp)
 	fldcw	(%esp)		/* load modfied control word */
 
-	fldl	8(%ebp)			/* round */
+	fldl	12(%esp);		/* round */
 	frndint
 
 	fldcw	4(%esp)		/* restore original control word */

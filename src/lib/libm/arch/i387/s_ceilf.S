@@ -6,8 +6,6 @@
 
 #include <machine/asm.h>
 
-RCSID("$NetBSD: s_ceilf.S,v 1.9 2011/06/18 21:24:51 joerg Exp $")
-
 ENTRY(ceilf)
 	subl	$8,%esp
 
@@ -18,7 +16,7 @@ ENTRY(ceilf)
 	movw	%dx,(%esp)
 	fldcw	(%esp)		/* load modfied control word */
 
-	flds	8(%ebp)			/* round */
+	flds	12(%esp);		/* round */
 	frndint
 
 	fldcw	4(%esp)		/* restore original control word */
