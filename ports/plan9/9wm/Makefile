@@ -1,5 +1,7 @@
-# $MirOS: ports/plan9/9wm/Makefile,v 1.6 2008/03/09 19:16:06 tg Exp $
+# $MirOS: ports/plan9/9wm/Makefile,v 1.7 2008/10/12 13:53:15 tg Exp $
 # $OpenBSD: Makefile,v 1.19 2002/10/28 02:13:21 naddy Exp $
+
+BROKEN=			patches do not apply
 
 ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
