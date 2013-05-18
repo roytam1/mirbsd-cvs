@@ -1585,12 +1585,19 @@ Author: tg@
  just like the sparc port, so please check it out of CVS and test it.</p>
 <p>No progress on the nmeadecode(8) front (yet), but fixed some endianness
  bugs in OpenNTPD. I should call it MirNTPD, I suppose. And rdate(8).</p>
+<p>We also spotted some bugs in the ports infrastructure again (better pre
+ than post release ☺) and I fixed the problem that COPTS were passed twice
+ in imake(1) build environments.</p>
 <p>Finally weekend, I’m so happy. Benny today finished the slides for that
  autotools presentation he’s going to hold at FrOSCon, 42 in total (wonder
  why…) and is happy about the weekend too. Open source developers should –
  in my opinion – get two hours a day off work to hack. (But I can’t really
  complain, I’m off quite well with my company. Thanks to my bosses, if you
  should happen to read this.)</p>
+<p>Benny is also trying to upgrade the www/firesomething (Iceweasel) port.
+ Apparently with success. I still don’t like applications that use glib2 –
+ even though I probably will need one, as I might be switching to mcabber,
+ from centericq; I dropped all ICQ/Yahoo!/MSN contacts tonight.</p>
 <p>Oh yeah. FreeWRT. Zaurus/Ångström. Kernel modules. Packages. Linux JUST
  SUCKS, get it. Things I take for granted just aren’t in there yet – worse
  is that most of them won’t make it in since it’s a bunch of packages from

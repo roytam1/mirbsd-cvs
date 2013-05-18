@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.43 2007/08/09 21:46:34 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.44 2007/08/18 00:30:32 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.43 2007/08/09 21:46:34 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.44 2007/08/18 00:30:32 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R30</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -623,10 +623,10 @@ mws_content <<'EOF'
  and more suitable for small terminals)</li>
 <li>I'd like to switch the internal integer type to 64 bits
  signed (any takers?). This includes 2^64-1 (not 2^31-1) as
- maximum valid array index; typeset -i&lt;number&gt; is unsigned.</li>
-<li>Adding <tt>goto</tt> and <tt>label</tt> keywords/commands.</li>
+ maximum valid array index; typeset -i&lt;number&gt; is unsigned</li>
+<li>Adding <tt>goto</tt> and <tt>label</tt> keywords/commands</li>
 <li>Adding builtins <tt>realpath</tt>, <tt>fstat</tt>, <tt>lstat</tt>,
- <tt>traverse</tt>.</li>
+ <tt>traverse</tt></li>
 <li>for a b in …; do (like make(1) does)</li>
 <li>${foo//bar/baz/g}</li>
 <li>${foo:S/bar/baz/g} ${foo:C/bar/baz/x}</li>
@@ -644,7 +644,7 @@ mws_content <<'EOF'
  <li>Support the TenDRA compiler (possibly also Ten15, not tried)</li>
  <li>Begin supporting Fabrice Bellard's Tiny C Compiler (tcc on Debian
   cannot link due to duplicate symbols in GNU libc, thus unfinished)</li>
- <li>Add new bindable command “clear-screen” e.g. for <tt>^L</tt> key.</li>
+ <li>Add new emacs editing command “clear-screen” (<tt>ESC ^L</tt>)</li>
  <li>Support building for MidnightBSD</li>
  <li>Add new shell alias “source”, semantics like the GNU bash builtin</li>
  <li>Add new shell option “set -o arc4random”, controlling whether rand(3) or
@@ -654,7 +654,7 @@ mws_content <<'EOF'
 <p>A milestone in development: mksh R30 can do this:</p><ul>
  <li>Build on and for Solaris, Linux and MirBSD with Sun's C compiler</li>
  <li>No longer build a statically linked shell by default; do not try,
-  do not provide any means; user has to use LDFLAGS instead.</li>
+  do not provide any means; user has to use LDFLAGS instead</li>
  <li>Remove some probably dead mirtoconf checks</li>
  <li>Remove commented out <tt>-fwhole-program --combine</tt> check and
   still active <tt>-fno-tree-vrp</tt> bug workaround thing, the latter
