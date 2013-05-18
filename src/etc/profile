@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.20 2006/06/18 20:17:02 tg Exp $
+# $MirOS: src/etc/profile,v 1.21 2006/07/03 12:34:53 tg Exp $
 #-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -54,7 +54,7 @@ if [ -n "$KSH_VERSION" ]; then
 		pwd	# Dummy, see below, but enough to work
 	}
 	[[ -n $USER ]] && \
-	    PS1='$(((rv=$?)) && print $rv\|)'"\${USER}@$HOSTNAME:\$(__shortpath 2>/dev/null||echo \$PWD) $PSX"
+	    PS1='$(((rv=$?)) && print $rv\|)'"\$USER@$HOSTNAME:\$(__shortpath 2>/dev/null||echo \$PWD) $PSX"
 	_shellok=1
 elif [ -n "$BASH_VERSION" ]; then
 	set -o emacs
