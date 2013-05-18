@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.6 2006/02/20 22:41:28 tg Exp $ */
+/**	$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.7 2006/02/21 23:42:54 tg Exp $ */
 /*	$OpenBSD: vnconfig.c,v 1.16 2004/09/14 22:35:51 deraadt Exp $	*/
 /*
  * Copyright (c) 2006 Thorsten Glaser
@@ -61,7 +61,7 @@
 #include <openssl/evp.h>
 #include <openssl/pem.h>
 
-__RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.6 2006/02/20 22:41:28 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/vnconfig/vnconfig.c,v 1.7 2006/02/21 23:42:54 tg Exp $");
 
 #define DEFAULT_VND	"vnd0"
 
@@ -76,14 +76,14 @@ __dead void usage(void);
 int config(char *, char *, int, char *, size_t, u_int32_t);
 int getinfo(const char *);
 static void extract_key(FILE *, char **, int *);
-static int make_key(const char *, FILE *);
+static int make_key(const char *, FILE *, const char *);
 
 int
 main(int argc, char **argv)
 {
 	int ch, rv, action = VND_CONFIG, flags = 0, keylen;
-	char *key = NULL;
-	char *keyfile = NULL;
+	char *key = NULL, *key2 = NULL;
+	char *keyfile = NULL, *algo = NULL;
 	FILE *keyfp = NULL;
 
 	while ((ch = getopt(argc, argv, "cf:K:klruv")) != -1) {
@@ -96,7 +96,7 @@ main(int argc, char **argv)
 			break;
 		case 'K':
 			action = VND_MAKEKEY;
-			key = optarg;
+			algo = optarg;
 			break;
 		case 'l':
 			action = VND_GET;
@@ -133,6 +133,12 @@ main(int argc, char **argv)
 			extract_key(keyfp, &key, &keylen);
 	}
 
+	if (key && action == VND_MAKEKEY) {
+		key2 = getpass("repeat the key: ");
+		if (memcmp(key, key2, 1+keylen))
+			errx(1, "keys not identical");
+	}
+
 	if (action == VND_CONFIG && argc == 2)
 		rv = config(argv[0], argv[1], action, key, keylen,
 		    flags);
@@ -142,7 +148,7 @@ main(int argc, char **argv)
 	else if (action == VND_GET)
 		rv = getinfo(argc ? argv[0] : NULL);
 	else if (action == VND_MAKEKEY)
-		rv = make_key(key, keyfp);
+		rv = make_key(algo, keyfp, key2);
 	else
 		usage();
 
@@ -266,13 +272,14 @@ usage(void)
 #define PEM_STRING_ASN1_OCTET_STRING "ASN1 OCTET STRING"
 
 static int
-make_key(const char *algo, FILE *fp)
+make_key(const char *algo, FILE *fp, const char *key2)
 {
 	ASN1_OCTET_STRING *aos;
 	const EVP_CIPHER *enc = NULL;
 #define KBUF_ELEM	(72 / 4)
 	uint32_t kbuf[KBUF_ELEM];
 	int i;
+	size_t kbuflen = sizeof (kbuf);
 
 	if (algo == NULL || fp == NULL)
 		usage();
@@ -286,10 +293,18 @@ make_key(const char *algo, FILE *fp)
 		errx(2, "unknown cipher '%s': %s", algo,
 		    ERR_error_string(ERR_get_error(), NULL));
 
-	for (i = 0; i < KBUF_ELEM; ++i)
+	if (key2) {
+		if (strlen(key2) < kbuflen)
+			kbuflen = strlen(key2);
+		else
+			fprintf(stderr, "WARNING: truncating from %d to"
+			    " %d characters!\n", strlen(key2), kbuflen);
+		memcpy(kbuf, key2, kbuflen);
+		fprintf(stderr, "WARNING: not using random bits as key!\n");
+	} else for (i = 0; i < KBUF_ELEM; ++i)
 		kbuf[i] = arc4random();
 
-	i = ASN1_STRING_set(aos, kbuf, sizeof (kbuf));
+	i = ASN1_STRING_set(aos, kbuf, kbuflen);
 	bzero(kbuf, sizeof (kbuf));
 	if (!i)
 		errx(2, "cannot set ASN.1 octet string: %s",

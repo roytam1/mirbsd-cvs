@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.sbin/vnconfig/vnconfig.8,v 1.4 2005/12/04 15:02:33 tg Exp $
+.\"	$MirOS: src/usr.sbin/vnconfig/vnconfig.8,v 1.5 2006/02/21 23:42:54 tg Exp $
 .\"	$OpenBSD: vnconfig.8,v 1.21 2004/09/10 15:37:53 pedro Exp $
 .\"
 .\" Copyright (c) 2006 Thorsten Glaser
@@ -113,7 +113,14 @@ octet string which can be used as keyfile for further invocations of
 .Nm
 .Fl kf .
 The ASN.1 octet string contains 448 random bits gained from use of
-.Xr arc4random 3 .
+.Xr arc4random 3
+unless the
+.Fl k
+option is given, in which case the old key will be asked for twice
+first and then written (as PEM encoded ASN.1 octet string, encrypted)
+into the file in order to assist transitioning.
+In that case, you will be asked first for the old key twice, then for
+the new PEM passphrase twice.
 The
 .Ar algorithm
 can be chosen from the default
