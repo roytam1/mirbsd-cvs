@@ -3,7 +3,7 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.229 2009/05/16 18:42:37 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.230 2009/05/16 21:00:49 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R37c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -755,13 +755,12 @@ mws_content <<'EOF'
 <h2 id="regress">Official Testing</h2>
 <p>The MirOS Project has tested mksh on the following operating systems,
  asked people to test, and hunted mksh down in these packaging systems:</p>
-<!--
 <h3 id="regress_dev">Development Versions post release</h3>
 <ul>
  <li style="list-style:none;">– tests by the project, using Build.sh –</li>
+ <li>Debian GNU/Linux sid 2.6.26-1-xen-amd64 (amd64 gcc4.5.0-r147610 gcc-snapshot_20090516-1) <em>but <tt>-combine</tt> is broken again *sigh…*</em></li>
  <li style="list-style:none;">– other build system integration –</li>
 </ul>
--->
 <h3 id="regress_rel">Current Release</h3>
 <ul>
 <li style="list-style:none;">– tests by the project, using Makefile –</li>
