@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.77 2006/10/29 12:37:48 tg Exp $
+# $MirOS: src/Makefile,v 1.78 2006/11/02 02:30:39 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -226,7 +226,10 @@ _do-dist:
 	    DESTDIR=${BSDRELDIR}/base
 .ifndef QUICK_DIST
 	@date
-	cd ${.CURDIR} && exec ${MAKE} do-htman
+	if [[ ! -e ${BSDRELDIR}/rel/htpsd${OSrev}.ngz || \
+	    ! -e ${BSDRELDIR}/rel/htusd${OSrev}.ngz ]]; then \
+		cd ${.CURDIR} && exec ${MAKE} do-htman; \
+	fi
 .endif
 	${SUDO} rm -rf ${BSDRELDIR}/rel
 	mkdir ${BSDRELDIR}/rel
@@ -257,23 +260,43 @@ _do-dist:
 .endif
 	@date
 .ifndef QUICK_DIST
+	t=0; cd ${BSDRELDIR}; \
+	if mount 2>&- | fgrep ' on ${BSDRELDIR}/usr ' >&- 2>&-; then \
+		${SUDO} umount ${BSDRELDIR}/usr; \
+	fi; \
+	test ! -e usr || ${SUDO} rm -rf usr; \
+	mkdir usr && \
+	${SUDO} mount_mfs -s 458752 swap ${BSDRELDIR}/usr && \
 	if ! test -e ${BSDRELDIR}/rel/ports${OSrev}.ngz; then \
-		cd ${BSDRELDIR}; \
-		if mount 2>&- | fgrep ' on ${BSDRELDIR}/usr ' >&- 2>&-; then \
-			${SUDO} umount ${BSDRELDIR}/usr; \
-		fi; \
-		test ! -e usr || ${SUDO} rm -rf usr; \
-		mkdir usr && \
-		${SUDO} mount_mfs -s 458752 swap ${BSDRELDIR}/usr && \
 		cd usr && \
 		(umask 002; cvs -Rqz3 -d ${CVSROOT} co -PA ports) && \
 		${MKSH} ${.CURDIR}/scripts/mnt-cvsroot ${ANONCVSROOT} . && \
 		${SUDO} chown -R root:wsrc ports && \
 		cd .. && \
 		find usr/ports | sort | cpio -oC512 -Hsv4cpio -Mset | \
-		    gzip -n9 | ${SUDO} dd of=rel/ports${OSrev}.ngz && \
-		${SUDO} umount ${BSDRELDIR}/usr; \
-	fi
+		    gzip -n9 | ${SUDO} dd of=rel/ports${OSrev}.ngz && t=1; \
+	else \
+		${SUDO} tar xzphf ${BSDRELDIR}/rel/ports${OSrev}.ngz \
+		    usr/ports/{CVS,M*,S*,essentials/pkgtools,in*} && t=1; \
+	fi; \
+	test -e ${BSDRELDIR}/rel/pkgutl${OSrev}.ngz || if [[ $$t = 1 ]]; then \
+		cd ${BSDRELDIR}/base/dev; ${SUDO} ./MAKEDEV std systrace; \
+		cd ..; ${SUDO} rm -rf usr/{mpkg,ports} .etc var/games; \
+		${SUDO} mkdir .etc; cd ../usr; ${SUDO} pax -rw -pe -l \
+		    ports/{Makefile,Setup.sh,essentials/pkgtools,infra*} \
+		    ${BSDRELDIR}/base/usr && cd ${BSDRELDIR}/base && \
+		${SUDO} chroot . mksh -c 'cd /usr/ports && make \
+		    HOME=/ SUDO= setup' && \
+		find usr/mpkg | sort | ${SUDO} cpio -oC512 -Hsv4cpio -Mset | \
+		    gzip -n9 | ${SUDO} dd of=../rel/pkgutl${OSrev}.ngz && t=; \
+		[[ -z $$t ]] || rm -f ${BSDRELDIR}/rel/pkgutl${OSrev}.ngz; \
+		cd ${BSDRELDIR}; ${SUDO} rm -f base/dev/!(MAKEDEV) \
+		    base/usr/{mpkg,ports} base/.etc base/var/games; \
+		${SUDO} mkdir -m 0775 ${BSDRELDIR}/base/usr/ports; \
+		${SUDO} chown root:wsrc ${BSDRELDIR}/base/usr/ports; \
+	fi; \
+	${SUDO} umount ${BSDRELDIR}/usr; \
+	test -e ${BSDRELDIR}/rel/pkgutl${OSrev}.ngz
 .endif
 	cd ${BSDRELDIR}/base/snapshot && ${SUDO} ${INSTALL} -c \
 	    -o root -g wheel -m 444 * ${BSDRELDIR}/rel/
