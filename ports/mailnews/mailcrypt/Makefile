@@ -1,7 +1,7 @@
-# $MirOS: ports/mailnews/mailcrypt/Makefile,v 1.2 2005/03/25 23:14:02 bsiegert Exp $
+# $MirOS: ports/mailnews/mailcrypt/Makefile,v 1.3 2006/09/14 00:10:36 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2004/02/21 00:59:01 pvalchev Exp $
 
-COMMENT=			emacs interface to PGP and GnuPG
+COMMENT=	emacs interface to PGP and GnuPG
 
 DISTNAME=	mailcrypt-3.5.7
 CATEGORIES=     mail
@@ -9,12 +9,13 @@ MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=mailcrypt/}
 
 HOMEPAGE=	http://mailcrypt.sourceforge.net/
 
-PERMIT_PACKAGE_CDROM=	Yes
+PERMIT_PACKAGE_CDROM=	dependency is not allowed for CDROM
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE= gnu dest
+USE_CXX=	Yes
 
 FLAVORS=	gnupg pgp pgp5 
 FLAVOR?=	gnupg
@@ -22,6 +23,7 @@ FLAVOR?=	gnupg
 BUILD_DEPENDS=	:emacs-21.*:editors/emacs
 
 .if ${FLAVOR:L:Mgnupg}
+PERMIT_PACKAGE_CDROM=	dependency security/gnupg is not allowed for CDROM
 RUN_DEPENDS=	:gnupg-*:security/gnupg
 .endif
 
@@ -33,7 +35,7 @@ RUN_DEPENDS=	:pgp-2.*:security/pgp
 RUN_DEPENDS=	:pgp-5.*:security/pgp5
 .endif
 
-REGRESS_DEPENDS=	:python-2.2*:lang/python/2.2
+REGRESS_DEPENDS=	:python-2.3*:lang/python/2.3
 
 pre-regress:
 	@perl -i -pe 's:%%LOCALBASE%%:${LOCALBASE}:' \
