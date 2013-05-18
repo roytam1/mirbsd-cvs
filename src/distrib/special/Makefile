@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/special/Makefile,v 1.17 2007/07/08 08:57:37 tg Exp $
+# $MirOS: src/distrib/special/Makefile,v 1.18 2007/08/12 13:19:06 tg Exp $
 #-
 # Tools which must be compiled differently for
 # the small or floppy ramdiscs because of missing
@@ -12,6 +12,7 @@
   SUBDIR+=	dl-noman	# i386 floppy, without integrated manpage
 .endif
   SUBDIR+=	dmesg		# i386 floppy, sparc floppy + miniroot
+  SUBDIR+=	ed		# i386 floppy, sparc floppy + miniroot
 .if ${MACHINE} == "i386"
   SUBDIR+=	fdisk		# i386 floppy, without integrated manpage
 .endif
