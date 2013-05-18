@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.54 2009/02/09 11:55:59 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.55 2009/08/16 17:25:44 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -42,8 +42,6 @@ FAKE_FLAGS+=		V=1 mkdir_p='mkdir -p' \
 CONFIGURE_ENV+=		V=1 \
 			MAKEINFO="makeinfo --no-split"
 
-MODGNU_AUTOMAKE_DEPS=	::devel/metaauto \
-			:automake-${AUTOMAKE_VERSION}*:devel/automake/${AUTOMAKE_VERSION}
 MODGNU_AUTOCONF_DEPS=	::devel/metaauto
 .if ${AUTOCONF_VERSION} == "2.13"
 MODGNU_AUTOCONF_DEPS+=	:autoconf->=2.13-20080405,<2.14:devel/autoconf/2.13
@@ -53,6 +51,12 @@ MODGNU_AUTOCONF_DEPS+=	:autoconf->=2.60-3,<2.61:devel/autoconf/2.60
 MODGNU_AUTOCONF_DEPS+=	:autoconf->=2.61-1,<2.62:devel/autoconf/2.61
 .else
 MODGNU_AUTOCONF_DEPS+=	:autoconf-${AUTOCONF_VERSION}*:devel/autoconf/${AUTOCONF_VERSION}
+.endif
+MODGNU_AUTOMAKE_DEPS=	::devel/metaauto
+.if ${AUTOMAKE_VERSION} == "1.9"
+MODGNU_AUTOMAKE_DEPS+=	:automake->=1.9.6-5,<1.10:devel/automake/1.9
+.else
+MODGNU_AUTOMAKE_DEPS+=	:automake-${AUTOMAKE_VERSION}*:devel/automake/${AUTOMAKE_VERSION}
 .endif
 
 # Dependencies
