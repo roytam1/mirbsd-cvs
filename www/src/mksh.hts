@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.167 2008/09/30 17:34:24 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.168 2008/09/30 19:05:39 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R35b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -1017,6 +1017,7 @@ mws_content <<'EOF'
  <li>Fix internal type abuse: convert more int to bool</li>
  <li>Ignore duplicates when pushing interactive lines into the history,
   prodded by Matthias Diener, wanted by myself for quite a while</li>
+ <li>Ignore duplicates after <tt>fc -s</tt> editing too, fix regress test</li>
 </ul>
 <p id="r35b">mksh R35b comes with the following bug fixes:</p><ul>
  <li>IRIX also has no UTF-8 locale at all, confirmed by Elias Pipping</li>
