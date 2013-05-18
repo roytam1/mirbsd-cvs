@@ -1,4 +1,4 @@
-# $MirOS: src/etc/crontab,v 1.22 2007/06/16 22:57:29 tg Exp $
+# $MirOS: src/etc/crontab,v 1.23 2007/08/03 20:14:01 tg Exp $
 # $OpenBSD: crontab,v 1.15 2007/02/27 16:04:16 beck Exp $
 #
 # /var/cron/tabs/root - root's crontab
@@ -27,7 +27,7 @@ HOME=/var/log
 # store random seed to disc every three hours
 # add hardware sensors etc. to pool twice an hour
 57	*/3	*	*	*	/usr/bin/nice -n -19 /usr/libexec/randshuffle
-14,44	*	*	*	*	(/bin/sleep $(/usr/bin/jot -r 1 30 90); /sbin/sysctl -a; /bin/ps -akwwx -o "$(/bin/ps -L)"; /bin/ps -aexwwo pid,args; /bin/ps -axwwo pid,args) 2>&1 | /bin/cksum -ba cksum -a md4 -a rmd160 -a sfv -a sha384 -a tiger -a adler32 -a sum >/dev/wrandom
+14,44	*	*	*	*	(/bin/dd if=/dev/prandom bs=1 count=1; /bin/sleep $(/usr/bin/jot -r 1 30 90); /bin/dd if=/dev/arandom bs=1 count=1; /sbin/sysctl -a; /bin/ps -akwwx -o "$(/bin/ps -L)"; /bin/ps -aexwwo pid,args; /bin/ps -axwwo pid,args) 2>&1 | /bin/cksum -ba cksum -a md4 -a rmd160 -a sfv -a sha384 -a tiger -a adler32 -a sum >/dev/wrandom
 #
 # pull random bytes from the 'net (useful for headless servers, but insecure)
 #11	0,12	*	*	*	(/bin/sleep $(/usr/bin/jot -r 1 60 900); /usr/bin/time -l /usr/bin/ftp -Vo - http://www.randomnumbers.info/cgibin/wqrng.cgi?amount=56\&limit=999) 2>&1 | /bin/cksum -ba sha512 -a sfv >/dev/wrandom
