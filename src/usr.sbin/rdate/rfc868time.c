@@ -61,25 +61,21 @@ static const char rcsid[] = "$OpenBSD: rfc868time.c,v 1.6 2004/02/16 21:25:41 ja
 #include <unistd.h>
 #include <time.h>
 
-/* Obviously it is not just for SNTP clients... */
-#include "ntpleaps.h"
-
 /* seconds from midnight Jan 1900 - 1970 */
 #define DIFFERENCE 2208988800UL
 
 void rfc868time_client (const char *, int, struct timeval *,
-    struct timeval *, int);
+    struct timeval *);
 
 void
 rfc868time_client (const char *hostname, int family, struct timeval *new,
-    struct timeval *adjust, int leapflag)
+    struct timeval *adjust)
 {
 	struct addrinfo hints, *res0, *res;
 	struct timeval old;
 	u_int32_t tim;	/* RFC 868 states clearly this is an uint32 */
 	int s;
 	int error;
-	u_int64_t td;
 
 	memset(&hints, 0, sizeof(hints));
 	hints.ai_family = family;
@@ -119,11 +115,7 @@ rfc868time_client (const char *hostname, int family, struct timeval *new,
 	if (gettimeofday(&old, NULL) == -1)
 		err(1, "Could not get local time of day");
 
-	td = SEC_TO_TAI64(old.tv_sec);
-	if (leapflag)
-		ntpleaps_sub(&td);
-
-	adjust->tv_sec = tim - TAI64_TO_SEC(td);
+	adjust->tv_sec = tim - old.tv_sec;
 	adjust->tv_usec = 0;
 
 	new->tv_sec = old.tv_sec + adjust->tv_sec;

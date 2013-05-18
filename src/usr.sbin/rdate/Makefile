@@ -1,7 +1,7 @@
-# $MirOS: src/usr.sbin/rdate/Makefile,v 1.2 2005/03/13 19:17:21 tg Exp $
+# $MirOS: src/usr.sbin/rdate/Makefile,v 1.3 2005/03/15 19:28:38 tg Exp $
 
 PROG=	rdate
-SRCS=	rdate.c rfc868time.c ntp.c ntpleaps.c
+SRCS=	rdate.c rfc868time.c ntp.c leapsecs.c
 MAN=	rdate.8
 CFLAGS+=-Wall
 

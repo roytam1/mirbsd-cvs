@@ -1,9 +1,9 @@
-.\"	$MirOS: src/usr.sbin/rdate/rdate.8,v 1.2 2005/03/13 19:17:21 tg Exp $
+.\"	$MirOS: src/usr.sbin/rdate/rdate.8,v 1.3 2005/10/27 11:58:39 tg Exp $
 .\"	$OpenBSD: rdate.8,v 1.29 2004/07/09 19:33:08 jmc Exp $
 .\"	$NetBSD: rdate.8,v 1.4 1996/04/08 20:55:17 jtc Exp $
 .\"
 .\" Copyright (c) 1994 Christos Zoulas
-.\" Copyright (c) 2002, 2005 Thorsten Glaser
+.\" Copyright (c) 2002, 2005, 2006 Thorsten Glaser
 .\" All rights reserved.
 .\"
 .\" Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,7 @@
 .Nd set the system's date from a remote host
 .Sh SYNOPSIS
 .Nm rdate
-.Op Fl 46acnprsv
+.Op Fl 46anprsv
 .Ar host
 .Sh DESCRIPTION
 .Nm
@@ -68,18 +68,6 @@ Use the
 .Xr adjtime 2
 call to gradually skew the local time to the
 remote time rather than just hopping.
-.It Fl c
-Correct leap seconds.
-Usually required when synchronising to an NTP server.
-See below for an example.
-.Pp
-When synchronizing using the RFC 868 protocol, use this option only if the
-server does not correctly account for leap seconds (i.e. if his
-.Pa /etc/localtime
-link is set to a POSIX, not a RIGHT, time zone).
-You can determine if you need this parameter if you sync against an NTP
-server (with this parameter) or (recommended) check with a local radio
-controlled watch or phone service.
 .It Fl n
 Use SNTP (RFC 2030) instead of the RFC 868 time protocol.
 .It Fl p
@@ -105,25 +93,6 @@ options.
 .It Pa /var/log/wtmp
 record of date resets and time changes
 .El
-.Sh EXAMPLES
-To get the legal time in Germany, set the
-.Pa /etc/localtime
-symlink to
-.Pa /usr/share/zoneinfo/right/Europe/Berlin
-and issue the following command:
-.Pp
-.D1 Li "# rdate -ncv ptbtime1.ptb.de"
-.Pp
-The command of course assumes you have a working internet connection
-and DNS set up to connect to the server at
-.Sy Physikalisch-Technische Bundesanstalt
-in Braunschweig, Germany, which makes legal time for this country.
-.Pp
-To gradually adjust time once an hour after the first
-.Qq step
-adjustment, put the following line into root's crontab:
-.Pp
-.D1 Li "58  *  *  *  *  rdate -ncav ptbtime1.ptb.de | logger -t NTP"
 .Sh SEE ALSO
 .Xr date 1 ,
 .Xr adjtime 2 ,

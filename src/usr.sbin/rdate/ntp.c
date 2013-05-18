@@ -1,7 +1,7 @@
 /*	$OpenBSD: ntp.c,v 1.27 2004/10/26 09:48:59 henning Exp $	*/
 
 /*
- * Copyright (c) 2002, 2004, 2005 by Thorsten Glaser.
+ * Copyright (c) 2002, 2004, 2005, 2006 by Thorsten Glaser.
  * Copyright (c) 1996, 1997 by N.M. Maclaren. All rights reserved.
  * Copyright (c) 1996, 1997 by University of Cambridge. All rights reserved.
  *
@@ -49,9 +49,18 @@
 #include <time.h>
 #include <unistd.h>
 
-#include "ntpleaps.h"
+#include "leapsecs.h"
 
-__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.4 2005/12/04 15:02:31 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.5 2006/05/09 08:57:58 tg Exp $");
+
+/* This macro is not implemented on all operating systems */
+#ifndef	SA_LEN
+#define	SA_LEN(x)	(((x)->sa_family == AF_INET6) ? \
+			    sizeof(struct sockaddr_in6) : \
+			    (((x)->sa_family == AF_INET) ? \
+				sizeof(struct sockaddr_in) : \
+				sizeof(struct sockaddr)))
+#endif
 
 /*
  * NTP definitions.  Note that these assume 8-bit bytes - sigh.  There
@@ -107,7 +116,7 @@ struct ntp_data {
 	u_int64_t	xmitck;
 };
 
-void	ntp_client(const char *, int, struct timeval *, struct timeval *, int);
+void	ntp_client(const char *, int, struct timeval *, struct timeval *);
 int	sync_ntp(int, const struct sockaddr *, double *, double *);
 int	write_packet(int, struct ntp_data *);
 int	read_packet(int, struct ntp_data *, double *, double *);
@@ -119,11 +128,9 @@ void	create_timeval(double, struct timeval *, struct timeval *);
 void	print_packet(const struct ntp_data *);
 #endif
 
-int	corrleaps;
-
 void
 ntp_client(const char *hostname, int family, struct timeval *new,
-    struct timeval *adjust, int leapflag)
+    struct timeval *adjust)
 {
 	struct addrinfo hints, *res0, *res;
 	double offset, error;
@@ -137,10 +144,6 @@ ntp_client(const char *hostname, int family, struct timeval *new,
 		errx(1, "%s: %s", hostname, gai_strerror(ierror));
 		/*NOTREACHED*/
 	}
-
-	corrleaps = leapflag;
-	if (corrleaps)
-		ntpleaps_init();
 
 	s = -1;
 	for (res = res0; res; res = res->ai_next) {
@@ -438,21 +441,11 @@ double
 current_time(double offset)
 {
 	struct timeval current;
-	u_int64_t t;
 
 	if (gettimeofday(&current, NULL))
 		err(1, "Could not get local time of day");
 
-	/*
-	 * At this point, current has the current TAI time.
-	 * Now subtract leap seconds to set the posix tick.
-	 */
-
-	t = SEC_TO_TAI64(current.tv_sec);
-	if (corrleaps)
-		ntpleaps_sub(&t);
-
-	return (offset + TAI64_TO_SEC(t) + 1.0e-6 * current.tv_usec);
+	return (offset + tick2utc(current.tv_sec) + 1.0e-6 * current.tv_usec);
 }
 
 /*

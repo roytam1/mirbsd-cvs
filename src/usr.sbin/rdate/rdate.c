@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/rdate/rdate.c,v 1.2 2005/03/13 19:17:21 tg Exp $ */
+/**	$MirOS: src/usr.sbin/rdate/rdate.c,v 1.3 2005/10/27 11:58:39 tg Exp $ */
 /*	$OpenBSD: rdate.c,v 1.22 2004/02/18 20:10:53 jmc Exp $	*/
 /*	$NetBSD: rdate.c,v 1.4 1996/03/16 12:37:45 pk Exp $	*/
 
@@ -59,10 +59,10 @@
 #define	logwtmp(a,b,c)
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/rdate/rdate.c,v 1.3 2005/10/27 11:58:39 tg Exp $");
 
-void rfc868time_client(const char *, int, struct timeval *, struct timeval *, int);
-void ntp_client(const char *, int, struct timeval *, struct timeval *, int);
+void rfc868time_client(const char *, int, struct timeval *, struct timeval *);
+void ntp_client(const char *, int, struct timeval *, struct timeval *);
 void usage(void);
 
 extern char *__progname;
@@ -74,7 +74,6 @@ usage(void)
 	(void) fprintf(stderr, "  -4: use IPv4 only\n");
 	(void) fprintf(stderr, "  -6: use IPv6 only\n");
 	(void) fprintf(stderr, "  -a: use adjtime instead of instant change\n");
-	(void) fprintf(stderr, "  -c: correct leap second count (recommended)\n");
 	(void) fprintf(stderr, "  -n: use SNTP instead of RFC868 time protocol\n");
 	(void) fprintf(stderr, "  -p: just print, don't set\n");
 	(void) fprintf(stderr, "  -r: show remainder from last adjtime\n");
@@ -86,7 +85,7 @@ int
 main(int argc, char **argv)
 {
 	int             pr = 0, silent = 0, ntp = 0, verbose = 0;
-	int		slidetime = 0, corrleaps = 0, showremainder = 0;
+	int		slidetime = 0, showremainder = 0;
 	char           *hname;
 	int             c;
 	int		family = PF_UNSPEC;
@@ -123,10 +122,6 @@ main(int argc, char **argv)
 			ntp++;
 			break;
 
-		case 'c':
-			corrleaps++;
-			break;
-
 		case 'v':
 			verbose++;
 			silent = 0;
@@ -144,9 +139,9 @@ main(int argc, char **argv)
 	hname = argv[optind];
 
 	if (ntp)
-		ntp_client(hname, family, &new, &adjust, corrleaps);
+		ntp_client(hname, family, &new, &adjust);
 	else
-		rfc868time_client(hname, family, &new, &adjust, corrleaps);
+		rfc868time_client(hname, family, &new, &adjust);
 
 	if (!pr) {
 		if (!slidetime) {
@@ -187,15 +182,6 @@ main(int argc, char **argv)
 			(void) fprintf(stdout,
 			    "%s: remainder before was %.6f seconds\n",
 			    __progname, remainsec);
-	}
-
-	if (!corrleaps) {
-		(void) fprintf(stderr,
-		    "%s: WARNING: Not using the '-c' parameter is deprecated and can\n"
-		    "lead to the clock being set wrongly (even if sometimes POSIXly correct)\n",
-		    __progname);
-		if (!ntp) fprintf(stderr,
-		    "This does not apply if the time server uses corrected leap seconds.\n");
 	}
 
 	return 0;
