@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/etc/daily,v 1.15 2007/06/15 23:43:46 tg Exp $
+# $MirOS: src/etc/daily,v 1.16 2007/06/16 22:08:07 tg Exp $
 # $OpenBSD: daily,v 1.50 2005/03/17 18:16:52 millert Exp $
 # From: @(#)daily	8.2 (Berkeley) 1/25/94
 
@@ -10,6 +10,7 @@ cd /
 
 print RUNTIME=$(date +%J)
 
+print
 sysctl -n kern.version
 uptime
 
