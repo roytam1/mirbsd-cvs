@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.13 2007/09/24 16:56:24 tg Exp $ */
+/**	$MirOS: src/sys/kern/kern_sysctl.c,v 1.15 2008/06/13 13:07:36 tg Exp $ */
 /*	$NetBSD: kern_sysctl.c,v 1.146 2003/09/28 13:24:48 dsl Exp $	*/
 /*	$OpenBSD: kern_sysctl.c,v 1.126 2005/06/04 05:10:40 tedu Exp $	*/
 /*	$NetBSD: kern_sysctl.c,v 1.17 1996/05/20 17:49:05 mrg Exp $	*/
@@ -434,7 +434,8 @@ kern_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 		if (newp && newlen) {
 			if ((error = copyin(newp, buf, newlen)))
 				return (error);
-			for (i = 0; i < newlen; i += 4)
+			i = (newlen + 3) / 4;
+			while (i--)
 				rnd_addpool_add(buf[i]);
 		}
 
