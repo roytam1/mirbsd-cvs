@@ -2,7 +2,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/exec.c,v 1.16 2006/08/01 13:43:26 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/exec.c,v 1.17 2006/11/10 01:44:39 tg Exp $");
 
 static int	comexec(struct op *, struct tbl *volatile, char **,
 		    int volatile);
@@ -1216,7 +1216,7 @@ do_selectargs(char **ap, bool print_menu)
 			return NULL;
 		s = str_val(global("REPLY"));
 		if (*s) {
-			i = atoi(s);
+			getn(s, &i);
 			return (i >= 1 && i <= argct) ? ap[i - 1] : null;
 		}
 		print_menu = 1;
