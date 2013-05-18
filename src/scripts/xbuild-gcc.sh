@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-gcc.sh,v 1.8 2006/03/01 20:08:10 tg Exp $
+# $MirOS: src/scripts/xbuild-gcc.sh,v 1.9 2006/06/11 00:24:21 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -80,15 +80,16 @@ set -x
 	NO_THREADS=Yes \
 	NO_BOEHMGC=Yes \
 	COMPILER_ONLY=Yes \
-	GCC_PREFIX=$CROSSDIR/usr \
+	GCC_PREFIX=$CROSSDIR/host-tools \
 	GCC_INFODIR=$CROSSDIR/usr/share/info \
 	GCC_MANDIR=$CROSSDIR/usr/share/man \
 	NOPIC=Yes \
 	_CROSSBUILD=defined \
 	all install )
 
-ln -f ${CROSSDIR}/usr/bin/$TARGET-gcc ${CROSSDIR}/usr/$TARGET/bin/cc
-
 set +x
 print
 print done.
+print Remember to clean out the cross-gcc object directory
+print before attempting to cross-build the native gcc, e.g. with
+print sudo rm -rf $CROSSDIR/usr/obj/gcc

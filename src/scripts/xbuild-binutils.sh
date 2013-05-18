@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-binutils.sh,v 1.8 2006/03/01 20:13:58 tg Exp $
+# $MirOS: src/scripts/xbuild-binutils.sh,v 1.9 2006/06/11 00:23:55 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -68,7 +68,7 @@ sed -e "s#@@TARGET@@#${TARGET}#" \
 chmod 555 $CROSSDIR/usr/bin/cross-binutil.sh
 
 for binutil in ar ld nm objcopy objdump ranlib size strip; do
-	ln -f $CROSSDIR/usr/bin/cross-binutil.sh $CROSSDIR/usr/$TARGET/bin/$binutil
+	ln -f $CROSSDIR/usr/bin/cross-binutil.sh $CROSSDIR/host-tools/bin/$binutil
 done
 rm -f $CROSSDIR/usr/bin/cross-binutil.sh
 
@@ -90,12 +90,21 @@ $cp /usr/lib/libopcodes.la \
 
 install -c -s -o $BINOWN -g $BINGRP -m 555 \
     $BSDSRCDIR/gnu/usr.bin/binutils/gas/obj.$MACHINE/as-new \
-    $CROSSDIR/usr/$TARGET/bin/as
+    $CROSSDIR/host-tools/bin/as
 
 for binutil in ar as ld nm objcopy objdump ranlib size strip; do
-	ln -f $CROSSDIR/usr/$TARGET/bin/$binutil $CROSSDIR/usr/bin/$TARGET-$binutil
-	ln -f $CROSSDIR/usr/$TARGET/bin/$binutil $CROSSDIR/usr/$TARGET/bin/$TARGET-$binutil
+	ln -f $CROSSDIR/host-tools/bin/$binutil $CROSSDIR/host-tools/bin/$TARGET-$binutil
 done
+
+rm -rf $CROSSDIR/usr/obj/gnu/usr.bin/binutils
+( cd $BSDSRCDIR/gnu/usr.bin/binutils; \
+    BSDSRCDIR=$BSDSRCDIR \
+    BSDOBJDIR=$CROSSDIR/usr/obj \
+    OStriplet=$HOST \
+    MACHINE=$MACHINE \
+    MACHINE_ARCH=$MARCH \
+    MAKEOBJDIR=obj.$MACHINE \
+    make obj )
 
 set +x
 print
