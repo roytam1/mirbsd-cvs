@@ -1,4 +1,4 @@
-# $MirOS: src/bin/md5/Makefile,v 1.14 2009/05/17 14:09:25 tg Exp $
+# $MirOS: src/bin/md5/Makefile,v 1.15 2009/06/29 19:29:50 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2005/05/24 21:57:47 millert Exp $
 
 PROG=	cksum
@@ -24,5 +24,7 @@ algos:
 	ln -sf ${PROG} ${_lnk}
 	ln -sf ${PROG} ${_lnk}sum
 .endfor
+	# these don't make any sense
+	-rm -f sumsum sysvsumsum
 
 .include <bsd.prog.mk>
