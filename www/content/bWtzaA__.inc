@@ -1,6 +1,6 @@
 
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.26 2006/05/26 23:20:55 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.27 2006/05/27 11:40:46 tg Exp $</small>
 
 <h1>mksh(1) R26c</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -28,7 +28,7 @@
 
 <h2 id="clog">Recent Changes</h2>
 <!-- p>Changes in the current (unreleased) development version:</p><ul -->
-<p>Featuring mksh <b>R27b</b> with these changes:</p><ul>
+<p>Featuring mksh <b>R27c</b> with these changes:</p><ul>
  <li>emacs-usemeta now behaves like vi-show8 (be careful with 0x80-0x9F)</li>
  <li>Portability cleanup and speed-up; refine pr&aelig;processor defns</li>
  <li>GNU groff compatible manual page</li>
@@ -38,6 +38,7 @@
  <li>Enhance testsuite</li>
  <li>Incorporate some more code cleanup by OpenBSD</li>
  <li>Reference the O'Reilly books in the manual page</li>
+ <li>R27c: fix packaging errors of previous versions</li>
 </ul>
 <p>Changes in the minor version <b>R26c</b>, relative to R26b:</p><ul>
  <li>Code cleanup by OpenBSD</li>
