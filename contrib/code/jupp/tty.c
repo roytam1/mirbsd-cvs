@@ -848,7 +848,7 @@ static void mpxend(void)
 
 /* Newer sgi machines can do it the __svr4__ way, but old ones can't */
 
-extern char *_getpty();
+extern char *_getpty(int *fildes, int oflag, mode_t mode, int nofork);
 
 static unsigned char *getpty(int *ptyfd)
 {
@@ -860,7 +860,7 @@ static unsigned char *getpty(int *ptyfd)
 
 /* Strange streams way */
 
-extern char *ptsname();
+extern char *ptsname(int);
 
 static unsigned char *getpty(int *ptyfd)
 {
