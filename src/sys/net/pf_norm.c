@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/pf_norm.c,v 1.5 2005/12/20 19:41:36 tg Exp $ */
+/**	$MirOS: src/sys/net/pf_norm.c,v 1.6 2006/06/12 20:19:16 tg Exp $ */
 /*	$OpenBSD: pf_norm.c,v 1.87 2004/05/11 07:34:11 dhartmei Exp $ */
 
 /*
@@ -1373,7 +1373,7 @@ pf_normalize_tcp_init(struct mbuf *m, int off, struct pf_pdesc *pd,
 					src->scrub->pfss_flags |=
 					    PFSS_TIMESTAMP;
 					src->scrub->pfss_ts_mod =
-					    htonl(arc4random());
+					    arc4random();
 
 					/* note PFSS_PAWS not set yet */
 					memcpy(&tsval, &opt[2],

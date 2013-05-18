@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.43 2006/06/09 01:05:16 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.44 2006/07/28 20:06:47 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -88,15 +88,15 @@ EOF
 #EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.43 2006/06/09 01:05:16 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.44 2006/07/28 20:06:47 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
 
 		mount /dev/rd0a /dev
-		test -e /dev/.rs && cat /dev/.rs >/dev/urandom
+		test -e /dev/.rs && cat /dev/.rs >/dev/arandom
 		( (dd if=/dev/rwd0c count=126; dd if=/dev/rsd0c count=126) \
-		    2>&1 | /bin/cksum -ba sha512 >/dev/urandom ) &
+		    2>&1 | /bin/cksum -ba sha512 >/dev/arandom ) &
 		(cd /dev; ln -s $(sysctl -n kern.root_device) root)
 		rm -f /dev/.rs
 		print \#\\tThis product includes material provided by Thorsten Glaser.
@@ -221,7 +221,7 @@ install -c -o root -g staff -m 644 $myplace/rc.netselect etc/rc.netselect
 
 (cd dev; mksh ./MAKEDEV std rd0a)
 pwd_mkdb -pd $(readlink -nf etc) master.passwd
-dd if=/dev/urandom bs=4096 count=1 of=var/db/host.random
+dd if=/dev/arandom bs=4096 count=1 of=var/db/host.random
 mkdir -p tftpboot/etc
 (cd tftpboot; ln -s ../bsd; ln -s ../usr/mdec/pxeboot)
 cat >tftpboot/etc/boot.cfg <<-'EOF'

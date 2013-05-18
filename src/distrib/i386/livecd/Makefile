@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.50 2006/07/26 22:36:24 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.51 2006/07/28 20:06:47 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -37,7 +37,7 @@ mr.fs:
 	${SUDO} mount /dev/svnd0a tmpmnt
 	${SUDO} cp workdir/dev/MAKEDEV tmpmnt/
 	cd tmpmnt && ${SUDO} ${MKSH} ./MAKEDEV all
-	@${SUDO} dd if=/dev/urandom bs=512 count=8 of=tmpmnt/.rs
+	@${SUDO} dd if=/dev/arandom bs=512 count=8 of=tmpmnt/.rs
 	@df -i tmpmnt
 	-${SUDO} umount tmpmnt
 	-${SUDO} vnconfig -u svnd0

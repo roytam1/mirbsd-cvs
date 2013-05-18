@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/miniroot/install.sh,v 1.13 2006/05/16 22:46:12 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sh,v 1.14 2006/06/17 00:17:56 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -458,7 +458,7 @@ chown -R $_rootuid:$_rootuid /mnt/home/$_rootuser
 /mnt/usr/sbin/pwd_mkdb -pd /mnt/etc master.passwd
 
 echo -n "done.\nGenerating initial host.random file..."
-dd if=/dev/urandom of=/mnt/var/db/host.random bs=1024 count=16 >/dev/null 2>&1
+dd if=/dev/arandom of=/mnt/var/db/host.random bs=1024 count=16 >/dev/null 2>&1
 chmod 600 /mnt/var/db/host.random
 echo "done."
 
