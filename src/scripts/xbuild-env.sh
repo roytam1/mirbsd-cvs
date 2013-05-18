@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-env.sh,v 1.11 2006/03/01 14:06:54 tg Exp $
+# $MirOS: src/scripts/xbuild-env.sh,v 1.12 2006/03/01 14:15:14 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -152,42 +152,42 @@ cat >$CROSSDIR/T_ENV <<-EOF
 	STRIP='$CROSSDIR/usr/$TARGET/bin/strip'
 EOF
 
-cat >$CROSSDIR/T_MAKE <<-EOF
+cat >$CROSSDIR/T_MAKE <<EOF
 #!/bin/mksh
-exec env \
-	CFLAGS='$CROSSCFLAGS' \
-	CPPFLAGS='$CROSSCPPFLAGS' \
-	HOSTCFLAGS='$CFLAGS -Wno-error' \
-	MACHINE='$MACHINE' \
-	MACHINE_ARCH='$MARCH' \
-	OStriplet='$HOST' \
-	GCCHOST='$TARGET' \
-	GCCTARGET='$TARGET' \
-    make MAKE=\$0 \
-	__objdir='obj.$MACHINE' \
-	BSDSRCDIR='$BSDSRCDIR' \
-	BSDOBJDIR='$CROSSDIR/usr/obj' \
-	HOST='$HOST' \
-	AR='$CROSSDIR/usr/$TARGET/bin/ar' \
-	AS='$CROSSDIR/usr/$TARGET/bin/as' \
-	CC='$CROSSDIR/usr/$TARGET/bin/cc' \
-	CPP=/usr/bin/cpp \
-	CROSS_MODE=yes \
-	DESTDIR='$CROSSDIR' \
-	HOSTCC=/usr/bin/mgcc \
-	HOSTLDFLAGS='$LDFLAGS' \
-	LD='$CROSSDIR/usr/$TARGET/bin/ld' \
-	LDFLAGS='$BUILDLDFLAGS' \
-	LDSTATIC=-static \
-	LORDER=/usr/bin/lorder \
-	NM='$CROSSDIR/usr/$TARGET/bin/nm' \
-	NOMAN=yes \
-	NOPIC=yes \
-	OBJCOPY='$CROSSDIR/usr/$TARGET/bin/objcopy' \
-	OBJDUMP='$CROSSDIR/usr/$TARGET/bin/objdump' \
-	RANLIB='$CROSSDIR/usr/$TARGET/bin/ranlib' \
-	SIZE='$CROSSDIR/usr/$TARGET/bin/size' \
-	STRIP='$CROSSDIR/usr/$TARGET/bin/strip' \
+exec env \\
+	CFLAGS='$CROSSCFLAGS' \\
+	CPPFLAGS='$CROSSCPPFLAGS' \\
+	HOSTCFLAGS='$CFLAGS -Wno-error' \\
+	MACHINE='$MACHINE' \\
+	MACHINE_ARCH='$MARCH' \\
+	OStriplet='$HOST' \\
+	GCCHOST='$TARGET' \\
+	GCCTARGET='$TARGET' \\
+    make MAKE=\$0 \\
+	__objdir='obj.$MACHINE' \\
+	BSDSRCDIR='$BSDSRCDIR' \\
+	BSDOBJDIR='$CROSSDIR/usr/obj' \\
+	HOST='$HOST' \\
+	AR='$CROSSDIR/usr/$TARGET/bin/ar' \\
+	AS='$CROSSDIR/usr/$TARGET/bin/as' \\
+	CC='$CROSSDIR/usr/$TARGET/bin/cc' \\
+	CPP=/usr/bin/cpp \\
+	CROSS_MODE=yes \\
+	DESTDIR='$CROSSDIR' \\
+	HOSTCC=/usr/bin/mgcc \\
+	HOSTLDFLAGS='$LDFLAGS' \\
+	LD='$CROSSDIR/usr/$TARGET/bin/ld' \\
+	LDFLAGS='$BUILDLDFLAGS' \\
+	LDSTATIC=-static \\
+	LORDER=/usr/bin/lorder \\
+	NM='$CROSSDIR/usr/$TARGET/bin/nm' \\
+	NOMAN=yes \\
+	NOPIC=yes \\
+	OBJCOPY='$CROSSDIR/usr/$TARGET/bin/objcopy' \\
+	OBJDUMP='$CROSSDIR/usr/$TARGET/bin/objdump' \\
+	RANLIB='$CROSSDIR/usr/$TARGET/bin/ranlib' \\
+	SIZE='$CROSSDIR/usr/$TARGET/bin/size' \\
+	STRIP='$CROSSDIR/usr/$TARGET/bin/strip' \\
     "\$@"
 EOF
 chmod 755 $CROSSDIR/T_MAKE
