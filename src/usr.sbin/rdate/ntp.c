@@ -50,7 +50,7 @@
 #include <time.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.11 2007/08/10 23:01:02 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.12 2007/08/10 23:04:42 tg Exp $");
 
 /* This macro is not implemented on all operating systems */
 #ifndef	SA_LEN
@@ -112,18 +112,17 @@ extern time_t tick2utc(time_t);
 #define MILLION_D       1.0e6		/* Must be equal to MILLION_L */
 
 struct ntp_data {
+	double		receive;
+	double		transmit;
+	double		current;
+	double		originate;
+	u_int64_t	xmitck;
+	u_int64_t	recvck;
+	u_int32_t	refid;
 	u_char		status;
 	u_char		version;
 	u_char		mode;
 	u_char		stratum;
-	double		receive;
-	double		transmit;
-	double		current;
-	u_int64_t	recvck;
-
-	/* Local State */
-	double		originate;
-	u_int64_t	xmitck;
 };
 
 void	ntp_client(const char *, int, struct timeval *, struct timeval *, int);
@@ -433,7 +432,7 @@ retry:
 void
 unpack_ntp(struct ntp_data *data, u_char *packet)
 {
-	int i;
+	int32_t i;
 	double d;
 
 	data->current = current_time(JAN_1970);
@@ -442,6 +441,9 @@ unpack_ntp(struct ntp_data *data, u_char *packet)
 	data->version = (packet[0] >> 3) & 0x07;
 	data->mode = packet[0] & 0x07;
 	data->stratum = packet[1];
+
+	memcpy(&i, packet + 12, 4);
+	data->refid = ntohl(i);
 
 	for (i = 0, d = 0.0; i < 8; ++i)
 	    d = 256.0*d+packet[NTP_RECEIVE+i];
@@ -510,6 +512,9 @@ debug_packet(const struct ntp_data *data)
 	printf("version:     %u\n", data->version);
 	printf("mode:        %u\n", data->mode);
 	printf("stratum:     %u\n", data->stratum);
+	printf("reference:   0x%08X (%d.%d.%d.%d)\n", data->refid,
+	    data->refid >> 24, (data->refid >> 16) & 0xFF,
+	    (data->refid >> 8) & 0xFF, data->refid & 0xFF);
 	printf("originate:   %f\n", data->originate);
 	printf("receive:     %f\n", data->receive);
 	printf("transmit:    %f\n", data->transmit);
