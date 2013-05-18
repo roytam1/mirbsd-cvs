@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libc/gen/fnlist.c,v 1.7 2006/01/24 20:14:49 tg Exp $ */
+/**	$MirOS: src/lib/libc/gen/fnlist.c,v 1.8 2006/01/24 21:01:03 tg Exp $ */
 /*	$OpenBSD: nlist.c,v 1.51 2005/08/08 08:05:34 espie Exp $ */
 /*
  * Copyright (c) 1989, 1993
@@ -41,7 +41,7 @@
 #include <unistd.h>
 #include <a.out.h>		/* pulls in nlist.h */
 
-__RCSID("$MirOS: src/lib/libc/gen/fnlist.c,v 1.7 2006/01/24 20:14:49 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/fnlist.c,v 1.8 2006/01/24 21:01:03 tg Exp $");
 
 #ifdef _NLIST_DO_ELF
 #include <elf_abi.h>
@@ -57,6 +57,7 @@ int	__elf_is_okay__(Elf_Ehdr *ehdr);
 
 #define	ISLAST(p)	(p->n_un.n_name == 0 || p->n_un.n_name[0] == 0)
 
+#ifdef correct_fpseek_not_a_speed_hack
 static ssize_t
 __fpread(FILE *f, void *buf, size_t nbytes, off_t offset)
 {
@@ -76,6 +77,22 @@ __fpread(FILE *f, void *buf, size_t nbytes, off_t offset)
 
 	return (rv);
 }
+#else
+static ssize_t
+__fpread(FILE *f, void *buf, size_t nbytes, off_t offset)
+{
+	ssize_t rv;
+
+	if ((ftello(f) != offset) && (fseeko(f, offset, SEEK_SET)))
+		return (-1);
+	if ((rv = fread(buf, 1, nbytes, f)) == 0) {
+		if (ferror(f))
+			return (-1);
+	}
+
+	return (rv);
+}
+#endif
 
 #define fpread __fpread
 
