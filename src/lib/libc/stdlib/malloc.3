@@ -30,10 +30,10 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.\"	$MirOS: src/lib/libc/stdlib/malloc.3,v 1.3 2006/03/30 18:36:02 tg Exp $
-.\"	$OpenBSD: malloc.3,v 1.68 2010/05/26 08:22:11 jmc Exp $
+.\"	$MirOS: src/lib/libc/stdlib/malloc.3,v 1.4 2010/12/23 18:33:33 tg Exp $
+.\"	$OpenBSD: malloc.3,v 1.71 2012/11/02 18:18:15 djm Exp $
 .\"
-.Dd $Mdocdate: December 23 2010 $
+.Dd $Mdocdate: December 21 2012 $
 .Dt MALLOC 3
 .Os
 .Sh NAME
@@ -212,7 +212,7 @@ i.e. avoid allocations like the following:
 if ((newp = realloc(p, num * size)) == NULL) {
 	...
 .Ed
-.Pp
+.Sh MALLOC_OPTIONS
 Malloc will first look for a symbolic link called
 .Pa /etc/malloc.conf
 and next check the environment for a variable called
@@ -241,13 +241,17 @@ This option requires the library to have been compiled with -DMALLOC_STATS in
 order to have any effect.
 .It Cm F
 .Dq Freeguard .
-Enable use after free protection.
+Enable use after free detection.
 Unused pages on the freelist are read and write protected to
 cause a segmentation fault upon access.
 This will also switch off the delayed freeing of chunks,
 reducing random behaviour but detecting double
 .Fn free
 calls as early as possible.
+This option is intended for debugging rather than improved security
+(use the
+.Cm U
+option for security).
 .It Cm G
 .Dq Guard .
 Enable guard pages.
@@ -285,6 +289,11 @@ This can substantially aid in compacting memory.
 .\"Consult the source for this one.
 .It Cm S
 Enable all options suitable for security auditing.
+.It Cm U
+.Dq Free unmap .
+Enable use after free protection for larger allocations.
+Unused pages on the freelist are read and write protected to
+cause a segmentation fault upon access.
 .It Cm X
 .Dq xmalloc .
 Rather than return failure,
@@ -312,8 +321,9 @@ Decrease the size of the free page cache by a factor of two.
 Increase the size of the free page cache by a factor of two.
 .El
 .Pp
-So to set a systemwide reduction of cache size and use guard pages:
-.Dl # ln -s 'G\*(Lt' /etc/malloc.conf
+So to set a systemwide reduction of the cache to a quarter of the
+default size and use guard pages:
+.Dl # ln -s 'G\*(Lt\*(Lt' /etc/malloc.conf
 .Pp
 The flags are mostly for testing and debugging.
 If a program changes behavior if any of these options (except

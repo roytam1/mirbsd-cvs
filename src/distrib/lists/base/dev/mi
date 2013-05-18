@@ -6721,6 +6721,7 @@
 ./usr/share/man/cat3/pos_form_cursor.0
 ./usr/share/man/cat3/pos_menu_cursor.0
 ./usr/share/man/cat3/posix2timet.0
+./usr/share/man/cat3/posix_memalign.0
 ./usr/share/man/cat3/post_form.0
 ./usr/share/man/cat3/post_menu.0
 ./usr/share/man/cat3/pow.0

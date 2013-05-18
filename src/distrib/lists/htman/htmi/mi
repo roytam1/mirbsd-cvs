@@ -4984,6 +4984,7 @@
 ./man3/pos_form_cursor.htm
 ./man3/pos_menu_cursor.htm
 ./man3/posix2timet.htm
+./man3/posix_memalign.htm
 ./man3/post_form.htm
 ./man3/post_menu.htm
 ./man3/pow.htm

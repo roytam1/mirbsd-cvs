@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/stdlib/Makefile.inc,v 1.10 2010/12/23 18:33:33 tg Exp $
+# $MirOS: src/lib/libc/stdlib/Makefile.inc,v 1.11 2010/12/24 00:10:59 tg Exp $
 
 # stdlib sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/stdlib ${LIBCSRCDIR}/stdlib
@@ -60,8 +60,8 @@ SRCS+=	malloc.c
 
 MAN+=	a64l.3 abort.3 abs.3 alloca.3 atexit.3 atof.3 atoi.3 atol.3 atoll.3 \
 	bsearch.3 div.3 ecvt.3 exit.3 getenv.3 getopt.3 getopt_long.3 \
-	getsubopt.3 hcreate.3 insque.3 labs.3 ldiv.3 lsearch.3 malloc.3 \
-	qabs.3 qdiv.3 qsort.3 \
+	getsubopt.3 hcreate.3 insque.3 labs.3 ldiv.3 lsearch.3 \
+	malloc.3 posix_memalign.3 qabs.3 qdiv.3 qsort.3 \
 	radixsort.3 rand48.3 rand.3 random.3 realpath.3 rpmatch.3 \
 	strtod.3 strtonum.3 strtol.3 strtoul.3 system.3 tsearch.3
 
