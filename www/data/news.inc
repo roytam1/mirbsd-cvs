@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.128 2009/11/02 18:58:21 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.129 2009/11/08 19:44:02 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1830,4 +1830,13 @@ Picture3: Allerheiligen 2009-11-01
  some of the boxen involved (they are still usually available from the
  original mirrors, as well as on request directly from bsiegert@/tg@,
  plus we fully intend on making binary packages the viable option).</p>
+----
+Title: upcoming compiler changes
+Date: 12.12.2009 21:04
+
+<p>Beware, the Objective-C and C++ header files (includes) will, as
+ the libraries have already, move to compiler-specific directories,
+ so that llvm-gcc4.2 and gcc-4.4.2 can use their own ones exclusively,
+ and Clang will get a wrapper asking its <tt>CCLD</tt> which ones it
+ prefers.</p>
 ----
