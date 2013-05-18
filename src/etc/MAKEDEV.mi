@@ -1,8 +1,8 @@
 define(COMM,`#')dnl
 include(MAKEDEV.sub)dnl
 dnl
-vers(a, {-$MirOS: src/etc/MAKEDEV.mi,v 1.4 2005/05/06 12:46:32 tg Exp $-})dnl
-vers(a, {-$OpenBSD: MAKEDEV.mi,v 1.72 2004/02/16 18:58:53 miod Exp $-})dnl
+vers(a, {-$MirOS: src/etc/MAKEDEV.mi,v 1.5 2005/07/07 13:39:22 tg Exp $-})dnl
+vers(a, {-$OpenBSD: MAKEDEV.mi,v 1.73 2005/02/07 06:14:18 david Exp $-})dnl
 dnl
 divert(1)dnl
 {-#-}
@@ -60,7 +60,7 @@ dnl
 dnl
 divert(0)dnl
 #!/bin/mksh
-# $MirOS: src/etc/MAKEDEV.mi,v 1.4 2005/05/06 12:46:32 tg Exp $
+# $MirOS: src/etc/MAKEDEV.mi,v 1.5 2005/07/07 13:39:22 tg Exp $
 #
 # THIS FILE AUTOMATICALLY GENERATED.  DO NOT EDIT.
 # generated from:
@@ -90,7 +90,7 @@ hex()
 
 alph2d()
 {
-	local t="$1"  
+	local t="$1"
 	local p="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	local sub=${p%${t}*}
 	echo ${#sub}
