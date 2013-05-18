@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh-keygen.c,v 1.154 2006/08/03 03:34:42 deraadt Exp $ */
+/* $OpenBSD: ssh-keygen.c,v 1.155 2006/11/06 21:25:28 markus Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1994 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -45,7 +45,7 @@
 #include "scard.h"
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.14 2006/09/20 21:41:05 tg Exp $");
 
 /* Number of bits in the RSA/DSA key.  This value can be set on the command line. */
 #define DEFAULT_BITS		2048
@@ -250,7 +250,8 @@ buffer_get_bignum_bits(Buffer *b, BIGNUM *value)
 	if (buffer_len(b) < bytes)
 		fatal("buffer_get_bignum_bits: input buffer too small: "
 		    "need %d have %d", bytes, buffer_len(b));
-	BN_bin2bn(buffer_ptr(b), bytes, value);
+	if (BN_bin2bn(buffer_ptr(b), bytes, value) == NULL)
+		fatal("buffer_get_bignum_bits: BN_bin2bn failed");
 	buffer_consume(b, bytes);
 }
 

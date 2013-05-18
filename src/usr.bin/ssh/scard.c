@@ -1,4 +1,4 @@
-/* $OpenBSD: scard.c,v 1.35 2006/08/03 03:34:42 deraadt Exp $ */
+/* $OpenBSD: scard.c,v 1.36 2006/11/06 21:25:28 markus Exp $ */
 /*
  * Copyright (c) 2001 Markus Friedl.  All rights reserved.
  *
@@ -38,7 +38,7 @@
 #include "misc.h"
 #include "scard.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/scard.c,v 1.4 2006/09/20 21:41:01 tg Exp $");
 
 #if OPENSSL_VERSION_NUMBER < 0x00907000L
 #define USE_ENGINE
@@ -391,15 +391,17 @@ sc_get_keys(const char *id, const char *pin)
 	keys = xcalloc((nkeys+1), sizeof(Key *));
 
 	n = key_new(KEY_RSA1);
-	BN_copy(n->rsa->n, k->rsa->n);
-	BN_copy(n->rsa->e, k->rsa->e);
+	if ((BN_copy(n->rsa->n, k->rsa->n) == NULL) ||
+	    (BN_copy(n->rsa->e, k->rsa->e) == NULL))
+		fatal("sc_get_keys: BN_copy failed");
 	RSA_set_method(n->rsa, sc_get_rsa());
 	n->flags |= KEY_FLAG_EXT;
 	keys[0] = n;
 
 	n = key_new(KEY_RSA);
-	BN_copy(n->rsa->n, k->rsa->n);
-	BN_copy(n->rsa->e, k->rsa->e);
+	if ((BN_copy(n->rsa->n, k->rsa->n) == NULL) ||
+	    (BN_copy(n->rsa->e, k->rsa->e) == NULL))
+		fatal("sc_get_keys: BN_copy failed");
 	RSA_set_method(n->rsa, sc_get_rsa());
 	n->flags |= KEY_FLAG_EXT;
 	keys[1] = n;

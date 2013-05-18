@@ -11,6 +11,7 @@
 #include <sys/time.h>
 #include <sys/socket.h>
 #include <sys/queue.h>
+#include <sys/time.h>
 #include <sys/resource.h>
 
 #include <openssl/bn.h>
@@ -41,7 +42,7 @@
 #include "misc.h"
 #include "hostfile.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh-keyscan.c,v 1.4 2006/09/20 21:41:05 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-keyscan.c,v 1.5 2006/10/13 18:40:51 tg Exp $");
 
 /* Flag indicating whether IPv4 or IPv6.  This can be set on the command line.
    Default value is AF_UNSPEC means both IPv4 and IPv6. */

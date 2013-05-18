@@ -1,4 +1,4 @@
-/* $OpenBSD: dh.c,v 1.42 2006/08/03 03:34:42 deraadt Exp $ */
+/* $OpenBSD: dh.c,v 1.44 2006/11/07 13:02:07 markus Exp $ */
 /*
  * Copyright (c) 2000 Niels Provos.  All rights reserved.
  *
@@ -37,7 +37,7 @@
 #include "log.h"
 #include "misc.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/dh.c,v 1.5 2006/09/20 21:40:58 tg Exp $");
 
 static int
 parse_prime(int linenum, char *line, struct dhgroup *dhg)

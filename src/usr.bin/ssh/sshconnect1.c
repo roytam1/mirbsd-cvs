@@ -1,4 +1,4 @@
-/* $OpenBSD: sshconnect1.c,v 1.69 2006/08/03 03:34:42 deraadt Exp $ */
+/* $OpenBSD: sshconnect1.c,v 1.70 2006/11/06 21:25:28 markus Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -45,7 +45,7 @@
 #include "hostfile.h"
 #include "auth.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect1.c,v 1.8 2006/09/20 21:41:07 tg Exp $");
 
 /* Session id for the current session. */
 u_char session_id[16];
@@ -562,14 +562,20 @@ ssh_kex(char *host, struct sockaddr *hostaddr)
 	 * the first 16 bytes of the session id.
 	 */
 	if ((key = BN_new()) == NULL)
-		fatal("respond_to_rsa_challenge: BN_new failed");
-	BN_set_word(key, 0);
+		fatal("ssh_kex: BN_new failed");
+	if (BN_set_word(key, 0) == 0)
+		fatal("ssh_kex: BN_set_word failed");
 	for (i = 0; i < SSH_SESSION_KEY_LENGTH; i++) {
-		BN_lshift(key, key, 8);
-		if (i < 16)
-			BN_add_word(key, session_key[i] ^ session_id[i]);
-		else
-			BN_add_word(key, session_key[i]);
+		if (BN_lshift(key, key, 8) == 0)
+			fatal("ssh_kex: BN_lshift failed");
+		if (i < 16) {
+			if (BN_add_word(key, session_key[i] ^ session_id[i])
+			    == 0)
+				fatal("ssh_kex: BN_add_word failed");
+		} else {
+			if (BN_add_word(key, session_key[i]) == 0)
+				fatal("ssh_kex: BN_add_word failed");
+		}
 	}
 
 	/*

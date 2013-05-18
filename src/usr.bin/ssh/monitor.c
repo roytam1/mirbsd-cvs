@@ -1,4 +1,4 @@
-/* $OpenBSD: monitor.c,v 1.88 2006/08/12 20:46:46 miod Exp $ */
+/* $OpenBSD: monitor.c,v 1.89 2006/11/07 10:31:31 markus Exp $ */
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
  * Copyright 2002 Markus Friedl <markus@openbsd.org>
@@ -71,7 +71,7 @@
 #include "compat.h"
 #include "ssh2.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.6 2006/09/20 21:40:59 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.7 2006/09/21 21:47:30 tg Exp $");
 
 /* Imports */
 extern ServerOptions options;
@@ -273,7 +273,7 @@ monitor_child_preauth(Authctxt *_authctxt, struct monitor *pmonitor)
 	/* The first few requests do not require asynchronous access */
 	while (!authenticated) {
 		auth_method = "unknown";
-		authenticated = monitor_read(pmonitor, mon_dispatch, &ent);
+		authenticated = (monitor_read(pmonitor, mon_dispatch, &ent) == 1);
 		if (authenticated) {
 			if (!(ent->flags & MON_AUTHDECIDE))
 				fatal("%s: unexpected authentication from %d",
@@ -992,7 +992,7 @@ mm_answer_keyverify(int sock, Buffer *m)
 
 	verified = key_verify(key, signature, signaturelen, data, datalen);
 	debug3("%s: key %p signature %s",
-	    __func__, key, verified ? "verified" : "unverified");
+	    __func__, key, (verified == 1) ? "verified" : "unverified");
 
 	key_free(key);
 	xfree(blob);
@@ -1007,7 +1007,7 @@ mm_answer_keyverify(int sock, Buffer *m)
 	buffer_put_int(m, verified);
 	mm_request_send(sock, MONITOR_ANS_KEYVERIFY, m);
 
-	return (verified);
+	return (verified == 1);
 }
 
 static void
