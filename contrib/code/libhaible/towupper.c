@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/libhaible/towupper.c,v 1.8 2006/05/30 10:45:38 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/towupper.c,v 1.9 2006/06/01 21:39:01 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -20,13 +20,12 @@
  * the possibility of such damage or existence of a nontrivial bug.
  */
 
-#include <wchar.h>
 #include <wctype.h>
 
 #define mir18n_caseconv
 #include "mir18n.h"
 
-__RCSID("$MirOS: contrib/code/libhaible/towupper.c,v 1.8 2006/05/30 10:45:38 tg Exp $");
+__RCSID("$MirOS: contrib/code/libhaible/towupper.c,v 1.9 2006/06/01 21:39:01 tg Exp $");
 
 wint_t
 towupper(wint_t x)

@@ -1,13 +1,9 @@
-/* $MirOS: contrib/code/libhaible/wctype.h,v 1.5 2006/05/30 11:34:22 tg Exp $ */
+/* $MirOS: contrib/code/libhaible/wctype.h,v 1.6 2006/06/01 21:28:41 tg Exp $ */
 
 #ifndef	_WCTYPE_H_
 #define	_WCTYPE_H_
 
 #include <wchar.h>
-
-#ifndef __BIT_TYPES_DEFINED__
-#include <machine/types.h>
-#endif
 
 typedef const uint16_t * const *wctrans_t;
 
