@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.13 2008/08/01 11:24:59 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.14 2008/08/01 12:39:07 tg Exp $
 # $OpenBSD: Makefile,v 1.47 2007/05/30 01:25:43 tom Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -21,8 +21,8 @@ SMALL=		#defined
 .include "${KERNBASE}/z/Makefile.adler32"
 
 # i386 stuff (so, it will possibly load in the same 64k)
-SRCS+=	machdep.c dev_i386.c exec_i386.c cmd_i386.c loadfile.c elf32.c
-#SRCS+=	elf64.c
+SRCS+=	machdep.c dev_i386.c exec_i386.c cmd_i386.c loadfile.c
+#SRCS+=	elf32.c elf64.c
 
 SRCS+=	gidt.S debug_i386.S alloca.S toridev.c \
 	biosdev.c bioscons.c gateA20.c apmprobe.c \
