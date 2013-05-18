@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.91 2008/03/08 19:48:10 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.92 2008/03/09 19:02:57 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -787,8 +787,9 @@ mws_content <<'EOF'
   ANSI’n’POSIX Environment (not finished)</li>
  <li>Plan porting mksh to <a href="http://www.minix3.org/">Minix 3</a>
   (not finished yet)</li>
- <li>Port to <a href="http://www.syllable.org/">Syllable</a> (segfaults
-  on startup @ Syllable Desktop; didn’t test Syllable Server yet)</li>
+ <li>Port to <a href="http://www.syllable.org/">Syllable</a> (much
+  improved; support now en par with Plan 9’s, thanks to Anthony Morphett
+  &lt;awmorp@gmail.com&gt; – maybe the rest is a kernel bug?)</li>
  <li>Simplify the <tt>dot.mkshrc</tt> file and make it more robust</li>
  <li>Report OE and <tt>$CC</tt> version in <tt>Build.sh</tt>, for logs</li>
  <li>Fix look’n’feel of the mksh(1) manual page, so that it still looks
