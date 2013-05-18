@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.20 2008/11/11 02:50:08 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.21 2008/11/16 23:07:18 tg Exp $ */
 /* $OpenBSD: file.c,v 1.26 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -33,7 +33,7 @@
 #include <libgen.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.20 2008/11/11 02:50:08 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/file.c,v 1.21 2008/11/16 23:07:18 tg Exp $");
 
 /* Try to find the log dir for an incomplete package specification.
  * Used in pkg_info and pkg_delete. Returns the number of matches,
@@ -90,32 +90,23 @@ trim_end(char *name)
 {
 	size_t n, m;
 	n = strlen(name);
-	m = strlen(".tar.gz");
-	if (n > m && strcmp(name+n-m, ".tar.gz") == 0) {
-		name[n-m] = 0;
-		return 1;
-	}
-	m = strlen(".tgz");
-	if (n > m && strcmp(name+n-m, ".tgz") == 0) {
-		name[n-m] = 0;
-		return 1;
-	}
-	/* m = strlen(".cgz"); */
-	if (n > m && strcmp(name+n-m, ".cgz") == 0) {
-		name[n-m] = 0;
-		return 1;
-	}
-	/* m = strlen(".clz"); */
-	if (n > m && strcmp(name+n-m, ".clz") == 0) {
-		name[n-m] = 0;
-		return 1;
-	}
-	/* m = strlen(".tar"); */
-	if (n > m && strcmp(name+n-m, ".tar") == 0) {
-		name[n-m] = 0;
-		return 1;
-	}
+
+#define check(suff) do {			\
+	if (n > (m = strlen(suff)) &&		\
+	    !strcmp(name + n - m, (suff)))	\
+		goto found;			\
+} while (/* CONSTCOND */ 0)
+	check(".cgz");
+	check(".clz");
+	check(".tgz");
+	check(".tar");
+	check(".cpio");
+	check(".tar.gz");
+#undef check
 	return 0;
+ found:
+	name[n - m] = 0;
+	return 1;
 }
 
 
@@ -132,17 +123,16 @@ ensure_tgz(char *name)
 	size_t len;
 
 	len = strlen(name);
-	if ( (strcmp (name, "-") == 0 )
-	     || CHK_NAME(name,len,".cgz")
-	     || CHK_NAME(name,len,".clz")
-	     || CHK_NAME(name,len,".tgz")
-	     || CHK_NAME(name,len,".tar.gz")
-	     || CHK_NAME(name,len,".tar"))
-		return name;
-	  else {
-		snprintf(buffer, sizeof(buffer), "%s.cgz", name);
-		return buffer;
-	}
+	if ((strcmp(name, "-") == 0) ||
+	    CHK_NAME(name,len,".cgz") ||
+	    CHK_NAME(name,len,".clz") ||
+	    CHK_NAME(name,len,".tgz") ||
+	    CHK_NAME(name,len,".tar") ||
+	    CHK_NAME(name,len,".cpio") ||
+	    CHK_NAME(name,len,".tar.gz"))
+		return (name);
+	snprintf(buffer, sizeof(buffer), "%s.cgz", name);
+	return (buffer);
 }
 
 /* This is as ftpGetURL from FreeBSDs ftpio.c, except that it uses

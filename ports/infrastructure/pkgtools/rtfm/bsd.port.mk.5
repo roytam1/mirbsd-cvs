@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.30 2009/02/24 18:20:56 bsiegert Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.31 2009/02/24 19:37:06 bsiegert Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007, 2008 Thorsten Glaser
@@ -63,7 +63,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: Febuary 24 2009 $
+.Dd $Mdocdate: February 24 2009 $
 .\"
 .\" Implement .Mx (MirBSD)
 .\"
@@ -1545,13 +1545,19 @@ Requires
 .Nm lzmadec
 to be installed to handle,
 .Nm lzma
-and ~320M datasize to create, no automatic dependency.
+and ~320M datasize ulimit to create, no automatic dependency.
 .It Pa .cpio
 sv4cpio with CRC, uncompressed.
 .It Pa .tgz
 ustar, compressed with
 .Xr gzip 1 .
 Default on OpenBSD.
+.It Pa .tar
+ustar, uncompressed.
+.It Pa .tar.gz
+ustar, compressed with
+.Xr gzip 1 .
+Legacy use only, will go away.
 .El
 .It Ev PORTHOME
 Setting of env variable

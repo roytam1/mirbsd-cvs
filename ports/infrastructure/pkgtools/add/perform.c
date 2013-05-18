@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.23 2008/11/02 18:19:51 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.24 2008/11/02 18:56:28 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,7 +29,7 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.23 2008/11/02 18:19:51 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.24 2008/11/02 18:56:28 tg Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
@@ -605,6 +605,7 @@ register_dep_(char *pkg, char *dep)
 	/* cf. ensure_tgz() in lib/file.c */
 	if (!strcmp(cp, ".cgz") ||
 	    !strcmp(cp, ".clz") ||
+	    !strcmp(cp, ".cpio") ||
 	    !strcmp(cp, ".tgz") ||
 	    !strcmp(cp, ".tar")) {
 		*cp = '\0';

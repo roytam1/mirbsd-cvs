@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.14 2008/11/02 19:19:11 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.15 2008/11/02 19:23:58 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.17 2003/08/27 06:51:26 jolan Exp $	*/
 
 /*
@@ -32,7 +32,7 @@
 #include <signal.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.14 2008/11/02 19:19:11 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/perform.c,v 1.15 2008/11/02 19:23:58 tg Exp $");
 
 static void sanity_check(void);
 static void make_dist(char *, char *, const char *, package_t *);
@@ -276,8 +276,7 @@ make_dist(char *homepath, char *pkg, const char *fsuffix, package_t *plist)
     else
 	snprintf(tball, FILENAME_MAX, "%s/%s.%s", homepath, pkg, fsuffix);
 
-    if (((cp = strrchr(tball, '.')) != NULL) &&
-      (!strcmp(cp, ".clz")))
+    if (!strcmp(fsuffix + strlen(fsuffix) - 2, "lz"))
 	/* LZMA compression */
 	compression = 2;
     else if (strchr(fsuffix, 'z'))
