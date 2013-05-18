@@ -1,9 +1,8 @@
-# $MirOS: ports/archivers/mpczar/Makefile,v 1.3 2005/11/18 14:14:27 tg Exp $
+# $MirOS: ports/archivers/mpczar/Makefile,v 1.4 2006/05/27 23:41:32 tg Exp $
 
 COMMENT=		"MirPorts CpioZ archiver for distfiles"
 CATEGORIES=		archivers essentials
-DISTNAME=		mpczar-20051117
-PKGNAME=		${DISTNAME}-2
+DISTNAME=		mpczar-20060624
 EXTRACT_SUFX=		.cgz
 RESPONSIBLE=		Thorsten Glaser <tg@66h.42h.de>
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/mpczar/}
