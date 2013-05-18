@@ -1,4 +1,4 @@
-! $MirOS: contrib/samples/dot.Xmodmap,v 1.24 2010/12/05 20:19:30 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap,v 1.24.4.1 2012/06/08 23:09:43 tg Exp $
 !-
 ! Copyright © 2004, 2007, 2008, 2010, 2012
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -76,7 +76,7 @@
 ! • ModeSwitch and arrow keys generates single-dashed (without) or
 !   double-dashed (with shift) pictograph U+21[9D][0123] ↑←↓→ ⇑⇐⇓⇒
 ! • ModeSwitch + {Ins,Del}, {Home,End}, {PgUp,PgDn} generate☁ wide
-!   parentheses: (unshift/shift) 〈〉 《》 / 〔〕 【】/ 「」 『』 
+!   parentheses: (unshift/shift) 〈〉 《》 / 〔〕 【】/ 「」 『』
 ! Note: ☁ = available for reassignment
 
 keycode	0x09 =	grave		Escape			U00E0
@@ -92,9 +92,9 @@ keycode	0x4B =	F9		XF86_Switch_VT_9	U0332	U253C
 keycode	0x4C =	F10		XF86_Switch_VT_10	U0305	U252C
 keycode	0x5F =	F11		XF86_Switch_VT_11	U2023	U2534
 keycode	0x60 =	F12		XF86_Switch_VT_12	U2025	U2588
-keycode	0x6F =	Print		Sys_Req
+keycode	0x6B =	Print		Sys_Req
 keycode	0x4E =	Scroll_Lock	Pointer_Accelerate
-keycode	0x6E =	Pause		Break
+keycode	0x7F =	Pause		Break
 
 keycode	0x31 =	Escape		asciitilde	Escape		U00FE
 keycode	0x0A =	1		exclam		U00B1		U00A1
@@ -110,11 +110,11 @@ keycode	0x13 =	0		parenright	U00B0		U00A9
 keycode	0x14 =	minus		underscore	U00AD		U00DF
 keycode	0x15 =	equal		plus		U00BD		U00AB
 keycode	0x16 =	BackSpace	Terminate_Server  U00FF		U0178
-keycode	0x6A =	Insert		Insert		U3008		U300A
-keycode	0x61 =	Home		Home		U3014		U3010
-keycode	0x63 =	Prior		Prior		U300C		U300E
+keycode	0x76 =	Insert		Insert		U3008		U300A
+keycode	0x6E =	Home		Home		U3014		U3010
+keycode	0x70 =	Prior		Prior		U300C		U300E
 keycode	0x4D =	Num_Lock	Pointer_EnableKeys
-keycode	0x70 =	KP_Divide	XF86_Ungrab
+keycode	0x6A =	KP_Divide	XF86_Ungrab
 keycode	0x3F =	KP_Multiply	XF86_ClearGrab
 keycode	0x52 =	KP_Subtract	XF86_Prev_VMode
 
@@ -132,9 +132,9 @@ keycode	0x21 =	p		P		U00F0		U00D0
 keycode	0x22 =	bracketleft	braceleft	U00DB		U00FB
 keycode	0x23 =	bracketright	braceright	U00DD		U00FD
 keycode	0x24 =	Return		Return		U2022		U2013
-keycode	0x6B =	KP_Delete	Delete		U3009		U300B
-keycode	0x67 =	End		End		U3015		U3011
-keycode	0x69 =	Next		Next		U300D		U300F
+keycode	0x77 =	KP_Delete	Delete		U3009		U300B
+keycode	0x73 =	End		End		U3015		U3011
+keycode	0x75 =	Next		Next		U300D		U300F
 keycode	0x4F =	KP_Home		KP_7
 keycode	0x50 =	KP_Up		KP_8
 keycode	0x51 =	KP_Prior	KP_9
@@ -170,38 +170,28 @@ keycode	0x3B =	comma		less		U00AC		U00BC
 keycode	0x3C =	period		greater		U00AE		U00BE
 keycode	0x3D =	slash		question	U00AF		U00BF
 keycode	0x3E =	Shift_R		Shift_R
-keycode	0x62 =	Up		Up		U2191		U21D1
+keycode	0x6F =	Up		Up		U2191		U21D1
 keycode	0x57 =	KP_End		KP_1
 keycode	0x58 =	KP_Down		KP_2
 keycode	0x59 =	KP_Next		KP_3
-keycode	0x6C =	KP_Enter	Return
+keycode	0x68 =	KP_Enter	Return
 
 keycode	0x25 =	Control_L	Control_L
-keycode	0x73 =	Alt_L		Alt_L
+keycode	0x85 =	Alt_L		Alt_L
 keycode	0x40 =	Meta_L		Meta_L
 keycode	0x41 =	space		space		U00A0		U00A0
-keycode	0x71 =	Alt_R		Alt_R
-keycode	0x74 =	Meta_R		Meta_R
-keycode	0x75 =	Multi_key	Multi_key
-keycode	0x6D =	Control_R	Control_R
-keycode	0x64 =	Left		Left		U2190		U21D0
-keycode	0x68 =	Down		Down		U2193		U21D3
-keycode	0x66 =	Right		Right		U2192		U21D2
+keycode	0x6C =	Alt_R		Alt_R
+keycode	0x86 =	Meta_R		Meta_R
+keycode	0x87 =	Multi_key	Multi_key
+keycode	0x69 =	Control_R	Control_R
+keycode	0x71 =	Left		Left		U2190		U21D0
+keycode	0x74 =	Down		Down		U2193		U21D3
+keycode	0x72 =	Right		Right		U2192		U21D2
 keycode	0x5A =	KP_Insert	KP_0
 keycode	0x5B =	KP_Delete	KP_Decimal
 
-keycode	0x5C =
-keycode	0x5D =
-keycode	0x72 =
-keycode	0x7C =
-keycode	0x7D =
-keycode	0x7E =
-keycode	0x7F =
-keycode	0x80 =
-keycode	0x9C =
-
-keycode	0xEA =	Alt_L		Alt_L
-keycode	0xE9 =	Multi_key	Multi_key
+keycode	0xA6 =	Alt_L		Alt_L
+keycode	0xA7 =	Multi_key	Multi_key
 
 clear	Shift
 clear	Lock
