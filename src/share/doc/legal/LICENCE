@@ -1,4 +1,4 @@
-$MirOS: src/share/doc/legal/LICENCE,v 1.10 2006/07/01 00:37:04 tg Exp $
+$MirOS: src/share/doc/legal/LICENCE,v 1.11 2006/07/21 17:11:10 tg Exp $
 
 MirOS base system and BSD - TOU
 -------------------------------
@@ -44,52 +44,10 @@ The following people are MirOS developers:
 * Thorsten Glaser <tg@66h.42h.de>
 * Benny Siegert <bsiegert@gmx.de>
 
-/*-
- * MirBSD is Copyright (c) 1999, 2002, 2003 ff.
- *	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
- *
- * Licensee is hereby permitted to deal in this work without restric-
- * tion, including unlimited rights to use, publicly perform, modify,
- * merge, distribute, sell, give away or sublicence, provided all co-
- * pyright notices above, these terms and the disclaimer are retained
- * in all redistributions or reproduced in accompanying documentation
- * or other materials provided with binary redistributions.
- *
- * All advertising materials mentioning features or use of this soft-
- * ware must display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
- * This advertising clause shall automatically be rescinded upon time
- * of my death as officially ascertained by the (German) gouvernment,
- * or as soon as all other advertising clauses contained in MirOS are
- * rescinded, whichever comes first; this shall apply to any occuren-
- * ces of the above advertising clause no matter where.
- *
- * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
- * express, or implied, to the maximum extent permitted by applicable
- * law, without malicious intent or gross negligence; in no event may
- * licensor, an author or contributor be held liable for any indirect
- * or other damage, or direct damage except proven a consequence of a
- * direct error of said person and intended use of this work, loss or
- * other issues arising in any way out of its use, even if advised of
- * the possibility of such damage or existence of a nontrivial bug.
- *
- * This licence agreement shall be governed in all aspects by the law
- * of Germany; designated place of court is Bonn, NRW, Germany.  (Der
- * Gerichtsstand ist Bonn, NRW/Deutschland. Es gilt deutsches Recht.)
- *-
- * I as the MirOS Project and MirBSD's project leader hereby assert a
- * collective-work copyright on the "MirOS Project" work and "MirBSD"
- * including the MirPorts Framework and the (OpenBSD-derived) kernel,
- * excluding single ports, the contributed sections (the modules gcc,
- * x11 and contrib) and any part of MirBSD with copyright assignments
- * in place (appropriate CVS access control ought to be set).
- * Please note that this copyright still applies to some work contai-
- * ned within the X11 and contrib modules.
- */
 
 For an overview of all other terms and conditions that cover
 parts of MirOS, refer to the file 1stREAD in the current di-
-rectory.
+rectory and the files it refers to.
 
 The MirOS Project strives to make as much of our work as po-
 ssible, as well as inherited work we redistribute, available

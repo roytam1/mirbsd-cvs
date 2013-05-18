@@ -1,4 +1,4 @@
-$MirOS: src/share/doc/legal/1stREAD,v 1.4 2006/03/29 21:35:41 tg Exp $
+$MirOS: src/share/doc/legal/1stREAD,v 1.5 2006/07/21 17:59:23 tg Exp $
 
 LICENCE OVERVIEW
 ----------------
@@ -29,6 +29,8 @@ licencing repository.
 	MirOS is covered by in parts. None of these terms
 	cover all of MirOS, but only some parts. They also
 	describe the Berkeley history and our contributors.
+	The collective-work copyright on "MirBSD" and the
+	licence is also contained in this file.
 
 /usr/share/doc/legal/LICENCE-GNU
 	Description of special "rules" for the src/gnu/
