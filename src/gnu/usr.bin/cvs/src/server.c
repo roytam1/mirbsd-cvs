@@ -20,7 +20,7 @@
 #include "getline.h"
 #include "getnline.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_server_c,v 1.4 2010/09/19 18:42:03 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/server.c,v 1.5 2010/09/19 19:43:10 tg Exp $");
 
 int server_active = 0;
 
@@ -3531,7 +3531,7 @@ do_cvs_command (char *cmd_name, int (*command) (int, char **))
      * Therefore, we wish to avoid reprocessing the command since that would
      * cause endless recursion.
      */
-    if (isProxyServer())
+    if ((command != version || current_parsed_root) && isProxyServer())
     {
 # ifdef PROXY_SUPPORT
 	if (reprocessing)

@@ -28,7 +28,7 @@
 #include <bsd/bsd.h>
 #endif
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_main_c,v 1.8 2010/09/18 23:14:07 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.11 2010/09/19 19:43:06 tg Exp $");
 
 const char *program_name;
 const char *program_path;
@@ -952,7 +952,7 @@ distribution kit for a complete list of contributors and copyrights.\n",
 	    /* Now we've reconciled CVSROOT from the command line, the
 	       CVS/Root file, and the environment variable.  Do the
 	       last sanity checks on the variable. */
-	    if (!CVSroot_parsed)
+	    if (!CVSroot_parsed && cm->func != version)
 	    {
 		error (0, 0,
 		       "No CVSROOT specified!  Please use the `-d' option");
@@ -983,6 +983,11 @@ distribution kit for a complete list of contributors and copyrights.\n",
 	}
 
 	assert (current_parsed_root == NULL);
+
+	/* Handle running 'cvs version' with no CVSROOT.  */
+
+	if (cm->func == version && !CVSroot_parsed)
+	    server_active = !0;
 
 	/* If we're running the server, we want to execute this main
 	   loop once and only once (we won't be serving multiple roots
