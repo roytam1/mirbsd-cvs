@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.202 2009/02/09 11:41:08 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.203 2009/02/15 15:26:24 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -1011,7 +1011,9 @@ mws_content <<'EOF'
 <li>${foo:S/bar/baz/g} ${foo:C/bar/baz/x}</li>
 <li>A sensible website</li>
 <li>Build and actually work on more platforms – PW32, Minix 3,
- Plan 9, Syllable – debug these</li>
+ Plan 9, Syllable – debug these: jobless mode</li>
+<li>Mode for no input line editing at all (required for Plan 9)
+ and no Emacs just Vi mode (requested by unknown at FOSDEM 2009 – yuck)</li>
 <li>Build with more platforms’ native tools or other compilers
  – ACK, kencc, ICC/UWIN, egcs/UWIN, tcc</li>
 <li>Add the ability to handle embedded NUL bytes in strings read,
@@ -1019,23 +1021,6 @@ mws_content <<'EOF'
  <br />XXX this might be a bad idea actually, cf. php’s insecurity</li>
 <li>Bugfix for suspending <tt>a &amp;&amp; b</tt> chain</li>
 <li>echo diff &lt;(echo 1) &lt;(echo 2)</li>
-<li>Bugfix: <tt>${foo/%/x}</tt> (% and maybe #) doesn’t work:
- <pre>
-	tg@bleu:~ $ foo='%20%21%22%40'
-	tg@bleu:~ $ print ${foo/@(%)/x}
-	%20%21%22%40
-	tg@bleu:~ $ foo=$foo mksh -c 'print ${foo/@(%)/x}'
-	x20%21%22%40
-	tg@bleu:~ $ foo=$foo mksh -c 'print -- "${foo//@(%)/\\x}"'
-	 !"@
-	tg@bleu:~ $ set +U
-	tg@bleu:~ $ print -- "${foo//@(%)/\\x}"
-	 !"@
-	tg@bleu:~ $ set -U
-	tg@bleu:~ $ print -- "${foo//@(%)/\\x}"
-	%20%21%22%40
- </pre>
-</li>
 </ul>
 
 <h2 id="clog">Recent Changes</h2>
@@ -1067,6 +1052,13 @@ mws_content <<'EOF'
  <li>[tg] Always set <tt>COLUMNS</tt> and <tt>LINES</tt> trying as hard
   as we can, using <tt>TIOCGWINSZ</tt> even if used without FTALKING,
   and with the sane 80x24 default if the ioctl(2) fails</li>
+ <li>[tg] Handle _POSIX_VDISABLE being undefined (e.g. Linux/klibc)</li>
+ <li>[tg] &lt;sys/file.h&gt; is only required for flock(2)</li>
+ <li>[tg] Fix multi-column output routine for the corner case if the
+  screen is less wide than one output column; 10x Gábor Gergely</li>
+ <li>[tg] Fix ${foo/@(%)/\\x} in UTF-8 mode (utf_widthadj for control
+  characters U+0080‥U+009F is slightly broken; this fix shifts the
+  brokenness into the command line editing mode only)</li>
 </ul>
 <p id="r36b">mksh R36b is a compatible, major bug-fix update:</p><ul>
  <li>[tg] Add check for naming the output file “scn” instead of “a.out” or
