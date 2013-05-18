@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/modules,v 1.18 2006/10/02 04:01:48 tg Exp $
+# $MirOS: CVSROOT/modules,v 1.19 2006/10/09 20:38:06 tg Exp $
 # from $OpenBSD: modules,v 1.17 1998/07/12 04:44:24 todd Exp $
 #-
 # Three different line formats are valid:
@@ -55,6 +55,7 @@ basedep		-a contrib/code/Snippets/tinyirc.c \
 # Ported projects
 jupp		contrib/code/jupp
 mksh		src/bin/mksh
+pkgtools	ports/infrastructure/pkgtools
 
 # Hosted projects
 fwcf		contrib/hosted/fwcf
