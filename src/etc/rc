@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.86 2008/08/31 18:05:59 tg Exp $
+# $MirOS: src/etc/rc,v 1.87 2008/10/20 17:40:44 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -70,8 +70,7 @@ sysctl_conf() {
 	done
 }
 
-mixerctl_conf()
-{
+mixerctl_conf() {
 	test -s /etc/mixerctl.conf || return
 
 	set -- $(stripcom /etc/mixerctl.conf)
@@ -81,8 +80,7 @@ mixerctl_conf()
 	done
 }
 
-wsconsctl_conf()
-{
+wsconsctl_conf() {
 	typeset save_IFS=$IFS
 
 	test -x /sbin/wsconsctl -a -s /etc/wsconsctl.conf || return
@@ -157,10 +155,8 @@ if [[ $1 = shutdown ]]; then
 
 		# bring carp interfaces down gracefully
 		for hn in /etc/hostname.carp[0-9]*; do
-			# Strip off /etc/hostname. prefix
+			[[ -e $hn ]] || continue
 			if=${hn#/etc/hostname.}
-			test "$if" = "carp[0-9]*" && continue
-
 			[[ " $(ifconfig -l) " = *@( $if )* ]] && \
 			    ifconfig $if down
 		done
@@ -186,8 +182,8 @@ fi
 
 # Configure raid devices.
 for dev in 0 1 2 3 4 5 6 7; do
-	[[ -f /etc/raid${dev}.conf ]] && raidctl \
-	    -c /etc/raid${dev}.conf raid$dev
+	[[ -f /etc/raid${dev}.conf ]] && \
+	    raidctl -c /etc/raid${dev}.conf raid$dev
 done
 
 # Check parity on raid devices.
@@ -229,7 +225,6 @@ done
 if [[ -n $softdrives_ide ]]; then
 	echo -n Disabling HDD hardware write caches...
 	x=:
-	set -o noglob
 	for drv in $softdrives_ide; do
 		[[ $x = *:$drv:* ]] && continue
 		echo -n " $drv"
@@ -238,7 +233,6 @@ if [[ -n $softdrives_ide ]]; then
 		    echo -n !
 		x=$x$drv:
 	done
-	set +o noglob
 	echo .
 fi
 
@@ -285,8 +279,8 @@ umount -a >/dev/null 2>&1
 i=0
 while (( i < ${#_mp[*]} )); do
 	if [[ ${_mp[i]} = / && ${_opt[i]}, != ro,* ]]; then
-		if ! mount -uwo "${_opt[i]}" "${_dev[i]}" / >/dev/null \
-		    2>&1; then
+		if ! mount -uwo "${_opt[i]}" "${_dev[i]}" / >/dev/null 2>&1; \
+		    then
 			if [[ ,${_opt[i]}, != *,softdep,* ]]; then
 				echo -n 'WARNING: Your root filesystem failed'
 				echo -n ' to remount read-write! <forcing...>'
@@ -399,12 +393,12 @@ fi
 # read old random seed; if there's no /var/db/host.random, make
 # one through random(4); else reset seed file anyway so that if
 # a shutdown-less reboot occurs the next seed is not a repeat
-(
+{
 	cat /var/db/host.random >/dev/urandom
 	(dd if=/dev/arandom count=5; dd if=/dev/urandom count=3) | \
 	    dd of=/var/db/host.random
 	chmod 600 /var/db/host.random
-) >/dev/wrandom 2>&1
+} >/dev/wrandom 2>&1
 
 # clean up left-over files
 rm -f /etc/nologin
@@ -428,9 +422,8 @@ dmesg | tee /var/run/dmesg.boot | cksum -ba rmd160 >/dev/wrandom
 # reset arandom(4)
 let RANDOM=$(dd if=/dev/arandom bs=4 count=1 2>&- | hexdump -e '"%d"')
 set -o arc4random
-typeset -Uui16 a b c d
-let 'a = RANDOM & 0xFF' 'b = RANDOM & 0xFF' 'c = RANDOM & 0xFF' 'd = RANDOM & 0xFF'
-print -n "\x${a#16#}\x${b#16#}\x${c#16#}\x${d#16#}" >/dev/arandom
+typeset -i1 a=RANDOM b=RANDOM c=RANDOM d=RANDOM
+print -n "${a#1#}${b#1#}${c#1#}${d#1#}" >/dev/arandom
 unset a b c d
 
 echo starting system logger
@@ -442,8 +435,8 @@ if [[ -d /var/empty ]]; then
 fi
 syslogd $syslogd_flags
 
-[[ $pf != NO && $pflogd_flags != NO ]] && \
-    if [[ " $(ifconfig -l) " = *@( pflog0 )* ]]; then
+if [[ $pf != NO && $pflogd_flags != NO && \
+    " $(ifconfig -l) " = *@( pflog0 )* ]]; then
 	ifconfig pflog0 up
 	pflogd $pflogd_flags
 fi
@@ -471,7 +464,7 @@ fi
 # $nfs_server is imported from /etc/rc.conf;
 # if $nfs_server == YES, the machine is setup for being an nfs server
 if [[ $nfs_server = YES && -s /etc/exports && \
-    $(sed -e '/^#/d' </etc/exports | wc -l) -ne 0 ]]; then
+    $(stripcom /etc/exports | wc -l) -ne 0 ]]; then
 	rm -f /var/db/mountdtab
 	echo -n >/var/db/mountdtab
 	echo -n ' mountd';		mountd
