@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.55 2011/02/09 13:12:41 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.57 2011/02/12 23:52:00 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -277,13 +277,13 @@ function mws_content {
 
 function mws__content {
 	sed \
-	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(DOCS\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm">&</a>g' \
-	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(PAPERS\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm">&</a>g' \
-	    -e 's\([0-9A-z][-.,0-9A-z]*\)(GNU)<a href="@@RELPATH@@htman/i386/manINFO/\1.html">&</a>g' \
-	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([PSU][MS][DM]\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm">&</a>g' \
-	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)/[Ss][Pp][Aa][Rr][Cc])<a href="@@RELPATH@@htman/sparc/man\2/\1.htm">&</a>g' \
-	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)/[Ii]386)<a href="@@RELPATH@@htman/i386/man\2/\1.htm">&</a>g' \
-	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(DOCS\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\(PAPERS\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(GNU)<a href="@@RELPATH@@htman/i386/manINFO/\1.html" class="manlink">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([PSU][MS][DM]\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)/[Ss][Pp][Aa][Rr][Cc])<a href="@@RELPATH@@htman/sparc/man\2/\1.htm" class="manlink">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\)/[Ii]386)<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
+	    -e 's\([0-9A-z][-.,0-9A-z]*\)(\([1-9]\))<a href="@@RELPATH@@htman/i386/man\2/\1.htm" class="manlink">&</a>g' \
 	    -e "s@@ABSPATH@@$mws__abspathg" \
 	    -e "s@@RELPATH@@$mws__relpathg" \
 	    -e "s@@HEADER@@$mws__headerg" \

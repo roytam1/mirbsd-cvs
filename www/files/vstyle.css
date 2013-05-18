@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.30 2010/07/16 22:31:51 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.31 2010/08/06 13:53:03 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -142,6 +142,20 @@ a:hover {
 
 a:visited {
 	border-bottom:1px dashed #990000;
+}
+
+a.manlink {
+	color:#660000;
+	text-decoration:none;
+	border-bottom:1px solid #000099;
+}
+
+a.manlink:hover {
+	color:#000000;
+}
+
+a.manlink:visited {
+	border-bottom:1px dashed #000099;
 }
 
 /* encasing div blocks */
