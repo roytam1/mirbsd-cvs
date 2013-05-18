@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.168 2008/09/30 19:05:39 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.169 2008/09/30 19:37:50 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R35b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -274,8 +274,9 @@ mws_content <<'EOF'
  works fine, so this compiler is a primary choice.</p>
 
 <h5 id="oe_xlc">Compiler: IBM XL C/C++ / VisualAge</h5>
-<p>IBM xlC 9.0 on AIX is supported in mksh R30 and above.</p>
+<p>IBM xlC 9.0 on AIX 5.3 is supported in mksh R30 and above.</p>
 <p>IBM xlC 8.0 on Linux/POWER and IBM xlC 6.0β on MacOS X are on the TODO.</p>
+<p>IBM xlC 7.0 on AIX 5.2 is supported in mksh R35c and above.</p>
 
 <h5 id="oe_icc">Compiler: Intel C/C++/Fortran</h5>
 <p>ICC emulates GCC quite well (too well for my taste), is fully supported in
@@ -764,6 +765,9 @@ mws_content <<'EOF'
  <li>Mac OSX Leopard Server 10.5.4 (9E17) Darwin 9.4.0 (macppc cross-llvmgcc4.2.1-Apple_5555-LLVM_2039)</li>
  <li>Max OSX iPhoneOS 2.0 (N82AP) Darwin 9.3.1 (arm cross-gcc4.0.1-Apple_5484 Apple SDK)</li>
  <li>Max OSX iPhoneOS 2.0 (N82AP) Darwin 9.3.1 (arm llvmgcc4.2.1-Apple_5555 Saurik iphone-gcc 4.2-20080604-1-8)</li>
+ <li>AIX 5.3 (powerpc gcc4.0.0_powerpc-ibm-aix5.1.0.0, LD 1.65 04/06/2005)</li>
+ <li>AIX 5.3 32-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
+ <li>AIX 5.3 64-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
  <li>HP Tru64 OSF1 V5.1B 2650 (alpha Compaq C V6.5-011 Rev. 2650)</li>
  <li>HP Tru64 OSF1 V5.1B 2650 (alpha gcc2.97-tru64-010710 alphaev56)</li>
  <li>HP-UX 11i 11.11 B.11.11 U PA-RISC 9000/800 (hppa aCC HP92453-01, ld B.11.60 070209) <em>without</em> testsuite check</li>
@@ -817,6 +821,7 @@ mws_content <<'EOF'
  <li>Debian GNU/Linux 4.0 testing 2.6.25-2-686 (i386 gcc4.3.1-2) libc6-2.7-10 + dietlibc-0.31-1 + libbsd-0.0-3) via MirOS Debian package</li>
  <li style="list-style:none;">– tests by third parties (Build.sh) –</li>
  <li>MidnightBSD 0.1.1-RELEASE (amd64 gcc3.4.4-20050518) by Lucas Holt</li>
+ <li>AIX 5.2 (powerpc xlC7.0) by Jupp Söntgen</li>
  <li>HP OSF/1 V4.0F 1229 (alpha DEC C V5.9-005) by Jupp Schugt</li>
  <li>HP OSF/1 V4.0F 1229 (alpha gcc2.8.1 alpha-dec-osf4.0d) by Jupp Schugt</li>
  <li>SGI IRIX64 6.5 (mips:R10K mipspro7.4.4m) by Elias Pipping</li>
@@ -833,9 +838,6 @@ mws_content <<'EOF'
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.2.3-2)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.3-20080227-1)</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 6.2-1-686 (i386 gcc4.3-20080227-1) + arc4random.c</li>
- <li>AIX 5.3 (powerpc gcc4.0.0_powerpc-ibm-aix5.1.0.0, LD 1.65 04/06/2005)</li>
- <li>AIX 5.3 32-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
- <li>AIX 5.3 64-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
  <li>HP-UX 11i v2 B.11.23 U ia64 (IA64 aCC B3910B A.06.10 [Mar 22 2006], ld 92453-07 B.12.45)</li>
  <li>HP-UX 11i v2 B.11.23 U ia64 (IA64 gcc3.4.3)</li>
  <li>Interix 3.5 SP-8.0.1969.1 (i386 msc CL.EXE 14.00.50727.42 (optimising), LINK.EXE 8.00.50727.42)</li>
@@ -1018,6 +1020,18 @@ mws_content <<'EOF'
  <li>Ignore duplicates when pushing interactive lines into the history,
   prodded by Matthias Diener, wanted by myself for quite a while</li>
  <li>Ignore duplicates after <tt>fc -s</tt> editing too, fix regress test</li>
+ <li>&lt;libutil.h&gt; needs &lt;sys/types.h&gt; on some platforms</li>
+ <li>Implement somewhat different behaviour for repeated invocations of the
+  Emacs prev-hist-word editing command, so that even a single invocation
+  trashes “the mark”, but repeated invocations scroll up the history, similar
+  to what GNU bash attempts and zsh does, by request of Han Boetes</li>
+ <li>Improve support for AIX 5.2 / xlC V7.0, from Jupp “cnuke” Söntgen,
+  which does not respect cc -qversion or ld -V (new for improved version
+  reporting on AIX 5.3 / xlC V9.0), but also errors out if a static bounds
+  checker on arrays is triggered by pointer assignment (such as <tt>p =
+  arr[sizeof (arr)];</tt>, even if the only accesses are of the <tt>*--p</tt>
+  style, by preventing it from recognising static storage in this case</li>
+ <li>Neither AIX has a UTF-8 locale, so disable use of setlocale(3) there</li>
 </ul>
 <p id="r35b">mksh R35b comes with the following bug fixes:</p><ul>
  <li>IRIX also has no UTF-8 locale at all, confirmed by Elias Pipping</li>
