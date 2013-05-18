@@ -2,7 +2,7 @@
 @comment Documentation for CVS.
 @setfilename cvs.info
 @afourpaper
-@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.6 2005/12/06 23:30:37 tg Exp $
+@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.7 2007/03/10 23:53:35 tg Exp $
 @macro copyleftnotice
 @noindent
 Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -7184,6 +7184,11 @@ See @ref{Configuring keyword expansion} for more details.
 @item $@splitrcskeyword{Date}$
 The date and time (UTC) the revision was checked in.
 
+@cindex Mdocdate keyword
+@item $@splitrcskeyword{Mdocdate}$
+The date (UTC) the revision was checked in, in a format suitable
+for the Berkeley mdoc macro processing.
+
 @cindex Header keyword
 @item $@splitrcskeyword{Header}$
 A standard header containing the full pathname of the
@@ -7553,12 +7558,13 @@ A list may be used. The this example:
 
 @example
         # Add a "MyBSD" keyword and restrict keyword
-        # expansion to the MyBSD, Name and Date keywords.
+        # expansion to the MyBSD, Name, Date and Mdocdate keywords.
         LocalKeyword=MyBSD=CVSHeader
-        KeywordExpand=iMyBSD,Name,Date
+        KeywordExpand=iMyBSD,Name,Date,Mdocdate
 @end example
 
-would allow $@splitrcskeyword{MyBSD}$, $@splitrcskeyword{Name}$, and
+would allow $@splitrcskeyword{MyBSD}$, $@splitrcskeyword{Name}$,
+$@splitrcskeyword{Mdocdate} and
 $@splitrcskeyword{Date}$ to be expanded.
 
 It is also possible to configure an exclusion list
@@ -11745,6 +11751,7 @@ Keywords (@pxref{Keyword list}):
 @example
 $@splitrcskeyword{Author}: joe $
 $@splitrcskeyword{Date}: 1993/12/09 03:21:13 $
+$@splitrcskeyword{Mdocdate}: December 9 1993 $
 $@splitrcskeyword{CVSHeader}: files/file1,v 1.1 1993/12/09 03:21:13 joe Exp harry $
 $@splitrcskeyword{Header}: /home/files/file1,v 1.1 1993/12/09 03:21:13 joe Exp harry $
 $@splitrcskeyword{Id}: file1,v 1.1 1993/12/09 03:21:13 joe Exp harry $
@@ -14629,7 +14636,7 @@ all uses of @code{cvs import} on the repository will behave as if the
 @cindex KeywordExpand, in CVSROOT/config
 @item KeywordExpand=@var{value}
 Specify @samp{i} followed by a list of keywords to be expanded
-(for example, @samp{KeywordExpand=iMYCVS,Name,Date}),
+(for example, @samp{KeywordExpand=iMYCVS,Name,Date,Mdocdate}),
 or @samp{e} followed by a list of keywords not to be expanded
 (for example, @samp{KeywordExpand=eCVSHeader}).
 For more on keyword expansion, see @ref{Configuring keyword expansion}.

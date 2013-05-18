@@ -1,11 +1,11 @@
-$MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.1 2006/10/02 05:59:17 tg Exp $
---- src/mkmodules.c.orig	Sat Mar 10 23:14:20 2007
-+++ src/mkmodules.c	Sat Mar 10 23:14:14 2007
+$MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.2 2007/03/10 23:53:50 tg Exp $
+--- src/mkmodules.c.orig	Tue May 24 20:58:39 2005
++++ src/mkmodules.c	Wed Jun  6 13:44:11 2007
 @@ -15,6 +15,8 @@
  #include "history.h"
  #include "save-cwd.h"
  
-+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.6 2005/12/05 22:12:48 tg Exp $");
++__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.2 2007/03/10 23:53:50 tg Exp $");
 +
  #ifndef DBLKSIZ
  #define	DBLKSIZ	4096			/* since GNU ndbm doesn't define it */
@@ -104,9 +104,10 @@ $MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.1 2006/10/02 05:59:17 
      "\n",
 -    "# Set `KeywordExpand' to `i' followed by a list of keywords to expand or\n",
 -    "# `e' followed by a list of keywords to not expand.\n"
+-    "#KeywordExpand=iMYCVS,Name,Date\n",
 +    "# Set 'KeywordExpand' to 'i' followed by a list of keywords to expand or\n",
 +    "# 'e' followed by a list of keywords to not expand.\n"
-     "#KeywordExpand=iMYCVS,Name,Date\n",
++    "#KeywordExpand=iMYCVS,Name,Date,Mdocdate\n",
      "#KeywordExpand=eCVSHeader\n",
      "\n",
  #ifdef PRESERVE_PERMISSIONS_SUPPORT

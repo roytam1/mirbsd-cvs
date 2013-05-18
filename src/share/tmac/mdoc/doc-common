@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc-common,v 1.14 2007/03/08 09:01:58 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc-common,v 1.15 2007/06/04 09:05:40 tg Exp $
 .\"	$OpenBSD: doc-common,v 1.44 2005/04/02 17:16:03 jmc Exp $
 .\"
 .\" Copyright (c) 2003, 2004, 2006, 2007
@@ -312,24 +312,29 @@
 .de Dd
 .if !"\\*(dD"" .nr gX 1
 .ie \\n(.$>0 \{\
-.	ie \\n(.$==3 \{\
-.		ds dD \\$1 \\$2 \\$3
+.	ie \\$1$Mdocdate: \{\
+.		ds dD \\$2 \\$3, \\$4
 .	\}
 .	el \{\
-.		if "\\n(mo"1"  .ds dD January
-.		if "\\n(mo"2"  .ds dD February
-.		if "\\n(mo"3"  .ds dD March
-.		if "\\n(mo"4"  .ds dD April
-.		if "\\n(mo"5"  .ds dD May
-.		if "\\n(mo"6"  .ds dD June
-.		if "\\n(mo"7"  .ds dD July
-.		if "\\n(mo"8"  .ds dD August
-.		if "\\n(mo"9"  .ds dD September
-.		if "\\n(mo"10" .ds dD October
-.		if "\\n(mo"11" .ds dD November
-.		if "\\n(mo"12" .ds dD December
-.		nr yr \\n(yr+1900
-.		as dD \&\ \\n(dy, \\n(yr
+.		ie \\n(.$==3 \{\
+.			ds dD \\$1 \\$2 \\$3
+.		\}
+.		el \{\
+.			if "\\n(mo"1"  .ds dD January
+.			if "\\n(mo"2"  .ds dD February
+.			if "\\n(mo"3"  .ds dD March
+.			if "\\n(mo"4"  .ds dD April
+.			if "\\n(mo"5"  .ds dD May
+.			if "\\n(mo"6"  .ds dD June
+.			if "\\n(mo"7"  .ds dD July
+.			if "\\n(mo"8"  .ds dD August
+.			if "\\n(mo"9"  .ds dD September
+.			if "\\n(mo"10" .ds dD October
+.			if "\\n(mo"11" .ds dD November
+.			if "\\n(mo"12" .ds dD December
+.			nr yr \\n(yr+1900
+.			as dD \&\ \\n(dy, \\n(yr
+.		\}
 .	\}
 .\}
 .el \{\

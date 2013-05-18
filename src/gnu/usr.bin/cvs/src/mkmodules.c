@@ -15,7 +15,7 @@
 #include "history.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.6 2005/12/05 22:12:48 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.7 2007/03/10 23:53:41 tg Exp $");
 
 #ifndef DBLKSIZ
 #define	DBLKSIZ	4096			/* since GNU ndbm doesn't define it */
@@ -509,7 +509,7 @@ static const char *const config_contents[] = {
     "\n",
     "# Set 'KeywordExpand' to 'i' followed by a list of keywords to expand or\n",
     "# 'e' followed by a list of keywords to not expand.\n"
-    "#KeywordExpand=iMYCVS,Name,Date\n",
+    "#KeywordExpand=iMYCVS,Name,Date,Mdocdate\n",
     "#KeywordExpand=eCVSHeader\n",
     "\n",
 #ifdef PRESERVE_PERMISSIONS_SUPPORT

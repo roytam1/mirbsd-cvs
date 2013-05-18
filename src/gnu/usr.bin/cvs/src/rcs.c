@@ -33,7 +33,7 @@
 # endif
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.5 2005/12/05 22:12:48 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/rcs.c,v 1.6 2007/03/10 23:53:42 tg Exp $");
 
 /* The RCS -k options, and a set of enums that must match the array.
    These come first so that we can use enum kflag in function
@@ -105,6 +105,7 @@ static char *RCS_addbranch (RCSNode *, const char *);
 static char *truncate_revnum_in_place (char *);
 static char *truncate_revnum (const char *);
 static char *printable_date (const char *);
+static char *mdoc_date (const char *);
 static char *escape_keyword_value (const char *, int *);
 static void expand_keywords (RCSNode *, RCSVers *, const char *,
                              const char *, size_t, enum kflag, char *,
@@ -3477,6 +3478,7 @@ enum keyword
     KEYWORD_REVISION,
     KEYWORD_SOURCE,
     KEYWORD_STATE,
+    KEYWORD_MDOCDATE,
     KEYWORD_LOCALID
 };
 struct rcs_keyword
@@ -3513,6 +3515,7 @@ new_keywords (void)
     KEYWORD_INIT (new, KEYWORD_REVISION, "Revision");
     KEYWORD_INIT (new, KEYWORD_SOURCE, "Source");
     KEYWORD_INIT (new, KEYWORD_STATE, "State");
+    KEYWORD_INIT (new, KEYWORD_MDOCDATE, "Mdocdate");
 
     return new;
 }
@@ -3541,6 +3544,30 @@ printable_date (const char *rcs_date)
 	year += 1900;
     sprintf (buf, "%04d/%02d/%02d %02d:%02d:%02d", year, mon, mday,
 	     hour, min, sec);
+    return xstrdup (buf);
+}
+
+
+
+/* Convert an RCS date string into an mdoc string.  This is like
+   the RCS date2str function, but for manual pages.  */
+static char *
+mdoc_date (const char *rcs_date)
+{
+    int year, mon, mday, hour, min, sec;
+    char buf[100];
+    const char *months[] = { "January", "Febuary", "March", "April",
+	"May", "June", "July", "August",
+	"September", "October", "November", "December",
+	"corrupt" };
+
+    (void) sscanf (rcs_date, SDATEFORM, &year, &mon, &mday, &hour, &min,
+		   &sec);
+    if (mon < 1 || mon > 12)
+	mon = 13;
+    if (year < 1900)
+	year += 1900;
+    sprintf (buf, "%s %d %04d", months[mon - 1], mday, year);
     return xstrdup (buf);
 }
 
@@ -3740,6 +3767,11 @@ expand_keywords (RCSNode *rcs, RCSVers *ver, const char *name, const char *log,
 
 	    case KEYWORD_DATE:
 		value = printable_date (ver->date);
+		free_value = 1;
+		break;
+
+	    case KEYWORD_MDOCDATE:
+		value = mdoc_date (ver->date);
 		free_value = 1;
 		break;
 
