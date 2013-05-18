@@ -1,5 +1,10 @@
-<!-- PageID: danke -->
-<small class="rcsid">$MirOS: www/content/ZGFua2U_.inc,v 1.7 2006/01/27 00:54:10 tg Exp $</small>
+# This file is part of the website of The MirOS Project, which is
+# copyrighted material, please read the LICENCE file for details.
+
+mws_setname irc "Internet Relay Chat: synchronously communicating with developers"
+mws_subdir 0
+mws_putheader '$MirOS: www/content/ZGFua2U_.inc,v 1.8 2006/04/10 12:44:46 tg Exp $'
+mws_content <<'EOF'
 <h1>Donating to the MirOS Project</h1>
 <h2>Considering to donate?</h2>
 <p>Thanks for considering to donate. You can contact the individual
@@ -29,7 +34,8 @@
 <p>Of course, we're always interested in other things as well. Travel
  expenses, food at the exhibitions, hardware (please don't ask us to
  support other architectures than sparc32, i386, amd64 and macppc!).
- We've started to collect a <a href="/?want">wanted hardware</a> list.</p>
+ We've started to collect a <a href="/?want">wanted hardware</a> list,
+ which is horridly out of date though.</p>
 
 <h2>Offline donations</h2>
 <p>For wiring money please contact the developers directly, preferably
@@ -60,3 +66,6 @@
 <h2 id="donators">Donations received so far</h2><ul>
 <li>...</li>
 </ul>
+EOF
+mws_putfooter
+exit 0
