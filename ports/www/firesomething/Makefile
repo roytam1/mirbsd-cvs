@@ -1,4 +1,4 @@
-# $MirOS: ports/www/firesomething/Makefile,v 1.49 2009/11/14 22:43:09 tg Exp $
+# $MirOS: ports/www/firesomething/Makefile,v 1.50 2009/11/15 01:10:45 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2005/11/15 09:21:52 wilfried Exp $
 
 # mnbsd/amd64, mnbsd/sparc64 missing
@@ -10,7 +10,7 @@ ONLY_FOR_PLATFORM=	MidnightBSD:*:i386 \
 
 COMMENT=		one of the successors to the Netscape browser engine
 COMMENT-nssckbi=	CA certificate bundle for NSS (Mirzilla Firetapir)
-VER=			3.0.15
+VER=			3.0.18
 DISTNAME=		mozilla
 PKGNAME=		firesomething-${VER}-${DASH_VER}
 FULLPKGNAME-nssckbi=	nssckbi-1.75-2
