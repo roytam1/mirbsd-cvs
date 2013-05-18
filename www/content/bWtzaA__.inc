@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.45 2006/08/09 20:46:44 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.46 2006/08/12 21:02:23 tg Exp $</small>
 
 <h1>mksh(1) R27e</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -415,6 +415,32 @@
 
 <p>The MirOS Project has tested mksh on the following operating systems:</p>
 <ul>
+ <li>mksh R28&szlig;<ul>
+  <li>MirOS BSD #9-stable (i386)</li>
+  <li>NetBSD 1.6.1 (pmax)</li>
+  <li>Debian GNU/Linux 3.1-stable (i386)</li>
+  <li>DragonFly BSD 1.3-Preview (i386)</li>
+  <li>NetBSD 3.0_STABLE (i386)</li>
+  <li>Solaris 8 (sun4u)</li>
+   <!-- missing:
+  <li>MirOS BSD #9-stable (sparc)</li>
+  <li>MirOS BSD #7-stable (sparc)</li>
+  <li>Debian GNU/Linux 3.1-testing (i386, S/390) &ndash; debianised</li>
+  <li>FreeWRT GNU/Linux svn (mipsel) &ndash; part of FreeWRT</li>
+  <li>CRUX GNU/Linux (i386) &ndash; not tested, via Han Boetes</li>
+  <li>Solaris 10 (?) &ndash; tested by Tonnerre Lombard</li>
+  <li>FreeBSD &ndash; not tested, via FreeBSD Ports Tree</li>
+  <li>pkgsrc</li>
+  <li>OpenBSD</li>
+  <li>Gentoo GNU/Linux (i386, ppc) &ndash; not tested, via portage</li>
+  <li>Interix/SFU 3.5 (Windows&reg; 2000)</li>
+  <li>GNU/Cygwin 1.15.9-4 (Windows&reg; 2000)</li>
+  <li>Mac OSX Tiger (i386)</li>
+  <li>Mac OSX Tiger (powerpc)</li>
+  <li>Mac OSX Panther (powerpc) &ndash; not tested, via Fink</li>
+  <li>Plan 9 POSIX Environment</li>
+   -->
+ </ul></li>
  <li>mksh R27e<ul>
   <li>Debian GNU/Linux (i386, S/390): works (debianised)</li>
   <li>FreeWRT GNU/Linux (mipsel): works (package contained)</li>
