@@ -165,8 +165,9 @@ Date: 18.06.2007
 Title: Fedora GNU/Linux now officially ships mksh
 Date: 19.06.2007
 
-<p>Thanks to a contributor who wishes to remain anonymous, mksh is now
- officially shipped for Red Hat's GNU/Linux variants:</p><ul>
+<p>Thanks to a contributor who wishes to remain anonymous, <a
+ href="@@RELPATH@@mksh.htm">mksh</a> is now officially shipped for
+ Red Hat's GNU/Linux variants:</p><ul>
  <li>Fedora 7 (i386, amd64, ppc, ppc64 using gcc 4.1.2 and glibc 2.6
   at Linux 2.6.21)</li>
  <li>Fedora Core 6 (i386, amd64, ppc using gcc 4.1.1 and glibc 2.5
@@ -178,5 +179,6 @@ Date: 19.06.2007
 </ul><p>We were informed that the all of these pass the testsuite. Fedora 7
  quality assurance is being run on it until approximately this weekend; to
  install mksh, simply type <tt>yum install mksh</tt> (for RHEL, you'll have
- to enable the EPEL repository first).</p>
+ to <a href="http://fedoraproject.org/wiki/EPEL/FAQ#head-fc43191402d7242da15ebb282c1a7dc948f6c852">enable
+ the EPEL repository</a> first).</p>
 ----
