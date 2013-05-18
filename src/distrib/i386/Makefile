@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/Makefile,v 1.5 2005/12/04 23:14:39 tg Exp $
+# $MirOS: src/distrib/i386/Makefile,v 1.6 2006/04/05 23:14:40 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -32,7 +32,7 @@ _DESCEND=	no
 SUBDIR=
 
 .if ${_DESCEND} == "yes" || ${REL_NO_GENERIC:L} != "yes"
-SUBDIR+=	generic
+SUBDIR+=	../generic
 .endif
 
 .if ${_DESCEND} == "yes" || ${REL_NO_RAMDISK:L} != "yes"

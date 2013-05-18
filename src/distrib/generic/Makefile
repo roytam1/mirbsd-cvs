@@ -1,13 +1,17 @@
-# $MirOS: src/distrib/i386/generic/Makefile,v 1.9 2006/06/11 01:41:43 tg Exp $
+# $MirOS: src/distrib/i386/generic/Makefile,v 1.10 2006/06/16 13:12:56 tg Exp $
 
 .include <bsd.own.mk>
 CFLAGS+=	${CDIAGFLAGS} ${COPTS}
 HOSTCFLAGS?=	${CFLAGS}
 
 RAMDISK=	GENERIC
-SYSDIR=		${.CURDIR}/../../../sys
-SYSSUBDIR=	${SYSDIR}/arch/i386
+SYSDIR=		${.CURDIR}/../../sys
+SYSSUBDIR=	${SYSDIR}/arch/${MACHINE}
 KERNDIR=	${SYSSUBDIR}/compile/${RAMDISK}
+
+.if exists(${.CURDIR}/Makefile.${MACHINE})
+.  include "${.CURDIR}/Makefile.${MACHINE}"
+.endif
 
 all:	bsd
 
@@ -18,8 +22,12 @@ rebsd:
 depend:
 	# Nothing here so far...
 
-install:
+install: install.mi install.md
+
+install.mi:
 	cp bsd ${DESTDIR}/snapshot/bsd
+
+install.md:
 
 install-root:
 	@if [[ -e /bsd ]]; then \
@@ -36,13 +44,14 @@ install-root:
 cleandir: clean
 
 clean:
-	-rm -rf build
+	-rm -rf build ${CLEANFILES}
 	rm -f bsd
 
 cleannobsd:
+	-rm -rf ${CLEANFILES}
 
-.include "../../Makefile.kernel"
+.include "../Makefile.kernel"
 .include <bsd.obj.mk>
 .include <bsd.subdir.mk>
 
-.PHONY: rebsd install-root
+.PHONY: rebsd install-root install.mi install.md
