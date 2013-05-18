@@ -1,17 +1,17 @@
-# $MirOS: src/share/doc/legal/Makefile,v 1.5 2008/05/01 00:58:24 tg Exp $
+# $MirOS: src/share/doc/legal/Makefile,v 1.6 2009/01/17 12:49:03 tg Exp $
 
-BINDIR=	${DOCDIR}/legal
-NROFF=	nrcon -e ${MACROS} ${PAGES}
+BINDIR=		${DOCDIR}/legal
+NROFF=		nrcon -e ${MACROS} ${PAGES}
 
-FILES=	1stREAD COPYING-1 COPYING-2 COPYING.LIB-2 COPYING.LIB-2_1 \
-	LICENCE LICENCE-GNU
-NOPROG=	Yes
-NOMAN=	Yes
-GENFS=	LICENCE-BSD.0 LICENCE-BSD
-ROFFS=	lbsd-adc.mdoc lbsd-adv.mdoc lbsd-ansi.mdoc lbsd-caldera.mdoc \
-	lbsd-darpa.mdoc lbsd-ieee.mdoc lbsd-ucb.mdoc lbsd.mdoc
-MACROS=	-mdoc
-CLEANFILES+= ${GENFS}
+FILES=		1stREAD COPYING-1 COPYING-2 COPYING.LIB-2 COPYING.LIB-2_1 \
+		LICENCE LICENCE-GNU
+NOPROG=		Yes
+NOMAN=		Yes
+GENFS=		LICENCE-BSD.0 LICENCE-BSD
+ROFFS=		lbsd-adc.mdoc lbsd-adv.mdoc lbsd-ansi.mdoc lbsd-caldera.mdoc \
+		lbsd-darpa.mdoc lbsd-ieee.mdoc lbsd-ucb.mdoc lbsd.mdoc
+MACROS=		-mdoc
+CLEANFILES+=	${GENFS} grml.0 grml
 
 all: ${GENFS}
 
