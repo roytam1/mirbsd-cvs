@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.339 2010/05/24 16:41:10 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.340 2010/06/15 20:44:08 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -28,7 +28,7 @@ mws_content <<'EOF'
  implementation of the Korn Shell programming language and a successor to the
  Public Domain Korn Shell (pdksh).</p>
 
-<p class="cl"><span class="fl" style="width:136px; height:128px;"><object
+<p class="cr"><span class="fr" style="width:136px; height:128px;"><object
   type="image/svg+xml" data="@@RELPATH@@pics/mksh.svg"
   width="128" height="100"><img alt="mksh Logo"
   src="@@RELPATH@@pics/mksh128x100.png" /></object>
@@ -41,7 +41,7 @@ mws_content <<'EOF'
  href="https://www.ohloh.net/p/mksh">mksh project page on ohlol</a>, a
  statistics site. Get the Logo (<a href="@@RELPATH@@pics/mksh.svg">SVG</a>).</p>
 
-<h2 class="cl" id="prefetch">Introduction</h2>
+<h2 class="cr" id="prefetch">Introduction</h2>
 <p>The current version of mksh is <strong>mksh R39c</strong> from
  <em>25 February 2010</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
@@ -311,8 +311,8 @@ mws_content <<'EOF'
 
 <h4 id="oespec">Operating Environment specific notes</h4>
 
-<h5 class="cl" id="oe_ack"><img width="71" height="64" alt="[Minix logo]"
- class="fl" src="@@RELPATH@@pics/logos/minix.png" />Compiler: ACK</h5>
+<h5 class="cr" id="oe_ack"><img width="71" height="64" alt="[Minix logo]"
+ class="fr" src="@@RELPATH@@pics/logos/minix.png" />Compiler: ACK</h5>
 <p>Support for <a href="http://www.cs.vu.nl/ack/">ACK on Minix 3</a> has
  been added in mksh R37c with a workaround a known ACK bug (the “const”
  bug); it is now perfectly usable.</p>
@@ -322,24 +322,24 @@ mws_content <<'EOF'
  like “cc -E” (<tt>ack -E</tt> is ignored), at the least, and does not yet
  process system headers like &lt;sys/types.h&gt;.</p>
 
-<h5 class="cl" id="oe_bcc">Compiler: Borland C++ Builder</h5>
+<h5 class="cr" id="oe_bcc">Compiler: Borland C++ Builder</h5>
 <p>This compiler is somewhat supported in mksh R30 with UWIN’s cc wrapper.
  (We haven’t been able to produce a working executable though.)</p>
 
-<h5 class="cl" id="oe_decc">Compiler: DEC/Compaq/HP C for OSF/1 and Tru64</h5>
+<h5 class="cr" id="oe_decc">Compiler: DEC/Compaq/HP C for OSF/1 and Tru64</h5>
 <p>This compiler is fully supported with mksh R33b (partial support did
  appear earlier).</p>
 <p>The ucode based compiler, linker and loader for Digital UNIX (OSF/1)
  V2.0 on MIPS is supported since mksh R36. It may, however, be forced to
  link statically to work around a bug in the toolchain.</p>
 
-<h5 class="cl" id="oe_dmc">Compiler: Digital Mars</h5>
+<h5 class="cr" id="oe_dmc">Compiler: Digital Mars</h5>
 <p>This compiler is somewhat supported in mksh R30 with UWIN’s cc wrapper
  and a few kludges. (We haven’t been able to produce a tested executable
  though, due to general stability issues with the UWIN platform.)</p>
 
-<h5 class="cl" id="oe_gcc"><img width="54" height="64" alt="[GCC logo]"
- class="fl" src="@@RELPATH@@pics/logos/gcc.png" />Compiler: GCC</h5>
+<h5 class="cr" id="oe_gcc"><img width="54" height="64" alt="[GCC logo]"
+ class="fr" src="@@RELPATH@@pics/logos/gcc.png" />Compiler: GCC</h5>
 <p>The GNU C Compiler 1.42, 2.7.2.1, 2.7.2.3, egcs (gcc 2.95) and the GNU
  Compiler Collection (gcc 3.x, 4.x) are known to work, but not all versions
  work on all targets.
@@ -360,8 +360,8 @@ mws_content <<'EOF'
  <tt>-valgrind</tt> adding <tt>-fno-builtin</tt> to avoid gcc producing code
  that can access memory past the end of the allocation.</p>
 
-<h5 class="cl" id="oe_hpc"><img width="111" height="64" alt="[HP-UX logo]"
- class="fl" src="@@RELPATH@@pics/logos/hp-ux.png" />Compiler: HP C/aC++</h5>
+<h5 class="cr" id="oe_hpc"><img width="111" height="64" alt="[HP-UX logo]"
+ class="fr" src="@@RELPATH@@pics/logos/hp-ux.png" />Compiler: HP C/aC++</h5>
 <p>HP’s C compiler (/usr/bin/cc on HP-UX) is supported in mksh R30 and above;
  on IA64, only the LP64 model can be used; mksh used to segfault in the ILP32
  module (or rather, the system libraries did, I think), so it was default.
@@ -372,12 +372,12 @@ mws_content <<'EOF'
  except of course that it does not optimise. (GCC and C99 extensions aren’t
  actually used by mksh.)</p>
 
-<h5 class="cl" id="oe_xlc">Compiler: IBM XL C/C++ / VisualAge</h5>
+<h5 class="cr" id="oe_xlc">Compiler: IBM XL C/C++ / VisualAge</h5>
 <p>IBM xlC 9.0 on AIX 5.3 is supported in mksh R30 and above.</p>
 <p>IBM xlC 8.0 on Linux/POWER and IBM xlC 6.0β on MacOS X are on the TODO.</p>
 <p>IBM xlC 7.0 on AIX 5.2 is supported in mksh R35c and above.</p>
 
-<h5 class="cl" id="oe_icc">Compiler: Intel C/C++/Fortran</h5>
+<h5 class="cr" id="oe_icc">Compiler: Intel C/C++/Fortran</h5>
 <p>ICC emulates GCC quite well (too well for my taste), is fully supported in
  mksh R30 and above on several platforms, but spits out <strong>lots</strong>
  (and I <em>mean</em> huge ugly lots) of bogus warnings during compile. We’re
@@ -387,14 +387,14 @@ mws_content <<'EOF'
 <p>mksh enables the ICC stack protector option automaticaly. Compilates
  usually require the Intel shared libraries to be around.</p>
 
-<h5 class="cl" id="oe_llvm"><img width="64" height="64" alt="[LLVM logo]"
- class="fl" src="@@RELPATH@@pics/logos/llvm.png" />Compiler: LLVM</h5>
+<h5 class="cr" id="oe_llvm"><img width="64" height="64" alt="[LLVM logo]"
+ class="fr" src="@@RELPATH@@pics/logos/llvm.png" />Compiler: LLVM</h5>
 <p>Apple llvm-gcc from Xcode 3.1 had full success with mksh R34.</p>
 <p>Vanilla <a href="http://llvm.org/">llvm-gcc</a> works fine as well.</p>
 <p>Vanilla <a href="http://clang.llvm.org/">llvm-clang</a> starting at
  r58935 produces working code with mksh R36b and up.</p>
 
-<h5 class="cl" id="oe_msc">Compiler: Microsoft® C/C++</h5>
+<h5 class="cr" id="oe_msc">Compiler: Microsoft® C/C++</h5>
 <p>Support for the Microsoft® C Compiler on Interix and UWIN, with the
  respective <tt>/usr/bin/cc</tt> wrappers, appeared in mksh R30.
  The following product versions have been tested:</p>
@@ -413,15 +413,15 @@ mws_content <<'EOF'
  though.</p>
 <p>On UWIN, this is usable as well.</p>
 
-<h5 class="cl" id="oe_mpp">Compiler: MIPSpro</h5>
+<h5 class="cr" id="oe_mpp">Compiler: MIPSpro</h5>
 <p>Support for SGI’s MIPSpro compiler on IRIX appeared in mksh R33b.</p>
 
-<h5 class="cl" id="oe_nwcc"><img width="244" height="64" alt="[nwcc logo]"
- class="fl" src="@@RELPATH@@pics/logos/nwcc.png" />Compiler: nwcc</h5>
+<h5 class="cr" id="oe_nwcc"><img width="244" height="64" alt="[nwcc logo]"
+ class="fr" src="@@RELPATH@@pics/logos/nwcc.png" />Compiler: nwcc</h5>
 <p>Support for nwcc appeared in mksh R36b; it is recommended to use
  nwcc 0.8.1 with mksh R39c or newer.</p>
 
-<h5 class="cl" id="oe_pcc">Compiler: PCC (BSD)</h5>
+<h5 class="cr" id="oe_pcc">Compiler: PCC (BSD)</h5>
 <p>Support for the Caldera/SCO UNIX® based, BSD-licenced portable C compiler
  in the <a href="http://pcc.ludd.ltu.se/">ragge version</a> has been added
  with mksh R31d. Versions from end of April 2008 onwards are known to work
@@ -429,7 +429,7 @@ mws_content <<'EOF'
 <p>The compiler itself rarely works on GNU/Linux or Darwin due to GNUisms,
  assembler problems, etc. though.</p>
 
-<h5 class="cl" id="oe_sun">Compiler: SUNpro</h5>
+<h5 class="cr" id="oe_sun">Compiler: SUNpro</h5>
 <p>Support for the <a href="http://developers.sun.com/sunstudio/">SUN Studio
  12</a> compiler (cc 5.9) as well as cc 5.8 appeared in mksh R30; other
  versions might be supported as well. This compiler is a primary choice.</p>
@@ -467,29 +467,29 @@ exec /usr/bin/ld "${args[@]}"</pre>
  $ LD_LIBRARY_PATH=$S/prod/lib/sys:$S/prod/lib:$S/rtlibs CC=$S/prod/bin/cc \
    LDFLAGS="-Yl,$S/../MirBSD" mksh /usr/src/bin/mksh/Build.sh -r</pre>
 
-<h5 class="cl" id="oe_tcc"><img width="100" height="60" alt="[tcc logo]"
- class="fl" src="@@RELPATH@@pics/logos/tcc.png" />Compiler: tcc (Tiny C)</h5>
+<h5 class="cr" id="oe_tcc"><img width="100" height="60" alt="[tcc logo]"
+ class="fr" src="@@RELPATH@@pics/logos/tcc.png" />Compiler: tcc (Tiny C)</h5>
 <p>Support for Fabrice Bellard’s tcc appeared in mksh R31, although its
  unability to do ‘-E’ in older versions gave us some headache, and glibc
  currently makes it impossible to link the final executable or run it.</p>
 
-<h5 class="cl" id="oe_t15">Compiler: TenDRA (maybe Ten15 too)</h5>
+<h5 class="cr" id="oe_t15">Compiler: TenDRA (maybe Ten15 too)</h5>
 <p>Support for TenDRA appeared in mksh R31 and appears to be solid; mksh
  uses the ‘system’ profile for compiling by default. Users who wish to
  build mksh with a different profile are welcome to help to port it.</p>
 <p>See <a href="#oe_bsu">ULTRIX</a> for an example of getting a ‘POSIX’
  profile to work.</p>
 
-<h5 class="cl" id="oe_muc">Compiler: DEC ucode (MIPS CC)</h5>
+<h5 class="cr" id="oe_muc">Compiler: DEC ucode (MIPS CC)</h5>
 <p>Since mksh R33c, ucode on Ultrix is fully supported.</p>
 
-<h5 class="cl" id="oe_adk"><img width="112" height="64" alt="[FreeWRT logo]"
- class="fl" src="@@RELPATH@@pics/logos/freewrt.png" />Distribution: FreeWRT, OpenADK, OpenWrt</h5>
+<h5 class="cr" id="oe_adk"><img width="112" height="64" alt="[FreeWRT logo]"
+ class="fr" src="@@RELPATH@@pics/logos/freewrt.png" />Distribution: FreeWRT, OpenADK, OpenWrt</h5>
 <p>These distributions provide the same support cross-platform,
  with µClibc and/or eglibc, and thus should behave the same on
  all supported targets.</p>
 
-<h5 class="cl" id="oe_android">Platform: Android</h5>
+<h5 class="cr" id="oe_android">Platform: Android</h5>
 <p>Supported with OpenADK (static eglibc) and NDK (although the build
  process is currently not feasible with an Android.mk file but possible
  if the CPPFLAGS and signames.inc are pregenerated; sys_signame[] has
@@ -497,73 +497,73 @@ exec /usr/bin/ld "${args[@]}"</pre>
  into the SDK and hence Android proper, as <tt>/bin/sh</tt>, is also
  pushed into Gerrit and under evaluation.</p>
 
-<h5 class="cl" id="oe_iphone">Platform: iPhone</h5>
+<h5 class="cr" id="oe_iphone">Platform: iPhone</h5>
 <p>This is just <a href="#oe_osx">Mac OSX</a>, compile (natively, or
  cross via the SDK) and copy.</p>
 
-<h5 class="cl" id="oe_maemo">Platform: Maemo</h5>
+<h5 class="cr" id="oe_maemo">Platform: Maemo</h5>
 <p>This is like Debian, and packaging is available via the Garage and
  the Extras repository. Helpers (for GUI integration and actual on
  device testing) seeked.</p>
 
-<h5 class="cl" id="oe_diet">Toolchain: dietlibc</h5>
+<h5 class="cr" id="oe_diet">Toolchain: dietlibc</h5>
 <p>Fefe’s dietlibc works in mksh R34, although his opinion towards certain
  standards, such as <tt>caddr_t</tt>, strcasecmp(3), etc. are weird.</p>
 
-<h5 class="cl" id="oe_klcc">Toolchain: klibc</h5>
+<h5 class="cr" id="oe_klcc">Toolchain: klibc</h5>
 <p>klibc (with stock klcc as compiler wrapper) works if the <a
  href="http://bugs.debian.org/516294">patch from the Debian bug reports</a>
  is applied and <tt>-DMKSH_NO_LIMITS</tt> is used to build mksh(1).</p>
 
-<h5 class="cl" id="oe_aix">OS: AIX</h5>
+<h5 class="cr" id="oe_aix">OS: AIX</h5>
 <p>Support for AIX with xlC appeared in mksh R30.</p>
 
-<h5 class="cl" id="oe_beos"><img width="236" height="64" alt="[Haiku logo]"
- class="fl" src="@@RELPATH@@pics/logos/haiku.png" />OS: BeOS / Haiku</h5>
+<h5 class="cr" id="oe_beos"><img width="236" height="64" alt="[Haiku logo]"
+ class="fr" src="@@RELPATH@@pics/logos/haiku.png" />OS: BeOS / Haiku</h5>
 <p>ahoka@ had begun porting. mksh R39c has been tested on 2010-03-13; <a
  href="http://dev.haiku-os.org/ticket/5567">a kernel from r35836 up</a>
  is required due to a bugfix wrt. signal handling. (This for <a
  href="http://www.haiku-os.org/">Haiku</a>; we have no idea about BeOS.)</p>
 
-<h5 class="cl" id="oe_bsi">OS: BSDi BSD/OS</h5>
+<h5 class="cr" id="oe_bsi">OS: BSDi BSD/OS</h5>
 <p>BSD/OS 3.1 works fine with mksh R33.</p>
 
-<h5 class="cl" id="oe_dos">OS: MS-DOS, DR DOS, FreeDOS</h5>
+<h5 class="cr" id="oe_dos">OS: MS-DOS, DR DOS, FreeDOS</h5>
 <p>DJGPP’s bash.exe fails to run Build.sh, thus this is currently not
  supported. (We tried!)</p>
 
-<h5 class="cl" id="oe_cyg"><img width="48" height="48" alt="[Cygwin logo]"
- class="fl" src="@@RELPATH@@pics/logos/cygwin.png" />OS: GNU/Cygwin</h5>
+<h5 class="cr" id="oe_cyg"><img width="48" height="48" alt="[Cygwin logo]"
+ class="fr" src="@@RELPATH@@pics/logos/cygwin.png" />OS: GNU/Cygwin</h5>
 <p>This operating environment is supported as much as it adheres to standard
  POSIX/SUSv3 conformant things. No workarounds for <tt>.exe</tt> suffixes or
  other platform-specific quirks have been or will be added.</p>
 
-<h5 class="cl" id="oe_osx">OS: Darwin / Mac OSX</h5>
+<h5 class="cr" id="oe_osx">OS: Darwin / Mac OSX</h5>
 <p>Works pretty well.</p>
 
-<h5 class="cl" id="oe_dfl"><img width="56" height="60" alt="[DragonFly logo]"
- class="fl" src="@@RELPATH@@pics/logos/dfbsd.png" />OS: DragonFly BSD</h5>
+<h5 class="cr" id="oe_dfl"><img width="56" height="60" alt="[DragonFly logo]"
+ class="fr" src="@@RELPATH@@pics/logos/dfbsd.png" />OS: DragonFly BSD</h5>
 <p>Perfect choice. Note <tt>/bin/sh</tt> compatibility needs a quirk.</p>
 
-<h5 class="cl" id="oe_bsf"><img width="64" height="64" alt="[FreeBSD logo]"
- class="fl" src="@@RELPATH@@pics/logos/freebsd.png" />OS: FreeBSD</h5>
+<h5 class="cr" id="oe_bsf"><img width="64" height="64" alt="[FreeBSD logo]"
+ class="fr" src="@@RELPATH@@pics/logos/freebsd.png" />OS: FreeBSD</h5>
 <p>Perfect choice. Note <tt>/bin/sh</tt> compatibility needs a quirk.</p>
 
-<h5 class="cl" id="oe_hurd"><img width="64" height="64" alt="[Hurd logo]"
- class="fl" src="@@RELPATH@@pics/logos/hurd.png" />OS: GNU/Hurd</h5>
+<h5 class="cr" id="oe_hurd"><img width="64" height="64" alt="[Hurd logo]"
+ class="fr" src="@@RELPATH@@pics/logos/hurd.png" />OS: GNU/Hurd</h5>
 <p>This operating system is supported (on i386) since R29 but not well
  tested. mksh is part of Debian GNU/Hurd, so it is expected to work.</p>
 <p>Starting with mksh R39b, there is no arbitrary limit on pathnames any
  more, as the operating system requires. (However, there are still other
  inherent limits in mksh, such as that of an interactive input line.)</p>
 
-<h5 class="cl" id="oe_kbsd"><img width="64" height="64" alt="[Debian GNU/kFreeBSD logo]"
- class="fl" src="@@RELPATH@@pics/logos/kfreebsd.png" />OS: GNU/k*BSD</h5>
+<h5 class="cr" id="oe_kbsd"><img width="64" height="64" alt="[Debian GNU/kFreeBSD logo]"
+ class="fr" src="@@RELPATH@@pics/logos/kfreebsd.png" />OS: GNU/k*BSD</h5>
 <p>This operating environment has been supported for quite a while as part
  of Debian and somewhat tested.</p>
 
-<h5 class="cl" id="oe_linux"><img width="74" height="88" alt="[Linux logo]"
- class="fl" src="@@RELPATH@@pics/pinguin.png" />OS: GNU/Linux</h5>
+<h5 class="cr" id="oe_linux"><img width="74" height="88" alt="[Linux logo]"
+ class="fr" src="@@RELPATH@@pics/pinguin.png" />OS: GNU/Linux</h5>
 <p>While POSIX does not apply to “GNU’s Not Unix”, the <a
  href="http://www.pathname.com/fhs/pub/fhs-2.3.html#SPECIFICOPTIONS2">FHS</a>
  (ex-FSSTND) does; please convince your distributor to move ed to /bin/ed if
@@ -575,15 +575,15 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>mksh can be used as /bin/sh on Debian and similarly strict distributions,
  which allow to use e.g. ash/dash there as well.</p>
 
-<h5 class="cl" id="oe_hpux"><img width="111" height="64" alt="[HP-UX logo]"
- class="fl" src="@@RELPATH@@pics/logos/hp-ux.png" />OS: HP-UX</h5>
+<h5 class="cr" id="oe_hpux"><img width="111" height="64" alt="[HP-UX logo]"
+ class="fr" src="@@RELPATH@@pics/logos/hp-ux.png" />OS: HP-UX</h5>
 <p>Support for HP-UX with GCC appeared in mksh R29 and works with HP’s C
  compiler and is no longer experimental in mksh R30. Please use stty(1) to
  make the terminal sanely usable.</p>
 <p>If passing custom CFLAGS, don’t forget <tt>-mlp64</tt> (GCC) or
  <tt>+DD64</tt> on Itanium.</p>
 
-<h5 class="cl" id="oe_interix">OS: Interix</h5>
+<h5 class="cr" id="oe_interix">OS: Interix</h5>
 <p>We have only tested SFU 3.5 on Windows® 2000, not SUA on Windows® 2003 SR1
  or the version integrated into Vista. Windows 7’s works, gcc only though.</p>
 <p>As the Unix Perl which comes with Interix is too old, and the ActiveState
@@ -595,17 +595,17 @@ exec /usr/bin/ld "${args[@]}"</pre>
  library providing arc4random(3).</p>
 <p>mksh can replace /bin/ksh and /bin/sh without any problems.</p>
 
-<h5 class="cl" id="oe_sgi">OS: IRIX</h5>
+<h5 class="cr" id="oe_sgi">OS: IRIX</h5>
 <p>Support for IRIX64 6.5 appeared in mksh R33b.</p>
 
-<h5 class="cl" id="oe_mnbsd"><img width="64" height="64" alt="[MidnightBSD logo]"
- class="fl" src="@@RELPATH@@pics/logos/mnbsd.png" />OS: MidnightBSD</h5>
+<h5 class="cr" id="oe_mnbsd"><img width="64" height="64" alt="[MidnightBSD logo]"
+ class="fr" src="@@RELPATH@@pics/logos/mnbsd.png" />OS: MidnightBSD</h5>
 <p>mksh is part of MidnightBSD 0.2-CURRENT and above and used as native
  /bin/ksh; it can be used as /bin/sh as well with a quirk.</p>
 <p>MidnightBSD 0.3 uses mksh as <tt>/bin/sh</tt> indeed.</p>
 
-<h5 class="cl" id="oe_minix"><img width="71" height="64" alt="[Minix logo]"
- class="fl" src="@@RELPATH@@pics/logos/minix.png" />OS: Minix</h5>
+<h5 class="cr" id="oe_minix"><img width="71" height="64" alt="[Minix logo]"
+ class="fr" src="@@RELPATH@@pics/logos/minix.png" />OS: Minix</h5>
 <p>Minix 3 is supported starting mksh R37b (gcc), R37c (ACK/adk cc).
  Minix 1 and Minix 2 will never be supported due to size constraints on
  16-bit platforms, unless a user contributes code.</p>
@@ -615,31 +615,31 @@ exec /usr/bin/ld "${args[@]}"</pre>
  with it similarily to QNX, but MirBSD ed needs very many patches, so
  this was not tried.</p>
 
-<h5 class="cl" id="oe_bsm"><img width="98" height="92" alt="[MirBSD logo]"
- class="fl" src="@@RELPATH@@pics/logosmw.png" />OS: MirBSD</h5>
+<h5 class="cr" id="oe_bsm"><img width="98" height="92" alt="[MirBSD logo]"
+ class="fr" src="@@RELPATH@@pics/logosmw.png" />OS: MirBSD</h5>
 <p>Perfect choice. This is where mksh comes from.</p>
 
-<h5 class="cl" id="oe_bsn"><img width="80" height="60" alt="[NetBSD logo]"
- class="fl" src="@@RELPATH@@pics/logos/netbsd.png" />OS: NetBSD</h5>
+<h5 class="cr" id="oe_bsn"><img width="80" height="60" alt="[NetBSD logo]"
+ class="fr" src="@@RELPATH@@pics/logos/netbsd.png" />OS: NetBSD</h5>
 <p>Perfect choice.</p>
 <p>Starting with NetBSD 1.6, mksh can replace /bin/ksh and /bin/sh without
  any problems. On NetBSD 1.5, mksh can only replace /bin/ksh safely.</p>
 
-<h5 class="cl" id="oe_bso"><img width="70" height="64" alt="[OpenBSD logo]"
- class="fl" src="@@RELPATH@@pics/logos/openbsd.png" />OS: OpenBSD</h5>
+<h5 class="cr" id="oe_bso"><img width="70" height="64" alt="[OpenBSD logo]"
+ class="fr" src="@@RELPATH@@pics/logos/openbsd.png" />OS: OpenBSD</h5>
 <p>The setlocale(3) call in OpenBSD’s libc will always return the “C”
  locale and therefore has been disabled by default.</p>
 <p>mksh can replace /bin/ksh and /bin/sh without any problems. mksh is
  supposed to be a superset of oksh (except GNU bash-style PS1, weird
  POSuX character classes, and an incompatible ulimit builtin change).</p>
 
-<h5 class="cl" id="oe_osf1">OS: DEC/Compaq OSF/1, Compaq/HP Tru64</h5>
+<h5 class="cr" id="oe_osf1">OS: DEC/Compaq OSF/1, Compaq/HP Tru64</h5>
 <p>Digital Unix is somewhat supported using gcc as of mksh R31b.
  With mksh R33b, many more versions and the native compiler work.
  In fact, gcc sometimes segfaults, so use the vendor compiler.</p>
 
-<h5 class="cl" id="oe_plan9"><img width="50" height="64" alt="[Plan 9 mascot]"
- class="fl" src="@@RELPATH@@pics/logos/glenda.png" />OS: Plan 9</h5>
+<h5 class="cr" id="oe_plan9"><img width="50" height="64" alt="[Plan 9 mascot]"
+ class="fr" src="@@RELPATH@@pics/logos/glenda.png" />OS: Plan 9</h5>
 <p>Plan 9 is not supported yet – we were able to create an executable, but
  it did not return to the prompt after running a non-builtin command; this
  is job control issues, and patches are welcome. (Note this is for R37 and
@@ -648,18 +648,18 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>The APE (ANSI’n’POSIX Environment) is required to build mksh; I don’t
  remember which compiler I used, but I think it was GCC.</p>
 
-<h5 class="cl" id="oe_pw32">OS: PW32 on Win2k</h5>
+<h5 class="cr" id="oe_pw32">OS: PW32 on Win2k</h5>
 <p>PW32 is not supported yet – killpg(3) is missing, and
  it’s possible that PW32 and Minix 3, at least, need job control disabled
  or worked around. Maybe peek at how ash/bash for PW32 do it. gcc works.</p>
 
-<h5 class="cl" id="oe_qnx">OS: QNX/Neutrino</h5>
+<h5 class="cr" id="oe_qnx">OS: QNX/Neutrino</h5>
 <p>QNX/Neutrino (Perl: “nto”) support appeared in mksh R36b.</p>
 <p>The QNX ed(1) fails the regression tests due to being broken; compile
  the MirBSD ed and place it in <tt>/bin/</tt> to fix this.</p>
 
-<h5 class="cl" id="oe_solaris"><img width="68" height="64" alt="[OpenSolaris logo]"
- class="fl" src="@@RELPATH@@pics/logos/sunos.png" />OS: Solaris</h5>
+<h5 class="cr" id="oe_solaris"><img width="68" height="64" alt="[OpenSolaris logo]"
+ class="fr" src="@@RELPATH@@pics/logos/sunos.png" />OS: Solaris</h5>
 <p>Solaris is full supported since “forever” with gcc, and since mksh R30
  with Sun’s C compiler. Both 32-bit and 64-bit modes work; 64-bit mode is
  not enabled by default by <tt>Build.sh</tt>, you must do that manually by
@@ -668,8 +668,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  the HTML or PDF versions of the manual pages or pregenerating a catman
  page on another OS is required.</p>
 
-<h5 class="cl" id="oe_syll"><img width="186" height="64" alt="[Syllable logo]"
- class="fl" src="@@RELPATH@@pics/logos/syllable.png" />OS: Syllable Desktop</h5>
+<h5 class="cr" id="oe_syll"><img width="186" height="64" alt="[Syllable logo]"
+ class="fr" src="@@RELPATH@@pics/logos/syllable.png" />OS: Syllable Desktop</h5>
 <p>This does not yet work due to a signal passing bug in the AtheOS kernel,
  we were told by their developers. However, mksh R33 is at the same level
  of support as Plan 9 now.</p>
@@ -677,7 +677,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>Syllable Server will work, as it is, <em>at the moment</em>, “just” a
  GNU/Linux distribution with a different GUI. This may change though.</p>
 
-<h5 class="cl" id="oe_bsu">OS: ULTRIX</h5>
+<h5 class="cr" id="oe_bsu">OS: ULTRIX</h5>
 <p>Even on ULTRIX 4.5, mksh R33c works fine. The system ksh must be used
  for running the <tt>Build.sh</tt> script, though.</p>
 <p>I could not get networking on ULTRIX 4.0 (SIMH) to work, so I could
@@ -689,13 +689,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
  issues with different OE profiles. (<tt>Build.sh</tt> takes care of this
  automatically.)</p>
 
-<h5 class="cl" id="oe_uwin">OS: UWIN-NT</h5>
+<h5 class="cr" id="oe_uwin">OS: UWIN-NT</h5>
 <p>Compilation of mksh R30 on UWIN works with several compilers (bcc, dmc,
  msc – I could not get gcc-egcs, gcc-2.95, gcc-mingw, icc to work) but the
  platform itself is very flakey, and even some regression tests crash, due
  to target limitations apparently. Within these limits, mksh is usable.</p>
 
-<h5 class="cl" id="oe_winapi">OS: Windows</h5>
+<h5 class="cr" id="oe_winapi">OS: Windows</h5>
 <p>Michael Langguth, partially under work sponsored by his employer <a
  href="http://www.scalaris.com/">Scalaris AG</a>, is currently working
  on porting mksh to native Win32 (WinAPI) to complete the GNU utilities
@@ -773,20 +773,20 @@ exec /usr/bin/ld "${args[@]}"</pre>
  the <a href="@@RELPATH@@tag_mksh.rss">RSS feed</a> instead.</p>
 <p><a href="mksh_old.htm#upgrade">older entries</a></p>
 
-<h2 id="otheros">Inclusion in other operating systems</h2><ul class="distlist">
-<li class="cl"><img class="fl" width="52" height="64" alt="[Debian logo]"
+<h2 id="otheros">Inclusion in other operating systems</h2><ul>
+<li class="cr"><img class="fr" width="52" height="64" alt="[Debian logo]"
  src="@@RELPATH@@pics/logos/debian.png" /><a
  href="http://www.debian.org/">Debian</a> GNU/Linux, GNU/Hurd and
  GNU/kFreeBSD have an <a href="http://packages.debian.org/mksh">mksh package</a>
  maintained by the MirOS Project and uploaded (sponsored) by Bastian “waldi”
  Blank, Otavio Salvador, and Patrick Schönfeld; the debconf questions were taken
  from dash. We do not provide an inofficial source package any longer.</li>
-<li class="cl"><img class="fl" width="61" height="64" alt="[Gentoo logo]"
+<li class="cr"><img class="fr" width="61" height="64" alt="[Gentoo logo]"
  src="@@RELPATH@@pics/logos/gentoo.png" /><a
  href="http://www.gentoo.org/">Gentoo GNU/Linux</a> has an mksh <a
  href="http://sources.gentoo.org/viewcvs.py/gentoo-x86/app-shells/mksh/">ebuild</a>
  created by <a href="http://www.hboeck.de/">Hanno Böck</a>.</li>
-<li class="cl"><img class="fl" width="64" height="64" alt="[Fedora logo]"
+<li class="cr"><img class="fr" width="64" height="64" alt="[Fedora logo]"
  src="@@RELPATH@@pics/logos/fedora.png" /><a
  href="http://fedoraproject.org/">Fedora</a> GNU/Linux 8, 9, 10, 11,
  and <a href="http://www.redhat.com/rhel/">RHEL</a> 4 and 5 (via EPEL) now
@@ -798,7 +798,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  for activating EPEL (RHEL only), then just type <tt>yum install mksh</tt>.</li>
 <li>Red Hat Enterprise Linux (RHEL 6) will ship mksh for their customers
  to use with their ksh88 and pdksh scripts, as well as an optional shell.</li>
-<li class="cl"><img class="fl" width="105" height="64" alt="[SuSE logo]"
+<li class="cr"><img class="fr" width="105" height="64" alt="[SuSE logo]"
  src="@@RELPATH@@pics/logos/suse.png" />The <a
  href="http://en.opensuse.org/Build_Service">OpenSuSE Build
  Service</a> provides an mksh package inside the <a
@@ -816,19 +816,19 @@ exec /usr/bin/ld "${args[@]}"</pre>
  home project</a>, find the subdirectory most closely matching your GNU/Linux
  distribution and proceed to the binaries. The SRPMs (source RPM in the
  <tt>*/src/</tt> subdirectories) should be all the same.</li>
-<li class="cl"><img class="fl" width="129" height="64" alt="[Fink logo]"
+<li class="cr"><img class="fr" width="129" height="64" alt="[Fink logo]"
  src="@@RELPATH@@pics/logos/fink.png" /><a
  href="http://finkproject.org/">Fink</a> delivers an <a
  href="http://pdb.finkproject.org/pdb/package.php/mksh">mksh package</a>
  from Andreas “gecko2” Gockel.</li>
-<li class="cl"><img class="fl" width="122" height="64" alt="[SourceMage logo]"
+<li class="cr"><img class="fr" width="122" height="64" alt="[SourceMage logo]"
  src="@@RELPATH@@pics/logos/smgl.png" /><a
  href="http://www.sourcemage.org/">SMGL</a> (Sourcemage GNU/Linux) has an
  <a href="http://distro.ibiblio.org/pub/linux/distributions/sourcemage/codex/test/shell-term-fm/mksh/">mksh
  spell</a> in their grimoire, developed by the MirOS Project together with
  Daniel “morfic” Goller, updated by Thomas “sobukus” Orgis and Vlad
  “Stealth” Glagolev.</li>
-<li class="cl"><img class="fl" width="112" height="64" alt="[FreeWRT logo]"
+<li class="cr"><img class="fr" width="112" height="64" alt="[FreeWRT logo]"
  src="@@RELPATH@@pics/logos/freewrt.png" />In the <a
  href="https://www.freewrt.org/trac/">FreeWRT Embedded GNU/Linux
  Appliance Development Kit (meta distribution)</a>, the <a
@@ -839,11 +839,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li><a href="http://openwrt.org/">OpenWrt Embedded GNU/Linux Distribution</a>
  also <a href="https://dev.openwrt.org/browser/packages/utils/mksh">provides
  mksh</a> on ADSL/WLAN routers thanks to Felix “nbd” Fietkau.</li>
-<li class="cl"><img class="fl" width="60" height="60" alt="[Android-x86 logo]"
+<li class="cr"><img class="fr" width="60" height="60" alt="[Android-x86 logo]"
  src="@@RELPATH@@pics/logos/andr_x86.png" />The <a
  href="http://www.android-x86.org/">Android-x86 Project</a> has
  mksh as <tt>/bin/sh</tt> since 2010-02-25.</li>
-<li class="cl"><img class="fl" width="66" height="62" alt="[Grml logo]"
+<li class="cr"><img class="fr" width="66" height="62" alt="[Grml logo]"
  src="@@RELPATH@@pics/logos/grml.png" /><a
  href="http://www.ubuntu.com/">Ubuntu GNU/Linux</a>, the <a
  href="http://grml.org/">grml</a> (and grml64) Live-CD, and other Debian
@@ -851,16 +851,16 @@ exec /usr/bin/ld "${args[@]}"</pre>
  href="http://www.nexenta.org/os">Nexenta OS</a> (GNU/Solaris), and
  grml-small do <em>not</em> contain or offer mksh. <em>Note</em>: We need
  URLs to the packages for these, can anyone provide any?</li>
-<li class="cl"><img class="fl" width="68" height="64" alt="[Arch logo]"
+<li class="cr"><img class="fr" width="68" height="64" alt="[Arch logo]"
  src="@@RELPATH@@pics/logos/arch.png" /><a
  href="http://www.archlinux.org/">Arch GNU/Linux</a> users can install
  an <a href="http://aur.archlinux.org/packages.php?do_Details=1&amp;ID=3431">mksh
  package</a> by Daniel “homsn” Hommel. No idea about Arch Hurd, though.</li>
-<li class="cl"><img class="fl" width="58" height="48" alt="[T2 logo]"
+<li class="cr"><img class="fr" width="58" height="48" alt="[T2 logo]"
  src="@@RELPATH@@pics/logos/t2.png" /><a
  href="http://t2-project.org/">T2 SDE</a> (ROCK Linux) contains a <a
  href="http://t2-project.org/packages/mksh.html">package</a> as well.</li>
-<li class="cl"><img class="fl" width="64" height="64" alt="[FreeBSD logo]"
+<li class="cr"><img class="fr" width="64" height="64" alt="[FreeBSD logo]"
  src="@@RELPATH@@pics/logos/freebsd.png" /><a
  href="http://www.freebsd.org/">FreeBSD®</a> Ports (for FreeBSD, very old
  <a href="http://www.dragonflybsd.org/">DragonFly BSD</a> versions and <a
@@ -869,7 +869,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  Andreas “ankon” Kohn and kept up to date by Martin “miwi” Wilke. It is
  unknown if this applies to <a href="http://www.pcbsd.org/">PC-BSD</a> too,
  but there’s no mksh PBI (yet?).</li>
-<li class="cl"><img class="fl" width="64" height="64" alt="[MidnightBSD logo]"
+<li class="cr"><img class="fr" width="64" height="64" alt="[MidnightBSD logo]"
  src="@@RELPATH@@pics/logos/mnbsd.png" /><a
  href="http://www.midnightbsd.org/">MidnightBSD</a> uses <a
  href="http://cvsweb.midnightbsd.org/mports/shells/mksh/">mports</a>, a
@@ -879,14 +879,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
  and <a href="http://cvsweb.midnightbsd.org/src/bin/mksh/"><tt>/bin/ksh</tt></a>,
  i.e. it is the default MidnightBSD Korn shell. From 29 March 2009 onwards, it
  is also the default <tt>/bin/sh</tt> (since MidnightBSD 0.3).</li>
-<li class="cl"><img class="fl" width="211" height="64" alt="[pkgsrc logo]"
+<li class="cr"><img class="fr" width="211" height="64" alt="[pkgsrc logo]"
  src="@@RELPATH@@pics/logos/pkgsrc.png" /><a
  href="http://www.pkgsrc.org/">NetBSD® pkgsrc®</a> (native also on recent
  DragonFly BSD; available for many other operating systems as well) has a <a
  href="http://cvsweb.netbsd.org/bsdweb.cgi/pkgsrc/shells/mksh/">package</a>
  created by us and kept up to date by Blair Sadewitz and Adam “replaced” Hoka.
  We do not provide an inofficial source package any longer.</li>
-<li class="cl"><img class="fl" width="80" height="60" alt="[NetBSD logo]"
+<li class="cr"><img class="fr" width="80" height="60" alt="[NetBSD logo]"
  src="@@RELPATH@@pics/logos/netbsd.png" />The <a
  href="http://wiki.netbsd.se/Desktop_Project">Desktop NetBSD
  project</a> also contains mksh; see the source of their <a
@@ -895,38 +895,38 @@ exec /usr/bin/ld "${args[@]}"</pre>
  featureful shell and enhance the experience.</li>
 <li><a href="http://beastiebox.sourceforge.net/">Beastiebox</a> also comes
  with mksh as an option. It’s NetBSD® based, mostly.</li>
-<li class="cl"><img class="fl" width="85" height="92" alt="[MirPorts quilt]"
+<li class="cr"><img class="fr" width="85" height="92" alt="[MirPorts quilt]"
  src="@@RELPATH@@pics/quilt.png" />The MirPorts Framework brings mksh to
  OpenBSD, Mac OSX and Interix as well as older MirOS BSD versions, which
  have mksh as native Korn Shell.</li>
-<li class="cl"><img class="fl" width="70" height="64" alt="[OpenBSD logo]"
+<li class="cr"><img class="fr" width="70" height="64" alt="[OpenBSD logo]"
  src="@@RELPATH@@pics/logos/openbsd.png" />An <a
  href="http://thread.gmane.org/gmane.os.openbsd.ports/41322">inofficial
  port</a> for <a href="http://www.openbsd.org/">OpenBSD</a> is available</li>
-<li class="cl">ChinaLinux mirrors (and apparently packages) mksh.</li>
-<li class="cl"><img class="fl" width="96" height="64" alt="[HMUG logo]"
+<li class="cr">ChinaLinux mirrors (and apparently packages) mksh.</li>
+<li class="cr"><img class="fr" width="96" height="64" alt="[HMUG logo]"
  src="@@RELPATH@@pics/logos/hmug.png" />The <a
  href="http://www.hmug.org/pub/MacOS_X/BSD/Applications/Shells/mksh/">HMUG</a>,
  some US-American Apple Users’ Group packages mksh for Darwin, too.</li>
-<li class="cl">Frugalware Linux contains a broken mksh package; the build logs show
+<li class="cr">Frugalware Linux contains a broken mksh package; the build logs show
  the problem is on their side. (XXX Someone has any URL for us?)</li>
-<li class="cl">Olivier Duchateau provides Slackware/Zenwalk GNU/Linux <a
+<li class="cr">Olivier Duchateau provides Slackware/Zenwalk GNU/Linux <a
  href="http://www.errements.net/slackbuilds/mksh/">packaging</a> for mksh</li>
-<li class="cl"><img class="fl" width="68" height="64" alt="[OpenSolaris logo]"
+<li class="cr"><img class="fr" width="68" height="64" alt="[OpenSolaris logo]"
  src="@@RELPATH@@pics/logos/sunos.png" />(Open)Solaris <a
  href="http://www.greenviolet.net/projects/general-open-source/mksh.gv">packages</a>
  exist courtesy of Matt “lewellyn” Lewandowsky</li>
-<li class="cl"><img class="fl" width="109" height="64" alt="[OpenPKG logo]"
+<li class="cr"><img class="fr" width="109" height="64" alt="[OpenPKG logo]"
  src="@@RELPATH@@pics/logos/openpkg.png" />Apparently, there is an <a
  href="http://www.openpkg.org/product/packages/?package=mksh">OpenPKG
  package</a> as well</li>
-<li class="cl"><a href="http://svn.rpmforge.net/svn/trunk/rpms/mksh/mksh.spec">Dag
+<li class="cr"><a href="http://svn.rpmforge.net/svn/trunk/rpms/mksh/mksh.spec">Dag
  Wieers</a> has an RPMforge package too, based on Fedora’s by Robert Scheck</li>
-<li class="cl"><img class="fl" width="96" height="64" alt="[PLD Linux logo]"
+<li class="cr"><img class="fr" width="96" height="64" alt="[PLD Linux logo]"
  src="@@RELPATH@@pics/logos/pld.png" />The <a
  href="http://cvs.pld-linux.org/cgi-bin/cvsweb.cgi/packages/mksh/mksh.spec">PLD
  Linux Distribution</a> also has one</li>
-<li class="cl">There are probably many more, please drop us a note!</li>
+<li class="cr">There are probably many more, please drop us a note!</li>
 <li><a href="http://linux.softpedia.com/get/System/Shells/MirBSD-Korn-Shell-24602.shtml">Softpedia</a>
  lists mksh, just like the FSF/UNESCO directory.</li>
 <li><strong>Missing packaging:</strong> SuSE native (use OBS for now),
