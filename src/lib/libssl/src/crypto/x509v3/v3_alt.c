@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libssl/src/crypto/x509v3/v3_alt.c,v 1.2 2005/03/06 20:29:34 tg Exp $ */
 
 /* v3_alt.c */
 /* Written by Dr Stephen N Henson (shenson@bigfoot.com) for the OpenSSL
@@ -63,13 +63,13 @@
 #include <openssl/conf.h>
 #include <openssl/x509v3.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/crypto/x509v3/v3_alt.c,v 1.2 2005/03/06 20:29:34 tg Exp $");
 
 static GENERAL_NAMES *v2i_subject_alt(X509V3_EXT_METHOD *method, X509V3_CTX *ctx, STACK_OF(CONF_VALUE) *nval);
 static GENERAL_NAMES *v2i_issuer_alt(X509V3_EXT_METHOD *method, X509V3_CTX *ctx, STACK_OF(CONF_VALUE) *nval);
 static int copy_email(X509V3_CTX *ctx, GENERAL_NAMES *gens, int move_p);
 static int copy_issuer(X509V3_CTX *ctx, GENERAL_NAMES *gens);
-X509V3_EXT_METHOD v3_alt[] = {
+const X509V3_EXT_METHOD v3_alt[] = {
 { NID_subject_alt_name, 0, ASN1_ITEM_ref(GENERAL_NAMES),
 0,0,0,0,
 0,0,
