@@ -1,9 +1,9 @@
-# $MirOS: src/distrib/common/Makefile.i386-big,v 1.26 2010/08/06 15:40:01 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386-big,v 1.27 2012/09/02 22:14:45 tg Exp $
 
 IMAGESIZE=	8192
 IMAGETYPE=	ipldisc
 
-LISTADDS=	boot cd9660 dhclient disktools ext2fs i386 isdn msdos \
+LISTADDS=	boot bridge cd9660 dhclient disktools ext2fs i386 isdn msdos \
 		nettools nfs nfsd pager-less ppp-user pppoe-kernel \
 		pppoe-user upgrade
 LGRUBCFG=	extra
