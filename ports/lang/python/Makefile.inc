@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/Makefile.inc,v 1.8 2006/09/14 00:10:26 tg Exp $
+# $MirOS: ports/lang/python/Makefile.inc,v 1.9 2007/04/03 19:44:08 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.32 2005/06/06 20:47:04 alek Exp $
 
 .include <mirports.sys.mk>
@@ -38,7 +38,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 FLAVORS+=		no_bsddb no_cxx no_expat no_gdbm no_idle no_mpz no_tkinter
-FLAVOR?=
+FLAVOR?=		no_bsddb
 
 .if ${FLAVOR:L:Mno_cxx}
 FLAVOR+=		no_bsddb no_expat no_gdbm no_idle no_mpz no_tkinter
