@@ -1,4 +1,4 @@
-# $MirOS: src/etc/services,v 1.5 2006/05/08 19:54:34 tg Exp $
+# $MirOS: src/etc/services,v 1.6 2007/03/09 13:05:11 tg Exp $
 # $OpenBSD: services,v 1.66 2007/03/04 12:46:25 jmc Exp $
 #
 # Network services, Internet style
@@ -287,6 +287,7 @@ afs3-rmtsys		7009/udp	# AFS remote cache manager service
 #
 # Unofficial services
 #
+prngd		708/tcp			# prngd/EGD system service (egd API)
 supfilesrv	871/tcp			# SUP server
 rsync		873/tcp			# rsync server
 cddb		888/tcp			# Audio CD Database
@@ -310,6 +311,7 @@ mysql		3306/tcp		# MySQL
 rdp		3389/tcp		# Microsoft Remote Desktop
 svn		3690/tcp		# Subversion (RCS)
 taiclock	4014/udp		# http://cr.yp.to/proto/taiclock.txt
+prngd-user	4840/tcp		# prngd/EGD user service (egd API)
 jabber-client	5222/tcp		# Jabber Client Connection
 jabber-client	5222/udp
 jabber-server	5269/tcp		# Jabber Server Connection
