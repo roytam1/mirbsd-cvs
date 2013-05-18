@@ -19,6 +19,7 @@
  */
 
 #include <sys/param.h>
+#include <sys/queue.h>
 #include <isofs/cd9660/iso.h>
 #include <ctype.h>
 #include <err.h>
@@ -28,6 +29,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+
+#include "cd9660_eltorito.h"
 
 uint8_t bp[2048];
 char *buf = bp;
@@ -44,6 +47,7 @@ int fd;
 __dead void usage(void);
 void getblk(daddr_t, size_t);
 void gotdir(struct iso_directory_record *);
+void gotfile(const char *, u_int, u_int);
 char *strdup_uc(const char *);
 
 int
@@ -53,7 +57,7 @@ main(int argc, char *argv[])
 	daddr_t bno;
 	size_t dsize;
 	struct iso_directory_record *dp;
-	char *cp;
+	char *cp = NULL;
 
 	while ((i = getopt(argc, argv, "bef:sn")) != -1)
 		switch (i) {
@@ -95,26 +99,50 @@ main(int argc, char *argv[])
 	if ((fd = open(isoname, O_RDONLY)) < 0)
 		err(1, "cannot open %s for reading", isoname);
 
-	i = 16;
+	bno = 16;
  loadvd:
-	getblk(i, 1);
+	getblk(bno++, 1);
 	if (bcmp(vd->id, ISO_STANDARD_ID, sizeof (vd->id)))
 		errx(1, "invalid descriptor found");
-	if (isonum_711(vd->type) == ISO_VD_END)
-		errx(1, "no valid descriptor found");
-	if (isonum_711(vd->type) != ISO_VD_PRIMARY)
-		goto loadvd;
-	if (isonum_723(vd->logical_block_size) != 2048)
-		errx(1, "no support for blocks of size %d",
-		    (int)isonum_723(vd->logical_block_size));
+	switch (isonum_711(vd->type)) {
+	case ISO_VD_END:
+		goto endvd;
+	case 0: {
+		boot_volume_descriptor bv;
+		boot_catalog_initial_entry ie;
 
-	dp = (struct iso_directory_record *)vd->root_directory_record;
-	bno = isonum_733(dp->extent);
-	dsize = (isonum_733(dp->size) + 2047) >> 11;
-	if ((buf = cp = calloc(dsize, 2048)) == NULL)
-		err(1, "out of memory");
-	getblk(bno, dsize);
-	cp += isonum_733(dp->size);
+		memcpy(&bv, buf, sizeof (bv));
+		i = isonum_731(bv.boot_catalog_pointer);
+		gotfile("$BootCatalog$", i, 2048);
+		getblk(i, 1);
+		memcpy(&ie, buf + 32, sizeof (ie));
+		if (isonum_711(ie.boot_indicator) != ET_BOOTABLE)
+			break;
+		gotfile("$BootImage$", isonum_731(ie.load_rba),
+		    isonum_721(ie.sector_count) << 9);
+		break;
+	}
+	case ISO_VD_PRIMARY:
+		if (isonum_723(vd->logical_block_size) != 2048)
+			errx(1, "no support for blocks of size %d",
+			    (int)isonum_723(vd->logical_block_size));
+
+		dp = (struct iso_directory_record *)vd->root_directory_record;
+		i = isonum_733(dp->extent);
+		dsize = (isonum_733(dp->size) + 2047) >> 11;
+		if ((buf = cp = calloc(dsize, 2048)) == NULL)
+			err(1, "out of memory");
+		getblk(i, dsize);
+		buf = bp;
+		dsize = isonum_733(dp->size);
+		break;
+	}
+	goto loadvd;
+
+ endvd:
+	if ((buf = cp) == NULL)
+		errx(1, "no valid descriptor found");
+	cp += dsize;
 
  dir_loop:
 	if (buf >= cp)
@@ -136,7 +164,6 @@ void
 gotdir(struct iso_directory_record *dp)
 {
 	char *cp, *name;
-	bool sp = false;
 	size_t namelen;
 
 	/* regular file? */
@@ -171,24 +198,30 @@ gotdir(struct iso_directory_record *dp)
 			return;
 		free(uc);
 	}
+	gotfile(name, isonum_733(dp->extent), isonum_733(dp->size));
+}
+
+void
+gotfile(const char *name, u_int extent, u_int size)
+{
+	bool sp = false;
 
 	if (show_beg) {
-		printf("%u", isonum_733(dp->extent));
+		printf("%u", extent);
 		sp = true;
 	}
 
 	if (show_end) {
 		if (sp)
 			putchar(' ');
-		printf("%u", ((isonum_733(dp->extent) << 11) +
-		    isonum_733(dp->size) - 1) >> 11);
+		printf("%u", ((extent << 11) + size - 1) >> 11);
 		sp = true;
 	}
 
 	if (show_size) {
 		if (sp)
 			putchar(' ');
-		printf("%u", isonum_733(dp->size));
+		printf("%u", size);
 		sp = true;
 	}
 
