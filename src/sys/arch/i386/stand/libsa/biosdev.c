@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.20 2009/01/03 13:43:33 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.21 2009/01/03 16:14:24 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -286,13 +286,19 @@ biosd_io(int rw, bios_diskinfo_t *bd, daddr_t off, int nsect, void *buf)
 
  loop:
 	n = MIN(nsect, 4096/DEV_BSIZE);	/* nsect to try this iteration */
-	if (rw != F_READ)
+	if (buf && rw != F_READ)
 		memcpy(bounce_buf, buf, n * DEV_BSIZE);
 	if ((rv = real_io(rw, bd, off, n, bounce_buf)))
 		return (rv);
-	if (rw == F_READ)
+	if (buf && rw == F_READ)
 		memcpy(buf, bounce_buf, n * DEV_BSIZE);
 	if ((nsect -= n)) {
+		if (!buf) {
+#ifndef SMALL_BOOT
+			printf("panic: cannot loop biosd_io on bounce_buf\n");
+#endif
+			return (0);
+		}
 		buf += n * DEV_BSIZE;
 		off += n;
 		goto loop;
