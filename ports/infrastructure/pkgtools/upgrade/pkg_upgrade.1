@@ -1,4 +1,4 @@
-.\"	$MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.1,v 1.4 2006/08/22 20:50:49 bsiegert Exp $
+.\"	$MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.1,v 1.5 2006/11/19 22:34:07 tg Exp $
 .\"
 .\" Copyright (c) 2006
 .\"	Benny Siegert <bsiegert@gmx.de>
@@ -48,9 +48,11 @@ The following command line options are supported:
 Ignore packages for which no older version is installed
 .Pq auto .
 .It Fl f
-Also upgrade the package if the exact same version is already installed
-.Pq force .
-Useful if you rebuilt a package from source.
+Force upgrading the package:
+Also upgrade if the exact same version is already installed, useful if
+you rebuilt a package from source.
+If a conflicting package other than an older version of the same package
+is installed, remove it.
 .It Fl q
 Don't print less important messages
 .Pq quiet .
@@ -118,16 +120,3 @@ Use the
 switch to prevent this situation.
 .Pp
 Shared library support needs much work.
-.Pp
-.Nm
-does not handle the case of multiple non-conflicting package versions,
-such as
-.Li autoconf\-2.13.20050228\-1
-and
-.Li autoconf\-2.60\-2 ,
-well.
-See
-.Cm @option Ar no-default-conflict
-in
-.Xr pkg_create 1
-for details.

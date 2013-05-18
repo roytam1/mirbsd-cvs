@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.27 2007/05/09 17:25:03 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.28 2007/05/14 03:58:22 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -161,23 +161,27 @@ cd $PKG_DBDIR
 PKGNAME=$(awk '$1=="@name" { print $2 }' $TMPDIR/+CONTENTS)
 OLDPKGS=$(echo ${PKGNAME%%-[0-9]*}-[0-9]*)
 [[ $OLDPKGS = ?(${PKGNAME%%-[0-9]*})@(-\[0-9\]\*) ]] && OLDPKGS=
-if [[ $auto = 1 && -z $OLDPKGS ]]; then
+if [[ $auto = 1 && -z "$OLDPKGS" ]]; then
 	[[ $quiet = 1 ]] || print -u2 "$me: ignoring uninstalled package '${1##*/}'"
 	exit 0
 fi
 cd $cwd
 
 grep -q '^@option no-default-conflict' $TMPDIR/+CONTENTS
-if [[ $? -eq 0 || -z "$OLDPKGS" ]]; then
+if [[ $? -eq 0 || ( -z $OLDPKGS && $force = 1) ]]; then
+	OLDPKGS=$(awk '$1=="@pkgcfl" { system("pkg_info -e " $2) }' $TMPDIR/+CONTENTS)
+fi
+
+if [[ -z "$OLDPKGS" ]]; then
 	# we can safely go on
 	[[ $quiet = 1 ]] || print -u2 "$me: adding previously uninstalled '${1##*/}'"
 	rm -rf $TMPDIR
 	exec pkg_add "$npkg"
 fi
 
-if [[ $OLDPKGS = *\ * ]]; then
-	print -u2 "$me: multiple previous versions of this package are"
-	print -u2 "installed. This is not supported in this version."
+if [[ $OLDPKGS = *[$IFS]* ]]; then
+	print -u2 "$me: More than one package would have to be deleted in order"
+	print -u2 "to install ${1##*/}. This is not supported in this version."
 	print -u2 "The packages in question are:"
 	print -u2 "$OLDPKGS"
 	exit 1
@@ -185,7 +189,10 @@ fi
 
 # Check if we try to re-install same-version packages
 NEWPKG=${1##*/}
-[[ $OLDPKGS = ${NEWPKG%.+([a-zA-Z])} && $force = 0 ]] && exit 0
+if [[ $OLDPKGS = ${NEWPKG%.+([a-zA-Z])} && $force = 0 ]]; then
+	[[ $quiet = 1 ]] || print -u2 "$me: package $OLDPKGS is already installed"
+	exit 0
+fi
 
 print -u2 "$me: will remove $OLDPKGS in favour of ${1##*/}"
 
