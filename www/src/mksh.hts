@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.490 2013/01/12 02:28:51 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.491 2013/01/19 19:47:06 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1128,7 +1128,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
  <li>[tg] Make <tt>-DMKSH_DISABLE_EXPERIMENTAL</tt> a nop again</li>
- <li>[tg] Re-enable <tt>${ precmd;}</tt> in <tt>dot.mkshrc</tt></li>
+ <li>[tg] Re-enable <tt>${ precmd;}</tt> in <tt>dot.mkshrc</tt> and fix it
+  to retain the errorlevel</li>
  <li>[RT] Port to Minix-vmd, QNX 4, Watcom C; begin porting to SunOS 4.1.1,
   Xenix, ISC (Interactive) Unix</li>
  <li>[tg] Prefer const-clean <tt>sys_errlist[]</tt> to strerror(3)</li>
