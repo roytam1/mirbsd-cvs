@@ -1,20 +1,16 @@
-# $MirOS: ports/print/teTeX/base/Makefile,v 1.5 2007/02/23 02:12:41 tg Exp $
+# $MirOS: ports/print/teTeX/base/Makefile,v 1.6 2007/03/01 21:45:53 tg Exp $
 # $OpenBSD: Makefile,v 1.25 2003/04/04 21:19:23 sturm Exp $
-
-BROKEN=			autoconf issues, currently under post-analysis
 
 COMMENT=		TeX distribution, executables
 VERSION=		2.0.2
+DASH_VER=		2
 DISTNAME=		tetex-base-${VERSION}
 PKGNAME=		${DISTNAME:S/tetex-/teTeX_/}-${DASH_VER}
 CATEGORIES=		print
 DISTFILES=		tetex-src-${VERSION}.tar.gz
 
-#BUILD_DEPENDS+=	:teTeX_texmf->=2.0:print/teTeX/texmf
-#XXX Benny, this looks to me as if “pre-fake” will fail without the
-#XXX build dependency, because it's lndir'd… I think you want it back in.
-RUN_DEPENDS=		:teTeX_texmf->=2.0:print/teTeX/texmf \
-			:texi2html->=1.56:textproc/texi2html
+B_R_DEPENDS+=		:teTeX_texmf->=2.0:print/teTeX/texmf
+RUN_DEPENDS+=		:texi2html->=1.56:textproc/texi2html
 MODULES+=		graphics/png
 
 CONFIGURE_STYLE=	dest autogen no-autoheader
@@ -37,7 +33,7 @@ CONFIGURE_ARGS+=	--disable-multiplatform \
 			--with-system-zlib
 
 FLAVORS=		no_x11
-FLAVOR?=		no_x11
+FLAVOR?=
 .if ${FLAVOR:L:Mno_x11}
 CONFIGURE_ARGS+=	--without-x
 .else
@@ -55,8 +51,14 @@ TETEX_EXDIR=		${PREFIX}/share/examples/teTeX
 # find texmf after fake
 REGRESS_FLAGS=		DESTDIR=${WRKINST:Q}
 
+pre-patch:
+	cd ${WRKSRC}/texk/etc/autoconf; \
+	    cp ${LOCALBASE}/share/autoconf-2.13/* .; \
+	    chmod u+w *; \
+	    patch -l -z .mir.orig <${FILESDIR}/ac.diff
+
 post-configure:
-	@find ${WRKBUILD} -name Makefile -exec perl -i -pe \
+	find ${WRKBUILD} -name Makefile -exec perl -i -pe \
 	    's#^(texmf\s*\=\s*)${PREFIX}#$$1\$${${DESTDIRNAME}}${PREFIX}#' {} \;
 
 # need the texmf part visible...
@@ -70,7 +72,7 @@ post-install:
 	${INSTALL_DATA_DIR} ${TETEX_EXDIR}
 	${INSTALL_DATA} files/tetex.cfg ${TETEX_EXDIR}/tetex.cfg
 	${INSTALL_SCRIPT} files/tetex_setup.sh ${PREFIX}/bin/tetex_setup
-	@perl -i -pe "s#%%SYSCONFDIR%%#${SYSCONFDIR}#;" \
+	perl -i -pe "s#%%SYSCONFDIR%%#${SYSCONFDIR}#;" \
 	    -e "s#%%PREFIX%%#${TRUEPREFIX}#;" ${PREFIX}/bin/tetex_setup
 
 # need the texmf part visible...

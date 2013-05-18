@@ -1,3 +1,4 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.14 2003/11/23 11:38:53 sturm Exp $
 @pkgcfl dvipdfm-*
 !%%no_x11%%
@@ -413,12 +414,13 @@ share/texmf/web2c/tex.pool
 @comment no checksum
 share/texmf/web2c/texmf.cnf
 @comment share/texmf/xdvi/xdvi.cfg
-@dirrm share/examples/teTeX
+@dirrm share/texmf/web2c
 @dirrm share/texmf/texconfig/x
 @dirrm share/texmf/texconfig/v
 @dirrm share/texmf/texconfig/g
 @dirrm share/texmf/texconfig
 @dirrm share/texmf/dvips/gsftopk
+@dirrm share/examples/teTeX
 @dirrm include/kpathsea
 @exec install-info --info-dir=%D/info %D/info/dvips.info
 @exec install-info --info-dir=%D/info %D/info/kpathsea.info
