@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.40 2010/01/06 18:52:24 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.41 2010/01/07 20:56:10 tg Exp $
 
 all: sundsklbl
 
@@ -48,7 +48,7 @@ CDROM_OPTS+=	volumeid=$$(uname -sl | tr -- '- \#' :_):i386\;sparc:Setup
 makecdimage: .PHONY
 	-rm -rf cddir ${CDROM}*
 	dd if=/dev/arandom bs=2048 count=1 of=eltorito.loo 2>&-	# El Torito
-	mkdir -p cddir/v${OSrev}/{i386,sparc}
+	mkdir -p cddir/{boot/grub,v${OSrev}/{i386,sparc}}
 	for arch in i386 sparc; do \
 		for file in ${DSTTOPDIR}/$$arch/{*boot*,bsd.rd,*mbr*}; do \
 			[[ -e $$file ]] || continue; \
@@ -74,8 +74,10 @@ makecdimage: .PHONY
 	    -e 's/@SPEED@/${SERIALSPEED}/g' \
 	    ${.CURDIR}/boot.cfg.serial >cddir/boot.cfg
 .else
-	cp ${.CURDIR}/../common/boot.cfg.i386 cddir/boot.cfg
+	cat ${.CURDIR}/../common/boot.cfg.i386 >cddir/boot.cfg
 .endif
+	cat ${.CURDIR}/../baselive/boot.cfg.dual >>cddir/boot.cfg
+	cp ${.CURDIR}/../common/extra/loopback.cfg cddir/boot/grub/
 .if defined(WAIT)
 	@print === press RETURN; read x
 .endif
