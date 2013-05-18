@@ -1,4 +1,5 @@
 ./.profile
+./etc/anacron
 ./etc/ccd.conf
 ./etc/changelist
 ./etc/cronrun

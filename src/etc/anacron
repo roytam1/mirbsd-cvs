@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/etc/cronrun,v 1.1 2007/06/16 22:36:48 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -18,46 +18,44 @@
 # of dealing in the work, even if advised of the possibility of such
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
+#-
+# schedule daily/weekly/monthly cronjobs to run if we're 3 days over
 
 export PATH=/bin:/usr/bin:/sbin:/usr/sbin
 cd /
 umask 077
 
-do_log=0
-nolock=0
-while getopts ":ln" ch; do
-	case $ch {
-	(l)	do_log=1 ;;
-	(n)	nolock=1 ;;
-	(*)	print "cronrun: invalid option/argument ($ch, $OPTARG)"
-		exit 1
-		;;
-	}
-done
-shift $((OPTIND - 1))
+function schedule {
+	typeset what=$1
 
-jobname=$1
-if [[ ! -s /etc/$jobname ]]; then
-	print "cronrun: cannot run '$jobname', file does not exist"
-	exit 1
-fi
+	print scheduling job $what to run in 15 minutes
+	sleep $((15 * 60))
+	mksh /etc/cronrun -n $what
+	print job $what finished with return code $?
+}
 
-[[ $nolock = 1 ]] || if [[ -e /var/run/cron.maintenance ]]; then
-	print "cronrun: not running '$jobname'," \
-	    "'$(</var/run/cron.maintenance)' already running"
-	exit 0
-fi
-[[ $nolock = 1 ]] || print -nr -- "$jobname" >/var/run/cron.maintenance
+function tryjob {
+	typeset job=$1
+	typeset -i days=$2
 
-if [[ $do_log = 1 ]]; then
-	nice mksh "/etc/$jobname" 2>&1 | \
-	    logger -t "cronrun: $jobname"
-else
-	nice mksh "/etc/$jobname" 2>&1 | \
-	    tee "/var/log/$jobname.out" | \
-	    mail -s "$(hostname) $jobname output" root
-	gzip -n9 "/var/log/$jobname.out"
-fi
+	[[ -s /var/log/$job.out ]] && gzip -n9 /var/log/$job.out
+	if [[ -s /var/log/$job.out.gz ]]; then
+		line=$(gzip -dc /var/log/$job.out.gz | head -n 1)
+		if [[ $line = @(RUNTIME=)+([0-9]).+([0-9]) ]]; then
+			time=$(date +%J)
+			line=${line##RUNTIME=}
+			line=${line%%.*}
+			time=${time%%.*}
+			(( (line + days) > time )) || schedule $job
+		else
+			print no run-time found for job $job
+		fi
+	else
+		print no log file found for job $job
+	fi
+}
 
-[[ $nolock = 1 ]] || rm -f /var/run/cron.maintenance
+tryjob daily 3
+tryjob weekly 10
+tryjob monthly 34
 exit 0
