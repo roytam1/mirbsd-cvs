@@ -208,7 +208,7 @@ pcmcia* at tcic? controller ? socket ?
 cardbus*	at cardslot?
 pcmcia*		at cardslot?
 cbb*		at pci? dev ? function ?
-cardslot*	at cbb? slot ?
+cardslot*	at cbb?
 
 # USB Controllers
 ehci*	at pci?				# Enhanced Host Controller
