@@ -3,12 +3,12 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/histrap.c,v 1.38 2007/01/12 01:49:28 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/histrap.c,v 1.43 2007/03/03 21:36:07 tg Exp $");
 
 Trap sigtraps[NSIG + 1];
 static struct sigaction Sigact_ign, Sigact_trap;
 
-#ifdef V_HISTFILE
+#if HAVE_PERSISTENT_HISTORY
 static int hist_count_lines(unsigned char *, int);
 static int hist_shrink(unsigned char *, int);
 static unsigned char *hist_skip_back(unsigned char *,int *,int);
@@ -28,7 +28,7 @@ static char   **current;	/* current position in history[] */
 static int	hstarted;	/* set after hist_init() called */
 static Source	*hist_source;
 
-#ifdef V_HISTFILE
+#if HAVE_PERSISTENT_HISTORY
 static char    *hname;		/* current name of history file */
 static int	histfd;
 static int	hsize;
@@ -501,7 +501,7 @@ sethistsize(int n)
 	}
 }
 
-#ifdef V_HISTFILE
+#if HAVE_PERSISTENT_HISTORY
 /*
  *	set history file
  *	This can mean reloading/resetting/starting history file
@@ -573,7 +573,7 @@ histsave(int lno __unused, const char *cmd, int dowrite __unused)
 	if ((cp = strchr(c, '\n')) != NULL)
 		*cp = '\0';
 
-#ifdef V_HISTFILE
+#if HAVE_PERSISTENT_HISTORY
 	if (histfd && dowrite)
 		writehistfile(lno, c);
 #endif
@@ -616,7 +616,7 @@ histsave(int lno __unused, const char *cmd, int dowrite __unused)
 void
 hist_init(Source *s)
 {
-#ifdef V_HISTFILE
+#if HAVE_PERSISTENT_HISTORY
 	unsigned char	*base;
 	int	lines;
 	int	fd;
@@ -629,7 +629,7 @@ hist_init(Source *s)
 
 	hist_source = s;
 
-#ifdef V_HISTFILE
+#if HAVE_PERSISTENT_HISTORY
 	hname = str_val(global("HISTFILE"));
 	if (hname == NULL)
 		return;
@@ -689,7 +689,7 @@ hist_init(Source *s)
 #endif
 }
 
-#ifdef V_HISTFILE
+#if HAVE_PERSISTENT_HISTORY
 typedef enum state {
 	shdr,		/* expecting a header */
 	sline,		/* looking for a null byte to end the line */
@@ -943,7 +943,7 @@ hist_finish(void)
 static int
 sprinkle(int fd)
 {
-	static unsigned char mag[] = { HMAGIC1, HMAGIC2 };
+	static const unsigned char mag[] = { HMAGIC1, HMAGIC2 };
 
 	return(write(fd, mag, 2) != 2);
 }
@@ -969,7 +969,7 @@ inittraps(void)
 			sigtraps[i].name = "ERR";
 			sigtraps[i].mess = "Error handler";
 		} else {
-#if HAVE_SYS_SIGNAME || HAVE_SYS_SIGNAME
+#if HAVE_SYS_SIGNAME || HAVE__SYS_SIGNAME
 			cs = sys_signame[i];
 #else
 			const struct mksh_sigpair *pair = mksh_sigpairs;
@@ -991,8 +991,6 @@ inittraps(void)
 			}
 #if HAVE_SYS_SIGLIST
 			sigtraps[i].mess = sys_siglist[i];
-#elif HAVE__SYS_SIGLIST
-			sigtraps[i].mess = _sys_siglist[i];
 #elif HAVE_STRSIGNAL
 			sigtraps[i].mess = strsignal(i);
 #else
