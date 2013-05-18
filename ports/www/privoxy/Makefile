@@ -1,13 +1,12 @@
-# $OpenBSD: Makefile,v 1.6 2003/10/08 23:47:18 naddy Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.11 2004/12/11 13:29:22 alek Exp $
 
-COMMENT=			web proxy with advanced filtering capabilities
-
-DISTNAME=	privoxy-3.0.2-stable
-PKGNAME=	${DISTNAME:S/-stable//}-1
-CATEGORIES=	www
-
-HOMEPAGE=	http://www.privoxy.org/
-
+COMMENT=		web proxy with advanced filtering capabilities
+VERSION=		3.0.6
+DISTNAME=		privoxy-${VERSION}-stable-src
+PKGNAME=		privoxy-${VERSION}-${DASH_VER}
+CATEGORIES=		www
+HOMEPAGE=		http://www.privoxy.org/
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes
@@ -15,36 +14,31 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=ijbswa/}
-EXTRACT_SUFX=	-src.tar.gz
-
-NO_REGRESS=	Yes
-
-USE_GMAKE=	Yes
-MAKE_FILE=	GNUmakefile
-
-LIB_DEPENDS=	pcre,pcreposix::devel/pcre
-
+MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=ijbswa/}
+WRKDIST=		${WRKDIR}/${DISTNAME:S/-src//}
+NO_REGRESS=		Yes
+USE_GMAKE=		Yes
+MAKE_FILE=		GNUmakefile
+LIB_DEPENDS+=		pcre,pcreposix::devel/pcre
 CONFIGURE_STYLE=	autoconf
 CPPFLAGS+=		-Dunix
-
-pre-configure:
-	@cd ${WRKDIST} && AUTOCONF_VERSION=${AUTOCONF_VERSION} autoheader
+CONFIGURE_ARGS+=	--with-docbook=no \
+			--with-user=_privoxy \
+			--with-group=_privoxy
 
 # make install is broken
 do-install:
-	@perl -pi \
-		-e 's|%%SYSCONFDIR%%|${SYSCONFDIR}|g;' \
-		${WRKSRC}/config
-	${INSTALL_PROGRAM} ${WRKSRC}/privoxy ${PREFIX}/sbin
-	${INSTALL_MAN} ${WRKSRC}/privoxy.1 ${PREFIX}/man/man1
+	print '%g/@@SYSCONFDIR@@/s!!${SYSCONFDIR}!g\nwq' | \
+	    ed -s ${WRKSRC}/config
+	${INSTALL_PROGRAM} ${WRKSRC}/privoxy ${PREFIX}/sbin/
+	${INSTALL_MAN} ${WRKSRC}/privoxy.1 ${PREFIX}/man/man1/
 	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/privoxy
-	${INSTALL_DATA} ${WRKSRC}/README ${PREFIX}/share/doc/privoxy
+	${INSTALL_DATA} ${WRKSRC}/README ${PREFIX}/share/doc/privoxy/
 	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/privoxy
-	${INSTALL_DATA} ${WRKSRC}/config ${PREFIX}/share/examples/privoxy
-	${INSTALL_DATA} ${WRKSRC}/default.filter ${PREFIX}/share/examples/privoxy
-	${INSTALL_DATA} ${WRKSRC}/*.action ${PREFIX}/share/examples/privoxy
+	${INSTALL_DATA} ${WRKSRC}/config ${PREFIX}/share/examples/privoxy/
+	${INSTALL_DATA} ${WRKSRC}/default.filter ${PREFIX}/share/examples/privoxy/
+	${INSTALL_DATA} ${WRKSRC}/*.action ${PREFIX}/share/examples/privoxy/
 	${INSTALL_DATA_DIR} ${PREFIX}/share/examples/privoxy/templates
-	${INSTALL_DATA} ${WRKSRC}/templates/* ${PREFIX}/share/examples/privoxy/templates
+	${INSTALL_DATA} ${WRKSRC}/templates/* ${PREFIX}/share/examples/privoxy/templates/
 
 .include <bsd.port.mk>
