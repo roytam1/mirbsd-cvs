@@ -1,7 +1,7 @@
-# $MirOS: ports/shells/mksh/Makefile,v 1.38 2008/04/12 00:20:56 tg Exp $
+# $MirOS: ports/shells/mksh/Makefile,v 1.39 2008/07/11 11:22:16 tg Exp $
 
 COMMENT=		MirBSD Korn Shell
-DISTNAME=		mksh-R35
+DISTNAME=		mksh-R35b
 PKGNAME=		${DISTNAME:S/-R/-/}-${DASH_VER}
 CATEGORIES=		shells
 HOMEPAGE=		http://mirbsd.de/mksh
@@ -33,5 +33,5 @@ do-regress:
 
 .include <bsd.port.mk>
 
-# this port's distinfo is shared with OpenBSD ports and NetBSD® pkgsrc®
+# this port’s distinfo is shared with OpenBSD ports and NetBSD® pkgsrc®
 _CIPHERS+=		cksum sha256

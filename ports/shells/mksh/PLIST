@@ -1,4 +1,4 @@
-@comment $MirOS: ports/shells/mksh/pkg/PLIST,v 1.3 2006/09/03 12:51:28 tg Exp $
+@comment $MirOS: ports/shells/mksh/pkg/PLIST,v 1.4 2007/04/23 12:22:20 tg Exp $
 @option base-package
 bin/mksh
 @sample /bin/mksh

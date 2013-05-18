@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.155 2008/07/17 21:22:21 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.156 2008/07/17 23:57:48 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R35</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -150,10 +150,10 @@ mws_content <<'EOF'
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R35.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R35.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R35.cpio.gz) = c9555b59e4586b22da137d7f92eda038c996d17c</li>
- <li>TIGER (mksh-R35.cpio.gz) = 0504744633fe7d666f22b6c55b057a92c93204b5badd16e6</li>
- <li>134017041 262062 /MirOS/dist/mir/mksh/mksh-R35.cpio.gz</li>
- <li>MD5 (mksh-R35.cpio.gz) = 5fd8714770337e0786b124530ddd3ba0</li>
+ <li>RMD160 (mksh-R35b.cpio.gz) = 882cbe0d2c46b8f024288b0f594a4b219e8fbd51</li>
+ <li>TIGER (mksh-R35b.cpio.gz) = 753b2a63fce9f226a1ab989c3ecb933046d502b9464c77d0</li>
+ <li>4126823992 263452 /MirOS/dist/mir/mksh/mksh-R35b.cpio.gz</li>
+ <li>MD5 (mksh-R35b.cpio.gz) = 0e96cd3f8141b7abc679bbb303a8be2c</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
 </ul>
 
