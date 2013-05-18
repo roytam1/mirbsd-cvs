@@ -32,7 +32,7 @@
 
 #include "cd9660_eltorito.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/getextent_cd9660/getextent_cd9660.c,v 1.3 2008/08/06 00:14:09 tg Exp $");
 
 uint8_t bp[2048];
 char *buf = bp;
@@ -189,6 +189,14 @@ gotdir(struct iso_directory_record *dp)
 	if (*(cp = name + strlen(name) - 1) == '.')
 		*cp = '\0';
 
+	gotfile(name, isonum_733(dp->extent), isonum_733(dp->size));
+}
+
+void
+gotfile(const char *name, u_int extent, u_int size)
+{
+	bool sp = false;
+
 	if (fns) {
 		char *uc;
 		const char **fp = fns;
@@ -200,13 +208,6 @@ gotdir(struct iso_directory_record *dp)
 			return;
 		free(uc);
 	}
-	gotfile(name, isonum_733(dp->extent), isonum_733(dp->size));
-}
-
-void
-gotfile(const char *name, u_int extent, u_int size)
-{
-	bool sp = false;
 
 	if (show_beg) {
 		printf("%u", extent);
