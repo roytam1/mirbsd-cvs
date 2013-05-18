@@ -40,7 +40,14 @@ USE_X11=		Yes
 USE_GMAKE=		Yes
 # Regression tests are too hard to adapt to run here
 NO_REGRESS=		Yes
-SUBST_VARS=		LOCALBASE SO_VERSION VER
+SUBST_VARS=		LOCALBASE SO_EXTENSION SO_VERSION VER
+
+.include <mirports.sys.mk>
+.if ${OStype:L:Mmidnightbsd}
+SO_EXTENSION=
+.else
+SO_EXTENSION=		.${SO_VERSION}
+.endif
 
 MODGNU_RECURSE_DIRS=	${WRKSRC}/nsprpub ${WRKSRC}
 CONFIGURE_STYLE=	autoconf no-autoheader
@@ -91,7 +98,8 @@ pre-configure:
 		${WRKSRC}/browser/app/mozilla.in
 	@perl -pi -e 's|_SO_VERSION_|${SO_VERSION}|g' \
 		${WRKSRC}/nsprpub/pr/include/md/_openbsd.h \
-		${WRKSRC}/xpcom/components/nsNativeComponentLoader.cpp \
+		${WRKSRC}/xpcom/components/nsNativeComponentLoader.cpp
+	@perl -pi -e 's|_SO_EXTENSION_|${SO_EXTENSION}|g' \
 		${WRKSRC}/browser/installer/unix/packages-static
 
 post-install:
