@@ -1,8 +1,10 @@
 <!-- PageID: older -->
-<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.26 2006/04/23 22:20:01 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b2xkZXI_.inc,v 1.27 2006/06/25 23:25:15 tg Exp $</small>
 <h1>Older News and Weblogs</h1>
 <h3>Old News</h3>
 <p><a href="#newsend">Skip to News bottom</a></p><ul>
+
+<li>More <a href="/news.htm">recent MirOS oldnews</a></li>
 
 <li>06.04.2006<br />The Ada and GCJ compilers are no longer delivered with
 	MirOS-current. Users who require them must now build these drivers
@@ -893,7 +895,7 @@
 	into the HEAD branch where applicable.</li>
 
 </ul><p id="newsend">For current news, please refer to the <a
- href="/?news">main news page</a>.</p>
+ href="/news_all.htm">main news page</a>.</p>
 
 <h3>Old Weblog</h3><ul>
 <li><a href="/?wlog-0">From the beginning to December 2002</a> after
