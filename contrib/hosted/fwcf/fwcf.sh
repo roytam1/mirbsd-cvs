@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.21 2007/02/28 21:17:00 tg Exp $
+# $MirOS: contrib/hosted/fwcf/fwcf.sh,v 1.22 2007/02/28 23:17:34 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -135,6 +135,7 @@ if test $1 = setup; then
 	umount /tmp/.fwcf/temp
 	echo complete, unclean=$unclean | logger -t 'fwcf setup'
 	cd /etc
+	rm -f .rnd
 	find . -type f | grep -v -e '^./.fwcf' -e '^./.rnd$' | sort | \
 	    xargs md5sum | sed 's!  ./! !' | gzip -9 >/tmp/.fwcf/status.gz
 	exit 0
@@ -158,10 +159,11 @@ if test $1 = commit; then
 	find . -type f | grep -v -e '^./.fwcf' -e '^./.rnd$' | sort | \
 	    xargs md5sum | sed 's!  ./! !' | gzip -9 >/tmp/.fwcf/status.gz
 	cd /tmp/.fwcf/root
-	rm -f /tmp/.fwcf/temp/.fwcf_*
+	rm -f /tmp/.fwcf/temp/.fwcf_* /tmp/.fwcf/temp/.rnd
 	find . -type f | while read f; do
 		f=${f#./}
 		if ! test -e "/tmp/.fwcf/temp/$f"; then
+			test x"$f" = x".rnd" && continue
 			printf '%s\n' "$f" >>/tmp/.fwcf/temp/.fwcf_deleted
 			continue
 		fi
