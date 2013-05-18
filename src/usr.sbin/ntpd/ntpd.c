@@ -20,7 +20,6 @@
 
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <sys/taitime.h>
 #include <sys/wait.h>
 #include <netinet/in.h>
 #include <errno.h>
@@ -35,7 +34,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.19 2008/11/08 23:04:56 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.20 2011/02/19 00:23:46 tg Exp $");
 
 void		sighdlr(int);
 __dead void	usage(void);
@@ -384,21 +383,21 @@ ntpd_adjtime(double d, int trace)
 void
 ntpd_settime(double d)
 {
-	struct timeval	curtime;
+	struct timeval	curtime, tv;
 	char		buf[80];
-	tai64na_t	t;
 
 	/* if the offset is small, don't call settimeofday */
 	if (d < SETTIME_MIN_OFFSET && d > -SETTIME_MIN_OFFSET)
 		return;
 
-	d_to_tv(d, &curtime);
-	taina_time(&t);
-	curtime.tv_usec += t.nano / 1000 + /* borrow */ 1000000;
-	curtime.tv_sec = tai2timet(utc2tai(tai2utc(t.secs)
-	    + curtime.tv_sec - /* pay */ 1
-	    + (curtime.tv_usec / 1000000)));
-	curtime.tv_usec %= 1000000;
+	d_to_tv(d, &tv);
+	gettimeofday(&curtime, NULL);
+	curtime.tv_sec += tv.tv_sec;
+	curtime.tv_usec += tv.tv_usec;
+	while (curtime.tv_usec > 999999) {
+		curtime.tv_sec++;
+		curtime.tv_usec -= 1000000;
+	}
 
 	if (settimeofday(&curtime, NULL) == -1) {
 		log_warn("settimeofday");
