@@ -13,7 +13,7 @@
 #include <locale.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/main.c,v 1.66 2007/01/12 02:06:34 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/main.c,v 1.71 2007/03/03 21:36:07 tg Exp $");
 
 extern char **environ;
 
@@ -82,9 +82,8 @@ main(int argc, char *argv[])
 
 	/* make sure argv[] is sane */
 	if (!*argv) {
-		static const char *empty_argv[] = {
-			"mksh", NULL
-		};
+		static char empty_argv0[] = "mksh",
+		    *empty_argv[] = { empty_argv0, NULL };
 
 		argv = empty_argv;
 		argc = 1;
@@ -143,6 +142,14 @@ main(int argc, char *argv[])
 		def_path = cp;
 	else
 #endif
+		/*
+		 * this is uniform across all OSes unless it
+		 * breaks somewhere; don't try to optimise,
+		 * e.g. add stuff for Interix or remove /usr
+		 * for HURD, because e.g. Debian GNU/HURD is
+		 * "keeping a regular /usr"; this is supposed
+		 * to be a sane 'basic' default PATH
+		 */
 		def_path = "/bin:/usr/bin:/sbin:/usr/sbin";
 #endif
 
@@ -281,6 +288,7 @@ main(int argc, char *argv[])
 	j_init(i);
 	/* Do this after j_init(), as tty_fd is not initialised 'til then */
 	if (Flag(FTALKING)) {
+#ifndef MKSH_ASSUME_UTF8
 #if HAVE_SETLOCALE_CTYPE
 #define isuc(x)	(((x) != NULL) && \
 		    (strcasestr((x), "UTF-8") || strcasestr((x), "utf8")))
@@ -294,6 +302,9 @@ main(int argc, char *argv[])
 			Flag(FUTFHACK) = isuc(cc);
 		}
 #undef isuc
+#endif
+#else
+		Flag(FUTFHACK) = 1;
 #endif
 		x_init();
 	}
@@ -604,7 +615,7 @@ quitenv(struct shf *shf)
 	 */
 	if (ep->oenv == NULL) {
 		if (ep->type == E_NONE) {	/* Main shell exiting? */
-#ifdef V_HISTFILE
+#if HAVE_PERSISTENT_HISTORY
 			if (Flag(FTALKING))
 				hist_finish();
 #endif
