@@ -1,6 +1,6 @@
-.\" $MirOS: src/share/man/man7/install.i386.7,v 1.16 2009/08/01 13:24:30 tg Exp $
+.\" $MirOS: src/share/man/man7/install.i386.7,v 1.17 2011/12/30 00:06:21 tg Exp $
 .\"-
-.\" Copyright (c) 2009, 2011
+.\" Copyright (c) 2009, 2011, 2012
 .\"	Thorsten Glaser <tg@mirbsd.org>
 .\" Copyright (c) 2007
 .\"	Benny Siegert <bsiegert@mirbsd.org>
@@ -24,7 +24,7 @@
 .\" local convention: use .Ql for disk slice names
 .\" MirOS version number
 .nr v 10
-.Dd $Mdocdate: August 1 2009 $
+.Dd $Mdocdate: December 30 2011 $
 .Dt INSTALL.I386 7
 .Os
 .Sh NAME
@@ -350,6 +350,14 @@ Partition 0 marked active.
 fdisk:*1>
 .Ed
 .Pp
+NOTE: If you are doing the installation on a
+.Qq virgin
+hard disk, you must use the
+.Ic update
+command to install a boot loader into the MBR
+.Pq Master Boot Record
+and initialise the magic number.
+.Pp
 It is very important that the first partition begins on head 1 and not
 on head 0 (i.e. at sector 63) to leave some space for the partition
 table.
@@ -417,13 +425,6 @@ size: [127057]
 FS type: [swap]
 >
 .Ed
-NOTE: If you are doing the installation on a
-.Qq virgin
-hard disk, you must use the
-.Ic update
-command to install a boot loader into the MBR
-.Pq Master Boot Record
-and initialise the magic number.
 Type
 .Ic q
 to quit and save your changes or
