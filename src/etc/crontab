@@ -1,4 +1,4 @@
-# $MirOS: src/etc/crontab,v 1.21 2007/06/16 22:36:48 tg Exp $
+# $MirOS: src/etc/crontab,v 1.22 2007/06/16 22:57:29 tg Exp $
 # $OpenBSD: crontab,v 1.15 2007/02/27 16:04:16 beck Exp $
 #
 # /var/cron/tabs/root - root's crontab
@@ -19,9 +19,9 @@ HOME=/var/log
 #
 # do daily/weekly/monthly maintenance
 @reboot					/bin/mksh /etc/cronrun -l anacron
-30	1	*	*	*	/bin/mksh /etc/cronrun daily
-30	3	*	*	6	/bin/mksh /etc/cronrun weekly
-30	5	1	*	*	/bin/mksh /etc/cronrun monthly
+30	1	*	*	*	/bin/mksh /etc/cronrun -t20 daily
+30	3	*	*	6	/bin/mksh /etc/cronrun -t60 weekly
+30	5	1	*	*	/bin/mksh /etc/cronrun -t90 monthly
 #0	*	*	*	*	/usr/libexec/spamd-setup
 #
 # store random seed to disc every three hours
