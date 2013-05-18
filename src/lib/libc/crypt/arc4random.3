@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: src/lib/libc/crypt/arc4random.3,v 1.9 2008/12/27 21:17:54 tg Exp $
 .\" $OpenBSD: arc4random.3,v 1.27 2008/12/23 18:31:02 deraadt Exp $
 .\"
 .\" Copyright 1997 Niels Provos <provos@physnet.uni-hamburg.de>
@@ -59,9 +59,9 @@
 .Ft void
 .Fn arc4random_push "int value"
 .Ft uint32_t
-.Fn arc4random_pushb "void *buf" "size_t len"
+.Fn arc4random_pushb "const void *buf" "size_t len"
 .Ft uint32_t
-.Fn arc4random_pushk "void *buf" "size_t len"
+.Fn arc4random_pushk "const void *buf" "size_t len"
 .Sh DESCRIPTION
 The
 .Fn arc4random
@@ -125,14 +125,15 @@ The
 .Fn arc4random_push
 and
 .Fn arc4random_pushb
-functions can be used by processes to add entropy into the
-kernel pool by means of a circular addition buffer.
+functions can be used by regular non-superuser processes to add
+entropy into the kernel pool by means of the
+.Xr wrandom 4
+circular addition buffer.
 This interface can be disabled by a system administrator.
-The passed value is also used to stir the internal userland
-.Fn arc4random
-pool value, more or less directly as well as with the value
-returned by the kernel after adding the arguments to the kernel pool.
-At the moment, the kernel accepts up to 256 bytes.
+The passed value, as well as the current time, is passed both to the
+kernel and added to the internal userland pool.
+At the moment, the kernel accepts up to 256 bytes; longer arguments
+are XOR folded.
 The
 .Fn arc4random_pushb
 returns a 32-bit random value like
@@ -140,22 +141,12 @@ returns a 32-bit random value like
 which can be used by the caller if desired.
 .Pp
 The
-.Fn arc4random_pushk
-function works exactly like the
-.Fn arc4random_pushb
-function, except in that it does not pull in all the other
-.Nm arc4random
-functions, yielding a smaller executable size, dependencies,
-and faster speed.
-Use this in applications that do not use the
-.Nm arc4random
-function suite themselves, but want to push back data to the kernel.
-It also returns a 32-bit random value.
-If more than 256 octets are passed, they are XOR-folded.
-The
 .Pa stdlib.h
-header file defines a macro with the same name as this function,
-which you can use to see if it's available.
+header file defines a macro
+.Fn arc4random_pushk
+which is aliased to
+.Fn arc4random_pushb
+these days and can be used on an ifdef basis as availability check.
 .Sh RETURN VALUES
 These functions are always successful, and no return value is
 reserved to indicate an error.
@@ -192,3 +183,6 @@ first appeared in
 .Fn arc4random_pushk
 first appeared in
 .Mx 11 .
+It originally was a function, but has been deprecated and folded into
+.Fn arc4random_pushb
+soon afterwards.
