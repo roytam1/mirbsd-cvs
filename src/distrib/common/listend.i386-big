@@ -1,6 +1,7 @@
-# $MirOS: src/distrib/common/listend.i386-big,v 1.34 2009/02/22 19:13:24 tg Exp $
+# $MirOS: src/distrib/common/listend.i386-big,v 1.35 2009/03/29 11:04:26 tg Exp $
 
 # extra programmes
+LINK	instbin					bin/mt
 LINK	instbin					bin/ps
 LINK	instbin					sbin/ancontrol
 LINK	instbin					sbin/atactl
