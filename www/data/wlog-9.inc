@@ -2286,4 +2286,10 @@ Author: tg@
  Just good to know he still cares ☻</p>
 <p>Waldemar wants me to produce SPARC CDs… *sigh* guess I really have to
  work harder on the MI installboot(8) stuff. Damn. But o-okay.</p>
+<p>Sometimes, cloning autotools isn’t fun. For instance, when you realise
+ that cutting down its triplet of compile-time, link-time and run-time
+ checks is good, but you do need compile-time checks, since not everything
+ can be done as link-time check (e.g. checking for declarations when using
+ deliberately wrong ones to make the compile clash – these clash at link
+ time when the declaration actually was not existent). Oh well. Fixed.</p>
 ----
