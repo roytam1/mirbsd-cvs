@@ -29,7 +29,7 @@
  */
 
 #include <sys/cdefs.h>
-__RCSID("$MirOS: src/lib/libc/gen/errlist.c,v 1.4 2006/01/31 20:47:14 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/errlist.c,v 1.5 2012/12/18 13:13:01 bsiegert Exp $");
 
 #ifdef lint
 char *
@@ -142,5 +142,22 @@ const char *const
 	"Illegal byte sequence",		/* 84 - EILSEQ */
 	"Need more coffee",			/* 85 - ENOCOFFEE */
 	"Operation canceled",			/* 86 - ECANCELED */
+	"Bad message",				/* 87 - EBADMSG */
+	"Identifier removed",			/* 88 - EIDRM */
+	"EMULTIHOP",				/* 89 - EMULTIHOP */
+	"No message on STREAM head readq",	/* 90 - ENODATA */
+	"ENOLINK",				/* 91 - ENOLINK */
+	"No message of desired type",		/* 92 - ENOMSG */
+	"No STREAM resources",			/* 93 - ENOSR */
+	"Not a STREAM",				/* 94 - ENOSTR */
+	"State not recoverable",		/* 95 - ENOTRECOVERABLE */
+	"Value too large for data type",	/* 96 - EOVERFLOW */
+	"Previous owner died",			/* 97 - EOWNERDEAD */
+	"Protocol error",			/* 98 - EPROTO */
+	"STREAM ioctl timeout",			/* 99 - ETIME */
 };
+
+#ifndef lint
+const
+#endif
 int _sys_nerr = { sizeof _sys_errlist/sizeof _sys_errlist[0] };

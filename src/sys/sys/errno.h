@@ -1,9 +1,9 @@
-/**	$MirOS: src/sys/sys/errno.h,v 1.8 2008/12/10 20:08:39 tg Exp $ */
+/**	$MirOS: src/sys/sys/errno.h,v 1.9 2012/12/18 13:13:00 bsiegert Exp $ */
 /*	$OpenBSD: errno.h,v 1.14 2005/06/17 21:48:03 espie Exp $	*/
 /*	$NetBSD: errno.h,v 1.10 1996/01/20 01:33:53 jtc Exp $	*/
 
 /*
- * Copyright (c) 2003, 2005, 2008
+ * Copyright (c) 2003, 2005, 2008, 2012
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>.  All rights reserved.
  * Copyright (c) 1982, 1986, 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -105,12 +105,10 @@ __END_DECLS
 /* math software */
 #define	EDOM		33		/* Numerical argument out of domain */
 #define	ERANGE		34		/* Result too large */
-#ifndef _POSIX_SOURCE
-#define	EOVERFLOW	ERANGE
-#endif /* _POSIX_SOURCE */
 
 /* non-blocking and interrupt i/o */
 #define	EAGAIN		35		/* Resource temporarily unavailable */
+/* LINTED permitted by SUSv4 */
 #define	EWOULDBLOCK	EAGAIN		/* Operation would block */
 #define	EINPROGRESS	36		/* Operation now in progress */
 #define	EALREADY	37		/* Operation already in progress */
@@ -127,6 +125,7 @@ __END_DECLS
 #endif /* _POSIX_SOURCE */
 #define	EOPNOTSUPP	45		/* Operation not supported */
 #ifndef _POSIX_SOURCE
+/* LINTED permitted by SUSv4 */
 #define	ENOTSUP		EOPNOTSUPP
 #define	EPFNOSUPPORT	46		/* Protocol family not supported */
 #endif /* _POSIX_SOURCE */
@@ -189,8 +188,23 @@ __END_DECLS
 #define	ENOATTR		83		/* Attribute not found */
 #define	EILSEQ		84		/* Illegal byte sequence */
 #define	ENOCOFFEE	85		/* Programmer needs more coffee */
+#endif
 #define	ECANCELED	86		/* Operation canceled */
-#define	ELAST		86		/* Must be equal largest errno */
+#define	EBADMSG		87		/* Bad message */
+#define	EIDRM		88		/* Identifier removed */
+#define	EMULTIHOP	89		/* (reserved) */
+#define	ENODATA		90		/* No message available on STREAM head read queue */
+#define	ENOLINK		91		/* (reserved) */
+#define	ENOMSG		92		/* No message of desired type */
+#define	ENOSR		93		/* No STREAM resources */
+#define	ENOSTR		94		/* Not a STREAM */
+#define	ENOTRECOVERABLE	95		/* State not recoverable */
+#define	EOVERFLOW	96		/* Value too large for data type */
+#define	EOWNERDEAD	97		/* Previous owner died */
+#define	EPROTO		98		/* Protocol error */
+#define	ETIME		99		/* STREAM ioctl timeout */
+#ifndef _POSIX_SOURCE
+#define	ELAST		99		/* Must be equal largest errno */
 #endif /* _POSIX_SOURCE */
 
 #ifdef _KERNEL
