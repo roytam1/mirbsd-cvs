@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.309 2010/01/19 14:32:21 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.310 2010/01/19 14:35:45 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -955,13 +955,15 @@ mws_content <<'EOF'
   redundancies, plug memory leaks</li>
  <li>[smultron] Tweak the manual page: point out the word “colour”</li>
  <li>[tg] Optimise dot.mkshrc DJB’s CDB hash implementations; add Bob
-  Jenkins’ one-at-a-time hash; fix signedness in expressions; let the
-  hashes use stdin if "$*" is empty, too, like Lb64{en,de}code</li>
+  Jenkins’ one-at-a-time hash (standard and leading-bit initialised); fix
+  signedness in expressions; let the hashes use stdin if "$*" is empty, like
+  Lb64{en,de}code; use “[[ -o utf8-mode ]]” ipv “[[ $- = *U* ]]”</li>
  <li>[tg] Build.sh portability fixes: missing prerequisite headers; ensure
   $CC is never called without $CFLAGS; fix <tt>test.sh</tt>, et al.</li>
  <li>[tg] Optimise internal variable representation; use one-at-a-time hash;
   cache hash values for faster resizing at zero memory cost; clean up hash
-  table (keytab) code; prepare for later changes (commented out)</li>
+  table (keytab) code; switch hash table collision resolution algorithm to
+  Python’s; prepare for later changes (commented out)</li>
  <li>[tg] Fix type errors in the source code (int → bool, size_t,
   mksh_uari_t)</li>
  <li>[tg] Fix “${foo:bar:$baz}” not working (missing substitute() call)</li>
@@ -969,12 +971,13 @@ mws_content <<'EOF'
  <li>[tg] Support ksh93-like “${!foo[@]}” listing the <em>keys</em> (indicēs)
   of all set array elements – zsh does it too (${(k)foo}), bash4 can’t :þ</li>
  <li>[tg] Support bash/ksh93-like “array=([key]=value …)” and (additionally)
-  “set -A array -- [key]=value …” to directly specify indicēs to use</li>
+  “set ±A array -- [key]=value …” to directly specify indicēs to use</li>
  <li>[tg] Document the optional, unsupported, printf(1) builtin in TFM</li>
  <li>[tg] Replace realpath(3) dependency and internally used get_phys_path()
   pdksh code with own implementation; always offer the realpath builtin</li>
  <li>[tg] Implement nameref='typeset -n' (bounded variables) like AT&amp;T
-  ksh93 but with mksh-style nested/dynamic scoping and on-use resolving</li>
+  ksh93 but with mksh-style nested/dynamic scoping and on-use resolving;
+  they cannot currently be stored in an array though</li>
  <li>[tg] Add “chdir” builtin doing the same as the “cd” special builtin</li>
  <li>[tg, David Korn] Document more differences between mksh (and pdksh)
   and AT&amp;T ksh (or, more specific, ksh88, ksh93) in the manual page</li>
@@ -1009,14 +1012,14 @@ mws_content <<'EOF'
   otherwise, or another one-at-a-time hash feeding the LCG; furthermore, RANDOM
   is now always exported to and imported from (implicit read: no push to kernel
   done) the environment vector on startup and spawning</li>
- <li>[tg] Internal code cleanup, optimisation, moves to different files</li>
+ <li>[tg] Internal code cleanup, optimisation, moves to different files;
+  dead/commented out code removal</li>
  <li>[tg] Document mksh does not exactly use OPTU-8/OPTU-16 in the manpage,
   as well as when characters, octets, or screen columns are used</li>
  <li>[tg] Fix exit 127 on "mksh /tmp/horsies" ipv of 1 on ENOENT, #548744</li>
  <li>[Clint Adams] Fix typos in the testsuite</li>
  <li>[tg, Clint Adams] Begin a shared testsuite for mksh and posh</li>
  <li>[tg] Document (via check.t) another posh bug affecting mksh, #445651</li>
- <li>[tg] Rename <tt>set -o posix</tt> (kludge) to <tt>set -o sh</tt></li>
  <li>[tg] Make 「((foo) || bar)」 and 「((foo) | (bar))」 work</li>
  <li>[tg] Fix lazy evaluation of assignments by ternary operator, #445651</li>
  <li>[tg] Work around Cygwin bugs (quirks) hindering the testsuite</li>
@@ -1062,11 +1065,19 @@ mws_content <<'EOF'
  <li>[tg] HP aCC: change IA64 default from forced <tt>+DD64</tt> to using the
   default; support Bundled compiler; fix double-<tt>const</tt> warning</li>
  <li>[tg] Rework <tt>__attribute__</tt> compiler capability check</li>
- <li>[tg] dot.mkshrc: Use [[ -o utf8-mode ]] instead of [[ $- = *U* ]]</li>
  <li>[tg] Apply errno save/restore related fix from (sync with) oksh</li>
- <li>[tg] Switch hash table collision resolution algorithm to Python’s</li>
  <li>[tg] Build.sh: output message when switching from autoconfiguration to
-  building / output generation (requested by Matt “lewellyn” Lewandowsky)</li>
+  building / output generation (requested by Matt “lewellyn” Lewandowsky);
+  use “conftest.c” ipv “scn.c” (to please ccache)</li>
+ <li>[tg] Allow “unset foo[*]” (keep attributes) and “typeset foo[*]” (for
+  forward-compatibility; in R39b it’s the same as “typeset foo”)</li>
+ <li>[tg] When persistent history is enabled (but not MKSH_SMALL) and used,
+  intertwine the shells concurrently accessing $HISTFILE better ⇒ sync on
+  empty or duplicate line as well (requested by Maximilian “mxey” Gaß)</li>
+
+<li>	#XXX
+[tg] Rename <tt>set -o posix</tt> (kludge) to <tt>set -o sh</tt></li>
+
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
