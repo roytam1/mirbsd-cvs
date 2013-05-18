@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.2 2005/03/03 19:43:30 tg Rel $ */
+/* $MirOS: src/lib/libc/i18n/catalogues.c,v 1.1 2005/09/22 21:21:09 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -26,7 +26,7 @@
 #include <locale.h>
 #include <nl_types.h>
 
-__RCSID("$MirOS: src/lib/libc/gen/i18n.c,v 1.1.7.1 2005/03/06 16:33:39 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/catalogues.c,v 1.1 2005/09/22 21:21:09 tg Exp $");
 
 /* fake NLS support */
 
@@ -45,6 +45,7 @@ _catclose(nl_catd catd)
 char *
 _catgets(nl_catd catd, int set_id, int msg_id, const char *s)
 {
+	/* LINTED interface specification */
 	return (char *) s;
 }
 
