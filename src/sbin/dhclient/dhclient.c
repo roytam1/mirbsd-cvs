@@ -93,7 +93,7 @@ struct sockaddr	*get_ifa(char *, int);
 void		 usage(void);
 int		 check_option(struct client_lease *l, int option);
 int		 ipv4addrs(char * buf);
-int		 res_hnok(const char *dn);
+int		 res_hnok(const char *dn, bool wsp_ok);
 char		*option_as_string(unsigned int code, unsigned char *data, int len);
 int		 fork_privchld(int, int);
 
@@ -873,7 +873,7 @@ packet_to_lease(struct iaddr client_addr, struct option_data *options)
 		memcpy(lease->server_name, client->packet.sname,
 		    DHCP_SNAME_LEN);
 		lease->server_name[DHCP_SNAME_LEN] = '\0';
-		if (!res_hnok(lease->server_name)) {
+		if (!res_hnok(lease->server_name, false)) {
 			warning("Bogus server name %s", lease->server_name);
 			free(lease->server_name);
 			lease->server_name = NULL;
@@ -1975,31 +1975,11 @@ check_option(struct client_lease *l, int option)
 	case DHO_HOST_NAME:
 	case DHO_DOMAIN_NAME:
 	case DHO_NIS_DOMAIN:
-		if (!res_hnok(sbuf)) {
-			bool ignoring_error = false;
-
-			if (option == DHO_DOMAIN_NAME) {
-				unsigned char *cp = l->options[option].data;
-
-				while (cp < l->options[option].data +
-				    l->options[option].len)
-					if (*cp == ' ' || *cp == '\t') {
-						l->options[option].len = cp -
-						    l->options[option].data;
-						if (l->options[option].len)
-							ignoring_error = true;
-						break;
-					} else
-						++cp;
-			}
-
-			warning("Bogus Host Name option %d: %s (%s)%s",
-			    option, sbuf, opbuf,
-			    ignoring_error ? ", using anyway" : "");
-			if (!ignoring_error) {
-				l->options[option].len = 0;
-				free(l->options[option].data);
-			}
+		if (!res_hnok(sbuf, option == DHO_DOMAIN_NAME)) {
+			warning("Bogus Host Name option %d: %s (%s)", option,
+			    sbuf, opbuf);
+			l->options[option].len = 0;
+			free(l->options[option].data);
 		}
 		return (1);
 	case DHO_PAD:
@@ -2053,26 +2033,37 @@ check_option(struct client_lease *l, int option)
 }
 
 int
-res_hnok(const char *name)
+res_hnok(const char *name, bool wsp_ok)
 {
 	const char *dn = name;
 	int pch = '.', ch = *dn++;
-	int warn = 0;
+	bool warn_us = false, warn_sp = false;
+	const char *warntext = NULL;
 
 	while (ch != '\0') {
 		int nch = *dn++;
 
-		if (ch == '.') {
+		if (ch == ' ' || ch == '\t') {
+			ch = '.';	/* reset to initial state */
+			if (!warn_sp) {
+				warntext = "whitespace";
+				warn_sp = true;
+			}
+		} else if (ch == '.') {
 			;
 		} else if (pch == '.' || nch == '.' || nch == '\0') {
 			if (!isalnum(ch))
 				return (0);
 		} else if (!isalnum(ch) && ch != '-' && ch != '_')
 				return (0);
-		else if (ch == '_' && warn == 0) {
-			warning("warning: hostname %s contains an "
-			    "underscore which violates RFC 952", name);
-			warn++;
+		else if (ch == '_' && !warn_us) {
+			warn_us = true;
+			warntext = "an underscore";
+		}
+		if (warntext) {
+			warning("warning: hostname %s contains %s "
+			    "which violates RFC 952", name, warntext);
+			warntext = NULL;
 		}
 		pch = ch, ch = nch;
 	}
