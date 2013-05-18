@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.159 2008/07/25 16:22:06 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.160 2008/07/28 03:22:32 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R35b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -980,6 +980,12 @@ mws_content <<'EOF'
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
  <li>Fix <tt>Build.sh</tt> invocation without ‘-r’, 10x Elias Pipping</li>
+ <li>Mention the <strong>MirOS OPTU-8</strong> and <em>MirOS OPTU-16</em>
+  encodings in the manual page, now that we have a name for it</li>
+ <li>In the MirOS base installation via <tt>Makefile</tt> (and <em>not</em>
+  via <tt>Build.sh</tt>, run with <tt>-DMKSH_AFREE_DEBUG</tt> (unless ramdisc
+  or MirOS-stable or formal release, i.e. DEBUGLIBS is not set)</li>
+ <li>Merge final version of jaredy’s fix for the stack-storage free issue</li>
 </ul>
 <p id="r35b">mksh R35b comes with the following bug fixes:</p><ul>
  <li>IRIX also has no UTF-8 locale at all, confirmed by Elias Pipping</li>
