@@ -1,13 +1,9 @@
-# OpenBSD makefile for:	PGPlib
-# Version required:	1.1
-# Date created:		September 28, 1998
-# Whom:			Angelos D. Keromytis
-#
+# $MirOS$
 # $OpenBSD: Makefile,v 1.13 2002/12/29 20:31:40 fgsch Exp $
 
-COMMENT=			library to generate (and manipulate) PGP packets
+COMMENT=	library to generate (and manipulate) PGP packets
 
-BROKEN=		"does not build"
+BROKEN=		does not build
 
 DISTNAME=       PGPlib-1.1
 CATEGORIES=	security
