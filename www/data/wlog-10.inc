@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.111 2008/12/10 18:40:17 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.112 2008/12/10 18:58:59 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2265,4 +2265,18 @@ Tag: hardware
  expansion “MirBSD Korn Shell”, he call it “MidnightBSD Korn Shell”. The
  invalid ones were “make shell” or em kay shell, this is something else.
  On a side note, we’ll be having a logo for mksh(1) soonish.</p>
+----
+Date: 14.12.2008 00:01
+Author: tg@
+Title: mksh R36b
+Tag: mksh
+
+<p><a href="@@RELPATH@@mksh.htm#r36b">mksh R36b</a> is out, grab it while
+ it’s still hot ☺ There’s an impressive change list for a mere bug-fix
+ version, and this is the first one where ahoka@ has contributed directly.
+ Upgrade is recommended for <strong>all</strong> users. The new memory
+ allocator has been backed out for stability.</p>
+<p>MirOS-current has mksh R36b plus some changes from mksh-current, mostly
+ renaming <tt>set -o utf8-hack</tt> to <tt>set -o utf8-mode</tt> denoting
+ said technology is solid after ages of testing. MirOS-stable has R36b.</p>
 ----
