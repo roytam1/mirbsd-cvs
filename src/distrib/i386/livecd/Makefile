@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/livecd/Makefile,v 1.41 2006/05/26 20:05:01 tg Exp $
+# $MirOS: src/distrib/i386/livecd/Makefile,v 1.42 2006/05/26 21:09:02 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -10,8 +10,7 @@ all install:
 
 it: ${CDROM}
 
-#${CDROM}: unpack gendev addcontrib prepimg nukefiles makeimg
-${CDROM}: unpack gendev addcontrib prepimg makeimg
+${CDROM}: unpack gendev addcontrib prepimg nukefiles makeimg
 
 unpack:
 	mkdir -p workdir/v${OSrev}
@@ -95,10 +94,18 @@ bsd.gz: ${REALOBJDIR}/../generic/bsd mr.fs rdsetroot
 	gzip -n9 bsd
 
 nukefiles:
+#	cd workdir && ${SUDO} rm -rf etc/X11 usr/{local/lib/X11,releng} \
+#	    usr/{,X11R6/,share/}{doc,info,man} usr/X11R6/lib/X11/doc
 	cd workdir && ${SUDO} rm -rf etc/X11 usr/{local/lib/X11,releng} \
-	    usr/{,X11R6/,share/}{doc,info,man}
-	-strip -s $$(find workdir/usr/lib -name \*.so.\*)
-	-strip -g $$(find workdir/usr/lib -name \*.a)
+	    usr/{,X11R6/}{doc,info,man} usr/X11R6/lib/X11/doc
+	-for name in workdir/usr/lib/*@(.so.*|.a); do \
+		print -n stripping $$name ...; \
+		if [[ $$name = *.a ]]; then \
+			${SUDO} strip -g $$name && print; \
+		else \
+			${SUDO} strip -s $$name && print; \
+		fi; \
+	done
 
 makeimg: bsd.gz mr.fs
 	${SUDO} dd if=bsd.gz obs=2048 conv=osync of=workdir/bsd

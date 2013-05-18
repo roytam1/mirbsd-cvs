@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.39 2006/05/15 20:06:58 tg Exp $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.40 2006/05/17 13:36:40 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -77,7 +77,7 @@ EOF
 #EOF
 ed -s etc/rc <<-'EOF'
 	1i
-		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.39 2006/05/15 20:06:58 tg Exp $
+		# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.40 2006/05/17 13:36:40 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -183,8 +183,7 @@ cat >tftpboot/etc/boot.cfg <<-'EOF'
 EOF
 
 mv root dev/.root
-rm -rf usr/X11R6/lib/X11/doc \
-    usr/X11R6/lib/X11/fonts/{100dpi,OTF,Speedo,Type1,cyrillic,local}
+rm -rf usr/X11R6/lib/X11/fonts/{100dpi,OTF,Speedo,Type1,cyrillic,local}
 mv usr/X11R6/lib/X11/fonts usr/X11R6/lib/fonts
 (cd usr/X11R6/lib/X11; ln -s ../fonts)
 # tmp because of perms
