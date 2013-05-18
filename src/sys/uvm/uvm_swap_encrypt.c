@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/uvm/uvm_swap_encrypt.c,v 1.3 2008/03/21 20:57:33 tg Exp $ */
+/**	$MirOS: src/sys/uvm/uvm_swap_encrypt.c,v 1.4 2008/11/08 23:04:26 tg Exp $ */
 /*	$OpenBSD: uvm_swap_encrypt.c,v 1.12 2003/12/26 10:04:49 markus Exp $	*/
 
 /*-
@@ -99,11 +99,9 @@ void
 swap_key_create(struct swap_key *key)
 {
 	int i;
-	u_int32_t *p = key->key;
 
 	key->refcount = 0;
-	for (i = 0; i < sizeof(key->key) / sizeof(u_int32_t); i++)
-		*p++ = arc4random();
+	arc4random_buf(key->key, sizeof(key->key));
 
 	uvm_swpkeyscreated++;
 }

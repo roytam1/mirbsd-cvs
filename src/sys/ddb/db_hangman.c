@@ -69,8 +69,6 @@ static const char substchar[]="\\/|\\/O|/-|";
 static size_t
 db_random(size_t mod)
 {
-	if (cold)
-		return (random() % mod);
 	return (arc4random() % mod);
 }
 

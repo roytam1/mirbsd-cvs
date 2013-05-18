@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.12 2008/11/08 23:04:03 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/i386/autoconf.c,v 1.13 2010/09/19 18:55:31 tg Exp $	*/
 /*	$OpenBSD: autoconf.c,v 1.52 2003/10/15 03:56:21 david Exp $	*/
 /*	$NetBSD: autoconf.c,v 1.20 1996/05/03 19:41:56 christos Exp $	*/
 
@@ -129,6 +129,8 @@ cpu_configure()
 	/*
 	 * At this point the RNG is running, and if FSXR is set we can
 	 * use it.  Here we setup a periodic timeout to collect the data.
+	 * Well, actually the random device has not yet attached, but
+	 * we can eat data anyway, so no harm.
 	 */
 	if (viac3_rnd_present) {
 		timeout_set(&viac3_rnd_tmo, viac3_rnd, &viac3_rnd_tmo);

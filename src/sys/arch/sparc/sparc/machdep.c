@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/sparc/machdep.c,v 1.8 2006/08/21 12:27:52 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/sparc/machdep.c,v 1.9 2009/08/17 20:34:11 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.98 2004/03/10 23:02:54 tom Exp $	*/
 /*	$NetBSD: machdep.c,v 1.85 1997/09/12 08:55:02 pk Exp $ */
 
@@ -358,7 +358,7 @@ setregs(p, pack, stack, retval)
 	/* Setup the process StackGhost cookie which will be XORed into
 	 * the return pointer as register windows are over/underflowed
 	 */
-	p->p_addr->u_pcb.pcb_wcookie = 0;	/* XXX later arc4random(); */
+	p->p_addr->u_pcb.pcb_wcookie = arc4random();
 
 	/* The cookie needs to guarantee invalid alignment after the XOR */
 	switch (p->p_addr->u_pcb.pcb_wcookie % 3) {
