@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/lib/libkern/tai_make.c,v 1.2 2005/12/17 05:46:26 tg Exp $ */
+/* $MirOS: src/sys/lib/libkern/tai_make.c,v 1.3 2005/12/17 05:54:19 tg Exp $ */
 
 /*-
  * Copyright (c) 2004, 2005
@@ -32,7 +32,7 @@
 #include <stdio.h>
 #include <time.h>
 
-__RCSID("$MirOS: src/sys/lib/libkern/tai_make.c,v 1.2 2005/12/17 05:46:26 tg Exp $");
+__RCSID("$MirOS: src/sys/lib/libkern/tai_make.c,v 1.3 2005/12/17 05:54:19 tg Exp $");
 
 static const char preamble[] =
 "/* AUTOMATICALLY GENERATED - DO NOT EDIT! */\n\n"
@@ -58,7 +58,7 @@ static const char epilogue[] =
 "};\n\n"
 "tai64_t *\n_tai_leaps(void)\n"
 "{\n"
-"	return _leaps;\n"
+"	return (_leaps);\n"
 "}\n";
 
 
@@ -67,7 +67,7 @@ main(int argc, char *argv[])
 {
 	int64_t *t;
 
-	if (sizeof(int64_t) != sizeof(tai64_t))
+	if (sizeof (int64_t) != sizeof (tai64_t))
 		errx(1, "tai64_t is not int64_t!");
 
 	if ((t = (int64_t *)tai_leaps()) == NULL)
@@ -77,11 +77,9 @@ main(int argc, char *argv[])
 		errx(1, "Leap second table empty!");
 
 	printf("%s", preamble);
-	while (*t) {
-		printf("\t0x%16llXLL,\n", *t);
-		++t;
-	}
+	while (*t)
+		printf("\t0x%16llXLL,\n", *t++);
 	printf("%s", epilogue);
 
-	return 0;
+	return (0);
 }
