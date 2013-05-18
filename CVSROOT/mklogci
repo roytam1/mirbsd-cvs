@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/mklogci,v 1.35 2008/07/03 18:09:36 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.36 2008/07/03 18:29:49 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -393,7 +393,8 @@ if [[ ${fold[0]} = "- Imported sources" ]]; then
 	exit 0
 fi
 
-leave=$(getdirs "$repo/$pathr")
+getdirs "$repo/$pathr"
+leave=$?
 
 # Look for a log file which matches this log message
 i=0

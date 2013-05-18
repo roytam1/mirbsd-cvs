@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/mklogtag,v 1.16 2008/07/03 17:32:16 tg Exp $
+# $MirOS: CVSROOT/mklogtag,v 1.17 2008/07/03 18:09:36 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -110,7 +110,8 @@ let i=0
 F=$repo/.tmp/cl.tag.$id
 T=$repo/.tmp/cl.tagend.$id
 
-leave=$(getdirs "$repo/$dir")
+getdirs "$repo/$dir"
+leave=$?
 
 case $1 {
 (add)	op=Adding	;;
