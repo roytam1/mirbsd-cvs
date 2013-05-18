@@ -1,10 +1,10 @@
-# $MirOS: ports/databases/openldap/Makefile,v 1.9 2009/01/17 11:43:33 tg Exp $
+# $MirOS: ports/databases/openldap/Makefile,v 1.10 2009/05/20 14:45:24 tg Exp $
 # $OpenBSD: Makefile,v 1.40 2004/04/04 21:53:37 jakob Exp $
 
 COMMENT=		Open source LDAP software (client)
 COMMENT-server=		Open source LDAP software (server)
 VERSION=		2.2.26
-DASH_VER=		3
+DASH_VER=		4
 
 DISTNAME=		openldap-${VERSION}
 FULLPKGNAME=		openldap-client-${VERSION}-${DASH_VER}
@@ -33,9 +33,9 @@ CONFIGURE_STYLE=	autoconf
 
 .include <mirports.sys.mk>
 .if ${__SYSTEM_PORTS:L} == "yes"
-LOCALSTATEDIR=		/var/openldap
+LOCALSTATEDIR=		/var
 .else
-LOCALSTATEDIR=		${LOCALBASE}/db/openldap
+LOCALSTATEDIR=		${LOCALBASE}/db
 .endif
 SUBST_VARS+=		LOCALSTATEDIR
 
@@ -108,6 +108,6 @@ post-install:
 	mv ${DESTDIR}${SYSCONFDIR}/openldap ${PREFIX}/share/examples/
 	chown -R ${SHAREOWN}:${SHAREGRP} ${PREFIX}/share/examples/openldap
 	${INSTALL_DATA} ${WRKSRC}/LICENSE ${PREFIX}/share/openldap/
-	@rm -rf ${DESTDIR}${LOCALSTATEDIR}
+	@rmdir ${DESTDIR}${LOCALSTATEDIR}/{openldap-{data,slurp},run}
 
 .include <bsd.port.mk>

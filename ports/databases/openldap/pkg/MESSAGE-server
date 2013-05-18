@@ -2,7 +2,7 @@
 Upgraders beware
 ----------------
 
-LOCALSTATEDIR may have changed, you might need to move things;
+LOCALSTATEDIR has changed, you might need to move things, see below;
 current value is: ${LOCALSTATEDIR}
 
 -----------------------------------
@@ -11,20 +11,20 @@ openldap-server is almost installed
 
 configuration files has been placed in ${PREFIX}/share/examples/openldap
 it should be configured and placed into ${SYSCONFDIR}/openldap
-# cp -R ${PREFIX}/share/examples/openldap ${SYSCONFDIR}/openldap
+$ sudo cp -R ${PREFIX}/share/examples/openldap ${SYSCONFDIR}/
 
 Please create a home for slapd:
-# mkdir -p ${LOCALSTATEDIR}/{openldap-slurp,openldap-data}
-# chown -R _slapd:_slapd ${LOCALSTATEDIR}/ ${SYSCONFDIR}/openldap/slapd.conf
-# chmod 700 ${LOCALSTATEDIR}/
-# chmod 600 ${SYSCONFDIR}/openldap/slapd.conf
+$ sudo mkdir -p ${LOCALSTATEDIR}/openldap-{data,slurp}
+$ sudo chown -R _slapd:_slapd ${SYSCONFDIR}/openldap/slapd.conf \
+    ${LOCALSTATEDIR}/openldap-{data,slurp}
+$ sudo chmod -R 0700 ${LOCALSTATEDIR}/openldap-{data,slurp}
+$ sudo chmod 0600 ${SYSCONFDIR}/openldap/slapd.conf
 
 Add the following lines to /etc/rc.local:
-[[ -x ${PREFIX}/libexec/slapd ]] && if [[ $slapd = YES ]]; then
-	echo -n ' openldap'; ${PREFIX}/libexec/slapd -u ${USER} -g ${GROUP}
+[[ -x ${PREFIX}/libexec/slapd ]] && if [[ $slapd_flags != NO ]]; then
+	echo -n ' openldap'; ${PREFIX}/libexec/slapd $slapd_flags
 fi
 
 To start slapd after reboot, add the following line to /etc/rc.conf.local:
-| slapd=YES
-
-Enjoy openldap!
+| #slapd=NO	# do not start OpenLDAP
+| slapd='-u ${USER} -g ${GROUP}'
