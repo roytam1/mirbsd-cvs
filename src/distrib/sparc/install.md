@@ -1,6 +1,6 @@
-#	$OpenBSD: install.md,v 1.52 2005/04/03 19:33:59 krw Exp $
-#	$NetBSD: install.md,v 1.3.2.5 1996/08/26 15:45:28 gwr Exp $
-#
+# $MirOS$
+# $OpenBSD: install.md,v 1.52 2005/04/03 19:33:59 krw Exp $
+# $NetBSD: install.md,v 1.3.2.5 1996/08/26 15:45:28 gwr Exp $
 #
 # Copyright (c) 1996 The NetBSD Foundation, Inc.
 # All rights reserved.
@@ -60,7 +60,7 @@ md_installboot() {
 	echo Installing boot block...
 	cp ${_prefix}/boot /mnt/boot
 	sync; sync; sync
-	installboot -v /mnt/boot ${_prefix}/bootxx ${_rawdev}
+	/usr/mdec/installboot -v /mnt/boot ${_prefix}/bootxx ${_rawdev}
 }
 
 # $1 is the disk to check

@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramdisk/Makefile,v 1.13 2006/07/24 00:52:41 tg Exp $
+# $MirOS: src/distrib/ramdisk/Makefile,v 1.14 2006/07/26 22:44:41 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -120,7 +120,8 @@ ${IMAGE}: ${CBIN}
 	test ! -e ${TMPMOUNT} || (cd ${.CURDIR}; ${MAKE} unconfig)
 	${SUDO} mkdir -p ${TMPMOUNT}
 	${SUDO} mtree -def ${MTREE} -p ${TMPMOUNT}/ -u
-	OBJDIR=${REALOBJDIR} TARGDIR=${TMPMOUNT} TOPDIR=${TOPDIR} \
+	OBJDIR=${REALOBJDIR:Q} TARGDIR=${TMPMOUNT:Q} TOPDIR=${TOPDIR:Q} \
+	    DESTDIR=${DESTDIR:Q} BSDOBJDIR=${BSDOBJDIR:Q} \
 	    ${SUDO} ${SHELL} ${TOPDIR}/miniroot/runlist.sh ${LISTS}
 	${SUDO} rm ${TMPMOUNT}/${CBIN}
 	${SUDO} makefs -s ${IMAGESIZE}b -o ${IMAGEOPTS} ${IMAGE} ${TMPMOUNT}

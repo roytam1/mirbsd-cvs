@@ -1,0 +1,19 @@
+# $MirOS$
+
+# extra programmes
+LINK	instbin					bin/mt
+LINK	instbin					bin/sync
+LINK	instbin					sbin/restore
+LINK	instbin					usr/bin/more usr/bin/less
+
+# devices stuff
+SPECIAL	cd dev; ./MAKEDEV ramdisk
+TERMCAP	vt100,vt220,wsvt25,dumb,sun		usr/share/misc/termcap
+
+# install stuff
+SCRIPT	${TOPDIR}/sparc/install.md		install.md
+#SCRIPT	${TOPDIR}/miniroot/upgrade.sh		upgrade
+SPECIAL	chmod 755 install.md #upgrade
+
+# in case NFS doesn't fit
+#REMOVE	sbin/mount_nfs

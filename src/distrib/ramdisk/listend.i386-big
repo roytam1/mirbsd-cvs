@@ -1,0 +1,19 @@
+# $MirOS$
+
+# extra programmes
+LINK	instbin					bin/sync
+LINK	instbin					sbin/fdisk
+LINK	instbin					sbin/mount_ext2fs
+LINK	instbin					sbin/mount_msdos
+LINK	instbin					sbin/restore
+LINK	instbin					sbin/wicontrol
+LINK	instbin					usr/bin/less usr/bin/more
+
+# devices stuff
+SPECIAL	cd dev; ./MAKEDEV ramdisk
+TERMCAP	vt100,vt220,wsvt25,dumb,wsvtg		usr/share/misc/termcap
+
+# install stuff
+SCRIPT	${TOPDIR}/i386/common/install.md	install.md
+SCRIPT	${TOPDIR}/miniroot/upgrade.sh		upgrade
+SPECIAL	chmod 755 install.md upgrade
