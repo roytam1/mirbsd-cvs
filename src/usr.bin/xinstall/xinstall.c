@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.6 2006/08/27 00:42:16 tg Exp $ */
+/**	$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.7 2008/03/14 14:49:16 tg Exp $ */
 /*	$OpenBSD: xinstall.c,v 1.42 2004/10/04 05:21:27 jsg Exp $	*/
 /*	$NetBSD: xinstall.c,v 1.9 1995/12/20 10:25:17 jonathan Exp $	*/
 
@@ -58,7 +58,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1987, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)xinstall.c	8.1 (Berkeley) 7/21/93");
-__RCSID("$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.6 2006/08/27 00:42:16 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.7 2008/03/14 14:49:16 tg Exp $");
 
 #define	DIRECTORY	0x01		/* Tell install it's a directory. */
 #define	SETFLAGS	0x02		/* Tell install to set flags. */
@@ -92,6 +92,11 @@ char *suffix = BACKUP_SUFFIX;
 #ifndef __INTERIX
 uid_t uid;
 gid_t gid;
+#endif
+
+#ifdef NEED_SETMODE_DECL
+mode_t getmode(const void *, mode_t);
+void *setmode(const char *);
 #endif
 
 void	copy(int, char *, int, char *, off_t, int);
