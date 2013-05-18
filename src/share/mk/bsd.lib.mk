@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.72 2008/04/10 14:07:45 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.73 2008/08/08 12:40:44 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -201,7 +201,7 @@ lib${LIB}_pic.a:: ${SOBJS}
 .endif
 
 ${SHLIB_SONAME}: ${CRTI} ${CRTBEGIN} ${SOBJS} ${DPADD} ${CRTEND} ${CRTN}
-.if defined(SHLIB_VERSION)
+.if ${SHLIB_VERSION} != "-"
 	@print -r building shared ${LIB} library \(version ${SHLIB_VERSION}\)
 .else
 	@print -r building shared library ${SHLIB_SONAME}
