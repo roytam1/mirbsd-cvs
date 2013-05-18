@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.162 2007/03/02 01:38:30 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.163 2007/03/04 21:16:10 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1162,6 +1162,7 @@ _libresolve_fragment= \
 
 _lib_depends_fragment= \
 	what=$$dep; \
+	whattype=' library'; \
 	IFS=,; bad=false; for d in $$dep; do \
 		listlibs='ls /usr/lib $$shdir 2>/dev/null'; \
 		${_libresolve_fragment}; \
@@ -1544,16 +1545,17 @@ ${WRKDIR}/.${_DEP}${_i:C,[|:./<=>*],-,g}: ${_WRKDIR_COOKIE}
 			fi; \
 			found=false; \
 			what=$$pkg; \
+			whattype=; \
 			case "$$dep" in \
 			"/nonexistent") ;; \
 			*)  \
 				${_${_DEP}_depends_fragment}; \
 				if $$found; then \
-					${ECHO_MSG} "===>  ${FULLPKGNAME${SUBPACKAGE}}${_MASTER} depends on: $$what - found"; \
+					${ECHO_MSG} "===>  ${FULLPKGNAME${SUBPACKAGE}}${_MASTER} depends on: $$what$$whattype - found"; \
 					break; \
 				else \
 					: $${msg:= not found}; \
-					${ECHO_MSG} "===>  ${FULLPKGNAME${SUBPACKAGE}}${_MASTER} depends on: $$what -$$msg"; \
+					${ECHO_MSG} "===>  ${FULLPKGNAME${SUBPACKAGE}}${_MASTER} depends on: $$what$$whattype -$$msg"; \
 				fi;; \
 			esac; \
 			if [[ -z $$dir ]]; then \
