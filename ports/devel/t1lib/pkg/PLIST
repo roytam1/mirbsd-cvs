@@ -1,5 +1,6 @@
-@comment $MirOS$
+@comment $MirOS: ports/devel/t1lib/pkg/PLIST,v 1.2 2007/01/25 11:05:55 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.7 2004/04/14 18:26:38 brad Exp $
+bin/type1afm
 bin/xglyph
 include/t1lib.h
 include/t1libx.h

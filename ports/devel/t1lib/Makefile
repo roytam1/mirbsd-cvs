@@ -1,8 +1,9 @@
-# $MirOS: ports/devel/t1lib/Makefile,v 1.1.7.1 2005/03/18 15:45:37 tg Exp $
+# $MirOS: ports/devel/t1lib/Makefile,v 1.3 2007/01/25 11:05:53 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.17 2004/04/14 18:26:38 brad Exp $
 
 COMMENT=		Type 1 rasterizer library for UNIX/X11
 DISTNAME=		t1lib-5.1.0
+DASH_VER=		1
 CATEGORIES=		devel graphics
 MASTER_SITES=		ftp://sunsite.unc.edu/pub/Linux/libs/graphics/
 
@@ -17,9 +18,7 @@ USE_X11=		Yes
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
-
-NO_REGRESS=		Yes
-
 ALL_TARGET=		without_doc
+NO_REGRESS=		Yes
 
 .include <bsd.port.mk>
