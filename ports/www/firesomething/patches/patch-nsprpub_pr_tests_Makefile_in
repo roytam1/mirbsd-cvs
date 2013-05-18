@@ -1,6 +1,6 @@
 $MirOS: ports/www/firesomething/patches/patch-nsprpub_pr_tests_Makefile_in,v 1.1 2006/05/11 20:55:45 bsiegert Exp $
---- nsprpub/pr/tests/Makefile.in.orig	Sun Apr 25 15:01:02 2004
-+++ nsprpub/pr/tests/Makefile.in	Tue May 20 00:24:25 2008
+--- nsprpub/pr/tests/Makefile.in.orig	2004-04-25 17:01:02.000000000 +0200
++++ nsprpub/pr/tests/Makefile.in	2008-05-20 21:23:46.000000000 +0200
 @@ -423,6 +423,19 @@ endif
  LDOPTS += -Xlinker -R $(ABSOLUTE_LIB_DIR)
  endif

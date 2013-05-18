@@ -1,6 +1,6 @@
 $MirOS: ports/www/firesomething/patches/patch-security_coreconf_config_mk,v 1.2 2006/05/11 20:55:45 bsiegert Exp $
---- security/coreconf/config.mk.orig	Fri Apr 28 03:36:22 2006
-+++ security/coreconf/config.mk	Tue May 20 00:24:53 2008
+--- security/coreconf/config.mk.orig	2006-04-28 05:36:22.000000000 +0200
++++ security/coreconf/config.mk	2008-05-20 21:23:57.000000000 +0200
 @@ -63,7 +63,7 @@ endif
  #######################################################################
  

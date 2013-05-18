@@ -1,12 +1,12 @@
 $MirOS: ports/www/firesomething/patches/patch-config_config_mk,v 1.2 2006/05/11 20:55:42 bsiegert Exp $
---- config/config.mk.orig	Thu Jul 28 21:47:49 2005
-+++ config/config.mk	Thu Dec  8 20:38:29 2005
-@@ -121,7 +121,7 @@ endif
+--- config/config.mk.orig	2007-11-23 22:12:26.000000000 +0100
++++ config/config.mk	2008-05-20 20:54:10.000000000 +0200
+@@ -119,7 +119,7 @@ endif
  # but save the version to allow multiple versions of the same base
  # platform to be built in the same tree.
  #
 -ifneq (,$(filter FreeBSD HP-UX IRIX Linux NetBSD OpenBSD OSF1 SunOS,$(OS_ARCH)))
-+ifneq (,$(filter FreeBSD HP-UX IRIX Linux MidnightBSD MirBSD NetBSD OSF1 OpenBSD SunOS,$(OS_ARCH)))
++ifneq (,$(filter FreeBSD HP-UX IRIX Linux MidnightBSD NetBSD OpenBSD MirBSD OSF1 SunOS,$(OS_ARCH)))
  OS_RELEASE	:= $(basename $(OS_RELEASE))
  
  # Allow the user to ignore the OS_VERSION, which is usually irrelevant.

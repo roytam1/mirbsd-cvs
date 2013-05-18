@@ -1,7 +1,7 @@
-$MirOS: ports/www/firesomething/patches/patch-directory_c-sdk_ldap_libraries_libldap_Makefile_in,v 1.3 2008/04/02 00:35:17 tg Exp $
---- directory/c-sdk/ldap/libraries/libldap/Makefile.in.orig	Thu Jun  2 04:00:33 2005
-+++ directory/c-sdk/ldap/libraries/libldap/Makefile.in	Tue May 20 00:02:59 2008
-@@ -229,6 +229,14 @@ ifeq ($(OS_ARCH), NetBSD)
+$MirOS: ports/www/firesomething/patches/patch-directory_c-sdk_ldap_libraries_libldap_Makefile_in,v 1.2 2006/05/11 20:55:43 bsiegert Exp $
+--- directory/c-sdk/ldap/libraries/libldap/Makefile.in.orig	2006-02-03 15:44:42.000000000 +0100
++++ directory/c-sdk/ldap/libraries/libldap/Makefile.in	2008-05-20 21:10:57.000000000 +0200
+@@ -245,6 +245,14 @@ ifeq ($(OS_ARCH), NetBSD)
  EXTRA_LIBS = -L$(dist_libdir) -l$(LBER_LIBNAME)
  endif
  
@@ -16,12 +16,12 @@ $MirOS: ports/www/firesomething/patches/patch-directory_c-sdk_ldap_libraries_lib
  ifeq ($(OS_ARCH), OpenBSD)
  EXTRA_LIBS = -L$(dist_libdir) -l$(LBER_LIBNAME) -pthread
  endif
-@@ -286,7 +294,7 @@ $(LIBLDAP): $(OBJS) $(LIBDIR) $(LDAP_EXP
+@@ -302,7 +310,7 @@ $(LIBLDAP): $(OBJS) $(LIBDIR) $(LDAP_EXP
  ifdef SO_FILES_TO_REMOVE
  	-$(RM) $(SO_FILES_TO_REMOVE)
  endif
 -ifneq (,$(filter AIX Linux HP-UX Darwin BeOS QNX NetBSD OSF1 OpenBSD, $(OS_ARCH)))
-+ifneq (,$(filter AIX BeOS Darwin HP-UX Linux MidnightBSD MirBSD NetBSD OSF1 OpenBSD QNX, $(OS_ARCH)))
++ifneq (,$(filter AIX Linux MidnightBSD HP-UX Darwin BeOS QNX NetBSD OSF1 MirBSD OpenBSD, $(OS_ARCH)))
  	$(LINK_LIB) ../liblber/$(OBJDIR_NAME)/*.a
  else
  ifeq ($(OS_ARCH),OS2)

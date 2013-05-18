@@ -1,7 +1,8 @@
+$MirOS$
 $OpenBSD: patch-modules_libpref_src_init_all_js,v 1.1 2005/04/04 21:24:00 kurt Exp $
---- modules/libpref/src/init/all.js.orig	Sat Aug 19 00:11:40 2006
-+++ modules/libpref/src/init/all.js	Mon Mar 31 21:47:36 2008
-@@ -2051,7 +2051,7 @@ pref("font.scale.outline.min",      6);
+--- modules/libpref/src/init/all.js.orig	Thu Jan 24 23:04:47 2008
++++ modules/libpref/src/init/all.js	Tue Apr  1 01:58:58 2008
+@@ -2106,7 +2106,7 @@ pref("font.scale.outline.min",      6);
  
  // TrueType
  pref("font.FreeType2.enable", false);

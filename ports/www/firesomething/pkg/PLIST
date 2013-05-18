@@ -2,6 +2,7 @@
 @comment $OpenBSD: PLIST,v 1.13 2005/09/24 16:19:29 bernd Exp $
 @pkgcfl mozilla-firebird-*
 @pkgcfl mozilla-firefox-*
+bin/firefox
 bin/firefox-config
 bin/firesomething
 firesomething/TestGtkEmbed
@@ -23,6 +24,10 @@ firesomething/chrome/reporter.jar
 firesomething/chrome/reporter.manifest
 firesomething/chrome/toolkit.jar
 firesomething/chrome/toolkit.manifest
+firesomething/components/FeedConverter.js
+firesomething/components/FeedProcessor.js
+firesomething/components/FeedWriter.js
+firesomething/components/WebContentConverter.js
 firesomething/components/accessibility-atk.xpt
 firesomething/components/accessibility.xpt
 firesomething/components/alerts.xpt
@@ -31,7 +36,9 @@ firesomething/components/appstartup.xpt
 firesomething/components/autocomplete.xpt
 firesomething/components/autoconfig.xpt
 firesomething/components/bookmarks.xpt
+firesomething/components/browser-feeds.xpt
 firesomething/components/browsercompsbase.xpt
+firesomething/components/browsersearch.xpt
 firesomething/components/caps.xpt
 firesomething/components/chardet.xpt
 firesomething/components/chrome.xpt
@@ -56,6 +63,8 @@ firesomething/components/dom_events.xpt
 firesomething/components/dom_html.xpt
 firesomething/components/dom_loadsave.xpt
 firesomething/components/dom_range.xpt
+firesomething/components/dom_sidebar.xpt
+firesomething/components/dom_storage.xpt
 firesomething/components/dom_stylesheets.xpt
 firesomething/components/dom_svg.xpt
 firesomething/components/dom_traversal.xpt
@@ -69,6 +78,7 @@ firesomething/components/embed_base.xpt
 firesomething/components/extensions.xpt
 firesomething/components/exthandler.xpt
 firesomething/components/fastfind.xpt
+firesomething/components/feeds.xpt
 firesomething/components/filepicker.xpt
 firesomething/components/find.xpt
 firesomething/components/gfx.xpt
@@ -89,6 +99,7 @@ firesomething/components/layout_xul.xpt
 firesomething/components/layout_xul_tree.xpt
 firesomething/components/locale.xpt
 firesomething/components/lwbrk.xpt
+firesomething/components/microsummaries.xpt
 firesomething/components/migration.xpt
 firesomething/components/mimetype.xpt
 firesomething/components/mozbrwsr.xpt
@@ -107,6 +118,7 @@ firesomething/components/necko_res.xpt
 firesomething/components/necko_socket.xpt
 firesomething/components/necko_strconv.xpt
 firesomething/components/necko_viewsource.xpt
+firesomething/components/nsBookmarkTransactionManager.js
 firesomething/components/nsBrowserContentHandler.js
 firesomething/components/nsBrowserGlue.js
 firesomething/components/nsCloseAllWindows.js
@@ -116,11 +128,21 @@ firesomething/components/nsExtensionManager.js
 firesomething/components/nsFilePicker.js
 firesomething/components/nsHelperAppDlg.js
 firesomething/components/nsInterfaceInfoToIDL.js
+firesomething/components/nsMicrosummaryService.js
 firesomething/components/nsProgressDialog.js
 firesomething/components/nsProxyAutoConfig.js
 firesomething/components/nsResetPref.js
+firesomething/components/nsSafebrowsingApplication.js
+firesomething/components/nsSearchService.js
+firesomething/components/nsSearchSuggestions.js
+firesomething/components/nsSessionStartup.js
+firesomething/components/nsSessionStore.js
 firesomething/components/nsSidebar.js
+firesomething/components/nsURLFormatter.js
 firesomething/components/nsUpdateService.js
+firesomething/components/nsUrlClassifierLib.js
+firesomething/components/nsUrlClassifierListManager.js
+firesomething/components/nsUrlClassifierTable.js
 firesomething/components/nsXmlRpcClient.js
 firesomething/components/oji.xpt
 firesomething/components/passwordmgr.xpt
@@ -134,11 +156,15 @@ firesomething/components/profile.xpt
 firesomething/components/progressDlg.xpt
 firesomething/components/proxyObjInst.xpt
 firesomething/components/rdf.xpt
+firesomething/components/safebrowsing.xpt
 firesomething/components/satchel.xpt
+firesomething/components/saxparser.xpt
 firesomething/components/search.xpt
+firesomething/components/sessionstore.xpt
 firesomething/components/shellservice.xpt
 firesomething/components/shistory.xpt
-firesomething/components/sidebar.xpt
+firesomething/components/spellchecker.xpt
+firesomething/components/storage.xpt
 firesomething/components/toolkitprofile.xpt
 firesomething/components/toolkitremote.xpt
 firesomething/components/txmgr.xpt
@@ -147,6 +173,8 @@ firesomething/components/uconv.xpt
 firesomething/components/unicharutil.xpt
 firesomething/components/update.xpt
 firesomething/components/uriloader.xpt
+firesomething/components/url-classifier.xpt
+firesomething/components/urlformatter.xpt
 firesomething/components/webBrowser_core.xpt
 firesomething/components/webbrowserpersist.xpt
 firesomething/components/webshell_idls.xpt
@@ -155,7 +183,6 @@ firesomething/components/widget.xpt
 firesomething/components/windowds.xpt
 firesomething/components/windowwatcher.xpt
 firesomething/components/xml-rpc.xpt
-firesomething/components/xmlextras.xpt
 firesomething/components/xpcom_base.xpt
 firesomething/components/xpcom_components.xpt
 firesomething/components/xpcom_ds.xpt
@@ -171,6 +198,7 @@ firesomething/components/xultmpl.xpt
 firesomething/defaults/autoconfig/platform.js
 firesomething/defaults/autoconfig/prefcalls.js
 firesomething/defaults/pref/channel-prefs.js
+firesomething/defaults/pref/firefox-branding.js
 firesomething/defaults/pref/firefox-l10n.js
 firesomething/defaults/pref/firefox.js
 firesomething/defaults/pref/reporter.js
@@ -182,15 +210,16 @@ firesomething/defaults/profile/localstore.rdf
 firesomething/defaults/profile/mimeTypes.rdf
 firesomething/defaults/profile/prefs.js
 firesomething/defaults/profile/search.rdf
+firesomething/dictionaries/en-US.aff
+firesomething/dictionaries/en-US.dic
 firesomething/extensions/inspector@mozilla.org/chrome.manifest
 firesomething/extensions/inspector@mozilla.org/chrome/chromelist.txt
 firesomething/extensions/inspector@mozilla.org/chrome/inspector.jar
 firesomething/extensions/inspector@mozilla.org/components/inspector-cmdline.js
-firesomething/extensions/inspector@mozilla.org/components/inspector.xpt
 firesomething/extensions/inspector@mozilla.org/defaults/preferences/inspector.js
 firesomething/extensions/inspector@mozilla.org/install.rdf
 firesomething/extensions/{972ce4c6-7e08-4474-a285-3208198ce6fd}/install.rdf
-firesomething/firesomething-bin
+firesomething/firefox-bin
 firesomething/greprefs/all.js
 firesomething/greprefs/security-prefs.js
 firesomething/greprefs/xpinstall.js
@@ -255,14 +284,19 @@ firesomething/include/autocomplete/nsIAutoCompletePopup.h
 firesomething/include/autocomplete/nsIAutoCompleteResult.h
 firesomething/include/autocomplete/nsIAutoCompleteResultTypes.h
 firesomething/include/autocomplete/nsIAutoCompleteSearch.h
+firesomething/include/autocomplete/nsIAutoCompleteSimpleResult.h
 firesomething/include/autoconfig/nsIAutoConfig.h
-firesomething/include/autoconfig/nsILDAPSyncQuery.h
 firesomething/include/autoconfig/nsIReadConfig.h
+firesomething/include/bookmarks/nsIBookmarkTransactionManager.h
 firesomething/include/bookmarks/nsIBookmarksService.h
+firesomething/include/browser-feeds/nsIFeedResultService.h
+firesomething/include/browser-feeds/nsIFeedWriter.h
+firesomething/include/browser-feeds/nsIWebContentConverterRegistrar.h
 firesomething/include/browser/nsIBrowserInstance.h
 firesomething/include/browsercomps/nsBrowserCompsCID.h
 firesomething/include/browsercomps/nsIBrowserGlue.h
 firesomething/include/browsercomps/nsIBrowserHandler.h
+firesomething/include/browsersearch/nsIBrowserSearchService.h
 firesomething/include/caps/nsICryptoHash.h
 firesomething/include/caps/nsIPrincipal.h
 firesomething/include/caps/nsIScriptSecurityManager.h
@@ -312,8 +346,11 @@ firesomething/include/content/nsIContent.h
 firesomething/include/content/nsIContentIterator.h
 firesomething/include/content/nsIContentPolicy.h
 firesomething/include/content/nsIContentSerializer.h
+firesomething/include/content/nsIDOMGCParticipant.h
+firesomething/include/content/nsIDOMParser.h
 firesomething/include/content/nsIDOMSVGListener.h
 firesomething/include/content/nsIDOMSVGZoomListener.h
+firesomething/include/content/nsIDOMSerializer.h
 firesomething/include/content/nsIDocument.h
 firesomething/include/content/nsIDocumentEncoder.h
 firesomething/include/content/nsIDocumentObserver.h
@@ -350,6 +387,7 @@ firesomething/include/content/nsIRadioControlElement.h
 firesomething/include/content/nsIRadioGroupContainer.h
 firesomething/include/content/nsIRadioVisitor.h
 firesomething/include/content/nsIRangeUtils.h
+firesomething/include/content/nsISVGPathFlatten.h
 firesomething/include/content/nsISVGTextContentMetrics.h
 firesomething/include/content/nsISVGValue.h
 firesomething/include/content/nsISVGValueObserver.h
@@ -360,6 +398,7 @@ firesomething/include/content/nsIScriptEventManager.h
 firesomething/include/content/nsIScriptLoader.h
 firesomething/include/content/nsIScriptLoaderObserver.h
 firesomething/include/content/nsISelectElement.h
+firesomething/include/content/nsISelection2.h
 firesomething/include/content/nsISelectionController.h
 firesomething/include/content/nsISelectionDisplay.h
 firesomething/include/content/nsISelectionListener.h
@@ -375,11 +414,13 @@ firesomething/include/content/nsIXBLService.h
 firesomething/include/content/nsIXMLContent.h
 firesomething/include/content/nsIXMLContentBuilder.h
 firesomething/include/content/nsIXMLContentSink.h
+firesomething/include/content/nsIXMLHttpRequest.h
 firesomething/include/content/nsIXPathEvaluatorInternal.h
 firesomething/include/content/nsIXPointer.h
 firesomething/include/content/nsIXSLTException.h
 firesomething/include/content/nsIXSLTProcessor.h
 firesomething/include/content/nsIXSLTProcessorObsolete.h
+firesomething/include/content/nsIXSLTProcessorPrivate.h
 firesomething/include/content/nsIXTFAttributeHandler.h
 firesomething/include/content/nsIXTFBindableElement.h
 firesomething/include/content/nsIXTFBindableElementWrapper.h
@@ -430,6 +471,7 @@ firesomething/include/dbm/winfile.h
 firesomething/include/docshell/nsCDefaultURIFixup.h
 firesomething/include/docshell/nsCDocShell.h
 firesomething/include/docshell/nsDocShellCID.h
+firesomething/include/docshell/nsDocShellLoadTypes.h
 firesomething/include/docshell/nsIContentViewer.h
 firesomething/include/docshell/nsIContentViewerEdit.h
 firesomething/include/docshell/nsIContentViewerFile.h
@@ -441,6 +483,7 @@ firesomething/include/docshell/nsIDocShellTreeNode.h
 firesomething/include/docshell/nsIDocShellTreeOwner.h
 firesomething/include/docshell/nsIEditorDocShell.h
 firesomething/include/docshell/nsIGlobalHistory2.h
+firesomething/include/docshell/nsIGlobalHistory3.h
 firesomething/include/docshell/nsIMarkupDocumentViewer.h
 firesomething/include/docshell/nsIScrollable.h
 firesomething/include/docshell/nsITextScroll.h
@@ -469,6 +512,7 @@ firesomething/include/dom/nsIDOMCSSUnknownRule.h
 firesomething/include/dom/nsIDOMCanvasRenderingContext2D.h
 firesomething/include/dom/nsIDOMChromeWindow.h
 firesomething/include/dom/nsIDOMClassInfo.h
+firesomething/include/dom/nsIDOMClientInformation.h
 firesomething/include/dom/nsIDOMCompositionListener.h
 firesomething/include/dom/nsIDOMConstructor.h
 firesomething/include/dom/nsIDOMContextMenuListener.h
@@ -604,6 +648,7 @@ firesomething/include/dom/nsIDOMSVGSymbolElement.h
 firesomething/include/dom/nsIDOMSVGTSpanElement.h
 firesomething/include/dom/nsIDOMSVGTextContentElement.h
 firesomething/include/dom/nsIDOMSVGTextElement.h
+firesomething/include/dom/nsIDOMSVGTextPathElement.h
 firesomething/include/dom/nsIDOMSVGTextPositionElem.h
 firesomething/include/dom/nsIDOMSVGTitleElement.h
 firesomething/include/dom/nsIDOMSVGTransform.h
@@ -611,6 +656,7 @@ firesomething/include/dom/nsIDOMSVGTransformList.h
 firesomething/include/dom/nsIDOMSVGTransformable.h
 firesomething/include/dom/nsIDOMSVGURIReference.h
 firesomething/include/dom/nsIDOMSVGUseElement.h
+firesomething/include/dom/nsIDOMSVGViewSpec.h
 firesomething/include/dom/nsIDOMSVGZoomAndPan.h
 firesomething/include/dom/nsIDOMSVGZoomEvent.h
 firesomething/include/dom/nsIDOMScreen.h
@@ -618,6 +664,7 @@ firesomething/include/dom/nsIDOMScriptObjectFactory.h
 firesomething/include/dom/nsIDOMScrollListener.h
 firesomething/include/dom/nsIDOMSmartCardEvent.h
 firesomething/include/dom/nsIDOMTextListener.h
+firesomething/include/dom/nsIDOMToString.h
 firesomething/include/dom/nsIDOMTreeWalker.h
 firesomething/include/dom/nsIDOMUIListener.h
 firesomething/include/dom/nsIDOMUserDataHandler.h
@@ -633,6 +680,7 @@ firesomething/include/dom/nsIDOMXPathResult.h
 firesomething/include/dom/nsIDOMXULButtonElement.h
 firesomething/include/dom/nsIDOMXULCheckboxElement.h
 firesomething/include/dom/nsIDOMXULCommandDispatcher.h
+firesomething/include/dom/nsIDOMXULCommandEvent.h
 firesomething/include/dom/nsIDOMXULControlElement.h
 firesomething/include/dom/nsIDOMXULDescriptionElement.h
 firesomething/include/dom/nsIDOMXULDocument.h
@@ -660,6 +708,9 @@ firesomething/include/dom/nsIScriptGlobalObjectOwner.h
 firesomething/include/dom/nsIScriptNameSpaceManager.h
 firesomething/include/dom/nsIScriptObjectOwner.h
 firesomething/include/dom/nsIScriptObjectPrincipal.h
+firesomething/include/dom/nsISidebar.h
+firesomething/include/dom/nsIWebContentHandlerRegistrar.h
+firesomething/include/dom/nsPIDOMStorage.h
 firesomething/include/dom/nsPIDOMWindow.h
 firesomething/include/dom/nsPIWindowRoot.h
 firesomething/include/domstubs.h
@@ -688,6 +739,7 @@ firesomething/include/editor/nsITableEditor.h
 firesomething/include/editor/nsIURIRefObject.h
 firesomething/include/editor/nsPIEditorTransaction.h
 firesomething/include/embed_base/nsIWindowCreator2.h
+firesomething/include/embed_base/nsIWindowProvider.h
 firesomething/include/embedcomponents/nsIAppStartupNotifier.h
 firesomething/include/expat/expat.h
 firesomething/include/expat/expat_config.h
@@ -698,6 +750,17 @@ firesomething/include/exthandler/nsIExternalProtocolService.h
 firesomething/include/exthandler/nsIHelperAppLauncherDialog.h
 firesomething/include/exthandler/nsOSHelperAppService.h
 firesomething/include/fastfind/nsITypeAheadFind.h
+firesomething/include/feeds/nsIFeed.h
+firesomething/include/feeds/nsIFeedContainer.h
+firesomething/include/feeds/nsIFeedElementBase.h
+firesomething/include/feeds/nsIFeedEntry.h
+firesomething/include/feeds/nsIFeedGenerator.h
+firesomething/include/feeds/nsIFeedListener.h
+firesomething/include/feeds/nsIFeedPerson.h
+firesomething/include/feeds/nsIFeedProcessor.h
+firesomething/include/feeds/nsIFeedResult.h
+firesomething/include/feeds/nsIFeedTextConstruct.h
+firesomething/include/feeds/nsIScriptableUnescapeHTML.h
 firesomething/include/filepicker/nsIFileView.h
 firesomething/include/find/nsIFind.h
 firesomething/include/gfx/gfxCore.h
@@ -758,6 +821,7 @@ firesomething/include/htmlparser/nsIContentSink.h
 firesomething/include/htmlparser/nsIDTD.h
 firesomething/include/htmlparser/nsIElementObserver.h
 firesomething/include/htmlparser/nsIExpatSink.h
+firesomething/include/htmlparser/nsIExtendedExpatSink.h
 firesomething/include/htmlparser/nsIFragmentContentSink.h
 firesomething/include/htmlparser/nsIHTMLContentSink.h
 firesomething/include/htmlparser/nsIParser.h
@@ -829,6 +893,7 @@ firesomething/include/js/jsarena.h
 firesomething/include/js/jsarray.h
 firesomething/include/js/jsatom.h
 firesomething/include/js/jsautocfg.h
+firesomething/include/js/jsautokw.h
 firesomething/include/js/jsbit.h
 firesomething/include/js/jsbool.h
 firesomething/include/js/jsclist.h
@@ -843,6 +908,7 @@ firesomething/include/js/jsfun.h
 firesomething/include/js/jsgc.h
 firesomething/include/js/jshash.h
 firesomething/include/js/jsinterp.h
+firesomething/include/js/jsiter.h
 firesomething/include/js/jslock.h
 firesomething/include/js/jslong.h
 firesomething/include/js/jsmath.h
@@ -854,6 +920,7 @@ firesomething/include/js/jsosdep.h
 firesomething/include/js/jsotypes.h
 firesomething/include/js/jsparse.h
 firesomething/include/js/jsprf.h
+firesomething/include/js/jsproto.tbl
 firesomething/include/js/jsprvtd.h
 firesomething/include/js/jspubtd.h
 firesomething/include/js/jsregexp.h
@@ -1004,6 +1071,7 @@ firesomething/include/layout/nsLayoutAtomList.h
 firesomething/include/layout/nsLayoutAtoms.h
 firesomething/include/layout/nsLayoutCID.h
 firesomething/include/layout/nsLayoutErrors.h
+firesomething/include/layout/nsLayoutStatics.h
 firesomething/include/layout/nsLayoutStylesheetCache.h
 firesomething/include/layout/nsLayoutUtils.h
 firesomething/include/layout/nsPIBoxObject.h
@@ -1059,6 +1127,7 @@ firesomething/include/lwbrk/nsISemanticUnitScanner.h
 firesomething/include/lwbrk/nsIWordBreaker.h
 firesomething/include/lwbrk/nsIWordBreakerFactory.h
 firesomething/include/lwbrk/nsLWBrkCIID.h
+firesomething/include/microsummaries/nsIMicrosummaryService.h
 firesomething/include/migration/nsIBrowserProfileMigrator.h
 firesomething/include/mimetype/nsIMIMEHeaderParam.h
 firesomething/include/mimetype/nsIMIMEInfo.h
@@ -1109,18 +1178,21 @@ firesomething/include/necko/nsIFTPChannel.h
 firesomething/include/necko/nsIFileChannel.h
 firesomething/include/necko/nsIFileProtocolHandler.h
 firesomething/include/necko/nsIFileStreams.h
+firesomething/include/necko/nsIHttpActivityObserver.h
 firesomething/include/necko/nsIHttpAuthManager.h
 firesomething/include/necko/nsIHttpAuthenticator.h
 firesomething/include/necko/nsIHttpChannelInternal.h
 firesomething/include/necko/nsIHttpEventSink.h
 firesomething/include/necko/nsIHttpProtocolHandler.h
 firesomething/include/necko/nsIIDNService.h
+firesomething/include/necko/nsIIOService2.h
 firesomething/include/necko/nsIIncrementalDownload.h
 firesomething/include/necko/nsIInputStreamChannel.h
 firesomething/include/necko/nsIInputStreamPump.h
 firesomething/include/necko/nsIMIMEInputStream.h
 firesomething/include/necko/nsIMultiPartChannel.h
 firesomething/include/necko/nsINetUtil.h
+firesomething/include/necko/nsINetworkLinkService.h
 firesomething/include/necko/nsIPasswordManager.h
 firesomething/include/necko/nsIPasswordManagerInternal.h
 firesomething/include/necko/nsIPermissionManager.h
@@ -1307,6 +1379,11 @@ firesomething/include/nsIDOMNodeList.h
 firesomething/include/nsIDOMNotation.h
 firesomething/include/nsIDOMProcessingInstruction.h
 firesomething/include/nsIDOMRange.h
+firesomething/include/nsIDOMStorage.h
+firesomething/include/nsIDOMStorageEvent.h
+firesomething/include/nsIDOMStorageItem.h
+firesomething/include/nsIDOMStorageList.h
+firesomething/include/nsIDOMStorageWindow.h
 firesomething/include/nsIDOMStyleSheet.h
 firesomething/include/nsIDOMStyleSheetList.h
 firesomething/include/nsIDOMText.h
@@ -1523,6 +1600,7 @@ firesomething/include/pipnss/nsIASN1PrintableItem.h
 firesomething/include/pipnss/nsICMSDecoder.h
 firesomething/include/pipnss/nsICMSEncoder.h
 firesomething/include/pipnss/nsICMSMessage.h
+firesomething/include/pipnss/nsICMSMessage2.h
 firesomething/include/pipnss/nsICMSMessageErrors.h
 firesomething/include/pipnss/nsICMSSecureMessage.h
 firesomething/include/pipnss/nsICRLManager.h
@@ -1534,6 +1612,7 @@ firesomething/include/pipnss/nsIClientAuthDialogs.h
 firesomething/include/pipnss/nsIDOMCryptoDialogs.h
 firesomething/include/pipnss/nsIFormSigningDialog.h
 firesomething/include/pipnss/nsIGenKeypairInfoDlg.h
+firesomething/include/pipnss/nsIKeyModule.h
 firesomething/include/pipnss/nsIKeygenThread.h
 firesomething/include/pipnss/nsINSSCertCache.h
 firesomething/include/pipnss/nsIOCSPResponder.h
@@ -1544,9 +1623,11 @@ firesomething/include/pipnss/nsIPKCS11ModuleDB.h
 firesomething/include/pipnss/nsIPKCS11Slot.h
 firesomething/include/pipnss/nsISMimeCert.h
 firesomething/include/pipnss/nsISSLStatus.h
+firesomething/include/pipnss/nsIStreamCipher.h
 firesomething/include/pipnss/nsITokenDialogs.h
 firesomething/include/pipnss/nsITokenPasswordDialogs.h
 firesomething/include/pipnss/nsIUserCertPicker.h
+firesomething/include/pipnss/nsIX509Cert3.h
 firesomething/include/pipnss/nsIX509CertDB2.h
 firesomething/include/pippki/nsIASN1Tree.h
 firesomething/include/pippki/nsIPKIParamBlock.h
@@ -1588,6 +1669,9 @@ firesomething/include/plugin/nsPluginsCID.h
 firesomething/include/plugin/nsplugin.h
 firesomething/include/plugin/nsplugindefs.h
 firesomething/include/plugin/nspluginroot.h
+firesomething/include/png/mozpngconf.h
+firesomething/include/png/png.h
+firesomething/include/png/pngconf.h
 firesomething/include/pref/nsIPref.h
 firesomething/include/pref/nsIPrefBranchInternal.h
 firesomething/include/pref/nsIRelativeFilePref.h
@@ -1629,14 +1713,31 @@ firesomething/include/rdf/rdfIDataSource.h
 firesomething/include/rdf/rdfISerializer.h
 firesomething/include/rdf/rdfITripleVisitor.h
 firesomething/include/rdfutil/nsRDFResource.h
+firesomething/include/safebrowsing/nsIDocNavStartProgressListener.h
 firesomething/include/satchel/nsIFormFillController.h
 firesomething/include/satchel/nsIFormHistory.h
+firesomething/include/sessionstore/nsISessionStartup.h
+firesomething/include/sessionstore/nsISessionStore.h
 firesomething/include/shellservice/nsIShellService.h
 firesomething/include/shistory/nsISHContainer.h
 firesomething/include/shistory/nsISHEntry.h
 firesomething/include/shistory/nsISHTransaction.h
 firesomething/include/shistory/nsISHistoryInternal.h
-firesomething/include/sidebar/nsISidebar.h
+firesomething/include/spellchecker/mozIPersonalDictionary.h
+firesomething/include/spellchecker/mozISpellCheckingEngine.h
+firesomething/include/spellchecker/mozISpellI18NManager.h
+firesomething/include/spellchecker/mozISpellI18NUtil.h
+firesomething/include/sqlite3/sqlite3.h
+firesomething/include/sqlite3/sqlite3file.h
+firesomething/include/storage/mozIStorageConnection.h
+firesomething/include/storage/mozIStorageDataSet.h
+firesomething/include/storage/mozIStorageFunction.h
+firesomething/include/storage/mozIStorageService.h
+firesomething/include/storage/mozIStorageStatement.h
+firesomething/include/storage/mozIStorageStatementWrapper.h
+firesomething/include/storage/mozIStorageValueArray.h
+firesomething/include/storage/mozStorageCID.h
+firesomething/include/storage/mozStorageHelper.h
 firesomething/include/string/nsAString.h
 firesomething/include/string/nsAlgorithm.h
 firesomething/include/string/nsCharTraits.h
@@ -1671,6 +1772,7 @@ firesomething/include/system-pref/nsSystemPrefService.h
 firesomething/include/toolkitcomps/nsICommandLine.h
 firesomething/include/toolkitcomps/nsICommandLineHandler.h
 firesomething/include/toolkitcomps/nsICommandLineRunner.h
+firesomething/include/toolkitcomps/nsICommandLineValidator.h
 firesomething/include/toolkitcomps/nsIRemoteService.h
 firesomething/include/toolkitcomps/nsToolkitCompsCID.h
 firesomething/include/transformiix/nsIXFormsUtilityService.h
@@ -1733,6 +1835,12 @@ firesomething/include/uriloader/nsITransfer.h
 firesomething/include/uriloader/nsIURILoader.h
 firesomething/include/uriloader/nsIWebProgressListener2.h
 firesomething/include/uriloader/nsURILoader.h
+firesomething/include/url-classifier/nsIUrlClassifierDBService.h
+firesomething/include/url-classifier/nsIUrlClassifierStreamUpdater.h
+firesomething/include/url-classifier/nsIUrlClassifierTable.h
+firesomething/include/url-classifier/nsIUrlClassifierUtils.h
+firesomething/include/url-classifier/nsIUrlListManager.h
+firesomething/include/urlformatter/nsIURLFormatter.h
 firesomething/include/util/nsTimer.h
 firesomething/include/util/stopwatch.h
 firesomething/include/view/nsICompositeListener.h
@@ -1842,9 +1950,18 @@ firesomething/include/windowwatcher/nsPIWindowWatcher.h
 firesomething/include/xml-rpc/nsIDictionary.h
 firesomething/include/xml-rpc/nsIXmlRpcClient.h
 firesomething/include/xml-rpc/nsIXmlRpcClientListener.h
-firesomething/include/xmlextras/nsIDOMParser.h
-firesomething/include/xmlextras/nsIDOMSerializer.h
-firesomething/include/xmlextras/nsIXMLHttpRequest.h
+firesomething/include/xml/nsISAXAttributes.h
+firesomething/include/xml/nsISAXContentHandler.h
+firesomething/include/xml/nsISAXDTDHandler.h
+firesomething/include/xml/nsISAXErrorHandler.h
+firesomething/include/xml/nsISAXLexicalHandler.h
+firesomething/include/xml/nsISAXLocator.h
+firesomething/include/xml/nsISAXMutableAttributes.h
+firesomething/include/xml/nsISAXXMLFilter.h
+firesomething/include/xml/nsISAXXMLReader.h
+firesomething/include/xml/nsSAXAttributes.h
+firesomething/include/xml/nsSAXLocator.h
+firesomething/include/xml/nsSAXXMLReader.h
 firesomething/include/xpcom-config.h
 firesomething/include/xpcom/nsAgg.h
 firesomething/include/xpcom/nsAppDirectoryServiceDefs.h
@@ -1857,6 +1974,7 @@ firesomething/include/xpcom/nsAutoPtr.h
 firesomething/include/xpcom/nsBaseHashtable.h
 firesomething/include/xpcom/nsCOMArray.h
 firesomething/include/xpcom/nsCRT.h
+firesomething/include/xpcom/nsCategoryCache.h
 firesomething/include/xpcom/nsCategoryManagerUtils.h
 firesomething/include/xpcom/nsCheapSets.h
 firesomething/include/xpcom/nsClassHashtable.h
@@ -1901,6 +2019,7 @@ firesomething/include/xpcom/nsIEnumerator.h
 firesomething/include/xpcom/nsIEnvironment.h
 firesomething/include/xpcom/nsIErrorService.h
 firesomething/include/xpcom/nsIEventQueue.h
+firesomething/include/xpcom/nsIEventQueueListener.h
 firesomething/include/xpcom/nsIEventQueueService.h
 firesomething/include/xpcom/nsIEventTarget.h
 firesomething/include/xpcom/nsIException.h
@@ -1943,6 +2062,7 @@ firesomething/include/xpcom/nsITimelineService.h
 firesomething/include/xpcom/nsITimer.h
 firesomething/include/xpcom/nsITimerInternal.h
 firesomething/include/xpcom/nsITimerManager.h
+firesomething/include/xpcom/nsIUUIDGenerator.h
 firesomething/include/xpcom/nsIUnicharBuffer.h
 firesomething/include/xpcom/nsIUnicharInputStream.h
 firesomething/include/xpcom/nsIUnicharLineInputStream.h
@@ -1981,6 +2101,7 @@ firesomething/include/xpcom/nsStringIO.h
 firesomething/include/xpcom/nsStringStream.h
 firesomething/include/xpcom/nsSupportsArray.h
 firesomething/include/xpcom/nsSupportsPrimitives.h
+firesomething/include/xpcom/nsTArray.h
 firesomething/include/xpcom/nsTHashtable.h
 firesomething/include/xpcom/nsTextFormatter.h
 firesomething/include/xpcom/nsTime.h
@@ -2058,6 +2179,7 @@ firesomething/init.d/README
 firesomething/libfreebl3.chk
 firesomething/libsoftokn3.chk
 firesomething/mozilla-xremote-client
+firesomething/old-homepage-default.properties
 firesomething/regxpcom
 firesomething/res/EditorOverride.css
 firesomething/res/arrow.gif
@@ -2214,18 +2336,12 @@ firesomething/res/unixcharset.properties
 firesomething/res/viewer.properties
 firesomething/res/viewsource.css
 firesomething/run-mozilla.sh
-firesomething/searchplugins/amazondotcom.png
-firesomething/searchplugins/amazondotcom.src
-firesomething/searchplugins/answers.png
-firesomething/searchplugins/answers.src
-firesomething/searchplugins/creativecommons.png
-firesomething/searchplugins/creativecommons.src
-firesomething/searchplugins/eBay.gif
-firesomething/searchplugins/eBay.src
-firesomething/searchplugins/google.gif
-firesomething/searchplugins/google.src
-firesomething/searchplugins/yahoo.gif
-firesomething/searchplugins/yahoo.src
+firesomething/searchplugins/amazondotcom.xml
+firesomething/searchplugins/answers.xml
+firesomething/searchplugins/creativecommons.xml
+firesomething/searchplugins/eBay.xml
+firesomething/searchplugins/google.xml
+firesomething/searchplugins/yahoo.xml
 firesomething/xpcshell
 firesomething/xpicleanup
 firesomething/xpidl
@@ -2262,6 +2378,17 @@ share/idl/firefox-${VER}/inISearchObserver.idl
 share/idl/firefox-${VER}/inISearchProcess.idl
 share/idl/firefox-${VER}/jsdIDebuggerService.idl
 share/idl/firefox-${VER}/mozIJSSubScriptLoader.idl
+share/idl/firefox-${VER}/mozIPersonalDictionary.idl
+share/idl/firefox-${VER}/mozISpellCheckingEngine.idl
+share/idl/firefox-${VER}/mozISpellI18NManager.idl
+share/idl/firefox-${VER}/mozISpellI18NUtil.idl
+share/idl/firefox-${VER}/mozIStorageConnection.idl
+share/idl/firefox-${VER}/mozIStorageDataSet.idl
+share/idl/firefox-${VER}/mozIStorageFunction.idl
+share/idl/firefox-${VER}/mozIStorageService.idl
+share/idl/firefox-${VER}/mozIStorageStatement.idl
+share/idl/firefox-${VER}/mozIStorageStatementWrapper.idl
+share/idl/firefox-${VER}/mozIStorageValueArray.idl
 share/idl/firefox-${VER}/mozITXTToHTMLConv.idl
 share/idl/firefox-${VER}/nsCDefaultURIFixup.idl
 share/idl/firefox-${VER}/nsCDocShell.idl
@@ -2311,12 +2438,14 @@ share/idl/firefox-${VER}/nsIAutoCompletePopup.idl
 share/idl/firefox-${VER}/nsIAutoCompleteResult.idl
 share/idl/firefox-${VER}/nsIAutoCompleteResultTypes.idl
 share/idl/firefox-${VER}/nsIAutoCompleteSearch.idl
+share/idl/firefox-${VER}/nsIAutoCompleteSimpleResult.idl
 share/idl/firefox-${VER}/nsIAutoConfig.idl
 share/idl/firefox-${VER}/nsIBadCertListener.idl
 share/idl/firefox-${VER}/nsIBaseWindow.idl
 share/idl/firefox-${VER}/nsIBidiKeyboard.idl
 share/idl/firefox-${VER}/nsIBinaryInputStream.idl
 share/idl/firefox-${VER}/nsIBinaryOutputStream.idl
+share/idl/firefox-${VER}/nsIBookmarkTransactionManager.idl
 share/idl/firefox-${VER}/nsIBookmarksService.idl
 share/idl/firefox-${VER}/nsIBoxLayoutManager.idl
 share/idl/firefox-${VER}/nsIBoxObject.idl
@@ -2328,6 +2457,7 @@ share/idl/firefox-${VER}/nsIBrowserHandler.idl
 share/idl/firefox-${VER}/nsIBrowserHistory.idl
 share/idl/firefox-${VER}/nsIBrowserInstance.idl
 share/idl/firefox-${VER}/nsIBrowserProfileMigrator.idl
+share/idl/firefox-${VER}/nsIBrowserSearchService.idl
 share/idl/firefox-${VER}/nsIBufEntropyCollector.idl
 share/idl/firefox-${VER}/nsIBufferedStreams.idl
 share/idl/firefox-${VER}/nsIByteArrayInputStream.idl
@@ -2335,6 +2465,7 @@ share/idl/firefox-${VER}/nsIByteRangeRequest.idl
 share/idl/firefox-${VER}/nsICMSDecoder.idl
 share/idl/firefox-${VER}/nsICMSEncoder.idl
 share/idl/firefox-${VER}/nsICMSMessage.idl
+share/idl/firefox-${VER}/nsICMSMessage2.idl
 share/idl/firefox-${VER}/nsICMSMessageErrors.idl
 share/idl/firefox-${VER}/nsICMSSecureMessage.idl
 share/idl/firefox-${VER}/nsICRLInfo.idl
@@ -2376,6 +2507,7 @@ share/idl/firefox-${VER}/nsICommandHandler.idl
 share/idl/firefox-${VER}/nsICommandLine.idl
 share/idl/firefox-${VER}/nsICommandLineHandler.idl
 share/idl/firefox-${VER}/nsICommandLineRunner.idl
+share/idl/firefox-${VER}/nsICommandLineValidator.idl
 share/idl/firefox-${VER}/nsICommandManager.idl
 share/idl/firefox-${VER}/nsICommandParams.idl
 share/idl/firefox-${VER}/nsIComponentLoader.idl
@@ -2448,6 +2580,7 @@ share/idl/firefox-${VER}/nsIDOMCSSValueList.idl
 share/idl/firefox-${VER}/nsIDOMCanvasRenderingContext2D.idl
 share/idl/firefox-${VER}/nsIDOMCharacterData.idl
 share/idl/firefox-${VER}/nsIDOMChromeWindow.idl
+share/idl/firefox-${VER}/nsIDOMClientInformation.idl
 share/idl/firefox-${VER}/nsIDOMComment.idl
 share/idl/firefox-${VER}/nsIDOMConstructor.idl
 share/idl/firefox-${VER}/nsIDOMCounter.idl
@@ -2657,6 +2790,7 @@ share/idl/firefox-${VER}/nsIDOMSVGSymbolElement.idl
 share/idl/firefox-${VER}/nsIDOMSVGTSpanElement.idl
 share/idl/firefox-${VER}/nsIDOMSVGTextContentElement.idl
 share/idl/firefox-${VER}/nsIDOMSVGTextElement.idl
+share/idl/firefox-${VER}/nsIDOMSVGTextPathElement.idl
 share/idl/firefox-${VER}/nsIDOMSVGTextPositionElem.idl
 share/idl/firefox-${VER}/nsIDOMSVGTitleElement.idl
 share/idl/firefox-${VER}/nsIDOMSVGTransform.idl
@@ -2664,14 +2798,21 @@ share/idl/firefox-${VER}/nsIDOMSVGTransformList.idl
 share/idl/firefox-${VER}/nsIDOMSVGTransformable.idl
 share/idl/firefox-${VER}/nsIDOMSVGURIReference.idl
 share/idl/firefox-${VER}/nsIDOMSVGUseElement.idl
+share/idl/firefox-${VER}/nsIDOMSVGViewSpec.idl
 share/idl/firefox-${VER}/nsIDOMSVGZoomAndPan.idl
 share/idl/firefox-${VER}/nsIDOMSVGZoomEvent.idl
 share/idl/firefox-${VER}/nsIDOMScreen.idl
 share/idl/firefox-${VER}/nsIDOMSerializer.idl
 share/idl/firefox-${VER}/nsIDOMSmartCardEvent.idl
+share/idl/firefox-${VER}/nsIDOMStorage.idl
+share/idl/firefox-${VER}/nsIDOMStorageEvent.idl
+share/idl/firefox-${VER}/nsIDOMStorageItem.idl
+share/idl/firefox-${VER}/nsIDOMStorageList.idl
+share/idl/firefox-${VER}/nsIDOMStorageWindow.idl
 share/idl/firefox-${VER}/nsIDOMStyleSheet.idl
 share/idl/firefox-${VER}/nsIDOMStyleSheetList.idl
 share/idl/firefox-${VER}/nsIDOMText.idl
+share/idl/firefox-${VER}/nsIDOMToString.idl
 share/idl/firefox-${VER}/nsIDOMTreeWalker.idl
 share/idl/firefox-${VER}/nsIDOMUIEvent.idl
 share/idl/firefox-${VER}/nsIDOMUserDataHandler.idl
@@ -2691,6 +2832,7 @@ share/idl/firefox-${VER}/nsIDOMXPathResult.idl
 share/idl/firefox-${VER}/nsIDOMXULButtonElement.idl
 share/idl/firefox-${VER}/nsIDOMXULCheckboxElement.idl
 share/idl/firefox-${VER}/nsIDOMXULCommandDispatcher.idl
+share/idl/firefox-${VER}/nsIDOMXULCommandEvent.idl
 share/idl/firefox-${VER}/nsIDOMXULControlElement.idl
 share/idl/firefox-${VER}/nsIDOMXULDescriptionElement.idl
 share/idl/firefox-${VER}/nsIDOMXULDocument.idl
@@ -2714,6 +2856,7 @@ share/idl/firefox-${VER}/nsIDirIndexListener.idl
 share/idl/firefox-${VER}/nsIDirectoryEnumerator.idl
 share/idl/firefox-${VER}/nsIDirectoryService.idl
 share/idl/firefox-${VER}/nsIDocCharset.idl
+share/idl/firefox-${VER}/nsIDocNavStartProgressListener.idl
 share/idl/firefox-${VER}/nsIDocShell.idl
 share/idl/firefox-${VER}/nsIDocShellHistory.idl
 share/idl/firefox-${VER}/nsIDocShellLoadInfo.idl
@@ -2752,11 +2895,13 @@ share/idl/firefox-${VER}/nsIEnvironment.idl
 share/idl/firefox-${VER}/nsIErrorService.idl
 share/idl/firefox-${VER}/nsIEventHandler.idl
 share/idl/firefox-${VER}/nsIEventQueue.idl
+share/idl/firefox-${VER}/nsIEventQueueListener.idl
 share/idl/firefox-${VER}/nsIEventQueueService.idl
 share/idl/firefox-${VER}/nsIEventTarget.idl
 share/idl/firefox-${VER}/nsIException.idl
 share/idl/firefox-${VER}/nsIExceptionService.idl
 share/idl/firefox-${VER}/nsIExpatSink.idl
+share/idl/firefox-${VER}/nsIExtendedExpatSink.idl
 share/idl/firefox-${VER}/nsIExtensionManager.idl
 share/idl/firefox-${VER}/nsIExternalHelperAppService.idl
 share/idl/firefox-${VER}/nsIExternalProtocolHandler.idl
@@ -2766,6 +2911,18 @@ share/idl/firefox-${VER}/nsIFTPChannel.idl
 share/idl/firefox-${VER}/nsIFactory.idl
 share/idl/firefox-${VER}/nsIFastLoadFileControl.idl
 share/idl/firefox-${VER}/nsIFastLoadService.idl
+share/idl/firefox-${VER}/nsIFeed.idl
+share/idl/firefox-${VER}/nsIFeedContainer.idl
+share/idl/firefox-${VER}/nsIFeedElementBase.idl
+share/idl/firefox-${VER}/nsIFeedEntry.idl
+share/idl/firefox-${VER}/nsIFeedGenerator.idl
+share/idl/firefox-${VER}/nsIFeedListener.idl
+share/idl/firefox-${VER}/nsIFeedPerson.idl
+share/idl/firefox-${VER}/nsIFeedProcessor.idl
+share/idl/firefox-${VER}/nsIFeedResult.idl
+share/idl/firefox-${VER}/nsIFeedResultService.idl
+share/idl/firefox-${VER}/nsIFeedTextConstruct.idl
+share/idl/firefox-${VER}/nsIFeedWriter.idl
 share/idl/firefox-${VER}/nsIFile.idl
 share/idl/firefox-${VER}/nsIFileChannel.idl
 share/idl/firefox-${VER}/nsIFilePicker.idl
@@ -2793,6 +2950,7 @@ share/idl/firefox-${VER}/nsIGenKeypairInfoDlg.idl
 share/idl/firefox-${VER}/nsIGenericInterfaceInfoSet.idl
 share/idl/firefox-${VER}/nsIGlobalHistory.idl
 share/idl/firefox-${VER}/nsIGlobalHistory2.idl
+share/idl/firefox-${VER}/nsIGlobalHistory3.idl
 share/idl/firefox-${VER}/nsIGnomeVFSService.idl
 share/idl/firefox-${VER}/nsIHTMLAbsPosEditor.idl
 share/idl/firefox-${VER}/nsIHTMLEditor.idl
@@ -2803,6 +2961,7 @@ share/idl/firefox-${VER}/nsIHTTPHeaderListener.idl
 share/idl/firefox-${VER}/nsIHTTPIndex.idl
 share/idl/firefox-${VER}/nsIHelperAppLauncherDialog.idl
 share/idl/firefox-${VER}/nsIHistoryEntry.idl
+share/idl/firefox-${VER}/nsIHttpActivityObserver.idl
 share/idl/firefox-${VER}/nsIHttpAuthManager.idl
 share/idl/firefox-${VER}/nsIHttpAuthenticator.idl
 share/idl/firefox-${VER}/nsIHttpChannel.idl
@@ -2813,6 +2972,7 @@ share/idl/firefox-${VER}/nsIHttpProtocolHandler.idl
 share/idl/firefox-${VER}/nsIIDNService.idl
 share/idl/firefox-${VER}/nsIIFrameBoxObject.idl
 share/idl/firefox-${VER}/nsIIOService.idl
+share/idl/firefox-${VER}/nsIIOService2.idl
 share/idl/firefox-${VER}/nsIImageDocument.idl
 share/idl/firefox-${VER}/nsIImageLoadingContent.idl
 share/idl/firefox-${VER}/nsIIncrementalDownload.idl
@@ -2838,8 +2998,8 @@ share/idl/firefox-${VER}/nsIJVMAuthTools.idl
 share/idl/firefox-${VER}/nsIJVMConfigManager.idl
 share/idl/firefox-${VER}/nsIJVMManager.idl
 share/idl/firefox-${VER}/nsIJVMPluginInstance.idl
+share/idl/firefox-${VER}/nsIKeyModule.idl
 share/idl/firefox-${VER}/nsIKeygenThread.idl
-share/idl/firefox-${VER}/nsILDAPSyncQuery.idl
 share/idl/firefox-${VER}/nsILineInputStream.idl
 share/idl/firefox-${VER}/nsIListBoxObject.idl
 share/idl/firefox-${VER}/nsILoadGroup.idl
@@ -2855,6 +3015,7 @@ share/idl/firefox-${VER}/nsIMarkupDocumentViewer.idl
 share/idl/firefox-${VER}/nsIMemory.idl
 share/idl/firefox-${VER}/nsIMenuBoxObject.idl
 share/idl/firefox-${VER}/nsIMenuRollup.idl
+share/idl/firefox-${VER}/nsIMicrosummaryService.idl
 share/idl/firefox-${VER}/nsIModifyableXPointer.idl
 share/idl/firefox-${VER}/nsIModule.idl
 share/idl/firefox-${VER}/nsIMultiPartChannel.idl
@@ -2863,6 +3024,7 @@ share/idl/firefox-${VER}/nsINSSCertCache.idl
 share/idl/firefox-${VER}/nsINativeAppSupport.idl
 share/idl/firefox-${VER}/nsINativeScrollbar.idl
 share/idl/firefox-${VER}/nsINetUtil.idl
+share/idl/firefox-${VER}/nsINetworkLinkService.idl
 share/idl/firefox-${VER}/nsINonBlockingAlertService.idl
 share/idl/firefox-${VER}/nsIOCSPResponder.idl
 share/idl/firefox-${VER}/nsIObjectInputStream.idl
@@ -2977,6 +3139,15 @@ share/idl/firefox-${VER}/nsIResProtocolHandler.idl
 share/idl/firefox-${VER}/nsIResumableChannel.idl
 share/idl/firefox-${VER}/nsIRollupListener.idl
 share/idl/firefox-${VER}/nsIRunnable.idl
+share/idl/firefox-${VER}/nsISAXAttributes.idl
+share/idl/firefox-${VER}/nsISAXContentHandler.idl
+share/idl/firefox-${VER}/nsISAXDTDHandler.idl
+share/idl/firefox-${VER}/nsISAXErrorHandler.idl
+share/idl/firefox-${VER}/nsISAXLexicalHandler.idl
+share/idl/firefox-${VER}/nsISAXLocator.idl
+share/idl/firefox-${VER}/nsISAXMutableAttributes.idl
+share/idl/firefox-${VER}/nsISAXXMLFilter.idl
+share/idl/firefox-${VER}/nsISAXXMLReader.idl
 share/idl/firefox-${VER}/nsISHContainer.idl
 share/idl/firefox-${VER}/nsISHEntry.idl
 share/idl/firefox-${VER}/nsISHTransaction.idl
@@ -3040,6 +3211,7 @@ share/idl/firefox-${VER}/nsIScriptableInterfaces.idl
 share/idl/firefox-${VER}/nsIScriptablePlugin.idl
 share/idl/firefox-${VER}/nsIScriptableRegion.idl
 share/idl/firefox-${VER}/nsIScriptableUConv.idl
+share/idl/firefox-${VER}/nsIScriptableUnescapeHTML.idl
 share/idl/firefox-${VER}/nsIScrollBoxObject.idl
 share/idl/firefox-${VER}/nsIScrollable.idl
 share/idl/firefox-${VER}/nsISearchContext.idl
@@ -3053,6 +3225,7 @@ share/idl/firefox-${VER}/nsISecurityWarningDialogs.idl
 share/idl/firefox-${VER}/nsISeekableStream.idl
 share/idl/firefox-${VER}/nsISelectElement.idl
 share/idl/firefox-${VER}/nsISelection.idl
+share/idl/firefox-${VER}/nsISelection2.idl
 share/idl/firefox-${VER}/nsISelectionController.idl
 share/idl/firefox-${VER}/nsISelectionDisplay.idl
 share/idl/firefox-${VER}/nsISelectionImageService.idl
@@ -3063,6 +3236,8 @@ share/idl/firefox-${VER}/nsISerializable.idl
 share/idl/firefox-${VER}/nsIServerSocket.idl
 share/idl/firefox-${VER}/nsIServiceManager.idl
 share/idl/firefox-${VER}/nsISessionRoaming.idl
+share/idl/firefox-${VER}/nsISessionStartup.idl
+share/idl/firefox-${VER}/nsISessionStore.idl
 share/idl/firefox-${VER}/nsIShellService.idl
 share/idl/firefox-${VER}/nsISidebar.idl
 share/idl/firefox-${VER}/nsISignatureVerifier.idl
@@ -3076,6 +3251,7 @@ share/idl/firefox-${VER}/nsISound.idl
 share/idl/firefox-${VER}/nsIStandardURL.idl
 share/idl/firefox-${VER}/nsIStorageStream.idl
 share/idl/firefox-${VER}/nsIStreamBufferAccess.idl
+share/idl/firefox-${VER}/nsIStreamCipher.idl
 share/idl/firefox-${VER}/nsIStreamConverter.idl
 share/idl/firefox-${VER}/nsIStreamConverterService.idl
 share/idl/firefox-${VER}/nsIStreamListener.idl
@@ -3135,8 +3311,10 @@ share/idl/firefox-${VER}/nsIURIFixup.idl
 share/idl/firefox-${VER}/nsIURILoader.idl
 share/idl/firefox-${VER}/nsIURIRefObject.idl
 share/idl/firefox-${VER}/nsIURL.idl
+share/idl/firefox-${VER}/nsIURLFormatter.idl
 share/idl/firefox-${VER}/nsIURLParser.idl
 share/idl/firefox-${VER}/nsIUTF8ConverterService.idl
+share/idl/firefox-${VER}/nsIUUIDGenerator.idl
 share/idl/firefox-${VER}/nsIUnicharInputStream.idl
 share/idl/firefox-${VER}/nsIUnicharLineInputStream.idl
 share/idl/firefox-${VER}/nsIUnicharOutputStream.idl
@@ -3145,6 +3323,11 @@ share/idl/firefox-${VER}/nsIUnicharStreamLoader.idl
 share/idl/firefox-${VER}/nsIUnicodeNormalizer.idl
 share/idl/firefox-${VER}/nsIUpdateService.idl
 share/idl/firefox-${VER}/nsIUploadChannel.idl
+share/idl/firefox-${VER}/nsIUrlClassifierDBService.idl
+share/idl/firefox-${VER}/nsIUrlClassifierStreamUpdater.idl
+share/idl/firefox-${VER}/nsIUrlClassifierTable.idl
+share/idl/firefox-${VER}/nsIUrlClassifierUtils.idl
+share/idl/firefox-${VER}/nsIUrlListManager.idl
 share/idl/firefox-${VER}/nsIUserCertPicker.idl
 share/idl/firefox-${VER}/nsIUserInfo.idl
 share/idl/firefox-${VER}/nsIVariant.idl
@@ -3164,6 +3347,8 @@ share/idl/firefox-${VER}/nsIWebBrowserPersist.idl
 share/idl/firefox-${VER}/nsIWebBrowserPrint.idl
 share/idl/firefox-${VER}/nsIWebBrowserSetup.idl
 share/idl/firefox-${VER}/nsIWebBrowserStream.idl
+share/idl/firefox-${VER}/nsIWebContentConverterRegistrar.idl
+share/idl/firefox-${VER}/nsIWebContentHandlerRegistrar.idl
 share/idl/firefox-${VER}/nsIWebNavigation.idl
 share/idl/firefox-${VER}/nsIWebNavigationInfo.idl
 share/idl/firefox-${VER}/nsIWebPageDescriptor.idl
@@ -3178,12 +3363,14 @@ share/idl/firefox-${VER}/nsIWindowCreator2.idl
 share/idl/firefox-${VER}/nsIWindowDataSource.idl
 share/idl/firefox-${VER}/nsIWindowMediator.idl
 share/idl/firefox-${VER}/nsIWindowMediatorListener.idl
+share/idl/firefox-${VER}/nsIWindowProvider.idl
 share/idl/firefox-${VER}/nsIWindowWatcher.idl
 share/idl/firefox-${VER}/nsIWindowlessPlugInstPeer.idl
 share/idl/firefox-${VER}/nsIWritablePropertyBag.idl
 share/idl/firefox-${VER}/nsIWritablePropertyBag2.idl
 share/idl/firefox-${VER}/nsIWyciwygChannel.idl
 share/idl/firefox-${VER}/nsIX509Cert.idl
+share/idl/firefox-${VER}/nsIX509Cert3.idl
 share/idl/firefox-${VER}/nsIX509CertDB.idl
 share/idl/firefox-${VER}/nsIX509CertDB2.idl
 share/idl/firefox-${VER}/nsIX509CertValidity.idl
@@ -3203,6 +3390,7 @@ share/idl/firefox-${VER}/nsIXPointer.idl
 share/idl/firefox-${VER}/nsIXSLTException.idl
 share/idl/firefox-${VER}/nsIXSLTProcessor.idl
 share/idl/firefox-${VER}/nsIXSLTProcessorObsolete.idl
+share/idl/firefox-${VER}/nsIXSLTProcessorPrivate.idl
 share/idl/firefox-${VER}/nsIXTFAttributeHandler.idl
 share/idl/firefox-${VER}/nsIXTFBindableElement.idl
 share/idl/firefox-${VER}/nsIXTFBindableElementWrapper.idl
@@ -3277,8 +3465,8 @@ share/idl/firefox-${VER}/xpcjsid.idl
 @dirrm firesomething/include/xpconnect
 @dirrm firesomething/include/xpcom_obsolete
 @dirrm firesomething/include/xpcom
-@dirrm firesomething/include/xmlextras
 @dirrm firesomething/include/xml-rpc
+@dirrm firesomething/include/xml
 @dirrm firesomething/include/windowwatcher
 @dirrm firesomething/include/widget
 @dirrm firesomething/include/websrvcs
@@ -3287,6 +3475,8 @@ share/idl/firefox-${VER}/xpcjsid.idl
 @dirrm firesomething/include/webbrowserpersist
 @dirrm firesomething/include/view
 @dirrm firesomething/include/util
+@dirrm firesomething/include/urlformatter
+@dirrm firesomething/include/url-classifier
 @dirrm firesomething/include/uriloader
 @dirrm firesomething/include/update
 @dirrm firesomething/include/unicharutil
@@ -3305,10 +3495,14 @@ share/idl/firefox-${VER}/xpcjsid.idl
 @dirrm firesomething/include/toolkitcomps
 @dirrm firesomething/include/system-pref
 @dirrm firesomething/include/string
-@dirrm firesomething/include/sidebar
+@dirrm firesomething/include/storage
+@dirrm firesomething/include/sqlite3
+@dirrm firesomething/include/spellchecker
 @dirrm firesomething/include/shistory
 @dirrm firesomething/include/shellservice
+@dirrm firesomething/include/sessionstore
 @dirrm firesomething/include/satchel
+@dirrm firesomething/include/safebrowsing
 @dirrm firesomething/include/rdfutil
 @dirrm firesomething/include/rdf
 @dirrm firesomething/include/progressDlg
@@ -3316,6 +3510,7 @@ share/idl/firefox-${VER}/xpcjsid.idl
 @dirrm firesomething/include/profdirserviceprovider
 @dirrm firesomething/include/prefetch
 @dirrm firesomething/include/pref
+@dirrm firesomething/include/png
 @dirrm firesomething/include/plugin
 @dirrm firesomething/include/pippki
 @dirrm firesomething/include/pipnss
@@ -3333,6 +3528,7 @@ share/idl/firefox-${VER}/xpcjsid.idl
 @dirrm firesomething/include/mork
 @dirrm firesomething/include/mimetype
 @dirrm firesomething/include/migration
+@dirrm firesomething/include/microsummaries
 @dirrm firesomething/include/lwbrk
 @dirrm firesomething/include/locale
 @dirrm firesomething/include/liveconnect
@@ -3354,6 +3550,7 @@ share/idl/firefox-${VER}/xpcjsid.idl
 @dirrm firesomething/include/gfx
 @dirrm firesomething/include/find
 @dirrm firesomething/include/filepicker
+@dirrm firesomething/include/feeds
 @dirrm firesomething/include/fastfind
 @dirrm firesomething/include/exthandler
 @dirrm firesomething/include/extensions
@@ -3372,7 +3569,9 @@ share/idl/firefox-${VER}/xpcjsid.idl
 @dirrm firesomething/include/chrome
 @dirrm firesomething/include/chardet
 @dirrm firesomething/include/caps
+@dirrm firesomething/include/browsersearch
 @dirrm firesomething/include/browsercomps
+@dirrm firesomething/include/browser-feeds
 @dirrm firesomething/include/browser
 @dirrm firesomething/include/bookmarks
 @dirrm firesomething/include/autoconfig
@@ -3391,6 +3590,7 @@ share/idl/firefox-${VER}/xpcjsid.idl
 @dirrm firesomething/extensions/inspector@mozilla.org/chrome
 @dirrm firesomething/extensions/inspector@mozilla.org
 @dirrm firesomething/extensions
+@dirrm firesomething/dictionaries
 @dirrm firesomething/defaults/profile/chrome
 @dirrm firesomething/defaults/profile
 @dirrm firesomething/defaults/preferences
