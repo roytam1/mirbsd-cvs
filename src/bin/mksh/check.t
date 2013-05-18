@@ -217,15 +217,14 @@ description:
 	the time-limit clause (e.g. to 7) if this occurs.
 time-limit: 3
 stdin:
-	echo -n >tf
-	alias ls=ls
-	ls
+	print '#!'"$__progname"'\necho tf' >lq
+	chmod +x lq
+	PATH=$PWD:$PATH
+	alias lq=lq
+	lq
 	echo = now
-	i=`ls`
-	print -r -- $(for x in "$i"; do
-		[[ $x = @(.|..) ]] && continue
-		print -r -- "$x"
-	done)
+	i=`lq`
+	print -r -- $i
 	echo = out
 	exit 0
 expected-stdout:
