@@ -576,4 +576,16 @@ Date: 07.02.2008
  flyers. The BSD projects share a developer room with PostgreSQL. <b>I
  will hold a talk about "Build systems with autoconf, automake, and
  libtool" at Sunday, Feb 24, from 2pm to 3pm.</b></p>
+
+<p>Update: the schedule for the developer room is <a
+ href="http://fosdem.org/2008/schedule/rooms/aw1.124">available on the
+ FOSDEM web site</a>.</p>
+----
+Title: mirmake 20080218 released
+Date: 20.02.2008
+
+<p><a href="/MirOS/dist/mir/make/">mirmake-20080218</a> has been
+ released. Read the <a
+ href="/permalinks/wlog-9_e20080219-bsiegert.htm">release notes
+ here</a>.</p>
 ----

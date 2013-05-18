@@ -2600,3 +2600,34 @@ need to figure out how to make a new mirmake release.</p>
  Bruxelles. Stay tuned for more stuff about build systems (see
  news).</p>
 ----
+Title: mirmake-20080218 Release Notes
+Author: bsiegert@
+Date: 19.02.2008
+
+<p>The 20080218 release of mirmake is the first in about four months. It
+ contains one important bugfix:</p>
+
+<ul><li>Mac OS 10.5 ("Leopard") and Intel Macintosh machines are now
+ supported.</li></ul>
+
+<p>This new Darwin version is now UNIX2003(TM)-certified; to achieve
+ compatibility, "symbol variants" are used for some functions, such as
+ getopt(3). This, however, breaks the getopt implementation that comes
+ with mirmake. Thus, the build system was changed to make sure that the
+ native getopt is always used on Darwin platforms.</p>
+
+<p>mirmake is a portable version of the MirOS make(1) program. It also
+ contains the BSD Makefiles, i.e. bsd.prog.mk(5) and friends, some
+ utilities like realpath(1), and a compatibility library (libmirmake)
+ that has implementations for some functions not available on the target
+ system&mdash;most notably hash functions for md5, sha1, sha2, and tiger
+ hashes.</p>
+
+<p>mirmake-20080218 can be downloaded from <a
+ href="/MirOS/dist/mir/make/">/MirOS/dist/mir/make</a> on this
+ server. The file hashes are:</p>
+
+<pre>MD5 (mirmake-20080218.cpio.gz) = 5e6ecc4432b61e39e9907737d
+SHA1 (mirmake-20080218.cpio.gz) = 17251b1db87ceed85bd82dc52ca7ace7f7c77786
+</pre>
+----
