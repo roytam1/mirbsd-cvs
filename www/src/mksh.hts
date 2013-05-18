@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.482 2012/12/05 20:08:12 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.483 2012/12/07 23:46:15 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -114,9 +114,7 @@ mws_content <<'EOF'
  </a> and its <a href="@@ABSPATH@@/man/mksh.1">manual</a> is <a
  href="http://www.opendefinition.org/1.0">Open Knowledge</a>.</p>
 <p>To compile mksh, you will need a Bourne or POSIX shell (Solaris
- <tt>/bin/sh</tt> is enough, and the Z shell should work), a C compiler (at
- the moment, only the one from the <a href="http://gcc.gnu.org/">GNU Compiler
- Collection</a> works, but we’re attempting to change this), system and C
+ <tt>/bin/sh</tt> is enough, the Z shell works), a C compiler, system and C
  library header files and the standard C runtime. You will also need a set of
  standard UNIX® tools on a supported operating system: any recent BSD; Darwin,
  Apple Mac OSX; Interix (Microsoft® Services for Unix 3.5, maybe Subsystem for
