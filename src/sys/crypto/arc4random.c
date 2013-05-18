@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $ */
+/* $MirOS: src/sys/crypto/arc4random.c,v 1.1 2010/09/19 18:55:33 tg Exp $ */
 
 /*-
  * Copyright © 2010
@@ -173,7 +173,7 @@ arc4random_reinit(void *arg __unused)
 	    ((uint32_t)arcfour_byte(&initial_arc4random) << 16) |
 	    ((uint32_t)arcfour_byte(&initial_arc4random) << 8) |
 	    ((uint32_t)arcfour_byte(&initial_arc4random));
-	add_true_randomness(n);
+	enqueue_randomness(RND_SRC_LPC, (int)n);
 	n = (arcfour_byte(&initial_arc4random) & 3) +
 	    (arcfour_byte(&lopool_collapse) & 3);
 	while (n--)
