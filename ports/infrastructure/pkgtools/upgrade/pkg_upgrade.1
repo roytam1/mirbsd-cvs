@@ -1,4 +1,4 @@
-.\"	$MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.1,v 1.1 2006/08/08 18:53:02 bsiegert Exp $
+.\"	$MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.1,v 1.2 2006/08/08 19:07:26 tg Exp $
 .\"
 .\" Copyright (c) 2006
 .\"	Benny Siegert <bsiegert@gmx.de>
@@ -54,7 +54,47 @@ Useful if you rebuilt a package from source.
 .It Fl q
 Don't print less important messages
 .Pq quiet .
+.It Fl s
+Enable special treatment for shared libraries, see below
+.Pq shlibs .
 .El
+.Sh SHARED LIBRARY SUPPORT
+.Nm
+has a special mode for upgrading shared library packages.
+Consider the following situation: You have installed a package
+.Pa foo
+that contains
+.Pa libfoo.so.1.0 .
+Package
+.Pa bar
+is also installed and contains a binary that depends on this version
+of libfoo.
+Now you upgrade the
+.Pa foo
+package, the new version contains
+.Pa libfoo.so.2.0
+instead.
+The other binary will no longer run.
+.Pp
+For this reason, systems like Debian split their library packages in
+two: the library itself and a 
+.Qq developer 
+package containing headers and so on.
+Instead, 
+.Nm
+creates a
+.Qq stub package
+from the installed package.
+Basically, the installed package is split in two.
+The old libraries are kept as a package named
+.Pa stub - Ns Ar pkgname
+while the rest is deleted and replaced by the new version.
+.Pp
+In the general case, this should work but you may still run into
+situations where you will need to rebuild dependent packages from
+source.
+In any case, you can delete unused stub packages after you have
+rebuilt dependent packages.
 .Sh SEE ALSO
 .Xr pkg_add 1 ,
 .Xr pkg_create 1 ,
@@ -73,6 +113,11 @@ improved option handling and overall robustness.
 .Nm
 can easily render other packages unusable if you install a new version
 of a shared library while the other package still uses the old one.
+Use the
+.Fl s
+switch to prevent this situation.
+.Pp
+Shared library support needs much work.
 .Pp
 .Nm
 does not handle the case of paralelly installed,

@@ -30,19 +30,97 @@ me=${0##*/}
 function usage
 {
 	print -u2 Usage:
-	print -u2 "\t$me [-afq] pkgname.cgz"
+	print -u2 "\t$me [-afqs] pkgname.cgz"
 	exit 1
 }
+
+function twiddle_plists
+{
+	export oldcontents newcontents stubfiles
+	awk '
+	BEGIN {
+		oldcontents = ENVIRON["oldcontents"]
+		newcontents = ENVIRON["newcontents"]
+		stubfiles = ENVIRON["stubfiles"]
+		lib_seen = 0
+	}
+
+	$1=="@lib" {
+		if (FILENAME==newcontents) {
+			# first mode: collect libraries
+			shlibs[$2] = "new"
+		} else {
+			# second mode: distribute them
+			if (shlibs[$2]=="new") {
+				print
+			} else {
+				print >> stubfiles
+				lib_seen = 1
+			}
+		}
+		next
+	}
+
+	{
+		if (FILENAME==oldcontents) {
+			if (lib_seen==1 && $1=="@comment" && $2~/^MD5:/)
+				print >> stubfiles
+			else
+				print
+		}
+		lib_seen = 0
+	}' $newcontents $oldcontents > $oldcontents_new
+}
+
+function build_stub
+{
+	print -u2 "$me: building stub package shlibs-$OLDPKGS"
+	stubpkgdir=$TMPDIR/shlibs-$OLDPKGS
+	oldpkgdir=$PKG_DBDIR/$OLDPKGS
+	stubcontents=$stubpkgdir/+CONTENTS
+	newcontents=$TMPDIR/+CONTENTS
+
+	mkdir $stubpkgdir
+	echo -n "shared libraries stub: " > $stubpkgdir/+COMMENT
+	cat $oldpkgdir/+COMMENT >> $stubpkgdir/+COMMENT
+	cp $oldpkgdir/+DESC $stubpkgdir
+	[[ -f $TMPDIR/+REQUIRED_BY ]] && cp $TMPDIR/+REQUIRED_BY $stubpkgdir
+
+	echo "@name shlibs-$OLDPKGS" > $stubcontents
+	echo "@pkgdep $PKGNAME" >> $stubcontents
+	# only the first @cwd
+	awk '$1=="@cwd" { print ; exit }' $oldcontents >> $stubcontents
+	grep '^@option ' $oldcontents >> $stubcontents
+	cat $stubfiles >> $stubcontents
+	# ldconfig invocations too
+	fgrep exec $oldcontents | fgrep ldconfig >> $stubcontents
+	echo >> $stubcontents << EOF
+@cwd .
+@ignore
++COMMENT
+@ignore
++DESC
+EOF
+
+	# Register the package
+	mv -f $stubpkgdir $PKG_DBDIR
+	mv -f $oldcontents_new $oldcontents
+}
+
+
+######################################################################
 
 auto=0
 force=0
 quiet=0
-while getopts "afhq" option; do
+stubs=0
+while getopts "afhqs" option; do
 	case $option {
 	(a)	auto=1 ;;
 	(f)	force=1 ;;
 	(h)	usage ;;
 	(q)	quiet=1 ;;
+	(s)	stubs=1 ;;
 	(*)	usage ;;
 	}
 done
@@ -78,9 +156,6 @@ if [[ $auto = 1 && -z $OLDPKGS ]]; then
 fi
 cd $OLDPWD
 
-#XXX what does this do?
-#if grep -q '^@option no-default-conflict' $TMPDIR/+CONTENTS || [[ -z "$OLDPKGS" ]] ; then
-#XXX for now:
 grep -q '^@option no-default-conflict' $TMPDIR/+CONTENTS
 if [[ $? -eq 0 || -z "$OLDPKGS" ]]; then
 	# we can safely go on
@@ -120,10 +195,19 @@ if grep -qi '^@comment upgrade-no-deinstall-script' $TMPDIR/+CONTENTS; then
 	fd=-D
 fi
 
+# Check for shared libraries
+newcontents=$TMPDIR/+CONTENTS			# package to be installed
+oldcontents=$PKG_DBDIR/$OLDPKGS/+CONTENTS	# older, installed version
+oldcontents_new=$TMPDIR/+CONTENTS-$OLDPKGS	# new version of oldcontents
+stubfiles=$TMPDIR/+STUB				# files to put into shlibs stub
+
+[[ $stubs = 1 ]] && twiddle_plists
+
 if grep -qi '^@option base-package' $TMPDIR/+CONTENTS; then
 	print -u2 "$me: '$OLDPKGS' is a base package, unregistering only"
 	pkg_delete $fd -U $OLDPKGS && pkg_add $fa -Nq "$npkg"
 else
+	[[ $stubs = 1 && -s $stubfiles ]] && build_stub
 	pkg_delete $fd $OLDPKGS && pkg_add $fa "$npkg"
 fi
 
