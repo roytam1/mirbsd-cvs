@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/Makefile,v 1.10 2006/06/16 23:35:37 tg Exp $
+# $MirOS: src/usr.bin/Makefile,v 1.11 2006/06/30 23:18:06 tg Exp $
 # $OpenBSD: Makefile,v 1.90 2004/05/02 17:55:09 millert Exp $
 
 .include <bsd.own.mk>
@@ -56,6 +56,7 @@
   SUBDIR+= head
   SUBDIR+= hexdump
   SUBDIR+= host
+  SUBDIR+= iconv
   SUBDIR+= id
   SUBDIR+= indent
   SUBDIR+= infocmp
