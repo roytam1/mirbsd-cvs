@@ -66,7 +66,7 @@ do {									\
    printf( "#define %s\t%ld\n", s, offsetof( t, m ) );
 #else
 #define OFFSET( s, t, m )						\
-   printf( "#define %s\t%d\n", s, offsetof( t, m ) );
+   printf( "#define %s\t%zd\n", s, offsetof( t, m ) );
 #endif
 
 #if defined(__BEOS__)
@@ -74,7 +74,7 @@ do {									\
    printf( "#define %s\t%ld\n", s, sizeof(t) );
 #else
 #define SIZEOF( s, t )							\
-   printf( "#define %s\t%d\n", s, sizeof(t) );
+   printf( "#define %s\t%zd\n", s, sizeof(t) );
 #endif
 
 #define DEFINE( s, d )							\
