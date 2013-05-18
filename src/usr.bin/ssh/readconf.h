@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/ssh/readconf.h,v 1.7 2006/04/19 10:40:50 tg Exp $ */
 /* $OpenBSD: readconf.h,v 1.69 2006/03/25 22:22:43 djm Exp $ */
 
 /*
@@ -102,7 +102,6 @@ typedef struct {
 	int	enable_ssh_keysign;
 	int	rekey_limit;
 	int	no_host_authentication_for_localhost;
-	int	no_lowdelay;
 	int	identities_only;
 	int	server_alive_interval;
 	int	server_alive_count_max;

@@ -41,7 +41,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.11 2006/04/19 10:40:55 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.12 2006/06/02 20:50:51 tg Exp $");
 
 #include <sys/resource.h>
 #include <sys/ioctl.h>
@@ -96,6 +96,7 @@ int debug_flag = 0;
 int tty_flag = 0;
 int no_tty_flag = 0;
 int force_tty_flag = 0;
+int no_lowdelay = 0;
 
 /* don't exec a shell */
 int no_shell_flag = 0;
@@ -167,7 +168,7 @@ static __dead void
 usage(void)
 {
 	fprintf(stderr,
-"usage: ssh [-1246AaCfghkMNnqsTtVvXxY] [-b bind_address] [-c cipher_spec]\n"
+"usage: ssh [-1246AaCfgMNnqsTtVvXxY] [-b bind_address] [-c cipher_spec]\n"
 "           [-D [bind_address:]port] [-e escape_char] [-F configfile]\n"
 "           [-i identity_file] [-L [bind_address:]port:host:hostport]\n"
 "           [-l login_name] [-m mac_spec] [-O ctl_cmd] [-o option] [-p port]\n"
@@ -498,7 +499,10 @@ main(int ac, char **av)
 			config = optarg;
 			break;
 		case 'h':
-			options.no_lowdelay = 1;
+			fprintf(stderr,
+			    "The -h option is deprecated and will be removed.\n"
+			    "Use -T for IPTOS_THROUGHPUT instead.\n");
+			no_lowdelay = 1;
 			break;
 		default:
 			usage();
@@ -920,8 +924,7 @@ ssh_session(void)
 		}
 	}
 	/* Tell the packet module whether this is an interactive session. */
-	if (!options.no_lowdelay)
-		packet_set_interactive(interactive);
+	packet_set_interactive(no_lowdelay ? 0 : interactive);
 
 	/* Request authentication agent forwarding if appropriate. */
 	check_agent_present();
@@ -1097,8 +1100,7 @@ ssh_session2_setup(int id, void *arg)
 	client_session2_setup(id, tty_flag, subsystem_flag, getenv("TERM"),
 	    NULL, fileno(stdin), &command, environ, &ssh_subsystem_reply);
 
-	if (!options.no_lowdelay)
-		packet_set_interactive(interactive);
+	packet_set_interactive(no_lowdelay ? 0 : interactive);
 }
 
 /* open new channel for a session */
