@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.58 2006/03/31 04:05:28 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.59 2006/03/31 23:32:28 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -987,6 +987,50 @@ celebrate this event, rotate the wlog and start a new one.</p>
   Theo won't do it, see above...) so it's probably only going to be used
   as an alternative compiler for those who dare. Security checks (format
   string warnings, __attribute__ stuff etc.) are done with gcc.</p>
+ <p style="margin-bottom:0px;">Oh, I forgot... the INT 80h API sucks</p>
+ <div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;">
+  <pre>
+	#include &lt;sys/syscall.h&gt;
+		.intel_syntax noprefix
+		.text
+
+	#define SYSCALL(x) \
+		mov	eax,SYS_ ## x; \
+		call	syscall
+
+	outstr:
+		/* strlen */
+		mov	edi,edx
+		xor	ecx,ecx
+		dec	ecx
+		cld
+		mov	al,0
+		repne
+		scasb
+		not	ecx
+		dec	ecx	/* minus trailing NUL byte */
+		/* write */
+		push	ecx
+		push	edx
+		push	1	/* fd */
+		SYSCALL(write)
+		pop	eax
+		pop	eax
+		pop	eax
+		ret
+	exit:
+		push	eax
+		SYSCALL(exit)
+		ret
+
+	syscall:
+		int	0x80
+		ret
+  </pre>
+ </div><p style="margin-top:0px;">... anyway, this works - provided that
+  the ELF contains <tt>.section .note.miros.ident,"a",@progbits</tt>, or
+  you make an OLF out of it (which binutils and gdb can't use). Speaking
+  of suckage. (suckage.netbsd.ch by Tonnerre is down tho.)</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
