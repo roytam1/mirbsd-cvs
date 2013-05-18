@@ -16,6 +16,9 @@
 ./manDOCS/lynx_help/test
 ./manDOCS/milter
 ./manINFO
+./manINFO/gpc
+./manINFO/gpc/demos
+./manINFO/gpc/images
 ./manPAPERS
 ./manPSD
 ./manSMM

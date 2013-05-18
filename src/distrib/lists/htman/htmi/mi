@@ -7489,10 +7489,8 @@
 ./manINFO/gnat-style.html
 ./manINFO/gnat_rm.html
 ./manINFO/gnat_ugn_unw.html
-./manINFO/gpc
 ./manINFO/gpc-hr.html
 ./manINFO/gpc.html
-./manINFO/gpc/demos
 ./manINFO/gpc/demos/README
 ./manINFO/gpc/demos/absdemo.pas
 ./manINFO/gpc/demos/arrayslicedemo.pas
@@ -7551,7 +7549,6 @@
 ./manINFO/gpc/demos/tfdddemo.pas
 ./manINFO/gpc/demos/trapdemo.pas
 ./manINFO/gpc/demos/variantdemo.pas
-./manINFO/gpc/images
 ./manINFO/gpc/images/GnuPascal-small.png
 ./manINFO/gpc/images/GnuPascal.eps
 ./manINFO/gpc/images/GnuPascal.pdf
