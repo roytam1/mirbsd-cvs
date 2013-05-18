@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.31 2006/08/14 20:32:43 tg Exp $
+# $MirOS: src/etc/profile,v 1.32 2006/09/20 22:01:34 tg Exp $
 #-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -37,7 +37,6 @@ else
 	PSX='$ '
 fi
 export PATH
-BROWSER=/usr/bin/lynx
 CVSUMASK=002
 EDITOR=/bin/ed
 unset HISTFILE
@@ -103,16 +102,16 @@ function bye
 }
 function ge		# German English
 {
-	${BROWSER:-lynx} "http://dict.leo.org/?search=$*"
+	$BROWSER "http://dict.leo.org/?search=$*"
 }
 function ulynx		# uxterm lynx (UTF-8)
 {
-	lynx -display_charset utf8 "$@"
+	command lynx -display_charset utf8 "$@"
 }
 function klynx		# kterm lynx (EUC-JP)
 {
 	( sleep 1; cls; print -n 'Press Ctrl-L!' ) 2>/dev/null &
-	lynx -display_charset euc-jp "$@"
+	command lynx -display_charset euc-jp "$@"
 }
 function Lstripcom	# strip comments (and whitespace) from file(s)
 {
@@ -122,6 +121,12 @@ function Lstripcom	# strip comments (and whitespace) from file(s)
 		[[ -n $_line ]] && print -r -- $_line
 	done
 }
+
+if [[ $LC_CTYPE = en_US.UTF-8 ]]; then
+	: ${BROWSER:=ulynx}
+else
+	: ${BROWSER:=lynx}
+fi
 
 if [ -O /tmp/ssh-agent/$USER_ID ]; then
 	# If the agent is not running, remove stale files
