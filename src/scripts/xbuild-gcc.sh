@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-gcc.sh,v 1.17 2007/06/10 11:05:11 tg Exp $
+# $MirOS: src/scripts/xbuild-gcc.sh,v 1.18 2007/06/10 16:47:34 tg Exp $
 #-
 # Copyright (c) 2004, 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -27,12 +27,15 @@
 # install stuff into $CROSSDIR/usr/include first, eg a crosscompiler
 # to i386-pc-linux-gnu needs pthread.h and the likes during build...
 
-if [[ $1 = -a ]]; then
-	no_Ada=No
-	shift
-else
-	no_Ada=Yes
-fi
+no_Ada=Yes
+nopic=Yes
+while getopts "ad" c; do
+	case $c {
+	(a)	no_Ada=No ;;
+	(d)	nopic=No ;;
+	}
+done
+shift $((OPTIND - 1))
 
 [[ -n $1 ]] && TARGET=$1
 if [[ -z $TARGET ]]; then
@@ -103,7 +106,7 @@ set -e
 	GCC_PREFIX=$CROSSDIR/host-tools \
 	GCC_INFODIR=$CROSSDIR/usr/share/info \
 	GCC_MANDIR=$CROSSDIR/usr/share/man \
-	NOPIC=Yes \
+	NOPIC=$nopic \
 	_CROSSBUILD=defined \
 	all install )
 set +e
