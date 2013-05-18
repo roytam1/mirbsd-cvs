@@ -1,15 +1,15 @@
-# $MirOS: ports/infrastructure/install/distinfo.sh,v 1.38 2007/03/08 11:01:47 tg Exp $
+# $MirOS: ports/infrastructure/install/distinfo.sh,v 1.39 2007/03/10 21:49:01 tg Exp $
 
 case $what in
 make)
 	f_key=gzsigkey.pub
-	f_ver=20061228
+	f_ver=20070310
 	f_dist=mirmake-$f_ver.cpio.gz
 	f_path=mir/make
-	distinfo_md5=59ddd32dc839f29ac837f5a066a48177
-	distinfo_sum=1219540297
-	distinfo_size=333485
-	distinfo_date="Dec 28 04:07"
+	distinfo_md5=c1c3fba797479ea12873035c9b98938c
+	distinfo_sum=3906921388
+	distinfo_size=333542
+	distinfo_date="Mar 10 22:21"
 	;;
 mksh)
 	f_key=gzsigkey.pub
