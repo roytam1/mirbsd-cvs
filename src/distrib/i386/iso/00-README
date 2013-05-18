@@ -60,13 +60,15 @@ Live CD
 -------
 
 This edition of the MirBSD Live/Install CD is an early beta issue. There
-most likely be bugs, so beware.
+most likely be bugs, so beware. Note: the formal MirOS releases do *not*
+contain the Live CD functionality.
 
 As a new feature, you can 'cat' or 'dd' either the whole CD-ROM, or just
 the 5MB Mini-ISO (./v9/i386/cdrom8.iso), on your hard disc (/dev/hda, on
 GNU/Linux, or /dev/rwd0c, on MirOS) and run it from there. Note this de-
 stroys your partition table and any other installed operating systems. A
-specific hack for serial console users will be added later.
+specific hack for serial console users will be added later. (Currently a
+live CD does not work when dd'd onto a hard disc. No idea, why.)
 
 
 MirBSD Licence
@@ -74,7 +76,7 @@ MirBSD Licence
 
 MirBSD is
 Copyright (c) 2002, 2003
-	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
 MirOS is
 Copyright (c) 2003, 2004, 2005, 2006
 	The MirOS Project Team (see /usr/share/doc/legal/LICENCE)
@@ -122,4 +124,4 @@ code is available at http://www.mirbsd.org/ and its mirrors; further
 information can be found at /usr/share/doc/legal/ as well.
 
 _________________________________________________________________________
-$MirOS: src/distrib/i386/iso/00-README,v 1.10 2006/06/08 23:58:33 tg Exp $
+$MirOS: src/distrib/i386/iso/00-README,v 1.11 2006/06/15 18:52:29 tg Exp $
