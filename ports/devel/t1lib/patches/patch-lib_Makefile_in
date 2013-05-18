@@ -1,0 +1,17 @@
+$MirOS$
+--- lib/Makefile.in.orig	2007-01-25 11:14:53.000000000 +0100
++++ lib/Makefile.in	2007-01-25 11:14:23.000000000 +0100
+@@ -133,11 +133,11 @@ libt1.la: $(TYPE1_OBJS) $(T1LIB_OBJS)
+ 	cp t1lib/t1lib.h .
+ 
+ 
+-libt1x.la: $(T1LIBX_OBJS)
++libt1x.la: $(T1LIBX_OBJS) libt1.la
+ 	$(LIBTOOL) --mode=link \
+ 		$(CC) -o $@ $(T1LIBX_OBJS) \
+ 	         -version-info @T1LIB_LT_CURRENT@:@T1LIB_LT_REVISION@:@T1LIB_LT_AGE@ \
+-		 -no-undefined -rpath $(libdir)
++		 -no-undefined -rpath $(libdir) libt1.la $(X_LIBS) $(XLIB)
+ 	cp t1lib/t1libx.h .
+ 
+ 
