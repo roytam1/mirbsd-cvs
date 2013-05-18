@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.16 2006/12/11 20:35:09 tg Exp $ */
+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.17 2007/10/02 00:24:09 tg Exp $ */
 
 /* Base configuration file for all MirOS BSD targets.
    Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005, 2006, 2007
@@ -239,11 +239,12 @@ Boston, MA 02111-1307, USA.  */
    also provided by libc, and we prefer these due to them being less
    buggy.  Since we always use GNU ld, we can use the libs grouping
    feature to prevent listing the libraries two or three times each.  */
+#undef LINK_GCC_C_SEQUENCE_SPEC
 #define LINK_GCC_C_SEQUENCE_SPEC "--start-group %L %G --end-group"
 
 /* Don't assume anything about the header files.  Needed for libjava.  */
-#undef	NO_IMPLICIT_EXTERN_C
-#define	NO_IMPLICIT_EXTERN_C 1
+#undef NO_IMPLICIT_EXTERN_C
+#define NO_IMPLICIT_EXTERN_C 1
 
 /* MirOS libc already provides the ProPolice functions.  */
 
@@ -302,7 +303,7 @@ Boston, MA 02111-1307, USA.  */
    Some assemblers may also need to also have something extra said
    about the function's return value.  We allow for that here.  */
 #undef ASM_DECLARE_FUNCTION_NAME
-#define	ASM_DECLARE_FUNCTION_NAME(FILE, NAME, DECL)			\
+#define ASM_DECLARE_FUNCTION_NAME(FILE, NAME, DECL)			\
   do {									\
 	fprintf (FILE, "%s", TYPE_ASM_OP);				\
 	assemble_name (FILE, NAME);					\
@@ -315,7 +316,7 @@ Boston, MA 02111-1307, USA.  */
 
 /* Declare the size of a function.  */
 #undef ASM_DECLARE_FUNCTION_SIZE
-#define	ASM_DECLARE_FUNCTION_SIZE(FILE, FNAME, DECL)			\
+#define ASM_DECLARE_FUNCTION_SIZE(FILE, FNAME, DECL)			\
   do {									\
 	if (!flag_inhibit_size_directive) {				\
 		fprintf (FILE, "%s", SIZE_ASM_OP);			\
@@ -328,7 +329,7 @@ Boston, MA 02111-1307, USA.  */
 
 /* Extra assembler code needed to declare an object properly.  */
 #undef ASM_DECLARE_OBJECT_NAME
-#define	ASM_DECLARE_OBJECT_NAME(FILE, NAME, DECL)			\
+#define ASM_DECLARE_OBJECT_NAME(FILE, NAME, DECL)			\
   do {									\
 	fprintf (FILE, "%s", TYPE_ASM_OP);				\
 	assemble_name (FILE, NAME);					\
@@ -352,7 +353,7 @@ Boston, MA 02111-1307, USA.  */
    size_directive_output was set by ASM_DECLARE_OBJECT_NAME
    when it was run for the same decl.  */
 #undef ASM_FINISH_DECLARE_OBJECT
-#define	ASM_FINISH_DECLARE_OBJECT(FILE, DECL, TOP_LEVEL, AT_END)	\
+#define ASM_FINISH_DECLARE_OBJECT(FILE, DECL, TOP_LEVEL, AT_END)	\
 do {									\
 	const char *name = XSTR (XEXP (DECL_RTL (DECL), 0), 0);		\
 	if (!flag_inhibit_size_directive && DECL_SIZE (DECL)		\
@@ -393,9 +394,9 @@ do {									\
    instead of -lgcc -lgcc_eh at link time.
    Other than that, the C string LINK_EH_SPEC is appended to the
    linker spec automatically, so we define it to be empty.  */
-#undef	LINK_EH_SPEC
+#undef LINK_EH_SPEC
 #ifdef HAVE_LD_EH_FRAME_HDR
-#define	LINK_EH_SPEC	"%{!static:--eh-frame-hdr}"
+#define LINK_EH_SPEC	"%{!static:--eh-frame-hdr}"
 #else
-#define	LINK_EH_SPEC	""
+#define LINK_EH_SPEC	""
 #endif
