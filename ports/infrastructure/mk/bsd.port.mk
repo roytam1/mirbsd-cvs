@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.244 2008/11/29 14:35:27 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.245 2008/12/07 18:17:18 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1243,10 +1243,6 @@ DEPENDS_TARGET=		reinstall
 DEPENDS_TARGET=		install
 .  endif
 .endif
-
-#.if exists(${.SYSMK}/libmirmake.a)
-#LDFLAGS+=		-Wl,--library-after=${.SYSMK} -lmirmake
-#.endif
 
 ################################################################
 # Dependency checking
@@ -2768,14 +2764,9 @@ CC_SPECS:=
 .    endif
 .  endif
 
-${LOCALBASE}/db/specs.${_ORIG_CC:S!/!_!g}: ${CC_SPECS}
-	@if ! t=$$(mktemp /tmp/XXXXXXXXXXXX); then \
-		print -u2 Error: cannot make temporary file; \
-		exit 1; \
-	fi; \
-	${_ORIG_CC} -dumpspecs >$$t; \
+_patch_cc_specs=\
 	if fgrep -q /usr/bin/libtool $$t; then \
-		print 'g!/usr/bin/libtool!s!!${LOCALBASE}/db/libtool!g\nwq' | \
+		print ',g!/usr/bin/libtool!s!!'${LOCALBASE:Q}'/db/libtool!g\nwq' | \
 		    ed -s $$t; \
 	else \
 		reallinker=$$(${_ORIG_CC} -print-prog-name=collect2); \
@@ -2783,7 +2774,21 @@ ${LOCALBASE}/db/specs.${_ORIG_CC:S!/!_!g}: ${CC_SPECS}
 		    reallinker=$$(${_ORIG_CC} -print-prog-name=ld); \
 		print '/^\*linker:$$/+1s!^collect2!${LOCALBASE}/db/collect2' \
 		    "-Ww,collect2 $$reallinker!\nwq" | ed -s $$t; \
+	fi
+.if exists(${.SYSMK}/libmirmake.a)
+_patch_cc_specs+=;\
+	print '/^\*link_gcc_c_sequence:$$/+1s^-L'${.SYSMK:Q} \
+	    '%{!shared:-lmirmake} \nwq' | ed -s $$t
+.endif
+
+${LOCALBASE}/db/specs.${_ORIG_CC:S!/!_!g}: ${CC_SPECS} \
+    ${PORTSDIR}/infrastructure/mk/bsd.port.mk
+	@if ! t=$$(mktemp /tmp/XXXXXXXXXXXX); then \
+		print -u2 Error: cannot make temporary file; \
+		exit 1; \
 	fi; \
+	${_ORIG_CC} -dumpspecs >$$t; \
+	${_patch_cc_specs}; \
 	if ! ${SUDO} ${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} \
 	    -m ${NONBINMODE} $$t $@; then \
 		print -u2 Error: cannot install specs file; \
