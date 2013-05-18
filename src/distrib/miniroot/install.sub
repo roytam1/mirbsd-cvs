@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/miniroot/install.sub,v 1.21 2006/03/16 13:41:57 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sub,v 1.22 2006/04/06 11:15:50 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1623,7 +1623,7 @@ __EOT
 ROOTDISK=
 ROOTDEV=
 
-VERSION=8
+VERSION=9
 
 SETDIR="v${VERSION}/$ARCH"
 OBSD="MirOS BSD #$VERSION/$ARCH"
