@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/gnu/usr.bin/autogen.sh,v 1.10 2006/06/02 19:38:01 tg Exp $
+# $MirOS: src/gnu/usr.bin/autogen.sh,v 1.11 2006/06/29 22:17:25 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -49,12 +49,11 @@ done
 
 set -e
 set -x
-[[ ! -e aclocal.m4 ]] || if [[ -d m4 ]]; then
-	aclocal --acdir=$(aclocal --print-ac-dir) -I m4
-elif [[ -d ../m4 ]]; then
-	aclocal --acdir=$(aclocal --print-ac-dir) -I ../m4
-else
-	aclocal --acdir=$(aclocal --print-ac-dir) -I .
+if [[ -e aclocal.m4 ]]; then
+	ACLOCAL_AMFLAGS=
+	[[ -e Makefile.am ]] && ACLOCAL_AMFLAGS=$(grep \
+	    '^[:space:]*ACLOCAL_AMFLAGS' Makefile.am | cut -d '=' -f 2)
+	aclocal -I . $ACLOCAL_AMFLAGS
 fi
 f=configure.ac
 [[ ! -e $f ]] && f=configure.in
