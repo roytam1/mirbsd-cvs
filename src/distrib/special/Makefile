@@ -1,5 +1,15 @@
-# $MirOS: src/distrib/special/Makefile,v 1.4 2005/12/21 18:02:14 tg Exp $
+# $MirOS$
+#-
+# Tools which must be compiled differently for
+# the small or floppy ramdiscs because of missing
+# libraries or simply to be smaller
 
-SUBDIR=	chat dmesg ftp grep init isdnd less more nocrypto ppp pppd sshd
+  SUBDIR+=	chat
+  SUBDIR+=	dmesg
+  SUBDIR+=	ftp
+  SUBDIR+=	grep
+  SUBDIR+=	more
+  SUBDIR+=	pppd
+  SUBDIR+=	vnconfig
 
 .include <bsd.subdir.mk>

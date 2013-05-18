@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.15 2006/04/10 12:22:18 tg Exp $
+# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.16 2006/05/15 18:44:13 tg Exp $
 
 # extra
 
@@ -36,8 +36,6 @@ SPECIAL	tail -3 <${DESTDIR}/usr/share/doc/README | grep '^key ' | while IFS="	" 
 #COPY	${DESTDIR}/etc/ppp/peers/isp.chat.sample	etc/ppp/peers/isp.chat
 
 # SSH requirements
-
-LIBS	-L${BSDOBJDIR}/usr.bin/ssh/lib -lssh  -lssl -lcrypto -lutil -lotermcap -ll -lm -ldes -lkvm -lz
 
 COPY	${CURDIR}/../../miniroot/login.conf	etc/login.conf
 COPY	${DESTDIR}/etc/ssh/ssh_config		etc/ssh/ssh_config

@@ -1,6 +1,4 @@
-# $MirOS: src/distrib/i386/floppy/list.local,v 1.1.7.1 2005/03/06 16:33:37 tg Exp $
-
-LIBS	-L${BSDOBJDIR}/distrib/special/nocrypto -lnocrypto -lutil -lotermcap -ll -lm -ldes -lkvm -lz
+# $MirOS: src/distrib/i386/floppy/list.local,v 1.2 2006/02/24 01:37:36 tg Exp $
 
 # use smaller more(1) for more and less
 

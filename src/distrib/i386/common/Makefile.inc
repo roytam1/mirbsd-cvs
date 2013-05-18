@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.14 2006/04/09 08:39:44 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.15 2006/04/09 08:59:28 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -11,7 +11,12 @@ REALOBJDIR!=	readlink -nf ${.OBJDIR} || ( cd ${.OBJDIR} && pwd )
 IMAGE=		mr.fs
 CBIN?=		instbin
 CRUNCHCONF?=	${CBIN}.conf
-LISTS?=		${.CURDIR}/../common/list
+IS_SMALL_DISC?=	yes
+.if ${IS_SMALL_DISC:L} != "yes"
+LISTS?=		${.CURDIR}/../common/listpre.full ${.CURDIR}/../common/list
+.else
+LISTS?=		${.CURDIR}/../common/listpre.small ${.CURDIR}/../common/list
+.endif
 .if exists(${.CURDIR}/list.local)
 LISTS+=		${.CURDIR}/list.local
 .endif
