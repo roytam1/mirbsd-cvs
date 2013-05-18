@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/wctob.c,v 1.1 2005/09/22 21:43:35 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wctob.c,v 1.2 2005/09/22 21:48:02 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -20,9 +20,10 @@
  * of this work, even if advised of the possibility of such damage.
  */
 
+#include <locale.h>
 #include <wchar.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/i18n/wctob.c,v 1.2 2005/09/22 21:48:02 tg Exp $");
 
 int
 wctob(wint_t c)
