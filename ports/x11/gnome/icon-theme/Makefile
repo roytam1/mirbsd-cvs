@@ -1,9 +1,10 @@
-# $MirOS: ports/x11/gnome/icon-theme/Makefile,v 1.3 2006/09/14 00:15:18 tg Exp $
+# $MirOS: ports/x11/gnome/icon-theme/Makefile,v 1.4 2007/06/22 20:23:01 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.7 2004/12/10 20:36:43 marcm Exp $
 
-COMMENT=		the base GNOME icon theme
+COMMENT=		base GNOME icon theme
 
 DISTNAME=		gnome-icon-theme-2.18.0
+DASH_VER=		1
 CATEGORIES=		x11 x11/gnome
 
 HOMEPAGE=		http://www.gnome.org
