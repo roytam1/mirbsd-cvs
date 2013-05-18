@@ -33,7 +33,7 @@
 #include "stdd.h"
 #include "extern.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/m4/trace.c,v 1.2 2009/11/21 21:24:17 tg Exp $");
 
 FILE *traceout;
 
@@ -138,8 +138,7 @@ print_header(struct input_file *inp)
 	if (trace_flags & TRACE_FILENAME)
 		fprintf(traceout, "%s:", inp->name);
 	if (trace_flags & TRACE_LINENO)
-		fprintf(traceout, "%lu:", inp->lineno -
-		    ((bp > bufbase && bp[-1] == '\n') ? 1 : 0));
+		fprintf(traceout, "%lu:", TOKEN_LINE(inp));
 	fprintf(traceout, " -%d- ", frame_level());
 	if (trace_flags & TRACE_ID)
 		fprintf(traceout, "id %lu: ", expansion_id);

@@ -1,3 +1,4 @@
+/*-	$MirOS$ */
 /*	$OpenBSD: mdef.h,v 1.29 2006/03/20 20:27:45 espie Exp $	*/
 /*	$NetBSD: mdef.h,v 1.7 1996/01/13 23:25:27 pk Exp $	*/
 
@@ -166,6 +167,7 @@ struct input_file {
 
 #define CURRENT_NAME	(infile[ilevel].name)
 #define CURRENT_LINE	(infile[ilevel].lineno)
+#define TOKEN_LINE(f)	(f->lineno - (f->c == '\n' ? 1 : 0))
 /*
  * macros for readibility and/or speed
  *

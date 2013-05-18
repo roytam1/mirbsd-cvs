@@ -1,4 +1,4 @@
-/*	$OpenBSD: misc.c,v 1.40 2008/08/21 20:59:14 espie Exp $	*/
+/*	$OpenBSD: misc.c,v 1.41 2009/10/14 17:19:47 sthen Exp $	*/
 /*	$NetBSD: misc.c,v 1.6 1995/09/28 05:37:41 tls Exp $	*/
 
 /*
@@ -47,6 +47,7 @@
 #include "extern.h"
 #include "pathnames.h"
 
+__RCSID("$MirOS$");
 
 char *ep;		/* first free char in strspace */
 static char *strspace;	/* string space for evaluation */
@@ -341,7 +342,7 @@ xstrdup(const char *s)
 void
 usage()
 {
-	fprintf(stderr, "usage: m4 [-gs] [-Dname[=value]] [-d flags] "
+	fprintf(stderr, "usage: m4 [-gPs] [-Dname[=value]] [-d flags] "
 			"[-I dirname] [-o filename]\n"
 			"\t[-t macro] [-Uname] [file ...]\n");
 	exit(1);
@@ -393,7 +394,7 @@ release_input(struct input_file *f)
 void
 doprintlineno(struct input_file *f)
 {
-	pbunsigned(f->lineno);
+	pbunsigned(TOKEN_LINE(f));
 }
 
 void
