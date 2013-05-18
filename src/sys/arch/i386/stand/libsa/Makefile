@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.15 2008/08/01 12:40:13 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/libsa/Makefile,v 1.16 2008/08/01 12:40:31 tg Exp $
 # $OpenBSD: Makefile,v 1.47 2007/05/30 01:25:43 tom Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -9,7 +9,7 @@ SADIR=		${.CURDIR}/..
 DIR_SA=		$S/lib/libsa
 DIR_KERN=	$S/lib/libkern
 CPPFLAGS+=	-DLINKADDR=${LINKADDR} -DHEAP_LIMIT=${HEAP_LIMIT}
-CPPFLAGS+=	-I$S/stand/boot -I$S/lib
+CPPFLAGS+=	-I$S/stand/boot -I$S/lib/libsa
 CPPFLAGS+=	-D__INTERNAL_LIBSA_CREAD #-DCOMPAT_UFS
 CPPFLAGS+=	${SACFLAGS:M-[DI]*}
 COPTS+=		${SACFLAGS:N-[DI]*} ${DEBUGFLAGS}
@@ -19,6 +19,18 @@ SMALL=		#defined
 
 .include "${KERNBASE}/c/Makefile.inc"
 .include "${KERNBASE}/z/Makefile.adler32"
+.include "${KERNBASE}/z/Makefile.inc"
+
+# Build a small zlib
+CPPFLAGS+=	-DSLOW -DSMALL -DNOBYFOUR -DNO_GZIP
+CPPFLAGS+=	-DDYNAMIC_CRC_TABLE -DBUILDFIXED
+SRCS+=		crc32.c infback.c inffast.c inflate.c inftrees.c
+
+CPPFLAGS+=	-DZCONST=const
+HOSTCPPFLAGS+=	-DZCONST=const
+CLEANFILES+=	${ZLIB_CLEANFLS}
+
+beforedepend: ${ZLIB_GENHDRS}
 
 # i386 stuff (so, it will possibly load in the same 64k)
 SRCS+=	machdep.c dev_i386.c exec_i386.c cmd_i386.c loadfile.c

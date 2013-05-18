@@ -1,10 +1,12 @@
-# $MirOS: src/sys/arch/i386/stand/pxeboot/Makefile,v 1.7 2007/05/24 21:03:53 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/pxeboot/Makefile,v 1.8 2008/08/01 11:25:01 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2007/11/25 18:25:32 deraadt Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
 S=${.CURDIR}/../../../..
 SADIR=${.CURDIR}/..
+
+.include "${KERNBASE}/Makefile.inc"
 
 CPPFLAGS+=	${DEBUGFLAGS} -DLINKADDR=${LINKADDR} \
 		-D__INTERNAL_LIBSA_CREAD -DIN_PXEBOOT
@@ -30,8 +32,8 @@ SRCS=		srt0.S
 
 SRCS+=	boot.c cmd.c vars.c bootarg.c conf.c devopen.c net.c open.c
 
-LDADD+=		${LLIBSA} ${LLIBZ}
-DPADD+=		${DLIBSA} ${DLIBZ}
+LDADD+=		${LLIBSA}
+DPADD+=		${DLIBSA}
 
 .PATH:	${S}/stand/boot
 

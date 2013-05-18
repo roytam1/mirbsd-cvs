@@ -1,10 +1,12 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.13 2008/08/01 11:24:58 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.14 2008/08/01 12:39:07 tg Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
 
 S=${.CURDIR}/../../../..
 SADIR=${.CURDIR}/..
 RL_VAL=0x17
+
+.include "${KERNBASE}/Makefile.inc"
 
 CPPFLAGS+=	${DEBUGFLAGS} -DRL_VAL=${RL_VAL}
 #CPPFLAGS+=	-DWANT_ELTORITO_CHECK
@@ -39,8 +41,8 @@ CPPFLAGS+=	-DBOOTSELECT_HOOK
 
 CLEANFILES+=	${.CURDIR}/disasm testmkr ${PROG}.nm ld.out
 SRCS+=		boot.c bootarg.c cmd.c conf.c vars.c
-LDADD+=		${LLIBSA} ${LLIBZ}
-DPADD+=		${DLIBSA} ${DLIBZ}
+LDADD+=		${LLIBSA}
+DPADD+=		${DLIBSA}
 
 all:		${PROG}
 

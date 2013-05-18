@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.15 2008/08/01 12:21:34 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/Makefile.inc,v 1.16 2008/08/01 12:39:07 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.40 2007/11/26 10:26:02 deraadt Exp $
 
 .ifndef MODSRC_SYS_ARCH_I386_STAND_MAKEFILE_INC
@@ -12,6 +12,7 @@ V?=		${REAL_V}p1
 _V=		"${V}"
 
 KERNBASE?=	$S/../kern
+HOSTCFLAGS:=	${CFLAGS} ${COPTS}
 COPTS+=		-fno-stack-protector -ffreestanding -Wall -Wno-packed \
 		-fno-align-loops -fno-align-jumps -fno-omit-frame-pointer \
 		-Werror ${DEBUG}
@@ -21,8 +22,9 @@ COPTS+=		-Os
 .if !${COPTS:M-Os}
 COPTS+=		-Os
 .endif
+HOSTCPPFLAGS:=	${CPPFLAGS}
 CPPFLAGS+=	-I${S} -I${SADIR}/libsa -I. -Dmemmove=memcpy \
-		-I${.CURDIR} -D__BOOT_VER=${_V:Q} -I${KERNBASE}/include
+		-I${.CURDIR} -D__BOOT_VER=${_V:Q}
 SACFLAGS=	-D_STANDALONE
 DEBUGFLAGS=
 # DEBUGFLAGS+=-DDEBUG
@@ -64,13 +66,6 @@ LLIBSA=		-L${SADIR}/libsa -lsa
 .else
 DLIBSA=		${SADIR}/libsa/${__objdir}/libsa.a
 LLIBSA=		-L${SADIR}/libsa/${__objdir} -lsa
-.endif
-.if exists(${SADIR}/libz/libz.a)
-DLIBZ=		${SADIR}/libz/libz.a
-LLIBZ=		-L${SADIR}/libz -lz
-.else
-DLIBZ=		${SADIR}/libz/${__objdir}/libz.a
-LLIBZ=		-L${SADIR}/libz/${__objdir} -lz
 .endif
 
 # NO_NET=no_net
