@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-env.sh,v 1.2 2005/06/05 15:22:56 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
 #-
-# Copyright (c) 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Copyright (c) 2004, 2005, 2006
+#	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -33,26 +33,26 @@ TARGET=$2
 [[ -z $MACHINE && -n $TARGET ]] && MACHINE=${TARGET%%-*}
 
 if [[ -z $MACHINE ]]; then
-	print No target or machine given.
+	print -u2 No target or machine given.
 	exit 1
 fi
 
-case $MACHINE in
-alpha|amd64|hppa|i386|m68k|m88k|powerpc|sparc|sparc64|vax)
+case $MACHINE {
+(alpha|amd64|hppa|i386|m68k|m88k|powerpc|sparc|sparc64|vax)
 	MARCH=$MACHINE ;;
-amiga|hp300|mac68k|mvme68k)
+(amiga|hp300|mac68k|mvme68k)
 	MARCH=m68k ;;
-luna88k|mvme88k)
+(luna88k|mvme88k)
 	MARCH=m88k ;;
-macppc|mvmeppc)
+(macppc|mvmeppc)
 	MARCH=powerpc ;;
-sgi)
+(sgi)
 	MARCH=mips ;;
-*)
+(*)
 	[[ -n $3 ]] && MARCH=$3
 	if [[ -z $MARCH ]]; then
-		print Cannot guess machine arch for $MACHINE,
-		print target $TARGET - please supply.
+		print -u2 "Cannot guess machine arch for $MACHINE,"
+		print -u2 "target $TARGET - please supply."
 		exit 1
 	fi
 	;;
@@ -60,15 +60,22 @@ esac
 
 [[ -z $TARGET ]] && TARGET=${MARCH}-unknown-mirbsd$(uname -r)
 [[ -z $BSDSRCDIR ]] && BSDSRCDIR=/usr/src
-[[ -z $SHELL ]] && SHELL=/bin/mksh
-if ! FOO=$($SHELL $BSDSRCDIR/gnu/share/config.sub $TARGET 2>/dev/null); then
-	print Invalid target $TARGET chosen, exiting.
+if [[ -z $MKSH ]]; then
+	if [[ -x /bin/mksh ]]; then
+		MKSH=/bin/mksh
+	else
+		MKSH="/usr/bin/env mksh"
+	fi
+fi
+SHELL=$MKSH
+if ! FOO=$($SHELL $BSDSRCDIR/gnu/share/config.sub "$TARGET" 2>/dev/null); then
+	print -u2 "Invalid target $TARGET chosen, exiting."
 	exit 1
 else
 	TARGET=$FOO
 fi
-CROSSDIR=${DESTDIR}/usr/cross/${TARGET}
-HOST=$(cd $BSDSRCDIR/etc; make ___DISPLAY_MAKEVARS=OStriplet)
+[[ -z $CROSSDIR ]] && CROSSDIR=${DESTDIR}/usr/cross/${TARGET}
+HOST=$(make -f /dev/null ___DISPLAY_MAKEVARS=OStriplet)
 [[ -n $CFLAGS ]] || CFLAGS="$(cd $BSDSRCDIR/etc; make ___DISPLAY_MAKEVARS=CFLAGS)"
 
 set -e
@@ -78,10 +85,10 @@ mkdir -p $CROSSDIR/usr/$TARGET/bin
 ( cd $CROSSDIR/usr/$TARGET; ln -sf ../include .; ln -sf ../lib . )
 ( cd $BSDSRCDIR; DESTDIR=$CROSSDIR make distrib-dirs )
 
-print $MACHINE >$CROSSDIR/T_MACHINE
-print $MARCH >$CROSSDIR/T_MACHINE_ARCH
-print $TARGET >$CROSSDIR/T_CANON
-print $HOST >$CROSSDIR/H_CANON
+print -r -- "$MACHINE" >$CROSSDIR/T_MACHINE
+print -r -- "$MARCH" >$CROSSDIR/T_MACHINE_ARCH
+print -r -- "$TARGET" >$CROSSDIR/T_CANON
+print -r -- "$HOST" >$CROSSDIR/H_CANON
 
 ( cd $BSDSRCDIR; \
     BSDSRCDIR=$BSDSRCDIR \
@@ -90,7 +97,6 @@ print $HOST >$CROSSDIR/H_CANON
     MACHINE=$MACHINE \
     MACHINE_ARCH=$MARCH \
     MAKEOBJDIR=obj.$MACHINE \
-    SKIPDIR="$SKIPDIR X-Window" \
     make obj )
 
 CROSSCPPFLAGS="$CROSSCPPFLAGS -nostdinc -I${CROSSDIR}/usr/include"
@@ -99,37 +105,39 @@ CROSSLDFLAGS="$CROSSLDFLAGS -nostdlib -L${CROSSDIR}/usr/lib -static"
 CROSSCFLAGS="-O2 $CROSSCFLAGS $CROSSCPPFLAGS"
 
 cat >$CROSSDIR/T_BASEENV <<-EOF
-	BSDSRCDIR=$BSDSRCDIR
-	BSDOBJDIR=$CROSSDIR/usr/obj
-	HOST=$HOST
-	MACHINE=$MACHINE
-	MACHINE_ARCH=$MARCH
+	BSDSRCDIR='$BSDSRCDIR'
+	BSDOBJDIR='$CROSSDIR/usr/obj'
+	CROSSDIR='$CROSSDIR'
+	HOST='$HOST'
+	MACHINE='$MACHINE'
+	MACHINE_ARCH='$MARCH'
+	MKSH='$MKSH'
 EOF
 
 cat >$CROSSDIR/T_ENV <<-EOF
-	AR=$CROSSDIR/usr/bin/ar
-	AS=$CROSSDIR/usr/bin/as
-	CC=$CROSSDIR/usr/bin/cc
-	CFLAGS='$CROSSCFLAGS'
-	CPP=$CROSSDIR/usr/bin/cpp
+	AR='$CROSSDIR/usr/bin/ar'
+	AS='$CROSSDIR/usr/bin/as'
+	CC='$CROSSDIR/usr/bin/cc'
+	CFLAGS=''$CROSSCFLAGS''
+	CPP='$CROSSDIR/usr/bin/cpp'
 	CPPFLAGS='$CROSSCPPFLAGS'
 	CROSS_MODE=yes
-	DESTDIR=$CROSSDIR
-	HOSTCC=/usr/bin/gcc
+	DESTDIR='$CROSSDIR'
+	HOSTCC=/usr/bin/mgcc
 	HOSTCFLAGS='$CFLAGS -Wno-error'
 	HOSTLDFLAGS='$LDFLAGS'
-	LD=$CROSSDIR/usr/bin/ld
+	LD='$CROSSDIR/usr/bin/ld'
 	LDFLAGS='$CROSSLDFLAGS'
-	LDSTATIC=-static
-	LORDER=/usr/bin/lorder
-	NM=$CROSSDIR/usr/bin/nm
+	LDSTATIC='-static'
+	LORDER='/usr/bin/lorder'
+	NM='$CROSSDIR/usr/bin/nm'
 	NOMAN=yes
 	NOPIC=yes
-	OBJCOPY=$CROSSDIR/usr/bin/objcopy
-	OBJDUMP=$CROSSDIR/usr/bin/objdump
-	RANLIB=$CROSSDIR/usr/bin/ranlib
-	SIZE=$CROSSDIR/usr/bin/size
-	STRIP=$CROSSDIR/usr/bin/strip
+	OBJCOPY='$CROSSDIR/usr/bin/objcopy'
+	OBJDUMP='$CROSSDIR/usr/bin/objdump'
+	RANLIB='$CROSSDIR/usr/bin/ranlib'
+	SIZE='$CROSSDIR/usr/bin/size'
+	STRIP='$CROSSDIR/usr/bin/strip'
 EOF
 
 cat >$CROSSDIR/T_MAKE <<-EOF
@@ -138,36 +146,36 @@ exec env \
 	CFLAGS='$CROSSCFLAGS' \
 	CPPFLAGS='$CROSSCPPFLAGS' \
 	HOSTCFLAGS='$CFLAGS -Wno-error' \
-	MACHINE=$MACHINE \
-	MACHINE_ARCH=$MARCH \
-	OStriplet=$HOST \
-	GCCHOST=$TARGET \
-	GCCTARGET=$TARGET \
+	MACHINE='$MACHINE \'
+	MACHINE_ARCH='$MARCH \'
+	OStriplet='$HOST \'
+	GCCHOST='$TARGET \'
+	GCCTARGET='$TARGET \'
     make MAKE=\$0 \
-	__objdir=obj.$MACHINE \
-	BSDSRCDIR=$BSDSRCDIR \
-	BSDOBJDIR=$CROSSDIR/usr/obj \
-	HOST=$HOST \
-	AR=$CROSSDIR/usr/bin/ar \
-	AS=$CROSSDIR/usr/bin/as \
-	CC=$CROSSDIR/usr/bin/cc \
-	CPP=$CROSSDIR/usr/bin/cpp \
+	__objdir='obj.$MACHINE \'
+	BSDSRCDIR='$BSDSRCDIR \'
+	BSDOBJDIR='$CROSSDIR/usr/obj \'
+	HOST='$HOST \'
+	AR='$CROSSDIR/usr/bin/ar \'
+	AS='$CROSSDIR/usr/bin/as \'
+	CC='$CROSSDIR/usr/bin/cc \'
+	CPP='$CROSSDIR/usr/bin/cpp \'
 	CROSS_MODE=yes \
-	DESTDIR=$CROSSDIR \
-	HOSTCC=/usr/bin/gcc \
+	DESTDIR='$CROSSDIR \'
+	HOSTCC=/usr/bin/mgcc \
 	HOSTLDFLAGS='$LDFLAGS' \
-	LD=$CROSSDIR/usr/bin/ld \
+	LD='$CROSSDIR/usr/bin/ld \'
 	LDFLAGS='$BUILDLDFLAGS' \
-	LDSTATIC=-static \
-	LORDER=/usr/bin/lorder \
-	NM=$CROSSDIR/usr/bin/nm \
+	LDSTATIC='-static \'
+	LORDER='/usr/bin/lorder \'
+	NM='$CROSSDIR/usr/bin/nm \'
 	NOMAN=yes \
 	NOPIC=yes \
-	OBJCOPY=$CROSSDIR/usr/bin/objcopy \
-	OBJDUMP=$CROSSDIR/usr/bin/objdump \
-	RANLIB=$CROSSDIR/usr/bin/ranlib \
-	SIZE=$CROSSDIR/usr/bin/size \
-	STRIP=$CROSSDIR/usr/bin/strip \
+	OBJCOPY='$CROSSDIR/usr/bin/objcopy \'
+	OBJDUMP='$CROSSDIR/usr/bin/objdump \'
+	RANLIB='$CROSSDIR/usr/bin/ranlib \'
+	SIZE='$CROSSDIR/usr/bin/size \'
+	STRIP='$CROSSDIR/usr/bin/strip \'
     "\$@"
 EOF
 chmod 755 $CROSSDIR/T_MAKE

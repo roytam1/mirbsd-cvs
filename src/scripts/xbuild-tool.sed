@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-tool.sed,v 1.3 2005/07/07 15:56:29 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
 #-
-# Copyright (c) 2004
-#	Thorsten "mirabile" Glaser <tg@66h.42h.de>
+# Copyright (c) 2004, 2006
+#	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
 # tion, including unlimited rights to use, publicly perform, modify,
@@ -28,15 +28,14 @@
 # by calling native (--enable-target=all --enable-64-bit-bfd) tools,
 # setting the appropriate environment option first.
 
-export GNUTARGET=@@TARGET@@
-export LDEMULATION=@@EMUL@@
+export GNUTARGET='@@TARGET@@' LDEMULATION='@@EMUL@@'
 
 ME=$0
 CALLED=${ME##*/}
 CALLED=/usr/bin/${CALLED#${GNUTARGET}-}
 if [[ ! -x $CALLED ]]; then
-	print Cannot execute native tool $CALLED
-	print for $ME, exiting.
+	print -u2 "Cannot execute native tool $CALLED"
+	print -u2 "for $ME, exiting."
 	exit 255
 fi
 exec $CALLED "$@"

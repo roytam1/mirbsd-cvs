@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-gcc.sh,v 1.2 2005/06/05 15:22:56 tg Exp $
+# $MirOS: src/scripts/xbuild-gcc.sh,v 1.3 2005/12/17 05:46:23 tg Exp $
 #-
 # Copyright (c) 2004
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -39,14 +39,14 @@ fi
 
 TARGET=$1
 if [[ -z $TARGET ]]; then
-	print No target given.
+	print -u2 No target given.
 	exit 1
 fi
 
-CROSSDIR=${DESTDIR}/usr/cross/${TARGET}
+[[ -z $CROSSDIR ]] && CROSSDIR=${DESTDIR}/usr/cross/${TARGET}
 
 if [[ ! -s $CROSSDIR/T_BASEENV ]]; then
-	print Run build-cross-env first.
+	print -u2 Run xbuild-env.sh first.
 	exit 1
 fi
 

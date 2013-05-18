@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-binutils.sh,v 1.2 2005/06/05 15:22:56 tg Exp $
+# $MirOS: src/scripts/xbuild-binutils.sh,v 1.3 2005/12/17 05:46:23 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -34,7 +34,7 @@ if [[ -z $TARGET ]]; then
 	exit 1
 fi
 
-CROSSDIR=${DESTDIR}/usr/cross/${TARGET}
+[[ -z $CROSSDIR ]] && CROSSDIR=${DESTDIR}/usr/cross/${TARGET}
 
 if [[ ! -s $CROSSDIR/T_BASEENV ]]; then
 	print Run xbuild-env.sh first.
