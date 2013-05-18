@@ -54,6 +54,8 @@
 #include "evsignal.h"
 #include "log.h"
 
+__RCSID("$MirOS$");
+
 extern volatile sig_atomic_t evsignal_caught;
 
 struct pollop {
@@ -109,7 +111,8 @@ poll_init(void)
  */
 
 int
-poll_recalc(struct event_base *base, void *arg, int max)
+poll_recalc(struct event_base *base __attribute__((unused)),
+    void *arg, int max __attribute__((unused)))
 {
 	struct pollop *pop = arg;
 
@@ -151,7 +154,8 @@ poll_check_ok(struct pollop *pop)
 #endif
 
 int
-poll_dispatch(struct event_base *base, void *arg, struct timeval *tv)
+poll_dispatch(struct event_base *base __attribute__((unused)),
+    void *arg, struct timeval *tv)
 {
 	int res, i, sec, nfds;
 	struct pollop *pop = arg;

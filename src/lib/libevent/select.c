@@ -53,7 +53,7 @@
 #include "evsignal.h"
 #include "log.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libevent/select.c,v 1.5 2007/05/17 16:48:21 tg Exp $");
 
 #ifndef howmany
 #define        howmany(x, y)   (((x)+((y)-1))/(y))
@@ -144,7 +144,8 @@ check_selectop(struct selectop *sop)
  */
 
 int
-select_recalc(struct event_base *base, void *arg, int max)
+select_recalc(struct event_base *base __attribute__((unused)),
+    void *arg, int max __attribute__((unused)))
 {
 	struct selectop *sop = arg;
 
@@ -154,7 +155,8 @@ select_recalc(struct event_base *base, void *arg, int max)
 }
 
 int
-select_dispatch(struct event_base *base, void *arg, struct timeval *tv)
+select_dispatch(struct event_base *base __attribute__((unused)),
+    void *arg, struct timeval *tv)
 {
 	int res, i;
 	struct selectop *sop = arg;

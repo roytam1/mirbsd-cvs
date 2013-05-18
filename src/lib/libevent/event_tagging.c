@@ -60,14 +60,14 @@
 #include "event.h"
 #include "log.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libevent/event_tagging.c,v 1.2 2007/05/17 16:48:21 tg Exp $");
 
 int decode_int(u_int32_t *pnumber, struct evbuffer *evbuf);
 
 static struct evbuffer *_buf;	/* not thread safe */
 
 void
-evtag_init()
+evtag_init(void)
 {
 	if (_buf != NULL)
 		return;
@@ -153,7 +153,7 @@ evtag_marshal_timeval(struct evbuffer *evbuf, u_int8_t tag, struct timeval *tv)
 	    EVBUFFER_LENGTH(_buf));
 }
 
-static int __inline
+static __inline int
 decode_int_internal(u_int32_t *pnumber, struct evbuffer *evbuf, int dodrain)
 {
 	u_int32_t number = 0;

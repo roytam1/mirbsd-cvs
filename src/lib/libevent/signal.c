@@ -52,6 +52,8 @@
 #include "evsignal.h"
 #include "log.h"
 
+__RCSID("$MirOS$");
+
 extern struct event_list signalqueue;
 
 static sig_atomic_t evsigcaught[NSIG];
@@ -64,7 +66,7 @@ static int ev_signal_added;
 
 /* Callback for when the signal handler write a byte to our signaling socket */
 static void
-evsignal_cb(int fd, short what, void *arg)
+evsignal_cb(int fd, short what __attribute__((unused)), void *arg)
 {
 	static char signals[100];
 	struct event *ev = arg;

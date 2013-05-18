@@ -110,7 +110,7 @@
 #include <netinet/in6.h>
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libevent/evdns.c,v 1.2 2007/05/17 16:48:20 tg Exp $");
 
 #ifdef WIN32
 typedef int socklen_t;
@@ -1394,7 +1394,11 @@ evdns_request_data_build(const char *const name, const int name_len,
 
 // exported function
 struct evdns_server_port *
-evdns_add_server_port(int socknr, int is_tcp, evdns_request_callback_fn_type cb, void *user_data)
+evdns_add_server_port(int socknr, int is_tcp
+#ifdef NDEBUG
+    __attribute__((unused))
+#endif
+    , evdns_request_callback_fn_type cb, void *user_data)
 {
 	struct evdns_server_port *port;
 	if (!(port = malloc(sizeof(struct evdns_server_port))))
