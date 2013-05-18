@@ -1,5 +1,3 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
-
 /*-
  * Copyright (c) 2007
  *	Thorsten Glaser <tg@mirbsd.de>
@@ -20,15 +18,9 @@
  * of said person's immediate fault when using the work as intended.
  */
 
-#ifdef _KERN_HOSTED
-#ifdef WIDEC
-#include <wchar.h>
-#else
-#include <string.h>
-#endif
-#else
 #include <libckern.h>
-#endif
+
+__RCSID("$MirOS$");
 
 #ifdef WIDEC
 #define strlen	wcslen

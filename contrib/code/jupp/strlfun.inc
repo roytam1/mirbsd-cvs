@@ -23,70 +23,38 @@
  * ser write the following strlcat(3) implementation according to the
  * spec. Both functions below have been optimised according to sugge-
  * stions from Bodo Eggert. Thorsten Glaser also has merged this code
- * with strxfrm(3) for ISO-10646-only systems and wrote the wide char
- * variants wcslcat(3), wcslcpy(3), and wcsxfrm(3) (see wcslfun.c).
+ * with strxfrm(3) for ISO-10646-only systems and the wide char vari-
+ * ants wcslcat(3), wcslcpy(3), and wcsxfrm(3).
  */
 
-#ifdef STRXFRM
-#undef HAVE_STRLCPY
-#undef HAVE_STRLCAT
-#define HAVE_STRLCPY	0
-#define HAVE_STRLCAT	1
-#define strlcpy		strxfrm
-#endif
-
 #include <sys/types.h>
-#if defined(_KERNEL) || defined(_STANDALONE)
-#include <lib/libkern/libkern.h>
-#undef HAVE_STRLCPY
-#undef HAVE_STRLCAT
+#include <libckern.h>
+
+__RCSID("$MirOS: src/lib/libc/string/strlfun.c,v 1.18 2008/08/01 12:26:17 tg Exp $");
+
+#ifdef WIDEC
+/* wide character string functions */
+#define NUL		L'\0'
+#define char_t		wchar_t
+#define fn_len		wcslen
+#define	fn_cat		wcslcat
+#define fn_cpy		wcslcpy
 #else
-#include <stddef.h>	/* for size_t in user space (SUSv3) */
-#if defined(HAVE_CONFIG_H) && (HAVE_CONFIG_H != 0)
-/* usually when packaged with third-party software */
-#ifdef CONFIG_H_FILENAME
-#include CONFIG_H_FILENAME
-#else
-#include "config.h"
-#endif
-#endif
-/* do not include <string.h> to prevent redefinition warnings */
-extern size_t strlen(const char *);
-#endif
-
-#ifndef __RCSID
-#undef __IDSTRING
-#undef __IDSTRING_CONCAT
-#undef __IDSTRING_EXPAND
-#define __IDSTRING_CONCAT(l,p)		__LINTED__ ## l ## _ ## p
-#define __IDSTRING_EXPAND(l,p)		__IDSTRING_CONCAT(l,p)
-#define __IDSTRING(prefix, string)				\
-	static const char __IDSTRING_EXPAND(__LINE__,prefix) []	\
-	    __attribute__((used)) = "@(""#)" #prefix ": " string
-#define __RCSID(x)			__IDSTRING(rcsid,x)
-#endif
-
-#ifndef __predict_true
-#define __predict_true(exp)	((exp) != 0)
-#endif
-#ifndef __predict_false
-#define __predict_false(exp)	((exp) != 0)
-#endif
-
-#if !defined(_KERNEL) && !defined(_STANDALONE)
-__RCSID("$MirOS: src/lib/libc/string/strlfun.c,v 1.17 2008/07/28 00:05:51 tg Stab $");
-#endif
-
 /* (multibyte) string functions */
-#undef NUL
-#undef char_t
 #define NUL		'\0'
 #define char_t		char
+#define fn_len		strlen
+#define	fn_cat		strlcat
+#define fn_cpy		strlcpy
+#endif
 
-size_t strlcat(char_t *, const char_t *, size_t);
-size_t strlcpy(char_t *, const char_t *, size_t);
+#ifdef L_strxfrm
+#define strlcpy		strxfrm
+#define wcslcpy		wcsxfrm
+#define L_strlcpy
+#endif
 
-#if !defined(HAVE_STRLCAT) || (HAVE_STRLCAT == 0)
+#ifdef L_strlcat
 /*
  * Appends src to string dst of size dlen (unlike strncat, dlen is the
  * full size of dst, not space left).  At most dlen-1 characters
@@ -95,11 +63,11 @@ size_t strlcpy(char_t *, const char_t *, size_t);
  * trailing NUL byte counted.  If retval >= dlen, truncation occurred.
  */
 size_t
-strlcat(char_t *dst, const char_t *src, size_t dlen)
+fn_cat(char_t *dst, const char_t *src, size_t dlen)
 {
 	size_t n = 0, slen;
 
-	slen = strlen(src);
+	slen = fn_len(src);
 	while (__predict_true(n + 1 < dlen && dst[n] != NUL))
 		++n;
 	if (__predict_false(dlen == 0 || dst[n] != NUL))
@@ -111,9 +79,9 @@ strlcat(char_t *dst, const char_t *src, size_t dlen)
 	dst[n] = NUL;
 	return (n + slen);
 }
-#endif /* !HAVE_STRLCAT */
+#endif
 
-#if !defined(HAVE_STRLCPY) || (HAVE_STRLCPY == 0)
+#ifdef L_strlcpy
 /* $OpenBSD: strlcpy.c,v 1.11 2006/05/05 15:27:38 millert Exp $ */
 
 /*-
@@ -138,7 +106,7 @@ strlcat(char_t *dst, const char_t *src, size_t dlen)
  * Returns strlen(src); if retval >= siz, truncation occurred.
  */
 size_t
-strlcpy(char_t *dst, const char_t *src, size_t siz)
+fn_cpy(char_t *dst, const char_t *src, size_t siz)
 {
 	const char_t *s = src;
 
@@ -162,4 +130,4 @@ strlcpy(char_t *dst, const char_t *src, size_t siz)
 	/* count does not include NUL */
 	return (s - src - 1);
 }
-#endif /* !HAVE_STRLCPY */
+#endif

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.19 2007/06/15 16:00:03 tg Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.20 2007/06/16 21:05:15 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
@@ -26,13 +26,6 @@ CFLAGS_wcsstr.o+= -Wno-cast-qual
 CFLAGS_wcswcs.o+= -Wno-cast-qual
 CFLAGS_wmemchr.o+= -Wno-cast-qual
 .endif
-
-UNIFDEF_SRCS+=	strlcpy.c strlfun.c -DHAVE_STRLCAT=1
-UNIFDEF_SRCS+=	strlcat.c strlfun.c -DHAVE_STRLCPY=1
-UNIFDEF_SRCS+=	strxfrm.c strlfun.c -DSTRXFRM
-UNIFDEF_SRCS+=	wcslcpy.c wcslfun.c -DHAVE_WCSLCAT=1
-UNIFDEF_SRCS+=	wcslcat.c wcslfun.c -DHAVE_WCSLCPY=1
-UNIFDEF_SRCS+=	wcsxfrm.c wcslfun.c -DWCSXFRM
 
 UNIFDEF_SRCS+=	strcasecmp.c strcasecmpfun.c -DSTRCASECMP
 UNIFDEF_SRCS+=	strncasecmp.c strcasecmpfun.c -DSTRNCASECMP
