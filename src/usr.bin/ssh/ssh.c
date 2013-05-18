@@ -1,4 +1,4 @@
-/* $OpenBSD: ssh.c,v 1.295 2007/01/03 03:01:40 stevesk Exp $ */
+/* $OpenBSD: ssh.c,v 1.300 2007/06/14 22:48:05 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -96,7 +96,7 @@
 #include "scard.h"
 #endif
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.16 2006/10/13 18:40:51 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.17 2007/01/25 16:18:38 tg Exp $");
 
 extern char *__progname;
 
@@ -258,7 +258,7 @@ main(int ac, char **av)
 
  again:
 	while ((opt = getopt(ac, av,
-	    "1246ab:c:e:fghi:kl:m:no:p:qstvxACD:F:I:L:MNO:PR:S:TVw:XY")) != -1) {
+	    "1246ab:c:e:fghi:kl:m:no:p:qstvxACD:F:I:KL:MNO:PR:S:TVw:XY")) != -1) {
 		switch (opt) {
 		case '1':
 			options.protocol = SSH_PROTO_1;
@@ -310,7 +310,8 @@ main(int ac, char **av)
 			options.forward_agent = 1;
 			break;
 		case 'k':
-			break;		/* compatibility to OpenBSD */
+		case 'K':
+			break;
 		case 'i':
 			if (stat(optarg, &st) < 0) {
 				fprintf(stderr, "Warning: Identity file %s "
@@ -1283,7 +1284,7 @@ static void
 control_client(const char *path)
 {
 	struct sockaddr_un addr;
-	int i, r, fd, sock, exitval, num_env;
+	int i, r, fd, sock, exitval[2], num_env;
 	Buffer m;
 	char *term;
 	extern char **environ;
@@ -1432,29 +1433,44 @@ control_client(const char *path)
 	if (tty_flag)
 		enter_raw_mode();
 
-	/* Stick around until the controlee closes the client_fd */
-	exitval = 0;
-	for (;!control_client_terminate;) {
-		r = read(sock, &exitval, sizeof(exitval));
+	/*
+	 * Stick around until the controlee closes the client_fd.
+	 * Before it does, it is expected to write this process' exit
+	 * value (one int). This process must read the value and wait for
+	 * the closure of the client_fd; if this one closes early, the 
+	 * multiplex master will terminate early too (possibly losing data).
+	 */
+	exitval[0] = 0;
+	for (i = 0; !control_client_terminate && i < (int)sizeof(exitval);) {
+		r = read(sock, (char *)exitval + i, sizeof(exitval) - i);
 		if (r == 0) {
 			debug2("Received EOF from master");
 			break;
 		}
-		if (r > 0)
-			debug2("Received exit status from master %d", exitval);
-		if (r == -1 && errno != EINTR)
+		if (r == -1) {
+			if (errno == EINTR)
+				continue;
 			fatal("%s: read %s", __func__, strerror(errno));
+		}
+		i += r;
 	}
 
-	if (control_client_terminate)
-		debug2("Exiting on signal %d", control_client_terminate);
-
 	close(sock);
-
 	leave_raw_mode();
+	if (i > (int)sizeof(int))
+		fatal("%s: master returned too much data (%d > %lu)",
+		    __func__, i, sizeof(int));
+	if (control_client_terminate) {
+		debug2("Exiting on signal %d", control_client_terminate);
+		exitval[0] = 255;
+	} else if (i < (int)sizeof(int)) {
+		debug2("Control master terminated unexpectedly");
+		exitval[0] = 255;
+	} else
+		debug2("Received exit status from master %d", exitval[0]);
 
 	if (tty_flag && options.log_level != SYSLOG_LEVEL_QUIET)
-		fprintf(stderr, "Connection to master closed.\r\n");
+		fprintf(stderr, "Shared connection to %s closed.\r\n", host);
 
-	exit(exitval);
+	exit(exitval[0]);
 }

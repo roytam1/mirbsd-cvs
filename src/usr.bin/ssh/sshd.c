@@ -1,4 +1,4 @@
-/* $OpenBSD: sshd.c,v 1.350 2007/03/09 05:20:06 dtucker Exp $ */
+/* $OpenBSD: sshd.c,v 1.351 2007/05/22 10:18:52 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
@@ -51,7 +51,6 @@
 #include <sys/time.h>
 
 #include <errno.h>
-#include <signal.h>
 #include <fcntl.h>
 #include <netdb.h>
 #include <paths.h>
@@ -101,7 +100,7 @@
 #include "monitor_fdpass.h"
 #include "version.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.11 2007/03/08 10:09:33 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.12 2007/03/18 04:27:35 tg Exp $");
 
 #ifndef O_NOCTTY
 #define O_NOCTTY	0

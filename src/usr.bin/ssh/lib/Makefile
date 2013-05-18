@@ -1,5 +1,5 @@
-# $MirOS: src/usr.bin/ssh/lib/Makefile,v 1.4 2006/04/19 10:40:59 tg Exp $
-# $OpenBSD: Makefile,v 1.54 2006/05/28 16:45:09 deraadt Exp $
+# $MirOS: src/usr.bin/ssh/lib/Makefile,v 1.5 2006/06/02 20:50:53 tg Exp $
+# $OpenBSD: Makefile,v 1.55 2007/06/07 19:37:34 pvalchev Exp $
 
 .PATH:		${.CURDIR}/..
 
@@ -13,7 +13,7 @@ SRCS=	authfd.c authfile.c bufaux.c bufbn.c buffer.c canohost.c channels.c \
 	key.c dispatch.c kex.c mac.c uidswap.c uuencode.c misc.c \
 	ssh-dss.c ssh-rsa.c dh.c kexdh.c kexgex.c \
 	kexdhc.c kexgexc.c scard.c msg.c progressmeter.c dns.c \
-	monitor_fdpass.c md-sha256.c
+	monitor_fdpass.c md-sha256.c umac.c
 
 DEBUGLIBS=	no
 NOPIC=		yes

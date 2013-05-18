@@ -1,4 +1,4 @@
-/* $OpenBSD: kex.c,v 1.77 2007/01/21 01:41:54 stevesk Exp $ */
+/* $OpenBSD: kex.c,v 1.79 2007/06/05 06:52:37 djm Exp $ */
 /*
  * Copyright (c) 2000, 2001 Markus Friedl.  All rights reserved.
  *
@@ -46,7 +46,7 @@
 #include "dispatch.h"
 #include "monitor.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/kex.c,v 1.4 2006/09/20 21:40:59 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/kex.c,v 1.5 2007/01/25 16:18:36 tg Exp $");
 
 #define KEX_COOKIE_LEN	16
 
@@ -80,7 +80,7 @@ static char **
 kex_buf2prop(Buffer *raw, int *first_kex_follows)
 {
 	Buffer b;
-	int i;
+	u_int i;
 	char **proposal;
 
 	proposal = xcalloc(PROPOSAL_MAX, sizeof(char *));
@@ -101,7 +101,7 @@ kex_buf2prop(Buffer *raw, int *first_kex_follows)
 		*first_kex_follows = i;
 	debug2("kex_parse_kexinit: first_kex_follows %d ", i);
 	i = buffer_get_int(&b);
-	debug2("kex_parse_kexinit: reserved %d ", i);
+	debug2("kex_parse_kexinit: reserved %u ", i);
 	buffer_free(&b);
 	return proposal;
 }
@@ -116,6 +116,7 @@ kex_prop_free(char **proposal)
 	xfree(proposal);
 }
 
+/* ARGSUSED */
 static void
 kex_protocol_error(int type, u_int32_t seq, void *ctxt __attribute__((unused)))
 {
@@ -187,6 +188,7 @@ kex_send_kexinit(Kex *kex)
 	kex->flags |= KEX_INIT_SENT;
 }
 
+/* ARGSUSED */
 void
 kex_input_kexinit(int type __attribute__((unused)),
     u_int32_t seq __attribute__((unused)), void *ctxt)
@@ -252,7 +254,8 @@ choose_enc(Enc *enc, char *client, char *server)
 {
 	char *name = match_list(client, server, NULL);
 	if (name == NULL)
-		fatal("no matching cipher found: client %s server %s", client, server);
+		fatal("no matching cipher found: client %s server %s",
+		    client, server);
 	if ((enc->cipher = cipher_by_name(name)) == NULL)
 		fatal("matching cipher is not supported: %s", name);
 	enc->name = name;
@@ -268,8 +271,9 @@ choose_mac(Mac *mac, char *client, char *server)
 {
 	char *name = match_list(client, server, NULL);
 	if (name == NULL)
-		fatal("no matching mac found: client %s server %s", client, server);
-	if (mac_init(mac, name) < 0)
+		fatal("no matching mac found: client %s server %s",
+		    client, server);
+	if (mac_setup(mac, name) < 0)
 		fatal("unsupported mac %s", name);
 	/* truncate the key */
 	if (datafellows & SSH_BUG_HMAC)
@@ -302,7 +306,7 @@ choose_kex(Kex *k, char *client, char *server)
 {
 	k->name = match_list(client, server, NULL);
 	if (k->name == NULL)
-		fatal("no kex alg");
+		fatal("Unable to negotiate a key exchange method");
 	if (strcmp(k->name, KEX_DH1) == 0) {
 		k->kex_type = KEX_DH_GRP1_SHA1;
 		k->evp_md = EVP_sha1();
@@ -380,7 +384,8 @@ kex_choose_conf(Kex *kex)
 	for (mode = 0; mode < MODE_MAX; mode++) {
 		newkeys = xcalloc(1, sizeof(*newkeys));
 		kex->newkeys[mode] = newkeys;
-		ctos = (!kex->server && mode == MODE_OUT) || (kex->server && mode == MODE_IN);
+		ctos = (!kex->server && mode == MODE_OUT) ||
+		    (kex->server && mode == MODE_IN);
 		nenc  = ctos ? PROPOSAL_ENC_ALGS_CTOS  : PROPOSAL_ENC_ALGS_STOC;
 		nmac  = ctos ? PROPOSAL_MAC_ALGS_CTOS  : PROPOSAL_MAC_ALGS_STOC;
 		ncomp = ctos ? PROPOSAL_COMP_ALGS_CTOS : PROPOSAL_COMP_ALGS_STOC;
