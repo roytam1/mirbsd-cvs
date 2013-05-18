@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/epic4/Makefile,v 1.5 2009/08/24 15:13:58 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2004/02/25 02:35:04 brad Exp $
 # $FreeBSD: Makefile,v 1.13 1999/03/01 16:18:30 mph Exp $
 
@@ -17,6 +17,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		ftp://ftp.epicsol.org/pub/epic/EPIC4-PRODUCTION/ \
+			ftp://ftp.epicsol.org/pub/epic-archives/ \
 			http://home.snafu.de/kl/epic/ \
 			${MASTER_SITE_FINK}
 
