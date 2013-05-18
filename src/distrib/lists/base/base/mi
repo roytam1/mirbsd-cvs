@@ -202,7 +202,6 @@
 ./usr/bin/cpp
 ./usr/bin/crontab
 ./usr/bin/crunchgen
-./usr/bin/crunchide
 ./usr/bin/ctags
 ./usr/bin/cu
 ./usr/bin/cut
@@ -1590,7 +1589,6 @@
 ./usr/share/man/cat1/cpio.0
 ./usr/share/man/cat1/crontab.0
 ./usr/share/man/cat1/crunchgen.0
-./usr/share/man/cat1/crunchide.0
 ./usr/share/man/cat1/ctags.0
 ./usr/share/man/cat1/cu.0
 ./usr/share/man/cat1/cut.0
