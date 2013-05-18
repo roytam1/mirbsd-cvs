@@ -1,20 +1,38 @@
-#serial AM2
+# iconv.m4 serial AM4 (gettext-0.11.3)
+# $MirOS$
+dnl Copyright (C) 2000-2002, 2006 Free Software Foundation, Inc.
+dnl This file is free software; the Free Software Foundation
+dnl gives unlimited permission to copy and/or distribute it,
+dnl with or without modifications, as long as this notice is preserved.
 
 dnl From Bruno Haible.
-dnl $MirOS: ports/converters/libiconv/iconv.m4,v 1.1 2006/02/20 19:04:15 tg Exp $
 
-AC_DEFUN([AM_ICONV],
+AC_DEFUN([AM_ICONV_LINKFLAGS_BODY],
+[
+  dnl Prerequisites of AC_LIB_LINKFLAGS_BODY.
+  AC_REQUIRE([AC_LIB_PREPARE_PREFIX])
+  AC_REQUIRE([AC_LIB_RPATH])
+
+  dnl Search for libiconv and define LIBICONV, LTLIBICONV and INCICONV
+  dnl accordingly.
+  AC_LIB_LINKFLAGS_BODY([iconv])
+])
+
+AC_DEFUN([AM_ICONV_LINK],
 [
   dnl Some systems have iconv in libc, some have it in libiconv (OSF/1 and
   dnl those with the standalone portable GNU libiconv installed).
 
-  AC_ARG_WITH([libiconv-prefix],
-[  --with-libiconv-prefix=DIR  search for libiconv in DIR/include and DIR/lib], [
-    for dir in `echo "$withval" | tr : ' '`; do
-      if test -d $dir/include; then CPPFLAGS="$CPPFLAGS -I$dir/include"; fi
-      if test -d $dir/lib; then LDFLAGS="$LDFLAGS -L$dir/lib"; fi
-    done
-   ])
+  dnl Search for libiconv and define LIBICONV, LTLIBICONV and INCICONV
+  dnl accordingly.
+  AC_REQUIRE([AM_ICONV_LINKFLAGS_BODY])
+
+  dnl Add $INCICONV to CPPFLAGS before performing the following checks,
+  dnl because if the user has installed libiconv and not disabled its use
+  dnl via --without-libiconv-prefix, he wants to use it. The first
+  dnl AC_TRY_LINK will then fail, the second AC_TRY_LINK will succeed.
+  am_save_CPPFLAGS="$CPPFLAGS"
+  AC_LIB_APPENDTOVAR([CPPFLAGS], [$INCICONV])
 
   AC_CACHE_CHECK(for iconv, am_cv_func_iconv, [
     am_cv_func_iconv="no, consider installing MirPorts converters/libiconv"
@@ -27,7 +45,7 @@ AC_DEFUN([AM_ICONV],
       am_cv_func_iconv=yes)
     if test "$am_cv_func_iconv" != yes; then
       am_save_LIBS="$LIBS"
-      LIBS="$LIBS -liconv"
+      LIBS="$LIBS $LIBICONV"
       AC_TRY_LINK([#include <stdlib.h>
 #include <iconv.h>],
         [iconv_t cd = iconv_open("","");
@@ -40,6 +58,25 @@ AC_DEFUN([AM_ICONV],
   ])
   if test "$am_cv_func_iconv" = yes; then
     AC_DEFINE(HAVE_ICONV, 1, [Define if you have the iconv() function.])
+  fi
+  if test "$am_cv_lib_iconv" = yes; then
+    AC_MSG_CHECKING([how to link with libiconv])
+    AC_MSG_RESULT([$LIBICONV])
+  else
+    dnl If $LIBICONV didn't lead to a usable library, we don't need $INCICONV
+    dnl either.
+    CPPFLAGS="$am_save_CPPFLAGS"
+    LIBICONV=
+    LTLIBICONV=
+  fi
+  AC_SUBST(LIBICONV)
+  AC_SUBST(LTLIBICONV)
+])
+
+AC_DEFUN([AM_ICONV],
+[
+  AM_ICONV_LINK
+  if test "$am_cv_func_iconv" = yes; then
     AC_MSG_CHECKING([for iconv declaration])
     AC_CACHE_VAL(am_cv_proto_iconv, [
       AC_TRY_COMPILE([
@@ -62,17 +99,9 @@ size_t iconv();
     AC_DEFINE_UNQUOTED(ICONV_CONST, $am_cv_proto_iconv_arg1,
       [Define as const if the declaration of iconv() needs const.])
   fi
-  LIBICONV=
   if test "$am_cv_lib_iconv" = yes; then
-    LIBICONV="-liconv"
-  fi
-  AC_SUBST(LIBICONV)
-  dnl Compatibility, added by Thorsten Glaser
-  LTLIBICONV=$LIBICONV
-  AC_SUBST(LTLIBICONV)
-  if test "$am_cv_lib_iconv" = yes; then
-    AC_MSG_NOTICE([found iconv suitable for MirPorts: $LIBICONV])
+    AC_MSG_NOTICE([found iconv suitable for MirPorts: $LIBICONV:$LTLIBICONV])
   else
-    AC_MSG_NOTICE([did not fiund iconv suitable for MirPorts. $LIBICONV])
+    AC_MSG_NOTICE([didn't find MirPorts suitable iconv. $LIBICONV:$LTLIBICONV])
   fi
 ])

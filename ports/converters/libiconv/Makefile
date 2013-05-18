@@ -1,12 +1,12 @@
-# $MirOS: ports/converters/libiconv/Makefile,v 1.7 2006/03/05 22:56:23 tg Exp $
+# $MirOS: ports/converters/libiconv/Makefile,v 1.8 2006/09/14 00:07:40 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2003/12/24 00:08:02 brad Exp $
 
-COMMENT=			character set conversion library
-DISTNAME=	libiconv-1.9.1
-PKGNAME=	${DISTNAME}-4
-CATEGORIES=	converters devel
-MASTER_SITES=	${MASTER_SITE_GNU:=libiconv/}
-HOMEPAGE=	http://www.gnu.org/software/libiconv/
+COMMENT=		character set conversion library
+DISTNAME=		libiconv-1.9.1
+PKGNAME=		${DISTNAME}-4
+CATEGORIES=		converters devel
+MASTER_SITES=		${MASTER_SITE_GNU:=libiconv/}
+HOMEPAGE=		http://www.gnu.org/software/libiconv/
 
 # GNU LGPLv2.0
 PERMIT_PACKAGE_CDROM=	Yes
@@ -14,19 +14,18 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-CONFIGURE_STYLE=autoconf
-AUTOCONF_NEW=	Yes
-VMEM_WARNING=	Yes
+CONFIGURE_STYLE=	autoconf
+AUTOCONF_NEW=		Yes
+VMEM_WARNING=		Yes
 MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC} ${WRKSRC}/libcharset
-CONFIGURE_ARGS+= ${CONFIGURE_SHARED}
-CONFIGURE_ARGS+= --enable-static \
-		 --enable-extra-encodings \
-		 --disable-nls \
-		 --mandir=${PREFIX}/man
+CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
+CONFIGURE_ARGS+=	--enable-static \
+			--enable-extra-encodings \
+			--disable-nls
 
 # To avoid clashing with native libiconv (Darwin, MirBSD #9)
-CONFIGURE_ARGS+= --libdir=${PREFIX}/giconv/lib \
-		 --includedir=${PREFIX}/giconv/include
+CONFIGURE_ARGS+=	--libdir=${PREFIX}/giconv/lib \
+			--includedir=${PREFIX}/giconv/include
 
 # Yes, it does need this fuckup.
 pre-patch:
