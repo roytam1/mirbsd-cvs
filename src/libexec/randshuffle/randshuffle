@@ -72,7 +72,9 @@ dd if=/dev/urandom of=$S bs=160 count=1 >/dev/null 2>&1 || {
 	cat $R >/dev/arandom
 	exit 2
 }
-print -r -- "$SUMS" >>$S
-cat $R $S >/dev/arandom
+cat $R >>$S
+print -r -- "$SUMS $(date)" >$R
+# insert here additional >>$R 2>&1, e.g. ftp(1) calls
+cksum -b -a sha512 <$R | cat - $S >/dev/arandom
 print "notice: system random seed rotated! $((RANDOM & 255))" | logger
 print -n $RANDOM >/dev/prandom
