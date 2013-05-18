@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.35 2005/12/29 23:32:37 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.36 2006/03/19 20:10:13 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -258,6 +258,17 @@ maninstall: afterinstall
 afterinstall: realinstall
 realinstall: beforeinstall
 .endif	# not target install
+
+.if !target(tags)
+tags: ${.CURDIR}/tags
+
+${.CURDIR}/tags: ${SRCS}
+	ctags -w -f $@ ${.ALLSRC:N*.S:N*.s}
+	egrep "^SYSENTRY(.*)|^ENTRY(.*)|^NENTRY(.*)|^FUNC(.*)|^SYSCALL(.*)" \
+	    /dev/null ${.ALLSRC:M*.S} ${.ALLSRC:M*.s} | sed \
+	    "s;\([^:]*\):\([^(]*\)(\([^, )]*\)\(.*\);\3 \1 /^\2(\3\4$$/;" >>$@
+	sort -o $@ $@
+.endif
 
 .if ${NOMAN:L} == "no"
 .  include <bsd.man.mk>
