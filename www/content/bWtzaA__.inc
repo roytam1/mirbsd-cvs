@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.58 2006/09/14 00:42:07 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.59 2006/09/18 20:14:34 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -285,7 +285,17 @@
 <p>Of course, your system must be operational for compiling
  programmes. You will need some sort of bourne compatible
  shell, compiler, assembler, linker (has not been tested with
- anything other than GCC), and associated tools.</p>
+ anything other than GCC), and associated tools. At the moment,
+ the following operating systems are supported: any recent BSD
+ UNIX&reg;, Darwin and Apple Mac OSX, GNU/Cygwin, Interix aka
+ Microsoft&reg; Services for Unix 3.5, GNU/Linux at least with
+ glibc and uClibc, Sun Solaris 8 and 9 (other versions might
+ work; OpenSolaris requires mksh-current). Not supported are
+ basically any others, e.g. IRIX, SCO Unixware, BSD/OS, AIX,
+ OSF/1 and Tru64, Plan 9. Patches to add support for compilers
+ other than GCC and platforms other than these listed above,
+ especially these supported by NetBSD&reg; pkgsrc&reg;, are
+ welcome &ndash; a port to Plan 9 APE has been started.</p>
 
 <p>ed(1) is the standard <tt>FCEDIT</tt> history editor and
  as such must be located in <tt>/bin/ed</tt> &ndash; note that
@@ -348,7 +358,7 @@
  Stripping is done via the host's install(1)
  command's -s flag; if stripping during installation fails just use the
  <em>mksh</em> binary. On Solaris, use /usr/ucb/install instead.</p>
-<p>The testsuite can be run by the dynamically generated <tt>Test.sh</tt>
+<p>The testsuite can be run by the dynamically generated <tt>test.sh</tt>
  shell script which executes the first perl(1) found in your path to run
  the testsuite on the just built executable. Note that it is built in the
  current directory, not the source directory, if these are different.</p>
