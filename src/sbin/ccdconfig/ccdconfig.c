@@ -63,6 +63,8 @@
 
 #include "pathnames.h"
 
+__RCSID("$MirOS$");
+
 extern	char *__progname;
 
 static	int lineno = 0;
@@ -306,7 +308,7 @@ do_single(int argc, char *argv[], int action)
 			    i == 0 ? '(' : ' ', cp2,
 			    i == ccio.ccio_ndisks - 1 ? ')' : ',');
 		}
-		printf(", %d blocks ", ccio.ccio_size);
+		printf(", %ld blocks ", ccio.ccio_size);
 		if (ccio.ccio_ileave != 0)
 			printf("interleaved at %d blocks\n", ccio.ccio_ileave);
 		else

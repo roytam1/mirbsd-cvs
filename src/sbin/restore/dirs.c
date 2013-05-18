@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/restore/dirs.c,v 1.2 2005/03/06 19:50:34 tg Exp $ */
+/**	$MirOS: src/sbin/restore/dirs.c,v 1.3 2005/11/23 16:44:06 tg Exp $ */
 /*	$OpenBSD: dirs.c,v 1.30 2005/04/28 16:15:45 millert Exp $	*/
 /*	$NetBSD: dirs.c,v 1.26 1997/07/01 05:37:49 lukem Exp $	*/
 
@@ -59,7 +59,7 @@
 #include "extern.h"
 
 __SCCSID("@(#)dirs.c	8.5 (Berkeley) 8/31/94");
-__RCSID("$MirOS: src/sbin/restore/dirs.c,v 1.2 2005/03/06 19:50:34 tg Exp $");
+__RCSID("$MirOS: src/sbin/restore/dirs.c,v 1.3 2005/11/23 16:44:06 tg Exp $");
 
 /*
  * Symbol table of directories read from tape.
@@ -266,7 +266,7 @@ treescan(char *pname, ino_t ino, long (*todo)(char *, ino_t, int))
 	while (dp != NULL) {
 		locname[namelen] = '\0';
 		if (namelen + dp->d_namlen >= sizeof(locname)) {
-			fprintf(stderr, "%s%s: name exceeds %d char\n",
+			fprintf(stderr, "%s%s: name exceeds %ld char\n",
 				locname, dp->d_name, sizeof(locname) - 1);
 		} else {
 			(void)strlcat(locname, dp->d_name, sizeof(locname));

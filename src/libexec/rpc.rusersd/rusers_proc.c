@@ -28,14 +28,9 @@
  * POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char rcsid[] = "$OpenBSD: rusers_proc.c,v 1.21 2004/11/04 20:09:18 deraadt Exp $";
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/socket.h>
 #include <sys/stat.h>
-#include <sys/types.h>
 #include <sys/time.h>
 #include <paths.h>
 #include <utmp.h>
@@ -47,6 +42,8 @@ static char rcsid[] = "$OpenBSD: rusers_proc.c,v 1.21 2004/11/04 20:09:18 deraad
 #include <rpc/rpc.h>
 #include <rpcsvc/rusers.h>	/* New version */
 #include <rpcsvc/rnusers.h>	/* Old version */
+
+__RCSID("$MirOS$");
 
 extern int utmp_fd;
 
@@ -97,7 +94,7 @@ getidle(char *tty)
 		idle = (kbd_idle < mouse_idle) ? kbd_idle : mouse_idle;
 	} else {
 		snprintf(devname, sizeof devname, "%s/%.*s", _PATH_DEV,
-		    sizeof(tty), tty);
+		    (int)sizeof (tty), tty);
 		if (stat(devname, &st) < 0) {
 #ifdef DEBUG
 			printf("%s: %m\n", devname);

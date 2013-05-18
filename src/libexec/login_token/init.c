@@ -42,6 +42,8 @@
 #include "token.h"
 #include "tokendb.h"
 
+__RCSID("$MirOS$");
+
 static struct token_types types[] = {
 	{ "activ", "ActivCard", "/etc/activ.db", "012345",
 	    TOKEN_HEXINIT,
@@ -93,7 +95,7 @@ token_init(char *path)
 		fprintf(stderr, "Please invoke as one of:");
 		for (i = 0; i < sizeof(types)/sizeof(types[0]); ++i)
 			fprintf(stderr, " %.*s%s%s",
-			    p - path, path, types[i].name, p + 5);
+			    (int)(p - path), path, types[i].name, p + 5);
 		fprintf(stderr, "\n");
 		exit(1);
 
