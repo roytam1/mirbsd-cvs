@@ -29,7 +29,7 @@
 #include <grp.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/misc.c,v 1.130 2009/11/21 22:30:36 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/misc.c,v 1.132 2009/11/28 14:21:45 tg Exp $");
 
 unsigned char chtypes[UCHAR_MAX + 1];	/* type bits for unsigned char */
 
@@ -154,7 +154,7 @@ printoptions(bool verbose)
 				len = strlen(options[i].name);
 				if (len > octs)
 					octs = len;
-				len = utf_mbswidth(options[i].name);
+				len = utf_mbswidth(options[i].name, true);
 				if (len > oi.opt_width)
 					oi.opt_width = len;
 			}
