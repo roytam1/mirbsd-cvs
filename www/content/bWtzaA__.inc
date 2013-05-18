@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.43 2006/08/08 20:22:31 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.44 2006/08/08 20:39:27 tg Exp $</small>
 
 <h1>mksh(1) R27e</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -78,6 +78,7 @@
  <li>Remove the 'stuff' and 'stuff-reset' editing commands</li>
  <li>Correct the manual page regarding the 'abort' command, its
   interaction with 'search-history' and how to exit the latter</li>
+ <li>Bring back "set -o posix" turning off 'braceexpand'</li>
 </ul>
 <p>We recommend mksh <b>R27e</b> to be used:</p><ul>
  <li>Allow <tt>Test.sh</tt> to be passed parameters (-v)</li>
