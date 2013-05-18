@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.387 2011/03/13 16:36:24 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.388 2011/03/16 21:04:49 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1176,6 +1176,16 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Speed up reading input by checking for the BOM only once</li>
  <li>[tg] Fix mis-detection of gcc format attribute (false negative)</li>
  <li>[tg] Include some Android specific hacks (no change on other OEs)</li>
+ <li>[tg, Jb_boin] In <tt>${foo/bar/baz}</tt> expressions, when adjourning
+  empty patterns to avoid running into a busy-wait loop, remember to skip
+  the anchor characters (‘#’ or ‘%’) at the beginning, yet keep the special
+  meaning replacing a string begin or end with a string has</li>
+ <li>[tg] Write a pattern optimiser that is run internally before calls to
+  the pattern matching code always (currently, replaces <tt>a@(b@(c)d)e</tt>
+  with <tt>abcde</tt> but keeps <tt>@(a|a)</tt>, then (in a second pass)
+  collapses adjacent asterisk (‘*’) wildcards into a single one; this fixes
+  some of the symptoms of severe performance issues our pattern matching code
+  has to the extent that it can prevent busy-looping (found by Jb_boin)</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
