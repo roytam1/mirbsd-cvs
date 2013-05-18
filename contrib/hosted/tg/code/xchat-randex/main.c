@@ -42,7 +42,7 @@
  */
 
 static const char __rcsid[] =
-    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.8 2009/08/02 15:15:14 tg Exp $";
+    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.9 2009/10/24 18:28:24 tg Exp $";
 
 #include <sys/types.h>
 #if defined(HAVE_STDINT_H) && HAVE_STDINT_H
@@ -88,7 +88,7 @@ static char buf[128];
 /* The XChat Plugin API 2.0 is not const clean */
 static char randex_name[] = "randex";
 static char randex_desc[] = "MirOS RANDomness EXchange protocol support";
-static char randex_vers[] = "1.10";
+static char randex_vers[] = "1.11";
 static char null[] = "";
 
 int xchat_plugin_init(xchat_plugin *, char **, char **, char **, char *);
