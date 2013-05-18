@@ -1,12 +1,9 @@
-# $MirOS: ports/lang/llvm/Makefile,v 1.1 2008/11/02 03:07:47 tg Exp $
+# $MirOS: ports/lang/llvm/Makefile,v 1.2 2008/11/02 03:51:17 tg Exp $
 
 BROKEN=			porting in progress
 
 COMMENT=		Low Level Virtual Machine compiler infrastructure
-DISTNAME=		llvm-2.4
-SVN_DISTDIR0=		llvm-clang
-SVN_DISTREV0=		58548
-PKGNAME=		llvm-2.4rc2-${DASH_VER}
+SVN_DISTREV=		58565
 CATEGORIES=		lang devel
 HOMEPAGE=		http://clang.llvm.org/
 
@@ -16,7 +13,10 @@ PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
-MASTER_SITES=		http://llvm.org/prereleases/2.4/
+SVN_DISTDIR=		llvm
+SVN_DISTPATH=		http://llvm.org/svn/llvm-project/llvm/trunk
+SVN_DISTDIR0=		llvm/tools/clang
+SVN_DISTREV0=		${SVN_DISTREV}
 SVN_DISTPATH0=		http://llvm.org/svn/llvm-project/cfe/trunk
 
 USE_CXX=		Yes
@@ -55,7 +55,6 @@ EXTRA_XAKE_FLAGS+=	VERBOSE=1 \
 
 post-extract:
 	-rm -rf ${WRKSRC}/projects/sample
-	mv ${WRKDIR}/llvm-clang ${WRKSRC}/tools/clang
 
 pre-build:
 	# What the fuck?!

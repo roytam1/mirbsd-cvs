@@ -1,6 +1,6 @@
-$MirOS$
---- autoconf/configure.ac.orig	Thu Oct 23 05:43:41 2008
-+++ autoconf/configure.ac	Sat Nov  1 20:25:40 2008
+$MirOS: ports/lang/llvm/patches/patch-autoconf_configure_ac,v 1.1 2008/11/02 03:07:48 tg Exp $
+--- autoconf/configure.ac.orig	Thu Jan  1 00:00:00 1970
++++ autoconf/configure.ac	Sun Nov  2 14:33:00 2008
 @@ -130,6 +130,16 @@ AC_CACHE_CHECK([type of operating system
      llvm_cv_no_link_all_option="-Wl,--no-whole-archive"
      llvm_cv_os_type="FreeBSD"
@@ -18,7 +18,7 @@ $MirOS$
    *-*-openbsd*)
      llvm_cv_link_all_option="-Wl,--whole-archive"
      llvm_cv_no_link_all_option="-Wl,--no-whole-archive"
-@@ -891,8 +901,8 @@ eval LLVM_PREFIX="${prefix}";
+@@ -892,8 +902,8 @@ eval LLVM_PREFIX="${prefix}";
  eval LLVM_BINDIR="${prefix}/bin";
  eval LLVM_LIBDIR="${prefix}/lib";
  eval LLVM_DATADIR="${prefix}/share/llvm";
