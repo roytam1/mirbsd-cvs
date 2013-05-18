@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.78 2008/11/10 21:10:22 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.79 2008/12/10 21:46:26 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -103,10 +103,15 @@ lt_revision?=	0
 SHLIB_FLAGS+=	-version-number ${SHLIB_VERSION:R}:${SHLIB_VERSION:E}:${lt_revision}
 .  endif
 .elif ${RTLD_TYPE} == "dyld"
+.  if ${SHLIB_VERSION} == "-"
+LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -dynamiclib \
+		$$(${LORDER} ${SOBJS}|tsort -q) ${LDADD}
+.  else
 LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -dynamiclib \
 		$$(${LORDER} ${SOBJS}|tsort -q) ${LDADD} \
-		-compatibility_version ${SHLIB_VERSION} \
+		-compatibility_version ${SHLIB_VERSION:R}.0 \
 		-current_version ${SHLIB_VERSION}
+.  endif
 .elif ${RTLD_TYPE} == "GNU"
 .  if ${SHLIB_VERSION} == "-"
 LINK.shlib?=	${LINKER} ${CFLAGS:M*} ${SHLIB_FLAGS} -shared \
