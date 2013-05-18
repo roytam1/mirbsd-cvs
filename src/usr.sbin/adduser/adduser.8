@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/misc/licence.template,v 1.8 2006/06/16 23:03:39 tg Rel $
+.\" $MirOS: src/share/misc/licence.template,v 1.14 2006/08/09 19:35:23 tg Rel $
 .\"-
 .\" Copyright (c) 2006
 .\"	Thorsten Glaser <tg@mirbsd.de>
@@ -10,8 +10,8 @@
 .\" in all redistributions or reproduced in accompanying documentation
 .\" or other materials provided with binary redistributions.
 .\"
-.\" All advertising materials mentioning features or use of this soft-
-.\" ware must display the following acknowledgement:
+.\" Advertising materials mentioning features or use of this work must
+.\" display the following acknowledgement:
 .\"	This product includes material provided by Thorsten Glaser.
 .\"
 .\" Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
@@ -21,9 +21,9 @@
 .\" or other damage, or direct damage except proven a consequence of a
 .\" direct error of said person and intended use of this work, loss or
 .\" other issues arising in any way out of its use, even if advised of
-.\" the possibility of such damage or existence of a nontrivial bug.
+.\" the possibility of such damage or existence of a defect.
 .\"
-.Dd July 8, 2006
+.Dd October 2, 2006
 .Dt ADDUSER 8
 .Os
 .Sh NAME
@@ -41,14 +41,34 @@ home directory with the contents of
 The user is by default put into the login class
 .Dq default ,
 has no password timeouts, secondary groups, or other special options.
-To change these, use
-.Nm vipw
-or edit
-.Pa /etc/group
-manually after creating the user.
+.Pp
+To change the login class, use the following command:
+.Bd -literal -offset indent
+$ sudo vipw
+.Ed
+.Pp
+To add a user to a secondary group or remove him from any groups,
+or to add not yet existing groups, use the following command:
+.Bd -literal -offset indent
+$ sudoedit /etc/group
+.Ed
+.Pp
+Users and groups are never removed. To disable a user, change his
+login class to default (empty field), his home directory to
+.Pa /nonexistant ,
+and his shell to
+.Pa /sbin/nologin .
+Remove his former home directory and set the password so that the
+user cannot login any more (only an asterisk), but do not delete
+the entry.
 .Sh SEE ALSO
 .Xr ed 1 ,
 .Xr mksh 1 ,
+.Xr passwd 1 ,
+.Xr group 5 ,
+.Xr login.conf 5 ,
+.Xr passwd 5 ,
+.Xr nologin 8 ,
 .Xr sudo 8 ,
 .Xr vipw 8
 .Sh AUTHORS
