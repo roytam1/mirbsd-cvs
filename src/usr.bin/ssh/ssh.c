@@ -41,7 +41,7 @@
  */
 
 #include "includes.h"
-__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.12 2006/06/02 20:50:51 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.13 2006/08/12 13:57:11 tg Exp $");
 
 #include <sys/resource.h>
 #include <sys/ioctl.h>
@@ -96,7 +96,6 @@ int debug_flag = 0;
 int tty_flag = 0;
 int no_tty_flag = 0;
 int force_tty_flag = 0;
-int no_lowdelay = 0;
 
 /* don't exec a shell */
 int no_shell_flag = 0;
@@ -300,7 +299,7 @@ main(int ac, char **av)
 			options.forward_agent = 1;
 			break;
 		case 'k':
-			break;
+			break;		/* compatibility to OpenBSD */
 		case 'i':
 			if (stat(optarg, &st) < 0) {
 				fprintf(stderr, "Warning: Identity file %s "
@@ -499,11 +498,7 @@ main(int ac, char **av)
 			config = optarg;
 			break;
 		case 'h':
-			fprintf(stderr,
-			    "The -h option is deprecated and will be removed.\n"
-			    "Use -T for IPTOS_THROUGHPUT instead.\n");
-			no_lowdelay = 1;
-			break;
+			break;		/* compatibility to MirOS #8 */
 		default:
 			usage();
 		}
@@ -874,7 +869,7 @@ ssh_session(void)
 		   length of the string. */
 		cp = getenv("TERM");
 		if (!cp)
-			cp = (char *)"";
+			cp = "";
 		packet_put_cstring(cp);
 
 		/* Store window size in the packet. */
@@ -924,7 +919,7 @@ ssh_session(void)
 		}
 	}
 	/* Tell the packet module whether this is an interactive session. */
-	packet_set_interactive(no_lowdelay ? 0 : interactive);
+	packet_set_interactive(interactive);
 
 	/* Request authentication agent forwarding if appropriate. */
 	check_agent_present();
@@ -1100,7 +1095,7 @@ ssh_session2_setup(int id, void *arg)
 	client_session2_setup(id, tty_flag, subsystem_flag, getenv("TERM"),
 	    NULL, fileno(stdin), &command, environ, &ssh_subsystem_reply);
 
-	packet_set_interactive(no_lowdelay ? 0 : interactive);
+	packet_set_interactive(interactive);
 }
 
 /* open new channel for a session */
