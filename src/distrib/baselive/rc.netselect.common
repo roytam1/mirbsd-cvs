@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.8 2007/07/31 22:23:49 tg Exp $
+# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.9 2007/07/31 22:32:12 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -38,6 +38,7 @@ function get_kbdtype {
 		[[ $resp = +([0-9]) ]] && resp=${layouts[$resp]}
 		[[ $resp = [a-z]* ]] && if kbd $resp; then
 			echo $resp >/etc/kbdtype
+			mv /etc/skel/.Xmodmap /etc/skel/.Xmodmap~
 			return
 		fi
 		[[ $resp = \? ]] || continue
