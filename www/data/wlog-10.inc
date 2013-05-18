@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.302 2010/07/21 11:43:09 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.304 2010/07/25 11:56:16 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6873,4 +6873,80 @@ Tag: debian event geocache grml
  in manageable distance.)</p>
 <p>Besides interesting booths and talks, FrOSCon is still looking for helpers
  who will not only get free entrance but also catering during operation.</p>
+----
+Title: FrOSCon 2010 and other sundries
+Author: tg@
+Date: 06.08.2010 14:42
+Tag: debian event grml
+
+<p class="boxhead">The <a href="http://froscon.de/">FrOSCon 5 - 21./22.
+ August 2010</a> booth plans have finalised, I am rather content:</p>
+<div class="boxtext">
+ <pre>
+	┌──┐              I ❦ STANDPLAN FROSCON 2010
+	│ <a style="border:none;" href="https://www.freewrt.org/">F</a>│<a style="border:none;" href="https://www.freewrt.org/">reeWRT</a>
+	├──┤
+	│ <a style="border:none;" href="https://www.mirbsd.org/">M</a>│<a style="border:none;" href="https://www.mirbsd.org/">irBSD</a>
+	│  │
+	├──┤
+	│ <a style="border:none;" href="http://www.debian.org/">D</a>│<a style="border:none;" href="http://www.debian.org/">ebian</a>
+	│  │                 C = Collectd
+	├──┼────┐
+	│C │   <a style="border:none;" href="http://grml.org/">G</a>│<a style="border:none;" href="http://grml.org/">rml</a>
+	└──┴────┘
+ </pre>
+</div><p class="boxfoot">This is especially good, as XTaran will be
+ shared among (at least) Debian, Grml, FreeWRT; same for me plus of
+ course MirBSD; kimnotyze is FreeWRT but may help with MirBSD; benz
+ and gecko2 probably are MirBSD but gecko2 could help with FreeWRT,
+ tokkee was interested in FreeWRT too… anyway.</p>
+<p class="boxhead">Some days, you just love software.</p><div class="boxtext">
+ <pre>
+	Aug  6 13:55:01 blau firesomething-bin: stack overflow
+	    in function VFY_EndWithSignature
+	Aug  6 13:55:01 blau /bsd: signal 6 received by
+	    (firesomething-bi:1146) UID(2999) EUID(2999),
+	    parent (sh:9059) UID(2999) EUID(2999)
+ </pre>
+</div><p class="boxfoot">Thus, let me reïterate it for all of you:
+ <br /><img src="@@RELPATH@@pics/wlog/firemoo.gif" alt="firesomething" /></p>
+<p>Well, now that the Debian Release Managers have sent their freezing
+ bits around… *shudder*… Squeeze is frozen. Well, at least everything
+ I have my hands in has migrated. I’m still… not persuaded. I also can’t
+ decide which looks worse (KDE 4 or Win 7), tending towards KDE 4…</p>
+<p>Why does all the horrid software (Solaris, Java™, OpenSSO, MySQL,
+ etc.) tend to end up at Oracle at the moment? Let me quote from some
+ Debian mailing list:<br />&gt;&gt;What happened to the Unix philosophy?
+ <br />&gt;Modern Solaris engineers<br />Is that similar to high-speed
+ horse carriages?</p><!-- RSS stop -->
+<p>My <a href="http://download.opensuse.org/repositories/home:/mirabile/">RPM
+ repository</a> has been pimped a bit – I ported some stuff from my <a
+ href="https://eurynome.mirbsd.org/debs/debidx.htm">DEB repository</a>
+ and updated them in both (rdate(8) and ntpd(8), specifically). Still
+ ought to work more on them, but currently MirBSD base is most important,
+ although I’m dying for <a href="@@RELPATH@@mksh.htm">mksh</a> associative
+ and multi-dimensional arrays, as well as more sh(1) conformance <a
+ href="@@RELPATH@@permalinks/wlog-10_e20100721-tg.htm">assorted bug
+ fixes</a>.</p>
+<p>Well, there’s a life besides the computer. I’ve taken today off, wanting
+ to hack on MirBSD’s most urgent problems (but probably end up doing that
+ tomorrow), slept long, and will meet with cnuke@ and gecko2@ for Greek
+ style dinner. The latter will almost certainly end up with a long-time
+ work contract at the same place where I run a lot of things already, so
+ congratulations. In the meanwhile, bsiegert@ has almost become a Doctor of
+ Chemistry, and my brother’s finished his Maths and Economics diploma.</p>
+<p>Also, I’ve put up the logo of the company where my new dedicated server
+ is hosted; they reduce the monthly fee in exchange for this, so humour me
+ and pay them a visit. They’re IPv6 pioneers, actually. (The server is now
+ installed but not completely set up yet, and I have yet to begin moving
+ services; it’ll be better than the VM <tt>eurynome</tt> is, but the clock
+ could use the new timekeeping subsystem in the kernel as well as socket
+ send (ÆrieBSD) and receive timestamps as it’s off by 0-1000 ms.)</p>
+<p>Speaking of kernel stuff, yesterday I considered moving wscons(4) to
+ UTF-8 again (since everything is CESU-8, we need to take raw octets into
+ account also). I’ve seen OpenBSD begun importing Citrus… *shudder*
+ Anyway, that’s my part, but I’d like volunteers for backporting things
+ like the timekeeping stuff (and possibly more hardware support), and
+ writing a pivot_root like thing (explained on some mailing list already)
+ so we can use ramdisc root to do loopback root.</p>
 ----
