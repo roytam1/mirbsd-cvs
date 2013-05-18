@@ -10,7 +10,7 @@ Date: 01.04.2006
 
 <p><a href="/?ann-9">MirOS #9</a> is available via our <a
  href="http://f.scarywater.net/miros/">BitTorrent tracker</a>. There is
- also an <a href="/MirOS/v9/">HTTP(S)</a> download/netinstall
+ also an <a href="@@RELPATH@@MirOS/v9/">HTTP(S)</a> download/netinstall
  option.</p>
 <p>Please read the <a href="/?errata">errata</a>.</p>
 ----
@@ -247,7 +247,7 @@ Date: 06.07.2007
  <tt>${var:(n):m}</tt>). All of these are bash-compatible. This doesn't
  nest in either mksh or bash.</p>
 <p>More features are to follow ☺</p>
-<p>To install MirOS BSD, please use a <a href="/MirOS/current/">direct
+<p>To install MirOS BSD, please use a <a href="@@RELPATH@@MirOS/current/">direct
  download</a> (or even netinstall from the same place) at the moment.
  We will provide MirOS #10RC2 as a Live+Install ISO image again at some
  time in the future (give us 1-2 weeks); MirOS #10RC1 contained a bug
@@ -330,7 +330,7 @@ Date: 01.08.2007
 
 <p>The <a href="http://f.scarywater.net/miros/">BitTorrent tracker</a> now
  has a torrent for the MirOS #10 RC3 Live+Install CD; of course, the <a
- href="/MirOS/current/">netinstall location</a> has been upgraded with the
+ href="@@RELPATH@@MirOS/current/">netinstall location</a> has been upgraded with the
  new dist sets as well. You can now select a keyboard layout during livecd
  boot, and it's been made more user friendly; many small bugs have been
  plugged; <a href="@@RELPATH@@mksh.htm">everyone's favourite shell</a> is
@@ -584,9 +584,9 @@ Date: 07.02.2008
 Title: mirmake 20080218 released
 Date: 20.02.2008
 
-<p><a href="/MirOS/dist/mir/make/">mirmake-20080218</a> has been
+<p><a href="@@RELPATH@@MirOS/dist/mir/make/">mirmake-20080218</a> has been
  released. Read the <a
- href="/permalinks/wlog-9_e20080219-bsiegert.htm">release notes
+ href="@@RELPATH@@permalinks/wlog-9_e20080219-bsiegert.htm">release notes
  here</a>.</p>
 ----
 Title: MirOS @ FOSDEM 2008
@@ -594,4 +594,16 @@ Date: 22.02.2008
 
 <p>bsiegert@ currently sits at the Early Bird beer event in Bruxelles,
  tg@ and gecko2@ will follow tomorrow and man the MirOS booth ☻</p>
+----
+Title: FOSDEM follow-up
+Date: 24.02.2008
+
+<p><a href="@@RELPATH@@MirOS/dist/mir/make/">mirmake-20080224</a> and
+ assorted commits in the MirPorts Framework fix all known Mac OSX Leopard
+ issues.</p>
+<p>There are two BSD booths at FOSDEM: one with OpenBSD and FreeBSD (with
+ DesktopBSD and PC-BSD CDs) at the usual place in the main building, and
+ one with OpenBSD, NetBSD and MirOS in the AW building, near the shared
+ PostgreSQL/BSD developer room. Meet us at the latter! CDs are out though
+ (MirOS, FreeSBIE, etc. – only some of the other BSDs left).</p>
 ----
