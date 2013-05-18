@@ -1,11 +1,11 @@
-# $MirOS: ports/mailnews/bmf/Makefile,v 1.9 2007/04/15 19:54:08 tg Exp $
+# $MirOS: ports/mailnews/bmf/Makefile,v 1.10 2008/03/09 17:23:04 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2004/02/02 23:11:28 pvalchev Exp $
 
 COMMENT=		easy to use Bayesian spam filter
 DISTNAME=		bmf-0.9.4
-DASH_VER=		3
+DASH_VER=		4
 CATEGORIES=		mail
-HOMEPAGE=		http://sourceforge.net/projects/bmf
+HOMEPAGE=		http://sourceforge.net/projects/bmf/
 
 # GPL
 PERMIT_PACKAGE_CDROM=	Yes
