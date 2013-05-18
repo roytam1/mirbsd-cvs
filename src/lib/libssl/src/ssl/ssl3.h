@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* ssl/ssl3.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
@@ -309,10 +311,11 @@ typedef struct ssl3_buffer_st
 #define SSL3_CT_FORTEZZA_DMS			20
 #define SSL3_CT_NUMBER				7
 
-#define SSL3_FLAGS_NO_RENEGOTIATE_CIPHERS	0x0001
-#define SSL3_FLAGS_DELAY_CLIENT_FINISHED	0x0002
-#define SSL3_FLAGS_POP_BUFFER			0x0004
-#define TLS1_FLAGS_TLS_PADDING_BUG		0x0008
+#define SSL3_FLAGS_NO_RENEGOTIATE_CIPHERS		0x0001
+#define SSL3_FLAGS_DELAY_CLIENT_FINISHED		0x0002
+#define SSL3_FLAGS_POP_BUFFER				0x0004
+#define TLS1_FLAGS_TLS_PADDING_BUG			0x0008
+#define SSL3_FLAGS_ALLOW_UNSAFE_LEGACY_RENEGOTIATION	0x0010
 
 typedef struct ssl3_state_st
 	{

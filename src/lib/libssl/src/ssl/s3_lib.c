@@ -115,6 +115,8 @@
 #include "kssl_lcl.h"
 #include <openssl/md5.h>
 
+__RCSID("$MirOS$");
+
 const char ssl3_version_str[]="SSLv3" OPENSSL_VERSION_PTEXT;
 
 #define SSL3_NUM_CIPHERS	(sizeof(ssl3_ciphers)/sizeof(SSL_CIPHER))
@@ -1768,6 +1770,9 @@ int ssl3_renegotiate(SSL *s)
 		return(1);
 
 	if (s->s3->flags & SSL3_FLAGS_NO_RENEGOTIATE_CIPHERS)
+		return(0);
+
+	if (!(s->s3->flags & SSL3_FLAGS_ALLOW_UNSAFE_LEGACY_RENEGOTIATION))
 		return(0);
 
 	s->s3->renegotiate=1;

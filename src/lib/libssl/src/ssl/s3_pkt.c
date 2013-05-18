@@ -116,6 +116,8 @@
 #include <openssl/evp.h>
 #include <openssl/buffer.h>
 
+__RCSID("$MirOS$");
+
 static int do_ssl3_write(SSL *s, int type, const unsigned char *buf,
 			 unsigned int len, int create_empty_fragment);
 static int ssl3_write_pending(SSL *s, int type, const unsigned char *buf,
@@ -973,6 +975,7 @@ start:
 
 		if (SSL_is_init_finished(s) &&
 			!(s->s3->flags & SSL3_FLAGS_NO_RENEGOTIATE_CIPHERS) &&
+			(s->s3->flags & SSL3_FLAGS_ALLOW_UNSAFE_LEGACY_RENEGOTIATION) &&
 			!s->s3->renegotiate)
 			{
 			ssl3_renegotiate(s);
@@ -1105,7 +1108,8 @@ start:
 	if ((s->s3->handshake_fragment_len >= 4) &&	!s->in_handshake)
 		{
 		if (((s->state&SSL_ST_MASK) == SSL_ST_OK) &&
-			!(s->s3->flags & SSL3_FLAGS_NO_RENEGOTIATE_CIPHERS))
+			!(s->s3->flags & SSL3_FLAGS_NO_RENEGOTIATE_CIPHERS) &&
+			(s->s3->flags & SSL3_FLAGS_ALLOW_UNSAFE_LEGACY_RENEGOTIATION))
 			{
 #if 0 /* worked only because C operator preferences are not as expected (and
        * because this is not really needed for clients except for detecting

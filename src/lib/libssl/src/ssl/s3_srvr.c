@@ -127,7 +127,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_srvr.c,v 1.5 2009/11/09 19:18:36 tg Exp $");
 
 static SSL_METHOD *ssl3_get_server_method(int ver);
 static int ssl3_get_client_hello(SSL *s);
@@ -656,7 +656,8 @@ static int ssl3_get_client_hello(SSL *s)
 	SSL_COMP *comp=NULL;
 	STACK_OF(SSL_CIPHER) *ciphers=NULL;
 
-	if (s->new_session)
+	if (s->new_session
+	    && !(s->s3->flags&SSL3_FLAGS_ALLOW_UNSAFE_LEGACY_RENEGOTIATION))
 		{
 		al=SSL_AD_HANDSHAKE_FAILURE;
 		SSLerr(SSL_F_SSL3_GET_CLIENT_HELLO, SSL_R_NO_RENEGOTIATION);
