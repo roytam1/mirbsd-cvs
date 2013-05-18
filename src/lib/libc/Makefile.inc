@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/Makefile.inc,v 1.7 2006/11/21 01:04:08 tg Exp $
+# $MirOS: src/lib/libc/Makefile.inc,v 1.8 2006/11/21 02:53:36 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.11 2005/06/17 20:37:31 drahn Exp $
 
 .ifndef LIBCSRCDIR
@@ -45,7 +45,7 @@ SRCS+=		${_z}
 CLEANFILES+=	${_z}
 
 ${_z}: ${_q}
-	-unifdef -D${_s} $> >$@
+	-unifdef ${_s:S/,/ /g} $> >$@
 
 beforedepend: ${_z}
 .endfor

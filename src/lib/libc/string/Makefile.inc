@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.15 2006/11/21 01:25:10 tg Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.16 2006/11/21 01:38:57 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
@@ -27,21 +27,21 @@ CFLAGS_wcswcs.o+= -Wno-cast-qual
 CFLAGS_wmemchr.o+= -Wno-cast-qual
 .endif
 
-UNIFDEF_SRCS+=	strlcpy.c strlfun.c HAVE_STRLCAT=1
-UNIFDEF_SRCS+=	strlcat.c strlfun.c HAVE_STRLCPY=1
-UNIFDEF_SRCS+=	strxfrm.c strlfun.c STRXFRM
-UNIFDEF_SRCS+=	wcslcpy.c wcslfun.c HAVE_WCSLCAT=1
-UNIFDEF_SRCS+=	wcslcat.c wcslfun.c HAVE_WCSLCPY=1
-UNIFDEF_SRCS+=	wcsxfrm.c wcslfun.c WCSXFRM
+UNIFDEF_SRCS+=	strlcpy.c strlfun.c -DHAVE_STRLCAT=1
+UNIFDEF_SRCS+=	strlcat.c strlfun.c -DHAVE_STRLCPY=1
+UNIFDEF_SRCS+=	strxfrm.c strlfun.c -DSTRXFRM
+UNIFDEF_SRCS+=	wcslcpy.c wcslfun.c -DHAVE_WCSLCAT=1
+UNIFDEF_SRCS+=	wcslcat.c wcslfun.c -DHAVE_WCSLCPY=1
+UNIFDEF_SRCS+=	wcsxfrm.c wcslfun.c -DWCSXFRM
 
-UNIFDEF_SRCS+=	strcasecmp.c strcasecmpfun.c STRCASECMP
-UNIFDEF_SRCS+=	strncasecmp.c strcasecmpfun.c STRNCASECMP
-UNIFDEF_SRCS+=	wcscasecmp.c strcasecmpfun.c WCSCASECMP
-UNIFDEF_SRCS+=	wcsncasecmp.c strcasecmpfun.c WCSNCASECMP
+UNIFDEF_SRCS+=	strcasecmp.c strcasecmpfun.c -DSTRCASECMP
+UNIFDEF_SRCS+=	strncasecmp.c strcasecmpfun.c -DSTRNCASECMP
+UNIFDEF_SRCS+=	wcscasecmp.c strcasecmpfun.c -DWCSCASECMP
+UNIFDEF_SRCS+=	wcsncasecmp.c strcasecmpfun.c -DWCSNCASECMP
 
-UNIFDEF_SRCS+=	strcoll.c strcmp.c STRCOLL
-UNIFDEF_SRCS+=	wcscoll.c wcscmp.c WCSCOLL
-UNIFDEF_SRCS+=	wcswcs.c wcsstr.c WCSWCS
+UNIFDEF_SRCS+=	strcoll.c strcmp.c -DSTRCOLL
+UNIFDEF_SRCS+=	wcscoll.c wcscmp.c -DWCSCOLL
+UNIFDEF_SRCS+=	wcswcs.c wcsstr.c -DWCSWCS
 
 # machine-dependent net sources
 # m-d Makefile.inc must include sources for:
@@ -56,7 +56,7 @@ UNIFDEF_SRCS+=	wcswcs.c wcsstr.c WCSWCS
 
 # if no machine specific bcmp(3), build one out of memcmp(3).
 .ifndef _MD_BCMP
-UNIFDEF_SRCS+=	bcmp.c memcmp.c BCMP
+UNIFDEF_SRCS+=	bcmp.c memcmp.c -DBCMP
 .else
 LOBJS+=		bcmp.ln
 
@@ -67,7 +67,7 @@ bcmp.ln: memcmp.c
 
 # if no machine specific memmove(3), build one out of bcopy(3).
 .ifndef _MD_MEMMOVE
-UNIFDEF_SRCS+=	memmove.c bcopy.c MEMMOVE
+UNIFDEF_SRCS+=	memmove.c bcopy.c -DMEMMOVE
 .else
 LOBJS+=		memmove.ln
 
@@ -80,7 +80,7 @@ memmove.ln: bcopy.c
 # if there is a machine specific memmove(3), we'll assume it aliases
 # memcpy(3).
 .if !defined(_MD_MEMCPY) && !defined(_MD_MEMMOVE)
-UNIFDEF_SRCS+=	memcpy.c bcopy.c MEMCOPY
+UNIFDEF_SRCS+=	memcpy.c bcopy.c -DMEMCOPY
 .else
 LOBJS+=		memcpy.ln
 
@@ -91,7 +91,7 @@ memcpy.ln: bcopy.c
 
 # if no machine specific strchr(3), build one out of index(3).
 .ifndef _MD_STRCHR
-UNIFDEF_SRCS+=	strchr.c index.c STRCHR
+UNIFDEF_SRCS+=	strchr.c index.c -DSTRCHR
 .else
 LOBJS+=		strchr.ln
 
@@ -102,7 +102,7 @@ strchr.ln: index.c
 
 # if no machine specific strrchr(3), build one out of rindex(3).
 .ifndef _MD_STRRCHR
-UNIFDEF_SRCS+=	strrchr.c rindex.c STRRCHR
+UNIFDEF_SRCS+=	strrchr.c rindex.c -DSTRRCHR
 .else
 LOBJS+=		strrchr.ln
 
