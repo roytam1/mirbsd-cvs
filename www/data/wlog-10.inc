@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.191 2009/04/27 13:08:15 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.192 2009/05/16 17:48:27 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3956,12 +3956,12 @@ Tag: mksh
 Language: es
 
 <p><a href="http://mononeurona.org/entries/view/asarch/1805">asarch</a>
- ha escrito un artículo pequeño de cómo se usa la isatty(3) función en
- <a href="@@RELPATH@@mksh.htm">mksh</a> para probar si un script tiene
- datos en stdin o no (quizas en <tt>"$@"</tt>, otro se puede imprimir
- la forma de uso.</p>
-<p>Nos hacemos soporte para mksh(1) en el <tt>#!/bin/mksh</tt> canal
- en <a href="@@RELPATH@@irc.htm">irc.freenode.net:6667</a> (sí es un
- nombre válido XD). Es bienvenido ahí pero hablamos inglés por otros
- no entiendan el castillano.</p>
+ ha escrito un artículo acerca de cómo se usa la función isatty(3) de
+ <a href="@@RELPATH@@mksh.htm">mksh</a> para verificar si un script tiene
+ datos en stdin, quizas en <tt>"$@"</tt>, o para imprimir su uso.</p>
+<p>Para el soporte oficial del mksh eres bienvenido en su canal (en inglés,
+ ya que no todos hablan el castellano) en <tt>#!/bin/mksh</tt> (sí, sí es
+ un nombre válido XD) del <a href="@@RELPATH@@irc.htm">Freenode PDPC</a>
+ (<tt>irc.freenode.net:6667</tt>).</p>
+<p>Update: asarch ha corregido mi español... ¡gracias!</p>
 ----
