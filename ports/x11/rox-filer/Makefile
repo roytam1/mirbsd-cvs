@@ -1,10 +1,10 @@
-# $MirOS: ports/x11/rox-filer/Makefile,v 1.5 2006/09/14 00:15:37 tg Exp $
+# $MirOS: ports/x11/rox-filer/Makefile,v 1.6 2007/05/07 19:50:10 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.20 2004/04/02 19:07:05 sturm Exp $
 
 COMMENT=		gtk file manager with desktop features
 VERSION=		2.1.1
 DISTNAME=		rox-${VERSION}
-PKGNAME=		rox-filer-${VERSION}-0
+PKGNAME=		rox-filer-${VERSION}-${DASH_VER}
 CATEGORIES=		x11
 HOMEPAGE=		http://rox.sourceforge.net/
 
@@ -36,6 +36,7 @@ post-patch:
 
 do-build:
 	@cd ${WRKSRC} && ${SETENV} CC="${CC}" CFLAGS="${CFLAGS}" \
+		${CONFIGURE_ENV} \
 		ROX-Filer/AppRun --compile
 
 do-install:
