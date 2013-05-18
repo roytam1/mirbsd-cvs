@@ -14,7 +14,7 @@
 		$rq = urldecode($qs);
 		$qs = "?".$qs;
 	} else {
-		$rq = "fornow";
+		$rq = "main";
 		$qs = "";
 	}
 	$ridx="content/".mybase64($rq).".index";
@@ -50,10 +50,9 @@
  </ul>
 </div>
 <div class="content">
- <div style="border:4px ridge red; margin:0px 24px 0px 24px; padding:12px;">
-  <h1>Important message</h1>
- <?php	if (($rq == "content/bWtzaA__.inc") ||
+ <?php	if (!(($rq == "content/bWtzaA__.inc") ||
 	    ($rq == "content/YnQ_.inc") ||
+	    ($rq == "content/bWFpbg__.inc") ||
 	    ($rq == "content/d2xvZy0w.inc") ||
 	    ($rq == "content/d2xvZy0x.inc") ||
 	    ($rq == "content/d2xvZy0y.inc") ||
@@ -63,21 +62,18 @@
 	    ($rq == "content/d2xvZy02.inc") ||
 	    ($rq == "content/d2xvZy03.inc") ||
 	    ($rq == "content/d2xvZy04.inc") ||
-	    ($rq == "content/d2xvZy05.inc")) { ?>
-  <p>The entire website is currently under reconstruction. While you
-   have reached a page we try to keep accurate and up to date, it is
-   still not guaranteed to be correct. Take care.</p>
- <?php } else { ?>
+	    ($rq == "content/d2xvZy05.inc") ||
+	    ($rq == "content/YWJvdXQ_.inc"))) { ?>
+ <div style="border:4px ridge red; margin:0px 24px 0px 24px; padding:12px;">
+  <h1>Important message</h1>
   <p>This website is currently under reconstruction. The information
    you find here is probably out of date and not maintained any more
    in favour of the new website. If you want to volunteer helping us
    to set up the new website (same design, KISS content), mail Benny
-   at bsiegert@mirbsd.de, thanks. They are really abandoned, believe
-   me.</p>
-  <p>Continue at your own risk&#8230;</p>
- <?php } ?>
+   at bsiegert@mirbsd.de, thanks.</p>
  </div>
  <?php
+	}
 	$cmsc = get_include_contents($rq);
 	if ($cmsc === false) {
  ?>
