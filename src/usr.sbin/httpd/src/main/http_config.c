@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/main/http_config.c,v 1.3 2005/04/17 04:38:33 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/main/http_config.c,v 1.4 2006/09/20 23:45:05 tg Exp $ */
 /* $OpenBSD: http_config.c,v 1.17 2006/02/22 15:07:12 henning Exp $ */
 
 /* ====================================================================
@@ -1811,4 +1811,9 @@ API_EXPORT(void) ap_show_modules(void)
 	   ap_suexec_enabled
 	       ? "enabled; valid wrapper " SUEXEC_BIN
 	       : "disabled; invalid wrapper " SUEXEC_BIN);
+}
+
+API_EXPORT(const char *) ap_get_server_built(void)
+{
+    return "unknown";
 }
