@@ -1,4 +1,4 @@
-# $MirOS: src/scripts/roff2htm,v 1.74 2012/09/27 18:03:10 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.75 2012/10/14 14:47:46 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007, 2011, 2012
@@ -98,7 +98,7 @@ s/\([0-9A-z][-.,0-9A-z:]*\)-\n\(  *\)\([0-9A-z][-.,0-9A-z:]*([1-9][A-z]*)\)\([^ 
 	    -e 's#+_#Â±#g'						\
 									\
 	    -e 's#^[A-z][ 0-9A-z]*$#</pre><h2>&</h2><pre>#'		\
-	    -e 's#^  \([A-z][ ,0-9A-z]*\)$#</pre><h3>\1</h3><pre>#'	\
+	    -e 's#^  \([A-z][ -%'\''-;=?-~]*\)$#</pre><h3>\1</h3><pre>#'	\
 									\
 	    -e 's#\([^~<>€-¿][€-¿]*\)~#\1Ì…#g'				\
 	    -e 's#\([^]\)~_#\1_Ì… #g'					\
@@ -271,7 +271,7 @@ function output_header {
 function output_footer {
 	print '
 <hr /><p style="font-size:xx-small;">Generated on' $roff2htm_gendate 'by
- <tt>$MirOS: src/scripts/roff2htm,v 1.74 2012/09/27 18:03:10 tg Exp $</tt></p>
+ <tt>$MirOS: src/scripts/roff2htm,v 1.75 2012/10/14 14:47:46 tg Exp $</tt></p>
 <p>These manual pages and other documentation are <a
  href="'$roff2htm_rel'man7/BSD-Licence.htm">copyrighted</a> by their respective writers;
  their source is available at our <a href="http://cvs.mirbsd.de/">CVSweb</a>,
