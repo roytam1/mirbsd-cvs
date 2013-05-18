@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.73 2006/12/11 23:54:39 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.74 2006/12/21 20:39:28 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -343,6 +343,8 @@
 <li>Adding <tt>goto</tt> and <tt>label</tt> keywords/commands.</li>
 <li>Adding builtins <tt>realpath</tt>, <tt>fstat</tt>, <tt>lstat</tt>,
  <tt>traverse</tt>.</li>
+<li>More autoconfiguration</li>
+<li>A sensible website</li>
 </ul>
 
 <h2 id="prefetch">Requirements</h2>
