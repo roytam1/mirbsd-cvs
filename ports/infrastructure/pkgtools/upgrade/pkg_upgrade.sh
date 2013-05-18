@@ -1,9 +1,9 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.21 2006/12/11 21:26:17 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.22 2007/01/22 18:39:15 bsiegert Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
-# Copyright (c) 2005
+# Copyright (c) 2005, 2007
 #	Benny Siegert <bsiegert@66h.42h.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
