@@ -7,7 +7,7 @@
 # http://www.research.att.com/~gsf/public/ifs.sh
 
 expected-stdout:
-	@(#)MIRBSD KSH R36 2009/03/16 ~test
+	@(#)MIRBSD KSH R36 2009/03/15
 description:
 	Check version of shell.
 stdin:
