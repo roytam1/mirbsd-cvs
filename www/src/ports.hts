@@ -3,7 +3,7 @@
 
 mws_setname ports "The MirPorts Framework"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/ports.hts,v 1.1 2008/02/28 18:54:09 tg Exp $'
+mws_putheader '$MirOS: www/src/ports.hts,v 1.2 2008/02/28 19:12:35 tg Exp $'
 mws_content <<'EOF'
 <h1>MirPorts: The MirOS Ports Framework</h1>
 
@@ -57,8 +57,8 @@ mws_content <<'EOF'
 </pre>
 
 <p>Other useful commands:</p><ul>
-<li><tt>$ <b>m</b>make show=FLAVORS</tt> # show all flavours (note the
- spelling), which can then be used with<br /><tt>$ env FLAVOR='foo bar'
+<li><tt>$ <b>m</b>make show=FLAVOURS</tt> # show all flavours,
+ which can then be used with<br /><tt>$ env FLAVOUR='foo bar'
  <b>m</b>make install clean</tt> (note that you must not place the
  assignment after the <b>m</b>make invocation)</li>
 <li>…</li>
