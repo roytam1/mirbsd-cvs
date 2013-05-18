@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.105 2009/03/29 11:42:49 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.106 2009/03/29 15:10:24 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1487,4 +1487,23 @@ Tag: mksh
  and Debian as well, which provided valuable corner case tests leading to
  eventual bugfixes.</p>
 <p>We can only suggest others follow ☺ Apple, pkgsrc®, where are you?</p>
+----
+Title: mksh R37b released (Minix 3 supported)
+Date: 05.04.2009 15:39
+Author: tg@
+Tag: mksh rant
+
+<p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell R37b</a> has been
+ released, incorporating a plethora of changes from R37, which was only
+ available from CVS, and a few news by itself.</p>
+<p>The new ‘-combine’ <tt>Build.sh</tt> option (gcc4 only) is about as
+ noteworthy as the Minix 3 support. Users of Emdebian, FreeWRT and
+ Beastiebox however will find that the new memory allocator has less
+ overhead, i.e. the shell shrank in size. On the other hand, it is
+ now much more standards compliant, especially wrt. “set -e”.</p>
+<p>As such, mksh R37b is a strongly suggested upgrade.</p>
+<p>Note: Freshmeat has a new website. I am utterly confused from it,
+ both in Lynx and Opera, so I don’t know if this announcement has
+ made it to there. I probably will cease to use Freshmeat, similarily
+ as Slashdot, when it became unusable in Lynx. Damn “Web 2.0”!</p>
 ----

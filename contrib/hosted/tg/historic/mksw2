@@ -1,0 +1,7 @@
+integer num=1
+while :; do
+	mirtar tzf mksh3.x >x$num
+	cmp -s x$((num - 1)) x$num && break
+	mksh mksw1 x$num
+	let ++num
+done

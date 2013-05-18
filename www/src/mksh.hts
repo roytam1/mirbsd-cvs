@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.215 2009/03/29 15:48:34 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.216 2009/04/05 13:30:20 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R37b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -35,8 +35,8 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R36b</strong> from
- <em>14 Decemer 2008</em>.</p>
+<p>The current version of mksh is <strong>mksh R37b</strong> from
+ <em>5 April 2009</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive, which helps
  in keeping mksh portable to several Unixes and compilers, and track down some
@@ -166,10 +166,10 @@ mws_content <<'EOF'
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R37b.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R37b.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R36b.cpio.gz) = 67e03ee461991e969a7abcb7a2dc17af54ab179d</li>
- <li>TIGER (mksh-R36b.cpio.gz) = dcd358a092033331e2c175895c5cb89589f4b217939791f7</li>
- <li>1799491822 264821 /MirOS/dist/mir/mksh/mksh-R36b.cpio.gz</li>
- <li>MD5 (mksh-R36b.cpio.gz) = e5f4cfbc55b6fe8211f99d231125224d</li>
+ <li>RMD160 (mksh-R37b.cpio.gz) = f2dc6ba853ffad391f3954a75cc92cb8e85c7dc5</li>
+ <li>TIGER (mksh-R37b.cpio.gz) = 3793d4069407308213a4620c9ff2cc67d45d670889541c2e</li>
+ <li>3671511001 266868 /MirOS/dist/mir/mksh/mksh-R37b.cpio.gz</li>
+ <li>MD5 (mksh-R37b.cpio.gz) = 12d8f271ad57593545476c7f0ec35d97</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d.</li>
 </ul>
 
@@ -570,75 +570,18 @@ mws_content <<'EOF'
  <tt>$ENV</tt> is set and not empty, nor is there an <tt>/etc/mkshrc</tt>.</p>
 
 <h2 id="upgrade">For packagers: Upgrades</h2>
-<p>At <a href="http://freshmeat.net/projects/mksh">Freshmeat</a> you can
- subscribe to get automatically notified (with a summary of changes, not
- the complete changelog, see below) whenever new releases are put out.</p>
 <p><strong>Note:</strong> This is <em>not</em> <a href="#clog">the
  ChangeLog</a>, these are the packager-visible upgrade notes regarding
  changes in the build system (<tt>Build.sh</tt> and friends, compiler
  support, packaging conventions, bad examples, etc).</p>
 <p>mksh R37b now honours <tt>-DMKSH_UNEMPLOYED</tt> for the jobless
  mode required on, at least, Minix 3.</p>
+<p>Freshmeat announcements <strong>have ceased</strong> because the
+ site switched to a very user-unfriendly HTML (especially Lynx).</p>
 <p>mksh R37 has a new ‘-combine’ <tt>Build.sh</tt> option. The
  <tt>-DMKSH_AFREE_DEBUG</tt> flag is gone due to a new allocator,
  which however honours <tt>-DUSE_REALLOC_MALLOC=0</tt>.</p>
-<p>mksh R36b stays compatible, no surprises there. The ‘-llvm’ option
- to <tt>Build.sh</tt>, however, is new.</p>
-<p>mksh R36’s <tt>Build.sh</tt> script ‘-q’ option is gone. Furthermore,
- you must add <tt>-DMKSH_BINSHREDUCED</tt> to your <tt>CPPFLAGS</tt> now
- if you want mksh to behave more POSIXish if called as <tt>sh</tt>.<br />
- OSF/1 V2.0 is now supported using the native DEC C compiler.</p>
-<p>mksh R35b builds on some more platforms and throws less warnings,
- but the build system is almost unchanged; <tt>test.sh</tt> now shows
- the Perl binary used (honours <tt>$PERL</tt>) and its version.</p>
-<p>In mksh R35, setlocale/nl_langinfo have been disabled by default for
- some platforms. If we do not assume UTF-8, disabling lets mksh employ
- the <tt>LANG</tt> and <tt>LC_*</tt> environment variables for codeset
- determination. Also, a new builtin is included depending on existence
- of the readlink(3) function, disabled by default if MKSH_SMALL. The
- “pdksh” check category is no longer persistent. The licence has changed
- (the advertising clause was removed). The <tt>dot.mkshrc</tt> sample
- was changed to improve re-use.<br />There was no R34.</p>
-<p>No changes in mksh R33c except for Ultrix support. None in R33d.</p>
-<p>In mksh R33b, much more compilers are detected, even if not all of
- them are supported. The OE (OS and CC/LD) versions are now dumped too.
- Instead of <tt>#error</tt>, forced link failures are now used as the
- mechanism to auto-detect some things in the target environment. Features
- are now much better detected, and some annoying warnings don’t show up
- any longer due to this. Less tools are required to build.</p>
-<p id="tty">Please be reminded that you should run <tt>./test.sh -v</tt>
- inside an environment with <tt>/dev/tty</tt> available (as device node)
- and usable (e.g. use script(1) or GNU screen if you’re doing auto-builds
- detached from controlling terminal). Use <tt>-v</tt> to see failures.</p>
-<p>No surprises in mksh R33 either, but the build system now gives more
- detailed output on the version actually built, to aid tracking down
- FTBFSen (build errors) with access to only the build logs. Regression
- tests now work with Intel’s compiler on SLES too, which requires a
- custom <tt>LD_LIBRARY_PATH</tt> formerly stripped by the script.</p>
-<p>No surprises in mksh R32, but some ancient systems (AIX, Solaris 11,
- OSF/1, UWIN) are now better supported.</p>
-<p>In mksh R31d, parallel make with ‘-j’ was added (no limitation on number
- of childs though), this even works with Solaris 8 <tt>/bin/sh</tt>. The
- <tt>MKSH_NEED_MKNOD</tt> define is no longer honoured.</p>
-<p>From mksh R31 to R31b, arc4random.c has been upgraded.</p>
-<p>From mksh R30 to R31, there are no surprises. The “arc4random.c” file
- is available from mircvs://contrib/code/Snippets/arc4random.c now, and
- the new “source” command is not available in posix mode either.</p>
-<p>From mksh R29 to R30, the following things should be kept in mind:</p>
-<p>The syntax of <tt>Build.sh</tt> has changed: $CC now defaults to “cc”
- instead of “gcc”, and the ‘-d’ and ‘-nd’ arguments are gone – if you
- want to build a statically linked mksh, pass <tt>LDSTATIC=-static</tt>
- (gcc+GNU ld, adjust for other OEs) to it. An “arc4random.c” is now
- automatically included into the build if found in the source directory.
- The $CPP variable is ignored, <tt>$CC -E</tt> is used instead, except
- for tcc, which uses “cpp -D__TINYC__” because “tcc -E” doesn’t work.</p>
-<p>As a tribute to better POSIX compatibility, certain aliases (like
- “stop”) are no longer predefined in “set -o posix” mode, which is invoked
- automatically if the shell is run as <tt>-sh</tt>, <tt>/bin/sh</tt> or
- similar, so that they can be used as function names.</p>
-<p>If defining <tt>MKSH_SMALL</tt>, the ‘vi’ editing mode is omitted,
- which may surprise your users.</p>
-<p>Many compilers other than gcc are now supported as well as AIX.</p>
+<p><a href="mksh_old.htm#upgrade">older entries</a></p>
 
 <h2 id="otheros">Inclusion in other operating systems</h2><ul>
 <li><a href="http://crux.nu/">Crux GNU/Linux</a> has an mksh port contributed by
@@ -1135,7 +1078,7 @@ mws_content <<'EOF'
  <li>[tg] Make test builtin operator precedence consistent; from oksh</li>
  <li>[tg] Revamp and fold and enhance the regression tests</li>
  <li>[tg] Document somewhat surprising behaviour in mksh(1) better;
-  here: <tt>[ x -eq y]</tt>; for gps23 from <tt>#ksh</tt></li>
+  here: <tt>[ x -eq y ]</tt>; for gps23 from <tt>#ksh</tt></li>
  <li>[tg] Reduce memory consumption by allocator simplification</li>
  <li>[tg] Fix bugs spotted by DEC ucode cc (ULTRIX) and gcc 1.42 (BSD/OS)</li>
  <li>[laffer1] Make mksh the default <tt>/bin/sh</tt> in MidnightBSD</li>

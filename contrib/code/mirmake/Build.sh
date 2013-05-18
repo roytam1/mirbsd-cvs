@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-# $MirOS: contrib/code/mirmake/Build.sh,v 1.39 2008/12/07 17:25:10 tg Exp $
+# $MirOS: contrib/code/mirmake/Build.sh,v 1.40 2009/03/29 13:04:11 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -177,7 +177,7 @@ if [ x"$ms" = x"NONE" ]; then
 	echo "Error: could not find a mirbsdksh compatible shell."
 	echo "Please go to <http://mirbsd.de/mksh> and install it before"
 	echo "continuing. At the moment, mksh R34 or higher is required;"
-	echo "using a recent one like mksh R35 is highly recommended."
+	echo "using a recent one like mksh R37b is strongly recommended."
 	exit 1
 fi
 

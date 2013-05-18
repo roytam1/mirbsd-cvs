@@ -1,0 +1,30 @@
+set -A foo $(<$1)
+integer xsize=999999
+integer num=${#foo[*]}
+integer i=0
+while (( i < num )); do
+	integer j=i+1
+	while (( j < num )); do
+		local k=${foo[i]}
+		foo[i]=${foo[j]}
+		foo[j]=$k
+		mirpax -w -x cpio -b 512 -M dist ${foo[*]} | gzip -n9 >mksh3.cgz
+		integer newsize=$(stat -f %z mksh3.cgz)
+		print "$newsize\t${foo[*]}"
+		foo[j]=${foo[i]}
+		foo[i]=$k
+		let ++j
+		(( newsize > 100 )) || continue
+		if (( newsize < xsize )); then
+			xsize=newsize
+			cp mksh3.cgz mksh3.x
+		fi
+	done
+	let ++i
+done
+mirpax -w -x cpio -b 512 -M dist ${foo[*]} | gzip -n9 >mksh3.cgz
+integer newsize=$(stat -f %z mksh3.cgz)
+print "$newsize\t${foo[*]}"
+if (( newsize < xsize )); then
+	cp mksh3.cgz mksh3.x
+fi
