@@ -9514,46 +9514,6 @@ fi
       esac
 
     fi
-    
-echo $ac_n "checking for X509 support""... $ac_c" 1>&6
-echo "configure:9520: checking for X509 support" >&5
-cat > conftest.$ac_ext <<EOF
-#line 9522 "configure"
-#include "confdefs.h"
-
-#include <stdio.h>
-#if defined(USE_OPENSSL_INCL)
-#include <openssl/ssl.h>
-#elif defined(USE_GNUTLS_INCL)
-#include <gnutls/openssl.h>
-#else
-#include <ssl.h>
-#endif
- 
-#include <openssl/x509.h>
-int main() {
-X509_verify_cert_error_string(X509_STORE_CTX_get_error(X509_STORE_CTX *0))
-; return 0; }
-EOF
-if { (eval echo configure:9539: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
-  rm -rf conftest*
-  cf_x509_support=yes
-else
-  echo "configure: failed program was:" >&5
-  cat conftest.$ac_ext >&5
-  rm -rf conftest*
-  cf_x509_support=no
-fi
-rm -f conftest*
-echo "$ac_t""$cf_x509_support" 1>&6
-
-if test "$cf_x509_support" = yes ; then
-	cat >> confdefs.h <<\EOF
-#define USE_X509_SUPPORT 1
-EOF
-
-fi
-
     if test -n "$cf_cv_library_path_ssl" ; then
       
 if test -n "$cf_cv_library_path_ssl" ; then
@@ -9582,6 +9542,46 @@ fi
 
     fi
     LIBS="-lssl -lcrypto $LIBS"
+    
+echo $ac_n "checking for X509 support""... $ac_c" 1>&6
+echo "configure:9548: checking for X509 support" >&5
+cat > conftest.$ac_ext <<EOF
+#line 9550 "configure"
+#include "confdefs.h"
+
+#include <stdio.h>
+#if defined(USE_OPENSSL_INCL)
+#include <openssl/ssl.h>
+#elif defined(USE_GNUTLS_INCL)
+#include <gnutls/openssl.h>
+#else
+#include <ssl.h>
+#endif
+ 
+#include <openssl/x509.h>
+int main() {
+X509_verify_cert_error_string(X509_STORE_CTX_get_error(NULL))
+; return 0; }
+EOF
+if { (eval echo configure:9567: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
+  rm -rf conftest*
+  cf_x509_support=yes
+else
+  echo "configure: failed program was:" >&5
+  cat conftest.$ac_ext >&5
+  rm -rf conftest*
+  cf_x509_support=no
+fi
+rm -f conftest*
+echo "$ac_t""$cf_x509_support" 1>&6
+
+if test "$cf_x509_support" = yes ; then
+	cat >> confdefs.h <<\EOF
+#define USE_X509_SUPPORT 1
+EOF
+
+fi
+
   fi
 
 elif test "x$cf_cv_use_libgnutls" != xno ; then
@@ -10319,7 +10319,7 @@ cat > conftest.$ac_ext <<EOF
  
 #include <openssl/x509.h>
 int main() {
-X509_verify_cert_error_string(X509_STORE_CTX_get_error(X509_STORE_CTX *0))
+X509_verify_cert_error_string(X509_STORE_CTX_get_error(NULL))
 ; return 0; }
 EOF
 if { (eval echo configure:10326: \"$ac_link\") 1>&5; (eval $ac_link) 2>&5; } && test -s conftest${ac_exeext}; then
