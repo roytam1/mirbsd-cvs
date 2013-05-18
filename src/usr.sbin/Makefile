@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/Makefile,v 1.16 2006/06/17 22:12:57 tg Exp $
+# $MirOS: src/usr.sbin/Makefile,v 1.17 2006/06/30 23:18:06 tg Exp $
 # $OpenBSD: Makefile,v 1.110 2004/05/04 23:27:21 deraadt Exp $
 
 .include <bsd.own.mk>
@@ -43,6 +43,7 @@
   SUBDIR+= kvm_mkdb
   SUBDIR+= lpr
   SUBDIR+= mailwrapper
+  SUBDIR+= makefs
   SUBDIR+= map-mbone
   SUBDIR+= memconfig
   SUBDIR+= mrinfo
