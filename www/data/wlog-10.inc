@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.276 2010/01/28 21:20:14 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.278 2010/01/31 02:05:07 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6131,4 +6131,37 @@ Tag: debian
  version, to add a "upgrading caveats" section, since due to bugfixes and
  better standards compliance some scripts need to be updated; some of the
  pdksh behaviour favoured Bourne over POSIX even!</p>
+----
+Title: FOSDEM 2010, day #0
+Author: tg@
+Date: 05.02.2010 13:37
+Tag: debian event
+
+<p>Yesterday, I arrived in Bruxelles, coming from the Issy/Paris <a
+ href="https://fusionforge.org/mediawiki/index.php/2_days_Hackers/users_meeting_in_Paris%2C_2010-02-03_and_04">FusionForge
+ meeting</a> which will be described more later by Roland on <a
+ href="http://www.planetforge.org/planet/">Plänet Forge</a>. Please <a
+ href="http://www.ohloh.net/p/fusionforge">tell Ohlol if you use it</a>,
+ for more visibility. My employer will also provide hosting for FOSS
+ projects, but we'll need to formalise the hosting conditions first,
+ plus <a href="http://www.ohloh.net/p/evolvis">Evolvis</a> currently
+ runs FusionForge 4.5 (aka "Debian GForge") but we're in the process
+ of upgrading to a 4.8-plus-backports-and-patches, then 5.0 soon.</p>
+<p>At FOSDEM, Benny and I (and maybe gecko2) will be running the <a
+ href="@@RELPATH@@main.htm">MirBSD</a> booth, so no Debian staffing
+ for me, sorry. But I will be there. Also please do ask me about <a
+ href="@@RELPATH@@mksh.htm">mksh – the MirBSD Korn Shell</a> etc.</p>
+<p>There are flyers in <a
+ href="@@ABSPATH@@/MirOS/PR/flyer_de.pdf">German</a> (not updated), <a
+ href="@@ABSPATH@@/MirOS/PR/flyer_en.pdf">English</a> and <a
+ href="@@ABSPATH@@/MirOS/PR/flyer_fr.pdf">French</a> too! (One of
+ the *forge guys did install mksh(1) after reading it, in fact.)</p>
+<p>I still have some catching up (wlog entries, keysigning, webpages,
+ etc.) to do, please bear with me. I don't really have a proper work
+ environment with me.</p>
+<p>There's a chance I will not be attending the Beer Event in the
+ Delirium Tremens café (last year's still remembered). Benny will
+ certainly be there, though.</p>
+<p>Could someone please order nice weather? I still need to eat some
+ lunch and find a supermarket to shop for the weekend!</p>
 ----
