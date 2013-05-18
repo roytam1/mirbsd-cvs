@@ -1,6 +1,6 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.19 2007/01/26 19:33:12 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.20 2007/02/06 18:59:14 tg Exp $
 #-
-# Copyright (c) 2005, 2006
+# Copyright (c) 2005, 2006, 2007
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -31,8 +31,7 @@ STRIP?=		strip
 
 KERNBASE?=	$S/../kern
 
-INCLUDES=	-nostdinc -I. -I$S/arch -I$S -I${BSDSRCDIR}/lib/libz \
-		-I${KERNBASE}/include
+INCLUDES=	-nostdinc -I. -I$S/arch -I$S -I${KERNBASE}/include
 CDIAGFLAGS=	-Werror -Wall -Wstrict-prototypes -Wmissing-prototypes \
 		-Wno-uninitialized -Wno-format -Wno-main -ffreestanding
 .if ${IDENT:M-DNO_PROPOLICE}
