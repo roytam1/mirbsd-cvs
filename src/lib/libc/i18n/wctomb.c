@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/lib/libc/i18n/wctomb.c,v 1.4 2007/02/02 21:06:23 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -22,8 +22,9 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/wctomb.c,v 1.3 2006/11/01 20:01:20 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wctomb.c,v 1.4 2007/02/02 21:06:23 tg Exp $");
 
+#undef wctomb
 int
 wctomb(char *s, const wchar_t c)
 {
