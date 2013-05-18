@@ -1,11 +1,11 @@
-# $MirOS: www/src/jupp.hts,v 1.20 2009/10/18 18:12:46 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.21 2009/12/27 19:07:38 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.20 2009/10/18 18:12:46 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.21 2009/12/27 19:07:38 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp1</em> for MS-DOS® compatible systems,
  and <em>joe-3.1jupp12</em> for Unix/GNU compatible systems. This page is
@@ -56,7 +56,7 @@ mws_content <<'EOF'
  <li>Search for non-ASCII characters in jupp:<br />
   ^Q f \ [ ^ <i>tab</i> \ n <i>space</i> - ~ ] <i>return return</i></li>
  <li>Jump to first occurrence of word “rtn” in the files:<br />
-  <tt>jupp -mold 'ffirst,"\\<rtn\\>",rtn,"i",rtn' /etc/joe/*rc</tt></li>
+  <tt>jupp -mold 'ffirst,"\\&lt;rtn\\&gt;",rtn,"i",rtn' /etc/joe/*rc</tt></li>
 </ul>
 
 <h2 id="docs">Documentation</h2>
