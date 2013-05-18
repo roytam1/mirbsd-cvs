@@ -901,14 +901,14 @@ Date: 09.07.2008 18:20
   <li><tt>anoncvs@anoncvs6.mirbsd.org</tt> (public, IPv6 only)</li>
  </ul></li>
  <li>hephaistos (unixforge.de), Germany, ssh, rsync + cvs: <ul>
-  <li>‣ <a href="/?overview#ssh_host">sshd(8) host keys</a></li>
+  <li>‣ sshd(8) <a href="/?overview#ssh_host">host keys</a></li>
   <li>offering: <tt>/MirOS</tt> <tt>/Pkgs</tt> <tt>/cvs</tt></li>
   <li><tt>anoncvs@1.anoncvs.mirbsd.org</tt> (public, IPv4 + IPv6)</li>
   <li><tt>anoncvs@1.anoncvs4.mirbsd.org</tt> (public, IPv4 only)</li>
   <li><tt>anoncvs@1.anoncvs6.mirbsd.org</tt> (public, IPv6 only)</li>
  </ul></li>
  <li>eurynome (VMware instance), Germany, ssh, rsync + cvs: <ul>
-  <li>‣ <a href="/?overview#ssh_host">sshd(8) host key</a></li>
+  <li>‣ sshd(8) <a href="/?overview#ssh_host">host key</a></li>
   <li>offering: <tt>/MirOS</tt> <tt>/Pkgs</tt> <tt>/cvs</tt> (<tt>/Distfiles</tt> <tt>/www</tt> not yet)</li>
   <li><tt>anoncvs@2.anoncvs.mirbsd.org</tt> (public, IPv4 + IPv6)</li>
   <li><tt>anoncvs@2.anoncvs4.mirbsd.org</tt> (public, IPv4 only)</li>
