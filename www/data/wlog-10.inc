@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.163 2009/02/23 15:52:58 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.164 2009/02/24 20:39:19 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3406,7 +3406,7 @@ Title: one (lonely) day at work
  will be provided with a new version of bsd4grml then.</p>
 ----
 Author: bsiegert@
-Date: 24.02.2009 20:45
+Date: 24.02.2009 19:45
 Title: Bulk builds revisited
 
 <p>Even though I had added a “mmake bulk-build” target to MirPorts’
@@ -3430,4 +3430,16 @@ Title: Bulk builds revisited
  “Porting applications in FreeBSD” talk on <a
  href="http://www.fosdem.org/2009/">FOSDEM 2009</a>, and thought it was
  quite nice.</p>
+----
+Author: tg@
+Date: 24.02.2009 20:41
+Title: Compiling for MirBSD™ on Debian
+
+<p>Uhm, Benny… times in the web source are supposed to be in UTC…</p>
+<p>I just created i386-mirbsd-toolchain and sparc-mirbsd-toolchain
+ Debian packages (for my own use, mostly). Because we can.</p>
+<p>Maybe I can cross-compile IcedTea with it, to be used to natively
+ compile OpenJDK?</p>
+<p>Dr. Pfeffer (happy birthday btw) thinks it’s cool. Comrad is also
+ interested.</p>
 ----
