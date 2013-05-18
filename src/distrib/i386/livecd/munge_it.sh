@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.6 2006/01/24 22:24:02 tg Rel $
+# $MirOS: src/distrib/i386/livecd/munge_it.sh,v 1.1 2006/04/05 22:38:12 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -61,6 +61,35 @@ ed -s etc/ntpd.conf <<-'EOF'
 	.
 	wq
 'EOF'
+ed -s etc/rc <<-'EOF'
+	1i
+		# $MirOS$
+	.
+	/^rm.*fastboot$/a
+
+		function do_mfsmount
+		{
+			print -n " $1"
+			mount_mfs -s ${2:-262144} swap /$1
+		}
+		print -n 'initialising memory filesystems...'
+		do_mfsmount dev 16384
+		do_mfsmount etc 131072
+		do_mfsmount root
+		do_mfsmount tmp 524288
+		do_mfsmount var
+		sleep 2
+		tar xzphf /home/fsrw.cgz
+		sleep 1
+		do_mfsmount home
+		print ' done'
+		(cd /dev; mksh ./MAKEDEV all)
+		sleep 1
+		cp -r etc/skel home/live
+		chown -R 32762:32762 home/live
+	.
+	wq
+EOF
 ed -s etc/rc.conf <<-'EOF'
 	/^ntpd_flags/s/NO/""/
 	/^wsmoused_flags/s/NO/"-2"/
@@ -107,6 +136,12 @@ install -c -o root -g staff -m 644 $myplace/etc/fstab etc/fstab
 install -c -o root -g staff -m 644 $myplace/etc/rc.netselect etc/rc.netselect
 
 pwd_mkdb -pd $(readlink -nf etc) master.passwd
-cp -r etc/skel home/live
-chown -R 32762:32762 home/live
 dd if=/dev/urandom bs=4096 count=1 of=var/db/host.random
+
+# tmp because of perms
+find dev etc root tmp var | sort | cpio -oC512 -Hsv4crc -Mset | \
+    gzip -n9 >home/fsrw.cgz
+rm -rf dev root var
+mkdir dev root var
+
+exit 0

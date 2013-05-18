@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/Makefile,v 1.4 2005/12/04 17:11:01 tg Exp $
+# $MirOS: src/distrib/i386/Makefile,v 1.5 2005/12/04 23:14:39 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -47,6 +47,7 @@ SUBDIR+=	floppy
 SUBDIR+=	iso
 .endif
 
+SUBDIR+=	livecd	# only for 'obj', 'clean'
 
 cleannobsd: _SUBDIRUSE
 

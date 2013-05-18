@@ -1,0 +1,9 @@
+/dev/cd0a  /      cd9660  ro,noatime                   0  0
+swap       /dev   mfs     rw,noauto,noatime,-s=16384   0  0
+swap       /etc   mfs     rw,noauto,noatime,-s=131072  0  0
+swap       /home  mfs     rw,noauto,noatime,-s=262144  0  0
+kern       /kern  kernfs  rw,noauto                    0  0
+proc       /proc  procfs  rw,linux                     0  0
+swap       /root  mfs     rw,noauto,noatime,-s=262144  0  0
+swap       /tmp   mfs     rw,noauto,noatime,-s=524288  0  0
+swap       /var   mfs     rw,noauto,noatime,-s=262144  0  0
