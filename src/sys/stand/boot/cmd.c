@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.11 2008/12/31 16:38:35 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.12 2009/01/01 23:27:46 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.59 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
@@ -184,7 +184,7 @@ read_conf(void)
 int
 docmd(void)
 {
-	char *p = NULL, *cp;
+	char *p = NULL, *cp = NULL;
 	const struct cmd_table *ct = cmd_table, *cs;
 	int rv;
 
