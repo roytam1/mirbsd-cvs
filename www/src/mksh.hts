@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.507 2013/04/01 18:48:03 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.508 2013/04/06 12:28:35 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1172,6 +1172,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] For shf, <tt>%#s</tt> (if you can get it past GCC’s printf format
   attribute) calls print_value_quoted, ignoring field width and precision</li>
  <li>[tg] Catch “typeset =” (regression) with better error message</li>
+ <li>[tg, Tonnerre Lombard] add “doch” alias to <tt>dot.mkshrc</tt> which just
+  repeats the last input line with sudo(8)</li>
+ <li>[tg] Use unsigned integers for all calculations, to avoid ISO C “Undefined
+  Behaviour” (and implementation-defined behaviour) throughout (most of) the
+  code; emulate signed integer arithmetics using unsigned; not-lksh only
+   <strong>not yet finished, do <em>not</em> use right now!</strong></li>
 </ul>
 <p id="r44">R44 contains these bugfixes:</p><ul>
  <li>[tg] "$@" always generates words; bug spotted by engla in IRC</li>
