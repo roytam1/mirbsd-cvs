@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/csu/common_elf/crtbegin.c,v 1.2 2005/03/06 20:28:21 tg Exp $
+/* $MirOS: src/lib/csu/common_elf/crtbegin.c,v 1.3 2008/11/08 23:03:50 tg Exp $
  * derived from the following files:
  * $NetBSD: crtbegin.c,v 1.26 2004/08/28 00:19:22 thorpej Exp $
  * $OpenBSD: crtbegin.c,v 1.10 2004/10/10 18:29:15 kettenis Exp $
@@ -49,7 +49,7 @@
 
 #include "dot_init.h"
 
-__RCSID("$MirOS: src/lib/csu/common_elf/crtbegin.c,v 1.2 2005/03/06 20:28:21 tg Exp $");
+__RCSID("$MirOS: src/lib/csu/common_elf/crtbegin.c,v 1.3 2008/11/08 23:03:50 tg Exp $");
 
 /*
  * Run-time module which handles constructors and destructors.
@@ -65,7 +65,7 @@ __RCSID("$MirOS: src/lib/csu/common_elf/crtbegin.c,v 1.2 2005/03/06 20:28:21 tg 
  * WE SHOULD BE USING GCC-SUPPLIED crtbegin.o FOR GCC 3.3 AND
  * LATER!!!
  */
-#if __GNUC_PREREQ__(3, 3)
+#if !defined(HAVE_VERSION_SPECIFIC_GCC_LIBS) && __GNUC_PREREQ__(3, 3)
 #error "Use GCC-supplied crtbegin.o"
 #endif
 

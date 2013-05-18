@@ -1,16 +1,16 @@
-/**	$MirOS$ */
+/**	$MirOS: src/lib/csu/common_elf/crtend.c,v 1.2 2005/03/06 20:28:21 tg Exp $ */
 /*	$NetBSD: crtend.c,v 1.11 2004/08/28 00:19:22 thorpej Exp $	*/
 
 #include <sys/cdefs.h>
 #include "dot_init.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/csu/common_elf/crtend.c,v 1.2 2005/03/06 20:28:21 tg Exp $");
 
 /*
  * WE SHOULD BE USING GCC-SUPPLIED crtend.o FOR GCC 3.3 AND
  * LATER!!!
  */
-#if __GNUC_PREREQ__(3, 3)
+#if !defined(HAVE_VERSION_SPECIFIC_GCC_LIBS) && __GNUC_PREREQ__(3, 3)
 #error "Use GCC-supplied crtend.o"
 #endif
 

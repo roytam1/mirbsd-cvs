@@ -1,4 +1,4 @@
-# $MirOS: src/lib/csu/common_elf/Makefile.inc,v 1.11 2008/11/18 16:51:14 tg Exp $
+# $MirOS: src/lib/csu/common_elf/Makefile.inc,v 1.12 2008/11/22 14:17:21 tg Exp $
 # $NetBSD: Makefile.inc,v 1.23 2003/03/19 16:54:25 ross Exp $
 
 .include <bsd.own.mk>
@@ -23,20 +23,30 @@ CPPFLAGS+=	-DELFSIZE=${ELFSIZE}
 .PATH:		${.CURDIR}/../common_elf
 
 SRCS+=		crt0.c crti.c crtn.c
-OBJS+=		crt0.o crti.o crtn.o
 # if profiling
-#OBJS+=		gcrt0.o
+#SRCS+=		gcrt0.c
 
+.ifndef HAVE_VERSION_SPECIFIC_GCC_LIBS
 # These are now provided by GCC 3
-#SRCS+=		crtbegin.c crtend.c
-#OBJS+=		crtbegin.o crtend.o
-#OBJS+=		crtbeginT.o
-#.  if !defined(NOPIC) || ${NOPIC:L} == "no"
-#OBJS+=		crtbeginS.o crtendS.o
-#.  endif
-#CPPFLAGS+=	-DDWARF2_EH # -DDSO_HANDLE -DJCR
+.else
+CPPFLAGS+=	-DHAVE_VERSION_SPECIFIC_GCC_LIBS
+SRCS+=		crtbegin.c crtbeginT.c crtend.c
+.  if !defined(NOPIC) || ${NOPIC:L} == "no"
+SRCS+=		crtbeginS.c crtendS.c
+.  endif
+CPPFLAGS+=	-DDWARF2_EH -DDSO_HANDLE # -DJCR
+.endif
 
-all: ${OBJS}
+COPYFILES+=	crt0.c gcrt0.c
+COPYFILES+=	crtbegin.c crtbeginT.c
+COPYFILES+=	crtbegin.c crtbeginS.c
+COPYFILES+=	crtend.c crtendS.c
+.for _s _d in ${COPYFILES}
+CLEANFILES+=	${_d}
+beforedepend: ${_d}
+${_d}: ${_s}
+	cp -f ${.ALLSRC} $@
+.endfor
 
 CLEANFILES+=	sun_crt1.o sun_crtn.o sun_crti.o
 sunstuff: sun_crt1.o sun_crtn.o sun_crti.o
@@ -100,5 +110,8 @@ realinstall:
 	    -m ${NONBINMODE} ${OBJS} ${DESTDIR}/usr/lib/
 
 .PHONY: sunstuff
+
+OBJS+=		${SRCS:N*.h:N*.sh:R:S/$/.o/g}
+all: ${OBJS}
 
 .include <bsd.prog.mk>
