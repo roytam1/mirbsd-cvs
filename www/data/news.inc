@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.120 2009/08/20 15:32:43 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.121 2009/09/07 17:28:15 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1699,8 +1699,9 @@ Tag: bug
 <p>We would like to apologise for the unavailability of our main website,
  and in general HTTPS access to everything hosted on <tt>eurynome</tt>,
  during today, Monday. It turns out that our hoster accidentally botched
- up a Linux netfilter prerouting table at about 01:00 UTC (i.e. way past
- midnight) affecting the IPv4 address set aside for <tt>eurynome</tt>.
+ up a Linux netfilter prerouting table at about Sunday 01:00 UTC (i.e.
+ Saturday evening, way past midnight, local time) affecting the IPv4
+ address set aside for <tt>eurynome</tt>.
  We believe IPv6 services were not affected. Our hoster would like to
  apologise and comment that he is, after all, a human being as well.</p>
 <p>Please note that X.509v3 SSL certificate validation will have prevented
