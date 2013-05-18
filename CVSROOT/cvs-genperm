@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.21 2006/08/14 21:26:02 tg Exp $
+# $MirOS: CVSROOT/cvs-genperm,v 1.22 2006/08/14 21:29:26 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2006
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
@@ -140,7 +140,7 @@ done 2>&1 | tee -i "$N"
 	fixperm 1775 .tmp
 	chgrp miros-cvsall CVSROOT CVSROOT/{modules.db,history} \
 	    Logs Logs/{ChangeLog,idcache}
-	chgrp miros-cvsadm README UP
+	chown root:miros-cvsadm README UP{,\,v}
 } 2>&1 | tee -ai "$N"
 
 cd "$WD"
