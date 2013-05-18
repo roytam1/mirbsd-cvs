@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/roff2htm,v 1.26 2006/01/19 01:23:55 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.27 2006/01/19 01:27:05 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
@@ -142,14 +142,13 @@ output_header()
 output_footer()
 {
 	cat <<-EOF
-		<hr />
-		<p style="font-size:xx-small;">Generated on ${gendate} by
-		 \$MirOS: src/scripts/roff2htm,v 1.26 2006/01/19 01:23:55 tg Exp $
-		 <br />This product includes material provided by Thorsten Glaser.</p>
+		<hr /><p style="font-size:xx-small;">Generated on ${gendate} by
+		 \$MirOS: src/scripts/roff2htm,v 1.27 2006/01/19 01:27:05 tg Exp $</p>
 		<p>These manual pages are copyrighted by their respective writers; their
 		 source can normally be found in our <a href="/cvs.cgi/src/">CVSweb</a>.
 		 The rest is Copyright &copy; 2002-2006 <a href="http://MirBSD.org/">The
-		 MirOS Project</a>, Germany.</p>
+		 MirOS Project</a>, Germany. <i style="font-size:3pt;"><br />
+		 This product includes material provided by Thorsten Glaser.</i></p>
 		<p style="font-size:x-small;">This manual page's HTML representation
 		 is supposed to be <a href="http://validator.w3.org/check/referer">valid
 		 XHTML/1.1</a>; if not, please send a bug report - diffs preferred.</p>
