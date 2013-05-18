@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/roff2htm,v 1.8 2005/11/15 20:01:31 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.9 2005/11/15 20:15:42 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005
@@ -13,6 +13,10 @@
 # pyright notices above, these terms and the disclaimer are retained
 # in all redistributions or reproduced in accompanying documentation
 # or other materials provided with binary redistributions.
+#
+# All advertising materials mentioning features or use of this soft-
+# ware must display the following acknowledgement:
+#	This product includes material provided by Thorsten Glaser.
 #
 # Licensor hereby provides this work "AS IS" and WITHOUT WARRANTY of
 # any kind, expressed or implied, to the maximum extent permitted by
@@ -43,8 +47,8 @@ gendate=
 		typeset -i8 j=i		# copy in octal
 		do_convert_asciiexp[x]="-e"
 		let x++
-		do_convert_asciiexp[x]="s/$(printf \
-		    "\\${j#8#}")/\\&#x${i#16#};/g"
+		do_convert_asciiexp[x]="s/$(print -n \
+		    "\\0${j#8#}")/\\&#x${i#16#};/g"
 		let x++
 	done
 }
@@ -120,7 +124,7 @@ output_header()
 </head><body>
 <h1>MirOS Manual: <a href="../man${2}/${1}.htm"><tt>${1}(${2})</tt></a></h1>
 <p style="font-size:xx-small;">Generated on ${gendate} by
- \$MirOS: src/scripts/roff2htm,v 1.8 2005/11/15 20:01:31 tg Exp $</p>
+ \$MirOS: src/scripts/roff2htm,v 1.9 2005/11/15 20:15:42 tg Exp $</p>
 <hr />
 EOF
 }
