@@ -1,9 +1,0 @@
-@comment $MirOS$
-@lib lib/libfreebl3.so.${SO_VERSION}
-@lib lib/libnss3.so.${SO_VERSION}
-@lib lib/libnssckbi.so.${SO_VERSION}
-@lib lib/libnssdbm3.so.${SO_VERSION}
-@lib lib/libnssutil3.so.${SO_VERSION}
-@lib lib/libsmime3.so.${SO_VERSION}
-@lib lib/libsoftokn3.so.${SO_VERSION}
-@lib lib/libssl3.so.${SO_VERSION}

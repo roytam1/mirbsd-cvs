@@ -1,9 +1,0 @@
-@comment $MirOS$
-${P5SITE}/Data/Hierarchy.pm
-@comment ${P5ARCH}/auto/Data/Hierarchy/.packlist
-man/man3/Data::Hierarchy${P5MAN3EXT}
-@dirrm ${P5ARCH}/auto/Data/Hierarchy
-@dirrm ${P5ARCH}/auto/Data
-@dirrm ${P5ARCH}/auto
-@dirrm ${P5ARCH}
-@dirrm ${P5SITE}/Data
