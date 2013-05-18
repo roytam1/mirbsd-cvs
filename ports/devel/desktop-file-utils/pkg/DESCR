@@ -1,4 +1,0 @@
-desktop-file-utils contains a couple of command line utilities for
-working with desktop entries. Right now the only documentation is
-"desktop-file-install --help". desktop-file-validate takes a single
-argument, the file to validate. 
