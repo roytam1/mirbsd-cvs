@@ -1,11 +1,11 @@
-# $MirOS: www/src/mksh_bld.hts,v 1.1 2010/01/28 21:05:33 tg Exp $
+# $MirOS: www/src/mksh_bld.hts,v 1.2 2010/01/28 21:20:18 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/build "mksh – build/regression tests"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_bld.hts,v 1.1 2010/01/28 21:05:33 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_bld.hts,v 1.2 2010/01/28 21:20:18 tg Exp $'
 mws_content <<'EOF'
 <p>Jump to <a href="#regress_fail">known failures</a></p>
 <h2><a href="mksh.htm">mksh</a> – builds and regression tests</h2>
@@ -23,10 +23,10 @@ mws_content <<'EOF'
  <li>MirOS #10-current (i386 clang58935mp0 opt+llc+llvm58935mp0)</li>
  <li>MirOS #10-current (i386 llvmgcc4.2.1-Apple_5627mp2 llvm58935mp0)</li>
  <li>MirOS #10-current (i386 llvmgcc4.2.1-Apple_5627mp2 opt+llc+llvm58935mp0)</li>
- <li>MirOS #10-current (i386 nwcc0.8.99.091027)</li>
+ <li>MirOS #10-current (i386 nwcc0.8.1)</li>
  <li>MirOS #10-current (i386 pcc20081028-MirPorts-1)</li>
  <li>MirOS #10-current (i386 pcc20090522-cvs)</li>
- <li>MirOS #10-current (i386 SUNWcc5.9 Linux_i386 2007/05/03, GNU ld 2.13.90.0.2 20020802)</li>
+ <li>MirOS #10-current (i386 SUNWcc5.10 Linux_i386 2009/06/03, GNU ld version 050707 20050707)</li>
  <li>MirOS #7-stable (sparc gcc2.95.3-078E)</li>
  <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc2.7.2.1)</li>
  <li>BSDi BSD/OS 3.1 #4 M300-043 (i386 gcc1.42)</li>

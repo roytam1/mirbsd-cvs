@@ -1,7 +1,7 @@
-# $MirOS: ports/lang/nwcc/Makefile,v 1.2 2009/04/17 14:54:37 tg Exp $
+# $MirOS: ports/lang/nwcc/Makefile,v 1.4 2009/09/27 11:37:02 tg Exp $
 
 COMMENT=		Nils R. Weller’s C Compiler
-DISTNAME=		nwcc_0.8
+DISTNAME=		nwcc_0.8.1
 CATEGORIES=		lang devel
 HOMEPAGE=		http://nwcc.sourceforge.net/
 

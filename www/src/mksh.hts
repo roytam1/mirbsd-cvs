@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.329 2010/03/27 17:52:23 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.330 2010/03/27 20:37:32 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -413,9 +413,8 @@ mws_content <<'EOF'
 <p>Support for SGI’s MIPSpro compiler on IRIX appeared in mksh R33b.</p>
 
 <h5 id="oe_nwcc">Compiler: nwcc</h5>
-<p>Support for nwcc appeared in mksh R36b. nwcc 0.7.9 can build mksh
- R39; vendor is working on fixing the remaining non-critical issues.
- nwcc_0.8-091027 (unstable) and mksh R39b work well together.</p>
+<p>Support for nwcc appeared in mksh R36b; it is recommended to use
+ nwcc 0.8.1 with mksh R39c or newer.</p>
 
 <h5 id="oe_pcc">Compiler: PCC (BSD)</h5>
 <p>Support for the Caldera/SCO UNIX® based, BSD-licenced portable C compiler
@@ -429,10 +428,39 @@ mws_content <<'EOF'
 <p>Support for the <a href="http://developers.sun.com/sunstudio/">SUN Studio
  12</a> compiler (cc 5.9) as well as cc 5.8 appeared in mksh R30; other
  versions might be supported as well. This compiler is a primary choice.</p>
-<h6>Using SUNWcc on MirBSD</h6>
-<pre> $ SP=/opt/SUNWcc/sunstudio12
- $ LD_LIBRARY_PATH=$SP/prod/lib/sys:$SP/prod/lib CC=$SP/prod/bin/cc \
-   LDFLAGS="-Yl,$SP/S" sh /usr/src/bin/mksh/Build.sh -r</pre>
+
+<h6 id="oe_sunmir">Using SUNWcc on MirBSD/i386</h6>
+<p>Preparation steps. We assume that Sun Studio is extracted under the
+ <tt>/opt/SUNWcc</tt> directory and Linux emulation has been set up.
+ From now on, <tt>$S</tt> is <tt>/opt/SUNWcc/sunstudio12.1</tt> (when
+ using an older version, no “.1” at the end).</p>
+<pre>$ cat $S/../MirBSD/ld                   # must be executable (0555)
+#!/bin/mksh
+set -A args -- "$@"
+integer i=0
+while (( i &lt; ${#args[*]} )); do
+        [[ ${args[i]} = -dynamic-linker ]] &amp;&amp; args[i+1]=/usr/libexec/ld.so
+        [[ ${args[i]} = -Y ]] &amp;&amp; args[i+1]=/usr/lib
+        let ++i
+done
+exec /usr/bin/ld "${args[@]}"</pre>
+<p>In <tt>$S/prod/include</tt> “mkdir MirBSD_orig” and “mv cc MirBSD_orig/”.
+ In <tt>$S/prod/lib</tt> “mkdir MirBSD_orig” and “mv *.o MirBSD_orig/” then
+ “mv MirBSD_orig/values-xa.o .” (we need this one).</p>
+<p>Furthermore, run “make obj &amp;&amp; make depend &amp;&amp; make &amp;&amp;
+ make sunstuff” in <tt>/usr/src/lib/csu/i386_elf</tt> then copy the three files
+ obj/sun_crt{1,i,n}.o to <tt>$S/prod/lib/</tt>crt{1,i,n}.o (they are the MirBSD
+ glue code / startup files).</p>
+<p>For some versions, you may need to ensure <tt>/emul/linux/lib</tt> and
+ <tt>/emul/linux/usr/lib</tt> do not contain any *.so or *.o files, except
+ for libbfd, libopcodes, libstdc++ (but 12.1 uses the native linker).</p>
+<p>In 12, -xO2 is broken; in 12.1 optimisation merely lets ir2hf run out
+ of memory even with ulimit -d ulimit -dS 1572864, hence, -xipo cannot be
+ used either. ☹</p>
+<p><strong>Using SUNWcc on MirBSD to build mksh</strong></p>
+<pre> $ S=/opt/SUNWcc/sunstudio12.1
+ $ LD_LIBRARY_PATH=$S/prod/lib/sys:$S/prod/lib:$S/rtlibs CC=$S/prod/bin/cc \
+   LDFLAGS="-Yl,$S/../MirBSD" mksh /usr/src/bin/mksh/Build.sh -r</pre>
 
 <h5 id="oe_tcc">Compiler: tcc (Tiny C)</h5>
 <p>Support for Fabrice Bellard’s tcc appeared in mksh R31, although its

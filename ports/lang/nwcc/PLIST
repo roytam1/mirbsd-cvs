@@ -1,4 +1,4 @@
-@comment $MirOS: ports/lang/nwcc/PLIST,v 1.2 2009/04/17 14:54:37 tg Exp $
+@comment $MirOS: ports/lang/nwcc/PLIST,v 1.4 2009/09/27 11:37:02 tg Exp $
 bin/nwcc
 bin/nwcc1
 lib/dynlibnwcc.o
@@ -35,6 +35,7 @@ share/doc/nwcc/NEWS-0.7.6
 share/doc/nwcc/NEWS-0.7.7
 share/doc/nwcc/NEWS-0.7.8
 share/doc/nwcc/NEWS-0.7.9
+share/doc/nwcc/NEWS-0.8
 share/doc/nwcc/README.first
 share/doc/nwcc/USAGE
 @dirrm share/doc/nwcc
