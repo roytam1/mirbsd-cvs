@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.7 2005/11/09 20:38:48 tg Exp $
+# $MirOS: ports/Makefile,v 1.8 2005/11/15 18:06:56 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -132,13 +132,16 @@ setup: Setup.sh
 	env CC='${CC}' SHELL=${SHELL} MKSH=${MKSH} \
 	    ${SUDO} /bin/sh ${.CURDIR}/Setup.sh
 
-nfo: Setup.sh.nfo
+nfo: Setup.sh.nfo Setup.sh.htm
 
 Setup.sh.man: Setup.sh.8
 	${NROFF} -mdoc <$> >$@ || (rm -f $@; false)
 
 Setup.sh.nfo: Setup.sh.man
 	col -b <$> | sed "s!\$$!$$(printf \\r)!" >$@ || (rm -f $@; false)
+
+Setup.sh.htm: Setup.sh.man
+	(. ${BSDSRCDIR}/scripts/roff2htm; do_conversion Setup.sh 8) <$> >$@
 
 CVSROOT?=/cvs
 cvsup:
