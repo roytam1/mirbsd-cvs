@@ -1922,3 +1922,32 @@ libhello_la_LDFLAGS = -version-info ${LIBHELLO_VER}
  <p>URL: <a
  href="http://miller.emu.id.au/pmiller/books/rmch/">http://miller.emu.id.au/pmiller/books/rmch/</a></p></li></ol>
 ----
+Date: 03.09.2007
+Author: tg@
+Title: My new laptop – company owned
+
+<p>I wonder why companies produce such crap. No, really. And I wonder
+ even more why the previous owner (a colleague who went off looking for
+ a better paid job, probably with less good working climate) asked for
+ exactly this laptop, as it doesn’t even work without any troubles on
+ his beloved Deb*an G*U/L*n*x (all product names are changed because
+ I don’t want to be sued). It's a S*ny V*io, a brand which never had
+ any good reputation in our circles. MirOS won’t run natively on it our
+ of the box (okay, I could build a custom kernel, but hey, maybe these
+ dual cores can better be used with VirtualB*x or something like that,
+ even be running in parallel with W*nd*ws). But still, I had my fair
+ share of fight with the D*b*an-Inst*ller, which doesn’t even come with
+ fdisk. I managed to wreck it, expect this wlog entry to be amended by
+ a photo of that (which, at the moment, is located on the mobile phone
+ of my intern, which has a camera built in).</p>
+<p>At least I have a use for these G**gle “Go Code!” stickers now – to
+ cover the built-in “webcam”… <strong>Who the fuck produces or buys such
+ kind of crap?</strong> Sorry for the emphasis, but <em>I just do not
+ fucking get it</em>. And of course, w*ldi and b*nz tell me that there
+ are no such bugs in the Inst*ller mentioned above. (There are a lot more,
+ for instance I cannot choose UTC as timezone, neither grub2 nor grub nor
+ lilo worked – but I got the latter installed manually now, etc.)</p>
+<p>This new orking device still has more hours of “fun” for me, but as
+ for tomorrow, I’ll be driving to Berlin. I left that craptop at work.
+ I’ve got better things to do in the evenings.</p>
+----
