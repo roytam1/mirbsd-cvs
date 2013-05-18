@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.320 2011/01/23 21:31:14 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.321 2011/02/13 00:07:49 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7350,4 +7350,21 @@ Tag: debian event mksh
 <p>Finally let’s say a big thank you to the person mostly manning our booth,
  gecko2, and to Benny for talking to people, getting That Other Packaging
  Thingy working, and pimping the website a bit.</p>
+----
+Date: 19.02.2011 18:01
+Author: tg@
+Title: Where in the world is Carmen Sanbuggo?
+Tag: debian mksh
+
+<p>Eh. Why does <a href="@@RELPATH@@mksh.htm">mksh</a> built with (a patched:
+ mkstemp(3) added) <a href="http://en.wikipedia.org/wiki/Klibc">klibc</a> work
+ suddenly, unexpectedly?</p>
+<p>To reproduce, I just uploaded <tt>mksh_39.3.20110218-1.dsc</tt> and you can
+ run <tt>DEB_BUILD_OPTIONS=mksh-static=klibc,dietlibc,eglibc dpkg-buildpackage
+ -rfakeroot</tt> to verify it, once you have mkstemp(3). (I will probably send
+ a smaller implementation of that in, later.) I have that and the open fix and
+ the m68k patch applied, nothing else… where did my bug go?</p>
+<p>ObQuestion: what’s the legal (copyright/trademark) status of the Atari logo
+ (the one in rainbow colours, with three things going up, right and left “leg”
+ looking like an umbrella stand’s)?</p>
 ----
