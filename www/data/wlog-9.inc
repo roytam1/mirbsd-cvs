@@ -1455,7 +1455,6 @@ Title: SPARC is dead, long live SPARC!
  not only make these trips with us but also lend it to one of us if he has
  no time but we want to go. That's the benefit of a small company.</p>
 ----
-----
 Date: 09.08.2007
 Author: tg@
 
@@ -1477,4 +1476,17 @@ Author: tg@
  get into “hacking mode”.</p>
 <p>Tonight's after-work event is <a href="http://luusa.org/">LUUSA</a> (at
  the <a href="http://netzladen.org/">Netzladen</a>) again.</p>
+<p>Waldemar brought his Zaurus, but there's no Ewe VM. On the other hand –
+ after some kernel patches and downloading Ewe149-Linux-x86.zip as well as
+ cachewolf_linux_0.9n_patch_4.zip – the first from ewesoft.com, the second
+ from cachewolf.de – and unpacking, it worked out of the box; remember the
+ device name is relative to <tt>/dev</tt> (I had to use “cuaU0” and “9600”
+ as baud rate, add myself to group dialer too). I did need some shared lib
+ from Debian GNU/Linux for that (libgcc_s.so.1) though. Compiling Ewe is –
+ at the moment – apparently impossible, it always segfaults both on MirBSD
+ (i386) and Ångström Linux (armv5tel/Zaurus). I'm importing caches from my
+ site (opencaching.de) now, after recentering to my current location (as I
+ am too lazy to figure out the GPS position of my home right now). Now, if
+ I had a <strong>huge</strong> battery on this laptop (the current one can
+ hold an hour or so only), I could use it for geocacheing.</p>
 ----
