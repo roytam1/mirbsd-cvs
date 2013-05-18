@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.30 2005/12/16 21:48:45 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.31 2005/12/17 05:57:55 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -42,7 +42,7 @@ CFLAGS+=	-Wall -Wextra -Wunused -Wdeclaration-after-statement -Wundef \
 # Set to yes to add CDIAGFLAGS to CFLAGS
 WARNINGS?=		No
 # Set to yes to build debugging versions of shared libraries
-DEBUGLIBS?=		No	# default: No for releases and MirMake
+DEBUGLIBS?=		Yes	# default: No for releases and MirMake
 # Set to yes for a stricter patent policy (USA and OpenBSD only)
 MKC_USAP?=		No
 # Set to sudo to automatically switch to root and only if needed
