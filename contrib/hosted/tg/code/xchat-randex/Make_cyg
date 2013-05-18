@@ -1,4 +1,6 @@
-# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_cyg,v 1.4 2009/06/06 10:41:40 tg Exp $
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_cyg,v 1.5 2009/06/06 10:58:55 tg Stab $
+#-
+# see main.c for copyright and licencing information
 
 # platform notes: objcopy does not work correctly, the symbol table
 # will contain too many entries, but the export table will be right

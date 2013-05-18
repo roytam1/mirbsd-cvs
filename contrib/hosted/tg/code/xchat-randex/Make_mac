@@ -1,4 +1,6 @@
-# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_mac,v 1.5 2009/06/06 13:12:56 tg Exp $
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_mac,v 1.6 2009/06/06 13:43:04 tg Stab $
+#-
+# see main.c for copyright and licencing information
 
 # platform notes: we have arc4random but no GNU ld or objcopy
 

@@ -1,5 +1,7 @@
 Notes:
 
+* see main.c for copyright and licencing information
+
 * arc4random.c is no longer part of the source code tarball, it was an
   accident, as it's developed independently. Retrieve it from:
   + https://www.mirbsd.org/MirOS/dist/hosted/other/arc4random.c
@@ -31,4 +33,4 @@ Supported commands (with examples):
   Display a 32-bit random number (hexadecimal and decimal).
 
 _____________________________________________________________________________________
-$MirOS: contrib/hosted/tg/code/xchat-randex/README,v 1.1 2009/08/01 13:37:15 tg Exp $
+$MirOS: contrib/hosted/tg/code/xchat-randex/README,v 1.2 2009/08/02 15:15:14 tg Exp $

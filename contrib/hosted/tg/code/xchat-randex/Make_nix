@@ -1,4 +1,6 @@
-# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_nix,v 1.5 2009/06/06 13:12:56 tg Rel $
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_nix,v 1.6 2009/08/02 14:48:38 tg Exp $
+#-
+# see main.c for copyright and licencing information
 
 # overwrite these as desired (e.g. ports)
 CC?=		gcc

@@ -1,4 +1,6 @@
-# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_bsd,v 1.6 2009/06/06 10:34:37 tg Exp $
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_bsd,v 1.7 2009/06/06 12:19:49 tg Stab $
+#-
+# see main.c for copyright and licencing information
 
 EXTRA_FLAGS?=	-fPIC -DPIC
 CDIAGFLAGS+=	-Wno-unused

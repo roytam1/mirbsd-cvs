@@ -1,4 +1,6 @@
-# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_lnx,v 1.5 2009/06/06 13:01:59 tg Exp $
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_lnx,v 1.6 2009/06/06 13:43:04 tg Stab $
+#-
+# see main.c for copyright and licencing information
 
 # platform notes: on i386, optimising for i686 will break the link
 # because ld -r and the .gnu.linkonce thunking don't work together
