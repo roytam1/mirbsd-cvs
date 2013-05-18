@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.36 2008/10/21 01:37:04 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.37 2008/10/21 01:43:01 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -206,8 +206,8 @@ cdrom-prepare: bsd.rd
 	@if [[ -e ${TOPDIR}/contrib ]]; then \
 		echo Integrating contrib dir; \
 		mkdir ${WRKDIR}/contrib; \
-		cd ${WRKDIR}/contrib; \
-		lndir ${TOPDIR}/contrib; \
+		cd ${TOPDIR}/contrib; \
+		pax -v -rw -pe . ${WRKDIR}/contrib/; \
 	fi
 	cp ${BOOT} ${WRKDIR}/b_${MACHINE}.ldr
 	cp ${TOPDIR}/common/boot.cfg.${MACHINE} ${WRKDIR}/boot.cfg
