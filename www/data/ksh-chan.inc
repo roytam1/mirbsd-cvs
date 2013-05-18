@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.7 2011/11/22 19:41:27 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.8 2011/12/07 23:58:13 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -69,13 +69,21 @@ The MKS ksh is the one David Korn lost some disapproving
 words about. Nevertheless, it implements some part of the
 Korn Shell language and is available for certain systems.
 ----
-Title: Which shell and version do I run?
+Title: Which shell and version do I run? Ⅰ
 Link: https://www.mirbsd.org/cvs.cgi/contrib/code/Snippets/getshver?rev=HEAD
 
 <a href="https://www.mirbsd.org/cvs.cgi/~checkout~/contrib/code/Snippets/getshver?rev=HEAD;content-type=text%2Fplain">getshver</a>
 is a script that tells you which shell it runs under. It
 currently supports most Bourne Shell, POSIX Shell, Korn
-Shell, C Shell variants as well as the TCL Shell.
+Shell, Z Shell, C Shell variants as well as the TCL Shell.
+----
+Title: Which shell and version do I run? Ⅱ
+Link: http://www.in-ulm.de/~mascheck/various/whatshell/whatshell.sh.html
+
+Sven Mascheck also has a shell detector, with emphasis on
+shells without any version variable; mostly supports old
+Bourne-compatible shells including POSIX and Korn Shell
+and some Z Shell but no C Shell or TCL.
 ----
 Title: Morris Bolsky, The KornShell Command and Programming Language
 ISBN: 978-0-13-516972-8 (0-13-516972-0)

@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.469 2012/09/02 15:07:32 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.470 2012/09/07 21:05:53 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -803,6 +803,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
  to <tt>LDFLAGS</tt> and, if not empty (e.g. consists of whitespace), adds
  more mksh-local code to to the build to avoid pulling in more libc code
  and improving LTO effect. <i>(unfinished…)</i></p>
+<p><strong>Warning!</strong> The current <tt>Build.sh</tt> interface
+ <em>will</em> change in the future. With run-time checks, mandatory
+ testsuite parts, etc. it’s already at its limit, and we’ll be needing
+ a host compiler some time later, which will see it revamped. Do read
+ the upgrade notes!</p>
 <p id="p40f">R40f: Honours <tt>AWK</tt>. Is a lot more anal wrt. using
  cached Makefile includes. Persistent history support may show up.</p>
 <p id="p40e">R40e: No longer tries to use GCC and C99 extensions. It has
@@ -1164,6 +1169,15 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Allow overriding /etc location, experts only (LP: #1039713)</li>
  <li>[tg] Update to Unicode 6.1.0</li>
  <li>[tg, Todd Miller] Avoid changing ps(1) output by accident</li>
+ <li>[tg, ft, Christian Neukirchen] Detect zsh 2.5.02/NeXTstep for Build.sh</li>
+ <li>[tg] Detect <tt>musl-gcc</tt> wrapper, define <tt>_BSD_SOURCE</tt> there,
+  which is totally bogus, but musl, just like dietlibc, gets it wrong</li>
+ <li>[tg] Improve compile-time assertions</li>
+ <li>[tg] Repair <tt>select</tt> builtin without any choices given</li>
+ <li>[tg] Add <tt>-DMKSH_GCC565048</tt> hack to avoid some compile-time
+  assertions and introduce <tt>arith-mandatory</tt> in <tt>check.t</tt>
+  to substitute for missing that compile-time check; will change</li>
+ <li>[tg] Rewrite lots of code to not rely on <tt>-fwrapv</tt> so much</li>
 </ul>
 <p>Changes in the current (unreleased) stable branch:</p><ul>
  <li>[tg] Fix a bug in the manual page</li>
@@ -1494,6 +1508,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  ‣ pretty hard, it turns out (parsing concept is done in tg@’s head)</li>
 <li>whence -p -a foo</li>
 <li>read -e (or something): use the edit.c stuff for inputting</li>
+<li>Allow trimming arrays (e.g. <tt>${foo[*]@Q}</tt>)</li>
+<li>Keep <tt>tty_fd</tt> open to handle <tt>SIGWINCH</tt> dynamically
+ even in scripts with <tt>+m</tt></li>
+<li>Consider doing <tt>${ foo;}</tt> with tempfiles</li>
 <li><a href="mksh_old.htm#plans">older/unrealistic plans</a></li>
 <li>… such as a better website, more clearly arranged, etc…</li>
 </ul>
