@@ -1,4 +1,4 @@
-.\" $MirOS: ports/Setup.sh.8,v 1.9 2005/12/22 00:42:52 tg Exp $
+.\" $MirOS: ports/Setup.sh.8,v 1.10 2006/01/13 03:49:24 tg Exp $
 .\"-
 .\" Copyright (c) 2005
 .\"	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -31,7 +31,7 @@
 .Nd first-time installation of MirPorts Framework
 .Sh SYNOPSIS
 .Nm
-.Op Fl Di
+.Op Fl DNi
 .Oo
 . Fl u |
 . Fl U Ar user Ns Op Ar :group
@@ -200,6 +200,12 @@ variable to its argument.
 .Pp
 Default:
 .Pa /usr/mpkg
+.It Fl N
+Semi-Upgrade Mode.
+Do not install any software (if the system has already been
+set up correctly before), only rewrite the configuration files.
+Use with care.
+Better don't use.
 .It Fl U Ar user Ns Op Ar :group
 Use its arguments as
 .Ev BINOWN

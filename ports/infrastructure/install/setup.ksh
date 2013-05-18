@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.50 2006/02/20 20:09:06 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.51 2006/02/26 00:26:24 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -29,7 +29,7 @@
 function usage
 {
 	print -u2 "Syntax: Setup.sh [-u|-U user[:group]]] [-e|-E sysconfdir]"
-	print -u2 "\t[-l localbase] [-X xfbase]"
+	print -u2 "\t[-l localbase] [-X xfbase] [-N]"
 	print -u2 "  -e\tset sysconfdir (default /etc; -e: \$localbase/etc)"
 	print -u2 "  -u\tinstall as user (default root:bin except on Interix)"
 	exit 1
@@ -127,7 +127,8 @@ else
 	user=root:bin
 fi
 etc=/etc
-iopt=0
+let iopt=0
+let nopt=0
 d=0
 while getopts "DE:ehil:U:uX:" opt; do
 	case $opt {
@@ -135,8 +136,9 @@ while getopts "DE:ehil:U:uX:" opt; do
 		d=1 ;;
 	(E)	etc=${OPTARG%%*(/)} ;;
 	(e)	etc=@LOCALBASE@/etc ;;
-	(i)	iopt=1 ;;
+	(i)	let iopt=1 ;;
 	(l)	localbase=${OPTARG%%*(/)} ;;
+	(N)	nopt=1 ;;
 	(U)	user=$OPTARG ;;
 	(u)	user=$(id -un):$(id -gn) ;;
 	(X)	xfbase=${OPTARG%%*(/)} ;;
@@ -412,7 +414,7 @@ if [[ ! -f /usr/bin/nroff && ! -f $localbase/bin/nroff ]]; then
 	    >$localbase/db/pkg/nroff-$f_ver-0/+CONTENTS
 	print unix text processor >$localbase/db/pkg/nroff-$f_ver-0/+COMMENT
 fi
-[[ $iopt = 1 ]] && exit 0
+(( iopt )) && exit 0
 unset NROFF
 
 
@@ -555,6 +557,17 @@ if [[ ! -s $localbase/db/mmake.cfg ]]; then
 		#CLEANDEPENDS=		No	# Default to yes
 		#PREFER_SUBPKG_INSTALL=	No	# Default to yes
 	EOF
+fi
+
+if (( nopt )); then
+	[[ $warn_makecfg = 1 ]] && cat >&2 <<-EOF
+		Warning: $localbase/db/mmake.cfg already existed before!
+		Please verify if this file contains desired settings.
+	EOF
+	print Finished partial setup. Issue one of these commands:
+	print "% source $localbase/db/SetEnv.csh"
+	print "\$ . $localbase/db/SetEnv.sh"
+	exit 0
 fi
 
 f_ver=$(cd $portsdir/essentials/pkgtools && mmake show=_VERSION)
