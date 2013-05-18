@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.41 2006/07/03 01:36:36 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.42 2006/07/03 02:29:03 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -173,6 +173,9 @@ lib${LIB}.a:: ${OBJS}
 	@echo building standard ${LIB} library
 	@rm -f lib${LIB}.a
 	@${AR} cq lib${LIB}.a $$(${LORDER} ${OBJS} | tsort -q)
+.if ${OBJECT_FMT} == "Mach-O"
+	@${RANLIB} lib${LIB}.a
+.endif
 
 # If new-style debugging libraries are in effect, libFOO_pic.a
 # contains debugging information - this is actually wanted.
@@ -181,6 +184,9 @@ lib${LIB}_pic.a:: ${SOBJS}
 	@echo building shared object ${LIB} library
 	@rm -f lib${LIB}_pic.a
 	@${AR} cq lib${LIB}_pic.a $$(${LORDER} ${SOBJS} | tsort -q)
+.if ${OBJECT_FMT} == "Mach-O"
+	@${RANLIB} lib${LIB}_pic.a
+.endif
 
 ${SHLIB_SONAME}: ${CRTI} ${CRTBEGIN} ${SOBJS} ${DPADD} ${CRTEND} ${CRTN}
 .if defined(SHLIB_VERSION)
@@ -225,6 +231,11 @@ beforeinstall:
 realinstall:
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    lib${LIB}.a ${DESTDIR}${LIBDIR}/
+.  if ${OBJECT_FMT} == "Mach-O"
+	chmod 600 ${DESTDIR}${LIBDIR}/lib${LIB}.a
+	${RANLIB} ${DESTDIR}${LIBDIR}/lib${LIB}.a
+	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/lib${LIB}.a
+.  endif
 .  ifdef SHLIB_SONAME
 .    if ${OBJECT_FMT} == "Mach-O"
 	@echo Relinking dynamic ${LIB} library
@@ -241,6 +252,11 @@ realinstall:
 .  elif ${NOPIC:L} == "no"
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
 	    lib${LIB}_pic.a ${DESTDIR}${LIBDIR}/
+.    if ${OBJECT_FMT} == "Mach-O"
+	chmod 600 ${DESTDIR}${LIBDIR}/lib${LIB}_pic.a
+	${RANLIB} ${DESTDIR}${LIBDIR}/lib${LIB}_pic.a
+	chmod ${LIBMODE} ${DESTDIR}${LIBDIR}/lib${LIB}_pic.a
+.    endif
 .  endif
 .  if ${NOLINT:L} == "no"
 	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${SHAREMODE} \
