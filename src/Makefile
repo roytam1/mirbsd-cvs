@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.88 2006/12/20 15:56:46 tg Exp $
+# $MirOS: src/Makefile,v 1.89 2006/12/22 21:14:03 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -158,12 +158,14 @@ dist-q:
 	    HOME=$$(/usr/bin/mktemp -d /var/tmp/buildhome.XXXXXXXXXX) \
 	    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin TZ=UTC \
 	    ${MAKE} BATCH=1 _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
+	cp ${.CURDIR}/Build.log ${BSDRELDIR}/rel/
 
 dist:
 	cd ${.CURDIR} && exec /usr/bin/env -i MAKEFLAGS=${MFLAGS:M*:Q} \
 	    HOME=$$(/usr/bin/mktemp -d /var/tmp/buildhome.XXXXXXXXXX) \
 	    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin TZ=UTC \
 	    ${MAKE} _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
+	cp ${.CURDIR}/Build.log ${BSDRELDIR}/rel/
 
 _DISTS=		base
 .ifdef QUICK_DIST2
