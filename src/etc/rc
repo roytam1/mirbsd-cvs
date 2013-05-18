@@ -1,4 +1,4 @@
-# $MirOS: src/etc/rc,v 1.51 2006/09/13 01:23:28 tg Exp $
+# $MirOS: src/etc/rc,v 1.52 2006/10/02 07:03:16 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -441,8 +441,12 @@ fi
 
 # run rdate before timed/ntpd
 if [[ $rdate_flags != NO ]]; then
-	echo -n ' rdate'
-	rdate_flags=$(rdate -s $rdate_flags 2>&1 | grep rdate: 2>&-)
+	echo -n ' rdate';		rdate -s $rdate_flags 2>&1 |&
+	set -A rdate_flags
+	i=0
+	while read -p x; do
+		rdate_flags[${#rdate_flags[*]}]=$x
+	done
 fi
 
 # $timed_flags is imported from /etc/rc.conf;
@@ -456,7 +460,9 @@ if [[ $ntpd_flags != NO ]]; then
 fi
 
 echo .
-[[ $rdate_flags = NO ]] || print -r -- $rdate_flags
+[[ $rdate_flags = NO ]] || while (( i < ${#rdate_flags[*]} )); do
+	print -r -- "${rdate_flags[i++]}"
+done
 
 mount -a -t nfs
 
