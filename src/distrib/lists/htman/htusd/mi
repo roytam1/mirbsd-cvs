@@ -24,8 +24,11 @@
 ./docs/lynx_help/lynx-dev.html
 ./docs/lynx_help/lynx_help_main.html
 ./docs/lynx_help/lynx_url_support.html
+./docs/lynx_help/samples/home.htm
 ./docs/lynx_help/samples/installdirs.html
+./docs/lynx_help/samples/jumps.htm
 ./docs/lynx_help/samples/jumpsUnix.html
+./docs/lynx_help/samples/lynx_bookmarks.htm
 ./docs/lynx_help/test/ALT88592.html
 ./docs/lynx_help/test/ISO_LATIN1_test.html
 ./docs/lynx_help/test/TestComment.html
