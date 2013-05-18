@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.sub,v 1.14 2005/11/20 13:50:42 tg Exp $
+# $MirOS: gcc/Makefile.sub,v 1.15 2005/11/22 18:17:18 tg Exp $
 
 .if defined(COMPILER_ONLY) && ${COMPILER_ONLY:L} != "no"
 
@@ -10,6 +10,11 @@
 .  include "${.CURDIR}/Makefile.inc"
 
 .  if defined(NO_ADA) && ${NO_ADA:L} != "no"
+  SKIPDIR+= libada
+.  endif
+
+# cross-compiling a native compiler?
+.  if (${CROSS_MODE:L} == "yes") && !defined(_CROSSBUILD)
   SKIPDIR+= libada
 .  endif
 

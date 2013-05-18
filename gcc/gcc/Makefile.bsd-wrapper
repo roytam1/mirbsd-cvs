@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.44 2006/06/22 12:49:44 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.45 2006/12/11 20:30:54 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -22,7 +22,7 @@ INFO+=		doc/gcj.info
 .endif
 
 .if (${CROSS_MODE:L} == "yes") && !defined(_CROSSBUILD)
-ALL_TARGET?=	config.status auto-host.h build- c collect2 xgcc cpp xlimits.h
+ALL_TARGET?=	native xgcc cpp xlimits.h
 .else
 ALL_TARGET?=
 .endif
@@ -60,10 +60,11 @@ COPTS+=		-std=gnu99
 .endif
 
 BOOT_CFLAGS?=	${FSFCFLAGS}
+GNATLIBCFLAGS?=	${BOOT_CFLAGS}
 CPPFLAGS+=	-I${GNU_LIBIBERTY_INC}
 XARGS+=		BISON=yacc LIBIBERTY_HDRS="${GNU_LIBIBERTY_INC}" \
 		extrapartsdir='${GCC_PREFIX}/lib' BOOT_CFLAGS="${BOOT_CFLAGS}" \
-		CFLAGS="${FSFCFLAGS}" GNATLIBCFLAGS="${BOOT_CFLAGS}" \
+		CFLAGS="${FSFCFLAGS}" GNATLIBCFLAGS="${GNATLIBCFLAGS}" \
 		HOST_CC="${HOSTCC}" MAKEINFOFLAGS=--no-split \
 		VALGRIND_DRIVER_DEFINES="-DNO_SHARED_LIBGCC_MULTILIB"
 .ifdef _CROSSBUILD

@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.lang,v 1.8 2007/01/01 19:16:39 tg Exp $
+# $MirOS: gcc/Makefile.lang,v 1.9 2007/05/19 01:18:27 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_LANG
 _MODGCC_MAKEFILE_LANG=1
@@ -32,6 +32,13 @@ NO_JAVA=	Yes	# never
 # Threads may or may not work. Seems to be safe on i386, but
 # disabled for improved overall stability.
 NO_THREADS?=	Yes
+
+# cross-compiling a native compiler?
+.if (${CROSS_MODE:L} == "yes") && !defined(_CROSSBUILD)
+NO_CXX=		Yes
+NO_OBJC=	Yes
+NO_PASCAL=	Yes
+.endif
 
 .if ${NO_THREADS:L} != "no"
 NO_JAVA=	Yes #implied
