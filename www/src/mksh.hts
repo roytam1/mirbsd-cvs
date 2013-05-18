@@ -1,4 +1,4 @@
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.118 2008/05/17 19:13:40 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.119 2008/05/17 20:38:27 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -974,6 +974,7 @@ mws_content <<'EOF'
  <li>Do not use LDFLAGS and LIBS while compiling with <tt>-c</tt></li>
  <li>Add realpath(3) builtin, to further speed up logins and chdirs</li>
  <li>Optimise the code somewhat by making use of possible assumptions</li>
+ <li>Set the “C” locale in <tt>test.sh</tt> as well to quell warnings</li>
 </ul>
 <p id="r33d">mksh R33d is a quick security-update with these changes:</p><ul>
  <li>Move a portability define from <tt>sh.h</tt> to the <tt>setmode.c</tt>
