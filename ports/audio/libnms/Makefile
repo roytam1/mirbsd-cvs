@@ -1,8 +1,9 @@
-# $MirOS: ports/audio/libnms/Makefile,v 1.1 2006/11/25 17:19:45 bsiegert Exp $
+# $MirOS: ports/audio/libnms/Makefile,v 1.2 2007/02/22 22:57:43 tg Exp $
 
 COMMENT=		open media streaming client library
 
 VERSION=		0.6.0
+DASH_VER=		1
 DISTNAME=		libnms-${VERSION}
 CATEGORIES=		audio devel
 
@@ -25,5 +26,10 @@ AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static
 CONFIGURE_ARGS+=	--enable-ipv6
+
+pre-build:
+.for i in autoconf automake aclocal
+	ln -sf /bin/true ${WRKDIR}/bin/$i
+.endfor
 
 .include <bsd.port.mk>
