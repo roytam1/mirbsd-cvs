@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/init_main.c,v 1.12 2006/08/22 21:51:39 tg Exp $ */
+/**	$MirOS: src/sys/kern/init_main.c,v 1.13 2006/10/08 00:24:44 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.120 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
 /*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
@@ -104,7 +104,7 @@ extern void nfs_init(void);
 
 /* used by kernfs */
 const char copyright[] =
-    "Copyright (c) 2002-2006 The MirOS Project and its contributors.\n"
+    "Copyright (c) 2002-2007 The MirOS Project and its contributors.\n"
     "See /usr/share/doc/legal/1stREAD or source for all (c) statements";
 
 /* Components of the first process -- never freed. */
@@ -210,7 +210,7 @@ main(/* XXX should go away */ void *framep)
 	config_init();		/* init autoconfiguration data structures */
 	consinit();
 	printf("%s\n", copyright);
-	rnd_addpool_add((u_long)ticks);
+	rnd_addpool_add(ticks);
 
 	uvm_init();
 	disk_init();		/* must come before autoconfiguration */
