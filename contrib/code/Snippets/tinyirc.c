@@ -18,7 +18,7 @@
 #else
 #define RELEASE_OS	"unknown OS"
 #endif
-#define RELEASE_VER	"TinyIRC 20081209"
+#define RELEASE_VER	"TinyIRC 20081220"
 #define RELEASE_L	RELEASE_VER " (" RELEASE_OS ") MirOS-contrib"
 #define RELEASE_S	RELEASE_VER " MirOS"
 /* tinyirc 1.0
@@ -77,7 +77,7 @@
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.25 2008/12/20 17:01:31 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.26 2008/12/20 17:02:04 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -111,6 +111,7 @@ fd_set readfs;
 struct timeval time_out;
 struct tm *timenow;
 static time_t idletimer, datenow, wasdate;
+static volatile sig_atomic_t sigwinch = 0;
 
 char s_co[] = "co";
 char s_li[] = "li";
@@ -164,6 +165,8 @@ void histupdate(void);
 void printpartial(int);
 void userinput(void);
 __dead void cleanup(int);
+static void dowinch(int);
+static void tcsetup(int);
 int main(int, char *[]);
 static void pushlastchan(char *);
 
@@ -876,6 +879,10 @@ void userinput(void)
 	putchar('\n');
     } else {
 	read(stdinfd, &ch, 1);
+	if (sigwinch) {
+		tcsetup(1);
+		sigwinch = 0;
+	}
 	if (ch == '\177')
 	    ch = '\10';
 	if (ch != '\t')
@@ -920,7 +927,7 @@ void userinput(void)
 	case '\5':		/* C-e */
 	    curx = curli;
 	case '\14':		/* C-l */
-	    printpartial((curx / CO) * CO);
+	    tcsetup(2);
 	    break;
 	case '\6':		/* C-f */
 	    if (curx < curli)
@@ -1015,6 +1022,40 @@ void cleanup(int sig)
     exit(128 + sig);
 }
 
+static void
+dowinch(int sig __attribute__((unused)))
+{
+	sigwinch = 1;
+}
+
+static void
+tcsetup(int scrupdate)
+{
+	if (tgetent(bp, term) < 1) {
+	    fprintf(stderr, "tinyirc: no termcap entry for %s\n", term);
+	    exit(1);
+	}
+	if ((CO = tgetnum(s_co) - 2) < 1)
+		CO = 78;
+	if ((LI = tgetnum(s_li)) == -1)
+		LI = 24;
+	if ((CM = tgetstr(s_cm, &ptr)) == NULL)
+		CM = tgetstr(s_CM, &ptr);
+	if ((SO = tgetstr(s_so, &ptr)) == NULL)
+		SO = "";
+	if ((SE = tgetstr(s_se, &ptr)) == NULL)
+		SE = "";
+	CS = tgetstr(s_cs, &ptr);
+	CE = tgetstr(s_ce, &ptr);
+	DC = tgetstr(s_dc, &ptr);
+	wasdate = 0;
+	if (scrupdate) {
+		tputs_x(tgoto(CS, LI - 3, 0));
+		updatestatus();
+		printpartial((curx / CO) * CO);
+	}
+}
+
 int
 main(int argc, char *argv[])
 {
@@ -1071,34 +1112,19 @@ main(int argc, char *argv[])
 	    fprintf(stderr, "tinyirc: TERM not set\n");
 	    exit(1);
 	}
-	if (tgetent(bp, term) < 1) {
-	    fprintf(stderr, "tinyirc: no termcap entry for %s\n", term);
-	    exit(1);
-	}
-	if ((CO = tgetnum(s_co) - 2) < 1)
-	    CO = 78;
-	if ((LI = tgetnum(s_li)) == -1)
-	    LI = 24;
-	if ((CM = tgetstr(s_cm, &ptr)) == NULL)
-	    CM = tgetstr(s_CM, &ptr);
-	if ((SO = tgetstr(s_so, &ptr)) == NULL)
-	    SO = "";
-	if ((SE = tgetstr(s_se, &ptr)) == NULL)
-	    SE = "";
-	if (!CM || !(CS = tgetstr(s_cs, &ptr)) ||
-	    !(CE = tgetstr(s_ce, &ptr))) {
+	tcsetup(0);
+	if (!CM || !CS || !CE) {
 	    printf("tinyirc: sorry, no termcap cm,cs,ce: dumb mode set\n");
 	    dumb = 1;
 	}
 	if (!dumb) {
-	    DC = tgetstr(s_dc, &ptr);
-	    wasdate = 0;
 	    signal(SIGINT, cleanup);
 	    signal(SIGHUP, cleanup);
 	    signal(SIGKILL, cleanup);
 	    signal(SIGQUIT, cleanup);
 	    signal(SIGSTOP, cleanup);
 	    signal(SIGSEGV, cleanup);
+	    signal(SIGWINCH, dowinch);
 	    savetty();
 	    raw();
 	    tputs_x(tgoto(CS, LI - 3, 0));
