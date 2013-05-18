@@ -23,8 +23,7 @@ depend: beforedepend .depend _SUBDIRUSE afterdepend
 	if [[ $$files != " " ]]; then \
 		echo ${MKDEP_SH} -a ${MKDEP} ${CFLAGS:M-[ID]*} \
 		    ${CPPFLAGS} $$files; \
-		GCC_HONOUR_COPTS=0 CC=${CC:Q} \
-		    ${MKDEP_SH} -a ${MKDEP} ${CFLAGS:M-[ID]*} \
+		CC=${CC:Q} ${MKDEP_SH} -a ${MKDEP} ${CFLAGS:M-[ID]*} \
 		    ${CPPFLAGS} $$files; \
 	fi
 	@files="${.ALLSRC:M*.cc} ${.ALLSRC:M*.C} ${.ALLSRC:M*.cxx}"; \

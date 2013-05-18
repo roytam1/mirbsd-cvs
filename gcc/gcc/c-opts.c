@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/c-opts.c,v 1.4 2006/01/31 12:07:08 tg Exp $ */
+/* $MirOS: gcc/gcc/c-opts.c,v 1.5 2006/01/31 12:35:35 tg Exp $ */
 
 /* C/ObjC/C++ command line option handling.
    Copyright (C) 2002, 2003, 2004 Free Software Foundation, Inc.
@@ -1148,44 +1148,6 @@ c_common_post_options (const char **pfilename)
   if (warn_missing_format_attribute && !warn_format)
     warning ("-Wmissing-format-attribute ignored without -Wformat");
 
-  if (c_language == clk_c) {
-    char *ev = getenv ("GCC_HONOUR_COPTS");
-    int evv;
-    if (ev == NULL)
-      evv = 0;
-    else if ((*ev == '0') || (*ev == '\0'))
-      evv = 0;
-    else if (*ev == '1')
-      evv = 1;
-    else if (*ev == '2')
-      evv = 2;
-    else {
-      warning ("unknown GCC_HONOUR_COPTS value, assuming 1");
-      evv = 1; /* maybe depend this on something like MIRBSD_NATIVE?  */
-    }
-    if (evv == 1) {
-      if (honour_copts == 0) {
-	error ("someone does not honour COPTS at all in lenient mode");
-	return false;
-      } else if (honour_copts != 1) {
-	warning ("someone does not honour COPTS correctly");
-      }
-    } else if (evv == 2) {
-      if (honour_copts == 0) {
-	error ("someone does not honour COPTS at all in strict mode");
-	return false;
-      } else if (honour_copts != 1) {
-	error ("someone does not honour COPTS correctly, passed %d times",
-	 honour_copts);
-	return false;
-      }
-    } else {
-      if (honour_copts != 1)
-	inform ("someone does not honour COPTS correctly, passed %d times",
-	 honour_copts);
-    }
-  }
-
   if (flag_preprocess_only)
     {
       /* Open the output now.  We must do so even if flag_no_output is
@@ -1272,6 +1234,44 @@ c_common_init (void)
 
   /* Has to wait until now so that cpplib has its hash table.  */
   init_pragma ();
+
+  if (c_language == clk_c) {
+    char *ev = getenv ("GCC_HONOUR_COPTS");
+    int evv;
+    if (ev == NULL)
+      evv = 0;
+    else if ((*ev == '0') || (*ev == '\0'))
+      evv = 0;
+    else if (*ev == '1')
+      evv = 1;
+    else if (*ev == '2')
+      evv = 2;
+    else {
+      warning ("unknown GCC_HONOUR_COPTS value, assuming 1");
+      evv = 1; /* maybe depend this on something like MIRBSD_NATIVE?  */
+    }
+    if (evv == 1) {
+      if (honour_copts == 0) {
+	error ("someone does not honour COPTS at all in lenient mode");
+	return false;
+      } else if (honour_copts != 1) {
+	warning ("someone does not honour COPTS correctly");
+      }
+    } else if (evv == 2) {
+      if (honour_copts == 0) {
+	error ("someone does not honour COPTS at all in strict mode");
+	return false;
+      } else if (honour_copts != 1) {
+	error ("someone does not honour COPTS correctly, passed %d times",
+	 honour_copts);
+	return false;
+      }
+    } else {
+      if (honour_copts != 1)
+	inform ("someone does not honour COPTS correctly, passed %d times",
+	 honour_copts);
+    }
+  }
 
   return true;
 }
