@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.140 2006/11/04 00:03:54 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.141 2006/11/04 00:27:19 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1735,7 +1735,7 @@ checksum: fetch
 					OK=false;; \
 				*) \
 					if (( new_cksum )); then \
-						CKSUM=$$(grep -i "^$$cipher " \
+						CKSUM=$$(grep -i "^$$cipher ($$file)" \
 						    ${WRKDIR}/.sums | sed 's/^.*= //'); \
 					else \
 						CKSUM=$$(${_CKSUM_A} $$cipher <$$file); \
@@ -1746,7 +1746,7 @@ checksum: fetch
 						${ECHO_MSG} ">> Checksum OK for $$file. ($$cipher)";; \
 					*) \
 						echo ">> Checksum mismatch for $$file. ($$cipher)"; \
-						if [[ -n $_CKSUM_DEBUG ]]; then \
+						if [[ -n $$_CKSUM_DEBUG ]]; then \
 							echo "<< HAVE '$$CKSUM'"; \
 							echo "<< WANT '$$4'"; \
 						fi; \
