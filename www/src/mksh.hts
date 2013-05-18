@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.161 2008/08/02 17:50:49 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.162 2008/08/02 17:53:53 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R35b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -22,7 +22,7 @@ mws_content <<'EOF'
  <li><a href="#upgrade">Upgrade</a> your packages from older mksh</li>
  <li>Inclusion in <a href="#otheros">operating systems</a></li>
  <li><a href="#contrib">comparision</a> with other shells</li>
- <li><a href="#regress">Testsuite Results</a></li>
+ <li><a href="#regress">Testsuite Results</a> (regression tests)</li>
  <li><a href="#vsn">on version numbers</a> – for packagers</li>
  <li><a href="#plans">future plans</a></li>
  <li><a href="#clog">ChangeLog</a></li>
@@ -815,7 +815,7 @@ mws_content <<'EOF'
  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21) via MirOS SRPM</li>
  <li>Debian GNU/Linux 4.0 testing 2.6.25-2-686 (i386 gcc4.3.1-2) libc6-2.7-10 + dietlibc-0.31-1 + libbsd-0.0-3) via MirOS Debian package</li>
  <li style="list-style:none;">– tests by third parties (Build.sh) –</li>
- <li>MidnightBSD 0.1.1-RELEASE (amd64 gcc3.4.4-20050518), by Lucas Holt</li>
+ <li>MidnightBSD 0.1.1-RELEASE (amd64 gcc3.4.4-20050518) by Lucas Holt</li>
  <li>HP OSF/1 V4.0F 1229 (alpha DEC C V5.9-005) by Jupp Schugt</li>
  <li>HP OSF/1 V4.0F 1229 (alpha gcc2.8.1 alpha-dec-osf4.0d) by Jupp Schugt</li>
  <li>SGI IRIX64 6.5 (mips:R10K mipspro7.4.4m) by Elias Pipping</li>
@@ -846,6 +846,8 @@ mws_content <<'EOF'
 </ul>
 <h3 id="regress_old">Older Releases</h3>
 <ul>
+ <li style="list-style:none;">– tests by third parties (Build.sh) –</li>
+ <li>GNU/Linux (amd64 nwcc) by «skppo_:#MidnightBSD»</li>
  <li style="list-style:none;">– other build system integration –</li>
  <li>See the <a href="#otheros">Inclusion</a> section for general information</li>
  <li>Debian GNU/kFreeBSD 4.0 sid 7.0-1-586 (i386 gcc4.3.0-2) <em>via MirOS provided Debian package</em></li>
