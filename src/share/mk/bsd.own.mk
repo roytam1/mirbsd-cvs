@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.52 2007/08/24 14:20:06 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.53 2007/08/24 14:25:34 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -13,7 +13,7 @@ BSD_OWN_MK=1
 .endif
 
 SKEY?=		Yes	# no = avoid building with support for S/key auth
-DEBUGLIBS?=	No	# yes (snapshots), no (releases), removed (mirmake)
+DEBUGLIBS?=	Yes	# yes (snapshots), no (releases), removed (mirmake)
 MALLOC_TYPE?=	mmap	# default: mmap, other: brk
 
 CROSS_MODE?=	No
