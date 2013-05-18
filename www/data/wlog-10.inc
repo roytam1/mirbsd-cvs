@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.169 2009/03/14 18:30:52 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.170 2009/03/14 18:38:51 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3514,4 +3514,47 @@ Tag: bug event geocache hardware
  er die Listings dort wieder pflegen möge, oder schreibt ihm, was ihr <a
  href="http://www.opencaching.de/viewlogs.php?cacheid=111936">von seiner
  Aktion</a> haltet, die Listings auf OC.de zu orphanen!</strong></p>
+----
+Author: bsiegert@
+Title: Short LaTeX hint: correct tables for scientific documents
+Date: 15.03.2009 12:24
+Tag: latex
+
+<p>One of the things you should pay attention to when writing a
+ scientific paper is the layout of the tables. Never, I repeat never,
+ use vertical lines or even a “grid” with lines between all cells.
+ Instead, use only horizontal lines&mdash;one at the top, one between
+ the column headings, and one at the bottom. <a
+ href="http://www.ctan.org/get/macros/latex/contrib/booktabs/booktabs.pdf">The
+ documentation for the booktab package [pdf]</a>, which is appropriately
+ written by a Swiss, explains this nicely. Two more things: the table
+ should be in a smaller font than the text (about 10%) and span the
+ whole width of the text. As scientific papers are always typeset in
+ two-column mode, you may have tables one column or two columns wide.
+ The latter is done like this in LaTeX:</p>
+
+<pre>\begin{table*}
+\centering\small%
+\begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}lll}
+\toprule
+First column &amp; Temperature (°C) &amp; $D$ (nm)\\
+\midrule
+Foo &amp; 210 &amp; 10\\
+Bar &amp; 300 &amp; 15\\ 
+\bottomrule
+\end{tabular*}
+\caption{\label{tbl:mylabel} This is the table caption, where you
+should explain what identifiers like $D$ above mean.}
+\end{table*}</pre>
+
+<p>Units go into the header, or into a separate header line (which is
+ IIRC recommended by DIN). The amount of <tt>l</tt> at the end of the
+ third line is equivalent to the number of columns. That means you
+ should exclusively use left-aligned columns. Also, don’t be afraid to
+ make tables wider than high, or with only one line of data. I have seen
+ this in Wiley-VCH journals, and it comes out alright.</p>
+
+<p>To make the table only one column wide, replace <tt>table*</tt> by
+ <tt>table</tt> and <tt>\textwidth</tt> by <tt>\columnwidth</tt> in the
+ example above. Do however leave the asterisk in <tt>tabular*</tt>.</p>
 ----
