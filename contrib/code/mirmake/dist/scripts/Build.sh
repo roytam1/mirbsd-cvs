@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.121 2008/10/12 17:56:25 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.122 2008/10/12 18:04:28 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -211,6 +211,14 @@ cp $d_src/lib/libc/stdlib/getopt_long.c $d_src/kern/c/strlfun.c \
 cp $d_src/share/mk/*.mk $d_build/mk/
 cp $d_src/include/{getopt,adler32,md4,md5,rmd160,sfv,sha1,sha2,suma,tiger,whirlpool}.h \
     $d_script/../contrib/mirmake.h $d_src/kern/include/libckern.h $d_build/F/
+ed -s $d_build/F/libckern.h <<-'EOF'
+	/defined.*_WCHAR_H_/,/endif.*_WCHAR_H_/d
+	i
+		#include <wchar.h>
+		#define restrict /* nothing */
+	.
+	wq
+EOF
 
 # Patch sources
 for ps in make.1 mk/{bsd.own.mk,bsd.prog.mk,bsd.sys.mk,sys.mk} mkdep.sh; do
