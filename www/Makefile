@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.51 2009/04/23 18:13:49 tg Exp $
+# $MirOS: www/Makefile,v 1.52 2009/06/21 11:20:58 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -58,7 +58,7 @@ CLEANFILES+=	news.cut
 .PATH: ${TOP}/src
 
 all:
-install: site.tgz
+install: site.tgz.stamp
 
 STRFTM_MAKE=	cd ${.CURDIR:Q} && ${MAKE} -f ${.SYSMK}/bsd.prog.mk NOMAN=Yes \
 		    VPATH=${.CURDIR:Q}/mk PROG=strftm
@@ -93,14 +93,14 @@ clean:
 	-rm -rf $$(<${_i})
 .endfor
 	-rm -rf dst permalinks
-	-rm -f ${CLEANFILES} site.tgz *.tmp *~
+	-rm -f ${CLEANFILES} site.tgz* *.tmp *~
 
 cleandir: clean
 	-rm -rf hashed
 	-rm -f .depend ${CLEANFILES:M*~:S/~$//}
 
 deinstall:
-	-rm -rf dst site.tgz
+	-rm -rf dst site.tgz*
 
 reinstall: deinstall .WAIT install
 
@@ -109,10 +109,11 @@ all: ${OBJS}
 strftm: mk/strftm.c
 	${STRFTM_MAKE} $@
 
-site.tgz: _reinstall
-	find dst | sort | sed -e '/^dst$$/d' -e 's,^dst/,,' | \
-	    (cd dst && cpio -voC512 -Hustar -Mdist) | gzip -n9 >$@.tmp
-	mv $@.tmp $@
+site.tgz.stamp: _reinstall
+#	find dst | sort | sed -e '/^dst$$/d' -e 's,^dst/,,' | \
+#	    (cd dst && cpio -voC512 -Hustar -Mdist) | gzip -n9 >site.tgz.tmp
+#	mv site.tgz.tmp site.tgz
+	:>$@
 
 .for _i in ${WLOGS}
 WLOG_LATEST:=${_i}
@@ -152,11 +153,11 @@ _reinstall:
 .PHONY: clean cleandir depend install deinstall reinstall _reinstall \
 	cp-herc cp-heph rs-heph rs-eurynome
 
-cp-herc: site.tgz
-	ssh hercs 'cd /var/www/oldsite; tar xzvf -' <site.tgz
-
-cp-heph: site.tgz
-	ssh hephaistos 'cd Web; tar xzvpf -' <site.tgz
+#cp-herc: site.tgz.stamp
+#	ssh hercs 'cd /var/www/oldsite; tar xzvf -' <site.tgz
+#
+#cp-heph: site.tgz.stamp
+#	ssh hephaistos 'cd Web; tar xzvpf -' <site.tgz
 
 rs-heph:
 	rsync -rxlztpgavPHK dst/ hephaistos:Web/
