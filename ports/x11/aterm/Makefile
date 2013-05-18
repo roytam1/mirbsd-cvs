@@ -1,5 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.33 2004/04/09 04:24:44 jolan Exp $
 
+COMMENT=	color vt102 terminal emulator with transparency support
 DISTNAME=	aterm-0.4.2
 CATEGORIES=	x11
 
@@ -9,7 +11,6 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-COMMENT=			color vt102 terminal emulator with transparency support
 HOMEPAGE=	http://aterm.sourceforge.net/
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=aterm/}
 
@@ -21,6 +22,8 @@ FLAVORS=	big5 lite
 FLAVOR?=
 
 .if ${FLAVOR:L:Mbig5}
+PERMIT_PACKAGE_CDROM=	dependency chinese/taipeifonts is not allowed for CDROM
+PERMIT_PACKAGE_FTP=	dependency chinese/taipeifonts is not allowed for FTP
 RUN_DEPENDS=	${LOCALBASE}/lib/X11/fonts/chinese/taipei16.pcf.gz::chinese/taipeifonts
 PATCH_LIST=	patch-src_Makefile_in \
 		patch-src_command_c
