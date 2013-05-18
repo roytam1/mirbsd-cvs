@@ -1,5 +1,5 @@
 # $Id$
-# $MirOS: src/etc/etc.i386/ttys,v 1.7 2008/03/23 01:45:08 tg Exp $
+# $MirOS: src/etc/etc.i386/ttys,v 1.8 2008/06/27 21:04:57 tg Exp $
 # $OpenBSD: ttys,v 1.17 2002/06/09 06:15:14 todd Exp $
 #
 # Please note that the word “secure” on the line below starting with
@@ -11,7 +11,7 @@
 # name	getty				type	status		comments
 #
 # main console device – the speed is automatically set from /etc/rc
-console	"/usr/libexec/getty acs.std"	vt220	on  secure
+console	"/usr/libexec/getty acs.000000"	vt220	on  secure
 # wsdisplay console – enable if main console is on a serial line
 ttyC0	"/usr/libexec/getty Pc"		wsvt25	off secure
 ttyC1	"/usr/libexec/getty Pc"		wsvt25	on  secure

@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/etc/gettytab,v 1.3 2008/06/27 21:04:57 tg Exp $
 # $OpenBSD: gettytab,v 1.4 2000/09/08 02:27:36 pjanzen Exp $
 #
 # Most of the table entries here are just copies of the old getty table.
@@ -41,7 +41,7 @@ f|std.1200|acs.1200|1200-baud:\
 	:sp#2400:
 7|std.4800|acs.4800|4800-baud:\
 	:sp#4800:
-2|std.9600|acs.9600|acs.std|9600-baud:\
+2|std.9600|acs.9600|acs.000000|9600-baud:\
 	:sp#9600:
 g|std.19200|acs.19200|19200-baud:\
 	:sp#19200:
