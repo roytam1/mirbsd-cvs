@@ -3,7 +3,7 @@
 
                       Specification Document
 
-                                      Version 1.03 - 13 March 2007
+                                        Version 1.04 - 2 July 2007
 
 
 Copyright © 2006, 2007
@@ -71,6 +71,9 @@ The command-line utility will support three operations:
 • fwcf status		NEW IN 1.03: check if commit is needed
 • fwcf dump		NEW IN 1.03: make a backup of the fwcf filesystem
 • fwcf restore		NEW IN 1.03: restore a previously made backup
+• halt		\
+• poweroff	 >	NEW IN 1.04: wrapper around busybox
+• reboot	/
 
 This utility is implemented as rapid prototype as a shell script in
 ash, using one C helper programme. Later versions will be pure C.
@@ -428,4 +431,4 @@ They are provided as hint only and not part of the specifi-
 cation itself. They may change without notice.
 
 ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.35 2007/03/09 22:40:53 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.36 2007/03/13 18:31:07 tg Exp $
