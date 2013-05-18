@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.434 2011/12/04 20:40:14 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.435 2011/12/11 18:27:51 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -260,85 +260,8 @@ mws_content <<'EOF'
  and the one we consider best is <tt>-c lto</tt> (since it achieves the best
  optimisations). It is sometimes possible to use <tt>-j</tt> together
  with <tt>-c llvm</tt> to parallelise LLVM Bytecode generation, though.</p>
-<p>The build script also honours the following environment variables:</p><ul>
-<li><tt>CC</tt> (cc) – the C compiler used</li>
-<li><tt>CFLAGS</tt> (-O2 / -xO2) – optimiser and other compiler flags used
- (set to anything containing a letter or digit to prevent <tt>Build.sh</tt>
- from automatically adding optimisation flags)</li>
-<li><tt>CPPFLAGS</tt> (no default) – additional cpp(1) flags</li>
-<li><tt>LDFLAGS</tt> – additional CCLD flags</li>
-<li><tt>LIBS</tt> (-lcrypt on Interix; empty otherwise) – additional
- libraries to pull in</li>
-<li><tt>NOWARN</tt> (-Wno-error / -errwarn=%none) – $CC option to disable
- bailing out at errors; used during mirtoconf checks</li>
-<li><tt>NROFF</tt> (nroff; “nroff -c” with GNU groff) – the manual page
- processor used unless <tt>-r</tt> is given</li>
-<li><tt>TARGET_OS</tt> (uname -s || uname) – the operating system to compile
- for; set this during cross compilation; valid: AIX BeOS (not yet) BSD/OS
- CYGWIN* Darwin DJGPP (not yet) DragonFly FreeBSD GNU (Hurd) GNU/kFreeBSD
- Haiku HP-UX Interix IRIX* Linux MidnightBSD Minix MirBSD NetBSD OpenBSD OSF1
- Plan9 (not yet) PW32* (not yet) QNX SunOS syllable (not yet) ULTRIX UWIN*</li>
-<li><tt>TARGET_OSREV</tt> (uname -r) – the operating system revision number
- for these that need it; currently: QNX (R38c+)</li>
-<li style="list-style:none;">Feature selectors:</li>
-<li><tt>USE_PRINTF_BUILTIN=1</tt> – add <tt>printf.c</tt> to the list of
- files to be compiled and set a flag so it is used as builtin (R39+)</li>
-</ul>
-<p>If <tt>CPPFLAGS</tt> contain any of the following definitions, the resulting
- binary will be compiled with a specific flavour:</p><ul>
-<li><tt>-DMKSH_ASSUME_UTF8=0</tt> – do not use setlocale(3) or
- nl_langinfo(CODESET); do not assume the terminal is in UTF-8 mode
- (mksh R38c and up)</li>
-<li><tt>-DMKSH_ASSUME_UTF8</tt> – do not use setlocale(3) or
- nl_langinfo(CODESET); assume the terminal is always in UTF-8 mode</li>
-<li><tt>-DMKSH_BINSHREDUCED</tt> – include code to automatically “set -o
- sh” to reduce functionality if called as <tt>sh</tt> or <tt>-sh</tt></li>
-<li><tt>-DMKSH_CLS_STRING</tt> – the string to send to the terminal to clear
- the window (default: <tt>"\033[;H\033[J"</tt>)</li>
-<li><tt>-DMKSH_CONSERVATIVE_FDS</tt> – use less filedescriptors (32/10 ipv
- 56/24), e.g. if the system supports few (mksh R37c and up)</li>
-<li><tt>-DMKSH_MIDNIGHTBSD01ASH_COMPAT</tt> – parse “--” on the shell command
- line like MidnightBSD 0.1 <tt>/bin/sh</tt> (different from all other shells);
- <em>requires</em> <tt>-DMKSH_BINSHREDUCED</tt> or “-o sh” (R39b+)</li>
-<li><tt>-DMKSH_NOPWNAM</tt> – omit getpwnam(3) calls (<tt>~foo/</tt> expansion)
- in order to not pull in the nsswitch or PAM libraries</li>
-<li><tt>-DMKSH_NO_LIMITS</tt> – don’t compile the ulimit code (R38c+)</li>
-<li><tt>-DMKSH_SMALL</tt> – build a really small mksh(1), e.g. for embedded
- systems (see below for details of what this entails)</li>
-<li><tt>-DMKSH_S_NOVI=0</tt> – do not omit the Vi editing mode (R39b+)</li>
-<li><tt>-DMKSH_S_NOVI=1</tt> – omit the Vi command line editing mode (" ")</li>
-<li><tt>-DMKSH_UNEMPLOYED</tt> – compile without job control (R37b+)</li>
-<li><tt>-DMKSH_DEFAULT_EXECSHELL</tt> – default: <tt>"/bin/sh"</tt> (R40+)</li>
-<li><tt>-DMKSHRC_PATH</tt> – default: <tt>"~/.mkshrc"</tt> (R40+)</li>
-<li><tt>-DMKSH_DEFAULT_TMPDIR</tt> – default: <tt>"/tmp"</tt> (R40+)</li>
-<li><tt>-DMKSH_CLRTOEOL_STRING</tt> – default: <tt>"\033[K"</tt> (R40+)</li>
-<li><tt>-DMKSH_A4PB</tt> – force arc4random_pushb(3) for $RANDOM (R40+)</li>
-<li><tt>-DMKSH_NO_DEPRECATED_WARNING</tt> (varies between versions)</li>
-<li><tt>-DMKSH_DONT_EMIT_IDSTRING</tt> – for broken OSes (R40+)</li>
-<li><tt>-DMKSH_NOPROSPECTOFWORK</tt> – disables more than just job control,
- to use for tracking down signal handling bugs in Syllable, Plan 9 (R40+)</li>
-<li><tt>-DMKSH_NO_EXTERNAL_CAT</tt> – always run <tt>cat</tt> as builtin,
- instead of diverting to <tt>command cat</tt> if called with flags (R40b+)</li>
-<li><tt>-DUSE_REALLOC_MALLOC=0</tt> – if <tt>realloc(NULL, n)</tt> is not
- equivalent to <tt>malloc(n)</tt> (n &gt; 0) as ANSI C89 prescribes</li>
-</ul>
-<p>You can override certain mirtoconf checks by setting environment variables
- like <tt>HAVE_REVOKE=0</tt> (default for Linux) – if these are set to 0 or 1,
- the values are used; if unset, the values are probed (unless overridden by a
- different check, such as MKSH_SMALL), if set to ‘x’ the probe is forced.<br />
- Useful items to enable/disable are HAVE_MKNOD (set to x to re-enable),
- HAVE_SETLOCALE_CTYPE (set to 0 if you know that
- it won’t ever return UTF-8), HAVE_PERSISTENT_HISTORY (0 to not include this
- feature), HAVE_FLOCK_EX (if flock or mmap do not work on files).</p>
-<p>Defining <tt>MKSH_SMALL</tt> will disable persistent history (to re-enable,
- env HAVE_PERSISTENT_HISTORY=x), try to compile with <tt>-fno-inline</tt>,
- disable the nice(3) extern; (not overridable) implies traditional/conservative
- filedescriptor usage, MKSH_NOPWNAM; omits shebang checking in scripts, the Vi
- command line editing mode (mksh R39b and up can re-enable it by defining
- <tt>-DMKSH_S_NOVI=0</tt>), certain verbose error messages, the entire ‘-T’
- command line option; replaces inlines
- with separate functions for size over speed optimisation, etc. (In R39b and
- up, it disables a whole lot more things than in earlier versions.)</p>
+<p>The <a href="@@ABSPATH@@/cvs.cgi/src/bin/mksh/Build.sh?rev=HEAD">build
+ script</a> also honours some environment variables detailed at its end.</p>
 
 <h4 id="oespec">Operating Environment specific notes</h4>
 
