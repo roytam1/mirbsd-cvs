@@ -1,8 +1,10 @@
-# $MirOS: www/.htaccess,v 1.7 2006/06/18 17:21:00 tg Exp $
+# $MirOS: www/.htaccess,v 1.8 2006/06/27 14:08:20 tg Exp $
 
 Options ExecCGI Indexes SymLinksIfOwnerMatch
 IndexOptions -FancyIndexing
 AddHandler cgi-script .cgi
+
+AddType 'text/html; charset=us-ascii' htm
 
 # custom 404 document
 ErrorDocument 404 /404.php
