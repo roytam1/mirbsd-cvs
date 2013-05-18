@@ -1,6 +1,6 @@
 mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.22 2011/03/02 22:54:15 tg Exp $'
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.23 2011/04/09 22:52:18 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Content</h2>
 EOF
@@ -161,7 +161,7 @@ mws_content <<'EOF'
   properly disables echoing input when asking for a passphrase</li>
  <li>After scanning through ssh(1) and ssh-askpass(1) source, teach
   kwalletaskpass(1) to use boolean queries for some whitelisted
-  strings and check it works with confirmation (Closes: #608476)</li>
+  strings and check it works with confirmation (Closes: #603910)</li>
  <li>Store negative replies to “Do you want to store X in the KDE Wallet?”
   as “blacklist” in the wallet in kwalletaskpass(1) and pinentry-kwallet(1)
   to avoid asking the user every time</li>
