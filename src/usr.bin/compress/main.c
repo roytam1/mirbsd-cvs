@@ -2,12 +2,14 @@
 
 #include <sys/cdefs.h>
 
+__RCSID("$MirOS: src/usr.bin/compress/main.c,v 1.12 2009/10/27 19:27:15 tg Exp $");
+
 #ifndef SMALL
 __COPYRIGHT("@(#) Copyright (c) 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n"
 "Copyright (c) 1997-2002 Michael Shalayeff\n");
 
-__IDSTRING(licence, "\n"
+__IDSTRING(licence,
 " Redistribution and use in source and binary forms, with or without\n"
 " modification, are permitted provided that the following conditions\n"
 " are met:\n"
@@ -49,8 +51,6 @@ __IDSTRING(licence, "\n"
 #include <fcntl.h>
 #include <paths.h>
 #include "compress.h"
-
-__RCSID("$MirOS: src/usr.bin/compress/main.c,v 1.12 2009/10/27 19:27:15 tg Exp $");
 
 #define min(a,b) ((a) < (b)? (a) : (b))
 
