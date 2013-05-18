@@ -1,6 +1,6 @@
-# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.17 2008/10/21 21:03:33 tg Exp $
+# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.18 2008/12/17 19:59:19 tg Exp $
 #-
-# Copyright (c) 2006, 2007, 2008
+# Copyright (c) 2006, 2007, 2008, 2010
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -41,9 +41,9 @@ function arc4random_uniform {
 	fi
 
 	# Calculate (2**32 % upper_bound) avoiding 64-bit math
-	# (2**32 - (x * 2)) % x == 2**32 % x when x <= 2**31
+	# (2**32 - x) % x == 2**32 % x when x <= 2**31
 	((# min = upper_bound > 0x80000000 ? 1 + ~upper_bound :
-	    ((0xffffffff - (upper_bound * 2)) + 1) % upper_bound ))
+	    (0xFFFFFFFF - upper_bound + 1) % upper_bound ))
 
 	# This could theoretically loop forever but each retry has
 	# p > 0.5 (worst case, usually far better) of selecting a

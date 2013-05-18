@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.55 2009/11/09 21:36:40 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.56 2010/01/06 17:52:33 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
  * rnd.c -- A strong random number generator
  *
- * Copyright (c) 2000, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009
+ * Copyright (c) 2000, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1996, 1997, 2000-2002 Michael Shalayeff.
  * Copyright Theodore Ts'o, 1994, 1995, 1996, 1997, 1998, 1999.
@@ -669,16 +669,16 @@ arc4random_uniform(u_int32_t upper_bound)
 	if (upper_bound < 2)
 		return 0;
 
-#if (ULONG_MAX > 0xffffffffUL)
+#if (ULONG_MAX > 0xFFFFFFFFUL)
 	min = 0x100000000UL % upper_bound;
 #else
 	/* Calculate (2**32 % upper_bound) avoiding 64-bit math */
-	if (upper_bound > 0x80000000)
-		min = 1 + ~upper_bound;		/* 2**32 - upper_bound */
-	else {
+	if (upper_bound > 0x80000000U)
+		/* 2**32 - upper_bound (only one "value area") */
+		min = 1 + ~upper_bound;
+	else
 		/* (2**32 - x) % x == 2**32 % x when x <= 2**31 */
-		min = ((0xffffffff - upper_bound) + 1) % upper_bound;
-	}
+		min = (0xFFFFFFFFU - upper_bound + 1) % upper_bound;
 #endif
 
 	/*

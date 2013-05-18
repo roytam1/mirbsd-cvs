@@ -1,7 +1,8 @@
 /*	$OpenBSD: arc4random.c,v 1.20 2008/10/03 18:46:04 otto Exp $	*/
 
 /*
- * Copyright (c) 2006, 2007, 2008, 2009 Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2006, 2007, 2008, 2009, 2010
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1996, David Mazieres <dm@uun.org>
  * Copyright (c) 2008, Damien Miller <djm@openbsd.org>
  *
@@ -47,7 +48,7 @@
 #include <syskern/libckern.h>
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.26 2009/11/29 15:29:25 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random.c,v 1.27 2010/01/06 17:52:32 tg Exp $");
 
 struct arc4_stream {
 	u_int8_t i;
@@ -260,16 +261,16 @@ arc4random_uniform(u_int32_t upper_bound)
 	if (upper_bound < 2)
 		return 0;
 
-#if (ULONG_MAX > 0xffffffffUL)
+#if (ULONG_MAX > 0xFFFFFFFFUL)
 	min = 0x100000000UL % upper_bound;
 #else
 	/* Calculate (2**32 % upper_bound) avoiding 64-bit math */
-	if (upper_bound > 0x80000000)
-		min = 1 + ~upper_bound;		/* 2**32 - upper_bound */
-	else {
-		/* (2**32 - (x * 2)) % x == 2**32 % x when x <= 2**31 */
-		min = ((0xffffffff - (upper_bound * 2)) + 1) % upper_bound;
-	}
+	if (upper_bound > 0x80000000U)
+		/* 2**32 - upper_bound (only one "value area") */
+		min = 1 + ~upper_bound;
+	else
+		/* (2**32 - x) % x == 2**32 % x when x <= 2**31 */
+		min = (0xFFFFFFFFU - upper_bound + 1) % upper_bound;
 #endif
 
 	/*

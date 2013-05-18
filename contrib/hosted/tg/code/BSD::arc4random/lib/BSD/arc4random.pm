@@ -1,6 +1,6 @@
-# $MirOS: contrib/hosted/tg/code/BSD::arc4random/lib/BSD/arc4random.pm,v 1.7 2009/11/22 20:04:07 tg Exp $
+# $MirOS: contrib/hosted/tg/code/BSD::arc4random/lib/BSD/arc4random.pm,v 1.8 2009/11/29 15:52:55 tg Exp $
 #-
-# Copyright (c) 2008, 2009
+# Copyright (c) 2008, 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
 # Copyright (c) 2009
 #	Benny Siegert <bsiegert@mirbsd.org>
@@ -165,10 +165,11 @@ arc4random_uniform($)
 
 	# Calculate (2**32 % upper_bound) avoiding 64-bit math
 	if ($upper_bound > 0x80000000) {
-		$min = 1 + ~$upper_bound;	# 2**32 - upper_bound
+		# 2**32 - upper_bound (only one "value area")
+		$min = 1 + ~$upper_bound;
 	} else {
 		# (2**32 - x) % x == 2**32 % x when x <= 2**31
-		$min = ((0xFFFFFFFF - $upper_bound) + 1) % $upper_bound;
+		$min = (0xFFFFFFFF - $upper_bound + 1) % $upper_bound;
 	}
 
 	# This could theoretically loop forever but each retry has
