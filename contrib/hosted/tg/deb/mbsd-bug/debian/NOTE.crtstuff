@@ -1,4 +1,0 @@
-The symbolic links to crt*.o in this directory are used for
-MirBSD #11 version-specific run time library compatibility.
-It does not matter if the file they are pointing to doesn’t
-exist, because it will use these from SYSROOT/usr/lib then.
