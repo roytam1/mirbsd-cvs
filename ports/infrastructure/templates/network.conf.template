@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.7 2006/01/13 03:49:27 tg Exp $
+# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.8 2006/01/18 17:14:10 tg Exp $
 # $OpenBSD: network.conf.template,v 1.76 2005/07/04 12:34:23 espie Exp $
 
 #
@@ -131,7 +131,6 @@ MASTER_SITE_SUNSITE+=	\
 	ftp://ftp.chg.ru/pub/Linux/sunsite/
 
 MASTER_SITE_SOURCEFORGE+=	\
-	http://ovh.dl.sourceforge.net/sourceforge/ \
 	http://belnet.dl.sourceforge.net/sourceforge/ \
 	http://heanet.dl.sourceforge.net/sourceforge/ \
 	http://puzzle.dl.sourceforge.net/sourceforge/ \
@@ -142,6 +141,7 @@ MASTER_SITE_SOURCEFORGE+=	\
 	http://nchc.dl.sourceforge.net/sourceforge/ \
 	http://switch.dl.sourceforge.net/sourceforge/ \
 	http://kent.dl.sourceforge.net/sourceforge/ \
+	http://ovh.dl.sourceforge.net/sourceforge/ \
 	http://voxel.dl.sourceforge.net/sourceforge/
 
 MASTER_SITE_GNOME+=	\
