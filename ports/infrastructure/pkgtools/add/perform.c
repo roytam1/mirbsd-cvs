@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.13 2006/11/19 22:34:06 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.14 2006/12/23 02:36:15 tg Exp $ */
 /* $OpenBSD: perform.c,v 1.32 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -29,13 +29,22 @@
 #include <signal.h>
 #include <errno.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.13 2006/11/19 22:34:06 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/add/perform.c,v 1.14 2006/12/23 02:36:15 tg Exp $");
 
 static int pkg_do(char *);
 static int sanity_check(char *);
 static int install_dep_local(char *, char *);
 static int install_dep_ftp(char *, char *);
-static void register_dep(char *, char *);
+#if 1
+#define register_dep_ register_dep
+#else
+#define register_dep(a,b) do { 						\
+		fprintf(stderr, "\n\tregistering dependency <%s> for"	\
+		    " <%s> on %d\n", (b), (a), __LINE__);		\
+		register_dep_((a), (b));				\
+	} while (0)
+#endif
+static void register_dep_(char *, char *);
 static void write_deps(void);
 
 static char LogDir[FILENAME_MAX];
@@ -557,12 +566,34 @@ install_dep_ftp(char *base, char *pattern)
 
 /* add a dependent package to the internal depends list */
 static void
-register_dep(char *pkg, char *dep)
+register_dep_(char *pkg, char *dep)
 {
     char *cp;
 
     if (!pkg || !dep)
 	return;
+
+    if ((cp = basename(dep)) == NULL) {
+	pwarnx("dependency name too long: %s\n"
+	    "dependency registration is incomplete", dep);
+	return;
+    }
+    dep = cp;
+
+    /* cut off .cgz extension... we can't modify original "dep"
+     * tho, because if we're called from install_dep_ftp it might
+     * be in use otherwise, and I didn't bother to check... -TG */
+    if ((cp = strrchr(dep, '.')) != NULL) {
+	/* cf. ensure_tgz() in lib/file.c */
+	if (!strcmp(cp, ".cgz") ||
+	    !strcmp(cp, ".tgz") ||
+	    !strcmp(cp, ".tar")) {
+		*cp = '\0';
+	} else if (!strcmp(cp, ".gz"))
+		if ((cp = strrchr(cp, '.')) != NULL)
+			if (!strcmp(cp, ".tar.gz"))
+				*cp = '\0';
+    }
 
     if (asprintf(&cp, "%s%s\n", PkgDeps ? PkgDeps : "", dep) < 0)
 	    pwarnx("cannot allocate memory for PkgDeps list!\n"
@@ -592,8 +623,8 @@ write_deps(void)
 	    continue;
 	if (Verbose)
 	    printf("Attempting to record dependency on package '%s'\n", cp);
-	(void) snprintf(filename, sizeof(filename), "%s/%s/%s", dbdir,
-			basename(cp), REQUIRED_BY_FNAME);
+	snprintf(filename, sizeof(filename), "%s/%s/%s", dbdir, cp,
+	    REQUIRED_BY_FNAME);
 	drop_privs();
 	if (write_file(filename, "a", "%s\n", PkgName))
 	    pwarnx("dependency registration is incomplete");
