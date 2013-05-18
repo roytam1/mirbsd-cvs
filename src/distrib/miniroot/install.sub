@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/miniroot/install.sub,v 1.13 2005/12/06 12:44:02 tg Exp $
+# $MirOS: src/distrib/miniroot/install.sub,v 1.14 2005/12/06 12:53:37 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -1521,7 +1521,7 @@ questions() {
 		    >>/mnt/etc/rc.conf.local
 	fi
 
-	ask_yn "Start ntpd(8) by default?" no
+	ask_yn "Start ntpd(8) by default?" yes
 	if [[ $resp == y ]]; then
 		echo "ntpd_flags=-s		# enabled during install" \
 		    >>/mnt/etc/rc.conf.local
