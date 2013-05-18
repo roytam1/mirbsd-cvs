@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.108 2007/05/25 18:27:26 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.109 2007/05/26 22:38:27 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -90,6 +90,10 @@
  <li>No longer build a statically linked shell by default; do not try,
   do not provide any means; user has to use LDFLAGS instead.</li>
  <li>Remove some probably dead mirtoconf checks</li>
+ <li>Remove commented out <tt>-fwhole-program --combine</tt> check and
+  still active <tt>-fno-tree-vrp</tt> bug workaround thing, the latter
+  because the bug seems to only appear for functions that also exist as
+  a builtin (which was declared with the nonnull attribute)</li>
 </ul>
 <p>Please use mksh R29f because of below modifications:</p><ul>
  <li>Fix detection of function prototypes (data declaractions were ok)</li>
