@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-9.inc,v 1.99 2009/09/25 18:23:34 tg Exp $
+RCSID: $MirOS: www/data/wlog-9.inc,v 1.100 2009/10/30 17:05:32 tg Exp $
 Date: 25.06.2006
 Author: tg@
 
@@ -835,7 +835,7 @@ Author: tg@
   directory on /&#8230; note to self: dont keep backups within $HOME but
   use a dedicated directory tree.</p>
  <p>GNU End: gcc miscompiles not only C++ but also C code with a certain
-  option <tt>-fomit-frame-pointer</tt> &ndash; cought by my favourite <a
+  option <tt>-fomit-frame-pointer</tt> &ndash; caught by my favourite <a
   href="@@RELPATH@@jupp.htm">text editor</a>.</p>
  <p>Money End: At last, I get some state money (by far not enough), more
   might come, but I'd prefer a job. OTOH they'll pay for new teeth, more
@@ -1054,7 +1054,7 @@ Date: 01.11.2006
 Author: tg@
 
  <p>While building with MALLOC_OPTIONS=AFGHPZ I found a bug in perl(1)'s
-  regexp code. While cought using the 'P' option (cf. malloc.conf(5)), I
+  regexp code. While caught using the 'P' option (cf. malloc.conf(5)), I
   tracked it down to an out-of-bounds write to an array of uint32_ts due
   to a false estimate of the array size. I however can't seem to fix it.
   Also, and this sucks, I decided to write iconv(1) and locale(1) but as

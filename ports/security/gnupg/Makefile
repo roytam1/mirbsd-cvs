@@ -1,4 +1,4 @@
-# $MirOS: ports/security/gnupg/Makefile,v 1.22 2008/07/18 14:17:31 tg Exp $
+# $MirOS: ports/security/gnupg/Makefile,v 1.23 2010/01/25 13:48:42 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2005/05/17 15:08:34 martin Exp $
 
 COMMENT=		GNU privacy guard - PGP replacement under GPL
@@ -63,7 +63,7 @@ CONFIGURE_ARGS+=	--disable-asm
 .endif
 
 .if ${MACHINE_OS} == "BSD"
-# cought by systrace
+# caught by systrace
 CONFIGURE_ENV+=		gnupg_cv_ipc_rmid_deferred_release=no
 .endif
 
