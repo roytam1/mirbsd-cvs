@@ -1,4 +1,4 @@
-# $MirOS: src/etc/root.profile,v 1.4 2007/05/24 22:31:34 tg Exp $
+# $MirOS: src/etc/root.profile,v 1.5 2007/06/15 23:43:46 tg Exp $
 #-
 # initialisation for bourne shell (worst case)
 
@@ -16,7 +16,7 @@ if test -z "$USER_ID"; then
 		TERM=vt100
 	fi
 	eval $i
-	unset i COLORTERM HISTFILE
+	unset i HISTFILE
 	EDITOR=/bin/ed
 	USER=root
 	USER_ID=0
