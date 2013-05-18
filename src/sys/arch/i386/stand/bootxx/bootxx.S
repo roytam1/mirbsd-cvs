@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.8 2007/05/26 21:57:39 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.9 2007/09/28 20:51:27 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2007
@@ -172,6 +172,8 @@ Lmlp1:	/* main load loop */
 	stosw
 	shl	bx,(9 - 4)	/* number of sectors, times their size,
 				   divided by size of one paragraph */
+	secsizofs = . - 1
+	.globl	secsizofs
 	add	bx,ax		/* increment load addr. segment accordingly */
 	push	bx		/* and save for next round */
 	push	cx		/* save blkcnt */
@@ -207,7 +209,13 @@ Lmlp2:	movsb			/* copy over as many bytes as needed */
 	push	fs
 	push	cx
 	/* check some "random" ASCII string, i.e. the boot magic */
-	cmp	dword ptr fs:[0x50],0x6A6D4F00
+	mov	eax,0x6A6D4F00
+	/* manipulate here, but first byte MBZ */
+	magicofs = . - 3
+	.globl	magicofs
+
+	xchg	eax,dword ptr fs:[0x50]
+	cmp	eax,0x6A6D4F00
 	mov	si,offset Lerr		/* "bad magic" */
 	jne	Lbarf			/* it isn't correct, barf out */
 	/* new line, for the fine look */

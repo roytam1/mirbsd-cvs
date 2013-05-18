@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.11 2007/03/18 02:45:52 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007
@@ -207,6 +207,10 @@ L..e1:	mov	al,dl
 #ifdef SMALL_BOOT
 	jmp	L..12
 #else
+	mov	eax,[_rval]
+	cmp	eax,0x6A6D4F00
+	jne	LfCD
+
 #ifdef	WANT_ELTORITO_CHECK
 	/* check for El Torito */
 	mov	ax,0x4B01
@@ -276,6 +280,12 @@ L..e2:	xor	ax,ax
 #else	/* not WANT_ELTORITO_CHECK */
 	jmp	LnoCD
 #endif	/* not def WANT_ELTORITO_CHECK */
+
+LfCD:	xor	eax,eax
+	dec	eax
+	mov	al,dl
+	mov	[_C_LABEL(tori_bootflag)],eax
+	jmp	LpreFD
 
 LisCD:	mov	bx,SA_LINKSEG	/* target segment */
 	inc	eax		/* don't load the first sector again */

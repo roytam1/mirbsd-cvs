@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.4 2007/10/20 23:28:11 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.5 2008/03/03 13:56:41 tg Exp $
 #-
 # Copyright (c) 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -27,7 +27,7 @@
 # Arguments: $1 = ELF bootxx, linked
 # Output: shell script to stdout
 
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.4 2007/10/20 23:28:11 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.5 2008/03/03 13:56:41 tg Exp $'
 
 function die {
 	rv=$1; shift
@@ -39,7 +39,7 @@ function die {
 
 nm $1 |&
 while read -p adr typ sym; do
-	[[ $sym = @(_start|blkcnt|blktbl|bpbspt|bpbtpc|partp) ]] || continue
+	[[ $sym = @(_start|blkcnt|blktbl|bpbspt|bpbtpc|partp|magicofs|secsizofs) ]] || continue
 	eval typeset -i10 sym_$sym=0x\$adr
 done
 
@@ -55,7 +55,7 @@ print "# $rcsid"
 print "# \$miros:${rcsid#*:}"
 cat <<'EOF'
 #-
-# Copyright (c) 2007
+# Copyright (c) 2007, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -85,6 +85,8 @@ print typeset -i ofs_numheads=$((sym_bpbtpc - sym__start))
 print typeset -i ofs_numsecs=$((sym_bpbspt - sym__start))
 print typeset -i ofs_partp=$((sym_partp - sym__start))
 print typeset -i begptr=$((sym_blktbl - sym__start))
+print typeset -i ofs_magic=$((sym_magicofs - sym__start))
+print typeset -i ofs_secsiz=$((sym_secsizofs - sym__start))
 cat <<'EOF'
 
 typeset -Uui16 curptr=begptr
@@ -146,12 +148,22 @@ function record_block {
 	fi
 }
 
-typeset -i flag_one=0 partp=0 numheads=0 numsecs=0 sscale=0
+typeset -i flag_one=0 partp=0 numheads=0 numsecs=0 sscale=0 bsz=5
 
-while getopts ":0:1h:p:S:s:" ch; do
+while getopts ":0:1B:h:p:S:s:" ch; do
 	case $ch {
 	(0)	;;
 	(1)	flag_one=1 ;;
+	(B)	if (( (bsz = OPTARG) < 4 || OPTARG > 15 )); then
+			print -u2 error: invalid block size "2^'$OPTARG'"
+			exit 1
+		fi
+		if (( (bsz != 9) && (bsz != 11) )); then
+			print -u2 error: cannot handle blocks !512 !2048 yet
+			exit 1	# for now
+		fi
+		(( bsz -= 4 ))
+		;;
 	(h)	if (( (numheads = OPTARG) < 1 || OPTARG > 256 )); then
 			print -u2 warning: invalid head count "'$OPTARG'"
 			numheads=0
@@ -220,6 +232,11 @@ done
 (( thecode[ofs_numsecs] = numsecs ))
 (( flag_one )) && (( thecode[ofs_numsecs + 1] = 0x80 ))
 (( thecode[ofs_partp] = partp ))
+if (( bsz != 5 )); then
+	print -u2 "using sectors of 2^$((bsz + 4)) bytes"
+	(( thecode[ofs_secsiz] = bsz ))
+	(( thecode[ofs_magic]++ ))
+fi
 
 # create the output string
 ostr=
