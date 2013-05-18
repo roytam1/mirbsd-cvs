@@ -1,6 +1,6 @@
 mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.20 2010/12/11 21:21:56 tg Exp $'
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.21 2011/02/13 00:00:04 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Content</h2>
 EOF
@@ -145,6 +145,13 @@ mws_content <<'EOF'
  employees on their GNU/Linux desktops easier, since mid-2009.</p>
 
 <h2 id="clog">ChangeLog</h2>
+<p>Changes in the current (unreleased) development version:</p><ul>
+ <li>In pinentry-kwallet(1), replace with the slave immediately
+  if <tt>$DISPLAY</tt> is unset or empty (as we cannot contact the
+  KDE Wallet in that case, anyway). Fixes another case of spurious
+  “Do you want to store … in the KDE Wallet?” questions.</li>
+ <li>Fix mis-read in recursive call case (parent, not slave).</li>
+</ul>
 <p id="r2_03">kwalletcli 2.03</p><ul>
  <li>Fix building the kwalletcli binary with <a
   href="https://fedoraproject.org/wiki/UnderstandingDSOLinkChange">indirect
