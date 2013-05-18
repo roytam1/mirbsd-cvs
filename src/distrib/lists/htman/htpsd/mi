@@ -2565,6 +2565,7 @@
 ./man3/isalpha.htm
 ./man3/isascii.htm
 ./man3/isatty.htm
+./man3/isbinry.htm
 ./man3/isblank.htm
 ./man3/iscntrl.htm
 ./man3/isdigit.htm

@@ -6020,6 +6020,7 @@
 ./usr/share/man/cat3/isalpha.0
 ./usr/share/man/cat3/isascii.0
 ./usr/share/man/cat3/isatty.0
+./usr/share/man/cat3/isbinry.0
 ./usr/share/man/cat3/isblank.0
 ./usr/share/man/cat3/iscntrl.0
 ./usr/share/man/cat3/isdigit.0
