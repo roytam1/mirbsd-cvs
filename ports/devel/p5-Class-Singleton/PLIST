@@ -1,4 +1,0 @@
-@comment $MirOS$
-${P5SITE}/Class/Singleton.pm
-man/man3/Class::Singleton${P5MAN3EXT}
-@dirrm ${P5SITE}/Class
