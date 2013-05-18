@@ -1,9 +1,0 @@
-$MirOS$
---- include/Makefile.am.orig	2009-10-11 21:54:48.000000000 +0200
-+++ include/Makefile.am	2009-10-11 21:54:49.000000000 +0200
-@@ -6,4 +6,4 @@ DISTCLEANFILES=ffitarget.h
- EXTRA_DIST=ffi.h.in ffi_common.h
- 
- includesdir = $(libdir)/@PACKAGE_NAME@-@PACKAGE_VERSION@/include
--nodist_includes_HEADERS = ffi.h ffitarget.h 
-+nodist_include_HEADERS = ffi.h ffitarget.h 

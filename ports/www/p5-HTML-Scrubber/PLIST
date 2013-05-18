@@ -1,9 +1,0 @@
-@comment $MirOS$
-${P5SITE}/HTML/Scrubber.pm
-@comment ${P5ARCH}/auto/HTML/Scrubber/.packlist
-man/man3/HTML::Scrubber${P5MAN3EXT}
-@comment @dirrm ${P5ARCH}/auto/HTML/Scrubber
-@comment @dirrm ${P5ARCH}/auto/HTML
-@comment @dirrm ${P5ARCH}/auto
-@dirrm ${P5ARCH}
-@dirrm ${P5SITE}/HTML
