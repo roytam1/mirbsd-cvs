@@ -1,5 +1,5 @@
 #ifndef KEYMAP_H
-#define KEYMAP_H "$MirOS: X11/extras/evilwm/keymap.h,v 1.4 2006/08/14 19:05:19 tg Exp $"
+#define KEYMAP_H "$MirOS: X11/extras/evilwm/keymap.h,v 1.5 2006/10/16 20:43:19 tg Exp $"
 
 #define KEY_NEXT	XK_Tab
 #define KEY_NEW		XK_Return
@@ -22,7 +22,10 @@
 /* Mixtures of Ctrl, Alt an Escape are used for things like VMWare and
  * XFree86/Cygwin, so the KILL key is an option in the Makefile  */
 #ifndef KEY_KILL
+#if 0
 #define KEY_KILL	XK_Escape
+#endif
+#define KEY_KILL	XK_Pause
 #endif
 #define KEY_EXTERMF	XK_grave
 #define KEY_ALTEXTERMF	XK_dead_grave

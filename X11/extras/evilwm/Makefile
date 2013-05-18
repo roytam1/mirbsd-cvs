@@ -1,4 +1,4 @@
-# $MirOS: X11/extras/evilwm/Makefile,v 1.3 2005/07/07 18:27:13 tg Exp $
+# $MirOS: X11/extras/evilwm/Makefile,v 1.4 2006/08/14 18:57:57 tg Exp $
 
 PROG=		evilwm
 MAN=		evilwm.1
@@ -30,10 +30,10 @@ CPPFLAGS+=	-DMWM_HINTS
 # Start evilwm with -snap num to enable (num is proximity in pixels to snap to)
 CPPFLAGS+=	-DSNAP
 
-# Uncomment the following line if you want to use Ctrl+Alt+q to kill windows
-# instead of Ctrl+Alt+Escape (or just set it to what you want).  This is
-# useful under XFree86/Cygwin and VMware (probably)
-#CPPFLAGS+=	-DKEY_KILL=XK_q
+# Uncomment the following line if you want to use Ctrl-Alt-Escape to kill
+# windows (evilwm default) instead of Ctrl-Alt-Break (or just set it to
+# what you want). This is useful under XFree86/Cygwin and VMware (probably)
+#CPPFLAGS+=	-DKEY_KILL=XK_Escape
 
 #CPPFLAGS+=	-DSANITY		# active sanity checks
 #CPPFLAGS+=	-DDEBUG			# miscellaneous debugging
