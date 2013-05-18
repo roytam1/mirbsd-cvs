@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.200 2008/04/05 23:13:10 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.201 2008/05/02 13:40:44 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1992,10 +1992,12 @@ ${_CONFIGURE_COOKIE}: ${_PATCH_COOKIE}
 	@cd ${.CURDIR} && exec ${_SYSTRACE_CMD} ${MAKE} pre-configure
 .endif
 .if ${USE_SCHILY:L} != "no"
+.  if (${OStype} == "MidnightBSD") || (${OStype} == "MirBSD")
 	sed -e 's/@@OScompat@@/${OScompat}/' \
 	    <${PORTSDIR}/infrastructure/db/uname.sed >${WRKDIR}/bin/uname
+.  endif
 	print '#!${SHELL}\nexec ${CC} "$$@"' >${WRKDIR}/bin/cc
-	chmod ${BINMODE} ${WRKDIR}/bin/cc ${WRKDIR}/bin/uname
+	chmod ${BINMODE} ${WRKDIR}/bin/*
 .  if ${MACHINE} != "i386"
 	ln -sf ${WRKSRC}/RULES/i386-openbsd-cc.rul \
 	    ${WRKSRC:Q}/RULES/${MACHINE:Q}-openbsd-cc.rul
