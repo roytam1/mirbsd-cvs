@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.14 2009/02/02 22:50:28 tg Exp $'
+rcsid='$MirOS: src/sys/arch/i386/stand/bootxx/mkbxinst.sh,v 1.15 2009/02/08 20:47:48 tg Exp $'
 #-
 # Copyright (c) 2007, 2008, 2009
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -130,10 +130,13 @@ function record_block {
 
 typeset -i partp=0 numheads=0 numsecs=0 sscale=0 bsh=9
 
-while getopts ":0:1B:h:p:S:s:" ch; do
+while getopts ":0:1AB:h:p:S:s:" ch; do
 	case $ch {
 	(0)	;;
 	(1)	;;
+	(A)	numheads=0
+		numsecs=99
+		;;
 	(B)	if (( (bsh = OPTARG) < 9 || OPTARG > 15 )); then
 			print -u2 error: invalid block size "2^'$OPTARG'"
 			exit 1
@@ -156,7 +159,7 @@ while getopts ":0:1B:h:p:S:s:" ch; do
 			numsecs=0
 		fi ;;
 	(*)	print -u2 'Syntax:
-	bxinst [-1] [-B blocksize] [-h heads] [-p partitiontype] [-S scale]
+	bxinst [-1A] [-B blocksize] [-h heads] [-p partitiontype] [-S scale]
 	    [-s sectors] <sectorlist | dd of=image conv=notrunc
 Default values: blocksize=9 heads=16 sectors=63 partitiontype=0x27 scale=0'
 		exit 1 ;;
@@ -164,14 +167,19 @@ Default values: blocksize=9 heads=16 sectors=63 partitiontype=0x27 scale=0'
 done
 shift $((OPTIND - 1))
 
-if (( !numheads )); then
-	print -u2 warning: using default value of 16 heads
-	numheads=16
-fi
+if (( numsecs == 99 )); then
+	numheads=0
+	numsecs=0
+else
+	if (( !numheads )); then
+		print -u2 warning: using default value of 16 heads
+		numheads=16
+	fi
 
-if (( !numsecs )); then
-	print -u2 warning: using default value of 63 sectors
-	numsecs=63
+	if (( !numsecs )); then
+		print -u2 warning: using default value of 63 sectors
+		numsecs=63
+	fi
 fi
 
 # read in the extents

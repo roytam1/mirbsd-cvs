@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.17 2009/02/08 20:57:14 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.18 2009/05/26 19:26:29 tg Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -77,6 +77,7 @@ geomh:	.word	2		/* 1..256 = tracks per cylinder */
 	.globl	geoms
 	.type	geoms,@object
 	.size	geoms,2
+	/* set to 0 for auto geometry */
 geoms:	.word	18		/* 1..63 = sectors per track */
 
 	.globl	partp
@@ -111,11 +112,11 @@ Lmain:	sti
 	cmp	dl,0x80
 	jb	Lbarf		/* floppy: only try CHS */
 	call	Lotxt
+	/* FALLTHROUGH */
 
 Lretr:	xor	bx,bx		/* load offset (begin) */
 	mov	si,offset bktbl
 	movzx	bp,byte ptr [bkcnt]
-
 Lloop:	lodsb
 	/*-
 	 * AL contains bitmasked:  aaabbbbb
@@ -211,6 +212,7 @@ L...1:	add	bh,ah		/* add the 512 bytes */
 	pop	bp
 	dec	bp
 	jnz	Lloop
+	/* FALLTHROUGH */
 
 Ldone:	/* check bootloader magic */
 #ifndef BOOT_GRUB
@@ -238,9 +240,39 @@ Ldone:	/* check bootloader magic */
 	lret
 #endif
 
-LsCHS:	mov	ax,8[si]
+	/* obtain drive geometry */
+Lgeom:	pusha
+	push	es
+#if 0
+	/*
+	 * According to RBIL, this is needed to guard against
+	 * BIOS bugs, but we don’t read out the table anyway.
+	 */
+	xor	di,di
+	mov	es,di
+#endif
+	mov	ah,8
+	mov	dl,[Ldrv]
+	stc
+	int	0x13
+	sti
+	pop	es
+	mov	si,offset Lfmsg
+	jc	Lbarf
+	/* process returned values */
+	and	cl,0x3F		/* number of sectors per track */
+	mov	[geoms],cl	/* high byte is 0 anyway */
+	movzx	ax,dh
+	inc	ax		/* maximum index -> number of heads */
+	mov	[geomh],ax
+	popa
+	/* FALLTHROUGH */
+
+LsCHS:	mov	cx,[geoms]
+	jcxz	Lgeom
+	mov	ax,8[si]
 	mov	dx,10[si]
-	div	word ptr [geoms]
+	div	cx
 	inc	dx		/* remainder: sector */
 	xor	cx,cx
 	xchg	cx,dx
