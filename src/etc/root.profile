@@ -1,4 +1,4 @@
-# $MirOS: src/etc/root.profile,v 1.2 2006/10/18 23:02:23 tg Exp $
+# $MirOS: src/etc/root.profile,v 1.3 2007/02/19 03:03:28 tg Exp $
 #-
 # initialisation for bourne shell (worst case)
 
@@ -7,7 +7,8 @@ if test -z "$USER_ID"; then
 	PATH=/sbin:/usr/sbin:/bin:/usr/bin
 	HOME=/
 	test -d /root && HOME=/root
-	export PATH HOME
+	PS1='# '
+	export PATH HOME PS1
 	umask 022
 	i=TERM=vt100
 	if test -x /usr/bin/tset; then
@@ -17,7 +18,9 @@ if test -z "$USER_ID"; then
 	eval $i
 	unset i COLORTERM HISTFILE
 	EDITOR=/bin/ed
-	export TERM EDITOR
+	USER=root
+	USER_ID=0
+	export EDITOR TERM USER USER_ID
 fi
 
 Lretrocfg() {		# retrieve kernel config file
