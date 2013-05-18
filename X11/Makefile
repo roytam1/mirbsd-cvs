@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.30 2006/07/02 17:42:05 tg Exp $
+# $MirOS: X11/Makefile,v 1.31 2006/07/02 23:47:36 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -15,13 +15,6 @@ WORLD=		World
 
 DIROWN?=	root
 DIRGRP?=	wheel
-
-FONTPATH=	${DESTDIR}/usr/X11R6/lib/X11/fonts
-FONTDIRS?=	100dpi 75dpi OTF Speedo TTF Type1 cyrillic encodings \
-		encodings/large local misc util
-.for _font in ${FONTDIRS}
-FONTPATH+=	${DESTDIR}/usr/X11R6/lib/X11/fonts/${_font}
-.endfor
 
 .include <bsd.obj.mk>
 
@@ -85,7 +78,8 @@ do-install:
 	/usr/libexec/makewhatis ${DESTDIR}/usr/X11R6/man
 .if !defined(NOFONTS) || ${NOFONTS:L} == "no"
 	LD_LIBRARY_PATH=${DESTDIR}/usr/X11R6/lib:${DESTDIR}/usr/lib \
-	    ${DESTDIR}/usr/X11R6/bin/fc-cache -v ${FONTPATH}
+	    ${DESTDIR}/usr/X11R6/bin/fc-cache -v \
+	    ${DESTDIR}/usr/X11R6/lib/X11/fonts
 .endif
 	chown root:wheel ${DESTDIR}/usr/X11R6/man/whatis.db
 
