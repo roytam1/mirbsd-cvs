@@ -1,4 +1,4 @@
-# $MirOS: ports/net/irssi/files/randex.pl,v 1.2 2008/07/15 14:01:41 tg Exp $
+# $MirOS: ports/net/irssi/files/randex.pl,v 1.3 2008/07/20 01:43:17 tg Exp $
 #-
 # Copyright (c) 2008
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -21,7 +21,7 @@
 # Irssi extension to support MirSirc's randex protocol
 
 use vars qw($VERSION %IRSSI);
-$VERSION = '20080720';
+$VERSION = '1.4';
 %IRSSI = (
 	authors		=> 'Thorsten Glaser',
 	contact		=> 'tg@mirbsd.de',
@@ -69,7 +69,8 @@ cmd_randex
 	$s = pack("u", arc4random_bytes(32, "for $towho"));
 	chop($s);
 	$recip->send_raw("PRIVMSG ${towho} :\caENTROPY ${s}\ca");
-	Irssi::print("Initiating the RANDEX protocol with ${towho}");
+	Irssi::print("Initiating the RANDEX protocol with ${towho}")
+	    unless Irssi::settings_get_bool("rand_quiet");
 }
 
 sub
@@ -79,7 +80,8 @@ process_entropy_request
 	my $evalue = pack("u", arc4random_bytes(32,
 	    "from $nick $args $address $target"));
 	chop($evalue);
-	Irssi::print("${nick} initiated the RANDEX protocol with ${target}");
+	Irssi::print("${nick} initiated the RANDEX protocol with ${target}")
+	    unless Irssi::settings_get_bool("rand_quiet");
 	$server->ctcp_send_reply("NOTICE ${nick} :\caRANDOM ${evalue}\ca");
 }
 
@@ -91,7 +93,8 @@ process_random_response
 	    "pushing to kernel";
 
 	arc4random_pushb("by $nick $args $address $target");
-	Irssi::print("RANDEX protocol reply from $nick to $target, $t");
+	Irssi::print("RANDEX protocol reply from $nick to $target, $t")
+	    unless Irssi::settings_get_bool("rand_quiet");
 }
 
 sub
@@ -220,6 +223,7 @@ Irssi::settings_add_int("randex", "rand_interval", 900);
 	}
 	Irssi::settings_add_str("randex", "randfile", $randfile);
 }
+Irssi::settings_add_bool("randex", "rand_quiet", 0);
 
 Irssi::signal_add('gui exit', \&sig_quitting);
 Irssi::command_bind('randex', 'cmd_randex');
