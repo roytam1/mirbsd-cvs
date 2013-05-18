@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/mbcurmax.c,v 1.6 2006/10/27 15:52:27 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/mbcurmax.c,v 1.7 2006/11/01 20:01:19 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006
@@ -27,7 +27,15 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/mbcurmax.c,v 1.6 2006/10/27 15:52:27 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbcurmax.c,v 1.7 2006/11/01 20:01:19 tg Exp $");
+
+#if MIR18N_C_CSET == 2
+__IDSTRING(MIR18N_C_CSET, "The 'C' locale is compatible to ISO-8859-1");
+#elif MIR18N_C_CSET == 1
+__IDSTRING(MIR18N_C_CSET, "Historical ISO-8859-1 conversions are allowed");
+#else
+__IDSTRING(MIR18N_C_CSET, "The 'C' locale is ISO_646.irv:1991 conformant");
+#endif
 
 int
 __mb_cur_max(void)
