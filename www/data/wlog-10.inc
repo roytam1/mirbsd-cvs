@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.110 2008/12/04 20:33:06 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.111 2008/12/10 18:40:17 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2228,4 +2228,41 @@ Title: website updates
 
 <p>If you look carefully, you might notice small changes to the
  website, both HTML and RSS versions. Enjoy!</p>
+----
+Date: 10.12.2008 18:45
+Author: tg@
+Title: wb bleu (X40)
+Tag: hardware
+
+<p>Yay, the IBM X40 is back. No explanatory letter, just an invoice over
+ 0 € (funny), but it works. The BIOS clock was off by an hour, I suppose
+ they have booted a Windowd® – maybe its “driver” has fixed the graphics
+ chip. So I can go back trying to build a working snapshot again.</p>
+<p>And never boot a GNU/Linux, especially not KNOPPIX!</p>
+<p>PACKSTATION rules! Even though I yet have to figure out how to use it
+ for <em>sending out</em> a snail mail package.</p>
+<p>Maybe I should just go and get stuff for soldering <tt>odem</tt> back
+ to life, though. Anyone want to buy an otherwise perfectly fine working
+ IBM X40 with docking station and laptop bag? It’s not used much even by
+ the previous owner (french company) and in good state.</p>
+<p>We have Mirzilla Firetapir now, but I need to figure out how to get a
+ cleanly separated xorg-reachover port for MidnightBSD done… unless I’ll
+ be porting XFree86® (client part only) over.</p>
+<p>I’ll still be using <tt>nwt</tt> this evening for recreation. And the
+ win2k box <tt>nocd</tt> has RANDEX in Cygwin, using tinyirc, irssi, and
+ mirsirc. I should <strong>definitively</strong> create a webpage on the
+ site here for randex. Maybe make a tinyirc port – once it can deal with
+ SIGWINCH…</p><!-- RSS stop -->
+<p>Some search engine bait: Tom Kohnen, thanks for your old <tt>nwt</tt>
+ laptop. The MirOS OPTU-8 encoding does UTF-8 (WTF-8?) and CESU-8, while
+ OPTU-16 can do UTF-16 in pcc. Mirzilla Firetapir is the Vutral name for
+ Mozilla Firefox, <tt>ports/www/firesomething</tt>. Vutral too helped to
+ invent the MirOS RANDEX protocol (entropy exchange over IRC), which has
+ nothing to do with the Win32 worm, just random numbers. My graphician –
+ smultron – needs to expand <a href="@@RELPATH@@mksh.htm">mksh</a> and I
+ suggested, besides letter spelling (em ka es ha, or for the English, em
+ kay es aytch), or the “polish/klingon variant” (m’ksh), or the official
+ expansion “MirBSD Korn Shell”, he call it “MidnightBSD Korn Shell”. The
+ invalid ones were “make shell” or em kay shell, this is something else.
+ On a side note, we’ll be having a logo for mksh(1) soonish.</p>
 ----
