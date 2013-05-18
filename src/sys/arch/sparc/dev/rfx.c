@@ -141,7 +141,7 @@ struct wsdisplay_accessops rfx_accessops = {
 int	rfxmatch(struct device *, void *, void *);
 void	rfxattach(struct device *, struct device *, void *);
 
-#if defined(OpenBSD)
+#if defined(__OpenBSD__)
 
 struct cfattach rfx_ca = {
 	sizeof (struct rfx_softc), rfxmatch, rfxattach
