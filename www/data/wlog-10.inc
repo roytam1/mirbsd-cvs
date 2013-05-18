@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.154 2009/02/04 19:43:24 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.155 2009/02/07 15:48:23 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3230,4 +3230,29 @@ Tag: event
 <p>Wer setzt uns eigentlich direkt neben OpenBSD? Zum Glück gibts
  eine große Barriere, daher ist bislang, außer Laserpointerattacken
  (sogar direkt in Bennys Auge) noch nichts passiert…</p>
+----
+Author: tg@
+Date: 08.02.2009 14:52
+Title: FOSDEM Tag 2
+Tag: event
+
+<p>Alle englischen Flyer weg, alle CDs heute Vormittag weg. Die
+ (alten) deutschen sowie die französischen Flyer gehen okay, aber
+ die Mengen und Verhältnisse sind echt nicht planbar. Die Flyer
+ von der tarent (<a href="https://wiki.evolvis.org/jalimo/index.php/Main_Page">Jalimo</a>
+ und <a href="https://wiki.evolvis.org/freedroidz/index.php/Main_Page">Freedroidz</a>)
+ gehen auch okay weg, aber die Baumwolltaschen waren schneller weg.
+ Die Roboter haben aber das ein oder andere "Oooh!" oder reinen
+ Wiedererkennungswert gehabt.</p>
+<p>Die Vorträge sind okay, aber leider für mich nichts dabei zum
+ rausziehen. Pläne schmieden geht aber.</p>
+<p><a href="@@RELPATH@@mksh.htm">mksh</a> hingegen ist mehr als
+ nur ein Erfolg, auch wenn mir gruselt, wenn Leute eine ohne den
+ emacs-Modus haben wollen.</p>
+<p>Hm, irgendwie läßt sich das Event nicht gut in Worte fassen.
+ Es hat sich auf jeden Fall für uns alle gelohnt. Das Hotel war
+ spaßig (insbesondere der Versuch, eine Rechnung zu erhalten);
+ gestern Abend gabs Couscous Merguez + Lamm in einer verdammt
+ kleinen aber gemütlichen Bude (mit Couch!), wo wir frischen
+ Minztee getrunken haben (fünf Kannen; ich alleine zwei oder so).</p>
 ----
