@@ -1,4 +1,4 @@
-# $MirOS: src/bin/mksh/check.t,v 1.81 2007/01/12 00:25:39 tg Exp $
+# $MirOS: src/bin/mksh/check.t,v 1.91 2007/02/16 17:46:41 tg Exp $
 # $OpenBSD: bksl-nl.t,v 1.2 2001/01/28 23:04:56 niklas Exp $
 # $OpenBSD: history.t,v 1.5 2001/01/28 23:04:56 niklas Exp $
 # $OpenBSD: read.t,v 1.3 2003/03/10 03:48:16 david Exp $
@@ -7,7 +7,7 @@
 # http://www.research.att.com/~gsf/public/ifs.sh
 
 expected-stdout:
-	@(#)MIRBSD KSH R29 2007/01/12
+	@(#)MIRBSD KSH R29 2007/02/16
 description:
 	Check version of shell.
 category: pdksh
@@ -1876,9 +1876,8 @@ name: history-ed-1-old
 description:
 	Basic (ed) editing works (assumes you have generic ed editor
 	that prints no prompts). This is for oldish ed(1) which write
-	the character count to stdout. Found on MS Interix/SFU 3.5
-	and Mac OSX 10.4 "Tiger".
-category: os:interix,os:darwin,os:freebsd
+	the character count to stdout.
+category: oldish-ed
 arguments: !-i!
 env-setup: !ENV=./Env!HISTFILE=hist.file!
 file-setup: file 644 "Env"
@@ -1900,7 +1899,7 @@ expected-stderr-pattern:
 name: history-ed-2-old
 description:
 	Correct command is edited when number given
-category: os:interix,os:darwin,os:freebsd
+category: oldish-ed
 arguments: !-i!
 env-setup: !ENV=./Env!HISTFILE=hist.file!
 file-setup: file 644 "Env"
@@ -1931,7 +1930,7 @@ description:
 	in history.
 	(NOTE: adjusted for COMPLEX HISTORY compile time option)
 	(ksh88 fails 'cause it lists the fc command)
-category: os:interix,os:darwin,os:freebsd
+category: oldish-ed
 arguments: !-i!
 env-setup: !ENV=./Env!HISTFILE=hist.file!
 file-setup: file 644 "Env"
@@ -1962,8 +1961,7 @@ name: history-ed-1
 description:
 	Basic (ed) editing works (assumes you have generic ed editor
 	that prints no prompts). This is for newish ed(1) and stderr.
-# we don't have persistent history on Solaris (no flock)
-category: !os:solaris,!os:interix,!os:darwin,!os:freebsd
+category: !oldish-ed
 arguments: !-i!
 env-setup: !ENV=./Env!HISTFILE=hist.file!
 file-setup: file 644 "Env"
@@ -1983,7 +1981,7 @@ expected-stderr-pattern:
 name: history-ed-2
 description:
 	Correct command is edited when number given
-category: !os:solaris,!os:interix,!os:darwin,!os:freebsd
+category: !oldish-ed
 arguments: !-i!
 env-setup: !ENV=./Env!HISTFILE=hist.file!
 file-setup: file 644 "Env"
@@ -2010,7 +2008,7 @@ name: history-ed-3
 description:
 	Newly created multi line commands show up as single command
 	in history.
-category: !os:solaris,!os:interix,!os:darwin,!os:freebsd
+category: !oldish-ed
 arguments: !-i!
 env-setup: !ENV=./Env!HISTFILE=hist.file!
 file-setup: file 644 "Env"
@@ -3861,8 +3859,7 @@ expected-stdout:
 name: persist-history-1
 description:
 	Check if persistent history saving works
-# we don't have persistent history on Solaris (no flock)
-category: !os:solaris,!os:plan9,pdksh,!smksh
+category: !no-histfile,pdksh,!smksh
 arguments: !-i!
 env-setup: !ENV=./Env!HISTFILE=hist.file!
 file-setup: file 644 "Env"
