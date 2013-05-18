@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.302 2009/11/28 15:55:33 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.303 2009/12/01 19:32:44 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -346,9 +346,14 @@ mws_content <<'EOF'
 
 <h5 id="oe_hpc">Compiler: HP C/aC++</h5>
 <p>HP’s C compiler (/usr/bin/cc on HP-UX) is supported in mksh R30 and above;
- on IA64, only the LP64 model can be used; mksh segfaults in the ILP32 module
- (or rather, the system libraries do, I think), so it is default. PA-RISC too
- works fine, so this compiler is a primary choice.</p>
+ on IA64, only the LP64 model can be used; mksh used to segfault in the ILP32
+ module (or rather, the system libraries did, I think), so it was default.
+ PA-RISC too works fine, so this compiler is a primary choice.</p>
+<p>In mksh R40 and up, you must set <tt>CFLAGS='+O2 +DD64'</tt> on IA64 to get
+ the same behaviour as previous versions; the 32-bit mode is now the default.
+ The HP-UX bundled compiler <tt>/usr/ccs/bin/cc</tt> works as well as HP aCC,
+ except of course that it does not optimise. (GCC and C99 extensions aren’t
+ actually used by mksh.)</p>
 
 <h5 id="oe_xlc">Compiler: IBM XL C/C++ / VisualAge</h5>
 <p>IBM xlC 9.0 on AIX 5.3 is supported in mksh R30 and above.</p>
@@ -781,6 +786,9 @@ mws_content <<'EOF'
  <li>AIX 5.3 (powerpc gcc4.0.0_powerpc-ibm-aix5.1.0.0, LD 1.65 04/06/2005)</li>
  <li>AIX 5.3 32-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
  <li>AIX 5.3 64-bit (powerpc xlC9.0 070428, LD 1.65 04/06/2005)</li>
+ <li>HP-UX 11i v3 B.11.31 U ia64 (IA64 aCC B3910B A.06.15 [May 16 2007], ld B.12.49.02 92453-07) (64-bit)</li>
+ <li>HP-UX 11i v3 B.11.31 U ia64 (IA64 aCC B3910B A.06.15 [May 16 2007], ld B.12.49.02 92453-07) (32-bit)</li>
+ <li>HP-UX 11i v3 B.11.31 U ia64 (IA64 ccs B3910B A.06.12 [Oct 11 2006], ld B.12.49.02 92453-07) (32-bit)</li>
  <li>Solaris 10 Generic_137111-08 sun4u (sparc gcc3.4.6)</li>
  <li>Solaris 10 Generic_137111-08 sun4u (sparc64 gcc3.4.6)</li>
  <li>Solaris 10 Generic_137111-08 sun4u (sparc:V8+ SUNWcc5.9 124867-08 2008/10/07, ld 5.10-1.489)</li>
@@ -972,7 +980,7 @@ mws_content <<'EOF'
   Jenkins’ one-at-a-time hash; fix signedness in expressions; let the
   hashes use stdin if "$*" is empty, too, like Lb64{en,de}code</li>
  <li>[tg] Build.sh portability fixes: missing prerequisite headers; ensure
-  $CC is never called without $CFLAGS et al.</li>
+  $CC is never called without $CFLAGS; fix <tt>test.sh</tt>, et al.</li>
  <li>[tg] Optimise internal variable representation; use one-at-a-time hash;
   cache hash values for faster resizing at zero memory cost; clean up hash
   table (keytab) code; prepare for later changes (commented out)</li>
@@ -1013,7 +1021,7 @@ mws_content <<'EOF'
  <li>[tg] Remove more functionality, such as Emacs command line editing mode
   bind key macros, and other extensions, from MKSH_SMALL to help floppies</li>
  <li>[tg] Make forking and subshells less expensive wrt. random state</li>
- <li>[tg] Build flags and source code fixes for / caught by SUNWcc</li>
+ <li>[tg] Build flags and source code fixes for / caught by SUNWcc, HP aCC</li>
  <li>[tg] Make undef/def MKSH_NOVI into 0/1 MKSH_S_NOVI build flag</li>
  <li>[tg] Get rid of "U getenv" in nm(1) output, we already import environ</li>
  <li>[tg] Simplify $RANDOM handling: reads are now either arc4random(3) (if
@@ -1066,6 +1074,15 @@ mws_content <<'EOF'
  <li>[tg] New <tt>${%foo}</tt> returning width of $foo in screen columns</li>
  <li>[tg] Fix subtle possible portability problem wrt. <tt>CHILD_MAX</tt></li>
  <li>[tg] Honour <tt>±U</tt> on command line of an interactive shell</li>
+ <li>[tg] Fix dead stores and other bugs pointed out by the Clang static
+  analyser; put assertions in places it has false positives (-DDEBUG)</li>
+ <li>[tg] Plug uninitialised memory access and possible out-of-bounds read
+  of a buffer caught by Valgrind; change one memcpy(3) to memmove(3) where
+  srcbuf and dstbuf overlap; place (-DDEBUG) workaround for false positive</li>
+ <li>[tg] HP aCC: change IA64 default from forced <tt>+DD64</tt> to using the
+  default; support Bundled compiler; fix double-<tt>const</tt> warning</li>
+ <li>[tg] Rework <tt>__attribute__</tt> compiler capability check</li>
+ <li>[tg] dot.mkshrc: Use [[ -o utf8-mode ]] instead of [[ $- = *U* ]]</li>
 </ul>
 <p id="r39">mksh R39 evolved into these through various means:</p><ul>
  <li>[tg] Shut up a bogus gcc warning during configuration process</li>
