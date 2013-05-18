@@ -79,7 +79,6 @@
 ./proc
 ./root
 ./sbin
-./sbin/ancontrol
 ./sbin/atactl
 ./sbin/badsect
 ./sbin/brconfig
@@ -92,7 +91,6 @@
 ./sbin/dmesg
 ./sbin/dump
 ./sbin/dumpfs
-./sbin/fdisk
 ./sbin/ffsinfo
 ./sbin/fsck
 ./sbin/fsck_ext2fs
@@ -103,7 +101,6 @@
 ./sbin/halt
 ./sbin/ifconfig
 ./sbin/init
-./sbin/iopctl
 ./sbin/isakmpd
 ./sbin/kbd
 ./sbin/ldconfig
@@ -121,7 +118,6 @@
 ./sbin/mount_mfs
 ./sbin/mount_msdos
 ./sbin/mount_nfs
-./sbin/mount_ntfs
 ./sbin/mount_portal
 ./sbin/mount_procfs
 ./sbin/mountd
@@ -2327,7 +2323,6 @@
 ./usr/share/man/cat8/activadm.0
 ./usr/share/man/cat8/activinit.0
 ./usr/share/man/cat8/afterboot.0
-./usr/share/man/cat8/ancontrol.0
 ./usr/share/man/cat8/apm.0
 ./usr/share/man/cat8/apmd.0
 ./usr/share/man/cat8/apxs.0
@@ -2367,7 +2362,6 @@
 ./usr/share/man/cat8/edquota.0
 ./usr/share/man/cat8/faithd.0
 ./usr/share/man/cat8/faq.0
-./usr/share/man/cat8/fdisk.0
 ./usr/share/man/cat8/ffsinfo.0
 ./usr/share/man/cat8/fingerd.0
 ./usr/share/man/cat8/fsck.0
@@ -2388,7 +2382,6 @@
 ./usr/share/man/cat8/init.0
 ./usr/share/man/cat8/installboot.0
 ./usr/share/man/cat8/intro.0
-./usr/share/man/cat8/iopctl.0
 ./usr/share/man/cat8/iostat.0
 ./usr/share/man/cat8/isakmpd.0
 ./usr/share/man/cat8/isdnd.0
@@ -2430,7 +2423,6 @@
 ./usr/share/man/cat8/mount_mfs.0
 ./usr/share/man/cat8/mount_msdos.0
 ./usr/share/man/cat8/mount_nfs.0
-./usr/share/man/cat8/mount_ntfs.0
 ./usr/share/man/cat8/mount_portal.0
 ./usr/share/man/cat8/mount_procfs.0
 ./usr/share/man/cat8/mountd.0

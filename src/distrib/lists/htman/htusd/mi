@@ -278,6 +278,8 @@
 ./man1/perl584delta.htm
 ./man1/perl585delta.htm
 ./man1/perl586delta.htm
+./man1/perl587delta.htm
+./man1/perl588delta.htm
 ./man1/perl58delta.htm
 ./man1/perlapi.htm
 ./man1/perlapio.htm
@@ -315,6 +317,7 @@
 ./man1/perlfork.htm
 ./man1/perlform.htm
 ./man1/perlfunc.htm
+./man1/perlglossary.htm
 ./man1/perlgpl.htm
 ./man1/perlguts.htm
 ./man1/perlhack.htm
@@ -1140,7 +1143,6 @@
 ./man8/activadm.htm
 ./man8/activinit.htm
 ./man8/afterboot.htm
-./man8/ancontrol.htm
 ./man8/apm.htm
 ./man8/apmd.htm
 ./man8/apxs.htm
@@ -1182,7 +1184,6 @@
 ./man8/edquota.htm
 ./man8/faithd.htm
 ./man8/faq.htm
-./man8/fdisk.htm
 ./man8/ffsinfo.htm
 ./man8/fingerd.htm
 ./man8/fsck.htm
@@ -1203,7 +1204,6 @@
 ./man8/init.htm
 ./man8/installboot.htm
 ./man8/intro.htm
-./man8/iopctl.htm
 ./man8/iostat.htm
 ./man8/isakmpd.htm
 ./man8/isdnd.htm
@@ -1249,7 +1249,6 @@
 ./man8/mount_mfs.htm
 ./man8/mount_msdos.htm
 ./man8/mount_nfs.htm
-./man8/mount_ntfs.htm
 ./man8/mount_portal.htm
 ./man8/mount_procfs.htm
 ./man8/mountd.htm
