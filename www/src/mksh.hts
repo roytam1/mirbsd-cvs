@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.510 2013/04/26 17:16:12 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.511 2013/04/26 22:25:43 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -915,15 +915,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li class="cr"><img class="fr" width="64" height="64" alt="[Fedora logo]"
  src="@@RELPATH@@pics/logos/fedora.png" /><a
  href="http://fedoraproject.org/">Fedora</a> GNU/Linux 14, 15 and 16,
- and <a href="http://www.redhat.com/rhel/">RHEL</a> 4, 5 and 6 (via EPEL) now
- officially contain <a
+ and <a href="http://www.redhat.com/rhel/">RHEL</a> 4 and 5 (via EPEL),
+ 6 and 7 (shipping with it, for their customers to use with their ksh88 and
+ pdksh scripts, as well as an optional shell) now officially contain <a
  href="http://fedoraproject.org/wiki/Packages/mksh">an mksh package</a> (<a
  href="http://pkgs.fedoraproject.org/cgit/mksh.git/"><!-- I hate cgit, can't
  you just use gitweb? -->git pkg repo</a>). There are some <a
  href="http://fedoraproject.org/wiki/EPEL/FAQ#How_can_I_install_the_packages_from_the_EPEL_software_repository.3F">Instructions</a>
  for activating EPEL (RHEL only), then just type <tt>yum install mksh</tt>.</li>
-<li>Red Hat Enterprise Linux (RHEL 6) will ship mksh for their customers
- to use with their ksh88 and pdksh scripts, as well as an optional shell.</li>
 <li class="cr"><img class="fr" width="105" height="64" alt="[SuSE logo]"
  src="@@RELPATH@@pics/logos/suse.png" />The <a
  href="http://en.opensuse.org/Build_Service">OpenSuSE Build
@@ -1687,7 +1686,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li>something like <tt>${ …;}</tt> except without changing stdout,
  and with a special variable (<tt>REPLY</tt>) being the result,
  i.e. that what is interpolated from running this expression, with
- the variable being reset to "" on starting it</li>
+ the variable being reset to "" on starting it (VALSUB)</li>
 <li>something like <tt>${${foo#bar}%baz}</tt> like other shells do?</li>
 <li>some sort of mktemp(1) builtin; the functionality is already
  mostly there, but we keep it open already in C and don’t do dirs,
