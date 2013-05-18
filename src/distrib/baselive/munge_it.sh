@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.12 2006/10/02 22:38:13 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.13 2006/10/29 16:49:21 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -73,7 +73,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.12 2006/10/02 22:38:13 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.13 2006/10/29 16:49:21 tg Exp $
 	.
 	/shutdown request/ka
 	/^fi/a
@@ -166,8 +166,18 @@ ed -s etc/rc <<-'EOMD'
 	.
 	/openssl genrsa/s/4096/1024/
 	/xdm may be started/i
-		(stats_sysadd=-livecd mksh \
-		    /usr/share/misc/bsdstats <&- 2>&1 | logger -t BSDstats) &
+		(
+			cp /usr/bin/ftp /tmp/ftp.bsdstats
+			ed -s /tmp/ftp.bsdstats <<-'EOFB'
+				%g/MirOS LiveCD/s//MirOS ftp(1)/
+				wq
+			EOFB
+			sed 's!/usr/bin/ftp!/tmp/ftp.bsdstats!g' \
+			    </usr/share/misc/bsdstats >/tmp/run.bsdstats
+			stats_sysadd=-livecd mksh \
+			    /tmp/run.bsdstats <&- 2>&1 | logger -t BSDstats
+			rm -f /tmp/ftp.bsdstats /tmp/run.bsdstats
+		) &
 
 	.
 	wq
