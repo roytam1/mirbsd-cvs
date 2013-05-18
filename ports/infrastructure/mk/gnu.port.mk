@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.33 2007/05/16 22:11:50 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.34 2007/05/16 22:17:25 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -94,6 +94,9 @@ CONFIGURE_ARGS+=	--docdir=${_DESTPFX}${PREFIX:Q}/share/doc/\$${PACKAGE}
 .  endif
 CONFIGURE_ARGS+=	--disable-libtool-lock
 CONFIGURE_ARGS+=	--disable-dependency-tracking
+.  if ${OStype} == "MirBSD"
+CONFIGURE_ARGS+=	--with-gnu-ld
+.  endif
 .endif
 
 # Files
