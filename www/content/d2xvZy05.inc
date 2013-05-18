@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.62 2006/11/02 00:37:08 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.63 2006/11/04 05:54:47 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1056,6 +1056,16 @@ plot [150:200] 	"bs06.4Kmin.txt" using 1:3 with lines title "exc{\350}s en chlor
   perl crashed with signal 6 (SIGABRT) for me, but that might just be an
   overly large memory eater&#8230;</p>
  <p>On the low-tech side, I fixed more stuff in nroff(1). I like it.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20061105">05.11.2006 by tg@</h3>
+ <p>(Not commenting on mksh(1) changes here, see the ML.)</p>
+ <p>Yay, my DSL provider just gave me a static IPv4 address. Too bad, it
+  does cost me a lot! 4.90 &euro; per month plus once to set it up. How?
+  IP addresses must not be paid for, they say. <b>And</b> I don't get to
+  set my reverse DNS. Now, funnily, even their own MTA won't accept mail
+  from me, which it did before, from the dial-up pool addresses.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
