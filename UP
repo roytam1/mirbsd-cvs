@@ -1,7 +1,6 @@
 #!/usr/bin/env mksh
 # $Id$
-# sync MirOS CVS repo from primary server to primary anoncvs mirror,
-# or (if using -B) from there to a secondary anoncvs mirror.
+# sync MirOS CVS repo from primary anoncvs mirror
 
 if wd=$(readlink -nf .); then
 	vd=$(readlink -nf $(dirname $0))
@@ -14,12 +13,10 @@ cd $vd
 p=
 a=0
 sshx="--rsh=ssh -T"
+what=/cvs
 while :; do
-	if [[ $1 = -A ]]; then
-		a=1
-		shift
-	elif [[ $1 = -B ]]; then
-		: ${CVSROOT:=anoncvs@anoncvs.mirbsd.org:/cvs}
+	if [[ $1 = -H ]]; then
+		: ${CVSROOT:=_anoncvs@herc.mirbsd.org:$what}
 		shift
 	elif [[ $1 = -4 ]]; then
 		sshx="$sshx -4"
@@ -39,7 +36,7 @@ case $1 {
 [[ -e $HOME/.etc/anonkey.mirbsd ]] && sshx="$sshx -i $HOME/.etc/anonkey.mirbsd"
 set -x
 nice rsync -rxlztpgaHK --delete --stats --exclude=/ign/ "$sshx" $p "$@" \
-    ${CVSROOT:-_anoncvs@herc.mirbsd.org:/cvs}/ $vd
+    ${CVSROOT:-anoncvs@anoncvs.mirbsd.org:$what}/ $vd
 cd $wd
 [[ $a = 1 ]] && exec /bin/mksh -c "umount $vd; mount $vd"
 exit 0
