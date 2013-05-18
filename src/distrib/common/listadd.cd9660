@@ -1,0 +1,3 @@
+# $MirOS$
+
+LINK	instbin					sbin/mount_cd9660

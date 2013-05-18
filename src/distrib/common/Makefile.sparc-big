@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.sparc-big,v 1.14 2009/08/11 15:31:34 tg Exp $
+# $MirOS: src/distrib/common/Makefile.sparc-big,v 1.15 2009/08/20 13:05:51 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.14 2002/05/01 19:21:28 mickey Exp $
 
 RAWLABEL=
@@ -6,6 +6,9 @@ IMAGESIZE=	3712
 IMAGETYPE=	ipldisc
 AOUT_BSDRD=	Yes
 FLOPPY=		no
+
+LISTADDS=	boot cd9660 dhclient disktools msdos nettools nfs no-huge \
+		pager-more ppp-off sparc upgrade
 
 cdrom-mdcopy:
 	cp ${WRKDIR}/b_sparc.ldr ${WRKDIR}/v${OSrev}/${MACHINE}/boot.net

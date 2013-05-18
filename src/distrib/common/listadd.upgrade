@@ -1,0 +1,4 @@
+# $MirOS$
+
+SCRIPT	${TOPDIR}/common/upgrade.sh		upgrade
+SPECIAL	chmod 755 upgrade

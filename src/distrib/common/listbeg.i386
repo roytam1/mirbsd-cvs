@@ -1,6 +1,6 @@
-# $MirOS: src/distrib/common/listbeg.i386,v 1.1 2006/08/17 19:34:15 tg Exp $
+# $MirOS: src/distrib/common/listbeg.i386,v 1.2 2006/08/18 20:48:46 tg Exp $
 
 SRCDIRS	distrib/special sys/arch/i386/stand
-SRCDIRS	bin sbin usr.bin usr.sbin libexec
+SRCDIRS	bin sbin usr.bin usr.sbin
 
 LIBS	-lutil -locurses -lm -lz

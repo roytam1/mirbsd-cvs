@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list,v 1.26 2008/12/27 00:29:41 tg Exp $
+# $MirOS: src/distrib/common/list,v 1.27 2008/12/28 22:40:00 tg Exp $
 
 # standard tools in the crunched binary
 COPY	${OBJDIR}/instbin			instbin
@@ -21,7 +21,6 @@ LINK	instbin					bin/rm
 LINK	instbin					bin/sleep
 LINK	instbin					bin/stty
 LINK	instbin					bin/sync
-LINK	instbin					sbin/dhclient
 LINK	instbin					sbin/disklabel
 LINK	instbin					sbin/dmesg
 LINK	instbin					sbin/fsck
@@ -29,14 +28,10 @@ LINK	instbin					sbin/fsck_ffs
 LINK	instbin					sbin/ifconfig
 LINK	instbin					sbin/init
 LINK	instbin					sbin/mount
-LINK	instbin					sbin/mount_cd9660
 LINK	instbin					sbin/mount_ffs
 LINK	instbin					sbin/newfs sbin/mount_mfs
-LINK	instbin					sbin/ping
 LINK	instbin					sbin/reboot sbin/halt
 LINK	instbin					sbin/route
-LINK	instbin					sbin/rtsol
-LINK	instbin					sbin/scan_ffs
 LINK	instbin					sbin/swapctl
 LINK	instbin					sbin/umount
 LINK	instbin					usr/bin/compress usr/bin/gunzip usr/bin/gzip
@@ -45,7 +40,6 @@ LINK	instbin					usr/bin/grep usr/bin/egrep usr/bin/fgrep
 LINK	instbin					usr/bin/hexdump usr/bin/hd usr/bin/od
 LINK	instbin					usr/bin/mktemp
 LINK	instbin					usr/bin/nc
-LINK	instbin					usr/bin/printf
 LINK	instbin					usr/bin/script
 LINK	instbin					usr/bin/sed
 LINK	instbin					usr/mdec/installboot
@@ -53,7 +47,6 @@ LINK	instbin					usr/sbin/chkuterm
 LINK	instbin					usr/sbin/chroot
 LINK	instbin					usr/sbin/rdate
 LINK	instbin					usr/sbin/sysctl
-LINK	instbin					usr/sbin/vnconfig
 ARGVLINK cp					mv_cp
 ARGVLINK mksh					-mksh
 ARGVLINK mksh					-sh
@@ -62,10 +55,6 @@ ARGVLINK rm					mv_rm
 # devices stuff
 SCRIPT	${DESTDIR}/dev/MAKEDEV			dev/MAKEDEV
 SPECIAL	chmod 555 dev/MAKEDEV
-
-# dhclient stuff
-SCRIPT	${DESTDIR}/sbin/dhclient-script		sbin/dhclient-script
-SPECIAL	chmod 755 sbin/dhclient-script
 
 # etc population
 SCRIPT	${DESTDIR}/etc/disktab			etc/disktab.shadow
@@ -91,5 +80,4 @@ SPECIAL	chmod 755 install
 
 # misc stuff
 COPY	${DESTDIR}/usr/libexec/cprng		usr/libexec/cprng
-COPY	${DESTDIR}/usr/mdec/boot		usr/mdec/boot
 COPY	${DESTDIR}/usr/mdec/bootxx		usr/mdec/bootxx

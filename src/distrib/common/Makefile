@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.51 2010/01/11 01:15:54 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.52 2010/01/16 23:36:45 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -42,6 +42,9 @@ STRIP_KERNEL?=	--strip-all -R .comment -R .eh_frame
 CBIN?=		instbin
 LISTS?=		${TOPDIR}/common/listbeg.${MACHCONF} ${TOPDIR}/common/list \
 		${TOPDIR}/common/listend.${MACHCONF}
+.for _i in ${LISTADDS}
+LISTS+=		${TOPDIR}/common/listadd.${_i}
+.endfor
 MTREE?=		${TOPDIR}/common/mtree.conf
 IMAGE?=		ramdisk${OSrev}.fs
 IMAGESIZE?=	3584

@@ -1,37 +1,6 @@
-# $MirOS: src/distrib/common/listend.i386,v 1.16 2008/07/12 22:06:14 tg Exp $
-
-# we want the disklabel without manual page
-CRUNCHSPECIAL disklabel	srcdir distrib/special/dl-noman
-
-# extra programmes
-LINK	instbin					sbin/fdisk
-LINK	instbin					sbin/mount_ext2fs
-LINK	instbin					sbin/mount_msdos
-LINK	instbin					usr/bin/more usr/bin/less
-
-# these don't fit
-SPECIAL	rmdir etc/isdn etc/ssh usr/share/zoneinfo
-
-# replace bigger normal boot by fdboot
-SPECIAL	rm usr/mdec/boot
-SPECIAL	install -c -o 0 -g 0 -m 555 ${BSDOBJDIR}/sys/arch/i386/stand/fdboot/boot usr/mdec/boot
+# $MirOS: src/distrib/common/listend.i386,v 1.17 2008/12/10 18:03:21 tg Exp $
 
 # devices stuff
 SPECIAL	cd dev; mksh MAKEDEV ptm pty0; rm ?typ[a-zA-Z]
 SPECIAL	cd dev; mksh MAKEDEV ramdisk
 SPECIAL	print '/r:1,128/s//f:1, &/\nwq' | ed -s .profile
-
-# install stuff
-SCRIPT	${TOPDIR}/common/install.i386		install.md
-SPECIAL	chmod 755 install.md
-
-# kernel PPPD
-#LINK	instbin					usr/sbin/chat
-#LINK	instbin					usr/sbin/pppd
-#COPY	${DESTDIR}/etc/ppp/options.sample	etc/ppp/options
-#COPY	${DESTDIR}/etc/ppp/pap-secrets		etc/ppp/pap-secrets
-#COPY	${DESTDIR}/etc/ppp/peers/isp.sample	etc/ppp/peers/isp
-#COPY	${DESTDIR}/etc/ppp/peers/isp.chat.sample etc/ppp/peers/isp.chat
-#SPECIAL	ln -sf etc/ppp/pap-secrets etc/ppp/chap-secrets
-#- or
-SPECIAL	rmdir etc/ppp

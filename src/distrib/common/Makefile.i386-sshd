@@ -1,11 +1,13 @@
-# $MirOS: src/distrib/common/Makefile.i386-big,v 1.23 2009/08/15 18:30:09 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386-sshd,v 1.1 2010/01/07 20:56:08 tg Exp $
 
 IMAGESIZE=	8192
 IMAGETYPE=	ipldisc
 
-LISTS=		${TOPDIR}/common/listbeg.i386-big ${TOPDIR}/common/list \
-		${TOPDIR}/common/listend.i386-big \
-		${TOPDIR}/common/listadd.autosshd
+LISTADDS=	boot cd9660 dhclient disktools ext2fs i386 isdn msdos \
+		nettools nfs nfsd pager-less ppp-user pppoe-kernel \
+		pppoe-user upgrade
+MACHCONF:=	i386-big
+LISTADDS+=	autosshd
 
 KERNEL_BUILD=	no
 # uncompressed bsd.rd, so that people can change the rootpw easily
