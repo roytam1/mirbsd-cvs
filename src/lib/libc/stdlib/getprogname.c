@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/stdlib/getprogname.c,v 1.3 2005/12/17 05:46:15 tg Exp $ */
+/* $MirOS: src/lib/libc/stdlib/getprogname.c,v 1.4 2006/11/01 20:01:20 tg Exp $ */
 
 /*-
  * Copyright (c) 2005
@@ -10,10 +10,6 @@
  * pyright notices above, these terms and the disclaimer are retained
  * in all redistributions or reproduced in accompanying documentation
  * or other materials provided with binary redistributions.
- *
- * Advertising materials mentioning features or use of this work must
- * display the following acknowledgement:
- *	This product includes material provided by Thorsten Glaser.
  *
  * Licensor offers the work "AS IS" and WITHOUT WARRANTY of any kind,
  * express, or implied, to the maximum extent permitted by applicable
@@ -28,7 +24,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-__RCSID("$MirOS: src/lib/libc/stdlib/getprogname.c,v 1.3 2005/12/17 05:46:15 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdlib/getprogname.c,v 1.4 2006/11/01 20:01:20 tg Exp $");
 
 extern char *__progname;
 
@@ -39,7 +35,6 @@ extern char *__progname;
 void
 setprogname(const char *s)
 {
-	/* I'd just return here, but what if it's unset? */
 	char *t;
 
 	/* Don't reset if there's already a progname set */
@@ -58,5 +53,5 @@ setprogname(const char *s)
 const char *
 getprogname(void)
 {
-	return __progname;
+	return (__progname);
 }
