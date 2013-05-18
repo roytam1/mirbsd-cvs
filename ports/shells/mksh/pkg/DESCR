@@ -6,20 +6,19 @@ shell good for interactive and especially script use.
 
 You might want to amend ~/.mkshrc with the following snippet:
 |	: ${HOSTNAME:=$(hostname -s 2>/dev/null || hostname)}
-|	export PS1='$(((rv=$?)) && print $rv\|)'"\$USER@${HOSTNAME:-noFQDN}:"'$(
-|		typeset tilde=~ path=${1:-${PWD:-$(pwd)}}
-|		typeset dots= path2=${path#$tilde}
-|		[[ $path2 = $path || -z $tilde || $tilde = / ]] || path=\~$path2
-|		let cmax="${COLUMNS:-80} / 3"
-|		(( cmax < 7 )) && let cmax=7
-|		while (( (${#dots} + ${#path}) > cmax )); do
-|			if [[ $path = *@(/)* ]]; then
-|				dots=.../
-|				path="${path#*/}"
+|	PS1='$(((rv=$?)) && print $rv\|)${USER:=$(id -un)}@${HOSTNAME:=nil}:$(
+|		typeset pfx=~ wd=${PWD:-$(pwd)}
+|		[[ ${wd#$pfx} = $wd || $pfx = ?(/) ]] || wd=\~${wd#$pfx}
+|		pfx=; let n="( (n = ${COLUMNS:-80} / 3) < 7 ? 7 : n)"
+|		while (( (${#pfx} + ${#wd}) > n )); do
+|			if [[ $wd = */* ]]; then
+|				pfx=.../
+|				wd="${wd#*/}"
 |			else
-|				dots=...
-|				path="${path#?????}"
+|				pfx=...
+|				wd="${wd#?????}"
 |			fi
 |		done
-|		print -nr -- "$dots$path")'" $(if (( $(id -u) )); then
-|			print -n \$; else print -n \#; fi) "
+|		print -r -- "$pfx$wd")'" $(if (( $(id -u) )); then
+|			print \$; else print \#; fi) "
+|	export HOSTNAME PS1 USER

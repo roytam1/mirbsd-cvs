@@ -1,4 +1,4 @@
-# $MirOS: src/etc/profile,v 1.22 2006/07/03 12:35:26 tg Exp $
+# $MirOS: src/etc/profile,v 1.23 2006/07/03 12:37:35 tg Exp $
 #-
 umask 022
 [ -z "$KSH_VERSION" ] && alias print='echo -e'
@@ -42,7 +42,6 @@ CVSUMASK=002
 EDITOR=/bin/ed
 unset HISTFILE
 HOSTNAME=$(ulimit -c 0; hostname -s 2>/dev/null)
-HOSTNAME=${HOSTNAME:-noFQDN}
 IRCNAME="MirOS packages a kernel, userland and the attitude"
 IRCSERVER=irc4.66h.42h.de	# irc.66h.42h.de supports IPv4 and IPv6 though
 OSNAME=$(ulimit -c 0; uname -s 2>/dev/null)
@@ -50,11 +49,21 @@ OSNAME=${OSNAME:-unknown}
 PAGER=/usr/bin/less
 PS1=$PSX
 if [ -n "$KSH_VERSION" ]; then
-	__shortpath() {
-		pwd	# Dummy, see below, but enough to work
-	}
-	[[ -n $USER ]] && \
-	    PS1='$(((rv=$?)) && print $rv\|)'"\$USER@$HOSTNAME:\$(__shortpath 2>/dev/null||echo \$PWD) $PSX"
+	PS1='$(((rv=$?)) && print $rv\|)${USER:=$(id -un)}@${HOSTNAME:=nil}:$(
+		typeset pfx=~ wd=${PWD:-$(pwd)}
+		[[ ${wd#$pfx} = $wd || $pfx = ?(/) ]] || wd=\~${wd#$pfx}
+		pfx=; let n="( (n = ${COLUMNS:-80} / 3) < 7 ? 7 : n)"
+		while (( (${#pfx} + ${#wd}) > n )); do
+			if [[ $wd = */* ]]; then
+				pfx=.../
+				wd="${wd#*/}"
+			else
+				pfx=...
+				wd="${wd#?????}"
+			fi
+		done
+		print -r -- "$pfx$wd")'" $(if (( $(id -u) )); then
+			print \$; else print \#; fi) "
 	_shellok=1
 elif [ -n "$BASH_VERSION" ]; then
 	set -o emacs
@@ -73,7 +82,7 @@ elif [ -n "$BASH_VERSION" ]; then
 	_shellok=1
 fi
 export BROWSER CVSUMASK EDITOR HOME HOSTNAME IRCNAME IRCSERVER OSNAME
-export PAGER PS1 TERM USER_ID
+export PAGER PS1 TERM USER USER_ID
 unset NOCOLOURPROMPT PSX x
 alias cls='print -n \\033c'
 alias la='ls -Fa'
@@ -83,23 +92,6 @@ alias lo='ll -o'
 test x"$_shellok" = x"1" || return
 unset _shellok
 [[ -x /emul/linux/bin/bash ]] && alias lx='/emul/linux/bin/bash --login'
-[[ -n $KSH_VERSION ]] && function __shortpath {
-	typeset tilde=~ path=${1:-${PWD:-$(pwd)}}
-	typeset dots= path2=${path#$tilde}
-	[[ $path2 = $path || -z $tilde || $tilde = / ]] || path=\~$path2
-	let cmax="${COLUMNS:-80} / 3"
-	(( cmax < 7 )) && let cmax=7
-	while (( (${#dots} + ${#path}) > cmax )); do
-		if [[ $path = *@(/)* ]]; then
-			dots=.../
-			path="${path#*/}"
-		else
-			dots=...
-			path="${path#?????}"
-		fi
-	done
-	print -nr -- "$dots$path"
-}
 function bye
 {
 	[[ $1 = k ]] && ssh-agent -k
