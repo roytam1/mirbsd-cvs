@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386-big,v 1.29 2008/07/12 23:07:17 tg Exp $
+# $MirOS: src/distrib/common/listend.i386-big,v 1.30 2008/11/01 02:07:47 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/ps
@@ -51,7 +51,7 @@ LINK	instbin					usr/sbin/sshd
 LINK	instbin					usr/sbin/stat
 
 # devices stuff
-SPECIAL	cd dev; ./MAKEDEV ramdisk rambig ttyC1 ttyC2 isdns
+SPECIAL	cd dev; mksh MAKEDEV ramdisk rambig ttyC1 ttyC2 isdns
 
 # extra stuff
 COPY	${DESTDIR}/usr/mdec/mbrmgr		usr/mdec/mbrmgr

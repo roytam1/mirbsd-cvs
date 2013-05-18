@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list.sparc-fdd,v 1.5 2008/07/13 23:53:54 tg Exp $
+# $MirOS: src/distrib/common/list.sparc-fdd,v 1.6 2008/10/21 19:37:04 tg Exp $
 
 SRCDIRS	distrib/special sys/arch/sparc/stand
 SRCDIRS	bin sbin usr.bin usr.sbin libexec
@@ -89,8 +89,8 @@ SPECIAL	strip --target=a.out-sunos-big usr/mdec/boot
 SPECIAL	chmod 555 usr/mdec/boot
 
 # devices stuff
-SPECIAL	cd dev; ./MAKEDEV ramdisk
-SPECIAL	cd dev; ./MAKEDEV ptm pty0; rm ?typ[a-zA-Z] {,r}sd[12]*
+SPECIAL	cd dev; mksh MAKEDEV ramdisk
+SPECIAL	cd dev; mksh MAKEDEV ptm pty0; rm ?typ[a-zA-Z] {,r}sd[12]*
 
 # install stuff
 SCRIPT	${TOPDIR}/common/install.sparc		install.md

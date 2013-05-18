@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386,v 1.15 2007/08/28 23:00:20 tg Exp $
+# $MirOS: src/distrib/common/listend.i386,v 1.16 2008/07/12 22:06:14 tg Exp $
 
 # we want the disklabel without manual page
 CRUNCHSPECIAL disklabel	srcdir distrib/special/dl-noman
@@ -17,8 +17,8 @@ SPECIAL	rm usr/mdec/boot
 SPECIAL	install -c -o 0 -g 0 -m 555 ${BSDOBJDIR}/sys/arch/i386/stand/fdboot/boot usr/mdec/boot
 
 # devices stuff
-SPECIAL	cd dev; ./MAKEDEV ptm pty0; rm ?typ[a-zA-Z]
-SPECIAL	cd dev; ./MAKEDEV ramdisk
+SPECIAL	cd dev; mksh MAKEDEV ptm pty0; rm ?typ[a-zA-Z]
+SPECIAL	cd dev; mksh MAKEDEV ramdisk
 SPECIAL	print '/r:1,128/s//f:1, &/\nwq' | ed -s .profile
 
 # install stuff

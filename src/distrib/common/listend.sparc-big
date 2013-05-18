@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.sparc-big,v 1.3 2008/07/12 23:07:17 tg Exp $
+# $MirOS: src/distrib/common/listend.sparc-big,v 1.4 2008/10/21 19:37:04 tg Exp $
 
 # extra programmes
 LINK	instbin					bin/mt
@@ -13,8 +13,8 @@ LINK	instbin					usr/sbin/eeprom
 SPECIAL	rmdir etc/isdn etc/ppp etc/ssh usr/share/zoneinfo
 
 # devices stuff
-SPECIAL	cd dev; ./MAKEDEV ptm pty0; rm ?typ[a-zA-Z]
-SPECIAL	cd dev; ./MAKEDEV ramdisk
+SPECIAL	cd dev; mksh MAKEDEV ptm pty0; rm ?typ[a-zA-Z]
+SPECIAL	cd dev; mksh MAKEDEV ramdisk
 
 # install stuff
 SCRIPT	${TOPDIR}/common/install.sparc		install.md
