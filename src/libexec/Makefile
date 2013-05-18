@@ -1,9 +1,10 @@
-# $MirOS: src/libexec/Makefile,v 1.5 2005/06/26 17:34:44 tg Exp $
+# $MirOS: src/libexec/Makefile,v 1.6 2005/07/09 14:58:37 tg Exp $
 
 .include <bsd.own.mk>
 
   SUBDIR+= anoncvssh
   SUBDIR+= cpp
+  SUBDIR+= cprng
   SUBDIR+= fingerd
   SUBDIR+= ftpd
   SUBDIR+= getty
