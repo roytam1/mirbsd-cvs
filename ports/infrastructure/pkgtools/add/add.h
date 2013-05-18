@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/add/add.h,v 1.3 2005/12/16 12:12:52 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/add/add.h,v 1.3.2.1 2009/12/23 15:41:45 bsiegert Exp $ */
 /* $OpenBSD: add.h,v 1.3 1998/10/13 23:09:49 marc Exp $ */
 /* from FreeBSD Id: add.h,v 1.8 1997/02/22 16:09:15 peter Exp  */
 
@@ -25,7 +25,6 @@
 #define _INST_ADD_H_INCLUDE
 
 typedef enum { NORMAL, MASTER, SLAVE } add_mode_t;
-typedef enum { ENV, MORE, LESS, CAT  } display_mode_t;
 
 extern char	*Prefix;
 extern bool	NoInstall;
