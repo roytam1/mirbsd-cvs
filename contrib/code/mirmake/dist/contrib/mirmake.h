@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.40 2008/05/03 01:09:28 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006, 2008
@@ -139,6 +139,7 @@
 #undef __KERNEL_RCSID
 #undef __RCSID
 #undef __SCCSID
+#undef __FBSDID
 #if defined(__ELF__) && defined(__GNUC__)
 #define __IDSTRING(prefix, string)				\
 	__asm__(".section .comment"				\
@@ -160,6 +161,7 @@
 #endif
 #define	__RCSID(x)		__IDSTRING(rcsid,x)
 #define	__SCCSID(x)		__IDSTRING(sccsid,x)
+#define	__FBSDID(x)		__IDSTRING(fbsdid,x)
 
 #ifndef _DIAGASSERT
 #define _DIAGASSERT(x)		/* nothing */
