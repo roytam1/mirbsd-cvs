@@ -1,5 +1,5 @@
 static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
-    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.25 2010/01/06 17:52:31 tg Exp $"
+    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.26 2010/01/28 16:47:48 tg Exp $"
     ;
 
 /*-
@@ -32,7 +32,7 @@ static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
  */
 
 /*-
- * Copyright (c) 2008, 2009
+ * Copyright (c) 2008, 2009, 2010
  *	Thorsten Glaser <tg@mirbsd.org>
  * This is arc4random(3) made more portable,
  * as well as arc4random_pushb(3) for Cygwin.
