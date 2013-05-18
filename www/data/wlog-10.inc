@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.135 2009/01/02 17:15:38 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.136 2009/01/06 19:59:13 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2500,10 +2500,10 @@ tg@bleu:~ $ fc -l
  history, not the modificator itself.</p>
 <p>Some of the commentaries are rather clueless too, not <tt>$!</tt>
  but <tt>$_</tt> is the last word of the last command, in this case:</p>
-<pre>tg@bleu:~ $ head -2 /var/run/dmesg.boot                                                                         
+<pre>tg@bleu:~ $ head -2 /var/run/dmesg.boot
 MirBSD#10uA4 (GENERIC) #1161: Fri Dec 26 21:05:59 UTC 2008
         tg@bleu.mirbsd.org:/usr/src/distrib/generic/obj/build/GENERIC
-tg@bleu:~ $ print $_ 
+tg@bleu:~ $ print $_
 /var/run/dmesg.boot</pre>
 <p>Instead of “<tt>^-s</tt>” you would use “<tt>r -- -s=</tt>” (the two
  dashes are needed as the “r” built-in alias parses its arguments).</p>
@@ -2633,4 +2633,35 @@ Title: delaying
  I confuse them all the time, and OpenBSD only introduced them because
  they didn't know how to use 32 bit relocations in 16 bit code segments.</p>
 <p>This means my mikap project will be delayed a little. Sorry.</p>
+----
+Date: 12.01.2009 21:26
+Author: tg@
+Title: bootloader… good so far
+
+<p>After a full three days (well, today I worked – rather interesting stuff
+ actually; OpenBSD-based spamfilter, we’ll make most of the setup public, I
+ get to set up the backup on MirBSD, Xen HVM DomU, and got lauded – but the
+ evening and night it did cost) of continuous bug squashing, they are here.
+ The new bootloaders work okay on everything I throw them at.</p>
+<p>They’re even smaller ☺ except the new commands, such as “machine label”,
+ “cat”, paginating in “cat” and “ls”, support for FAT12, FAT16, FAT28, etc.
+ cost a little:</p><ul>
+ <li><tt>-r--r--r--  1 tg  tg  - 41456 Jan 12 21:28 boot.old.disc-only</tt></li>
+ <li><tt>-r--r--r--  1 tg  tg  - 46736 Jan 12 21:25 boot.new.disc-only</tt></li>
+ <li><tt>-r--r--r--  1 tg  tg  - 48892 Jan 12 21:28 boot.old.pxe-only</tt></li>
+ <li><tt>-r--r--r--  1 tg  tg  - 57864 Jan 12 21:29 boot.new.disc+pxe</tt></li>
+</ul>
+<p>As already mentioned, you can load it from DOS (limited: DOS=LOW must be
+ in CONFIG.SYS, DOS=HIGH conflicts with the kernel, and chaining breaks) as
+ well as SYSLINUX &amp; Co. and any Multiboot loader (GNU grub-legacy, GRUB
+ 2). You can chain to GNU GRUB (both versions), boot sectors and flat image
+ files like ourselves. It does 4.2FFS, CD9660 (no “ls”) and FAT. It also is
+ usable as PXE loader, doing TFTP (and supposedly NFS) as well as any local
+ filesystem listed earlier – although the boot device seems to be passed to
+ the kernel incorrectly if it’s a local drive.</p>
+<p>Now we just need more testing and a manpage polish… and some more (minor
+ though) fixes like the boot drive.</p>
+<p>I plan on bringing out a new snapshot any time soon, now that this works
+ and security stuff is in, although Lynx might get updated again first. And
+ I still write HTML source code in <em>Blocksatz</em>… old dasr habit.</p>
 ----
