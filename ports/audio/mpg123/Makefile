@@ -1,11 +1,12 @@
-# $MirOS: ports/audio/mpg123/Makefile,v 1.5 2006/09/14 00:07:11 tg Exp $
+# $MirOS: ports/audio/mpg123/Makefile,v 1.6 2008/03/09 17:22:25 tg Exp $
 # $OpenBSD: Makefile,v 1.30 2003/11/13 20:51:50 margarida Exp $
 
+# might not be too hard to add more
 ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
-COMMENT=			MPEG audio 1/2 Layer 1, 2 and 3 player
+COMMENT=		MPEG audio 1/2 Layer 1, 2 and 3 player
 DISTNAME=		mpg123-0.59r
-PKGNAME=		${DISTNAME}-4
+DASH_VER=		5
 CATEGORIES=		audio
 HOMEPAGE=		http://www.mpg123.de/
 
@@ -29,11 +30,12 @@ PATCH_DIST_STRIP=	-p1
 FLAVOURS=		esd
 FLAVOUR?=
 
-OBJECTS=		term.o
+OBJECTS=		icy.o term.o
 CPPFLAGS+=		-DOPENBSD -DREAL_IS_FLOAT -DTERM_CONTROL -DINET6 \
 			-DUSE_MMAP
 ALL_TARGET=		mpg123-make
 EXTRA_XAKE_FLAGS+=	OBJECTS=${OBJECTS:Q}
+NO_REGRESS=		Yes
 
 .if ${MACHINE_ARCH} == "i386"
 CPPFLAGS+=		-DROT_I386 -DI386_ASSEM -DPENTIUM_OPT
@@ -50,14 +52,12 @@ OBJECTS+=		audio_openbsd.o
 .endif
 
 post-patch:
-	@cp ${FILESDIR}/audio_openbsd.c ${FILESDIR}/term.c ${WRKSRC}/
+	cp ${FILESDIR}/{audio_openbsd,icy,term}.c ${WRKSRC}/
 
 do-install:
 	${INSTALL_PROGRAM} ${WRKBUILD}/mpg123 ${PREFIX}/bin/
 	${INSTALL_MAN} ${WRKBUILD}/mpg123.1 ${PREFIX}/man/man1/
 	${INSTALL_DATA_DIR} ${PREFIX}/share/mpg123
 	${INSTALL_DATA} ${WRKSRC}/COPYING ${PREFIX}/share/mpg123/
-
-NO_REGRESS=	Yes
 
 .include <bsd.port.mk>

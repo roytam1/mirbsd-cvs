@@ -1,7 +1,7 @@
-$MirOS$
+$MirOS: ports/audio/mpg123/patches/patch-mpg123_h,v 1.2 2006/09/04 18:57:27 tg Exp $
 $OpenBSD: patch-mpg123_h,v 1.1 2003/07/22 03:24:42 jason Exp $
 --- mpg123.h.orig	Fri May 28 14:51:36 1999
-+++ mpg123.h	Mon Sep  4 18:38:50 2006
++++ mpg123.h	Fri May 16 22:07:58 2008
 @@ -21,10 +21,6 @@ typedef unsigned char byte;
  #endif
  
@@ -63,3 +63,26 @@ $OpenBSD: patch-mpg123_h,v 1.1 2003/07/22 03:24:42 jason Exp $
    long realtime;
    char filename[256];
  };
+@@ -175,7 +168,8 @@ extern char *equalfile;
+ extern int halfspeed;
+ extern int buffer_fd[2];
+ extern txfermem *buffermem;
+-extern char *prgName, *prgVersion;
++extern char *prgName;
++extern const char prgVersion[];
+ 
+ #ifndef NOXFERMEM
+ extern void buffer_loop(struct audio_info_struct *ai,sigset_t *oldsigset);
+@@ -355,5 +349,12 @@ extern struct parameter param;
+ extern void dct64_486(int *a,int *b,real *c);
+ extern int synth_1to1_486(real *bandPtr,int channel,unsigned char *out,int nb_blocks);
+ 
++#ifdef INCLUDE_RCSID
++__RCSID("$MirOS$");
++#endif
+ 
++/* from icy.c */
+ 
++extern void icy_close(int);
++extern int icy_init(int);
++extern ssize_t icy_read(int d, void *buf, size_t nbytes);

@@ -1,7 +1,7 @@
-$MirOS$
+$MirOS: ports/audio/mpg123/patches/patch-httpget_c,v 1.1.7.1 2005/03/18 15:43:03 tg Exp $
 $OpenBSD: patch-httpget_c,v 1.1 2003/11/13 20:51:50 margarida Exp $
---- httpget.c.orig	2004-09-07 16:55:25.000000000 +0000
-+++ httpget.c	2004-09-07 16:55:27.000000000 +0000
+--- httpget.c.orig	Fri May 16 21:00:49 2008
++++ httpget.c	Fri May 16 22:02:13 2008
 @@ -55,11 +55,10 @@ void readstring (char *string, int maxle
  #endif
  	int pos = 0;
@@ -88,7 +88,7 @@ $OpenBSD: patch-httpget_c,v 1.1 2003/11/13 20:51:50 margarida Exp $
  			myport = proxyport;
  			myip = proxyip;
  		}
-@@ -290,19 +291,21 @@ int http_open (char *url)
+@@ -290,19 +291,22 @@ int http_open (char *url)
  					host ? host : "");
  				exit (1);
  			}
@@ -96,9 +96,11 @@ $OpenBSD: patch-httpget_c,v 1.1 2003/11/13 20:51:50 margarida Exp $
 +			strlcat (request, sptr, linelength);
  		}
 -		sprintf (request + strlen(request),
+-			" HTTP/1.0\r\nUser-Agent: %s/%s\r\n",
 +		snprintf (request + strlen(request),
 +			linelength - strlen(request),
- 			" HTTP/1.0\r\nUser-Agent: %s/%s\r\n",
++			" HTTP/1.0\r\nUser-Agent: %s/%s\r\n"
++			"icy-metadata:1\r\n",
  			prgName, prgVersion);
  		if (host) {
 -			sprintf(request + strlen(request),
@@ -114,7 +116,7 @@ $OpenBSD: patch-httpget_c,v 1.1 2003/11/13 20:51:50 margarida Exp $
  
  #ifdef INET6
  		memset(&hints, 0, sizeof(hints));
-@@ -359,15 +362,15 @@ fail:
+@@ -359,15 +363,15 @@ fail:
  
  		if (strlen(httpauth1) || httpauth) {
  			char buf[1023];
@@ -134,3 +136,36 @@ $OpenBSD: patch-httpget_c,v 1.1 2003/11/13 20:51:50 margarida Exp $
  
  		writestring (sock, request);
  		if (!(myfile = fdopen(sock, "rb"))) {
+@@ -393,6 +397,32 @@ fail:
+ 			readstring (request, linelength-1, myfile);
+ 			if (!strncmp(request, "Location:", 9))
+ 				strncpy (purl, request+10, 1023);
++			else if (!strncmp(request, "icy-metaint", 11)) {
++				const char *cp = request + 11;
++				int icy_metaint;
++
++				while (*cp < '0' || *cp > '9')
++					if (*cp)
++						++cp;
++					else
++						break;
++				icy_metaint = *cp ? atoi(cp) : 0;
++				fprintf(stderr, "%sStream meta data ",
++				    "ICY metainfo: ");
++				if (icy_init(icy_metaint))
++					fprintf(stderr, "sent every %d bytes\n",
++					    icy_metaint);
++				else
++					fputs("not sent\n", stderr);
++			} else if (!strncmp(request, "icy-", 4)) {
++				char *cp = request + strlen(request) - 1;
++
++				while (*cp == '\r' || *cp == '\n' ||
++				    *cp == '\t' || *cp == ' ')
++					*cp-- = '\0';
++				fprintf(stderr, "%s%s\n", "ICY metainfo: ",
++				    request);
++			}
+ 		} while (request[0] != '\r' && request[0] != '\n');
+ 	} while (relocate && purl[0] && numrelocs++ < 5);
+ 	if (relocate) {

@@ -5,4 +5,5 @@ file or URL is assumed to be an MPEG-1/2 Layer 3 audio bit stream.
 
 This version has been enhanced to comply with security standards set
 forth by the OpenBSD project regarding use of string functions, and
-comes with a howto what to do with corrupt (ID3) headers.
+comes with a howto what to do with corrupt (ID3) headers. ICY stream
+metadata are also parsed and shown.

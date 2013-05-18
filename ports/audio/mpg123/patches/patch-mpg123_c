@@ -1,15 +1,20 @@
-$MirOS: ports/audio/mpg123/patches/patch-mpg123_c,v 1.1.7.1 2005/03/18 15:43:03 tg Exp $
+$MirOS: ports/audio/mpg123/patches/patch-mpg123_c,v 1.2 2006/09/04 18:57:27 tg Exp $
 $OpenBSD: patch-mpg123.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
 --- mpg123.c.orig	Tue Jun 15 20:21:14 1999
-+++ mpg123.c	Mon Sep  4 18:41:22 2006
-@@ -32,8 +32,11 @@
- #include "buffer.h"
- #include "term.h"
++++ mpg123.c	Fri May 16 22:05:45 2008
+@@ -22,6 +22,7 @@
+ #define SET_RT 
+ #endif
  
 +#define	INCLUDE_RCSID
+ 
+ #ifdef SET_RT
+ #include <sched.h>
+@@ -34,6 +35,8 @@
+ 
  #include "version.h"
  
-+__RCSID("$MirOS$");
++__RCSID("$MirOS: ports/audio/mpg123/patches/patch-mpg123_c,v 1.2 2006/09/04 18:57:27 tg Exp $");
 +
  static void usage(char *dummy);
  static void long_usage(char *);
