@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.15 2008/07/10 14:39:24 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.16 2008/07/12 16:15:15 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
@@ -56,7 +56,7 @@
 #define	RND_SRC_VIDEO	7
 #define	RND_SRC_TRUST	8	/* not yet in stats */
 #define	RND_SRC_POOL	9	/* not yet in stats */
-#define	RND_SRC_KBI	10	/* not yet in stats */
+#define	RND_SRC_IMACS	10	/* not yet in stats */
 #define	RND_SRC_NUM	8	/* size of stats structure */
 
 struct rndstats {
@@ -103,7 +103,7 @@ extern int rnd_addpool_num;	/* ring buffer write pointer */
 #define	add_net_randomness(d)	enqueue_randomness(RND_SRC_NET,   (int)(d))
 #define	add_audio_randomness(d)	enqueue_randomness(RND_SRC_AUDIO, (int)(d))
 #define	add_video_randomness(d)	enqueue_randomness(RND_SRC_VIDEO, (int)(d))
-#define	add_kbint_randomness(d)	enqueue_randomness(RND_SRC_KBI,   (int)(d))
+#define	add_imacs_randomness(d)	enqueue_randomness(RND_SRC_IMACS, (int)(d))
 
 void enqueue_randomness(int, int);
 void get_random_bytes(void *, size_t)

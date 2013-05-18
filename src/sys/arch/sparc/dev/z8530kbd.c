@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/arch/sparc/dev/z8530kbd.c,v 1.2 2008/07/12 16:15:16 tg Exp $ */
 /*	$OpenBSD: z8530kbd.c,v 1.4 2003/06/02 23:27:54 millert Exp $	*/
 /*	$NetBSD: z8530tty.c,v 1.77 2001/05/30 15:24:24 lukem Exp $	*/
 
@@ -851,7 +851,7 @@ zskbd_rxint(cs)
 			put = zst->zst_rbuf;
 
 		rr0 = zs_read_csr(cs);
-		add_kbint_randomness((rr0 << 24) | (rr1 << 16) | (cc << 8) | c);
+		add_imacs_randomness((rr0 << 24) | (rr1 << 16) | (cc << 8) | c);
 
 		cc--;
 		if (!ISSET(rr0, ZSRR0_RX_READY))

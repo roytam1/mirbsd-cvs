@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/rnd.c,v 1.44 2008/07/10 14:39:24 tg Exp $ */
+/**	$MirOS: src/sys/dev/rnd.c,v 1.45 2008/07/12 16:15:15 tg Exp $ */
 /*	$OpenBSD: rnd.c,v 1.78 2005/07/07 00:11:24 djm Exp $	*/
 
 /*
@@ -836,7 +836,7 @@ enqueue_randomness(int xstate, int val)
 
 	if ((xstate == RND_SRC_TRUST) || (xstate == RND_SRC_POOL))
 		state = RND_SRC_TRUE;
-	else if (xstate == RND_SRC_KBI) {
+	else if (xstate == RND_SRC_IMACS) {
 		state = RND_SRC_TTY;
 		val += xstate << 13;
 	} else
@@ -924,7 +924,7 @@ enqueue_randomness(int xstate, int val)
 	rep->re_time = xtime;
 	rep->re_val = val;
 
-	if ((xstate < RND_SRC_NUM) || (xstate == RND_SRC_KBI)) {
+	if ((xstate < RND_SRC_NUM) || (xstate == RND_SRC_IMACS)) {
 		rndstats.rnd_enqs++;
 		rndstats.rnd_ed[nbits]++;
 		rndstats.rnd_sc[state]++;
