@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.12 2006/02/24 12:58:02 tg Exp $
+# $MirOS: src/distrib/i386/ramdisk/list.local,v 1.13 2006/02/25 03:12:24 tg Exp $
 
 # extra
 
@@ -21,7 +21,7 @@ SPECIAL	cd dev; ./MAKEDEV isdns
 COPY	${DESTDIR}/etc/dhcpd.conf		etc/dhcpd.conf
 COPY	${CURDIR}/inetd.conf			etc/inetd.conf
 
-COPY	${DESTDIR}/etc/ntpd.conf		etc/ntpd.conf
+SPECIAL	sed 's!.server ntp.example.invalid!server 81.169.176.177!' <${DESTDIR}/etc/ntpd.conf >etc/ntpd.conf
 
 # sync with ports/books/mirex/Makefile
 SPECIAL	tail -3 <${DESTDIR}/usr/share/doc/README | grep '^key ' | while IFS="	" read keynr keyfile; do IFS=" :"; set -A keyno $keynr; IFS=; print $keyfile >gzsigkey.${keyno[1]}; done
