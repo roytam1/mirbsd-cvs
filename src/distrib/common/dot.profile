@@ -1,9 +1,9 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.10 2007/03/08 09:01:59 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.11 2007/03/26 17:57:07 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
 # Copyright (c) 2003, 2004, 2005, 2006, 2007
-#	Thorsten "mirabilos" Glaser <tg@66h.42h.de>
+#	Thorsten “mirabilos” Glaser <tg@66h.42h.de>
 # Copyright (c) 1995 Jason R. Thorpe
 # Copyright (c) 1994 Christopher G. Demetriou
 # All rights reserved.
@@ -79,11 +79,10 @@ if [ ! -f /.profile.done ]; then
 
 	# on sparc, use the nvram to provide some additional entropy
 	# also read some stuff from the HDD etc. (doesn't matter if it breaks)
-	( ( (dd if=/dev/rwd0c count=126; dd if=/dev/rsd0c count=126; \
-	     dd if=/dev/rcwd0c count=96; eeprom; dmesg; sysctl -a; \
-	     dd if=/var/db/host.random of=/dev/arandom) 2>&1 | \
-	    cksum -a cksum -a sha512 -a suma -a tiger -a rmd160 -a adler32 \
-	    -b >/dev/wrandom) &)
+	( ( (for d in w:126 s:126 c:96 f:1 rai:1; do dd if=/dev/r${d%:*}d0c \
+	     count=${d#*:}; done; dd if=/var/db/host.random of=/dev/arandom; \
+	     eeprom; dmesg; sysctl -a; ) 2>&1 | cksum -b -a cksum -a sha512 \
+	    -a suma -a tiger -a rmd160 -a adler32 >/dev/wrandom) &)
 
 	# say hello and legalese
 	echo '
