@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/include/mir18n.h,v 1.14 2007/02/02 21:06:24 tg Exp $ */
+/* $MirOS: src/lib/libc/include/mir18n.h,v 1.15 2007/02/02 21:15:51 tg Exp $ */
 
 #ifndef _LIBC_MIR18N_H
 #define _LIBC_MIR18N_H
@@ -75,9 +75,9 @@ __END_DECLS
 
 #ifdef mir18n_caseconv
 /* namespace definitions for the UCD tables */
-#define nop_page mir18n_attribute_nop_page
-#define tolower_page mir18n_caseconv_tolower
-#define toupper_page mir18n_caseconv_toupper
+#define nop_page	mir18n_attribute_nop_page
+#define tolower_table	mir18n_caseconv_tolower
+#define toupper_table	mir18n_caseconv_toupper
 
 __BEGIN_DECLS
 extern const uint16_t nop_page[256];
