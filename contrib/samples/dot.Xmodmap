@@ -1,7 +1,9 @@
-! $MirOS: contrib/samples/dot.Xmodmap,v 1.24 2010/12/05 20:19:30 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap,v 1.24.2.1 2011/06/01 11:32:30 tg Exp $
 !-
 ! Copyright © 2004, 2007, 2008, 2010
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+! Copyright © 2012
+!	Thorsten Glaser <t.glaser@tarent.de>
 !
 ! Provided that these terms and disclaimer and all copyright notices
 ! are retained or reproduced in an accompanying document, permission
@@ -18,35 +20,25 @@
 ! damage or existence of a defect, except proven that it results out
 ! of said person’s immediate fault when using the work as intended.
 !-
-! MirKBD Revision 3WIP, English (Europe) with Meta key, for XFree86®
+! MirKBD Revision 3WIP, English (Europe), Meta on AltGr, for X.org
 !
 ! Advanced .Xmodmap file with US-based layout plus Meta and Compose,
-! for 105-key PC keyboards (usable with 102-key or laptop keyboards,
-! too). Emulating Meta with Mode_switch helps with X11 applications.
+! for 105-key PC keyboards (usable with 101-key or laptop keyboards,
+! too).
 ! All ISO-8859-1 code points are directly typable on a 101-key board
 ! and most directly typable code points are a part of codepage 1252.
 !
-! This file has been modified to work on GNU: U+009B is not allowed,
-! and uxterm uses Mode_switch, not Meta, there, so bind it to Alt_L.
-!
 ! Diversions from pristine XFree86(R) and Windows(R) 2000 US layout:
-! • The Alt_L key generates Meta_L	(adds 0x80 to latin1 code)
-! • The Win_L key generates Alt_L	(e.g. for window managers)
-! • The < > | key generates Mode_switch	(emulates Meta for X apps)
+! • The Alt_R key generates Mode_switch	(emulates Meta for X apps)
+! • The Win_L key generates Meta_L	(adds 0x80 to latin1 code)
 ! • The Win_R key generates Meta_R
 ! • The Win_M key generates Compose	(also for Unicode compose)
-! • The Backspace key, shifted and with Mode_switch, generates ‘Ÿ’
-! • The CapsLock key generates Ellipsis, Euro, DE-DblQL, Trademark
-! • The Tab key, with Mode_switch, generates EN-DblQL and EN-DblQR
-! • The Return key, with Mode_switch, generates Bullet and en dash
-! The following behavioural differences can be seen on NT platforms:
-! • The “Meta” and “Mode_switch” function is done by the Alt_R key
+! • The CapsLock key also is Multi_key (Compose)
 ! • The < > | (102nd) key does Ellipsis, Euro, DE-DblQL, Trademark
-! • The Alt_L, Win_L, Win_R, CapsLock keys retain common behaviour
-! • The Win_M key also keeps common behaviour; there is no Compose
+! • The Tab key, with Mode_switch, generates EN-DblQL and EN-DblQR
+! • The Backspace key, shifted and with Mode_switch, generates ‘Ÿ’
+! • The Return key, with Mode_switch, generates Bullet and en dash
 ! The following behavioural differences can be seen on X11 platform:
-! • The IBM Thinkpad X40 Page_Left key is Alt_L: there’s no Winkey
-! • The IBM Thinkpad X40 Page_Right key can be used as Compose key
 ! • In unshifted states, Escape and U+0060 (`) have switched place
 ! • The ModeSwitch-F1 combination generates U+263B (☻) good smiley
 ! • The ModeSwitch-F2 combination generates U+263A (☺) dark smiley
@@ -139,7 +131,7 @@ keycode	0x50 =	KP_Up		KP_8
 keycode	0x51 =	KP_Prior	KP_9
 keycode	0x56 =	KP_Add		XF86_Next_VMode
 
-keycode	0x42 =	U2026		U20AC		U201E		U2122
+keycode	0x42 =	Multi_key	Multi_key
 keycode	0x26 =	a		A		U00E1		U00C1
 keycode	0x27 =	s		S		U00F3		U00D3
 keycode	0x28 =	d		D		U00E4		U00C4
@@ -157,7 +149,7 @@ keycode	0x54 =	KP_Begin	KP_5
 keycode	0x55 =	KP_Right	KP_6
 
 keycode	0x32 =	Shift_L		Shift_L
-keycode	0x5E =	Mode_switch	Mode_switch
+keycode	0x5E =	U2026		U20AC		U201E		U2122
 keycode	0x34 =	z		Z		U00FA		U00DA
 keycode	0x35 =	x		X		U00F8		U00D8
 keycode	0x36 =	c		C		U00E3		U00C3
@@ -176,10 +168,10 @@ keycode	0x59 =	KP_Next		KP_3
 keycode	0x6C =	KP_Enter	Return
 
 keycode	0x25 =	Control_L	Control_L
-keycode	0x73 =	Alt_L		Alt_L
-keycode	0x40 =	Mode_switch	Mode_switch
+keycode	0x73 =	Meta_L		Meta_L
+keycode	0x40 =	Alt_L		Alt_L
 keycode	0x41 =	space		space		U00A0		U00A0
-keycode	0x71 =	Alt_R		Alt_R
+keycode	0x71 =	Mode_switch	Mode_switch
 keycode	0x74 =	Meta_R		Meta_R
 keycode	0x75 =	Multi_key	Multi_key
 keycode	0x6D =	Control_R	Control_R
@@ -198,9 +190,6 @@ keycode	0x7E =
 keycode	0x7F =
 keycode	0x80 =
 keycode	0x9C =
-
-keycode	0xEA =	Alt_L		Alt_L
-keycode	0xE9 =	Multi_key	Multi_key
 
 clear	Shift
 clear	Lock
