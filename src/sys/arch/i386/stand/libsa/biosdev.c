@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.12 2008/12/28 18:58:32 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.14 2008/12/28 20:17:32 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -745,8 +745,9 @@ disk_trylabel(struct diskinfo *dip)
 				    mbr.dmbr_parts[i].dp_size > totsiz))
 					totsiz = mbr.dmbr_parts[i].dp_start +
 					    mbr.dmbr_parts[i].dp_size;
-		}
-		goto mbrok;
+			goto mbrok;
+		} else
+			bios_bootpart[0] = bios_bootpart[1] = 0;
  nombr:
 		for (i = 0; i < NDOSPART; i++)
 			mbr.dmbr_parts[i].dp_typ = 0;
