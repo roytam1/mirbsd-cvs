@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/cvs-genperm,v 1.17 2005/12/22 01:16:25 tg Exp $
+# $MirOS: CVSROOT/cvs-genperm,v 1.18 2005/12/22 01:17:03 tg Exp $
 #-
-# Copyright (c) 2003, 2004, 2005
+# Copyright (c) 2003, 2004, 2005, 2006
 #	Thorsten "mirabile" Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
@@ -91,7 +91,7 @@ find "$CVSROOT"$fr | while IFS= read pname; do
 	if [[ $name = @(|CVSROOT/).* || $name = .tmp/* ]]; then
 		print -r "Found invalid '$name'"
 		rm -rf "$pname"
-	elif [[ $name = +([-_+,./:=@0-9A-Za-z]) ]]; then
+	elif [[ $name = +([-_+,./:=@0-9A-Za-z%]) ]]; then
 		M=0
 		if [[ -d $pname ]]; then
 			M=775
