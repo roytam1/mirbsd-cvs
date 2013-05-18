@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.105 2008/11/25 18:10:23 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.106 2008/11/26 17:40:59 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2162,7 +2162,7 @@ Title: Laptops &ndash; IBM X40 vs MiTAC 4023
  Sadly, the intervals it would work eventually got as short as a few
  seconds. I found out that unplugging the AC power supply helped... for
  a while. The intervals eventually got down there as well. Cleaning the
- fan I tried, but it does not seem like a heat issue either.<p>
+ fan I tried, but it does not seem like a heat issue either.</p>
 <p style="font-size:xx-large"><strong>HELP</strong>!!!</p>
 <p>I cannot simply afford another laptop. I bought this one because it
  was popular with the OpenBSD people... while the hardware is working
@@ -2173,7 +2173,7 @@ Title: Laptops &ndash; IBM X40 vs MiTAC 4023
 <p>This wlog entry has been written on a MiTAC 4023 laptop. While it
  only has a DSTN (or STN?) LCD, 12 MiB RAM, a Cyrix 486DLC CPU with,
  I believe, 33 MHz, it <strong>works</strong> (despite the aged custom
- MirBSD #8-current single-user-only mostly-crunchgen(1)d installation).</p>
+ MirBSD #8-current single-user-only mostly-‍crunchgen(1)d installation).</p>
 <p>Tom "nwt" Kohnen, einer der beiden Luxemburger, von denen ich viel
  halte, wenn Du wüßtest, wie oft Dein alter Laptop, den Du für wertloser
  als den Nike-Sticker, mit dem er beklebt ist, gehalten hast, mir schon
