@@ -1,9 +1,9 @@
 #!/bin/mksh
-# $MirOS: src/scripts/roff2htm,v 1.23 2006/01/02 16:18:00 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.24 2006/01/14 01:11:11 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
-# Copyright (c) 2004, 2005
-#	Thorsten "mirabile" Glaser <tg@mirbsd.de>
+# Copyright (c) 2004, 2005, 2006
+#	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
 # Copyright (c) 2004
 #	Stephen Paskaluk <sap@mirbsd.org>
 #
@@ -153,7 +153,7 @@ output_header()
 		<p style="font-size:2pt;">This product includes material provided by Thorsten Glaser.</p>
 		<h1>MirOS Manual: <a href="../man${2}/${1}.htm"><tt>${1}(${2})</tt></a></h1>
 		<p style="font-size:xx-small;">Generated on ${gendate} by
-		 \$MirOS: src/scripts/roff2htm,v 1.23 2006/01/02 16:18:00 tg Exp $</p>
+		 \$MirOS: src/scripts/roff2htm,v 1.24 2006/01/14 01:11:11 tg Exp $</p>
 		<hr />
 	EOF
 }
