@@ -520,3 +520,19 @@ Date: 22.10.2007
  <a href="http://www.mirbsd.org/clogs/ChangeLog">Changelog</a>. anoncvs
  and cvsweb do work.</p>
 ----
+Title: Security updates
+Date: 26.10.2007
+
+<p>A security update for perl in the base system has been committed.
+ To install it, update <tt>src/gnu/usr.bin/perl</tt> via cvs and
+ rebuild perl. A <a
+ href="@@RELPATH@@MirOS/current/i386/perl-CVE-2007-5116.cpio.gz">binary
+ upgrade</a> for newer MirOS #10-beta versions (Linuxtag 2007 and
+ newer) is also available. To install the latter, use</p>
+
+<p><pre>cd / ; sudo tar xvfz /path/to/perl-CVE-2007-5116.cpio.gz</pre></p>
+
+<p>The following ports also had security updates: <tt>print/cups</tt>
+ (fixed in 1.2.11-1), <tt>devel/pcre</tt> (fixed in 7.4-0). Please
+ upgrade those if you have them installed.</p>
+----
