@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-# $MirOS: src/gnu/usr.bin/cvs/src/Makefile.am,v 1.5 2010/09/16 20:56:00 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/src/Makefile.am,v 1.6 2011/06/11 02:56:58 tg Exp $
 # Makefile for GNU CVS program.
 #
 # Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -108,6 +108,7 @@ cvs_DEPENDENCIES = $(cvs_client_objects) \
 	../diff/libdiff.a \
 	../lib/libcvs.a \
 	$(ZLIB_LIBS)
+cvs_LDFLAGS = -Wl,--as-needed
 cvs_LDADD = $(cvs_client_objects) \
 	../diff/libdiff.a \
 	../lib/libcvs.a \
