@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.209 2009/03/22 18:50:49 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.210 2009/03/24 17:47:40 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36b</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -1098,6 +1098,9 @@ mws_content <<'EOF'
   e.g. with pkgsrc® people; for now, only <tt>-n</tt> as first arg</li>
  <li>[tg] Make test builtin operator precedence consistent; from oksh</li>
  <li>[tg] Revamp and fold and enhance the regression tests</li>
+ <li>[tg] Document somewhat surprising behaviour in mksh(1) better;
+  here: <tt>[ x -eq y]</tt>; for gps23 from <tt>#ksh</tt></li>
+ <li>[tg] Reduce memory consumption by allocator simplification</li>
 </ul>
 <p id="r36b">mksh R36b is a compatible, major bug-fix update:</p><ul>
  <li>[tg] Add check for naming the output file “scn” instead of “a.out” or
