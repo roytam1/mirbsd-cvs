@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.107 2007/06/16 21:13:55 tg Exp $
+# $MirOS: src/Makefile,v 1.108 2007/07/09 00:24:55 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -6,7 +6,9 @@
 .endif
 .include <bsd.own.mk>
 .include "Makefile.inc"
-.include "gcc/Makefile.lang"
+.if exists(gcc/Makefile.lang)
+.  include "gcc/Makefile.lang"
+.endif
 NOMAN?=		no
 CVSROOT?=	/cvs
 ANONCVSROOT?=	anoncvs@anoncvs.mirbsd.org:/cvs
