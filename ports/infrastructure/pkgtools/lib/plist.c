@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.15 2008/11/02 19:57:31 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.16 2009/10/20 19:32:50 bsiegert Exp $ */
 /*	$OpenBSD: plist.c,v 1.17 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -26,7 +26,7 @@
 #include <md5.h>
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.15 2008/11/02 19:57:31 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.16 2009/10/20 19:32:50 bsiegert Exp $");
 
 #define NULLMD5 "d41d8cd98f00b204e9800998ecf8427e"
 
@@ -132,7 +132,8 @@ void add_plist_at(package_t *p, plist_t *after, pl_ent_t type, const char *arg)
 void add_plist_glob(package_t *pkg, plist_t *after, const char *dir, const char *pattern, bool nodups)
 {
 	glob_t pglob;
-	int fd, i;
+	int fd;
+	unsigned int i;
 
 	memset(&pglob, 0, sizeof(pglob));
 	fd = open(".", O_RDONLY, 0);
@@ -354,7 +355,7 @@ delete_package(bool keep_files, bool nukedirs, rm_cfg_t remove_config,
     const char *Where = ".", *last_file = "";
     int fail = 0;
     int len;
-    char tmp[FILENAME_MAX], *name = NULL, *cp;
+    char tmp[FILENAME_MAX], *cp;
     static int usedb = 1;
     RCDB *ourdb;
 
@@ -365,10 +366,6 @@ delete_package(bool keep_files, bool nukedirs, rm_cfg_t remove_config,
 
     for (p = pkg->head; p; p = p->next) {
 	switch (p->type)  {
-	case PLIST_NAME:
-	    name = p->name;
-	    break;
-
 	case PLIST_IGNORE:
 	    p = p->next;
 	    break;
