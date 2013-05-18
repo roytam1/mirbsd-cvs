@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.119 2009/08/09 14:21:30 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.120 2009/08/20 15:32:43 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1690,4 +1690,20 @@ Author: tg@
  available. The four-pool mixing helps, and the results show. Hell,
  even <tt>nwt</tt> has good entropy. And the RANDEX protocol helps
  some, too. Untrusted, but potentially good bits; wrandom(4) pool.</p>
+----
+Title: Website has been unavailable, fixed
+Date: 07.09.2009 17:08
+Author: tg@
+Tag: bug
+
+<p>We would like to apologise for the unavailability of our main website,
+ and in general HTTPS access to everything hosted on <tt>eurynome</tt>,
+ during today, Monday. It turns out that our hoster accidentally botched
+ up a Linux netfilter prerouting table at about 01:00 UTC (i.e. way past
+ midnight) affecting the IPv4 address set aside for <tt>eurynome</tt>.
+ We believe IPv6 services were not affected. Our hoster would like to
+ apologise and comment that he is, after all, a human being as well.</p>
+<p>Please note that X.509v3 SSL certificate validation will have prevented
+ you from connecting to the wrong server, as this ended up like a MITM
+ (man-in-the-middle) attack.</p>
 ----

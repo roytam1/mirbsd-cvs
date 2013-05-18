@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.233 2009/08/20 15:18:38 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.234 2009/08/30 22:30:44 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4936,4 +4936,22 @@ gPXE&gt; <b>chain http://netboot.me/2032</b>
  the <a href="http://marc.info/?m=125058382706316">Simtec eKey</a>, I
  just need to order one. We’re currently at 2¾ interested people, not
  quite enough to make sense.)</p>
+----
+Title: mksh feature weeks
+Date: 07.09.2009 17:27
+Author: tg@
+Tag: mksh
+
+<p>It's feature weeks for mksh(1). You almost certainly want to follow the <a
+ href="@@RELPATH@@mksh.htm#clog">mksh-current changelog</a>. Please test all
+ the new features, as well as make sure that nothing breaks nor I introduced
+ other regressions, such as making resource usage worse (disc, CPU, memory).
+ Please be reminded that many more deep-reaching changes will follow in the
+ next few hacking days.</p>
+<p>Thanks to David Korn (the Korn in AT&amp;T Korn Shell, ksh88/ksh93) for
+ discussing features and helping with finding syntax and semantic of some
+ of the more complicated language pecularities.</p><!-- RSS stop -->
+<p>On an unrelated note, cvs(1), lynx(1), ncurses(3), some other things,
+ and a lot of ports have also been worked on. The next snapshot is planned
+ for mid to end of September, bi-arch. Stay tuned!</p>
 ----
