@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.23 2006/02/16 11:53:07 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.24 2006/03/19 21:23:19 tg Exp $</small>
 
 <h1>mksh(1) R26c</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -234,6 +234,12 @@
 </pre><p>This is pretty dead simple but enough for mksh.</p>
 
 <h3 id="buildsol">Solaris</h3>
+<p>The Solaris port of mksh is sponsored by Der Verein <a
+ href="http://www.trash.net/verein/">trash.net</a> which
+ provides me a shell account on a Solaris 8 (Ultrasparc)
+ box. Let me express a &quot;thank you&quot; to these guys;
+ I suggest to support them because they are doing great
+ things like Netzladen e.V. where I are involved in.</p>
 <ul>
  <li>cd mksh; sh Build.sh -r &amp;&amp; ./Test.sh</li>
  <li>/usr/ucb/install -c -s -o root -g bin -m 555 mksh ~/.bin/mksh</li>
