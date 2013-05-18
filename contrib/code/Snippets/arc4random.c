@@ -1,5 +1,5 @@
 static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
-    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.18 2009/09/20 13:29:17 tg Stab $"
+    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.19 2009/09/27 10:45:56 tg Exp $"
     ;
 
 /*-
@@ -157,6 +157,22 @@ arc4_addrandom(u_char *dat, int datlen)
 	arc4_ctx.j = arc4_ctx.i;
 }
 
+#if defined(USE_MS_CRYPTOAPI)
+#define RNDEV_BYTES	128
+#elif defined(__INTERIX)
+#define RNDEV_BYTES	4	/* slow /dev/urandom */
+#elif defined(__OpenBSD__)
+#define RNDEV_BYTES	(256 - (sizeof(struct timeval) + sizeof(pid_t)))
+#elif defined(__CYGWIN__)
+#define RNDEV_BYTES	64	/* /dev/urandom probably CryptoAPI */
+#elif defined(__FreeBSD__)
+#define RNDEV_BYTES	16	/* Yarrow has few state */
+#elif defined(__GLIBC__)
+#define RNDEV_BYTES	16	/* requested by maintainers */
+#else
+#define RNDEV_BYTES	8	/* unknown OS? */
+#endif
+
 static void
 arc4_stir(void)
 {
@@ -164,7 +180,7 @@ arc4_stir(void)
 	struct {
 		struct timeval tv;
 		pid_t pid;
-		u_int rnd[(128 - (sizeof(struct timeval) + sizeof(pid_t))) / sizeof(u_int)];
+		u_int rnd[(RNDEV_BYTES + sizeof(u_int) - 1) / sizeof(u_int)];
 	} rdat;
 	size_t sz = 0;
 
