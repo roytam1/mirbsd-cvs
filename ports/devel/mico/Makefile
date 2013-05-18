@@ -1,8 +1,9 @@
-# $MirOS$
+# $MirOS: ports/devel/mico/Makefile,v 1.7 2008/08/12 15:23:51 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2002/10/25 22:37:52 naddy Exp $
 
 COMMENT=		free and complete CORBA-compliant implementation
 DISTNAME=		mico-2.3.12
+DASH_VER=		1
 CATEGORIES=		devel
 HOMEPAGE=		http://www.mico.org/
 MASTER_SITES=		${HOMEPAGE}
@@ -39,5 +40,9 @@ LIB_DEPENDS+=		tcl.8::lang/tcl
 CONFIGURE_ARGS+=	--with-tcl
 USE_X11=		Yes
 .endif
+
+post-install:
+	cd ${PREFIX}/doc; pax -rwl -pe . ${PREFIX}/share/doc/
+	rm -rf ${PREFIX}/doc
 
 .include <bsd.port.mk>

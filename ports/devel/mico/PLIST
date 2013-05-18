@@ -1,4 +1,4 @@
-@comment $MirOS$
+@comment $MirOS: ports/devel/mico/PLIST,v 1.1 2008/08/12 15:23:52 tg Exp $
 @comment $OpenBSD: PLIST,v 1.3 2003/03/31 00:53:58 margarida Exp $
 bin/eventd
 bin/idl
@@ -18,81 +18,6 @@ bin/nsadmin
 bin/nsd
 bin/propertyd
 bin/timed
-doc/mico/examples/interop/jboss/Makefile
-doc/mico/examples/interop/jboss/README
-doc/mico/examples/interop/jboss/jdk1.3.x/Makefile
-doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/META-INF/ejb-jar.xml
-doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/META-INF/jboss.xml
-doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/Makefile
-doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/client.cc
-doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/examples/BookException.java
-doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/examples/Cart.java
-doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/examples/CartBean.java
-doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/examples/CartHome.java
-doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/examples/IdVerifier.java
-doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/run-client
-doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb/META-INF/ejb-jar.xml
-doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb/META-INF/jboss.xml
-doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb/Makefile
-doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb/client.cc
-doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb/examples/Converter.java
-doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb/examples/ConverterBean.java
-doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb/examples/ConverterHome.java
-doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb/run-client
-doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/META-INF/ejb-jar.xml
-doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/META-INF/jboss.xml
-doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/Makefile
-doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/client.cc
-doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/examples/CorbaFriendlySession.java
-doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/examples/CorbaFriendlySessionBean.java
-doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/examples/CorbaFriendlySessionHome.java
-doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/examples/corba/DataObject.idl
-doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/run-client
-doc/mico/examples/interop/jboss/jdk1.3.x/setenv.sh
-doc/mico/examples/interop/jboss/jdk1.4.x/Makefile
-doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/META-INF/ejb-jar.xml
-doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/META-INF/jboss.xml
-doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/Makefile
-doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/client.cc
-doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/examples/BookException.java
-doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/examples/Cart.java
-doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/examples/CartBean.java
-doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/examples/CartHome.java
-doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/examples/IdVerifier.java
-doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/jdk1.4-Throwable/StackTraceElement.idl
-doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/jdk1.4-Throwable/Throwable.idl
-doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/jdk1.4-Throwable/seq1_StackTraceElement.idl
-doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/run-client
-doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/META-INF/ejb-jar.xml
-doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/META-INF/jboss.xml
-doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/Makefile
-doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/client.cc
-doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/examples/Converter.java
-doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/examples/ConverterBean.java
-doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/examples/ConverterHome.java
-doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/jdk1.4-Throwable/StackTraceElement.idl
-doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/jdk1.4-Throwable/Throwable.idl
-doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/jdk1.4-Throwable/seq1_StackTraceElement.idl
-doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/run-client
-doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/META-INF/ejb-jar.xml
-doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/META-INF/jboss.xml
-doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/Makefile
-doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/client.cc
-doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/examples/CorbaFriendlySession.cc.saved
-doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/examples/CorbaFriendlySession.h.saved
-doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/examples/CorbaFriendlySession.java
-doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/examples/CorbaFriendlySessionBean.java
-doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/examples/CorbaFriendlySessionHome.java
-doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/examples/corba/DataObject.idl
-doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/jdk1.4-Throwable/StackTraceElement.idl
-doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/jdk1.4-Throwable/Throwable.idl
-doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/jdk1.4-Throwable/seq1_StackTraceElement.idl
-doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/run-client
-doc/mico/examples/interop/jboss/jdk1.4.x/setenv.sh
-doc/mico/examples/mt/Makefile
-doc/mico/examples/mt/README
-doc/mico/examples/pi/Makefile
-doc/mico/examples/pi/README
 include/CORBA-SMALL.h
 include/CORBA.h
 include/coss/CompoundExternalization_impl.h
@@ -422,6 +347,77 @@ share/doc/mico/examples/interop/jacorb/account
 share/doc/mico/examples/interop/jacorb/client.cc
 share/doc/mico/examples/interop/jacorb/run_applet
 share/doc/mico/examples/interop/jacorb/server.cc
+share/doc/mico/examples/interop/jboss/Makefile
+share/doc/mico/examples/interop/jboss/README
+share/doc/mico/examples/interop/jboss/jdk1.3.x/Makefile
+share/doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/META-INF/ejb-jar.xml
+share/doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/META-INF/jboss.xml
+share/doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/Makefile
+share/doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/client.cc
+share/doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/examples/BookException.java
+share/doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/examples/Cart.java
+share/doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/examples/CartBean.java
+share/doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/examples/CartHome.java
+share/doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/examples/IdVerifier.java
+share/doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/run-client
+share/doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb/META-INF/ejb-jar.xml
+share/doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb/META-INF/jboss.xml
+share/doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb/Makefile
+share/doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb/client.cc
+share/doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb/examples/Converter.java
+share/doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb/examples/ConverterBean.java
+share/doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb/examples/ConverterHome.java
+share/doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb/run-client
+share/doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/META-INF/ejb-jar.xml
+share/doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/META-INF/jboss.xml
+share/doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/Makefile
+share/doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/client.cc
+share/doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/examples/CorbaFriendlySession.java
+share/doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/examples/CorbaFriendlySessionBean.java
+share/doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/examples/CorbaFriendlySessionHome.java
+share/doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/examples/corba/DataObject.idl
+share/doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/run-client
+share/doc/mico/examples/interop/jboss/jdk1.3.x/setenv.sh
+share/doc/mico/examples/interop/jboss/jdk1.4.x/Makefile
+share/doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/META-INF/ejb-jar.xml
+share/doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/META-INF/jboss.xml
+share/doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/Makefile
+share/doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/client.cc
+share/doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/examples/BookException.java
+share/doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/examples/Cart.java
+share/doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/examples/CartBean.java
+share/doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/examples/CartHome.java
+share/doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/examples/IdVerifier.java
+share/doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/jdk1.4-Throwable/StackTraceElement.idl
+share/doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/jdk1.4-Throwable/Throwable.idl
+share/doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/jdk1.4-Throwable/seq1_StackTraceElement.idl
+share/doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/run-client
+share/doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/META-INF/ejb-jar.xml
+share/doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/META-INF/jboss.xml
+share/doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/Makefile
+share/doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/client.cc
+share/doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/examples/Converter.java
+share/doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/examples/ConverterBean.java
+share/doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/examples/ConverterHome.java
+share/doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/jdk1.4-Throwable/StackTraceElement.idl
+share/doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/jdk1.4-Throwable/Throwable.idl
+share/doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/jdk1.4-Throwable/seq1_StackTraceElement.idl
+share/doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/run-client
+share/doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/META-INF/ejb-jar.xml
+share/doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/META-INF/jboss.xml
+share/doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/Makefile
+share/doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/client.cc
+share/doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/examples/CorbaFriendlySession.cc.saved
+share/doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/examples/CorbaFriendlySession.h.saved
+share/doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/examples/CorbaFriendlySession.java
+share/doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/examples/CorbaFriendlySessionBean.java
+share/doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/examples/CorbaFriendlySessionHome.java
+share/doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/examples/corba/DataObject.idl
+share/doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/jdk1.4-Throwable/StackTraceElement.idl
+share/doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/jdk1.4-Throwable/Throwable.idl
+share/doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/jdk1.4-Throwable/seq1_StackTraceElement.idl
+share/doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/run-client
+share/doc/mico/examples/interop/jboss/jdk1.4.x/setenv.sh
 share/doc/mico/examples/interop/jdk/Account.idl
 share/doc/mico/examples/interop/jdk/Client.java
 share/doc/mico/examples/interop/jdk/ClientApplet.html.in
@@ -449,6 +445,8 @@ share/doc/mico/examples/mcast/client.cc
 share/doc/mico/examples/mcast/hello.idl
 share/doc/mico/examples/mcast/runit
 share/doc/mico/examples/mcast/server.cc
+share/doc/mico/examples/mt/Makefile
+share/doc/mico/examples/mt/README
 share/doc/mico/examples/mt/callback/Makefile
 share/doc/mico/examples/mt/callback/callback.idl
 share/doc/mico/examples/mt/callback/client.cc
@@ -494,6 +492,8 @@ share/doc/mico/examples/obv/tricky/tricky
 share/doc/mico/examples/obv/tricky/tricky.idl
 share/doc/mico/examples/obv/tricky/tricky_impl.cc
 share/doc/mico/examples/obv/tricky/tricky_impl.h
+share/doc/mico/examples/pi/Makefile
+share/doc/mico/examples/pi/README
 share/doc/mico/examples/pi/current/Makefile
 share/doc/mico/examples/pi/current/client.cc
 share/doc/mico/examples/pi/current/hello
@@ -632,6 +632,32 @@ share/doc/mico/manual.ps
 @dirrm share/doc/mico/examples/interop/visibroker
 @dirrm share/doc/mico/examples/interop/orbix
 @dirrm share/doc/mico/examples/interop/jdk
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/jdk1.4-Throwable
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/examples/corba
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/examples
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/META-INF
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/jdk1.4-Throwable
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/examples
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/META-INF
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/jdk1.4-Throwable
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/examples
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/META-INF
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.4.x
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/examples/corba
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/examples
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/META-INF
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb/examples
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb/META-INF
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/examples
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/META-INF
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb
+@dirrm share/doc/mico/examples/interop/jboss/jdk1.3.x
+@dirrm share/doc/mico/examples/interop/jboss
 @dirrm share/doc/mico/examples/interop/jacorb
 @dirrm share/doc/mico/examples/interop
 @dirrm share/doc/mico/examples/interceptor
@@ -643,41 +669,10 @@ share/doc/mico/manual.ps
 @dirrm share/doc/mico/examples/bench
 @dirrm share/doc/mico/examples
 @dirrm share/doc/mico
+@dirrm share/doc
 @dirrm include/ministl
 @dirrm include/mico/transport
 @dirrm include/mico/security
 @dirrm include/mico/os-thread
 @dirrm include/mico
 @dirrm include/coss
-@dirrm doc/mico/examples/pi
-@dirrm doc/mico/examples/mt
-@dirrm doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/jdk1.4-Throwable
-@dirrm doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/examples/corba
-@dirrm doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/examples
-@dirrm doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb/META-INF
-@dirrm doc/mico/examples/interop/jboss/jdk1.4.x/corba-friendly-ejb
-@dirrm doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/jdk1.4-Throwable
-@dirrm doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/examples
-@dirrm doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb/META-INF
-@dirrm doc/mico/examples/interop/jboss/jdk1.4.x/converter-ejb
-@dirrm doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/jdk1.4-Throwable
-@dirrm doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/examples
-@dirrm doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb/META-INF
-@dirrm doc/mico/examples/interop/jboss/jdk1.4.x/cart-ejb
-@dirrm doc/mico/examples/interop/jboss/jdk1.4.x
-@dirrm doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/examples/corba
-@dirrm doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/examples
-@dirrm doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb/META-INF
-@dirrm doc/mico/examples/interop/jboss/jdk1.3.x/corba-friendly-ejb
-@dirrm doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb/examples
-@dirrm doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb/META-INF
-@dirrm doc/mico/examples/interop/jboss/jdk1.3.x/converter-ejb
-@dirrm doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/examples
-@dirrm doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb/META-INF
-@dirrm doc/mico/examples/interop/jboss/jdk1.3.x/cart-ejb
-@dirrm doc/mico/examples/interop/jboss/jdk1.3.x
-@dirrm doc/mico/examples/interop/jboss
-@dirrm doc/mico/examples/interop
-@dirrm doc/mico/examples
-@dirrm doc/mico
-@dirrm doc
