@@ -1,4 +1,4 @@
-# $MirOS: ports/print/ghostscript/artifex/Makefile,v 1.2 2006/09/14 00:12:41 tg Exp $
+# $MirOS: ports/print/ghostscript/artifex/Makefile,v 1.3 2006/10/06 16:32:43 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2004/05/23 18:51:59 sturm Exp $
 
 COMMENT=		GPL'd PostScript interpreter
@@ -29,11 +29,11 @@ MODULES+=		graphics/png
 WRKDIST=		${WRKDIR}/${DISTNAME}
 WRKSRC=			${WRKDIST}/src
 WRKBUILD=		${WRKDIST}
-BASE_FLAGS=		INSTALL_PROGRAM='${INSTALL_SCRIPT}' \
-			INSTALL_DATA='${INSTALL_DATA}' \
+BASE_FLAGS=		INSTALL_PROGRAM=${INSTALL_SCRIPT:Q} \
+			INSTALL_DATA=${INSTALL_DATA:Q} \
 			SHARE_LIBPNG=1 \
 			SHARE_ZLIB=1 \
-			CFLAGS_STANDARD='${CFLAGS}' \
+			CFLAGS_STANDARD=${CFLAGS:M*:Q} \
 			XLDFLAGS=-L${LOCALBASE}/lib \
 			XINCLUDE=-I${X11BASE}/include \
 			XLIBS='Xt SM ICE Xext X11' \
