@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.400 2011/05/29 02:28:08 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.401 2011/05/29 16:40:45 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1223,6 +1223,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Fix gsf’s ifs.sh tests of the <tt>read</tt> builtin</li>
  <li>[tg, cnuke] Improve support for AIX, Cygwin, IBM XL C</li>
  <li>[tg] Add tests for <tt>x+=(y z)</tt> and <tt>;;&amp;</tt> extensions</li>
+ <li>[tg, hondza] Fix regression in tab completion result display</li>
+ <li>[tg, Frank Terbeck] Fix parsing <tt>x=(…)</tt> expressions</li>
+ <li>[tg, Jb_boin] Increase hash table limit; don’t crash when reaching it</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
