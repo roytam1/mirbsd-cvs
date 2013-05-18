@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.6 2005/12/15 01:13:44 tg Exp $
+# $MirOS: src/share/mk/bsd.cfwrap.mk,v 1.7 2005/12/15 02:28:30 tg Exp $
 
 .if !defined(BSD_CFWRAP_MK)
 BSD_CFWRAP_MK=1
@@ -53,6 +53,11 @@ FSFCXXFLAGS=	${CXXFLAGS} ${CXXOPTS}
 .if ${FSFCFLAGS:M*Werror*} || ${FSFCXXFLAGS:M*Werror*}
 FSFCFLAGS+=	-Werror-maybe-reset
 FSFCXXFLAGS+=	-Werror-maybe-reset
+.endif
+
+.if ${DEBUGLIBS:L} == "yes"
+FSFCFLAGS+=	-g1
+FSFCXXFLAGS+=	-g1
 .endif
 
 .if !defined(CFWRAP_NO_CCOM)
