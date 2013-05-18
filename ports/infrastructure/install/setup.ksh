@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.72 2006/12/28 01:02:32 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.73 2006/12/28 02:33:13 tg Exp $
 #-
 # Copyright (c) 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -627,10 +627,10 @@ elif [[ $(cd $localbase/db/pkg && echo pkgtools-*) != "pkgtools-*" ]]; then
 else
 	if (( topt == 0 )); then
 		dependdist pkgtools
-		cd $T/ports/infrastructure/pkgtools
+		cd $T/pkgtools
 	else
-		mkdir -p $T/ports/infrastructure/pkgtools
-		cd $T/ports/infrastructure/pkgtools
+		mkdir -p $T/pkgtools
+		cd $T/pkgtools
 		lndir $portsdir/infrastructure/pkgtools
 		f_ver=20061227	# hardcoded here, update manually and seldom
 	fi
