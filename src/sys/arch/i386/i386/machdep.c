@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.11 2006/10/08 00:24:42 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/machdep.c,v 1.12 2006/10/17 23:16:44 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.317 2005/04/02 02:44:58 tedu Exp $	*/
 /*	$NetBSD: machdep.c,v 1.214 1996/11/10 03:16:17 thorpej Exp $	*/
 
@@ -3068,8 +3068,10 @@ cpu_sysctl(name, namelen, oldp, oldlenp, newp, newlen, p)
 		return (sysctl_rdint(oldp, oldlenp, newp, i386_has_sse2));
 	case CPU_XCRYPT:
 		return (sysctl_rdint(oldp, oldlenp, newp, i386_has_xcrypt));
+#ifdef APERTURE
 	case CPU_APVRESET:
 		return (sysctl_int(oldp, oldlenp, newp, newlen, &aperture_vreset));
+#endif
 	default:
 		return (EOPNOTSUPP);
 	}
