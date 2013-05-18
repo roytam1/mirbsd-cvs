@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.168 2007/04/04 17:59:55 bsiegert Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.169 2007/04/04 21:38:45 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2829,7 +2829,8 @@ _relevant-checks:
 .endfor
 .for _i in CXX X11
 .  if defined(_MASTER_USE_${_i}) \
-    && ${_MASTER_USE_${_i}:L} != "yes" && ${USE_${_i}:L} == "yes"
+    && ${_MASTER_USE_${_i}:L} != "yes" && ${USE_${_i}:L} == "yes" \
+    && !${FLAVORS:U:MNO_${_i}}
 	@echo >&2 "Warning: dependency ${PKGPATH} uses ${_i}"
 .  endif
 .endfor
