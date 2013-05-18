@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.411 2013/01/01 01:25:02 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.412 2013/01/01 05:38:19 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9646,4 +9646,59 @@ Tag: debian mksh
  table entries when deciding what to use for the ‘a’ slice.</p>
 <p>If you haven’t already done so, read <a href="http://mako.cc/">Benjamin
  Mako Hill</a>’s writings!</p>
+----
+Date: 04.01.2013 17:32
+Author: tg@
+Title: on the linguistic gender of hosts, with an xz reminder
+Tag: debian
+
+<p>Let’s start a convention: bare-metal machines have the linguistic male
+ gender (<span xml:lang="de-DE-1901">„der Computer“</span>, he needs to be
+ rebooted), whereas VMs have the linguistic female gender (<span
+ xml:lang="de-DE-1901">„die virtuelle Maschine“</span>, she runs better
+ since the last upgrade of Linux-KVM), and neutral linguistic gender is
+ used when you cannot or do not want or need to make such distinction.<br />
+ This is, of course, entirely unrelated to human gender, but not unrelated
+ to <tt>#debian-68k</tt> (on OFTC) discussions ;-)</p>
+<p>ObRant: <strong>DO NOT USE xz COMPRESSION LEVELS ABOVE 6!</strong> (For
+ <tt>-7</tt> we can make exceptions, for example in Debian *<tt>-dbg</tt>
+ or *<tt>-source</tt> packages.) You <em>may</em> use <tt>-e</tt> if you
+ absolutely need the better compression, but please think of the poor sods
+ who have to create the archives. You <em>must not</em> use the highest
+ compression levels <tt>-8</tt> or <tt>-9</tt> since they have absolutely
+ insane memory requirements on compression and will still hinder machines
+ with less RAM on decompression. (Using <tt>-e</tt> only affects CPU usage
+ at compression time; decompression is exactly as fast and memory-consuming
+ as without.) Furthermore, <strong>DO NOT CHOOSE A COMPRESSION LEVEL WITH
+ A DICTIONARY SIZE MUCH LARGER THAN THE DATA TO COMPRESS</strong>, as that
+ makes absolutely no sense and will rather worsen than improve compression.
+ As a reminder, xz uses the following dictionary sizes:</p><ul>
+  <li>256 KiB at <tt>-0</tt> (compresses better than gzip(1) and faster
+   than either gzip(1) or bzip2)</li>
+  <li>1 MiB at <tt>-1</tt></li>
+  <li>2 MiB at <tt>-2</tt> (compresses better than gzip(1) and bzip2
+   without losing much speed)</li>
+  <li>4 MiB at <tt>-3</tt> and <tt>-4</tt> (the difference is in the
+   match finder between these two levels)</li>
+  <li>8 MiB at <tt>-5</tt> and <tt>-6</tt></li>
+  <li>16 MiB at <tt>-7</tt> (186 MiB RAM used to compress a file)</li>
+  <li>32 MiB at <tt>-8</tt> (370 MiB RAM used to compress a file)</li>
+  <li>64 MiB at <tt>-9</tt> (674 MiB RAM used to compress a file)</li>
+</ul>
+<p>Decompression uses less than 1 MiB more than the dictionary size,
+ but the dictionary must always be allocated wholly. (You’re fine to
+ use custom presets, but mind the RAM usage!) As a general rule, if
+ you have something of up to 20 MiB to compress, <tt>-4</tt> is fine,
+ and <tt>-5</tt> will only be better if you have similar data spread
+ across the whole of the file instead of close to each other. When I
+ make <a href="@@RELPATH@@mksh.htm">mksh</a> distfiles, I instead put
+ files close to each other that have related content, which improves
+ compression much more nicely without penalising low-memory systems;
+ for example, you could put documentation, Makefiles, scripts, m4(1)
+ files, and C source code into groups before archiving, instead of
+ doing it alphabetically.</p>
+<p>Another note on bzip2: its decompression <strong>is slow</strong>.
+ I see no reason to use it any more, <em>at all</em>. Use gzip(1) if
+ you care for compatibility or have an issue with xz not having a free
+ copyright licence, and xz otherwise.</p>
 ----
