@@ -1,5 +1,7 @@
+$MirOS$
+
 MD5 (luasocket-2.0.1.tar.gz) = 9ca22fd9f9413b54802d3d40b38c4e5c
 RMD160 (luasocket-2.0.1.tar.gz) = d4f0d3edccbaf35a68b7f6598af3cec8b21037d1
 SHA1 (luasocket-2.0.1.tar.gz) = a7da573ce3acbd4b0d846627abd1df43dba72f3c
-SHA256 (luasocket-2.0.1.tar.gz) = 017d4421ae66f92eeeff823dbd8ccdd73742db4541121b55db2272681bb777e4
 SIZE (luasocket-2.0.1.tar.gz) = 117529
+TIGER (luasocket-2.0.1.tar.gz) = f05f14ad85dd7028375fd9cb1fa286a823bbc642cd89856c

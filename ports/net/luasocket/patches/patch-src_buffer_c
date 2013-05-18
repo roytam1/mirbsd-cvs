@@ -1,7 +1,7 @@
 $OpenBSD: patch-src_buffer_c,v 1.2 2009/08/22 20:28:40 robert Exp $
---- src/buffer.c.orig	Sat Aug 22 22:18:38 2009
-+++ src/buffer.c	Sat Aug 22 22:19:02 2009
-@@ -33,7 +33,7 @@ static int sendraw(p_buffer buf, const char *data, siz
+--- src/buffer.c.orig	Thu Apr 27 03:22:59 2006
++++ src/buffer.c	Sat Aug 29 13:03:49 2009
+@@ -33,7 +33,7 @@ static int sendraw(p_buffer buf, const c
  /*-------------------------------------------------------------------------*\
  * Initializes module
  \*-------------------------------------------------------------------------*/
@@ -19,7 +19,7 @@ $OpenBSD: patch-src_buffer_c,v 1.2 2009/08/22 20:28:40 robert Exp $
  	buf->first = buf->last = 0;
      buf->io = io;
      buf->tm = tm;
-@@ -52,7 +52,7 @@ void buffer_init(p_buffer buf, p_io io, p_timeout tm) 
+@@ -52,7 +52,7 @@ void buffer_init(p_buffer buf, p_io io, 
  /*-------------------------------------------------------------------------*\
  * object:getstats() interface
  \*-------------------------------------------------------------------------*/
@@ -28,7 +28,7 @@ $OpenBSD: patch-src_buffer_c,v 1.2 2009/08/22 20:28:40 robert Exp $
      lua_pushnumber(L, buf->received);
      lua_pushnumber(L, buf->sent);
      lua_pushnumber(L, timeout_gettime() - buf->birthday);
-@@ -62,7 +62,7 @@ int buffer_meth_getstats(lua_State *L, p_buffer buf) {
+@@ -62,7 +62,7 @@ int buffer_meth_getstats(lua_State *L, p
  /*-------------------------------------------------------------------------*\
  * object:setstats() interface
  \*-------------------------------------------------------------------------*/
@@ -37,25 +37,25 @@ $OpenBSD: patch-src_buffer_c,v 1.2 2009/08/22 20:28:40 robert Exp $
      buf->received = (long) luaL_optnumber(L, 2, buf->received); 
      buf->sent = (long) luaL_optnumber(L, 3, buf->sent); 
      if (lua_isnumber(L, 4)) buf->birthday = timeout_gettime() - lua_tonumber(L, 4);
-@@ -73,7 +73,7 @@ int buffer_meth_setstats(lua_State *L, p_buffer buf) {
+@@ -73,7 +73,7 @@ int buffer_meth_setstats(lua_State *L, p
  /*-------------------------------------------------------------------------*\
  * object:send() interface
  \*-------------------------------------------------------------------------*/
 -int buffer_meth_send(lua_State *L, p_buffer buf) {
 +int ls_buffer_meth_send(lua_State *L, p_buffer buf) {
      int top = lua_gettop(L);
- #ifdef LUASOCKET_DEBUG
      p_timeout tm = timeout_markstart(buf->tm);
-@@ -108,7 +108,7 @@ int buffer_meth_send(lua_State *L, p_buffer buf) {
+     int err = IO_DONE;
+@@ -106,7 +106,7 @@ int buffer_meth_send(lua_State *L, p_buf
  /*-------------------------------------------------------------------------*\
  * object:receive() interface
  \*-------------------------------------------------------------------------*/
 -int buffer_meth_receive(lua_State *L, p_buffer buf) {
 +int ls_buffer_meth_receive(lua_State *L, p_buffer buf) {
      int err = IO_DONE, top = lua_gettop(L);
- #ifdef LUASOCKET_DEBUG
      p_timeout tm = timeout_markstart(buf->tm);
-@@ -153,7 +153,7 @@ int buffer_meth_receive(lua_State *L, p_buffer buf) {
+     luaL_Buffer b;
+@@ -149,7 +149,7 @@ int buffer_meth_receive(lua_State *L, p_
  /*-------------------------------------------------------------------------*\
  * Determines if there is any data in the read buffer
  \*-------------------------------------------------------------------------*/
@@ -64,7 +64,7 @@ $OpenBSD: patch-src_buffer_c,v 1.2 2009/08/22 20:28:40 robert Exp $
      return buf->first >= buf->last;
  }
  
-@@ -243,7 +243,7 @@ static int recvline(p_buffer buf, luaL_Buffer *b) {
+@@ -239,7 +239,7 @@ static int recvline(p_buffer buf, luaL_B
  static void buffer_skip(p_buffer buf, size_t count) {
      buf->received += count;
      buf->first += count;
@@ -73,7 +73,7 @@ $OpenBSD: patch-src_buffer_c,v 1.2 2009/08/22 20:28:40 robert Exp $
          buf->first = buf->last = 0;
  }
  
-@@ -255,7 +255,7 @@ static int buffer_get(p_buffer buf, const char **data,
+@@ -251,7 +251,7 @@ static int buffer_get(p_buffer buf, cons
      int err = IO_DONE;
      p_io io = buf->io;
      p_timeout tm = buf->tm;

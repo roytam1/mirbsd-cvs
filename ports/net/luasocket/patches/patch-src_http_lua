@@ -1,7 +1,7 @@
 $OpenBSD: patch-src_http_lua,v 1.1 2008/11/04 04:06:45 jsg Exp $
---- src/http.lua.orig	Mon Nov  3 23:17:12 2008
-+++ src/http.lua	Mon Nov  3 23:17:57 2008
-@@ -242,7 +242,7 @@ local function shouldredirect(reqt, code, headers)
+--- src/http.lua.orig	Thu Apr 27 03:22:58 2006
++++ src/http.lua	Sat Aug 29 13:03:49 2009
+@@ -242,7 +242,7 @@ local function shouldredirect(reqt, code
      return headers.location and
             string.gsub(headers.location, "%s", "") ~= "" and
             (reqt.redirect ~= false) and

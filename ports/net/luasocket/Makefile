@@ -1,14 +1,11 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.17 2009/08/22 20:28:40 robert Exp $
 
-SHARED_ONLY=	Yes
-
-COMMENT=	network support for the lua language
-DISTNAME=	luasocket-2.0.1
-PKGNAME=	${DISTNAME}p4
-CATEGORIES=	net
-
-MASTER_SITES=	http://luaforge.net/frs/download.php/1589/
-HOMEPAGE=	http://www.cs.princeton.edu/~diego/professional/luasocket/
+COMMENT=		network support for the lua language
+DISTNAME=		luasocket-2.0.1
+CATEGORIES=		net
+MASTER_SITES=		http://luaforge.net/frs/download.php/1589/
+HOMEPAGE=		http://www.cs.princeton.edu/~diego/professional/luasocket/
 
 # MIT
 PERMIT_PACKAGE_CDROM=	Yes
@@ -16,8 +13,9 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MODULES=	lang/lua
-NO_REGRESS=	Yes
+MODULES=		lang/lua
+NO_REGRESS=		Yes
+SHARED_ONLY=		Yes
 
 MAKE_FILE=	makefile
 SHAREDIR=	${PREFIX}/share/lua/5.1
