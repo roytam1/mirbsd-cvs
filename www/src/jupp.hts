@@ -1,11 +1,11 @@
-# $MirOS: www/src/jupp.hts,v 1.24 2010/04/08 20:01:25 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.25 2011/07/02 23:29:33 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.24 2010/04/08 20:01:25 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.25 2011/07/02 23:29:33 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp1</em> for MS-DOS® compatible systems,
  and <em>joe-3.1jupp15</em> for Unix/GNU compatible systems. This page is
@@ -86,10 +86,10 @@ mws_content <<'EOF'
 </ul>
 <p>Please do not forget to check the received file’s integry using both
  gzsig(1) and one of the hashes below:</p><ul>
- <li>RMD160 (joe-3.1jupp15.cpio.gz) = e051dfd404ccb2a393609f4ce8919b96f778edcd</li>
- <li>TIGER (joe-3.1jupp15.cpio.gz) = 6e48506b4c953e5a09ec9ea494c5ad0fdd15997b2dfde4e1</li>
- <li>1378204639 431561 /MirOS/dist/jupp/joe-3.1jupp15.cpio.gz</li>
- <li>MD5 (joe-3.1jupp15.cpio.gz) = c3e0eac84a09ff9c378a4f075951819d</li>
+ <li>RMD160 (joe-3.1jupp15.cpio.gz) = 89feb42016b33748ff1c19c647dacd3219ba4669</li>
+ <li>TIGER (joe-3.1jupp15.cpio.gz) = be7f6717e253806178aa9283ed67248f9ede8c3a8b0e30e4</li>
+ <li>1940536296 431981 /MirOS/dist/jupp/joe-3.1jupp15.cpio.gz</li>
+ <li>MD5 (joe-3.1jupp15.cpio.gz) = 726b9c6b9c60346253044a71a57e469b</li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li>RMD160 (joe-2.8jupp1.cpio.gz) = fb79036bc8842354041b1b4c997b3a82580b2d9c</li>
  <li>1183719912 211453 /MirOS/dist/jupp/joe-2.8jupp1.cpio.gz</li>
@@ -220,6 +220,7 @@ $ $SUDO make install</pre>
  <li>Provide better error messages when parsing syntax and rc files</li>
  <li>Ignore syntax keywords from diff.jsf that are not implemented yet</li>
  <li>Port to Minix 3 by user request on mailing list</li>
+ <li>Display help hint (^J, ^KH, ^X^H) in initial status line</li>
 </ul>
 <p id="r3_1j14">[2010-04-08] Changes for joe-3.1jupp14:</p><ul>
  <li>Update diff syntax file from joe-current</li>
