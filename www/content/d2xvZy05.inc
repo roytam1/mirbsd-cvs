@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.48 2006/09/22 04:10:41 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.49 2006/09/24 17:48:31 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -749,6 +749,42 @@
   trying to not delay the release any more for that reason. Afterwards a
   #11 will be released, with the goal &quot;sync with OpenBSD 4&quot;. I
   also have plans for #12 which will take quite a long time.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20061003">03.10.2006 by tg@</h3>
+ <p>Advertising pays off, the Sourcemage guy (morfic) not only fixed the
+  spell (their lingo for port), but also threw its name into some random
+  IRC conversations in places I don't dwell. Cool.</p>
+ <p>I got a surprise when, preparing the new snapshot with Live CD to be
+  issued, the BSDstats.org code didn't run any more. Luckily, we got the
+  bugs and updates past that state. Getting ftp(1) to not pretend it can
+  handle HTTP/1.1 responses did surely help.</p>
+ <p>Installing Windows&reg; 2000 on a Pentium &#8544; notebook without a
+  CD-ROM drive can be entertaining. While it's a real PITA, having MirOS
+  at hand eases the pain very much. (And I discovered a local DoS attack
+  in our kernel, default installation, during the process.) However, the
+  ancient game (Age of Empires &#8544;) I was installing&#8230; I needed
+  a no-cd crack, and all failed but one, which was merely a text file of
+  15k credits and four &quot;patch these and be happy&quot; instructions
+  &ndash; what I did. Now, which editor can I use on DOS for a 1'622'016
+  bytes executable? Volkov Commander and debug.exe fail, so I used jupp.
+  Yes, right. A Cygwin compiled (4 files: libcygwin, libncurses, jupprc,
+  jupp) executable of my favourite text editor. And it worked for me and
+  saved my arse from the pain of copying back and forth, without a putty
+  installed (yet &ndash; will follow). To only change a 7504 conditional
+  jump into an EB63 at D769F and adjust F7D8 at D7706 to 4090 is enough,
+  contrary to the beliefs of people making 500+ KiB RAR/ACE files with a
+  PE binary (can you spell trojan?) inside. Anyway, the laptop initially
+  wasn't intended for gaming but for office work under Windows. However,
+  the hardware (Compaq Armada 4220T) is cool, so I saved some 384 MiB on
+  wd0 for a full (yet kept quite minimal) MirOS+X11 install, using a DOS
+  PAGEFILE.SYS for swap.</p>
+ <p>I spotted quite some bugs working on the snapshot &ndash; I believe,
+  it's already in a <em>much</em> better shape than #9. And I kept a few
+  great ideas for past the snapshot, even. (So that people can upgrade a
+  running system to get the security fixes, some of which I incorporated
+  before That &#416;ther BSD.) What I didn't spot is Benny.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
