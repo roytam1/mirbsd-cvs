@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.66 2006/11/11 02:29:57 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.67 2006/11/21 21:37:43 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -94,6 +94,7 @@
  <li>Remove the non-standard emacs-usemeta and vi-show8 shell options,
   assume the user either has a 7-bit environment, an 8-bit clean terminal,
   or a UTF-8 environment (preferred), and the dummy sh option</li>
+ <li>Build.sh fix for conservative (old) versions of gcc; help Debian</li>
 </ul>
 <p>Upgrading to mksh R28 with these changes is highly recommended:</p><ul>
  <li>For these who build software as root, the regression testsuite
@@ -383,7 +384,8 @@
 
 <p>There is a <a href="http://users.unixforge.de/~tglaser/mksh_28.9.20061121.dsc">Debian
  experimental source package</a> (<b>dget</b>table) of mksh-current,
- GnuPG-signed as the Debian guys want. (Just in case, cksum is: 4040256249 963)</p>
+ GnuPG-signed as the Debian guys want. (Just in case, cksum is 2671742341 964
+ and tiger is 04d3816011e17ab6ea8e2ba455bacd47503e8008ef944109.)</p>
 
 <h2>Installation</h2>
 <p>If you ever sit in front of an unfriendly operating
