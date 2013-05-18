@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.76 2008/09/05 13:22:46 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.77 2008/09/09 19:14:20 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1594,4 +1594,34 @@ Title: Aus gegebenem Anlaß^Hss
  Bāsel… und sind ziemlich platt. Aber irgendwas kommt trotzdem bei rum.</p>
 <p>Kommt wer mit nach <a href="http://marc.info/?m=122098732430813">Baarn</a>
  und ggf. trifft sich mit uns $sonstwo?</p>
+----
+Date: 14.09.2008 15:26
+Author: tg@
+Title: SoftwareFreedomDay aftrap (of niet…)
+
+<p>Zaterdag 13 September, Baarn, Nederland. Iedereen wacht op me. Spijtig
+ dat ik niet kan komen. Ik wilde met een vriend die een auto heeft naar
+ Baarn gaan, maar die komt op 10:30 ipv 09:00 CEST, en dan ben ik ook nog
+ niet klaar met wakker worden, koffie drinken, zaken samenzoeken, voor’t
+ weekend inkopen, enzo. Op 12:00 zitten wij in zijn auto… maar dat zijn
+ nog 2½ uren (of meer) tot dat wij aankomen kunnen, dus wordt besloten,
+ er niet meer te gaan. SFD was vanaf 12:00 tot 17:00… voor 2 or 2½ uren
+ moeten wij 5+ uren in’t auto zitten, en dan is nog niet zeker of wij
+ het Brandpunt vinden. Slechte planing. In het duits is er een expressie
+ voor dat: “Verpeilungsfaktor” – Wij zijn dan in’t zwembad geweest.</p>
+<p>Groeten an iedereen die daar was… volgende keer dan. Echt jammer dat
+ het niks wordt. Ik geloof ik had te weinig geslapen verleden week, door
+ mijn nieuwe baan in zwitserland.</p>
+<p>Wij zatten dan gisteren nog in mijn favoriet kroaats restaurant, er
+ wordt besloten dat ik de volgende tijd minder aan mirbsd zelfs werk,
+ maar het nieuwe server klaar maak en de VM zo installeer dat ze een
+ takeover van de oude www.mirbsd.org vhost kan maken. Ik doe mss eerst
+ nog een snapshot, maar die komt dan zonder Live CD (die moet ik opnieuw
+ maken doordat wij geen mkisofs met al zijn fouten meer gebruiken).
+ Benny doet in de tussentijd meer met ports, bv. fixes voor ccache en
+ distcc (zodat mijn SPARCstation cluster packages kan bouwen ☺) en enige
+ Qt4 ports. Nadat de twee server’s klaar zijn kunnen wij dan verder met
+ mksh, mirmake en zo doen, wanneer het werk nog arbeidsvermogen overig
+ laat (da’s soms moeilijk). gecko2@ doet goeie werk met het opzetten van
+ VMware voor eurynome, ter gebruik stellen van een IPv4, enzo.</p>
 ----
