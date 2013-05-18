@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.23 2009/01/10 22:18:52 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.24 2009/01/11 13:09:21 tg Exp $
 
 SMALL_BOOT?=	No
 
@@ -16,12 +16,6 @@ CPPFLAGS+=	${DEBUGFLAGS}
 CPPFLAGS+=	${SACFLAGS:M-[DI]*}
 COPTS+=		${SACFLAGS:N-[DI]*}
 
-.if ${SMALL_BOOT:L} == "no"
-# comment this out if trouble
-CPPFLAGS+=	-DUSE_PXE -DIN_PXEBOOT
-SRCS+=		net.c
-.endif
-
 #AFLAGS+=	-Wa,-R
 #AFLAGS+=	-Wa,-a
 
@@ -36,7 +30,7 @@ INSTALL_STRIP=
 .PATH:		${S}/stand/boot ${.CURDIR}/../pxeboot
 
 LDFLAGS+=	${BOOTLDFLAGS}
-SRCS+=		srt0.S
+SRCS=		srt0.S
 
 .ifdef BOOTSELECT_HOOK
 SRCS+=		hook.S
@@ -47,6 +41,12 @@ CLEANFILES+=	testmkr ${PROG}.{elf,nm,tmp} ld.out
 SRCS+=		boot.c bootarg.c cmd.c conf.c vars.c
 LDADD+=		${LLIBSA}
 DPADD+=		${DLIBSA}
+
+.if ${SMALL_BOOT:L} == "no"
+# comment this out if trouble
+CPPFLAGS+=	-DUSE_PXE -DIN_PXEBOOT
+SRCS+=		net.c
+.endif
 
 all:		${PROG}
 
