@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.7 2005/12/16 16:34:35 tg Exp $
+# $MirOS: ports/infrastructure/pkgtools/upgrade/pkg_upgrade.sh,v 1.8 2005/12/16 16:41:04 tg Exp $
 #-
 # Copyright (c) 2005
 #	Benny Siegert <bsiegert@66h.42h.de>
@@ -76,8 +76,7 @@ cd $OLDPWD
 grep -q '^@option no-default-conflict' $TMPDIR/+CONTENTS
 if [[ $? -eq 0 || -z "$OLDPKGS" ]]; then
 	# we can safely go on
-	pkg_add $1
-	exit
+	exec pkg_add $1
 fi
 
 if echo $OLDPKGS | grep -q ' ' ; then
@@ -100,13 +99,10 @@ fi
 
 if grep -q '^@option base-package' $PKG_DBDIR/$OLDPKGS/+CONTENTS ; then
 	echo "This is a base package, unregistering only"
-	pkg_delete -DU $OLDPKGS
-	pkg_add -Nq $1
+	pkg_delete -DU $OLDPKGS && pkg_add -Nq $1
 else
-	pkg_delete $OLDPKGS
-	pkg_add $1
+	pkg_delete $OLDPKGS && pkg_add $1
 fi
-
 
 if [[ -f $TMPDIR/$OLDPKGS/+REQUIRED_BY && -d $PKG_DBDIR/$PKGNAME ]] ; then
 	mv $TMPDIR/$OLDPKGS/+REQUIRED_BY $PKG_DBDIR/$PKGNAME
