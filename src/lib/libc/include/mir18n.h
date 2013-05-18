@@ -1,41 +1,17 @@
-/* $MirOS: src/lib/libc/include/mir18n.h,v 1.11 2006/11/06 18:54:40 tg Exp $ */
+/* $MirOS: src/lib/libc/include/mir18n.h,v 1.12 2006/11/09 02:49:37 tg Exp $ */
 
 #ifndef _LIBC_MIR18N_H
 #define _LIBC_MIR18N_H
 
-/* configurable */
-
-/*
- * compatibility kludge: which character set do we use in the 'C' locale
- *
- * 0: ISO_646.irv:1991 aka 7-bit ASCII
- * 1: ditto, but allow certain latin1 chars in conversion
- *	functions, such as btowc(3), wctob(3), ...
- * 2: ISO-8859-1 aka latin1
- */
-#define MIR18N_C_CSET	1
-
-
-/* not configurable */
-
-#if MIR18N_C_CSET == 2
-#define MIR18N_SB_MAX	0xFF	/* highest allowed character in 'C' locale */
-#define MIR18N_SB_CVT	0xFF	/* allow historic conversion from/to latin1 */
-#define MIR18N_CCODESET	"ISO-8859-1"	/* nl_langinfo(CODESET) value for C */
-#elif MIR18N_C_CSET == 1
-#define MIR18N_SB_MAX	0x7F	/* highest allowed character in 'C' locale */
-#define MIR18N_SB_CVT	0xFF	/* allow historic conversion from/to latin1 */
-#define MIR18N_CCODESET	"ISO_646.irv:1991"	/* nl_langinfo(CODESET) rv */
-#else
-#define MIR18N_SB_MAX	0x7F	/* highest allowed character in 'C' locale */
-#define MIR18N_SB_CVT	0x7F	/* allow historic conversion from/to latin1 */
-#define MIR18N_CCODESET	"ISO_646.irv:1991"	/* nl_langinfo(CODESET) rv */
+#ifndef __STDC_ISO_10646__
+#error This code assumes that wchar_t is UCS-2HE
 #endif
 
-/* highest allowed character in 'CESU-8' (UTF-8) locale */
-#define MIR18N_MB_MAX	0xFFFD
+#if !defined(WCHAR_MAX)
+#error Include <wchar.h> first
+#endif
 
-#ifndef __STDC_ISO_10646__
+#if WCHAR_MAX != 0xFFFD
 #error This code assumes that wchar_t is UCS-2HE
 #endif
 

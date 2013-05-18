@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.6 2006/11/19 22:05:11 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.7 2006/11/20 23:50:48 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -30,7 +30,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.6 2006/11/19 22:05:11 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.7 2006/11/20 23:50:48 tg Exp $");
 
 #ifdef MBSNRTOWCS
 size_t
@@ -76,7 +76,7 @@ mbsrtowcs(wchar_t *__restrict__ dst, const char **__restrict__ src,
 #endif
 	wc = *s++;
 	if (__predict_true(!__locale_is_utf8 || (wc < 0x80))) {
-		if (__predict_false(wc > MIR18N_SB_CVT)) {
+		if (__predict_false(wc > 0x7F)) {
  ilseq:
 			errno = EILSEQ;
 			return ((size_t)(-1));
@@ -113,7 +113,7 @@ mbsrtowcs(wchar_t *__restrict__ dst, const char **__restrict__ src,
 			goto ilseq;
 	}
 
-	if (__predict_false(wc > MIR18N_MB_MAX))
+	if (__predict_false(wc > WCHAR_MAX))
 		goto ilseq;
 
 	if (dst != NULL)

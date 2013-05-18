@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/wcsrtombs.c,v 1.3 2006/11/01 20:01:20 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/wcsrtombs.c,v 1.4 2006/11/20 23:50:48 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -30,7 +30,7 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcsrtombs.c,v 1.3 2006/11/01 20:01:20 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcsrtombs.c,v 1.4 2006/11/20 23:50:48 tg Exp $");
 
 #ifdef WCSNRTOMBS
 size_t
@@ -56,7 +56,7 @@ wcsrtombs(char *__restrict__ dst, const wchar_t **__restrict__ src,
 		ps = &internal_mbstate;
 
 	/* highest allowed wide character to convert */
-	wc_max = __locale_is_utf8 ? MIR18N_MB_MAX : MIR18N_SB_CVT;
+	wc_max = __locale_is_utf8 ? WCHAR_MAX : 0x7F;
 
 	/* in the 'C' locale, the mbstate information is ignored */
 	if ((count = __locale_is_utf8 ? ps->count : 0)) {

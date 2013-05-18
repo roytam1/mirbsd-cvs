@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/i18n/towctrans.c,v 1.1 2006/06/01 22:55:35 tg Exp $ */
+/* $MirOS: src/lib/libc/i18n/towctrans.c,v 1.2 2006/11/01 20:01:19 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -30,12 +30,12 @@
 
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/towctrans.c,v 1.1 2006/06/01 22:55:35 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/towctrans.c,v 1.2 2006/11/01 20:01:19 tg Exp $");
 
 wint_t
 towctrans(wint_t wc, wctrans_t charmap)
 {
-	if (wc > (__locale_is_utf8 ? MIR18N_MB_MAX : MIR18N_SB_MAX))
+	if (wc > (__locale_is_utf8 ? WCHAR_MAX : 0x7F))
 		return (wc);
 
 	if (__predict_false(charmap == NULL)) {
