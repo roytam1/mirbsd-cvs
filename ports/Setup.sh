@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.38 2007/10/26 22:22:24 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.39 2008/03/02 15:41:16 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -40,8 +40,8 @@ export localbase
 export xfbase
 
 # minimum req'd version (change this below too)
-mksh_ver=26
-mksh_date=2005/11/22
+mksh_ver=31
+mksh_date=2007/08/19
 
 mirror=$1
 case x$1 in
@@ -202,8 +202,8 @@ fi
 # Look if this is a sufficient mksh, search for one
 ms=false
 for s in /bin/mksh $MKSH $SHELL; do
-	# This is from MirMake; it ensures mksh R26 or higher
-	t=`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(2[6-9]|[3-9][0-9]|[1-9][0-9][0-9])\ +([0-9])/+([0-9])/+([0-9])?(\ *) ]]; then echo yes; else echo no; fi' 2>/dev/null`
+	# This is from MirMake; it ensures mksh R31 or higher
+	t=`$s -c 'let a=1; (( a + 1 )) 2>/dev/null && if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(3[1-9]|[4-9][0-9]|[1-9][0-9][0-9])\ +([0-9])/+([0-9])/+([0-9])?(\ *) ]]; then echo yes; else echo no; fi' 2>/dev/null`
 	if test x"$t" = x"yes"; then
 		ms=$s
 		break
