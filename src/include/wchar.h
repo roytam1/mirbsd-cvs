@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.18 2007/06/16 21:05:13 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.19 2008/03/20 00:16:02 tg Exp $ */
 
 /*-
  * Copyright (c) 2007, 2008
@@ -31,6 +31,8 @@
 #include <stdio.h>
 #include <time.h>
 
+#ifndef __LIBCKERN_H_
+
 #if !defined(_GCC_WCHAR_T) && !defined(__cplusplus)
 #define	_GCC_WCHAR_T
 typedef	__WCHAR_TYPE__	wchar_t;
@@ -51,7 +53,6 @@ typedef	__WINT_TYPE__	wint_t;
 #endif
 #endif /* !__IN_MKDEP */
 
-typedef unsigned int wctype_t;
 typedef struct {
 	/*-
 	 * 0: initial state
@@ -73,6 +74,10 @@ typedef struct {
 #define	WCHAR_MAX		0xFFFDU
 #undef WEOF
 #define	WEOF			0xFFFFU
+
+#endif /* !__LIBCKERN_H_ */
+
+typedef unsigned int wctype_t;
 
 __BEGIN_DECLS
 wint_t	btowc(int);

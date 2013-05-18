@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.8 2008/08/01 19:07:43 tg Exp $ */
 
 /*-
  * Copyright (c) 2008
@@ -33,10 +33,15 @@ typedef struct {
 	unsigned int value:12;	/* 10 for mbstowcs, 12 for wcstombs */
 } __attribute__((packed)) mbstate_t;
 
-/* makedepend may not define __WCHAR_MAX__ */
-#if defined(__WCHAR_MAX__) && (__WCHAR_MAX__ != 65535U)
+#ifndef __IN_MKDEP
+/* makedepend may not define the constants we are checking for */
+#if __WCHAR_MAX__ != 65535U
 #error GCC __WCHAR_MAX__ does not indicate UCS-2
 #endif
+#ifndef __STDC_ISO_10646__
+#error This code assumes that wchar_t is UCS-2HE
+#endif
+#endif /* !__IN_MKDEP */
 
 #undef WCHAR_MIN
 #define WCHAR_MIN	0
