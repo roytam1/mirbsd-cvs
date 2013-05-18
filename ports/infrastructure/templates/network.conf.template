@@ -1,5 +1,5 @@
-# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.18 2006/10/02 04:07:31 tg Exp $
-# $OpenBSD: network.conf.template,v 1.99 2006/05/22 18:50:01 steven Exp $
+# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.19 2006/10/14 23:39:36 tg Exp $
+# $OpenBSD: network.conf.template,v 1.107 2007/01/18 11:21:15 steven Exp $
 
 #
 # NEVER EDIT THIS FILE DIRECTLY!!!!
@@ -111,7 +111,6 @@ MASTER_SITE_SUNSITE+=	\
 	ftp://ftp.funet.fi/pub/Linux/mirrors/metalab/ \
 	ftp://sunsite.org.uk/packages/linux/sunsite.unc-mirror/ \
 	ftp://ftp.nluug.nl/vol/4/metalab/ \
-	ftp://ftp.is.co.za/linux/sunsite/ \
 	ftp://ftp.chg.ru/pub/Linux/sunsite/
 
 MASTER_SITE_SOURCEFORGE+=	\
@@ -120,14 +119,21 @@ MASTER_SITE_SOURCEFORGE+=	\
 	http://optusnet.dl.sourceforge.net/sourceforge/ \
 	http://heanet.dl.sourceforge.net/sourceforge/ \
 	http://jaist.dl.sourceforge.net/sourceforge/ \
-	http://citkit.dl.sourceforge.net/sourceforge/ \
 	http://nchc.dl.sourceforge.net/sourceforge/ \
 	http://switch.dl.sourceforge.net/sourceforge/ \
 	http://kent.dl.sourceforge.net/sourceforge/ \
-	http://voxel.dl.sourceforge.net/sourceforge/
+	http://internap.dl.sourceforge.net/sourceforge/ \
+	http://mesh.dl.sourceforge.net/sourceforge/ \
+	http://ovh.dl.sourceforge.net/sourceforge/ \
+	http://surfnet.dl.sourceforge.net/sourceforge/ \
+	http://ufpr.dl.sourceforge.net/sourceforge/
+
+MASTER_SITE_SOURCEFORGE_JP+=	\
+	http://osdn.dl.sourceforge.jp/ \
+	http://downloads.sourceforge.jp/ \
+	http://prdownloads.sourceforge.jp/
 
 MASTER_SITE_GNOME+=	\
-	ftp://archive.progeny.com/GNOME/ \
 	ftp://ftp.acc.umu.se/pub/GNOME/	\
 	ftp://ftp.rpmfind.net/linux/gnome.org/ \
 	ftp://ftp.unina.it/pub/linux/GNOME/ \
@@ -142,20 +148,19 @@ MASTER_SITE_PERL_CPAN+=	\
 	http://www.cpan.dk/modules/by-module/ \
 	http://www.dnsbalance.ring.gr.jp/archives/lang/perl/CPAN/modules/by-module/ \
 	ftp://ftp.funet.fi/pub/languages/perl/CPAN/modules/by-module/ \
+	ftp://ftp.mirror.anlx.net/CPAN/modules/by-module/ \
 	ftp://ftp.cpan.org/pub/CPAN/modules/by-module/ \
 	ftp://ftp.dnsbalance.ring.gr.jp/pub/lang/perl/CPAN/modules/by-module/ \
 	ftp://ftp.kddilabs.jp/lang/perl/CPAN/modules/by-module/ \
 	ftp://ftp.sunet.se/pub/lang/perl/CPAN/modules/by-module/ \
 	ftp://mirror.hiwaay.net/CPAN/modules/by-module/ \
 	ftp://ftp.uos.ac.kr/CPAN/modules/by-module/ \
-	ftp://ftp.mirror.anlx.net/CPAN/modules/by-module/ \
 	ftp://csociety-ftp.ecn.purdue.edu/pub/CPAN/modules/by-module/ \
 	ftp://ftp.auckland.ac.nz/pub/perl/CPAN/modules/by-module/ \
 	ftp://ftp.isu.net.sa/pub/CPAN/modules/by-module/ \
 	ftp://ftp.ucr.ac.cr/pub/Unix/CPAN/modules/by-module/ \
 	ftp://ftp.duke.edu/pub/perl/modules/by-module/ \
 	ftp://cpan.pop-mg.com.br/pub/CPAN/modules/by-module/ \
-	ftp://ftp.is.co.za/programming/perl/CPAN/modules/by-module/ \
 	ftp://sunsite.org.uk/package/cpan/modules/by-module/ \
 	ftp://ftp.chg.ru/pub/lang/perl/CPAN/modules/by-module/ \
 	ftp://mirrors.dotsrc.org/cpan/modules/by-module/
@@ -225,13 +230,13 @@ MASTER_SITE_PACKETSTORM+=	\
 	http://packetstorm.orion-hosting.co.uk/ \
 	http://packetstormsecurity.nl/ \
 	http://packetstorm.linuxexposed.com/ \
-	http://packetstormsecurity.org.pk/ \
-	http://packetstormsecurity.org.uk/ \
-	http://packetstorm.security-guide.de/ \
+	http://packetstorm.setnine.com/ \
+	http://packetstorm.neville-neil.com/ \
+	http://packetstorm.wowhacker.com/ \
+	http://packetstorm.offensive-security.com/ \
 	http://packetstorm.icx.fr/ \
 	http://packetstorm.digital-network.net/ \
 	http://packetstorm.troop218.org/ \
-	http://packetstorm.dyn.org/ \
 	http://packetstorm.blackroute.net/ \
 	http://packetstorm.ussrback.com/ \
 	http://packetstorm.rlz.cl/
@@ -257,4 +262,8 @@ MASTER_SITE_DEBIAN+= \
 	http://ftp.de.debian.org/debian/pool/main/ \
 	http://ftp.fr.debian.org/debian/pool/main/ \
 	ftp://ftp.us.debian.org/debian/pool/main/
+
+MASTER_SITE_BERLIOS+=	\
+	http://download.berlios.de/ \
+	http://download2.berlios.de/
 
