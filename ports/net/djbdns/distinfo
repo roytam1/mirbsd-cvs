@@ -6,3 +6,5 @@ SHA1 (djbdns-1.05-man-20031023.tar.gz) = 3bac8a34a4bc681b9a0e603a77fa11492619e3c
 SHA1 (djbdns-1.05.tar.gz) = 2efdb3a039d0c548f40936aa9cb30829e0ce8c3d
 SIZE (djbdns-1.05-man-20031023.tar.gz) = 17170
 SIZE (djbdns-1.05.tar.gz) = 85648
+TIGER (djbdns-1.05-man-20031023.tar.gz) = a3988c3be3e852c87f3188fae51eeae27c78986c9a94be62
+TIGER (djbdns-1.05.tar.gz) = 1f404e21fc40c10364ad278a854fcaac03632f304bf0575c

@@ -1,6 +1,6 @@
-# $MirOS: ports/net/djbdns/Makefile,v 1.26 2006/08/26 16:46:55 tg Exp $
+# $MirOS: ports/net/djbdns/Makefile,v 1.27 2006/09/14 00:11:38 tg Exp $
 
-COMMENT=			collection of Domain Name System server and tools
+COMMENT=		collection of Domain Name System server and tools
 VERSION=		1.05
 CATEGORIES=		net
 DISTNAME=		djbdns-${VERSION}
@@ -15,8 +15,6 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	"http://cr.yp.to/distributors.html"
 PERMIT_PACKAGE_FTP=	"http://cr.yp.to/distributors.html"
-
-FETCH_CMD=		lynx -source >$$f
 
 FLAVORS=		eorsn icann opennic
 FLAVOR?=		eorsn
@@ -65,7 +63,7 @@ WRKDIST=		${WRKDIR}
 WRKSRC=			${WRKDIR}/build
 CONFIGURE_STYLE=	simple
 CONFIGURE_ENV+=		TOP=${WRKDIR} SYSCONFDIR=${SYSCONFDIR:Q}
-MAKE_ENV+=		TOP=${WRKDIR}
+EXTRA_MAKE_ENV+=	TOP=${WRKDIR}
 CPPFLAGS+=		-D_SYSCONFDIR=\"${SYSCONFDIR:Q}\"
 CPPFLAGS+=		-D_DJBDNS_PORT_V=\"${PKGNAME:Q}\"
 CPPFLAGS+=		-D_PATH_MKSH=\"${MKSH:Q}\"
