@@ -1,11 +1,11 @@
-/* $MirOS: src/lib/csu/common_elf/common.c,v 1.5 2006/10/15 01:04:00 tg Exp $
+/* $MirOS: src/lib/csu/common_elf/common.c,v 1.6 2008/11/08 23:03:50 tg Exp $
  * derived from the following files:
  * $NetBSD: common.c,v 1.16 2004/08/26 21:01:12 thorpej Exp $
  * $OpenBSD: crt0.c,v 1.11 2003/06/27 22:30:38 deraadt Exp $
  */
 
 /*
- * Copyright (c) 2003, 2004, 2005
+ * Copyright (c) 2003, 2004, 2005, 2009
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 1995 Christopher G. Demetriou
  * All rights reserved.
@@ -44,7 +44,10 @@
 #error	not a stand-alone file
 #endif
 
-__RCSID("$MirOS: src/lib/csu/common_elf/common.c,v 1.5 2006/10/15 01:04:00 tg Exp $");
+__RCSID("$MirOS: src/lib/csu/common_elf/common.c,v 1.6 2008/11/08 23:03:50 tg Exp $");
+
+struct ps_strings *__ps_strings = NULL;
+char __progname_storage[NAME_MAX + 1];
 
 static char *
 _strrchr(char *p, int ch)
@@ -85,7 +88,7 @@ void ___start(int argc, char **argv, char **envp,
 		*s = '\0';
 		__progname = __progname_storage;
 	}
-	if (ps_strings !=(struct ps_strings *)0)
+	if (ps_strings != (struct ps_strings *)0)
 		__ps_strings = ps_strings;
 
 #ifdef MCRT0
@@ -98,5 +101,3 @@ void ___start(int argc, char **argv, char **envp,
 
 	exit(main(argc, argv, environ));
 }
-
-char *__progname = "";

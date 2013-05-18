@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/csu/common_elf/common.h,v 1.5 2006/10/15 01:04:00 tg Exp $
+/* $MirOS: src/lib/csu/common_elf/common.h,v 1.6 2008/11/08 23:03:50 tg Exp $
  * derived from the following files:
  * $NetBSD: common.h,v 1.10 2004/08/26 20:57:47 thorpej Exp $
  */
@@ -47,15 +47,12 @@
 #include <sys/syscall.h>
 #include <stdlib.h>
 
-__RCSID("$MirOS: src/lib/csu/common_elf/common.h,v 1.5 2006/10/15 01:04:00 tg Exp $");
+__RCSID("$MirOS: src/lib/csu/common_elf/common.h,v 1.6 2008/11/08 23:03:50 tg Exp $");
 
 typedef void Obj_Entry;
 
-char *__progname;
-char **environ;
-struct ps_strings *__ps_strings = NULL;
-
-char __progname_storage[NAME_MAX + 1];
+extern char *__progname;
+extern char **environ;
 
 extern void _init(void);
 extern void _fini(void);
