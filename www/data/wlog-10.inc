@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.232 2009/08/19 16:31:46 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.233 2009/08/20 15:18:38 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4890,4 +4890,50 @@ Tag: rant snapshot
  Benny’s ports fixes (he got GNOME except nautilus – which has unsafe code
  in signal handlers – working, part of (or all?) Xfce too, etc).</p>
 <p>Luckily, tomorrow is more like 22°C</p>
+----
+Title: MirOS bsd4me – Sane OS on netboot.me ☺
+Date: 30.08.2009 22:30
+Author: tg@
+Tag: news snapshot
+
+<p>Christian Hofstaedtler «ch:#grml» pointed me to an <a
+ href="http://www.heise.de/newsticker/meldung/144502">article</a>
+ about <a href="http://www.netboot.me/">netboot.me</a>, a service
+ providing bootable Live and Install variants of some OSes over
+ the Internet (via gPXE and HTTP transport, mostly). They offer
+ a bootable floppy/disc, USB stick, and El Torito ISO image. One
+ gets a graphical menu if not careful, out of which there is no
+ escape, and which isn’t compatible with most graphics cards, but
+ if ^B is pressed quickly enough, there will be a usable <a
+ href="http://www.netboot.me/help#chainload">command line</a>.</p>
+<p style="margin-bottom:0px;">An experimental MirOS bsd4me bootable
+ image is available as well:</p>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+gPXE&gt; <b>autoboot</b>
+gPXE&gt; <b>chain http://netboot.me/2032</b>
+</pre></div><p style="margin-top:0px;">This will be loaded via plain,
+ unencrypted HTTP from our main webserver. It’s the usual &lt;5 MiB
+ Mini-ISO for the i386 architecture and contains a full installer,
+ as well as e3 and tinyirc known from MirOS bsd4grml. Source code of
+ the GPL’d parts and overall licencing information is also included
+ inside the ISO image. <em>Please remember this is for beta testing
+ only.</em> We do not support MEMDISK boot methods with our second
+ stage boot(8/i386) loader, as these are not reliable.</p>
+<p>On an unrelated side note: dutch Windows XP Professional is weird.
+ Translations were laughed at by several dutch-speaking people in the
+ mksh IRC channel, but I was able to disable Blåtand on “blau” (the
+ new IBM X40, successor of “bleu”). And it works!</p>
+<p>A more related side note: when virtualising MirBSD, do <em>not</em>
+ use VirtualBox. If you <em>do</em> have Vanderpool/Pacifica available
+ and enabled, both the OSE and the full edition may be viable, but kvm
+ is the better option. If VT-x/HVM is not used, it does not emulate the
+ i386 architecture properly. Use qemu, kqemu, kvm, bochs, VMware Server
+ 2 (not 1 – timekeeping is broken in there), Microsoft® VirtualPC 2004,
+ Parallels Desktop, VMware Fusion for Macintosh, … instead.</p>
+<p>Tonight and the last few days have seen several releases of things
+ like MirMake, the package tools, etc. You might want to upgrade your
+ MirPorts Framework checkout. (We now have enough Lua tools to access
+ the <a href="http://marc.info/?m=125058382706316">Simtec eKey</a>, I
+ just need to order one. We’re currently at 2¾ interested people, not
+ quite enough to make sense.)</p>
 ----
