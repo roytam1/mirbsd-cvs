@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/genlog,v 1.10 2007/11/18 21:58:46 bsiegert Exp $
+# $MirOS: CVSROOT/genlog,v 1.11 2008/07/03 17:24:31 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -22,6 +22,9 @@
 # Check if log file is larger than a certain size, if yes, rename it
 # (locked); do the same for the history file.
 # Then append stdin to log file.
+
+export LC_ALL=C
+unset LANGUAGE
 
 f=${1:-ChangeLog}
 h=${2:-${f%ChangeLog}history}
