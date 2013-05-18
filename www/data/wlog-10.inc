@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.167 2009/03/02 18:06:19 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.168 2009/03/02 18:13:29 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -3472,4 +3472,46 @@ Tag: bug geocache
  for now, but maybe eventually into OpenJDK 7). MirUsers will just have
  to use a binary package I provide for bootstrap.</p>
 <p>More… some other time. Still wish humans would hibernate too…</p>
+----
+Author: tg@
+Title: GUUG FFG Redux ? Geocacheing in Karlsruhe
+Date: 14.03.2009 18:19:37
+Tag: bug event geocache hardware
+
+<p>Es ging also zum GUUG Frühjahrsfachgespräch nach Karlsruhe. Nun,
+ die Stadt kannte ich ja schon vom LinuxTag (meines Erachtens auch
+ der beste Austragungsort für jene), aber diesmal eine neue Ecke.
+ Hotel, Einzelzimmer, bezahlt vom Arbeitgeber; Event auch. Tutorium
+ okay, lehrreich (auch was man nicht will), die Vorträge wechselnd
+ gut aber in der Regel es auch wert. Aber wie auf jedem Event lernt
+ man viele neue Leute kennen, oder auch Gesichter zu den (Nick)namen.
+ Das fand ich gut. Das „social event“ entsprach dem auch, wir waren
+ im lokalen Brauhaus, und das Buffet… nunja, ich bin kein Freund von
+ Buffets und „kompliziertem“ Essen, aber bin gut sattgeworden, nur
+ die „Mousse“ war eher… interessant im Biolekschen Sinne.</p>
+<p>Natürlich war ich auch zwischendurch Couscous Merguez essen,
+ frischen Minztee trinken, und beim Geocachen meinen Laptop schrotten.
+ Hmpf. Immerhin laufen die Flüssigkristalle nicht aus. Drückt mir die
+ Daumen, daß der Händler meinen X40 auf Kulanz repariert, da innerhalb
+ der Garantiezeit (1 Jahr; ist knapp unter 6 Monate her, daß ich das
+ Teil brauchte). Immerhin 3 gefunden, einige nicht gefunden (dafür aber
+ ne hiesige Cacherin) oder nicht angegangen (zB da nicht so lebensmüde,
+ auf ein >4m hohes Verkehrsschild zu klettern, oder da die Koords zu
+ weit weg vom Startpunkt waren).</p>
+<p>Dummerweise werde ich also jetzt eher an <tt>nocd</tt> (win2k) und
+ <tt>nwt</tt> (80486er Kiste) hängen und nicht weiter entwickeln.</p>
+<p>Ich denke, ich sollte mal selber meine Founds durchnumerieren und
+ in eine Liste packen, da die meisten eben nicht in allen Datenbanken
+ gelistet sind.</p><!-- RSS stop -->
+<p>Hier dann die aktuellen „Statistiken“:<br />
+ <img src="https://call.mirbsd.org/sp.cgi?oc" alt="OpenCaching.de" />
+ <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
+ <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
+ <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ <br />Drei mehr dabei, aber leider kaum auf OC</p>
+<p><strong>Unterstützt <i>JamesDoe</i> nicht, boykottiert seine Caches,
+ schreibt die Logeinträge bei ihm ausschließlich auf OC.de hin, sodaß
+ er die Listings dort wieder pflegen möge, oder schreibt ihm, was ihr <a
+ href="http://www.opencaching.de/viewlogs.php?cacheid=111936">von seiner
+ Aktion</a> haltet, die Listings auf OC.de zu orphanen!</strong></p>
 ----
