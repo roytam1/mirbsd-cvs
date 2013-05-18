@@ -1701,7 +1701,7 @@ Author: bsiegert@
  niceties and little things that made the conference truly
  great&mdash;like the Wii lounge, where I played some tennis against
  Marius from AllBSD.</p>
- 
+
 <p>I was not at all happy with the way our booth was handled though: It
  consisted of a row of tables, the showcase computer standing with the
  monitor to the front. <i>Behind</i> the tables, three to six persons
@@ -1727,7 +1727,7 @@ Author: bsiegert@
  waiting. I made it through at an impressive speed: All my original
  slides as well as the demo were in, and even with questions, I made it
  in about 50 to 55 minutes.</p>
- 
+
 <p>In the abstract, I had made a bold statement about cmake being a
  flawed concept compared to the autotools, but I did not have any data
  points to actually back up my claim, and promptly I got some questions
@@ -1745,4 +1745,29 @@ Author: bsiegert@
  and large, and contrary to popular belief, a conference and exhibition
  where you have a booth is not a good place or time for hacking.</p>
 <!-- vim:se tw=72 ai sw=1 ft=html enc=UTF-8: -->
+----
+Date: 28.08.2007
+Author: tg@
+
+<p>FrOSCon is over for me now as well, with the end of the two days I took
+ off to replenish after the event. I used it to chill, rest, not do much –
+ so far it worked, I feel okay going to work tomorrow, not strained.</p>
+<p>Since yesterday, I’m officially a developer of Cachewolf, thar software
+ Dr. Pfeffer and I use for geocacheing. And I fixed a bug. In Java™. Urgh.
+ But it works now (for some low values of work). And they use svn. Yuck. I
+ can’t use non-7bit chars in the commit messages, because J�rg Schilling’s
+ fucking BerliOS setup wrecks the emails if I enable use of locales in the
+ <tt>post-commit</tt> hook, which worked for FreeWRT. Line endings as well
+ as character encodings (they use mostly windows-1252) are cruel too – but
+ probably can be fixed. I need to start some discussion about that. To use
+ gcj for compiling, I’ve prepared a <tt>comp-gcj.sh</tt> and even a simple
+ Makefile, but I want to clean the mess up some more before committing the
+ nuggets, because it’s easier (also for Ewe and Jewel) to have the classes
+ from external libraries unpacked in the tree.</p>
+<p>GNU ed sucks – it is less BSD ed(1) compatible in more recent versions…
+ I bet they’ll be using GPLv3 next – and GFDL for the <stroke>man</stroke>
+ <stroke>texinfo</stroke> pages (now what, GNU software doesn’t use manual
+ pages any more, and almost no GNU/Linux distribution has texinfo).</p>
+<p>I would have listened to the grml talk at MoeLUG tonight, but nobody of
+ my mates with cars wanted to go. Too bad, I really liked the Altbier.</p>
 ----
