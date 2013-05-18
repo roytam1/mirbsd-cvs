@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-binutils.sh,v 1.9 2006/06/11 00:23:55 tg Exp $
+# $MirOS: src/scripts/xbuild-binutils.sh,v 1.10 2006/06/11 00:48:35 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -27,6 +27,23 @@
 # call this with the canonical target name as parameter
 
 [[ -n $1 ]] && TARGET=$1
+if [[ $TARGET != *-* ]]; then
+	case $TARGET {
+	(alpha|amd64|hppa|i386|m68k|m88k|powerpc|sparc|sparc64|vax)
+		;;
+	(amiga|hp300|mac68k|mvme68k)
+		TARGET=m68k ;;
+	(luna88k|mvme88k)
+		TARGET=m88k ;;
+	(macppc|mvmeppc)
+		TARGET=powerpc ;;
+	(sgi)
+		TARGET=mips ;;
+	(*)
+		exit 1 ;;
+	}
+	TARGET=${TARGET}-ecce-mirbsd$(uname -r)
+fi
 [[ -n $2 ]] && EMULATION=$2
 
 [[ -z $CROSSDIR ]] && CROSSDIR=${DESTDIR}/usr/cross/${TARGET}

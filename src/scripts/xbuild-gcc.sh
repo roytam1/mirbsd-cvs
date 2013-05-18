@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/xbuild-gcc.sh,v 1.12 2006/06/11 01:02:42 tg Exp $
+# $MirOS: src/scripts/xbuild-gcc.sh,v 1.13 2006/06/11 21:16:08 tg Exp $
 #-
 # Copyright (c) 2004, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -36,6 +36,23 @@ else
 fi
 
 [[ -n $1 ]] && TARGET=$1
+if [[ $TARGET != *-* ]]; then
+	case $TARGET {
+	(alpha|amd64|hppa|i386|m68k|m88k|powerpc|sparc|sparc64|vax)
+		;;
+	(amiga|hp300|mac68k|mvme68k)
+		TARGET=m68k ;;
+	(luna88k|mvme88k)
+		TARGET=m88k ;;
+	(macppc|mvmeppc)
+		TARGET=powerpc ;;
+	(sgi)
+		TARGET=mips ;;
+	(*)
+		exit 1 ;;
+	}
+	TARGET=${TARGET}-ecce-mirbsd$(uname -r)
+fi
 [[ -z $CROSSDIR ]] && CROSSDIR=${DESTDIR}/usr/cross/${TARGET}
 
 if [[ ! -s $CROSSDIR/T_BASEENV ]]; then
@@ -63,6 +80,7 @@ set -x
     MAKEOBJDIR=obj.$MACHINE \
     make obj )
 
+set -e
 ( cd $BSDSRCDIR/gcc; \
     BSDSRCDIR=$BSDSRCDIR \
     BSDOBJDIR=$CROSSDIR/usr/obj \
@@ -87,12 +105,12 @@ set -x
 	NOPIC=Yes \
 	_CROSSBUILD=defined \
 	all install )
+set +e
 
 cp $CROSSDIR/host-tools/lib/*.o $CROSSDIR/usr/lib/
+
+rm -rf $CROSSDIR/usr/obj/gcc
 
 set +x
 print
 print done.
-print Remember to clean out the cross-gcc object directory
-print before attempting to cross-build the native gcc, e.g. with
-print sudo rm -rf $CROSSDIR/usr/obj/gcc
