@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/bootxx/Makefile,v 1.10 2009/06/07 13:07:46 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/bootxx/Makefile,v 1.11 2009/06/29 20:10:26 tg Exp $
 
 PROG=		bootxx
 SRCS+=		bootxx.S
@@ -26,12 +26,12 @@ ${.CURDIR}/disasm: ${PROG}
 .include <bsd.prog.mk>
 
 BOOT_TYPE?=	bsd
-.if ${BOOT_TYPE:L} == "grub"
+.if (${BOOT_TYPE:L} == "grub") || (${BOOT_TYPE:L} == "grubfat")
 CPPFLAGS+=	-USA_LINKSEG -DSA_LINKSEG=0x0800 -DBOOT_GRUB
 
-all: bootgrub.mksh
+all: boot${BOOT_TYPE:L}.mksh
 
-bootgrub.mksh: bxinst
+boot${BOOT_TYPE:L}.mksh: bxinst
 	sed \
 	    -e 's/\$$Mir''OS.*\$$/$$I''d$$/' \
 	    -e '/^. Self-inst/s!MirOS BSD/i386!GNU GRUB2 on i386-pc!' \
