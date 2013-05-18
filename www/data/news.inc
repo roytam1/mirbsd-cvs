@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.131 2010/01/29 18:27:30 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.132 2010/02/14 19:28:02 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1880,4 +1880,14 @@ Tag: debian event mksh
  href="http://www.buch.de/buch/00904/572_franzoesisch_wort_fuer_wort__kauderwelsch__band_40.html">in
  weird tongues</a>, then ill. I'm still not totally recovered, and there
  is also much catching-up work to do.</p>
+----
+Title: Please update MirPorts Framework infrastructure
+Date: 23.02.2010
+Tag: bug snapshot
+
+<p>If you installed the FOSDEM 2010 snapshot, you will run into a number
+ of issues with ports. Please run <tt>cvs -qz3 up -PAd</tt> in the
+ <tt>/usr/ports/infrastructure</tt> directory to get later versions,
+ which fixed these. (Half of the problems were inherited from OpenBSD,
+ whose use of a Bourne shell construct predates POSIX/SUSv4.)</p>
 ----

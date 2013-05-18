@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.283 2010/02/08 17:11:01 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.284 2010/02/23 22:29:07 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6289,5 +6289,6 @@ Tag: debian mksh rant
  to have them with a gazillion of passwords used. And I probably
  will forget them more often (and sending them via eMail is also
  not a solution).</p>
-<p>Unrelated notice: mksh R39c with bug fixes coming RSN.</p>
+<p>Unrelated notice: <a href="@@RELPATH@@mksh.htm">mksh</a> R39c
+ with bug fixes coming RSN.</p>
 ----
