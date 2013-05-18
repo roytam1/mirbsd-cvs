@@ -1,9 +1,9 @@
 <!-- PageID: news -->
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.54 2006/01/31 20:06:19 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.55 2006/02/15 13:20:35 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
 
-<li>15.02.2006<br />Help test a <a href="/MirOS/current/i386-20060215">new
+<li>15.02.2006<br />There is a <a href="/MirOS/current/i386-20060215/">new
 	snapshot</a> with all the features below (attention: ssh/scp(1) is
 	not updated regarding CVE-2006-0225 yet). There is also a new repo
 	seed. Ports of this snapshot are not used to update #8 because the
