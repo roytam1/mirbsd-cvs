@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/stand/common/conf.c,v 1.2 2008/07/13 19:42:40 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/stand/common/conf.c,v 1.3 2009/08/11 13:24:00 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.1 1997/09/17 10:46:17 downsj Exp $	*/
 /*	$NetBSD: conf.c,v 1.2 1995/09/18 21:31:45 pk Exp $ */
 
@@ -40,15 +40,17 @@
 #include <lib/libsa/nfs.h>
 
 struct fs_ops file_system_ufs[] = {
-	{ ufs_open, ufs_close, ufs_read, ufs_write, ufs_seek, ufs_stat, "ufs" },
+	{ ufs_open, ufs_close, ufs_read, ufs_write, ufs_seek,
+	  ufs_stat, ufs_readdir, "ufs" },
 };
 #ifndef SMALL_BOOT
 struct fs_ops file_system_cd9660[] = {
 	{ cd9660_open, cd9660_close, cd9660_read, cd9660_write, cd9660_seek,
-	  cd9660_stat, "cd9660" },
+	  cd9660_stat, cd9660_readdir, "cd9660" },
 };
 struct fs_ops file_system_nfs[] = {
-	{ nfs_open, nfs_close, nfs_read, nfs_write, nfs_seek, nfs_stat, "nfs" },
+	{ nfs_open, nfs_close, nfs_read, nfs_write, nfs_seek,
+	  nfs_stat, nfs_readdir, "nfs" },
 };
 #endif
 struct fs_ops file_system[2];
