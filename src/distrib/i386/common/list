@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/list,v 1.12 2006/04/09 08:54:24 tg Exp $
+# $MirOS: src/distrib/i386/common/list,v 1.13 2006/04/10 21:55:41 tg Exp $
 # $OpenBSD: list,v 1.15 2005/05/04 17:08:07 miod Exp $
 
 SRCDIRS distrib/special usr.bin/ssh
@@ -42,6 +42,7 @@ LINK	instbin					sbin/newfs sbin/mount_mfs
 LINK	instbin					sbin/ping
 LINK	instbin					sbin/reboot sbin/halt
 LINK	instbin					sbin/route
+LINK	instbin					sbin/swapctl
 LINK	instbin					sbin/umount
 LINK	instbin					sbin/wicontrol
 LINK	instbin					usr/bin/awk
