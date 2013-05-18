@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.108 2008/11/27 07:53:30 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.109 2008/12/04 13:23:16 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2221,4 +2221,11 @@ Tag: hardware
  maybe the PSU sent too much current or something, but that's also not
  it. Perhaps Tonnerre is right and it's all Knoppix' fault ;)</p>
 <p>Looks like I'm going to do some hacking on <tt>nwt</tt> today...</p>
+----
+Date: 04.12.2008
+Author: tg@
+Title: website updates
+
+<p>If you look carefully, you might notice small changes to the
+ website, both HTML and RSS versions. Enjoy!</p>
 ----
