@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.44 2009/08/11 13:23:59 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.45 2010/01/10 19:21:37 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
  * Copyright (c) 1996 Michael Shalayeff
  * Copyright (c) 2003 Tobias Weingartner
- * Copyright (c) 2002, 2003, 2004, 2005, 2008, 2009
+ * Copyright (c) 2002, 2003, 2004, 2005, 2008, 2009, 2012
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
@@ -284,12 +284,14 @@ bios_getdisklabel(bios_diskinfo_t *bd, struct disklabel *label)
 		if (mbr->dmbr_sign != DOSMBR_SIGNATURE)
 			return "bad MBR signature\n";
 
-		/* Search for MirBSD partition */
-		if (i386_userpt) for (i = 0; off == 0 && i < NDOSPART; i++) {
+		/* extend all start offsets by mbrofs */
+		for (i = 0; i < NDOSPART; i++)
 			mbr->dmbr_parts[i].dp_start += mbrofs;
+
+		/* Search for MirBSD partition */
+		if (i386_userpt) for (i = 0; off == 0 && i < NDOSPART; i++)
 			if (mbr->dmbr_parts[i].dp_typ == i386_userpt)
 				off = i + 1;
-		}
 		if (!off) for (i = 0; off == 0 && i < NDOSPART; i++)
 			if (mbr->dmbr_parts[i].dp_typ == DOSPTYP_MIRBSD)
 				off = i + 1;
