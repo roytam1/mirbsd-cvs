@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/sys/taitime.h,v 1.1 2007/02/07 18:55:47 tg Exp $ */
+/* $MirOS: src/sys/sys/taitime.h,v 1.2 2007/02/07 20:43:28 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -51,7 +51,7 @@ struct tm {
 	int tm_hour;		/* hours [0-23] */
 	int tm_mday;		/* day of month [1-31] */
 	int tm_mon;		/* month of year - 1 [0-11] */
-	int64_t tm_year;	/* year - 1900 */
+	time_t tm_year;		/* year - 1900 */
 	int tm_wday;		/* day of week (0 = sunday) */
 	int tm_yday;		/* day of year [0-365] */
 	int tm_isdst;		/* summer time effective? [0/1] */
