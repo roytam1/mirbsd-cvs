@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/aGlzdG9yeQ__.inc,v 1.25 2005/01/23 01:24:18 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/aGlzdG9yeQ__.inc,v 1.2 2005/02/05 22:43:39 tg Exp $</small>
 <h1>History of MirOS</h1>
 
 <p>On <a href="http://marc.theaimsgroup.com/?m=103065556502499">August
@@ -156,9 +156,9 @@ May-June 2004	The great incompatibility - large parts of infrastructure
 14.06.2004	#7quater (#7-stable for i386, sparc)
 17.09.2004	Now, all functions are SSP protected.
 28.12.2004	#7quinquies (#7-stable for i386), maybe ending #7 lifetime
-early 2005	#8 (gcc 3.4 in-tree; i386/sparc (macppc?) BSD)
-summer 2005?    #9 (featuring mirppc port)
-end of 2006?	#10 (featuring MirLinux?)
+23.12.2005	#8 (gcc 3.4 in-tree; i386 BSD)
+late 2006	#9 (sync with OpenBSD 3.9; rewritten installer)
+maybe 2008	#10 (syspkgs, more architectures, maybe new cvs repo)
 
 
 cu

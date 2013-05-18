@@ -1,12 +1,12 @@
-<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.11 2005/12/29 17:57:34 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/b3ZlcnZpZXc_.inc,v 1.12 2006/01/13 03:49:36 tg Exp $</small>
 <h1>Quick Overview &ndash; All in one page</h1>
 
 <h2>Status</h2><p>
  <a href="/?ann-8">MirOS #8</a> is the latest release.
- MirOS #8-stable has been opened, but there have not been any updates yet.
- There is no newer development snapshot available.
+ MirOS #8-stable has been opened, but there have not been any updates released yet.
+ The <a href="/MirOS/current/i386/">latest snapshot</a> of the current development version (i386) is from 2006-01-13.
  MirPorts infrastructure and new installer (<a href="/?ports">docs</a>) are stable (note to use <tt>mmake</tt> as make(1) binary).
- We expect a huge percentage of individual ports to be broken or out of date due to lack of manpower.
+ We expect a large percentage of individual ports to be broken or out of date due to lack of manpower.
 </p>
 
 <h2>Mailing lists</h2><ul>
@@ -48,8 +48,8 @@
   <li><a href="http://www.66h.42h.de/MirOS/v7.4/bsd/sparc/">Direct Download</a> #7quater (sparc) + updates</li>
  </ul></li>
  <li>Snapshots<ul>
-  <li><a href="http://f.scarywater.net/miros/">Please use our BitTorrent tracker</a> to download</li>
-  <li><a href="http://www.66h.42h.de/MirOS/current/i386-20051207/">MirOS BSD #8/i386, 2005-12-07</a> (complete)</li>
+  <li><a href="http://f.scarywater.net/miros/">Please use our BitTorrent tracker</a> to download if available</li>
+  <li><a href="http://www.66h.42h.de/MirOS/current/i386-20060113/">MirOS BSD #8-current/i386, 2006-01-13</a> (binary only)</li>
  </ul></li>
  <li>Website<ul>
   <li><a href="http://www.66h.42h.de/">http://www.66h.42h.de/</a></li>

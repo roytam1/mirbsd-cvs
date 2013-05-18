@@ -1,8 +1,13 @@
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.46 2006/01/03 01:38:31 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.47 2006/01/13 03:49:36 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
 
-<li>03.01.2005<br />Several minor fixes in ports, roff2htm and other parts
+<li>15.01.2006<br />We are having problems with the domain hosters, please
+	stand by, we will solve them.<br />The 2006-01-13 snapshot has now
+	been published, although some data (www, domains, ssh public keys,
+	HTML man pags) are only correct in the HEAD revision.</li>
+
+<li>03.01.2006<br />Several minor fixes in ports, roff2htm and other parts
 	of the system.<br />Do not hardcode MirOS mirrors, use the generic
 	redirection (mirbsd.de/mirbsd.org) instead, as they'll change.</li>
 

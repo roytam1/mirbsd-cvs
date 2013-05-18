@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.37 2005/12/24 03:18:47 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.38 2005/12/29 17:48:56 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Welcome to the MirOS Project!</h2>
 <p>This project is driven by a small number of people, that's why this
@@ -22,14 +22,14 @@
  in order to prevent abuse of our name and provide integrity of distfiles.</p>
 <p>Go to <a href="/?news">the main news page</a>.</p>
 <h3 style="color:red;">Latest Releases</h3>
-<!-- p>CURRENT: December 7th, 2005: #8-gamma snapshot available via our <a
- href="http://f.scarywater.net/miros/">BitTorrent</a> tracker.</p>
-<p>CURRENT: December 7th, 2005: #8-gamma snapshot available for <a
- href="/MirOS/current/i386-20051207/">download</a> via the usual mirrors.</p -->
+<!-- p>CURRENT: January 13th, 2005: #8-current snapshot available via our <a
+ href="http://f.scarywater.net/miros/">BitTorrent</a> tracker.</p -->
+<p>CURRENT: January 13th, 2005: #8-current snapshot available for <a
+ href="/MirOS/current/i386-20060113/">download</a> via the usual mirrors.</p>
 <p>STABLE: December 24th, 2005: <a href="/?ann-8">MirOS #8</a> is
  available via our <a href="http://f.scarywater.net/miros/">BitTorrent
- tracker</a>; a release announcement will follow. <small>There is also an <a
- href="/MirOS/v8/">HTTPS</a> download/netinstall option.</small></p>
+ tracker</a>. <small>There is also an <a
+ href="/MirOS/v8/">HTTP(S)</a> download/netinstall option.</small></p>
 <p>PORTS: December 22th, 2005: The great reorganisation has settled down; you
  can install the <a href="/?ports">MirPorts Framework</a> as regular user,
  all pre-requisites including a recent enough <tt>mksh</tt> are being taken

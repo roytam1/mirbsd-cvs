@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.11 2006/01/03 03:41:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.12 2006/01/13 22:42:14 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -167,6 +167,17 @@ celebrate this event, rotate the wlog and start a new one.</p>
  <p>Nothing else in peculiar... bsiegert@ has got a girlfriend, thusly
   #8-stable is lagging quite a bit. My new dedicated server also could
   need some more attention.</p>
+</div>
+
+<div class="wlentry">
+ <h3>15.01.2006 by tg@</h3>
+ <p>Things are settling down... installed software on &#39764;&#29579;
+  but still not complete. It now does mail (for all domains), OpenVPN,
+  a minimalistic www proxy, and of course NTP and its own (non-public)
+  DNS. But that's about it. Time will show.<br />Also, I need to phone
+  the hoster regarding the domain issues. They're worse than appearing
+  at first, since the wildcard is gone.</p>
+ <p>Fixed some annoying minor bugs in roff2htm and /cvs/CVSROOT.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>

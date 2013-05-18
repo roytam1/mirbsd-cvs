@@ -1,7 +1,7 @@
 <!-- Editing note: this file is reverse chronologically
      sorted, i.e. add new entries at the top not bottom -->
 
-<small class="rcsid">$MirOS$</small>
+<small class="rcsid">$MirOS: www/content/ZXJyYXRh.inc,v 1.1 2006/01/13 22:42:14 tg Exp $</small>
 
 <h1>Errata</h1>
 
@@ -16,4 +16,6 @@
  snapshot of MirOS-current).</li>
 <li>An updated ld(1) and shared libraries with DT_RPATH set will
  be available as <tt>i386/shlibs.ngz</tt> soon.</li>
+<li>The <a href="/?ann-8#last">Last Minute updates</a> section of
+ the release announcement is also worth a read.</li>
 </ul>

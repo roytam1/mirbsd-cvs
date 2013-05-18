@@ -1,4 +1,4 @@
-<small class="rcsid">$MirOS: www/content/YW5uLTg_.inc,v 1.5 2006/01/09 18:26:32 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/YW5uLTg_.inc,v 1.6 2006/01/13 03:49:35 tg Exp $</small>
 
 <p style="font-size:smaller; text-align:right;">Codename: WTF we have a release?</p>
 
@@ -115,6 +115,9 @@
 
 <p>Secondly, the ld(1) linker should be updated by an erratum yet to be
  released to prevent a core dump in shared library dependencies.</p>
+
+<p>The afterboot(8) manual page refers to the <a
+ href="/?errata">errata page</a> for the current release.</p>
 
 
 <h2 id="get">Getting MirOS</h2>
