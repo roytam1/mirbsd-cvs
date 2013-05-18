@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.454 2012/04/15 16:01:20 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.455 2012/05/04 23:01:29 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -476,9 +476,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <h5 class="cr" id="oe_klcc">Toolchain: klibc</h5>
 <p>klibc needs <tt>-DMKSH_NO_LIMITS</tt> and can then use stock klcc as
  compiler wrapper (CC=klcc). On some platforms, it’s already usable by
- now; m68k needs to build with <tt>-g</tt> and without any <tt>-O</tt>
- in <tt>CFLAGS</tt>, other platforms may be similarily broken (alpha and
- powerpc currently, but funnily enough not ppc64… suspect a gcc bug?).</p>
+ now; most have a broken sigsuspend(2) wrapper (patch to fix it sent in)
+ and thus need <tt>-DMKSH_NO_SIGSUSPEND</tt> (R41 experimental option).</p>
 
 <h5 class="cr" id="oe_musl">Toolchain: musl</h5>
 <p>Has broken <tt>-D_GNU_SOURCE</tt>, needs <tt>-D_BSD_SOURCE</tt> too,
@@ -505,14 +504,15 @@ exec /usr/bin/ld "${args[@]}"</pre>
  working, and mksh must be rebuilt (once built) by running <tt>Build.sh</tt>
  with the same options again but using the just-built mksh as interpreter
  due to a severe pipe-related bug in the system sh. RT says that “BeOS
- 5.1(Dano)/PhOS/Zeta” can be supported.</p>
+ 5.1(Dano)/PhOS/Zeta” can be supported. He is also trying to figure out how
+ to support BeOS 5.0 and how to distinguish it from 5.1…</p>
 
 <h5 class="cr" id="oe_bsi">OS: BSDi BSD/OS</h5>
 <p>BSD/OS 3.1 works fine with mksh R33.</p>
 
-<h5 class="cr" id="oe_dos">OS: MS-DOS, DR DOS, FreeDOS</h5>
-<p>DJGPP’s bash.exe fails to run Build.sh, thus this is currently not
- supported. (We tried!)</p>
+<h5 class="cr" id="oe_coh">OS: Coherent</h5>
+<p>This is a somewhat experimental port in mksh R41. (More information
+ will follow.) Set <tt>TARGET_OS=Coherent</tt> manually.</p>
 
 <h5 class="cr" id="oe_cyg"><img width="48" height="48" alt="[Cygwin logo]"
  class="fr" src="@@RELPATH@@pics/logos/cygwin.png" />OS: GNU/Cygwin</h5>
@@ -525,9 +525,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
 
 <h5 class="cr" id="oe_svr">OS: Dell UNIX 4.0 R2.2 (SVR4)</h5>
 <p>This exot has been tested with R40f: gcc is absolutely unusable on this
- platform but the vendor compiler works. You <strong>must</strong> set
- <tt>TARGET_OS</tt> to something meaningful, as “uname -s” is broken and
- returns the hostname (wtf). Then, it’s somewhat usable.</p>
+ platform but the vendor compiler works.<br />
+ Set <tt>TARGET_OS=_svr4</tt> manually.</p>
+
+<h5 class="cr" id="oe_dos">OS: MS-DOS, DR DOS, FreeDOS</h5>
+<p>DJGPP’s bash.exe fails to run Build.sh, thus this is currently not
+ supported. (We tried!)</p>
 
 <h5 class="cr" id="oe_dfl"><img width="56" height="60" alt="[DragonFly logo]"
  class="fr" src="@@RELPATH@@pics/logos/dfbsd.png" />OS: DragonFly BSD</h5>
@@ -679,9 +682,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
  remember which compiler I used, but I think it was GCC.</p>
 
 <h5 class="cr" id="oe_pw32">OS: PW32 on Win2k</h5>
-<p>PW32 is not supported yet – killpg(3) is missing, and
- it’s possible that PW32 and Minix 3, at least, need job control disabled
- or worked around. Maybe peek at how ash/bash for PW32 do it. gcc works.</p>
+<p>PW32 is not supported yet – killpg(3) is missing, and it’s possible that
+ PW32 needs job control disabled or worked around, since a workable binary
+ can be made with <tt>-DMKSH_NOPROSPECTOFWORK</tt> (note that this option
+ produces a shell not supporting standard Korn Shell scripts).
+ Maybe peek at how ash/bash for PW32 do it. gcc works.</p>
 
 <h5 class="cr" id="oe_qnx">OS: QNX/Neutrino</h5>
 <p>QNX/Neutrino (Perl: “nto”) support appeared in mksh R36b.</p>
@@ -716,6 +721,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>Chances are a more recent mksh works with a more recent Syllable.
  With <tt>-DMKSH_NOPROSPECTOFWORK</tt> it will probably work. (Note that
  this option produces a shell not supporting standard Korn Shell scripts.)</p>
+<p>With <tt>-DMKSH_NO_SIGSUSPEND</tt> it may even work somewhat better.</p>
 <p>Syllable Server will work, as it is, <em>at the moment</em>, “just” a
  GNU/Linux distribution with a different GUI. This may change though.</p>
 
@@ -745,6 +751,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
  for scripting. Progress is promising, but still a long way to go. The
  result will probably not be part of mksh itself, but a separate product;
  some core patches will however end up in core mksh.</p>
+
+<h5 class="cr" id="oe_xenix">OS: Xenix</h5>
+<p>SCO Xenix 386 2.3.4a lacks too much functionality to be an mksh target.
+ (RT tried!)</p>
+
 
 <h3 id="postbuild">After compiling</h3>
 <p>The <tt>Build.sh</tt> script generates an executable (“mksh”, except on
@@ -1110,12 +1121,15 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Attempt to use <tt>-fwrapv</tt> on more compilers</li>
  <li>[tg, RT] Better portability to 386BSD, Debian 0.91, ancient Unicēs</li>
  <li>[tg] No longer use mkstemp(3) or tempnam(3) functions, do our own</li>
- <li>[tg] Fix some bugs in the manual page</li>
+ <li>[tg] Fix some bugs in the manual page and <tt>Build.sh</tt></li>
  <li>[tg, ciruZ] Switch from NZAT to NZAAT hash for better range coverage;
   turns out that the never-zero property of NZAT was not in fact needed for
   hash tables as implemented in mksh (also, align, and 75% are enough)</li>
  <li>[tg] Add MKSH_NO_CMDLINE_EDITING, MKSH_DISABLE_TTY_WARNING</li>
  <li>[RT] Port to Coherent UNIX</li>
+ <li>[tg] Enable some options by default for some ports, for instance, since
+  BeOS can never have a controlling tty, the option disabling that warning</li>
+ <li>[tg] Some bugfixes, prompted by RT and Valgrind</li>
 </ul>
 <p>Changes in the current (unreleased) stable branch:</p><ul>
  <li>[tg] Fix a bug in the manual page</li>
