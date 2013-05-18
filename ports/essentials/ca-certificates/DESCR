@@ -16,3 +16,6 @@ tificate store to ${PREFIX}/share/ca-certificates/
 
 Java™ programmes can use the “keystore.jks” file in
 the very same directory: -storepass ‘changeit’
+
+GnuTLS users and others requiring a single file set
+SSL_CERT_FILE to “pkbundle.pem” at the same location.
