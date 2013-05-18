@@ -1,9 +1,9 @@
-/*	$MirOS: src/usr.sbin/makefs/mbsdtree.h,v 1.2 2008/10/31 19:45:30 tg Exp $	*/
+/*	$MirOS: src/usr.sbin/makefs/mbsdtree.h,v 1.3 2009/07/23 19:32:24 tg Exp $	*/
 /*	$OpenBSD: util.h,v 1.26 2004/07/13 21:09:48 millert Exp $	*/
 /*	$NetBSD: util.h,v 1.2 1996/05/16 07:00:22 thorpej Exp $	*/
 
 /*-
- * Copyright (c) 2009
+ * Copyright (c) 2009, 2010
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1995
  *	The Regents of the University of California.  All rights reserved.
@@ -60,7 +60,7 @@ char *flags_to_string(u_long, const char *);
 int string_to_flags(char **, u_long *, u_long *);
 #endif
 
-#ifdef DEBIAN
+#ifdef NEED_FPARSELN_DECL
 /*
  * fparseln() specific operation flags.
  */

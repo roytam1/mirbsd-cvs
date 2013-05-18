@@ -1,8 +1,8 @@
-/**	$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.10 2010/03/06 20:40:27 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.11 2010/03/07 00:17:08 tg Exp $ */
 /*	$NetBSD: spec.c,v 1.78 2009/09/22 04:38:21 apb Exp $	*/
 
 /*-
- * Copyright (c) 2009
+ * Copyright (c) 2009, 2010
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -66,6 +66,10 @@
 #endif
 
 #if defined(__MirBSD__) || defined(DEBIAN)
+#ifdef DEBIAN
+#include <stdio.h>
+#define NEED_FPARSELN_DECL
+#endif
 #include "mbsdtree.h"
 #endif
 
@@ -74,7 +78,7 @@
 #if 0
 static char sccsid[] = "@(#)spec.c	8.2 (Berkeley) 4/28/95";
 #else
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.10 2010/03/06 20:40:27 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/nbsrc/usr.sbin/mtree/spec.c,v 1.11 2010/03/07 00:17:08 tg Exp $");
 __RCSID("$NetBSD: spec.c,v 1.78 2009/09/22 04:38:21 apb Exp $");
 #endif
 #endif /* not lint */

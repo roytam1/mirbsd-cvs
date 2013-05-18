@@ -1,8 +1,8 @@
-/**	$MirOS: src/usr.sbin/makefs/makefs.h,v 1.12 2010/03/06 23:24:15 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/makefs.h,v 1.13 2010/03/07 00:02:17 tg Exp $ */
 /*	$NetBSD: makefs.h,v 1.20 2008/12/28 21:51:46 christos Exp $	*/
 
 /*
- * Copyright (c) 2009
+ * Copyright (c) 2009, 2010
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2001 Wasabi Systems, Inc.
  * All rights reserved.
@@ -68,6 +68,7 @@
 #include <err.h>
 
 #ifdef DEBIAN
+#include <stdint.h>
 #undef __unused
 #define __unused __attribute__((unused))
 #endif
