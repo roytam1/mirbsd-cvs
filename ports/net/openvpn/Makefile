@@ -1,4 +1,4 @@
-# $MirOS: ports/net/openvpn/Makefile,v 1.11 2006/09/14 00:12:00 tg Exp $
+# $MirOS: ports/net/openvpn/Makefile,v 1.12 2006/10/13 16:15:50 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2003/12/30 21:29:53 sturm Exp $
 
 COMMENT=		easy-to-use, robust, highly configurable VPN solution
@@ -19,14 +19,15 @@ FLAVORS=		no_lzo static
 FLAVOR?=
 
 .if !${FLAVOR:L:Mno_lzo}
-LIB_DEPENDS+=		lzo2:lzo->=2.*:archivers/lzo
+.  if !${FLAVOR:L:Mstatic}
+LIB_DEPENDS+=		lzo2::archivers/lzo
+RUN_DEPENDS+=		:lzo->=2.*:archivers/lzo
+.  endif
+BUILD_DEPENDS+=		:lzo->=2.*:archivers/lzo
 .endif
 
 .if ${FLAVOR:L:Mstatic}
 LDSTATIC=		-static
-BUILD_DEPENDS+=		${LIB_DEPENDS}
-LIB_DEPENDS:=
-RUN_DEPENDS:=
 .endif
 
 USE_GMAKE=		Yes
