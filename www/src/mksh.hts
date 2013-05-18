@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.306 2010/01/01 20:46:23 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.307 2010/01/02 16:46:50 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -975,7 +975,7 @@ mws_content <<'EOF'
  <li>[tg] Replace realpath(3) dependency and internally used get_phys_path()
   pdksh code with own implementation; always offer the realpath builtin</li>
  <li>[tg] Implement nameref='typeset -n' (bounded variables) like AT&amp;T
-  ksh93, but with mksh-style nested/dynamic scoping and at-use resolving</li>
+  ksh93 but with mksh-style nested/dynamic scoping and on-use resolving</li>
  <li>[tg] Add “chdir” builtin doing the same as the “cd” special builtin</li>
  <li>[tg, David Korn] Document more differences between mksh (and pdksh)
   and AT&amp;T ksh (or, more specific, ksh88, ksh93) in the manual page</li>
@@ -995,8 +995,8 @@ mws_content <<'EOF'
  <li>[tg] Get rid of unneeded FMONITOR (-m) for shells without job control;
   sync list of flags, comments and manpage with reality</li>
  <li>[tg] If MKSH_SMALL, reduce size by removing editor functionality</li>
- <li>[tg] Support VT100 emulator style Ctrl-CurLeft/Right keycode sequences
-  with new <tt>vt100-hack</tt> editor bind function (LP: #355883)</li>
+ <li>[tg] Support VT100 emulator style {Ctrl,Alt}-CurLeft/Right keycode
+  sequences with new <tt>vt100-hack</tt> emacs bind function (LP: #355883)</li>
  <li>[cnuke, tg] Remove more, like GNU bash extensions, from MKSH_SMALL</li>
  <li>[tg] Remove more functionality, such as Emacs command line editing mode
   bind key macros, and other extensions, from MKSH_SMALL to help floppies</li>
