@@ -95,6 +95,7 @@
 ./etc/skel/.etc/calendar/calendar
 ./etc/skel/.etc/ssh/known_hosts
 ./etc/skel/.mailrc
+./etc/skel/.mkshrc
 ./etc/sliphome/slip.hosts
 ./etc/sliphome/slip.login
 ./etc/spwd.db
