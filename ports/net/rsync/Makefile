@@ -1,4 +1,4 @@
-# $MirOS: ports/net/rsync/Makefile,v 1.14 2008/04/12 20:36:04 tg Exp $
+# $MirOS: ports/net/rsync/Makefile,v 1.15 2008/07/20 00:02:39 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2004/05/11 13:39:17 naddy Exp $
 
 COMMENT=		mirroring/synchronisation over low bandwidth links
@@ -11,7 +11,7 @@ FLAVOURS=		static
 FLAVOUR?=
 
 DISTNAME=		rsync-${VERSION}
-FULLPKGNAME-static=	rsync-static-${VERSION}-${DASH_VER}
+FULLPKGNAME=		rsync${FLAVOUR_EXT}-${VERSION}-${DASH_VER}
 
 # GNU GPLv3
 PERMIT_PACKAGE_CDROM=	Yes
