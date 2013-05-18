@@ -1,4 +1,4 @@
-/* $MirOS: ports/infrastructure/pkgtools/create/main.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $ */
+/* $MirOS: ports/infrastructure/pkgtools/create/main.c,v 1.2 2007/03/30 23:20:10 bsiegert Exp $ */
 /* $OpenBSD: main.c,v 1.13 2003/08/15 00:03:22 espie Exp $	*/
 
 /*
@@ -15,9 +15,9 @@
 #include "lib.h"
 #include "create.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/create/main.c,v 1.1.7.1 2005/03/18 15:47:16 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/create/main.c,v 1.2 2007/03/30 23:20:10 bsiegert Exp $");
 
-static char Options[] = "OZhvf:p:P:C:e:c:d:i:k:r:t:X:D:m:s:S:";
+static char Options[] = "C:c:D:d:e:f:hi:k:m:OP:p:r:S:s:t:vX:Z";
 
 char	*Prefix		= NULL;
 char	*Comment	= NULL;
