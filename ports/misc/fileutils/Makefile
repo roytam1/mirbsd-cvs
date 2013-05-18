@@ -1,7 +1,9 @@
 # $OpenBSD: Makefile,v 1.14 2004/02/25 01:35:50 naddy Exp $
 
-COMMENT=			GNU versions of common file management utilities
-COMMENT-ls=			colorized GNU 'ls'
+BROKEN=			does not use libc getline(3) implementation
+
+COMMENT=		GNU versions of common file management utilities
+COMMENT-ls=		colorized GNU 'ls'
 
 V=			4.1
 DISTNAME=		fileutils-$V
