@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.440 2012/01/04 22:49:26 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.441 2012/02/06 17:50:05 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1027,7 +1027,6 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Fix some gc-sections, GCC and Clang/scan-build warnings/issues</li>
  <li>[tg, 28C3] dot.mkshrc hash functions: partially address LP: #909818</li>
  <li>[tg] Only compile divmod(0x80000000, -1) code in when not unneeded</li>
-<li style="list-style:none;">not yet MFC’d but will be:</li>
  <li>[tg, RT] Move mirtoconf checks and <tt>INCLUDES_ONLY</tt> parts of
   <tt>sh.h</tt> around to ensure prerequisites are always available</li>
  <li>[tg, RT, ir0nh34d] Pass mksh.exe to testsuite, if such thing is generated,
