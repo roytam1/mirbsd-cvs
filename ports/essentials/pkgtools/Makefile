@@ -1,11 +1,11 @@
-# $MirOS: ports/essentials/pkgtools/Makefile,v 1.27 2006/11/19 13:17:28 tg Exp $
+# $MirOS: ports/essentials/pkgtools/Makefile,v 1.28 2006/12/11 22:01:54 tg Exp $
 #-
 # This port should contain no patches.
 
 COMMENT=		MirPorts Framework package tools
 CATEGORIES=		essentials infrastructure
 CVS_DISTREPO=		${_MIROS_ANONCVS}
-CVS_DISTDATE=		2006/12/11 22:00
+CVS_DISTDATE=		2006/12/23 04:00
 CVS_DISTMODS=		ports/infrastructure/pkgtools
 CVS_DISTFILE=		pkgtools
 _MKMCZ_OPTS=		-C
