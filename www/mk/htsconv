@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.49 2010/07/13 13:36:12 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.50 2010/07/16 22:31:52 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -250,8 +250,8 @@ function mws_putfooter {
 		@@HEADER@@
 		</div></div>
 		<div class="heading">
-		 <a href="@@RELPATH@@main.htm"><img class="hdrlnks"
-		  src="@@RELPATH@@pics/logo-grey.png" alt="MirOS Logo" /></a>
+		 <img class="hdrlnks" alt="MirOS Logo"
+		  src="@@RELPATH@@pics/logo-grey.png" />
 		</div>
 		</body></html>
 	EOF
