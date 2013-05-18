@@ -1,0 +1,19 @@
+@comment $MirOS$
+bin/nwcc
+bin/nwcc1
+lib/libnwcc.o
+nwcc/bin/nwcc
+nwcc/bin/nwcc1
+nwcc/bin/snake
+nwcc/lib/dynlibnwcc.o
+nwcc/lib/libnwcc.o
+share/doc/nwcc/COPYING
+share/doc/nwcc/CREDITS
+share/doc/nwcc/CROSSCOMP
+share/doc/nwcc/NEWS
+share/doc/nwcc/README.first
+share/doc/nwcc/USAGE
+@dirrm share/doc/nwcc
+@dirrm nwcc/lib
+@dirrm nwcc/bin
+@dirrm nwcc

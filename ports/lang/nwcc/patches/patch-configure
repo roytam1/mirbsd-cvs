@@ -1,0 +1,15 @@
+$MirOS$
+
+	Honour original $CFLAGS
+
+--- configure.orig	Sat Aug 16 00:17:14 2008
++++ configure	Thu Oct 30 16:39:19 2008
+@@ -246,7 +246,7 @@ echo "#endif /* #ifndef _CONFIG_H */" >>
+ # fi
+ 
+ echo "CC=$CC" >Makefile
+-echo "CFLAGS=$CFLAGS" >>Makefile
++echo "CFLAGS+=$CFLAGS" >>Makefile
+ echo "PICFLAGS=$PICFLAGS" >>Makefile
+ echo "ABI=$ABI" >>Makefile
+ if test "$NOCPP" != yes; then

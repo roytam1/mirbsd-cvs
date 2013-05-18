@@ -1,0 +1,33 @@
+$MirOS$
+--- driver.c.orig	Sat Aug 16 00:17:14 2008
++++ driver.c	Thu Oct 30 16:37:11 2008
+@@ -110,6 +110,14 @@ driver(char **cpp_flags, char *asm_flags
+ 			"%s /usr/lib/crti.o /usr/lib/crtbegin.o " 
+ 			"-L/usr/lib -lc /usr/lib/crtend.o /usr/lib/crtn.o ",
+ 			sharedflag? "-shared": "/usr/lib/crt1.o");
++#elif defined __MirBSD__
++		sprintf(ld_std_flags, sharedflag ?
++			"-shared "
++			"/usr/lib/crti.o /usr/lib/crtbeginS.o "
++			"/usr/lib/crtendS.o /usr/lib/crtn.o " :
++			"-e __start -dynamic-linker /usr/libexec/ld.so "
++			"/usr/lib/crti.o /usr/lib/crt0.o /usr/lib/crtbegin.o "
++			"-lc /usr/lib/crtend.o /usr/lib/crtn.o ");
+ #elif defined __OpenBSD__		
+ 		sprintf(ld_std_flags,
+ 			"-e __start -Bdynamic -dynamic-linker "
+@@ -180,6 +188,14 @@ driver(char **cpp_flags, char *asm_flags
+ 			"-dynamic-linker /lib64/ld-linux.so.2 "
+ 			"-L/lib64 -L/usr/lib64 /usr/lib64/crt1.o "
+ 			"/usr/lib64/crti.o /usr/lib64/crtn.o -lc ");
++#elif defined __MirBSD__
++		sprintf(ld_std_flags, sharedflag ?
++			"-shared "
++			"/usr/lib/crti.o /usr/lib/crtbeginS.o "
++			"/usr/lib/crtendS.o /usr/lib/crtn.o " :
++			"-e __start -dynamic-linker /usr/libexec/ld.so "
++			"/usr/lib/crti.o /usr/lib/crt0.o /usr/lib/crtbegin.o "
++			"-lc /usr/lib/crtend.o /usr/lib/crtn.o ");
+ #else /* Solaris */
+ 		/*
+ 		 * Because Solaris/SPARC does not ship with crt1.o, we
