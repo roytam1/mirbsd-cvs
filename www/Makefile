@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.74 2011/05/29 17:30:30 tg Exp $
+# $MirOS: www/Makefile,v 1.75 2011/06/06 21:36:44 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -45,7 +45,6 @@ SRCS+=		rss.hts
 SRCS+=		tags.hts
 CLEANFILES+=	tags.lst tags.out
 TAGCLOUD+=	debian
-TAGCLOUD+=	event
 TAGCLOUD+=	mksh
 TAGCLOUD+=	pcli
 WLOGS=		9 10
