@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.8 2007/01/19 23:11:20 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.9 2007/03/30 23:20:11 bsiegert Exp $ */
 /*	$OpenBSD: plist.c,v 1.17 2003/08/21 20:24:57 espie Exp $	*/
 
 /*
@@ -26,7 +26,7 @@
 #include <md5.h>
 #include "rcdb.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.8 2007/01/19 23:11:20 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/lib/plist.c,v 1.9 2007/03/30 23:20:11 bsiegert Exp $");
 
 #define NULLMD5 "d41d8cd98f00b204e9800998ecf8427e"
 
@@ -630,7 +630,7 @@ delete_extra(plist_t *p, const char *Where, const rm_cfg_t remove_config, bool d
 	    if (!Fake && rmdir(fname) == -1)
 		pwarn("problem removing directory %s",
 		    fname);
-	} else {
+	} else if (!b) {
 	    pwarnx("extra directory %s is not a directory",
 		fname);
 	}
