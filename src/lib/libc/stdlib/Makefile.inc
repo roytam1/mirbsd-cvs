@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/stdlib/Makefile.inc,v 1.6 2006/11/20 23:56:43 tg Exp $
+# $MirOS: src/lib/libc/stdlib/Makefile.inc,v 1.7 2007/05/22 16:13:51 tg Exp $
 
 # stdlib sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/stdlib ${LIBCSRCDIR}/stdlib
@@ -31,25 +31,13 @@ CFLAGS_tsearch.o+= -Wno-cast-qual
 CFLAGS_malloc.o+= -Wno-error
 .endif
 
-.if   (${MACHINE_ARCH} == "m68k")
-SRCS+=	abs.S div.c labs.c ldiv.c
-LSRCS+=	abs.c
-.elif (${MACHINE_ARCH} == "i386")
-SRCS+=	abs.S div.S
-LSRCS+=	abs.c div.c labs.c ldiv.c
-.elif (${MACHINE_ARCH} == "ns32k")
-SRCS+=	abs.S div.c labs.c ldiv.c
-LSRCS+=	abs.c
-.elif (${MACHINE_ARCH} == "tahoe")
-SRCS+=	abs.S div.c labs.c ldiv.c
-LSRCS+=	abs.c
-.elif (${MACHINE_ARCH} == "vax")
-SRCS+=	abs.c div.c labs.c ldiv.c
-.elif (${MACHINE_ARCH} == "alpha")
-# XXX should be .S's
-SRCS+=	abs.c div.c labs.c ldiv.c
+SRCS+=	abs.S
+LSRCS+=	abs.c labs.c
+.if (${MACHINE_ARCH} == "i386")
+SRCS+=	div.S
+LSRCS+=	div.c ldiv.c
 .else
-SRCS+=	abs.c div.c labs.c ldiv.c
+SRCS+=	div.c ldiv.c
 .endif
 
 .if (${MACHINE_ARCH} == "vax") || (${MACHINE_ARCH} == "m68k")

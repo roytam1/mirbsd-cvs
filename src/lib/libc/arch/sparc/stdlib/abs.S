@@ -31,15 +31,17 @@
  * SUCH DAMAGE.
  */
 
-#if defined(LIBC_SCCS) 
+#include <machine/asm.h>
+
+RCSID("$OpenBSD: abs.S,v 1.3 2003/06/02 20:18:32 millert Exp $")
+
 	.text
-	.asciz "$OpenBSD: abs.S,v 1.3 2003/06/02 20:18:32 millert Exp $"
-#endif /* LIBC_SCCS */
 
 /* abs - int absolute value */
 
 #include "DEFS.h"
 
+NENTRY(labs)
 ENTRY(abs)
 	tst	%o0
 	bl,a	1f

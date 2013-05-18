@@ -1,4 +1,4 @@
-# $MirOS: src/sys/lib/libkern/Makefile,v 1.11 2008/08/01 18:39:57 tg Exp $
+# $MirOS: src/sys/lib/libkern/Makefile,v 1.12 2008/08/01 18:47:50 tg Exp $
 # $NetBSD: Makefile,v 1.31 1996/08/10 04:01:31 mycroft Exp $
 # $OpenBSD: Makefile,v 1.18 2004/11/28 07:20:25 mickey Exp $
 
@@ -15,8 +15,7 @@ SMALL=		#defined
 
 CPPFLAGS=	${KERNCPPFLAGS}
 
-SRCS+=  	imax.c imin.c lmax.c lmin.c max.c min.c \
-		ulmax.c ulmin.c strncmp.c strncpy.c strncasecmp.c
+SRCS+=  	strncmp.c strncpy.c strncasecmp.c
 
 .include "${KERNBASE}/c/Makefile.inc"
 .include "${KERNBASE}/z/Makefile.adler32"

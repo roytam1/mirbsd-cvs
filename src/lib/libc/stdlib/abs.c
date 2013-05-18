@@ -30,6 +30,7 @@
 
 #include <stdlib.h>
 
+#undef abs
 int
 abs(int j)
 {
