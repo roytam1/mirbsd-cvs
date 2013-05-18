@@ -1,4 +1,4 @@
-#  $MirOS: src/lib/libm/Makefile,v 1.10 2011/10/18 21:21:46 tg Exp $
+#  $MirOS: src/lib/libm/Makefile,v 1.11 2011/10/22 20:17:49 bsiegert Exp $
 #  $NetBSD: Makefile,v 1.120 2011/09/17 10:51:52 jruoho Exp $
 #
 #  @(#)Makefile 5.1beta 93/09/24
@@ -139,6 +139,7 @@ MAN+=	acos.3 acosh.3 asin.3 asinh.3 atan.3 atan2.3 atanh.3 \
 	remainder.3 rint.3 round.3 \
 	scalbn.3 sin.3 sinh.3 sqrt.3 \
 	tan.3 tanh.3 trunc.3 fmax.3 fdim.3
+MAN+=	lround.3
 
 # MirOS' C library supplies these functions:
 #MAN+=	frexp.3 ldexp.3 modf.3
