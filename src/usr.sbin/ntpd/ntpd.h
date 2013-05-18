@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.15 2008/05/13 12:20:06 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.16 2008/06/04 16:56:26 tg Exp $ */
 /*	$OpenBSD: ntpd.h,v 1.70 2006/06/04 18:58:13 otto Exp $ */
 
 /*
@@ -48,6 +48,7 @@
 #define	TRUSTLEVEL_PATHETIC		2
 #define	TRUSTLEVEL_AGRESSIVE		8
 #define	TRUSTLEVEL_MAX			10
+#define	TRUSTLEVEL_RESET		(TRUSTLEVEL_AGRESSIVE - 2)
 
 #define	MAX_SERVERS_DNS			8
 

@@ -38,12 +38,13 @@
 #include "ntpd.h"
 #include "ntp.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.20 2008/05/13 20:58:02 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.21 2008/05/13 21:08:00 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
 
 volatile sig_atomic_t	 ntp_quit = 0;
+volatile sig_atomic_t	 ntp_usr1 = 0;
 struct imsgbuf		*ibuf_main;
 struct ntpd_conf	*conf;
 u_int			 peer_cnt;
@@ -62,6 +63,8 @@ ntp_sighdlr(int sig)
 	case SIGTERM:
 		ntp_quit = 1;
 		break;
+	case SIGUSR1:
+		ntp_usr1 = 1;
 	}
 }
 
@@ -130,6 +133,7 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 
 	endservent();
 
+	signal(SIGUSR1, ntp_sighdlr);
 	signal(SIGTERM, ntp_sighdlr);
 	signal(SIGINT, ntp_sighdlr);
 	signal(SIGPIPE, SIG_IGN);
@@ -250,6 +254,22 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 				log_warn("poll error");
 				ntp_quit = 1;
 			}
+
+		if (ntp_usr1) {
+			log_info("ntp engine reset");
+			for (j = idx_peers; j < i; j++) {
+				bzero(idx2peer[j - idx_peers]->reply,
+				    sizeof (idx2peer[j - idx_peers]->reply));
+				idx2peer[j - idx_peers]->shift = 0;
+				if (idx2peer[j - idx_peers]->trustlevel >
+				    TRUSTLEVEL_RESET)
+					/* the next 2 queries are fast */
+					idx2peer[j - idx_peers]->trustlevel =
+					    TRUSTLEVEL_RESET;
+				set_next(idx2peer[j - idx_peers], -1);
+			}
+			ntp_usr1 = 0;
+		}
 
 		if (nfds > 0 && (pfd[PFD_PIPE_MAIN].revents & POLLOUT))
 			if (msgbuf_write(&ibuf_main->w) < 0) {
