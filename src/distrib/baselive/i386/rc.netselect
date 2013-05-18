@@ -1,4 +1,4 @@
-# $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $
+# $MirOS: src/distrib/baselive/i386/rc.netselect,v 1.8 2007/05/28 13:52:54 tg Exp $
 #-
 # Copyright (c) 2006, 2007
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -36,27 +36,27 @@ get_passwd
 print
 print "Select the MirOS/i386 Live CD 'modus operandi'"
 print "=============================================="
-i=
-while [[ $i != @(1|2|3|4) ]]; do
+x=
+while [[ $x != @(1|2|3|4) ]]; do
 	print '1) manual/no network, no graphics'
 	print '2) automatic network (dhcp), no graphics'
 	print '3) automatic network, XFree86 (vesa 1024x768@24bpp) xdm/twm'
 	print '4) automatic network, XFree86 (vesa 800x600@16bpp) xdm/twm'
 	#print '5) automatic network, XFree86 (vesa 640x480@8bpp) xdm/twm'
 	print '9) temporarily escape into a shell (type "exit" to return)'
-	if [[ $i =  ]]; then
+	if [[ $x =  ]]; then
 		print
 		print If you need to plug in any network devices, do it now.
 	fi
 	print -n "Your choice? "
-	read i
-	if [[ $i = 9 ]]; then
+	read x
+	if [[ $x = 9 ]]; then
 		HOME=/dev/.root /bin/mksh -l
 		print
 	fi
 done
 
-case $i {
+case $x {
 (1)	# no network to configure
 	do_netconf none
 	;;
