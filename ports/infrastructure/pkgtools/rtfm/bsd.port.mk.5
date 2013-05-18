@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.17 2008/03/09 17:22:57 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.18 2008/04/05 18:24:33 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007, 2008 Thorsten Glaser
@@ -63,7 +63,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: March 14 2008 $
+.Dd $Mdocdate: April 5 2008 $
 .\"
 .\" Implement .Mx (MirBSD)
 .\"
@@ -1245,6 +1245,21 @@ This feature is primarily intended for large, interconnected ports,
 such as the kde suite, where a base package sets up a large, extra
 directory hierarchy that would make the manual checking of packing lists
 tedious.
+.It Ev MODGNU_TYPESCAN
+Set this to the names of functions where the configure script
+scans for types of its arguments, to prevent bogus warnings
+such as:
+.Pp
+.Bd -literal
+conftest.c:141: error: conflicting types for 'recv'
+/usr/include/sys/socket.h:451: error: previous declaration of 'recv' was here
+.Ed
+.Pp
+These warnings are grepped from the
+.Pa config.log
+file in case someone forgot to run our patched version of
+.Pa ports/devel/autoconf/2.{13,61}
+on the script, which prevents mis-not-detection of functions.
 .It Ev MOTIFLIB
 Read-only.
 Correct incantation to link with motif.
