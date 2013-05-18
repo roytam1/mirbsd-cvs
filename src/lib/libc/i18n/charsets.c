@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/lib/libc/i18n/charsets.c,v 1.15 2007/02/02 21:06:20 tg Exp $ */
 
 /*-
  * Copyright (c) 2007
@@ -21,22 +21,38 @@
  */
 
 #include <sys/param.h>
+
+#ifdef __weak_alias
+#define setlocale __weak_setlocale
+#endif
+
 #include <sys/localedef.h>
 #include <langinfo.h>
 #include <locale.h>
 #include <nl_types.h>
 #include <stdlib.h>
-#include <wchar.h>
+#include <string.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/charsets.c,v 1.14 2006/09/07 17:13:15 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/charsets.c,v 1.15 2007/02/02 21:06:20 tg Exp $");
 
-const char *__weak_setlocale(int, const char *);
+#define STR_C	"C"
+#define STR_UTF	"en_US.UTF-8"
 
-const char *
-__weak_setlocale(int category, const char *locale __attribute__((unused)))
+char *
+setlocale(int category, const char *locale __attribute__((unused)))
 {
-	return ((category == LC_CTYPE) || (category == LC_ALL) ?
-	    "en_US.UTF-8" : "C");
+	static char lc_other[] = STR_C;
+	static char lc_ctype[] = STR_UTF;
+
+	if ((category != LC_CTYPE) && (category != LC_ALL)) {
+		memmove(lc_other, STR_C, sizeof (lc_other));
+		return (lc_other);
+	}
+
+	memmove(lc_ctype, STR_UTF, sizeof (lc_ctype));
+	return (lc_ctype);
 }
 
+#ifdef __weak_alias
 __weak_alias(setlocale, __weak_setlocale);
+#endif

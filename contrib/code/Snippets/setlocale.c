@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/setlocale.c,v 1.1 2007/01/18 22:07:22 tg Exp $ */
+/* $MirOS: contrib/code/Snippets/setlocale.c,v 1.2 2007/06/07 12:30:37 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2007
@@ -24,16 +24,20 @@
  * of said person's immediate fault when using the work as intended.
  */
 
+#define setlocale donotdeclareme
+
 #include <sys/types.h>
 #include <langinfo.h>
 #include <locale.h>
 #include <nl_types.h>
 #include <stdbool.h>
 #include <stdlib.h>
-#include <wchar.h>
+#include <string.h>
 
-static const char __rcsid_1[] = "$miros: src/lib/libc/i18n/charsets.c,v 1.14 2006/09/07 17:13:15 tg Exp $";
-static const char __rcsid_2[] = "$MirOS: contrib/code/Snippets/setlocale.c,v 1.1 2007/01/18 22:07:22 tg Exp $";
+#undef setlocale
+
+static const char __rcsid_1[] = "$miros: src/lib/libc/i18n/charsets.c,v 1.17 2007/06/07 16:41:04 tg Exp $";
+static const char __rcsid_2[] = "$MirOS: contrib/code/Snippets/setlocale.c,v 1.2 2007/06/07 12:30:37 tg Exp $";
 
 /* simple locale support (C and UTF-8) */
 
@@ -41,11 +45,19 @@ char *setlocale(int, const char *);
 
 static bool locale_is_utf8 = false;
 
+#define STR_C	"C"
+#define STR_UTF	"en_US.UTF-8"
+
 char *
 setlocale(int category, const char *locale)
 {
-	if ((category != LC_CTYPE) && (category != LC_ALL))
-		return ("C");
+	static char lc_other[] = STR_C;
+	static char lc_ctype[] = STR_UTF;
+
+	if ((category != LC_CTYPE) && (category != LC_ALL)) {
+		memmove(lc_other, STR_C, sizeof (lc_other));
+		return (lc_other);
+	}
 
 	if (locale == NULL)
 		goto getlocale;
@@ -65,5 +77,6 @@ setlocale(int category, const char *locale)
 	    || strcasestr(locale, "utf8"));
 
  getlocale:
-	return ((char *)(locale_is_utf8 ? "en_US.UTF-8" : "C"));
+	strlcpy(lc_ctype, locale_is_utf8 ? STR_UTF : STR_C, sizeof (lc_ctype));
+	return (lc_ctype);
 }
