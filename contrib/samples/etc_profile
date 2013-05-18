@@ -1,4 +1,4 @@
-# $MirOS: contrib/samples/etc_profile,v 1.14 2011/06/21 11:09:30 tg Exp $
+# $MirOS: contrib/samples/etc_profile,v 1.15 2011/06/21 11:42:09 tg Exp $
 #-
 # Initialisation file for MirOS ksh (pdksh, sh), (s)ash and GNU bash
 # Fallback mode only for non-Korn-shells, though.
@@ -187,6 +187,9 @@ function ggr {		# Google GRoups
 }
 function ge {		# German English
 	${BROWSER:-lynx} "http://dict.leo.org/?search=$*"
+}
+function gfr {		# German Frensch
+	${BROWSER:-lynx} "http://dict.leo.org/frde?search=$*"
 }
 function ges {		# German Spanish
 	${BROWSER:-lynx} "http://dict.leo.org/esde?search=$*"
