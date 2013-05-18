@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/distrib/dbins/Makefile,v 1.1 2008/03/27 19:05:12 tg Exp $
 
 CBIN=		dbins
 BINDIR=		/bin
@@ -8,7 +8,7 @@ LINKS+=		${BINDIR}/${CBIN} /bin/cat \
 		${BINDIR}/${CBIN} /bin/chmod \
 		${BINDIR}/${CBIN} /bin/chgrp \
 		${BINDIR}/${CBIN} /sbin/chown \
-		${BINDIR}/${CBIN} /usr/sbin/chflags \
+		${BINDIR}/${CBIN} /usr/bin/chflags \
 		${BINDIR}/${CBIN} /bin/cp \
 		${BINDIR}/${CBIN} /bin/date \
 		${BINDIR}/${CBIN} /bin/dd \

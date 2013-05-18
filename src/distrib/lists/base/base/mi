@@ -616,7 +616,7 @@
 ./usr/lib/libpanel.so.6.0
 ./usr/lib/libpanelw.so.6.0
 ./usr/lib/libpcap.so.6.0
-./usr/lib/libpng.so.7.1
+./usr/lib/libpng.so.8.0
 ./usr/lib/libpthread.so.11.0
 ./usr/lib/libsectok.so.9.0
 ./usr/lib/libskey.so.8.0
@@ -3479,6 +3479,8 @@
 ./var/www/bin
 ./var/www/cgi-bin
 ./var/www/conf
+./var/www/conf/modules
+./var/www/conf/modules.sample
 ./var/www/htdocs
 ./var/www/htdocs/manual
 ./var/www/htdocs/manual/howto
