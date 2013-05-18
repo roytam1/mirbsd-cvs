@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.21 2007/09/28 20:46:54 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.22 2007/09/28 22:54:07 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
@@ -34,6 +34,10 @@
 # THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 sshd() {
+	if grep -q '^root:x:' /etc/master.passwd 2>/dev/null; then
+		print -u2 error: you must passwd root first
+		return 1
+	fi
 	if [[ ! -f /etc/ssh/ssh_host_rsa_key ]]; then
 		echo -n "ssh-keygen: generating new RSA host key... "
 		(ulimit -T 60; exec /usr/bin/ftp -mvo /dev/arandom \
