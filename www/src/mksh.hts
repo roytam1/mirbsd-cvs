@@ -3,7 +3,7 @@
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.221 2009/04/13 17:37:34 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.222 2009/04/13 18:01:51 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R37c</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -816,14 +816,32 @@ mws_content <<'EOF'
  <li>Red Hat GNU/Linux RHEL 5 2.6.18-128.1.1.el5xen (i386 gcc4.1.2-44) <em>by xenbuilder2 buildd via Koji/EPEL packager</em></li>
  <li>Red Hat GNU/Linux RHEL 5 2.6.18-128.el5 (macppc gcc4.1.2-44) <em>by ppc2 buildd via Koji/EPEL packager</em></li>
  <li>Red Hat GNU/Linux RHEL 5 2.6.18-128.1.1.el5xen (amd64 gcc4.1.2-44) <em>by xenbuilder2 buildd via Koji/EPEL packager</em></li>
- <li>OpenSuSE GNU/Linux 10.2 2.6.16.60-0.29-xen (i386 gcc4.1.2-20061115) <em>by build14 buildd via OBS SRPM package</em></li>
- <li>OpenSuSE GNU/Linux 10.2 2.6.16.60-0.29-xen (amd64 gcc4.1.2-20061115) <em>by build20 buildd via OBS SRPM package</em></li>
- <li>OpenSUSE GNU/Linux 10.3 2.6.16.60-0.29-xen (i386 gcc4.2.1) <em>by build22 buildd via OBS SRPM package</em></li>
- <li>OpenSUSE GNU/Linux 10.3 2.6.16.60-0.29-xen (amd64 gcc4.2.1) <em>by build14 buildd via OBS SRPM package</em></li>
- <li>SLES GNU/Linux 9 2.6.16.60-0.29-xen (i386 gcc3.3.3) <em>by build11 buildd via OBS SRPM package</em></li>
- <li>SLES GNU/Linux 9 2.6.16.60-0.29-xen (amd64 gcc3.3.3) <em>by build13 buildd via OBS SRPM package</em></li>
- <li>SuSE GNU/Linux Factory 2.6.27 (i386 gcc4.3.2-r141291) <em>by build21 buildd via OBS SRPM package</em></li>
- <li>SuSE GNU/Linux Factory 2.6.27 (amd64 gcc4.3.2-r140831) <em>by build19 buildd via OBS SRPM package</em></li>
+ <li>OpenSUSE GNU/Linux 10.3 2.6.27.21-0.1-xen (i386 gcc4.2.1) <em>by build16 buildd via OBS SRPM package</em></li>
+ <li>OpenSUSE GNU/Linux 10.3 2.6.27.21-0.1-xen (amd64 gcc4.2.1) <em>by build19 buildd via OBS SRPM package</em></li>
+ <li>OpenSUSE GNU/Linux 11.0 2.6.27.21-0.1-xen (i386 gcc4.3.1-20080507-r135036) <em>by build20 buildd via OBS SRPM package</em></li>
+ <li>OpenSUSE GNU/Linux 11.0 2.6.27.21-0.1-xen (amd64 gcc4.3.1-20080507-r135036) <em>by build19 buildd via OBS SRPM package</em></li>
+ <li>OpenSUSE GNU/Linux 11.1 2.6.27 (i386 gcc4.3.2-r141291) <em>by build24 buildd via OBS SRPM package</em></li>
+ <li>OpenSUSE GNU/Linux 11.1 2.6.27 (amd64 gcc4.3.2-r141291) <em>by build14 buildd via OBS SRPM package</em></li>
+ <li>SLES GNU/Linux 9 2.6.27.21-0.1-xen (i386 gcc3.3.3) <em>by build24 buildd via OBS SRPM package</em></li>
+ <li>SLES GNU/Linux 9 2.6.27.21-0.1-xen (amd64 gcc3.3.3) <em>by build14 buildd via OBS SRPM package</em></li>
+ <li>SuSE GNU/Linux Factory 2.6.29 (i386 gcc4.3.3-r144878) <em>by build16 buildd via OBS SRPM package</em></li>
+ <li>SuSE GNU/Linux Factory 2.6.29 (amd64 gcc4.3.3-r144878) <em>by build24 buildd via OBS SRPM package</em></li>
+ <li>CentOS GNU/Linux 5 2.6.27.21-0.1-xen (i386 gcc4.1.2-14) <em>by build14 buildd via OBS SRPM package</em></li>
+ <li>CentOS GNU/Linux 5 2.6.27.21-0.1-xen (amd64 gcc4.1.2-14) <em>by build18 buildd via OBS SRPM package</em></li>
+ <li>Fedora GNU/Linux 9 2.6.27.21-0.1-xen (i386 gcc4.3.0-8) <em>by build12 buildd via OBS SRPM package</em></li>
+ <li>Fedora GNU/Linux 9 2.6.27.21-0.1-xen (amd64 gcc4.3.0-8) <em>by build15 buildd via OBS SRPM package</em></li>
+ <li>Fedora GNU/Linux 10 2.6.27.21-0.1-xen (i386 gcc4.3.2-7) <em>by build11 buildd via OBS SRPM package</em></li>
+ <li>Fedora GNU/Linux 10 2.6.27.21-0.1-xen (amd64 gcc4.3.2-7) <em>by build24 buildd via OBS SRPM package</em></li>
+ <li>Mandriva GNU/Linux 2008 2.6.27.21-0.1-xen (i386 gcc4.2.2-0.RC.1mdv2008.0) <em>by build24 buildd via OBS SRPM package</em></li>
+ <li>Mandriva GNU/Linux 2008 2.6.27.21-0.1-xen (amd64 gcc4.2.2-0.RC.1mdv2008.0) <em>by build26 buildd via OBS SRPM package</em></li>
+ <li>Mandriva GNU/Linux 2009 2.6.27.21-0.1-xen (i386 gcc4.3.2) <em>by build16 buildd via OBS SRPM package</em></li>
+ <li>Mandriva GNU/Linux 2009 2.6.27.21-0.1-xen (amd64 gcc4.3.2) <em>by build20 buildd via OBS SRPM package</em></li>
+ <li>Red Hat GNU/Linux RHEL 4 2.6.27.21-0.1-xen (i386 gcc3.4.6-9) <em>by build20 buildd via OBS SRPM package</em></li>
+ <li>Red Hat GNU/Linux RHEL 4 2.6.27.21-0.1-xen (amd64 gcc3.4.6-9) <em>by build26 buildd via OBS SRPM package</em></li>
+ <li>Red Hat GNU/Linux RHEL 5 2.6.27.21-0.1-xen (i386 gcc4.1.2-14) <em>by build11 buildd via OBS SRPM package</em></li>
+ <li>Red Hat GNU/Linux RHEL 5 2.6.27.21-0.1-xen (amd64 gcc4.1.2-14) <em>by build26 buildd via OBS SRPM package</em></li>
+ <li>SLES GNU/Linux 10 2.6.27.21-0.1-xen (i386 gcc4.1.2-20070115) <em>by build24 buildd via OBS SRPM package</em></li>
+ <li>SLES GNU/Linux 10 2.6.27.21-0.1-xen (amd64 gcc4.1.2-20070115) <em>by build14 buildd via OBS SRPM package</em></li>
 </ul>
 <h3 id="regress_old">Older Versions</h3>
 <ul>

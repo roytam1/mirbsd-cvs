@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh_old.hts,v 1.17 2009/04/13 17:37:35 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.18 2009/04/13 18:01:52 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.17 2009/04/13 17:37:35 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.18 2009/04/13 18:01:52 tg Exp $'
 mws_content <<'EOF'
 <h1><a href="mksh.htm">mksh</a> – old versions</h1>
 <p>This page lists information about mksh R36b and earlier.</p>
@@ -133,6 +133,8 @@ mws_content <<'EOF'
    <li>Fedora GNU/Linux Core 10 2.6.26.6-68.fc9.sparc64.smp (sparc64 gcc4.3.2-4) <em>by daedalus buildd via Koji/EPEL packager</em></li>
    <li>Red Hat FC8 2.6.23.15-137.fc8 (i386 gcc4.1.2-33) <em>via MirOS provided SRPM package</em></li>
    <li>Red Hat FC8 2.6.23.15-137.fc8 (amd64 gcc4.1.2-33) <em>via MirOS provided SRPM package</em></li>
+   <li>OpenSuSE GNU/Linux 10.2 2.6.16.60-0.29-xen (i386 gcc4.1.2-20061115) <em>by build14 buildd via OBS SRPM package</em></li>
+   <li>OpenSuSE GNU/Linux 10.2 2.6.16.60-0.29-xen (amd64 gcc4.1.2-20061115) <em>by build20 buildd via OBS SRPM package</em></li>
  </ul></li>
  <li>mksh R33a-d<ul>
   <li>Interix 3.5 SP-8.0.1969.1 (i386 gcc3.3 win2k) <em>via MirOS provided pkgsrc® source package</em></li>
