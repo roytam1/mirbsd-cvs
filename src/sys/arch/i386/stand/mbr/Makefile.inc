@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: src/sys/arch/i386/stand/mbr/Makefile.inc,v 1.1 2007/02/26 00:13:27 tg Exp $
 
 .ifndef MODSRC_SYS_ARCH_I386_STAND_MBR_MAKEFILE_INC
 MODSRC_SYS_ARCH_I386_STAND_MBR_MAKEFILE_INC=	# defined
@@ -27,5 +27,7 @@ ${.CURDIR}/disasm: ${PROG}
 .if exists(../Makefile.inc)
 .  include "../Makefile.inc"
 .endif
+
+V=		${REAL_V}
 
 .endif
