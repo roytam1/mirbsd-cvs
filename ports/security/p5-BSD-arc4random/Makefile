@@ -1,10 +1,10 @@
-# $MirOS: ports/security/p5-BSD-arc4random/Makefile,v 1.2 2008/07/16 01:44:05 tg Exp $
+# $MirOS: ports/security/p5-BSD-arc4random/Makefile,v 1.3 2008/07/20 22:53:08 tg Exp $
 
 COMMENT=		Perl bindings for the arc4random API
 CATEGORIES=		security devel perl5
-DISTNAME=		BSD-arc4random-1.3
+DISTNAME=		BSD-arc4random-1.41
 PKGNAME=		p5-${DISTNAME}-${DASH_VER}
-RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
+RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 
 # MirOS
 PERMIT_DISTFILES_CDROM=	Yes
