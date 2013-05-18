@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.29 2009/01/02 04:58:40 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.30 2009/01/02 05:16:33 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009
@@ -319,7 +319,7 @@ Lpmode:	mov	eax,0x10
 	mov	edi,offset _C_LABEL(edata)
 	sub	ecx,edi
 	/* 1) align */
-1:	test	cl,3
+1:	test	di,3
 	jz	2f
 	stosb
 	dec	ecx
