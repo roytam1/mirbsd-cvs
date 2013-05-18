@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.5 2006/08/19 19:06:04 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.6 2006/10/02 07:03:16 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -154,9 +154,9 @@ cdrom-generate:
 
 cdrom-finish:
 
-clean cleandir cleannobsd: cleanworkdir
+clean cleandir cleannobsd: cleanworkdir tstumnt
 	-rm -f ${CDROM} bsd{,.gz,.tmp} mkisofs.log ${IMAGE}
-	-rm -rf tempdir ${TMPMOUNT}
+	-rm -rf tempdir
 
 cleanworkdir:
 	-test ! -e ${WRKDIR} || ${SUDO} rm -rf ${WRKDIR}
