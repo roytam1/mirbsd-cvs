@@ -25,7 +25,7 @@
 # http://www.research.att.com/~gsf/public/ifs.sh
 
 expected-stdout:
-	@(#)MIRBSD KSH R40 2011/11/18
+	@(#)MIRBSD KSH R40 2011/11/22
 description:
 	Check version of shell.
 stdin:
@@ -7834,7 +7834,9 @@ stdin:
 		print -- "$x\n" >/etc/motd
 	fi
 	#wdarrassign
-	a+=b; c+=(d e)
+	case x in
+	x) a+=b; c+=(d e)
+	esac
 	#0
 	EOD
 expected-stdout:
@@ -8401,23 +8403,33 @@ expected-stdout:
 	)" = @(?) ]] && rm -f /etc/motd ; if [[ ! -s /etc/motd ]] ; then install -c -o root -g wheel -m 664 /dev/null /etc/motd ; print -- "$x\n" >/etc/motd ; fi ) | tr u x ) 
 	} 
 	inline_wdarrassign() {
-		a+=b; c+=(d e)
+		case x in
+		x) a+=b; c+=(d e)
+		esac
 	}
 	inline_wdarrassign() {
-		a+=b 
-		set -A c+ -- d e 
+		case x in
+		(x)
+			a+=b 
+			set -A c+ -- d e 
+			;;
+		esac 
 	} 
 	function comsub_wdarrassign { x=$(
-		a+=b; c+=(d e)
+		case x in
+		x) a+=b; c+=(d e)
+		esac
 	); }
 	function comsub_wdarrassign {
-		x=$(a+=b ; set -A c+ -- d e ) 
+		x=$(case x in (x) a+=b ; set -A c+ -- d e  ;; esac ) 
 	} 
 	function reread_wdarrassign { x=$((
-		a+=b; c+=(d e)
+		case x in
+		x) a+=b; c+=(d e)
+		esac
 	)|tr u x); }
 	function reread_wdarrassign {
-		x=$(( a+=b ; set -A c+ -- d e ) | tr u x ) 
+		x=$(( case x in (x) a+=b ; set -A c+ -- d e  ;; esac ) | tr u x ) 
 	} 
 ---
 name: test-stnze-1
