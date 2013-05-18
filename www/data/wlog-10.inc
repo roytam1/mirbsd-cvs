@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.63 2008/07/26 19:46:26 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.64 2008/07/30 00:22:01 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1283,7 +1283,9 @@ Date: 30.07.2008 00:16
 Author: tg@
 Title: Get me some beer, Wine sucks
 
-<p>… I still wish I were a cat, sometimes.</p>
+<p>… I still <a href="@@RELPATH@@permalinks/wlog-10_e20080725-tg.htm">wish
+ I were a cat</a>, sometimes. Just have to stay clear of <a
+ href="http://partmaps.org/era/unix/award.html">cat abusers</a>.</p>
 <p>Tonight, I managed to port Wine 1.0 from pkgsrc®, with thanks to <a
  href="http://www.feyrer.de/NetBSD/blog.html/nb_20080728_1037.html">Hubert
  Feyrer</a> for mentioning, except it seems to stumble about W^X and
@@ -1297,4 +1299,8 @@ Title: Get me some beer, Wine sucks
  seems to be not recommended. Thus no midori for us ☹ (yet).</p>
 <p>The third thing was getting rid of J�rg Schilling… but due to the heat I
  slept bad and could not get up early. Really! (Yeah yeah…)</p>
+<p>You all should read Tonnerre’s wonderful blog posting about how he got <a
+ href="http://blog.pas-un-geek-en-tant-que-tel.ch/archives/2008/07/23/Subversion_-_tales_from_a_failed_migration/">rid
+ of Subversion</a>, luckily. (I wonder about said “new” developer’s preference
+ as I’d rather use CVS for everything…)</p>
 ----
