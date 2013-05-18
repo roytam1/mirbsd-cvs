@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.122 2008/12/28 20:56:47 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.123 2008/12/28 21:45:21 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2385,4 +2385,30 @@ Title: light bulbs
 <p>What did I do? Meh, just some <a
  href="@@RELPATH@@permalinks/news_e20081228-tg.htm">bootloader
  hacking</a>.</p>
+----
+Date: 30.12.2008 21:34
+Author: tg@
+Title: MD5 attack lead to faking an X.509v3 Intermediate CA
+Tag: security
+
+<p>I’ve updated <tt>src/etc/ssl.certs.shar</tt>, read <a
+ href="http://www.win.tue.nl/hashclash/rogue-ca/">about
+ the procedure</a>. Someone might want to update the nss
+ <tt>certdata.txt</tt> file (to mark them as untrusted);
+ for OpenSSL it’s enough to have them renamed. Luckily,
+ the CAs agree wanting to switch to SHA-1 (yuck, broken as
+ well). Only, do they get a new root certificate (probably
+ not), and where does an OS vendor get such news?</p>
+<!-- RSS stop --><p>On other notes, we have a new logo for <a
+ href="@@RELPATH@@mksh.htm">mksh</a>, thanks smultron.
+ Hand-editing SVG is so much fun ☺ no really, in <a
+ href="@@RELPATH@@jupp.htm">jupp</a> it works very well.</p>
+<p>I also ported the e3 editor to MirBSD, it’s 17 KiB i386
+ statically linked (stand-alone) binary. GNU GPL, but good
+ for custom-made (hehe…) install/rescue system <tt>bsd.rd</tt>
+ kernels. I would like to add TinyIRC-MirOS as well, but need
+ to get an exception licence for crunchgen(1) use.</p>
+<p>Both tinyirc and mksh(1) now use TIOCGWINSZ more properly
+ and aggressively. The shell, in particular, now <em>always</em>
+ has <tt>COLUMNS</tt> and <tt>LINES</tt> set.</p>
 ----
