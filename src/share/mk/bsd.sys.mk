@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.sys.mk,v 1.9 2007/03/08 10:07:02 tg Exp $
+# $MirOS: src/share/mk/bsd.sys.mk,v 1.10 2007/03/09 10:40:52 tg Exp $
 # $OpenBSD: bsd.sys.mk,v 1.8 2000/07/06 23:12:41 millert Exp $
 # $NetBSD: bsd.sys.mk,v 1.2 1995/12/13 01:25:07 cgd Exp $
 
@@ -13,7 +13,7 @@ CPPFLAGS+=	-isystem ${.CURDIR}
 .  if !defined(EXPERIMENTAL)
 CFLAGS+=	-Werror
 .    if !defined(BSD_CFWRAP_MK) && !make(depend)
-CC:=		GCC_HONOUR_COPTS=2 ${CC}
+CC:=		env GCC_HONOUR_COPTS=2 ${CC}
 .    endif
 .  endif
 
