@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/sparc/ramdisk/list,v 1.4 2006/07/03 23:17:50 tg Exp $
+# $MirOS: src/distrib/sparc/ramdisk/list,v 1.5 2006/07/05 21:41:12 tg Exp $
 # $OpenBSD: list,v 1.25 2005/01/11 19:21:08 deraadt Exp $
 # $NetBSD: list,v 1.2.4.2 1996/06/26 19:25:00 pk Exp $
 
@@ -11,7 +11,7 @@ SRCDIRS	sys/arch/sparc/stand
 SCRIPT ${DESTDIR}/dev/MAKEDEV			dev/MAKEDEV
 SPECIAL	cd dev; chmod 555 MAKEDEV; ./MAKEDEV ramdisk
 
-# we need the contents of /usr/mdec (but not boot or binstall)
+# we need the contents of /usr/mdec (except installboot)
 COPY	${DESTDIR}/usr/mdec/boot		usr/mdec/boot
 COPY	${DESTDIR}/usr/mdec/bootxx		usr/mdec/bootxx
 

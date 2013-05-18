@@ -1,5 +1,4 @@
 ./usr/lib/libc.so.38.4
-./usr/mdec/binstall
 ./usr/mdec/bootxx
 ./usr/sbin/eeprom
 ./usr/share/man/cat4/agten.0
