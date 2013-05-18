@@ -1,5 +1,5 @@
 <!-- PageID: main -->
-<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.46 2006/03/02 00:25:20 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWFpbg__.inc,v 1.47 2006/04/11 09:55:19 tg Exp $</small>
 <h1>MirBSD &nbsp; MirLinux &nbsp; MirPorts &nbsp; &mdash; &nbsp; Main Page</h1>
 <h2>Welcome to the MirOS Project!</h2>
 <p>This project is driven by a small number of people, that's why this
@@ -23,7 +23,7 @@
  in order to prevent abuse of our name and provide integrity of distfiles.</p>
 <p>Go to <a href="/?news">the main news page</a>.</p>
 <h3 style="color:red;">Latest Releases</h3>
-<p>CURRENT: April 11th, 2006: #8-current snapshot available via our <a
+<p>CURRENT: April 12th, 2006: #8-current snapshot available via our <a
  href="http://f.scarywater.net/miros/">BitTorrent</a> tracker (ISO 9660,
  combined Live- and Installation CD).</p>
 <p>CURRENT: February 15th, 2006: #8-current snapshot available for <a
