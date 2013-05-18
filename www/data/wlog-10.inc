@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.384 2012/02/06 13:53:04 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.385 2012/03/03 21:44:47 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8980,4 +8980,37 @@ Tag: event pkgsrc
  redoing the setup on this machine anyway, once NetBSD-6-alpha will have
  been branched. I would also like to use LVM to set up the partitions
  for the Xen domains, to avoid going through a vnd(4) device.</p>
+----
+Date: 20.03.2012 21:49
+Author: bsiegert@
+Title: blog @ TNF
+
+<p>
+ So now I am even
+ <a href="http://blog.NetBSD.org/tnf/entry/new_netbsd_flyers_available">posting
+  over at TNF</a>
+ on <a href="http://blog.NetBSD.org/">blog.NetBSD.org</a>. Julian Fagir
+ made new NetBSD flyers, and I committed them to the TNF website.
+</p>
+
+<p>I know that I should write more here but there is not much new on the
+ MirBSD front.
+</p>
+
+<p>
+ I updated the showcase to NetBSD-6_BETA on the Dom0, and now X refuses
+ to start. Oh well. X does start when using a GENERIC kernel. This is
+ very bad for showcase use, of course :(. pkgsrc is going into freeze
+ very soon, and I did not do a whole lot of MirBSD fixes this time
+ around. This is due to illness, searching for a new job, and working on
+ <a href="http://golang.org/">the Go programming language</a>, which is
+ expected to hit version 1.0 Real Soon Now(TM).
+</p>
+
+<p>
+ I brushed up my Algorithms and Data Structures a bit by reading the
+ third volume of TAOCP. Fantastic book.
+</p>
+
+<!-- tg: DON'T change the link above. Don't even think about it. -->
 ----
