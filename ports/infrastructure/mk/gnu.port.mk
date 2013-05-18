@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.9 2005/12/15 01:24:43 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.10 2005/12/16 01:25:31 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -102,7 +102,7 @@ _MODGNU_loop=	rm -f ${MODGNU_NUKES}; ( cd ${PORTSDIR}/infrastructure/db/; \
 _MODGNU_loop+=	print "Updating to MirLibtool in $$d"; \
 		touch $$F; L=aclocal.m4; test -s $$L || L=$$ACAUX/$$L; touch \
 		$$L; for LP in $${L}${PATCHORIG} $$L; do test -e $$LP || \
-		continue; print "/^\\\# serial [0-9]* AC_PROG_LIBTOOL/ka\n" \
+		continue; print "/^\\\# serial [0-9].* AC_PROG_LIBTOOL/ka\n" \
 		"'a,\$$g/^ifelse(\\[AC_DISABLE_FAST_INSTALL])/kb\n" \
 		"'b,\$$g/^AC_MSG_RESULT(\\[\$$SED])/+1kb\n'a,'bd\nwq" \
 		| ed -s $$LP 2>/dev/null || true; print "0a\n" \
