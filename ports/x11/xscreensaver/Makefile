@@ -1,7 +1,7 @@
-# $MirOS: ports/x11/xscreensaver/Makefile,v 1.4 2006/06/03 16:43:13 bsiegert Exp $
+# $MirOS: ports/x11/xscreensaver/Makefile,v 1.5 2006/09/14 00:16:01 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2004/04/02 19:07:05 sturm Exp $
 
-COMMENT=			screen saver and locker for the X Window System
+COMMENT=		screen saver and locker for the X Window System
 
 VERSION=		4.06
 DISTNAME=		xscreensaver-${VERSION}
@@ -42,6 +42,9 @@ FLAVORS=		no_gle gtk2
 FLAVOR?=		no_gle
 
 .if !${FLAVOR:L:Mno_gle}
+PERMIT_PACKAGE_CDROM=	dependency graphics/gle is not allowed for CDROM
+PERMIT_PACKAGE_FTP=	dependency graphics/gle is not allowed for FTP
+USE_CXX=		Yes # depends on gle, which uses CXX
 LIB_DEPENDS+=		gle.3::graphics/gle
 CONFIGURE_ARGS+=	--with-gle
 .else
