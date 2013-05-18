@@ -1,4 +1,4 @@
-# $MirOS: ports/devel/subversion/Makefile,v 1.19 2008/06/28 11:29:26 bsiegert Exp $
+# $MirOS: ports/devel/subversion/Makefile,v 1.20 2008/09/21 18:05:52 bsiegert Exp $
 
 COMMENT=		Subversion revision control system
 VERSION=		1.5.2
@@ -46,18 +46,18 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 DOCFILES=		svnsync.txt fsfs ssh-tricks
 
 post-build:
-	cd ${WRKBUILD} && ${MAKE_PROGRAM} swig-pl
-	nroff -mdoc ${FILESDIR}/svnup-cvs.1 > ${WRKSRC}/contrib/client-side/svnup-cvs.cat1
+	cd ${WRKBUILD} && ${SETENV} ${MAKE_ENV} ${MAKE_PROGRAM} swig-pl
+	${NROFF} -mdoc ${FILESDIR}/svnup-cvs.1 >${WRKBUILD}/contrib/client-side/svnup-cvs.cat1
 
-# Use of LOCALBASE is intentional so that DESTDIR is not added twice.
 post-install:
-	cd ${WRKBUILD} && ${MAKE_PROGRAM} install-swig-pl \
-	INSTALLSITELIB=${LOCALBASE:Q}/${P5SITE} \
+	cd ${WRKBUILD} && ${SETENV} ${MAKE_ENV} ${_FAKE_SETUP} \
+	${MAKE_PROGRAM} install-swig-pl \
+	INSTALLSITELIB=${PREFIX:Q}/${P5SITE} \
         INSTALLSITEARCH="\$${INSTALLSITELIB}/${MODPERL_ARCH}" \
-        INSTALLBIN=${LOCALBASE:Q}/bin INSTALLSCRIPT='$${INSTALLBIN}' \
-        INSTALLMAN3DIR=${LOCALBASE:Q}/man/man3 \
-        INSTALLSITEMAN3DIR=${LOCALBASE:Q}/man/man3 \
-        INSTALLVENDORMAN3DIR=${LOCALBASE:Q}/man/man3
+        INSTALLBIN=${TRUEPREFIX:Q}/bin INSTALLSCRIPT='$${INSTALLBIN}' \
+        INSTALLMAN3DIR=${PREFIX:Q}/man/man3 \
+        INSTALLSITEMAN3DIR=${PREFIX:Q}/man/man3 \
+        INSTALLVENDORMAN3DIR=${PREFIX:Q}/man/man3
 	${INSTALL_SCRIPT} ${WRKSRC}/contrib/client-side/svn_load_dirs/svn_load_dirs.pl ${PREFIX}/bin/svn_load_dirs
 	${INSTALL_SCRIPT} ${FILESDIR}/svnup-cvs ${PREFIX}/bin
 	${INSTALL_MAN} ${WRKSRC}/contrib/client-side/svnup-cvs.cat1 ${PREFIX}/man/cat1/svnup-cvs.0
