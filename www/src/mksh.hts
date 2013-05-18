@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.124 2008/06/21 22:37:19 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.125 2008/06/22 21:23:25 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R33d</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -286,6 +286,11 @@ mws_content <<'EOF'
 <p>I could not get the Intel Compiler 10 for Windows® to work.</p>
 <p>mksh enables the ICC stack protector option automaticaly. Compilates
  usually require the Intel shared libraries to be around.</p>
+
+<h5 id="oe_llvm">Compiler: LLVM</h5>
+<p>Apple llvm-gcc from Xcode 3.1 had full success with mksh R34.</p>
+<p>Vanilla llvm-gcc has not yet been tested.</p>
+<p>Vanilla llvm-clang produces output which fails 83% of the test suite.</p>
 
 <h5 id="oe_msc">Compiler: Microsoft® C/C++</h5>
 <p>Support for the Microsoft® C Compiler on Interix and UWIN, with the
@@ -984,7 +989,9 @@ mws_content <<'EOF'
  <li>Use proper <tt>ptrdiff_t</tt> casts for pointer arithmetics, inspired
   by an oksh commit from Federico Schwindt</li>
  <li>Remove check category “pdksh” from <tt>check.t</tt> and test script</li>
- <li>Improve SUNpro version reporting</li>
+ <li>Improve SUNpro, Darwin version reporting</li>
+ <li>Support GNU bash “&amp;&gt;” extension, even better than they do</li>
+ <li>Remove <a href="http://clang.llvm.org/">llvm-clang</a> temporaries</li>
 </ul>
 <p id="r33d">mksh R33d is a quick security-update with these changes:</p><ul>
  <li>Move a portability define from <tt>sh.h</tt> to the <tt>setmode.c</tt>
