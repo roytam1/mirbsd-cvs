@@ -1,11 +1,9 @@
 #!@SHELL@
-# $MirOS: ports/www/opera/files/opera.sh,v 1.9 2006/12/21 13:41:34 tg Exp $
+# $MirOS: ports/www/opera/files/opera.sh,v 1.10 2007/04/30 12:47:16 tg Exp $
 
-if ! fgrep "Synchronous DNS Lookup=1" $HOME/.opera/opera6.ini \
-    >/dev/null 2>&1; then
-	echo 'Warning: read the install notice ("pkg_info -D opera")' >&2
-	echo '	 before using the Opera(C) web browser!' >&2
-	sleep 3
+cfg=$HOME/.opera/opera6.ini
+[[ -e $cfg ]] && if ! fgrep -q "Synchronous DNS Lookup=1" $cfg; then
+	print '[Performance]\nSynchronous DNS Lookup=1' >>$cfg
 fi
 
 export OPERA_SCRIPT_PATH=$(readlink -nf $0) OPERA_NUM_XSHM=0
