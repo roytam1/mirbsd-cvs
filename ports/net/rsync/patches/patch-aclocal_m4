@@ -1,8 +1,0 @@
-$MirOS$
---- aclocal.m4.orig	Tue Apr  1 22:37:08 2008
-+++ aclocal.m4	Tue Apr  1 22:37:25 2008
-@@ -91,3 +91,4 @@ fi
-   AC_DEFINE_UNQUOTED($ac_tr_hdr, 1, [Define if you have type `$1'])
- fi
- ])
-+builtin([include], [iconv.m4])

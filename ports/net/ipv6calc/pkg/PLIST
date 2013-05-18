@@ -1,4 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.4 2003/10/07 15:58:20 pvalchev Exp $
-bin/ipv6calc
-bin/ipv6logconv
-bin/ipv6logstats
