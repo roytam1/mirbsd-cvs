@@ -1,8 +1,8 @@
-/* $MirOS: src/sys/sys/taitime.h,v 1.2 2007/02/07 20:43:28 tg Exp $ */
+/* $MirOS: src/sys/sys/taitime.h,v 1.3 2007/08/08 18:48:48 tg Exp $ */
 
 /*-
- * Copyright (c) 2007
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2007, 2011
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
@@ -30,6 +30,9 @@
  */
 #define __TAI64_BIAS	0x4000000000000000ULL
 typedef	int64_t tai64_t;
+
+/* MirBSD bonus: flag used by the code to accept a wrap-around extension */
+#define __TAI_CAN_BE_64BIT
 
 /* tai64_t + nanosecond and attosecond accuracy */
 typedef	struct {

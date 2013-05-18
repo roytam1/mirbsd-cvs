@@ -1,8 +1,8 @@
-/* $MirOS: src/kern/c/taitime.c,v 1.1 2007/02/07 20:43:23 tg Exp $ */
+/* $MirOS: src/kern/c/taitime.c,v 1.2 2007/02/07 21:46:44 tg Exp $ */
 
 /*-
- * Copyright (c) 2004, 2005, 2006, 2007
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2004, 2005, 2006, 2007, 2011
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Based upon code placed into the public domain by
  *	Dan J. Bernstein <djb@cr.yp.to>
  *
@@ -29,7 +29,14 @@
 #include <sys/types.h>
 #include <sys/taitime.h>
 
-__RCSID("$MirOS: src/kern/c/taitime.c,v 1.1 2007/02/07 20:43:23 tg Exp $");
+__RCSID("$MirOS: src/kern/c/taitime.c,v 1.2 2007/02/07 21:46:44 tg Exp $");
+
+#ifdef __TAI_CAN_BE_64BIT
+#define TU(x)	((uint64_t)(x))
+#define TT(x)	((int64_t)((uint64_t)(x) - __TAI64_BIAS))
+#else
+#define TU(x)	(x)
+#endif
 
 #ifdef L_tai_isleap
 int
@@ -37,11 +44,17 @@ tai_isleap(tai64_t x)
 {
 	tai64_t *t;
 
+#ifdef __TAI_CAN_BE_64BIT
+	/* shortcut, also to protect wraparounds */
+	if (TT(x) < 0)
+		return (0);
+#endif
+
 	t = tai_leaps();
 	while (__predict_true(*t))
 		if (__predict_false((*t) == x))
 			return (1);
-		else if (__predict_false((*t) > x))
+		else if (__predict_false(TU(*t) > TU(x)))
 			return (0);
 		else
 			++t;
@@ -54,6 +67,9 @@ tai_isleap(tai64_t x)
 tai64_t
 timet2tai(time_t x)
 {
+#ifdef __TAI_CAN_BE_64BIT
+	return ((tai64_t)((time_t)x + __TAI64_BIAS));
+#else
 	return (((uint64_t)x < 0x4000000000000000ULL)
 	    ? ((tai64_t)((uint64_t)x + __TAI64_BIAS))
 	    : (((uint64_t)x < 0x8000000000000000ULL)
@@ -61,6 +77,7 @@ timet2tai(time_t x)
 	    : (((uint64_t)x < 0xC000000000000000ULL)
 	    ? ((tai64_t)0ULL)
 	    : ((tai64_t)((uint64_t)x + __TAI64_BIAS)))));
+#endif
 }
 #endif
 
@@ -69,8 +86,12 @@ timet2tai(time_t x)
 time_t
 tai2timet(tai64_t x)
 {
+#ifdef __TAI_CAN_BE_64BIT
+	return ((time_t)((tai64_t)x - __TAI64_BIAS));
+#else
 	return (((uint64_t)x & 0x8000000000000000ULL) ? 0 :
 	    ((uint64_t)x - __TAI64_BIAS));
+#endif
 }
 #endif
 
@@ -83,7 +104,7 @@ utc2tai(int64_t u)
 	t = u + __TAI64_BIAS;
 	if (__predict_true(u > 0)) {
 		s = tai_leaps();
-		while (__predict_true((*s) && (t >= *s))) {
+		while (__predict_true((*s) && (TU(t) >= TU(*s)))) {
 			++t;
 			++s;
 		}
@@ -99,9 +120,10 @@ tai2utc(tai64_t t)
 	int64_t u;
 	tai64_t *s;
 
-	if (__predict_true((u = t - __TAI64_BIAS) > 0)) {
+	u = t - __TAI64_BIAS;
+	if (__predict_true(u > 0)) {
 		s = tai_leaps();
-		while (__predict_true((*s) && (t >= *s))) {
+		while (__predict_true((*s) && (TU(t) >= TU(*s)))) {
 			--u;
 			++s;
 		}
