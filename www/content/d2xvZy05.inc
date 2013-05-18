@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.58 2006/10/29 16:24:40 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.59 2006/10/29 22:22:43 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1012,6 +1012,13 @@ plot [150:200] 	"bs06.4Kmin.txt" using 1:3 with lines title "exc{\350}s en chlor
   <a href="http://www.frozen-bubble.org/">true</a>, but IMHO, the new <a
   href="http://www.frozen-bubble.org/downloads/">dependencies</a> suck a
   little.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20061030">30.10.2006 by tg@</h3>
+ <p>Happy Birthday, <tt>cnuke@</tt>!</p>
+ <p>Note to self: read operator(7) throughoutly, especially the priority
+  level of the ?: ternary operator.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
