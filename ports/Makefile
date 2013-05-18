@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.25 2007/02/22 15:18:32 tg Exp $
+# $MirOS: ports/Makefile,v 1.26 2007/03/22 17:54:20 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -161,7 +161,10 @@ setup: Setup.sh
 	    SHELL=${MKSH} MKSH=${MKSH} ${SUDO} /bin/sh ${.CURDIR}/Setup.sh -T
 	${SUDO} rm -rf /usr/mpkg/.sst /etc/.mirports.test.*
 
-nfo: Setup.sh.nfo Setup.sh.htm
+nfo: Setup.sh.nfo
+.if exists(${BSDSRCDIR}/scripts/roff2htm)
+nfo: Setup.sh.htm
+.endif
 
 Setup.sh.man: Setup.sh.8
 	${NROFF} -mdoc <$> >$@ || (rm -f $@; false)
