@@ -28,14 +28,19 @@
 
 #include "zutil.h"      /* for STDC and FAR definitions */
 
-zRCSID("$MirOS: src/kern/z/crc32.c,v 1.2 2008/08/01 13:46:08 tg Exp $")
+zRCSID("$MirOS: src/kern/z/crc32.c,v 1.3 2008/08/01 14:59:57 tg Exp $")
 
 #define local static
 
 /* Find a four-byte integer type for crc32_little() and crc32_big(). */
 #ifndef NOBYFOUR
 #  ifdef STDC           /* need ANSI C limits.h to determine sizes */
-#    include <limits.h>
+#    if defined(_KERNEL) || defined(_STANDALONE)
+#      include <sys/limits.h>
+typedef __PTRDIFF_TYPE__ ptrdiff_t;
+#    else
+#      include <limits.h>
+#    endif
 #    define BYFOUR
 #    if (UINT_MAX == 0xffffffffUL)
        typedef unsigned int u4;

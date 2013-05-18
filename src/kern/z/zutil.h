@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/kern/z/zutil.h,v 1.2 2008/04/10 20:57:03 tg Exp $ */
 
 /* zutil.h -- internal interface and configuration of the compression library
  * Copyright (C) 1995-2005 Jean-loup Gailly.
@@ -24,9 +24,11 @@
 #if defined(_STANDALONE)
 #  include <stand.h>
 #  define zRCSID(x)	/* nothing */
+#  define NO_ERRNO_H
 #elif defined(_KERNEL)
 #  include <sys/systm.h>
 #  define zRCSID(x)	/* nothing */
+#  define NO_ERRNO_H
 #elif defined(STDC)
 #  ifndef _WIN32_WCE
 #    include <stddef.h>
