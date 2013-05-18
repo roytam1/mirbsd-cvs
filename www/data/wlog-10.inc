@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.379 2012/01/06 12:48:14 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.380 2012/01/07 16:56:13 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8929,5 +8929,5 @@ Tag: debian pcli tip
  gzip(1)-only systems. (Except that it’s not under an Open Source licence.)</p>
 <p><a href="http://sourceforge.net/projects/clpbar/">clpbar</a> might also
  be worth looking into. XTaran points out sid has this as bar.</p>
-<p>PS: Last of June, 2012, will be a leap second.</p>
+<p>PSA: Last of June, 2012, will be a leap second.</p>
 ----
