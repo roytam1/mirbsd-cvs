@@ -1,11 +1,11 @@
-# $MirOS: www/src/mksh_old.hts,v 1.37 2011/02/18 22:42:16 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.38 2011/03/06 01:54:49 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.37 2011/02/18 22:42:16 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.38 2011/03/06 01:54:49 tg Exp $'
 mws_content <<'EOF'
 <h2><a href="mksh.htm">mksh</a> – old versions</h2>
 
@@ -514,6 +514,9 @@ mws_content <<'EOF'
   to Pascal “loki” Bleser from OpenSuSE for information on them</li>
 </ul>
 <p id="r33b">mksh R33b comes with the following minor fixes:</p><ul>
+ <li>Work on porting to <a href="http://www.syllable.org/">Syllable</a>
+  (again much improved; support now en par with Plan 9’s, thanks to Anthony
+  Morphett &lt;awmorp@gmail.com&gt; – maybe the rest is a kernel bug?)</li>
  <li>Fix some minor code issues remarked by MIPSpro</li>
  <li>Port to SGI IRIX 6.5 (uname: IRIX64) using gcc and MIPSpro</li>
  <li>Scan for a lot more compilers; add support for MIPSpro</li>

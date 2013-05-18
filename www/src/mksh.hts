@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.385 2011/03/06 17:22:07 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.386 2011/03/07 20:36:36 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1034,9 +1034,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>Changes in the current (unreleased) development version:</p><ul>
  <li>Begin porting mksh to the <a href="http://9fans.net/">Plan 9</a>
   ANSI’n’POSIX Environment (not finished)</li>
- <li>Port to <a href="http://www.syllable.org/">Syllable</a> (again much
-  improved; support now en par with Plan 9’s, thanks to Anthony Morphett
-  &lt;awmorp@gmail.com&gt; – maybe the rest is a kernel bug?)</li>
+ <li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
+  (not finished, but maybe the rest is a kernel bug?)</li>
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
  <li>[tg] Correct small mistakes in manpage and build script</li>
@@ -1077,7 +1076,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
   OS doing Address Space Layout Randomisation; speed up (we will use either
   arc4random_pushb_fast(3) if it exists or arc4random_pushb(3) if forced by
   the user with <tt>-DMKSH_A4PB</tt> e.g. on Cygwin)</li>
- <li>[tg] Fix spelling in <tt>dot.mkshrc</tt></li>
+ <li>[tg] Fix spelling mistakes in <tt>dot.mkshrc</tt></li>
  <li>[tg] Implement “live” window resize for the Emacs editing mode</li>
  <li>[tg] More fixes for bugs found by Valgrind and LLVM+Clang scan-build</li>
  <li>[tg] For script compatibility support “set ±o arc4random” during a
@@ -1135,7 +1134,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Make “foo=&lt;&lt;EOF” a direct assignment of here document (or
   here string) to string variable</li>
  <li>[tg] Add KSHEGID, KSHGID, KSHUID variables (idea from Richard K.)</li>
- <li>[tg] Option -d to read specifies a delimiter, like ksh93 (10x Dave)</li>
+ <li>[tg] Option -d to read specifies a delimiter, like ksh93 (10x dgk)</li>
  <li>[tg] Extension ${foo@#} expands to hash of $foo (mksh specific)</li>
  <li>[tg, Jörg-Volker Peetz] Emacs prev-hist-word resets the counter if other
   editing commands were run in between; repeat calling works, even together
@@ -1166,6 +1165,15 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Do not close filedescriptor #3 (controlling tty) on UWIN</li>
  <li>[tg] Make the tree printing code safe for re-entrancy of output</li>
  <li>[tg] Implement recursive parser for $(…) to fix RedHat BZ#496791</li>
+ <li>[tg] Use the existing state machine, a recursive parser and retracing
+  the input stream for correct <tt>x=(…$((…$(…)…))…)</tt> parsing</li>
+ <li>[tg, Jb_boin] complain about <tt>${x:1:2:3}</tt> instead of crashing</li>
+ <li>[tg, Jb_boin] make optional printf(1) builtin __CRAZY=Yes clean and
+  prevent it from crashing by reading past end of (invalid) format strings</li>
+ <li>[tg] abort(3) on rogue pointers <tt>#ifdef DEBUG</tt></li>
+ <li>[tg] Correct some documentation, code commentary, etc.</li>
+ <li>[tg] Handle the UTF-8 Byte Order Mark in <tt>$(…)</tt> expressions</li>
+ <li>[tg] Speed up reading input by checking for the BOM only once</li>
 </ul>
 <p id="r39c">mksh R39c is an important minor bugfix release:</p><ul>
  <li>[tg] Build system, code, docs and testsuite cleanup, also style(9)</li>
