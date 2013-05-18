@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.377 2012/01/05 21:41:46 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.378 2012/01/06 08:10:32 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8880,28 +8880,28 @@ Tag: news snapshot
 Date: 04.01.2012 14:23
 Author: bsiegert@
 Title: Quick! A webserver!
-Tag: go
+Tag: google_go tip
 
-<p>If, like me, you occasionally want to transfer some files via
+<p class="boxhead">If, like me, you occasionally want to transfer some
+ files via
  http&mdash;like the sets for a MirOS installation&mdash;but are much
  too lazy to set up apache, here is a simple web server in nine lines of
- Go:</p>
+ Go:</p><div class="boxtext">
+<pre>
+	package main
 
-<pre><code>package main
+	import (
+		"log"
+		. "net/http"
+	)
 
-import (
-        "log"
-        . "net/http"
-)
-
-func main() {
-        Handle("/", FileServer(Dir(".")))
-        log.Fatal(ListenAndServe(":8080", nil))
-}
-</code></pre>
-
-<p>It simply exports the current directory via http on port 8080.
- Neat!</p>
+	func main() {
+		Handle("/", FileServer(Dir(".")))
+		log.Fatal(ListenAndServe(":8080", nil))
+	}
+</pre>
+</div><p class="boxfoot">It simply exports the current directory
+ via http on port 8080. Neat!</p>
 ----
 Date: 05.01.2012 21:41
 Author: tg@
