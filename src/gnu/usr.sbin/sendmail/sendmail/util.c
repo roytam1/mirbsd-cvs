@@ -2107,6 +2107,7 @@ prog_open(argv, pfd, e)
 	if (ProgMailer != NULL && ProgMailer->m_rootdir != NULL)
 	{
 		expand(ProgMailer->m_rootdir, buf, sizeof(buf), e);
+		get_random();
 		if (chroot(buf) < 0)
 		{
 			syserr("prog_open: cannot chroot(%s)", buf);

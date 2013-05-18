@@ -2535,6 +2535,7 @@ tryhost:
 				if (tTd(11, 20))
 					sm_dprintf("openmailer: chroot %s\n",
 						   cbuf);
+				get_random();
 				if (chroot(cbuf) < 0)
 				{
 					syserr("openmailer: Cannot chroot(%s)",
@@ -5432,6 +5433,7 @@ mailfile(filename, mailer, ctladdr, sfflags, e)
 			*realfile = '\0';
 			if (tTd(11, 20))
 				sm_dprintf("mailfile: chroot %s\n", targetfile);
+			get_random();
 			if (chroot(targetfile) < 0)
 			{
 				syserr("mailfile: Cannot chroot(%s)",
