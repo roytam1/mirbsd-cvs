@@ -1,4 +1,5 @@
 #!/bin/mksh
+# $MirOS$
 #
 # Copyright (c) 2002, 2003, 2004 Chris Cappuccio.  Pretend that you see BSD
 # license blurb, clause 1, 2 and warranty disclaimer here.
@@ -110,14 +111,14 @@
 #               will log to the ramdisk.)
 # etccopyfiles (files to copy over to destination's /etc directory.  If set
 #               to "none", no files will be copied.  Flashdist default for
-#               net4501 is "ttys fstab rc syslog.conf boot.conf")
+#               net4501 is "ttys fstab rc syslog.conf boot.cfg")
 #
 # (commented variables are determined interactively while script runs,
 #  uncommented variables are determined right here and now)
 #
 #encpass='$2a$06$2p5eSJnVp8P5MEQsjlAx2ecpyU5FyQvDlE7BCebRGt4HWRFJP/djq'
 #syslogserver="35.42.1.42"
-etccopyfiles="ttys fstab rc syslog.conf boot.conf nshrc"
+etccopyfiles="ttys fstab rc syslog.conf boot.cfg nshrc"
 #
 nshdir="nsh"		# where to find nsh (if at all)
 savesh="save-ro.sh"	# which save script to use with nsh
