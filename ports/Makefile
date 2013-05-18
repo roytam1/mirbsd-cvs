@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.31 2008/11/08 23:03:29 tg Exp $
+# $MirOS: ports/Makefile,v 1.32 2008/11/19 23:26:40 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -189,9 +189,13 @@ Setup.sh.nfo: Setup.sh.man
 Setup.sh.htm: Setup.sh.man
 	(. ${BSDSRCDIR}/scripts/roff2htm; do_conversion Setup.sh 8) <$> >$@
 
-CVSROOT?=/cvs
+.if exists(/cvs/CVSROOT/config)
+CVSROOT?=	/cvs
+.endif
+CVSROOT?=	${_MIROS_ANONCVS}
+
 cvsup:
-	cd ${.CURDIR} && cvs -Rqz3 -d ${CVSROOT} up -PAd
+	cd ${.CURDIR} && umask 002 && cvs -Rqz3 -d ${CVSROOT} up -PAd
 
 .PHONY: mirror-maker index search distfiles-update-locatedb \
 	print-licences print-index portupgrade setup cvsup nfo
