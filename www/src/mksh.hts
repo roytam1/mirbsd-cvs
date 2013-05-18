@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.459 2012/06/26 18:50:28 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.460 2012/06/26 19:33:35 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1140,9 +1140,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
    <li>use traditional “set -- $(getopt …); echo $?” mode always</li>
    <li>do not keep file descriptors private</li>
    <li>parse leading-zero-digit numbers as octal</li>
+   <li>no mksh extension <tt>-T</tt></li>
    <li style="list-style:none;">still missing:</li>
    <li>use “long”, not “int32_t”, for arithmetics</li>
-   <li>no mksh extension <tt>-T</tt></li>
   </ul></li>
 </ul>
 <p>Changes in the current (unreleased) stable branch:</p><ul>
