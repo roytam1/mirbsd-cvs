@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.22 2009/06/29 20:01:45 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.23 2009/06/29 20:10:26 tg Exp $ */
 
 /*-
  * Copyright (c) 2009
@@ -22,7 +22,18 @@
 
 	.intel_syntax noprefix
 	.section .comment
-	.asciz	"$MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.22 2009/06/29 20:01:45 tg Exp $"
+	.ascii	"$MirOS: src/sys/arch/i386/stand/bootxx/bootxx.S,v 1.23 2009/06/29 20:10:26 tg Exp $"
+#ifdef BOOT_GRUB
+	.ascii	" GRUB"
+#else
+	.ascii	" MBSD"
+#endif
+#ifdef BPB_SPACE
+	.ascii	" BPB"
+#else
+	.ascii	" MBR"
+#endif
+	.byte	0
 
 	.code16
 	.text
@@ -30,18 +41,33 @@
 	.globl	_start
 	.type	_start,@function
 _start:	/* bootxx entry point 07C00 */
-	xor	ecx,ecx
+#ifdef BPB_SPACE
+	jmp	Linit
+	nop
+	. = _start + 3
+L_BPB:	.ascii	"MirOSBSD"
+	. = L_BPB + 0x3F
+	.byte	0x29
+	. = L_BPB + 0x44
+	.ascii	"MirOSBSDldr"
+	.ascii	"FATnn   "
+#endif
+Linit:	xor	ecx,ecx
 	mov	ss,cx
 	mov	sp,0x7BFC
 	push	ecx
 	popfd
 	mov	es,cx
-	mov	di,0x7C00	/* 0000:_start pre-reloc */
+#ifdef BOOT_GRUB
+	mov	si,0x7C00	/* 0000:_start pre-reloc */
+#else
+	mov	di,0x7C00	/* DS:SI is set by BIOS! */
 	push	di
 	/* save partition table entry */
 	mov	cl,16
 	rep	movsb
 	pop	si
+#endif
 	mov	ds,cx
 	mov	bx,SA_LINKSEG
 	push	bx
@@ -59,7 +85,9 @@ _start:	/* bootxx entry point 07C00 */
 
 Lemsg:	.ascii	__BOOT_VER
 	.asciz	" Loading "
+#ifndef BOOT_GRUB
 Lmmsg:	.ascii	"bad magic"
+#endif
 Lfmsg:	.ascii	" error"
 Lbmsg:	.asciz	"\r\n"
 
@@ -290,9 +318,11 @@ LsLBA:	mov	ah,0x42
 	.type	bktbl,@object
 bktbl:	.long	0xCAFEBABE
 
+#ifndef BPB_SPACE
 	/* ensure we have space for a partition table */
 	. = _start + 0x01BE
 	.byte	0
+#endif
 
 	/* bxinst requires bktbl to end at 510 */
 	. = _start + 0x01FE
