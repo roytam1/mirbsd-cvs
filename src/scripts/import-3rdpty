@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/import-3rdpty,v 1.4 2005/06/05 20:22:35 tg Exp $
+# $MirOS: src/scripts/import-3rdpty,v 1.5 2005/06/22 11:10:14 tg Exp $
 #-
 # Copyright (c) 2004, 2005
 #	Thorsten "mirabile" Glaser <tg@66h.42h.de>
@@ -23,7 +23,7 @@
 # rect or other, however caused, arising in any way out of the usage
 # of this work, even if advised of the possibility of such damage.
 
-print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.4 2005/06/05 20:22:35 tg Exp $ ========='
+print -r -- '========= $MirOS: src/scripts/import-3rdpty,v 1.5 2005/06/22 11:10:14 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -256,6 +256,7 @@ lynx)
 		src/chrtrans/make-msc.bat \
 		src/chrtrans/makefile.{bcb,dos,msc} \
 		src/chrtrans/makew32.bat \
+		src/descrip.mms \
 		src/makefile.{dos,dsl,wsl} \
 		src/mktime.c \
 		src/strstr.c \

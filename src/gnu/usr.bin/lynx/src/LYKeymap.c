@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/gnu/usr.bin/lynx/src/LYKeymap.c,v 1.2 2005/03/27 22:42:36 tg Exp $ */
 
 #include <HTUtils.h>
 #include <LYUtils.h>
@@ -1194,7 +1194,7 @@ int LYStringToKeycode(char *src)
 	char *dst = 0;
 
 	key = strtol(src, &dst, 0);
-	if (isEmpty(dst))
+	if (!isEmpty(dst))
 	    key = -1;
     } else if (len > 6 && !strncasecomp(src, "key-", 4)) {
 	char *dst = 0;
