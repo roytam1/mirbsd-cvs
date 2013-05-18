@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.159 2007/01/29 17:15:13 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.160 2007/03/02 00:31:52 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2250,7 +2250,7 @@ ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}:
 			${ECHO_MSG} ">> Size matches for ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}"; \
 		elif grep -qe "SIZE ($$file)" -e "Size ($$file)" ${CHECKSUM_FILE}; then \
 			${ECHO_MSG} ">> Size does not match for ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}"; \
-			${ECHO_MSG} ">> Try to refetch with ${MAKE} fetch REFETCH=true"; \
+			${ECHO_MSG} ">> Try to refetch with mmake fetch REFETCH=true"; \
 			false; \
 		else \
 			${ECHO_MSG} ">> No size recorded for ${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}"; \
