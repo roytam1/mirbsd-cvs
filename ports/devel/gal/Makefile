@@ -1,8 +1,9 @@
-# $MirOS: ports/devel/gal/Makefile,v 1.6 2007/04/11 17:06:19 bsiegert Exp $
+# $MirOS: ports/devel/gal/Makefile,v 1.7 2010/11/20 11:06:05 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.1.1.1 2003/10/14 20:26:08 marcm Exp $
 
-COMMENT=		GNOME Application Libs
+BROKEN=			incompatible with current Gtk
 
+COMMENT=		GNOME Application Libs
 VERSION=		1.99.10
 DASH_VER=		1
 DISTNAME=		gal-${VERSION}
