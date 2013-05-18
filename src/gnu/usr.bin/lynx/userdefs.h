@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/lynx/userdefs.h,v 1.11 2006/10/02 23:12:15 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/lynx/userdefs.h,v 1.12 2006/11/10 20:19:26 tg Exp $ */
 
 /*
  * Lynx - Hypertext navigation system
@@ -129,7 +129,7 @@
  * use any default viewers for image types.  Note that open is used as
  * the default for NeXT, instead of the XLOADIMAGE_COMMAND definition.
  */
-#define XLOADIMAGE_COMMAND "xloadimage %s &"
+#define XLOADIMAGE_COMMAND "xloadimage -quiet %s"
 
 /**************************
  * For UNIX systems, SYSTEM_MAIL and SYSTEM_MAIL_FLAGS are set by the

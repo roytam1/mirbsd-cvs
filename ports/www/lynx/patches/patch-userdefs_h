@@ -1,4 +1,4 @@
-$MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.5 2006/10/13 19:45:35 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.6 2006/11/10 19:42:26 tg Exp $
 --- userdefs.h.orig	Thu Dec 30 12:11:37 2004
 +++ userdefs.h	Fri Nov 10 19:30:17 2006
 @@ -324,7 +324,7 @@
@@ -6,7 +6,7 @@ $MirOS: ports/www/lynx/patches/patch-userdefs_h,v 1.5 2006/10/13 19:45:35 tg Exp
   * the default for NeXT, instead of the XLOADIMAGE_COMMAND definition.
   */
 -#define XLOADIMAGE_COMMAND "xli %s &"
-+#define XLOADIMAGE_COMMAND "xloadimage %s &"
++#define XLOADIMAGE_COMMAND "xloadimage -quiet %s"
  
  /**************************
   * For UNIX systems, SYSTEM_MAIL and SYSTEM_MAIL_FLAGS are set by the

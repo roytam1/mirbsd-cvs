@@ -1,4 +1,4 @@
-$MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.4 2006/10/02 23:22:07 tg Exp $
+$MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.5 2006/10/17 20:56:27 tg Exp $
 --- lynx.cfg.orig	Tue Sep 19 00:28:05 2006
 +++ lynx.cfg	Tue Oct 17 20:54:58 2006
 @@ -92,12 +92,12 @@
@@ -184,7 +184,7 @@ $MirOS: ports/www/lynx/patches/patch-lynx_cfg,v 1.4 2006/10/02 23:22:07 tg Exp $
  # If you use xli, you may want to add the -quiet flag.
  #
 -#XLOADIMAGE_COMMAND:xli %s &
-+#XLOADIMAGE_COMMAND:xloadimage %s &
++#XLOADIMAGE_COMMAND:xloadimage -quiet %s
  
  .h2 VIEWER
  # MIME types may be assigned to external viewers using
