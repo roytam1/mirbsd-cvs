@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list.sparc-fdd,v 1.13 2009/04/17 19:17:04 tg Exp $
+# $MirOS: src/distrib/common/list.sparc-fdd,v 1.14 2009/04/17 19:19:16 tg Exp $
 
 SRCDIRS	distrib/special sys/arch/sparc/stand
 SRCDIRS	bin sbin usr.bin usr.sbin
@@ -24,7 +24,6 @@ LINK	instbin					bin/pax bin/cpio bin/tar
 LINK	instbin					bin/rm
 LINK	instbin					bin/sleep
 LINK	instbin					bin/stty
-LINK	instbin					bin/sync
 LINK	instbin					sbin/disklabel
 LINK	instbin					sbin/dmesg
 LINK	instbin					sbin/fsck
@@ -44,7 +43,6 @@ LINK	instbin					sbin/umount
 LINK	instbin					usr/bin/compress usr/bin/gunzip usr/bin/gzip
 LINK	instbin					usr/bin/ftp
 LINK	instbin					usr/bin/grep usr/bin/egrep usr/bin/fgrep
-LINK	instbin					usr/bin/hexdump usr/bin/hd usr/bin/od
 LINK	instbin					usr/bin/mktemp
 LINK	instbin					usr/bin/more usr/bin/less
 LINK	instbin					usr/bin/nc
@@ -52,7 +50,6 @@ LINK	instbin					usr/bin/script
 LINK	instbin					usr/bin/sed
 LINK	instbin					usr/mdec/installboot
 LINK	instbin					usr/sbin/chkuterm
-LINK	instbin					usr/sbin/chroot
 LINK	instbin					usr/sbin/eeprom
 LINK	instbin					usr/sbin/rdate
 LINK	instbin					usr/sbin/sysctl
