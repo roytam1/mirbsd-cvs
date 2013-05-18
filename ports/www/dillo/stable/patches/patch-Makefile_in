@@ -1,7 +1,7 @@
-$MirOS$
---- Makefile.in.orig	2005-06-18 01:30:59.000000000 +0200
-+++ Makefile.in	2005-06-19 19:12:26.000000000 +0200
-@@ -177,6 +177,7 @@ program_transform_name = @program_transf
+$MirOS: ports/www/dillo/stable/patches/patch-Makefile_in,v 1.2 2005/06/19 17:20:19 bsiegert Exp $
+--- Makefile.in.orig	Wed Apr 26 16:07:04 2006
++++ Makefile.in	Mon May 15 17:49:33 2006
+@@ -187,6 +187,7 @@ program_transform_name = @program_transf
  sbindir = @sbindir@
  sharedstatedir = @sharedstatedir@
  sysconfdir = @sysconfdir@
@@ -9,7 +9,7 @@ $MirOS$
  target = @target@
  target_alias = @target_alias@
  target_cpu = @target_cpu@
-@@ -242,12 +243,12 @@ distclean-hdr:
+@@ -252,12 +253,12 @@ distclean-hdr:
  uninstall-info-am:
  install-sysconfDATA: $(sysconf_DATA)
  	@$(NORMAL_INSTALL)
