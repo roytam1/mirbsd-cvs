@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.5 2003/02/15 14:28:25 espie Exp $
 
-COMMENT=			Zangband (Zelazny Angband) with color, X11 support
+COMMENT=	Zangband (Zelazny Angband) with color, X11 support
 
 VERSION=	2.6.2
 DISTNAME=	zangband-${VERSION}
@@ -15,12 +16,11 @@ PERMIT_DISTFILES_FTP=	Yes
 
 HOMEPAGE=		http://www.zangband.org/
 
-BUILD_DEPENDS=  	::devel/autoconf/${AUTOCONF_VERSION} \
-			::devel/metaauto \
-	                ::devel/automake
-
 USE_GMAKE=		Yes
-CONFIGURE_STYLE=	gnu
+CONFIGURE_STYLE=	autogen
+AUTOGEN=		${WRKSRC}/bootstrap
+AUTOCONF_NEW=		Yes # XXX
+AUTOMAKE_VERSION=	1.9 # XXX
 CONFIGURE_ENV=		TRUEPREFIX="${TRUEPREFIX}"
 
 WRKDIST=		${WRKDIR}/zangband
