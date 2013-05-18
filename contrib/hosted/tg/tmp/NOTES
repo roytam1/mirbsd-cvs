@@ -67,7 +67,3 @@ Prefer to use math.isinf(x) and math.isnan(x) if
 available (Python 2.6+) though; we import math for
 frexp anyway (we _could_, strictly spoken, avoid
 that – maybe, if it has an import error, as fallback?)
-
-
-sieht mir in fixed-misc _nicht_ nach nem benzolring aus…
-   ⌬ U+232C;BENZENE RING;So;0;ON;;;;;N;;;;;
