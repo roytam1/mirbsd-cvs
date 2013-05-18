@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/upgrade.sh,v 1.6 2007/08/24 14:40:35 tg Exp $
+# $MirOS: src/distrib/common/upgrade.sh,v 1.7 2009/03/29 11:33:29 tg Exp $
 # $OpenBSD: upgrade.sh,v 1.61 2005/04/02 14:27:08 krw Exp $
 # $NetBSD: upgrade.sh,v 1.2.4.5 1996/08/27 18:15:08 gwr Exp $
 #
@@ -141,6 +141,20 @@ install_sets
 		fi
 	done
 done
+if [[ -d /mnt/usr/include/gxx/. ]]; then
+	found=
+	for i in /mnt/usr/lib/gcc/*/3.4.6/include/c++/.; do
+		[[ -d $i ]] && found=$i
+	done
+	[[ -n $found ]] && rm -rf /mnt/usr/include/gxx
+fi
+if [[ -d /mnt/usr/include/objc/. ]]; then
+	found=
+	for i in /mnt/usr/lib/gcc/*/3.4.6/include/objc/.; do
+		[[ -d $i ]] && found=$i
+	done
+	[[ -n $found ]] && rm -rf /mnt/usr/include/objc
+fi
 
 # Perform final steps common to both an install and an upgrade.
 finish_up
