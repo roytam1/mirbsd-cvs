@@ -5,7 +5,7 @@
 #	  Originally written by Toshiharu OHNO
 #
 # $MirSecuCron$
-# $MirOS: src/etc/ppp/ppp.conf.sample,v 1.3 2008/05/25 20:13:27 tg Exp $
+# $MirOS: src/etc/ppp/ppp.conf.sample,v 1.4 2009/07/18 14:09:12 tg Exp $
 # $OpenBSD: ppp.conf.sample,v 1.21 2002/06/09 06:15:15 todd Exp $
 #
 #################################################################
@@ -566,6 +566,25 @@ MirISDN:
  set authkey "secret-passsword"
  set phone 0191011
 
+# 3. UMTS with a USB Surfstick
+MirUMTS:
+ set device /dev/cuaU0
+ set speed 115200
+# set speed 921600
+ set crtscts on
+ disable ipv6cp
+ set timeout 0
+ set mtu max 640
+ set mru max 640
+ enable mssfixup
+ set dial "ABORT BUSY ABORT VOICE ABORT NO\\sCARRIER ABORT NO\\sDIALTONE \
+	ABORT NO\\sDIAL\\sTONE ABORT NO\\sANSWER ABORT DELAYED ABORT ERROR \
+	ABORT +CGATT:\\s0 TIMEOUT 12 \"\" AT OK ATH OK ATE1 \
+	OK AT+CGDCONT=1,\\\"IP\\\",\\\"\\T\\\",\\\"\\\",0,0 \
+	OK ATD*99# TIMEOUT 22 CONNECT"
+ set ifaddr 0.0.0.0/0 0.0.0.1/0 255.255.255.0 0.0.0.0
+ add default HISADDR
+
 viag:
  load MirISDN
  set authname "anonymer"
@@ -587,3 +606,7 @@ telekom:
  set phone 0191011
  set timeout 300
  dial
+
+vodafone:
+ set phone web.vodafone.de
+ load MirUMTS

@@ -23,7 +23,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- *	$MirOS: src/usr.sbin/ppp/ppp/bundle.c,v 1.2 2005/03/13 19:17:13 tg Exp $
+ *	$MirOS: src/usr.sbin/ppp/ppp/bundle.c,v 1.3 2005/12/04 15:02:26 tg Exp $
  *	$OpenBSD: bundle.c,v 1.70 2005/07/17 19:13:24 brad Exp $
  */
 
@@ -1892,6 +1892,9 @@ bundle_CalculateBandwidth(struct bundle *bundle)
         bundle->bandwidth += sp;
       if (!bundle->ncp.mp.active) {
         bundle->iface->mtu = dl->physical->link.lcp.his_mru;
+	if (dl->physical->link.lcp.cfg.max_mtu &&
+	    (dl->physical->link.lcp.cfg.max_mtu < bundle->iface->mtu))
+		bundle->iface->mtu = dl->physical->link.lcp.cfg.max_mtu;
         break;
       }
     }
