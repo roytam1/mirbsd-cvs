@@ -15,10 +15,9 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <sys/types.h>
+#include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/syslimits.h>
-#include <sys/param.h>
 #include <sys/mman.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -668,7 +667,7 @@ elf_load_object(void *pexe, const char *name)
 			    object->dyn.pltrelsz);
 			object->dyn.jmprel = (long)plt;
 		} else {
-			object->dyn.jmprel = NULL;
+			object->dyn.jmprel = 0;
 		}
 		if (object->dyn.rpath != NULL){
 			object->dyn.rpath = strdup(object->dyn.rpath);
@@ -751,7 +750,7 @@ load_obj_needed(struct elf_object *object)
 	int err;
 
 	needed_list = (Elf_Word *)object->dyn.needed;
-	for (i = 0; needed_list[i] != NULL; i++) {
+	for (i = 0; needed_list[i] != 0; i++) {
 		if (verbose > 1)
 			printf("lib: %s\n", needed_list[i] +
 			    object->dyn.strtab);
@@ -823,8 +822,8 @@ elf_copy_syms(struct symcache_noflag *tcache, struct symcache_noflag *scache,
 					   "obj %d: sym %ld %s "
 					   "nobj %s\n",
 					    i, (int)scache[i].obj->dyn.null,
-					    scache[i].sym -
-					    scache[i].obj->dyn.symtab,
+					    (long)(scache[i].sym -
+					    scache[i].obj->dyn.symtab),
 					    scache[i].sym->st_name +
 					    scache[i].obj->dyn.strtab,
 					    scache[i].obj->load_name);
@@ -881,8 +880,8 @@ insert_sym_objcache(struct elf_object *obj, int idx,
 				   "obj %d: sym %ld %s "
 				   "nobj %s\n",
 				    idx, (int)ref_obj->dyn.null,
-				    ref_sym -
-				    ref_obj->dyn.symtab,
+				    (long)(ref_sym -
+				    ref_obj->dyn.symtab),
 				    ref_sym->st_name +
 				    ref_obj->dyn.strtab,
 				    ref_obj->load_name);

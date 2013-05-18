@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.2 2006/06/09 00:57:45 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.3 2006/06/29 18:34:15 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -24,7 +24,7 @@
 # other issues arising in any way out of its use, even if advised of
 # the possibility of such damage or existence of a nontrivial bug.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.2 2006/06/09 00:57:45 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.3 2006/06/29 18:34:15 tg Exp $ ========='
 
 ignlist=0
 force=0
@@ -824,6 +824,7 @@ openbsd)
 		libexec/ftp-proxy \
 		libexec/getNAME \
 		libexec/ld.so/alpha \
+		libexec/ld.so/amd64 \
 		libexec/ld.so/arm \
 		libexec/ld.so/hppa \
 		libexec/ld.so/hppa64 \

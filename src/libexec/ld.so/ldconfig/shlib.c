@@ -1,5 +1,4 @@
-/**	$MirOS$ */
-/*	$OpenBSD: shlib.c,v 1.8 2003/07/06 20:04:00 deraadt Exp $	*/
+/*	$OpenBSD: shlib.c,v 1.9 2006/05/13 16:33:40 deraadt Exp $	*/
 /*	$NetBSD: shlib.c,v 1.13 1998/04/04 01:00:29 fvdl Exp $	*/
 
 /*
@@ -49,8 +48,6 @@
 
 #include "ld.h"
 
-__RCSID("$MirOS$");
-
 /*
  * Standard directories to search for files specified by -l.
  */
@@ -72,7 +69,8 @@ char	*standard_search_dirs[] = {
 void
 add_search_dir(char *name)
 {
-	int i, len;
+	size_t len;
+	int i;
 
 	len = strlen(name);
 
@@ -84,8 +82,8 @@ add_search_dir(char *name)
 		    !strncmp(search_dirs[i], name, len))
 				return;
 	n_search_dirs++;
-	search_dirs = (char **)
-	    xrealloc(search_dirs, n_search_dirs * sizeof search_dirs[0]);
+	search_dirs = (char **)xrealloc(search_dirs,
+	    n_search_dirs * sizeof search_dirs[0]);
 	search_dirs[n_search_dirs - 1] = xmalloc(++len);
 	(void)strlcpy(search_dirs[n_search_dirs - 1], name, len);
 }
@@ -93,7 +91,8 @@ add_search_dir(char *name)
 void
 remove_search_dir(char *name)
 {
-	int	i, len;
+	size_t	len;
+	int	i;
 
 	len = strlen(name);
 
@@ -106,7 +105,7 @@ remove_search_dir(char *name)
 			continue;
 		free(search_dirs[i]);
 		if (i < (n_search_dirs - 1))
-			memmove(&search_dirs[i], &search_dirs[i+1],
+			bcopy(&search_dirs[i+1], &search_dirs[i],
 			    (n_search_dirs - i - 1) * sizeof search_dirs[0]);
 		n_search_dirs--;
 		search_dirs = (char **)xrealloc(search_dirs,
@@ -195,17 +194,3 @@ cmpndewey(int d1[], int n1, int d2[], int n2)
 	errx(1, "cmpndewey: cant happen");
 	return 0;
 }
-
-/*
- * Search directories for a shared library matching the given
- * major and minor version numbers.
- *
- * MAJOR == -1 && MINOR == -1	--> find highest version
- * MAJOR != -1 && MINOR == -1   --> find highest minor version
- * MAJOR == -1 && MINOR != -1   --> invalid
- * MAJOR != -1 && MINOR != -1   --> find highest micro version
- */
-
-/* Not interested in devices right now... */
-#undef major
-#undef minor

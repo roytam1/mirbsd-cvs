@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.35 2006/06/17 22:12:44 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.36 2006/06/27 14:16:38 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -114,9 +114,9 @@ STATIC?=	-static
 # in environments where it's not possible to keep /sys publicly readable)
 SYS_INCLUDE?=	copies
 
-.if ${MACHINE_ARCH} == "sparc"
-NOPIC=		yes
-.endif
+#.if ${MACHINE_ARCH} == "sparc"
+#NOPIC=		yes
+#.endif
 
 NOLINT?=	yes
 NOMAN?=		no

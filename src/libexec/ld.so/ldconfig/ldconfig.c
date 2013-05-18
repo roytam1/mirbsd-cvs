@@ -1,5 +1,4 @@
-/**	$MirOS$ */
-/*	$OpenBSD: ldconfig.c,v 1.16 2004/08/14 03:08:24 drahn Exp $	*/
+/*	$OpenBSD: ldconfig.c,v 1.25 2006/06/26 23:26:12 drahn Exp $	*/
 
 /*
  * Copyright (c) 1993,1995 Paul Kranenburg
@@ -51,19 +50,22 @@
 #include <string.h>
 #include <unistd.h>
 
-#include "ld.h"
+#include "prebind.h"
 
-__RCSID("$MirOS$");
+#include "ld.h"
 
 #undef major
 #undef minor
 
 extern char			*__progname;
 
-static int			verbose;
+int				verbose;
+static int			delete;
+static int			doprebind;
 static int			nostd;
 static int			justread;
-static int			merge;
+int				merge;
+int				safe;
 static int			rescan;
 static int			unconfig;
 
@@ -87,13 +89,21 @@ static int	buildhints(void);
 static int	readhints(void);
 static void	listhints(void);
 
+void
+usage(void)
+{
+	fprintf(stderr,
+	    "usage: %s [-DmPRrSsUv] [path ...]\n", __progname);
+	exit(1);
+}
+
 int
 main(int argc, char *argv[])
 {
 	int i, c;
 	int rval = 0;
 
-	while ((c = getopt(argc, argv, "RUmrsv")) != -1) {
+	while ((c = getopt(argc, argv, "DmPrRsSUv")) != -1) {
 		switch (c) {
 		case 'R':
 			rescan = 1;
@@ -110,13 +120,20 @@ main(int argc, char *argv[])
 		case 's':
 			nostd = 1;
 			break;
+		case 'S':
+			safe = 1;
+			break;
 		case 'v':
 			verbose = 1;
 			break;
+		case 'D':
+			delete = 1;
+			break;
+		case 'P':
+			doprebind = 1;
+			break;
 		default:
-			fprintf(stderr,
-			    "usage: %s [-RUmrsv] [dir ...]\n", __progname);
-			exit(1);
+			usage();
 			break;
 		}
 	}
@@ -137,9 +154,18 @@ main(int argc, char *argv[])
 		add_search_path(dir_list);
 		dir_list = xrealloc(dir_list, 1);
 		*dir_list = '\0';
-	} else
-		if (!nostd)
-			std_search_path();
+	} else if (!nostd)
+		std_search_path();
+
+	if (delete) {
+		if (rescan || unconfig || merge || justread || nostd || doprebind)
+			errx(1, "cannot mix -U -R -r -s -P options with -D");
+		exit(prebind_delete(&argv[optind]));
+	} else if (doprebind) {
+		if (rescan || unconfig || justread || nostd)
+			errx(1, "cannot mix other options with -P");
+		exit(prebind(&argv[optind]));
+	}
 
 	if (unconfig) {
 		if (optind < argc)
@@ -186,7 +212,7 @@ dodir(char *dir, int silent)
 	}
 
 	while ((dp = readdir(dd)) != NULL) {
-		int n;
+		size_t n;
 		char *cp;
 
 		/* Check for `lib' prefix */
@@ -245,7 +271,7 @@ enter(char *dir, char *file, char *name, int dewey[], int ndewey)
 			shp->name = xstrdup(name);
 			free(shp->path);
 			shp->path = concat(dir, "/", file);
-			memmove(shp->dewey, dewey, sizeof(shp->dewey));
+			bcopy(dewey, shp->dewey, sizeof(shp->dewey));
 			shp->ndewey = ndewey;
 		}
 		break;
@@ -262,7 +288,7 @@ enter(char *dir, char *file, char *name, int dewey[], int ndewey)
 	shp = (struct shlib_list *)xmalloc(sizeof *shp);
 	shp->name = xstrdup(name);
 	shp->path = concat(dir, "/", file);
-	memmove(shp->dewey, dewey, MAXDEWEY);
+	bcopy(dewey, shp->dewey, MAXDEWEY);
 	shp->ndewey = ndewey;
 	shp->next = NULL;
 
@@ -296,11 +322,12 @@ hinthash(char *cp, int vmajor, int vminor)
 int
 buildhints(void)
 {
-	int strtab_sz = 0, nhints = 0, fd, i, n, str_index = 0;
+	int strtab_sz = 0, nhints = 0, fd, i, ret = -1, str_index = 0;
 	struct hints_bucket *blist;
 	struct hints_header hdr;
 	struct shlib_list *shp;
-	char *strtab, *tmpfile;
+	char *strtab, *tmpfilenam;
+	size_t n;
 
 	for (shp = shlib_head; shp; shp = shp->next) {
 		strtab_sz += 1 + strlen(shp->name);
@@ -326,12 +353,12 @@ buildhints(void)
 
 	/* Allocate buckets and string table */
 	blist = (struct hints_bucket *)xmalloc(n);
-	bzero((char *)blist, n);
+	bzero(blist, n);
 	for (i = 0; i < hdr.hh_nbucket; i++)
 		/* Empty all buckets */
 		blist[i].hi_next = -1;
 
-	strtab = (char *)xmalloc(strtab_sz);
+	strtab = xmalloc(strtab_sz);
 
 	/* Enter all */
 	for (shp = shlib_head; shp; shp = shp->next) {
@@ -341,20 +368,20 @@ buildhints(void)
 		    hdr.hh_nbucket);
 
 		if (bp->hi_pathx) {
-			int	i;
+			int	j;
 
-			for (i = 0; i < hdr.hh_nbucket; i++) {
-				if (blist[i].hi_pathx == 0)
+			for (j = 0; j < hdr.hh_nbucket; j++) {
+				if (blist[j].hi_pathx == 0)
 					break;
 			}
-			if (i == hdr.hh_nbucket) {
+			if (j == hdr.hh_nbucket) {
 				warnx("Bummer!");
-				return -1;
+				goto out;
 			}
 			while (bp->hi_next != -1)
 				bp = &blist[bp->hi_next];
-			bp->hi_next = i;
-			bp = blist + i;
+			bp->hi_next = j;
+			bp = blist + j;
 		}
 
 		/* Insert strings in string table */
@@ -367,7 +394,7 @@ buildhints(void)
 		str_index += 1 + strlen(shp->path);
 
 		/* Copy versions */
-		memmove(bp->hi_dewey, shp->dewey, sizeof(bp->hi_dewey));
+		bcopy(shp->dewey, bp->hi_dewey, sizeof(bp->hi_dewey));
 		bp->hi_ndewey = shp->ndewey;
 	}
 
@@ -376,48 +403,51 @@ buildhints(void)
 	str_index += 1 + strlen(dir_list);
 
 	/* Sanity check */
-	if (str_index != strtab_sz) {
+	if (str_index != strtab_sz)
 		errx(1, "str_index(%d) != strtab_sz(%d)", str_index, strtab_sz);
-	}
 
-	tmpfile = concat(_PATH_LD_HINTS, ".XXXXXXXXXX", "");
-	if ((fd = mkstemp(tmpfile)) == -1) {
-		warn("%s", tmpfile);
-		return -1;
+	tmpfilenam = concat(_PATH_LD_HINTS, ".XXXXXXXXXX", "");
+	if ((fd = mkstemp(tmpfilenam)) == -1) {
+		warn("%s", tmpfilenam);
+		goto out;
 	}
 	fchmod(fd, 0444);
 
 	if (write(fd, &hdr, sizeof(struct hints_header)) !=
 	    sizeof(struct hints_header)) {
 		warn("%s", _PATH_LD_HINTS);
-		return -1;
+		goto out;
 	}
 	if (write(fd, blist, hdr.hh_nbucket * sizeof(struct hints_bucket)) !=
 	    hdr.hh_nbucket * sizeof(struct hints_bucket)) {
 		warn("%s", _PATH_LD_HINTS);
-		return -1;
+		goto out;
 	}
 	if (write(fd, strtab, strtab_sz) != strtab_sz) {
 		warn("%s", _PATH_LD_HINTS);
-		return -1;
+		goto out;
 	}
 	if (close(fd) != 0) {
 		warn("%s", _PATH_LD_HINTS);
-		return -1;
+		goto out;
 	}
 
 	/* Install it */
 	if (unlink(_PATH_LD_HINTS) != 0 && errno != ENOENT) {
 		warn("%s", _PATH_LD_HINTS);
-		return -1;
+		goto out;
 	}
 
-	if (rename(tmpfile, _PATH_LD_HINTS) != 0) {
+	if (rename(tmpfilenam, _PATH_LD_HINTS) != 0) {
 		warn("%s", _PATH_LD_HINTS);
-		return -1;
+		goto out;
 	}
 
-	return 0;
+	ret = 0;
+out:
+	free(blist);
+	free(strtab);
+	return (ret);
 }
 
 static int
@@ -442,7 +472,7 @@ readhints(void)
 		return -1;
 	}
 
-	msize =  (long)sb.st_size;
+	msize = (long)sb.st_size;
 	addr = mmap(0, msize, PROT_READ, MAP_PRIVATE, fd, 0);
 
 	if (addr == MAP_FAILED) {
@@ -495,7 +525,7 @@ readhints(void)
 		shp = (struct shlib_list *)xmalloc(sizeof *shp);
 		shp->name = xstrdup(strtab + bp->hi_namex);
 		shp->path = xstrdup(strtab + bp->hi_pathx);
-		memmove(shp->dewey, bp->hi_dewey, sizeof(shp->dewey));
+		bcopy(bp->hi_dewey, shp->dewey, sizeof(shp->dewey));
 		shp->ndewey = bp->hi_ndewey;
 		shp->next = NULL;
 

@@ -2,6 +2,7 @@
 /*	$OpenBSD: rtld_machine.c,v 1.26 2005/09/22 01:33:08 drahn Exp $ */
 
 /*
+ * Copyright (c) 2006 Thorsten Glaser
  * Copyright (c) 1999 Dale Rahn
  * Copyright (c) 2001 Niklas Hallqvist
  * Copyright (c) 2001 Artur Grabowski
@@ -30,10 +31,8 @@
 
 #define _DYN_LOADER
 
-#include <sys/types.h>
-#include <sys/cdefs.h>
-#include <sys/mman.h>
 #include <sys/param.h>
+#include <sys/mman.h>
 #include <sys/sysctl.h>
 #include <machine/cpu.h>
 
@@ -245,7 +244,9 @@ _dl_md_reloc(elf_object_t *object, int rel, int relasz)
 				this = NULL;
 				ooff = _dl_find_symbol_bysym(object,
 				    ELF_R_SYM(relas->r_info), &this,
-				    SYM_SEARCH_ALL|SYM_WARNNOTFOUND|
+				    SYM_SEARCH_ALL | (
+				     (ELF_ST_BIND(sym->st_info) == STB_WEAK)
+				     ? 0 : SYM_WARNNOTFOUND ) |
 				    ((type == R_TYPE(JMP_SLOT)) ?
 					SYM_PLT : SYM_NOTPLT),
 				    sym, NULL);
