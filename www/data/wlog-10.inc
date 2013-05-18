@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.73 2008/08/25 13:25:14 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.74 2008/08/25 14:04:11 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1508,4 +1508,25 @@ Title: FrOSCon redux
 <p>Benny agrees that the “Kaiser’s BIO-Kaffee” is decent, despite its
  pricing of only 3.99 €/£ (may be my high quality milk too, though).</p>
 <p>Update: looks like I’ve got a package to fetch from the post station.</p>
+----
+Date: 29.08.2008
+Author: tg@
+Title: Six Years of MirBSD
+
+<p>Six years ago, I started collecting patches against OpenBSD, a bunch
+ of 4.4 elitist snobs since the 1980s (or so they say). Said patchkit
+ should eventually become MirOS BSD and the MirPorts Framework, along
+ with a couple of more or less well-known and successful subprojects.
+ Time to celebrate (TGIF)!</p>
+<p>IOW, I hacked a Debian package of mirmake, depending on latest <a
+ href="@@RELPATH@@mksh.htm">mksh</a> of course. It needs more upstream
+ work to be useful and pretty, though.</p>
+<p>Let me plug here an animated GIF found somewhere in the net, which
+ shows my opinion about Netscape/Mozilla/Fire…tapir quite well:<br />
+ <img src="@@RELPATH@@pics/wlog/firemoo.gif" alt="firesomething" /></p>
+<p>And, even more unrelated, MirOS is (of course) continuously improving.
+ We now use Fedora Core 4 libraries for the linuxulator, by suggestion
+ of the MidnightBSD people, which should improve some things (it already
+ has opened the door for Opera-linux plugins such as AcroRead-linux).</p>
+<p>(The best browser of all is still lynx(1) though.)</p>
 ----
