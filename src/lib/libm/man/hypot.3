@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/lib/libm/man/hypot.3,v 1.2 2005/11/21 21:17:29 tg Exp $
 .\"	$OpenBSD: hypot.3,v 1.14 2003/10/21 20:11:56 jmc Exp $
 .\" Copyright (c) 1985, 1991 Regents of the University of California.
 .\" All rights reserved.
@@ -29,7 +29,7 @@
 .\"
 .\"     from: @(#)hypot.3	6.7 (Berkeley) 5/6/91
 .\"
-.Dd May 6, 1991
+.Dd November 2, 2006
 .Dt HYPOT 3
 .Os
 .Sh NAME
@@ -122,3 +122,7 @@ compatibility, the
 .Fn cabs
 function was removed in
 .Mx 8 .
+A compatible builtin is part of the GNU Compiler Collection,
+but the appropriate
+.In complex.h
+definitions are not yet part of MirOS.

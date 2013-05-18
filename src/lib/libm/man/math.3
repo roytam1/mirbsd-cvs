@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: math.3,v 1.20 2004/01/23 23:08:46 jmc Exp $
 .\" Copyright (c) 1985 Regents of the University of California.
 .\" All rights reserved.
@@ -32,7 +33,7 @@
 .ds Si sig.
 .if t \
 .ds Si significant
-.Dd May 6, 1991
+.Dd November 2, 2006
 .Dt MATH 3
 .Sh NAME
 .Nm math
@@ -55,7 +56,6 @@ Declarations for these functions may be obtained from the include file
 .It atan Ta tan(3) Ta "inverse trigonometric function" Ta 1
 .It atanh Ta atanh(3) Ta "inverse hyperbolic function" Ta 3
 .It atan2 Ta tan2(3) Ta "inverse trigonometric function" Ta 2
-.It cabs Ta hypot(3) Ta "complex absolute value" Ta 1
 .It cbrt Ta sqrt(3) Ta "cube root" Ta 1
 .It ceil Ta floor(3) Ta "integer no less than" Ta 0
 .It copysign Ta ieee(3) Ta "copy sign bit" Ta 0
@@ -302,7 +302,6 @@ provided (perhaps for free) by those companies and designed by some
 of the authors of the code above.
 Except for
 .Fn atan ,
-.Fn cabs ,
 .Fn cbrt ,
 .Fn erf ,
 .Fn erfc ,
@@ -565,7 +564,7 @@ They signal no inappropriate exception except possibly:
 .Bl -tag -width Ds -offset indent -compact
 .It Over/Underflow
 when a result, if properly computed, might have lain barely within range, and
-.It Inexact in \fIcabs\fR, \fIcbrt\fR, \fIhypot\fR, \fIlog10\fR and \fIpow\fR
+.It Inexact in \fIcbrt\fR, \fIhypot\fR, \fIlog10\fR and \fIpow\fR
 when it happens to be exact, thanks to fortuitous cancellation of errors.
 .El
 Otherwise:

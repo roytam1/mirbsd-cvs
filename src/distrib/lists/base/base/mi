@@ -471,7 +471,7 @@
 ./usr/lib/libformw.so.6.0
 ./usr/lib/libiconv.so.5.0
 ./usr/lib/libkvm.so.10.1
-./usr/lib/libm.so.5.0
+./usr/lib/libm.so.5.1
 ./usr/lib/libmenu.so.6.0
 ./usr/lib/libmenuw.so.6.0
 ./usr/lib/libmilter.so.1.0
