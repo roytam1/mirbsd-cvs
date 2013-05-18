@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/zconf.h,v 1.3 2007/05/08 21:16:18 tg Exp $ */
+/* $MirOS: src/kern/include/zconf.h,v 1.4 2008/08/01 13:46:07 tg Exp $ */
 
 /* zconf.h -- configuration of the zlib compression library
  * Copyright (c) 2006-2007 Thorsten Glaser.
@@ -287,7 +287,7 @@ typedef uLong FAR uLongf;
    typedef Byte       *voidp;
 #endif
 
-#if !defined(HAVE_UNISTD_H) || (!HAVE_UNISTD_H)
+#if 1	/* no HAVE_UNISTD_H games here, for reliability */
 #  ifdef __MirBSD__
 #    include <sys/param.h>
 #  endif
