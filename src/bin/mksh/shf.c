@@ -24,7 +24,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/shf.c,v 1.40 2010/09/14 21:26:17 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/shf.c,v 1.41 2011/03/13 01:20:23 tg Exp $");
 
 /* flags to shf_emptybuf() */
 #define EB_READSW	0x01	/* about to switch to reading */
@@ -1028,14 +1028,12 @@ shf_vfprintf(struct shf *shf, const char *fmt, va_list args)
 int
 shf_getc(struct shf *shf)
 {
-	return ((shf)->rnleft > 0 ? (shf)->rnleft--, *(shf)->rp++ :
-	    shf_getchar(shf));
+	return (shf_getc_(shf));
 }
 
 int
 shf_putc(int c, struct shf *shf)
 {
-	return ((shf)->wnleft == 0 ? shf_putchar((c), (shf)) :
-	    ((shf)->wnleft--, *(shf)->wp++ = (c)));
+	return (shf_putc_(c, shf));
 }
 #endif
