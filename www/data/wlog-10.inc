@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.102 2008/11/22 14:30:03 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.103 2008/11/22 14:37:38 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1432,7 +1432,7 @@ Title: pkg-config woes, FrOSCon
  should be added to the output of --libs-only-l.</p>
 
 <p>"Opinions?"</p>
- 
+
 <p>In other news, FrOSCon has it second and last day today. I am
  currently in the train on the way. The party ("social event") yesterday
  was quite good, even though the weather was not as good as last
@@ -2080,4 +2080,29 @@ Title: galloc and OPTU
  100% compatible, because cpp can also read from stdin without the
  dash, whereas, with the dash, neither can read from only a file).
  X11 etc. can be switched to <tt>/usr/libexec/cpp</tt> then.</p>
+----
+Date: 23.11.2008 17:26
+Author: tg@
+Title: pcc and OPTU – and just how much Mirzilla Firetapir sucks
+
+<p>Today, I was sort of bored, so I enhanced something other than our
+ libc, namely <a href="http://pcc.ludd.ltu.se/">pcc</a>, with support
+ for Unicode/UTF and wide character literals and strings. Kind of fun
+ it was.</p>
+<p>Still missing is support for <tt>\uXXXX</tt> literals in multibyte
+ strings (need ucs2utf function for that, which can be taken from our
+ libc again), and, maybe, automatic UTF-16/CESU-8 conversions, if the
+ target has UCS-2 (MirBSD, Windows) and the host doesn’t, or so.</p>
+<p>Every single time Benny works on <tt>ports/www/firesomething</tt>,
+ it sinks in my esteem. Generating crypto keys during fake install is
+ <em>not</em> how things should be done (use a post-pkg_add script!).
+ And I still think it’s only rumours that it had been rewritten after
+ the Netscape® code was opened – it would be better than before then,
+ not worse. I’d rather shoot myself than publish such filth, if, like
+ Benny says, the code had indeed been rewritten. Well, at least it is
+ aware how insecure it is and kills itself:</p>
+<pre>14:46⎜«benz» Nov 23 16:40:29 mirbulk firesomething-bin: stack overflow in function virtual nsresult nsCryptoHash::Finish(PRBool, nsACString_internal&amp;)</pre>
+<p>And if he wouldn’t document this in a wlog entry, I do ☻☺</p>
+<p>But then, I don’t believe him totally unaware:</p>
+<pre>14:09⎜«benz» The name "Minefield" is strangely appropriate</pre>
 ----
