@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.21 2008/08/01 21:22:55 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.22 2008/08/01 23:36:46 tg Exp $ */
 
 /*-
  * Copyright (c) 2007, 2008
@@ -105,8 +105,12 @@ size_t	mbsnrtowcs(wchar_t *__restrict__, const char **__restrict__,
 size_t	mbsrtowcs(wchar_t *__restrict__, const char **__restrict__, size_t,
 	    mbstate_t *__restrict__);
 #if __OPENBSD_VISIBLE
+#undef optu16to8
+#define optu16to8 optu16to8
 size_t	optu16to8(char *__restrict__, wchar_t, mbstate_t *__restrict__)
 	    __attribute__((bounded (minbytes, 1, MB_CUR_MAX)));
+#undef optu8to16
+#define optu8to16 optu8to16
 size_t	optu8to16(wchar_t *__restrict__, const char *__restrict__, size_t,
 	    mbstate_t *__restrict__)
 	    __attribute__((bounded (string, 2, 3)));
