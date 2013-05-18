@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/rstat,v 1.2 2010/09/24 18:50:11 tg Exp $
+# $MirOS: contrib/hosted/tg/rstat,v 1.3 2010/09/24 19:59:04 tg Exp $
 #-
 # Copyright © 2010
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -69,6 +69,10 @@ while :; do
 	print
 	#print D: $count ${stats[*]}
 
+	# these numbers are "inclusive", detrend them
+	(( stats[16] -= stats[49] ))
+	(( stats[40] -= stats[4] ))
+
 	set -A lines
 	lines[0]="entropy $((count/8)) bytes!total $((stats[0]/8)) bytes ${stats[11]} sleeping waits"
 	lines[1]="used/read $((stats[1]/8)) bytes!srandom read ${stats[2]} times"
@@ -94,21 +98,21 @@ while :; do
 	l=
 	i=0 t=TRUE
 	l=$l${l:+!}"$t(${stats[48+i]})!$((stats[56+i]/8))"
-	i=1 t=TIMER
+	i=3 t=TTY
 	l=$l${l:+!}"$t(${stats[48+i]})!$((stats[56+i]/8))"
 	i=2 t=MOUSE
 	l=$l${l:+!}"$t(${stats[48+i]})!$((stats[56+i]/8))"
-	i=3 t=TTY
+	i=7 t=IMACS
 	l=$l${l:+!}"$t(${stats[48+i]})!$((stats[56+i]/8))"
 	lines[0]=$l
 	l=
-	i=4 t=DISK
-	l=$l${l:+!}"$t(${stats[48+i]})!$((stats[56+i]/8))"
+	i=1 t=TIMER
+	l=$l${l:+!}"$t!${stats[48+i]}"
 	i=5 t=NET
 	l=$l${l:+!}"$t(${stats[48+i]})!$((stats[56+i]/8))"
 	i=6 t=A/V
 	l=$l${l:+!}"$t(${stats[48+i]})!$((stats[56+i]/8))"
-	i=7 t=IMACS
+	i=4 t=DISK
 	l=$l${l:+!}"$t(${stats[48+i]})!$((stats[56+i]/8))"
 	lines[1]=$l
 	tabularise 8 RL 3 1
