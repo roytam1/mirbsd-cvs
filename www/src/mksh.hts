@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.25 2007/07/22 00:37:40 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.26 2007/07/22 14:16:33 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.25 2007/07/22 00:37:40 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.26 2007/07/22 14:16:33 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R29</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -36,7 +36,9 @@ mws_content <<'EOF'
  for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive, which helps
  in keeping mksh portable to several Unixes and compilers, and track down some
  architecture- or glibc-specific bugs. Thanks to Julian “yofuh” Wiesener for
- just another account on a Sun E420 on Solaris 11β.</p>
+ just another account on a Sun E420 on Solaris 11β. Thanks to someone who
+ prefers to stay anonymous due to tons of red tape for providing access to an
+ AIX 5.3 system with gcc and xlC installed.</p>
 <p>What is mksh(1)? – Short answer: The MirBSD Korn Shell. Okay, but what
  exactly does it do, or why another shell? These questions will be answered
  <a href="#contrib">below</a> for the people interested. Right now, you only
