@@ -1,4 +1,4 @@
-$MirOS: src/share/misc/acronyms,v 1.98 2010/12/28 01:39:26 tg Exp $
+$MirOS: src/share/misc/acronyms,v 1.99 2011/01/10 08:40:30 tg Exp $
 $NetBSD: acronyms,v 1.198 2011/01/04 06:18:51 dholland Exp $
 $NetBSD: acronyms.comp,v 1.115 2011/01/04 06:18:51 dholland Exp $
 10Q	thank you
@@ -95,6 +95,7 @@ B/S	bullshit
 B/W	bandwidth
 B/W	between
 B4	before
+BALGE	by and large good enough
 BAMF	Bad Ass Mother Fucker
 BAMP	BSD Apache MySQL {Perl,PHP,Python}
 BAMPP	BSD Apache MySQL {Perl,PHP,Python}
