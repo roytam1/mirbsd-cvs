@@ -1,9 +1,9 @@
-$MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.10 2009/10/03 16:20:22 tg Exp $
+$MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.11 2010/01/09 20:17:04 tg Exp $
 --- etc/etcscreenrc.orig	Fri Dec  5 13:45:51 2003
-+++ etc/etcscreenrc	Sat Jan  9 20:06:40 2010
++++ etc/etcscreenrc	Fri Sep  2 21:47:06 2011
 @@ -1,20 +1,21 @@
 +# $MirSecuCron$
-+# $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.10 2009/10/03 16:20:22 tg Exp $
++# $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.11 2010/01/09 20:17:04 tg Exp $
  #
  # This is an example for the global screenrc file.
 -# You may want to install this file as /usr/local/etc/screenrc.
@@ -109,10 +109,10 @@ $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.10 2009/10/03 16:20:
 +shell "-${SHELL}"
 +shelltitle -
 +# use this one...
-+#hardstatus alwayslastline "%{kr} %H %{ky} load[%l] %{kg} %d.%m.%Y %0c %{yb} %=%?%-w%?[%n%f %t]%?%+w%? "
++#hardstatus alwayslastline "%{kr} %H %{ky} %l %{kg} %D %d.%m.%Y %0c %{yb} %=%?%-w%?[%n%f %t]%?%+w%? "
 +# ... if this one has violet instead of blue on the bottom right;
 +# append ":%s" to "%0c" to display seconds on the clock
-+hardstatus alwayslastline "%{kr} %H %{ky} load[%l] %{kg} %d.%m.%Y %0c %{+b}%{yb} %=%?%-w%?[%n%f %t]%?%+w%? "
++hardstatus alwayslastline "%{kr} %H %{ky} %l %{kg} %D %d.%m.%Y %0c %{+b}%{yb} %=%?%-w%?[%n%f %t]%?%+w%? "
 +nethack on
 +defscrollback 4096
 +defutf8 on
