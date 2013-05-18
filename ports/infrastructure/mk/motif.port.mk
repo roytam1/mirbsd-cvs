@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/infrastructure/mk/motif.port.mk,v 1.1 2007/05/07 22:34:12 tg Exp $
 
 .if ${USE_MOTIF:L} == "any" || ${USE_MOTIF:L} == "yes"
 FLAVORS+=		openmotif lesstif
@@ -19,7 +19,7 @@ FLAVOR+=		${USE_MOTIF}
 .if ${USE_MOTIF:L} == "lesstif"
 LIB_DEPENDS+=		Xm.1::x11/lesstif
 .elif ${USE_MOTIF:L} == "openmotif"
-ERRORS+=		"Cannot be build because x11/openmotif is broken."
+BROKEN+=		x11/openmotif is broken
 LIB_DEPENDS+=		Xm.2::x11/openmotif
 .elif ${USE_MOTIF:L} == "no"
 ERRORS+=		"USE_MOTIF=no but motif module invoked?"
