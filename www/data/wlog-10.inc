@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.218 2009/07/16 15:24:02 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.219 2009/07/17 15:07:48 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4486,4 +4486,31 @@ Tag: news snapshot
  contains a new intermediate snapshot of MirOS BSD/i386 built last night.
  I also brought the <a href="@@ABSPATH@@/MirOS/current/older/">fixes for
  older snapshots</a> a little more up to date. Enjoy!</p>
+----
+Title: jupp – the editor which sucks less
+Date: 18.07.2009 19:02
+Author: tg@
+Tag: news
+
+<p><a href="@@RELPATH@@jupp.htm">jupp</a> development has been split
+ into <em>two</em> <strong>active</strong> development lines: jupp for
+ DOS (based on joe 2.8) and jupp for Unix (based on joe 3.x).</p>
+<p>There are binaries for both DOS (jupp for DOS) and Win32 (jupp for
+ Unix, via Cygwin) available.</p>
+<p>The jupp for DOS development line incorporates only minor patches
+ relative to the original source code (it wasn’t <em>that</em> buggy
+ as the sourceforge development made the code later…) and a jupprc
+ file tuned for it but feature-complete with joe-3.1jupp10’s one.</p>
+<p>The jupp for Unix development line incorporates all of the very
+ extensive patches to the binary, and an enriched jupprc with, due to
+ popular demand, <strong>syntax highlighting</strong> <em>enabled</em>
+ by default – even though I still loathe it personally, and feel with
+ Rob Pike when he questions the use of pretty printers. It will also
+ try to correctly guess CR-LF vs LF-only line endings, indentation,
+ and terminal colour. Furthermore, the language selection of the jupp
+ flavour is now en par with that of the joe flavour, and the Python
+ variants honour the standard coding style of theirs (needed that by
+ the third quarter of last year, remember?). Autoindent is still off,
+ by default, though – with reason.</p>
+<p>Now give it a try. Hint: <tt>^J</tt> (Ctrl-J) invokes the help.</p>
 ----
