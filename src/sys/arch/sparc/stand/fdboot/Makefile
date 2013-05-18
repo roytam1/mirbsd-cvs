@@ -1,7 +1,8 @@
-# $MirOS: src/sys/arch/sparc/stand/fdboot/Makefile,v 1.3 2009/04/17 18:57:09 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/fdboot/Makefile,v 1.4 2010/01/10 12:55:22 tg Exp $
 
 SMALL_BOOT=	Yes
 BOOTLDR_PATH?=	${.CURDIR}/../boot
+CPPFLAGS+=	-DUSE_USTARFS
 
 .PATH: ${BOOTLDR_PATH}
 

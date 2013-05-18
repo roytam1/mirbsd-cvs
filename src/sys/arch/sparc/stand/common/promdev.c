@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/stand/common/promdev.c,v 1.5 2009/04/17 18:57:08 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/stand/common/promdev.c,v 1.6 2009/08/11 13:24:00 tg Exp $ */
 /*	$OpenBSD: promdev.c,v 1.9 2003/08/14 17:13:57 deraadt Exp $	*/
 /*	$NetBSD: promdev.c,v 1.16 1995/11/14 15:04:01 pk Exp $ */
 
@@ -80,6 +80,9 @@ int getticks(void);
 #ifndef SMALL_BOOT
 extern struct filesystem file_system_nfs[];
 extern struct filesystem file_system_cd9660[];
+#endif
+#ifdef USE_USTARFS
+extern struct filesystem file_system_ustarfs[];
 #endif
 extern struct filesystem file_system_ufs[];
 
@@ -182,6 +185,8 @@ prom_init()
 #endif
 }
 
+#define ADDFS(f)	bcopy(f, file_system + nfsys++, sizeof(struct fs_ops))
+
 int
 devopen(f, fname, file)
 	struct open_file *f;
@@ -227,22 +232,26 @@ devopen(f, fname, file)
 	if (pd->devtype != DT_BYTE)
 		*file = (char *)fname;
 
+	nfsys = 0;
 #ifndef SMALL_BOOT
 	if (pd->devtype == DT_NET) {
-		bcopy(file_system_nfs, file_system, sizeof(struct fs_ops));
+		ADDFS(file_system_nfs);
 		if ((error = net_open(pd)) != 0) {
 			printf("Can't open network device `%s'\n",
 				prom_bootdevice);
 			return error;
 		}
-	} else {
+	} else
 #endif
-		bcopy(file_system_ufs, file_system, sizeof(struct fs_ops));
+	    {
+		ADDFS(file_system_ufs);
 #ifndef SMALL_BOOT
-		bcopy(&file_system_cd9660, file_system + 1, sizeof file_system[0]);
-		nfsys = 2;
-	}
+		ADDFS(file_system_cd9660);
 #endif
+#ifdef USE_USTARFS
+		ADDFS(file_system_ustarfs);
+#endif
+	}
 #endif /* BOOTXX */
 
 	f->f_dev = &devsw[cputyp == CPU_SUN4 ? 0 : 1];

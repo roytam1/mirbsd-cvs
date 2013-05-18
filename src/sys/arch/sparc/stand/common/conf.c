@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/stand/common/conf.c,v 1.3 2009/08/11 13:24:00 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/stand/common/conf.c,v 1.4 2009/08/11 14:08:14 tg Exp $ */
 /*	$OpenBSD: conf.c,v 1.1 1997/09/17 10:46:17 downsj Exp $	*/
 /*	$NetBSD: conf.c,v 1.2 1995/09/18 21:31:45 pk Exp $ */
 
@@ -36,22 +36,42 @@
 #include <lib/libsa/stand.h>
 #include <lib/libsa/ufs.h>
 #include <netinet/in.h>
+#ifndef SMALL_BOOT
 #include <lib/libsa/cd9660.h>
 #include <lib/libsa/nfs.h>
+#endif
+#ifdef USE_USTARFS
+#include <lib/libsa/ustarfs.h>
+#endif
 
 struct fs_ops file_system_ufs[] = {
-	{ ufs_open, ufs_close, ufs_read, ufs_write, ufs_seek,
-	  ufs_stat, ufs_readdir, "ufs" },
+	{ ufs_open,	ufs_close,	ufs_read,	   ufs_write,
+	  ufs_seek,	ufs_stat,	ufs_readdir,	   "ufs" }
 };
 #ifndef SMALL_BOOT
 struct fs_ops file_system_cd9660[] = {
-	{ cd9660_open, cd9660_close, cd9660_read, cd9660_write, cd9660_seek,
-	  cd9660_stat, cd9660_readdir, "cd9660" },
+	{ cd9660_open,	cd9660_close,	cd9660_read,	   cd9660_write,
+	  cd9660_seek,	cd9660_stat,	cd9660_readdir,	   "cd9660" }
 };
 struct fs_ops file_system_nfs[] = {
-	{ nfs_open, nfs_close, nfs_read, nfs_write, nfs_seek,
-	  nfs_stat, nfs_readdir, "nfs" },
+	{ nfs_open,	nfs_close,	nfs_read,	   nfs_write,
+	  nfs_seek,	nfs_stat,	nfs_readdir,	   "nfs" }
 };
 #endif
-struct fs_ops file_system[2];
-int nfsys = 1;
+#ifdef USE_USTARFS
+struct fs_ops file_system_ustarfs[] = {
+	{ ustarfs_open,	ustarfs_close,	ustarfs_read,	   ustarfs_write,
+	  ustarfs_seek,	ustarfs_stat,	ustarfs_readdir,   "ustarfs" }
+};
+#endif
+#if defined(SMALL_BOOT) && defined(USE_USTARFS)
+#define NFS_MAX	2
+#elif defined(SMALL_BOOT)
+#define NFS_MAX	1
+#elif defined(USE_USTARFS)
+#define NFS_MAX	3
+#else
+#define NFS_MAX	2
+#endif
+struct fs_ops file_system[NFS_MAX];
+int nfsys = 0;
