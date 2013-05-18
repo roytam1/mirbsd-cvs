@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/grml/Makefile,v 1.7 2009/06/29 19:43:33 tg Exp $
+# $MirOS: src/distrib/common/netboot.me/Makefile,v 1.1 2009/08/30 14:16:30 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -28,10 +28,11 @@ all: templates/bsd4me.stamp
 bsd: ${BSDOBJDIR}/distrib/generic/bsd
 	cp -f $> $@
 
-MACHCONF=	nonexistant
-LISTS=		${TOPDIR}/common/listbeg.i386-big ${TOPDIR}/common/list \
-		${TOPDIR}/common/listend.i386-big \
-		${TOPDIR}/common/netboot.me/listadd
+LISTADDS=	boot cd9660 dhclient disktools ext2fs i386 isdn msdos \
+		nettools nfs nfsd pager-less ppp-user pppoe-kernel \
+		pppoe-user upgrade
+MACHCONF:=	i386-big
+LISTADDS+=	netboot.me
 
 ${CBIN}.conf: gnustuff
 

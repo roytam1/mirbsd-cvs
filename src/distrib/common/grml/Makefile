@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/grml/Makefile,v 1.6 2009/06/29 18:39:55 tg Exp $
+# $MirOS: src/distrib/common/grml/Makefile,v 1.7 2009/06/29 19:43:33 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -28,9 +28,11 @@ all: templates/bsd4grml.stamp
 bsd: ${BSDOBJDIR}/distrib/generic/bsd
 	cp -f $> $@
 
-MACHCONF=	nonexistant
-LISTS=		${TOPDIR}/common/listbeg.i386-big ${TOPDIR}/common/list \
-		${TOPDIR}/common/listend.i386-big ${TOPDIR}/common/grml/listadd
+LISTADDS=	boot cd9660 dhclient disktools ext2fs i386 isdn msdos \
+		nettools nfs nfsd pager-less ppp-user pppoe-kernel \
+		pppoe-user upgrade
+MACHCONF:=	i386-big
+LISTADDS+=	Grml
 
 ${CBIN}.conf: gnustuff
 
