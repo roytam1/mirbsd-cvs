@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.259 2009/08/30 11:32:36 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.260 2009/08/30 18:24:15 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1281,9 +1281,9 @@ _libresolve_fragment= \
 		d=$${d\#\#*/};; \
 	*)	shprefix=; shdir="${LOCALBASE}/lib";; \
 	esac; \
-	check=$$(eval $$listlibs | perl \
-	    ${PORTSDIR}/infrastructure/scripts/resolve-lib ${_resolve_lib_args} $$d) \
-	    || true
+	check=$$(eval $$listlibs | ${MKSH} \
+	    ${PORTSDIR}/infrastructure/scripts/resolve-lib \
+	    ${_resolve_lib_args} $$d) || true
 
 _lib_depends_fragment= \
 	what=$$dep; \

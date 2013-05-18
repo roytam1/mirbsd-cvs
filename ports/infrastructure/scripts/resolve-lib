@@ -1,164 +1,157 @@
-#!/usr/bin/perl
-# $MirOS: ports/infrastructure/scripts/resolve-lib,v 1.5 2006/12/21 20:57:53 tg Exp $
-# $OpenBSD: resolve-lib,v 1.4 2002/11/28 19:20:37 espie Exp $
+# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+#-
+# Copyright (c) 2009
+#	Thorsten Glaser <tg@mirbsd.org>
+# Rewrite of code by Marc Espie, Thorsten Glaser and Benny Siegert
 #
-# Copyright (c) 2006
-#	Thorsten Glaser <tg@mirbsd.de>
-# Copyright (c) 2001
-# Marc Espie.  All rights reserved.
-# Redistribution and use in source and binary forms, with or without
-# modification, are permitted provided that the following conditions
-# are met:
-# 1. Redistributions of code must retain the above copyright
-#    notice, this list of conditions and the following disclaimer.
-# 2. Neither the name of OpenBSD nor the names of its contributors
-#    may be used to endorse or promote products derived from this software
-#    without specific prior written permission.
+# Provided that these terms and disclaimer and all copyright notices
+# are retained or reproduced in an accompanying document, permission
+# is granted to deal in this work without restriction, including un-
+# limited rights to use, publicly perform, distribute, sell, modify,
+# merge, give away, or sublicence.
 #
-# THIS SOFTWARE IS PROVIDED BY ITS AUTHOR AND THE OpenBSD project ``AS IS'' AND
-# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
-# ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
-# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
-# OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
-# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
-# OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
-# SUCH DAMAGE.
+# This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+# the utmost extent permitted by applicable law, neither express nor
+# implied; without malicious intent or gross negligence. In no event
+# may a licensor, author or contributor be held liable for indirect,
+# direct, other damage, loss, or other issues arising in any way out
+# of dealing in the work, even if advised of the possibility of such
+# damage or existence of a defect, except proven that it results out
+# of said person's immediate fault when using the work as intended.
 
-use strict;
+noshared=0
+libtype=bsd
+sharedonly=0
+strict=0
+reqmajor=0
+reqminor=0
+bestmajor=0
+bestminor=0
+found_libtool=0
+found_shared=0
+found_goodshared=0
+found_unshared=0
 
-my $noshared;
-my $dylib;
-my $gnulib;
-my $sharedonly;
-my $strict;
-my $reqmajor;
-my $reqminor;
-
-# Grab arguments
-$_=shift;
-if ($_ eq '-noshared') {
-	$noshared = 1;
-	$_ = shift;
-} elsif ($_ eq '-dylib') {
-	$dylib = 1;
-	$_ = shift;
-} elsif ($_ eq '-gnulib') {
-	$gnulib = 1;
-	$_ = shift;
-}
-
-s/\.$//;
-# Parse spec
-if (m/\.a$/) {
-	$_ = $`;
-	$noshared = 1;
-} else {
-	if (m/\.(\d+)\.(\d+)$/) {
-		$reqmajor = $1;
-		$reqminor = $2;
-		$_ = $`;
-	} elsif (m/\.\=(\d+)\.(\d+)$/) {
-		$reqmajor = $1;
-		$reqminor = $2;
-		$_ = $`;
-		$strict = 1;
-	} elsif (m/\.(\d+)$/) {
-		$reqmajor = $1;
-		$reqminor = 0;
-		$_ = $`;
-	} elsif (m/\.\=(\d+)$/) {
-		$reqmajor = $1;
-		$reqminor = 0;
-		$strict = 1;
-		$_ = $`;
+while [[ $1 = -* ]]; do
+	case $1 {
+	(-noshared)
+		noshared=1
+		;;
+	(-dylib)
+		libtype=dylib
+		;;
+	(-gnulib)
+		libtype=gnu
+		;;
+	(*)
+		break
+		;;
 	}
-	if (m/\.so$/) {
-		$_ = $`;
-		$sharedonly = 1;
-	}
-}
+	shift
+done
 
-{
-my $libname=$_;
+libname=${1%%*(.)}
 
-my $bestmajor=-1;
-my $bestminor=-1;
+if [[ $libname = *.a ]]; then
+	libname=${libname%.a}
+	noshared=1
+else
+	if [[ $libname = *.?(=)+([0-9]).+([0-9]) ]]; then
+		:
+	elif [[ $libname = *.?(=)+([0-9]) ]]; then
+		libname=$libname.0
+	fi
+	if [[ $libname = *.?(=)+([0-9]).+([0-9]) ]]; then
+		reqminor=${libname##*.}
+		libname=${libname%.$reqminor}
+		reqmajor=${libname##*.}
+		libname=${libname%.$reqmajor}
+		if [[ $reqmajor = =* ]]; then
+			reqmajor=${reqmajor#=}
+			strict=1
+		fi
+	fi
+	if [[ $libname = *.so ]]; then
+		libname=${libname%.so}
+		sharedonly=1
+	fi
+fi
 
-my $found_shared;
-my $found_goodshared;
-my $found_unshared;
-my $found_libtool;
-
-while(<>) {
-	chomp;
-	if (m/^lib\Q$libname\E\.la$/) {
-		$found_libtool = 1;
-	} elsif (!$noshared) {
-		my $tmp;
-		my $major;
-		my $minor;
-		if ($dylib) {
-			$tmp = m/^lib\Q$libname\E\.(\d+)\.?(\d+)?.?\d*\.dylib$/;
-			$major = $1;
-			$minor = $2 || 0;
-		} elsif ($gnulib) {
-			$tmp = m/^lib\Q$libname\E\.so\.(\d+)\.?(\d+)?/;
-			$major = $1;
-			$minor = $2 || 0;
-		} else {
-			$tmp = m/^lib\Q$libname\E\.so\.(\d+)\.(\d+)$/;
-			$major = $1;
-			$minor = $2;
+while read line; do
+	[[ $line = lib$libname.* ]] || continue
+	rest=${line#lib$libname.}
+	if [[ $rest = la ]]; then
+		found_libtool=1
+		continue
+	fi
+	if (( !noshared )); then
+		case $libtype {
+		(dylib)
+			[[ $rest = +([0-9])*(.+([0-9])).dylib ]] || continue
+			major=${rest%%.*}
+			minor=${rest#$major.}
+			if [[ $minor = [0-9]* ]]; then
+				minor=${minor%%.*}
+			else
+				minor=0
+			fi
+			;;
+		(gnu)
+			[[ $rest = so.+([0-9])?(.+([0-9])?(.*)) ]] || continue
+			rest=${rest#so.}
+			if [[ $rest = +([0-9]) ]]; then
+				major=$rest
+				minor=0
+			else
+				major=${rest%%.*}
+				minor=${rest#$major.}
+				minor=${minor%%.*}
+			fi
+			;;
+		(bsd)
+			[[ $rest = so.+([0-9]).+([0-9]) ]] || continue
+			rest=${rest#so.}
+			major=${rest%%.*}
+			minor=${rest#$major.}
+			;;
 		}
-		if ($tmp) {
-			$found_shared = 1;
-			if ($strict) {
-				if ($major > $reqmajor) {
-					print "Error: strict library too high\n";
-					exit(0);
-				}
-				if ($major < $reqmajor) {
-					next;
-				}
-				if ($minor < $reqminor) {
-					next;
-				}
-				$found_goodshared = 1;
-				$bestmajor = $major;
-				if ($minor >= $bestminor) {
-					$bestminor = $minor;
-				}
-			} else {
-				if ($major < $reqmajor || ($major == $reqmajor &&
-				    $minor < $reqminor)) {
-					next;
-				}
-				$found_goodshared = 1;
-				if ($major > $bestmajor || ($major == $bestmajor &&
-				    $minor > $bestminor)) {
-					$bestmajor = $major;
-					$bestminor = $minor;
-				}
-			}
-		}
-	} elsif (!$sharedonly && m/^lib\Q$libname\E\.a$/) {
-		$found_unshared = 1;
-	}
-}
+		found_shared=1
+		if (( strict )); then
+			if (( major > reqmajor )); then
+				print Error: strict library too high
+				exit 0
+			fi
+			(( major < reqmajor )) && continue
+			(( minor < reqminor )) && continue
+			found_goodshared=1
+			bestmajor=$major
+			(( minor >= bestminor )) && bestminor=$minor
+		else
+			(( major < reqmajor || \
+			    (major == reqmajor && minor < reqminor) )) && \
+			    continue
+			found_goodshared=1
+			if (( major > bestmajor || \
+			    (major == bestmajor && minor > bestminor) )); then
+				bestmajor=$major
+				bestminor=$minor
+			fi
+		fi
+		continue
+	fi
+	if (( !sharedonly )) && [[ $rest = a ]]; then
+		found_unshared=1
+	fi
+done
 
-if ($found_libtool) {
-	print "$libname.la\n";
-} elsif ($found_goodshared) {
-	print "$libname.$bestmajor.$bestminor\n";
-} elsif ($found_shared) {
-	print "Error: bad shared library\n";
-} elsif ($found_unshared) {
-	print "$libname.a\n";
-} else {
-	print "Missing library\n";
-}
-
-}
+if (( found_libtool )); then
+	print $libname.la
+elif (( found_goodshared )); then
+	print $libname.$bestmajor.$bestminor
+elif (( found_shared )); then
+	print Error: bad shared library
+elif (( found_unshared )); then
+	print $libname.a
+else
+	print Missing library
+fi
