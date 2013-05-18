@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.40 2006/09/29 21:42:33 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.41 2006/09/29 22:10:09 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -60,8 +60,9 @@ BSDRELDIR?=		/usr/releng
 GNUSYSTEM_AUX_DIR?=	${BSDSRCDIR}/gnu/share
 
 
-BINGRP?=	bin
 BINOWN?=	root
+BINGRP?=	bin
+CONFGRP?=	wheel
 BINMODE?=	555
 NONBINMODE?=	444
 DIRMODE?=	755
@@ -69,8 +70,8 @@ DIRMODE?=	755
 BSD_PREFIX?=	/usr
 
 SHAREDIR?=	${BSD_PREFIX}/share
-SHAREGRP?=	${BINGRP}
 SHAREOWN?=	${BINOWN}
+SHAREGRP?=	${BINGRP}
 SHAREMODE?=	${NONBINMODE}
 
 .if ${BSD_PREFIX} == "/usr"
@@ -78,24 +79,24 @@ MANDIR?=	${BSD_PREFIX}/share/man/cat
 .else
 MANDIR?=	${BSD_PREFIX}/man/cat
 .endif
-MANGRP?=	${SHAREGRP}
 MANOWN?=	${SHAREOWN}
+MANGRP?=	${SHAREGRP}
 MANMODE?=	${NONBINMODE}
 
 LIBDIR?=	${BSD_PREFIX}/lib
 LINTLIBDIR?=	${BSD_PREFIX}/libdata/lint
-LIBGRP?=	${BINGRP}
 LIBOWN?=	${BINOWN}
+LIBGRP?=	${BINGRP}
 LIBMODE?=	${NONBINMODE}
 
 DOCDIR?=	${SHAREDIR}/doc
-DOCGRP?=	${SHAREGRP}
 DOCOWN?=	${SHAREOWN}
+DOCGRP?=	${SHAREGRP}
 DOCMODE?=	${NONBINMODE}
 
 LKMDIR?=	${BSD_PREFIX}/lkm
-LKMGRP?=	${BINGRP}
 LKMOWN?=	${BINOWN}
+LKMGRP?=	${BINGRP}
 LKMMODE?=	${NONBINMODE}
 
 INSTALL_COPY?=	-c

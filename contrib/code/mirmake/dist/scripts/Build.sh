@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.87 2006/10/13 16:39:52 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.88 2006/10/13 16:41:47 tg Exp $
 #-
 # Copyright (c) 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -165,12 +165,15 @@ echo | $NROFF -v 2>&1 | grep GNU >&- 2>&- && NROFF="$NROFF -c"
 if [[ -z $new_binids ]]; then
 	binown=root
 	bingrp=bin
+	confgrp=0
 elif [[ $new_binids = *:* ]]; then
 	binown=${new_binids%:*}
 	bingrp=${new_binids#*:}
+	confgrp=$bingrp
 else
 	binown=$new_binids
 	bingrp=$new_binids
+	confgrp=$bingrp
 fi
 if [[ $binown = - ]]; then
 	ug=
@@ -227,9 +230,14 @@ if [[ $binown = - ]]; then
 	[[ $binown = *@( )* ]] && binown=$(id -u)
 	bingrp=$(id -gn)
 	[[ $bingrp = *@( )* ]] && bingrp=$(id -g)
+	confgrp=$bingrp
 fi
-print "/^BINOWN/s/root/$binown/p\n/^BINGRP/s/bin/$bingrp/p\nwq" \
-    | ed -s $d_build/mk/bsd.own.mk
+ed -s $d_build/mk/bsd.own.mk <<-EOF
+	/^BINOWN/s/root/$binown/p
+	/^BINGRP/s/bin/$bingrp/p
+	/^CONFGRP/s/bin/$confgrp/p
+	wq
+EOF
 
 # Build bmake
 cd $d_build

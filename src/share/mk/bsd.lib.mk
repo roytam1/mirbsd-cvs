@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.lib.mk,v 1.48 2006/09/30 23:11:13 tg Exp $
+# $MirOS: src/share/mk/bsd.lib.mk,v 1.49 2006/10/06 22:05:59 tg Exp $
 # $OpenBSD: bsd.lib.mk,v 1.43 2004/09/20 18:52:38 espie Exp $
 # $NetBSD: bsd.lib.mk,v 1.67 1996/01/17 20:39:26 mycroft Exp $
 # @(#)bsd.lib.mk	5.26 (Berkeley) 5/2/91
@@ -159,6 +159,7 @@ CXXFLAGS+=	-g1
 .  endif
 DEBUG?=		-g
 _DISCARD=	-X
+INSTALL_STRIP=	#empty
 .else
 _DISCARD=	-x
 .endif
@@ -252,8 +253,8 @@ realinstall:
 	@echo Relinking dynamic ${LIB} library
 	${LINK.shlib} -install_name ${LIBDIR}/${SHLIB_SONAME} -o ${SHLIB_SONAME}
 .    endif
-	${INSTALL} ${INSTALL_COPY} -o ${LIBOWN} -g ${LIBGRP} -m ${LIBMODE} \
-	    ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/
+	${INSTALL} ${INSTALL_COPY} ${INSTALL_STRIP} -o ${LIBOWN} -g ${LIBGRP} \
+	    -m ${LIBMODE} ${SHLIB_SONAME} ${DESTDIR}${LIBDIR}/
 .    for _i in ${SHLIB_LINKS}
 	@rm -f ${DESTDIR}${LIBDIR}/${_i}
 	cd ${DESTDIR}${LIBDIR} && if ! ln -s ${SHLIB_SONAME} ${_i}; then \
