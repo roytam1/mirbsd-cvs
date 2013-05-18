@@ -54,7 +54,7 @@
 
 #include "rdate.h"
 
-__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.18 2009/08/01 13:55:30 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/ntp.c,v 1.19 2009/12/24 11:41:23 tg Exp $");
 
 /*
  * NTP definitions.  Note that these assume 8-bit bytes - sigh.  There
@@ -148,10 +148,6 @@ ntp_client(const char *hostname, int family, struct timeval *new,
 
 	s = -1;
 	for (res = res0; res; res = res->ai_next) {
-		s = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
-		if (s < 0)
-			continue;
-
 		if (sport) {
 			sun.s_sa = res->ai_addr;
 			switch (sun.s_sa->sa_family) {
@@ -164,10 +160,21 @@ ntp_client(const char *hostname, int family, struct timeval *new,
 			}
 		}
 
+		if (debug)
+			fprintf(stderr, "Remote IP:   %s\n",
+			    log_sockaddr(res->ai_addr));
+
+		s = socket(res->ai_family, res->ai_socktype, res->ai_protocol);
+		if (s < 0) {
+			if (debug)
+				perror("Skipped:     socket");
+			continue;
+		}
+
 		ret = sync_ntp(s, res->ai_addr, &offset, &error, nversion);
 		if (ret < 0) {
 			if (debug)
-				fprintf(stderr, "try the next address\n");
+				fprintf(stderr, "Skipped:     try the next address\n");
 			close(s);
 			s = -1;
 			continue;

@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/rdate/rdate.h,v 1.1 2007/08/10 23:52:24 tg Exp $ */
+/* $MirOS: src/usr.sbin/rdate/rdate.h,v 1.2 2007/08/16 10:38:29 tg Exp $ */
 
 /* This macro is not implemented on all operating systems */
 #ifndef	SA_LEN
@@ -25,3 +25,5 @@ void rfc868time_client (const char *, int, struct timeval *,
     struct timeval *);
 
 extern int debug;
+
+const char *log_sockaddr(struct sockaddr *);

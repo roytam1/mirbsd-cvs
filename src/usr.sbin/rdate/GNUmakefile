@@ -1,8 +1,8 @@
-# $MirOS: src/usr.sbin/rdate/GNUmakefile,v 1.3 2009/01/11 00:36:03 tg Exp $
+# $MirOS: src/usr.sbin/rdate/GNUmakefile,v 1.4 2009/08/01 18:30:30 tg Exp $
 #-
 # You may need: https://www.mirbsd.org/MirOS/dist/hosted/other/arc4random.c
 
-SRCS=		ntp.c ntpleaps.c rdate.c rfc868time.c
+SRCS=		cutil.c ntp.c ntpleaps.c rdate.c rfc868time.c
 ifeq ($(strip ${HAVE_ARC4RANDOM}),)
 SRCS+=		arc4random.c
 endif
@@ -11,7 +11,7 @@ BINDIR?=	/usr/sbin
 MANDIR?=	/usr/share/man
 CC?=		gcc
 CFLAGS?=	-O2
-CPPFLAGS+=	-DNO_UTIL -DEXT_A4R -DHAVE_STDINT_H
+CPPFLAGS+=	-DNO_UTIL -DEXT_A4R -DHAVE_STDINT_H -DIN_RDATE
 CPPFLAGS+=	-D'__RCSID(x)=static const char __rcsid[] = x'
 
 all: rdate
