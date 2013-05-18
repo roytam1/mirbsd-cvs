@@ -775,3 +775,24 @@ Title: No, I won’t.
 <p>It will go anyway with the upcoming merge of more recent OpenBSD base
  code. There are more pressing issues. But I have looked into it.</p>
 ----
+Date: 20.05.2008
+Author: tg@
+Title: Improving the world, yet again
+
+<p><a href="@@RELPATH@@ports.htm">The MirPorts Framework</a>, which also
+ runs on <a href="http://www.midnightbsd.org/">MidnightBSD</a>, is the
+ first to bring native firesomething support to said operating system,
+ almost effortless thanks to our good portability infrastructure, and
+ because bsiegert@ has already done the dirty work porting it to MirBSD.
+ Thanks, Benny! And thanks Lucas for the chance to prove the superiourity
+ of our infrastructure. And ctriv, don’t take it too hard, just take our
+ patches and put them on your mport.</p>
+<p>Hardware sucks. The Z doesn’t power on after it has been shut down for
+ a while. The CF wi(4) is broken. Software sucks. And we all know it. <a
+ href="http://www.DaemonForums.org/">A web forum</a> sucks. They probably
+ will never learn it. Yet people support their… attitude. Americans suck,
+ but that’s not news. Luckily, there are a few not totally clueless ones.
+ Life sucks, and bureaucracy sucks even worse. And there’s no way around
+ <em>that</em>. Too bad. (I had an encounter with bureaucrats again… could
+ you tell? Hah. They want money back, even though it belongs to me.)</p>
+----
