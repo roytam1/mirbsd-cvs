@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.13 2007/07/18 20:30:43 tg Exp $ */
+/* $MirOS: contrib/code/Snippets/tinyirc.c,v 1.14 2007/07/18 21:17:44 tg Exp $ */
 
 /* Configuration options */
 /* please change the default server to one near you. */
@@ -71,13 +71,18 @@
 #include <string.h>
 #include <term.h>
 #include <termios.h>
+#include <time.h>
 #include <unistd.h>
 
 #ifndef __RCSID
 #define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.13 2007/07/18 20:30:43 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.14 2007/07/18 21:17:44 tg Exp $");
+
+#ifndef __dead
+#define __dead
+#endif
 
 struct dlist {
     char name[64];
