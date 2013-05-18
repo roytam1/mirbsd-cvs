@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.12 2009/01/01 22:59:35 tg Exp $	*/
+/**	$MirOS: src/sys/arch/i386/stand/libsa/cmd_i386.c,v 1.13 2009/01/01 23:29:00 tg Exp $	*/
 /*	$OpenBSD: cmd_i386.c,v 1.29 2006/09/18 21:14:15 mpf Exp $	*/
 
 /*
@@ -62,7 +62,8 @@ int Xregs(void);
 int Xoldbios(void);
 
 /* From gidt.S */
-__dead void bootbuf(void *codebuf, uint32_t codesize, int dl, uint32_t csip);
+__dead void bootbuf(void *codebuf, uint32_t codesize, uint32_t code_esdi,
+    int dl, uint32_t initial_csip);
 
 const struct cmd_table cmd_machine[] = {
 #ifndef SMALL_BOOT
@@ -207,7 +208,7 @@ Xboot(void)
 	/* Load %dl, ljmp */
 	baddr = 0x00007C00;
 	gateA20(0);
-	bootbuf(buf, 512, dev, baddr);
+	bootbuf(buf, 512, baddr, dev, baddr);
 
 bad:
 	printf("Invalid device!\n");
@@ -287,7 +288,7 @@ Xmdexec(void)
 {
 	int fd, sz, type = 0;
 	char *buf;
-	uint32_t baddr;
+	uint32_t baddr, jaddr = 0xF000FFF0;
 
 	if (cmd.argc != 3) {
  synerr:
@@ -322,11 +323,11 @@ Xmdexec(void)
 
 	switch (type) {
 	case 1:
-		baddr = 0x00007C00;
+		jaddr = baddr = 0x00007C00;
 		break;
 	}
 
 	gateA20(0);
-	bootbuf(buf, sz, i386_bootdev, baddr);
+	bootbuf(buf, sz, baddr, i386_bootdev, jaddr);
 }
 #endif

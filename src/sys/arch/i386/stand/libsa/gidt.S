@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.3 2009/01/01 19:45:38 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.4 2009/01/01 21:46:38 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -414,8 +414,9 @@ intno	= . - 1
 /* Call buffer at 07c0:0000 in real mode to simulate a BIOS boot */
 ENTRY(bootbuf)
 	pop	%eax		/* Don't need return address */
-	pop	%esi		/* Buffer */
+	pop	%esi		/* Buffer Source (linear) */
 	pop	%ecx		/* Size */
+	pop	%ebp		/* Buffer Target (ES:DI) */
 	pop	%edx		/* Device (and flags) */
 	pop	%edi		/* Initial CS:IP */
 	prot2real		/* Switch */
@@ -437,7 +438,8 @@ ENTRY(bootbuf)
 	 * - EFLAGS = 0
 	 * - ESI = linear address of source buffer (must be para aligned)
 	 * - ECX = source buffer size (up to 64 KiB)
-	 * - EDI = target address and initial CS:IP (FAR pointer)
+	 * - EBP = target address as ES:DI (FAR pointer)
+	 * - EDI = initial CS:IP (FAR pointer)
 	 * - EDX = bootbuf flags, currently unused
 	 * -  DL = drive
 	 * - _C_LABEL(bios_bootpte) = future DS:SI contents (16by)
@@ -454,8 +456,10 @@ ENTRY(bootbuf)
 	push	cx		/* source buffer size */
 	shr	esi,4
 	push	si		/* source buffer segment */
-	push	ax		/* future CS (ES) */
-	push	di		/* future IP (DI) */
+	mov	eax,ebp
+	shr	eax,16
+	push	ax		/* buffer ES */
+	push	bp		/* buffer DI */
 	xor	ecx,ecx
 	mov	es,cx
 	mov	edi,0x0600
@@ -466,8 +470,8 @@ ENTRY(bootbuf)
 	push	di		/* temporary IP */
 	call	Ltcend
 Ltcbeg:	/* temporary relocation code, copied to 0000:0610h */
-	pop	di		/* future IP (DI) */
-	pop	es		/* future CS (ES) */
+	pop	di		/* buffer target (DI) */
+	pop	es		/* buffer target (ES) */
 	pop	ds		/* source buffer segment */
 	pop	cx		/* source buffer size */
 	xor	si,si		/* source buffer offset */
