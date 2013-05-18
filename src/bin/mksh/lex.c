@@ -2,7 +2,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/lex.c,v 1.31 2007/05/13 18:07:22 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/lex.c,v 1.32 2007/05/13 19:14:04 tg Exp $");
 
 /* Structure to keep track of the lexing state and the various pieces of info
  * needed for each particular state. */
@@ -220,7 +220,7 @@ yylex(int cf)
 				case '"':
 					if ((cf & HEREDOC))
 						goto heredocquote;
-					/* FALLTROUGH */
+					/* FALLTHROUGH */
 				case '\\':
 				case '$': case '`':
 					*wp++ = QCHAR, *wp++ = c;
