@@ -1,4 +1,4 @@
-# $MirOS: X11/Makefile,v 1.34 2006/10/16 19:38:00 tg Exp $
+# $MirOS: X11/Makefile,v 1.35 2006/10/28 19:42:35 tg Exp $
 
 .include <bsd.own.mk>
 .include "${BSDSRCDIR}/Makefile.inc"
@@ -138,7 +138,7 @@ release:
 	    ${DESTDIR}/etc ${DESTDIR}/etc/X11 \
 	    ${DESTDIR}/usr/local ${DESTDIR}/usr/local/lib/X11
 	cd ${.CURDIR} && exec ${MAKE} install
-.if (${MACHINE_ARCH} == "macppc") || (${MACHINE_ARCH} == "sparc")
+.if exists(${XCONFIG})
 	@if [[ -f ${DESTDIR}/etc/X11/XF86Config ]]; then \
 		print Not overwriting existing ${DESTDIR}/etc/X11/XF86Config; \
 	else \
