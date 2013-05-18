@@ -1,5 +1,5 @@
 <!-- PageID: fornow -->
-<small class="rcsid">$MirOS: www/content/Zm9ybm93.inc,v 1.5 2006/06/04 21:01:26 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/Zm9ybm93.inc,v 1.6 2006/06/15 19:18:52 tg Exp $</small>
 <h1>MirOS Website (for now)</h1>
 
 <h2>Yeah, we lost</h2>
@@ -47,8 +47,25 @@
 <li><a href="/MirOS/BT/">mirrored torrents</a> (see above)</li>
 <li><a href="/MirOS/CVS/">CVS Repo</a> 2006-04-12</li>
 <li><a href="/MirOS/CVS/">CVS root</a> historic</li>
-<li>AnonCVS: <tt>anoncvs@anoncvs.mirbsd.org:/cvs</tt></li>
-<li>AnonRSYNC: <tt>anoncvs@anoncvs.mirbsd.org:/cvs</tt></li>
+<li>AnonCVS and AnonRSYNC: <tt>anoncvs@anoncvs.mirbsd.org:/cvs</tt></li>
+<li id="pkey">The following SSH key can be used to get access to
+ the AnonCVS/AnonRSYNC mirror <tt>anoncvs.mirbsd.org</tt> instead
+ of typing the password &quot;anoncvs&quot;:<pre>
+	-----BEGIN RSA PRIVATE KEY-----
+	MIICWgIBAAKBgQC2Fa/+nDgQNSeX2z6rlsNBJGzXe1/XOwClot1wlxkkLvmVUdLh
+	ZWeswBTimOJEpyD3T7Bg3aEYASTzpyaKVkbsS2sczAzo8Q8sbQQf92rMTK7IQUWv
+	vFFfsKrnqh0gOVL/8hapdCWkzSru0olFRgVH+c8G5uhMj5vtoem93XTqVQIBIwKB
+	gHJ0CDmkBfuPIDORIBQVn02EnC+soqSLfL/itxOSLQ9t+/d1QrmQMonX0p0PpCsn
+	OUr+4+UdmHV9D+mcRBxwvtyb0a1F8nx06BV6IwkLhFnerPivQW9MNprPJaqfl5oV
+	b6B8lWNw5zbbUPcxUlqjEU7mD1et3kp9AyMPBTdNufejAkEA5YyAQimccyw6bW8q
+	CmJwPhRh+izkYcQ8qmEqLwD2PJ5aSxgCvesAQ+73++TOPYaO79Xc+adwyQvGp65J
+	1M+KOwJBAMsRCOBtKWbOz9SLxKCHQXIqIHYZa75kz6V2iyAfV8NUg2xuFCWE+887
+	J8JboQURu4SyNbW8Tf+uEhyEnAz9hK8CQDsG3yb0wdR5Flanjney6amQNnOH4vSR
+	i/FML2ssIg+Wbv1d8hOUM0SrKdMO8zRkbeXmiUeC09vtFdNYs+ZD/vkCQGKh3712
+	2ZhV0qkQr/YzESjSog16D8Lggh0q8x47G//J9rECREy871YGyisz0d3kCp+JwlD1
+	D/E3SqAjJzmCc6UCQQClmONvqpt+9BQTmT3CQ+WKK8tAxvsfNkzJ+EhrYZxnpwxD
+	e29I8mKQbDFtMwQSaAWE3vJQ3F7es0LtMzF7ZmUi
+	-----END RSA PRIVATE KEY-----</pre></li>
 <li><a href="http://www.mirbsd.org/cvs.cgi/">CVSweb</a></li>
 <li>(more cvs mirrors can be found <a href="/?overview">externally</a>)</li>
 </ul>
