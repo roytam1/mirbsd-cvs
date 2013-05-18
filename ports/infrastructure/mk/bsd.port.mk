@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.186 2007/08/16 12:28:37 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.187 2007/08/16 18:14:01 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1147,11 +1147,10 @@ _lib_depends_fragment= \
 		Missing\ library) bad=true; msg="$$msg $$d missing...";; \
 		Error:*) bad=true; msg="$$msg $$d unsolvable...";; \
 		esac; \
-	done; $$bad || found=true
+	done; $$bad || ${_build_depends_fragment}
 
 _FULL_PACKAGE_NAME?=	No
 
-BUILD_DEPENDS+=		${LIB_DEPENDS:C/^([^:]*):([^:]*):/:\2:/:C/^::.*$//:M*}
 BUILD_DEPENDS+=		${B_R_DEPENDS}
 RUN_DEPENDS+=		${B_R_DEPENDS}
 .for _DEP in build run lib regress fetch
@@ -1518,7 +1517,7 @@ ${WRKDIR}/.${_DEP}${_i:C,[|:./<=>*],-,g}: ${_WRKDIR_COOKIE}
 			dep="/nonexistent";; \
 		esac; \
 		case "X$$pkg" in \
-		X)	pkg=$$(eval $$toset ${MAKE} _print-packagename); \
+		X)	pkg=$$(eval $$toset ${MAKE} _print-packagename | sed -e 's,-[0-9].*,-*,'); \
 			defaulted=true;; \
 		esac; \
 		for abort in false false true; do \
