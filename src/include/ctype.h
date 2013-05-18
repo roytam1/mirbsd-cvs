@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/include/ctype.h,v 1.9 2007/02/02 17:53:55 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -66,16 +66,6 @@ int	toascii(int);
 #endif /* __GNUC__ || _ANSI_LIBRARY || lint */
 
 #if !defined(_ANSI_LIBRARY) && !defined(lint)
-
-/*
- * Kludge for the macro version:
- * ANSI requires that only the 7-bit ASCII range is letters.
- * With ISO-8859-1, 0x80..0x9F are cntrl, and 0xA0..0xFF are
- * print, but with UTF-8, they are neither cntrl, nor print.
- * So I decided to have a pure ISO_646.irv:1991 macro imple-
- * mentation, and the function implementation return cntrl /
- * print if MIR18N_C_CSET == 2, 0 otherwise, for 8bit chars.
- */
 
 #ifdef __GNUC__
 #define __CTYPE_IMPL(c,t) __extension__({				\
