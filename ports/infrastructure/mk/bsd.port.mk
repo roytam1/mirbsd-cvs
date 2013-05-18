@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.77 2005/12/16 22:04:16 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.78 2005/12/16 22:41:11 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -817,11 +817,11 @@ _CVS_DISTF${_i:S/-//}:=	${_CVS_DISTF${_i:S/-//}}.mcz
 ERRORS+=		"neither CVS_DISTDATE${_i:S/-//} nor CVS_DISTTAGS${_i:S/-//} defined"
 .    endif
 _CVS_FETCH${_i:S/-//}=	${MKSH} ${PORTSDIR}/infrastructure/scripts/mkmcz \
-			    ${FULLDISTDIR:Q}/${_CVS_DISTF${_i:S/-//}:Q} \
-			    ${CVS_DISTREPO${_i:S/-//}:Q} \
-			    ${CVS_DISTDATE${_i:S/-//}:Q} \
-			    ${CVS_DISTTAGS${_i:S/-//}:Q} \
-			    ${CVS_DISTMODS${_i:S/-//}:Q}
+			    '${FULLDISTDIR}/${_CVS_DISTF${_i:S/-//}}' \
+			    '${CVS_DISTREPO${_i:S/-//}}' \
+			    '${CVS_DISTDATE${_i:S/-//}}' \
+			    '${CVS_DISTTAGS${_i:S/-//}}' \
+			    '${CVS_DISTMODS${_i:S/-//}}'
 .  endif
 .endfor
 
