@@ -1,7 +1,18 @@
 <!-- PageID: news -->
-<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.64 2006/03/29 21:15:32 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bmV3cw__.inc,v 1.65 2006/04/06 12:00:59 tg Exp $</small>
 
 <h1>Current MirOS News</h1><ul>
+
+<li>11.04.2006<br />On <a href="http://f.scarywater.net/miros/">BitTorrent
+	</a> there is a new snapshot available, which, for the first time,
+	is a combined Live/Install CD. From now on, you can also cat(1) or
+	dd(1) the ISO (either cdrom8.iso or the live/install ISO) onto the
+	hard disc and just load it from there, without installboot(8/i386)
+	needing to be run (it's included on the CD already). There are few
+	bugs in this snapshot, some of which I already know and fixed. I'd
+	appreciate everyone to test it and send in results, whether failed
+	or succeeded (especially if there is a regression e.g. regarding a
+	normal installation). Thanks!</li>
 
 <li>06.04.2006<br />The Ada and GCJ compilers are no longer delivered with
 	MirOS-current. Users who require them must now build these drivers
