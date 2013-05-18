@@ -1,4 +1,4 @@
-# $MirOS: ports/www/dillo/testing/Makefile,v 1.5 2006/09/14 00:14:34 tg Exp $
+# $MirOS: ports/www/dillo/testing/Makefile,v 1.6 2006/12/20 15:32:02 tg Exp $
 # $OpenBSD: Makefile,v 1.18 2004/02/26 13:43:26 couderc Exp $
 
 COMMENT=		Fast and light gtk-based web browser (alpha ssl support)
@@ -27,6 +27,7 @@ LIB_DEPENDS=    jpeg.62::graphics/jpeg \
 MODULES+=		graphics/png
 
 USE_GMAKE=		Yes
+USE_X11=		Yes
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS=		--enable-cookies --enable-ipv6
 

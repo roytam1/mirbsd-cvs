@@ -1,7 +1,7 @@
-# $MirOS: ports/www/nscache/Makefile,v 1.2 2005/03/30 18:13:53 bsiegert Exp $
+# $MirOS: ports/www/nscache/Makefile,v 1.3 2006/09/14 00:14:47 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/01/25 21:10:51 pvalchev Exp $
 
-COMMENT=			Netscape cache browser
+COMMENT=	Netscape cache browser
 
 DISTNAME=	nscache-0.6
 CATEGORIES=	www
@@ -17,5 +17,6 @@ PERMIT_DISTFILES_FTP=	yes
 LIB_DEPENDS=	gtk.1.2,gdk.1.2::x11/gtk+1
 
 CONFIGURE_STYLE=gnu
+USE_X11=	Yes
 
 .include <bsd.port.mk>

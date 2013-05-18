@@ -1,6 +1,7 @@
+# $MirOS$
 # $OpenBSD: Makefile,v 1.1.1.1 2004/04/06 07:40:17 xsa Exp $
 
-COMMENT=			online Image GALlery generator
+COMMENT=	online Image GALlery generator
 
 DISTNAME=	igal-1.4
 CATEGORIES=	www graphics
@@ -21,6 +22,7 @@ RUN_DEPENDS=	::graphics/ImageMagick \
 
 NO_BUILD=	Yes
 NO_REGRESS=	Yes
+USE_CXX=	Yes # depends on ImageMagick, which uses CXX
 PKG_ARCH=	*
 
 DATADIR=	${PREFIX}/share/igal
