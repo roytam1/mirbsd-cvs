@@ -2436,3 +2436,21 @@ Author: tg@
  src="http://img.geocaching.com/stats/img.aspx?txt=Hacking+MirBSD+since+2002&uid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658" />
  commercial site, and 2 aren’t listed at the open site.</p>
 ----
+Date: 27.10.2007
+Author: tg@
+
+<p>Synergy effects are the best. The geocacheing software Cachewolf now has <a
+ href="https://flyingfish.freewrt.org/~tomcat55/CacheWolf-BE/">automatically
+ generated nightly builds</a> thanks to a FreeWRT box, whose developers help
+ testing and spotting all the bugs in <a href="@@RELPATH@@mksh.htm">mksh</a>,
+ make(1) and the HTML manpage stuff, and all projects get better. Wow.</p>
+<p>I feel a little ill at the moment, which quite sucks. Not even bad enough
+ to be unable to work, just… anyway, my bosses sent me to the Doctor.</p>
+<p>I have generated a new 5120 bit RSA host key for use on tear (my new
+ server), so that we can continue working on the #10 release timely even
+ though the box is still not ready. (SCSI HBA woes, at the moment. Gosh!)</p>
+<p>Benny, despite busy moving, is working on MirPorts again. Austriancoder
+ and spaetzle are helping with FreeWRT. It’s good to know you’re not alone.
+ Users are giving actual feedback. People (e.g. developers of other projects)
+ are helping pro bono. The world is a good place still. Despite…</p>
+----
