@@ -15,7 +15,7 @@
 #include "history.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_mkmodules_c,v 1.5 2010/09/16 00:13:45 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.10 2010/09/19 19:43:06 tg Exp $");
 
 #ifndef DBLKSIZ
 #define	DBLKSIZ	4096			/* since GNU ndbm doesn't define it */
@@ -1188,6 +1188,9 @@ init (int argc, char **argv)
        non-existent parent directory is as likely to be a typo as something
        which needs to be created.  */
     mkdir_if_needed (current_parsed_root->directory);
+
+    if (noexec)
+	return (0);
 
     adm = Xasprintf ("%s/%s", current_parsed_root->directory, CVSROOTADM);
     mkdir_if_needed (adm);
