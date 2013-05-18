@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.28 2008/09/17 21:12:20 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.29 2008/09/17 21:52:07 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -6,7 +6,7 @@ rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.28 2008/09/17 21:12:20 tg Exp $'
 mws__pagename=
 mws__header=
 mws__rss=
-mws__difftag=MBSD_HTSCONV_GENDATE_TAG_224
+mws__difftag=MBSD_HTSCONV_GENDATE_TAG_7567
 unset mws__abspath
 unset mws__relpath
 
@@ -60,6 +60,7 @@ function mws_putheader {
 		 <ul class="lv1">
 		<li><a href="@@RELPATH@@main.htm">Main</a><ul class="lv2">
 		<li><a href="@@RELPATH@@wlog-10.htm">Weblog</a> for #10</li>
+		<li><a href="@@RELPATH@@tags.htm">Tag Cloud</a></li>
 		<li><a href="@@RELPATH@@news.htm">Old News</a> &amp;
 		 <a href="@@RELPATH@@oldnews.htm#owlog">WLog</a></li>
 		</ul></li>
