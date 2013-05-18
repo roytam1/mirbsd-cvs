@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.91 2007/01/22 19:51:59 tg Exp $
+# $MirOS: src/Makefile,v 1.92 2007/01/23 11:18:42 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -158,6 +158,7 @@ dist-q:
 	    HOME=$$(/usr/bin/mktemp -d /var/tmp/buildhome.XXXXXXXXXX) \
 	    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin TZ=UTC \
 	    ${MAKE} BATCH=1 _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
+	@date | tee -a ${.CURDIR}/Build.log
 	-[[ -d ${BSDRELDIR}/rel && -s ${.CURDIR}/Build.log ]] && \
 	    ${SUDO} cp ${.CURDIR}/Build.log ${BSDRELDIR}/rel/
 
@@ -166,6 +167,7 @@ dist:
 	    HOME=$$(/usr/bin/mktemp -d /var/tmp/buildhome.XXXXXXXXXX) \
 	    PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/X11R6/bin TZ=UTC \
 	    ${MAKE} _do-dist 2>&1 | tee -a ${.CURDIR}/Build.log
+	@date | tee -a ${.CURDIR}/Build.log
 	-[[ -d ${BSDRELDIR}/rel && -s ${.CURDIR}/Build.log ]] && \
 	    ${SUDO} cp ${.CURDIR}/Build.log ${BSDRELDIR}/rel/
 
@@ -372,14 +374,15 @@ _do-dist:
 	    ${SUDO} chown -R 0:0 .
 	@echo ============================================================
 	@echo Done with MirOS Build.
-	@date
 	@/bin/ls -Fl ${BSDRELDIR}/rel
+.if !defined(NO_LIVECD)
+	@date
+.endif
 	@echo ============================================================
 .if !defined(NO_LIVECD)
 	cd ${BSDSRCDIR}/distrib/baselive && ${MAKE} it #cleanworkdir
 	@echo
 	@echo Done with MirOS Snapshot generation.
-	@date
 	@/bin/ls -Fl ${BSDOBJDIR}/distrib/baselive/livecd${OSrev}.iso
 	@echo ============================================================
 .endif
