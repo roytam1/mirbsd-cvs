@@ -18,6 +18,16 @@ For further information on how to set up MirOS, please go to our website
 at http://MirBSD.org/ and read the installation documents.
 
 
+Hardware notes
+==============
+
+If you encounter boot problems...
+... try 'boot -c' and 'disable pcibios'
+... disable "IDE Prefetch" in the BIOS
+... disable apm in UKC ('boot -c')
+... disable ehci, ohci and uhci (USB) in UKC
+
+
 About MirOS BSD
 ===============
 
@@ -111,4 +121,4 @@ code is available at http://www.mirbsd.org/ and its mirrors; further
 information can be found at /usr/share/doc/legal/ as well.
 
 _________________________________________________________________________
-$MirOS: src/distrib/i386/iso/00-README,v 1.7 2006/03/19 21:23:17 tg Exp $
+$MirOS: src/distrib/i386/iso/00-README,v 1.8 2006/04/10 21:40:35 tg Exp $
