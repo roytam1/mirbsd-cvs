@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.125 2008/10/13 20:14:22 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.126 2008/10/13 20:20:21 tg Exp $
 #-
 # Copyright (c) 2006, 2008
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -212,15 +212,6 @@ cp $d_src/share/mk/*.mk $d_build/mk/
 cp $d_src/include/{getopt,adler32,md4,md5,rmd160,sfv,sha1,sha2,suma,tiger,whirlpool}.h \
     $d_script/../contrib/mirmake.h $d_build/F/
 cp $d_src/kern/include/libckern.h $d_build/F/ni/
-ed -s $d_build/F/ni/libckern.h <<-'EOF'
-	/defined.*_WCHAR_H_/,/endif.*_WCHAR_H_/d
-	i
-		#ifndef restrict
-		#define restrict /* nothing */
-		#endif
-	.
-	wq
-EOF
 ed -s $d_build/strlfun.c <<-'EOF'
 	0a
 		#define L_strlcpy

@@ -1,8 +1,8 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.42 2008/07/05 17:00:28 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.43 2008/11/10 01:40:13 tg Exp $ */
 
 /*-
  * Copyright (c) 2005, 2006, 2008
- *	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Partially based upon some code
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.
@@ -130,6 +130,38 @@
 
 #if !__GNUC_PREREQ__(2, 8) && !defined(__extension__)
 #define	__extension__
+#endif
+
+#ifdef lint
+#ifndef __aligned
+#define __aligned(x)
+#endif
+#ifndef __func__
+#define __func__		"__func__"
+#endif
+#ifndef __restrict__
+#define __restrict__
+#endif
+#ifndef __unused
+#define __unused
+#endif
+#elif defined(__PCC__)
+#ifndef __aligned
+#define __aligned(x)		_Pragma("aligned " #x)
+#endif
+#ifndef __restrict__
+#define __restrict__		restrict
+#endif
+#ifndef __unused
+#define __unused
+#endif
+#else
+#ifndef __aligned
+#define __aligned(x)		__attribute__((aligned (x)))
+#endif
+#ifndef __unused
+#define __unused		__attribute__((unused))
+#endif
 #endif
 
 #undef __IDSTRING
