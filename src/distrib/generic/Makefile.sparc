@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/generic/Makefile.sparc,v 1.3 2006/07/05 23:14:28 tg Exp $
+# $MirOS: src/distrib/generic/Makefile.sparc,v 1.4 2007/06/10 16:32:58 tg Exp $
 
 CLEANFILES+=	bsd.net{,.tmp}
 
@@ -10,5 +10,6 @@ install.md:
 bsd.net: bsd
 	-rm -f $@.tmp
 	gzip -d <bsd >$@.tmp
+	config -ef $@.tmp <<<'quit'
 	elf2aout $@.tmp $@ -b
 	-rm -f $@.tmp

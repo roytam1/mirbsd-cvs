@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/generic/Makefile,v 1.6 2007/06/11 21:23:14 tg Exp $
+# $MirOS: src/distrib/generic/Makefile,v 1.7 2008/06/13 18:26:55 tg Exp $
 
 .include <bsd.own.mk>
 CFLAGS+=	${CDIAGFLAGS} ${COPTS}
@@ -47,13 +47,12 @@ install-unstripped:
 	elif [[ ! -e /bsd.old ]]; then \
 		echo Back up your old kernel to /bsd.old!; \
 		exit 1; \
-	else \
-		set -x; \
-		install -c -o root -g daemon -m 400 \
-		    build/${RAMDISK}/bsd.unstripped /bsd; \
-		install -c -o root -g wheel -m 644 \
-		    build/${RAMDISK}/kvm_bsd.db /var/db/kvm_bsd.new; \
 	fi
+	config -ef build/${RAMDISK}/bsd.unstripped <<<'quit'
+	install -c -o root -g daemon -m 400 \
+	    build/${RAMDISK}/bsd.unstripped /bsd
+	install -c -o root -g wheel -m 644 \
+	    build/${RAMDISK}/kvm_bsd.db /var/db/kvm_bsd.new
 
 cleandir: clean
 
