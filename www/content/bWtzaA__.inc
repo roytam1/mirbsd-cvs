@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.67 2006/11/21 21:37:43 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.68 2006/11/21 21:55:58 tg Exp $</small>
 
 <h1>mksh(1) R28</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -486,7 +486,15 @@
  (Daniel Goller), Sourcemage (SMGL) has an mksh spell, originally
  crafted by yours truly, debugged and fixed together. FreeWRT also
  comes with mksh. Ubuntu, Nexenta OS, and other Debian derivates
- probably have it as well.</p>
+ probably have it as well. <a href="http://dev-loki.blogspot.com/">Pascal
+ &quot;loki&quot; Bleser</a> of <a href="http://planet.fosdem.org/">FOSDEM</a>
+ fame has packaged mksh for SuSE GNU/Linux (<a
+ href="http://linux01.gwdg.de/~pbleser/rpm-navigation.php?cat=System/mksh/">link
+ to webinterface)</a>, which is hosted at at least two mirrors, a <a
+ href="http://ftp.gwdg.de/pub/linux/misc/suser-guru/rpm/packages/System/mksh/">primary</a>
+ and a <a href="http://ftp.skynet.be/pub/suser-guru/rpm/packages/System/mksh/">fast</a>
+ site.
+</p>
 
 <h3 id="buildsfu">Microsoft Services for Unix</h3>
 <p>It is recommended to use the C shell instead of the
