@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list,v 1.20 2007/07/19 16:35:58 tg Exp $
+# $MirOS: src/distrib/common/list,v 1.21 2007/08/28 23:00:20 tg Exp $
 
 # standard tools in the crunched binary
 COPY	${OBJDIR}/instbin			instbin
@@ -56,8 +56,10 @@ LINK	instbin					usr/sbin/chroot
 LINK	instbin					usr/sbin/rdate
 LINK	instbin					usr/sbin/sysctl
 LINK	instbin					usr/sbin/vnconfig
+ARGVLINK cp					mv_cp
 ARGVLINK mksh					-mksh
 ARGVLINK mksh					-sh
+ARGVLINK rm					mv_rm
 
 # devices stuff
 SCRIPT	${DESTDIR}/dev/MAKEDEV			dev/MAKEDEV
