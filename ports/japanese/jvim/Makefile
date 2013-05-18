@@ -1,11 +1,11 @@
-# $MirOS: ports/japanese/jvim/Makefile,v 1.2 2005/07/07 21:22:12 bsiegert Exp $
+# $MirOS: ports/japanese/jvim/Makefile,v 1.3 2006/09/14 00:10:14 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2003/08/04 13:11:48 espie Exp $
 # $FreeBSD: Makefile,v 1.1.1.1 1998/07/10 14:05:19 kuriyama Exp $
 
 COMMENT=			Japanized Vim
 COMMENT-canna=			Japanized Vim, canna input method
 COMMENT-wnn=			Japanized Vim, wnn input method
-COMMENT-wnn-canna=			Japanized Vim, canna or wnn input method
+COMMENT-wnn-canna=		Japanized Vim, canna or wnn input method
 DISTNAME=	jvim2.0r+onew2.2.10
 PKGNAME=	ja-jvim-2.0r-0
 CATEGORIES=	japanese editors
@@ -28,6 +28,7 @@ BUILD_DEPENDS+=	::japanese/Wnn
 JPDEF+=		-DWNN_ISDIR
 JPLIB+=		-ljd
 USE_X11=	Yes
+USE_CXX=	Yes # depends on groff, which uses CXX
 .endif
 
 .if ${FLAVOR:L:Mcanna}
@@ -41,6 +42,7 @@ CHOICE=		canna
 LIB_DEPENDS+=	canna.1::japanese/canna
 JPLIB+=		-lcanna
 USE_X11=	Yes
+PERMIT_PACKAGE_CDROM=	dependency japanese/onew is not allowed for CDROM
 .endif
 
 .if defined(INPUT_METHOD) && !empty(INPUT_METHOD)
