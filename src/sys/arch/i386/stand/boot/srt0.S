@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.20 2008/12/28 22:19:07 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/boot/srt0.S,v 1.21 2008/12/31 16:38:36 tg Exp $ */
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008
@@ -86,7 +86,7 @@
 	.globl	_rval
 	.globl	_start
 	.globl	_C_LABEL(bios_bootdev)
-	.globl	_C_LABEL(bios_bootpart)
+	.globl	_C_LABEL(bios_bootpte)
 	.globl	_C_LABEL(boot)
 	.globl	_C_LABEL(edata)
 	.globl	_C_LABEL(end)
@@ -101,18 +101,16 @@ _start:	cli
 	. = _start + 0x08	/* "EL TORITO BOOT INFO TABLE" */
 	.long	0		/* #no longer# filled in by mkisofs: */
 Lbofs:	.long	0xcafebabe	/* LBA address of boot file */
-Lbdev:	.byte	0		/* local copy of BIOS boot device */
-#ifndef SMALL_BOOT
-_C_LABEL(tori_bootflag):
-	.long	0
-	.p2align 2
-_C_LABEL(bios_bootpart):
-Lbbpo:	.long	0
-Lbbps:	.long	0
+	.p2align 4
+_C_LABEL(bios_bootpte):
+	.long	0, 0, 0, 0
 	.p2align 4
 Ltblk:	.long	0x13,0,0,0	/* El Torito parameter block */
 	.byte	0,0,0
-#endif
+	.p2align 2
+_C_LABEL(tori_bootflag):
+	.long	0
+Lbdev:	.byte	0		/* local copy of BIOS boot device */
 	. = _start + 0x41
 _star2:	mov	bx,SA_LOADSEG
 	mov	ss,bx
@@ -167,10 +165,15 @@ Llxdx:	pop	ax		/* we have a drive in DL */
 	push	dx
 	or	di,di
 	jnz	Llxok		/* CD have no MBR entry */
+	/* copy boot partition entry */
+	mov	eax,es:[bx]
+	mov	cs:[0x0150+_C_LABEL(bios_bootpte)-_rval],eax
+	mov	eax,es:[bx+4]
+	mov	cs:[0x0150+_C_LABEL(bios_bootpte)-_rval+4],eax
 	mov	eax,es:[bx+8]
-	mov	cs:[0x0150+Lbbpo-_rval],eax
+	mov	cs:[0x0150+_C_LABEL(bios_bootpte)-_rval+8],eax
 	mov	eax,es:[bx+12]
-	mov	cs:[0x0150+Lbbps-_rval],eax
+	mov	cs:[0x0150+_C_LABEL(bios_bootpte)-_rval+12],eax
 Llxok:	push	di
 	mov	ax,0x000C	/* SYSLINUX: final cleanup */
 	xor	dx,dx		/* clean up everything */

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.15 2008/12/28 21:23:24 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/stand/libsa/biosdev.c,v 1.17 2008/12/31 16:38:36 tg Exp $ */
 /*	$OpenBSD: biosdev.c,v 1.74 2008/06/25 15:32:18 reyk Exp $	*/
 
 /*
@@ -52,7 +52,7 @@ static __inline int EDD_rw (int, int, u_int64_t, u_int32_t, void *);
 
 extern int debug;
 #ifndef SMALL_BOOT
-extern uint32_t bios_bootpart[2];
+extern uint32_t bios_bootpte[4];
 #endif
 int bios_bootdev;
 int i386_flag_oldbios = 0;
@@ -752,7 +752,7 @@ disk_trylabel(struct diskinfo *dip)
 					    mbr.dmbr_parts[i].dp_size;
 			goto mbrok;
 		} else
-			bios_bootpart[0] = bios_bootpart[1] = 0;
+			bzero(bios_bootpte, 16);
  nombr:
 		for (i = 0; i < NDOSPART; i++)
 			mbr.dmbr_parts[i].dp_typ = 0;
@@ -782,10 +782,10 @@ disk_trylabel(struct diskinfo *dip)
 		bzero(dip->disklabel.d_partitions,
 		    sizeof (dip->disklabel.d_partitions));
 
-		if (bios_bootpart[0] || bios_bootpart[1]) {
+		if (bios_bootpte[2] || bios_bootpte[3]) {
 			/* 'a' partition passed from SYSLINUX */
-			dip->disklabel.d_partitions[0].p_offset = bios_bootpart[0];
-			dip->disklabel.d_partitions[0].p_size = bios_bootpart[1];
+			dip->disklabel.d_partitions[0].p_offset = bios_bootpte[2];
+			dip->disklabel.d_partitions[0].p_size = bios_bootpte[3];
 			dip->disklabel.d_partitions[0].p_fstype = FS_MANUAL;
 		} else {
 			/* 'a' partition covering the "whole" disk */
