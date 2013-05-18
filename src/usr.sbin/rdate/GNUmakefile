@@ -1,4 +1,9 @@
-SRCS=		arc4random.c ntp.c ntpleaps.c rdate.c rfc868time.c
+# $MirOS$
+
+SRCS=		ntp.c ntpleaps.c rdate.c rfc868time.c
+ifeq ($(strip ${HAVE_ARC4RANDOM}),)
+SRCS+=		arc4random.c
+endif
 OBJS=		$(addsuffix .o,$(basename $(notdir ${SRCS})))
 BINDIR?=	/usr/sbin
 MANDIR?=	/usr/share/man
