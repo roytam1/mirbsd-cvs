@@ -1,4 +1,4 @@
-/*	$OpenBSD: ext2fs_inode.c,v 1.26 2005/04/30 13:58:55 niallo Exp $	*/
+/*	$OpenBSD: ext2fs_inode.c,v 1.29 2005/10/06 17:43:14 pedro Exp $	*/
 /*	$NetBSD: ext2fs_inode.c,v 1.24 2001/06/19 12:59:18 wiz Exp $	*/
 
 /*
@@ -47,7 +47,6 @@
 
 #include <uvm/uvm_extern.h>
 
-#include <ufs/ufs/extattr.h>
 #include <ufs/ufs/quota.h>
 #include <ufs/ufs/inode.h>
 #include <ufs/ufs/ufsmount.h>
@@ -69,7 +68,8 @@ ext2fs_size(struct inode *ip)
 
         if ((ip->i_e2fs_mode & IFMT) == IFREG)
                 size |= (u_int64_t)ip->i_e2fs_dacl << 32;
-        return size;
+
+        return (size);
 }
 
 int
@@ -83,7 +83,7 @@ ext2fs_setsize(struct inode *ip, u_int64_t size)
 
                         if (fs->e2fs.e2fs_rev <= E2FS_REV0) {
                                 /* Linux automagically upgrades to REV1 here! */
-                                return EFBIG;
+                                return (EFBIG);
                         }
                         if (!(fs->e2fs.e2fs_features_rocompat
                             & EXT2F_ROCOMPAT_LARGEFILE)) {
@@ -93,11 +93,11 @@ ext2fs_setsize(struct inode *ip, u_int64_t size)
                         }
                 }
         } else if (size >= 0x80000000U)
-                return EFBIG;
+                return (EFBIG);
 
         ip->i_e2fs_size = size;
 
-        return 0;
+        return (0);
 }
 
 
@@ -117,12 +117,15 @@ ext2fs_inactive(v)
 	struct proc *p = ap->a_p;
 	struct timespec ts;
 	int error = 0;
+#ifdef DIAGNOSTIC
 	extern int prtactive;
-	
+
 	if (prtactive && vp->v_usecount != 0)
 		vprint("ext2fs_inactive: pushing active", vp);
+#endif
+
 	/* Get rid of inodes related to stale file handles. */
-	if (ip->i_e2fs_mode == 0 || ip->i_e2fs_dtime != 0)
+	if (ip->i_e2din == NULL || ip->i_e2fs_mode == 0 || ip->i_e2fs_dtime)
 		goto out;
 
 	error = 0;
@@ -130,7 +133,7 @@ ext2fs_inactive(v)
 		if (ext2fs_size(ip) != 0) {
 			error = ext2fs_truncate(ip, (off_t)0, 0, NOCRED);
 		}
-		TIMEVAL_TO_TIMESPEC(&time, &ts);
+		getnanotime(&ts);
 		ip->i_e2fs_dtime = ts.tv_sec;
 		ip->i_flag |= IN_CHANGE | IN_UPDATE;
 		ext2fs_inode_free(ip, ip->i_number, ip->i_e2fs_mode);
@@ -144,7 +147,7 @@ out:
 	 * If we are done with the inode, reclaim it
 	 * so that it can be reused immediately.
 	 */
-	if (ip->i_e2fs_dtime != 0)
+	if (ip->i_e2din == NULL || ip->i_e2fs_dtime != 0)
 		vrecycle(vp, NULL, p);
 	return (error);
 }   
@@ -171,7 +174,7 @@ ext2fs_update(struct inode *ip, struct timespec *atime, struct timespec *mtime,
 
 	if (ITOV(ip)->v_mount->mnt_flag & MNT_RDONLY)
 		return (0);
-	TIMEVAL_TO_TIMESPEC(&time, &ts);
+	getnanotime(&ts);
 	EXT2FS_ITIMES(ip,
 	    atime ? atime : &ts,
 	    mtime ? mtime : &ts);
@@ -188,7 +191,7 @@ ext2fs_update(struct inode *ip, struct timespec *atime, struct timespec *mtime,
 	}
 	ip->i_flag &= ~(IN_MODIFIED);
 	cp = (caddr_t)bp->b_data +
-	    (ino_to_fsbo(fs, ip->i_number) * EXT2_DINODE_SIZE);
+	    (ino_to_fsbo(fs, ip->i_number) * EXT2_DINODE_SIZE(fs));
 
 	/*
 	 * See note about 16-bit UID/GID limitation in ext2fs_vget(). Now
@@ -413,9 +416,10 @@ done:
 	 * Put back the real size.
 	 */
 	(void)ext2fs_setsize(oip, length);
-	oip->i_e2fs_nblock -= blocksreleased;
-	if (oip->i_e2fs_nblock < 0)			/* sanity */
+	if (blocksreleased >= oip->i_e2fs_nblock)
 		oip->i_e2fs_nblock = 0;
+	else
+		oip->i_e2fs_nblock -= blocksreleased;
 	oip->i_flag |= IN_CHANGE;
 	return (allerror);
 }
