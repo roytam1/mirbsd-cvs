@@ -1,4 +1,4 @@
-$MirOS: contrib/code/libhaible/OVERVIEW,v 1.23 2006/06/01 21:59:52 tg Exp $
+$MirOS: contrib/code/libhaible/OVERVIEW,v 1.24 2006/06/01 22:17:27 tg Exp $
 $function name		header		manpage		source location
 $ 
 $ Info: #=commented out C=libc H=libhaible G=GPL/libhaible
@@ -17,19 +17,19 @@ fwprintf		#wchar.h	-
 fwscanf			#wchar.h	-
 getwc			 wchar.h	C:getwc		stdio/getwc.c
 getwchar		 wchar.h	C:getwc		stdio/getwchar.c
-iswalnum	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswalpha	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswblank	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswcntrl	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswctype	LGPL	 wctype.h	H:iswctype	libhaible/iswctype.c
-iswdigit	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswgraph	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswlower	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswprint	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswpunct	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswspace	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswupper	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
-iswxdigit	LGPL	 wctype.h	C:iswalnum	libhaible/iswTYPE.c
+iswalnum	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswalpha	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswblank	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswcntrl	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswctype	LGPL	 wctype.h	C:iswctype	i18n/iswctype.c
+iswdigit	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswgraph	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswlower	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswprint	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswpunct	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswspace	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswupper	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
+iswxdigit	LGPL	 wctype.h	C:iswalnum	i18n/iswTYPE.c
 localeconv		 locale.h	C:setlocale	i18n/langinfo.c
 mblen			 stdlib.h	C:mblen		i18n/mblen.c
 mbrlen			 wchar.h	C:mbrlen	i18n/mbrlen.c

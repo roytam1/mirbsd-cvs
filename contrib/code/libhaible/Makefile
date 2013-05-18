@@ -1,8 +1,7 @@
-# $MirOS: contrib/code/libhaible/Makefile,v 1.33 2006/06/01 22:17:27 tg Exp $
+# $MirOS: contrib/code/libhaible/Makefile,v 1.34 2006/06/01 22:30:12 tg Exp $
 
 LIB=	haible
 NOPIC=	Yes	# for now
-SRCS+=	iswctype.c
 SRCS+=	towctrans.c
 SRCS+=	towlower.c
 SRCS+=	towupper.c
@@ -38,7 +37,6 @@ MLINKS+=	MB_CUR_MAX.3 MB_LEN_MAX.3
 
 # reachover for libc
 .PATH: ${LIBCSRCDIR}/locale
-MAN+=		iswctype.3
 MAN+=		towctrans.3
 
 .include <bsd.lib.mk>
