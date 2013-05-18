@@ -1,4 +1,4 @@
-# $MirOS: ports/japanese/onew/Makefile,v 1.4 2007/04/12 20:20:41 bsiegert Exp $
+# $MirOS: ports/japanese/onew/Makefile,v 1.5 2008/03/09 17:22:59 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2003/08/04 13:11:48 espie Exp $
 
 COMMENT=			library for Japanese Input Method Wnn4
@@ -27,6 +27,7 @@ ERRORS+=	"Fatal: You must choose a converter"
 .endif
 
 .if ${FLAVOUR:L:Mwnn4}
+BROKEN=			depends on Wnn, which is broken
 BUILD_DEPENDS=	::japanese/Wnn
 USE_X11=	Yes
 USE_CXX=	Yes # depends on groff, which uses CXX

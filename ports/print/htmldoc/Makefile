@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.13 2002/12/16 17:01:23 wilfried Exp $
 
+BROKEN=			depends on fltk, which is broken
+
 COMMENT=			convert HTML pages to PDF/PS format
 
 VSN=			1.8.23

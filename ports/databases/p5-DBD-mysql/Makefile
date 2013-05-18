@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.4 2004/04/18 20:43:48 wilfried Exp $
 
+BROKEN=			depends on mysql, which is broken
+
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=			MySQL drivers for the Perl DBI

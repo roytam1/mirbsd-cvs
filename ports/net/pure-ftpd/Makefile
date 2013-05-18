@@ -1,4 +1,4 @@
-# $MirOS: ports/net/pure-ftpd/Makefile,v 1.5 2007/04/13 19:35:09 bsiegert Exp $
+# $MirOS: ports/net/pure-ftpd/Makefile,v 1.6 2008/03/09 17:23:22 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2004/03/08 03:57:16 brad Exp $
 
 COMMENT=	small, easy to set up, fast and very secure FTP server
@@ -40,6 +40,7 @@ CONF_FILE+= 	pureftpd-ldap.conf
 .endif
 
 .if ${FLAVOUR:L:Mmysql}
+BROKEN=			depends on mysql, which is broken
 USE_CXX=	Yes
 LIB_DEPENDS+= lib/mysql/mysqlclient.10::databases/mysql
 CONFIGURE_ARGS+= --with-mysql="${LOCALBASE}"

@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.8 2002/11/05 16:17:35 wilfried Exp $
 
+BROKEN=			depends on fltk, which is broken
+
 COMMENT=			FLTK Virtual Styles, List, Table, and Complex Table Widgets
 
 DISTNAME=		flvw-20000224

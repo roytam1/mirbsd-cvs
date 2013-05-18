@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/courier-imap/Makefile,v 1.4 2006/09/14 00:10:32 tg Exp $
+# $MirOS: ports/mailnews/courier-imap/Makefile,v 1.5 2008/03/09 17:23:04 tg Exp $
 # $OpenBSD: Makefile,v 1.37 2004/02/16 17:14:52 avsm Exp $ 
 
 COMMENT=			imap server for maildir format mailboxes
@@ -28,7 +28,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MULTI_PACKAGES=	-pop3
 SUBPACKAGE?=
-FLAVOUR?=
+FLAVOUR?=	no_mysql
 
 COURIERCONF=	${SYSCONFDIR}/courier-imap
 COURIERSTATE=	/var/run/courier-imap
@@ -53,6 +53,7 @@ PSEUDO_FLAVOURS+=	no_mysql
 .if ${FLAVOUR:L:Mno_mysql}
 CONFIGURE_ARGS+=	--without-authmysql
 .else
+BROKEN=			depends on mysql, which is broken
 MULTI_PACKAGES+=	-mysql
 CONFIGURE_ARGS+=	--with-authmysql \
 			--with-mysql-libs=${LOCALBASE}/lib/mysql \

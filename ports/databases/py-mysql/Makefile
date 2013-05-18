@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.18 2004/01/29 17:13:37 sturm Exp $
 
+BROKEN=			depends on mysql, which is broken
+
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 COMMENT=			python interface to MySQL

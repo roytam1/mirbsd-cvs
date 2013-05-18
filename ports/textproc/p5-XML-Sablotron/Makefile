@@ -1,5 +1,7 @@
-# $MirOS: ports/textproc/p5-XML-Sablotron/Makefile,v 1.3 2005/07/07 21:27:17 bsiegert Exp $
+# $MirOS: ports/textproc/p5-XML-Sablotron/Makefile,v 1.4 2006/09/14 00:14:18 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2004/02/29 01:03:32 avsm Exp $
+
+BROKEN=			depends on sablotron, which is broken
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 

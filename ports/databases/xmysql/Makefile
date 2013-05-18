@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.21 2004/01/02 05:11:08 brad Exp $
 
+BROKEN=			depends on mysql, which is broken
+
 COMMENT=			X11 front end to the MySQL database engine
 
 DISTNAME=	xmysql-1.10

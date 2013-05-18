@@ -1,5 +1,7 @@
-# $MirOS: ports/databases/gq/Makefile,v 1.2 2005/03/30 18:13:19 bsiegert Exp $
+# $MirOS: ports/databases/gq/Makefile,v 1.3 2006/09/14 00:07:49 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2004/04/01 08:44:27 jakob Exp $
+
+BROKEN=			depends on cyrus-sasl, which is broken
 
 COMMENT=			GTK-based LDAP client
 

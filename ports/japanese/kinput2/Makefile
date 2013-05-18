@@ -1,4 +1,4 @@
-# $MirOS: ports/japanese/kinput2/Makefile,v 1.5 2008/03/09 17:22:59 tg Exp $
+# $MirOS: ports/japanese/kinput2/Makefile,v 1.6 2008/03/09 19:16:01 tg Exp $
 # $OpenBSD: Makefile,v 1.14 2003/08/04 13:11:48 espie Exp $
 
 ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
@@ -24,6 +24,7 @@ FLAVOURS=		canna wnn
 FLAVOUR?=		wnn
 
 .if ${FLAVOUR:L:Mwnn}
+BROKEN=			depends on Wnn, which is broken
 BUILD_DEPENDS+=		::japanese/Wnn
 .endif
 

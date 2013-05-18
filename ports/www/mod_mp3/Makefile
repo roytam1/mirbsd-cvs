@@ -3,7 +3,7 @@
 COMMENT=			turns Apache into an MP3 or Ogg streaming server
 
 # This port currently only works with archs supporting dynamic loading
-# and has Apache that supports DSO's.
+# and has Apache that supports DSOs.
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 DISTNAME=	mod_mp3-0.39
@@ -36,6 +36,7 @@ ERRORS+= "Fatal: mutually exclusive flavours: ${FLAVOURS}"
 .endif
 
 .if ${FLAVOUR:L:Mmysql}
+BROKEN=			depends on mysql, which is broken
 LIB_DEPENDS+=	lib/mysql/mysqlclient.10::databases/mysql
 CONFIGURE_ARGS+=	--with-mysql="${LOCALBASE}"
 CONF=	${EXAMPLESRC}/mp3_with_mysql.conf

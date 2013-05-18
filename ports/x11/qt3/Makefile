@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/qt3/Makefile,v 1.15 2008/10/04 19:03:48 tg Exp $
+# $MirOS: ports/x11/qt3/Makefile,v 1.16 2009/08/16 16:29:03 tg Exp $
 # $OpenBSD: Makefile,v 1.58 2006/01/02 16:59:37 espie Exp $
 # $FreeBSD: Makefile,v 1.33 1999/02/27 03:09:57 andreas Exp $
 
@@ -120,6 +120,7 @@ e:=$e,no_postgresql
 .if !empty(FLAVOUR:L:Mno_mysql)
 CONFIGURE_ARGS+=	-no-sql-mysql
 .else
+BROKEN=			depends on mysql, which is broken
 MULTI_PACKAGES+=	-mysql
 .  if !defined(PACKAGING) || ${SUBPACKAGE} == "-mysql"
 LIB_DEPENDS+=		mysqlclient::databases/mysql

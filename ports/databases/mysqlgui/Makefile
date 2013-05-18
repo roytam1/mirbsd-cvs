@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.14 2004/01/02 05:11:08 brad Exp $
 
+BROKEN=			depends on mysql and fltk, which are broken
+
 COMMENT=			graphical sql client for MySQL
 
 DISTNAME=		mysqlgui-1.7.5

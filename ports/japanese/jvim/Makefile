@@ -1,4 +1,4 @@
-# $MirOS: ports/japanese/jvim/Makefile,v 1.6 2008/10/04 19:03:12 tg Exp $
+# $MirOS: ports/japanese/jvim/Makefile,v 1.7 2009/08/16 16:27:11 tg Exp $
 # $OpenBSD: Makefile,v 1.20 2003/08/04 13:11:48 espie Exp $
 # $FreeBSD: Makefile,v 1.1.1.1 1998/07/10 14:05:19 kuriyama Exp $
 
@@ -22,6 +22,7 @@ FLAVOURS=	wnn canna
 FLAVOUR?=
 
 .if ${FLAVOUR:L:Mwnn}
+BROKEN=			depends on Wnn, which is broken
 CHOICE=		wnn4
 INPUT_METHOD=	wnn4
 BUILD_DEPENDS+=	::japanese/Wnn

@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/net/py-libpcap/Makefile,v 1.6 2007/04/13 19:32:38 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.11 2004/02/18 08:31:50 xsa Exp $
+
+BROKEN=			depends on swig, which is broken
 
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 

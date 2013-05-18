@@ -46,6 +46,7 @@ CONFIGURE_ARGS+=	--with-sdl=${LOCALBASE} --without-ggi
 MAKE_FLAGS=	HAS_X11=no
 CFLAGS+=		-pthread
 .elif ${FLAVOUR:L:Mggi}
+BROKEN=			depends on libggi, which is broken
 .  if !defined(PACKAGING) || ${SUBPACKAGE} == ""
 LIB_DEPENDS=		ggi.::graphics/ggi
 .  endif

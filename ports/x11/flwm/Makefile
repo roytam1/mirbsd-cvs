@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.15 2003/10/08 17:13:16 sturm Exp $
 
+BROKEN=			depends on fltk, which is broken
+
 COMMENT=			fast-light window manager
 
 DISTNAME=	flwm-1.00

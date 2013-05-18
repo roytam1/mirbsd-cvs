@@ -1,5 +1,7 @@
-# $MirOS: ports/print/ppower4/Makefile,v 1.4 2006/09/14 00:12:45 tg Exp $
+# $MirOS: ports/print/ppower4/Makefile,v 1.5 2008/10/12 13:53:15 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2003/07/19 08:11:29 sturm Exp $
+
+BROKEN=			depends on jdk-linux-1.3, which is broken
 
 COMMENT=			PDF presentation post processor
 

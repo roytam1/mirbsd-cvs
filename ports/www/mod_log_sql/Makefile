@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.3 2004/01/30 08:39:49 xsa Exp $
 
+BROKEN=			depends on mysql, which is broken
+
 COMMENT=			Apache module for logging to an SQL database
 
 # This port currently only works with archs supporting dynamic loading

@@ -1,5 +1,7 @@
-# $MirOS$
+# $MirOS: ports/net/ser/Makefile,v 1.6 2008/04/07 19:20:05 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2004/01/02 04:56:24 brad Exp $
+
+BROKEN=			depends on mysql, which is broken
 
 ONLY_FOR_PLATFORM=	*:*:i386 *:*:sparc
 

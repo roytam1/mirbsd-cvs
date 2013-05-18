@@ -1,9 +1,11 @@
 # $OpenBSD: Makefile,v 1.6 2004/01/02 04:56:24 brad Exp $
 
+BROKEN=			depends on mysql, which is broken
+
 COMMENT=			Apache MySQL authentication module
 
 # This port currently only works with archs supporting dynamic loading
-# and has Apache that supports DSO's.
+# and has Apache that supports DSOs.
 NOT_FOR_PLATFORM=	${NOPIC_PLATFORMS}
 
 VERSION=	3.2

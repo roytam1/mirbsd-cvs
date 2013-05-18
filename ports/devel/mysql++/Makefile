@@ -1,5 +1,7 @@
-# $MirOS: ports/devel/mysql++/Makefile,v 1.2 2005/07/07 21:19:16 bsiegert Exp $
+# $MirOS: ports/devel/mysql++/Makefile,v 1.3 2006/09/14 00:08:27 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2004/02/04 07:39:18 sturm Exp $
+
+BROKEN=			depends on mysql, which is broken
 
 COMMENT=			C++ API for MySQL
 COMMENT-docs=			C++ API for MySQL documentation

@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.12 2002/09/17 15:17:41 wilfried Exp $
 
+BROKEN=			depends on fltk, which is broken
+
 COMMENT=			Text Editor for FLTK
 
 VSN=			0.4.5

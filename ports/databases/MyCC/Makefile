@@ -1,5 +1,7 @@
-# $MirOS: ports/databases/MyCC/Makefile,v 1.6 2008/10/04 19:03:03 tg Exp $
+# $MirOS: ports/databases/MyCC/Makefile,v 1.7 2009/08/16 16:26:20 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2004/01/30 18:05:35 sturm Exp $
+
+BROKEN=			depends on mysql, which is broken
 
 COMMENT=		GUI client for MySQL
 
