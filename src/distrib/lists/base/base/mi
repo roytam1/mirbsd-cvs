@@ -744,6 +744,7 @@
 ./usr/sbin/vipw
 ./usr/sbin/visudo
 ./usr/sbin/vnconfig
+./usr/sbin/wsconfig
 ./usr/sbin/wsconscfg
 ./usr/sbin/wsmoused
 ./usr/sbin/zdump

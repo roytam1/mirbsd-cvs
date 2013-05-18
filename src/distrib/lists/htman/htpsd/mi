@@ -1323,6 +1323,7 @@
 ./man3/arc4random.htm
 ./man3/arc4random_addrandom.htm
 ./man3/arc4random_push.htm
+./man3/arc4random_pushb.htm
 ./man3/arc4random_stir.htm
 ./man3/asctime.htm
 ./man3/asctime_r.htm

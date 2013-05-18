@@ -5054,6 +5054,7 @@
 ./usr/share/man/cat3/arc4random.0
 ./usr/share/man/cat3/arc4random_addrandom.0
 ./usr/share/man/cat3/arc4random_push.0
+./usr/share/man/cat3/arc4random_pushb.0
 ./usr/share/man/cat3/arc4random_stir.0
 ./usr/share/man/cat3/asctime.0
 ./usr/share/man/cat3/asctime_r.0
