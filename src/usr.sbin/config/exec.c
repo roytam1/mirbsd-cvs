@@ -27,8 +27,9 @@
 #include <err.h>
 #include <sys/types.h>
 #include <stdio.h>
+#include "exec.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/config/exec.c,v 1.2 2007/02/19 03:11:19 tg Exp $");
 
 #ifdef AOUT_SUPPORT
 int	aout_check(char *);

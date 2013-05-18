@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/config/ukc.h,v 1.2 2006/04/06 00:53:48 tg Exp $ */
+/**	$MirOS: src/usr.sbin/config/ukc.h,v 1.3 2006/04/06 10:50:38 tg Exp $ */
 /*	$OpenBSD: ukc.h,v 1.11 2003/06/25 21:10:12 deraadt Exp $ */
 
 /*
@@ -148,7 +148,7 @@ void	pdev(short);
 int	number(const char *, int *);
 int	device(char *, int *, short *, short *);
 int	attr(char *, int *);
-void	modify(char *, int *);
+void	modify(const char *, int *);
 void	change(int);
 void	disable(int);
 void	enable(int);
@@ -157,7 +157,7 @@ void	common_attr_val(short, int *, char);
 void	show_attr(char *);
 void	common_dev(char *, int, short, short, char);
 void	common_attr(char *, int, char);
-void	add_read(char *, char, char *, int, int *);
+void	add_read(const char *, char, char *, int, int *);
 void	add(char *, int, short, short);
 
 int	config(void);

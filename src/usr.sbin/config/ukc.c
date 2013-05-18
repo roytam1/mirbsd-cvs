@@ -38,17 +38,18 @@
 #include <string.h>
 #include <unistd.h>
 
-#define UKC_MAIN
 #include "ukc.h"
 #include "exec.h"
 
-__RCSID("$MirOS: src/usr.sbin/config/ukc.c,v 1.2 2007/02/19 03:11:20 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/config/ukc.c,v 1.3 2007/02/19 03:24:55 tg Exp $");
 
 void	init(void);
 void	usage(void);
 
 int	ukc_mod_kernel = 0;
 int	ukc(char *, char *, int, int);
+
+extern struct nlist knl[];
 
 static void
 check_int(int idx, const char *name)

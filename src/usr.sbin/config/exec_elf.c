@@ -38,7 +38,7 @@
 #include "ukc.h"
 #include "config.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/config/exec_elf.c,v 1.2 2007/02/19 03:11:20 tg Exp $");
 
 caddr_t		ptr, rest, pre;
 Elf_Ehdr	elf_ex;
@@ -89,8 +89,8 @@ elf_readjust(caddr_t x)
 	for (i = 0; i < elf_ex.e_shnum; i++) {
 		if (s[i].sh_addr == 0)
 			continue;
-		if (((x - elf_total) >= s[i].sh_offset) &&
-		    ((x - elf_total) <= (s[i].sh_offset + s[i].sh_size)))
+		if (((Elf_Off)(x - elf_total) >= s[i].sh_offset) &&
+		    ((Elf_Off)(x - elf_total) <= (s[i].sh_offset + s[i].sh_size)))
 			y = (unsigned long)x - (unsigned long)elf_total +
 			    (unsigned long)s[i].sh_addr - s[i].sh_offset;
 	}

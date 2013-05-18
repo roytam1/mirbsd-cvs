@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/config/ukcutil.c,v 1.2 2005/03/13 19:16:18 tg Exp $ */
+/**	$MirOS: src/usr.sbin/config/ukcutil.c,v 1.3 2006/05/15 18:28:45 tg Exp $ */
 /*	$OpenBSD: ukcutil.c,v 1.14 2004/01/04 18:30:05 deraadt Exp $ */
 
 /*
@@ -39,9 +39,12 @@
 #include "ukc.h"
 #include "misc.h"
 
-__RCSID("$MirOS: src/usr.sbin/config/ukcutil.c,v 1.2 2005/03/13 19:16:18 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/config/ukcutil.c,v 1.3 2006/05/15 18:28:45 tg Exp $");
 
 extern	int ukc_mod_kernel;
+
+void add_history(int, short, short, int);
+void change_history(int, char *);
 
 struct	cfdata *
 get_cfdata(int idx)
@@ -239,7 +242,7 @@ pdev(short devno)
 int
 number(const char *c, int *val)
 {
-	int neg = 0, base = 10;
+	int neg = 0, lbase = 10;
 	u_int num = 0;
 
 	if (*c == '-') {
@@ -247,10 +250,10 @@ number(const char *c, int *val)
 		c++;
 	}
 	if (*c == '0') {
-		base = 8;
+		lbase = 8;
 		c++;
 		if (*c == 'x' || *c == 'X') {
-			base = 16;
+			lbase = 16;
 			c++;
 		}
 	}
@@ -266,9 +269,9 @@ number(const char *c, int *val)
 		else
 			return (-1);
 
-		if (cc > base)
+		if (cc > lbase)
 			return (-1);
-		num = num * base + cc;
+		num = num * lbase + cc;
 		c++;
 	}
 
@@ -316,7 +319,7 @@ device(char *cmd, int *len, short *unit, short *state)
 int
 attr(char *cmd, int *val)
 {
-	short attr = -1, i = 0, l = 0;
+	short attrx = -1, i = 0, l = 0;
 	caddr_t *p;
 	char *c;
 
@@ -329,22 +332,22 @@ attr(char *cmd, int *val)
 	p = get_locnames(0);
 
 	while (i <= maxlocnames) {
-		if (strlen((char *)adjust((caddr_t)*p)) == l) {
+		if (strlen((char *)adjust((caddr_t)*p)) == (size_t)l) {
 			if (strncasecmp(cmd, adjust((caddr_t)*p), l) == 0)
-				attr = i;
+				attrx = i;
 		}
 		p++;
 		i++;
 	}
-	if (attr == -1)
+	if (attrx == -1)
 		return (-1);
 
-	*val = attr;
+	*val = attrx;
 	return(0);
 }
 
 void
-modify(char *item, int *val)
+modify(const char *item, int *val)
 {
 	cmd_t cmd;
 	int a;
@@ -723,7 +726,7 @@ show(void)
 }
 
 void
-common_attr_val(short attr, int *val, char routine)
+common_attr_val(short attrx, int *val, char routine)
 {
 	int	i = 0;
 	struct cfdata *cd;
@@ -739,7 +742,7 @@ common_attr_val(short attr, int *val, char routine)
 		l = (int *)adjust((caddr_t)cd->cf_loc);
 		ln = get_locnamp(cd->cf_locnames);
 		while (*ln != -1) {
-			if (*ln == attr) {
+			if (*ln == attrx) {
 				if (val == NULL) {
 					quit = more();
 					pdev(i);
@@ -783,7 +786,7 @@ show_attr(char *cmd)
 {
 	char *c;
 	caddr_t *p;
-	short attr = -1, i = 0, l = 0;
+	short attrx = -1, i = 0, l = 0;
 	int a;
 
 	c = cmd;
@@ -798,24 +801,24 @@ show_attr(char *cmd)
 	p = get_locnames(0);
 
 	while (i <= maxlocnames) {
-		if (strlen((char *)adjust(*p)) == l) {
+		if (strlen((char *)adjust(*p)) == (size_t)l) {
 			if (strncasecmp(cmd, adjust(*p), l) == 0)
-				attr = i;
+				attrx = i;
 		}
 		p++;
 		i++;
 	}
 
-	if (attr == -1) {
+	if (attrx == -1) {
 		printf("Unknown attribute\n");
 		return;
 	}
 
 	if (*c == '\0') {
-		common_attr_val(attr, NULL, UC_SHOW);
+		common_attr_val(attrx, NULL, UC_SHOW);
 	} else {
 		if (number(c, &a) == 0) {
-			common_attr_val(attr, &a, UC_SHOW);
+			common_attr_val(attrx, &a, UC_SHOW);
 		} else {
 			printf("Unknown argument\n");
 		}
@@ -844,7 +847,7 @@ common_dev(char *dev, int len, short unit, short state, char routine)
 	while (cd->cf_attach != 0) {
 		cdrv = (struct cfdriver *)adjust((caddr_t)cd->cf_driver);
 
-		if (strlen((char *)adjust(cdrv->cd_name)) == len) {
+		if (strlen((char *)adjust(cdrv->cd_name)) == (size_t)len) {
 			/*
 			 * Ok, if device name is correct
 			 *  If state == FSTATE_FOUND, look for "dev"
@@ -922,7 +925,7 @@ common_dev(char *dev, int len, short unit, short state, char routine)
 }
 
 void
-common_attr(char *cmd, int attr, char routine)
+common_attr(char *cmd, int attrx, char routine)
 {
 	char *c;
 	short l = 0;
@@ -942,14 +945,14 @@ common_attr(char *cmd, int attr, char routine)
 	}
 
 	if (number(c, &a) == 0) {
-		common_attr_val(attr, &a, routine);
+		common_attr_val(attrx, &a, routine);
 	} else {
 		printf("Unknown argument\n");
 	}
 }
 
 void
-add_read(char *prompt, char field, char *dev, int len, int *val)
+add_read(const char *prompt, char field, char *dev, int len, int *val)
 {
 	int ok = 0;
 	int a;
@@ -1028,7 +1031,7 @@ add(char *dev, int len, short unit, short state)
 	while (cd->cf_attach != 0) {
 		cdrv = (struct cfdriver *)adjust((caddr_t)cd->cf_driver);
 
-		if (strlen((char *)adjust(cdrv->cd_name)) == len &&
+		if (strlen((char *)adjust(cdrv->cd_name)) == (size_t)len &&
 		    strncasecmp(dev, (char *)adjust(cdrv->cd_name), len) == 0)
 			found = 1;
 		cd++;
@@ -1091,7 +1094,7 @@ add(char *dev, int len, short unit, short state)
 			cdrv = (struct cfdriver *)
 			  adjust((caddr_t)cd->cf_driver);
 
-			if (strlen((char *)adjust(cdrv->cd_name)) == len &&
+			if (strlen((char *)adjust(cdrv->cd_name)) == (size_t)len &&
 			    strncasecmp(dev, (char *)adjust(cdrv->cd_name),
 			    len) == 0) {
 				switch (cd->cf_fstate) {
@@ -1118,7 +1121,7 @@ add(char *dev, int len, short unit, short state)
 			cdrv = (struct cfdriver *)
 			    adjust((caddr_t)cd->cf_driver);
 
-			if (strlen((char *)adjust(cdrv->cd_name)) == len &&
+			if (strlen((char *)adjust(cdrv->cd_name)) == (size_t)len &&
 			    strncasecmp(dev, (char *)adjust(cdrv->cd_name),
 			    len) == 0) {
 				switch (cd->cf_fstate) {
@@ -1140,7 +1143,7 @@ add(char *dev, int len, short unit, short state)
 			cdrv = (struct cfdriver *)
 			    adjust((caddr_t)cd->cf_driver);
 
-			if (strlen((char *)adjust(cdrv->cd_name)) == len &&
+			if (strlen((char *)adjust(cdrv->cd_name)) == (size_t)len &&
 			    strncasecmp(dev, (char *)adjust(cdrv->cd_name),
 			    len) == 0) {
 				switch (cd->cf_fstate) {
@@ -1224,7 +1227,7 @@ add_history(int devno, short unit, short state, int newno)
 		cdrv = (struct cfdriver *)
 		    adjust((caddr_t)cd->cf_driver);
 
-		if (strlen((char *)adjust(cdrv->cd_name)) == len &&
+		if (strlen((char *)adjust(cdrv->cd_name)) == (size_t)len &&
 		    strncasecmp(dev, (char *)adjust(cdrv->cd_name),
 		    len) == 0) {
 			switch (cd->cf_fstate) {
@@ -1247,7 +1250,7 @@ add_history(int devno, short unit, short state, int newno)
 		cdrv = (struct cfdriver *)
 		    adjust((caddr_t)cd->cf_driver);
 
-		if (strlen((char *)adjust(cdrv->cd_name)) == len &&
+		if (strlen((char *)adjust(cdrv->cd_name)) == (size_t)len &&
 		    strncasecmp(dev, (char *)adjust(cdrv->cd_name),
 		    len) == 0) {
 			switch (cd->cf_fstate) {
