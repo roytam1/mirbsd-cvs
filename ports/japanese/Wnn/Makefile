@@ -1,6 +1,8 @@
-# $MirOS$
+# $MirOS: ports/japanese/Wnn/Makefile,v 1.4 2007/04/12 20:20:40 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.46 2004/01/02 22:03:36 espie Exp $
 # $FreeBSD: Makefile,v 1.19 1997/09/23 02:17:58 max Exp $
+
+BROKEN=			hardcodes /usr/local, wants root, etc.
 
 COMMENT=			Japanese input method
 COMMENT-dict=			dictionaries for Japanese Wnn
