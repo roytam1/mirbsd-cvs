@@ -1,6 +1,6 @@
-.\" $MirOS: src/share/man/man9/style.9,v 1.19 2011/07/05 20:13:22 tg Exp $
+.\" $MirOS: src/share/man/man9/style.9,v 1.20 2011/08/06 18:30:20 tg Exp $
 .\"-
-.\" Copyright (c) 2002-2011 The MirOS Project.
+.\" Copyright (c) 2002-2012 The MirOS Project.
 .\" Copyright (c) ? OpenBSD
 .\" Copyright (c) 1995 FreeBSD Inc.
 .\" All rights reserved.
@@ -86,7 +86,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: July 5 2011 $
+.Dd $Mdocdate: March 15 2010 $
 .\"
 .\" Check which macro package we use, and do other -mdoc setup.
 .\"
@@ -181,7 +181,13 @@ current style guidelines.
 /*\-
  * Style guide for the MirOS Project's Coding Styles.
  * Derived from the OpenBSD KNF (Kernel Normal Form).
- * lint(1) does not reformat this comment.
+ * indent(1) does not reformat this comment.
+ */
+
+/**
+ * This is a documentation comment in doxygen format.
+ * clang \-Wcomment checks them for correct syntax.
+ * Use only if you're honouring that standard.
  */
 
 /*
@@ -194,7 +200,8 @@ current style guidelines.
 /*
  * Multi-line comments look like this. Make them real sentences,
  * in contrast to single-line comments. Fill them so they look
- * like real paragraphs. lint(1) does reformat this comment.
+ * like real paragraphs. indent(1) does reformat this comment.
+ * (XXX: does it? It says slash+star+newline isn't reformatted.)
  * British spelling is preferred in general. Restrict yourself
  * to the CESU\-8 (UTF\-8) Unicode BMP subset or, preferably, the
  * ISO_646.irv:1991 7-bit character set (ANSI_X3.4\-1968). Units
@@ -229,7 +236,7 @@ Put non-local includes in brackets, local includes in double quotes.
 .Ed
 .Pp
 Machine and device includes follow.
-If it's a networked programme, put the network include files next.
+If it's a networked program, put the network include files next.
 .Bd -literal -offset indent
 .if "\*(tT"gnu" .nr in-synopsis-section 1
 .In net/if.h
@@ -259,7 +266,7 @@ files sorted, then local includes (also sorted if possible).
 .Pp
 Global pathnames are defined in
 .Aq Pa paths.h .
-Pathnames local to the programme go in
+Pathnames local to the program go in
 .Dq Pa pathnames.h
 in the local directory.
 .Bd -literal -offset indent
@@ -439,7 +446,9 @@ You may attempt to optimise for structure padding to avoid wasting space.
 The first category normally doesn't apply, but there are exceptions.
 Each one gets its own line.
 It is strongly recommended to not line them up either.
-Use single spaces, but line up the comments if desirable.
+Use single spaces, but line up the comments if desirable or,
+better, place them on their own lines just before the item
+they apply to.
 .Pp
 Major structures should be declared at the top of the file in which they
 are used, or in separate header files if they are used in multiple
@@ -468,11 +477,14 @@ Thus, the previous example would be better written:
 .if "\*(tT"gnu" .nr in-synopsis-section 0
 
 struct foo {
-	LIST_ENTRY(foo) link;	/* queue glue for foo lists */
-	struct mumble amumble;	/* comment for mumble */
+	/* queue glue for foo lists */
+	LIST_ENTRY(foo) link;;
+	/* comment for mumble */
+	struct mumble amumble;
 	int bar;
 };
-LIST_HEAD(, foo) foohead;	/* head of global foo list */
+/* head of global foo list */
+LIST_HEAD(, foo) foohead;
 .Ed
 .Pp
 Avoid using typedefs for structure types.
@@ -493,7 +505,7 @@ or its superset
 Don't use the same name for a struct tag and a typedef, as this makes
 the code unusable from C++.
 .Bd -literal -offset indent
-/* Make the structure name match the typedef */
+/* make the structure name match the typedef */
 typedef struct _bar {
 	int level;
 } BAR;
@@ -502,7 +514,7 @@ typedef struct _bar {
 /*
  * All major routines should have a comment briefly describing
  * what they do. The comment before the "main" routine should
- * describe what the programme does.
+ * describe what the program does.
  */
 int
 main(int argc, char *argv[])
@@ -544,7 +556,7 @@ while ((ch = getopt(argc, argv, "abn:")) != \-1)
 			usage();
 		}
 		break;
-	case \*(aq?\*(aq:		/* redundant here */
+	case \*(aq?\*(aq:		/* redundant here but ok */
 	default:
 		usage();
 		/* NOTREACHED */
@@ -573,6 +585,7 @@ to a debug expression) though, except for void functions.
 No braces are
 used for control statements with zero or only a single statement unless that
 statement is more than a single line, in which case they are permitted.
+Always document single-semicolon bodies with a comment; here, same line is ok.
 .Bd -literal -offset indent
 for (p = buf; *p != \*(aq\e0\*(aq; ++p)
 	;	/* nothing */
@@ -703,12 +716,13 @@ eMails must not be longer then 72 characters per line.
 In object-oriented languages, it may be acceptable to use
 up to 100 characters per line.
 .Pp
-Exits should be 0 on success, and non-zero for errors.
+Exits and returns should be 0 on success, and non-zero for errors.
 .Bd -literal -offset indent
-exit(0);	/*
-		 * avoid obvious comments such as
-		 * "Exit 0 on success."
-		 */
+	/*
+	 * avoid obvious comments such as
+	 * "Exit 0 on success."
+	 */
+	exit(0);
 }
 .Ed
 .Pp
@@ -779,7 +793,7 @@ When using
 .Fn longjmp
 or
 .Fn vfork
-in a programme, the
+in a program, the
 .Fl Wextra
 or
 .Fl Wall
@@ -945,7 +959,8 @@ vaf(const char *fmt, ...)
 static void
 usage(void)
 {
-	extern const char *__progname;	/* from crt0.o */
+	/* from crt0.o */
+	extern const char *__progname;
 .Ed
 .Pp
 Usage statements should take the same form as the synopsis in manual pages.
@@ -974,7 +989,10 @@ except that the no-argument options are listed first.
 .Pp
 The
 .Li __progname
-string may be used instead of hard-coding the programme's name.
+string may be used instead of hard-coding the program's name.
+It's better to place the extern declaration outside of the
+function body though, as it's file-global in ISO C either way,
+and that makes this fact more visible.
 .Bd -literal -offset indent
 	fprintf(stderr, "usage: %s [\-ab]\en", __progname);
 	exit(1);
