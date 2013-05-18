@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/fedora/Makefile,v 1.3 2008/10/29 18:28:42 tg Exp $
+# $MirOS: ports/emulators/fedora/Makefile,v 1.4 2009/03/29 13:04:00 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2008/06/12 16:33:21 miod Exp $
 # $OpenBSD: Makefile,v 1.3 2007/09/16 00:45:13 merdely Exp $
 # $OpenBSD: Makefile.inc,v 1.1.1.1 2006/10/17 22:33:44 sturm Exp $
@@ -20,9 +20,10 @@ PERMIT_PACKAGE_FTP=	Yes
 IGNORE+=		"requires use of SUDO=sudo"
 .endif
 
-MASTER_SITE_FEDORA=	http://download.fedora.redhat.com/pub/fedora/linux/core/ \
-			http://mirror.aarnet.edu.au/pub/fedora/linux/core/ \
-			ftp://ftp.funet.fi/pub/mirrors/ftp.redhat.com/pub/fedora/linux/core/
+#MASTER_SITE_FEDORA=	http://download.fedora.redhat.com/pub/fedora/linux/core/ \
+#			http://mirror.aarnet.edu.au/pub/fedora/linux/core/ \
+#			ftp://ftp.funet.fi/pub/mirrors/ftp.redhat.com/pub/fedora/linux/core/
+MASTER_SITE_FEDORA=	http://archives.fedoraproject.org/pub/archive/fedora/linux/core/
 
 MASTER_SITES=		${MASTER_SITE_FEDORA:=4/i386/os/Fedora/RPMS/}
 MASTER_SITES0=		${MASTER_SITE_FEDORA:=updates/4/i386/}
