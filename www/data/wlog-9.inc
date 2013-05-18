@@ -1422,3 +1422,36 @@ Author: tg@
 <p>The BOSng Duo has found another cache, although with minor injuries, we
  hooked up a friend to the fun and had a definitively nice view.</p>
 ----
+Date: 08.08.2007
+Author: tg@
+Title: SPARC is dead, long live SPARC!
+
+<p>It looks as if I finally have found a few cases of bad programming that
+ caused the segfaults and other misbehaviour on sparc. Now let's just come
+ all the former Debian GNU/Linux/sparc users. Okay, I've got to compile it
+ a few times more, and pre-#10 I'd like to do one more code change, namely
+ the switch from suncons to vt100, but… what the hey ☺ I'm happy.</p>
+<p>I'm currently building on a 75 MHz SuperSPARC and would be glad if some
+ nice person would send me one of these 233 MHz HyperSPARC modules that've
+ been made by ROSS (I think), and some more RAM for a SPARCstation 20 UP –
+ we don't support SMP on sparc either. And I desparately need 1-2 testers,
+ since I don't use a monitor/keyboard/mouse zs console but “merely” a real
+ <a href="http://vt100.net/docs/vt420-uu/">DEC VT420</a> on ttya.</p>
+<p>On HTML: see <a href="http://marc.info/?m=118635601729218">my rants</a>
+ about standards.</p>
+<p>Anyway, despite the bugs found during the sparc compiling progress, our
+ tree is in a pretty sane state and ready for release every day or so. I'm
+ postponing it a bit in the hope less bugs will be found post-release, and
+ Benny is still continuing his ports work, despite having to create slides
+ for that <a href="http://programm.froscon.org/2007/events/6.en.html">talk
+ at FrOSCon</a> <em>and</em> doing his diploma stuff all day. Thanks Benny
+ what would MirOS be without you.</p>
+<p>I've still got my dayjob, and working with parsing, databases, SQL, and
+ C string operations at the same time isn't really fun. But it's me who is
+ able to make <a href="https://www.freewrt.org/">FreeWRT 1.1</a> shine, so
+ I've got to do it. I bet it'll have been a lot of fun once I'm done. Just
+ the way there is hard. So be it. On the contrary, my boss's got a Zaurus,
+ and Dr. Pfeffer's geocacheing software (in Java™) runs on it. And he will
+ not only make these trips with us but also lend it to one of us if he has
+ no time but we want to go. That's the benefit of a small company.</p>
+----
