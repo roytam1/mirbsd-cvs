@@ -1,10 +1,10 @@
-# $MirOS: www/src/jupp.hts,v 1.4 2008/08/25 14:02:29 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.5 2008/11/08 22:24:38 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.4 2008/08/25 14:02:29 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.5 2008/11/08 22:24:38 tg Exp $'
 mws_content <<'EOF'
 <h1>jupp – the Editor which sucks less</h1>
 <p>The current version is <em>joe-3.1jupp10</em>. This page is
@@ -44,7 +44,7 @@ mws_content <<'EOF'
 <h2 id="fetch">Retrieval</h2>
 <h3>Direct download</h3>
 <p>You can download jupp at least from one of the following mirrors:</p><ul>
- <li><a href="http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp10.cpio.gz">http://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp10.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp10.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp10.cpio.gz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp10.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp10.cpio.gz</a></li>
 </ul>
 <p>Please do not forget to check the received file’s integry using both

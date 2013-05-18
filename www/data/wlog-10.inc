@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.97 2008/11/10 21:48:45 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.98 2008/11/10 22:05:15 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -1028,7 +1028,7 @@ Title: "Requesting inclusion of mksh (shell) into Mac OS X"
 <p>The homepage of mksh is located at <a
  href="http://mirbsd.de/mksh">http://mirbsd.de/mksh</a>. The current
  version is available from <a
- href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R35.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R35.cpio.gz</a>.</p>
+ href="@@ABSPATH@@/MirOS/dist/mir/mksh/mksh-R35.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R35.cpio.gz</a>.</p>
 ----
 Date: 14.07.2008 00:00
 Author: tg@

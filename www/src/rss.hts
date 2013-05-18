@@ -1,11 +1,11 @@
-# $MirOS: www/src/rss.hts,v 1.4 2008/06/25 12:59:06 tg Exp $
+# $MirOS: www/src/rss.hts,v 1.5 2008/07/24 13:08:14 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname rss "RSS feeds, mailing lists"
 mws_subdir 0
-mws_putheader '$MirOS: www/src/rss.hts,v 1.4 2008/06/25 12:59:06 tg Exp $'
+mws_putheader '$MirOS: www/src/rss.hts,v 1.5 2008/07/24 13:08:14 tg Exp $'
 mws_content <<'EOF'
 <h1>MirOS RSS feeds</h1>
 
@@ -13,10 +13,10 @@ mws_content <<'EOF'
 <p>We offer the following RSS feeds, which can be subscribed to
  using an RSS reader:</p>
 <ul>
- <li><a href="http://www.mirbsd.org/news.rss">current project news</a> – <a href="http://feedvalidator.org/check.cgi?url=http%3A//www.mirbsd.org/news.rss">Valid RSS/2.0!</a></li>
- <li><a href="http://www.mirbsd.org/wlog.rss">developers’ weblog (most recent)</a> – <a href="http://feedvalidator.org/check.cgi?url=http%3A//www.mirbsd.org/wlog.rss">Valid RSS/2.0!</a></li>
- <li><a href="http://www.mirbsd.org/wlog-10.rss">developers’ weblog (post MirOS #10)</a> – <a href="http://feedvalidator.org/check.cgi?url=http%3A//www.mirbsd.org/wlog-10.rss">Valid RSS/2.0!</a></li>
- <li><a href="http://www.mirbsd.org/wlog-9.rss">developers’ weblog (post MirOS #9)</a> – <a href="http://feedvalidator.org/check.cgi?url=http%3A//www.mirbsd.org/wlog-9.rss">Valid RSS/2.0!</a></li>
+ <li><a href="https://www.mirbsd.org/news.rss">current project news</a> – <a href="http://feedvalidator.org/check.cgi?url=http%3A//www.mirbsd.org/news.rss">Valid RSS/2.0!</a></li>
+ <li><a href="https://www.mirbsd.org/wlog.rss">developers’ weblog (most recent)</a> – <a href="http://feedvalidator.org/check.cgi?url=http%3A//www.mirbsd.org/wlog.rss">Valid RSS/2.0!</a></li>
+ <li><a href="https://www.mirbsd.org/wlog-10.rss">developers’ weblog (post MirOS #10)</a> – <a href="http://feedvalidator.org/check.cgi?url=http%3A//www.mirbsd.org/wlog-10.rss">Valid RSS/2.0!</a></li>
+ <li><a href="https://www.mirbsd.org/wlog-9.rss">developers’ weblog (post MirOS #9)</a> – <a href="http://feedvalidator.org/check.cgi?url=http%3A//www.mirbsd.org/wlog-9.rss">Valid RSS/2.0!</a></li>
 </ul>
 
 <h2 id="lists">Mailing lists</h2>

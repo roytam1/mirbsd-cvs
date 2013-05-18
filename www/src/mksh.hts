@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.185 2008/11/09 20:47:54 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.186 2008/11/10 20:44:03 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R36</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -115,8 +115,8 @@ mws_content <<'EOF'
 
 <h2 id="irc">Support</h2>
 <p>We provide an online manual page in <a
- href="http://www.mirbsd.org/man/mksh.1">HTML</a> and <a
- href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> format.
+ href="@@ABSPATH@@/man/mksh.1">HTML</a> and <a
+ href="@@ABSPATH@@/MirOS/dist/mir/mksh/mksh.pdf">PDF</a> format.
  Reading books about Korn Shells in general is recommended as further help,
  but beware of the <a href="#contrib">differences</a> to other shells. Some
  ISBNs are listed at the end of the manual page.</p>
@@ -149,7 +149,7 @@ mws_content <<'EOF'
  extract from the CPIO distfile and is available even on a stock Microsoft®
  Windows® installation.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R36.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R36.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R36.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R36.cpio.gz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R36.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R36.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
@@ -672,7 +672,7 @@ mws_content <<'EOF'
 <li>The MirPorts Framework brings mksh to OpenBSD, Mac OSX and Interix as
  well as older MirOS BSD versions, which have mksh as native Korn Shell.</li>
 <li><a href="http://www.openbsd.org/">OpenBSD</a> ports do <em>not</em>
- package mksh, but an <a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-obsdport.tgz">inofficial
+ package mksh, but an <a href="@@ABSPATH@@/MirOS/dist/mir/mksh/ports/mksh-obsdport.tgz">inofficial
  port</a> is available.</li>
 <li>ChinaLinux mirrors (and apparently packages) mksh.</li>
 <li>Some US-American Apple Users’ Group (the <a

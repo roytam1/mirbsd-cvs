@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.84 2008/11/08 22:24:32 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.85 2008/11/08 23:41:15 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -94,7 +94,7 @@ Author: tg@
  href="http://f.scarywater.net/miros/">BitTorrent tracker</a>; please
  only redistribute it on CDs, DVDs or USB Sticks in order to comply with
  the licence of the Opera© browser included. You can, of course, also simply
- do a <a href="http://www.mirbsd.org/MirOS/current/">netinstall</a>.</p>
+ do a <a href="@@ABSPATH@@/MirOS/current/">netinstall</a>.</p>
 <p><strong>Update:</strong> the pictures are here!</p>
 <table width="100%">
  <tr><td style="width:128px;"><a
@@ -154,7 +154,7 @@ Date: 09.06.2007
  is available for download for the i386 architecture only.</p>
 <p>Download, as usual, on the <a href="http://f.scarywater.net/miros/">
  BitTorrent tracker</a> (Live CD), or via a networked installation from
- various mirrors (<a href="http://www.mirbsd.org/MirOS/current/">DE</a>
+ various mirrors (<a href="@@ABSPATH@@/MirOS/current/">DE</a>
  <a href="http://pub.allbsd.org/MirOS/current/">JP</a>).</p>
 <p>On unrelated news, work on the 32-bit sparc port has started again –
  mostly due to request from users (quite reassuring). Thanks, guys!</p>
@@ -397,8 +397,8 @@ Date: 22.08.2007
 
 <p>MirOS BSD #10 is coming near. The fourth release candidate for i386
  has been released. Grab it via HTTP for the <a
- href="http://www.mirbsd.org/MirOS/current/i386/">i386</a> or <a
- href="http://www.mirbsd.org/MirOS/current/sparc/">sparc</a> platform,
+ href="@@ABSPATH@@/MirOS/current/i386/">i386</a> or <a
+ href="@@ABSPATH@@/MirOS/current/sparc/">sparc</a> platform,
  or do a network installation.</p>
 
 <p><strong>Caveat</strong>: There is a bug in some of the <tt>fonts.alias</tt>
@@ -522,7 +522,7 @@ Date: 22.11.2007
 
 <p>Most notably, this means that the mailing lists, miros-discuss and
  miros-cvs, are not working. To keep up with recent commits, look at the
- <a href="http://www.mirbsd.org/clogs/ChangeLog">Changelog</a>. anoncvs
+ <a href="@@ABSPATH@@/clogs/ChangeLog">Changelog</a>. anoncvs
  and cvsweb do work.</p>
 ----
 Title: Security updates
@@ -555,7 +555,7 @@ Title: New website design
 Date: 28.12.2007
 
 <p>As you surely see, this page sports a brand-new design based on the old
- <a href="http://www.mirbsd.org/newsite/">/newsite</a> CSS and the old one
+ <a href="@@ABSPATH@@/newsite/">/newsite</a> CSS and the old one
  for www.mirbsd.org. The colors have been inverted (i.e. dark text on light
  background) and the header has changed. If you happen to notice any problems,
  contact us.</p>
@@ -663,7 +663,7 @@ Date: 10.03.2008
  after which it started. You must subscribe to it manually, as
  we have no way to embed it in any header; it is implemented as
  a symbolic link to the latest respective feed:</p>
-<p><a href="@@RELPATH@@wlog.rss">http://www.mirbsd.org/wlog.rss</a></p>
+<p><a href="@@RELPATH@@wlog.rss">https://www.mirbsd.org/wlog.rss</a></p>
 <p>Of course, you can instead continue to use the versioned feeds.</p>
 ----
 Title: MirPorts running on MidnightBSD
@@ -712,7 +712,7 @@ Date: 20.03.2008
 <p>You can also switch to one of the following mirrors:</p><ul>
  <li><a href="http://pub.allbsd.org/MirOS/ISOs/MIR80316.ISO">Japan</a></li>
  <li><a href="http://server.leveldown.de/~nezza/MIR80316.ISO">Germany 2</a></li>
- <li><a href="http://www.mirbsd.org/MirOS/ISOs/MIR80316.ISO">Germany 1</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/ISOs/MIR80316.ISO">Germany 1</a></li>
 </ul>
 <p id="hashes">Due to popular request: the SFV (CRC32) of the ISO is
  76D0638A, more hashes are <a href="@@ABSPATH@@/MirOS/v10/CKSUM.gz">here</a>, and

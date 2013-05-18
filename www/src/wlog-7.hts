@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/wlog-7 "MirBSD Weblog"
-mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.1 2008/09/17 21:12:32 tg Exp $'
+mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.2 2008/11/08 22:24:39 tg Exp $'
 mws_content <<'EOF'
 <h1>MirBSD &ndash; RELEASE TIME!!! Stable Services for Commercial Customers</h1>
 <h3>News <small><a href="#eof">bottom</a></small></h3>
@@ -1451,7 +1451,7 @@ mws_content <<'EOF'
  the outside world has noticed &quot;us&quot;. Nice. I'm trying to get <a
  href="http://wiki.mirbsd.de/MirbsdKsh">mksh</a> through the OSI first now.
  kettenis@ said he'll start with the paperwork. thor, our dedicated, is a new
- <a href="http://www.mirbsd.org/">mirror</a> now (also SSL-less,
+ <a href="https://www.mirbsd.org/">mirror</a> now (also SSL-less,
  but I won't advocate <em>not</em> to use TLS).</p>
 <p>02.11.2004 by tg@<br />At work, I tried to build a snapshot, so that our
  friend &lt;Kabelaffe&gt; can install that on his fileserver. In the progress,

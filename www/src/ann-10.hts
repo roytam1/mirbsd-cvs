@@ -2,13 +2,13 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname announcements/10 "MirOS #10 Release Announcement"
-mws_putheader '$MirOS: www/src/ann-10.hts,v 1.9 2008/04/30 18:02:51 tg Exp $'
+mws_putheader '$MirOS: www/src/ann-10.hts,v 1.10 2008/06/03 18:05:09 tg Exp $'
 mws_content <<'EOF'
 <h1>MirOS BSD #10 (MirOS &#958;) Release Notes</h1>
 
 <p>The MirOS Project proudly presents release #10 of MirOS BSD: MirOS
  &#958; (xi). A mini-ISO for the installation can be downloaded <a
- href="http://www.mirbsd.org/MirOS/v10/cdrom.iso">from mirbsd.org</a>.
+ href="https://www.mirbsd.org/MirOS/v10/cdrom.iso">from mirbsd.org</a>.
  This image can be burned to a CD and used for installing over the
  network. The full CD image can be downloaded <a
  href="http://f.scarywater.net/miros/">via BitTorrent</a> or using the <a

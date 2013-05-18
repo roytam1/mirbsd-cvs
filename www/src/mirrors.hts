@@ -2,7 +2,7 @@
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname legacy/mirrors "MirOS Legacy Content"
-mws_putheader '$MirOS: www/src/mirrors.hts,v 1.1 2008/09/17 21:12:27 tg Exp $'
+mws_putheader '$MirOS: www/src/mirrors.hts,v 1.2 2008/11/08 22:24:38 tg Exp $'
 mws_content <<'EOF'
 <h1>MirOS mirrors</h1>
 
@@ -18,7 +18,7 @@ mws_content <<'EOF'
 
 <h3>Website</h3>
 <p><a href="http://mirbsd.de/">Another list</a>.</p><ul>
-<li><a href="http://www.mirbsd.org/">mirbsd.mirsolutions.de</a>
+<li><a href="https://www.mirbsd.org/">mirbsd.mirsolutions.de</a>
  (www and distfiles, updated frequently)</li>
 </ul>
 <p>Note: distfiles is <tt>/MirOS/distfiles/</tt> &ndash; where you can

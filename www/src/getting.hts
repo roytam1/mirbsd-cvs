@@ -1,10 +1,10 @@
-# $MirOS: www/src/getting.hts,v 1.16 2008/08/19 18:56:27 bsiegert Exp $
+# $MirOS: www/src/getting.hts,v 1.17 2008/09/17 21:12:24 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname getting "Get MirOS!"
-mws_putheader '$MirOS: www/src/getting.hts,v 1.16 2008/08/19 18:56:27 bsiegert Exp $'
+mws_putheader '$MirOS: www/src/getting.hts,v 1.17 2008/09/17 21:12:24 tg Exp $'
 mws_content <<'EOF'
 <h1>Get MirOS!</h1>
 
@@ -59,7 +59,7 @@ mws_content <<'EOF'
   <td>
    <p>use the <a href="f/MirBSD-10semel.metalink">Metalink</a> file</p>
    <p>via HTTP: ISO @ <a
-    href="http://www.mirbsd.org/MirOS/ISOs/MIR80316.ISO">Germany (IPv4/IPv6)</a> / <a
+    href="https://www.mirbsd.org/MirOS/ISOs/MIR80316.ISO">Germany (IPv4/IPv6)</a> / <a
     href="http://miros.unixforge.de/MirOS/ISOs/MIR80316.ISO">Germany (IPv4 only)</a> / <a
     href="http://pub.allbsd.org/MirOS/ISOs/MIR80316.ISO">Japan (IPv4/IPv6)</a><br />
     <a href="/MirOS/v10/">NetInstall directory</a><br />
@@ -99,7 +99,7 @@ mws_content <<'EOF'
 <h2>Mirrors for netinstall</h2>
 
 <ul>
- <li><a href="http://www.mirbsd.org/MirOS/">http://www.mirbsd.org/MirOS/</a>…</li>
+ <li><a href="https://www.mirbsd.org/MirOS/">https://www.mirbsd.org/MirOS/</a>…</li>
  <li><a href="http://pub.allbsd.org/MirOS/">http://pub.allbsd.org/MirOS/</a>…</li>
  <li><a href="http://miros.unixforge.de/MirOS/">http://miros.unixforge.de/MirOS/</a>…</li>
  <li><a href="/MirOS/">local mirror</a> (if exists)</li>
@@ -164,7 +164,7 @@ mws_content <<'EOF'
 <p>The same credentials can be used for anonymous rsync over ssh access,
  which allows you to download the entire CVS repository for local logs,
  checkouts, diffs, annotates, etc. which is much faster than remote. <a
- href="http://www.mirbsd.org/?anoncvs#rsync">AnonRSYNC mirrors</a> are
+ href="@@RELPATH@@anoncvs.htm#rsync">AnonRSYNC mirrors</a> are
  the same as above, a sample call is:<br />
  <tt>$ rsync -rxlztpgavPHK --delete anoncvs@anoncvs.mirbsd.org:/cvs/ /cvs</tt>
  <br />
