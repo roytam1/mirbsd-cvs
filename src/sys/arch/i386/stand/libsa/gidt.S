@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.23 2009/01/11 23:08:08 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.24 2009/01/11 23:16:20 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -334,7 +334,6 @@ EMUh:
 #ifndef SMALL_BOOT
 /* Call buffer at 07c0:0000 in real mode to simulate a BIOS boot */
 ENTRY(bootbuf)
-	cli
 	pop	eax		/* Don't need return address */
 	pop	esi		/* Buffer Source (linear) */
 	pop	ecx		/* Size */
@@ -436,6 +435,7 @@ Ltcend:	pop	si		/* offset Ltcbeg */
 	.code32
 	.globl	prot_to_real
 prot_to_real:
+	cli
 	/* fix up return address */
 	pop	eax
 	sub	eax,SA_LINKADDR
@@ -481,6 +481,7 @@ Lp2r16:	/* convert ESP to SS:SP */
 	.code16
 	.globl	real_to_prot
 real_to_prot:
+	cli
 	/* load GDT via data segment */
 	mov	ax,SA_LINKSEG
 	mov	ds,ax
