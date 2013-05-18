@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.417 2013/02/23 20:28:43 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.418 2013/03/05 16:56:54 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9819,4 +9819,101 @@ Tag: twitxr
  src="@@RELPATH@@pics/wlog/Himbeerquarkschnitte.jpg"
  alt="Himbeerquarkschnitte" /></a> <i>*winkt Ventilator*</i></p>
 <p>Natürlich mit MirKaffee (enthält Milch, Kakao, Kaffee, Rohrzucker)!</p>
+----
+Title: pkgsrccon 2013
+Author: bsiegert@
+Date: 24.03.2013 17:06
+Tag: pkgsrc
+
+<p>On Saturday March 23, this year's pkgsrc conference (pkgsrccon 2013)
+ took place in Berlin. Julian Fagir organized it with unending energy,
+ even though pkgsrc is not the primary focus of his NetBSD work. He just
+ took matters in his hands because no one else stepped forward. A big
+ thanks for that!</p>
+
+<p>The flight from Zurich to Berlin was uneventful. It was my first
+ flight to TXL airport (I normally arrive at SXF), and arriving there is
+ incredibly quick and convenient compared to the latter. The terminal is
+ very small, and it takes just five minutes to go from the plane to a
+ bus to the city.</p>
+
+<p>Now for the conference itself: we started at 12pm on Saturday with a
+ program of talks but no fixed schedule. Due to this, the conference
+ took a long time (we finished only at 9pm or so) but on the other hand,
+ it allowed for lots of interesting and fruitful discussion. At no point
+ did we have to cut a question short because of a lack of time. Overall,
+ I think that this was an excellent choice and made the conference more
+ useful and productive.</p>
+
+<p>We were about 21 people &ndash; mostly pkgsrc developers (of course)
+ but also a Debian Developer (Ralf Treinen, who presented his work on
+ Mancoosi), a FreeBSD dev and some interested users. I won't give an
+ exhaustive recollection of all talks here but simply comment on a few
+ ones that I found particularly interesting.</p>
+
+<p>The most important theme of the conference was virtualization and
+ cloud computing. Jonathan Perkin and Filip Hajny gave a talk about
+ their company's product, SmartOS, and how it uses pkgsrc. SmartOS is a
+ "cloud OS" based on OpenSolaris. It boots from a read-only medium (such
+ as a CD) into a lean system that only does the administration of all
+ the zones that it runs. All useful work happens in zones, which are a
+ sort of lightweight VM solution specific to OpenSolaris. The zone
+ images include access to a very complete set of pkgsrc packages for
+ things such as a compiler. They can also run other OSes (NetBSD!) by
+ setting up a zone that runs KVM. Joyent runs a large public cloud with
+ SmartOS, where customers purchase virtual machines by the hour. This is
+ similar to Amazon EC2 but with a focus on high performance.</p>
+
+<p>Hubert Feyrer gave another talk about a similar theme. He described
+ the use of Ansible for provisioning and setting up VMs. Ansible can
+ automatically create VMs on EC2, gather the necessary information (such
+ as the IP address) and do various setup tasks without further user
+ interaction. This was all very impressive, even though the live demo
+ failed. This was for two reasons: Somebody deleted the sudo package for
+ amd64 from the NetBSD ftp server (boo), and the i386 VM failed to come
+ up, the kernel paniced on startup. Joerg speculated that this was due
+ to _some_ machines in their DC not having PAE enabled, while the i386
+ kernel uses PAE. This was interesting, as I had noticed the very same
+ problem when I set up the netbsd-386-bsiegert continuous builder for
+ Go.</p>
+
+<p>Amitai Schlair alias Schmonz came out in a passionate defense of the
+ venerable pkglint. <a href="https://github.com/schmonz/pkglint">He put
+ the source on github</a> and started refactoring the code
+ and adding tests. He calls this approach TED for "Test Eventually
+ Development" ;) and advocated a similar approach for the pkgsrc
+ infrastructure: Every time a developer takes five minutes to understand
+ a part of the infrastructure (when making a change, for instance), he
+ or she should write a test for it. This is a very pragmatic and doable
+ approach, in my opinion, and we should all do this.</p>
+
+<p>I gave a slightly amended version of the "Go on NetBSD" talk I had
+ given at FOSDEM 2013. There were a lot of valuable questions and
+ discussion, both about the language and about how to package software
+ written in it.</p>
+
+<p>Aleksej Saushev ended the day with a talk that was not in the program
+ about the Google Code-In and the problems that developers and
+ particularly new contributors face. If pkgsrc can get more contributors,
+ it gets more fixes, which in turn makes it more useful to users. More
+ usefulness leads to more users, leading to more contributors. We should
+ do more to get into this virtuous circle. There are about five
+ different mechanisms to build and/or deploy packages in pkgsrc: build
+ directly with "make package", pkg_chk, pkg_comp, the old bulk build
+ scripts and pbulk. The basic frustration that should be overcome is the
+ following: you want to upgrade a set of packages, the old ones are
+ removed, new ones are rebuilt, and the build fails. Rolling back is
+ difficult in general. pbulk could be a valuable solution to this, but
+ its standard config is heavily tailored for a different use case, and
+ its _two_ separate pieces of documentation are contradictory,
+ incomplete and confusing. So the talk contained a call for action to
+ fix those minor annoyances and generally document things better, which
+ makes it easier for everybody.</p>
+
+<p>My take-home message – and my next project idea – is the following:
+ each time that I do a MirBSD bulk build using pbulk, I have to do a lot
+ of painful steps to set up the right build environment on all my
+ machines. This time, I will try to automate this process with Ansible,
+ making up the recipes as I go along, and then (more importantly)
+ publish these recipes for others to use and to share.</p>
 ----
