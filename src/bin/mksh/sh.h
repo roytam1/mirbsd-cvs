@@ -486,7 +486,7 @@ char *ucstrstr(char *, const char *);
 #define mkssert(e)	((void)0)
 #endif
 
-#if (!defined(MKSH_BUILDMAKEFILE4BSD) && !defined(MKSH_BUILDSH)) || (MKSH_BUILD_R != 409)
+#if (!defined(MKSH_BUILDMAKEFILE4BSD) && !defined(MKSH_BUILDSH)) || (MKSH_BUILD_R != 411)
 #error Must run Build.sh to compile this.
 int
 im_sorry_dave(void)
