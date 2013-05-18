@@ -1,10 +1,10 @@
-# $MirOS: www/src/mksh.hts,v 1.18 2007/07/04 21:01:04 tg Exp $
+# $MirOS: www/src/mksh.hts,v 1.19 2007/07/06 02:25:09 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.18 2007/07/04 21:01:04 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.19 2007/07/06 02:25:09 tg Exp $'
 mws_content <<'EOF'
 <h1>mksh(1) R29</h1>
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
@@ -30,8 +30,8 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R29f</strong> from
- <em>26 May 2007</em>.</p>
+<p>The current version of mksh is <strong>mksh R29g</strong> from
+ <em>9 July 2007</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to HP TestDrive, which helps
  in keeping mksh portable to several Unixes and compilers, and track down some
@@ -120,14 +120,14 @@ mws_content <<'EOF'
  extract from the CPIO distfile and is available even on a stock Microsoft®
  Windows® installation.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29f.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29f.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29f.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29f.cpio.gz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29g.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29g.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29g.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29g.cpio.gz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
- <li>RMD160 (mksh-R29f.cpio.gz) = eddf9b3292d50171d8b9d6429279f0eb42a4b9ff</li>
- <li>TIGER (mksh-R29f.cpio.gz) = 5b21adea37e42274bd692518ddd4dedcff5f65e6f113a90b</li>
- <li>2910491928 240805 /MirOS/dist/mir/mksh/mksh-R29f.cpio.gz</li>
- <li>MD5 (mksh-R29f.cpio.gz) = 83b4ca84faa1a1ea4cf6db6eb41a0384</li>
+ <li>RMD160 (mksh-R29g.cpio.gz) = d8eb1ee7ab1d441dfdba2f346cdcc5e9bfe4513f</li>
+ <li>TIGER (mksh-R29g.cpio.gz) = 03bfa3a33193f08ad5c10b40831e8e5315c4131793bb22de</li>
+ <li>3035995291 240746 /MirOS/dist/mir/mksh/mksh-R29g.cpio.gz</li>
+ <li>MD5 (mksh-R29g.cpio.gz) = 324ea1a4a1d2fc3e37744e48586535e1</li>
 </ul>
 
 <h3 id="decomp">Decompression</h3>
@@ -139,10 +139,10 @@ mws_content <<'EOF'
 <p>The first example is using BSD paxtar (MirOS BSD, OpenBSD, NetBSD®), or
  “bsdtar” (DragonFly); the second and third use cpio(1) or pax(1) and are
  for most operating systems; the fourth is for Debian.</p><ul>
-<li>$ tar xzf mksh-R29f.cpio.gz &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R29f.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
-<li>$ gzip -dc mksh-R29f.cpio.gz | pax -r &amp;&amp; cd mksh</li>
-<li>$ tar xzf mksh_29.6.orig.tar.gz &amp;&amp; cd mksh-29.6</li>
+<li>$ tar xzf mksh-R29g.cpio.gz &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R29g.cpio.gz | cpio -mid &amp;&amp; cd mksh</li>
+<li>$ gzip -dc mksh-R29g.cpio.gz | pax -r &amp;&amp; cd mksh</li>
+<li>$ tar xzf mksh_29.7.orig.tar.gz &amp;&amp; cd mksh-29.7</li>
 </ul>
 
 <h3 id="compile">Compilation</h3>
@@ -182,7 +182,7 @@ mws_content <<'EOF'
 <li><tt>TARGET_OS</tt> (uname -s || uname) – the operating system to compile
  for; set this during cross compilation; valid: AIX CYGWIN* Darwin DragonFly
  FreeBSD GNU (HURD) GNU/kFreeBSD HP-UX Interix Linux Minix (not yet) MirBSD
- NetBSD OpenBSD Plan9 (not yet) SunOS</li>
+ NetBSD OpenBSD Plan9 (not yet) SunOS UWIN</li>
 </ul>
 <p>If <tt>CPPFLAGS</tt> contain any of the following definitions, the resulting
  binary will be compiled with a specific flavour:</p><ul>
@@ -210,11 +210,13 @@ mws_content <<'EOF'
  be user-contributed.</p>
 
 <h5 id="oe_bcc">Compiler: Borland C++ Builder</h5>
-<p>This compiler is somewhat supported in mksh R30 with UWIN's cc wrapper.</p>
+<p>This compiler is somewhat supported in mksh R30 with UWIN's cc wrapper.
+ (We haven't been able to produce a working executable though.)</p>
 
 <h5 id="oe_dmc">Compiler: Digital Mars</h5>
 <p>This compiler is somewhat supported in mksh R30 with UWIN's cc wrapper
- and a few kludges.</p>
+ and a few kludges. (We haven't been able to produce a tested executable
+ though, due to general stability issues with the UWIN platform.)</p>
 
 <h5 id="oe_gcc">Compiler: GCC</h5>
 <p>The GNU C Compiler 2.7.2.3, egcs (gcc 2.95) and the GNU Compiler Collection
@@ -223,7 +225,8 @@ mws_content <<'EOF'
  works fine. Use of gcc 4.x is discouraged because of several dangerous changes
  in how the optimiser works; it is possible to work around their trading off
  reliability for benchmark-only speed increases, but because mksh developers
- do not use gcc 4.x this will have to be user-contributed.</p>
+ do not use gcc 4.x this will have to be user-contributed. On the other hand,
+ gcc 3.x (in some cases 2.x) is the best choice for compiling mksh.</p>
 <p>Since mksh uses ProPolice, the Stack-Smashing Protector, some GCC versions'
  compilates require additional shared libaraies.</p>
 
@@ -231,7 +234,7 @@ mws_content <<'EOF'
 <p>HP's C compiler (/usr/bin/cc on HP-UX) is supported in mksh R30 and above;
  on IA64, only the LP64 model can be used; mksh segfaults in the ILP32 module
  (or rather, the system libraries do, I think), so it is default. PA-RISC too
- works fine.</p>
+ works fine, so this compiler is a primary choice.</p>
 
 <h5 id="oe_icc">Compiler: Intel C/C++/Fortran</h5>
 <p>ICC emulates GCC quite well (too well for my taste), is fully supported in
@@ -249,11 +252,12 @@ mws_content <<'EOF'
 <pre>CL.EXE: Microsoft (R) 32-bit C/C++ Standard Compiler Version 13.00.9466 for 80x86
 LINK.EXE: Microsoft (R) Incremental Linker Version 7.00.9466
 (both are part of the .NET Common Language Runtime redistributable)</pre>
+<p>On Interix, this compiler is maturely usable and a good choice.</p>
 
 <h5 id="oe_sun">Compiler: SUNpro</h5>
 <p>Support for the <a href="http://developer.sun.com/sunstudio">SUN Studio
  12</a> compiler (cc 5.9) as well as cc 5.8 appeared in mksh R30; other
- versions might be supported as well. More testing needed.</p>
+ versions might be supported as well. This compiler is a primary choice.</p>
 
 <h5 id="oe_aix">OS: AIX</h5>
 <p>AIX support is experimental and almost untested.</p>
@@ -530,6 +534,11 @@ LINK.EXE: Microsoft (R) Incremental Linker Version 7.00.9466
   <li>FreeBSD 6.2-RELEASE (IA64 gcc3.4.6)</li>
   <li>Mac OSX Tiger 10.4.10 Darwin 8.10.0 (macppc gcc4.0.1 Apple build 5363)</li>
  </ul></li>
+ <li>mksh R29g<ul>
+  <li>MirOS #10 RC2 (i386 gcc3.4.6)</li>
+  <li>Solaris 8 Generic_117350-41 (sparc,V8+ sun4u gcc3.4.3)</li>
+  <li>Debian GNU/Linux 4.0 etch 2.6.18-4-686 (i386 gcc4.1.1-21)</li>
+ </ul></li>
  <li>mksh R29d<ul>
   <li>Darwin 8.9.0 Mac OSX 10.4 (powerpc)</li>
   <li>AIX 5.3 ML05 – thanks Gurft</li>
@@ -773,6 +782,14 @@ LINK.EXE: Microsoft (R) Incremental Linker Version 7.00.9466
   <tt>-D_FILE_OFFSET_BITS=64</tt> – it was detected but not actually
   used in the build; thanks to hondza for the problem report!</li>
  <li>Give the lexer a bigger state stack if !MKSH_SMALL</li>
+ <li>Prepare for addition of make(1)-style search/replace operations;
+  correct the code for other substitution expansion operations</li>
+</ul>
+<p>In mksh R29g we MFCd the following changes:</p><ul>
+ <li>Some optimisations from above; no longer execute foreign objects</li>
+ <li>Improvements in checking for __attribute__, multi-idstring support,
+  signals, types, arc4random.c; disable -fno-tree-vrp and -fwhole-program
+  --combine; correct large file support (still kludgy but no longer buggy)</li>
 </ul>
 <p>Please use mksh R29f because of below modifications:</p><ul>
  <li>Fix detection of function prototypes (data declaractions were ok)</li>
