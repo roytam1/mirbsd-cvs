@@ -1,4 +1,4 @@
-@comment $MirOS: ports/www/firesomething/pkg/PLIST,v 1.7.2.2 2008/12/02 19:40:53 bsiegert Exp $
+@comment $MirOS: ports/www/firesomething/pkg/PLIST,v 1.10 2008/12/05 16:26:13 bsiegert Exp $
 @comment $OpenBSD: PLIST,v 1.13 2005/09/24 16:19:29 bernd Exp $
 @pkgcfl mozilla-firebird-*
 @pkgcfl mozilla-firefox-*
@@ -34,10 +34,10 @@ firesomething/components/WebContentConverter.js
 firesomething/components/aboutRobots.js
 firesomething/components/browser.xpt
 firesomething/components/fuelApplication.js
-firesomething/components/libbrowsercomps.so.${SO_VERSION}
-firesomething/components/libbrowserdirprovider.so.${SO_VERSION}
-firesomething/components/libdbusservice.so.${SO_VERSION}
-firesomething/components/libimgicon.so.${SO_VERSION}
+firesomething/components/libbrowsercomps.so${SO_EXTENSION}
+firesomething/components/libbrowserdirprovider.so${SO_EXTENSION}
+firesomething/components/libdbusservice.so${SO_EXTENSION}
+firesomething/components/libimgicon.so${SO_EXTENSION}
 firesomething/components/jsconsole-clhandler.js
 firesomething/components/nsAddonRepository.js
 firesomething/components/nsBlocklistService.js
@@ -104,22 +104,22 @@ firesomething/idl
 firesomething/include
 firesomething/lib
 firesomething/libfreebl3.chk
-@lib firesomething/libfreebl3.so.${SO_VERSION}
-@lib firesomething/libmozjs.so.${SO_VERSION}
-@lib firesomething/libnspr4.so.${SO_VERSION}
-@lib firesomething/libnss3.so.${SO_VERSION}
-@lib firesomething/libnssckbi.so.${SO_VERSION}
-@lib firesomething/libnssdbm3.so.${SO_VERSION}
-@lib firesomething/libnssutil3.so.${SO_VERSION}
-@lib firesomething/libplc4.so.${SO_VERSION}
-@lib firesomething/libplds4.so.${SO_VERSION}
-@lib firesomething/libsmime3.so.${SO_VERSION}
-@lib firesomething/libsoftokn3.so.${SO_VERSION}
+firesomething/libfreebl3.so${SO_EXTENSION}
+firesomething/libmozjs.so${SO_EXTENSION}
+firesomething/libnspr4.so${SO_EXTENSION}
+firesomething/libnss3.so${SO_EXTENSION}
+firesomething/libnssckbi.so${SO_EXTENSION}
+firesomething/libnssdbm3.so${SO_EXTENSION}
+firesomething/libnssutil3.so${SO_EXTENSION}
+firesomething/libplc4.so${SO_EXTENSION}
+firesomething/libplds4.so${SO_EXTENSION}
+firesomething/libsmime3.so${SO_EXTENSION}
+firesomething/libsoftokn3.so${SO_EXTENSION}
 firesomething/libsoftokn3.chk
-@lib firesomething/libsqlite3.so.${SO_VERSION}
-@lib firesomething/libssl3.so.${SO_VERSION}
-@lib firesomething/libxpcom.so.${SO_VERSION}
-@lib firesomething/libxul.so.${SO_VERSION}
+firesomething/libsqlite3.so${SO_EXTENSION}
+firesomething/libssl3.so${SO_EXTENSION}
+firesomething/libxpcom.so${SO_EXTENSION}
+firesomething/libxul.so${SO_EXTENSION}
 firesomething/modules/DownloadUtils.jsm
 firesomething/modules/ISO8601DateUtils.jsm
 firesomething/modules/JSON.jsm
@@ -132,7 +132,7 @@ firesomething/modules/utils.js
 firesomething/mozilla-xremote-client
 firesomething/old-homepage-default.properties
 firesomething/platform.ini
-firesomething/plugins/libnullplugin.so.${SO_VERSION}
+firesomething/plugins/libnullplugin.so${SO_EXTENSION}
 firesomething/removed-files
 firesomething/res/EditorOverride.css
 firesomething/res/arrow.gif
@@ -193,21 +193,21 @@ firesomething/sdk/include
 firesomething/sdk/lib/libcrmf.a
 firesomething/sdk/lib/libembed_base_s.a
 firesomething/sdk/lib/libembed_base_standalone.a
-@lib firesomething/sdk/lib/libmozjs.so.${SO_VERSION}
+firesomething/sdk/lib/libmozjs.so${SO_EXTENSION}
 firesomething/sdk/lib/libmozreg_s.a
 firesomething/sdk/lib/libnss.a
-@lib firesomething/sdk/lib/libnspr4.so.${SO_VERSION}
+firesomething/sdk/lib/libnspr4.so${SO_EXTENSION}
 firesomething/sdk/lib/libnssutil.a
-@lib firesomething/sdk/lib/libplc4.so.${SO_VERSION}
-@lib firesomething/sdk/lib/libplds4.so.${SO_VERSION}
+firesomething/sdk/lib/libplc4.so${SO_EXTENSION}
+firesomething/sdk/lib/libplds4.so${SO_EXTENSION}
 firesomething/sdk/lib/libsmime.a
 firesomething/sdk/lib/libsoftokn.a
 firesomething/sdk/lib/libssl.a
 firesomething/sdk/lib/libunicharutil_external_s.a
 firesomething/sdk/lib/libxpcomglue.a
 firesomething/sdk/lib/libxpcomglue_s.a
-@lib firesomething/sdk/lib/libxpcom.so.${SO_VERSION}
-@lib firesomething/sdk/lib/libxul.so.${SO_VERSION}
+firesomething/sdk/lib/libxpcom.so${SO_EXTENSION}
+firesomething/sdk/lib/libxul.so${SO_EXTENSION}
 firesomething/searchplugins/amazondotcom.xml
 firesomething/searchplugins/answers.xml
 firesomething/searchplugins/creativecommons.xml
