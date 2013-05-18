@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/baselive/Makefile,v 1.45 2009/01/17 12:18:23 tg Exp $
+# $MirOS: src/distrib/baselive/Makefile,v 1.46 2009/01/17 12:21:00 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -232,6 +232,10 @@ cdrom-prepare: bsd.gz
 	    ${MAKE} ${LIVEBOOT_FLAGS} depend && \
 	    ${MAKE} ${LIVEBOOT_FLAGS} clean && \
 	    exec ${MAKE} ${LIVEBOOT_FLAGS}
+.endif
+.if ${GRML:L} != "no"
+	${SUDO} cp /usr/mpkg/share/grub/stage2 ${WRKDIR}/grub.bin
+	${SUDO} touch ${WRKDIR}/grub.cfg
 .endif
 	cd ${WRKDIR}; \
 	    ${SUDO} cp ${BOOT} b_i386.ldr; \
