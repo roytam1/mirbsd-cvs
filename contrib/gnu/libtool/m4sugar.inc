@@ -1,6 +1,6 @@
 divert(-1)#                                                  -*- Autoconf -*-
 # This file is part of Autoconf.
-# $MirOS: contrib/gnu/libtool/m4sugar.inc,v 1.4 2006/06/12 19:04:30 tg Exp $
+# $MirOS: contrib/gnu/libtool/m4sugar.inc,v 1.5 2006/06/12 19:10:32 tg Exp $
 # Base M4 layer.
 # Hacked for MirOS m4.
 #
@@ -1831,10 +1831,11 @@ m4_ifndef([m4_tmpdir],
 m4_pattern_forbid([^m4_])
 m4_pattern_forbid([^dnl$])
 
-# Check the divert push/pop perfect balance.
-m4_wrap([m4_ifdef([_m4_divert_diversion],
-	   [m4_fatal([$0: unbalanced m4_divert_push:]_m4_divert_n_stack)])[]])
-
+# _m4_divert_diversion should be defined:
 m4_divert_push([KILL])
-m4_wrap([m4_divert_pop([KILL])[]])
+
+# Check the divert push/pop perfect balance.
+m4_wrap([m4_divert_pop([])
+	 m4_ifdef([_m4_divert_diversion],
+	   [m4_fatal([$0: unbalanced m4_divert_push:]_m4_divert_n_stack)])[]])
 ])
