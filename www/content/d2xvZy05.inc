@@ -1,5 +1,5 @@
 <!-- PageID: wlog-9 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.45 2006/09/20 23:42:27 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy05.inc,v 1.46 2006/09/21 21:59:28 tg Exp $</small>
 <h1>MirBSD &ndash; WTF is Verpeilungsfaktor?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -718,6 +718,14 @@
 /usr/src/foo/bar/bar.c:123: warning: fnord
  </pre><p>then I mark the filename with the mouse, type "jupp ", hit the
   middle mouse button, press return. That could be easier. Plan 9.</p>
+ <p>A person asked me in private mail how he could use the root account,
+  on his freshly installed (in MS Virtual PC) MirOS. I told him that one
+  uses sudo(8), but I still wonder why people do not ask in public, on a
+  mailing list. Even if you ask in German there, you won't be considered
+  impolite because about half of our usership could still make use of an
+  answer in that language. (Of course it's better to write English.) But
+  keeping these mailing lists and the archives is work, so, please, if a
+  question appears, use these, or at least IRC.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
