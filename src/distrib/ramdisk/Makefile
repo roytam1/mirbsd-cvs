@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramdisk/Makefile,v 1.8 2006/07/05 21:40:08 tg Exp $
+# $MirOS: src/distrib/ramdisk/Makefile,v 1.9 2006/07/05 22:58:56 tg Exp $
 # $OpenBSD: Makefile,v 1.26 2004/02/28 04:53:30 jolan Exp $
 
 CBIN=		instbin
@@ -17,6 +17,7 @@ MOUNT_POINT=	${REALOBJDIR}/tmpmnt
 VND?=		svnd0
 VND_DEV=	/dev/${VND}a
 VND_RDEV=	/dev/r${VND}a
+VND_CRDEV=	/dev/r${VND}c
 DISKTYPE=	rdroot
 REALIMAGE=	${REALOBJDIR}/tmp.ima
 IMAGE?=		ramdisk${OSrev}.fs
@@ -103,8 +104,7 @@ do-floppy:
 	${SUDO} cp ${BOOT} ${MOUNT_POINT}/
 	${SUDO} dd if=bsd.gz of=${MOUNT_POINT}/bsd obs=512 conv=osync
 .endif
-	${SUDO} ${INSTALLBOOT} -v ${BOOTIN} ${BOOTXX} \
-	    $$(echo ${VND_RDEV} | sed -e 's/a$$/c/')
+	${SUDO} ${INSTALLBOOT} -v ${BOOTIN} ${BOOTXX} ${VND_CRDEV}
 .if (${MACHINE_ARCH} == "vax")
 	${SUDO} disklabel -B -b ${BOOTXX} ${VND}
 .endif

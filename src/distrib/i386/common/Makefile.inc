@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.27 2006/07/16 13:08:53 tg Exp $
+# $MirOS: src/distrib/i386/common/Makefile.inc,v 1.28 2006/07/16 13:09:15 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.15 2004/11/25 22:02:08 deraadt Exp $
 
 .ifndef _MODSRC_DISTRIB_I386_COMMON_MAKEFILE_INC
@@ -34,10 +34,14 @@ VND_DEV=	/dev/${VND}a
 VND_RDEV=	/dev/r${VND}a
 VND_CRDEV=	/dev/r${VND}c
 REALIMAGE=	${REALOBJDIR}/tmp.ima
+INSTALLBOOT?=	${DESTDIR}/usr/mdec/installboot -s ${FLOPPYSECS} -h 2
 BOOT=		${BSDOBJDIR}/sys/arch/i386/stand/fdboot/boot
+BOOTIN?=	${MOUNT_POINT}/boot
+BOOTXX?=	${DESTDIR}/usr/mdec/ldsec
 FLOPPYSIZE?=	2880
 FLOPPYSECS?=	18
 FLOPPYTYPE?=	floppy3
+RAWLABEL?=	-r
 .if !${COPTS:M-Os}
 COPTS+=		-Os
 .endif
@@ -62,7 +66,7 @@ do-floppy:
 .ifdef USE_MAKEFS
 	${SUDO} rm -rf ${MOUNT_POINT}
 	mkdir -p ${MOUNT_POINT}
-	cp ${BOOT} ${MOUNT_POINT}/boot
+	cp ${BOOT} ${MOUNT_POINT}/
 	cp bsd.gz ${MOUNT_POINT}/bsd
 	${SUDO} chown -R 0:0 ${MOUNT_POINT}
 	${SUDO} chmod -R u=rwX,go=rX ${MOUNT_POINT}
@@ -70,23 +74,21 @@ do-floppy:
 	    minfree=0,optimization=space,bsize=4096,fsize=512 \
 	    ${REALIMAGE} ${MOUNT_POINT}
 	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
-	${SUDO} disklabel -w -r ${VND} ${FLOPPYTYPE}
+	${SUDO} disklabel -w ${RAWLABEL} ${VND} ${FLOPPYTYPE}
 	${SUDO} mount -r ${VND_DEV} ${MOUNT_POINT}
 .else
 	dd if=/dev/zero of=${REALIMAGE} count=${FLOPPYSIZE}
 	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
-	${SUDO} disklabel -w -r ${VND} ${FLOPPYTYPE}
+	${SUDO} disklabel -w ${RAWLABEL} ${VND} ${FLOPPYTYPE}
 	${SUDO} newfs -m 0 -o space -i 1048576 -c 80 -b 4096 ${VND_RDEV}
 	${SUDO} rm -rf ${MOUNT_POINT}
 	mkdir -p ${MOUNT_POINT}
 	${SUDO} mount ${VND_DEV} ${MOUNT_POINT}
 	${SUDO} cp ${BOOT} ${REALOBJDIR}/boot
-	${SUDO} dd if=${REALOBJDIR}/boot of=${MOUNT_POINT}/boot \
-	    obs=512 conv=osync
+	${SUDO} dd if=${REALOBJDIR}/boot of=${BOOTIN} obs=512 conv=osync
 	${SUDO} dd if=bsd.gz of=${MOUNT_POINT}/bsd obs=512 conv=osync
 .endif
-	${SUDO} /usr/mdec/installboot -v -s ${FLOPPYSECS} -h 2 \
-	    ${MOUNT_POINT}/boot ${DESTDIR}/usr/mdec/ldsec ${VND_CRDEV}
+	${SUDO} ${INSTALLBOOT} -v ${BOOTIN} ${BOOTXX} ${VND_CRDEV}
 	@echo ""
 	@df -i ${MOUNT_POINT}
 	@echo ""
@@ -127,7 +129,7 @@ rd_setup: ${CBIN}
 .else
 	dd if=/dev/zero of=${REALIMAGE} count=${NBLKS}
 	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
-	${SUDO} disklabel -w -r ${VND} ${DISKTYPE}
+	${SUDO} disklabel -w ${RAWLABEL} ${VND} ${DISKTYPE}
 	${SUDO} newfs ${NEWFSARGS} ${VND_RDEV}
 	${SUDO} rm -rf ${MOUNT_POINT}
 	mkdir -p ${MOUNT_POINT}
@@ -140,7 +142,7 @@ rd_teardown:
 	    minfree=0,optimization=space,bsize=4096,fsize=512,density=3072 \
 	    ${REALIMAGE} ${MOUNT_POINT}
 	${SUDO} vnconfig -v -c ${VND} ${REALIMAGE}
-	${SUDO} disklabel -w -r ${VND} ${DISKTYPE}
+	${SUDO} disklabel -w ${RAWLABEL} ${VND} ${DISKTYPE}
 	${SUDO} mount -r ${VND_DEV} ${MOUNT_POINT}
 .endif
 	@df -i ${MOUNT_POINT}
