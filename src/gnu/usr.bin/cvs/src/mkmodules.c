@@ -15,7 +15,7 @@
 #include "history.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.10 2010/09/19 19:43:06 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.11 2011/06/10 21:53:25 tg Exp $");
 
 #ifndef DBLKSIZ
 #define	DBLKSIZ	4096			/* since GNU ndbm doesn't define it */
@@ -477,11 +477,10 @@ static const char *const modules_contents[] = {
     "#	key [options] directory files...\n",
     "#\n",
     "# Where \"options\" are composed of:\n",
-    "#	-i prog		Run \"prog\" on \"cvs commit\" from top-level of module.\n",
     "#	-o prog		Run \"prog\" on \"cvs checkout\" of module.\n",
     "#	-e prog		Run \"prog\" on \"cvs export\" of module.\n",
+    "#	-s status	Assign a status to the module.\n",
     "#	-t prog		Run \"prog\" on \"cvs rtag\" of module.\n",
-    "#	-u prog		Run \"prog\" on \"cvs update\" of module.\n",
     "#	-d dir		Place module in directory \"dir\" instead of module name.\n",
     "#	-l		Top-level directory only -- do not recurse.\n",
     "#\n",
