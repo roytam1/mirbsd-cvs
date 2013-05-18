@@ -1,8 +1,7 @@
-./docs
-./docs/lynx_help
+./.htaccess
+./docs/.htaccess
 ./docs/lynx_help/Lynx_users_guide.html
 ./docs/lynx_help/about_lynx.html
-./docs/lynx_help/keystrokes
 ./docs/lynx_help/keystrokes/alt_edit_help.html
 ./docs/lynx_help/keystrokes/bashlike_edit_help.html
 ./docs/lynx_help/keystrokes/bookmark_help.html
@@ -25,10 +24,8 @@
 ./docs/lynx_help/lynx-dev.html
 ./docs/lynx_help/lynx_help_main.html
 ./docs/lynx_help/lynx_url_support.html
-./docs/lynx_help/samples
 ./docs/lynx_help/samples/installdirs.html
 ./docs/lynx_help/samples/jumpsUnix.html
-./docs/lynx_help/test
 ./docs/lynx_help/test/ALT88592.html
 ./docs/lynx_help/test/ISO_LATIN1_test.html
 ./docs/lynx_help/test/TestComment.html
