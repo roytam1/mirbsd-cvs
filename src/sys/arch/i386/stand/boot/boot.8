@@ -1,4 +1,4 @@
-.\"	$MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.11 2009/01/02 02:44:26 tg Exp $
+.\"	$MirOS: src/sys/arch/i386/stand/boot/boot.8,v 1.12 2009/01/02 02:58:29 tg Exp $
 .\"	$OpenBSD: boot.8,v 1.47 2007/05/31 19:20:03 jmc Exp $
 .\"
 .\" Copyright (c) 1997-2001 Michael Shalayeff
@@ -47,12 +47,14 @@ EMM386.SYS or Windows\(rg 386, 3.x, 9x) or from SYSLINUX (and ISOLINUX,
 PXELINUX, EXTLINUX) as a module.
 This provides a convenient way to load the kernel.
 .Pp
+.Nm
+is also a Multiboot compliant OS Image.
+.Pp
 As described in
 .Xr boot_i386 8 ,
 this program is loaded by the
 .Xr bootxx 8
-primary bootstrap loader if loaded from a floppy or hard disc drive.
-If being loaded from CD, that action is taken directly by the BIOS.
+primary bootstrap loader if loaded from a floppy, hard disc or CD drive.
 This programme acts as an enhanced boot monitor for PC systems, providing
 a common interface for the kernel to start from.
 .Pp
@@ -76,8 +78,8 @@ Detecting and switching between multiple consoles.
 .It
 Loading kernels from any device supported by your system BIOS,
 including bootable CD-ROM drives if the
-.Nm
-programme itself acts as a boot image.
+.Nm bootxx
+first-stage boot loader is used by El Torito.
 .It
 Loading kernels compressed by
 .Xr gzip 1 .
@@ -87,7 +89,7 @@ Passing system parameters queried from the BIOS to the kernel.
 Providing an interactive command line.
 .El
 .Pp
-The sequence of its operation is as follows: initialization,
+The sequence of its operation is as follows: initialisation,
 parsing the configuration file, then an interactive command line.
 While at the command line you have 5 seconds to type any commands, if needed.
 If time expires, the kernel will be loaded according to
@@ -249,15 +251,19 @@ GNU GRUB 0.9x
 .Pa stage2
 file
 .br
+GNU GRUB 0.9x
+.Pa stage2_eltorito
+file
+.br
 GNU GRUB2
 .Pa core.img
 file
-.Pp
-Note: the El Torito cases seem to be exactly the same except for
-the part of the loader we skip because we read in the entire file
-anyway, so these variants work as well.
 .It Cm sector
 Boot sector or image, loaded to 0000:7C00h
+.br
+.Mx
+.Nm
+second-stage loader
 .El
 .It Nm label
 Displays the disklabel read from the disc or faked for the
@@ -497,4 +503,4 @@ was done to accommodate CD-ROM and MS-DOS based booting.
 Starting with
 .Mx 11 ,
 FAT filesystems are supported, disklabels faked if none exist,
-and SYSLINUX support appeared.
+and SYSLINUX, Multiboot, machine exec support appeared.
