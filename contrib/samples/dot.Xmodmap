@@ -1,6 +1,6 @@
-! $MirOS: contrib/samples/dot.Xmodmap,v 1.13 2007/07/15 20:43:41 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap,v 1.14 2007/10/01 20:21:39 tg Stab $
 !-
-! Copyright © 2004, 2007
+! Copyright © 2004, 2007, 2008
 !	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
 !
 ! Provided that these terms and disclaimer and all copyright notices
@@ -72,6 +72,8 @@
 ! • The ModeSwitch-Shift-F12☁combination generates U+2588 (█) fblk
 ! • ModeSwitch and arrow keys generates single-dashed (without) or
 !   double-dashed (with shift) pictograph U+21[9D][0123] ↑←↓→ ⇑⇐⇓⇒
+! • ModeSwitch + {Ins,Del}, {Home,End}, {PgUp,PgDn} generate☁ wide
+!   parentheses: (unshift/shift) 〈〉 《》 / 〔〕 【】/ 「」 『』 
 ! Note: ☁ = available for reassignment
 
 keycode	0x09 =	Escape		Escape
@@ -105,9 +107,9 @@ keycode	0x13 =	0		parenright	U00B0		U00A9
 keycode	0x14 =	minus		underscore	U00AD		U00DF
 keycode	0x15 =	equal		plus		U00BD		U00AB
 keycode	0x16 =	BackSpace	Terminate_Server  U00FF		U0178
-keycode	0x6A =	Insert
-keycode	0x61 =	Home
-keycode	0x63 =	Prior
+keycode	0x6A =	Insert		Insert		U3008		U300A
+keycode	0x61 =	Home		Home		U3014		U3010
+keycode	0x63 =	Prior		Prior		U300C		U300E
 keycode	0x4D =	Num_Lock	Pointer_EnableKeys
 keycode	0x70 =	KP_Divide	XF86_Ungrab
 keycode	0x3F =	KP_Multiply	XF86_ClearGrab
@@ -127,9 +129,9 @@ keycode	0x21 =	p		P		U00F0		U00D0
 keycode	0x22 =	bracketleft	braceleft	U00DB		U00FB
 keycode	0x23 =	bracketright	braceright	U00DD		U00FD
 keycode	0x24 =	Return		Return		U2022		U2013
-keycode	0x6B =	KP_Delete	Delete
-keycode	0x67 =	End
-keycode	0x69 =	Next
+keycode	0x6B =	KP_Delete	Delete		U3009		U300B
+keycode	0x67 =	End		End		U3015		U3011
+keycode	0x69 =	Next		Next		U300D		U300F
 keycode	0x4F =	KP_Home		KP_7
 keycode	0x50 =	KP_Up		KP_8
 keycode	0x51 =	KP_Prior	KP_9
