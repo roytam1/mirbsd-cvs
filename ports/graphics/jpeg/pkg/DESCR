@@ -1,6 +1,8 @@
 The Independent JPEG Group's JPEG software
 ==========================================
 
+Note: this package contains support for "old jpeg" as per libtiff contrib.
+
 README for release 6 of 2-Aug-95
 ================================
 

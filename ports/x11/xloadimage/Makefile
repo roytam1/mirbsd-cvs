@@ -1,12 +1,12 @@
-# $MirOS: ports/x11/xloadimage/Makefile,v 1.6 2006/04/25 20:26:49 bsiegert Exp $
+# $MirOS: ports/x11/xloadimage/Makefile,v 1.7 2006/09/14 00:16:00 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2004/05/18 08:45:33 xsa Exp $
 
-COMMENT=			graphics file viewer for X11
-VERSION=	4.1
-REVISION=	16	# Debian
-DISTNAME=	xloadimage.${VERSION}
-PKGNAME=	xloadimage-${VERSION}.${REVISION}-0
-CATEGORIES=	x11 graphics
+COMMENT=		graphics file viewer for X11
+VERSION=		4.1
+REVISION=		16	# Debian
+DISTNAME=		xloadimage.${VERSION}
+PKGNAME=		xloadimage-${VERSION}.${REVISION}-1
+CATEGORIES=		x11 graphics
 
 # BSD
 PERMIT_PACKAGE_CDROM=	Yes

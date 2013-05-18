@@ -1,12 +1,12 @@
-# $MirOS: ports/graphics/jpeg/Makefile,v 1.3 2005/09/11 23:46:14 tg Exp $
+# $MirOS: ports/graphics/jpeg/Makefile,v 1.4 2006/09/14 00:09:56 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2002/12/29 20:08:46 fgsch Exp $
 
-COMMENT=			IJG's JPEG compression utilities
-DISTNAME=	jpegsrc.v6b
-PKGNAME=	jpeg-6b-3
-CATEGORIES=	graphics
-DISTFILES=	${DISTNAME}${EXTRACT_SUFX} \
-		jpeg-ari-28mar98.tar.gz:0
+COMMENT=		IJG's JPEG compression utilities
+DISTNAME=		jpegsrc.v6b
+PKGNAME=		jpeg-6b-4
+CATEGORIES=		graphics
+DISTFILES=		${DISTNAME}${EXTRACT_SUFX} \
+			jpeg-ari-28mar98.tar.gz:0
 MASTER_SITES=	ftp://ftp.uu.net/graphics/jpeg/ \
 		ftp://ftp.shellhung.org/pub/Mirror/enlightenment/enlightenment/libs/
 MASTER_SITES0=	http://sylvana.net/jpeg-ari/

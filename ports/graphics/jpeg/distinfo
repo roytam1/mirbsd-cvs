@@ -6,3 +6,5 @@ SHA1 (jpeg-ari-28mar98.tar.gz) = 9ae9477e73beff4e20ca7e210e77d2f74e338072
 SHA1 (jpegsrc.v6b.tar.gz) = 7079f0d6c42fad0cfba382cf6ad322add1ace8f9
 SIZE (jpeg-ari-28mar98.tar.gz) = 47061
 SIZE (jpegsrc.v6b.tar.gz) = 613261
+TIGER (jpeg-ari-28mar98.tar.gz) = df100f52ebba1aad596b8e4f6d65b7e2ad0e601384b745e1
+TIGER (jpegsrc.v6b.tar.gz) = dbcc7b8133a63b7418e7d316ae766e0eeee967f72b28afe5

@@ -6,3 +6,5 @@ SHA1 (xloadimage.4.1.tar.gz) = 0a8ee9b185702750706f68e4a34e086873f17690
 SHA1 (xloadimage_4.1-16.diff.gz) = beb8770301b0bf2891bab144aa4cfd7c73770a88
 SIZE (xloadimage.4.1.tar.gz) = 596021
 SIZE (xloadimage_4.1-16.diff.gz) = 69676
+TIGER (xloadimage.4.1.tar.gz) = 4a776dd2a17e148d7898f596fc92cd14377b12c0d91e21fd
+TIGER (xloadimage_4.1-16.diff.gz) = f758ba4adbac7af5bf0e4eec9a15cf7de038b2f2f4ce2bf7
