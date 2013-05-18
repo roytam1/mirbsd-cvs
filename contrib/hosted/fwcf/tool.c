@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/tool.c,v 1.3 2007/02/28 22:59:38 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/tool.c,v 1.4 2007/03/03 19:13:12 tg Exp $ */
 
 /*-
  * Copyright (c) 2006, 2007
@@ -28,11 +28,11 @@
 #include <unistd.h>
 
 #include "defs.h"
-#include "adler.h"
 #include "compress.h"
+#include "minilzop.h"
 #include "pack.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/tool.c,v 1.3 2007/02/28 22:59:38 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/tool.c,v 1.4 2007/03/03 19:13:12 tg Exp $");
 
 static __dead void usage(void);
 static int mkfwcf(int, const char *, int);
@@ -146,34 +146,15 @@ main(int argc, char *argv[])
 
 	if (mode == 2 && dfile != NULL) {
 		char *data;
-		uint8_t lenbuf[4], adlerbuf[4];
-		size_t sz, len;
+		size_t sz;
 		int dfd;
-		ADLER_DECL;
 
+		if ((data = fwcf_unpack(ifd, &sz)) == NULL)
+			return (1);
 		if ((dfd = fsopen(dfile, O_WRONLY | O_CREAT | O_TRUNC,
 		    STDOUT_FILENO)) < 0)
 			err(1, "open %s", dfile);
-		if ((data = fwcf_unpack(ifd, &sz)) == NULL)
-			return (1);
-		lenbuf[0] = sz & 0xFF;
-		lenbuf[1] = (sz >> 8) & 0xFF;
-		lenbuf[2] = (sz >> 16) & 0xFF;
-		lenbuf[3] = (sz >> 24) & 0xFF;
-		len = 4;	/* for ADLER_CALC on lenbuf */
-		ADLER_CALC(lenbuf);
-		len = sz;	/* for ADLER_CALC on data */
-		ADLER_CALC(data);
-		adlerbuf[0] = s1 & 0xFF;
-		adlerbuf[1] = (s1 >> 8) & 0xFF;
-		adlerbuf[2] = s2 & 0xFF;
-		adlerbuf[3] = (s2 >> 8) & 0xFF;
-		if (write(dfd, adlerbuf, 4) != 4)
-			err(1, "short write on %s", dfile);
-		if (write(dfd, lenbuf, 4) != 4)
-			err(1, "short write on %s", dfile);
-		if ((size_t)write(dfd, data, sz) != sz)
-			err(1, "short write on %s", dfile);
+		write_aszdata(dfd, data, sz);
 		close(dfd);
 		return (0);
 	}
@@ -199,35 +180,13 @@ main(int argc, char *argv[])
 
 	if (dfile != NULL) {
 		char *udata, *data;
-		uint8_t hdrbuf[8];
-		size_t sz, isz, len;
+		size_t sz, isz;
 		int dfd;
-		ADLER_DECL;
 
 		if ((dfd = fsopen(dfile, O_RDONLY, STDIN_FILENO)) < 0)
 			err(1, "open %s", dfile);
-		if (read(dfd, hdrbuf, 8) != 8)
-			err(1, "short read on %s", dfile);
-		isz = hdrbuf[4] | (hdrbuf[5] << 8) |
-		    (hdrbuf[6] << 16) | (hdrbuf[7] << 24);
-		if ((udata = malloc(isz)) == NULL)
-			err(255, "out of memory trying to allocate %zu bytes",
-			    isz);
-		if ((size_t)read(dfd, udata, isz) != isz)
-			err(1, "short read on %s", dfile);
+		read_aszdata(dfd, &udata, &isz);
 		close(dfd);
-		len = 4;
-		ADLER_CALC(hdrbuf + 4);
-		len = isz;
-		ADLER_CALC(udata);
-		if ((hdrbuf[0] != (s1 & 0xFF)) ||
-		    (hdrbuf[1] != ((s1 >> 8) & 0xFF)) ||
-		    (hdrbuf[2] != (s2 & 0xFF)) ||
-		    (hdrbuf[3] != ((s2 >> 8) & 0xFF)))
-			err(2, "checksum mismatch from %s, sz %zu,"
-			    " want %02X%02X%02X%02X got %04X%04X",
-			    dfile, isz, hdrbuf[3], hdrbuf[2],
-			    hdrbuf[1], hdrbuf[0], s2, s1);
 		data = fwcf_pack(udata, isz, calg, &sz);
 		return ((size_t)write(ofd, data, sz) == sz ? 0 : 1);
 	}

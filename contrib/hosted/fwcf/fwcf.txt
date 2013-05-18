@@ -96,7 +96,7 @@ end of the 64 KiB block the end of data resides in will be written
 to /dev/urandom.
 
 NEW IN 1.03: Afterwards, a sorted list of all files is given to the
-busybox md5sum applet, the output is stored as /tmp/.fwcf/status.gz
+busybox md5sum applet, the output is stored as /tmp/.fwcf/status.asz
 
 If the “fwcf” mtd partition does not start with the four letters
 FWCF on invoking ‘fwcf setup’, it is erased (i.e. populated with
@@ -117,7 +117,7 @@ would lead to data loss. The user must remove this file to override.
 
 A new memory filesystem (tmpfs) will be createt at /tmp/.fwcf/temp
 and populated with the data currently in /etc. Now, NEW IN 1.03,
-the /tmp/.fwcf/status.gz file is recreated. Then, ALSO NEW IN 1.03,
+the /tmp/.fwcf/status.asz file is recreated. Then, ALSO NEW IN 1.03,
 files in /tmp/.fwcf/root but not in /tmp/.fwcf/temp will be listed
 in /tmp/.fwcf/temp/.fwcf_deleted, newline-separated. Now, all files
 with exactly the same content in /tmp/.fwcf/root will be removed
@@ -175,14 +175,25 @@ A dump of the data currently stored in flash (commit first if you
 have changed anything!) is dumped to the filename argument, or to
 standard output, if none is present.
 
-Note: dumps do not contain any entropy seed. They consist of four
-bytes ADLER-32 of everything afterwards, little-endian, then four
-length bytes (of course only the lower/first three are used), and
-after that, the contents of the “inner filesystem”. That's it. No
+Note: dumps are a LZO-1X compressed tarball of a 256-byte entropy
+seed (“seed”) and the contents of the “inner filesystem” in “asz”
+format (“dump”), which is stored as .tar.asz itself. There is no
 version information, and this is by design.
 
-Note: as of March 2007, dumps and a little bit of random seed are
-packed together in a .tar.gz file as dump format to save space.
+Implementation information: the fwcf helper tool has a new mo-
+de of operation in which it works as compressor/decompressor –
+the algorithm used is determined with the -C option on a build
+system, and at compile time (i.e. the only one compiled in) on
+the target system. That's a compromise relative to using gzip,
+because it makes dumps depend on the compression algorithms in
+use, but it's always LZO-1X in FreeWRT 1.03 and up, and no de-
+pendency on a 50+ KiB gzip binary is added; the .tar.asz enco-
+ded dump can be recompressed with the tool on the build system.
+
+While the dump itself is tar → compressed → asz encoded, “asz”
+itself is not a compressing format, just a storage container –
+which stores one octet stream, plus size and checksum informa-
+tion only.
 
 
 2.6. Operation of ‘fwcf restore’ (NEW IN 1.03)
@@ -371,7 +382,27 @@ FreeWRT Project in derived works and/or links to the CVS reposi-
 tory of the original source.
 
 
-8. Future directions
+8. The “asz” file format (NEW IN 1.03)
+―――――――――――――――――――――――― ┄┄┄┄┄┄┄┄┄┄┄┄┄
+
+The “asz” format is intended for storing small arbitrary 8-bit
+data, and used in the “fwcf dump” and “fwcf restore” formats –
+the dump itself is a raw uncompressed “inner fwcf filesystem”,
+stored as “asz”, and the storage used by the dump/restore com-
+mands is a tarball, compressed with LZO-1X (in the current im-
+plementation), the result stored, again, as “asz”.
+
+It almost looks like the “outer fwcf” format, except the start
+isn't a header but the ADLER-32 checksum double-word (2 unsig-
+ned 16-bit integer in LITTLE ENDIAN), i.e. without magic bytes
+to identify the format; followed by the length double-word – 1
+unsigned 32-bit integer in LITTLE ENDIAN – and finally the raw
+binary data. Only the lowest three octets of the length should
+be used because the current implementation malloc(3)s a buffer
+containing the whole data.
+
+
+9. Future directions
 ――――――――――――――――――――
 
 The next major version of the FWCF filesystem specification is
@@ -400,4 +431,4 @@ They are provided as hint only and not part of the specifi-
 cation itself. They may change without notice.
 
 ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.31 2007/02/28 23:17:34 tg Exp $
+$MirOS: contrib/hosted/fwcf/fwcf.txt,v 1.32 2007/03/02 05:42:27 tg Exp $

@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/pack.h,v 1.11 2006/09/24 20:34:59 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/pack.h,v 1.12 2006/09/26 10:25:03 tg Exp $ */
 
 /*
  * This file is part of the FreeWRT project. FreeWRT is copyrighted
@@ -13,6 +13,8 @@ struct FTSF_ENTRY;
 #ifndef FTS_SUBS_H
 typedef struct FTSF_ENTRY ftsf_entry;
 #endif
+
+/* XXX use macros from minilzop.h */
 
 #define STOREB(x) do {				\
 		if (hdrleft < 1)		\
