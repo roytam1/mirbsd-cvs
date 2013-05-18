@@ -1,11 +1,11 @@
-# $MirOS: ports/misc/screen/Makefile,v 1.25 2008/11/08 23:03:52 tg Exp $
+# $MirOS: ports/misc/screen/Makefile,v 1.26 2009/09/09 10:33:09 tg Exp $
 # $OpenBSD: Makefile,v 1.52 2004/01/17 05:34:28 brad Exp $
 
 NOT_FOR_PLATFORM=	Interix:*:*
 
 COMMENT=		multi-screen window manager
 VERSION=		4.0.3
-DASH_VER=		11
+DASH_VER=		12
 DISTNAME=		screen-${VERSION}
 CATEGORIES=		misc
 MASTER_SITES=		http://ftp.uni-erlangen.de/pub/utilities/screen/ \
