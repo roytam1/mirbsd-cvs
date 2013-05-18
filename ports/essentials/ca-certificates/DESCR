@@ -2,9 +2,9 @@ This port packages some X.509 CA certificates which
 come with the MirOS base installation, for use e.g.
 with OpenBSD and Mac OSX. This bundle is a superset
 of the Debian package with the same name, plus some
-certificates from M*zilla/cURL and Opera, where in-
-valid certificates have been removed. It's endorsed
-by the Lynx developers and users.
+CA certificates from M*zilla, cURL, Opera, rootsupd
+and others; invalid certificates have been removed.
+It's endorsed by the Lynx developers and users.
 
 Recent SetEnv.{sh,csh} automatically point the path
 correctly to the data directory, if found. Program-
@@ -15,7 +15,8 @@ Other programmes must be configured to set the cer-
 tificate store to ${PREFIX}/share/ca-certificates/
 
 Java™ programmes can use the “keystore.jks” file in
-the very same directory: -storepass ‘changeit’
+the very same directory: -storepass ‘changeit’ – It
+contains RSA, DSS and ECC certificates now.
 
 GnuTLS users and others requiring a single file set
 SSL_CERT_FILE to “pkbundle.pem” at the same location.

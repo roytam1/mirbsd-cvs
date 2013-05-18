@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: ports/essentials/ca-certificates/mntner/der2nss,v 1.1 2009/11/15 00:56:51 tg Exp $
 #-
-# Copyright (c) 2009
+# Copyright (c) 2009, 2010
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -19,7 +19,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 #-
-# To be run on fwrt-www:LENNY/~
+# To be run on fwrt-www:SID/~
 #
 # Requirements:
 #	./der/*.[0-9]	→ certs (DER format)
@@ -27,6 +27,13 @@
 #	./tdb/*		→ trust (optional)
 # We also assume certs with the same hash have the same description
 # and trust (this is not necessarily true, but WFM for now).
+
+[[ -d der/. ]] || exit 1
+[[ -d dsc/. ]] || exit 1
+[[ -d tdb/. ]] || exit 1
+[[ -d nss/. ]] && exit 1
+mkdir nss
+[[ -d nss/. ]] || exit 1
 
 nl='
 '
