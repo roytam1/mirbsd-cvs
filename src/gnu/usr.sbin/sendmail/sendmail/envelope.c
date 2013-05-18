@@ -87,6 +87,7 @@ newenvelope(e, parent, rpool)
 	*/
 
 	dm = DM_NOTSET;
+#ifdef gimme_a_sigsegv_please
 	if (parent != NULL)
 	{
 		char *str;
@@ -97,6 +98,7 @@ newenvelope(e, parent, rpool)
 			dm = (int) str[0];
 	}
 	else
+#endif
 		sendmode = DM_NOTSET;
 
 	if (e == parent)
