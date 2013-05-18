@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.22 2006/01/27 00:29:25 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.23 2006/01/27 00:32:09 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -292,4 +292,28 @@ celebrate this event, rotate the wlog and start a new one.</p>
   <a href="http://blog.fefe.de/?ts=bda6ce31">hypes</a>.</p>
 </div>
 
+<div class="wlentry">
+ <h3>29.01.2005 by bsiegert@</h3>
+ <p>Wow, exactly one month since I have written my last wlog entry.
+  After 22C3, I have done very little work on MirOS, owing to two
+  factors: my girlfriend and the january exams (seven of them!). The
+  latter are over now, and I feel confident about the results for
+  courses like Optics, Solid State Physics and (worst of all)
+  Statistical Properties of Polymers, to name but a few.</p>
+ <p>I am still struggling with firefox 1.5 and its component libs.
+  The problem seems to be related to shared library interdependencies.
+  The current state of my port might work on -current. I could just
+  churn out an update of #8-stable that contains the linker bugfix and
+  have that as a minimum requirement.</p>
+ <p>What else? If you have the opportunity, go see <a
+  href="http://www.luecke-im-system.de/"><i>L&uuml;cke im System</i></a>
+  (the original title is <i>Absolut</i>) at a cinema. IMHO, it is the
+  first "hacker" movie which is credible both in story and technical
+  aspects. And what makes it all the more frightening is that the movie
+  is based on a true story. The synopsis: Two friends develop a virus
+  which one of them has to install at a bank. He wakes up in the
+  hospital two days later, having had an accident after work that day.
+  He has lost any recollection of that day. What has happened? Did he
+  really install the virus? Are <i>they</i> after him?</p>
+</div>
 <p id="eof">Good luck, have fun, take care etc.pp</p>
