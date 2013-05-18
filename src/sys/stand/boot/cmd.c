@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.7 2008/08/01 12:39:09 tg Exp $	*/
+/**	$MirOS: src/sys/stand/boot/cmd.c,v 1.8 2008/12/28 03:47:44 tg Exp $	*/
 /*	$OpenBSD: cmd.c,v 1.59 2007/04/27 10:08:34 tom Exp $	*/
 
 /*
@@ -188,8 +188,9 @@ docmd(void)
 	if (cmd.cmd == NULL) {
 
 		/* command */
-		for (p = cmd_buf; *p == ' ' || *p == '\t'; p++)
-			;
+		p = cmd_buf;
+		while (*p == ' ' || *p == '\t')
+			++p;
 		if (*p == '#' || *p == '\0') { /* comment or empty string */
 #ifdef DEBUG
 			printf("rem\n");
