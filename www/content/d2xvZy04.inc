@@ -1,5 +1,5 @@
 <!-- PageID: wlog-8 -->
-<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.84 2006/06/16 19:14:21 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/d2xvZy04.inc,v 1.85 2006/06/16 23:56:36 tg Exp $</small>
 <h1>MirBSD &ndash; WTF, We Have a Release!?</h1>
 <p><small><a href="#eof">bottom</a> or <a href="/?older">older</a>
  editions</small></p>
@@ -1493,6 +1493,16 @@ celebrate this event, rotate the wlog and start a new one.</p>
   I could probably build lynx(1), mkisofs(8) and rcs(8) and its friends,
   but that's not worth the effort, and they can easily be made natively.
   Still, almost all non-GNU tools are built now.</p>
+</div>
+
+<div class="wlentry">
+ <h3 id="e20060617">17.06.2006 by tg@</h3>
+ <p>It's warm, but still cold enough to not freeze my laptop during that
+  all-night release build. It succeeded, even in less than 6 hours (at 1
+  GHz), and I invented the idea of gzip(1)'d ISO files in torrents which
+  helps people with slow internet connections&#8230;</p>
+ <p>Now trying to get sparc going, and tomorrow there's a hacking + Jugo
+  session with wbx@ again.</p>
 </div>
 
 <p id="eof">Good luck, have fun, take care etc.pp</p>
