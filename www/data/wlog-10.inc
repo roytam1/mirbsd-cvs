@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.301 2010/07/13 14:17:53 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.302 2010/07/21 11:43:09 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6844,4 +6844,33 @@ Tag: debian mksh
  seem to use $! – no idea whether we can support that at all in a POSIX
  shell – which dash clearly isn’t… – without keeping track of background
  processes forever.)</p>
+----
+Title: FrOSCon 2010 (“Birthday FrOSCon”) approaching
+Author: tg@
+Date: 25.07.2010 11:39
+Tag: debian event geocache grml
+
+<p><a href="http://froscon.de/">FrOSCon 5 - 21./22. August 2010</a> is
+ approaching rapidly. I’m a bit envious at some of the tracks (I mean,
+ really, geocaching (ok, I did the surrounging caches over the last
+ years but still), learning python by means of game programming, etc.
+ really sounds interesting – and I know people who could benefit from
+ a non-kids version of that as well) but this year’s FrOSCon is nothing
+ for me to curse about either: I managed to get <strong>both</strong> a
+ booth for <a href="@@RELPATH@@main.htm">The MirOS Project</a> (MirBSD,
+ mksh and other subprojects) as well as one for Waldemar’s <a
+ href="https://www.freewrt.org/">FreeWRT</a> (although wbx@ – if he
+ comes – won’t join there since he forked his own fork since its
+ conception). Booth staff are, currently: tg@ and bsiegert@ (Developer),
+ gecko2@ (Staff) for MirOS, tg@ and “XTaran” abe@ (Developer), kimnotyze
+ (Hacker) for FreeWRT. (XTaran will probably be helping Debian/Grml too.)
+ This year, it’ll be my job (after 2 years of aptituz) to keep the <span
+ xml:lang="de_DE-1901">Altbier-Fraktion</span> watered, I’m thinking one
+ crate of Schlösser Alt and one crate of Hannen Alt?</p>
+<p>Have a look at <a href="http://www.froscon.de/programm/uebersicht.html">the
+ Program</a> and don’t tell me you won’t come! It will rock! (Except there
+ won’t be Formorer’s Chilli, but that’s no reason, there’s enough other stuff
+ in manageable distance.)</p>
+<p>Besides interesting booths and talks, FrOSCon is still looking for helpers
+ who will not only get free entrance but also catering during operation.</p>
 ----
