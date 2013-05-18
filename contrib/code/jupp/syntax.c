@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/jupp/syntax.c,v 1.6 2011/07/02 16:26:10 tg Exp $ */
+/* $MirOS: contrib/code/jupp/syntax.c,v 1.7 2012/06/07 22:34:52 tg Exp $ */
 /*
  *	Syntax highlighting DFA interpreter
  *	Copyright
@@ -77,8 +77,11 @@ int parse(struct high_syntax *syntax,P *line,int state)
 				h = cmd->new_state;
 			}
 			/* Recolor if necessary */
-			for(x=cmd->recolor;x<0;++x)
-				attr[x] = h -> color;
+			x = cmd->recolor;
+			while (&attr[x] < attr_buf)
+				++x;
+			while (x < 0)
+				attr[x++] = h->color;
 
 			/* Start buffering? */
 			if (cmd->start_buffering) {
