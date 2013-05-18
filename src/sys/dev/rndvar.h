@@ -1,9 +1,9 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.18 2008/11/09 17:23:35 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.19 2009/03/02 17:56:56 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
- * Copyright (c) 2004, 2005, 2006, 2008
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2004, 2005, 2006, 2008, 2009
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1996,2000 Michael Shalayeff.
  *
  * This software derived from one contributed by Theodore Ts'o.
@@ -94,10 +94,6 @@ extern int rnd_addpool_num;	/* ring buffer write pointer (wrapping) */
 	rnd_addpool_buf[rnd_addpool_num++ % rnd_addpool_size] ^= (x);	\
 } while (/* CONSTCOND */ 0)
 
-#define rnd_bootpool_add(addr, len) \
-	rnd_addpool_add(adler32(arc4random() | 1, \
-	    (const u_char *)(addr), (len)))
-
 #define	add_true_randomness(d)	enqueue_randomness(RND_SRC_TRUE,  (int)(d))
 #define	add_timer_randomness(d)	enqueue_randomness(RND_SRC_TIMER, (int)(d))
 #define	add_mouse_randomness(d)	enqueue_randomness(RND_SRC_MOUSE, (int)(d))
@@ -110,6 +106,8 @@ extern int rnd_addpool_num;	/* ring buffer write pointer (wrapping) */
 
 void enqueue_randomness(int, int);
 void get_random_bytes(void *, size_t)
+    __attribute__((bounded (string, 1, 2)));
+void rnd_bootpool_add(const void *, size_t)
     __attribute__((bounded (string, 1, 2)));
 void arc4random_bytes(void *, size_t)
     __attribute__((bounded (string, 1, 2)));

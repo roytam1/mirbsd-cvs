@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/init_main.c,v 1.23 2009/01/02 05:16:32 tg Exp $ */
+/**	$MirOS: src/sys/kern/init_main.c,v 1.24 2009/02/22 17:06:27 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.120 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
 /*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
@@ -366,7 +366,7 @@ main(/* XXX should go away */ void *framep)
 	for (pdev = pdevinit; pdev->pdev_attach != NULL; pdev++)
 		if (pdev->pdev_count > 0)
 			(*pdev->pdev_attach)(pdev->pdev_count);
-	rnd_bootpool_add(&ticks, sizeof (ticks));
+	rnd_addpool_add(ticks);
 
 #ifdef	CRYPTO
 	swcr_init();
@@ -487,11 +487,8 @@ main(/* XXX should go away */ void *framep)
 #endif	/* CRYPTO */
 
 #if defined(I586_CPU) || defined(I686_CPU)
-	if (pentium_mhz) {
-		unsigned long long tmptsc;
-		__asm __volatile("rdtsc" : "=A" (tmptsc));
-		rnd_bootpool_add(&tmptsc, sizeof (tmptsc));
-	}
+	/* this adds the TSC too, if pentium_mhz!=0 */
+	rnd_bootpool_add(&pentium_mhz, sizeof(pentium_mhz));
 #endif
 
 	srandom(arc4random());

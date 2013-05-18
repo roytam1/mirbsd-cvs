@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/kern_time.c,v 1.6 2008/04/09 05:45:43 tg Exp $ */
+/**	$MirOS: src/sys/kern/kern_time.c,v 1.7 2008/04/09 06:06:58 tg Exp $ */
 /*	$OpenBSD: kern_time.c,v 1.39 2004/02/15 02:34:14 tedu Exp $	*/
 /*	$NetBSD: kern_time.c,v 1.20 1996/02/18 11:57:06 fvdl Exp $	*/
 
@@ -68,8 +68,6 @@ settime(struct timeval *tv)
 	struct timeval delta;
 	int s;
 
-	/* push both old and new time into the low-entropy pool */
-	rnd_bootpool_add(&time, sizeof (time));
 	rnd_bootpool_add(tv, sizeof (struct timeval));
 
 	/*
@@ -374,8 +372,6 @@ sys_adjtime(p, v, retval)
 	    sizeof(struct timeval))))
 		return (error);
 
-	/* push both old time and adjustment into the low-entropy pool */
-	rnd_bootpool_add(&time, sizeof (time));
 	rnd_bootpool_add(&atv, sizeof (struct timeval));
 
 	/*
