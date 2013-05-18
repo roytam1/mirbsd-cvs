@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/stand/boot/boot.c,v 1.5 2008/10/16 15:09:12 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/stand/boot/boot.c,v 1.6 2009/02/01 16:12:30 tg Exp $ */
 /*	$OpenBSD: boot.c,v 1.6 2003/08/14 17:13:57 deraadt Exp $	*/
 /*	$NetBSD: boot.c,v 1.2 1997/09/14 19:27:21 pk Exp $	*/
 
@@ -48,11 +48,17 @@ int netif_debug;
 /*
  * Boot device is derived from ROM provided information.
  */
+#ifndef SMALL_BOOT
 const char __defkernel[] = "bsd\0PADDING.....................................";
+#else
+const char __defkernel[] = "bsd";
+#endif
 
 extern vaddr_t	esym;
 char		fbuf[80], dbuf[128];
-char progname[] = "boot";
+#ifndef SMALL_BOOT
+const char progname[] = "boot";
+#endif
 
 typedef void (*entry_t)(caddr_t, int, int, int, long, long);
 int loadfile(int, vaddr_t *);

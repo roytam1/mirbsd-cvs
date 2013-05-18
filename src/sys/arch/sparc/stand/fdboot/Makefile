@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/fdboot/Makefile,v 1.1 2008/07/13 19:42:40 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/fdboot/Makefile,v 1.2 2008/10/21 18:51:00 tg Exp $
 
 SMALL_BOOT=	Yes
 BOOTLDR_PATH?=	${.CURDIR}/../boot
@@ -9,3 +9,6 @@ BOOTLDR_PATH?=	${.CURDIR}/../boot
 install:
 
 .include "${BOOTLDR_PATH}/Makefile"
+
+SRCS+=		strerr.c
+${PROG}.elf:	strerr.o

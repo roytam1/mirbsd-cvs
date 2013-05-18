@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/boot/Makefile,v 1.14 2009/04/16 13:20:24 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/boot/Makefile,v 1.15 2009/04/16 14:19:19 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2003/08/11 06:35:45 deraadt Exp $
 # $NetBSD: Makefile,v 1.2 1995/09/30 21:43:38 pk Exp $
 
@@ -17,11 +17,13 @@ SRCS+=		net.c netif_sun.c
 SRCS+=		loadfile.c
 
 CPPFLAGS+=	-I${.CURDIR}/../common -I${.CURDIR}/../../../../arch \
-		-I${.CURDIR}/../../../.. -I${.CURDIR}/../../../../lib/libsa \
-		-DSPARC_BOOT_AOUT -DSPARC_BOOT_ELF
+		-I${.CURDIR}/../../../.. -I${.CURDIR}/../../../../lib/libsa
 .if ${SMALL_BOOT:L} != "no"
 CPPFLAGS+=	-DSMALL_BOOT
+CPPFLAGS+=	-DSPARC_BOOT_ELF
 V=		${REAL_V}-small
+.else
+CPPFLAGS+=	-DSPARC_BOOT_AOUT -DSPARC_BOOT_ELF
 .endif
 
 ${PROG}: ${PROG}.elf
@@ -29,6 +31,7 @@ ${PROG}: ${PROG}.elf
 	# create stripped version of loader, for later patching
 	objcopy -S ${PROG}.elf ${PROG}~
 	elf2aout ${PROG}~ ${PROG}.aout -b
+.if ${SMALL_BOOT:L} == "no"
 	# create unstripped version of loader, for symbol retrieval
 	rm -f ${PROG}~
 	elf2aout ${PROG}.elf ${PROG}~ -b
@@ -48,6 +51,7 @@ ${PROG}: ${PROG}.elf
 	    hexdump -ve '1/1 "%02X"'); [[ $$tstval = 20355601 ]] || exit 1; \
 	print -n "$$(sed 's/\(..\)/\\x\1/g' <<<"$${nofs#16#}$${ofs#16#}")" | \
 	    dd conv=notrunc bs=1 seek=$$((advecs + 4)) of=${PROG}.aout
+.endif
 	# sort-of install the patched a.out file
 	mv -f ${PROG}.aout ${PROG}
 

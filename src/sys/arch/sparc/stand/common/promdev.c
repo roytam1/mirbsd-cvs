@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/stand/common/promdev.c,v 1.3 2008/07/13 19:42:40 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/stand/common/promdev.c,v 1.4 2009/02/01 16:12:31 tg Exp $ */
 /*	$OpenBSD: promdev.c,v 1.9 2003/08/14 17:13:57 deraadt Exp $	*/
 /*	$NetBSD: promdev.c,v 1.16 1995/11/14 15:04:01 pk Exp $ */
 
@@ -109,7 +109,9 @@ int	prom_boothow;
 struct	promvec	*promvec;
 static int	saveecho;
 
+#ifndef SMALL_BOOT
 extern const char progname[];
+#endif
 
 void
 prom_init()
@@ -177,7 +179,9 @@ prom_init()
 	}
 #endif
 
+#ifndef SMALL_BOOT
 	printf(">> MirBSD %s " __BOOT_VER "\n", progname);
+#endif
 }
 
 int
@@ -521,6 +525,7 @@ _rtt()
 }
 
 #ifndef BOOTXX
+#ifndef SMALL_BOOT
 int hz = 1000;
 
 time_t
@@ -569,7 +574,7 @@ prom_getether(int fd, u_char *ea)
 		promvec->pv_fortheval.v2_eval(buf);
 	}
 }
-
+#endif
 
 /*
  * A number of well-known devices on sun4s.
