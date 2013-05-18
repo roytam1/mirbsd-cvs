@@ -30,28 +30,34 @@ The file ~/.etc/bin/xtm referred in said file is this one:
 
 ---- cutting here may damage your screen surface -----
 #!/bin/mksh
-# $MirOS: contrib/samples/myXenvironment,v 1.3 2005/07/14 18:48:39 tg Exp $
+# $MirOS: contrib/samples/myXenvironment,v 1.4 2006/01/26 23:03:34 tg Stab $
 if [[ $1 = vga ]]; then
 	# exec xtm vga ...
 	shift
 	/usr/X11R6/bin/xterm -class VXTerm "$@" &
 	exit 0
-elif [[ -e /usr/mpkg/lib/X11/fonts/terminus ]]; then
-	if [[ $1 = big ]]; then
-		# exec xtm big ...
-		shift
-		/usr/X11R6/bin/xterm -class TXTerm -geom 101x33+1+1 \
-		    -fn -xos4-terminus-medium-r-normal--20-200-72-72-c-100-iso8859-1 \
-		    "$@" &
-		exit 0
-	else
-		exec /usr/X11R6/bin/xterm -class TXTerm -geom 127x41+1+1 \
-		    -fn -xos4-terminus-medium-r-normal--16-160-72-72-c-80-iso8859-1 \
-		    "$@"
-	fi
+elif [[ ! -e /usr/mpkg/lib/X11/fonts/terminus ]]; then
+	:
+elif [[ $1 = tbig ]]; then
+	# exec xtm tbig ...
+	shift
+	/usr/X11R6/bin/xterm -class TXTerm -geom 101x33+1+1 \
+	    -fn -xos4-terminus-medium-r-normal--20-200-72-72-c-100-iso8859-1 \
+	    "$@" &
+	exit 0
+elif [[ $1 = thuge ]]; then
+	# exec xtm thuge ...
+	shift
+	/usr/X11R6/bin/xterm -class TXTerm -geom 101x33+1+1 \
+	    -fn -xos4-terminus-medium-r-normal--24-240-72-72-c-120-iso8859-1 \
+	    "$@" &
+	exit 0
 else
-	exec /usr/X11R6/bin/xterm -geom 113x42+1+1 -fn 9x15 "$@"
+	exec /usr/X11R6/bin/xterm -class TXTerm -geom 127x41+1+1 \
+	    -fn -xos4-terminus-medium-r-normal--16-160-72-72-c-80-iso8859-1 \
+	    "$@"
 fi
+exec /usr/X11R6/bin/xterm -geom 113x42+1+1 -fn 9x15 "$@"
 ---- cutting here may damage your screen surface -----
 
 When I want to have two windows open the same time, e.g.
