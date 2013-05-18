@@ -1,10 +1,11 @@
-# $MirOS: src/distrib/common/Makefile.sparc,v 1.11 2008/07/12 22:06:12 tg Exp $
+# $MirOS: src/distrib/common/Makefile.sparc,v 1.12 2008/07/12 22:20:06 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.14 2002/05/01 19:21:28 mickey Exp $
 
 INSTALLBOOT?=	${DESTDIR}/usr/mdec/installboot
 RAWLABEL=
 RAMDISK=	FLOPPY
 LISTS=		${TOPDIR}/common/list.sparc-fdd
+IMAGESIZE=	3200
 AOUT_BSDRD=	Yes
 
 CDROM=		no
