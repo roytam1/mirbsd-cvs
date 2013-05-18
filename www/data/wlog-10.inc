@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.216 2009/07/14 16:29:15 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.217 2009/07/15 07:23:18 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4430,4 +4430,50 @@ Tag: geocache
  <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
  <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
  <br />Leider fast keine OCs hier in der Gegend.</p>
+----
+Title: iPhone Navigation
+Date: 16.07.2009 15:09
+Author: tg@
+Language: de
+Tag: geocache
+
+<p>Leute, nehmt euer iPhone gerne dazu, auf dem Weg zum Schwimmbad Queen
+ (Masters of the Universe) zu hören, aber bitteschön nicht zum Navigieren.
+ Beim Versuch, das entfernte Ziel zu erreichen, sind wir an lustigen Stellen
+ (Acker und so) gelandet; die mobile Suche war irgendwie von der Adresse
+ <em>leicht</em> verwirrt. Die geocaching.com-Anwendung ist auch bescheiden,
+ die kommt mir vor als wär ich aufm PocketPC und hätte vergessen, <em
+ xml:lang="en">static navigation</em> auszuschalten.</p>
+----
+Title: mksh R39 coming soon to a /bin near you
+Date: 16.07.2009 15:12
+Author: tg@
+Tag: mksh
+
+<p><a href="@@RELPATH@@mksh.htm">mksh</a> has just been adjusted to behave
+ as future POSIX will demand, after a lengthy discussion (on the bug-bash
+ and miros-discuss mailing lists as well as the Debian bug tracker), for
+ “set -u” (<tt>-o nounset</tt>). This, as well as the “stop () {…}” fix,
+ <strong>must</strong> be tested extensively.</p>
+<p style="margin-bottom:0px;">Therefore I urge all of you to</p>
+<div style="border:4px ridge blue; margin:0px 24px 0px 24px; padding:12px;"><pre>
+ % CVS_RSH=ssh; export CVS_RSH
+ % cvs -d :ext:_anoncvs@anoncvs.mirbsd.org:/cvs co -PA mksh
+ % cd mksh
+ % (sh Build.sh -r &amp;&amp; ./test.sh -v) 2&gt;&amp;1 | tee log
+</pre></div><p style="margin-top:0px;">and possibly send me the log. See <a
+ href="@@RELPATH@@permalinks/wlog-10_e20081013-tg.htm">an earlier post</a>
+ for more information about testing mksh(1) snapshots, as well.</p>
+<p>Tests for better standards compliance and bugs, especially in corner
+ cases, are also welcome. Known are: all but the first command of a pipeline
+ are run in subprocesses (made to be an mksh feature, not a bug); the lexer
+ is not recursive (issues with parenthesēs and comments in COMSUBs); some
+ IFS/whitespace issues. Fixes for these bugs, and maybe for the regression
+ tests (they may or may not be correct) are desirable… as well as <a
+ href="@@RELPATH@@permalinks/wlog-10_e20090707-tg-g10031.htm">development
+ related communication</a>.</p>
+<p>On an unrelated side note, aptituz told me that Debian etch already had
+ Debhelper v5, and as such, the mksh package has been converted over from
+ Debhelper v4 (yay, RCS IDs in debhelper configuration files! but what about
+ changelog (no-no) and menu? dunno…).</p>
 ----
