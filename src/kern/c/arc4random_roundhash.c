@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2010, 2011
+ * Copyright (c) 2010, 2011, 2012
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -21,14 +21,14 @@
 #include <libckern.h>
 #include <nzat.h>
 
-__RCSID("$MirOS: src/kern/c/arc4random_roundhash.c,v 1.2 2011/04/27 21:45:52 tg Exp $");
+__RCSID("$MirOS: src/kern/c/arc4random_roundhash.c,v 1.3 2011/07/06 22:22:07 tg Exp $");
 
 void
 arc4random_roundhash(uint32_t pools[32], uint8_t *poolptr,
     const void *buf_, size_t len)
 {
 	register uint32_t h;
-	register uint8_t pool;
+	register unsigned int pool;
 	const uint8_t *buf = (const uint8_t *)buf_;
 
 	pool = *poolptr;
