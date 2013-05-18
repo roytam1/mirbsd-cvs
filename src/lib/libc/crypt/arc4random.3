@@ -1,4 +1,4 @@
-.\" $MirOS: src/lib/libc/crypt/arc4random.3,v 1.13 2010/09/12 17:10:51 tg Exp $
+.\" $MirOS: src/lib/libc/crypt/arc4random.3,v 1.14 2010/09/21 17:41:30 tg Exp $
 .\" $OpenBSD: arc4random.3,v 1.27 2008/12/23 18:31:02 deraadt Exp $
 .\"
 .\" Copyright (c) 2010
@@ -31,7 +31,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd $Mdocdate: September 12 2010 $
+.Dd $Mdocdate: September 21 2010 $
 .Dt ARC4RANDOM 3
 .Os
 .Sh NAME
@@ -153,6 +153,9 @@ The
 .Fn arc4random_addrandom
 function implements an old, discouraged, API with which the S-Boxes
 can be permuted directly from user-specified data.
+If merely desiring to add entropy to the pool, use
+.Nm arc4random_pushb_fast
+instead, which is much faster, unless you really want to do a KSA.
 .Sh RETURN VALUES
 These functions are always successful, and no return value is
 reserved to indicate an error.
