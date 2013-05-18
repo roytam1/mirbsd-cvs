@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.36 2006/06/27 14:16:38 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.37 2006/06/30 18:11:02 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -183,7 +183,6 @@ ${CRTBEGIN} ${CRTEND} ${CRTI} ${CRTN}: .OPTIONAL .NOTMAIN
 
 LIBCRT0?=	${DESTDIR}/usr/lib/crt0.o
 LIBC?=		${DESTDIR}/usr/lib/libc.a
-LIBCDK?=	${DESTDIR}/usr/lib/libcdk.a
 LIBCOMPAT?=	${DESTDIR}/usr/lib/libcompat.a
 LIBCRYPTO?=	${DESTDIR}/usr/lib/libcrypto.a
 LIBCURSES?=	${DESTDIR}/usr/lib/libcurses.a
@@ -191,12 +190,8 @@ LIBDES?=	${DESTDIR}/usr/lib/libdes.a
 LIBEDIT?=	${DESTDIR}/usr/lib/libedit.a
 LIBEVENT?=	${DESTDIR}/usr/lib/libevent.a
 LIBEXPAT?=	${DESTDIR}/usr/lib/libexpat.a
-LIBF2C?=	${DESTDIR}/usr/lib/libg2c.a
 LIBFL?=		${DESTDIR}/usr/lib/libfl.a
 LIBFORM?=	${DESTDIR}/usr/lib/libform.a
-LIBFRTBEGIN?=	${DESTDIR}/usr/lib/libfrtbegin.a
-LIBG2C?=	${DESTDIR}/usr/lib/libg2c.a
-LIBGCC?=	${DESTDIR}/usr/lib/libgcc.a
 LIBGPC?=	${DESTDIR}/usr/lib/libgpc.a
 LIBKEYNOTE?=	${DESTDIR}/usr/lib/libkeynote.a
 LIBKVM?=	${DESTDIR}/usr/lib/libkvm.a
@@ -211,7 +206,6 @@ LIBPCAP?=	${DESTDIR}/usr/lib/libpcap.a
 LIBPERL?=	${DESTDIR}/usr/lib/libperl.a
 LIBPNG?=	${DESTDIR}/usr/lib/libpng.a
 LIBRPCSVC?=	${DESTDIR}/usr/lib/librpcsvc.a
-LIBRX?=		${DESTDIR}/usr/lib/librx.a
 LIBSECTOK?=	${DESTDIR}/usr/lib/libsectok.a
 LIBSKEY?=	${DESTDIR}/usr/lib/libskey.a
 LIBSSL?=	${DESTDIR}/usr/lib/libssl.a
@@ -219,7 +213,6 @@ LIBTERMCAP?=	${DESTDIR}/usr/lib/libtermcap.a
 LIBTERMLIB?=	${DESTDIR}/usr/lib/libtermlib.a
 LIBUSB?=	${DESTDIR}/usr/lib/libusbhid.a
 LIBUTIL?=	${DESTDIR}/usr/lib/libutil.a
-LIBWRAP?=	${DESTDIR}/usr/lib/libwrap.a
 LIBY?=		${DESTDIR}/usr/lib/liby.a
 LIBZ?=		${DESTDIR}/usr/lib/libz.a
 
