@@ -1,4 +1,4 @@
-# $MirOS: ports/editors/vim/stable/Makefile,v 1.15 2008/03/04 20:48:27 bsiegert Exp $
+# $MirOS: ports/editors/vim/stable/Makefile,v 1.16 2008/03/09 17:22:37 tg Exp $
 # $OpenBSD: Makefile,v 1.93 2004/06/09 18:43:16 lebel Exp $
 
 COMMENT=		vi clone, many additional features
@@ -156,7 +156,8 @@ post-configure:
 	touch ${WRKBUILD}/auto/config.mk
 
 pre-build:
-	cd ${WRKSRC} && ${MAKE} xxd/xxd
+	cd ${WRKSRC} && ${SETENV} ${MAKE_ENV} \
+	    ${MAKE_PROGRAM} ${MAKE_FLAGS} xxd/xxd
 
 post-install:
 	${INSTALL_DATA} ${FILESDIR}/pf.vim ${PREFIX}/share/vim/${P}/syntax
