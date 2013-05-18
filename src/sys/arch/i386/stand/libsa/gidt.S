@@ -1,4 +1,4 @@
-/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.10 2009/01/02 04:14:35 tg Exp $ */
+/*	$MirOS: src/sys/arch/i386/stand/libsa/gidt.S,v 1.11 2009/01/02 16:38:37 tg Exp $ */
 /*	$OpenBSD: gidt.S,v 1.32 2006/12/26 19:30:44 tom Exp $	*/
 
 /*
@@ -513,6 +513,43 @@ pmm_leave:
 	prot2real
 	.intel_syntax noprefix
 	jmp	bx
-#endif
 
-	.end
+/*-
+ * Switch from protected mode to real mode.
+ * Registers trashed: EAX 
+ * CS = DS = ES = SA_LINKSEG
+ * SS = 0000 (SP preserved)
+ */
+	.code32
+	.globl	prot_to_real
+prot_to_real:
+	/* fix up return address */
+	pop	eax
+	sub	eax,SA_LINKADDR
+	push	ax
+	.att_syntax
+	prot2real
+	.intel_syntax noprefix
+	.code16
+	ret
+
+/*-
+ * Switch from real mode to protected mode.
+ * Registers trashed: EAX 
+ * CS = S32TEXT
+ * DS = ES = SS = S32DATA (ESP preserved)
+ */
+	.code16
+	.globl	real_to_prot
+real_to_prot:
+	.att_syntax
+	real2prot
+	.intel_syntax noprefix
+	.code32
+	/* fix up return address */
+	xor	eax,eax
+	pop	ax
+	add	eax,SA_LINKADDR
+	push	eax
+	ret
+#endif
