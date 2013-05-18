@@ -1,4 +1,4 @@
-/**	$MirOS: ports/infrastructure/pkgtools/delete/main.c,v 1.5 2005/12/16 12:05:35 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/delete/main.c,v 1.6 2007/01/19 23:11:19 bsiegert Exp $ */
 /*	$OpenBSD: main.c,v 1.12 2003/08/21 20:24:56 espie Exp $	*/
 
 /*
@@ -24,9 +24,9 @@
 #include "lib.h"
 #include "delete.h"
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/main.c,v 1.5 2005/12/16 12:05:35 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/main.c,v 1.6 2007/01/19 23:11:19 bsiegert Exp $");
 
-static char Options[] = "CcDdfhnp:qUv";
+static char Options[] = "CcDdFfhnp:qUv";
 
 char	*Prefix		= NULL;
 bool	NoDeInstall	= false;
@@ -34,6 +34,7 @@ bool	CleanDirs	= false;
 rm_cfg_t CleanConf	= RMCFG_NONE;
 bool	CheckMD5	= true;
 bool	KeepFiles	= false;
+bool	ForceUser	= false;
 
 static __dead void usage(void);
 
@@ -48,6 +49,10 @@ main(int argc, char **argv)
 	switch(ch) {
 	case 'v':
 	    Verbose = true;
+	    break;
+
+	case 'F':
+	    ForceUser = true;
 	    break;
 
 	case 'f':
@@ -107,8 +112,12 @@ main(int argc, char **argv)
 	pwarnx("missing package name(s)"), usage();
     *pkgs = NULL;
 #ifndef AS_USER
-    if (!Fake && getuid() != 0)
-	errx(1, "you must be root to delete packages");
+    if (!Fake && getuid() != 0) {
+	if (ForceUser)
+	    pwarnx("packages must be deleted as root -- trying anyway");
+	else 
+	    errx(1, "you must be root to delete packages");
+    }
 #endif
     if ((error = pkg_perform(start)) != 0) {
 	if (Verbose)

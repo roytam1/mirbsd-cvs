@@ -1,4 +1,4 @@
-.\"	$MirOS: ports/infrastructure/pkgtools/delete/pkg_delete.1,v 1.8 2008/03/12 23:17:20 tg Exp $
+.\"	$MirOS: ports/infrastructure/pkgtools/delete/pkg_delete.1,v 1.9 2008/03/14 16:46:01 tg Exp $
 .\"	$OpenBSD: pkg_delete.1,v 1.17 2003/08/21 20:24:56 espie Exp $
 .\"
 .\" FreeBSD install - a package for the installation and maintenance
@@ -52,7 +52,7 @@
 .\" .Dd must come before definition of .Mx, because when called
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
-.Dd $Mdocdate$
+.Dd $Mdocdate: March 14 2008 $
 .\"
 .\" Implement .Mx (MirBSD)
 .de Mx
@@ -86,7 +86,7 @@
 .Nd delete previously installed software package distributions
 .Sh SYNOPSIS
 .Nm pkg_delete
-.Op Fl DUcdfnqv
+.Op Fl DFUcdfnqv
 .Op Fl p Ar prefix
 .Ar pkg-name Op Ar ...
 .Sh DESCRIPTION
@@ -120,6 +120,8 @@ The options are as follows:
 The named packages are deinstalled.
 .It Fl D
 If a deinstallation script exists for a given package, do not execute it.
+.It Fl F
+If not running as root, try to uninstall the package anyway.
 .It Fl U
 Unregister the package but don't actually delete any files.
 Useful for upgrades of base packages, for example the pkgtools themselves.
