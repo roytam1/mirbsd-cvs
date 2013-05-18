@@ -1,5 +1,4 @@
-/**	$MirOS: src/sbin/fsck_ffs/dir.c,v 1.2 2005/03/06 19:49:56 tg Exp $ */
-/*	$OpenBSD: dir.c,v 1.17 2004/07/05 02:31:54 pvalchev Exp $	*/
+/*	$OpenBSD: dir.c,v 1.19 2007/02/08 13:09:53 otto Exp $	*/
 /*	$NetBSD: dir.c,v 1.20 1996/09/27 22:45:11 christos Exp $	*/
 
 /*
@@ -46,7 +45,7 @@
 #include "extern.h"
 
 __SCCSID("@(#)dir.c	8.5 (Berkeley) 12/8/94");
-__RCSID("$MirOS: src/sbin/fsck_ffs/dir.c,v 1.2 2005/03/06 19:49:56 tg Exp $");
+__RCSID("$MirOS: src/sbin/fsck_ffs/dir.c,v 1.3 2005/04/29 18:34:56 tg Exp $");
 
 char	*lfname = "lost+found";
 int	lfmode = 01700;
@@ -551,8 +550,12 @@ expanddir(struct ufs1_dinode *dp, char *name)
 	daddr_t lastbn, newblk;
 	struct bufarea *bp;
 	char *cp, firstblk[DIRBLKSIZ];
+	u_int64_t dis;
 
-	lastbn = lblkno(&sblock, dp->di_size);
+	dis = lblkno(&sblock, dp->di_size);
+	if (dis > (u_int64_t)INT_MAX)
+		return (0);
+	lastbn = dis;
 	if (lastbn >= NDADDR - 1 || dp->di_db[lastbn] == 0 || dp->di_size == 0)
 		return (0);
 	if ((newblk = allocblk(sblock.fs_frag)) == 0)
@@ -604,6 +607,8 @@ int
 allocdir(ino_t parent, ino_t request, int mode)
 {
 	ino_t ino;
+	uid_t uid;
+	gid_t gid;
 	char *cp;
 	struct ufs1_dinode *dp;
 	struct bufarea *bp;
@@ -651,6 +656,12 @@ allocdir(ino_t parent, ino_t request, int mode)
 	}
 	dp = ginode(parent);
 	dp->di_nlink++;
+	uid = dp->di_uid;
+	gid = dp->di_gid;
+	inodirty();
+	dp = ginode(ino);
+	dp->di_uid = uid;
+	dp->di_gid = gid;
 	inodirty();
 	return (ino);
 }

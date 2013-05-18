@@ -1,4 +1,4 @@
-/*	$OpenBSD: main.c,v 1.26 2005/02/03 05:03:50 jaredy Exp $	*/
+/*	$OpenBSD: main.c,v 1.29 2007/02/09 19:52:32 otto Exp $	*/
 /*	$NetBSD: main.c,v 1.22 1996/10/11 20:15:48 thorpej Exp $	*/
 
 /*
@@ -30,20 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static const char copyright[] =
-"@(#) Copyright (c) 1980, 1986, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)main.c	8.2 (Berkeley) 1/23/94";
-#else
-static const char rcsid[] = "$OpenBSD: main.c,v 1.26 2005/02/03 05:03:50 jaredy Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/time.h>
 #include <sys/mount.h>
@@ -59,6 +45,11 @@ static const char rcsid[] = "$OpenBSD: main.c,v 1.26 2005/02/03 05:03:50 jaredy 
 #include "fsck.h"
 #include "extern.h"
 #include "fsutil.h"
+
+__COPYRIGHT("@(#) Copyright (c) 1980, 1986, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)main.c	8.2 (Berkeley) 1/23/94");
+__RCSID("$MirOS$");
 
 volatile sig_atomic_t returntosingle;
 
@@ -77,7 +68,7 @@ main(int argc, char *argv[])
 
 	sync();
 	skipclean = 1;
-	while ((ch = getopt(argc, argv, "dfpnNyYb:c:l:m:")) != -1) {
+	while ((ch = getopt(argc, argv, "dfpnNyYb:c:m:")) != -1) {
 		switch (ch) {
 		case 'p':
 			preen++;
@@ -193,7 +184,16 @@ checkfilesys(char *filesys, char *mntpt, long auxdata, int child)
 	case 0:
 		if (preen)
 			pfatal("CAN'T CHECK FILE SYSTEM.");
+		/* FALLTHROUGH */
 	case -1:
+		if (fsreadfd != -1) {
+			(void)close(fsreadfd);
+			fsreadfd = -1;
+		}
+		if (fswritefd != -1) {
+			(void)close(fswritefd);
+			fswritefd = -1;
+		}
 		return (0);
 	}
 	info_filesys = filesys;
@@ -309,8 +309,14 @@ checkfilesys(char *filesys, char *mntpt, long auxdata, int child)
 	blockmap = NULL;
 	free(statemap);
 	statemap = NULL;
+	free(typemap);
+	typemap = NULL;
 	free(lncntp);
 	lncntp = NULL;
+	free(sblock.fs_csp);
+	free(sblk.b_un.b_buf);
+	free(asblk.b_un.b_buf);
+
 	if (!fsmodified)
 		return (0);
 	if (!preen)
