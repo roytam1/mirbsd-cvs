@@ -23,7 +23,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: readpass.c,v 1.35 2006/02/10 01:44:26 stevesk Exp $");
+RCSID("$MirOS: readpass.c,v 1.35 2006/02/10 01:44:26 stevesk Exp $");
 
 #include <sys/wait.h>
 
@@ -134,7 +134,7 @@ read_passphrase(const char *prompt, int flags)
 		if (getenv(SSH_ASKPASS_ENV))
 			askpass = getenv(SSH_ASKPASS_ENV);
 		else
-			askpass = _PATH_SSH_ASKPASS_DEFAULT;
+			askpass = (char *)_PATH_SSH_ASKPASS_DEFAULT;
 		if ((ret = ssh_askpass(askpass, prompt)) == NULL)
 			if (!(flags & RP_ALLOW_EOF))
 				return xstrdup("");

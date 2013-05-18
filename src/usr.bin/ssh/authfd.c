@@ -35,7 +35,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: authfd.c,v 1.67 2006/02/20 16:36:14 stevesk Exp $");
+RCSID("$MirOS: authfd.c,v 1.67 2006/02/20 16:36:14 stevesk Exp $");
 
 #include <sys/un.h>
 
@@ -409,7 +409,6 @@ ssh_agent_sign(AuthenticationConnection *auth,
     u_char **sigp, u_int *lenp,
     u_char *data, u_int datalen)
 {
-	extern int datafellows;
 	Buffer msg;
 	u_char *blob;
 	u_int blen;

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: cipher.h,v 1.35 2004/07/28 09:40:29 markus Exp $	*/
 
 /*
@@ -72,7 +73,7 @@ u_int	 cipher_mask_ssh1(int);
 Cipher	*cipher_by_name(const char *);
 Cipher	*cipher_by_number(int);
 int	 cipher_number(const char *);
-char	*cipher_name(int);
+const char *cipher_name(int);
 int	 ciphers_valid(const char *);
 void	 cipher_init(CipherContext *, Cipher *, const u_char *, u_int,
     const u_char *, u_int, int);

@@ -23,7 +23,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: auth2-none.c,v 1.8 2006/02/20 17:19:54 stevesk Exp $");
+RCSID("$MirOS: auth2-none.c,v 1.8 2006/02/20 17:19:54 stevesk Exp $");
 
 #include <sys/stat.h>
 
@@ -104,7 +104,7 @@ userauth_none(Authctxt *authctxt)
 	packet_check_eom();
 	userauth_banner();
 	if (options.password_authentication)
-		return (PRIVSEP(auth_password(authctxt, "")));
+		return (PRIVSEP(auth_password(authctxt, (char *)"")));
 	return (0);
 }
 

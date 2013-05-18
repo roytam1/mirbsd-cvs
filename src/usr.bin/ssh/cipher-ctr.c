@@ -13,8 +13,9 @@
  * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
+
 #include "includes.h"
-RCSID("$OpenBSD: cipher-ctr.c,v 1.6 2005/07/17 07:17:55 djm Exp $");
+RCSID("$MirOS: cipher-ctr.c,v 1.6 2005/07/17 07:17:55 djm Exp $");
 
 #include <openssl/evp.h>
 #include <openssl/aes.h>
@@ -72,7 +73,7 @@ ssh_aes_ctr(EVP_CIPHER_CTX *ctx, u_char *dest, const u_char *src,
 
 static int
 ssh_aes_ctr_init(EVP_CIPHER_CTX *ctx, const u_char *key, const u_char *iv,
-    int enc)
+    int enc __attribute__((unused)))
 {
 	struct ssh_aes_ctr_ctx *c;
 

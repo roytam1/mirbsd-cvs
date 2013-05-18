@@ -23,7 +23,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: kex.c,v 1.65 2005/11/04 05:15:59 djm Exp $");
+RCSID("$MirOS: kex.c,v 1.65 2005/11/04 05:15:59 djm Exp $");
 
 #include <openssl/crypto.h>
 
@@ -50,7 +50,7 @@ static void kex_choose_conf(Kex *);
 
 /* put algorithm proposal into buffer */
 static void
-kex_prop2buf(Buffer *b, char *proposal[PROPOSAL_MAX])
+kex_prop2buf(Buffer *b, const char *proposal[PROPOSAL_MAX])
 {
 	u_int i;
 
@@ -109,7 +109,7 @@ kex_prop_free(char **proposal)
 }
 
 static void
-kex_protocol_error(int type, u_int32_t seq, void *ctxt)
+kex_protocol_error(int type, u_int32_t seq, void *ctxt __attribute__((unused)))
 {
 	error("Hm, kex protocol error: type %d seq %u", type, seq);
 }
@@ -180,7 +180,8 @@ kex_send_kexinit(Kex *kex)
 }
 
 void
-kex_input_kexinit(int type, u_int32_t seq, void *ctxt)
+kex_input_kexinit(int type __attribute__((unused)),
+    u_int32_t seq __attribute__((unused)), void *ctxt)
 {
 	char *ptr;
 	u_int i, dlen;
@@ -206,7 +207,7 @@ kex_input_kexinit(int type, u_int32_t seq, void *ctxt)
 }
 
 Kex *
-kex_setup(char *proposal[PROPOSAL_MAX])
+kex_setup(const char *proposal[PROPOSAL_MAX])
 {
 	Kex *kex;
 

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: log.h,v 1.11 2004/06/21 22:02:58 djm Exp $	*/
 
 /*
@@ -43,7 +44,7 @@ typedef enum {
 	SYSLOG_LEVEL_NOT_SET = -1
 }       LogLevel;
 
-void     log_init(char *, LogLevel, SyslogFacility, int);
+void     log_init(const char *, LogLevel, SyslogFacility, int);
 
 SyslogFacility	log_facility_number(char *);
 LogLevel log_level_number(char *);
@@ -56,6 +57,7 @@ void     debug(const char *, ...) __attribute__((format(printf, 1, 2)));
 void     debug2(const char *, ...) __attribute__((format(printf, 1, 2)));
 void     debug3(const char *, ...) __attribute__((format(printf, 1, 2)));
 
-void	 do_log(LogLevel, const char *, va_list);
+void	 do_log(LogLevel, const char *, va_list)
+	    __attribute__((format(printf, 2, 0)));
 void	 cleanup_exit(int) __dead;
 #endif

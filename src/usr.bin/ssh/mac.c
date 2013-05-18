@@ -23,7 +23,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: mac.c,v 1.7 2005/06/17 02:44:32 djm Exp $");
+RCSID("$MirOS: mac.c,v 1.7 2005/06/17 02:44:32 djm Exp $");
 
 #include <openssl/hmac.h>
 
@@ -35,7 +35,7 @@ RCSID("$OpenBSD: mac.c,v 1.7 2005/06/17 02:44:32 djm Exp $");
 #include "mac.h"
 
 struct {
-	char		*name;
+	const char	*name;
 	const EVP_MD *	(*mdfunc)(void);
 	int		truncatebits;	/* truncate digest if != 0 */
 } macs[] = {

@@ -42,7 +42,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.4 2006/02/21 02:12:25 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.5 2006/02/22 01:23:53 tg Exp $");
 
 #include <sys/ioctl.h>
 #include <sys/wait.h>
@@ -305,7 +305,7 @@ main_sigchld_handler(int sig)
 /*
  * Signal handler for the alarm after the login grace period has expired.
  */
-static void
+static __dead void
 grace_alarm_handler(int sig)
 {
 	/* XXX no idea how fix this signal handler */
@@ -861,8 +861,6 @@ recv_rexec_state(int fd, Buffer *conf)
 int
 main(int ac, char **av)
 {
-	extern char *optarg;
-	extern int optind;
 	int opt, j, i, fdsetsz, on = 1;
 	int sock_in = -1, sock_out = -1, newsock = -1;
 	pid_t pid;

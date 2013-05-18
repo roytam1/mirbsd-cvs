@@ -25,7 +25,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: atomicio.c,v 1.14 2006/02/11 19:31:18 otto Exp $");
+RCSID("$MirOS: atomicio.c,v 1.14 2006/02/11 19:31:18 otto Exp $");
 
 #include "atomicio.h"
 
@@ -33,11 +33,7 @@ RCSID("$OpenBSD: atomicio.c,v 1.14 2006/02/11 19:31:18 otto Exp $");
  * ensure all of data on socket comes through. f==read || f==vwrite
  */
 size_t
-atomicio(f, fd, _s, n)
-	ssize_t (*f) (int, void *, size_t);
-	int fd;
-	void *_s;
-	size_t n;
+atomicio(ssize_t (*f) (int, void *, size_t), int fd, void *_s, size_t n)
 {
 	char *s = _s;
 	size_t pos = 0;

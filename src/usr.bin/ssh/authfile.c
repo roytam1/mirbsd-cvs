@@ -36,7 +36,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: authfile.c,v 1.62 2006/02/20 17:19:54 stevesk Exp $");
+RCSID("$MirOS: authfile.c,v 1.62 2006/02/20 17:19:54 stevesk Exp $");
 
 #include <sys/stat.h>
 
@@ -167,7 +167,7 @@ key_save_private_rsa1(Key *key, const char *filename, const char *passphrase,
 /* save SSH v2 key in OpenSSL PEM format */
 static int
 key_save_private_pem(Key *key, const char *filename, const char *_passphrase,
-    const char *comment)
+    const char *comment __attribute__((unused)))
 {
 	FILE *fp;
 	int fd;
@@ -460,7 +460,7 @@ key_load_private_pem(int fd, int type, const char *passphrase,
 	FILE *fp;
 	EVP_PKEY *pk = NULL;
 	Key *prv = NULL;
-	char *name = "<no key>";
+	char *name = (char *)"<no key>";
 
 	fp = fdopen(fd, "r");
 	if (fp == NULL) {
@@ -477,7 +477,7 @@ key_load_private_pem(int fd, int type, const char *passphrase,
 		prv = key_new(KEY_UNSPEC);
 		prv->rsa = EVP_PKEY_get1_RSA(pk);
 		prv->type = KEY_RSA;
-		name = "rsa w/o comment";
+		name = (char *)"rsa w/o comment";
 #ifdef DEBUG_PK
 		RSA_print_fp(stderr, prv->rsa, 8);
 #endif
@@ -491,7 +491,7 @@ key_load_private_pem(int fd, int type, const char *passphrase,
 		prv = key_new(KEY_UNSPEC);
 		prv->dsa = EVP_PKEY_get1_DSA(pk);
 		prv->type = KEY_DSA;
-		name = "dsa w/o comment";
+		name = (char *)"dsa w/o comment";
 #ifdef DEBUG_PK
 		DSA_print_fp(stderr, prv->dsa, 8);
 #endif

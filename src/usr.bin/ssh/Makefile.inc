@@ -1,5 +1,5 @@
-# $MirOS: src/usr.bin/ssh/Makefile.inc,v 1.3 2005/04/15 16:28:27 tg Exp $
-#	$OpenBSD: Makefile.inc,v 1.30 2005/06/17 02:45:19 djm Exp $
+# $MirOS: src/usr.bin/ssh/Makefile.inc,v 1.4 2005/06/22 16:11:38 tg Exp $
+# $OpenBSD: Makefile.inc,v 1.30 2005/06/17 02:45:19 djm Exp $
 
 .ifndef _MODSRC_USR_BIN_SSH_MAKEFILE_INC
 _MODSRC_USR_BIN_SSH_MAKEFILE_INC=1
@@ -15,6 +15,8 @@ CFLAGS+=	-Wunused
 CFLAGS+=	-Wsign-compare
 CFLAGS+=	-Wbounded
 CFLAGS+=	-Wshadow
+
+CDIAGFLAGS+=	-Wno-cast-qual
 
 #DEBUG=-g
 

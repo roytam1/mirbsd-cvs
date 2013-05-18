@@ -12,7 +12,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.7 2005/12/20 19:57:33 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.8 2006/02/22 01:23:49 tg Exp $");
 
 #include <sys/stat.h>
 
@@ -697,7 +697,7 @@ parse_int:
 			fatal("%.200s line %d: Missing port argument.",
 			    filename, linenum);
 		memset(&fwd, '\0', sizeof(fwd));
-		fwd.connect_host = "socks";
+		fwd.connect_host = (char *)"socks";
 		fwd.listen_host = hpdelim(&arg);
 		if (fwd.listen_host == NULL ||
 		    strlen(fwd.listen_host) >= NI_MAXHOST)
@@ -1044,7 +1044,7 @@ fill_default_options(Options * options)
 	if (options->forward_x11_trusted == -1)
 		options->forward_x11_trusted = 0;
 	if (options->xauth_location == NULL)
-		options->xauth_location = _PATH_XAUTH;
+		options->xauth_location = (char *)_PATH_XAUTH;
 	if (options->gateway_ports == -1)
 		options->gateway_ports = 0;
 	if (options->use_privileged_port == -1)
@@ -1116,13 +1116,13 @@ fill_default_options(Options * options)
 	if (options->escape_char == -1)
 		options->escape_char = '~';
 	if (options->system_hostfile == NULL)
-		options->system_hostfile = _PATH_SSH_SYSTEM_HOSTFILE;
+		options->system_hostfile = (char *)_PATH_SSH_SYSTEM_HOSTFILE;
 	if (options->user_hostfile == NULL)
-		options->user_hostfile = _PATH_SSH_USER_HOSTFILE;
+		options->user_hostfile = (char *)_PATH_SSH_USER_HOSTFILE;
 	if (options->system_hostfile2 == NULL)
-		options->system_hostfile2 = _PATH_SSH_SYSTEM_HOSTFILE2;
+		options->system_hostfile2 = (char *)_PATH_SSH_SYSTEM_HOSTFILE2;
 	if (options->user_hostfile2 == NULL)
-		options->user_hostfile2 = _PATH_SSH_USER_HOSTFILE2;
+		options->user_hostfile2 = (char *)_PATH_SSH_USER_HOSTFILE2;
 	if (options->log_level == SYSLOG_LEVEL_NOT_SET)
 		options->log_level = SYSLOG_LEVEL_INFO;
 	if (options->clear_forwardings == 1)

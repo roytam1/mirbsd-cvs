@@ -7,7 +7,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: ssh-keyscan.c,v 1.59 2006/02/08 14:31:30 stevesk Exp $");
+RCSID("$MirOS: ssh-keyscan.c,v 1.59 2006/02/08 14:31:30 stevesk Exp $");
 
 #include <sys/queue.h>
 #include <sys/resource.h>
@@ -307,7 +307,7 @@ keygrab_ssh1(con *c)
 	return (rsa);
 }
 
-static int
+static __dead int
 hostjump(Key *hostkey)
 {
 	kexjmp_key = hostkey;
@@ -659,7 +659,7 @@ conloop(void)
 static void
 do_host(char *host)
 {
-	char *name = strnnsep(&host, " \t\n");
+	char *name = strnnsep(&host, (char *)" \t\n");
 	int j;
 
 	if (name == NULL)
@@ -687,7 +687,7 @@ fatal(const char *fmt,...)
 		exit(255);
 }
 
-static void
+static __dead void
 usage(void)
 {
 	fprintf(stderr, "usage: %s [-46Hv] [-f file] [-p port] [-T timeout] [-t type]\n"
@@ -702,9 +702,6 @@ main(int argc, char **argv)
 	int debug_flag = 0, log_level = SYSLOG_LEVEL_INFO;
 	int opt, fopt_count = 0;
 	char *tname;
-
-	extern int optind;
-	extern char *optarg;
 
 	TAILQ_INIT(&tq);
 

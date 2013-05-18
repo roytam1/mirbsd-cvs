@@ -23,7 +23,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: progressmeter.c,v 1.26 2006/02/20 17:02:44 stevesk Exp $");
+RCSID("$MirOS: progressmeter.c,v 1.26 2006/02/20 17:02:44 stevesk Exp $");
 
 #include <sys/ioctl.h>
 
@@ -219,7 +219,7 @@ refresh_progress_meter(void)
 }
 
 static void
-update_progress_meter(int ignore)
+update_progress_meter(int ignore __attribute__((unused)))
 {
 	int save_errno;
 
@@ -269,11 +269,11 @@ stop_progress_meter(void)
 	if (cur_pos != end_pos)
 		refresh_progress_meter();
 
-	atomicio(vwrite, STDOUT_FILENO, "\n", 1);
+	atomicio(vwrite, STDOUT_FILENO, (char *)"\n", 1);
 }
 
 static void
-sig_winch(int sig)
+sig_winch(int sig __attribute__((unused)))
 {
 	win_resized = 1;
 }

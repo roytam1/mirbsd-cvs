@@ -35,7 +35,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: cipher.c,v 1.77 2005/07/16 01:35:24 djm Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/cipher.c,v 1.3 2006/02/21 02:08:41 tg Exp $");
 
 #include "xmalloc.h"
 #include "log.h"
@@ -53,7 +53,7 @@ extern const EVP_CIPHER *evp_aes_128_ctr(void);
 extern void ssh_aes_ctr_iv(EVP_CIPHER_CTX *, int, u_char *, u_int);
 
 struct Cipher {
-	char	*name;
+	const char *name;
 	int	number;		/* for ssh1 only */
 	u_int	block_size;
 	u_int	key_len;
@@ -180,7 +180,7 @@ cipher_number(const char *name)
 	return -1;
 }
 
-char *
+const char *
 cipher_name(int id)
 {
 	Cipher *c = cipher_by_number(id);
@@ -300,7 +300,7 @@ cipher_set_key_string(CipherContext *cc, Cipher *cipher,
 	u_char digest[16];
 
 	MD5Init(&md);
-	MD5Update(&md, passphrase, strlen(passphrase));
+	MD5Update(&md, (const u_char *)passphrase, strlen(passphrase));
 	MD5Final(digest, &md);
 
 	cipher_init(cc, cipher, digest, 16, NULL, 0, do_encrypt);

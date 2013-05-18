@@ -37,7 +37,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/packet.c,v 1.3 2006/02/21 02:08:42 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/packet.c,v 1.4 2006/02/22 01:23:49 tg Exp $");
 
 #include <sys/queue.h>
 
@@ -1160,8 +1160,9 @@ packet_read_poll_seqnr(u_int32_t *seqnr_p)
 	for (;;) {
 		if (compat20) {
 			type = packet_read_poll2(seqnr_p);
-			if (type)
+			if (type) {
 				DBG(debug("received packet type %d", type));
+			}
 			switch (type) {
 			case SSH2_MSG_IGNORE:
 				packet_consume_ignoremsg();
@@ -1210,8 +1211,9 @@ packet_read_poll_seqnr(u_int32_t *seqnr_p)
 				xfree(msg);
 				break;
 			default:
-				if (type)
+				if (type) {
 					DBG(debug("received packet type %d", type));
+				}
 				return type;
 				break;
 			}

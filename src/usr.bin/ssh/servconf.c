@@ -10,7 +10,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.5 2005/11/23 19:45:14 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/servconf.c,v 1.6 2005/12/20 19:57:34 tg Exp $");
 
 #include "ssh.h"
 #include "log.h"
@@ -105,12 +105,12 @@ fill_default_server_options(ServerOptions *options)
 		/* fill default hostkeys for protocols */
 		if (options->protocol & SSH_PROTO_1)
 			options->host_key_files[options->num_host_key_files++] =
-			    _PATH_HOST_KEY_FILE;
+			    (char *)_PATH_HOST_KEY_FILE;
 		if (options->protocol & SSH_PROTO_2) {
 			options->host_key_files[options->num_host_key_files++] =
-			    _PATH_HOST_RSA_KEY_FILE;
+			    (char *)_PATH_HOST_RSA_KEY_FILE;
 			options->host_key_files[options->num_host_key_files++] =
-			    _PATH_HOST_DSA_KEY_FILE;
+			    (char *)_PATH_HOST_DSA_KEY_FILE;
 		}
 	}
 	if (options->num_ports == 0)
@@ -118,7 +118,7 @@ fill_default_server_options(ServerOptions *options)
 	if (options->listen_addrs == NULL)
 		add_listen_addr(options, NULL, 0);
 	if (options->pid_file == NULL)
-		options->pid_file = _PATH_SSH_DAEMON_PID_FILE;
+		options->pid_file = (char *)_PATH_SSH_DAEMON_PID_FILE;
 	if (options->server_key_bits == -1)
 		options->server_key_bits = 768;
 	if (options->login_grace_time == -1)
@@ -142,7 +142,7 @@ fill_default_server_options(ServerOptions *options)
 	if (options->x11_use_localhost == -1)
 		options->x11_use_localhost = 1;
 	if (options->xauth_location == NULL)
-		options->xauth_location = _PATH_XAUTH;
+		options->xauth_location = (char *)_PATH_XAUTH;
 	if (options->strict_modes == -1)
 		options->strict_modes = 1;
 	if (options->tcp_keep_alive == -1)
@@ -198,10 +198,10 @@ fill_default_server_options(ServerOptions *options)
 		if (options->authorized_keys_file != NULL)
 			options->authorized_keys_file2 = options->authorized_keys_file;
 		else
-			options->authorized_keys_file2 = _PATH_SSH_USER_PERMITTED_KEYS2;
+			options->authorized_keys_file2 = (char *)_PATH_SSH_USER_PERMITTED_KEYS2;
 	}
 	if (options->authorized_keys_file == NULL)
-		options->authorized_keys_file = _PATH_SSH_USER_PERMITTED_KEYS;
+		options->authorized_keys_file = (char *)_PATH_SSH_USER_PERMITTED_KEYS;
 	if (options->permit_tun == -1)
 		options->permit_tun = SSH_TUNMODE_NO;
 

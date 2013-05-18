@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: kex.h,v 1.38 2005/11/04 05:15:59 djm Exp $	*/
 
 /*
@@ -123,7 +124,7 @@ struct Kex {
 	void	(*kex[KEX_MAX])(Kex *);
 };
 
-Kex	*kex_setup(char *[PROPOSAL_MAX]);
+Kex	*kex_setup(const char *[PROPOSAL_MAX]);
 void	 kex_finish(Kex *);
 
 void	 kex_send_kexinit(Kex *);

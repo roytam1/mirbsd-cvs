@@ -23,7 +23,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS$");
+RCSID("$MirOS: src/usr.bin/ssh/auth2.c,v 1.2 2005/03/13 18:33:30 tg Exp $");
 
 #include "ssh2.h"
 #include "xmalloc.h"
@@ -66,7 +66,6 @@ static void input_userauth_request(int, u_int32_t, void *);
 /* helper */
 static Authmethod *authmethod_lookup(const char *);
 static char *authmethods_get(void);
-int user_key_allowed(struct passwd *, Key *);
 
 /*
  * loop until authctxt->success == TRUE

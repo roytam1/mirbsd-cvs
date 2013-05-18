@@ -39,7 +39,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: sshlogin.c,v 1.13 2004/08/12 09:18:24 djm Exp $");
+RCSID("$MirOS: sshlogin.c,v 1.13 2004/08/12 09:18:24 djm Exp $");
 
 #include <util.h>
 #include <utmp.h>
@@ -57,11 +57,11 @@ extern ServerOptions options;
  * The host the user logged in from will be returned in buf.
  */
 u_long
-get_last_login_time(uid_t uid, const char *logname,
+get_last_login_time(uid_t uid, const char *logname __attribute__((unused)),
     char *buf, u_int bufsize)
 {
 	struct lastlog ll;
-	char *lastlog;
+	const char *lastlog;
 	int fd;
 	off_t pos, r;
 
@@ -129,12 +129,14 @@ store_lastlog_message(const char *user, uid_t uid)
  * systems were more standardized.
  */
 void
-record_login(pid_t pid, const char *tty, const char *user, uid_t uid,
-    const char *host, struct sockaddr * addr, socklen_t addrlen)
+record_login(pid_t pid __attribute__((unused)), const char *tty,
+    const char *user, uid_t uid, const char *host,
+    struct sockaddr * addr __attribute__((unused)),
+    socklen_t addrlen __attribute__((unused)))
 {
 	int fd;
 	struct lastlog ll;
-	char *lastlog;
+	const char *lastlog;
 	struct utmp u;
 
 	/* save previous login details before writing new */
@@ -174,7 +176,7 @@ record_login(pid_t pid, const char *tty, const char *user, uid_t uid,
 
 /* Records that the user has logged out. */
 void
-record_logout(pid_t pid, const char *tty)
+record_logout(pid_t pid __attribute__((unused)), const char *tty)
 {
 	const char *line = tty + 5;	/* /dev/ttyq8 -> ttyq8 */
 	if (logout(line))

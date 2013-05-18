@@ -33,7 +33,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.6 2005/12/20 19:57:34 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/session.c,v 1.7 2006/02/22 01:23:50 tg Exp $");
 
 #include <sys/wait.h>
 #include <sys/un.h>
@@ -77,7 +77,7 @@ void	do_exec_pty(Session *, const char *);
 void	do_exec_no_pty(Session *, const char *);
 void	do_exec(Session *, const char *);
 void	do_login(Session *, const char *);
-void	do_child(Session *, const char *);
+__dead void do_child(Session *, const char *);
 void	do_motd(void);
 int	check_quietlogin(Session *, const char *);
 
@@ -1066,7 +1066,7 @@ child_close_fds(void)
  * environment, closing extra file descriptors, setting the user and group
  * ids, and executing the command or shell.
  */
-void
+__dead void
 do_child(Session *s, const char *command)
 {
 	extern char **environ;

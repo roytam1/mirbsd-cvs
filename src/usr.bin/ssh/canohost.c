@@ -12,7 +12,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: canohost.c,v 1.48 2005/12/28 22:46:06 stevesk Exp $");
+RCSID("$MirOS: canohost.c,v 1.48 2005/12/28 22:46:06 stevesk Exp $");
 
 #include "packet.h"
 #include "xmalloc.h"
@@ -180,7 +180,7 @@ get_canonical_hostname(int use_dns)
 	if (packet_connection_is_on_socket())
 		host = get_remote_hostname(packet_get_connection_in(), use_dns);
 	else
-		host = "UNKNOWN";
+		host = (char *)"UNKNOWN";
 
 	if (use_dns)
 		canonical_host_name = host;

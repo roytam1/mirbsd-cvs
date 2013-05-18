@@ -40,7 +40,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.8 2005/12/20 19:57:37 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.9 2006/02/22 01:23:52 tg Exp $");
 
 #include <sys/resource.h>
 #include <sys/ioctl.h>
@@ -161,7 +161,7 @@ u_int control_server_pid = 0;
 
 /* Prints a help message to the user.  This function never returns. */
 
-static void
+static __dead void
 usage(void)
 {
 	fprintf(stderr,
@@ -191,8 +191,6 @@ main(int ac, char **av)
 	struct stat st;
 	struct passwd *pw;
 	int dummy;
-	extern int optind, optreset;
-	extern char *optarg;
 	struct servent *sp;
 	Forward fwd;
 
@@ -388,7 +386,7 @@ again:
 				else if (options.cipher == SSH_CIPHER_BLOWFISH)
 					options.ciphers = "blowfish-cbc";
 				else
-					options.ciphers = (char *)-1;
+					options.ciphers = (const char *)-1;
 			}
 			break;
 		case 'm':
@@ -442,7 +440,7 @@ again:
 		case 'D':
 			cp = p = xstrdup(optarg);
 			memset(&fwd, '\0', sizeof(fwd));
-			fwd.connect_host = "socks";
+			fwd.connect_host = (char *)"socks";
 			if ((fwd.listen_host = hpdelim(&cp)) == NULL) {
 				fprintf(stderr, "Bad dynamic forwarding "
 				    "specification '%.100s'\n", optarg);
@@ -870,7 +868,7 @@ ssh_session(void)
 		   length of the string. */
 		cp = getenv("TERM");
 		if (!cp)
-			cp = "";
+			cp = (char *)"";
 		packet_put_cstring(cp);
 
 		/* Store window size in the packet. */

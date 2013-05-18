@@ -35,7 +35,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: ssh-add.c,v 1.75 2006/02/20 17:19:54 stevesk Exp $");
+RCSID("$MirOS: ssh-add.c,v 1.75 2006/02/20 17:19:54 stevesk Exp $");
 
 #include <sys/stat.h>
 
@@ -55,7 +55,7 @@ RCSID("$OpenBSD: ssh-add.c,v 1.75 2006/02/20 17:19:54 stevesk Exp $");
 extern char *__progname;
 
 /* Default files to add */
-static char *default_files[] = {
+static const char *default_files[] = {
 	_PATH_SSH_CLIENT_ID_RSA,
 	_PATH_SSH_CLIENT_ID_DSA,
 	_PATH_SSH_CLIENT_IDENTITY,
@@ -308,8 +308,6 @@ usage(void)
 int
 main(int argc, char **argv)
 {
-	extern char *optarg;
-	extern int optind;
 	AuthenticationConnection *ac = NULL;
 	char *sc_reader_id = NULL;
 	int i, ch, deleting = 0, ret = 0;

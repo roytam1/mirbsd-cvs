@@ -22,9 +22,9 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifdef SMARTCARD
 #include "includes.h"
-RCSID("$OpenBSD: scard.c,v 1.29 2004/05/08 00:21:31 djm Exp $");
+#ifdef SMARTCARD
+RCSID("$MirOS: scard.c,v 1.29 2004/05/08 00:21:31 djm Exp $");
 
 #include <openssl/evp.h>
 #include <sectok.h>

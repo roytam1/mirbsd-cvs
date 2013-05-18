@@ -23,7 +23,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: cipher-3des1.c,v 1.2 2003/12/22 20:29:55 markus Exp $");
+RCSID("$MirOS: cipher-3des1.c,v 1.2 2003/12/22 20:29:55 markus Exp $");
 
 #include <openssl/evp.h>
 #include "xmalloc.h"
@@ -52,8 +52,8 @@ const EVP_CIPHER * evp_ssh1_3des(void);
 void ssh1_3des_iv(EVP_CIPHER_CTX *, int, u_char *, int);
 
 static int
-ssh1_3des_init(EVP_CIPHER_CTX *ctx, const u_char *key, const u_char *iv,
-    int enc)
+ssh1_3des_init(EVP_CIPHER_CTX *ctx, const u_char *key,
+    const u_char *iv __attribute__((unused)), int enc)
 {
 	struct ssh1_3des_ctx *c;
 	u_char *k1, *k2, *k3;

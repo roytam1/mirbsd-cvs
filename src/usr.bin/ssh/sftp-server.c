@@ -15,7 +15,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: sftp-server.c,v 1.52 2006/02/20 17:19:54 stevesk Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/sftp-server.c,v 1.2 2006/02/22 01:23:51 tg Exp $");
 
 #include <sys/stat.h>
 
@@ -1016,7 +1016,7 @@ process(void)
 }
 
 int
-main(int ac, char **av)
+main(void)
 {
 	fd_set *rset, *wset;
 	int in, out, max;

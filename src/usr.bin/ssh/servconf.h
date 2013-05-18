@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/ssh/servconf.h,v 1.2 2005/03/13 18:33:30 tg Exp $ */
+/**	$MirOS: src/usr.bin/ssh/servconf.h,v 1.3 2005/12/20 19:57:34 tg Exp $ */
 /*	$OpenBSD: servconf.h,v 1.72 2005/12/06 22:38:27 reyk Exp $	*/
 
 /*
@@ -65,8 +65,8 @@ typedef struct {
 	char   *xauth_location;	/* Location of xauth program */
 	int     strict_modes;	/* If true, require string home dir modes. */
 	int     tcp_keep_alive;	/* If true, set SO_KEEPALIVE. */
-	char   *ciphers;	/* Supported SSH2 ciphers. */
-	char   *macs;		/* Supported SSH2 macs. */
+	const char   *ciphers;	/* Supported SSH2 ciphers. */
+	const char   *macs;	/* Supported SSH2 macs. */
 	int	protocol;	/* Supported protocol versions. */
 	int     gateway_ports;	/* If true, allow remote connects to forwarded ports. */
 	SyslogFacility log_facility;	/* Facility for system logging. */

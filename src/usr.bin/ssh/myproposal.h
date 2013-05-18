@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/ssh/myproposal.h,v 1.4 2005/06/22 16:11:39 tg Exp $ */
+/**	$MirOS: src/usr.bin/ssh/myproposal.h,v 1.5 2005/11/23 19:45:14 tg Exp $ */
 /*	$OpenBSD: myproposal.h,v 1.18 2005/07/25 11:59:39 markus Exp $	*/
 
 /*
@@ -24,6 +24,7 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
+
 #define KEX_DEFAULT_KEX		"diffie-hellman-group-exchange-sha1," \
 	"diffie-hellman-group14-sha1," \
 	"diffie-hellman-group1-sha1"
@@ -40,7 +41,7 @@
 #define	KEX_DEFAULT_LANG	""
 
 
-static char *myproposal[PROPOSAL_MAX] = {
+static const char *myproposal[PROPOSAL_MAX] = {
 	KEX_DEFAULT_KEX,
 	KEX_DEFAULT_PK_ALG,
 	KEX_DEFAULT_ENCRYPT,

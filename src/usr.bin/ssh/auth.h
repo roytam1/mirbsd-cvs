@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/ssh/auth.h,v 1.2 2005/03/13 18:33:29 tg Exp $ */
+/**	$MirOS: src/usr.bin/ssh/auth.h,v 1.3 2005/06/22 16:11:39 tg Exp $ */
 /*	$OpenBSD: auth.h,v 1.51 2005/06/06 11:20:36 djm Exp $	*/
 
 /*
@@ -69,7 +69,7 @@ struct Authctxt {
  */
 
 struct Authmethod {
-	char	*name;
+	const char *name;
 	int	(*userauth)(Authctxt *authctxt);
 	int	*enabled;
 };
@@ -110,7 +110,7 @@ int	 user_key_allowed(struct passwd *, Key *);
 void	do_authentication(Authctxt *);
 void	do_authentication2(Authctxt *);
 
-void	auth_log(Authctxt *, int, char *, char *);
+void	auth_log(Authctxt *, int, const char *, const char *);
 void	userauth_finish(Authctxt *, int, char *);
 int	auth_root_allowed(char *);
 

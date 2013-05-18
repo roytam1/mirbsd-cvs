@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/ssh/readconf.h,v 1.4 2005/06/22 16:11:39 tg Exp $ */
+/**	$MirOS: src/usr.bin/ssh/readconf.h,v 1.5 2005/12/20 19:57:33 tg Exp $ */
 /*	$OpenBSD: readconf.h,v 1.68 2005/12/06 22:38:27 reyk Exp $	*/
 
 /*
@@ -67,8 +67,8 @@ typedef struct {
 	int     number_of_password_prompts;	/* Max number of password
 						 * prompts. */
 	int     cipher;		/* Cipher to use. */
-	char   *ciphers;	/* SSH2 ciphers in order of preference. */
-	char   *macs;		/* SSH2 macs in order of preference. */
+	const char   *ciphers;	/* SSH2 ciphers in order of preference. */
+	const char   *macs;	/* SSH2 macs in order of preference. */
 	char   *hostkeyalgorithms;	/* SSH2 server key types in order of preference. */
 	int	protocol;	/* Protocol in order of preference. */
 	char   *hostname;	/* Real host to connect. */

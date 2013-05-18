@@ -36,7 +36,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/auth-passwd.c,v 1.2 2005/03/13 18:33:29 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/auth-passwd.c,v 1.3 2005/11/23 18:04:18 tg Exp $");
 
 #include "packet.h"
 #include "buffer.h"
@@ -95,10 +95,10 @@ warn_expiry(Authctxt *authctxt, auth_session_t *as)
 	actimeleft = auth_check_expire(as);
 #ifdef HAVE_LOGIN_CAP
 	if (authctxt->valid) {
-		pwwarntime = login_getcaptime(lc, "password-warn", TWO_WEEKS,
-		    TWO_WEEKS);
-		acwarntime = login_getcaptime(lc, "expire-warn", TWO_WEEKS,
-		    TWO_WEEKS);
+		pwwarntime = login_getcaptime(lc, (char *)"password-warn",
+		    TWO_WEEKS, TWO_WEEKS);
+		acwarntime = login_getcaptime(lc, (char *)"expire-warn",
+		    TWO_WEEKS, TWO_WEEKS);
 	}
 #endif
 	if (pwtimeleft != 0 && pwtimeleft < pwwarntime) {
@@ -124,7 +124,7 @@ sys_auth_passwd(Authctxt *authctxt, const char *password)
 	auth_session_t *as;
 	static int expire_checked = 0;
 
-	as = auth_usercheck(pw->pw_name, authctxt->style, "auth-ssh",
+	as = auth_usercheck(pw->pw_name, authctxt->style, (char *)"auth-ssh",
 	    (char *)password);
 	if (as == NULL)
 		return (0);

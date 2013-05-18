@@ -12,7 +12,7 @@
  */
 
 #include "includes.h"
-RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.9 2006/01/30 15:47:04 tg Exp $");
+RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.10 2006/02/22 01:23:51 tg Exp $");
 
 #include <sys/stat.h>
 
@@ -91,7 +91,7 @@ int print_generic = 0;
 int convert_to_ossl = 0;
 int convert_from_ossl = 0;
 
-char *key_type_name = NULL;
+const char *key_type_name = NULL;
 
 /* argv0 */
 extern char *__progname;
@@ -106,12 +106,12 @@ static void
 ask_filename(struct passwd *pw, const char *prompt)
 {
 	char buf[1024];
-	char *name = NULL;
+	const char *name = NULL;
 
 	if (key_type_name == NULL)
 		name = _PATH_SSH_CLIENT_ID_RSA;
 	else
-		switch (key_type_from_name(key_type_name)) {
+		switch (key_type_from_name((char *)key_type_name)) {
 		case KEY_RSA1:
 			name = _PATH_SSH_CLIENT_IDENTITY;
 			break;
@@ -422,7 +422,7 @@ do_convert_from_ssh2(struct passwd *pw)
 	exit(0);
 }
 
-static void
+static __dead void
 do_convert_from_ossl(struct passwd *pw)
 {
 	Key *k;
@@ -544,7 +544,7 @@ do_download(struct passwd *pw, const char *sc_reader_id)
 }
 #endif /* SMARTCARD */
 
-static void
+static __dead void
 do_fingerprint(struct passwd *pw)
 {
 	FILE *f;
@@ -651,7 +651,7 @@ print_host(FILE *f, char *name, Key *public, int hash)
 	fprintf(f, "\n");
 }
 
-static void
+static __dead void
 do_known_hosts(struct passwd *pw, const char *name)
 {
 	FILE *in, *out = stdout;
@@ -839,7 +839,7 @@ do_known_hosts(struct passwd *pw, const char *name)
  * Perform changing a passphrase.  The argument is the passwd structure
  * for the current user.
  */
-static void
+static __dead void
 do_change_passphrase(struct passwd *pw)
 {
 	char *comment;
@@ -920,7 +920,7 @@ do_change_passphrase(struct passwd *pw)
 /*
  * Print the SSHFP RR.
  */
-static void
+static __dead void
 do_print_resource_record(struct passwd *pw, char *hname)
 {
 	Key *public;
@@ -950,7 +950,7 @@ do_print_resource_record(struct passwd *pw, char *hname)
 /*
  * Change the comment of a private key file.
  */
-static void
+static __dead void
 do_change_comment(struct passwd *pw)
 {
 	char new_comment[1024], *comment, *passphrase;
@@ -1044,7 +1044,7 @@ do_change_comment(struct passwd *pw)
 	exit(0);
 }
 
-static void
+static __dead void
 usage(void)
 {
 	fprintf(stderr, "Usage: %s [options]\n", __progname);
@@ -1106,9 +1106,6 @@ main(int ac, char **av)
 	BIGNUM *start = NULL;
 	FILE *f;
 	const char *errstr;
-
-	extern int optind;
-	extern char *optarg;
 
 	/* Ensure that fds 0, 1 and 2 are open or directed to /dev/null */
 	sanitise_stdfd();
@@ -1349,7 +1346,7 @@ main(int ac, char **av)
 	if (key_type_name == NULL)
 		key_type_name = "rsa";
 
-	type = key_type_from_name(key_type_name);
+	type = key_type_from_name((char *)key_type_name);
 	if (type == KEY_UNSPEC) {
 		fprintf(stderr, "unknown key type %s\n", key_type_name);
 		exit(1);

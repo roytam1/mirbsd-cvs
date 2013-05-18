@@ -26,7 +26,7 @@
  */
 
 #include "includes.h"
-RCSID("$OpenBSD: dns.c,v 1.16 2005/10/17 14:13:35 stevesk Exp $");
+RCSID("$MirOS: dns.c,v 1.16 2005/10/17 14:13:35 stevesk Exp $");
 
 #include <netdb.h>
 
@@ -122,7 +122,7 @@ dns_read_rdata(u_int8_t *algorithm, u_int8_t *digest_type,
 			*digest = (u_char *) xmalloc(*digest_len);
 			memcpy(*digest, rdata + 2, *digest_len);
 		} else {
-			*digest = xstrdup("");
+			*digest = (u_char *) xstrdup("");
 		}
 
 		success = 1;
@@ -157,7 +157,8 @@ is_numeric_hostname(const char *hostname)
  * Returns 0 if lookup succeeds, -1 otherwise
  */
 int
-verify_host_key_dns(const char *hostname, struct sockaddr *address,
+verify_host_key_dns(const char *hostname,
+    struct sockaddr *address  __attribute__((unused)),
     const Key *hostkey, int *flags)
 {
 	u_int counter;
