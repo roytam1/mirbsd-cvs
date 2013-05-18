@@ -1,5 +1,5 @@
 <!-- PageID: mksh -->
-<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.107 2007/05/24 23:10:36 tg Exp $</small>
+<small class="rcsid">$MirOS: www/content/bWtzaA__.inc,v 1.108 2007/05/25 18:27:26 tg Exp $</small>
 
 <h1>mksh(1) R29</h1>
 <p>This is the MirBSD&trade; Korn Shell, a more or less portable
@@ -90,6 +90,8 @@
  <li>No longer build a statically linked shell by default; do not try,
   do not provide any means; user has to use LDFLAGS instead.</li>
  <li>Remove some probably dead mirtoconf checks</li>
+</ul>
+<p>Please use mksh R29f because of below modifications:</p><ul>
  <li>Fix detection of function prototypes (data declaractions were ok)</li>
  <li>Fix a regression introduced in R29e regarding the scroll bar</li>
  <li>Recommendation on <a href="#vsn">version numbering</a> changed;
@@ -629,14 +631,14 @@
 <h2 id="fetch">Getting The Source</h2>
 
 <p>The current version is:</p><ul>
- <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29e.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29e.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29e.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29e.cpio.gz</a></li>
+ <li><a href="http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29f.cpio.gz">http://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R29f.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29f.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R29f.cpio.gz</a></li>
  <li>Please use gzsig(1) to verify the integrity of the distfile instead!
   Hashes are only so you know which distfile you want.</li>
- <li>RMD160 (mksh-R29e.cpio.gz) = d334382380ae088bc007d7b536e3c7a899298921</li>
- <li>TIGER (mksh-R29e.cpio.gz) = b6940244d484d0cef7a3545a38fe642ddc2ba124a6a80118</li>
- <li>2662077023 240688 /MirOS/dist/mir/mksh/mksh-R29e.cpio.gz</li>
- <li>MD5 (mksh-R29e.cpio.gz) = b682e4b0e868dcec1262dd3e050bb56b</li>
+ <li>RMD160 (mksh-R29f.cpio.gz) = eddf9b3292d50171d8b9d6429279f0eb42a4b9ff</li>
+ <li>TIGER (mksh-R29f.cpio.gz) = 5b21adea37e42274bd692518ddd4dedcff5f65e6f113a90b</li>
+ <li>2910491928 240805 /MirOS/dist/mir/mksh/mksh-R29f.cpio.gz</li>
+ <li>MD5 (mksh-R29f.cpio.gz) = 83b4ca84faa1a1ea4cf6db6eb41a0384</li>
 </ul>
 
 <h2>Installation</h2>
@@ -651,14 +653,14 @@
  please note that most of them, seen on Mozilla&reg; and
  its derivates as well as Microsoft&reg; Internet Explorer,
  have a bug where the file is saved correctly
- as <em>mksh-R29e.cpio.gz</em> but already decompressed.</p>
+ as <em>mksh-R29f.cpio.gz</em> but already decompressed.</p>
 
 <h3 id="extract">Unpacking</h3>
-<p>On decent systems, you can just use <tt>tar xzf mksh-R29e.cpio.gz</tt>
+<p>On decent systems, you can just use <tt>tar xzf mksh-R29f.cpio.gz</tt>
  to extract the file. On quite damaged systems such as basically everything
  which is not MirOS or anything else with <a href="/?MirCpio">MirCpio</a>
  (paxmirabilis) or some other kind of paxtar, use <tt>gzip -dc
- mksh-R29e.cpio.gz | cpio -mid</tt> or <tt>gzip -dc mksh-R29e.cpio.gz |
+ mksh-R29f.cpio.gz | cpio -mid</tt> or <tt>gzip -dc mksh-R29f.cpio.gz |
  pax -r</tt> instead.</p>
 <p>Of course, skip the gzip stage (use cat) or the 'z' flag
  if your browser already decompressed the file.</p>
