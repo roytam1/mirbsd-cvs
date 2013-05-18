@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/datatest.inc,v 1.2 2009/10/31 17:02:38 tg Exp $
+RCSID: $MirOS: www/data/datatest.inc,v 1.3 2009/10/31 22:28:04 tg Exp $
 Title: A test posting
 Date: 28.10.2009 12:34
 Author: tg@
@@ -26,4 +26,19 @@ Picture3: Look" <ma> • & Entities
 <p>That too!</p>
 <hr />
 <p class="revbox">@!PICTURE3!@</p>
+----
+Title: Timezone test (1)
+Date: 14.07.2012 23:42
+
+<p>This should be 14.07.2012 23:42 +0000
+ (including filename/permalink/HTML title)
+ and thus sorted later than (2) in the feed…</p>
+----
+Title: Timezone test (2)
+Date: 15.07.2012 01:15 +0200
+
+<p>This should be 15.07.2012 01:15 +0200
+ (including filename/permalink/HTML title)
+ but 14.07.2012 23:15 +0000 when sorting…</p>
+<p>(actually, the order in the .inc source is deliberately wrong)</p>
 ----

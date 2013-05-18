@@ -1,10 +1,7 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.65 2012/05/19 22:18:29 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.66 2012/05/26 15:28:07 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
-
-#DEPEND mk/common
-. "$TOP"/mk/common
 
 mws__markindex=
 mws__pagename=

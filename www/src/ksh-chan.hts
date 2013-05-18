@@ -3,7 +3,7 @@
 
 mws_setname hosted/ksh-chan "The #ksh on Freenode page"
 mws_setheadline 'Channel page for #ksh'
-mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.26 2012/06/03 21:01:40 tg Exp $'
+mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.27 2012/06/26 18:43:16 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of contents</h2>
 EOF
@@ -62,7 +62,12 @@ EOF
 #DEPEND data/ksh-chan.inc
 sources=ksh-chan
 
-notimesort=1
+integer notimesort=1
+integer parser_usedate=0
+
+#DEPEND mk/common
+. "$TOP"/mk/common
+
 #DEPEND mk/parser
 . "$TOP"/mk/parser
 

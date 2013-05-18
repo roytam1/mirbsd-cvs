@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.80 2012/05/15 20:18:33 tg Exp $
+# $MirOS: www/Makefile,v 1.81 2012/05/19 21:40:11 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -81,9 +81,6 @@ _xhtmlbeg=	<?xml version="1.0"?> \
 all:
 install: site.tgz.stamp
 
-STRFTM_MAKE=	cd ${.CURDIR:Q} && ${MAKE} -f ${.SYSMK}/bsd.prog.mk NOMAN=Yes \
-		    VPATH=${.CURDIR:Q}/mk PROG=strftm
-
 OBJS+=		${SRCS:M*.hts:S/hts$/htm~/}
 VOBJS+=		${SRCS:M*.hts:S/hts$/val/}
 CLEANFILES+=	${SRCS:M*.hts:S/hts$/htm~/}
@@ -100,7 +97,7 @@ CLEANFILES+=	stamp_tag_${_i}
 stamp_htm_${_i}: ${DEPS_mk_inc2htm} ${DEPS_data_${_i}_cfg}
 	${U_ENV} ${MKSH} ${TOP}/mk/inc2htm ${_i} >$@ || (rm -f $@; exit 1)
 
-stamp_rss_${_i}: ${DEPS_mk_inc2rss} strftm ${DEPS_data_${_i}_cfg}
+stamp_rss_${_i}: ${DEPS_mk_inc2rss} ${DEPS_data_${_i}_cfg}
 	${U_ENV} PATH=.:$$PATH ${MKSH} ${TOP}/mk/inc2rss ${_i} >$@ || \
 	    (rm -f $@; exit 1)
 .endfor
@@ -110,7 +107,6 @@ OBJS+=		${GENSRCS}
 CLEANFILES+=	${GENSRCS}
 
 clean:
-	-${STRFTM_MAKE} clean
 .for _i in ${GENSRCS}
 	-rm -rf $$(<${_i})
 .endfor
@@ -127,9 +123,6 @@ deinstall:
 reinstall: deinstall .WAIT install
 
 all: ${OBJS}
-
-strftm: mk/strftm.c
-	${STRFTM_MAKE} $@
 
 site.tgz.stamp: _reinstall
 #	find dst | sort | sed -e '/^dst$$/d' -e 's,^dst/,,' | \
@@ -210,7 +203,6 @@ depend: .depend
 
 .depend: ${TOP}/mk/mkdepend ${DEPSRCS}
 	-rm -f $@
-	${STRFTM_MAKE} depend
 	${U_ENV} ${MKSH} ${TOP}/mk/mkdepend ${DEPSRCS}
 
 lazy: .PHONY
