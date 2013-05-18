@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/evolution/Makefile,v 1.4 2006/02/09 11:11:59 tg Exp $
+# $MirOS: ports/mailnews/evolution/Makefile,v 1.5 2006/09/14 00:10:33 tg Exp $
 # $OpenBSD: Makefile,v 1.12 2004/02/04 07:39:18 sturm Exp $
 
 BROKEN=			needs update to GNOME 2
@@ -29,6 +29,7 @@ DISTFILES=		${DISTNAME}.tar.gz \
 
 MODULES=		devel/gettext
 
+.ifndef BROKEN
 BUILD_DEPENDS=		:bison-*:devel/bison \
 			:scrollkeeper->=0.3.12:textproc/scrollkeeper
 RUN_DEPENDS=		:scrollkeeper->=0.3.12:textproc/scrollkeeper
@@ -38,6 +39,7 @@ LIB_DEPENDS=		bonobo.2,bonobo-print.2,bonobox.2::x11/gnome/bonobo \
 			gnomecanvaspixbuf.1::graphics/gdk-pixbuf,-gnome \
 			gtkhtml-1.1.3.2::www/gtkhtml \
 			soup.5::devel/soup
+.endif
 
 DB3_WRKDIST=		${WRKDIR}/db-3.1.17
 DB3_WRKBUILD=		${DB3_WRKDIST}/build_unix

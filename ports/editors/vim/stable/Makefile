@@ -1,4 +1,4 @@
-# $MirOS: ports/editors/vim/stable/Makefile,v 1.9 2006/04/18 19:07:32 bsiegert Exp $
+# $MirOS: ports/editors/vim/stable/Makefile,v 1.10 2006/09/14 00:09:06 tg Exp $
 # $OpenBSD: Makefile,v 1.93 2004/06/09 18:43:16 lebel Exp $
 
 COMMENT=			vi clone, many additional features
@@ -115,7 +115,7 @@ WRKSRC=			${WRKDIST}/src
 
 SUBST_VARS=     	P
 
-.include <bsd.own.mk>
+.include <mirports.sys.mk>
 
 # don't try to regenerate the configure script. Works around the fact that
 # auto/configure.in is newer than auto/configure.

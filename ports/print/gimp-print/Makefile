@@ -1,8 +1,8 @@
-# $MirOS: ports/print/gimp-print/Makefile,v 1.3 2006/09/14 00:12:42 tg Exp $
+# $MirOS: ports/print/gimp-print/Makefile,v 1.4 2007/02/22 22:57:55 tg Exp $
 
-BROKEN=		incomplete port
+BROKEN=			incomplete port
 
-COMMENT=			GIMP Printing System
+COMMENT=		GIMP Printing System
 V=		5.0.0-alpha3
 DISTNAME=	gimp-print-${V}
 EXTRACT_SUFX=	.tar.bz2
@@ -39,7 +39,7 @@ CONFIGURE_ARGS+=	--without-cups
 
 .if ${FLAVOR:L:Mgs}
 CONFIGURE_ARGS+=	--with-ghostscript
-GP_DEPENDS+=		:ghostscript-*:print/ghostscript/gnu,a4
+GP_DEPENDS+=		:ghostscript-*:print/ghostscript/artifex
 BROKEN=			Ghostscript does not build IJS tools
 .else
 CONFIGURE_ARGS+=	--without-ghostscript

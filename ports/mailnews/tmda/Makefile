@@ -18,7 +18,7 @@ MASTER_SITES=		http://tmda.net/releases/stable/
 EXTRACT_SUFX=		.tgz
 USE_CXX=		Yes
 
-PYTHON_VER=     	2.2
+PYTHON_VER=     	2.3
 
 RUN_DEPENDS=		:python-${PYTHON_VER}*:lang/python/${PYTHON_VER}
 BUILD_DEPENDS=		${RUN_DEPENDS}

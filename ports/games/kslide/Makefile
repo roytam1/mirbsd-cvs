@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.4 2003/01/19 02:50:32 brad Exp $
 
+BROKEN=			no KDE for now
+
 COMMENT=			puzzle game for KDE
 
 DISTNAME=	kslide-0.90
@@ -17,7 +19,7 @@ MASTER_SITES=	http://david.bieder.free.fr/eric/taquin/ \
 		http://perso.wanadoo.fr/coquelle/taquin/
 EXTRACT_SUFX=	.tar.bz2
 
-LIB_DEPENDS=	kdecore.4,DCOP,kdefx,kdesu,kdeui,kio::x11/kde/libs3
+#LIB_DEPENDS=	kdecore.4,DCOP,kdefx,kdesu,kdeui,kio::x11/kde/libs3
 
 MODULES=	x11/qt3 graphics/png
 USE_CXX=	Yes

@@ -19,9 +19,9 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	No
 PERMIT_DISTFILES_FTP=	No
 
-LIB_DEPENDS=	art_lgpl_2::graphics/libart \
-		kdecore.6,DCOP,kdefx,kdeui::x11/kde/libs3 \
-		kdecorations::x11/kde/base3
+#LIB_DEPENDS=	art_lgpl_2::graphics/libart \
+#		kdecore.6,DCOP,kdefx,kdeui::x11/kde/libs3 \
+#		kdecorations::x11/kde/base3
 
 AUTOCONF_NEW=	Yes
 MODKDE_VERSION= 3.2

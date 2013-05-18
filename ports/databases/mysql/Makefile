@@ -1,4 +1,4 @@
-# $MirOS: ports/databases/mysql/Makefile,v 1.3 2006/02/02 20:13:47 tg Exp $
+# $MirOS: ports/databases/mysql/Makefile,v 1.4 2006/09/14 00:07:49 tg Exp $
 # $OpenBSD: Makefile,v 1.99 2004/05/21 12:16:21 brad Exp $
 # Uses pthreads
 
@@ -52,7 +52,7 @@ CONFIGURE_ARGS+= --enable-thread-safe-client \
 		 --without-extra-tools \
 		 --without-readline
 
-.include <bsd.own.mk>
+.include <mirports.sys.mk>
 
 .if defined(USE_GCC3) && (${USE_GCC3:L} == "yes")
 CONFIGURE_ARGS+=--with-client-ldflags=-lsupc++ \

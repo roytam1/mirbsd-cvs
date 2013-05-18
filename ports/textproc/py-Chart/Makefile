@@ -21,7 +21,7 @@ MASTER_SITES=	${HOMEPAGE}
 
 MODULES=	lang/python
 
-RUN_DEPENDS+=	:ghostscript-*:print/ghostscript/gnu
+RUN_DEPENDS+=	:ghostscript-*:print/ghostscript/artifex
 
 NO_REGRESS=	Yes
 

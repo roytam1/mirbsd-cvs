@@ -19,7 +19,7 @@ PERMIT_DISTFILES_FTP=  Yes
 MASTER_SITES=	${HOMEPAGE}/download/
 EXTRACT_SUFX=	.tar.bz2
 
-LIB_DEPENDS=	kdecore.4,DCOP,kdesu,kdeui,kio,kdefx::x11/kde/libs3
+#LIB_DEPENDS=	kdecore.4,DCOP,kdesu,kdeui,kio,kdefx::x11/kde/libs3
 
 #MODULES=	x11/kde
 

@@ -18,7 +18,7 @@ PERMIT_DISTFILES_FTP=  Yes
 
 MASTER_SITES=	http://www.lysator.liu.se/~erre/download/kountdown/
 
-LIB_DEPENDS=	kdecore.4,DCOP,kdefx,kdesu,kdeui,kio,kscreensaver::x11/kde/libs3
+#LIB_DEPENDS=	kdecore.4,DCOP,kdefx,kdesu,kdeui,kio,kscreensaver::x11/kde/libs3
 
 AUTOCONF_NEW=	Yes
 MODKDE_VERSION= 3.1

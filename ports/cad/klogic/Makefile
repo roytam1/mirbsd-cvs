@@ -1,4 +1,4 @@
-# $MirOS: ports/cad/klogic/Makefile,v 1.3 2006/02/09 13:25:12 tg Exp $
+# $MirOS: ports/cad/klogic/Makefile,v 1.4 2006/09/14 00:07:30 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2004/05/15 14:32:26 brad Exp $
 
 BROKEN=			Missing support for module x11/kde
@@ -19,7 +19,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-LIB_DEPENDS=	kdecore.4,DCOP,kdefx,kdesu,kdeui,kio::x11/kde/libs3
+#LIB_DEPENDS=	kdecore.4,DCOP,kdefx,kdesu,kdeui,kio::x11/kde/libs3
 
 AUTOCONF_NEW=	Yes
 #MODULES=	x11/kde

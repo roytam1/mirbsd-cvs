@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/themes-extras/Makefile,v 1.4 2006/09/14 00:15:22 tg Exp $
+# $MirOS: ports/x11/gnome/themes-extras/Makefile,v 1.5 2006/12/20 15:32:48 tg Exp $
 
 COMMENT=		themes collection for GNOME
 
@@ -23,7 +23,7 @@ MODULES=		devel/gettext
 
 BUILD_DEPENDS=		:intltool->=0.23:textproc/intltool \
 			${RUN_DEPENDS}
-RUN_DEPENDS=		:gtk-engines2->=2.2.0:x11/gtk-engines2
+RUN_DEPENDS=		:gtk-engines2->=2.2.0:x11/gtk-engines
 LIB_DEPENDS= 		gnomeui-2.0::x11/gnome/libgnomeui
 
 USE_X11=		Yes

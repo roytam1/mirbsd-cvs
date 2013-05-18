@@ -1,9 +1,9 @@
-# $MirOS: ports/comms/hylafax/Makefile,v 1.2 2005/07/07 21:17:59 bsiegert Exp $
+# $MirOS: ports/comms/hylafax/Makefile,v 1.3 2006/09/14 00:07:35 tg Exp $
 # $OpenBSD: Makefile,v 1.41 2003/11/11 22:24:19 todd Exp $
 
-COMMENT=			send/receive faxes and share modems
+COMMENT=		send/receive faxes and share modems
 DISTNAME=		hylafax-4.1.5
-PKGNAME=		${DISTNAME}-1
+DASH_VER=		1
 CATEGORIES=		comms
 
 FLAVORS=		a4
@@ -19,7 +19,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-RUN_DEPENDS=		:ghostscript-*:print/ghostscript/gnu
+RUN_DEPENDS=		:ghostscript-*:print/ghostscript/artifex
 LIB_DEPENDS=		tiff::graphics/tiff \
 			jpeg::graphics/jpeg
 

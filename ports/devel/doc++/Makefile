@@ -15,7 +15,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=docpp/}
 
-RUN_DEPENDS=	:ghostscript-*:print/ghostscript/gnu \
+RUN_DEPENDS=	:ghostscript-*:print/ghostscript/artifex \
 		:teTeX_base-*:print/teTeX/base
 
 USE_GMAKE=	Yes

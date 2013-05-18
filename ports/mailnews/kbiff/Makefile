@@ -18,7 +18,7 @@ PERMIT_DISTFILES_FTP=  	Yes
 
 MASTER_SITES=		http://devel-home.kde.org/~granroth/kbiff/
 
-LIB_DEPENDS=		kdecore.4,kio,kdeui,kdefx,kdesu,DCOP::x11/kde/libs3
+#LIB_DEPENDS=		kdecore.4,kio,kdeui,kdefx,kdesu,DCOP::x11/kde/libs3
 
 MODKDE_VERSION= 	3.1
 #MODULES=        	x11/kde

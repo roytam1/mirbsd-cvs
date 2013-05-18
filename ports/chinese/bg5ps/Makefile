@@ -15,7 +15,7 @@ PERMIT_PACKAGE_FTP=     Yes
 MASTER_SITES=	ftp://freebsd.sinica.edu.tw/pub/keith/	\
 		ftp://ftp.shellhung.org/pub/OpenBSD/packages/chinese/bg5ps/
 
-PYTHON_VER=	2.1
+PYTHON_VER=	2.3
 RUN_DEPENDS=	::chinese/arphicttf \
 		:python-${PYTHON_VER}*:lang/python/${PYTHON_VER}
 MODULES+=		print/freetype

@@ -32,7 +32,7 @@ PERMIT_PACKAGE_CDROM=Yes
 PERMIT_DISTFILES_FTP=Yes
 PERMIT_DISTFILES_CDROM=Yes
 
-LIB_DEPENDS=kdecore.4,DCOP,kdefx,kdesu,kdeui,kio,kmediaplayer,kparts::x11/kde/libs3
+#LIB_DEPENDS=kdecore.4,DCOP,kdefx,kdesu,kdeui,kio,kmediaplayer,kparts::x11/kde/libs3
 
 RUN_DEPENDS=:mplayer-*:x11/mplayer
 

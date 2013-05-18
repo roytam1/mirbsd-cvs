@@ -1,4 +1,4 @@
-# $MirOS: ports/security/pcsc-lite/Makefile,v 1.3 2005/07/07 21:26:13 bsiegert Exp $
+# $MirOS: ports/security/pcsc-lite/Makefile,v 1.4 2006/09/14 00:13:15 tg Exp $
 
 COMMENT=			Smartcard middleware
 DISTNAME=		pcsc-lite-1.2.0
@@ -28,7 +28,7 @@ CONFIGURE_ENV+=		PTHREAD_LIBS=-pthread PTHREAD_CFLAGS=-pthread
 LIB_DEPENDS+=		usb.7::devel/libusb
 USE_GMAKE=		Yes
 
-.include <bsd.own.mk>
+.include <mirports.sys.mk>
 .if ${FLAVOR:L:Mdebug}
 CFLAGS+=		-DPCSC_DEBUG -DATR_DEBUG
 CONFIGURE_ARGS+=	--enable-debug --enable-debugatr

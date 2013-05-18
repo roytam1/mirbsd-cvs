@@ -1,6 +1,7 @@
 # $OpenBSD: Makefile.inc,v 1.37 2004/04/25 10:36:39 jakob Exp $
 
-COMMENT=			fast, secure sendmail replacement
+COMMENT=		fast, secure sendmail replacement
+DISTNAME=		postfix-${VERSION}
 
 CATEGORIES=	mail
 
@@ -39,7 +40,7 @@ FLAVORS+=	sasl2 ldap mysql pgsql
 FLAVOR?=
 
 .if ${FLAVOR:L:Msasl2}
-LIB_DEPENDS+=	sasl2::security/cyrus-sasl2
+LIB_DEPENDS+=	sasl2::security/cyrus-sasl
 MAKE_CCARGS+=	-I${LOCALBASE}/include -I${LOCALBASE}/include/sasl -DUSE_SASL_AUTH 
 MAKE_AUXLIBS+=	-L${LOCALBASE}/lib -lsasl2
 .endif

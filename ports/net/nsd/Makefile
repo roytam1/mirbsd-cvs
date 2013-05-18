@@ -1,6 +1,10 @@
 # $OpenBSD: Makefile,v 1.19 2004/05/18 11:33:09 jakob Exp $
 
-COMMENT=			authoritative-only name server daemon
+BROKEN=			bind9 port doesn't include named-xfer; upgrading
+BROKEN+=		nsd will solve this since newer versions include
+BROKEN+=		their own zone transfer client
+
+COMMENT=		authoritative-only name server daemon
 
 VERSION=	2.1.0
 DISTNAME=	nsd-${VERSION}
@@ -17,7 +21,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-RUN_DEPENDS=	:named-xfer-*:net/named-xfer
+#RUN_DEPENDS=	:named-xfer-*:net/named-xfer
 
 CONFIGURE_STYLE=	gnu
 CONFIGURE_ARGS+=	--enable-dnssec \

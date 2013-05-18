@@ -1,6 +1,8 @@
-# $MirOS: ports/security/tinyca/Makefile,v 1.1.7.1 2005/03/18 15:51:56 tg Exp $
+# $MirOS: ports/security/tinyca/Makefile,v 1.2 2006/09/14 00:13:23 tg Exp $
 
-COMMENT=			gui to manage a certification authority
+BROKEN=			p5-Gtk needs gnome2
+
+COMMENT=		gui to manage a certification authority
 DISTNAME=	tinyca-0.6.4
 CATEGORIES=	security
 HOMEPAGE=	http://tinyca.sm-zone.net/index.html
@@ -13,9 +15,9 @@ PERMIT_PACKAGE_FTP=	Yes
 
 MASTER_SITES=	http://tinyca.sm-zone.net/
 
-RUN_DEPENDS=	::x11/p5-Gtk,gnome \
-		::converters/p5-Locale-gettext \
-		::archivers/zip
+#RUN_DEPENDS=	::x11/p5-Gtk,gnome \
+#		::converters/p5-Locale-gettext \
+#		::archivers/zip
 
 NO_REGRESS=	Yes
 

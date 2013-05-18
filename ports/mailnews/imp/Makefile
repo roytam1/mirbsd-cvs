@@ -1,8 +1,10 @@
 # $OpenBSD: Makefile,v 1.10 2004/05/01 16:15:56 avsm Exp $ 
 
-BROKEN=		needs updating to php5
+BROKEN=			needs updating to php5
+BROKEN+=		\n\thorde is broken
+BROKEN+=		\n\timap module does not exist for php5
 
-COMMENT=			highly configurable pop3/imap4 webmail client
+COMMENT=		highly configurable pop3/imap4 webmail client
 
 V=		3.2.3
 HORDE_MODULE=	imp
@@ -30,8 +32,8 @@ PREFIX=		${WWW_PREFIX}
 INSTDIR=	${PREFIX}/horde
 SUBST_VARS=	INSTDIR HORDE_NAME HORDE_MODULE
 
-RUN_DEPENDS=	:horde->=2.1:devel/horde \
-		:php4-imap->=4.3.1:www/php4/extensions,-imap
+#RUN_DEPENDS=	:horde->=2.1:devel/horde \
+#		:php-imap->=4.3.1:www/php/extensions,-imap
 
 pre-fake:
 	${INSTALL_DATA_DIR} ${INSTDIR}

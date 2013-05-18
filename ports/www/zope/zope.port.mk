@@ -3,7 +3,9 @@
 #	zope.port.mk - Xavier Santolaria <xavier@santolaria.net>
 #	This file is in the public domain.
 
-MODZOPE_PYTHON_VERSION=	2.1
+BROKEN+=		needs porting to python 2.3
+
+MODZOPE_PYTHON_VERSION=	2.3
 
 BUILD_DEPENDS+= :python->=${MODZOPE_PYTHON_VERSION},<2.2:lang/python/${MODZOPE_PYTHON_VERSION}
 RUN_DEPENDS+=	::www/zope

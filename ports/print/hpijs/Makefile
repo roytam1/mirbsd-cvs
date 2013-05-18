@@ -16,7 +16,7 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=hpinkjet/}
 
-RUN_DEPENDS=		::print/ghostscript/gnu
+RUN_DEPENDS=		::print/ghostscript/artifex
 
 CONFIGURE_STYLE=	gnu
 FAKE_FLAGS=		${DESTDIRNAME}=${WRKINST} \

@@ -1,4 +1,4 @@
-# $MirOS: ports/palm/palmos-sdk/Makefile,v 1.2 2005/07/07 21:25:17 bsiegert Exp $
+# $MirOS: ports/palm/palmos-sdk/Makefile,v 1.3 2006/09/14 00:12:32 tg Exp $
 # $OpenBSD: Makefile,v 1.9 2002/10/28 02:13:21 naddy Exp $
 
 COMMENT=			PalmOS include files
@@ -31,7 +31,7 @@ NO_BUILD=	Yes
 NO_REGRESS=	Yes
 SUBST_VARS=	VERSION
 
-.include <bsd.own.mk>
+.include <mirports.sys.mk>
 
 ACCEPT_PALMOS_SDK_LICENSE?=No
 .if ${ACCEPT_PALMOS_SDK_LICENSE:L} == "no"

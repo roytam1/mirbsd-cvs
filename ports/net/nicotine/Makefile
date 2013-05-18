@@ -17,8 +17,7 @@ MASTER_SITES=	${HOMEPAGE}
 
 MODULES=	lang/python
 
-BUILD_DEPENDS=	${RUN_DEPENDS}
-RUN_DEPENDS=	:py-gtk2-*:x11/py-gtk2
+B_R_DEPENDS=	:py-gtk2-*:x11/py-gtk
 
 NO_REGRESS=	Yes
 

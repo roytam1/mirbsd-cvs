@@ -18,12 +18,12 @@ FLAVOR?=
 
 USE_CXX=	Yes
 
-PYTHON_VER=	2.1
+PYTHON_VER=	2.3
 DATETIME_PATH=	${LOCALBASE}/lib/python${PYTHON_VER}/site-packages/mx/DateTime
 
 LIB_DEPENDS+=	pq.2::databases/postgresql
 RUN_DEPENDS+=	:python-${PYTHON_VER}*:lang/python/${PYTHON_VER} \
-		:py-mxDateTime->=2.0.0-py2.1:devel/py-mxDateTime,py2.1
+		:py-mxDateTime->=2.0.0-py${PYTHON_VER}:devel/py-mxDateTime,py${PYTHON_VER}
 BUILD_DEPENDS+=	${RUN_DEPENDS}
 
 .if ${FLAVOR:L:Mzope}

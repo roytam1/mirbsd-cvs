@@ -1,4 +1,4 @@
-# $MirOS: ports/multimedia/mplayer/Makefile,v 1.14 2006/06/25 02:26:09 tg Exp $
+# $MirOS: ports/multimedia/mplayer/Makefile,v 1.15 2006/09/14 00:11:28 tg Exp $
 # $OpenBSD: Makefile,v 1.83 2005/05/09 12:24:38 biorn Exp $
 
 # May not be hard to add more.
@@ -74,8 +74,8 @@ CONFIGURE_ARGS+=--enable-runtime-cpudetection
 CONFIGURE_ARGS+=--disable-altivec
 .endif
 
-FLAVORS=	arts esd sdl ggi debug mad no_x11 aa \
-		no_live no_ungif no_lzo caca
+FLAVORS=	esd sdl ggi debug mad no_x11 aa \
+		no_live no_ungif no_lzo caca	# arts
 FLAVOR?=
 
 .if ${MACHINE_ARCH:Marm}

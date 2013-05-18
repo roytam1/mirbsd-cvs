@@ -1,6 +1,8 @@
 # $OpenBSD: Makefile,v 1.3 2004/04/18 17:38:37 naddy Exp $
 
-COMMENT=			GUI for dctc (Direct Connect Text Clone)
+BROKEN=			no GNOME 1
+
+COMMENT=		GUI for dctc (Direct Connect Text Clone)
 
 DISTNAME=		dc_gui-0.42
 CATEGORIES=		net x11
@@ -14,9 +16,9 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		${HOMEPAGE}
 
-LIB_DEPENDS=		gnome.36,art_lgpl.4,gnomesupport.,gnomeui.46,gnorba.28::x11/gnome/libs
-BUILD_DEPENDS=		${RUN_DEPENDS}
-RUN_DEPENDS=		:dctc-*:net/dctc
+# no GNOME 1
+#LIB_DEPENDS=		gnome.36,art_lgpl.4,gnomesupport.,gnomeui.46,gnorba.28::x11/gnome/libs
+B_R_DEPENDS=		:dctc-*:net/dctc
 
 USE_X11=		Yes
 USE_CXX=		Yes

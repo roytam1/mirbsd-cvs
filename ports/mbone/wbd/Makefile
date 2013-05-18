@@ -13,7 +13,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-BUILD_DEPENDS=	:ghostscript-*:print/ghostscript/gnu
+BUILD_DEPENDS=	:ghostscript-*:print/ghostscript/artifex
 RUN_DEPENDS=	${BUILD_DEPENDS}
 LIB_DEPENDS=	tcl80::lang/tcl/8.0 \
 		tk80::x11/tk/8.0

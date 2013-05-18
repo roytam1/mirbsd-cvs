@@ -1,12 +1,13 @@
 # $OpenBSD: Makefile,v 1.17 2003/06/21 07:49:24 pvalchev Exp $
 
-COMMENT=			object-oriented web application server
+BROKEN=			needs porting to python 2.3
+
+COMMENT=		object-oriented web application server
 
 VERSION=	2.6.1
-PORT_VERSION=	${VERSION}
 
 DISTNAME=	Zope-${VERSION}-src
-PKGNAME=	zope-${PORT_VERSION}-0
+PKGNAME=	zope-${VERSION}-${DASH_VER}
 CATEGORIES=     www
 
 HOMEPAGE=	http://www.zope.org/
@@ -32,8 +33,7 @@ DIST_SUBDIR=	zope
 
 DISTFILES=	${DISTNAME}${EXTRACT_SUFX}
 
-BUILD_DEPENDS=	:python->=2.1.3,<2.2:lang/python/2.1
-RUN_DEPENDS=	:python->=2.1.3,<2.2:lang/python/2.1
+B_R_DEPENDS+=	:python->=2.1.3,<2.2:lang/python/2.3
 
 # Note that the configure script is really just for pcgi, but it's
 # the only one in the package.
@@ -80,7 +80,7 @@ do-install:
 		${PREFIX}/share/doc/zope
 	${INSTALL_DATA} ${WRKSRC}/doc/changenotes/* \
 		${PREFIX}/share/doc/zope/changenotes
-	echo "Zope ${VERSION} (OpenBSD package zope-${PORT_VERSION})" \
+	echo "Zope ${VERSION} (MirPorts zope-${VERSION})" \
 		> ${PREFIX}/lib/zope/lib/python/version.txt
 #	${INSTALL_DATA_DIR} ${PRODUCTSDIR}/Hotfix_${HOTFIX_DATE1}
 #	${INSTALL_DATA} \

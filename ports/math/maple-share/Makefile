@@ -2,7 +2,7 @@
 # Original from: Marc Espie
 # XXX This port installs in a somewhat unusual way.
 
-.include <bsd.own.mk>
+.include <mirports.sys.mk>
 
 # if someone wants to buy the sparc version and check it, be my guest...
 ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386

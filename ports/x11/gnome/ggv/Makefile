@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/ggv/Makefile,v 1.2 2006/02/09 11:15:43 tg Exp $
+# $MirOS: ports/x11/gnome/ggv/Makefile,v 1.3 2006/09/14 00:15:17 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2005/03/06 10:51:07 alek Exp $
 
 COMMENT=			GNOME frontend for GhostScript
@@ -18,12 +18,10 @@ EXTRACT_SUFX=		.tar.bz2
 
 MODULES=		devel/gettext devel/pkgconfig
 
-BUILD_DEPENDS=		:p5-XML-Parser-*:textproc/p5-XML-Parser \
-			:scrollkeeper-*:textproc/scrollkeeper \
-			:ghostscript-*:print/ghostscript/gnu
-LIB_DEPENDS=		gnomeui-2::x11/gnome/libgnomeui
-RUN_DEPENDS=		:scrollkeeper-*:textproc/scrollkeeper \
-			:ghostscript-*:print/ghostscript/gnu
+BUILD_DEPENDS+=		:p5-XML-Parser-*:textproc/p5-XML-Parser
+LIB_DEPENDS+=		gnomeui-2::x11/gnome/libgnomeui
+B_R_DEPENDS+=		:scrollkeeper-*:textproc/scrollkeeper \
+			:ghostscript-*:print/ghostscript/artifex
 
 USE_X11=		Yes
 USE_GMAKE=		Yes

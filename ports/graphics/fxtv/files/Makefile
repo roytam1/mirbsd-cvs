@@ -1,6 +1,6 @@
-# $MirOS$
+# $MirOS: ports/graphics/fxtv/files/Makefile,v 1.1.7.1 2005/03/18 15:46:48 tg Exp $
 
-.include <bsd.own.mk>
+.include <mirports.sys.mk>
 
 BINDIR=		${PREFIX}/bin
 MANDIR=		${PREFIX}/man/cat

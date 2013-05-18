@@ -1,6 +1,7 @@
 # $OpenBSD: Makefile,v 1.6 2004/03/30 09:26:54 kevlo Exp $
 
-COMMENT=			library for Chinese language processing
+BROKEN=			no berkeley db 3 port
+COMMENT=		library for Chinese language processing
 
 DISTNAME=	libtabe-0.2.5
 PKGNAME=	zh-${DISTNAME}-0
@@ -16,7 +17,8 @@ PERMIT_DISTFILES_FTP=   Yes
 
 MASTER_SITES=	ftp://xcin.linux.org.tw/pub/xcin/libtabe/devel/
 
-LIB_DEPENDS=	lib/db/db.3:db->3,<4:databases/db/v3
+# see BROKEN
+#LIB_DEPENDS=	lib/db/db.3:db->3,<4:databases/db/v3
 
 USE_X11=	Yes
 CONFIGURE_STYLE= gnu dest

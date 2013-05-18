@@ -1,4 +1,4 @@
-# $MirOS: ports/www/gtkhtml/Makefile,v 1.3 2006/02/09 11:15:35 tg Exp $
+# $MirOS: ports/www/gtkhtml/Makefile,v 1.4 2006/09/14 00:14:37 tg Exp $
 # $OpenBSD: Makefile,v 1.6 2003/04/10 15:55:48 marcm Exp $
 
 BROKEN=			needs update to GNOME 2
@@ -21,11 +21,13 @@ EXTRACT_SUFX=		.tar.bz2
 
 MODULES=		devel/gettext
 
+.ifndef BROKEN
 LIB_DEPENDS=		bonobo.2,bonobox.2::x11/gnome/bonobo \
 			capplet::x11/gnome/controlcenter \
 			gal.22::devel/gal \
 			ghttp.1::www/libghttp \
 			glade.5,glade-gnome.5::devel/libglade,gnome
+.endif
 
 USE_X11=		Yes
 USE_GMAKE=		Yes

@@ -1,4 +1,4 @@
-# $MirOS: ports/math/graphviz/Makefile,v 1.3 2006/02/09 11:12:04 tg Exp $
+# $MirOS: ports/math/graphviz/Makefile,v 1.4 2006/09/14 00:10:56 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2004/03/04 01:48:02 naddy Exp $
 
 IGNORE=		"might be broken, used to use Libtool"
@@ -30,7 +30,7 @@ CONFIGURE_ENV+=AUTOCONF_VERSION=${AUTOCONF_VERSION}
 USE_GMAKE=	Yes
 USE_X11=	Yes
 
-.include <bsd.own.mk>
+.include <mirports.sys.mk>
 
 ACCEPT_GRAPHVIZ_LICENSE?=No
 .if ${ACCEPT_GRAPHVIZ_LICENSE:L} == "no"

@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/py-gtk1/Makefile,v 1.4 2005/07/07 21:29:13 bsiegert Exp $
+# $MirOS: ports/x11/py-gtk1/Makefile,v 1.5 2006/09/14 00:15:35 tg Exp $
 # $OpenBSD: Makefile,v 1.15 2004/02/18 20:05:12 xsa Exp $
 
 IGNORE=		"might be broken, used to use Libtool"
@@ -38,7 +38,7 @@ USE_GMAKE=	Yes
 
 CONFIGURE_STYLE=gnu
 
-PYTHON_VER=	2.1
+PYTHON_VER=	2.3
 SUBST_VARS=	PYTHON_VER
 
 CONFIGURE_ENV=	PYTHON=${LOCALBASE}/bin/python${PYTHON_VER}

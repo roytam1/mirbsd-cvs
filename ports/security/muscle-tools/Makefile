@@ -1,4 +1,4 @@
-# $MirOS: ports/security/muscle-tools/Makefile,v 1.2 2005/04/10 21:50:55 tg Exp $
+# $MirOS: ports/security/muscle-tools/Makefile,v 1.3 2006/09/14 00:13:05 tg Exp $
 
 COMMENT=			Smartcard access tools
 DISTNAME=		muscleTools-0.9.2
@@ -17,7 +17,7 @@ BUILD_DEPENDS+=		:muscleframework->=1.1:security/muscle-framework
 RUN_DEPENDS+=		:muscleframework->=1.1:security/muscle-framework
 LIB_DEPENDS+=		musclecard.0::security/pcsc-lite
 
-.include <bsd.own.mk>
+.include <mirports.sys.mk>
 CFLAGS+=		-pthread
 
 .include <bsd.port.mk>

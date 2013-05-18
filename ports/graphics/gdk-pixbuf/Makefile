@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/gdk-pixbuf/Makefile,v 1.5 2006/02/09 11:11:45 tg Exp $
+# $MirOS: ports/graphics/gdk-pixbuf/Makefile,v 1.6 2006/09/14 00:09:50 tg Exp $
 # $OpenBSD: Makefile,v 1.30 2004/03/02 07:57:21 brad Exp $
 
 COMMENT=			GdkPixbuf graphics library
@@ -25,7 +25,7 @@ CONFIGURE_ARGS+= --disable-modules \
 		 --with-html-dir="${PREFIX}/share/doc"
 
 PSEUDO_FLAVORS=	no_gnome
-FLAVOR?=
+FLAVOR?=	no_gnome
 
 MULTI_PACKAGES=
 .if !${FLAVOR:L:Mno_gnome}

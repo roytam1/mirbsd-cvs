@@ -1,9 +1,9 @@
 # $OpenBSD: Makefile,v 1.20 2004/02/01 20:25:35 sturm Exp $
 
-COMMENT=			LaTeX to HTML converter
+COMMENT=		LaTeX to HTML converter
 
-DISTNAME=	latex2html-97.1
-CATEGORIES=	textproc www
+DISTNAME=		latex2html-97.1
+CATEGORIES=		textproc www
 
 PERMIT_PACKAGE_CDROM=	"no fee"
 PERMIT_PACKAGE_FTP=	Yes
@@ -14,7 +14,7 @@ MASTER_SITES=	ftp://ftp.tex.ac.uk/ctan/tex-archive/support/latex2html/sources/ \
    		ftp://ftp.funet.fi/pub/mirrors/ftp.tex.ac.uk/ctan/tex-archive/support/latex2html/sources/
 
 RUN_DEPENDS=	:netpbm-*:graphics/netpbm \
-		:ghostscript-*:print/ghostscript/gnu
+		:ghostscript-*:print/ghostscript/artifex
 
 NO_BUILD=	Yes
 NO_REGRESS=	Yes

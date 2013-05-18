@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/gnome/games/Makefile,v 1.4 2006/09/14 00:15:17 tg Exp $
+# $MirOS: ports/x11/gnome/games/Makefile,v 1.5 2006/12/20 15:32:36 tg Exp $
 
 COMMENT=		GNOME games
 
@@ -28,7 +28,7 @@ LIB_DEPENDS=		gsf-1::devel/libgsf \
 			croco-0.6.3.0::textproc/libcroco \
 			rsvg-2.10.1::x11/gnome/librsvg \
 			guile::lang/guile \
-			ltdl::devel/libltdl \
+			ltdl::devel/libtool \
 			gnomeui-2.200::x11/gnome/libgnomeui
 
 USE_X11=		Yes

@@ -1,5 +1,7 @@
 # $OpenBSD: Makefile,v 1.5 2003/01/19 03:40:32 brad Exp $
 
+BROKEN=			no KDE for now
+
 COMMENT=			silly little game based on Spacetaxi for the C64
 
 DISTNAME=	taxipilot-0.7.2
@@ -16,7 +18,7 @@ PERMIT_DISTFILES_FTP=  Yes
 
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=taxipilot/}
 
-LIB_DEPENDS=	kdecore.4,DCOP,kdecore,kdefx,kdesu,kdeui,kio::x11/kde/libs3
+#LIB_DEPENDS=	kdecore.4,DCOP,kdecore,kdefx,kdesu,kdeui,kio::x11/kde/libs3
 
 MODULES=	x11/qt3 graphics/png
 MODQT_MT=	Yes

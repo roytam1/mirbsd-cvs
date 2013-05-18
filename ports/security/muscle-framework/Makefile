@@ -1,4 +1,4 @@
-# $MirOS: ports/security/muscle-framework/Makefile,v 1.3 2005/07/07 21:25:52 bsiegert Exp $
+# $MirOS: ports/security/muscle-framework/Makefile,v 1.4 2006/09/14 00:13:05 tg Exp $
 
 COMMENT=			Smartcard access framework
 DISTNAME=		muscleframework-1.1.5
@@ -21,7 +21,7 @@ MODGNU_CONFIG_GUESS_DIRS= ${WRKSRC}/CFlexPlugin ${WRKSRC}/MCardPlugin \
 CONFIGURE_STYLE=	autoconf no-autoheader
 AUTOCONF_NEW=		yes
 
-.include <bsd.own.mk>
+.include <mirports.sys.mk>
 CFLAGS+=		-pthread
 LDFLAGS+=		-pthread
 

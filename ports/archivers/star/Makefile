@@ -1,4 +1,4 @@
-# $MirOS: ports/archivers/star/Makefile,v 1.2 2006/02/09 12:25:12 tg Exp $
+# $MirOS: ports/archivers/star/Makefile,v 1.3 2006/09/14 00:06:52 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2003/02/18 12:59:10 naddy Exp $
 # $FreeBSD: Makefile,v 1.7 1998/12/24 13:15:23 dirk Exp $
 
@@ -23,7 +23,7 @@ FLAVOR?=
 
 RUN_DEPENDS=	:bzip2-*:archivers/bzip2
 
-.include <bsd.own.mk>
+.include <mirports.sys.mk>
 
 USE_SCHILY=	Yes
 MAKE_ENV+=	COPTX=${CFLAGS:Q}

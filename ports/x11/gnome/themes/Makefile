@@ -20,7 +20,7 @@ MODULES=		devel/gettext devel/pkgconfig
 
 BUILD_DEPENDS=		${RUN_DEPENDS} \
 			:p5-XML-Parser-*:textproc/p5-XML-Parser
-RUN_DEPENDS=		:gtk-engines2->=2.2.0:x11/gtk-engines2
+RUN_DEPENDS=		:gtk-engines2->=2.2.0:x11/gtk-engines
 LIB_DEPENDS= 		gnomeui-2.0::x11/gnome/libgnomeui
 
 USE_X11=		Yes

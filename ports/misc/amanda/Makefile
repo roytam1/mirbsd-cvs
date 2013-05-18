@@ -1,23 +1,12 @@
 # $OpenBSD: Makefile,v 1.23 2002/12/29 19:49:40 fgsch Exp $
 
-COMMENT=			network-capable tape backup (client and tape server)
-COMMENT-client=			network-capable tape backup (client only)
-
-DISTVERSION=	2.4.2p2
-
-# 2.4.2p2 is problematical as a package name, because we have been
-# marking OpenBSD package revisions with a "pX" suffix.
-PKGVERSION=	${DISTVERSION:S/p/./}
-
-DISTNAME=	amanda-${DISTVERSION}
-
-PKGNAME=	amanda-${PKGVERSION}-0
-PKGNAME-client=	amanda-client-${PKGVERSION}-0
-
-CATEGORIES=	misc
-
-HOMEPAGE=	http://www.amanda.org/
-
+COMMENT=		network-capable tape backup (client and tape server)
+COMMENT-client=		network-capable tape backup (client only)
+VERSION=		2.4.2p2
+DISTNAME=		amanda-${VERSION}
+PKGNAME-client=		amanda-client-${VERSION}-${DASH_VER}
+CATEGORIES=		misc
+HOMEPAGE=		http://www.amanda.org/
 
 # BSD
 PERMIT_PACKAGE_CDROM=	Yes
@@ -32,7 +21,7 @@ MASTER_SITES=	ftp://ftp.amanda.org/pub/amanda/ \
 # the pathnames.
 # Configure looks for gnuplot to see if it should build amplot.
 BUILD_DEPENDS+= :gtar-*:archivers/gtar \
-		:samba-*:net/samba/stable \
+		:samba-*:net/samba2 \
 		:gnuplot-*:math/gnuplot
 
 # There is no need to set RUN_DEPENDS, because Amanda will run fine

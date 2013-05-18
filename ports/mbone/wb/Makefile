@@ -1,8 +1,9 @@
 # $OpenBSD: Makefile,v 1.18 2002/12/23 00:37:51 pvalchev Exp $
 
-ONLY_FOR_PLATFORM=	OpenBSD:*:i386 MirBSD:*:i386
+ONLY_FOR_PLATFORM=	OpenBSD:*:i386
+EMUL=			bsdos
 
-COMMENT=			shared drawing (whiteboard) tool using multicast
+COMMENT=		shared drawing (whiteboard) tool using multicast
 
 DISTNAME=	wb-1.59
 CATEGORIES=	mbone
@@ -21,7 +22,7 @@ NO_BUILD=	Yes
 NO_REGRESS=	Yes
 USE_X11=	Yes
 
-RUN_DEPENDS=	:ghostscript-*:print/ghostscript/gnu
+RUN_DEPENDS=	:ghostscript-*:print/ghostscript/artifex
 
 .if !defined(NO_WARNINGS)
 pre-fetch:

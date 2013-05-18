@@ -41,7 +41,7 @@ NO_REGRESS=		yes
 
 VMEM_WARNING=		Yes
 BUILD_DEPENDS=		:zip-*:archivers/zip \
-			::devel/jdk/1.2-blackdown
+			::lang/jdk/1.2-blackdown
 RUN_DEPENDS=		:zip-*:archivers/zip
 USE_MOTIF=		openmotif
 
