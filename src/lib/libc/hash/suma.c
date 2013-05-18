@@ -26,6 +26,8 @@
 #include <stdlib.h>
 #include <suma.h>
 
+__RCSID("$MirOS$");
+
 void
 SUMAInit(SUMA_CTX *ctx)
 {
