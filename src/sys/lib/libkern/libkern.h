@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/lib/libkern/libkern.h,v 1.6 2008/08/01 16:35:25 tg Exp $ */
+/**	$MirOS: src/sys/lib/libkern/libkern.h,v 1.7 2008/08/03 21:02:04 tg Exp $ */
 /*	$OpenBSD: libkern.h,v 1.22 2004/08/07 00:38:32 deraadt Exp $	*/
 /*	$NetBSD: libkern.h,v 1.7 1996/03/14 18:52:08 christos Exp $	*/
 
@@ -95,6 +95,6 @@ extern u_int8_t const __bcd2bin[], __bin2bcd[];
 #define	bin2bcd(b)	(__bin2bcd[(b)&0xff])
 
 #define memcpy(d,s,n)	memmove((d), (s), (n))
-#define bcopy(s,d,n)	(void)memmove((s), (d), (n))
+#define bcopy(s,d,n)	(void)memmove((d), (s), (n))
 
 #endif /* __LIBKERN_H__ */

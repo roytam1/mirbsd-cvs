@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.22 2008/08/01 18:09:28 tg Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.23 2008/08/02 14:28:35 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
@@ -47,30 +47,6 @@ UNIFDEF_SRCS+=	wcsndup.c strndup.c -DWIDEC
 #	memcpy() memmove() strchr() strrchr()
 
 .include "${LIBCSRCDIR}/arch/${MACHINE_ARCH}/string/Makefile.inc"
-
-# if no machine specific memmove(3), build one out of bcopy(3).
-.ifndef _MD_MEMMOVE
-UNIFDEF_SRCS+=	memmove.c bcopy.c -DMEMMOVE
-.else
-LOBJS+=		memmove.ln
-
-memmove.ln: bcopy.c
-	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} -i \
-	    -DMEMMOVE -o $@ $>
-.endif
-
-# if no machine specific memcpy(3), build one out of bcopy(3).
-# if there is a machine specific memmove(3), we'll assume it aliases
-# memcpy(3).
-.if !defined(_MD_MEMCPY) && !defined(_MD_MEMMOVE)
-UNIFDEF_SRCS+=	memcpy.c bcopy.c -DMEMCOPY
-.else
-LOBJS+=		memcpy.ln
-
-memcpy.ln: bcopy.c
-	${LINT} ${LINTFLAGS} ${CFLAGS:M-[IDU]*} ${CPPFLAGS:M-[IDU]*} -i \
-	    -DMEMCOPY -o $@ $>
-.endif
 
 # if no machine specific strchr(3), build one out of index(3).
 .ifndef _MD_STRCHR

@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.10 2008/08/02 16:59:23 tg Exp $	*/
+/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.11 2008/08/03 21:02:05 tg Exp $	*/
 /*	$OpenBSD: stand.h,v 1.46 2007/05/04 21:44:07 reyk Exp $	*/
 /*	$NetBSD: stand.h,v 1.18 1996/11/30 04:35:51 gwr Exp $	*/
 
@@ -185,6 +185,6 @@ void	machdep_start(char *, int, char *, char *, char *);
 time_t	getsecs(void);
 
 #define memcpy(d,s,n)	memmove((d), (s), (n))
-#define bcopy(s,d,n)	(void)memmove((s), (d), (n))
+#define bcopy(s,d,n)	(void)memmove((d), (s), (n))
 
 #endif

@@ -1,4 +1,4 @@
-# $MirOS: src/kern/c/Makefile.inc,v 1.12 2008/08/01 23:24:01 tg Exp $
+# $MirOS: src/kern/c/Makefile.inc,v 1.13 2008/08/03 21:02:00 tg Exp $
 
 .ifndef _KERNBASE_C_MAKEFILE_INC
 _KERNBASE_C_MAKEFILE_INC=	#defined
@@ -43,7 +43,6 @@ UIF_KUSRCS+=	wcslcat.c strlfun.c -DL_strlcat,-DWIDEC
 UIF_KUSRCS+=	wcsxfrm.c strlfun.c -DL_strxfrm,-DWIDEC
 
 UIF_KUSRCS+=	wcscmp.c strcmp.c -DWIDEC
-UIF_KUSRCS+=	wcscoll.c strcmp.c -DL_strcoll,-DWIDEC
 
 # quad support
 SRCS+=		adddi3.c anddi3.c ashldi3.c ashrdi3.c cmpdi2.c divdi3.c \
