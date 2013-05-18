@@ -1,19 +1,16 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.13 2006/11/20 23:56:44 tg Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.14 2006/11/21 01:04:09 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/string ${LIBCSRCDIR}/string
 
-SRCS+=	bm.c memccpy.c strcasecmp.c strcasestr.c strdup.c \
+SRCS+=	bm.c memccpy.c strcasestr.c strdup.c \
 	strerror.c strerror_r.c strmode.c strsignal.c strtok.c \
 	strxfrm.c strlcat.c strlcpy.c \
 	wcscat.c wcschr.c wcscmp.c wcscpy.c wcscspn.c wcslcat.c wcslcpy.c \
 	wcslen.c wcsncat.c wcsncmp.c wcsncpy.c wcspbrk.c wcsrchr.c wcsspn.c \
 	wcsstr.c wcswcs.c wmemchr.c wmemcmp.c wmemcpy.c \
 	wmemmove.c wmemset.c
-
-SRCS+=	wcscasecmp.c
-SRCS+=	wcsncasecmp.c
 
 SRCS+=	wcsdup.c
 SRCS+=	wcstok.c
@@ -37,7 +34,10 @@ UNIFDEF_SRCS+=	strlcat.c strlfun.c HAVE_STRLCPY=1
 UNIFDEF_SRCS+=	wcslcpy.c wcslfun.c HAVE_WCSLCAT=1
 UNIFDEF_SRCS+=	wcslcat.c wcslfun.c HAVE_WCSLCPY=1
 
-UNIFDEF_SRCS+=	strncasecmp.c strcasecmp.c STRNCASECMP
+UNIFDEF_SRCS+=	strcasecmp.c strcasecmpfun.c STRCASECMP
+UNIFDEF_SRCS+=	strncasecmp.c strcasecmpfun.c STRNCASECMP
+UNIFDEF_SRCS+=	wcscasecmp.c strcasecmpfun.c WCSCASECMP
+UNIFDEF_SRCS+=	wcsncasecmp.c strcasecmpfun.c WCSNCASECMP
 
 UNIFDEF_SRCS+=	strcoll.c strcmp.c STRCOLL
 UNIFDEF_SRCS+=	wcscoll.c wcscmp.c WCSCOLL
