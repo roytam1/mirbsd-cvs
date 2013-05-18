@@ -1,10 +1,11 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.50 2007/06/12 23:29:42 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.51 2007/08/24 14:20:00 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
 .include "../Makefile.inc"
 
-MAN=		doc/cpp.1 doc/mgcc.1 doc/gcov.1
+MAN=		doc/${M_CPP}.1 doc/mgcc.1
+B_MAN=		doc/cpp.1 doc/gcc.1 doc/gcov.1
 INFO=		doc/cpp.info doc/cppinternals.info doc/gcc.info doc/gccint.info
 
 .if !defined(NO_ADA) || ${NO_ADA:L} == "no"
@@ -16,7 +17,7 @@ MLINKS=		mgcc.1 g++.1
 .endif
 
 .if !defined(NO_JAVA) || ${NO_JAVA:L} == "no"
-MAN+=		doc/gcj.1 doc/gcjh.1 doc/gij.1 doc/jcf-dump.1 \
+B_MAN+=		doc/gcj.1 doc/gcjh.1 doc/gij.1 doc/jcf-dump.1 \
 		doc/jv-convert.1 doc/jv-scan.1 doc/rmic.1 doc/rmiregistry.1
 INFO+=		doc/gcj.info
 .endif
@@ -112,6 +113,7 @@ CFARGS+=	--enable-threads=posix
 CFARGS+=	--disable-threads
 .endif
 
+MAN+=		${B_MAN:Ndoc/gcc.1:Ndoc/cpp.1}
 CLEANFILES+=	gcclink ${MAN} ${INFO} doc/fsf-funding.7 doc/gccinstall.info \
 		doc/gfdl.7 doc/gnat_ugn_unw.texi doc/gpl.7 doc/gcc.1 \
 		gcov-iov.h gengtype-lex.c gengtype-yacc.c gengtype-yacc.h \
@@ -149,13 +151,15 @@ pre-install:
 .  endif
 .endif
 
-${MAN}: .MADE do-build
-
-doc/gcc.1: .MADE do-build
+${B_MAN}: .MADE do-build
 
 doc/mgcc.1: .MADE doc/gcc.1
 	sed -e 's#^gcc\( .*- GNU project C and\)#mgcc, c++\1#' \
 	    <doc/gcc.1 >doc/mgcc.1
+
+doc/mcpp.1: .MADE doc/cpp.1
+	sed -e 's#^cpp\( .*- The \)C#mcpp\1GNU C#' \
+	    <doc/cpp.1 >doc/mcpp.1
 
 post-install:
 .if (${GCC_NATIVE:L} == "yes") && (${NOPIC:L} == "no") && \

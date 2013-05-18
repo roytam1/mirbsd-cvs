@@ -4144,6 +4144,7 @@ Only the most useful options are listed here; see below for the remainder.
 
 On MirOS, /usr/bin/cpp calls GNU cpp (/usr/bin/mcpp) if it exists, and if
 not, /usr/libexec/cpp (Reiser CCCP).
+This usage is deprecated, and a separate cpp binary might vanish soon.
 @c man end
 @c man begin SEEALSO
 gpl(7), gfdl(7), fsf-funding(7),
