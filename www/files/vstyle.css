@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.9 2008/05/29 16:01:08 bsiegert Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.10 2008/06/03 18:04:32 tg Exp $ */
 /*-
  * The MirOS Project - Webpages
  * Copyrighted material; read LICENCE for terms of use.
@@ -158,6 +158,16 @@ h2 a {
 }
 
 .wlsubtitle:before {
+	content: " ";
+}
+
+.wltagtitle {
+	font-weight: normal;
+	font-size: 80%;
+	display: inline;
+}
+
+.wltagtitle:before {
 	content: " ";
 }
 
