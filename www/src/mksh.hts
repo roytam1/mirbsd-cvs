@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.514 2013/05/02 23:05:36 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.515 2013/05/03 12:52:27 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1177,15 +1177,17 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
-<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
--->
  <!-- li>Begin porting mksh to the <a href="http://9fans.net/">Plan 9</a>
   ANSI’n’POSIX Environment (not finished)</li -->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+ <li>[tg] Do not accidentally remove <tt>lksh.1</tt> for in-srcdir builds</li>
+ <li>[tg] Fix post-build non-‘-Q’ output for lksh</li>
+ <li>[tg] Silence some configure-time warnings for clang-3.2</li>
+</ul>
 <p id="r46">R46 delivers these changes:</p><ul>
  <li>[tg] <tt>dot.mkshrc</tt>: prevent lksh from running it</li>
  <li>[tg] Add the lksh manual page to the mksh distribution</li>
