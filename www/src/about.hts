@@ -1,23 +1,14 @@
 mws_setname about 'About MirOS'
 mws_setheadline About MirOS
-mws_putheader '$MirOS: www/src/about.hts,v 1.3 2009/06/21 11:01:21 tg Exp $'
+mws_putheader '$MirOS: www/src/about.hts,v 1.4 2012/10/14 16:19:26 tg Exp $'
 mws_content <<'EOF'
 <p><a href="main.htm#transl">Translations (Беларуская, Українська)</a></p>
 
 <p>On this page:</p>
 
-<ul>
- <li><a href="#mirbsd">MirOS BSD</a>
- <ul>
-  <li><a href="#why">Why not just use OpenBSD?</a></li>
-  <li><a href="#livecd">Live CD</a></li>
-  <li><a href="#licence">Licencing information</a></li>
- </ul></li>
- <li><a href="#mirports">MirPorts</a>
- <ul>
-  <li><a href="#whymirports">Why use MirPorts?</a></li>
- </ul></li>
-</ul>
+EOF
+mws_maketoc
+mws_content <<EOF
 
 <h2 id="mirbsd">MirOS BSD</h2>
 
@@ -161,6 +152,28 @@ to elaborate more -->
 <p>MirLibtool is based on GNU libtool 1.5. It is compatible with all versions
  of autotools. The MirPorts infrastructure installs it automatically whenever a
  port uses autoconf to recreate its configure script.</p>
+
+<h3 id="pkgsrc">NetBSD® pkgsrc® on MirOS BSD</h3>
+
+<p><a href="pkgsrc.htm">pkgsrc® on MirOS BSD</a> is an alternative
+ packaging system which provides more up-to-date packages with less
+ integration with the main BSD operating system.</p>
+
+<h2 id="project">The MirOS Project</h2>
+
+<p>The MirOS Project has grown to be an umbrella organisation with
+ many subprojects such as <a href="mksh.htm">mksh, The MirBSD Korn
+ Shell</a>. It’s also acting as an OSS type foundry “MirOS” (<a
+ href="@@ABSPATH@@/MirOS/dist/mir/Foundry/">releases</a>). Several
+ individual developers have semi-official subprojects like <a
+ href="jupp.htm">jupp – the Editor which sucks less</a> or the
+ image/tiff part of the Issue 9 (golang) standard library. Finally,
+ <a href="https://freewrt.org/projects/miros/">The MirOS Project at
+ FreeWRT.org Evolvis</a> is a supplemental hosting platform site
+ where experimental or detached (CVS), or otherwise non-core (git,
+ Debian APT Repository, etc.) publications appear; the FreeWRT.org
+ <a href="https://fusionforge.org/">FusionForge/Evolvis</a> system
+ also permits separate, distinct project setups.</p>
 
 EOF
 mws_putfooter
