@@ -4,7 +4,7 @@
 mws_setname donations "Donations"
 mws_subdir 0
 mws_setheadline Donating to the MirOS Project
-mws_putheader '$MirOS: www/src/danke.hts,v 1.9 2012/05/07 16:44:30 tg Exp $'
+mws_putheader '$MirOS: www/src/danke.hts,v 1.10 2012/05/09 18:39:20 tg Exp $'
 mws_content <<'EOF'
 <h2>Considering to donate?</h2>
 <p>Thanks for considering to donate. You can contact the individual
@@ -75,8 +75,10 @@ mws_content <<'EOF'
 <h2 id="donators">Donations received so far</h2><ul>
 <li>Andreas Gockel</li>
 <li>Sebastian Schwarz</li>
+<li>Hugues Moretto-Viry</li>
 <li>...</li>
 </ul>
+<p>(in no particular order)</p>
 EOF
 mws_putfooter
 exit 0
