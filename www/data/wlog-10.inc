@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.423 2013/04/26 23:06:49 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.424 2013/05/18 03:50:50 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -9986,4 +9986,56 @@ Tag: debian mksh news
  German word “doch”, just rest assured it calls the last input line
  (be careful, this is literally a line, so don’t use backslash-newline
  sequences) using sudo(8).</p>
+----
+Title: DynDNS
+Date: 20.05.2013 15:27
+Author: tg@
+Tag: archaeology debian
+
+<p><a href="http://www.die-welt.net/2013/05/powerdyn-a-dynamic-dns-service-for-powerdns-users/">Apparently
+ (hi Zhenech, found on Plänet Debian)</a>, a Man does not only need
+ to fork a child, plant a tree, etc. in their life but also write a
+ DynDNS service. Perfect for opening a new tag in the wlog called
+ archæology (<a href="http://www.pagetable.com/">pagetable.com –
+ Some Assembly Required</a> is also a nice example for these).</p>
+<p>Once upon a time, I used SixXS’ heartbeat protocol client for
+ updating the Legacy IP (known as “IPv4” earlier) endpoint address
+ of my tunnel at home (<a href="http://www.netcologne.de/">My ISP</a>
+ offers static v4 for some payment now, luckily). Their client sucked,
+ so I wrote on in <a href="@@RELPATH@@mksh.htm">ksh</a>, naturally.</p>
+<p>And because mksh(1) is such nice a language to program in (although,
+ I only really begun becoming proficient in Korn Shell in 2005-2006 or
+ so, thus please take those scripts with a grain of salt, I’d do them
+ <em>much</em> differently nowadays) I also wrote a heartbeat server
+ implementation. In Shell.</p>
+<p>The heartbeat server supports different backends (per client), and
+ to date I’ve run backends providing DynDNS (automatically disabling
+ the RR if the client goes offline), an IP (IPv6) tunnel of my own
+ (basically the same setup SixXS has, without knowing theirs), rdate(8)
+ based time offset monitoring for ntpd(8), and an eMail forwarding
+ service (as one <strong>must not run an MTA on dynamic IP</strong>)
+ with it; some of these even in parallel.</p>
+<p>Not all of it is documented, but I’ve written up most things in <a
+ href="@@ABSPATH@@/cvs.cgi/contrib/code/heartbeat/">CVS</a>. There also
+ were some issues (mostly to do with killing sleep(1)ing subprocesses
+ not working right), so it occasionally hung, but very rarely. Running
+ it under the supervise of DJB dæmontools was nice, as I was already
+ using djbdns, since I do not understand the BIND zone file format and
+ do not consider MySQL a database (and did not even like databases at
+ all, back then). For DynDNS, the heartbeat server’s backend simply
+ updated the zone file (by either adding or updating or deleting the
+ line for the client) then running tinydns-data, then rsync’ing it
+ to the djbdns server primary and secondaries, then running zonenotify
+ so the BIND secondaries get a NOTIFY to update their zones (so I never
+ had to bother much with the SOA values, only allow AXFR). That’s a
+ really <a href="@@ABSPATH@@/wtf.cgi?kiss">KISS</a> setup ☺</p>
+<p>Anyway. This is archæology. The scripts are there, feel free to
+ use them, hack on them, take them as examples… even submit back
+ patches if you want. I’ll even answer questions, to some degree,
+ in <a href="@@RELPATH@@irc.htm">IRC</a>. But that’s it. I urge
+ people to go use a decent ISP, even if the bandwidth is smaller.
+ To paraphrase a coworker after he cancelled his cable based internet
+ access (I think at Un*tym*dia) before the 2-week trial period was
+ even over: rather have slow but reliable internet at Netc*logne
+ than “that”. People, vote with your purse!</p>
 ----
