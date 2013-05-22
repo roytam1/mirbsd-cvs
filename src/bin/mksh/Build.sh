@@ -1181,7 +1181,7 @@ i=0
 if test $ct = gcc; then
 	# The following tests run with -Werror (gcc only) if possible
 	NOWARN=$DOWARN; phase=u
-	ac_flags 1 wnodeprecated -Wno-deprecated
+	ac_flags 1 wnodeprecateddecls -Wno-deprecated-declarations
 	# mksh is not written in CFrustFrust!
 	ac_flags 1 no_eh_frame -fno-asynchronous-unwind-tables
 	ac_flags 1 fnostrictaliasing -fno-strict-aliasing
