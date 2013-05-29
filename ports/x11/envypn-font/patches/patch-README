@@ -1,0 +1,12 @@
+$MirOS$
+--- README.orig	Fri May 17 21:42:30 2013
++++ README	Wed May 29 20:39:27 2013
+@@ -18,7 +18,7 @@ Why a README?
+ How to use?
+ 
+ 	First, you need to "enable" the font. You can add these lignes in your .xinitrc
+-		xset +fp /usr/share/fonts/envypn
++		xset +fp @PREFIX@/lib/X11/fonts/envypn
+ 		xset fp rehash
+ 
+ 	Restart X and now you can preview the font with xfontsel or xfd.
