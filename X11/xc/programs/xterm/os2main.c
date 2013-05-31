@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $XTermId: os2main.c,v 1.190 2005/01/30 23:45:40 tom Exp $ */
 
 /* removed all foreign stuff to get the code more clear (hv)
@@ -825,7 +826,7 @@ save_callback(Widget w GCC_UNUSED,
 #endif /* OPT_SESSION_MGT */
 
 #if OPT_WIDE_CHARS
-int (*my_wcwidth) (wchar_t);
+int (*my_wcwidth) (unsigned int);
 #endif
 
 /*
@@ -1140,9 +1141,9 @@ main(int argc, char **argv ENVP_ARG)
 #endif
 
 #if OPT_WIDE_CHARS
-    my_wcwidth = &mk_wcwidth;
+    my_wcwidth = &mb_wcwidth;
     if (term->misc.cjk_width)
-	my_wcwidth = &mk_wcwidth_cjk;
+	my_wcwidth = &mb_wcwidth_cjk;
 #endif
 
 #if OPT_SESSION_MGT

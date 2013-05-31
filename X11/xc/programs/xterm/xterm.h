@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $XTermId: xterm.h,v 1.325 2005/01/13 23:37:15 tom Exp $ */
 
 /* $XFree86: xc/programs/xterm/xterm.h,v 3.104 2005/01/14 01:50:03 dickey Exp $ */
@@ -721,7 +722,7 @@ extern SIGNAL_T Exit (int n);
 #endif
 
 #if OPT_WIDE_CHARS
-extern int (*my_wcwidth)(wchar_t);
+extern int (*my_wcwidth)(unsigned int);
 #endif
 
 /* menu.c */

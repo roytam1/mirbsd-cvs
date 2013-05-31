@@ -1,10 +1,10 @@
-┋ $MirOS: contrib/samples/utf-8,v 1.4 2012/07/31 22:28:03 tg Exp $
+┋ $MirOS: contrib/samples/utf-8,v 1.5 2012/09/01 23:46:34 tg Exp $
 
-The Unicode Basic Multilingual Plane
-┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
+The Unicode 6.2.0 Basic Multilingual Plane
+┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
 The widths of these characters has been derived from
-$XFree86: xc/programs/xterm/wcwidth.c,v 1.6 2003/10/13 00:58:23 dickey Exp $
+MirOS: X11/xc/programs/xterm/wcwidth.c,v 1.6 2013/05/31 23:27:09 tg Exp $
 and thus, this file should show up fine in an uxterm
 on MirOS (see xterm(1) for further reference).
 
@@ -5618,10 +5618,10 @@ ____________________________________________________
 ╿ #A948 ┃   ꥈ │   ꥉ │   ꥊ │   ꥋ │   ꥌ │   ꥍ │   ꥎ │   ꥏ ┃ #A94F ╿
 ╽ #A950 ┃   ꥐ │   ꥑ │ ꥒ  │ ꥓  │ ꥔  │ ꥕  │ ꥖  │ ꥗  ┃ #A957 ╽
 ╿ #A958 ┃ ꥘  │ ꥙  │ ꥚  │ ꥛  │ ꥜  │ ꥝  │ ꥞  │ ꥟  ┃ #A95F ╿
-╽ #A960 ┃ ꥠ  │ ꥡ  │ ꥢ  │ ꥣ  │ ꥤ  │ ꥥ  │ ꥦ  │ ꥧ  ┃ #A967 ╽
-╿ #A968 ┃ ꥨ  │ ꥩ  │ ꥪ  │ ꥫ  │ ꥬ  │ ꥭ  │ ꥮ  │ ꥯ  ┃ #A96F ╿
-╽ #A970 ┃ ꥰ  │ ꥱ  │ ꥲ  │ ꥳ  │ ꥴ  │ ꥵ  │ ꥶ  │ ꥷ  ┃ #A977 ╽
-╿ #A978 ┃ ꥸ  │ ꥹ  │ ꥺ  │ ꥻ  │ ꥼ  │ ꥽  │ ꥾  │ ꥿  ┃ #A97F ╿
+╽ #A960 ┃ ꥠ │ ꥡ │ ꥢ │ ꥣ │ ꥤ │ ꥥ │ ꥦ │ ꥧ ┃ #A967 ╽
+╿ #A968 ┃ ꥨ │ ꥩ │ ꥪ │ ꥫ │ ꥬ │ ꥭ │ ꥮ │ ꥯ ┃ #A96F ╿
+╽ #A970 ┃ ꥰ │ ꥱ │ ꥲ │ ꥳ │ ꥴ │ ꥵ │ ꥶ │ ꥷ ┃ #A977 ╽
+╿ #A978 ┃ ꥸ │ ꥹ │ ꥺ │ ꥻ │ ꥼ │ ꥽ │ ꥾ │ ꥿ ┃ #A97F ╿
 ╽ #A980 ┃   ꦀ │   ꦁ │   ꦂ │ ꦃ  │ ꦄ  │ ꦅ  │ ꦆ  │ ꦇ  ┃ #A987 ╽
 ╿ #A988 ┃ ꦈ  │ ꦉ  │ ꦊ  │ ꦋ  │ ꦌ  │ ꦍ  │ ꦎ  │ ꦏ  ┃ #A98F ╿
 ╽ #A990 ┃ ꦐ  │ ꦑ  │ ꦒ  │ ꦓ  │ ꦔ  │ ꦕ  │ ꦖ  │ ꦗ  ┃ #A997 ╽
