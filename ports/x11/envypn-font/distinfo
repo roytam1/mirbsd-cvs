@@ -1,7 +1,7 @@
 $MirOS$
 
-MD5 (envypn-font-1.5.1.tar.gz) = 04070647fc3b27cb13f1f793d3fa8879
-RMD160 (envypn-font-1.5.1.tar.gz) = d22cf11c51e76cdd43d4a55d5ea726b7bbfef5a8
-SHA1 (envypn-font-1.5.1.tar.gz) = 499d1956ee1aed19399175ea550e1cc64d00d3aa
-SIZE (envypn-font-1.5.1.tar.gz) = 20954
-TIGER (envypn-font-1.5.1.tar.gz) = b4b446f03a5e2e27b0d2bc810d18b6dc6894dcb8f405e0e6
+MD5 (envypn-font-MirBSD-1.5.2.tar.gz) = c0c52fcd5c634dc692bf7d55c800b9ea
+RMD160 (envypn-font-MirBSD-1.5.2.tar.gz) = a6050bebf00a00e024de62651ef7f9608209aefe
+SHA1 (envypn-font-MirBSD-1.5.2.tar.gz) = 40f841951f2aa63c55e96deb6f448456b8cf3db0
+SIZE (envypn-font-MirBSD-1.5.2.tar.gz) = 14531
+TIGER (envypn-font-MirBSD-1.5.2.tar.gz) = 47f053d55771d4bedd9f242bbcd326bf9b59d4422f842ac2

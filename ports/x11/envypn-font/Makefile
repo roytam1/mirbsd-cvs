@@ -1,7 +1,8 @@
-# $MirOS: ports/x11/terminus-font/Makefile,v 1.5 2009/06/22 12:07:34 tg Exp $
+# $MirOS: ports/x11/envypn-font/Makefile,v 1.1 2013/05/29 20:44:58 tg Exp $
 
 COMMENT=		Readable terminal font inspired by Envy Code R
-DISTNAME=		envypn-font-1.5.1
+VSN=			1.5.2
+DISTNAME=		envypn-font-1.5.2
 CATEGORIES=		x11
 HOMEPAGE=		http://tetedulinuxien.fr/qui-suis-je/
 
@@ -12,6 +13,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		http://linuxien.legtux.org/projects/envypn-font/
+DISTFILES=		envypn-font-MirBSD-${VSN}${EXTRACT_SUFX}
 
 NO_REGRESS=		Yes
 USE_X11=		Yes
@@ -19,8 +21,13 @@ USE_X11=		Yes
 FONTDIR=		${PREFIX}/lib/X11/fonts/envypn
 
 do-build:
-.for _f in envypn7x13.pcf envypn7x13e.pcf envypn7x15.pcf envypn7x15e.pcf
-	cd ${WRKSRC:Q} && ${GZIP_CMD} <${_f} >${_f}.gz
+	# this could look nicer with set -o pipefail (mksh R46+)
+.for _f in envypn7x13 envypn7x13e envypn7x15 envypn7x15e
+	cd ${WRKBUILD:Q} && \
+	    ${MKSH} ${PORTSDIR}/infrastructure/scripts/bdfctool -d \
+	    <${WRKSRC:Q}/${_f}.bdfc >${_f}.bdf
+	cd ${WRKBUILD:Q} && bdftopcf -t ${_f}.bdf >${_f}.pcf
+	cd ${WRKBUILD:Q} && ${GZIP_CMD} ${_f}.pcf
 .endfor
 	cd ${WRKSRC:Q} && sed s,@PREFIX@,${PREFIX:Q},g <README >README.i
 
