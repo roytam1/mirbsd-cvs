@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.516 2013/05/19 22:46:50 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.517 2013/05/22 19:53:03 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1187,6 +1187,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Do not accidentally remove <tt>lksh.1</tt> for in-srcdir builds</li>
  <li>[tg] Fix post-build non-‘-Q’ output for lksh</li>
  <li>[tg] Silence some configure-time warnings for clang-3.2 and GCC</li>
+ <li>[tg] Prevent recursion loops for namerefs; found by ormaaj</li>
+ <li>[tg] Replace wcwidth code by mine based on Unicode 6.2.0</li>
+ <li>[tg, Alexander Polakov] Fix quoting in word part of <tt>${var+word}</tt>
+  etc. when the expression is in a quoted brace or a here document</li>
 </ul>
 <p id="r46">R46 delivers these changes:</p><ul>
  <li>[tg] <tt>dot.mkshrc</tt>: prevent lksh from running it</li>
