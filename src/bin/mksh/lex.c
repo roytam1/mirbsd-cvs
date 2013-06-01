@@ -1,4 +1,4 @@
-/*	$OpenBSD: lex.c,v 1.46 2013/01/20 14:47:46 stsp Exp $	*/
+/*	$OpenBSD: lex.c,v 1.47 2013/03/03 19:11:34 guenther Exp $	*/
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
@@ -338,7 +338,9 @@ yylex(int cf)
 				}
 				break;
 			case '\'':
- open_ssquote:
+ open_ssquote_unless_heredoc:
+				if ((cf & HEREDOC))
+					goto store_char;
 				*wp++ = OQUOTE;
 				ignore_backslash_newline++;
 				PUSH_STATE(SSQUOTE);
@@ -501,7 +503,8 @@ yylex(int cf)
 							PUSH_STATE(STBRACEKORN);
 					} else {
 						ungetsc(c);
-						if (state == SDQUOTE)
+						if (state == SDQUOTE ||
+						    state == SQBRACE)
 							PUSH_STATE(SQBRACE);
 						else
 							PUSH_STATE(SBRACE);
@@ -622,6 +625,8 @@ yylex(int cf)
 		case SSQUOTE:
 			if (c == '\'') {
 				POP_STATE();
+				if ((cf & HEREDOC) || state == SQBRACE)
+					goto store_char;
 				*wp++ = CQUOTE;
 				ignore_backslash_newline--;
 			} else {
@@ -699,7 +704,7 @@ yylex(int cf)
 
 		case SBRACE:
 			if (c == '\'')
-				goto open_ssquote;
+				goto open_ssquote_unless_heredoc;
 			else if (c == '\\')
 				goto getsc_qchar;
  common_SQBRACE:
@@ -818,7 +823,7 @@ yylex(int cf)
 				}
 				break;
 			case '\'':
-				goto open_ssquote;
+				goto open_ssquote_unless_heredoc;
 			case '$':
 				if ((c2 = getsc()) == '\'') {
  open_sequote:
