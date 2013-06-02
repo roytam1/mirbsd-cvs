@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.517 2013/05/22 19:53:03 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.518 2013/06/01 00:24:00 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1191,6 +1191,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Replace wcwidth code by mine based on Unicode 6.2.0</li>
  <li>[tg, Alexander Polakov] Fix quoting in word part of <tt>${var+word}</tt>
   etc. when the expression is in a quoted brace or a here document</li>
+ <li>[tg] Fix some compiler warnings; improve sig{,handler}_t detection</li>
+ <li>[tg] Keep SIGCHLD blocked in some more semi-critical code paths</li>
+ <li>[tg] Fix uninitialised variable causing random nōn-numerical input
+  to be accepted and acted upon in the select built-in command</li>
 </ul>
 <p id="r46">R46 delivers these changes:</p><ul>
  <li>[tg] <tt>dot.mkshrc</tt>: prevent lksh from running it</li>
