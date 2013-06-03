@@ -1500,18 +1500,16 @@ ac_testn sig_t <<-'EOF'
 	#include <sys/types.h>
 	#include <signal.h>
 	#include <stddef.h>
-	#include <stdlib.h>
-	volatile sig_t foo = NULL;
-	int main(void) { return (foo == NULL); }
+	volatile sig_t foo = (sig_t)0;
+	int main(void) { return (foo == (sig_t)0); }
 EOF
 
 ac_testn sighandler_t '!' sig_t 0 <<-'EOF'
 	#include <sys/types.h>
 	#include <signal.h>
 	#include <stddef.h>
-	#include <stdlib.h>
-	volatile sighandler_t foo = NULL;
-	int main(void) { return (foo == NULL); }
+	volatile sighandler_t foo = (sighandler_t)0;
+	int main(void) { return (foo == (sighandler_t)0); }
 EOF
 if test 1 = $HAVE_SIGHANDLER_T; then
 	add_cppflags -Dsig_t=sighandler_t
@@ -1522,9 +1520,8 @@ ac_testn __sighandler_t '!' sig_t 0 <<-'EOF'
 	#include <sys/types.h>
 	#include <signal.h>
 	#include <stddef.h>
-	#include <stdlib.h>
-	volatile __sighandler_t foo = NULL;
-	int main(void) { return (foo == NULL); }
+	volatile __sighandler_t foo = (__sighandler_t)0;
+	int main(void) { return (foo == (__sighandler_t)0); }
 EOF
 if test 1 = $HAVE___SIGHANDLER_T; then
 	add_cppflags -Dsig_t=__sighandler_t
