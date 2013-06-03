@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2009, 2010, 2011
+ * Copyright (c) 2009, 2010, 2011, 2013
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -100,7 +100,7 @@ aresize(void *ptr, size_t numb, Area *ap)
 	    || ALLOC_ISUNALIGNED(lp)
 #endif
 	    )
-		internal_errorf(Toomem, (unsigned long)numb);
+		internal_errorf(Toomem, numb);
 	/* this only works because Area is an ALLOC_ITEM */
 	lp->next = ap->next;
 	ap->next = lp;

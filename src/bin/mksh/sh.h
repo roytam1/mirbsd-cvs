@@ -166,7 +166,7 @@
 #ifdef EXTERN
 __RCSID("$MirOS: src/bin/mksh/sh.h,v 1.655 2013/05/08 11:16:19 tg Exp $");
 #endif
-#define MKSH_VERSION "R46 2013/06/01"
+#define MKSH_VERSION "R46 2013/06/03"
 
 /* arithmetic types: C implementation */
 #if !HAVE_CAN_INTTYPES
@@ -784,7 +784,7 @@ extern const struct shoption options[];
 EXTERN char null[] E_INIT("");
 /* helpers for string pooling */
 EXTERN const char Tintovfl[] E_INIT("integer overflow %zu %c %zu prevented");
-EXTERN const char Toomem[] E_INIT("can't allocate %lu data bytes");
+EXTERN const char Toomem[] E_INIT("can't allocate %zu data bytes");
 #if defined(__GNUC__)
 /* trust this to have string pooling; -Wformat bitches otherwise */
 #define Tsynerr		"syntax error"

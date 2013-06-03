@@ -3726,7 +3726,7 @@ c_cat(const char **wp)
 	rv = 0;
 
 	if ((buf = malloc_osfunc(MKSH_CAT_BUFSIZ)) == NULL) {
-		bi_errorf(Toomem, (unsigned long)MKSH_CAT_BUFSIZ);
+		bi_errorf(Toomem, (size_t)MKSH_CAT_BUFSIZ);
 		return (1);
 	}
 

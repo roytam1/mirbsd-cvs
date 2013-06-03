@@ -106,7 +106,7 @@ execute(struct op * volatile t,
 			/* set variable to its expanded value */
 			z = strlen(cp) + 1;
 			if (notoktomul(z, 2) || notoktoadd(z * 2, n))
-				internal_errorf(Toomem, (unsigned long)-1);
+				internal_errorf(Toomem, (size_t)-1);
 			dp = alloc(z * 2 + n, ATEMP);
 			memcpy(dp, t->vars[0], n);
 			t->vars[0] = dp;
