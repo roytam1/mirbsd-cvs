@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.518 2013/06/01 00:24:00 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.519 2013/06/02 03:26:07 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -807,7 +807,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  Korn Shell” is also appropriate), but <em>never</em> <del>Mksh</del> or
  somesuch!</p>
 <!--
-<p id="pcur"><i>current</i>: <i>(unfinished…)</i></p>
+<p id="pcur"><i>current</i>:
+ <i>(unfinished…)</i></p>
 -->
 <p id="p46">R46: New <tt>-DMKSH_BINSHPOSIX</tt> to complement the older
  <tt>-DMKSH_BINSHREDUCED</tt>. Some lksh stuff is now integrated.</p>
@@ -1095,9 +1096,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <h2 id="caveat">Users' Upgrade Caveat</h2>
 <p>This does not necessarily list new features, only these which users
  should be aware of for existing scripts.</p>
-<!--
-<p id="ccur"><i>current</i>: … <i>(unfinished…)</i></p>
--->
+<p id="ccur"><i>current</i>:
+ The <tt>-T</tt> option no longer chown(2)s or chmod(2)s the tty(4) device; it
+ no longer fork(2)s if the argument is prefixed with a ‘!’ (MirBSD setsid(2) is
+ a bit too anal to make use of it, but it gets rid of cttyhack et al. on Linux).
+ <i>(unfinished…)</i></p>
 <p id="c46">R46: Compatibility behaviour (mksh with -o posix, mksh with -o sh,
  mksh with -o posix -o sh, lksh, lksh with -o posix) changed again slightly.
  For both, -o posix re-enables parsing leading digit-zero numbers as octal,
@@ -1195,6 +1198,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Keep SIGCHLD blocked in some more semi-critical code paths</li>
  <li>[tg] Fix uninitialised variable causing random nōn-numerical input
   to be accepted and acted upon in the select built-in command</li>
+ <li>[tg] No longer chown(2)/chmod(2) the <tt>-T</tt> tty(4) argument</li>
+ <li>[tg] Don’t fork(2) if the <tt>-T</tt> tty(4) argument begins with ‘!’;
+  eliminates the need for things like oneit_line/cttyhack/etc. on Linux</li>
+ <li>[jca] Fix “for var in; do” to not be interpreted as “for var; do”</li>
+ <li>[tg] Use %zu for printing size_t (ipv %lu with casting around)</li>
 </ul>
 <p id="r46">R46 delivers these changes:</p><ul>
  <li>[tg] <tt>dot.mkshrc</tt>: prevent lksh from running it</li>
@@ -1705,7 +1713,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li>Build with more platforms’ native tools or other compilers
  – ACK, kencc, ICC/UWIN, egcs/UWIN</li>
 <li>Build and actually work on more platforms – DJGPP, PW32,
- Plan 9, Syllable – debug these</li>
+ Plan 9, Syllable, NuttX – debug these</li>
 <li>Bugfix for suspending <tt>a &amp;&amp; b</tt> chain</li>
 <li>“process substitution” echo diff &lt;(echo 1) &lt;(echo 2) <a
  href="http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=606821">#606821</a>
@@ -1730,9 +1738,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <tt>l_assign</tt> stuff exported!), <tt>-a</tt></li>
 <li>The <tt>DEBUG</tt> trap (although GNU bash also has a RETURN
  trap, and both bash and ksh93 write <em>lots</em> about this, so
- careful design is required before attempting this)</li>
+ careful design is required before attempting this) → Ypnose</li>
 <li>AT&amp;T ksh93 discipline functions are occasionally mentioned.
  Shell-private variable namespaces have their use. Accessors too.</li>
+<li>Possibly <tt>x=&lt;&amp;0</tt> or <tt>$(&lt;&amp;0)</tt></li>
 </ul>
 EOF
 mws_putfooter
