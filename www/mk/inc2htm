@@ -111,12 +111,25 @@ function mclose {
 
 
 #rm -f ${name}.{cut,htm} ${name}_*.htm permalinks/${name}_*.htm
-if (( cutoff )); then
-	cat >${name}.cut~ <<-'EOF'
-		: ${mws__relpath=/}
+saveIFS=$IFS
+IFS=
+(( cutoff )) && cat >${name}.cut~ <<-EOF
+	: \${mws__relpath=/} ${mws__relpath=/}
+	mws__tmpa='${rcsid_db[*]}'
+	saveIFS=\$IFS
+	IFS=
+	for mws__tmpb in \$mws__tmpa; do
+		mws__tmpd=0
+		for mws__tmpc in "\${rcsid_db[@]}"; do
+			[[ \$mws__tmpc = "\$mws__tmpb" ]] || continue
+			mws__tmpd=1
+			break
+		done
+		(( mws__tmpd )) || rcsid_db[\${#rcsid_db[*]}]=\$mws__tmpb
+	done
+	IFS=\$saveIFS
 EOF
-	: ${mws__relpath=/}
-fi
+IFS=$saveIFS
 mws_basepath ${name}_all.htm
 print -r -- ${name}_all.htm
 mws_setname $whoami "$pname – All in One Page"

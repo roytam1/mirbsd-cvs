@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.68 2012/07/15 15:56:30 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.69 2013/01/02 23:02:13 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -10,7 +10,7 @@ mws__markindex=
 mws__pagename=
 mws__header=
 mws__rss=
-mws__difftag=MBSD_HTSCONV_GENDATE_TAG_28056
+mws__difftag=MBSD_HTSCONV_GENDATE_TAG_30284
 unset mws__srcfile
 unset mws__abspath
 unset mws__relpath
@@ -212,11 +212,6 @@ function mws_putheader {
 		[[ -n $x ]] || continue
 		mws__header="$mws__header from <span class=\"rcsid\">$x</span>"
 	done
-	for x in "${rcsid_db[@]}"; do
-		[[ -n $x ]] || continue
-		mws__header="$mws__header and <span class=\"rcsid\">$x</span>"
-	done
-	mws__header="$mws__header</p>"
 }
 
 function mws_moveifchange {
@@ -242,6 +237,16 @@ function mws_moveifchange {
 }
 
 function mws_putfooter {
+	if [[ -z $mws__header ]]; then
+		print -u2 Internal error: mws_putheader not called!
+		exit 1
+	elif [[ $mws__header != *'</p>' ]]; then
+		for x in "${rcsid_db[@]}"; do
+			[[ -n $x ]] || continue
+			mws__header="$mws__header and <span class=\"rcsid\">$x</span>"
+		done
+		mws__header="$mws__header</p>"
+	fi
 	mws_content_keeptabs <<-'EOF'
 		</div>
 		<div class="footer">
