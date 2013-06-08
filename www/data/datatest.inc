@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/datatest.inc,v 1.3 2009/10/31 22:28:04 tg Exp $
+RCSID: $MirOS: www/data/datatest.inc,v 1.4 2012/07/15 14:16:42 tg Exp $
 Title: A test posting
 Date: 28.10.2009 12:34
 Author: tg@
@@ -41,4 +41,8 @@ Date: 15.07.2012 01:15 +0200
  (including filename/permalink/HTML title)
  but 14.07.2012 23:15 +0000 when sorting…</p>
 <p>(actually, the order in the .inc source is deliberately wrong)</p>
+----
+Title: Empty content test
+Date: 08.06.2013 00:22
+ObComment: I should be sleeping already
 ----

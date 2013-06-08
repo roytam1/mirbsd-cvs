@@ -1,0 +1,108 @@
+<?php
+/*-
+ * $MirOS: www/mk/ttf2png,v 1.7 2012/07/15 11:32:51 tg Exp $
+ *-
+ * Copyright © 2009, 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+ *
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un‐
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
+ *
+ * This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person’s immediate fault when using the work as intended.
+ *-
+ * Syntax:
+ *	php gcmkpng /path/to/upic.png user numcaches date >out.png
+ */
+
+$font = "/usr/src/www/files/FNT/GenI102.ttf";
+$fontsize1 = 28;
+$fontsize2 = 17;
+$dfont = "/usr/src/www/mk/6x13.gdf";
+
+if ($argc != 5)
+	die("Syntax error!");
+
+$upic = $argv[1];
+$user = $argv[2];
+$numc = $argv[3];
+$date = $argv[4];
+
+// Load user picture
+if (($upim = imagecreatefrompng($upic)) === false ||
+    ($upif = getimagesize($upic)) == false ||
+    $upif[0] != 60 || $upif[1] != 60)
+	die("Bad user picture, need 60x60 PNG.");
+
+// Create image
+$im = imagecreatetruecolor(234, 61);
+// Allocate colours
+$bgcol = imagecolorallocate($im, 0x10, 0x10, 0x10);
+$fgcol = imagecolorallocate($im, 0xFF, 0xFF, 0xFF);
+$black = imagecolorallocate($im, 0x00, 0x00, 0x00);
+$amber = imagecolorallocate($im, 0xFF, 0xBF, 0x00);
+
+// Fill image with background colour
+imagefilledrectangle($im, 0, 0, 233, 59, $bgcol);
+
+// Copy user picture
+imagecopy($im, $upim, 0, 0, 0, 0, 60, 60);
+
+// Write user text
+$txt_ofs = 3;
+$text = $user;
+$fontsize = $fontsize1;
+// Get bounding box
+$bbox = imageftbbox($fontsize, 0, $font, $text);
+// Transform coordinates into width+height and position
+$size_w = abs($bbox[2] - $bbox[0]);	// right - left
+$size_h = abs($bbox[7] - $bbox[1]);	// top - bottom
+$x = -$bbox[0];				// left (offset)
+$y = $size_h - abs($bbox[1]);		// lower
+// Adjust position
+$x += 60;
+$y += 3;
+// Render text into image
+imagefttext($im, $fontsize, 0, $x, $y, $amber, $font, $text);
+
+// Write caches text
+$txt_ofs = $size_h + 6;
+$text = sprintf('%d Caches found', $numc);
+$fontsize = $fontsize2;
+// Get bounding box
+$bbox = imageftbbox($fontsize, 0, $font, $text);
+// Transform coordinates into width+height and position
+$size_w = abs($bbox[2] - $bbox[0]);	// right - left
+$size_h = abs($bbox[7] - $bbox[1]);	// top - bottom
+$x = -$bbox[0];				// left (offset)
+$y = $size_h - abs($bbox[1]);		// lower
+// Adjust position
+$x += 60;
+$y += $txt_ofs;
+// Render text into image
+imagefttext($im, $fontsize, 0, $x, $y, $fgcol, $font, $text);
+
+// Write date text
+imagefilledrectangle($im, 221, 0, 233, 59, $black);
+if (($dfi = imageloadfont($dfont)) === false)
+	die("Bitmap font problem");
+$x = 234 - 13;
+for ($y = 0; $y < strlen($date); ++$y)
+	imagecharup($im, $dfi, $x, 59 - $y * 6, $date[$y], $amber);
+
+// Black bottom border
+imagefilledrectangle($im, 0, 60, 233, 60, $black);
+
+// Output created image
+imagepng($im, NULL, 9);
+
+exit(0);
