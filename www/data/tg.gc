@@ -28,7 +28,10 @@ gcbanners[${#gcbanners[*]}]=<<'EOF'
  (<a href="http://www.cachewolf.de/">alternative homepage</a>)
 EOF
 gcbanners[${#gcbanners[*]}]=<<'EOF'
- <a href="http://www.navstation.co.uk/geoscout">GeoScout</a>
+ <div style="border:1px solid black; padding:6px;">
+  <a href="http://eastlands.dyndns.org/GeoScout/default.aspx">GeoScout</a>
+  by <a href="http://www.navstation.co.uk/">Rightfile Ltd.</a>
+ </div>
 EOF
 gcbanners[${#gcbanners[*]}]='<h3>Other Stats</h3>'
 gcbanners[${#gcbanners[*]}]=<<'EOF'
