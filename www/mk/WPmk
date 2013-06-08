@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/src/ksh-chan.hts,v 1.50+ 2013/06/01 00:23:59 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.1 2013/06/08 16:55:55 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -215,14 +215,28 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 		for wp in ${e_waypoint[ent]}; do
 			case $wp {
 			(GC*)
+				wp="<a href=\"http://www.geocaching.com/seek/cache_details.aspx?wp=$wp\">$wp</a>"
 				;;
-			(N+([0-9]))
+			(N[0-9]+([0-9A-F]))
+				wp="<a href=\"http://www.navicache.com/cgi-bin/db/displaycache2.pl?CacheID=$((16#${wp#N}))\">$wp</a>"
 				;;
-			(OC*)
+			(O[BCKPSUZ]*)
+				case $wp {
+				(OB*) x=nl ;;
+				(OC*) x=de ;;
+				(OK*) x=org.uk ;;
+				(OP*) x=pl ;;
+				(OS*) x=se ;;
+				(OU*) x=us ;;
+				(OZ*) x=cz ;;
+				}
+				wp="<a href=\"http://www.opencaching.$x/viewcache.php?wp=$wp\">$wp</a>"
 				;;
 			(OX*)
+				wp="<a href=\"http://www.opencaching.com/#!geocache/$wp\">$wp</a>"
 				;;
 			(TC*|LC*)
+				wp="<a href=\"http://www.terracaching.com/viewcache.cgi?ID=$wp\">$wp</a>"
 				;;
 			(*)
 				wp=$(xhtml_escape "$wp")
