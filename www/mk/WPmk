@@ -252,7 +252,7 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 		if [[ -n ${e_body[ent]} ]]; then
 			print '<div class="gc_body">'
 			print -r -- "${e_body[ent]}"
-			print '</div>
+			print '</div>'
 		fi
 		print '</li>'
 	done
