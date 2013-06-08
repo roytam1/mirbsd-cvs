@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.69 2013/01/02 23:02:13 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.70 2013/06/08 00:58:01 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -214,16 +214,32 @@ function mws_putheader {
 	done
 }
 
+function mws__haschanged {
+	local bin=$1 rv
+
+	shift
+	if (( bin )); then
+		cmp -s "$1" "$2"
+		rv=$?
+	else
+		diff -waqI "$mws__difftag" "$1" "$2"
+		rv=$?
+	fi >/dev/null 2>&1
+	return $rv
+}
 function mws_moveifchange {
+	local bin=0 keep=0
+
+	if [[ $1 = -b ]]; then
+		bin=1
+		shift
+	fi
 	if [[ $1 = -k ]]; then
 		keep=1
 		shift
-	else
-		keep=0
 	fi
 	[[ -e $1 && -e $2 ]] || ls -l "$1" "$2" 2>&1 | sed 's/^/！/' >&2
-	[[ -e $1 ]] && if [[ -e $2 ]] && \
-	    diff -waqI "$mws__difftag" "$1" "$2" >/dev/null 2>&1; then
+	[[ -e $1 ]] && if [[ -e $2 ]] && mws__haschanged $bin "$1" "$2"; then
 		[[ $keep = 1 ]] || rm -f "$1"
 	else
 		if [[ $keep = 1 ]]; then

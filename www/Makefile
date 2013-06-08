@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.83 2012/12/20 22:16:09 tg Exp $
+# $MirOS: www/Makefile,v 1.84 2013/01/02 23:02:13 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -54,6 +54,7 @@ TAGCLOUD+=	mksh
 TAGCLOUD+=	pcli
 USELINKED+=	acronyms
 WLOGS=		9 10
+#WPS=		gecko2 tg
 
 # legacy content
 SRCS+=		ann-7.hts ann-8.hts anoncvs.hts bsd-intro.hts clog-2004.hts \
@@ -102,6 +103,15 @@ stamp_htm_${_i}: ${DEPS_mk_inc2htm} ${DEPS_data_${_i}_cfg}
 stamp_rss_${_i}: ${DEPS_mk_inc2rss} ${DEPS_data_${_i}_cfg}
 	${U_ENV} PATH=.:$$PATH ${MKSH} ${TOP}/mk/inc2rss ${_i} >$@ || \
 	    (rm -f $@; exit 1)
+.endfor
+
+DEPSRCS+=	mk/WPmk
+.for _i in ${WPS}
+DEPSRCS+=	data/${_i}.gc
+GENSRCS+=	stamp_wp_${_i}
+
+stamp_wp_${_i}: ${DEPS_mk_WPmk} ${DEPS_data_${_i}_gc}
+	${U_ENV} ${MKSH} ${TOP}/mk/WPmk ${_i} >$@ || (rm -f $@; exit 1)
 .endfor
 
 DEPSRCS+=	mk/inc2htm mk/inc2rss

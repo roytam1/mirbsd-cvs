@@ -1,0 +1,25 @@
+rcsid_cfg='$MirOS$'
+#-
+# This file is part of the website of The MirOS Project, which is
+# copyrighted material, please read the LICENCE file for details.
+
+gclogin=mirabilos
+statname=$gclogin
+fontsize1=28
+fontsize2=17
+
+gcbanners[${#gcbanners[*]}]=<<'EOF'
+<table style="border:0;">
+<tr style="border:0;"><td align="center" style="border:0;">
+ I am a proud
+</td></tr>
+<tr style="border:0;"><td align="center" style="border:0;">
+ <a href="http://www.earthcache.org/" style="border:0;"><img
+ src="http://img.geocaching.com/user/1847de56-1d37-4def-b22b-97b71bd2f1fd.jpg"
+ style="border:0;" alt="EarthCache Master" /></a>
+</td></tr>
+</table>
+EOF
+
+#DEPEND data/WPtg.inc
+sources=WPtg
