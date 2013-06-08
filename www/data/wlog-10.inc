@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.424 2013/05/18 03:50:50 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.425 2013/05/20 15:27:54 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10038,4 +10038,21 @@ Tag: archaeology debian
  access (I think at Un*tym*dia) before the 2-week trial period was
  even over: rather have slow but reliable internet at Netc*logne
  than “that”. People, vote with your purse!</p>
+----
+Date: 08.06.2013 17:30
+Author: tg@
+Title: Waypoint Statistics
+Tag: geocache
+
+<p>I’ve finally gotten around to listing all Waypoints (Geocaches,
+ Opencaches, Closedcaches, Earthcaches, Terracaches including
+ Locationless, Navicaches, etc.) I’ve found a box, enjoyful,
+ educating, a good place to hide one myself, etc. and putting up
+ a <a href="@@RELPATH@@WPtg.htm">list</a> and, of course, generate
+ my own statpic <a href="@@RELPATH@@WPtg.htm" style="border:0;"><img
+ style="border:0;" alt="mirabilos’ found waypoints"
+ src="@@RELPATH@@WPtg.png" /></a></p>
+<p>I’ll put them up for the other project members, too (already made
+ a picture for gecko2@ but bsiegert@ still needs one; we also need
+ to collect offline lists of found, owned and attended waypoints)…</p>
 ----

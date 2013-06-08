@@ -54,7 +54,7 @@ TAGCLOUD+=	mksh
 TAGCLOUD+=	pcli
 USELINKED+=	acronyms
 WLOGS=		9 10
-#WPS=		gecko2 tg
+WPS=		gecko2 tg
 
 # legacy content
 SRCS+=		ann-7.hts ann-8.hts anoncvs.hts bsd-intro.hts clog-2004.hts \
