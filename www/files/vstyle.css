@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.39 2012/05/19 22:18:28 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.40 2012/05/26 15:54:19 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -392,6 +392,14 @@ h5 {
 
 pre {
 	margin-left:15px;
+}
+
+/* put text into indented box for WP listings */
+
+.gc_body {
+	border:2px solid green;
+	margin:0px 48px 0px 24px;
+	padding:2px 12px 2px 3px;
 }
 
 /* put text into a white-on-black rectangle */
