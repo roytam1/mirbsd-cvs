@@ -1,4 +1,4 @@
-rcsid_cfg='$MirOS: www/data/tg.gc,v 1.1 2013/06/08 16:55:55 tg Exp $'
+rcsid_cfg='$MirOS: www/data/tg.gc,v 1.2 2013/06/08 17:31:20 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -8,6 +8,7 @@ statname=$gclogin
 fontsize1=28
 fontsize2=17
 
+gcbanners[${#gcbanners[*]}]='<h3>Achievements</h3>'
 gcbanners[${#gcbanners[*]}]=<<'EOF'
 <table style="border:0;">
 <tr style="border:0;"><td align="center" style="border:0;">
@@ -20,8 +21,20 @@ gcbanners[${#gcbanners[*]}]=<<'EOF'
 </td></tr>
 </table>
 EOF
+gcbanners[${#gcbanners[*]}]='<h3>Software</h3>'
 gcbanners[${#gcbanners[*]}]=<<'EOF'
- <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
+ <a href="http://cachewolf.aldos.de/ style="border:0;"><img
+ src="pics/logos/cw.jpg" alt="CacheWolf logo" style="border:0;" />CacheWolf</a>
+ (<a href="http://www.cachewolf.de/">alternative homepage</a>)
+EOF
+gcbanners[${#gcbanners[*]}]=<<'EOF'
+ <a href="http://www.navstation.co.uk/geoscout">GeoScout</a>
+EOF
+gcbanners[${#gcbanners[*]}]='<h3>Other Stats</h3>'
+gcbanners[${#gcbanners[*]}]=<<'EOF'
+ <a href="http://www.geocaching.com/profile/?guid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658"
+  style="border:0;"><img style="border:0;"
+  src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" /></a>
 EOF
 gcbanners[${#gcbanners[*]}]=<<'EOF'
  <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />

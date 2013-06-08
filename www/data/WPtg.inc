@@ -1,8 +1,9 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.1 2013/06/08 16:55:55 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.2 2013/06/08 17:00:43 tg Exp $
 ID: 1
 Date: 09.07.2006
 Waypoint: GCN89C OC01A9
 Title: Endenich-City-Cache
+Tag: recommended
 ----
 ID: 2
 Date: 29.10.2006
@@ -223,11 +224,13 @@ ID: 45
 Date: 25.04.2008
 Waypoint: OC58A8 N0294A GC171JK
 Title: Gotteshäuser: Rüngsdorf Marienkapelle
+nTF: 0
 ----
 ID: 46
 Date: 25.04.2008
 Waypoint: OC58A9
 Title: Gotteshäuser: Mehlem Kirche St. Severin
+nTF: 0
 ----
 ID: 47
 Date: 25.04.2008
@@ -804,6 +807,7 @@ ID: 161
 Date: 28.07.2011
 Waypoint: OCCDDC
 Title: Banja Luka • Бања Лука • #1
+nTF: 0
 ----
 ID: 162
 Date: 20.08.2011
