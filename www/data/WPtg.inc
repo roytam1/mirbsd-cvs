@@ -612,6 +612,8 @@ ID: 122
 Date: 03.05.2010
 Waypoint: GC1X2NM
 Title: Hochwasserpumpwerk
+
+Duplikat von OC661E (welches bereits als GC20C97 gelistet ist)
 ----
 ID: 123
 Date: 08.05.2010
