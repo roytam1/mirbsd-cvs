@@ -244,6 +244,10 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 			}
 			print -r " $wp"
 		done
+		for x in ${e_tag[ent]}; do
+			[[ $x = recommended ]] && \
+			    sep='<span style="color:red;" title="Recommended">❧</span>'
+		done
 		print -r " $sep ${e_title[ent]}</li>"
 	done
 	print '</ul>'
