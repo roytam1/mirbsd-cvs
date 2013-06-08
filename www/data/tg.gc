@@ -23,7 +23,7 @@ gcbanners[${#gcbanners[*]}]=<<'EOF'
 EOF
 gcbanners[${#gcbanners[*]}]='<h3>Software</h3>'
 gcbanners[${#gcbanners[*]}]=<<'EOF'
- <a href="http://cachewolf.aldos.de/" style="border:0;"><img
+ <a href="http://cachewolf.aldos.de/"><img
  src="pics/logos/cw.png" alt="CacheWolf logo" style="border:0;" />CacheWolf</a>
  (<a href="http://www.cachewolf.de/">alternative homepage</a>)
 EOF
