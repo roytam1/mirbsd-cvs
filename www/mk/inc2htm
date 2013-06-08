@@ -1,4 +1,4 @@
-rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.28 2011/10/08 19:48:36 tg Exp $'
+rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.29 2012/07/15 14:16:43 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -111,9 +111,12 @@ function mclose {
 
 
 #rm -f ${name}.{cut,htm} ${name}_*.htm permalinks/${name}_*.htm
-(( cutoff )) && cat >${name}.cut~ <<-EOF
-	: ${mws__relpath=/}
+if (( cutoff )); then
+	cat >${name}.cut~ <<-'EOF'
+		: ${mws__relpath=/}
 EOF
+	: ${mws__relpath=/}
+fi
 mws_basepath ${name}_all.htm
 print -r -- ${name}_all.htm
 mws_setname $whoami "$pname – All in One Page"
