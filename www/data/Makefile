@@ -1,4 +1,4 @@
-# $MirOS: www/data/Makefile,v 1.4 2010/02/09 15:13:26 tg Exp $
+# $MirOS: www/data/Makefile,v 1.5 2011/08/26 18:16:41 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -13,7 +13,9 @@ FILES!=		cd ${.CURDIR} && print -r -- *.inc
 _inc2xhtml=	( (print '\n----'; cat) | tr '\n' '' | sed \
 		    -e 'sg' \
 		    -e 's----g' \
-		    -e 's\([^]*\)*[Tt][Ii][Tt][Ll][Ee]:[	 ]*\([^]*\)[^]*</div><h2><a href="/">\2</a></h2><div>g' \
+		    -e 's\([^]*\)\1g' \
+		    -e 's\([^]*\)\1g' \
+		    -e 's\([^]*\)*[Tt][Ii][Tt][Ll][Ee]:[	 ]*\([^]*\)\([^]*\)\{0,1\}</div><h2><a href="/">\2</a></h2><div>g' \
 		    -e 's[^]*</div><div>g' \
 		    -e 's^</div>'${_xhtmlbeg:Q}'' \
 		    -e 's$$</div>'${_xhtmlend:Q}'' \
