@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.6 2013/06/08 19:20:41 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.7 2013/06/09 02:06:24 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -249,9 +249,9 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 			    sep='<span style="color:red;" title="Recommended">❧</span>'
 		done
 		print -r " $sep ${e_title[ent]}"
-		if [[ -n ${e_body[ent]} ]]; then
+		if [[ -n ${ei_body[ent]} ]]; then
 			print '<div class="gc_body">'
-			print -r -- "${e_body[ent]}"
+			print -r -- "${ei_body[ent]}"
 			print '</div>'
 		fi
 		print '</li>'
