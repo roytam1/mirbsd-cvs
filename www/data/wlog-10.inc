@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.427 2013/06/08 17:38:49 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.428 2013/06/08 17:42:47 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10042,7 +10042,7 @@ Tag: archaeology debian
 Date: 08.06.2013 17:38
 Author: tg@
 Title: Waypoint Statistics
-Tag: geocache
+Tag: debian geocache
 
 <p class="cr"><a href="@@RELPATH@@WPtg.htm" style="border:0;"><img
  class="fr" style="border:0;" alt="mirabilos’ found waypoints"
@@ -10057,4 +10057,26 @@ Tag: geocache
  (already made a picture for gecko2@ but bsiegert@ still needs one;
  we also need to collect offline lists of found, owned and attended
  waypoints)…</p>
+<p>A bit of background story: I decided, years ago, to have an offline
+ list of cache finds in case something would happen. Just, I had found
+ way too many already, so this was a huge bit of work. Oh well… I of
+ course procrastinated, and then something did happen (Opencaching
+ wanting to force a <a href="http://freeculture.org/blog/2012/08/27/stop-the-inclusion-of-proprietary-licenses-in-creative-commons-4-0/">Restricted
+ Commons</a> licence; me disagreeing and suggesting a change; some
+ trigger-happy person immediately deleting my account without waiting
+ for the discussion <em>or</em> the decision period to end; weeks of
+ forum discussions; Opencaching allowing dual-licencing; them telling
+ me they can’t restore my data – probably never heard of databa…sorry,
+ MySQL backups). And I still didn’t have the list. Now I do; recreated
+ even the OC information from what was still accessible and with help
+ from one OC supporter (“<tt>mic@</tt>”, thanks); merged caches that
+ are co-listed on several platforms, etc. (still need to put in the
+ FTF/STF/TTF/4TF/LTF and voting/favourites information) and a statpic,
+ all in Open Source and Open Data, in cvs(1) with mksh(1) and… a…
+ frontend for libgd2 I admit, but we had been using that for the
+ MirWebsite for a while already.</p>
+<p>I suggest every geocacher keep an offline or local record of all
+ their finds (and hides and attended logs) for things like this, in
+ case some platform decides to… let’s say, “put your data into the
+ cloud… where it is? I don’t know”.</p>
 ----
