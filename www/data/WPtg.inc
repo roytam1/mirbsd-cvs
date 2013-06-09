@@ -1,4 +1,5 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.2 2013/06/08 17:00:43 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.4 2013/06/08 19:24:33 tg Exp $
+# ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
 Waypoint: GCN89C OC01A9
@@ -1881,4 +1882,49 @@ ID: 375
 Date: 06.06.2013
 Waypoint: GC33BD3
 Title: Der Wächter ist ein Esel
+----
+# this was probably already past midnight on the 9th
+# but I cannot reproduce/know this atm, so just use
+# days as in before/after I sleep ;-)
+ID: 376
+Date: 08.06.2013
+Waypoint: GC3XPT3
+Title: TB-Hotel Rheinbach Nord
+----
+ID: 377
+Date: 08.06.2013
+Waypoint: GC26VVH
+Title: Cache &amp; Rast - West (dt/en)
+----
+ID: 378
+Date: 08.06.2013
+Waypoint: GC2N8N8
+Title: Cache &amp; Rast Ost - TB Motel
+
+Haha, N-Acht Nacht… toller Waypoint-Code
+----
+ID: 379
+Date: 08.06.2013
+Waypoint: GC2P5WP
+Title: T-Helferzelle
+----
+ID: 380
+Date: 08.06.2013
+Waypoint: GC27X28
+Title: Ramershovener Verlies [LP]
+----
+ID: 381
+Date: 08.06.2013
+Waypoint: GC3CBKZ
+Title: Schwarzes Steinkreuz
+----
+ID: 382
+Date: 08.06.2013
+Waypoint: GC30N2V
+Title: Der Himmel über mir
+----
+ID: 383
+Date: 08.06.2013
+Waypoint: GC3CE7W
+Title: Kleines Steinkreuz
 ----
