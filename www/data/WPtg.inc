@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.4 2013/06/08 19:24:33 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.5 2013/06/09 02:05:53 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -15,16 +15,19 @@ ID: 3
 Date: 05.08.2007
 Waypoint: GCPJDM OC08CA
 Title: Knochenarbeit
+Tag: recommended
 ----
 ID: 4
 Date: 11.08.2007
 Waypoint: GC11B5G OC3073
 Title: Sisutl - die doppelköpfige Schlange
+Tag: recommended
 ----
 ID: 5
 Date: 12.08.2007
 Waypoint: GCTH34 OC181A
 Title: Mineralbrunnen Bad Godesberg
+Tag: recommended
 ----
 ID: 6
 Date: 12.08.2007
@@ -60,6 +63,7 @@ ID: 12
 Date: 19.09.2007
 Waypoint: GCYZR8 N0230A OC2777
 Title: Heute schon gelesen? [de/en/fr]
+Tag: recommended
 ----
 ID: 13
 Date: 23.09.2007
@@ -110,6 +114,7 @@ ID: 22
 Date: 07.10.2007
 Waypoint: GCME6W OC17DC
 Title: Oberkasseler Seen
+Tag: recommended
 ----
 ID: 23
 Date: 14.10.2007
@@ -150,6 +155,7 @@ ID: 30
 Date: 28.02.2008
 Waypoint: GCY1ZJ
 Title: Gotteshäuser: Waldkapelle Rheinbach
+Tag: recommended
 ----
 ID: 31
 Date: 08.03.2008
@@ -220,6 +226,7 @@ ID: 44
 Date: 24.04.2008
 Waypoint: GCT7PV N01ECF OC1698
 Title: Durch den Langeberg - Canyon
+Tag: recommended exceptional
 ----
 ID: 45
 Date: 25.04.2008
@@ -242,11 +249,13 @@ ID: 48
 Date: 12.05.2008
 Waypoint: GC1AB2F OC59B8
 Title: Underground Embassy
+Tag: recommended exceptional
 ----
 ID: 49
 Date: 20.06.2008
 Waypoint: GC1DC3T OC5E73
 Title: IPTC BN
+Tag: recommended
 ----
 ID: 50
 Date: 11.07.2008
@@ -357,6 +366,7 @@ ID: 71
 Date: 07.09.2008
 Waypoint: GC1EQ5G
 Title: Le passage
+Tag: recommended exceptional
 ----
 ID: 72
 Date: 09.09.2008
@@ -483,6 +493,7 @@ ID: 96
 Date: 14.07.2009
 Waypoint: GC18WZY
 Title: Zum Piepen
+Tag: recommended
 ----
 ID: 97
 Date: 14.07.2009
@@ -563,6 +574,7 @@ ID: 112
 Date: 13.03.2010
 Waypoint: GC1BJYC
 Title: UPN (RPN)
+Tag: recommended tech
 ----
 ID: 113
 Date: 13.03.2010
@@ -655,6 +667,7 @@ ID: 130
 Date: 26.06.2010
 Waypoint: GCKFAQ N029CD OC020E
 Title: IMC No. 2 P-LU – Music in the AIR
+Tag: recommended
 ----
 ID: 131
 Date: 26.06.2010
@@ -670,6 +683,7 @@ ID: 133
 Date: 01.09.2010
 Waypoint: GC27Y7G
 Title: LP Bullenkloster
+Tag: recommended
 ----
 ID: 134
 Date: 13.09.2010
@@ -745,6 +759,7 @@ ID: 148
 Date: 16.02.2011
 Waypoint: GC2MP54
 Title: Dottendorfer Schleichwege #1
+Tag: recommended
 ----
 ID: 149
 Date: 17.02.2011
@@ -785,6 +800,7 @@ ID: 156
 Date: 20.04.2011
 Waypoint: GC1XZFX
 Title: Wegkreuz an der alten L 61
+Tag: recommended
 ----
 ID: 157
 Date: 01.06.2011
@@ -911,6 +927,7 @@ ID: 181
 Date: 20.02.2012
 Waypoint: GCK91R
 Title: IMC No. 2 P-DE - No Wind over Schwelmer Stadwald?
+Tag: recommended
 ----
 ID: 182
 Date: 20.02.2012
@@ -921,6 +938,7 @@ ID: 183
 Date: 20.02.2012
 Waypoint: GC2P5BB
 Title: Eine von Zehn
+Tag: recommended
 ----
 ID: 184
 Date: 20.02.2012
@@ -956,6 +974,9 @@ ID: 190
 Date: 29.02.2012
 Waypoint: GC348WY
 Title: Bonn
+Tag: recommended
+
+dreist
 ----
 ID: 191
 Date: 16.03.2012
@@ -1031,6 +1052,7 @@ ID: 205
 Date: 09.04.2012
 Waypoint: GC2HCDM
 Title: Alte Stadt Rheinbach (Öffnungszeiten beachten)
+Tag: recommended
 ----
 ID: 206
 Date: 09.04.2012
@@ -1061,6 +1083,7 @@ ID: 211
 Date: 28.04.2012
 Waypoint: GC260YR OCA170
 Title: Unter Schafen
+Tag: recommended
 ----
 ID: 212
 Date: 28.04.2012
@@ -1301,6 +1324,7 @@ ID: 259
 Date: 30.06.2012
 Waypoint: GC2TDN7
 Title: Das größte Logbuch der Welt
+Tag: recommended exceptional
 ----
 ID: 260
 Date: 05.07.2012
@@ -1316,6 +1340,7 @@ ID: 262
 Date: 07.07.2012
 Waypoint: GC2N499
 Title: Braunschweiger Spargel
+Tag: recommended
 ----
 ID: 263
 Date: 07.07.2012
@@ -1441,6 +1466,7 @@ ID: 287
 Date: 10.10.2012
 Waypoint: GC1HGEH
 Title: Eau de source à PARIS- Spring water in PARIS.
+Tag: recommended earth
 ----
 ID: 288
 Date: 25.10.2012
@@ -1456,6 +1482,7 @@ ID: 290
 Date: 26.10.2012
 Waypoint: GC3488X
 Title: Eisenquelle Alfhausen / Iron source Alfhausen
+Tag: recommended earth
 ----
 ID: 291
 Date: 26.10.2012
@@ -1466,6 +1493,7 @@ ID: 292
 Date: 27.10.2012
 Waypoint: GC2VA18
 Title: noch'n apple a day ...
+Tag: recommended
 ----
 ID: 293
 Date: 09.11.2012
@@ -1491,6 +1519,7 @@ ID: 297
 Date: 05.01.2013
 Waypoint: GC3F81P
 Title: ++++++++++[&gt;+++++++-]&gt;----.++++.
+Tag: recommended tech
 ----
 ID: 298
 Date: 05.01.2013
@@ -1526,6 +1555,7 @@ ID: 304
 Date: 13.02.2013
 Waypoint: GC22APZ
 Title: Heinrichsblick
+Tag: recommended
 ----
 ID: 305
 Date: 13.02.2013
@@ -1536,6 +1566,7 @@ ID: 306
 Date: 13.02.2013
 Waypoint: GC1TKGT
 Title: Rodderberg Vulkan
+Tag: recommended earth
 ----
 ID: 307
 Date: 02.03.2013
@@ -1546,6 +1577,7 @@ ID: 308
 Date: 02.03.2013
 Waypoint: GC40XBK
 Title: Verschlumpft
+Tag: recommended exceptional
 ----
 ID: 309
 Date: 10.03.2013
@@ -1646,6 +1678,7 @@ ID: 328
 Date: 19.04.2013
 Waypoint: GC22BXK
 Title: So ein Durcheinander
+Tag: recommended tech
 ----
 ID: 329
 Date: 19.04.2013
@@ -1736,6 +1769,7 @@ ID: 346
 Date: 09.05.2013
 Waypoint: GC13D9B
 Title: Binnendüne Tannenbusch
+Tag: earth
 ----
 ID: 347
 Date: 10.05.2013
@@ -1872,6 +1906,7 @@ ID: 373
 Date: 06.06.2013
 Waypoint: GC3VBVR
 Title: Die Kurfürstenquelle
+Tag: recommended
 ----
 ID: 374
 Date: 06.06.2013
@@ -1912,6 +1947,7 @@ ID: 380
 Date: 08.06.2013
 Waypoint: GC27X28
 Title: Ramershovener Verlies [LP]
+Tag: recommended
 ----
 ID: 381
 Date: 08.06.2013
@@ -1927,4 +1963,20 @@ ID: 383
 Date: 08.06.2013
 Waypoint: GC3CE7W
 Title: Kleines Steinkreuz
+----
+ID: 384
+Date: 09.06.2013
+Waypoint: GC373EA
+Title: Obsession bis zur Session
+Tag: recommended tech
+----
+ID: 385
+Date: 09.06.2013
+Waypoint: GC3KBN1
+Title: Das Planschbecken
+----
+ID: 386
+Date: 09.06.2013
+Waypoint: GC3HT0X
+Title: Marias Rutsche
 ----
