@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.2 2013/06/08 17:20:41 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.6 2013/06/08 19:20:41 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -164,7 +164,7 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 	if (( ${#gcbanners[*]} )); then
 		print '<h2 id="banners">Banners et al.</h2>'
 		for x in "${gcbanners[@]}"; do
-			[[ $x = *'<'@(table|h[3-6])* ]] || x="<p>$x</p>"
+			[[ $x = *'<'@(div|table|h[3-6])* ]] || x="<p>$x</p>"
 			print -r -- "$x"
 		done
 	fi
