@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.5 2013/06/09 02:05:53 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.6 2013/06/09 18:26:40 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -1980,3 +1980,9 @@ Date: 09.06.2013
 Waypoint: GC3HT0X
 Title: Marias Rutsche
 ----
+ID: 387
+Date: 11.06.2013
+Waypoint: GC2E89G
+Title: Bonner Retter - Löscheinheit 14 -&gt; Endenich
+----
+# ^K/ mksh -c '. ../mk/common; xhtml_escape'
