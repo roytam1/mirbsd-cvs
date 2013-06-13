@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.6 2013/06/09 18:26:40 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.7 2013/06/11 18:53:58 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -48,6 +48,7 @@ ID: 9
 Date: 20.08.2007
 Waypoint: GC12XJK OC368A
 Title: Bonner Aussicht (reloaded)
+Tag: recommended
 ----
 ID: 10
 Date: 12.09.2007
@@ -150,6 +151,7 @@ ID: 29
 Date: 28.10.2007
 Waypoint: GC171HX OC280D
 Title: Beuelskopf
+Tag: recommended
 ----
 ID: 30
 Date: 28.02.2008
@@ -897,6 +899,7 @@ ID: 175
 Date: 11.11.2011
 Waypoint: GC33YM4 OCD217
 Title: Kopfüber in die Nacht
+Tag: recommended
 ----
 ID: 176
 Date: 11.11.2011
