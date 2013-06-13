@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_mac,v 1.7 2009/09/08 16:43:02 tg Exp $
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_mac,v 1.8 2011/12/16 20:12:20 tg Exp $
 #-
 # see main.c for copyright and licencing information
 
@@ -8,7 +8,8 @@ EXTRA_FLAGS?=	-DUSE_INTTYPES -no-cpp-precomp
 LD_R_FLAGS?=	# not -O2
 CCLD_FLAGS?=	# not -Wl,-O2
 LINK_COMMAND?=	${CCLD} -bundle -flat_namespace -undefined suppress
-SYMCP_COMMAND?=	cp
+SYMCP_H_CMD?=	cp
+SYMCP_X_CMD?=	cp
 
 ARC4RANDOM_C=	#empty
 ARC4RANDOM_O=	#empty

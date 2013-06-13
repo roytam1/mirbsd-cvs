@@ -1,23 +1,25 @@
 /*-
- * Copyright (c) 2009, 2010, 2011
- *	Thorsten Glaser <tg@mirbsd.org>
+ * Copyright © 2009, 2010, 2011, 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+ * Copyright © 2013
+ *	Vutral <vutral@quantentunnel.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
- * is granted to deal in this work without restriction, including un-
+ * is granted to deal in this work without restriction, including un‐
  * limited rights to use, publicly perform, distribute, sell, modify,
  * merge, give away, or sublicence.
  *
- * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
  * the utmost extent permitted by applicable law, neither express nor
  * implied; without malicious intent or gross negligence. In no event
  * may a licensor, author or contributor be held liable for indirect,
  * direct, other damage, loss, or other issues arising in any way out
  * of dealing in the work, even if advised of the possibility of such
  * damage or existence of a defect, except proven that it results out
- * of said person's immediate fault when using the work as intended.
+ * of said person’s immediate fault when using the work as intended.
  *-
- * MirOS RANDEX protocol plugin for XChat (Win32, BSD, *nix).
+ * MirOS RANDEX protocol plugin for XChat/HexChat (Win32, BSD, *nix).
  *
  * Protocol implementation status:
  *	- violation: CTCP CLIENTINFO does not list support for the protocol
@@ -39,12 +41,16 @@
  *	- no persistent seed file, no periodic stir (unlike irssi/randex.pl)
  *	- no support for EGD or other methods other than /RANDFILE
  *	- no support for accessing the pool in an automated fashion
+ *
+ * This implementation is shared between XChat and HexChat and thus
+ * cannot use the plugin preferences feature available in the latter.
  */
 
 static const char __rcsid[] =
-    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.15 2011/12/16 21:22:53 tg Exp $";
+    "@(#)HEXCHAT "
+    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.16 2011/12/16 21:30:58 tg Exp $";
 
-#define RANDEX_PLUGIN_VERSION	"1.20"
+#define RANDEX_PLUGIN_VERSION	"1.26"
 
 #include <sys/types.h>
 #if defined(HAVE_STDINT_H) && HAVE_STDINT_H
@@ -56,7 +62,7 @@ static const char __rcsid[] =
 #include <stdlib.h>
 #include <string.h>
 
-#include "xchat-plugin.h"
+#include "PLUGIN_HEADER"
 
 #ifdef WIN32
 #define u_int32_t	uint32_t
@@ -93,7 +99,7 @@ extern uint32_t arc4random_pushb(const void *, size_t);
 extern void arc4random_addrandom(unsigned char *, int);
 #endif
 
-static xchat_plugin *ph;
+static hexchat_plugin *ph;
 static char buf[128];
 static struct {
 	time_t t;
@@ -106,9 +112,9 @@ static char randex_desc[] = "MirOS RANDomness EXchange protocol support";
 static char randex_vers[] = RANDEX_PLUGIN_VERSION;
 static char null[] = "";
 
-int xchat_plugin_init(xchat_plugin *, char **, char **, char **, char *);
-int xchat_plugin_deinit(void);
-void xchat_plugin_get_info(char **, char **, char **, void **);
+int hexchat_plugin_init(hexchat_plugin *, char **, char **, char **, char *);
+int hexchat_plugin_deinit(void);
+void hexchat_plugin_get_info(char **, char **, char **, void **);
 
 static int hookfn_rawirc(char *[], char *[], void *);
 static int cmdfn_randex(char *[], char *[], void *);
@@ -122,7 +128,7 @@ static void gstring(const void *);
 static void msg_condestruct(int);
 
 /* in lieu of -Bsymbolic */
-static void xchat_plugin_get_info_(char **, char **, char **);
+static void hexchat_plugin_get_info_(char **, char **, char **);
 
 
 
@@ -165,7 +171,7 @@ static void xchat_plugin_get_info_(char **, char **, char **);
 
 
 static void
-xchat_plugin_get_info_(char **name, char **desc, char **vers)
+hexchat_plugin_get_info_(char **name, char **desc, char **vers)
 {
 	*name = randex_name;
 	*desc = randex_desc;
@@ -173,9 +179,9 @@ xchat_plugin_get_info_(char **name, char **desc, char **vers)
 }
 
 void
-xchat_plugin_get_info(char **name, char **desc, char **vers, void **resv)
+hexchat_plugin_get_info(char **name, char **desc, char **vers, void **resv)
 {
-	xchat_plugin_get_info_(name, desc, vers);
+	hexchat_plugin_get_info_(name, desc, vers);
 	if (resv)
 		*resv = NULL;
 }
@@ -198,29 +204,29 @@ static void
 msg_condestruct(int con)
 {
 	/* goes to the current tab */
-	xchat_printf(ph, "%sstructed RANDEX plugin v%s\n",
+	hexchat_printf(ph, "%sstructed RANDEX plugin v%s\n",
 	    con ? "Con" : "De", randex_vers);
 }
 
 int
-xchat_plugin_init(xchat_plugin *handle, char **name, char **desc,
+hexchat_plugin_init(hexchat_plugin *handle, char **name, char **desc,
     char **version, char *arg)
 {
 	ph = handle;
-	xchat_plugin_get_info_(name, desc, version);
+	hexchat_plugin_get_info_(name, desc, version);
 
 	gstring(__rcsid);
 	dopush((void *)&g, sizeof(g));
 
-	xchat_hook_server(ph, "RAW LINE", XCHAT_PRI_HIGHEST,
+	hexchat_hook_server(ph, "RAW LINE", HEXCHAT_PRI_HIGHEST,
 	    hookfn_rawirc, NULL);
-	xchat_hook_command(ph, "RANDEX", XCHAT_PRI_NORM,
+	hexchat_hook_command(ph, "RANDEX", HEXCHAT_PRI_NORM,
 	    cmdfn_randex, "Initiate RANDEX protocol with argument", NULL);
-	xchat_hook_command(ph, "RANDFILE", XCHAT_PRI_NORM,
+	hexchat_hook_command(ph, "RANDFILE", HEXCHAT_PRI_NORM,
 	    cmdfn_randfile, "Exchange between pool and file", NULL);
-	xchat_hook_command(ph, "RANDSTIR", XCHAT_PRI_NORM,
+	hexchat_hook_command(ph, "RANDSTIR", HEXCHAT_PRI_NORM,
 	    cmdfn_randstir, "Stir the entropy pool", NULL);
-	xchat_hook_command(ph, "RANDOM", XCHAT_PRI_NORM,
+	hexchat_hook_command(ph, "RANDOM", HEXCHAT_PRI_NORM,
 	    cmdfn_random, "Show a random number", NULL);
 
 	msg_condestruct(1);
@@ -228,7 +234,7 @@ xchat_plugin_init(xchat_plugin *handle, char **name, char **desc,
 }
 
 int
-xchat_plugin_deinit(void)
+hexchat_plugin_deinit(void)
 {
 	arc4random_stir();
 	arc4random();
@@ -243,7 +249,7 @@ hookfn_rawirc(char *word[], char *word_eol[], void *user_data)
 	char *src, *dst, *cmd, *rest;
 
 	if (!word[1] || !word[1][0])
-		return (XCHAT_EAT_NONE);
+		return (HEXCHAT_EAT_NONE);
 	if (word[1][0] == ':') {
 		src = word[1];
 		cmd = word[2];
@@ -286,7 +292,7 @@ hookfn_rawirc(char *word[], char *word_eol[], void *user_data)
 
 	gstring(word_eol[1]);
 	slowpush((void *)&g, sizeof(g));
-	return (XCHAT_EAT_NONE);
+	return (HEXCHAT_EAT_NONE);
 }
 
 static void
@@ -317,18 +323,18 @@ cmdfn_randex(char *word[], char *word_eol[], void *user_data)
 {
 	const char *ichan, *inetw;
 
-	if (xchat_get_info(ph, "server") == NULL) {
+	if (hexchat_get_info(ph, "server") == NULL) {
 		/* goes to the current tab */
-		xchat_print(ph, "You are not connected to the server.\n");
-		return (XCHAT_EAT_ALL);
+		hexchat_print(ph, "You are not connected to the server.\n");
+		return (HEXCHAT_EAT_ALL);
 	}
 
 	ichan = word[2];
 	/* make "/randex *" address the current tab */
 	if (ichan && ichan[0] == '*' && (!ichan[1] || ichan[1] == ' ' ||
 	    ichan[1] == '\t' || ichan[1] == '\r')) {
-		ichan = xchat_get_info(ph, "channel");
-		inetw = xchat_get_info(ph, "network");
+		ichan = hexchat_get_info(ph, "channel");
+		inetw = hexchat_get_info(ph, "network");
 		if (!ichan || !*ichan || (inetw && !strcmp(ichan, inetw)))
 			/* no current talk channel, or server tab active */
 			ichan = NULL;
@@ -336,19 +342,19 @@ cmdfn_randex(char *word[], char *word_eol[], void *user_data)
 
 	if (!ichan || !ichan[0]) {
 		/* goes to the current tab */
-		xchat_print(ph, "You must specify a nick or channel!\n");
-		return (XCHAT_EAT_ALL);
+		hexchat_print(ph, "You must specify a nick or channel!\n");
+		return (HEXCHAT_EAT_ALL);
 	}
 
 	snprintf(buf, sizeof(buf), "to %s for %s", ichan, word_eol[3] ?
 	    word_eol[3] : "\001(null)");
 	/* goes to the current tab */
-	xchat_printf(ph, "Initiating the RANDEX protocol with %s\n", ichan);
+	hexchat_printf(ph, "Initiating the RANDEX protocol with %s\n", ichan);
 	entropyio(buf, sizeof(buf));
-	xchat_commandf(ph, "quote PRIVMSG %s :\001ENTROPY %s\001", ichan, buf);
+	hexchat_commandf(ph, "quote PRIVMSG %s :\001ENTROPY %s\001", ichan, buf);
 
 	memset(buf, 0, sizeof(buf));
-	return (XCHAT_EAT_XCHAT);
+	return (HEXCHAT_EAT_HEXCHAT);
 }
 
 static int
@@ -359,8 +365,8 @@ cmdfn_randstir(char *word[], char *word_eol[], void *user_data)
 	arc4random_stir();
 	v = arc4random();
 	/* goes to the current tab */
-	xchat_printf(ph, "Entropy pool stirred. RANDOM: 0x%08X (%lu)\n", v, v);
-	return (XCHAT_EAT_XCHAT);
+	hexchat_printf(ph, "Entropy pool stirred. RANDOM: 0x%08X (%lu)\n", v, v);
+	return (HEXCHAT_EAT_HEXCHAT);
 }
 
 static int
@@ -370,8 +376,8 @@ cmdfn_random(char *word[], char *word_eol[], void *user_data)
 
 	v = arc4random();
 	/* goes to the current tab */
-	xchat_printf(ph, "Random number: 0x%08X (%lu)\n", v, v);
-	return (XCHAT_EAT_XCHAT);
+	hexchat_printf(ph, "Random number: 0x%08X (%lu)\n", v, v);
+	return (HEXCHAT_EAT_HEXCHAT);
 }
 
 static int
@@ -390,26 +396,26 @@ do_randex(int is_req, char *rsrc, char *dst, char *line)
 #ifndef BE_QUIET
 	/*
 	 * should go to the server tab, but there is no way
-	 * to do so even with xchat_find_context => doesn't
+	 * to do so even with hexchat_find_context => doesn't
 	 */
-	xchat_printf(ph,
+	hexchat_printf(ph,
 	    is_req == 2 ? "%s queried RANDEX protocol information from %s\n" :
 	    is_req ? "%s initiated the RANDEX protocol with %s\n" :
 	    "RANDEX protocol reply from %s to %s, processing\n", src, dst);
 #endif
 	entropyio(line, strlen(line));
 	if (is_req == 2)
-		xchat_commandf(ph, "quote PRIVMSG %s :\001ACTION uses the"
-		    " RANDEX plugin v%s for XChat, push API: %s\001",
+		hexchat_commandf(ph, "quote PRIVMSG %s :\001ACTION uses the"
+		    " RANDEX plugin v%s for HexChat, push API: %s\001",
 		    src, randex_vers, RELEASE_PAPI);
 	else if (is_req)
-		xchat_commandf(ph, "quote NOTICE %s :\001RANDOM %s\001",
+		hexchat_commandf(ph, "quote NOTICE %s :\001RANDOM %s\001",
 		    src, buf);
 	if (src != rsrc)
 		free(src);
 
 	memset(buf, 0, sizeof(buf));
-	return (XCHAT_EAT_ALL);
+	return (HEXCHAT_EAT_ALL);
 }
 
 static int
@@ -425,8 +431,8 @@ cmdfn_randfile(char *word[], char *word_eol[], void *user_data)
 	fn = word[2];
 	if (!fn || !fn[0]) {
 		/* goes to the current tab */
-		xchat_print(ph, "You must specify a filename!\n");
-		return (XCHAT_EAT_XCHAT);
+		hexchat_print(ph, "You must specify a filename!\n");
+		return (HEXCHAT_EAT_HEXCHAT);
 	}
 
 	g.t = time(NULL);
@@ -454,12 +460,12 @@ cmdfn_randfile(char *word[], char *word_eol[], void *user_data)
 			memcpy(pb + n, &tv, sizeof(tv));
 		}
 		if ((n = fwrite(pb, 1, sizeof(pb), f)) != sizeof(pb))
-			xchat_printf(ph, "Write error: %u/%u to %s\n",
+			hexchat_printf(ph, "Write error: %u/%u to %s\n",
 			    (unsigned)n, (unsigned)sizeof(pb), fn);
 		fclose(f);
 		(void)arc4random();
 	} else
-		xchat_printf(ph, "Could not open %s for writing!\n", fn);
+		hexchat_printf(ph, "Could not open %s for writing!\n", fn);
 
 	tv = arc4random();
 	NZATUpdateMem(h, &tv, sizeof(tv));
@@ -468,5 +474,5 @@ cmdfn_randfile(char *word[], char *word_eol[], void *user_data)
 	dopush((void *)&g, sizeof(g));
 
 	memset(pb, 0, sizeof(pb));
-	return (XCHAT_EAT_XCHAT);
+	return (HEXCHAT_EAT_HEXCHAT);
 }

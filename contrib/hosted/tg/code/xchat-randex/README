@@ -1,5 +1,8 @@
 Notes:
 
+* randex_h.{so,dll} is for HexChat;
+  randex_x.{so,dll} is for XChat.
+
 * Microsoft C is currently not supported. Use Cygwin.
 
 * Define BE_QUIET=1 on the make(1) command line to inhibit printing
@@ -38,4 +41,4 @@ Supported commands (with examples):
   Display a 32-bit random number (hexadecimal and decimal).
 
 _____________________________________________________________________________________
-$MirOS: contrib/hosted/tg/code/xchat-randex/README,v 1.4 2009/10/24 18:28:23 tg Exp $
+$MirOS: contrib/hosted/tg/code/xchat-randex/README,v 1.5 2011/12/16 20:23:29 tg Exp $
