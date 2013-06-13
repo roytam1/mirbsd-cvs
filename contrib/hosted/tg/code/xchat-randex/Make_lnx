@@ -1,11 +1,11 @@
-# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_lnx,v 1.7 2009/09/08 16:43:02 tg Exp $
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_lnx,v 1.8 2011/12/16 20:12:20 tg Exp $
 #-
 # see main.c for copyright and licencing information
 
 # platform notes: on i386, optimising for i686 will break the link
 # because ld -r and the .gnu.linkonce thunking don't work together
 
-EXTRA_FLAGS?=	-DUSE_INTTYPES -fPIC -DPIC
+EXTRA_FLAGS?=	-DUSE_INTTYPES -fPIC -DPIC -DOPPORTUNISTIC_ROOT_PUSHB
 
 include Make_gnu
 

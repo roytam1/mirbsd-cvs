@@ -1,10 +1,10 @@
-# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_mac,v 1.8 2011/12/16 20:12:20 tg Exp $
+# $MirOS: contrib/hosted/tg/code/xchat-randex/Make_mac,v 1.9 2013/06/13 21:03:55 tg Exp $
 #-
 # see main.c for copyright and licencing information
 
 # platform notes: we have arc4random but no GNU ld or objcopy
 
-EXTRA_FLAGS?=	-DUSE_INTTYPES -no-cpp-precomp
+EXTRA_FLAGS?=	-DUSE_INTTYPES -no-cpp-precomp -DOPPORTUNISTIC_ROOT_PUSHB
 LD_R_FLAGS?=	# not -O2
 CCLD_FLAGS?=	# not -Wl,-O2
 LINK_COMMAND?=	${CCLD} -bundle -flat_namespace -undefined suppress

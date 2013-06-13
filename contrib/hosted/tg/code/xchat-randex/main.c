@@ -48,9 +48,9 @@
 
 static const char __rcsid[] =
     "@(#)HEXCHAT "
-    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.16 2011/12/16 21:30:58 tg Exp $";
+    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.17 2013/06/13 21:03:56 tg Exp $";
 
-#define RANDEX_PLUGIN_VERSION	"1.26"
+#define RANDEX_PLUGIN_VERSION	"1.27"
 
 #include <sys/types.h>
 #if defined(HAVE_STDINT_H) && HAVE_STDINT_H
@@ -84,6 +84,11 @@ extern uint32_t arc4random_pushb(const void *, size_t);
 #define dopush		arc4random_pushb
 #define slowpush	arc4random_addrandom
 #define RELEASE_PAPI	"Win32"
+#elif defined(OPPORTUNISTIC_ROOT_PUSHB)
+extern uint32_t arc4random_pushb(const void *, size_t);
+#define dopush		arc4random_pushb
+#define slowpush	arc4random_addrandom
+#define RELEASE_PAPI	"opportunistic"
 #else
 #define dopush(b,n)	arc4random_addrandom((void *)(b), (int)(n))
 #define slowpush	arc4random_addrandom
