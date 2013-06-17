@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.7 2013/06/11 18:53:58 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.8 2013/06/13 20:06:54 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -1987,5 +1987,22 @@ ID: 387
 Date: 11.06.2013
 Waypoint: GC2E89G
 Title: Bonner Retter - Löscheinheit 14 -&gt; Endenich
+----
+ID: 388
+Date: 17.06.2013
+Waypoint: GC4BYEZ
+Title: Wasserhäuschen
+----
+ID: 389
+Date: 17.06.2013
+Waypoint: GC2QA76
+Title: Dorfbrunnen Hilgert
+
+Wenn Du hier bist, bist Du falsch, wenn Du zur A3 Richtung Köln willst.
+----
+ID: 390
+Date: 17.06.2013
+Waypoint: GC188KM
+Title: Das Goldene Em - Add on SU #1
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
