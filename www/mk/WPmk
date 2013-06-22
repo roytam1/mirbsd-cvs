@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.9 2013/06/13 20:20:52 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.10 2013/06/22 17:13:37 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -160,11 +160,12 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 {
 	print '<p><a href="#wpts" style="border:0;"><img style="border:0;"'
 	print " alt=\"$statname WP=$fwpkl on $datadate\""
-	print " src=\"WP$committer.png\" /></a></p>"
+	print " src=\"@@RELPATH@@WP$committer.png\" /></a></p>"
 	if (( ${#gcbanners[*]} )); then
 		print '<h2 id="banners">Banners et al.</h2>'
 		for x in "${gcbanners[@]}"; do
-			[[ $x = *'<'@(div|table|h[3-6])* ]] || x="<p>$x</p>"
+			[[ $x = *'<'@(div|form|p|table|h[3-6])* ]] || \
+			    x="<p>$x</p>"
 			print -r -- "$x"
 		done
 	fi

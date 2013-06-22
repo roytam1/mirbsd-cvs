@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.519 2013/06/02 03:26:07 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.520 2013/06/03 22:39:42 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -42,7 +42,7 @@ mws_content <<'EOF'
  statistics site. mksh is <a href="https://launchpad.net/mksh">experimentally
  tracked at Launchpad</a>. Download the Logo as <a
  href="@@RELPATH@@pics/mksh.svg">SVG</a> if you want. There’s also a <a
- href="@@ABSPATH@@/TaC-mksh.txt">full licence terms</a> overview.</p>
+ href="@@RELPATH@@TaC-mksh.txt">full licence terms</a> overview.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
 <p>The current version of mksh is <strong>mksh R46</strong> from
@@ -102,7 +102,7 @@ mws_content <<'EOF'
  the result is still called mksh, it’s discouraged; talk with us if you
  feel you have to modify mksh). The individual licences used are the MirOS
  licence, and (for BSD compatibility on other operating systems) the 3-clause
- UCB licence and the ISC licence; <a href="@@ABSPATH@@/TaC-mksh.txt">full
+ UCB licence and the ISC licence; <a href="@@RELPATH@@TaC-mksh.txt">full
  terms</a> are available. pdksh originally was public domain, with a few
  exceptions, but these files are not part of mksh R21 or up. The mksh(1) author
  (mirabilos) acknowledges the contributions of these people who dedicated pdksh
@@ -254,7 +254,7 @@ mws_content <<'EOF'
  and the one we consider best is <tt>-c lto</tt> (since it achieves the best
  optimisations). It is sometimes possible to use <tt>-j</tt> together
  with <tt>-c llvm</tt> to parallelise LLVM Bytecode generation, though.</p>
-<p>The <a href="@@ABSPATH@@/cvs.cgi/src/bin/mksh/Build.sh?rev=HEAD">build
+<p>The <a href="@@RELPATH@@cvs.cgi/src/bin/mksh/Build.sh?rev=HEAD">build
  script</a> also honours some environment variables detailed at its end.</p>
 
 <h4 id="oespec">Operating Environment specific notes</h4>
@@ -1310,7 +1310,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Drop old <tt>Build.sh</tt> -long-options (deprecated in R40)</li>
  <li>[tg] Change the internal hash algorithm from Bob Jenkins’ one-at-a-time
   to its NUL-counting, always-changing, better-avalanching MirOS variant <a
-  href="@@ABSPATH@@/cvs.cgi/src/kern/include/nzat.h">NZAAT</a> (with feedback
+  href="@@RELPATH@@cvs.cgi/src/kern/include/nzat.h">NZAAT</a> (with feedback
   from ciruZ; 75% fill level is reasonable; names tbd in Mirkev/MirJSON)</li>
  <li>[tg] Use <tt>$'…'</tt> for non-ASCII parameters for re-entry printing</li>
  <li>[tg] Use sane spelling of “read-only” consistently</li>

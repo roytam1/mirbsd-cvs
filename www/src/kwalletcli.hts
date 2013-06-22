@@ -1,6 +1,6 @@
 mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.27 2012/05/04 22:55:34 tg Exp $'
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.28 2012/12/29 03:06:42 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Content</h2>
 EOF
@@ -40,8 +40,8 @@ mws_content <<'EOF'
 <h3 id="contents">Ingredients</h3>
 <p>The kwalletcli distfile provides a number of things:</p><ul>
  <li>A <tt>LICENCE</tt> file. kwalletcli is covered by <a
-  href="@@ABSPATH@@/MirOS-Licence">The MirOS Licence</a> (<a
-  href="@@ABSPATH@@/MirOS-Licence.htm">HTML transcript</a>); the logo is
+  href="@@RELPATH@@MirOS-Licence">The MirOS Licence</a> (<a
+  href="@@RELPATH@@MirOS-Licence.htm">HTML transcript</a>); the logo is
   <em>additionally</em> restricted by the Terms and Conditions of the
   GNU LGPL v3+ (both licences are OSI certified, DFSG free, etc.)</li>
  <li>An SVG logo and a few compiled PNG versions.</li>

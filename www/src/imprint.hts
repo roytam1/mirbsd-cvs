@@ -1,6 +1,6 @@
 mws_setname imprint "Impressum (imprint)"
 mws_setheadline "Impressum (imprint)"
-mws_putheader '$MirOS: www/src/imprint.hts,v 1.2 2012/05/07 16:25:56 tg Exp $'
+mws_putheader '$MirOS: www/src/imprint.hts,v 1.3 2012/05/07 16:42:29 tg Exp $'
 mws_content <<'EOF'
 <h2>Legal information</h2>
 <p>All content of the website mirbsd.de including the main content mirrors,
@@ -12,9 +12,9 @@ mws_content <<'EOF'
  href="http://www.debian.org/social_contract#guidelines">DFSG</a> compliant
  or otherwise unfree (as deemed by The MirOS Project) licence, such as the
  GNU so-called “Free” Documentation License. All content, if not
- marked explicitly, is covered by <a href="@@ABSPATH@@/MirOS-Licence">The
+ marked explicitly, is covered by <a href="@@RELPATH@@MirOS-Licence">The
  MirOS Licence</a>. The look and feel of the MirOS website is licenced
- differently, please refer to the <a href="@@ABSPATH@@/LICENCE">website
+ differently, please refer to the <a href="@@RELPATH@@LICENCE">website
  licence overview</a> for further information. The webpages share a domain
  with The MirOS Project source code, wherefore BSD-Licence(7) contains the
  Terms and Conditions. The choice of law/court is especially applicable.</p>
@@ -46,7 +46,7 @@ mws_content <<'EOF'
 <h2>Urheberrechte</h2>
 <p>Das Urheberrecht für die genannten Webseiten liegt bei den jeweiligen
  Autoren bzw. dem MirOS-Projekt. Genaueres findest Du in der <a
- href="@@ABSPATH@@/LICENCE">MirOS Webseiten-Lizenz</a>. Die Webseite hat
+ href="@@RELPATH@@LICENCE">MirOS Webseiten-Lizenz</a>. Die Webseite hat
  Überschneidungen mit dem Quellkodebereich des MirOS-Projektes, dessen
  Lizenz unter BSD-Licence(7) hinterlegt ist; insbesondere ist die Wahl
  deutschen Rechtes und des Gerichtsstands anwendbar.</p>

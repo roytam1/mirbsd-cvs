@@ -3,7 +3,7 @@
 
 mws_setname legacy/wlog-5 "MirBSD Weblog"
 mws_setheadline MirBSD – You wish you had it. Eh?
-mws_putheader '$MirOS: www/src/wlog-5.hts,v 1.2 2009/06/21 11:01:27 tg Exp $'
+mws_putheader '$MirOS: www/src/wlog-5.hts,v 1.3 2009/07/19 15:34:45 tg Exp $'
 mws_content <<'EOF'
 <p><small>[ old MirBSD™ logo ]</small></p>
 <p>This is an archived weblog of the development leading to <a
@@ -13,7 +13,7 @@ mws_content <<'EOF'
  Our latest and greatest release ever has been released. Despite being an
  interim release without working GNU gcc 3.3, it has been undergone the most
  pervasive pre-release tests a MirBSD snapshot or release has ever had. You
- may want to read the [a href="@@ABSPATH@@/historic/ann-5.htm"](archived) Release Announcement, where you
+ may want to read the [a href="historic/ann-5.htm"](archived) Release Announcement, where you
  find download links and other useful information, as well as the advertising
  clauses.</p>
 <p>11.06.2003<br />Due to some unknown reason, stripped kernels with DDB

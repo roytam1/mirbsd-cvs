@@ -3,7 +3,7 @@
 
 mws_setname legacy/wlog-6 "MirBSD Weblog"
 mws_setheadline MirBSD – Enjoying Social Events
-mws_putheader '$MirOS: www/src/wlog-6.hts,v 1.3 2009/06/21 11:01:27 tg Exp $'
+mws_putheader '$MirOS: www/src/wlog-6.hts,v 1.4 2009/07/19 15:34:45 tg Exp $'
 mws_content <<'EOF'
 <p><small>[ old MirBSD™ logo ]</small></p>
 <p>This is an archived weblog of the development leading to <a
@@ -160,8 +160,8 @@ mws_content <<'EOF'
  Minor fixes on the make framework - <tt>make b-r</tt> and <tt>make
  contrelease</tt> (analog to <tt>make contbuild</tt>), as well as some
  improvements w.r.t. sudo(8)). Move on to <tt>MirBSD #7 (prerelease)</tt>
- and publish <a href="@@ABSPATH@@/plan.php">a
- development plan</a>.</p>
+ and publish [a href="plan.php"]a
+ development plan[archived].</p>
 <p>04.09.2003<br />Licence audit (wrt the AT&amp;T/UNIX&reg;32V ./. Caldera
  stuff), <tt>mk.conf</tt> improvements for the egcc port. Updates for
  the acronyme database from NetBSD. <tt>~/.etc</tt> for the dillo

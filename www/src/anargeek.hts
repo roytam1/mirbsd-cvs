@@ -4,7 +4,7 @@
 mws_setname hosted/anargeek "The Anargeek Manifesto"
 mws_setheadline Anargeek
 mws_setheadsize 42
-mws_putheader '$MirOS: www/src/anargeek.hts,v 1.7 2009/06/21 11:35:08 tg Exp $'
+mws_putheader '$MirOS: www/src/anargeek.hts,v 1.8 2009/12/12 18:30:54 tg Exp $'
 mws_content <<'EOF'
 <p>Go <a href="#manifest">directly to the manifesto</a>, leave to the <a
  href="http://anargeek.net/">Anargeek website</a>, or read the <a
@@ -25,7 +25,7 @@ mws_content <<'EOF'
  into German, and bsiegert@ compared it with the original, French language,
  version afterwards. I’ve created a logo to proudly show you’re an anargeek;
  download the <a href="@@RELPATH@@pics/anargeek.svg">SVG</a> here; for formal
- reasons it’s licenced under <a href="@@ABSPATH@@/MirOS-Licence">the MirOS
+ reasons it’s licenced under <a href="@@RELPATH@@MirOS-Licence">the MirOS
  Licence</a>. The logo’s design idea got approved by various members of the <a
  href="http://www.netzladen.org/">Netzladen</a>, (other) hackers and our
  local anarcho-syndicalists.</p>

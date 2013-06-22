@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.150 2012/11/30 23:40:24 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.151 2013/02/15 22:10:13 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -1151,7 +1151,7 @@ Author: tg@
 Title: MirOS Licence got OSI blessing
 Date: 14.11.2008
 
-<p>The <a href="@@ABSPATH@@/MirOS-Licence">MirOS Licence</a> is now, after
+<p>The <a href="@@RELPATH@@MirOS-Licence">MirOS Licence</a> is now, after
  quite some years, <a href="http://opensource.org/">OSI</a> approved, which
  not only implies an official certification that it conforms to the Open
  Source Definition, but also allows <a href="@@RELPATH@@mksh.htm">mksh</a>
@@ -1171,7 +1171,7 @@ Date: 14.11.2008
  and the <a href="http://opensource.org/licenses/miros.html">OSI list</a>
  has only been updated last night (and could use some UTF-8 fixing, or, in
  this case certainly better, a downgrade to the ASCII version dubbed the <a
- href="@@ABSPATH@@/cvs.cgi/src/share/misc/licence.template?rev=HEAD;content-type=text/plain">licence
+ href="@@RELPATH@@cvs.cgi/src/share/misc/licence.template?rev=HEAD;content-type=text/plain">licence
  template</a> initially).</p>
 <p>Still we’re glad that the OSI, although not encouraging people to actually
  <em>use</em> the licence, given their stance on “licence proliferation”, has
@@ -1813,7 +1813,7 @@ Picture3: Allerheiligen 2009-11-01
 <p><strong>Update</strong> 02.11. – The <tt>/etc/rc</tt> shipped breaks
  pflogd(8) and hence spamlogd(8) – part of the spamd(8) suite – please
  update this file from the <tt>etc10.ngz</tt> set manually to cvs(1) <a
- href="@@ABSPATH@@/cvs.cgi/src/etc/rc.diff?r1=1.105;r2=1.107">revision
+ href="@@RELPATH@@cvs.cgi/src/etc/rc.diff?r1=1.105;r2=1.107">revision
  1.107</a> if you are running a spamfilter scenario. Our apologies.</p>
 <p><strong>Update</strong> 08.11. – Append the following line:
  <tt>CHARACTER_SET:utf-8</tt> to <tt>/etc/lynx.cfg</tt> or re-enable
@@ -1861,7 +1861,7 @@ Tag: debian event mksh
  being a stable series release there are, due to standards compliance and
  bug fixes, a number of <a href="@@RELPATH@@mksh.htm#c39b">caveats</a>
  users should be aware of when upgrading. Also new, the list of <a
- href="@@ABSPATH@@/TaC-mksh.txt">full terms and conditions</a> applying
+ href="@@RELPATH@@TaC-mksh.txt">full terms and conditions</a> applying
  to it. Users (and distributors intending to support mksh for their own
  customers) should definitively read the caveats, although only corner
  cases are incompatible (ask for details).</p>

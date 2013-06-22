@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-9.inc,v 1.100 2009/10/30 17:05:32 tg Exp $
+RCSID: $MirOS: www/data/wlog-9.inc,v 1.101 2011/08/13 22:31:24 tg Exp $
 Date: 25.06.2006
 Author: tg@
 
@@ -495,7 +495,7 @@ Author: tg@
   as developer by his own request, fixed *roff macros (new MirNroff cpio
   distfile for Interix might be required soon), enhanced and fixed docs,
   helped FreeWRT people (website/server is down, we know), etc.</p>
- <p><a href="@@ABSPATH@@/MirOS-Licence">Licence</a> is now up to date again, and links
+ <p><a href="@@RELPATH@@MirOS-Licence">Licence</a> is now up to date again, and links
   are actually links.</p>
  <p>Sendmail 8.13.8 is out, but not a high-priority update.</p>
 
@@ -1262,7 +1262,7 @@ Title: I'm bored so lemme write something here…
 Author: tg@
 
 <p>We now have an uppercase Eszett (ſz ligature) ẞ in the fixed-misc fonts
- and my <a href="@@ABSPATH@@/cvs.cgi/contrib/samples/dot.Xmodmap">keymap</a>; it maps
+ and my <a href="@@RELPATH@@cvs.cgi/contrib/samples/dot.Xmodmap">keymap</a>; it maps
  towlower(L'ẞ' == 0x1E9E) = L'ß' == 0x00DF, whose upper-case mapping stays
  at L"SS" though. I sent the changes in the font to Markus Kuhn, hoping he
  will integrate them in the next stock XFree86® (and that x.org crap too…)
@@ -1279,7 +1279,7 @@ Title: libnointl
 Author: tg@
 
 <p>Before I forget to write this down… today, I released a piece of code I
- call <a href="@@ABSPATH@@/cvs.cgi/contrib/hosted/libnointl/">libnointl</a>. This was
+ call <a href="@@RELPATH@@cvs.cgi/contrib/hosted/libnointl/">libnointl</a>. This was
  an original idea (and implementation¹) of mine, but I only got it because
  of swishy (Dale Anderson) who complained about his cross-compiling issues
  and troubles to me in IRC (I'm feeling the same when working for and with

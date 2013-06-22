@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.9 2013/06/17 23:51:46 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.10 2013/06/20 18:27:06 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2016,5 +2016,23 @@ Waypoint: GC2VQ5G
 Title: Besuch aus der Antarktis ...
 
 Natureshadow ist (multipel indirekt) schuld ☺
+----
+ID: 393
+Date: 22.06.2013
+Waypoint: OK00CA
+Title: House of Correction
+nTF: 2
+
+Okay, I cheated a bit, here. But, pooh.
+----
+ID: 394
+Date: 22.06.2013
+Waypoint: LC7TB
+Title: Truly Well-Rounded Cacher LC - Level I
+----
+ID: 395
+Date: 22.06.2013
+Waypoint: LCR2
+Title: WCG II - Keep it going
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'

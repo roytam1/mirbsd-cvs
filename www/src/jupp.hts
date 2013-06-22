@@ -1,11 +1,11 @@
-# $MirOS: www/src/jupp.hts,v 1.43 2013/01/06 01:26:39 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.44 2013/03/19 16:41:07 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.43 2013/01/06 01:26:39 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.44 2013/03/19 16:41:07 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp2</em> for MS-DOS® compatible systems,
  and <em>joe-3.1jupp24</em> for Unix/GNU compatible systems. This page is
@@ -96,13 +96,13 @@ mws_content <<'EOF'
 <h2 id="docs">Documentation</h2>
 <p>We have a <a href="@@ABSPATH@@/MirOS/dist/jupp/joe.pdf">PDF manpage</a>,
  <a href="@@ABSPATH@@/MirOS/dist/jupp/joe.htm">HTML manpage</a>, and you
- can use <a href="@@ABSPATH@@/cvs.cgi/jupp">CVSweb</a> to browse the source
+ can use <a href="@@RELPATH@@cvs.cgi/jupp">CVSweb</a> to browse the source
  and documentation on-line.</p>
 <p>Note that the keybindings in the manual page reflect the joe frontend,
  not the jupp frontend.</p>
-<p><a href="@@ABSPATH@@/cvs.cgi/ports/editors/joe/DESCR?rev=HEAD">The jupp
+<p><a href="@@RELPATH@@cvs.cgi/ports/editors/joe/DESCR?rev=HEAD">The jupp
  package description</a> of The MirPorts Framework may aid other packagers
- in divining one. <a href="@@ABSPATH@@/cvs.cgi/jupp/jupprc">jupprc</a> is
+ in divining one. <a href="@@RELPATH@@cvs.cgi/jupp/jupprc">jupprc</a> is
  available in several flavours, one for JOE 2.8 (DOS), one for JOE 3.7-2
  (Unix), although these lack the core code patches applied in proper Jupp.</p>
 

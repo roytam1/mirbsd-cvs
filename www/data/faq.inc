@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/faq.inc,v 1.5 2010/07/12 20:48:25 tg Exp $
+RCSID: $MirOS: www/data/faq.inc,v 1.6 2011/02/12 23:14:44 tg Exp $
 Title: Why don't I have colours on the console?
 
 <p>The first virtual terminal is the system console, unless the
@@ -60,7 +60,7 @@ Title: Services? Stop, restart, …
   class="u">-t</span></tt> (where <tt>-t</tt> is your
   <tt>$ntpd_flags</tt> from <tt>/etc/rc.conf{,.local}</tt>)</li>
  <li>sshd(8): <tt>cd /; sudo <a
-  href="@@ABSPATH@@/cvs.cgi/src/scripts/cleanenv">cleanenv</a>
+  href="@@RELPATH@@cvs.cgi/src/scripts/cleanenv">cleanenv</a>
   - /usr/sbin/sshd</tt> (append <tt>$sshd_flags</tt> from
   <tt>/etc/rc.conf{,.local}</tt> if you have any)</li>
 </ul>

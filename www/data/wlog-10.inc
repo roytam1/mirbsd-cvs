@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.428 2013/06/08 17:42:47 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.429 2013/06/09 02:58:06 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2066,7 +2066,7 @@ Title: aalloc and COFF
 Tag: mksh
 
 <p>I got (E)COFF executables to work, even though I cannot produce them <a
- href="@@ABSPATH@@/cvs.cgi/src/sys/arch/i386/include/exec.h">except with a
+ href="@@RELPATH@@cvs.cgi/src/sys/arch/i386/include/exec.h">except with a
  hand-crafted binary</a> yet. Maybe these produced by kencc work now.</p>
 <p>I didn’t get the time or nerve to continue hacking on aalloc today… the
  whole pointers thing in C is so useless. If I could use assembly, it were
@@ -2309,7 +2309,7 @@ Author: tg@
 Title: svn2cvs.sh – convert Subversion to RCS/CVS Repositories
 Tag: mksh
 
-<p><a href="@@ABSPATH@@/cvs.cgi/contrib/hosted/tg/svn2cvs.sh">svn2cvs.sh</a>
+<p><a href="@@RELPATH@@cvs.cgi/contrib/hosted/tg/svn2cvs.sh">svn2cvs.sh</a>
  is an mksh(1) shell script able to convert from Subversion repositories
  (remote access via URLs, needs installed svn client) to RCS/CVS repositories
  (local access via pathnames, needs installed rcs(1) ci(1) co(1) GNU RCS, as
@@ -3984,7 +3984,7 @@ Tag: grml
  ISO build process, as its output is easier to parse than J&#xFFFD;rg's
  isoinfo. (I definitively should add subdir support there, just haven't
  gotten around to do it yet...) It uses a UCB and a TNF header file and
- otherwise available under the <a href="@@ABSPATH@@/MirOS-Licence">MirOS
+ otherwise available under the <a href="@@RELPATH@@MirOS-Licence">MirOS
  Licence</a> (of course), as are the bootblocks.</p>
 ----
 Date: 27.05.2009 15:32
@@ -4109,9 +4109,9 @@ Author: tg@
  A <a href="@@ABSPATH@@/MirOS/dist/hosted/tg/randex.dll.gz.1.05">ready
  made DLL</a> for Win32 is available for direct download from us as is
  the <a href="@@ABSPATH@@/MirOS/dist/hosted/tg/xchat-randex_1.05.orig.tar.gz">source
- code</a>. It is, of course, <a href="@@ABSPATH@@/MirOS-Licence">MirOS
+ code</a>. It is, of course, <a href="@@RELPATH@@MirOS-Licence">MirOS
  licenced</a>.</p>
-<p><a href="@@ABSPATH@@/cvs.cgi/ports/net/irssi/files/randex.pl">irssi
+<p><a href="@@RELPATH@@cvs.cgi/ports/net/irssi/files/randex.pl">irssi
  plugin</a> is available from CVSweb or AnonCVS; the MirPorts versions
  of sirc and tinyirc, as well as tinyirc on bsd4grml and the Live CDs,
  also support the RANDEX protocol.</p><!-- RSS stop -->
@@ -4316,7 +4316,7 @@ Author: tg@
 <p>I have developed <tt>kwalletcli</tt>, a command-line interface to the
  KDE Wallet and
  would like public feedback, before releasing an 1.00 version, both on <a
- href="@@ABSPATH@@/cvs.cgi/contrib/hosted/tg/code/kwalletcli/">the source
+ href="@@RELPATH@@cvs.cgi/contrib/hosted/tg/code/kwalletcli/">the source
  code</a> and <a href="https://eurynome.mirbsd.org/debs/dists/hardy/wtf/pkgs/kwalletcli/kwalletcli_0.94-1.dsc">an
  experimental Debian package</a> of it.</p>
 <p>Nice things it can do:</p><ul>
@@ -4339,7 +4339,7 @@ Author: tg@
   pure CLI sessions as well, if one has logged in via KDE first (we do this
   at work on our standard desktops, courtesy by me)</li>
  <li>OSI certified Open Source™ Software under a free, very unrestrictive, <a
-  href="@@ABSPATH@@/MirOS-Licence">licence</a></li>
+  href="@@RELPATH@@MirOS-Licence">licence</a></li>
 </ul>
 <p>Any feedback welcome! Direct it to the miros-discuss mailing list.</p>
 <p><strong>Update</strong> 09.07. – version 0.90 -> 0.91-1<br />I also crafted
@@ -5126,7 +5126,7 @@ Tag: mksh
  (MD5 <tt>64ee103453d65e947f2beb1aeb6450d2</tt>) which you can place in, for
  instance, <tt>/data/mksh</tt> then put a (modified, as the ls(1) and id(1)
  and possibly other utilities are more than reduced) <tt>dot.mkshrc</tt> from
- the source (<a href="@@ABSPATH@@/cvs.cgi/mksh/dot.mkshrc?rev=1.49">CVSweb</a>)
+ the source (<a href="@@RELPATH@@cvs.cgi/mksh/dot.mkshrc?rev=1.49">CVSweb</a>)
  as <tt>/data/.mkshrc</tt> and run it from adb (which, by the way, is the one
  responsible for some cursor keys etc. not working, as Android and mksh(1) do
  both fine in that regard) with <tt># HOME=/data /data/mksh</tt> in the shell.
@@ -5317,12 +5317,12 @@ Tag: bug event security snapshot
  is evil, for example, my SMTP setup (using X.509v3 SSL certificate auth
  for relaying) might break. But we are said to expect an amended SSL/TLS
  protocol soon, hopefully with OpenSSL patch.</p>
-<p><a href="@@ABSPATH@@/cvs.cgi/src/distrib/common/ekeyrng">ekeyrng</a> is
+<p><a href="@@RELPATH@@cvs.cgi/src/distrib/common/ekeyrng">ekeyrng</a> is
  a very rough draft (shell prototype) currently driving, together with a
  small USB backport, a <a href="http://www.entropykey.co.uk/">Simtec
  EntropyKey</a> in <tt>herc</tt> into wrandom(4) (for now). Really, the
  Lua tools should be used, but this is good for the installer, although
- the <a href="@@ABSPATH@@/cvs.cgi/contrib/hosted/tg/tpmrx">TPM</a>, eKey
+ the <a href="@@RELPATH@@cvs.cgi/contrib/hosted/tg/tpmrx">TPM</a>, eKey
  and truerand – cprng(8) – functionality should be combined into one small,
  efficient, C dæmon doing so (but without the hacks to keep cprng(8) within
  one memory page to cease swapping). Still, it’s great!</p><!-- RSS stop -->
@@ -5385,7 +5385,7 @@ Date: 15.11.2009 01:49
 
 <p><a href="@@RELPATH@@permalinks/wlog-10_e20091112-tg.htm">I am, indeed,
  happy</a> with my <a href="http://www.entropykey.co.uk/">eKey</a>. I’ve
- <a href="@@ABSPATH@@/cvs.cgi/ports/security/ekeyd/">ported</a> the ekeyd
+ <a href="@@RELPATH@@cvs.cgi/ports/security/ekeyd/">ported</a> the ekeyd
  support software (but could not get ekey-ulusbd to work), created a real
  lot of patches, and discussed with «rjek» in IRC happily.</p>
 <p>I now get about 4 KiB/sec on large streams (such as 64 KiB) reads from
@@ -5893,7 +5893,7 @@ Date: 01.01.2010 20:46
  and feeds us patches). I still think we need MirWRT ☺ with a ports-like
  instead of buildroot-based system, but will never have enough time and
  interest to do that…</p>
-<p>And: our <a href="@@ABSPATH@@/cvs.cgi/www/">website source code</a> is
+<p>And: our <a href="@@RELPATH@@cvs.cgi/www/">website source code</a> is
  in fact superiour to many others ☻ and quite extensible and flexible…</p>
 ----
 Title: new MirBSD-current snapshot; more TODO done
@@ -6646,7 +6646,7 @@ Date: 12.07.2010 20:28
 Tag: debian mksh
 
 <p>I’ve got some interesting results using r1.1 of an example <a
- href="@@ABSPATH@@/cvs.cgi/contrib/hosted/tg/testaslr.c">test
+ href="@@RELPATH@@cvs.cgi/contrib/hosted/tg/testaslr.c">test
  programme</a> (r1.2 got cleaned up and more output) on various
  systems, regarding ASLR. The 1.1 revision tests everything <a
  href="@@RELPATH@@mksh.htm#clog">mksh</a> R40+ will use (except
@@ -7397,7 +7397,7 @@ Tag: debian event ill mksh rant
  this actually reduces the overall system footprint. (Its inclusion also
  provides for some other possibilities, internally.) And as two final side
  notes, if you haven’t seen this: determine which shell we are run under <a
- href="@@ABSPATH@@/cvs.cgi/contrib/code/Snippets/getshver?rev=HEAD">(CVS)</a>
+ href="@@RELPATH@@cvs.cgi/contrib/code/Snippets/getshver?rev=HEAD">(CVS)</a>
  and I still offer a prompt conversion service (send me any GNU bash or oksh
  <tt>$PS1</tt> and I’ll send that to you in mksh(1) syntax – optionally with
  adjustments/improvements, like cwd uses only up to 1/3 of screen width).</p>
@@ -7860,7 +7860,7 @@ Tag: debian mksh news pcli release
  ok in my books. rsyslog is broken but sysklogd works.</p>
 <p>The <a href="@@RELPATH@@ksh-chan.htm">#ksh|Freenode</a> page finally
  got a well-deserved link to Planet Commandline. Throw more my way!</p>
-<p><a href="@@ABSPATH@@/cvs.cgi/src/share/misc/acronyms">Acronyms</a> and <a
+<p><a href="@@RELPATH@@cvs.cgi/src/share/misc/acronyms">Acronyms</a> and <a
  href="https://evolvis.org/scm/viewvc.php/evolvis/trunk/gforge_base/evolvisforge/gforge/www/js/datepicker.js?view=markup">translations</a>,
  too. (Got Norwegian and Rumanian covered in the meantime. No idea whether any
  RTL languages will work in that beast. But I’m young and need the money)</p>
@@ -7868,7 +7868,7 @@ Tag: debian mksh news pcli release
  href="http://gwolf.org/blog/free-software-must-migrate-become-free-culture">nice
  summary on the current Free Culture discussion</a>; my comments on Nina’s site
  seem to be eaten, but let me support it fully, although, of course, I normally
- use a <a href="@@ABSPATH@@/MirOS-Licence">copycenter style licence</a>, which
+ use a <a href="@@RELPATH@@MirOS-Licence">copycenter style licence</a>, which
  is specifically written for general works of authorship under copyright law,
  not limited to software. I did in fact have that in mind. Maybe some people
  will like it (it’s less than one Kibibyte long) either generally or just for
@@ -9023,7 +9023,7 @@ Tag: debian mksh news pcli tip
  href="@@RELPATH@@main.htm">MirBSD</a>, and the <a
  href="@@RELPATH@@acronyms" type="text/plain; charset=utf-8"
  title="MirBSD WTF acronym database">acronym database</a>
- has been accessible by <a href="@@ABSPATH@@/cvs.cgi">CVSweb</a>,
+ has been accessible by <a href="@@RELPATH@@cvs.cgi">CVSweb</a>,
  what we never had was a DAU compatible (and <a
  href="https://evolvis.org/projects/shellsnippets/">shellsnippets</a>
  compatible) lookup. This has now changed: the above link to
@@ -9059,7 +9059,7 @@ Tag: debian mksh news pcli tip
  diving into other things, learning more about why I consider me
  lucky for hacking a BSD operating system… sorry, I want to keep
  this short as it’s mostly an announcement.</p>
-<p>The <a href="@@ABSPATH@@/cvs.cgi/www/">MirWebsite source code</a>
+<p>The <a href="@@RELPATH@@cvs.cgi/www/">MirWebsite source code</a>
  is, of course, also available. Improvements welcome. Except for
  these three CGIs, our website is fully statically precompiled,
  and that’s a good thing. Please help in making the CGIs secure.</p>
@@ -9075,7 +9075,7 @@ Tag: debian pcli tip
  Hardon Heroin. (Luckily, I managed to avoid upgrading to Prolonged Pain.)
  Now I guess that’ll work again.</p>
 <p>My work laptop (running testing) also has got this X.org thingy. <a
- href="@@ABSPATH@@/cvs.cgi/contrib/samples/dot.Xmodmap">My keyboard
+ href="@@RELPATH@@cvs.cgi/contrib/samples/dot.Xmodmap">My keyboard
  layout</a> now has got a <tt>grml</tt> branch (named after the person
  who first cursed about the insane idea of those toy-breaking boys to
  rearrange the keycodes) that works with it. Since Debian is marginally
@@ -9129,7 +9129,7 @@ Tag: debian mksh pcli tip
  <a href="@@RELPATH@@mksh.htm">mksh</a> users, except it doesn’t
  redefine your prompt but amend it – just throw it at the bottom of
  your <tt>~/.mkshrc</tt> before that last line beginning with a colon
- (copy from <a href="@@ABSPATH@@/cvs.cgi/contrib/hosted/tg/deb/mksh/debian/.mkshrc?rev=HEAD"><tt>/etc/skel/.mkshrc</tt></a>
+ (copy from <a href="@@RELPATH@@cvs.cgi/contrib/hosted/tg/deb/mksh/debian/.mkshrc?rev=HEAD"><tt>/etc/skel/.mkshrc</tt></a>
  if you haven’t done that yet):</p><div class="boxtext">
  <pre>
 	function parse_git_branch {
@@ -9412,7 +9412,7 @@ Tag: debian
 <p><strong>Update</strong> 02.12.2012 – Wrong I was about the first two
  characters: “"€"” is a valid JSON text. Still possible to peek at four
  octets and determine the encoding by ordering the tests; updated my <a
- href="@@ABSPATH@@/cvs.cgi/contrib/hosted/tg/code/MirJSON/json.txt?rev=HEAD">notes</a>.</p>
+ href="@@RELPATH@@cvs.cgi/contrib/hosted/tg/code/MirJSON/json.txt?rev=HEAD">notes</a>.</p>
 ----
 Date: 07.12.2012 22:40
 Author: tg@
@@ -9722,7 +9722,7 @@ Tag: debian rant
  hex; the Eszett ß is 223 which is DF hex, padded 00DF.<br />
  Then write an uppercase ‘U’, a plus sign ‘+’, and the four nibbles:
  U+20AC U+00DF<br />In <a href="@@RELPATH@@mksh.htm">mksh</a>, <a
- href="@@ABSPATH@@/cvs.cgi/contrib/hosted/tg/code/MirJSON/json.txt?rev=HEAD">JSON</a>,
+ href="@@RELPATH@@cvs.cgi/contrib/hosted/tg/code/MirJSON/json.txt?rev=HEAD">JSON</a>,
  etc. it’s a backslash ‘\’, a lower-case ‘u’ and four nibbles.</p>
 <p>Otherwise, your Unicode codepoint will be, numerically, between
  65536 and 1114111, inclusive, that is hex 10000 to 10FFFF. (There’s
@@ -10016,7 +10016,7 @@ Tag: archaeology debian
  service (as one <strong>must not run an MTA on dynamic IP</strong>)
  with it; some of these even in parallel.</p>
 <p>Not all of it is documented, but I’ve written up most things in <a
- href="@@ABSPATH@@/cvs.cgi/contrib/code/heartbeat/">CVS</a>. There also
+ href="@@RELPATH@@cvs.cgi/contrib/code/heartbeat/">CVS</a>. There also
  were some issues (mostly to do with killing sleep(1)ing subprocesses
  not working right), so it occasionally hung, but very rarely. Running
  it under the supervise of DJB dæmontools was nice, as I was already
@@ -10028,7 +10028,7 @@ Tag: archaeology debian
  to the djbdns server primary and secondaries, then running zonenotify
  so the BIND secondaries get a NOTIFY to update their zones (so I never
  had to bother much with the SOA values, only allow AXFR). That’s a
- really <a href="@@ABSPATH@@/wtf.cgi?kiss">KISS</a> setup ☺</p>
+ really <a href="@@RELPATH@@wtf.cgi?kiss">KISS</a> setup ☺</p>
 <p>Anyway. This is archæology. The scripts are there, feel free to
  use them, hack on them, take them as examples… even submit back
  patches if you want. I’ll even answer questions, to some degree,

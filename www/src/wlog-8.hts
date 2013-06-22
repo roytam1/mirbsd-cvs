@@ -3,7 +3,7 @@
 
 mws_setname legacy/wlog-8 "MirBSD Weblog"
 mws_setheadline MirBSD – WTF, We Have a Release!?
-mws_putheader '$MirOS: www/src/wlog-8.hts,v 1.4 2009/09/25 18:23:36 tg Exp $'
+mws_putheader '$MirOS: www/src/wlog-8.hts,v 1.5 2011/03/21 16:18:50 tg Exp $'
 mws_content_keeptabs <<'EOF'
 <p><small><a href="#eof">bottom</a> or <a href="@@RELPATH@@older.htm">older</a>
  editions</small></p>
@@ -742,7 +742,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
   passes of <a href="http://www.memtest86.com/">memtest86</a> don't show
   any error at all. Maybe heat? CPU issues? It just freezes, no panic or
   any serial console output or syslog at all.</p>
- <p>I've written a <a href="@@ABSPATH@@/cvs.cgi/www/content/Attic/utf2html.sh">helper</a>, converting
+ <p>I've written a <a href="@@RELPATH@@cvs.cgi/www/content/Attic/utf2html.sh">helper</a>, converting
   UTF-8 to SGML entities, for Benny to write a larger wlog entry. It can
   convert basically any UTF-8 because it's a simple (slow) shell script,
   making use of iconv(1) and hexdump(1); output is decimal entities (not

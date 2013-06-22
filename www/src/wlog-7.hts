@@ -3,14 +3,14 @@
 
 mws_setname legacy/wlog-7 "MirBSD Weblog"
 mws_setheadline MirBSD – RELEASE TIME!!! Stable Services for Commercial Customers
-mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.5 2009/07/19 15:34:45 tg Exp $'
+mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.6 2011/08/12 17:34:13 tg Exp $'
 mws_content <<'EOF'
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
  new MirOS website was brought up.</h6>
 <p>29.09.2003<br />Release MirOS BSD #7r80, tag the tree. Build a full
  release snapshot including X-Window and a ISO9660 file, upload it.
- [a href="@@ABSPATH@@/historic/ann-7.htm" | Read the
+ [a href="historic/ann-7.htm" | Read the
  MirOS #7r RELEASE Announcement] for further information on this
  release. There are known bugs: the Microsoft Windows emulators don't
  work correctly, and several ports do not build at all, or only using
@@ -661,7 +661,7 @@ mws_content <<'EOF'
  licence. We all do not understand what they want from us &ndash; maybe they just
  fear we could take their users away? Probably I should just make that the
  project aim.<br />All announcements etc. will be <a
- href="@@ABSPATH@@/cvs.cgi/contrib/samples/mirex/devel-keys">signed</a> from now.</p>
+ href="@@RELPATH@@cvs.cgi/contrib/samples/mirex/devel-keys">signed</a> from now.</p>
 <p>11.02.2004 by bsiegert@ (catch-up entry)<br />
  Fix gnupg (security). Finally install the new harddisk for amiras and re-use
  the old one for frankie (alias benz.mine.nu). Just about time, because
@@ -1427,12 +1427,12 @@ mws_content <<'EOF'
  the old, 4.3BSD-compat, syscalls in native mode, must look deeper into this;
  couldn't have done that since I got to dayjob today again, whilst all the
  school children have vacations.<br />Today, I ported the <a
- href="@@ABSPATH@@/cvs.cgi/contrib/samples/dot.Xmodmap.light">light keyboard layout</a>
+ href="@@RELPATH@@cvs.cgi/contrib/samples/dot.Xmodmap.light">light keyboard layout</a>
  (<tt>~/.Xmodmap</tt>) of mine, perusing the right Alt key as Meta, to a <a
- href="@@ABSPATH@@/cvs.cgi/contrib/code/Snippets/KBDmir1U.exe">certain other OS</a>,
+ href="@@RELPATH@@cvs.cgi/contrib/code/Snippets/KBDmir1U.exe">certain other OS</a>,
  and plan to do that for the full layout (with Katakana) as well, if it is
  possible.<br />MirCGIIRC is now fully 8-bit Unicode compliant, and I urge
- everybody to use <a href="@@ABSPATH@@/cvs.cgi/contrib/code/cgiirc/">ours</a> instead
+ everybody to use <a href="@@RELPATH@@cvs.cgi/contrib/code/cgiirc/">ours</a> instead
  of the original CGI:IRC.</p>
 <p>31.10.2004 by tg@<br />Samhain consists of hacking on syscalls, openbsd
  compat and gcc 3.4 for me. Still nothing much happening here, but the beer
@@ -2192,7 +2192,7 @@ mws_content <<'EOF'
  to please the masses, bring in money or hunt bugs down because that is a
  design goad. MirOS is simply a piece of art.<br /><br />But it goes further
  than that. When I'm doing certain things for MirBSD&trade;, it's like magic
- to me. The <a href="@@ABSPATH@@/cvs.cgi/src/share/misc/licence.template">licence</a>
+ to me. The <a href="@@RELPATH@@cvs.cgi/src/share/misc/licence.template">licence</a>
  is such an example. It was an artwork to do it, but in contrast to the last
  193 lines of HTML source in this file, it was also a magickal item to me. It
  does good to the source when it touches it. I'm handling forces older than

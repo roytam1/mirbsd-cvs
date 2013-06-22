@@ -1,6 +1,6 @@
 mws_setname subprojects/makefs "NetBSD® makefs"
 mws_setheadline NetBSD® makefs
-mws_putheader '$MirOS: www/src/makefs.hts,v 1.1 2010/03/27 18:02:56 tg Exp $'
+mws_putheader '$MirOS: www/src/makefs.hts,v 1.2 2011/02/13 00:00:04 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Content</h2>
 EOF
@@ -12,7 +12,7 @@ mws_content <<'EOF'
 <p>This page is not ready yet; it will be with/for the next release, which
  will contain Fedora portability glue in addition to the Debian one (already
  in CVS) and fix some of the uses of “long” instead of “off_t” etc.</p>
-<p>The <a href="@@ABSPATH@@/TaC-mksh.txt">licence terms</a> will also be
+<p>The <a href="@@RELPATH@@TaC-makefs.txt">licence terms</a> will also be
  filled in by then.</p>
 
 <p>Current packaging: <a href="http://packages.debian.org/makefs">Debian</a>.
