@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.8 2013/06/09 02:47:39 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.9 2013/06/13 20:20:52 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -214,8 +214,14 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 		    "class=\"$class\">${e_date[ent]} #${e_id[ent]} $sep"
 		for wp in ${e_waypoint[ent]}; do
 			case $wp {
+			(GA*)
+				wp="<a href=\"http://geocaching.com.au/cache/$wp\">$wp</a>"
+				;;
 			(GC*)
 				wp="<a href=\"http://www.geocaching.com/seek/cache_details.aspx?wp=$wp\">$wp</a>"
+				;;
+			(GE*)
+				wp="<a href=\"http://geocaching.gpsgames.org/cgi-bin/ge.pl?wp=$wp\">$wp</a>"
 				;;
 			(N[0-9]+([0-9A-F]))
 				wp="<a href=\"http://www.navicache.com/cgi-bin/db/displaycache2.pl?CacheID=$((16#${wp#N}))\">$wp</a>"
@@ -234,6 +240,9 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 				;;
 			(OX*)
 				wp="<a href=\"http://www.opencaching.com/#!geocache/$wp\">$wp</a>"
+				;;
+			(SH*)
+				wp="<a href=\"http://shutterspot.gpsgames.org/cgi-bin/sh.pl?wp=$wp\">$wp</a>"
 				;;
 			(TC*|LC*)
 				wp="<a href=\"http://www.terracaching.com/viewcache.cgi?ID=$wp\">$wp</a>"
@@ -254,6 +263,8 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 			print -r -- "${ei_body[ent]}" | perl -pe '
 				s`\b(N[0-9][0-9A-F]{4}|(GC|O[BCKPSUXZ]|[TL]C)[0-9A-Z]{4,5})\b`
 					($wp = $1) =~ /^GC/ ? "<a href=\"http://www.geocaching.com/seek/cache_details.aspx?wp=$wp\">$wp</a>" :
+					$wp =~ /^GA/ ? "<a href=\"http://geocaching.com.au/cache/$wp\">$wp</a>" :
+					$wp =~ /^GE/ ? "<a href=\"http://geocaching.gpsgames.org/cgi-bin/ge.pl?wp=$wp\">$wp</a>" :
 					$wp =~ /^N[0-9]/ ? sprintf("<a href=\"http://www.navicache.com/cgi-bin/db/displaycache2.pl?CacheID=%d\">$wp</a>", hex(substr($wp, 1))) :
 					$wp =~ /^OB/ ? "<a href=\"http://www.opencaching.nl/viewcache.php?wp=$wp\">$wp</a>" :
 					$wp =~ /^OC/ ? "<a href=\"http://www.opencaching.de/viewcache.php?wp=$wp\">$wp</a>" :
@@ -263,6 +274,7 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 					$wp =~ /^OU/ ? "<a href=\"http://www.opencaching.us/viewcache.php?wp=$wp\">$wp</a>" :
 					$wp =~ /^OZ/ ? "<a href=\"http://www.opencaching.cz/viewcache.php?wp=$wp\">$wp</a>" :
 					$wp =~ /^OX/ ? "<a href=\"http://www.opencaching.com/#!geocache/$wp\">$wp</a>" :
+					$wp =~ /^SH/ ? "<a href=\"http://shutterspot.gpsgames.org/cgi-bin/sh.pl?wp=$wp\">$wp</a>" :
 					$wp =~ /^[TL]C/ ? "<a href=\"http://www.terracaching.com/viewcache.cgi?ID=$wp\">$wp</a>" :
 					$wp;
 				`eg'
