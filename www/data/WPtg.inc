@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.10 2013/06/20 18:27:06 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.11 2013/06/22 23:25:55 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2024,6 +2024,10 @@ Title: House of Correction
 nTF: 2
 
 Okay, I cheated a bit, here. But, pooh.
+Whatever method is used to log the cache,
+the result matters; it’s the same with
+accidentally found Finals for Mystery or
+other multi-stage caches.
 ----
 ID: 394
 Date: 22.06.2013
@@ -2034,5 +2038,10 @@ ID: 395
 Date: 22.06.2013
 Waypoint: LCR2
 Title: WCG II - Keep it going
+----
+ID: 396
+Date: 23.06.2013
+Waypoint: LC7TL
+Title: Birthday Coordinates
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'

@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/wp.cgi,v 1.1 2013/06/22 23:26:03 tg Exp $';
+my $rcsid = '$MirOS: www/files/wp.cgi,v 1.2 2013/06/23 16:17:09 tg Exp $';
 #-
 # Copyright © 2013
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -72,7 +72,7 @@ if ($query ne "") {
 	$found = 1 if $query =~ /http/;
 }
 
-$query = "https://www.mirbsd.org/WPtg.htm#lookup" unless $found;
+$query = "https://www.mirbsd.org/wp.htm" unless $found;
 
 print("Status: 301\r\nLocation: $query\r\n\r\nRedirect: $query\r\n");
 exit(0);
