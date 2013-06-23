@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/wtf.cgi,v 1.8 2012/08/18 04:48:47 tg Exp $';
+my $rcsid = '$MirOS: www/files/wp.cgi,v 1.1 2013/06/22 23:26:03 tg Exp $';
 #-
 # Copyright © 2013
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -52,7 +52,7 @@ $query = "" unless $query =~ /^[0-9A-Za-z]*$/;
 $query =~ y/a-z/A-Z/;
 
 if ($query ne "") {
-	$query =~		s`\b(N[0-9][0-9A-F]{4}|(GC|O[BCKPSUXZ]|[TL]C)[0-9A-Z]{4,5})\b`
+	$query =~		s`\b(N[0-9][0-9A-F]{4}|(GC|O[BCKPSUXZ]|[TL]C)[0-9A-Z]{1,5})\b`
 					($query = $1) =~ /^GC/ ? "http://www.geocaching.com/seek/cache_details.aspx?wp=$query" :
 					$query =~ /^GA/ ? "http://geocaching.com.au/cache/$query" :
 					$query =~ /^GE/ ? "http://geocaching.gpsgames.org/cgi-bin/ge.pl?wp=$query" :

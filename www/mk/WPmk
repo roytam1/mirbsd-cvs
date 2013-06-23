@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.10 2013/06/22 17:13:37 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.11 2013/06/22 23:26:04 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -262,7 +262,7 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 		if [[ -n ${ei_body[ent]} ]]; then
 			print '<div class="gc_body">'
 			print -r -- "${ei_body[ent]}" | perl -pe '
-				s`\b(N[0-9][0-9A-F]{4}|(GC|O[BCKPSUXZ]|[TL]C)[0-9A-Z]{4,5})\b`
+				s`\b(N[0-9][0-9A-F]{4}|(GC|O[BCKPSUXZ]|[TL]C)[0-9A-Z]{1,5})\b`
 					($wp = $1) =~ /^GC/ ? "<a href=\"http://www.geocaching.com/seek/cache_details.aspx?wp=$wp\">$wp</a>" :
 					$wp =~ /^GA/ ? "<a href=\"http://geocaching.com.au/cache/$wp\">$wp</a>" :
 					$wp =~ /^GE/ ? "<a href=\"http://geocaching.gpsgames.org/cgi-bin/ge.pl?wp=$wp\">$wp</a>" :
