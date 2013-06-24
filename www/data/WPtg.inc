@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.11 2013/06/22 23:25:55 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.12 2013/06/23 20:02:47 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2043,5 +2043,20 @@ ID: 396
 Date: 23.06.2013
 Waypoint: LC7TL
 Title: Birthday Coordinates
+----
+ID: 397
+Date: 24.06.2013
+Waypoint: GC357H8
+Title: Hintertürchen am Bolzplatz
+----
+ID: 398
+Date: 24.06.2013
+Waypoint: GC3DE82
+Title: Kunst am Wegesrand
+----
+ID: 399
+Date: 24.06.2013
+Waypoint: GC3PZG4
+Title: Muffendorfer Bildstöcke
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
