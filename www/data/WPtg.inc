@@ -726,6 +726,9 @@ ID: 141
 Date: 07.11.2010
 Waypoint: GC2HW42 OCB65A
 Title: Regulaxus
+nTF: 2
+
+Und Natureshadow hat den LTF gemacht…
 ----
 ID: 142
 Date: 22.11.2010
@@ -2043,6 +2046,7 @@ ID: 396
 Date: 23.06.2013
 Waypoint: LC7TL
 Title: Birthday Coordinates
+nTF: 3
 ----
 ID: 397
 Date: 24.06.2013
