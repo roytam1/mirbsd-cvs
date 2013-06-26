@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.429 2013/06/09 02:58:06 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.430 2013/06/22 23:25:57 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10079,4 +10079,41 @@ Tag: debian geocache
  their finds (and hides and attended logs) for things like this, in
  case some platform decides to… let’s say, “put your data into the
  cloud… where it is? I don’t know”.</p>
+----
+Date: 26.06.2013 20:27
+Author: tg@
+Title: Current slow period
+
+<p>Just in case someone wonders… I haven’t found any time and “head
+ capacity” to hack recently; $dayjob leaving me sucked dry, with the
+ weather also playing in, etc. but neither did I disappear nor do I
+ intend to drop anything planned.</p>
+<p>Sorry for keeping even medium and more severe bugs open for such
+ a long time (several weeks by now, for some); recently I was assured
+ my response time – especially for an Open Source volunteer – is very
+ <em>good</em> still, even if I find it lacking sometimes.</p>
+<p><a href="@@RELPATH@@mksh.htm">mksh</a>, as one specific thing to
+ mention here, will get an R47 release RSN™ (i.e. as soon as I get
+ around to do it) which could be labelled R46b too (except I like
+ integer version numbers more), it <em>will</em> (that’s a promise)
+ be bugfix-only and <em>ought to</em> be dropped into any place
+ that’s currently shipping R45 or R46, at the very least (and maybe
+ R44 too, and no older versions should be around at all anyway).</p>
+<p>Note that me beginning to catch up the TODO list, like today’s
+ cvs(1) upload to Debian, shall not be taken as a sign of me being
+ back (just that I found myself to tackle something). It did take
+ way too long, it’s 22:15 localtime already again, and I had planned
+ to catch up on my leisure reading a bit this evening (damn…) but,
+ well. At least I managed to put in some outdoor fun (to be exact, <a
+ href="@@RELPATH@@permalinks/wlog-10_e20130608-tg.htm">visiting some
+ more waypoints</a>) too (though I expect this weekend to be scary
+ <em>and</em> it’s definitely <em>under</em>planned ☹ – but who knows,
+ maybe it’ll be great fun, and wbx@ and my biggest little brother are
+ both a backup plan each.</p><!-- RSS stop -->
+<p class="cr"><img class="fr" alt="Combined BOINC stats for mirabilos"
+ src="http://boincstats.com/signature/-1/user/388444/sig.png" /></p>
+<p>Also toying a bit with BOINC again (MirBSD of course, and, this time,
+ some spare CPU capacity at work, which <em>did</em> lead to detecting
+ a hardware/system bug/malconfiguration, even!) prodded by the second
+ (found!) and third (not found… yet) installment of a WCG LC.</p>
 ----
