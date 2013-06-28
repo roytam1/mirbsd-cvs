@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.12 2013/06/23 20:02:47 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.14 2013/06/24 22:04:59 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2062,5 +2062,15 @@ ID: 399
 Date: 24.06.2013
 Waypoint: GC3PZG4
 Title: Muffendorfer Bildstöcke
+----
+ID: 400
+Date: 28.06.2013
+Waypoint: GC3VECK
+Title: Project Eck 2013 - Meet &amp; Greet am Eck
+----
+ID: 401
+Date: 28.06.2013
+Waypoint: GCTJ8X
+Title: ZEICHEN VND SÄTZE (Megaevent Version)
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
