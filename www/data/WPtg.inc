@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.14 2013/06/24 22:04:59 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.15 2013/06/28 22:17:06 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2072,5 +2072,55 @@ ID: 401
 Date: 28.06.2013
 Waypoint: GCTJ8X
 Title: ZEICHEN VND SÄTZE (Megaevent Version)
+----
+ID: 402
+Date: 29.06.2013
+Waypoint: GC3TECK
+Title: Project Eck 2013
+----
+ID: 403
+Date: 29.06.2013
+Waypoint: GC4D97Q
+Title: Weltrekord Lesen
+----
+ID: 404
+Date: 29.06.2013
+Waypoint: GC4EGFV
+Title: Project Eck - Gabione
+
+„Dosenfischer – Just another Brick in the Gabione“
+(sie sind <em>wirklich</em> nicht Pink Floyd…)
+----
+ID: 405
+Date: 29.06.2013
+Waypoint: GC4E6VP
+Title: Project Eck – Festungspark
+
+Wenigstens den hier mal <em>ganz</em> alleine auf’m
+MEGA-Event gefunden. Macht mehr Spaß als nur die
+Schlange finden und sich hinten anstellen!
+----
+ID: 406
+Date: 29.06.2013
+Waypoint: GC4E6VK
+Title: Project Eck – Kletterpark
+----
+ID: 407
+Date: 29.06.2013
+Waypoint: GC4E6TF
+Title: Project Eck – BUGA2011
+
+Hier mußten wir über die „Nachbarn“ schmunzeln,
+fanden die angrenzenden Blumenbeete aber schöner
+als den Matschweg.
+----
+ID: 408
+Date: 29.06.2013
+Waypoint: GC4E6TA
+Title: Project Eck – Seilbahn
+
+Ob Bonn auch so eine bekommt? Ist angenehmer als
+die in den Alpen… immer noch suspekt, aber gut.
+Wobei es am Venusberg ja nicht wirklich Not tut.
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
