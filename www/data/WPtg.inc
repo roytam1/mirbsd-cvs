@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.15 2013/06/28 22:17:06 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.16 2013/06/29 20:52:17 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2122,5 +2122,41 @@ Title: Project Eck – Seilbahn
 Ob Bonn auch so eine bekommt? Ist angenehmer als
 die in den Alpen… immer noch suspekt, aber gut.
 Wobei es am Venusberg ja nicht wirklich Not tut.
+----
+ID: 409
+Date: 30.06.2013
+Waypoint: GCGRNE
+Title: Loreley
+----
+ID: 410
+Date: 30.06.2013
+Waypoint: GC3WECK
+Title: Project Eck 2013 - Eine Schifffahrt die...
+
+(Heißt aber Schiff<b>s</b>fahrt!) Trotzdem Danke
+an die Orga, bis auf ein paar Nano-Stolperstellen
+war das alles super organisiert und hat Spaß gemacht!
+Und Kapitän Brummkreisel war auch gut drauf und wir
+hatten definitiv das beste Schiff!
+----
+ID: 411
+Date: 30.06.2013
+Waypoint: GC4ACTK
+Title: Weltkulturerbe Oberes Mittelrheintal
+----
+ID: 412
+Date: 30.06.2013
+Waypoint: Wahrschau
+Title: GC4AF0X
+----
+ID: 413
+Date: 30.06.2013
+Waypoint: GC2QJVY
+Title: Aussicht auf den Rhein
+----
+ID: 414
+Date: 30.06.2013
+Waypoint: GC4C4RB
+Title: Verlorene Klöster Koblenz: Karmeliterkloster
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
