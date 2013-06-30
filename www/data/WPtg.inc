@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.16 2013/06/29 20:52:17 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.17 2013/06/30 17:21:30 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2146,8 +2146,8 @@ Title: Weltkulturerbe Oberes Mittelrheintal
 ----
 ID: 412
 Date: 30.06.2013
-Waypoint: Wahrschau
-Title: GC4AF0X
+Waypoint: GC4AF0X
+Title: Wahrschau
 ----
 ID: 413
 Date: 30.06.2013
