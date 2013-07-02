@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.17 2013/06/30 17:21:30 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.18 2013/06/30 17:30:10 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2158,5 +2158,20 @@ ID: 414
 Date: 30.06.2013
 Waypoint: GC4C4RB
 Title: Verlorene Klöster Koblenz: Karmeliterkloster
+----
+ID: 415
+Date: 02.07.2013
+Waypoint: GC339M6
+Title: 4 Freunde das sind wir
+----
+ID: 416
+Date: 02.07.2013
+Waypoint: GC34N3E
+Title: Häuser der Beschaffer #00001: Das Beschaffungsamt
+----
+ID: 417
+Date: 02.07.2013
+Waypoint: GC2CG7T
+Title: Ein Zwilling
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
