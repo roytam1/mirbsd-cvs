@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/jupp/ublock.c,v 1.6 2011/07/16 21:57:58 tg Exp $ */
+/* $MirOS: contrib/code/jupp/ublock.c,v 1.8 2012/12/30 18:43:40 tg Exp $ */
 /*
  * 	Highlighted block functions
  *	Copyright
@@ -992,7 +992,6 @@ static int dofilt(BW *bw, unsigned char *s, void *object, int *notify)
 			len = 512;
 		fname = vsncpy(sv(fname), name, len);
 		putenv((char *)fname);
-		vsrm(fname);
 #endif
 		sh = getushell();
 		execl(sh, sh, "-c", s, NULL);
