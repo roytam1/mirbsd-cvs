@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.18 2013/06/30 17:30:10 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.19 2013/07/02 18:32:37 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2173,5 +2173,10 @@ ID: 417
 Date: 02.07.2013
 Waypoint: GC2CG7T
 Title: Ein Zwilling
+----
+ID: 418
+Date: 07.07.2013
+Waypoint: GC1V1EC
+Title: Neue Perspektiven
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
