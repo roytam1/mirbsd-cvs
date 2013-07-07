@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.430 2013/06/22 23:25:57 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.431 2013/06/26 20:27:10 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10116,4 +10116,18 @@ Title: Current slow period
  some spare CPU capacity at work, which <em>did</em> lead to detecting
  a hardware/system bug/malconfiguration, even!) prodded by the second
  (found!) and third (not found… yet) installment of a WCG LC.</p>
+----
+Date: 07.07.2013 15:39
+Author: tg@
+Title: MirWarm
+Tag: debian fun
+
+<p><a href="@@RELPATH@@pics/wlog/cats-5.jpg"><img
+ alt="zz̼̐z" src="@@RELPATH@@pics/wlog/cats_5.jpg" /></a></p>
+<p>Time for more neighbours’ <a
+ href="@@RELPATH@@permalinks/wlog-10_e20110903-tg-g10048.htm">cat</a> <a
+ href="@@RELPATH@@permalinks/wlog-10_e20110904-tg.htm">posts</a>, apparently.
+ It’s warm, so the cat’s sleeping outside. Not disturbed by much.</p>
+<p>Me envious. Too warm to go to the ice salon (bike’s in repair,
+ car’s hot enough to boil eggs on it, public transport not better).</p>
 ----
