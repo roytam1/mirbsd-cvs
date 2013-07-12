@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.21 2013/07/11 13:40:13 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.22 2013/07/11 13:42:26 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2184,5 +2184,15 @@ Date: 11.07.2013
 Waypoint: LC7TX
 Title: WCG III - Ruby's Reward
 nTF: 2
+----
+ID: 420
+Date: 11.07.2013
+Waypoint: GC3B0ZM
+Title: First Davido
+----
+ID: 421
+Date: 11.07.2013
+Waypoint: GC2HJAC
+Title: Peerd und Koh
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
