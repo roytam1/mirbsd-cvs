@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.22 2013/07/11 13:42:26 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.23 2013/07/12 11:01:55 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2194,5 +2194,10 @@ ID: 421
 Date: 11.07.2013
 Waypoint: GC2HJAC
 Title: Peerd und Koh
+----
+ID: 422
+Date: 12.07.2013
+Waypoint: GC3VKY7
+Title: Ich Glaub ich Seh Schwarz - Weiss
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
