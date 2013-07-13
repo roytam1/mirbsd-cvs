@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.23 2013/07/12 11:01:55 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.24 2013/07/12 16:36:10 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2199,5 +2199,15 @@ ID: 422
 Date: 12.07.2013
 Waypoint: GC3VKY7
 Title: Ich Glaub ich Seh Schwarz - Weiss
+----
+ID: 423
+Date: 13.07.2013
+Waypoint: GCN5KR
+Title: Van Heek fabriek
+----
+ID: 424
+Date: 13.07.2013
+Waypoint: GC37CRJ
+Title: klik en klaar
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
