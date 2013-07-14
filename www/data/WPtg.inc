@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.25 2013/07/13 15:07:24 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.26 2013/07/14 12:20:14 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2210,5 +2210,10 @@ ID: 424
 Date: 13.07.2013
 Waypoint: GC37CRJ
 Title: klik en klaar
+----
+ID: 425
+Date: 14.07.2013
+Waypoint: GC2TZN3
+Title: Godesberger Scheichwege
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
