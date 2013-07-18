@@ -20,7 +20,7 @@
 #include "getline.h"
 #include "getnline.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/server.c,v 1.6 2011/05/06 21:04:19 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/server.c,v 1.7 2011/06/11 02:56:59 tg Exp $");
 
 int server_active = 0;
 
@@ -6696,6 +6696,22 @@ error 0 %s: no such system user\n", username);
 
 extern char *crypt (const char *, const char *);
 
+char *crypt_trad(const char *, const char *);
+
+char *
+crypt_trad(const char *key, const char *setting)
+{
+	char *rv;
+	static char buf[2];
+
+	if ((rv = crypt(key, setting)) == NULL) {
+		buf[0] = setting && (*setting == 'x') ? '*' : 'x';
+		buf[1] = '\0';
+		rv = buf;
+	}
+
+	return (rv);
+}
 
 /*
  * 0 means no entry found for this user.
@@ -6824,7 +6840,7 @@ check_repository_password (char *username, char *password, char *repository, cha
 
 	/* Verify blank passwords directly, otherwise use crypt(). */
 	if ((found_password == NULL)
-	    || ((strcmp (found_password, crypt (password, found_password))
+	    || ((strcmp (found_password, crypt_trad (password, found_password))
 		 == 0)))
 	{
 	    /* Give host_user_ptr permanent storage. */
@@ -6836,7 +6852,7 @@ check_repository_password (char *username, char *password, char *repository, cha
 #ifdef LOG_AUTHPRIV
 	syslog (LOG_AUTHPRIV | LOG_NOTICE,
 		"password mismatch for %s in %s: %s vs. %s", username,
-		repository, crypt(password, found_password), found_password);
+		repository, crypt_trad(password, found_password), found_password);
 #endif
 	    *host_user_ptr = NULL;
 	    retval	 = 2;
@@ -7001,14 +7017,14 @@ error 0 %s: no such user\n", username);
     if (*found_passwd)
     {
 	/* user exists and has a password */
-	if (strcmp (found_passwd, crypt (password, found_passwd)) == 0)
+	if (strcmp (found_passwd, crypt_trad (password, found_passwd)) == 0)
 	    return 1;
 	else
 	{
 #ifdef LOG_AUTHPRIV
 	    syslog (LOG_AUTHPRIV | LOG_NOTICE,
 		    "password mismatch for %s: %s vs. %s", username,
-		    crypt(password, found_passwd), found_passwd);
+		    crypt_trad(password, found_passwd), found_passwd);
 #endif
 	    return 0;
 	}
