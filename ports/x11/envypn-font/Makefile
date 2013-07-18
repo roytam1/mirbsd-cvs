@@ -1,12 +1,12 @@
-# $MirOS: ports/x11/envypn-font/Makefile,v 1.1 2013/05/29 20:44:58 tg Exp $
+# $MirOS: ports/x11/envypn-font/Makefile,v 1.2 2013/05/31 15:28:11 tg Exp $
 
 COMMENT=		Readable terminal font inspired by Envy Code R
-VSN=			1.5.2
-DISTNAME=		envypn-font-1.5.2
+VSN=			1.6
+DISTNAME=		envypn-font-${VSN}
 CATEGORIES=		x11
 HOMEPAGE=		http://tetedulinuxien.fr/qui-suis-je/
 
-# GPL
+# MirOS
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes

@@ -1,7 +1,7 @@
-$MirOS$
---- README.orig	Fri May 17 21:42:30 2013
-+++ README	Wed May 29 20:39:27 2013
-@@ -18,7 +18,7 @@ Why a README?
+$MirOS: ports/x11/envypn-font/patches/patch-README,v 1.1 2013/05/29 20:44:59 tg Exp $
+--- README.orig	Wed Jul 17 18:48:03 2013
++++ README	Thu Jul 18 19:06:23 2013
+@@ -20,7 +20,7 @@ Why a README?
  How to use?
  
  	First, you need to "enable" the font. You can add these lignes in your .xinitrc
