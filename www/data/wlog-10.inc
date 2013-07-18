@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.431 2013/06/26 20:27:10 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.432 2013/07/07 15:39:04 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10130,4 +10130,40 @@ Tag: debian fun
  It’s warm, so the cat’s sleeping outside. Not disturbed by much.</p>
 <p>Me envious. Too warm to go to the ice salon (bike’s in repair,
  car’s hot enough to boil eggs on it, public transport not better).</p>
+----
+Date: 18.07.2013 21:57
+Author: tg@
+Title: mksh/Win32
+Tag: debian mksh news pcli
+
+<p>Michael Langguth and Scalaris AG asked me to publish <a
+ href="https://www.mirbsd.org/MirOS/dist/mir/mksh/ports/mksh-w32-beta14.zip">the
+ mksh/Win32 Beta 14</a> source and binary archive, and it is with joy
+ I’m doing this.</p>
+<h3>Checksums and Hashes</h3><ul>
+  <li>RMD160 (ports/mksh-w32-beta14.zip) = 0dc8ef6e95592bd132f701ca77c4e0a3afe46f24</li>
+  <li>TIGER (ports/mksh-w32-beta14.zip) = 966e548f9e9c1d5b137ae3ec48e60db4a57c9a0ed15720fb</li>
+  <li>1181543005 517402 /MirOS/dist/mir/mksh/ports/mksh-w32-beta14.zip</li>
+  <li>MD5 (ports/mksh-w32-beta14.zip) = b57367b0710bf76a972b493562e2b6b5</li>
+</ul>
+<p>Just a few words on it (more in the README.1st file included): this is
+ a port of <a href="@@RELPATH@@mksh.htm">The MirBSD Korn Shell</a> R39 to
+ the native WinAPI; it’s not quite got the full Unix feel (especially as
+ it targets the Weihenstephan unxutils instead of a full Interix or Cygwin
+ environment) but doesn’t need a full POSIX emulation layer either. It’s
+ intended to replace MKS ksh and the MKS Toolkit. Source for the compatibility
+ library is also included under <a href="@@RELPATH@@MirOS-Licence.htm">The
+ MirOS Licence</a>; we aim at publishing it as OSI Certified Open Source
+ Software like mksh itself. (There is a situation with dlmalloc/nedmalloc
+ being resolved, and the icon is derived from the BSD dæmon which is a
+ protected unregistered trademark, but we’re not Mozilla and allow distro
+ packages to keep using it ☺) Rebasing it on a newer mksh(1) followed by
+ (partial) integration into the main source code is a goal.</p>
+<p>Have fun trying it out and hacking on it. It’s currently built with
+ <tt>-DMKSH_NOPROSPECTOFWORK</tt> (so coprocesses and a few other minor
+ things won’t work), but a <tt>SIGCHLD</tt> emulation is being worked
+ on – but if you want to help out, I’m sure it’s welcome, just come on
+ <a href="@@RELPATH@@irc.htm">IRC</a> or post on the mailing list, and
+ I’ll forward things to Michael as needed. Reports on testing with other
+ toolchain and OS versions are also welcome.</p>
 ----
