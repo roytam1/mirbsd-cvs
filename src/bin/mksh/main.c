@@ -343,6 +343,11 @@ main_init(int argc, const char *argv[], Source **sp, struct block **lp)
 	 */
 	Flag(FBRACEEXPAND) = 1;
 
+	/*
+	 * Turn on "set -x" inheritance by default.
+	 */
+	Flag(FXTRACEREC) = 1;
+
 #ifndef MKSH_NO_CMDLINE_EDITING
 	/*
 	 * Set edit mode to emacs by default, may be overridden
@@ -1388,7 +1393,7 @@ initio(void)
 	/* force buffer allocation */
 	shf_fdopen(1, SHF_WR, shl_stdout);
 	shf_fdopen(2, SHF_WR, shl_out);
-	shf_fdopen(2, SHF_WR, shl_spare);
+	shf_fdopen(2, SHF_WR, shl_xtrace);
 #ifdef DF
 	if ((lfp = getenv("SDMKSH_PATH")) == NULL) {
 		if ((lfp = getenv("HOME")) == NULL || *lfp != '/')

@@ -31,7 +31,7 @@
 # http://www.freebsd.org/cgi/cvsweb.cgi/src/tools/regression/bin/test/regress.sh?rev=HEAD
 
 expected-stdout:
-	@(#)MIRBSD KSH R46 2013/06/03
+	@(#)MIRBSD KSH R47 2013/07/21
 description:
 	Check version of shell.
 stdin:
@@ -40,7 +40,7 @@ name: KSH_VERSION
 category: shell:legacy-no
 ---
 expected-stdout:
-	@(#)LEGACY KSH R46 2013/06/03
+	@(#)LEGACY KSH R47 2013/07/21
 description:
 	Check version of legacy shell.
 stdin:
@@ -11106,4 +11106,20 @@ stdin:
 		s+=a
 	done
 	Lb64decode $s >/dev/null
+---
+name: xtrace-1
+description:
+	Check that "set -x" doesn't redirect too quickly
+stdin:
+	print '#!'"$__progname" >bash
+	cat >>bash <<'EOF'
+	echo 'GNU bash, version 2.05b.0(1)-release (i386-ecce-mirbsd10)
+	Copyright (C) 2002 Free Software Foundation, Inc.'
+	EOF
+	chmod +x bash
+	"$__progname" -xc 'foo=$(./bash --version 2>&1 | head -1); echo "=$foo="'
+expected-stdout:
+	=GNU bash, version 2.05b.0(1)-release (i386-ecce-mirbsd10)=
+expected-stderr-pattern:
+	/.*/
 ---

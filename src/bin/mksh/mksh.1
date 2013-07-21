@@ -4165,6 +4165,11 @@ must be used.
 To avoid infinite loops, the shell will exit if
 .Dv EOF
 is read 13 times in a row.
+.It Fl o Ic inherit\-xtrace
+Do not reset
+.Fl o Ic xtrace
+upon entering functions.
+This is enabled by default.
 .It Fl o Ic nohup
 Do not kill running jobs with a
 .Dv SIGHUP
