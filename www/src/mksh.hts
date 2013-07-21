@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.520 2013/06/03 22:39:42 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.521 2013/06/22 23:26:07 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1203,6 +1203,20 @@ exec /usr/bin/ld "${args[@]}"</pre>
   eliminates the need for things like oneit_line/cttyhack/etc. on Linux</li>
  <li>[jca] Fix “for var in; do” to not be interpreted as “for var; do”</li>
  <li>[tg] Use %zu for printing size_t (ipv %lu with casting around)</li>
+ <li>[tg] use ${SIZE-size} for lewellyn’s cross</li>
+ <li>[fgsch, espie, millert, tg] Write more testcases</li>
+ <li>[millert] POSIX specifies that for &amp;&amp; and || lists, only the
+  exit status of the last command matters for “set -e”; fix and document</li>
+ <li>[millert] check.pl: Add <tt>-T</tt> flag to set the tmpdir; use
+  mkstemp(3) and mkdtemp(3) instead of $$ in /tmp for tempfiles</li>
+ <li>[jca] Make $(&lt;nonexistent) behave like $(cat nonexistent)</li>
+ <li>[tg] Let shf_open return an errno; display why file wasn’t read</li>
+ <li>[tg] Finally decide on regression-39 desired outcome (sync with
+  AT&amp;T ksh93 and GNU bash --posix as well as mksh behaviour)</li>
+ <li>[tg] Fix post{in,de}crement in not evaluated side of e.g. ternary
+  operator (LP#1187729)</li>
+ <li>[tg] Fix “set -x” problems; add “set +o inherit-xtrace” (LP#1179287)</li>
+ <li>[tg] Simplify some code</li>
 </ul>
 <p id="r46">R46 delivers these changes:</p><ul>
  <li>[tg] <tt>dot.mkshrc</tt>: prevent lksh from running it</li>
