@@ -292,6 +292,22 @@ stdin:
 expected-stdout:
 	= 4 2 =
 ---
+name: arith-lazy-4
+description:
+	Check that preun/postun not done on non-evaluated side of ternary
+	operator
+stdin:
+	(( m = n = 0, 1 ? n++ : m++ ? 2 : 3 ))
+	echo "($n, $m)"
+	m=0; echo $(( 0 ? ++m : 2 )); echo $m
+	m=0; echo $(( 0 ? m++ : 2 )); echo $m
+expected-stdout:
+	(1, 0)
+	2
+	0
+	2
+	0
+---
 name: arith-ternary-prec-1
 description:
 	Check precedence of ternary operator vs assignment
