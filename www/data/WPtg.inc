@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.26 2013/07/14 12:20:14 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.27 2013/07/14 22:13:32 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2215,5 +2215,11 @@ ID: 425
 Date: 14.07.2013
 Waypoint: GC2TZN3
 Title: Godesberger Scheichwege
+----
+ID: 426
+Date: 22.07.2013
+Waypoint: LC7QP
+Title: TerraCachin' Fashion
+nTF: 2
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
