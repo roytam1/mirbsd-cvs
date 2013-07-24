@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.521 2013/06/22 23:26:07 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.522 2013/07/21 20:48:52 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R46</h2>
+<h2>mksh(1) R47</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -45,8 +45,8 @@ mws_content <<'EOF'
  href="@@RELPATH@@TaC-mksh.txt">full licence terms</a> overview.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R46</strong> from
- <em>2 May 2013</em>.<br />In the oldstable bugfixing-only series, the
+<p>The current version of mksh is <strong>mksh R47</strong> from
+ <em>24 July 2013</em>.<br />In the oldstable bugfixing-only series, the
  current version is <em>mksh R44</em> from <em>5 March 2013</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
@@ -179,17 +179,17 @@ mws_content <<'EOF'
  <em>as well as</em> the hashes and/or checksums below, so you’re sure the
  content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R46.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R46.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R46.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R46.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R47.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R47.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R47.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R47.tgz</a></li>
  <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R44.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R44.tgz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R44.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R44.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
 <!-- cd /MirOS/dist/mir/mksh; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
-  <li>RMD160 (mksh-R46.tgz) = fe3850ceb2af9e277bb0e72fb77a9d85e638befc</li>
-  <li>TIGER (mksh-R46.tgz) = 2867c9309c3277a792f4236287f6c0f41ee2e218aa9d6da2</li>
-  <li>697099944 349524 /MirOS/dist/mir/mksh/mksh-R46.tgz</li>
-  <li>MD5 (mksh-R46.tgz) = 77c108d8143a6e7670954d77517d216d</li>
+  <li>RMD160 (mksh-R47.tgz) = 2ddf9060803904ede4b8186592c8c4bfc5595867</li>
+  <li>TIGER (mksh-R47.tgz) = de2b2f72065982cfa5be277d1d0e22518b771e4d2aaf22d0</li>
+  <li>704079555 351675 /MirOS/dist/mir/mksh/mksh-R47.tgz</li>
+  <li>MD5 (mksh-R47.tgz) = 71c7cbcd78306897801b8b6691091e66</li>
  <li style="list-style:none;">↑ formal release │ stable bugfix series ↓</li>
   <li>RMD160 (mksh-R44.tgz) = 4cf1525c477c4bece519c024cc73ee6ca064d34a</li>
   <li>TIGER (mksh-R44.tgz) = f1658a67757b42cc8f0f39b6736ef329e34d1d248e204d1a</li>
@@ -201,7 +201,7 @@ mws_content <<'EOF'
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
- so a simple <tt>tar xzf mksh-R46.tgz</tt> will work.</p>
+ so a simple <tt>tar xzf mksh-R47.tgz</tt> will work.</p>
 
 <h3 id="vendorpatching">Patching</h3>
 <p>If you’re a packager/vendor and need to patch mksh and deviate from the
@@ -810,6 +810,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p id="pcur"><i>current</i>:
  <i>(unfinished…)</i></p>
 -->
+<p id="p47">R47: Overriding size(1) with $SIZE now works. Do take note of <a
+ href="https://bugzilla.redhat.com/show_bug.cgi?id=922974">this GCC bug</a>
+ when trying to build mksh sticks / waits forever.</p>
 <p id="p46">R46: New <tt>-DMKSH_BINSHPOSIX</tt> to complement the older
  <tt>-DMKSH_BINSHREDUCED</tt>. Some lksh stuff is now integrated.</p>
 <p id="p45">R45: Neither <tt>-DMKSH_GCC55009</tt> nor HAVE_SILENT_IDIVWRAPV
@@ -1096,11 +1099,15 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <h2 id="caveat">Users' Upgrade Caveat</h2>
 <p>This does not necessarily list new features, only these which users
  should be aware of for existing scripts.</p>
+<!--
 <p id="ccur"><i>current</i>:
+-->
+<p id="c47">R47:
  The <tt>-T</tt> option no longer chown(2)s or chmod(2)s the tty(4) device; it
  no longer fork(2)s if the argument is prefixed with a ‘!’ (MirBSD setsid(2) is
  a bit too anal to make use of it, but it gets rid of cttyhack et al. on Linux).
- <i>(unfinished…)</i></p>
+ POSIX compatibility was improved again (also thanks to the OpenBSD guys). New
+ “set ±o inherit-xtrace”. Fixes lotsa bugs in R45/R46…</p>
 <p id="c46">R46: Compatibility behaviour (mksh with -o posix, mksh with -o sh,
  mksh with -o posix -o sh, lksh, lksh with -o posix) changed again slightly.
  For both, -o posix re-enables parsing leading digit-zero numbers as octal,
@@ -1180,13 +1187,16 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
+<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
+-->
  <!-- li>Begin porting mksh to the <a href="http://9fans.net/">Plan 9</a>
   ANSI’n’POSIX Environment (not finished)</li -->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+<p id="r47">R47 is a bugfix everyone <strong>must</strong> upgrade to:</p><ul>
  <li>[tg] Do not accidentally remove <tt>lksh.1</tt> for in-srcdir builds</li>
  <li>[tg] Fix post-build non-‘-Q’ output for lksh</li>
  <li>[tg] Silence some configure-time warnings for clang-3.2 and GCC</li>
@@ -1217,6 +1227,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
   operator (LP#1187729)</li>
  <li>[tg] Fix “set -x” problems; add “set +o inherit-xtrace” (LP#1179287)</li>
  <li>[tg] Simplify some code</li>
+ <li>[tg] Fix segfault related to mixing funsub/valsub and comsub</li>
 </ul>
 <p id="r46">R46 delivers these changes:</p><ul>
  <li>[tg] <tt>dot.mkshrc</tt>: prevent lksh from running it</li>
