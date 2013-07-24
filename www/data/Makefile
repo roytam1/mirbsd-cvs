@@ -1,50 +1,0 @@
-# $MirOS: www/data/Makefile,v 1.6 2013/06/08 14:55:48 tg Exp $
-#-
-# This file is part of the website of The MirOS Project, which is
-# copyrighted material, please read the LICENCE file for details.
-
-.ifndef TOP
-TOP!=		realpath ${.CURDIR:Q}/..
-DST!=		realpath ${.OBJDIR:Q}/..
-.MAKEFLAGS:=	${.MAKEFLAGS} TOP=${TOP:Q} DST=${DST:Q}
-.endif
-
-FILES!=		cd ${.CURDIR} && print -r -- *.inc
-_inc2xhtml=	( (print '\n----'; sed -e '/^\#/d' -e '/^RCSID: \$$/d') | \
-		    tr '\n' '' | sed \
-		    -e 'sg' \
-		    -e 's----g' \
-		    -e 's\([^]*\)\1g' \
-		    -e 's\([^]*\)\1g' \
-		    -e 's\([^]*\)*[Tt][Ii][Tt][Ll][Ee]:[	 ]*\([^]*\)\([^]*\)\{0,1\}</div><h2><a href="/">\2</a></h2><div>g' \
-		    -e 's[^]*</div><div>g' \
-		    -e 's^</div>'${_xhtmlbeg:Q}'' \
-		    -e 's$$</div>'${_xhtmlend:Q}'' \
-		    -e 's<><error><>g' \
-		    -e 'sg' \
-		    | \
-		tr '' '\n')
-_xhtmldtd=	${TOP}/mk/xhtml11.dtd
-_xhtmlbeg=	<?xml version="1.0"?> \
-		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" \
-		 "file://${_xhtmldtd}"> \
-		<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"> \
-		<head> \
-		 <title>XHTML page</title> \
-		</head><body>
-_xhtmlend=	</body></html>
-
-all: validation
-
-.SUFFIXES: .xml .inc
-
-.inc.xml:
-	@print -r Creating ${@:Q} from ${<:Q} ...
-	@${_inc2xhtml} <$< >$@
-
-validation: .PHONY ${FILES:.inc=.xml}
-	@print -r Validating ${FILES:Q} ...
-	@xmlstarlet val -d ${_xhtmldtd} ${.ALLSRC}
-	@print '\nValidation complete.'
-
-.include <bsd.obj.mk>
