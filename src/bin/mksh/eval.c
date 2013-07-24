@@ -1836,7 +1836,7 @@ alt_expand(XPtrV *wp, char *start, char *exp_start, char *end, int fdo)
 static char *
 valsub(struct op *t, Area *ap)
 {
-	char *cp = NULL;
+	char * volatile cp = NULL;
 	struct tbl * volatile vp = NULL;
 
 	newenv(E_FUNC);
