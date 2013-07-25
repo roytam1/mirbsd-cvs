@@ -6120,6 +6120,27 @@ expected-stdout:
 	EXtrap
 	= noeval-undef 1 .
 ---
+name: exit-trap-interactive
+description:
+	Check that interactive shell doesn't exit via EXIT trap on syntax error
+arguments: !-i!
+stdin:
+	trap -- EXIT
+	echo Syntax error <
+	echo 'After error 1'
+	trap 'echo Exit trap' EXIT
+	echo Syntax error <
+	echo 'After error 2'
+	trap 'echo Exit trap' EXIT
+	exit
+	echo 'After exit'
+expected-stdout:
+	After error 1
+	After error 2
+	Exit trap
+expected-stderr-pattern:
+	/syntax error: 'newline' unexpected/
+---
 name: test-stlt-1
 description:
 	Check that test also can handle string1 < string2 etc.
