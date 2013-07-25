@@ -914,8 +914,9 @@ unwind(int i)
 	}
 
 	/* ordering for EXIT vs ERR is a bit odd (this is what AT&T ksh does) */
-	if (i == LEXIT ||
-	    ((i == LERROR || i == LINTR) && sigtraps[ksh_SIGEXIT].trap)) {
+	if (i == LEXIT || ((i == LERROR || i == LINTR) &&
+	    sigtraps[ksh_SIGEXIT].trap &&
+	    (!Flag(FTALKING) || Flag(FERREXIT)))) {
 		++trap_nested;
 		runtrap(&sigtraps[ksh_SIGEXIT], trap_nested == 1);
 		--trap_nested;

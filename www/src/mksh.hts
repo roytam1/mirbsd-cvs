@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.523 2013/07/24 18:26:30 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.524 2013/07/25 16:58:15 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1200,8 +1200,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
   limits in a single invocation from oksh (thanks millert) -->
  <li>[tg] <tt>dot.mkshrc</tt>: unbreak hd(1) function in UTF-8 mode</li>
  <li>[Jens Staal, tg] Improve buildability on Plan 9 and support kencc</li>
- <li>[tg, Daode] Clean up and improve build process and testsuite</li>
+ <li>[tg] Clean up and improve build process and testsuite</li>
  <li>[Michael Langguth] Add multi-layer ICO file from mksh/Win32</li>
+ <li>[tg, Daode] Fix interactive shell exiting on ^C or syntax error when
+  the EXIT pseudo-signal trap was set (to anything)</li>
 </ul>
 <p id="r47">R47 is a bugfix everyone <strong>must</strong> upgrade to:</p><ul>
  <li>[tg] Do not accidentally remove <tt>lksh.1</tt> for in-srcdir builds</li>
