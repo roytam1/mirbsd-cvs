@@ -12,7 +12,7 @@ if any are found. We don't think so though.)
 All paths are relative to The MirOS Project's CVS repository.
 
 
-The following files form The MirBSD Korn Shell R46:
+The following files form The MirBSD Korn Shell R47:
 - build system
   * mksh/Build.sh
 - testsuite driver
@@ -76,8 +76,7 @@ The creator of mksh acknowledges the contributions of several people
 to the Public Domain Korn Shell as well as suggestions and work from
 packagers, other developers etc. and everyone else who helped making
 mksh what it is today. Thanks! The MirBSD Korn Shell is covered by a
-copyright licence fallback from the original author of the shell. It
-also includes wcwidth by Markus Kuhn.
+copyright licence fallback from the original author of the shell.
 
 
 The following files belong to mksh and are distributed inside of its
