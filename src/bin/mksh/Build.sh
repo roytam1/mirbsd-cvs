@@ -66,7 +66,7 @@ vq() {
 rmf() {
 	for _f in "$@"; do
 		case $_f in
-		Build.sh|check.pl|check.t|dot.mkshrc|*.c|*.h|lksh.1|mksh.1) ;;
+		Build.sh|check.pl|check.t|dot.mkshrc|*.c|*.h|*.ico|*.1) ;;
 		*) rm -f "$_f" ;;
 		esac
 	done
@@ -462,7 +462,7 @@ oswarn=
 ccpc=-Wc,
 ccpl=-Wl,
 tsts=
-ccpr='|| for _f in ${tcfn}*; do case $_f in Build.sh|check.pl|check.t|dot.mkshrc|*.c|*.h|lksh.1|mksh.1) ;; *) rm -f "$_f" ;; esac; done'
+ccpr='|| for _f in ${tcfn}*; do case $_f in Build.sh|check.pl|check.t|dot.mkshrc|*.c|*.h|*.ico|*.1) ;; *) rm -f "$_f" ;; esac; done'
 
 # Evil hack
 if test x"$TARGET_OS" = x"Android"; then
