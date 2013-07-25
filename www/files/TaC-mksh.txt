@@ -48,6 +48,7 @@ The following files form The MirBSD Korn Shell R47:
   * mksh/var.c
   * mksh/var_spec.h
 - upstream provided packaging
+  * mksh/mksh.ico (application icon resource)
   * contrib/hosted/tg/deb/mksh/debian/** (Debian)
     (except "printf.c" and "uhr")
   * mksh/Makefile (MirBSD only, not part of mksh)
@@ -70,7 +71,8 @@ The following files form The MirBSD Korn Shell R47:
 All of these files are covered by The MirOS Licence (Appendix A) ex-
 cept the upstream provided packaging, some of which were copied from
 other places (specifically some of the Debian packaging) and most of
-which do not require a copyright licence.
+which do not require a copyright licence. Appendix D lists the terms
+for the application icon resource.
 
 The creator of mksh acknowledges the contributions of several people
 to the Public Domain Korn Shell as well as suggestions and work from
@@ -203,6 +205,35 @@ ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
 WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
 ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+
+Appendix D - Licence for mksh.ico (optional component)
+=================================
+
+The application icon resource comes in its preferred form
+of modification and is an unregistered trademark:
+
+Copyright (c) 2013 Michael Langguth
+Copyright (c) 2006 Benny Siegert
+Copyright (c) 2005 Thorsten Glaser
+
+This icon may be used to refer to The MirBSD Korn Shell and
+its Win32 port. Distribution patches are acceptable as long
+as they modify $KSH_VERSION according to the guidelines that
+are published on the website; forks and works that are not
+derivates are not allowed to use it.
+
+The Shilouette daemon is Copyright (c) 2003 by Rick Collette.
+The MirOS Project may freely use the former ekkoBSD Logo,
+the shilouette Daemon, for MirBSD, on anything the project
+leader sees fit, so long as it pertains to MirBSD in some
+way and the leader gives credit for the original daemon to
+Marshall Kirk McKusick.
+
+The BSD daemon is Copyright (c) 1988 by Marshall Kirk McKusick.
+All Rights Reserved.  Individuals may use the daemon for their
+personal use within the bounds of good taste.  When reasonably
+possible, the text shown above is to be included.
 
 
 __________________________________________________________________
