@@ -1,4 +1,4 @@
-# $MirOS: www/src/rss.hts,v 1.14 2011/10/16 01:46:46 tg Exp $
+# $MirOS: www/src/rss.hts,v 1.15 2013/02/15 22:10:16 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -6,7 +6,7 @@
 mws_setname rss "RSS feeds, mailing lists"
 mws_subdir 0
 mws_setheadline MirOS RSS feeds
-mws_putheader '$MirOS: www/src/rss.hts,v 1.14 2011/10/16 01:46:46 tg Exp $'
+mws_putheader '$MirOS: www/src/rss.hts,v 1.15 2013/02/15 22:10:16 tg Exp $'
 mws_content <<'EOF'
 <h2 id="feeds">Website feeds</h2>
 <p>We offer the following RSS feeds, which can be subscribed to
@@ -49,7 +49,11 @@ mws_content <<'EOF'
  mailing list</a> and a CVS changes mailing list, both of which are
  public. All subscribers of the CVS changes mailing list automatically
  are on the discussion mailing list as well. In order to subscribe, send
- a mail to <a href="mailto:postmaster@mirbsd.org">the postmaster</a>.
+ a mail to <a href="mailto:postmaster@mirbsd.org">the postmaster</a> and
+ say ⓐ which eMail address(es) to subscribe, and ⓑ to which list(s) each;
+ note that -changes includes -discuss which in turn includes -mksh but in
+ future -mksh subscribers may also receive mksh commit messages which will
+ not also be sent to -discuss, only to -commits.
  Additionally, we’ve got a <a href="mailto:miros-mksh@mirbsd.org">mailing
  list for topics related to mksh, the MirBSD Korn Shell</a>, which is open
  for eMails from the public, for discussion and announcements, which will
