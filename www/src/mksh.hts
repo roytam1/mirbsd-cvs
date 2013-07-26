@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.524 2013/07/25 16:58:15 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.525 2013/07/25 18:07:49 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -155,7 +155,10 @@ mws_content <<'EOF'
  entries regarding mksh.</p>
 <p>If you require additional assistance or want to discuss bugs, features
  or enhancements, write to the <a href="mailto:miros-mksh@mirbsd.org">mailing
- list</a> (or <a href="mailto:postmaster@mirbsd.org">subscribe</a> to it).
+ list</a> (or subscribe to it by sending an eMail to the <a
+ href="mailto:postmaster@mirbsd.org">postmaster</a> telling which address
+ to subscribe to which list(s) – in your case, the miros-mksh list, but we
+ have <a href="@@RELPATH@@rss.htm#lists">more mailing lists</a>).
  The mailing list can be reached via the GMane archive using either <a
  href="nntp://news.gmane.org/gmane.os.miros.mksh">NNTP</a> or <a
  href="http://news.gmane.org/gmane.os.miros.mksh">HTTP</a>, or at <a
@@ -1204,6 +1207,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[Michael Langguth] Add multi-layer ICO file from mksh/Win32</li>
  <li>[tg, Daode] Fix interactive shell exiting on ^C or syntax error when
   the EXIT pseudo-signal trap was set (to anything)</li>
+ <li>[tg, Daode] Display longer command excerpts in job control</li>
+ <li>[tg] Rewrite Emacs mode display window sliding calculation code</li>
 </ul>
 <p id="r47">R47 is a bugfix everyone <strong>must</strong> upgrade to:</p><ul>
  <li>[tg] Do not accidentally remove <tt>lksh.1</tt> for in-srcdir builds</li>
