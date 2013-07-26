@@ -761,8 +761,8 @@ vistree(char *dst, size_t sz, struct op *t)
 	char *cp, *buf;
 	size_t n;
 
-	buf = alloc(sz + 8, ATEMP);
-	snptreef(buf, sz + 8, "%T", t);
+	buf = alloc(sz + 16, ATEMP);
+	snptreef(buf, sz + 16, "%T", t);
 	cp = buf;
  vist_loop:
 	if (UTFMODE && (n = utf_mbtowc(&c, cp)) != (size_t)-1) {
