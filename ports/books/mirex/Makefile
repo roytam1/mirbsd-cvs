@@ -1,15 +1,16 @@
-# $MirOS: ports/books/mirex/Makefile,v 1.27 2010/12/12 15:20:02 tg Exp $
+# $MirOS: ports/books/mirex/Makefile,v 1.28 2012/09/02 11:18:58 tg Exp $
 
 COMMENT=		MirOS sample files, keys and information
 CATEGORIES=		books
 MCZ_FETCH=		Yes
 CVS_DISTREPO=		${_MIROS_ANONCVS}
-CVS_DISTDATE=		2012/09/02
+CVS_DISTDATE=		2013/07/28
 PKGNAME=		${CVS_DISTFILE}-${CVS_DISTDATE:M*/*:S!/!!g}-${DASH_VER}
 CVS_DISTMODS=		contrib/samples \
 			src/share/doc/README \
 			src/share/misc \
-			www/files/MirOS-Licence
+			www/files/MirOS-Licence \
+			www/files/MirOS-Licence.htm
 CVS_DISTFILE=		mirex
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 HOMEPAGE=		http://MirBSD.de/
@@ -40,6 +41,6 @@ pre-install:
 .endfor
 	cd ${WRKDIR}/src/share/misc && ${INSTALL_DATA} \
 	    acronyms getopt *.template utf-8-demo ${DATA_DIR}/
-	cd ${WRKDIR}/www/files && ${INSTALL_DATA} MirOS-Licence ${DATA_DIR}/
+	cd ${WRKDIR}/www/files && ${INSTALL_DATA} MirOS-Licence* ${DATA_DIR}/
 
 .include <bsd.port.mk>
