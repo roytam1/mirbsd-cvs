@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.27 2013/07/14 22:13:32 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.28 2013/07/22 09:20:41 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2221,5 +2221,25 @@ Date: 22.07.2013
 Waypoint: LC7QP
 Title: TerraCachin' Fashion
 nTF: 2
+----
+ID: 437
+Date: 27.07.2013
+Waypoint: GC21CET
+Title: Nacht der Vulkane 2013
+
+Uns wurde nicht zuviel versprochen, und die Erde hat tatsächlich gebebt.
+Die beiden Führungen in der Vulkan-Brauerei waren auch toll und sind
+empfehlenswert… nur eine Marktlücke wäre da noch: Essen im Felsenkeller
+(im Sommer schön kühl, im Winter wärmer).
+----
+ID: 438
+Date: 27.07.2013
+Waypoint: GC2BETC
+Title: A u s l e g e r
+----
+ID: 439
+Date: 27.07.2013
+Waypoint: GC4FV10
+Title: NdV 2013 - Street End
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
