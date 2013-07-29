@@ -37,7 +37,15 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+#ifndef __RCSID
+#define __RCSID(x) static const char __rcsid[] = x
+#endif
+
+__RCSID("$MirOS: X11/extras/xidle/xidle.c,v 1.2 2005/07/21 18:12:11 tg Exp $");
+
+#ifndef __dead
+#define __dead __attribute__((__noreturn__))
+#endif
 
 #ifndef PATH_PROG
 #define PATH_PROG	"/usr/X11R6/bin/xlock"
@@ -83,6 +91,8 @@ const struct option longopts[] = {
 	{ NULL,		0,			NULL,		0 }
 };
 
+char default_prog[] = PATH_PROG;
+
 extern char *__progname;
 
 void	init_x(const char *, struct xinfo *, int, int);
@@ -93,7 +103,7 @@ __dead void	handler(int);
 
 
 __dead void
-usage()
+usage(void)
 {
 	fprintf(stderr, "Usage:\n%s %s\n", __progname,
 	    "[-area pixels] [-delay secs] [-display host:dpy] "
@@ -132,7 +142,7 @@ init_x(const char *display, struct xinfo *xi, int area, int timeout)
 	XMapWindow(dpy, win);
 	XSelectInput(dpy, win, EnterWindowMask|StructureNotifyMask);
 
-	if (timeout > 0 && 
+	if (timeout > 0 &&
 	    XScreenSaverQueryExtension(dpy, &event, &error) == True) {
 		xi->saver_event = event;
 
@@ -186,7 +196,7 @@ action(struct xinfo *xi, char **args)
 
 
 __dead void
-handler(int sig)
+handler(int sig __attribute__((__unused__)))
 {
 	close_x(&x);
 	exit(0);
@@ -197,7 +207,7 @@ handler(int sig)
 int
 main(int argc, char **argv)
 {
-	char *program = PATH_PROG;
+	char *program = default_prog;
 	char *display = NULL, *p;
 	char **ap, *args[10];
 	int area = 2, delay = 2;
@@ -259,7 +269,7 @@ main(int argc, char **argv)
 		/* NOTREACHED */
 	}
 
-	for (ap = args; ap < &args[9] && 
+	for (ap = args; ap < &args[9] &&
 	    (*ap = strsep(&program, " ")) != NULL;) {
 		if (**ap != '\0')
 			ap++;
