@@ -227,7 +227,7 @@ static int ssl23_client_hello(SSL *s)
 	SSL_COMP *comp;
 	int ret;
 
-	ssl2_compat = (s->options & SSL_OP_NO_SSLv2) ? 0 : 1;
+	ssl2_compat = 0 /* (s->options & SSL_OP_NO_SSLv2) ? 0 : 1 */;
 
 	if (!(s->options & SSL_OP_NO_TLSv1))
 		{
