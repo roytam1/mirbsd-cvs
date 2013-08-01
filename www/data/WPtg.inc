@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.29 2013/07/28 15:41:46 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.30 2013/07/28 15:42:39 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2241,5 +2241,30 @@ ID: 429
 Date: 27.07.2013
 Waypoint: GC4FV10
 Title: NdV 2013 - Street End
+----
+ID: 430
+Date: 01.08.2013
+Waypoint: GC4GDXD
+Title: CAT - Eiszeit 1
+
+Tolle Idee; übernehme ich mal, mit Einverständnis…
+----
+ID: 431
+Date: 01.08.2013
+Waypoint: GC3AGC4
+Title: TBH: Gute Reise
+----
+ID: 432
+Date: 01.08.2013
+Waypoint: GC4E2A1
+Title: Rosenhof Cache
+
+Massiv off. Bessere Koordinaten in den Logs…
+----
+ID: 433
+Date: 01.08.2013
+Waypoint: GC4HHZZ
+Title: Hinterm Busch gleich links
+nTF: 4
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
