@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.30 2013/07/28 15:42:39 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.31 2013/08/01 20:36:51 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2266,5 +2266,15 @@ Date: 01.08.2013
 Waypoint: GC4HHZZ
 Title: Hinterm Busch gleich links
 nTF: 4
+----
+ID: 434
+Date: 02.08.2013
+Waypoint: GC33PFB
+Title: Wachtberger Kreuze # 12
+----
+ID: 435
+Date: 03.08.2013
+Waypoint: GC33PFW
+Title: Wachtberger Kreuze # 13
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
