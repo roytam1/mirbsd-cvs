@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.31 2013/08/01 20:36:51 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.32 2013/08/02 22:34:03 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2276,5 +2276,15 @@ ID: 435
 Date: 03.08.2013
 Waypoint: GC33PFW
 Title: Wachtberger Kreuze # 13
+----
+ID: 436
+Date: 04.08.2013
+Waypoint: GC306MY
+Title: Jagdbomber in Oberholtorf
+----
+ID: 437
+Date: 04.08.2013
+Waypoint: GCVNRH
+Title: Gotteshäuser: Zwei Kirchen ohne Namen
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
