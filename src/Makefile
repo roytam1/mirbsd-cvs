@@ -1,4 +1,4 @@
-# $MirOS: src/Makefile,v 1.147 2010/01/29 18:29:41 tg Exp $
+# $MirOS: src/Makefile,v 1.148 2012/07/14 12:13:33 tg Exp $
 # $OpenBSD: Makefile,v 1.103 2004/05/03 15:18:18 drahn Exp $
 
 .if defined(MAKECONF) && exists(${MAKECONF})
@@ -70,9 +70,11 @@ build-lib:
 	cd ${.CURDIR}/lib/libc \
 	    && ${_STCMD_OBJ} ${MAKE} \
 	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install NOMAN=yes
+	${SUDO} /sbin/ldconfig -R
 	cd ${.CURDIR}/lib \
 	    && ${_STCMD_OBJ} ${MAKE} \
 	    && exec ${SUDO} ${_STCMD_DEST} ${MAKE} install NOMAN=yes
+	${SUDO} /sbin/ldconfig -R
 	cd ${.CURDIR} && ${_STCMD_OBJ} ${MAKE} depend
 
 contbuild:
@@ -361,16 +363,19 @@ _do-dist:
 .elif ${DIST_RESTART} == 2
 	cd ${.CURDIR} && exec ${MAKE} contbuild
 .endif
+	${SUDO} /sbin/ldconfig -R
 .ifndef QUICK_DIST2
 	@date
 .  if ${DIST_RESTART} < 4
 	cd ${.CURDIR}/X11 && exec ${MAKE} b-r
 .  endif
 .endif
+	${SUDO} /sbin/ldconfig -R
 	@date
 .if ${DIST_RESTART} < 5
 	cd ${.CURDIR}/gcc && exec ${MAKE} b-r
 .endif
+	${SUDO} /sbin/ldconfig -R
 	@date
 .if ${DIST_RESTART} < 6
 	cd ${.CURDIR} && exec ${MAKE} release DESTDIR=${BSDRELDIR}/base
