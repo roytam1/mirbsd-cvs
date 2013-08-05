@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.32 2013/08/02 22:34:03 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.33 2013/08/04 19:44:32 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2284,7 +2284,12 @@ Title: Jagdbomber in Oberholtorf
 ----
 ID: 437
 Date: 04.08.2013
-Waypoint: GCVNRH
+Waypoint: GCVNRH OC1CF3 N02049
 Title: Gotteshäuser: Zwei Kirchen ohne Namen
+----
+ID: 438
+Date: 05.08.2013
+Waypoint: GC47F5Q
+Title: Hier kämpft der Löwe
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
