@@ -1,4 +1,4 @@
-.\"	$OpenBSD: compress.3,v 1.8 2005/07/20 21:23:33 jmc Exp $
+.\"	$OpenBSD: compress.3,v 1.14 2013/07/16 15:21:11 schwarze Exp $
 .\"
 .\"  Copyright (C) 1995-2005 Jean-loup Gailly and Mark Adler
 .\"
@@ -23,7 +23,7 @@
 .\"
 .\" This page corresponds to zlib version 1.2.3
 .\"
-.Dd July 18, 2005
+.Dd $Mdocdate: August 5 2013 $
 .Dt COMPRESS 3
 .Os
 .Sh NAME
@@ -2585,7 +2585,8 @@ On 16-bit systems, the functions
 .Fa zalloc
 and
 .Fa zfree
-must be able to allocate exactly 65536 bytes.
+must be able to allocate exactly 65536 bytes,
+and more (for Unix).
 .Pp
 The fields
 .Fa total_in
@@ -2700,26 +2701,40 @@ version and the compiler's view of
 .Xc
 .El
 .Sh SEE ALSO
-.Xr compress 1
-.Pp
-.Bl -tag -width 12n -compact
-.It RFC 1950
-ZLIB Compressed Data Format Specification.
-.It RFC 1951
-DEFLATE Compressed Data Format Specification.
-.It RFC 1952
-GZIP File Format Specification.
-.El
+.Xr compress 1 ,
+.Xr gzip 1
 .Pp
 .Pa http://www.zlib.net/
+.Sh STANDARDS
+.Rs
+.%A P. Deutsch
+.%A J-L. Gailly
+.%D May 1996
+.%R RFC 1950
+.%T ZLIB Compressed Data Format Specification version 3.3
+.Re
+.Pp
+.Rs
+.%A P. Deutsch
+.%D May 1996
+.%R RFC 1951
+.%T DEFLATE Compressed Data Format Specification version 1.3
+.Re
+.Pp
+.Rs
+.%A P. Deutsch
+.%D May 1996
+.%R RFC 1952
+.%T GZIP file format specification version 4.3
+.Re
 .Sh HISTORY
 This manual page is based on an HTML version of
 .Aq Pa zlib.h
 converted by
-.An piaip Aq piaip@csie.ntu.edu.tw
+.An piaip Aq Mt piaip@csie.ntu.edu.tw
 and was converted to mdoc format by the
 .Ox
 project.
 .Sh AUTHORS
-.An Jean-loup Gailly Aq jloup@gzip.org
-.An Mark Adler Aq madler@alumni.caltech.edu
+.An Jean-loup Gailly Aq Mt jloup@gzip.org
+.An Mark Adler Aq Mt madler@alumni.caltech.edu
