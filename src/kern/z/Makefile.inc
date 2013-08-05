@@ -1,4 +1,4 @@
-# $MirOS: src/kern/z/Makefile.inc,v 1.4 2008/08/01 15:43:03 tg Exp $
+# $MirOS: src/kern/z/Makefile.inc,v 1.5 2009/01/03 16:12:23 tg Exp $
 
 .include "${KERNBASE}/Makefile.inc"
 
@@ -6,8 +6,9 @@
 
 ZLIB_GENHDRS=	crc32.h inffixed.h trees.h
 ZLIB_CLEANFLS=	${ZLIB_GENHDRS} {mk_crc32,mk_inffixed,mk_trees}*
-ZLIB_SRCS=	adler32cb.c compress.c crc32.c deflate.c gzio.c infback.c \
-		inffast.c inflate.c inftrees.c trees.c uncompr.c zutil.c
+ZLIB_SRCS=	adler32cb.c compress.c crc32.c deflate.c gzclose.c gzlib.c \
+		gzread.c gzwrite.c infback.c inffast.c inflate.c inftrees.c \
+		trees.c uncompr.c zutil.c
 ZLIB_SRCS+=	crc32_combine.c
 ZLIB_CLEANFLS+=	crc32_combine.c
 ZLIB_OBJS=	${ZLIB_SRCS:S/.c$/.o/}

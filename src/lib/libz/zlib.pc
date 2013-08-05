@@ -1,13 +1,13 @@
-prefix=@prefix@
-exec_prefix=@exec_prefix@
-libdir=@libdir@
-sharedlibdir=@sharedlibdir@
-includedir=@includedir@
+prefix=/usr
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+sharedlibdir=${exec_prefix}/lib
+includedir=${prefix}/include
 
 Name: zlib
 Description: zlib compression library
-Version: @VERSION@
+Version: 1.2.8
 
 Requires:
-Libs: -L${libdir} -L${sharedlibdir} -lz
+Libs: -L${libdir} -lz
 Cflags: -I${includedir}

@@ -1,7 +1,7 @@
-# $MirOS$
+# $MirOS: src/lib/libz/Makefile,v 1.25 2008/08/01 15:47:55 tg Exp $
 
 LIB=		z
-SHLIB_VERSION?=	5.3
+SHLIB_VERSION?=	5.4
 
 KERNBASE?=	${BSDSRCDIR}/kern
 KERNNOGCC=	#defined
@@ -14,7 +14,7 @@ SRCS+=		${ZLIB_SRCS}
 HDRS=		zconf.h zlib.h
 HDRSRC=		${KERNBASE}/include
 CLEANFILES+=	${ZLIB_CLEANFLS}
-CPPFLAGS+=	-DZCONST=const
+CPPFLAGS+=	-DZLIB_CONST
 COPTS+=		-Wall -Wno-old-style-definitions
 MAN=		compress.3
 
@@ -55,5 +55,9 @@ MLINKS=	compress.3 zlibVersion.3 compress.3 deflateInit.3 \
 SRCS+=		gzfopen.c
 MAN+=		gzfopen.3
 MLINKS+=	gzfopen.3 gzfdopen.3
+
+afterinstall:
+	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
+	    ${.CURDIR}/zlib.pc ${DESTDIR}/usr/libdata/pkgconfig/
 
 .include <bsd.lib.mk>
