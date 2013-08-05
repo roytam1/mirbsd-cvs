@@ -1,4 +1,5 @@
-#	$OpenBSD: Makefile,v 1.4 2005/05/24 22:23:04 millert Exp $
+# $MirOS$
+# $OpenBSD: Makefile,v 1.4 2005/05/24 22:23:04 millert Exp $
 
 PROG=	spamd-setup
 SRCS=	spamd-setup.c
@@ -8,6 +9,6 @@ LDADD=	-lz
 DPADD=	${LIBZ}
 
 CFLAGS+= -Wall -Wstrict-prototypes
-CPPFLAGS+= -DZCONST=const
+CPPFLAGS+= -DZLIB_CONST
 
 .include <bsd.prog.mk>

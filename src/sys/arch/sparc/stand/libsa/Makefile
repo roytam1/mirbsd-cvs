@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/sparc/stand/libsa/Makefile,v 1.10 2010/01/16 20:56:08 tg Exp $
+# $MirOS: src/sys/arch/sparc/stand/libsa/Makefile,v 1.11 2011/01/03 19:02:52 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/07/13 21:03:39 marc Exp $
 
 .include "${.CURDIR}/../Makefile.inc"
@@ -28,8 +28,8 @@ CPPFLAGS+=	-DSLOW -DSMALL -DNOBYFOUR -DNO_GZIP
 CPPFLAGS+=	-DDYNAMIC_CRC_TABLE -DBUILDFIXED
 SRCS+=		crc32.c infback.c inffast.c inflate.c inftrees.c
 
-CPPFLAGS+=	-DZCONST=const
-HOSTCPPFLAGS+=	-DZCONST=const
+CPPFLAGS+=	-DZLIB_CONST
+HOSTCPPFLAGS+=	-DZLIB_CONST
 CLEANFILES+=	${ZLIB_CLEANFLS}
 
 beforedepend: ${ZLIB_GENHDRS}

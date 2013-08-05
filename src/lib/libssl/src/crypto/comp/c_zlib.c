@@ -22,7 +22,7 @@ static COMP_METHOD zlib_method_nozlib={
 #undef ZLIB_SHARED
 #else
 
-#define ZCONST const
+#define ZLIB_CONST
 #include <zlib.h>
 
 static int zlib_compress_block(COMP_CTX *ctx, unsigned char *out,

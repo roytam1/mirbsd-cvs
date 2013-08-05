@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.29 2011/12/04 20:24:41 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.30 2011/12/04 22:50:41 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.44 2004/01/02 09:01:24 millert Exp $
 
 # MirOS patchlevel tracked in configure{.in,}
@@ -39,7 +39,7 @@ XARGS+=		ZLIB_LIBS=-lz
 
 .include <bsd.own.mk>
 COPTS+=		-Wall -Wno-unused
-CPPFLAGS+=	-DZCONST=const
+CPPFLAGS+=	-DZLIB_CONST
 FSFISLIB=	No
 
 .if make(install)

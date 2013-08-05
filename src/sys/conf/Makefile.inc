@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.38 2011/11/20 23:40:12 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.39 2012/08/17 17:22:40 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007, 2008
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -35,7 +35,7 @@ CDIAGFLAGS=	-Werror -Wall -Wstrict-prototypes -Wmissing-prototypes \
 .if ${IDENT:M-DNO_PROPOLICE}
 CDIAGFLAGS+=	-fno-stack-protector
 .endif
-CPPFLAGS+=	-DZCONST=const
+CPPFLAGS+=	-DZLIB_CONST
 COPTS?=		-Os
 .if ${COPTS:M-O*:N-Os}
 COPTS+=		-Os
@@ -49,7 +49,7 @@ AFLAGS=		-x assembler-with-cpp -traditional-cpp -D_LOCORE
 STRIPFLAGS=	-g -X -x -R .comment
 
 .include "${KERNBASE}/z/Makefile.inc"
-CPPFLAGS+=	-DZCONST=const
+CPPFLAGS+=	-DZLIB_CONST
 
 # load lines for config "xxx" will be emitted as:
 # xxx: ${SYSTEM_DEP} swapxxx.o

@@ -48,11 +48,11 @@
 #endif
 #undef HAVE_LIBZ
 #ifdef HAVE_LIBZ
-#define ZCONST const
+#define DZLIB_CONST
 #include <zlib.h>
 #endif
 
-__RCSID("$MirOS: src/usr.bin/file/compress.c,v 1.3 2007/07/10 14:22:36 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/file/compress.c,v 1.4 2010/12/31 17:53:05 tg Exp $");
 
 private struct {
 	const char *magic;
