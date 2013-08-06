@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: X11/xc/extras/freetype2/include/freetype/internal/ftvalid.h,v 1.3 2013/08/06 20:16:13 tg Exp $ */
 
 /***************************************************************************/
 /*                                                                         */
@@ -21,6 +21,7 @@
 #ifndef __FTVALID_H__
 #define __FTVALID_H__
 
+#include <sys/cdefs.h>
 #include <ft2build.h>
 #include FT_CONFIG_STANDARD_LIBRARY_H   /* for ft_setjmp and ft_longjmp */
 
