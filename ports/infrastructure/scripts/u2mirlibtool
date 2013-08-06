@@ -1,6 +1,6 @@
-# $MirOS: ports/infrastructure/scripts/u2mirlibtool,v 1.1 2007/08/06 09:42:14 tg Exp $
+# $MirOS: ports/infrastructure/scripts/u2mirlibtool,v 1.2 2007/08/10 01:17:53 tg Exp $
 #-
-# Copyright (c) 2007
+# Copyright (c) 2007, 2013
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -30,9 +30,12 @@ fl=aclocal.m4
 for f in $fi$patchorig $fi $fl$patchorig $fl; do
 	[[ -e $f ]] || continue
 	ed -s $f 2>/dev/null <<-'EOF'
-		/^\# serial [0-9].* AC_PROG_LIBTOOL/ka
-		'a,$g/^ifelse(\[AC_DISABLE_FAST_INSTALL])/kb
+		,g/^\# serial [0-9].* AC_PROG_LIBTOOL/ka
+		,g/^\#\#* libtool.m4 - Configure libtool for the/ka
+		'akb
+		'b,$g/^ifelse(\[AC_DISABLE_FAST_INSTALL])/kb
 		'b,$g/^AC_MSG_RESULT(\[$SED])/+1kb
+		'b,$g/AC_DEFUN(\[LT_AC_PROG_SED], \[])/kb
 		'a,'bd
 		wq
 	EOF
