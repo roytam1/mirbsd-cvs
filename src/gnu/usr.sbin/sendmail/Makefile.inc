@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/Makefile.inc,v 1.7 2008/05/07 13:15:14 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/Makefile.inc,v 1.8 2010/12/19 17:17:49 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2006/02/04 09:46:23 mbalmer Exp $
 
 .ifndef _MODSRC_GNU_USR_SBIN_SENDMAIL_MAKEFILE_INC
@@ -16,6 +16,7 @@ ENVDEF+=-DSM_OMIT_BOGUS_WARNINGS
 ENVDEF+= -DNEWDB -DMAP_REGEX
 ENVDEF+= -DNETINET6 -DNEEDSGETIPNODE -DSM_CONF_SHM
 ENVDEF+=	-D_FFR_QUEUERETURN_DSN
+ENVDEF+=	-D_FFR_TLS_1
 
 .if defined(WANT_LIBSMDB)
 LDADD+= -lsmdb
