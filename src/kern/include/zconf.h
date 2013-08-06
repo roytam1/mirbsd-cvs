@@ -157,11 +157,7 @@
 
 #  define STDC
 
-#if defined(ZLIB_CONST) && !defined(z_const)
 #  define z_const const
-#else
-#  define z_const
-#endif
 
 /* Maximum value for memLevel in deflateInit2 */
 #ifndef MAX_MEM_LEVEL
