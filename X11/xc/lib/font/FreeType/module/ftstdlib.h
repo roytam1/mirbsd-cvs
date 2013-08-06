@@ -1,5 +1,4 @@
-/* $MirOS: X11/xc/lib/font/FreeType/module/ftstdlib.h,v 1.4 2008/02/29 17:40:52 bsiegert Exp $ */
-/* ftstdlib.h -- modified for XFree86. */
+/* $MirOS: X11/xc/lib/font/FreeType/module/ftstdlib.h,v 1.5 2008/06/11 09:57:11 tg Exp $ */
 /* $XFree86: xc/lib/font/FreeType/module/ftstdlib.h,v 1.3 2004/12/31 02:56:03 tsi Exp $ */
 
 /***************************************************************************/
@@ -9,8 +8,10 @@
 /*    ANSI-specific library and header configuration file (specification   */
 /*    only).                                                               */
 /*                                                                         */
-/*  Copyright 2002, 2003, 2004, 2005, 2006, 2007 by                        */
+/*  Copyright 2002, 2003, 2004, 2005, 2006, 2007, 2009 by                  */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
+/*                                                                         */
+/*  Modified for XFree86.                                                  */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
 /*  modified, and distributed under the terms of the FreeType project      */
@@ -55,14 +56,8 @@
   /* old Crays where `int' is 36 bits), we do not make any guarantee    */
   /* about the correct behaviour of FT2 with all fonts.                 */
   /*                                                                    */
-  /* In these case, "ftconfig.h" will refuse to compile anyway with a   */
-  /* message like "couldn't find 32-bit type" or something similar.     */
-  /*                                                                    */
-  /* IMPORTANT NOTE: We do not define aliases for heap management and   */
-  /*                 i/o routines (i.e. malloc/free/fopen/fread/...)    */
-  /*                 since these functions should all be encapsulated   */
-  /*                 by platform-specific implementations of            */
-  /*                 "ftsystem.c".                                      */
+  /* In these case, `ftconfig.h' will refuse to compile anyway with a   */
+  /* message like `couldn't find 32-bit type' or something similar.     */
   /*                                                                    */
   /**********************************************************************/
 
@@ -73,6 +68,7 @@
 
 #define FT_CHAR_BIT   CHAR_BIT
 #define FT_INT_MAX    INT_MAX
+#define FT_INT_MIN    INT_MIN
 #define FT_UINT_MAX   UINT_MAX
 #define FT_ULONG_MAX  ULONG_MAX
 
@@ -130,8 +126,6 @@
 
 #define ft_qsort  qsort
 
-#define ft_exit   exit    /* only used to exit from unhandled exceptions */
-
 
   /**********************************************************************/
   /*                                                                    */
@@ -169,7 +163,7 @@
 #define ft_jmp_buf     jmp_buf  /* note: this cannot be a typedef since */
                                 /*       jmp_buf is defined as a macro  */
                                 /*       on certain platforms           */
- 
+
 #define ft_longjmp     longjmp
 #define ft_setjmp( b ) setjmp( *(jmp_buf*) &(b) )    /* same thing here */
 
@@ -189,6 +183,7 @@
 #endif
 
 #define FT_INT_MAX    2147483647
+#define FT_INT_MIN    (-0x7fffffff-1)
 #define FT_UINT_MAX   4294967295U
 #ifdef LONG64
 #define FT_ULONG_MAX 18446744073709551615UL
@@ -208,6 +203,7 @@
 #define ft_strncmp   xf86strncmp
 #define ft_strncpy   xf86strncpy
 #define ft_strrchr   xf86strrchr
+#define ft_strstr    xf86strstr
 
 #define ft_sprintf   xf86sprintf
 
@@ -228,9 +224,9 @@
 #endif /* FONTMODULE */
 
 
-  /* the following is only used for debugging purposes, i.e. when */
-  /* FT_DEBUG_LEVEL_ERROR or FT_DEBUG_LEVEL_TRACE are defined     */
-  /*                                                              */
+  /* the following is only used for debugging purposes, i.e., if */
+  /* FT_DEBUG_LEVEL_ERROR or FT_DEBUG_LEVEL_TRACE are defined    */
+
 #include <stdarg.h>
 
 
