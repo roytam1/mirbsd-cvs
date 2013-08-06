@@ -1,4 +1,7 @@
-# $MirOS: ports/textproc/libxml/Makefile,v 1.19 2010/08/16 19:40:31 bsiegert Exp $
+# 2.7.6 -> 2.7.7
+BROKEN=			needs MFC to work with -current libz
+
+# $MirOS: ports/textproc/libxml/Makefile,v 1.20 2010/11/19 17:15:12 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.76 2004/04/21 04:42:26 robert Exp $
 
 COMMENT=		XML parsing library
