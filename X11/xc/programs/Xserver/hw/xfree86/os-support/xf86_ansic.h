@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $XFree86: xc/programs/Xserver/hw/xfree86/os-support/xf86_ansic.h,v 3.59 2004/12/13 22:40:55 tsi Exp $ */
 /*
  * Copyright 1997-2004 by The XFree86 Project, Inc
@@ -48,6 +49,8 @@
 
 #ifndef _XF86_ANSIC_H
 #define _XF86_ANSIC_H
+
+#include <sys/cdefs.h>
 
 /* Handle <stdarg.h> */
 
@@ -352,7 +355,7 @@ extern int xf86setjmp1(xf86jmp_buf env, int);
 extern int xf86setjmp1_arg2(void);
 extern int xf86setjmperror(xf86jmp_buf env);
 extern int xf86getjmptype(void);
-extern void xf86longjmp(xf86jmp_buf env, int val);
+extern void xf86longjmp(xf86jmp_buf env, int val) __dead;
 #define xf86setjmp_macro(env) \
 	(xf86getjmptype() == 0 ? xf86setjmp0((env)) : \
 	(xf86getjmptype() == 1 ? xf86setjmp1((env), xf86setjmp1_arg2()) : \
