@@ -5,6 +5,8 @@
 
 #include "gzguts.h"
 
+__RCSID("$MirOS$");
+
 /* Local functions */
 local int gz_init OF((gz_statep));
 local int gz_comp OF((gz_statep, int));
@@ -303,6 +305,7 @@ int ZEXPORT gzputs(file, str)
     return ret == 0 && len != 0 ? -1 : ret;
 }
 
+#ifndef ZLIB_FREESTANDING
 #if defined(STDC) || defined(Z_HAVE_STDARG_H)
 #include <stdarg.h>
 
@@ -459,6 +462,7 @@ int ZEXPORTVA gzprintf (file, format, a1, a2, a3, a4, a5, a6, a7, a8, a9, a10,
     return len;
 }
 
+#endif
 #endif
 
 /* -- see zlib.h -- */

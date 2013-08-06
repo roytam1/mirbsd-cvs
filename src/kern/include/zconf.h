@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/zconf.h,v 1.5 2008/10/10 21:01:55 tg Exp $ */
+/* $MirOS: src/kern/include/zconf.h,v 1.6 2013/08/05 21:27:28 tg Exp $ */
 
 /* zconf.h -- configuration of the zlib compression library
  * Copyright (c) 2006-2013 Thorsten Glaser.
@@ -264,9 +264,11 @@ typedef uLong FAR uLongf;
 
 #  define Z_HAVE_UNISTD_H
 
+#if !defined(_STANDALONE) && !defined(_KERNEL)
 #  define Z_HAVE_STDARG_H
 
 #    include <stdarg.h>         /* for va_list */
+#endif
 
 /* a little trick to accommodate both "#define _LARGEFILE64_SOURCE" and
  * "#define _LARGEFILE64_SOURCE 1" as requesting 64-bit operations, (even

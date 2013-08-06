@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/zlib.h,v 1.8 2008/08/01 13:46:07 tg Exp $ */
+/* $MirOS: src/kern/include/zlib.h,v 1.9 2013/08/05 21:27:28 tg Exp $ */
 
 /* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.2.8, April 28th, 2013
@@ -1761,6 +1761,7 @@ ZEXTERN int            ZEXPORT deflateResetKeep OF((z_streamp));
 ZEXTERN gzFile         ZEXPORT gzopen_w OF((const wchar_t *path,
                                             const char *mode));
 #endif
+#ifndef ZLIB_FREESTANDING	/* -fhosted, i.e. userland implementation */
 #if defined(STDC) || defined(Z_HAVE_STDARG_H)
 #  ifndef Z_SOLO
 ZEXTERN int            ZEXPORTVA gzvprintf Z_ARG((gzFile file,
@@ -1768,6 +1769,7 @@ ZEXTERN int            ZEXPORTVA gzvprintf Z_ARG((gzFile file,
                                                   va_list va))
 	__attribute__((__format__ (__printf__, 2, 0)));
 #  endif
+#endif
 #endif
 
 #ifdef __cplusplus
