@@ -10,15 +10,12 @@
 #  include "gzguts.h"
 #endif
 
-zRCSID("$MirOS: src/kern/z/zutil.c,v 1.3 2008/08/01 14:59:59 tg Exp $")
+zRCSID("$MirOS: src/kern/z/zutil.c,v 1.4 2013/08/05 21:27:35 tg Exp $")
 
 #ifndef NO_DUMMY_DECL
 struct internal_state      {int dummy;}; /* for buggy compilers */
 #endif
 
-#ifdef SMALL
-const char zERRMSG[] = "error";
-#else
 z_const char * const z_errmsg[10] = {
 "need dictionary",     /* Z_NEED_DICT       2  */
 "stream end",          /* Z_STREAM_END      1  */
@@ -30,7 +27,6 @@ z_const char * const z_errmsg[10] = {
 "buffer error",        /* Z_BUF_ERROR     (-5) */
 "incompatible version",/* Z_VERSION_ERROR (-6) */
 ""};
-#endif
 
 
 const char * ZEXPORT zlibVersion()
@@ -136,7 +132,6 @@ void ZLIB_INTERNAL z_error (m)
 }
 #endif
 
-#ifndef SMALL
 /* exported to allow conversion of error code to string for compress() and
  * uncompress()
  */
@@ -145,7 +140,6 @@ const char * ZEXPORT zError(err)
 {
     return ERR_MSG(err);
 }
-#endif
 
 #if defined(_WIN32_WCE)
     /* The Microsoft C Run-Time Library for Windows CE doesn't have

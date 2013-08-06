@@ -51,7 +51,7 @@
 
 #include "deflate.h"
 
-zRCSID("$MirOS: src/kern/z/deflate.c,v 1.3 2008/08/01 14:59:57 tg Exp $")
+zRCSID("$MirOS: src/kern/z/deflate.c,v 1.4 2013/08/05 21:27:31 tg Exp $")
 
 const char deflate_copyright[] =
    " deflate 1.2.8 Copyright 1995-2013 Jean-loup Gailly and Mark Adler ";
@@ -307,7 +307,7 @@ int ZEXPORT deflateInit2_(strm, level, method, windowBits, memLevel, strategy,
     if (s->window == Z_NULL || s->prev == Z_NULL || s->head == Z_NULL ||
         s->pending_buf == Z_NULL) {
         s->status = FINISH_STATE;
-        zSETSMSG(ERR_MSG(Z_MEM_ERROR));
+        strm->msg = ERR_MSG(Z_MEM_ERROR);
         deflateEnd (strm);
         return Z_MEM_ERROR;
     }

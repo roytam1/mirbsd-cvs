@@ -1,3 +1,12 @@
+/* $MirOS$ */
+
+#ifdef SMALL
+ZEXTERN const char zERRMSG[];
+#define zSETSMSG(x)	strm->msg = zERRMSG
+#else
+#define zSETSMSG(x)	strm->msg = x
+#endif
+
 /* inflate.h -- internal inflate state definition
  * Copyright (C) 1995-2009 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h

@@ -85,7 +85,7 @@
 #include "inflate.h"
 #include "inffast.h"
 
-zRCSID("$MirOS: src/kern/z/inflate.c,v 1.5 2009/01/12 17:36:02 tg Exp $")
+zRCSID("$MirOS: src/kern/z/inflate.c,v 1.6 2013/08/05 21:27:34 tg Exp $")
 
 #ifdef MAKEFIXED
 #  ifndef BUILDFIXED
@@ -1521,3 +1521,7 @@ z_streamp strm;
         (state->mode == COPY ? state->length :
             (state->mode == MATCH ? state->was - state->length : 0));
 }
+
+#ifdef SMALL
+const char zERRMSG[] = "error";
+#endif

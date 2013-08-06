@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/z/zutil.h,v 1.7 2010/09/21 17:53:03 tg Exp $ */
+/* $MirOS: src/kern/z/zutil.h,v 1.8 2013/08/05 21:27:36 tg Exp $ */
 
 /* zutil.h -- internal interface and configuration of the compression library
  * Copyright (C) 1995-2013 Jean-loup Gailly.
@@ -66,13 +66,8 @@ extern z_const char * const z_errmsg[10]; /* indexed by 2-zlib_error */
 
 #define ERR_MSG(err) z_errmsg[Z_NEED_DICT-(err)]
 
-#ifdef SMALL
-#define ERR_RETURN(strm,err) \
-  return (strm->msg = "error", (err))
-#else
 #define ERR_RETURN(strm,err) \
   return (strm->msg = ERR_MSG(err), (err))
-#endif
 /* To be used only when the state is known to be valid */
 
         /* common constants */
@@ -296,13 +291,6 @@ extern z_const char * const z_errmsg[10]; /* indexed by 2-zlib_error */
 #else
 /* user-space, old arc4random API which was too slow */
 #define zADDRND(x)	/* nothing */
-#endif
-
-#ifdef SMALL
-ZEXTERN const char zERRMSG[];
-#define zSETSMSG(x)	strm->msg = zERRMSG
-#else
-#define zSETSMSG(x)	strm->msg = x
 #endif
 
 #endif /* ZUTIL_H */
