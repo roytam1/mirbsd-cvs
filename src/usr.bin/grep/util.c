@@ -42,6 +42,8 @@
 
 #include "grep.h"
 
+__RCSID("$MirOS$");
+
 /*
  * Process a file line by line...
  */
@@ -91,7 +93,7 @@ grep_tree(char **argv)
 }
 
 int
-procfile(char *fn)
+procfile(const char *fn)
 {
 	str_t ln;
 	file_t *f;
@@ -225,12 +227,12 @@ print:
  * Returns: -1 on failure, 0 on success
  */
 int
-fgrepcomp(fastgrep_t *fg, const char *pattern)
+fgrepcomp(fastgrep_t *fg, const char *patternx)
 {
 	int i;
 
 	/* Initialize. */
-	fg->patternLen = strlen(pattern);
+	fg->patternLen = strlen(patternx);
 	fg->bol = 0;
 	fg->eol = 0;
 	fg->wmatch = wflag;
@@ -241,15 +243,17 @@ fgrepcomp(fastgrep_t *fg, const char *pattern)
 	 * else just copy the pointer.
 	 */
 	if (iflag) {
-		fg->pattern = grep_malloc(fg->patternLen + 1);
+		unsigned char *cp;
+
+		fg->pattern = cp = grep_malloc(fg->patternLen + 1);
 		for (i = 0; i < fg->patternLen; i++)
-			fg->pattern[i] = toupper(pattern[i]);
-		fg->pattern[fg->patternLen] = '\0';
+			cp[i] = toupper(patternx[i]);
+		cp[fg->patternLen] = '\0';
 	} else
-		fg->pattern = (unsigned char *)pattern;	/* really const */
+		fg->pattern = (const unsigned char *)patternx;
 
 	/* Preprocess pattern. */
-	for (i = 0; i <= UCHAR_MAX; i++)
+	for (i = 0; (unsigned)i <= UCHAR_MAX; i++)
 		fg->qsBc[i] = fg->patternLen;
 	for (i = 1; i < fg->patternLen; i++) {
 		fg->qsBc[fg->pattern[i]] = fg->patternLen - i;
@@ -269,7 +273,7 @@ fgrepcomp(fastgrep_t *fg, const char *pattern)
  * Returns: -1 on failure, 0 on success
  */
 int
-fastcomp(fastgrep_t *fg, const char *pattern)
+fastcomp(fastgrep_t *fg, const char *patternx)
 {
 	int i;
 	int bol = 0;
@@ -279,23 +283,24 @@ fastcomp(fastgrep_t *fg, const char *pattern)
 	int firstHalfDot = -1;
 	int firstLastHalfDot = -1;
 	int lastHalfDot = 0;
+	char *cp;
 
 	/* Initialize. */
-	fg->patternLen = strlen(pattern);
+	fg->patternLen = strlen(patternx);
 	fg->bol = 0;
 	fg->eol = 0;
 	fg->wmatch = 0;
 	fg->reversedSearch = 0;
 
 	/* Remove end-of-line character ('$'). */
-	if (pattern[fg->patternLen - 1] == '$') {
+	if (patternx[fg->patternLen - 1] == '$') {
 		eol++;
 		fg->eol = 1;
 		fg->patternLen--;
 	}
 
 	/* Remove beginning-of-line character ('^'). */
-	if (pattern[0] == '^') {
+	if (patternx[0] == '^') {
 		bol++;
 		fg->bol = 1;
 		fg->patternLen--;
@@ -308,8 +313,8 @@ fastcomp(fastgrep_t *fg, const char *pattern)
 		fg->patternLen -= 14 + 2 * extra;
 		fg->wmatch = 7 + extra;
 	} else if (fg->patternLen >= 14 &&
-	    strncmp(pattern + fg->bol, "[[:<:]]", 7) == 0 &&
-	    strncmp(pattern + fg->bol + fg->patternLen - 7, "[[:>:]]", 7) == 0) {
+	    strncmp(patternx + fg->bol, "[[:<:]]", 7) == 0 &&
+	    strncmp(patternx + fg->bol + fg->patternLen - 7, "[[:>:]]", 7) == 0) {
 		fg->patternLen -= 14;
 		fg->wmatch = 7;
 	}
@@ -319,9 +324,9 @@ fastcomp(fastgrep_t *fg, const char *pattern)
 	 * match character classes at the beginning and ending of the
 	 * string respectively.
 	 */
-	fg->pattern = grep_malloc(fg->patternLen + 1);
-	memcpy(fg->pattern, pattern + bol + fg->wmatch, fg->patternLen);
-	fg->pattern[fg->patternLen] = '\0';
+	fg->pattern = cp = grep_malloc(fg->patternLen + 1);
+	memcpy(cp, patternx + bol + fg->wmatch, fg->patternLen);
+	cp[fg->patternLen] = '\0';
 
 	/* Look for ways to cheat...er...avoid the full regex engine. */
 	for (i = 0; i < fg->patternLen; i++)
@@ -334,7 +339,7 @@ fastcomp(fastgrep_t *fg, const char *pattern)
 		    (fg->pattern[i] == ':') || (fg->pattern[i] == '/')) {
 			/* As long as it is good, upper case it for later. */
 			if (iflag)
-				fg->pattern[i] = toupper(fg->pattern[i]);
+				cp[i] = toupper(fg->pattern[i]);
 		} else if (fg->pattern[i] == '.') {
 			hasDot = i;
 			if (i < fg->patternLen / 2) {
@@ -349,7 +354,7 @@ fastcomp(fastgrep_t *fg, const char *pattern)
 			}
 		} else {
 			/* Free memory and let others know this is empty. */
-			free(fg->pattern);
+			free(cp);
 			fg->pattern = NULL;
 			return (-1);
 		}
@@ -365,7 +370,7 @@ fastcomp(fastgrep_t *fg, const char *pattern)
 		fg->reversedSearch = 1;
 		hasDot = fg->patternLen - (firstHalfDot < 0 ?
 		    firstLastHalfDot : firstHalfDot) - 1;
-		grep_revstr(fg->pattern, fg->patternLen);
+		grep_revstr(cp, fg->patternLen);
 	}
 
 	/*
@@ -391,7 +396,7 @@ fastcomp(fastgrep_t *fg, const char *pattern)
 	shiftPatternLen = fg->patternLen - hasDot;
 
 	/* Preprocess pattern. */
-	for (i = 0; i <= UCHAR_MAX; i++)
+	for (i = 0; (unsigned)i <= UCHAR_MAX; i++)
 		fg->qsBc[i] = shiftPatternLen;
 	for (i = hasDot + 1; i < fg->patternLen; i++) {
 		fg->qsBc[fg->pattern[i]] = fg->patternLen - i;
@@ -409,7 +414,7 @@ fastcomp(fastgrep_t *fg, const char *pattern)
 	 * comparisons later.
 	 */
 	if (fg->reversedSearch)
-		grep_revstr(fg->pattern, fg->patternLen);
+		grep_revstr(cp, fg->patternLen);
 
 	return (0);
 }
@@ -428,27 +433,28 @@ fastcomp(fastgrep_t *fg, const char *pattern)
 static int
 grep_search(fastgrep_t *fg, unsigned char *data, size_t dataLen, regmatch_t *pmatch)
 {
-	int j;
+	size_t j;
 	int rtrnVal = REG_NOMATCH;
 
 	pmatch->rm_so = -1;
 	pmatch->rm_eo = -1;
 
 	/* No point in going farther if we do not have enough data. */
-	if (dataLen < fg->patternLen)
+	if (dataLen < (size_t)fg->patternLen)
 		return (rtrnVal);
 
 	/* Only try once at the beginning or ending of the line. */
 	if (fg->bol || fg->eol) {
 		/* Simple text comparison. */
 		/* Verify data is >= pattern length before searching on it. */
-		if (dataLen >= fg->patternLen) {
+		if (dataLen >= (size_t)fg->patternLen) {
 			/* Determine where in data to start search at. */
 			if (fg->eol)
 				j = dataLen - fg->patternLen;
 			else
 				j = 0;
-			if (!((fg->bol && fg->eol) && (dataLen != fg->patternLen)))
+			if (!((fg->bol && fg->eol) &&
+			    (dataLen != (size_t)fg->patternLen)))
 				if (grep_cmp(fg->pattern, data + j,
 				    fg->patternLen) == -1) {
 					pmatch->rm_so = j;
@@ -473,10 +479,10 @@ grep_search(fastgrep_t *fg, unsigned char *data, size_t dataLen, regmatch_t *pma
 				}
 			}
 			/* Shift if within bounds, otherwise, we are done. */
-			if (j == fg->patternLen)
+			if (j == (size_t)fg->patternLen)
 				break;
 			j -= fg->qsBc[data[j - fg->patternLen - 1]];
-		} while (j >= fg->patternLen);
+		} while (j >= (size_t)fg->patternLen);
 	} else {
 		/* Quick Search algorithm. */
 		j = 0;
@@ -526,13 +532,13 @@ grep_realloc(void *ptr, size_t size)
  *		-1 on success
  */
 static int
-grep_cmp(const unsigned char *pattern, const unsigned char *data, size_t len)
+grep_cmp(const unsigned char *patternx, const unsigned char *data, size_t len)
 {
-	int i;
+	size_t i;
 
 	for (i = 0; i < len; i++) {
-		if (((pattern[i] == data[i]) || (!Fflag && pattern[i] == '.'))
-		    || (iflag && pattern[i] == toupper(data[i])))
+		if (((patternx[i] == data[i]) || (!Fflag && patternx[i] == '.'))
+		    || (iflag && patternx[i] == toupper(data[i])))
 			continue;
 		return (i);
 	}

@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: grep.h,v 1.12 2004/10/03 19:23:02 otto Exp $	*/
 
 /*-
@@ -44,12 +45,12 @@ typedef struct {
 	size_t		 len;
 	int		 line_no;
 	off_t		 off;
-	char		*file;
+	const char	*file;
 	char		*dat;
 } str_t;
 
 typedef struct {
-	unsigned char	*pattern;
+	const unsigned char *pattern;
 	int		 patternLen;
 	int		 qsBc[UCHAR_MAX + 1];
 	/* flags */
@@ -79,7 +80,7 @@ extern regex_t	*r_pattern;
 extern char	 re_error[RE_ERROR_BUF + 1];	/* Seems big enough */
 
 /* util.c */
-int		 procfile(char *fn);
+int		 procfile(const char *fn);
 int		 grep_tree(char **argv);
 void		*grep_malloc(size_t size);
 void		*grep_realloc(void *ptr, size_t size);
@@ -101,7 +102,7 @@ typedef struct mmfile {
 	char	*base, *end, *ptr;
 } mmf_t;
 
-mmf_t		*mmopen(char *fn, char *mode);
+mmf_t		*mmopen(char *fn, const char *mode);
 void		 mmclose(mmf_t *mmf);
 char		*mmfgetln(mmf_t *mmf, size_t *l);
 long		 mmtell(mmf_t *mmf);
@@ -111,8 +112,8 @@ void		 mmrewind(mmf_t *mmf);
 struct file;
 typedef struct file file_t;
 
-file_t		*grep_fdopen(int fd, char *mode);
-file_t		*grep_open(char *path, char *mode);
+file_t		*grep_fdopen(int fd, const char *mode);
+file_t		*grep_open(const char *path, const char *mode);
 int		 grep_bin_file(file_t *f);
 long		 grep_tell(file_t *f);
 char		*grep_fgetln(file_t *f, size_t *l);
@@ -120,6 +121,5 @@ void		 grep_close(file_t *f);
 
 /* binary.c */
 int		 bin_file(FILE * f);
-int		 gzbin_file(gzFile * f);
+int		 gzbin_file(gzFile f);
 int		 mmbin_file(mmf_t *f);
-

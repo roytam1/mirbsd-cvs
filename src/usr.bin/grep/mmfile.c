@@ -37,10 +37,12 @@
 
 #include "grep.h"
 
+__RCSID("$MirOS$");
+
 #define MAX_MAP_LEN 1048576
 
 mmf_t *
-mmopen(char *fn, char *mode)
+mmopen(char *fn, const char *mode)
 {
 	mmf_t *mmf;
 	struct stat st;

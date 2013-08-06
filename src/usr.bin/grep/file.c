@@ -35,6 +35,8 @@
 
 #include "grep.h"
 
+__RCSID("$MirOS$");
+
 static char	 fname[MAXPATHLEN];
 static char	*lnbuf;
 static size_t	 lnbuflen;
@@ -48,12 +50,12 @@ struct file {
 	int	 noseek;
 	FILE	*f;
 	mmf_t	*mmf;
-	gzFile	*gzf;
+	gzFile	 gzf;
 };
 
 #ifndef NOZ
 static char *
-gzfgetln(gzFile *f, size_t *len)
+gzfgetln(gzFile f, size_t *len)
 {
 	size_t		n;
 	int		c;
@@ -90,7 +92,7 @@ gzfgetln(gzFile *f, size_t *len)
 #endif
 
 file_t *
-grep_fdopen(int fd, char *mode)
+grep_fdopen(int fd, const char *mode)
 {
 	file_t *f;
 
@@ -121,7 +123,7 @@ grep_fdopen(int fd, char *mode)
 }
 
 file_t *
-grep_open(char *path, char *mode)
+grep_open(const char *path, const char *mode)
 {
 	file_t *f;
 

@@ -33,7 +33,7 @@
 
 #include "grep.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/grep/binary.c,v 1.2 2007/03/22 03:56:49 tg Exp $");
 
 int
 bin_file(FILE *f)
@@ -60,7 +60,7 @@ bin_file(FILE *f)
 
 #ifndef NOZ
 int
-gzbin_file(gzFile *f)
+gzbin_file(gzFile f)
 {
 	char		buf[BUFSIZ];
 	int		i, m;
