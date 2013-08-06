@@ -4,7 +4,7 @@
 /*                                                                         */
 /*    TrueType and OpenType embedded bitmap support (specification).       */
 /*                                                                         */
-/*  Copyright 1996-2001, 2002, 2003, 2004, 2005, 2006, 2007 by             */
+/*  Copyright 1996-2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 by       */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -14,7 +14,6 @@
 /*  understand and accept it fully.                                        */
 /*                                                                         */
 /***************************************************************************/
-/* $XFree86: xc/extras/freetype2/src/sfnt/ttsbit.h,v 1.3 2004/04/26 16:15:55 dawes Exp $ */
 
 
 #ifndef __TTSBIT_H__
@@ -46,7 +45,7 @@ FT_BEGIN_HEADER
                                FT_ULong          strike_index,
                                FT_Size_Metrics*  metrics );
 
-#if defined FT_CONFIG_OPTION_OLD_INTERNALS
+#ifdef FT_CONFIG_OPTION_OLD_INTERNALS
   FT_LOCAL( FT_Error )
   tt_find_sbit_image( TT_Face          face,
                       FT_UInt          glyph_index,

@@ -4,7 +4,7 @@
 /*                                                                         */
 /*    Unix-specific FreeType low-level system interface (body).            */
 /*                                                                         */
-/*  Copyright 1996-2001, 2002, 2004, 2005, 2006, 2007 by                   */
+/*  Copyright 1996-2001, 2002, 2004, 2005, 2006, 2007, 2008 by             */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -17,8 +17,12 @@
 
 
 #include <ft2build.h>
+#ifdef MBSD_BUILD
+__RCSID("$MirOS$");
+#define HAVE_UNISTD_H
+#define HAVE_FCNTL_H
+#else
   /* we use our special ftconfig.h file, not the standard one */
-#ifndef MBSD_BUILD
 #include <ftconfig.h>
 #endif
 #include FT_INTERNAL_DEBUG_H
@@ -27,10 +31,8 @@
 #include FT_TYPES_H
 #include FT_INTERNAL_STREAM_H
 
-#include <fcntl.h>
-
   /* memory-mapping includes and definitions */
-#if defined(HAVE_UNISTD_H) || defined(MBSD_BUILD)
+#ifdef HAVE_UNISTD_H
 #include <unistd.h>
 #endif
 
@@ -281,7 +283,12 @@
     /*                                                                 */
     if ( stat_buf.st_size > LONG_MAX )
     {
-      FT_ERROR(( "FT_Stream_Open: file is too big" ));
+      FT_ERROR(( "FT_Stream_Open: file is too big\n" ));
+      goto Fail_Map;
+    }
+    else if ( stat_buf.st_size == 0 )
+    {
+      FT_ERROR(( "FT_Stream_Open: zero-length file\n" ));
       goto Fail_Map;
     }
 

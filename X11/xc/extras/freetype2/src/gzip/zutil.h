@@ -10,14 +10,11 @@
 
 /* @(#) $Id$ */
 
-/* $XFree86: xc/extras/freetype2/src/gzip/zutil.h,v 1.3 2004/04/26 16:15:54 dawes Exp $ */
-
 #ifndef _Z_UTIL_H
 #define _Z_UTIL_H
 
 #include "zlib.h"
 
-#if 0
 #ifdef STDC
 #  include <stddef.h>
 #  include <string.h>
@@ -27,7 +24,6 @@
     extern int errno;
 #else
 #   include <errno.h>
-#endif
 #endif
 
 #ifndef local

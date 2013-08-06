@@ -1,4 +1,4 @@
-/* $MirOS: X11/xc/extras/freetype2/src/autofit/afhints.h,v 1.3 2008/02/26 20:04:49 bsiegert Exp $ */
+/* $MirOS: X11/xc/extras/freetype2/src/autofit/afhints.h,v 1.4 2008/06/12 20:54:28 bsiegert Exp $ */
 /* $XFree86: xc/extras/freetype2/src/autofit/afhints.h,v 1.2 2004/06/09 18:52:02 tsi Exp $ */
 
 /***************************************************************************/
@@ -50,7 +50,6 @@ FT_BEGIN_HEADER
   typedef enum  AF_Direction_
   {
     AF_DIR_BOTH  =  0,
-
     AF_DIR_NONE  =  4,
     AF_DIR_RIGHT =  1,
     AF_DIR_LEFT  = -1,

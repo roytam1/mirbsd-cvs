@@ -23,7 +23,7 @@ used in advertising or otherwise to promote the sale, use or other dealings
 in this Software without prior written authorization from The Open Group.
 
 */
-/* $XFree86: xc/extras/freetype2/src/pcf/pcfutil.c,v 1.6 2004/04/26 16:15:54 dawes Exp $ */
+/* $XFree86: xc/lib/font/util/utilbitmap.c,v 1.3 1999/08/22 08:58:58 dawes Exp $ */
 
 /*
  * Author:  Keith Packard, MIT X Consortium
@@ -42,9 +42,9 @@ in this Software without prior written authorization from The Open Group.
 
   FT_LOCAL_DEF( void )
   BitOrderInvert( unsigned char*  buf,
-                  int             nbytes )
+                  size_t          nbytes )
   {
-    for ( ; --nbytes >= 0; buf++ )
+    for ( ; nbytes > 0; nbytes--, buf++ )
     {
       unsigned int  val = *buf;
 
@@ -64,7 +64,7 @@ in this Software without prior written authorization from The Open Group.
 
   FT_LOCAL_DEF( void )
   TwoByteSwap( unsigned char*  buf,
-               int             nbytes )
+               size_t          nbytes )
   {
     unsigned char  c;
 
@@ -83,7 +83,7 @@ in this Software without prior written authorization from The Open Group.
 
   FT_LOCAL_DEF( void )
   FourByteSwap( unsigned char*  buf,
-                int             nbytes )
+                size_t          nbytes )
   {
     unsigned char  c;
 

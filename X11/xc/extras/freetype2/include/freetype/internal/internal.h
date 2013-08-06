@@ -14,7 +14,7 @@
 /*  understand and accept it fully.                                        */
 /*                                                                         */
 /***************************************************************************/
-/* $XFree86: xc/extras/freetype2/include/freetype/internal/internal.h,v 1.12 2004/04/26 21:07:50 dawes Exp $ */
+
 
   /*************************************************************************/
   /*                                                                       */
@@ -25,6 +25,7 @@
 
 
 #define FT_INTERNAL_OBJECTS_H             <freetype/internal/ftobjs.h>
+#define FT_INTERNAL_PIC_H                 <freetype/internal/ftpic.h>
 #define FT_INTERNAL_STREAM_H              <freetype/internal/ftstream.h>
 #define FT_INTERNAL_MEMORY_H              <freetype/internal/ftmemory.h>
 #define FT_INTERNAL_DEBUG_H               <freetype/internal/ftdebug.h>

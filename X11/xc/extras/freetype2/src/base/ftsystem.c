@@ -1,12 +1,10 @@
-/* $XFree86: xc/extras/freetype2/src/base/ftsystem.c,v 1.2 2005/02/28 23:19:13 dawes Exp $ */
-
 /***************************************************************************/
 /*                                                                         */
 /*  ftsystem.c                                                             */
 /*                                                                         */
 /*    ANSI-specific FreeType low-level system interface (body).            */
 /*                                                                         */
-/*  Copyright 1996-2001, 2002, 2006 by                                     */
+/*  Copyright 1996-2001, 2002, 2006, 2008, 2009 by                         */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -34,7 +32,6 @@
 #include FT_SYSTEM_H
 #include FT_ERRORS_H
 #include FT_TYPES_H
-#include FT_INTERNAL_STREAM_H
 
 
   /*************************************************************************/
@@ -208,7 +205,8 @@
 
     file = STREAM_FILE( stream );
 
-    ft_fseek( file, offset, SEEK_SET );
+    if ( stream->pos != offset )
+      ft_fseek( file, offset, SEEK_SET );
 
     return (unsigned long)ft_fread( buffer, 1, count, file );
   }
@@ -229,8 +227,8 @@
     file = ft_fopen( filepathname, "rb" );
     if ( !file )
     {
-      FT_ERROR(( "FT_Stream_Open:" ));
-      FT_ERROR(( " could not open `%s'\n", filepathname ));
+      FT_ERROR(( "FT_Stream_Open:"
+                 " could not open `%s'\n", filepathname ));
 
       return FT_Err_Cannot_Open_Resource;
     }
@@ -297,7 +295,7 @@
 #ifdef FT_DEBUG_MEMORY
     ft_mem_debug_done( memory );
 #endif
-    memory->free( memory, memory );
+    ft_sfree( memory );
   }
 
 
