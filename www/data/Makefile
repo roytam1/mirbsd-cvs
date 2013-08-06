@@ -37,7 +37,7 @@ _xhtmlbeg=	<?xml version="1.0"?> \
 		</head><body>
 _xhtmlend=	</body></html>
 
-all: validation
+all: validations
 
 .SUFFIXES: .xml .inc
 
@@ -45,12 +45,16 @@ all: validation
 	@print -r Creating ${@:Q} from ${<:Q} ...
 	@${_inc2xhtml} <$< >$@
 
-validation: .PHONY ${FILES:.inc=.xml}
+validations: wpcheck validation
+
+wpcheck:
 	@print -nr Checking ${WPS:Q} ...
 .for _i in ${WPS}
 	@${U_ENV} ${MKSH} ${TOP}/mk/WPmk -n ${_i:S/^WP//:R}
 .endfor
 	@print \ done.
+
+validation: .PHONY ${FILES:.inc=.xml}
 	@print -r Validating ${FILES:Q} ...
 	@xmlstarlet val -d ${_xhtmldtd} ${.ALLSRC}
 	@print '\nValidation complete.'

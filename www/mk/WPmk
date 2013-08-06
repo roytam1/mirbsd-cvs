@@ -3,12 +3,17 @@ rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.12 2013/06/23 16:17:09 tg Exp $'
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
-if [[ $1 = -n ]]; then
-	noact=1
-	shift
-else
-	noact=0
-fi
+noact=0
+while getopts "n" ch; do
+	case $ch {
+	(n)	noact=1 ;;
+	(*)
+		print -u2 Syntax error.
+		exit 1
+		;;
+	}
+done
+shift $((OPTIND - 1))
 
 #DEPEND mk/htsconv
 . "$TOP"/mk/htsconv
