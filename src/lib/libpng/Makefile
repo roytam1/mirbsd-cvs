@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libpng/Makefile,v 1.12 2009/03/15 20:08:43 tg Exp $
+# $MirOS: src/lib/libpng/Makefile,v 1.13 2013/08/05 22:06:12 tg Exp $
 
 SHLIB_VERSION?= 9.1
 LIB=		png
@@ -12,7 +12,6 @@ HDRS=		png.h pngconf.h
 
 .include <bsd.own.mk>
 COPTS+=		-Wall
-CPPFLAGS+=	-DZLIB_CONST
 
 # broken API
 CFLAGS_png.o+=	-Wno-cast-qual

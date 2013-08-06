@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/fwcf/Makefile.inc,v 1.10 2007/05/08 21:52:53 tg Exp $
+# $MirOS: contrib/hosted/fwcf/Makefile.inc,v 1.11 2013/08/05 22:06:07 tg Exp $
 #-
 # This file is part of the FreeWRT project. FreeWRT is copyrighted
 # material, please see the LICENCE file in the top-level directory
@@ -26,7 +26,7 @@ test: .NOTMAIN all
 
 COMPRESSORS+=		c_null.c
 COMPRESSORS+=		c_zlib.c
-CPPFLAGS+=		-DZLIB_CONST
+CPPFLAGS+=		-DZCONST=const -DZLIB_CONST
 
 COMPRESSORS+=		c_lzo1x1.c
 MKDEP+=			-I${.CURDIR}/../bundled

@@ -1,11 +1,11 @@
-# $MirOS: src/lib/libkvm/Makefile,v 1.5 2007/05/08 21:52:54 tg Exp $
+# $MirOS: src/lib/libkvm/Makefile,v 1.6 2013/08/05 22:06:11 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2004/01/08 04:59:10 millert Exp $
 # $NetBSD: Makefile,v 1.11 1996/03/18 22:33:07 thorpej Exp $
 # from: @(#)Makefile	8.1 (Berkeley) 6/4/93
 
 SHLIB_VERSION?=	10.1
 LIB=		kvm
-CPPFLAGS+=	-DLIBC_SCCS -DZLIB_CONST
+CPPFLAGS+=	-DLIBC_SCCS
 
 # Try most specific name first.
 .if	exists(kvm_${MACHINE}.c)

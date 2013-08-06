@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libz/Makefile,v 1.25 2008/08/01 15:47:55 tg Exp $
+# $MirOS: src/lib/libz/Makefile,v 1.26 2013/08/05 21:27:36 tg Exp $
 
 LIB=		z
 SHLIB_VERSION?=	5.4
@@ -14,7 +14,6 @@ SRCS+=		${ZLIB_SRCS}
 HDRS=		zconf.h zlib.h
 HDRSRC=		${KERNBASE}/include
 CLEANFILES+=	${ZLIB_CLEANFLS}
-CPPFLAGS+=	-DZLIB_CONST
 COPTS+=		-Wall -Wno-old-style-definitions
 MAN=		compress.3
 
