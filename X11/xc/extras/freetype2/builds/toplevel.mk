@@ -3,7 +3,7 @@
 #
 
 
-# Copyright 1996-2000, 2001, 2003, 2006 by
+# Copyright 1996-2000, 2001, 2003, 2006, 2008, 2009 by
 # David Turner, Robert Wilhelm, and Werner Lemberg.
 #
 # This file is part of the FreeType project, and may only be used, modified,
@@ -32,6 +32,16 @@
 #
 # See the comments in `builds/detect.mk' and `builds/PROJECT.mk' for more
 # details on host platform detection and library builds.
+
+
+# First of all, check whether we have `$(value ...)'.  We do this by testing
+# for `$(eval ...)' which has been introduced in the same GNU make version.
+
+eval_available :=
+$(eval eval_available := T)
+ifneq ($(eval_available),T)
+  $(error FreeType's build system needs a Make program which supports $$(value))
+endif
 
 
 .PHONY: all dist distclean modules setup
@@ -163,20 +173,32 @@ include $(TOP_DIR)/builds/modules.mk
 # Not to be run by a normal user -- there are no attempts to make it
 # generic.
 
+# we check for `dist', not `distclean'
+ifneq ($(findstring distx,$(MAKECMDGOALS)x),)
+  FT_H := include/freetype/freetype.h
+
+  major := $(shell sed -n 's/.*FREETYPE_MAJOR[^0-9]*\([0-9]\+\)/\1/p' < $(FT_H))
+  minor := $(shell sed -n 's/.*FREETYPE_MINOR[^0-9]*\([0-9]\+\)/\1/p' < $(FT_H))
+  patch := $(shell sed -n 's/.*FREETYPE_PATCH[^0-9]*\([0-9]\+\)/\1/p' < $(FT_H))
+
+  version    := $(major).$(minor).$(patch)
+  winversion := $(major)$(minor)$(patch)
+endif
+
 dist:
 	-rm -rf tmp
-	rm -f freetype-2.2.1.tar.gz
-	rm -f freetype-2.2.1.tar.bz2
-	rm -f ft221.zip
+	rm -f freetype-$(version).tar.gz
+	rm -f freetype-$(version).tar.bz2
+	rm -f ft$(winversion).zip
 
-	for d in `find . -wholename '*/CVS' -prune \
+	for d in `find . -wholename '*/.git' -prune \
 	                 -o -type f \
 	                 -o -print` ; do \
 	  mkdir -p tmp/$$d ; \
 	done ;
 
 	currdir=`pwd` ; \
-	for f in `find . -wholename '*/CVS' -prune \
+	for f in `find . -wholename '*/.git' -prune \
 	                 -o -name .cvsignore \
 	                 -o -type d \
 	                 -o -print` ; do \
@@ -194,24 +216,24 @@ dist:
 
 	chmod +w src/tools/docmaker
 
-	mv tmp freetype-2.2.1
+	mv tmp freetype-$(version)
 
-	tar cfh - freetype-2.2.1 \
-	| gzip -c > freetype-2.2.1.tar.gz
-	tar cfh - freetype-2.2.1 \
-	| bzip2 -c > freetype-2.2.1.tar.bz2
+	tar cfh - freetype-$(version) \
+	| gzip -9 -c > freetype-$(version).tar.gz
+	tar cfh - freetype-$(version) \
+	| bzip2 -c > freetype-$(version).tar.bz2
 
 	@# Use CR/LF for zip files.
-	zip -lr ft221.zip freetype-2.2.1
+	zip -lr9 ft$(winversion).zip freetype-$(version)
 
-	rm -fr freetype-2.2.1
+	rm -fr freetype-$(version)
 
 
 # The locations of the latest `config.guess' and `config.sub' versions (from
 # GNU `config' CVS), relative to the `tmp' directory used during `make dist'.
 #
-CONFIG_GUESS = ../../../config/config.guess
-CONFIG_SUB   = ../../../config/config.sub
+CONFIG_GUESS = ~/git/config/config.guess
+CONFIG_SUB   = ~/git/config/config.sub
 
 
 # Don't say `make do-dist'.  Always use `make dist' instead.

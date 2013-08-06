@@ -4,7 +4,7 @@
 /*                                                                         */
 /*    AFM support for Type 1 fonts (body).                                 */
 /*                                                                         */
-/*  Copyright 1996-2001, 2002, 2003, 2004, 2005, 2006 by                   */
+/*  Copyright 1996-2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009 by */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -50,12 +50,16 @@
   /* read a glyph name and return the equivalent glyph index */
   static FT_Int
   t1_get_index( const char*  name,
-                FT_UInt      len,
+                FT_Offset    len,
                 void*        user_data )
   {
     T1_Font  type1 = (T1_Font)user_data;
     FT_Int   n;
 
+
+    /* PS string/name length must be < 16-bit */
+    if ( len > 0xFFFFU )
+      return 0;
 
     for ( n = 0; n < type1->num_glyphs; n++ )
     {
@@ -73,7 +77,7 @@
 
 
 #undef  KERN_INDEX
-#define KERN_INDEX( g1, g2 )  ( ( (FT_ULong)g1 << 16 ) | g2 )
+#define KERN_INDEX( g1, g2 )  ( ( (FT_ULong)(g1) << 16 ) | (g2) )
 
 
   /* compare two kerning pairs */
@@ -88,7 +92,12 @@
     FT_ULong  index2 = KERN_INDEX( pair2->index1, pair2->index2 );
 
 
-    return (int)( index1 - index2 );
+    if ( index1 > index2 )
+      return 1;
+    else if ( index1 < index2 )
+      return -1;
+    else
+      return 0;
   }
 
 
@@ -193,7 +202,7 @@
       kp->index1 = FT_Get_Char_Index( t1_face, p[0] );
       kp->index2 = FT_Get_Char_Index( t1_face, p[1] );
 
-      kp->x = (FT_Int)FT_PEEK_USHORT_LE(p + 2);
+      kp->x = (FT_Int)FT_PEEK_SHORT_LE(p + 2);
       kp->y = 0;
 
       kp++;
@@ -233,14 +242,9 @@
     T1_Font        t1_font = &( (T1_Face)t1_face )->type1;
 
 
-    if ( FT_NEW( fi ) )
-      return error;
-
-    if ( FT_FRAME_ENTER( stream->size ) )
-    {
-      FT_FREE( fi );
-      return error;
-    }
+    if ( FT_NEW( fi )                   ||
+         FT_FRAME_ENTER( stream->size ) )
+      goto Exit;
 
     fi->FontBBox  = t1_font->font_bbox;
     fi->Ascender  = t1_font->font_bbox.yMax;
@@ -270,8 +274,9 @@
       FT_Byte*  start = stream->cursor;
 
 
+      /* MS Windows allows versions up to 0x3FF without complaining */
       if ( stream->size > 6                              &&
-           start[0] == 0x00 && start[1] == 0x01          &&
+           start[1] < 4                                  &&
            FT_PEEK_ULONG_LE( start + 2 ) == stream->size )
         error = T1_Read_PFM( t1_face, stream, fi );
     }
@@ -280,22 +285,29 @@
     {
       t1_font->font_bbox = fi->FontBBox;
 
-      t1_face->bbox.xMin =   fi->FontBBox.xMin             >> 16;
-      t1_face->bbox.yMin =   fi->FontBBox.yMin             >> 16;
-      t1_face->bbox.xMax = ( fi->FontBBox.xMax + 0xFFFFU ) >> 16;
-      t1_face->bbox.yMax = ( fi->FontBBox.yMax + 0xFFFFU ) >> 16;
+      t1_face->bbox.xMin =   fi->FontBBox.xMin            >> 16;
+      t1_face->bbox.yMin =   fi->FontBBox.yMin            >> 16;
+      /* no `U' suffix here to 0xFFFF! */
+      t1_face->bbox.xMax = ( fi->FontBBox.xMax + 0xFFFF ) >> 16;
+      t1_face->bbox.yMax = ( fi->FontBBox.yMax + 0xFFFF ) >> 16;
 
-      t1_face->ascender  = (FT_Short)( ( fi->Ascender  + 0x8000U ) >> 16 );
-      t1_face->descender = (FT_Short)( ( fi->Descender + 0x8000U ) >> 16 );
+      /* no `U' suffix here to 0x8000! */
+      t1_face->ascender  = (FT_Short)( ( fi->Ascender  + 0x8000 ) >> 16 );
+      t1_face->descender = (FT_Short)( ( fi->Descender + 0x8000 ) >> 16 );
 
       if ( fi->NumKernPair )
       {
         t1_face->face_flags |= FT_FACE_FLAG_KERNING;
         ( (T1_Face)t1_face )->afm_data = fi;
+        fi = NULL;
       }
     }
 
     FT_FRAME_EXIT();
+
+  Exit:
+    if ( fi != NULL )
+      T1_Done_Metrics( memory, fi );
 
     return error;
   }

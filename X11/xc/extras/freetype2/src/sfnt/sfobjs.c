@@ -4,7 +4,7 @@
 /*                                                                         */
 /*    SFNT object management (base).                                       */
 /*                                                                         */
-/*  Copyright 1996-2001, 2002, 2003, 2004, 2005, 2006 by                   */
+/*  Copyright 1996-2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008 by       */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -26,6 +26,7 @@
 #include FT_TRUETYPE_IDS_H
 #include FT_TRUETYPE_TAGS_H
 #include FT_SERVICE_POSTSCRIPT_CMAPS_H
+#include FT_SFNT_NAMES_H
 #include "sferrors.h"
 
 #ifdef TT_CONFIG_OPTION_BDF
@@ -63,37 +64,6 @@
     for ( n = 0; n < len; n++ )
     {
       code = FT_NEXT_USHORT( read );
-      if ( code < 32 || code > 127 )
-        code = '?';
-
-      string[n] = (char)code;
-    }
-
-    string[len] = 0;
-
-    return string;
-  }
-
-
-  /* convert a UCS-4 name entry to ASCII */
-  static FT_String*
-  tt_name_entry_ascii_from_ucs4( TT_NameEntry  entry,
-                                 FT_Memory     memory )
-  {
-    FT_String*  string;
-    FT_UInt     len, code, n;
-    FT_Byte*    read = (FT_Byte*)entry->string;
-    FT_Error    error;
-
-
-    len = (FT_UInt)entry->stringLength / 4;
-
-    if ( FT_NEW_ARRAY( string, len + 1 ) )
-      return NULL;
-
-    for ( n = 0; n < len; n++ )
-    {
-      code = (FT_UInt)FT_NEXT_ULONG( read );
       if ( code < 32 || code > 127 )
         code = '?';
 
@@ -154,25 +124,35 @@
   /*                                                                       */
   /*    nameid :: The name id of the name record to return.                */
   /*                                                                       */
-  /* <Return>                                                              */
-  /*    Character string.  NULL if no name is present.                     */
+  /* <InOut>                                                               */
+  /*    name   :: The address of a string pointer.  NULL if no name is     */
+  /*              present.                                                 */
   /*                                                                       */
-  static FT_String*
-  tt_face_get_name( TT_Face    face,
-                    FT_UShort  nameid )
+  /* <Return>                                                              */
+  /*    FreeType error code.  0 means success.                             */
+  /*                                                                       */
+  static FT_Error
+  tt_face_get_name( TT_Face      face,
+                    FT_UShort    nameid,
+                    FT_String**  name )
   {
     FT_Memory         memory = face->root.memory;
+    FT_Error          error  = SFNT_Err_Ok;
     FT_String*        result = NULL;
     FT_UShort         n;
     TT_NameEntryRec*  rec;
-    FT_Int            found_apple   = -1;
-    FT_Int            found_win     = -1;
-    FT_Int            found_unicode = -1;
+    FT_Int            found_apple         = -1;
+    FT_Int            found_apple_roman   = -1;
+    FT_Int            found_apple_english = -1;
+    FT_Int            found_win           = -1;
+    FT_Int            found_unicode       = -1;
 
     FT_Bool           is_english = 0;
 
     TT_NameEntry_ConvertFunc  convert;
 
+
+    FT_ASSERT( name );
 
     rec = face->name_table.names;
     for ( n = 0; n < face->num_names; n++, rec++ )
@@ -200,9 +180,14 @@
           break;
 
         case TT_PLATFORM_MACINTOSH:
+          /* This is a bit special because some fonts will use either    */
+          /* an English language id, or a Roman encoding id, to indicate */
+          /* the English version of its font name.                       */
+          /*                                                             */
           if ( rec->languageID == TT_MAC_LANGID_ENGLISH )
-            found_apple = n;
-
+            found_apple_english = n;
+          else if ( rec->encodingID == TT_MAC_ID_ROMAN )
+            found_apple_roman = n;
           break;
 
         case TT_PLATFORM_MICROSOFT:
@@ -232,6 +217,10 @@
       }
     }
 
+    found_apple = found_apple_roman;
+    if ( found_apple_english >= 0 )
+      found_apple = found_apple_english;
+
     /* some fonts contain invalid Unicode or Macintosh formatted entries; */
     /* we will thus favor names encoded in Windows formats if available   */
     /* (provided it is an English name)                                   */
@@ -242,13 +231,19 @@
       rec = face->name_table.names + found_win;
       switch ( rec->encodingID )
       {
+        /* all Unicode strings are encoded using UTF-16BE */
       case TT_MS_ID_UNICODE_CS:
       case TT_MS_ID_SYMBOL_CS:
         convert = tt_name_entry_ascii_from_utf16;
         break;
 
       case TT_MS_ID_UCS_4:
-        convert = tt_name_entry_ascii_from_ucs4;
+        /* Apparently, if this value is found in a name table entry, it is */
+        /* documented as `full Unicode repertoire'.  Experience with the   */
+        /* MsGothic font shipped with Windows Vista shows that this really */
+        /* means UTF-16 encoded names (UCS-4 values are only used within   */
+        /* charmaps).                                                      */
+        convert = tt_name_entry_ascii_from_utf16;
         break;
 
       default:
@@ -270,10 +265,7 @@
     {
       if ( rec->string == NULL )
       {
-        FT_Error   error  = SFNT_Err_Ok;
         FT_Stream  stream = face->name_table.stream;
-
-        FT_UNUSED( error );
 
 
         if ( FT_QNEW_ARRAY ( rec->string, rec->stringLength ) ||
@@ -291,7 +283,8 @@
     }
 
   Exit:
-    return result;
+    *name = result;
+    return error;
   }
 
 
@@ -299,7 +292,7 @@
   sfnt_find_encoding( int  platform_id,
                       int  encoding_id )
   {
-    typedef struct  TEncoding
+    typedef struct  TEncoding_
     {
       int          platform_id;
       int          encoding_id;
@@ -377,11 +370,12 @@
     if ( FT_READ_ULONG( tag ) )
       return error;
 
-    if ( tag != 0x00010000UL                      &&
-         tag != TTAG_ttcf                         &&
-         tag != FT_MAKE_TAG( 'O', 'T', 'T', 'O' ) &&
-         tag != TTAG_true                         &&
-         tag != 0x00020000UL                      )
+    if ( tag != 0x00010000UL &&
+         tag != TTAG_ttcf    &&
+         tag != TTAG_OTTO    &&
+         tag != TTAG_true    &&
+         tag != TTAG_typ1    &&
+         tag != 0x00020000UL )
       return SFNT_Err_Unknown_File_Format;
 
     face->ttc_header.tag = TTAG_ttcf;
@@ -415,7 +409,7 @@
       face->ttc_header.version = 1 << 16;
       face->ttc_header.count   = 1;
 
-      if ( FT_NEW( face->ttc_header.offsets) )
+      if ( FT_NEW( face->ttc_header.offsets ) )
         return error;
 
       face->ttc_header.offsets[0] = offset;
@@ -465,7 +459,7 @@
       face_index = 0;
 
     if ( face_index >= face->ttc_header.count )
-        return SFNT_Err_Bad_Argument;
+      return SFNT_Err_Invalid_Argument;
 
     if ( FT_STREAM_SEEK( face->ttc_header.offsets[face_index] ) )
       return error;
@@ -475,7 +469,8 @@
     if ( error )
       return error;
 
-    face->root.num_faces = face->ttc_header.count;
+    face->root.num_faces  = face->ttc_header.count;
+    face->root.face_index = face_index;
 
     return error;
   }
@@ -512,6 +507,13 @@
     FT_TRACE3(( "\n" ));                                      \
   } while ( 0 )
 
+#define GET_NAME( id, field )                                 \
+  do {                                                        \
+    error = tt_face_get_name( face, TT_NAME_ID_##id, field ); \
+    if ( error )                                              \
+      goto Exit;                                              \
+  } while ( 0 )
+
 
   FT_LOCAL_DEF( FT_Error )
   sfnt_load_face( FT_Stream      stream,
@@ -520,16 +522,33 @@
                   FT_Int         num_params,
                   FT_Parameter*  params )
   {
-    FT_Error      error, psnames_error;
+    FT_Error      error;
+#ifdef TT_CONFIG_OPTION_POSTSCRIPT_NAMES
+    FT_Error      psnames_error;
+#endif
     FT_Bool       has_outline;
     FT_Bool       is_apple_sbit;
+    FT_Bool       ignore_preferred_family = FALSE;
+    FT_Bool       ignore_preferred_subfamily = FALSE;
 
     SFNT_Service  sfnt = (SFNT_Service)face->sfnt;
 
     FT_UNUSED( face_index );
-    FT_UNUSED( num_params );
-    FT_UNUSED( params );
 
+    /* Check parameters */
+    
+    {
+      FT_Int  i;
+
+
+      for ( i = 0; i < num_params; i++ )
+      {
+        if ( params[i].tag == FT_PARAM_TAG_IGNORE_PREFERRED_FAMILY )
+          ignore_preferred_family = TRUE;
+        else if ( params[i].tag == FT_PARAM_TAG_IGNORE_PREFERRED_SUBFAMILY )
+          ignore_preferred_subfamily = TRUE;
+      }
+    }
 
     /* Load tables */
 
@@ -595,7 +614,10 @@
     /* don't check for errors                            */
     LOAD_( name );
     LOAD_( post );
+
+#ifdef TT_CONFIG_OPTION_POSTSCRIPT_NAMES
     psnames_error = error;
+#endif
 
     /* do not load the metrics headers and tables if this is an Apple */
     /* sbit font file                                                 */
@@ -633,7 +655,22 @@
           error = SFNT_Err_Ok;
         }
         else
+        {
           error = SFNT_Err_Horiz_Header_Missing;
+
+#ifdef FT_CONFIG_OPTION_INCREMENTAL
+          /* If this is an incrementally loaded font and there are */
+          /* overriding metrics, tolerate a missing `hhea' table.  */
+          if ( face->root.internal->incremental_interface          &&
+               face->root.internal->incremental_interface->funcs->
+                 get_glyph_metrics                                 )
+          {
+            face->horizontal.number_Of_HMetrics = 0;
+            error = SFNT_Err_Ok;
+          }
+#endif
+
+        }
       }
 
       if ( error )
@@ -659,19 +696,20 @@
 
         face->os2.version = 0xFFFFU;
       }
-
     }
 
     /* the optional tables */
 
-    /* embedded bitmap support. */
+    /* embedded bitmap support */
     if ( sfnt->load_eblc )
     {
       LOAD_( eblc );
       if ( error )
       {
-        /* return an error if this font file has no outlines */
-        if ( error == SFNT_Err_Table_Missing && has_outline )
+        /* a font which contains neither bitmaps nor outlines is */
+        /* still valid (although rather useless in most cases);  */
+        /* however, you can find such stripped fonts in PDFs     */
+        if ( error == SFNT_Err_Table_Missing )
           error = SFNT_Err_Ok;
         else
           goto Exit;
@@ -691,26 +729,47 @@
     LOAD_( gasp );
     LOAD_( kern );
 
-    error = SFNT_Err_Ok;
-
     face->root.num_glyphs = face->max_profile.numGlyphs;
 
-    face->root.family_name = tt_face_get_name( face,
-                                               TT_NAME_ID_PREFERRED_FAMILY );
-    if ( !face->root.family_name )
-      face->root.family_name = tt_face_get_name( face,
-                                                 TT_NAME_ID_FONT_FAMILY );
+    /* Bit 8 of the `fsSelection' field in the `OS/2' table denotes  */
+    /* a WWS-only font face.  `WWS' stands for `weight', width', and */
+    /* `slope', a term used by Microsoft's Windows Presentation      */
+    /* Foundation (WPF).  This flag has been introduced in version   */
+    /* 1.5 of the OpenType specification (May 2008).                 */
 
-    face->root.style_name = tt_face_get_name( face,
-                                              TT_NAME_ID_PREFERRED_SUBFAMILY );
-    if ( !face->root.style_name )
-      face->root.style_name  = tt_face_get_name( face,
-                                                 TT_NAME_ID_FONT_SUBFAMILY );
+    face->root.family_name = NULL;
+    face->root.style_name  = NULL;
+    if ( face->os2.version != 0xFFFFU && face->os2.fsSelection & 256 )
+    {
+      if ( !ignore_preferred_family )
+        GET_NAME( PREFERRED_FAMILY, &face->root.family_name );
+      if ( !face->root.family_name )
+        GET_NAME( FONT_FAMILY, &face->root.family_name );
+
+      if ( !ignore_preferred_subfamily )
+        GET_NAME( PREFERRED_SUBFAMILY, &face->root.style_name );
+      if ( !face->root.style_name )
+        GET_NAME( FONT_SUBFAMILY, &face->root.style_name );
+    }
+    else
+    {
+      GET_NAME( WWS_FAMILY, &face->root.family_name );
+      if ( !face->root.family_name && !ignore_preferred_family )
+        GET_NAME( PREFERRED_FAMILY, &face->root.family_name );
+      if ( !face->root.family_name )
+        GET_NAME( FONT_FAMILY, &face->root.family_name );
+
+      GET_NAME( WWS_SUBFAMILY, &face->root.style_name );
+      if ( !face->root.style_name && !ignore_preferred_subfamily )
+        GET_NAME( PREFERRED_SUBFAMILY, &face->root.style_name );
+      if ( !face->root.style_name )
+        GET_NAME( FONT_SUBFAMILY, &face->root.style_name );
+    }
 
     /* now set up root fields */
     {
-      FT_Face    root = &face->root;
-      FT_Int32   flags = root->face_flags;
+      FT_Face  root  = &face->root;
+      FT_Long  flags = root->face_flags;
 
 
       /*********************************************************************/
@@ -726,7 +785,7 @@
                FT_FACE_FLAG_HORIZONTAL;   /* horizontal data   */
 
 #ifdef TT_CONFIG_OPTION_POSTSCRIPT_NAMES
-      if ( psnames_error == SFNT_Err_Ok &&
+      if ( psnames_error == SFNT_Err_Ok               &&
            face->postscript.FormatType != 0x00030000L )
         flags |= FT_FACE_FLAG_GLYPH_NAMES;
 #endif
@@ -758,19 +817,26 @@
       /*                                                                   */
       /* Compute style flags.                                              */
       /*                                                                   */
+
       flags = 0;
       if ( has_outline == TRUE && face->os2.version != 0xFFFFU )
       {
-        /* we have an OS/2 table; use the `fsSelection' field */
-        if ( face->os2.fsSelection & 1 )
+        /* We have an OS/2 table; use the `fsSelection' field.  Bit 9 */
+        /* indicates an oblique font face.  This flag has been        */
+        /* introduced in version 1.5 of the OpenType specification.   */
+
+        if ( face->os2.fsSelection & 512 )       /* bit 9 */
+          flags |= FT_STYLE_FLAG_ITALIC;
+        else if ( face->os2.fsSelection & 1 )    /* bit 0 */
           flags |= FT_STYLE_FLAG_ITALIC;
 
-        if ( face->os2.fsSelection & 32 )
+        if ( face->os2.fsSelection & 32 )        /* bit 5 */
           flags |= FT_STYLE_FLAG_BOLD;
       }
       else
       {
         /* this is an old Mac font, use the header field */
+
         if ( face->header.Mac_Style & 1 )
           flags |= FT_STYLE_FLAG_BOLD;
 
@@ -815,95 +881,6 @@
         }
       }
 
-
-      /*********************************************************************/
-      /*                                                                   */
-      /*  Set up metrics.                                                  */
-      /*                                                                   */
-      if ( has_outline == TRUE )
-      {
-        /* XXX What about if outline header is missing */
-        /*     (e.g. sfnt wrapped bitmap)?             */
-        root->bbox.xMin    = face->header.xMin;
-        root->bbox.yMin    = face->header.yMin;
-        root->bbox.xMax    = face->header.xMax;
-        root->bbox.yMax    = face->header.yMax;
-        root->units_per_EM = face->header.Units_Per_EM;
-
-
-        /* XXX: Computing the ascender/descender/height is very different */
-        /*      from what the specification tells you.  Apparently, we    */
-        /*      must be careful because                                   */
-        /*                                                                */
-        /*      - not all fonts have an OS/2 table; in this case, we take */
-        /*        the values in the horizontal header.  However, these    */
-        /*        values very often are not reliable.                     */
-        /*                                                                */
-        /*      - otherwise, the correct typographic values are in the    */
-        /*        sTypoAscender, sTypoDescender & sTypoLineGap fields.    */
-        /*                                                                */
-        /*        However, certains fonts have these fields set to 0.     */
-        /*        Rather, they have usWinAscent & usWinDescent correctly  */
-        /*        set (but with different values).                        */
-        /*                                                                */
-        /*      As an example, Arial Narrow is implemented through four   */
-        /*      files ARIALN.TTF, ARIALNI.TTF, ARIALNB.TTF & ARIALNBI.TTF */
-        /*                                                                */
-        /*      Strangely, all fonts have the same values in their        */
-        /*      sTypoXXX fields, except ARIALNB which sets them to 0.     */
-        /*                                                                */
-        /*      On the other hand, they all have different                */
-        /*      usWinAscent/Descent values -- as a conclusion, the OS/2   */
-        /*      table cannot be used to compute the text height reliably! */
-        /*                                                                */
-
-        /* The ascender/descender/height are computed from the OS/2 table */
-        /* when found.  Otherwise, they're taken from the horizontal      */
-        /* header.                                                        */
-        /*                                                                */
-
-        root->ascender  = face->horizontal.Ascender;
-        root->descender = face->horizontal.Descender;
-
-        root->height    = (FT_Short)( root->ascender - root->descender +
-                                      face->horizontal.Line_Gap );
-
-#if 0
-        /* if the line_gap is 0, we add an extra 15% to the text height --  */
-        /* this computation is based on various versions of Times New Roman */
-        if ( face->horizontal.Line_Gap == 0 )
-          root->height = (FT_Short)( ( root->height * 115 + 50 ) / 100 );
-#endif
-
-#if 0
-
-        /* some fonts have the OS/2 "sTypoAscender", "sTypoDescender" & */
-        /* "sTypoLineGap" fields set to 0, like ARIALNB.TTF             */
-        if ( face->os2.version != 0xFFFFU && root->ascender )
-        {
-          FT_Int  height;
-
-
-          root->ascender  =  face->os2.sTypoAscender;
-          root->descender = -face->os2.sTypoDescender;
-
-          height = root->ascender + root->descender + face->os2.sTypoLineGap;
-          if ( height > root->height )
-            root->height = height;
-        }
-
-#endif /* 0 */
-
-        root->max_advance_width   = face->horizontal.advance_Width_Max;
-
-        root->max_advance_height  = (FT_Short)( face->vertical_info
-                                      ? face->vertical.advance_Height_Max
-                                      : root->height );
-
-        root->underline_position  = face->postscript.underlinePosition;
-        root->underline_thickness = face->postscript.underlineThickness;
-      }
-
 #ifdef TT_CONFIG_OPTION_EMBEDDED_BITMAPS
 
       /*
@@ -915,7 +892,7 @@
         FT_UInt  i, count;
 
 
-#if defined FT_OPTIMIZE_MEMORY && !defined FT_CONFIG_OPTION_OLD_INTERNALS
+#ifndef FT_CONFIG_OPTION_OLD_INTERNALS
         count = face->sbit_num_strikes;
 #else
         count = (FT_UInt)face->num_sbit_strikes;
@@ -965,6 +942,101 @@
 
 #endif /* TT_CONFIG_OPTION_EMBEDDED_BITMAPS */
 
+      /* a font with no bitmaps and no outlines is scalable; */
+      /* it has only empty glyphs then                       */
+      if ( !FT_HAS_FIXED_SIZES( root ) && !FT_IS_SCALABLE( root ) )
+        root->face_flags |= FT_FACE_FLAG_SCALABLE;
+
+
+      /*********************************************************************/
+      /*                                                                   */
+      /*  Set up metrics.                                                  */
+      /*                                                                   */
+      if ( FT_IS_SCALABLE( root ) )
+      {
+        /* XXX What about if outline header is missing */
+        /*     (e.g. sfnt wrapped bitmap)?             */
+        root->bbox.xMin    = face->header.xMin;
+        root->bbox.yMin    = face->header.yMin;
+        root->bbox.xMax    = face->header.xMax;
+        root->bbox.yMax    = face->header.yMax;
+        root->units_per_EM = face->header.Units_Per_EM;
+
+
+        /* XXX: Computing the ascender/descender/height is very different */
+        /*      from what the specification tells you.  Apparently, we    */
+        /*      must be careful because                                   */
+        /*                                                                */
+        /*      - not all fonts have an OS/2 table; in this case, we take */
+        /*        the values in the horizontal header.  However, these    */
+        /*        values very often are not reliable.                     */
+        /*                                                                */
+        /*      - otherwise, the correct typographic values are in the    */
+        /*        sTypoAscender, sTypoDescender & sTypoLineGap fields.    */
+        /*                                                                */
+        /*        However, certain fonts have these fields set to 0.      */
+        /*        Rather, they have usWinAscent & usWinDescent correctly  */
+        /*        set (but with different values).                        */
+        /*                                                                */
+        /*      As an example, Arial Narrow is implemented through four   */
+        /*      files ARIALN.TTF, ARIALNI.TTF, ARIALNB.TTF & ARIALNBI.TTF */
+        /*                                                                */
+        /*      Strangely, all fonts have the same values in their        */
+        /*      sTypoXXX fields, except ARIALNB which sets them to 0.     */
+        /*                                                                */
+        /*      On the other hand, they all have different                */
+        /*      usWinAscent/Descent values -- as a conclusion, the OS/2   */
+        /*      table cannot be used to compute the text height reliably! */
+        /*                                                                */
+
+        /* The ascender/descender/height are computed from the OS/2 table */
+        /* when found.  Otherwise, they're taken from the horizontal      */
+        /* header.                                                        */
+        /*                                                                */
+
+        root->ascender  = face->horizontal.Ascender;
+        root->descender = face->horizontal.Descender;
+
+        root->height    = (FT_Short)( root->ascender - root->descender +
+                                      face->horizontal.Line_Gap );
+
+#if 0
+        /* if the line_gap is 0, we add an extra 15% to the text height --  */
+        /* this computation is based on various versions of Times New Roman */
+        if ( face->horizontal.Line_Gap == 0 )
+          root->height = (FT_Short)( ( root->height * 115 + 50 ) / 100 );
+#endif /* 0 */
+
+#if 0
+        /* some fonts have the OS/2 "sTypoAscender", "sTypoDescender" & */
+        /* "sTypoLineGap" fields set to 0, like ARIALNB.TTF             */
+        if ( face->os2.version != 0xFFFFU && root->ascender )
+        {
+          FT_Int  height;
+
+
+          root->ascender  =  face->os2.sTypoAscender;
+          root->descender = -face->os2.sTypoDescender;
+
+          height = root->ascender + root->descender + face->os2.sTypoLineGap;
+          if ( height > root->height )
+            root->height = height;
+        }
+#endif /* 0 */
+
+        root->max_advance_width  = face->horizontal.advance_Width_Max;
+        root->max_advance_height = (FT_Short)( face->vertical_info
+                                     ? face->vertical.advance_Height_Max
+                                     : root->height );
+
+        /* See http://www.microsoft.com/OpenType/OTSpec/post.htm -- */
+        /* Adjust underline position from top edge to centre of     */
+        /* stroke to convert TrueType meaning to FreeType meaning.  */
+        root->underline_position  = face->postscript.underlinePosition -
+                                    face->postscript.underlineThickness / 2;
+        root->underline_thickness = face->postscript.underlineThickness;
+      }
+
     }
 
   Exit:
@@ -976,14 +1048,21 @@
 
 #undef LOAD_
 #undef LOADM_
+#undef GET_NAME
 
 
   FT_LOCAL_DEF( void )
   sfnt_done_face( TT_Face  face )
   {
-    FT_Memory     memory = face->root.memory;
-    SFNT_Service  sfnt   = (SFNT_Service)face->sfnt;
+    FT_Memory     memory;
+    SFNT_Service  sfnt;
 
+
+    if ( !face )
+      return;
+
+    memory = face->root.memory;
+    sfnt   = (SFNT_Service)face->sfnt;
 
     if ( sfnt )
     {
@@ -1022,7 +1101,7 @@
     }
 
     /* freeing the horizontal metrics */
-#if defined FT_OPTIMIZE_MEMORY && !defined FT_CONFIG_OPTION_OLD_INTERNALS
+#ifndef FT_CONFIG_OPTION_OLD_INTERNALS
     {
       FT_Stream  stream = FT_FACE_STREAM( face );
 
@@ -1050,7 +1129,8 @@
     face->gasp.numRanges = 0;
 
     /* freeing the name table */
-    sfnt->free_name( face );
+    if ( sfnt )
+      sfnt->free_name( face );
 
     /* freeing family and style name */
     FT_FREE( face->root.family_name );
