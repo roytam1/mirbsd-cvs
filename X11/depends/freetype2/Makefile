@@ -1,13 +1,14 @@
-# $MirOS: X11/depends/freetype2/Makefile,v 1.8 2008/06/14 01:52:53 tg Exp $
+# $MirOS: X11/depends/freetype2/Makefile,v 1.9 2013/08/06 19:07:53 tg Exp $
 
 .include "../Makefile.inc"
 .include <bsd.own.mk>
 
-SHLIB_VERSION=		11.2
+SHLIB_VERSION=		11.3
 SUBST_VARS+=		-e 's!@X11BASE@!${X11BASE}!g'
-SUBST_VARS+=		-e 's!@ft_version@!2.3.6!g'
+SUBST_VARS+=		-e 's!@ft_version@!2.3.12!g'
 
-all: freetype-config freetype2.pc
+all: prereq
+prereq: freetype-config freetype2.pc
 
 freetype-config: freetype-config.in
 	sed ${SUBST_VARS} <$> >$@
@@ -63,6 +64,7 @@ NOMAN=			Yes
   SRCS+=		cidobjs.c
   SRCS+=		cidparse.c
   SRCS+=		cidriver.c
+  SRCS+=		ftadvanc.c
   SRCS+=		ftapi.c
   SRCS+=		ftbbox.c
   SRCS+=		ftbdf.c
@@ -78,6 +80,7 @@ NOMAN=			Yes
   SRCS+=		ftcmru.c
   SRCS+=		ftcsbits.c
   SRCS+=		ftdbgmem.c
+  SRCS+=		ftfstype.c
   SRCS+=		ftgasp.c
   SRCS+=		ftgloadr.c
   SRCS+=		ftglyph.c
@@ -87,7 +90,6 @@ NOMAN=			Yes
   SRCS+=		ftlcdfil.c
   SRCS+=		ftlzw.c
   SRCS+=		ftmm.c
-  SRCS+=		ftnames.c
   SRCS+=		ftobjs.c
   SRCS+=		ftotval.c
   SRCS+=		ftoutln.c
@@ -97,6 +99,7 @@ NOMAN=			Yes
   SRCS+=		ftrend1.c
   SRCS+=		ftrfork.c
   SRCS+=		ftsmooth.c
+  SRCS+=		ftsnames.c
   SRCS+=		ftstream.c
   SRCS+=		ftstroke.c
   SRCS+=		ftsynth.c
@@ -186,6 +189,7 @@ NOMAN=			Yes
   INCS+=		config/ftoption.h
   INCS+=		config/ftstdlib.h
   INCS+=		freetype.h
+  INCS+=		ftadvanc.h
   INCS+=		ftbbox.h
   INCS+=		ftbdf.h
   INCS+=		ftbitmap.h

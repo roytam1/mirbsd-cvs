@@ -1,12 +1,12 @@
 prefix=@X11BASE@
 exec_prefix=@X11BASE@/bin
 libdir=@X11BASE@/lib
-hardcode_libdir_flag_spec=-Wl,-rpath,/usr/X11R6/lib
 includedir=@X11BASE@/include
 
 Name: FreeType 2
 Description: A free, high-quality, and portable font engine.
 Version: @ft_version@
 Requires:
-Libs: -Wl,-rpath,${libdir} -L${libdir} -lfreetype -lz
+Libs: -Wl,-rpath,${libdir} -L${libdir} -lfreetype
+Libs.private: -lz
 Cflags: -I${includedir}/freetype2 -I${includedir}
