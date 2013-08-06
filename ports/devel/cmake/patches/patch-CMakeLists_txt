@@ -1,0 +1,29 @@
+$OpenBSD: patch-CMakeLists_txt,v 1.13 2013/05/30 08:34:32 dcoppa Exp $
+--- CMakeLists.txt.orig	Tue Nov 27 14:26:32 2012
++++ CMakeLists.txt	Wed May 29 15:00:28 2013
+@@ -257,6 +257,15 @@ macro (CMAKE_BUILD_UTILITIES)
+   # (a macro defined in this file)
+   CMAKE_HANDLE_SYSTEM_LIBRARIES()
+ 
++  if($ENV{LOCALBASE})
++    set(OPENBSD_LOCALBASE $ENV{LOCALBASE})
++  else()
++    set(OPENBSD_LOCALBASE "/usr/local")
++  endif()
++
++  # to find expat and curl
++  link_directories("${OPENBSD_LOCALBASE}/lib")
++
+   #---------------------------------------------------------------------
+   # Build zlib library for Curl, CMake, and CTest.
+   set(CMAKE_ZLIB_HEADER "cm_zlib.h")
+@@ -395,9 +404,6 @@ macro (CMAKE_BUILD_UTILITIES)
+   else ()
+     set(BUILD_CursesDialog 0)
+   endif ()
+-  if(BUILD_CursesDialog)
+-    add_subdirectory(Source/CursesDialog/form)
+-  endif()
+ endmacro ()
+ 
+ #-----------------------------------------------------------------------
