@@ -1,22 +1,11 @@
-# $MirOS: X11/depends/freetype2/Makefile,v 1.7 2008/02/29 11:10:41 bsiegert Exp $
+# $MirOS: X11/depends/freetype2/Makefile,v 1.8 2008/06/14 01:52:53 tg Exp $
 
 .include "../Makefile.inc"
 .include <bsd.own.mk>
 
-# This is the one from the freetype project
-#LT_VERSION=		9:17:3
-# This is bumped like we need it
-LT_VERSION=		13:17:2
-
-FT_VERSION=		${LT_VERSION:S/:/./g}
-LT_CURRENT=		${FT_VERSION:R:R}
-LT_REVISION=		${FT_VERSION:R:E}
-LT_AGE=			${FT_VERSION:E}
-SHLIB_MAJOR!=		print $$((${LT_CURRENT} - ${LT_AGE}))
-SHLIB_MINOR=		${LT_AGE}
-
+SHLIB_VERSION=		11.2
 SUBST_VARS+=		-e 's!@X11BASE@!${X11BASE}!g'
-SUBST_VARS+=		-e 's!@ft_version@!${FT_VERSION}!g'
+SUBST_VARS+=		-e 's!@ft_version@!2.3.6!g'
 
 all: freetype-config freetype2.pc
 
