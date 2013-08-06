@@ -1,4 +1,4 @@
-@comment $MirOS: ports/graphics/png/PLIST,v 1.1 2008/10/22 19:28:07 tg Exp $
+@comment $MirOS: ports/graphics/png/PLIST,v 1.2 2009/03/15 20:08:42 tg Exp $
 bin/libpng-config
 man/cat3/libpng.0
 man/cat3/libpngpf.0
@@ -14,7 +14,7 @@ share/doc/png/LICENSE
 share/doc/png/README
 share/doc/png/TODO
 share/doc/png/Y2KINFO
-share/doc/png/libpng-${VERSION}.txt
+share/doc/png/libpng-${VSN}.txt
 @dirrm share/doc/png
 @dirrm pkgview/png/lib
 @dirrm pkgview/png/include
