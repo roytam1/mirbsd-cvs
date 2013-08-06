@@ -18,7 +18,8 @@
 
 #include <ft2build.h>
 #ifdef MBSD_BUILD
-__RCSID("$MirOS$");
+#include <sys/cdefs.h>
+__RCSID("$MirOS: X11/xc/extras/freetype2/builds/unix/ftsystem.c,v 1.6 2013/08/06 19:46:41 tg Exp $");
 #define HAVE_UNISTD_H
 #define HAVE_FCNTL_H
 #else

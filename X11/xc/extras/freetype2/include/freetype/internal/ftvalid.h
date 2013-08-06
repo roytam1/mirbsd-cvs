@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /***************************************************************************/
 /*                                                                         */
 /*  ftvalid.h                                                              */
@@ -107,6 +109,7 @@ FT_BEGIN_HEADER
   /* to high-level caller.  Using `setjmp/longjmp' avoids many stupid    */
   /* error checks within the validation routines.                        */
   /*                                                                     */
+__dead
   FT_BASE( void )
   ft_validator_error( FT_Validator  valid,
                       FT_Error      error );

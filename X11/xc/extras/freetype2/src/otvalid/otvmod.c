@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /***************************************************************************/
 /*                                                                         */
 /*  otvmod.c                                                               */
@@ -82,7 +84,7 @@
     FT_Byte* volatile         math;
     FT_ULong                  len_base, len_gdef, len_gpos, len_gsub, len_jstf;
     FT_ULong                  len_math;
-    FT_UInt                   num_glyphs = (FT_UInt)face->num_glyphs;
+    FT_UInt  volatile         num_glyphs = (FT_UInt)face->num_glyphs;
     FT_ValidatorRec volatile  valid;
 
 
