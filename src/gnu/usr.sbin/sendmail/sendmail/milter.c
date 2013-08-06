@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1999-2009 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1999-2009, 2012, 2013 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  *
  * By using this file, you agree to the terms and conditions set
@@ -10,7 +10,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/milter.c,v 1.5 2010/12/19 17:18:27 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/milter.c,v 1.6 2012/12/31 21:02:47 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #if MILTER
@@ -2185,7 +2185,7 @@ milter_send_command(m, cmd, data, sz, e, state, where)
 **		cmd -- command to send.
 **		data -- optional command data.
 **		sz -- length of buf.
-**		macros -- macros to send for filter smfi_getsymval().
+**		stage -- index of macros to send for filter smfi_getsymval().
 **		e -- current envelope (for macro access).
 **		state -- return state word.
 **		where -- description of calling function (logging).
@@ -2329,7 +2329,6 @@ milter_getsymlist(m, buf, rlen, offset)
 		  case SMFIM_DATA:
 			SM_ASSERT(m->mf_idx > 0 && m->mf_idx < MAXFILTERS);
 			macros = MilterMacros[i][m->mf_idx];
-
 			m->mf_lflags |= MI_LFLAGS_SYM(i);
 			len = strlen(buf + offset);
 			if (len > 0)
@@ -4050,7 +4049,7 @@ milter_helo(helo, e, state)
 	}
 
 	response = milter_command(SMFIC_HELO, helo, strlen(helo) + 1,
-				  SMFIM_EOH, e, state, "helo", false);
+				  SMFIM_HELO, e, state, "helo", false);
 	milter_per_connection_check(e);
 	return response;
 }

@@ -9,7 +9,7 @@
  */
 
 #include <sm/gen.h>
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/sfsasl.c,v 1.3 2009/11/18 08:53:41 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/sfsasl.c,v 1.4 2010/12/19 17:18:33 tg Exp $")
 SM_RCSID("@(#)$Id$")
 #include <stdlib.h>
 #include <sendmail.h>
@@ -629,13 +629,14 @@ tls_retry(ssl, rfd, wfd, tlsstart, timeout, err, where)
 				  "STARTTLS=%s, error: fd %d/%d too large",
 				  where, rfd, wfd);
 		if (LogLevel > 8)
-			tlslogerr(where);
+			tlslogerr(LOG_WARNING, where);
 		}
 		errno = EINVAL;
 	}
 	else if (err == SSL_ERROR_WANT_READ)
 	{
 		fd_set ssl_maskr, ssl_maskx;
+		int save_errno = errno;
 
 		FD_ZERO(&ssl_maskr);
 		FD_SET(rfd, &ssl_maskr);
@@ -648,10 +649,12 @@ tls_retry(ssl, rfd, wfd, tlsstart, timeout, err, where)
 		} while (ret < 0 && errno == EINTR);
 		if (ret < 0 && errno > 0)
 			ret = -errno;
+		errno = save_errno;
 	}
 	else if (err == SSL_ERROR_WANT_WRITE)
 	{
 		fd_set ssl_maskw, ssl_maskx;
+		int save_errno = errno;
 
 		FD_ZERO(&ssl_maskw);
 		FD_SET(wfd, &ssl_maskw);
@@ -664,6 +667,7 @@ tls_retry(ssl, rfd, wfd, tlsstart, timeout, err, where)
 		} while (ret < 0 && errno == EINTR);
 		if (ret < 0 && errno > 0)
 			ret = -errno;
+		errno = save_errno;
 	}
 	return ret;
 }
@@ -771,8 +775,17 @@ tls_read(fp, buf, size)
 			break;
 #endif /* DEAL_WITH_ERROR_SSL */
 		err = "generic SSL error";
+
 		if (LogLevel > 9)
-			tlslogerr("read");
+		{
+			int pri;
+
+			if (errno == EAGAIN && try > 0)
+				pri = LOG_DEBUG;
+			else
+				pri = LOG_WARNING;
+			tlslogerr(pri, "read");
+		}
 
 #if DEAL_WITH_ERROR_SSL
 		/* avoid repeated calls? */
@@ -793,11 +806,19 @@ tls_read(fp, buf, size)
 					  "STARTTLS: read error=timeout");
 		}
 		else if (LogLevel > 8)
-			sm_syslog(LOG_WARNING, NOQID,
+		{
+			int pri;
+
+			if (save_errno == EAGAIN && try > 0)
+				pri = LOG_DEBUG;
+			else
+				pri = LOG_WARNING;
+			sm_syslog(pri, NOQID,
 				  "STARTTLS: read error=%s (%d), errno=%d, get_error=%s, retry=%d, ssl_err=%d",
 				  err, r, errno,
 				  ERR_error_string(ERR_get_error(), NULL), try,
 				  ssl_err);
+		}
 		else if (LogLevel > 7)
 			sm_syslog(LOG_WARNING, NOQID,
 				  "STARTTLS: read error=%s (%d), errno=%d, retry=%d, ssl_err=%d",
@@ -879,7 +900,7 @@ tls_write(fp, buf, size)
 		ERR_GET_REASON(ERR_peek_error()));
 */
 		if (LogLevel > 9)
-			tlslogerr("write");
+			tlslogerr(LOG_WARNING, "write");
 
 #if DEAL_WITH_ERROR_SSL
 		/* avoid repeated calls? */

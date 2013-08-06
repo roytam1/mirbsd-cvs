@@ -14,7 +14,7 @@
 #include <sendmail.h>
 #include <sm/time.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/deliver.c,v 1.7 2011/07/02 15:51:09 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/deliver.c,v 1.8 2012/12/31 21:02:39 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #if HASSETUSERCONTEXT
@@ -6156,7 +6156,7 @@ starttls(m, mci, e)
 			sm_syslog(LOG_ERR, NOQID,
 				  "STARTTLS=client, error: SSL_new failed");
 			if (LogLevel > 9)
-				tlslogerr("client");
+				tlslogerr(LOG_WARNING, "client");
 		}
 		return EX_SOFTWARE;
 	}
@@ -6175,7 +6175,7 @@ starttls(m, mci, e)
 				  "STARTTLS=client, error: SSL_set_xfd failed=%d",
 				  result);
 			if (LogLevel > 9)
-				tlslogerr("client");
+				tlslogerr(LOG_WARNING, "client");
 		}
 		return EX_SOFTWARE;
 	}
@@ -6205,7 +6205,7 @@ ssl_retry:
 				  result, sr == NULL ? "unknown" : sr, ssl_err,
 				  errno, i);
 			if (LogLevel > 9)
-				tlslogerr("client");
+				tlslogerr(LOG_WARNING, "client");
 		}
 
 		SSL_free(clt_ssl);

@@ -14,7 +14,7 @@
 #include <sendmail.h>
 #include <sm/sem.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/queue.c,v 1.7 2011/07/02 15:51:11 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/queue.c,v 1.8 2012/12/31 21:02:49 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #include <dirent.h>
@@ -2752,7 +2752,7 @@ gatherq(qgrp, qdir, doall, full, more, pnentries)
 			i |= NEED_QUARANTINE;
 		while (cf != NULL && i != 0 &&
 		       sm_io_fgets(cf, SM_TIME_DEFAULT, lbuf,
-				   sizeof(lbuf)) != NULL)
+				   sizeof(lbuf)) >= 0)
 		{
 			int c;
 			time_t age;
@@ -4987,7 +4987,7 @@ print_single_queue(qgrp, qdir)
 		quarmsg[0] = '\0';
 		statmsg[0] = bodytype[0] = '\0';
 		qfver = 0;
-		while (sm_io_fgets(f, SM_TIME_DEFAULT, buf, sizeof(buf)) != NULL)
+		while (sm_io_fgets(f, SM_TIME_DEFAULT, buf, sizeof(buf)) >= 0)
 		{
 			register int i;
 			register char *p;

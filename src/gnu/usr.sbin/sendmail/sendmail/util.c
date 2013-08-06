@@ -13,7 +13,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/util.c,v 1.6 2010/12/19 17:18:38 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/util.c,v 1.7 2012/12/31 21:02:55 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #include <sm/sendmail.h>
@@ -1286,8 +1286,7 @@ sfgets(buf, siz, fp, timeout, during)
 	char *during;
 {
 	register char *p;
-	int save_errno;
-	int io_timeout;
+	int save_errno, io_timeout, l;
 
 	SM_REQUIRE(siz > 0);
 	SM_REQUIRE(buf != NULL);
@@ -1300,7 +1299,7 @@ sfgets(buf, siz, fp, timeout, during)
 	}
 
 	/* try to read */
-	p = NULL;
+	l = -1;
 	errno = 0;
 
 	/* convert the timeout to sm_io notation */
@@ -1308,8 +1307,8 @@ sfgets(buf, siz, fp, timeout, during)
 	while (!sm_io_eof(fp) && !sm_io_error(fp))
 	{
 		errno = 0;
-		p = sm_io_fgets(fp, io_timeout, buf, siz);
-		if (p == NULL && errno == EAGAIN)
+		l = sm_io_fgets(fp, io_timeout, buf, siz);
+		if (l < 0 && errno == EAGAIN)
 		{
 			/* The sm_io_fgets() call timedout */
 			if (LogLevel > 1)
@@ -1329,7 +1328,7 @@ sfgets(buf, siz, fp, timeout, during)
 			errno = ETIMEDOUT;
 			return NULL;
 		}
-		if (p != NULL || errno != EINTR)
+		if (l >= 0 || errno != EINTR)
 			break;
 		(void) sm_io_clearerr(fp);
 	}
@@ -1337,7 +1336,7 @@ sfgets(buf, siz, fp, timeout, during)
 
 	/* clean up the books and exit */
 	LineNumber++;
-	if (p == NULL)
+	if (l < 0)
 	{
 		buf[0] = '\0';
 		if (TrafficLogFile != NULL)

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000-2006, 2008, 2009, 2011 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 2000-2006, 2008, 2009, 2011, 2013 Sendmail, Inc. and its suppliers.
  *	All rights reserved.
  *
  * By using this file, you agree to the terms and conditions set
@@ -10,7 +10,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/tls.c,v 1.3 2010/12/19 17:18:35 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/tls.c,v 1.4 2011/07/02 15:51:15 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #if STARTTLS
@@ -268,15 +268,18 @@ tls_rand_init(randfile, logl)
 **  INIT_TLS_LIBRARY -- Calls functions which setup TLS library for global use.
 **
 **	Parameters:
-**		none.
+**		fipsmode -- use FIPS?
 **
 **	Returns:
 **		succeeded?
 */
 
 bool
-init_tls_library()
+init_tls_library(fipsmode)
+	bool fipsmode;
 {
+	bool bv;
+
 	/* basic TLS initialization, ignore result for now */
 	SSL_library_init();
 	SSL_load_error_strings();
@@ -285,7 +288,30 @@ init_tls_library()
 	SSLeay_add_ssl_algorithms();
 # endif /* 0 */
 
-	return tls_rand_init(RandFile, 7);
+	bv = tls_rand_init(RandFile, 7);
+# if _FFR_FIPSMODE
+	if (bv && fipsmode)
+	{
+		if (!FIPS_mode_set(1))
+		{
+			unsigned long err;
+
+			err = ERR_get_error();
+			if (LogLevel > 0)
+				sm_syslog(LOG_ERR, NOQID,
+					"STARTTLS=init, FIPSMode=%s",
+					ERR_error_string(err, NULL));
+			return false;
+		}
+		else
+		{
+			if (LogLevel > 9)
+				sm_syslog(LOG_INFO, NOQID,
+					"STARTTLS=init, FIPSMode=ok");
+		}
+	}
+#endif /* _FFR_FIPSMODE  */
+	return bv;
 }
 /*
 **  TLS_SET_VERIFY -- request client certificate?
@@ -710,7 +736,7 @@ inittls(ctx, req, options, srv, certfile, keyfile, cacertpath, cacertfile, dhpar
 				  "STARTTLS=%s, error: SSL_CTX_new(SSLv23_%s_method()) failed",
 				  who, who);
 		if (LogLevel > 9)
-			tlslogerr(who);
+			tlslogerr(LOG_WARNING, who);
 		return false;
 	}
 
@@ -809,7 +835,7 @@ inittls(ctx, req, options, srv, certfile, keyfile, cacertpath, cacertfile, dhpar
 				  "STARTTLS=%s, error: RSA_generate_key failed",
 				  who);
 			if (LogLevel > 9)
-				tlslogerr(who);
+				tlslogerr(LOG_WARNING, who);
 		}
 		return false;
 	}
@@ -830,7 +856,7 @@ inittls(ctx, req, options, srv, certfile, keyfile, cacertpath, cacertfile, dhpar
 				  "STARTTLS=%s, error: SSL_CTX_use_PrivateKey_file(%s) failed",
 				  who, keyfile);
 			if (LogLevel > 9)
-				tlslogerr(who);
+				tlslogerr(LOG_WARNING, who);
 		}
 		if (bitset(TLS_I_USE_KEY, req))
 			return false;
@@ -847,7 +873,7 @@ inittls(ctx, req, options, srv, certfile, keyfile, cacertpath, cacertfile, dhpar
 				  "STARTTLS=%s, error: SSL_CTX_use_certificate_file(%s) failed",
 				  who, certfile);
 			if (LogLevel > 9)
-				tlslogerr(who);
+				tlslogerr(LOG_WARNING, who);
 		}
 		if (bitset(TLS_I_USE_CERT, req))
 			return false;
@@ -864,7 +890,7 @@ inittls(ctx, req, options, srv, certfile, keyfile, cacertpath, cacertfile, dhpar
 				  "STARTTLS=%s, error: SSL_CTX_check_private_key failed(%s): %d",
 				  who, keyfile, r);
 			if (LogLevel > 9)
-				tlslogerr(who);
+				tlslogerr(LOG_WARNING, who);
 		}
 		if (bitset(TLS_I_USE_KEY, req))
 			return false;
@@ -883,7 +909,7 @@ inittls(ctx, req, options, srv, certfile, keyfile, cacertpath, cacertfile, dhpar
 				  "STARTTLS=%s, error: SSL_CTX_use_PrivateKey_file(%s) failed",
 				  who, kf2);
 			if (LogLevel > 9)
-				tlslogerr(who);
+				tlslogerr(LOG_WARNING, who);
 		}
 	}
 
@@ -897,7 +923,7 @@ inittls(ctx, req, options, srv, certfile, keyfile, cacertpath, cacertfile, dhpar
 				  "STARTTLS=%s, error: SSL_CTX_use_certificate_file(%s) failed",
 				  who, cf2);
 			if (LogLevel > 9)
-				tlslogerr(who);
+				tlslogerr(LOG_WARNING, who);
 		}
 	}
 
@@ -912,7 +938,7 @@ inittls(ctx, req, options, srv, certfile, keyfile, cacertpath, cacertfile, dhpar
 				  "STARTTLS=%s, error: SSL_CTX_check_private_key 2 failed: %d",
 				  who, r);
 			if (LogLevel > 9)
-				tlslogerr(who);
+				tlslogerr(LOG_WARNING, who);
 		}
 	}
 # endif /* _FFR_TLS_1 */
@@ -963,7 +989,7 @@ inittls(ctx, req, options, srv, certfile, keyfile, cacertpath, cacertfile, dhpar
 						  who, dhparam,
 						  ERR_error_string(err, NULL));
 					if (LogLevel > 9)
-						tlslogerr(who);
+						tlslogerr(LOG_WARNING, who);
 				}
 			}
 			else
@@ -974,7 +1000,7 @@ inittls(ctx, req, options, srv, certfile, keyfile, cacertpath, cacertfile, dhpar
 						  "STARTTLS=%s, error: BIO_new_file(%s) failed",
 						  who, dhparam);
 					if (LogLevel > 9)
-						tlslogerr(who);
+						tlslogerr(LOG_WARNING, who);
 				}
 			}
 		}
@@ -1093,7 +1119,7 @@ inittls(ctx, req, options, srv, certfile, keyfile, cacertpath, cacertfile, dhpar
 				    who, bitset(TLS_S_CERTP_EX, status) ? cacertpath : "(not set)",
 				    bitset(TLS_S_CERTF_EX, status) ? cacertfile : "(not set)", r);
 				if (LogLevel > 9)
-					tlslogerr(who);
+					tlslogerr(LOG_WARNING, who);
 			}
 			if (bitset(TLS_I_VRFY_LOC, req))
 				return false;
@@ -1117,7 +1143,7 @@ inittls(ctx, req, options, srv, certfile, keyfile, cacertpath, cacertfile, dhpar
 					  who, CipherList);
 
 				if (LogLevel > 9)
-					tlslogerr(who);
+					tlslogerr(LOG_WARNING, who);
 			}
 			/* failure if setting to this list is required? */
 		}
@@ -1381,7 +1407,7 @@ endtls(ssl, side)
 				sm_syslog(LOG_WARNING, NOQID,
 					  "STARTTLS=%s, SSL_shutdown failed: %d",
 					  side, r);
-				tlslogerr(side);
+				tlslogerr(LOG_WARNING, side);
 			}
 			ret = EX_SOFTWARE;
 		}
@@ -1430,7 +1456,7 @@ endtls(ssl, side)
 				sm_syslog(LOG_WARNING, NOQID,
 					  "STARTTLS=%s, SSL_shutdown not done",
 					  side);
-				tlslogerr(side);
+				tlslogerr(LOG_WARNING, side);
 			}
 			ret = EX_SOFTWARE;
 		}
@@ -1663,6 +1689,7 @@ tls_verify_cb(ctx, unused)
 **  TLSLOGERR -- log the errors from the TLS error stack
 **
 **	Parameters:
+**		level -- syslog level
 **		who -- server/client (for logging).
 **
 **	Returns:
@@ -1670,7 +1697,8 @@ tls_verify_cb(ctx, unused)
 */
 
 void
-tlslogerr(who)
+tlslogerr(level, who)
+	int level;
 	const char *who;
 {
 	unsigned long l;
@@ -1684,7 +1712,7 @@ tlslogerr(who)
 	while ((l = ERR_get_error_line_data(CP &file, &line, CP &data, &flags))
 		!= 0)
 	{
-		sm_syslog(LOG_WARNING, NOQID,
+		sm_syslog(level, NOQID,
 			  "STARTTLS=%s: %lu:%s:%s:%d:%s", who, es,
 			  ERR_error_string(l, buf),
 			  file, line,
