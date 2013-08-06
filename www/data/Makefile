@@ -1,4 +1,4 @@
-# $MirOS: www/data/Makefile,v 1.6 2013/06/08 14:55:48 tg Exp $
+# $MirOS: www/data/Makefile,v 1.7 2013/06/08 16:31:07 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -9,7 +9,10 @@ DST!=		realpath ${.OBJDIR:Q}/..
 .MAKEFLAGS:=	${.MAKEFLAGS} TOP=${TOP:Q} DST=${DST:Q}
 .endif
 
+U_ENV+=		TOP=${TOP:Q} DST=${DST:Q} MKSH=${MKSH:Q} SHELL=${MKSH:Q} TZ=UTC
+
 FILES!=		cd ${.CURDIR} && print -r -- *.inc
+WPS!=		cd ${.CURDIR} && print -r -- WP*.inc
 _inc2xhtml=	( (print '\n----'; sed -e '/^\#/d' -e '/^RCSID: \$$/d') | \
 		    tr '\n' '' | sed \
 		    -e 'sg' \
@@ -43,6 +46,11 @@ all: validation
 	@${_inc2xhtml} <$< >$@
 
 validation: .PHONY ${FILES:.inc=.xml}
+	@print -nr Checking ${WPS:Q} ...
+.for _i in ${WPS}
+	@${U_ENV} ${MKSH} ${TOP}/mk/WPmk -n ${_i:S/^WP//:R}
+.endfor
+	@print \ done.
 	@print -r Validating ${FILES:Q} ...
 	@xmlstarlet val -d ${_xhtmldtd} ${.ALLSRC}
 	@print '\nValidation complete.'

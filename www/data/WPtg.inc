@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.33 2013/08/04 19:44:32 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.34 2013/08/05 07:36:45 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2291,5 +2291,10 @@ ID: 438
 Date: 05.08.2013
 Waypoint: GC47F5Q
 Title: Hier kämpft der Löwe
+----
+ID: 439
+Date: 06.08.2013
+Waypoint: GC48YTE
+Title: C-H-B (Coin-Hotel-Bonn)
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
