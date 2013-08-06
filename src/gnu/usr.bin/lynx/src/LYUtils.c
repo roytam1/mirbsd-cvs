@@ -1,5 +1,5 @@
 /*
- * $LynxId: LYUtils.c,v 1.239 2013/05/05 21:26:26 tom Exp $
+ * $LynxId: LYUtils.c,v 1.242 2013/07/29 00:33:32 tom Exp $
  */
 #include <HTUtils.h>
 #include <HTTCP.h>
@@ -3472,7 +3472,7 @@ static int fmt_tempname(char *result,
      */
 #ifdef HAVE_RAND_TEMPNAME
     if (first) {
-	lynx_srand((unsigned) ((long) time((time_t *) 0) + (long) result));
+	lynx_srand((unsigned) ((long) time((time_t *) NULL) + (long) result));
 	first = FALSE;
     }
 
@@ -4524,22 +4524,23 @@ int win32_check_interrupt(void)
     return FALSE;
 }
 
+#if !defined(__MINGW32__)
 void sleep(unsigned sec)
 {
     unsigned int i, j;
-    int c;
 
     for (j = 0; j < sec; j++) {
 	for (i = 0; i < 10; i++) {
 	    Sleep(100);
 	    if (kbhit()) {
-		c = LYgetch();
+		(void) LYgetch();
 		return;
 	    }
 	}
     }
 }
-#endif
+#endif /* !__MINGW32__ */
+#endif /* _WINDOWS */
 
 /*
  * This function rewrites and reallocates a previously allocated string so that
@@ -7322,7 +7323,7 @@ int Cygwin_Shell(void)
 			     0, 0, &startUpInfo, &procInfo);
 
 	if (!code) {
-	    printf("shell = [%s], code = %ld\n", shell, GetLastError());
+	    printf("shell = [%s], code = %ld\n", shell, (long) GetLastError());
 	}
 
 	/* wait for the child to return (this is not a requirement
