@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.276 2012/08/04 18:13:18 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.277 2012/10/18 16:41:25 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -524,6 +524,13 @@ PATCH_ARGS+=		-C
 PATCH_DIST_ARGS+=	-C
 .endif
 
+NO_SYSTRACE?=		No
+.if ${NO_SYSTRACE:L} == "no"
+_SYSTRACE_CMD?=		/bin/systrace ${_SYSTRACE_ARGS} -f ${_SYSTRACE_COOKIE}
+.else
+_SYSTRACE_CMD=
+.endif
+
 TAR?=			/bin/tar
 UNZIP?=			unzip
 BZIP2?=			bzip2
@@ -677,12 +684,6 @@ MAKE_ENV+=		${_INSTALL_MACROS}
 SCRIPTS_ENV+=		${_INSTALL_MACROS}
 
 # setup systrace variables
-NO_SYSTRACE?=		No
-.if ${NO_SYSTRACE:L} == "no"
-_SYSTRACE_CMD?=		/bin/systrace ${_SYSTRACE_ARGS} -f ${_SYSTRACE_COOKIE}
-.else
-_SYSTRACE_CMD=
-.endif
 SYSTRACE_FILTER?=	${PORTSDIR}/infrastructure/templates/systrace.filter
 _SYSTRACE_POLICIES+=	${SHELL} /usr/bin/env \
 			${_MIRMAKE_EXE} ${LOCALBASE}/bin/gmake
