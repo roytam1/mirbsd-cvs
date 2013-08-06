@@ -134,7 +134,7 @@ main(argc, argv)
 	{
 		/* Get and nul-terminate the line. */
 		if (sm_io_fgets(smioin, SM_TIME_DEFAULT, lbuf,
-				sizeof(lbuf)) == NULL)
+				sizeof(lbuf)) < 0)
 			err(EX_DATAERR, "no data");
 		if ((p = strchr(lbuf, '\n')) == NULL)
 			err(EX_DATAERR, "line too long");
@@ -379,7 +379,7 @@ main(argc, argv)
 	{
 		(void) sm_io_fprintf(fp, SM_TIME_DEFAULT, "%s", lbuf);
 	} while (sm_io_fgets(smioin, SM_TIME_DEFAULT, lbuf,
-			     sizeof(lbuf)) != NULL);
+			     sizeof(lbuf)) >= 0);
 
 	if (sm_io_error(smioin))
 		err(EX_TEMPFAIL, "stdin: %s", sm_errstring(errno));

@@ -6153,7 +6153,7 @@ starttls(m, mci, e)
 			sm_syslog(LOG_ERR, NOQID,
 				  "STARTTLS=client, error: SSL_new failed");
 			if (LogLevel > 9)
-				tlslogerr("client");
+				tlslogerr(LOG_WARNING, "client");
 		}
 		return EX_SOFTWARE;
 	}
@@ -6172,7 +6172,7 @@ starttls(m, mci, e)
 				  "STARTTLS=client, error: SSL_set_xfd failed=%d",
 				  result);
 			if (LogLevel > 9)
-				tlslogerr("client");
+				tlslogerr(LOG_WARNING, "client");
 		}
 		return EX_SOFTWARE;
 	}
@@ -6202,7 +6202,7 @@ ssl_retry:
 				  result, sr == NULL ? "unknown" : sr, ssl_err,
 				  errno, i);
 			if (LogLevel > 9)
-				tlslogerr("client");
+				tlslogerr(LOG_WARNING, "client");
 		}
 
 		SSL_free(clt_ssl);
