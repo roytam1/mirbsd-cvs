@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.34 2013/08/05 07:36:45 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.35 2013/08/06 16:45:07 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2296,5 +2296,15 @@ ID: 439
 Date: 06.08.2013
 Waypoint: GC48YTE
 Title: C-H-B (Coin-Hotel-Bonn)
+----
+ID: 440
+Date: 07.08.2013
+Waypoint: GC35BNN
+Title: Ankerbach
+----
+ID: 441
+Date: 07.08.2013
+Waypoint: GCV21F
+Title: Burgen &amp; Schlösser #10 - Kommende Ramersdorf
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'

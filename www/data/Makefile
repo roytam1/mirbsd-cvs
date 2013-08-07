@@ -1,4 +1,4 @@
-# $MirOS: www/data/Makefile,v 1.7 2013/06/08 16:31:07 tg Exp $
+# $MirOS: www/data/Makefile,v 1.9 2013/08/06 16:47:44 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -48,8 +48,9 @@ all: validations
 validations: wpcheck validation
 
 wpcheck:
-	@print -nr Checking ${WPS:Q} ...
+	@print -nr Checking...
 .for _i in ${WPS}
+	@print -nr \ ${_i:Q}
 	@${U_ENV} ${MKSH} ${TOP}/mk/WPmk -n ${_i:S/^WP//:R}
 .endfor
 	@print \ done.
