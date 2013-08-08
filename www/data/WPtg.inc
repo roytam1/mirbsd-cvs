@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.35 2013/08/06 16:45:07 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.36 2013/08/07 20:40:21 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2306,5 +2306,10 @@ ID: 441
 Date: 07.08.2013
 Waypoint: GCV21F
 Title: Burgen &amp; Schlösser #10 - Kommende Ramersdorf
+----
+ID: 442
+Date: 08.08.2013
+Waypoint: GC3GX1Y
+Title: Planetenrunde-URANUS
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
