@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.36 2013/08/07 20:40:21 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.37 2013/08/08 20:56:22 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2286,6 +2286,7 @@ ID: 437
 Date: 04.08.2013
 Waypoint: GCVNRH OC1CF3 N02049
 Title: Gotteshäuser: Zwei Kirchen ohne Namen
+Tag: recommended
 ----
 ID: 438
 Date: 05.08.2013
@@ -2311,5 +2312,10 @@ ID: 442
 Date: 08.08.2013
 Waypoint: GC3GX1Y
 Title: Planetenrunde-URANUS
+----
+ID: 443
+Date: 09.08.2013
+Waypoint: GC486WW
+Title: Augustus MMXIII. (3)
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
