@@ -223,6 +223,11 @@ as they modify $KSH_VERSION according to the guidelines that
 are published on the website; forks and works that are not
 derivates are not allowed to use it.
 
+As far as MirBSD is concerned, the files themselves are free
+to modification and distribution under BSD/MirOS Licence, the
+restriction on use stems only from trademark law's requirement
+to protect it or lose it, which McKusick almost did.
+
 The Shilouette daemon is Copyright (c) 2003 by Rick Collette.
 The MirOS Project may freely use the former ekkoBSD Logo,
 the shilouette Daemon, for MirBSD, on anything the project
@@ -237,4 +242,4 @@ possible, the text shown above is to be included.
 
 
 __________________________________________________________________
-$MirOS: www/files/TaC-mksh.txt,v 1.14 2013/07/25 16:18:26 tg Exp $
+$MirOS: www/files/TaC-mksh.txt,v 1.15 2013/08/10 13:44:24 tg Exp $
