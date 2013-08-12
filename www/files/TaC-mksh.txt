@@ -225,8 +225,8 @@ derivates are not allowed to use it.
 
 As far as MirBSD is concerned, the files themselves are free
 to modification and distribution under BSD/MirOS Licence, the
-restriction on use stems only from trademark law's requirement
-to protect it or lose it, which McKusick almost did.
+restriction on use stems only from a need to protect it or
+lose it: http://www.mckusick.com/beastie/mainpage/copyright.html
 
 The Shilouette daemon is Copyright (c) 2003 by Rick Collette.
 The MirOS Project may freely use the former ekkoBSD Logo,
@@ -242,4 +242,4 @@ possible, the text shown above is to be included.
 
 
 __________________________________________________________________
-$MirOS: www/files/TaC-mksh.txt,v 1.15 2013/08/10 13:44:24 tg Exp $
+$MirOS: www/files/TaC-mksh.txt,v 1.16 2013/08/10 14:11:38 tg Exp $

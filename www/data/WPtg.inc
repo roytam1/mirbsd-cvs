@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.37 2013/08/08 20:56:22 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.38 2013/08/09 19:37:37 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2317,5 +2317,33 @@ ID: 443
 Date: 09.08.2013
 Waypoint: GC486WW
 Title: Augustus MMXIII. (3)
+----
+ID: 444
+Date: 10.08.2013
+Waypoint: GC3TT0R
+Title: Schafwiese
+Tag: recommended
+
+Korrekt müßte es Schaf<b>s</b>wiese heißen.
+Geniales Logbuch!
+----
+ID: 445
+Date: 10.08.2013
+Waypoint: GC4F9VA
+Title: Owerdreeser Ollichsmill
+----
+ID: 446
+Date: 11.08.2013
+Waypoint: GC4HMEG
+Title: Sam´s Home
+
+Der Owner möchte bitte einen
+<a href="http://www.cl.cam.ac.uk/~mgk25/ucs/apostrophe.html">echten
+Apostroph</a> verwenden, keinen Akzent Akut.
+----
+ID: 447
+Date: 12.08.2013
+Waypoint: GC4BQ6K
+Title: Augustus MMXIII. (5)
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'

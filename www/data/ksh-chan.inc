@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.17 2013/01/17 20:04:55 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.18 2013/06/01 00:23:59 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -33,12 +33,18 @@ embedding is not yet possible) and to be very portable, also
 to include some extensions of its own. It’s Unicode aware.
 ----
 Title: mksh snapshot downloads
-Link: https://www.mirbsd.org/MirOS/dist/mir/mksh/
+Link: https://www.mirbsd.org/MirOS/dist/mir/mksh/snapshot/
 
 Snapshots of the MirBSD Korn Shell can often be found here.
 Versions with an “i” before the date (yyyymmdd) are of the
 MAIN development branch, all others are of the stable bugfix
 branch.
+----
+Title: mksh/Win32 Beta 14 announcement
+Link: @@RELPATH@@permalinks/wlog-10_e20130718-tg.htm
+
+Read about the currently published source and binary snapshot
+of the developing port of mksh(1) to native Win32 API.
 ----
 Title: Homepage of the Public Domain Korn Shell
 Link: http://www.cs.mun.ca/~michael/pdksh/
