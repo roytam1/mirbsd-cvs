@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.38 2013/08/09 19:37:37 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.39 2013/08/12 18:38:28 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2345,5 +2345,15 @@ ID: 447
 Date: 12.08.2013
 Waypoint: GC4BQ6K
 Title: Augustus MMXIII. (5)
+----
+ID: 448
+Date: 13.08.2013
+Waypoint: GC4B9T2
+Title: Oberkasseler Schleichweg
+----
+ID: 449
+Date: 14.08.2013
+Waypoint: GC3KHW1
+Title: Linie 66
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
