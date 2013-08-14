@@ -56,7 +56,9 @@
 # include <stdio.h>
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/crypt/crypt.c,v 1.3 2010/01/07 22:34:49 tg Exp $");
+
+static char *crypt_internal(const char *, const char *);
 
 void _des_init(void);
 void _des_setup_salt(int32_t);
@@ -574,6 +576,21 @@ des_cipher(const char *in, char *out, int32_t salt, int count)
 
 char *
 crypt(const char *key, const char *setting)
+{
+	char *rv;
+	static char buf[2];
+
+	if ((rv = crypt_internal(key, setting)) == NULL) {
+		buf[0] = setting && (*setting == 'x') ? '*' : 'x';
+		buf[1] = '\0';
+		rv = buf;
+	}
+
+	return (rv);
+}
+
+static char *
+crypt_internal(const char *key, const char *setting)
 {
 	int		i;
 	u_int32_t	count, salt, l, r0, r1, keybuf[2];
