@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.39 2013/08/12 18:38:28 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.40 2013/08/14 18:16:06 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2355,5 +2355,10 @@ ID: 449
 Date: 14.08.2013
 Waypoint: GC3KHW1
 Title: Linie 66
+----
+ID: 450
+Date: 15.08.2013
+Waypoint: GC3CTKT
+Title: Schieberjagd durch Duisdorf
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
