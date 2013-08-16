@@ -1,3 +1,0 @@
-Evolution-data-server makes up the various backend components for the 
-Evolution integrated mail/PIM suite.  This includes the backend Berkeley
-database as well as the libical calendar components.
