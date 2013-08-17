@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.40 2013/08/14 18:16:06 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.41 2013/08/15 18:53:08 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2360,5 +2360,17 @@ ID: 450
 Date: 15.08.2013
 Waypoint: GC3CTKT
 Title: Schieberjagd durch Duisdorf
+----
+ID: 451
+Date: 16.08.2013
+Waypoint: GC4644Q
+Title: Das grunzende Schwein auf Oberwerth
+----
+ID: 452
+Date: 17.08.2013
+Waypoint: GC2WY3D
+Title: Volvodidi&#96;s Werkstattcache
+
+Den <a href="http://linuxwiki.de/ApoStrophen">Genitiv mit s</a> lernen wir noch.
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
