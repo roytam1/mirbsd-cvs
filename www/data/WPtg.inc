@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.41 2013/08/15 18:53:08 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.42 2013/08/17 21:06:54 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2372,5 +2372,25 @@ Waypoint: GC2WY3D
 Title: Volvodidi&#96;s Werkstattcache
 
 Den <a href="http://linuxwiki.de/ApoStrophen">Genitiv mit s</a> lernen wir noch.
+----
+ID: 453
+Date: 18.08.2013
+Waypoint: GC33VN3
+Title: STOP - in 100 m
+----
+ID: 454
+Date: 18.08.2013
+Waypoint: GC2ZQYN
+Title: Alfterer Kreuze 02
+----
+ID: 455
+Date: 18.08.2013
+Waypoint: GC337BR
+Title: Alfterer Kreuze 13
+----
+ID: 456
+Date: 18.08.2013
+Waypoint: GC2ZVPG
+Title: Alfterer Kreuze 09
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
