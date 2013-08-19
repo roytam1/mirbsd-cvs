@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.42 2013/08/17 21:06:54 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.43 2013/08/18 18:16:56 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2392,5 +2392,15 @@ ID: 456
 Date: 18.08.2013
 Waypoint: GC2ZVPG
 Title: Alfterer Kreuze 09
+----
+ID: 457
+Date: 19.08.2013
+Waypoint: GC354VF
+Title: Ruhe in Roisdorf
+----
+ID: 458
+Date: 19.08.2013
+Waypoint: GC3DGNB
+Title: Der Birnbaum
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
