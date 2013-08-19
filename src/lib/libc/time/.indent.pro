@@ -1,4 +1,0 @@
--c41
--Ttm
--Tstate
--Trule

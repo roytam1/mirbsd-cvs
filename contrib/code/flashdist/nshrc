@@ -1,9 +1,0 @@
-hostname sample
-!
-interface lo0
- ip 127.0.0.1/8
-!
-interface sis0
- ip 10.10.1.44/24
-!
-route 0.0.0.0/0 10.10.1.1

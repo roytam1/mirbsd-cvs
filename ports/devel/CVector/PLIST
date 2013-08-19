@@ -1,6 +1,0 @@
-@comment $MirOS$
-lib/libCVector.a
-share/doc/CVector/README_CVector.html
-share/doc/CVector/README_CVector.txt
-%%SHARED%%
-@dirrm share/doc/CVector
