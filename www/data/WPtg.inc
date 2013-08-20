@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.43 2013/08/18 18:16:56 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.44 2013/08/19 23:17:13 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2402,5 +2402,55 @@ ID: 458
 Date: 19.08.2013
 Waypoint: GC3DGNB
 Title: Der Birnbaum
+----
+ID: 459
+Date: 20.08.2013
+Waypoint: GC4G63X
+Title: TB Hotel 24h open
+----
+ID: 460
+Date: 20.08.2013
+Waypoint: GC4EDZM
+Title: Gemühtliches Plätzchen Drachenfelser Ländchen 1998
+
+Gemütlich!
+----
+ID: 461
+Date: 20.08.2013
+Waypoint: GC4H000
+Title: Der Apfelpetling
+----
+ID: 462
+Date: 20.08.2013
+Waypoint: GC4EP5K
+Title: TBHotel am Zaun der Johannisbeeranlage 1998
+----
+ID: 463
+Date: 20.08.2013
+Waypoint: GC4ENN9
+Title: Die Johannisbeere 1998
+----
+ID: 464
+Date: 20.08.2013
+Waypoint: GC4G3CG
+Title: XXL Travel Bug House (Ließem)
+Tag: recommended
+----
+ID: 465
+Date: 20.08.2013
+Waypoint: GC4H15Q
+Title: Mathematik im Drachenfälser Ländchen
+
+Der arme Fels… ;-)
+----
+ID: 466
+Date: 20.08.2013
+Waypoint: GC4EEFP
+Title: TB Hotel an der Kuhweide 1998
+----
+ID: 467
+Date: 20.08.2013
+Waypoint: GC4EEGN
+Title: Der Drahtspanner an der Schafswiese 1998
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
