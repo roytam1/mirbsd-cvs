@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.44 2013/08/19 23:17:13 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.45 2013/08/20 21:04:44 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2452,5 +2452,21 @@ ID: 467
 Date: 20.08.2013
 Waypoint: GC4EEGN
 Title: Der Drahtspanner an der Schafswiese 1998
+----
+ID: 468
+Date: 21.08.2013
+Waypoint: GC4925P
+Title: Bernd's Birthday 2
+----
+ID: 469
+Date: 21.08.2013
+Waypoint: GC49263
+Title: Bernd's Birthday 3
+----
+ID: 470
+Date: 22.08.2013
+Waypoint: GC4JMH3
+Title: Naturstrom-Bus
+Tag: recommended
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
