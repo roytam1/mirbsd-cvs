@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.45 2013/08/20 21:04:44 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.46 2013/08/22 19:14:19 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2468,5 +2468,20 @@ Date: 22.08.2013
 Waypoint: GC4JMH3
 Title: Naturstrom-Bus
 Tag: recommended
+----
+ID: 471
+Date: 23.08.2013
+Waypoint: GC4E446
+Title: Kein Stein
+----
+ID: 472
+Date: 23.08.2013
+Waypoint: GC3EA3F
+Title: Nepomuks Geheimnis
+----
+ID: 473
+Date: 23.08.2013
+Waypoint: GC4G1CG
+Title: Bunker Beuel
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'

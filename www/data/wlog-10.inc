@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.432 2013/07/07 15:39:04 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.433 2013/07/18 21:57:03 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10166,4 +10166,81 @@ Tag: debian mksh news pcli
  <a href="@@RELPATH@@irc.htm">IRC</a> or post on the mailing list, and
  I’ll forward things to Michael as needed. Reports on testing with other
  toolchain and OS versions are also welcome.</p>
+----
+Date: 23.08.2013 23:37
+Author: tg@
+Title: FrOSCon 2013, or, why is there no MirBSD exhibit?
+Tag: debian event geocache mksh
+
+<p><a href="http://www.froscon.org/">FrOSCon</a> is approaching, and
+ all MirBSD developers will attend… but why’s there no MirBSD exhibit?
+ The answer to that is a bit complex. First let’s state that of course
+ we will participate in the event as well as the Open Source world.
+ We’ll also be <a href="@@RELPATH@@permalinks/wlog-10_e20130608-tg.htm"
+ title="Waypoint Statistics">geocaching</a> around the campus with other
+ interested (mostly OSS) people (including those we won for this sport)
+ and helping out other OSS projects we’ve become attached to.</p>
+<p>MirOS BSD, the operating system, is a niche system. The conference
+ on the other hand got “younger” and more mainstream. This means that
+ almost all conference visitors do not belong to the target group of
+ MirOS BSD which somewhat is an “ancient solution”: the most classical
+ BSD around (NetBSD® loses because they have rc.d and PAM and lack
+ sendmail(8), sorry guys, your attempt at being not reformable doesn’t
+ count) and running on restricted hardware (such as my 486SLC with 12
+ MiB RAM) and exots (SPARCstation). It’s viable even as developer
+ workstation (if your hardware is supported… otherwise just virtualise
+ it) but its strength lies with SPARC support and “embedded x86”. And
+ being run as virtual machine: we’re reportedly more stable and more
+ performant than OpenBSD. MirBSD is not cut off from modern development
+ and occasionally takes a questionable but justified choice (such as
+ using 16-bit Unicode internally) or a weird-looking but beneficial
+ one (such as OPTU encoding saving us locale(1) hassles) or even acts
+ as technological pioneer (64-bit <tt>time_t</tt> on ILP32 platforms)
+ or, at least, is faster than OpenBSD (newer GNU toolchain, things
+ like that), but usually more conservatively, and yes, this is by
+ design, not by lack of manpower, most of the time.</p>
+<p>The MirPorts Framework, while technically superiour in enough
+ places, is something that just cannot happen without manpower.
+ I (tg@) am still using it exclusively, continuing to update ports
+ I use and occasionally creating new ones (mupdf is in the works!),
+ but it’s not something I’d recommend someone (other than an Mac OSX
+ user) to use on a nōn-MirBSD system (Interix is not exactly thriving
+ either, and the Interix support was only begun; other OSes are not
+ widely tested).</p>
+<p><a href="@@RELPATH@@mksh.htm">The MirBSD Korn Shell</a> is probably
+ the one thing I will be remembered for. But I have absolutely no idea
+ how one would present it on a booth at such an exhibition. A talk is
+ much more likely. So no on that front too.</p>
+<p><a href="@@RELPATH@@jupp.htm">jupp, the editor which sucks less</a>,
+ is probably something that does deserve mainstream interest (especially
+ considering Natureshadow is using it while teaching computing to kids)
+ but probably more in a workshop setting. And booth space is precious
+ enough in the FH so I think that’d be unfair.</p>
+<p>All the other subprojects and side projects Benny and I have, such
+ as <a href="https://freewrt.org/projects/mirmince/">mirₘᵢₙcⒺ</a>,
+ josef stalin, FreeWRT, Lunix Ewe, Shellsnippets, the fonts, etc. are
+ interesting but share few, if any, common ground. Again, this does not
+ match the vast majority of visitors. While we probably should push a
+ number of these more, but a booth isn’t “it” here, either.</p>
+<p>MirOS Linux (“MirLinux”) and MirOS Windows are, despite otherwise-saying
+ rumours called W*k*p*d*a, only premature ideas that will not really be
+ worked on (though MirLinux concepts are found in mirₘᵢₙcⒺ and stalin).</p>
+<p>As you can see, despite all developers having full-time dayjobs,
+ The MirOS Project is far from being obsolete. We hope that our website
+ visitors understand our reasons to not have an exhibition booth of our
+ own (even if the SPARCstation makes for a way cool one, it’s too heavy
+ to lift all the time), and would like to point out that there are several
+ other booths (commercial ones, as well as OSS ones such as AllBSD, Debian
+ and (talking to) others) and other itineries we participate in. This year
+ both Benny and I have been roped into helping out the conference itself,
+ too (not exactly unvoluntarily though).</p>
+<p>The best way to talk to us is <a href="@@RELPATH@@irc.htm">IRC</a>
+ during regular European “geek” hours (i.e. until way too late into the
+ night – which Americans should benefit from), semi-synchronously, or <a
+ href="@@RELPATH@@rss.htm#lists">mailing lists</a>. We sort of expect you
+ to not be afraid to <a href="@@RELPATH@@man.htm">RTFM</a> and <a
+ href="@@RELPATH@@wtf.htm">look up acronyms</a> you don’t understand;
+ The MirOS Project is not unfriendly but definitely not suited for your
+ proverbial Aunt Tilly, newbies, “desktop” users, and people who aren’t
+ at least somewhat capable of using written English (this is by design).</p>
 ----

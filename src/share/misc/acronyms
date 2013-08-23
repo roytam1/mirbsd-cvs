@@ -641,6 +641,8 @@ BW	[ccTLD] Botswana
 BW	[Kfz:D] Dienstfahrzeuge der Bundes-Wasser- und -schifffahrtsverwaltung
 BW	[Kfz] Botswana (nicht offiziell)
 BWC	because we can
+BWL	Betriebswirtschaftslehre
+BWL	Bitte was Leichtes!
 BWL	[Kfz:D] Baden-Württemberg, Landesregierung und Landtag
 BWM	block-write mode
 BX	base register
@@ -4041,6 +4043,7 @@ SA	structured analysis
 SA	[ccTLD] Saudi-Arabien
 SA	[Kfz] Saargebiet (veraltet)
 SA	[Kfz] Saarland (veraltet)
+SAAS	shit as a service
 SAAS	software as a service
 SAB	[Kfz:D] Landkreis Saarburg
 SACD	super audio compact disc
@@ -5062,6 +5065,8 @@ VVG	Verbesserungsvorschlag
 VVV	veni, vidi, vici
 VVV	veni, vidi, vodka (Ich kam, sah und soff.)
 VVV	Voilà, Vivement Vendredi
+VW	Volkswagen
+VWL	Volkswirtschaftslehre
 W	wahr (boolean 1)
 W	Watt
 W	[Kfz:D] kreisfreie Stadt Wuppertal
