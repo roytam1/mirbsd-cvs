@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/scripts/genhtman.sh,v 1.18 2013/03/29 18:46:11 tg Exp $
+# $MirOS: src/scripts/genhtman.sh,v 1.19 2013/03/29 19:10:56 tg Exp $
 #-
 # Copyright © 2005, 2007, 2011, 2012, 2013
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -54,6 +54,7 @@ else
 	done
 	mkdir $hm/texinfo
 	cd $BSDSRCDIR
+	nrcon -mdoc bin/mksh/lksh.1 >$hm/man/cat1/lksh.0
 	make do-htinfopapers
 	cp $BSDOBJDIR/share/doc/legal/LICENCE-BSD.0 $hm/man/cat7/BSD-Licence.0
 
