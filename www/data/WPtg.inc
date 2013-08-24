@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.46 2013/08/22 19:14:19 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.47 2013/08/23 23:37:52 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2483,5 +2483,31 @@ ID: 473
 Date: 23.08.2013
 Waypoint: GC4G1CG
 Title: Bunker Beuel
+----
+ID: 474
+Date: 24.08.2013
+Waypoint: GC49258
+Title: Bernd's Birthday 1
+----
+ID: 475
+Date: 24.08.2013
+Waypoint: GC4926M
+Title: Bernd's Birthday 4
+----
+ID: 476
+Date: 24.08.2013
+Waypoint: GC49275
+Title: Bernd's Birthday 5
+Tag: recommended
+----
+ID: 477
+Date: 24.08.2013
+Waypoint: GC4926Y
+Title: Bernd's Birthday 6
+----
+ID: 478
+Date: 24.08.2013
+Waypoint: GC49289
+Title: Bernd's Birthday BONUS
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
