@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.47 2013/08/23 23:37:52 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.48 2013/08/24 21:52:19 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2510,4 +2510,10 @@ Date: 24.08.2013
 Waypoint: GC49289
 Title: Bernd's Birthday BONUS
 ----
+ID: 479
+Date: 25.08.2013
+Waypoint: GC49Q9E
+Title: Völker und Kulturen
+----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
+# ^K/ mksh WP2dat

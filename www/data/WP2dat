@@ -1,0 +1,32 @@
+#!/bin/mksh
+# $MirOS$
+#-
+# Pipe 'GC12345 Title of the cache' through this.
+
+: ${username=$(id -un)}
+if [[ ! -s WP$username.inc ]]; then
+	print -ru2 "E: Set username, 'WP$username.inc' not found."
+	exit 1
+fi
+
+: ${datum=$(date +%d.%m.%Y)}
+
+. ../mk/common
+
+num=$(sed -n '/^ID: /s///p' WPtg.inc | tail -1)
+if (( !num )); then
+	print -ru2 "E: Number '$num' in 'WP$username.inc' invalid."
+	exit 1
+fi
+
+while IFS= read -r line; do
+	wpcode=${line%% *}
+	title=${line#* }
+	print ID: $((++num))
+	print Date: $datum
+	print -r -- "Waypoint: $wpcode"
+	print -r -- "Title: $(xhtml_escape "$title")"
+	print -- ----
+done
+
+exit 0
