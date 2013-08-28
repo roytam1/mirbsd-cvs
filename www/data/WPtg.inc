@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.48 2013/08/24 21:52:19 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.49 2013/08/25 18:02:06 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2514,6 +2514,51 @@ ID: 479
 Date: 25.08.2013
 Waypoint: GC49Q9E
 Title: Völker und Kulturen
+----
+ID: 480
+Date: 26.08.2013
+Waypoint: GC4BNWY
+Title: Noch echte Dinos und das mitten in Oberkassel
+----
+ID: 481
+Date: 27.08.2013
+Waypoint: GC4G955
+Title: Die Heiligen der letzten Tage
+----
+ID: 482
+Date: 28.08.2013
+Waypoint: GC1E8G7
+Title: Unkelbacher Brücke
+----
+ID: 483
+Date: 28.08.2013
+Waypoint: GC4KY21
+Title: Bandorfer Schutzbrücke
+----
+ID: 484
+Date: 28.08.2013
+Waypoint: GC33F6V
+Title: Lost in Oedingen - GPS Gerät auf Abwegen
+----
+ID: 485
+Date: 28.08.2013
+Waypoint: GC1V5CW
+Title: Willkommen in... Oedingen
+----
+ID: 486
+Date: 28.08.2013
+Waypoint: GC29GT4
+Title: Aschermittwochs Cache
+----
+ID: 487
+Date: 28.08.2013
+Waypoint: GC4F9E3
+Title: Micro im Dorf 1998
+----
+ID: 488
+Date: 29.08.2013
+Waypoint: GC35BNJ
+Title: Wachtberger Kreuze # 19
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ mksh WP2dat
