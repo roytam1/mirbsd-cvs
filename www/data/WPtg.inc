@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.49 2013/08/25 18:02:06 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.50 2013/08/28 22:47:03 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2559,6 +2559,18 @@ ID: 488
 Date: 29.08.2013
 Waypoint: GC35BNJ
 Title: Wachtberger Kreuze # 19
+----
+ID: 489
+Date: 29.08.2013
+Waypoint: GC4HNY8
+Title: Dűrschhaltevɑmȫjen / Stamina
+Tag: D1 T1 Event
+----
+ID: 490
+Date: 29.08.2013
+Waypoint: GC32HCK
+Title: Gotteshäuser: Sankt Severin in Mehlem
+Tag: D4 T35 Micro Mystery recommended
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ mksh WP2dat
