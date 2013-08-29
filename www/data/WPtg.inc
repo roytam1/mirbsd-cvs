@@ -2565,12 +2565,16 @@ Date: 29.08.2013
 Waypoint: GC4HNY8
 Title: Dűrschhaltevɑmȫjen / Stamina
 Tag: D1 T1 Event
+nTF: 0
 ----
 ID: 490
 Date: 29.08.2013
 Waypoint: GC32HCK
 Title: Gotteshäuser: Sankt Severin in Mehlem
 Tag: D4 T35 Micro Mystery recommended
+
+Geradezu faszinierend und ein würdiger Nachfolger für
+meinen [#46] OC58A9 „Gotteshäuser: Mehlem Kirche St. Severin“!
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ mksh WP2dat
