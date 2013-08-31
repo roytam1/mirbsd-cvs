@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.50 2013/08/28 22:47:03 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.52 2013/08/29 20:04:58 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2575,6 +2575,32 @@ Tag: D4 T35 Micro Mystery recommended
 
 Geradezu faszinierend und ein würdiger Nachfolger für
 meinen [#46] OC58A9 „Gotteshäuser: Mehlem Kirche St. Severin“!
+----
+ID: 491
+Date: 30.08.2013
+Waypoint: GC4H00C
+Title: Willkommen auf dem Heiderhof 1998
+Tag: D15 T2 Micro Tradi
+----
+ID: 492
+Date: 30.08.2013
+Waypoint: GC4H317
+Title: Fuderbach/Heiderhof
+Tag: D25 T15 Micro Tradi
+----
+ID: 493
+Date: 31.08.2013
+Waypoint: GC3WEZW
+Title: Der Nachtfalke
+Tag: D15 T15 Micro Tradi
+----
+ID: 494
+Date: 20.08.2013
+Waypoint: GC4G32E
+Title: Nano statt Müll
+Tag: D1 T15 Nano Tradi
+
+Naja, bald sind die Sommerferien zum Glück zuende…
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ mksh WP2dat
