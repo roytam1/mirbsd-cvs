@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.52 2013/08/29 20:04:58 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.53 2013/08/31 18:06:05 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2601,6 +2601,30 @@ Title: Nano statt Müll
 Tag: D1 T15 Nano Tradi
 
 Naja, bald sind die Sommerferien zum Glück zuende…
+----
+ID: 495
+Date: 31.08.2013
+Waypoint: GC4H12G
+Title: ist nicht schwer ?! reloaded
+Tag: D2 T1 Small Mystery
+----
+ID: 496
+Date: 31.08.2013
+Waypoint: GC1Z5AT
+Title: Alles in ...
+Tag: D3 T1 Micro Tradi
+----
+ID: 497
+Date: 31.08.2013
+Waypoint: GC3F6KK
+Title: Welche Richtung ?
+Tag: D2 T1 Micro Tradi
+----
+ID: 498
+Date: 01.09.2013
+Waypoint: GC17RCY
+Title: Bonner Meilenstein
+Tag: D25 T1 Micro Mystery
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ mksh WP2dat
