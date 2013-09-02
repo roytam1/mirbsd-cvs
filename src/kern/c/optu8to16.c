@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2008, 2009
+ * Copyright (c) 2008, 2009, 2013
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -22,7 +22,7 @@
 
 #include <libckern.h>
 
-__RCSID("$MirOS: src/kern/c/optu8to16.c,v 1.2 2008/08/02 00:10:01 tg Exp $");
+__RCSID("$MirOS: src/kern/c/optu8to16.c,v 1.3 2009/07/03 18:19:06 tg Exp $");
 
 size_t
 optu8to16(wchar_t * restrict pwc, const char * restrict src, size_t n,
@@ -30,7 +30,8 @@ optu8to16(wchar_t * restrict pwc, const char * restrict src, size_t n,
 {
 	static mbstate_t istate = { 0, 0 };
 	const unsigned char *s = (const unsigned char *)src;
-	wint_t c, wc;
+	wint_t wc;
+	unsigned int c;
 	uint8_t count;
 
 	if (__predict_false(ps == NULL))
@@ -91,10 +92,10 @@ optu8to16(wchar_t * restrict pwc, const char * restrict src, size_t n,
 		 * reserved OPTU encoding range (XXX shouldnt EINVAL mbrtowc),
 		 * or value larger than WCHAR_MAX (U+FFFD = EF BF BD)
 		 */
-		if (__predict_false((((c = *s++) & 0xC0) != 0x80) ||
-		    (count == 2 && wc == 0 && c < 0xA0) ||
-		    (count == 2 && wc == 0xE000 && c > 0xBD) ||
-		    (count == 1 && wc == 0xFFC0 && c > 0xBD))) {
+		if (__predict_false(((c = *s++ ^ 0x80) > 0x3F) ||
+		    (count == 2 && wc == 0 && c < 0x20) ||
+		    (count == 2 && wc == 0xE000 && c > 0x3D) ||
+		    (count == 1 && wc == 0xFFC0 && c > 0x3D))) {
 			/* reject current octet, dismiss former octet */
 			s--;
  dismiss:
@@ -111,7 +112,7 @@ optu8to16(wchar_t * restrict pwc, const char * restrict src, size_t n,
 			}
 			break;
 		}
-		wc |= (c & 0x3F) << (6 * --count);
+		wc |= c << (6 * --count);
 	}
 	ps->count = count;
 	if (pwc != NULL)
