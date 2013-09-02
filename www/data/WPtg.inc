@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.53 2013/08/31 18:06:05 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.54 2013/09/01 01:53:12 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2625,6 +2625,21 @@ Date: 01.09.2013
 Waypoint: GC17RCY
 Title: Bonner Meilenstein
 Tag: D25 T1 Micro Mystery
+----
+ID: 499
+Date: 02.09.2013
+Waypoint: GC36WWX
+Title: Die Unvollendete - L471
+Tag: D15 T2 Small Tradi
+----
+ID: 500
+Date: 02.09.2013
+Waypoint: GC36WQQ
+Title: NRW 53 Challenge #Bonn
+Tag: D2 T25 Small Mystery
+
+T2½ ist etwas gewagt, wenn #499 nur T2 ist, aber… okay.
+Ist jedenfalls nicht T4, auch wenn man’s gefrustet meint.
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ mksh WP2dat
