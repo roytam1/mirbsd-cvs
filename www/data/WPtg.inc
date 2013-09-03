@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.54 2013/09/01 01:53:12 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.55 2013/09/02 17:41:28 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2640,6 +2640,12 @@ Tag: D2 T25 Small Mystery
 
 T2½ ist etwas gewagt, wenn #499 nur T2 ist, aber… okay.
 Ist jedenfalls nicht T4, auch wenn man’s gefrustet meint.
+----
+ID: 501
+Date: 03.09.2013
+Waypoint: GC2HX8V
+Title: Spassaufgabe 100 Zellen
+Tag: D25 T2 Micro Mystery
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ mksh WP2dat
