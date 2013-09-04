@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.55 2013/09/02 17:41:28 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.56 2013/09/03 18:52:52 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2646,6 +2646,16 @@ Date: 03.09.2013
 Waypoint: GC2HX8V
 Title: Spassaufgabe 100 Zellen
 Tag: D25 T2 Micro Mystery
+----
+ID: 502
+Date: 04.09.2013
+Waypoint: GC44B4Q
+Title: Geo-Schach in Unkelbach
+Tag: D2 T2 Small Mystery recommended
+
+Der Outdoorteil ist nicht zu unterschätzen und hat m.E. schon
+eher D2½ T2½ verdient. Nicht nachts machen. Beim Rätsel auch
+mal beim Rechnen nicht zu kompliziert denken.
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ mksh WP2dat
