@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.12 2013/06/23 16:17:09 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.14 2013/08/06 16:47:45 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -62,6 +62,10 @@ while (( entryp < entries )); do
 	if [[ ${e_id[ent]} != [1-9]*([0-9]) ]]; then
 		# This also catches duplicates due to parser using '-g$guid'
 		print -ru2 "Non-numeric ID '${e_id[ent]}' for '${e_title[ent]}'"
+		exit 1
+	fi
+	if [[ " ${e_tag[ent]} " = *' d t '* ]]; then
+		print -ru2 "Fix the tag template in #${e_id[ent]} '${e_title[ent]}'"
 		exit 1
 	fi
 	fwp[${e_id[ent]}]=$ent

@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS$
+# $MirOS: www/data/WP2dat,v 1.1 2013/08/25 18:02:06 tg Exp $
 #-
 # Pipe 'GC12345 Title of the cache' through this.
 
@@ -26,6 +26,7 @@ while IFS= read -r line; do
 	print Date: $datum
 	print -r -- "Waypoint: $wpcode"
 	print -r -- "Title: $(xhtml_escape "$title")"
+	print -r -- "Tag: D T "
 	print -- ----
 done
 
