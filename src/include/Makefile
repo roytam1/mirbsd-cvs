@@ -1,4 +1,4 @@
-# $MirOS: src/include/Makefile,v 1.26 2010/10/08 20:39:14 tg Exp $
+# $MirOS: src/include/Makefile,v 1.27 2011/11/20 18:54:42 tg Exp $
 # $OpenBSD: Makefile,v 1.135 2005/07/10 06:53:44 grange Exp $
 # $NetBSD: Makefile,v 1.59 1996/05/15 21:36:43 jtc Exp $
 # @(#)Makefile	5.45.1.1 (Berkeley) 5/6/91
@@ -19,12 +19,12 @@ FILES=	a.out.h adler32.h ar.h assert.h bitstring.h blf.h bm.h bsd_auth.h \
 	olf_abi.h paths.h poll.h pwd.h ranlib.h re_comp.h \
 	readpassphrase.h regex.h resolv.h rmd160.h search.h setjmp.h \
 	sfv.h sgtty.h sha1.h sha2.h signal.h skipjack.h stab.h stdbool.h \
-	stddef.h stdint.h stdio.h stdlib.h string.h strings.h struct.h \
+	stdint.h stdio.h stdlib.h string.h strings.h struct.h \
 	suma.h sysexits.h tar.h tiger.h time.h ttyent.h tzfile.h unistd.h \
 	utf.h utime.h utmp.h vis.h wchar.h wctype.h whirlpool.h
 
 MFILES=	float.h frame.h
-LFILES=	errno.h fcntl.h syslog.h termios.h stdarg.h varargs.h
+LFILES=	errno.h fcntl.h stddef.h syslog.h termios.h stdarg.h varargs.h
 KFILES=	md5.h
 
 DIRS=	arpa protocols rpc
