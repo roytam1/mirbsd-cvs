@@ -1,8 +1,8 @@
-# $MirOS: src/distrib/common/dot.profile,v 1.59 2011/02/18 23:06:02 tg Exp $
+# $MirOS: src/distrib/common/dot.profile,v 1.60 2011/02/19 13:10:23 tg Exp $
 # $OpenBSD: dot.profile,v 1.4 2002/09/13 21:38:47 deraadt Exp $
 # $NetBSD: dot.profile,v 1.1 1995/12/18 22:54:43 pk Exp $
 #
-# Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010
+# Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2013
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 # Copyright (c) 1995 Jason R. Thorpe
 # Copyright (c) 1994 Christopher G. Demetriou
@@ -150,9 +150,9 @@ This work is provided "AS IS" and WITHOUT WARRANTY of any kind.\n'
 	fi
 
 	# don't run this twice
-	print -n >/.profile.done
+	:>/.profile.done
 
-	# reset arandom(4) – in a subshell for arc4_stir_pid
+	# reset arandom(4)
 	typeset -i1 x=RANDOM; print -n "${x#1#}" >/dev/arandom
 
 	# try to spawn a second shell
@@ -181,7 +181,8 @@ print -n '\nAvailable editor: ed'
 [ -x /usr/bin/vi ] && print -n ' (n)vi'
 [ -x /usr/bin/e3 ] && print -n ' e3*'
 [ -s /ed.hlp ] && print -n ' - help with # less /ed.hlp'
-print '\nNetwork interfaces (e.g. for dhclient $if):' $(ifconfig -l)
+print '\nNetwork interfaces (e.g. for dhclient $if;passwd root;sshd):' \
+    $(ifconfig -l)
 [ -x /usr/bin/tinyirc ] && print 'Chat client: tinyirc'
 print
 _vbox_check && echo Sorry, WirrtualBox is not supported.
