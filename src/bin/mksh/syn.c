@@ -976,7 +976,7 @@ static Test_op
 dbtestp_isa(Test_env *te, Test_meta meta)
 {
 	int c = tpeek(ARRAYVAR | (meta == TM_BINOP ? 0 : CONTIN));
-	int uqword;
+	bool uqword;
 	char *save = NULL;
 	Test_op ret = TO_NONOP;
 

@@ -1669,7 +1669,7 @@ static Test_op
 dbteste_isa(Test_env *te, Test_meta meta)
 {
 	Test_op ret = TO_NONOP;
-	int uqword;
+	bool uqword;
 	const char *p;
 
 	if (!*te->pos.wp)
