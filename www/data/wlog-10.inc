@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.433 2013/07/18 21:57:03 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.434 2013/08/23 23:37:52 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8185,7 +8185,7 @@ Tag: debian event grml news
  aka mksh(1), <a href="@@RELPATH@@jupp.htm">jupp</a> the editor,
  and developers’ private projects such as slowly undermining Debian
  or Google-Go. While slow we are still working on World Domination.
- And <a href="https://evolvis.org/projects/shellsnippets/">teaching
+ And <a href="https://freewrt.org/projects/shellsnippets/">teaching
  people good shell programming</a> by example code.</p>
 <p>We might even bring CDs, but I’m still working on the ISO… last
  night’s build aborted because the OS grew a bit making the floppy
@@ -8802,7 +8802,7 @@ Tag: debian mksh news pcli release
  are working on WinAPI and DJGPP in their spare time, and Cygwin and
  Debian packagers have deprecated pdksh in favour of mksh (thanks!).
  So, everything looking well on that front.</p>
-<p>I’ve started <a href="https://evolvis.org/projects/shellsnippets/">a
+<p>I’ve started <a href="https://freewrt.org/projects/shellsnippets/">a
  collection of shell snippets</a> some time ago, where most of “those
  small things” of mine ends up. Even stuff I write at work – we’re an
  Open Source company and can generally publish under (currently) AGPLv3
@@ -9025,7 +9025,7 @@ Tag: debian mksh news pcli tip
  title="MirBSD WTF acronym database">acronym database</a>
  has been accessible by <a href="@@RELPATH@@cvs.cgi">CVSweb</a>,
  what we never had was a DAU compatible (and <a
- href="https://evolvis.org/projects/shellsnippets/">shellsnippets</a>
+ href="https://freewrt.org/projects/shellsnippets/">shellsnippets</a>
  compatible) lookup. This has now changed: the above link to
  the acronyms file is a persistent link to its latest version
  (well, latest when the website was last recompiled), tooltips
@@ -9230,7 +9230,7 @@ Tag: debian tip work
  legacy vhosts to the new configuration, as everything worked on lenny.</p>
 <p>This wlog entry brought to you by the system administrators of <a
  href="https://www.tarent.de/">tarent solutions GmbH</a> and the <a
- href="https://evolvis.org/projects/shellsnippets/">Evolvis Project</a>,
+ href="https://freewrt.org/projects/shellsnippets/">Evolvis Project</a>,
  based on <a href="https://fusionforge.org/">FusionForge</a>.</p>
 <hr />
 <p><strong>Update</strong> 17.05.2013 – Absolutely <strong>do not

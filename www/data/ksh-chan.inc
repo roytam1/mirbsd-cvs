@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.18 2013/06/01 00:23:59 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.19 2013/08/12 18:38:28 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -239,7 +239,7 @@ Link: http://plnews.org/category/Languages__Shell/
 Generic shell-related newsfeed.
 ----
 Title: Shell-Toolkit (shellsnippets)
-Link: https://evolvis.org/projects/shellsnippets/
+Link: https://freewrt.org/projects/shellsnippets/
 
 Loose collection of fragments of shell scripts and programmes of random
 usefulness, which may or may not work. The intent is to have a collection
