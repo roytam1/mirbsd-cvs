@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.57 2013/02/16 17:27:28 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.58 2013/03/18 16:55:37 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010, 2011, 2012, 2013
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -20,7 +20,7 @@ rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.57 2013/02/16 17:27:28 tg E
 # of said person's immediate fault when using the work as intended.
 
 set -A normarchs -- i386
-repo_keyid=0x405422DD
+repo_keyid=0xAA917C6F
 # either '' (locally) or 'remsign user@host.domain.com' (remote ssh)
 gpg_remote=
 repo_origin='The MirOS Project'
@@ -448,7 +448,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.57 2013/02/16 17:27:28 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.58 2013/03/18 16:55:37 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
