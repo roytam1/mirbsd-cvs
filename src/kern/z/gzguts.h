@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /* gzguts.h -- zlib internal header definitions for gz* operations
  * Copyright (C) 2004, 2005, 2010, 2011, 2012, 2013 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
@@ -18,14 +20,24 @@
 #  define ZLIB_INTERNAL
 #endif
 
+#if defined(_STANDALONE)
+#  include <stand.h>
+#elif defined(_KERNEL)
+#  include <sys/systm.h>
+#else
 #include <stdio.h>
+#endif
 #include "zlib.h"
+#if defined(_STANDALONE) || defined(_KERNEL)
+#  define NO_STRERROR
+#else
 #ifdef STDC
 #  include <string.h>
 #  include <stdlib.h>
 #  include <limits.h>
 #endif
 #include <fcntl.h>
+#endif
 
 #ifdef _WIN32
 #  include <stddef.h>
