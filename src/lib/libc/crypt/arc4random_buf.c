@@ -26,7 +26,7 @@
 #include "arc4random.h"
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_buf.c,v 1.1 2010/09/12 17:10:53 tg Exp $");
 
 void
 arc4random_buf(void *buf_, size_t len)
@@ -45,6 +45,7 @@ arc4random_buf(void *buf_, size_t len)
 		arc4random_stir_locked(mypid);
 
 	/* randomly skip 1-4 bytes */
+	/*XXX this should be constant-time */
 	buf[0] = arcfour_byte(&a4state.cipher) & 3;
 	while (buf[0]--)
 		(void)arcfour_byte(&a4state.cipher);
