@@ -1,4 +1,4 @@
-# $MirOS: X11/depends/freetype2/Makefile,v 1.10 2013/08/06 20:16:12 tg Exp $
+# $MirOS: X11/depends/freetype2/Makefile,v 1.11 2013/09/10 19:39:29 tg Exp $
 
 .include "../Makefile.inc"
 .include <bsd.own.mk>
@@ -37,6 +37,8 @@ CPPFLAGS+=		-DTT_CONFIG_OPTION_BYTECODE_INTERPRETER
 
 LIB=			freetype
 NOMAN=			Yes
+LDADD+=			-lz
+DPADD+=			${LIBZ}
 
   SRCS+=		ftsystem.c
   SRCS+=		ftinit.c
