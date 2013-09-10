@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.30 2011/10/18 20:35:35 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.31 2012/10/19 20:39:03 tg Exp $ */
 
 /*-
  * Copyright (c) 2008, 2010, 2011
@@ -118,6 +118,9 @@ void bzero(void *, size_t)
     __attribute__((__bounded__ (__buffer__, 1, 2)));
 void explicit_bzero(void *, size_t)
     __attribute__((__bounded__ (__buffer__, 1, 2)));
+int timingsafe_bcmp(const void *, const void *, size_t)
+    __attribute__((__bounded__ (__buffer__, 1, 3)))
+    __attribute__((__bounded__ (__buffer__, 2, 3)));
 
 int ffs(int);
 
