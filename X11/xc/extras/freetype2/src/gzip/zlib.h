@@ -1,3 +1,4 @@
+#error wrong file included
 /* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.1.4, March 11th, 2002
 
