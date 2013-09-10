@@ -1,4 +1,6 @@
-# $MirOS: X11/depends/freetype2/Makefile,v 1.11 2013/09/10 19:39:29 tg Exp $
+# $MirOS: X11/depends/freetype2/Makefile,v 1.12 2013/09/10 19:44:36 tg Exp $
+#-
+# Note: also change X11/xc/lib/font/FreeType/module/Imakefile,v
 
 .include "../Makefile.inc"
 .include <bsd.own.mk>
