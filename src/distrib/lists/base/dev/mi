@@ -1241,6 +1241,7 @@
 ./usr/include/sys/stat.h
 ./usr/include/sys/statvfs.h
 ./usr/include/sys/stdarg.h
+./usr/include/sys/stddef.h
 ./usr/include/sys/swap.h
 ./usr/include/sys/syscall.h
 ./usr/include/sys/syscallargs.h
