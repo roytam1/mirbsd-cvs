@@ -3559,6 +3559,7 @@
 ./usr/libdata/pkgconfig
 ./usr/libdata/pkgconfig/libpng.pc
 ./usr/libdata/pkgconfig/openssl.pc
+./usr/libdata/pkgconfig/zlib.pc
 ./usr/libexec/httpd/include/ap.h
 ./usr/libexec/httpd/include/ap_alloc.h
 ./usr/libexec/httpd/include/ap_compat.h

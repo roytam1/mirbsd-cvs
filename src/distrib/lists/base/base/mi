@@ -486,7 +486,7 @@
 ./usr/lib/libpanel.so.6.0
 ./usr/lib/libpanelw.so.6.0
 ./usr/lib/libpcap.so.6.0
-./usr/lib/libpng.so.9.1
+./usr/lib/libpng.so.10.0
 ./usr/lib/libpthread.so.11.0
 ./usr/lib/libsectok.so.9.0
 ./usr/lib/libskey.so.8.0
@@ -495,7 +495,7 @@
 ./usr/lib/libtermlib.so.14.1
 ./usr/lib/libusbhid.so.6.0
 ./usr/lib/libutil.so.14.1
-./usr/lib/libz.so.5.3
+./usr/lib/libz.so.5.4
 ./usr/libdata
 ./usr/libdata/lint
 ./usr/libdata/lint/llib-lposix.ln

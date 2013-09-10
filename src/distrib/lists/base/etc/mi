@@ -119,13 +119,11 @@
 ./etc/ssl/certs/0b1be85c.0
 ./etc/ssl/certs/0b6b59f9.0
 ./etc/ssl/certs/0d188d89.0
-./etc/ssl/certs/0deac317.0
 ./etc/ssl/certs/0e82f83a.0
 ./etc/ssl/certs/0ef90221.0
 ./etc/ssl/certs/0fae25b0.0
 ./etc/ssl/certs/10531352.0
 ./etc/ssl/certs/111e6273.0
-./etc/ssl/certs/1149214e.0
 ./etc/ssl/certs/1155c94b.0
 ./etc/ssl/certs/119afc2e.0
 ./etc/ssl/certs/11a09b38.0
@@ -145,7 +143,6 @@
 ./etc/ssl/certs/1920cacb.0
 ./etc/ssl/certs/197e0cd1.0
 ./etc/ssl/certs/1a436542.0
-./etc/ssl/certs/1bb6c7e0.0
 ./etc/ssl/certs/1c08bb9c.0
 ./etc/ssl/certs/1d1c32fa.0
 ./etc/ssl/certs/1d657651.0
@@ -165,7 +162,6 @@
 ./etc/ssl/certs/23e106a5.0
 ./etc/ssl/certs/23f4c490.0
 ./etc/ssl/certs/25923467.0
-./etc/ssl/certs/25f0cbee.0
 ./etc/ssl/certs/26911d72.0
 ./etc/ssl/certs/27747a11.0
 ./etc/ssl/certs/27af790d.0
@@ -205,7 +201,6 @@
 ./etc/ssl/certs/48478734.0
 ./etc/ssl/certs/48a195d8.0
 ./etc/ssl/certs/48a195d8.1
-./etc/ssl/certs/48d70003.0
 ./etc/ssl/certs/4cca360b.0
 ./etc/ssl/certs/4d654d1d.0
 ./etc/ssl/certs/4d70f561.0
@@ -231,6 +226,7 @@
 ./etc/ssl/certs/59cadd8a.0
 ./etc/ssl/certs/5a3f0ff8.0
 ./etc/ssl/certs/5a5372fc.0
+./etc/ssl/certs/5ae90b58.0
 ./etc/ssl/certs/5b61fb15.0
 ./etc/ssl/certs/5cc38bb7.0
 ./etc/ssl/certs/5cf9d536.0
@@ -247,7 +243,6 @@
 ./etc/ssl/certs/63a2c897.0
 ./etc/ssl/certs/64b735cd.0
 ./etc/ssl/certs/64d5199c.0
-./etc/ssl/certs/6536328f.0
 ./etc/ssl/certs/66eb5c17.0
 ./etc/ssl/certs/67495436.0
 ./etc/ssl/certs/67f38e98.0
@@ -411,7 +406,6 @@
 ./etc/ssl/certs/d777342d.0
 ./etc/ssl/certs/d78a75c7.0
 ./etc/ssl/certs/d8274e24.0
-./etc/ssl/certs/db65db21.0
 ./etc/ssl/certs/dbc54cab.0
 ./etc/ssl/certs/dcc12642.0
 ./etc/ssl/certs/dccb118a.0
@@ -467,6 +461,7 @@
 ./etc/ssl/openssl.cnf
 ./etc/ssl/x509v3.cnf
 ./etc/sudoers
+./etc/suid_profile
 ./etc/sysctl.conf
 ./etc/syslog.conf
 ./etc/systrace/usr_sbin_lpd
