@@ -1,4 +1,4 @@
-# $MirOS: X11/depends/freetype2/Makefile,v 1.9 2013/08/06 19:07:53 tg Exp $
+# $MirOS: X11/depends/freetype2/Makefile,v 1.10 2013/08/06 20:16:12 tg Exp $
 
 .include "../Makefile.inc"
 .include <bsd.own.mk>
@@ -21,6 +21,7 @@ FT2_DIR=		${.CURDIR}/../../xc/extras/freetype2
 CPPFLAGS+=		-I${FT2_DIR}/include
 CPPFLAGS+=		-DFT2_BUILD_LIBRARY
 CPPFLAGS+=		-DMBSD_BUILD
+CPPFLAGS+=		-DFT_CONFIG_OPTION_SYSTEM_ZLIB
 
 .PATH:			${FT2_DIR}/builds/unix
 
