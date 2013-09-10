@@ -48,8 +48,9 @@ More information at http://www.lifewithdjbdns.org/ as well as in the
 tinydns-data(8) manual page and on ${HOMEPAGE}
 
 About namespaces (you have chosen ${FLAVOURS}):
-icann => http://www.icann.org/
-eorsn => http://www.orsn.org/
+icann	=> http://www.icann.org/
+eorsn	=> http://www.orsn.org/
+opennic	=> http://www.opennicproject.org/
 
 ⇒ Users and Groups: please use _dnscache _dnslog _tinydns
 
