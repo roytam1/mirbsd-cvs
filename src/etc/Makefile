@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.47 2009/10/29 00:47:45 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.48 2011/01/15 21:52:37 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -12,7 +12,7 @@ BINOWN=	root
 BIN1=	anacron ccd.conf changelist cronrun csh.login daily dhclient.conf \
 	dhcpd.conf dhcpd.interfaces etc.${MACHINE}/disktab exports \
 	ftpchroot ftpusers gettytab group hosts hosts.lpd \
-	locate.rc login.conf \
+	locate.rc login.conf suid_profile \
 	mailer.conf man.conf moduli monthly motd mrouted.conf \
 	myname netstart networks newsyslog.conf ntpd.conf \
 	pf.os phones printcap profile protocols rbootd.conf \
@@ -231,7 +231,7 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.47 2009/10/29 00:47:45 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.48 2011/01/15 21:52:37 tg Exp $$'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \

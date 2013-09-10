@@ -1,0 +1,7 @@
+# $MirOS$
+#-
+# Stopgap measure until this is fixed in mksh(1) proper.
+# Too cautious.
+
+print '\033[7m WARNING \033[0;1;31m suid mksh called! \033[0m'
+set +p
