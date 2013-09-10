@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stddef.h,v 1.6 2008/11/09 23:26:11 tg Exp $ */
+/**	$MirOS: src/include/stddef.h,v 1.7 2009/10/14 18:43:26 tg Exp $ */
 /*	$OpenBSD: stddef.h,v 1.8 2005/05/11 18:44:12 espie Exp $	*/
 /*	$NetBSD: stddef.h,v 1.4 1994/10/26 00:56:26 cgd Exp $	*/
 
@@ -31,6 +31,11 @@
  * SUCH DAMAGE.
  *
  *	@(#)stddef.h	5.5 (Berkeley) 4/3/91
+ */
+
+/*
+ * This file must be safe to use from kernel
+ * and standalone code even if in userspace!
  */
 
 #ifndef _STDDEF_H_
