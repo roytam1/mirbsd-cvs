@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.45 2009/02/02 22:31:20 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.46 2009/03/29 13:04:12 tg Exp $
 #-
-# Copyright (c) 2006, 2007, 2008
+# Copyright (c) 2006, 2007, 2008, 2013
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -78,7 +78,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.45 2009/02/02 22:31:20 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.46 2009/03/29 13:04:12 tg Exp $
 	.
 	/cprng.*pr16/d
 	i
@@ -114,6 +114,8 @@ ed -s etc/rc <<-'EOMD'
 	.
 	/dmesg.boot/i
 
+		# try to get some entropy from any attached Simtec EntropyKey
+		[[ -x /usr/libexec/ekeyrng ]] && /usr/libexec/ekeyrng
 		# try to get some entropy from the network
 		(ulimit -T 60; exec /usr/bin/ftp -mvo /dev/urandom \
 		    https://call.mirbsd.org/rn.cgi?live"<$(uname -a | sed '
