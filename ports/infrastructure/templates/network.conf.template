@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.24 2012/09/02 11:17:48 tg Exp $
+# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.25 2013/08/06 19:20:31 tg Exp $
 # $OpenBSD: network.conf.template,v 1.107 2007/01/18 11:21:15 steven Exp $
 
 #
@@ -44,13 +44,13 @@ MASTER_SITE_BACKUP=	${_MASTER_SITE_FREEBSD}
 .elif defined(MASTER_SITE_NETBSD)
 MASTER_SITE_BACKUP=	${_MASTER_SITE_NETBSD}
 .elif defined(MASTER_SITE_MIRBSD)
-MASTER_SITE_BACKUP=	${_MASTER_SITE_MIRBSD}
+MASTER_SITE_BACKUP=	${_MASTER_SITE_MIRBSD:=${DIST_SUBDIR}/}
 .endif
 
 # default backup master site
 MASTER_SITE_BACKUP?=	\
 	${_MASTER_SITE_OPENBSD} \
-	${_MASTER_SITE_MIRBSD} \
+	${_MASTER_SITE_MIRBSD:=${DIST_SUBDIR}/} \
 	${_MASTER_SITE_FREEBSD}
 
 # Uncomment to retrieve from the MASTER_SITE_BACKUP first
@@ -119,14 +119,11 @@ MASTER_SITE_SUNSITE+=	\
 MASTER_SITE_SOURCEFORGE+=	\
 	http://netcologne.dl.sourceforge.net/sourceforge/ \
 	http://puzzle.dl.sourceforge.net/sourceforge/ \
-	http://optusnet.dl.sourceforge.net/sourceforge/ \
 	http://heanet.dl.sourceforge.net/sourceforge/ \
 	http://jaist.dl.sourceforge.net/sourceforge/ \
 	http://nchc.dl.sourceforge.net/sourceforge/ \
 	http://switch.dl.sourceforge.net/sourceforge/ \
 	http://kent.dl.sourceforge.net/sourceforge/ \
-	http://internap.dl.sourceforge.net/sourceforge/ \
-	http://mesh.dl.sourceforge.net/sourceforge/ \
 	http://ovh.dl.sourceforge.net/sourceforge/ \
 	http://surfnet.dl.sourceforge.net/sourceforge/ \
 	http://ufpr.dl.sourceforge.net/sourceforge/ \
