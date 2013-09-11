@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.26 2009/11/15 12:39:34 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.27 2011/02/19 02:35:34 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
@@ -491,6 +491,12 @@ chmod 711 /mnt/home/$_rootuser
 chown -R $_rootuid:$_rootuid /mnt/home/$_rootuser
 /mnt/usr/sbin/pwd_mkdb -pd /mnt/etc master.passwd
 
+if test -e /allow-vbox; then
+	echo WARNING! Allowing booting into the installed system with
+	echo WirrtualBox, which is not supported, buggy and often broken!
+	echo Continue doing so at your own risk and do not expect any support!
+	:>/mnt/etc/allow-vbox
+fi
 cat >/mnt/etc/rc.once <<-'EOF'
 	export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin
 	cd /

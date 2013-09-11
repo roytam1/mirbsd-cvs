@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/rc,v 1.115 2011/02/18 23:06:06 tg Exp $
+# $MirOS: src/etc/rc,v 1.116 2011/02/19 01:08:33 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -184,7 +184,9 @@ fi
 dmesg | while IFS= read -r line; do
 	[[ $line = ?d[0-9]*@('<VBOX'[, >])* ]] || continue
 	echo Sorry, WirrtualBox is not supported.
-	exit 1
+	echo To continue on your own risk: touch /etc/allow-vbox
+	echo But remember that vbox is buggy and often broken!
+	test -e /etc/allow-vbox || exit 1
 done
 
 # Gather some system-local entropy rather early, if possible (/usr = /)
