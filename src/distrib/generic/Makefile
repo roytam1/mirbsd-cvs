@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/generic/Makefile,v 1.7 2008/06/13 18:26:55 tg Exp $
+# $MirOS: src/distrib/generic/Makefile,v 1.8 2012/09/02 12:41:49 tg Exp $
 
 .include <bsd.own.mk>
 CFLAGS+=	${CDIAGFLAGS} ${COPTS}
@@ -33,12 +33,17 @@ install-root:
 	elif [[ ! -e /bsd.old ]]; then \
 		echo Back up your old kernel to /bsd.old!; \
 		exit 1; \
-	else \
-		set -x; \
-		install -c -o root -g daemon -m 400 bsd /; \
-		install -c -o root -g wheel -m 644 \
-		    build/${RAMDISK}/kvm_bsd.db /var/db/kvm_bsd.new; \
+	elif [[ -e /bsd.gz ]]; then \
+		echo Need /bsd.gz for scratch space!; \
+		exit 1; \
 	fi
+	install -c -o root -g daemon -m 400 bsd /bsd.gz
+	gzip -d /bsd
+	config -ef /bsd <<<'quit'
+	gzip -n9 /bsd
+	mv /bsd.gz /bsd
+	install -c -o root -g wheel -m 644 \
+	    build/${RAMDISK}/kvm_bsd.db /var/db/kvm_bsd.new
 
 install-unstripped:
 	@if [[ -e /bsd ]]; then \
@@ -48,11 +53,14 @@ install-unstripped:
 		echo Back up your old kernel to /bsd.old!; \
 		exit 1; \
 	fi
-	config -ef build/${RAMDISK}/bsd.unstripped <<<'quit'
 	install -c -o root -g daemon -m 400 \
 	    build/${RAMDISK}/bsd.unstripped /bsd
+	config -ef /bsd <<<'quit'
 	install -c -o root -g wheel -m 644 \
 	    build/${RAMDISK}/kvm_bsd.db /var/db/kvm_bsd.new
+
+personalise:
+	config -ef build/${RAMDISK}/bsd.unstripped <<<'quit'
 
 cleandir: clean
 
