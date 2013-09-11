@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/tiff/Makefile,v 1.16 2008/03/09 17:22:55 tg Exp $
+# $MirOS: ports/graphics/tiff/Makefile,v 1.18 2009/08/16 17:25:50 tg Exp $
 # $OpenBSD: Makefile,v 1.29 2004/05/18 23:35:35 brad Exp $
 
 COMMENT=		library routines for working with TIFF images
@@ -24,7 +24,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-PSEUDO_FLAVOURS=		no_cxx
+PSEUDO_FLAVOURS=	no_cxx
 FLAVOUR?=
 
 CONFIGURE_STYLE=	autoconf
