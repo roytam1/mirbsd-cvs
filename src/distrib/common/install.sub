@@ -188,12 +188,6 @@ scan_dmesg() {
 	bsort $(sed -ne "$1" /var/run/dmesg.boot)
 }
 
-get_ifdevs() {
-	ifconfig -a \
-	    | egrep -v '^[[:space:]]|(bridge|enc|gif|gre|irip|lo|pflog|pfsync|ppp|sl|tun|vlan)[[:digit:]]+:' \
-	    | sed -ne 's/^\(.*\):.*/\1/p'
-}
-
 # Get the first (lowest unit #) serial device if any, if MDSERIAL is set.
 # NOTE: Only single digit serial devices (<dev>0 -> <dev>9) are looked for.
 get_serialdev() {
@@ -552,7 +546,7 @@ __EOT
 }
 
 configure_ifs() {
-	typeset _IFDEVS=$IFDEVS _ifs _name _media _hn
+	typeset _IFDEVS=$(ifconfig -l) _ifs _name _media _hn
 
 	while :; do
 		ask_which "interface" "do you wish to initialise" "$_IFDEVS" \
@@ -1742,7 +1736,6 @@ done
 DKDEVS=$(scan_dmesg "${MDDKDEVS:-/^r*a*[swi]d[0-9][0-9]* /s/ .*//p}")
 CDDEVS=$(scan_dmesg "${MDCDDEVS:-/^cd[0-9][0-9]* /s/ .*//p}")
 MTDEVS=$(scan_dmesg "${MDMTDEVS:-/^[cmsw]t[0-9][0-9]* /s/ .*//p}")
-IFDEVS=$(get_ifdevs)
 SERIALDEV=$(get_serialdev)
 
 # Selected sets will be installed in the order they are listed in $THESETS.
