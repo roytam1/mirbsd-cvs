@@ -1,6 +1,6 @@
-# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.20 2010/07/11 11:56:03 tg Exp $
+# $MirOS: src/distrib/baselive/rc.netselect.common,v 1.21 2010/07/11 17:35:08 tg Exp $
 #-
-# Copyright (c) 2006, 2007, 2008, 2010
+# Copyright (c) 2006, 2007, 2008, 2010, 2013
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -108,21 +108,8 @@ function set_hostname {
 	print 127.0.0.1 livecd livecd.$rndpfx.invalid.mirbsd.org >>/etc/hosts
 }
 
-function get_net_ifnames {
-	typeset foo
-	typeset -i i
-
-	set -A foo -- $(ifconfig -l)
-	i=${#foo[*]}
-	while (( i-- > 0 )); do
-		[[ ${foo[i]} = @(lo|bridge|enc|gif|gre|tun|vlan|irip|pflog|pfsync|plip|sl)+([0-9]) ]] && \
-		    unset foo[i]
-	done
-	print ${foo[*]}
-}
-
 function ask_netconfig {
-	set -A all_ifnames -- $(get_net_ifnames)
+	set -A all_ifnames -- $(ifconfig -l)
 	default_ifname=${all_ifnames[0]}
 	if [[ -z $default_ifname ]]; then
 		print
