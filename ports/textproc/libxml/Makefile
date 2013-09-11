@@ -1,17 +1,14 @@
-# 2.7.6 -> 2.7.7
-BROKEN=			needs MFC to work with -current libz
-
-# $MirOS: ports/textproc/libxml/Makefile,v 1.20 2010/11/19 17:15:12 bsiegert Exp $
+# $MirOS: ports/textproc/libxml/Makefile,v 1.21 2013/08/06 20:58:57 tg Exp $
 # $OpenBSD: Makefile,v 1.76 2004/04/21 04:42:26 robert Exp $
 
 COMMENT=		XML parsing library
 MODPY_EGG_VERSION=	2.6.32
-DASH_VER=		1
+DASH_VER=		2
 DISTNAME=		libxml2-${MODPY_EGG_VERSION}
 PKGNAME=		libxml-${MODPY_EGG_VERSION}-${DASH_VER}
 CATEGORIES=		textproc
 MASTER_SITES=		ftp://xmlsoft.org/libxml2/old/ \
-			${HOMEPAGE}sources/ \
+			${HOMEPAGE}sources/old/ \
 			${MASTER_SITE_GNOME:=sources/libxml2/2.6/}
 HOMEPAGE=		http://xmlsoft.org/
 
@@ -39,6 +36,10 @@ CONFIGURE_ARGS+=	--without-threads
 CONFIGURE_ARGS+=	--with-python=${LOCALBASE}/bin/python${MODPY_VERSION}
 
 CPPFLAGS+=		-DMIRPORTS_LOCALBASE=\"${LOCALBASE:Q}\"
+
+post-extract:
+	# WTF?!
+	rm -f ${WRKSRC:Q}/win32/Makefile.msvc.*
 
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX:Q}/share/examples
