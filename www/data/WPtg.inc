@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.57 2013/09/04 20:20:16 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.58 2013/09/05 20:19:55 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2662,6 +2662,30 @@ Date: 05.09.2013
 Waypoint: GC3FP98
 Title: TB Bunker BONN Duisdorf
 Tag: D2 T2 Large Tradi recommended
+----
+ID: 504
+Date: 12.09.2013
+Waypoint: GC4FE20
+Title: geHÖRT das so?!
+Tag: D3 T15 Micro Tradi
+----
+ID: 505
+Date: 12.09.2013
+Waypoint: GC4EEAT
+Title: An der Kuhweide 1998
+Tag: D2 T15 Micro Tradi
+----
+ID: 506
+Date: 13.09.2013
+Waypoint: GC40K27
+Title: Bonner PETlinge #2
+Tag: D1 T15 Micro Tradi
+----
+ID: 507
+Date: 14.09.2013
+Waypoint: GC2YAPG
+Title: Wachtberger Kreuze # 3
+Tag: D2 T1 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ mksh WP2dat
