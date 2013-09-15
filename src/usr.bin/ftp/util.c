@@ -96,7 +96,7 @@
 #include "ftp_var.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/util.c,v 1.4 2006/10/03 19:22:18 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/util.c,v 1.5 2007/07/15 20:01:09 tg Exp $");
 
 static void updateprogressmeter(int);
 
@@ -229,11 +229,13 @@ setpeer(int argc, char *argv[])
 				unix_proxy = 0;
 			else
 				unix_server = 0;
+#ifndef SMALL
 			if (overbose &&
 			    !strncmp(reply_string, "215 TOPS20", 10))
 				fputs(
 "Remember to set tenex mode when transferring binary files from this machine.\n",
 				    ttyout);
+#endif /* !SMALL */
 		}
 		verbose = overbose;
 #endif /* unix || BSD */

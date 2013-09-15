@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.62 2012/09/02 22:14:45 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.63 2013/01/01 17:31:06 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -149,7 +149,9 @@ ${IMAGE}: ${CBIN}
 	    ${SUDO} ${SHELL} ${TOPDIR}/common/runlist.sh ${LISTS}
 	${SUDO} rm ${WRKDIR}/${CBIN}
 	${SUDO} makefs -s ${IMAGESIZE}b -o ${IMAGEOPTS} ${IMAGE} ${WRKDIR}
+.ifndef IMAGE_NO_ARND
 	${SUDO} dd if=/dev/arandom bs=128 count=1 of=$@ conv=notrunc
+.endif
 	sync
 	${SUDO} mkdir -p ${TMPMOUNT}
 	${SUDO} vnconfig -v -c ${VND} ${IMAGE}

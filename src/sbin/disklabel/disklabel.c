@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/disklabel/disklabel.c,v 1.7 2010/08/14 19:43:56 tg Exp $ */
+/**	$MirOS: src/sbin/disklabel/disklabel.c,v 1.8 2010/08/14 20:53:06 tg Exp $ */
 /*	$OpenBSD: disklabel.c,v 1.95 2005/04/30 07:09:37 deraadt Exp $	*/
 
 /*
@@ -61,7 +61,7 @@
 
 __COPYRIGHT("@(#) Copyright (c) 1987, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
-__RCSID("$MirOS: src/sbin/disklabel/disklabel.c,v 1.7 2010/08/14 19:43:56 tg Exp $");
+__RCSID("$MirOS: src/sbin/disklabel/disklabel.c,v 1.8 2010/08/14 20:53:06 tg Exp $");
 
 /*
  * Disklabel: read and write disklabels.
@@ -388,10 +388,12 @@ writelabel(int f, char *boot, struct disklabel *lp)
 
 	if (nwflag) {
 		warnx("DANGER! The disklabel was not found at the correct location!");
+#ifndef SMALL
 		warnx("To repair this situation, use 'disklabel %s > file' to",
 		    dkname);
 		warnx("save it, then use 'disklabel -R %s file' to replace it.",
 		    dkname);
+#endif /* !SMALL */
 		warnx("A new disklabel is not being installed now.");
 		return(0); /* Actually 1 but we want to exit */
 	}
@@ -1156,6 +1158,7 @@ edit(struct disklabel *lp, int f)
 		return (1);
 	}
 	display(fp, lp, NULL, 0, 0, 0);
+#ifndef SMALL
 	fprintf(fp, "\n# Notes:\n");
 	fprintf(fp,
 "# Up to 16 partitions are valid, named from 'a' to 'p'.  Partition 'a' is\n"
@@ -1164,6 +1167,7 @@ edit(struct disklabel *lp, int f)
 "# in 512-byte blocks. fstype should be '4.2BSD', 'swap', or 'none' or some\n"
 "# other values.  fsize/bsize/cpg should typically be '2048 16384 16' for a\n"
 "# 4.2BSD filesystem (or '512 4096 16' except on alpha, sun4, ...)\n");
+#endif /* !SMALL */
 	fclose(fp);
 	for (;;) {
 		if (!editit())

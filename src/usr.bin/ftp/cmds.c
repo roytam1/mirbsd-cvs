@@ -80,7 +80,7 @@
 #include "ftp_var.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/cmds.c,v 1.4 2006/10/03 19:22:16 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/cmds.c,v 1.5 2007/07/15 20:01:07 tg Exp $");
 
 jmp_buf	jabort;
 char   *mname;
@@ -95,8 +95,10 @@ struct	types {
 	{ "ascii",	"A",	TYPE_A,	0 },
 	{ "binary",	"I",	TYPE_I,	0 },
 	{ "image",	"I",	TYPE_I,	0 },
+#ifndef SMALL
 	{ "ebcdic",	"E",	TYPE_E,	0 },
 	{ "tenex",	"L",	TYPE_L,	bytename },
+#endif /* !SMALL */
 	{ NULL }
 };
 
@@ -169,9 +171,11 @@ changetype(int newtype, int show)
 		warnx("internal error: unknown type %d.", newtype);
 		return;
 	}
+#ifndef SMALL
 	if (newtype == TYPE_L && bytename[0] != '\0')
 		comret = command("TYPE %s %s", p->t_mode, bytename);
 	else
+#endif /* !SMALL */
 		comret = command("TYPE %s", p->t_mode);
 	if (comret == COMPLETE)
 		curtype = newtype;
@@ -208,6 +212,7 @@ setascii(int argc, char *argv[])
 	settype(2, stype);
 }
 
+#ifndef SMALL
 /*
  * Set tenex transfer type.
  */
@@ -219,6 +224,7 @@ settenex(int argc, char *argv[])
 	stype[1] = "tenex";
 	settype(2, stype);
 }
+#endif /* !SMALL */
 
 /*
  * Set file transfer mode.
@@ -625,6 +631,7 @@ onoff(int bool)
 	return (bool ? "on" : "off");
 }
 
+#ifndef SMALL
 /*
  * Show status.
  */
@@ -690,6 +697,7 @@ status(int argc, char *argv[])
 	}
 	code = 0;
 }
+#endif /* !SMALL */
 
 /*
  * Toggle a variable

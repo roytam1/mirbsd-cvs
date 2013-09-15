@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/ramtools/init/Makefile,v 1.2 2006/05/26 18:50:30 tg Exp $
+# $MirOS: src/distrib/special/init/Makefile,v 1.4 2006/08/17 20:13:28 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -8,5 +8,9 @@ PROG=		init
 CPPFLAGS+=	-DDEFAULT_STATE=single_user
 DPADD+=		${LIBUTIL}
 LDADD+=		-lutil
+
+.if ${MACHINE_ARCH} == "sparc"
+CPPFLAGS+=	-DNORNDSHUF
+.endif
 
 .include <bsd.prog.mk>

@@ -33,7 +33,7 @@
 #include <stdio.h>
 #include "ftp_var.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/cmdtab.c,v 1.4 2005/11/23 17:36:14 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/cmdtab.c,v 1.5 2006/10/03 19:22:16 tg Exp $");
 
 /*
  * User FTP -- Command Tables.
@@ -206,11 +206,15 @@ struct cmd cmdtab[] = {
 	{ "sendport",	H(porthelp),	0, 0, 0, CMPL0		setport },
 	{ "site",	H(sitehelp),	0, 1, 1, CMPL0		site },
 	{ "size",	H(sizecmdhelp),	1, 1, 1, CMPL(r)	sizecmd },
+#ifndef SMALL
 	{ "status",	H(statushelp),	0, 0, 1, CMPL0		status },
+#endif /* !SMALL */
 	{ "struct",	H(structhelp),	0, 1, 1, CMPL0		setstruct },
 	{ "sunique",	H(suniquehelp),	0, 0, 1, CMPL0		setsunique },
 	{ "system",	H(systemhelp),	0, 1, 1, CMPL0		syst },
+#ifndef SMALL
 	{ "tenex",	H(tenexhelp),	0, 1, 1, CMPL0		settenex },
+#endif /* !SMALL */
 	{ "trace",	H(tracehelp),	0, 0, 0, CMPL0		settrace },
 	{ "type",	H(typehelp),	0, 1, 1, CMPL0		settype },
 	{ "umask",	H(umaskhelp),	0, 1, 1, CMPL0		do_umask },

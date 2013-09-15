@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/disklabel/editor.c,v 1.4 2006/02/02 01:12:15 tg Exp $ */
+/**	$MirOS: src/sbin/disklabel/editor.c,v 1.5 2006/09/22 15:44:31 tg Exp $ */
 /*	$OpenBSD: editor.c,v 1.99 2005/01/07 21:58:14 otto Exp $	*/
 
 /*
@@ -43,7 +43,7 @@
 #include "extern.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/sbin/disklabel/editor.c,v 1.4 2006/02/02 01:12:15 tg Exp $");
+__RCSID("$MirOS: src/sbin/disklabel/editor.c,v 1.5 2006/09/22 15:44:31 tg Exp $");
 
 /* flags for getuint() */
 #define	DO_CONVERSIONS	0x00000001
@@ -1692,6 +1692,7 @@ editor_help(char *arg)
 
 	/* XXX - put these strings in a table instead? */
 	switch (*arg) {
+#ifndef SMALL
 	case 'p':
 		puts(
 "The 'p' command prints the current disk label.  By default, it prints the\n"
@@ -1825,7 +1826,9 @@ editor_help(char *arg)
 "The 'z' command zeroes out the existing disklabel, leaving only the 'c'\n"
 "slice.  The drive parameters are not changed.\n");
 		break;
+#endif /* !SMALL */
 	default:
+#ifndef SMALL
 		puts(
 "Numeric parameters may use suffixes to indicate units:\n\t"
 "'b' for bytes, 'c' for cylinders, 'k' for kibibytes, 'm' for mebibytes,\n\t"
@@ -1833,6 +1836,7 @@ editor_help(char *arg)
 "'%' for percent of total disk size, '&' for percent of free space.\n\t"
 "Non-sector units will be rounded to the nearest cylinder.\n"
 "Entering '?' at most prompts will give you (simple) context sensitive help.");
+#endif /* !SMALL */
 		puts("Available commands:");
 		puts("\t? [cmnd]  - this message or command specific help.");
 		puts("\ta [part]  - add new slice.");

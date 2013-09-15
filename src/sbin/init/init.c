@@ -37,7 +37,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1991, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)init.c	8.2 (Berkeley) 4/28/95");
-__RCSID("$MirOS: src/sbin/init/init.c,v 1.5 2011/02/19 12:02:53 tg Exp $");
+__RCSID("$MirOS: src/sbin/init/init.c,v 1.6 2011/02/19 14:41:38 tg Exp $");
 
 #include <sys/sysctl.h>
 #include <sys/ioctl.h>
@@ -634,7 +634,9 @@ single_user(void)
 		}
 	} while (wpid != pid && !requested_transition);
 
+#ifndef NORNDSHUF
 	arc4random_stir();
+#endif
 
 	if (requested_transition)
 		return (state_func_t) requested_transition;
@@ -724,7 +726,9 @@ runcom(void)
 		}
 	} while (wpid != pid);
 
+#ifndef NORNDSHUF
 	arc4random_stir();
+#endif
 
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGTERM &&
 	    requested_transition == catatonia) {
@@ -1269,10 +1273,13 @@ clean_ttys(void)
 state_func_t
 catatonia(void)
 {
+#ifndef NORNDSHUF
 	int arnd_fd;
-	session_t *sp;
 	char rnd_buf[16];
+#endif
+	session_t *sp;
 
+#ifndef NORNDSHUF
 	arnd_fd = open(_PATH_ARANDOMDEV, O_RDWR);
 	if (arnd_fd != -1) {
 		/* also shove some of our state into the kernel */
@@ -1286,6 +1293,7 @@ catatonia(void)
 		ioctl(arnd_fd, RNDSTIRARC4);
 		close(arnd_fd);
 	}
+#endif
 
 	for (sp = sessions; sp; sp = sp->se_next)
 		sp->se_flags |= SE_SHUTDOWN;
@@ -1309,11 +1317,15 @@ state_func_t
 nice_death(void)
 {
 	session_t *sp;
-	int i, rnd_fd, arnd_fd;
+	int i;
+#ifndef NORNDSHUF
+	int rnd_fd, arnd_fd;
+#endif
 	pid_t pid;
 	static const int death_sigs[3] = { SIGHUP, SIGTERM, SIGKILL };
 	int howto = RB_HALT;
 	int status, needwrites = 4;
+#ifndef NORNDSHUF
 	char rnd_buf[512];
 
 	arnd_fd = open(_PATH_ARANDOMDEV, O_RDWR);
@@ -1323,6 +1335,7 @@ nice_death(void)
 		/* trigger a reset of arandom(4), arc4random(9) */
 		write(arnd_fd, rnd_buf, 16);
 	}
+#endif
 
 	for (sp = sessions; sp; sp = sp->se_next) {
 		sp->se_flags &= ~SE_PRESENT;
@@ -1368,9 +1381,11 @@ nice_death(void)
 		}
 	}
 
+#ifndef NORNDSHUF
 	arc4random_stir();
 
 	rnd_fd = open(_PATH_HOSTRANDOM, O_WRONLY | O_APPEND | O_SYNC);
+#endif
 
 	for (i = 0; i < 3; ++i) {
 		warning("Sending SIG%s to all processes...",
@@ -1387,6 +1402,7 @@ nice_death(void)
 		} while (clang == 0 && errno != ECHILD);
 		status = errno;
 
+#ifndef NORNDSHUF
 		if (arnd_fd != -1)
 			/* reset lopool, arandom */
 			ioctl(arnd_fd, RNDSTIRARC4);
@@ -1398,6 +1414,7 @@ nice_death(void)
 			write(rnd_fd, rnd_buf, sizeof(rnd_buf));
 			--needwrites;
 		}
+#endif
 
 		if (status == ECHILD)
 			goto die;
@@ -1406,6 +1423,7 @@ nice_death(void)
 	warning("some processes would not die; ps axl advised");
 
  die:
+#ifndef NORNDSHUF
 	if (arnd_fd != -1) {
 		ioctl(arnd_fd, RNDSTIRARC4);
 		close(arnd_fd);
@@ -1418,6 +1436,7 @@ nice_death(void)
 		}
 		close(rnd_fd);
 	}
+#endif
 	reboot(howto);
 
 	/* ... and if that fails.. oh well */
