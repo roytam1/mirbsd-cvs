@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/special/init/Makefile,v 1.4 2006/08/17 20:13:28 tg Exp $
+# $MirOS: src/distrib/special/init/Makefile,v 1.5 2013/09/15 11:01:26 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -6,11 +6,8 @@ SRC_PATH=	${BSDSRCDIR}/sbin/init
 
 PROG=		init
 CPPFLAGS+=	-DDEFAULT_STATE=single_user
+CPPFLAGS+=	-DNORNDSHUF
 DPADD+=		${LIBUTIL}
 LDADD+=		-lutil
-
-.if ${MACHINE_ARCH} == "sparc"
-CPPFLAGS+=	-DNORNDSHUF
-.endif
 
 .include <bsd.prog.mk>

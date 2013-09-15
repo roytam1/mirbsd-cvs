@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.i386,v 1.13 2011/08/18 14:50:34 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386,v 1.14 2011/08/18 14:56:27 tg Exp $
 
 IMAGESIZE=	2880
 IMAGETYPE=	floppy3
@@ -18,3 +18,6 @@ FLOPPY_BOOTCFG=	cp ${BOOT_TAR} ${WRKDIR}/boot
 
 CDROM=		no
 INST_FILES=	${FLOPPY}
+
+# desperately needed (to make the floppy fit) ☹
+#IMAGE_NO_ARND=	defined
