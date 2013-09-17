@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.58 2013/09/05 20:19:55 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.59 2013/09/14 18:15:10 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2686,6 +2686,30 @@ Date: 14.09.2013
 Waypoint: GC2YAPG
 Title: Wachtberger Kreuze # 3
 Tag: D2 T1 Micro Tradi
+----
+ID: 508
+Date: 15.09.2013
+Waypoint: GC2TXYD
+Title: Witterschlicker Grillplatz
+Tag: D15 T2 Micro Tradi
+----
+ID: 509
+Date: 16.09.2013
+Waypoint: GC492MZ
+Title: Planetenrunde-JUPITER
+Tag: D15 T15 Small Tradi
+----
+ID: 510
+Date: 17.09.2013
+Waypoint: GC3YA55
+Title: Königreich Ückesdorf 4
+Tag: D1 T2 Micro Tradi
+----
+ID: 511
+Date: 17.09.2013
+Waypoint: GC1N76E
+Title: Gotteshäuser: St. Hubertus (Ückesdorf)
+Tag: D1 T1 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ mksh WP2dat
