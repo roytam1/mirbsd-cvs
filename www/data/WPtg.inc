@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.59 2013/09/14 18:15:10 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.60 2013/09/17 17:26:40 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2710,6 +2710,12 @@ Date: 17.09.2013
 Waypoint: GC1N76E
 Title: Gotteshäuser: St. Hubertus (Ückesdorf)
 Tag: D1 T1 Micro Tradi
+----
+ID: 512
+Date: 18.09.2013
+Waypoint: GC43K9N
+Title: Geo-Matt in Niederbachem
+Tag: D2 T15 Small Mystery recommended
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ mksh WP2dat

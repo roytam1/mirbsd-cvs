@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.151 2013/02/15 22:10:13 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.152 2013/06/22 23:25:56 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -2034,4 +2034,27 @@ Tag: mksh
  usable), by request of our packagers, new mksh(1) releases will be
  announced on our <a href="@@RELPATH@@rss.htm">miros-mksh@ mailing
  list</a> starting now.</p>
+----
+Date: 18.09.2013
+Author: tg@
+Title: Rolling is the new buzzword
+Tag: snapshot
+
+<p>The MirOS Project is proud to announce that the <a
+ href="@@ABSPATH@@/MirOS/current/">NetInstall area</a> contains
+ a fresh snapshot of MirBSD-current for the i386 and sparc
+ architectures. In due time, a hand-crafted Live ISO image,
+ with some packages configured and grml-mir added, will be
+ published here, so watch this space ;-)</p>
+<p>As someone in <a href="@@RELPATH@@irc.htm">IRC</a> already
+ mentioned, MirBSD is currently published on a “rolling release”
+ schedule (although we’ll eventually release MirBSD #11… some
+ day). The snapshots are intended mainly for people to use when
+ installing, or trying out MirBSD, but also as an upgrade aid
+ (so recompiling afterwards (to be even more up to date) is
+ very easy) and a baseline for binary packages (although there
+ have been few (though MuPDF is a recent noteworthy addition)
+ MirPorts packages lately, and I somehow doubt bsiegert@ wants
+ me to gift one of my SPARCstation boxen to him for building
+ pkgsrc® quarterlies).</p>
 ----
