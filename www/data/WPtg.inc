@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.60 2013/09/17 17:26:40 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.61 2013/09/18 20:26:34 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2716,6 +2716,48 @@ Date: 18.09.2013
 Waypoint: GC43K9N
 Title: Geo-Matt in Niederbachem
 Tag: D2 T15 Small Mystery recommended
+----
+ID: 513
+Date: 19.09.2013
+Waypoint: GC4305G
+Title: Möge die Straße ...
+Tag: D1 T1 Micro Tradi
+----
+ID: 514
+Date: 20.09.2013
+Waypoint: GC173FT
+Title: Zechers Zuflucht
+Tag: D1 T25 Micro Tradi
+----
+ID: 515
+Date: 20.09.2013
+Waypoint: GC34CJ9
+Title: Rhöndorf grüsst seine Gäste
+Tag: D1 T1 Small Tradi
+----
+ID: 516
+Date: 21.09.2013
+Waypoint: GC33VKZ
+Title: Die Schlaufe
+Tag: D1 T1 Micro Tradi
+----
+ID: 517
+Date: 21.09.2013
+Waypoint: GC2E4D1
+Title: Kreuz an der Mühle
+Tag: D2 T15 Small Tradi
+----
+ID: 518
+Date: 22.09.2013
+Waypoint: GC3429W
+Title: Wachtberger Kreuze # 14
+Tag: D1 T2 Micro Tradi
+----
+ID: 519
+Date: 22.09.2013
+Waypoint: GC37RYR
+Title: Rettungswache Wachtberg 2 1 mt
+Tag: D2 T1 Micro Tradi recommended
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ mksh WP2dat
