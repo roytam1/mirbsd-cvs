@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.527 2013/08/14 21:06:43 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.528 2013/08/17 21:06:55 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1212,13 +1212,18 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
-<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
--->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+ <li>[tg] <tt>dot.mkshrc</tt>: fix two issues with the <tt>cd</tt> wrapper</li>
+ <li>[tg] Unbreak <tt>set +p</tt> (wider issue still to be addressed)</li>
+ <li>[Steffen Daode Nurpmeso] Use WCONTINUED with waitpid(2)</li>
+ <li>[millert] Add proper suspend builtin handling tty(4) and setpgrp(2)</li>
+ <li>[tg] Sanitise and slightly optimise control character handling</li>
+ <li>[tg] (not yet: test_opin(b_ops_xsi, …))</li>
+</ul>
 <p id="r48b">R48b is a minor bugfix update:</p><ul>
  <li>[tg] Fix display issue with multi-line prompts and SIGWINCH</li>
 </ul>
