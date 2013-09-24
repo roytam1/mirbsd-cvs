@@ -1,4 +1,4 @@
-/*	$OpenBSD: eval.c,v 1.39 2013/07/01 17:25:27 jca Exp $	*/
+/*	$OpenBSD: eval.c,v 1.40 2013/09/14 20:09:30 millert Exp $	*/
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
@@ -23,7 +23,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/eval.c,v 1.140 2013/07/21 18:36:00 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/eval.c,v 1.142 2013/07/24 18:03:57 tg Exp $");
 
 /*
  * string expansion
