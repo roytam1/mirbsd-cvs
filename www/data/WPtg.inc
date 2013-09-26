@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.61 2013/09/18 20:26:34 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.62 2013/09/22 23:50:21 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2758,6 +2758,18 @@ Date: 22.09.2013
 Waypoint: GC37RYR
 Title: Rettungswache Wachtberg 2 1 mt
 Tag: D2 T1 Micro Tradi recommended
+----
+ID: 520
+Date: 26.09.2013
+Waypoint: GC4918H
+Title: Schwarzrheindorf
+Tag: D1 T1 Micro Tradi
+----
+ID: 521
+Date: 26.09.2013
+Waypoint: GC45KPR
+Title: Osterkirmes Beuel
+Tag: D15 T15 Small Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ mksh WP2dat
