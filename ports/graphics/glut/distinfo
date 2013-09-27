@@ -1,3 +1,7 @@
-MD5 (glut-3.7.tar.gz) = dc932666e2a1c8a0b148a4c32d111ef3
-RMD160 (glut-3.7.tar.gz) = 22171d7b035858522ef79a00dcc664c858ca86a3
-SHA1 (glut-3.7.tar.gz) = 4d88591992c15547001c30d5b6d840f672720a5a
+$MirOS$
+
+MD5 (freeglut-2.8.0.tar.gz) = 5db8651af306bc403fbfd36934a20e1d
+RMD160 (freeglut-2.8.0.tar.gz) = c406a3a62f60ac876cda855afcb7242824ce99a5
+SHA1 (freeglut-2.8.0.tar.gz) = 4debbe559c6c9841ce1abaddc9d461d17c6083b1
+SIZE (freeglut-2.8.0.tar.gz) = 979459
+TIGER (freeglut-2.8.0.tar.gz) = 85ab78e0b54cca16a4f30af87d6cbdf6f56900e4169b989f

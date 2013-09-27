@@ -1,7 +1,8 @@
-# $MirOS: ports/math/boinc/Makefile,v 1.1 2008/04/06 00:01:43 tg Exp $
+# $MirOS: ports/math/boinc/Makefile,v 1.2 2008/10/18 21:10:00 tg Exp $
 
 COMMENT=		Berkeley Open Infrastructure for Network Computing client
 VERSION=		5.10.45
+DASH_VER=		1
 DISTNAME=		boinc-core-release-${VERSION}
 PKGNAME=		boinc-client-${VERSION}-${DASH_VER}
 CATEGORIES=		math net
@@ -19,11 +20,14 @@ EXTRACT_SUFX=		.mcz
 WRKDIST=		${WRKDIR}/${DISTNAME:S/./_/g:S/-/_/g}
 
 LIB_DEPENDS+=		curl:curl->=7.17.1:net/curl
+LIB_DEPENDS+=		jpeg.62::graphics/jpeg
+LIB_DEPENDS+=		glut::graphics/glut
 
 CONFIGURE_STYLE=	autogen
 AUTOMAKE_VERSION=	1.9
 AUTOCONF_NEW=		Yes
 USE_CXX=		Yes
+USE_X11=		Yes
 CONFIGURE_ENV+=		MYSQL_CONFIG=false
 CONFIGURE_ARGS+=	--disable-server
 CONFIGURE_ARGS+=	--enable-client \
@@ -31,10 +35,11 @@ CONFIGURE_ARGS+=	--enable-client \
 			--enable-static \
 			--with-libcurl=${LOCALBASE:Q} \
 			--with-ssl \
-			--without-x \
+			--with-x \
 			--without-apple-opengl-framework \
 			--with-wxdir=junk \
 			--with-wx-config=false \
+			--enable-unicode \
 			--disable-static-linkage
 
 .if (${OStype} == "Darwin") || (${OStype} == "Interix")
