@@ -1,10 +1,10 @@
-# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.68 2008/10/13 21:08:02 tg Exp $
+# $MirOS: contrib/gnu/libtool/libtool.m4,v 1.69 2008/11/08 22:24:26 tg Exp $
 #-
 # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
 ## Copyright 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006, 2007,
 ## 2008  Free Software Foundation, Inc.
 ## Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
-## MirLibtool patches contributed 2004, 2005, 2006, 2008 by
+## MirLibtool patches contributed 2004, 2005, 2006, 2008, 2013 by
 ## Thorsten Glaser <tg@mirbsd.org> for the MirOS Project
 ##
 ## This file is free software; the Free Software Foundation gives
@@ -3754,9 +3754,10 @@ case $host_os in
     ;;
   mirbsd*)
     if test -f /usr/libexec/ld.so; then
+      _LT_AC_TAGVAR(no_undefined_flag, $1)=' ${wl}--no-undefined'
       _LT_AC_TAGVAR(hardcode_direct, $1)=yes
-      _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags -o $lib'
-      _LT_AC_TAGVAR(archive_expsym_cmds, $1)='$CC -shared $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags ${wl}-retain-symbols-file,$export_symbols -o $lib'
+      _LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared${allow_undefined_flag} $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags -o $lib'
+      _LT_AC_TAGVAR(archive_expsym_cmds, $1)='$CC -shared${allow_undefined_flag} $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags ${wl}-retain-symbols-file,$export_symbols -o $lib'
       _LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-rpath,$libdir'
       _LT_AC_TAGVAR(export_dynamic_flag_spec, $1)='${wl}-E'
       _LT_AC_TAGVAR(whole_archive_flag_spec, $1)="$wlarc"'--whole-archive$convenience '"$wlarc"'--no-whole-archive'
@@ -6081,9 +6082,10 @@ EOF
 
     mirbsd*)
       if test -f /usr/libexec/ld.so; then
+	_LT_AC_TAGVAR(no_undefined_flag, $1)=' ${wl}--no-undefined'
 	_LT_AC_TAGVAR(hardcode_direct, $1)=yes
-	_LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags -o $lib'
-	_LT_AC_TAGVAR(archive_expsym_cmds, $1)='$CC -shared $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags ${wl}-retain-symbols-file,$export_symbols -o $lib'
+	_LT_AC_TAGVAR(archive_cmds, $1)='$CC -shared${allow_undefined_flag} $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags -o $lib'
+	_LT_AC_TAGVAR(archive_expsym_cmds, $1)='$CC -shared${allow_undefined_flag} $pic_flag $predep_objects $libobjs $deplibs $postdep_objects $compiler_flags ${wl}-retain-symbols-file,$export_symbols -o $lib'
 	_LT_AC_TAGVAR(hardcode_libdir_flag_spec, $1)='${wl}-rpath,$libdir'
 	_LT_AC_TAGVAR(export_dynamic_flag_spec, $1)='${wl}-E'
 	_LT_AC_TAGVAR(whole_archive_flag_spec, $1)="$wlarc"'--whole-archive$convenience '"$wlarc"'--no-whole-archive'
