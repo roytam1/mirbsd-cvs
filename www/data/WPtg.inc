@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.62 2013/09/22 23:50:21 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.63 2013/09/26 21:25:12 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2770,6 +2770,12 @@ Date: 26.09.2013
 Waypoint: GC45KPR
 Title: Osterkirmes Beuel
 Tag: D15 T15 Small Tradi
+----
+ID: 522
+Date: 27.09.2013
+Waypoint: GCVZR8
+Title: Gotteshäuser Helenenkapelle
+Tag: D15 T1 Micro Tradi recommended
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ mksh WP2dat
