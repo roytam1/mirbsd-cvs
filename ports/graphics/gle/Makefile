@@ -1,7 +1,7 @@
-# $MirOS: ports/graphics/gle/Makefile,v 1.3 2006/02/09 11:11:46 tg Exp $
+# $MirOS: ports/graphics/gle/Makefile,v 1.4 2006/09/14 00:09:53 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2003/09/22 22:53:37 pvalchev Exp $
 
-COMMENT=			OpenGL Extrusion library
+COMMENT=		OpenGL Extrusion library
 VERSION=		3.0.4
 DISTNAME=		gle-${VERSION}
 CATEGORIES=     	graphics devel

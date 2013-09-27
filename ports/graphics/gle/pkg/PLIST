@@ -1,8 +1,6 @@
-@comment $OpenBSD: PLIST,v 1.2 2002/03/23 14:18:07 lebel Exp $
+@comment $MirOS$
 include/GL/gle.h
-lib/libgle.a
 lib/libgle.la
-%%SHARED%%
 man/man3/gle.3
 man/man3/gleExtrusion.3
 man/man3/gleHelicoid.3
@@ -17,3 +15,4 @@ man/man3/gleSuperExtrusion.3
 man/man3/gleTextureMode.3
 man/man3/gleToroid.3
 man/man3/gleTwistExtrusion.3
+@dirrm include/GL
