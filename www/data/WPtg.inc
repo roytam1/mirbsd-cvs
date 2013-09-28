@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.63 2013/09/26 21:25:12 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.64 2013/09/27 18:26:07 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2776,6 +2776,12 @@ Date: 27.09.2013
 Waypoint: GCVZR8
 Title: Gotteshäuser Helenenkapelle
 Tag: D15 T1 Micro Tradi recommended
+----
+ID: 523
+Date: 28.09.2013
+Waypoint: GC2VMD0
+Title: Annaberger Bach - Mündung in den Rhein
+Tag: D25 T2 Nano Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ mksh WP2dat
