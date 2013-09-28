@@ -6664,7 +6664,6 @@
 ./man8/compat_linux.htm
 ./man8/compat_openbsd.htm
 ./man8/config.htm
-./man8/cprng.htm
 ./man8/crash.htm
 ./man8/cron.htm
 ./man8/cryptoadm.htm

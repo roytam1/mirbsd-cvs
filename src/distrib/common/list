@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/list,v 1.29 2011/02/11 01:18:03 tg Exp $
+# $MirOS: src/distrib/common/list,v 1.30 2011/02/19 02:36:29 tg Exp $
 
 # standard tools in the crunched binary
 COPY	${OBJDIR}/instbin			instbin
@@ -77,5 +77,4 @@ SCRIPT	${TOPDIR}/common/install.sub		install.sub
 SPECIAL	chmod 755 install
 
 # misc stuff
-COPY	${DESTDIR}/usr/libexec/cprng		usr/libexec/cprng
 COPY	${DESTDIR}/usr/mdec/bootxx		usr/mdec/bootxx

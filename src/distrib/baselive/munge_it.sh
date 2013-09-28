@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.46 2009/03/29 13:04:12 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.47 2013/09/11 18:47:18 tg Exp $
 #-
 # Copyright (c) 2006, 2007, 2008, 2013
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -78,9 +78,9 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.46 2009/03/29 13:04:12 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.47 2013/09/11 18:47:18 tg Exp $
 	.
-	/cprng.*pr16/d
+	/early munge point/d
 	i
 		mount -fwo async,noatime /dev/rd0a /dev
 		cat /dev/.rs >/dev/urandom 2>&-
@@ -91,7 +91,6 @@ ed -s etc/rc <<-'EOMD'
 		     ; done; dd if=/var/db/host.random of=/dev/urandom; dmesg; sysctl\
 		     -a; eeprom) 2>&1 | cksum -a cksum -a sha512 -a suma -a tiger -a \
 		     rmd160 -a adler32 -b >/dev/wrandom) &)
-		/usr/libexec/cprng -pr32 >/dev/urandom &
 		(cd /dev; ln -s $(sysctl -n kern.root_device) root; rm -f .rs)
 		print \#\\tMirOS BSD Live-CD/DVD/USB/CF/SD/HDD starting up...
 	.

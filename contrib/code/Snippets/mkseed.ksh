@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/code/Snippets/mkseed.ksh,v 1.4 2008/11/08 18:27:57 tg Exp $
+# $MirOS: contrib/code/Snippets/mkseed.ksh,v 1.5 2010/07/11 11:56:02 tg Exp $
 #-
 # Copyright (c) 2007, 2008, 2010
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -78,7 +78,8 @@ while (( fsiz < dsiz )); do
 			dd if=/dev/prandom count=1 bs=4
 			dd if=/dev/arandom count=1 bs=28
 			dd if=$ifile count=1 bs=36
-			time /usr/libexec/cprng -pr12
+			[[ -x /usr/libexec/cprng ]] && \
+			    time /usr/libexec/cprng -pr12
 			sleep $((RANDOM % 3 + 1))
 		) 2>&1 >$T2 | cksum)
 		RANDOM=${x%% *}
@@ -107,7 +108,8 @@ while (( fsiz < dsiz )); do
 	( (
 		print $RANDOM $SECONDS $fsiz
 		dd if=$ifile bs=$ssiz count=1 >>$T1
-		time /usr/libexec/cprng -pr3 >>$T1
+		[[ -x /usr/libexec/cprng ]] && \
+		    time /usr/libexec/cprng -pr3 >>$T1
 		sleep $((RANDOM % 3 + 1))
 		date +%J+%s
 	) | \

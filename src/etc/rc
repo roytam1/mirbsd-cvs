@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/rc,v 1.116 2011/02/19 01:08:33 tg Exp $
+# $MirOS: src/etc/rc,v 1.117 2013/09/11 18:55:56 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -189,8 +189,7 @@ dmesg | while IFS= read -r line; do
 	test -e /etc/allow-vbox || exit 1
 done
 
-# Gather some system-local entropy rather early, if possible (/usr = /)
-[[ -x /usr/libexec/cprng ]] && /usr/libexec/cprng -pr16 >/dev/urandom &
+# early munge point (for baselive CD)
 
 # Configure ccd devices.
 [[ -f /etc/ccd.conf ]] && ccdconfig -C
@@ -340,10 +339,6 @@ while read -p line; do : consume until mount is finished; done
 # root is now writable
 rm -f /fastboot
 
-# Gather some system-local entropy rather early if allowed and /usr now mounted
-[[ $cprng_flags != NO && -x /usr/libexec/cprng ]] && \
-    /usr/libexec/cprng -pr32 >/dev/urandom &
-
 # enable running applications from /usr for now
 [[ -x /sbin/ldconfig && -d /var/run/. ]] && /sbin/ldconfig
 
@@ -488,10 +483,6 @@ if [[ $isakmpd_flags != NO ]]; then
 fi
 
 echo -n starting initial daemons:
-
-if [[ $cprng_flags != NO ]]; then
-	echo -n ' cprng';		/usr/libexec/cprng $cprng_flags
-fi
 
 if [[ $tpmrng_flags != NO && -x /usr/libexec/tpmrng ]]; then
 	echo -n ' tpmrng';		/usr/libexec/tpmrng $tpmrng_flags

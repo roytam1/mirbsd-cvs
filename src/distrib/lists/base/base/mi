@@ -517,7 +517,6 @@
 ./usr/libexec/auth/login_snk
 ./usr/libexec/auth/login_token
 ./usr/libexec/cpp
-./usr/libexec/cprng
 ./usr/libexec/diff3prog
 ./usr/libexec/fingerd
 ./usr/libexec/ftpd
@@ -2288,7 +2287,6 @@
 ./usr/share/man/cat8/compat_linux.0
 ./usr/share/man/cat8/compat_openbsd.0
 ./usr/share/man/cat8/config.0
-./usr/share/man/cat8/cprng.0
 ./usr/share/man/cat8/crash.0
 ./usr/share/man/cat8/cron.0
 ./usr/share/man/cat8/cryptoadm.0
