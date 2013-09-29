@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.70 2013/06/08 00:58:01 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.71 2013/06/08 16:55:56 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -10,7 +10,7 @@ mws__markindex=
 mws__pagename=
 mws__header=
 mws__rss=
-mws__difftag=MBSD_HTSCONV_GENDATE_TAG_30284
+mws__difftag=MBSD_HTSCONV_GENDATE_TAG_15765
 unset mws__srcfile
 unset mws__abspath
 unset mws__relpath
@@ -136,8 +136,6 @@ function mws_putheader {
 		print -u2 Internal error: mws_basepath not called!
 		exit 1
 	fi
-	[[ -n $mws__headline ]] && mws__headline="$nl<h1>$(mws_makepiclink \
-	    "$mws__headline" "$mws__fontsize" s)</h1>"
 	mws__content_categorised <<-EOF
 		<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
 		 "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
@@ -164,7 +162,8 @@ function mws_putheader {
 		  be simply copied into another work covered by an unfree (or otherwise
 		  mismatching) licence, such as the GNU Free Documentation License.
 		 -->
-		</head><body>$mws__headline
+		</head><body>${mws__headline:+
+		<h1>$(mws_makepiclink "$mws__headline" "$mws__fontsize" s)</h1>}
 		<div class="trailing">
 		<div class="index">
 		 <ul class="lv1">
@@ -198,7 +197,8 @@ function mws_putheader {
 		<li class="@@CAT=subprojects/mksh@@"><a href="@@RELPATH@@mksh.htm">mksh</a> Shell</li>
 		</ul></li>
 		 </ul>
-		</div>
+		</div>${mws__headline:+
+		<h1 class=\"lynxonly\">$(xhtml_escape "$mws__headline")</h1>}
 		<div class="content">
 	EOF
 	mws__header="<p class=\"rcsdiv\">Generated <!-- $mws__difftag --> on"

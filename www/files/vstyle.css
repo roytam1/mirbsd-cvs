@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.40 2012/05/26 15:54:19 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.41 2013/06/08 18:55:12 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -236,6 +236,10 @@ a.manlink:hover {
 .trailing {
 	position:absolute;
 		top:130px;
+}
+
+.lynxonly {
+	display:none;
 }
 
 /* stuff outside of encasing div blocks */

@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.64 2013/09/27 18:26:07 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.65 2013/09/28 17:56:29 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2782,6 +2782,12 @@ Date: 28.09.2013
 Waypoint: GC2VMD0
 Title: Annaberger Bach - Mündung in den Rhein
 Tag: D25 T2 Nano Tradi
+----
+ID: 524
+Date: 29.09.2013
+Waypoint: GC2E8E4
+Title: Bonner Retter - Löscheinheit 43 -&gt; Lessenich
+Tag: D15 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ mksh WP2dat
