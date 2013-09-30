@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.65 2013/09/28 17:56:29 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.66 2013/09/29 20:18:28 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2756,7 +2756,7 @@ Tag: D1 T2 Micro Tradi
 ID: 519
 Date: 22.09.2013
 Waypoint: GC37RYR
-Title: Rettungswache Wachtberg 2 1 mt
+Title: Rettungswache Wachtberg
 Tag: D2 T1 Micro Tradi recommended
 ----
 ID: 520
@@ -2788,6 +2788,18 @@ Date: 29.09.2013
 Waypoint: GC2E8E4
 Title: Bonner Retter - Löscheinheit 43 -&gt; Lessenich
 Tag: D15 T15 Micro Tradi
+----
+ID: 525
+Date: 30.09.2013
+Waypoint: GC40FG0
+Title: Zauberhafter Adventsbazar
+Tag: D15 T15 Small Tradi
+----
+ID: 526
+Date: 30.09.2013
+Waypoint: GC4J6H4
+Title: Bandorfer Runde
+Tag: D25 T25 Large Multi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ mksh WP2dat
