@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.66 2013/09/29 20:18:28 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.67 2013/09/30 21:56:27 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2800,6 +2800,12 @@ Date: 30.09.2013
 Waypoint: GC4J6H4
 Title: Bandorfer Runde
 Tag: D25 T25 Large Multi
+----
+ID: 527
+Date: 01.10.2013
+Waypoint: GC1ZG6N
+Title: Keep Toming Back
+Tag: D15 T2 Small Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ mksh WP2dat
