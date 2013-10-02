@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.67 2013/09/30 21:56:27 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.68 2013/10/01 18:54:43 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2806,6 +2806,48 @@ Date: 01.10.2013
 Waypoint: GC1ZG6N
 Title: Keep Toming Back
 Tag: D15 T2 Small Tradi
+----
+ID: 528
+Date: 02.10.2013
+Waypoint: GC337X6
+Title: Alfterer Kreuze 22
+Tag: D15 T1 Micro Tradi
+----
+ID: 529
+Date: 02.10.2013
+Waypoint: GC2R93G
+Title: &#34;Beim Swisttaler GC Stammtisch&#34; - Beifangtradi!
+Tag: D15 T15 Micro Tradi
+----
+ID: 530
+Date: 02.10.2013
+Waypoint: GC446DR
+Title: &#34;O'zapft is&#34;- Tannen&#34;zapfen&#34;edition!
+Tag: D15 T15 Micro Tradi
+----
+ID: 531
+Date: 02.10.2013
+Waypoint: GC2XHZ0
+Title: Chicken Run 4 (Hochwasser)
+Tag: D15 T15 Micro Tradi
+----
+ID: 532
+Date: 02.10.2013
+Waypoint: GC37W1T
+Title: Ollis Monatsdose
+Tag: D15 T15 Micro Tradi
+----
+ID: 533
+Date: 02.10.2013
+Waypoint: GC41MZK
+Title: Der Goldene Saft
+Tag: D1 T1 Micro Tradi
+----
+ID: 534
+Date: 02.10.2013
+Waypoint: GC315PP
+Title: Schäfchenwiese
+Tag: D15 T2 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ mksh WP2dat
