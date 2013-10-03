@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.68 2013/10/01 18:54:43 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.69 2013/10/02 17:43:47 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2841,13 +2841,49 @@ ID: 533
 Date: 02.10.2013
 Waypoint: GC41MZK
 Title: Der Goldene Saft
-Tag: D1 T1 Micro Tradi
+Tag: D1 T1 Nano Tradi
 ----
 ID: 534
 Date: 02.10.2013
 Waypoint: GC315PP
 Title: Schäfchenwiese
 Tag: D15 T2 Micro Tradi
+----
+ID: 535
+Date: 03.10.2013
+Waypoint: GC4HMK8
+Title: The Mountain of the Imperium
+Tag: D25 T2 Micro Tradi
+----
+ID: 536
+Date: 03.10.2013
+Waypoint: GC4HHQH
+Title: The Sideview of the Imperium
+Tag: D15 T15 Micro Tradi
+----
+ID: 537
+Date: 03.10.2013
+Waypoint: GC4H2J0
+Title: Der Weg zum Imperium
+Tag: D15 T15 Micro Tradi
+----
+ID: 538
+Date: 03.10.2013
+Waypoint: GC4MHQ2
+Title: Die Bahnstrecke zum Imperium
+Tag: D15 T15 Nano Tradi
+----
+ID: 539
+Date: 03.10.2013
+Waypoint: GC4H026
+Title: Das Imperium wächst...
+Tag: D15 T15 Micro Tradi
+----
+ID: 540
+Date: 03.10.2013
+Waypoint: GC4H2AA
+Title: The Imperium's Background
+Tag: D15 T15 Nano Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ mksh WP2dat
