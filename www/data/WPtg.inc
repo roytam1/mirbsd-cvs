@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.69 2013/10/02 17:43:47 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.70 2013/10/03 18:34:35 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2885,5 +2885,35 @@ Waypoint: GC4H2AA
 Title: The Imperium's Background
 Tag: D15 T15 Nano Tradi
 ----
+ID: 541
+Date: 08.10.2013
+Waypoint: GC4H327
+Title: TB Hotel Fuderbach 1
+Tag: D2 T3 Small Tradi
+----
+ID: 542
+Date: 08.10.2013
+Waypoint: GCZQQC
+Title: Didn't find it - der Cache - Vol. 2 - Heiderhof
+Tag: D1 T15 Regular Tradi
+----
+ID: 543
+Date: 09.10.2013
+Waypoint: GC2GFB7
+Title: Häuser der Helfer: Rettungswache Rheinbach
+Tag: D15 T15 Micro Multi
+----
+ID: 544
+Date: 09.10.2013
+Waypoint: GC2EXA1
+Title: Rheinbach Nord 2
+Tag: D15 T15 Regular Tradi
+----
+ID: 545
+Date: 09.10.2013
+Waypoint: GC4G7VH
+Title: Der kleine See
+Tag: D2 T2 Micro Tradi recommended
+----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
-# ^K/ mksh WP2dat
+# ^K/ datum=dd.mm.yyyy mksh WP2dat
