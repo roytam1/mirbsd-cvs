@@ -46,6 +46,10 @@
 #include <time.h>
 #include <unistd.h>
 
+#ifdef __GLIBC__
+#include <endian.h>
+#endif
+
 #include <adler32.h>
 #include <md4.h>
 #include <md5.h>
@@ -57,9 +61,11 @@
 #include <tiger.h>
 #include <whirlpool.h>
 
+#ifdef __MirBSD__
 extern const uint8_t RFC1321_padding[64];
+#endif
 
-__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.14 2011/07/06 22:21:53 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.15 2011/07/18 00:35:43 tg Exp $");
 
 #define MAX_DIGEST_LEN			128
 
@@ -136,7 +142,9 @@ void OAAT1_Init(OAATS_CTX *);
 void OAAT_Update(OAATS_CTX *, const uint8_t *, size_t);
 void OAAT_Final(OAATS_CTX *);
 char *OAAT_End(OAATS_CTX *, char *);
+#ifdef __MirBSD__
 char *OAAT1S_End(OAATS_CTX *, char *);
+#endif
 
 void NZAT_Init(NZAT_CTX *);
 void NZAT_Update(NZAT_CTX *, const uint8_t *, size_t);
@@ -160,7 +168,11 @@ char *SYSVSUM_Data(const u_int8_t *, size_t, char *);
 /* when adding, change lines with context matching NHASHMOD */
 
 /* NHASHMOD: total number of hash functions */
+#ifdef __MirBSD__
 #define NHASHES	22
+#else
+#define NHASHES	21
+#endif
 struct hash_functions {
 	const char *name;
 	size_t digestlen;
@@ -263,6 +275,7 @@ struct hash_functions {
 		digest_print,
 		digest_print_string
 	}, {
+#ifdef __MirBSD__
 		"OAAT1S",
 		8,
 		NULL,
@@ -273,6 +286,7 @@ struct hash_functions {
 		digest_print,
 		digest_print_string
 	}, {
+#endif
 		"SUMA",
 		SUMA_DIGEST_LENGTH * 2,
 		NULL,
@@ -304,6 +318,12 @@ struct hash_functions {
 		digest_print_string
 	},
 	/* NHASHMOD: non-GNU functions above, GNU functions below */
+#ifdef __MirBSD__
+#define NHASHES_NONGNU	13
+#else
+#define NHASHES_NONGNU	12
+#endif
+
 	{
 		"MD4",
 		MD4_DIGEST_LENGTH * 2,
@@ -688,7 +708,7 @@ digest_filelist(const char *file, struct hash_functions *defhash)
 	}
 
 	/* NHASHMOD: first GNU style function (and list below) */
-	if (defhash < &functions[13])
+	if (defhash < &functions[NHASHES_NONGNU])
 		/*
 		 * no GNU format for cksum, sum, sysvsum, adler32, cdb,
 		 * nzat, nzaat, oaat, oaat1, oaat1s, suma, sfv, size
@@ -1062,6 +1082,7 @@ OAAT_Final(OAATS_CTX *ctx)
 	ctx->crc = h;
 }
 
+#ifdef __MirBSD__
 char *
 OAAT1S_End(OAATS_CTX *ctx, char *digest)
 {
@@ -1084,6 +1105,7 @@ OAAT1S_End(OAATS_CTX *ctx, char *digest)
 
 	return (OAAT_End(ctx, digest));
 }
+#endif
 
 char *
 OAAT_End(OAATS_CTX *ctx, char *digest)

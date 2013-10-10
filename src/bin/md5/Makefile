@@ -1,4 +1,4 @@
-# $MirOS: src/bin/md5/Makefile,v 1.20 2011/07/06 22:21:53 tg Exp $
+# $MirOS: src/bin/md5/Makefile,v 1.21 2011/08/18 21:45:18 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2005/05/24 21:57:47 millert Exp $
 
 PROG=	cksum
@@ -11,6 +11,11 @@ MLINKS= cksum.1 sum.1
 
 .if exists(${.SYSMK}/libmirmake.a)
 CPPFLAGS+=	-D_GNU_SOURCE -D_MIRMAKE_DEFNS
+.  if make(depend)
+# shortcoming in mirmake_20080411-1wtf2 that it can’t do
+# -isystem and -include and -idirafter or summat lik’em…
+CPPFLAGS+=	-I${.SYSMK}
+.  endif
 LDADD+=		-L${.SYSMK} -lmirmake
 .endif
 
