@@ -46,10 +46,6 @@
 #include <time.h>
 #include <unistd.h>
 
-#ifdef __GLIBC__
-#include <endian.h>
-#endif
-
 #include <adler32.h>
 #include <md4.h>
 #include <md5.h>
@@ -65,7 +61,7 @@
 extern const uint8_t RFC1321_padding[64];
 #endif
 
-__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.15 2011/07/18 00:35:43 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.16 2013/10/10 23:09:48 tg Exp $");
 
 #define MAX_DIGEST_LEN			128
 
