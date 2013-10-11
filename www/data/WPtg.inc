@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.70 2013/10/03 18:34:35 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.71 2013/10/09 20:50:00 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2914,6 +2914,13 @@ Date: 09.10.2013
 Waypoint: GC4G7VH
 Title: Der kleine See
 Tag: D2 T2 Micro Tradi recommended
+----
+ID: 546
+Date: 11.10.2013
+Waypoint: GC4KEME
+Title: If you go to San Francisco... - Meet &amp; Greet
+Tag: D1 T1 Event
+nTF: 1
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
