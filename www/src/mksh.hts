@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.529 2013/09/24 20:49:27 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.530 2013/10/09 20:50:01 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -944,21 +944,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li class="cr"><img class="fr" width="105" height="64" alt="[SuSE logo]"
  src="@@RELPATH@@pics/logos/suse.png" />The <a
  href="http://en.opensuse.org/Build_Service">OpenSuSE Build
- Service</a> provides an mksh package inside the <a
- href="http://download.opensuse.org/repositories/shells/SLE_11_SP2/src/">shells
- repo</a>, thanks to Pascal “loki” Bleser and Marcus “darix” Rückert; the
- RPMs are available as SRPM (source RPM) as well as for <a
- href="http://download.opensuse.org/repositories/shells/">various
- distributions</a>.
- The inofficial <em>portable</em> SRPM has been retired; the OBS SRPM
- has been changed to be buildable on Debian and MirBSD as well as include
- the contributed <tt>arc4random.c</tt> file. There are <a
- href="http://download.opensuse.org/repositories/home:/mirabile/Mandriva_2010/src/">more
- downloads</a> available, just browse a little.<br />Basically, go to <a
- href="http://download.opensuse.org/repositories/home:/mirabile/">mirabilos’
- home project</a>, find the subdirectory most closely matching your GNU/Linux
- distribution and proceed to the binaries. The SRPMs (source RPM in the
- <tt>*/src/</tt> subdirectories) should be all the same.</li>
+ Service</a> provides an official openSUSE_Factory mksh package inside the <a
+ href="http://download.opensuse.org/repositories/shells/openSUSE_Factory/src/">shells
+ repo</a>, provided by Guido Berhoerster. A <em>portable</em> set of RPMs and SRPM
+ made by Pascal “loki” Bleser, Marcus “darix” Rückert, and me, is part of the <a
+ href="http://download.opensuse.org/repositories/home:/mirabile/CentOS_5/src/">home
+ project of mirabilos</a>; it’s buildable on Debian and MirBSD as well, and can be
+ used for Mandrake/Mandriva/Mageia and, thanks to ragnar76, Atari SpareMiNT.</li>
 <li class="cr"><img class="fr" width="129" height="64" alt="[Fink logo]"
  src="@@RELPATH@@pics/logos/fink.png" /><a
  href="http://fink.sf.net/">Fink</a> delivers an <a
@@ -1100,7 +1092,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li><a href="http://linux.softpedia.com/get/System/Shells/MirBSD-Korn-Shell-24602.shtml">Softpedia</a>
  lists mksh, just like the <a href="http://directory.fsf.org/mksh.html">FSF/UNESCO
  directory of Free Software</a>.</li>
-<li><strong>Missing packaging:</strong> SuSE native (use OBS for now), MacPorts
+<li><strong>Missing packaging:</strong> DarwinPorts/MacPorts
  (none at all), Mandriva/Mageia (use OBS; being worked on), OpenEmbedded
  (being worked on), iPhoneOS (compile yourself; being worked on), Knoppix and
  SIDUX (just add them), Nexenta (need a contact person), Arch native (use
