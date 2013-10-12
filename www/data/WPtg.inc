@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.71 2013/10/09 20:50:00 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.72 2013/10/11 20:40:54 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2921,6 +2921,12 @@ Waypoint: GC4KEME
 Title: If you go to San Francisco... - Meet &amp; Greet
 Tag: D1 T1 Event
 nTF: 1
+----
+ID: 547
+Date: 12.10.2013
+Waypoint: GC494W0
+Title: Die älteste in der Stadt
+Tag: D2 T2 Micro Mystery
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
