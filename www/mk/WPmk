@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.15 2013/09/05 20:19:56 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.16 2013/10/12 22:51:56 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -327,16 +327,16 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 	print '</ul>'
 	(( numtot = numga + numgc + numgd + numge + numnc + numoc + numox + \
 	    numsh + numtc ))
-	print -n "<p>Totals: $numtot waypoints"
+	print -n "<p>Totals: $numtot waypoint links"
 	(( numga )) && print -n ", Australia $numga"
-	(( numgc )) && print -n ", Groundspeak $numgc"
-	(( numgd )) && print -n ", Geodashing $numgd"
-	(( numge )) && print -n ", GPSgames $numge"
+	(( numgc )) && print -n ", Groundspeak <!-- gc.com --> $numgc"
+	(( numgd )) && print -n ", Geodashing <!-- (gpsgames) --> $numgd"
+	(( numge )) && print -n ", GPSgames <!-- geocaching --> $numge"
 	(( numnc )) && print -n ", Navicaching $numnc"
-	(( numoc )) && print -n ", Opencaching $numoc"
-	(( numox )) && print -n ", Garmin $numox"
-	(( numsh )) && print -n ", Shutterstock $numsh"
-	(( numtc )) && print -n ", TerraCaching $numtc"
+	(( numoc )) && print -n ", Opencaching <!-- network --> $numoc"
+	(( numox )) && print -n ", Garmin <!-- opencaching.com --> $numox"
+	(( numsh )) && print -n ", Shutterstock <!-- (gpsgames) --> $numsh"
+	(( numtc )) && print -n ", TerraCaching <!-- TC/LC --> $numtc"
 	print ".</p>"
 } | mws_content >>"WP$committer.htm~"
 mws_putfooter >>"WP$committer.htm~"
