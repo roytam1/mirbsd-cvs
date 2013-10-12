@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.14 2013/08/06 16:47:45 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.15 2013/09/05 20:19:56 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -190,6 +190,15 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 	print "<h2 id=\"wpts\">Waypoints: $fwpkl</h2>"
 	print '<ul style="position:relative; left:-20px;">'
 	entryp=0
+	numga=0
+	numgc=0
+	numgd=0
+	numge=0
+	numnc=0
+	numoc=0
+	numox=0
+	numsh=0
+	numtc=0
 	while (( entryp < entries )); do
 		ent=${ei_indir[entryp++]}
 		case ${e_ntf[ent]} {
@@ -235,15 +244,23 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 			case $wp {
 			(GA*)
 				wp="<a href=\"http://geocaching.com.au/cache/$wp\">$wp</a>"
+				let numga++
 				;;
 			(GC*)
 				wp="<a href=\"http://www.geocaching.com/seek/cache_details.aspx?wp=$wp\">$wp</a>"
+				let numgc++
+				;;
+			(GD*)
+				wp="<a href=\"http://geodashing.gpsgames.org/cgi-bin/dp.pl?dp=$wp\">$wp</a>"
+				let numgd++
 				;;
 			(GE*)
 				wp="<a href=\"http://geocaching.gpsgames.org/cgi-bin/ge.pl?wp=$wp\">$wp</a>"
+				let numge++
 				;;
 			(N[0-9]+([0-9A-F]))
 				wp="<a href=\"http://www.navicache.com/cgi-bin/db/displaycache2.pl?CacheID=$((16#${wp#N}))\">$wp</a>"
+				let numnc++
 				;;
 			(O[BCKPSUZ]*)
 				case $wp {
@@ -256,15 +273,19 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 				(OZ*) x=cz ;;
 				}
 				wp="<a href=\"http://www.opencaching.$x/viewcache.php?wp=$wp\">$wp</a>"
+				let numoc++
 				;;
 			(OX*)
 				wp="<a href=\"http://www.opencaching.com/#!geocache/$wp\">$wp</a>"
+				let numox++
 				;;
 			(SH*)
 				wp="<a href=\"http://shutterspot.gpsgames.org/cgi-bin/sh.pl?wp=$wp\">$wp</a>"
+				let numsh++
 				;;
 			(TC*|LC*)
 				wp="<a href=\"http://www.terracaching.com/viewcache.cgi?ID=$wp\">$wp</a>"
+				let numtc++
 				;;
 			(*)
 				wp=$(xhtml_escape "$wp")
@@ -279,10 +300,12 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 		print -r " $sep ${e_title[ent]}"
 		if [[ -n ${ei_body[ent]} ]]; then
 			print '<div class="gc_body">'
+			#XXX some may be too lax or strict
 			print -r -- "${ei_body[ent]}" | perl -pe '
-				s`\b(N[0-9][0-9A-F]{4}|(GC|O[BCKPSUXZ]|[TL]C)[0-9A-Z]{1,5})\b`
+				s`\b(N[0-9][0-9A-F]{4}|(G[ACE]|O[BCKPSUXZ]|SH|[TL]C)[0-9A-Z]{1,5}|GD[A-Z]{2}-[A-Z]{4})\b`
 					($wp = $1) =~ /^GC/ ? "<a href=\"http://www.geocaching.com/seek/cache_details.aspx?wp=$wp\">$wp</a>" :
 					$wp =~ /^GA/ ? "<a href=\"http://geocaching.com.au/cache/$wp\">$wp</a>" :
+					$wp =~ /^GD/ ? "<a href=\"http://geodashing.gpsgames.org/cgi-bin/dp.pl?dp=$wp\">$wp</a>" :
 					$wp =~ /^GE/ ? "<a href=\"http://geocaching.gpsgames.org/cgi-bin/ge.pl?wp=$wp\">$wp</a>" :
 					$wp =~ /^N[0-9]/ ? sprintf("<a href=\"http://www.navicache.com/cgi-bin/db/displaycache2.pl?CacheID=%d\">$wp</a>", hex(substr($wp, 1))) :
 					$wp =~ /^OB/ ? "<a href=\"http://www.opencaching.nl/viewcache.php?wp=$wp\">$wp</a>" :
@@ -302,6 +325,19 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 		print '</li>'
 	done
 	print '</ul>'
+	(( numtot = numga + numgc + numgd + numge + numnc + numoc + numox + \
+	    numsh + numtc ))
+	print -n "<p>Totals: $numtot waypoints"
+	(( numga )) && print -n ", Australia $numga"
+	(( numgc )) && print -n ", Groundspeak $numgc"
+	(( numgd )) && print -n ", Geodashing $numgd"
+	(( numge )) && print -n ", GPSgames $numge"
+	(( numnc )) && print -n ", Navicaching $numnc"
+	(( numoc )) && print -n ", Opencaching $numoc"
+	(( numox )) && print -n ", Garmin $numox"
+	(( numsh )) && print -n ", Shutterstock $numsh"
+	(( numtc )) && print -n ", TerraCaching $numtc"
+	print ".</p>"
 } | mws_content >>"WP$committer.htm~"
 mws_putfooter >>"WP$committer.htm~"
 mws_moveifchange "WP$committer.htm~" "WP$committer.htm"
