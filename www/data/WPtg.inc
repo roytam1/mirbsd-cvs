@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.72 2013/10/11 20:40:54 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.73 2013/10/12 20:40:47 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2927,6 +2927,30 @@ Date: 12.10.2013
 Waypoint: GC494W0
 Title: Die älteste in der Stadt
 Tag: D2 T2 Micro Mystery
+----
+ID: 548
+Date: 13.10.2013
+Waypoint: GC22ZCX
+Title: The Deep Blue
+Tag: D15 T3 Earth
+----
+ID: 549
+Date: 13.10.2013
+Waypoint: GC1B6J2
+Title: P&amp;G #4
+Tag: D15 T1 Micro Tradi
+----
+ID: 550
+Date: 13.10.2013
+Waypoint: GC2N98P
+Title: Hennef: 100 Dörfer #69 Büllesfeld
+Tag: D25 T25 Small Tradi
+----
+ID: 551
+Date: 13.10.2013
+Waypoint: GC2G85T
+Title: Rote Tuer
+Tag: D1 T15 Small Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
