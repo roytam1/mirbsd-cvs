@@ -1337,6 +1337,7 @@ doPolyText(client, c)
 		    int len;
 		    GC *pGC;
 		    PTclosurePtr new_closure;
+		    PTclosurePtr old_closure;
 
     /*  We're putting the client to sleep.  We need to do a few things
 	to ensure successful and atomic-appearing execution of the
@@ -1361,6 +1362,7 @@ doPolyText(client, c)
 			err = BadAlloc;
 			goto bail;
 		    }
+		    old_closure = c;
 		    *new_closure = *c;
 		    c = new_closure;
 
@@ -1369,6 +1371,7 @@ doPolyText(client, c)
 		    if (!c->data)
 		    {
 			xfree(c);
+			c = old_closure;
 			err = BadAlloc;
 			goto bail;
 		    }
@@ -1383,6 +1386,7 @@ doPolyText(client, c)
 		    {
 			xfree(c->data);
 			xfree(c);
+			c = old_closure;
 			err = BadAlloc;
 			goto bail;
 		    }
@@ -1399,6 +1403,7 @@ doPolyText(client, c)
 			FreeScratchGC(pGC);
 			xfree(c->data);
 			xfree(c);
+			c = old_closure;
 			err = BadAlloc;
 			goto bail;
 		    }
@@ -1551,6 +1556,7 @@ doImageText(client, c)
 	    GC *pGC;
 	    unsigned char *data;
 	    ITclosurePtr new_closure;
+	    ITclosurePtr old_closure;
 
 	    /* We're putting the client to sleep.  We need to
 	       save some state.  Similar problem to that handled
@@ -1563,6 +1569,7 @@ doImageText(client, c)
 		err = BadAlloc;
 		goto bail;
 	    }
+	    old_closure = c;
 	    *new_closure = *c;
 	    c = new_closure;
 
@@ -1570,6 +1577,7 @@ doImageText(client, c)
 	    if (!data)
 	    {
 		xfree(c);
+		c = old_closure;
 		err = BadAlloc;
 		goto bail;
 	    }
@@ -1581,6 +1589,7 @@ doImageText(client, c)
 	    {
 		xfree(c->data);
 		xfree(c);
+		c = old_closure;
 		err = BadAlloc;
 		goto bail;
 	    }
@@ -1594,6 +1603,7 @@ doImageText(client, c)
 		FreeScratchGC(pGC);
 		xfree(c->data);
 		xfree(c);
+		c = old_closure;
 		err = BadAlloc;
 		goto bail;
 	    }
