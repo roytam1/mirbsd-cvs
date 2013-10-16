@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.73 2013/10/12 20:40:47 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.74 2013/10/13 18:44:47 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2951,6 +2951,24 @@ Date: 13.10.2013
 Waypoint: GC2G85T
 Title: Rote Tuer
 Tag: D1 T15 Small Tradi
+----
+ID: 552
+Date: 16.10.2013
+Waypoint: GC38KAF
+Title: Verstecketopf Beschusstest
+Tag: D2 T2 Nano Tradi
+----
+ID: 553
+Date: 16.10.2013
+Waypoint: GC4F1R3
+Title: Verstecketopf Aktennotiz
+Tag: D25 T2 Micro Mystery
+----
+ID: 554
+Date: 16.10.2013
+Waypoint: GC425DB
+Title: &#34;PECH&#34; gehabt
+Tag: D15 T35 Micro Mystery
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
