@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/man.cgi,v 1.4 2012/05/26 15:22:05 tg Exp $';
+my $rcsid = '$MirOS: www/files/man.cgi,v 1.5 2012/09/27 18:07:39 tg Exp $';
 #-
 # Copyright © 2012
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -206,7 +206,7 @@ if ($ares == 2) {
 	    "for “" . tohtml($query) . "” in our manual pages.</p>\n";
 }
 if ($ares < 3) {
-	$output .= '<form action="https://duckduckgo.com/?kp=-1&#38;kl=wt-wt&#38;kb=t&#38;kh=1&#38;kj=g2&#38;km=l&#38;ka=monospace&#38;ku=1&#38;ko=s&#38;k1=-1&#38;kv=1&#38;t=debian" method="post">';
+	$output .= '<form accept-charset="utf-8" action="https://duckduckgo.com/?kp=-1&#38;kl=wt-wt&#38;kb=t&#38;kh=1&#38;kj=g2&#38;km=l&#38;ka=monospace&#38;ku=1&#38;ko=s&#38;k1=-1&#38;kv=1&#38;t=debian" method="post">';
 	$output .= "<p>\n <input type=\"hidden\" name=\"q\" value=\"" .
 	    "site:www.mirbsd.org/htman/ " . tohtml($queryorig) .
 	    "\" /><input type=\"submit\" value=\"Search again for: " .

@@ -1,4 +1,4 @@
-rcsid_cfg='$MirOS: www/data/tg.gc,v 1.9 2013/06/22 23:25:57 tg Exp $'
+rcsid_cfg='$MirOS: www/data/tg.gc,v 1.10 2013/08/31 18:06:06 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -27,7 +27,7 @@ gcbanners[${#gcbanners[*]}]='<img style="border:0px;"
 
 gcbanners[${#gcbanners[*]}]='<h3>Software</h3>'
 gcbanners[${#gcbanners[*]}]=<<'EOF'
- <form id="lookup" action="@@RELPATH@@wp.cgi" method="get">
+ <form accept-charset="utf-8" id="lookup" action="@@RELPATH@@wp.cgi" method="get">
   <p><span style="border:1px solid black; padding:6px;">
    <input type="text" name="q" />
    <input type="submit" value="Waypoint Lookup" />
