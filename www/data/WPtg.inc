@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.74 2013/10/13 18:44:47 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.75 2013/10/16 19:45:09 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2969,6 +2969,12 @@ Date: 16.10.2013
 Waypoint: GC425DB
 Title: &#34;PECH&#34; gehabt
 Tag: D15 T35 Micro Mystery
+----
+ID: 555
+Date: 17.10.2013
+Waypoint: GC4PH1Z
+Title: Bonn - Rathaus
+Tag: D15 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
