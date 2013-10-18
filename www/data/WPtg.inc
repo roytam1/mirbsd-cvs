@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.75 2013/10/16 19:45:09 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.76 2013/10/17 19:34:51 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2975,6 +2975,12 @@ Date: 17.10.2013
 Waypoint: GC4PH1Z
 Title: Bonn - Rathaus
 Tag: D15 T15 Micro Tradi
+----
+ID: 556
+Date: 18.10.2013
+Waypoint: GC4HHWM
+Title: The recovery form the Imperium
+Tag: D25 T2 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
