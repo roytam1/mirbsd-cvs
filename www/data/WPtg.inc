@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.76 2013/10/17 19:34:51 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.77 2013/10/18 21:58:45 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2981,6 +2981,12 @@ Date: 18.10.2013
 Waypoint: GC4HHWM
 Title: The recovery form the Imperium
 Tag: D25 T2 Micro Tradi
+----
+ID: 557
+Date: 19.10.2013
+Waypoint: GC4ACQF
+Title: Kunst am Wegesrand # 2
+Tag: D25 T25 Micro Mystery
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
