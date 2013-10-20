@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/wp.cgi,v 1.2 2013/06/23 16:17:09 tg Exp $';
+my $rcsid = '$MirOS: www/files/wp.cgi,v 1.3 2013/06/23 20:02:48 tg Exp $';
 #-
 # Copyright © 2013
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -48,13 +48,14 @@ if (defined($ENV{QUERY_STRING})) {
 	}
 }
 
-$query = "" unless $query =~ /^[0-9A-Za-z]*$/;
+$query = "" unless $query =~ /^[0-9A-Za-z-]*$/;
 $query =~ y/a-z/A-Z/;
 
 if ($query ne "") {
-	$query =~		s`\b(N[0-9][0-9A-F]{4}|(GC|O[BCKPSUXZ]|[TL]C)[0-9A-Z]{1,5})\b`
+	$query =~		s`\b(N[0-9][0-9A-F]{4}|(G[ACE]|O[BCKPSUXZ]|SH|[TL]C)[0-9A-Z]{1,5}|GD[A-Z]{2}-[A-Z]{4})\b`
 					($query = $1) =~ /^GC/ ? "http://www.geocaching.com/seek/cache_details.aspx?wp=$query" :
 					$query =~ /^GA/ ? "http://geocaching.com.au/cache/$query" :
+					$query =~ /^GD/ ? "http://geodashing.gpsgames.org/cgi-bin/dp.pl?dp=$query" :
 					$query =~ /^GE/ ? "http://geocaching.gpsgames.org/cgi-bin/ge.pl?wp=$query" :
 					$query =~ /^N[0-9]/ ? sprintf("http://www.navicache.com/cgi-bin/db/displaycache2.pl?CacheID=%d", hex(substr($query, 1))) :
 					$query =~ /^OB/ ? "http://www.opencaching.nl/viewcache.php?wp=$query" :
