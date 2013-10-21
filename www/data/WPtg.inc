@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.78 2013/10/19 18:37:18 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.79 2013/10/20 19:09:20 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2993,6 +2993,12 @@ Date: 20.10.2013
 Waypoint: GC4KFQC
 Title: Von_Ost_nach_West
 Tag: D2 T15 Small Tradi
+----
+ID: 559
+Date: 21.10.2013
+Waypoint: GC347VN
+Title: Was wird denn hier gebaut?
+Tag: D15 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
