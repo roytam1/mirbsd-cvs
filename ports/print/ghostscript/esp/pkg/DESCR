@@ -1,9 +1,0 @@
-ESP Ghostscript is a PostScript interpreter. It is a derivative of GPL
-Ghostscript and contains bug-fixes, an improved build system, CUPS
-support and other new stuff.
-
-Flavours:
-
-no_x11		Don't build X11 support
-cups		Add CUPS pstoraster driver, needed to print on non-
-		PostScript printers (replaces cups-pstoraster)
