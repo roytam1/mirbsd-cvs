@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/deb/arngc/arngc,v 1.2 2012/05/09 11:10:52 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/arngc/arngc,v 1.3 2013/01/20 18:18:53 tg Exp $
 #-
 # Copyright © 2011, 2013
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -124,6 +124,7 @@ function doscript {
 		cat >"$T/control" <<-EOF
 			client = yes
 			connect = $server
+			options = DONT_INSERT_EMPTY_FRAGMENTS
 		EOF
 		print -r '	"$prog" -fd 4 4<"$T/control"'
 	else
