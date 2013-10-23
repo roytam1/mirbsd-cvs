@@ -55,7 +55,7 @@ case $1 {
 [[ -e $HOME/.etc/anonkey.mirbsd ]] && sshx="$sshx -i $HOME/.etc/anonkey.mirbsd"
 [[ $CVSROOT = rsync://* ]] && sshx=
 set -x
-nice $rsync -rxlztpgaHKS --delete --stats --exclude=/ign/ \
+nice $rsync -rxlztpgaHS --delete --stats --exclude=/ign/ \
     --numeric-ids ${sshx:+"$sshx"} $p "$@" \
     ${CVSROOT:-_anoncvs@anoncvs.mirbsd.org:$what}/ $vd/
 rv=$?
