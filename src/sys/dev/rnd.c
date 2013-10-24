@@ -1,10 +1,10 @@
-/* $MirOS: src/sys/dev/rnd.c,v 1.72 2011/02/19 14:41:36 tg Exp $ */
+/* $MirOS: src/sys/dev/rnd.c,v 1.73 2011/11/20 18:54:46 tg Exp $ */
 
 /*-
  * rnd.c -- A strong random number generator
  *
  * Copyright (c) 2000, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
- *		 2010
+ *		 2010, 2013
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1996, 1997, 2000-2002 Michael Shalayeff.
  *
@@ -899,14 +899,7 @@ randomread(dev_t dev, struct uio *uio, int ioflag)
 			get_random_bytes(buf, n);
 			break;
 
-		case RND_PRND: {
-			size_t i = (n + 1) / 2;
-
-			while (i--)
-				buf[i] = random() & 0xFFFF;
-			break;
-		}
-
+		case RND_PRND:
 		case RND_ARND:
 			arc4random_buf(buf, n);
 			break;
