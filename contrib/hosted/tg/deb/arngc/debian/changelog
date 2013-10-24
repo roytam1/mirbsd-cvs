@@ -1,3 +1,10 @@
+arngc (20131024) unstable; urgency=low
+
+  * revert changes from 20131023 that were not the cause of the issue
+  * implement the back direction, fixing that by making stdin live
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Thu, 24 Oct 2013 11:32:00 +0200
+
 arngc (20131023) unstable; urgency=low
 
   * work around OpenSSL doing 0/n ipv 1/n-1 split

@@ -124,7 +124,6 @@ function doscript {
 		cat >"$T/control" <<-EOF
 			client = yes
 			connect = $server
-			options = DONT_INSERT_EMPTY_FRAGMENTS
 		EOF
 		print -r '	"$prog" -fd 4 4<"$T/control"'
 	else
@@ -132,10 +131,12 @@ function doscript {
 	fi
 	cat <<-'EOF'
 		}
-		runtunnel </dev/null 2>/dev/null | rngd -f \
-		    -r /proc/self/fd/0 -H 0.99 -B 2 -s 32 \
-		    -W "$threshold" -t 300 -T 60 2>&1 | \
-		    logger -t arngc &
+		function runchain {
+			/usr/lib/stunnel/arngc-slrd | runtunnel | \
+			    rngd -f -r /proc/self/fd/0 -H 0.99 -B 2 \
+			    -s 32 -W "$threshold" -t 300 -T 60
+		}
+		runchain </dev/urandom 2>&1 | logger -t arngc &
 		sleep 60
 		rm -rf "$T"
 	EOF
