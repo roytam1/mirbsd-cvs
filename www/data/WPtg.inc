@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.79 2013/10/20 19:09:20 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.80 2013/10/21 19:49:40 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2999,6 +2999,18 @@ Date: 21.10.2013
 Waypoint: GC347VN
 Title: Was wird denn hier gebaut?
 Tag: D15 T15 Micro Tradi
+----
+ID: 560
+Date: 22.10.2013
+Waypoint: GC2XX9W
+Title: Schools Out, Parken Verboten
+Tag: D2 T1 Micro Tradi
+----
+ID: 561
+Date: 24.10.2013
+Waypoint: GC2ZTMX
+Title: Alfterer Kreuze 04
+Tag: D2 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
