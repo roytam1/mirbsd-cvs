@@ -1,6 +1,0 @@
-# $MirOS$
-
-LINK	instbin					sbin/fdisk
-
-SCRIPT	${TOPDIR}/common/install.i386		install.md
-SPECIAL	chmod 755 install.md
