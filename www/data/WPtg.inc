@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.80 2013/10/21 19:49:40 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.81 2013/10/24 18:05:28 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3011,6 +3011,12 @@ Date: 24.10.2013
 Waypoint: GC2ZTMX
 Title: Alfterer Kreuze 04
 Tag: D2 T15 Micro Tradi
+----
+ID: 562
+Date: 25.10.2013
+Waypoint: GC4NR65
+Title: BDD - Bereitschaftsdienstdose
+Tag: D15 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
