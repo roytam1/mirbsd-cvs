@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.81 2013/10/24 18:05:28 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.82 2013/10/25 16:33:14 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3017,6 +3017,25 @@ Date: 25.10.2013
 Waypoint: GC4NR65
 Title: BDD - Bereitschaftsdienstdose
 Tag: D15 T15 Micro Tradi
+----
+ID: 563
+Date: 27.10.2013
+Waypoint: GDBW-JUGA
+Title: Dashpoint 50°N 7°E, Game 148 (Oktober 2013), AW-Weidenbach
+nTF: 1
+----
+ID: 564
+Date: 27.10.2013
+Waypoint: GC3E7Q4
+Title: Gotteshäuser Marien-Walfahrtskapelle Pützfeld
+Tag: D15 T15 Micro Tradi recommended
+----
+ID: 565
+Date: 27.10.2013
+Waypoint: GC4PJHJ
+Title: Ende der Eiszeit ⅯⅯⅩⅢ ☹
+Tag: D1 T1 Event
+nTF: 0
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
