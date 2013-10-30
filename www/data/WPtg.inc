@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.82 2013/10/25 16:33:14 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.83 2013/10/27 20:46:07 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3036,6 +3036,12 @@ Waypoint: GC4PJHJ
 Title: Ende der Eiszeit ⅯⅯⅩⅢ ☹
 Tag: D1 T1 Event
 nTF: 0
+----
+ID: 566
+Date: 30.10.2013
+Waypoint: GC4KK0H
+Title: Faultier Heinz
+Tag: D2 T2 Micro Mystery
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
