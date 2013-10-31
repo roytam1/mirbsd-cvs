@@ -1,6 +1,6 @@
-.\" $MirOS: src/share/man/man9/style.9,v 1.20 2011/08/06 18:30:20 tg Exp $
+.\" $MirOS: src/share/man/man9/style.9,v 1.21 2012/12/14 19:01:00 tg Exp $
 .\"-
-.\" Copyright (c) 2002-2012 The MirOS Project.
+.\" Copyright (c) 2002-2013 The MirOS Project.
 .\" Copyright (c) ? OpenBSD
 .\" Copyright (c) 1995 FreeBSD Inc.
 .\" All rights reserved.
@@ -86,7 +86,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: March 15 2010 $
+.Dd $Mdocdate: December 14 2012 $
 .\"
 .\" Check which macro package we use, and do other -mdoc setup.
 .\"
@@ -387,10 +387,16 @@ void usage(int) __dead;
 Use gcc attributes extensively to catch programming errors, e.g.,
 .Bd -literal -offset indent
 wchar_t *ambsntowcs(const char *, size_t)
-    __attribute__((__nonnull__ (1)))
-    __attribute__((__bounded__ (__string__, 1, 2)));
+    __attribute__((__nonnull__(1)))
+    __attribute__((__bounded__(__string__, 1, 2)));
 /* use of an argument mandated by function pointer API */
 static int x_del_char(int __unused);
+/* macro evaluating its argument twice */
+#define DOUBLE(x) __extension__({		\e
+	__typeof__(x) DOUBLE_x = (x);		\e
+	   					\e
+	(DOUBLE_x + DOUBLE_x);			\e
+})
 .Ed
 .Pp
 In header files, put function prototypes within matching pairs of
@@ -574,7 +580,8 @@ Use a space after keywords
 .Li return ,
 .Li switch )
 but not unary operators like
-.Li sizeof .
+.Li sizeof
+or constructs like GCC attributes (see above).
 It is recommended to put parentheses around the
 .Li return
 argument as well, although this is not a strict requirement.
