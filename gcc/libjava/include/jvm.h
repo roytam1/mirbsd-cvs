@@ -1,6 +1,8 @@
+/* $MirOS$ */
+
 // jvm.h - Header file for private implementation information. -*- c++ -*-
 
-/* Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003  Free Software Foundation
+/* Copyright (C) 1998, 1999, 2000, 2001, 2002, 2003, 2013  Free Software Foundation
 
    This file is part of libgcj.
 
@@ -385,9 +387,9 @@ _Jv_GetArrayElementFromElementType (jobject array,
 }
 
 extern "C" void _Jv_ThrowBadArrayIndex (jint bad_index)
-  __attribute__((noreturn));
+  __attribute__((__noreturn__));
 extern "C" void _Jv_ThrowNullPointerException (void)
-  __attribute__((noreturn));
+  __attribute__((__noreturn__));
 extern "C" jobject _Jv_NewArray (jint type, jint size)
   __attribute__((__malloc__));
 extern "C" jobject _Jv_NewMultiArray (jclass klass, jint dims, ...)

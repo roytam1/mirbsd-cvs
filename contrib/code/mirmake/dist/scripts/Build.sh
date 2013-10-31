@@ -1,6 +1,6 @@
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.136 2010/06/05 22:27:17 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.137 2011/01/24 21:26:19 tg Exp $
 #-
-# Copyright (c) 2006, 2008, 2011
+# Copyright (c) 2006, 2008, 2011, 2013
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -254,8 +254,8 @@ cat >_t.c <<-'EOF'
 	#include <string.h>
 	#undef __attribute__
 	int xcopy(const void *, void *, size_t)
-	    __attribute__((bounded (buffer, 1, 3)))
-	    __attribute__((bounded (buffer, 2, 3)));
+	    __attribute__((__bounded__(__buffer__, 1, 3)))
+	    __attribute__((__bounded__(__buffer__, 2, 3)));
 	int main(int ac, char *av[]) { return (xcopy(av[0], av[--ac], 1)); }
 	int xcopy(const void *s, void *d, size_t n) {
 		memmove(d, s, n); return (n);

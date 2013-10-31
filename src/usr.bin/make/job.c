@@ -1,9 +1,10 @@
-/**	$MirOS: src/usr.bin/make/job.c,v 1.5 2005/11/24 13:20:33 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: job.c,v 1.62 2007/06/12 16:33:27 cnst Exp $	*/
 /*	$NetBSD: job.c,v 1.16 1996/11/06 17:59:08 christos Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1988, 1989, 1990 The Regents of the University of California.
  * Copyright (c) 1988, 1989 by Adam de Boor
  * Copyright (c) 1989 by Berkeley Softworks
@@ -126,7 +127,7 @@
 #include "timestamp.h"
 #include "main.h"
 
-__RCSID("$MirOS: src/usr.bin/make/job.c,v 1.5 2005/11/24 13:20:33 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/make/job.c,v 1.6 2007/06/21 14:17:07 tg Exp $");
 
 /* From $MirBSD: src/sys/sys/types.h,v 1.2 2004/06/13 20:56:51 tg Exp $ */
 #ifndef howmany
@@ -454,7 +455,7 @@ static int JobStart(GNode *, int, Job *);
 static char *JobOutput(Job *, char *, char *, int);
 static void JobDoOutput(Job *, bool);
 static Shell *JobMatchShell(const char *);
-static void JobInterrupt(int, int) __attribute__((noreturn));
+static void JobInterrupt(int, int) __attribute__((__noreturn__));
 static void JobRestartJobs(void);
 
 static volatile sig_atomic_t got_SIGINT, got_SIGHUP, got_SIGQUIT,

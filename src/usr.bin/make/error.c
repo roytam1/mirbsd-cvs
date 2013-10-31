@@ -1,7 +1,8 @@
-/**	$MirOS$ */
 /*	$OpenBSD: error.c,v 1.12 2004/04/07 13:11:35 espie Exp $ */
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2001 Marc Espie.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,11 +39,11 @@
 
 #include "lowparse.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/make/error.c,v 1.3 2005/11/24 13:20:33 tg Exp $");
 
 int	    fatal_errors = 0;
 static void ParseVErrorInternal(const char *, unsigned long, int,
-    const char *, va_list) __attribute__((format (printf, 4, 0)));
+    const char *, va_list) __attribute__((__format__(__printf__, 4, 0)));
 /*-
  * Error --
  *	Print an error message given its format.

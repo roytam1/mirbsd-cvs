@@ -1,9 +1,10 @@
-/**	$MirOS: src/usr.bin/nc/socks.c,v 1.7 2006/09/21 03:46:54 tg Exp $ */
 /*	$OpenBSD: socks.c,v 1.15 2005/05/24 20:13:28 avsm Exp $	*/
 
 /*
  * Copyright (c) 1999 Niklas Hallqvist.  All rights reserved.
  * Copyright (c) 2004, 2005 Damien Miller.  All rights reserved.
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -40,7 +41,7 @@
 #include <unistd.h>
 #include "atomicio.h"
 
-__RCSID("$MirOS: src/usr.bin/nc/socks.c,v 1.7 2006/09/21 03:46:54 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/nc/socks.c,v 1.8 2007/08/08 19:09:48 tg Exp $");
 
 #define SOCKS_PORT	"1080"
 #define HTTP_PROXY_PORT	"3128"
@@ -112,7 +113,7 @@ proxy_read_line(int fd, char *buf, size_t bufsz)
 
 int
 socks_connect(const char *host, const char *port,
-    struct addrinfo hints __attribute__ ((__unused__)),
+    struct addrinfo hints __attribute__((__unused__)),
     const char *proxyhost, const char *proxyport, struct addrinfo proxyhints,
     int socksv)
 {

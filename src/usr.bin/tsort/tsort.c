@@ -1,6 +1,8 @@
 /* $OpenBSD: tsort.c,v 1.19 2004/08/05 10:59:42 espie Exp $ */
 /* ex:ts=8 sw=4:
  *
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1999-2004 Marc Espie <espie@openbsd.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -28,6 +30,8 @@
 #include <string.h>
 #include <sysexits.h>
 #include <unistd.h>
+
+__RCSID("$MirOS$");
 
 /* The complexity of topological sorting is O(e), where e is the
  * size of input.  While reading input, vertices have to be identified,
@@ -74,7 +78,7 @@
  */
 
 #ifdef __GNUC__
-#define UNUSED	__attribute__((unused))
+#define UNUSED	__attribute__((__unused__))
 #else
 #define UNUSED
 #endif

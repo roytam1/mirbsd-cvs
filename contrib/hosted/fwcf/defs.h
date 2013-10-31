@@ -1,4 +1,4 @@
-/* $MirOS: contrib/hosted/fwcf/defs.h,v 1.6 2006/09/26 10:25:03 tg Exp $ */
+/* $MirOS: contrib/hosted/fwcf/defs.h,v 1.7 2007/03/13 18:28:20 tg Exp $ */
 
 /*
  * This file is part of the FreeWRT project. FreeWRT is copyrighted
@@ -15,7 +15,7 @@
 #define FWCF_VER	0x01		/* major version of spec used */
 
 #ifndef __RCSID
-#define __RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
+#define __RCSID(x)	static const char __rcsid[] __attribute__((__used__)) = (x)
 #endif
 
 #ifndef BSD
@@ -26,7 +26,7 @@
 #endif
 
 #ifndef __dead
-#define __dead		__attribute__((noreturn))
+#define __dead		__attribute__((__noreturn__))
 #endif
 
 #endif

@@ -1,8 +1,10 @@
-/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.15 2009/10/04 16:49:44 tg Exp $	*/
+/**	$MirOS: src/sys/lib/libsa/stand.h,v 1.16 2011/01/03 19:02:54 tg Exp $	*/
 /*	$OpenBSD: stand.h,v 1.46 2007/05/04 21:44:07 reyk Exp $	*/
 /*	$NetBSD: stand.h,v 1.18 1996/11/30 04:35:51 gwr Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -132,8 +134,8 @@ int	snprintf(char *, size_t, const char *, ...);
 void	vprintf(const char *, va_list);
 void	twiddle(void);
 void	gets(char *);
-__dead void	panic(const char *, ...) __attribute__((noreturn));
-__dead void	_rtt(void) __attribute__((noreturn));
+__dead void	panic(const char *, ...) __attribute__((__noreturn__));
+__dead void	_rtt(void) __attribute__((__noreturn__));
 long	strtol(const char *, char **, int);
 long long	strtoll(const char *, char **, int);
 void	exec(char *, void *, int);

@@ -2,6 +2,8 @@
 /*	$NetBSD: shutdown.c,v 1.9 1995/03/18 15:01:09 cgd Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1988, 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -54,7 +56,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1988, 1990, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)shutdown.c	8.2 (Berkeley) 2/16/94");
-__RCSID("$MirOS: src/sbin/shutdown/shutdown.c,v 1.2 2007/05/29 08:19:30 tg Exp $");
+__RCSID("$MirOS: src/sbin/shutdown/shutdown.c,v 1.3 2012/10/17 21:09:45 tg Exp $");
 
 #include "pathnames.h"
 
@@ -335,7 +337,7 @@ timewarn(int timeleft)
 }
 
 void
-timeout(int signo __attribute__((unused)))
+timeout(int signo __attribute__((__unused__)))
 {
 	longjmp(alarmbuf, 1);		/* XXX signal/longjmp resource leaks */
 }

@@ -1,6 +1,10 @@
+/* $MirOS$ */
+
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2000-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
@@ -441,7 +445,7 @@ static int   rewrite_rand(int l, int h);
     /* rewriting logfile support */
 static void  open_rewritelog(server_rec *s, pool *p);
 static void  rewritelog(request_rec *r, int level, const char *text, ...)
-                        __attribute__((format(printf,3,4)));
+                        __attribute__((__format__(__printf__, 3, 4)));
 static char *current_logtime(request_rec *r);
 
     /* rewriting lockfile support */

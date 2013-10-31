@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2007
+ * Copyright (c) 2007, 2013
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -20,8 +20,8 @@
 
 /* this is not a stand-alone file */
 #ifndef LIBINTL_REDEFINE /* first time only */
-static const char __rcsid_meat[] __attribute__((used)) =
-    "$MirOS: contrib/hosted/libnointl/meat.c,v 1.1 2007/06/25 16:32:53 tg Exp $";
+static const char __rcsid_meat[] __attribute__((__used__)) =
+    "$MirOS: contrib/hosted/libnointl/meat.c,v 1.2 2008/05/03 01:09:30 tg Exp $";
 #endif
 
 char *

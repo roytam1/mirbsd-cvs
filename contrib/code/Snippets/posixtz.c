@@ -1,9 +1,7 @@
 #if 0 /* this line is a comment in mirmake */
 # @mgcc: ignore from here
 #-
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
-#-
-# Copyright © 2008, 2011
+# Copyright © 2008, 2011, 2013
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -59,14 +57,14 @@ CLEANFILES+=	libposixtz.so
 #include <sys/taitime.h>
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/posixtz.c,v 1.4 2008/08/08 12:34:21 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/posixtz.c,v 1.5 2011/11/20 04:57:08 tg Exp $");
 
 #ifndef SYSKERN_MIRTIME_H
 /* import libc private interface – XXX subject to change without notice! */
 extern tai64_t _leaps[];
 extern bool _leaps_initialised;
 
-void switch_to_posix(void) __attribute__((constructor));
+void switch_to_posix(void) __attribute__((__constructor__));
 
 void
 switch_to_posix(void)

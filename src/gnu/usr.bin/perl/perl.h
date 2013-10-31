@@ -1,5 +1,9 @@
+/* $MirOS$ */
+
 /*    perl.h
  *
+ *    Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  *    Copyright (C) 1993, 1994, 1995, 1996, 1997, 1998, 1999,
  *    2000, 2001, 2002, 2003, 2004, 2005, 2006 by Larry Wall and others
  *
@@ -154,7 +158,7 @@ struct perl_thread;
 #  ifdef __cplusplus
 #    define PERL_UNUSED_DECL
 #  else
-#    define PERL_UNUSED_DECL __attribute__((unused))
+#    define PERL_UNUSED_DECL __attribute__((__unused__))
 #  endif
 #endif
 
@@ -2608,25 +2612,25 @@ typedef pthread_key_t	perl_key;
 #endif
 
 #ifdef HASATTRIBUTE_FORMAT
-#  define __attribute__format__(x,y,z)      __attribute__((format(x,y,z)))
+#  define __attribute__format__(x,y,z)      __attribute__((__format__(x, y, z)))
 #endif
 #ifdef HASATTRIBUTE_MALLOC
 #  define __attribute__malloc__             __attribute__((__malloc__))
 #endif
 #ifdef HASATTRIBUTE_NONNULL
-#  define __attribute__nonnull__(a)         __attribute__((nonnull(a)))
+#  define __attribute__nonnull__(a)         __attribute__((__nonnull__(a)))
 #endif
 #ifdef HASATTRIBUTE_NORETURN
-#  define __attribute__noreturn__           __attribute__((noreturn))
+#  define __attribute__noreturn__           __attribute__((__noreturn__))
 #endif
 #ifdef HASATTRIBUTE_PURE
-#  define __attribute__pure__               __attribute__((pure))
+#  define __attribute__pure__               __attribute__((__pure__))
 #endif
 #ifdef HASATTRIBUTE_UNUSED
-#  define __attribute__unused__             __attribute__((unused))
+#  define __attribute__unused__             __attribute__((__unused__))
 #endif
 #ifdef HASATTRIBUTE_WARN_UNUSED_RESULT
-#  define __attribute__warn_unused_result__ __attribute__((warn_unused_result))
+#  define __attribute__warn_unused_result__ __attribute__((__warn_unused_result__))
 #endif
 
 /* If we haven't defined the attributes yet, define them to blank. */

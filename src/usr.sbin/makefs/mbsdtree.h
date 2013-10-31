@@ -1,9 +1,9 @@
-/*	$MirOS: src/usr.sbin/makefs/mbsdtree.h,v 1.3 2009/07/23 19:32:24 tg Exp $	*/
+/*	$MirOS: src/usr.sbin/makefs/mbsdtree.h,v 1.4 2010/03/16 21:28:25 tg Exp $	*/
 /*	$OpenBSD: util.h,v 1.26 2004/07/13 21:09:48 millert Exp $	*/
 /*	$NetBSD: util.h,v 1.2 1996/05/16 07:00:22 thorpej Exp $	*/
 
 /*-
- * Copyright (c) 2009, 2010
+ * Copyright (c) 2009, 2010, 2013
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1995
  *	The Regents of the University of California.  All rights reserved.
@@ -49,7 +49,7 @@ long long strsuftoll(const char *, const char *,
 long long strsuftollx(const char *, const char *,
     long long, long long, char *, size_t)
 #if defined(__GNUC__) && (defined(__OpenBSD__) || defined(__MirBSD__))
-    __attribute__((bounded (string, 5, 6)))
+    __attribute__((__bounded__(__string__, 5, 6)))
 #endif
     ;
 

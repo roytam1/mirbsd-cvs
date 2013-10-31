@@ -1,6 +1,8 @@
 /*	$OpenBSD: hash.c,v 1.20 2005/08/05 13:03:00 espie Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1990, 1993, 1994
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -50,6 +52,8 @@
 #include "page.h"
 #include "extern.h"
 
+__RCSID("$MirOS$");
+
 static int   alloc_segs(HTAB *, int);
 static int   flush_meta(HTAB *);
 static int   hash_access(HTAB *, ACTION, DBT *, DBT *);
@@ -90,7 +94,7 @@ int hash_accesses, hash_collisions, hash_expansions, hash_overflows;
 DB *
 __hash_open(const char *file, int flags, int mode,
     const HASHINFO *info,	/* Special directives for create */
-    int dflags __attribute__((unused)))
+    int dflags __attribute__((__unused__)))
 {
 	HTAB *hashp;
 	struct stat statbuf;

@@ -1,7 +1,10 @@
+/*	$MirOS$ */
 /*	$OpenBSD: kthread.h,v 1.3 2002/03/14 03:16:12 millert Exp $	*/
 /*	$NetBSD: kthread.h,v 1.2 1998/11/14 00:08:49 thorpej Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1998 The NetBSD Foundation, Inc.
  * All rights reserved.
  *
@@ -50,7 +53,7 @@
 
 int	kthread_create(void (*)(void *), void *, struct proc **,
 	    const char *, ...)
-	    __attribute__((__format__(__printf__,4,5)));
+	    __attribute__((__format__(__printf__, 4, 5)));
 void	kthread_create_deferred(void (*)(void *), void *);
 void	kthread_run_deferred_queue(void);
 void	kthread_exit(int) __attribute__((__noreturn__));

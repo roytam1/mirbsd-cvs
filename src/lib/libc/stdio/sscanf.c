@@ -1,5 +1,7 @@
 /*	$OpenBSD: sscanf.c,v 1.12 2005/08/08 08:05:36 espie Exp $ */
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -36,9 +38,11 @@
 #include <stdarg.h>
 #include "local.h"
 
+__RCSID("$MirOS$");
+
 /* ARGSUSED */
 static int
-eofread(void *cookie __attribute__((unused)), char *buf __attribute__((unused)), int len __attribute__((unused)))
+eofread(void *cookie __attribute__((__unused__)), char *buf __attribute__((__unused__)), int len __attribute__((__unused__)))
 {
 
 	return (0);

@@ -1,8 +1,6 @@
-/* $MirOS: contrib/hosted/fwcf/c_lzo1x1.c,v 1.4 2006/09/26 10:25:02 tg Exp $ */
-
 /*-
  * MiniLZO (LZO1X-1) compression plug-in for FWCF
- * Copyright (c) 2006
+ * Copyright (c) 2006, 2013
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * This program is free software; you can redistribute it and/or modify
@@ -37,7 +35,7 @@
 #include "defs.h"
 #include "compress.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/c_lzo1x1.c,v 1.4 2006/09/26 10:25:02 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/c_lzo1x1.c,v 1.5 2007/03/13 18:31:07 tg Exp $");
 
 #define C_LZO1X1_T1(a,b)			c_lzo1x1_ ## a ## _ ## b
 #define C_LZO1X1_T2(a,b)			C_LZO1X1_T1(a,b)
@@ -48,13 +46,13 @@ __RCSID("$MirOS: contrib/hosted/fwcf/c_lzo1x1.c,v 1.4 2006/09/26 10:25:02 tg Exp
 #define MINILZO_CFG_SKIP_LZO_STRING		1
 #include "minilzo.c"
 
-static void c_lzo1x1_load(void) __attribute__((constructor));
+static void c_lzo1x1_load(void) __attribute__((__constructor__));
 static int c_init(void);
 static int c_compress(char **, char *, size_t)
-    __attribute__((bounded (string, 2, 3)));
+    __attribute__((__bounded__(__string__, 2, 3)));
 static int c_decompress(char *, size_t, char *, size_t)
-    __attribute__((bounded (string, 1, 2)))
-    __attribute__((bounded (string, 3, 4)));
+    __attribute__((__bounded__(__string__, 1, 2)))
+    __attribute__((__bounded__(__string__, 3, 4)));
 
 static fwcf_compressor c_lzo1x1 = {
 	c_init,			/* init */

@@ -1,5 +1,7 @@
 /* $OpenBSD: dispatch.c,v 1.22 2008/10/31 15:05:34 stevesk Exp $ */
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +37,7 @@
 #include "packet.h"
 #include "compat.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/dispatch.c,v 1.6 2008/12/16 20:55:21 tg Exp $");
 
 #define DISPATCH_MAX	255
 
@@ -43,7 +45,7 @@ dispatch_fn *dispatch[DISPATCH_MAX];
 
 void
 dispatch_protocol_error(int type, u_int32_t seq,
-    void *ctxt __attribute__((unused)))
+    void *ctxt __attribute__((__unused__)))
 {
 	logit("dispatch_protocol_error: type %d seq %u", type, seq);
 	if (!compat20)
@@ -55,7 +57,7 @@ dispatch_protocol_error(int type, u_int32_t seq,
 }
 void
 dispatch_protocol_ignore(int type, u_int32_t seq,
-    void *ctxt __attribute__((unused)))
+    void *ctxt __attribute__((__unused__)))
 {
 	logit("dispatch_protocol_ignore: type %d seq %u", type, seq);
 }

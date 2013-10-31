@@ -1,6 +1,8 @@
 /*	$OpenBSD: dlfcn_stubs.c,v 1.9 2004/10/17 20:24:06 kettenis Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1998 Per Fogelstrom, Opsycon AB
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -28,6 +30,8 @@
 
 #include <stddef.h>
 
+__RCSID("$MirOS$");
+
 /*
  *	All functions here are just stubs that will be overridden
  *	by the real functions in ld.so when dynamic loading is
@@ -36,16 +40,16 @@
  *	without getting any unresolved references.
  */
 
-void	*dlopen(const char *libname, int how) __attribute__((weak));
-int	 dlclose(void *handle) __attribute__((weak));
-void	*dlsym(void *handle, const char *name) __attribute__((weak));
-int	 dlctl(void *handle, int command, void *data) __attribute__((weak));
-const char *	dlerror(void) __attribute__((weak));
-int	dladdr(const void *addr, void *info) __attribute__((weak));
+void	*dlopen(const char *libname, int how) __attribute__((__weak__));
+int	 dlclose(void *handle) __attribute__((__weak__));
+void	*dlsym(void *handle, const char *name) __attribute__((__weak__));
+int	 dlctl(void *handle, int command, void *data) __attribute__((__weak__));
+const char *	dlerror(void) __attribute__((__weak__));
+int	dladdr(const void *addr, void *info) __attribute__((__weak__));
 
 struct dl_phdr_info;
 int	 dl_iterate_phdr(int (*callback)(struct dl_phdr_info *, size_t, void *),
-	    void *date) __attribute__((weak));
+	    void *date) __attribute__((__weak__));
 
 #include <stdio.h>
 

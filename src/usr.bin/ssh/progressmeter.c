@@ -1,5 +1,7 @@
 /* $OpenBSD: progressmeter.c,v 1.37 2006/08/03 03:34:42 deraadt Exp $ */
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2003 Nils Nordman.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +39,7 @@
 #include "progressmeter.h"
 #include "atomicio.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/progressmeter.c,v 1.4 2006/09/20 21:41:00 tg Exp $");
 
 #define DEFAULT_WINSIZE 80
 #define MAX_WINSIZE 512
@@ -227,7 +229,7 @@ refresh_progress_meter(void)
 
 /*ARGSUSED*/
 static void
-update_progress_meter(int ignore __attribute__((unused)))
+update_progress_meter(int ignore __attribute__((__unused__)))
 {
 	int save_errno;
 
@@ -282,7 +284,7 @@ stop_progress_meter(void)
 
 /*ARGSUSED*/
 static void
-sig_winch(int sig __attribute__((unused)))
+sig_winch(int sig __attribute__((__unused__)))
 {
 	win_resized = 1;
 }

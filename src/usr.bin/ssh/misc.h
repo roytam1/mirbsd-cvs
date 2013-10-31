@@ -1,8 +1,10 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.bin/ssh/misc.h,v 1.4 2009/10/04 14:29:04 tg Exp $ */
 /* $OpenBSD: misc.h,v 1.38 2008/06/12 20:38:28 dtucker Exp $ */
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
  *
@@ -47,9 +49,9 @@ struct arglist {
 	u_int   nalloc;
 };
 void	 addargs(arglist *, const char *, ...)
-	     __attribute__((format(printf, 2, 3)));
+	     __attribute__((__format__(__printf__, 2, 3)));
 void	 replacearg(arglist *, u_int, const char *, ...)
-	     __attribute__((format(printf, 3, 4)));
+	     __attribute__((__format__(__printf__, 3, 4)));
 void	 freeargs(arglist *);
 
 int	 tun_open(int, int);
@@ -67,17 +69,17 @@ int	 tun_open(int, int);
 
 /* Functions to extract or store big-endian words of various sizes */
 u_int64_t	get_u64(const void *)
-    __attribute__((__bounded__( __minbytes__, 1, 8)));
+    __attribute__((__bounded__(__minbytes__, 1, 8)));
 u_int32_t	get_u32(const void *)
-    __attribute__((__bounded__( __minbytes__, 1, 4)));
+    __attribute__((__bounded__(__minbytes__, 1, 4)));
 u_int16_t	get_u16(const void *)
-    __attribute__((__bounded__( __minbytes__, 1, 2)));
+    __attribute__((__bounded__(__minbytes__, 1, 2)));
 void		put_u64(void *, u_int64_t)
-    __attribute__((__bounded__( __minbytes__, 1, 8)));
+    __attribute__((__bounded__(__minbytes__, 1, 8)));
 void		put_u32(void *, u_int32_t)
-    __attribute__((__bounded__( __minbytes__, 1, 4)));
+    __attribute__((__bounded__(__minbytes__, 1, 4)));
 void		put_u16(void *, u_int16_t)
-    __attribute__((__bounded__( __minbytes__, 1, 2)));
+    __attribute__((__bounded__(__minbytes__, 1, 2)));
 
 
 /* readpass.c */
@@ -88,7 +90,7 @@ void		put_u16(void *, u_int16_t)
 #define RP_USE_ASKPASS		0x0008
 
 char	*read_passphrase(const char *, int);
-int	 ask_permission(const char *, ...) __attribute__((format(printf, 1, 2)));
+int	 ask_permission(const char *, ...) __attribute__((__format__(__printf__, 1, 2)));
 int	 read_keyfile_line(FILE *, const char *, char *, size_t, u_long *);
 
 #endif /* _MISC_H */

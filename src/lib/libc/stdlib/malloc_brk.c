@@ -50,7 +50,7 @@
 #include "thread_private.h"
 
 __IDSTRING(malloc_type, "@(#) brk malloc 1.71 (OpenBSD)");
-__RCSID("$MirOS: src/lib/libc/stdlib/malloc_brk.c,v 1.2 2006/10/03 19:51:10 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdlib/malloc_brk.c,v 1.3 2010/09/21 21:24:10 tg Exp $");
 
 /*
  * The basic parameters you can tweak.
@@ -1108,7 +1108,7 @@ free_pages(void *ptr, u_long indexx, struct pginfo *info)
 
 /* ARGSUSED */
 static __inline__ void
-free_bytes(void *ptr, int indexx __attribute__((unused)), struct pginfo *info)
+free_bytes(void *ptr, int indexx __attribute__((__unused__)), struct pginfo *info)
 {
     int i;
     struct pginfo **mp;

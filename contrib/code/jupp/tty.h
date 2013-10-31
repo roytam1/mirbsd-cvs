@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/jupp/tty.h,v 1.4 2010/04/08 15:31:04 tg Exp $ */
+/* $MirOS: contrib/code/jupp/tty.h,v 1.5 2012/12/30 18:18:07 tg Exp $ */
 /*
  *	TTY interface header file
  *	Copyright
@@ -148,7 +148,7 @@ extern int leave;
  */
 RETSIGTYPE ttsig PARAMS((int sig))
 #ifdef __GNUC__
-    __attribute__((noreturn))
+    __attribute__((__noreturn__))
 #endif
     ;
 

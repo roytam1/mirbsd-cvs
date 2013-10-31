@@ -1,7 +1,10 @@
+/* $MirOS$ */
 /* $OpenBSD: xmalloc.h,v 1.13 2006/08/03 03:34:42 deraadt Exp $ */
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
  * Created: Mon Mar 20 22:09:17 1995 ylo
@@ -22,5 +25,5 @@ void	*xrealloc(void *, size_t, size_t);
 void     xfree(void *);
 char	*xstrdup(const char *);
 int	 xasprintf(char **, const char *, ...)
-                __attribute__((__format__ (printf, 2, 3)))
-                __attribute__((__nonnull__ (2)));
+                __attribute__((__format__(__printf__, 2, 3)))
+                __attribute__((__nonnull__(2)));

@@ -1,9 +1,9 @@
-/**	$MirOS: src/usr.sbin/rdate/rdate.c,v 1.11 2007/08/10 23:52:24 tg Exp $ */
 /*	$OpenBSD: rdate.c,v 1.22 2004/02/18 20:10:53 jmc Exp $	*/
 /*	$NetBSD: rdate.c,v 1.4 1996/03/16 12:37:45 pk Exp $	*/
 
 /*
- * Copyright (c) 2005, 2007 Thorsten Glaser
+ * Copyright © 2005, 2007, 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1994 Christos Zoulas
  * All rights reserved.
  *
@@ -62,9 +62,9 @@
 #define	logwtmp(a,b,c)	/* nothing */
 #endif
 
-__RCSID("$MirOS: src/usr.sbin/rdate/rdate.c,v 1.11 2007/08/10 23:52:24 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/rdate/rdate.c,v 1.12 2007/08/16 10:38:29 tg Exp $");
 
-static void usage(void) __attribute__((noreturn));
+static void usage(void) __attribute__((__noreturn__));
 
 extern const char *__progname;
 int debug = 0;

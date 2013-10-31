@@ -1,6 +1,9 @@
+/* $MirOS$ */
 /* ISDN4BSD code */
 /* $NetBSD: isacsx.h,v 1.1 2002/10/25 21:03:48 leo Exp $	*/
 /*
+ *   Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  *   Copyright (c) 2001 Gary Jennejohn. All rights reserved. 
  *
  *   Redistribution and use in source and binary forms, with or without
@@ -240,7 +243,7 @@ typedef struct isacsx_reg {
 			unsigned char dummy_6f;
 		} isacsx_w;
 	} isacsx_rw;
-}  __attribute__ ((packed)) isacsx_reg_t;
+}  __attribute__((__packed__)) isacsx_reg_t;
 
 #define REG_OFFSET(type, field) (int)(&(((type *)0)->field))
 

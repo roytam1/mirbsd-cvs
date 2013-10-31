@@ -1,7 +1,8 @@
-/**	$MirOS: src/usr.sbin/config/cmd.c,v 1.4 2006/04/06 10:50:38 tg Exp $ */
 /*	$OpenBSD: cmd.c,v 1.13 2004/06/08 20:59:28 mcbride Exp $ */
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1999-2001 Mats O Jansson.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +40,7 @@
 #include "ukc.h"
 #include "exec.h"
 
-__RCSID("$MirOS: src/usr.sbin/config/cmd.c,v 1.4 2006/04/06 10:50:38 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/config/cmd.c,v 1.5 2007/02/19 03:24:54 tg Exp $");
 
 extern int ukc_mod_kernel;
 static void int_variable_adjust(const cmd_t *, int, const char *);
@@ -200,7 +201,7 @@ Xlines(cmd_t *cmd)
 }
 
 int
-Xlist(cmd_t *cmd __attribute__((unused)))
+Xlist(cmd_t *cmd __attribute__((__unused__)))
 {
 	struct cfdata *cd;
 	int	i = 0;
@@ -237,14 +238,14 @@ Xshow(cmd_t *cmd)
 }
 
 int
-Xquit(cmd_t *cmd __attribute__((unused)))
+Xquit(cmd_t *cmd __attribute__((__unused__)))
 {
 	/* Nothing to do here */
 	return (CMD_SAVE);
 }
 
 int
-Xexit(cmd_t *cmd __attribute__((unused)))
+Xexit(cmd_t *cmd __attribute__((__unused__)))
 {
 	/* Nothing to do here */
 	return (CMD_EXIT);

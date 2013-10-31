@@ -1,5 +1,7 @@
 /* $OpenBSD: roaming_common.c,v 1.5 2009/06/27 09:32:43 andreas Exp $ */
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2004-2009 AppGate Network Security AB
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -33,7 +35,7 @@
 #include "buffer.h"
 #include "roaming.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/roaming_common.c,v 1.2 2009/10/04 14:29:06 tg Exp $");
 
 static size_t out_buf_size = 0;
 static char *out_buf = NULL;
@@ -134,7 +136,7 @@ buf_append(const char *buf, size_t count)
 
 ssize_t
 roaming_write(int fd, const void *buf, size_t count,
-    int *cont __attribute__((unused)))
+    int *cont __attribute__((__unused__)))
 {
 	ssize_t ret;
 
@@ -151,7 +153,7 @@ roaming_write(int fd, const void *buf, size_t count,
 
 ssize_t
 roaming_read(int fd, void *buf, size_t count,
-    int *cont __attribute__((unused)))
+    int *cont __attribute__((__unused__)))
 {
 	ssize_t ret = read(fd, buf, count);
 	if (ret > 0) {

@@ -5,6 +5,9 @@
  *
  * Based on err.c, which was adapted from OpenBSD libc *err* *warn* code.
  *
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+ *
  * Copyright (c) 2005 Nick Mathewson <nickm@freehaven.net>
  *
  * Copyright (c) 2000 Dug Song <dugsong@monkey.org>
@@ -62,12 +65,12 @@
 #include "log.h"
 #include "evutil.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libevent/log.c,v 1.3 2012/10/19 19:58:18 tg Exp $");
 __RCSID(_LOG_H_);
 
 static void _warn_helper(int severity, int log_errno, const char *fmt,
                          va_list ap)
-    __attribute__((__format__ (__printf__, 3, 0)));
+    __attribute__((__format__(__printf__, 3, 0)));
 static void event_log(int severity, const char *msg);
 
 void

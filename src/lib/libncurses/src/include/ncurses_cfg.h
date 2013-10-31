@@ -1,5 +1,8 @@
+/* $MirOS$ */
 /* include/ncurses_cfg.h.  Generated automatically by configure.  */
 /****************************************************************************
+ * Copyright © 2013                                                         *
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>                         *
  * Copyright (c) 1998-2004,2005 Free Software Foundation, Inc.              *
  *                                                                          *
  * Permission is hereby granted, free of charge, to any person obtaining a  *
@@ -93,8 +96,8 @@
 #define NCURSES_EXT_COLORS 1
 #define GCC_SCANF 1
 #define GCC_PRINTF 1
-#define GCC_UNUSED __attribute__((unused))
-#define GCC_NORETURN __attribute__((noreturn))
+#define GCC_UNUSED __attribute__((__unused__))
+#define GCC_NORETURN __attribute__((__noreturn__))
 #define NDEBUG 1
 #define HAVE_NC_ALLOC_H 1
 #define HAVE_GETTIMEOFDAY 1

@@ -1,7 +1,7 @@
-/* $MirOS: src/sys/sys/taitime.h,v 1.4 2011/10/28 23:07:24 tg Exp $ */
+/* $MirOS: src/sys/sys/taitime.h,v 1.5 2011/11/20 04:57:15 tg Exp $ */
 
 /*-
- * Copyright (c) 2007, 2011
+ * Copyright (c) 2007, 2011, 2013
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -77,17 +77,17 @@ __END_DECLS
 __BEGIN_DECLS
 /* get current time */
 tai64_t tai_time(tai64_t *)
-    __attribute__((bounded (minbytes, 1, 8)));
+    __attribute__((__bounded__(__minbytes__, 1, 8)));
 void taina_time(tai64na_t *)
-    __attribute__((bounded (minbytes, 1, 16)));
+    __attribute__((__bounded__(__minbytes__, 1, 16)));
 
 /* on-the-wire DJB-compatible conversion */
 void exporttai(uint8_t *, tai64na_t *)
-    __attribute__((bounded (minbytes, 1, 16)))
-    __attribute__((bounded (minbytes, 2, 16)));
+    __attribute__((__bounded__(__minbytes__, 1, 16)))
+    __attribute__((__bounded__(__minbytes__, 2, 16)));
 void importtai(uint8_t *, tai64na_t *)
-    __attribute__((bounded (minbytes, 1, 16)))
-    __attribute__((bounded (minbytes, 2, 16)));
+    __attribute__((__bounded__(__minbytes__, 1, 16)))
+    __attribute__((__bounded__(__minbytes__, 2, 16)));
 __END_DECLS
 #endif /* !_KERNEL && __OPENBSD_VISIBLE */
 

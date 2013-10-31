@@ -1,8 +1,11 @@
+/*	$MirOS$ */
 /*	$OpenBSD: util.h,v 1.15 2005/06/20 07:14:06 otto Exp $	*/
 
 /*
  * patch - a program to apply diffs to original files
  * 
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright 1986, Larry Wall
  * 
  * Redistribution and use in source and binary forms, with or without
@@ -44,7 +47,7 @@ void		set_signals(int);
 void		ignore_signals(void);
 void		makedirs(const char *, bool);
 void		version(void);
-void		my_exit(int) __attribute__((noreturn));
+void		my_exit(int) __attribute__((__noreturn__));
 
 /* in mkpath.c */
 extern int mkpath(char *);

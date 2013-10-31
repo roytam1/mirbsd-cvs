@@ -1,8 +1,10 @@
-/**	$MirOS: src/include/string.h,v 1.8 2007/06/16 21:05:13 tg Exp $ */
+/**	$MirOS: src/include/string.h,v 1.9 2008/12/27 21:43:22 tg Exp $ */
 /*	$OpenBSD: string.h,v 1.15 2005/03/30 03:04:16 deraadt Exp $	*/
 /*	$NetBSD: string.h,v 1.6 1994/10/26 00:56:30 cgd Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
  *
@@ -62,13 +64,13 @@ __BEGIN_DECLS
 void	*memchr(const void *, int, size_t);
 int	 memcmp(const void *, const void *, size_t);
 void	*memcpy(void *, const void *, size_t)
-		__attribute__ ((__bounded__(__buffer__,1,3)))
-		__attribute__ ((__bounded__(__buffer__,2,3)));
+		__attribute__((__bounded__(__buffer__, 1, 3)))
+		__attribute__((__bounded__(__buffer__, 2, 3)));
 void	*memmove(void *, const void *, size_t)
-		__attribute__ ((__bounded__(__buffer__,1,3)))
-		__attribute__ ((__bounded__(__buffer__,2,3)));
+		__attribute__((__bounded__(__buffer__, 1, 3)))
+		__attribute__((__bounded__(__buffer__, 2, 3)));
 void	*memset(void *, int, size_t)
-		__attribute__ ((__bounded__(__buffer__,1,3)));
+		__attribute__((__bounded__(__buffer__, 1, 3)));
 char	*strcat(char *, const char *);
 char	*strchr(const char *, int);
 int	 strcmp(const char *, const char *);
@@ -77,13 +79,13 @@ char	*strcpy(char *, const char *);
 size_t	 strcspn(const char *, const char *);
 char	*strerror(int);
 int	 strerror_r(int, char *, size_t)
-		__attribute__ ((__bounded__(__string__,2,3)));
+		__attribute__((__bounded__(__string__, 2, 3)));
 size_t	 strlen(const char *);
 char	*strncat(char *, const char *, size_t)
-		__attribute__ ((__bounded__(__string__,1,3)));
+		__attribute__((__bounded__(__string__, 1, 3)));
 int	 strncmp(const char *, const char *, size_t);
 char	*strncpy(char *, const char *, size_t)
-		__attribute__ ((__bounded__(__string__,1,3)));
+		__attribute__((__bounded__(__string__, 1, 3)));
 char	*strpbrk(const char *, const char *);
 char	*strrchr(const char *, int);
 size_t	 strspn(const char *, const char *);
@@ -91,28 +93,28 @@ char	*strstr(const char *, const char *);
 char	*strtok(char *, const char *);
 char	*strtok_r(char *, const char *, char **);
 size_t	 strxfrm(char *, const char *, size_t)
-		__attribute__ ((__bounded__(__string__,1,3)));
+		__attribute__((__bounded__(__string__, 1, 3)));
 
 /* Nonstandard routines */
 #if !defined(_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
 int	 bcmp(const void *, const void *, size_t);
 void	 bcopy(const void *, void *, size_t)
-		__attribute__ ((__bounded__(__buffer__,1,3)))
-		__attribute__ ((__bounded__(__buffer__,2,3)));
+		__attribute__((__bounded__(__buffer__, 1, 3)))
+		__attribute__((__bounded__(__buffer__, 2, 3)));
 void	 bzero(void *, size_t)
-		__attribute__ ((__bounded__(__buffer__,1,2)));
+		__attribute__((__bounded__(__buffer__, 1, 2)));
 int	 ffs(int);
 char	*index(const char *, int);
 void	*memccpy(void *, const void *, int, size_t)
-		__attribute__ ((__bounded__(__buffer__,1,4)));
+		__attribute__((__bounded__(__buffer__, 1, 4)));
 char	*rindex(const char *, int);
 int	 strcasecmp(const char *, const char *);
 char	*strdup(const char *);
 char	*strcasestr(const char *, const char *);
 size_t	 strlcat(char *, const char *, size_t)
-		__attribute__ ((__bounded__(__string__,1,3)));
+		__attribute__((__bounded__(__string__, 1, 3)));
 size_t	 strlcpy(char *, const char *, size_t)
-		__attribute__ ((__bounded__(__string__,1,3)));
+		__attribute__((__bounded__(__string__, 1, 3)));
 void	 strmode(mode_t, char *);
 int	 strncasecmp(const char *, const char *, size_t);
 #if __OPENBSD_VISIBLE
@@ -127,10 +129,10 @@ __END_DECLS
 __BEGIN_DECLS
 char *stpcpy(char *, const char *);
 char *stpncpy(char *, const char *, size_t)
-    __attribute__((bounded (string, 1, 3)));
+    __attribute__((__bounded__(__string__, 1, 3)));
 void *mempcpy(void *, const void *, size_t)
-    __attribute__((bounded (buffer, 1, 3)))
-    __attribute__((bounded (buffer, 2, 3)));
+    __attribute__((__bounded__(__buffer__, 1, 3)))
+    __attribute__((__bounded__(__buffer__, 2, 3)));
 __END_DECLS
 #endif
 

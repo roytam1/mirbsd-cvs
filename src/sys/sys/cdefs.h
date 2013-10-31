@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.27 2011/10/18 20:35:36 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.28 2011/10/18 21:29:32 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.18 2005/05/27 21:28:12 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
 /*-
- * Copyright (c) 2005, 2006, 2011
- *	Thorsten "mirabilos" Glaser <tg@MirBSD.org>
+ * Copyright © 2005, 2006, 2011, 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -208,7 +208,7 @@
 #define __a_used
 #define __a_deprecated
 #else
-#define __aligned(x)		__attribute__((__aligned__ (x)))
+#define __aligned(x)		__attribute__((__aligned__(x)))
 #define __unused		__attribute__((__unused__))
 #define __a_used		__attribute__((__used__))
 #define __a_deprecated		__attribute__((__deprecated__))

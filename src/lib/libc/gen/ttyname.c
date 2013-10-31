@@ -1,5 +1,7 @@
 /*	$OpenBSD: ttyname.c,v 1.12 2005/08/08 08:05:34 espie Exp $ */
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1988, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -40,6 +42,8 @@
 #include <limits.h>
 #include <errno.h>
 #include "thread_private.h"
+
+__RCSID("$MirOS$");
 
 static char buf[TTY_NAME_MAX];
 static int oldttyname(int, struct stat *, char *, size_t);
@@ -123,7 +127,7 @@ __ttyname_r_basic(int fd, char *buf, size_t len)
 
 /* ARGSUSED */
 static int
-oldttyname(int fd __attribute__((unused)), struct stat *sb, char *buf,
+oldttyname(int fd __attribute__((__unused__)), struct stat *sb, char *buf,
     size_t len)
 {
 	struct dirent *dirp;

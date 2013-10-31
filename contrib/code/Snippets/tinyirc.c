@@ -31,7 +31,7 @@
 /*-
    TinyIRC - MirOS Fork
    Copyright (C) 1994 Nathan I. Laredo <laredo@gnu.org>
-   Copyright (c) 1999-2011 Thorsten Glaser <tg@mirbsd.org>
+   Copyright (c) 1999-2013 Thorsten Glaser <tg@mirbsd.org>
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License Version 1
@@ -83,10 +83,10 @@
 #include <unistd.h>
 
 #ifndef __RCSID
-#define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
+#define	__RCSID(x)	static const char __rcsid[] __attribute__((__used__)) = (x)
 #endif
 
-__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.40 2011/07/06 22:22:04 tg Exp $");
+__RCSID("$MirOS: contrib/code/Snippets/tinyirc.c,v 1.41 2011/07/18 00:35:41 tg Exp $");
 
 #ifndef __dead
 #define __dead
@@ -1097,7 +1097,7 @@ void cleanup(int sig)
 }
 
 static void
-dowinch(int sig __attribute__((unused)))
+dowinch(int sig __attribute__((__unused__)))
 {
 	sigwinch = 1;
 }

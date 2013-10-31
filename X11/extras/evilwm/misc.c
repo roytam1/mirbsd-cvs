@@ -1,4 +1,6 @@
 /* evilwm - Minimalist Window Manager for X
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (C) 1999-2005 Ciaran Anscomb <evilwm@6809.org.uk>
  * see README for license and other details. */
 
@@ -11,7 +13,7 @@
 #include "evilwm.h"
 #include "log.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: X11/extras/evilwm/misc.c,v 1.4 2006/08/14 19:05:19 tg Exp $");
 
 /* Now do this by fork()ing twice so we don't have to worry about SIGCHLDs */
 void spawn(const char *const cmd[]) {
@@ -30,7 +32,7 @@ void spawn(const char *const cmd[]) {
 		wait(NULL);
 }
 
-void handle_signal(int signo __attribute__((unused))) {
+void handle_signal(int signo __attribute__((__unused__))) {
 	int i;
 	/* SIGCHLD check no longer necessary */
 	/* Quit Nicely */
@@ -47,7 +49,7 @@ void handle_signal(int signo __attribute__((unused))) {
 	exit(0);
 }
 
-int handle_xerror(Display *dsply __attribute__((unused)), XErrorEvent *e) {
+int handle_xerror(Display *dsply __attribute__((__unused__)), XErrorEvent *e) {
 	Client *c = find_client(e->resourceid);
 
 	/* If this error actually occurred while setting up the new
@@ -78,7 +80,7 @@ int handle_xerror(Display *dsply __attribute__((unused)), XErrorEvent *e) {
 	return 0;
 }
 
-int ignore_xerror(Display *dsply __attribute__((unused)), XErrorEvent *e __attribute__((unused))) {
+int ignore_xerror(Display *dsply __attribute__((__unused__)), XErrorEvent *e __attribute__((__unused__))) {
 	LOG_DEBUG("ignore_xerror() caught an XErrorEvent: %d\n", e->error_code);
 	return 0;
 }

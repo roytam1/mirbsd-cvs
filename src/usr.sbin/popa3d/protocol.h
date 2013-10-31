@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: protocol.h,v 1.3 2003/05/12 19:28:22 camield Exp $ */
 
 /*
@@ -77,7 +78,7 @@ extern int pop_get_int(char **params);
  */
 extern int pop_reply(char *format, ...)
 #ifdef __GNUC__
-	__attribute__ ((format (printf, 1, 2)));
+	__attribute__((__format__(__printf__, 1, 2)));
 #else
 	;
 #endif

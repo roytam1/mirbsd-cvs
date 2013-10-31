@@ -1,9 +1,8 @@
-/**	$MirOS: src/sbin/modload/modload.c,v 1.2 2005/11/17 12:07:57 tg Exp $ */
 /* 	$OpenBSD: modload.c,v 1.41 2003/08/06 20:37:25 millert Exp $	*/
 /*	$NetBSD: modload.c,v 1.30 2001/11/08 15:33:15 christos Exp $	*/
 
 /*
- * Copyright (c) 2010
+ * Copyright (c) 2010, 2013
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1993 Terrence R. Lambert.
  * All rights reserved.
@@ -57,7 +56,7 @@
 #include "modload.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/sbin/modload/modload.c,v 1.2 2005/11/17 12:07:57 tg Exp $");
+__RCSID("$MirOS: src/sbin/modload/modload.c,v 1.3 2010/07/25 16:31:07 tg Exp $");
 
 #ifndef DFLT_ENTRY
 #define	DFLT_ENTRY	"xxxinit"
@@ -79,7 +78,7 @@ int symtab = 1;
 int Sflag;
 
 static void cleanup(void);
-static void usage(void) __attribute__((noreturn));
+static void usage(void) __attribute__((__noreturn__));
 static int verify_kernel(const char *);
 
 /* prelink the module */

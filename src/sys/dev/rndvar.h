@@ -1,8 +1,8 @@
-/**	$MirOS: src/sys/dev/rndvar.h,v 1.29 2010/09/24 20:35:13 tg Exp $ */
+/**	$MirOS: src/sys/dev/rndvar.h,v 1.30 2010/09/25 01:08:49 tg Exp $ */
 /*	$OpenBSD: rndvar.h,v 1.19 2003/11/03 18:24:28 tedu Exp $	*/
 
 /*
- * Copyright (c) 2004, 2005, 2006, 2008, 2009, 2010
+ * Copyright (c) 2004, 2005, 2006, 2008, 2009, 2010, 2013
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1996,2000 Michael Shalayeff.
  *
@@ -101,15 +101,15 @@ extern struct rndstats rndstats;
 
 void enqueue_randomness(int, int);
 void get_random_bytes(void *, size_t)
-    __attribute__((bounded (string, 1, 2)));
+    __attribute__((__bounded__(__string__, 1, 2)));
 void arc4random_buf(void *, size_t)
-    __attribute__((bounded (string, 1, 2)));
+    __attribute__((__bounded__(__string__, 1, 2)));
 u_int32_t arc4random(void);
 
 void rnd_lopool_add(const void *, size_t)
-    __attribute__((bounded (string, 1, 2)));
+    __attribute__((__bounded__(__string__, 1, 2)));
 void rnd_lopool_addh(const void *, size_t)
-    __attribute__((bounded (string, 1, 2)));
+    __attribute__((__bounded__(__string__, 1, 2)));
 void rnd_lopool_addv(unsigned long);
 
 #endif /* _KERNEL */

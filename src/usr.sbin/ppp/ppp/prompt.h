@@ -1,4 +1,6 @@
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1998 Brian Somers <brian@Awfulhak.org>
  * All rights reserved.
  *
@@ -23,6 +25,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
+ *	$MirOS$
  *	$OpenBSD: prompt.h,v 1.6 2005/07/17 19:13:25 brad Exp $
  */
 
@@ -71,13 +74,13 @@ extern void prompt_Destroy(struct prompt *, int);
 extern void prompt_Required(struct prompt *);
 #ifdef __GNUC__
 extern void prompt_Printf(struct prompt *, const char *, ...)
-                          __attribute__ ((format (printf, 2, 3)));
+                          __attribute__((__format__(__printf__, 2, 3)));
 #else
 extern void prompt_Printf(struct prompt *, const char *, ...);
 #endif
 #ifdef __GNUC__
 extern void prompt_vPrintf(struct prompt *, const char *, va_list)
-			   __attribute__ ((format (printf, 2, 0)));
+			   __attribute__((__format__(__printf__, 2, 0)));
 #else
 extern void prompt_vPrintf(struct prompt *, const char *, va_list);
 #endif

@@ -44,7 +44,7 @@
 /* Prototype specifies unmangled function name and disables unused warning */
 static void
 invoke_copy_to_stack(PRUint64* d, PRUint32 paramCount, nsXPTCVariant* s)
-__asm__("invoke_copy_to_stack") __attribute__((unused));
+__asm__("invoke_copy_to_stack") __attribute__((__unused__));
 
 static void
 invoke_copy_to_stack(PRUint64* d, PRUint32 paramCount, nsXPTCVariant* s)

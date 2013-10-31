@@ -1,6 +1,9 @@
+/*	$MirOS$ */
 /*	$OpenBSD: exec_i386.c,v 1.32 2007/07/27 17:46:56 tom Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1997-1998 Michael Shalayeff
  * Copyright (c) 1997 Tobias Weingartner
  * All rights reserved.
@@ -38,7 +41,7 @@
 #include <lib/libsa/loadfile.h>
 
 typedef void (*startfuncp)(int, int, int, int, int, int, int, int)
-    __attribute__ ((noreturn));
+    __attribute__((__noreturn__));
 
 char *bootmac = NULL;
 char use_bootmac = 1;

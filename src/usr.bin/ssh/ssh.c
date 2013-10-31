@@ -1,6 +1,8 @@
 /* $OpenBSD: ssh.c,v 1.326 2009/07/02 02:11:47 dtucker Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
  * Ssh client program.  This program can be used to log into a remote machine.
@@ -96,7 +98,7 @@
 #include "scard.h"
 #endif
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.28 2009/10/04 14:29:11 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh.c,v 1.29 2011/01/15 21:52:43 tg Exp $");
 
 extern char *__progname;
 
@@ -816,7 +818,7 @@ main(int ac, char **av)
 
 /* Callback for remote forward global requests */
 static void
-ssh_confirm_remote_forward(int type, u_int32_t seq __attribute__((unused)),
+ssh_confirm_remote_forward(int type, u_int32_t seq __attribute__((__unused__)),
     void *ctxt)
 {
 	Forward *rfwd = (Forward *)ctxt;
@@ -1087,7 +1089,7 @@ ssh_session(void)
 
 /* request pty/x11/agent/tcpfwd/shell for channel */
 static void
-ssh_session2_setup(int id, void *arg __attribute__((unused)))
+ssh_session2_setup(int id, void *arg __attribute__((__unused__)))
 {
 	extern char **environ;
 	const char *display;

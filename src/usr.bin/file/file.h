@@ -1,6 +1,8 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/file/file.h,v 1.2 2007/07/10 14:22:36 tg Exp $ */
 /*	$OpenBSD: file.h,v 1.17 2007/07/09 16:39:48 dim Exp $ */
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) Ian F. Darwin 1986-1995.
  * Software written by Ian F. Darwin and others;
  * maintained 1995-present by Christos Zoulas and others.
@@ -195,7 +197,7 @@ protected int file_buffer(struct magic_set *, const void *, size_t);
 protected int file_fsmagic(struct magic_set *, const char *, struct stat *);
 protected int file_pipe2file(struct magic_set *, int, const void *, size_t);
 protected int file_printf(struct magic_set *, const char *, ...)
-    __attribute__((format (printf, 2, 3)));
+    __attribute__((__format__(__printf__, 2, 3)));
 protected int file_reset(struct magic_set *);
 protected int file_tryelf(struct magic_set *, int, const unsigned char *, size_t);
 protected int file_zmagic(struct magic_set *, const unsigned char *, size_t);
@@ -209,9 +211,9 @@ protected void file_badread(struct magic_set *);
 protected void file_badseek(struct magic_set *);
 protected void file_oomem(struct magic_set *);
 protected void file_error(struct magic_set *, int, const char *, ...)
-    __attribute__((format (printf, 3, 4)));
+    __attribute__((__format__(__printf__, 3, 4)));
 protected void file_magwarn(const char *, ...)
-    __attribute__((format (printf, 1, 2)));
+    __attribute__((__format__(__printf__, 1, 2)));
 protected void file_mdump(struct magic *);
 protected void file_showstr(FILE *, const char *, size_t);
 protected size_t file_mbswidth(const char *);

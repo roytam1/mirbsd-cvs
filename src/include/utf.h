@@ -1,7 +1,7 @@
-/* $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $ */
+/* $MirOS: src/include/utf.h,v 1.1 2008/11/22 12:56:20 tg Exp $ */
 
 /*-
- * Copyright (c) 2008
+ * Copyright (c) 2008, 2013
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -53,9 +53,10 @@ enum {
 
 __BEGIN_DECLS
 size_t chartorune(Rune *, const char *)
-    __attribute__((nonnull (1, 2)));
+    __attribute__((__nonnull__(1, 2)));
 int fullrune(const char *, size_t)
-    __attribute__((nonnull (1), bounded (string, 1, 2)));
+    __attribute__((__nonnull__(1)))
+    __attribute__((__bounded__(__string__, 1, 2)));
 int isalpharune(Rune);
 int islowerrune(Rune);
 int isspacerune(Rune);
@@ -63,48 +64,50 @@ int istitlerune(Rune);
 int isupperrune(Rune);
 size_t runelen(wint_t);
 size_t runenlen(const Rune *, size_t)
-    __attribute__((nonnull (1)));
+    __attribute__((__nonnull__(1)));
 Rune *runestrcat(Rune *, const Rune *)
-    __attribute__((nonnull (1, 2)));
+    __attribute__((__nonnull__(1, 2)));
 Rune *runestrchr(Rune *, Rune)
-    __attribute__((nonnull (1)));
+    __attribute__((__nonnull__(1)));
 int runestrcmp(const Rune *, const Rune *)
-    __attribute__((nonnull (1, 2)));
+    __attribute__((__nonnull__(1, 2)));
 Rune *runestrcpy(Rune *, const Rune *)
-    __attribute__((nonnull (1, 2)));
+    __attribute__((__nonnull__(1, 2)));
 Rune *runestrdup(const Rune *)
-    __attribute__((nonnull (1)));
+    __attribute__((__nonnull__(1)));
 Rune *runestrecpy(Rune *, Rune *, const Rune *)
-    __attribute__((nonnull (1, 2, 3)));
+    __attribute__((__nonnull__(1, 2, 3)));
 size_t runestrlen(const Rune *)
-    __attribute__((nonnull (1)));
+    __attribute__((__nonnull__(1)));
 Rune *runestrncat(Rune *, const Rune *, size_t)
-    __attribute__((nonnull (1, 2)));
+    __attribute__((__nonnull__(1, 2)));
 int runestrncmp(const Rune *, const Rune *, size_t)
-    __attribute__((nonnull (1, 2)));
+    __attribute__((__nonnull__(1, 2)));
 Rune *runestrncpy(Rune *, const Rune *, size_t)
-    __attribute__((nonnull (1, 2)));
+    __attribute__((__nonnull__(1, 2)));
 Rune *runestrrchr(Rune *, Rune)
-    __attribute__((nonnull (1)));
+    __attribute__((__nonnull__(1)));
 Rune *runestrstr(Rune *, const Rune *)
-    __attribute__((nonnull (1, 2)));
+    __attribute__((__nonnull__(1, 2)));
 size_t runetochar(char *, const Rune *)
-    __attribute__((nonnull (1, 2), bounded (minbytes, 1, 3)));
+    __attribute__((__nonnull__(1, 2)))
+    __attribute__((__bounded__(__minbytes__, 1, 3)));
 Rune tolowerrune(Rune);
 Rune totitlerune(Rune);
 Rune toupperrune(Rune);
 char *utfecpy(char *, char *, const char *)
-    __attribute__((nonnull (1, 2, 3)));
+    __attribute__((__nonnull__(1, 2, 3)));
 size_t utflen(const char *)
-    __attribute__((nonnull (1)));
+    __attribute__((__nonnull__(1)));
 size_t utfnlen(const char *, size_t);
-    __attribute__((nonnull (1), bounded (string, 1, 2)));
+    __attribute__((__nonnull__(1)))
+    __attribute__((__bounded__(__string__, 1, 2)));
 char *utfrrune(char *, wint_t)
-    __attribute__((nonnull (1)));
+    __attribute__((__nonnull__(1)));
 char *utfrune(char *, wint_t)
-    __attribute__((nonnull (1)));
+    __attribute__((__nonnull__(1)));
 char *utfutf(char *, const char *)
-    __attribute__((nonnull (1)));
+    __attribute__((__nonnull__(1)));
 __END_DECLS
 
 #endif

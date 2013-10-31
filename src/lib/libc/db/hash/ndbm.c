@@ -1,6 +1,8 @@
 /*	$OpenBSD: ndbm.c,v 1.21 2005/08/08 08:05:33 espie Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -43,7 +45,7 @@
 #include <dbm.h>
 #include "hash.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/db/hash/ndbm.c,v 1.2 2006/06/02 02:29:46 tg Exp $");
 
 /*
  *
@@ -133,7 +135,7 @@ firstkey(void)
  */
 /* ARGSUSED */
 datum
-nextkey(datum key __attribute__((unused)))
+nextkey(datum key __attribute__((__unused__)))
 {
 	datum item;
 

@@ -1,5 +1,7 @@
-@c $MirOS$
+@c $MirOS: gcc/gcc/doc/extend.texi,v 1.3 2007/01/25 10:35:09 tg Exp $
 @c
+@c Copyright © 2013
+@c	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 @c Copyright (C) 1988,1989,1992,1993,1994,1996,1998,1999,2000,2001,2002,2003,2004,2007
 @c Free Software Foundation, Inc.
 @c This is part of the GCC manual.
@@ -2286,7 +2288,7 @@ parameters pass fixed-length buffers and their sizes.
 The syntax for normal buffers is:
 
 @smallexample
-__attribute__((bounded (__buffer__, buffer, length)))
+__attribute__((__bounded__(__buffer__, buffer, length)))
 @end smallexample
 
 @noindent
@@ -2301,14 +2303,14 @@ warnings will be generated.
 
 @smallexample
 void    *memcpy(void *, const void *, size_t)
-                __attribute__((bounded (__buffer__, 1, 3)))
-                __attribute__((bounded (__buffer__, 2, 3)));
+                __attribute__((__bounded__(__buffer__, 1, 3)))
+                __attribute__((__bounded__(__buffer__, 2, 3)));
 @end smallexample
 
 For checking strings, just use __string__ instead of __buffer__:
 
 @smallexample
-__attribute__((bounded (__string__, buffer, length)))
+__attribute__((__bounded__(__string__, buffer, length)))
 @end smallexample
 
 In addition to the checks described above, this also tests if the length
@@ -2317,7 +2319,7 @@ strlcpy(3) is a good example of a string function with this check:
 
 @smallexample
 size_t   strlcpy(char *, const char *, size_t)
-                __attribute__((bounded (__string__, 1, 3)));
+                __attribute__((__bounded__(__string__, 1, 3)));
 @end smallexample
 
 Some functions specify the length as two arguments: the number of
@@ -2325,7 +2327,7 @@ elements and the size of each element.
 In this case, use the __size__ attribute:
 
 @smallexample
-__attribute__((bounded (__size__, buffer, nmemb, size)))
+__attribute__((__bounded__(__size__, buffer, nmemb, size)))
 @end smallexample
 
 @noindent
@@ -2336,14 +2338,14 @@ The type checks performed by __size__ are the same as the __buffer__ attribute.
 
 @smallexample
 size_t   fread(void *, size_t, size_t, FILE *)
-                __attribute__((__bounded__ (__size__,1,3,2)));
+                __attribute__((__bounded__(__size__, 1, 3, 2)));
 @end smallexample
 
 If a function accepts a buffer parameter and specifies that it has to
 be of a minimum length, the __minbytes__ attribute can be used:
 
 @smallexample
-__attribute__((bounded (__minbytes__, buffer, minsize)))
+__attribute__((__bounded__(__minbytes__, buffer, minsize)))
 @end smallexample
 
 @noindent
@@ -2353,7 +2355,7 @@ the buffer should be.
 
 @smallexample
 char *ctime_r(const time_t *, char *)
-                __attribute__((bounded (__minbytes__, 2, 26)));
+                __attribute__((__bounded__(__minbytes__, 2, 26)));
 @end smallexample
 
 @item no_instrument_function

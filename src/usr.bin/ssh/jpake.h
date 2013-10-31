@@ -1,5 +1,8 @@
+/* $MirOS$ */
 /* $OpenBSD: jpake.h,v 1.2 2009/03/05 07:18:19 djm Exp $ */
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2008 Damien Miller.  All rights reserved.
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -81,8 +84,8 @@ struct jpake_ctx {
 /* jpake.c */
 struct modp_group *jpake_default_group(void);
 void jpake_dump(struct jpake_ctx *, const char *, ...)
-    __attribute__((__nonnull__ (2)))
-    __attribute__((format(printf, 2, 3)));
+    __attribute__((__nonnull__(2)))
+    __attribute__((__format__(__printf__, 2, 3)));
 struct jpake_ctx *jpake_new(void);
 void jpake_free(struct jpake_ctx *);
 

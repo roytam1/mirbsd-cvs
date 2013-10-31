@@ -1,8 +1,10 @@
-/**	$MirOS: src/include/dirent.h,v 1.3 2005/07/25 19:16:10 tg Exp $ */
+/**	$MirOS: src/include/dirent.h,v 1.4 2005/11/21 19:31:53 tg Exp $ */
 /*	$OpenBSD: dirent.h,v 1.14 2005/06/18 18:09:42 millert Exp $	*/
 /*	$NetBSD: dirent.h,v 1.9 1995/03/26 20:13:37 jtc Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -105,7 +107,7 @@ int scandir(const char *, struct dirent ***,
     int (*)(struct dirent *), int (*)(const void *, const void *));
 int alphasort(const void *, const void *);
 int getdirentries(int, char *, int, long *)
-		__attribute__ ((__bounded__(__string__,2,3)));
+		__attribute__((__bounded__(__string__, 2, 3)));
 #endif /* not POSIX */
 int readdir_r(DIR *, struct dirent *, struct dirent **);
 __END_DECLS

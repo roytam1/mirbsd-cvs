@@ -1,7 +1,7 @@
-/* $MirOS: src/include/wchar.h,v 1.31 2008/12/27 20:10:06 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.32 2009/07/05 13:15:50 tg Exp $ */
 
 /*-
- * Copyright (c) 2007, 2008
+ * Copyright (c) 2007, 2008, 2013
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -76,7 +76,7 @@ typedef struct {
 	 * 14 bits available in total
 	 */
 	unsigned int value:12;
-} __attribute__((packed)) mbstate_t;
+} __attribute__((__packed__)) mbstate_t;
 #endif
 
 #undef WCHAR_MIN
@@ -100,7 +100,7 @@ wint_t	getwchar(void);
 size_t	mbrlen(const char *__restrict__, size_t, mbstate_t *__restrict__);
 size_t	mbrtowc(wchar_t *__restrict__, const char *__restrict__, size_t,
     mbstate_t *__restrict__)
-    __attribute__((bounded (string, 2, 3)));
+    __attribute__((__bounded__(__string__, 2, 3)));
 int	mbsinit(const mbstate_t *);
 size_t	mbslen(const char *);
 #if __OPENBSD_VISIBLE
@@ -117,23 +117,23 @@ size_t	mbsrtowcs(wchar_t *__restrict__, const char **__restrict__, size_t,
 #undef optu16to8
 #define optu16to8 optu16to8
 size_t	optu16to8(char *__restrict__, wchar_t, mbstate_t *__restrict__)
-    __attribute__((bounded (minbytes, 1, MB_CUR_MAX)));
+    __attribute__((__bounded__(__minbytes__, 1, MB_CUR_MAX)));
 #undef optu8to16
 #define optu8to16 optu8to16
 size_t	optu8to16(wchar_t *__restrict__, const char *__restrict__, size_t,
     mbstate_t *__restrict__)
-    __attribute__((bounded (string, 2, 3)));
+    __attribute__((__bounded__(__string__, 2, 3)));
 #undef optu8to16vis
 #define optu8to16vis optu8to16vis
 size_t	optu8to16vis(wchar_t *__restrict__, const char *__restrict__, size_t,
     mbstate_t *__restrict__)
-    __attribute__((bounded (string, 2, 3)));
+    __attribute__((__bounded__(__string__, 2, 3)));
 #endif
 wint_t	putwc(wchar_t, FILE *);
 wint_t	putwchar(wchar_t);
 wint_t	ungetwc(wint_t, FILE *);
 size_t	wcrtomb(char *__restrict__, wchar_t, mbstate_t *__restrict__)
-    __attribute__((bounded (minbytes, 1, MB_CUR_MAX)));
+    __attribute__((__bounded__(__minbytes__, 1, MB_CUR_MAX)));
 int	wcscasecmp(const wchar_t *, const wchar_t *);
 wchar_t	*wcscat(wchar_t *__restrict__, const wchar_t *__restrict__);
 wchar_t	*wcschr(const wchar_t *, wchar_t);
@@ -223,13 +223,14 @@ __END_DECLS
 #if __OPENBSD_VISIBLE && !defined(iswoctet)
 #define iswoctet(wc)	(((wchar_t)(wc) & 0xFF80) == 0xEF80)
 wchar_t *ambsntowcs(const char *, size_t)
-    __attribute__((nonnull (1), bounded (string, 1, 2)));
+    __attribute__((__nonnull__(1)))
+    __attribute__((__bounded__(__string__, 1, 2)));
 wchar_t *ambstowcs(const char *)
-    __attribute__((nonnull (1)));
+    __attribute__((__nonnull__(1)));
 char *awcsntombs(const wchar_t *, size_t)
-    __attribute__((nonnull (1)));
+    __attribute__((__nonnull__(1)));
 char *awcstombs(const wchar_t *)
-    __attribute__((nonnull (1)));
+    __attribute__((__nonnull__(1)));
 #endif
 
 #ifdef __GNUC__

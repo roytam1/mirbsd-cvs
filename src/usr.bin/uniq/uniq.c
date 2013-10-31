@@ -1,8 +1,9 @@
-/**	$MirOS$ */
 /*	$OpenBSD: uniq.c,v 1.14 2003/06/03 02:56:21 millert Exp $	*/
 /*	$NetBSD: uniq.c,v 1.7 1995/08/31 22:03:48 jtc Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -35,7 +36,7 @@
  */
 
 #ifndef lint
-static char copyright[] __attribute__((unused)) =
+static char copyright[] __attribute__((__unused__)) =
 "@(#) Copyright (c) 1989, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n";
 #endif /* not lint */
@@ -49,7 +50,7 @@ static char copyright[] __attribute__((unused)) =
 #include <err.h>
 
 __SCCSID("@(#)uniq.c	8.3 (Berkeley) 5/4/95");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/uniq/uniq.c,v 1.2 2005/05/23 13:36:14 tg Exp $");
 
 #define	MAXLINELEN	(8 * 1024)
 

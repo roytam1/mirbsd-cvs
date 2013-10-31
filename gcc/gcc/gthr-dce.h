@@ -1,6 +1,7 @@
+/* $MirOS$ */
 
 /* Compile this one with gcc.  */
-/* Copyright (C) 1997, 1999, 2000, 2001 Free Software Foundation, Inc.
+/* Copyright (C) 1997, 1999, 2000, 2001, 2013 Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -46,7 +47,7 @@ Software Foundation, 59 Temple Place - Suite 330, Boston, MA
 #ifdef __cplusplus
 #define UNUSED(x) x
 #else
-#define UNUSED(x) x __attribute__((unused))
+#define UNUSED(x) x __attribute__((__unused__))
 #endif
 
 typedef pthread_key_t __gthread_key_t;

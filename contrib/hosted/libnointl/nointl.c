@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2007
+ * Copyright (c) 2007, 2013
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -27,11 +27,11 @@
 #define LIBINTL_INTERNAL
 #include "libintl.h"
 
-static const char __rcsid_intl[] __attribute__((used)) =
-    "$MirOS: contrib/hosted/libnointl/nointl.c,v 1.7 2008/05/03 01:09:30 tg Exp $";
+static const char __rcsid_intl[] __attribute__((__used__)) =
+    "$MirOS: contrib/hosted/libnointl/nointl.c,v 1.8 2009/11/17 19:26:15 tg Exp $";
 
 #undef __unused
-#define __unused	__attribute__((unused))
+#define __unused	__attribute__((__unused__))
 
 /* hidden data symbols */
 const char _nl_default_default_domain__[] = "messages";

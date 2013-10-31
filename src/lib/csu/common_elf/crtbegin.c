@@ -1,11 +1,11 @@
-/* $MirOS: src/lib/csu/common_elf/crtbegin.c,v 1.3 2008/11/08 23:03:50 tg Exp $
+/* $MirOS: src/lib/csu/common_elf/crtbegin.c,v 1.4 2008/12/26 16:25:51 tg Exp $
  * derived from the following files:
  * $NetBSD: crtbegin.c,v 1.26 2004/08/28 00:19:22 thorpej Exp $
  * $OpenBSD: crtbegin.c,v 1.10 2004/10/10 18:29:15 kettenis Exp $
  */
 
 /*-
- * Copyright (c) 2003, 2004, 2004
+ * Copyright (c) 2003, 2004, 2004, 2013
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 1998, 2001, 2002 The NetBSD Foundation, Inc.
  * All rights reserved.
@@ -49,7 +49,7 @@
 
 #include "dot_init.h"
 
-__RCSID("$MirOS: src/lib/csu/common_elf/crtbegin.c,v 1.3 2008/11/08 23:03:50 tg Exp $");
+__RCSID("$MirOS: src/lib/csu/common_elf/crtbegin.c,v 1.4 2008/12/26 16:25:51 tg Exp $");
 
 /*
  * Run-time module which handles constructors and destructors.
@@ -70,16 +70,16 @@ __RCSID("$MirOS: src/lib/csu/common_elf/crtbegin.c,v 1.3 2008/11/08 23:03:50 tg 
 #endif
 
 #if __GNUC_PREREQ__(3, 0)
-#define	USED_NOINLINE __attribute__((__used__,__noinline__))
+#define	USED_NOINLINE __attribute__((__used__, __noinline__))
 #else
 #define	USED_NOINLINE __attribute__((__unused__))
 #endif
 
 
 static void (*__CTOR_LIST__[1])(void)
-    __attribute__((section(".ctors"))) = { (void *)-1 };	/* XXX */
+    __attribute__((__section__(".ctors"))) = { (void *)-1 };	/* XXX */
 static void (*__DTOR_LIST__[1])(void)
-    __attribute__((section(".dtors"))) = { (void *)-1 };	/* XXX */
+    __attribute__((__section__(".dtors"))) = { (void *)-1 };	/* XXX */
 
 #ifdef	DWARF2_EH
 struct dwarf2_eh_object {
@@ -87,18 +87,18 @@ struct dwarf2_eh_object {
 };
 
 extern void __register_frame_info(const void *,
-    struct dwarf2_eh_object *) __attribute__((weak));
-extern void __deregister_frame_info(const void *) __attribute__((weak));
+    struct dwarf2_eh_object *) __attribute__((__weak__));
+extern void __deregister_frame_info(const void *) __attribute__((__weak__));
 
 static const char __EH_FRAME_BEGIN__[]
-    __attribute__((section(".eh_frame"), aligned(4))) = { };
+    __attribute__((__section__(".eh_frame"), __aligned__(4))) = { };
 #endif
 
 #if defined(JCR) && defined(__GNUC__)
-extern void _Jv_RegisterClasses(void *) __attribute__((weak));
+extern void _Jv_RegisterClasses(void *) __attribute__((__weak__));
 
 static void *__JCR_LIST__[]
-    __attribute__((section(".jcr"))) = { };
+    __attribute__((__section__(".jcr"))) = { };
 #endif
 
 #if defined(DSO_HANDLE) && defined(__GNUC__)
@@ -116,7 +116,7 @@ void	*__dso_handle = NULL;
 __asm(".hidden	__dso_handle");
 
 #ifdef SHARED
-extern void __cxa_finalize(void *) __attribute__((weak));
+extern void __cxa_finalize(void *) __attribute__((__weak__));
 #endif
 #endif
 

@@ -1,5 +1,7 @@
 /*	$OpenBSD: regcomp.c,v 1.15 2005/08/05 13:03:00 espie Exp $ */
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1992, 1993, 1994 Henry Spencer.
  * Copyright (c) 1992, 1993, 1994
  *	The Regents of the University of California.  All rights reserved.
@@ -49,7 +51,7 @@
 #include "cclass.h"
 #include "cname.h"
 
-__RCSID("$MirOS: src/lib/libc/regex/regcomp.c,v 1.3 2007/02/12 05:51:52 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/regex/regcomp.c,v 1.4 2012/05/19 23:34:24 tg Exp $");
 
 /*
  * parse structure, passed up and down to avoid global variables and
@@ -1211,8 +1213,8 @@ mcadd(struct parse *p, cset *cs, const char *cp)
  */
 /* ARGSUSED */
 static void
-mcinvert(struct parse *p __attribute__((unused)),
-    cset *cs __attribute__((unused)))
+mcinvert(struct parse *p __attribute__((__unused__)),
+    cset *cs __attribute__((__unused__)))
 {
 	assert(cs->multis == NULL);	/* xxx */
 }
@@ -1225,8 +1227,8 @@ mcinvert(struct parse *p __attribute__((unused)),
  */
 /* ARGSUSED */
 static void
-mccase(struct parse *p __attribute__((unused)),
-    cset *cs __attribute__((unused)))
+mccase(struct parse *p __attribute__((__unused__)),
+    cset *cs __attribute__((__unused__)))
 {
 	assert(cs->multis == NULL);	/* xxx */
 }

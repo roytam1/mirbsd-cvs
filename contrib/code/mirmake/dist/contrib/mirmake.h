@@ -1,7 +1,7 @@
-/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.47 2009/11/09 17:59:21 tg Exp $ */
+/* $MirOS: contrib/code/mirmake/dist/contrib/mirmake.h,v 1.48 2011/01/24 21:26:19 tg Exp $ */
 
 /*-
- * Copyright (c) 2005, 2006, 2008, 2009, 2011
+ * Copyright (c) 2005, 2006, 2008, 2009, 2011, 2013
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Partially based upon some code
  * Copyright (c) 1991, 1993
@@ -131,7 +131,7 @@
 
 #ifndef __packed
 #if __GNUC__ >= 3
-#define	__packed		__attribute__((packed))
+#define	__packed		__attribute__((__packed__))
 #elif __GNUC_PREREQ__(2, 7)
 #define	__packed		__attribute__((__packed__))
 #elif defined(lint)
@@ -168,10 +168,10 @@
 #endif
 #else
 #ifndef __aligned
-#define __aligned(x)		__attribute__((aligned (x)))
+#define __aligned(x)		__attribute__((__aligned__(x)))
 #endif
 #ifndef __unused
-#define __unused		__attribute__((unused))
+#define __unused		__attribute__((__unused__))
 #endif
 #endif
 
@@ -194,7 +194,7 @@
 #define __IDSTRING_EXPAND(l,p)		__IDSTRING_CONCAT(l,p)
 #define __IDSTRING(prefix, string)				\
 	static const char __IDSTRING_EXPAND(__LINE__,prefix) []	\
-	    __attribute__((used)) = "@(""#)" #prefix ": " string
+	    __attribute__((__used__)) = "@(""#)" #prefix ": " string
 #endif
 #define __COPYRIGHT(x)		__IDSTRING(copyright,x)
 #ifdef lint
@@ -320,18 +320,18 @@ long long
 	 strtoll(const char *, char **, int);
 quad_t	 strtoq(const char *, char **, int);
 int	 asprintf(char **, const char *, ...)
-		__attribute__((__format__ (printf, 2, 3)))
-		__attribute__((__nonnull__ (2)));
+		__attribute__((__format__(__printf__, 2, 3)))
+		__attribute__((__nonnull__(2)));
 int	 vasprintf(char **, const char *, __builtin_va_list)
-		__attribute__((__format__ (printf, 2, 0)))
-		__attribute__((__nonnull__ (2)));
+		__attribute__((__format__(__printf__, 2, 0)))
+		__attribute__((__nonnull__(2)));
 #endif
 
 #if !defined(BSD) && !defined(__INTERIX)
 u_int32_t arc4random(void);
 void arc4random_stir(void);
 void arc4random_addrandom(unsigned char *, int)
-    __attribute__((bounded (string, 1, 2)));
+    __attribute__((__bounded__(__string__, 1, 2)));
 #endif
 
 __END_DECLS

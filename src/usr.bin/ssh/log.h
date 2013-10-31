@@ -1,8 +1,10 @@
-/* $MirOS: src/usr.bin/ssh/log.h,v 1.4 2006/09/20 21:40:59 tg Exp $ */
+/* $MirOS: src/usr.bin/ssh/log.h,v 1.5 2008/12/16 20:55:22 tg Exp $ */
 /* $OpenBSD: log.h,v 1.17 2008/06/13 00:12:02 dtucker Exp $ */
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
  *
@@ -51,18 +53,18 @@ const char * 	log_facility_name(SyslogFacility);
 LogLevel	log_level_number(char *);
 const char *	log_level_name(LogLevel);
 
-void     fatal(const char *, ...) __attribute__((noreturn))
-    __attribute__((format(printf, 1, 2)));
-void     error(const char *, ...) __attribute__((format(printf, 1, 2)));
-void     sigdie(const char *, ...)  __attribute__((noreturn))
-    __attribute__((format(printf, 1, 2)));
-void     logit(const char *, ...) __attribute__((format(printf, 1, 2)));
-void     verbose(const char *, ...) __attribute__((format(printf, 1, 2)));
-void     debug(const char *, ...) __attribute__((format(printf, 1, 2)));
-void     debug2(const char *, ...) __attribute__((format(printf, 1, 2)));
-void     debug3(const char *, ...) __attribute__((format(printf, 1, 2)));
+void     fatal(const char *, ...) __attribute__((__noreturn__))
+    __attribute__((__format__(__printf__, 1, 2)));
+void     error(const char *, ...) __attribute__((__format__(__printf__, 1, 2)));
+void     sigdie(const char *, ...)  __attribute__((__noreturn__))
+    __attribute__((__format__(__printf__, 1, 2)));
+void     logit(const char *, ...) __attribute__((__format__(__printf__, 1, 2)));
+void     verbose(const char *, ...) __attribute__((__format__(__printf__, 1, 2)));
+void     debug(const char *, ...) __attribute__((__format__(__printf__, 1, 2)));
+void     debug2(const char *, ...) __attribute__((__format__(__printf__, 1, 2)));
+void     debug3(const char *, ...) __attribute__((__format__(__printf__, 1, 2)));
 
 void	 do_log(LogLevel, const char *, va_list)
-	    __attribute__((format(printf, 2, 0)));
-void	 cleanup_exit(int) __attribute__((noreturn));
+	    __attribute__((__format__(__printf__, 2, 0)));
+void	 cleanup_exit(int) __attribute__((__noreturn__));
 #endif

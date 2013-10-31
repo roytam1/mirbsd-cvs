@@ -1,8 +1,10 @@
-/**	$MirOS: src/include/stdlib.h,v 1.27 2010/12/23 18:33:32 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.28 2011/07/18 07:56:24 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
  *
@@ -221,10 +223,10 @@ int	 sradixsort(const unsigned char **, int, const unsigned char *,
 	    unsigned);
 
 char	*initstate(unsigned int, char *, size_t)
-		__attribute__((__bounded__ (__string__,2,3)));
+		__attribute__((__bounded__(__string__, 2, 3)));
 long	 random(void);
 char	*realpath(const char *, char *)
-		__attribute__((__bounded__ (__minbytes__,2,1024)));
+		__attribute__((__bounded__(__minbytes__, 2, 1024)));
 char	*setstate(const char *);
 void	 srandom(unsigned int);
 void	 srandomdev(void);
@@ -233,7 +235,7 @@ int	 putenv(const char *);
 int	 setenv(const char *, const char *, int);
 int	 unsetenv(const char *);
 void	 setproctitle(const char *, ...)
-	__attribute__((__format__ (__printf__, 1, 2)));
+	__attribute__((__format__(__printf__, 1, 2)));
 
 quad_t	 qabs(quad_t);
 qdiv_t	 qdiv(quad_t, quad_t);
@@ -270,10 +272,10 @@ void	 srand48(long);
 u_int32_t arc4random(void);
 void	arc4random_stir(void);
 void arc4random_buf(void *, size_t)
-	__attribute__((__bounded__ (__string__,1,2)));
+	__attribute__((__bounded__(__string__, 1, 2)));
 u_int32_t arc4random_uniform(u_int32_t);
 void arc4random_pushb_fast(const void *, size_t)
-	__attribute__((bounded (string, 1, 2)));
+	__attribute__((__bounded__(__string__, 1, 2)));
 
 #define arc4random		arc4random
 #define arc4random_stir		arc4random_stir
@@ -282,7 +284,7 @@ void arc4random_pushb_fast(const void *, size_t)
 #define arc4random_pushb_fast	arc4random_pushb_fast
 
 void	arc4random_addrandom(unsigned char *, int)
-	__attribute__((__bounded__ (__string__,1,2)));
+	__attribute__((__bounded__(__string__, 1, 2)));
 #define arc4random_addrandom	arc4random_addrandom
 void	arc4random_push(int);
 #define arc4random_push(n)	do {			\
@@ -291,7 +293,7 @@ void	arc4random_push(int);
 	    sizeof(arc4random_push_n));			\
 } while (/* CONSTCOND */ 0)
 uint32_t arc4random_pushb(const void *, size_t)
-	__attribute__((bounded (string, 1, 2)));
+	__attribute__((__bounded__(__string__, 1, 2)));
 #define arc4random_pushb(buf,n)	\
 	(arc4random_pushb_fast((buf),(n)), arc4random())
 #define arc4random_pushk(buf,n)	\

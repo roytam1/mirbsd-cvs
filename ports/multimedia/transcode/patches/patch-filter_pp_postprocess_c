@@ -19,7 +19,7 @@ $OpenBSD: patch-filter_pp_postprocess_c,v 1.2 2004/06/24 19:27:00 sturm Exp $
  //#define NUM_BLOCKS_AT_ONCE 16 //not used yet
  
 +#if defined(__GNUC__) && (__GNUC__ > 3 || __GNUC__ == 3 && __GNUC_MINOR__ > 0)
-+#    define attribute_used __attribute__((used))
++#    define attribute_used __attribute__((__used__))
 +#else
 +#    define attribute_used
 +#endif

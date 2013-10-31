@@ -1,5 +1,7 @@
 /* $OpenBSD: kex.c,v 1.81 2009/05/27 06:34:36 andreas Exp $ */
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2000, 2001 Markus Friedl.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,7 +48,7 @@
 #include "dispatch.h"
 #include "monitor.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/kex.c,v 1.9 2009/10/04 14:29:03 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/kex.c,v 1.10 2010/09/21 21:24:36 tg Exp $");
 
 extern const EVP_MD *evp_ssh_sha256(void);
 
@@ -116,7 +118,7 @@ kex_prop_free(char **proposal)
 
 /* ARGSUSED */
 static void
-kex_protocol_error(int type, u_int32_t seq, void *ctxt __attribute__((unused)))
+kex_protocol_error(int type, u_int32_t seq, void *ctxt __attribute__((__unused__)))
 {
 	error("Hm, kex protocol error: type %d seq %u", type, seq);
 }
@@ -181,8 +183,8 @@ kex_send_kexinit(Kex *kex)
 
 /* ARGSUSED */
 void
-kex_input_kexinit(int type __attribute__((unused)),
-    u_int32_t seq __attribute__((unused)), void *ctxt)
+kex_input_kexinit(int type __attribute__((__unused__)),
+    u_int32_t seq __attribute__((__unused__)), void *ctxt)
 {
 	char *ptr;
 	u_int i, dlen;

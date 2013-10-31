@@ -1,8 +1,10 @@
-/**	$MirOS: src/include/unistd.h,v 1.5 2005/11/21 19:42:08 tg Exp $ */
+/**	$MirOS: src/include/unistd.h,v 1.6 2005/11/21 19:44:53 tg Exp $ */
 /*	$OpenBSD: unistd.h,v 1.53 2005/05/27 17:45:56 millert Exp $ */
 /*	$NetBSD: unistd.h,v 1.26.4.1 1996/05/28 02:31:51 mrg Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1991 The Regents of the University of California.
  * All rights reserved.
  *
@@ -62,31 +64,31 @@ int	 chdir(const char *);
 int	 chown(const char *, uid_t, gid_t);
 int	 close(int);
 size_t	 confstr(int, char *, size_t)
-		__attribute__((__bounded__(__string__,2,3)));
+		__attribute__((__bounded__(__string__, 2, 3)));
 char	*cuserid(char *);
 int	 dup(int);
 int	 dup2(int, int);
 int	 execl(const char *, const char *, ...)
-	    __attribute__((sentinel));
+	    __attribute__((__sentinel__));
 int	 execle(const char *, const char *, ...);
 int	 execlp(const char *, const char *, ...)
-	    __attribute__((sentinel));
+	    __attribute__((__sentinel__));
 int	 execv(const char *, char * const *);
 int	 execve(const char *, char * const *, char * const *);
 int	 execvp(const char *, char * const *);
 pid_t	 fork(void);
 long	 fpathconf(int, int);
 char	*getcwd(char *, size_t)
-		__attribute__((__bounded__(__string__,1,2)))
-		__attribute__((__bounded__(__minbytes__,1,1024)));
+		__attribute__((__bounded__(__string__, 1, 2)))
+		__attribute__((__bounded__(__minbytes__, 1, 1024)));
 gid_t	 getegid(void);
 uid_t	 geteuid(void);
 gid_t	 getgid(void);
 int	 getgroups(int, gid_t *);
 char	*getlogin(void);
 int	 getlogin_r(char *, size_t)
-		__attribute__((__bounded__(__string__,1,2)))
-		__attribute__((__bounded__(__minbytes__,1,32)));
+		__attribute__((__bounded__(__string__, 1, 2)))
+		__attribute__((__bounded__(__minbytes__, 1, 32)));
 pid_t	 getpgrp(void);
 pid_t	 getpid(void);
 pid_t	 getpgid(pid_t);
@@ -100,7 +102,7 @@ long	 pathconf(const char *, int);
 int	 pause(void);
 int	 pipe(int *);
 ssize_t	 read(int, void *, size_t)
-		__attribute__((__bounded__(__buffer__,2,3)));
+		__attribute__((__bounded__(__buffer__, 2, 3)));
 int	 rmdir(const char *);
 int	 setgid(gid_t);
 int	 setpgid(pid_t, pid_t);
@@ -112,10 +114,10 @@ pid_t	 tcgetpgrp(int);
 int	 tcsetpgrp(int, pid_t);
 char	*ttyname(int);
 int	 ttyname_r(int, char *, size_t)
-		__attribute__((__bounded__(__string__,2,3)));
+		__attribute__((__bounded__(__string__, 2, 3)));
 int	 unlink(const char *);
 ssize_t	 write(int, const void *, size_t)
-		__attribute__((__bounded__(__buffer__,2,3)));
+		__attribute__((__bounded__(__buffer__, 2, 3)));
 
 #ifndef	_POSIX_SOURCE
 
@@ -149,12 +151,12 @@ char	*fflagstostr(u_int32_t);
 int	 fsync(int);
 int	 ftruncate(int, off_t);
 int	 getdomainname(char *, size_t)
-		__attribute__ ((__bounded__(__string__,1,2)));
+		__attribute__((__bounded__(__string__, 1, 2)));
 int	 getdtablesize(void);
 int	 getgrouplist(const char *, gid_t, gid_t *, int *);
 long	 gethostid(void);
 int	 gethostname(char *, size_t)
-		__attribute__ ((__bounded__(__string__,1,2)));
+		__attribute__((__bounded__(__string__, 1, 2)));
 mode_t	 getmode(const void *, mode_t);
 int	 getpagesize(void);
 int	 getresgid(gid_t *, gid_t *, gid_t *);
@@ -162,7 +164,7 @@ int	 getresuid(uid_t *, uid_t *, uid_t *);
 char	*getpass(const char *);
 char	*getusershell(void);
 char	*getwd(char *)
-		__attribute__ ((__bounded__(__minbytes__,1,1024)));
+		__attribute__((__bounded__(__minbytes__, 1, 1024)));
 int	 initgroups(const char *, gid_t);
 int	 iruserok(u_int32_t, int, const char *, const char *);
 int	 iruserok_sa(const void *, int, int, const char *, const char *);
@@ -172,7 +174,7 @@ int	 nice(int);
 void	 psignal(unsigned int, const char *);
 extern __const char *__const sys_siglist[];
 int	 profil(char *, size_t, unsigned long, unsigned int)
-		__attribute__ ((__bounded__(__string__,1,2)));
+		__attribute__((__bounded__(__string__, 1, 2)));
 int	 rcmd(char **, int, const char *,
 	    const char *, const char *, int *);
 int	 rcmd_af(char **, int, const char *,
@@ -182,7 +184,7 @@ int	 rcmdsh(char **, int, const char *,
 char	*re_comp(const char *);
 int	 re_exec(const char *);
 int	 readlink(const char *, char *, size_t)
-		__attribute__ ((__bounded__(__string__,2,3)));
+		__attribute__((__bounded__(__string__, 2, 3)));
 int	 reboot(int);
 int	 revoke(const char *);
 int	 rfork(int opts);

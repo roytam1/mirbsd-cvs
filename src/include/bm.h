@@ -1,7 +1,10 @@
+/*	$MirOS$ */
 /*	$OpenBSD: bm.h,v 1.8 2004/01/22 21:48:02 espie Exp $	*/
 /*	$NetBSD: bm.h,v 1.3 1994/10/26 00:55:46 cgd Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1994
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -52,7 +55,7 @@ typedef struct {
 __BEGIN_DECLS
 bm_pat		*bm_comp(unsigned char const *, size_t, unsigned char const *);
 unsigned char	*bm_exec(bm_pat *, unsigned char *, size_t)
-		    __attribute__ ((__bounded__(__string__,2,3)));
+		    __attribute__((__bounded__(__string__, 2, 3)));
 void	 	 bm_free(bm_pat *);
 __END_DECLS
 

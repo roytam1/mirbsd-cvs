@@ -1,7 +1,7 @@
-/* $MirOS: src/sys/kern/init_ssp.c,v 1.4 2008/11/08 23:04:22 tg Exp $ */
+/* $MirOS: src/sys/kern/init_ssp.c,v 1.5 2010/09/19 18:55:39 tg Exp $ */
 
 /*-
- * Copyright (c) 2004
+ * Copyright (c) 2004, 2013
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) by The OpenBSD Project.
  *
@@ -59,7 +59,7 @@ init_ssp(void)
 
 #ifndef	NO_PROPOLICE
 __dead void
-__stack_smash_handler(char func[], int damaged __attribute__((unused)))
+__stack_smash_handler(char func[], int damaged __attribute__((__unused__)))
 {
 	panic("ProPolice: kernel stack smashed in %s", func);
 }

@@ -1,5 +1,5 @@
 /* An ircII-like split-screen front end
-   Copyright (c) 2006, 2007
+   Copyright (c) 2006, 2007, 2013
   	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
    Copyright (C) 1995 Roger Espel Llima
 
@@ -54,10 +54,10 @@
 #endif
 
 #ifndef __RCSID
-#define	__RCSID(x)	static const char __rcsid[] __attribute__((used)) = (x)
+#define	__RCSID(x)	static const char __rcsid[] __attribute__((__used__)) = (x)
 #endif
 
-__RCSID("$MirOS: ports/comms/ssfe/dist/ssfe.c,v 1.10 2007/01/09 01:20:44 tg Exp $");
+__RCSID("$MirOS: ports/comms/ssfe/dist/ssfe.c,v 1.11 2012/06/23 15:47:49 tg Exp $");
 
 #define BUF_SIZE 4096
 #define MAX_COLS 4096

@@ -15,6 +15,8 @@
  * called by a name other than "ssh" or "Secure Shell".
  */
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1999 Theo de Raadt.  All rights reserved.
  * Copyright (c) 1999 Aaron Campbell.  All rights reserved.
  *
@@ -99,7 +101,7 @@
 #include "misc.h"
 #include "progressmeter.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/scp.c,v 1.18 2008/12/27 21:17:56 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/scp.c,v 1.19 2009/10/04 14:29:06 tg Exp $");
 
 #define COPY_BUFLEN	16384
 
@@ -259,7 +261,7 @@ typedef struct {
 BUF *allocbuf(BUF *, int, int);
 static __dead void lostconn(int);
 int okname(char *);
-static void run_err(const char *,...) __attribute__((format (printf, 1, 2)));
+static void run_err(const char *,...) __attribute__((__format__(__printf__, 1, 2)));
 void verifydir(char *);
 
 struct passwd *pwd;

@@ -1,8 +1,9 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.20 2011/01/30 03:06:04 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.21 2011/11/21 20:49:38 tg Exp $ */
 /*	$OpenBSD: ntpd.h,v 1.70 2006/06/04 18:58:13 otto Exp $ */
 
 /*
- * Copyright (c) 2007, 2008, 2009, 2011 Thorsten Glaser <tg@mirbsd.org>
+ * Copyright © 2007, 2008, 2009, 2011, 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -227,25 +228,25 @@ struct imsg {
 /* log.c */
 void		 log_init(int);
 void		 vlog(int, const char *, va_list)
-    __attribute__((format (syslog, 2, 0)))
-    __attribute__((format (printf, 2, 0)))
-    __attribute__((nonnull (2)));
+    __attribute__((__format__(__syslog__, 2, 0)))
+    __attribute__((__format__(__printf__, 2, 0)))
+    __attribute__((__nonnull__(2)));
 void		 log_warn(const char *, ...)
-    __attribute__((format (syslog, 1, 2)))
-    __attribute__((format (printf, 1, 2)))
-    __attribute__((nonnull (1)));
+    __attribute__((__format__(__syslog__, 1, 2)))
+    __attribute__((__format__(__printf__, 1, 2)))
+    __attribute__((__nonnull__(1)));
 void		 log_warnx(const char *, ...)
-    __attribute__((format (syslog, 1, 2)))
-    __attribute__((format (printf, 1, 2)))
-    __attribute__((nonnull (1)));
+    __attribute__((__format__(__syslog__, 1, 2)))
+    __attribute__((__format__(__printf__, 1, 2)))
+    __attribute__((__nonnull__(1)));
 void		 log_info(const char *, ...)
-    __attribute__((format (syslog, 1, 2)))
-    __attribute__((format (printf, 1, 2)))
-    __attribute__((nonnull (1)));
+    __attribute__((__format__(__syslog__, 1, 2)))
+    __attribute__((__format__(__printf__, 1, 2)))
+    __attribute__((__nonnull__(1)));
 void		 log_debug(const char *, ...)
-    __attribute__((format (syslog, 1, 2)))
-    __attribute__((format (printf, 1, 2)))
-    __attribute__((nonnull (1)));
+    __attribute__((__format__(__syslog__, 1, 2)))
+    __attribute__((__format__(__printf__, 1, 2)))
+    __attribute__((__nonnull__(1)));
 __dead void	 fatal(const char *);
 __dead void	 fatalx(const char *);
 

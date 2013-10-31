@@ -2,6 +2,8 @@
 /*	$NetBSD: init.c,v 1.22 1996/05/15 23:29:33 jtc Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -37,7 +39,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1991, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)init.c	8.2 (Berkeley) 4/28/95");
-__RCSID("$MirOS: src/sbin/init/init.c,v 1.6 2011/02/19 14:41:38 tg Exp $");
+__RCSID("$MirOS: src/sbin/init/init.c,v 1.7 2013/09/15 11:01:27 tg Exp $");
 
 #include <sys/sysctl.h>
 #include <sys/ioctl.h>
@@ -94,11 +96,11 @@ void handle(sig_t, ...);
 void delset(sigset_t *, ...);
 
 void stall(const char *, ...)
-    __attribute__((format (syslog, 1, 2)));
+    __attribute__((__format__(__syslog__, 1, 2)));
 void warning(const char *, ...)
-    __attribute__((format (syslog, 1, 2)));
+    __attribute__((__format__(__syslog__, 1, 2)));
 void emergency(const char *, ...)
-    __attribute__((format (syslog, 1, 2)));
+    __attribute__((__format__(__syslog__, 1, 2)));
 void disaster(int) __dead;
 void badsys(int);
 

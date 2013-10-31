@@ -1,7 +1,11 @@
+/* $MirOS$ */
+
 /****************************************************************
  *
  * The author of this software is David M. Gay.
  *
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1991, 2000 by AT&T.
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -59,13 +63,13 @@ typedef u_int32_t uint32_t;
 
 #if !defined HAVE_BSD_INT32_DEFINED && !defined HAVE_INT32_DEFINED
 // FIXME -- this could have problems with systems that don't define SI to be 4
-typedef int int32_t __attribute__((mode(SI)));
+typedef int int32_t __attribute__((__mode__(__SI__)));
 
 /* This is a blatant hack: on Solaris 2.5, pthread.h defines uint32_t
    in pthread.h, which we sometimes include.  We protect our
    definition the same way Solaris 2.5 does, to avoid redefining it.  */
 #  ifndef _UINT32_T
-typedef unsigned int uint32_t __attribute__((mode(SI)));
+typedef unsigned int uint32_t __attribute__((__mode__(__SI__)));
 #  endif
 #endif
 

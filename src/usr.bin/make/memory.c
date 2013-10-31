@@ -1,7 +1,8 @@
-/* $MirOS$ */
 /* $OpenBSD: memory.c,v 1.3 2004/04/07 13:11:36 espie Exp $ */
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1988, 1989, 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
  * Copyright (c) 1989 by Berkeley Softworks
@@ -45,9 +46,9 @@
 #include "defines.h"
 #include "memory.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/make/memory.c,v 1.2 2005/11/24 13:20:34 tg Exp $");
 
-static void enomem(size_t) __attribute__((noreturn));
+static void enomem(size_t) __attribute__((__noreturn__));
 
 /*
  * emalloc --

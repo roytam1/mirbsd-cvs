@@ -1,5 +1,7 @@
 /*	$OpenBSD: malloc.c,v 1.149 2012/12/22 07:32:17 otto Exp $	*/
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2008 Otto Moerbeek <otto@drijf.net>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -49,7 +51,7 @@
 #include "thread_private.h"
 
 __IDSTRING(malloc_type, "@(#) omalloc 1.149 (OpenBSD)");
-__RCSID("$MirOS: src/lib/libc/stdlib/malloc.c,v 1.9 2012/12/21 21:49:18 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdlib/malloc.c,v 1.10 2012/12/28 02:26:53 tg Exp $");
 
 #if defined(__sparc__) && !defined(__sparcv9__)
 #define MALLOC_PAGESHIFT	(13U)
@@ -187,7 +189,7 @@ struct malloc_readonly {
 static union {
 	struct malloc_readonly mopts;
 	u_char _pad[MALLOC_PAGESIZE];
-} malloc_readonly __attribute__((aligned(MALLOC_PAGESIZE)));
+} malloc_readonly __attribute__((__aligned__(MALLOC_PAGESIZE)));
 #define mopts	malloc_readonly.mopts
 #define g_pool	mopts.g_pool
 

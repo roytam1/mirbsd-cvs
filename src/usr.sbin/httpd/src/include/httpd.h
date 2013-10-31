@@ -1,10 +1,11 @@
-/* $MirOS: src/usr.sbin/httpd/src/include/httpd.h,v 1.8 2006/09/20 23:45:04 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/include/httpd.h,v 1.9 2008/12/03 11:22:57 tg Exp $ */
 /* $OpenBSD: httpd.h,v 1.27 2006/02/22 15:07:12 henning Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright (c) 2002, 2005 The MirOS Project.
+ * Copyright © 2002, 2005, 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2000-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
@@ -1143,7 +1144,7 @@ API_EXPORT(char *) ap_escape_quotes(pool *p, const char *instr);
  * Redefine assert() to something more useful for an Apache...
  */
 API_EXPORT(void) ap_log_assert(const char *szExp, const char *szFile, int nLine)
-    __attribute__((noreturn));
+    __attribute__((__noreturn__));
 #define ap_assert(exp) ((exp) ? (void)0 : ap_log_assert(#exp,__FILE__,0))
 
 #define OPTIMIZE_TIMEOUTS

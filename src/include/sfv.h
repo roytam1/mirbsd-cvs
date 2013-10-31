@@ -1,4 +1,4 @@
-/* $MirOS: src/include/tiger.h,v 1.1 2006/09/17 19:28:58 tg Exp $ */
+/* $MirOS: src/include/sfv.h,v 1.1 2007/05/07 15:21:17 tg Exp $ */
 
 #ifndef _SFV_H
 #define _SFV_H
@@ -19,18 +19,18 @@ __BEGIN_DECLS
 void SFVInit(SFV_CTX *);
 void SFVPad(SFV_CTX *);
 void SFVUpdate(SFV_CTX *, const uint8_t *, size_t)
-	__attribute__((bounded (string, 2, 3)));
+	__attribute__((__bounded__(__string__, 2, 3)));
 void SFVFinal(uint8_t *, SFV_CTX *)
-	__attribute__((bounded (minbytes, 1, SFV_DIGEST_LENGTH)));
+	__attribute__((__bounded__(__minbytes__, 1, SFV_DIGEST_LENGTH)));
 char *SFVEnd(SFV_CTX *, char *)
-	__attribute__((bounded (minbytes, 2, SFV_DIGEST_STRING_LENGTH)));
+	__attribute__((__bounded__(__minbytes__, 2, SFV_DIGEST_STRING_LENGTH)));
 char *SFVFile(const char *, char *)
-	__attribute__((bounded (minbytes, 2, SFV_DIGEST_STRING_LENGTH)));
+	__attribute__((__bounded__(__minbytes__, 2, SFV_DIGEST_STRING_LENGTH)));
 char *SFVFileChunk(const char *, char *, off_t, off_t)
-	__attribute__((bounded (minbytes, 2, SFV_DIGEST_STRING_LENGTH)));
+	__attribute__((__bounded__(__minbytes__, 2, SFV_DIGEST_STRING_LENGTH)));
 char *SFVData(const uint8_t *, size_t, char *)
-	__attribute__((bounded (string, 1, 2)))
-	__attribute__((bounded (minbytes, 3, SFV_DIGEST_STRING_LENGTH)));
+	__attribute__((__bounded__(__string__, 1, 2)))
+	__attribute__((__bounded__(__minbytes__, 3, SFV_DIGEST_STRING_LENGTH)));
 __END_DECLS
 
 #endif

@@ -1,11 +1,10 @@
-/**	$MirOS: src/usr.bin/make/main.c,v 1.8 2008/04/06 23:19:17 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: main.c,v 1.69 2006/09/26 18:20:50 mk Exp $ */
 /*	$NetBSD: main.c,v 1.34 1997/03/24 20:56:36 gwr Exp $	*/
 
 /*
- * Copyright (c) 2005
- *	Thorsten "mirabilos" Glaser <tg@MirBSD.org>
+ * Copyright © 2005, 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1988, 1989, 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
  * Copyright (c) 1989 by Berkeley Softworks
@@ -85,7 +84,7 @@
 
 #define MAKEFLAGS	".MAKEFLAGS"
 
-__RCSID("$MirOS: src/usr.bin/make/main.c,v 1.8 2008/04/06 23:19:17 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/make/main.c,v 1.9 2008/11/08 23:04:29 tg Exp $");
 
 static LIST		to_create; 	/* Targets to be made */
 Lst create = &to_create;
@@ -114,7 +113,7 @@ static char *		chdir_verify_path(const char *);
 static int		ReadMakefile(const void *, void *);
 static int		ReadSysMakefile(const void *, void *);
 static void		add_dirpath(Lst, const char *);
-static void		usage(void) __attribute__((noreturn));
+static void		usage(void) __attribute__((__noreturn__));
 static void		posixParseOptLetter(int);
 static void		record_option(int, const char *);
 

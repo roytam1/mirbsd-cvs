@@ -1,7 +1,5 @@
-/* $MirOS: contrib/hosted/fwcf/c_null.c,v 1.4 2006/09/23 23:21:03 tg Exp $ */
-
 /*-
- * Copyright (c) 2006
+ * Copyright (c) 2006, 2013
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Licensee is hereby permitted to deal in this work without restric-
@@ -29,15 +27,15 @@
 #include "defs.h"
 #include "compress.h"
 
-__RCSID("$MirOS: contrib/hosted/fwcf/c_null.c,v 1.4 2006/09/23 23:21:03 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/fwcf/c_null.c,v 1.5 2006/09/23 23:46:35 tg Exp $");
 
-static void c_null_load(void) __attribute__((constructor));
+static void c_null_load(void) __attribute__((__constructor__));
 static int c_init(void);
 static int c_compress(char **, char *, size_t)
-    __attribute__((bounded (string, 2, 3)));
+    __attribute__((__bounded__(__string__, 2, 3)));
 static int c_decompress(char *, size_t, char *, size_t)
-    __attribute__((bounded (string, 1, 2)))
-    __attribute__((bounded (string, 3, 4)));
+    __attribute__((__bounded__(__string__, 1, 2)))
+    __attribute__((__bounded__(__string__, 3, 4)));
 
 static fwcf_compressor c_null = {
 	c_init,			/* init */

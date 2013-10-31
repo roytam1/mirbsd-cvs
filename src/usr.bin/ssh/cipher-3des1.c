@@ -1,5 +1,7 @@
 /* $OpenBSD: cipher-3des1.c,v 1.6 2006/08/03 03:34:42 deraadt Exp $ */
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2003 Markus Friedl.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,7 +34,7 @@
 #include "xmalloc.h"
 #include "log.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/cipher-3des1.c,v 1.4 2006/09/20 21:40:57 tg Exp $");
 
 /*
  * This is used by SSH1:
@@ -58,7 +60,7 @@ void ssh1_3des_iv(EVP_CIPHER_CTX *, int, u_char *, int);
 
 static int
 ssh1_3des_init(EVP_CIPHER_CTX *ctx, const u_char *key,
-    const u_char *iv __attribute__((unused)), int enc)
+    const u_char *iv __attribute__((__unused__)), int enc)
 {
 	struct ssh1_3des_ctx *c;
 	u_char *k1, *k2, *k3;

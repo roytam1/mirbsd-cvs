@@ -1,6 +1,9 @@
+/*	$MirOS$ */
 /*	$OpenBSD: diff.h,v 1.29 2004/12/09 18:56:10 millert Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -84,7 +87,7 @@ extern regex_t	ignore_re;
 char	*splice(char *, char *);
 int	diffreg(char *, char *, int);
 int	easprintf(char **, const char *, ...)
-	    __attribute__((format (printf, 2, 3)));
+	    __attribute__((__format__(__printf__, 2, 3)));
 void	*emalloc(size_t);
 void	*erealloc(void *, size_t);
 void	diffdir(char *, char *);

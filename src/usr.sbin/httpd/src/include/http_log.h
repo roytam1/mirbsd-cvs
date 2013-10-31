@@ -1,8 +1,11 @@
+/* $MirOS$ */
 /* $OpenBSD: http_log.h,v 1.11 2005/06/15 00:00:16 niallo Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2000-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
@@ -98,10 +101,10 @@ API_EXPORT(void) ap_open_logs (server_rec *, pool *p);
  */
 API_EXPORT_NONSTD(void) ap_log_error(const char *file, int line, int level,
     const server_rec *s, const char *fmt, ...)
-   __attribute__((format(printf,5,6)));
+   __attribute__((__format__(__printf__, 5, 6)));
 API_EXPORT_NONSTD(void) ap_log_rerror(const char *file, int line, int level,
     const request_rec *s, const char *fmt, ...)
-    __attribute__((format(printf,5,6)));
+    __attribute__((__format__(__printf__, 5, 6)));
 API_EXPORT(void) ap_error_log2stderr (server_rec *);
 
 API_EXPORT(void) ap_log_pid (pool *p, char *fname);
@@ -112,7 +115,7 @@ API_EXPORT(void) ap_log_error_old(const char *err, server_rec *s);
 API_EXPORT(void) ap_log_unixerr(const char *routine, const char *file,
     const char *msg, server_rec *s);
 API_EXPORT_NONSTD(void) ap_log_printf(const server_rec *s, const char *fmt, ...)
-    __attribute__((format(printf,2,3)));
+    __attribute__((__format__(__printf__, 2, 3)));
 API_EXPORT(void) ap_log_reason(const char *reason, const char *fname,
     request_rec *r);
 

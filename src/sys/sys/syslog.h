@@ -1,7 +1,10 @@
+/*	$MirOS$ */
 /*	$OpenBSD: syslog.h,v 1.11 2003/08/24 01:27:07 avsm Exp $	*/
 /*	$NetBSD: syslog.h,v 1.14 1996/04/03 20:46:44 christos Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1982, 1986, 1988, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -197,25 +200,25 @@ void	closelog(void);
 void	openlog(const char *, int, int);
 int	setlogmask(int);
 void	syslog(int, const char *, ...)
-    __attribute__((__format__(__syslog__,2,3)));
+    __attribute__((__format__(__syslog__, 2, 3)));
 void	vsyslog(int, const char *, _BSD_VA_LIST_)
-    __attribute__((__format__(__syslog__,2,0)));
+    __attribute__((__format__(__syslog__, 2, 0)));
 void	closelog_r(struct syslog_data *);
 void	openlog_r(const char *, int, int, struct syslog_data *);
 int	setlogmask_r(int, struct syslog_data *);
 void	syslog_r(int, struct syslog_data *, const char *, ...)
-    __attribute__((__format__(__syslog__,3,4)));
-void	vsyslog_r(int, struct syslog_data *, const char *, 
-    _BSD_VA_LIST_) __attribute__((__format__(__syslog__,3,0)));
+    __attribute__((__format__(__syslog__, 3, 4)));
+void	vsyslog_r(int, struct syslog_data *, const char *, _BSD_VA_LIST_)
+    __attribute__((__format__(__syslog__, 3, 0)));
 __END_DECLS
 
 #else /* !_KERNEL */
 
 void	logpri(int);
 void	log(int, const char *, ...)
-    __attribute__((__format__(__kprintf__,2,3)));
+    __attribute__((__format__(__kprintf__, 2, 3)));
 int	addlog(const char *, ...)
-    __attribute__((__format__(__kprintf__,1,2)));
+    __attribute__((__format__(__kprintf__, 1, 2)));
 void	logwakeup(void);
 
 #endif /* !_KERNEL */

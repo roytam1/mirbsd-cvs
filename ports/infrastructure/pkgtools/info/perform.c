@@ -1,8 +1,14 @@
-/**	$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.5 2006/12/09 17:34:38 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.6 2009/11/29 17:39:43 bsiegert Exp $ */
 /*	$OpenBSD: perform.c,v 1.16 2003/08/23 09:14:43 tedu Exp $	*/
 
-/* This is MirPorts pkg_install, based on:
+/*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  *
+ * This is MirPorts pkg_install, based on:
+ */
+
+/*
  * FreeBSD install - a package for the installation and maintainance
  * of non-core utilities.
  *
@@ -33,7 +39,7 @@
 #include <ctype.h>
 #include <libgen.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.5 2006/12/09 17:34:38 bsiegert Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/info/perform.c,v 1.6 2009/11/29 17:39:43 bsiegert Exp $");
 
 static char    *Home;
 
@@ -199,8 +205,8 @@ bail:
 
 /* fn to be called for pkgs found */
 static int
-foundpkg(const char *found, char *data __attribute__((unused)),
-    int unused __attribute__((unused)))
+foundpkg(const char *found, char *data __attribute__((__unused__)),
+    int unused __attribute__((__unused__)))
 {
     if(!Quiet)
 	printf("%s\n", found);
@@ -234,7 +240,7 @@ check4pkg(char *pkgspec, const char *dbdir)
 }
 
 void
-cleanup(int sig __attribute__((unused)))
+cleanup(int sig __attribute__((__unused__)))
 {
 	leave_playpen(Home);		/* XXX signal race */
 	/* _do_ return, so errx(3) works */

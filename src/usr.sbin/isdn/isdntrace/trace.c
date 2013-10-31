@@ -1,4 +1,7 @@
 /*
+ *   Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+ *
  *   Copyright (c) 1996, 2000 Hellmuth Michaelis.  All rights reserved.
  *
  *   Copyright (c) 1996 Gary Jennejohn.  All rights reserved.
@@ -45,6 +48,8 @@
 
 #include "trace.h"
 
+__RCSID("$MirOS$");
+
 unsigned char buf[BSIZE];
 FILE *Fout = NULL;
 FILE *BP = NULL;
@@ -81,7 +86,7 @@ static void usage( void );
 static void exit_hdl( void );
 static void reopenfiles( int );
 static void add_datetime(char *filename, char *rfilename, size_t rfsz)
-    __attribute__((bounded (string, 2, 3)));
+    __attribute__((__bounded__(__string__, 2, 3)));
 char * fmt_hdr(struct i4b_trace_hdr *hdr, int frm_len);
 
 /*---------------------------------------------------------------------------*

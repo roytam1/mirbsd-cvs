@@ -1,6 +1,9 @@
+/*	$MirOS$ */
 /*	$OpenBSD: dhcpd.h,v 1.6 2004/05/04 21:23:10 deraadt Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2004 Henning Brauer <henning@openbsd.org>
  * Copyright (c) 1995, 1996, 1997, 1998, 1999
  * The Internet Software Consortium.    All rights reserved.
@@ -140,10 +143,10 @@ struct protocol {
 /* External definitions... */
 
 /* errwarn.c */
-void error(char *, ...) __attribute__ ((__format__ (__printf__, 1, 2)));
-int warn(char *, ...) __attribute__ ((__format__ (__printf__, 1, 2)));
-int note(char *, ...) __attribute__ ((__format__ (__printf__, 1, 2)));
-int debug(char *, ...) __attribute__ ((__format__ (__printf__, 1, 2)));
+void error(char *, ...) __attribute__((__format__(__printf__, 1, 2)));
+int warn(char *, ...) __attribute__((__format__(__printf__, 1, 2)));
+int note(char *, ...) __attribute__((__format__(__printf__, 1, 2)));
+int debug(char *, ...) __attribute__((__format__(__printf__, 1, 2)));
 
 /* bpf.c */
 int if_register_bpf(struct interface_info *);

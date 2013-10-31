@@ -1,8 +1,8 @@
-/**	$MirOS: src/lib/libc/sys/stack_protector.c,v 1.10 2011/02/19 01:38:32 tg Exp $ */
 /*	$OpenBSD: stack_protector.c,v 1.10 2006/03/31 05:34:44 deraadt Exp $	*/
 
 /*
- * Copyright (c) 2009, 2011 Thorsten Glaser
+ * Copyright © 2009, 2011, 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2002 Hiroaki Etoh, Federico G. Schwindt, and Miodrag Vallat.
  * All rights reserved.
  *
@@ -36,7 +36,7 @@
 #include <syslog.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.10 2011/02/19 01:38:32 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.11 2011/04/27 21:54:07 tg Exp $");
 
 #if (defined(__SSP__) || defined(__SSP_ALL__)) && \
     !defined(__IN_MKDEP) && !defined(lint)
@@ -48,7 +48,7 @@ __RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.10 2011/02/19 01:38:32 t
 #elif defined(__PCC__)
 #define	CONSTRUCTOR	_Pragma("init")
 #else
-#define	CONSTRUCTOR	static __attribute__((constructor))
+#define	CONSTRUCTOR	static __attribute__((__constructor__))
 #endif
 
 extern void _thread_sys__exit__(int) __dead;

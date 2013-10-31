@@ -1,8 +1,8 @@
-/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.16 2010/03/06 22:38:47 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/cd9660.h,v 1.17 2010/03/06 23:24:14 tg Exp $ */
 /*	$NetBSD: cd9660.h,v 1.13 2009/01/10 22:06:29 bjh21 Exp $	*/
 
 /*
- * Copyright (c) 2009, 2010
+ * Copyright (c) 2009, 2010, 2013
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2005 Daniel Watt, Walter Deignan, Ryan Gabrys, Alan
  * Perez-Rathke and Ram Vedam.  All rights reserved.
@@ -68,7 +68,7 @@
 
 #undef __bounded
 #if defined(__GNUC__) && (defined(__OpenBSD__) || defined(__MirBSD__))
-#define __bounded(...)	__attribute__((__bounded__ (__VA_ARGS__)))
+#define __bounded(...)	__attribute__((__bounded__(__VA_ARGS__)))
 #else
 #define __bounded(...)	/* nothing */
 #endif
@@ -78,7 +78,7 @@
 /* Anil Madhavapeddy's gcc bounds checker, doesn't trigger */
 #define cd9660_DATATYPE_PROTO(name, bytes, type) \
 	void __CONCAT(cd9660_real_, name)(type, unsigned char *)
-	    __attribute__((__bounded__ (__minbytes__, 2, bytes)))
+	    __attribute__((__bounded__(__minbytes__, 2, bytes)))
 #define cd9660_DATATYPE_INVOCATION(name, bytes, val, buf) \
 	__CONCAT(cd9660_real_, name)(val, (unsigned char *)(buf))
 #elif defined(DEBUG)

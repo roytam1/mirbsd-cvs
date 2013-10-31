@@ -1,6 +1,9 @@
+/*	$MirOS$ */
 /*	$OpenBSD: resolv.h,v 1.16 2005/03/30 02:58:28 tedu Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (C) 1995, 1996, 1997, and 1998 WIDE Project.
  * All rights reserved.
  * 
@@ -337,20 +340,20 @@ int			res_init(void);
 int			_res_init(int);
 unsigned int		res_randomid(void);
 int			res_query(const char *, int, int, unsigned char *, int)
-			__attribute__((__bounded__(__string__,4,5)));
+			__attribute__((__bounded__(__string__, 4, 5)));
 int			res_search(const char *, int, int, unsigned char *, int)
-			    __attribute__((__bounded__(__string__,4,5)));
+			    __attribute__((__bounded__(__string__, 4, 5)));
 int			res_querydomain(const char *, const char *, int, int,
 			    unsigned char *, int)
-			__attribute__((__bounded__(__string__,5,6)));
+			__attribute__((__bounded__(__string__, 5, 6)));
 int			res_mkquery(int, const char *, int, int, 
 			    const unsigned char *, int, const unsigned char *, 
 			    unsigned char *, int)
-			__attribute__((__bounded__(__string__,5,6)))
-			__attribute__((__bounded__(__string__,8,9)));
+			__attribute__((__bounded__(__string__, 5, 6)))
+			__attribute__((__bounded__(__string__, 8, 9)));
 int			res_send(const unsigned char *, int, unsigned char *, 
 			    int)
-			__attribute__((__bounded__(__string__,3,4)));
+			__attribute__((__bounded__(__string__, 3, 4)));
 int			res_isourserver(const struct sockaddr_in *);
 int			res_nameinquery(const char *, int, int,
 			    const unsigned char *, const unsigned char *);

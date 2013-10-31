@@ -2,6 +2,8 @@
 /*	$NetBSD: rf_configure.c,v 1.14 2001/02/04 21:05:42 christos Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1995 Carnegie-Mellon University.
  * All rights reserved.
  *
@@ -60,9 +62,11 @@
 #include "rf_decluster.h"
 #include "rf_configure.h"
 
+__RCSID("$MirOS$");
+
 /* so much for #include <ansidecl.h> */
 #ifdef __GNUCC__
-#define	ATTRIBUTE_UNUSED	__attribute__ ((__unused__))
+#define	ATTRIBUTE_UNUSED	__attribute__((__unused__))
 #else
 #define	ATTRIBUTE_UNUSED
 #endif

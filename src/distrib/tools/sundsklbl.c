@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2007
+ * Copyright (c) 2007, 2013
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -47,7 +47,7 @@
 #include <unistd.h>
 
 __SCCSID("@(#)sun_disklabel.h	8.1 (Berkeley) 6/11/93");
-__RCSID("$MirOS: src/distrib/tools/sundsklbl.c,v 1.2 2007/09/28 22:25:04 tg Exp $");
+__RCSID("$MirOS: src/distrib/tools/sundsklbl.c,v 1.3 2007/09/28 22:27:27 tg Exp $");
 
 /*
  * SunOS disk label layout (only relevant portions discovered here).
@@ -82,7 +82,7 @@ struct sun_disklabel {
 	struct sun_dkpart sl_part[8];	/* partition layout */
 	uint16_t sl_magic;		/* == SUN_DKMAGIC */
 	uint16_t sl_cksum;		/* 16-bit XOR, [sl_text,sl_cksum) */
-} __attribute__((packed));
+} __attribute__((__packed__));
 
 struct sun_disklabel thelabel;
 

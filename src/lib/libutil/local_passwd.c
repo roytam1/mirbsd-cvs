@@ -1,6 +1,8 @@
 /*	$OpenBSD: local_passwd.c,v 1.37 2005/05/01 18:47:06 deraadt Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
  *
@@ -46,7 +48,7 @@
 #include <login_cap.h>
 
 __SCCSID("@(#)local_passwd.c	5.5 (Berkeley) 5/6/91");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libutil/local_passwd.c,v 1.2 2010/01/07 22:34:55 tg Exp $");
 
 #define UNCHANGED_MSG	"Password unchanged.\n"
 
@@ -203,7 +205,7 @@ getnewpasswd(struct passwd *pw, login_cap_t *lc, int authenticated)
 
 /* ARGSUSED */
 static void
-kbintr(int signo __attribute__((unused)))
+kbintr(int signo __attribute__((__unused__)))
 {
 	write(STDOUT_FILENO, "\n", 1);
 	write(STDOUT_FILENO, UNCHANGED_MSG, sizeof(UNCHANGED_MSG) - 1);

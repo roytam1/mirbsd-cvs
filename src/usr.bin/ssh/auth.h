@@ -1,7 +1,9 @@
-/* $MirOS: src/usr.bin/ssh/auth.h,v 1.11 2008/12/16 20:55:18 tg Exp $ */
+/* $MirOS: src/usr.bin/ssh/auth.h,v 1.12 2009/10/04 14:29:01 tg Exp $ */
 /* $OpenBSD: auth.h,v 1.63 2009/08/15 18:56:34 fgsch Exp $ */
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -149,7 +151,7 @@ int	 get_hostkey_index(Key *);
 int	 ssh1_session_key(BIGNUM *);
 
 /* debug messages during authentication */
-void	 auth_debug_add(const char *fmt,...) __attribute__((format(printf, 1, 2)));
+void	 auth_debug_add(const char *fmt,...) __attribute__((__format__(__printf__, 1, 2)));
 void	 auth_debug_send(void);
 void	 auth_debug_reset(void);
 

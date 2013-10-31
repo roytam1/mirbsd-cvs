@@ -1,7 +1,10 @@
+/*	$MirOS$ */
 /*	$OpenBSD: kvm.h,v 1.12 2004/09/14 22:39:56 deraadt Exp $	*/
 /*	$NetBSD: kvm.h,v 1.7 1996/04/19 12:02:50 leo Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -75,9 +78,9 @@ kvm_t	 *kvm_open(const char *, const char *, const char *, int, const char *);
 kvm_t	 *kvm_openfiles(const char *, const char *, const char *,
 	        unsigned int, char *);
 ssize_t	  kvm_read(kvm_t *, unsigned long, void *, size_t)
-		__attribute__((__bounded__(__buffer__,3,4)));
+		__attribute__((__bounded__(__buffer__, 3, 4)));
 ssize_t	  kvm_write(kvm_t *, unsigned long, const void *, size_t)
-		__attribute__((__bounded__(__buffer__,3,4)));
+		__attribute__((__bounded__(__buffer__, 3, 4)));
 
 __END_DECLS
 

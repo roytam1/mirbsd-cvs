@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2008
+ * Copyright (c) 2008, 2013
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -21,10 +21,10 @@
 #include <sys/param.h>
 #include <libckern.h>
 
-__RCSID("$MirOS: src/kern/c/hdump.c,v 1.2 2009/01/14 23:33:21 tg Exp $");
+__RCSID("$MirOS: src/kern/c/hdump.c,v 1.3 2009/10/04 15:09:14 tg Exp $");
 
 extern int printf(const char *, ...)
-    __attribute__((format (printf, 1, 2)));
+    __attribute__((__format__(__printf__, 1, 2)));
 
 #define nibble(value, index)	(((unsigned)(value) >> ((index) << 2)) & 0x0F)
 

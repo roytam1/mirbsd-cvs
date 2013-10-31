@@ -1,6 +1,9 @@
+/*	$MirOS$ */
 /*	$OpenBSD: ioprbs.c,v 1.5 2004/04/12 22:12:32 jmc Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2001 Niklas Hallqvist
  * All rights reserved.
  *
@@ -191,7 +194,7 @@ ioprbs_attach(struct device *parent, struct device *self, void *aux)
 			struct	i2o_param_rbs_device_info bdi;
 			struct	i2o_param_rbs_operation op;
 		} p;
-	} param /* XXX gcc __attribute__ ((__packed__)) */;
+	} param /* XXX gcc __attribute__((__packed__)) */;
 	int i;
 
 	TAILQ_INIT(&sc->sc_free_ccb);

@@ -1,8 +1,9 @@
-/**	$MirOS: contrib/code/mpczar/minizip/zopen.c,v 1.2 2005/11/16 20:04:51 tg Exp $ */
 /*	$OpenBSD: zopen.c,v 1.15 2005/04/17 16:17:39 deraadt Exp $	*/
 /*	$NetBSD: zopen.c,v 1.5 1995/03/26 09:44:53 glass Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1985, 1986, 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -73,7 +74,7 @@
 #include "zopen.h"
 
 __SCCSID("@(#)zopen.c	8.1 (Berkeley) 6/27/93");
-__RCSID("$MirOS: contrib/code/mpczar/minizip/zopen.c,v 1.2 2005/11/16 20:04:51 tg Exp $");
+__RCSID("$MirOS: contrib/code/mpczar/minizip/zopen.c,v 1.3 2005/11/16 20:29:41 tg Stab $");
 
 #define	BITS		16		/* Default bits. */
 #define	HSIZE		69001		/* 95% occupancy */
@@ -757,8 +758,8 @@ zdopen(int fd, const char *mode, int bits)
 }
 
 void *
-z_open(int fd, const char *mode, char *name __attribute__((unused)),
-    int bits, u_int32_t mtime __attribute__((unused)), int gotmagic)
+z_open(int fd, const char *mode, char *name __attribute__((__unused__)),
+    int bits, u_int32_t mtime __attribute__((__unused__)), int gotmagic)
 {
 	struct s_zstate *zs;
 

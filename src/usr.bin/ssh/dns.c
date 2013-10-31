@@ -1,6 +1,8 @@
 /* $OpenBSD: dns.c,v 1.25 2008/06/12 00:03:49 dtucker Exp $ */
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2003 Wesley Griffin. All rights reserved.
  * Copyright (c) 2003 Jakob Schlyter. All rights reserved.
  *
@@ -37,7 +39,7 @@
 #include "dns.h"
 #include "log.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/dns.c,v 1.5 2007/01/25 16:18:36 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/dns.c,v 1.6 2008/12/16 20:55:22 tg Exp $");
 
 static const char *errset_text[] = {
 	"success",		/* 0 ERRSET_SUCCESS */
@@ -171,7 +173,7 @@ is_numeric_hostname(const char *hostname)
  */
 int
 verify_host_key_dns(const char *hostname,
-    struct sockaddr *address  __attribute__((unused)),
+    struct sockaddr *address  __attribute__((__unused__)),
     const Key *hostkey, int *flags)
 {
 	u_int counter;

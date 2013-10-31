@@ -1,4 +1,6 @@
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1997 Brian Somers <brian@Awfulhak.org>
  * All rights reserved.
  *
@@ -23,6 +25,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
+ *	$MirOS$
  *	$OpenBSD: log.h,v 1.11 2002/06/15 08:02:00 brian Exp $
  */
 
@@ -79,9 +82,9 @@ extern void log_SetTun(int);
 extern void log_Close(void);
 #ifdef __GNUC__
 extern void log_Printf(int, const char *,...)
-            __attribute__ ((format (printf, 2, 3)));
+            __attribute__((__format__(__printf__, 2, 3)));
 extern void log_WritePrompts(struct datalink *, const char *, ...)
-            __attribute__ ((format (printf, 2, 3)));
+            __attribute__((__format__(__printf__, 2, 3)));
 #else
 extern void log_Printf(int, const char *,...);
 extern void log_WritePrompts(struct datalink *, const char *, ...);

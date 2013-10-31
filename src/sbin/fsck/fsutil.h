@@ -1,7 +1,10 @@
+/*	$MirOS$ */
 /*	$OpenBSD: fsutil.h,v 1.5 2006/05/27 22:30:09 thib Exp $	*/
 /*	$NetBSD: fsutil.h,v 1.3 1996/10/03 20:06:31 christos Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1996 Christos Zoulas.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,13 +35,13 @@
 
 void xperror(const char *);
 void errexit(const char *, ...)
-    __attribute__((__noreturn__,__format__(__printf__,1,2)));
+    __attribute__((__noreturn__, __format__(__printf__, 1, 2)));
 void pfatal(const char *, ...)
-    __attribute__((__format__(__printf__,1,2)));
+    __attribute__((__format__(__printf__, 1, 2)));
 void pwarn(const char *, ...)
-    __attribute__((__format__(__printf__,1,2)));
+    __attribute__((__format__(__printf__, 1, 2)));
 void panic(const char *, ...)
-    __attribute__((__noreturn__,__format__(__printf__,1,2)));
+    __attribute__((__noreturn__, __format__(__printf__, 1, 2)));
 char *rawname(char *);
 char *unrawname(char *);
 char *blockcheck(char *);

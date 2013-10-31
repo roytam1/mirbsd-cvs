@@ -1,7 +1,7 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.31 2012/10/19 20:39:03 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.32 2013/09/10 17:38:34 tg Exp $ */
 
 /*-
- * Copyright (c) 2008, 2010, 2011
+ * Copyright (c) 2008, 2010, 2011, 2013
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -95,84 +95,84 @@ __BEGIN_DECLS
 void __main(void);
 
 void arc4random_roundhash(uint32_t *, uint8_t *, const void *, size_t)
-    __attribute__((__bounded__ (__minbytes__, 1, 128)))
-    __attribute__((__bounded__ (__buffer__, 3, 4)));
+    __attribute__((__bounded__(__minbytes__, 1, 128)))
+    __attribute__((__bounded__(__buffer__, 3, 4)));
 /* u_int32_t in the original API, but we pray they're the same */
 uint32_t arc4random_uniform(uint32_t);
 
 /* arcfour: base cipher */
 void arcfour_init(struct arcfour_status *);
 void arcfour_ksa256(struct arcfour_status *, const uint8_t *)
-    __attribute__((__bounded__ (__minbytes__, 2, 256)));
+    __attribute__((__bounded__(__minbytes__, 2, 256)));
 void arcfour_ksa(struct arcfour_status *, const uint8_t *, size_t)
-    __attribute__((__bounded__ (__buffer__, 2, 3)));
+    __attribute__((__bounded__(__buffer__, 2, 3)));
 uint8_t arcfour_byte(struct arcfour_status *);
 
 int bcmp(const void *, const void *, size_t)
-    __attribute__((__bounded__ (__buffer__, 1, 3)))
-    __attribute__((__bounded__ (__buffer__, 2, 3)));
+    __attribute__((__bounded__(__buffer__, 1, 3)))
+    __attribute__((__bounded__(__buffer__, 2, 3)));
 void bcopy(const void *, void *, size_t)
-    __attribute__((__bounded__ (__buffer__, 1, 3)))
-    __attribute__((__bounded__ (__buffer__, 2, 3)));
+    __attribute__((__bounded__(__buffer__, 1, 3)))
+    __attribute__((__bounded__(__buffer__, 2, 3)));
 void bzero(void *, size_t)
-    __attribute__((__bounded__ (__buffer__, 1, 2)));
+    __attribute__((__bounded__(__buffer__, 1, 2)));
 void explicit_bzero(void *, size_t)
-    __attribute__((__bounded__ (__buffer__, 1, 2)));
+    __attribute__((__bounded__(__buffer__, 1, 2)));
 int timingsafe_bcmp(const void *, const void *, size_t)
-    __attribute__((__bounded__ (__buffer__, 1, 3)))
-    __attribute__((__bounded__ (__buffer__, 2, 3)));
+    __attribute__((__bounded__(__buffer__, 1, 3)))
+    __attribute__((__bounded__(__buffer__, 2, 3)));
 
 int ffs(int);
 
 void *memchr(const void *, int, size_t)
-    __attribute__((__bounded__ (__buffer__, 1, 3)));
+    __attribute__((__bounded__(__buffer__, 1, 3)));
 int memcmp(const void *, const void *, size_t)
-    __attribute__((__bounded__ (__buffer__, 1, 3)))
-    __attribute__((__bounded__ (__buffer__, 2, 3)));
+    __attribute__((__bounded__(__buffer__, 1, 3)))
+    __attribute__((__bounded__(__buffer__, 2, 3)));
 void *memcpy(void *, const void *, size_t)
-    __attribute__((__bounded__ (__buffer__, 1, 3)))
-    __attribute__((__bounded__ (__buffer__, 2, 3)));
+    __attribute__((__bounded__(__buffer__, 1, 3)))
+    __attribute__((__bounded__(__buffer__, 2, 3)));
 void memhexdump(const void *, size_t, size_t);
 void *memmove(void *, const void *, size_t)
-    __attribute__((__bounded__ (__buffer__, 1, 3)))
-    __attribute__((__bounded__ (__buffer__, 2, 3)));
+    __attribute__((__bounded__(__buffer__, 1, 3)))
+    __attribute__((__bounded__(__buffer__, 2, 3)));
 void *mempcpy(void *, const void *, size_t)
-    __attribute__((__bounded__ (__buffer__, 1, 3)))
-    __attribute__((__bounded__ (__buffer__, 2, 3)));
+    __attribute__((__bounded__(__buffer__, 1, 3)))
+    __attribute__((__bounded__(__buffer__, 2, 3)));
 void *memset(void *, int, size_t)
-    __attribute__((__bounded__ (__buffer__, 1, 3)));
+    __attribute__((__bounded__(__buffer__, 1, 3)));
 
 uint32_t OAAT0Update(register uint32_t, register const uint8_t *,
     register size_t) __a_deprecated
-    __attribute__((__bounded__ (__string__, 2, 3)));
+    __attribute__((__bounded__(__string__, 2, 3)));
 uint32_t OAAT0Final(register uint32_t) __a_deprecated;
 
 size_t optu16to8(char * __restrict__, wchar_t, mbstate_t * __restrict__)
-    __attribute__((__bounded__ (__minbytes__, 1, 5)));
+    __attribute__((__bounded__(__minbytes__, 1, 5)));
 size_t optu8to16(wchar_t * __restrict__, const char * __restrict__,
     size_t, mbstate_t * __restrict__)
-    __attribute__((__bounded__ (__string__, 2, 3)));
+    __attribute__((__bounded__(__string__, 2, 3)));
 
 int strcasecmp(const char *, const char *);
 char *strchr(const char *, int);
 int strcmp(const char *, const char *);
 int strcoll(const char *, const char *);
 size_t strlcat(char *, const char *, size_t)
-    __attribute__((__bounded__ (__string__, 1, 3)));
+    __attribute__((__bounded__(__string__, 1, 3)));
 size_t strlcpy(char *, const char *, size_t)
-    __attribute__((__bounded__ (__string__, 1, 3)));
+    __attribute__((__bounded__(__string__, 1, 3)));
 size_t strlen(const char *);
 int strncasecmp(const char *, const char *, size_t);
 int strncmp(const char *, const char *, size_t);
 char *strncpy(char *, const char *, size_t)
-    __attribute__((__bounded__ (__string__, 1, 3)));
+    __attribute__((__bounded__(__string__, 1, 3)));
 char *strrchr(const char *, int);
 size_t strxfrm(char *, const char *, size_t)
-    __attribute__((__bounded__ (__string__, 1, 3)));
+    __attribute__((__bounded__(__string__, 1, 3)));
 
 #ifdef _KERN_HOSTED
 size_t wcrtomb(char * __restrict__, wchar_t, mbstate_t * __restrict__)
-    __attribute__((__bounded__ (__minbytes__, 1, 5)));
+    __attribute__((__bounded__(__minbytes__, 1, 5)));
 #endif
 int wcscasecmp(const wchar_t *, const wchar_t *);
 int wcscmp(const wchar_t *, const wchar_t *);

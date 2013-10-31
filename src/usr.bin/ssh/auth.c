@@ -1,5 +1,7 @@
 /* $OpenBSD: auth.c,v 1.80 2008/11/04 07:58:09 djm Exp $ */
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2000 Markus Friedl.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,7 +56,7 @@
 #include "monitor_wrap.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/auth.c,v 1.11 2009/10/04 14:29:01 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth.c,v 1.12 2011/01/15 21:52:39 tg Exp $");
 
 /* import */
 extern ServerOptions options;
@@ -385,7 +387,7 @@ secure_filename(FILE *f, const char *file, struct passwd *pw,
 
 FILE *
 auth_openkeyfile(const char *file, struct passwd *pw,
-    int strict_modes __attribute__((unused)))
+    int strict_modes __attribute__((__unused__)))
 {
 	char line[1024];
 	struct stat st;

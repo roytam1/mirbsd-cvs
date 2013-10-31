@@ -1,6 +1,9 @@
+/*	$MirOS$ */
 /*	$OpenBSD: isesreg.h,v 1.9 2003/06/07 11:31:24 ho Exp $ $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2000 H�kan Olsson (ho@crt.se)
  * Copyright (c) 2000 Theo de Raadt
  *
@@ -358,6 +361,6 @@ struct ises_session {
 	u_int32_t	cvr[5];		/* Chaining variables reg. */
 	u_int32_t	dbcr[2];	/* Data block count register */
 	u_int32_t	hmlr[2];	/* Hash message length reg. */
-} __attribute__((packed));
+} __attribute__((__packed__));
 
 #define ISES_B_DATASIZE			4096

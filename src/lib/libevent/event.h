@@ -1,6 +1,9 @@
+/*	$MirOS$ */
 /*	$OpenBSD: event.h,v 1.25 2012/08/28 09:09:56 pascal Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2000-2007 Niels Provos <provos@citi.umich.edu>
  * All rights reserved.
  *
@@ -1067,7 +1070,7 @@ int evbuffer_add_buffer(struct evbuffer *, struct evbuffer *);
  */
 int evbuffer_add_printf(struct evbuffer *, const char *fmt, ...)
 #ifdef __GNUC__
-  __attribute__((format(printf, 2, 3)))
+  __attribute__((__format__(__printf__, 2, 3)))
 #endif
 ;
 
@@ -1082,7 +1085,7 @@ int evbuffer_add_printf(struct evbuffer *, const char *fmt, ...)
  */
 int evbuffer_add_vprintf(struct evbuffer *, const char *fmt, va_list ap)
 #ifdef __GNUC__
-    __attribute__((__format__ (__printf__, 2, 0)))
+    __attribute__((__format__(__printf__, 2, 0)))
 #endif
 ;
 

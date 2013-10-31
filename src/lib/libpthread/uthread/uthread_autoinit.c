@@ -1,6 +1,7 @@
 /*
  * David Leonard, 1998. Public Domain. <david.leonard@csee.uq.edu.au>
  *
+ * $MirOS$
  * $OpenBSD: uthread_autoinit.c,v 1.12 2003/01/31 18:48:03 marc Exp $
  */
 
@@ -28,7 +29,7 @@ Init _thread_initialiser;
  * libgcc.a) to call it.
  */
 #if defined(__GNUC__)
-extern void _thread_init_constructor(void) __attribute__((constructor));
+extern void _thread_init_constructor(void) __attribute__((__constructor__));
 
 void
 _thread_init_constructor()

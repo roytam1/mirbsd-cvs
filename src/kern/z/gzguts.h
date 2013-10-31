@@ -1,6 +1,8 @@
-/* $MirOS$ */
+/* $MirOS: src/kern/z/gzguts.h,v 1.2 2013/09/10 21:08:25 tg Exp $ */
 
 /* gzguts.h -- zlib internal header definitions for gz* operations
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (C) 2004, 2005, 2010, 2011, 2012, 2013 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
@@ -15,7 +17,7 @@
 #endif
 
 #ifdef HAVE_HIDDEN
-#  define ZLIB_INTERNAL __attribute__((visibility ("hidden")))
+#  define ZLIB_INTERNAL __attribute__((__visibility__("hidden")))
 #else
 #  define ZLIB_INTERNAL
 #endif

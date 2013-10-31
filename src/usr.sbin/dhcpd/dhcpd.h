@@ -1,6 +1,9 @@
+/*	$MirOS$ */
 /*	$OpenBSD: dhcpd.h,v 1.21 2006/06/14 14:58:52 ckuethe Exp $ */
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1995, 1996, 1997, 1998, 1999
  * The Internet Software Consortium.    All rights reserved.
  *
@@ -543,11 +546,11 @@ void	 do_packet(struct interface_info *, struct dhcp_packet *, int,
 
 /* errwarn.c */
 extern int warnings_occurred;
-void	error(char *, ...) __attribute__ ((__format__ (__printf__, 1, 2)));
-int	warning(char *, ...) __attribute__ ((__format__ (__printf__, 1, 2)));
-int	note(char *, ...) __attribute__ ((__format__ (__printf__, 1, 2)));
-int	debug(char *, ...) __attribute__ ((__format__ (__printf__, 1, 2)));
-int	parse_warn(char *, ...) __attribute__ ((__format__ (__printf__, 1, 2)));
+void	error(char *, ...) __attribute__((__format__(__printf__, 1, 2)));
+int	warning(char *, ...) __attribute__((__format__(__printf__, 1, 2)));
+int	note(char *, ...) __attribute__((__format__(__printf__, 1, 2)));
+int	debug(char *, ...) __attribute__((__format__(__printf__, 1, 2)));
+int	parse_warn(char *, ...) __attribute__((__format__(__printf__, 1, 2)));
 
 /* dhcpd.c */
 extern time_t		cur_time;

@@ -1,9 +1,10 @@
-/**	$MirOS: src/sys/dev/vnd.c,v 1.23 2008/07/09 23:20:49 tg Exp $ */
+/**	$MirOS: src/sys/dev/vnd.c,v 1.24 2008/08/30 19:09:29 tg Exp $ */
 /*	$OpenBSD: vnd.c,v 1.88 2008/07/23 16:24:43 beck Exp $	*/
 /*	$NetBSD: vnd.c,v 1.26 1996/03/30 23:06:11 christos Exp $	*/
 
 /*
- * Copyright (c) 2008 Thorsten Glaser
+ * Copyright © 2008, 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1988 University of Utah.
  * Copyright (c) 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -193,8 +194,8 @@ void	vndgetdisklabel(dev_t, struct vnd_softc *, struct disklabel *, int);
 void	vndencrypt(struct vnd_softc *, caddr_t, size_t, daddr_t, int);
 #ifdef notyet
 void	vndmkiv(u_char *, u_char *, size_t, daddr_t)
-    __attribute__((bounded (string, 1, 3)))
-    __attribute__((bounded (minbytes, 2, VNDIOC_IVSZ)));
+    __attribute__((__bounded__(__string__, 1, 3)))
+    __attribute__((__bounded__(__minbytes__, 2, VNDIOC_IVSZ)));
 #endif
 size_t	vndbdevsize(struct vnode *, struct proc *);
 

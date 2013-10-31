@@ -1,8 +1,9 @@
-/**	$MirOS: src/sbin/modload/elf.c,v 1.4 2005/11/23 16:43:59 tg Exp $	*/
 /*	$OpenBSD: elf.c,v 1.7 2004/12/28 09:05:18 deraadt Exp $	*/
 /*	$NetBSD: elf.c,v 1.8 2002/01/03 21:45:58 jdolecek Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1998 Johan Danielsson <joda@pdc.kth.se>
  * All rights reserved.
  *
@@ -55,7 +56,7 @@
 
 #include "modload.h"
 
-__RCSID("$MirOS: src/sbin/modload/elf.c,v 1.4 2005/11/23 16:43:59 tg Exp $");
+__RCSID("$MirOS: src/sbin/modload/elf.c,v 1.5 2005/11/23 22:13:12 tg Exp $");
 
 char *strtab;
 
@@ -248,7 +249,7 @@ static ssize_t data_offset;
 /* return size needed by the module */
 int
 elf_mod_sizes(int fd, size_t *modsize, int *strtablen,
-    struct lmc_resrv *resrvp, struct stat *sp __attribute__((unused)))
+    struct lmc_resrv *resrvp, struct stat *sp __attribute__((__unused__)))
 {
 	Elf_Ehdr ehdr;
 	ssize_t off = 0;
@@ -412,7 +413,7 @@ elf_mod_load(int fd)
 extern int devfd, modfd;
 
 void
-elf_mod_symload(int strtablen __attribute__((unused)))
+elf_mod_symload(int strtablen __attribute__((__unused__)))
 {
 	Elf_Ehdr ehdr;
 	char *shstrtab;

@@ -1,7 +1,10 @@
+/*	$MirOS$ */
 /*	$OpenBSD: err.h,v 1.9 2003/06/02 19:34:12 millert Exp $	*/
 /*	$NetBSD: err.h,v 1.11 1994/10/26 00:55:52 cgd Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -48,42 +51,42 @@
 __BEGIN_DECLS
 
 __dead void	err(int, const char *, ...)
-			__attribute__((__format__ (printf, 2, 3)));
+			__attribute__((__format__(__printf__, 2, 3)));
 __dead void	verr(int, const char *, _BSD_VA_LIST_)
-			__attribute__((__format__ (printf, 2, 0)));
+			__attribute__((__format__(__printf__, 2, 0)));
 __dead void	errx(int, const char *, ...)
-			__attribute__((__format__ (printf, 2, 3)));
+			__attribute__((__format__(__printf__, 2, 3)));
 __dead void	verrx(int, const char *, _BSD_VA_LIST_)
-			__attribute__((__format__ (printf, 2, 0)));
+			__attribute__((__format__(__printf__, 2, 0)));
 void		warn(const char *, ...)
-			__attribute__((__format__ (printf, 1, 2)));
+			__attribute__((__format__(__printf__, 1, 2)));
 void		vwarn(const char *, _BSD_VA_LIST_)
-			__attribute__((__format__ (printf, 1, 0)));
+			__attribute__((__format__(__printf__, 1, 0)));
 void		warnx(const char *, ...)
-			__attribute__((__format__ (printf, 1, 2)));
+			__attribute__((__format__(__printf__, 1, 2)));
 void		vwarnx(const char *, _BSD_VA_LIST_)
-			__attribute__((__format__ (printf, 1, 0)));
+			__attribute__((__format__(__printf__, 1, 0)));
 
 /*
  * The _* versions are for use in library functions so user-defined
  * versions of err*,warn* do not get used.
  */
 __dead void	_err(int, const char *, ...)
-			__attribute__((__format__ (printf, 2, 3)));
+			__attribute__((__format__(__printf__, 2, 3)));
 __dead void	_verr(int, const char *, _BSD_VA_LIST_)
-			__attribute__((__format__ (printf, 2, 0)));
+			__attribute__((__format__(__printf__, 2, 0)));
 __dead void	_errx(int, const char *, ...)
-			__attribute__((__format__ (printf, 2, 3)));
+			__attribute__((__format__(__printf__, 2, 3)));
 __dead void	_verrx(int, const char *, _BSD_VA_LIST_)
-			__attribute__((__format__ (printf, 2, 0)));
+			__attribute__((__format__(__printf__, 2, 0)));
 void		_warn(const char *, ...)
-			__attribute__((__format__ (printf, 1, 2)));
+			__attribute__((__format__(__printf__, 1, 2)));
 void		_vwarn(const char *, _BSD_VA_LIST_)
-			__attribute__((__format__ (printf, 1, 0)));
+			__attribute__((__format__(__printf__, 1, 0)));
 void		_warnx(const char *, ...)
-			__attribute__((__format__ (printf, 1, 2)));
+			__attribute__((__format__(__printf__, 1, 2)));
 void		_vwarnx(const char *, _BSD_VA_LIST_)
-			__attribute__((__format__ (printf, 1, 0)));
+			__attribute__((__format__(__printf__, 1, 0)));
 
 __END_DECLS
 

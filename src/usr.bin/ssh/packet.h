@@ -1,8 +1,10 @@
-/* $MirOS: src/usr.bin/ssh/packet.h,v 1.5 2008/12/16 20:55:25 tg Exp $ */
+/* $MirOS: src/usr.bin/ssh/packet.h,v 1.6 2009/10/04 14:29:06 tg Exp $ */
 /* $OpenBSD: packet.h,v 1.52 2009/06/27 09:29:06 andreas Exp $ */
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
  * Interface for the packet protocol functions.
@@ -63,8 +65,8 @@ void     packet_get_bignum2(BIGNUM * value);
 void	*packet_get_raw(u_int *length_ptr);
 void	*packet_get_string(u_int *length_ptr);
 void	*packet_get_string_ptr(u_int *length_ptr);
-void     packet_disconnect(const char *fmt,...) __dead __attribute__((format(printf, 1, 2)));
-void     packet_send_debug(const char *fmt,...) __attribute__((format(printf, 1, 2)));
+void     packet_disconnect(const char *fmt,...) __dead __attribute__((__format__(__printf__, 1, 2)));
+void     packet_send_debug(const char *fmt,...) __attribute__((__format__(__printf__, 1, 2)));
 
 void	 set_newkeys(int mode);
 int	 packet_get_keyiv_len(int);

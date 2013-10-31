@@ -1,6 +1,8 @@
 /* $OpenBSD: ssh-agent.c,v 1.162 2009/09/01 14:43:17 djm Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
  * The authentication agent program.
@@ -64,7 +66,7 @@
 #include "log.h"
 #include "misc.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh-agent.c,v 1.16 2008/12/27 21:17:58 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-agent.c,v 1.17 2009/10/04 14:29:10 tg Exp $");
 
 #ifdef SMARTCARD
 #include "scard.h"
@@ -989,7 +991,7 @@ cleanup_exit(int i)
 
 /*ARGSUSED*/
 static __dead void
-cleanup_handler(int sig __attribute__((unused)))
+cleanup_handler(int sig __attribute__((__unused__)))
 {
 	cleanup_socket();
 	_exit(2);

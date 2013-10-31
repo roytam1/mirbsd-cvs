@@ -1,8 +1,10 @@
-/**	$MirOS: src/usr.sbin/config/config.h,v 1.2 2005/03/13 19:16:18 tg Exp $ */
+/**	$MirOS: src/usr.sbin/config/config.h,v 1.3 2007/02/19 03:03:29 tg Exp $ */
 /*	$OpenBSD: config.h,v 1.21 2004/01/04 18:30:05 deraadt Exp $	*/
 /*	$NetBSD: config.h,v 1.30 1997/02/02 21:12:30 thorpej Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -371,11 +373,12 @@ void	*emalloc(size_t);
 void	*erealloc(void *, size_t);
 char	*sourcepath(const char *);
 void	error(const char *, ...)			/* immediate errs */
-    __attribute__((format (printf, 1, 2)));
+    __attribute__((__format__(__printf__, 1, 2)));
 void	xerror(const char *, int, const char *, ...)	/* delayed errs */
-    __attribute__((format (printf, 3, 4)));
+    __attribute__((__format__(__printf__, 3, 4)));
 void panic(const char *, ...)
-    __attribute__((noreturn, format (printf, 1, 2)));
+    __attribute__((__noreturn__))
+    __attribute__((__format__(__printf__, 1, 2)));
 struct nvlist *newnv(const char *, const char *, void *, int, struct nvlist *);
 void	nvfree(struct nvlist *);
 void	nvfreel(struct nvlist *);

@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/include/nl_types.h,v 1.7 2007/02/02 21:22:43 tg Exp $ */
 
 #ifndef _NL_TYPES_H_
 #define _NL_TYPES_H_
@@ -14,7 +14,7 @@ typedef int nl_item;
 __BEGIN_DECLS
 nl_catd catopen(const char *, int);
 char *catgets(nl_catd, int, int, const char *)
-    __attribute__((format_arg(4)));
+    __attribute__((__format_arg__(4)));
 int catclose(nl_catd);
 __END_DECLS
 

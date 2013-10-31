@@ -1,6 +1,8 @@
 /* $OpenBSD: sshlogin.c,v 1.26 2007/09/11 15:47:17 gilles Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
  * This file performs some of the things login(1) normally does.  We cannot
@@ -57,13 +59,13 @@
 #include "buffer.h"
 #include "servconf.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sshlogin.c,v 1.5 2007/07/05 22:48:52 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshlogin.c,v 1.6 2007/09/13 13:52:57 tg Exp $");
 
 extern Buffer loginmsg;
 extern ServerOptions options;
 
 #ifdef SMALL
-#define usmall	__attribute__((unused))
+#define usmall	__attribute__((__unused__))
 #else
 #define usmall	/* nothing */
 static time_t get_last_login_time(uid_t, const char *, char *, size_t);
@@ -74,7 +76,7 @@ static time_t get_last_login_time(uid_t, const char *, char *, size_t);
  * The host the user logged in from will be returned in buf.
  */
 static time_t
-get_last_login_time(uid_t uid, const char *logname __attribute__((unused)),
+get_last_login_time(uid_t uid, const char *logname __attribute__((__unused__)),
     char *buf, size_t bufsize)
 {
 	struct lastlog ll;
@@ -146,10 +148,10 @@ store_lastlog_message(const char *user, uid_t uid)
  * systems were more standardized.
  */
 void
-record_login(pid_t pid __attribute__((unused)), const char *tty usmall,
+record_login(pid_t pid __attribute__((__unused__)), const char *tty usmall,
     const char *user usmall, uid_t uid usmall, const char *host usmall,
-    struct sockaddr *addr __attribute__((unused)),
-    socklen_t addrlen __attribute__((unused)))
+    struct sockaddr *addr __attribute__((__unused__)),
+    socklen_t addrlen __attribute__((__unused__)))
 {
 #ifndef SMALL
 	int fd;
@@ -195,7 +197,7 @@ record_login(pid_t pid __attribute__((unused)), const char *tty usmall,
 
 /* Records that the user has logged out. */
 void
-record_logout(pid_t pid __attribute__((unused)), const char *tty usmall)
+record_logout(pid_t pid __attribute__((__unused__)), const char *tty usmall)
 {
 #ifndef SMALL
 	const char *line = tty + 5;	/* /dev/ttyq8 -> ttyq8 */

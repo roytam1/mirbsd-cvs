@@ -1,8 +1,10 @@
-/**	$MirOS: src/sys/sys/systm.h,v 1.7 2008/08/03 21:02:06 tg Exp $ */
+/**	$MirOS: src/sys/sys/systm.h,v 1.8 2008/09/06 22:21:05 tg Exp $ */
 /*	$OpenBSD: systm.h,v 1.60 2004/01/05 00:16:56 espie Exp $	*/
 /*	$NetBSD: systm.h,v 1.50 1996/06/09 04:55:09 briggs Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1982, 1988, 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
  * (c) UNIX System Laboratories, Inc.
@@ -158,23 +160,23 @@ void	*hashinit(int, int, int, u_long *);
 int	sys_nosys(struct proc *, void *, register_t *);
 
 void	panic(const char *, ...)
-    __attribute__((__noreturn__,__format__(__kprintf__,1,2)));
+    __attribute__((__noreturn__,__format__(__kprintf__, 1, 2)));
 void	__assert(const char *, const char *, int, const char *)
     __attribute__((__noreturn__));
 int	printf(const char *, ...)
-    __attribute__((__format__(__kprintf__,1,2)));
+    __attribute__((__format__(__kprintf__, 1, 2)));
 void	uprintf(const char *, ...)
-    __attribute__((__format__(__kprintf__,1,2)));
+    __attribute__((__format__(__kprintf__, 1, 2)));
 int	vprintf(const char *, va_list);
 int	vsprintf(char *, const char *, va_list);
 int	sprintf(char *buf, const char *, ...)
-    __attribute__((__format__(__kprintf__,2,3)));
+    __attribute__((__format__(__kprintf__, 2, 3)));
 int	vsnprintf(char *, size_t, const char *, va_list);
 int	snprintf(char *buf, size_t, const char *, ...)
-    __attribute__((__format__(__kprintf__,3,4)));
+    __attribute__((__format__(__kprintf__, 3, 4)));
 struct tty;
 void	ttyprintf(struct tty *, const char *, ...)
-    __attribute__((__format__(__kprintf__,2,3)));
+    __attribute__((__format__(__kprintf__, 2, 3)));
 
 void	splassert_fail(int, int, const char *);
 extern	int splassert_ctl;

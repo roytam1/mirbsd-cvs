@@ -1,7 +1,8 @@
-/**	$MirOS: src/usr.bin/stat/stat.c,v 1.4 2008/07/10 13:23:13 tg Exp $ */
 /*	$NetBSD: stat.c,v 1.20 2004/12/31 03:24:31 atatat Exp $ */
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2002 The NetBSD Foundation, Inc.
  * All rights reserved.
  *
@@ -42,10 +43,8 @@
 #endif
 
 #include <sys/cdefs.h>
-#if !defined(lint)
-__RCSID("$MirOS: src/usr.bin/stat/stat.c,v 1.4 2008/07/10 13:23:13 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/stat/stat.c,v 1.5 2008/07/10 13:30:53 tg Exp $");
 __RCSID("$NetBSD: stat.c,v 1.20 2004/12/31 03:24:31 atatat Exp $");
-#endif
 
 #if !defined(HAVE_NBTOOL_CONFIG_H) || (!HAVE_NBTOOL_CONFIG_H)
 #define HAVE_STRUCT_STAT_ST_FLAGS 1
@@ -372,7 +371,7 @@ usage(const char *synopsis)
  */
 void
 output(const struct stat *st, const char *file,
-    const char *statfmt, int fn, int nonl, int quiet __attribute__((unused)))
+    const char *statfmt, int fn, int nonl, int quiet __attribute__((__unused__)))
 {
 	int flags, size, prec, ofmt, hilo, what;
 	char buf[PATH_MAX];

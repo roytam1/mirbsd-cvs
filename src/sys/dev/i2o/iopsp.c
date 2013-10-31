@@ -1,7 +1,10 @@
+/*	$MirOS$ */
 /*	$OpenBSD: iopsp.c,v 1.7 2003/01/13 03:56:47 mickey Exp $	*/
 /*	$NetBSD$	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2000, 2001 The NetBSD Foundation, Inc.
  * All rights reserved.
  *
@@ -105,7 +108,7 @@ iopsp_match(struct device *parent, void *match, void *aux)
 		struct	i2o_param_op_results pr;
 		struct	i2o_param_read_results prr;
 		struct	i2o_param_hba_ctlr_info ci;
-	} __attribute__ ((__packed__)) param;
+	} __attribute__((__packed__)) param;
 	int rv;
 
 	if (ia->ia_class != I2O_CLASS_BUS_ADAPTER_PORT)
@@ -144,7 +147,7 @@ iopsp_attach(struct device *parent, struct device *self, void *aux)
 			struct	i2o_param_hba_scsi_ctlr_info sci;
 			struct	i2o_param_hba_scsi_port_info spi;
 		} p;
-	} __attribute__ ((__packed__)) param;
+	} __attribute__((__packed__)) param;
 	int fcal, rv;
 #ifdef I2OVERBOSE
 	int size;
@@ -238,7 +241,7 @@ iopsp_reconfig(struct device *dv)
 		struct	i2o_param_op_results pr;
 		struct	i2o_param_read_results prr;
 		struct	i2o_param_scsi_device_info sdi;
-	} __attribute__ ((__packed__)) param;
+	} __attribute__((__packed__)) param;
 	u_int tid, nent, i, targ, lun, size, s, rv, bptid;
 	u_short *tidmap;
 #ifdef I2OVERBOSE

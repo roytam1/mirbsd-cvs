@@ -1,4 +1,7 @@
+/* $MirOS$ */
 /* Copyright (c) 1998, 1999, 2000 Thai Open Source Software Center Ltd
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
    See the file COPYING for copying permission.
 */
 
@@ -37,7 +40,7 @@
 #if defined(XML_USE_MSC_EXTENSIONS)
 #define XMLCALL __cdecl
 #elif defined(__GNUC__) && defined(__i386)
-#define XMLCALL __attribute__((cdecl))
+#define XMLCALL __attribute__((__cdecl__))
 #else
 /* For any platform which uses this definition and supports more than
    one calling convention, we need to extend this definition to

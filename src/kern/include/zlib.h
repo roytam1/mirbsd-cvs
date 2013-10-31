@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/zlib.h,v 1.9 2013/08/05 21:27:28 tg Exp $ */
+/* $MirOS: src/kern/include/zlib.h,v 1.10 2013/08/06 16:59:19 tg Exp $ */
 
 /* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.2.8, April 28th, 2013
@@ -1350,8 +1350,8 @@ ZEXTERN int ZEXPORT gzwrite OF((gzFile file,
 */
 
 ZEXTERN int ZEXPORTVA gzprintf Z_ARG((gzFile file, const char *format, ...))
-    __attribute__((__format__ (__printf__, 2, 3)))
-    __attribute__((__nonnull__ (1)));
+    __attribute__((__format__(__printf__, 2, 3)))
+    __attribute__((__nonnull__(1)));
 /*
      Converts, formats, and writes the arguments to the compressed file under
    control of the format string, as in fprintf.  gzprintf returns the number of
@@ -1767,7 +1767,7 @@ ZEXTERN gzFile         ZEXPORT gzopen_w OF((const wchar_t *path,
 ZEXTERN int            ZEXPORTVA gzvprintf Z_ARG((gzFile file,
                                                   const char *format,
                                                   va_list va))
-	__attribute__((__format__ (__printf__, 2, 0)));
+	__attribute__((__format__(__printf__, 2, 0)));
 #  endif
 #endif
 #endif

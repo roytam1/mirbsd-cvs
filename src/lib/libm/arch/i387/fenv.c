@@ -1,6 +1,8 @@
 /* $NetBSD: fenv.c,v 1.3 2010/08/01 06:34:38 taca Exp $ */
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2004-2005 David Schultz <das@FreeBSD.ORG>
  * All rights reserved.
  *
@@ -28,6 +30,7 @@
 
 #include <sys/cdefs.h>
 __RCSID("$NetBSD: fenv.c,v 1.3 2010/08/01 06:34:38 taca Exp $");
+__RCSID("$MirOS$");
 
 #include <sys/param.h>
 #include <sys/sysctl.h>
@@ -115,7 +118,7 @@ fenv_t __fe_dfl_env = {
  */
 static int __HAS_SSE = 0;
 
-static void __test_sse(void) __attribute__ ((constructor));
+static void __test_sse(void) __attribute__((__constructor__));
 
 static void __test_sse(void)
 {

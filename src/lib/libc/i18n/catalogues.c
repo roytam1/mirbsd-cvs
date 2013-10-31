@@ -1,7 +1,5 @@
-/* $MirOS: src/lib/libc/i18n/catalogues.c,v 1.8 2007/02/02 21:06:20 tg Exp $ */
-
 /*-
- * Copyright (c) 2005
+ * Copyright (c) 2005, 2013
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -25,7 +23,7 @@
 #include <langinfo.h>
 #include <nl_types.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/catalogues.c,v 1.8 2007/02/02 21:06:20 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/catalogues.c,v 1.9 2007/02/02 21:22:41 tg Exp $");
 
 /* fake NLS support */
 
@@ -39,22 +37,22 @@ const char *_catgets(nl_catd, int, int, const char *);
 int _catclose(nl_catd);
 
 nl_catd
-_catopen(const char *name __attribute__((unused)),
-    int oflag __attribute__((unused)))
+_catopen(const char *name __attribute__((__unused__)),
+    int oflag __attribute__((__unused__)))
 {
 	return (0);
 }
 
 int
-_catclose(nl_catd catd __attribute__((unused)))
+_catclose(nl_catd catd __attribute__((__unused__)))
 {
 	return (0);
 }
 
 const char *
-_catgets(nl_catd catd __attribute__((unused)),
-    int set_id __attribute__((unused)),
-    int msg_id __attribute__((unused)),
+_catgets(nl_catd catd __attribute__((__unused__)),
+    int set_id __attribute__((__unused__)),
+    int msg_id __attribute__((__unused__)),
     const char *s)
 {
 	return (s);

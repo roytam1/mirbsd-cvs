@@ -1,5 +1,7 @@
 /*	$OpenBSD: tcsendbreak.c,v 1.6 2005/08/05 13:03:00 espie Exp $ */
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -39,9 +41,11 @@
 #include <termios.h>
 #include <unistd.h>
 
+__RCSID("$MirOS$");
+
 /* ARGSUSED */
 int
-tcsendbreak(int fd, int len __attribute__((unused)))
+tcsendbreak(int fd, int len __attribute__((__unused__)))
 {
 	struct timeval sleepytime;
 

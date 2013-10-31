@@ -1,7 +1,6 @@
 #if 0
-# $MirOS: contrib/hosted/tg/rnd_cgi.c,v 1.2 2010/12/24 11:39:20 tg Exp $
 #-
-# Copyright © 2010
+# Copyright © 2010, 2013
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -49,7 +48,7 @@ LDADD+=		-lc
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: contrib/hosted/tg/rnd_cgi.c,v 1.2 2010/12/24 11:39:20 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/tg/rnd_cgi.c,v 1.3 2010/12/27 18:41:03 tg Exp $");
 
 extern const char *__progname;
 extern const uint8_t mbsd_digits_base64[65];
@@ -204,7 +203,7 @@ main(int argc __unused, char *argv[], char *envp[]) {
 #define	CONSTRUCTOR	_Pragma("init")
 int __stack_chk_guard;				/* pcc */
 #else
-#define	CONSTRUCTOR	static __attribute__((constructor))
+#define	CONSTRUCTOR	static __attribute__((__constructor__))
 long __guard[8] = {0, 0, 0, 0, 0, 0, 0, 0};	/* gcc */
 #endif
 

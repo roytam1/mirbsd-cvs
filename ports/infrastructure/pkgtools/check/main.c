@@ -1,5 +1,6 @@
-/* $MirOS$
- *-
+/*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2010
  *	Benny Siegert <bsiegert@gmx.de>
  *
@@ -23,7 +24,7 @@
 #include "lib.h"
 #include "check.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/check/main.c,v 1.1 2010/03/09 19:38:48 bsiegert Exp $");
 
 static char Options[] = "hm:q?";
 
@@ -78,6 +79,6 @@ usage(void)
 }
 
 void
-cleanup(int sig __attribute__((unused)))
+cleanup(int sig __attribute__((__unused__)))
 {
 }

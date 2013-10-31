@@ -1,7 +1,10 @@
+/*	$MirOS$ */
 /*	$NetBSD: ffs_extern.h,v 1.6 2003/08/07 11:25:33 agc Exp $	*/
 /* From: NetBSD: ffs_extern.h,v 1.19 2001/08/17 02:18:48 lukem Exp */
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1991, 1993, 1994
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -46,7 +49,7 @@ struct indir {
 
 	/* ffs.c */
 void panic(const char *, ...)
-    __attribute__((__noreturn__,__format__(__printf__,1,2)));  
+    __attribute__((__noreturn__, __format__(__printf__, 1, 2)));  
 
 	/* ffs_alloc.c */
 int ffs_alloc(struct inode *, daddr_t, daddr_t, int, daddr_t *);

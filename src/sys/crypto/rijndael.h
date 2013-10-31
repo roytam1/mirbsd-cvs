@@ -1,9 +1,10 @@
-/**	$MirOS: src/sys/crypto/rijndael.h,v 1.2 2008/03/21 20:57:31 tg Exp $ */
+/**	$MirOS: src/sys/crypto/rijndael.h,v 1.3 2008/03/27 22:39:07 tg Exp $ */
 /*	$OpenBSD: rijndael.h,v 1.11 2005/05/25 05:47:53 markus Exp $ */
 
 /*-
  * Adaptions for VIA C3 hardware cryptography and integration is
- * Copyright (c) 2008 Thorsten Glaser
+ * Copyright © 2008, 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  */
 
 /**
@@ -36,9 +37,9 @@
 #define __RIJNDAEL_H
 
 #if !defined(SMALL_KERNEL) || (defined(i386) && defined(CRYPTO))
-#define __RIJNDAEL_ALIGNED	__attribute__((aligned (16)))
+#define __RIJNDAEL_ALIGNED	__attribute__((__aligned__(16)))
 #else
-#define __RIJNDAEL_ALIGNED	__attribute__((aligned (4)))
+#define __RIJNDAEL_ALIGNED	__attribute__((__aligned__(4)))
 #endif
 
 #define MAXKC	(256/32)

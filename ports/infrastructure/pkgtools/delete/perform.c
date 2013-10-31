@@ -1,5 +1,10 @@
-/**	$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.13 2008/11/02 18:56:29 tg Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.14 2009/05/17 16:51:22 tg Exp $ */
 /*	$OpenBSD: perform.c,v 1.16 2003/08/21 20:24:56 espie Exp $	*/
+
+/*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+ */
 
 /*
  * FreeBSD install - a package for the installation and maintainance
@@ -29,7 +34,7 @@
 #include "delete.h"
 #include <libgen.h>
 
-__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.13 2008/11/02 18:56:29 tg Exp $");
+__RCSID("$MirOS: ports/infrastructure/pkgtools/delete/perform.c,v 1.14 2009/05/17 16:51:22 tg Exp $");
 
 static int pkg_do(char *);
 static void sanity_check(char *);
@@ -293,7 +298,7 @@ sanity_check(char *pkg)
 }
 
 void
-cleanup(int sig __attribute__((unused)))
+cleanup(int sig __attribute__((__unused__)))
 {
 	/* return here, for errx(3) calls to succeed */
 }
@@ -304,7 +309,7 @@ cleanup(int sig __attribute__((unused)))
  */
 int
 undepend(const char *deppkgname, char *pkg2delname,
-    int unused __attribute__((unused)))
+    int unused __attribute__((__unused__)))
 {
      char fname[FILENAME_MAX], ftmp[FILENAME_MAX];
      char fbuf[FILENAME_MAX];

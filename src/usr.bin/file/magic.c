@@ -1,5 +1,7 @@
 /* $OpenBSD: magic.c,v 1.3 2007/07/09 16:39:48 dim Exp $ */
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) Christos Zoulas 2003.
  * All Rights Reserved.
  * 
@@ -65,7 +67,7 @@
 
 #include "patchlevel.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/file/magic.c,v 1.2 2007/07/10 14:22:36 tg Exp $");
 
 #ifdef __EMX__
 private char *apptypeName = NULL;
@@ -175,8 +177,8 @@ magic_check(struct magic_set *ms, const char *magicfile)
 
 private void
 close_and_restore(const struct magic_set *ms,
-    const char *name __attribute__((unused)), int fd,
-    const struct stat *sb __attribute__((unused)))
+    const char *name __attribute__((__unused__)), int fd,
+    const struct stat *sb __attribute__((__unused__)))
 {
 	(void) close(fd);
 	if (fd != STDIN_FILENO && (ms->flags & MAGIC_PRESERVE_ATIME) != 0) {

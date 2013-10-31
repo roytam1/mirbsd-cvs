@@ -1,6 +1,8 @@
 /*	$OpenBSD: mpool.c,v 1.14 2005/08/05 13:03:00 espie Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1990, 1993, 1994
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -41,6 +43,8 @@
 
 #include <db.h>
 
+__RCSID("$MirOS$");
+
 #define	__MPOOLINTERFACE_PRIVATE
 #include <mpool.h>
 
@@ -54,7 +58,7 @@ static int  mpool_write(MPOOL *, BKT *);
  */
 /* ARGSUSED */
 MPOOL *
-mpool_open(void *key __attribute__((unused)), int fd, pgno_t pagesize,
+mpool_open(void *key __attribute__((__unused__)), int fd, pgno_t pagesize,
     pgno_t maxcache)
 {
 	struct stat sb;
@@ -259,7 +263,7 @@ mpool_get(MPOOL *mp, pgno_t pgno,
  */
 /* ARGSUSED */
 int
-mpool_put(MPOOL *mp __attribute__((unused)), void *page, u_int flags)
+mpool_put(MPOOL *mp __attribute__((__unused__)), void *page, u_int flags)
 {
 	BKT *bp;
 

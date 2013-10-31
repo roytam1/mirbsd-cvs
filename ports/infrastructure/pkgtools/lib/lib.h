@@ -1,5 +1,10 @@
-/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.28 2009/12/11 22:16:14 bsiegert Exp $ */
+/**	$MirOS: ports/infrastructure/pkgtools/lib/lib.h,v 1.29 2010/03/09 19:37:49 bsiegert Exp $ */
 /*	$OpenBSD: lib.h,v 1.14 2003/08/21 20:24:57 espie Exp $	*/
+
+/*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+ */
 
 /*
  * FreeBSD install - a package for the installation and maintainance
@@ -215,7 +220,7 @@ char		*fileFindByPath(char *, char *);
 char		*fileGetContents(char *);
 bool		make_preserve_name(char *, size_t, char *, char *);
 int		write_file(const char *, const char *, const char *, ...)
-		    __attribute__((__format__ (printf, 3, 4)));
+		    __attribute__((__format__(__printf__, 3, 4)));
 void		copy_file(const char *, const char *, const char *);
 void		move_file(const char *, const char *, char *);
 void		copy_hierarchy(const char *, char *, bool);
@@ -252,9 +257,9 @@ int		pkg_perform(char **);
 
 void		set_pkg(char *);
 void 		pwarnx(const char *, ...)
-		    __attribute__((__format__ (printf, 1, 2)));
+		    __attribute__((__format__(__printf__, 1, 2)));
 void 		pwarn(const char *, ...)
-		    __attribute__((__format__ (printf, 1, 2)));
+		    __attribute__((__format__(__printf__, 1, 2)));
 
 /* Externs */
 extern bool	Verbose;
@@ -267,27 +272,27 @@ void *xrealloc(void *, size_t, size_t);
 #define xfree(p) xfree_((void **)&(p))
 void xfree_(void **);
 int xasprintf(char **, const char *, ...)
-    __attribute__((nonnull (1)))
-    __attribute__((format (printf, 2, 3)));
+    __attribute__((__nonnull__(1)))
+    __attribute__((__format__(__printf__, 2, 3)));
 int xvasprintf(char **, const char *, va_list)
-    __attribute__((nonnull (1)))
-    __attribute__((format (printf, 2, 0)));
+    __attribute__((__nonnull__(1)))
+    __attribute__((__format__(__printf__, 2, 0)));
 void *xstrdup(const void *);
 
 /* proc.c */
 char *format_arg(const char *)
-    __attribute__((nonnull (1)));
+    __attribute__((__nonnull__(1)));
 #define format_comm(args) format_comm_((const char * const *)(args))
 char *format_comm_(const char * const *)
-    __attribute__((nonnull (1)));
+    __attribute__((__nonnull__(1)));
 void unlimit(void);
 int mirsystem(const char *, bool)
-    __attribute__((nonnull (1)));
+    __attribute__((__nonnull__(1)));
 int xsystem(bool, const char *, ...)
-    __attribute__((format (printf, 2, 3)));
+    __attribute__((__format__(__printf__, 2, 3)));
 int vxsystem(bool, const char *, va_list)
-    __attribute__((format (printf, 2, 0)));
+    __attribute__((__format__(__printf__, 2, 0)));
 int sxsystem(bool, const char *)
-    __attribute__((nonnull (2)));
+    __attribute__((__nonnull__(2)));
 
 #endif /* _INST_LIB_LIB_H_ */

@@ -1,9 +1,11 @@
-/* $MirOS: src/usr.sbin/httpd/src/include/ap.h,v 1.2 2005/03/13 19:16:44 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/include/ap.h,v 1.3 2005/04/17 04:38:32 tg Exp $ */
 /* $OpenBSD: ap.h,v 1.13 2005/03/28 23:26:51 niallo Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2000-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
@@ -162,7 +164,7 @@ API_EXPORT(int) ap_vformatter(int (*flush_func)(ap_vformatter_buff *),
  * In no event does ap_snprintf return a negative number.
  */
 API_EXPORT_NONSTD(int) ap_snprintf(char *buf, size_t len,
-    const char *format,...) __attribute__((format(printf,3,4)));
+    const char *format,...) __attribute__((__format__(__printf__, 3, 4)));
 API_EXPORT(int) ap_vsnprintf(char *buf, size_t len, const char *format,
     va_list ap);
 /* Simple BASE64 encode/decode functions.

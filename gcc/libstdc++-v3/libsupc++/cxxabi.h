@@ -1,5 +1,9 @@
+/* $MirOS$ */
+
 // new abi support -*- C++ -*-
   
+// Copyright © 2013
+//	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 // Copyright (C) 2000, 2002, 2003, 2004 Free Software Foundation, Inc.
 //
 // This file is part of GCC.
@@ -105,7 +109,7 @@ namespace __cxxabiv1
 		    void (*__dealloc) (void*, size_t));
 
   // The ABI requires a 64-bit type.
-  __extension__ typedef int __guard __attribute__((mode (__DI__)));
+  __extension__ typedef int __guard __attribute__((__mode__(__DI__)));
 
   int 
   __cxa_guard_acquire(__guard*);

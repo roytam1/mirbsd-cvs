@@ -1,7 +1,8 @@
-/**	$MirOS: src/usr.bin/compress/nullopen.c,v 1.4 2005/11/16 22:10:56 tg Exp $ */
 /*	$OpenBSD: nullopen.c,v 1.3 2005/06/26 18:20:26 otto Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2003 Can Erkin Acar
  * Copyright (c) 1997 Michael Shalayeff
  * All rights reserved.
@@ -35,7 +36,7 @@
 #include <unistd.h>
 #include "compress.h"
 
-__RCSID("$MirOS: src/usr.bin/compress/nullopen.c,v 1.4 2005/11/16 22:10:56 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/compress/nullopen.c,v 1.5 2005/11/23 17:08:49 tg Exp $");
 
 typedef struct {
 	off_t 	  total_in;
@@ -49,9 +50,9 @@ char null_magic[2];
 
 
 void *
-null_open(int fd, const char *mode, char *name __attribute__((unused)),
-    int bits __attribute__((unused)),
-    u_int32_t mtime __attribute__((unused)), int gotmagic)
+null_open(int fd, const char *mode, char *name __attribute__((__unused__)),
+    int bits __attribute__((__unused__)),
+    u_int32_t mtime __attribute__((__unused__)), int gotmagic)
 {
 	null_stream *s;
 
@@ -101,7 +102,7 @@ null_close(void *cookie, struct z_info *info, const char *name, struct stat *sb)
 }
 
 int
-null_flush(void *cookie, int flush __attribute__((unused)))
+null_flush(void *cookie, int flush __attribute__((__unused__)))
 {
 	null_stream *s = (null_stream*)cookie;
 

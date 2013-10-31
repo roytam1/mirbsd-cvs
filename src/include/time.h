@@ -1,8 +1,10 @@
-/**	$MirOS: src/include/time.h,v 1.9 2008/12/10 21:37:39 tg Exp $ */
+/**	$MirOS: src/include/time.h,v 1.10 2011/11/20 04:57:09 tg Exp $ */
 /*	$OpenBSD: time.h,v 1.16 2003/08/01 17:38:33 avsm Exp $	*/
 /*	$NetBSD: time.h,v 1.9 1994/10/26 00:56:35 cgd Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1989 The Regents of the University of California.
  * All rights reserved.
  *
@@ -80,13 +82,13 @@ struct tm *gmtime(const time_t *);
 struct tm *localtime(const time_t *);
 time_t mktime(struct tm *);
 size_t strftime(char *, size_t, const char *, const struct tm *)
-		__attribute__ ((__bounded__(__string__,1,2)));
+		__attribute__((__bounded__(__string__, 1, 2)));
 char *strptime(const char *, const char *, struct tm *);
 time_t time(time_t *);
 char *asctime_r(const struct tm *, char *)
-		__attribute__ ((__bounded__(__minbytes__,2,26)));
+		__attribute__((__bounded__(__minbytes__, 2, 26)));
 char *ctime_r(const time_t *, char *)
-		__attribute__ ((__bounded__(__minbytes__,2,26)));
+		__attribute__((__bounded__(__minbytes__, 2, 26)));
 struct tm *gmtime_r(const time_t *, struct tm *);
 struct tm *localtime_r(const time_t *, struct tm *);
 #ifndef _ANSI_LIBRARY

@@ -1,4 +1,6 @@
 /****************************************************************************
+ * Copyright © 2013                                                         *
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>                         *
  * Copyright (c) 1998-2004,2005 Free Software Foundation, Inc.              *
  *                                                                          *
  * Permission is hereby granted, free of charge, to any person obtaining a  *
@@ -60,7 +62,7 @@
 
 MODULE_ID("$Id$")
 #ifdef __MirBSD__
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libncurses/src/ncurses/tinfo/read_termcap.c,v 1.4 2009/09/06 12:46:46 tg Exp $");
 #endif
 
 #if !PURE_TERMINFO
@@ -775,7 +777,7 @@ copy_tc_token(char *dst, const char *src, size_t len)
  * Get an entry for terminal name in buffer bp from the termcap file.
  */
 static int
-_nc_tgetent(char *bp, char **sourcename, int *lineno __attribute__((unused)),
+_nc_tgetent(char *bp, char **sourcename, int *lineno __attribute__((__unused__)),
     const char *name)
 {
     static char *the_source;

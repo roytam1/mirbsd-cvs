@@ -1,8 +1,10 @@
-/**	$MirOS: src/include/stdio.h,v 1.6 2006/11/20 23:06:46 tg Exp $ */
+/**	$MirOS: src/include/stdio.h,v 1.7 2010/09/02 16:49:36 tg Exp $ */
 /*	$OpenBSD: stdio.h,v 1.32 2005/05/11 18:39:19 espie Exp $	*/
 /*	$NetBSD: stdio.h,v 1.18 1996/04/25 18:29:21 jtc Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
  *
@@ -221,13 +223,13 @@ int	 fflush(FILE *);
 int	 fgetc(FILE *);
 int	 fgetpos(FILE *, fpos_t *);
 char	*fgets(char *, int, FILE *)
-		__attribute__((__bounded__ (__string__,1,2)));
+		__attribute__((__bounded__(__string__, 1, 2)));
 FILE	*fopen(const char *, const char *);
 int	 fprintf(FILE *, const char *, ...);
 int	 fputc(int, FILE *);
 int	 fputs(const char *, FILE *);
 size_t	 fread(void *, size_t, size_t, FILE *)
-		__attribute__((__bounded__ (__size__,1,3,2)));
+		__attribute__((__bounded__(__size__,1,3,2)));
 FILE	*freopen(const char *, const char *, FILE *);
 int	 fscanf(FILE *, const char *, ...);
 int	 fseek(FILE *, long, int);
@@ -236,7 +238,7 @@ int	 fsetpos(FILE *, const fpos_t *);
 long	 ftell(FILE *);
 off_t	 ftello(FILE *);
 size_t	 fwrite(const void *, size_t, size_t, FILE *)
-		__attribute__((__bounded__ (__size__,1,3,2)));
+		__attribute__((__bounded__(__size__,1,3,2)));
 int	 getc(FILE *);
 int	 getchar(void);
 char	*gets(char *);
@@ -304,8 +306,8 @@ __END_DECLS
 #if !defined (_ANSI_SOURCE) && !defined(_POSIX_SOURCE)
 __BEGIN_DECLS
 int	 asprintf(char **, const char *, ...)
-		__attribute__((__format__ (printf, 2, 3)))
-		__attribute__((__nonnull__ (2)));
+		__attribute__((__format__(__printf__, 2, 3)))
+		__attribute__((__nonnull__(2)));
 char	*fgetln(FILE *, size_t *);
 int	 fpurge(FILE *);
 int	 getw(FILE *);
@@ -316,25 +318,25 @@ void	 setbuffer(FILE *, char *, int);
 int	 setlinebuf(FILE *);
 char	*tempnam(const char *, const char *);
 int	 snprintf(char *, size_t, const char *, ...)
-		__attribute__((__format__ (printf, 3, 4)))
-		__attribute__((__nonnull__ (3)))
-		__attribute__((__bounded__ (__string__,1,2)));
+		__attribute__((__format__(__printf__, 3, 4)))
+		__attribute__((__nonnull__(3)))
+		__attribute__((__bounded__(__string__, 1, 2)));
 int	 vasprintf(char **, const char *, _BSD_VA_LIST_)
-		__attribute__((__format__ (printf, 2, 0)))
-		__attribute__((__nonnull__ (2)));
+		__attribute__((__format__(__printf__, 2, 0)))
+		__attribute__((__nonnull__(2)));
 int	 vsnprintf(char *, size_t, const char *, _BSD_VA_LIST_)
-		__attribute__((__format__ (printf, 3, 0)))
-		__attribute__((__nonnull__ (3)))
-		__attribute__((__bounded__(__string__,1,2)));
+		__attribute__((__format__(__printf__, 3, 0)))
+		__attribute__((__nonnull__(3)))
+		__attribute__((__bounded__(__string__, 1, 2)));
 int	 vscanf(const char *, _BSD_VA_LIST_)
-		__attribute__((__format__ (scanf, 1, 0)))
-		__attribute__((__nonnull__ (1)));
+		__attribute__((__format__(__scanf__, 1, 0)))
+		__attribute__((__nonnull__(1)));
 int	 vsscanf(const char *, const char *, _BSD_VA_LIST_)
-		__attribute__((__format__ (scanf, 2, 0)))
-		__attribute__((__nonnull__ (2)));
+		__attribute__((__format__(__scanf__, 2, 0)))
+		__attribute__((__nonnull__(2)));
 int	 vfscanf(FILE *, const char *, _BSD_VA_LIST_)
-		__attribute__((__format__ (scanf, 2, 0)))
-		__attribute__((__nonnull__ (2)));
+		__attribute__((__format__(__scanf__, 2, 0)))
+		__attribute__((__nonnull__(2)));
 __END_DECLS
 
 /*

@@ -1,5 +1,9 @@
+/* $MirOS$ */
+
 // Low-level functions for atomic operations: PA-RISC version  -*- C++ -*-
 
+// Copyright © 2013
+//	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 // Copyright (C) 2002, 2004 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
@@ -40,14 +44,14 @@ namespace __gnu_cxx
   
   template<int _Inst>
   volatile int
-  _Atomicity_lock<_Inst>::_S_atomicity_lock __attribute__ ((aligned (16))) = 1;
+  _Atomicity_lock<_Inst>::_S_atomicity_lock __attribute__((__aligned__(16))) = 1;
 
   // Because of the lack of weak support when using the hpux som
   // linker, we explicitly instantiate the atomicity lock.
   template volatile int _Atomicity_lock<0>::_S_atomicity_lock;
 
   int
-  __attribute__ ((__unused__))
+  __attribute__((__unused__))
   __exchange_and_add(volatile _Atomic_word* __mem, int __val)
   {
     _Atomic_word result;
@@ -72,7 +76,7 @@ namespace __gnu_cxx
   }
   
   void
-  __attribute__ ((__unused__))
+  __attribute__((__unused__))
   __atomic_add(volatile _Atomic_word* __mem, int __val)
   {
     int tmp;

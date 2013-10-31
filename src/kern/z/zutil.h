@@ -1,6 +1,8 @@
-/* $MirOS: src/kern/z/zutil.h,v 1.10 2013/09/10 21:14:00 tg Exp $ */
+/* $MirOS: src/kern/z/zutil.h,v 1.11 2013/09/10 21:24:18 tg Exp $ */
 
 /* zutil.h -- internal interface and configuration of the compression library
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (C) 1995-2013 Jean-loup Gailly.
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
@@ -20,7 +22,7 @@
 #endif
 
 #ifdef HAVE_HIDDEN
-#  define ZLIB_INTERNAL __attribute__((visibility ("hidden")))
+#  define ZLIB_INTERNAL __attribute__((__visibility__("hidden")))
 #else
 #  define ZLIB_INTERNAL
 #endif

@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* from mksh’s "sh.h" (also in Debian) */
 
 #undef __IDSTRING
@@ -9,6 +10,6 @@
 #define __IDSTRING_EXPAND(l,p)		__IDSTRING_CONCAT(l,p)
 #define __IDSTRING(prefix, string)				\
 	static const char __IDSTRING_EXPAND(__LINE__,prefix) []	\
-	    __attribute__((used)) = "@(""#)" #prefix ": " string
+	    __attribute__((__used__)) = "@(""#)" #prefix ": " string
 #define __RCSID(x)	__IDSTRING(rcsid,x)
 #define __SCCSID(x)	__IDSTRING(sccsid,x)

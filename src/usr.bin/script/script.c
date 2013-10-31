@@ -2,8 +2,8 @@
 /*	$NetBSD: script.c,v 1.3 1994/12/21 08:55:43 jtc Exp $	*/
 
 /*-
- * Copyright (c) 2007, 2008
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright © 2007, 2008, 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
@@ -79,7 +79,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1980, 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)script.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.13 2007/03/09 11:56:27 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/script/script.c,v 1.14 2008/02/24 15:16:10 tg Exp $");
 
 #include <sys/time.h>
 #include <sys/ioctl.h>
@@ -128,15 +128,15 @@ volatile sig_atomic_t flush;
 
 struct termios tt;
 
-void done(int) __attribute__((noreturn));
-void dooutput(void) __attribute__((noreturn));
-void doinput(void) __attribute__((noreturn));
-void doshell(void) __attribute__((noreturn));
-void fail(void) __attribute__((noreturn));
+void done(int) __attribute__((__noreturn__));
+void dooutput(void) __attribute__((__noreturn__));
+void doinput(void) __attribute__((__noreturn__));
+void doshell(void) __attribute__((__noreturn__));
+void fail(void) __attribute__((__noreturn__));
 void finish(int);
 void scriptflush(int);
 void handlesigwinch(int);
-void usage(void) __attribute__((noreturn));
+void usage(void) __attribute__((__noreturn__));
 
 #ifdef SMALL
 #undef DEBUG
@@ -376,7 +376,7 @@ doinput(void)
 
 /* ARGSUSED */
 void
-finish(int signo __attribute__((unused)))
+finish(int signo __attribute__((__unused__)))
 {
 	int save_errno = errno;
 	int status, e = 1;
@@ -395,7 +395,7 @@ finish(int signo __attribute__((unused)))
 
 /* ARGSUSED */
 void
-handlesigwinch(int signo __attribute__((unused)))
+handlesigwinch(int signo __attribute__((__unused__)))
 {
 	int save_errno = errno;
 	struct winsize win;
@@ -543,7 +543,7 @@ dooutput(void)
 
 /* ARGSUSED */
 void
-scriptflush(int signo __attribute__((unused)))
+scriptflush(int signo __attribute__((__unused__)))
 {
 	flush = 1;
 }

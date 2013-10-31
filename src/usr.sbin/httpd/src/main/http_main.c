@@ -1,9 +1,10 @@
-/* $MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.9 2008/03/19 23:07:20 tg Exp $ */
 /* $OpenBSD: http_main.c,v 1.49 2007/08/09 10:44:54 martynas Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2000-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
@@ -112,7 +113,7 @@
 #endif
 #include "sa_len.h"
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.9 2008/03/19 23:07:20 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.10 2008/12/03 11:23:00 tg Exp $");
 
 /* This next function is never used. It is here to ensure that if we
  * make all the modules into shared libraries that core httpd still
@@ -443,7 +444,7 @@ static void chdir_for_gprof(void)
 #endif
 
 /* a clean exit from a child with proper cleanup */
-static void clean_child_exit(int code) __attribute__ ((noreturn));
+static void clean_child_exit(int code) __attribute__((__noreturn__));
 static void clean_child_exit(int code)
 {
     if (pchild) {
@@ -1226,7 +1227,7 @@ API_EXPORT(int) ap_exists_scoreboard_image(void)
 }
 
 /* a clean exit from the parent with proper cleanup */
-static void clean_parent_exit(int code) __attribute__((noreturn));
+static void clean_parent_exit(int code) __attribute__((__noreturn__));
 static void clean_parent_exit(int code)
 {
     /* Clear the pool - including any registered cleanups */

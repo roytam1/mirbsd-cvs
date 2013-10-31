@@ -1,6 +1,9 @@
+/*	$MirOS$ */
 /*	$OpenBSD: gencode.h,v 1.14 2007/01/02 18:31:21 reyk Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1990, 1991, 1992, 1993, 1994, 1995, 1996
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -193,7 +196,7 @@ struct block *gen_p80211_fcdir(int);
 
 void bpf_optimize(struct block **);
 __dead void bpf_error(const char *, ...)
-    __attribute__((volatile, __format__ (printf, 1, 2)));
+    __attribute__((__volatile__, __format__ (__printf__, 1, 2)));
 
 void finish_parse(struct block *);
 char *sdup(const char *);

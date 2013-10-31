@@ -1,10 +1,9 @@
-/**	$MirOS: src/usr.bin/compress/zopen.c,v 1.9 2011/10/11 19:18:36 tg Exp $ */
 /*	$OpenBSD: zopen.c,v 1.17 2005/08/25 17:07:56 millert Exp $	*/
 /*	$NetBSD: zopen.c,v 1.5 1995/03/26 09:44:53 glass Exp $	*/
 
 /*-
- * Copyright (c) 2005, 2006, 2011
- *	Thorsten Glaser <tg@mirbsd.de>
+ * Copyright © 2005, 2006, 2011, 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1985, 1986, 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -88,7 +87,7 @@
 #define __RCSID(x)	static const char __rcsid[] = x
 #endif
 
-__RCSID("$MirOS: src/usr.bin/compress/zopen.c,v 1.9 2011/10/11 19:18:36 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/compress/zopen.c,v 1.10 2011/10/11 19:25:29 tg Exp $");
 
 #define	BITS		16		/* Default bits. */
 #define	HSIZE		69001		/* 95% occupancy */
@@ -326,8 +325,8 @@ nomatch:		if (output(zs, (code_int) zs->zs_ent) == -1)
 
 int
 z_close(void *cookie, struct z_info *info,
-    const char *name __attribute__((unused)),
-    struct stat *sb __attribute__((unused)))
+    const char *name __attribute__((__unused__)),
+    struct stat *sb __attribute__((__unused__)))
 {
 	struct s_zstate *zs;
 	int rval;
@@ -786,8 +785,8 @@ zdopen(int fd, const char *mode, int bits)
 }
 
 void *
-z_open(int fd, const char *mode, char *name __attribute__((unused)),
-    int bits, u_int32_t mtime __attribute__((unused)), int gotmagic)
+z_open(int fd, const char *mode, char *name __attribute__((__unused__)),
+    int bits, u_int32_t mtime __attribute__((__unused__)), int gotmagic)
 {
 	struct s_zstate *zs;
 

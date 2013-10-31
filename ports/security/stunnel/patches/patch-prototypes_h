@@ -1,4 +1,4 @@
-$MirOS: ports/security/stunnel/patches/patch-prototypes_h,v 1.1 2007/02/18 19:36:16 tg Exp $
+$MirOS: ports/security/stunnel/patches/patch-prototypes_h,v 1.2 2011/08/04 15:27:18 tg Exp $
 --- prototypes.h.orig	Fri Aug  1 23:42:49 2003
 +++ prototypes.h	Thu Aug  4 14:56:25 2011
 @@ -41,7 +41,8 @@ void sslerror(char *);
@@ -7,7 +7,7 @@ $MirOS: ports/security/stunnel/patches/patch-prototypes_h,v 1.1 2007/02/18 19:36
  /* descriptor versions of fprintf/fscanf */
 -int fdprintf(int, char *, ...);
 +int fdprintf(int, char *, ...)
-+    __attribute__((format (printf, 2, 3)));
++    __attribute__((__format__(__printf__, 2, 3)));
  int fdscanf(int, char *, char *);
  #include <openssl/ssl.h>
  int set_rsa_blinding(SSL *);
@@ -18,7 +18,7 @@ $MirOS: ports/security/stunnel/patches/patch-prototypes_h,v 1.1 2007/02/18 19:36
 -void log(int, char *, ...);
 +#define log log_
 +void log(int, char *, ...)
-+    __attribute__((format (printf, 2, 3)));
++    __attribute__((__format__(__printf__, 2, 3)));
  
  /* Prototypes for sthreads.c */
  

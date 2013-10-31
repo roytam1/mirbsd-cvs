@@ -1,6 +1,8 @@
 /*	$OpenBSD: evutil.h,v 1.3 2010/04/22 08:16:44 nicm Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2007 Niels Provos <provos@citi.umich.edu>
  * All rights reserved.
  *
@@ -28,7 +30,7 @@
  */
 
 #ifndef _EVUTIL_H_
-#define _EVUTIL_H_ "$MirOS$"
+#define _EVUTIL_H_ "$MirOS: src/lib/libevent/evutil.h,v 1.2 2012/10/19 19:58:18 tg Exp $"
 
 /** @file evutil.h
 
@@ -78,12 +80,12 @@ ev_int64_t evutil_strtoll(const char *s, char **endptr, int base);
 
 int evutil_snprintf(char *buf, size_t buflen, const char *format, ...)
 #ifdef __GNUC__
-	__attribute__((format(printf, 3, 4)))
+	__attribute__((__format__(__printf__, 3, 4)))
 #endif
 	;
 int evutil_vsnprintf(char *buf, size_t buflen, const char *format, va_list ap)
 #ifdef __GNUC__
-	__attribute__((__format__ (__printf__, 3, 0)))
+	__attribute__((__format__(__printf__, 3, 0)))
 #endif
 	;
 

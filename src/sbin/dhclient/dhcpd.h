@@ -1,6 +1,9 @@
+/*	$MirOS$ */
 /*	$OpenBSD: dhcpd.h,v 1.64 2007/01/27 22:05:24 krw Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2004 Henning Brauer <henning@openbsd.org>
  * Copyright (c) 1995, 1996, 1997, 1998, 1999
  * The Internet Software Consortium.    All rights reserved.
@@ -215,11 +218,11 @@ void do_packet(int, unsigned int, struct iaddr, struct hardware *);
 
 /* errwarn.c */
 extern int warnings_occurred;
-void error(char *, ...) __attribute__ ((__format__ (__printf__, 1, 2)));
-int warning(char *, ...) __attribute__ ((__format__ (__printf__, 1, 2)));
-int note(char *, ...) __attribute__ ((__format__ (__printf__, 1, 2)));
-int debug(char *, ...) __attribute__ ((__format__ (__printf__, 1, 2)));
-int parse_warn(char *, ...) __attribute__ ((__format__ (__printf__, 1, 2)));
+void error(char *, ...) __attribute__((__format__(__printf__, 1, 2)));
+int warning(char *, ...) __attribute__((__format__(__printf__, 1, 2)));
+int note(char *, ...) __attribute__((__format__(__printf__, 1, 2)));
+int debug(char *, ...) __attribute__((__format__(__printf__, 1, 2)));
+int parse_warn(char *, ...) __attribute__((__format__(__printf__, 1, 2)));
 
 /* conflex.c */
 extern int lexline, lexchar;

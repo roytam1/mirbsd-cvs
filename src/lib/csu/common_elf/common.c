@@ -1,11 +1,11 @@
-/* $MirOS: src/lib/csu/common_elf/common.c,v 1.6 2008/11/08 23:03:50 tg Exp $
+/* $MirOS: src/lib/csu/common_elf/common.c,v 1.7 2009/08/30 18:02:08 tg Exp $
  * derived from the following files:
  * $NetBSD: common.c,v 1.16 2004/08/26 21:01:12 thorpej Exp $
  * $OpenBSD: crt0.c,v 1.11 2003/06/27 22:30:38 deraadt Exp $
  */
 
 /*
- * Copyright (c) 2003, 2004, 2005, 2009
+ * Copyright (c) 2003, 2004, 2005, 2009, 2013
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 1995 Christopher G. Demetriou
  * All rights reserved.
@@ -44,7 +44,7 @@
 #error	not a stand-alone file
 #endif
 
-__RCSID("$MirOS: src/lib/csu/common_elf/common.c,v 1.6 2008/11/08 23:03:50 tg Exp $");
+__RCSID("$MirOS: src/lib/csu/common_elf/common.c,v 1.7 2009/08/30 18:02:08 tg Exp $");
 
 struct ps_strings *__ps_strings = NULL;
 char __progname_storage[NAME_MAX + 1];
@@ -69,8 +69,8 @@ __asm__(".text"
 #endif
 
 void ___start(int argc, char **argv, char **envp,
-    void (*cleanup) (void) __attribute__((unused)),
-    const Obj_Entry *obj __attribute__((unused)),
+    void (*cleanup) (void) __attribute__((__unused__)),
+    const Obj_Entry *obj __attribute__((__unused__)),
     struct ps_strings *ps_strings)
 {
 	char *namep, *s;

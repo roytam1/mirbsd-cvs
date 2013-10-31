@@ -1,8 +1,7 @@
-/**	$MirOS: src/usr.sbin/ntpd/log.c,v 1.5 2007/08/10 22:35:01 tg Exp $ */
 /*	$OpenBSD: log.c,v 1.7 2005/03/31 12:14:01 henning Exp $ */
 
 /*
- * Copyright (c) 2007 Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2007, 2013 Thorsten Glaser <tg@mirbsd.de>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -28,14 +27,14 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/log.c,v 1.5 2007/08/10 22:35:01 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/log.c,v 1.6 2010/07/03 18:33:56 tg Exp $");
 
 int	 debug;
 
 void	 logit(int, const char *, ...)
-    __attribute__((format (syslog, 2, 3)))
-    __attribute__((format (printf, 2, 3)))
-    __attribute__((nonnull (2)));
+    __attribute__((__format__(__syslog__, 2, 3)))
+    __attribute__((__format__(__printf__, 2, 3)))
+    __attribute__((__nonnull__(2)));
 
 void
 log_init(int n_debug)

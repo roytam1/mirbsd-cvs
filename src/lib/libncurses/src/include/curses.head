@@ -1,4 +1,6 @@
 /****************************************************************************
+ * Copyright © 2013                                                         *
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>                         *
  * Copyright (c) 1998-2004,2005 Free Software Foundation, Inc.              *
  *                                                                          *
  * Permission is hereby granted, free of charge, to any person obtaining a  *
@@ -32,7 +34,7 @@
  *     and: Thomas E. Dickey                        1996-on                 *
  ****************************************************************************/
 
-/* $MirOS: src/lib/libncurses/src/include/curses.head,v 1.4 2006/10/27 16:13:04 tg Exp $ */
+/* $MirOS: src/lib/libncurses/src/include/curses.head,v 1.5 2009/09/06 12:46:44 tg Exp $ */
 /* $Id$ */
 
 #ifndef __NCURSES_H
@@ -503,7 +505,7 @@ extern NCURSES_EXPORT(int) wgetnstr_events(WINDOW *,char *,int,_nc_eventlist *);
  */
 #ifndef GCC_PRINTFLIKE
 #if defined(GCC_PRINTF) && !defined(printf)
-#define GCC_PRINTFLIKE(fmt,var) __attribute__((format(printf,fmt,var)))
+#define GCC_PRINTFLIKE(fmt,var) __attribute__((__format__(__printf__, fmt, var)))
 #else
 #define GCC_PRINTFLIKE(fmt,var) /*nothing*/
 #endif
@@ -511,7 +513,7 @@ extern NCURSES_EXPORT(int) wgetnstr_events(WINDOW *,char *,int,_nc_eventlist *);
 
 #ifndef GCC_SCANFLIKE
 #if defined(GCC_SCANF) && !defined(scanf)
-#define GCC_SCANFLIKE(fmt,var)  __attribute__((format(scanf,fmt,var)))
+#define GCC_SCANFLIKE(fmt,var)  __attribute__((__format__(__scanf__, fmt, var)))
 #else
 #define GCC_SCANFLIKE(fmt,var)  /*nothing*/
 #endif

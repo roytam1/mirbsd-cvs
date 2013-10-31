@@ -1,8 +1,9 @@
-/**	$MirOS$ */
 /*	$OpenBSD: modunload.c,v 1.14 2003/09/19 17:36:03 deraadt Exp $	*/
 /*	$NetBSD: modunload.c,v 1.9 1995/05/28 05:23:05 jtc Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1993 Terrence R. Lambert.
  * All rights reserved.
  *
@@ -51,9 +52,9 @@
 
 #include "pathnames.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/sbin/modunload/modunload.c,v 1.2 2005/11/17 12:07:58 tg Exp $");
 
-static void usage(void) __attribute__((noreturn));
+static void usage(void) __attribute__((__noreturn__));
 
 static void
 usage(void)

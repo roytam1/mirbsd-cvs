@@ -1,8 +1,10 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/isofs/cd9660/iso.h,v 1.2 2008/10/31 21:11:38 tg Exp $ */
 /*	$OpenBSD: iso.h,v 1.13 2003/06/02 23:28:05 millert Exp $	*/
 /*	$NetBSD: iso.h,v 1.20 1997/07/07 22:45:34 cgd Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1994
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -176,14 +178,14 @@ struct iso_extended_attributes {
 	u_char len_au			[ISODCL (247, 250)]; /* 723 */
 };
 
-static __inline int isonum_711(u_char *) __attribute__ ((__unused__));
-static __inline int isonum_712(char *) __attribute__ ((__unused__));
-static __inline int isonum_721(u_char *) __attribute__ ((__unused__));
-static __inline int isonum_722(u_char *) __attribute__ ((__unused__));
-static __inline int isonum_723(u_char *) __attribute__ ((__unused__));
-static __inline int isonum_731(u_char *) __attribute__ ((__unused__));
-static __inline int isonum_732(u_char *) __attribute__ ((__unused__));
-static __inline int isonum_733(u_char *) __attribute__ ((__unused__));
+static __inline int isonum_711(u_char *) __attribute__((__unused__));
+static __inline int isonum_712(char *) __attribute__((__unused__));
+static __inline int isonum_721(u_char *) __attribute__((__unused__));
+static __inline int isonum_722(u_char *) __attribute__((__unused__));
+static __inline int isonum_723(u_char *) __attribute__((__unused__));
+static __inline int isonum_731(u_char *) __attribute__((__unused__));
+static __inline int isonum_732(u_char *) __attribute__((__unused__));
+static __inline int isonum_733(u_char *) __attribute__((__unused__));
 
 /* 7.1.1: unsigned char */
 static __inline int

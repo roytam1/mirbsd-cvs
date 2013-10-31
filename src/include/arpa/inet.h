@@ -1,6 +1,9 @@
+/*	$MirOS$ */
 /*	$OpenBSD: inet.h,v 1.10 2004/01/22 21:48:02 espie Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1983, 1993
  *    The Regents of the University of California.  All rights reserved.
  * 
@@ -71,17 +74,17 @@ int		 inet_aton(const char *, struct in_addr *);
 in_addr_t	 inet_lnaof(struct in_addr);
 struct in_addr	 inet_makeaddr(in_addr_t , in_addr_t);
 char *		 inet_neta(in_addr_t, char *, size_t)
-			__attribute__((__bounded__(__string__,2,3)));
+			__attribute__((__bounded__(__string__, 2, 3)));
 in_addr_t	 inet_netof(struct in_addr);
 in_addr_t	 inet_network(const char *);
 char		*inet_net_ntop(int, const void *, int, char *, size_t)
-			__attribute__((__bounded__(__string__,4,5)));
+			__attribute__((__bounded__(__string__, 4, 5)));
 int		 inet_net_pton(int, const char *, void *, size_t)
-			__attribute__((__bounded__(__string__,3,4)));
+			__attribute__((__bounded__(__string__, 3, 4)));
 char		*inet_ntoa(struct in_addr);
 int		 inet_pton(int, const char *, void *);
 const char	*inet_ntop(int, const void *, char *, size_t)
-			__attribute__ ((__bounded__(__string__,3,4)));
+			__attribute__((__bounded__(__string__, 3, 4)));
 unsigned int	 inet_nsap_addr(const char *, unsigned char *, int);
 char		*inet_nsap_ntoa(int, const unsigned char *, char *);
 __END_DECLS

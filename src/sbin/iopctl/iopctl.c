@@ -2,6 +2,8 @@
 /*	$NetBSD: iopctl.c,v 1.12 2002/01/04 10:17:20 ad Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2000 The NetBSD Foundation, Inc.
  * All rights reserved.
  *
@@ -54,6 +56,8 @@
 
 #include <dev/i2o/i2o.h>
 #include <dev/i2o/iopio.h>
+
+__RCSID("$MirOS$");
 
 const char	*class2str(int);
 void	getparam(int, int, void *, int);
@@ -202,7 +206,7 @@ getparam(int tid, int group, void *pbuf, int pbufsize)
 	struct {
 		struct	i2o_param_op_list_header olh;
 		struct	i2o_param_op_all_template oat;
-	} __attribute__ ((__packed__)) req;
+	} __attribute__((__packed__)) req;
 
 	mb.msgflags = I2O_MSGFLAGS(i2o_util_params_op);
 	mb.msgfunc = I2O_MSGFUNC(tid, I2O_UTIL_PARAMS_GET);
@@ -363,7 +367,7 @@ showdevid(char **argv)
 		struct	i2o_param_read_results prr;
 		struct	i2o_param_device_identity di;
 		char padding[128];
-	} __attribute__ ((__packed__)) p;
+	} __attribute__((__packed__)) p;
 	char ident[128];
 
 	getparam(gettid(argv), I2O_PARAM_DEVICE_IDENTITY, &p, sizeof(p));

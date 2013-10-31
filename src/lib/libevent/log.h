@@ -1,6 +1,8 @@
 /*	$OpenBSD: log.h,v 1.6 2010/04/21 20:02:40 nicm Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2000-2004 Niels Provos <provos@citi.umich.edu>
  * All rights reserved.
  *
@@ -27,10 +29,10 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #ifndef _LOG_H_
-#define _LOG_H_ "$MirOS$"
+#define _LOG_H_ "$MirOS: src/lib/libevent/log.h,v 1.3 2012/10/19 19:58:18 tg Exp $"
 
 #ifdef __GNUC__
-#define EV_CHECK_FMT(a,b) __attribute__((format(printf, a, b)))
+#define EV_CHECK_FMT(a,b) __attribute__((__format__(__printf__, a, b)))
 #else
 #define EV_CHECK_FMT(a,b)
 #endif

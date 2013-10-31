@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2001, 2002, 2003, 2004, 2006, 2010, 2011
+ * Copyright (c) 2001, 2002, 2003, 2004, 2006, 2010, 2011, 2013
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -135,7 +135,7 @@ static const char version[] = "961113-MirOS-20110418";
 #define __IDSTRING_EXPAND(l,p)		__IDSTRING_CONCAT(l,p)
 #define __IDSTRING(prefix, string)				\
 	static const char __IDSTRING_EXPAND(__LINE__,prefix) []	\
-	    __attribute__((used)) = "@(""#)" #prefix ": " string
+	    __attribute__((__used__)) = "@(""#)" #prefix ": " string
 #define __COPYRIGHT(x)		__IDSTRING(copyright,x)
 #define __RCSID(x)		__IDSTRING(rcsid,x)
 #define __SCCSID(x)		__IDSTRING(sccsid,x)
@@ -145,7 +145,7 @@ extern  u_int32_t       _getlong(const unsigned char *);
 #endif
 
 __SCCSID("@(#)host.c	e07@nikhef.nl (Eric Wassenaar) 961013");
-__RCSID("$MirOS: src/usr.bin/host/host.c,v 1.6 2011/04/18 13:31:45 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/host/host.c,v 1.7 2011/04/19 11:28:51 tg Exp $");
 
 #ifndef NO_DATA
 #define NO_DATA	NO_ADDRESS	/* used here only in case authoritative */

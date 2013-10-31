@@ -1,5 +1,7 @@
 /* $OpenBSD: sftp-client.c,v 1.89 2009/08/18 18:36:20 djm Exp $ */
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2001-2004 Damien Miller <djm@openbsd.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -47,7 +49,7 @@
 #include "sftp-common.h"
 #include "sftp-client.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sftp-client.c,v 1.16 2008/12/16 20:55:27 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sftp-client.c,v 1.17 2009/10/04 14:29:08 tg Exp $");
 
 extern volatile sig_atomic_t interrupted;
 extern int showprogress;
@@ -73,7 +75,7 @@ struct sftp_conn {
 
 static char *
 get_handle(int fd, u_int expected_id, u_int *len, const char *errfmt, ...)
-    __attribute__((format(printf, 4, 5)));
+    __attribute__((__format__(__printf__, 4, 5)));
 
 static void
 send_msg(int fd, Buffer *m)

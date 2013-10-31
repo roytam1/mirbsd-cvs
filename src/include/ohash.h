@@ -1,10 +1,13 @@
 #ifndef OHASH_H
 #define OHASH_H
+/* $MirOS$ */
 /* $OpenBSD: ohash.h,v 1.7 2004/06/22 20:00:16 espie Exp $ */
 /* ex:ts=8 sw=4: 
  */
 
 /* Copyright (c) 1999, 2004 Marc Espie <espie@openbsd.org>
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  *
  * Permission to use, copy, modify, and distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -57,7 +60,7 @@ unsigned int ohash_lookup_interval(struct ohash *, const char *,
 	    const char *, u_int32_t);
 unsigned int ohash_lookup_memory(struct ohash *, const char *,
 	    size_t, u_int32_t)
-		__attribute__ ((__bounded__(__string__,2,3)));
+		__attribute__((__bounded__(__string__, 2, 3)));
 void *ohash_find(struct ohash *, unsigned int);
 void *ohash_remove(struct ohash *, unsigned int);
 void *ohash_insert(struct ohash *, unsigned int, void *);

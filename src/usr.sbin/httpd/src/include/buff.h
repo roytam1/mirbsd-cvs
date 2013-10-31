@@ -1,8 +1,11 @@
+/* $MirOS$ */
 /* $OpenBSD: buff.h,v 1.12 2005/03/28 23:26:51 niallo Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2000-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
@@ -149,7 +152,7 @@ API_EXPORT(int) ap_bflush(BUFF *fb);
 API_EXPORT(int) ap_bputs(const char *x, BUFF *fb);
 API_EXPORT_NONSTD(int) ap_bvputs(BUFF *fb,...);
 API_EXPORT_NONSTD(int) ap_bprintf(BUFF *fb, const char *fmt,...)
-				__attribute__((format(printf,2,3)));
+				__attribute__((__format__(__printf__, 2, 3)));
 API_EXPORT(int) ap_vbprintf(BUFF *fb, const char *fmt, va_list vlist);
 
 /* Internal routines */

@@ -1,8 +1,8 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/gthr-single.h,v 1.2 2005/03/25 19:29:09 tg Exp $ */
 
 /* Threads compatibility routines for libgcc2 and libobjc.  */
 /* Compile this one with gcc.  */
-/* Copyright (C) 1997, 1999, 2000, 2005
+/* Copyright (C) 1997, 1999, 2000, 2005, 2013
    Free Software Foundation, Inc.
 
 This file is part of GCC.
@@ -41,7 +41,7 @@ typedef int __gthread_mutex_t;
 #ifdef __cplusplus
 #define UNUSED(x)
 #else
-#define UNUSED(x) x __attribute__((unused))
+#define UNUSED(x) x __attribute__((__unused__))
 #endif
 
 #ifdef _LIBOBJC

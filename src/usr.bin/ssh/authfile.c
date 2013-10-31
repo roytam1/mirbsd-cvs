@@ -1,6 +1,8 @@
 /* $OpenBSD: authfile.c,v 1.76 2006/08/03 03:34:41 deraadt Exp $ */
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
  * This file contains functions for reading and writing identity files, and
@@ -63,7 +65,7 @@
 #include "misc.h"
 #include "atomicio.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/authfile.c,v 1.7 2008/12/16 22:13:27 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/authfile.c,v 1.8 2010/09/21 21:24:35 tg Exp $");
 
 /* Version identification string for SSH v1 identity files. */
 static const char authfile_id_string[] =
@@ -173,7 +175,7 @@ key_save_private_rsa1(Key *key, const char *filename, const char *passphrase,
 /* save SSH v2 key in OpenSSL PEM format */
 static int
 key_save_private_pem(Key *key, const char *filename, const char *_passphrase,
-    const char *comment __attribute__((unused)))
+    const char *comment __attribute__((__unused__)))
 {
 	FILE *fp;
 	int fd;

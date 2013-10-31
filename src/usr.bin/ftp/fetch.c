@@ -2,6 +2,8 @@
 /*	$NetBSD: fetch.c,v 1.14 1997/08/18 10:20:20 lukem Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1997 The NetBSD Foundation, Inc.
  * All rights reserved.
  *
@@ -75,14 +77,15 @@
 
 #include "ftp_var.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/fetch.c,v 1.7 2007/07/15 20:01:07 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/fetch.c,v 1.8 2010/08/12 11:30:46 tg Exp $");
 
 static int	url_get(const char *, const char *, const char *);
 void		aborthttp(int);
 void		abortfile(int);
 char		hextochar(const char *);
 char		*urldecode(const char *);
-int		ftp_printf(FILE *, SSL *, const char *, ...) __attribute__((format(printf, 3, 4)));
+int		ftp_printf(FILE *, SSL *, const char *, ...)
+    __attribute__((__format__(__printf__, 3, 4)));
 char		*ftp_readline(FILE *, SSL *, size_t *);
 size_t		ftp_read(FILE *, SSL *, char *, size_t);
 #ifndef SMALL

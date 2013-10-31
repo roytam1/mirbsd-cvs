@@ -2,6 +2,8 @@
 /*	$NetBSD: files.c,v 1.6 1996/03/17 13:18:17 cgd Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -48,7 +50,7 @@
 #include <string.h>
 #include "config.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/config/files.c,v 1.2 2007/02/19 03:03:29 tg Exp $");
 
 extern const char *yyfile;
 
@@ -358,7 +360,7 @@ fixfsel(const char *name, void *context)
  * As for fixfsel above, but we do not need the flat list.
  */
 static int
-fixsel(const char *name, void *context __attribute__((unused)))
+fixsel(const char *name, void *context __attribute__((__unused__)))
 {
 
 	return (ht_lookup(selecttab, name) != NULL);

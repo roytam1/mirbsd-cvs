@@ -1,8 +1,7 @@
-/**	$MirOS: src/usr.sbin/ntpd/parse.y,v 1.5 2007/08/10 22:22:03 tg Exp $ */
 /*	$OpenBSD: parse.y,v 1.25 2005/06/19 16:42:57 henning Exp $ */
 
 /*
- * Copyright (c) 2007 Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2007, 2013 Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2002, 2003, 2004 Henning Brauer <henning@openbsd.org>
  * Copyright (c) 2001 Markus Friedl.  All rights reserved.
  * Copyright (c) 2001 Daniel Hartmeier.  All rights reserved.
@@ -37,7 +36,7 @@
 
 #include "ntpd.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/parse.y,v 1.5 2007/08/10 22:22:03 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/parse.y,v 1.6 2009/05/16 11:53:41 tg Exp $");
 
 static struct ntpd_conf		*conf;
 static FILE			*fin = NULL;
@@ -46,9 +45,9 @@ static int			 errors = 0;
 const char			*infile;
 
 int	 yyerror(const char *, ...)
-    __attribute__((format (syslog, 1, 2)))
-    __attribute__((format (printf, 1, 2)))
-    __attribute__((nonnull (1)));
+    __attribute__((__format__(__syslog__, 1, 2)))
+    __attribute__((__format__(__printf__, 1, 2)))
+    __attribute__((__nonnull__(1)));
 int	 kw_cmp(const void *, const void *);
 int	 lookup(char *);
 int	 lgetc(FILE *);

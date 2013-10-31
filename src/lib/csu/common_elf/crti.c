@@ -1,8 +1,7 @@
-/* $MirOS: src/lib/csu/common_elf/crti.c,v 1.6 2006/10/15 01:04:00 tg Exp $ */
 /* From: $NetBSD: crti.c,v 1.2 2002/11/23 17:21:22 thorpej Exp $ */
 
 /*-
- * Copyright (c) 2003, 2004, 2005
+ * Copyright (c) 2003, 2004, 2005, 2013
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  *
  * Licensee is hereby permitted to deal in this work without restric-
@@ -24,7 +23,7 @@
 
 /* this is safe because it's either in .comment or in .data and ld reorders */
 #include <sys/cdefs.h>
-__RCSID("$MirOS: src/lib/csu/common_elf/crti.c,v 1.6 2006/10/15 01:04:00 tg Exp $");
+__RCSID("$MirOS: src/lib/csu/common_elf/crti.c,v 1.7 2008/11/08 23:03:51 tg Exp $");
 
 /*-
  * Mark all objects having a PT_NOTE section identifying
@@ -103,8 +102,8 @@ __asm__(".section .note.miros.ident,\"a\",@progbits"
 INIT_FALLTHRU_DECL;
 FINI_FALLTHRU_DECL;
 
-void _init(void) __attribute__((section(".init")));
-void _fini(void) __attribute__((section(".fini")));
+void _init(void) __attribute__((__section__(".init")));
+void _fini(void) __attribute__((__section__(".fini")));
 
 void
 _init(void)

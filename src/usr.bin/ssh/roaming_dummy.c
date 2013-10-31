@@ -1,5 +1,7 @@
 /* $OpenBSD: roaming_dummy.c,v 1.3 2009/06/21 09:04:03 dtucker Exp $ */
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2004-2009 AppGate Network Security AB
  *
  * Permission to use, copy, modify, and distribute this software for any
@@ -25,7 +27,7 @@
 
 #include "roaming.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/ssh/roaming_dummy.c,v 1.2 2009/10/04 14:29:06 tg Exp $");
 
 int resume_in_progress = 0;
 
@@ -37,14 +39,14 @@ get_recv_bytes(void)
 
 ssize_t
 roaming_write(int fd, const void *buf, size_t count,
-    int *cont __attribute__((unused)))
+    int *cont __attribute__((__unused__)))
 {
 	return write(fd, buf, count);
 }
 
 ssize_t
 roaming_read(int fd, void *buf, size_t count,
-    int *cont __attribute__((unused)))
+    int *cont __attribute__((__unused__)))
 {
 	if (cont)
 		*cont = 0;
@@ -52,7 +54,7 @@ roaming_read(int fd, void *buf, size_t count,
 }
 
 void
-add_recv_bytes(u_int64_t num __attribute__((unused)))
+add_recv_bytes(u_int64_t num __attribute__((__unused__)))
 {
 }
 

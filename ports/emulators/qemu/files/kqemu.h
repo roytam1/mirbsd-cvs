@@ -1,6 +1,8 @@
 /*
  * KQEMU header
  * 
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2004-2005 Fabrice Bellard
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -61,7 +63,7 @@ struct kqemu_cpu_state {
     uint32_t sysenter_cs;
     uint32_t sysenter_esp;
     uint32_t sysenter_eip;
-    uint64_t efer __attribute__((aligned(8)));
+    uint64_t efer __attribute__((__aligned__(8)));
     uint64_t star;
 #ifdef __x86_64__
     unsigned long lstar;

@@ -1,8 +1,10 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libpng/pngconf.h,v 1.11 2013/08/06 18:49:28 tg Exp $ */
 
 /* pngconf.h - machine configurable file for libpng
  *
  * libpng version 1.2.50 - July 10, 2012
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1998-2012 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
@@ -1485,7 +1487,7 @@ typedef z_stream FAR *  png_zstreamp;
 #    ifndef PNG_PRIVATE
 #      if 0 /* Doesn't work so we use deprecated instead*/
 #        define PNG_PRIVATE \
-          __attribute__((warning("This function is not exported by libpng.")))
+          __attribute__((__warning__("This function is not exported by libpng.")))
 #      else
 #        define PNG_PRIVATE \
           __attribute__((__deprecated__))

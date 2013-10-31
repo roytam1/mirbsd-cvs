@@ -1,8 +1,10 @@
-/**	$MirOS: src/sys/sys/slibkern.h,v 1.2 2010/09/12 21:25:19 tg Exp $ */
+/**	$MirOS: src/sys/sys/slibkern.h,v 1.3 2011/01/03 19:02:45 tg Exp $ */
 /*	$OpenBSD: libkern.h,v 1.22 2004/08/07 00:38:32 deraadt Exp $	*/
 /*	$NetBSD: libkern.h,v 1.7 1996/03/14 18:52:08 christos Exp $	*/
 
 /*-
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -80,7 +82,7 @@
 
 /* Prototypes for non-quad routines. */
 void	 __assert(const char *, const char *, int, const char *)
-	    __attribute__ ((__noreturn__));
+	    __attribute__((__noreturn__));
 int	 locc(int, char *, u_int);
 u_long	 random(void);
 void	 srandom(u_long);

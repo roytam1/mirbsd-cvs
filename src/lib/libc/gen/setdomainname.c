@@ -1,7 +1,5 @@
-/* $MirOS: src/lib/libc/gen/setdomainname.c,v 1.6 2006/11/01 20:01:18 tg Exp $ */
-
 /*-
- * Copyright (c) 2005
+ * Copyright (c) 2005, 2013
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  *
  * Licensee is hereby permitted to deal in this work without restric-
@@ -25,11 +23,11 @@
 #include <sys/sysctl.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/gen/setdomainname.c,v 1.6 2006/11/01 20:01:18 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/gen/setdomainname.c,v 1.7 2008/11/08 23:03:53 tg Exp $");
 
 int
-setdomainname(const char *name __attribute__((unused)),
-    size_t namelen __attribute__((unused)))
+setdomainname(const char *name __attribute__((__unused__)),
+    size_t namelen __attribute__((__unused__)))
 {
 	return (0);
 }

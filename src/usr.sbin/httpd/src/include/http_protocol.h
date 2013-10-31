@@ -1,8 +1,11 @@
+/* $MirOS$ */
 /* $OpenBSD: http_protocol.h,v 1.11 2005/03/28 23:26:51 niallo Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2000-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
@@ -153,7 +156,7 @@ API_EXPORT(int) ap_rwrite(const void *buf, int nbyte, request_rec *r);
 API_EXPORT_NONSTD(int) ap_rvputs(request_rec *r,...);
 API_EXPORT(int) ap_vrprintf(request_rec *r, const char *fmt, va_list vlist);
 API_EXPORT_NONSTD(int) ap_rprintf(request_rec *r, const char *fmt,...)
-    __attribute__((format(printf,2,3)));
+    __attribute__((__format__(__printf__, 2, 3)));
 API_EXPORT(int) ap_rflush(request_rec *r);
 
 /*

@@ -2,6 +2,8 @@
 /*	$NetBSD: util.c,v 1.5 1996/08/31 20:58:29 mycroft Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -49,10 +51,12 @@
 #include <stdarg.h>
 #include "config.h"
 
+__RCSID("$MirOS$");
+
 static void nomem(void) __dead;
 #ifndef IN_MODLOAD
 static void vxerror(const char *, int, const char *, va_list)
-    __attribute__((format (printf, 3, 0)));
+    __attribute__((__format__(__printf__, 3, 0)));
 #endif
 
 /*

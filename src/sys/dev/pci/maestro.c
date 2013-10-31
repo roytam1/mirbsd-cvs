@@ -1,6 +1,9 @@
+/*	$MirOS$ */
 /*	$OpenBSD: maestro.c,v 1.16 2003/06/06 02:56:39 fgsch Exp $	*/
 /* $FreeBSD: /c/ncvs/src/sys/dev/sound/pci/maestro.c,v 1.3 2000/11/21 12:22:11 julian Exp $ */
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * FreeBSD's ESS Agogo/Maestro driver 
  * Converted from FreeBSD's pcm to OpenBSD's audio.
  * Copyright (c) 2000, 2001 David Leonard & Marc Espie
@@ -701,7 +704,7 @@ maestro_query_encoding(hdl, fp)
 	return (0);
 }
 
-#define UNUSED __attribute__((unused))
+#define UNUSED __attribute__((__unused__))
 
 void
 maestro_set_speed(ch, prate)

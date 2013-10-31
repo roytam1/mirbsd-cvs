@@ -1,5 +1,9 @@
+/* $MirOS$ */
+
 /*    perlio.h
  *
+ *    Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  *    Copyright (C) 1996, 1997, 1999, 2000, 2001, 2002, 2003,
  *    by Larry Wall and others
  *
@@ -211,7 +215,7 @@ PERL_EXPORT_C void PerlIO_clone(pTHX_ PerlInterpreter *proto,
 START_EXTERN_C
 #ifndef __attribute__format__
 #  ifdef HASATTRIBUTE_FORMAT
-#    define __attribute__format__(x,y,z) __attribute__((format(x,y,z)))
+#    define __attribute__format__(x,y,z) __attribute__((__format__(x, y, z)))
 #  else
 #    define __attribute__format__(x,y,z)
 #  endif

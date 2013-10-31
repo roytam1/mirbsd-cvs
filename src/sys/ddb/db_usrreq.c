@@ -1,8 +1,9 @@
-/**	$MirOS: src/sys/ddb/db_usrreq.c,v 1.2 2006/10/17 23:29:48 tg Exp $ */
+/**	$MirOS: src/sys/ddb/db_usrreq.c,v 1.3 2006/10/18 00:52:26 tg Exp $ */
 /*	$OpenBSD: db_usrreq.c,v 1.9 2004/02/06 22:19:21 tedu Exp $	*/
 
 /*
- * Copyright (c) 2006 Thorsten Glaser <tg@mirbsd.de>
+ * Copyright © 2006, 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1996 Michael Shalayeff.  All rights reserved.
  * Copyright (c) 1986, 1988, 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -47,7 +48,7 @@
 #include <ddb/db_var.h>
 
 static void paniK(const char *, ...)
-    __attribute__((__format__(__kprintf__,1,2)));
+    __attribute__((__format__(__kprintf__, 1, 2)));
 
 int	db_log = 1;
 int	db_allowcrash = 0;

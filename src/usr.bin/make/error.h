@@ -1,10 +1,12 @@
 #ifndef ERROR_H
 #define ERROR_H
 
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/make/error.h,v 1.3 2005/11/24 13:20:33 tg Exp $ */
 /*	$OpenBSD: error.h,v 1.7 2001/09/19 10:58:07 mpech Exp $ */
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2001 Marc Espie.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,17 +48,17 @@
  */
 
 extern void Error(const char *, ...)
-    __attribute__((__format__ (printf, 1, 2)));
+    __attribute__((__format__(__printf__, 1, 2)));
 extern void Fatal(const char *, ...)
-    __attribute__((noreturn))
-    __attribute__((__format__ (printf, 1, 2)));
+    __attribute__((__noreturn__))
+    __attribute__((__format__(__printf__, 1, 2)));
 extern void Punt(const char *, ...)
-    __attribute__((noreturn))
-    __attribute__((__format__ (printf, 1, 2)));
+    __attribute__((__noreturn__))
+    __attribute__((__format__(__printf__, 1, 2)));
 extern void DieHorribly(void)
-    __attribute__((noreturn));
+    __attribute__((__noreturn__));
 extern void Finish(int)
-    __attribute__((noreturn));
+    __attribute__((__noreturn__));
 
 /*
  * Error levels for parsing. PARSE_FATAL means the process cannot continue
@@ -67,7 +69,7 @@ extern void Finish(int)
 #define PARSE_WARNING	2
 #define PARSE_FATAL	1
 extern void Parse_Error(int, const char *, ...)
-    __attribute__((__format__ (printf, 2, 3)));
+    __attribute__((__format__(__printf__, 2, 3)));
 extern int fatal_errors;
 
 #endif

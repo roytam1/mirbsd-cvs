@@ -1,10 +1,23 @@
-/* $MirOS: contrib/hosted/libnointl/libintl.h,v 1.5 2007/07/01 20:43:59 tg Exp $ */
+/* $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $ */
 
 /*-
- * "THE BEER-WARE LICENCE" (Revision 42):
- * <tg@mirbsd.de> wrote this header file. As long as you retain this notice you
- * can do whatever you want with this stuff. If we meet some day, and you think
- * this stuff is worth it, you can buy me a beer in return.     Thorsten Glaser
+ * Copyright (c) 2007, 2013
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
+ *
+ * Provided that these terms and disclaimer and all copyright notices
+ * are retained or reproduced in an accompanying document, permission
+ * is granted to deal in this work without restriction, including un-
+ * limited rights to use, publicly perform, distribute, sell, modify,
+ * merge, give away, or sublicence.
+ *
+ * This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+ * the utmost extent permitted by applicable law, neither express nor
+ * implied; without malicious intent or gross negligence. In no event
+ * may a licensor, author or contributor be held liable for indirect,
+ * direct, other damage, loss, or other issues arising in any way out
+ * of dealing in the work, even if advised of the possibility of such
+ * damage or existence of a defect, except proven that it results out
+ * of said person's immediate fault when using the work as intended.
  */
 
 #ifndef _LIBINTL_H
@@ -39,25 +52,25 @@ __END_DECLS
 
 __BEGIN_DECLS
 extern char *gettext(const char *)
-    __attribute__((format_arg (1)));
+    __attribute__((__format_arg__(1)));
 extern char *dgettext(const char *, const char *)
-    __attribute__((format_arg (2)));
+    __attribute__((__format_arg__(2)));
 extern char *dcgettext(const char *, const char *, int)
-    __attribute__((format_arg (2)));
+    __attribute__((__format_arg__(2)));
 extern char *ngettext(const char *, const char *, unsigned long)
-    __attribute__((format_arg (1)))
-    __attribute__((format_arg (2)));
+    __attribute__((__format_arg__(1)))
+    __attribute__((__format_arg__(2)));
 extern char *dngettext(const char *, const char *, const char *, unsigned long)
-    __attribute__((format_arg (2)))
-    __attribute__((format_arg (3)));
+    __attribute__((__format_arg__(2)))
+    __attribute__((__format_arg__(3)));
 extern char *dcngettext(const char *, const char *, const char *,
     unsigned long, int)
-    __attribute__((format_arg (2)))
-    __attribute__((format_arg (3)));
+    __attribute__((__format_arg__(2)))
+    __attribute__((__format_arg__(3)));
 extern char *dcigettext(const char *, const char *, const char *,
     int, unsigned long, int)
-    __attribute__((format_arg (2)))
-    __attribute__((format_arg (3)));
+    __attribute__((__format_arg__(2)))
+    __attribute__((__format_arg__(3)));
 extern char *textdomain(const char *);
 extern char *bindtextdomain(const char *, const char *);
 extern char *bind_textdomain_codeset(const char *, const char *);
@@ -81,7 +94,7 @@ extern void libintl_gettext_extract_plural(const char *, void *,
 extern unsigned long libintl_hash_string(const char *);
 extern int libintl_once_singlethreaded(void *);
 extern const char *libintl_relocate(const char *)
-    __attribute__((format_arg (1)));
+    __attribute__((__format_arg__(1)));
 extern const char *locale_charset(void);
 __END_DECLS
 #endif /* LIBINTL_INTERNAL */

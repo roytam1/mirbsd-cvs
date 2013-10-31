@@ -1,6 +1,9 @@
+/*	$MirOS$ */
 /*	$NetBSD: ffs_subr.c,v 1.45 2008/06/03 09:47:49 hannken Exp $	*/
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1982, 1986, 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -51,7 +54,7 @@ extern const u_char * const fragtbl[];
 #ifndef _KERNEL
 #include <ufs/ufs/dinode.h>
 void    panic(const char *, ...)
-    __attribute__((__noreturn__,__format__(__printf__,1,2)));
+    __attribute__((__noreturn__, __format__(__printf__, 1, 2)));
 
 #else	/* _KERNEL */
 #include <sys/systm.h>

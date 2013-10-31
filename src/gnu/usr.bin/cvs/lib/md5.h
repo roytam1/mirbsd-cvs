@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/lib/md5.h,v 1.2 2005/03/13 15:50:35 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/lib/md5.h,v 1.3 2010/09/16 21:25:34 tg Exp $ */
 
 #ifndef	MD5_H
 #define	MD5_H
@@ -17,7 +17,7 @@
 /* one up */
 
 char *md5_buffer(const u_int8_t *, size_t, char *)
-		__attribute__((__bounded__(__string__,1,2)))
-		__attribute__((__bounded__(__minbytes__,3,MD5_DIGEST_LENGTH)));
+		__attribute__((__bounded__(__string__, 1, 2)))
+		__attribute__((__bounded__(__minbytes__, 3, MD5_DIGEST_LENGTH)));
 
 #endif

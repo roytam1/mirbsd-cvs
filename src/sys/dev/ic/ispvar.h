@@ -1,7 +1,10 @@
+/*	$MirOS$ */
 /*     $OpenBSD: ispvar.h,v 1.22 2003/03/03 18:37:25 mjacob Exp $ */
 /*
  * Soft Definitions for for Qlogic ISP SCSI adapters.
  *
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1997, 1998, 1999, 2000 by Matthew Jacob
  * All rights reserved.
  *
@@ -754,7 +757,7 @@ int isp_async(struct ispsoftc *, ispasync_t, void *);
  */
 #ifdef	__GNUC__
 void isp_prt(struct ispsoftc *, int level, const char *, ...)
-	__attribute__((__format__(__printf__,3,4)));
+	__attribute__((__format__(__printf__, 3, 4)));
 #else
 void isp_prt(struct ispsoftc *, int level, const char *, ...);
 #endif

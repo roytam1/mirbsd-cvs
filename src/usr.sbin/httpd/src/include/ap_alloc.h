@@ -1,9 +1,11 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.sbin/httpd/src/include/ap_alloc.h,v 1.2 2007/07/03 07:18:18 tg Exp $ */
 /* $OpenBSD: ap_alloc.h,v 1.8 2005/03/28 23:26:51 niallo Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2000-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
@@ -168,10 +170,10 @@ API_EXPORT(char *) ap_pstrdup(struct pool *, const char *s);
 /* make a nul terminated copy of the n characters starting with s */
 API_EXPORT(char *) ap_pstrndup(struct pool *, const char *s, int n);
 API_EXPORT_NONSTD(char *) ap_pstrcat(struct pool *,...)
-    __attribute__((sentinel));
+    __attribute__((__sentinel__));
 /* all '...' must be char* */
 API_EXPORT_NONSTD(char *) ap_psprintf(struct pool *, const char *fmt, ...)
-    __attribute__((format(printf,2,3)));
+    __attribute__((__format__(__printf__, 2, 3)));
 API_EXPORT(char *) ap_pvsprintf(struct pool *, const char *fmt, va_list);
 
 /* array and alist management... keeping lists of things.

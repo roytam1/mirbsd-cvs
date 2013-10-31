@@ -1,8 +1,10 @@
-/**	$MirOS: src/sys/arch/sparc/sparc/machdep.c,v 1.9 2009/08/17 20:34:11 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/sparc/machdep.c,v 1.10 2010/09/19 19:14:40 tg Exp $ */
 /*	$OpenBSD: machdep.c,v 1.98 2004/03/10 23:02:54 tom Exp $	*/
 /*	$NetBSD: machdep.c,v 1.85 1997/09/12 08:55:02 pk Exp $ */
 
 /*
+ * Copyright © 2013
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -746,7 +748,7 @@ haltsys:
 }
 
 /* magic number for savecore */
-u_long	dumpmag __attribute__((used)) = 0x8fca0101;
+u_long	dumpmag __attribute__((__used__)) = 0x8fca0101;
 int	dumpsize = 0;		/* also for savecore */
 long	dumplo = 0;
 
