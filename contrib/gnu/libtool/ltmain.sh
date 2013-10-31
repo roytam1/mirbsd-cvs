@@ -1,5 +1,5 @@
-# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.46 2008/05/03 18:55:14 tg Exp $
-# $miros: contrib/gnu/libtool/ltmain.in,v 1.46 2008/05/03 18:55:14 tg Exp $
+# $MirOS: contrib/gnu/libtool/ltmain.in,v 1.47 2013/10/31 21:01:02 tg Exp $
+# $miros: contrib/gnu/libtool/ltmain.in,v 1.47 2013/10/31 21:01:02 tg Exp $
 #-
 # ltmain.sh - Provide generalized library-building support services.
 # NOTE: Changing this file will not affect anything until you rerun configure.
@@ -49,7 +49,7 @@ EXIT_FAILURE=1
 PROGRAM=ltmain.sh
 PACKAGE=libtool
 VERSION=1.5.27a
-TIMESTAMP=" (MirLibtool 2008/05/03 21:55:15)"
+TIMESTAMP=" (MirLibtool 2013/10/31 21:01:49)"
 
 # Be Bourne compatible (taken from Autoconf:_AS_BOURNE_COMPATIBLE).
 if test -n "${ZSH_VERSION+set}" && (emulate sh) >/dev/null 2>&1; then
@@ -3595,8 +3595,14 @@ EOF
 	  *-*-netbsd*)
 	    # Don't link with libc until the a.out ld.so is fixed.
 	    ;;
+	  *-*-mirbsd*)
+	    # Since we fixed -no-undefined we need to link libc in such cases.
+	    if test "$allow_undefined" = no; then
+	      deplibs="$deplibs -lc"
+	    fi
+	    ;;
 	  *-*-dragonfly* | *-*-freebsd* | *-*-midnightbsd* | \
-	  *-*-mirbsd* | *-*-openbsd*)
+	  *-*-openbsd*)
 	    # Do not include libc due to us having libc/libc_r.
 	    ;;
 	  *-*-sco3.2v5* | *-*-sco5v6*)
