@@ -28,9 +28,10 @@
  *
  */
 
+#include <sys/cdefs.h>
 #include <stddef.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/dlfcn/dlfcn_stubs.c,v 1.3 2013/10/31 20:06:18 tg Exp $");
 
 /*
  *	All functions here are just stubs that will be overridden
