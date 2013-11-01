@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.83 2013/10/27 20:46:07 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.84 2013/10/30 20:18:51 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3042,6 +3042,24 @@ Date: 30.10.2013
 Waypoint: GC4KK0H
 Title: Faultier Heinz
 Tag: D2 T2 Micro Mystery
+----
+ID: 567
+Date: 31.10.2013
+Waypoint: GC4FQYA
+Title: TUS Germania Hersel - Erwartungen
+Tag: D1 T15 Micro Tradi
+----
+ID: 568
+Date: 01.11.2013
+Waypoint: GDBX-JOYQ
+Title: Dashpoint 50°N 7°E, Game 149 (November 2013), SU-Sechtem
+nTF: 1
+----
+ID: 569
+Date: 01.11.2013
+Waypoint: GC3X4V9
+Title: Machmaleibeidiemäh Sechtem 1
+Tag: D1 T2 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat

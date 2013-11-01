@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.19 2013/08/12 18:38:28 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.20 2013/09/10 18:01:28 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -8,7 +8,7 @@ are available. It is a modern shell with many features for
 both interactive and script use, extensible, and can be used
 as shared library. It’s also locale aware and thus Unicode
 ready on most modern operating systems.
-<a href="http://www2.research.att.com/~gsf/download/">Download</a>
+<a href="http://www2.research.att.com/~astopen/download/">Download</a>
 ----
 Title: AT&amp;T Beta Downloads
 Link: http://www2.research.att.com/sw/download/beta/
