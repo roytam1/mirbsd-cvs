@@ -1,4 +1,4 @@
-#!/bin/ksh
+#!/usr/bin/env mksh
 #
 # svnup-cvs -- another CVS-to-SVN script
 #-
