@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.84 2013/10/30 20:18:51 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.85 2013/11/01 01:22:36 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3052,7 +3052,7 @@ Tag: D1 T15 Micro Tradi
 ID: 568
 Date: 01.11.2013
 Waypoint: GDBX-JOYQ
-Title: Dashpoint 50°N 7°E, Game 149 (November 2013), SU-Sechtem
+Title: Dashpoint 50°N 6°E, Game 149 (November 2013), SU-Sechtem
 nTF: 1
 ----
 ID: 569
