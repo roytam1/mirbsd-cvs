@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.85 2013/11/01 01:22:36 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.86 2013/11/02 15:56:01 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -1924,9 +1924,6 @@ Date: 06.06.2013
 Waypoint: GC33BD3
 Title: Der Wächter ist ein Esel
 ----
-# this was probably already past midnight on the 9th
-# but I cannot reproduce/know this atm, so just use
-# days as in before/after I sleep ;-)
 ID: 376
 Date: 08.06.2013
 Waypoint: GC3XPT3
@@ -3060,6 +3057,18 @@ Date: 01.11.2013
 Waypoint: GC3X4V9
 Title: Machmaleibeidiemäh Sechtem 1
 Tag: D1 T2 Micro Tradi
+----
+ID: 570
+Date: 02.11.2013
+Waypoint: GC4PGAT
+Title: BASEBALL TP – No.4 – Erdkunde
+Tag: D3 T1 Micro Tradi
+----
+ID: 571
+Date: 03.11.2013
+Waypoint: GC4R97Y
+Title: Mitten in Bandorf
+Tag: D1 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
