@@ -33,7 +33,7 @@ lities. Compliance to DFSG⁽³⁾ 1.1 is ensured, and GPLv2 compatibility
 is asserted unless advertising clauses are used. The MirOS Licence is
 certified to conform to OKD⁽⁴⁾ 1.0 and OSD⁽⁵⁾ 1.9, and qualifies as a
 Free Software⁽⁶⁾ and also Free Documentation⁽⁷⁾ licence and is inclu‐
-ded in some relevant lists⁽⁸⁾⁽⁹⁾⁽¹⁰⁾.
+ded in some relevant lists⁽⁸⁾⁽⁹⁾⁽¹⁰⁾⁽¹¹⁾.
 
 We believe you are not liable for work inserted which is intellectual
 property of third parties, if you were not aware of the fact, act ap‐
@@ -42,7 +42,8 @@ cable solution for all parties, and never knowingly distribute a work
 without being authorised to do so by its licensors.
 
 R̲E̲F̲E̲R̲E̲N̲C̲E̲S̲:̲
-① also at http://mirbsd.de/MirOS-Licence
+① also at https://www.mirbsd.org/MirOS-Licence (and with .htm appended);
+  ASCII version (instead of UTF-8) at http://mirbsd.de/MirOS-Licence.asc
 ② http://www.opensource.org/licenses/historical.php
 ③ http://www.debian.org/social_contract#guidelines
 ④ http://www.opendefinition.org/1.0
@@ -52,7 +53,8 @@ R̲E̲F̲E̲R̲E̲N̲C̲E̲S̲:̲
 ⑧ http://www.ifross.de/ifross_html/lizenzcenter.html
 ⑨ http://www.opendefinition.org/licenses
 ⑩ http://opensource.org/licenses/miros.html
+⑪ http://copyfree.org/licenses/
 
 ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-$miros: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
-$MirOS: www/files/MirOS-Licence,v 1.7 2008/11/09 03:56:54 tg Exp $
+$miros: src/share/misc/licence.template,v 1.29 2013/11/06 18:36:23 tg Rel $
+$MirOS: www/files/MirOS-Licence,v 1.8 2008/11/14 15:33:38 tg Exp $

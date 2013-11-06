@@ -1,4 +1,4 @@
-# $MirOS: www/files/.htaccess,v 1.13 2012/06/29 21:10:51 tg Exp $
+# $MirOS: www/files/.htaccess,v 1.14 2012/06/29 21:21:44 tg Exp $
 
 Options ExecCGI Indexes FollowSymLinks
 IndexOptions -FancyIndexing
@@ -75,6 +75,10 @@ RewriteRule \.htm$ - [T=application/xhtml+xml]
 
 <Files MirOS-Licence>
   ForceType 'text/plain; charset=utf-8'
+</Files>
+
+<Files MirOS-Licence.asc>
+  ForceType 'text/plain; charset=ISO_646.irv:1991'
 </Files>
 
 <Files UP>
