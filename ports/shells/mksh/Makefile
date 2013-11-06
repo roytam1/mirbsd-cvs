@@ -1,4 +1,4 @@
-# $MirOS: ports/shells/mksh/Makefile,v 1.67 2013/08/14 21:06:40 tg Exp $
+# $MirOS: ports/shells/mksh/Makefile,v 1.68 2013/08/17 21:06:53 tg Exp $
 
 COMMENT=		MirBSD Korn Shell
 DISTNAME=		mksh-R48b
@@ -35,4 +35,4 @@ do-regress:
 .include <bsd.port.mk>
 
 # this port’s distinfo is shared with OpenBSD ports and NetBSD® pkgsrc®
-_CIPHERS+=		cksum sha256
+_CIPHERS+=		cksum

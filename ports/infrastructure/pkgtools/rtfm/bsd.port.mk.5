@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.36 2010/09/29 19:11:57 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.37 2010/09/29 19:15:01 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007, 2008, 2009, 2010 Thorsten Glaser
@@ -240,7 +240,7 @@ target that simulates invoking
 .It Ar checksum
 Check distribution archives and distribution patches control sum against
 the results recorded in ${CHECKSUM_FILE},
-using the cryptographic signature utilities listed in ${PREFERRED_CIPHERS}.
+using the cryptographic signature utilities defined.
 Normally ${ALLFILES}
 are checksummed, unless
 .Ev IGNOREFILES
@@ -418,8 +418,8 @@ See also
 .Ar unlink\-categories .
 .It Ar makesum
 Create the ${CHECKSUM_FILE} list of recorded checksums by running the
-cryptographic fingerprints sha1, md5 and rmd160 on ${ALLFILES} minus
-${IGNOREFILES}.
+cryptographic fingerprints (hashes) rmd160, tiger, sha1, sha256 and md5
+on ${ALLFILES} minus ${IGNOREFILES}.
 .Ev NO_CHECKSUM
 can be used to avoid all checksumming steps.
 .It Ar manpages\-check
@@ -1676,11 +1676,6 @@ of ${PKGNAME}${SUBPACKAGE} is not appropriate.
 .It Ev PKGPATH
 Path to the current port's directory, relative to ${PORTSDIR}.
 Read-only.
-.It Ev PREFERRED_CIPHERS
-List of cryptographic ciphers to use, in order of preference.
-Default is
-.Sq sha512 rmd160 sha1 md5 .
-The first cipher that matches in ${CHECKSUM_FILE} is verified.
 .It Ev PREFIX
 Base directory for the current port installation.
 Usually ${LOCALBASE}, though some ports may elect a location under
@@ -1944,11 +1939,8 @@ cache of all distribution files.
 .It Pa distinfo
 Checksum file.
 Holds the output of
-.Xr md5 1 ,
-.Xr sha1 1 ,
-.Xr sha512 1 ,
-and
-.Xr rmd160 1
+.Xr cksum 1
+with the algorithms rmd160, tiger, sha1, sha256 and md5
 for the ports ${DISTFILES} and ${PATCHFILES}.
 .It Pa ${FULLDISTDIR}/${ALLFILES}
 cache of distribution files for a given port.

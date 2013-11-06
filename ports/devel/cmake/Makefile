@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/devel/cmake/Makefile,v 1.1 2013/08/06 19:23:11 tg Exp $
 # $OpenBSD: Makefile,v 1.86 2013/07/04 16:34:05 dcoppa Exp $
 
 VMEM_WARNING=		Yes
@@ -59,8 +59,6 @@ post-install:
 	rm ${WRKINST}/${LOCALBASE}/share/cmake/Modules/Platform/*.orig
 
 .include <bsd.port.mk>
-
-_CIPHERS+=		sha256
 
 .if !defined(_SYSTRACE_CMD) || empty(_SYSTRACE_CMD)
 .  error You will want systrace to be enabled.

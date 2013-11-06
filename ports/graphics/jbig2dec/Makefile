@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/graphics/jbig2dec/Makefile,v 1.1 2013/08/19 23:51:43 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2013/07/17 16:42:12 bcallah Exp $
 
 COMMENT=		decoder for JBIG2 monochrome hi-res image compression format
@@ -31,5 +31,3 @@ post-extract:
 	mv ${WRKDIR}/*bmp ${WRKDIR}/*jb2 ${WRKDIR}/ubc/
 
 .include <bsd.port.mk>
-
-_CIPHERS+=		sha256

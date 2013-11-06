@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/graphics/lcms2/Makefile,v 1.1 2013/09/11 18:14:16 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2013/03/30 15:49:43 ajacoutot Exp $
 
 COMMENT=		color management library
@@ -31,5 +31,3 @@ post-install:
 	    ${INSTALL_DATA} LittleCMS2*tutorial.pdf ${DOCDIR}/tutorial.pdf
 
 .include <bsd.port.mk>
-
-_CIPHERS+=		sha256

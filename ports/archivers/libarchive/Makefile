@@ -1,4 +1,4 @@
-# $MirOS: ports/archivers/libarchive/Makefile,v 1.1 2010/11/20 17:18:33 bsiegert Exp $
+# $MirOS: ports/archivers/libarchive/Makefile,v 1.2 2013/08/06 19:15:55 tg Exp $
 # $OpenBSD: Makefile,v 1.25 2013/04/04 16:03:55 brad Exp $
 
 COMMENT=		multi-format archive and compression library
@@ -28,5 +28,3 @@ CONFIGURE_ARGS+=	--without-nettle	# prefer OpenSSL
 CONFIGURE_ARGS+=	--without-xml2		# expat suffices
 
 .include <bsd.port.mk>
-
-_CIPHERS+=		sha256

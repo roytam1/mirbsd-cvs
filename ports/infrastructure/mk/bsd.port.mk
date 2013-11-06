@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.277 2012/10/18 16:41:25 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.278 2013/08/06 19:22:25 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -376,7 +376,7 @@ USE_CCACHE?=		No
 CHECKSUM_FILE?=		${.CURDIR}/distinfo
 
 # Don't touch!!! Used for generating checksums.
-_CIPHERS=		rmd160 tiger sha1 md5
+_CIPHERS=		rmd160 tiger sha1 sha256 md5
 
 _PORTPATH?=		${LOCALBASE}/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${LOCALBASE}/sbin
 .if ${USE_X11:L} == "yes"
