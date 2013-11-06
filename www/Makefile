@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.86 2013/06/08 17:31:19 tg Exp $
+# $MirOS: www/Makefile,v 1.87 2013/06/23 16:17:08 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -156,6 +156,8 @@ _reinstall:
 .endfor
 	cd ${TOP}/.linked && pax -rw -pe -v ${USELINKED} ${DST}/dst/
 	cd ${TOP}/files && pax -rw -pe -v . ${DST}/dst/
+	print '/MirOS:/s!www/files/MirOS-Licence.asc,v!src/share/misc/licence.template,v!\nwq' | \
+	    ed -s ${DST}/dst/MirOS-Licence.asc
 	cd ${TOP} && pax -rw -pe -v pics ${DST}/dst/
 	cd dst && \
 	    ln -sf wlog-${WLOG_LATEST}.htm wlog.htm && \
