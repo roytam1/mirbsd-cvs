@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.86 2013/11/02 15:56:01 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.87 2013/11/03 00:20:25 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3069,6 +3069,18 @@ Date: 03.11.2013
 Waypoint: GC4R97Y
 Title: Mitten in Bandorf
 Tag: D1 T15 Micro Tradi
+----
+ID: 572
+Date: 04.11.2013
+Waypoint: GC1Y016
+Title: Badminton in Bonn
+Tag: D3 T1 Micro Mystery
+----
+ID: 573
+Date: 05.11.2013
+Waypoint: GC26VT0
+Title: Grete's Memoiren
+Tag: D1 T2 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
