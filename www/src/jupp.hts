@@ -1,14 +1,14 @@
-# $MirOS: www/src/jupp.hts,v 1.45 2013/06/22 23:26:06 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.46 2013/08/19 23:17:16 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.45 2013/06/22 23:26:06 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.46 2013/08/19 23:17:16 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp2</em> for MS-DOS® compatible systems,
- and <em>joe-3.1jupp25</em> for Unix/GNU compatible systems. This page is
+ and <em>joe-3.1jupp26</em> for Unix/GNU compatible systems. This page is
  accessible under <a href="http://mirbsd.de/jupp">http://mirbsd.de/jupp</a>
  canonically.</p>
 
@@ -109,8 +109,8 @@ mws_content <<'EOF'
 <h2 id="fetch">Retrieval</h2>
 <h3>Direct download</h3>
 <p>You can download jupp at least from one of the following mirrors:</p><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp25.tgz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp25.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp25.tgz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp25.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp26.tgz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp26.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp26.tgz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp26.tgz</a></li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz</a></li>
@@ -119,10 +119,10 @@ mws_content <<'EOF'
 <p>Please do not forget to check the received file’s integry using both
  gzsig(1) and one of the hashes below:</p><ul>
 <!-- cd /MirOS/dist/jupp; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
- <li>RMD160 (joe-3.1jupp25.tgz) = 724ba6bc9afe0b0551c9c100761787818848a3a1</li>
- <li>TIGER (joe-3.1jupp25.tgz) = f0c97888f1c07d1d81104edfc04f0d541f5ae4b3389b2f5a</li>
- <li>1192706262 445927 /MirOS/dist/jupp/joe-3.1jupp25.tgz</li>
- <li>MD5 (joe-3.1jupp25.tgz) = 6ac1279158de1451f8f9b83416478698</li>
+ <li>RMD160 (joe-3.1jupp26.tgz) = ce775707de9e432500f1f8b27fcedc67acae94e5</li>
+ <li>TIGER (joe-3.1jupp26.tgz) = 4c5052ad693230b158cfb4bdb80b760f7b5f16379778d7c1</li>
+ <li>1856705984 446563 /MirOS/dist/jupp/joe-3.1jupp26.tgz</li>
+ <li>MD5 (joe-3.1jupp26.tgz) = ae5d4cfe33e36e82c6e276576b7c8748</li>
   <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li>RMD160 (joe-2.8jupp2.cpio.gz) = a4e8b49faae7dcda377479311092d9868207fe41</li>
  <li>TIGER (joe-2.8jupp2.cpio.gz) = c3a234efde9365e3b3d28094ce6133babc9c7325d8613555</li>
@@ -132,9 +132,9 @@ mws_content <<'EOF'
 
 <h3>Unpacking</h3>
 <p>Use a command like<br />
- <tt>$ tar xzf joe-3.1jupp25.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
- <tt>$ gzip -dc joe-3.1jupp25.tgz | cpio -idm</tt> # any cpio<br />
- <tt>$ pax -r -z &lt;joe-3.1jupp25.tgz</tt> # any POSIX® archiver<br />
+ <tt>$ tar xzf joe-3.1jupp26.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
+ <tt>$ gzip -dc joe-3.1jupp26.tgz | cpio -idm</tt> # any cpio<br />
+ <tt>$ pax -r -z &lt;joe-3.1jupp26.tgz</tt> # any POSIX® archiver<br />
  to extract the distfile. The DOS version requires similar commands,
  although GNU tar will not be able to extract the <tt>.cpio.gz</tt> archive.
  Both extract into a sub-directory <tt>jupp/</tt> (not versioned).</p>
@@ -302,6 +302,16 @@ $ $SUDO make install</pre>
 <!--
 <p>[2012-12-21] Changes in the current development version:</p><ul>
 -->
+<p id="r3_1j26">[2013-11-07] Changes for joe-3.1jupp26:</p><ul>
+ <li>Syntax files are now both parsed and applied on bytes, not characters;
+  matching on Unicode characters is possible using buffer/strings though</li>
+ <li>Prevent segfault on ‘<tt>`…</tt>’ (out-of-bounds keymap array access)</li>
+ <li>Fix m{,s}{old,new} operation when opening multiple files from cmdline</li>
+ <li>Update “visible spaces” while typing and fix it for nōn-UTF8 files</li>
+ <li>jupprc: No longer wordwrap *.{asc,doc,txt} by default</li>
+ <li>Add five or six hooks (depending on whether CUA keymap exists) for
+  modification to rc files (idea by Dominik George)</li>
+</ul>
 <p id="r3_1j25">[2013-08-19] Changes for joe-3.1jupp25:</p><ul>
  <li>Better colouring of diffs; better support for cvs(1) and git</li>
  <li>New wcwidth code; aligned with Unicode 6.2.0</li>
