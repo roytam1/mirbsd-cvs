@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.87 2013/11/03 00:20:25 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.88 2013/11/06 18:41:59 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3081,6 +3081,12 @@ Date: 05.11.2013
 Waypoint: GC26VT0
 Title: Grete's Memoiren
 Tag: D1 T2 Micro Tradi
+----
+ID: 574
+Date: 08.11.2013
+Waypoint: GC2QR58
+Title: Häuser der Helfer - Freiwillige Feuerwehr Siegburg
+Tag: D15 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
