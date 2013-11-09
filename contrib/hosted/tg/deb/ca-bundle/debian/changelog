@@ -121,9 +121,11 @@ ca-bundle (20090709) unstable; urgency=low
     - Add "MD5 Collisions Forged Rogue CA 25c3" as untrusted
     - Sync trustlevels for common certs with libnss upstream
   * Add bundle for libapache-mod-ssl, sympa
-  * Add another KDE 4 bundle, different Debian/Ubuntu series
+  * Add another KDE 4 bundle, different Debian/Debian derivate from
+    Canonical that cannot be named series
   * debian/control: Broaden Enhances: line
-  * Add bundle for Ubuntu Intrepid/Jaunty/Karmic KDE3 Remix
+  * Add bundle for Debian derivate from Canonical that cannot be named
+    Intrepid/Jaunty/Karmic KDE3 Remix
 
  -- Thorsten Glaser <tg@mirbsd.de>  Fri, 10 Jul 2009 11:15:09 +0000
 

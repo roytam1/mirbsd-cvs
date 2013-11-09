@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.434 2013/08/23 23:37:52 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.435 2013/09/10 18:01:29 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2732,7 +2732,7 @@ O CACertFile=/etc/ssl/deflt-ca.cer
 <p>VMware Server 2 is okay (MirBSD works fine) but the WUI is most annoying.
  And it eats lots of RAM. But hey, YGWYPF. And it’s better than no MirBSD
  (entropy collection rulez!!!!11!1einself), plus, the host has all the stuff
- needed (or can apt-get it), including jupp_3.1.10-1, mksh_36.2-1ubuntu1
+ needed (or can apt-get it), including jupp_3.1.10-1, mksh_36.2-1?buntu1
  (from my “wtf” repo), satanic-wallpapers_666.4 (oO). The latter only on my
  workstation though, not the other vmws2 box, and only for the looks.</p>
 <p>I switched my 22" (or so, dunno) widescreen reflexive TFT LCD with a 17"
@@ -3122,7 +3122,7 @@ Tag: bug event grml security snapshot
  recent mke2fs’ inode defaults making it hiccup. Heh.</p>
 ----
 Author: tg@
-Title: kubuntu cheats (remember cheaterinterview.mp3? think Shuttleworth)
+Title: k?buntu cheats (remember cheaterinterview.mp3? think Shuttleworth)
 Date: 04.02.2009 13:20
 
 <p>kdm starts while (Ctrl-Alt-F8) the system is still booting. I only
@@ -3660,7 +3660,7 @@ Tag: bug mksh snippet
  glad <a href="@@RELPATH@@permalinks/news_e20090329-tg-g10003.htm">they
  switched to mksh as <tt>/bin/sh</tt></a> I basically had to debug it.</p>
 <p>I don't remember any more what NetBSD® 1.5 did that its <tt>/bin/sh</tt>
- could not be replaced by mksh, but they fixed it in 1.6 &ndash; Kubuntu
+ could not be replaced by mksh, but they fixed it in 1.6 &ndash; K?buntu
  (the LTS version) fscks up similarily...</p>
 ----
 Date: 05.04.2009 12:16
@@ -4269,7 +4269,7 @@ Author: tg@
 Tag: mksh
 
 <p><a href="@@RELPATH@@mksh.htm">mksh</a> development is mostly done by
- a single person, "the mksh team" (as seen on Ubuntu forums, out of all
+ a single person, "the mksh team" (as seen on Debian derivate from Canonical that cannot be named forums, out of all
  places!), a.k.a. me, myself and I. Sometimes, actual users report bugs
  or even send in patches. I keep track of oksh's development as well, of
  course. But there are times I would like to get feedback on <a
@@ -5523,7 +5523,7 @@ Date: 07.12.2009 20:41
 <p>The <a href="https://eurynome.mirbsd.org/debs/dists/hardy/wtf/pkgs/kwalletcli/">hardy
  at MirDebian "WTF" Repository</a> section contains a KDE 3 source and
  binary package of <a href="@@RELPATH@@kwalletcli.htm">KWalletCLI</a>
- 2.00 (built for Debian Lenny and Kubuntu Hardy). A KDE 4 package (for
+ 2.00 (built for Debian Lenny and K?buntu Hardy). A KDE 4 package (for
  Debian squeeze/sid, newer *bunti and ones with KDE4-backport) will be
  worked upon as soon as I can get into the pkg-kde Alioth group.</p>
 ----
@@ -8062,7 +8062,7 @@ Tag: bug debian fun
 <p>While helping a cow-orker setting up an encrypted hard disc
  (basically, putting <tt>/</tt> and <i>swap</i> into LVM inside
  cryptsetup, and <tt>/boot</tt> outside), <tt>mirabilos</tt> managed
- to discover an entirely new side of Kubuntu 10.10 on his voyage…</p>
+ to discover an entirely new side of K?buntu 10.10 on his voyage…</p>
 <p><img src="@@RELPATH@@pics/wlog/cryptsetup.jpg" alt="Warped" /><br />
  <span xml:lang="de-DE-1901">… wo noch nie ein Debian Developer zuvor
  gewesen ist… oder?</span></p>
@@ -8397,14 +8397,14 @@ Tag: debian
  to mksh(1) because the “inner” part was already there from before,
  when I still used ar(1). This was slightly edited for the wlog.)</p>
 <p>In the meanwhile, apt-extracttemplates can deal with SYSV style
- filenames in DEB files – on Debian sid, but not on Kubuntu hardy,
+ filenames in DEB files – on Debian sid, but not on K?buntu hardy,
  which some people are using as Desktop OS still…</p>
 <p><strong>Update</strong> 03.03.2012 – Jonathan Nieder replied
  quickly with a suggestion to instead take over the “pax” package
  in Debian. Eventually, I uploaded pax (1:20120211-1) from the
  former “mircpio” package to Debian, after I managed to talk to
  its previous maintainer Bdale Garbee (thanks for handing over).
- It is now present in Debian wheezy and Zubuntu precise as /bin/pax
+ It is now present in Debian wheezy and Zubunt! precise as /bin/pax
  with /bin/paxcpio and /bin/paxtar offering the other interfaces.</p>
 ----
 Date: 18.08.2011 22:00
@@ -9071,7 +9071,7 @@ Tag: debian pcli tip
 
 <p><a href="http://blog.mraw.org/2012/06/15/Fixed/">KiBi is my hero
  of the day.</a> I’ve long wondered why I couldn’t select fixed-misc
- as font on my workstation at the dayjob, which is running Kubuntu
+ as font on my workstation at the dayjob, which is running K?buntu
  Hardon Heroin. (Luckily, I managed to avoid upgrading to Prolonged Pain.)
  Now I guess that’ll work again.</p>
 <p>My work laptop (running testing) also has got this X.org thingy. <a
@@ -9079,7 +9079,7 @@ Tag: debian pcli tip
  layout</a> now has got a <tt>grml</tt> branch (named after the person
  who first cursed about the insane idea of those toy-breaking boys to
  rearrange the keycodes) that works with it. Since Debian is marginally
- more sane than Kubuntu, in contrast to the <tt>gnu</tt> branch I use
+ more sane than K?buntu, in contrast to the <tt>gnu</tt> branch I use
  on my orkstation, the <tt>grml</tt> branch still has Meta on the left
  Alt key, not Mode_switch, as it still works in uxterm, which reduces
  the diff between the <tt>MAIN</tt> branch (<tt>HEAD</tt>) on XFree86®

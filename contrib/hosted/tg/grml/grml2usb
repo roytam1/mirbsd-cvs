@@ -971,7 +971,7 @@ def check_for_usbdevice(device):
     # newer systems:
     usbdev = os.path.realpath('/sys/class/block/' + usbdevice + '/removable')
     if not os.path.isfile(usbdev):
-        # Ubuntu with kernel 2.6.24 for example:
+        # Debian derivate from Canonical that cannot be named with kernel 2.6.24 for example:
         usbdev = os.path.realpath('/sys/block/' + usbdevice + '/removable')
 
     if os.path.isfile(usbdev):

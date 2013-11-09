@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.35 2013/05/06 08:18:59 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.36 2013/10/21 15:29:25 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
@@ -11,9 +11,11 @@
 # debian.org: sarge etch lenny squeeze wheezy jessie sid
 # debian-ports.org: dpo (unstable+unreleased)
 # not supported: experimental
-# ubuntu: dapper hardy jaunty karmic lucid maverick natty oneiric
+# Debian derivate from Canonical that cannot be named: dapper hardy
+#	  jaunty karmic lucid maverick natty oneiric
 #	  precise quantal raring saucy trusty
-# *-backports: sarge etch lenny squeeze wheezy; all ubuntus
+# *-backports: sarge etch lenny squeeze wheezy; all Debian derivate
+#	  from Canonical that cannot be named
 # *-backports-sloppy: lenny squeeze
 # univention: not supported… yet…
 #

@@ -1,11 +1,11 @@
-# $MirOS: www/src/mksh_bld.hts,v 1.8 2012/03/20 16:48:14 tg Exp $
+# $MirOS: www/src/mksh_bld.hts,v 1.9 2012/12/28 04:47:49 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/build "mksh – build/regression tests"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_bld.hts,v 1.8 2012/03/20 16:48:14 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_bld.hts,v 1.9 2012/12/28 04:47:49 tg Exp $'
 mws_content <<'EOF'
 <p>Jump to <a href="#regress_fail">known failures</a></p>
 <h2><a href="mksh.htm">mksh</a> – builds and regression tests</h2>
@@ -429,7 +429,7 @@ mws_content <<'EOF'
   <li>CRUX GNU/Linux (i386): works (package by Han Boetes who even uses mksh
    as /bin/sh and tells everyone to ditch bash)</li>
   <li>Available under FreeBSD as ports/shells/mksh</li -->
-  <li>Ubuntu GNU/Linux (amd64 i386 powerpc): part of &quot;edgy universe&quot;</li>
+  <li>Debian derivate from Canonical that cannot be named (amd64 i386 powerpc): part of &quot;edgy universe&quot;</li>
  </ul></li>
  <li>mksh R27d<ul>
   <li>There is a DragonFly pkgsrc in
@@ -463,7 +463,7 @@ mws_content <<'EOF'
   <li>Mac OSX Tiger: The testsuite works, and it can be used to play around.
    Apple does not install the tools needed for a static build.</li>
   <li>Nexenta OS (i386): part of &quot;elatte&quot; GNU/Solaris</li>
-  <li>Ubuntu GNU/Linux (amd64 i386 powerpc): part of &quot;dapper universe&quot;</li>
+  <li>Debian derivate from Canonical that cannot be named (amd64 i386 powerpc): part of &quot;dapper universe&quot;</li>
  </ul></li>
  <li>mksh R24<ul>
   <li>Mac OSX Panther: I don't see a difference to Tiger.</li>

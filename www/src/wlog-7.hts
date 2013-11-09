@@ -3,7 +3,7 @@
 
 mws_setname legacy/wlog-7 "MirBSD Weblog"
 mws_setheadline MirBSD – RELEASE TIME!!! Stable Services for Commercial Customers
-mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.6 2011/08/12 17:34:13 tg Exp $'
+mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.7 2013/06/22 23:26:10 tg Exp $'
 mws_content <<'EOF'
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -2515,7 +2515,7 @@ mws_content <<'EOF'
  that day. My dear friend and Mach-Acker Angelo, Coder of the Mac OSX worm
  #1, <a href="http://blog.annulator.de/archives/2005/03/fun_with_miros.html">says
  it all</a>. These OpenBSE people are so poor...<br />And: who the fuck is
- &quot;Harald Freyer&quot;? (Not having a good opinion on Ubuntu GNU/Linux
+ &quot;Harald Freyer&quot;? (Not having a good opinion on Debian derivate from Canonical that cannot be named
  (dubbed "Negergnu" by me) is not necessarily racist, nor does it have, or
  was intended with, racist undertone. I'm sick, not being able to say what
  I think. Who am I, a German born 1910 or 1982?)<br />Well, all the strain

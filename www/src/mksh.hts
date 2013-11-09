@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.531 2013/10/11 20:41:02 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.532 2013/10/24 19:37:58 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -988,7 +988,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  It’s hard to get updates in there, though.</li>
 <li class="cr"><img class="fr" width="66" height="62" alt="[Grml logo]"
  src="@@RELPATH@@pics/logos/grml.png" /><a
- href="http://www.ubuntu.com/">Ubuntu GNU/Linux</a>, the <a
+ href="news://news.gmane.org/21117.8424.809871.376141@chiark.greenend.org.uk">Debian derivate from Canonical that cannot be named</a>, the <a
  href="http://grml.org/">grml</a> (and grml64) Live-CD, and other Debian
  derivates also have an mksh package; Knoppix, SIDUX and <a
  href="http://www.nexenta.org/os">Nexenta OS</a> (GNU/Solaris)
