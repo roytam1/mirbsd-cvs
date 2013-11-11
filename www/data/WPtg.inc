@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.88 2013/11/06 18:41:59 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.89 2013/11/08 21:56:52 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3087,6 +3087,24 @@ Date: 08.11.2013
 Waypoint: GC2QR58
 Title: Häuser der Helfer - Freiwillige Feuerwehr Siegburg
 Tag: D15 T15 Micro Tradi
+----
+ID: 575
+Date: 09.11.2013
+Waypoint: GCP1YA
+Title: Oberhausen HBF
+Tag: D25 T1 Micro Tradi
+----
+ID: 576
+Date: 10.11.2013
+Waypoint: GC4164D
+Title: 2. Oberhausener Praxiscache
+Tag: D15 T15 Micro Tradi
+----
+ID: 577
+Date: 11.11.2013
+Waypoint: GC34FXA
+Title: Gotteshäuschen Oberscheid
+Tag: D2 T1 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
