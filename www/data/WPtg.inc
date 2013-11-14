@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.89 2013/11/08 21:56:52 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.90 2013/11/11 14:45:00 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3105,6 +3105,18 @@ Date: 11.11.2013
 Waypoint: GC34FXA
 Title: Gotteshäuschen Oberscheid
 Tag: D2 T1 Micro Tradi
+----
+ID: 578
+Date: 13.11.2013
+Waypoint: GC4FTYV
+Title: Der Apfel (2)
+Tag: D25 T2 Micro Tradi
+----
+ID: 579
+Date: 14.11.2013
+Waypoint: GC4R6KD
+Title: Die stinkende Angelegenheit
+Tag: D2 T2 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
