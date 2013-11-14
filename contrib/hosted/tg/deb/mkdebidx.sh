@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.58 2013/03/18 16:55:37 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.59 2013/09/10 17:55:15 tg Exp $'
 #-
 # Copyright (c) 2008, 2009, 2010, 2011, 2012, 2013
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -77,6 +77,20 @@ function Lcdbhash_add {
 	while (( i < n )); do
 		((# Lcdbhash_result = (Lcdbhash_result * 33) ^ 1#${s:(i++):1} ))
 	done
+}
+
+# escape XHTML characters (three mandatory XML ones plus double quotes,
+# the latter in an XML safe fashion numerically though)
+function xhtml_escape {
+	if (( $# )); then
+		print -nr -- "$@"
+	else
+		cat
+	fi | sed \
+	    -e 's&\&amp;g' \
+	    -e 's<\&lt;g' \
+	    -e 's>\&gt;g' \
+	    -e 's"\&#34;g'
 }
 
 set +U
@@ -448,7 +462,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.58 2013/03/18 16:55:37 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.59 2013/09/10 17:55:15 tg Exp $" />
  <style type="text/css">
   table {
    border: 1px solid black;
@@ -608,7 +622,7 @@ while read -p num rest; do
 		print "<!-- bp #$i -->"
 		print "<tr class=\"binpkgline\">"
 		print " <td class=\"binpkgname\">${bp_disp[i]}</td>"
-		print " <td class=\"binpkgdesc\">${bp_desc[i]}</td>"
+		print " <td class=\"binpkgdesc\">$(xhtml_escape "${bp_desc[i]}")</td>"
 		for suitename in $allsuites; do
 			eval pv=\${bp_ver_${suitename}[i]}
 			if [[ -z $pv ]]; then
@@ -648,7 +662,7 @@ for i in ${bp_sort[*]}; do
 	print "<!-- bp #$i -->"
 	print "<tr class=\"binpkgline\">"
 	print " <td class=\"binpkgdist\">${bp_dist[i]}</td>"
-	print " <td rowspan=\"2\" class=\"binpkgdesc\">${bp_desc[i]}</td>"
+	print " <td rowspan=\"2\" class=\"binpkgdesc\">$(xhtml_escape "${bp_desc[i]}")</td>"
 	for suitename in $allsuites; do
 		eval pv=\${bp_ver_${suitename}[i]}
 		if [[ -z $pv ]]; then
