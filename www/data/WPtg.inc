@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.90 2013/11/11 14:45:00 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.91 2013/11/14 17:13:15 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3117,6 +3117,24 @@ Date: 14.11.2013
 Waypoint: GC4R6KD
 Title: Die stinkende Angelegenheit
 Tag: D2 T2 Micro Tradi
+----
+ID: 580
+Date: 15.11.2013
+Waypoint: GC36WXX
+Title: Books-to-go
+Tag: D15 T15 Other Tradi
+----
+ID: 581
+Date: 15.11.2013
+Waypoint: GC3BAY0
+Title: CHALLENGE: SCHNAPSZAHLEN
+Tag: D5 T15 Micro Mystery
+----
+ID: 582
+Date: 15.11.2013
+Waypoint: GC4M8XG
+Title: Willkommen in Gelsdorf
+Tag: D2 T15 Nano Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
