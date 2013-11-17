@@ -1921,9 +1921,10 @@ x_mkraw(int fd, mksh_ttyst *ocb, bool forread)
 
 	cb = *ocb;
 	if (forread) {
+		cb.c_iflag &= ~(ISTRIP);
 		cb.c_lflag &= ~(ICANON) | ECHO;
 	} else {
-		cb.c_iflag &= ~(INLCR | ICRNL);
+		cb.c_iflag &= ~(INLCR | ICRNL | ISTRIP);
 		cb.c_lflag &= ~(ISIG | ICANON | ECHO);
 	}
 #if defined(VLNEXT) && defined(_POSIX_VDISABLE)

@@ -418,6 +418,10 @@ extern int __cdecl setegid(gid_t);
 #define mksh_tcset(fd,st) ioctl((fd), TCSETAW, (st))
 #endif
 
+#ifndef ISTRIP
+#define ISTRIP		0
+#endif
+
 /* remove redundancies */
 
 #if defined(MirBSD) && (MirBSD >= 0x0AB3) && !defined(MKSH_OPTSTATIC)
