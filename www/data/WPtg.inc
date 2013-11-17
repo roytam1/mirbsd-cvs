@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.91 2013/11/14 17:13:15 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.92 2013/11/15 16:15:30 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3122,7 +3122,7 @@ ID: 580
 Date: 15.11.2013
 Waypoint: GC36WXX
 Title: Books-to-go
-Tag: D15 T15 Other Tradi
+Tag: D15 T15 Other Tradi recommended
 ----
 ID: 581
 Date: 15.11.2013
@@ -3135,6 +3135,18 @@ Date: 15.11.2013
 Waypoint: GC4M8XG
 Title: Willkommen in Gelsdorf
 Tag: D2 T15 Nano Tradi
+----
+ID: 583
+Date: 16.11.2013
+Waypoint: GC4Q4N9
+Title: Hexenhaus
+Tag: D1 T2 Small Tradi recommended
+----
+ID: 584
+Date: 17.11.2013
+Waypoint: GC4A6EK
+Title: Willkommen in RLP
+Tag: D15 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
