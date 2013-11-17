@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/special/mksh/Makefile,v 1.72 2013/08/23 14:07:31 tg Exp $
+# $MirOS: src/distrib/special/mksh/Makefile,v 1.73 2013/09/10 17:32:55 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
 #		2011, 2012, 2013
@@ -54,12 +54,23 @@ CPPFLAGS+=	-DMKSH_ASSUME_UTF8 -DMKSH_DISABLE_DEPRECATED -DMKSH_SMALL \
 		-DHAVE_SYS_ERRLIST_DECL=1 -DHAVE_SYS_SIGLIST_DECL=1 \
 		-DHAVE_PERSISTENT_HISTORY=0 -DMKSH_BUILD_R=489
 CPPFLAGS+=	-D${${PROG:L}_tf:C/(Mir${MAN:E}{0,1}){2}/4/:S/x/mksh_BUILD/:U}
+CPPFLAGS+=	-I.
 COPTS+=		-std=c99 -Wall -fno-inline
 
 DEBUGFILE?=	No
 .if ${DEBUGFILE:L} == "yes"
 CPPFLAGS+=	-DDF=mksh_debugtofile
 .endif
+
+OPTGENS!=	cd ${SRCDIR:Q} && echo *.opt
+.for _i in ${OPTGENS}
+GENERATED+=	${_i:R}.gen
+${_i:R}.gen: ${_i} ${SRCDIR}/genopt.sh
+	${MKSH} ${SRCDIR:Q}/genopt.sh ${SRCDIR:Q}/${_i}
+.endfor
+CLEANFILES+=	${GENERATED}
+
+${PROG} beforedepend: ${GENERATED}
 
 regress: ${PROG} check.pl check.t
 	-rm -rf regress-dir

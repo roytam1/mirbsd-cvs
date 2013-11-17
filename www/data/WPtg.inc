@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.92 2013/11/15 16:15:30 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.93 2013/11/17 00:13:34 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3147,6 +3147,12 @@ Date: 17.11.2013
 Waypoint: GC4A6EK
 Title: Willkommen in RLP
 Tag: D15 T15 Micro Tradi
+----
+ID: 585
+Date: 17.11.2013
+Waypoint: GC4R80T
+Title: BAGO Kurpark
+Tag: D2 T25 Small Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
