@@ -719,7 +719,8 @@ expand(
 					 */
 					x.str = trimsub(str_val(st->var),
 						dp, st->stype);
-					if (x.str[0] != '\0' || st->quotep)
+					word = quote ? IFS_WORD : IFS_WS;
+					if (quote || x.str[0] != '\0')
 						type = XSUB;
 					else
 						type = XNULLSUB;
