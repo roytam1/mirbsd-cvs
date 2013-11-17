@@ -2257,7 +2257,7 @@ echo tcfn=$mkshexe >>Rebuild.sh
 echo "$CC $CFLAGS $LDFLAGS -o \$tcfn $lobjs $LIBS $ccpr" >>Rebuild.sh
 echo "test -f \$tcfn || exit 1; $SIZE \$tcfn" >>Rebuild.sh
 if test $cm = makefile; then
-	extras='emacsfn.h genopt.sh rlimits.opt sh.h sh_flags.h var_spec.h'
+	extras='emacsfn.h genopt.sh rlimits.opt sh.h sh_flags.opt var_spec.h'
 	test 0 = $HAVE_SYS_SIGNAME && extras="$extras signames.inc"
 	cat >Makefrag.inc <<EOF
 # Makefile fragment for building mksh $dstversion

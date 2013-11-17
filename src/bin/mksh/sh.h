@@ -664,7 +664,7 @@ EXTERN Area aperm;		/* permanent object space */
  */
 enum sh_flag {
 #define SHFLAGS_ENUMS
-#include "sh_flags.h"
+#include "sh_flags.gen"
 	FNFLAGS		/* (place holder: how many flags are there) */
 };
 
