@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.93 2013/11/17 00:13:34 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.94 2013/11/17 22:37:47 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3153,6 +3153,12 @@ Date: 17.11.2013
 Waypoint: GC4R80T
 Title: BAGO Kurpark
 Tag: D2 T25 Small Tradi
+----
+ID: 586
+Date: 18.11.2013
+Waypoint: GC3YA5C
+Title: Königreich Ückesdorf 5
+Tag: D1 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
