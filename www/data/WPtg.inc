@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.94 2013/11/17 22:37:47 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.95 2013/11/18 18:43:47 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3159,6 +3159,12 @@ Date: 18.11.2013
 Waypoint: GC3YA5C
 Title: Königreich Ückesdorf 5
 Tag: D1 T15 Micro Tradi
+----
+ID: 587
+Date: 19.11.2013
+Waypoint: GC2RVGM
+Title: Vorher - Nachher ?
+Tag: D15 T1 Micro Mystery
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
