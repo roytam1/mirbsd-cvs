@@ -1,4 +1,4 @@
-$MirOS: contrib/samples/kbd-layout,v 1.3 2007/04/03 12:46:29 tg Exp $
+$MirOS: contrib/samples/kbd-layout,v 1.4 2010/12/05 20:19:30 tg Exp $
 ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
 
 ╭────────────────────────────────────────┬────────────────────────────────────────╮
@@ -16,6 +16,7 @@ $MirOS: contrib/samples/kbd-layout,v 1.3 2007/04/03 12:46:29 tg Exp $
 See the following implementations © Th.Glaser:
 • http://cvs.mirbsd.de/contrib/samples/dot.Xmodmap		XFree86®
 • http://cvs.mirbsd.de/contrib/code/Snippets/KBDmir2U.exe	NT4 & up
+• http://cvs.mirbsd.de/contrib/code/Snippets/KBDmir2U.map	Linux VT
 
 The XFree86® variant and the NT® variant differ from each other slightly,
 such as in the location of the Meta key (and Mode_switch which makes Meta
