@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.96 2013/11/19 18:55:01 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.97 2013/11/21 20:17:22 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3189,6 +3189,18 @@ Date: 21.11.2013
 Waypoint: GC4HHQZ
 Title: Sportplatz Oeverich-Niederich
 Tag: D2 T25 Micro Tradi
+----
+ID: 592
+Date: 22.11.2013
+Waypoint: GC3AK6K
+Title: Die kleine Mystery-Runde#1
+Tag: D2 T1 Micro Mystery
+----
+ID: 593
+Date: 23.11.2013
+Waypoint: GC2X12X
+Title: Am Steinbruch
+Tag: D15 T2 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
