@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/textproc/mupdf/Makefile,v 1.1 2013/09/11 18:14:21 tg Exp $
 # $OpenBSD: Makefile,v 1.42 2013/04/29 12:54:00 sthen Exp $
 
 COMMENT=		graphic library, pdf parser, viewer and utilities
@@ -40,7 +40,7 @@ EXTRA_FAKE_FLAGS+=	prefix=${PREFIX} mandir=${PREFIX}/man
 pre-configure:
 	cp ${WRKSRC}/platform/debian/mupdf.pc{,.subst}
 	${SUBST_CMD} ${WRKSRC}/platform/debian/mupdf.pc.subst
-	rm -rf ${WRKSRC}/thirdparty
+	rm -rf ${WRKSRC}/scripts/jconfig.h ${WRKSRC}/thirdparty
 
 post-install:
 	mv ${PREFIX}/bin/mupdf{-x11,}
