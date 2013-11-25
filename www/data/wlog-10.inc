@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.435 2013/09/10 18:01:29 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.436 2013/11/09 01:21:36 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10243,4 +10243,18 @@ Tag: debian event geocache mksh
  The MirOS Project is not unfriendly but definitely not suited for your
  proverbial Aunt Tilly, newbies, “desktop” users, and people who aren’t
  at least somewhat capable of using written English (this is by design).</p>
+----
+Date: 24.11.2013 23:42
+Author: tg@
+Title: MirBSD in jslinux
+
+<p>Bochs is not the only emulator. But Fabrice Bellard wrote more
+ than just qemu, either – tonight I did a quick hack and <a
+ href="http://oi43.tinypic.com/30aw6xv.jpg">started booting MirBSD
+ in jslinux</a>. Unmodified. Of course, there are still things to
+ change before this goes into userspace, and the bootloader wants
+ to be ported to ECMAscript as well, but… I got some dmesg(8)!</p>
+<p>Feel free to call me crazy now. Anyway, more on this as time
+ and legalese permits. This was a can-do test in about 2 hours of
+ work, only.</p>
 ----

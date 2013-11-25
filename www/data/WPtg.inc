@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.97 2013/11/21 20:17:22 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.98 2013/11/23 21:28:13 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3201,6 +3201,18 @@ Date: 23.11.2013
 Waypoint: GC2X12X
 Title: Am Steinbruch
 Tag: D15 T2 Micro Tradi
+----
+ID: 594
+Date: 24.11.2013
+Waypoint: GC4RT47
+Title: Mitten in Oeverich 1
+Tag: D25 T2 Small Tradi
+----
+ID: 595
+Date: 25.11.2013
+Waypoint: GC4RT2Y
+Title: Willkommen in Oeverich 1
+Tag: D2 T2 Small Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
