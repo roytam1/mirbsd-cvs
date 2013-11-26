@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.98 2013/11/23 21:28:13 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.99 2013/11/25 00:05:04 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3213,6 +3213,12 @@ Date: 25.11.2013
 Waypoint: GC4RT2Y
 Title: Willkommen in Oeverich 1
 Tag: D2 T2 Small Tradi
+----
+ID: 596
+Date: 26.11.2013
+Waypoint: GC1NMFY
+Title: Bonner Kunstwerke: Aufbr. Samenkorn mit Keimling
+Tag: D15 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
