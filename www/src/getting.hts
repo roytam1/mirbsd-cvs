@@ -1,14 +1,15 @@
-# $MirOS: www/src/getting.hts,v 1.24 2010/09/26 16:35:22 tg Exp $
+# $MirOS: www/src/getting.hts,v 1.25 2011/10/16 18:10:13 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname getting "Get MirOS!"
 mws_setheadline Get MirOS!
-mws_putheader '$MirOS: www/src/getting.hts,v 1.24 2010/09/26 16:35:22 tg Exp $'
+mws_putheader '$MirOS: www/src/getting.hts,v 1.25 2011/10/16 18:10:13 tg Exp $'
 mws_content <<'EOF'
 <p>MirOS consists of several parts: the base system (including X11), the
- MirPorts framework, and the source tree.</p>
+ MirPorts framework, and the source tree. And you may want to read the
+ install.i386(7) or install.sparc(7) documentation ☺</p>
 
 <h2>On a CD</h2>
 
