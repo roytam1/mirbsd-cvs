@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.99 2013/11/25 00:05:04 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.100 2013/11/26 18:06:01 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3219,6 +3219,12 @@ Date: 26.11.2013
 Waypoint: GC1NMFY
 Title: Bonner Kunstwerke: Aufbr. Samenkorn mit Keimling
 Tag: D15 T15 Micro Tradi
+----
+ID: 597
+Date: 27.11.2013
+Waypoint: GC383GG
+Title: “Große Namen“ # 3
+Tag: D3 T15 Micro Mystery
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
