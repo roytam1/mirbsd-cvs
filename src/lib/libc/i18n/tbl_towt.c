@@ -3,9 +3,9 @@
 #define mir18n_caseconv
 #include "mir18n.h"
 
-__RCSID("$MirOS: src/lib/libc/i18n/tbl_towt.c,v 1.1 2008/11/30 13:34:16 tg Exp $");
-
-/* generated automatically from UnicodeData6.0.0.txt (BMP) */
+__RCSID("$MirOS$");
+__RCSID("$miros: contrib/hosted/tg/ucdconv.c,v 1.16 2013/11/30 20:52:16 tg Exp $");
+__IDSTRING(UCD_version, "UnicodeData.txt (BMP) 6.3.0");
 
 static const uint16_t totitle_table_page01[256] = {
 	0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,

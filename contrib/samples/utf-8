@@ -1,27 +1,27 @@
-┋ $MirOS: contrib/samples/utf-8,v 1.5 2012/09/01 23:46:34 tg Exp $
+┋ $MirOS: contrib/samples/utf-8,v 1.6 2013/05/31 23:27:44 tg Exp $
 
-The Unicode 6.2.0 Basic Multilingual Plane
+The Unicode 6.3.0 Basic Multilingual Plane
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
 
-The widths of these characters has been derived from
-MirOS: X11/xc/programs/xterm/wcwidth.c,v 1.6 2013/05/31 23:27:09 tg Exp $
-and thus, this file should show up fine in an uxterm
-on MirOS (see xterm(1) for further reference).
+The width of these characters have been derived from
+MirBSD’s new wcwidth code and thus, this file should
+show up fine in an uxterm on MirOS (see xterm(1) for
+further reference).
 
 This file was generated (and hand-edited afterwards)
-© by Thorsten "mirabilos" Glaser <tg@mirbsd.org>. Be-
-cause this is a mere "database" it can be used with-
+© by Thorsten "mirabilos" Glaser <tg@mirbsd.de>. Be‐
+cause this is a mere "database" it can be used with‐
 out the need of a special licence, but if possible I
 would like to be credited on derivates.
 
-Now have fun cutting and pasting, although be remin-
+Now have fun cutting and pasting, although be remin‐
 ded that unicode characters above U+00FF can only be
-pasted while they are still marked in the source ux-
-term and the latter is visible on the screen. Alter-
-natively you can copy them using an utf-8 aware edi-
+pasted while they are still marked in the source ux‐
+term and the latter is visible on the screen. Alter‐
+natively you can copy them using an utf-8 aware edi‐
 tor such as jupp (ports/editors/joe).
 
-Combining characters with single-cell width are pre-
+Combining characters with single-cell width are pre‐
 fixed by two spaces in the table below. Places where
 a C0 and C1 control character would appear show FFFD
 as the replacement character instead, again indented
@@ -230,7 +230,7 @@ ____________________________________________________
 ╽ #0600 ┃   ؀ │   ؁ │   ؂ │   ؃ │   ؄ │ ؅  │ ؆  │ ؇  ┃ #0607 ╽
 ╿ #0608 ┃ ؈  │ ؉  │ ؊  │ ؋  │ ،  │ ؍  │ ؎  │ ؏  ┃ #060F ╿
 ╽ #0610 ┃   ؐ │   ؑ │   ؒ │   ؓ │   ؔ │   ؕ │   ؖ │   ؗ ┃ #0617 ╽
-╿ #0618 ┃   ؘ │   ؙ │   ؚ │ ؛  │ ؜  │ ؝  │ ؞  │ ؟  ┃ #061F ╿
+╿ #0618 ┃   ؘ │   ؙ │   ؚ │ ؛  │   ؜ │ ؝  │ ؞  │ ؟  ┃ #061F ╿
 ╽ #0620 ┃ ؠ  │ ء  │ آ  │ أ  │ ؤ  │ إ  │ ئ  │ ا  ┃ #0627 ╽
 ╿ #0628 ┃ ب  │ ة  │ ت  │ ث  │ ج  │ ح  │ خ  │ د  ┃ #062F ╿
 ╽ #0630 ┃ ذ  │ ر  │ ز  │ س  │ ش  │ ص  │ ض  │ ط  ┃ #0637 ╽
@@ -822,7 +822,7 @@ ____________________________________________________
 ╿ #17F8 ┃ ៸  │ ៹  │ ៺  │ ៻  │ ៼  │ ៽  │ ៾  │ ៿  ┃ #17FF ╿
 ├───────╂────┼────┼────┼────┼────┼────┼────┼────╂───────┤
 ╽ #1800 ┃ ᠀  │ ᠁  │ ᠂  │ ᠃  │ ᠄  │ ᠅  │ ᠆  │ ᠇  ┃ #1807 ╽
-╿ #1808 ┃ ᠈  │ ᠉  │ ᠊  │   ᠋ │   ᠌ │   ᠍ │ ᠎  │ ᠏  ┃ #180F ╿
+╿ #1808 ┃ ᠈  │ ᠉  │ ᠊  │   ᠋ │   ᠌ │   ᠍ │   ᠎ │ ᠏  ┃ #180F ╿
 ╽ #1810 ┃ ᠐  │ ᠑  │ ᠒  │ ᠓  │ ᠔  │ ᠕  │ ᠖  │ ᠗  ┃ #1817 ╽
 ╿ #1818 ┃ ᠘  │ ᠙  │ ᠚  │ ᠛  │ ᠜  │ ᠝  │ ᠞  │ ᠟  ┃ #181F ╿
 ╽ #1820 ┃ ᠠ  │ ᠡ  │ ᠢ  │ ᠣ  │ ᠤ  │ ᠥ  │ ᠦ  │ ᠧ  ┃ #1827 ╽
@@ -890,7 +890,7 @@ ____________________________________________________
 ╽ #1A00 ┃ ᨀ  │ ᨁ  │ ᨂ  │ ᨃ  │ ᨄ  │ ᨅ  │ ᨆ  │ ᨇ  ┃ #1A07 ╽
 ╿ #1A08 ┃ ᨈ  │ ᨉ  │ ᨊ  │ ᨋ  │ ᨌ  │ ᨍ  │ ᨎ  │ ᨏ  ┃ #1A0F ╿
 ╽ #1A10 ┃ ᨐ  │ ᨑ  │ ᨒ  │ ᨓ  │ ᨔ  │ ᨕ  │ ᨖ  │   ᨗ ┃ #1A17 ╽
-╿ #1A18 ┃   ᨘ │ ᨙ  │ ᨚ  │ ᨛ  │ ᨜  │ ᨝  │ ᨞  │ ᨟  ┃ #1A1F ╿
+╿ #1A18 ┃   ᨘ │ ᨙ  │ ᨚ  │   ᨛ │ ᨜  │ ᨝  │ ᨞  │ ᨟  ┃ #1A1F ╿
 ╽ #1A20 ┃ ᨠ  │ ᨡ  │ ᨢ  │ ᨣ  │ ᨤ  │ ᨥ  │ ᨦ  │ ᨧ  ┃ #1A27 ╽
 ╿ #1A28 ┃ ᨨ  │ ᨩ  │ ᨪ  │ ᨫ  │ ᨬ  │ ᨭ  │ ᨮ  │ ᨯ  ┃ #1A2F ╿
 ╽ #1A30 ┃ ᨰ  │ ᨱ  │ ᨲ  │ ᨳ  │ ᨴ  │ ᨵ  │ ᨶ  │ ᨷ  ┃ #1A37 ╽
@@ -1097,8 +1097,8 @@ ____________________________________________________
 ╿ #2048 ┃ ⁈  │ ⁉  │ ⁊  │ ⁋  │ ⁌  │ ⁍  │ ⁎  │ ⁏  ┃ #204F ╿
 ╽ #2050 ┃ ⁐  │ ⁑  │ ⁒  │ ⁓  │ ⁔  │ ⁕  │ ⁖  │ ⁗  ┃ #2057 ╽
 ╿ #2058 ┃ ⁘  │ ⁙  │ ⁚  │ ⁛  │ ⁜  │ ⁝  │ ⁞  │    ┃ #205F ╿
-╽ #2060 ┃   ⁠ │   ⁡ │   ⁢ │   ⁣ │   ⁤ │ ⁥  │ ⁦  │ ⁧  ┃ #2067 ╽
-╿ #2068 ┃ ⁨  │ ⁩  │   ⁪ │   ⁫ │   ⁬ │   ⁭ │   ⁮ │   ⁯ ┃ #206F ╿
+╽ #2060 ┃   ⁠ │   ⁡ │   ⁢ │   ⁣ │   ⁤ │ ⁥  │   ⁦ │   ⁧ ┃ #2067 ╽
+╿ #2068 ┃   ⁨ │   ⁩ │   ⁪ │   ⁫ │   ⁬ │   ⁭ │   ⁮ │   ⁯ ┃ #206F ╿
 ╽ #2070 ┃ ⁰  │ ⁱ  │ ⁲  │ ⁳  │ ⁴  │ ⁵  │ ⁶  │ ⁷  ┃ #2077 ╽
 ╿ #2078 ┃ ⁸  │ ⁹  │ ⁺  │ ⁻  │ ⁼  │ ⁽  │ ⁾  │ ⁿ  ┃ #207F ╿
 ╽ #2080 ┃ ₀  │ ₁  │ ₂  │ ₃  │ ₄  │ ₅  │ ₆  │ ₇  ┃ #2087 ╽
