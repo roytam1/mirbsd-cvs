@@ -1,4 +1,4 @@
-rcsid_common='$MirOS: www/mk/common,v 1.4 2012/07/15 13:06:14 tg Exp $'
+rcsid_common='$MirOS: www/mk/common,v 1.5 2013/11/30 13:19:55 tg Exp $'
 #-
 # Copyright © 2007, 2008, 2012
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -269,3 +269,5 @@ function mjd_implode {
 
 	print -- $day $sec
 }
+
+common_read=1
