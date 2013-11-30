@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: contrib/code/mpczar/mpczar/mpczar.sh,v 1.11 2008/10/05 16:26:14 tg Exp $
+# $MirOS: contrib/code/mpczar/mpczar/mpczar.sh,v 1.12 2008/11/01 21:28:54 tg Exp $
 #-
-# Copyright (c) 2005, 2006
+# Copyright (c) 2005, 2006, 2013
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -37,7 +37,7 @@ outf=-
 rv=0
 fmt=sv4crc
 
-helper=$(realpath "$(dirname "$me")/../libexec/mpczar.z")
+helper=$(dirname "$(realpath "$me")/../libexec/mpczar.z")
 if [[ ! -x $helper ]]; then
 	print -u2 Cannot find helper, aborting...
 	exit 1

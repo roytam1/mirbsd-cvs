@@ -1,7 +1,7 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.32 2008/10/12 18:04:28 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.33 2009/11/09 22:40:59 tg Exp $
 
-wd=$(realpath $(dirname $0))
+wd=$(dirname "$(realpath "$0")")
 version=$(date +%Y%m%d)
 echo version=$version >$wd/Version.sh
 

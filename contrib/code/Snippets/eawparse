@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: contrib/code/Snippets/eawparse,v 1.1 2013/05/31 23:27:16 tg Exp $
 #-
 # Copyright © 2013
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -23,13 +23,13 @@
 # wcwidth lists.
 
 if ! eaw=$(realpath EastAsianWidth.txt); then
-	if ! eaw=$(realpath "$(dirname "$0")"/EastAsianWidth.txt); then
+	if ! eaw=$(dirname "$(realpath "$0")"/EastAsianWidth.txt); then
 		print -u2 Need EastAsianWidth.txt file.
 		exit 1
 	fi
 fi
 if ! ucd=$(realpath UnicodeData.txt); then
-	if ! ucd=$(realpath "$(dirname "$0")"/UnicodeData.txt); then
+	if ! ucd=$(dirname "$(realpath "$0")"/UnicodeData.txt); then
 		print -u2 Need UnicodeData.txt file.
 		exit 1
 	fi

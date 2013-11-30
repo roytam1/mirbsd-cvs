@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: contrib/code/heartbeat/toolkit.mirdns/distribute.sh,v 1.8 2006/03/29 01:41:23 tg Exp $
+# $MirOS: contrib/code/heartbeat/toolkit.mirdns/distribute.sh,v 1.9 2008/10/05 16:26:14 tg Exp $
 #-
-# Copyright (c) 2004, 2005, 2006
+# Copyright (c) 2004, 2005, 2006, 2013
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Licensee is hereby permitted to deal in this work without restric-
@@ -37,7 +37,7 @@
 # Just in case...
 export PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/mpkg/bin
 
-tinydns=$(realpath $(dirname $0))
+tinydns=$(dirname "$(realpath "$0")")
 cd $tinydns
 
 if [[ -z $1 ]]; then

@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/quinn-ls.sh,v 1.11 2012/12/20 13:41:38 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/quinn-ls.sh,v 1.12 2013/01/14 22:16:42 tg Exp $'
 #-
 # Copyright © 2011, 2012, 2013
 #	Thorsten Glaser <tg@debian.org>
@@ -20,7 +20,7 @@ rcsid='$MirOS: contrib/hosted/tg/deb/quinn-ls.sh,v 1.11 2012/12/20 13:41:38 tg E
 # of said person’s immediate fault when using the work as intended.
 
 gather=cwd fromfile=
-mydir=$(realpath "$(dirname "$0")")
+mydir=$(dirname "$(realpath "$0")")
 PATH="$mydir:$mydir/..:$PATH" . assockit.ksh
 
 while getopts "L:l" ch; do
