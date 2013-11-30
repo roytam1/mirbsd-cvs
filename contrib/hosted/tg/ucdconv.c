@@ -33,7 +33,10 @@ NOMAN=		Yes
 #include <string.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: contrib/hosted/tg/ucdconv.c,v 1.14 2010/12/11 20:55:03 tg Exp $");
+static const char rcsid_generator[] =
+  "$MirOS: contrib/hosted/tg/ucdconv.c,v 1.15 2010/12/11 21:05:48 tg Exp $";
+
+static const char *ucdvsn;
 
 struct unicode_attribute {
   const char* name;           /* Character name */
@@ -100,7 +103,7 @@ static int getfield (FILE* f, char* buffer, int delim)
   return 1;
 }
 
-static void fill_attributes (const char* unicodedata_filename)
+static void fill_attributes(void)
 {
   unsigned int i, j;
   FILE* f;
@@ -120,10 +123,34 @@ static void fill_attributes (const char* unicodedata_filename)
   char field13 [100];
   char field14 [100];
   int lineno = 0;
+  size_t vsnlen;
+  char vsn[30];
+
+  vsn[0] = '\0';
+  f = popen("sed -ne '2,$d' -e '1s/^# Blocks-\\([0-9]*\\.[0-9]*\\.[0-9]*\\)\\.txt$/\\1/p' <Blocks.txt", "r");
+  if (!f) {
+    fprintf(stderr, "error during fopen of `%s'\n", "Blocks.txt");
+    exit(1);
+  }
+  (void)fgets(vsn, sizeof(vsn), f);
+  if (ferror(f)) {
+    fprintf(stderr, "error during pipe I/O on Blocks.txt\n");
+    exit(1);
+  }
+  vsnlen = strlen(vsn);
+  if (vsnlen > 0 && vsn[vsnlen - 1] == '\n')
+    vsn[--vsnlen] = '\0';
+  pclose(f);
+
+  if (!(ucdvsn = strdup(vsn))) {
+    fprintf(stderr, "OOM\n");
+    exit(1);
+  }
 
   for (i = 0; i < 0x10000; i++)
     unicode_attributes[i].name = NULL;
 
+#define unicodedata_filename "UnicodeData.txt"
   f = fopen(unicodedata_filename, "r");
   if (!f) {
     fprintf(stderr, "error during fopen of `%s'\n", unicodedata_filename);
@@ -228,6 +255,10 @@ static void output_toupper_table (void)
     fprintf(stderr, "error during fopen of `%s'\n", filename);
     exit(1);
   }
+  fprintf(f, "#include <wchar.h>\n\n#define mir18n_caseconv\n");
+  fprintf(f, "#include \"mir18n.h\"\n\n__RCSID(\"$""MirOS""$\");\n");
+  fprintf(f, "__RCSID(\"$""miros%s\");\n", rcsid_generator + 6);
+  fprintf(f, "__IDSTRING(UCD_version, \"%s (BMP) %s\");\n\n", unicodedata_filename, ucdvsn);
   for (p = 0; p < 0x100; p++)
     pages[p] = 0;
   for (p = 0; p < 0x100; p++)
@@ -287,6 +318,10 @@ static void output_totitle_table (void)
     fprintf(stderr, "error during fopen of `%s'\n", filename);
     exit(1);
   }
+  fprintf(f, "#include <wchar.h>\n\n#define mir18n_caseconv\n");
+  fprintf(f, "#include \"mir18n.h\"\n\n__RCSID(\"$""MirOS""$\");\n");
+  fprintf(f, "__RCSID(\"$""miros%s\");\n", rcsid_generator + 6);
+  fprintf(f, "__IDSTRING(UCD_version, \"%s (BMP) %s\");\n\n", unicodedata_filename, ucdvsn);
   for (p = 0; p < 0x100; p++)
     pages[p] = 0;
   for (p = 0; p < 0x100; p++)
@@ -348,6 +383,10 @@ static void output_tolower_table (void)
     fprintf(stderr, "error during fopen of `%s'\n", filename);
     exit(1);
   }
+  fprintf(f, "#include <wchar.h>\n\n#define mir18n_caseconv\n");
+  fprintf(f, "#include \"mir18n.h\"\n\n__RCSID(\"$""MirOS""$\");\n");
+  fprintf(f, "__RCSID(\"$""miros%s\");\n", rcsid_generator + 6);
+  fprintf(f, "__IDSTRING(UCD_version, \"%s (BMP) %s\");\n\n", unicodedata_filename, ucdvsn);
   for (p = 0; p < 0x100; p++)
     pages[p] = 0;
   for (p = 0; p < 0x100; p++)
@@ -506,6 +545,10 @@ static void output_attribute_table (void)
           fprintf(stderr, "error during fopen of `%s'\n", filename);
           exit(1);
         }
+        fprintf(f, "#include <wchar.h>\n\n#define mir18n_attributes\n");
+        fprintf(f, "#include \"mir18n.h\"\n\n__RCSID(\"$""MirOS""$\");\n");
+        fprintf(f, "__RCSID(\"$""miros%s\");\n", rcsid_generator + 6);
+        fprintf(f, "__IDSTRING(UCD_version, \"%s (BMP) %s\");\n\n", unicodedata_filename, ucdvsn);
         filename = "tbl_attr.c";
       }
       if (p)
@@ -610,12 +653,9 @@ static void output_attribute_table (void)
   }
 }
 
-int main (int argc, char* argv[])
+int main (void)
 {
-  if (argc != 2)
-    exit(1);
-
-  fill_attributes(argv[1]);
+  fill_attributes();
 
   output_toupper_table();
   output_totitle_table();
