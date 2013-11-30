@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.152 2013/06/22 23:25:56 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.153 2013/09/18 20:26:34 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -2057,4 +2057,18 @@ Tag: snapshot
  MirPorts packages lately, and I somehow doubt bsiegert@ wants
  me to gift one of my SPARCstation boxen to him for building
  pkgsrc® quarterlies).</p>
+----
+Date: 30.11.2013
+Author: tg@
+Title: Warning about regression in mksh-current
+Tag: mksh
+
+<p><a href="@@RELPATH@@mksh.htm#clog">mksh-current</a> version
+ <tt>"R48 2013/11/17"</tt> (only this version, no others) suffer
+ from a now-known regression which can make your MirBSD system
+ unbootable. Please immediately either revert to an earlier version
+ or update to <tt>"R48 2013/11/29"</tt> from AnonCVS.</p>
+<p>This reverts the fix for “x="X 1 2"; showargs ${x#X}”, which
+ nevertheless is a genuine bug. Contributions fixing it without
+ introducing any such regressions welcome…</p>
 ----

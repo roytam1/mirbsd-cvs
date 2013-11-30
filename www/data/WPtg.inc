@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.100 2013/11/26 18:06:01 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.101 2013/11/27 19:11:25 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3225,6 +3225,24 @@ Date: 27.11.2013
 Waypoint: GC383GG
 Title: “Große Namen“ # 3
 Tag: D3 T15 Micro Mystery
+----
+ID: 598
+Date: 28.11.2013
+Waypoint: GC3YA4Z
+Title: Königreich Ückesdorf 3
+Tag: D1 T15 Micro Tradi
+----
+ID: 599
+Date: 29.11.2013
+Waypoint: GC1QNRT
+Title: Willkommen in... Oberwinter
+Tag: D1 T1 Small Tradi
+----
+ID: 600
+Date: 30.11.2013
+Waypoint: GC4QJJR
+Title: Bandorfs XXL TB Hotel (reloaded)
+Tag: D1 T15 Large Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
