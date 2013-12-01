@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.534 2013/11/17 22:37:47 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.535 2013/11/30 00:42:46 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1220,6 +1220,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Generate option strings for shell, set, ulimit at compile time</li>
  <li>[Steffen Daode Nurpmeso] Drop ISTRIP termios(4) mode</li>
  <li>[tg] Mention negative history numbers in the manpage</li>
+ <li>[tg] Make <tt>check.pl</tt> work with Perl &lt; 5.6.1 again</li>
+ <li>[tg] Detect getsid(2) and skip the oksh suspend builtin otherwise</li>
+ <li>[tg] Document that <tt>set -o noclobber</tt> is unsafe for tempfiles</li>
+ <li>[tg] Update to Unicode 6.3.0</li>
  <li>[tg] Fix initial IFS whitespace not being ignored when expanding
   (<strong>reverted</strong>, needs fix without introducing a regression)</li>
  <li>[tg] (not yet: Fix compiling on OSX whatever, prompted by jonthn on IRC)</li>

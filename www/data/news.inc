@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.153 2013/09/18 20:26:34 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.154 2013/11/30 00:42:45 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -2067,6 +2067,7 @@ Tag: mksh
  <tt>"R48 2013/11/17"</tt> (only this version, no others) suffer
  from a now-known regression which can make your MirBSD system
  unbootable. Please immediately either revert to an earlier version
+ (such as a stable release)
  or update to <tt>"R48 2013/11/29"</tt> from AnonCVS.</p>
 <p>This reverts the fix for “x="X 1 2"; showargs ${x#X}”, which
  nevertheless is a genuine bug. Contributions fixing it without

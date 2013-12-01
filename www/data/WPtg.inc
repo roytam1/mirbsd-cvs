@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.101 2013/11/27 19:11:25 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.102 2013/11/30 00:42:45 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3243,6 +3243,14 @@ Date: 30.11.2013
 Waypoint: GC4QJJR
 Title: Bandorfs XXL TB Hotel (reloaded)
 Tag: D1 T15 Large Tradi
+----
+ID: 601
+Date: 01.12.2013
+Waypoint: GC4PQVQ
+Title: Grotte Römlinghoven
+Tag: D15 T15 Micro Tradi
+
+Schönes Gotteshaus!
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
