@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.67 2013/09/11 17:18:09 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.68 2013/09/11 18:55:55 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -83,7 +83,7 @@
 
 if _vbox_check; then
 	echo Sorry, WirrtualBox is not supported.
-	echo To continue on your own risk: touch /allow-vbox
+	echo To continue on your own risk: ':>/allow-vbox'
 	echo But remember that vbox is buggy and often broken!
 	test -e /allow-vbox || exit 1
 fi
