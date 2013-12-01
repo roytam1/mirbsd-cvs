@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.278 2013/08/06 19:22:25 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.279 2013/11/06 18:53:15 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1075,7 +1075,10 @@ EXTRACT_CASES+=		\
 .endif
 
 .if ${_USE_LZMA:L} != "no"
-BUILD_DEPENDS+=		:lzma-*:archivers/lzma
+#BUILD_DEPENDS+=		:lzma-*:archivers/lzma
+.  if !exists(/usr/bin/xzdec)
+BUILD_DEPENDS+=		:xz-*:archivers/xz
+.  endif
 EXTRACT_CASES+=		\
     *.tar.lzma | *.tlz | *.cpio.lzma | *.clz | *.mcz.lzma)		\
 	lzmadec <${FULLDISTDIR}/$$archive | ${TAR} xf - ;;		\
@@ -1084,9 +1087,6 @@ EXTRACT_CASES+=		\
 .endif
 
 .if ${_USE_XZ:L} != "no"
-.  if !exists(/usr/bin/xzdec)
-BUILD_DEPENDS+=		:xz-*:archivers/xz
-.  endif
 EXTRACT_CASES+=		\
     *.tar.xz | *.txz | *.cpio.xz | *.cxz | *.mcz.xz)			\
 	xzdec <${FULLDISTDIR}/$$archive | ${TAR} xf - ;;		\
