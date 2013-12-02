@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.436 2013/11/09 01:21:36 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.437 2013/11/25 00:05:04 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -8756,7 +8756,7 @@ Language: de-DE-1901
  meine ich das <a href="http://opencaching.eu/">echte OpenCaching-Netzwerk</a>
  und nicht den billigen, ungepflegten Garmin-Ripoff (OC.COM alias OXnnnnn),
  der vor einiger Zeit eine feindliche Übernahme des guten Namens versucht
- hat. Stets im Kampf gegen diese, die unseren Sport zu kommerzialisieren
+ hat). Stets im Kampf gegen diese, die unseren Sport zu kommerzialisieren
  versuchen mit Premiummitgliedschaften bei GC.COM; gekauften Anwendungen für
  Windows®, um ihr Profi-Navi besser bedienen zu können; und dergleichen.
  Außerdem hoffe ich, hierduch einen besseren Einstieg in die Rätselcaches,
@@ -8794,7 +8794,7 @@ Tag: debian mksh news pcli release
  gets a development snapshot; I’ll wait uploading R40c until that <a
  href="http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=633479">two
  month fixed gcc bug</a> will <em>finally</em> find its way into the
- packages for armel and armhf. Ah, we’re getting Arch Linux (after
+ packages for armel and armhf). Ah, we’re getting Arch Linux (after
  years) to include mksh now. (Probably because they couldn’t stand
  the teasing that Arch Hurd included it <em>one</em> day after having
  been told about its existence, wondering why it built without needing
@@ -10109,7 +10109,7 @@ Title: Current slow period
  more waypoints</a>) too (though I expect this weekend to be scary
  <em>and</em> it’s definitely <em>under</em>planned ☹ – but who knows,
  maybe it’ll be great fun, and wbx@ and my biggest little brother are
- both a backup plan each.</p><!-- RSS stop -->
+ both a backup plan each.)</p><!-- RSS stop -->
 <p class="cr"><img class="fr" alt="Combined BOINC stats for mirabilos"
  src="http://boincstats.com/signature/-1/user/388444/sig.png" /></p>
 <p>Also toying a bit with BOINC again (MirBSD of course, and, this time,
@@ -10257,4 +10257,56 @@ Title: MirBSD in jslinux
 <p>Feel free to call me crazy now. Anyway, more on this as time
  and legalese permits. This was a can-do test in about 2 hours of
  work, only.</p>
+----
+Date: 02.12.2013 19:41
+Author: tg@
+Title: Neo900
+Tag: debian
+
+<p>I’ve did something I surely will (financially) regret, next year,
+ and designated the <a href="http://neo900.org/">Neo900</a> to be the
+ successor to my PocketPC, due to the latter having only 64 MiB RAM
+ and Geocaching applications being quite hungry. It’s got a lovely
+ hardware keyboard, a “pen” display like the PocketPC (as opposed to
+ the “wishy-washy” displays that Android and iPhone have), not only
+ GPS but also GLONASS, fully free software with mostly free firmware
+ (I’m okay with that, mostly), a Ctrl key (useful in ssh and locally
+ and <a href="@@RELPATH@@jupp.htm">my text editor</a>; <tt>^I</tt>
+ is Tab, so it’s useful in <a href="@@RELPATH@@mksh.htm">shell</a>,
+ too), WLAN, UMTS (I don’t think I need LTE and would rather it have
+ the more RAM), USB host (OTG), and lots of other nice features.</p>
+<p>In short, it’s a tinkerable device: one I can not only hack at,
+ but also hack <em>on</em>.</p>
+<p>Since I use a “dumbphone” for mobile phone anyway (pro: separate
+ battery from the “toy” PocketPC/Smartphone – we’re talking two+
+ <strong>weeks</strong> of battery time <em>when using it</em> here,
+ and easier use and less bugs, and a reliable fallback when I tinker
+ “too much”), this is perfect for me.</p>
+<p>I’m reposting this in the wlog mostly because it’s an interesting
+ technical and OSS project, and because if 1000 people want one it
+ will get less expensive for all of us (while here… shameless plug…
+ any sponsors willing to contribute some EUR so I don’t ruin myself
+ with this, in exchange for services of some kind?). I’ll probably
+ run Debian on it (unless it goes systemd), maybe in a chroot – if
+ the native OS has functionality needed that I can’t simply put into
+ packages; they say Maemo has <em>much</em> better power management,
+ but considering most use will have GPS, GLONASS and backlight on,
+ battery isn’t going to last long anyway… – or maybe even native…
+ I’ve been wanting to know what this “freesmartphone” stuff my m68k
+ (Atari VM) buildd has been happily compiling, anyway… and some sort
+ of Geocaching application (ideally a cross between something online,
+ <a href="http://www.cachewolf.de/">CacheWolf</a> and an offline OSM
+ (with most of Europe, but uninteresting tags stripped) and possibly
+ access to the GS Live API but nevertheless supporting TC, NC, OC,
+ gpsgames too), and my usual mksh(1), GNU screen, jupp(1), lynx(1),
+ ssh(1) toolchain.)</p>
+<p>Delivery is expected for mid to end of 2014, but once it’s there
+ I’ll keep you informed ☺</p><!-- RSS stop -->
+<p>On that matter… I’ve got my PocketPC (currently in production use)
+ and another WinCE device and wonder about tinkering with them, too.
+ It appears to be a rather open platform (compared to Android, anyway)
+ but most official documentation is tied to Windows® host systems, and
+ most utilities have been taken offline after the abomination called
+ Windows Phone has taken over. Hm I’ve got PocketPython and some sort
+ of cross GCC but nothing to tinker with the core OS / ROM image…</p>
 ----

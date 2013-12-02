@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.102 2013/11/30 00:42:45 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.103 2013/12/01 01:26:39 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3251,6 +3251,18 @@ Title: Grotte Römlinghoven
 Tag: D15 T15 Micro Tradi
 
 Schönes Gotteshaus!
+----
+ID: 602
+Date: 01.12.2013
+Waypoint: GC4RRBV
+Title: Willkommen in Ließem
+Tag: D15 T25 Regular Tradi
+----
+ID: 603
+Date: 02.12.2013
+Waypoint: GC34CEN
+Title: Am Lessenicher Bach #1
+Tag: D15 T1 Small Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
