@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.103 2013/12/01 01:26:39 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.104 2013/12/02 19:41:35 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3263,6 +3263,12 @@ Date: 02.12.2013
 Waypoint: GC34CEN
 Title: Am Lessenicher Bach #1
 Tag: D15 T1 Small Tradi
+----
+ID: 604
+Date: 03.12.2013
+Waypoint: GC4NTNH
+Title: Frankenbad rereloaded
+Tag: D15 T15 Nano Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
