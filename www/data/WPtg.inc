@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.104 2013/12/02 19:41:35 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.105 2013/12/03 20:51:37 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3269,6 +3269,12 @@ Date: 03.12.2013
 Waypoint: GC4NTNH
 Title: Frankenbad rereloaded
 Tag: D15 T15 Nano Tradi
+----
+ID: 605
+Date: 04.12.2013
+Waypoint: GC37WBF
+Title: Der offene Bücherschrank BN-Duisdorf (reloaded)
+Tag: D15 T2 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
