@@ -33,7 +33,7 @@
 
 #include <sys/types.h>
 
-__RCSID("$MirOS: src/kern/include/nzat.h,v 1.1 2011/07/06 22:18:52 tg Exp $");
+__RCSID("$MirOS: src/kern/include/nzat.h,v 1.2 2011/07/18 00:35:40 tg Exp $");
 
 /*-
  * This file defines the NZAT hash which is derived from Bob Jenkins’
@@ -95,6 +95,9 @@ __RCSID("$MirOS: src/kern/include/nzat.h,v 1.1 2011/07/06 22:18:52 tg Exp $");
  * have a good result (for NZAAT) while having to provide for exactly
  * one 2-in-1 collision for NZAT manually. This implementation mainly
  * aims for economic code (small, fast, RISC CPUs notwithstanding).
+ *
+ * Empirically proven truths:
+ * – ƒ(x) := NZAATFinish(x) is bijective.
  */
 
 #define NZATInit(h) do {					\
