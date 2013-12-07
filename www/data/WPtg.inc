@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.105 2013/12/03 20:51:37 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.106 2013/12/04 19:04:16 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3248,7 +3248,7 @@ ID: 601
 Date: 01.12.2013
 Waypoint: GC4PQVQ
 Title: Grotte Römlinghoven
-Tag: D15 T15 Micro Tradi
+Tag: D15 T15 Micro Tradi recommended
 
 Schönes Gotteshaus!
 ----
@@ -3275,6 +3275,42 @@ Date: 04.12.2013
 Waypoint: GC37WBF
 Title: Der offene Bücherschrank BN-Duisdorf (reloaded)
 Tag: D15 T2 Micro Tradi
+----
+ID: 606
+Date: 05.12.2013
+Waypoint: GC3FBHH
+Title: Orthographie...
+Tag: D15 T1 Nano Tradi
+----
+ID: 607
+Date: 06.12.2013
+Waypoint: GC4PGAM
+Title: BASEBALL TP – No.1 – Sport und Vergnügen
+Tag: D1 T15 Micro Tradi
+----
+ID: 608
+Date: 07.12.2013
+Waypoint: GCV20A
+Title: Dichter &amp; Denker #5 - Leibniz
+Tag: D25 T1 Regular Mystery
+----
+ID: 609
+Date: 07.12.2013
+Waypoint: GC3WEWZ
+Title: Blackbox 25,2,s,t
+Tag: D25 T2 Small Tradi
+----
+ID: 610
+Date: 07.12.2013
+Waypoint: GC1AKJ0
+Title: Das 13. Grab
+Tag: D3 T1 Micro Mystery
+----
+ID: 611
+Date: 07.12.2013
+Waypoint: GC1BTE6
+Title: Gotteshaeuser: St_Elisabeth_Kirche_Bonn
+Tag: D2 T1 Micro Multi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
