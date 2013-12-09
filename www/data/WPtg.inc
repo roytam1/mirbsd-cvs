@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.106 2013/12/04 19:04:16 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.107 2013/12/07 22:13:17 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3020,6 +3020,7 @@ Date: 27.10.2013
 Waypoint: GDBW-JUGA
 Title: Dashpoint 50°N 7°E, Game 148 (Oktober 2013), AW-Weidenbach
 nTF: 1
+Distance: 17.5
 ----
 ID: 564
 Date: 27.10.2013
@@ -3051,6 +3052,7 @@ Date: 01.11.2013
 Waypoint: GDBX-JOYQ
 Title: Dashpoint 50°N 6°E, Game 149 (November 2013), SU-Sechtem
 nTF: 1
+Distance: 3.4
 ----
 ID: 569
 Date: 01.11.2013
@@ -3297,7 +3299,7 @@ Tag: D25 T1 Regular Mystery
 ID: 609
 Date: 07.12.2013
 Waypoint: GC3WEWZ
-Title: Blackbox 25,2,s,t
+Title: Blackbox
 Tag: D25 T2 Small Tradi
 ----
 ID: 610
@@ -3311,6 +3313,120 @@ Date: 07.12.2013
 Waypoint: GC1BTE6
 Title: Gotteshaeuser: St_Elisabeth_Kirche_Bonn
 Tag: D2 T1 Micro Multi
+----
+ID: 612
+Date: 08.12.2013
+Waypoint: GC1TN4W
+Title: Die Schenkung
+Tag: D25 T1 Small Mystery
+----
+ID: 613
+Date: 08.12.2013
+Waypoint: GC274QT
+Title: Auf den Spuren der Wissenschaft: F. A. Kekulé
+Tag: D35 T2 Micro Mystery
+
+<pre>00:42⎜«Natureshadow» &#34;Success! Whoohoo! Yippee! uh-huh, uh-huh! w00t! Yeah, baby!&#34;
+00:42⎜«Natureshadow» Super gemacht, Vutral ;)!</pre>
+----
+ID: 614
+Date: 08.12.2013
+Waypoint: GC40M8J
+Title: #2 Gewerbepark Remagen Süd ZEPPELIN
+Tag: D25 T1 Small Tradi recommended
+----
+ID: 615
+Date: 08.12.2013
+Waypoint: GC40M8F
+Title: #1 Gewerbepark Remagen Süd INFO
+Tag: D2 T15 Micro Multi
+----
+ID: 616
+Date: 08.12.2013
+Waypoint: GC4ATMJ
+Title: DVD Tausch-Cache reloaded (LP)
+Tag: D1 T2 Regular Tradi recommended
+----
+ID: 617
+Date: 08.12.2013
+Waypoint: GC41WYK
+Title: Die mysteriöse Dose
+Tag: D1 T2 Micro Tradi
+----
+ID: 618
+Date: 08.12.2013
+Waypoint: GC40M8M
+Title: #3 Gewerbepark Remagen Süd RUDI
+Tag: D1 T2 Small Tradi
+----
+ID: 619
+Date: 08.12.2013
+Waypoint: GC40M8P
+Title: #4 Gewerbepark Remagen Süd POLI
+Tag: D15 T15 Micro Tradi
+----
+ID: 620
+Date: 08.12.2013
+Waypoint: GC40M8Q
+Title: #5 Gewerbepark Remagen Süd MANHATTAN
+Tag: D2 T2 Other Tradi
+----
+ID: 621
+Date: 08.12.2013
+Waypoint: GC40M8R
+Title: #6 Gewerbepark Remagen Süd SPORTPLATZ
+Tag: D1 T15 Micro Tradi
+----
+ID: 622
+Date: 08.12.2013
+Waypoint: GC40M8W
+Title: #7 Gewerbepark Remagen Süd BONUS
+Tag: D25 T3 Regular Mystery
+----
+ID: 623
+Date: 08.12.2013
+Waypoint: GC2H913
+Title: Wo sich Flüsse treffen
+Tag: D2 T2 Earth
+
+Tip: den Weg näher am Rhein nehmen, nicht den Trampelpfad…
+----
+ID: 624
+Date: 08.12.2013
+Waypoint: GC19GNZ
+Title: Gotteshäuser St. Johannes Nepomuk Kripp
+Tag: D15 T1 Small Tradi
+----
+ID: 625
+Date: 08.12.2013
+Waypoint: GC3XV3P
+Title: DER BAHNDAMM
+Tag: D2 T15 Micro Tradi
+----
+ID: 626
+Date: 08.12.2013
+Waypoint: GC1GJR2
+Title: Denkmal Kettenhausen
+Tag: D25 T15 Micro Tradi
+----
+ID: 627
+Date: 08.12.2013
+Waypoint: GDBY-JUQY
+Title: Dashpoint 50°N 7°E, Game 150 (Dezember 2013), AK-Busenhausen
+nTF: 1
+Distance: 2.7
+----
+ID: 628
+Date: 08.12.2013
+Waypoint: GC3NHJY
+Title: Michelbacher Mühlgraben
+Tag: D1 T15 Micro Tradi
+----
+ID: 629
+Date: 09.12.2013
+Waypoint: GC31T21
+Title: Paulaner meets Humboldt
+Tag: D25 T1 Micro Tradi recommended
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
