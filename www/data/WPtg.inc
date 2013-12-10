@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.107 2013/12/07 22:13:17 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.108 2013/12/09 00:50:28 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3427,6 +3427,12 @@ Date: 09.12.2013
 Waypoint: GC31T21
 Title: Paulaner meets Humboldt
 Tag: D25 T1 Micro Tradi recommended
+----
+ID: 630
+Date: 10.12.2013
+Waypoint: GC3Y11Z
+Title: Geislarer Schleichwege 5
+Tag: D15 T15 Nano Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
