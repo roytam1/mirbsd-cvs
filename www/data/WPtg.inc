@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.109 2013/12/10 23:16:11 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.110 2013/12/11 18:36:29 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3439,6 +3439,97 @@ Date: 11.12.2013
 Waypoint: GC4T929
 Title: 9-10-11-12-13
 Tag: D2 T2 Event
+----
+ID: 632
+Date: 12.12.2013
+Waypoint: GCVCFN
+Title: Rappo, die Welt geht unter!
+Tag: D1 T15 Regular Multi
+
+Die armen… Tiere und andere Wesen hier.
+----
+ID: 633
+Date: 12.12.2013
+Waypoint: GC2CW3X
+Title: A7 Rastplatz Kassel (Norden)
+Tag: D1 T1 Micro Tradi
+----
+ID: 634
+Date: 12.12.2013
+Waypoint: GC17TK8
+Title: A7 - Park &amp; Grab
+Tag: D1 T15 Small Tradi
+----
+ID: 635
+Date: 12.12.2013
+Waypoint: GC42WZ8
+Title: A38 - Galgenberg - gen Osten (MB13)
+Tag: D15 T15 Small Tradi recommended
+----
+ID: 636
+Date: 12.12.2013
+Waypoint: GCY3VF
+Title: A 38 Helmetal (Süd)
+Tag: D1 T1 Micro Tradi
+----
+ID: 637
+Date: 12.12.2013
+Waypoint: GCMG88
+Title: Lame Micro - A38 Fuchsaue Süd
+Tag: D15 T2 Small Tradi
+----
+ID: 638
+Date: 12.12.2013
+Waypoint: GC40P9J
+Title: Der Kannibale vom Sonnenberg
+Tag: D2 T15 Other Tradi recommended nsfw
+
+<strong>Warnung</strong>: Das Cachelisting ist nix für schwache Nerven!
+Der Container ist allerdings auch so findbar, harmlos und genial.
+----
+ID: 639
+Date: 13.12.2013
+Waypoint: GC156F9
+Title: Der Versteinerte Wald im Chemnitzer &#34;DAStiez&#34;
+Tag: D1 T1 Earth
+----
+ID: 640
+Date: 13.12.2013
+Waypoint: GCY3VN
+Title: A 38 Helmetal (Nord)
+Tag: D15 T1 Micro Tradi
+----
+ID: 641
+Date: 13.12.2013
+Waypoint: GDBY-KAUC
+Title: Dashpoint 51°N 10°E, Game 150 (Dezember 2013), Deuna
+nTF: 1
+Distance: 24.3
+----
+ID: 642
+Date: 13.12.2013
+Waypoint: GC3ACGE
+Title: TB-Hotel &#34;Lüner Grund&#34;
+Tag: D1 T1 Small Tradi
+----
+ID: 643
+Date: 13.12.2013
+Waypoint: GC1AMVB
+Title: A44 - Pausencache West
+Tag: D1 T15 Small Tradi
+----
+ID: 644
+Date: 13.12.2013
+Waypoint: GDBY-JUIJ
+Title: Dashpoint 50°N 7°E, Game 150 (Dezember 2013), K-Mülheim
+nTF: 1
+Distance: 51.3
+----
+ID: 645
+Date: 14.12.2013
+Waypoint: GC2G7YV
+Title: sTaTisTik
+Tag: D1 T1 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
