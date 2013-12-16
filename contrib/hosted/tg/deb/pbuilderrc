@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.36 2013/10/21 15:29:25 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.37 2013/11/09 01:21:33 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
@@ -61,12 +61,12 @@ MIRROR_sid=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
 MIRROR_unstable=http://ftp.debian-ports.org/debian
 MIRROR_unreleased=http://ftp.debian-ports.org/debian
 MIRROR_dapper=http://old-releases.ubuntu.com/ubuntu/
-MIRROR_hardy=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRROR_hardy=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_jaunty=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_karmic=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_lucid=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_maverick=http://old-releases.ubuntu.com/ubuntu/
-MIRROR_natty=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRROR_natty=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_oneiric=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_precise=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_quantal=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
@@ -81,12 +81,12 @@ MIRRORSECURITY_wheezy=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-secu
 MIRRORSECURITY_jessie=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
 MIRRORSECURITY_sid=NO
 MIRRORSECURITY_dapper=http://old-releases.ubuntu.com/ubuntu/
-MIRRORSECURITY_hardy=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRRORSECURITY_hardy=http://old-releases.ubuntu.com/ubuntu/
 MIRRORSECURITY_jaunty=http://old-releases.ubuntu.com/ubuntu/
 MIRRORSECURITY_karmic=http://old-releases.ubuntu.com/ubuntu/
 MIRRORSECURITY_lucid=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_maverick=http://old-releases.ubuntu.com/ubuntu/
-MIRRORSECURITY_natty=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRRORSECURITY_natty=http://old-releases.ubuntu.com/ubuntu/
 MIRRORSECURITY_oneiric=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_precise=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_quantal=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
