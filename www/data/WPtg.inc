@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.110 2013/12/11 18:36:29 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.111 2013/12/14 00:42:39 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3530,6 +3530,36 @@ Date: 14.12.2013
 Waypoint: GC2G7YV
 Title: sTaTisTik
 Tag: D1 T1 Micro Tradi
+----
+ID: 646
+Date: 15.12.2013
+Waypoint: GC4DJJV
+Title: ducktales
+Tag: D3 T2 Regular Mystery
+----
+ID: 647
+Date: 16.12.2013
+Waypoint: GC4CHJZ
+Title: Willkomen in Bölingen
+Tag: D1 T15 Micro Tradi
+----
+ID: 648
+Date: 17.12.2013
+Waypoint: GC4PB2K
+Title: Witterschlicker Gold
+Tag: D15 T2 Earth
+----
+ID: 649
+Date: 18.12.2013
+Waypoint: GC315BR
+Title: Heiliger Hugo
+Tag: D1 T15 Nano Tradi
+----
+ID: 650
+Date: 19.12.2013
+Waypoint: GC2BNWR
+Title: Häuser der Helfer – Feuerwehr Wachtberg #2
+Tag: D2 T2 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
