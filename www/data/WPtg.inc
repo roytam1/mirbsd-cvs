@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.111 2013/12/14 00:42:39 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.112 2013/12/19 15:47:58 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3560,6 +3560,18 @@ Date: 19.12.2013
 Waypoint: GC2BNWR
 Title: Häuser der Helfer – Feuerwehr Wachtberg #2
 Tag: D2 T2 Micro Tradi
+----
+ID: 651
+Date: 20.12.2013
+Waypoint: GC1XD35
+Title: Historisches Schmuckstück &#34;Holzlarer Mühle&#34;
+Tag: D1 T1 Small Tradi
+----
+ID: 652
+Date: 21.12.2013
+Waypoint: GC3DEE8
+Title: Holzlarer Eckbank
+Tag: D1 T15 Nano Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
