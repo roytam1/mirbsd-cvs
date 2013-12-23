@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.112 2013/12/19 15:47:58 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.113 2013/12/21 00:31:10 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3572,6 +3572,18 @@ Date: 21.12.2013
 Waypoint: GC3DEE8
 Title: Holzlarer Eckbank
 Tag: D1 T15 Nano Tradi
+----
+ID: 653
+Date: 22.12.2013
+Waypoint: GC3393J
+Title: Rauschendorf - Kapelle
+Tag: D15 T15 Micro Tradi
+----
+ID: 654
+Date: 23.12.2013
+Waypoint: GC26CT3
+Title: Einsames Heiligenhäuschen
+Tag: D1 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
