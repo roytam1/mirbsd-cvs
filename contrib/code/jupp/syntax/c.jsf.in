@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/jupp/syntax/c.jsf.in,v 1.4 2012/08/04 16:00:13 tg Exp $
+# $MirOS: contrib/code/jupp/syntax/c.jsf.in,v 1.5 2012/09/02 14:46:51 tg Exp $
 #-
 # JOE syntax highlight file for C and C++
 
@@ -286,6 +286,7 @@ done
 	*		string_control
 	"\""		reset
 	"diouxXeEfFgGaAcspn%SC\n"	string
+	"\\"		string_escape	recolor=-1
 
 :char Constant
 	*		char
