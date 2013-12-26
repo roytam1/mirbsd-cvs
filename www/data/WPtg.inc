@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.113 2013/12/21 00:31:10 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.114 2013/12/23 00:19:50 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3584,6 +3584,18 @@ Date: 23.12.2013
 Waypoint: GC26CT3
 Title: Einsames Heiligenhäuschen
 Tag: D1 T15 Micro Tradi
+----
+ID: 655
+Date: 24.12.2013
+Waypoint: GC38P26
+Title: “Große Namen“ # 4
+Tag: D25 T2 Micro Mystery
+----
+ID: 656
+Date: 26.12.2013
+Waypoint: GC4PGAX
+Title: BASEBALL TP – No.6 – Kunst und Literatur
+Tag: D1 T1 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
