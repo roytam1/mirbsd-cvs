@@ -2239,6 +2239,7 @@
 ./usr/share/man/cat7/environ.0
 ./usr/share/man/cat7/eqnchar.0
 ./usr/share/man/cat7/gas-intel-howto.0
+./usr/share/man/cat7/glob.0
 ./usr/share/man/cat7/hier.0
 ./usr/share/man/cat7/hostname.0
 ./usr/share/man/cat7/install.i386.0
