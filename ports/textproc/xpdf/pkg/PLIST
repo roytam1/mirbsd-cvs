@@ -1,3 +1,4 @@
+@comment $MirOS$
 @comment $OpenBSD: PLIST,v 1.8 2004/04/06 02:35:44 brad Exp $
 bin/pdffonts
 bin/pdfimages
@@ -15,5 +16,5 @@ man/man1/pdftotext.1
 man/man1/xpdf.1
 man/man5/xpdfrc.5
 share/examples/xpdf/xpdfrc
-@cwd ${SYSCONFDIR}
-@extra xpdfrc
+@sample ${SYSCONFDIR}/xpdfrc
+@dirrm share/examples/xpdf
