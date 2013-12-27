@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.114 2013/12/23 00:19:50 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.115 2013/12/26 20:40:06 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3596,6 +3596,15 @@ Date: 26.12.2013
 Waypoint: GC4PGAX
 Title: BASEBALL TP – No.6 – Kunst und Literatur
 Tag: D1 T1 Micro Tradi
+----
+ID: 657
+Date: 27.12.2013
+Waypoint: GC4VA3H
+Title: OpenStreetCache
+Tag: D2 T15 Micro Tradi
+
+Kein besonders schöner Cache, dafür auf’m Präsentierteller
+und auch kein Bezug zur OSM.
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
