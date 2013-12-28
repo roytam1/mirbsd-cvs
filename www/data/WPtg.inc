@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.115 2013/12/26 20:40:06 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.116 2013/12/27 12:58:50 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3605,6 +3605,48 @@ Tag: D2 T15 Micro Tradi
 
 Kein besonders schöner Cache, dafür auf’m Präsentierteller
 und auch kein Bezug zur OSM.
+----
+ID: 658
+Date: 28.12.2013
+Waypoint: GC4NCFP
+Title: Eichhörnchen gesucht!
+Tag: D1 T15 Micro Tradi
+----
+ID: 659
+Date: 28.12.2013
+Waypoint: GC4N08J
+Title: ClauS FriBe: Flusspferd gesucht!
+Tag: D15 T15 Micro Tradi
+----
+ID: 660
+Date: 28.12.2013
+Waypoint: GC4H4TF
+Title: Igel gesucht!
+Tag: D15 T15 Micro Tradi
+----
+ID: 661
+Date: 28.12.2013
+Waypoint: GC4HNP4
+Title: Elch gesucht!
+Tag: D1 T15 Micro Tradi
+----
+ID: 662
+Date: 28.12.2013
+Waypoint: GC4K9VR
+Title: Biene gesucht!
+Tag: D15 T15 Micro Tradi
+----
+ID: 663
+Date: 28.12.2013
+Waypoint: GC4HNPZ
+Title: Schildkröte gesucht!
+Tag: D15 T15 Micro Tradi
+----
+ID: 664
+Date: 28.12.2013
+Waypoint: GC4R7XZ
+Title: Eule gesucht!
+Tag: D2 T2 Micro Tradi recommended
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
