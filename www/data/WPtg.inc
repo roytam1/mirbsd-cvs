@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.116 2013/12/27 12:58:50 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.117 2013/12/28 23:16:25 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3647,6 +3647,48 @@ Date: 28.12.2013
 Waypoint: GC4R7XZ
 Title: Eule gesucht!
 Tag: D2 T2 Micro Tradi recommended
+----
+ID: 665
+Date: 29.12.2013
+Waypoint: GC2ZYVM
+Title: Wachtberger Kreuze # 2
+Tag: D15 T15 Micro Tradi
+----
+ID: 666
+Date: 29.12.2013
+Waypoint: GC2X13M
+Title: Wiesen, Felder und Plantagen #1
+Tag: D25 T15 Micro Tradi
+----
+ID: 667
+Date: 29.12.2013
+Waypoint: GC2X13Y
+Title: Wiesen, Felder und Plantagen #2
+Tag: D2 T15 Micro Tradi recommended
+----
+ID: 668
+Date: 29.12.2013
+Waypoint: GC2Z4RN
+Title: Wiesen, Felder und Plantagen #3
+Tag: D2 T15 Micro Tradi
+----
+ID: 669
+Date: 29.12.2013
+Waypoint: GC2X141
+Title: Wiesen, Felder und Plantagen #4
+Tag: D25 T15 Micro Tradi
+----
+ID: 670
+Date: 29.12.2013
+Waypoint: GC2X149
+Title: Wiesen, Felder und Plantagen #5
+Tag: D25 T3 Micro Tradi
+----
+ID: 671
+Date: 29.12.2013
+Waypoint: GC4VR1N
+Title: An der Kuhweide (Reloaded)
+Tag: D1 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
