@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.117 2013/12/28 23:16:25 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.118 2013/12/29 22:22:01 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3689,6 +3689,30 @@ Date: 29.12.2013
 Waypoint: GC4VR1N
 Title: An der Kuhweide (Reloaded)
 Tag: D1 T15 Micro Tradi
+----
+ID: 672
+Date: 30.12.2013
+Waypoint: GC24VGE
+Title: Berühmte Meteorologen
+Tag: D2 T2 Small Mystery
+----
+ID: 673
+Date: 31.12.2013
+Waypoint: GC4Q9JY
+Title: The Same Procedure As Every Year
+Tag: D35 T35 Event
+----
+ID: 674
+Date: 31.12.2013
+Waypoint: GC3YMRT
+Title: Ungesund
+Tag: D1 T1 Micro Tradi
+----
+ID: 675
+Date: 31.12.2013
+Waypoint: GC2WKRE
+Title: Schauspielhalle
+Tag: D15 T1 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
