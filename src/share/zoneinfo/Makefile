@@ -1,4 +1,4 @@
-# $MirOS: src/share/zoneinfo/Makefile,v 1.6 2007/03/09 13:10:11 tg Exp $
+# $MirOS: src/share/zoneinfo/Makefile,v 1.7 2013/09/11 17:01:16 tg Exp $
 
 TZDIR?=		${DESTDIR}/usr/share/zoneinfo
 DATDIR=		${.CURDIR}/datfiles
@@ -12,7 +12,7 @@ ALLDATA=	${TDATA} iso3166.tab leapseconds zone.tab
 # Adjust the optarg to -p to fit your posixrules need.
 ZICFLAGS=	-y ${YIT} -d ${TZDIR} -p Europe/Berlin
 
-obj prereq depend all clean cleandir:
+obj prereq depend includes all clean cleandir:
 
 install:
 	chmod -R u+w ${TZDIR}
