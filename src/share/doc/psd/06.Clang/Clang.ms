@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/doc/psd/06.Clang/Clang.ms,v 1.1.7.1 2005/03/06 16:17:43 tg Exp $
+.\" $MirOS: src/share/doc/psd/06.Clang/Clang.ms,v 1.2 2008/11/08 22:23:58 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
@@ -130,7 +130,7 @@ Keywords
 The following identifiers are reserved for use
 as keywords and may not be used otherwise:
 .DS 
-.ta 0.8i 1.6i 2.4i 3.2i 4.0i
+.ta 0.9i 1.8i 2.7i 3.6i 4.5i
 \fBauto	do	for	return	typedef
 break	double	goto	short	union
 case	else	if	sizeof	unsigned

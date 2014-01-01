@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.119 2013/12/31 19:41:56 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.120 2014/01/01 21:16:02 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3724,6 +3724,7 @@ ID: 677
 Date: 01.01.2014
 Waypoint: GC4TCQM
 Title: Warten auf die Eiszeit
+nTF: 3
 Tag: D1 T1 Event
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
