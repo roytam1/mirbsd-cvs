@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.118 2013/12/29 22:22:01 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.119 2013/12/31 19:41:56 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3713,6 +3713,18 @@ Date: 31.12.2013
 Waypoint: GC2WKRE
 Title: Schauspielhalle
 Tag: D15 T1 Micro Tradi
+----
+ID: 676
+Date: 01.01.2014
+Waypoint: GC45VXE
+Title: Villa Camphausen (Nano)
+Tag: D15 T2 Nano Tradi
+----
+ID: 677
+Date: 01.01.2014
+Waypoint: GC4TCQM
+Title: Warten auf die Eiszeit
+Tag: D1 T1 Event
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
