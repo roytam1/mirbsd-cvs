@@ -7163,10 +7163,12 @@
 ./usr/share/man/cat3/strsvis.0
 ./usr/share/man/cat3/strsvisx.0
 ./usr/share/man/cat3/strtod.0
+./usr/share/man/cat3/strtof.0
 ./usr/share/man/cat3/strtofflags.0
 ./usr/share/man/cat3/strtok.0
 ./usr/share/man/cat3/strtok_r.0
 ./usr/share/man/cat3/strtol.0
+./usr/share/man/cat3/strtold.0
 ./usr/share/man/cat3/strtoll.0
 ./usr/share/man/cat3/strtonum.0
 ./usr/share/man/cat3/strtoq.0

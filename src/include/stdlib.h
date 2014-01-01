@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.28 2011/07/18 07:56:24 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.29 2013/10/31 20:06:08 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -158,6 +158,9 @@ int	 rand_r(unsigned int *);
 void	*realloc(void *, size_t);
 void	 srand(unsigned);
 double	 strtod(const char *, char **);
+float	 strtof(const char *, char **);
+long double
+	 strtold(const char *, char **);
 long	 strtol(const char *, char **, int);
 /* LONGLONG */
 long long

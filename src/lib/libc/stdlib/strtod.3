@@ -35,22 +35,27 @@
 .Dt STRTOD 3
 .Os
 .Sh NAME
-.Nm strtod
+.Nm strtod , strtof , strtold
 .Nd convert
 .Tn ASCII
-string to double
+string to floating point
 .Sh SYNOPSIS
 .Fd #include <stdlib.h>
 .Ft double
 .Fn strtod "const char *nptr" "char **endptr"
+.Ft float
+.Fn strtof "const char *nptr" "char **endptr"
+.Ft long double
+.Fn strtold "const char *nptr" "char **endptr"
 .Sh DESCRIPTION
-The
-.Fn strtod
-function converts the initial portion of the string pointed to by
+These conversion functions convert the initial portion of the string pointed
+to by
 .Fa nptr
 to
-.Li double
-representation.
+.Li double , float
+or
+.Li long double
+representation, respectively.
 .Pp
 The expected form of the string is an optional plus
 .Pq Ql +
@@ -69,8 +74,10 @@ Leading whitespace characters in the string (as defined by the
 function) are skipped.
 .Sh RETURN VALUES
 The
-.Fn strtod
-function returns the converted value, if any.
+.Fn strtod , strtof
+and
+.Fn strtold
+functions return the converted value, if any.
 .Pp
 If
 .Fa endptr
@@ -111,3 +118,12 @@ The
 .Fn strtod
 function conforms to
 .St -ansiC .
+.Sh HISTORY
+The
+.Fn strtof
+and
+.Fn strtold
+functions were added to
+.Mx
+in 2013.
+
