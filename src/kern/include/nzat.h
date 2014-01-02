@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2011
+ * Copyright © 2011, 2014
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -26,6 +26,8 @@
  * NZATUpdateString(h,s) ⇒ updates (h) with (s)[0..strlen(s)[
  * NZATFinish(h) ⇒ return a non-zero 32-bit hash result in (h)
  * NZAATFinish(h) ⇒ return a 32-bit hash result in (h)
+ * NZATrol(eax,cl) ⇒ helper function to rotate left
+ * NZATMix(h) ⇒ avalanche a 32-bit number across all octets
  */
 
 #ifndef SYSKERN_NZAT_H
@@ -33,7 +35,7 @@
 
 #include <sys/types.h>
 
-__RCSID("$MirOS: src/kern/include/nzat.h,v 1.2 2011/07/18 00:35:40 tg Exp $");
+__RCSID("$MirOS: src/kern/include/nzat.h,v 1.3 2013/12/05 20:47:33 tg Exp $");
 
 /*-
  * This file defines the NZAT hash which is derived from Bob Jenkins’
@@ -144,6 +146,23 @@ __RCSID("$MirOS: src/kern/include/nzat.h,v 1.2 2011/07/18 00:35:40 tg Exp $");
 	(h) += (h) << 3;					\
 	(h) ^= (h) >> 11;					\
 	(h) += (h) << 15;					\
+} while (/* CONSTCOND */ 0)
+
+/* rotate left */
+#define NZATrol(eax,cl) (((eax) << (cl)) | ((eax) >> (32 - (cl))))
+
+/* Rĳndæl MixColumn */
+#define NZATMix(h) do {						\
+	register uint32_t NZATMix_t;				\
+								\
+	NZATMix_t = ((h) >> 7) & 0x01010101;			\
+	NZATMix_t += (NZATMix_t << 1);				\
+	NZATMix_t += (NZATMix_t << 3);				\
+	NZATMix_t ^= (((h) << 1) & 0xFEFEFEFE);			\
+								\
+	(h) = NZATMix_t ^ NZATrol(NZATMix_t, 24) ^		\
+	    NZATrol((h), 8) ^ NZATrol((h), 16) ^		\
+	    NZATrol((h), 24);					\
 } while (/* CONSTCOND */ 0)
 
 #endif

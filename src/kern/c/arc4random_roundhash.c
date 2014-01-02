@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2010, 2011, 2012, 2013
+ * Copyright (c) 2010, 2011, 2012, 2013, 2014
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -21,7 +21,7 @@
 #include <libckern.h>
 #include <nzat.h>
 
-__RCSID("$MirOS: src/kern/c/arc4random_roundhash.c,v 1.5 2013/10/18 21:58:45 tg Exp $");
+__RCSID("$MirOS: src/kern/c/arc4random_roundhash.c,v 1.6 2013/10/31 20:13:37 tg Exp $");
 
 void
 arc4random_roundhash(uint32_t pools[32], uint8_t *poolptr,
@@ -59,7 +59,7 @@ arc4random_roundhash(uint32_t pools[32], uint8_t *poolptr,
  * arc4random_roundhash(pools, poolptr, &saved, sizeof(saved)); //optional
  * for (irest = 0; irest < 32; ++irest) { //using irest as counter coz register
  *	h = pools[irest];
- *	NZAATFinish(h);
+ *	NZATMix(h);
  *	tmpa.dw[irest] = h;
  * }
  * for (ihigh = 0; ihigh < 8; ihigh += 4)
@@ -67,7 +67,7 @@ arc4random_roundhash(uint32_t pools[32], uint8_t *poolptr,
  *		for (ilow3 = 0; ilow3 < 4; ++ilow3) {
  *			j = ((ihigh + irest) << 4) + ilow3;
  *			h = make_dword(tmpa.db[j; j+4; j+8; j+12]);
- *			NZAATFinish(h);
+ * /* mix2 */		NZATMix(h);
  *			pools[((ihigh + ilow3) << 2) + irest] = h;
  *			tmpb[(irest << 3) + ilow3 + (ihigh ^ 4)] = h;
  *		 }
@@ -79,21 +79,20 @@ arc4random_roundhash(uint32_t pools[32], uint8_t *poolptr,
 
 			⎜               ⎜               ⎜               ⎜               ⎜               ⎜               ⎜               .
 	<--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><-->
-finish	 F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F
+mix	 M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M
 yields	00000000000000001111111111111111222222222222222233333333333333334444444444444444555555555555555566666666666666667777777777777777
-	0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF
-	12341234123412341234123412341234123412341234123412341234123412341234123412341234123412341234123412341234123412341234123412341234
-swab¹	    \     /
-	    /     \
+(tmpa)	0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF
+swapb		\     /
+(inner loop)	/     \
 result	00000000000000001111111111111111222222222222222233333333333333334444444444444444555555555555555566666666666666667777777777777777
-	048C159D26AE37BF048C159D26AE37BF048C159D26AE37BF048C159D26AE37BF048C159D26AE37BF048C159D26AE37BF048C159D26AE37BF048C159D26AE37BF
-finish	 F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F   F
+(i.l.h)	048C159D26AE37BF048C159D26AE37BF048C159D26AE37BF048C159D26AE37BF048C159D26AE37BF048C159D26AE37BF048C159D26AE37BF048C159D26AE37BF
+mix2	 M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M
 yields	00000000000000001111111111111111222222222222222233333333333333334444444444444444555555555555555566666666666666667777777777777777
 	0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF
-+ copyto
++ copyto (tmpb?)
 	44444444444444440000000000000000555555555555555511111111111111116666666666666666222222222222222277777777777777773333333333333333
 	0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF01234567
-+ also				    \     /
++ also (pools?)			    \     /
 				    /     \
 	00001111222233330000111122223333000011112222333300001111222233334444555566667777444455556666777744445555666677774444555566667777
 	0123012301230123456745674567456789AB89AB89AB89ABCDEFCDEFCDEFCDEF0123012301230123456745674567456789AB89AB89AB89ABCDEFCDEFCDEFCDEF
@@ -101,11 +100,6 @@ X roundhash with copy-from-above
 	45674567456745674567456745674567456745674567456745674567456745670123012301230123012301230123012301230123012301230123012301230123
 	0000111122223333444455556666777788889999AAAABBBBCCCCDDDDEEEEFFFF0000111122223333444455556666777788889999AAAABBBBCCCCDDDDEEEEFFFF
 ⇒ directly usable hash states
-
-① although just swapping then running NZAATFinish() is very probably not
-  guaranteed to avalanche enough; just adding the four bytes will do, as
-  will adding three to the existing one (which gets a slightly different
-  outcome for the next mixing stage), or even four…
 
  * }}} XXX
  */
