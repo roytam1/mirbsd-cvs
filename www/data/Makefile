@@ -1,4 +1,4 @@
-# $MirOS: www/data/Makefile,v 1.9 2013/08/06 16:47:44 tg Exp $
+# $MirOS: www/data/Makefile,v 1.10 2013/08/07 20:40:20 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -57,7 +57,7 @@ wpcheck:
 
 validation: .PHONY ${FILES:.inc=.xml}
 	@print -r Validating ${FILES:Q} ...
-	@xmlstarlet val -d ${_xhtmldtd} ${.ALLSRC}
+	@xmlstarlet val -d ${_xhtmldtd} -e ${.ALLSRC}
 	@print '\nValidation complete.'
 
 .include <bsd.obj.mk>

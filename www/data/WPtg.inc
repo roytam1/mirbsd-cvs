@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.120 2014/01/01 21:16:02 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.121 2014/01/01 21:31:51 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3726,6 +3726,18 @@ Waypoint: GC4TCQM
 Title: Warten auf die Eiszeit
 nTF: 3
 Tag: D1 T1 Event
+----
+ID: 678
+Date: 02.01.2014
+Waypoint: GC30M8Y
+Title: Tradi am Bach (Oberbachem)
+Tag: D15 T25 Micro Tradi
+----
+ID: 679
+Date: 02.01.2014
+Waypoint: GC2WGB1
+Title: Autoschreck
+Tag: D2 T25 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat

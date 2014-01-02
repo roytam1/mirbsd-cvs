@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.88 2013/11/06 21:10:11 tg Exp $
+# $MirOS: www/Makefile,v 1.89 2013/11/06 21:11:43 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -193,7 +193,7 @@ VOBJS:=		${validate:=.val}
 
 validation: .PHONY ${VOBJS}
 	@print -r Validating ${.ALLSRC:Q} ...
-	@xmlstarlet val -d ${_xhtmldtd} ${.ALLSRC}
+	@xmlstarlet val -d ${_xhtmldtd} -e ${.ALLSRC}
 	@print '\nValidation complete.'
 
 .PHONY: clean cleandir depend install deinstall reinstall _reinstall \
