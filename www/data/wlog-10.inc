@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.437 2013/11/25 00:05:04 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.438 2013/12/02 19:41:35 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10309,4 +10309,69 @@ Tag: debian
  most utilities have been taken offline after the abomination called
  Windows Phone has taken over. Hm I’ve got PocketPython and some sort
  of cross GCC but nothing to tinker with the core OS / ROM image…</p>
+----
+Date: 02.01.2014 14:35
+Author: bsiegert@
+Title: On modern VCSes
+
+<p>There has been an ongoing discussion in the NetBSD community about
+ migrating away from CVS (something that is not in question here, I know
+ I know)&mdash;to the point that the
+ <a href="http://mail-index.netbsd.org/tech-repository/">tech-repository
+  mailing list</a>
+ has been set up specifically for this discussion.</p>
+
+<p>Eric S. Raymond recently posted an article titled
+ <a href="https://lists.gnu.org/archive/html/emacs-devel/2014-01/msg00005.html">"bzr is dying; Emacs needs to move"</a>
+ on emacs-devel. Thomas Klausner remarked that if you apply
+ <tt>sed -e "s/emacs/NetBSD/g" -e "s/bzr/CVS/g"</tt> to the post, then
+ the same applies, frighteningly accurate in fact:</p>
+
+<blockquote>
+ <p>In practice, I judge that sticking with CVS would have social and
+  signaling effects damaging to NetBSD's prospects. Sticking to a 
+  moribund version-control system will compound and exacerbate the 
+  project's difficulty in attracting new talent.</p>
+
+ <p>The uncomfortable truth is that many younger hackers already think
+  CVS is a dinosaur &ndash; difficult, bulky, armor-plated, and generally
+  stuck in the last century. If we're going to fight off that image, we
+  cannot afford to make or adhere to choices that further cast the
+  project as crusty, insular, and backward-looking.</p>
+</blockquote>
+
+<p>This is what I wrote in reply:</p>
+
+<blockquote>
+ <p>Scary how spot-on this is after the above substitution. I fully agree.</p>
+
+ <p>I know that this may spawn another centithread but: how about we use a
+  "canary" for a VCS migration? For example, moving pkgsrc-wip to git
+  would probably be trivial, considering that it's sourceforge that
+  hosts it. Last time I checked, sourceforge supports hosted git
+  repositories.</p>
+
+ <p>As a new data point, I did some hacking on pkgsrc on MirBSD during
+  30c3 using a clone of 
+  <a href="https://github.com/jsonn/pkgsrc/">github.com/jsonn/pkgsrc</a>.
+  This was in part to work around the freeze, in part to see how git copes with
+  the typical pkgsrc workflows. I was positively surprised, I must say. Some
+  observations:</p>
+
+ <ul>
+  <li>you want distfiles/ and packages/ in gitignore.</li>
+  <li>not ignoring work directories is actually a convenient way to find
+   stale work directories quickly.</li>
+  <li>downgrading a single package (in my case, to get autoconf-2.61 for
+   some configure script) is easy to do, using
+   <tt>git checkout $revision devel/autoconf</tt>
+   This set the working copy back to the given revision and put the changes to
+   HEAD into the index.</li>
+  <li>branch/rebase/merge is a good workflow for upgrading single packages.</li>
+ </ul>
+
+ <p>Thus, even if the NetBSD project is not prepared to move to git
+  outright, we could do a move for pkgsrc-git, then pkgsrc. src could
+  come later.</p>
+</blockquote>
 ----
