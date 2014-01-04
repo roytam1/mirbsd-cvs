@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.438 2013/12/02 19:41:35 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.439 2014/01/02 14:12:48 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10329,8 +10329,8 @@ Title: On modern VCSes
 
 <blockquote>
  <p>In practice, I judge that sticking with CVS would have social and
-  signaling effects damaging to NetBSD's prospects. Sticking to a 
-  moribund version-control system will compound and exacerbate the 
+  signaling effects damaging to NetBSD's prospects. Sticking to a
+  moribund version-control system will compound and exacerbate the
   project's difficulty in attracting new talent.</p>
 
  <p>The uncomfortable truth is that many younger hackers already think
@@ -10352,7 +10352,7 @@ Title: On modern VCSes
   repositories.</p>
 
  <p>As a new data point, I did some hacking on pkgsrc on MirBSD during
-  30c3 using a clone of 
+  30c3 using a clone of
   <a href="https://github.com/jsonn/pkgsrc/">github.com/jsonn/pkgsrc</a>.
   This was in part to work around the freeze, in part to see how git copes with
   the typical pkgsrc workflows. I was positively surprised, I must say. Some
@@ -10374,4 +10374,26 @@ Title: On modern VCSes
   outright, we could do a move for pkgsrc-git, then pkgsrc. src could
   come later.</p>
 </blockquote>
+----
+Date: 04.01.2014 20:09
+Author: tg@
+Title: jupp, coming to a Fedora near you soon!
+Tag: jupp news pcli
+
+<p>Thanks to Robert Scheck, <a href="@@RELPATH@@jupp.htm">jupp – the
+ Editor which sucks less</a> (a WordStar™-compatible Unix editor
+ with lots of features, including a hex editor) is currently <a
+ href="https://admin.fedoraproject.org/updates/search/jupp">on its
+ way to Fedora</a> and EPEL (RHEL/CentOS 5 and 6).</p>
+<p>Depending on your distribution, you will have it available within
+ one to two weeks, I’m being told.</p>
+<p>This adds another distribution to the list; jupp has been available
+ in Debian and its derivates (some of which may not be named) for some
+ time (due to user request), and the webpage contains Win32 binaries
+ (made with Cygwin, an oldish version to be compatible to Win9x).</p>
+<p>jupp is especially useful as programmers’ editor, but also used in
+ teaching school-aged kids the joys of IT; Natureshadow has prepared
+ a cheat sheet, which we will internationalise and localise, then link
+ from the jupp homepage – so stay tuned! (I guess we’ll also need a
+ concise list of jupp features, in lieu of advertising.)</p>
 ----

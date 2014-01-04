@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.121 2014/01/01 21:31:51 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.122 2014/01/02 22:54:55 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3738,6 +3738,18 @@ Date: 02.01.2014
 Waypoint: GC2WGB1
 Title: Autoschreck
 Tag: D2 T25 Micro Tradi
+----
+ID: 680
+Date: 03.01.2014
+Waypoint: GC4PGAW
+Title: BASEBALL TP – No.5 – Unterhaltung
+Tag: D2 T25 Micro Tradi
+----
+ID: 681
+Date: 04.01.2014
+Waypoint: GC4R1D2
+Title: Einfach mal entspannen
+Tag: D2 T1 Nano Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
