@@ -3250,7 +3250,6 @@ test_primary(Test_env *te, bool do_eval)
 	 * so that something like test \( -f = -f \) is accepted
 	 */
 	if ((te->flags & TEF_DBRACKET) || (&te->pos.wp[1] < te->wp_end &&
-/*XXX TODO: !test_opin(b_ops_xsi, … */
 	    !test_isop(TM_BINOP, te->pos.wp[1]))) {
 		if ((op = (*te->isa)(te, TM_UNOP))) {
 			/* unary expression */
