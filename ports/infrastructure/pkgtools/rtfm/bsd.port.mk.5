@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.37 2010/09/29 19:15:01 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.38 2013/11/06 18:53:14 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007, 2008, 2009, 2010 Thorsten Glaser
@@ -79,7 +79,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: September 29 2010 $
+.Dd $Mdocdate: November 6 2013 $
 .\"
 .\" Check which macro package we use
 .\"
@@ -2269,19 +2269,6 @@ to
 .Nm false
 and pull
 .Ev _DEFCOPTS_pcc
-into the default
-.Ev CFLAGS .
-.It Ar llvm
-Override
-.Ev CC
-to
-.Nm llvm\-gcc
-and
-.Ev CXX
-to
-.Nm llvm\-g++
-and pull
-.Ev _DEFCOPTS_llvm
 into the default
 .Ev CFLAGS .
 .El

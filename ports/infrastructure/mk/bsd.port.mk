@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.279 2013/11/06 18:53:15 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.280 2013/12/01 03:49:59 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -407,7 +407,6 @@ LDFLAGS+=		-Wl,-rpath -Wl,${LOCALBASE}/lib
 .endif
 
 _DEFCOPTS_pcc?=		-O
-_DEFCOPTS_llvm?=	-O1 -Wformat -fno-strict-aliasing -fwrapv
 
 NO_CXX?=		No	# inhibit use of C++ ports
 .if ${USE_CXX:L} == "yes"
@@ -434,11 +433,6 @@ USE_CCACHE:=		No
 _DEFCOPTS:=		${_DEFCOPTS_pcc}
 _ORIG_CC:=		pcc
 _ORIG_CXX:=		false
-.elif ${USE_COMPILER:L} == "llvm"
-BUILD_DEPENDS+=		:llvm-gcc*:lang/llvm-gcc
-_DEFCOPTS:=		${_DEFCOPTS_llvm}
-_ORIG_CC:=		llvm-gcc
-_ORIG_CXX:=		llvm-g++
 .elif ${USE_COMPILER:L} != "system"
 .  error invalid compiler: ${USE_COMPILER}
 .endif
