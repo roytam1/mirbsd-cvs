@@ -41,6 +41,7 @@ arc4random_roundhash(uint32_t pools[32], uint8_t *poolptr,
 	*poolptr = pool;
 }
 
+#if 0
 /*-
  * TODO:
  * mix the content after precisely 128 bytes have been roundhashed
@@ -103,3 +104,4 @@ X roundhash with copy-from-above
 
  * }}} XXX
  */
+#endif
