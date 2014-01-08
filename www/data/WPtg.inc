@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.122 2014/01/02 22:54:55 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.123 2014/01/04 20:09:25 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3750,6 +3750,30 @@ Date: 04.01.2014
 Waypoint: GC4R1D2
 Title: Einfach mal entspannen
 Tag: D2 T1 Nano Tradi
+----
+ID: 682
+Date: 06.01.2014
+Waypoint: GC4V90C
+Title: Standort506
+Tag: D2 T2 Micro Tradi
+----
+ID: 683
+Date: 06.01.2014
+Waypoint: GC4F4BB
+Title: Heilige drei Könige
+Tag: D1 T15 Micro Tradi
+----
+ID: 684
+Date: 07.01.2014
+Waypoint: GC4Q39D
+Title: Dollendorfer Hardt: Mauer
+Tag: D25 T15 Small Tradi
+----
+ID: 685
+Date: 08.01.2014
+Waypoint: GC4VYEY
+Title: Waiting in Vain 15,3,s,t
+Tag: D15 T3 Small Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
