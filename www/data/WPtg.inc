@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.123 2014/01/04 20:09:25 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.124 2014/01/08 19:13:08 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3772,8 +3772,20 @@ Tag: D25 T15 Small Tradi
 ID: 685
 Date: 08.01.2014
 Waypoint: GC4VYEY
-Title: Waiting in Vain 15,3,s,t
+Title: Waiting in Vain
 Tag: D15 T3 Small Tradi
+----
+ID: 686
+Date: 09.01.2014
+Waypoint: GC476K5
+Title: Uni Campus Poppelsdorf in Spe
+Tag: D15 T1 Small Tradi
+----
+ID: 687
+Date: 09.01.2014
+Waypoint: GC3VAJX
+Title: Reutersiedlung
+Tag: D15 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
