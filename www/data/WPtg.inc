@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.124 2014/01/08 19:13:08 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.125 2014/01/09 17:19:52 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3786,6 +3786,24 @@ Date: 09.01.2014
 Waypoint: GC3VAJX
 Title: Reutersiedlung
 Tag: D15 T15 Micro Tradi
+----
+ID: 688
+Date: 10.01.2014
+Waypoint: GC4VTAV
+Title: 10 Jahre EarthCache - Flammersfeld feiert (#27)
+Tag: D1 T1 Event recommended
+----
+ID: 689
+Date: 10.01.2014
+Waypoint: GC4P3FG
+Title: Schön durchhalten...#1/6
+Tag: D15 T25 Small Tradi
+----
+ID: 690
+Date: 11.01.2014
+Waypoint: GC1TYG5
+Title: Der Balzar von Flammersfeld
+Tag: D1 T1 Nano Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
