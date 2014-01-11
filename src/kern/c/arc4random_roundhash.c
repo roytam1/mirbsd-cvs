@@ -21,7 +21,7 @@
 #include <libckern.h>
 #include <nzat.h>
 
-__RCSID("$MirOS: src/kern/c/arc4random_roundhash.c,v 1.6 2013/10/31 20:13:37 tg Exp $");
+__RCSID("$MirOS: src/kern/c/arc4random_roundhash.c,v 1.8 2014/01/08 19:05:02 tg Exp $");
 
 void
 arc4random_roundhash(uint32_t pools[32], uint8_t *poolptr,
@@ -42,7 +42,6 @@ arc4random_roundhash(uint32_t pools[32], uint8_t *poolptr,
 }
 
 #if 0
-/*-
  * TODO:
  * mix the content after precisely 128 bytes have been roundhashed
  * idea for an algorithm:
@@ -103,5 +102,4 @@ X roundhash with copy-from-above
 ⇒ directly usable hash states
 
  * }}} XXX
- */
 #endif
