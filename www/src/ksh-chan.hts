@@ -3,7 +3,7 @@
 
 mws_setname hosted/ksh-chan "The #ksh on Freenode page"
 mws_setheadline 'Channel page for #ksh'
-mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.61 2013/11/17 22:37:47 tg Exp $'
+mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.62 2013/12/19 15:47:59 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of contents</h2>
 EOF
@@ -60,7 +60,7 @@ mws_content <<'EOF'
  ksh93v- (alpha) dated 2013-10-10 (10 October 2013) and ksh93u+ (stable)
  dated 2012-08-01; actively developed</p>
 <p><a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a>: latest is
- mksh R48b, dated 2013-08-17 (17 August 2013)<!-- and, in the oldstable bugfix
+ mksh R49, dated 2014-01-11 (11 January 2014)<!-- and, in the oldstable bugfix
  series, mksh R44, dated 2013-03-05 (5 March 2013)-->; link to active <a
  href="@@RELPATH@@mksh.htm#clog">development trunk changelog</a></p>
 <p><a href="@@RELPATH@@permalinks/wlog-10_e20130718-tg.htm">mksh/Win32</a>:

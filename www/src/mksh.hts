@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.535 2013/11/30 00:42:46 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.536 2013/12/01 01:26:54 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R48b</h2>
+<h2>mksh(1) R49</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -50,8 +50,8 @@ mws_content <<'EOF'
  “MirBSD Korn Shell”.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R48b</strong> from
- <em>17 August 2013</em>.<!-- br />In the oldstable bugfixing-only series, the
+<p>The current version of mksh is <strong>mksh R49</strong> from
+ <em>11 January 2014</em>.<!-- br />In the oldstable bugfixing-only series, the
  current version is <em>mksh R44</em> from <em>5 March 2013</em>.--></p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
@@ -187,17 +187,17 @@ mws_content <<'EOF'
  <em>as well as</em> the hashes and/or checksums below, so you’re sure the
  content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R48b.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R48b.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R48b.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R48b.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R49.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R49.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R49.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R49.tgz</a></li>
  <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R44.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R44.tgz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R44.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R44.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
 <!-- cd /MirOS/dist/mir/mksh; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
-  <li>RMD160 (mksh-R48b.tgz) = f88dda7604198bb17a5b23081e5b95921cf22d94</li>
-  <li>TIGER (mksh-R48b.tgz) = 398e31153f423f53cedb77c4596b52234f914057588fd84e</li>
-  <li>3459117158 362969 /MirOS/dist/mir/mksh/mksh-R48b.tgz</li>
-  <li>MD5 (mksh-R48b.tgz) = ab9baa6b5a4de9d0e6a3ce9957c18da0</li>
+  <li>RMD160 (mksh-R49.tgz) = fa7a24e604daea30d5e5fd7bb78e24b2d7044764</li>
+  <li>TIGER (mksh-R49.tgz) = 1dd2d334e67e331486a25025f2466031354a74ab25c24b75</li>
+  <li>4184882702 371550 /MirOS/dist/mir/mksh/mksh-R49.tgz</li>
+  <li>MD5 (mksh-R49.tgz) = e8c205cac72c3dc8540bbc3897421422</li>
 <!--
  <li style="list-style:none;">↑ formal release │ stable bugfix series ↓</li>
   <li>RMD160 (mksh-R44.tgz) = 4cf1525c477c4bece519c024cc73ee6ca064d34a</li>
@@ -211,7 +211,8 @@ mws_content <<'EOF'
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
- so a simple <tt>tar xzf mksh-R48b.tgz</tt> will work.</p>
+ so a simple <tt>tar xzf mksh-R49.tgz</tt> will work. It will create all files
+ in a subdirectory <tt>./mksh/</tt>.</p>
 
 <h3 id="vendorpatching">Patching</h3>
 <p>If you’re a packager/vendor and need to patch mksh and deviate from the
@@ -820,6 +821,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p id="pcur"><i>current</i>:
  <i>(unfinished…)</i></p>
 -->
+<p id="p49">R49: There is now generated content at build time; it is known
+ that this is beyond the capabilities of some shells such as Coherent
+ <tt>/bin/sh</tt>. We plan to address this in a later release by rewriting
+ the relevant parts in C, so that a <em>host</em> C compiler will, in
+ addition to a <em>target</em> C compiler, also be required to build mksh.</p>
 <p id="p48b">R48b: Nothing of notewortiness.</p>
 <p id="p48">R48: We now ship a Windows® icon; just ignore it if you don’t
  want it. We regularily update <tt>dot.mkshrc</tt> so you’d better think
@@ -1116,6 +1122,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <!--
 <p id="ccur"><i>current</i>:
 -->
+<p id="c49">R49: The hash algorithm has changed (for, hopefully, the last
+ time); the old algorithms are gone from <tt>dot.mkshrc</tt> too, and the
+ <tt>${foo@#}</tt> syntax no longer accepts a seed value (for more variety
+ use the functions from <tt>dot.mkshrc</tt>; for hash tables, just xor and
+ rotate the finished stable hash). Some terminal and other issues have been
+ fixed, don’t be surprised.</p>
 <p id="c48b">R48b: Bugfix for multi-line prompts.</p>
 <p id="c48">R48: The “doch” alias in <tt>dot.mkshrc</tt> now keeps standard
  input usable at the cost of the command to be run being logged by sudo(8).
@@ -1211,6 +1223,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+ <li>[tg] Fix initial IFS whitespace not being ignored when expanding
+  (<strong>reverted</strong>, needs fix without introducing a regression)</li>
+ <li>[tg] (not yet: test_opin(b_ops_xsi, …))</li>
+</ul>
+<p id="r49">R49 is a recommended bugfix release:</p><ul>
  <li>[tg] <tt>dot.mkshrc</tt>: fix two issues with the <tt>cd</tt> wrapper</li>
  <li>[tg] Unbreak <tt>set +p</tt> (wider issue still to be addressed)</li>
  <li>[Steffen Daode Nurpmeso] Use WCONTINUED with waitpid(2)</li>
@@ -1219,15 +1236,18 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Add <tt>O_BINARY</tt> to all open(2) calls for OS/2 kLIBC support</li>
  <li>[tg] Generate option strings for shell, set, ulimit at compile time</li>
  <li>[Steffen Daode Nurpmeso] Drop ISTRIP termios(4) mode</li>
- <li>[tg] Mention negative history numbers in the manpage</li>
+ <li>[tg] Mention negative history numbers, octals in the manpage</li>
  <li>[tg] Make <tt>check.pl</tt> work with Perl &lt; 5.6.1 again</li>
  <li>[tg] Detect getsid(2) and skip the oksh suspend builtin otherwise</li>
  <li>[tg] Document that <tt>set -o noclobber</tt> is unsafe for tempfiles</li>
  <li>[tg] Update to Unicode 6.3.0</li>
- <li>[tg] Fix initial IFS whitespace not being ignored when expanding
-  (<strong>reverted</strong>, needs fix without introducing a regression)</li>
- <li>[tg] (not yet: Fix compiling on OSX whatever, prompted by jonthn on IRC)</li>
- <li>[tg] (not yet: test_opin(b_ops_xsi, …))</li>
+ <li>[RT] Restore some portability</li>
+ <li>[tg] Fix parsing positional argument variable names</li>
+ <li>[tg] Sprinkle a few <tt>__attribute__((__pure__))</tt>; fix warnings</li>
+ <li>[tg] Fix build on OSX: always use our wcwidth code; only use our
+  strlcpy(3) code if the OE doesn’t provide one (prompted by jonthn on IRC)</li>
+ <li>[tg] Optimise sh -c to exec even in MKSH_SMALL</li>
+ <li>[tg] Use new BAFH for hashing</li>
 </ul>
 <p id="r48b">R48b is a minor bugfix update:</p><ul>
  <li>[tg] Fix display issue with multi-line prompts and SIGWINCH</li>
