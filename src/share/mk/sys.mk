@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.166 2013/05/31 23:27:51 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.167 2013/08/06 20:34:03 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -99,6 +99,8 @@ CTAGS?=		/usr/bin/ctags
 	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .c.i:
 	${COMPILE.c} ${CFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
+.c.s:
+	${COMPILE.c} ${CFLAGS_${.TARGET:.s=.o}:M*} -o $@ -S ${.IMPSRC}
 .c.a:
 	${COMPILE.c} ${CFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
@@ -114,6 +116,8 @@ CTAGS?=		/usr/bin/ctags
 	${COMPILE.c} ${CFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .m.i:
 	${COMPILE.c} ${CFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
+.m.s:
+	${COMPILE.c} ${CFLAGS_${.TARGET:.s=.o}:M*} -o $@ -S ${.IMPSRC}
 .m.a:
 	${COMPILE.c} ${CFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
@@ -129,6 +133,8 @@ CTAGS?=		/usr/bin/ctags
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .cc.i:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
+.cc.s:
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.s=.o}:M*} -o $@ -S ${.IMPSRC}
 .cc.a:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
@@ -140,6 +146,8 @@ CTAGS?=		/usr/bin/ctags
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .C.i:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
+.C.s:
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.s=.o}:M*} -o $@ -S ${.IMPSRC}
 .C.a:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
@@ -151,6 +159,8 @@ CTAGS?=		/usr/bin/ctags
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .cxx.i:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
+.cxx.s:
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.s=.o}:M*} -o $@ -S ${.IMPSRC}
 .cxx.a:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
@@ -159,11 +169,13 @@ CTAGS?=		/usr/bin/ctags
 .cpp:
 	${LINK.cc} -o $@ ${.IMPSRC} ${LDLIBS}
 .cpp.o:
-	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.i=.o}:M*} ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET}:M*} ${.IMPSRC}
 .cpp.i:
-	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.a=.o}:M*} -o $@ -E ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
+.cpp.s:
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.s=.o}:M*} -o $@ -S ${.IMPSRC}
 .cpp.a:
-	${COMPILE.cc} ${CXXFLAGS_${.TARGET:S/.a$/.o/}:M*} ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 
@@ -184,7 +196,7 @@ CTAGS?=		/usr/bin/ctags
 .F.i:
 	${COMPILE.F} ${FFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
 .F.a:
-	${COMPILE.S} ${FFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
+	${COMPILE.F} ${FFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
 	rm -f $*.o
 
@@ -202,8 +214,8 @@ CTAGS?=		/usr/bin/ctags
 	${LINK.S} -o $@ ${.IMPSRC} ${LDLIBS}
 .S.o:
 	${COMPILE.S} ${AFLAGS_${.TARGET}:M*} ${.IMPSRC}
-.S.i:
-	${COMPILE.S} ${AFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
+.S.s:
+	${COMPILE.S} ${AFLAGS_${.TARGET:.s=.o}:M*} -o $@ -E ${.IMPSRC}
 .S.a:
 	${COMPILE.S} ${AFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
