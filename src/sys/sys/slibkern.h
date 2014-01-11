@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/slibkern.h,v 1.3 2011/01/03 19:02:45 tg Exp $ */
+/**	$MirOS: src/sys/sys/slibkern.h,v 1.4 2013/10/31 20:07:00 tg Exp $ */
 /*	$OpenBSD: libkern.h,v 1.22 2004/08/07 00:38:32 deraadt Exp $	*/
 /*	$NetBSD: libkern.h,v 1.7 1996/03/14 18:52:08 christos Exp $	*/
 
@@ -84,8 +84,6 @@
 void	 __assert(const char *, const char *, int, const char *)
 	    __attribute__((__noreturn__));
 int	 locc(int, char *, u_int);
-u_long	 random(void);
-void	 srandom(u_long);
 int	 scanc(u_int, const u_char *, const u_char [], int);
 int	 skpc(int, size_t, u_char *);
 int	 getsn(char *, int);

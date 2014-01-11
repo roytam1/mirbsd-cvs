@@ -1,11 +1,11 @@
-/**	$MirOS: src/sys/kern/init_main.c,v 1.32 2013/01/01 17:31:04 tg Exp $ */
+/**	$MirOS: src/sys/kern/init_main.c,v 1.33 2014/01/04 20:25:00 tg Exp $ */
 /*	$OpenBSD: init_main.c,v 1.120 2004/11/23 19:08:55 miod Exp $	*/
 /*	$NetBSD: init_main.c,v 1.84.4.1 1996/06/02 09:08:06 mrg Exp $	*/
 /*	$OpenBSD: kern_xxx.c,v 1.9 2003/08/15 20:32:18 tedu Exp $	*/
 /*	$NetBSD: kern_xxx.c,v 1.32 1996/04/22 01:38:41 christos Exp $	*/
 
 /*
- * Copyright (c) 1990-2002, 2003, 2004, 2005, 2006, 2011
+ * Copyright (c) 1990-2002, 2003, 2004, 2005, 2006, 2011, 2014
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 1995 Christopher G. Demetriou.  All rights reserved.
  * Copyright (c) 1982, 1986, 1989, 1991, 1992, 1993
@@ -490,7 +490,6 @@ main(/* XXX should go away */ void *framep)
 	rnd_lopool_add(&pentium_mhz, sizeof(pentium_mhz));
 #endif
 
-	srandom(arc4random());
 	randompid = 1;
 
 	/*

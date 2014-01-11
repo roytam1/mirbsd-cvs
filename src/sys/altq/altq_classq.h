@@ -155,7 +155,7 @@ _getq_random(class_queue_t *q)
 	else {
 		struct mbuf *prev = NULL;
 
-		n = random() % qlen(q) + 1;
+		n = arc4random_uniform(qlen(q)) + 1;
 		for (i = 0; i < n; i++) {
 			prev = m;
 			m = m->m_nextpkt;

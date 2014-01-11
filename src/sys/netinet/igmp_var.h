@@ -67,8 +67,7 @@ extern struct igmpstat igmpstat;
 
 /*
  * Macro to compute a random timer value between 1 and (IGMP_MAX_REPORTING_
- * DELAY * countdown frequency).  We assume that the routine random()
- * is defined somewhere (and that it returns a positive number).
+ * DELAY * countdown frequency).
  */
 #define	IGMP_RANDOM_DELAY(X)	(arc4random_uniform(X) + 1)
 

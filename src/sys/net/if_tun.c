@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/if_tun.c,v 1.3 2005/07/04 00:29:45 tg Exp $ */
+/**	$MirOS: src/sys/net/if_tun.c,v 1.4 2010/09/24 19:27:32 tg Exp $ */
 /*	$OpenBSD: if_tun.c,v 1.68 2005/06/08 06:53:32 henning Exp $	*/
 /*	$NetBSD: if_tun.c,v 1.24 1996/05/07 02:40:48 thorpej Exp $	*/
 
@@ -182,10 +182,6 @@ tun_create(struct if_clone *ifc, int unit, int flags)
 	/* generate fake MAC address: 00 bd xx xx xx unit_no */
 	tp->arpcom.ac_enaddr[0] = 0x00;
 	tp->arpcom.ac_enaddr[1] = 0xbd;
-	/*
-	 * This no longer happens pre-scheduler so let's use the real
-	 * random subsystem instead of random().
-	 */
 	macaddr_rnd = arc4random();
 	bcopy(&macaddr_rnd, &tp->arpcom.ac_enaddr[2], sizeof(u_int32_t));
 	tp->arpcom.ac_enaddr[5] = (u_char)unit + 1;

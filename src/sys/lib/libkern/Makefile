@@ -1,4 +1,4 @@
-# $MirOS: src/sys/lib/libkern/Makefile,v 1.15 2010/01/10 20:18:55 tg Exp $
+# $MirOS: src/sys/lib/libkern/Makefile,v 1.16 2011/01/03 19:02:52 tg Exp $
 # $NetBSD: Makefile,v 1.31 1996/08/10 04:01:31 mycroft Exp $
 # $OpenBSD: Makefile,v 1.18 2004/11/28 07:20:25 mickey Exp $
 
@@ -19,7 +19,7 @@ CPPFLAGS=	${KERNCPPFLAGS}
 .include "${KERNBASE}/z/Makefile.adler32"
 
 # Other stuff
-SRCS+=	getsn.c srandom.c bcd.c
+SRCS+=	getsn.c bcd.c
 
 # Files to clean up
 CLEANFILES+= lib${LIB}.o lib${LIB}.po

@@ -847,7 +847,7 @@ tswtcm_input(cb, pktinfo)
 	 * marker
 	 */
 	if (avg_rate > tsw->cmtd_rate) {
-		u_int32_t randval = random() % avg_rate;
+		u_int32_t randval = arc4random_uniform(avg_rate);
 
 		if (avg_rate > tsw->peak_rate) {
 			if (randval < avg_rate - tsw->peak_rate) {

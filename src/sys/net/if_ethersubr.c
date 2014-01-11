@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/if_ethersubr.c,v 1.11 2008/04/09 06:11:26 tg Exp $ */
+/**	$MirOS: src/sys/net/if_ethersubr.c,v 1.12 2010/09/12 18:20:03 tg Exp $ */
 /*	$OpenBSD: if_ethersubr.c,v 1.81 2004/11/28 23:39:45 canacar Exp $	*/
 /*	$NetBSD: if_ethersubr.c,v 1.19 1996/05/07 02:40:30 thorpej Exp $	*/
 
@@ -772,12 +772,7 @@ ether_ifattach(ifp)
 		((struct arpcom *)ifp)->ac_enaddr[2] = 0xe1;
 		((struct arpcom *)ifp)->ac_enaddr[3] = 0xba;
 		((struct arpcom *)ifp)->ac_enaddr[4] = 0xd0;
-		/*
-		 * XXX use of random() by anything except the scheduler is
-		 * normally invalid, but this is boot time, so pre-scheduler,
-		 * and the random subsystem is not alive yet
-		 */
-		((struct arpcom *)ifp)->ac_enaddr[5] = (u_char)random() & 0xff;
+		((struct arpcom *)ifp)->ac_enaddr[5] = (u_char)arc4random() & 0xff;
 	}
 
 	ifp->if_type = IFT_ETHER;

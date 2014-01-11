@@ -404,7 +404,7 @@ drop_early(int fp_len, int fp_probd, int count)
 	 * drop probability = (avg - TH_MIN) / d
 	 */
 
-	if ((random() % d) < fp_len) {
+	if (arc4random_uniform(d) < fp_len) {
 		/* drop or mark */
 		return (1);
 	}

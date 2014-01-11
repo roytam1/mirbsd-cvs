@@ -770,7 +770,7 @@ statintr(cap)
 	 */
 	var = statvar;
 	do {
-		r = random() & (var - 1);
+		r = arc4random() & (var - 1);
 	} while (r == 0);
 	newint = statmin + r;
 
