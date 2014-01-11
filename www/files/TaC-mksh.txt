@@ -12,7 +12,7 @@ if any are found. We don't think so though.)
 All paths are relative to The MirOS Project's CVS repository.
 
 
-The following files form The MirBSD Korn Shell R48:
+The following files form The MirBSD Korn Shell R49:
 - build system
   * mksh/Build.sh
 - testsuite driver
@@ -39,9 +39,11 @@ The following files form The MirBSD Korn Shell R48:
   * mksh/lalloc.c
   * mksh/lex.c
   * mksh/main.c
+  * mksh/mirhash.h
   * mksh/misc.c
+  * mksh/rlimits.opt
   * mksh/sh.h
-  * mksh/sh_flags.h
+  * mksh/sh_flags.opt
   * mksh/shf.c
   * mksh/syn.c
   * mksh/tree.c
