@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.125 2014/01/09 17:19:52 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.126 2014/01/11 01:30:45 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3804,6 +3804,18 @@ Date: 11.01.2014
 Waypoint: GC1TYG5
 Title: Der Balzar von Flammersfeld
 Tag: D1 T1 Nano Tradi
+----
+ID: 691
+Date: 12.01.2014
+Waypoint: GC3BNT7
+Title: Schöne Aussicht
+Tag: D15 T1 Micro Tradi
+----
+ID: 692
+Date: 13.01.2014
+Waypoint: GC2GEDR
+Title: BaGoCity
+Tag: D25 T15 Micro Multi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
