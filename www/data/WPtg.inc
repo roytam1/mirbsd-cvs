@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.126 2014/01/11 01:30:45 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.127 2014/01/13 00:09:46 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3816,6 +3816,18 @@ Date: 13.01.2014
 Waypoint: GC2GEDR
 Title: BaGoCity
 Tag: D25 T15 Micro Multi
+----
+ID: 693
+Date: 14.01.2014
+Waypoint: GC1V5DY
+Title: Willkommen in... Pössem ;-))))
+Tag: D1 T1 Micro Tradi
+----
+ID: 694
+Date: 15.01.2014
+Waypoint: GC44KA8
+Title: 365 Tage &#34;O(h) Tannenbaum...&#34;
+Tag: D15 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
