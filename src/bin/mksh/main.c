@@ -422,44 +422,6 @@ main_init(int argc, const char *argv[], Source **sp, struct block **lp)
 			return (1);
 	}
 
-#if defined(DEBUG) && !defined(MKSH_LEGACY_MODE)
-	/* test wraparound of arithmetic types */
-	{
-		volatile long xl;
-		volatile unsigned long xul;
-		volatile int xi;
-		volatile unsigned int xui;
-		volatile mksh_ari_t xa;
-		volatile mksh_uari_t xua, xua2;
-		volatile uint8_t xc;
-
-		xa = 2147483647;
-		xua = 2147483647;
-		++xa;
-		++xua;
-		xua2 = xa;
-		xl = xa;
-		xul = xua;
-		xa = 0;
-		xua = 0;
-		--xa;
-		--xua;
-		xi = xa;
-		xui = xua;
-		xa = -1;
-		xua = xa;
-		++xa;
-		++xua;
-		xc = 0;
-		--xc;
-		if ((xua2 != 2147483648UL) ||
-		    (xl != (-2147483647L-1)) || (xul != 2147483648UL) ||
-		    (xi != -1) || (xui != 4294967295U) ||
-		    (xa != 0) || (xua != 0) || (xc != 255))
-			errorf("integer wraparound test failed");
-	}
-#endif
-
 	/* process this later only, default to off (hysterical raisins) */
 	utf_flag = UTFMODE;
 	UTFMODE = 0;
