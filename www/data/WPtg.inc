@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.127 2014/01/13 00:09:46 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.128 2014/01/15 18:32:49 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3828,6 +3828,30 @@ Date: 15.01.2014
 Waypoint: GC44KA8
 Title: 365 Tage &#34;O(h) Tannenbaum...&#34;
 Tag: D15 T15 Micro Tradi
+----
+ID: 695
+Date: 18.01.2014
+Waypoint: GC2B11A
+Title: Glockenspiel und Epitaphien
+Tag: D2 T15 Regular Mystery
+----
+ID: 696
+Date: 18.01.2014
+Waypoint: GC37R1G
+Title: Teo Otto Theater
+Tag: D15 T1 Micro Tradi
+----
+ID: 697
+Date: 18.01.2014
+Waypoint: GC4T7AW
+Title: Wermelskirchen - Wappen (1)
+Tag: D15 T15 Small Tradi
+----
+ID: 698
+Date: 19.01.2014
+Waypoint: GCXCYD
+Title: 5208xxx
+Tag: D3 T2 Regular Mystery
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
