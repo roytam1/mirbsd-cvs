@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.439 2014/01/02 14:12:48 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.440 2014/01/04 20:09:26 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10396,4 +10396,30 @@ Tag: jupp news pcli
  a cheat sheet, which we will internationalise and localise, then link
  from the jupp homepage – so stay tuned! (I guess we’ll also need a
  concise list of jupp features, in lieu of advertising.)</p>
+----
+Date: 20.01.2014 21:49
+Author: tg@
+Title: FOSDEM preparations… done.
+Tag: debian event fun grml mksh twitxr work
+
+<p>I’ve produced several pin-on buttons to take with me to <a
+ href="https://fosdem.org/">FOSDEM</a> for giving away (as
+ long as there are any left):</p>
+<p><img alt="Several pin-on buttons I made"
+ src="@@RELPATH@@pics/wlog/btn14a20.jpg" /></p>
+<p>First row (nice projects), from left to right: <a
+ href="http://www.midnightbsd.org/">MidnightBSD</a>; <a
+ href="http://plan9.bell-labs.com/plan9/glenda.html">Glenda</a>, the
+ <a href="http://9fans.net/">Plan 9</a> bunny; <a
+ href="https://www.teckids.org/ad.cgi">Teckids e.V.</a></p>
+<p>Second row (<a href="@@RELPATH@@main.htm">The MirOS Project</a>):
+ <a href="@@RELPATH@@mksh.htm">mksh</a>; the Shilouette Dæmon; the
+ “Triforce” (Live+Install CDs for i386 and sparc, with Mir<a
+ href="http://grml.org/">Grml</a>); “the m” (alternative logo, vector)</p>
+<p>Third row (things originating from tarent): <a
+ href="http://freedroidz.org/">Freedroidz</a> (now a Teckids project);
+ <a href="https://www.osiam.org/">OSIAM</a> (Identity and Access Management);
+ <a href="https://www.tarent.de/">tarent</a> (tarent AG, tarent GmbH),
+ who sponsored production of these buttons</p>
+<p>Hm… <a href="@@RELPATH@@jupp.htm">jupp</a> needs a button’able logo!</p>
 ----
