@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.lang,v 1.15 2010/12/23 21:07:39 tg Exp $
+# $MirOS: gcc/Makefile.lang,v 1.16 2013/12/02 19:45:43 tg Exp $
 #-
 # To build gcj yourself, use the following command:
 # $ make NO_JAVA=No NO_THREADS=No NO_BOEHMGC=No COMPILER_ONLY=Yes
@@ -15,7 +15,7 @@ _MODGCC_MAKEFILE_LANG=1
 .if ${OStype} == "MirBSD"
 .  if (${MACHINE_ARCH} == "i386") || (${MACHINE_ARCH} == "sparc")
 #NO_ADA?=	No	# disabled due to lack of users vs. cost of keeping it
-NO_CXX?=	No	# disabled to not conflict with newer CXX from ports
+#NO_CXX?=	No	# disabled to not conflict with newer CXX from ports
 NO_PASCAL?=	No
 .  endif
 # Ada is known to work, but large and slow to build.
