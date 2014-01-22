@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.440 2014/01/04 20:09:26 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.441 2014/01/20 21:49:04 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10422,4 +10422,25 @@ Tag: debian event fun grml mksh twitxr work
  <a href="https://www.tarent.de/">tarent</a> (tarent AG, tarent GmbH),
  who sponsored production of these buttons</p>
 <p>Hm… <a href="@@RELPATH@@jupp.htm">jupp</a> needs a button’able logo!</p>
+<hr />
+<p><a href="http://coord.info/GC4V7ZQ">FOSDEM meetup</a></p>
+----
+Date: 22.01.2014 20:02
+Author: tg@
+Title: Lacking hacking time. Puppet stinks.
+Tag: personal rant work
+
+<p>Meh. I announced a tree breaker. Would be nice if I actually found
+ enough spare time to hack on it before, I think, end of March (which
+ is roughly when I’m planning to decommission both <tt>eurynome</tt>
+ and, for monetary reasons (not going to do an OpenBSD here and cry
+ about needing funds, as those who know me know this is a constant),
+ the manitu server).</p>
+<p>Took me 62 minutes to write a functioning OSIAM installer in mksh(1)
+ after getting annoyed that the Puppet-lovers are either ill, not able
+ to work on the project I have to finish by Friday, or not yet skilled
+ enough to help. Got the entire thing working (but this week sees way
+ too many overlong days at the workplace), estimate finishing with full
+ success by tomorrow afternoon, with zero puppet but lots of <a
+ href="@@RELPATH@@mksh.htm">mksh</a>. Maintainable, too.</p>
 ----

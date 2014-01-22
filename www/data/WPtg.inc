@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.129 2014/01/19 23:15:50 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.130 2014/01/20 21:49:04 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3858,6 +3858,12 @@ Date: 20.01.2014
 Waypoint: GC48YQF
 Title: Petling im Baum
 Tag: D25 T15 Micro Tradi
+----
+ID: 700
+Date: 22.01.2014
+Waypoint: GC3V40F
+Title: Bei Rudolf Herzog
+Tag: D1 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
