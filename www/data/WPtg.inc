@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.130 2014/01/20 21:49:04 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.131 2014/01/22 20:10:20 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2561,8 +2561,8 @@ ID: 489
 Date: 29.08.2013
 Waypoint: GC4HNY8
 Title: Dűrschhaltevɑmȫjen / Stamina
-Tag: D1 T1 Event
 nTF: 0
+Tag: D1 T1 Event
 ----
 ID: 490
 Date: 29.08.2013
@@ -2916,8 +2916,8 @@ ID: 546
 Date: 11.10.2013
 Waypoint: GC4KEME
 Title: If you go to San Francisco... - Meet &amp; Greet
-Tag: D1 T1 Event
 nTF: 1
+Tag: D1 T1 Event
 ----
 ID: 547
 Date: 12.10.2013
@@ -3032,8 +3032,8 @@ ID: 565
 Date: 27.10.2013
 Waypoint: GC4PJHJ
 Title: Ende der Eiszeit ⅯⅯⅩⅢ ☹
-Tag: D1 T1 Event
 nTF: 0
+Tag: D1 T1 Event
 ----
 ID: 566
 Date: 30.10.2013
@@ -3864,6 +3864,21 @@ Date: 22.01.2014
 Waypoint: GC3V40F
 Title: Bei Rudolf Herzog
 Tag: D1 T15 Micro Tradi
+----
+ID: 701
+Date: 02.01.2014
+Waypoint: GC35CB1
+Title: Verstecketopf Kreise II
+nTF: L
+Tag: D35 T25 Micro Multi
+----
+ID: 702
+Date: 24.01.2014
+Waypoint: GC4X7R4
+Title: Der Cowboy
+Tag: D1 T1 Small Tradi
+
+War ja klar, daß gecko2 den doch noch macht… „ich bin müde“ my Foot…
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
