@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.131 2014/01/22 20:10:20 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.132 2014/01/24 00:23:05 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3873,12 +3873,18 @@ nTF: L
 Tag: D35 T25 Micro Multi
 ----
 ID: 702
-Date: 24.01.2014
+Date: 23.01.2014
 Waypoint: GC4X7R4
 Title: Der Cowboy
 Tag: D1 T1 Small Tradi
 
 War ja klar, daß gecko2 den doch noch macht… „ich bin müde“ my Foot…
+----
+ID: 703
+Date: 24.01.2014
+Waypoint: GC17ZC0
+Title: Hermann Bleibtreu
+Tag: D2 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
