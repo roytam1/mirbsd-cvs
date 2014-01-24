@@ -1,6 +1,6 @@
-rcsid_common='$MirOS: www/mk/common,v 1.5 2013/11/30 13:19:55 tg Exp $'
+rcsid_common='$MirOS: www/mk/common,v 1.6 2013/11/30 13:47:58 tg Exp $'
 #-
-# Copyright © 2007, 2008, 2012
+# Copyright © 2007, 2008, 2012, 2013, 2014
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -268,6 +268,47 @@ function mjd_implode {
 	(( day += 1461 * (y % 25) + 36524 * (y / 25) ))
 
 	print -- $day $sec
+}
+
+# convenience function to check (German) date input (no time-of-day)
+# input is $2, MJD is written to $$1, normalised date to $$3 if $3 is set
+function dtchk {
+	local tm mjd x saveIFS r
+	set -A tm
+	set -A mjd
+	set -A x
+
+	errstr="'$2' not in DD.MM.YYYY format"
+	[[ $2 = +([0-9]).+([0-9]).+([0-9]) ]] || return 1
+	saveIFS=$IFS
+	IFS=.
+	set -A x -- $2
+	IFS=$saveIFS
+	set -A tm -- 0 0 0 $((x[0])) $((x[1] - 1)) $((x[2] - 1900)) \
+	    - - - 0 -
+	set -A mjd -- $(mjd_implode "${tm[@]}")
+	set -A x -- $(mjd_explode "${mjd[0]}" 0)
+	errstr="invalid date $2, normalises to $((x[3])).$((x[4] + 1)).$((x[5] + 1900)) ${x[2]}:${x[1]}:${x[0]}"
+	[[ ${tm[0]} = ${x[0]} ]] || return 1
+	[[ ${tm[1]} = ${x[1]} ]] || return 1
+	[[ ${tm[2]} = ${x[2]} ]] || return 1
+	errstr="bogus date $2, normalises to $((x[3])).$((x[4] + 1)).$((x[5] + 1900))"
+	[[ ${tm[3]} = ${x[3]} ]] || return 1
+	[[ ${tm[4]} = ${x[4]} ]] || return 1
+	[[ ${tm[5]} = ${x[5]} ]] || return 1
+	errstr=
+	nameref r=$1
+	r=${mjd[0]}
+	if [[ -n $3 ]]; then
+		nameref rr=$3
+		local -i10 -Z2 rd rm
+		local -i10 -Z4 ry
+		(( rd = x[3] ))
+		(( rm = x[4] + 1 ))
+		(( ry = x[5] + 1900 ))
+		rr="$rd.$rm.$ry"
+	fi
+	return 0
 }
 
 common_read=1
