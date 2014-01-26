@@ -1,6 +1,6 @@
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.96 2009/10/17 21:51:42 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.97 2010/01/21 17:20:53 tg Exp $
 #-
-# Copyright (c) 2005, 2008
+# Copyright (c) 2005, 2008, 2014
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -296,7 +296,12 @@ case :$PERL5LIB: in
 esac
 export PERL5LIB=${PERL5LIB%%+(:)}
 
-portsdir=$(realpath $ourpath)
+if (( iopt )); then
+	# we are run under Interix pdksh
+	portsdir=$(cd "$ourpath"; pwd)
+else
+	portsdir=$(realpath $ourpath)
+fi
 
 cp $portsdir/infrastructure/templates/fake.mtree $T/fake.mtree
 if [[ $myuid != root ]]; then
