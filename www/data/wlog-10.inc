@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.441 2014/01/20 21:49:04 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.442 2014/01/22 20:10:21 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10443,4 +10443,29 @@ Tag: personal rant work
  too many overlong days at the workplace), estimate finishing with full
  success by tomorrow afternoon, with zero puppet but lots of <a
  href="@@RELPATH@@mksh.htm">mksh</a>. Maintainable, too.</p>
+----
+Date: 26.01.2014 20:29
+Author: tg@
+Title: mksh build problem workaround
+Tag: mksh
+
+<p class="boxhead">As a workaround to the build problem of <a
+ href="@@RELPATH@@mksh.htm">mksh</a> R49 with some host shells,
+ you can try removing every sequence of backslash + newline in
+ <tt>rlimits.opt</tt> and <tt>sh_flags.opt</tt>, for example with
+ the following sequence:</p><div class="boxtext">
+ <pre>
+	cd /path/to/mksh
+	for f in *.opt; do
+		tr '\n' '`' &lt;"$f" | \
+		    sed 's/\\`//g' | \
+		    tr '`' '\n' &gt;"$f.out"
+		mv "$f.out" "$f"
+	done
+ </pre>
+</div><p class="boxfoot">This will apply to every upcoming
+ mksh(1) release until such time as this code has been
+ rewritten in (host) C. Another thing that could be done is
+ to add <tt>-r</tt> to both <tt>IFS= read line</tt> occurences
+ in <tt>Build.sh</tt>, function <tt>do_genopt</tt>.</p>
 ----

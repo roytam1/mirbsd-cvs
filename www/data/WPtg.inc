@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.132 2014/01/24 00:23:05 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.133 2014/01/24 23:20:27 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3885,6 +3885,26 @@ Date: 24.01.2014
 Waypoint: GC17ZC0
 Title: Hermann Bleibtreu
 Tag: D2 T15 Micro Tradi
+----
+ID: 704
+Date: 26.01.2014
+Waypoint: GC4W2RP
+Title: ⸘Immer noch keine Eiszeit‽
+nTF: 0
+Tag: D45 T15 Event
+----
+ID: 705
+Date: 26.01.2014
+Waypoint: GC4XJMP
+Title: Schwimmbad Longenburg
+nTF: 0
+Tag: D2 T15 Micro Tradi
+----
+ID: 706
+Date: 26.01.2014
+Waypoint: GC47WW6
+Title: Der Dienstweg
+Tag: D15 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
