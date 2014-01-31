@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.133 2014/01/24 23:20:27 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.134 2014/01/26 20:39:42 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3905,6 +3905,31 @@ Date: 26.01.2014
 Waypoint: GC47WW6
 Title: Der Dienstweg
 Tag: D15 T15 Micro Tradi
+----
+ID: 707
+Date: 28.01.2014
+Waypoint: GC37W20
+Title: Alfterer Kreuze 25
+Tag: D1 T1 Micro Tradi
+----
+ID: 708
+Date: 29.01.2014
+Waypoint: GC4WC0C
+Title: FCSB-Schüler-Cache No.1
+nTF: 2
+Tag: D1 T1 Small Tradi recommended
+----
+ID: 709
+Date: 30.01.2014
+Waypoint: GC3BR3Y
+Title: Kreuz am Wegesrand # 1
+Tag: D2 T2 Micro Tradi
+----
+ID: 710
+Date: 31.01.2014
+Waypoint: GC4T5DQ
+Title: TB Hotel (halb/halb) &#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;Alter Reifen&#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;
+Tag: D2 T25 Regular Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
