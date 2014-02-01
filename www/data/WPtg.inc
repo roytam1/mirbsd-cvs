@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.135 2014/01/31 00:01:32 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.136 2014/02/01 16:48:35 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3942,6 +3942,24 @@ Date: 01.02.2014
 Waypoint: GC1Z4RQ
 Title: ULB - Campus du Solbosch
 Tag: D2 T2 Regular Multi
+----
+ID: 713
+Date: 01.02.2014
+Waypoint: GC3VJ9P
+Title: XL Musée des enfants
+Tag: D15 T1 Micro Tradi
+----
+ID: 714
+Date: 01.02.2014
+Waypoint: GC4T40K
+Title: XL Schuiten's Ark
+Tag: D2 T15 Nano Tradi recommended
+----
+ID: 715
+Date: 01.02.2014
+Waypoint: GC4J0JT
+Title: XL - La Trinité
+Tag: D1 T15 Small Tradi recommended
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
