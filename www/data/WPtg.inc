@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.134 2014/01/26 20:39:42 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.135 2014/01/31 00:01:32 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3930,6 +3930,18 @@ Date: 31.01.2014
 Waypoint: GC4T5DQ
 Title: TB Hotel (halb/halb) &#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;Alter Reifen&#34;&#34;&#34;&#34;&#34;&#34;&#34;&#34;
 Tag: D2 T25 Regular Tradi
+----
+ID: 711
+Date: 01.02.2014
+Waypoint: GC4V7ZQ
+Title: FOSDEM 2014 Meetup (aka Where's that ULB cache?)
+Tag: D2 T2 Event
+----
+ID: 712
+Date: 01.02.2014
+Waypoint: GC1Z4RQ
+Title: ULB - Campus du Solbosch
+Tag: D2 T2 Regular Multi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
