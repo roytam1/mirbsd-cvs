@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.136 2014/02/01 16:48:35 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.137 2014/02/01 22:21:35 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3960,6 +3960,12 @@ Date: 01.02.2014
 Waypoint: GC4J0JT
 Title: XL - La Trinité
 Tag: D1 T15 Small Tradi recommended
+----
+ID: 716
+Date: 02.02.2014
+Waypoint: GC2MFNV
+Title: Parc l'Abbe Froidure
+Tag: D25 T2 Small Tradi recommended
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy mksh WP2dat
