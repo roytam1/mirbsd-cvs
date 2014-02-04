@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.137 2014/02/01 22:21:35 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.138 2014/02/02 22:26:28 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3967,5 +3967,18 @@ Waypoint: GC2MFNV
 Title: Parc l'Abbe Froidure
 Tag: D25 T2 Small Tradi recommended
 ----
+ID: 717
+Date: 04.02.2014
+Waypoint: https://labs.geocaching.com/Geocaches/Details/a9210b3e-1ae1-454f-bbef-1428c642958d?adventureId=fe30453c-7418-4416-a2fa-c543810ab8f8
+Title: Mach mal Mirffee!
+nTF: 1
+Tag: Lab
+----
+ID: 718
+Date: 04.02.2014
+Waypoint: GC1FE4J
+Title: Astronomie: Zeitberechnung
+Tag: D25 T1 Micro Mystery
+----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
-# ^K/ datum=dd.mm.yyyy mksh WP2dat
+# ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
