@@ -4,7 +4,7 @@
 mws_setname pkgsrc "pkgsrc on MirOS"
 mws_subdir 0
 mws_setheadline pkgsrc on MirOS
-mws_putheader '$MirOS: www/src/pkgsrc.hts,v 1.8 2013/04/21 16:11:54 bsiegert Exp $'
+mws_putheader '$MirOS: www/src/pkgsrc.hts,v 1.9 2013/04/21 17:18:11 tg Exp $'
 mws_content <<'EOF'
 <p>pkgsrc is a “ports tree” developed by the NetBSD project and portable
  to several other operating systems. Support for MirOS has existed since
@@ -30,10 +30,10 @@ mws_content <<'EOF'
 <h2>Binary packages</h2>
 
 <p>Pre-built binary packages of the
- <b>pkgsrc-2013Q1 branch</b>
- (from April 2013), built for recent MirOS-current, are
+ <b>pkgsrc-2013Q4 branch</b>
+ (from January 2014), built for recent MirOS-current, are
  available. They can be used even if you did not install a compiler on
- the system. The binary repository contains about <b>7000 packages</b>.
+ the system. The binary repository contains <b>7431 packages</b>.
  The packages have been built with
  <tt>/usr/pkg</tt>
  as the prefix and
@@ -48,7 +48,7 @@ mws_content <<'EOF'
 <ol>
  <li>Download the bootstrap kit: <br />
   <tt>ftp
-  ftp://ftp.netbsd.org/pub/pkgsrc/packages/MirBSD/i386/10uB0_2013Q1/bootstrap.tar.gz</tt></li>
+  ftp://ftp.netbsd.org/pub/pkgsrc/packages/MirBSD/i386/10uB4_2013Q4/bootstrap.tar.gz</tt></li>
  <li>Extract the file:<br />
   <tt>cd / ; sudo tar xvpzf /path/to/bootstrap.tar.gz</tt></li>
  <li>Set the PATH:<br />
@@ -85,7 +85,7 @@ mws_content <<'EOF'
   for details.</li>
  <li>To build and install a package, use the bmake command. For example,
   to install Perl:<br />
-  <tt>cd ../lang/perl5</tt><br />
+  <tt>cd /usr/pkgsrc/lang/perl5</tt><br />
   <tt>bmake package-install clean</tt></li>
 </ol>
 
