@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.16 2013/10/12 22:51:56 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.17 2013/10/12 22:57:48 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -286,6 +286,9 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 			(TC*|LC*)
 				wp="<a href=\"http://www.terracaching.com/viewcache.cgi?ID=$wp\">$wp</a>"
 				let numtc++
+				;;
+			(http*://*)
+				wp="<a href=\"$(xhtml_escape "$wp")\"><i>{link}</i></a>"
 				;;
 			(*)
 				wp=$(xhtml_escape "$wp")
