@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.138 2014/02/02 22:26:28 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.139 2014/02/04 22:11:58 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3979,6 +3979,12 @@ Date: 04.02.2014
 Waypoint: GC1FE4J
 Title: Astronomie: Zeitberechnung
 Tag: D25 T1 Micro Mystery
+----
+ID: 719
+Date: 05.02.2014
+Waypoint: GC1TGX7
+Title: Bw&amp;I Kick-Off 2009
+Tag: D15 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
