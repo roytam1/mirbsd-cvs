@@ -71,7 +71,7 @@
 #include <openssl/pem.h>
 #include <openssl/rand.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/apps/genrsa.c,v 1.5 2008/07/06 15:44:50 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/apps/genrsa.c,v 1.6 2008/07/06 16:08:02 tg Exp $");
 
 #define DEFBITS	512
 #undef PROG
@@ -97,7 +97,6 @@ int MAIN(int argc, char **argv)
 	int use_x931 = 0;
 #endif
 	const EVP_CIPHER *enc=NULL;
-	unsigned long f4=RSA_F4;
 	char *outfile=NULL;
 	char *passargout = NULL, *passout = NULL;
 #ifndef OPENSSL_NO_ENGINE
@@ -131,9 +130,10 @@ int MAIN(int argc, char **argv)
 			outfile= *(++argv);
 			}
 		else if (strcmp(*argv,"-3") == 0)
-			f4=3;
+			BIO_printf(bio_err,
+			    "E: Using e=3 is broken, using 65537 instead!\n");
 		else if (strcmp(*argv,"-F4") == 0 || strcmp(*argv,"-f4") == 0)
-			f4=RSA_F4;
+			/* nothing */;
 #ifdef OPENSSL_FIPS
 		else if (strcmp(*argv,"-x931") == 0)
 			use_x931 = 1;
@@ -193,8 +193,6 @@ bad:
 #endif
 		BIO_printf(bio_err," -out file       output the key to 'file\n");
 		BIO_printf(bio_err," -passout arg    output file pass phrase source\n");
-		BIO_printf(bio_err," -f4             use F4 (0x10001) for the E value\n");
-		BIO_printf(bio_err," -3              use 3 for the E value\n");
 #ifndef OPENSSL_NO_ENGINE
 		BIO_printf(bio_err," -engine e       use engine e, possibly a hardware device.\n");
 #endif
@@ -250,13 +248,13 @@ bad:
 		{
 		BIGNUM *pubexp;
 		pubexp = BN_new();
-		BN_set_word(pubexp, f4);
+		BN_set_word(pubexp, RSA_F4);
 		rsa = RSA_X931_generate_key(num, pubexp, genrsa_cb, bio_err);
 		BN_free(pubexp);
 		}
 	else
 #endif
-		rsa=RSA_generate_key(num,f4,genrsa_cb,bio_err);
+		rsa=RSA_generate_key(num, RSA_F4, genrsa_cb, bio_err);
 		
 	app_RAND_write_file(NULL, bio_err);
 

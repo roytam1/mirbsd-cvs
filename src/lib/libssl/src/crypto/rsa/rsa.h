@@ -165,7 +165,6 @@ struct rsa_st
 # define OPENSSL_RSA_MAX_PUBEXP_BITS	64
 #endif
 
-#define RSA_3	0x3L
 #define RSA_F4	0x10001L
 
 #define RSA_METHOD_FLAG_NO_CHECK	0x0001 /* don't check pub/private match */
