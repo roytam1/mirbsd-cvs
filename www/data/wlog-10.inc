@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.442 2014/01/22 20:10:21 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.443 2014/01/26 20:39:43 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10468,4 +10468,19 @@ Tag: mksh
  rewritten in (host) C. Another thing that could be done is
  to add <tt>-r</tt> to both <tt>IFS= read line</tt> occurences
  in <tt>Build.sh</tt>, function <tt>do_genopt</tt>.</p>
+----
+Date: 06.02.2014 14:28
+Author: tg@
+Title: KISS
+Tag: archaeology debian fun jupp pcli
+
+<p class="boxhead">Just saw this in my INBOX:</p><div class="boxtext">
+ <pre>
+    B. The default init system for jessie will be a single /etc/rc script
+ </pre>
+</div><p class="boxfoot">I’d certainly vote that❣</p>
+<hr />
+<p>In unrelated news, <a href="@@RELPATH@@jupp.htm#bdos">jupp 2.8 for DOS</a>
+ runs on <a href="http://ioccc.org/2013/cable3/hint.html">cable3</a>, which
+ means it’ll still run on an original 8088/8086 ☻</p>
 ----
