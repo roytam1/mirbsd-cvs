@@ -1,11 +1,11 @@
-# $MirOS: www/src/jupp.hts,v 1.48 2013/11/23 21:28:14 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.49 2013/12/01 01:26:53 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/juppp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.48 2013/11/23 21:28:14 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.49 2013/12/01 01:26:53 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp2</em> for MS-DOS® compatible systems,
  and <em>joe-3.1jupp26</em> for Unix/GNU compatible systems. This page is
@@ -174,7 +174,7 @@ $ $SUDO make install</pre>
 
 <h2 id="bins">Binaries</h2>
 <p>These pre-compiled binaries are currently available:</p><ul>
- <li>jupp 3.x for Unix:<ul>
+ <li id="bwin">jupp 3.x for Unix:<ul>
   <li>JOE 3.1jupp20 for Windows® (cygwin stand-alone compiled; 80486;
    self-extracting LHarc archive; comes with its own copy of cygwin1.dll;
    easy installation: right-click on the inf file for your platform
@@ -235,13 +235,13 @@ $ $SUDO make install</pre>
     <li>674256238 948176 /MirOS/dist/jupp/JWIN31B.EXE</li>
     <li>MD5 (JWIN31B.EXE) = b2d3f1044221fdea76f15621e94e1ae4</li>
   </ul></li>
-  <li>SRPMs and RPMs (various versions):<ul>
+  <li id="brpm">SRPMs and RPMs (various versions):<ul>
     <li><a href="http://download.opensuse.org/repositories/home:/mirabile/">http://download.opensuse.org/repositories/home:/mirabile/</a></li>
    </ul>
    Find there the subdirectory most closely matching your GNU/Linux
    distribution and proceed to the binaries. The SRPMs (source RPM in
    the <tt>*/src/</tt> subdirectories) should be all the same.</li>
- <li>Debian packages are available at <a
+ <li id="bdeb">Debian packages are available at <a
   href="https://eurynome.mirbsd.org/debs/debidx.htm">The MirDebian
   “WTF” APT repository</a> for etch/hardy/lenny and in Debian proper
   for squeeze-backports and wheezy onwards. Called <tt>jupp</tt>, these
@@ -250,7 +250,7 @@ $ $SUDO make install</pre>
   necessary symbolic links to use jupp’s other modes in favour of a
   separate joe package.</li>
  </ul></li>
- <li>jupp 2.x for DOS:<ul>
+ <li id="bdos">jupp 2.x for DOS:<ul>
   <li>JOE 2.8jupp1 (released 20090718) for MS-DOS® (16-bit executable;
    8086 or newer CPU), self-extracting LHarc archive – copy jupprc and
    jupp.exe to a directory in the %PATH% to install. Note that the DOS
