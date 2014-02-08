@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.538 2014/01/22 20:10:25 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.539 2014/01/26 20:39:47 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1230,6 +1230,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Explain more clearly Vi input mode limitations in the manpage</li>
  <li>[tg] Improve error reporting of the <tt>check.pl</tt> script (which needs
   a maintainer since I don’t speak any perl(1), really), for lewellyn</li>
+ <li>[tg] Use <tt>$TMPDIR</tt> in <tt>test.sh</tt> for scratch space</li>
+ <li>[tg, Polynomial-C] Check that the scratch space is not mounted noexec</li>
 </ul>
 <p id="r49">R49 is a recommended bugfix release:</p><ul>
  <li>[tg] <tt>dot.mkshrc</tt>: fix two issues with the <tt>cd</tt> wrapper</li>

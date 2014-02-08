@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.140 2014/02/05 20:31:08 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.141 2014/02/07 20:04:30 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3990,6 +3990,18 @@ ID: 720
 Date: 07.02.2014
 Waypoint: GC4PGAQ
 Title: BASEBALL TP – No.2 – Wissenschaft und Technik
+Tag: D1 T15 Micro Tradi
+----
+ID: 721
+Date: 08.02.2014
+Waypoint: GC27RPP
+Title: Bouleplatz
+Tag: D15 T15 Small Multi
+----
+ID: 722
+Date: 08.02.2014
+Waypoint: GC16M0G
+Title: BonnBeuel Heimatmuseum
 Tag: D1 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
