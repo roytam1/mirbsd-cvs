@@ -19,6 +19,7 @@ SRCS+=	asprintf.c clrerr.c fclose.c fdopen.c feof.c ferror.c fflush.c fgetc.c \
 	putwc.c putwchar.c ungetwc.c
 
 SRCS+=	getline.c
+SRCS+=	gets_s.c
 
 .ifdef __CRAZY
 CFLAGS_findfp.o+= -Wno-error
@@ -45,6 +46,7 @@ MAN+=	getline.3
 MLINKS+=ferror.3 clearerr.3 ferror.3 feof.3 ferror.3 fileno.3
 MLINKS+=fflush.3 fpurge.3
 MLINKS+=fgets.3 gets.3
+MLINKS+=fgets.3 gets_s.3
 MLINKS+=fopen.3 fdopen.3 fopen.3 freopen.3
 MLINKS+=fputs.3 puts.3
 MLINKS+=fread.3 fwrite.3
