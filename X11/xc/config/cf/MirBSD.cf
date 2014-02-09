@@ -1,4 +1,4 @@
-XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.31 2008/11/22 07:57:21 tg Exp $
+XCOMM platform:	$MirOS: X11/xc/config/cf/MirBSD.cf,v 1.32 2008/11/22 13:16:48 tg Exp $
 XCOMM platform:	$OpenBSD: OpenBSD.cf,v 1.140 2004/10/10 14:47:28 matthieu Exp $
 XCOMM platform:	$XFree86: xc/config/cf/OpenBSD.cf,v 3.79 2003/01/12 17:03:23 herrb Exp $
 
@@ -206,8 +206,8 @@ XCOMM operating system:  OSName (OSMajorVersion./**/OSMinorVersion./**/OSTeenyVe
 #define	AsCmd			${CC} -c -x assembler
 #endif
 
-#define	HasCplusplus		YES
-#define	CplusplusCmd		c++ -static-libgcc
+#define	HasCplusplus		NO
+#define	CplusplusCmd		false
 
 #if defined(UseInstalled)
 #  define DefaultCCOptions	$(COPTS)
