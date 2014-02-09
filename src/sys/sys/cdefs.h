@@ -1,9 +1,9 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.28 2011/10/18 21:29:32 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.29 2013/10/31 20:06:59 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.18 2005/05/27 21:28:12 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
 /*-
- * Copyright © 2005, 2006, 2011, 2013
+ * Copyright © 2005, 2006, 2011, 2013, 2014
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -411,6 +411,8 @@
 # define __ISO_C_VISIBLE	1990
 # undef __OPENBSD_VISIBLE
 # define __OPENBSD_VISIBLE	0
+# undef __STDC_WANT_LIB_EXT1__
+# define __STDC_WANT_LIB_EXT1__	0
 #endif
 
 /*
