@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/sys.mk,v 1.167 2013/08/06 20:34:03 tg Exp $
+# $MirOS: src/share/mk/sys.mk,v 1.168 2014/01/11 15:15:37 tg Exp $
 # $OpenBSD: sys.mk,v 1.45 2005/03/07 00:06:00 deraadt Exp $
 # $NetBSD: sys.mk,v 1.27 1996/04/10 05:47:19 mycroft Exp $
 # @(#)sys.mk	5.11 (Berkeley) 3/13/91
@@ -58,12 +58,12 @@ CFLAGS?=	-O2 ${PIPE} -std=gnu99 ${DEBUG}
 COMPILE.c?=	${CC} ${CFLAGS:M*} ${CPPFLAGS} -c
 LINK.c?=	${CC} ${CFLAGS:M*} ${CPPFLAGS} ${LDFLAGS}
 
-CXX?=		c++
+CXX?=		false
 CXXFLAGS?=	${CFLAGS:N-std=c99:N-std=gnu99}
 COMPILE.cc?=	${CXX} ${CXXFLAGS:M*} ${CPPFLAGS} -c
 LINK.cc?=	${CXX} ${CXXFLAGS:M*} ${CPPFLAGS} ${LDFLAGS}
 
-FC?=		llvm-gfortran
+FC?=		false
 FFLAGS?=	-O2
 COMPILE.f?=	${FC} ${FFLAGS:M*} -c
 LINK.f?=	${FC} ${FFLAGS:M*} ${LDFLAGS}
@@ -90,7 +90,7 @@ YACC.y?=	${YACC} ${YFLAGS}
 
 INSTALL?=	install
 
-CTAGS?=		/usr/bin/ctags
+CTAGS?=		ctags
 
 # C
 .c:
