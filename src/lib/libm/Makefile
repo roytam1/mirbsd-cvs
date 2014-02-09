@@ -1,4 +1,4 @@
-#  $MirOS: src/lib/libm/Makefile,v 1.14 2012/09/04 18:16:12 tg Exp $
+#  $MirOS: src/lib/libm/Makefile,v 1.15 2012/09/04 18:33:03 tg Exp $
 #  $NetBSD: Makefile,v 1.120 2011/09/17 10:51:52 jruoho Exp $
 #
 #  @(#)Makefile 5.1beta 93/09/24
@@ -88,7 +88,7 @@ COMMON_SRCS+= e_acos.c e_acosf.c e_acosh.c e_acoshf.c e_asin.c e_asinf.c \
 	s_floor.c s_floorf.c s_frexpf.c s_ilogb.c s_ilogbf.c \
 	s_isinff.c s_isnanf.c s_ldexpf.c s_lib_version.c s_log1p.c \
 	s_log1pf.c s_logb.c s_logbf.c \
-	s_matherr.c s_modff.c s_nextafter.c s_nextafterf.c s_nexttoward.c \
+	s_matherr.c s_modff.c s_nextafter.c s_nextafterf.c \
 	s_remquo.c s_remquof.c s_rint.c s_rintf.c s_round.c s_roundf.c s_scalbn.c \
 	s_scalbnf.c s_signgam.c s_significand.c s_significandf.c s_sin.c \
 	s_sinf.c s_tan.c s_tanf.c s_tanh.c s_tanhf.c s_trunc.c s_truncf.c \
@@ -113,9 +113,6 @@ CFLAGS_compat_cabsf.o+=	-fno-builtin-cabsf -D__MATH_PRIVATE__
 
 # NetBSD's C library supplies these functions:
 #COMMON_SRCS+=	s_fabs.c s_frexp.c s_isinf.c s_isnan.c s_ldexp.c s_modf.c
-
-# long double support missing
-#COMMON_SRCS+=	s_scalbnl.c 
 
 SRCS=	${COMMON_SRCS}
 
@@ -194,8 +191,7 @@ MLINKS+=j0.3 j0f.3 j0.3 j1.3 j0.3 j1f.3 j0.3 jn.3 j0.3 jnf.3 \
 MLINKS+=lgamma.3 lgammaf.3 lgamma.3 lgamma_r.3 lgamma.3 lgammaf_r.3 \
 	lgamma.3 gamma.3 lgamma.3 gammaf.3 lgamma.3 gamma_r.3 \
 	lgamma.3 gammaf_r.3
-MLINKS+=nextafter.3 nextafterf.3 \
-	nextafter.3 nexttoward.3
+MLINKS+=nextafter.3 nextafterf.3
 MLINKS+=lrint.3 lrintf.3 lrint.3 llrint.3 lrint.3 llrintf.3
 MLINKS+=remainder.3 remainderf.3 \
 	remainder.3 remquo.3 \
