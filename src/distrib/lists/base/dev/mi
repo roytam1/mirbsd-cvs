@@ -1,10 +1,8 @@
 ./usr/bin/addr2line
 ./usr/bin/as
 ./usr/bin/binobj
-./usr/bin/c++
 ./usr/bin/c++filt
 ./usr/bin/coffdump
-./usr/bin/g++
 ./usr/bin/gcc-3.4.6
 ./usr/bin/gcov
 ./usr/bin/gpc
