@@ -1,8 +1,8 @@
-/* $MirOS: src/include/stdint.h,v 1.6 2006/12/11 23:54:56 tg Exp $ */
+/* $MirOS: src/include/stdint.h,v 1.7 2007/09/21 10:43:01 tg Exp $ */
 
 /*-
  * "minimal" replacement for ISO C99 "stdint.h" header file (not com-
- * plete yet, but pretty near
+ * plete yet, but pretty near, with some ISO C11 sprinkled in for fun
  */
 
 #ifndef	_STDINT_H
@@ -130,6 +130,11 @@ typedef	uint64_t	uintmax_t;
 /* ssize_t is the same as an intptr_t */
 #define	SSIZE_MAX		INTPTR_MAX
 #endif
+
+/* C11 optional */
+#if !defined(__STDC_WANT_LIB_EXT1__) || (__STDC_WANT_LIB_EXT1__)
+#define RSIZE_MAX		(SIZE_MAX >> 1)
+#endif /* __STDC_WANT_LIB_EXT1__ */
 
 /* wchar_t is an unsigned short */
 #define	WCHAR_MIN		0

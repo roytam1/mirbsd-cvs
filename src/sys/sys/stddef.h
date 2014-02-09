@@ -1,4 +1,4 @@
-/* $MirOS: src/include/stddef.h,v 1.8 2013/09/10 21:15:36 tg Exp $ */
+/* $MirOS: src/sys/sys/stddef.h,v 1.1 2013/09/10 21:24:21 tg Exp $ */
 /* $OpenBSD: src/include/stddef.h,v 1.8 2005/05/11 18:44:12 espie Exp $ */
 /* $NetBSD: stddef.h,v 1.4 1994/10/26 00:56:26 cgd Exp $ */
 
@@ -47,6 +47,14 @@ typedef	__PTRDIFF_TYPE__	ptrdiff_t;
 #define	_GCC_SIZE_T
 typedef	__SIZE_TYPE__		size_t;
 #endif
+
+/* C11 optional */
+#if !defined(__STDC_WANT_LIB_EXT1__) || (__STDC_WANT_LIB_EXT1__)
+#ifndef rsize_t
+#define rsize_t		rsize_t
+typedef size_t		rsize_t;
+#endif
+#endif /* __STDC_WANT_LIB_EXT1__ */
 
 #if !defined(_GCC_WCHAR_T) && !defined(__cplusplus)
 #define	_GCC_WCHAR_T

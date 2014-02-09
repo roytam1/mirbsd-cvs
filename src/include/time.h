@@ -1,9 +1,9 @@
-/**	$MirOS: src/include/time.h,v 1.10 2011/11/20 04:57:09 tg Exp $ */
+/**	$MirOS: src/include/time.h,v 1.11 2013/10/31 20:06:09 tg Exp $ */
 /*	$OpenBSD: time.h,v 1.16 2003/08/01 17:38:33 avsm Exp $	*/
 /*	$NetBSD: time.h,v 1.9 1994/10/26 00:56:35 cgd Exp $	*/
 
 /*
- * Copyright © 2013
+ * Copyright © 2013, 2014
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1989 The Regents of the University of California.
  * All rights reserved.
@@ -67,6 +67,14 @@ typedef	_BSD_CLOCK_T_	clock_t;
 #define	_GCC_SIZE_T
 typedef	__SIZE_TYPE__	size_t;
 #endif
+
+/* C11 optional */
+#if !defined(__STDC_WANT_LIB_EXT1__) || (__STDC_WANT_LIB_EXT1__)
+#ifndef rsize_t
+#define rsize_t		rsize_t
+typedef size_t		rsize_t;
+#endif
+#endif /* __STDC_WANT_LIB_EXT1__ */
 
 #define CLOCKS_PER_SEC	100
 

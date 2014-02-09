@@ -1,9 +1,9 @@
-/**	$MirOS: src/include/stdlib.h,v 1.29 2013/10/31 20:06:08 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.30 2014/01/01 15:16:26 bsiegert Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
 /*-
- * Copyright © 2013
+ * Copyright © 2013, 2014
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
@@ -49,6 +49,14 @@
 #define	_GCC_SIZE_T
 typedef	__SIZE_TYPE__	size_t;
 #endif
+
+/* C11 optional */
+#if !defined(__STDC_WANT_LIB_EXT1__) || (__STDC_WANT_LIB_EXT1__)
+#ifndef rsize_t
+#define rsize_t		rsize_t
+typedef size_t		rsize_t;
+#endif
+#endif /* __STDC_WANT_LIB_EXT1__ */
 
 #if !defined(_GCC_WCHAR_T) && !defined(__cplusplus)
 #define	_GCC_WCHAR_T
