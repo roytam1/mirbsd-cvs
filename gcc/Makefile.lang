@@ -1,4 +1,4 @@
-# $MirOS: gcc/Makefile.lang,v 1.16 2013/12/02 19:45:43 tg Exp $
+# $MirOS: gcc/Makefile.lang,v 1.17 2014/01/22 19:55:56 tg Exp $
 #-
 # To build gcj yourself, use the following command:
 # $ make NO_JAVA=No NO_THREADS=No NO_BOEHMGC=No COMPILER_ONLY=Yes
@@ -63,5 +63,8 @@ NO_JAVA=	Yes #implied
 .  endif
 .endif
 NO_BOEHMGC?=	Yes
+
+# finally, this one
+GCC_NO_SHARED_LIBGCC=defined
 
 .endif
