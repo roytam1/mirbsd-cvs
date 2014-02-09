@@ -25,16 +25,14 @@
 .\" $FreeBSD: src/lib/msun/man/fmax.3,v 1.2 2005/01/14 09:12:05 ru Exp $
 .\" $NetBSD$
 .\"
-.Dd June 29, 2004
+.Dd $Mdocdate$
 .Dt FMAX 3
 .Os
 .Sh NAME
 .Nm fmax ,
 .Nm fmaxf ,
-.Nm fmaxl ,
 .Nm fmin ,
-.Nm fminf ,
-.Nm fminl
+.Nm fminf
 .Nd floating-point maximum and minimum functions
 .Sh LIBRARY
 .Lb libm
@@ -44,29 +42,23 @@
 .Fn fmax "double x" "double y"
 .Ft float
 .Fn fmaxf "float x" "float y"
-.Ft "long double"
-.Fn fmaxl "long double x" "long double y"
 .Ft double
 .Fn fmin "double x" "double y"
 .Ft float
 .Fn fminf "float x" "float y"
-.Ft "long double"
-.Fn fminl "long double x" "long double y"
 .Sh DESCRIPTION
 The
-.Fn fmax ,
-.Fn fmaxf ,
+.Fn fmax
 and
-.Fn fmaxl
+.Fn fmaxf
 functions return the larger of
 .Fa x
 and
 .Fa y ,
 and likewise, the
-.Fn fmin ,
-.Fn fminf ,
+.Fn fmin
 and
-.Fn fminl
+.Fn fminf
 functions return the smaller of
 .Fa x
 and
@@ -86,11 +78,9 @@ These routines do not raise any floating-point exceptions.
 The
 .Fn fmax ,
 .Fn fmaxf ,
-.Fn fmaxl ,
-.Fn fmin ,
-.Fn fminf ,
+.Fn fmin
 and
-.Fn fminl
+.Fn fminf
 functions conform to
 .St -isoC-99 .
 .Sh HISTORY

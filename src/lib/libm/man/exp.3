@@ -29,7 +29,7 @@
 .\" $FreeBSD: src/lib/msun/man/exp.3,v 1.24 2008/01/18 21:43:00 das Exp $
 .\"	$NetBSD: exp.3,v 1.28 2011/09/17 10:52:52 jruoho Exp $
 .\"
-.Dd September 13, 2011
+.Dd $Mdocdate$
 .Dt EXP 3
 .Os
 .Sh NAME
@@ -38,7 +38,6 @@
 .\" The sorting error is intentional.  exp and expf should be adjacent.
 .Nm exp2 ,
 .Nm exp2f ,
-.\" .Nm exp2l ,
 .Nm expm1 ,
 .Nm expm1f ,
 .Nd exponential functions
@@ -54,8 +53,6 @@
 .Fn exp2 "double x"
 .Ft float
 .Fn exp2f "float x"
-.\" .Ft long double
-.\" .Fn exp2l "long double x"
 .Ft double
 .Fn expm1 "double x"
 .Ft float
@@ -71,12 +68,9 @@ exponential value of the given argument
 .Fa x .
 .Pp
 The
-.Fn exp2 ,
+.Fn exp2
 and
 .Fn exp2f
-.\" .Fn exp2f ,
-.\" and
-.\" .Fn exp2l
 functions compute the base 2 exponential of the given argument
 .Fa x .
 .Pp

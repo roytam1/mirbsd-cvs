@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.33 2013/10/31 20:06:10 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.34 2014/02/09 22:35:51 tg Exp $ */
 
 /*-
  * Copyright (c) 2007, 2008, 2013
@@ -157,7 +157,6 @@ double	wcstod(const wchar_t *, wchar_t **);
 float	wcstof(const wchar_t *, wchar_t **);
 wchar_t	*wcstok(wchar_t *, const wchar_t *, wchar_t **);
 long	wcstol(const wchar_t *, wchar_t **, int);
-long double wcstold(const wchar_t *, wchar_t **);
 #if (!defined(_POSIX_C_SOURCE) && !defined(_XOPEN_SOURCE)) || \
     defined(_ISOC99_SOURCE) || (__STDC_VERSION__ - 0) > 199901L
 /* LONGLONG */

@@ -25,10 +25,3 @@ strtof(const char *nptr, char **endptr)
 {
 	return (float)strtod(nptr, endptr);
 }
-
-long double
-strtold(const char *nptr, char **endptr)
-{
-	return (long double)strtod(nptr, endptr);
-}
-

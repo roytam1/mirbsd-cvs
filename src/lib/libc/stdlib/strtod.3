@@ -31,11 +31,11 @@
 .\"
 .\"	$OpenBSD: strtod.3,v 1.8 2003/06/02 20:18:38 millert Exp $
 .\"
-.Dd June 29, 1991
+.Dd $Mdocdate$
 .Dt STRTOD 3
 .Os
 .Sh NAME
-.Nm strtod , strtof , strtold
+.Nm strtod , strtof
 .Nd convert
 .Tn ASCII
 string to floating point
@@ -45,16 +45,14 @@ string to floating point
 .Fn strtod "const char *nptr" "char **endptr"
 .Ft float
 .Fn strtof "const char *nptr" "char **endptr"
-.Ft long double
-.Fn strtold "const char *nptr" "char **endptr"
 .Sh DESCRIPTION
 These conversion functions convert the initial portion of the string pointed
 to by
 .Fa nptr
 to
-.Li double , float
+.Li double
 or
-.Li long double
+.Li float
 representation, respectively.
 .Pp
 The expected form of the string is an optional plus
@@ -74,9 +72,9 @@ Leading whitespace characters in the string (as defined by the
 function) are skipped.
 .Sh RETURN VALUES
 The
-.Fn strtod , strtof
+.Fn strtod
 and
-.Fn strtold
+.Fn strtof
 functions return the converted value, if any.
 .Pp
 If
@@ -121,9 +119,7 @@ function conforms to
 .Sh HISTORY
 The
 .Fn strtof
-and
-.Fn strtold
-functions were added to
+function was added to
 .Mx
 in 2013.
 

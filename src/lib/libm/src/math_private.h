@@ -1,4 +1,4 @@
-/**	$MirOS: src/lib/libm/src/math_private.h,v 1.3 2011/10/18 19:46:27 bsiegert Exp $ */
+/**	$MirOS: src/lib/libm/src/math_private.h,v 1.4 2012/09/04 18:16:15 tg Exp $ */
 /*	$OpenBSD: math_private.h,v 1.6 2002/02/16 21:27:27 millert Exp $	*/
 /*
  * ====================================================
@@ -17,7 +17,7 @@
  */
 
 #ifndef _MATH_PRIVATE_H_
-#define _MATH_PRIVATE_H_ "$MirOS$"
+#define _MATH_PRIVATE_H_ "$MirOS: src/lib/libm/src/math_private.h,v 1.4 2012/09/04 18:16:15 tg Exp $"
 
 #include <sys/types.h>
 
@@ -191,13 +191,6 @@ typedef union {
 	double complex z;
 	double parts[2];
 } double_complex;
-
-#if 0
-typedef union {
-	long double complex z;
-	long double parts[2];
-} long_double_complex;
-#endif
 
 #define	REAL_PART(z)	((z).parts[0])
 #define	IMAG_PART(z)	((z).parts[1])

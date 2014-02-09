@@ -1,4 +1,4 @@
-.\"	$MirOS: src/lib/libc/string/wmemchr.3,v 1.3 2007/06/16 21:05:15 tg Exp $
+.\"	$MirOS: src/lib/libc/string/wmemchr.3,v 1.4 2014/02/09 22:35:56 tg Exp $
 .\"	$OpenBSD: wmemchr.3,v 1.2 2005/04/13 20:42:48 jmc Exp $
 .\"
 .\"	$NetBSD: wmemchr.3,v 1.9 2003/09/08 17:54:33 wiz Exp $
@@ -36,7 +36,7 @@
 .\"
 .\"     from: @(#)strcpy.3	8.1 (Berkeley) 6/4/93
 .\"
-.Dd $Mdocdate: June 16 2007 $
+.Dd $Mdocdate: February 9 2014 $
 .Dt WMEMCHR 3
 .Os
 .Sh NAME
@@ -64,7 +64,6 @@
 .Nm wcstod ,
 .Nm wcstof ,
 .Nm wcstol ,
-.Nm wcstold ,
 .Nm wcstoll ,
 .Nm wcstoul ,
 .Nm wcstoull ,
@@ -126,8 +125,6 @@
 .Fn wcstof "const wchar_t *" "wchar_t **"
 .Ft long
 .Fn wcstol "const wchar_t *" "wchar_t **" "int"
-.Ft long double
-.Fn wcstold "const wchar_t *" "wchar_t **"
 .Ft long long
 .Fn wcstoll "const wchar_t *" "wchar_t **" "int"
 .Ft unsigned long
@@ -206,8 +203,5 @@ is a historic name for
 programmers are urged to not use it in new code.
 .Pp
 .Fn wcstof
-and
-.Fn wcstold
-are less- and more-precise versions of
-.Fn wcstod ,
-respectively.
+is a less-precise version of
+.Fn wcstod .

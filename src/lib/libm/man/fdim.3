@@ -25,13 +25,12 @@
 .\" $FreeBSD: src/lib/msun/man/fdim.3,v 1.1 2004/06/30 07:04:01 das Exp $
 .\" $NetBSD$
 .\"
-.Dd June 29, 2004
+.Dd $Mdocdate$
 .Dt FDIM 3
 .Os
 .Sh NAME
 .Nm fdim ,
-.Nm fdimf ,
-.Nm fdiml
+.Nm fdimf
 .Nd positive difference functions
 .Sh LIBRARY
 .Lb libm
@@ -41,14 +40,11 @@
 .Fn fdim "double x" "double y"
 .Ft float
 .Fn fdimf "float x" "float y"
-.Ft long double
-.Fn fdiml "long double x" "long double y"
 .Sh DESCRIPTION
 The
-.Fn fdim ,
-.Fn fdimf ,
+.Fn fdim
 and
-.Fn fdiml
+.Fn fdimf
 functions return the positive difference between
 .Fa x
 and
@@ -76,10 +72,9 @@ No other exceptions are raised.
 .Xr math 3
 .Sh STANDARDS
 The
-.Fn fdim ,
-.Fn fdimf ,
+.Fn fdim
 and
-.Fn fdiml
+.Fn fdimf
 functions conform to
 .St -isoC-99 .
 .Sh HISTORY

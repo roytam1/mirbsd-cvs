@@ -88,11 +88,3 @@ struct ieee_ext {
  * Exponent biases.
  */
 #define	EXT_EXP_BIAS	16383
-
-/*
- * Convenience data structures.
- */
-union ieee_ext_u {
-	long double		extu_ld;
-	struct ieee_ext		extu_ext;
-};

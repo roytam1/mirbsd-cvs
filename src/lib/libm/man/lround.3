@@ -26,16 +26,14 @@
 .\"
 .\" $FreeBSD: /repoman/r/ncvs/src/lib/msun/man/lround.3,v 1.4 2005/06/15 19:04:04 ru Exp $
 .\"
-.Dd April 7, 2005
+.Dd $Mdocdate$
 .Dt LROUND 3
 .Os
 .Sh NAME
 .Nm llround ,
 .Nm llroundf ,
-.\" .Nm llroundl ,
 .Nm lround ,
 .Nm lroundf
-.\" .Nm lroundl
 .Nd "convert to nearest integral value"
 .Sh SYNOPSIS
 .In math.h
@@ -43,14 +41,10 @@
 .Fn llround "double x"
 .Ft "long long"
 .Fn llroundf "float x"
-.\" .Ft "long long"
-.\" .Fn llroundl "long double x"
 .Ft long
 .Fn lround "double x"
 .Ft long
 .Fn lroundf "float x"
-.\" .Ft long
-.\" .Fn lroundl "long double x"
 .Sh DESCRIPTION
 The
 .Fn lround
@@ -76,8 +70,6 @@ is equivalent to
 The
 .Fn llround ,
 .Fn llroundf ,
-.\" .Fn llroundl ,
-.\" .Fn lroundl
 and
 .Fn lroundf
 functions differ from
@@ -91,8 +83,6 @@ only in their input and output types.
 The
 .Fn llround ,
 .Fn llroundf ,
-.\" .Fn lroundl
-.\" .Fn llroundl ,
 .Fn lround ,
 and
 .Fn lroundf

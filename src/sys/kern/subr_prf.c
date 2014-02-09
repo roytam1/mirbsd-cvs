@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/subr_prf.c,v 1.4 2006/12/13 00:24:07 tg Exp $ */
+/**	$MirOS: src/sys/kern/subr_prf.c,v 1.5 2006/12/13 00:33:20 tg Exp $ */
 /*	$OpenBSD: subr_prf.c,v 1.61 2005/04/14 21:58:50 krw Exp $	*/
 /*	$NetBSD: subr_prf.c,v 1.45 1997/10/24 18:14:25 chuck Exp $	*/
 
@@ -614,7 +614,7 @@ vsnprintf(char *buf, size_t size, const char *fmt, va_list ap)
 #define	ALT		0x001		/* alternate form */
 #define	HEXPREFIX	0x002		/* add 0x or 0X prefix */
 #define	LADJUST		0x004		/* left adjustment */
-#define	LONGDBL		0x008		/* long double; unimplemented */
+/*#define LONGDBL	0x008		 * long double; unimplemented */
 #define	LONGINT		0x010		/* long integer */
 #define	QUADINT		0x020		/* quad integer */
 #define	SHORTINT	0x040		/* short integer */
