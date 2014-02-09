@@ -54,12 +54,12 @@ LINK.s?=	${CC} -D_ASM_SOURCE ${AFLAGS} ${LDFLAGS}
 COMPILE.S?=	${CC} -D_ASM_SOURCE ${AFLAGS} ${CPPFLAGS} -c
 LINK.S?=	${CC} -D_ASM_SOURCE ${AFLAGS} ${CPPFLAGS} ${LDFLAGS}
 
-CFLAGS?=	-O2 ${PIPE} -std=gnu99 ${DEBUG}
+CFLAGS?=	-O2 ${PIPE} -Wno-long-long ${DEBUG}
 COMPILE.c?=	${CC} ${CFLAGS:M*} ${CPPFLAGS} -c
 LINK.c?=	${CC} ${CFLAGS:M*} ${CPPFLAGS} ${LDFLAGS}
 
 CXX?=		false
-CXXFLAGS?=	${CFLAGS:N-std=c99:N-std=gnu99}
+CXXFLAGS?=	${CFLAGS:N-std=c99:N-std=gnu99:N-Wno-long-long}
 COMPILE.cc?=	${CXX} ${CXXFLAGS:M*} ${CPPFLAGS} -c
 LINK.cc?=	${CXX} ${CXXFLAGS:M*} ${CPPFLAGS} ${LDFLAGS}
 
