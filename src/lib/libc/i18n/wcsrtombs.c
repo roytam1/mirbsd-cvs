@@ -23,16 +23,14 @@
 #include <errno.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcsrtombs.c,v 1.8 2008/11/22 11:22:10 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcsrtombs.c,v 1.9 2008/11/22 11:23:22 tg Exp $");
 
 #ifdef WCSNRTOMBS
 size_t
-wcsnrtombs(char *__restrict__ dst, const wchar_t **__restrict__ src,
-    size_t max, size_t len, mbstate_t *__restrict__ ps)
+wcsnrtombs(char *dst, const wchar_t **src, size_t max, size_t len, mbstate_t *ps)
 #else
 size_t
-wcsrtombs(char *__restrict__ dst, const wchar_t **__restrict__ src,
-    size_t len, mbstate_t *__restrict__ ps)
+wcsrtombs(char *dst, const wchar_t **src, size_t len, mbstate_t *ps)
 #endif
 {
 	static mbstate_t internal_mbstate = { 0, 0 };	/* if ps == NULL */

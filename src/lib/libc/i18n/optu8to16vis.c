@@ -24,7 +24,7 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/optu8to16vis.c,v 1.2 2008/11/22 09:02:33 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/optu8to16vis.c,v 1.3 2009/12/01 18:37:32 tg Exp $");
 
 #define vistable (vistable_ - 0xEF80)
 static wchar_t vistable_[128] = {
@@ -47,8 +47,7 @@ static wchar_t vistable_[128] = {
 };
 
 size_t
-optu8to16vis(wchar_t * restrict pwc, const char * restrict src, size_t n,
-    mbstate_t * restrict ps)
+optu8to16vis(wchar_t *pwc, const char *src, size_t n, mbstate_t *ps)
 {
 	static mbstate_t internal_mbstate = { 0, 0 };
 	size_t rv;

@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/lib/libc/i18n/wcsftime.c,v 1.4 2007/02/02 21:06:22 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -24,13 +24,13 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/wcsftime.c,v 1.3 2006/11/01 20:01:19 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/wcsftime.c,v 1.4 2007/02/02 21:06:22 tg Exp $");
 
-size_t	__weak_wcsftime(wchar_t *__restrict__, size_t,
-    const wchar_t *__restrict__, const struct tm *__restrict__);
+size_t __weak_wcsftime(wchar_t *, size_t, const wchar_t *, const struct tm *);
+
 size_t
-__weak_wcsftime(wchar_t *__restrict__ wcs, size_t maxsize,
-    const wchar_t *__restrict__ format, const struct tm *__restrict__ tp)
+__weak_wcsftime(wchar_t *wcs, size_t maxsize, const wchar_t *format,
+    const struct tm *tp)
 {
 	mbstate_t state = { 0, 0 };
 	const wchar_t *wfmt = format;

@@ -23,11 +23,10 @@
 #include <errno.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.15 2007/02/02 21:06:21 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbrtowc.c,v 1.16 2008/08/01 23:37:37 tg Exp $");
 
 size_t
-mbrtowc(wchar_t *__restrict__ dst, const char *__restrict__ src,
-    size_t len, mbstate_t *__restrict__ ps)
+mbrtowc(wchar_t *dst, const char *src, size_t len, mbstate_t *ps)
 {
 	static mbstate_t internal_mbstate = { 0, 0 };
 	wchar_t wc;

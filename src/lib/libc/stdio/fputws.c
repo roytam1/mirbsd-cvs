@@ -35,10 +35,12 @@
 #include <wchar.h>
 #include "local.h"
 
+__RCSID("$MirOS$");
+
 wint_t __fputwc_unlock(wchar_t, FILE *);
 
 int
-fputws(const wchar_t * __restrict ws, FILE * __restrict fp)
+fputws(const wchar_t *ws, FILE *fp)
 {
 	flockfile(fp);
 	_SET_ORIENTATION(fp, 1);

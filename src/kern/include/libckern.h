@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.32 2013/09/10 17:38:34 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.33 2013/10/31 20:06:13 tg Exp $ */
 
 /*-
  * Copyright (c) 2008, 2010, 2011, 2013
@@ -147,10 +147,9 @@ uint32_t OAAT0Update(register uint32_t, register const uint8_t *,
     __attribute__((__bounded__(__string__, 2, 3)));
 uint32_t OAAT0Final(register uint32_t) __a_deprecated;
 
-size_t optu16to8(char * __restrict__, wchar_t, mbstate_t * __restrict__)
+size_t optu16to8(char *, wchar_t, mbstate_t *)
     __attribute__((__bounded__(__minbytes__, 1, 5)));
-size_t optu8to16(wchar_t * __restrict__, const char * __restrict__,
-    size_t, mbstate_t * __restrict__)
+size_t optu8to16(wchar_t *, const char *, size_t, mbstate_t *)
     __attribute__((__bounded__(__string__, 2, 3)));
 
 int strcasecmp(const char *, const char *);
@@ -171,7 +170,7 @@ size_t strxfrm(char *, const char *, size_t)
     __attribute__((__bounded__(__string__, 1, 3)));
 
 #ifdef _KERN_HOSTED
-size_t wcrtomb(char * __restrict__, wchar_t, mbstate_t * __restrict__)
+size_t wcrtomb(char *, wchar_t, mbstate_t *)
     __attribute__((__bounded__(__minbytes__, 1, 5)));
 #endif
 int wcscasecmp(const wchar_t *, const wchar_t *);

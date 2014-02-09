@@ -36,7 +36,7 @@
 .Sh SYNOPSIS
 .Fd #include <stdlib.h>
 .Ft size_t
-.Fn wcstombs "char * restrict s" "const wchar_t * restrict pwcs" "size_t n"
+.Fn wcstombs "char *s" "const wchar_t *pwcs" "size_t n"
 .\" ----------------------------------------------------------------------
 .Sh DESCRIPTION
 .Fn wcstombs
@@ -126,7 +126,3 @@ The
 .Fn wcstombs
 function conforms to
 .St -ansiC .
-The restrict qualifier is added at
-.\" .St -isoC99 .
-ISO/IEC 9899/1999
-.Pq Dq ISO C99 .

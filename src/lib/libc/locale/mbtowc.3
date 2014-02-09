@@ -36,7 +36,7 @@
 .Sh SYNOPSIS
 .Fd #include <stdlib.h>
 .Ft int
-.Fn mbtowc "wchar_t * restrict pwc" "const char * restrict s" "size_t n"
+.Fn mbtowc "wchar_t *pwc" "const char *s" "size_t n"
 .Sh DESCRIPTION
 The
 .Fn mbtowc
@@ -173,7 +173,3 @@ The
 .Fn mbtowc
 function conforms to
 .St -ansiC .
-The restrict qualifier is added at
-.\" .St -isoC99 .
-ISO/IEC 9899/1999
-.Pq Dq ISO C99 .

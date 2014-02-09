@@ -36,7 +36,7 @@
 .Sh SYNOPSIS
 .Fd #include <wchar.h>
 .Ft int
-.Fn mbrlen "const char * restrict s" "size_t n" "mbstate_t * restrict ps"
+.Fn mbrlen "const char *s" "size_t n" "mbstate_t *ps"
 .\" ----------------------------------------------------------------------
 .Sh DESCRIPTION
 The
@@ -198,10 +198,4 @@ points to an invalid or uninitialized mbstate_t object.
 The
 .Fn mbrlen
 function conforms to
-.\" .St -isoC-amd1 .
-ISO/IEC 9899/AMD1:1995
-.Pq Dq ISO C90, Amendment 1 .
-The restrict qualifier is added at
-.\" .St -isoC99 .
-ISO/IEC 9899/1999
-.Pq Dq ISO C99 .
+.St -isoC-amd1 .

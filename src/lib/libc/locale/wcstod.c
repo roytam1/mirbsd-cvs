@@ -37,12 +37,12 @@
 #include <wchar.h>
 #include <wctype.h>
 
-__RCSID("$MirOS: src/lib/libc/locale/wcstod.c,v 1.4 2010/01/07 22:34:52 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/locale/wcstod.c,v 1.5 2012/09/04 19:04:32 tg Exp $");
 
 const wchar_t mbsd_digits_Ldec[] = L"0123456789";
 
 double
-wcstod(const wchar_t *__restrict__ nptr, wchar_t **__restrict__ endptr)
+wcstod(const wchar_t *nptr, wchar_t **endptr)
 {
 	const wchar_t *src;
 	size_t size;
@@ -131,7 +131,7 @@ wcstod(const wchar_t *__restrict__ nptr, wchar_t **__restrict__ endptr)
 }
 
 float
-wcstof(const wchar_t *__restrict__ nptr, wchar_t **__restrict__ endptr)
+wcstof(const wchar_t *nptr, wchar_t **endptr)
 {
 	return ((float)wcstod(nptr, endptr));
 }

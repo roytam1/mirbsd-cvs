@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.30 2014/01/01 15:16:26 bsiegert Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.31 2014/02/09 16:15:32 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -316,9 +316,9 @@ const char *getprogname(void);
 #endif /* !_ANSI_SOURCE && !_POSIX_SOURCE */
 
 int	mblen(const char *, size_t);
-size_t	mbstowcs(wchar_t *__restrict__, const char *__restrict__, size_t);
-int	mbtowc(wchar_t *__restrict__, const char *__restrict__, size_t);
-size_t	wcstombs(char *__restrict__, const wchar_t *__restrict__, size_t);
+size_t	mbstowcs(wchar_t *, const char *, size_t);
+int	mbtowc(wchar_t *, const char *, size_t);
+size_t	wcstombs(char *, const wchar_t *, size_t);
 int	wctomb(char *, const wchar_t);
 __END_DECLS
 

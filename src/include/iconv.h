@@ -1,4 +1,4 @@
-/* $MirOS: src/share/misc/licence.template,v 1.20 2006/12/11 21:04:56 tg Rel $ */
+/* $MirOS: src/include/iconv.h,v 1.5 2006/12/11 23:54:56 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -39,8 +39,7 @@ typedef void *iconv_t;
 
 __BEGIN_DECLS
 iconv_t iconv_open(const char *, const char *);
-size_t iconv(iconv_t, char **__restrict__, size_t *__restrict__,
-    char **__restrict__, size_t *__restrict__);
+size_t iconv(iconv_t, char **, size_t *, char **, size_t *);
 int iconv_close(iconv_t);
 __END_DECLS
 

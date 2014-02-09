@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/sys/sys/statvfs.h,v 1.1 2007/05/19 22:10:09 tg Exp $ */
 /*	$NetBSD: statvfs.h,v 1.11 2006/07/31 16:34:44 martin Exp $	 */
 /*	$NetBSD: statvfs.h,v 1.3 2004/08/23 03:32:13 jlam Exp $	*/
 
@@ -131,7 +131,7 @@ struct statvfs {
 #endif
 
 __BEGIN_DECLS
-int	statvfs(const char *__restrict, struct statvfs *__restrict);
+int	statvfs(const char *, struct statvfs *);
 int	fstatvfs(int, struct statvfs *);
 #ifdef notyet
 int	getvfsstat(struct statvfs *, size_t, int);
@@ -139,7 +139,7 @@ int	getmntinfo(struct statvfs **, int);
 #if __OPENBSD_VISIBLE
 int	fhstatvfs(const void *, size_t, struct statvfs *);
 
-int	statvfs1(const char *__restrict, struct statvfs *__restrict, int);
+int	statvfs1(const char *, struct statvfs *, int);
 int	fstatvfs1(int, struct statvfs *, int);
 int	fhstatvfs1(const void *, size_t, struct statvfs *, int);
 #endif /* _NETBSD_SOURCE */

@@ -29,11 +29,10 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libc/string/wcstok.c,v 1.1 2006/06/02 12:57:21 tg Exp $");
 
 wchar_t	*
-wcstok(wchar_t *__restrict__ s, const wchar_t *__restrict__ delim,
-    wchar_t **__restrict__ last)
+wcstok(wchar_t *s, const wchar_t *delim, wchar_t **last)
 {
 	const wchar_t *spanp;
 	wchar_t c, sc, *tok;

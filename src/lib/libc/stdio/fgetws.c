@@ -36,10 +36,12 @@
 #include <wchar.h>
 #include "local.h"
 
+__RCSID("$MirOS$");
+
 wint_t __fgetwc_unlock(FILE *);
 
 wchar_t *
-fgetws(wchar_t * __restrict ws, int n, FILE * __restrict fp)
+fgetws(wchar_t *ws, int n, FILE *fp)
 {
 	wchar_t *wsp;
 	wint_t wc;

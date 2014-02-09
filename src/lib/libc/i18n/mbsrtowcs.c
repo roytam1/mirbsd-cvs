@@ -22,7 +22,7 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.12 2008/08/17 00:19:08 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.13 2008/11/22 11:23:22 tg Exp $");
 
 #ifdef MBSNRTOWCSVIS
 #undef mbsnrtowcs
@@ -34,13 +34,11 @@ __RCSID("$MirOS: src/lib/libc/i18n/mbsrtowcs.c,v 1.12 2008/08/17 00:19:08 tg Exp
 
 #ifdef MBSNRTOWCS
 size_t
-mbsnrtowcs(wchar_t * restrict pwcs, const char ** restrict s,
-    size_t max, size_t n, mbstate_t * restrict ps)
+mbsnrtowcs(wchar_t *pwcs, const char **s, size_t max, size_t n, mbstate_t *ps)
 #else
 #define max MB_CUR_MAX
 size_t
-mbsrtowcs(wchar_t * restrict pwcs, const char ** restrict s,
-    size_t n, mbstate_t * restrict ps)
+mbsrtowcs(wchar_t *pwcs, const char **s, size_t n, mbstate_t *ps)
 #endif
 {
 	static mbstate_t internal_mbstate = { 0, 0 };

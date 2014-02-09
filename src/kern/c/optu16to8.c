@@ -27,31 +27,31 @@
 #include <errno.h>
 #endif
 
-__RCSID("$MirOS: src/kern/c/optu16to8.c,v 1.1 2008/08/01 23:24:01 tg Exp $");
+__RCSID("$MirOS: src/kern/c/optu16to8.c,v 1.2 2008/11/22 09:02:33 tg Exp $");
 
 #ifdef _KERN_HOSTED
-static size_t _optu16to8(uint8_t * restrict, wchar_t, mbstate_t * restrict);
+static size_t _optu16to8(uint8_t *, wchar_t, mbstate_t *);
 
 size_t
-wcrtomb(char * restrict s, wchar_t wc, mbstate_t * restrict ps)
+wcrtomb(char *s, wchar_t wc, mbstate_t *ps)
 {
 	static mbstate_t w_state = { 0, 0 };
 
-	return (_optu16to8((uint8_t * restrict)s, wc, ps ? ps : &w_state));
+	return (_optu16to8((uint8_t *)s, wc, ps ? ps : &w_state));
 }
 #endif
 
 size_t
-optu16to8(char * restrict s, wchar_t wc, mbstate_t * restrict ps)
+optu16to8(char *s, wchar_t wc, mbstate_t *ps)
 {
 	static mbstate_t o_state = { 0, 0 };
 
 #ifdef _KERN_HOSTED
-	return (_optu16to8((uint8_t * restrict)s, wc, ps ? ps : &o_state));
+	return (_optu16to8((uint8_t *)s, wc, ps ? ps : &o_state));
 }
 
 static size_t
-_optu16to8(uint8_t * restrict s, wchar_t wc, mbstate_t * restrict ps)
+_optu16to8(uint8_t *s, wchar_t wc, mbstate_t *ps)
 {
 #endif
 	uint8_t count, *src = (uint8_t *)s;

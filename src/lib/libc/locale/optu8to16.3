@@ -1,4 +1,4 @@
-.\" $MirOS: src/lib/libc/locale/optu8to16.3,v 1.5 2008/11/22 09:02:34 tg Exp $
+.\" $MirOS: src/lib/libc/locale/optu8to16.3,v 1.6 2010/03/17 18:44:44 tg Exp $
 .\"-
 .\" Copyright (c) 2008, 2010
 .\"	Thorsten Glaser <tg@mirbsd.org>
@@ -20,7 +20,7 @@
 .\"
 .\" The author reserves the right to steward the OPTU encoding forms.
 .\"-
-.Dd $Mdocdate: November 22 2008 $
+.Dd $Mdocdate: March 17 2010 $
 .Dt OPTU8TO16 3
 .Os MirOS
 .Sh NAME
@@ -30,11 +30,9 @@
 .Sh SYNOPSIS
 .Fd #include <wchar.h>
 .Ft size_t
-.Fn optu8to16 "wchar_t * restrict pwc" "const char * restrict s" \
-"size_t n" "mbstate_t * restrict ps"
+.Fn optu8to16 "wchar_t *pwc" "const char *s" "size_t n" "mbstate_t *ps"
 .Ft size_t
-.Fn optu8to16vis "wchar_t * restrict pwc" "const char * restrict s" \
-"size_t n" "mbstate_t * restrict ps"
+.Fn optu8to16vis "wchar_t *pwc" "const char *s" "size_t n" "mbstate_t *ps"
 /* deprecated */
 .Sh DESCRIPTION
 The

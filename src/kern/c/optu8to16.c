@@ -22,11 +22,10 @@
 
 #include <libckern.h>
 
-__RCSID("$MirOS: src/kern/c/optu8to16.c,v 1.3 2009/07/03 18:19:06 tg Exp $");
+__RCSID("$MirOS: src/kern/c/optu8to16.c,v 1.4 2013/09/02 19:24:52 tg Exp $");
 
 size_t
-optu8to16(wchar_t * restrict pwc, const char * restrict src, size_t n,
-    mbstate_t * restrict ps)
+optu8to16(wchar_t *pwc, const char *src, size_t n, mbstate_t *ps)
 {
 	static mbstate_t istate = { 0, 0 };
 	const unsigned char *s = (const unsigned char *)src;
