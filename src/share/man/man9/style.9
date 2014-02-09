@@ -1,6 +1,6 @@
-.\" $MirOS: src/share/man/man9/style.9,v 1.22 2013/10/31 17:40:00 tg Exp $
+.\" $MirOS: src/share/man/man9/style.9,v 1.23 2013/10/31 20:06:46 tg Exp $
 .\"-
-.\" Copyright (c) 2002-2013 The MirOS Project.
+.\" Copyright (c) 2002-2014 The MirOS Project.
 .\" Copyright (c) ? OpenBSD
 .\" Copyright (c) 1995 FreeBSD Inc.
 .\" All rights reserved.
@@ -748,7 +748,8 @@ function(int a1, int a2, float fl, int a4)
 When declaring variables in functions, declare them sorted by size (largest to
 smallest), then in alphabetical order; multiple ones per line are okay.
 If a line overflows, reuse the type keyword.
-Declarations must follow ISO C99 or at least ANSI C.
+Declarations must follow
+.St -ansiC-89 .
 .Pp
 Be careful not to obfuscate the code by initialising variables in
 the declarations.
@@ -787,15 +788,6 @@ The exception to this is in functions containing assembly code where the
 .Dq register
 specifier is required for proper code generation in the absence of
 compiler optimisation.
-.Pp
-In C99 code, use
-.Dq __restrict__
-instead of
-.Dq restrict
-if required.
-The
-.Aq Pa sys/cdefs.h
-include file defines them out if an old compiler is used.
 .Pp
 When using
 .Fn longjmp
@@ -939,7 +931,7 @@ function(a1, a2, fl, a4)
 }
 .Ed
 .Pp
-You really ought to replace them with ISO C99 function declarations.
+You really ought to replace them with ANSI C function declarations.
 Long parameter lists are wrapped with a normal four space indent.
 .Pp
 Variable numbers of arguments should look like this:
@@ -1026,7 +1018,11 @@ any warnings, failures or malfunctions with gcc3
 pcc
 .Fl O ,
 SUNWcc, and gcc4
-.Fl O2 fwrapv fno\-strict\-aliasing Wformat .
+.Fl O2 fwrapv std=c99 Wformat .
+Do try to keep code working with gcc3
+.Fl std=c89 ,
+possibly with support for
+.Vt long long int .
 .Pp
 Note that documentation follows its own style guide,
 as documented in
