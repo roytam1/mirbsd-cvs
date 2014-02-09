@@ -197,13 +197,13 @@
 #ifdef lint
 #define __aligned(x)
 #define __func__		"__func__"
-#define __restrict__
+#define __restrict
 #define __unused
 #define __a_used
 #define __a_deprecated
 #elif defined(__PCC__)
 #define __aligned(x)		_Pragma("aligned " #x)
-#define __restrict__		restrict
+#define __restrict		restrict
 #define __unused		__attribute__((__unused__))
 #define __a_used
 #define __a_deprecated
@@ -213,6 +213,15 @@
 #define __a_used		__attribute__((__used__))
 #define __a_deprecated		__attribute__((__deprecated__))
 #endif
+
+#if !defined(__restrict) && !defined(__cplusplus)
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+#define __restrict		restrict
+#else
+#define __restrict
+#endif
+#endif
+#define __restrict__		__restrict
 
 #if defined(__ELF__) && defined(__GNUC__) && \
     !defined(__llvm__) && !defined(__NWCC__)
