@@ -1,4 +1,4 @@
-@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.19 2010/04/08 17:55:16 tg Exp $
+@c $MirOS: gcc/gcc/doc/invoke.texi,v 1.20 2012/05/21 20:50:32 tg Exp $
 @c
 @c Copyright (C) 1988, 1989, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999,
 @c 2000, 2001, 2002, 2003, 2004, 2005, 2007, 2009
@@ -33,7 +33,7 @@ included in the gfdl(7) man page.
 @c man end
 @c Set file name and title for the man page.
 @setfilename gcc
-@settitle GNU project C and C++ compiler
+@settitle GNU project C compiler
 @c man begin SYNOPSIS
 gcc [@option{-c}|@option{-S}|@option{-E}] [@option{-std=}@var{standard}]
     [@option{-g}] [@option{-pg}] [@option{-O}@var{level}]
@@ -44,7 +44,7 @@ gcc [@option{-c}|@option{-S}|@option{-E}] [@option{-std=}@var{standard}]
     [@option{-o} @var{outfile}] @var{infile}@dots{}
 
 Only the most useful options are listed here; see below for the
-remainder.  @samp{g++} accepts mostly the same options as @samp{gcc}.
+remainder.
 @c man end
 @c man begin SEEALSO
 gpl(7), gfdl(7), fsf-funding(7),

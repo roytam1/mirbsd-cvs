@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.55 2009/12/12 19:40:41 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.56 2014/02/09 16:48:52 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -153,8 +153,13 @@ pre-install:
 ${B_MAN}: .MADE do-build
 
 doc/mgcc.1: .MADE doc/gcc.1
+.if !defined(NO_CXX) || ${NO_CXX:L} == "no"
 	sed -e 's#^gcc\( .*- GNU project C and\)#mgcc, c++\1#' \
 	    <doc/gcc.1 >doc/mgcc.1
+.else
+	sed -e 's#^gcc\( .*- GNU project C and\)#mgcc\1#' \
+	    <doc/gcc.1 >doc/mgcc.1
+.endif
 
 doc/mcpp.1: .MADE doc/cpp.1
 	sed -e 's#^cpp\( .*- The \)C#mcpp\1GNU C#' \
