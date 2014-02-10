@@ -1,7 +1,7 @@
-$MirOS$
---- gcc/opts.c.orig	Sat Mar 28 18:28:21 2009
-+++ gcc/opts.c	Sat Dec  5 14:28:06 2009
-@@ -1597,6 +1597,9 @@ common_handle_option (size_t scode, cons
+$MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_opts_c,v 1.1 2009/12/05 15:38:54 tg Exp $
+--- gcc/opts.c.orig	Fri Nov 27 11:34:08 2009
++++ gcc/opts.c	Sun Dec  1 04:04:48 2013
+@@ -1599,6 +1599,9 @@ common_handle_option (size_t scode, cons
        set_Wextra (value);
        break;
  
@@ -11,7 +11,7 @@ $MirOS$
      case OPT_Werror_:
        enable_warning_as_error (arg, value, lang_mask);
        break;
-@@ -2040,6 +2043,9 @@ common_handle_option (size_t scode, cons
+@@ -2042,6 +2045,9 @@ common_handle_option (size_t scode, cons
      case OPT_gxcoff:
      case OPT_gxcoff_:
        set_debug_level (XCOFF_DEBUG, code == OPT_gxcoff_, arg);

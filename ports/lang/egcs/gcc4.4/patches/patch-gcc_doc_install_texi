@@ -1,12 +1,12 @@
-$MirOS$
---- gcc/doc/install.texi.orig	Sun Dec  6 15:04:14 2009
-+++ gcc/doc/install.texi	Sun Dec  6 15:04:28 2009
+$MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_doc_install_texi,v 1.1 2009/12/06 15:52:19 tg Exp $
+--- gcc/doc/install.texi.orig	Thu Jul 15 09:26:06 2010
++++ gcc/doc/install.texi	Sun Dec  1 04:12:18 2013
 @@ -97,7 +97,8 @@ Free Documentation License}''.
  @end ifinfo
  @dircategory Software development
  @direntry
 -* gccinstall: (gccinstall).    Installing the GNU Compiler Collection.
-+* gccinstall-4.4.2: (gccinstall-4.4.2).
++* gccinstall-VSS: (gccinstall-VSS).
 +                               Installing the GNU Compiler Collection.
  @end direntry
  

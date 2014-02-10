@@ -1,6 +1,6 @@
-$MirOS: ports/lang/egcs/gcc4.4/patches/patch-configure_ac,v 1.1 2009/12/05 15:38:53 tg Exp $
---- configure.ac.orig	Sat Apr 25 04:10:05 2009
-+++ configure.ac	Sun Dec  6 14:52:48 2009
+$MirOS: ports/lang/egcs/gcc4.4/patches/patch-configure_ac,v 1.2 2009/12/06 15:52:18 tg Exp $
+--- configure.ac.orig	Mon Jun 27 21:15:33 2011
++++ configure.ac	Sun Dec  1 04:04:45 2013
 @@ -305,7 +305,7 @@ if test "${ENABLE_GOLD}" = "yes"; then
    case "${target}" in
      *-*-elf* | *-*-sysv4* | *-*-unixware* | *-*-eabi* | hppa*64*-*-hpux* \
@@ -37,7 +37,7 @@ $MirOS: ports/lang/egcs/gcc4.4/patches/patch-configure_ac,v 1.1 2009/12/05 15:38
    *-*-netbsd*)
      # Skip some stuff on all NetBSD configurations.
      noconfigdirs="$noconfigdirs target-newlib target-libiberty target-libgloss"
-@@ -1106,6 +1119,9 @@ case "${host}" in
+@@ -1108,6 +1121,9 @@ case "${host}" in
      ;;
    *-*-sysv4*)
      host_makefile_frag="config/mh-sysv4"

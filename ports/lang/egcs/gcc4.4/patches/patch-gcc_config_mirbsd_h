@@ -1,8 +1,8 @@
-$MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_config_mirbsd_h,v 1.5 2009/12/06 19:28:39 tg Exp $
+$MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_config_mirbsd_h,v 1.6 2009/12/20 22:32:43 tg Exp $
 --- gcc/config/mirbsd.h.orig	Sun Dec 20 21:36:34 2009
 +++ gcc/config/mirbsd.h	Sun Dec 20 21:51:12 2009
 @@ -0,0 +1,395 @@
-+/* $MirOS: gcc/gcc/config/mirbsd.h,v 1.25 2009/12/12 19:40:42 tg Exp $ */
++/* $MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_config_mirbsd_h,v 1.6 2009/12/20 22:32:43 tg Exp $ */
 +
 +/* Base configuration file for all MirOS BSD targets.
 +   Copyright (C) 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2005, 2006, 2007,
@@ -194,7 +194,7 @@ $MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_config_mirbsd_h,v 1.5 2009/12/0
 + *	%R = sysroot præfix (empty except if cross-compiling)
 + *	STANDARD_EXEC_PREFIX = “${PREFIX}/lib/gcc/”
 + *	DEFAULT_TARGET_MACHINE = “${OStriplet}”
-+ *	DEFAULT_TARGET_VERSION = “4.4.2”
++ *	DEFAULT_TARGET_VERSION = “4.4.7”
 + */
 +#undef MIRBSD_RDIR
 +#define MIRBSD_RDIR	STANDARD_EXEC_PREFIX DEFAULT_TARGET_MACHINE "/" \

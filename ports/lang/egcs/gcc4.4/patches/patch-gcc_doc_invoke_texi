@@ -1,0 +1,25 @@
+$MirOS$
+--- gcc/doc/invoke.texi.orig	Wed Mar 23 22:01:48 2011
++++ gcc/doc/invoke.texi	Sun Dec  1 20:40:46 2013
+@@ -33,10 +33,10 @@ included in the gfdl(7) man page.
+      funds for GNU development.
+ @c man end
+ @c Set file name and title for the man page.
+-@setfilename gcc
++@setfilename gcc-VSS
+ @settitle GNU project C and C++ compiler
+ @c man begin SYNOPSIS
+-gcc [@option{-c}|@option{-S}|@option{-E}] [@option{-std=}@var{standard}]
++gcc-VSS [@option{-c}|@option{-S}|@option{-E}] [@option{-std=}@var{standard}]
+     [@option{-g}] [@option{-pg}] [@option{-O}@var{level}]
+     [@option{-W}@var{warn}@dots{}] [@option{-pedantic}]
+     [@option{-I}@var{dir}@dots{}] [@option{-L}@var{dir}@dots{}]
+@@ -45,7 +45,7 @@ gcc [@option{-c}|@option{-S}|@option{-E}
+     [@option{-o} @var{outfile}] [@@@var{file}] @var{infile}@dots{}
+ 
+ Only the most useful options are listed here; see below for the
+-remainder.  @samp{g++} accepts mostly the same options as @samp{gcc}.
++remainder.  @samp{g++-VSS} accepts mostly the same options as @samp{gcc-VSS}.
+ @c man end
+ @c man begin SEEALSO
+ gpl(7), gfdl(7), fsf-funding(7),

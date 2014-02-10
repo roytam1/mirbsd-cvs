@@ -1,22 +1,22 @@
-@comment $MirOS: ports/lang/egcs/gcc4.4/PLIST,v 1.3 2009/12/06 19:05:02 tg Exp $
+@comment $MirOS: ports/lang/egcs/gcc4.4/PLIST,v 1.4 2009/12/06 19:08:49 tg Exp $
 @option no-default-conflict
-@pkgcfl gcc-${VSN}-*
-@unexec install-info --delete --info-dir=%D/info %D/info/cpp-4.4.2.info
-@unexec install-info --delete --info-dir=%D/info %D/info/cppinternals-4.4.2.info
-@unexec install-info --delete --info-dir=%D/info %D/info/gcc-4.4.2.info
-@unexec install-info --delete --info-dir=%D/info %D/info/gccinstall-4.4.2.info
-@unexec install-info --delete --info-dir=%D/info %D/info/gccint-4.4.2.info
-bin/cpp-${VSN}
-bin/gcc-${VSN}
-@comment bin/gccbug-${VSN}
-bin/gcov-${VSN}
-bin/${OStriplet}-gcc-${VSN}
+@pkgcfl gcc-${VSS}*
+@unexec install-info --delete --info-dir=%D/info %D/info/cpp-4.4.info
+@unexec install-info --delete --info-dir=%D/info %D/info/cppinternals-4.4.info
+@unexec install-info --delete --info-dir=%D/info %D/info/gcc-4.4.info
+@unexec install-info --delete --info-dir=%D/info %D/info/gccinstall-4.4.info
+@unexec install-info --delete --info-dir=%D/info %D/info/gccint-4.4.info
+bin/cpp-${VSS}
+bin/gcc-${VSS}
+@comment bin/gccbug-${VSS}
+bin/gcov-${VSS}
+bin/${OStriplet}-gcc-${VSS}
 @comment bin/${OStriplet}-gcc-tmp
-info/cpp-${VSN}.info
-info/cppinternals-${VSN}.info
-info/gcc-${VSN}.info
-info/gccinstall-${VSN}.info
-info/gccint-${VSN}.info
+info/cpp-${VSS}.info
+info/cppinternals-${VSS}.info
+info/gcc-${VSS}.info
+info/gccinstall-${VSS}.info
+info/gccint-${VSS}.info
 lib/gcc/${OStriplet}/${VSN}/crtbegin.o
 lib/gcc/${OStriplet}/${VSN}/crtbeginS.o
 lib/gcc/${OStriplet}/${VSN}/crtbeginT.o
@@ -70,9 +70,9 @@ libexec/gcc/${OStriplet}/${VSN}/install-tools/fixinc.sh
 libexec/gcc/${OStriplet}/${VSN}/install-tools/fixincl
 libexec/gcc/${OStriplet}/${VSN}/install-tools/mkheaders
 libexec/gcc/${OStriplet}/${VSN}/install-tools/mkinstalldirs
-man/man1/cpp-${VSN}.1
-man/man1/gcc-${VSN}.1
-man/man1/gcov-${VSN}.1
+man/man1/cpp-${VSS}.1
+man/man1/gcc-${VSS}.1
+man/man1/gcov-${VSS}.1
 @comment man/man7/fsf-funding.7
 @comment man/man7/gfdl.7
 @comment man/man7/gpl.7
@@ -90,8 +90,8 @@ man/man1/gcov-${VSN}.1
 @dirrm lib/gcc/${OStriplet}/${VSN}
 @dirrm lib/gcc/${OStriplet}
 @dirrm lib/gcc
-@exec install-info --info-dir=%D/info %D/info/cpp-4.4.2.info
-@exec install-info --info-dir=%D/info %D/info/cppinternals-4.4.2.info
-@exec install-info --info-dir=%D/info %D/info/gcc-4.4.2.info
-@exec install-info --info-dir=%D/info %D/info/gccinstall-4.4.2.info
-@exec install-info --info-dir=%D/info %D/info/gccint-4.4.2.info
+@exec install-info --info-dir=%D/info %D/info/cpp-4.4.info
+@exec install-info --info-dir=%D/info %D/info/cppinternals-4.4.info
+@exec install-info --info-dir=%D/info %D/info/gcc-4.4.info
+@exec install-info --info-dir=%D/info %D/info/gccinstall-4.4.info
+@exec install-info --info-dir=%D/info %D/info/gccint-4.4.info

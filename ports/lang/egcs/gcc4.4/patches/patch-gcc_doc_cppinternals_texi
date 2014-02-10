@@ -1,12 +1,12 @@
-$MirOS$
---- gcc/doc/cppinternals.texi.orig	Sun Dec  6 15:03:44 2009
-+++ gcc/doc/cppinternals.texi	Sun Dec  6 15:04:09 2009
+$MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_doc_cppinternals_texi,v 1.1 2009/12/06 15:52:19 tg Exp $
+--- gcc/doc/cppinternals.texi.orig	Thu Feb 14 04:56:11 2008
++++ gcc/doc/cppinternals.texi	Sun Dec  1 04:12:12 2013
 @@ -7,7 +7,8 @@
  @ifinfo
  @dircategory Software development
  @direntry
 -* Cpplib: (cppinternals).      Cpplib internals.
-+* Cpplib-4.4.2: (cppinternals-4.4.2).
++* Cpplib-VSS: (cppinternals-VSS).
 +                               Cpplib internals.
  @end direntry
  @end ifinfo

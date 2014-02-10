@@ -1,16 +1,16 @@
-# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.8 2009/12/20 22:32:43 tg Exp $
+BROKEN=WIP, do not use (this goes under the tree breakage eMail)
 
-# for now...
-#ONLY_FOR_PLATFORM+=	Darwin:*:*
+# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.9 2009/12/20 23:15:21 tg Exp $
+
 ONLY_FOR_PLATFORM+=	MirBSD:10.171:i386
 
 COMMENT=		GNU Compiler Collection
 COMMENT-rtl=		GNU Compiler Collection: Runtime Libraries
 CATEGORIES=		lang devel
-VSN=			4.4.2
+VSN=			4.4.7
 HOMEPAGE=		http://gcc.gnu.org/
 
-# GNU GPLv3
+# GNU GPLv3+, GFDLv1.2+
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 PERMIT_PACKAGE_CDROM=	Yes
@@ -18,10 +18,9 @@ PERMIT_PACKAGE_FTP=	Yes
 
 .include <mirports.sys.mk>
 
+VSS=			${VSN:R}
 MASTER_SITES=		${MASTER_SITE_GCC:=releases/gcc-${VSN}/}
 DISTNAME=		gcc-${VSN}
-DISTFILES=		gcc-core-${VSN}${EXTRACT_SUFX}
-DISTFILES+=		gcc-objc-${VSN}${EXTRACT_SUFX}
 PKGNAME-rtl=		gcc-rtl-${VSN}-${DASH_VER}
 NO_REGRESS=		Yes
 
@@ -40,11 +39,12 @@ BUILD_DEPENDS+=		:bison-*:devel/bison
 LIB_DEPENDS+=		gmp:gmp->=4.1:devel/gmp
 LIB_DEPENDS+=		mpfr:mpfr->=2.3.2:math/mpfr
 .  if ${SUBPACKAGE} != "-rtl"
-RUN_DEPENDS+=		:gcc-rtl-${VSN}-*:lang/egcs/gcc4.4,-rtl
+RUN_DEPENDS+=		:gcc-rtl-${VSN}-*:lang/egcs/gcc${VSS},-rtl
 .  endif
 .endif
 
 SUBST_VARS+=		OStriplet
+SUBST_VARS+=		VSS
 
 MODGNU_RECURSE_DIRS=	${WRKSRC}
 MODGNU_RECURSE_DIRS+=	${WRKSRC}/fixincludes
@@ -56,8 +56,9 @@ MODGNU_RECURSE_DIRS+=	${WRKSRC}/libgcc
 #MODGNU_RECURSE_DIRS+=	${WRKSRC}/libgomp
 MODGNU_RECURSE_DIRS+=	${WRKSRC}/libiberty
 #MODGNU_RECURSE_DIRS+=	${WRKSRC}/libmudflap
-MODGNU_RECURSE_DIRS+=	${WRKSRC}/libobjc
+#MODGNU_RECURSE_DIRS+=	${WRKSRC}/libobjc
 MODGNU_RECURSE_DIRS+=	${WRKSRC}/libssp
+MODGNU_RECURSE_DIRS+=	${WRKSRC}/libstdc++-v3
 #MODGNU_RECURSE_DIRS+=	${WRKSRC}/zlib
 AUTOGEN=		${MKSH} ${.CURDIR}/autogen.sh
 CONFIGURE_STYLE=	autogen
@@ -66,14 +67,14 @@ AUTOMAKE_VERSION=	1.9
 CONFIGURE_ARGS+=	--enable-static \
 			${CONFIGURE_SHARED} \
 			--disable-gold \
-			--disable-libada \
+			--enable-libada \
 			--enable-libssp \
 			--disable-objc-gc \
-			--disable-bootstrap \
+			--enable-bootstrap \
 			--enable-serial-configure \
 			--with-gmp=${LOCALBASE:Q} \
 			--disable-werror \
-			--enable-languages=c,objc \
+			--enable-languages=c,c++,ada \
 			--enable-threads \
 			--disable-sjlj-exceptions \
 			--disable-cld \
@@ -89,7 +90,7 @@ CONFIGURE_ARGS+=	--enable-static \
 			--disable-libstdcxx-pch \
 			--enable-cxx-flags='-O1 -fno-omit-frame-pointer' \
 			--enable-wchar_t \
-			--program-suffix=-${VSN:Q}
+			--program-suffix=-${VSS:Q}
 EXTRA_XAKE_FLAGS+=	MAKEINFOFLAGS=--no-split
 EXTRA_XAKE_FLAGS+=	GNUSYSTEM_AUX_DIR=${GNUSYSTEM_AUX_DIR:Q}
 # stupid libgcc tries to install during build
@@ -102,9 +103,13 @@ EXTRA_MAKE_FLAGS+=	INSTALL_PROGRAM=${ASUSER_INSTALL_PROGRAM:Q} \
 CONFIGURE_ARGS+=	--with-arch=i486 --with-tune=pentium-mmx
 .endif
 
+post-extract:
+	# gnatmake needs “gcc”, literally
+	ln -s ${_MPWRAP_CC} ${WRKDIR}/bin/gcc
+
 post-install:
 	cd ${PREFIX}/info && for f in *.info; do \
-		mv $$f $${f%.info}-4.4.2.info; \
+		mv $$f $${f%.info}-4.4.7.info; \
 	done
 	mv ${PREFIX}/lib/fpic/libiberty.a \
 	    ${PREFIX}/lib/gcc/${OStriplet}/${VSN}/fpic/

@@ -1,13 +1,12 @@
-$MirOS$
---- gcc/doc/gccint.texi.orig	Sun Dec  6 15:04:31 2009
-+++ gcc/doc/gccint.texi	Sun Dec  6 15:04:57 2009
-@@ -51,7 +51,8 @@ Texts being (a) (see below), and with th
+$MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_doc_gccint_texi,v 1.1 2009/12/06 15:52:19 tg Exp $
+--- gcc/doc/gccint.texi.orig	Sat May 23 17:54:37 2009
++++ gcc/doc/gccint.texi	Sun Dec  1 04:12:16 2013
+@@ -51,7 +51,7 @@ Texts being (a) (see below), and with th
  @ifnottex
  @dircategory Software development
  @direntry
 -* gccint: (gccint).            Internals of the GNU Compiler Collection.
-+* gccint-4.4.2: (gccint-4.4.2).
-+                               Internals of the GNU Compiler Collection.
++* gccint-VSS: (gccint-VSS).    Internals of the GNU Compiler Collection.
  @end direntry
  This file documents the internals of the GNU compilers.
  @sp 1

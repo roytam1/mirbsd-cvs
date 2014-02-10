@@ -1,7 +1,7 @@
-$MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_config_gcc,v 1.1 2009/12/05 15:38:54 tg Exp $
---- gcc/config.gcc.orig	Sun Sep 13 13:00:49 2009
-+++ gcc/config.gcc	Sun Dec  6 18:11:15 2009
-@@ -516,6 +516,21 @@ case ${target} in
+$MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_config_gcc,v 1.2 2009/12/06 19:05:03 tg Exp $
+--- gcc/config.gcc.orig	Fri Feb 18 21:39:27 2011
++++ gcc/config.gcc	Sun Dec  1 04:04:45 2013
+@@ -522,6 +522,21 @@ case ${target} in
    default_use_cxa_atexit=yes
    use_gcc_tgmath=no
    ;;
@@ -23,7 +23,7 @@ $MirOS: ports/lang/egcs/gcc4.4/patches/patch-gcc_config_gcc,v 1.1 2009/12/05 15:
  *-*-netbsd*)
    tmake_file="t-slibgcc-elf-ver t-libc-ok t-netbsd t-libgcc-pic"
    gas=yes
-@@ -1046,6 +1061,11 @@ i[34567]86-*-freebsd*)
+@@ -1053,6 +1068,11 @@ i[34567]86-*-freebsd*)
  x86_64-*-freebsd*)
  	tm_file="${tm_file} i386/unix.h i386/att.h dbxelf.h elfos.h ${fbsd_tm_file} i386/x86-64.h i386/freebsd.h i386/freebsd64.h"
  	tmake_file="${tmake_file} i386/t-crtstuff"
