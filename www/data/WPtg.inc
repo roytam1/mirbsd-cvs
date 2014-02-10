@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.141 2014/02/07 20:04:30 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.142 2014/02/08 20:37:11 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4003,6 +4003,12 @@ Date: 08.02.2014
 Waypoint: GC16M0G
 Title: BonnBeuel Heimatmuseum
 Tag: D1 T15 Micro Tradi
+----
+ID: 723
+Date: 10.02.2014
+Waypoint: GC4DTTJ
+Title: Flitzer_Blitzer
+Tag: D15 T25 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
