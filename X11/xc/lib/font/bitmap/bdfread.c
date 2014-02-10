@@ -63,6 +63,8 @@ from The Open Group.
 
 #include <stdint.h>
 
+__RCSID("$MirOS$");
+
 #define INDICES 256
 #define MAXENCODING 0xFFFF
 #define BDFLINELEN  1024
@@ -286,7 +288,7 @@ bdfReadCharacters(FontFilePtr file, FontPtr pFont, bdfFileState *pState,
 	bdfError("invalid number of CHARS in BDF file\n");
 	return (FALSE);
     }
-    if (nchars > INT32_MAX / sizeof(CharInfoRec)) {
+    if ((unsigned)nchars > INT32_MAX / sizeof(CharInfoRec)) {
 	bdfError("Couldn't allocate pCI (%d*%d)\n", nchars,
 		 sizeof(CharInfoRec));
 	goto BAILOUT;
@@ -336,7 +338,7 @@ bdfReadCharacters(FontFilePtr file, FontPtr pFont, bdfFileState *pState,
 	char        charName[100];
 	int         ignore;
 
-	if (sscanf((char *) line, "STARTCHAR %s", charName) != 1) {
+	if (sscanf((char *) line, "STARTCHAR %99s", charName) != 1) {
 	    bdfError("bad character name in BDF file\n");
 	    goto BAILOUT;	/* bottom of function, free and return error */
 	}
