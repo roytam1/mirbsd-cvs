@@ -1,7 +1,7 @@
-# $MirOS: src/scripts/roff2htm,v 1.77 2013/01/01 20:49:09 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.78 2014/01/04 20:24:59 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
-# Copyright (c) 2004, 2005, 2006, 2007, 2011, 2012
+# Copyright (c) 2004, 2005, 2006, 2007, 2011, 2012, 2014
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 # Original version for ekkoBSD by:
 # Copyright (c) 2004
@@ -271,7 +271,7 @@ function output_header {
 function output_footer {
 	print '
 <hr /><p style="font-size:xx-small;">Generated on' $roff2htm_gendate 'by
- <tt>$MirOS: src/scripts/roff2htm,v 1.77 2013/01/01 20:49:09 tg Exp $</tt></p>
+ <tt>$MirOS: src/scripts/roff2htm,v 1.78 2014/01/04 20:24:59 tg Exp $</tt></p>
 <p>These manual pages and other documentation are <a
  href="'$roff2htm_rel'man7/BSD-Licence.htm">copyrighted</a> by their respective writers;
  their source is available at our <a href="http://cvs.mirbsd.de/">CVSweb</a>,
@@ -337,7 +337,8 @@ function convert_all {
 	local tp=${2:-$(pwd)/mbsdman}		# target basepath
 	local x f
 
-	(find ${1:-/usr/share/man}/cat{[1-9],3p} -name \*.0 2>&- | sort -f) |&
+	(find ${1:-/usr/share/man}/cat{[1-9],3p} -name \*.0 2>/dev/null | \
+	    sort -f) |&
 	for x in 1 2 3 3p 4 5 6 7 8 9; do
 		mkdir -p $tp/man$x	# one per section
 		output_htaccess >$tp/man$x/.htaccess
