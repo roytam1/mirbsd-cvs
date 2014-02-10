@@ -1,6 +1,6 @@
-# $MirOS: src/distrib/common/functions,v 1.4 2011/02/18 23:06:03 tg Exp $
+# $MirOS: src/distrib/common/functions,v 1.5 2012/01/15 00:33:14 tg Exp $
 #-
-# Copyright (c) 2008, 2010, 2011, 2012
+# Copyright (c) 2008, 2010, 2011, 2012, 2014
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -50,7 +50,7 @@ function uri_escape {
 }
 
 _getrnd() {
-	typeset url=${2:-https}://call.mirbsd.org/rn.cgi?bsdrd${1:-manuell}
+	local url=${2:-https}://call.mirbsd.org/rn.cgi?bsdrd${1:-manuell}
 	(ulimit -T 60; date; ftp -mvo /dev/arandom $url,os=$(uri_escape \
 	    $(sysctl -n kern.{ostype,ospatchlevel,osversion,hostname} \
 	    hw.machine)),seed=$(dd if=/dev/arandom bs=32 count=1 | \
@@ -63,9 +63,12 @@ _ntp() {
 	done
 	if [[ -x /usr/sbin/rdate ]]; then
 		print -n Adjusting the clock...
-		typeset x=$(rdate -nv ntp.mirbsd.org 2>&1)
+		local nl='
+' x=$(for server in 10.0.2.2 ntp.mirbsd.org; do
+			rdate -nv $server
+		    done 2>&1)
 		print -r -- "$x" >/dev/wrandom
-		print -r " $x"
+		print -r " ${x//$nl/ }"
 	fi
 	if [[ -x /usr/sbin/ntpd ]]; then
 		print -n Starting NTP daemon...
