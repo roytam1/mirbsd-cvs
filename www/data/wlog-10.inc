@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.443 2014/01/26 20:39:43 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.444 2014/02/06 14:30:45 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10483,4 +10483,9 @@ Tag: archaeology debian fun jupp pcli
 <p>In unrelated news, <a href="@@RELPATH@@jupp.htm#bdos">jupp 2.8 for DOS</a>
  runs on <a href="http://ioccc.org/2013/cable3/hint.html">cable3</a>, which
  means it’ll still run on an original 8088/8086 ☻</p>
+<p><strong>Update 10.02.2014</strong>: The unobfuscated version of cable3 is
+ called <a href="http://www.megalith.co.uk/8086tiny/">8086tiny</a> under the
+ MIT licence. Thanks to the author for doing that (and not just dumping the
+ IOCCC code) and to RT from the mksh(1) <a href="@@RELPATH@@ksh-chan.htm">IRC
+ channel</a> for finding it on the ’net!</p>
 ----
