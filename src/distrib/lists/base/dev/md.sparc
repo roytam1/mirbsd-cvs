@@ -55,7 +55,6 @@
 ./usr/include/sparc/z8530var.h
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/SYSCALLS.c.X
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/cc1
-./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/cc1plus
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/collect2
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/crtbegin.o
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/crtbeginS.o

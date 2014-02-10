@@ -1278,6 +1278,7 @@
 ./usr/include/syskern
 ./usr/include/syskern/libckern.h
 ./usr/include/syskern/md5.h
+./usr/include/syskern/mirhash.h
 ./usr/include/syskern/mirtime.h
 ./usr/include/syskern/nzat.h
 ./usr/include/syslog.h
@@ -6018,6 +6019,7 @@
 ./usr/share/man/cat3/getrpcport.0
 ./usr/share/man/cat3/getrrsetbyname.0
 ./usr/share/man/cat3/gets.0
+./usr/share/man/cat3/gets_s.0
 ./usr/share/man/cat3/getservbyname.0
 ./usr/share/man/cat3/getservbyname_r.0
 ./usr/share/man/cat3/getservbyport.0
@@ -6606,7 +6608,6 @@
 ./usr/share/man/cat3/nextafter.0
 ./usr/share/man/cat3/nextafterf.0
 ./usr/share/man/cat3/nextkey.0
-./usr/share/man/cat3/nexttoward.0
 ./usr/share/man/cat3/nftw.0
 ./usr/share/man/cat3/nice.0
 ./usr/share/man/cat3/nl.0
@@ -7166,7 +7167,6 @@
 ./usr/share/man/cat3/strtok.0
 ./usr/share/man/cat3/strtok_r.0
 ./usr/share/man/cat3/strtol.0
-./usr/share/man/cat3/strtold.0
 ./usr/share/man/cat3/strtoll.0
 ./usr/share/man/cat3/strtonum.0
 ./usr/share/man/cat3/strtoq.0

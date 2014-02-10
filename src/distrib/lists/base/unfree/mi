@@ -8,9 +8,6 @@
 ./usr/share/info/gccint.info
 ./usr/share/info/gdb.info
 ./usr/share/info/gdbint.info
-./usr/share/info/gnat-style.info
-./usr/share/info/gnat_rm.info
-./usr/share/info/gnat_ugn_unw.info
 ./usr/share/info/ld.info
 ./usr/share/info/ldint.info
 ./usr/share/info/stabs.info
@@ -19,7 +16,6 @@
 ./usr/share/man/cat1/as.0
 ./usr/share/man/cat1/c++filt.0
 ./usr/share/man/cat1/dlltool.0
-./usr/share/man/cat1/g++.0
 ./usr/share/man/cat1/gcov.0
 ./usr/share/man/cat1/ld.0
 ./usr/share/man/cat1/mcpp.0

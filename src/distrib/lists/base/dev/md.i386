@@ -56,7 +56,6 @@
 ./usr/include/i386/vmparam.h
 ./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/SYSCALLS.c.X
 ./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/cc1
-./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/cc1plus
 ./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/collect2
 ./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/crtbegin.o
 ./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/crtbeginS.o
