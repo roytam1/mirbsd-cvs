@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.142 2014/02/08 20:37:11 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.143 2014/02/10 19:44:32 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4009,6 +4009,12 @@ Date: 10.02.2014
 Waypoint: GC4DTTJ
 Title: Flitzer_Blitzer
 Tag: D15 T25 Micro Tradi
+----
+ID: 724
+Date: 11.02.2014
+Waypoint: GC4X6MH
+Title: Bonner Kunstwerke: What if?
+Tag: D15 T1 Nano Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
