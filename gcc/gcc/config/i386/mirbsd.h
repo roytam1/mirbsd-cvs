@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/config/i386/mirbsd.h,v 1.7 2009/12/06 18:22:39 tg Exp $ */
+/* $MirOS: gcc/gcc/config/i386/mirbsd.h,v 1.8 2014/02/10 00:00:09 tg Exp $ */
 
 /* Definitions of target machine for GCC,
    for i386/ELF MirOS BSD systems.
@@ -84,6 +84,8 @@ Boston, MA 02111-1307, USA.  */
 /* Target initialises 80387 FPU to 53-bit mantissa mode.  */
 #undef LONG_DOUBLE_TYPE_SIZE
 #define LONG_DOUBLE_TYPE_SIZE 64
+#undef TARGET_FLT_EVAL_METHOD
+#define TARGET_FLT_EVAL_METHOD (-1)
 
 /* This gets defined in elfos.h, and keeps us from using
    libraries compiled with the native cc, so undef it. */
