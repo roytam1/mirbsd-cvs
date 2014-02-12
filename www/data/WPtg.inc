@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.143 2014/02/10 19:44:32 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.144 2014/02/11 22:04:31 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4014,7 +4014,20 @@ ID: 724
 Date: 11.02.2014
 Waypoint: GC4X6MH
 Title: Bonner Kunstwerke: What if?
-Tag: D15 T1 Nano Tradi
+Tag: D15 T1 Nano Tradi recommended
+----
+ID: 725
+Date: 12.02.2014
+Waypoint: GC4YF7K
+Title: B257 Blitzgefahr
+nTF: 4
+Tag: D1 T1 Small Tradi
+----
+ID: 726
+Date: 12.02.2014
+Waypoint: GC32NMY
+Title: Lourdes / Eifel
+Tag: D2 T15 Small Tradi recommended
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
