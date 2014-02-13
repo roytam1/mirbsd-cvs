@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.144 2014/02/11 22:04:31 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.145 2014/02/12 21:14:13 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4028,6 +4028,13 @@ Date: 12.02.2014
 Waypoint: GC32NMY
 Title: Lourdes / Eifel
 Tag: D2 T15 Small Tradi recommended
+----
+ID: 727
+Date: 13.02.2014
+Waypoint: GC4WHAK
+Title: A - M - P - E - L 2
+nTF: 1
+Tag: D1 T1 Event
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
