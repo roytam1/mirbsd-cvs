@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.146 2014/02/13 16:04:28 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.147 2014/02/14 20:21:22 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4046,6 +4046,12 @@ ID: 729
 Date: 14.02.2014
 Waypoint: GC3C1DK
 Title: Spontanes Kreuz am Feld
+Tag: D4 T15 Micro Mystery
+----
+ID: 730
+Date: 15.02.2014
+Waypoint: GC3DRGY
+Title: Kinderleicht!
 Tag: D4 T15 Micro Mystery
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
