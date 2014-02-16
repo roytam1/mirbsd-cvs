@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.147 2014/02/14 20:21:22 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.148 2014/02/15 22:54:30 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4053,6 +4053,30 @@ Date: 15.02.2014
 Waypoint: GC3DRGY
 Title: Kinderleicht!
 Tag: D4 T15 Micro Mystery
+----
+ID: 731
+Date: 16.02.2014
+Waypoint: GC187BM
+Title: Das Rätsel des Grafen
+Tag: D3 T15 Regular Mystery
+----
+ID: 732
+Date: 16.02.2014
+Waypoint: GC2DE9V
+Title: Über die Insel Grafenwerth
+Tag: D2 T2 Micro Mystery
+----
+ID: 733
+Date: 16.02.2014
+Waypoint: GC1JTRB OC98BB
+Title: Insel Grafenwerth
+Tag: D2 T15 Micro Tradi
+----
+ID: 734
+Date: 16.02.2014
+Waypoint: GC2DE6R
+Title: Rheinfaehre Rolandseck
+Tag: D1 T1 Small Tradi recommended
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
