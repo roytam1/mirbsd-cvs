@@ -20,12 +20,13 @@
 
 #include <sys/types.h>
 #include <sys/time.h>
+#include <syskern/libckern.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include "arc4random.h"
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random_pushb.c,v 1.1 2010/09/12 17:10:53 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_pushb_fast.c,v 1.1 2010/09/21 19:38:22 tg Exp $");
 
 void
 arc4random_pushb_fast(const void *buf, size_t len)

@@ -20,12 +20,13 @@
  * Implementation of an old OpenBSD API with new arc4random(3).
  */
 
+#include <syskern/libckern.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include "arc4random.h"
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_addrandom.c,v 1.1 2010/09/12 17:10:53 tg Exp $");
 
 void
 arc4random_addrandom(u_char *dat, int datlen)

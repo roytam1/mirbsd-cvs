@@ -26,6 +26,7 @@
 #include <sys/param.h>
 #include <sys/sysctl.h>
 #include <sys/time.h>
+#include <syskern/libckern.h>
 #include <syskern/mirhash.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -34,7 +35,7 @@
 #include "arc4random.h"
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.6 2014/02/19 14:56:00 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.7 2014/02/19 17:43:27 tg Exp $");
 
 struct arc4random_status a4state;
 

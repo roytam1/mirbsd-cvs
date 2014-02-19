@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/crypt/arc4random.h,v 1.1 2010/09/12 17:10:52 tg Exp $ */
+/* $MirOS: src/lib/libc/crypt/arc4random.h,v 1.2 2014/02/19 14:55:35 tg Exp $ */
 
 /*-
  * Copyright (c) 2010, 2014
@@ -26,9 +26,6 @@
 #define _LIBC_INTERNAL_ARC4RANDOM_H
 
 __BEGIN_DECLS
-
-#include <syskern/libckern.h>
-
 extern struct arc4random_status {
 	uint32_t pool[32];
 	struct arcfour_status cipher;
@@ -47,7 +44,6 @@ extern struct arc4random_status {
 
 void arc4random_atexit(void);
 void arc4random_stir_locked(pid_t);
-
 __END_DECLS
 
 #endif
