@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.148 2014/02/15 22:54:30 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.149 2014/02/16 21:05:46 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4077,6 +4077,18 @@ Date: 16.02.2014
 Waypoint: GC2DE6R
 Title: Rheinfaehre Rolandseck
 Tag: D1 T1 Small Tradi recommended
+----
+ID: 735
+Date: 18.02.2014
+Waypoint: GC4RR87
+Title: Tor zum Ennert
+Tag: D15 T1 Small Tradi
+----
+ID: 736
+Date: 19.02.2014
+Waypoint: GC2XX34
+Title: Häuser der Helfer: GVP Bonn - reloaded
+Tag: D15 T1 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
