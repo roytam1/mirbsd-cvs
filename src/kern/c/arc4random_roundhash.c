@@ -19,87 +19,80 @@
  */
 
 #include <libckern.h>
-#include <nzat.h>
+#include <mirhash.h>
 
-__RCSID("$MirOS: src/kern/c/arc4random_roundhash.c,v 1.8 2014/01/08 19:05:02 tg Exp $");
+__RCSID("$MirOS: src/kern/c/arc4random_roundhash.c,v 1.9 2014/01/11 18:12:14 tg Exp $");
+
+static void
+arc4random_roundhash_do(uint32_t pools[32], unsigned int pool,
+    const uint8_t *buf, size_t len)
+{
+	register uint32_t h;
+
+	--pool;
+	while (len--) {
+		pool = (pool + 1) & 31;
+		h = pools[pool];
+		BAFHUpdateOctet_reg(h, *buf++);
+		pools[pool] = h;
+	}
+}
+
+static void
+arc4random_roundhash_stir(uint32_t pools[32])
+{
+	register uint32_t h;
+	uint32_t irest, ilow3, ihigh, j;
+	union {
+		uint32_t dw[32];
+		uint8_t db[128];
+	} tmpa;
+	uint32_t tmpb[32];
+
+	for (irest = 0; irest < 32; ++irest) {
+		h = pools[irest];
+		BAFHFinish_reg(h);
+		tmpa.dw[irest] = h;
+	}
+
+	for (ihigh = 0; ihigh < 8; ihigh += 4)
+		for (irest = 0; irest < 4; ++irest)
+			for (ilow3 = 0; ilow3 < 4; ++ilow3) {
+				j = ((ihigh + irest) << 4) + ilow3;
+				h = tmpa.db[j] | (tmpa.db[j + 4] << 8) |
+				    (tmpa.db[j + 8] << 16) |
+				    (tmpa.db[j + 12] << 24);
+				BAFHFinish_reg(h);
+				pools[((ihigh + ilow3) << 2) + irest] = h;
+				tmpb[(irest << 3) + ilow3 + (ihigh ^ 4)] = h;
+			}
+
+	arc4random_roundhash_do(pools, 0, (void *)tmpb, 128);
+}
 
 void
 arc4random_roundhash(uint32_t pools[32], uint8_t *poolptr,
     const void *buf_, size_t len)
 {
-	register uint32_t h;
-	register unsigned int pool;
+	size_t n, pool;
 	const uint8_t *buf = (const uint8_t *)buf_;
 
 	pool = *poolptr;
-	while (len--) {
-		pool = (pool + 1) & 31;
-		h = pools[pool];
-		NZATUpdateByte(h, *buf++);
-		pools[pool] = h;
+	goto chkpool;
+ loop:
+	n = 128 - pool;
+	if (len < n)
+		n = len;
+	arc4random_roundhash_do(pools, pool, buf, n);
+	buf += n;
+	len -= n;
+	pool += n;
+ chkpool:
+	if (pool > 127) {
+		arc4random_roundhash_stir(pools);
+		pool = 0;
 	}
+	if (len)
+		goto loop;
 	*poolptr = pool;
 }
-
-#if 0
- * TODO:
- * mix the content after precisely 128 bytes have been roundhashed
- * idea for an algorithm:
- *
- * register uint32_t h;
- * uint32_t irest, ilow3, ihigh, j, i;
- * union {
- *	uint32_t dw[32];
- *	uint8_t db[128];
- * } tmpa;
- * uint32_t tmpb[32];
- * typeof(*poolptr) saved;
- *
- * saved = *poolptr;
- * arc4random_roundhash(pools, poolptr, &saved, sizeof(saved)); //optional
- * for (irest = 0; irest < 32; ++irest) { //using irest as counter coz register
- *	h = pools[irest];
- *	NZATMix(h);
- *	tmpa.dw[irest] = h;
- * }
- * for (ihigh = 0; ihigh < 8; ihigh += 4)
- *	for (irest = 0; irest < 4; ++irest)
- *		for (ilow3 = 0; ilow3 < 4; ++ilow3) {
- *			j = ((ihigh + irest) << 4) + ilow3;
- *			h = make_dword(tmpa.db[j; j+4; j+8; j+12]);
- * /* mix2 */		NZATMix(h);
- *			pools[((ihigh + ilow3) << 2) + irest] = h;
- *			tmpb[(irest << 3) + ilow3 + (ihigh ^ 4)] = h;
- *		 }
- * *poolptr = 0;
- * arc4random_roundhash(pools, poolptr, tmpb, 128);
- * *poolptr = saved;
- *
- * XXX check this against {{{
-
-			⎜               ⎜               ⎜               ⎜               ⎜               ⎜               ⎜               .
-	<--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><--><-->
-mix	 M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M
-yields	00000000000000001111111111111111222222222222222233333333333333334444444444444444555555555555555566666666666666667777777777777777
-(tmpa)	0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF
-swapb		\     /
-(inner loop)	/     \
-result	00000000000000001111111111111111222222222222222233333333333333334444444444444444555555555555555566666666666666667777777777777777
-(i.l.h)	048C159D26AE37BF048C159D26AE37BF048C159D26AE37BF048C159D26AE37BF048C159D26AE37BF048C159D26AE37BF048C159D26AE37BF048C159D26AE37BF
-mix2	 M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M   M
-yields	00000000000000001111111111111111222222222222222233333333333333334444444444444444555555555555555566666666666666667777777777777777
-	0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF
-+ copyto (tmpb?)
-	44444444444444440000000000000000555555555555555511111111111111116666666666666666222222222222222277777777777777773333333333333333
-	0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF0123456789ABCDEF01234567
-+ also (pools?)			    \     /
-				    /     \
-	00001111222233330000111122223333000011112222333300001111222233334444555566667777444455556666777744445555666677774444555566667777
-	0123012301230123456745674567456789AB89AB89AB89ABCDEFCDEFCDEFCDEF0123012301230123456745674567456789AB89AB89AB89ABCDEFCDEFCDEFCDEF
-X roundhash with copy-from-above
-	45674567456745674567456745674567456745674567456745674567456745670123012301230123012301230123012301230123012301230123012301230123
-	0000111122223333444455556666777788889999AAAABBBBCCCCDDDDEEEEFFFF0000111122223333444455556666777788889999AAAABBBBCCCCDDDDEEEEFFFF
-⇒ directly usable hash states
-
- * }}} XXX
-#endif
