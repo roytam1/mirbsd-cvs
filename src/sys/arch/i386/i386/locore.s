@@ -1,9 +1,9 @@
-/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.14 2011/07/18 00:39:44 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.15 2011/07/18 13:11:06 tg Exp $ */
 /*	$OpenBSD: locore.s,v 1.77.2.1 2005/02/27 00:39:58 brad Exp $	*/
 /*	$NetBSD: locore.s,v 1.145 1996/05/03 19:41:19 christos Exp $	*/
 
 /*-
- * Copyright (c) 2010, 2011
+ * Copyright (c) 2010, 2011, 2014
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1993, 1994, 1995 Charles M. Hannum.  All rights reserved.
  * Copyright (c) 1990 The Regents of the University of California.
@@ -213,10 +213,11 @@ start:	movw	$0x1234,0x472			# warm boot
 	cld
 	mov	ecx,1048576+65536
 	xor	esi,esi
+	/* Load initial entropy value */
+	mov	eax,[RELOC(_C_LABEL(initial_entropy))]
+	/* BAFHUpdateMem_reg */
+	mov	ebx,eax
 	xor	eax,eax
-	/* NZATInit */
-	xor	ebx,ebx
-	/* NZATUpdateMem */
 1:	lodsb
 	add	ebx,eax
 	inc	ebx
@@ -241,11 +242,8 @@ start:	movw	$0x1234,0x472			# warm boot
 	xor	eax,ebx
 	mov	ebx,eax
 	shl	eax,15
-	add	ebx,eax
-
-	/* Store the result. */
-	mov	eax,[RELOC(_C_LABEL(initial_entropy))]
-	xor	eax,ebx
+	add	eax,ebx
+	/* Store result as new initial entropy value */
 	mov	[RELOC(_C_LABEL(initial_entropy))],eax
 	popfd
 	popad
