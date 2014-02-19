@@ -35,7 +35,7 @@
 #include "arc4random.h"
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.7 2014/02/19 17:43:27 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.8 2014/02/19 21:16:27 tg Exp $");
 
 struct arc4random_status a4state;
 
@@ -80,6 +80,7 @@ arc4random(void)
 		arc4random_stir_locked(mypid);
 
 	/* randomly skip a byte or two */
+	/*XXX this should be constant-time */
 	if (arcfour_byte(&a4state.cipher) & 1)
 		(void)arcfour_byte(&a4state.cipher);
 
@@ -96,7 +97,8 @@ void
 arc4random_stir_locked(pid_t mypid)
 {
 	size_t n;
-	int carry, mib[2];
+	unsigned int carry;
+	int mib[2];
 	union {
 		uint8_t charbuf[256];
 		uint32_t intbuf[64];
@@ -113,8 +115,8 @@ arc4random_stir_locked(pid_t mypid)
 		mypid = getpid();
 	if (!a4state.a4s_initialised) {
 		arcfour_init(&a4state.cipher);
-		for (n = 0; n < 32; ++n)
-			bzero(a4state.pool, sizeof(a4state.pool));
+		bzero(a4state.pool, sizeof(a4state.pool));
+		a4state.a4s_poolptr = 0;
 	}
 	carry = arcfour_byte(&a4state.cipher);
 	arc4random_roundhash(a4state.pool, &a4state.a4s_poolptr,
