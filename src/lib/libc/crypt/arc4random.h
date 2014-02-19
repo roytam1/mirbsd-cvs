@@ -1,7 +1,7 @@
-/* $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $ */
+/* $MirOS: src/lib/libc/crypt/arc4random.h,v 1.1 2010/09/12 17:10:52 tg Exp $ */
 
 /*-
- * Copyright (c) 2010
+ * Copyright (c) 2010, 2014
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -33,10 +33,10 @@ extern struct arc4random_status {
 	uint32_t pool[32];
 	struct arcfour_status cipher;
 	struct {
+		int count_;
+		pid_t stir_pid_;
 		uint8_t poolptr_;
 		bool initialised_;
-		pid_t stir_pid_;
-		int count_;
 	} otherinfo;
 } a4state;
 
