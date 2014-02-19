@@ -34,7 +34,7 @@
 #include "arc4random.h"
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.4 2011/07/06 22:22:09 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.5 2012/10/19 18:59:40 tg Exp $");
 
 struct arc4random_status a4state;
 
@@ -169,7 +169,7 @@ arc4random_stir_locked(pid_t mypid)
 	while (carry--)
 		(void)arcfour_byte(&a4state.cipher);
 
-	a4state.a4s_poolptr = arcfour_byte(&a4state.cipher);
+	a4state.a4s_poolptr = 0;
 	a4state.a4s_initialised = true;
 	a4state.a4s_stir_pid = mypid;
 	a4state.a4s_count = 1600000;
