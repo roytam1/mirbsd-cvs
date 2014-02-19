@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libmbfun/Makefile,v 1.3 2011/07/17 17:19:25 tg Exp $
+# $MirOS: src/lib/libmbfun/Makefile,v 1.4 2014/02/19 16:59:32 tg Exp $
 
 LIB=		mbfun
 HDRS=		mbfun.h
@@ -12,7 +12,7 @@ SRCS+=		optu8to16vis.c
 UIF_FUNCS+=	ambstowcs ambsntowcs
 UIF_FUNCS+=	awcstombs awcsntombs
 
-UNIFDEF_SRCS+=	mbsrtowcs.c mbsnrtowcsvis.c -DMBSNRTOWCSVIS
+UNIFDEF_SRCS+=	mbsnrtowcsvis.c mbsrtowcs.c -DMBSNRTOWCSVIS
 
 MLINKS+=	ambstowcs.3 awcstombs.3
 
@@ -22,7 +22,7 @@ MAN+=		${_f}.3
 .endfor
 
 .for _src _dst in ${UIF_FUNCS}
-UNIFDEF_SRCS+=	${_src}.c ${_dst}.c -DL_${_dst}
+UNIFDEF_SRCS+=	${_dst}.c ${_src}.c -DL_${_dst}
 MLINKS+=	${_src}.3 ${_dst}.3
 .endfor
 
@@ -33,6 +33,9 @@ KERNBASE?=		${.CURDIR}/../../kern
 SRCS+=			${KXSRCS}
 UNIFDEF_SRCS+=		${UIF_KXSRCS}
 
+LIBCSRCDIR?=${.CURDIR}/../libc
+.PATH: ${LIBCSRCDIR}/i18n
+
 .for _z _q _s in ${UNIFDEF_SRCS}
 CLEANFILES+=	${_z}
 
@@ -41,8 +44,5 @@ ${_z}: ${_q}
 
 beforedepend: ${_z}
 .endfor
-
-LIBCSRCDIR?=${.CURDIR}/../libc
-.PATH: ${LIBCSRCDIR}/i18n
 
 .include <bsd.lib.mk>

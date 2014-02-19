@@ -19,9 +19,10 @@
  */
 
 #include <err.h>
+#include <mbfun.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/ambstowcs.c,v 1.2 2008/11/22 14:00:50 tg Exp $");
+__RCSID("$MirOS: src/lib/libmbfun/ambstowcs.c,v 1.1 2014/02/19 16:59:33 tg Exp $");
 
 #ifdef L_ambsntowcs
 #define ambstowcs	ambsntowcs

@@ -22,9 +22,10 @@
  * Note: 0x278A‥0x278E mappings are placeholders akin to U+2400 ﬀ.
  */
 
+#include <mbfun.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/optu8to16vis.c,v 1.4 2014/02/09 22:35:53 tg Exp $");
+__RCSID("$MirOS: src/lib/libmbfun/optu8to16vis.c,v 1.1 2014/02/19 16:59:33 tg Exp $");
 
 #define vistable (vistable_ - 0xEF80)
 static wchar_t vistable_[128] = {
