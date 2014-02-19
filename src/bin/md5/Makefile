@@ -1,4 +1,4 @@
-# $MirOS: src/bin/md5/Makefile,v 1.21 2011/08/18 21:45:18 tg Exp $
+# $MirOS: src/bin/md5/Makefile,v 1.22 2013/10/10 23:09:47 tg Exp $
 # $OpenBSD: Makefile,v 1.10 2005/05/24 21:57:47 millert Exp $
 
 PROG=	cksum
@@ -19,7 +19,7 @@ CPPFLAGS+=	-I${.SYSMK}
 LDADD+=		-L${.SYSMK} -lmirmake
 .endif
 
-ALGOS=	adler32 cdb md4 md5 nzat nzaat oaat oaat1 oaat1s rmd160 sfv \
+ALGOS=	adler32 bafh cdb md4 md5 nzat nzaat oaat oaat1 oaat1s rmd160 sfv \
 	sha1 sha256 sha384 sha512 size sum suma sysvsum tiger whirlpool
 
 CLEANFILES+=	${ALGOS} ${ALGOS:=sum}
@@ -33,7 +33,7 @@ algos:
 	-rm -f sumsum sysvsumsum
 
 regress: ${PROG}
-	./${PROG} -a adler32 -a cdb -a cksum -a md4 -a md5 \
+	./${PROG} -a adler32 -a bafh -a cdb -a cksum -a md4 -a md5 \
 	    -a nzat -a nzaat \
 	    -a oaat -a oaat1 -a oaat1s -a rmd160 -a sfv \
 	    -a sha1 -a sha256 -a sha384 -a sha512 -a size \

@@ -8,6 +8,16 @@ ADLER32 ("abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq") = 807416F9
 ADLER32 ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") = 8ADB150C
 ADLER32 ("12345678901234567890123456789012345678901234567890123456789012345678901234567890") = 97B61069
 ADLER32 (one million 'a' characters) = 15D870F9
+BAFH test suite:
+BAFH ("") = 00000000
+BAFH ("a") = 4ACF470E
+BAFH ("abc") = 89D30288
+BAFH ("message digest") = 39BBA64D
+BAFH ("abcdefghijklmnopqrstuvwxyz") = 751B5730
+BAFH ("abcdbcdecdefdefgefghfghighijhijkijkljklmklmnlmnomnopnopq") = 2A6BD95C
+BAFH ("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789") = 6A91C0D4
+BAFH ("12345678901234567890123456789012345678901234567890123456789012345678901234567890") = 9AD8FFDF
+BAFH (one million 'a' characters) = F5058C6A
 CDB test suite:
 CDB ("") = 00001505
 CDB ("a") = 0002B5C4

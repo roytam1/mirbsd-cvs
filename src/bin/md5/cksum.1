@@ -1,7 +1,7 @@
-.\"	$MirOS: src/bin/md5/cksum.1,v 1.29 2011/07/06 22:21:53 tg Exp $
+.\"	$MirOS: src/bin/md5/cksum.1,v 1.30 2011/07/18 00:35:43 tg Exp $
 .\"	$OpenBSD: cksum.1,v 1.5 2005/03/07 23:41:53 jmc Exp $
 .\"
-.\" Copyright (c) 2006, 2007, 2008, 2009, 2011
+.\" Copyright (c) 2006, 2007, 2008, 2009, 2011, 2014
 .\"	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 .\" Copyright (c) 1991, 1993
 .\"	The Regents of the University of California.  All rights reserved.
@@ -88,7 +88,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: July 6 2011 $
+.Dd $Mdocdate: July 18 2011 $
 .\"
 .\" Check which macro package we use
 .\"
@@ -266,6 +266,7 @@ hashes use 0x100 instead of 0 as initial hash value, and
 .Ar oaat1s
 also uses RFC1321-style length padding on the input string.
 In the
+.Ar bafh ,
 .Ar nzaat
 or
 .Ar nzat
@@ -273,6 +274,8 @@ case, this is a
 .Mx
 invented hash based on
 .Ar oaat .
+.Ar bafh
+is also partially based on AES.
 In the
 .Ar suma
 case, the output is a 33-bit
@@ -299,6 +302,7 @@ The options are as follows:
 Use the specified algorithm(s) instead of the default (cksum).
 Supported algorithms include
 .Ar adler32 ,
+.Ar bafh ,
 .Ar cdb ,
 .Ar cksum ,
 .Ar md4 ,
@@ -371,6 +375,7 @@ and
 options and any GNU long options are rejected, and this
 output mode does not make any sense for many algorithms, such as
 .Ar adler32 ,
+.Ar bafh ,
 .Ar cdb ,
 .Ar cksum ,
 .Ar nzat ,
@@ -562,6 +567,7 @@ and several times in
 .Sh CAVEATS
 Do not use the
 .Ar adler32 ,
+.Ar bafh ,
 .Ar cdb ,
 .Ar cksum ,
 .Ar md4 ,

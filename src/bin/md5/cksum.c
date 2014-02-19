@@ -15,7 +15,7 @@
  */
 
 /*-
- * Copyright (c) 2007, 2009, 2011
+ * Copyright (c) 2007, 2009, 2011, 2014
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -58,10 +58,11 @@
 #include <whirlpool.h>
 
 #ifdef __MirBSD__
+/* for OAAT1S; XXX drop this long-term */
 extern const uint8_t RFC1321_padding[64];
 #endif
 
-__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.16 2013/10/10 23:09:48 tg Exp $");
+__RCSID("$MirOS: src/bin/md5/cksum.c,v 1.17 2013/10/10 23:14:11 tg Exp $");
 
 #define MAX_DIGEST_LEN			128
 
@@ -79,6 +80,7 @@ typedef CKSUM_CTX SUM_CTX;
 #define	SYSVSUM_DIGEST_LENGTH		4
 typedef CKSUM_CTX SYSVSUM_CTX;
 
+typedef uint32_t BAFH_CTX;
 typedef uint32_t CDB_CTX;
 typedef uint32_t NZAT_CTX;
 typedef uint64_t SIZE_CTX;
@@ -105,6 +107,7 @@ union ANY_CTX {
 	CDB_CTX cdb;
 	OAATS_CTX oaats;
 	NZAT_CTX nzat;
+	BAFH_CTX bafh;
 };
 
 void digest_print(const char *, const char *, const char *);
@@ -149,6 +152,10 @@ void NZAAT_Final(NZAT_CTX *);
 char *NZAT_End(NZAT_CTX *, char *);
 char *NZAAT_End(NZAT_CTX *, char *);
 
+#define BAFH_Init NZAT_Init
+#define BAFH_Update NZAT_Update
+char *BAFH_End(BAFH_CTX *, char *);
+
 #define SUM_Init OAAT_Init
 void SUM_Update(SUM_CTX *, const u_int8_t *, size_t);
 void SUM_Final(SUM_CTX *);
@@ -165,9 +172,9 @@ char *SYSVSUM_Data(const u_int8_t *, size_t, char *);
 
 /* NHASHMOD: total number of hash functions */
 #ifdef __MirBSD__
-#define NHASHES	22
+#define NHASHES	23
 #else
-#define NHASHES	21
+#define NHASHES	22
 #endif
 struct hash_functions {
 	const char *name;
@@ -218,6 +225,16 @@ struct hash_functions {
 		(void (*)(void *, const unsigned char *, unsigned int))ADLER32Update,
 		(char *(*)(void *, char *))ADLER32End,
 		digest_printbin_string,
+		digest_print,
+		digest_print_string
+	}, {
+		"BAFH",
+		8,
+		NULL,
+		(void (*)(void *))BAFH_Init,
+		(void (*)(void *, const unsigned char *, unsigned int))BAFH_Update,
+		(char *(*)(void *, char *))BAFH_End,
+		digest_printbin_stringle,
 		digest_print,
 		digest_print_string
 	}, {
@@ -315,9 +332,9 @@ struct hash_functions {
 	},
 	/* NHASHMOD: non-GNU functions above, GNU functions below */
 #ifdef __MirBSD__
-#define NHASHES_NONGNU	13
+#define NHASHES_NONGNU	14
 #else
-#define NHASHES_NONGNU	12
+#define NHASHES_NONGNU	13
 #endif
 
 	{
@@ -707,7 +724,7 @@ digest_filelist(const char *file, struct hash_functions *defhash)
 	if (defhash < &functions[NHASHES_NONGNU])
 		/*
 		 * no GNU format for cksum, sum, sysvsum, adler32, cdb,
-		 * nzat, nzaat, oaat, oaat1, oaat1s, suma, sfv, size
+		 * bafh, nzat, nzaat, oaat, oaat1, oaat1s, suma, sfv, size
 		 */
 		defhash = NULL;
 
@@ -1174,6 +1191,33 @@ char *
 NZAAT_End(NZAT_CTX *ctx, char *digest)
 {
 	NZAAT_Final(ctx);
+	return (ucase_End(ctx, digest));
+}
+
+#define BAFHror_md5(eax,cl) (((eax) >> (cl)) | ((eax) << (32 - (cl))))
+
+#define BAFHFinish_md5(h) do {					\
+	register uint32_t BAFHFinish_v;				\
+								\
+	BAFHFinish_v = ((h) >> 7) & 0x01010101U;		\
+	BAFHFinish_v += BAFHFinish_v << 1;			\
+	BAFHFinish_v += BAFHFinish_v << 3;			\
+	BAFHFinish_v ^= ((h) << 1) & 0xFEFEFEFEU;		\
+								\
+	BAFHFinish_v ^= BAFHror_md5(BAFHFinish_v, 8);		\
+	BAFHFinish_v ^= ((h) = BAFHror_md5((h), 8));		\
+	BAFHFinish_v ^= ((h) = BAFHror_md5((h), 8));		\
+	(h) = BAFHror_md5((h), 8) ^ BAFHFinish_v;		\
+} while (/* CONSTCOND */ 0)
+
+char *
+BAFH_End(BAFH_CTX *ctx, char *digest)
+{
+	register uint32_t h;
+
+	h = *ctx;
+	BAFHFinish_md5(h);
+	*ctx = h;
 	return (ucase_End(ctx, digest));
 }
 
