@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.36 2008/11/30 13:34:56 tg Exp $
+# $MirOS: src/lib/libc/i18n/Makefile.inc,v 1.37 2011/10/16 20:54:57 tg Exp $
 
 .PATH: ${LIBCSRCDIR}/i18n
 .PATH: ${LIBCSRCDIR}/locale
@@ -28,7 +28,6 @@ SRCS+=	mbslen.c
 SRCS+=	mbsrtowcs.c
 SRCS+=	mbstowcs.c
 SRCS+=	mbtowc.c
-SRCS+=	optu8to16vis.c
 SRCS+=	towctrans.c
 SRCS+=	wcsftime.c
 SRCS+=	wcsrtombs.c
@@ -41,50 +40,7 @@ SRCS+=	wctype.c
 SRCS+=	wcwidth.c
 
 UIF_NUSRCS+=	mbsnrtowcs.c mbsrtowcs.c -DMBSNRTOWCS
-UIF_NUSRCS+=	mbsnrtowcsvis.c mbsrtowcs.c -DMBSNRTOWCSVIS
 UIF_NUSRCS+=	wcsnrtombs.c wcsrtombs.c -DWCSNRTOMBS
-
-SRCS+=		ambstowcs.c
-SRCS+=		awcstombs.c
-UIF_NUSRCS+=	ambsntowcs.c ambstowcs.c -DL_ambsntowcs
-UIF_NUSRCS+=	awcsntombs.c awcstombs.c -DL_awcsntombs
-MAN+=		ambstowcs.3
-MLINKS+=	ambstowcs.3 awcstombs.3
-MLINKS+=	ambstowcs.3 ambsntowcs.3
-MLINKS+=	ambstowcs.3 awcsntombs.3
-
-# MirOS reimplementation of the Plan 9 rune stuff API
-UIF_NUSRCS+=	p9¾_chartorune.c runestuff.c -DL_chartorune
-UIF_NUSRCS+=	p9¾_fullrune.c runestuff.c -DL_fullrune
-UIF_NUSRCS+=	p9¾_isalpharune.c runestuff.c -DL_isalpharune
-UIF_NUSRCS+=	p9¾_islowerrune.c runestuff.c -DL_islowerrune
-UIF_NUSRCS+=	p9¾_isspacerune.c runestuff.c -DL_isspacerune
-UIF_NUSRCS+=	p9¾_istitlerune.c runestuff.c -DL_istitlerune
-UIF_NUSRCS+=	p9¾_isupperrune.c runestuff.c -DL_isupperrune
-UIF_NUSRCS+=	p9¾_runelen.c runestuff.c -DL_runelen
-UIF_NUSRCS+=	p9¾_runenlen.c runestuff.c -DL_runenlen
-UIF_NUSRCS+=	p9¾_runestrcat.c runestuff.c -DL_runestrcat
-UIF_NUSRCS+=	p9¾_runestrchr.c runestuff.c -DL_runestrchr
-UIF_NUSRCS+=	p9¾_runestrcmp.c runestuff.c -DL_runestrcmp
-UIF_NUSRCS+=	p9¾_runestrcpy.c runestuff.c -DL_runestrcpy
-UIF_NUSRCS+=	p9¾_runestrdup.c runestuff.c -DL_runestrdup
-UIF_NUSRCS+=	p9¾_runestrecpy.c runestuff.c -DL_runestrecpy
-UIF_NUSRCS+=	p9¾_runestrlen.c runestuff.c -DL_runestrlen
-UIF_NUSRCS+=	p9¾_runestrncat.c runestuff.c -DL_runestrncat
-UIF_NUSRCS+=	p9¾_runestrncmp.c runestuff.c -DL_runestrncmp
-UIF_NUSRCS+=	p9¾_runestrncpy.c runestuff.c -DL_runestrncpy
-UIF_NUSRCS+=	p9¾_runestrrchr.c runestuff.c -DL_runestrrchr
-UIF_NUSRCS+=	p9¾_runestrstr.c runestuff.c -DL_runestrstr
-UIF_NUSRCS+=	p9¾_runetochar.c runestuff.c -DL_runetochar
-UIF_NUSRCS+=	p9¾_tolowerrune.c runestuff.c -DL_tolowerrune
-UIF_NUSRCS+=	p9¾_totitlerune.c runestuff.c -DL_totitlerune
-UIF_NUSRCS+=	p9¾_toupperrune.c runestuff.c -DL_toupperrune
-UIF_NUSRCS+=	p9¾_utfecpy.c runestuff.c -DL_utfecpy
-UIF_NUSRCS+=	p9¾_utflen.c runestuff.c -DL_utflen
-UIF_NUSRCS+=	p9¾_utfnlen.c runestuff.c -DL_utfnlen
-UIF_NUSRCS+=	p9¾_utfrrune.c runestuff.c -DL_utfrrune
-UIF_NUSRCS+=	p9¾_utfrune.c runestuff.c -DL_utfrune
-UIF_NUSRCS+=	p9¾_utfutf.c runestuff.c -DL_utfutf
 
 .for _i in alnum alpha blank cntrl digit graph lower print punct space \
     title upper xdigit

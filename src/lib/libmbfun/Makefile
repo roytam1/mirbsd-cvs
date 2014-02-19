@@ -1,9 +1,20 @@
-# $MirOS: src/lib/libmbfun/Makefile,v 1.2 2010/08/14 21:10:18 tg Exp $
+# $MirOS: src/lib/libmbfun/Makefile,v 1.3 2011/07/17 17:19:25 tg Exp $
 
 LIB=		mbfun
 HDRS=		mbfun.h
 
+FUNCTIONS+=	ambstowcs
 FUNCTIONS+=	cdblockedread
+
+SRCS+=		awcstombs.c
+SRCS+=		optu8to16vis.c
+
+UIF_FUNCS+=	ambstowcs ambsntowcs
+UIF_FUNCS+=	awcstombs awcsntombs
+
+UNIFDEF_SRCS+=	mbsrtowcs.c mbsnrtowcsvis.c -DMBSNRTOWCSVIS
+
+MLINKS+=	ambstowcs.3 awcstombs.3
 
 .for _f in ${FUNCTIONS}
 SRCS+=		${_f}.c
@@ -30,5 +41,8 @@ ${_z}: ${_q}
 
 beforedepend: ${_z}
 .endfor
+
+LIBCSRCDIR?=${.CURDIR}/../libc
+.PATH: ${LIBCSRCDIR}/i18n
 
 .include <bsd.lib.mk>

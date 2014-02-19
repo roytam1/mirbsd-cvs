@@ -24,7 +24,7 @@
 
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/optu8to16vis.c,v 1.3 2009/12/01 18:37:32 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/optu8to16vis.c,v 1.4 2014/02/09 22:35:53 tg Exp $");
 
 #define vistable (vistable_ - 0xEF80)
 static wchar_t vistable_[128] = {

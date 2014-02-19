@@ -21,30 +21,32 @@
 #include <err.h>
 #include <wchar.h>
 
-__RCSID("$MirOS: src/lib/libc/i18n/ambstowcs.c,v 1.1 2008/11/22 13:51:09 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/i18n/ambstowcs.c,v 1.2 2008/11/22 14:00:50 tg Exp $");
 
-#ifdef L_awcsntombs
-#define awcstombs	awcsntombs
-#define namestr		"awcsntombs"
+#ifdef L_ambsntowcs
+#define ambstowcs	ambsntowcs
+#define namestr		"ambsntowcs"
 #define SECARG		, size_t n
-#define wcsrtombs	wcsnrtombs
+#define mbsrtowcs	mbsnrtowcs
 #define MAXARG		, n
 #else
-#define namestr		"awcstombs"
+#define namestr		"ambstowcs"
 #define SECARG		/* nothing */
 #define MAXARG		/* nothing */
 #endif
 
-char *
-awcstombs(const wchar_t *ws  SECARG)
+wchar_t *
+ambstowcs(const char *s  SECARG)
 {
-	char *s;
+	wchar_t *ws;
 	size_t len;
 	mbstate_t ps = { 0, 0 };
 
-	if (!(s = malloc((len = wcsrtombs(NULL, &ws  MAXARG, 0, &ps) + 1))))
-		err(1, "%s: out of memory allocating %zu bytes", namestr, len);
-	len = wcsrtombs(s, &ws  MAXARG, len, &ps);
-	s[len] = '\0';
-	return (s);
+	if ((ws = calloc((len = mbsrtowcs(NULL, &s  MAXARG, 0, &ps) + 1),
+	    sizeof (wchar_t))) == NULL)
+		err(1, "%s: out of memory allocating %zu wide characters",
+		    namestr, len);
+	len = mbsrtowcs(ws, &s  MAXARG, len, &ps);
+	ws[len] = L'\0';
+	return (ws);
 }

@@ -1,7 +1,7 @@
-/* $MirOS: src/lib/libmbfun/mbfun.h,v 1.2 2011/07/17 17:20:20 tg Exp $ */
+/* $MirOS: src/lib/libmbfun/mbfun.h,v 1.3 2013/10/31 20:06:34 tg Exp $ */
 
 /*-
- * Copyright (c) 2010, 2011, 2013
+ * Copyright (c) 2010, 2011, 2013, 2014
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -28,9 +28,27 @@
 #include <syskern/libckern.h>
 
 __BEGIN_DECLS
+/* allocating multibyte <-> wide character string conversion */
+wchar_t *ambsntowcs(const char *, size_t)
+    __attribute__((__nonnull__(1)))
+    __attribute__((__bounded__(__string__, 1, 2)));
+wchar_t *ambstowcs(const char *)
+    __attribute__((__nonnull__(1)));
+char *awcsntombs(const wchar_t *, size_t)
+    __attribute__((__nonnull__(1)));
+char *awcstombs(const wchar_t *)
+    __attribute__((__nonnull__(1)));
 /* support routine for lseek+read to make 2048-byte aligned I/O */
 ssize_t cdblockedread(int, void *, size_t, off_t)
     __attribute__((__bounded__(__buffer__, 2, 3)));
+/* legacy UTF-8 or cp1252-or-latin1 to wchar conversion */
+#undef mbsnrtowcsvis
+#define mbsnrtowcsvis mbsnrtowcsvis
+size_t	mbsnrtowcsvis(wchar_t *, const char **, size_t, size_t, mbstate_t *);
+#undef optu8to16vis
+#define optu8to16vis optu8to16vis
+size_t	optu8to16vis(wchar_t *, const char *, size_t, mbstate_t *)
+    __attribute__((__bounded__(__string__, 2, 3)));
 __END_DECLS
 
 #endif

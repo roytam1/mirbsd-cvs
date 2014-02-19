@@ -1,7 +1,7 @@
-/* $MirOS: src/include/wchar.h,v 1.34 2014/02/09 22:35:51 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.35 2014/02/09 23:19:56 tg Exp $ */
 
 /*-
- * Copyright (c) 2007, 2008, 2013
+ * Copyright (c) 2007, 2008, 2013, 2014
  *	Thorsten Glaser <tg@mirbsd.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -104,9 +104,6 @@ int	mbsinit(const mbstate_t *);
 size_t	mbslen(const char *);
 #if __OPENBSD_VISIBLE
 size_t	mbsnrtowcs(wchar_t *, const char **, size_t, size_t, mbstate_t *);
-#undef mbsnrtowcsvis
-#define mbsnrtowcsvis mbsnrtowcsvis
-size_t	mbsnrtowcsvis(wchar_t *, const char **, size_t, size_t, mbstate_t *);
 #endif
 size_t	mbsrtowcs(wchar_t *, const char **, size_t, mbstate_t *);
 #if __OPENBSD_VISIBLE
@@ -117,10 +114,6 @@ size_t	optu16to8(char *, wchar_t, mbstate_t *)
 #undef optu8to16
 #define optu8to16 optu8to16
 size_t	optu8to16(wchar_t *, const char *, size_t, mbstate_t *)
-    __attribute__((__bounded__(__string__, 2, 3)));
-#undef optu8to16vis
-#define optu8to16vis optu8to16vis
-size_t	optu8to16vis(wchar_t *, const char *, size_t, mbstate_t *)
     __attribute__((__bounded__(__string__, 2, 3)));
 #endif
 wint_t	putwc(wchar_t, FILE *);
@@ -204,15 +197,6 @@ __END_DECLS
 
 #if __OPENBSD_VISIBLE && !defined(iswoctet)
 #define iswoctet(wc)	(((wchar_t)(wc) & 0xFF80) == 0xEF80)
-wchar_t *ambsntowcs(const char *, size_t)
-    __attribute__((__nonnull__(1)))
-    __attribute__((__bounded__(__string__, 1, 2)));
-wchar_t *ambstowcs(const char *)
-    __attribute__((__nonnull__(1)));
-char *awcsntombs(const wchar_t *, size_t)
-    __attribute__((__nonnull__(1)));
-char *awcstombs(const wchar_t *)
-    __attribute__((__nonnull__(1)));
 #endif
 
 #ifdef __GNUC__
