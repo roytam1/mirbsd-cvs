@@ -22,3 +22,4 @@ mrand48(void)
 	__dorand48(__rand48_seed);
 	return ((long) __rand48_seed[2] << 16) + (long) __rand48_seed[1];
 }
+__warn_references(mrand48, "mrand48 is insecure; use the arc4random family API instead");

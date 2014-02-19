@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libc/string/strerror_r.c,v 1.3 2005/10/21 10:53:27 tg Exp $ */
 /* $OpenBSD: strerror_r.c,v 1.6 2005/08/08 08:05:37 espie Exp $ */
 /* Public Domain <marc@snafu.org> */
 
@@ -10,6 +10,8 @@
 #include <limits.h>
 #include <signal.h>
 #include <string.h>
+
+__RCSID("$MirOS$");
 
 static size_t
 __digits10(unsigned int num)
@@ -61,13 +63,13 @@ __itoa(int num, int sign, char *buffer, size_t start, size_t end)
 
 
 static int
-__num2string(int num, int sign, int setid, char *buf, size_t buflen,
-    char * list[], size_t max, const char *def)
+__num2string(int num, int sign, char *buf, size_t buflen,
+    const char * const list[], size_t max, const char *def)
 {
 	int ret = 0;
 	size_t len;
 
-	if (0 <= num && num < max) {
+	if (0 <= num && (size_t)num < max) {
 		len = strlcpy(buf, list[num], buflen);
 		if (len >= buflen)
 			ret = ERANGE;
@@ -95,8 +97,8 @@ strerror_r(int errnum, char *strerrbuf, size_t buflen)
 
 	save_errno = errno;
 
-	ret_errno = __num2string(errnum, 1, 1, strerrbuf, buflen,
-	    sys_errlist, sys_nerr, UPREFIX);
+	ret_errno = __num2string(errnum, 1, strerrbuf, buflen,
+	    (const char * const *)sys_errlist, sys_nerr, UPREFIX);
 
 	errno = ret_errno ? ret_errno : save_errno;
 	return (ret_errno);
@@ -104,10 +106,13 @@ strerror_r(int errnum, char *strerrbuf, size_t buflen)
 
 #define USIGPREFIX "Unknown signal: "
 
+/* from gen/psignal.c, string/strsignal.c */
+char *__strsignal(int, char *);
+
 char *
 __strsignal(int num, char *buf)
 {
-	__num2string(num, 0, 2, buf, NL_TEXTMAX, (char **)sys_siglist, NSIG,
+	__num2string(num, 0, buf, NL_TEXTMAX, sys_siglist, NSIG,
 	    USIGPREFIX);
 	return buf;
 }

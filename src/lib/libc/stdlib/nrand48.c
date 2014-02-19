@@ -20,3 +20,4 @@ nrand48(unsigned short xseed[3])
 	__dorand48(xseed);
 	return ((long) xseed[2] << 15) + ((long) xseed[1] >> 1);
 }
+__warn_references(nrand48, "nrand48 is insecure; use the arc4random family API instead");

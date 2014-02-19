@@ -30,6 +30,8 @@
 #include <sys/types.h>
 #include <stdlib.h>
 
+__RCSID("$MirOS$");
+
 static u_int next = 1;
 
 int
@@ -38,15 +40,18 @@ rand_r(u_int *seed)
 	*seed = *seed * 1103515245 + 12345;
 	return (*seed % ((u_int)RAND_MAX + 1));
 }
+__warn_references(rand_r, "rand_r is insecure; use the arc4random family API instead");
 
 int
 rand(void)
 {
 	return (rand_r(&next));
 }
+__warn_references(rand, "rand is insecure; use the arc4random family API instead");
 
 void
 srand(u_int seed)
 {
 	next = seed;
 }
+__warn_references(srand, "srand is insecure; use the arc4random family API instead");

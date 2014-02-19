@@ -35,3 +35,4 @@ seed48(unsigned short xseed[3])
 	__rand48_add = RAND48_ADD;
 	return sseed;
 }
+__warn_references(seed48, "seed48 is insecure; use the arc4random family API instead");

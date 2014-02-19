@@ -29,3 +29,4 @@ lcong48(unsigned short p[7])
 	__rand48_mult[2] = p[5];
 	__rand48_add = p[6];
 }
+__warn_references(lcong48, "lcong48 is insecure; use the arc4random family API instead");

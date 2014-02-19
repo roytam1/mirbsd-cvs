@@ -21,3 +21,4 @@ drand48(void)
 {
 	return erand48(__rand48_seed);
 }
+__warn_references(drand48, "drand48 is insecure; use the arc4random family API instead");

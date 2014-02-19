@@ -29,3 +29,4 @@ srand48(long seed)
 	__rand48_mult[2] = RAND48_MULT_2;
 	__rand48_add = RAND48_ADD;
 }
+__warn_references(srand48, "srand48 is insecure; use the arc4random family API instead");

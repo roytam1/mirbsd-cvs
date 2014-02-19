@@ -45,3 +45,4 @@ __dorand48(unsigned short xseed[3])
 	xseed[1] = temp[1];
 	xseed[2] = (unsigned short) accu;
 }
+__warn_references(__dorand48, "__dorand48 is insecure; use the arc4random family API instead");

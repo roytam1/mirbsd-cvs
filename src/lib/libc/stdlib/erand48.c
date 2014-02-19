@@ -22,3 +22,4 @@ erand48(unsigned short xseed[3])
 	       ldexp((double) xseed[1], -32) +
 	       ldexp((double) xseed[2], -16);
 }
+__warn_references(erand48, "erand48 is insecure; use the arc4random family API instead");

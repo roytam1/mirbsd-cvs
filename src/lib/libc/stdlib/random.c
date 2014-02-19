@@ -35,7 +35,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/stdlib/random.c,v 1.2 2011/02/19 02:12:03 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdlib/random.c,v 1.3 2012/03/25 14:33:25 tg Exp $");
 
 /*
  * random.c:
@@ -217,6 +217,7 @@ srandom(unsigned int x)
 			(void)random();
 	}
 }
+__warn_references(srandom, "srandom is insecure; use the arc4random family API instead");
 
 /*
  * srandomdev:
@@ -246,6 +247,7 @@ srandomdev(void)
 		rptr = &state[0];
 	}
 }
+__warn_references(srandomdev, "srandomdev is insecure; use the arc4random family API instead");
 
 /*
  * initstate:
@@ -307,6 +309,7 @@ initstate(u_int seed, char *arg_state, size_t n)
 		state[-1] = MAX_TYPES*(rptr - state) + rand_type;
 	return(ostate);
 }
+__warn_references(initstate, "initstate is insecure; use the arc4random family API instead");
 
 /*
  * setstate:
@@ -356,6 +359,7 @@ setstate(const char *arg_state)
 	end_ptr = &state[rand_deg];		/* set end_ptr too */
 	return(ostate);
 }
+__warn_references(setstate, "setstate is insecure; use the arc4random family API instead");
 
 /*
  * random:
@@ -392,3 +396,4 @@ random(void)
 	}
 	return((long)i);
 }
+__warn_references(random, "random is insecure; use the arc4random family API instead");
