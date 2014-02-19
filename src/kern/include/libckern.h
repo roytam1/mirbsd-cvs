@@ -1,7 +1,7 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.33 2013/10/31 20:06:13 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.34 2014/02/09 22:35:52 tg Exp $ */
 
 /*-
- * Copyright (c) 2008, 2010, 2011, 2013
+ * Copyright (c) 2008, 2010, 2011, 2013, 2014
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -141,11 +141,6 @@ void *mempcpy(void *, const void *, size_t)
     __attribute__((__bounded__(__buffer__, 2, 3)));
 void *memset(void *, int, size_t)
     __attribute__((__bounded__(__buffer__, 1, 3)));
-
-uint32_t OAAT0Update(register uint32_t, register const uint8_t *,
-    register size_t) __a_deprecated
-    __attribute__((__bounded__(__string__, 2, 3)));
-uint32_t OAAT0Final(register uint32_t) __a_deprecated;
 
 size_t optu16to8(char *, wchar_t, mbstate_t *)
     __attribute__((__bounded__(__minbytes__, 1, 5)));

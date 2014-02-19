@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/Makefile,v 1.43 2012/12/31 20:19:50 tg Exp $
+# $MirOS: src/lib/libc/Makefile,v 1.44 2014/01/01 15:16:30 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.23 2005/06/29 14:05:08 mickey Exp $
 #
 # All library objects contain sccsid strings by default; they may be
@@ -9,7 +9,7 @@
 
 .include <bsd.own.mk>
 
-SHLIB_VERSION?=		41.12	# note: If changes were made to the file
+SHLIB_VERSION?=		42.0	# note: If changes were made to the file
 #				# src/lib/libc/include/thread_private.h or
 #				# system calls have been added/changed,
 #				# libpthread must also be updated.
@@ -22,9 +22,6 @@ KERNISUSR=		#defined
 KERNBASE?=		${.CURDIR}/../../kern
 .include "${LIBCSRCDIR}/Makefile.inc"
 .include "${KERNBASE}/c/Makefile.inc"
-# drop with next major bump
-SRCS+=			oaat.c
-# also drop taitime stuff; move other stuff from libc to libmbfun
 
 SRCS+=			csuhlpr.c
 

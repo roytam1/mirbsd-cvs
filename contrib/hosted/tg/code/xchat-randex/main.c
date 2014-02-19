@@ -48,9 +48,9 @@
 
 static const char __rcsid[] =
     "@(#)HEXCHAT "
-    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.17 2013/06/13 21:03:56 tg Exp $";
+    "$MirOS: contrib/hosted/tg/code/xchat-randex/main.c,v 1.18 2013/06/13 21:27:13 tg Exp $";
 
-#define RANDEX_PLUGIN_VERSION	"1.27"
+#define RANDEX_PLUGIN_VERSION	"1.28"
 
 #include <sys/types.h>
 #if defined(HAVE_STDINT_H) && HAVE_STDINT_H
@@ -136,42 +136,49 @@ static void msg_condestruct(int);
 static void hexchat_plugin_get_info_(char **, char **, char **);
 
 
-
-#define NZATInit(h) do {					\
+#define BAFHInit(h) do {					\
 	(h) = 0;						\
 } while (/* CONSTCOND */ 0)
 
-#define NZATUpdateByte(h,b) do {				\
-	(h) += (unsigned char)(b);				\
+#define BAFHUpdateOctet_reg(h,b) do {				\
+	(h) += (uint8_t)(b);					\
 	++(h);							\
 	(h) += (h) << 10;					\
 	(h) ^= (h) >> 6;					\
 } while (/* CONSTCOND */ 0)
 
-#define NZATUpdateMem(h,p,z) do {				\
-	register const unsigned char *NZATUpdateMem_p;		\
-	register size_t NZATUpdateMem_z = (z);			\
+#define BAFHUpdateMem_reg(h,p,z) do {				\
+	register const uint8_t *BAFHUpdate_p;			\
+	register size_t BAFHUpdate_z = (z);			\
 								\
-	NZATUpdateMem_p = (const void *)(p);			\
-	while (NZATUpdateMem_z--)				\
-		NZATUpdateByte((h), *NZATUpdateMem_p++);	\
+	BAFHUpdate_p = (const void *)(p);			\
+	while (BAFHUpdate_z--)					\
+		BAFHUpdateOctet_reg((h), *BAFHUpdate_p++);	\
 } while (/* CONSTCOND */ 0)
 
-#define NZATUpdateString(h,s) do {				\
-	register const char *NZATUpdateString_s;		\
-	register unsigned char NZATUpdateString_c;		\
+#define BAFHUpdateStr_reg(h,s) do {				\
+	register const uint8_t *BAFHUpdate_s;			\
+	register uint8_t BAFHUpdate_c;				\
 								\
-	NZATUpdateString_s = (const void *)(s);			\
-	while ((NZATUpdateString_c = *NZATUpdateString_s++))	\
-		NZATUpdateByte((h), NZATUpdateString_c);	\
+	BAFHUpdate_s = (const void *)(s);			\
+	while ((BAFHUpdate_c = *BAFHUpdate_s++) != 0)		\
+		BAFHUpdateOctet_reg((h), BAFHUpdate_c);		\
 } while (/* CONSTCOND */ 0)
 
-#define NZAATFinish(h) do {					\
-	(h) += (h) << 10;					\
-	(h) ^= (h) >> 6;					\
-	(h) += (h) << 3;					\
-	(h) ^= (h) >> 11;					\
-	(h) += (h) << 15;					\
+#define BAFHror(eax,cl) (((eax) >> (cl)) | ((eax) << (32 - (cl))))
+
+#define BAFHFinish_reg(h) do {					\
+	register uint32_t BAFHFinish_v;				\
+								\
+	BAFHFinish_v = ((h) >> 7) & 0x01010101U;		\
+	BAFHFinish_v += BAFHFinish_v << 1;			\
+	BAFHFinish_v += BAFHFinish_v << 3;			\
+	BAFHFinish_v ^= ((h) << 1) & 0xFEFEFEFEU;		\
+								\
+	BAFHFinish_v ^= BAFHror(BAFHFinish_v, 8);		\
+	BAFHFinish_v ^= ((h) = BAFHror((h), 8));		\
+	BAFHFinish_v ^= ((h) = BAFHror((h), 8));		\
+	(h) = BAFHror((h), 8) ^ BAFHFinish_v;			\
 } while (/* CONSTCOND */ 0)
 
 
@@ -198,10 +205,10 @@ gstring(const void *s)
 
 	g.t = time(NULL);
 	g.u = arc4random();
-	NZATInit(h);
-	NZATUpdateMem(h, &g.u, sizeof(g.u));
-	NZATUpdateString(h, s);
-	NZAATFinish(h);
+	BAFHInit(h);
+	BAFHUpdateMem_reg(h, &g.u, sizeof(g.u));
+	BAFHUpdateStr_reg(h, s);
+	BAFHFinish_reg(h);
 	g.u = h;
 }
 
@@ -442,20 +449,20 @@ cmdfn_randfile(char *word[], char *word_eol[], void *user_data)
 
 	g.t = time(NULL);
 	g.u = arc4random();
-	NZATInit(h);
-	NZATUpdateMem(h, &g.u, sizeof(g.u));
-	NZATUpdateString(h, fn);
+	BAFHInit(h);
+	BAFHUpdateMem_reg(h, &g.u, sizeof(g.u));
+	BAFHUpdateStr_reg(h, fn);
 
 	if ((f = fopen(fn, "rb")) != NULL) {
 		do {
 			if ((n = fread(pb, 1, sizeof(pb), f))) {
 				slowpush((void *)pb, n);
 				tv = arc4random();
-				NZATUpdateMem(h, &tv, sizeof(tv));
+				BAFHUpdateMem_reg(h, &tv, sizeof(tv));
 			}
 		} while (n);
 		fclose(f);
-		NZATUpdateMem(h, pb, 16);
+		BAFHUpdateMem_reg(h, pb, 16);
 		(void)arc4random();
 	}
 
@@ -473,8 +480,8 @@ cmdfn_randfile(char *word[], char *word_eol[], void *user_data)
 		hexchat_printf(ph, "Could not open %s for writing!\n", fn);
 
 	tv = arc4random();
-	NZATUpdateMem(h, &tv, sizeof(tv));
-	NZAATFinish(h);
+	BAFHUpdateMem_reg(h, &tv, sizeof(tv));
+	BAFHFinish_reg(h);
 	g.u = h;
 	dopush((void *)&g, sizeof(g));
 

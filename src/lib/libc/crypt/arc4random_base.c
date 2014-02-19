@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2010, 2011, 2012
+ * Copyright (c) 2010, 2011, 2012, 2014
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -26,7 +26,7 @@
 #include <sys/param.h>
 #include <sys/sysctl.h>
 #include <sys/time.h>
-#include <syskern/nzat.h>
+#include <syskern/mirhash.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
@@ -34,7 +34,7 @@
 #include "arc4random.h"
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.5 2012/10/19 18:59:40 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.6 2014/02/19 14:56:00 tg Exp $");
 
 struct arc4random_status a4state;
 
@@ -135,7 +135,7 @@ arc4random_stir_locked(pid_t mypid)
 		register uint32_t h;
 
 		h = a4state.pool[n];
-		NZAATFinish(h);
+		BAFHFinish_reg(h);
 		sbuf.intbuf[n] = h;
 	}
 	n = carry & 3;
@@ -154,8 +154,8 @@ arc4random_stir_locked(pid_t mypid)
 
 		h = a4state.pool[n];
 		a4state.pool[n] = sbuf.intbuf[32 + n] & 0xFFFFFF00;
-		NZATUpdateByte(h, sbuf.intbuf[32 + n] & 0x000000FF);
-		NZAATFinish(h);
+		BAFHUpdateOctet_reg(h, sbuf.intbuf[32 + n] & 0x000000FF);
+		BAFHFinish_reg(h);
 		sbuf.intbuf[32 + n] = h;
 	}
 

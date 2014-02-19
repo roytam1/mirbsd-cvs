@@ -1248,7 +1248,6 @@
 ./usr/include/sys/syslog.h
 ./usr/include/sys/systm.h
 ./usr/include/sys/tablet.h
-./usr/include/sys/taitime.h
 ./usr/include/sys/termios.h
 ./usr/include/sys/time.h
 ./usr/include/sys/timeb.h
@@ -1280,7 +1279,6 @@
 ./usr/include/syskern/md5.h
 ./usr/include/syskern/mirhash.h
 ./usr/include/syskern/mirtime.h
-./usr/include/syskern/nzat.h
 ./usr/include/syslog.h
 ./usr/include/tar.h
 ./usr/include/term.h

@@ -1,6 +1,6 @@
-# $MirOS: src/kern/include/Makefile,v 1.4 2011/11/20 18:54:41 tg Exp $
+# $MirOS: src/kern/include/Makefile,v 1.5 2014/01/11 15:59:41 tg Exp $
 
-HDRS=		libckern.h md5.h mirhash.h mirtime.h nzat.h
+HDRS=		libckern.h md5.h mirhash.h mirtime.h
 HDRDST=		${DESTDIR}/usr/include/syskern
 
 _includes: includedirs
