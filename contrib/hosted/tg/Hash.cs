@@ -1,4 +1,6 @@
-/* $MirOS$ */
+/* $MirOS: contrib/hosted/tg/Hash.cs,v 1.1 2011/07/18 01:12:07 tg Exp $ */
+
+/*XXX need C# and Perl impl of BAFH (got C and mksh, atm) */
 
 using System;
 using System.Security.Cryptography;
