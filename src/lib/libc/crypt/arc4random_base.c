@@ -35,7 +35,7 @@
 #include "arc4random.h"
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.8 2014/02/19 21:16:27 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.9 2014/02/19 21:28:03 tg Exp $");
 
 struct arc4random_status a4state;
 
@@ -138,6 +138,8 @@ arc4random_stir_locked(pid_t mypid)
 		register uint32_t h;
 
 		h = a4state.pool[n];
+		/* mask and mix */
+		BAFHUpdateOctet_reg(h, arcfour_byte(&a4state.cipher));
 		BAFHFinish_reg(h);
 		sbuf.intbuf[n] = h;
 	}
@@ -153,13 +155,20 @@ arc4random_stir_locked(pid_t mypid)
 	/* if (n != sizeof(sbuf)) something went wrong inside the kernel */
 
 	for (n = 0; n < 32; ++n) {
-		register uint32_t h;
+		register uint32_t ha, hr;
 
-		h = a4state.pool[n];
-		a4state.pool[n] = sbuf.intbuf[32 + n] & 0xFFFFFF00;
-		BAFHUpdateOctet_reg(h, sbuf.intbuf[32 + n] & 0x000000FF);
-		BAFHFinish_reg(h);
-		sbuf.intbuf[32 + n] = h;
+		ha = (a4state.pool[n] & 0xFFFF0000) |
+		    (sbuf.intbuf[n] & 0x0000FFFF);
+		hr = (a4state.pool[n] & 0x0000FFFF) |
+		    (sbuf.intbuf[n] & 0xFFFF0000);
+		/* mix then mask for arc4random */
+		BAFHFinish_reg(ha);
+		BAFHUpdateOctet_reg(ha, arcfour_byte(&a4state.cipher));
+		sbuf.intbuf[n] = ha;
+		/* mix then mask for roundhash */
+		BAFHFinish_reg(hr);
+		BAFHUpdateOctet_reg(hr, arcfour_byte(&a4state.cipher));
+		a4state.pool[n] = hr;
 	}
 
 	arcfour_ksa256(&a4state.cipher, sbuf.charbuf);
