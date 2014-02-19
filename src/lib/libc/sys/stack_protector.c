@@ -1,7 +1,7 @@
 /*	$OpenBSD: stack_protector.c,v 1.10 2006/03/31 05:34:44 deraadt Exp $	*/
 
 /*
- * Copyright © 2009, 2011, 2013
+ * Copyright © 2009, 2011, 2013, 2014
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2002 Hiroaki Etoh, Federico G. Schwindt, and Miodrag Vallat.
  * All rights reserved.
@@ -36,7 +36,7 @@
 #include <syslog.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.11 2011/04/27 21:54:07 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.12 2013/10/31 20:06:27 tg Exp $");
 
 #if (defined(__SSP__) || defined(__SSP_ALL__)) && \
     !defined(__IN_MKDEP) && !defined(lint)
@@ -54,8 +54,8 @@ __RCSID("$MirOS: src/lib/libc/sys/stack_protector.c,v 1.11 2011/04/27 21:54:07 t
 extern void _thread_sys__exit__(int) __dead;
 extern void arc4random_atexit(void);
 
-long __guard[8] = {0, 0, 0, 0, 0, 0, 0, 0};	/* gcc (3.4 ProPolice) */
-int __stack_chk_guard;				/* gcc4 libssp and pcc */
+long __guard[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };	/* gcc (3.4 ProPolice) */
+int __stack_chk_guard = 0;			/* gcc4 libssp and pcc */
 CONSTRUCTOR void __guard_setup(void);
 __dead void __stack_smash_handler(const char func[], int damaged);
 __dead void __stack_chk_fail(void);
@@ -67,19 +67,17 @@ __guard_setup(void)
 {
 	uint8_t newguard[MAX(sizeof(__guard), sizeof(__stack_chk_guard))];
 
-	if (__guard[0] != 0)
-		return;
+	while (__stack_chk_guard == 0) {
+		arc4random_buf(newguard, sizeof(__stack_chk_guard));
+		memcpy(&__stack_chk_guard, newguard, sizeof(__stack_chk_guard));
+	}
 
 	while (__guard[0] == 0) {
-		arc4random_buf(newguard, sizeof(newguard));
+		arc4random_buf(newguard, sizeof(__guard));
 		newguard[17] = 0;
 		newguard[18] = '\n';
 		newguard[19] = 255;
 		memcpy(__guard, newguard, sizeof(__guard));
-	}
-	while (__stack_chk_guard == 0) {
-		arc4random_buf(newguard, sizeof(__stack_chk_guard));
-		memcpy(&__stack_chk_guard, newguard, sizeof(__stack_chk_guard));
 	}
 }
 
