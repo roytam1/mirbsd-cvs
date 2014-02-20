@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.149 2014/02/16 21:05:46 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.150 2014/02/19 00:10:19 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4088,6 +4088,12 @@ ID: 736
 Date: 19.02.2014
 Waypoint: GC2XX34
 Title: Häuser der Helfer: GVP Bonn - reloaded
+Tag: D15 T1 Micro Tradi
+----
+ID: 737
+Date: 20.02.2014
+Waypoint: GC1YQYJ
+Title: Der Heilige NanoGral
 Tag: D15 T1 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
