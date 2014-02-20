@@ -1,10 +1,10 @@
-/* $MirOS: src/sys/dev/rnd.c,v 1.73 2011/11/20 18:54:46 tg Exp $ */
+/* $MirOS: src/sys/dev/rnd.c,v 1.74 2013/10/24 08:32:37 tg Exp $ */
 
 /*-
  * rnd.c -- A strong random number generator
  *
  * Copyright (c) 2000, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
- *		 2010, 2013
+ *		 2010, 2013, 2014
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1996, 1997, 2000-2002 Michael Shalayeff.
  *
@@ -850,15 +850,6 @@ randomread(dev_t dev, struct uio *uio, int ioflag)
 	if (uio->uio_resid == 0)
 		return (0);
 
-	/*
-	 * /dev/random was intended as a direct interface to a hardware
-	 * RNG, which we will probably never do; HW RNGs are expected to
-	 * contribute bits directly into a kernel pool, either rndpool
-	 * or lopool (if it cannot be trusted). So, this will fail.
-	 */
-	if (minor(dev) == RND_RND)
-		return (EIO);
-
 	MALLOC(buf, uint16_t *, POOLBYTES, M_TEMP, M_WAITOK);
 	add_timer_randomness((u_long)dev ^ (u_long)uio ^ (u_long)buf);
 
@@ -899,7 +890,20 @@ randomread(dev_t dev, struct uio *uio, int ioflag)
 			get_random_bytes(buf, n);
 			break;
 
+		case RND_RND:
+			/*
+			 * Originally intended as direct interface to
+			 * a HW RNG, which we will never do; map this
+			 * to read from arc4random and write to lopool
+			 * for compat with other OSes.
+			 */
 		case RND_PRND:
+			/*
+			 * This is /dev/prandom on read (old, but now
+			 * mapped to arc4random) and /dev/wrandom on
+			 * write (mapped to the lopool), and always
+			 * writable, even for regulat users.
+			 */
 		case RND_ARND:
 			arc4random_buf(buf, n);
 			break;
@@ -1006,16 +1010,19 @@ randomwrite(dev_t dev, struct uio *uio, int flags)
 	uint8_t *buf;
 	int newdata = 0;
 
-	/* RND_PRND is /dev/wrandom and always writable */
-	if (minor(dev) != RND_PRND && securelevel > 1)
-		return (EPERM);
+	/* see randomread() for some explanations */
+
+	if (securelevel > 1)
+		switch (minor(dev)) {
+		case RND_RND:
+		case RND_PRND:
+			break;
+		default:
+			return (EPERM);
+		}
 
 	if (uio->uio_resid == 0)
 		return (0);
-
-	/* see randomread() for explanation */
-	if (minor(dev) == RND_RND)
-		return (ENXIO);
 
 	MALLOC(buf, uint8_t *, POOLBYTES, M_TEMP, M_WAITOK);
 	add_timer_randomness((u_long)dev ^ (u_long)uio ^ (u_long)buf);
@@ -1025,9 +1032,13 @@ randomwrite(dev_t dev, struct uio *uio, int flags)
 
 		if ((rv = uiomove((caddr_t)buf, n, uio)))
 			break;
-		if (minor(dev) == RND_PRND)
+
+		switch (minor(dev)) {
+		case RND_RND:
+		case RND_PRND:
 			rnd_lopool_add(buf, n);
-		else {
+			break;
+		default:
 			if (n % sizeof(uint32_t)) {
 				uint32_t v = arc4random();
 				while (n % sizeof(uint32_t)) {
@@ -1036,11 +1047,12 @@ randomwrite(dev_t dev, struct uio *uio, int flags)
 				}
 			}
 			add_entropy_words((void *)buf, n / sizeof(uint32_t));
+			newdata = 1;
+			break;
 		}
-		newdata = 1;
 	}
 
-	if (minor(dev) == RND_ARND && newdata)
+	if (newdata && minor(dev) == RND_ARND)
 		arc4random_reinit(NULL);
 
 	add_timer_randomness((u_long)dev ^ (u_long)uio ^ (u_long)buf);
