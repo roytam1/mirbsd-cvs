@@ -35,8 +35,9 @@
 #include "arc4random.h"
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.9 2014/02/19 21:28:03 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.10 2014/02/19 21:36:06 tg Exp $");
 
+/* zero-initialises */
 struct arc4random_status a4state;
 
 void
@@ -58,9 +59,7 @@ arc4random_atexit(void)
 	mib[1] = KERN_ARND;
 	sysctl(mib, 2, NULL, NULL, a4state.pool, sizeof(a4state.pool));
 	/* then, just in case we do NOT finish, blind */
-	mib[0] = arcfour_byte(&a4state.cipher) & 3;
-	while (mib[0]--)
-		(void)arcfour_byte(&a4state.cipher);
+	(void)arcfour_byte(&a4state.cipher);
 	bzero(a4state.pool, sizeof(a4state.pool));
 	_ARC4_UNLOCK();
 }
@@ -111,29 +110,27 @@ arc4random_stir_locked(pid_t mypid)
 		} tmpbuf;
 	} sbuf;
 
-	if (!mypid)
-		mypid = getpid();
 	if (!a4state.a4s_initialised) {
 		arcfour_init(&a4state.cipher);
-		bzero(a4state.pool, sizeof(a4state.pool));
 		a4state.a4s_poolptr = 0;
 	}
 	carry = arcfour_byte(&a4state.cipher);
+	/* throw stuff into the roundhash pool */
 	arc4random_roundhash(a4state.pool, &a4state.a4s_poolptr,
 	    &a4state.otherinfo, sizeof(a4state.otherinfo));
 	clock_gettime(CLOCK_REALTIME, &sbuf.tmpbuf.rtime);
 	clock_gettime(CLOCK_VIRTUAL, &sbuf.tmpbuf.vtime);
 	clock_gettime(CLOCK_PROF, &sbuf.tmpbuf.ptime);
 	clock_gettime(CLOCK_MONOTONIC, &sbuf.tmpbuf.ntime);
-	sbuf.tmpbuf.thepid = mypid;
+	sbuf.tmpbuf.thepid = mypid = mypid ? mypid : getpid();
 	arc4random_roundhash(a4state.pool, &a4state.a4s_poolptr,
 	    &sbuf.tmpbuf, sizeof(sbuf.tmpbuf));
-	n = carry & 3;
-	carry >>= 2;
+
+	/* fill first 128 bytes with roundhash pool */
+	n = 1 + (carry & 1);
+	carry >>= 1;
 	while (n--)
 		(void)arcfour_byte(&a4state.cipher);
-	for (n = 128; n < 256; ++n)
-		sbuf.charbuf[n] = arcfour_byte(&a4state.cipher);
 	for (n = 0; n < 32; ++n) {
 		register uint32_t h;
 
@@ -143,17 +140,27 @@ arc4random_stir_locked(pid_t mypid)
 		BAFHFinish_reg(h);
 		sbuf.intbuf[n] = h;
 	}
+
+	/* fill second 128 bytes with local random stuff */
+	n = 1 + (carry & 1);
+	carry >>= 1;
+	while (n--)
+		(void)arcfour_byte(&a4state.cipher);
+	for (n = 128; n < 256; ++n)
+		sbuf.charbuf[n] = arcfour_byte(&a4state.cipher);
 	n = carry & 3;
 	carry &= 0x3C;
 	while (n--)
 		(void)arcfour_byte(&a4state.cipher);
 
+	/* exchange full 256 bytes with kernel */
 	mib[0] = CTL_KERN;
 	mib[1] = KERN_ARND;
 	n = sizeof(sbuf);
 	sysctl(mib, 2, sbuf.charbuf, &n, sbuf.charbuf, sizeof(sbuf));
 	/* if (n != sizeof(sbuf)) something went wrong inside the kernel */
 
+	/* mix first 128 bytes with/into roundhash pool */
 	for (n = 0; n < 32; ++n) {
 		register uint32_t ha, hr;
 
@@ -170,7 +177,7 @@ arc4random_stir_locked(pid_t mypid)
 		BAFHUpdateOctet_reg(hr, arcfour_byte(&a4state.cipher));
 		a4state.pool[n] = hr;
 	}
-
+	/* mix full 256 bytes into arc4random pool */
 	arcfour_ksa256(&a4state.cipher, sbuf.charbuf);
 
 	/* trash stack */

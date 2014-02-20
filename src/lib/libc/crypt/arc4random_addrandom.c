@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2010
+ * Copyright (c) 2010, 2014
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -26,7 +26,7 @@
 #include "arc4random.h"
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random_addrandom.c,v 1.1 2010/09/12 17:10:53 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_addrandom.c,v 1.2 2014/02/19 21:16:27 tg Exp $");
 
 void
 arc4random_addrandom(u_char *dat, int datlen)
@@ -42,3 +42,4 @@ arc4random_addrandom(u_char *dat, int datlen)
 		arcfour_ksa(&a4state.cipher, dat, datlen);
 	_ARC4_UNLOCK();
 }
+__warn_references(arc4random_addrandom, "arc4random_addrandom got deprecated by OpenBSD, use arc4random_pushb_fast instead");

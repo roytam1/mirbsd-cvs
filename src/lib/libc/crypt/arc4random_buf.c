@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2010
+ * Copyright (c) 2010, 2014
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -27,36 +27,38 @@
 #include "arc4random.h"
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random_buf.c,v 1.2 2013/09/10 17:40:53 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_buf.c,v 1.3 2014/02/19 21:16:27 tg Exp $");
 
 void
 arc4random_buf(void *buf_, size_t len)
 {
 	uint8_t *buf = (uint8_t *)buf_;
 	pid_t mypid = 0;
-
-	if (!len)
-		return;
-
-	_ARC4_LOCK();
+	size_t n;
 
 	/* reinitialise if necessary */
+	_ARC4_LOCK();
 	if (!a4state.a4s_initialised ||
 	    (a4state.a4s_stir_pid != (mypid = getpid())))
 		arc4random_stir_locked(mypid);
-
-	/* randomly skip 1-4 bytes */
-	/*XXX this should be constant-time */
-	buf[0] = arcfour_byte(&a4state.cipher) & 3;
-	while (buf[0]--)
-		(void)arcfour_byte(&a4state.cipher);
-
-	/* fill the buffer */
-	while (len--) {
-		if (--a4state.a4s_count <= 0)
-			arc4random_stir_locked(mypid);
-		buf[len] = arcfour_byte(&a4state.cipher);
-	}
-
 	_ARC4_UNLOCK();
+
+	while (len) {
+		_ARC4_LOCK();
+		/* randomly skip 1-4 bytes */
+		/*XXX this should be constant-time */
+		n = arcfour_byte(&a4state.cipher) & 3;
+		while (n--)
+			(void)arcfour_byte(&a4state.cipher);
+
+		/* fill the buffer in small increments */
+		n = len < 256 ? len : 256;
+		len -= n;
+		a4state.a4s_count -= n;
+		if (a4state.a4s_count < 0)
+			arc4random_stir_locked(mypid);
+		while (n--)
+			*buf++ = arcfour_byte(&a4state.cipher);
+		_ARC4_UNLOCK();
+	}
 }

@@ -1,5 +1,5 @@
 /*-
- * Copyright © 2010
+ * Copyright © 2010, 2014
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -23,7 +23,7 @@
 
 #include <stdlib.h>
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4pushk.c,v 1.3 2010/09/12 17:10:51 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_pushb_old.c,v 1.1 2010/09/21 19:38:22 tg Exp $");
 
 #undef arc4random_push
 #undef arc4random_pushb
@@ -34,6 +34,7 @@ arc4random_push(int n)
 {
 	arc4random_pushb_fast(&n, sizeof(n));
 }
+__warn_references(arc4random_push, "arc4random_push is deprecated, use arc4random_pushb_fast instead");
 
 uint32_t
 arc4random_pushb(const void *buf, size_t len)
@@ -41,5 +42,7 @@ arc4random_pushb(const void *buf, size_t len)
 	arc4random_pushb_fast(buf, len);
 	return (arc4random());
 }
+__warn_references(arc4random_pushb, "arc4random_pushb is deprecated, use arc4random_pushb_fast instead");
 
 __weak_alias(arc4random_pushk, arc4random_pushb);
+__warn_references(arc4random_pushk, "arc4random_pushk is deprecated, use arc4random_pushb_fast instead");
