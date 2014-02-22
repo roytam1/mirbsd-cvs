@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.150 2014/02/19 00:10:19 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.151 2014/02/20 21:41:48 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4095,6 +4095,12 @@ Date: 20.02.2014
 Waypoint: GC1YQYJ
 Title: Der Heilige NanoGral
 Tag: D15 T1 Micro Tradi
+----
+ID: 738
+Date: 21.02.2014
+Waypoint: GC4PQ3K
+Title: Strücher Lore
+Tag: D15 T15 Small Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
