@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.151 2014/02/20 21:41:48 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.152 2014/02/22 20:15:32 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4101,6 +4101,12 @@ Date: 21.02.2014
 Waypoint: GC4PQ3K
 Title: Strücher Lore
 Tag: D15 T15 Small Tradi
+----
+ID: 739
+Date: 23.02.2014
+Waypoint: GC29V1X
+Title: Am Brunnen
+Tag: D1 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
