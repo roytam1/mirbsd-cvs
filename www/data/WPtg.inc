@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.152 2014/02/22 20:15:32 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.153 2014/02/23 20:15:17 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4107,6 +4107,24 @@ Date: 23.02.2014
 Waypoint: GC29V1X
 Title: Am Brunnen
 Tag: D1 T15 Micro Tradi
+----
+ID: 740
+Date: 24.02.2014
+Waypoint: GC4YMQ1
+Title: Steinklotz
+Tag: D15 T15 Micro Tradi
+----
+ID: 741
+Date: 25.02.2014
+Waypoint: GC4Z2Q2
+Title: Hey, hey Wickie
+Tag: D2 T2 Small Tradi
+----
+ID: 742
+Date: 25.02.2014
+Waypoint: GC4PGAR
+Title: BASEBALL TP – No.3 – Geschichte
+Tag: D15 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
