@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/fdisk/part.c,v 1.6 2010/04/22 21:30:05 tg Exp $	*/
+/**	$MirOS: src/sbin/fdisk/part.c,v 1.7 2010/11/20 18:41:42 tg Exp $	*/
 /*	$OpenBSD: part.c,v 1.42 2006/06/09 17:01:47 deraadt Exp $	*/
 
 /*
@@ -40,7 +40,7 @@
 #include "misc.h"
 #include "mbr.h"
 
-__RCSID("$MirOS: src/sbin/fdisk/part.c,v 1.6 2010/04/22 21:30:05 tg Exp $");
+__RCSID("$MirOS: src/sbin/fdisk/part.c,v 1.7 2010/11/20 18:41:42 tg Exp $");
 
 int	PRT_check_chs(prt_t *partn);
 
@@ -131,6 +131,7 @@ static const struct part_type {
 	{ 0xC4, "DRDOSs < 32M"},   /* DRDOS/sec (FAT-16, < 32M) */
 	{ 0xC6, "DRDOSs >=32M"},   /* DRDOS/sec (FAT-16, >= 32M) */
 	{ 0xC7, "HPFS Disbled"},   /* Syrinx (Cyrnix?) or HPFS disabled */
+	{ 0xDA, "non-FS data "},   /* raw / non-filesystem data */
 	{ 0xDB, "CPM/C.DOS/C*"},   /* Concurrent CPM or C.DOS or CTOS */
 	{ 0xDE, "Dell Maint  "},   /* Dell maintenance partition */
 	{ 0xE1, "SpeedStor   "},   /* DOS access or SpeedStor 12-bit FAT extended partition */
@@ -148,7 +149,7 @@ static const struct part_type {
 void
 PRT_printall(void)
 {
-	int i, idrows;
+	size_t i, idrows;
 
 	idrows = ((sizeof(part_types)/sizeof(struct part_type))+3)/4;
 
@@ -170,8 +171,8 @@ PRT_printall(void)
 const char *
 PRT_ascii_id(int id)
 {
-	static char unknown[] = "<Unknown ID>";
-	int i;
+	static const char unknown[] = "<Unknown ID>";
+	size_t i;
 
 	for (i = 0; i < sizeof(part_types)/sizeof(struct part_type); i++) {
 		if (part_types[i].type == id)
