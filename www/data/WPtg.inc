@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.154 2014/02/25 20:50:02 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.155 2014/02/26 20:26:14 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3969,7 +3969,7 @@ Tag: D25 T2 Small Tradi recommended
 ----
 ID: 717
 Date: 04.02.2014
-Waypoint: https://labs.geocaching.com/Geocaches/Details/a9210b3e-1ae1-454f-bbef-1428c642958d?adventureId=fe30453c-7418-4416-a2fa-c543810ab8f8
+Waypoint: https://labs.geocaching.com/Adventures/Details/fe30453c-7418-4416-a2fa-c543810ab8f8
 Title: Mach mal Mirffee!
 nTF: 1
 Tag: Lab
@@ -4131,6 +4131,19 @@ Date: 26.02.2014
 Waypoint: GC4YHX1
 Title: Große Namen # 7 (Hotel für Reisende)
 Tag: D2 T2 Small Tradi
+----
+ID: 744
+Date: 27.02.2014
+Waypoint: GC2PGKF
+Title: Sportpark NORD Bonn
+Tag: D2 T15 Micro Tradi
+----
+ID: 745
+Date: 25.02.2014
+Waypoint: https://labs.geocaching.com/Adventures/Details/b9b2a933-c4fa-4f29-aed4-1d1355318d78
+Title: Challenge: Caching
+nTF: 0
+Tag: Lab
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
