@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.155 2014/02/26 20:26:14 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.156 2014/02/27 22:56:07 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4144,6 +4144,12 @@ Waypoint: https://labs.geocaching.com/Adventures/Details/b9b2a933-c4fa-4f29-aed4
 Title: Challenge: Caching
 nTF: 0
 Tag: Lab
+----
+ID: 746
+Date: 28.02.2014
+Waypoint: GC40W3X
+Title: Bonner PETlinge #3
+Tag: D15 T2 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
