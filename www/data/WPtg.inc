@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.156 2014/02/27 22:56:07 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.157 2014/02/28 21:57:51 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4150,6 +4150,12 @@ Date: 28.02.2014
 Waypoint: GC40W3X
 Title: Bonner PETlinge #3
 Tag: D15 T2 Micro Tradi
+----
+ID: 747
+Date: 01.03.2014
+Waypoint: GC3DVG6
+Title: Aussicht auf den Drachen
+Tag: D25 T4 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
