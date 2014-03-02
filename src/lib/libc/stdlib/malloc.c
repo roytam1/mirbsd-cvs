@@ -1,4 +1,4 @@
-/*	$OpenBSD: malloc.c,v 1.149 2012/12/22 07:32:17 otto Exp $	*/
+/*	$OpenBSD: malloc.c,v 1.150 2013/11/12 06:57:54 deraadt Exp $	*/
 /*
  * Copyright © 2013
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -51,7 +51,7 @@
 #include "thread_private.h"
 
 __IDSTRING(malloc_type, "@(#) omalloc 1.149 (OpenBSD)");
-__RCSID("$MirOS: src/lib/libc/stdlib/malloc.c,v 1.10 2012/12/28 02:26:53 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdlib/malloc.c,v 1.11 2013/10/31 20:06:23 tg Exp $");
 
 #if defined(__sparc__) && !defined(__sparcv9__)
 #define MALLOC_PAGESHIFT	(13U)
@@ -1472,7 +1472,7 @@ mapalign(struct dir_info *d, size_t alignment, size_t sz, int zero_fill)
 	p = map(d, sz + alignment, zero_fill);
 	if (p == MAP_FAILED)
 		return MAP_FAILED;
-	q = (void *)(((uintptr_t)p + alignment - 1) & ~(alignment - 1));
+	q = (char *)(((uintptr_t)p + alignment - 1) & ~(alignment - 1));
 	if (q != p) {
 		if (munmap(p, q - p))
 			wrterror("munmap", p);

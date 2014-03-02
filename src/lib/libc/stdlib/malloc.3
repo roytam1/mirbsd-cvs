@@ -30,10 +30,10 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.\"	$MirOS: src/lib/libc/stdlib/malloc.3,v 1.4 2010/12/23 18:33:33 tg Exp $
-.\"	$OpenBSD: malloc.3,v 1.71 2012/11/02 18:18:15 djm Exp $
+.\"	$MirOS: src/lib/libc/stdlib/malloc.3,v 1.5 2012/12/21 21:49:18 tg Exp $
+.\"	$OpenBSD: malloc.3,v 1.73 2013/07/18 10:14:49 schwarze Exp $
 .\"
-.Dd $Mdocdate: December 21 2012 $
+.Dd $Mdocdate: March 2 2014 $
 .Dt MALLOC 3
 .Os
 .Sh NAME
@@ -44,7 +44,7 @@
 .Nm cfree
 .Nd memory allocation and deallocation
 .Sh SYNOPSIS
-.Fd #include <stdlib.h>
+.In stdlib.h
 .Ft void *
 .Fn malloc "size_t size"
 .Ft void *
@@ -449,10 +449,27 @@ The
 function conforms to
 .St -ansiC .
 .Sh HISTORY
-The
-.Nm
-family of functions first appeared in
+A
+.Fn free
+internal kernel function and a predecessor to
+.Fn malloc ,
+.Fn alloc ,
+first appeared in
+.At v1 .
+C library functions
+.Fn alloc
+and
+.Fn free
+appeared in
+.At v6 .
+The functions
+.Fn malloc ,
+.Fn calloc ,
+and
+.Fn realloc
+first appeared in
 .At v7 .
+.Pp
 A new implementation by Chris Kingsley was introduced in
 .Bx 4.2 ,
 followed by a complete rewrite by Poul-Henning Kamp which appeared in
