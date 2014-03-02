@@ -50,8 +50,8 @@
 
 #include "thread_private.h"
 
-__IDSTRING(malloc_type, "@(#) omalloc 1.149 (OpenBSD)");
-__RCSID("$MirOS: src/lib/libc/stdlib/malloc.c,v 1.11 2013/10/31 20:06:23 tg Exp $");
+__IDSTRING(malloc_type, "@(#) omalloc 1.150 (OpenBSD)");
+__RCSID("$MirOS: src/lib/libc/stdlib/malloc.c,v 1.12 2014/03/02 14:45:04 tg Exp $");
 
 #if defined(__sparc__) && !defined(__sparcv9__)
 #define MALLOC_PAGESHIFT	(13U)
