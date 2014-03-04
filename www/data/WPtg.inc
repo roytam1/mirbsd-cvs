@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.157 2014/02/28 21:57:51 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.158 2014/03/01 22:13:50 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4156,6 +4156,24 @@ Date: 01.03.2014
 Waypoint: GC3DVG6
 Title: Aussicht auf den Drachen
 Tag: D25 T4 Micro Tradi
+----
+ID: 748
+Date: 03.03.2014
+Waypoint: GC4X9KD
+Title: Leddekopp
+Tag: D1 T1 Micro Tradi
+----
+ID: 749
+Date: 04.03.2014
+Waypoint: GC4QGFF
+Title: Die schnelle Nummer
+Tag: D15 T15 Micro Tradi
+----
+ID: 750
+Date: 04.03.2014
+Waypoint: GC4CJ3B
+Title: Können Birnen glühen?
+Tag: D2 T2 Micro Tradi recommended
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
