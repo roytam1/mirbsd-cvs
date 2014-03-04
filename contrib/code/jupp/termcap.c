@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/jupp/termcap.c,v 1.6 2012/06/08 17:05:12 tg Exp $ */
+/* $MirOS: contrib/code/jupp/termcap.c,v 1.8 2012/12/30 21:45:17 tg Exp $ */
 /*
  *	TERMCAP/TERMINFO database interface
  *	Copyright
@@ -255,7 +255,12 @@ CAP *getcap(unsigned char *name, unsigned int baud, void (*out) (unsigned char *
 		fclose(f);
 	}
 	vsrm(idxname);
+#ifdef HAVE_FSEEKO
 	fseeko(f1, idx, 0);
+#else
+	/* ugh. SOL! */
+	fseek(f1, (long)idx, 0);
+#endif
 	cap->tbuf = lfind(cap->tbuf, ti, f1, name);
 	fclose(f1);
 	if (sLEN(cap->tbuf) == ti)

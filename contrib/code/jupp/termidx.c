@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/jupp/termidx.c,v 1.3 2009/10/18 16:06:30 tg Exp $ */
+/* $MirOS: contrib/code/jupp/termidx.c,v 1.4 2012/06/08 17:05:12 tg Exp $ */
 /*
  *	Program to generate termcap index file
  *	Copyright
@@ -27,7 +27,12 @@ static void gen(unsigned char *s, FILE *fd)
 	if (c == '\n')
 		goto loop;
 	oaddr = addr;
+#ifdef HAVE_FSEEKO
 	addr = ftello(fd) - 1;
+#else
+	/* well, SOL */
+	addr = ftell(fd) - 1;
+#endif
 	ungetc(c, fd);
 	s[x = 0] = 0;
 	while (1) {
