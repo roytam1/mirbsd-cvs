@@ -1,4 +1,4 @@
-/*	$MirOS: src/include/sha2.h,v 1.2 2013/10/31 20:06:08 tg Exp $ */
+/*	$MirOS: src/include/sha2.h,v 1.3 2014/03/05 14:07:26 tg Exp $ */
 /*	$OpenBSD: sha2.h,v 1.6 2004/06/22 01:57:30 jfb Exp $	*/
 
 /*
@@ -109,7 +109,7 @@ char *SHA384_Data(const u_int8_t *, size_t, char *)
 	__attribute__((__bounded__(__minbytes__, 3, SHA384_DIGEST_STRING_LENGTH)));
 
 void SHA512_Init(SHA512_CTX *);
-void SHA512_Transform(u_int64_t *, const u_int8_t)
+void SHA512_Transform(u_int64_t *, const u_int8_t *)
 	__attribute__((__bounded__(__minbytes__, 1, 64)))
 	__attribute__((__bounded__(__minbytes__, 2, SHA512_BLOCK_LENGTH)));
 void SHA512_Update(SHA512_CTX *, const u_int8_t *, size_t)
