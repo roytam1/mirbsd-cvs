@@ -1,4 +1,4 @@
-/*	$MirOS$ */
+/*	$MirOS: src/include/rmd160.h,v 1.2 2013/10/31 20:06:08 tg Exp $ */
 /*	$OpenBSD: rmd160.h,v 1.16 2004/06/22 01:57:30 jfb Exp $	*/
 /*
  * Copyright © 2013
@@ -43,13 +43,13 @@ typedef struct RMD160Context {
 
 __BEGIN_DECLS
 void	 RMD160Init(RMD160_CTX *);
-void	 RMD160Transform(u_int32_t [5], const u_int8_t [RMD160_BLOCK_LENGTH])
-		__attribute__((__bounded__(__minbytes__, 1, 5)))
+void	 RMD160Transform(u_int32_t *, const u_int8_t *)
+		__attribute__((__bounded__(__minbytes__, 1, 20)))
 		__attribute__((__bounded__(__minbytes__, 2, RMD160_BLOCK_LENGTH)));
 void	 RMD160Update(RMD160_CTX *, const u_int8_t *, size_t)
 		__attribute__((__bounded__(__string__, 2, 3)));
 void	 RMD160Pad(RMD160_CTX *);
-void	 RMD160Final(u_int8_t [RMD160_DIGEST_LENGTH], RMD160_CTX *)
+void	 RMD160Final(u_int8_t *, RMD160_CTX *)
 		__attribute__((__bounded__(__minbytes__, 1, RMD160_DIGEST_LENGTH)));
 char	*RMD160End(RMD160_CTX *, char *)
 		__attribute__((__bounded__(__minbytes__, 2, RMD160_DIGEST_STRING_LENGTH)));

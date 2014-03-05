@@ -1,4 +1,4 @@
-/*	$MirOS$ */
+/*	$MirOS: src/include/md4.h,v 1.2 2013/10/31 20:06:07 tg Exp $ */
 /*	$OpenBSD: md4.h,v 1.15 2004/06/22 01:57:30 jfb Exp $	*/
 
 /*
@@ -34,10 +34,10 @@ void	 MD4Init(MD4_CTX *);
 void	 MD4Update(MD4_CTX *, const u_int8_t *, size_t)
 		__attribute__((__bounded__(__string__, 2, 3)));
 void	 MD4Pad(MD4_CTX *);
-void	 MD4Final(u_int8_t [MD4_DIGEST_LENGTH], MD4_CTX *)
+void	 MD4Final(u_int8_t *, MD4_CTX *)
 		__attribute__((__bounded__(__minbytes__, 1, MD4_DIGEST_LENGTH)));
-void	 MD4Transform(u_int32_t [4], const u_int8_t [MD4_BLOCK_LENGTH])
-		__attribute__((__bounded__(__minbytes__, 1, 4)))
+void	 MD4Transform(u_int32_t *, const u_int8_t *)
+		__attribute__((__bounded__(__minbytes__, 1, 16)))
 		__attribute__((__bounded__(__minbytes__, 2, MD4_BLOCK_LENGTH)));
 char	*MD4End(MD4_CTX *, char *)
 		__attribute__((__bounded__(__minbytes__, 2, MD4_DIGEST_STRING_LENGTH)));

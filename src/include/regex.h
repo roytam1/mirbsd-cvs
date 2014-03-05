@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/include/regex.h,v 1.2 2012/05/19 23:34:23 tg Exp $ */
 /*	$OpenBSD: regex.h,v 1.6 2003/06/02 19:34:12 millert Exp $	*/
 /*	$NetBSD: regex.h,v 1.4.6.1 1996/06/10 18:57:07 explorer Exp $	*/
 
@@ -111,7 +111,7 @@ typedef struct {
 __BEGIN_DECLS
 int	regcomp(regex_t *, const char *, int);
 size_t	regerror(int, const regex_t *, char *, size_t);
-int	regexec(const regex_t *, const char *, size_t, regmatch_t [], int);
+int	regexec(const regex_t *, const char *, size_t, regmatch_t *, int);
 void	regfree(regex_t *);
 __END_DECLS
 

@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.32 2014/02/09 22:35:51 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.33 2014/02/09 23:19:55 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -205,7 +205,7 @@ int	 cgetustr(char *, const char *, char **);
 
 int	 daemon(int, int);
 char	*devname(int, int);
-int	 getloadavg(double [], int);
+int	 getloadavg(double *, int);
 
 long	 a64l(const char *);
 char	*l64a(long);
@@ -252,13 +252,13 @@ quad_t	 strtoq(const char *, char **, int);
 u_quad_t strtouq(const char *, char **, int);
 
 double	 drand48(void);
-double	 erand48(unsigned short[3]);
-long	 jrand48(unsigned short[3]);
-void	 lcong48(unsigned short[7]);
+double	 erand48(unsigned short *);
+long	 jrand48(unsigned short *);
+void	 lcong48(unsigned short *);
 long	 lrand48(void);
 long	 mrand48(void);
-long	 nrand48(unsigned short[3]);
-unsigned short *seed48(unsigned short[3]);
+long	 nrand48(unsigned short *);
+unsigned short *seed48(unsigned short *);
 void	 srand48(long);
 
 /* starting with MirOS 0AAD define the entire arc4random API as cpp macros */

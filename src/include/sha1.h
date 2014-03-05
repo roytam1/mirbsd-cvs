@@ -1,4 +1,4 @@
-/*	$MirOS$ */
+/*	$MirOS: src/include/sha1.h,v 1.2 2013/10/31 20:06:08 tg Exp $ */
 /*	$OpenBSD: sha1.h,v 1.23 2004/06/22 01:57:30 jfb Exp $	*/
 
 /*
@@ -25,12 +25,12 @@ typedef struct {
 __BEGIN_DECLS
 void SHA1Init(SHA1_CTX *);
 void SHA1Pad(SHA1_CTX *);
-void SHA1Transform(u_int32_t [5], const u_int8_t [SHA1_BLOCK_LENGTH])
-	__attribute__((__bounded__(__minbytes__, 1, 5)))
+void SHA1Transform(u_int32_t *, const u_int8_t *)
+	__attribute__((__bounded__(__minbytes__, 1, 20)))
 	__attribute__((__bounded__(__minbytes__, 2, SHA1_BLOCK_LENGTH)));
 void SHA1Update(SHA1_CTX *, const u_int8_t *, size_t)
 	__attribute__((__bounded__(__string__, 2, 3)));
-void SHA1Final(u_int8_t [SHA1_DIGEST_LENGTH], SHA1_CTX *)
+void SHA1Final(u_int8_t *, SHA1_CTX *)
 	__attribute__((__bounded__(__minbytes__, 1, SHA1_DIGEST_LENGTH)));
 char *SHA1End(SHA1_CTX *, char *)
 	__attribute__((__bounded__(__minbytes__, 2, SHA1_DIGEST_STRING_LENGTH)));
