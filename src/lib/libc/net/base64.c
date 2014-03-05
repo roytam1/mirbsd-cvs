@@ -1,4 +1,4 @@
-/*	$OpenBSD: base64.c,v 1.4 2002/01/02 23:00:10 deraadt Exp $	*/
+/*	$OpenBSD: base64.c,v 1.7 2013/12/31 02:32:56 tedu Exp $	*/
 
 /*
  * Copyright (c) 1996 by Internet Software Consortium.
@@ -55,9 +55,6 @@
 
 #include <stdlib.h>
 #include <string.h>
-
-/* XXX abort illegal in library */
-#define Assert(Cond) if (!(Cond)) abort()
 
 static const char Base64[] =
 	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -148,10 +145,6 @@ b64_ntop(src, srclength, target, targsize)
 		output[1] = ((input[0] & 0x03) << 4) + (input[1] >> 4);
 		output[2] = ((input[1] & 0x0f) << 2) + (input[2] >> 6);
 		output[3] = input[2] & 0x3f;
-		Assert(output[0] < 64);
-		Assert(output[1] < 64);
-		Assert(output[2] < 64);
-		Assert(output[3] < 64);
 
 		if (datalength + 4 > targsize)
 			return (-1);
@@ -171,9 +164,6 @@ b64_ntop(src, srclength, target, targsize)
 		output[0] = input[0] >> 2;
 		output[1] = ((input[0] & 0x03) << 4) + (input[1] >> 4);
 		output[2] = ((input[1] & 0x0f) << 2) + (input[2] >> 6);
-		Assert(output[0] < 64);
-		Assert(output[1] < 64);
-		Assert(output[2] < 64);
 
 		if (datalength + 4 > targsize)
 			return (-1);
@@ -204,12 +194,13 @@ b64_pton(src, target, targsize)
 	size_t targsize;
 {
 	int tarindex, state, ch;
+	u_char nextbyte;
 	char *pos;
 
 	state = 0;
 	tarindex = 0;
 
-	while ((ch = *src++) != '\0') {
+	while ((ch = (unsigned char)*src++) != '\0') {
 		if (isspace(ch))	/* Skip whitespace anywhere. */
 			continue;
 
@@ -231,22 +222,28 @@ b64_pton(src, target, targsize)
 			break;
 		case 1:
 			if (target) {
-				if (tarindex + 1 >= targsize)
+				if (tarindex >= targsize)
 					return (-1);
 				target[tarindex]   |=  (pos - Base64) >> 4;
-				target[tarindex+1]  = ((pos - Base64) & 0x0f)
-							<< 4 ;
+				nextbyte = ((pos - Base64) & 0x0f) << 4;
+				if (tarindex + 1 < targsize)
+					target[tarindex+1] = nextbyte;
+				else if (nextbyte)
+					return (-1);
 			}
 			tarindex++;
 			state = 2;
 			break;
 		case 2:
 			if (target) {
-				if (tarindex + 1 >= targsize)
+				if (tarindex >= targsize)
 					return (-1);
 				target[tarindex]   |=  (pos - Base64) >> 2;
-				target[tarindex+1]  = ((pos - Base64) & 0x03)
-							<< 6;
+				nextbyte = ((pos - Base64) & 0x03) << 6;
+				if (tarindex + 1 < targsize)
+					target[tarindex+1] = nextbyte;
+				else if (nextbyte)
+					return (-1);
 			}
 			tarindex++;
 			state = 3;
@@ -268,8 +265,8 @@ b64_pton(src, target, targsize)
 	 * on a byte boundary, and/or with erroneous trailing characters.
 	 */
 
-	if (ch == Pad64) {		/* We got a pad char. */
-		ch = *src++;		/* Skip it, get next. */
+	if (ch == Pad64) {			/* We got a pad char. */
+		ch = (unsigned char)*src++;	/* Skip it, get next. */
 		switch (state) {
 		case 0:		/* Invalid = in first position */
 		case 1:		/* Invalid = in second position */
@@ -277,13 +274,13 @@ b64_pton(src, target, targsize)
 
 		case 2:		/* Valid, means one byte of info */
 			/* Skip any number of spaces. */
-			for (; ch != '\0'; ch = *src++)
+			for (; ch != '\0'; ch = (unsigned char)*src++)
 				if (!isspace(ch))
 					break;
 			/* Make sure there is another trailing = sign. */
 			if (ch != Pad64)
 				return (-1);
-			ch = *src++;		/* Skip the = */
+			ch = (unsigned char)*src++;		/* Skip the = */
 			/* Fall through to "single trailing =" case. */
 			/* FALLTHROUGH */
 
@@ -292,7 +289,7 @@ b64_pton(src, target, targsize)
 			 * We know this char is an =.  Is there anything but
 			 * whitespace after it?
 			 */
-			for (; ch != '\0'; ch = *src++)
+			for (; ch != '\0'; ch = (unsigned char)*src++)
 				if (!isspace(ch))
 					return (-1);
 
@@ -302,7 +299,8 @@ b64_pton(src, target, targsize)
 			 * zeros.  If we don't check them, they become a
 			 * subliminal channel.
 			 */
-			if (target && target[tarindex] != 0)
+			if (target && tarindex < targsize &&
+			    target[tarindex] != 0)
 				return (-1);
 		}
 	} else {
