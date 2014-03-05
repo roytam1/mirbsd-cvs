@@ -127,7 +127,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_srvr.c,v 1.6 2009/11/14 14:33:47 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_srvr.c,v 1.7 2010/12/21 14:25:21 tg Exp $");
 
 static SSL_METHOD *ssl3_get_server_method(int ver);
 static int ssl3_get_client_hello(SSL *s);
@@ -2026,7 +2026,7 @@ static int ssl3_get_client_certificate(SSL *s)
 	else
 		{
 		i=ssl_verify_cert_chain(s,sk);
-		if (i < 0)
+		if (i <= 0)
 			{
 			al=ssl_verify_alarm_type(s->verify_result);
 			SSLerr(SSL_F_SSL3_GET_CLIENT_CERTIFICATE,SSL_R_NO_CERTIFICATE_RETURNED);
