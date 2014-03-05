@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.158 2014/03/01 22:13:50 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.159 2014/03/04 21:05:01 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4174,6 +4174,24 @@ Date: 04.03.2014
 Waypoint: GC4CJ3B
 Title: Können Birnen glühen?
 Tag: D2 T2 Micro Tradi recommended
+----
+ID: 751
+Date: 05.03.2014
+Waypoint: GC1X4KQ
+Title: Der verbotene Weg
+Tag: D1 T15 Regular Multi
+----
+ID: 752
+Date: 05.03.2014
+Waypoint: GC1PHJR
+Title: Rundum Fernsicht
+Tag: D2 T2 Small Multi
+----
+ID: 753
+Date: 05.03.2014
+Waypoint: GC4630F
+Title: Herzlichen Glückwunsch!
+Tag: D15 T15 Small Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
