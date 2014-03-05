@@ -1,4 +1,4 @@
-/*	$OpenBSD: base64.c,v 1.4 2002/01/02 23:00:10 deraadt Exp $	*/
+/*	$OpenBSD: base64.c,v 1.7 2013/12/31 02:32:56 tedu Exp $	*/
 
 /*
  * Copyright (c) 1996 by Internet Software Consortium.
@@ -56,10 +56,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-__RCSID("$MirOS$");
-
-/* XXX abort illegal in library */
-#define Assert(Cond) if (!(Cond)) abort()
+__RCSID("$MirOS: src/lib/libc/net/base64.c,v 1.3 2010/01/07 22:34:52 tg Exp $");
 
 extern const uint8_t mbsd_digits_base64[65];
 static const char Pad64 = '=';
@@ -145,10 +142,6 @@ b64_ntop(u_char const *src, size_t srclength,  char *target, size_t targsize)
 		output[1] = ((input[0] & 0x03) << 4) + (input[1] >> 4);
 		output[2] = ((input[1] & 0x0f) << 2) + (input[2] >> 6);
 		output[3] = input[2] & 0x3f;
-		Assert(output[0] < 64);
-		Assert(output[1] < 64);
-		Assert(output[2] < 64);
-		Assert(output[3] < 64);
 
 		if (datalength + 4 > targsize)
 			return (-1);
@@ -168,9 +161,6 @@ b64_ntop(u_char const *src, size_t srclength,  char *target, size_t targsize)
 		output[0] = input[0] >> 2;
 		output[1] = ((input[0] & 0x03) << 4) + (input[1] >> 4);
 		output[2] = ((input[1] & 0x0f) << 2) + (input[2] >> 6);
-		Assert(output[0] < 64);
-		Assert(output[1] < 64);
-		Assert(output[2] < 64);
 
 		if (datalength + 4 > targsize)
 			return (-1);
@@ -199,12 +189,13 @@ b64_pton(char const *src, u_char *target, size_t targsize)
 {
 	size_t tarindex;
 	int state, ch;
+	u_char nextbyte;
 	const uint8_t *pos;
 
 	state = 0;
 	tarindex = 0;
 
-	while ((ch = *src++) != '\0') {
+	while ((ch = (unsigned char)*src++) != '\0') {
 		if (isspace(ch))	/* Skip whitespace anywhere. */
 			continue;
 
@@ -226,22 +217,28 @@ b64_pton(char const *src, u_char *target, size_t targsize)
 			break;
 		case 1:
 			if (target) {
-				if (tarindex + 1 >= targsize)
+				if (tarindex >= targsize)
 					return (-1);
 				target[tarindex]   |=  (pos - &mbsd_digits_base64[0]) >> 4;
-				target[tarindex+1]  = ((pos - &mbsd_digits_base64[0]) & 0x0f)
-							<< 4 ;
+				nextbyte = ((pos - &mbsd_digits_base64[0]) & 0x0f) << 4;
+				if (tarindex + 1 < targsize)
+					target[tarindex+1] = nextbyte;
+				else if (nextbyte)
+					return (-1);
 			}
 			tarindex++;
 			state = 2;
 			break;
 		case 2:
 			if (target) {
-				if (tarindex + 1 >= targsize)
+				if (tarindex >= targsize)
 					return (-1);
 				target[tarindex]   |=  (pos - &mbsd_digits_base64[0]) >> 2;
-				target[tarindex+1]  = ((pos - &mbsd_digits_base64[0]) & 0x03)
-							<< 6;
+				nextbyte = ((pos - &mbsd_digits_base64[0]) & 0x03) << 6;
+				if (tarindex + 1 < targsize)
+					target[tarindex+1] = nextbyte;
+				else if (nextbyte)
+					return (-1);
 			}
 			tarindex++;
 			state = 3;
@@ -263,8 +260,8 @@ b64_pton(char const *src, u_char *target, size_t targsize)
 	 * on a byte boundary, and/or with erroneous trailing characters.
 	 */
 
-	if (ch == Pad64) {		/* We got a pad char. */
-		ch = *src++;		/* Skip it, get next. */
+	if (ch == Pad64) {			/* We got a pad char. */
+		ch = (unsigned char)*src++;	/* Skip it, get next. */
 		switch (state) {
 		case 0:		/* Invalid = in first position */
 		case 1:		/* Invalid = in second position */
@@ -272,13 +269,13 @@ b64_pton(char const *src, u_char *target, size_t targsize)
 
 		case 2:		/* Valid, means one byte of info */
 			/* Skip any number of spaces. */
-			for (; ch != '\0'; ch = *src++)
+			for (; ch != '\0'; ch = (unsigned char)*src++)
 				if (!isspace(ch))
 					break;
 			/* Make sure there is another trailing = sign. */
 			if (ch != Pad64)
 				return (-1);
-			ch = *src++;		/* Skip the = */
+			ch = (unsigned char)*src++;		/* Skip the = */
 			/* Fall through to "single trailing =" case. */
 			/* FALLTHROUGH */
 
@@ -287,7 +284,7 @@ b64_pton(char const *src, u_char *target, size_t targsize)
 			 * We know this char is an =.  Is there anything but
 			 * whitespace after it?
 			 */
-			for (; ch != '\0'; ch = *src++)
+			for (; ch != '\0'; ch = (unsigned char)*src++)
 				if (!isspace(ch))
 					return (-1);
 
@@ -297,7 +294,8 @@ b64_pton(char const *src, u_char *target, size_t targsize)
 			 * zeros.  If we don't check them, they become a
 			 * subliminal channel.
 			 */
-			if (target && target[tarindex] != 0)
+			if (target && tarindex < targsize &&
+			    target[tarindex] != 0)
 				return (-1);
 		}
 	} else {
