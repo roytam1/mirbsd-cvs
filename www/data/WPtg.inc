@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.160 2014/03/05 19:17:17 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.161 2014/03/06 20:24:56 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4204,6 +4204,25 @@ Date: 06.03.2014
 Waypoint: GC3HGG6
 Title: Thomas Mulden
 Tag: D2 T3 Small Tradi
+----
+ID: 756
+Date: 07.03.2014
+Waypoint: GC4R2TY
+Title: Beginn der Eiszeit
+nTF: 2
+Tag: D1 T1 Event
+----
+ID: 757
+Date: 07.03.2014
+Waypoint: GC2X14C
+Title: Wiesen, Felder und Plantagen #6
+Tag: D2 T15 Micro Tradi
+----
+ID: 758
+Date: 07.03.2014
+Waypoint: GC2X14Q
+Title: Wiesen, Felder und Plantagen - Bonus
+Tag: D2 T3 Micro Mystery
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
