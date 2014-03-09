@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.161 2014/03/06 20:24:56 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.162 2014/03/07 21:33:33 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4223,6 +4223,24 @@ Date: 07.03.2014
 Waypoint: GC2X14Q
 Title: Wiesen, Felder und Plantagen - Bonus
 Tag: D2 T3 Micro Mystery
+----
+ID: 759
+Date: 08.03.2014
+Waypoint: GC2HJ0N
+Title: Big brother is watching you...
+Tag: D2 T2 Micro Tradi
+----
+ID: 760
+Date: 08.03.2014
+Waypoint: GC3Z02Y
+Title: Der Scheißcache
+Tag: D2 T1 Micro Tradi
+----
+ID: 761
+Date: 09.03.2014
+Waypoint: GC4WNRJ
+Title: Das Herrschaftsgebiet von Röttgen 8
+Tag: D15 T15 Small Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
