@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.162 2014/03/07 21:33:33 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.163 2014/03/09 21:33:25 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4241,6 +4241,20 @@ Date: 09.03.2014
 Waypoint: GC4WNRJ
 Title: Das Herrschaftsgebiet von Röttgen 8
 Tag: D15 T15 Small Tradi
+----
+ID: 762
+Date: 10.03.2014
+Waypoint: GC4ZXJY
+Title: An der Godesburg - Christines Geburtstagscache
+nTF: 2
+Tag: D15 T2 Small Tradi
+----
+ID: 763
+Date: 10.03.2014
+Waypoint: GC4ZXGR
+Title: Gotteshäuser: CLW Bonn
+nTF: 4
+Tag: D15 T15 Nano Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
