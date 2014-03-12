@@ -1,7 +1,7 @@
 /*	$OpenBSD: ntp.c,v 1.92 2006/10/21 07:30:58 henning Exp $ */
 
 /*
- * Copyright (c) 2006, 2007, 2008, 2009, 2010, 2011
+ * Copyright (c) 2006, 2007, 2008, 2009, 2010, 2011, 2014
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  * Copyright (c) 2004 Alexander Guy <alexander.guy@andern.org>
@@ -38,8 +38,9 @@
 
 #include "ntpd.h"
 #include "ntp.h"
+#include "thread_private.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.27 2010/09/24 22:23:49 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.28 2011/02/19 00:23:46 tg Exp $");
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -101,7 +102,7 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 	}
 
 	/* force re-stir directly after fork, before chroot */
-	arc4random_stir();
+	(void)arc4random();
 	nextstir = time(NULL) + 5400;
 
 	if ((se = getservbyname("ntp", "udp")) == NULL)
@@ -178,7 +179,7 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 
 		if (nextstir < (now = time(NULL))) {
 			/* 1.5 hours after start, then every 2 hrs */
-			arc4random_stir();
+			arc4random_stir_lcl();
 			nextstir = now + 7200;
 		}
 

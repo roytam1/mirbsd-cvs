@@ -1,7 +1,7 @@
 /*	$OpenBSD: ntpd.c,v 1.40 2005/09/06 21:27:10 wvdputte Exp $ */
 
 /*-
- * Copyright (c) 2004, 2005, 2007, 2008, 2011
+ * Copyright (c) 2004, 2005, 2007, 2008, 2011, 2014
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 2003, 2004 Henning Brauer <henning@openbsd.org>
  *
@@ -33,8 +33,9 @@
 #include <unistd.h>
 
 #include "ntpd.h"
+#include "thread_private.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.20 2011/02/19 00:23:46 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.21 2011/11/20 20:08:37 tg Exp $");
 
 void		sighdlr(int);
 __dead void	usage(void);
@@ -206,7 +207,7 @@ main(int argc, char *argv[])
 		}
 
 		if (arc4push) {
-			arc4random_stir();
+			arc4random_stir_lcl();
 			arc4push = 0;
 		}
 
