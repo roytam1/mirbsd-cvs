@@ -2,7 +2,7 @@
 /*	$NetBSD: reboot.c,v 1.8 1995/10/05 05:36:22 mycroft Exp $	*/
 
 /*
- * Copyright (c) 2011
+ * Copyright (c) 2011, 2014
  *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1980, 1986, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -56,9 +56,10 @@
 __COPYRIGHT("@(#) Copyright (c) 1980, 1986, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)reboot.c	8.1 (Berkeley) 6/5/93");
-__RCSID("$MirOS: src/sbin/reboot/reboot.c,v 1.2 2007/05/29 08:19:30 tg Exp $");
+__RCSID("$MirOS: src/sbin/reboot/reboot.c,v 1.5 2012/08/24 18:08:03 tg Exp $");
 
 extern const char *__progname;
+extern void arc4random_atexit(void);
 
 static void
 pull_console(bool do_setsid)
@@ -213,7 +214,6 @@ main(int argc, char *argv[])
 	pull_console(false);
 	arnd_fd = open(_PATH_ARANDOMDEV, O_RDWR);
 	rnd_fd = open(_PATH_HOSTRANDOM, O_WRONLY | O_APPEND | O_SYNC);
-	ch = 3;
 
 	for (i = 0; i < 7; ++i) {
 		warnx("Sending SIG%s to all processes...",
@@ -241,10 +241,6 @@ main(int argc, char *argv[])
 			sleep(2 * (i - 2));
 		}
 
-		if (!ch)
-			/* three writes already done */
-			continue;
-
 		if (arnd_fd != -1)
 			/* reset lopool, arandom */
 			ioctl(arnd_fd, RNDSTIRARC4);
@@ -254,26 +250,18 @@ main(int argc, char *argv[])
 			else
 				arc4random_buf(rnd_buf, sizeof(rnd_buf));
 			write(rnd_fd, rnd_buf, sizeof(rnd_buf));
-			--ch;
 		}
 	}
-	/* we need four writes in total, though */
-	++ch;
 
 	if (i == 7)
 		warnx("WARNING: some process(es) wouldn't die");
 
+	if (rnd_fd != -1)
+		close(rnd_fd);
+	arc4random_atexit();
 	if (arnd_fd != -1) {
 		ioctl(arnd_fd, RNDSTIRARC4);
 		close(arnd_fd);
-	}
-	if (rnd_fd != -1) {
-		arc4random_stir();
-		while (ch--) {
-			arc4random_buf(rnd_buf, sizeof(rnd_buf));
-			write(rnd_fd, rnd_buf, sizeof(rnd_buf));
-		}
-		close(rnd_fd);
 	}
 
 	reboot(howto);
