@@ -45,7 +45,7 @@
 #include "hostfile.h"
 #include "auth.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sshconnect1.c,v 1.9 2006/11/09 02:42:07 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect1.c,v 1.10 2010/09/21 21:24:38 tg Exp $");
 
 /* Session id for the current session. */
 u_char session_id[16];
@@ -541,7 +541,6 @@ ssh_kex(char *host, struct sockaddr *hostaddr)
 	derive_ssh1_session_id(host_key->rsa->n, server_key->rsa->n, cookie, session_id);
 
 	/* Generate a session key. */
-	arc4random_stir();
 
 	/*
 	 * Generate an encryption key for the session.   The key is a 256 bit

@@ -101,7 +101,7 @@
 #include "roaming.h"
 #include "version.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.18 2009/03/22 15:01:25 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.19 2009/10/04 14:29:12 tg Exp $");
 
 #ifndef O_NOCTTY
 #define O_NOCTTY	0
@@ -350,7 +350,6 @@ generate_ephemeral_server_key(void)
 	verbose("RSA key generation complete.");
 
 	arc4random_buf(sensitive_data.ssh1_cookie, SSH_SESSION_KEY_LENGTH);
-	arc4random_stir();
 }
 
 /*ARGSUSED*/
@@ -557,7 +556,6 @@ privsep_preauth_child(void)
 	/* Enable challenge-response authentication for privilege separation */
 	privsep_challenge_enable();
 
-	arc4random_stir();
 	arc4random_buf(rnd, sizeof(rnd));
 	RAND_seed(rnd, sizeof(rnd));
 
@@ -666,7 +664,6 @@ privsep_postauth(Authctxt *authctxt)
 	/* Demote the private keys to public keys. */
 	demote_sensitive_data();
 
-	arc4random_stir();
 	arc4random_buf(rnd, sizeof(rnd));
 	RAND_seed(rnd, sizeof(rnd));
 
@@ -1121,6 +1118,11 @@ server_accept_loop(int *sock_in, int *sock_out, int *newsock, int *config_s)
 			 */
 			if ((pid = fork()) == 0) {
 				/*
+				 * Ensure that our random state differs
+				 * from that of the parent.
+				 */
+				(void)arc4random();
+				/*
 				 * Child.  Close the listening and
 				 * max_startup sockets.  Start using
 				 * the accepted socket. Reinitialize
@@ -1172,9 +1174,9 @@ server_accept_loop(int *sock_in, int *sock_out, int *newsock, int *config_s)
 
 			/*
 			 * Ensure that our random state differs
-			 * from that of the child
+			 * from that of the child.
 			 */
-			arc4random_stir();
+			(void)arc4random();
 		}
 
 		/* child process check (or debug mode) */
@@ -1529,11 +1531,12 @@ main(int ac, char **av)
 			close(fd);
 		}
 	}
-	/* Reinitialize the log (because of the fork above). */
-	log_init(__progname, options.log_level, options.log_facility, log_stderr);
 
 	/* Initialize the random number generator. */
-	arc4random_stir();
+	(void)arc4random();
+
+	/* Reinitialize the log (because of the fork above). */
+	log_init(__progname, options.log_level, options.log_facility, log_stderr);
 
 	/* Chdir to the root directory so that the current disk can be
 	   unmounted if desired. */
