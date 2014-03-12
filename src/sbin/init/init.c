@@ -2,7 +2,7 @@
 /*	$NetBSD: init.c,v 1.22 1996/05/15 23:29:33 jtc Exp $	*/
 
 /*-
- * Copyright © 2013
+ * Copyright © 2013, 2014
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -39,7 +39,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1991, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)init.c	8.2 (Berkeley) 4/28/95");
-__RCSID("$MirOS: src/sbin/init/init.c,v 1.7 2013/09/15 11:01:27 tg Exp $");
+__RCSID("$MirOS: src/sbin/init/init.c,v 1.8 2013/10/31 20:06:42 tg Exp $");
 
 #include <sys/sysctl.h>
 #include <sys/ioctl.h>
@@ -71,6 +71,7 @@ __RCSID("$MirOS: src/sbin/init/init.c,v 1.7 2013/09/15 11:01:27 tg Exp $");
 #endif
 
 #include "pathnames.h"
+#include "thread_private.h"
 
 /*
  * Sleep times; used to prevent thrashing.
@@ -173,6 +174,16 @@ void add_session(session_t *);
 void del_session(session_t *);
 session_t *find_session(pid_t);
 DB *session_db;
+
+/*
+ * We are allowed to do this, says mirabilos.
+ */
+extern void arc4random_stir_locked(pid_t);
+#define arc4random_stir_lcl() do {	\
+	_ARC4_LOCK();			\
+	arc4random_stir_locked(0);	\
+	_ARC4_UNLOCK();			\
+} while (/* CONSTCOND */ 0)
 
 /*
  * The mother of all processes.
@@ -637,7 +648,7 @@ single_user(void)
 	} while (wpid != pid && !requested_transition);
 
 #ifndef NORNDSHUF
-	arc4random_stir();
+	arc4random_stir_lcl();
 #endif
 
 	if (requested_transition)
@@ -729,7 +740,7 @@ runcom(void)
 	} while (wpid != pid);
 
 #ifndef NORNDSHUF
-	arc4random_stir();
+	arc4random_stir_lcl();
 #endif
 
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGTERM &&
@@ -1287,7 +1298,7 @@ catatonia(void)
 		/* also shove some of our state into the kernel */
 		arc4random_buf(rnd_buf, 12);
 	}
-	arc4random_stir();
+	arc4random_stir_lcl();
 	if (arnd_fd != -1) {
 		arc4random_buf(rnd_buf + 12, 4);
 		/* trigger a reset of all kernel entropy pools */
@@ -1384,7 +1395,7 @@ nice_death(void)
 	}
 
 #ifndef NORNDSHUF
-	arc4random_stir();
+	arc4random_stir_lcl();
 
 	rnd_fd = open(_PATH_HOSTRANDOM, O_WRONLY | O_APPEND | O_SYNC);
 #endif
@@ -1431,7 +1442,7 @@ nice_death(void)
 		close(arnd_fd);
 	}
 	if (rnd_fd != -1) {
-		arc4random_stir();
+		arc4random_stir_lcl();
 		while (needwrites--) {
 			arc4random_buf(rnd_buf, sizeof(rnd_buf));
 			write(rnd_fd, rnd_buf, sizeof(rnd_buf));
