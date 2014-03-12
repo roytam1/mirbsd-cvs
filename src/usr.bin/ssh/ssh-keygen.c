@@ -45,7 +45,7 @@
 #include "scard.h"
 #endif
 
-__RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.22 2009/10/04 14:29:10 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/ssh-keygen.c,v 1.23 2011/01/15 21:52:42 tg Exp $");
 
 /* Number of bits in the RSA/DSA key.  This value can be set on the command line. */
 #define DEFAULT_BITS		2048
@@ -1437,7 +1437,7 @@ main(int argc, char **argv)
 		return (0);
 	}
 
-	arc4random_stir();
+	(void)arc4random();
 
 	if (key_type_name == NULL)
 		key_type_name = "rsa";
@@ -1532,7 +1532,7 @@ passphrase_again:
 
 	/* Clear the private key and the random number generator. */
 	key_free(private);
-	arc4random_stir();
+	(void)arc4random();
 
 	if (!quiet)
 		printf("Your identification has been saved in %s.\n", identity_file);
