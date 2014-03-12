@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/libc.exp,v 1.1 2010/09/12 17:10:48 tg Exp $
+# $MirOS: src/lib/libc/libc.exp,v 1.2 2010/09/21 17:49:38 tg Exp $
 #-
 # This is a version script for the GNU linker ld(1) to assign
 # local visibility to specific symbols that were cross-module
@@ -9,5 +9,4 @@
   # Define all symbols to hide
   local:
 	a4state;
-	arc4random_stir_locked;
 };
