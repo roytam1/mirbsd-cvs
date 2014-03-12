@@ -1,4 +1,4 @@
-/*	$OpenBSD: proto.h,v 1.7 2002/12/19 21:24:28 millert Exp $	*/
+/*	$OpenBSD: proto.h,v 1.9 2011/09/28 19:27:18 millert Exp $	*/
 /****************************************************************
 Copyright (C) Lucent Technologies 1997
 All Rights Reserved
@@ -44,8 +44,8 @@ extern	fa	*mkdfa(const char *, int);
 extern	int	makeinit(fa *, int);
 extern	void	penter(Node *);
 extern	void	freetr(Node *);
-extern	int	hexstr(char **);
-extern	int	quoted(char **);
+extern	int	hexstr(uschar **);
+extern	int	quoted(uschar **);
 extern	char	*cclenter(const char *);
 extern	void	overflo(const char *);
 extern	void	cfoll(fa *, Node *);
@@ -150,7 +150,7 @@ extern	Cell	*call(Node **, int);
 extern	Cell	*copycell(Cell *);
 extern	Cell	*arg(Node **, int);
 extern	Cell	*jump(Node **, int);
-extern	Cell	*getline(Node **, int);
+extern	Cell	*awkgetline(Node **, int);
 extern	Cell	*getnf(Node **, int);
 extern	Cell	*array(Node **, int);
 extern	Cell	*awkdelete(Node **, int);

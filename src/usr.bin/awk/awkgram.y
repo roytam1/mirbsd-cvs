@@ -1,4 +1,4 @@
-/*	$OpenBSD: awkgram.y,v 1.7 2001/09/08 00:12:40 millert Exp $	*/
+/*	$OpenBSD: awkgram.y,v 1.9 2011/09/28 19:27:18 millert Exp $	*/
 /****************************************************************
 Copyright (C) Lucent Technologies 1997
 All Rights Reserved
@@ -51,7 +51,7 @@ Node	*arglist = 0;	/* list of args for current function */
 %token	<i>	NL ',' '{' '(' '|' ';' '/' ')' '}' '[' ']'
 %token	<i>	ARRAY
 %token	<i>	MATCH NOTMATCH MATCHOP
-%token	<i>	FINAL DOT ALL CCL NCCL CHAR OR STAR QUEST PLUS
+%token	<i>	FINAL DOT ALL CCL NCCL CHAR OR STAR QUEST PLUS EMPTYRE
 %token	<i>	AND BOR APPEND EQ GE GT LE LT NE IN
 %token	<i>	ARG BLTIN BREAK CLOSE CONTINUE DELETE DO EXIT FOR FUNC 
 %token	<i>	SUB GSUB IF INDEX LSUBSTR MATCHFCN NEXT NEXTFILE
@@ -175,8 +175,8 @@ pa_pat:
 pa_stat:
 	  pa_pat			{ $$ = stat2(PASTAT, $1, stat2(PRINT, rectonode(), NIL)); }
 	| pa_pat lbrace stmtlist '}'	{ $$ = stat2(PASTAT, $1, $3); }
-	| pa_pat ',' pa_pat		{ $$ = pa2stat($1, $3, stat2(PRINT, rectonode(), NIL)); }
-	| pa_pat ',' pa_pat lbrace stmtlist '}'	{ $$ = pa2stat($1, $3, $5); }
+	| pa_pat ',' opt_nl pa_pat		{ $$ = pa2stat($1, $4, stat2(PRINT, rectonode(), NIL)); }
+	| pa_pat ',' opt_nl pa_pat lbrace stmtlist '}'	{ $$ = pa2stat($1, $4, $6); }
 	| lbrace stmtlist '}'		{ $$ = stat2(PASTAT, NIL, $2); }
 	| XBEGIN lbrace stmtlist '}'
 		{ beginloc = linkum(beginloc, $3); $$ = 0; }

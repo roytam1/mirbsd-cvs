@@ -1,4 +1,4 @@
-/*	$OpenBSD: awk.h,v 1.11 2004/12/30 01:52:48 millert Exp $	*/
+/*	$OpenBSD: awk.h,v 1.13 2008/10/06 20:38:33 millert Exp $	*/
 /****************************************************************
 Copyright (C) Lucent Technologies 1997
 All Rights Reserved
@@ -31,7 +31,7 @@ typedef double	Awkfloat;
 
 typedef	unsigned char uschar;
 
-#define	xfree(a)	{ if ((a) != NULL) { free((char *) a); a = NULL; } }
+#define	xfree(a)	{ if ((a) != NULL) { free((void *) (a)); (a) = NULL; } }
 
 #define	NN(p)	((p) ? (p) : "(null)")	/* guaranteed non-null for dprintf 
 */
@@ -127,6 +127,12 @@ extern Cell	*rlengthloc;	/* RLENGTH */
 #define	FTOUPPER 12
 #define	FTOLOWER 13
 #define	FFLUSH	14
+#define FAND	15
+#define FFOR	16
+#define FXOR	17
+#define FCOMPL	18
+#define FLSHIFT	19
+#define FRSHIFT	20
 
 /* Node:  parse tree is made of nodes, with Cell's at bottom */
 
