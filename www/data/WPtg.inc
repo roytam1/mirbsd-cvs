@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.163 2014/03/09 21:33:25 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.164 2014/03/10 19:16:09 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -208,6 +208,7 @@ ID: 40
 Date: 14.04.2008
 Waypoint: LCHU
 Title: WCG (aka How to Fold a Protein)
+Tag: MC1 LC_Tools LC_Other
 ----
 ID: 41
 Date: 17.04.2008
@@ -313,6 +314,7 @@ ID: 60
 Date: 10.08.2008
 Waypoint: LCHX
 Title: Google Up A Locationless!
+Tag: MC5 LC_Tools LC_Classic
 ----
 ID: 61
 Date: 10.08.2008
@@ -2033,17 +2035,20 @@ ID: 394
 Date: 22.06.2013
 Waypoint: LC7TB
 Title: Truly Well-Rounded Cacher LC - Level I
+Tag: MC3 LC_Puzzle
 ----
 ID: 395
 Date: 22.06.2013
 Waypoint: LCR2
 Title: WCG II - Keep it going
+Tag: MC0 LC_Tools LC_Other
 ----
 ID: 396
 Date: 23.06.2013
 Waypoint: LC7TL
 Title: Birthday Coordinates
 nTF: 3
+Tag: MC0 LC_Classic
 ----
 ID: 397
 Date: 24.06.2013
@@ -2181,6 +2186,7 @@ Date: 11.07.2013
 Waypoint: LC7TX
 Title: WCG III - Ruby's Reward
 nTF: 2
+Tag: MC0 LC_Other
 ----
 ID: 420
 Date: 11.07.2013
@@ -2218,6 +2224,7 @@ Date: 22.07.2013
 Waypoint: LC7QP
 Title: TerraCachin' Fashion
 nTF: 2
+Tag: MC0 LC_Clasic
 ----
 ID: 427
 Date: 27.07.2013
@@ -4255,6 +4262,30 @@ Waypoint: GC4ZXGR
 Title: Gotteshäuser: CLW Bonn
 nTF: 4
 Tag: D15 T15 Nano Tradi
+----
+ID: 764
+Date: 11.03.2014
+Waypoint: GC33X0M OCD382
+Title: Am Bonner Graben
+Tag: D15 T15 Micro Tradi
+----
+ID: 765
+Date: 12.03.2014
+Waypoint: GC4YFR2
+Title: Lannesdorfer Pömpche
+Tag: D15 T15 Small Tradi
+----
+ID: 766
+Date: 12.03.2014
+Waypoint: GC3TTG0
+Title: Verstecketopf Abschlusstest
+Tag: D35 T35 Small Multi
+----
+ID: 767
+Date: 12.03.2014
+Waypoint: LC7QX
+Title: ScottO's 30 day Challenge!
+Tag: MC0 LC_Other
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
