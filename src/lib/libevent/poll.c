@@ -53,6 +53,8 @@
 #include "evsignal.h"
 #include "log.h"
 
+__RCSID("$MirOS$");
+
 struct pollop {
 	int event_count;		/* Highest number alloc */
 	int nfds;                       /* Size of event_* */
@@ -163,7 +165,7 @@ poll_dispatch(struct event_base *base, void *arg, struct timeval *tv)
 	if (res == 0 || nfds == 0)
 		return (0);
 
-	i = random() % nfds;
+	i = arc4random_uniform(nfds);
 	for (j = 0; j < nfds; j++) {
 		struct event *r_ev = NULL, *w_ev = NULL;
 		int what;
