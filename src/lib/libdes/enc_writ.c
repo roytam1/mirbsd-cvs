@@ -68,9 +68,7 @@ des_key_schedule sched;
 des_cblock (*iv);
 	{
 #ifdef _LIBC
-	extern int srandom();
 	extern unsigned long time();
-	extern int random();
 	extern int write();
 #endif
 
@@ -91,7 +89,6 @@ des_cblock (*iv);
 	if (start)
 		{
 		start=0;
-		srandom((unsigned int)time(NULL));
 		}
 
 	/* lets recurse if we want to send the data in small chunks */
@@ -120,7 +117,7 @@ des_cblock (*iv);
 		p=shortbuf;
 		memcpy(shortbuf,buf,(unsigned int)len);
 		for (i=len; i<8; i++)
-			shortbuf[i]=random();
+			shortbuf[i] = arc4random() & 0xFF;
 		rnum=8;
 		}
 	else

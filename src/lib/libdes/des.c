@@ -86,11 +86,6 @@
 #include <string.h>
 #endif
 
-#ifdef RAND
-#define random rand
-#define srandom(s) srand(s)
-#endif
-
 #ifndef _DES_NOPROTO
 void usage(void);
 void doencryption(void);
@@ -368,8 +363,6 @@ NULL
 void doencryption()
 	{
 #ifdef _LIBC
-	extern int srandom();
-	extern int random();
 	extern unsigned long time();
 #endif
 
@@ -494,9 +487,8 @@ void doencryption()
 			len=l-rem;
 			if (feof(DES_IN))
 				{
-				srandom((unsigned int)time(NULL));
 				for (i=7-rem; i>0; i--)
-					buf[l++]=random()&0xff;
+					buf[l++] = arc4random() & 0xFF;
 				buf[l++]=rem;
 				ex=1;
 				len+=rem;
