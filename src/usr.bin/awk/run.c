@@ -1,4 +1,4 @@
-/*	$OpenBSD: run.c,v 1.26 2004/12/30 02:08:35 millert Exp $	*/
+/*	$OpenBSD: run.c,v 1.34 2013/09/29 15:42:25 deraadt Exp $	*/
 /****************************************************************
 Copyright (C) Lucent Technologies 1997
 All Rights Reserved
@@ -35,9 +35,9 @@ THIS SOFTWARE.
 #include "awk.h"
 #include "awkgram.h"
 
-__RCSID("$MirOS: src/usr.bin/awk/run.c,v 1.2 2007/04/28 00:12:47 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/awk/run.c,v 1.3 2010/09/21 21:24:32 tg Exp $");
 
-#define tempfree(x)	if (istemp(x)) tfree(x); else
+#define tempfree(x)	do { if (istemp(x)) tfree(x); } while (/* CONSTCOND */ 0)
 
 /*
 #undef tempfree
@@ -52,44 +52,46 @@ void tempfree(Cell *p) {
 }
 */
 
-#ifdef _NFILE
-#ifndef FOPEN_MAX
-#define FOPEN_MAX _NFILE
-#endif
-#endif
-
-#ifndef	FOPEN_MAX
-#define	FOPEN_MAX	40	/* max number of open files */
-#endif
-
-#ifndef RAND_MAX
-#define RAND_MAX	32767	/* all that ansi guarantees */
-#endif
+/* do we really need these? */
+/* #ifdef _NFILE */
+/* #ifndef FOPEN_MAX */
+/* #define FOPEN_MAX _NFILE */
+/* #endif */
+/* #endif */
+/*  */
+/* #ifndef	FOPEN_MAX */
+/* #define	FOPEN_MAX	40 */	/* max number of open files */
+/* #endif */
+/*  */
+/* #ifndef RAND_MAX */
+/* #define RAND_MAX	32767 */	/* all that ansi guarantees */
+/* #endif */
 
 jmp_buf env;
-int use_arc4 = 1;
-extern	int	pairstack[];
+int use_srandom;
+extern	Awkfloat	srand_seed;
 
 Node	*winner = NULL;	/* root of parse tree */
 Cell	*tmps;		/* free temporary cells for execution */
 
-static Cell	truecell	={ OBOOL, BTRUE, 0, 0, 1.0, NUM };
+static Cell	truecell	={ OBOOL, BTRUE, 0, 0, 1.0, NUM, NULL };
 Cell	*True	= &truecell;
-static Cell	falsecell	={ OBOOL, BFALSE, 0, 0, 0.0, NUM };
+static Cell	falsecell	={ OBOOL, BFALSE, 0, 0, 0.0, NUM, NULL };
 Cell	*False	= &falsecell;
-static Cell	breakcell	={ OJUMP, JBREAK, 0, 0, 0.0, NUM };
+static Cell	breakcell	={ OJUMP, JBREAK, 0, 0, 0.0, NUM, NULL };
 Cell	*jbreak	= &breakcell;
-static Cell	contcell	={ OJUMP, JCONT, 0, 0, 0.0, NUM };
+static Cell	contcell	={ OJUMP, JCONT, 0, 0, 0.0, NUM, NULL };
 Cell	*jcont	= &contcell;
-static Cell	nextcell	={ OJUMP, JNEXT, 0, 0, 0.0, NUM };
+static Cell	nextcell	={ OJUMP, JNEXT, 0, 0, 0.0, NUM, NULL };
 Cell	*jnext	= &nextcell;
-static Cell	nextfilecell	={ OJUMP, JNEXTFILE, 0, 0, 0.0, NUM };
+static Cell	nextfilecell	={ OJUMP, JNEXTFILE, 0, 0, 0.0, NUM, NULL };
 Cell	*jnextfile	= &nextfilecell;
-static Cell	exitcell	={ OJUMP, JEXIT, 0, 0, 0.0, NUM };
+static Cell	exitcell	={ OJUMP, JEXIT, 0, 0, 0.0, NUM, NULL };
 Cell	*jexit	= &exitcell;
-static Cell	retcell		={ OJUMP, JRET, 0, 0, 0.0, NUM };
+static Cell	retcell		={ OJUMP, JRET, 0, 0, 0.0, NUM, NULL };
 Cell	*jret	= &retcell;
-static Cell	tempcell	={ OCELL, CTEMP, 0, "", 0.0, NUM|STR|DONTFREE };
+static char tempcell_i[] = "";
+static Cell	tempcell	={ OCELL, CTEMP, 0, tempcell_i, 0.0, NUM|STR|DONTFREE, NULL };
 
 Node	*curnode = NULL;	/* the node being executed, for debugging */
 
@@ -117,6 +119,7 @@ int adjbuf(char **pbuf, int *psiz, int minlen, int quantum, char **pbptr,
 		if (rminlen)
 			minlen += quantum - rminlen;
 		tbuf = (char *) realloc(*pbuf, minlen);
+		dprintf( ("adjbuf %s: %d %d (pbuf=%p, tbuf=%p)\n", whatrtn, *psiz, minlen, *pbuf, tbuf) );
 		if (tbuf == NULL) {
 			if (whatrtn)
 				FATAL("out of memory in %s", whatrtn);
@@ -219,11 +222,13 @@ struct Frame {	/* stack frame for awk function calls */
 
 struct Frame *frame = NULL;	/* base of stack frames; dynamically allocated */
 int	nframe = 0;		/* number of frames allocated */
+#define fp fptr
 struct Frame *fp = NULL;	/* frame pointer. bottom level unused */
 
 Cell *call(Node **a, int n)	/* function call.  very kludgy and fragile */
 {
-	static Cell newcopycell = { OCELL, CCOPY, 0, "", 0.0, NUM|STR|DONTFREE };
+	static char newcopycell_i[] = "";
+	static Cell newcopycell = { OCELL, CCOPY, 0, newcopycell_i, 0.0, NUM|STR|DONTFREE, NULL };
 	int i, ncall, ndef;
 	int freed = 0; /* handles potential double freeing when fcn & param share a tempcell */
 	Node *x;
@@ -390,8 +395,9 @@ Cell *jump(Node **a, int n)	/* break, continue, next, nextfile, return */
 	}
 	return 0;	/* not reached */
 }
+#undef fp
 
-Cell *getline(Node **a, int n)	/* get next line from specific input */
+Cell *awkgetline(Node **a, int n)	/* get next line from specific input */
 {		/* a[0] is variable, a[1] is operator, a[2] is filename */
 	Cell *r, *x;
 	extern Cell **fldtab;
@@ -468,7 +474,7 @@ Cell *array(Node **a, int n)	/* a[0] is symtab, a[1] is list of subscripts */
 	for (np = a[1]; np; np = np->nnext) {
 		y = execute(np);	/* subscript */
 		s = getsval(y);
-		if (!adjbuf(&buf, &bufsz, strlen(buf)+strlen(s)+nsub+1, recsize, 0, 0))
+		if (!adjbuf(&buf, &bufsz, strlen(buf)+strlen(s)+nsub+1, recsize, 0, "array"))
 			FATAL("out of memory for %s[%s...]", x->nval, buf);
 		strlcat(buf, s, bufsz);
 		if (np->nnext)
@@ -515,7 +521,7 @@ Cell *awkdelete(Node **a, int n)	/* a[0] is symtab, a[1] is list of subscripts *
 		for (np = a[1]; np; np = np->nnext) {
 			y = execute(np);	/* subscript */
 			s = getsval(y);
-			if (!adjbuf(&buf, &bufsz, strlen(buf)+strlen(s)+nsub+1, recsize, 0, 0))
+			if (!adjbuf(&buf, &bufsz, strlen(buf)+strlen(s)+nsub+1, recsize, 0, "awkdelete"))
 				FATAL("out of memory deleting %s[%s...]", x->nval, buf);
 			strlcat(buf, s, bufsz);	
 			if (np->nnext)
@@ -554,7 +560,7 @@ Cell *intest(Node **a, int n)	/* a[0] is index (list), a[1] is symtab */
 	for (p = a[0]; p; p = p->nnext) {
 		x = execute(p);	/* expr */
 		s = getsval(x);
-		if (!adjbuf(&buf, &bufsz, strlen(buf)+strlen(s)+nsub+1, recsize, 0, 0))
+		if (!adjbuf(&buf, &bufsz, strlen(buf)+strlen(s)+nsub+1, recsize, 0, "intest"))
 			FATAL("out of memory deleting %s[%s...]", x->nval, buf);
 		strlcat(buf, s, bufsz);
 		tempfree(x);
@@ -824,7 +830,7 @@ int format(char **pbuf, int *pbufsize, const char *s, Node *a)	/* printf-like co
 	if ((fmt = (char *) malloc(fmtsz)) == NULL)
 		FATAL("out of memory in format()");
 	while (*s) {
-		adjbuf(&buf, &bufsize, MAXNUMSIZE+1+p-buf, recsize, &p, "format");
+		adjbuf(&buf, &bufsize, MAXNUMSIZE+1+p-buf, recsize, &p, "format1");
 		if (*s != '%') {
 			*p++ = *s++;
 			continue;
@@ -838,13 +844,15 @@ int format(char **pbuf, int *pbufsize, const char *s, Node *a)	/* printf-like co
 		fmtwd = atoi(s+1);
 		if (fmtwd < 0)
 			fmtwd = -fmtwd;
-		adjbuf(&buf, &bufsize, fmtwd+1+p-buf, recsize, &p, "format");
+		adjbuf(&buf, &bufsize, fmtwd+1+p-buf, recsize, &p, "format2");
 		for (t = fmt; (*t++ = *s) != '\0'; s++) {
-			if (!adjbuf(&fmt, &fmtsz, MAXNUMSIZE+1+t-fmt, recsize, &t, 0))
+			if (!adjbuf(&fmt, &fmtsz, MAXNUMSIZE+1+t-fmt, recsize, &t, "format3"))
 				FATAL("format item %.30s... ran format() out of memory", os);
 			if (isalpha((uschar)*s) && *s != 'l' && *s != 'h' && *s != 'L')
 				break;	/* the ansi panoply */
 			if (*s == '*') {
+				if (a == NULL)
+					FATAL("not enough args in printf(%s)", os);
 				x = execute(a);
 				a = a->nnext;
 				snprintf(t-1, fmt + fmtsz - (t-1), "%d", fmtwd=(int) getfval(x));
@@ -858,7 +866,7 @@ int format(char **pbuf, int *pbufsize, const char *s, Node *a)	/* printf-like co
 		*t = '\0';
 		if (fmtwd < 0)
 			fmtwd = -fmtwd;
-		adjbuf(&buf, &bufsize, fmtwd+1+p-buf, recsize, &p, "format");
+		adjbuf(&buf, &bufsize, fmtwd+1+p-buf, recsize, &p, "format4");
 
 		switch (*s) {
 		case 'f': case 'e': case 'g': case 'E': case 'G':
@@ -892,7 +900,7 @@ int format(char **pbuf, int *pbufsize, const char *s, Node *a)	/* printf-like co
 		n = MAXNUMSIZE;
 		if (fmtwd > n)
 			n = fmtwd;
-		adjbuf(&buf, &bufsize, 1+n+p-buf, recsize, &p, "format");
+		adjbuf(&buf, &bufsize, 1+n+p-buf, recsize, &p, "format5");
 		switch (flag) {
 		case '?':	/* unknown, so dump it too */
 			snprintf(p, buf + bufsize - p, "%s", fmt);
@@ -900,7 +908,7 @@ int format(char **pbuf, int *pbufsize, const char *s, Node *a)	/* printf-like co
 			n = strlen(t);
 			if (fmtwd > n)
 				n = fmtwd;
-			adjbuf(&buf, &bufsize, 1+strlen(p)+n+p-buf, recsize, &p, "format");
+			adjbuf(&buf, &bufsize, 1+strlen(p)+n+p-buf, recsize, &p, "format6");
 			p += strlen(p);
 			snprintf(p, buf + bufsize - p, "%s", t);
 			break;
@@ -912,7 +920,7 @@ int format(char **pbuf, int *pbufsize, const char *s, Node *a)	/* printf-like co
 			n = strlen(t);
 			if (fmtwd > n)
 				n = fmtwd;
-			if (!adjbuf(&buf, &bufsize, 1+n+p-buf, recsize, &p, 0))
+			if (!adjbuf(&buf, &bufsize, 1+n+p-buf, recsize, &p, "format7"))
 				FATAL("huge string/format (%d chars) in printf %.30s... ran format() out of memory", n, t);
 			snprintf(p, buf + bufsize - p, fmt, t);
 			break;
@@ -1165,11 +1173,11 @@ Cell *cat(Node **a, int q)	/* a[0] cat a[1] */
 			x->sval, y->sval);
 	strlcpy(s, x->sval, len);
 	strlcpy(s+n1, y->sval, len - n1);
+	tempfree(x);
 	tempfree(y);
 	z = gettemp();
 	z->sval = s;
 	z->tval = STR;
-	tempfree(x);
 	return(z);
 }
 
@@ -1214,6 +1222,8 @@ Cell *dopa2(Node **a, int n)	/* a[0], a[1] { a[2] } */
 
 Cell *split(Node **a, int nnn)	/* split(a[0], a[1], a[2]); a[3] is type */
 {
+	static char nullfs[] = "";
+	static char refs[] = "(regexpr)";
 	Cell *x = 0, *y, *ap;
 	char *s;
 	int sep;
@@ -1229,7 +1239,7 @@ Cell *split(Node **a, int nnn)	/* split(a[0], a[1], a[2]); a[3] is type */
 		x = execute(a[2]);
 		fs = getsval(x);
 	} else if (arg3type == REGEXPR)
-		fs = "(regexpr)";	/* split(str,arr,/regexpr/) */
+		fs = refs;	/* split(str,arr,/regexpr/) */
 	else
 		FATAL("illegal type of split");
 	sep = *fs;
@@ -1241,6 +1251,12 @@ Cell *split(Node **a, int nnn)	/* split(a[0], a[1], a[2]); a[3] is type */
 	ap->sval = (char *) makesymtab(NSYMTAB);
 
 	n = 0;
+        if (arg3type == REGEXPR && strlen((char*)((fa*)a[2])->restr) == 0) {
+		/* split(s, a, //); have to arrange that it looks like empty sep */
+		arg3type = 0;
+		fs = nullfs;
+		sep = 0;
+	}
 	if (*s != '\0' && (strlen(fs) > 1 || arg3type == REGEXPR)) {	/* reg expr */
 		fa *pfa;
 		if (arg3type == REGEXPR) {	/* it's ready already */
@@ -1472,6 +1488,7 @@ Cell *bltin(Node **a, int n)	/* builtin functions. a[0] is type, a[1] is arg lis
 	Cell *x, *y;
 	Awkfloat u;
 	int t;
+	Awkfloat tmp;
 	char *p, *buf;
 	Node *nextarg;
 	FILE *fp;
@@ -1509,23 +1526,84 @@ Cell *bltin(Node **a, int n)	/* builtin functions. a[0] is type, a[1] is arg lis
 			nextarg = nextarg->nnext;
 		}
 		break;
+	case FCOMPL:
+		u = ~((int)getfval(x));
+		break;
+	case FAND:
+		if (nextarg == 0) {
+			WARNING("and requires two arguments; returning 0");
+			u = 0;
+			break;
+		}
+		y = execute(a[1]->nnext);
+		u = ((int)getfval(x)) & ((int)getfval(y));
+		tempfree(y);
+		nextarg = nextarg->nnext;
+		break;
+	case FFOR:
+		if (nextarg == 0) {
+			WARNING("or requires two arguments; returning 0");
+			u = 0;
+			break;
+		}
+		y = execute(a[1]->nnext);
+		u = ((int)getfval(x)) | ((int)getfval(y));
+		tempfree(y);
+		nextarg = nextarg->nnext;
+		break;
+	case FXOR:
+		if (nextarg == 0) {
+			WARNING("or requires two arguments; returning 0");
+			u = 0;
+			break;
+		}
+		y = execute(a[1]->nnext);
+		u = ((int)getfval(x)) ^ ((int)getfval(y));
+		tempfree(y);
+		nextarg = nextarg->nnext;
+		break;
+	case FLSHIFT:
+		if (nextarg == 0) {
+			WARNING("or requires two arguments; returning 0");
+			u = 0;
+			break;
+		}
+		y = execute(a[1]->nnext);
+		u = ((int)getfval(x)) << ((int)getfval(y));
+		tempfree(y);
+		nextarg = nextarg->nnext;
+		break;
+	case FRSHIFT:
+		if (nextarg == 0) {
+			WARNING("or requires two arguments; returning 0");
+			u = 0;
+			break;
+		}
+		y = execute(a[1]->nnext);
+		u = ((int)getfval(x)) >> ((int)getfval(y));
+		tempfree(y);
+		nextarg = nextarg->nnext;
+		break;
 	case FSYSTEM:
 		fflush(stdout);		/* in case something is buffered already */
 		u = (Awkfloat) system(getsval(x)) / 256;   /* 256 is unix-dep */
 		break;
 	case FRAND:
-		if (use_arc4)
-			u = (Awkfloat) arc4random_uniform(RAND_MAX) / RAND_MAX;
-		else
+		if (use_srandom)
 			u = (Awkfloat) (random() % RAND_MAX) / RAND_MAX;
+		else
+			u = (Awkfloat)arc4random() / 0xffffffff;
 		break;
 	case FSRAND:
 		if (isrec(x))	/* no argument provided, want arc4random() */
-			use_arc4 = 1;
+			use_srandom = 0;
 		else {
+			use_srandom = 1;
 			u = getfval(x);
+			tmp = u;
 			srandom((unsigned int) u);
-			use_arc4 = 0;
+			u = srand_seed;
+			srand_seed = tmp;
 		}
 		break;
 	case FTOUPPER:
@@ -1620,19 +1698,27 @@ FILE *redirect(int a, Node *b)	/* set up all i/o redirections */
 
 struct files {
 	FILE	*fp;
-	const char	*fname;
+	char	*fname;
 	int	mode;	/* '|', 'a', 'w' => LE/LT, GT */
-} files[FOPEN_MAX] ={
-	{ NULL,  "/dev/stdin",  LT },	/* watch out: don't free this! */
-	{ NULL, "/dev/stdout", GT },
-	{ NULL, "/dev/stderr", GT }
-};
+} *files;
+
+int nfiles;
 
 void stdinit(void)	/* in case stdin, etc., are not constants */
 {
-	files[0].fp = stdin;
-	files[1].fp = stdout;
-	files[2].fp = stderr;
+	nfiles = FOPEN_MAX;
+	files = calloc(nfiles, sizeof(*files));
+	if (files == NULL)
+		FATAL("can't allocate file memory for %u files", nfiles);
+        files[0].fp = stdin;
+	files[0].fname = strdup("/dev/stdin");
+	files[0].mode = LT;
+        files[1].fp = stdout;
+	files[1].fname = strdup("/dev/stdout");
+	files[1].mode = GT;
+        files[2].fp = stderr;
+	files[2].fname = strdup("/dev/stderr");
+	files[2].mode = GT;
 }
 
 FILE *openfile(int a, const char *us)
@@ -1643,7 +1729,7 @@ FILE *openfile(int a, const char *us)
 
 	if (*s == '\0')
 		FATAL("null file name in print or getline");
-	for (i=0; i < FOPEN_MAX; i++)
+	for (i=0; i < nfiles; i++)
 		if (files[i].fname && strcmp(s, files[i].fname) == 0) {
 			if (a == files[i].mode || (a==APPEND && files[i].mode==GT))
 				return files[i].fp;
@@ -1653,11 +1739,19 @@ FILE *openfile(int a, const char *us)
 	if (a == FFLUSH)	/* didn't find it, so don't create it! */
 		return NULL;
 
-	for (i=0; i < FOPEN_MAX; i++)
+	for (i=0; i < nfiles; i++)
 		if (files[i].fp == 0)
 			break;
-	if (i >= FOPEN_MAX)
-		FATAL("%s makes too many open files", s);
+	if (i >= nfiles) {
+		struct files *nf;
+		int nnf = nfiles + FOPEN_MAX;
+		nf = realloc(files, nnf * sizeof(*nf));
+		if (nf == NULL)
+			FATAL("cannot grow files for %s and %d files", s, nnf);
+		memset(&nf[nfiles], 0, FOPEN_MAX * sizeof(*nf));
+		nfiles = nnf;
+		files = nf;
+	}
 	fflush(stdout);	/* force a semblance of order */
 	m = a;
 	if (a == GT) {
@@ -1685,7 +1779,7 @@ const char *filename(FILE *fp)
 {
 	int i;
 
-	for (i = 0; i < FOPEN_MAX; i++)
+	for (i = 0; i < nfiles; i++)
 		if (fp == files[i].fp)
 			return files[i].fname;
 	return "???";
@@ -1700,7 +1794,7 @@ Cell *closefile(Node **a, int n)
 	x = execute(a[0]);
 	getsval(x);
 	stat = -1;
-	for (i = 0; i < FOPEN_MAX; i++) {
+	for (i = 0; i < nfiles; i++) {
 		if (files[i].fname && strcmp(x->sval, files[i].fname) == 0) {
 			if (ferror(files[i].fp))
 				WARNING( "i/o error occurred on %s", files[i].fname );
@@ -1744,7 +1838,7 @@ void flush_all(void)
 {
 	int i;
 
-	for (i = 0; i < FOPEN_MAX; i++)
+	for (i = 0; i < nfiles; i++)
 		if (files[i].fp)
 			fflush(files[i].fp);
 }
@@ -1896,9 +1990,10 @@ Cell *gsub(Node **a, int nnn)	/* global substitute */
 		adjbuf(&buf, &bufsz, 1+strlen(sptr)+pb-buf, 0, &pb, "gsub");
 		while ((*pb++ = *sptr++) != 0)
 			;
-	done:	if (pb > buf + bufsz)
-			FATAL("gsub result2 %.30s too big; can't happen", buf);
-		*pb = '\0';
+	done:	if (pb < buf + bufsz)
+			*pb = '\0';
+		else if (*(pb-1) != '\0')
+			FATAL("gsub result2 %.30s truncated; can't happen", buf);
 		setsval(x, buf);	/* BUG: should be able to avoid copy + free */
 		pfa->initstat = tempstat;
 	}

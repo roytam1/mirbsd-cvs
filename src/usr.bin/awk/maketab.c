@@ -1,4 +1,4 @@
-/*	$OpenBSD: maketab.c,v 1.8 2004/01/15 20:01:38 deraadt Exp $	*/
+/*	$OpenBSD: maketab.c,v 1.11 2010/06/13 17:58:19 millert Exp $	*/
 /****************************************************************
 Copyright (C) Lucent Technologies 1997
 All Rights Reserved
@@ -35,7 +35,7 @@ THIS SOFTWARE.
 #include "awk.h"
 #include "awkgram.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/awk/maketab.c,v 1.2 2007/04/28 00:12:47 tg Exp $");
 
 struct xx
 {	int token;
@@ -105,15 +105,16 @@ struct xx
 	{ CALL, "call", "call" },
 	{ ARG, "arg", "arg" },
 	{ VARNF, "getnf", "NF" },
-	{ GETLINE, "getline", "getline" },
+	{ GETLINE, "awkgetline", "getline" },
 	{ 0, "", "" },
 };
 
 #define SIZE	(LASTTOKEN - FIRSTTOKEN + 1)
 const char *table[SIZE];
-char *names[SIZE];
+const char *names[SIZE];
 
-int main(int argc, char *argv[])
+int
+main(void)
 {
 	const struct xx *p;
 	int i, n, tok;
@@ -124,7 +125,7 @@ int main(int argc, char *argv[])
 	printf("#include <stdio.h>\n");
 	printf("#include \"awk.h\"\n");
 	printf("#include \"awkgram.h\"\n\n");
-	printf("__RCSID(\"proctab.c from $MirOS$\");\n\n");
+	printf("__RCSID(\"proctab.c from $MirOS: src/usr.bin/awk/maketab.c,v 1.2 2007/04/28 00:12:47 tg Exp $\");\n\n");
 
 	for (i = SIZE; --i >= 0; )
 		names[i] = "";
@@ -133,23 +134,22 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "maketab: can't open awkgram.h!\n");
 		exit(1);
 	}
-	printf("static char *printname[%d] = {\n", SIZE);
+	printf("static const char * const printname[%d] = {\n", SIZE);
 	i = 0;
 	while (fgets(buf, sizeof buf, fp) != NULL) {
 		n = sscanf(buf, "%1c %s %s %d", &c, def, name, &tok);
-		if (c != '#' || n != 4 || strcmp(def,"define") != 0)
+		if (n != 4 || c != '#' || strcmp(def, "define") != 0)
 			continue;	/* not a valid #define */
 		if (tok < FIRSTTOKEN || tok > LASTTOKEN) {
-			fprintf(stderr, "maketab: funny token %d %s ignored\n",
-			    tok, buf);
+			/* fprintf(stderr, "maketab: funny token %d %s ignored\n", tok, buf); */
 			continue;
 		}
-		names[tok-FIRSTTOKEN] = (char *) strdup(name);
+		names[tok-FIRSTTOKEN] = strdup(name);
 		if (names[tok-FIRSTTOKEN] == NULL) {
 			fprintf(stderr, "maketab: out of memory\n");
 			exit(1);
 		}
-		printf("\t(char *) \"%s\",\t/* %d */\n", name, tok);
+		printf("\t\"%s\",\t/* %d */\n", name, tok);
 		i++;
 	}
 	printf("};\n\n");
@@ -164,7 +164,7 @@ int main(int argc, char *argv[])
 			printf("\t%s,\t/* %s */\n", table[i], names[i]);
 	printf("};\n\n");
 
-	printf("char *tokname(int n)\n");	/* print a tokname() function */
+	printf("const char *tokname(int n)\n");	/* print a tokname() function */
 	printf("{\n");
 	printf("	static char buf[100];\n\n");
 	printf("	if (n < FIRSTTOKEN || n > LASTTOKEN) {\n");

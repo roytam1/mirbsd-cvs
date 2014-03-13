@@ -1,5 +1,5 @@
-.\"	$OpenBSD: awk.1,v 1.24 2006/03/29 15:29:55 jmc Exp $
-.\" EX/EE is a Bd
+.\"	$MirOS$
+.\"	$OpenBSD: awk.1,v 1.40 2011/05/02 11:14:11 jmc Exp $
 .\"
 .\" Copyright (C) Lucent Technologies 1997
 .\" All Rights Reserved
@@ -23,7 +23,7 @@
 .\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
 .\" THIS SOFTWARE.
 .\"
-.Dd June 29, 1996
+.Dd $Mdocdate: March 12 2014 $
 .Dt AWK 1
 .Os
 .Sh NAME
@@ -35,12 +35,9 @@
 .Op Fl V
 .Op Fl d Ns Op Ar n
 .Op Fl F Ar fs
-.Oo Fl v Ar var Ns =
-.Ns Ar value Oc
+.Op Fl v Ar var Ns = Ns Ar value
 .Op Ar prog | Fl f Ar progfile
 .Ar
-.Nm nawk
-.Ar ...
 .Sh DESCRIPTION
 .Nm
 scans each input
@@ -81,9 +78,9 @@ to dump core on fatal errors.
 .It Fl F Ar fs
 Define the input field separator to be the regular expression
 .Ar fs .
-.It Fl f Ar filename
+.It Fl f Ar progfile
 Read program code from the specified file
-.Ar filename
+.Ar progfile
 instead of from the command line.
 .It Fl safe
 Disable file output
@@ -92,7 +89,7 @@ Disable file output
 process creation
 .Po
 .Ar cmd | Ic getline ,
-.Ic print No \&| ,
+.Ic print | ,
 .Ic system
 .Pc
 and access to the environment
@@ -177,7 +174,7 @@ a missing pattern always matches.
 Pattern-action statements are separated by newlines or semicolons.
 .Pp
 Newlines are permitted after a terminating statement or following a comma
-.Pq Sq \&, ,
+.Pq Sq ,\& ,
 an open brace
 .Pq Sq { ,
 a logical AND
@@ -201,51 +198,60 @@ can be used to escape a newline between tokens.
 .Pp
 An action is a sequence of statements.
 A statement can be one of the following:
-.Bd -unfilled -offset indent
-.Ic if ( Xo
-.Ar expression ) statement Op Ic else Ar statement
+.Pp
+.Bl -tag -width Ds -offset indent -compact
+.It Xo Ic if ( Ar expression ) Ar statement
+.Op Ic else Ar statement
 .Xc
-.Ic while ( Ar expression ) statement
-.Ic for ( Xo
-.Ar expression ; expression ; expression ) statement
+.It Ic while ( Ar expression ) Ar statement
+.It Xo Ic for
+.No ( Ar expression ; expression ; expression ) statement
 .Xc
-.Ic for ( Xo
-.Ar var Ic in Ar array ) statement
+.It Xo Ic for
+.No ( Ar var Ic in Ar array ) statement
 .Xc
-.Ic do Ar statement Ic while ( Ar expression )
-.Ic break
-.Ic continue
-.Ic { Oo Ar statement ... Oc Ic \&}
-.Ar expression Xo
-.No "# commonly" Ar var Ic = Ar expression
+.It Xo Ic do
+.Ar statement Ic while ( Ar expression )
 .Xc
-.Ic print Xo
+.It Ic break
+.It Ic continue
+.It Xo Ic {
+.Op Ar statement ...
+.Ic }
+.Xc
+.It Xo Ar expression
+.No # commonly
+.Ar var No = Ar expression
+.Xc
+.It Xo Ic print
 .Op Ar expression-list
 .Op > Ns Ar expression
 .Xc
-.Ic printf Ar format Xo
+.It Xo Ic printf Ar format
 .Op Ar ... , expression-list
 .Op > Ns Ar expression
 .Xc
-.Ic return Op Ar expression
-.Ic next Xo
-.No "# skip remaining patterns on this input line"
+.It Ic return Op Ar expression
+.It Xo Ic next
+.No # skip remaining patterns on this input line
 .Xc
-.Ic nextfile Xo
-.No "# skip rest of this file, open next, start at top"
+.It Xo Ic nextfile
+.No # skip rest of this file, open next, start at top
 .Xc
-.Ic delete Ar array Ns Xo
-.Ic \&[ Ns Ar expression Ns Ic \&]
-.No "\ # delete an array element"
+.It Xo Ic delete
+.Sm off
+.Ar array Ic \&[ Ar expression Ic \&]
+.Sm on
+.No \ # delete an array element
 .Xc
-.Ic delete Ar array Xo
-.No "# delete all elements of array"
+.It Xo Ic delete Ar array
+.No # delete all elements of array
 .Xc
-.Ic exit Xo
+.It Xo Ic exit
 .Op Ar expression
-.No "\ # exit immediately; status is" Ar expression
+.No # exit immediately; status is Ar expression
 .Xc
-.Ed
+.El
 .Pp
 Statements are terminated by
 semicolons, newlines or right braces.
@@ -282,7 +288,7 @@ Multiple subscripts such as
 are permitted; the constituents are concatenated,
 separated by the value of
 .Va SUBSEP
-.Pq see the section on variables below ) .
+.Pq see the section on variables below .
 .Pp
 The
 .Ic print
@@ -305,7 +311,7 @@ The
 .Ic printf
 statement formats its expression list according to the format
 (see
-.Xr printf 3 ) .
+.Xr printf 1 ) .
 .Pp
 Patterns are arbitrary Boolean combinations
 (with
@@ -337,15 +343,16 @@ from an occurrence of the first pattern
 through an occurrence of the second.
 .Pp
 A relational expression is one of the following:
-.Bd -unfilled -offset indent
-.Ar expression matchop regular-expression
-.Ar expression relop expression
-.Ar expression Ic in Ar array-name
-.Ic \&( Ns Xo
+.Pp
+.Bl -tag -width Ds -offset indent -compact
+.It Ar expression matchop regular-expression
+.It Ar expression relop expression
+.It Ar expression Ic in Ar array-name
+.It Xo Ic \&( Ns
 .Ar expr , expr , \&... Ns Ic \&) in
-.Ar \ array-name
+.Ar array-name
 .Xc
-.Ed
+.El
 .Pp
 where a
 .Ar relop
@@ -423,7 +430,18 @@ Separates multiple subscripts (default 034).
 .El
 .Sh FUNCTIONS
 The awk language has a variety of built-in functions:
-arithmetic, string, input/output and general.
+arithmetic, string, input/output, general, and bit-operation.
+.Pp
+Functions may be defined (at the position of a pattern-action statement)
+thusly:
+.Pp
+.Dl function foo(a, b, c) { ...; return x }
+.Pp
+Parameters are passed by value if scalar, and by reference if array name;
+functions may be called recursively.
+Parameters are local to the function; all other variables are global.
+Thus local variables may be created by providing excess parameters in
+the function definition.
 .Ss Arithmetic Functions
 .Bl -tag -width "atan2(y, x)"
 .It Fn atan2 y x
@@ -528,7 +546,7 @@ into one array element per character.
 The string resulting from formatting
 .Fa expr , ...
 according to the
-.Xr printf 3
+.Xr printf 1
 format
 .Fa fmt .
 .It Fn sub r t s
@@ -611,7 +629,7 @@ The stream remains open until explicitly closed with a call to
 .Ic getline
 returns 1 for a successful input, 0 for end of file, and \-1 for an error.
 .It Fn fflush [expr]
-Flushes any buffered output for the file, pipe
+Flushes any buffered output for the file or pipe
 .Fa expr ,
 or all open files or pipes if
 .Fa expr
@@ -676,17 +694,27 @@ Executes
 .Fa cmd
 and returns its exit status.
 .El
+.Ss Bit-Operation Functions
+.Bl -tag -width "lshift(a, b)"
+.It Fn compl x
+Returns the bitwise complement of integer argument x.
+.It Fn and x y
+Performs a bitwise AND on integer arguments x and y.
+.It Fn or x y
+Performs a bitwise OR on integer arguments x and y.
+.It Fn xor x y
+Performs a bitwise Exclusive-OR on integer arguments x and y.
+.It Fn lshift x n
+Returns integer argument x shifted by n bits to the left.
+.It Fn rshift x n
+Returns integer argument x shifted by n bits to the right.
+.El
+.Sh EXIT STATUS
+.Ex -std awk
 .Pp
-Functions may be defined (at the position of a pattern-action statement)
-thusly:
-.Pp
-.Dl function foo(a, b, c) { ...; return x }
-.Pp
-Parameters are passed by value if scalar, and by reference if array name;
-functions may be called recursively.
-Parameters are local to the function; all other variables are global.
-Thus local variables may be created by providing excess parameters in
-the function definition.
+But note that the
+.Ic exit
+expression can modify the exit status.
 .Sh EXAMPLES
 Print lines longer than 72 characters:
 .Pp
@@ -728,12 +756,8 @@ Print an error message to standard error:
 .Xr lex 1 ,
 .Xr printf 1 ,
 .Xr sed 1 ,
-.Xr printf 3 ,
 .Xr re_format 7 ,
 .Xr script 7
-.Pp
-"Awk \(em A Pattern Scanning and Processing Language",
-.Pa /usr/share/doc/usd/16.awk/ .
 .Rs
 .%A A. V. Aho
 .%A B. W. Kernighan
@@ -743,6 +767,24 @@ Print an error message to standard error:
 .%D 1988
 .%O ISBN 0-201-07981-X
 .Re
+.Sh STANDARDS
+The
+.Nm
+utility is compliant with the
+.St -p1003.1-2008
+specification.
+.Pp
+The flags
+.Op Fl \&dV
+and
+.Op Fl safe ,
+as well as the commands
+.Cm fflush , compl , and , or ,
+.Cm xor , lshift , rshift ,
+are extensions to that specification.
+.Pp
+.Nm
+does not support {n,m} pattern matching.
 .Sh HISTORY
 An
 .Nm

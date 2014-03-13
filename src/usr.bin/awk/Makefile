@@ -1,15 +1,17 @@
-# $MirOS: src/usr.bin/awk/Makefile,v 1.2 2005/03/13 18:32:41 tg Exp $
-# $OpenBSD: Makefile,v 1.7 2004/12/30 01:52:48 millert Exp $
+# $MirOS: src/usr.bin/awk/Makefile,v 1.3 2007/04/28 00:12:46 tg Exp $
+# $OpenBSD: Makefile,v 1.14 2013/08/18 22:06:44 miod Exp $
 
 PROG=		awk
-LINKS=		${BINDIR}/awk ${BINDIR}/nawk
 SRCS=		awkgram.y b.c lex.c lib.c main.c parse.c proctab.c run.c tran.c
 LDADD=		-lm
 DPADD=		${LIBM}
 CLEANFILES+=	proctab.c maketab
 CPPFLAGS+=	-I. -DHAS_ISBLANK -DNDEBUG
 HOSTCFLAGS?=	${CFLAGS}
-MLINKS=		awk.1 nawk.1
+
+CFLAGS_b.o+=	-Wno-cast-qual
+CFLAGS_run.o+=	-Wno-bad-function-cast
+CFLAGS_run.o+=	-Wno-unused-parameter
 
 # This just gets installed verbatim
 .if make(install)

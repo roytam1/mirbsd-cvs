@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: proto.h,v 1.9 2011/09/28 19:27:18 millert Exp $	*/
 /****************************************************************
 Copyright (C) Lucent Technologies 1997
@@ -47,7 +48,7 @@ extern	void	freetr(Node *);
 extern	int	hexstr(uschar **);
 extern	int	quoted(uschar **);
 extern	char	*cclenter(const char *);
-extern	void	overflo(const char *);
+extern	void	overflo(const char *) __dead;
 extern	void	cfoll(fa *, Node *);
 extern	int	first(Node *);
 extern	void	follow(Node *);
@@ -89,7 +90,7 @@ extern	Node	*pa2stat(Node *, Node *, Node *);
 extern	Node	*linkum(Node *, Node *);
 extern	void	defn(Cell *, Node *, Node *);
 extern	int	isarg(const char *);
-extern	char	*tokname(int);
+extern	const char *tokname(int);
 extern	Cell	*(*proctab[])(Node **, int);
 extern	int	ptoi(void *);
 extern	Node	*itonp(int);
@@ -129,12 +130,16 @@ extern	int	refldbld(const char *, const char *);
 extern	void	recbld(void);
 extern	Cell	*fieldadr(int);
 extern	void	yyerror(const char *);
-extern	void	fpecatch(int);
+extern	void	fpecatch(int) __dead;
 extern	void	bracecheck(void);
-extern	void	bcheck2(int, int, int);
-extern	void	SYNTAX(const char *, ...);
-extern	void	FATAL(const char *, ...);
-extern	void	WARNING(const char *, ...);
+extern	void	bcheck2(int, /*int,*/ int);
+extern	void	SYNTAX(const char *, ...)
+    __attribute__((__format__(__printf__, 1, 2)));
+extern	void	FATAL(const char *, ...)
+    __dead
+    __attribute__((__format__(__printf__, 1, 2)));
+extern	void	WARNING(const char *, ...)
+    __attribute__((__format__(__printf__, 1, 2)));
 extern	void	error(void);
 extern	void	eprint(void);
 extern	void	bclass(int);
@@ -191,6 +196,3 @@ extern	Cell	*closefile(Node **, int);
 extern	void	closeall(void);
 extern	Cell	*sub(Node **, int);
 extern	Cell	*gsub(Node **, int);
-
-extern	FILE	*popen(const char *, const char *);
-extern	int	pclose(FILE *);
