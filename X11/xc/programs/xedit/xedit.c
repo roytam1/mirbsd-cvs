@@ -35,7 +35,7 @@
 
 #include <stdlib.h> 
 
-#define randomize()	srand((unsigned)time((time_t*)NULL))
+__RCSID("$MirOS$");
 
 static XtActionsRec actions[] = {
 {"quit", QuitAction},
@@ -567,7 +567,7 @@ HintsTimer(XtPointer closure, XtIntervalId *id)
     Arg args[1];
     xedit_hints *hints = (xedit_hints*)closure;
 
-    hints->cur_hint = rand() % hints->num_hints;
+    hints->cur_hint = arc4random_uniform(hints->num_hints);
 
     XtSetArg(args[0], XtNlabel, hints->hints[hints->cur_hint]);
     XtSetValues(hintswindow, args, 1);
@@ -588,8 +588,6 @@ StartHints(void)
     /* if resource was not set, or was overriden */
     if (hints->resource == NULL || !*hints->resource)
 	return;
-
-    randomize();
 
     if (hints->interval < MIN_HINT_INTERVAL)
 	hints->interval = DEF_HINT_INTERVAL;

@@ -28,6 +28,8 @@
 #include <X11/Xlibint.h>
 #include "xftint.h"
 
+__RCSID("$MirOS$");
+
 XftDisplayInfo	*_XftDisplayInfo;
 
 static int
@@ -233,7 +235,7 @@ _XftDisplayManageMemory (Display *dpy)
     }
     while (info->glyph_memory > info->max_glyph_memory)
     {
-	glyph_memory = rand () % info->glyph_memory;
+	glyph_memory = arc4random_uniform(info->glyph_memory);
 	public = info->fonts;
 	while (public)
 	{

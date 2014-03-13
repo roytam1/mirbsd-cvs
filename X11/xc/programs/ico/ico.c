@@ -87,6 +87,8 @@ SOFTWARE.
 #endif
 #include <X11/Xos.h>
 
+__RCSID("$MirOS$");
+
 #define MIN_ICO_WIDTH 5
 #define MIN_ICO_HEIGHT 5
 #define DEFAULT_ICO_WIDTH 150
@@ -997,9 +999,8 @@ do_ico_window(void *ptr)
 
 	/* Get the initial position, size, and speed of the bounding-box */
 
-	srand((int) time((time_t *)0) % 231);
-	icoX = ((closure->winW - icoW) * (rand() & 0xFF)) >> 8;
-	icoY = ((closure->winH - icoH) * (rand() & 0xFF)) >> 8;
+	icoX = ((closure->winW - icoW) * (arc4random() & 0xFF)) >> 8;
+	icoY = ((closure->winH - icoH) * (arc4random() & 0xFF)) >> 8;
 
 
 	/* Bounce the box in the window */

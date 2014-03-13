@@ -31,6 +31,9 @@ in this Software without prior written authorization from The Open Group.
  * Author:  Keith Packard, MIT X Consortium
  */
 
+#include <sys/cdefs.h>
+__RCSID("$MirOS$");
+
 #include    <fontmisc.h>
 #include    <fontstruct.h>
 
@@ -146,10 +149,7 @@ CacheFontPattern (FontPatternCachePtr cache,
     }
     else
     {
-    	i = rand ();
-    	if (i < 0)
-	    i = -i;
-    	i %= NENTRIES;
+    	i = arc4random_uniform(NENTRIES);
 	e = &cache->entries[i];
 	if (e->next)
 	    e->next->prev = e->prev;

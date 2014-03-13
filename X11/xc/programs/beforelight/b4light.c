@@ -39,6 +39,8 @@ in this Software without prior written authorization from the X Consortium.
 #include <stdlib.h>
 #include <time.h>
 
+__RCSID("$MirOS$");
+
 #ifdef NOTDEF
 static void quit (Widget w, XEvent *event, 
 		  String *params, Cardinal *num_params);
@@ -183,7 +185,7 @@ Erase (XPoint *p, int n)
 static int
 RandomStep (void)
 {
-    return (rand () % STEP_MAX) + 1;
+    return arc4random_uniform(STEP_MAX) + 1;
 }
 
 static void
@@ -294,12 +296,6 @@ main(int argc, char *argv[])
     int			    x, y;
     unsigned int	    w, h, b, d;
     Status		    s;
-
-#if !defined(X_NOT_POSIX)
-    srand((int)time((time_t *)NULL));
-#else
-    srand((int)time((int *)NULL));
-#endif
 
     toplevel = XtAppInitialize (&app_con, "Beforelight", NULL, ZERO,
 				&argc, argv, NULL, NULL, ZERO);

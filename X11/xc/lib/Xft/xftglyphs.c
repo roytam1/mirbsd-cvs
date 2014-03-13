@@ -30,6 +30,8 @@
 #include FT_OUTLINE_H
 #include <fontconfig/fcfreetype.h>
 
+__RCSID("$MirOS$");
+
 static const int    filters[3][3] = {
     /* red */
 #if 0
@@ -756,7 +758,7 @@ _XftFontUncacheGlyph (Display *dpy, XftFont *pub)
 	return;
     if (font->use_free_glyphs)
     {
-	glyph_memory = rand() % font->glyph_memory;
+	glyph_memory = arc4random_uniform(font->glyph_memory);
     }
     else
     {

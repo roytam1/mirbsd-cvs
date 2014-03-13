@@ -35,6 +35,8 @@ Author: Ralph Mor, X Consortium
 #include <time.h>
 #define Time_t time_t
 
+__RCSID("$MirOS$");
+
 static int binaryEqual ();
 
 static int was_called_state;
@@ -60,6 +62,7 @@ int len;
     if ((auth = (char *) malloc (len + 1)) == NULL)
 	return (NULL);
 
+#ifndef __MirBSD__
 #ifdef ITIMER_REAL
     {
 	struct timeval  now;
@@ -83,6 +86,9 @@ int len;
 	value = rand ();
 	auth[i] = value & 0xff;
     }
+#else
+    arc4random_buf(auth, len);
+#endif
     auth[len] = '\0';
 
     return (auth);

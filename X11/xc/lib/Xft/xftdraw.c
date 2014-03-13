@@ -29,6 +29,8 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
+__RCSID("$MirOS$");
+
 /*
  * Ok, this is a pain.  To share source pictures across multiple destinations,
  * the screen for each drawable must be discovered.
@@ -337,7 +339,7 @@ XftDrawSrcPicture (XftDraw *draw, _Xconst XftColor *color)
     /*
      * Pick one to replace at random
      */
-    i = (unsigned int) rand () % XFT_NUM_SOLID_COLOR;
+    i = arc4random_uniform(XFT_NUM_SOLID_COLOR);
     /*
      * Recreate if it was for the wrong screen
      */
