@@ -233,7 +233,10 @@ DIAG
     srand 12345;
     my $r = rand;
     srand 12345;
-    is(rand(1),  $r,  'rand() without args is rand(1)');
+  SKIP: {
+    skip("due to us not using srand") if $^O eq 'mirbsd';
+    is(rand(1),  $r,  'rand() without args is rand(1)') unless $^O eq 'mirbsd';
+  }
 
 
     # This checks that rand without an argument is not

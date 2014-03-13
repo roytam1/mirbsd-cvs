@@ -24,7 +24,10 @@ my @first_run  = mk_rand;
 srand(1138);
 my @second_run = mk_rand;
 
-ok( eq_array(\@first_run, \@second_run),  'srand(), same arg, same rands' );
+SKIP: {
+  skip("due to us not using srand") if $^O eq 'mirbsd';
+  ok( eq_array(\@first_run, \@second_run),  'srand(), same arg, same rands' ) unless $^O eq 'mirbsd';
+}
 
 
 # Check that different seeds provide different random numbers

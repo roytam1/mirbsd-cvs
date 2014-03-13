@@ -1,6 +1,6 @@
 # Override default paths when building in the MirOS source tree
 #
-# $MirOS: src/gnu/usr.bin/perl/config.over,v 1.3 2005/10/21 10:46:27 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/config.over,v 1.4 2006/09/21 23:22:40 tg Exp $
 # $OpenBSD: config.over,v 1.13 2005/02/18 17:46:02 millert Exp $
 #
 
@@ -64,3 +64,10 @@ myuname='mirbsd'
 
 # force to use ranlib
 ranlib='ranlib'
+
+# We have entropy! Yeah!
+drand01='((arc4random() & 0x7FFFFFFF) / (double)(0x80000000UL))'
+randbits=31
+randfunc=arcfour
+randseedtype=unsigned
+seedfunc=''
