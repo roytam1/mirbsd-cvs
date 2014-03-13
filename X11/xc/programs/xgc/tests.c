@@ -20,12 +20,10 @@
 #include <sys/resource.h>
 #endif
 
+__RCSID("$MirOS$");
+
 #ifndef PI
 #define PI 3.14159265
-#endif
-
-#ifdef SYSV
-#define random lrand48
 #endif
 
 
@@ -221,8 +219,8 @@ polysegment_test(void)
 
   segments = (XSegment *) malloc(sizeof(XSegment) * num_segments);
 
-  segments[0].x1 = random()%400; segments[0].y1 = random()%400;
-  segments[0].x2 = random()%400; segments[0].y2 = random()%400;
+  segments[0].x1 = arc4random_uniform(400); segments[0].y1 = arc4random_uniform(400);
+  segments[0].x2 = arc4random_uniform(400); segments[0].y2 = arc4random_uniform(400);
 
   for(i=1;i<num_segments;++i) {
     segments[i].x1 = (segments[i-1].x1-segments[i-1].y2+400+i)%400;
@@ -257,8 +255,8 @@ polypoint_test(void)
 
   points = (XPoint *) malloc(sizeof(XPoint) * num_points);
 
-  points[0].x = random()%400; points[0].y = random()%400;
-  points[1].x = random()%400; points[1].y = random()%400;
+  points[0].x = arc4random_uniform(400); points[0].y = arc4random_uniform(400);
+  points[1].x = arc4random_uniform(400); points[1].y = arc4random_uniform(400);
 
   for (i=2;i<num_points;++i) {
     points[i].x = (points[i-1].x+points[i-2].y+i*3/200)%400;
