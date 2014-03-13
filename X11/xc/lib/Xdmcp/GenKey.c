@@ -34,6 +34,8 @@ in this Software without prior written authorization from The Open Group.
 #include <X11/Xmd.h>
 #include <X11/Xdmcp.h>
 
+__RCSID("$MirOS$");
+
 static void
 getbits (long data, unsigned char *dst)
 {
@@ -47,19 +49,9 @@ getbits (long data, unsigned char *dst)
 
 #include <stdlib.h>
 
-#if defined(SYSV) || defined(SVR4)
-#define srandom srand48
-#define random lrand48
-#endif
-
 void
 XdmcpGenerateKey (XdmAuthKeyPtr key)
 {
-    long    lowbits, highbits;
-
-    srandom ((int)getpid() ^ time((Time_t *)0));
-    lowbits = random ();
-    highbits = random ();
-    getbits (lowbits, key->data);
-    getbits (highbits, key->data + 4);
+    getbits (arc4random(), key->data);
+    getbits (arc4random(), key->data + 4);
 }
