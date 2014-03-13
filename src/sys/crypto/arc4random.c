@@ -62,8 +62,8 @@ arc4random(void)
 		arc4random_reinit(NULL);
 	arc4random_count += 4;
 
-	/* skip 1‥2 output bytes randomly for whitening */
-	if ((arcfour_byte(&initial_arc4random) & 1))
+	/* skip an output byte randomly for whitening */
+	if ((arcfour_byte(&lopool_collapse) & 1))
 		(void)arcfour_byte(&initial_arc4random);
 
 	v = ((uint32_t)arcfour_byte(&initial_arc4random) << 24) |
@@ -92,8 +92,8 @@ arc4random_buf(void *buf_, size_t len)
 	while (len) {
 		s = splhigh();
  into_the_loop:
-		/* skip 1‥4 output bytes randomly for whitening */
-		n = arcfour_byte(&initial_arc4random) & 3;
+		/* skip a few output bytes randomly for whitening */
+		n = arcfour_byte(&lopool_collapse) & 3;
 		while (n--)
 			(void)arcfour_byte(&initial_arc4random);
 
