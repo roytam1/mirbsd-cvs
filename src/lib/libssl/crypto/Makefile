@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.20 2007/06/16 15:23:17 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.21 2009/02/14 15:07:15 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2006/10/14 19:43:57 drahn Exp $
 
 .include <bsd.own.mk>
@@ -70,7 +70,8 @@ SRCS+=	b_print.c b_dump.c b_sock.c bss_acpt.c
 SRCS+=	bf_nbio.c bss_bio.c bss_log.c
 SRCS+=	stack.c
 SRCS+=	lhash.c lh_stats.c
-SRCS+=	md_rand.c randfile.c rand_lib.c	rand_egd.c rand_err.c rand_unix.c
+SRCS+=	randfile.c rand_lib.c rand_egd.c rand_err.c
+SRCS+=	mbsdrand.c
 SRCS+=	err.c err_all.c err_prn.c
 SRCS+=	obj_dat.c obj_lib.c obj_err.c o_names.c
 SRCS+=	bio_b64.c e_bf.c m_sha.c p_open.c
@@ -127,6 +128,8 @@ SRCS+=	ocsp_asn.c ocsp_err.c ocsp_ht.c ocsp_prn.c ocsp_vfy.c
 SRCS+=	ocsp_cl.c ocsp_ext.c ocsp_lib.c ocsp_srv.c
 SRCS+=	ec_cvt.c ec_lib.c ecp_mont.c ecp_recp.c
 SRCS+=	ec_err.c ec_mult.c ecp_nist.c ecp_smpl.c
+
+CPPFLAGS+= -DLIBC_TPH=\"${BSDSRCDIR:Q}/lib/libc/include/thread_private.h\"
 
 .PATH:	${LCRYPTO_SRC}/md2 ${LCRYPTO_SRC}/md5 ${LCRYPTO_SRC}/sha \
 	${LCRYPTO_SRC}/mdc2 ${LCRYPTO_SRC}/hmac ${LCRYPTO_SRC}/ripemd \
