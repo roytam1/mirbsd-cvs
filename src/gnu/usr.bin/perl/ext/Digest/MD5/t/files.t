@@ -5,7 +5,7 @@ BEGIN {
         }
 }
 
-print "1..5\n";
+print "1..4\n";
 
 use strict;
 use Digest::MD5 qw(md5 md5_hex md5_base64);
@@ -24,7 +24,6 @@ c7b68bb806b2d42f4a11511132e94ae8  Changes
 11e8028ee426273db6b6db270a8bb38c  README
 347d5b9f257eb62eaab60b3d952451f7  MD5.pm
 b61eb1bba8cc490040d02f6bf24874f7  MD5.xs
-276da0aa4e9a08b7fe09430c9c5690aa  rfc1321.txt
 EOT
 } elsif ("\n" eq "\015") { # MacOS
     $EXPECT = <<EOT;
@@ -32,16 +31,14 @@ EOT
 c95549c6c5e1e1c078b27042f1dc850f  README
 77503ff007841a671275fdf544dad68e  MD5.pm
 716c3278fd80338727c100e5d2a76795  MD5.xs
-754b9db19f79dbc4992f7166eb0f37ce  rfc1321.txt
 EOT
 } else {
-    # This is the output of: 'md5sum Changes README MD5.pm MD5.xs rfc1321.txt'
+    # This is the output of: 'md5sum Changes README MD5.pm MD5.xs'
     $EXPECT = <<EOT;
 2fdc25c326960308f5334c967455d1f5  Changes
 c95549c6c5e1e1c078b27042f1dc850f  README
 77503ff007841a671275fdf544dad68e  MD5.pm
 716c3278fd80338727c100e5d2a76795  MD5.xs
-754b9db19f79dbc4992f7166eb0f37ce  rfc1321.txt
 EOT
 }
 
@@ -63,10 +60,6 @@ for (split /^/, $EXPECT) {
      my $base = $file;
 #     print "# $base\n";
      if ($ENV{PERL_CORE}) {
-         if ($file eq 'rfc1321.txt') { # Don't have it in core.
-	     print "ok ", ++$testno, " # Skip: PERL_CORE\n";
-	     next;
-	 }
          use File::Spec;
 	 my @path = qw(ext Digest MD5);
 	 my $path = File::Spec->updir;
