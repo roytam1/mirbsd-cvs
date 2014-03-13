@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/cdefs.h,v 1.29 2013/10/31 20:06:59 tg Exp $ */
+/**	$MirOS: src/sys/sys/cdefs.h,v 1.31 2014/02/09 22:43:17 tg Exp $ */
 /*	$OpenBSD: cdefs.h,v 1.18 2005/05/27 21:28:12 millert Exp $	*/
 /*	$NetBSD: cdefs.h,v 1.16 1996/04/03 20:46:39 christos Exp $	*/
 
@@ -255,7 +255,7 @@
 #define __weak_alias(alias,sym) \
 	__asm__(".weak	" __STRING(alias) " ; " __STRING(alias) " = " __STRING(sym))
 #define __warn_references(sym,msg) \
-	__asm__(".section .gnu.warning." __STRING(sym) " ; .ascii \"" msg "\" ; .previous")
+	__asm__(".section .gnu.warning." __STRING(sym) " ; .ascii \"REF! " msg "\" ; .previous")
 #endif
 #else
 #define _C_LABEL_STRING(x)	"_"x
