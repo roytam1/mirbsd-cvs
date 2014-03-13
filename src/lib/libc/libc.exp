@@ -9,4 +9,5 @@
   # Define all symbols to hide
   local:
 	a4state;
+	arc4random_stir_locked;
 };
