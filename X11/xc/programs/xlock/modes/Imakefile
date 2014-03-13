@@ -1,7 +1,7 @@
 #ifndef XCOMM
 #define XCOMM /**/#
 #endif
-XCOMM $MirOS: X11/xc/programs/xlock/modes/Imakefile,v 1.2 2005/03/19 16:13:20 tg Exp $
+XCOMM $MirOS: X11/xc/programs/xlock/modes/Imakefile,v 1.3 2006/07/01 22:13:05 tg Exp $
 XCOMM @(#)Sub Imakefile	xlockmore
 XCOMM
 
@@ -91,7 +91,7 @@ XCOMM PUZZLEPIXMAP = l-linux
 XCOMM  List of object files
 XLOCKUTILOBJS = $(DOU)xlock$(OU)passwd$(OU)resource$(OU)parsecmd$(O)$(S)\
 $(DOU)util$(OU)logout$(OU)mode$(OU)xlockimage$(OU)ras$(OU)xbm$(O)$(S)\
-$(DOU)vis$(OU)visgl$(OU)color$(OU)random$(OU)iostuff$(OU)automata$(O)$(S)\
+$(DOU)vis$(OU)visgl$(OU)color$(OU)iostuff$(OU)automata$(O)$(S)\
 $(DOU)spline$(OU)erase$(OU)sound$(O)$(S)\
 $(DOU)vtlock$(OU)vtlock_proc$(O)
 #ifdef Check
@@ -187,7 +187,7 @@ XLOCKUTILHDRS = xlock.h mode.h vroot.h xlockimage.h ras.h spline.h \
 version.h config.h
 XLOCKUTILSRCS = $(DU)xlock$(CU)passwd$(CU)resource$(CU)parsecmd$(C) \
 $(DU)util$(CU)logout$(CU)mode$(CU)xlockimage$(CU)ras$(CU)xbm$(C) \
-$(DU)vis$(CU)color$(CU)random$(CU)iostuff$(CU)automata$(C) \
+$(DU)vis$(CU)color$(CU)iostuff$(CU)automata$(C) \
 $(DU)spline$(CU)sound$(CU)erase$(C) \
 $(DU)vtlock$(CU)vtlock_proc$(C)
 XLOCKCHECKSRCS = $(DU)memcheck$(C)
@@ -416,7 +416,6 @@ $(UTILOBJDIR)xbm.o : $(UTILDIR)xbm.c
 $(UTILOBJDIR)vis.o : $(UTILDIR)vis.c
 $(UTILOBJDIR)visgl.o : $(UTILDIR)visgl.c
 $(UTILOBJDIR)color.o : $(UTILDIR)color.c
-$(UTILOBJDIR)random.o : $(UTILDIR)random.c
 $(UTILOBJDIR)iostuff.o : $(UTILDIR)iostuff.c
 $(UTILOBJDIR)automata.o : $(UTILDIR)automata.c
 $(UTILOBJDIR)spline.o : $(UTILDIR)spline.c

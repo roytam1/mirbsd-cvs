@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: X11/xc/programs/xlock/iconfig.h,v 1.2 2005/03/19 16:13:19 tg Exp $ */
 /* Config file for xlockmore
  * Many "ideas" taken from xscreensaver-1.34 by Jamie Zawinski.
  *
@@ -236,30 +236,6 @@ XCOMM Uncomment line below if you have one of the above
 XCOMM  SOUNDDEF = -DDEF_PLAY=\"$(DEF_PLAY)\"
 
 XCOMM      *** END SOUND CONFIG SECTION ***
-
-XCOMM      *** BEGIN RNG CONFIG SECTION ***
-
-XCOMM Uncomment to use your system's Random Number Generator
-XCOMM They usually come in 3 types
-
-XCOMM Uncomment to use high-precision (but expensive) RNG
-SRANDDEF = -DSRAND=srand48
-LRANDDEF = -DLRAND=lrand48
-
-XCOMM  SRANDDEF = -DSRAND=srandom
-XCOMM  LRANDDEF = -DLRAND=random
-
-XCOMM Least desirable RNG
-XCOMM  SRANDDEF = -DSRAND=srand
-XCOMM  LRANDDEF = -DLRAND=rand
-
-XCOMM Normally use the above with (default)
-XCOMM  MAXRANDDEF = -DMAXRAND=2147483648.0
-XCOMM Use the following if using srand/rand and NOT AIXV3
-XCOMM  MAXRANDDEF = -DMAXRAND=32767.0
-RANDDEF = $(SRANDDEF) $(LRANDDEF) $(MAXRANDDEF)
-
-XCOMM      *** END RNG CONFIG SECTION ***
 
 XCOMM    *** BEGIN MODULES CONFIG SECTION **
 
