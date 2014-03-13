@@ -165,7 +165,7 @@
 #include "alias.h"
 #include "alias_local.h"
 
-
+__RCSID("$MirOS$");
 
 /*
    Constants (note: constants are also defined
@@ -622,7 +622,7 @@ GetNewPort(struct alias_link *link, int alias_port_param)
         else
         {
             /* First trial and all subsequent are random. */
-            port_sys = random() & ALIAS_PORT_MASK;
+            port_sys = arc4random() & ALIAS_PORT_MASK;
             port_sys += ALIAS_PORT_BASE;
             port_net = htons(port_sys);
         }
@@ -680,7 +680,7 @@ GetNewPort(struct alias_link *link, int alias_port_param)
             }
         }
 
-        port_sys = random() & ALIAS_PORT_MASK;
+        port_sys = arc4random() & ALIAS_PORT_MASK;
         port_sys += ALIAS_PORT_BASE;
         port_net = htons(port_sys);
     }
@@ -801,9 +801,9 @@ FindNewPortGroup(struct in_addr  dst_addr,
 
       /* First trial and all subsequent are random. */
       if (align == FIND_EVEN_ALIAS_BASE)
-        port_sys = random() & ALIAS_PORT_MASK_EVEN;
+        port_sys = arc4random() & ALIAS_PORT_MASK_EVEN;
       else
-        port_sys = random() & ALIAS_PORT_MASK;
+        port_sys = arc4random() & ALIAS_PORT_MASK;
 
       port_sys += ALIAS_PORT_BASE;
     }
@@ -825,9 +825,9 @@ FindNewPortGroup(struct in_addr  dst_addr,
 
       /* Find a new base to try */
       if (align == FIND_EVEN_ALIAS_BASE)
-        port_sys = random() & ALIAS_PORT_MASK_EVEN;
+        port_sys = arc4random() & ALIAS_PORT_MASK_EVEN;
       else
-        port_sys = random() & ALIAS_PORT_MASK;
+        port_sys = arc4random() & ALIAS_PORT_MASK;
 
       port_sys += ALIAS_PORT_BASE;
     }

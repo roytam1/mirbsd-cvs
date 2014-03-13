@@ -56,23 +56,6 @@
 
 #define	issep(c)	((c) == '\t' || (c) == ' ')
 
-#if defined(__NetBSD__) || __FreeBSD__ < 3
-void
-randinit()
-{
-#if defined(__FreeBSD__)
-  static int initdone;		/* srandomdev() call is only required once */
-
-  if (!initdone) {
-    initdone = 1;
-    srandomdev();
-  }
-#else
-  srandom((time(NULL)^getpid())+random());
-#endif
-}
-#endif
-
 ssize_t
 fullread(int fd, void *v, size_t n)
 {

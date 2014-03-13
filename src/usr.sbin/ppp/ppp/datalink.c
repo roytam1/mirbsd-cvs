@@ -78,6 +78,8 @@
 #include "cbcp.h"
 #include "datalink.h"
 
+__RCSID("$MirOS$");
+
 static void datalink_LoginDone(struct datalink *);
 static void datalink_NewState(struct datalink *, int);
 static char *datalink_NextName(struct datalink *);
@@ -99,7 +101,7 @@ datalink_StartDialTimer(struct datalink *dl, int Timeout)
 
   timer_Stop(&dl->dial.timer);
   if (Timeout < 0)
-    result = (random() % DIAL_TIMEOUT) + 1;
+    result = arc4random_uniform(DIAL_TIMEOUT) + 1;
   dl->dial.timer.load = result ? result * SECTICKS : 1;
   dl->dial.timer.func = datalink_OpenTimeout;
   dl->dial.timer.name = "dial";

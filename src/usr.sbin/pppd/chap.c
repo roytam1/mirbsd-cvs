@@ -51,19 +51,12 @@
  * WARRANTIES OF MERCHANTIBILITY AND FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-#ifndef lint
-#if 0
-static char rcsid[] = "Id: chap.c,v 1.15 1997/11/27 06:07:48 paulus Exp $";
-#else
-static char rcsid[] = "$OpenBSD: chap.c,v 1.12 2003/04/04 20:25:07 deraadt Exp $";
-#endif
-#endif
-
 /*
  * TODO:
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
 #include <sys/time.h>
@@ -76,6 +69,9 @@ static char rcsid[] = "$OpenBSD: chap.c,v 1.12 2003/04/04 20:25:07 deraadt Exp $
 #ifdef CHAPMS
 #include "chap_ms.h"
 #endif
+
+__RCSID("$Id$");
+__RCSID("$MirOS$");
 
 /*
  * Protocol entry points.
@@ -775,16 +771,14 @@ ChapGenChallenge(cstate)
 
     /* pick a random challenge length between MIN_CHALLENGE_LENGTH and
        MAX_CHALLENGE_LENGTH */
-    chal_len =  (unsigned) ((drand48() *
-			     (MAX_CHALLENGE_LENGTH - MIN_CHALLENGE_LENGTH)) +
-			    MIN_CHALLENGE_LENGTH);
+    chal_len = MIN_CHALLENGE_LENGTH +
+      arc4random_uniform(MAX_CHALLENGE_LENGTH - MIN_CHALLENGE_LENGTH + 1);
     cstate->chal_len = chal_len;
     cstate->chal_id = ++cstate->id;
     cstate->chal_transmits = 0;
 
     /* generate a random string */
-    for (i = 0; i < chal_len; i++ )
-	*ptr++ = (char) (drand48() * 0xff);
+    arc4random_buf(ptr, chal_len);
 }
 
 /*

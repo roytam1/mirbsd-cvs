@@ -80,6 +80,8 @@
 #include "ncp.h"
 #include "bundle.h"
 
+__RCSID("$MirOS$");
+
 /* for received LQRs */
 struct lqrreq {
   struct fsm_opt_hdr hdr;
@@ -233,8 +235,7 @@ static u_int32_t
 GenerateMagic(void)
 {
   /* Generate random number which will be used as magic number */
-  randinit();
-  return random();
+  return (arc4random());
 }
 
 void

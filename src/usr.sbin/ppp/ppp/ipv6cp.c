@@ -77,6 +77,7 @@
 #include "probe.h"
 #include "systems.h"
 
+__RCSID("$MirOS$");
 
 #ifndef NOINET6
 static int ipv6cp_LayerUp(struct fsm *);
@@ -108,9 +109,7 @@ static u_int32_t
 GenerateToken(void)
 {
   /* Generate random number which will be used as negotiation token */
-  randinit();
-
-  return random() + 1;
+  return (arc4random() | 1);
 }
 
 static int

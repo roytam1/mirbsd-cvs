@@ -117,12 +117,7 @@
 
 #define ROUNDUP(x) ((x) ? (1 + (((x) - 1) | (sizeof(long) - 1))) : sizeof(long))
 
-#if defined(__NetBSD__) || __FreeBSD__ < 3
-extern void randinit(void);
-#else
-#define random arc4random
 #define randinit()
-#endif
 
 extern ssize_t fullread(int, void *, size_t);
 extern const char *mode2Nam(int);

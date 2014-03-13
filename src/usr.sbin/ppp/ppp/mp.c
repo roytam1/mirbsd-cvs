@@ -1025,7 +1025,7 @@ mp_SetEnddisc(struct cmdargs const *arg)
 
       randinit();
       for (f = 0; f < 20; f += sizeof(long))
-        *(long *)(mp->cfg.enddisc.address + f) = random();
+        *(long *)(mp->cfg.enddisc.address + f) = arc4random();
       mp->cfg.enddisc.class = ENDDISC_MAGIC;
       mp->cfg.enddisc.len = 20;
     } else if (!strcasecmp(arg->argv[arg->argn], "psn")) {

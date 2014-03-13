@@ -201,7 +201,7 @@ struct in_addr
 iplist_setrandpos(struct iplist *list)
 {
   randinit();
-  return iplist_setcurpos(list, random() % list->nItems);
+  return iplist_setcurpos(list, arc4random_uniform(list->nItems));
 }
 
 int

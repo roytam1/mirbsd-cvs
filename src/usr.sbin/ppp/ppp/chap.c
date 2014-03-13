@@ -91,7 +91,7 @@
 #endif
 #include "id.h"
 
-__RCSID("$MirOS: src/usr.sbin/ppp/ppp/chap.c,v 1.2 2005/03/13 19:17:14 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ppp/ppp/chap.c,v 1.3 2005/12/04 15:02:26 tg Exp $");
 
 static const char * const chapcodes[] = {
   "???", "CHALLENGE", "RESPONSE", "SUCCESS", "FAILURE"
@@ -503,7 +503,7 @@ chap_ChallengeInit(struct authinfo *authp)
       /* For radius, our challenge is 16 readable NUL terminated bytes :*/
       *cp++ = 16;
       for (i = 0; i < 16; i++)
-        *cp++ = (random() % 10) + '0';
+        *cp++ = arc4random_uniform(10) + '0';
     } else
 #endif
     {
@@ -514,9 +514,9 @@ chap_ChallengeInit(struct authinfo *authp)
         *cp++ = 16;	/* MS-CHAP-V2 does 16 bytes challenges */
       else
 #endif
-        *cp++ = random() % (CHAPCHALLENGELEN-16) + 16;
+        *cp++ = arc4random_uniform(CHAPCHALLENGELEN - 16) + 16;
       for (i = 0; i < *chap->challenge.local; i++)
-        *cp++ = random() & 0xff;
+        *cp++ = arc4random() & 0xFF;
     }
     memcpy(cp, authp->physical->dl->bundle->cfg.auth.name, len);
   }

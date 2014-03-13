@@ -46,6 +46,8 @@
 #include "defs.h"
 #include "radlib_private.h"
 
+__RCSID("$MirOS$");
+
 static void	 clear_password(struct rad_handle *);
 static void	 generr(struct rad_handle *, const char *, ...);
 static void	 insert_scrambled_password(struct rad_handle *, int);
@@ -513,7 +515,7 @@ rad_create_request(struct rad_handle *h, int code)
 	/* Create a random authenticator */
 	for (i = 0;  i < LEN_AUTH;  i += 2) {
 		long r;
-		r = random();
+		r = arc4random();
 		h->request[POS_AUTH+i] = r;
 		h->request[POS_AUTH+i+1] = r >> 8;
 	}
@@ -665,7 +667,7 @@ rad_auth_open(void)
 		randinit();
 		h->fd = -1;
 		h->num_servers = 0;
-		h->ident = random();
+		h->ident = arc4random();
 		h->errmsg[0] = '\0';
 		memset(h->pass, 0, sizeof h->pass);
 		h->pass_len = 0;

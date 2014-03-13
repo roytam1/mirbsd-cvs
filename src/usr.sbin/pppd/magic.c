@@ -59,9 +59,6 @@ static char rcsid[] = "$OpenBSD: magic.c,v 1.8 2002/07/01 19:31:37 deraadt Exp $
 #include "pppd.h"
 #include "magic.h"
 
-extern long mrand48(void);
-extern void srand48(long);
-
 /*
  * magic_init - Initialize the magic number generator.
  *
@@ -72,14 +69,6 @@ extern void srand48(long);
 void
 magic_init()
 {
-#if 0
-    long seed;
-    struct timeval t;
-
-    gettimeofday(&t, NULL);
-    seed = get_host_seed() ^ t.tv_sec ^ t.tv_usec ^ getpid();
-    srand48(seed);
-#endif
 }
 
 /*
@@ -88,36 +77,5 @@ magic_init()
 u_int32_t
 magic()
 {
-#if 0
-    return (u_int32_t) mrand48();
-#else
     return arc4random();
-#endif
 }
-
-#ifdef NO_DRAND48
-/*
- * Substitute procedures for those systems which don't have
- * drand48 et al.
- */
-
-double
-drand48()
-{
-    return (double)random() / (double)0x7fffffffL; /* 2**31-1 */
-}
-
-long
-mrand48()
-{
-    return random();
-}
-
-void
-srand48(seedval)
-long seedval;
-{
-    srandom((int)seedval);
-}
-
-#endif
