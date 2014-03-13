@@ -101,7 +101,7 @@
 #include "roaming.h"
 #include "version.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.20 2014/03/12 23:35:13 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.21 2014/03/13 04:46:47 tg Exp $");
 
 #ifndef O_NOCTTY
 #define O_NOCTTY	0
@@ -633,8 +633,6 @@ privsep_preauth(Authctxt *authctxt)
 static void
 privsep_postauth(Authctxt *authctxt)
 {
-	u_int32_t rnd[256];
-
 	if (authctxt->pw->pw_uid == 0 || options.use_login) {
 		/* File descriptor passing is broken or root login */
 		use_privsep = 0;
