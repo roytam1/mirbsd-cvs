@@ -177,6 +177,7 @@ SSL *HTGetSSLHandle(void)
 
 void HTSSLInitPRNG(void)
 {
+#ifndef __MirBSD__
 #if SSLEAY_VERSION_NUMBER >= 0x00905100
     if (RAND_status() == 0) {
 	char rand_file[256];
@@ -220,6 +221,7 @@ void HTSSLInitPRNG(void)
 	RAND_write_file(rand_file);
     }
 #endif /* SSLEAY_VERSION_NUMBER >= 0x00905100 */
+#endif
     return;
 }
 

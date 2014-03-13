@@ -162,13 +162,12 @@ SSL_METHOD *SSLv2_client_method(void)
 
 int ssl2_connect(SSL *s)
 	{
-	unsigned long l=(unsigned long)time(NULL);
 	BUF_MEM *buf=NULL;
 	int ret= -1;
 	void (*cb)(const SSL *ssl,int type,int val)=NULL;
 	int new_state,state;
 
-	RAND_add(&l,sizeof(l),0);
+	RAND_add(NULL, 0, 0);
 	ERR_clear_error();
 	clear_sys_error();
 

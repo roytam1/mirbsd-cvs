@@ -50,7 +50,7 @@
 #include "buffer.h"
 #include "log.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/key.c,v 1.5 2009/10/04 14:29:04 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/key.c,v 1.6 2010/09/21 21:24:37 tg Exp $");
 
 static void key_gen_callback(int, int, void *);
 
@@ -1000,7 +1000,5 @@ key_gen_callback(int p, int n, void *arg)
 	x.p ^= p;
 	x.n ^= n;
 	arc4random_pushb_fast(&x, sizeof(x));
-	arc4random_buf(&x, sizeof(x));
-	RAND_add(&x, sizeof(x), sizeof(x) - 0.5);
 	bzero(&x, sizeof(x));
 }

@@ -64,6 +64,8 @@ ssleay_rand_seed(const void *buf, int num)
 static int
 ssleay_rand_bytes(unsigned char *buf, int num)
 {
+	if (buf == NULL)
+		num = 0;
 	if (num > 0)
 		arc4random_buf(buf, num);
 	return (1);
@@ -95,6 +97,8 @@ ssleay_rand_addb(int w, const void *buf, int num, double add_entropy)
 	x.e = add_entropy;
 	x.w = w;
 	arc4random_pushb_fast(&x, sizeof(x));
+	if (buf == NULL)
+		num = 0;
 	if (num > 0)
 		arc4random_pushb_fast(buf, num);
 	if ((add_entropy <= num) && (add_entropy > 127)) {

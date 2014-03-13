@@ -101,7 +101,7 @@
 #include "roaming.h"
 #include "version.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.19 2009/10/04 14:29:12 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.20 2014/03/12 23:35:13 tg Exp $");
 
 #ifndef O_NOCTTY
 #define O_NOCTTY	0
@@ -549,15 +549,13 @@ demote_sensitive_data(void)
 static void
 privsep_preauth_child(void)
 {
-	u_int32_t rnd[256];
 	gid_t gidset[1];
 	struct passwd *pw;
 
 	/* Enable challenge-response authentication for privilege separation */
 	privsep_challenge_enable();
 
-	arc4random_buf(rnd, sizeof(rnd));
-	RAND_seed(rnd, sizeof(rnd));
+	(void)arc4random();
 
 	/* Demote the private keys to public keys. */
 	demote_sensitive_data();
@@ -664,8 +662,7 @@ privsep_postauth(Authctxt *authctxt)
 	/* Demote the private keys to public keys. */
 	demote_sensitive_data();
 
-	arc4random_buf(rnd, sizeof(rnd));
-	RAND_seed(rnd, sizeof(rnd));
+	(void)arc4random();
 
 	/* Drop privileges */
 	do_setusercontext(authctxt->pw);

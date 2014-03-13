@@ -119,7 +119,7 @@
 #include <openssl/bio.h>
 #include <openssl/rand.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/apps/app_rand.c,v 1.3 2008/07/06 16:08:02 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/apps/app_rand.c,v 1.4 2010/09/21 21:24:11 tg Exp $");
 
 static int seeded = 0;
 static int egdsocket = 0;
@@ -227,14 +227,11 @@ void app_RAND_pushback(uint32_t x1, uint32_t x2, uint32_t x3, uint32_t x4)
 #ifdef MBSD_CB_ARND
 	uint32_t x[4];
 
-	RAND_bytes((void *)x, sizeof(x));
-	x[0] ^= x1;
-	x[1] ^= x2;
-	x[2] ^= x3;
-	x[3] ^= x4;
+	x[0] = x1;
+	x[1] = x2;
+	x[2] = x3;
+	x[3] = x4;
 	arc4random_pushb_fast(x, sizeof(x));
-	arc4random_buf(x, sizeof(x));
-	RAND_add(x, sizeof(x), sizeof(x) - 0.5);
 	bzero(x, sizeof(x));
 #elif defined(LINT)
 	x1=x2;

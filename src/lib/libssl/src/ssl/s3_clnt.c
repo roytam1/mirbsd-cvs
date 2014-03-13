@@ -165,13 +165,13 @@ SSL_METHOD *SSLv3_client_method(void)
 int ssl3_connect(SSL *s)
 	{
 	BUF_MEM *buf=NULL;
-	unsigned long Time=(unsigned long)time(NULL),l;
+	unsigned long l;
 	long num1;
 	void (*cb)(const SSL *ssl,int type,int val)=NULL;
 	int ret= -1;
 	int new_state,state,skip=0;
 
-	RAND_add(&Time,sizeof(Time),0);
+	RAND_add(NULL, 0, 0);
 	ERR_clear_error();
 	clear_sys_error();
 

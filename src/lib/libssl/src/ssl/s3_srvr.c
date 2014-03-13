@@ -127,7 +127,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_srvr.c,v 1.7 2010/12/21 14:25:21 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_srvr.c,v 1.8 2014/03/05 12:41:59 tg Exp $");
 
 static SSL_METHOD *ssl3_get_server_method(int ver);
 static int ssl3_get_client_hello(SSL *s);
@@ -175,13 +175,13 @@ SSL_METHOD *SSLv3_server_method(void)
 int ssl3_accept(SSL *s)
 	{
 	BUF_MEM *buf;
-	unsigned long l,Time=(unsigned long)time(NULL);
+	unsigned long l;
 	void (*cb)(const SSL *ssl,int type,int val)=NULL;
 	long num1;
 	int ret= -1;
 	int new_state,state,skip=0;
 
-	RAND_add(&Time,sizeof(Time),0);
+	RAND_add(NULL, 0, 0);
 	ERR_clear_error();
 	clear_sys_error();
 
