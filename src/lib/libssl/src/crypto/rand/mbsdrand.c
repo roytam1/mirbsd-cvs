@@ -22,7 +22,7 @@
 #include <openssl/rand.h>
 #include LIBC_TPH
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: src/lib/libssl/src/crypto/rand/mbsdrand.c,v 1.1 2014/03/13 03:55:10 tg Exp $");
 
 const char RAND_version[] = "MirBSD";
 
@@ -32,7 +32,7 @@ static void ssleay_rand_seed(const void *, int);
 static int ssleay_rand_bytes(unsigned char *, int);
 static void ssleay_rand_cleanup(void);
 static void ssleay_rand_add(const void *, int, double);
-static void ssleay_rand_addb(const void *, int, double, int);
+static void ssleay_rand_addb(int, const void *, int, double);
 
 RAND_METHOD rand_ssleay_meth = {
 	ssleay_rand_seed,
@@ -58,7 +58,7 @@ RAND_poll(void)
 static void
 ssleay_rand_seed(const void *buf, int num)
 {
-	ssleay_rand_addb(buf, num, num, 1);
+	ssleay_rand_addb(1, buf, num, num);
 }
 
 static int
@@ -77,15 +77,15 @@ ssleay_rand_cleanup(void)
 static void
 ssleay_rand_add(const void *buf, int num, double add_entropy)
 {
-	ssleay_rand_addb(buf, num, add_entropy, 2);
+	ssleay_rand_addb(2, buf, num, add_entropy);
 }
 
 static void
-ssleay_rand_addb(const void *buf, int num, double add_entropy, int w)
+ssleay_rand_addb(int w, const void *buf, int num, double add_entropy)
 {
 	struct {
-		const void *bp;
 		double e;
+		const void *bp;
 		int n;
 		int w;
 	} x;
