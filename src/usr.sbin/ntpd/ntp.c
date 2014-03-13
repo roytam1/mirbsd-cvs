@@ -38,9 +38,10 @@
 
 #include "ntpd.h"
 #include "ntp.h"
-#include "thread_private.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.28 2011/02/19 00:23:46 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntp.c,v 1.29 2014/03/12 23:43:00 tg Exp $");
+
+extern void arc4random_ctl(unsigned int);
 
 #define	PFD_PIPE_MAIN	0
 #define	PFD_MAX		1
@@ -89,7 +90,7 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 	struct stat		 stb;
 	time_t			 nextaction;
 	void			*newp;
-	time_t			 nextstir, now;
+	time_t			 nextstir, nextshuf, now;
 
 	switch (pid = fork()) {
 	case -1:
@@ -103,7 +104,8 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 
 	/* force re-stir directly after fork, before chroot */
 	(void)arc4random();
-	nextstir = time(NULL) + 5400;
+	nextstir = (now = time(NULL)) + 5400;
+	nextshuf = now + 120;
 
 	if ((se = getservbyname("ntp", "udp")) == NULL)
 		fatal("getservbyname");
@@ -179,8 +181,13 @@ ntp_main(int pipe_prnt[2], struct ntpd_conf *nconf)
 
 		if (nextstir < (now = time(NULL))) {
 			/* 1.5 hours after start, then every 2 hrs */
-			arc4random_stir_lcl();
+			arc4random_ctl(2);
 			nextstir = now + 7200;
+			nextshuf = now + 600;
+		} else if (nextshuf < now) {
+			/* 2min after start, then every 5min except past stir */
+			arc4random_ctl(0);
+			nextshuf = now + 300;
 		}
 
 		if (peer_cnt > idx2peer_elms) {

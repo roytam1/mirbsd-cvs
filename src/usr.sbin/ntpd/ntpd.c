@@ -33,9 +33,10 @@
 #include <unistd.h>
 
 #include "ntpd.h"
-#include "thread_private.h"
 
-__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.21 2011/11/20 20:08:37 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/ntpd/ntpd.c,v 1.22 2014/03/12 23:43:00 tg Exp $");
+
+extern void arc4random_ctl(unsigned int);
 
 void		sighdlr(int);
 __dead void	usage(void);
@@ -207,7 +208,7 @@ main(int argc, char *argv[])
 		}
 
 		if (arc4push) {
-			arc4random_stir_lcl();
+			arc4random_ctl(2);
 			arc4push = 0;
 		}
 

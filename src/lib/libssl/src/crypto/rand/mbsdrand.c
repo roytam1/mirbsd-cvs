@@ -20,13 +20,12 @@
 
 #include <stdlib.h>
 #include <openssl/rand.h>
-#include LIBC_TPH
 
 __RCSID("$MirOS: src/lib/libssl/src/crypto/rand/mbsdrand.c,v 1.1 2014/03/13 03:55:10 tg Exp $");
 
 const char RAND_version[] = "MirBSD";
 
-extern void arc4random_stir_locked(pid_t);
+extern void arc4random_ctl(unsigned int);
 
 static void ssleay_rand_seed(const void *, int);
 static int ssleay_rand_bytes(unsigned char *, int);
@@ -64,9 +63,7 @@ ssleay_rand_seed(const void *buf, int num)
 static int
 ssleay_rand_bytes(unsigned char *buf, int num)
 {
-	if (buf == NULL)
-		num = 0;
-	if (num > 0)
+	if ((buf != NULL) && (num > 0))
 		arc4random_buf(buf, num);
 	return (1);
 }
@@ -97,13 +94,7 @@ ssleay_rand_addb(int w, const void *buf, int num, double add_entropy)
 	x.e = add_entropy;
 	x.w = w;
 	arc4random_pushb_fast(&x, sizeof(x));
-	if (buf == NULL)
-		num = 0;
-	if (num > 0)
+	if ((buf != NULL) && (num > 0))
 		arc4random_pushb_fast(buf, num);
-	if ((add_entropy <= num) && (add_entropy > 127)) {
-		_ARC4_LOCK();
-		arc4random_stir_locked(0);
-		_ARC4_UNLOCK();
-	}
+	arc4random_ctl(0);
 }

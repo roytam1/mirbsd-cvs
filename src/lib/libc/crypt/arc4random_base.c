@@ -35,7 +35,7 @@
 #include "arc4random.h"
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.10 2014/02/19 21:36:06 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.11 2014/02/20 00:07:45 tg Exp $");
 
 /* zero-initialises */
 struct arc4random_status a4state;
@@ -43,25 +43,7 @@ struct arc4random_status a4state;
 void
 arc4random_atexit(void)
 {
-	int mib[2];
-
-	if (!a4state.a4s_initialised)
-		return;
-
-	_ARC4_LOCK();
-	/* first put everything we have into the pool */
-	arc4random_roundhash(a4state.pool, &a4state.a4s_poolptr,
-	    &a4state.cipher, sizeof(a4state.cipher));
-	arc4random_roundhash(a4state.pool, &a4state.a4s_poolptr,
-	    &a4state.otherinfo, sizeof(a4state.otherinfo));
-	/* then write the pool into the kernel */
-	mib[0] = CTL_KERN;
-	mib[1] = KERN_ARND;
-	sysctl(mib, 2, NULL, NULL, a4state.pool, sizeof(a4state.pool));
-	/* then, just in case we do NOT finish, blind */
-	(void)arcfour_byte(&a4state.cipher);
-	bzero(a4state.pool, sizeof(a4state.pool));
-	_ARC4_UNLOCK();
+	arc4random_ctl(1);
 }
 
 u_int32_t
@@ -178,7 +160,8 @@ arc4random_stir_locked(pid_t mypid)
 		a4state.pool[n] = hr;
 	}
 	/* mix full 256 bytes into arc4random pool */
-	arcfour_ksa256(&a4state.cipher, sbuf.charbuf);
+	/*XXX not using arcfour_ksa256 as we use arcfour_ksa below anyway */
+	arcfour_ksa(&a4state.cipher, sbuf.charbuf, 256);
 
 	/* trash stack */
 	bzero(sbuf.charbuf, sizeof(sbuf));
@@ -192,4 +175,70 @@ arc4random_stir_locked(pid_t mypid)
 	a4state.a4s_initialised = true;
 	a4state.a4s_stir_pid = mypid;
 	a4state.a4s_count = 1600000;
+}
+
+/*
+ * This is a deliberately undocumented internal API.
+ * - whence & 7 = mode
+ *   + 0 = shuffle user-space only
+ *   + 1 = move stuff to kernel (e.g. for reboot)
+ *   + 2 = schedule stirring upon next access
+ * - rest MBZ
+ */
+void
+arc4random_ctl(unsigned int whence)
+{
+	size_t n;
+	uint8_t *buf;
+	struct {
+		struct timespec tp;
+		const void *dp, *sp;
+		unsigned int wi;
+		struct arcfour_otherinfo oi;
+	} pbuf;
+	int mib[2];
+
+	clock_gettime(CLOCK_MONOTONIC, &pbuf.tp);
+	pbuf.sp = &pbuf;
+	pbuf.dp = &whence;
+	pbuf.wi = whence;
+	_ARC4_LOCK();
+	memcpy(&pbuf.oi, &a4state.otherinfo, sizeof(struct arcfour_otherinfo));
+	if (!a4state.a4s_initialised)
+		arc4random_stir_locked(0);
+	arc4random_roundhash(a4state.pool, &a4state.a4s_poolptr,
+	    &pbuf, sizeof(pbuf));
+
+	switch (whence /* & 7 */) {
+	default:
+		break;
+	case 2:
+		a4state.a4s_count = -1;
+		break;
+	case 1:
+		/* first put everything we have into the pool */
+		arc4random_roundhash(a4state.pool, &a4state.a4s_poolptr,
+		    &a4state.cipher, sizeof(a4state.cipher));
+		/* then write the pool into the kernel and overwrite it */
+		mib[0] = CTL_KERN;
+		mib[1] = KERN_ARND;
+		n = sizeof(a4state.pool);
+		sysctl(mib, 2, a4state.pool, &n, a4state.pool,
+		    sizeof(a4state.pool));
+		/* then blind a bit for continued use, just in case */
+		a4state.a4s_count = n * 24 + 1024;
+		/* FALLTHROUGH */
+	case 0:
+		n = arcfour_byte(&a4state.cipher);
+		buf = (void *)a4state.pool;
+		arcfour_ksa(&a4state.cipher, buf, sizeof(a4state.pool));
+		while (n--)
+			(void)arcfour_byte(&a4state.cipher);
+		n = sizeof(a4state.pool);
+		while (n--)
+			*buf++ = arcfour_byte(&a4state.cipher);
+		a4state.a4s_poolptr = 0;
+		break;
+	}
+	_ARC4_UNLOCK();
 }

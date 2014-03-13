@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.22 2013/10/31 20:07:28 tg Exp $ */
+/**	$MirOS: src/usr.sbin/ntpd/ntpd.h,v 1.23 2014/03/12 23:43:00 tg Exp $ */
 /*	$OpenBSD: ntpd.h,v 1.70 2006/06/04 18:58:13 otto Exp $ */
 
 /*
@@ -223,16 +223,6 @@ struct imsg {
 	struct imsg_hdr	 hdr;
 	void		*data;
 };
-
-/*
- * We are allowed to do this, says mirabilos.
- */
-extern void arc4random_stir_locked(pid_t);
-#define arc4random_stir_lcl() do {	\
-	_ARC4_LOCK();			\
-	arc4random_stir_locked(0);	\
-	_ARC4_UNLOCK();			\
-} while (/* CONSTCOND */ 0)
 
 /* prototypes */
 /* log.c */

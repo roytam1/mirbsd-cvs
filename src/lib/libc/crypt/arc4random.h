@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/crypt/arc4random.h,v 1.2 2014/02/19 14:55:35 tg Exp $ */
+/* $MirOS: src/lib/libc/crypt/arc4random.h,v 1.3 2014/02/19 21:16:27 tg Exp $ */
 
 /*-
  * Copyright (c) 2010, 2014
@@ -29,7 +29,7 @@ __BEGIN_DECLS
 extern struct arc4random_status {
 	uint32_t pool[32];
 	struct arcfour_status cipher;
-	struct {
+	struct arcfour_otherinfo {
 		int count_;
 		pid_t stir_pid_;
 		uint8_t poolptr_;
@@ -43,6 +43,7 @@ extern struct arc4random_status {
 #define a4s_count	otherinfo.count_
 
 void arc4random_atexit(void);
+void arc4random_ctl(unsigned int);
 void arc4random_stir_locked(pid_t);
 __END_DECLS
 

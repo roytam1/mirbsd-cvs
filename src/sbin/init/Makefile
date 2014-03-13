@@ -1,4 +1,4 @@
-# $MirOS: src/sbin/init/Makefile,v 1.3 2008/03/27 19:05:16 tg Exp $
+# $MirOS: src/sbin/init/Makefile,v 1.4 2014/03/12 23:11:23 tg Exp $
 # $OpenBSD: Makefile,v 1.7 2002/06/09 08:13:06 todd Exp $
 
 STATIC=		-static
@@ -13,6 +13,5 @@ DPADD+=		${LIBUTIL}
 LDADD+=		-lutil
 INSTALLFLAGS=	-fschg
 CPPFLAGS+=	-DDEBUGSHELL -DSECURE -DLOGIN_CAP
-CPPFLAGS+=	-I${BSDSRCDIR:Q}/lib/libc/include
 
 .include <bsd.prog.mk>

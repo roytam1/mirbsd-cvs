@@ -109,17 +109,15 @@
  *
  */
 
-#ifdef MBSD_CB_ARND
 #include <sys/param.h>
 #include <string.h>
-#endif
 #define NON_MAIN
 #include "apps.h"
 #undef NON_MAIN
 #include <openssl/bio.h>
 #include <openssl/rand.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/apps/app_rand.c,v 1.4 2010/09/21 21:24:11 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/apps/app_rand.c,v 1.5 2014/03/13 04:46:43 tg Exp $");
 
 static int seeded = 0;
 static int egdsocket = 0;
@@ -222,10 +220,12 @@ void app_RAND_allow_write_file(void)
 	seeded = 1;
 	}
 
+extern void arc4random_ctl(unsigned int);
 void app_RAND_pushback(uint32_t x1, uint32_t x2, uint32_t x3, uint32_t x4)
 	{
-#ifdef MBSD_CB_ARND
 	uint32_t x[4];
+	time_t now;
+	static time_t next;
 
 	x[0] = x1;
 	x[1] = x2;
@@ -233,9 +233,9 @@ void app_RAND_pushback(uint32_t x1, uint32_t x2, uint32_t x3, uint32_t x4)
 	x[3] = x4;
 	arc4random_pushb_fast(x, sizeof(x));
 	bzero(x, sizeof(x));
-#elif defined(LINT)
-	x1=x2;
-	x3=x4;
-#endif
+	if (next < (now = time(NULL))) {
+		arc4random_ctl(2);
+		next = now + 240 + arc4random_uniform(120);
+	}
 	return;
 	}
