@@ -37,6 +37,8 @@
 
 #include "isdnd.h"
 
+__RCSID("$MirOS$");
+
 /* table of state descriptions */
 
 static char *state_text[N_STATES] = {
@@ -181,7 +183,7 @@ F_DIAL(struct cfg_entry *cep)
 	DBGL(DL_STATE, (logit(LL_DBG, "F_DIAL: local dial out request")));
 
         if (cep->dialrandincr)
-                cep->randomtime = (random() & RANDOM_MASK) + cep->recoverytime;
+                cep->randomtime = (arc4random_uniform(RANDOM_MASK)) + cep->recoverytime;
 
 	cep->dial_count = 0;
 		
@@ -275,7 +277,7 @@ F_ACBW(struct cfg_entry *cep)
 	DBGL(DL_STATE, (logit(LL_DBG, "F_ACBW: local callback, wait callback recovery time")));
 
         if (cep->dialrandincr)
-                cep->randomtime = (random() & RANDOM_MASK) + cep->recoverytime;
+                cep->randomtime = (arc4random_uniform(RANDOM_MASK)) + cep->recoverytime;
 
 	cep->dial_count = 0;
 

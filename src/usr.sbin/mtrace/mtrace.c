@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/mtrace/mtrace.c,v 1.3 2005/12/04 15:02:25 tg Exp $ */
+/**	$MirOS: src/usr.sbin/mtrace/mtrace.c,v 1.4 2007/08/24 14:20:21 tg Exp $ */
 /*	$OpenBSD: mtrace.c,v 1.25 2005/05/03 05:42:05 djm Exp $	*/
 /*	$NetBSD: mtrace.c,v 1.5 1995/12/10 10:57:15 mycroft Exp $	*/
 
@@ -69,7 +69,7 @@
 #endif
 #include <ifaddrs.h>
 
-__RCSID("$MirOS: src/usr.sbin/mtrace/mtrace.c,v 1.3 2005/12/04 15:02:25 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/mtrace/mtrace.c,v 1.4 2007/08/24 14:20:21 tg Exp $");
 
 #define DEFAULT_TIMEOUT	3	/* How long to wait before retrying requests */
 #define DEFAULT_RETRIES 3	/* How many times to try */
@@ -423,11 +423,7 @@ send_recv(u_int32_t dst, int type, int code, int tries, struct resp_buf *save)
 	 * Change the qid for each request sent to avoid being confused
 	 * by duplicate responses
 	 */
-#ifdef SYSV
-	query->tr_qid  = ((u_int32_t)lrand48() >> 8);
-#else
-	query->tr_qid  = ((u_int32_t)random() >> 8);
-#endif
+	query->tr_qid  = ((u_int32_t)arc4random() >> 8);
 
 	/*
 	 * Set timer to calculate delays, then send query
@@ -1338,11 +1334,6 @@ Usage: mtrace [-Mlnps] [-w wait] [-m max_hops] [-q nqueries] [-g gateway]\n\
      */
     gettimeofday(&tv, 0);
     seed = tv.tv_usec ^ lcl_addr;
-#ifdef SYSV
-    srand48(seed);
-#else
-    srandom(seed);
-#endif
 
     /*
      * Protect against unicast queries to mrouted versions that might crash.

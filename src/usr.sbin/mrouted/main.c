@@ -26,7 +26,7 @@
 #include <util.h>
 
 __RCSID("$Id$");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/mrouted/main.c,v 1.4 2007/08/24 14:20:19 tg Exp $");
 
 extern char *configfilename;
 char versionstring[100];
@@ -169,12 +169,6 @@ usage:	fprintf(stderr,
 			PROTOCOL_VERSION, MROUTED_VERSION);
 
     logit(LOG_NOTICE, 0, "%s", versionstring);
-
-#ifdef SYSV
-    srand48(time(NULL));
-#else
-    srandom(gethostid());
-#endif
 
     /*
      * Get generation id

@@ -84,6 +84,10 @@
 #include "pathnames.h"		/* location of files		*/
 #include "alias.h"		/* alias file processing	*/
 
+#ifdef MAIN
+__RCSID("$MirOS$");
+#endif
+
 /*---------------------------------------------------------------------------*
  *	some general definitions
  *---------------------------------------------------------------------------*/

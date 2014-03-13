@@ -45,6 +45,8 @@
 #include "isdnd.h"
 #undef MAIN
 
+__RCSID("$MirOS$");
+
 #ifdef I4B_EXTERNAL_MONITOR
 
 #ifdef I4B_NOTCPIP_MONITOR
@@ -408,8 +410,6 @@ main(int argc, char **argv)
 #endif
 
 	starttime = time(NULL);	/* get starttime */
-	
-	srandom(580403);	/* init random number gen */
 	
 	mloop(		/* enter loop of no return .. */
 #ifdef I4B_EXTERNAL_MONITOR

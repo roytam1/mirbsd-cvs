@@ -12,6 +12,8 @@
 
 #include "defs.h"
 
+__RCSID("$MirOS$");
+
 extern int cache_lifetime;
 extern int max_prune_lifetime;
 extern struct rtentry *routing_table;
@@ -21,11 +23,7 @@ extern int phys_vif;
 /*
  * dither cache lifetime to obtain a value between x and 2*x
  */
-#ifdef SYSV
-#define CACHE_LIFETIME(x) ((x) + (lrand48() % (x)))
-#else
-#define CACHE_LIFETIME(x) ((x) + (random() % (x)))
-#endif
+#define CACHE_LIFETIME(x) ((x) + (arc4random_uniform(x)))
 
 #define CHK_GS(x, y) {	\
 		switch(x) { \
