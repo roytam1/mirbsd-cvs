@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/crypto/arc4random.c,v 1.5 2012/10/19 18:59:41 tg Exp $ */
+/* $MirOS: src/sys/crypto/arc4random.c,v 1.6 2014/01/11 18:16:16 tg Exp $ */
 
 /*-
  * Copyright © 2010, 2014
@@ -118,7 +118,7 @@ arc4random_buf(void *buf_, size_t len)
 /*
  * Stir the arcfour state used by arc4random(9). This function is
  * called via a periodic timeout (approximately every 8½ minutes)
- * as well as from a consumer when approx. 2 MiB were used up.
+ * as well as from a consumer when approx. 8 MiB were used up.
  */
 void
 arc4random_reinit(void *arg __unused)
