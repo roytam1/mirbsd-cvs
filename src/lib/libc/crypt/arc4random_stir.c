@@ -22,15 +22,12 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include "arc4random.h"
-#include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random_stir.c,v 1.2 2014/02/19 21:16:28 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_stir.c,v 1.3 2014/02/20 00:07:45 tg Exp $");
 
 void
 arc4random_stir(void)
 {
-	_ARC4_LOCK();
-	arc4random_stir_locked(0);
-	_ARC4_UNLOCK();
+	arc4random_ctl(2);
 }
 __warn_references(arc4random_stir, "arc4random_stir got deprecated by OpenBSD");
