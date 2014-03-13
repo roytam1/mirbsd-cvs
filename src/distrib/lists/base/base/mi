@@ -302,7 +302,6 @@
 ./usr/bin/modstat
 ./usr/bin/more
 ./usr/bin/msgs
-./usr/bin/nawk
 ./usr/bin/nc
 ./usr/bin/neqn
 ./usr/bin/netstat
@@ -1661,7 +1660,6 @@
 ./usr/share/man/cat1/msgs.0
 ./usr/share/man/cat1/mt.0
 ./usr/share/man/cat1/mv.0
-./usr/share/man/cat1/nawk.0
 ./usr/share/man/cat1/nc.0
 ./usr/share/man/cat1/neqn.0
 ./usr/share/man/cat1/netstat.0
