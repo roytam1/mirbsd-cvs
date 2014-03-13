@@ -13,7 +13,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/conf.c,v 1.14 2012/12/31 21:02:36 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/conf.c,v 1.15 2013/08/06 20:37:00 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #include <sm/sendmail.h>
@@ -5298,6 +5298,7 @@ sm_close_on_exec(highest, lowest)
 void
 seed_random()
 {
+#ifndef __MirBSD__
 #if HASSRANDOMDEV
 	srandomdev();
 #else /* HASSRANDOMDEV */
@@ -5314,6 +5315,7 @@ seed_random()
 	(void) srand((unsigned int) seed);
 # endif /* HASRANDOM */
 #endif /* HASSRANDOMDEV */
+#endif
 }
 /*
 **  SM_SYSLOG -- syslog wrapper to keep messages under SYSLOG_BUFSIZE
