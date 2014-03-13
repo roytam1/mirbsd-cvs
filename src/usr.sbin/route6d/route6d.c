@@ -30,10 +30,6 @@
  * SUCH DAMAGE.
  */
 
-#if 0
-static char _rcsid[] = "$OpenBSD: route6d.c,v 1.42 2005/05/26 21:56:41 henning Exp $";
-#endif
-
 #include <stdio.h>
 
 #include <time.h>
@@ -78,7 +74,7 @@ static char _rcsid[] = "$OpenBSD: route6d.c,v 1.42 2005/05/26 21:56:41 henning E
 
 #include "route6d.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/route6d/route6d.c,v 1.2 2006/11/04 05:57:44 tg Exp $");
 
 #define	MAXFILTER	40
 
@@ -3287,9 +3283,10 @@ hms(void)
 int
 ripinterval(int timer)
 {
-	double r = rand();
+	double r = arc4random();
 
-	interval = (int)(timer + timer * RIPRANDDEV * (r / RAND_MAX - 0.5));
+	r /= 0xFFFFFFFFU;
+	interval = (int)(timer + timer * RIPRANDDEV * (r - 0.5));
 	nextalarm = time(NULL) + interval;
 	return interval;
 }
@@ -3298,10 +3295,11 @@ time_t
 ripsuptrig(void)
 {
 	time_t t;
+	double r = arc4random();
 
-	double r = rand();
+	r /= 0xFFFFFFFFU;
 	t  = (int)(RIP_TRIG_INT6_MIN + 
-		(RIP_TRIG_INT6_MAX - RIP_TRIG_INT6_MIN) * (r / RAND_MAX));
+		(RIP_TRIG_INT6_MAX - RIP_TRIG_INT6_MIN) * r);
 	sup_trig_update = time(NULL) + t;
 	return t;
 }
