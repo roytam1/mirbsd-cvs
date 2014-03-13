@@ -29,16 +29,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-char copyright[] =
-"@(#) Copyright (c) 1985, 1993 The Regents of the University of California.\n\
- All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-static char sccsid[] = "@(#)timed.c	5.1 (Berkeley) 5/11/93";
-#endif /* not lint */
-
 #define TSPTYPES
 #include "globals.h"
 #include <net/if.h>
@@ -53,6 +43,11 @@ static char sccsid[] = "@(#)timed.c	5.1 (Berkeley) 5/11/93";
 #include <netgroup.h>
 #include <err.h>
 #include <ifaddrs.h>
+
+__COPYRIGHT("@(#) Copyright (c) 1985, 1993 The Regents of the University of California.\n\
+ All rights reserved.\n");
+__SCCSID("@(#)timed.c	5.1 (Berkeley) 5/11/93");
+__RCSID("$MirOS$");
 
 int trace = 0;
 int sock, sock_raw = -1;
@@ -671,7 +666,7 @@ pickslavenet(struct netinfo *ntp)
 long
 casual(long inf, long sup)
 {
-	return (inf + random() % (sup - inf + 1));
+	return (inf + arc4random_uniform(sup - inf + 1));
 }
 
 char *
