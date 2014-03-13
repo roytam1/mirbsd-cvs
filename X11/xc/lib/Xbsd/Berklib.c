@@ -206,38 +206,6 @@ unsigned int	mask;
 }
 #endif
 
-#ifdef WANT_RANDOM
-#if defined(SYSV) || defined(SVR4) || defined(hpux)
-
-long lrand48();
-
-long random()
-{
-   return (lrand48());
-}
-
-void srandom(seed)
-    int seed;
-{
-   srand48(seed);
-}
-
-#else
-
-long random()
-{
-   return (rand());
-}
-
-void srandom(seed)
-    int seed;
-{
-   srand(seed);
-}
-
-#endif
-#endif /* WANT_RANDOM */
-
 /*
  * insque, remque - insert/remove element from a queue
  *

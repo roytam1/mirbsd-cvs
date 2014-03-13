@@ -60,7 +60,6 @@
 #include "help.h"
 #include "stubs.h"
 
-#define randomize()		srand((unsigned)time((time_t*)NULL))
 #ifdef PROJECT_ROOT
 #define DefaultXFree86Dir	PROJECT_ROOT
 #else

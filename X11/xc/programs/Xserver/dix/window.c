@@ -100,6 +100,8 @@ SOFTWARE.
 #include "security.h"
 #endif
 
+__RCSID("$MirOS$");
+
 /******
  * Window stuff for server 
  *
@@ -3356,8 +3358,8 @@ SaveScreens(on, mode)
 		    (*pWin->drawable.pScreen->ClearToBackground)(pWin, 0, 0, 0, 0, FALSE);
 #endif
 		(*pWin->drawable.pScreen->MoveWindow)(pWin,
-			   (short)(-(rand() % RANDOM_WIDTH)),
-			   (short)(-(rand() % RANDOM_WIDTH)),
+			   (short)(-arc4random_uniform(RANDOM_WIDTH)),
+			   (short)(-arc4random_uniform(RANDOM_WIDTH)),
 			   pWin->nextSib, VTMove);
 #ifndef NOLOGOHACK
 		if (logoScreenSaver)
@@ -3699,7 +3701,7 @@ DrawLogo(WindowPtr pWin)
     if (!pGC)
 	return;
 
-    if ((rand() % 100) <= 17) /* make the probability for white fairly low */
+    if (arc4random_uniform(100) <= 17) /* make the probability for white fairly low */
 	fore[0].val = pScreen->whitePixel;
     else
 	fore[0].val = pScreen->blackPixel;
@@ -3740,10 +3742,10 @@ DrawLogo(WindowPtr pWin)
     size = width;
     if (height < width)
 	 size = height;
-    size = RANDOM_WIDTH + rand() % (size - RANDOM_WIDTH);
+    size = RANDOM_WIDTH + arc4random_uniform(size - RANDOM_WIDTH);
     size &= ~1;
-    x += rand() % (width - size);
-    y += rand() % (height - size);
+    x += arc4random_uniform(width - size);
+    y += arc4random_uniform(height - size);
 
 /*
  * Draw what will be the thin strokes.
