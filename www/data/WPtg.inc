@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.164 2014/03/10 19:16:09 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.165 2014/03/12 19:03:28 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4286,6 +4286,18 @@ Date: 12.03.2014
 Waypoint: LC7QX
 Title: ScottO's 30 day Challenge!
 Tag: MC0 LC_Other
+----
+ID: 768
+Date: 14.03.2014
+Waypoint: GC1WJN2
+Title: Trasse des Werkzeugs - Güterwagen
+Tag: D1 T2 Small Tradi
+----
+ID: 769
+Date: 15.03.2014
+Waypoint: GC24A2B
+Title: Chemnitzer Brückenbauwerke - Der Pfortensteg
+Tag: D25 T25 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
