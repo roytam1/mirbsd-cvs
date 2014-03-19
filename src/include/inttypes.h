@@ -1,4 +1,4 @@
-/* $MirOS: src/include/inttypes.h,v 1.4 2007/05/17 01:53:30 tg Exp $ */
+/* $MirOS: src/include/inttypes.h,v 1.5 2008/04/22 12:37:39 tg Exp $ */
 
 #ifndef	_INTTYPES_H_
 #define	_INTTYPES_H_
@@ -192,5 +192,12 @@
 #define SCNoPTR		"to"
 #define SCNuPTR		"tu"
 #define SCNxPTR		"tx"
+
+/* functions */
+
+__BEGIN_DECLS
+intmax_t strtoimax(const char *, char **, int);
+uintmax_t strtoumax(const char *, char **, int);
+__END_DECLS
 
 #endif /* ndef _INTTYPES_H_ */

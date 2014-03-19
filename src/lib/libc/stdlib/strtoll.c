@@ -33,8 +33,9 @@
 #include <errno.h>
 #include <limits.h>
 #include <stdlib.h>
+#include <inttypes.h>
 
-__RCSID("$MirOS: src/lib/libc/stdlib/strtoll.c,v 1.2 2005/05/20 23:38:17 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdlib/strtoll.c,v 1.3 2005/09/22 20:15:31 tg Exp $");
 
 /*
  * Convert a string to a long long.
@@ -150,4 +151,16 @@ strtoq(const char *nptr, char **endptr, int base)
 {
         return ((quad_t)strtoll(nptr, endptr, base));
 }
+#endif
+
+#if ((INTMAX_MIN == LLONG_MIN) && (INTMAX_MAX == LLONG_MAX))
+#ifdef __weak_alias
+__weak_alias(strtoimax, strtoll);
+#else
+intmax_t
+strtoimax(const char *nptr, char **endptr, int base)
+{
+        return ((intmax_t)strtoll(nptr, endptr, base));
+}
+#endif
 #endif

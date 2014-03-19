@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/stdlib/Makefile.inc,v 1.13 2014/01/01 15:16:30 bsiegert Exp $
+# $MirOS: src/lib/libc/stdlib/Makefile.inc,v 1.14 2014/02/09 23:23:34 tg Exp $
 
 # stdlib sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/stdlib ${LIBCSRCDIR}/stdlib
@@ -84,8 +84,8 @@ MLINKS+=rand48.3 drand48.3 rand48.3 erand48.3 rand48.3 lrand48.3
 MLINKS+=rand48.3 mrand48.3 rand48.3 nrand48.3 rand48.3 jrand48.3
 MLINKS+=rand48.3 srand48.3 rand48.3 seed48.3 rand48.3 lcong48.3
 MLINKS+=strtod.3 strtof.3
-MLINKS+=strtol.3 strtoll.3 strtol.3 strtoq.3
-MLINKS+=strtoul.3 strtoull.3 strtoul.3 strtouq.3
+MLINKS+=strtol.3 strtoll.3 strtol.3 strtoq.3 strtol.3 strtoimax.3
+MLINKS+=strtoul.3 strtoull.3 strtoul.3 strtouq.3 strtoul.3 strtoumax.3
 MLINKS+=tsearch.3 tfind.3
 MLINKS+=tsearch.3 tdelete.3
 MLINKS+=tsearch.3 twalk.3

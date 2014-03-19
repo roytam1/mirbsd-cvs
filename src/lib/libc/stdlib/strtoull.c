@@ -34,6 +34,9 @@
 #include <errno.h>
 #include <limits.h>
 #include <stdlib.h>
+#include <inttypes.h>
+
+__RCSID("$MirOS: src/lib/libc/stdlib/strtoll.c,v 1.3 2005/09/22 20:15:31 tg Exp $");
 
 /*
  * Convert a string to an unsigned long long.
@@ -59,7 +62,7 @@ strtoull(const char *nptr, char **endptr, int base)
 	if (c == '-') {
 		neg = 1;
 		c = *s++;
-	} else { 
+	} else {
 		neg = 0;
 		if (c == '+')
 			c = *s++;
@@ -109,7 +112,18 @@ __weak_alias(strtouq, strtoull);
 u_quad_t
 strtouq(const char *nptr, char **endptr, int base)
 {
-
 	return ((u_quad_t)strtoull(nptr, endptr, base));
 }
+#endif
+
+#if (UINTMAX_MAX == ULLONG_MAX)
+#ifdef __weak_alias
+__weak_alias(strtoumax, strtoull);
+#else
+uintmax_t
+strtoumax(const char *nptr, char **endptr, int base)
+{
+	return ((uintmax_t)strtoull(nptr, endptr, base));
+}
+#endif
 #endif

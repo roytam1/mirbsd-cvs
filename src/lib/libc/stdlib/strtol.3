@@ -1,3 +1,5 @@
+.\" $MirOS$
+.\"-
 .\" Copyright (c) 1990, 1991 The Regents of the University of California.
 .\" All rights reserved.
 .\"
@@ -31,7 +33,7 @@
 .\"
 .\"	$OpenBSD: strtol.3,v 1.13 2003/06/02 20:18:38 millert Exp $
 .\"
-.Dd June 25, 1992
+.Dd $Mdocdate$
 .Dt STRTOL 3
 .Os
 .Sh NAME
@@ -49,6 +51,10 @@
 .Fd #include <limits.h>
 .Ft long long
 .Fn strtoll "const char *nptr" "char **endptr" "int base"
+.Pp
+.Fd #include <inttypes.h>
+.Ft intmax_t
+.Fn strtoimax "const char *nptr" "char **endptr" "int base"
 .Pp
 .Fd #include <sys/types.h>
 .Fd #include <stdlib.h>
@@ -233,9 +239,10 @@ The given string was out of range; the value converted has been clamped.
 .Xr strtoul 3
 .Sh STANDARDS
 The
-.Fn strtol
-and
+.Fn strtol ,
 .Fn strtoll
+and
+.Fn strtoimax
 functions conform to
 .St -isoC-99 .
 The
