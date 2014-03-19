@@ -1,21 +1,26 @@
 # $MirSecuCron$
-# $MirOS: src/lib/libssl/openssl.cnf,v 1.5 2009/07/18 14:09:17 tg Exp $
+# $MirOS: src/lib/libssl/openssl.cnf,v 1.6 2011/07/02 19:44:34 tg Exp $
 #
 # OpenSSL example configuration file.
 # This is mostly being used for generation of certificate requests.
 #
 
-RANDFILE		= /dev/arandom
-default_md		= sha1
+# This definition stops the following lines choking if HOME isn't
+# defined.
+HOME				= .
+RANDFILE			= $ENV::HOME/.rnd
+
+# MD5 is broken, period.
+default_md			= sha1
 
 ####################################################################
 [ req ]
-default_bits		= 3072
-default_keyfile 	= privkey.pem
-distinguished_name	= req_distinguished_name
-attributes		= req_attributes
+default_bits			= 4096
+default_keyfile 		= privkey.pem
+distinguished_name		= req_distinguished_name
+attributes			= req_attributes
 # enable this for CAcert.org Multi-VHost certificates
-#req_extensions		= v3_req
+#req_extensions			= v3_req
 
 [ req_distinguished_name ]
 countryName			= Country Name (2 letter code)
