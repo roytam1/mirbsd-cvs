@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.165 2014/03/12 19:03:28 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.166 2014/03/17 19:51:53 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4298,6 +4298,12 @@ Date: 15.03.2014
 Waypoint: GC24A2B
 Title: Chemnitzer Brückenbauwerke - Der Pfortensteg
 Tag: D25 T25 Micro Tradi
+----
+ID: 770
+Date: 20.03.2014
+Waypoint: GC2QFQJ
+Title: Sportplatz des FC Rot-Weiss Lessenich
+Tag: D15 T15 Micro Multi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
