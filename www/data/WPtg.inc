@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.166 2014/03/17 19:51:53 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.167 2014/03/20 19:50:54 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4304,6 +4304,12 @@ Date: 20.03.2014
 Waypoint: GC2QFQJ
 Title: Sportplatz des FC Rot-Weiss Lessenich
 Tag: D15 T15 Micro Multi
+----
+ID: 771
+Date: 21.03.2014
+Waypoint: GC4V913
+Title: O-rena
+Tag: D2 T2 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
