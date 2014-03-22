@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.167 2014/03/20 19:50:54 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.168 2014/03/21 18:34:17 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4310,6 +4310,76 @@ Date: 21.03.2014
 Waypoint: GC4V913
 Title: O-rena
 Tag: D2 T2 Micro Tradi
+----
+ID: 772
+Date: 22.03.2014
+Waypoint: GC21QJF
+Title: Gitter 5308 552
+Tag: D1 T15 Micro Tradi
+----
+ID: 773
+Date: 22.03.2014
+Waypoint: GC28Y9M
+Title: goldbroilers MIST
+Tag: D15 T2 Small Multi recommended
+----
+ID: 774
+Date: 22.03.2014
+Waypoint: GC4BWQT
+Title: Vorsicht bissiger Rentner
+Tag: D25 1T Small Tradi recommended
+
+Aufwendig gemacht und verdammt schön ausgestaltet.
+Auf jeden Fall einen Besuch wert – und als Dreingabe
+kriegt man, unter Benutzung einer 9V Blockbatterie,
+den Code für GC4M90G dazu.
+----
+ID: 775
+Date: 22.03.2014
+Waypoint: GC4TVGR
+Title: +1#1
+Tag: D2 T2 Micro Tradi
+----
+ID: 776
+Date: 22.03.2014
+Waypoint: GC4M90G
+Title: Beach TB Hotel GBH
+Tag: D1 T1 Large Tradi recommended
+
+Die Beschallung war schon etwas übertrieben ☺ aber dieser Cache
+ist jeden seiner Favoritenpunkte wert.
+----
+ID: 777
+Date: 22.03.2014
+Waypoint: GC4GE2P
+Title: &#34;Michaelkapelle&#34;
+Tag: D3 T15 Micro Tradi
+
+Und das nennt man hier eine Kapelle? Okay… aber gut.
+----
+ID: 778
+Date: 22.03.2014
+Waypoint: GC4D3EX
+Title: Im Brooch #3
+Tag: D2 T25 Micro Tradi
+
+Recht nahe an der Bahn. Aber wenn die Pänz hier uch spelle…
+----
+ID: 779
+Date: 22.03.2014
+Waypoint: GC37W1Z
+Title: RSK0004 - Rhein-Sieg-Kreuze
+Tag: D1 T1 Micro Tradi
+
+Im zweiten Anlauf endlich, Segamaster sei dank, gefunden.
+----
+ID: 780
+Date: 22.03.2014
+Waypoint: GC3NX8H
+Title: RSK0003 - Rhein-Sieg-Kreuze reloaded
+Tag: D15 T1 Micro Multi
+
+Schneller Fund
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
