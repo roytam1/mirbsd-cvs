@@ -1,4 +1,4 @@
-/*	$OpenBSD: main2.c,v 1.5 2003/04/14 03:03:52 deraadt Exp $	*/
+/*	$OpenBSD: main2.c,v 1.10 2011/09/21 18:08:07 jsg Exp $	*/
 /*	$NetBSD: main2.c,v 1.2 1995/07/03 21:24:53 cgd Exp $	*/
 
 /*
@@ -32,10 +32,6 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char rcsid[] = "$OpenBSD: main2.c,v 1.5 2003/04/14 03:03:52 deraadt Exp $";
-#endif
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -64,8 +60,6 @@ int	pflag;
  */
 int	sflag;
 
-int	tflag;
-
 /*
  * If a complaint stems from a included file, print the name of the included
  * file instead of the name spezified at the command line followed by '?'
@@ -75,7 +69,7 @@ int	Hflag;
 int	hflag;
 
 /* Print full path names, not only the last component */
-int	Fflag;
+int	Fflag = 1;
 
 /*
  * List of libraries (from -l flag). These libraries are read after all
@@ -88,9 +82,7 @@ static	void	usage(void);
 
 
 int
-main(argc, argv)
-	int	argc;
-	char	*argv[];
+main(int argc, char *argv[])
 {
 	int	c, i;
 	size_t	len;
@@ -103,9 +95,6 @@ main(argc, argv)
 		switch (c) {
 		case 's':
 			sflag = 1;
-			break;
-		case 't':
-			tflag = 1;
 			break;
 		case 'u':
 			uflag = 0;
@@ -135,7 +124,7 @@ main(argc, argv)
 			break;
 		case 'l':
 			for (i = 0; libs[i] != NULL; i++) ;
-			libs = xrealloc(libs, (i + 2) * sizeof (char *)); 
+			libs = xrealloc(libs, (i + 2) * sizeof (char *));
 			libs[i] = xstrdup(optarg);
 			libs[i + 1] = NULL;
 			break;
@@ -143,7 +132,7 @@ main(argc, argv)
 			usage();
 		}
 	}
-	
+
 	argc -= optind;
 	argv += optind;
 
@@ -182,7 +171,7 @@ main(argc, argv)
 }
 
 static void
-usage()
+usage(void)
 {
 	(void)fprintf(stderr,
 		      "usage: lint2 -hpstxuHF -Clib -l lib ... src1 ...\n");

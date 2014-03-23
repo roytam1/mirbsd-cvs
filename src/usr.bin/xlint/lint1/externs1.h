@@ -1,4 +1,4 @@
-/*	$OpenBSD: externs1.h,v 1.3 2002/02/16 21:27:59 millert Exp $	*/
+/*	$OpenBSD: externs1.h,v 1.16 2010/07/24 22:17:03 guenther Exp $	*/
 /*	$NetBSD: externs1.h,v 1.7 1995/10/02 17:31:39 jpo Exp $	*/
 
 /*
@@ -35,18 +35,16 @@
 /*
  * main.c
  */
-extern	int	aflag;
-extern	int	bflag;
 extern	int	cflag;
 extern	int	dflag;
 extern	int	eflag;
+extern	int	fflag;
 extern	int	Fflag;
 extern	int	gflag;
 extern	int	hflag;
 extern	int	pflag;
 extern	int	rflag;
 extern	int	sflag;
-extern	int	tflag;
 extern	int	uflag;
 extern	int	vflag;
 extern	int	yflag;
@@ -140,6 +138,7 @@ extern	void	pushdecl(scl_t);
 extern	void	popdecl(void);
 extern	void	setasm(void);
 extern	void	clrtyp(void);
+extern	int	mergedomain(tspec_t *, tspec_t);
 extern	void	deftyp(void);
 extern	int	length(type_t *, const char *);
 extern	int	getbound(type_t *);
@@ -189,12 +188,13 @@ extern	tnode_t	*getsnode(strg_t *);
 extern	sym_t	*strmemb(tnode_t *, op_t, sym_t *);
 extern	tnode_t	*build(op_t, tnode_t *, tnode_t *);
 extern	tnode_t	*cconv(tnode_t *);
-extern	int	typeok(op_t, int, tnode_t *, tnode_t *);
+extern	int	typeok(op_t, farg_t *, tnode_t *, tnode_t *);
 extern	tnode_t	*promote(op_t, int, tnode_t *);
-extern	tnode_t	*convert(op_t, int, type_t *, tnode_t *);
-extern	void	cvtcon(op_t, int, type_t *, val_t *, val_t *);
+extern	tnode_t	*convert(op_t, farg_t *, type_t *, tnode_t *);
+extern	void	cvtcon(op_t, farg_t *, type_t *, val_t *, val_t *);
 extern	const	char *tyname(type_t *);
 extern	tnode_t	*bldszof(type_t *);
+extern	tnode_t	*bldszoftrm(tnode_t *);
 extern	tnode_t	*cast(tnode_t *, type_t *);
 extern	tnode_t	*funcarg(tnode_t *, tnode_t *);
 extern	tnode_t	*funccall(tnode_t *, tnode_t *);
@@ -203,6 +203,7 @@ extern	void	expr(tnode_t *, int, int);
 extern	void	chkmisc(tnode_t *, int, int, int, int, int, int);
 extern	int	conaddr(tnode_t *, sym_t **, ptrdiff_t *);
 extern	strg_t	*catstrg(strg_t *, strg_t *);
+extern	void	displexpr(tnode_t *, int);
 
 /*
  * func.c
@@ -222,6 +223,8 @@ extern	pos_t	scflpos;
 extern	int	ccflg;
 extern	int	llibflg;
 extern	int	nowarn;
+extern	int	noretflg;
+extern	int	usedflg;
 extern	int	plibflg;
 extern	int	quadflg;
 
@@ -248,6 +251,8 @@ extern	void	dobreak(void);
 extern	void	doreturn(tnode_t *);
 extern	void	glclup(int);
 extern	void	argsused(int);
+extern	void	noreturn(int);
+extern	void	lintused(int);
 extern	void	constcond(int);
 extern	void	fallthru(int);
 extern	void	notreach(int);
