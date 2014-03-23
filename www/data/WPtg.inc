@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.168 2014/03/21 18:34:17 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.169 2014/03/22 20:14:52 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4380,6 +4380,12 @@ Title: RSK0003 - Rhein-Sieg-Kreuze reloaded
 Tag: D15 T1 Micro Multi
 
 Schneller Fund
+----
+ID: 781
+Date: 23.03.2014
+Waypoint: GC21704
+Title: Das Schlupfloch der Piraten
+Tag: D1 T25 Micro Tradi recommended
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
