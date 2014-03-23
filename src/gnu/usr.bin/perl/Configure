@@ -1,5 +1,5 @@
 #! /bin/sh
-# $MirOS: src/gnu/usr.bin/perl/Configure,v 1.5 2006/10/28 18:58:31 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/Configure,v 1.6 2008/12/13 23:24:50 tg Exp $
 # If these # comments don't work, trim them. Don't worry about any other
 # shell scripts, Configure will trim # comments from them for you.
 #
@@ -11899,7 +11899,7 @@ int main()
 		alarm(5);
 		if ((ret = read(pd[0], buf, 1)) > 0)	/* Nothing to read! */
 			exit(2);
-		sprintf(string, "%d\n", ret);
+		snprintf(string, sizeof(string), "%d\n", ret);
 		write(2, string, strlen(string));
 		alarm(0);
 #ifdef EAGAIN
@@ -11918,7 +11918,7 @@ int main()
 		alarm(5);
 		ret = read(pd[0], buf, 1);	/* Should read EOF */
 		alarm(0);
-		sprintf(string, "%d\n", ret);
+		snprintf(string, sizeof(string), "%d\n", ret);
 		write(4, string, strlen(string));
 		exit(0);
 	}
