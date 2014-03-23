@@ -1,7 +1,8 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.44 2012/08/23 17:45:46 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.45 2012/12/31 21:00:31 tg Exp $
 #-
-# Copyright (c) 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
+# Copyright (c) 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
+#		2012, 2014
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -19,7 +20,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.44 2012/08/23 17:45:46 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.45 2012/12/31 21:00:31 tg Exp $ ========='
 
 set -A PRECMDS --
 ignlist=0
@@ -1412,6 +1413,16 @@ case $module {
 	vendor=FSF
 	vpath=src/gnu/usr.bin/texinfo
 	;;
+(tzdata)
+	IGNORELIST="\
+		Makefile \
+		README \
+		leap-seconds.list \
+		leapseconds.awk \
+	"
+	vendor=tz
+	vpath=src/share/zoneinfo/datfiles
+	;;
 (-)
 	IGNORELIST=
 	case $1 {
@@ -1529,7 +1540,7 @@ case $vendor {
  (libz|zlib)	B=1.1.117; V=libz	;; # zlib stuff
  (ewe|ewesoft)	B=1.1.119; V=ewesoft	;; # www.ewesoft.com
  (pcc|ragge)	B=1.1.121; V=pcc	;; # pcc &c.
- (tz)		B=1.1.123; V=tz		;; # elsie.nci.nih.gov
+ (tz)		B=1.1.123; V=tz		;; # elsie.nci.nih.gov, IANA
  (debian)	B=1.1.125; V=debian	;; # Debian Project
  (sendmail)	B=1.1.127; V=sendmail	;; # Sendmail
  (fdo|x?(.)org)	B=1.1.129; V=fdo	;; # freedesktop.org
@@ -1636,6 +1647,15 @@ case $module {
 (texinfo)
 	print -u2 not implemented yet
 	exit 1
+	;;
+(tzdata)
+	[[ $tag = tzdata20[1-9][0-9][a-z] ]] || tagerr=1
+	realtag=$tag
+	tagformat=tzdataYYYYa
+	if [[ ! -e iso3166.tab || ! -e leapseconds || ! -e backward ]]; then
+		print -u2 Error: must be in src directory to commit.
+		exit 1
+	fi
 	;;
 (-)
 	if [[ $tag = 20[0-9][0-9]@(0[1-9]|1[0-2])@(0[1-9]|[1-2][0-9]|3[01])@([01][0-9]|2[0-3])[0-5][0-9] ]]; then
