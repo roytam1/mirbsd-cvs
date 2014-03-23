@@ -1,4 +1,4 @@
-.\"	$MirOS$
+.\"	$MirOS: src/usr.bin/awk/awk.1,v 1.5 2014/03/13 00:37:35 tg Exp $
 .\"	$OpenBSD: awk.1,v 1.40 2011/05/02 11:14:11 jmc Exp $
 .\"
 .\" Copyright (C) Lucent Technologies 1997
@@ -23,7 +23,7 @@
 .\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
 .\" THIS SOFTWARE.
 .\"
-.Dd $Mdocdate: March 12 2014 $
+.Dd $Mdocdate: March 13 2014 $
 .Dt AWK 1
 .Os
 .Sh NAME
@@ -471,6 +471,9 @@ such that
 .Sm off
 .Pf 0 \*(Le Fa n No \*(Lt 1 .
 .Sm on
+No further guarantees are made, especially not on the
+reproducibility of the random values, even in the face of
+.Fn srand .
 .It Fn sin x
 Return the sine of
 .Fa x ,
@@ -489,6 +492,7 @@ and returns the previous seed.
 If
 .Fa expr
 is omitted, the time of day is used instead.
+This statement is ignored in this implementation.
 .El
 .Ss String Functions
 .Bl -tag -width "split(s, a, fs)"

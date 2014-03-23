@@ -35,7 +35,7 @@ THIS SOFTWARE.
 #include "awk.h"
 #include "awkgram.h"
 
-__RCSID("$MirOS: src/usr.bin/awk/run.c,v 1.3 2010/09/21 21:24:32 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/awk/run.c,v 1.4 2014/03/13 00:37:36 tg Exp $");
 
 #define tempfree(x)	do { if (istemp(x)) tfree(x); } while (/* CONSTCOND */ 0)
 
@@ -68,8 +68,6 @@ void tempfree(Cell *p) {
 /* #endif */
 
 jmp_buf env;
-int use_srandom;
-extern	Awkfloat	srand_seed;
 
 Node	*winner = NULL;	/* root of parse tree */
 Cell	*tmps;		/* free temporary cells for execution */
@@ -1488,7 +1486,6 @@ Cell *bltin(Node **a, int n)	/* builtin functions. a[0] is type, a[1] is arg lis
 	Cell *x, *y;
 	Awkfloat u;
 	int t;
-	Awkfloat tmp;
 	char *p, *buf;
 	Node *nextarg;
 	FILE *fp;
@@ -1588,23 +1585,15 @@ Cell *bltin(Node **a, int n)	/* builtin functions. a[0] is type, a[1] is arg lis
 		fflush(stdout);		/* in case something is buffered already */
 		u = (Awkfloat) system(getsval(x)) / 256;   /* 256 is unix-dep */
 		break;
-	case FRAND:
-		if (use_srandom)
-			u = (Awkfloat) (random() % RAND_MAX) / RAND_MAX;
-		else
-			u = (Awkfloat)arc4random() / 0xffffffff;
-		break;
 	case FSRAND:
-		if (isrec(x))	/* no argument provided, want arc4random() */
-			use_srandom = 0;
-		else {
-			use_srandom = 1;
+		if (!isrec(x)) {
+			/* an argument was provided */
 			u = getfval(x);
-			tmp = u;
-			srandom((unsigned int) u);
-			u = srand_seed;
-			srand_seed = tmp;
+			arc4random_pushb_fast(&u, sizeof(u));
 		}
+		/* FALLTHROUGH */
+	case FRAND:
+		u = (Awkfloat)arc4random() / 4294967296.;
 		break;
 	case FTOUPPER:
 	case FTOLOWER:

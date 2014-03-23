@@ -35,14 +35,13 @@ const char	*version = "version 20110810";
 #include "awk.h"
 #include "awkgram.h"
 
-__RCSID("$MirOS: src/usr.bin/awk/main.c,v 1.3 2007/07/05 23:09:37 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/awk/main.c,v 1.4 2014/03/13 00:37:36 tg Exp $");
 
 extern	char	**environ;
 extern	int	nfields;
 extern	char	*__progname;
 
 int	dbg	= 0;
-Awkfloat	srand_seed = 1;
 char	*cmdname;	/* gets argv[0] for error messages */
 extern	FILE	*yyin;	/* lex input file */
 char	*lexprog;	/* points to program argument if it exists */
