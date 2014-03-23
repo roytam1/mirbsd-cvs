@@ -64,9 +64,10 @@
 #include <openssl/x509.h>
 #include <openssl/x509v3.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/crypto/x509/x509_cmp.c,v 1.3 2014/03/23 22:20:14 tg Exp $");
 
 #define X509_NAME_hash_old X509_NAME_hash
+unsigned long X509_NAME_hash_new(X509_NAME *x);
 
 int X509_issuer_and_serial_cmp(const X509 *a, const X509 *b)
 	{

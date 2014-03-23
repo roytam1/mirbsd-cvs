@@ -171,6 +171,9 @@ struct X509_name_st
 	char *bytes;
 #endif
 	unsigned long hash; /* Keep the hash around for lookups */
+	/* OpenSSL 1.x compat */
+	unsigned char *canon_enc;
+	int canon_enclen;
 	} /* X509_NAME */;
 
 DECLARE_STACK_OF(X509_NAME)
@@ -989,6 +992,9 @@ unsigned long	X509_issuer_and_serial_hash(X509 *a);
 
 int		X509_issuer_name_cmp(const X509 *a, const X509 *b);
 unsigned long	X509_issuer_name_hash(X509 *a);
+unsigned long	X509_issuer_name_hash_old(X509 *a);
+/* deleted in OpenSSL 1.0 => may want to #define it then */
+unsigned long	X509_issuer_name_hash_new(X509 *a);
 
 int		X509_subject_name_cmp(const X509 *a, const X509 *b);
 unsigned long	X509_subject_name_hash(X509 *x);

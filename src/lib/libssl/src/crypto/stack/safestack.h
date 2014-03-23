@@ -1030,6 +1030,10 @@ STACK_OF(type) \
 #define sk_SSL_COMP_sort(st) SKM_sk_sort(SSL_COMP, (st))
 #define sk_SSL_COMP_is_sorted(st) SKM_sk_is_sorted(SSL_COMP, (st))
 
+#define sk_STACK_OF_X509_NAME_ENTRY_new_null() SKM_sk_new_null(STACK_OF_X509_NAME_ENTRY)
+#define sk_STACK_OF_X509_NAME_ENTRY_push(st, val) SKM_sk_push(STACK_OF_X509_NAME_ENTRY, (st), (val))
+#define sk_STACK_OF_X509_NAME_ENTRY_pop_free(st, free_func) SKM_sk_pop_free(STACK_OF_X509_NAME_ENTRY, (st), (free_func))
+
 #define sk_SXNETID_new(st) SKM_sk_new(SXNETID, (st))
 #define sk_SXNETID_new_null() SKM_sk_new_null(SXNETID)
 #define sk_SXNETID_free(st) SKM_sk_free(SXNETID, (st))
