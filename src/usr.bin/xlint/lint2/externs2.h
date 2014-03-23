@@ -1,4 +1,4 @@
-/*	$OpenBSD: externs2.h,v 1.4 2002/02/17 19:42:35 millert Exp $	*/
+/*	$OpenBSD: externs2.h,v 1.6 2006/05/29 20:47:22 cloder Exp $	*/
 /*	$NetBSD: externs2.h,v 1.2 1995/07/03 21:24:46 cgd Exp $	*/
 
 /*
@@ -41,7 +41,6 @@ extern	int	Cflag;
 extern	const	char *libname;
 extern	int	pflag;
 extern	int	sflag;
-extern	int	tflag;
 extern	int	Hflag;
 extern	int	hflag;
 extern	int	Fflag;
@@ -59,6 +58,7 @@ extern	void	forall(void (*)(hte_t *));
  */
 extern	const	char **fnames;
 extern	type_t	**tlst;
+extern	int	csrcfile;
 
 extern	void	readfile(const char *);
 extern	void	mkstatic(hte_t *);

@@ -1,4 +1,4 @@
-/*	$OpenBSD: read.c,v 1.6 2003/11/08 19:17:29 jmc Exp $	*/
+/*	$OpenBSD: read.c,v 1.12 2011/09/21 18:08:07 jsg Exp $	*/
 /*	$NetBSD: read.c,v 1.2 1995/07/03 21:24:59 cgd Exp $	*/
 
 /*
@@ -31,10 +31,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-#ifndef lint
-static char rcsid[] = "$OpenBSD: read.c,v 1.6 2003/11/08 19:17:29 jmc Exp $";
-#endif
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -80,7 +76,7 @@ type_t	**tlst;				/* array for indexed access */
 static	size_t	tlstlen;		/* length of tlst */
 
 /* index of current C source file (as spezified at the command line) */
-static	int	csrcfile;
+int	csrcfile;
 
 
 static	void	inperr(void);
@@ -99,8 +95,7 @@ static	const	char *inpname(const char *, const char **);
 static	int	getfnidx(const char *);
 
 void
-readfile(name)
-	const	char *name;
+readfile(const char *name)
 {
 	FILE	*inp;
 	size_t	len;
@@ -133,7 +128,7 @@ readfile(name)
 		/* line number in csrcfile */
 		cline = (int)strtol(cp, &eptr, 10);
 		if (cp == eptr) {
-		        cline = -1;
+			cline = -1;
 		} else {
 			cp = eptr;
 		}
@@ -162,6 +157,8 @@ readfile(name)
 		if (cp == eptr)
 			inperr();
 		cp = eptr;
+		if (isrc < 0 || isrc >= ninpfns)
+			inperr();
 		isrc = inpfns[isrc];
 
 		/* line number in isrc */
@@ -202,7 +199,7 @@ readfile(name)
 
 
 static void
-inperr()
+inperr(void)
 {
 	errx(1, "input file error: %s", fnames[srcfile]);
 }
@@ -212,8 +209,7 @@ inperr()
  * currently read.
  */
 static void
-setsrc(cp)
-	const	char *cp;
+setsrc(const char *cp)
 {
 	csrcfile = getfnidx(cp);
 }
@@ -225,9 +221,7 @@ setsrc(cp)
  * as used in the input file to the index used in lint2.
  */
 static void
-setfnid(fid, cp)
-	int	fid;
-	const	char *cp;
+setfnid(int fid, const char *cp)
 {
 	if (fid == -1)
 		inperr();
@@ -250,9 +244,7 @@ setfnid(fid, cp)
  * Process a function call record (c-record).
  */
 static void
-funccall(posp, cp)
-	pos_t	*posp;
-	const	char *cp;
+funccall(pos_t *posp, const char *cp)
 {
 	arginf_t *ai, **lai;
 	char	c, *eptr;
@@ -267,7 +259,7 @@ funccall(posp, cp)
 	rused = rdisc = 0;
 	lai = &fcall->f_args;
 	while ((c = *cp) == 'u' || c == 'i' || c == 'd' ||
-	       c == 'z' || c == 'p' || c == 'n' || c == 's') {
+	    c == 'z' || c == 'p' || c == 'n' || c == 's') {
 		cp++;
 		switch (c) {
 		case 'u':
@@ -328,9 +320,7 @@ funccall(posp, cp)
  * Process a declaration or definition (d-record).
  */
 static void
-decldef(posp, cp)
-	pos_t	*posp;
-	const	char *cp;
+decldef(pos_t *posp, const char *cp)
 {
 	sym_t	*symp, sym;
 	char	c, *ep;
@@ -344,8 +334,8 @@ decldef(posp, cp)
 	used = 0;
 
 	while ((c = *cp) == 't' || c == 'd' || c == 'e' || c == 'u' ||
-	       c == 'r' || c == 'o' || c == 's' || c == 'v' ||
-	       c == 'P' || c == 'S') {
+	    c == 'r' || c == 'o' || c == 's' || c == 'v' ||
+	    c == 'P' || c == 'S') {
 		cp++;
 		switch (c) {
 		case 't':
@@ -460,9 +450,7 @@ decldef(posp, cp)
  * Read an u-record (emited by lint1 if a symbol was used).
  */
 static void
-usedsym(posp, cp)
-	pos_t	*posp;
-	const	char *cp;
+usedsym(pos_t *posp, const char *cp)
 {
 	usym_t	*usym;
 	hte_t	*hte;
@@ -485,8 +473,7 @@ usedsym(posp, cp)
  * Read a type and return the index of this type.
  */
 static u_short
-inptype(cp, epp)
-	const	char *cp, **epp;
+inptype(const char *cp, const char **epp)
 {
 	char	c, s, *eptr;
 	const	char *ep;
@@ -528,6 +515,9 @@ inptype(cp, epp)
 	}
 
 	switch (c) {
+	case 'B':
+		tp->t_tspec = BOOL;
+		break;
 	case 'C':
 		tp->t_tspec = s == 's' ? SCHAR : (s == 'u' ? UCHAR : CHAR);
 		break;
@@ -545,6 +535,14 @@ inptype(cp, epp)
 		break;
 	case 'D':
 		tp->t_tspec = s == 's' ? FLOAT : (s == 'l' ? LDOUBLE : DOUBLE);
+		break;
+	case 'X':
+		tp->t_tspec = s == 's' ? COMPLEX : (s == 'l' ?
+		    LDCOMPLEX : DCOMPLEX);
+		break;
+	case 'J':
+		tp->t_tspec = s == 's' ? IMAGINARY : (s == 'l' ?
+		    LDIMAGINARY : DIMAGINARY);
 		break;
 	case 'V':
 		tp->t_tspec = VOID;
@@ -624,8 +622,7 @@ inptype(cp, epp)
  * Get the length of a type string.
  */
 static int
-gettlen(cp, epp)
-	const	char *cp, **epp;
+gettlen(const char *cp, const char **epp)
 {
 	const	char *cp1;
 	char	c, s, *eptr;
@@ -661,6 +658,9 @@ gettlen(cp, epp)
 	t = NOTSPEC;
 
 	switch (c) {
+	case 'B':
+		t = BOOL;
+		break;
 	case 'C':
 		if (s == 's') {
 			t = SCHAR;
@@ -705,6 +705,24 @@ gettlen(cp, epp)
 			t = LDOUBLE;
 		} else if (s == '\0') {
 			t = DOUBLE;
+		}
+		break;
+	case 'X':
+		if (s == 's') {
+			t = COMPLEX;
+		} else if (s == 'l') {
+			t = LDCOMPLEX;
+		} else if (s == '\0') {
+			t = DCOMPLEX;
+		}
+		break;
+	case 'J':
+		if (s == 's') {
+			t = IMAGINARY;
+		} else if (s == 'l') {
+			t = LDIMAGINARY;
+		} else if (s == '\0') {
+			t = DIMAGINARY;
 		}
 		break;
 	case 'V':
@@ -793,10 +811,7 @@ gettlen(cp, epp)
  * Search a type by it's type string.
  */
 static u_short
-findtype(cp, len, h)
-	const	char *cp;
-	size_t	len;
-	int	h;
+findtype(const char *cp, size_t len, int h)
 {
 	thtab_t	*thte;
 
@@ -815,11 +830,7 @@ findtype(cp, len, h)
  * if we read the same type string from the input file.
  */
 static u_short
-storetyp(tp, cp, len, h)
-	type_t	*tp;
-	const	char *cp;
-	size_t	len;
-	int	h;
+storetyp(type_t *tp, const char *cp, size_t len, int h)
 {
 	/* 0 ist reserved */
 	static	u_int	tidx = 1;
@@ -855,9 +866,7 @@ storetyp(tp, cp, len, h)
  * Hash function for types
  */
 static int
-thash(s, len)
-	const	char *s;
-	size_t	len;
+thash(const char *s, size_t len)
 {
 	u_int	v;
 
@@ -873,8 +882,7 @@ thash(s, len)
  * Read a string enclosed by "". This string may contain quoted chars.
  */
 static char *
-inpqstrg(src, epp)
-	const	char *src, **epp;
+inpqstrg(const char *src, const char **epp)
 {
 	char	*strg, *dst;
 	size_t	slen;
@@ -957,8 +965,7 @@ inpqstrg(src, epp)
  * Read the name of a symbol in static memory.
  */
 static const char *
-inpname(cp, epp)
-	const	char *cp, **epp;
+inpname(const char *cp, const char **epp)
 {
 	static	char	*buf;
 	static	size_t	blen = 0;
@@ -988,8 +995,7 @@ inpname(cp, epp)
  * a new entry and return the index of the newly created entry.
  */
 static int
-getfnidx(fn)
-	const	char *fn;
+getfnidx(const char *fn)
 {
 	int	i;
 
@@ -1015,8 +1021,7 @@ getfnidx(fn)
  * Separate symbols with static and external linkage.
  */
 void
-mkstatic(hte)
-	hte_t	*hte;
+mkstatic(hte_t *hte)
 {
 	sym_t	*sym1, **symp, *sym;
 	fcall_t	**callp, *call;

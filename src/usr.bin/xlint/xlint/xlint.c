@@ -1,4 +1,4 @@
-/*	$OpenBSD: xlint.c,v 1.16 2004/05/11 02:08:07 millert Exp $	*/
+/*	$OpenBSD: xlint.c,v 1.36 2011/09/21 18:08:07 jsg Exp $	*/
 /*	$NetBSD: xlint.c,v 1.3 1995/10/23 14:29:30 jpo Exp $	*/
 
 /*
@@ -31,10 +31,6 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-#ifndef lint
-static char rcsid[] = "$OpenBSD: xlint.c,v 1.16 2004/05/11 02:08:07 millert Exp $";
-#endif
 
 #include <sys/param.h>
 #include <sys/wait.h>
@@ -93,7 +89,7 @@ static	char	**libs;
 static	char	**libsrchpath;
 
 /* flags */
-static	int	iflag, oflag, Cflag, sflag, tflag, Fflag;
+static	int	iflag, oflag, Cflag, sflag, tflag, Fflag = 1;
 
 /* print the commands executed to run the stages of compilation */
 static	int	Vflag;
@@ -110,7 +106,6 @@ static	int	first = 1;
  */
 static	const	char *currfn;
 
-
 static	void	appstrg(char ***, char *);
 static	void	appcstrg(char ***, const char *);
 static	void	applst(char ***, char *const *);
@@ -118,10 +113,10 @@ static	void	freelst(char ***);
 static	char	*concat2(const char *, const char *);
 static	char	*concat3(const char *, const char *, const char *);
 static	void	terminate(int);
-static	const	char *basename(const char *, int);
+static	const	char *lbasename(const char *, int);
 static	void	appdef(char ***, const char *);
 static	void	usage(void);
-static	void	fname(const char *, int);
+static	void	fname(const char *);
 static	int	runchild(const char *, char *const *, const char *);
 static	void	findlibs(char *const *);
 static	int	rdok(const char *);
@@ -133,8 +128,7 @@ static	void	cat(char *const *, const char *);
  * Take care that we get no surprises in case of asynchronous signals.
  */
 static void
-appstrg(lstp, s)
-	char	***lstp, *s;
+appstrg(char ***lstp, char *s)
 {
 	char	**lst, **olst;
 	int	i;
@@ -146,20 +140,16 @@ appstrg(lstp, s)
 	lst[i] = s;
 	lst[i + 1] = NULL;
 	*lstp = lst;
-}	
+}
 
 static void
-appcstrg(lstp, s)
-	char	***lstp;
-	const	char *s;
+appcstrg(char ***lstp, const char *s)
 {
 	appstrg(lstp, xstrdup(s));
 }
 
 static void
-applst(destp, src)
-	char	***destp;
-	char	*const *src;
+applst(char ***destp, char *const *src)
 {
 	int	i, k;
 	char	**dest, **odest;
@@ -177,8 +167,7 @@ applst(destp, src)
 }
 
 static void
-freelst(lstp)
-	char	***lstp;
+freelst(char ***lstp)
 {
 	char	*s;
 	int	i;
@@ -192,8 +181,7 @@ freelst(lstp)
 }
 
 static char *
-concat2(s1, s2)
-	const	char *s1, *s2;
+concat2(const char *s1, const char *s2)
 {
 	char	*s;
 	size_t len = strlen(s1) + strlen(s2) + 1;
@@ -206,8 +194,7 @@ concat2(s1, s2)
 }
 
 static char *
-concat3(s1, s2, s3)
-	const	char *s1, *s2, *s3;
+concat3(const char *s1, const char *s2, const char *s3)
 {
 	char	*s;
 	size_t len = strlen(s1) + strlen(s2) + strlen(s3) + 1;
@@ -224,8 +211,7 @@ concat3(s1, s2, s3)
  * Clean up after a signal.
  */
 static void
-terminate(signo)
-	int	signo;
+terminate(int signo)
 {
 	int	i;
 
@@ -251,9 +237,7 @@ terminate(signo)
  * Returns strg if the string does not contain delim.
  */
 static const char *
-basename(strg, delim)
-	const	char *strg;
-	int	delim;
+lbasename(const char *strg, int delim)
 {
 	const	char *cp, *cp1, *cp2;
 
@@ -268,9 +252,7 @@ basename(strg, delim)
 }
 
 static void
-appdef(lstp, def)
-	char	***lstp;
-	const	char *def;
+appdef(char ***lstp, const char *def)
 {
 	appstrg(lstp, concat2("-D__", def));
 	appstrg(lstp, concat3("-D__", def, "__"));
@@ -279,22 +261,20 @@ appdef(lstp, def)
 static void
 usage()
 {
-	(void)printf("lint [-abceghprvxzHF] [-s|-t] [-i|-nu] [-Dname[=def]] [-Uname]\n");
-	(void)printf("     [-Idirectory] [-Ldirectory] [-llibrary] [-ooutputfile] file ...\n");
-	(void)printf("\n");
-	(void)printf("lint [-abceghprvzHF] [-s|-t] -Clibrary [-Dname[=def]]\n");
-	(void)printf("     [-Idirectory] [-Uname] file ...\n");
+	(void)printf("usage: lint [-ceFfgHhprsVvxz] [-i | -nu] [-Dname[=def]] [-Idirectory]\n");
+	(void)printf("\t[-Ldirectory] [-llibrary] [-ooutputfile] [-MD] [-Uname] file ...\n");
+	(void)printf("       lint [-ceFfgHhprsVvz] -Clibrary [-Dname[=def]]\n");
+	(void)printf("\t[-Idirectory] [-MD] [-Uname] file ...\n");
 	terminate(-1);
 }
 
 int
-main(argc, argv)
-	int	argc;
-	char	*argv[];
+main(int argc, char *argv[])
 {
 	int	c;
+	int	fd;
 	char	flgbuf[3], *tmp, *s;
-	size_t	len, l;
+	size_t	len;
 	struct	utsname un;
 
 	if ((tmp = getenv("TMPDIR")) == NULL || (len = strlen(tmp)) == 0) {
@@ -306,13 +286,13 @@ main(argc, argv)
 		tmpdir = s;
 	}
 
-	len = strlen(tmpdir) + sizeof ("lint0.XXXXXXXXXX");
-	cppout = xmalloc(len);
-	(void)snprintf(cppout, len, "%slint0.XXXXXXXXXX", tmpdir);
-	if (mktemp(cppout) == NULL) {
+	if (asprintf(&cppout, "%slint0.XXXXXXXXXX", tmpdir) == -1)
+		err(1, NULL);
+	if ((fd = mkstemp(cppout)) == -1) {
 		warn("can't make temp");
 		terminate(-1);
 	}
+	close(fd);
 
 	p1out = xcalloc(1, sizeof (char *));
 	p2in = xcalloc(1, sizeof (char *));
@@ -330,17 +310,19 @@ main(argc, argv)
 	appcstrg(&cppflags, "-undef");
 	/* even with -undef cpp still identifies as GNUC */
 	appcstrg(&cppflags, "-U__GNUC__");
-#if defined(__GNUC__) && __GNUC__ < 3
+#if defined(__GNUC__)
+#if __GNUC__ < 3
 	appcstrg(&cppflags, "-$");
-#endif
 	appcstrg(&cppflags, "-C");
+#else
+	appcstrg(&cppflags, "-CC");
+#endif
+#endif
 	appcstrg(&cppflags, "-Wcomment");
 	appcstrg(&cppflags, "-D__OpenBSD__");
 	appcstrg(&cppflags, "-Dlint");		/* XXX don't def. with -s */
 	appdef(&cppflags, "lint");
 	appdef(&cppflags, "unix");
-
-	appcstrg(&lcppflgs, "-Wtraditional");
 
 	if (uname(&un) == -1)
 		err(1, "uname");
@@ -348,12 +330,18 @@ main(argc, argv)
 	appstrg(&lcppflgs, concat2("-D", un.machine));
 
 #ifdef MACHINE_ARCH
+#ifdef MACHINE_CPU
+	if (strcmp(MACHINE_ARCH, MACHINE_CPU) != 0) {
+		appdef(&cppflags, MACHINE_CPU);
+		appstrg(&lcppflgs, concat2("-D", MACHINE_CPU));
+	}
+#endif
 	if (strcmp(un.machine, MACHINE_ARCH) != 0) {
 		appdef(&cppflags, MACHINE_ARCH);
 		appstrg(&lcppflgs, concat2("-D", MACHINE_ARCH));
 	}
 #endif
-	
+
 	appcstrg(&deflibs, "c");
 
 	if (signal(SIGHUP, terminate) == SIG_IGN)
@@ -363,7 +351,7 @@ main(argc, argv)
 	(void)signal(SIGTERM, terminate);
 
 	while (argc > optind) {
-		c = getopt(argc, argv, "abceghil:no:prstuvxzC:D:FHI:L:U:V");
+		c = getopt(argc, argv, "abcefghil:no:prstuvxyzC:D:FHI:L:M:U:V");
 
 		switch (c) {
 
@@ -371,9 +359,11 @@ main(argc, argv)
 		case 'b':
 		case 'c':
 		case 'e':
+		case 'f':
 		case 'g':
 		case 'r':
 		case 'v':
+		case 'y':
 		case 'z':
 			(void)snprintf(flgbuf, sizeof flgbuf, "-%c", c);
 			appcstrg(&l1flags, flgbuf);
@@ -442,9 +432,8 @@ main(argc, argv)
 				usage();
 			Cflag = 1;
 			appstrg(&l2flags, concat2("-C", optarg));
-			l = sizeof ("llib-l.ln") + strlen(optarg);
-			p2out = xmalloc(l);
-			(void)snprintf(p2out, l, "llib-l%s.ln", optarg);
+			if (asprintf(&p2out, "llib-l%s.ln", optarg) == -1)
+				err(1, NULL);
 			freelst(&deflibs);
 			break;
 
@@ -470,6 +459,9 @@ main(argc, argv)
 			appcstrg(&libsrchpath, optarg);
 			break;
 
+		case 'M':
+			break;
+
 		case 'H':
 			appcstrg(&l2flags, "-H");
 			break;
@@ -484,7 +476,9 @@ main(argc, argv)
 
 		case -1:
 			/* filename */
-			fname(argv[optind++], argc == 1);
+			if (argv[optind] == NULL)
+				break;
+			fname(argv[optind++]);
 			first = 0;
 		}
 
@@ -524,17 +518,16 @@ main(argc, argv)
  * and pass it through lint1 if it is a C source.
  */
 static void
-fname(name, last)
-	const	char *name;
-	int	last;
+fname(const char *name)
 {
 	const	char *bn, *suff;
 	char	**args, *ofn, *path;
 	size_t	len;
 	int	error;
+	int	fd;
 
-	bn = basename(name, '/');
-	suff = basename(bn, '.');
+	bn = lbasename(name, '/');
+	suff = lbasename(bn, '.');
 
 	if (strcmp(suff, "ln") == 0) {
 		/* only for lint2 */
@@ -549,9 +542,6 @@ fname(name, last)
 		return;
 	}
 
-	if (!iflag || !first || !last)
-		(void)printf("%s:\n", Fflag ? name : bn);
-
 	/* build the name of the output file of lint1 */
 	if (oflag) {
 		ofn = outputfn;
@@ -564,13 +554,13 @@ fname(name, last)
 		    bn == suff ? strlen(bn) : (suff - 1) - bn, bn);
 		(void)strlcat(ofn, ".ln", len);
 	} else {
-		len = strlen(tmpdir) + sizeof ("lint1.XXXXXXXXXX");
-		ofn = xmalloc(len);
-		(void)snprintf(ofn, len, "%slint1.XXXXXXXXXX", tmpdir);
-		if (mktemp(ofn) == NULL) {
+		if (asprintf(&ofn, "%slint1.XXXXXXXXXX", tmpdir) == -1)
+			err(1, NULL);
+		if ((fd  = mkstemp(ofn)) == -1) {
 			warn("can't make temp");
 			terminate(-1);
 		}
+		close(fd);
 	}
 	if (!iflag)
 		appcstrg(&p1out, ofn);
@@ -579,9 +569,8 @@ fname(name, last)
 
 	/* run cpp */
 
-	len = strlen(PATH_LIBEXEC) + sizeof ("/cpp");
-	path = xmalloc(len);
-	(void)snprintf(path, len, "%s/cpp", PATH_LIBEXEC);
+	if (asprintf(&path, "%s/cpp", PATH_LIBEXEC) == -1)
+		err(1, NULL);
 
 	appcstrg(&args, path);
 	applst(&args, cppflags);
@@ -597,9 +586,8 @@ fname(name, last)
 
 	/* run lint1 */
 
-	len = strlen(PATH_LIBEXEC) + sizeof ("/lint1");
-	path = xmalloc(len);
-	(void)snprintf(path, len, "%s/lint1", PATH_LIBEXEC);
+	if (asprintf(&path, "%s/lint1", PATH_LIBEXEC) == -1)
+		err(1, NULL);
 
 	appcstrg(&args, path);
 	applst(&args, l1flags);
@@ -619,9 +607,7 @@ fname(name, last)
 }
 
 static int
-runchild(path, args, crfn)
-	const	char *path, *crfn;
-	char	*const *args;
+runchild(const char *path, char *const *args, const char *crfn)
 {
 	int	status, signo, i;
 	pid_t	rv;
@@ -669,8 +655,7 @@ runchild(path, args, crfn)
 }
 
 static void
-findlibs(liblst)
-	char	*const *liblst;
+findlibs(char *const *liblst)
 {
 	int	i, k;
 	const	char *lib, *path;
@@ -704,8 +689,7 @@ findlibs(liblst)
 }
 
 static int
-rdok(path)
-	const	char *path;
+rdok(const char *path)
 {
 	struct	stat sbuf;
 
@@ -722,14 +706,12 @@ static void
 lint2()
 {
 	char	*path, **args;
-	size_t len;
 
 	args = xcalloc(1, sizeof (char *));
 
-	len = strlen(PATH_LIBEXEC) + sizeof ("/lint2");
-	path = xmalloc(len);
-	(void)snprintf(path, len, "%s/lint2", PATH_LIBEXEC);
-	
+	if (asprintf(&path, "%s/lint2", PATH_LIBEXEC) == -1)
+		err(1, NULL);
+
 	appcstrg(&args, path);
 	applst(&args, l2flags);
 	applst(&args, l2libs);
@@ -742,9 +724,7 @@ lint2()
 }
 
 static void
-cat(srcs, dest)
-	char	*const *srcs;
-	const	char *dest;
+cat(char *const *srcs, const char *dest)
 {
 	int	ifd, ofd, i;
 	char	*src, *buf;

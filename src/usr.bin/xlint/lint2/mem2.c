@@ -1,4 +1,4 @@
-/*	$OpenBSD: mem2.c,v 1.3 2001/05/11 16:06:57 art Exp $	*/
+/*	$OpenBSD: mem2.c,v 1.5 2011/09/21 18:08:07 jsg Exp $	*/
 /*	$NetBSD: mem2.c,v 1.3 1995/10/02 17:27:11 jpo Exp $	*/
 
 /*
@@ -32,10 +32,6 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char rcsid[] = "$OpenBSD: mem2.c,v 1.3 2001/05/11 16:06:57 art Exp $";
-#endif
-
 #include <sys/param.h>
 #include <sys/types.h>
 #include <sys/mman.h>
@@ -55,7 +51,7 @@ static size_t	nxtfree;
 static void	*mbuf;
 
 void
-initmem()
+initmem(void)
 {
 	int	pgsz;
 
@@ -71,8 +67,7 @@ initmem()
  * need never to be freed.
  */
 void *
-xalloc(sz)
-	size_t	sz;
+xalloc(size_t sz)
 {
 	void	*ptr;
 	int	prot, flags;

@@ -1,4 +1,4 @@
-/*	$OpenBSD: err.c,v 1.5 2002/02/19 19:39:39 millert Exp $	*/
+/*	$OpenBSD: err.c,v 1.28 2011/09/21 18:08:07 jsg Exp $	*/
 /*	$NetBSD: err.c,v 1.8 1995/10/02 17:37:00 jpo Exp $	*/
 
 /*
@@ -32,10 +32,6 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef lint
-static char rcsid[] = "$OpenBSD: err.c,v 1.5 2002/02/19 19:39:39 millert Exp $";
-#endif
-
 /* number of errors found */
 int	nerr;
 
@@ -44,13 +40,14 @@ int	sytxerr;
 
 #include <stdlib.h>
 #include <stdarg.h>
+#include <err.h>
 
 #include "lint1.h"
 
-static	const	char *basename(const char *);
+static	const	char *lbasename(const char *);
 static	void	verror(int, va_list);
 static	void	vwarning(int, va_list);
-
+static	void	excerpt(pos_t *);
 
 const	char *msgs[] = {
 	"syntax error: empty declaration",			      /* 0 */
@@ -184,8 +181,8 @@ const	char *msgs[] = {
 	"operands have incompatible pointer types, op %s",	      /* 128 */
 	"expression has null effect",				      /* 129 */
 	"enum type mismatch, op %s",				      /* 130 */
-	"conversion to '%s' may sign-extend incorrectly",	      /* 131 */
-	"conversion from '%s' may lose accuracy",		      /* 132 */
+	"conversion from '%s' to '%s' may sign-extend incorrectly",   /* 131 */
+	"converted from '%s' to '%s'",	                              /* 132 */
 	"conversion of pointer to '%s' loses bits",		      /* 133 */
 	"conversion of pointer to '%s' may lose bits",		      /* 134 */
 	"possible pointer alignment problem",			      /* 135 */
@@ -206,12 +203,12 @@ const	char *msgs[] = {
 	"argument mismatch: %d arg%s passed, %d expected",	      /* 150 */
 	"void expressions may not be arguments, arg #%d",	      /* 151 */
 	"argument cannot have unknown size, arg #%d",		      /* 152 */
-	"argument has incompatible pointer type, arg #%d",	      /* 153 */
-	"illegal combination of pointer and integer, arg #%d",	      /* 154 */
-	"argument is incompatible with prototype, arg #%d",	      /* 155 */
-	"enum type mismatch, arg #%d",			       	      /* 156 */
+	"%s() arg #%d: incompatible pointer type",		      /* 153 */
+	"%s() arg #%d: illegal combination of pointer and integer",   /* 154 */
+	"%s() arg #%d: argument is incompatible with prototype",      /* 155 */
+	"%s() arg #%d: enum type mismatch",			      /* 156 */
 	"ANSI C treats constant as unsigned",			      /* 157 */
-	"%s may be used before set",			      	      /* 158 */
+	"%s may be used before set",				      /* 158 */
 	"assignment in conditional context",			      /* 159 */
 	"operator '==' found where '=' was expected",		      /* 160 */
 	"constant in conditional context",			      /* 161 */
@@ -244,7 +241,7 @@ const	char *msgs[] = {
 	"no automatic aggregate initialization in traditional C",     /* 188 */
 	"assignment of struct/union illegal in traditional C",	      /* 189 */
 	"empty array declaration: %s",				      /* 190 */
-	"%s set but not used in function %s",		      	      /* 191 */
+	"%s set but not used in function %s",			      /* 191 */
 	"%s unused in function %s",				      /* 192 */
 	"statement not reached",				      /* 193 */
 	"label %s redefined",					      /* 194 */
@@ -284,8 +281,8 @@ const	char *msgs[] = {
 	"function cannot return const or volatile object",	      /* 228 */
 	"questionable conversion of function pointer",		      /* 229 */
 	"nonportable character comparison, op %s",		      /* 230 */
-	"argument %s unused in function %s",			      /* 231 */
-	"label %s unused in function %s",			      /* 232 */
+	"argument %s unused in function %s()",			      /* 231 */
+	"label %s unused in function %s()",			      /* 232 */
 	"struct %s never defined",				      /* 233 */
 	"union %s never defined",				      /* 234 */
 	"enum %s never defined",				      /* 235 */
@@ -312,7 +309,7 @@ const	char *msgs[] = {
 	"unterminated comment",					      /* 256 */
 	"extra characters in lint comment",			      /* 257 */
 	"unterminated string constant",				      /* 258 */
-	"conversion to '%s' due to prototype, arg #%d",		      /* 259 */
+	"%s() arg #%d: converted from '%s' to '%s'",		      /* 259 */
 	"previous declaration of %s",				      /* 260 */
 	"previous definition of %s",				      /* 261 */
 	"\\\" inside character constants undefined in traditional C", /* 262 */
@@ -331,7 +328,7 @@ const	char *msgs[] = {
 	"cast discards 'const' from pointer target type",	      /* 275 */
 	"",							      /* 276 */
 	"initialisation of '%s' with '%s'",			      /* 277 */
-	"combination of '%s' and '%s', arg #%d",		      /* 278 */
+	"%s() arg #%d: combination of '%s' and '%s'",		      /* 278 */
 	"combination of '%s' and '%s' in return",		      /* 279 */
 	"must be outside function: /* %s */",			      /* 280 */
 	"duplicate use of /* %s */",				      /* 281 */
@@ -348,10 +345,10 @@ const	char *msgs[] = {
 	"cannot concatenate wide and regular string literals",	      /* 292 */
 	"argument %d must be 'char *' for PRINTFLIKE/SCANFLIKE",      /* 293 */
 	"multi-character character constant",			      /* 294 */
-	"conversion of '%s' to '%s' is out of range, arg #%d",	      /* 295 */
-	"conversion of negative constant to unsigned type, arg #%d",  /* 296 */
-	"conversion to '%s' may sign-extend incorrectly, arg #%d",    /* 297 */
-	"conversion from '%s' may lose accuracy, arg #%d",	      /* 298 */
+	"%s() arg #%d: conversion of '%s' to '%s' is out of range",   /* 295 */
+	"%s() arg #%d: conversion of negative constant to unsigned type",  /* 296 */
+	"%s() arg #%d: conversion from '%s' to '%s' may sign-extend incorrectly",    /* 297 */
+	"%s() arg #%d: converted from '%s' to '%s'",		      /* 298 */
 	"prototype does not match old style definition, arg #%d",     /* 299 */
 	"old style definition",					      /* 300 */
 	"array of incomplete type",				      /* 301 */
@@ -363,15 +360,21 @@ const	char *msgs[] = {
 	"static variable %s set but not used",			      /* 307 */
 	"",							      /* 308 */
 	"extra bits set to 0 in conversion of '%s' to '%s', op %s",   /* 309 */
+	"right shift of %d-bit quantity by %lld bits",		      /* 310 */
+	"case ranges are illegal in ANSI C",			      /* 311 */
+	"suspicious operator for sizeof: %s",			      /* 312 */
+	"conversion of %s() return value from '%s' to '%s'",	      /* 313 */
+	"hexadecimal float constants are illegal in traditional C",   /* 314 */
+	"empty body of the if statement",			      /* 315 */
+	"empty body of the else statement",			      /* 316 */
 };
 
 /*
- * If Fflag is not set basename() returns a pointer to the last
+ * If Fflag is not set lbasename() returns a pointer to the last
  * component of the path, otherwise it returns the argument.
  */
 static const char *
-basename(path)
-	const	char *path;
+lbasename(const char *path)
 {
 	const	char *cp, *cp1, *cp2;
 
@@ -389,23 +392,23 @@ basename(path)
 }
 
 static void
-verror(n, ap)
-	int	n;
-	va_list	ap;
+verror(int n, va_list ap)
 {
 	const	char *fn;
 
-	fn = basename(curr_pos.p_file);
-	(void)printf("%s(%d): ", fn, curr_pos.p_line);
+	fn = lbasename(curr_pos.p_file);
+	(void)printf("%s:%d: ", fn, curr_pos.p_line);
 	(void)vprintf(msgs[n], ap);
 	(void)printf("\n");
 	nerr++;
+
+	if (fflag)
+		excerpt(&curr_pos);
+
 }
 
 static void
-vwarning(n, ap)
-	int	n;
-	va_list	ap;
+vwarning(int n, va_list ap)
 {
 	const	char *fn;
 
@@ -413,10 +416,13 @@ vwarning(n, ap)
 		/* this warning is suppressed by a LINTED comment */
 		return;
 
-	fn = basename(curr_pos.p_file);
-	(void)printf("%s(%d): warning: ", fn, curr_pos.p_line);
+	fn = lbasename(curr_pos.p_file);
+	(void)printf("%s:%d: warning: ", fn, curr_pos.p_line);
 	(void)vprintf(msgs[n], ap);
 	(void)printf("\n");
+
+	if (fflag)
+		excerpt(&curr_pos);
 }
 
 void
@@ -436,8 +442,8 @@ lerror(const char *msg, ...)
 	const	char *fn;
 
 	va_start(ap, msg);
-	fn = basename(curr_pos.p_file);
-	(void)fprintf(stderr, "%s(%d): lint error: ", fn, curr_pos.p_line);
+	fn = lbasename(curr_pos.p_file);
+	(void)fprintf(stderr, "%s:%d: lint error: ", fn, curr_pos.p_line);
 	(void)vfprintf(stderr, msg, ap);
 	(void)fprintf(stderr, "\n");
 	va_end(ap);
@@ -461,11 +467,14 @@ message(int n, ...)
 	const	char *fn;
 
 	va_start(ap, n);
-	fn = basename(curr_pos.p_file);
-	(void)printf("%s(%d): ", fn, curr_pos.p_line);
+	fn = lbasename(curr_pos.p_file);
+	(void)printf("%s:%d: ", fn, curr_pos.p_line);
 	(void)vprintf(msgs[n], ap);
 	(void)printf("\n");
 	va_end(ap);
+
+	if (fflag)
+		excerpt(&curr_pos);
 }
 
 int
@@ -487,4 +496,52 @@ gnuism(int n, ...)
 	va_end(ap);
 
 	return (msg);
+}
+
+static void
+excerpt(pos_t *pos)
+{
+	static	FILE *fp = NULL;
+	static	const char *file = NULL;
+	static	int lineno = 0;
+	char	*buf, *lbuf;
+	size_t	len;
+
+	if (!pos || !pos->p_file)
+		return;
+
+	/* don't print the same line twice */
+	if (pos->p_line == lineno)
+		return;
+
+	if (fp == NULL || file != pos->p_file || pos->p_line < lineno) {
+		if (fp)
+			fclose(fp);
+
+		if (!(fp = fopen(pos->p_file, "r")))
+			return;
+
+		file = pos->p_file;
+		lineno = 0;
+	}
+
+	lbuf = NULL;
+	while (lineno < pos->p_line && (buf = fgetln(fp, &len))) {
+		if (buf[len - 1] == '\n')
+			buf[len - 1] = '\0';
+		else {
+			/* EOF without EOL, copy and add the NUL */
+			if (!(lbuf = malloc(len + 1)))
+				err(1, NULL);
+
+			lbuf[len] = '\0';
+			buf = lbuf;
+		}
+		lineno++;
+	}
+
+	if (buf)
+		printf("%s:%d:   %s\n", pos->p_file, lineno, buf);
+
+	free(lbuf);
 }
