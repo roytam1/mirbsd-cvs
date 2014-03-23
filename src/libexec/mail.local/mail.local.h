@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: mail.local.h,v 1.5 2006/04/01 22:48:57 deraadt Exp $	*/
 
 /*-
@@ -34,9 +35,10 @@
 
 void	baditem(char *);
 int	deliver(int, char *, int);
-void	merr(int, const char *, ...);
+void	merr(int, const char *, ...)
+    __attribute__((__format__(__syslog__, 2, 3)));
 int	getlock(char *, struct passwd *);
 void	notifybiff(char *);
 void	rellock(void);
-int	storemail(char *);
+int	storemail(const char *);
 void	usage(void);

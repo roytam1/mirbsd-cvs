@@ -1,4 +1,4 @@
-/*	$OpenBSD: mail.local.c,v 1.27 2005/05/29 02:11:49 millert Exp $	*/
+/*	$OpenBSD: mail.local.c,v 1.32 2009/10/27 23:59:31 deraadt Exp $	*/
 
 /*-
  * Copyright (c) 1996-1998 Theo de Raadt <deraadt@theos.com>
@@ -31,25 +31,10 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-char copyright[] =
-"@(#) Copyright (c) 1990 The Regents of the University of California.\n\
- All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "from: @(#)mail.local.c	5.6 (Berkeley) 6/19/91";
-#else
-static char rcsid[] = "$OpenBSD: mail.local.c,v 1.27 2005/05/29 02:11:49 millert Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
 #include <sys/stat.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#include <sys/signal.h>
 #include <syslog.h>
 #include <fcntl.h>
 #include <netdb.h>
@@ -63,13 +48,15 @@ static char rcsid[] = "$OpenBSD: mail.local.c,v 1.27 2005/05/29 02:11:49 millert
 #include "pathnames.h"
 #include "mail.local.h"
 
+__RCSID("$MirOS$");
+
 int
 main(int argc, char *argv[])
 {
 	struct passwd *pw;
 	int ch, fd, eval, lockfile=1, holdme=0;
 	uid_t uid;
-	char *from;
+	const char *from;
 
 	openlog("mail.local", LOG_PERROR, LOG_MAIL);
 
@@ -93,7 +80,6 @@ main(int argc, char *argv[])
 		case 'H':
 			holdme=1;
 			break;
-		case '?':
 		default:
 			usage();
 		}
@@ -121,14 +107,14 @@ main(int argc, char *argv[])
 	    !(pw = getpwnam(from)) || pw->pw_uid != uid))
 		from = (pw = getpwuid(uid)) ? pw->pw_name : "???";
 
-	fd = store(from);
+	fd = storemail(from);
 	for (eval = 0; *argv; ++argv)
 		eval |= deliver(fd, *argv, lockfile);
 	exit(eval);
 }
 
 int
-store(char *from)
+storemail(const char *from)
 {
 	FILE *fp = NULL;
 	time_t tval;
@@ -186,9 +172,11 @@ deliver(int fd, char *name, int lockfile)
 {
 	struct stat sb, fsb;
 	struct passwd *pw;
-	int mbfd=-1, nr, nw, off, rval=1, lfd=-1;
+	int mbfd=-1, rval=1, lfd=-1;
 	char biffmsg[100], buf[8*1024], path[MAXPATHLEN];
 	off_t curoff;
+	size_t off;
+	ssize_t nr, nw;
 
 	/*
 	 * Disallow delivery to unknown names -- special mailboxes can be
@@ -269,7 +257,7 @@ retry:
 	}
 
 	while ((nr = read(fd, buf, sizeof(buf))) > 0)
-		for (off = 0; off < nr;  off += nw)
+		for (off = 0; (ssize_t)off < nr;  off += nw)
 			if ((nw = write(mbfd, buf + off, nr - off)) < 0) {
 				merr(NOTFATAL, "%s: %s", path, strerror(errno));
 				(void)ftruncate(mbfd, curoff);
@@ -306,7 +294,7 @@ notifybiff(char *msg)
 	static int f = -1;
 	struct hostent *hp;
 	struct servent *sp;
-	int len;
+	size_t len;
 
 	if (!addr.sin_family) {
 		/* Be silent if biff service not available. */
@@ -319,14 +307,14 @@ notifybiff(char *msg)
 		addr.sin_len = sizeof(struct sockaddr_in);
 		addr.sin_family = hp->h_addrtype;
 		addr.sin_port = sp->s_port;
-		memmove(&addr.sin_addr, hp->h_addr, hp->h_length);
+		bcopy(hp->h_addr, &addr.sin_addr, (size_t)hp->h_length);
 	}
 	if (f < 0 && (f = socket(AF_INET, SOCK_DGRAM, 0)) == -1) {
 		merr(NOTFATAL, "socket: %s", strerror(errno));
 		return;
 	}
 	len = strlen(msg) + 1;
-	if (sendto(f, msg, len, 0, (struct sockaddr *)&addr, sizeof(addr))
+	if ((size_t)sendto(f, msg, len, 0, (struct sockaddr *)&addr, sizeof(addr))
 	    != len)
 		merr(NOTFATAL, "sendto biff: %s", strerror(errno));
 }
@@ -334,5 +322,5 @@ notifybiff(char *msg)
 void
 usage(void)
 {
-	merr(FATAL, "usage: mail.local [-lL] [-f from] user ...");
+	merr(FATAL, "usage: mail.local [-Ll] [-f from] user ...");
 }
