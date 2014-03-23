@@ -64,6 +64,10 @@
 #include <openssl/x509.h>
 #include <openssl/x509v3.h>
 
+__RCSID("$MirOS$");
+
+#define X509_NAME_hash_old X509_NAME_hash
+
 int X509_issuer_and_serial_cmp(const X509 *a, const X509 *b)
 	{
 	int i;
@@ -125,6 +129,14 @@ unsigned long X509_issuer_name_hash(X509 *x)
 	{
 	return(X509_NAME_hash(x->cert_info->issuer));
 	}
+unsigned long X509_issuer_name_hash_old(X509 *x)
+	{
+	return(X509_NAME_hash(x->cert_info->issuer));
+	}
+unsigned long X509_issuer_name_hash_new(X509 *x)
+	{
+	return(X509_NAME_hash_new(x->cert_info->issuer));
+	}
 
 X509_NAME *X509_get_subject_name(X509 *a)
 	{
@@ -139,6 +151,14 @@ ASN1_INTEGER *X509_get_serialNumber(X509 *a)
 unsigned long X509_subject_name_hash(X509 *x)
 	{
 	return(X509_NAME_hash(x->cert_info->subject));
+	}
+unsigned long X509_subject_name_hash_old(X509 *x)
+	{
+	return(X509_NAME_hash(x->cert_info->subject));
+	}
+unsigned long X509_subject_name_hash_new(X509 *x)
+	{
+	return(X509_NAME_hash_new(x->cert_info->subject));
 	}
 
 #ifndef OPENSSL_NO_SHA
@@ -315,27 +335,45 @@ int X509_NAME_cmp(const X509_NAME *a, const X509_NAME *b)
 	return(0);
 	}
 
+unsigned long X509_NAME_hash_new(X509_NAME *x)
+	{
+	unsigned long ret=0;
+	unsigned char md[SHA_DIGEST_LENGTH];
+
+	/* Make sure X509_NAME structure contains valid cached encoding */
+	i2d_X509_NAME(x,NULL);
+	if (!EVP_Digest(x->canon_enc, x->canon_enclen, md, NULL, EVP_sha1(),
+		NULL))
+		return 0;
+
+	ret=(	((unsigned long)md[0]     )|((unsigned long)md[1]<<8L)|
+		((unsigned long)md[2]<<16L)|((unsigned long)md[3]<<24L)
+		)&0xffffffffL;
+	return(ret);
+	}
+
 #ifndef OPENSSL_NO_MD5
 /* I now DER encode the name and hash it.  Since I cache the DER encoding,
  * this is reasonably efficient. */
+
 unsigned long X509_NAME_hash(X509_NAME *x)
 	{
+	EVP_MD_CTX md_ctx;
 	unsigned long ret=0;
 	unsigned char md[16];
-	EVP_MD_CTX md_ctx;
 
 	/* Make sure X509_NAME structure contains valid cached encoding */
 	i2d_X509_NAME(x,NULL);
 	EVP_MD_CTX_init(&md_ctx);
 	EVP_MD_CTX_set_flags(&md_ctx, EVP_MD_CTX_FLAG_NON_FIPS_ALLOW);
-	EVP_DigestInit_ex(&md_ctx, EVP_md5(), NULL);
-	EVP_DigestUpdate(&md_ctx, x->bytes->data, x->bytes->length);
-	EVP_DigestFinal_ex(&md_ctx,md,NULL);
+	if (EVP_DigestInit_ex(&md_ctx, EVP_md5(), NULL)
+	    && EVP_DigestUpdate(&md_ctx, x->bytes->data, x->bytes->length)
+	    && EVP_DigestFinal_ex(&md_ctx,md,NULL))
+		ret=(((unsigned long)md[0]     )|((unsigned long)md[1]<<8L)|
+		     ((unsigned long)md[2]<<16L)|((unsigned long)md[3]<<24L)
+		     )&0xffffffffL;
 	EVP_MD_CTX_cleanup(&md_ctx);
 
-	ret=(	((unsigned long)md[0]     )|((unsigned long)md[1]<<8L)|
-		((unsigned long)md[2]<<16L)|((unsigned long)md[3]<<24L)
-		)&0xffffffffL;
 	return(ret);
 	}
 #endif

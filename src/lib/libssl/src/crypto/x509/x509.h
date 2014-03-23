@@ -992,6 +992,9 @@ unsigned long	X509_issuer_name_hash(X509 *a);
 
 int		X509_subject_name_cmp(const X509 *a, const X509 *b);
 unsigned long	X509_subject_name_hash(X509 *x);
+unsigned long	X509_subject_name_hash_old(X509 *x);
+/* deleted in OpenSSL 1.0 => may want to #define it then */
+unsigned long	X509_subject_name_hash_new(X509 *x);
 
 int		X509_cmp(const X509 *a, const X509 *b);
 int		X509_NAME_cmp(const X509_NAME *a, const X509_NAME *b);
