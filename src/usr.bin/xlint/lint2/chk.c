@@ -36,10 +36,11 @@
 #include <ctype.h>
 #include <limits.h>
 #include <stdbool.h>
-#include <complex.h>
 #include <err.h>
 
 #include "lint2.h"
+
+__RCSID("$MirOS$");
 
 /* various type information */
 ttab_t	ttab[NTSPEC];
