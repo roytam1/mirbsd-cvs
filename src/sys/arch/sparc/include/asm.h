@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/include/asm.h,v 1.7 2007/02/18 16:49:47 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/include/asm.h,v 1.8 2008/04/06 23:45:21 tg Exp $ */
 /*	$OpenBSD: asm.h,v 1.4 2003/06/04 22:08:17 deraadt Exp $	*/
 /*	$NetBSD: asm.h,v 1.5 1997/07/16 15:16:43 christos Exp $ */
 
@@ -68,7 +68,7 @@
  */
 #ifdef __ELF__
 #define WARN_REFERENCES(_sym,_msg)	\
-	.section .gnu.warning. ## _sym ; .ascii _msg ; .previous
+	.section .gnu.warning. ## _sym ; .ascii "REF! " _msg ; .previous
 #endif /* __ELF__ */
 
 

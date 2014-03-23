@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/arch/i386/string/strcat.S,v 1.4 2005/09/22 20:06:18 tg Exp $ */
+/* $MirOS: src/lib/libc/arch/i386/string/strcat.S,v 1.5 2005/10/21 10:53:23 tg Exp $ */
 /*
  * Written by J.T. Conklin <jtc@netbsd.org>.
  * Public domain.
@@ -6,14 +6,10 @@
 
 #include <machine/asm.h>
 
-#APP
-	.section .gnu.warning.strcat
-	.ascii "strcat() is almost always misused, consider using strlcat()"
-	.text
-#NO_APP
+WARN_REFERENCES(strcat, "strcat() is almost always misused, consider using strlcat()")
 
 	.section .comment
-	.asciz	"$MirOS: src/lib/libc/arch/i386/string/strcat.S,v 1.4 2005/09/22 20:06:18 tg Exp $"
+	.asciz	"$MirOS: src/lib/libc/arch/i386/string/strcat.S,v 1.5 2005/10/21 10:53:23 tg Exp $"
 
 	.text
 

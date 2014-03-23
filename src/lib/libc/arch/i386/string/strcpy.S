@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/arch/i386/string/strcpy.S,v 1.4 2005/09/22 20:06:18 tg Exp $ */
+/* $MirOS: src/lib/libc/arch/i386/string/strcpy.S,v 1.5 2005/10/21 10:53:23 tg Exp $ */
 /*
  * Written by J.T. Conklin <jtc@netbsd.org>.
  * Public domain.
@@ -6,14 +6,10 @@
 
 #include <machine/asm.h>
 
-#APP
-	.section .gnu.warning.strcpy
-	.ascii "strcpy() is almost always misused, consider using strlcpy()"
-	.text
-#NO_APP
+WARN_REFERENCES(strcpy, "strcpy() is almost always misused, consider using strlcpy()")
 
 	.section .comment
-	.asciz	"$MirOS: src/lib/libc/arch/i386/string/strcpy.S,v 1.4 2005/09/22 20:06:18 tg Exp $"
+	.asciz	"$MirOS: src/lib/libc/arch/i386/string/strcpy.S,v 1.5 2005/10/21 10:53:23 tg Exp $"
 
 	.text
 
