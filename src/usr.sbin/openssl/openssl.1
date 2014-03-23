@@ -1,4 +1,4 @@
-.\" $MirOS: src/usr.sbin/openssl/openssl.1,v 1.6 2006/09/20 20:38:15 tg Exp $
+.\" $MirOS: src/usr.sbin/openssl/openssl.1,v 1.7 2006/09/20 20:42:25 tg Exp $
 .\" $OpenBSD: openssl.1,v 1.56 2006/06/27 14:23:52 jmc Exp $
 .\" ====================================================================
 .\" Copyright (c) 1998-2002 The OpenSSL Project.  All rights reserved.
@@ -7481,6 +7481,8 @@ option was added in
 .Op Fl fingerprint
 .Op Fl hash
 .Op Fl issuer
+.Op Fl issuer_hash
+.Op Fl issuer_hash_old
 .Op Fl md2 | md5 | sha1
 .Op Fl modulus
 .Op Fl noout
@@ -7491,6 +7493,8 @@ option was added in
 .Op Fl serial
 .Op Fl startdate
 .Op Fl subject
+.Op Fl subject_hash
+.Op Fl subject_hash_old
 .Op Fl text
 .Op Fl trustout
 .Op Fl x509toreq
@@ -7631,6 +7635,10 @@ to form an index to allow certificates in a directory to be looked up
 by subject name.
 .It Fl issuer
 Outputs the issuer name.
+.It Fl issuer_hash
+Outputs the OpenSSL 1.x hash of the certificate issuer.
+.It Fl issuer_hash_old
+Outputs the OpenSSL 0.x hash of the certificate issuer.
 .It Fl modulus
 This option prints out the value of the modulus of the public key
 contained in the certificate.
@@ -7659,6 +7667,15 @@ Prints out the start date of the certificate; that is, the
 date.
 .It Fl subject
 Outputs the subject name.
+.It Fl subject_hash
+Outputs the OpenSSL 1.x hash of the certificate subject.
+.It Fl subject_hash_old
+Outputs the OpenSSL 0.x hash of the certificate subject.
+The
+.Fl hash
+option is currently aliased to this option, and is aliased to
+.Fl subject_hash
+in future OpenSSL versions.
 .It Fl text
 Prints out the certificate in text form.
 Full details are output including the public key, signature algorithms,
