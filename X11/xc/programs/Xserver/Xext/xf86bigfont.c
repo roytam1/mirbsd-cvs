@@ -180,9 +180,7 @@ XFree86BigfontExtensionInit()
 	}
 #endif
 
-	srand((unsigned int) time(NULL));
-	signature = ((unsigned int) (65536.0/(RAND_MAX+1.0) * rand()) << 16)
-	           + (unsigned int) (65536.0/(RAND_MAX+1.0) * rand());
+	signature = arc4random();
 	/* fprintf(stderr, "signature = 0x%08X\n", signature); */
 
 	FontShmdescIndex = AllocateFontPrivateIndex();
