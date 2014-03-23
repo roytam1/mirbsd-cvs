@@ -1,13 +1,12 @@
-# $MirOS: src/share/zoneinfo/Makefile,v 1.7 2013/09/11 17:01:16 tg Exp $
+# $MirOS: src/share/zoneinfo/Makefile,v 1.8 2013/12/31 14:16:05 bsiegert Exp $
 
 TZDIR?=		${DESTDIR}/usr/share/zoneinfo
 DATDIR=		${.CURDIR}/datfiles
 YIT=		'${SHELL} -c ${DATDIR}/yearistype.sh'
 ZIC?=		zic
 
-TDATA=		africa antarctica asia australasia etcetera europe \
-		factory northamerica pacificnew solar87 solar88 \
-		solar89 southamerica systemv backward
+TDATA=		africa antarctica asia australasia backward etcetera europe \
+		factory northamerica pacificnew southamerica systemv
 ALLDATA=	${TDATA} iso3166.tab leapseconds zone.tab
 # Adjust the optarg to -p to fit your posixrules need.
 ZICFLAGS=	-y ${YIT} -d ${TZDIR} -p Europe/Berlin
