@@ -1,4 +1,4 @@
-/*	$OpenBSD: locking.c,v 1.7 2003/07/10 00:04:28 david Exp $	*/
+/*	$OpenBSD: locking.c,v 1.11 2014/01/17 21:42:47 tobias Exp $	*/
 
 /*
  * Copyright (c) 1996-1998 Theo de Raadt <deraadt@theos.com>
@@ -27,10 +27,6 @@
  * OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF
  * ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-
-#ifndef lint
-static char rcsid[] = "$OpenBSD: locking.c,v 1.7 2003/07/10 00:04:28 david Exp $";
-#endif /* not lint */
 
 #include <sys/param.h>
 #include <sys/stat.h>
@@ -116,8 +112,9 @@ again:
 						seteuid(pw->pw_uid);
 					}
 				}
+				close(lfd);
 			}
-			sleep(1 << tries);
+			sleep(1U << tries);
 			tries++;
 			continue;
 		}
@@ -134,7 +131,7 @@ again:
 				merr(NOTFATAL, "%s: %s", lpath, strerror(errno));
 				return(-1);
 			}
-			sleep(1 << tries);
+			sleep(1U << tries);
 			tries++;
 		}
 	}
@@ -145,12 +142,14 @@ void
 baditem(char *path)
 {
 	char npath[MAXPATHLEN];
+	int fd;
 
 	if (unlink(path) == 0)
 		return;
 	snprintf(npath, sizeof npath, "%s/mailXXXXXXXXXX", _PATH_MAILDIR);
-	if (mktemp(npath) == NULL)
+	if ((fd = mkstemp(npath)) == -1)
 		return;
+	close(fd);
 	if (rename(path, npath) == -1)
 		unlink(npath);
 	else
