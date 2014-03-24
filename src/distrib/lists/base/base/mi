@@ -464,7 +464,7 @@
 ./usr/lib/i18n/libmapper_std.so.5.0
 ./usr/lib/i18n/libmapper_zone.so.5.0
 ./usr/lib/libc.so.42.0
-./usr/lib/libcrypto.so.14.1
+./usr/lib/libcrypto.so.15.0
 ./usr/lib/libcurses.so.14.1
 ./usr/lib/libdes.so.11.0
 ./usr/lib/libedit.so.7.0
@@ -3002,9 +3002,6 @@
 ./usr/share/zoneinfo/Asia/Qyzylorda
 ./usr/share/zoneinfo/Asia/Rangoon
 ./usr/share/zoneinfo/Asia/Riyadh
-./usr/share/zoneinfo/Asia/Riyadh87
-./usr/share/zoneinfo/Asia/Riyadh88
-./usr/share/zoneinfo/Asia/Riyadh89
 ./usr/share/zoneinfo/Asia/Saigon
 ./usr/share/zoneinfo/Asia/Sakhalin
 ./usr/share/zoneinfo/Asia/Samarkand
@@ -3225,10 +3222,6 @@
 ./usr/share/zoneinfo/Mexico/BajaNorte
 ./usr/share/zoneinfo/Mexico/BajaSur
 ./usr/share/zoneinfo/Mexico/General
-./usr/share/zoneinfo/Mideast
-./usr/share/zoneinfo/Mideast/Riyadh87
-./usr/share/zoneinfo/Mideast/Riyadh88
-./usr/share/zoneinfo/Mideast/Riyadh89
 ./usr/share/zoneinfo/NZ
 ./usr/share/zoneinfo/NZ-CHAT
 ./usr/share/zoneinfo/Navajo
