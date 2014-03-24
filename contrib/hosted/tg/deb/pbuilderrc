@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.38 2013/12/16 11:10:20 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.39 2014/01/10 12:32:27 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
@@ -246,15 +246,14 @@ case $DISTRO in
 	case $DIST:$DISTRIBUTION in
 	(*:sarge)
 		x=apt
-		EXTRAPACKAGES='apt fakeroot file-rc'
-		REMOVEPACKAGES="$REMOVEPACKAGES sysv-rc"
+		EXTRAPACKAGES='apt fakeroot'
 		;;
 	(*:etch|*:lenny|squeeze:*)
-		EXTRAPACKAGES='apt debian-archive-keyring fakeroot file-rc sysv-rc-'
+		EXTRAPACKAGES='apt debian-archive-keyring fakeroot'
 		;;
 
 	(*)
-		EXTRAPACKAGES='apt debian-archive-keyring eatmydata fakeroot file-rc sysv-rc-'
+		EXTRAPACKAGES='apt debian-archive-keyring eatmydata fakeroot'
 		;;
 	esac
 	case $DIST in
@@ -272,8 +271,8 @@ case $DISTRO in
 	esac
 	DEBOOTSTRAPOPTS=(
 		--arch=$ARCHITECTURE
-		--include=$x,file-rc
-		--exclude=sysv-rc,ubuntu-keyring
+		--include=$x
+		--exclude=ubuntu-keyring
 		--components=${COMPONENTS// /,}
 		--variant=buildd
 		--keyring=/usr/share/keyrings/${keyringfile}.gpg
@@ -292,11 +291,11 @@ case $DISTRO in
 	# Note: debootstrap cannot include packages from unreleased, so this
 	# fails if the architecture is not bootstrappable without unreleased
 	# (use multistrap or a custom repository then; adjust dist above)
-	EXTRAPACKAGES='apt debian-ports-archive-keyring eatmydata fakeroot file-rc sysv-rc-'
+	EXTRAPACKAGES='apt debian-ports-archive-keyring eatmydata fakeroot'
 	DEBOOTSTRAPOPTS=(
 		--arch=$ARCHITECTURE
-		--include=cowdancer,apt,debian-ports-archive-keyring,file-rc
-		--exclude=sysv-rc,ubuntu-keyring
+		--include=cowdancer,apt,debian-ports-archive-keyring
+		--exclude=ubuntu-keyring
 		--components=${COMPONENTS// /,}
 		--variant=buildd
 		--keyring=/usr/share/keyrings/debian-ports-archive-keyring.gpg
