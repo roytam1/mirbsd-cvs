@@ -1,4 +1,4 @@
-/* $MirOS: src/include/wchar.h,v 1.35 2014/02/09 23:19:56 tg Exp $ */
+/* $MirOS: src/include/wchar.h,v 1.36 2014/02/19 16:59:30 tg Exp $ */
 
 /*-
  * Copyright (c) 2007, 2008, 2013, 2014
@@ -200,6 +200,7 @@ __END_DECLS
 #endif
 
 #ifdef __GNUC__
+#if !defined(__cplusplus)
 #define btowc(c)	__extension__({			\
 	wint_t __WC_tmp = (c);				\
 							\
@@ -275,6 +276,8 @@ __END_DECLS
 							\
 	(__WC_s ? wcrtomb(__WC_s, (c), &__WC_ps) : 0);	\
 })
+#endif /* !__cplusplus */
+
 /* roll back the middle char of a mis-done 3-byte mb->wc conversion */
 #define mbrtowc_rollback(ps)	__extension__({		\
 	const mbstate_t *__WC_s = (ps);			\
