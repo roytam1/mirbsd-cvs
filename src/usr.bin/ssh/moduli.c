@@ -52,7 +52,7 @@
 #include "dh.h"
 #include "log.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/moduli.c,v 1.8 2007/03/08 10:09:32 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/moduli.c,v 1.9 2008/12/16 20:55:23 tg Exp $");
 
 /*
  * File output defines
@@ -523,7 +523,6 @@ prime_test(FILE *in, FILE *out, u_int32_t trials, u_int32_t generator_wanted)
 			break;
 		case MODULI_TYPE_UNSTRUCTURED:
 		case MODULI_TYPE_SAFE:
-		case MODULI_TYPE_SCHNORR:
 		case MODULI_TYPE_STRONG:
 		case MODULI_TYPE_UNKNOWN:
 			debug2("%10u: (%u)", count_in, in_type);

@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/special/sshd/Makefile,v 1.9 2009/10/04 20:48:37 tg Exp $
+# $MirOS: src/distrib/special/sshd/Makefile,v 1.10 2009/10/04 20:56:36 tg Exp $
 # $OpenBSD: Makefile,v 1.68 2008/11/04 08:22:13 djm Exp $
 #-
 # Build an extra small sshd(8) without BSD auth
@@ -23,7 +23,7 @@ SRCS=	sshd.c auth-rhosts.c auth-passwd.c auth-rsa.c auth-rh-rsa.c \
 	auth-bsdauth.c auth2-hostbased.c auth2-kbdint.c \
 	auth2-none.c auth2-passwd.c auth2-pubkey.c \
 	monitor_mm.c monitor.c monitor_wrap.c \
-	kexdhs.c kexgexs.c sftp-server.c sftp-common.c auth2-jpake.c
+	kexdhs.c kexgexs.c sftp-server.c sftp-common.c
 
 DPADD+=	${LIBCRYPTO} ${LIBUTIL} ${LIBZ} ${LIBDES}
 LDADD+=	-lcrypto -lutil -lz -ldes

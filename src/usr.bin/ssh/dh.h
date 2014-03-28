@@ -53,7 +53,6 @@ int	 dh_estimate(int);
 #define MODULI_TYPE_UNKNOWN		(0)
 #define MODULI_TYPE_UNSTRUCTURED	(1)
 #define MODULI_TYPE_SAFE		(2)
-#define MODULI_TYPE_SCHNORR		(3)
 #define MODULI_TYPE_SOPHIE_GERMAIN	(4)
 #define MODULI_TYPE_STRONG		(5)
 
