@@ -64,7 +64,7 @@
 
 #include "mod_ssl.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/ssl/ssl_engine_rand.c,v 1.2 2010/09/21 21:24:42 tg Exp $");
 
 /*  _________________________________________________________________
 **
@@ -88,7 +88,12 @@ int ssl_rand_seed(server_rec *s, pool *p, ssl_rsctx_t nCtx, char *prefix)
     time_t t;
     pid_t pid;
     int m;
+    int xloglevel = SSL_LOG_INFO, xrandstatus;
 
+    if (RAND_status() != 0) {
+        /* if already seeded enough, quell the msg */
+        xloglevel = SSL_LOG_DEBUG;
+    }
     mc = myModConfig();
     nReq  = 0;
     nDone = 0;
@@ -163,9 +168,18 @@ int ssl_rand_seed(server_rec *s, pool *p, ssl_rsctx_t nCtx, char *prefix)
             }
         }
     }
-    ssl_log(s, SSL_LOG_INFO, "%sSeeding PRNG with %d bytes of entropy", prefix, nDone);
+    if (nDone == 0) {
+        /* nonsensical message... */
+        xloglevel = SSL_LOG_DEBUG;
+    }
+    xrandstatus = RAND_status();
+    if (xrandstatus == 0) {
+        /* ... except in this case */
+        xloglevel = SSL_LOG_INFO;
+    }
+    ssl_log(s, xloglevel, "%sSeeding PRNG with %d bytes of entropy", prefix, nDone);
 
-    if (RAND_status() == 0)
+    if (xrandstatus == 0)
         ssl_log(s, SSL_LOG_WARN, "%sPRNG still contains insufficient entropy!", prefix);
     return nDone;
 }
