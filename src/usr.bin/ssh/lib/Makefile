@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/ssh/lib/Makefile,v 1.10 2009/10/04 14:29:13 tg Exp $
+# $MirOS: src/usr.bin/ssh/lib/Makefile,v 1.11 2009/10/04 16:35:27 tg Exp $
 # $OpenBSD: Makefile,v 1.58 2008/11/04 08:22:13 djm Exp $
 
 .PATH:		${.CURDIR}/..
@@ -12,7 +12,7 @@ SRCS=	authfd.c authfile.c bufaux.c bufbn.c buffer.c canohost.c channels.c \
 	key.c dispatch.c kex.c mac.c uidswap.c uuencode.c misc.c \
 	ssh-dss.c ssh-rsa.c dh.c kexdh.c kexgex.c \
 	kexdhc.c kexgexc.c scard.c msg.c progressmeter.c dns.c \
-	monitor_fdpass.c umac.c addrmatch.c schnorr.c jpake.c
+	monitor_fdpass.c umac.c addrmatch.c
 SRCS+=	md-sha256.c
 
 NOPIC=		yes

@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/ssh/servconf.h,v 1.12 2009/03/22 15:01:19 tg Exp $ */
+/* $MirOS: src/usr.bin/ssh/servconf.h,v 1.13 2011/01/15 21:52:41 tg Exp $ */
 /* $OpenBSD: servconf.h,v 1.87 2009/01/22 10:02:34 djm Exp $ */
 
 /*
@@ -84,8 +84,6 @@ typedef struct {
 						 * authentication. */
 	int     kbd_interactive_authentication;	/* If true, permit */
 	int     challenge_response_authentication;
-	int     zero_knowledge_password_authentication;
-					/* If true, permit jpake auth */
 	int     permit_empty_passwd;	/* If false, do not permit empty
 					 * passwords. */
 	int     permit_user_env;	/* If true, read ~/.etc/ssh/environment */

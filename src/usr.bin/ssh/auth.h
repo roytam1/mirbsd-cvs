@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/ssh/auth.h,v 1.12 2009/10/04 14:29:01 tg Exp $ */
+/* $MirOS: src/usr.bin/ssh/auth.h,v 1.13 2013/10/31 20:07:10 tg Exp $ */
 /* $OpenBSD: auth.h,v 1.63 2009/08/15 18:56:34 fgsch Exp $ */
 
 /*
@@ -56,7 +56,6 @@ struct Authctxt {
 	struct passwd	*pw;		/* set if 'valid' */
 	char		*style;
 	void		*kbdintctxt;
-	void		*jpake_ctx;
 #ifdef BSD_AUTH
 	auth_session_t	*as;
 #endif
@@ -125,9 +124,6 @@ int	bsdauth_query(void *, char **, char **, u_int *, char ***, u_int **);
 int	bsdauth_respond(void *, u_int, char **);
 int	skey_query(void *, char **, char **, u_int *, char ***, u_int **);
 int	skey_respond(void *, u_int, char **);
-
-void	auth2_jpake_get_pwdata(Authctxt *, BIGNUM **, char **, char **);
-void	auth2_jpake_stop(Authctxt *);
 
 int	allowed_user(struct passwd *);
 struct passwd * getpwnamallow(const char *user);

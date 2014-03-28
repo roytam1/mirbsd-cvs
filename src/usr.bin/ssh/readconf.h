@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/ssh/readconf.h,v 1.13 2009/10/04 14:29:06 tg Exp $ */
+/* $MirOS: src/usr.bin/ssh/readconf.h,v 1.14 2011/01/15 21:52:40 tg Exp $ */
 /* $OpenBSD: readconf.h,v 1.79 2009/06/27 09:35:06 andreas Exp $ */
 
 /*
@@ -48,7 +48,6 @@ typedef struct {
 						 * authentication. */
 	int     kbd_interactive_authentication; /* Try keyboard-interactive auth. */
 	char	*kbd_interactive_devices; /* Keyboard-interactive auth devices. */
-	int     zero_knowledge_password_authentication;	/* Try jpake */
 	int     batch_mode;	/* Batch mode: do not ask for passwords. */
 	int     check_host_ip;	/* Also keep track of keys for IP address */
 	int     strict_host_key_checking;	/* Strict host key checking. */

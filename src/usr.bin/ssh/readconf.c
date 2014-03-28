@@ -41,7 +41,7 @@
 #include "kex.h"
 #include "mac.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.19 2009/10/04 14:29:06 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.20 2011/01/15 21:52:40 tg Exp $");
 
 /* Format of the configuration file:
 
@@ -130,7 +130,7 @@ typedef enum {
 	oServerAliveInterval, oServerAliveCountMax, oIdentitiesOnly,
 	oSendEnv, oControlPath, oControlMaster, oHashKnownHosts,
 	oTunnel, oTunnelDevice, oLocalCommand, oPermitLocalCommand,
-	oVisualHostKey, oUseRoaming, oZeroKnowledgePasswordAuthentication,
+	oVisualHostKey, oUseRoaming,
 	oDeprecated, oUnsupported
 } OpCodes;
 
@@ -224,12 +224,6 @@ static struct {
 	{ "permitlocalcommand", oPermitLocalCommand },
 	{ "visualhostkey", oVisualHostKey },
 	{ "useroaming", oUseRoaming },
-#ifdef JPAKE
-	{ "zeroknowledgepasswordauthentication",
-	    oZeroKnowledgePasswordAuthentication },
-#else
-	{ "zeroknowledgepasswordauthentication", oUnsupported },
-#endif
 
 	{ NULL, oBadOption }
 };
@@ -409,10 +403,6 @@ parse_flag:
 
 	case oPasswordAuthentication:
 		intptr = &options->password_authentication;
-		goto parse_flag;
-
-	case oZeroKnowledgePasswordAuthentication:
-		intptr = &options->zero_knowledge_password_authentication;
 		goto parse_flag;
 
 	case oKbdInteractiveAuthentication:
@@ -1053,7 +1043,6 @@ initialize_options(Options *options)
 	options->permit_local_command = -1;
 	options->use_roaming = -1;
 	options->visual_host_key = -1;
-	options->zero_knowledge_password_authentication = -1;
 }
 
 /*
@@ -1193,8 +1182,6 @@ fill_default_options(Options *options, struct passwd *pw)
 		options->use_roaming = 1;
 	if (options->visual_host_key == -1)
 		options->visual_host_key = 0;
-	if (options->zero_knowledge_password_authentication == -1)
-		options->zero_knowledge_password_authentication = 0;
 	/* options->local_command should not be set by default */
 	/* options->proxy_command should not be set by default */
 	/* options->user will be set in the main program if appropriate */

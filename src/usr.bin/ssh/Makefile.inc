@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/ssh/Makefile.inc,v 1.13 2013/08/05 22:06:19 tg Exp $
+# $MirOS: src/usr.bin/ssh/Makefile.inc,v 1.14 2013/08/06 17:06:28 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.33 2008/11/04 08:22:12 djm Exp $
 
 .ifndef _MODSRC_USR_BIN_SSH_MAKEFILE_INC
@@ -19,8 +19,6 @@ CFLAGS+=	-Wshadow
 CDIAGFLAGS+=	-Wno-cast-qual
 
 #DEBUG=-g
-
-#CPPFLAGS+=	-DJPAKE
 
 #CPPFLAGS+=	-DSMARTCARD
 #LDADD+=	-lsectok

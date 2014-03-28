@@ -49,7 +49,7 @@
 #include "pathnames.h"
 #include "monitor_wrap.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/auth2.c,v 1.9 2008/12/16 20:55:19 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/auth2.c,v 1.10 2009/10/04 14:29:02 tg Exp $");
 
 /* import */
 extern ServerOptions options;
@@ -63,16 +63,10 @@ extern Authmethod method_pubkey;
 extern Authmethod method_passwd;
 extern Authmethod method_kbdint;
 extern Authmethod method_hostbased;
-#ifdef JPAKE
-extern Authmethod method_jpake;
-#endif
 
 Authmethod *authmethods[] = {
 	&method_none,
 	&method_pubkey,
-#ifdef JPAKE
-	&method_jpake,
-#endif
 	&method_passwd,
 	&method_kbdint,
 	&method_hostbased,
@@ -236,9 +230,6 @@ input_userauth_request(int type, u_int32_t seq, void *ctxt)
 	}
 	/* reset state */
 	auth2_challenge_stop(authctxt);
-#ifdef JPAKE
-	auth2_jpake_stop(authctxt);
-#endif
 
 	authctxt->postponed = 0;
 
