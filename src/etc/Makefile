@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.48 2011/01/15 21:52:37 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.49 2013/09/10 18:28:49 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -231,7 +231,9 @@ install-generated:
 DHSIZE=	1024 1536 2048 3072 4096
 update-moduli:
 	{ \
-		echo '# $$MirOS: src/etc/Makefile,v 1.48 2011/01/15 21:52:37 tg Exp $$'; \
+		echo '# $$MirSecuCron$$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.49 2013/09/10 18:28:49 tg Exp $$'; \
+		echo '#-'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
 			ssh-keygen -b $$i -G /dev/stdout; \
