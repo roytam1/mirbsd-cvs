@@ -1,4 +1,4 @@
-rcsid_cfg='$MirOS: www/data/tg.gc,v 1.11 2013/10/17 23:28:56 tg Exp $'
+rcsid_cfg='$MirOS: www/data/tg.gc,v 1.12 2013/12/14 00:42:39 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -27,6 +27,9 @@ gcbanners[${#gcbanners[*]}]='<img style="border:0px;"
 gcbanners[${#gcbanners[*]}]='<img style="border:0px;"
  src="http://www.corsipo.de/Geocaching/Luener_Grund.jpg"
  alt="Der “gehobene” Autobahn-Cache" />' 
+gcbanners[${#gcbanners[*]}]='<img style="border:0px;"
+ src="http://img.geocaching.com/cache/large/69d35422-2267-42a5-b1ff-337e68c445a8.jpg"
+ alt="Smørrebrød: Rezept gefunden" />'
 
 gcbanners[${#gcbanners[*]}]='<h3>Software</h3>'
 gcbanners[${#gcbanners[*]}]=<<'EOF'

@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.170 2014/03/23 21:15:35 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.171 2014/03/26 19:30:42 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4398,6 +4398,18 @@ Date: 26.03.2014
 Waypoint: GC2X12P
 Title: Wachtberger Kreuze # 10
 Tag: D15 T3 Micro Tradi
+----
+ID: 784
+Date: 29.03.2014
+Waypoint: GC4CXDA
+Title: Villa Kunterbunt
+Tag: D15 T1 Micro Tradi
+----
+ID: 785
+Date: 29.03.2014
+Waypoint: GC3DEF0
+Title: „Smørrebrød“ oder „Das Lieblingsrezept“
+Tag: D25 T25 Large Multi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
