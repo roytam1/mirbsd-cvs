@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/usr.sbin/httpd/src/main/getnameinfo.c,v 1.1.7.1 2005/03/06 16:46:48 tg Exp $ */
 
 /*
  * Copyright (C) 1995, 1996, 1997, 1998, and 1999 WIDE Project.
@@ -68,7 +68,7 @@ int flags;
   char tmpserv[16];
 
   if (serv) {
-    sprintf(tmpserv, "%d", ntohs(sin->sin_port));
+    snprintf(tmpserv, sizeof(tmpserv), "%d", ntohs(sin->sin_port));
     if (strlen(tmpserv) > servlen)
       return EAI_MEMORY;
     else
