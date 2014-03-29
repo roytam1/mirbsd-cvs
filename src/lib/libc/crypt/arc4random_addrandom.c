@@ -26,7 +26,7 @@
 #include "arc4random.h"
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random_addrandom.c,v 1.2 2014/02/19 21:16:27 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_addrandom.c,v 1.3 2014/02/20 00:07:44 tg Exp $");
 
 void
 arc4random_addrandom(u_char *dat, int datlen)
@@ -35,7 +35,7 @@ arc4random_addrandom(u_char *dat, int datlen)
 	if (!a4state.a4s_initialised)
 		arc4random_stir_locked(0);
 	while (datlen >= 256) {
-		arcfour_ksa256(&a4state.cipher, dat);
+		arcfour_ksa(&a4state.cipher, dat, 256);
 		datlen -= 256;
 	}
 	if (datlen)

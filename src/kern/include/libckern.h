@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/libckern.h,v 1.34 2014/02/09 22:35:52 tg Exp $ */
+/* $MirOS: src/kern/include/libckern.h,v 1.35 2014/02/19 17:43:25 tg Exp $ */
 
 /*-
  * Copyright (c) 2008, 2010, 2011, 2013, 2014
@@ -102,8 +102,6 @@ uint32_t arc4random_uniform(uint32_t);
 
 /* arcfour: base cipher */
 void arcfour_init(struct arcfour_status *);
-void arcfour_ksa256(struct arcfour_status *, const uint8_t *)
-    __attribute__((__bounded__(__minbytes__, 2, 256)));
 void arcfour_ksa(struct arcfour_status *, const uint8_t *, size_t)
     __attribute__((__bounded__(__buffer__, 2, 3)));
 uint8_t arcfour_byte(struct arcfour_status *);

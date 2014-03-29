@@ -35,7 +35,7 @@
 #include "arc4random.h"
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.11 2014/02/20 00:07:45 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.12 2014/03/13 05:48:23 tg Exp $");
 
 /* zero-initialises */
 struct arc4random_status a4state;
@@ -160,7 +160,6 @@ arc4random_stir_locked(pid_t mypid)
 		a4state.pool[n] = hr;
 	}
 	/* mix full 256 bytes into arc4random pool */
-	/*XXX not using arcfour_ksa256 as we use arcfour_ksa below anyway */
 	arcfour_ksa(&a4state.cipher, sbuf.charbuf, 256);
 
 	/* trash stack */

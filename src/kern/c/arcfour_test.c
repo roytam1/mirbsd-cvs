@@ -6,7 +6,6 @@ NOMAN=		Yes
 SRCS=		arcfour_test.c
 SRCS+=		arcfour_base.c
 SRCS+=		arcfour_ksa.c
-SRCS+=		arcfour_ksa256.c
 
 CPPFLAGS+=	-I${.CURDIR}/../include
 
@@ -41,7 +40,7 @@ CPPFLAGS+=	-I${.CURDIR}/../include
 #include <stdio.h>
 #include <string.h>
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: src/kern/c/arcfour_test.c,v 1.1 2010/09/12 17:10:50 tg Exp $");
 
 const char *keys[] = {
 	"Key",
@@ -64,27 +63,20 @@ const char *ciphered[] = {
 	NULL
 };
 
-struct arcfour_status cipher, ciph256;
-uint8_t keybuf[256], encrypted[32];
+struct arcfour_status cipher;
+uint8_t encrypted[32];
 
 int
 main(void)
 {
-	size_t i, j, k = 0;
+	size_t i, k = 0;
 
 	do {
 		arcfour_init(&cipher);
 		arcfour_ksa(&cipher, keys[k], strlen(keys[k]));
 
-		arcfour_init(&ciph256);
-		j = strlen(keys[k]);
-		for (i = 0; i < 256; ++i)
-			keybuf[i] = keys[k][i % j];
-		arcfour_ksa256(&ciph256, keybuf);
-
-		printf("Test for ksa, key '%s' ksa %s i=%u j=%u keystream:\n",
-		    keys[k], memcmp(&cipher, &ciph256, sizeof(cipher)) ?
-		    "FAIL" : "good", cipher.i, cipher.j);
+		printf("Test for ksa, key '%s' i=%u j=%u keystream:\n",
+		    keys[k], cipher.i, cipher.j);
 		memhexdump(cipher.S, 0, 32);
 
 		assert(strlen(plain[k]) < 32);
