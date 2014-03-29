@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/main/getnameinfo.c,v 1.1.7.1 2005/03/06 16:46:48 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/main/getnameinfo.c,v 1.2 2014/03/29 00:24:21 tg Exp $ */
 
 /*
  * Copyright (C) 1995, 1996, 1997, 1998, and 1999 WIDE Project.
@@ -66,29 +66,31 @@ int flags;
   struct sockaddr_in *sin = (struct sockaddr_in *)sa;
   struct hostent *hp;
   char tmpserv[16];
+  size_t n;
+  const char *cp;
 
   if (serv) {
     snprintf(tmpserv, sizeof(tmpserv), "%d", ntohs(sin->sin_port));
-    if (strlen(tmpserv) > servlen)
+    if ((n = strlen(tmpserv)) >= servlen)
       return EAI_MEMORY;
     else
-      strcpy(serv, tmpserv);
+      memcpy(serv, tmpserv, n + 1);
   }
   if (host)
     if (flags & NI_NUMERICHOST)
-      if (strlen(inet_ntoa(sin->sin_addr)) > hostlen)
+      if ((n = strlen((cp = inet_ntoa(sin->sin_addr)))) >= hostlen)
 	return EAI_MEMORY;
       else {
-	strcpy(host, inet_ntoa(sin->sin_addr));
+	memcpy(host, cp, n + 1);
 	return 0;
       }
     else
       if (hp = gethostbyaddr((char *)&sin->sin_addr, sizeof(struct in_addr),
 			     AF_INET))
-	if (strlen(hp->h_name) > hostlen)
+	if ((n = strlen(hp->h_name)) >= hostlen)
 	  return EAI_MEMORY;
 	else {
-	  strcpy(host, hp->h_name);
+	  memcpy(host, hp->h_name, n + 1);
 	  return 0;
 	}
       else

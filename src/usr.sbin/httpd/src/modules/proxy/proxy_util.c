@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_util.c,v 1.6 2007/07/03 06:36:30 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_util.c,v 1.7 2008/03/19 23:07:22 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -68,7 +68,7 @@
 #include "util_date.h"          /* get ap_checkmask() decl. */
 #include "sa_len.h"
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_util.c,v 1.6 2007/07/03 06:36:30 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/proxy/proxy_util.c,v 1.7 2008/03/19 23:07:22 tg Exp $");
 
 static int proxy_match_ipaddr(struct dirconn_entry *This, request_rec *r);
 static int proxy_match_domainname(struct dirconn_entry *This, request_rec *r);
@@ -1306,8 +1306,8 @@ int ap_proxy_doconnect(int sock, struct sockaddr *addr, request_rec *r)
     if (i == -1) {
 	if (getnameinfo(addr, salen, hbuf, sizeof(hbuf), pbuf, sizeof(pbuf),
 		niflags) != 0) {
-	    strcpy(hbuf, "?");
-	    strcpy(pbuf, "?");
+	    memcpy(hbuf, "?", 2);
+	    memcpy(pbuf, "?", 2);
 	}
         ap_log_rerror(APLOG_MARK, APLOG_ERR, r,
                       "proxy connect to %s port %s failed", hbuf, pbuf);

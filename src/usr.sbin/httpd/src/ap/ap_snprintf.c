@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/ap/ap_snprintf.c,v 1.2 2007/09/13 15:55:54 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/ap/ap_snprintf.c,v 1.3 2008/03/19 23:07:18 tg Exp $ */
 /* $OpenBSD: ap_snprintf.c,v 1.16 2007/02/03 18:01:52 espie Exp $ */
 
 /* ====================================================================
@@ -77,7 +77,7 @@
 #include <math.h>
 #include "sa_len.h"
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/ap/ap_snprintf.c,v 1.2 2007/09/13 15:55:54 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/ap/ap_snprintf.c,v 1.3 2008/03/19 23:07:18 tg Exp $");
 
 typedef enum {
         NO = 0, YES = 1
@@ -529,11 +529,11 @@ static char *conv_sockaddr(struct sockaddr *sa, char *buf_end, int *len)
 	if (getnameinfo(sa, salen, hostnamebuf, sizeof (hostnamebuf),
 	    portnamebuf, sizeof (portnamebuf),
 	    NI_NUMERICHOST | NI_NUMERICSERV)) {
-		strcpy(hostnamebuf, "???");
-		strcpy(portnamebuf, "???");
+		memcpy(hostnamebuf, "???", 4);
+		memcpy(portnamebuf, "???", 4);
 	}
 	if (strcmp(portnamebuf,"0") == 0)
-		strcpy(portnamebuf, "*");
+		memcpy(portnamebuf, "*", 2);
 	q = portnamebuf + strlen(portnamebuf);
 	while (portnamebuf < q)
 		*--p = *--q;
