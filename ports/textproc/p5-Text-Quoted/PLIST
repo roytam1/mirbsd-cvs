@@ -1,9 +1,0 @@
-@comment $MirOS$
-${P5SITE}/Text/Quoted.pm
-@comment ${P5ARCH}/auto/Text/Quoted/.packlist
-man/man3/Text::Quoted${P5MAN3EXT}
-@dirrm ${P5ARCH}/auto/Text/Quoted
-@dirrm ${P5ARCH}/auto/Text
-@dirrm ${P5ARCH}/auto
-@dirrm ${P5ARCH}
-@dirrm ${P5SITE}/Text

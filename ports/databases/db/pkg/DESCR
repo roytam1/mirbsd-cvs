@@ -1,8 +1,0 @@
-Berkeley DB is a programmatic toolkit that provides fast, reliable,
-scalable, and mission-critical database support to software developers.
-
-This package contains version 4.2 of Berkeley DB. The following
-flavours are available:
-
-	no_cxx	Do not build C++ API libraries
-	no_tcl	Do not build Tcl API libraries

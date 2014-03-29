@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.1 2000/07/20 03:48:38 jasoni Exp $
-@lib lib/libPropList.so.2.2
