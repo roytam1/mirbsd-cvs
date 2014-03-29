@@ -1,11 +1,11 @@
-# $MirOS: ports/essentials/ca-certificates/Makefile,v 1.12 2012/05/30 19:12:07 tg Exp $
+# $MirOS: ports/essentials/ca-certificates/Makefile,v 1.13 2013/01/06 01:17:11 tg Exp $
 
 COMMENT=		X.509v3 Root CA bundle (collection of CA certificates)
 CATEGORIES=		essentials security
 MCZ_FETCH=		Yes
 CVS_DISTREPO=		${_MIROS_ANONCVS}
-CVS_DISTDATE=		2013/01/06 01:00
-CVS_DISTMODS=		src/etc/ssl.certs.shar
+CVS_DISTDATE=		2014/03/29 21:00
+CVS_DISTMODS=		src/etc/ssl.{certs,links}.shar
 CVS_DISTFILE=		ca-certificates
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 HOMEPAGE=		http://MirBSD.de/
@@ -26,15 +26,14 @@ do-build:
 	    ${MKSH} ../ssl.certs.shar && \
 	    cat * >../pkbundle.pem
 	cd ${WRKSRC:Q} && \
-	    fgrep '$$Mir''OS:' ssl.certs.shar >-VERSION
+	    fgrep -h '$$Mir''OS:' ssl.*.shar >-VERSION
 
 do-install:
 	${INSTALL_DATA_DIR} ${PREFIX:Q}/share/ca-certificates
 	${INSTALL_DATA} ${WRKSRC:Q}/{-VERSION,*.pem,build/*} \
 	    ${.CURDIR:Q}/keystore.{gcj,jks} \
 	    ${PREFIX:Q}/share/ca-certificates/
-	cd ${PREFIX}/share/ca-certificates && while read s d; do \
-		ln "$$s" "$$d"; \
-	done <${.CURDIR:Q}/certhash.lnk
+	cd ${PREFIX:Q}/share/ca-certificates && \
+	    ${MKSH} ${WRKSRC:Q}/ssl.links.shar
 
 .include <bsd.port.mk>

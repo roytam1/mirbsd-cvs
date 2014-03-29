@@ -30,5 +30,8 @@ EC certificates (to be removed from JKS Keystore for old keytool versions):
 * a7d2cf64.0
 * ccc52f49.0
 
+GCJ cannot deal with:
+• 8c24b137.0 (java.security.cert.CertificateException: malformed GeneralName)
+
 ___________________________________________________________________________________________
-$MirOS: ports/essentials/ca-certificates/mntner/00-NOTES,v 1.7 2012/05/30 17:21:06 tg Exp $
+$MirOS: ports/essentials/ca-certificates/mntner/00-NOTES,v 1.8 2014/03/29 20:56:43 tg Exp $
