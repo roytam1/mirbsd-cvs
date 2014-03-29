@@ -228,7 +228,7 @@ install-generated:
 	@echo "Set DESTDIR before trying this!"; false
 .endif
 
-DHSIZE=	1024 1536 2048 3072 4096
+DHSIZE=	1024 1536 2048 3072 4096 5120 6144
 update-moduli:
 	{ \
 		echo '# $$MirSecuCron$$'; \
