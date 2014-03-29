@@ -5,7 +5,9 @@ Section: misc
 Priority: extra
 Maintainer: Thorsten Glaser <tg@mirbsd.de>
 Build-Depends: debhelper (>= 4), ed, openssl
-Standards-Version: 3.9.3
+Standards-Version: 3.9.5
+Vcs-CVS: :ext:_anoncvs@anoncvs.mirbsd.org:/cvs contrib/hosted/tg/deb/ca-bundle
+Vcs-Browser: http://cvs.mirbsd.de/contrib/hosted/tg/deb/ca-bundle/
 
 Package: ca-bundle
 Architecture: all
@@ -13,11 +15,13 @@ Depends: ${misc:Depends}
 Recommends: openssl
 Conflicts: ca-certificates, ca-certificates-java
 Replaces: ca-certificates, ca-certificates-java,
- cacao-oj6-jre-headless, gajim, ia32-sun-java5-bin, ia32-sun-java6-bin,
- j2re1.4, java-gcj-compat-headless, kdelibs-data, kdelibs5-data,
- kdelibs-data-kde3, kdelibs-data-trinity, libapache-mod-ssl,
- libgcj-common, libgcj10, libgcj11, oracle-j2sdk1.6,
- openjdk-6-jre-headless, sun-java5-bin, sun-java6-bin, sympa, jxplorer
+ cacao-oj6-jre-headless, gajim, ia32-sun-java5-bin,
+ ia32-sun-java6-bin, j2re1.4, java-gcj-compat-headless, jxplorer,
+ kdelibs-data, kdelibs-data-kde3, kdelibs-data-trinity, kdelibs5-data,
+ libapache-mod-ssl, libgcj-common, libgcj10, libgcj11,
+ openjdk-6-jre-headless, openjdk-7-jre-headless, openjdk-8-jre-headless,
+ oracle-j2sdk1.6, oracle-java6-jre, oracle-java7-jre, oracle-java8-jre,
+ sun-java5-bin, sun-java6-bin, sympa
 Provides: ca-certificates, ca-certificates-java
 Enhances: curl, gajim, gnutls-bin, libgnutls13, libgnutls26, libssl0.9.8,
  lynx-cur, openssl, oracle-j2sdk1.6, oracle-j2sdk1.7,

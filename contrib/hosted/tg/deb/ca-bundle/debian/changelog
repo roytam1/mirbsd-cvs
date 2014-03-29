@@ -1,3 +1,11 @@
+ca-bundle (20140329) wtf; urgency=high
+
+  * Prepare for Java™ versions 7 and 8, including java-package made ones
+  * Update from latest MirPorts Framework
+  * Bump S-V; add VCS-*
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Sat, 29 Mar 2014 23:18:32 +0000
+
 ca-bundle (20130106) wtf; urgency=high
 
   * The “annoying CAcert guy next to me” upload
