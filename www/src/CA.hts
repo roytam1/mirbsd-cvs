@@ -1,0 +1,15 @@
+# $MirOS: www/src/jupp.hts,v 1.50 2014/02/06 14:30:28 tg Exp $
+#-
+# This file is part of the website of The MirOS Project, which is
+# copyrighted material, please read the LICENCE file for details.
+
+mws_setname capolicy "MirBSD CA Policy"
+mws_setheadline MirBSD CA Policy
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.50 2014/02/06 14:30:28 tg Exp $'
+mws_content <<'EOF'
+<p>The MirBSD CA is only used by Thorsten Glaser to issue X.509v3 non-CA
+ certificates to MirBSD infrastructure and related systems.</p>
+<p>(More information follows.)</p>
+EOF
+mws_putfooter
+exit 0
