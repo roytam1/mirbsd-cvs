@@ -1,23 +1,21 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/ca-bundle/debian/ca-bundle.links.in,v 1.2 2011/04/24 17:08:16 tg Exp $'
+rcsid='$MirOS: ports/essentials/ca-certificates/mntner/pem2lnk,v 1.1 2012/05/30 18:46:56 tg Exp $'
 #-
-# Run this on Debian/sid to generate a list of symlinks
-# for OpenSSL 1.0.0+ compatibility of hashed directory.
-
-[[ $(openssl version) = 'OpenSSL 1'* ]] || exit 1
+# Run this to generate a list of symlinks for CA certificates
+# using the OpenSSL 1.0.0+ hash format.
 
 # XXX pem/* must already have normalised names
 [[ -d pem/. ]] || exit 1
 [[ -d lnk/. ]] && exit 1
-rm -f certhash.lnk
+rm -f certhash.lnk ssl.links.shar
 [[ -e certhash.lnk ]] && exit 1
+[[ -e ssl.links.shar ]] && exit 1
 mkdir lnk
 [[ -d lnk/. ]] || exit 1
 
 cp pem/* lnk/
 cd lnk
 set -A files -- *.*
-set -A links
 
 for file in "${files[@]}"; do
 	if [[ $file != [0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f][0-9a-f].+([0-9]) ]]; then
@@ -42,4 +40,7 @@ done
 
 cd ..
 mv -f lnk/OUT certhash.lnk
+while read src dst; do
+	print -r "echo $src → $dst; ln -s $src $dst"
+done <certhash.lnk >ssl.links.shar
 rm -rf lnk

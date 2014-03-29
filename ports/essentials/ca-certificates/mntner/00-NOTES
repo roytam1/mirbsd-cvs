@@ -11,13 +11,16 @@
 
 Stamps:
 
-• ca-certificates_20090814+nmu3
+• ca-certificates_20140325
+• Sendmail CACerts,v 8.6 (8.14.7)
+
+Not used:
+
 • ca-certificates-java_20100412
 • certdata.txt,v 1.83 > tip 1.82 = b0904160af18
 • certs.opera.com @20100722 (22-Jul-2010)
 • Opera (Browser) 10.10b1
 • MS SST: rootsupd.exe March 2011
-• Sendmail CACerts,v 8.4 (8.14.5.Beta0)
 • Mac OSX 10.6.7
 
 EC certificates (to be removed from JKS Keystore for old keytool versions):
@@ -28,4 +31,4 @@ EC certificates (to be removed from JKS Keystore for old keytool versions):
 * ccc52f49.0
 
 ___________________________________________________________________________________________
-$MirOS: ports/essentials/ca-certificates/mntner/00-NOTES,v 1.6 2011/03/30 10:16:28 tg Exp $
+$MirOS: ports/essentials/ca-certificates/mntner/00-NOTES,v 1.7 2012/05/30 17:21:06 tg Exp $

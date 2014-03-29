@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.49 2013/09/10 18:28:49 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.51 2014/03/29 01:17:17 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -148,7 +148,8 @@ etc-files:
 	${INSTALL} -c -o root -g wheel -m 440 ../usr.bin/sudo/sudoers \
 	    ${DESTDIR}/etc/sudoers
 	cd ${DESTDIR}/etc/ssl/certs && ${SHELL} ${.CURDIR}/ssl.certs.shar && \
-	    chown ${BINOWN}:${CONFGRP} * && chmod 444 *
+	    chown ${BINOWN}:${CONFGRP} * && chmod 444 * && \
+	    ${SHELL} ${.CURDIR}/ssl.links.shar
 	${INSTALL} -c -o ${BINOWN} -g ${CONFGRP} -m 644 spamd.conf \
 	    ${DESTDIR}/etc/mail/
 	${INSTALL} -c -o ${BINOWN} -g ${CONFGRP} -m 644 ssh_known_hosts \
@@ -232,7 +233,7 @@ DHSIZE=	1024 1536 2048 3072 4096 5120 6144
 update-moduli:
 	{ \
 		echo '# $$MirSecuCron$$'; \
-		echo '# $$MirOS: src/etc/Makefile,v 1.49 2013/09/10 18:28:49 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.51 2014/03/29 01:17:17 tg Exp $$'; \
 		echo '#-'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
