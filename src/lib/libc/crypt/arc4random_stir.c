@@ -19,11 +19,10 @@
  */
 
 #include <syskern/libckern.h>
-#include <stdbool.h>
 #include <stdlib.h>
 #include "arc4random.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random_stir.c,v 1.3 2014/02/20 00:07:45 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_stir.c,v 1.4 2014/03/13 05:56:21 tg Exp $");
 
 void
 arc4random_stir(void)

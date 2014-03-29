@@ -21,12 +21,11 @@
  */
 
 #include <syskern/libckern.h>
-#include <stdbool.h>
 #include <stdlib.h>
 #include "arc4random.h"
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random_addrandom.c,v 1.3 2014/02/20 00:07:44 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_addrandom.c,v 1.4 2014/03/29 10:25:53 tg Exp $");
 
 void
 arc4random_addrandom(u_char *dat, int datlen)

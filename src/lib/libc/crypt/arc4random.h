@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libc/crypt/arc4random.h,v 1.3 2014/02/19 21:16:27 tg Exp $ */
+/* $MirOS: src/lib/libc/crypt/arc4random.h,v 1.4 2014/03/13 05:48:23 tg Exp $ */
 
 /*-
  * Copyright (c) 2010, 2014
@@ -33,7 +33,7 @@ extern struct arc4random_status {
 		int count_;
 		pid_t stir_pid_;
 		uint8_t poolptr_;
-		bool initialised_;
+		uint8_t initialised_;
 	} otherinfo;
 } a4state;
 
