@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.90 2014/01/02 22:54:54 tg Exp $
+# $MirOS: www/Makefile,v 1.91 2014/03/29 12:12:52 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -208,6 +208,7 @@ validation: .PHONY ${VOBJS}
 
 rs-heph:
 	rsync -rxlztpgavPHK dst/ hephaistos:Web/
+	ssh hephaistos mv -f Web/.htaccess-heph Web/.htaccess
 
 rs-eurynome:
 	rsync -rxlztpgavPHK --rsh='ssh -4' dst/ eurynome:/var/anoncvs/anoncvs/www/
