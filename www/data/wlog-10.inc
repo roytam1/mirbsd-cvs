@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.444 2014/02/06 14:30:45 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.445 2014/02/10 14:51:42 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10488,4 +10488,15 @@ Tag: archaeology debian fun jupp pcli
  MIT licence. Thanks to the author for doing that (and not just dumping the
  IOCCC code) and to RT from the mksh(1) <a href="@@RELPATH@@ksh-chan.htm">IRC
  channel</a> for finding it on the ’net!</p>
+----
+Date: 30.03.2014 14:30
+Author: tg@
+Title: FreeWRT Archive
+Tag: archaeology freewrt news pcli snapshot
+
+<p>As <a href="http://article.gmane.org/gmane.comp.embedded.freewrt.announce/10">previously
+ announced</a>, the FreeWRT Project has been archived. You can access the
+ content at the <a href="@@RELPATH@@FreeWRT.htm">FreeWRT Archive Site</a>
+ on the MirWebseite.</p>
+<p>ObRant: <a href="@@RELPATH@@wtf.cgi?DST">DST</a> (Sommerzeit) sucks!</p>
 ----
