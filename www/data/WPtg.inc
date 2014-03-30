@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.171 2014/03/26 19:30:42 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.172 2014/03/29 20:35:08 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4410,6 +4410,12 @@ Date: 29.03.2014
 Waypoint: GC3DEF0
 Title: „Smørrebrød“ oder „Das Lieblingsrezept“
 Tag: D25 T25 Large Multi
+----
+ID: 786
+Date: 30.03.2014
+Waypoint: GC18QR6
+Title: Im heiligen Stumpf
+Tag: D2 T15 Regular Multi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
