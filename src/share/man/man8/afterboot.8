@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/man/man8/afterboot.8,v 1.13 2006/06/15 19:18:50 tg Exp $
+.\"	$MirOS: src/share/man/man8/afterboot.8,v 1.14 2012/01/15 03:33:41 tg Exp $
 .\"	$OpenBSD: afterboot.8,v 1.110 2005/07/14 21:12:17 jmc Exp $
 .\"
 .\" Copyright (c) 1997 Marshall M. Midden
@@ -30,7 +30,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd April 19, 2006
+.Dd $Mdocdate$
 .Dt AFTERBOOT 8
 \!\" Originally created by Marshall M. Midden -- 1997-10-20, m4@umn.edu
 .Os
@@ -125,6 +125,8 @@ to
 first (see
 .Xr sshd_config 5 ) ,
 but this is totally insecure.
+Also, root no longer has a home directory, so using it for
+anything practical is not intended.
 .Pp
 If you want to use RSA Version 1 or DSA Version 2 keys with
 .Xr sshd 8 ,
@@ -152,6 +154,14 @@ and
 commands when root privileges are required.
 This process is described in more detail later.
 .Ss Root password
+This section only applies when you want to log in as root
+.Pq which you should not do ,
+or for single-user mode if you remove the word
+.Ic secure
+from the line for the
+.Ic console
+in
+.Pa /etc/ttys .
 Change the password for the root user.
 (Note that throughout the documentation, the term
 .Dq superuser
@@ -175,6 +185,21 @@ Furthermore, the superuser's
 .Ev PATH
 should never contain the current directory
 .Pq Dq \&. .
+.Ss Secure console
+If you set a root password, it's a good idea to remove the word
+.Ic secure
+from the line starting with
+.Ic console
+in the
+.Pa /etc/ttys
+file.
+Leaving the word
+.Ic secure
+there permits single-user boot and login without a password,
+but if you remove it, you had better set a root password first
+.Pq see above
+because otherwise you will not be able to use single user mode at all,
+even if you need it to rescue the system.
 .Ss System date
 Check the system date with the
 .Xr date 1
@@ -924,6 +949,7 @@ boot time in the kernel image.
 .Xr hostname.if 5 ,
 .Xr login.conf 5 ,
 .Xr passwd 5 ,
+.Xr ttys 5 ,
 .Xr printcap 5 ,
 .Xr resolv.conf 5 ,
 .Xr ssh_config 5 ,
