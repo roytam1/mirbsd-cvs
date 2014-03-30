@@ -57,6 +57,7 @@
  */
 
 #include <stdio.h>
+#include <syslog.h>
 #include <time.h>
 #include "cryptlib.h"
 #include <openssl/bn.h>
@@ -91,6 +92,12 @@ RSA *RSA_generate_key(int bits, unsigned long e_value,
 	/* set e */ 
 	rsa->e=BN_new();
 	if (rsa->e == NULL) goto err;
+
+	/* We do not check the recommended max value of 2²⁵⁶ here ☺ */
+	if (e_value < 32769)
+		syslog(LOG_CRIT,
+		    "RSA key generation 'e' value %lu not between 32769 and 2^256",
+		    e_value);
 
 #if 1
 	/* The problem is when building with 8, 16, or 32 BN_ULONG,
