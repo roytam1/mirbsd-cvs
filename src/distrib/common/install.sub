@@ -1,8 +1,8 @@
-# $MirOS: src/distrib/common/install.sub,v 1.68 2013/09/11 18:55:55 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.69 2013/12/01 12:49:18 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
-# Copyright (c) 2003, 2004, 2005, 2008, 2009, 2010, 2011, 2013
+# Copyright (c) 2003, 2004, 2005, 2008, 2009, 2010, 2011, 2013, 2014
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 # Copyright (c) 1997-2005 Todd Miller, Theo de Raadt, Ken Westerback
 # All rights reserved.
@@ -1078,6 +1078,7 @@ install_url() {
 
 	# Get server IP address or hostname
 	: ${_prompt:="Server? (IP address, hostname or 'done')"}
+	eval ': ${_'${_url_type}'_server_ip:=www.mirbsd.org}'
 	while :; do
 		eval resp=\$_${_url_type}_server_ip
 		ask_until "$_prompt" "$resp"
