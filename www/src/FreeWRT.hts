@@ -1,11 +1,11 @@
-# $MirOS: www/src/CA.hts,v 1.2 2014/03/29 20:40:55 tg Exp $
+# $MirOS: www/src/FreeWRT.hts,v 1.1 2014/03/30 14:24:37 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/FreeWRT "FreeWRT Archive"
 mws_setheadline 'FreeWRT ADK'
-mws_putheader '$MirOS: www/src/CA.hts,v 1.2 2014/03/29 20:40:55 tg Exp $'
+mws_putheader '$MirOS: www/src/FreeWRT.hts,v 1.1 2014/03/30 14:24:37 tg Exp $'
 mws_content <<'EOF'
 <p class="cr"><span class="fr"><img alt="FreeWRT Logo"
  src="@@RELPATH@@pics/logos/freewrt.png" /></span>FreeWRT Embedded GNU/Linux
@@ -39,7 +39,7 @@ mws_content <<'EOF'
   copies of upstream releases of packages that are used by FreeWRT</li>
 </ul>
 <p>For a while, when FreeWRT was already handled by The MirOS Project, the
- server was used for secundary project hosting. Archived content and new
+ server was used for secondary project hosting. Archived content and new
  locations are:</p>
 <ul>
  <li><a href="http://www.mirbsd.org/.Archive/josef.git.tar.xz">git repository
