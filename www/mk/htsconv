@@ -193,12 +193,22 @@ function mws_putheader {
 		<li class="@@CAT=ports@@"><a href="@@RELPATH@@ports.htm">MirPorts</a> Framework</li>
 		<li class="@@CAT=pkgsrc@@"><a href="@@RELPATH@@pkgsrc.htm">pkgsrc®</a> integration</li>
 		<li class="@@CAT=subprojects@@">Subprojects<ul class="lv2">
+		<li class="@@CAT=subprojects/FreeWRT@@"><a href="@@RELPATH@@FreeWRT.htm">FreeWRT</a></li>
 		<li class="@@CAT=subprojects/jupp@@"><a href="@@RELPATH@@jupp.htm">jupp</a> Editor</li>
 		<li class="@@CAT=subprojects/kwalletcli@@"><a href="@@RELPATH@@kwalletcli.htm">KWalletCLI</a></li>
 		<!-- li class="@@CAT=subprojects/makefs@@"><a href="@@RELPATH@@makefs.htm">makefs</a></li -->
 		<li class="@@CAT=subprojects/mksh@@"><a href="@@RELPATH@@mksh.htm">mksh</a> Shell</li>
+		<li class="@@CAT=subprojects/CA@@"><a href="@@RELPATH@@CA.htm">X.509v3 Root CA</a></li>
 		</ul></li>
 		 </ul>
+		<div style="margin-top:18px; margin-left:6px;">Sponsored
+		 by<br /><a href="https://www.hosteurope.de/"
+		  style="border:none; text-decoration:none;"><img
+		  style="border:none; text-decoration:none;"
+		  src="@@RELPATH@@pics/hoster.gif"
+		  alt="HostEurope Logo" width="120" height="40"
+		  /></a>
+		</div>
 		</div>${mws__headline:+
 		<h1 class=\"lynxonly\">$(xhtml_escape "$mws__headline")</h1>}
 		<div class="content">
