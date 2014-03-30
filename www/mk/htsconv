@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.74 2014/01/13 00:59:45 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.76 2014/03/30 14:24:37 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -114,7 +114,7 @@ function mws_makepic {
 
 	(( fsiz > 2 && fsiz < 255 )) || unset fsiz
 
-	hpic=$(cksum -a nzaat <<<"$hmag,$fsiz,$htit").png
+	hpic=$(cksum -a bafh <<<"$hmag,$fsiz,$htit").png
 	if [[ ! -s hashed/$hpic ]] && whence -p php >/dev/null; then
 		mkdir -p hashed
 		php "$TOP"/mk/ttf2png "$htit" $fsiz >hashed/$hpic
