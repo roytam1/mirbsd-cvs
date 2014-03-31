@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.172 2014/03/29 20:35:08 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.173 2014/03/30 18:19:58 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4416,6 +4416,12 @@ Date: 30.03.2014
 Waypoint: GC18QR6
 Title: Im heiligen Stumpf
 Tag: D2 T15 Regular Multi
+----
+ID: 787
+Date: 31.03.2014
+Waypoint: GC4Z6AK
+Title: maker madness (lunchbreak / Mittagspause)
+Tag: D2 T1 Event
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
