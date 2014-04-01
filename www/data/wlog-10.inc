@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.445 2014/02/10 14:51:42 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.446 2014/03/30 14:30:12 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10499,4 +10499,66 @@ Tag: archaeology freewrt news pcli snapshot
  content at the <a href="@@RELPATH@@FreeWRT.htm">FreeWRT Archive Site</a>
  on the MirWebseite.</p>
 <p>ObRant: <a href="@@RELPATH@@wtf.cgi?DST">DST</a> (Sommerzeit) sucks!</p>
+----
+Date: 01.04.2014 12:24
+Author: tg@
+Title: Sorry about the MediaWiki-related breakage in wheezy
+Tag: dayjob debian
+
+<p>I would like to publicly apologise for the inconvenience caused by my
+ recent updates to the <tt>mediawiki</tt> and <tt>mediawiki-extensions</tt>
+ source packages in Debian wheezy (stable-security).</p>
+<p>As for reasons… I’m doing Mediawiki-related work at my dayjob, as part
+ of <a href="https://fusionforge.org/">FusionForge</a>/Evolvis development,
+ and try to upstream as much as I can. Our production environment is a
+ Debian wheezy-based system with a selection of newer packages, including
+ MediaWiki from sid (although I also have a test system running sid, so my
+ uploads to Debian are generally better tested). I haven’t had experience
+ with stable-security uploads before, and made small oversights (and did
+ not run the full series of tests on the “final”, permitted-to-upload,
+ version, only beforehand) which led to the problems. The situation was
+ a bit complicated by the need to update the two packages in lockstep,
+ to fight an RC bug file/symlink conflict, which was hard enough to do
+ in sid already, plus the desire to fix other possibly-RC bugs at the
+ same time. I also got no external review, although I cannot blame anyone
+ since I never asked anyone explicitly, so I accept this as my fault.</p>
+<p>The issues with the updates are:</p><ul>
+ <li>mediawiki 1.19.5-1+deb7u1 (the previous stable-security update) was
+  not made by me but by Jonathan Wiltshire</li>
+ <li>mediawiki 1.19.11+dfsg-0+deb7u1 (made by me) was fine, fixed the
+  bugs it was supposed to, but was delayed after being uploaded to
+  security-master-unembargoed</li>
+ <li>mediawiki 1.19.14+dfsg-0+deb7u1 was supposed to be a mostly
+  upstream update, but I decided to add changes to fix issues pointed
+  out by lintian (not trivial ones), and mistakenly forgot to remove
+  two lines that should not have crept in from sid</li>
+ <li>mediawiki 1.19.14+dfsg-0+deb7u2 was quickly uploaded to fix
+  this issue but took about half a day to be ACCEPTed</li>
+ <li>mediawiki-extensions 3.5~deb7u1 should have be named 2.12 but
+  could not, due to the aforementioned lockstep update requirement
+  and version checks in maintainer scripts; it fixes the issues but
+  does not add other changes from 3.5 in sid… unfortunately, the
+  packaging uses <tt>cdbs</tt> (which I dislike quite a lot, but as
+  the newcomer in the team I decided to accept it and go on; changing
+  the existing packaging would be quite some effort anyway) and wants
+  <tt>debian/control</tt> to be regenerated from <tt>control.in</tt>…
+  which I <em>thought</em> I had done, and normally do…</li>
+ <li>mediawiki-extensions 3.6 (in sid) fixes another dir/symlink
+  conflict shown up after 3.5 was made. I’ve requested upload
+  permission for regenerating <tt>debian/control</tt> and asked
+  whether I am allowed to include this fix as well</li>
+</ul>
+<p>My unfamiliarity with some of the packaging concepts used here,
+ combined with this being something I do during $dayjob (which can
+ limit the time I can invest, although I’m doing much more work on
+ Mediawiki in Debian than I <i>thought</i> I could do on the job),
+ can cause some of those oversights. I guess I also should install
+ a vanilla wheezy environment somewhere for testing… I do not
+ normally do stable uploads (jmw did them before), so I was not
+ prepared for that.</p>
+<p>And, while here: thanks to the Debian Security Team for putting
+ up with me (also in <a href="http://lists.fusionforge.org/pipermail/fusionforge-general/2014-March/002645.html">this
+ week’s FusionForge issue</a>), and thanks to Mediawiki upstream for
+ agreeing to support releases shipped in Debian stable for longer
+ support, so we can easily do stable-security updates.</p>
 ----
