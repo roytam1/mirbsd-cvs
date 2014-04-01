@@ -1,3 +1,9 @@
+arngc (20140401) UNRELEASED; urgency=low
+
+  * add arngb-slrd.c example, transfer MirBSD<->MirBSD using SSH
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Tue, 01 Apr 2014 19:21:30 +0000
+
 arngc (20131024) unstable; urgency=low
 
   * revert changes from 20131023 that were not the cause of the issue
