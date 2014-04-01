@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.173 2014/03/30 18:19:58 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.174 2014/03/31 18:52:00 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4422,6 +4422,18 @@ Date: 31.03.2014
 Waypoint: GC4Z6AK
 Title: maker madness (lunchbreak / Mittagspause)
 Tag: D2 T1 Event
+----
+ID: 788
+Date: 01.04.2014
+Waypoint: GC3R0HE
+Title: Verstecketopf Nummer
+Tag: D25 T1 Micro Mystery
+----
+ID: 789
+Date: 01.04.2014
+Waypoint: GC3TTF4
+Title: Verstecketopf lt. Anweisung
+Tag: D4 T25 Small Mystery
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
