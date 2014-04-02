@@ -26,8 +26,8 @@
  *	sudo mksh -T- -c 'sudo -u tg ssh -l tg mbsdserver \
  *	    /path/to/arngb-slrd >/dev/urandom'
  *
- * Rough traffic estimation: 10-20 MiB/day plus ACK packets. Tweaking
- * the delay is possible; keep 12 bytes data size more or less at it.
+ * Tweak traffic by changing the delay, not the data size. Currently,
+ * estimate is one MiB per day (including SSH overhead) upstream.
  */
 
 #include <sys/param.h>
@@ -39,7 +39,7 @@
 #include <syslog.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: contrib/hosted/tg/deb/arngc/arngb-slrd.c,v 1.1 2014/04/01 19:24:47 tg Exp $");
 
 int
 main(void)
@@ -73,8 +73,8 @@ main(void)
 			    z, strerror(errno));
 			break;
 		}
-		/* wait a second before retrying */
-		rqt.tv_sec = 1;
+		/* wait a few seconds, then goto start */
+		rqt.tv_sec = 20;
 		rqt.tv_nsec = 0;
 		errno = 0;
 		if (nanosleep(&rqt, &rmt) == -1) {
@@ -86,7 +86,6 @@ main(void)
 		}
 	}
 
-	/* NOTREACHED */
 	return (1);
 }
 
