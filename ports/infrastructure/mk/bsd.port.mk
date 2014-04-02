@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.280 2013/12/01 03:49:59 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.281 2014/01/07 13:07:31 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -441,6 +441,8 @@ _USE_CXX:=		${_ORIG_CXX}
 .if ${NO_CXX:L} != "no"
 _USE_CXX:=		false
 .endif
+_USE_CCSTD?=		-std=gnu99
+_USE_CXXSTD?=		# the equivalent?
 
 .if ${USE_CCACHE:L} == "yes"
 CCACHE_DEPENDS?=	:ccache->=2.4-3:devel/ccache
@@ -2128,11 +2130,11 @@ ${_WRKDIR_COOKIE}:
 	@rm -rf ${WRKDIR}
 	@mkdir -p ${WRKDIR} ${WRKDIR}/bin
 	@ln -s ${_MIRMAKE_EXE} ${WRKDIR}/bin/make
-	@print '#!'${MKSH:Q}'\nexec' ${_USE_CC:Q} '"$$@"' >${WRKDIR}/bin/${_MPWRAP_CC}
+	@print '#!'${MKSH:Q}'\nexec' ${_USE_CC:Q} ${_USE_CCSTD} '"$$@"' >${WRKDIR}/bin/${_MPWRAP_CC}
 .if ${NO_CXX:L} != "no"
 	@print '#!'${MKSH:Q}'\nexit 1' >${WRKDIR:Q}/bin/${_MPWRAP_CXX}
 .else
-	@print '#!'${MKSH:Q}'\nexec' ${_USE_CXX:Q} '"$$@"' >${WRKDIR}/bin/${_MPWRAP_CXX}
+	@print '#!'${MKSH:Q}'\nexec' ${_USE_CXX:Q} ${_USE_CXXSTD} '"$$@"' >${WRKDIR}/bin/${_MPWRAP_CXX}
 .endif
 	@chmod ${BINMODE} ${WRKDIR}/bin/{${_MPWRAP_CC},${_MPWRAP_CXX}}
 	@${_MAKE_COOKIE} $@
