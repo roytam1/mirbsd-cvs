@@ -1,5 +1,7 @@
-# $MirOS: ports/devel/libusb/Makefile,v 1.7 2008/08/26 18:46:02 tg Exp $
+# $MirOS: ports/devel/libusb/Makefile,v 1.8 2012/01/15 12:22:25 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2004/04/21 03:04:14 naddy Exp $
+
+BROKEN=			does not compile atm, needs investigation
 
 COMMENT=		USB access library
 DISTNAME=		libusb-0.1.12
