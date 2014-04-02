@@ -1,7 +1,7 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.57 2012/08/04 18:13:20 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.58 2012/10/18 16:41:27 tg Exp $
 #-
-# Copyright (c) 2005, 2006, 2008, 2012
-#	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
+# Copyright (c) 2005, 2006, 2008, 2012, 2014
+#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -178,7 +178,17 @@ HAS_CKSUM?=		Yes
 CKSUM_CMD?=		/bin/cksum
 _STAT_SIZE=		#defined
 .    endif
+.  elif ${OSver:R} == 10
+.    if ${OSver:E} > 180
+HAS_CXX=		reason
+NO_CXX=			C++ is no longer part of the base system
+.    endif
+HAS_CKSUM?=		Yes
+CKSUM_CMD?=		/bin/cksum
+_STAT_SIZE=		#defined
 .  else
+HAS_CXX=		reason
+NO_CXX=			C++ is no longer part of the base system
 HAS_CKSUM?=		Yes
 CKSUM_CMD?=		/bin/cksum
 _STAT_SIZE=		#defined
