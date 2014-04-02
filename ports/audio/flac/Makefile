@@ -1,9 +1,9 @@
-# $MirOS: ports/audio/flac/Makefile,v 1.10 2007/03/20 19:44:27 bsiegert Exp $
+# $MirOS: ports/audio/flac/Makefile,v 1.11 2007/03/21 10:39:31 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.18 2003/04/18 00:28:40 naddy Exp $
 
 COMMENT=		free lossless audio codec
 DISTNAME=		flac-1.1.2
-DASH_VER=		2
+DASH_VER=		3
 CATEGORIES=		audio archivers
 HOMEPAGE=		http://flac.sourceforge.net/
 MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=flac/}
@@ -19,7 +19,7 @@ PERMIT_DISTFILES_FTP=	Yes
 USE_ICONV?=		any
 USE_ICONV+=		oldm4
 
-MODULES=		converters/libiconv
+MODULES+=		devel/gettext
 LIB_DEPENDS=		ogg::audio/libogg
 
 .if ${MACHINE_ARCH} == "i386"
