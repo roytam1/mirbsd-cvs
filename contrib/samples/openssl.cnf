@@ -1,6 +1,6 @@
-# $MirOS: contrib/samples/openssl.cnf,v 1.3 2008/05/03 01:09:31 tg Exp $
+# $MirOS: contrib/samples/openssl.cnf,v 1.4 2008/11/08 22:24:29 tg Exp $
 #-
-# Copyright (c) 2001, 2002, 2003
+# Copyright (c) 2001, 2002, 2003, 2014
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -18,6 +18,108 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 #-
+# These are two OpenSSL sample configuration files: first the newer,
+# then the older one, separated by this line; use what helps you:
+####################################################################
+
+HOME				= /home/tg/Misc/kernels/.M/CA
+RANDFILE			= /home/tg/Misc/kernels/.M/CA/private/.rnd
+
+# MD5 is broken, period.
+default_md			= sha1
+
+[ ca ]
+default_ca			= CA_default
+RANDFILE			= /home/tg/Misc/kernels/.M/CA/private/.rnd
+
+[ CA_default ]
+dir				= /home/tg/Misc/kernels/.M/CA
+RANDFILE			= $dir/private/.rnd
+cert_opt			= ca_default
+certificate			= $dir/certs/00.cer
+certs				= $dir/certs
+copy_extensions			= none
+crl				= $dir/CA.crl
+crl_dir				= $dir
+database			= $dir/index.txt
+default_crl_days		= 360
+default_days			= 1461
+default_md			= sha1
+email_in_dn			= yes
+name_opt			= ca_default
+new_certs_dir			= $dir/newcerts
+policy				= policy_any
+private_key			= $dir/private/CA.key
+serial				= $dir/serial.txt
+x509_extensions			= ca_ext
+
+[ policy_any ]
+countryName			= optional
+stateOrProvinceName		= optional
+organizationName		= optional
+organizationalUnitName		= optional
+commonName			= supplied
+emailAddress			= optional
+
+[ ca_policy_link ]
+policyIdentifier		= 2.16.840.1.113733.1.7.1.1
+CPS.1				= "https://www.mirbsd.org/CA.htm"
+userNotice			= @ca_policy_notice
+
+[ ca_policy_notice ]
+explicitText			= "No Liability accepted!"
+organization			= "MirBSD CA for MirOS infrastructure and related systems"
+noticeNumbers			= 1
+
+[ ca_ext ]
+authorityKeyIdentifier		= keyid,issuer:always
+basicConstraints		= critical,CA:false
+certificatePolicies		= ia5org,@ca_policy_link
+crlDistributionPoints		= URI:https://www.mirbsd.org/CA.crl,URI:http://users.unixforge.de/~tglaser/MirBSD/CA.crl
+extendedKeyUsage		= clientAuth,codeSigning,emailProtection,ipsecEndSystem,ipsecTunnel,ipsecUser,msCTLSign,msCodeCom,msCodeInd,msEFS,msSGC,nsSGC,serverAuth,timeStamping,1.3.6.1.4.1.311.10.3.4.1,1.3.6.1.4.1.311.10.3.5,1.3.6.1.4.1.311.10.3.6,1.3.6.1.4.1.311.10.3.7,1.3.6.1.4.1.311.10.3.8,1.3.6.1.5.5.8.2.2
+keyUsage			= dataEncipherment,digitalSignature,keyEncipherment,nonRepudiation
+nsCaPolicyUrl			= https://www.mirbsd.org/CA.htm
+nsCertType			= client,email,objsign,server
+subjectKeyIdentifier		= hash
+
+[ ca_root_ext ]
+basicConstraints		= critical,CA:true,pathlen:0
+crlDistributionPoints		= URI:https://www.mirbsd.org/CA.crl,URI:http://users.unixforge.de/~tglaser/MirBSD/CA.crl
+extendedKeyUsage		= clientAuth,codeSigning,emailProtection,ipsecEndSystem,ipsecTunnel,ipsecUser,msCTLSign,msCodeCom,msCodeInd,msEFS,msSGC,nsSGC,serverAuth,timeStamping,1.3.6.1.4.1.311.10.3.4.1,1.3.6.1.4.1.311.10.3.5,1.3.6.1.4.1.311.10.3.6,1.3.6.1.4.1.311.10.3.7,1.3.6.1.4.1.311.10.3.8,1.3.6.1.5.5.8.2.2
+keyUsage			= critical,cRLSign,dataEncipherment,digitalSignature,keyCertSign,keyEncipherment,nonRepudiation
+nsCaPolicyUrl			= https://www.mirbsd.org/CA.htm
+nsCertType			= client,email,emailCA,objCA,objsign,server,sslCA
+subjectAltName			= URI:https://www.mirbsd.org/CA.htm,URI:http://users.unixforge.de/~tglaser/MirBSD/CA.htm
+subjectKeyIdentifier		= hash
+
+[ req ]
+default_bits			= 2048
+distinguished_name		= req_distinguished_name
+attributes			= req_attributes
+string_mask			= utf8only
+
+[ req_distinguished_name ]
+countryName			= Country Name (2 letter code)
+countryName_min			= 2
+countryName_max			= 2
+stateOrProvinceName		= State or Province Name (full name)
+localityName			= Locality Name (eg, city)
+0.organizationName		= Organization Name (eg, company)
+1.organizationName		= Second Organization Name (eg, company)
+organizationalUnitName		= Organizational Unit Name (eg, section)
+commonName			= Common Name (eg, fully qualified host name)
+commonName_max			= 64
+emailAddress			= eMail Address (user certs only, not servers!)
+emailAddress_max		= 64
+
+[ req_attributes ]
+subjectAltName			= Alternate Subject name (DNS: IP: email:)
+challengePassword		= A challenge password (return for none)
+challengePassword_min		= 4
+challengePassword_max		= 20
+unstructuredName		= An optional name (eg, "subjectAltName=IP:1.2.3.4")
+
+####################################################################
 # Sample OpenSSL configuration file. Please change the values to fit
 # your site's settings before using!
 # Note: set the environment variable CERTINFO to anything (or empty)
