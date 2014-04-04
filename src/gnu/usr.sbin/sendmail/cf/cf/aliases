@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS$
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/aliases,v 1.9 2014/01/29 10:59:16 tg Exp $
 # $SendmailId: aliases,v 8.5 2002/06/05 22:54:26 gshapiro Exp $
 # @(#)aliases	8.2 (Berkeley) 3/5/94
 #
@@ -64,8 +64,8 @@ uucp:		root
 ftp:		root
 ftp-bugs:	root
 
-# Trap decode to catch security attacks
-decode:		root
+# Trap  d e c o d e  to catch security attacks
+# Note: Actually, the daily security cronjob warns about it.
 
 # MirBSD system users
 popa3d:		/dev/null
