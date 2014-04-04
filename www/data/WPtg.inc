@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.175 2014/04/01 19:31:47 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.176 2014/04/02 22:45:25 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4440,6 +4440,30 @@ Date: 02.04.2014
 Waypoint: GC1XHFY
 Title: Der Waldmeister
 Tag: D15 T15 Micro Tradi
+----
+ID: 791
+Date: 03.04.2014
+Waypoint: GC260J4
+Title: Staufrei in 17 Minuten nach Bonn
+Tag: D1 T1 Micro Tradi
+----
+ID: 792
+Date: 03.04.2014
+Waypoint: GC37W0H
+Title: RSK0001 - Rhein-Sieg-Kreuze
+Tag: D15 T1 Micro Tradi
+----
+ID: 793
+Date: 04.04.2014
+Waypoint: GC48F7C
+Title: Essener Bücherschrank
+Tag: D15 T1 Large Tradi
+----
+ID: 794
+Date: 04.04.2014
+Waypoint: GC3C8Y3
+Title: Ruhrbistum
+Tag: D2 T1 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat

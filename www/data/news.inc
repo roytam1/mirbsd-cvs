@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.154 2013/11/30 00:42:45 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.155 2013/12/01 01:26:40 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -2072,4 +2072,33 @@ Tag: mksh
 <p>This reverts the fix for “x="X 1 2"; showargs ${x#X}”, which
  nevertheless is a genuine bug. Contributions fixing it without
  introducing any such regressions welcome…</p>
+----
+Date: 04.04.2014 22:17
+Author: tg@
+Title: Server and service moves
+Tag: snapshot
+
+<p>I’m currently moving servers and services, and have just
+ installed MirBSD natively on the new <tt>www</tt>-to-be,
+ <tt>fish</tt> (part of FreeWRT’s legacy). This means that
+ some services will be temporarily unavailable in the days
+ (*cough*) to come. Also, we will temporarily be restricted
+ to Legacy IP availability, losing IP connectivity until I
+ manage to set up a tunnel at the new location. Sorry for
+ doing this “at the last minute” but it’s an involved process.
+ On the other hand, I <em>did</em> already get a new SSL
+ certificate for <tt>www.mirbsd.org</tt> (from Startcom),
+ and begun operating a MirBSD CA (for the forth time) for
+ all our other X.509 needs (mostly, server-to-server SSL
+ connections including auth’d SMTP relaying).</p>
+<p>In true “rolling release” fashion, there is a new MirBSD
+ snapshot for the i386 architecture available in the usual <a
+ href="@@ABSPATH@@/MirOS/current/">netinstall location</a>.
+ I removed all <a href="@@ABSPATH@@/Pkgs/current/">MirPorts
+ binary packages</a> for previous snapshots, since there were
+ quite some changes (libc major bump, C++ removal, etc.) in
+ base in the meantime. (Expect some fallout. I just realised
+ I cancelled the Manitu server (for monetary reasons), which
+ is blazingly fast, before I was able to finish doing a usable
+ G++ 4.4 port…)</p>
 ----
