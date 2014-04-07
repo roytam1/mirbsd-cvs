@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: contrib/hosted/tg/genmanif,v 1.1 2014/04/01 19:24:46 tg Exp $
 #-
 # Copyright © 2014
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -19,7 +19,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person’s immediate fault when using the work as intended.
 #-
-# (enhance later, e.g. symlinks; versioning output)
+# (enhance later, e.g. symlinks)
 
 function addarg {
 	local x
@@ -35,4 +35,10 @@ addarg '.*'
 addarg '*'
 
 set -o pipefail
-find ${args[*]} -type f -print0 | sort -z | xargs -0r md5sum -b -- >MANIFEST
+exec >MANIFEST
+find ${args[*]} -type f -print0 | sort -z | xargs -0r md5sum -b --
+rv=$?
+(( rv )) && print ERRORS OCCURED
+(( rv )) && print -u2 E: errors occured
+(( rv )) || print 0BF22FC49CA50DF354C7619CAAAA96D2 v1
+exit $rv
