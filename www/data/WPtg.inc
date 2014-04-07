@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.176 2014/04/02 22:45:25 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.177 2014/04/04 22:20:10 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4464,6 +4464,30 @@ Date: 04.04.2014
 Waypoint: GC3C8Y3
 Title: Ruhrbistum
 Tag: D2 T1 Micro Tradi
+----
+ID: 795
+Date: 05.04.2014
+Waypoint: GC4H3J0
+Title: Hauptschlagader
+Tag: D25 T1 Small Tradi
+----
+ID: 796
+Date: 05.04.2014
+Waypoint: GC42GV3
+Title: Wendemöglichkeit
+Tag: D15 T2 Micro Tradi
+----
+ID: 797
+Date: 07.04.2014
+Waypoint: GC2P3RN
+Title: Willkommen in... Bad Neuenahr #2
+Tag: D1 T15 Micro Tradi
+----
+ID: 798
+Date: 07.04.2014
+Waypoint: GC34H9N
+Title: Der Held vom Erdbeerfeld
+Tag: D2 T2 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
