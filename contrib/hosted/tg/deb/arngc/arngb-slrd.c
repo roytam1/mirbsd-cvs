@@ -24,7 +24,7 @@
  *
  * The client looks like this (one line):
  *	sudo mksh -T- -c 'sudo -u tg ssh -l tg mbsdserver \
- *	    /path/to/arngb-slrd >/dev/urandom'
+ *	    /path/to/arngb-slrd clientname >/dev/urandom'
  *
  * Tweak traffic by changing the delay, not the data size. Currently,
  * estimate is one MiB per day (including SSH overhead) upstream.
@@ -39,7 +39,7 @@
 #include <syslog.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: contrib/hosted/tg/deb/arngc/arngb-slrd.c,v 1.1 2014/04/01 19:24:47 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/tg/deb/arngc/arngb-slrd.c,v 1.2 2014/04/02 15:41:18 tg Exp $");
 
 int
 main(void)
