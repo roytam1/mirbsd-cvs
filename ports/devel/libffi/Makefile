@@ -1,9 +1,10 @@
-# $MirOS: ports/devel/libffi/Makefile,v 1.3 2008/12/07 18:57:51 tg Exp $
+# $MirOS: ports/devel/libffi/Makefile,v 1.4 2009/10/13 17:36:27 bsiegert Exp $
 
 COMMENT=		foreign function calling interface library
 CATEGORIES=		devel
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 DISTNAME=		libffi-3.0.8
+DASH_VER=		1
 MASTER_SITES=		ftp://sourceware.org/pub/libffi/
 
 # Historic Permission Clause
