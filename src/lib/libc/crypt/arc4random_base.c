@@ -34,7 +34,7 @@
 #include "arc4random.h"
 #include "thread_private.h"
 
-__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.13 2014/03/29 10:25:53 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/crypt/arc4random_base.c,v 1.14 2014/03/29 10:35:46 tg Exp $");
 
 /* zero-initialises */
 struct arc4random_status a4state;
@@ -84,8 +84,10 @@ arc4random_stir_locked(pid_t mypid)
 		uint32_t intbuf[64];
 		struct {
 			struct timespec rtime;
+#if 0
 			struct timespec vtime;
 			struct timespec ptime;
+#endif
 			struct timespec ntime;
 			pid_t thepid;
 		} tmpbuf;
@@ -100,8 +102,10 @@ arc4random_stir_locked(pid_t mypid)
 	arc4random_roundhash(a4state.pool, &a4state.a4s_poolptr,
 	    &a4state.otherinfo, sizeof(a4state.otherinfo));
 	clock_gettime(CLOCK_REALTIME, &sbuf.tmpbuf.rtime);
+#if 0
 	clock_gettime(CLOCK_VIRTUAL, &sbuf.tmpbuf.vtime);
 	clock_gettime(CLOCK_PROF, &sbuf.tmpbuf.ptime);
+#endif
 	clock_gettime(CLOCK_MONOTONIC, &sbuf.tmpbuf.ntime);
 	sbuf.tmpbuf.thepid = mypid = mypid ? mypid : getpid();
 	arc4random_roundhash(a4state.pool, &a4state.a4s_poolptr,
