@@ -1,5 +1,7 @@
-# $MirOS: ports/security/gnutls/Makefile,v 1.1.7.1 2005/03/18 15:51:23 tg Exp $
+# $MirOS: ports/security/gnutls/Makefile,v 1.2 2006/09/14 00:12:59 tg Exp $
 # $OpenBSD: Makefile,v 1.3 2004/05/08 06:43:40 sturm Exp $
+
+BROKEN=			insecure, not updated for too long a time
 
 COMMENT=			GNU Transport Layer Security library
 VERSION=		1.0.20
