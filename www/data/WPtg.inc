@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.177 2014/04/04 22:20:10 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.178 2014/04/07 22:04:13 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4488,6 +4488,18 @@ Date: 07.04.2014
 Waypoint: GC34H9N
 Title: Der Held vom Erdbeerfeld
 Tag: D2 T2 Micro Tradi
+----
+ID: 799
+Date: 08.04.2014
+Waypoint: GC50XFW
+Title: Schleichweg zwischen Baumärkten
+Tag: D15 T2 Small Tradi recommended
+----
+ID: 800
+Date: 08.04.2014
+Waypoint: GC42KR1
+Title: Schleichwege in Oedekoven 1
+Tag: D1 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat

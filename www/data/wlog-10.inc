@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.446 2014/03/30 14:30:12 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.447 2014/04/01 11:26:47 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10503,7 +10503,7 @@ Tag: archaeology freewrt news pcli snapshot
 Date: 01.04.2014 12:24
 Author: tg@
 Title: Sorry about the MediaWiki-related breakage in wheezy
-Tag: dayjob debian
+Tag: debian work
 
 <p>I would like to publicly apologise for the inconvenience caused by my
  recent updates to the <tt>mediawiki</tt> and <tt>mediawiki-extensions</tt>
@@ -10561,4 +10561,81 @@ Tag: dayjob debian
  week’s FusionForge issue</a>), and thanks to Mediawiki upstream for
  agreeing to support releases shipped in Debian stable for longer
  support, so we can easily do stable-security updates.</p>
+----
+Date: 09.04.2014 19:51
+Author: tg@
+Title: Heartbleed vs. Startcom / StartSSL
+Tag: bug debian news rant security work
+
+<p>First of all, good news, MirBSD is <em>not</em> vulnerable to <a
+ href="http://heartbleed.com/">The Heartbleed Bug</a> due to my
+ deliberate choice to stick to an older OpenSSL version. My inquiry
+ (in various places) as to what <em>precisely</em> could leak when
+ a vulnerable client connected to a nōn-vulnerable server has yet
+ to be answered, though we can assume private key material is safe.</p>
+<p>Now the bad news: while <a href="http://www.godaddy.com/">the CA
+ I use</a>¹ and <a href="http://www.cacert.org/">a CA I don’t use</a>
+ offer free rekeying (in general), <a href="http://www.startssl.com/">a
+ CA I also use occasionally²</a> refuses to do that. The ugly: they
+ will not even revoke the certificates, so any attacker who gained
+ your key, for example when you have been using a certificate of
+ theirs on a Debian system, will be able to use it (e.g. to MITM your
+ visitors traffic) unless you shell over lots of unreasonable money
+ per certificate. (Someone wrote they got the fee waived, but <a
+ href="https://cv.exbit.io/emails/startssl_heartbeat.txt">others</a> don’t, <a
+ href="https://bugzilla.mozilla.org/show_bug.cgi?id=994033#c20">nor do
+ I</a>. (There’s also a great Twitter discussion-thingy about this
+ involving Zugschlus, but I won’t link Twitter because they are not
+ accessible to <a href="https://lynx.isc.org/current/">Lynx</a> users
+ like me and other Planet Debian authors.)</p>
+<div style="font-size:90%;">
+<p>① I’ve been using GoDaddy privately for a while, paid for a wildcard
+ certificate for <tt>*.mirbsd.org</tt>, and later also at work. I’ve
+ stopped using it privately due to current lack of money.</p>
+<p>② Occasionally, for nōn-wildcard gratis SSL certificates for HTTP servers.
+ <a href="http://forum.startcom.org/viewtopic.php?f=15&amp;t=2328">Startcom’s
+ StartSSL certificates are unusable for real SSL as used in SMTP STARTTLS</a>
+ anyway, so usage isn’t much.</p>
+</div>
+<p>Now I’ve got a dilemma here. I’ve created a CA myself, to use with
+ MirBSD infrastructure and things like that – X.509 certificates for
+ my hosts (especially so I can use them for SMTP) and possibly personal
+ friends (whose PGP key I’ve signed with maximum trust after the usual
+ verification) but am using a StartSSL certificate for <tt>www.mirbsd.org</tt>
+ as my GoDaddy wildcard certificate expires in a week or so (due to the
+ aforementioned monetary issues), and I’d rather not pay for a limited
+ certificate only supporting a single vhost. There is absolutely no issue
+ with that certificate and key (only ever generated and used on MirBSD,
+ only using it in Apache mod_ssl). Then, there’s this soon-to-be tax-exempt
+ non-profit society of public utility I’m working with, whose server runs
+ Debian, and which is affected, but has been using a StartSSL certificate
+ for a while. Neither the society nor I can afford to pay for revocation,
+ and we do not see any possible justification for this especially in the
+ face of CVE-2014-0160. I expect a rekey keeping the current validity end
+ date, and would accept a revocation even if I were unable to get a new
+ certificate, since even were we to get a certificate for the society’s
+ domain from someplace else, an attacker could still MITM us with the
+ previous one from Startcom.</p>
+<p>The problem here is: I’d really love to see (all of!) Startcom dropped
+ from the global list of trustworthy CAs, but then I’d not know from where
+ to get a cert for MirBSD; Globalsign is not an option because I will not
+ limit SSL compatibility to a level needed to pass their “quality” test…
+ possibly GoDaddy, ISTR they offer a free year to Open Source projects…
+ no idea about one for the society… but it would solve the problem of not
+ getting the certificates revoked. For everyone.</p>
+<p>I am giving Startcom time until Friday after $dayjob (for me); after
+ that, I’ll be kicking them off MirBSD’s CA bundle and will be lobbying
+ for Debian and Mozilla to do the same.</p>
+<p>Any other ideas of how to deal with that? I’d probably pay 5 € for a
+ usable certificate accepted by people (including old systems, such as
+ MSIE 5.0 on Win2k and the likes) without questioning… most of the time,
+ I only serve public content anyway and just use SSL to make the NSA’s
+ job more difficult (and even when not I’m not dealing with any payment
+ information, just the occasional login protected area).</p>
+<p>By the way, is there <em>any</em> way to access the information that
+ is behind a current-day link to <tt>groups.google.com</tt> with Lynx or
+ Pine? I can’t help but praise GMane for their NNTP interface.</p>
+<p>ObFunfact: just when I was finished writing this wlog entry, I got a
+ new eMail “Special offer just for you.” from GoDaddy. Sadly, no offer
+ for a 5 € SSL certificate, just the usual 20-35% off coupon code.</p>
 ----
