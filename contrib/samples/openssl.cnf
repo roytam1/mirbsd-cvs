@@ -1,4 +1,4 @@
-# $MirOS: contrib/samples/openssl.cnf,v 1.4 2008/11/08 22:24:29 tg Exp $
+# $MirOS: contrib/samples/openssl.cnf,v 1.5 2014/04/02 17:23:40 tg Exp $
 #-
 # Copyright (c) 2001, 2002, 2003, 2014
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -42,7 +42,7 @@ copy_extensions			= none
 crl				= $dir/CA.crl
 crl_dir				= $dir
 database			= $dir/index.txt
-default_crl_days		= 360
+default_crl_days		= 9
 default_days			= 1461
 default_md			= sha1
 email_in_dn			= yes
