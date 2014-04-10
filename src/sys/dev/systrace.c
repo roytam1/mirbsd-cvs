@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: systrace.c,v 1.40 2005/12/11 21:30:30 miod Exp $	*/
 /*
  * Copyright 2002 Niels Provos <provos@citi.umich.edu>
@@ -1416,7 +1417,7 @@ systrace_replace(struct str_process *strp, size_t argsize, register_t args[])
 	maxarg = argsize/sizeof(register_t);
 	ubase = stackgap_alloc(&strp->sg, repl->strr_len);
 	if (ubase == NULL) {
-		ret = EINVAL;
+		ret = ENOMEM;
 		goto out;
 	}
 
