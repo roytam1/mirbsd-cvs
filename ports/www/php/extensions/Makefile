@@ -1,4 +1,4 @@
-# $MirOS: ports/www/php/extensions/Makefile,v 1.28 2009/08/16 17:25:53 tg Exp $
+# $MirOS: ports/www/php/extensions/Makefile,v 1.29 2012/10/18 17:24:51 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/12/29 23:06:28 sturm Exp $
 
 FULLPKGNAME=		php-extensions-${VSN}-${DASH_VER}
@@ -103,22 +103,30 @@ CONFIGURE_ARGS+=	--enable-filepro=shared
 
 # gd
 PSEUDO_FLAVOURS+=	no_gd
+PSEUDO_FLAVOURS+=	gd_no_t1
 .if ${FLAVOUR:L:Mno_gd}
 CONFIGURE_ARGS+=	--without-gd --without-xpm-dir --without-ttf \
 			--without-freetype-dir
 .else
 MULTI_PACKAGES+=	-gd
 COMMENT-gd=		image manipulation extensions for php
-GD_DEPENDS=		${GRAPHIC_DEPENDS} \
-			t1:t1lib->=5.1.2:devel/t1lib
+GD_DEPENDS=		${GRAPHIC_DEPENDS}
+.if !${FLAVOUR:L:Mgd_no_t1}
+GD_DEPENDS+=		t1:t1lib->=5.1.2:devel/t1lib
+.endif
 USE_X11=		yes
 # uses the bundled libgd2, we only have libgd1 in ports
 CONFIGURE_ARGS+=	--with-gd=shared \
 			${GRAPHIC_CONFIG} \
 			--with-freetype-dir=${X11BASE:Q} \
 			--enable-gd-native-ttf \
-			--with-xpm-dir=${X11BASE:Q} \
-			--with-t1lib=${LOCALBASE:Q}
+			--with-xpm-dir=${X11BASE:Q}
+.if !${FLAVOUR:L:Mgd_no_t1}
+CONFIGURE_ARGS+=	--with-t1lib=${LOCALBASE:Q}
+.else
+CONFIGURE_ARGS+=	--without-t1lib
+FULLPKGNAME-gd=		php${i}-${VSN}-${DASH_VER}-gd_no_t1
+.endif
 .endif
 
 # gmp
