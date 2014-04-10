@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.178 2014/04/07 22:04:13 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.179 2014/04/09 20:39:24 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4500,6 +4500,18 @@ Date: 08.04.2014
 Waypoint: GC42KR1
 Title: Schleichwege in Oedekoven 1
 Tag: D1 T15 Micro Tradi
+----
+ID: 801
+Date: 10.04.2014
+Waypoint: GC501AG
+Title: Meet Team Ostschweiz
+Tag: D1 T15 Event
+----
+ID: 802
+Date: 10.04.2014
+Waypoint: GC4WYFD
+Title: Bonner Vogelperspektive
+Tag: D3 T1 Small Mystery
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
