@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.179 2014/04/09 20:39:24 tg Exp $
+RCSID: $MirOS: www/data/WPtg.inc,v 1.180 2014/04/10 20:20:43 tg Exp $
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4512,6 +4512,18 @@ Date: 10.04.2014
 Waypoint: GC4WYFD
 Title: Bonner Vogelperspektive
 Tag: D3 T1 Small Mystery
+----
+ID: 803
+Date: 11.04.2014
+Waypoint: GC48NN6
+Title: Kirchen &amp; Kapellen - Antoniuskapelle
+Tag: D15 T1 Micro Multi
+----
+ID: 804
+Date: 11.04.2014
+Waypoint: GC4CKJ7
+Title: Kirchen &amp; Kapellen - St.Jakobus
+Tag: D2 T15 Micro Multi
 ----
 # ^K/ mksh -c '. ../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh WP2dat
