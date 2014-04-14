@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/WPtg.inc,v 1.181 2014/04/11 20:11:17 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.1 2014/04/14 19:29:42 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4524,6 +4524,62 @@ Date: 11.04.2014
 Waypoint: GC4CKJ7
 Title: Kirchen &amp; Kapellen - St.Jakobus
 Tag: D2 T15 Micro Multi
+----
+ID: 805
+Date: 13.04.2014
+Waypoint: GC4DCXA
+Title: Mir stinkts...
+Tag: D1 T1 Micro Tradi
+----
+ID: 806
+Date: 13.04.2014
+Waypoint: GC3088X
+Title: Gotteshäuser: St. Sebastianus Bad Bodendorf
+Tag: D2 T15 Micro Tradi
+----
+ID: 807
+Date: 13.04.2014
+Waypoint: GC1V441 OC86E7
+Title: Willkommen in... Bad Bodendorf
+Tag: D3 T15 Micro Tradi
+----
+ID: 808
+Date: 13.04.2014
+Waypoint: GC14E53
+Title: Gotteshäuser – Ehrendenkmal Bad Bodendorf
+Tag: D1 T1 Small Multi
+----
+ID: 809
+Date: 13.04.2014
+Waypoint: GC3DRFK
+Title: Thermalbad Bodendorf
+Tag: D2 T3 Micro Tradi
+----
+ID: 810
+Date: 13.04.2014
+Waypoint: GC48Y6N
+Title: Die Notiz auf dem Küchentisch...
+Tag: D2 T15 Small Multi recommended
+
+Nerviges Final, aber super gemacht und… mitreißend ☺
+----
+ID: 811
+Date: 13.04.2014
+Waypoint: GC3CXKH
+Title: Willkommen in... Bad Bodendorf II
+Tag: D15 T25 Micro Tradi
+----
+ID: 812
+Date: 13.04.2014
+Waypoint: GC350YM
+Title: Am Deutschem Eck, aber nicht in Koblenz
+Tag: D2 T15 Micro Tradi
+----
+ID: 813
+Date: 13.04.2014
+Waypoint: GC51709
+Title: Rheinhöhenfriedhof Lightversion - Reloaded
+Tag: D2 T3 Micro Multi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat

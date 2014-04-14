@@ -3,7 +3,7 @@
 
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/src/wptg.hts,v 1.1 2014/03/30 13:04:55 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.1 2014/04/14 19:29:43 tg Exp $'
 mws_content <<'EOF'
 
 <p><a href="WPtg.htm#wpts" style="border:0;"><img style="border:0;"
@@ -24,17 +24,43 @@ mws_content <<'EOF'
 </td></tr>
 </table>
 
+<h3>Cachebanner</h3>
+
 <p><img style="border:0px;"
  src="http://img.geocaching.com/cache/log/0125b0ec-bb99-406a-8b7f-e9805fd48139.jpg"
- alt="CAT-Events im August 2013 – Ich war dabei!" /></p>
+ alt="GC4GDXD│CAT-Events im August 2013 – Ich war dabei!" /></p>
 
 <p><img style="border:0px;"
  src="http://www.corsipo.de/Geocaching/Luener_Grund.jpg"
- alt="Der “gehobene” Autobahn-Cache" /></p>
+ alt="GC3ACGE│Der “gehobene” Autobahn-Cache" /></p>
 
 <p><img style="border:0px;"
  src="http://img.geocaching.com/cache/large/69d35422-2267-42a5-b1ff-337e68c445a8.jpg"
- alt="Smørrebrød: Rezept gefunden" /></p>
+ alt="GC3DEF0│Smørrebrød: Rezept gefunden" /></p>
+
+<p><img style="border:0px;"
+ src="http://www.bilder-hochladen.net/files/f9j8-10-1c38.jpg"
+ alt="GC4DCXA│Mir stinkts..." /></p>
+
+<p><img style="border:0px;"
+ src="http://www.bilder-hochladen.net/files/f9j8-y-e369.jpg"
+ alt="GC48Y6N│Die Notiz auf dem Küchentisch..." /></p>
+
+<p><img style="border:0px;"
+ src="http://imgcdn.geocaching.com/cache/large/2320076b-2575-4621-babf-8717c75fac84.gif"
+ alt="GC4G63X│TB Hotel 24h open" /></p>
+
+<p><img style="border:0px;"
+ src="http://imgcdn.geocaching.com/cache/3fe18a31-c509-4feb-ae3d-99b500cc199a.png"
+ alt="GC4RT47│Mitten in Oeverich 1" /></p>
+
+<p><img style="border:0px;"
+ src="http://imgcdn.geocaching.com/cache/large/33e4d6da-2677-4d9b-88cc-b72972d3688a.jpg"
+ alt="GC4H327│TB Hotel Fuderbach 1" /></p>
+
+<p><img style="border:0px;"
+ src="http://img.geocaching.com/user/48862013-405e-40b9-9548-a30d659fe12f.jpg"
+ alt="GC4M90G│Beach TB Hotel GBH" /></p>
 
 <h3>Software</h3>
 
