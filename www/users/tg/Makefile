@@ -4,15 +4,14 @@
 # copyrighted material, please read the LICENCE file for details.
 
 .ifndef TOP
-TOP!=		realpath ${.CURDIR:Q}/..
-DST!=		realpath ${.OBJDIR:Q}/..
+TOP!=		realpath ${.CURDIR:Q}/../..
+DST!=		realpath ${.OBJDIR:Q}/../..
 .MAKEFLAGS:=	${.MAKEFLAGS} TOP=${TOP:Q} DST=${DST:Q}
 .endif
 
 U_ENV+=		TOP=${TOP:Q} DST=${DST:Q} MKSH=${MKSH:Q} SHELL=${MKSH:Q} TZ=UTC
 
 FILES!=		cd ${.CURDIR} && print -r -- *.inc
-WPS!=		cd ${.CURDIR} && print -r -- *.gc
 _inc2xhtml=	( (print '\n----'; sed -e '/^\#/d' -e '/^RCSID: \$$/d') | \
 		    tr '\n' '' | sed \
 		    -e 'sg' \
@@ -37,23 +36,13 @@ _xhtmlbeg=	<?xml version="1.0"?> \
 		</head><body>
 _xhtmlend=	</body></html>
 
-all: validations
+all: validation
 
 .SUFFIXES: .xml .inc
 
 .inc.xml:
 	@print -r Creating ${@:Q} from ${<:Q} ...
 	@${_inc2xhtml} <$< >$@
-
-validations: wpcheck validation
-
-wpcheck:
-	@print -nr Checking...
-.for _i in ${WPS}
-	@print -nr \ ${_i:Q}
-	@${U_ENV} ${MKSH} ${TOP}/mk/WPmk -n ${_i:R}
-.endfor
-	@print \ done.
 
 validation: .PHONY ${FILES:.inc=.xml}
 	@print -r Validating ${FILES:Q} ...

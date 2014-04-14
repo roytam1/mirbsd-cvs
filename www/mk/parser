@@ -1,4 +1,4 @@
-rcsid_parser='$MirOS: www/mk/parser,v 1.22 2012/07/15 14:16:44 tg Exp $'
+rcsid_parser='$MirOS: www/mk/parser,v 1.23 2012/07/15 14:21:44 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -24,12 +24,12 @@ if (( parser_usedate )); then
 	function parsedate {
 		local ta tv=${e_date[entry]} to
 		if [[ $tv = *=* ]]; then
-			print -ru2 "Invalid date in data/$srcf.inc: $line"
+			print -ru2 "Invalid date in $srcd/$srcf.inc: $line"
 			exit 1
 		fi
 		set -A ta -- $tv =
 		if [[ ${ta[0]} != +([0-9]).+([0-9]).+([0-9]) ]]; then
-			print -ru2 "Invalid day in data/$srcf.inc: $line"
+			print -ru2 "Invalid day in $srcd/$srcf.inc: $line"
 			exit 1
 		fi
 		if [[ ${ta[1]} = = ]]; then
@@ -37,18 +37,18 @@ if (( parser_usedate )); then
 			ta[2]=+0000
 			ta[3]==
 		elif [[ ${ta[1]} != +([0-9]):+([0-9])?(:+([0-9])) ]]; then
-			print -ru2 "Invalid tod in data/$srcf.inc: $line"
+			print -ru2 "Invalid tod in $srcd/$srcf.inc: $line"
 			exit 1
 		fi
 		if [[ ${ta[2]} = = ]]; then
 			ta[2]=+0000
 			ta[3]==
 		elif [[ ${ta[2]} != [+-]@([01][0-9]|2[0-3])@([03]0|[14]5) ]]; then
-			print -ru2 "Invalid tz offset in data/$srcf.inc: $line"
+			print -ru2 "Invalid tz offset in $srcd/$srcf.inc: $line"
 			exit 1
 		fi
 		if [[ ${ta[3]} != = ]]; then
-			print -ru2 "Invalid date in data/$srcf.inc: $line"
+			print -ru2 "Invalid date in $srcd/$srcf.inc: $line"
 			exit 1
 		fi
 		to=$((0${ta[2]::1}$((${ta[2]:1:2}*60+${ta[2]:3}))))
@@ -96,6 +96,8 @@ else
 fi
 
 for srcf in $sources; do
+	eval srcd=\$sourcedir_${srcf//\-/_}
+	: ${srcd:=data}
 	eval parser_lctmp=\$tags_${srcf//\-/_}
 	tags=:
 	for x in $parser_lctmp; do
@@ -159,7 +161,7 @@ for srcf in $sources; do
 			elif [[ $line = \#* ]]; then
 				continue	# ignore comment
 			else
-				print -ru2 "Unknown header in data/$srcf.inc:" \
+				print -ru2 "Unknown header in $srcd/$srcf.inc:" \
 				    "$line"
 				exit 1
 			fi
@@ -172,7 +174,7 @@ for srcf in $sources; do
 				for x in $parser_lctmp; do
 					if [[ $x != +([0-9a-z_]) ]]; then
 						print -ru2 "Invalid tag '$x' in" \
-						    "data/$srcf.inc: $line"
+						    "$srcd/$srcf.inc: $line"
 						continue
 					fi
 					e_tag[entry]=${e_tag[entry]}${e_tag[entry]+ }$x
@@ -181,9 +183,9 @@ for srcf in $sources; do
 		else
 			ei_body[entry]=${ei_body[entry]}${ei_body[entry]+$nl}$line
 		fi
-	done <"$TOP/data/$srcf.inc"
+	done <"$TOP/$srcd/$srcf.inc"
 	if (( state != 2 )); then
-		print -ru2 "Last line of data/$srcf.inc not a separator!"
+		print -ru2 "Last line of $srcd/$srcf.inc not a separator!"
 		exit 1
 	fi
 	[[ -z $rcsid_parsed ]] || rcsid_db[${#rcsid_db[*]}]=$rcsid_parsed

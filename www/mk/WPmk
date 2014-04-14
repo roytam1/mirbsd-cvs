@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.17 2013/10/12 22:57:48 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.18 2014/02/04 15:28:21 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -43,7 +43,9 @@ if [[ ! -s $TOP/data/60$committer.png ]]; then
 fi
 datadate=
 for x in "${rcsid_db[@]}"; do
-	[[ $x = '$''MirOS: www/data/WP'"$committer"'.inc,v '+([0-9.])' '+([0-9/])' '+([0-9:])' '*'$' ]] || continue
+	eval srcd=\$sourcedir_WP$committer
+	: ${srcd:=data}
+	[[ $x = '$''MirOS: www/'"$srcd/WP$committer"'.inc,v '+([0-9.])' '+([0-9/])' '+([0-9:])' '*'$' ]] || continue
 	set -A xa -- $x
 	datadate=${xa[3]}
 	break

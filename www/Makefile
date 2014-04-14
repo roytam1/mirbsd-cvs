@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.94 2014/03/30 14:24:36 tg Exp $
+# $MirOS: www/Makefile,v 1.95 2014/04/04 22:20:06 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -73,7 +73,7 @@ INCSRCS+=	news
 news.cut: stamp_htm_news
 CLEANFILES+=	news.cut
 
-.PATH: ${TOP}/src
+.PATH: ${TOP}/src ${TOP}/users/tg
 
 _htm_2xhtml=	(tr '\n' '﷐' | \
 		sed 's^.*<html'${_xhtmlbeg:Q}'' | \

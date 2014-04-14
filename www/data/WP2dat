@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: www/data/WP2dat,v 1.2 2013/09/05 20:19:55 tg Exp $
+# $MirOS: www/data/WP2dat,v 1.3 2014/03/22 20:14:52 tg Exp $
 #-
 # Pipe 'GC12345 Title of the cache' through this.
 
@@ -11,7 +11,7 @@ fi
 
 : ${datum=$(date +%d.%m.%Y)}
 
-. ../mk/common
+. "$(dirname "$0")/../mk/common"
 
 num=$(sed -n '/^ID: /s///p' WPtg.inc | tail -1)
 if (( !num )); then

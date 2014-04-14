@@ -3,7 +3,7 @@
 
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS$'
+mws_putheader '$MirOS: www/src/wptg.hts,v 1.1 2014/03/30 13:04:55 tg Exp $'
 mws_content <<'EOF'
 
 <p><a href="WPtg.htm#wpts" style="border:0;"><img style="border:0;"
