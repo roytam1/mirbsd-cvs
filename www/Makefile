@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.95 2014/04/04 22:20:06 tg Exp $
+# $MirOS: www/Makefile,v 1.96 2014/04/14 19:29:30 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -47,8 +47,8 @@ SRCS+=		projects.hts
 SRCS+=		randex.hts
 SRCS+=		rss.hts
 SRCS+=		tags.hts
-SRCS+=		wptg.hts
 SRCS+=		wtf.hts
+FPSRCS+=	users/tg/wptg.hts
 CLEANFILES+=	tags.lst tags.out
 TAGCLOUD+=	debian
 TAGCLOUD+=	event
@@ -87,11 +87,13 @@ _xhtmlbeg=	<?xml version="1.0"?> \
 all:
 install: site.tgz.stamp
 
-OBJS+=		${SRCS:M*.hts:S/hts$/htm~/}
-VOBJS+=		${SRCS:M*.hts:S/hts$/val/}
-CLEANFILES+=	${SRCS:M*.hts:S/hts$/htm~/}
+FPSRCS+=	${SRCS:S,^,src/,}
 
-DEPSRCS+=	${SRCS:S,^,src/,}
+OBJS+=		${FPSRCS:T:M*.hts:S/hts$/htm~/}
+VOBJS+=		${FPSRCS:T:M*.hts:S/hts$/val/}
+CLEANFILES+=	${FPSRCS:T:M*.hts:S/hts$/htm~/}
+
+DEPSRCS+=	${FPSRCS}
 INCSRCS+=	${WLOGS:S/^/wlog-/}
 INCSRCS+=	${TAGCLOUD:S/^/tag_/}
 
