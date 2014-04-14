@@ -1,4 +1,4 @@
-# $MirOS: www/data/Makefile,v 1.11 2014/01/02 22:54:55 tg Exp $
+# $MirOS: www/users/tg/Makefile,v 1.1 2014/04/14 19:29:42 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -36,13 +36,18 @@ _xhtmlbeg=	<?xml version="1.0"?> \
 		</head><body>
 _xhtmlend=	</body></html>
 
-all: validation
+all: validations
 
 .SUFFIXES: .xml .inc
 
 .inc.xml:
 	@print -r Creating ${@:Q} from ${<:Q} ...
 	@${_inc2xhtml} <$< >$@
+
+validations: wpcheck validation
+
+wpcheck:
+	@cd ${TOP}/data && ${MAKE} $@ WPS=tg.gc
 
 validation: .PHONY ${FILES:.inc=.xml}
 	@print -r Validating ${FILES:Q} ...
