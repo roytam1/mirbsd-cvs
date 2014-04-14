@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/loginfo,v 1.28 2011/10/22 21:36:57 tg Exp $
+# $MirOS: CVSROOT/loginfo,v 1.29 2012/02/12 02:20:41 tg Exp $
 #-
 # Note: with the current system, the last directory to be committed
 # into “wins” the eMail and changelog location. This will be replaced
@@ -65,14 +65,8 @@
 
 # regular commit mails per developer
 ^contrib/hosted/fwcf\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -D -R freewrt-developers@freewrt.org -m miros-hosted-fwcf@mirbsd.org -f $CVSROOT/Logs/ChangeLog -C %r -p %p %{sVv}
-^contrib/hosted/ahoka\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m ahoka@mirbsd.org -f $CVSROOT/Logs/.cpr.ahoka -C %r -p %p %{sVv}
 ^contrib/hosted/bsiegert\(/\|$\)	$CVSROOT/CVSROOT/mklogci %I -m bsiegert@mirbsd.org -f $CVSROOT/Logs/.cpr.bsiegert -C %r -p %p %{sVv}
-^contrib/hosted/cnuke\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m cnuke@mirbsd.org -f $CVSROOT/Logs/.cpr.cnuke -C %r -p %p %{sVv}
-^contrib/hosted/gecko2\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m gecko2@mirbsd.org -f $CVSROOT/Logs/.cpr.gecko2 -C %r -p %p %{sVv}
-^contrib/hosted/sap\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m sap@mirbsd.org -f $CVSROOT/Logs/.cpr.sap -C %r -p %p %{sVv}
 ^contrib/hosted/tg\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m tg@mirbsd.org -f $CVSROOT/Logs/.cpr.tg -C %r -p %p %{sVv}
-^contrib/hosted/tyler\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m tyler@mirbsd.org -f $CVSROOT/Logs/.cpr.tyler -C %r -p %p %{sVv}
-^contrib/hosted/wbx\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m wbx@mirbsd.org -f $CVSROOT/Logs/.cpr.wbx -C %r -p %p %{sVv}
 
 # regular global project commit mails
 DEFAULT					$CVSROOT/CVSROOT/mklogci %I -I http://www.mirbsd.org/clogs/ChangeLog -R miros-discuss@mirbsd.org -m miros-changes@mirbsd.org -f $CVSROOT/Logs/ChangeLog -C %r -p %p %{sVv}
