@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.1 2014/04/14 19:29:42 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.2 2014/04/14 20:03:59 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3243,7 +3243,7 @@ Tag: D1 T15 Micro Tradi
 ----
 ID: 599
 Date: 29.11.2013
-Waypoint: GC1QNRT
+Waypoint: GC1QNRT OC848C
 Title: Willkommen in... Oberwinter
 Tag: D1 T1 Small Tradi
 ----
