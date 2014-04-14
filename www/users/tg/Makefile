@@ -1,4 +1,4 @@
-# $MirOS: www/users/tg/Makefile,v 1.1 2014/04/14 19:29:42 tg Exp $
+# $MirOS: www/users/tg/Makefile,v 1.2 2014/04/14 19:38:19 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -53,5 +53,11 @@ validation: .PHONY ${FILES:.inc=.xml}
 	@print -r Validating ${FILES:Q} ...
 	@xmlstarlet val -d ${_xhtmldtd} -e ${.ALLSRC}
 	@print '\nValidation complete.'
+
+.ifdef validate
+root_validation:
+	@cd ${TOP} && ${MAKE} validate=${validate:Q}
+.MAIN: root_validation
+.endif
 
 .include <bsd.obj.mk>
