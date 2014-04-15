@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.2 2014/04/14 20:03:59 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.3 2014/04/14 20:25:20 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4580,6 +4580,36 @@ Date: 13.04.2014
 Waypoint: GC51709
 Title: Rheinhöhenfriedhof Lightversion - Reloaded
 Tag: D2 T3 Micro Multi
+----
+ID: 814
+Date: 15.04.2014
+Waypoint: GC4ZKGN
+Title: Wilkommen in Bandorf
+Tag: D1 T15 Micro Tradi
+----
+ID: 815
+Date: 15.04.2014
+Waypoint: GC4FWTC
+Title: Türme von Hanoi #1
+Tag: D2 T2 Small Wherigo_Hybrid
+----
+ID: 816
+Date: 15.04.2014
+Waypoint: GC3B64V
+Title: Spontan#1
+Tag: D2 T35 Micro Tradi
+----
+ID: 817
+Date: 15.04.2014
+Waypoint: GC41PF9
+Title: Kirchen &amp; Kapellen - St. Scholastika
+Tag: D1 T15 Micro Multi
+----
+ID: 818
+Date: 15.04.2014
+Waypoint: http://www.wherigo.com/cartridge/details.aspx?CGUID=fea0214b-8c94-4757-ba02-a76b3c66b6a5
+Title: Turmbau zu Hanoi
+Tag: Wherigo_Cartridge
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
