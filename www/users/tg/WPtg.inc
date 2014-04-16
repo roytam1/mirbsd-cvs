@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.3 2014/04/14 20:25:20 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.4 2014/04/15 20:28:02 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4610,6 +4610,24 @@ Date: 15.04.2014
 Waypoint: http://www.wherigo.com/cartridge/details.aspx?CGUID=fea0214b-8c94-4757-ba02-a76b3c66b6a5
 Title: Turmbau zu Hanoi
 Tag: Wherigo_Cartridge
+----
+ID: 819
+Date: 16.04.2014
+Waypoint: GC324G5
+Title: Das &#34;Polengrab&#34; - reloaded
+Tag: D15 T15 Small Tradi
+----
+ID: 820
+Date: 16.04.2014
+Waypoint: GC4FWTE
+Title: Türme von Hanoi #2
+Tag: D3 T25 Small Wherigo_Hybrid
+----
+ID: 821
+Date: 16.04.2014
+Waypoint: GC4FX1R
+Title: Türme von Hanoi # Bonus
+Tag: D35 T45 Small Mystery
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
