@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.4 2014/04/15 20:28:02 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.5 2014/04/16 20:10:02 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4628,6 +4628,18 @@ Date: 16.04.2014
 Waypoint: GC4FX1R
 Title: Türme von Hanoi # Bonus
 Tag: D35 T45 Small Mystery
+----
+ID: 822
+Date: 17.04.2014
+Waypoint: GC50JNE
+Title: Dönerstag 2014 - Bonn
+Tag: D15 T15 Event
+----
+ID: 823
+Date: 17.04.2014
+Waypoint: GC46TBE
+Title: a safe place
+Tag: D4 T1 Micro Tradi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
