@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/ftp/main.c,v 1.7 2006/10/03 19:46:14 tg Exp $ */
+/**	$MirOS: src/usr.bin/ftp/main.c,v 1.8 2007/07/15 20:01:08 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.65 2007/06/16 08:58:33 espie Exp $	*/
 /*	$NetBSD: main.c,v 1.24 1997/08/18 10:20:26 lukem Exp $	*/
 
@@ -80,7 +80,7 @@
 
 __COPYRIGHT("@(#)Copyright (c) 1985, 1989, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
-__RCSID("$MirOS: src/usr.bin/ftp/main.c,v 1.7 2006/10/03 19:46:14 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/main.c,v 1.8 2007/07/15 20:01:08 tg Exp $");
 
 int family = PF_UNSPEC;
 
@@ -272,6 +272,7 @@ main(volatile int argc, char *argv[])
 			break;
 
 		case 'V':
+			progress = 0;
 			verbose = 0;
 			break;
 
