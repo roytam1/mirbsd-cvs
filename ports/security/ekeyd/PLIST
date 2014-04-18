@@ -1,13 +1,11 @@
-@comment $MirOS: ports/security/ekeyd/PLIST,v 1.1 2009/11/14 21:45:29 tg Exp $
+@comment $MirOS: ports/security/ekeyd/PLIST,v 1.2 2012/01/15 13:47:46 tg Exp $
 man/man5/ekeyd.conf.5
 man/man8/ekey-rekey.8
 man/man8/ekey-setkey.8
-man/man8/ekey-ulusbd.8
 man/man8/ekeyd.8
 man/man8/ekeydctl.8
 sbin/ekey-rekey
 sbin/ekey-setkey
-sbin/ekey-ulusbd
 sbin/ekeyd
 sbin/ekeydctl
 share/doc/ekeyd/AUTHORS

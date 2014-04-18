@@ -1,8 +1,9 @@
-# $MirOS: ports/security/ekeyd/Makefile,v 1.2 2009/11/22 19:32:31 tg Exp $
+# $MirOS: ports/security/ekeyd/Makefile,v 1.3 2012/01/15 13:47:46 tg Exp $
 
 COMMENT=		driver daemons for the Simtec EntropyKey
 CATEGORIES=		sysutils security
 DISTNAME=		ekeyd-1.1.5
+DASH_VER=		1
 HOMEPAGE=		http://www.entropykey.co.uk/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 
@@ -24,7 +25,8 @@ NO_REGRESS=		Yes
 B_R_DEPENDS+=		:lua->=5.1:lang/lua
 B_R_DEPENDS+=		::devel/luaposix
 B_R_DEPENDS+=		:luasocket->=2.0.1-1:net/luasocket
-LIB_DEPENDS+=		usb::devel/libusb
+# only for ulusbd
+#LIB_DEPENDS+=		usb::devel/libusb
 
 EXTRA_XAKE_FLAGS+=	PREFIX=${TRUEPREFIX:Q} \
 			SYSCONFPREFIX=${SYSCONFDIR:Q}/entropykey \
@@ -33,6 +35,8 @@ EXTRA_XAKE_FLAGS+=	PREFIX=${TRUEPREFIX:Q} \
 .if ${SYSCONFDIR} != "/etc"
 EXTRA_XAKE_FLAGS+=	RUNTIMEPREFIX=${LOCALBASE:Q}/db/run
 .endif
+# disable ulusbd
+EXTRA_XAKE_FLAGS+=	BUILD_ULUSBD=no
 
 DOCS=			AUTHORS COPYING ChangeLog THANKS doc/*
 
