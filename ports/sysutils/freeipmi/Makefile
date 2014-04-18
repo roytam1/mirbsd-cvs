@@ -1,5 +1,4 @@
-BROKEN=do not use yet: subject to change without DASH_VER bump
-# $MirOS$
+# $MirOS: ports/sysutils/freeipmi/Makefile,v 1.1 2013/11/06 20:32:21 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2013/03/21 08:48:53 ajacoutot Exp $
 
 # needs machine/sysarch.h & machine/pio.h
@@ -20,7 +19,7 @@ PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 
 MODULES+=		devel/gettext
-BUILD_DEPENDS+=		::devel/argp-standalone
+BUILD_DEPENDS+=		:argp-standalone-*:devel/argp-standalone
 LIB_DEPENDS+=		gcrypt::security/libgcrypt
 
 SEPARATE_BUILD=		Yes
