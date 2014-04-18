@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.56 2009/12/06 15:23:05 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.57 2010/11/17 13:52:20 bsiegert Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -140,7 +140,9 @@ _MODGNU_loop=	rm -rf ${MODGNU_NUKES}; ( cd ${PORTSDIR}/infrastructure/db/; \
 
 # 2. update Libtool to MirLibtool
 .if ${MODGNU_MIRLIBTOOL:L} != "no"
-.  if (${AUTOCONF_VERSION} != "2.13") && (${AUTOCONF_VERSION} != "2.61")
+.  if (${AUTOCONF_VERSION} != "2.13") && \
+    (${AUTOCONF_VERSION} != "2.59") &&
+    (${AUTOCONF_VERSION} != "2.61")
 _MODGNU_loop+=	print "Warning: MirLibtool might fail in $$d due to use" \
 		    "of autoconf-${AUTOCONF_VERSION}!";
 .  endif
