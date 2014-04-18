@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.281 2014/01/07 13:07:31 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.282 2014/04/02 16:54:32 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1866,7 +1866,7 @@ IGNORE+=	"needs ${_i} emulation, which is turned off, see compat_${_i}(8)"
 .if defined(IGNORE) && !defined(NO_IGNORE)
 fetch checksum extract patch configure all build install regress \
     uninstall deinstall fake package lib-depends-check manpages-check \
-    relevant-checks:
+    relevant-checks whatif-depends:
 .  if !defined(IGNORE_SILENT)
 .    for _i in ${IGNORE}
 	@${ECHO_MSG} "===>  ${FULLPKGNAME${SUBPACKAGE}}${_MASTER} "${_i}.
