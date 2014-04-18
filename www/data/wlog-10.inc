@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.447 2014/04/01 11:26:47 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.448 2014/04/09 20:39:25 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10638,4 +10638,44 @@ Tag: bug debian news rant security work
 <p>ObFunfact: just when I was finished writing this wlog entry, I got a
  new eMail “Special offer just for you.” from GoDaddy. Sadly, no offer
  for a 5 € SSL certificate, just the usual 20-35% off coupon code.</p>
+----
+Date: 18.04.2014 22:45
+Author: tg@
+Title: Stay off my computer, puppet!
+Tag: bug debian fun geocache pcli rant tip work
+
+<p>I was out, seeing something that wasn’t there yet when I was at
+ school (the “web” was not ubiquitous, back then), and decided to
+ have a look:</p>
+<pre>pageok</pre>
+<p class="boxhead">Ugh. Oh well, PocketIE doesn’t provide a “View
+ Source” thingy, so I asked Natureshadow (who got the same result
+ on his Android, and had no “View Source” either apparently, so he
+ used cURL to see it). We saw (here, re-enacted using ftp(1)):</p>
+<div class="boxtext">
+ <pre>
+	tg@blau:~ $ ftp -Vo - http://www.draitschbrunnen.de/
+	&lt;!-- pageok --&gt;
+	&lt;!-- managed by puppet --&gt;
+	&lt;html&gt;
+	&lt;pre&gt;pageok&lt;/pre&gt;
+	&lt;/html&gt;
+ </pre>
+</div><p class="boxfoot">This is the final straw… after puppet
+ managed to trash a sudoers(5) at work (I warned people to not
+ introduce it) now it breaks websites. ☺</p>
+<p style="font-size:small;">(Of course, tools are useful, but
+ at best to the skill of their users. Merely dumbly copying
+ recipes from “the ’net” without any understanding just makes
+ debugging harder for those of us <em>with</em> skills.)</p>
+<p>ObQuestion: Does anyone have ⓐ a transcript (into UTF-8)
+ and ⓑ a translation for the <em>other</em> half of the <a
+ href="http://www.openbsd.org/images/poster4.jpg">OpenBSD
+ 2.8 poster</a>? (I get asked this regularily.)</p>
+<p>ObTip: I can install a few hundred Debian VMs at work
+ manually before the effort needed to automate d-i would
+ amortise. So I decided not to. Coworkers are shocked. I
+ keep flexibility (can decide to have machines differ),
+ and the boss accepts my explanations. Think before doing
+ automation just for the sake of automation!</p>
 ----
