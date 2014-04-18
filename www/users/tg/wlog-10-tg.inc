@@ -1,8 +1,8 @@
-RCSID: $MirOS$
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.1 2014/04/14 19:29:43 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
-Tag: geocaching rant
+Tag: geocache rant
 
 <p>I’ve been only sleeping, cooking and geocaching this weekend.
  Rather productive. Better than being angry at idiots, slowpokes
