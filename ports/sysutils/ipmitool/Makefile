@@ -1,5 +1,4 @@
-BROKEN=do not use yet: subject to change without DASH_VER bump
-# $MirOS$
+# $MirOS: ports/sysutils/ipmitool/Makefile,v 1.1 2013/11/06 20:32:27 tg Exp $
 # $OpenBSD: Makefile,v 1.11 2013/03/21 08:48:54 ajacoutot Exp $
 
 COMMENT=		manage and configure devices that supports IPMI
@@ -34,8 +33,9 @@ post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/ipmitool/
 	${INSTALL_DATA} ${WRKSRC}/contrib/README ${PREFIX}/share/ipmitool/
 .for _f in ${SHARE_SHEBANG}
-	sed '1s`^.*$$`#!'${MKSH:Q}'`' <${WRKSRC}/contrib/${_f} >${_f}.in
-	${INSTALL_SCRIPT} ${_f}.in ${PREFIX}/share/ipmitool/${_f}
+	sed '1s`^.*$$`\#!'${MKSH:Q}'`' <${WRKSRC}/contrib/${_f} \
+	    >${WRKBUILD:Q}/${_f}.in
+	${INSTALL_SCRIPT} ${WRKBUILD:Q}/${_f}.in ${PREFIX}/share/ipmitool/${_f}
 .endfor
 .for _f in ${SHARE_FILES}
 	${INSTALL_SCRIPT} ${WRKSRC}/contrib/${_f} ${PREFIX}/share/ipmitool/
