@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.96 2014/04/14 19:29:30 tg Exp $
+# $MirOS: www/Makefile,v 1.97 2014/04/14 20:10:51 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -157,6 +157,7 @@ _reinstall:
 	pax -rw -pe -v hashed dst/
 	pax -rw -pe -dv ${OBJS:Nstamp_*:S/htm~$/htm/} dst/
 .for _i in ${GENSRCS}
+	[[ -s ${_i} ]]
 	pax -rw -pe -dv $$(<${_i}) dst/
 .endfor
 	cd ${TOP}/.linked && pax -rw -pe -v ${USELINKED} ${DST}/dst/
