@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.5 2014/04/16 20:10:02 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.6 2014/04/17 18:33:40 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4640,6 +4640,30 @@ Date: 17.04.2014
 Waypoint: GC46TBE
 Title: a safe place
 Tag: D4 T1 Micro Tradi
+----
+ID: 824
+Date: 19.04.2014
+Waypoint: GC4NC2J
+Title: Hotte`s kleine Serie Der Petling &#34;O&#34; Meter
+Tag: D25 T15 Other Tradi recommended
+----
+ID: 825
+Date: 19.04.2014
+Waypoint: GC4CVC0
+Title: Auf der Suche nach dem verlorenen Henkelpott
+Tag: D3 T3 Large Multi recommended
+----
+ID: 826
+Date: 19.04.2014
+Waypoint: GC43VM8
+Title: Der &#34;08/15&#34; Cache
+Tag: D35 T2 Large Multi
+----
+ID: 827
+Date: 19.04.2014
+Waypoint: GC3ANNG
+Title: Das &#34;blaue&#34; Wunder... der Bonus
+Tag: D25 T15 Regular Mystery
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat

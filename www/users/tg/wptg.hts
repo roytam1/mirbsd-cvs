@@ -3,7 +3,7 @@
 
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.1 2014/04/14 19:29:43 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.2 2014/04/14 20:03:59 tg Exp $'
 mws_content <<'EOF'
 
 <p><a href="WPtg.htm#wpts" style="border:0;"><img style="border:0;"
@@ -61,6 +61,14 @@ mws_content <<'EOF'
 <p><img style="border:0px;"
  src="http://img.geocaching.com/user/48862013-405e-40b9-9548-a30d659fe12f.jpg"
  alt="GC4M90G│Beach TB Hotel GBH" /></p>
+
+<p><img style="border:0px;"
+ src="http://neersianer.de/listings/GC4CVC0/banner.png"
+ alt="GC4CVC0│Auf der Suche nach dem verlorenen Henkelpott" /></p>
+
+<p><img style="border:0px;"
+ src="http://neersianer.de/listings/GC43VM8/banner.jpg"
+ alt="GC43VM8│Der &#34;08/15&#34; Cache" /></p>
 
 <h3>Software</h3>
 
