@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.448 2014/04/09 20:39:25 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.449 2014/04/18 22:45:29 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10671,7 +10671,16 @@ Tag: bug debian fun geocache pcli rant tip work
 <p>ObQuestion: Does anyone have ⓐ a transcript (into UTF-8)
  and ⓑ a translation for the <em>other</em> half of the <a
  href="http://www.openbsd.org/images/poster4.jpg">OpenBSD
- 2.8 poster</a>? (I get asked this regularily.)</p>
+ 2.8 poster</a>? (I get asked this regularily.)<br
+ /><strong>Update:</strong> One person sent me the Kanji
+ and Kana for it in UTF-8 「俺のマシンに手を出すな！」,
+ and they and one more person told me it’s “Hands off my
+ machine!” or “Don’t lay a hand on my machine!”. Now I’m
+ not studying Japanese, but it LGTM in FixedMisc [MirOS],
+ and JMdict from MirPorts says: ore no mashin ni te (w)o
+ dasu na (roughly: my machine; particle; hands; particle;
+ put out; prohibition) ☺ Thanks all, now I know what to
+ tell visitors who wonder about that poster on my wall.</p>
 <p>ObTip: I can install a few hundred Debian VMs at work
  manually before the effort needed to automate d-i would
  amortise. So I decided not to. Coworkers are shocked. I
