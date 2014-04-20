@@ -21,7 +21,7 @@
 
 (( x = RANDOM & 3 ))
 y=$x; while (( y == x )); do (( y = RANDOM & 3 )); done
-z=$x; while (( (z == x) || (z == y) )); do (( y = RANDOM & 3 )); done
+z=$x; while (( (z == x) || (z == y) )); do (( z = RANDOM & 3 )); done
 /bin/ls -FalR "$@"
 (
 	print -r $RANDOM "$@" $RANDOM
