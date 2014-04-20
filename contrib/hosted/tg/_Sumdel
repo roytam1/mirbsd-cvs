@@ -19,7 +19,9 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-(( x = 2 + (RANDOM & 3) ))
+(( x = RANDOM & 3 ))
+y=$x; while (( y == x )); do (( y = RANDOM & 3 )); done
+z=$x; while (( (z == x) || (z == y) )); do (( y = RANDOM & 3 )); done
 /bin/ls -FalR "$@"
 (
 	print -r $RANDOM "$@" $RANDOM
@@ -32,9 +34,11 @@
 	print $RANDOM
 ) 2>&1 | /bin/cksum -b \
     -a cksum -a md4 -a sfv -a tiger -a rmd160 -a sha384 \
-    -a whirlpool -a adler32 -a cdb -a sum -a bafh -a sha1 -a suma \
+    -a whirlpool -a adler32 -a cdb -a sum -a bafh -a sha1 -a suma -a oaat1s \
     >/dev/wrandom 2>&1
+builtin sleep $y.$RANDOM
 /bin/rm -Prf "$@"
+builtin sleep $z.$RANDOM
 /bin/ls -Fald "$@"
 exit 0
-# space left: second lane, 12 bytes at EOL, fin of sha384 (strong)
+# space left: second lane, 8 bytes at EOL, fin of sha384 (strong)
