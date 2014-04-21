@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/uudecode/uudecode.c,v 1.3 2007/07/05 23:09:44 tg Exp $ */
+/**	$MirOS: src/usr.bin/uudecode/uudecode.c,v 1.4 2010/12/27 18:39:13 tg Exp $ */
 /*	$OpenBSD: uudecode.c,v 1.14 2004/04/09 22:54:02 millert Exp $	*/
 /*	$FreeBSD: uudecode.c,v 1.49 2003/05/03 19:44:46 obrien Exp $	*/
 
@@ -57,8 +57,12 @@ __COPYRIGHT("@(#) Copyright (c) 1983, 1993\n\
 #include <string.h>
 #include <unistd.h>
 
+#ifdef USE_LIBBSD
+#include <bsd/unistd.h>
+#endif
+
 __SCCSID("@(#)uudecode.c	8.2 (Berkeley) 4/2/94");
-__RCSID("$MirOS: src/usr.bin/uudecode/uudecode.c,v 1.3 2007/07/05 23:09:44 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/uudecode/uudecode.c,v 1.4 2010/12/27 18:39:13 tg Exp $");
 
 static const char *infile, *outfile;
 static FILE *infp, *outfp;
@@ -302,7 +306,7 @@ decode2(void)
 }
 
 static int
-getline(char *buf, size_t size)
+getline_l(char *buf, size_t size)
 {
 	if (fgets(buf, size, infp) != NULL)
 		return (2);
@@ -340,7 +344,7 @@ uu_decode(void)
 
 	/* for each input line */
 	for (;;) {
-		switch (getline(buf, sizeof(buf))) {
+		switch (getline_l(buf, sizeof(buf))) {
 		case 0:
 			return (0);
 		case 1:
@@ -400,7 +404,7 @@ uu_decode(void)
 				}
 			}
 	}
-	switch (getline(buf, sizeof(buf))) {
+	switch (getline_l(buf, sizeof(buf))) {
 	case 0:
 		return (0);
 	case 1:
@@ -418,7 +422,7 @@ base64_decode(void)
 	unsigned char outbuf[MAXPATHLEN * 4];
 
 	for (;;) {
-		switch (getline(inbuf, sizeof(inbuf))) {
+		switch (getline_l(inbuf, sizeof(inbuf))) {
 		case 0:
 			return (0);
 		case 1:
