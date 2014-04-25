@@ -31,11 +31,8 @@ while :; do
 	elif [[ $1 = -J ]]; then
 		: ${CVSROOT:=rsync://rsync.allbsd.org/$nani}
 		shift
-	elif [[ $1 = -P ]]; then
-		: ${CVSROOT:=_anoncvs@pfau.mirbsd.org:$what}
-		shift
-	elif [[ $1 = -M ]]; then
-		: ${CVSROOT:=_anoncvs@hugh.mirbsd.org:$what}
+	elif [[ $1 = -W ]]; then
+		: ${CVSROOT:=_anoncvs@fish.mirbsd.org:$what}
 		shift
 	elif [[ $1 = -4 ]]; then
 		sshx="$sshx -4"
