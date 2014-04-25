@@ -65,7 +65,7 @@
 #include <openssl/buffer.h>
 #include <openssl/err.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/crypto/asn1/tasn_dec.c,v 1.7 2009/04/12 11:57:38 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/crypto/asn1/tasn_dec.c,v 1.8 2014/04/18 19:40:54 tg Exp $");
 
 static int asn1_check_eoc(unsigned char **in, long len);
 static int asn1_find_end(unsigned char **in, long len, char inf);
@@ -148,11 +148,6 @@ int ASN1_item_ex_d2i(ASN1_VALUE **pval, unsigned char **in, long len, const ASN1
 	int ret = 0;
 	ASN1_VALUE *pchval, **pchptr, *ptmpval;
 	if(!pval) return 0;
-	if (*pval) {
-		/* always start fresh */
-		ASN1_item_ex_free(pval, it);
-		*pval = NULL;
-	}
 	if(aux && aux->asn1_cb) asn1_cb = aux->asn1_cb;
 	else asn1_cb = 0;
 
@@ -326,6 +321,8 @@ int ASN1_item_ex_d2i(ASN1_VALUE **pval, unsigned char **in, long len, const ASN1
 				ASN1err(ASN1_F_ASN1_ITEM_EX_D2I, ERR_R_NESTED_ASN1_ERROR);
 				goto err;
 			}
+		} else {
+			memset(*pval, 0, it->size);
 		}
 		if(asn1_cb && !asn1_cb(ASN1_OP_D2I_PRE, pval, it))
 				goto auxerr;
