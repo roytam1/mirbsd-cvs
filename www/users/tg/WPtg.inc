@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.6 2014/04/17 18:33:40 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.7 2014/04/19 22:04:46 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4664,6 +4664,12 @@ Date: 19.04.2014
 Waypoint: GC3ANNG
 Title: Das &#34;blaue&#34; Wunder... der Bonus
 Tag: D25 T15 Regular Mystery
+----
+ID: 828
+Date: 23.04.2014
+Waypoint: GC18DV3
+Title: Wissenschaftsfiguren
+Tag: D3 T1 Other Unknown
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
