@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.7 2014/04/19 22:04:46 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.8 2014/04/25 20:45:29 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4670,6 +4670,18 @@ Date: 23.04.2014
 Waypoint: GC18DV3
 Title: Wissenschaftsfiguren
 Tag: D3 T1 Other Unknown
+----
+ID: 829
+Date: 27.04.2014
+Waypoint: GC4RC2N
+Title: Die Weinpresse
+Tag: D3 T15 Micro Tradi
+----
+ID: 830
+Date: 27.04.2014
+Waypoint: GC37W28
+Title: Alfterer Kreuze 28
+Tag: D1 T1 Micro Tradi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
