@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.9 2014/04/27 22:10:11 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.10 2014/04/28 21:10:31 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4684,6 +4684,11 @@ Title: Alfterer Kreuze 28
 Tag: D1 T1 Micro Tradi
 ----
 ID: 831
+Date: 23.04.2014
+Title: (unpublizierter Cache im Meßdorfer Feld)
+nTF: 2
+----
+ID: 832
 Date: 28.04.2014
 Title: (unpublizierter Cache von Nik bei tarent)
 nTF: 1
