@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.8 2014/04/25 20:45:29 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.9 2014/04/27 22:10:11 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4682,6 +4682,11 @@ Date: 27.04.2014
 Waypoint: GC37W28
 Title: Alfterer Kreuze 28
 Tag: D1 T1 Micro Tradi
+----
+ID: 831
+Date: 28.04.2014
+Title: (unpublizierter Cache von Nik bei tarent)
+nTF: 1
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
