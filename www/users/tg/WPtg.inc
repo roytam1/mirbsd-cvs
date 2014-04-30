@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.11 2014/04/28 21:18:04 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.12 2014/04/29 19:48:49 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4684,9 +4684,13 @@ Title: Alfterer Kreuze 28
 Tag: D1 T1 Micro Tradi
 ----
 ID: 831
-Date: 23.04.2014
-Title: (unpublizierter Cache im Meßdorfer Feld)
+Date: 22.04.2014
+Waypoint: GC53J4Q
+Title: Kleine Runde durchs Messdorfer Feld 2
 nTF: 2
+Tag: D15 T15 Small Tradi
+
+vormals: (unpublizierter Cache im Meßdorfer Feld)
 ----
 ID: 832
 Date: 28.04.2014
@@ -4703,6 +4707,20 @@ ID: 834
 Date: 29.04.2014
 Waypoint: GC4M9NK
 Title: Haus der Helfer: Oberdollendorfer Feuerpatschen
+Tag: D15 T15 Micro Tradi
+----
+ID: 835
+Date: 30.04.2014
+Waypoint: GC4863E
+Title: LP - Kappe2
+Tag: D15 T2 Micro Multi
+
+Hier wäre eher T3½ angesagt, im Moment…
+----
+ID: 836
+Date: 30.04.2014
+Waypoint: GC2CG80
+Title: Wachtberger Kreuze 6
 Tag: D15 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
