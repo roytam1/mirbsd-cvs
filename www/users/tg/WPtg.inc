@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.12 2014/04/29 19:48:49 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.13 2014/04/30 20:26:39 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4722,6 +4722,19 @@ Date: 30.04.2014
 Waypoint: GC2CG80
 Title: Wachtberger Kreuze 6
 Tag: D15 T15 Micro Tradi
+----
+ID: 837
+Date: 01.05.2014
+Waypoint: GC52VB7
+Title: Der Winter ist vorüber ⅯⅯⅩⅣ
+nTF: 0
+Tag: D1 T1 Event
+----
+ID: 838
+Date: 01.05.2014
+Waypoint: GC37DBD
+Title: Röbel Fröbel
+Tag: D3 T35 Small Tradi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
