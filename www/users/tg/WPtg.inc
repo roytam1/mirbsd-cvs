@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.13 2014/04/30 20:26:39 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.14 2014/05/01 20:24:37 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4735,6 +4735,24 @@ Date: 01.05.2014
 Waypoint: GC37DBD
 Title: Röbel Fröbel
 Tag: D3 T35 Small Tradi
+----
+ID: 839
+Date: 02.05.2014
+Waypoint: GC50XGE
+Title: Der kleine Drachenfels
+Tag: D1 T15 Small Tradi
+----
+ID: 840
+Date: 02.05.2014
+Waypoint: GC50XN8
+Title: An der Ovalbahn
+Tag: D15 T1 Small Tradi
+----
+ID: 841
+Date: 02.05.2014
+Waypoint: GC1WD4P
+Title: Judas Thaddäus in Alfter 1,15,m,t
+Tag: D1 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
