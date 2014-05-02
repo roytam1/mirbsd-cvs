@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.39 2014/01/10 12:32:27 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.40 2014/03/24 08:58:15 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
@@ -13,7 +13,7 @@
 # not supported: experimental
 # Debian derivate from Canonical that cannot be named: dapper hardy
 #	  jaunty karmic lucid maverick natty oneiric
-#	  precise quantal raring saucy trusty
+#	  precise quantal raring saucy trusty utopic
 # *-backports: sarge etch lenny squeeze wheezy; all Debian derivate
 #	  from Canonical that cannot be named
 # *-backports-sloppy: lenny squeeze
@@ -47,10 +47,10 @@ setuptofail() {
 DISTROS='debian dpo ubuntu'
 DISTS_debian='sarge etch lenny squeeze wheezy jessie sid'
 DISTS_dpo='dpo'
-DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise quantal raring saucy trusty'
+DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise quantal raring saucy trusty utopic'
 DISTBACKPORTS_debian=sarge:etch:lenny:squeeze:wheezy
 DISTBACKPORTSLOPPY_debian=lenny:squeeze
-DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise:quantal:raring:saucy:trusty
+DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise:quantal:raring:saucy:trusty:utopic
 MIRROR_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
@@ -73,6 +73,7 @@ MIRROR_quantal=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_raring=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_saucy=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_trusty=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRROR_utopic=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
 MIRRORSECURITY_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
 MIRRORSECURITY_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
@@ -93,6 +94,7 @@ MIRRORSECURITY_quantal=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_raring=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_saucy=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_trusty=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRRORSECURITY_utopic=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORBACKPORTS_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 MIRRORBACKPORTS_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 MIRRORBACKPORTS_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
