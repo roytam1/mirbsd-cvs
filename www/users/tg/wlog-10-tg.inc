@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.2 2014/04/18 22:34:56 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.3 2014/05/04 00:37:47 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -13,7 +13,7 @@ Tag: geocache rant
 <p>Food was rather tasty, although I held back and put only ten
  pieces of garlic into it; gecko2 added some Pul Biber to his…</p>
 ----
-Date: 04.05.2014 00:36
+Date: 04.05.2014 20:42
 Author: tg@
 Title: Maibaum für Ada
 Tag: debian fun twitxr
