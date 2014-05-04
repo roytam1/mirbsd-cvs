@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.15 2014/05/02 22:24:17 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.16 2014/05/04 00:37:47 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4753,6 +4753,24 @@ Date: 02.05.2014
 Waypoint: GC1WD4P
 Title: Judas Thaddäus in Alfter
 Tag: D1 T15 Micro Tradi
+----
+ID: 842
+Date: 04.05.2014
+Waypoint: GC4W612
+Title: Neubaugebiet Ließem
+Tag: D15 T15 Micro Multi
+----
+ID: 843
+Date: 04.05.2014
+Waypoint: GC4R08D
+Title: G.G.Hardy's Vergessene Orte - Die Lorenbahn
+Tag: D3 T3 Large Multi recommended
+----
+ID: 844
+Date: 04.05.2014
+Waypoint: GC3YC3Z
+Title: Siebengebirgspanorama
+Tag: D2 T3 Small Tradi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
