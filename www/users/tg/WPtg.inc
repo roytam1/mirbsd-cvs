@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.14 2014/05/01 20:24:37 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.15 2014/05/02 22:24:17 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4751,7 +4751,7 @@ Tag: D15 T1 Small Tradi
 ID: 841
 Date: 02.05.2014
 Waypoint: GC1WD4P
-Title: Judas Thaddäus in Alfter 1,15,m,t
+Title: Judas Thaddäus in Alfter
 Tag: D1 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
