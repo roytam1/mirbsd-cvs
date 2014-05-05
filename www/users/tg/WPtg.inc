@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.16 2014/05/04 00:37:47 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.17 2014/05/04 19:25:14 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4771,6 +4771,18 @@ Date: 04.05.2014
 Waypoint: GC3YC3Z
 Title: Siebengebirgspanorama
 Tag: D2 T3 Small Tradi
+----
+ID: 845
+Date: 05.05.2014
+Waypoint: GC53F6K
+Title: Der Baum - Noahs Erster
+Tag: D15 T2 Small Tradi
+----
+ID: 846
+Date: 05.05.2014
+Waypoint: GC52H99
+Title: Wiesen, Felder und Plantagen #4 Reloaded
+Tag: D15 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat

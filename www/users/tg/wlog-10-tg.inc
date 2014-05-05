@@ -13,7 +13,7 @@ Tag: geocache rant
 <p>Food was rather tasty, although I held back and put only ten
  pieces of garlic into it; gecko2 added some Pul Biber to his…</p>
 ----
-Date: 04.05.2014 20:42
+Date: 04.05.2014 00:36
 Author: tg@
 Title: Maibaum für Ada
 Tag: debian fun twitxr
