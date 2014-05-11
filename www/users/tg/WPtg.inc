@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.17 2014/05/04 19:25:14 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.18 2014/05/05 18:42:25 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4783,6 +4783,18 @@ Date: 05.05.2014
 Waypoint: GC52H99
 Title: Wiesen, Felder und Plantagen #4 Reloaded
 Tag: D15 T15 Micro Tradi
+----
+ID: 847
+Date: 10.05.2014
+Waypoint: GC532CV
+Title: Schatzsucher sind kreativ und (er-)finderisch
+Tag: D1 T15 Event
+----
+ID: 848
+Date: 10.05.2014
+Waypoint: GC515YT
+Title: Ich trink nur noch schnell meinen Kaffee aus ...
+Tag: D1 T1 Small Tradi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat

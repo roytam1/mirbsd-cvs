@@ -1,6 +1,6 @@
 mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.29 2013/06/22 23:26:07 tg Exp $'
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.30 2013/11/09 01:21:40 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Content</h2>
 EOF
@@ -27,14 +27,15 @@ mws_content <<'EOF'
  src="@@RELPATH@@pics/open_source_button.png" /></p>
 
 <h3 id="download">Download</h3>
-<p>Current version: kwalletcli 2.11 (2011-06-03)</p><ul>
- <li>RMD160 (kwalletcli-2.11.tar.gz) = 254f7315014152fcf4fde69bb8bef6081968bf9e</li>
- <li>TIGER (kwalletcli-2.11.tar.gz) = 71a6971ac6f4cc94f1310acb8547123b4b867f52002ef25e</li>
- <li>1165299207 60022 /MirOS/dist/hosted/kwalletcli/kwalletcli-2.11.tar.gz</li>
- <li>MD5 (kwalletcli-2.11.tar.gz) = bf5c0bc1608041dd637f0e8e5e4f8586</li>
+<p>Current version: kwalletcli 2.12 (2014-05-11)</p><ul>
+<!-- cd /MirOS/dist/hosted/kwalletcli; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
+ <li>RMD160 (kwalletcli-2.12.tar.gz) = 9ef4ba4fdda6c6af0f537fe155a600b7e98c4b8d</li>
+ <li>TIGER (kwalletcli-2.12.tar.gz) = bf31c1c2aed7be1ccedf0443f1e06bb0ecfdd0a56cfdfb32</li>
+ <li>327772195 60073 /MirOS/dist/hosted/kwalletcli/kwalletcli-2.12.tar.gz</li>
+ <li>MD5 (kwalletcli-2.12.tar.gz) = 2051676c180ede4595a2a85b12c220b3</li>
  <li style="list-style:none;">Mirrors</li>
- <li><a href="https://www.mirbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.11.tar.gz">Germany</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.11.tar.gz">Japan</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.12.tar.gz">Germany</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.12.tar.gz">Japan</a></li>
 </ul>
 
 <h3 id="contents">Ingredients</h3>
@@ -172,9 +173,15 @@ else:
  supported gnome-keyring though).</p>
 
 <h2 id="clog">ChangeLog</h2>
-<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
--->
+ <li>Merge back from Debian packaging: add CXXFLAGS to CXX link invocation</li>
+</ul>
+<p id="r2_12">kwalletcli 2.12</p><ul>
+ <li>Remove unused code from BSDmakefile, for better portability</li>
+ <li>Apply patches from Timo Weingärtner to add recognition for
+  git's question and ssh-agent-filter's confirmation</li>
+ <li>Whitespace cleanup; add list of contributors to LICENCE file</li>
+</ul>
 <p id="r2_11">kwalletcli 2.11</p><ul>
  <li>Correct exit code for when the read routines die</li>
  <li>Catch signals and terminate gracefully</li>

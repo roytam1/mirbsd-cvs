@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.20 2013/09/10 18:01:28 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.21 2013/11/01 01:22:36 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -59,7 +59,7 @@ Link: http://www.openbsd.org/cgi-bin/cvsweb/src/bin/ksh/
 This is OpenBSD’s version of pdksh, which has been enhanced
 and bugfixed relative to it and eventually spawned mksh.
 It has been ported to other operating systems several times:
-<a href="http://www.delilinux.de/oksh/">oksh in DeliLinux</a>,
+<a href="http://web.archive.org/web/20090701170731/http://www.delilinux.de/oksh/">oksh in DeliLinux</a>,
 <a href="http://people.freebsd.org/~tmclaugh/">OpenKSH by
  FreeBSD’s Tom McLaughlin</a>, etc.
 ----
@@ -234,12 +234,12 @@ Link: http://planet-commandline.org/?Amber+Screen
 RSS/Atom aggregator with topics related to the command line.
 ----
 Title: Programming Language News – Shell
-Link: http://plnews.org/category/Languages__Shell/
+Link: http://web.archive.org/web/20101211175816/http://plnews.org/category/Languages__Shell/
 
 Generic shell-related newsfeed.
 ----
 Title: Shell-Toolkit (shellsnippets)
-Link: https://freewrt.org/projects/shellsnippets/
+Link: https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=shellsnippets/shellsnippets.git
 
 Loose collection of fragments of shell scripts and programmes of random
 usefulness, which may or may not work. The intent is to have a collection
@@ -247,7 +247,7 @@ of code to aid those who learn by reading other peoples’ code by providing
 some examples of (hopefully) better than average quality.
 ----
 Title: Solaris ksh93-integration project
-Link: http://www.opensolaris.org/os/project/ksh93-integration/
+Link: http://web.archive.org/web/20090927131746/http://opensolaris.org/os/project/ksh93-integration
 
 Homepage of the project attempting to integrate ksh93 in Solaris,
 replacing both ksh88 and their Bourne (nōn-POSIX) <tt>/bin/sh</tt>.
@@ -256,7 +256,7 @@ be available as <tt>/usr/bin/oksh</tt> but rather ksh88, due to
 oksh’s existence as pdksh derivate.)
 ----
 Title: OpenSolaris shell coding style guidelines
-Link: http://www.opensolaris.org/os/project/shell/shellstyle/
+Link: http://web.archive.org/web/20121103080047/http://hub.opensolaris.org/bin/view/Project+shell/shellstyle
 
 [DRAFT] Bourne/Korn Shell Coding Conventions
 ----
