@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.1.1.1 2001/07/08 00:01:44 pvalchev Exp $
-bin/iview
-man/man1/iview.1

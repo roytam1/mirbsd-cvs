@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.2 2001/08/11 17:25:30 pvalchev Exp $
-@lib lib/libparagui.so.2.0

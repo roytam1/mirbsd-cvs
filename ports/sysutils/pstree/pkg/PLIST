@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2002/06/20 13:32:04 naddy Exp $
-bin/pstree
-man/man1/pstree.1
