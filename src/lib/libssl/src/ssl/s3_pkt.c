@@ -116,7 +116,7 @@
 #include <openssl/evp.h>
 #include <openssl/buffer.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_pkt.c,v 1.3 2009/11/14 14:33:47 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_pkt.c,v 1.4 2010/03/30 20:49:59 tg Exp $");
 
 static int do_ssl3_write(SSL *s, int type, const unsigned char *buf,
 			 unsigned int len, int create_empty_fragment);
@@ -582,6 +582,11 @@ static int do_ssl3_write(SSL *s, int type, const unsigned char *buf,
 		if (i <= 0)
 			return(i);
 		/* if it went, fall through and send more stuff */
+
+		/* we may have released our buffer, so get it again */
+		if (wb->buf == NULL)
+			if (!ssl3_setup_write_buffer(s))
+				return (-1);
 		}
 
 	if (len == 0 && !create_empty_fragment)
