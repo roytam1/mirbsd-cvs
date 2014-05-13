@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.3 2014/05/04 00:37:47 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.5 2014/05/05 18:42:25 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -27,4 +27,24 @@ Tag: debian fun twitxr
  better legible.</p>
 <p><a href="@@RELPATH@@pics/wlog/Ada-Maibaum.jpg"><img
  alt="Ada-Maibaum" src="@@RELPATH@@pics/wlog/Ada_Maibaum.jpg" /></a></p>
+----
+Date: 13.05.2014 16:25
+Author: tg@
+Title: Lügen haben lange Leitern
+Tag: debian fun politics rant twitxr
+
+<p><a href="@@RELPATH@@pics/wlog/anti-nrw.jpg"><img
+ style="float:right; margin-left:1em; margin-bottom:3px;"
+ alt="Photo von Laternenmast mit Wahlplakaten, oben Pro NRW, unten…"
+ src="@@RELPATH@@pics/wlog/anti_nrw.jpg" /></a></p>
+<p>Endlich tut mal jemand was gegen <a
+ href="https://de.wikipedia.org/wiki/B%C3%BCrgerbewegung_pro_NRW">die
+ rechte Hetzpartei</a>! – Ein Arbeitskollege fragt, ob man die nicht
+ einfach mit einem langen Heckenschneider abmachen kann… aber sie so
+ lächerlich zu machen hat auch was ☺</p>
+<p>Finally, someone is doing something against <a
+ href="https://en.wikipedia.org/wiki/Pro_NRW">this Nazi party</a>!
+ A coworker wondered whether it’s legal to cut them off with a long
+ tool, but making them ridiculous like this is also funny ☻</p>
+<div style="clear:right; height:1px;"> </div>
 ----
