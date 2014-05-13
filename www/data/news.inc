@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.155 2013/12/01 01:26:40 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.156 2014/04/04 22:20:10 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -748,7 +748,7 @@ Tag: security
 <p>After 1600+ downloads, we think it has settled down a little.
  Nevertheless, we got a request to use a new form of distribution,
  the <a href="http://www.metalinker.org/">metalinks</a>.</p>
-<p><a href="@@RELPATH@@f/MirBSD-10semel.metalink">MirOS #10 Metalink</a></p>
+<p>[link deleted 2014-05-13, we stopped using torrents]</p>
 <p>There is also a list of <a href="@@RELPATH@@errata10.htm">errata
  for MirOS #10</a>; we will issue a binary update within a few days,
  as at least the Sendmail bug is severe.</p>
@@ -1909,8 +1909,8 @@ Author: tg@
 Tag: event snapshot
 
 <p>The <a href="http://froscon.de/">FrOSCon</a> Edition “Federrosé” ISO
- is <a href="@@RELPATH@@f/MirOS%20%2310-current%20%28FrOSCon%202010%29%20%5B2C7AF16C%5D.torrent">now
- available</a> for download using BitTorrent. Because our usual tracker
+ is now [link deleted 2014-05-13, we do not use torrent any more]
+ available for download using BitTorrent. Because our usual tracker
  Scarywater is down, the file is now hosted here and tracked using <a
  href="http://openbittorrent.com/">OpenBitTorrent</a> primarily.</p>
 <!-- RSS stop --><ul>

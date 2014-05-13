@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.449 2014/04/18 22:45:29 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.450 2014/04/20 11:18:22 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -6926,7 +6926,7 @@ Tag: snapshot
  href="@@RELPATH@@mksh.htm">mksh</a> is now PDF 1.4 – something closely
  resembling, if not, PDF/A actually.</p>
 <p>The snapshot will, as usual, end up on the mirrors, i.e.</p><ul>
- <li><a href="https://dl.mirbsd.org/MirOS/current/">Germany main</a>
+ <li><a href="https://www.mirbsd.org/MirOS/current/">Germany main</a>
   (Strato) secure HTTP</li>
  <li><a href="http://pub.allbsd.org/MirOS/current/">Japan</a>
   (AllBSD.org) insecure HTTP</li>
@@ -6951,9 +6951,9 @@ Tag: debian event mksh snapshot
  WL-500gPv2 development. The social part was nice as well, although I think
  the greek restaurant in the city will not be visited by me again. Anyway,
  if you didn’t attend FrOSCon, your own fault…</p>
-<p>Since the BitTorrent tracker used by MirOS is down, here’s the link to <a
- href="@@RELPATH@@f/MIRA0819.torrent">the [updated 2010-08-28]
- current (FrOSCon 2010 Edition) snapshot’s torrent</a>, Triforce as usual.
+<p>Since the BitTorrent tracker used by MirOS is down, here’s the link to
+ the [updated 2010-08-28] [deleted 2014-05013]
+ current (FrOSCon 2010 Edition) snapshot’s torrent, Triforce as usual.
  We’ll probably rewrite torrent files for all our ISOs and publish them on
  the MirBSD website. I’m currently considering OpenBitTorrent plus one or
  two DHT seed nodes with no statistics. Maybe with webseed. (Need to update
@@ -8418,7 +8418,7 @@ Tag: news snapshot
  and floppy images for serial console, signing and uploading. Of
  course, the online manpages will be updated then as well.</p>
 <p>The snapshot will, as usual, end up on the mirrors, i.e.</p><ul>
- <li><a href="https://dl.mirbsd.org/MirOS/current/">Germany main</a>
+ <li><a href="https://www.mirbsd.org/MirOS/current/">Germany main</a>
   (Strato) secure HTTP</li>
  <li><a href="http://pub.allbsd.org/MirOS/current/">Japan</a>
   (AllBSD.org) insecure HTTP</li>
@@ -8432,7 +8432,7 @@ Tag: news snapshot
  <li>SIZE (MIRB0818.ISO) = 727711744</li>
  <li>TIGER (MIRB0818.ISO) = ff0c145b93988c306530963fd881ad7972d5eb2d2e0ce298</li>
  <li style="list-style:none;"><a href="@@RELPATH@@bt.htm#s110818">BitTorrent
-  download</a> is <a href="@@RELPATH@@f/MIRB0818.torrent">available</a></li>
+  download</a> is [no longer, 2014-05-13] available</li>
 </ul>
 ----
 Date: 20.08.2011 21:01
@@ -8440,7 +8440,7 @@ Author: tg@
 Title: FrOSCon 2011, Day 1
 Tag: debian event geocache
 
-<p>Built the <a href="@@RELPATH@@f/MIRB0818.torrent">ISO</a> in the
+<p>Built the ISO [torrent link deleted 2014-05-13] in the
  morning, today. Finally. Whew. It was much too warm in the mēnsa,
  and why did I have to get up so early anyway? Real Conferences™
  don’t start before 10 o’clock, and there are no sensible activities
