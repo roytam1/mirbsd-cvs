@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.18 2014/05/05 18:42:25 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.19 2014/05/11 17:23:26 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4795,6 +4795,18 @@ Date: 10.05.2014
 Waypoint: GC515YT
 Title: Ich trink nur noch schnell meinen Kaffee aus ...
 Tag: D1 T1 Small Tradi
+----
+ID: 849
+Date: 14.05.2014
+Waypoint: GC29R5W
+Title: Heiligenhäuschen Fritzdorf
+Tag: D1 T15 Small Tradi
+----
+ID: 850
+Date: 14.05.2014
+Waypoint: GC4VN4T
+Title: 2014
+Tag: D15 T15 Regular Tradi recommended
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
