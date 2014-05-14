@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.5 2014/05/05 18:42:25 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.6 2014/05/13 16:26:11 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -46,5 +46,12 @@ Tag: debian fun politics rant twitxr
  href="https://en.wikipedia.org/wiki/Pro_NRW">this Nazi party</a>!
  A coworker wondered whether it’s legal to cut them off with a long
  tool, but making them ridiculous like this is also funny ☻</p>
+<p>(Explanation: the “Pro NRW” people put their campaign thingies
+ (sorry, I don’t speak English well) up on lamp posts very high,
+ because they are taken down by other citizens immediately otherwise,
+ so there’s now people making fun of them for using long ladders (to
+ put them up there, so the offended citizens need equally long ladders
+ or tools with long arms) in leaning on the saying that lies have long
+ legs ⇒ here: ladders.)</p>
 <div style="clear:right; height:1px;"> </div>
 ----
