@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.8 2014/05/15 15:05:31 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.9 2014/05/15 15:15:54 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -22,7 +22,8 @@ Tag: debian fun twitxr
  I spotted something dedicated to Ada. We’ll never know which
  one… the language, the famous programmer, or someone else. <a
  href="https://de.wikipedia.org/wiki/Maibrauchtum_(Rheinland)#Maibaum">A
- “Maibaum”</a> (may pole, one of its many meanings). Click on
+ “<span xml:lang="de-DE-1901">Maibaum</span>”</a> (may pole, one of its
+ many meanings). Click on
  the picture to get a slightly different one which has the text
  better legible.</p>
 <p><a href="@@RELPATH@@pics/wlog/Ada-Maibaum.jpg"><img
@@ -32,6 +33,7 @@ Date: 13.05.2014 16:25
 Author: tg@
 Title: Lügen haben lange Leitern
 Tag: debian fun politics rant twitxr
+Language: de-DE-1901
 
 <p><a href="@@RELPATH@@pics/wlog/anti-nrw.jpg"><img
  style="float:right; margin-left:1em; margin-bottom:3px;"
@@ -42,12 +44,12 @@ Tag: debian fun politics rant twitxr
  rechte Hetzpartei</a>! – Ein Arbeitskollege fragt, ob man die nicht
  einfach mit einem langen Heckenschneider abmachen kann… aber sie so
  lächerlich zu machen hat auch was ☺</p>
-<p>Finally, someone is doing something against <a
+<p xml:lang="en">Finally, someone is doing something against <a
  href="https://en.wikipedia.org/wiki/Pro_NRW">this Nazi party</a>!
  A coworker wondered whether it’s legal to cut them off with a long
  tool, but making them ridiculous like this is also funny ☻</p>
-<p>(Explanation: the “Pro NRW” people put their campaign thingies
- (sorry, I don’t speak English well) up on lamp posts very high,
+<p xml:lang="en">(Explanation: the “Pro NRW” people put their campaign
+ thingies (sorry, I don’t speak English well) up on lamp posts very high,
  because they are taken down by other citizens immediately otherwise,
  so there’s now people making fun of them for using long ladders (to
  put them up there, so the offended citizens need equally long ladders
@@ -58,7 +60,7 @@ Tag: debian fun politics rant twitxr
 Date: 15.05.2014 15:05
 Author: tg@
 Title: Debian packaging example: PHP5 webapp with dbconfig-common and Apache 2.2/2.4 support
-Tag: debian
+Tag: debian snippet tip work
 
 <p>I’m holding a Debian packaging workshop for our trainees at <a
  href="http://www.tarent.de/">work</a> tomorrow, and have prepared
@@ -94,5 +96,6 @@ Tag: debian
  earlier</a>. Beta testers for <em>that</em> welcome, too.</p>
 <p>(And next week or so, I’ll need this for a Maven thingy. I’ll
  probably opt out on the DB side, there, though. Never did anything
- with that, either, not being a Java™ guy.)</p>
+ with that, either, not being a Java™ guy. I guess something web
+ to go with tomcat7… anyone got this already?)</p>
 ----

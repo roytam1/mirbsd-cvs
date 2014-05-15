@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.19 2014/05/11 17:23:26 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.20 2014/05/14 22:26:04 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4807,6 +4807,18 @@ Date: 14.05.2014
 Waypoint: GC4VN4T
 Title: 2014
 Tag: D15 T15 Regular Tradi recommended
+----
+ID: 851
+Date: 15.05.2014
+Waypoint: GC4WNR1
+Title: Das Herrschaftsgebiet von Röttgen 4
+Tag: D15 T15 Micro Tradi
+----
+ID: 852
+Date: 15.05.2014
+Waypoint: GC4WNR6
+Title: Das Herrschaftsgebiet von Röttgen 5
+Tag: D15 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
