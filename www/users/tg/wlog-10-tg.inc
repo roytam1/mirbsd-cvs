@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.6 2014/05/13 16:26:11 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.7 2014/05/14 22:33:37 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -54,4 +54,42 @@ Tag: debian fun politics rant twitxr
  or tools with long arms) in leaning on the saying that lies have long
  legs ⇒ here: ladders.)</p>
 <div style="clear:right; height:1px;"> </div>
+----
+Date: 15.05.2014 15:05
+Author: tg@
+Title: Debian packaging example: PHP5 webapp with dbconfig-common and Apache 2.2/2.4 support
+Tag: debian
+
+<p>I’m holding a Debian packaging workshop for our trainees at <a
+ href="http://www.tarent.de/">work</a> tomorrow, and have prepared
+ a sample package for a simple PHP web application (just a handful
+ of files) with DB connection (PostgreSQL of course), automatic setup
+ via <tt>dbconfig-common</tt>, and with support for both Apache 2.2
+ (wheezy, precise) and Apache 2.4 (jessie/sid), configuration-wise.
+ (It is possible to install this without Apache, just it does not
+ configure the webserver then.) Schema updates on software updates
+ are also tested (there is neither Flyway nor Liquibase – which are
+ the tools we use at work for this, other than Roland Mas’ wonderful
+ scripts for FusionForge – in Debian, but to my delight I discovered
+ that dbconfig-common can also do this).</p>
+<ul>
+ <li><a href="https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=shellsnippets/hello-php-world.git">VCS-Browser</a></li>
+ <li><a href="https://evolvis.org/anonscm/git/shellsnippets/hello-php-world.git">VCS-git</a></li>
+</ul>
+<p>Comments, suggestions, flames, etc. welcome. I know that this
+ should not be a native package, and will address this tomorrow,
+ but I wanted something that serves as decent example for how to
+ do this easily, Policy conformant and using modern techniques
+ (even those <a href="https://launchpad.net/~dh7-haters">I dislike
+ myself</a> – for the sake of simplicity).</p>
+<p>Permission was granted by the business administration to reproduce
+ this all under <a href="@@RELPATH@@MirOS-Licence.htm">a BSD-style
+ licence</a>, so, enjoy sharing!</p>
+<p>Thanks to Roland Mas, for making FusionForge such a nice project,
+ and Arno Töll for some instant IRC help on the Apache side of this.</p>
+<p>This is my first time using <tt>dbconfig-common</tt>, and now, I
+ finally feel I know enough to finish the packaging of <a
+ href="http://www.kivitendo.de/">Kivitendo</a> which I’ve <a
+ href="http://anonscm.debian.org/gitweb/?p=collab-maint/kivitendo.git">started
+ earlier</a>. Beta testers for <em>that</em> welcome, too.</p>
 ----
