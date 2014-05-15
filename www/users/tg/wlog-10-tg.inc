@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.7 2014/05/14 22:33:37 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.8 2014/05/15 15:05:31 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -92,4 +92,7 @@ Tag: debian
  href="http://www.kivitendo.de/">Kivitendo</a> which I’ve <a
  href="http://anonscm.debian.org/gitweb/?p=collab-maint/kivitendo.git">started
  earlier</a>. Beta testers for <em>that</em> welcome, too.</p>
+<p>(And next week or so, I’ll need this for a Maven thingy. I’ll
+ probably opt out on the DB side, there, though. Never did anything
+ with that, either, not being a Java™ guy.)</p>
 ----
