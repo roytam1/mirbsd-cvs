@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.20 2014/05/14 22:26:04 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.21 2014/05/15 18:32:14 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4694,8 +4694,12 @@ vormals: (unpublizierter Cache im Meßdorfer Feld)
 ----
 ID: 832
 Date: 28.04.2014
-Title: (unpublizierter Cache von Nik bei tarent)
+Waypoint: OC10D52
+Title: Willkommen in… Duisdorf
 nTF: 1
+Tag: D1 T2 Micro Tradi
+
+vormals: (unpublizierter Cache von Nik bei tarent)
 ----
 ID: 833
 Date: 29.04.2014
@@ -4819,6 +4823,22 @@ Date: 15.05.2014
 Waypoint: GC4WNR6
 Title: Das Herrschaftsgebiet von Röttgen 5
 Tag: D15 T15 Micro Tradi
+----
+ID: 853
+Date: 16.05.2014
+Waypoint: GC4WNRQ
+Title: Das Herrschaftsgebiet von Röttgen 10
+Tag: D15 T15 Micro Tradi
+
+Dreist! Zu dreist eigentlich.
+----
+ID: 854
+Date: 16.05.2014
+Waypoint: GC4WNQ9
+Title: Das Herrschaftsgebiet von Röttgen 1
+Tag: D1 T15 Micro Tradi
+
+Eigentlich eher D2½ ob der Schwierigkeit, dies ungesehen zu tun.
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
