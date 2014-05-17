@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.21 2014/05/15 18:32:14 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.22 2014/05/16 18:43:11 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4839,6 +4839,18 @@ Title: Das Herrschaftsgebiet von Röttgen 1
 Tag: D1 T15 Micro Tradi
 
 Eigentlich eher D2½ ob der Schwierigkeit, dies ungesehen zu tun.
+----
+ID: 855
+Date: 17.05.2014
+Waypoint: GC4ZQ4V
+Title: 10 Jahre Bonn grillt (2014)
+Tag: D1 T1 Other Event recommended
+----
+ID: 856
+Date: 17.05.2014
+Waypoint: GC42C73
+Title: Nächster Halt: Limperich
+Tag: D15 T1 Micro Tradi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
