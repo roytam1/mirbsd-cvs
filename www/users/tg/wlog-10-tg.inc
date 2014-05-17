@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.9 2014/05/15 15:15:54 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.10 2014/05/15 18:32:14 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -98,4 +98,21 @@ Tag: debian snippet tip work
  probably opt out on the DB side, there, though. Never did anything
  with that, either, not being a Java™ guy. I guess something web
  to go with tomcat7… anyone got this already?)</p>
+----
+Date: 17.05.2014 10:05
+Author: tg@
+Title: Quotes of the day – SWB Engrish
+Tag: fun
+
+<p>Stadtwerke Bonn conduct track works on the third<br />
+ weekend of May 23-25th on several sections of the<br />
+ line 61. <b>The orbits</b> of lines 61, 62 and 65 <b>drive from</b><br />
+ Friday 23 May to Sunday 25 May <b>not on their usual<br />
+ line paths</b>. Due the track works a train replacement<br />
+ service by busses will be established.</p>
+<p>Please note: <b>The travel time</b> of the shuttle busses<br />
+ <b>takes longer</b>. It is recommend to adjust the traveling<br />
+ plan.</p>
+<p>We apologise for any inconvenience!</p>
+<p>(Emphasis mine. Inconvenience, such as almost <tt>C|N&gt;K</tt>…)</p>
 ----
