@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.24 2014/05/18 20:38:40 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.25 2014/05/20 08:45:31 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4869,6 +4869,31 @@ Date: 19.05.2014
 Waypoint: GC4ACW2
 Title: Lehrpfad Obstbau
 Tag: D2 T25 Small Multi
+With: MM
+----
+ID: 860
+Date: 20.05.2014
+Waypoint: GC2NWM6
+Title: 7239343
+Tag: D35 T4 Nano Mystery
+----
+ID: 861
+Date: 20.05.2014
+Waypoint: GC3RV42
+Title: HICOG Plittersdorf
+Tag: D2 T15 Regular Multi
+----
+ID: 862
+Date: 20.05.2014
+Waypoint: GC28Y99
+Title: Bonn Cachepitals
+Tag: D15 T15 Micro Mystery
+----
+ID: 863
+Date: 20.05.2014
+Waypoint: GC37NV3
+Title: Lucky &#34;Luke&#34;
+Tag: D25 T35 Regular Tradi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
