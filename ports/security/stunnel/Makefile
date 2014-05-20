@@ -1,4 +1,4 @@
-# $MirOS: ports/security/stunnel/Makefile,v 1.5 2007/02/18 19:12:36 tg Exp $
+# $MirOS: ports/security/stunnel/Makefile,v 1.6 2011/08/04 15:27:17 tg Exp $
 # $OpenBSD: Makefile,v 1.22.4.2 2003/09/03 19:13:48 brad Exp $
 
 COMMENT=		SSL encryption wrapper for standard network daemons
@@ -14,7 +14,8 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		${_MASTER_SITE_MIRBSD}
 
-CONFIGURE_STYLE=	gnu
+CONFIGURE_STYLE=	autoconf no-autoheader
+AUTOCONF_NEW=		Yes
 CONFIGURE_ARGS+=	--with-pem-dir=${SYSCONFDIR}/ssl \
 			--with-random=/dev/arandom
 ALL_TARGET=		stunnel
