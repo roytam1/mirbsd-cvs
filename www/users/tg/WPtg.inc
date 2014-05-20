@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.23 2014/05/17 21:16:12 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.24 2014/05/18 20:38:40 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4863,6 +4863,12 @@ Date: 18.05.2014
 Waypoint: GC37N35
 Title: Bullerbü
 Tag: D15 T1 Regular Multi
+----
+ID: 859
+Date: 19.05.2014
+Waypoint: GC4ACW2
+Title: Lehrpfad Obstbau
+Tag: D2 T25 Small Multi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
