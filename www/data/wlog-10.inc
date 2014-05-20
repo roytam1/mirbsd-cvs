@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.451 2014/05/13 22:12:22 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.452 2014/05/20 14:12:01 bsiegert Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10703,4 +10703,30 @@ Title: Tip of the Day (Vim)
 <p><tt>:e ++enc=utf8</tt></p>
 <p>or specify the <tt>++enc</tt> parameter when opening the file from
  inside vim. The more you know.</p>
+----
+Date: 20.05.2014 11:37:01
+Author: tg@
+Title: More on the Vim thing
+Tag: tip
+
+<p>As an update to the issue with Vim not treating a file as UTF-8 <a
+ href="@@RELPATH@@permalinks/wlog-10_e20140520-bsiegert.htm">Benny
+ wrote about</a> earlier, there’s more to note:</p>
+<ul>
+ <li>The <a href="@@RELPATH@@cvs.cgi/src/share/misc/acronyms">file in
+  question</a> contained two lines that were copied from the Other BSD,
+  which were not UTF-8. This probably led to Vim not wanting to treat
+  the entire file as UTF-8. (This is not normally a problem in vi(1),
+  AFAIK (but in nvi in Debian, which truncates the file on write, with
+  no way to recover), and <a href="@@RELPATH@@jupp.htm">jupp</a> even
+  has mixed-encoding files as a primary use case.)</li>
+ <li>When treating the file as UTF-8 forcefully, which Benny used, the
+  file was saved with the offending bytes replaced by question marks
+  (which was discovered by me in cvs(1) diff(1), leading to a fix and
+  this post-mortem analysis)</li>
+</ul>
+<p>This is apparently something every editor user should know about.
+ Another lesson learned: run <tt>$VCS diff</tt> before committing!</p>
+<p>And something for me to take from this: check file encodings when
+ importing from poorer OSes, and in general.</p>
 ----
