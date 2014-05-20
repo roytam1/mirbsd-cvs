@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.450 2014/04/20 11:18:22 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.451 2014/05/13 22:12:22 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10687,4 +10687,20 @@ Tag: bug debian fun geocache pcli rant tip work
  keep flexibility (can decide to have machines differ),
  and the boss accepts my explanations. Think before doing
  automation just for the sake of automation!</p>
+----
+Date: 20.05.2014 11:37
+Author: bsiegert@
+Title: Tip of the Day (Vim)
+
+<p>Today I learned something about file encodings in vim. When your
+ terminal is UTF-8 but Vim insists on treating the file you are opening
+ as latin-1, here is what to do: Setting <tt>fileencoding</tt> on the
+ already opened file will not work, it will only try to convert the file
+ (i.e. the wrongly interpreted UTF-8 sequences) to UTF-8. Don't do
+ this!</p>
+
+<p>The solution is to reopen the file using</p>
+<p><tt>:e ++enc=utf8</tt></p>
+<p>or specify the <tt>++enc</tt> parameter when opening the file from
+ inside vim. The more you know.</p>
 ----
