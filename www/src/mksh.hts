@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.539 2014/01/26 20:39:47 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.540 2014/02/08 20:37:12 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -964,6 +964,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  href="http://fink.sf.net/">Fink</a> delivers an <a
  href="http://pdb.finkproject.org/pdb/package.php/mksh">mksh package</a>
  from our own Andreas “gecko2” Gockel.</li>
+<li class="cr"><img class="fr" width="183" height="70" alt="[MacPorts logo]"
+ src="@@RELPATH@@pics/logos/macports.png" />MacPorts (used to be called
+ DarwinPorts), thanks to Ryan Schmidt, now also have an mksh <a
+ href="https://trac.macports.org/browser/trunk/dports/shells/mksh">port</a>.</li>
 <li class="cr"><img class="fr" width="122" height="64" alt="[SourceMage logo]"
  src="@@RELPATH@@pics/logos/smgl.png" /><a
  href="http://www.sourcemage.org/">SMGL</a> (Sourcemage GNU/Linux) has an
@@ -1100,18 +1104,17 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li><a href="http://linux.softpedia.com/get/System/Shells/MirBSD-Korn-Shell-24602.shtml">Softpedia</a>
  lists mksh, just like the <a href="http://directory.fsf.org/mksh.html">FSF/UNESCO
  directory of Free Software</a>.</li>
-<li><strong>Missing packaging:</strong> DarwinPorts/MacPorts
- (none at all), Mandriva/Mageia (use OBS; being worked on), OpenEmbedded
- (being worked on), iPhoneOS (compile yourself; being worked on), Knoppix and
- SIDUX (just add them), Nexenta (need a contact person), Arch native (use
- Community), PC-BSD (use pkgsrc® or so; need a contact person for PBI), OpenSolaris
- (being worked on), OpenBSD (use unofficial port), BeOS (maybe broken) / Haiku,
- Slackware native (use SlackBuild), MPE/iX (no response from the volunteers ☹),
- LynxOS (never got the 30-day eval version they promised me ☹), Syllable Desktop
- (broken, kernel issue, may have been fixed in the meantime), Pardus, NetBSD
- base system (under discussion; pkgsrc® has it), Maemo/MeeGo, Palm WebOS,
- Cray Unicos, Data General DG/UX, DEC Mach, SINIX, Reliant UNIX, SunOS 4.x,
- ...</li>
+<li><strong>Missing packaging:</strong> Mandriva/Mageia (use OBS; being
+ worked on), OpenEmbedded (being worked on), iPhoneOS (compile yourself),
+ Knoppix and SIDUX (just add them), Nexenta (need a contact person), Arch
+ native (use Community), PC-BSD (use pkgsrc® or so; need a contact person
+ for PBI), OpenSolaris, OpenBSD (use unofficial port), BeOS (maybe broken) /
+ Haiku, Slackware native (use SlackBuild), MPE/iX (no response from the
+ volunteers ☹), LynxOS (never got the 30-day eval version they promised me ☹),
+ Syllable Desktop (broken, kernel issue, may have been fixed in the meantime),
+ Pardus, NetBSD base system (under discussion; pkgsrc® has it), Maemo (old one
+ in Garage) / MeeGo / Tizen / Mer, Palm WebOS, Cray Unicos, Data General DG/UX,
+ DEC Mach, SINIX, Reliant UNIX, SunOS 4.x, …</li>
 </ul>
 <p>These packages are not official and have not always been tested by mksh
  developers; please keep this in mind.</p>
