@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.10 2014/05/15 18:32:14 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.11 2014/05/17 10:14:34 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -115,4 +115,28 @@ Tag: fun
  plan.</p>
 <p>We apologise for any inconvenience!</p>
 <p>(Emphasis mine. Inconvenience, such as almost <tt>C|N&gt;K</tt>…)</p>
+----
+Date: 21.05.2014 18:28
+Author: tg@
+Title: Friseure!
+Tag: personal rant
+Language: de-DE-1901
+
+<p>Mein Friseur hat zugemacht. Jetzt versuche ich seit Wochen, einen
+ neuen zu finden. Der sollte aufhaben, wenn ich von der Arbeit komme.
+ Technisch beëinflußt suche ich zunächst im Netz… aber liebe Leute,
+ ich will keine 20 € und mehr ausgeben und dafür beim Friseur Kaffee
+ aus einer Saeco trinken (das mache ich auf Arbeit kostenlos), oder
+ für 36 € das 40-Minuten-Wellness-Paket mit irgendwelchen abgedrehten
+ Pflegen haben oder von Promi-Friseuren beackert werden.</p>
+<p>Ich will einfach nur nen verdammten normalen sommerlichen Kurzhaarschnitt,
+ für ein Dutzend Quakes, ggfs. ein paar mehr, gern auch mit Rasur.
+ Und zwar abends so zwischen 18 und 19 Uhr, oder samstags am späten
+ (lies: 14 Uhr) Vormittag, wenn ich halbwegs wach bin.<br />
+ Ist das denn <em>so</em> schwer?</p>
+<p>(Okay, die meisten haben vermutlich keine Webseite. Aber wie
+ findet man die? Und die zwei mit einer Facebook- aber keiner
+ Webseite kommen, habe ich extra von der Arbeit aus nachgesehen,
+ auch nicht in Frage.)</p>
+<p>&lt;/rant&gt;</p>
 ----

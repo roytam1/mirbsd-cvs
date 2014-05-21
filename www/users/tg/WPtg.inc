@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.25 2014/05/20 08:45:31 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.26 2014/05/20 21:27:10 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4894,6 +4894,12 @@ Date: 20.05.2014
 Waypoint: GC37NV3
 Title: Lucky &#34;Luke&#34;
 Tag: D25 T35 Regular Tradi
+----
+ID: 864
+Date: 21.05.2014
+Waypoint: GC1YH9F
+Title: Der Blaue Peter und das Einlaufbier
+Tag: D15 T15 Micro Multi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
