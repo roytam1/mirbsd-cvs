@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.27 2014/05/21 18:28:51 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.28 2014/05/22 17:22:10 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4906,6 +4906,12 @@ Date: 22.05.2014
 Waypoint: GC3978P
 Title: Wachtberger Kreuze # 20
 Tag: D25 T25 Micro Mystery
+----
+ID: 866
+Date: 23.05.2014
+Waypoint: GC2DR38
+Title: crazy pics # 3
+Tag: D2 T1 Micro Mystery
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
