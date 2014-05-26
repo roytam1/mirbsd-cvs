@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.28 2014/05/22 17:22:10 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.29 2014/05/23 21:25:54 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4912,6 +4912,24 @@ Date: 23.05.2014
 Waypoint: GC2DR38
 Title: crazy pics # 3
 Tag: D2 T1 Micro Mystery
+----
+ID: 867
+Date: 24.05.2014
+Waypoint: GC2P3Y6
+Title: crazy pics # 6
+Tag: D2 T15 Micro Mystery
+----
+ID: 868
+Date: 25.05.2014
+Waypoint: GC2NPJ6
+Title: crazy pics # 5
+Tag: D25 T15 Micro Mystery
+----
+ID: 869
+Date: 26.05.2014
+Waypoint: GC34902
+Title: crazy pics # 13
+Tag: D2 T15 Micro Mystery
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
