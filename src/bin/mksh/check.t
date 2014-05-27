@@ -27,7 +27,7 @@
 # http://www.freebsd.org/cgi/cvsweb.cgi/src/tools/regression/bin/test/regress.sh?rev=HEAD
 
 expected-stdout:
-	@(#)MIRBSD KSH R49 2014/01/16
+	@(#)MIRBSD KSH R49 2014/05/27
 description:
 	Check version of shell.
 stdin:
@@ -36,7 +36,7 @@ name: KSH_VERSION
 category: shell:legacy-no
 ---
 expected-stdout:
-	@(#)LEGACY KSH R49 2014/01/16
+	@(#)LEGACY KSH R49 2014/05/27
 description:
 	Check version of legacy shell.
 stdin:
@@ -5488,7 +5488,6 @@ expected-stderr-pattern:
 name: readonly-4
 description:
 	Do not permit bypassing readonly for first array item
-expected-fail: yes
 stdin:
 	set -A arr -- foo bar
 	readonly arr
