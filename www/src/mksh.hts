@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.540 2014/02/08 20:37:12 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.541 2014/05/21 18:22:27 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1235,6 +1235,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
   a maintainer since I don’t speak any perl(1), really), for lewellyn</li>
  <li>[tg] Use <tt>$TMPDIR</tt> in <tt>test.sh</tt> for scratch space</li>
  <li>[tg, Polynomial-C] Check that the scratch space is not mounted noexec</li>
+ <li>[pekster, jilles, tg] Use termcap(5) names, not terminfo(5) names, in
+  tput(1) examples, for improved portability (e.g. to MidnightBSD)</li>
+ <li>[tg] Avoid C99 Undefined Behaviour in mirtoconf LFS test (inspired
+  by Debian #742780)</li>
+ <li>[tg] Add new expected-fail test for change in POSIX we have yet to codify</li>
+ <li>[tg] Fix <tt>${!foo}</tt> for when <tt>foo</tt> is unset</li>
+ <li>[tg] Improve <tt>nameref</tt> error checking (LP#1277691)</li>
+ <li>[tg] Fix <tt>readonly</tt> bypass found by Bert Münnich</li>
 </ul>
 <p id="r49">R49 is a recommended bugfix release:</p><ul>
  <li>[tg] <tt>dot.mkshrc</tt>: fix two issues with the <tt>cd</tt> wrapper</li>
