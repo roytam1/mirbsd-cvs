@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.282 2014/04/02 16:54:32 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.283 2014/04/18 19:59:26 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -881,9 +881,11 @@ CDROM_SITE?=		/cdrom/distfiles/${DIST_SUBDIR}
 CDROM_SITE?=
 .endif
 
+FETCH_SYMLINK_DISTFILES?=Yes
 .if !empty(CDROM_SITE)
-.  if defined(FETCH_SYMLINK_DISTFILES)
-_CDROM_OVERRIDE=	if ln -s ${CDROM_SITE}/$$f .; then exit 0; fi
+.  if ${FETCH_SYMLINK_DISTFILES:L} == "yes"
+_CDROM_OVERRIDE=	if test -e ${CDROM_SITE}/$$f && \
+			    ln -s ${CDROM_SITE}/$$f .; then exit 0; fi
 .  else
 _CDROM_OVERRIDE=	if cp -f ${CDROM_SITE}/$$f .; then exit 0; fi
 .  endif

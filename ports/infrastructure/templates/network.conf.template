@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.25 2013/08/06 19:20:31 tg Exp $
+# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.26 2013/09/11 12:56:26 tg Exp $
 # $OpenBSD: network.conf.template,v 1.107 2007/01/18 11:21:15 steven Exp $
 
 #
@@ -56,8 +56,8 @@ MASTER_SITE_BACKUP?=	\
 # Uncomment to retrieve from the MASTER_SITE_BACKUP first
 # MASTER_SITE_OVERRIDE=	${MASTER_SITE_BACKUP}
 
-# Uncomment to make symlinks off a CD-Rom instead of copies
-# FETCH_SYMLINK_DISTFILES=Yes
+# Uncomment to make copies off a CD-Rom instead of symlinks
+# FETCH_SYMLINK_DISTFILES=No
 
 # Popular master sites, most useful sites come first.
 MASTER_SITE_GNU+=	\

@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.38 2013/11/06 18:53:14 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.39 2014/01/07 13:07:32 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007, 2008, 2009, 2010 Thorsten Glaser
@@ -79,7 +79,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 6 2013 $
+.Dd $Mdocdate: January 7 2014 $
 .\"
 .\" Check which macro package we use
 .\"
@@ -648,10 +648,10 @@ Defaults to
 Can be used to go through excessively paranoid firewalls.
 .It Ev FETCH_SYMLINK_DISTFILES
 Set to
-.Sq Yes
-to link distribution files off
+.Sq No
+to copy distribution files off
 .Ev CDROM_SITE
-instead of copying them.
+instead of symlinking them.
 .It Ev FTP_PACKAGES
 Base location where packages suitable for ftp (see
 PERMIT_PACKAGE_FTP) will be placed
