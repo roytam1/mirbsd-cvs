@@ -1,8 +1,9 @@
-# $MirOS: ports/security/libgcrypt/Makefile,v 1.5 2008/04/03 21:28:12 tg Exp $
+# $MirOS: ports/security/libgcrypt/Makefile,v 1.6 2008/08/26 18:59:17 tg Exp $
 # $OpenBSD: Makefile,v 1.5 2004/05/08 06:41:47 sturm Exp $
 
 COMMENT=		crypto library based on code used in GnuPG
 DISTNAME=		libgcrypt-1.4.1
+DASH_VER=		1
 CATEGORIES=		security
 HOMEPAGE=		http://directory.fsf.org/project/libgcrypt/
 
