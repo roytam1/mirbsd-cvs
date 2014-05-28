@@ -1,9 +1,10 @@
-# $MirOS$
+# $MirOS: ports/textproc/xmlstarlet/Makefile,v 1.1 2008/08/16 21:56:45 tg Exp $
 # $NetBSD: Makefile,v 1.8 2006/04/06 06:22:52 reed Exp $
 
 CATEGORIES=		textproc
 COMMENT=		command line utilities for XML manipulation
 DISTNAME=		xmlstarlet-1.0.1
+DASH_VER=		1
 HOMEPAGE=		http://xmlstar.sourceforge.net/
 
 # MIT
