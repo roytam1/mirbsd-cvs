@@ -1,8 +1,9 @@
-# $MirOS: ports/textproc/libxslt/Makefile,v 1.5 2007/02/22 22:57:58 tg Exp $
+# $MirOS: ports/textproc/libxslt/Makefile,v 1.6 2008/08/27 10:13:10 tg Exp $
 # $OpenBSD: Makefile,v 1.34 2004/04/08 06:32:43 marcm Exp $
 
 COMMENT=		XSLT C Library for GNOME
 MODPY_EGG_VERSION=	1.1.24
+DASH_VER=		1
 DISTNAME=		libxslt-${MODPY_EGG_VERSION}
 CATEGORIES=		textproc
 HOMEPAGE=		http://xmlsoft.org/XSLT/
