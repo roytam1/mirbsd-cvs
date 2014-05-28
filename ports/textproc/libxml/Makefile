@@ -1,9 +1,9 @@
-# $MirOS: ports/textproc/libxml/Makefile,v 1.21 2013/08/06 20:58:57 tg Exp $
+# $MirOS: ports/textproc/libxml/Makefile,v 1.22 2013/09/11 16:54:11 tg Exp $
 # $OpenBSD: Makefile,v 1.76 2004/04/21 04:42:26 robert Exp $
 
 COMMENT=		XML parsing library
 MODPY_EGG_VERSION=	2.6.32
-DASH_VER=		2
+DASH_VER=		3
 DISTNAME=		libxml2-${MODPY_EGG_VERSION}
 PKGNAME=		libxml-${MODPY_EGG_VERSION}-${DASH_VER}
 CATEGORIES=		textproc
