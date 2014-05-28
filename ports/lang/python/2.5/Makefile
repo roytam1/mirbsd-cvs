@@ -1,11 +1,11 @@
-# $MirOS: ports/lang/python/2.5/Makefile,v 1.17 2010/01/06 17:32:37 bsiegert Exp $
+# $MirOS: ports/lang/python/2.5/Makefile,v 1.18 2010/06/25 21:47:18 tg Exp $
 
 VERSION=		2.5
 PATCHLEVEL=		.5
+DASH_VER=		1
 
 LIB_DEPENDS+=		ffi::devel/libffi
 LIB_DEPENDS+=		gdbm::databases/gdbm
-LIB_DEPENDS+=		sqlite3::databases/sqlite
 
 CONFIGURE_ARGS+=	--without-cxx
 CONFIGURE_ARGS+=	--with-system-ffi

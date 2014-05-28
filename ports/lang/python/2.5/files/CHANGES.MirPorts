@@ -11,6 +11,8 @@ More detailed changes at http://cvs.mirbsd.de/ports/lang/python/
    been properly quoted, and the build always uses an empty (i.e.
    default) deployment target.
  * Fix Issue #9075
+ * We use db1.85 from libc and do not use SQLite (which is non-free).
+ * Regression tests have been taught about MirBSD. (Mostly.)
 
 The following changes have been made by OpenBSD:
 
@@ -24,5 +26,5 @@ The following changes have been made by OpenBSD:
  * Regression tests have been taught about OpenBSD.
 
 
-$MirOS: ports/lang/python/2.5/files/CHANGES.MirPorts,v 1.5 2010/01/06 17:32:38 bsiegert Exp $
+$MirOS: ports/lang/python/2.5/files/CHANGES.MirPorts,v 1.6 2010/06/25 21:47:19 tg Exp $
 $OpenBSD: CHANGES.OpenBSD,v 1.3 2004/12/30 23:45:08 alek Exp $

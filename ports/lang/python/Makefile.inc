@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/python/Makefile.inc,v 1.23 2009/12/28 14:55:15 tg Exp $
+# $MirOS: ports/lang/python/Makefile.inc,v 1.24 2010/01/06 17:32:36 bsiegert Exp $
 # $OpenBSD: Makefile.inc,v 1.32 2005/06/06 20:47:04 alek Exp $
 
 .include <mirports.sys.mk>
@@ -48,6 +48,10 @@ CONFIGURE_ARGS+=	MACOSX_DEPLOYMENT_TARGET=
 THREAD_STACK_SIZE?=	0x20000		# increase this for zope
 
 REGRESS_TARGET=		test
+# see mircvs://contrib/code/Snippets/posixtz.c
+.if exists(/usr/lib/libposixtz.so)
+REGRESS_ENV+=		LD_PRELOAD=/usr/lib/libposixtz.so
+.endif
 
 .for _i in ${MACHINE_ARCH} ${ARCH}
 .  if !empty(LP64_PLATFORMS:M${OStype}\:${_i})

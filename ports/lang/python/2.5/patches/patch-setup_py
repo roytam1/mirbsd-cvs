@@ -1,7 +1,7 @@
-$MirOS: ports/lang/python/2.5/patches/patch-setup_py,v 1.3 2009/05/30 20:38:26 tg Exp $
+$MirOS: ports/lang/python/2.5/patches/patch-setup_py,v 1.4 2010/01/06 17:32:38 bsiegert Exp $
 $OpenBSD: patch-setup_py,v 1.1.1.1 2003/12/31 17:38:33 sturm Exp $
---- setup.py.orig	2008-10-16 20:58:19.000000000 +0200
-+++ setup.py	2010-01-05 18:13:02.000000000 +0100
+--- setup.py.orig	Thu Oct 16 18:57:56 2008
++++ setup.py	Wed May 28 19:41:05 2014
 @@ -243,10 +243,6 @@ class PyBuildExt(build_ext):
          return sys.platform
  
@@ -13,7 +13,7 @@ $OpenBSD: patch-setup_py,v 1.1.1.1 2003/12/31 17:38:33 sturm Exp $
          # Add paths specified in the environment variables LDFLAGS and
          # CPPFLAGS for header and library files.
          # We must get the values from the Makefile and not the environment
-@@ -601,159 +597,10 @@ class PyBuildExt(build_ext):
+@@ -601,251 +597,11 @@ class PyBuildExt(build_ext):
          # implementation independent wrapper for these; dumbdbm.py provides
          # similar functionality (but slower of course) implemented in Python.
  
@@ -24,7 +24,11 @@ $OpenBSD: patch-setup_py,v 1.1.1.1 2003/12/31 17:38:33 sturm Exp $
 -        # are set below.  Visit the URL above to download
 -        # a release.  Most open source OSes come with one or more
 -        # versions of BerkeleyDB already installed.
--
++        # Disable DB3/DB4 so that DB1.85 is built (MirPorts)
++        db_incs = None
++        dblibs = []
++        dblib_dir = None
+ 
 -        max_db_ver = (4, 5)
 -        # NOTE: while the _bsddb.c code links against BerkeleyDB 4.6.x
 -        # we leave that version disabled by default as it has proven to be
@@ -170,24 +174,102 @@ $OpenBSD: patch-setup_py,v 1.1.1.1 2003/12/31 17:38:33 sturm Exp $
 -            db_incs = None
 -            dblibs = []
 -            dblib_dir = None
-+        # Disable DB3/DB4 so that DB1.85 is built (MirPorts)
-+        db_incs = None
-+        dblibs = []
-+        dblib_dir = None
- 
-         # The sqlite interface
-         sqlite_setup_debug = False # verbose debug prints from this script?
-@@ -764,9 +611,6 @@ class PyBuildExt(build_ext):
-         sqlite_inc_paths = [ '/usr/include',
-                              '/usr/include/sqlite',
-                              '/usr/include/sqlite3',
+-
+-        # The sqlite interface
+-        sqlite_setup_debug = False # verbose debug prints from this script?
+-
+-        # We hunt for #define SQLITE_VERSION "n.n.n"
+-        # We need to find >= sqlite version 3.0.8
+-        sqlite_incdir = sqlite_libdir = None
+-        sqlite_inc_paths = [ '/usr/include',
+-                             '/usr/include/sqlite',
+-                             '/usr/include/sqlite3',
 -                             '/usr/local/include',
 -                             '/usr/local/include/sqlite',
 -                             '/usr/local/include/sqlite3',
-                            ]
-         MIN_SQLITE_VERSION_NUMBER = (3, 0, 8)
-         MIN_SQLITE_VERSION = ".".join([str(x)
-@@ -912,7 +756,7 @@ class PyBuildExt(build_ext):
+-                           ]
+-        MIN_SQLITE_VERSION_NUMBER = (3, 0, 8)
+-        MIN_SQLITE_VERSION = ".".join([str(x)
+-                                    for x in MIN_SQLITE_VERSION_NUMBER])
+-
+-        # Scan the default include directories before the SQLite specific
+-        # ones. This allows one to override the copy of sqlite on OSX,
+-        # where /usr/include contains an old version of sqlite.
+-        for d in inc_dirs + sqlite_inc_paths:
+-            f = os.path.join(d, "sqlite3.h")
+-            if os.path.exists(f):
+-                if sqlite_setup_debug: print "sqlite: found %s"%f
+-                incf = open(f).read()
+-                m = re.search(
+-                    r'\s*.*#\s*.*define\s.*SQLITE_VERSION\W*"(.*)"', incf)
+-                if m:
+-                    sqlite_version = m.group(1)
+-                    sqlite_version_tuple = tuple([int(x)
+-                                        for x in sqlite_version.split(".")])
+-                    if sqlite_version_tuple >= MIN_SQLITE_VERSION_NUMBER:
+-                        # we win!
+-                        print "%s/sqlite3.h: version %s"%(d, sqlite_version)
+-                        sqlite_incdir = d
+-                        break
+-                    else:
+-                        if sqlite_setup_debug:
+-                            print "%s: version %r is too old, need >= %r"%(d,
+-                                        sqlite_version, MIN_SQLITE_VERSION)
+-                elif sqlite_setup_debug:
+-                    print "sqlite: %s had no SQLITE_VERSION"%(f,)
+-
+-        if sqlite_incdir:
+-            sqlite_dirs_to_check = [
+-                os.path.join(sqlite_incdir, '..', 'lib64'),
+-                os.path.join(sqlite_incdir, '..', 'lib'),
+-                os.path.join(sqlite_incdir, '..', '..', 'lib64'),
+-                os.path.join(sqlite_incdir, '..', '..', 'lib'),
+-            ]
+-            sqlite_libfile = self.compiler.find_library_file(
+-                                sqlite_dirs_to_check + lib_dirs, 'sqlite3')
+-            sqlite_libdir = [os.path.abspath(os.path.dirname(sqlite_libfile))]
+-
+-        if sqlite_incdir and sqlite_libdir:
+-            sqlite_srcs = ['_sqlite/cache.c',
+-                '_sqlite/connection.c',
+-                '_sqlite/cursor.c',
+-                '_sqlite/microprotocols.c',
+-                '_sqlite/module.c',
+-                '_sqlite/prepare_protocol.c',
+-                '_sqlite/row.c',
+-                '_sqlite/statement.c',
+-                '_sqlite/util.c', ]
+-
+-            sqlite_defines = []
+-            if sys.platform != "win32":
+-                sqlite_defines.append(('MODULE_NAME', '"sqlite3"'))
+-            else:
+-                sqlite_defines.append(('MODULE_NAME', '\\"sqlite3\\"'))
+-
+-
+-            if sys.platform == 'darwin':
+-                # In every directory on the search path search for a dynamic
+-                # library and then a static library, instead of first looking
+-                # for dynamic libraries on the entiry path.
+-                # This way a staticly linked custom sqlite gets picked up
+-                # before the dynamic library in /usr/lib.
+-                sqlite_extra_link_args = ('-Wl,-search_paths_first',)
+-            else:
+-                sqlite_extra_link_args = ()
+-
+-            exts.append(Extension('_sqlite3', sqlite_srcs,
+-                                  define_macros=sqlite_defines,
+-                                  include_dirs=["Modules/_sqlite",
+-                                                sqlite_incdir],
+-                                  library_dirs=sqlite_libdir,
+-                                  runtime_library_dirs=sqlite_libdir,
+-                                  extra_link_args=sqlite_extra_link_args,
+-                                  libraries=["sqlite3",]))
+-
+         # Look for Berkeley db 1.85.   Note that it is built as a different
+         # module name so it can be included even when later versions are
+         # available.  A very restrictive search is performed to avoid
+@@ -912,7 +668,7 @@ class PyBuildExt(build_ext):
                  exts.append( Extension('resource', ['resource.c']) )
  
              # Sun yellow pages. Some systems have the functions in libc.
@@ -196,7 +278,7 @@ $OpenBSD: patch-setup_py,v 1.1.1.1 2003/12/31 17:38:33 sturm Exp $
                  if (self.compiler.find_library_file(lib_dirs, 'nsl')):
                      libs = ['nsl']
                  else:
-@@ -1536,8 +1380,7 @@ def main():
+@@ -1536,8 +1292,7 @@ def main():
            ext_modules=[Extension('_struct', ['_struct.c'])],
  
            # Scripts to install
