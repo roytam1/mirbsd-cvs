@@ -119,6 +119,8 @@
 #include <openssl/evp.h>
 #include <openssl/x509.h>
 
+__RCSID("$MirOS$");
+
 /* send s->init_buf in records of type 'type' (SSL3_RT_HANDSHAKE or SSL3_RT_CHANGE_CIPHER_SPEC) */
 int ssl3_do_write(SSL *s, int type)
 	{
@@ -599,6 +601,7 @@ int ssl_verify_alarm_type(long type)
 	return(al);
 	}
 
+int ssl3_setup_write_buffer(SSL *s);
 int ssl3_setup_buffers(SSL *s)
 	{
 	unsigned char *p;
@@ -617,6 +620,19 @@ int ssl3_setup_buffers(SSL *s)
 		s->s3->rbuf.buf = p;
 		s->s3->rbuf.len = len;
 		}
+	if (!ssl3_setup_write_buffer(s))
+		return(0);
+	s->packet= &(s->s3->rbuf.buf[0]);
+	return(1);
+err:
+	SSLerr(SSL_F_SSL3_SETUP_BUFFERS,ERR_R_MALLOC_FAILURE);
+	return(0);
+	}
+
+int ssl3_setup_write_buffer(SSL *s)
+	{
+	unsigned char *p;
+	size_t len;
 
 	if (s->s3->wbuf.buf == NULL)
 		{
@@ -627,7 +643,6 @@ int ssl3_setup_buffers(SSL *s)
 		s->s3->wbuf.buf = p;
 		s->s3->wbuf.len = len;
 		}
-	s->packet= &(s->s3->rbuf.buf[0]);
 	return(1);
 err:
 	SSLerr(SSL_F_SSL3_SETUP_BUFFERS,ERR_R_MALLOC_FAILURE);

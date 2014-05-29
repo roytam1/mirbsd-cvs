@@ -116,7 +116,7 @@
 #include <openssl/evp.h>
 #include <openssl/buffer.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_pkt.c,v 1.5 2014/05/12 14:02:41 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_pkt.c,v 1.6 2014/05/13 07:40:54 tg Exp $");
 
 static int do_ssl3_write(SSL *s, int type, const unsigned char *buf,
 			 unsigned int len, int create_empty_fragment);
@@ -559,6 +559,8 @@ int ssl3_write_bytes(SSL *s, int type, const void *buf_, int len)
 		tot+=i;
 		}
 	}
+
+extern int ssl3_setup_write_buffer(SSL *);
 
 static int do_ssl3_write(SSL *s, int type, const unsigned char *buf,
 			 unsigned int len, int create_empty_fragment)
