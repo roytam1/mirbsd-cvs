@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.11 2014/05/29 00:32:29 tg Exp $
+# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.12 2014/05/29 22:33:21 tg Exp $
 
 ONLY_FOR_PLATFORM+=	MirBSD:10.181:i386
 
@@ -120,6 +120,10 @@ post-install:
 	    for a in fpic/*.so.*; do \
 		ln -f $$a .; \
 	done && rm -f fpic/libgcc_s.so.*
+
+.if make(whatif-depends)
+USE_COMPILER:=		system
+.endif
 
 .include <bsd.port.mk>
 
