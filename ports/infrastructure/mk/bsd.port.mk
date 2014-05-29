@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.284 2014/05/28 18:52:53 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.285 2014/05/29 18:36:29 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -409,6 +409,11 @@ LDFLAGS+=		-Wl,-rpath -Wl,${LOCALBASE}/lib
 _DEFCOPTS_pcc?=		-O
 
 NO_CXX?=		No	# inhibit use of C++ ports
+USE_COMPILER?=		system
+.if ${USE_COMPILER:L} == "gcc4.4"
+HAS_CXX:=		port
+_CXX_LIB_DEPENDS=	:gcc-rtl-4.4.7-*:lang/egcs/gcc4.4
+.endif
 .if ${USE_CXX:L} == "yes"
 .  if ${NO_CXX:L} == "yes"
 NO_CXX=			C++ is explicitly disabled
@@ -426,13 +431,16 @@ NO_CXX=			not explicitly requested by this port
 .endif
 _ORIG_CC:=		${CC}
 _ORIG_CXX:=		${CXX}
-USE_COMPILER?=		system
 .if ${USE_COMPILER:L} == "pcc"
 BUILD_DEPENDS+=		:pcc-*:lang/pcc
 USE_CCACHE:=		No
 _DEFCOPTS:=		${_DEFCOPTS_pcc}
 _ORIG_CC:=		pcc
 _ORIG_CXX:=		false
+.elif ${USE_COMPILER:L} == "gcc4.4"
+BUILD_DEPENDS+=		:gcc-4.4.7-*:lang/egcs/gcc4.4
+_ORIG_CC:=		gcc-4.4
+_ORIG_CXX:=		g++-4.4
 .elif ${USE_COMPILER:L} != "system"
 .  error invalid compiler: ${USE_COMPILER}
 .endif
