@@ -1,16 +1,16 @@
-$MirOS$
---- configure.in.orig	Mon Nov 10 05:00:19 2008
-+++ configure.in	Mon Nov 10 05:00:56 2008
-@@ -25,7 +25,7 @@ MA 02110-1301, USA.
- dnl If MPFR becomes GNU MPFR, change to GNU MPFR in update-version
- dnl Add check-news when it checks for more than 15 lines
- AC_INIT([MPFR],[2.3.2])
--AM_INIT_AUTOMAKE([1.10.1 no-define dist-bzip2 dist-lzma dist-zip])
+$MirOS: ports/math/mpfr/patches/patch-configure_in,v 1.1 2008/11/10 05:15:34 tg Exp $
+--- configure.in.orig	Thu May 29 18:47:18 2014
++++ configure.in	Thu May 29 18:48:22 2014
+@@ -29,7 +29,7 @@ dnl Once GNU Automake 1.11 is available 
+ dnl the following line, uncomment the next two lines, and remove the
+ dnl dist rule from the Makefile.am file. If the dist-* options are
+ dnl modified, DIST_ARCHIVES from Makefile.am needs to be updated.
+-AM_INIT_AUTOMAKE([1.10 no-define dist-bzip2 dist-zip])
 +AM_INIT_AUTOMAKE([1.9 no-define dist-bzip2 dist-zip])
- dnl AM_MAINTAINER_MODE(enable)
+ dnl AM_INIT_AUTOMAKE([1.11 no-define dist-bzip2 dist-xz dist-zip])
+ AM_MAINTAINER_MODE(enable)
  
- dnl FIXME: The AC_ARG_ENABLE(decimal-float...) part does things too
-@@ -39,7 +39,6 @@ AC_CANONICAL_HOST
+@@ -46,7 +46,6 @@ AC_CANONICAL_HOST
  
  dnl To use a separate config header.
  dnl There is still some problem with GMP's HAVE_CONFIG
@@ -18,4 +18,3 @@ $MirOS$
  
  dnl Extra arguments to configure
  unset gmp_lib_path GMP_CFLAGS GMP_CC
-
