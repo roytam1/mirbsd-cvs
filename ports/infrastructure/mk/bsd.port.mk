@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.283 2014/04/18 19:59:26 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.284 2014/05/28 18:52:53 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2601,19 +2601,19 @@ ${_F}:
 	for site in $$sites; do \
 		${ECHO_MSG} ">> Attempting to fetch ${_F} from $${site}."; \
 		if ${FETCH_CMD} $${site}$$f; then \
-				file=${_F:S@^${DISTDIR}/@@}; \
-				ck=$$(cd ${DISTDIR} && ${_size_fragment}); \
-				if grep -qe "^$$ck\$$" \
-				    -e "^Size$${ck#SIZE} bytes\$$" \
-				    ${CHECKSUM_FILE}; then \
-					${ECHO_MSG} ">> Size matches for ${_F}"; \
-					exit 0; \
-				elif grep -qe "SIZE ($$file)" -e "Size ($$file)" ${CHECKSUM_FILE}; then \
-					${ECHO_MSG} ">> Size does not match for ${_F}"; \
-				else \
-					${ECHO_MSG} ">> No size recorded for ${_F}"; \
-					exit 0; \
-				fi; \
+			file=${_F:S@^${DISTDIR}/@@}; \
+			ck=$$(cd ${DISTDIR} && ${_size_fragment}); \
+			if grep -qe "^$$ck\$$" \
+			    -e "^Size$${ck#SIZE} bytes\$$" \
+			    ${CHECKSUM_FILE}; then \
+				${ECHO_MSG} ">> Size matches for ${_F}"; \
+				exit 0; \
+			elif grep -qe "SIZE ($$file)" -e "Size ($$file)" ${CHECKSUM_FILE}; then \
+				${ECHO_MSG} ">> Size does not match for ${_F}"; \
+			else \
+				${ECHO_MSG} ">> No size recorded for ${_F}"; \
+				exit 0; \
+			fi; \
 		fi; \
 	done; exit 1
 .    endif
