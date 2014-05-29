@@ -1,6 +1,4 @@
-BROKEN=WIP, do not use (this goes under the tree breakage eMail)
-
-# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.10 2014/02/10 01:15:49 tg Exp $
+# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.11 2014/05/29 00:32:29 tg Exp $
 
 ONLY_FOR_PLATFORM+=	MirBSD:10.181:i386
 
@@ -46,7 +44,7 @@ RUN_DEPENDS+=		:gcc-rtl-${VSN}-*:lang/egcs/gcc${VSS},-rtl
 .endif
 
 SUBST_VARS+=		OStriplet
-SUBST_VARS+=		VSS
+SUBST_VARS+=		VSN VSS
 
 MODGNU_RECURSE_DIRS=	${WRKSRC}
 MODGNU_RECURSE_DIRS+=	${WRKSRC}/fixincludes
@@ -66,33 +64,36 @@ AUTOGEN=		${MKSH} ${.CURDIR}/autogen.sh
 CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9
-#			--with-gmp=${LOCALBASE:Q} \vor werror
 CONFIGURE_ARGS+=	--enable-static \
 			${CONFIGURE_SHARED} \
 			--disable-gold \
 			--disable-libada \
 			--disable-libssp \
+			--disable-libgomp \
+			--disable-libmudflap \
 			--disable-objc-gc \
 			--enable-bootstrap \
 			--enable-serial-configure \
 			--disable-werror \
-			--enable-languages=c,c++ \
+			--with-mpfr=${LOCALBASE:Q} \
+			--with-gmp=${LOCALBASE:Q} \
 			--enable-threads \
+			--disable-tls \
+			--enable-languages=c,c++ \
 			--disable-sjlj-exceptions \
 			--disable-cld \
 			--enable-version-specific-runtime-libs \
 			--with-gnu-ld \
 			--with-gnu-as \
-			--with-system-zlib \
 			--with-libiconv-prefix=${ICONV_PREFIX:Q} \
-			--disable-nls \
-			--enable-cpp \
-			--disable-libmudflap \
-			--disable-libgomp \
+			--with-system-zlib \
 			--disable-libstdcxx-pch \
-			--enable-cxx-flags='-O1 -fno-omit-frame-pointer' \
+			--disable-nls \
 			--enable-wchar_t \
+			--enable-cxx-flags='-O1 -fno-omit-frame-pointer' \
 			--program-suffix=-${VSS:Q}
+FORCE_STAGE1_CFLAGS=	${CPPFLAGS} ${CFLAGS}
+CONFIGURE_ENV+=		FORCE_STAGE1_CFLAGS=${FORCE_STAGE1_CFLAGS:Q}
 EXTRA_XAKE_FLAGS+=	MAKEINFOFLAGS=--no-split
 EXTRA_XAKE_FLAGS+=	GNUSYSTEM_AUX_DIR=${GNUSYSTEM_AUX_DIR:Q}
 # stupid libgcc tries to install during build
@@ -107,17 +108,18 @@ CONFIGURE_ARGS+=	--with-arch=i486 --with-tune=pentium-mmx
 
 post-install:
 	cd ${PREFIX}/info && for f in *.info; do \
+		perl -pi -e 's/-VSS/-'${VSS:Q}/g $$f; \
 		mv $$f $${f%.info}-${VSS}.info; \
 	done
-#	mv ${PREFIX}/lib/fpic/libiberty.a \
-#	    ${PREFIX}/lib/gcc/${OStriplet}/${VSN}/fpic/
-#	rmdir ${PREFIX}/lib/fpic
-#	mv ${PREFIX}/lib/libiberty.a ${PREFIX}/lib/gcc/${OStriplet}/${VSN}/
-#	cd ${PREFIX}/lib/gcc/${OStriplet}/${VSN} && \
-#	    rm -f libgcc_s.so fpic/libgcc_s.so && \
-#	    for a in fpic/*.so.*; do \
-#		ln -f $$a .; \
-#	done && rm -f fpic/libgcc_s.so.*
+	mv ${PREFIX}/lib/fpic/libiberty.a \
+	    ${PREFIX}/lib/gcc/${OStriplet}/${VSN}/fpic/
+	rmdir ${PREFIX}/lib/fpic
+	mv ${PREFIX}/lib/libiberty.a ${PREFIX}/lib/gcc/${OStriplet}/${VSN}/
+	cd ${PREFIX}/lib/gcc/${OStriplet}/${VSN} && \
+	    rm -f libgcc_s.so fpic/libgcc_s.so && \
+	    for a in fpic/*.so.*; do \
+		ln -f $$a .; \
+	done && rm -f fpic/libgcc_s.so.*
 
 .include <bsd.port.mk>
 

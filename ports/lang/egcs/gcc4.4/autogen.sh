@@ -1,4 +1,4 @@
-# $MirOS: ports/lang/egcs/gcc4.4/autogen.sh,v 1.2 2009/12/06 15:52:17 tg Exp $
+# $MirOS: ports/lang/egcs/gcc4.4/autogen.sh,v 1.3 2014/02/10 01:15:49 tg Exp $
 
 rv=0
 
@@ -49,10 +49,10 @@ cd ..
 #$MKSH "${PORTSDIR}/infrastructure/scripts/autogen.sh" || rv=1
 #cd ..
 
-echo === libssp
-cd libssp
-$MKSH "${PORTSDIR}/infrastructure/scripts/autogen.sh" || rv=1
-cd ..
+#echo === libssp
+#cd libssp
+#$MKSH "${PORTSDIR}/infrastructure/scripts/autogen.sh" || rv=1
+#cd ..
 
 echo === libstdc++-v3
 cd libstdc++-v3
