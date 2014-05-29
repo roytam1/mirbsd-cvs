@@ -1,7 +1,8 @@
 $MirOS$
 
-MD5 (gmp-4.2.4.tar.gz) = 430f966bf8fe28d45ad8670a52b40e8c
-RMD160 (gmp-4.2.4.tar.gz) = 817a6177276e89e9583962995799fb0fe7cd0691
-SHA1 (gmp-4.2.4.tar.gz) = a92b7a67543010ed917c054c01de67732b8d91a9
-SIZE (gmp-4.2.4.tar.gz) = 2294731
-TIGER (gmp-4.2.4.tar.gz) = a0a10870c71cf7776f7dc691b4b83c86ef4a195d86207502
+MD5 (gmp-6.0.0a.tar.xz) = 1e6da4e434553d2811437aa42c7f7c76
+RMD160 (gmp-6.0.0a.tar.xz) = 7833e5a8184dbf1a0e1597c5b997bce8f7e70e62
+SHA1 (gmp-6.0.0a.tar.xz) = 1aaf78358ab9e34aeb61f3ae08174ee9118ece98
+SHA256 (gmp-6.0.0a.tar.xz) = 9156d32edac6955bc53b0218f5f3763facb890b73a835d5e1b901dcf8eb8b764
+SIZE (gmp-6.0.0a.tar.xz) = 1904112
+TIGER (gmp-6.0.0a.tar.xz) = 654b7dc05ba93048dcc283110a724d1442c0d7fea495a57d
