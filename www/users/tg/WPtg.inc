@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.29 2014/05/23 21:25:54 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.30 2014/05/26 18:47:12 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4930,6 +4930,12 @@ Date: 26.05.2014
 Waypoint: GC34902
 Title: crazy pics # 13
 Tag: D2 T15 Micro Mystery
+----
+ID: 870
+Date: 29.05.2014
+Waypoint: GC1WRGQ
+Title: Schwimmbad Melbbad
+Tag: D1 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
