@@ -1,4 +1,4 @@
-.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.39 2014/01/07 13:07:32 tg Exp $
+.\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.40 2014/05/28 18:52:55 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
 .\" Copyright (c) 2007, 2008, 2009, 2010 Thorsten Glaser
@@ -79,7 +79,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: January 7 2014 $
+.Dd $Mdocdate: May 28 2014 $
 .\"
 .\" Check which macro package we use
 .\"
@@ -645,6 +645,8 @@ Override to turn off, for instance.
 Command used to fetch distribution files for this port.
 Defaults to
 .Xr ftp 1 .
+Actually, this is
+.Dq ftp Fl o .
 Can be used to go through excessively paranoid firewalls.
 .It Ev FETCH_SYMLINK_DISTFILES
 Set to

@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/install/setup.ksh,v 1.97 2010/01/21 17:20:53 tg Exp $
+# $MirOS: ports/infrastructure/install/setup.ksh,v 1.98 2014/01/26 21:52:29 tg Exp $
 #-
 # Copyright (c) 2005, 2008, 2014
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
@@ -41,7 +41,7 @@ function dependdist
 		test -r $mirror/$f_dist && cp $mirror/$f_dist .
 		;;
 	*)	# http
-		$fetch $mirror$f_path
+		$fetch $f_dist $mirror$f_path
 		;;
 	esac
 	sum=unchecked

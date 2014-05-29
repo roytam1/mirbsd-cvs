@@ -2600,7 +2600,7 @@ ${_F}:
 	${_SITE_SELECTOR}; \
 	for site in $$sites; do \
 		${ECHO_MSG} ">> Attempting to fetch ${_F} from $${site}."; \
-		if ${FETCH_CMD} $${site}$$f; then \
+		if ${FETCH_CMD} ${_F} $${site}$$f; then \
 			file=${_F:S@^${DISTDIR}/@@}; \
 			ck=$$(cd ${DISTDIR} && ${_size_fragment}); \
 			if grep -qe "^$$ck\$$" \

@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.45 2008/10/05 16:17:17 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.46 2008/11/08 23:03:29 tg Exp $
 #-
 # Copyright (c) 2005, 2006
 #	Thorsten Glaser <tg@mirbsd.de>
@@ -110,23 +110,23 @@ test -z "$fetch" && fetch=false
 test x"$fetch" = x"false" && if test $isinterix = yes; then
 	# check for Weihenstephan wget
 	test -f /dev/fs/C/usr/local/wbin/wget.exe && \
-	    fetch="runwin32 c:/usr/local/wbin/wget.exe"
+	    fetch="runwin32 c:/usr/local/wbin/wget.exe -O"
 	# but prefer MirPorts wget
-	test -f $localbase/bin/wget && fetch=$localbase/bin/wget
+	test -f $localbase/bin/wget && fetch="$localbase/bin/wget -O"
 fi
 if test x"$fetch" = x"false"; then
 	# Check for ftp/wget/fetch
 	for dir in $localbase/bin /usr/{mpkg,local,pkg}/bin /bin /usr/bin; do
 		if test -f $dir/wget; then
-			fetch=$dir/wget
+			fetch="$dir/wget -O"
 			break
 		fi
 		if test -f $dir/fetch; then
-			fetch=$dir/fetch
+			fetch="$dir/fetch -o"
 			break
 		fi
 		if test -f $dir/ftp; then
-			fetch=$dir/ftp
+			fetch="$dir/ftp -o"
 			break
 		fi
 	done
@@ -276,7 +276,7 @@ test -r $f_dist || case "$mirror" in
 	test -r $mirror/$f_dist && cp $mirror/$f_dist .
 	;;
 *)	# http
-	$fetch $mirror$f_path
+	$fetch $f_dist $mirror$f_path
 	;;
 esac
 sum=unchecked

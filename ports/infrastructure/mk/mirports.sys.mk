@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.58 2012/10/18 16:41:27 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.59 2014/04/02 17:02:30 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2008, 2012, 2014
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -96,7 +96,7 @@ NOPIC=			No	# XXX
 LDCONFIG=
 HAS_CKSUM?=		md
 NO_SYSTRACE=		not on Darwin
-FETCH_CMD?=		/usr/bin/ftp
+FETCH_CMD?=		/usr/bin/ftp -o
 TAR=			${LOCALBASE}/bin/tar
 UNZIP=			/usr/bin/unzip
 BZIP2=			/usr/bin/bzip2
@@ -122,7 +122,7 @@ GZCAT?=			/usr/contrib/bin/gzip -dc
 .  ifndef BOOTSTRAP	# Install these first
 M4=			${LOCALBASE}/bin/gm4
 .  endif
-FETCH_CMD?=		${LOCALBASE}/bin/wget
+FETCH_CMD?=		${LOCALBASE}/bin/wget -O
 PATCH?=			${LOCALBASE}/bin/patch
 .endif
 
@@ -133,7 +133,7 @@ HAS_CKSUM?=		old
 MKC_USAP?=		Yes
 PKG_ARGS_ADD+=		-Z
 PKG_SUFX=		.tgz
-FETCH_CMD=		/usr/bin/ftp -V -m
+FETCH_CMD=		/usr/bin/ftp -V -m -o
 
 .  if ${OSrev} < 35
 MODPERL_DESTDIR=	$${${DESTDIRNAME}}
@@ -154,7 +154,7 @@ M4=			${LOCALBASE}/bin/gm4
 .  endif
 HAS_CKSUM?=		old
 NO_SYSTRACE=		not on MidnightBSD
-FETCH_CMD?=		/usr/bin/ftp
+FETCH_CMD?=		/usr/bin/ftp -o
 PATCH?=			${LOCALBASE}/bin/patch
 TAR=			${LOCALBASE}/bin/tar
 BZIP2=			/usr/bin/bzip2
@@ -206,7 +206,7 @@ _CCLD?=			gcc
 _MIRPORTS_ADDRESS=	<miros-discuss@MirBSD.org>
 _MIROS_ANONCVS=		_anoncvs@anoncvs.mirbsd.org:/cvs
 ARCH?=			${MACHINE_ARCH}
-FETCH_CMD?=		/usr/bin/ftp -EV -m
+FETCH_CMD?=		/usr/bin/ftp -EV -m -o
 HAS_CKSUM?=		No
 HAS_CXX?=		base
 LP64_PLATFORMS?=	*:*:alpha *:*:amd64 *:*:sparc64
