@@ -1,9 +1,9 @@
-# $MirOS: src/usr.sbin/openssl/Makefile,v 1.11 2007/09/28 12:12:56 tg Exp $
+# $MirOS: src/usr.sbin/openssl/Makefile,v 1.12 2007/09/28 12:41:54 tg Exp $
 # $OpenBSD: Makefile,v 1.17 2005/04/29 05:42:55 djm Exp $
 
 PROG=		openssl
-LDADD=		-lssl -lcrypto
-DPADD=		${LIBSSL} ${LIBCRYPTO}
+LDADD=		-lssl -lcrypto -lmbfun
+DPADD=		${LIBSSL} ${LIBCRYPTO} ${LIBMBFUN}
 
 .include <bsd.own.mk>
 

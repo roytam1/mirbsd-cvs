@@ -110,6 +110,7 @@
  */
 
 #include <sys/param.h>
+#include <syskern/libckern.h>
 #include <string.h>
 #define NON_MAIN
 #include "apps.h"
@@ -117,7 +118,7 @@
 #include <openssl/bio.h>
 #include <openssl/rand.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/apps/app_rand.c,v 1.5 2014/03/13 04:46:43 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/apps/app_rand.c,v 1.6 2014/03/13 05:48:22 tg Exp $");
 
 static int seeded = 0;
 static int egdsocket = 0;
@@ -221,21 +222,27 @@ void app_RAND_allow_write_file(void)
 	}
 
 extern void arc4random_ctl(unsigned int);
-void app_RAND_pushback(uint32_t x1, uint32_t x2, uint32_t x3, uint32_t x4)
-	{
-	uint32_t x[4];
-	time_t now;
+void
+app_RAND_pushback(uint32_t x1, uint32_t x2, uint32_t x3, uint32_t x4)
+{
 	static time_t next;
+	struct {
+		uint32_t x[4];
+		time_t now, next;
+		void *sp;
+	} x;
 
-	x[0] = x1;
-	x[1] = x2;
-	x[2] = x3;
-	x[3] = x4;
-	arc4random_pushb_fast(x, sizeof(x));
-	bzero(x, sizeof(x));
-	if (next < (now = time(NULL))) {
+	x.x[0] = x1;
+	x.x[1] = x2;
+	x.x[2] = x3;
+	x.x[3] = x4;
+	x.now = time(NULL);
+	x.next = next;
+	x.sp = &x;
+	arc4random_pushb_fast(&x, sizeof(x));
+	if (next < x.now) {
 		arc4random_ctl(2);
-		next = now + 240 + arc4random_uniform(120);
+		next = x.now + 240 + arc4random_uniform(120);
 	}
-	return;
-	}
+	explicit_bzero(&x, sizeof(x));
+}
