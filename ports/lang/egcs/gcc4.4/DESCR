@@ -9,6 +9,7 @@ larger team of developers, to ensure that GCC and the GNU system
 work on multiple architectures and diverse environments, and to
 more thoroughly test and extend the features of GCC.
 
-This package contains the core C compiler, the C++ compiler, and
-the Ada compiler suite (GNAT), for bootstrapping newer compilers
-(both GCC and LLVM/Clang).
+This package contains the core C compiler and the C++ compiler,
+for compiling packages that require some basic C++ support, such
+as GCC 4.8 and later (which can then be used to bootstrap Clang
+and even newer GCC versions).

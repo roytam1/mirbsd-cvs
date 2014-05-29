@@ -1,4 +1,4 @@
-$MirOS: ports/lang/egcs/gcc4.4/patches/patch-configure_ac,v 1.2 2009/12/06 15:52:18 tg Exp $
+$MirOS: ports/lang/egcs/gcc4.4/patches/patch-configure_ac,v 1.3 2014/02/10 01:15:49 tg Exp $
 --- configure.ac.orig	Mon Jun 27 21:15:33 2011
 +++ configure.ac	Sun Dec  1 04:04:45 2013
 @@ -305,7 +305,7 @@ if test "${ENABLE_GOLD}" = "yes"; then
@@ -20,19 +20,12 @@ $MirOS: ports/lang/egcs/gcc4.4/patches/patch-configure_ac,v 1.2 2009/12/06 15:52
    *-*-netbsd*)
      noconfigdirs="$noconfigdirs rcs"
      ;;
-@@ -485,6 +488,16 @@ case "${target}" in
+@@ -485,6 +488,9 @@ case "${target}" in
      skipdirs="$skipdirs zlib fastjar target-libjava target-boehm-gc target-zlib"
      noconfigdirs="$noconfigdirs target-libgloss"
      ;;
 +  *-*-mirbsd*)
-+    noconfigdirs="$noconfigdirs target-newlib target-libgloss"
-+# no libgcj for now
-+#    case "${target}" in
-+#      i*86-*-*) ;;
-+#      *)
-+	noconfigdirs="$noconfigdirs ${libgcj}"
-+#	;;
-+#    esac
++    noconfigdirs="$noconfigdirs target-newlib target-libgloss ${libgcj}"
 +    ;;
    *-*-netbsd*)
      # Skip some stuff on all NetBSD configurations.

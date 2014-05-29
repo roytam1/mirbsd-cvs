@@ -1,8 +1,8 @@
 BROKEN=WIP, do not use (this goes under the tree breakage eMail)
 
-# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.9 2009/12/20 23:15:21 tg Exp $
+# $MirOS: ports/lang/egcs/gcc4.4/Makefile,v 1.10 2014/02/10 01:15:49 tg Exp $
 
-ONLY_FOR_PLATFORM+=	MirBSD:10.171:i386
+ONLY_FOR_PLATFORM+=	MirBSD:10.181:i386
 
 COMMENT=		GNU Compiler Collection
 COMMENT-rtl=		GNU Compiler Collection: Runtime Libraries
@@ -21,6 +21,9 @@ PERMIT_PACKAGE_FTP=	Yes
 VSS=			${VSN:R}
 MASTER_SITES=		${MASTER_SITE_GCC:=releases/gcc-${VSN}/}
 DISTNAME=		gcc-${VSN}
+EXTRACT_SUFX=		.tar.bz2
+DISTFILES=		gcc-core-${VSN}${EXTRACT_SUFX}
+DISTFILES+=		gcc-g++-${VSN}${EXTRACT_SUFX}
 PKGNAME-rtl=		gcc-rtl-${VSN}-${DASH_VER}
 NO_REGRESS=		Yes
 
@@ -35,7 +38,6 @@ VMEM_WARNING=		Yes
 MODULES=
 .else
 MODULES+=		converters/libiconv
-BUILD_DEPENDS+=		:bison-*:devel/bison
 LIB_DEPENDS+=		gmp:gmp->=4.1:devel/gmp
 LIB_DEPENDS+=		mpfr:mpfr->=2.3.2:math/mpfr
 .  if ${SUBPACKAGE} != "-rtl"
@@ -57,24 +59,24 @@ MODGNU_RECURSE_DIRS+=	${WRKSRC}/libgcc
 MODGNU_RECURSE_DIRS+=	${WRKSRC}/libiberty
 #MODGNU_RECURSE_DIRS+=	${WRKSRC}/libmudflap
 #MODGNU_RECURSE_DIRS+=	${WRKSRC}/libobjc
-MODGNU_RECURSE_DIRS+=	${WRKSRC}/libssp
+#MODGNU_RECURSE_DIRS+=	${WRKSRC}/libssp
 MODGNU_RECURSE_DIRS+=	${WRKSRC}/libstdc++-v3
 #MODGNU_RECURSE_DIRS+=	${WRKSRC}/zlib
 AUTOGEN=		${MKSH} ${.CURDIR}/autogen.sh
 CONFIGURE_STYLE=	autogen
 AUTOCONF_NEW=		Yes
 AUTOMAKE_VERSION=	1.9
+#			--with-gmp=${LOCALBASE:Q} \vor werror
 CONFIGURE_ARGS+=	--enable-static \
 			${CONFIGURE_SHARED} \
 			--disable-gold \
-			--enable-libada \
-			--enable-libssp \
+			--disable-libada \
+			--disable-libssp \
 			--disable-objc-gc \
 			--enable-bootstrap \
 			--enable-serial-configure \
-			--with-gmp=${LOCALBASE:Q} \
 			--disable-werror \
-			--enable-languages=c,c++,ada \
+			--enable-languages=c,c++ \
 			--enable-threads \
 			--disable-sjlj-exceptions \
 			--disable-cld \
@@ -103,23 +105,19 @@ EXTRA_MAKE_FLAGS+=	INSTALL_PROGRAM=${ASUSER_INSTALL_PROGRAM:Q} \
 CONFIGURE_ARGS+=	--with-arch=i486 --with-tune=pentium-mmx
 .endif
 
-post-extract:
-	# gnatmake needs “gcc”, literally
-	ln -s ${_MPWRAP_CC} ${WRKDIR}/bin/gcc
-
 post-install:
 	cd ${PREFIX}/info && for f in *.info; do \
-		mv $$f $${f%.info}-4.4.7.info; \
+		mv $$f $${f%.info}-${VSS}.info; \
 	done
-	mv ${PREFIX}/lib/fpic/libiberty.a \
-	    ${PREFIX}/lib/gcc/${OStriplet}/${VSN}/fpic/
-	rmdir ${PREFIX}/lib/fpic
-	mv ${PREFIX}/lib/libiberty.a ${PREFIX}/lib/gcc/${OStriplet}/${VSN}/
-	cd ${PREFIX}/lib/gcc/${OStriplet}/${VSN} && \
-	    rm -f libgcc_s.so fpic/libgcc_s.so && \
-	    for a in fpic/*.so.*; do \
-		ln -f $$a .; \
-	done && rm -f fpic/libgcc_s.so.*
+#	mv ${PREFIX}/lib/fpic/libiberty.a \
+#	    ${PREFIX}/lib/gcc/${OStriplet}/${VSN}/fpic/
+#	rmdir ${PREFIX}/lib/fpic
+#	mv ${PREFIX}/lib/libiberty.a ${PREFIX}/lib/gcc/${OStriplet}/${VSN}/
+#	cd ${PREFIX}/lib/gcc/${OStriplet}/${VSN} && \
+#	    rm -f libgcc_s.so fpic/libgcc_s.so && \
+#	    for a in fpic/*.so.*; do \
+#		ln -f $$a .; \
+#	done && rm -f fpic/libgcc_s.so.*
 
 .include <bsd.port.mk>
 
