@@ -412,7 +412,7 @@ NO_CXX?=		No	# inhibit use of C++ ports
 USE_COMPILER?=		system
 .if ${USE_COMPILER:L} == "gcc4.4"
 HAS_CXX:=		port
-_CXX_LIB_DEPENDS=	:gcc-rtl-4.4.7-*:lang/egcs/gcc4.4
+_CXX_LIB_DEPENDS=	# empty as the libs are not in LOCALBASE/lib/ directly
 .endif
 .if ${USE_CXX:L} == "yes"
 .  if ${NO_CXX:L} == "yes"
@@ -439,6 +439,7 @@ _ORIG_CC:=		pcc
 _ORIG_CXX:=		false
 .elif ${USE_COMPILER:L} == "gcc4.4"
 BUILD_DEPENDS+=		:gcc-4.4.7-*:lang/egcs/gcc4.4
+RUN_DEPENDS+=		:gcc-rtl-4.4.7-*:lang/egcs/gcc4.4,-rtl
 _ORIG_CC:=		gcc-4.4
 _ORIG_CXX:=		g++-4.4
 .elif ${USE_COMPILER:L} != "system"
