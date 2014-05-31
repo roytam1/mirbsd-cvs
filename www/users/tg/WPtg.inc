@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.30 2014/05/26 18:47:12 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.31 2014/05/29 17:35:37 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4936,6 +4936,12 @@ Date: 29.05.2014
 Waypoint: GC1WRGQ
 Title: Schwimmbad Melbbad
 Tag: D1 T15 Micro Tradi
+----
+ID: 871
+Date: 31.05.2014
+Waypoint: GC51X5M
+Title: Aussicht vom Parkdeck 11
+Tag: D1 T1 Small Tradi recommended
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat

@@ -1,7 +1,7 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/man.cgi,v 1.5 2012/09/27 18:07:39 tg Exp $';
+my $rcsid = '$MirOS: www/files/man.cgi,v 1.6 2013/10/17 23:28:57 tg Exp $';
 #-
-# Copyright © 2012
+# Copyright © 2012, 2014
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -78,6 +78,7 @@ sub tohtml {
 	s/&/&#38;/g;
 	s/</&#60;/g;
 	s/>/&#62;/g;
+	s/\"/&#34;/g;
 	return $_;
 }
 
