@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.31 2014/05/29 17:35:37 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.32 2014/05/31 18:48:32 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4942,6 +4942,18 @@ Date: 31.05.2014
 Waypoint: GC51X5M
 Title: Aussicht vom Parkdeck 11
 Tag: D1 T1 Small Tradi recommended
+----
+ID: 872
+Date: 01.06.2014
+Waypoint: GC4FTGK
+Title: Statistik . #36
+Tag: D4 T25 Micro Mystery
+----
+ID: 873
+Date: 01.06.2014
+Waypoint: GC50483
+Title: Wachtberger Kreuze 1 # Reloaded
+Tag: D3 T15 Micro Multi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
