@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.32 2014/05/31 18:48:32 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.33 2014/06/01 20:47:55 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -203,6 +203,7 @@ ID: 39
 Date: 14.04.2008
 Waypoint: TC9AV
 Title: Deutscher Terracachingpreis 2008
+Tag: TC_Virtual Micro
 ----
 ID: 40
 Date: 14.04.2008
@@ -4954,6 +4955,31 @@ Date: 01.06.2014
 Waypoint: GC50483
 Title: Wachtberger Kreuze 1 # Reloaded
 Tag: D3 T15 Micro Multi
+----
+ID: 874
+Date: 05.06.2014
+Waypoint: TCHDU
+Title: Cologne Cathedral
+nTF: 1
+Tag: TC_Virtual Large
+----
+ID: 875
+Date: 05.06.2014
+Waypoint: GC16F1M
+Title: P6 Cache
+Tag: D25 T15 Small Tradi
+----
+ID: 876
+Date: 05.06.2014
+Waypoint: LCVE
+Title: Traditional Terracache FTF Bonus Points LC
+Tag: MC2 LC_Classic
+----
+ID: 877
+Date: 05.06.2014
+Waypoint: GCZ8H7
+Title: The Cologne Cathedral - A Geological Point of View
+Tag: D1 T1 Earth
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat

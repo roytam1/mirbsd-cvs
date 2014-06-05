@@ -1,6 +1,6 @@
 mws_setname imprint "Impressum (imprint)"
 mws_setheadline "Impressum (imprint)"
-mws_putheader '$MirOS: www/src/imprint.hts,v 1.5 2013/08/23 23:37:06 tg Exp $'
+mws_putheader '$MirOS: www/src/imprint.hts,v 1.6 2013/12/19 15:47:59 tg Exp $'
 mws_content <<'EOF'
 <h2>Legal information</h2>
 <p>All content of the website mirbsd.de including the main content mirrors,
@@ -25,7 +25,8 @@ mws_content <<'EOF'
 <li>Thorsten Glaser (<a href="mailto:tg@mirbsd.de">eMail</a>)<br />
  Schüllerweg 16<br />
  D-53129 Bonn<br />
- Deutschland (Germany / Allemagne)</li>
+ Deutschland (Germany / Allemagne)<br />
+ <i>fernmündlich:</i> ＋４９　１５１　５４８７４４６０</li>
 <li>Benny Siegert (<a href="mailto:bsiegert@mirbsd.org">eMail</a>)<br />
  Forsthausstraße 10<br />
  D-71234 Bietigheim-Bissingen<br />
