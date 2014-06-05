@@ -61,7 +61,7 @@
 #include <openssl/asn1t.h>
 #include <openssl/x509.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/crypto/asn1/x_name.c,v 1.3 2014/06/05 12:47:57 tg Exp $");
 
 static int x509_name_ex_d2i(ASN1_VALUE **val, unsigned char **in, long len, const ASN1_ITEM *it,
 					int tag, int aclass, char opt, ASN1_TLC *ctx);
@@ -202,7 +202,7 @@ static int x509_name_ex_d2i(ASN1_VALUE **val, unsigned char **in, long len, cons
 		sk_X509_NAME_ENTRY_free(entries);
 	}
 	sk_free(intname.s);
-	ret = x509_name_canon(nm);
+	ret = x509_name_canon(nm.x);
 	if (!ret)
 		goto err;
 	nm.x->modified = 0;

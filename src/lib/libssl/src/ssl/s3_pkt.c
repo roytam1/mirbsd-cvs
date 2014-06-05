@@ -116,7 +116,7 @@
 #include <openssl/evp.h>
 #include <openssl/buffer.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_pkt.c,v 1.7 2014/05/29 12:09:02 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_pkt.c,v 1.8 2014/06/05 13:26:41 tg Exp $");
 
 static int do_ssl3_write(SSL *s, int type, const unsigned char *buf,
 			 unsigned int len, int create_empty_fragment);
@@ -1258,7 +1258,7 @@ static int do_change_cipher_spec(SSL *s)
 		{
 		if (s->session == NULL || s->session->master_key_length == 0)
 			{
-			SSLerr(SSL_F_SSL3_DO_CHANGE_CIPHER_SPEC,SSL_R_CCS_RECEIVED_EARLY);
+			SSLerr(SSL_F_SSL3_READ_BYTES,SSL_R_CCS_RECEIVED_EARLY);
 			return (0);
 			}
 		s->session->cipher=s->s3->tmp.new_cipher;

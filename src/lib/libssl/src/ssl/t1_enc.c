@@ -119,7 +119,7 @@
 #include <openssl/fips.h>
 #include <openssl/rand.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/t1_enc.c,v 1.8 2014/03/13 04:46:46 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/t1_enc.c,v 1.9 2014/06/05 13:26:43 tg Exp $");
 
 static void tls1_P_hash(const EVP_MD *md, const unsigned char *sec,
 			int sec_len, unsigned char *seed, int seed_len,
@@ -817,12 +817,6 @@ int tls1_alert_code(int code)
 	case SSL_AD_INTERNAL_ERROR:	return(TLS1_AD_INTERNAL_ERROR);
 	case SSL_AD_USER_CANCELLED:	return(TLS1_AD_USER_CANCELLED);
 	case SSL_AD_NO_RENEGOTIATION:	return(TLS1_AD_NO_RENEGOTIATION);
-	case SSL_AD_UNSUPPORTED_EXTENSION: return(TLS1_AD_UNSUPPORTED_EXTENSION);
-	case SSL_AD_CERTIFICATE_UNOBTAINABLE: return(TLS1_AD_CERTIFICATE_UNOBTAINABLE);
-	case SSL_AD_UNRECOGNIZED_NAME:	return(TLS1_AD_UNRECOGNIZED_NAME);
-	case SSL_AD_BAD_CERTIFICATE_STATUS_RESPONSE: return(TLS1_AD_BAD_CERTIFICATE_STATUS_RESPONSE);
-	case SSL_AD_BAD_CERTIFICATE_HASH_VALUE: return(TLS1_AD_BAD_CERTIFICATE_HASH_VALUE);
-	case SSL_AD_UNKNOWN_PSK_IDENTITY:return(TLS1_AD_UNKNOWN_PSK_IDENTITY);
 	default:			return(-1);
 		}
 	}

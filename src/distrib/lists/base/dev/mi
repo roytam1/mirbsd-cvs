@@ -992,7 +992,6 @@
 ./usr/include/openssl/dso.h
 ./usr/include/openssl/e_os2.h
 ./usr/include/openssl/ebcdic.h
-./usr/include/openssl/ec.h
 ./usr/include/openssl/engine.h
 ./usr/include/openssl/err.h
 ./usr/include/openssl/evp.h
