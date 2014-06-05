@@ -127,7 +127,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_srvr.c,v 1.8 2014/03/05 12:41:59 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_srvr.c,v 1.9 2014/03/13 04:46:46 tg Exp $");
 
 static SSL_METHOD *ssl3_get_server_method(int ver);
 static int ssl3_get_client_hello(SSL *s);
@@ -466,6 +466,7 @@ int ssl3_accept(SSL *s)
 		case SSL3_ST_SR_CERT_VRFY_A:
 		case SSL3_ST_SR_CERT_VRFY_B:
 
+			s->s3->flags |= SSL3_FLAGS_CCS_OK;
 			/* we should decide if we expected this one */
 			ret=ssl3_get_cert_verify(s);
 			if (ret <= 0) goto end;
@@ -476,6 +477,7 @@ int ssl3_accept(SSL *s)
 
 		case SSL3_ST_SR_FINISHED_A:
 		case SSL3_ST_SR_FINISHED_B:
+			s->s3->flags |= SSL3_FLAGS_CCS_OK;
 			ret=ssl3_get_finished(s,SSL3_ST_SR_FINISHED_A,
 				SSL3_ST_SR_FINISHED_B);
 			if (ret <= 0) goto end;
@@ -1369,6 +1371,11 @@ static int ssl3_send_certificate_request(SSL *s)
 		s->init_num=n+4;
 		s->init_off=0;
 #ifdef NETSCAPE_HANG_BUG
+		if (!BUF_MEM_grow_clean(buf, s->init_num + 4))
+			{
+			SSLerr(SSL_F_SSL3_SEND_CERTIFICATE_REQUEST,ERR_R_BUF_LIB);
+			goto err;
+			}
 		p=(unsigned char *)s->init_buf->data + s->init_num;
 
 		/* do the header */

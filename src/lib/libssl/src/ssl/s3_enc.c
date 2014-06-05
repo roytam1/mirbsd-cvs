@@ -115,7 +115,7 @@
 #include <openssl/md5.h>
 #include <openssl/rand.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_enc.c,v 1.7 2010/09/21 21:24:12 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_enc.c,v 1.8 2014/03/13 04:46:46 tg Exp $");
 
 static unsigned char ssl3_pad_1[48]={
 	0x36,0x36,0x36,0x36,0x36,0x36,0x36,0x36,
@@ -700,6 +700,12 @@ int ssl3_alert_code(int code)
 	case SSL_AD_INTERNAL_ERROR:	return(SSL3_AD_HANDSHAKE_FAILURE);
 	case SSL_AD_USER_CANCELLED:	return(SSL3_AD_HANDSHAKE_FAILURE);
 	case SSL_AD_NO_RENEGOTIATION:	return(-1); /* Don't send it :-) */
+	case SSL_AD_UNSUPPORTED_EXTENSION: return(SSL3_AD_HANDSHAKE_FAILURE);
+	case SSL_AD_CERTIFICATE_UNOBTAINABLE: return(SSL3_AD_HANDSHAKE_FAILURE);
+	case SSL_AD_UNRECOGNIZED_NAME:	return(SSL3_AD_HANDSHAKE_FAILURE);
+	case SSL_AD_BAD_CERTIFICATE_STATUS_RESPONSE: return(SSL3_AD_HANDSHAKE_FAILURE);
+	case SSL_AD_BAD_CERTIFICATE_HASH_VALUE: return(SSL3_AD_HANDSHAKE_FAILURE);
+	case SSL_AD_UNKNOWN_PSK_IDENTITY:return(TLS1_AD_UNKNOWN_PSK_IDENTITY);
 	default:			return(-1);
 		}
 	}

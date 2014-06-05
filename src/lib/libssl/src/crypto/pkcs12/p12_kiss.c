@@ -60,6 +60,8 @@
 #include "cryptlib.h"
 #include <openssl/pkcs12.h>
 
+__RCSID("$MirOS$");
+
 /* Simplified PKCS#12 routines */
 
 static int parse_pk12( PKCS12 *p12, const char *pass, int passlen,
@@ -261,7 +263,7 @@ static int parse_bag(PKCS12_SAFEBAG *bag, const char *pass, int passlen,
 			int len, r;
 			unsigned char *data;
 			len = ASN1_STRING_to_UTF8(&data, fname);
-			if(len > 0) {
+			if(len >= 0) {
 				r = X509_alias_set1(x509, data, len);
 				OPENSSL_free(data);
 				if (!r)

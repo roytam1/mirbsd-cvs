@@ -116,7 +116,7 @@
 #include <openssl/evp.h>
 #include <openssl/buffer.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_pkt.c,v 1.6 2014/05/13 07:40:54 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_pkt.c,v 1.7 2014/05/29 12:09:02 tg Exp $");
 
 static int do_ssl3_write(SSL *s, int type, const unsigned char *buf,
 			 unsigned int len, int create_empty_fragment);
@@ -528,6 +528,22 @@ int ssl3_write_bytes(SSL *s, int type, const void *buf_, int len)
 			return -1;
 			}
 		}
+
+	/* ensure that if we end up with a smaller value of data to write 
+	 * out than the the original len from a write which didn't complete 
+	 * for non-blocking I/O and also somehow ended up avoiding 
+	 * the check for this in ssl3_write_pending/SSL_R_BAD_WRITE_RETRY as
+	 * it must never be possible to end up with (len-tot) as a large
+	 * number that will then promptly send beyond the end of the users
+	 * buffer ... so we trap and report the error in a way the user
+	 * will notice
+	 */
+	if ( len < tot)
+		{
+		SSLerr(SSL_F_SSL3_WRITE_BYTES,SSL_R_BAD_LENGTH);
+		return(-1);
+		}
+
 
 	n=(len-tot);
 	for (;;)
@@ -1099,6 +1115,15 @@ start:
 			goto f_err;
 			}
 
+		if (!(s->s3->flags & SSL3_FLAGS_CCS_OK))
+			{
+			al=SSL_AD_UNEXPECTED_MESSAGE;
+			SSLerr(SSL_F_SSL3_READ_BYTES,SSL_R_CCS_RECEIVED_EARLY);
+			goto f_err;
+			}
+
+		s->s3->flags &= ~SSL3_FLAGS_CCS_OK;
+
 		rr->length=0;
 
 		if (s->msg_callback)
@@ -1231,6 +1256,11 @@ static int do_change_cipher_spec(SSL *s)
 
 	if (s->s3->tmp.key_block == NULL)
 		{
+		if (s->session == NULL || s->session->master_key_length == 0)
+			{
+			SSLerr(SSL_F_SSL3_DO_CHANGE_CIPHER_SPEC,SSL_R_CCS_RECEIVED_EARLY);
+			return (0);
+			}
 		s->session->cipher=s->s3->tmp.new_cipher;
 		if (!s->method->ssl3_enc->setup_key_block(s)) return(0);
 		}

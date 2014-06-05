@@ -60,6 +60,8 @@
 #include "cryptlib.h"
 #include <openssl/asn1.h>
 
+__RCSID("$MirOS$");
+
 ASN1_INTEGER *ASN1_INTEGER_dup(ASN1_INTEGER *x)
 { return M_ASN1_INTEGER_dup(x);}
 
@@ -115,7 +117,7 @@ int i2c_ASN1_INTEGER(ASN1_INTEGER *a, unsigned char **pp)
 	int pad=0,ret,i,neg;
 	unsigned char *p,*n,pb=0;
 
-	if ((a == NULL) || (a->data == NULL)) return(0);
+	if (a == NULL) return(0);
 	neg=a->type & V_ASN1_NEG;
 	if (a->length == 0)
 		ret=1;

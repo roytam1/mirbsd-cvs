@@ -121,7 +121,7 @@
 #include <openssl/ssl.h>
 #include "s_apps.h"
 
-__RCSID("$MirOS: src/lib/libssl/src/apps/s_cb.c,v 1.6 2008/07/06 15:44:50 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/apps/s_cb.c,v 1.7 2008/07/06 16:08:03 tg Exp $");
 
 int verify_depth=0;
 int verify_error=X509_V_OK;
@@ -486,6 +486,24 @@ void MS_CALLBACK msg_cb(int write_p, int version, int content_type, const void *
 					break;
 				case 100:
 					str_details2 = " no_renegotiation";
+					break;
+				case 110:
+					str_details2 = " unsupported_extension";
+					break;
+				case 111:
+					str_details2 = " certificate_unobtainable";
+					break;
+				case 112:
+					str_details2 = " unrecognized_name";
+					break;
+				case 113:
+					str_details2 = " bad_certificate_status_response";
+					break;
+				case 114:
+					str_details2 = " bad_certificate_hash_value";
+					break;
+				case 115:
+					str_details2 = " unknown_psk_identity";
 					break;
 					}
 				}

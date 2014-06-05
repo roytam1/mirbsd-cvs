@@ -62,7 +62,7 @@
 #include <openssl/err.h>
 #include <openssl/ssl.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/ssl_err.c,v 1.3 2009/11/09 19:18:37 tg Exp $");
 
 /* BEGIN ERROR CODES */
 #ifndef OPENSSL_NO_ERR
@@ -405,6 +405,11 @@ static ERR_STRING_DATA SSL_str_reasons[]=
 {ERR_REASON(SSL_R_TLSV1_ALERT_RECORD_OVERFLOW),"tlsv1 alert record overflow"},
 {ERR_REASON(SSL_R_TLSV1_ALERT_UNKNOWN_CA),"tlsv1 alert unknown ca"},
 {ERR_REASON(SSL_R_TLSV1_ALERT_USER_CANCELLED),"tlsv1 alert user cancelled"},
+{ERR_REASON(SSL_R_TLSV1_BAD_CERTIFICATE_HASH_VALUE),"tlsv1 bad certificate hash value"},
+{ERR_REASON(SSL_R_TLSV1_BAD_CERTIFICATE_STATUS_RESPONSE),"tlsv1 bad certificate status response"},
+{ERR_REASON(SSL_R_TLSV1_CERTIFICATE_UNOBTAINABLE),"tlsv1 certificate unobtainable"},
+{ERR_REASON(SSL_R_TLSV1_UNRECOGNIZED_NAME),"tlsv1 unrecognized name"},
+{ERR_REASON(SSL_R_TLSV1_UNSUPPORTED_EXTENSION),"tlsv1 unsupported extension"},
 {ERR_REASON(SSL_R_TLS_CLIENT_CERT_REQ_WITH_ANON_CIPHER),"tls client cert req with anon cipher"},
 {ERR_REASON(SSL_R_TLS_PEER_DID_NOT_RESPOND_WITH_CERTIFICATE_LIST),"tls peer did not respond with certificate list"},
 {ERR_REASON(SSL_R_TLS_RSA_ENCRYPTED_VALUE_LENGTH_IS_WRONG),"tls rsa encrypted value length is wrong"},

@@ -65,6 +65,8 @@
 #include <openssl/pem.h>
 #include <openssl/err.h>
 
+__RCSID("$MirOS$");
+
 #undef PROG
 #define PROG smime_main
 static int save_certs(char *signerfile, STACK_OF(X509) *signers);
@@ -379,8 +381,8 @@ int MAIN(int argc, char **argv)
 
 	if(operation == SMIME_ENCRYPT) {
 		if (!cipher) {
-#ifndef OPENSSL_NO_RC2			
-			cipher = EVP_rc2_40_cbc();
+#ifndef OPENSSL_NO_DES
+			cipher = EVP_des_ede3_cbc();
 #else
 			BIO_printf(bio_err, "No cipher selected\n");
 			goto end;

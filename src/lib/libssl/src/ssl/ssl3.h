@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libssl/src/ssl/ssl3.h,v 1.2 2009/11/14 14:33:48 tg Exp $ */
 
 /* ssl/ssl3.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -316,6 +316,7 @@ typedef struct ssl3_buffer_st
 #define SSL3_FLAGS_POP_BUFFER				0x0004
 #define TLS1_FLAGS_TLS_PADDING_BUG			0x0008
 #define SSL3_FLAGS_ALLOW_UNSAFE_LEGACY_RENEGOTIATION	0x0010
+#define SSL3_FLAGS_CCS_OK			0x0080
 
 typedef struct ssl3_state_st
 	{

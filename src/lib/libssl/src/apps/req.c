@@ -75,7 +75,7 @@
 #include <openssl/pem.h>
 #include "../crypto/cryptlib.h"
 
-__RCSID("$MirOS: src/lib/libssl/src/apps/req.c,v 1.7 2008/07/06 15:44:50 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/apps/req.c,v 1.8 2008/07/06 16:08:02 tg Exp $");
 
 #define SECTION		"req"
 
@@ -1449,7 +1449,13 @@ start:
 #ifdef CHARSET_EBCDIC
 	ebcdic2ascii(buf, buf, i);
 #endif
-	if(!req_check_len(i, n_min, n_max)) goto start;
+	if(!req_check_len(i, n_min, n_max))
+		{
+		if (batch || value)
+			return 0;
+		goto start;
+		}
+
 	if (!X509_NAME_add_entry_by_NID(n,nid, chtype,
 				(unsigned char *) buf, -1,-1,0)) goto err;
 	ret=1;
@@ -1507,7 +1513,12 @@ start:
 #ifdef CHARSET_EBCDIC
 	ebcdic2ascii(buf, buf, i);
 #endif
-	if(!req_check_len(i, n_min, n_max)) goto start;
+	if(!req_check_len(i, n_min, n_max))
+		{
+		if (batch || value)
+			return 0;
+		goto start;
+		}
 
 	if(!X509_REQ_add1_attr_by_NID(req, nid, chtype,
 					(unsigned char *)buf, -1)) {

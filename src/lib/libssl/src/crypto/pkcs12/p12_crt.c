@@ -60,6 +60,8 @@
 #include "cryptlib.h"
 #include <openssl/pkcs12.h>
 
+__RCSID("$MirOS$");
+
 PKCS12 *PKCS12_create(char *pass, char *name, EVP_PKEY *pkey, X509 *cert,
 	     STACK_OF(X509) *ca, int nid_key, int nid_cert, int iter, int mac_iter,
 	     int keytype)
@@ -83,7 +85,11 @@ PKCS12 *PKCS12_create(char *pass, char *name, EVP_PKEY *pkey, X509 *cert,
 			nid_cert = NID_pbe_WithSHA1And3_Key_TripleDES_CBC;
 		else
 #endif
+#ifdef OPENSSL_NO_RC2
+			nid_cert = NID_pbe_WithSHA1And3_Key_TripleDES_CBC;
+#else
 			nid_cert = NID_pbe_WithSHA1And40BitRC2_CBC;
+#endif
 		}
 	if(!nid_key) nid_key = NID_pbe_WithSHA1And3_Key_TripleDES_CBC;
 	if(!iter) iter = PKCS12_DEFAULT_ITER;

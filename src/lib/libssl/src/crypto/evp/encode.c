@@ -60,6 +60,8 @@
 #include "cryptlib.h"
 #include <openssl/evp.h>
 
+__RCSID("$MirOS$");
+
 #ifndef CHARSET_EBCDIC
 #define conv_bin2ascii(a)	(data_bin2ascii[(a)&0x3f])
 #define conv_ascii2bin(a)	(data_ascii2bin[(a)&0x7f])
@@ -324,6 +326,7 @@ int EVP_DecodeUpdate(EVP_ENCODE_CTX *ctx, unsigned char *out, int *outl,
 				{
 				v=EVP_DecodeBlock(out,d,n);
 				if (v < 0) { rv=0; goto end; }
+				if (eof > v) { rv=-1; goto end; }
 				n=0;
 				ret+=(v-eof);
 				}

@@ -120,6 +120,8 @@
 #include "cryptlib.h"
 #include "bn_lcl.h"
 
+__RCSID("$MirOS$");
+
 #define MONT_WORD /* use the faster word-based algorithm */
 
 int BN_mod_mul_montgomery(BIGNUM *r, const BIGNUM *a, const BIGNUM *b,
@@ -455,32 +457,38 @@ BN_MONT_CTX *BN_MONT_CTX_copy(BN_MONT_CTX *to, BN_MONT_CTX *from)
 BN_MONT_CTX *BN_MONT_CTX_set_locked(BN_MONT_CTX **pmont, int lock,
 					const BIGNUM *mod, BN_CTX *ctx)
 	{
-	int got_write_lock = 0;
 	BN_MONT_CTX *ret;
 
 	CRYPTO_r_lock(lock);
-	if (!*pmont)
-		{
-		CRYPTO_r_unlock(lock);
-		CRYPTO_w_lock(lock);
-		got_write_lock = 1;
-
-		if (!*pmont)
-			{
-			ret = BN_MONT_CTX_new();
-			if (ret && !BN_MONT_CTX_set(ret, mod, ctx))
-				BN_MONT_CTX_free(ret);
-			else
-				*pmont = ret;
-			}
-		}
-	
 	ret = *pmont;
-	
-	if (got_write_lock)
-		CRYPTO_w_unlock(lock);
+	CRYPTO_r_unlock(lock);
+	if (ret)
+		return ret;
+
+	/* We don't want to serialise globally while doing our lazy-init math in
+	 * BN_MONT_CTX_set. That punishes threads that are doing independent
+	 * things. Instead, punish the case where more than one thread tries to
+	 * lazy-init the same 'pmont', by having each do the lazy-init math work
+	 * independently and only use the one from the thread that wins the race
+	 * (the losers throw away the work they've done). */
+	ret = BN_MONT_CTX_new();
+	if (!ret)
+		return NULL;
+	if (!BN_MONT_CTX_set(ret, mod, ctx))
+		{
+		BN_MONT_CTX_free(ret);
+		return NULL;
+		}
+
+	/* The locked compare-and-set, after the local work is done. */
+	CRYPTO_w_lock(lock);
+	if (*pmont)
+		{
+		BN_MONT_CTX_free(ret);
+		ret = *pmont;
+		}
 	else
-		CRYPTO_r_unlock(lock);
-		
+		*pmont = ret;
+	CRYPTO_w_unlock(lock);
 	return ret;
 	}
