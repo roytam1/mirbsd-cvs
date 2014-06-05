@@ -1,19 +1,17 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.23 2014/03/13 05:48:21 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.24 2014/03/23 22:50:56 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2006/10/14 19:43:57 drahn Exp $
 
 .include <bsd.own.mk>
 
-SHLIB_VERSION?=	15.0
+SHLIB_VERSION?=	15.1
 LIB=		crypto
-DPADD+=		${LIBZ}
-LDADD+=		-lz
 LDFLAGS+=	-Wl,-Bsymbolic
 
 SSLEAYDIST=	src
 SSL_SRC=	${.CURDIR}/../${SSLEAYDIST}
 LCRYPTO_SRC=	${SSL_SRC}/crypto
 
-CPPFLAGS+= -DNO_ERR -DNO_WINDOWS_BRAINDEATH -DZLIB
+CPPFLAGS+= -DNO_ERR -DNO_WINDOWS_BRAINDEATH -DOPENSSL_NO_EC
 CPPFLAGS+= -DOPENSSL_NO_HW_CSWIFT -DOPENSSL_NO_HW_NCIPHER -DOPENSSL_NO_HW_ATALLA
 CPPFLAGS+= -DOPENSSL_NO_HW_NURON -DOPENSSL_NO_HW_UBSEC -DOPENSSL_NO_HW_AEP
 CPPFLAGS+= -DOPENSSL_NO_HW_SUREWARE -DOPENSSL_NO_HW_4758_CCA
@@ -126,8 +124,6 @@ SRCS+=	dso_dl.c dso_dlfcn.c dso_err.c dso_lib.c dso_null.c
 SRCS+=	dso_openssl.c dso_win32.c dso_vms.c
 SRCS+=	ocsp_asn.c ocsp_err.c ocsp_ht.c ocsp_prn.c ocsp_vfy.c
 SRCS+=	ocsp_cl.c ocsp_ext.c ocsp_lib.c ocsp_srv.c
-SRCS+=	ec_cvt.c ec_lib.c ecp_mont.c ecp_recp.c
-SRCS+=	ec_err.c ec_mult.c ecp_nist.c ecp_smpl.c
 
 .PATH:	${LCRYPTO_SRC}/md2 ${LCRYPTO_SRC}/md5 ${LCRYPTO_SRC}/sha \
 	${LCRYPTO_SRC}/mdc2 ${LCRYPTO_SRC}/hmac ${LCRYPTO_SRC}/ripemd \
@@ -142,7 +138,7 @@ SRCS+=	ec_err.c ec_mult.c ecp_nist.c ecp_smpl.c
 	${LCRYPTO_SRC}/pkcs7 ${LCRYPTO_SRC}/x509v3 ${LCRYPTO_SRC}/pkcs12 \
 	${LCRYPTO_SRC}/comp ${LCRYPTO_SRC}/txt_db ${LCRYPTO_SRC}/md4 \
 	${LCRYPTO_SRC}/engine ${LCRYPTO_SRC}/dso ${LCRYPTO_SRC}/ui \
-	${LCRYPTO_SRC}/ocsp ${LCRYPTO_SRC}/ec ${LCRYPTO_SRC}/aes \
+	${LCRYPTO_SRC}/ocsp ${LCRYPTO_SRC}/aes \
 	${LCRYPTO_SRC} ${LCRYPTO_SRC}/acss ${.CURDIR}/arch/${MACHINE_ARCH} \
 	${LCRYPTO_SRC}/bn/asm
 
@@ -167,7 +163,6 @@ HDRS=\
 	crypto/dsa/dsa.h \
 	crypto/dso/dso.h \
 	crypto/ebcdic.h \
-	crypto/ec/ec.h \
 	crypto/engine/engine.h \
 	crypto/err/err.h \
 	crypto/evp/evp.h \
