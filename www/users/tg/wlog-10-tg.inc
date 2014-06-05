@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.11 2014/05/17 10:14:34 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.12 2014/05/21 18:28:52 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -139,4 +139,27 @@ Language: de-DE-1901
  Webseite kommen, habe ich extra von der Arbeit aus nachgesehen,
  auch nicht in Frage.)</p>
 <p>&lt;/rant&gt;</p>
+----
+Date: 05.06.2014 08:42
+Author: tg@
+Title: Dear FSF, stop recommending Enigmail.
+Tag: debian pcli rant security tip work
+
+<p>Dear FSF, stop <a href="https://emailselfdefense.fsf.org/">recommending</a>
+ Enigmail, please. It <a href="http://apebox.org/wordpress/rants/589/">is
+ broken</a>, simple as that. Even if you <a
+ href="news://news.gmane.org/53859C5C.1020306@debian.org">switch everything
+ HTML-related off</a>, it still defaults to the latin9 (ISO-8859-15) encoding
+ instead of UTF-8, and possibly some other nasties. Worse, it’s based upon
+ obsolete Thunderbird/Icedove technology, which is dead since the release of
+ Firefox® 17 and will only degrate over time.</p>
+<p>Side note: I was asked recently how much entropy is used while generating
+ a PGP key using GnuPG on Windows®, after having done the same for <a
+ href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=742145">OpenSSL on
+ Debian</a> (and possibly almost all other OSes). I had to try to find out
+ which was the actual code (GnuPG 2 with libgcrypt, it turns out), and it
+ was <em>not pretty</em>. (You are hereby adviced to create a 600-byte file
+ <tt>${GNUPGHOME:-~/.gnupg}/random_seed</tt> from a good source before even
+ attempting to use GnuPG 2 for the first time. OK, you can run <tt>gpg -k</tt>
+ once, to create the GNUPGHOME directory from a skeleton.)</p>
 ----
