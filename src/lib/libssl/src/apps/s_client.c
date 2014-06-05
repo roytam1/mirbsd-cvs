@@ -1,5 +1,3 @@
-/* $MirOS: src/lib/libssl/src/apps/s_client.c,v 1.5 2008/04/03 18:44:24 tg Exp $ */
-
 /* apps/s_client.c */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
@@ -122,7 +120,7 @@
 #define APPS_WIN16
 #endif
 
-__RCSID("$MirOS: src/lib/libssl/src/apps/s_client.c,v 1.5 2008/04/03 18:44:24 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/apps/s_client.c,v 1.6 2012/05/16 19:48:48 tg Exp $");
 
 /* With IPv6, it looks like Digital has mixed up the proper order of
    recursive header file inclusion, resulting in the compiler complaining
@@ -195,7 +193,7 @@ static void sc_usage(void)
 	BIO_printf(bio_err," -port port     - use -connect instead\n");
 	BIO_printf(bio_err," -connect host:port - who to connect to (default is %s:%s)\n",SSL_HOST_NAME,PORT_STR);
 
-	BIO_printf(bio_err," -verify arg   - turn on peer certificate verification\n");
+	BIO_printf(bio_err," -verify depth - turn on peer certificate verification\n");
 	BIO_printf(bio_err," -cert arg     - certificate file to use, PEM format assumed\n");
 	BIO_printf(bio_err," -key arg      - Private key file to use, PEM format assumed, in cert file if\n");
 	BIO_printf(bio_err,"                 not specified but cert file is.\n");

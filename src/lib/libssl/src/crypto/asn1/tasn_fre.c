@@ -62,6 +62,8 @@
 #include <openssl/asn1t.h>
 #include <openssl/objects.h>
 
+__RCSID("$MirOS$");
+
 static void asn1_item_combine_free(ASN1_VALUE **pval, const ASN1_ITEM *it, int combine);
 
 /* Free up an ASN1 structure */
@@ -106,7 +108,6 @@ static void asn1_item_combine_free(ASN1_VALUE **pval, const ASN1_ITEM *it, int c
 			if(i == 2) return;
 		}
 		i = asn1_get_choice_selector(pval, it);
-		if(asn1_cb) asn1_cb(ASN1_OP_FREE_PRE, pval, it);
 		if((i >= 0) && (i < it->tcount)) {
 			ASN1_VALUE **pchval;
 			tt = it->templates + i;

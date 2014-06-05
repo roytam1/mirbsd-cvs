@@ -56,10 +56,15 @@
  * [including the GNU Public Licence.]
  */
 
+#include <sys/cdefs.h>
+#define HEADER_OPENSSLV_H_RCSID_PLEASE
+
 #include <stdio.h>
 #include <string.h>
 #include "cryptlib.h"
 #include <openssl/crypto.h>
+
+__RCSID("$MirOS$");
 
 #ifndef NO_WINDOWS_BRAINDEATH
 #include "buildinf.h"

@@ -1,6 +1,10 @@
 #ifndef HEADER_OPENSSLV_H
 #define HEADER_OPENSSLV_H
 
+#ifdef HEADER_OPENSSLV_H_RCSID_PLEASE
+__RCSID("$MirOS$");
+#endif
+
 /* Numeric release version identifier:
  * MNNFFPPS: major minor fix patch status
  * The status nibble has one of the values 0 for development, 1 to e for betas
@@ -27,9 +31,9 @@
  */
 #define OPENSSL_VERSION_NUMBER	0x009070dfL
 #ifdef OPENSSL_FIPS
-#define OPENSSL_VERSION_TEXT	"OpenSSL 0.9.7m-fips 23 Feb 2007"
+# error WTF? No FIPS here!
 #else
-#define OPENSSL_VERSION_TEXT	"OpenSSL 0.9.7m 23 Feb 2007"
+#define OPENSSL_VERSION_TEXT	"OpenSSL 0.9.7m 05 Jun 2014"
 #endif
 #define OPENSSL_VERSION_PTEXT	" part of " OPENSSL_VERSION_TEXT
 
