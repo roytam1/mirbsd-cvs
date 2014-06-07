@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.33 2014/06/01 20:47:55 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.34 2014/06/05 21:17:32 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4981,5 +4981,13 @@ Waypoint: GCZ8H7
 Title: The Cologne Cathedral - A Geological Point of View
 Tag: D1 T1 Earth
 ----
+ID: 878
+Date: 03.06.2014
+Waypoint: TCEWS
+Title: Dürsch dä Langeberg-Canyon … un'eröm
+nTF: 0
+Tag: Multi Small
+----
+# Eisevent TCEWN 12.07.2014
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
