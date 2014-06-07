@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.34 2014/06/05 21:17:32 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.35 2014/06/07 08:58:16 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4987,6 +4987,30 @@ Waypoint: TCEWS
 Title: Dürsch dä Langeberg-Canyon … un'eröm
 nTF: 0
 Tag: Multi Small
+----
+ID: 879
+Date: 07.06.2014
+Waypoint: GC4HMHA
+Title: Das Imperium kehrt zurück...
+Tag: D35 T25 Micro Tradi
+----
+ID: 880
+Date: 07.06.2014
+Waypoint: GC53N9G
+Title: CITO Bonn
+Tag: D15 T15 CITO
+----
+ID: 881
+Date: 07.06.2014
+Waypoint: GC4H98D
+Title: Die Macht des Imperiums
+Tag: D3 T25 Micro Tradi
+----
+ID: 882
+Date: 07.06.2014
+Waypoint: GC53T46
+Title: WWFM XI - Bonn ist dabei!
+Tag: D1 T1 Event
 ----
 # Eisevent TCEWN 12.07.2014
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
