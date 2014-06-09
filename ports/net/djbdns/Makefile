@@ -1,10 +1,10 @@
-# $MirOS: ports/net/djbdns/Makefile,v 1.45 2013/08/14 21:01:20 tg Exp $
+# $MirOS: ports/net/djbdns/Makefile,v 1.46 2013/09/10 18:40:40 tg Exp $
 
 COMMENT=		collection of Domain Name System server and tools
 VERSION=		1.05
 CATEGORIES=		net
 DISTNAME=		djbdns-${VERSION}
-DASH_VER=		42
+DASH_VER=		43
 MANVER=			20031023
 HOMEPAGE=		http://cr.yp.to/djbdns.html
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
@@ -29,6 +29,8 @@ NO_REGRESS=		Yes
 
 .undef DNSROOT
 
+# root hints:		ftp://ftp.internic.net/domain/named.root.sig
+# root hints:		ftp://ftp.internic.net/domain/named.root
 .if ${FLAVOUR:L:Micann}
 .  ifdef DNSROOT
 BROKEN=			Multiple DNS Roots chosen; invalid combination
@@ -39,6 +41,7 @@ DNSROOT6=		icann
 .endif
 
 # public resolvers:	2a01:7e0::212:224:71:71 212.224.71.71 79.133.62.62
+# root hints:		http://www.orsn.org/roothint/root-hint.txt
 .if ${FLAVOUR:L:Meorsn}
 .  ifdef DNSROOT
 BROKEN=			Multiple DNS Roots chosen; invalid combination
@@ -48,7 +51,8 @@ DNSROOT6=		eorsn6
 .  endif
 .endif
 
-# public resolvers:	2a01:4f8:161:1ffa::e 84.200.79.111 217.6.34.47
+# public resolvers:	185.27.253.92 62.141.38.230 78.138.98.82 78.138.97.33
+# root hints:		$(dig . NS @75.127.96.89)
 .if ${FLAVOUR:L:Mopennic}
 .  ifdef DNSROOT
 BROKEN=			Multiple DNS Roots chosen; invalid combination
