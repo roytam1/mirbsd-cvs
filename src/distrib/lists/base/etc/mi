@@ -439,7 +439,6 @@
 ./etc/ssl/openssl.cnf
 ./etc/ssl/x509v3.cnf
 ./etc/sudoers
-./etc/suid_profile
 ./etc/sysctl.conf
 ./etc/syslog.conf
 ./etc/systrace/usr_sbin_lpd
