@@ -1,4 +1,4 @@
-/*	$OpenBSD: rs.c,v 1.21 2012/03/04 04:05:15 fgsch Exp $	*/
+/*	$OpenBSD: rs.c,v 1.23 2013/11/15 15:47:53 millert Exp $	*/
 
 /*-
  * Copyright (c) 1993
@@ -54,7 +54,7 @@
 extern long long strtonum(const char *, long long, long long, const char **);
 #endif
 
-__RCSID("$MirOS: src/usr.bin/rs/rs.c,v 1.7 2012/04/14 12:33:26 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/rs/rs.c,v 1.8 2012/04/14 12:37:19 tg Exp $");
 
 long	flags;
 #define	TRANSPOSE	000001
@@ -346,17 +346,16 @@ const char **
 getptrs(const char **sp)
 {
 	const char **p;
-	size_t newsize, gap;
+	size_t newsize;
 
 	newsize = allocsize * 2;
 	p = realloc(elem, newsize * sizeof(char *));
 	if (p == NULL)
 		err(1, "no memory");
 
-	gap = p - elem;
-	elem = p;
 	allocsize = newsize;
-	sp += gap;
+	sp += p - elem;
+	elem = p;
 	endelem = elem + allocsize;
 	return(sp);
 }
