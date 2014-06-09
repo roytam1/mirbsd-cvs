@@ -161,7 +161,7 @@ getfile(void)
 			if (*p == isep) {
 				if (multisep)
 					/* eat up column separators */
-					continue;
+					goto handle_last_field;
 				/* must be an empty column */
 				*ep = "";
 			} else {
@@ -178,6 +178,14 @@ getfile(void)
 			*p = '\0';
 			/* prepare for next entry */
 			INCR(ep);
+			/* handle empty last field */
+ handle_last_field:
+			if ((p + 1) == endp) {
+				/* insert empty entry iff checked */
+				*ep = "";
+				INCR(ep);
+				/* the loop will end immediately */
+			}
 		}
 		irows++;			/* update row count */
 		if (nullpad) {			/* pad missing entries */
