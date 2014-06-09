@@ -2247,6 +2247,9 @@ if test 0 = $HAVE_SYS_SIGNAME; then
 #define NSIG (SIGMAX+1)
 #elif defined(_SIGMAX)
 #define NSIG (_SIGMAX+1)
+#else
+/* XXX better error out, see sh.h */
+#define NSIG 64
 #endif
 #endif
 int
@@ -2265,9 +2268,9 @@ mksh_cfg= NSIG
 	test $printf = echo || test "`printf %d 42`" = 42 || printf=echo
 	test $printf = echo || NSIG=`printf %d "$NSIG" 2>/dev/null`
 	$printf "NSIG=$NSIG ... "
-	sigs="INT SEGV ABRT KILL ALRM BUS CHLD CLD CONT DIL EMT FPE HUP ILL"
-	sigs="$sigs INFO IO IOT LOST PIPE PROF PWR QUIT RESV SAK STOP SYS TERM"
-	sigs="$sigs TRAP TSTP TTIN TTOU URG USR1 USR2 VTALRM WINCH XCPU XFSZ"
+	sigs="ABRT FPE ILL INT SEGV TERM ALRM BUS CHLD CONT HUP KILL PIPE QUIT"
+	sigs="$sigs STOP TSTP TTIN TTOU USR1 USR2 POLL PROF SYS TRAP URG VTALRM"
+	sigs="$sigs XCPU XFSZ INFO WINCH EMT IO DIL LOST PWR SAK CLD IOT RESV"
 	test 1 = $HAVE_CPP_DD && test $NSIG -gt 1 && sigs="$sigs "`vq \
 	    "$CPP $CFLAGS $CPPFLAGS $NOWARN -dD conftest.c" | \
 	    grep '[	 ]SIG[A-Z0-9][A-Z0-9]*[	 ]' | \
@@ -2305,7 +2308,7 @@ addsrcs '!' HAVE_STRLCPY strlcpy.c
 addsrcs USE_PRINTF_BUILTIN printf.c
 test 1 = "$USE_PRINTF_BUILTIN" && add_cppflags -DMKSH_PRINTF_BUILTIN
 test 1 = "$HAVE_CAN_VERB" && CFLAGS="$CFLAGS -verbose"
-add_cppflags -DMKSH_BUILD_R=499
+add_cppflags -DMKSH_BUILD_R=500
 
 $e $bi$me: Finished configuration testing, now producing output.$ao
 

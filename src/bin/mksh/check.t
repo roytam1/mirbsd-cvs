@@ -27,7 +27,7 @@
 # http://www.freebsd.org/cgi/cvsweb.cgi/src/tools/regression/bin/test/regress.sh?rev=HEAD
 
 expected-stdout:
-	@(#)MIRBSD KSH R49 2014/05/27
+	@(#)MIRBSD KSH R50 2014/06/09
 description:
 	Check version of shell.
 stdin:
@@ -36,7 +36,7 @@ name: KSH_VERSION
 category: shell:legacy-no
 ---
 expected-stdout:
-	@(#)LEGACY KSH R49 2014/05/27
+	@(#)LEGACY KSH R50 2014/06/09
 description:
 	Check version of legacy shell.
 stdin:

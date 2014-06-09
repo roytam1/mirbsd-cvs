@@ -5,7 +5,7 @@
 
 /*-
  * Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009,
- *		 2010, 2011, 2012, 2013
+ *		 2010, 2011, 2012, 2013, 2014
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -1357,8 +1357,10 @@ c_kill(const char **wp)
 			for (; wp[i]; i++) {
 				if (!bi_getn(wp[i], &n))
 					return (1);
+#if (NSIG < 128)
 				if (n > 128 && n < 128 + NSIG)
 					n -= 128;
+#endif
 				if (n > 0 && n < NSIG)
 					shprintf("%s\n", sigtraps[n].name);
 				else
