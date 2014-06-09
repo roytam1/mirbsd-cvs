@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/Makefile,v 1.11 2011/07/02 15:36:21 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/Makefile,v 1.12 2011/07/02 18:53:06 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2008/10/03 16:29:05 millert Exp $
 #
 #  Makefile for configuration files.

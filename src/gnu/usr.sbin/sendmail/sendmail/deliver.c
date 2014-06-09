@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2010, 2012 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2010, 2012 Proofpoint, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1983, 1995-1997 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993
@@ -14,7 +14,7 @@
 #include <sendmail.h>
 #include <sm/time.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/deliver.c,v 1.8 2012/12/31 21:02:39 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/deliver.c,v 1.9 2013/08/06 20:37:03 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #if HASSETUSERCONTEXT
@@ -2418,6 +2418,12 @@ tryhost:
 				else
 					pwd = sm_getpwnam(contextaddr->q_user);
 				sucflags = LOGIN_SETRESOURCES|LOGIN_SETPRIORITY;
+#ifdef LOGIN_SETCPUMASK
+				sucflags |= LOGIN_SETCPUMASK;
+#endif /* LOGIN_SETCPUMASK */
+#ifdef LOGIN_SETLOGINCLASS
+				sucflags |= LOGIN_SETLOGINCLASS;
+#endif /* LOGIN_SETLOGINCLASS */
 #ifdef LOGIN_SETMAC
 				sucflags |= LOGIN_SETMAC;
 #endif /* LOGIN_SETMAC */

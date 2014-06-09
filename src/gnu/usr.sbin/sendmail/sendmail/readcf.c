@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2006, 2008-2010, 2013 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2006, 2008-2010, 2013 Proofpoint, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1983, 1995-1997 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993
@@ -14,7 +14,7 @@
 #include <sendmail.h>
 #include <sm/sendmail.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/readcf.c,v 1.7 2012/12/31 21:02:51 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/readcf.c,v 1.8 2013/08/06 20:37:20 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #if NETINET || NETINET6
@@ -2308,12 +2308,15 @@ static struct ssl_options
 	long		sslopt_bits;	/* bits to set/clear */
 } SSL_Option[] =
 {
-/* these are turned on by default */
+/* Workaround for bugs are turned on by default (as well as some others) */
 #ifdef SSL_OP_MICROSOFT_SESS_ID_BUG
 	{ "SSL_OP_MICROSOFT_SESS_ID_BUG",	SSL_OP_MICROSOFT_SESS_ID_BUG	},
 #endif
 #ifdef SSL_OP_NETSCAPE_CHALLENGE_BUG
 	{ "SSL_OP_NETSCAPE_CHALLENGE_BUG",	SSL_OP_NETSCAPE_CHALLENGE_BUG	},
+#endif
+#ifdef SSL_OP_LEGACY_SERVER_CONNECT
+	{ "SSL_OP_LEGACY_SERVER_CONNECT",	SSL_OP_LEGACY_SERVER_CONNECT	},
 #endif
 #ifdef SSL_OP_NETSCAPE_REUSE_CIPHER_CHANGE_BUG
 	{ "SSL_OP_NETSCAPE_REUSE_CIPHER_CHANGE_BUG",	SSL_OP_NETSCAPE_REUSE_CIPHER_CHANGE_BUG	},
@@ -2351,8 +2354,17 @@ static struct ssl_options
 #ifdef SSL_OP_NO_TICKET
 	{ "SSL_OP_NO_TICKET",	SSL_OP_NO_TICKET	},
 #endif
+#ifdef SSL_OP_CISCO_ANYCONNECT
+	{ "SSL_OP_CISCO_ANYCONNECT",	SSL_OP_CISCO_ANYCONNECT	},
+#endif
 #ifdef SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION
 	{ "SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION",	SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION	},
+#endif
+#ifdef SSL_OP_NO_COMPRESSION
+	{ "SSL_OP_NO_COMPRESSION",	SSL_OP_NO_COMPRESSION	},
+#endif
+#ifdef SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION
+	{ "SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION",	SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION	},
 #endif
 #ifdef SSL_OP_SINGLE_ECDH_USE
 	{ "SSL_OP_SINGLE_ECDH_USE",	SSL_OP_SINGLE_ECDH_USE	},
@@ -2378,6 +2390,12 @@ static struct ssl_options
 #ifdef SSL_OP_NO_TLSv1
 	{ "SSL_OP_NO_TLSv1",	SSL_OP_NO_TLSv1	},
 #endif
+#ifdef SSL_OP_NO_TLSv1_2
+	{ "SSL_OP_NO_TLSv1_2",	SSL_OP_NO_TLSv1_2	},
+#endif
+#ifdef SSL_OP_NO_TLSv1_1
+	{ "SSL_OP_NO_TLSv1_1",	SSL_OP_NO_TLSv1_1	},
+#endif
 #ifdef SSL_OP_PKCS1_CHECK_1
 	{ "SSL_OP_PKCS1_CHECK_1",	SSL_OP_PKCS1_CHECK_1	},
 #endif
@@ -2389,6 +2407,9 @@ static struct ssl_options
 #endif
 #ifdef SSL_OP_NETSCAPE_DEMO_CIPHER_CHANGE_BUG
 	{ "SSL_OP_NETSCAPE_DEMO_CIPHER_CHANGE_BUG",	SSL_OP_NETSCAPE_DEMO_CIPHER_CHANGE_BUG	},
+#endif
+#ifdef SSL_OP_CRYPTOPRO_TLSEXT_BUG
+	{ "SSL_OP_CRYPTOPRO_TLSEXT_BUG",	SSL_OP_CRYPTOPRO_TLSEXT_BUG	},
 #endif
 	{ NULL,		0		}
 };

@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 1998-2001 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2001 Proofpoint, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -9,7 +9,7 @@
  * the sendmail distribution.
  *
  *
- *	$MirOS: src/gnu/usr.sbin/sendmail/include/sendmail/pathnames.h,v 1.2 2005/05/04 11:47:39 tg Exp $
+ *	$MirOS: src/gnu/usr.sbin/sendmail/include/sendmail/pathnames.h,v 1.3 2010/12/19 17:18:05 tg Exp $
  *	$Id$
  */
 

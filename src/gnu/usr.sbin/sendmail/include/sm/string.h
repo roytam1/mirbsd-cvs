@@ -1,6 +1,6 @@
-/* $MirOS: src/gnu/usr.sbin/sendmail/include/sm/string.h,v 1.2 2009/11/18 08:44:25 tg Exp $ */
+/* $MirOS: src/gnu/usr.sbin/sendmail/include/sm/string.h,v 1.3 2011/07/02 15:03:37 tg Exp $ */
 /*
- * Copyright (c) 2000-2001, 2003 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 2000-2001, 2003 Proofpoint, Inc. and its suppliers.
  *	All rights reserved.
  *
  * By using this file, you agree to the terms and conditions set

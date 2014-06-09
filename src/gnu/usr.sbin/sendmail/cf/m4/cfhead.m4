@@ -3,7 +3,7 @@
 # Copyright (c) 2001
 #	Thorsten Glaser <tg@mirbsd.org>
 #
-# Copyright (c) 1998-2004, 2009, 2010 Sendmail, Inc. and its suppliers.
+# Copyright (c) 1998-2004, 2009, 2010 Proofpoint, Inc. and its suppliers.
 #	All rights reserved.
 # Copyright (c) 1983, 1995 Eric P. Allman.  All rights reserved.
 # Copyright (c) 1988, 1993
@@ -311,5 +311,5 @@ define(`confMILTER_MACROS_EOM', `{msg_id}')
 
 
 divert(0)dnl
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/m4/cfhead.m4,v 1.5 2010/12/19 17:17:59 tg Exp $')
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/m4/cfhead.m4,v 1.6 2011/07/02 18:53:08 tg Exp $')
 VERSIONID(`$Id$')

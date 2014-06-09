@@ -1,6 +1,6 @@
 /*
 ** Copyright (c) 2006 Thorsten Glaser
-** Copyright (c) 1999-2002, 2004, 2009 Sendmail, Inc. and its suppliers.
+** Copyright (c) 1999-2002, 2004, 2009 Proofpoint, Inc. and its suppliers.
 **	All rights reserved.
 **
 ** By using this file, you agree to the terms and conditions set
@@ -9,7 +9,7 @@
 */
 
 #include <sm/gen.h>
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/libsmdb/smdb1.c,v 1.3 2008/05/07 13:15:22 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/libsmdb/smdb1.c,v 1.4 2010/12/19 17:18:14 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #include <unistd.h>

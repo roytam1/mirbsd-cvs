@@ -1,12 +1,12 @@
 /*
- * Copyright (c) 2000-2002 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 2000-2002 Proofpoint, Inc. and its suppliers.
  *	All rights reserved.
  *
  * By using this file, you agree to the terms and conditions set
  * forth in the LICENSE file which can be found at the top level of
  * the sendmail distribution.
  *
- *	$MirOS: src/gnu/usr.sbin/sendmail/include/sm/gen.h,v 1.6 2008/05/07 13:15:20 tg Exp $
+ *	$MirOS: src/gnu/usr.sbin/sendmail/include/sm/gen.h,v 1.7 2010/12/19 17:18:07 tg Exp $
  *	$Id$
  */
 

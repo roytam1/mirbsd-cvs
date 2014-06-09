@@ -3,7 +3,7 @@ PUSHDIVERT(-1)
 # Copyright (C) 1997, Philip A. Prindeville and Enteka Enterprise Technology
 #				Services
 #
-# Copyright (c) 1999, 2001 Sendmail, Inc. and its suppliers.
+# Copyright (c) 1999, 2001 Proofpoint, Inc. and its suppliers.
 #	All rights reserved.
 #
 # By using this file, you agree to the terms and conditions set

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000-2004, 2010 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 2000-2004, 2010 Proofpoint, Inc. and its suppliers.
  *	All rights reserved.
  *
  * By using this file, you agree to the terms and conditions set
@@ -50,7 +50,7 @@
 #  endif /* NETINET */
 #  include "sm_resolve.h"
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/sm_resolve.c,v 1.4 2009/11/18 08:53:42 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/sm_resolve.c,v 1.5 2010/12/19 17:18:34 tg Exp $")
 SM_RCSID("$Id$")
 
 static struct stot

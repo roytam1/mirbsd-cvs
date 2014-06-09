@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2002, 2013 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2002, 2013 Proofpoint, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1983 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993
@@ -15,7 +15,7 @@
 #include <sm/gen.h>
 
 SM_IDSTR(copyright,
-"@(#) Copyright (c) 1998-2002 Sendmail, Inc. and its suppliers.\n\
+"@(#) Copyright (c) 1998-2002 Proofpoint, Inc. and its suppliers.\n\
 	All rights reserved.\n\
      Copyright (c) 1988, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n")

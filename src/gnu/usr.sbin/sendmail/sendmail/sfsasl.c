@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1999-2006, 2008 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1999-2006, 2008 Proofpoint, Inc. and its suppliers.
  *	All rights reserved.
  *
  * By using this file, you agree to the terms and conditions set
@@ -9,7 +9,7 @@
  */
 
 #include <sm/gen.h>
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/sfsasl.c,v 1.4 2010/12/19 17:18:33 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/sfsasl.c,v 1.5 2013/08/06 20:37:26 tg Exp $")
 SM_RCSID("@(#)$Id$")
 #include <stdlib.h>
 #include <sendmail.h>

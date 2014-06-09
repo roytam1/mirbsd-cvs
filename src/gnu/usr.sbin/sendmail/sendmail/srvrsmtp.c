@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2010, 2012, 2013 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2010, 2012, 2013 Proofpoint, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1983, 1995-1997 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993
@@ -17,7 +17,7 @@
 # include <libmilter/mfdef.h>
 #endif /* MILTER */
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/srvrsmtp.c,v 1.14 2012/12/31 21:02:54 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/srvrsmtp.c,v 1.15 2013/08/06 20:37:27 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #include <sm/time.h>

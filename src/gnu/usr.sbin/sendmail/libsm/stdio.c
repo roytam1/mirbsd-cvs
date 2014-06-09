@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000-2005 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 2000-2005 Proofpoint, Inc. and its suppliers.
  *      All rights reserved.
  * Copyright (c) 1990, 1993
  *	The Regents of the University of California.  All rights reserved.

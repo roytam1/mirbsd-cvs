@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1999-2009, 2012, 2013 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1999-2009, 2012, 2013 Proofpoint, Inc. and its suppliers.
  *	All rights reserved.
  *
  * By using this file, you agree to the terms and conditions set
@@ -10,7 +10,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/milter.c,v 1.6 2012/12/31 21:02:47 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/milter.c,v 1.7 2013/08/06 20:37:11 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #if MILTER

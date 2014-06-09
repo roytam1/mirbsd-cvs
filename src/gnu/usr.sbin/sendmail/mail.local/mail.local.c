@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2004 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2004 Proofpoint, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1990, 1993, 1994
  *	The Regents of the University of California.  All rights reserved.
@@ -13,12 +13,12 @@
 #include <sm/gen.h>
 
 SM_IDSTR(copyright,
-"@(#) Copyright (c) 1998-2004 Sendmail, Inc. and its suppliers.\n\
+"@(#) Copyright (c) 1998-2004 Proofpoint, Inc. and its suppliers.\n\
 	All rights reserved.\n\
      Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n")
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/mail.local/mail.local.c,v 1.5 2008/05/07 13:15:22 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/mail.local/mail.local.c,v 1.6 2010/12/19 17:18:15 tg Exp $")
 SM_IDSTR(id, "@(#)$Id$")
 
 #include <stdlib.h>

@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 ##
-## Copyright (c) 1998-2002 Sendmail, Inc. and its suppliers.
+## Copyright (c) 1998-2002 Proofpoint, Inc. and its suppliers.
 ##	All rights reserved.
 ##
 ## $Id$

@@ -1,7 +1,7 @@
 divert(-1)
 #
 # Copyright (c) 2009 Thorsten Glaser <t.glaser@tarent.de>
-# Copyright (c) 1999-2002, 2004, 2007 Sendmail, Inc. and its suppliers.
+# Copyright (c) 1999-2002, 2004, 2007 Proofpoint, Inc. and its suppliers.
 #	All rights reserved.
 #
 # By using this file, you agree to the terms and conditions set
@@ -11,7 +11,7 @@ divert(-1)
 #
 
 divert(0)
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/feature/ldap_routing.m4,v 1.5 2010/12/19 17:17:58 tg Exp $')
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/feature/ldap_routing.m4,v 1.6 2012/12/31 21:02:23 tg Exp $')
 VERSIONID(`$Id$')
 divert(-1)
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2006, 2008, 2009, 2011 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2006, 2008, 2009, 2011 Proofpoint, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1983, 1995-1997 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993
@@ -18,7 +18,7 @@
 #include <sm/signal.h>
 
 SM_COPYRIGHT(
-"@(#) Copyright (c) 1998-2003 Sendmail, Inc. and its suppliers.\n\
+"@(#) Copyright (c) 1998-2013 Proofpoint, Inc. and its suppliers.\n\
 	All rights reserved.\n\
      Copyright (c) 1983, 1995-1997 Eric P. Allman.  All rights reserved.\n\
      Copyright (c) 1988, 1993\n\
@@ -76,17 +76,19 @@ static SIGFUNC_DECL	sigusr1 __P((int));
 **				(11/88 - 9/89).
 **			     UCB/Mammoth Project (10/89 - 7/95).
 **			     InReference, Inc. (8/95 - 1/97).
-**			     Sendmail, Inc. (1/98 - present).
+**			     Sendmail, Inc. (1/98 - 9/13).
 **		The support of my employers is gratefully acknowledged.
 **			Few of them (Britton-Lee in particular) have had
 **			anything to gain from my involvement in this project.
 **
 **		Gregory Neil Shapiro,
 **			Worcester Polytechnic Institute	(until 3/98).
-**			Sendmail, Inc. (3/98 - present).
+**			Sendmail, Inc. (3/98 - 10/13).
+**			Proofpoint, Inc. (10/13 - present).
 **
 **		Claus Assmann,
-**			Sendmail, Inc. (12/98 - present).
+**			Sendmail, Inc. (12/98 - 10/13).
+**			Proofpoint, Inc. (10/13 - present).
 */
 
 char		*FullName;	/* sender's full name */
@@ -108,8 +110,8 @@ GIDSET_T	InitialGidSet[NGROUPS_MAX];
 #if SASL
 static sasl_callback_t srvcallbacks[] =
 {
-	{	SASL_CB_VERIFYFILE,	&safesaslfile,	NULL	},
-	{	SASL_CB_PROXY_POLICY,	&proxy_policy,	NULL	},
+	{	SASL_CB_VERIFYFILE,	(sasl_callback_ft)&safesaslfile,	NULL	},
+	{	SASL_CB_PROXY_POLICY,	(sasl_callback_ft)&proxy_policy,	NULL	},
 	{	SASL_CB_LIST_END,	NULL,		NULL	}
 };
 #endif /* SASL */
@@ -4483,6 +4485,25 @@ testmodeline(line, e)
 			(void) sm_io_fprintf(smioout, SM_TIME_DEFAULT,
 					     "ul = %lu\n", ul);
 		}
+#if NETINET || NETINET6
+		else if (sm_strcasecmp(&line[1], "gethostbyname") == 0)
+		{
+			int family = AF_INET;
+
+			q = strpbrk(p, " \t");
+			if (q != NULL)
+			{
+				while (isascii(*q) && isspace(*q))
+					*q++ = '\0';
+# if NETINET6
+				if (*q != '\0' && (strcmp(q, "inet6") == 0 ||
+						   strcmp(q, "AAAA") == 0))
+					family = AF_INET6;
+# endif /* NETINET6 */
+			}
+			(void) sm_gethostbyname(p, family);
+		}
+#endif /* NETINET || NETINET6 */
 		else
 		{
 			(void) sm_io_fprintf(smioout, SM_TIME_DEFAULT,

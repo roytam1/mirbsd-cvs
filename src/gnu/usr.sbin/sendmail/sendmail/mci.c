@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2005, 2010 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2005, 2010 Proofpoint, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1995-1997 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993

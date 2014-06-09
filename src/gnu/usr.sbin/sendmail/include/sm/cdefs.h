@@ -1,8 +1,8 @@
-/* $MirOS: src/gnu/usr.sbin/sendmail/include/sm/cdefs.h,v 1.4 2011/07/02 15:03:35 tg Exp $ */
+/* $MirOS: src/gnu/usr.sbin/sendmail/include/sm/cdefs.h,v 1.5 2013/10/31 20:06:06 tg Exp $ */
 /*
  * Copyright © 2013
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
- * Copyright (c) 2000-2002 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 2000-2002 Proofpoint, Inc. and its suppliers.
  *	All rights reserved.
  *
  * By using this file, you agree to the terms and conditions set

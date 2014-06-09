@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2003 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 2003 Proofpoint, Inc. and its suppliers.
  *	All rights reserved.
  *
  * By using this file, you agree to the terms and conditions set
@@ -41,7 +41,7 @@
  */
 
 #include <sendmail.h>
-SM_RCSID("$MirOS$")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/ratectrl.c,v 1.3 2010/12/19 17:18:31 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 /*

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1998-2007, 2009 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1998-2007, 2009 Proofpoint, Inc. and its suppliers.
  *	All rights reserved.
  * Copyright (c) 1983, 1995-1997 Eric P. Allman.  All rights reserved.
  * Copyright (c) 1988, 1993
@@ -13,7 +13,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/util.c,v 1.7 2012/12/31 21:02:55 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/util.c,v 1.8 2013/08/06 20:37:31 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #include <sm/sendmail.h>

@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.sbin/sendmail/libsm/Makefile,v 1.6 2008/05/07 13:15:21 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/libsm/Makefile,v 1.7 2011/07/02 15:03:48 tg Exp $
 # $Id$
 
 LIB=	sm
@@ -11,7 +11,7 @@ SRCS=	assert.c debug.c errstring.c exc.c heap.c match.c rpool.c strdup.c \
 	vsnprintf.c wbuf.c wsetup.c string.c stringf.c \
 	xtrap.c strto.c test.c path.c strcasecmp.c strrevcmp.c signal.c \
 	clock.c config.c shm.c sem.c mbdb.c strexit.c cf.c ldap.c niprop.c \
-	memstat.c util.c
+	memstat.c util.c inet6_ntop.c
 ENVDEF=	-DNOT_SENDMAIL
 
 # This is not a library that gets installed so only build the .a version
