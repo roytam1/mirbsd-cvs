@@ -1,6 +1,8 @@
 /*	$OpenBSD: rs.c,v 1.23 2013/11/15 15:47:53 millert Exp $	*/
 
 /*-
+ * Copyright (c) 2014
+ *	Thorsten Glaser <tg@mirbsd.org>
  * Copyright (c) 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -156,18 +158,26 @@ getfile(void)
 			continue;
 		}
 		for (p = curline, endp = curline + curlen; p < endp; p++) {
-			if (*p == isep && multisep)
-				continue;	/* eat up column separators */
-			if (*p == isep)		/* must be an empty column */
+			if (*p == isep) {
+				if (multisep)
+					/* eat up column separators */
+					continue;
+				/* must be an empty column */
 				*ep = "";
-			else			/* store column entry */
+			} else {
+				/* store column entry */
 				*ep = p;
-			while (p < endp && *p != isep)
-				p++;		/* find end of entry */
-			*p = '\0';		/* mark end of entry */
-			if (maxlen < p - *ep)	/* update maxlen */
-				maxlen = p - *ep;
-			INCR(ep);		/* prepare for next entry */
+				/* find end of entry */
+				while (p < endp && *p != isep)
+					p++;
+				/* update maxlen */
+				if (maxlen < p - *ep)
+					maxlen = p - *ep;
+			}
+			/* mark end of entry */
+			*p = '\0';
+			/* prepare for next entry */
+			INCR(ep);
 		}
 		irows++;			/* update row count */
 		if (nullpad) {			/* pad missing entries */
