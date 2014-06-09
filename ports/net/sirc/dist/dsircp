@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $MirOS: ports/net/sirc/dist/dsircp,v 1.32 2011/12/16 19:21:48 tg Exp $
+# $MirOS: ports/net/sirc/dist/dsircp,v 1.33 2012/06/24 13:53:58 tg Exp $
 #-
 # dsircp: dumb-mode small irc client in perl
 # by orabidoo <roger.espel.llima@pobox.com>
@@ -7,7 +7,7 @@
 # Copyright (C) 1995-1997 Roger Espel Llima
 # Copyright (c) 2002-2003 Hubert Feyrer
 # Copyright (c) Phil Stracchino
-# Copyright (c) 2001-2012 Thorsten Glaser
+# Copyright (c) 2001-2014 Thorsten Glaser
 #
 # This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
@@ -244,6 +244,7 @@ sub exit {
   $logging && print LOG "*\cbL\cb* " . sprintf("Final entropy [%08X]",
     NZAATFinish($lrhash_v)) . ", terminating on " . &date(time) . "\n";
   close(LOG) if $logging;
+  &ssl_cleanup;
   exit 0;
 }
 
@@ -317,16 +318,16 @@ sub ssl_cleanup {
     delete $buffer{$ssl_efd};
     $ssl_efd = '';
   }
+  if ($ssl_pid) {
+    kill TERM => $ssl_pid;
+  }
+  $ssl_pid = 0;
 }
 
 sub connect {
   $_[0]=&newfh;
   local($fh, $host, $port, $use_ssl)=@_;
   &ssl_cleanup;
-  if ($ssl_pid) {
-    kill TERM => $ssl_pid;
-  }
-  $ssl_pid = 0;
   if ($use_ssl) {
     my $spfh = $fh;
     my $scfh = &newfh;
@@ -481,7 +482,7 @@ sub gl {
     if ($_[0] eq $S) {
       lrhash_add("I", $buf);
       $buf =~ s/\ca([<>])\ca/\cb$1\cb/g;
-      $buf =~ s/\cc((1[0-5]|0?[0-9])(,(1[0-5]|0?[0-9]))?)?//g;
+      $buf =~ s/\cc((99|1[0-5]|0?[0-9])(,(99|1[0-5]|0?[0-9]))?)?//g;
       $buf2 .= Encode::decode("utf8", $buf, Encode::FB_QUIET);
       $buf2 .= Encode::decode("windows-1252", $buf, Encode::FB_QUIET);
       $buffer{$_[0]} .= Encode::encode($set{"CHARSET"}, $buf2, 0);
@@ -2013,6 +2014,8 @@ sub donumeric {
     } else {
       &tell("*** $n has been $newarg seconds idle");
     }
+    delete $awaytimes{$n};
+    delete $awaymsgs{$n};
   } elsif ($cmd eq '319') {
     local($g, $g, $c)=split(/ +/, $args, 3);
     $c =~ s/^://;
@@ -2207,8 +2210,12 @@ while (1) {
     $vwho = $who;
     &dohooks("raw_irc", $cmd, $args);
     next if $skip;
-    next if (($cmd eq 'PRIVMSG' || $cmd eq 'NOTICE') &&
-		&ignored("$who!$user\@$host"));
+    if (($cmd eq 'PRIVMSG' || $cmd eq 'NOTICE') &&
+     &ignored("$who!$user\@$host")) {
+      $logging && print LOG "[" . sprintf("%02d:%02d:%02d", (localtime)[2],
+       (localtime)[1], (localtime)[0]) . "] ignored: " . $serverline . "\n";
+      next;
+    }
     if ($cmd eq '001') {
       $connected=2;
       $myserver=$who;
