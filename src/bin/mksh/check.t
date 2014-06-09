@@ -3736,7 +3736,6 @@ expected-stdout:
 name: IFS-arith-1
 description:
 	http://austingroupbugs.net/view.php?id=832
-expected-fail: yes
 stdin:
 	${ZSH_VERSION+false} || emulate sh
 	${BASH_VERSION+set -o posix}
