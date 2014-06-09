@@ -1,6 +1,6 @@
 divert(-1)
 #
-# Copyright (c) 1998-2010 Sendmail, Inc. and its suppliers.
+# Copyright (c) 1998-2010 Proofpoint, Inc. and its suppliers.
 #	All rights reserved.
 # Copyright (c) 1983, 1995 Eric P. Allman.  All rights reserved.
 # Copyright (c) 1988, 1993
@@ -2395,6 +2395,8 @@ dnl Reject our hostname
 R$* $| <$*> [$=w]	$#error $@ 5.7.1 $:"550 bogus HELO name used: " $&s
 dnl Pass anything else with a "." in the domain parameter
 R$* $| <$*> [$+.$+]	$: $1				qualified domain ok
+dnl Pass IPv6: address literals
+R$* $| <$*> [IPv6:$+]	$: $1				qualified domain ok
 dnl Reject if there was no "." or only an initial or final "."
 R$* $| <$*> [$*]	$#error $@ 5.7.1 $:"550 bogus HELO name used: " $&s
 dnl Clean up the workspace

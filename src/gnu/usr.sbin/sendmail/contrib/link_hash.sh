@@ -1,6 +1,6 @@
 #!/bin/sh
 ##
-## Copyright (c) 2000 Sendmail, Inc. and its suppliers.
+## Copyright (c) 2000 Proofpoint, Inc. and its suppliers.
 ##       All rights reserved.
 ##
 ## $Id$

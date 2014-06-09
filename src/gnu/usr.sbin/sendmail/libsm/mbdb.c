@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2001-2003,2009 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 2001-2003,2009 Proofpoint, Inc. and its suppliers.
  *      All rights reserved.
  *
  * By using this file, you agree to the terms and conditions set
@@ -332,23 +332,16 @@ mbdb_pw_lookup(name, user)
 	pw = getpwnam(name);
 	if (pw == NULL)
 	{
-#if 0
+#if _FFR_USE_GETPWNAM_ERRNO
 		/*
-		**  getpwnam() isn't advertised as setting errno.
-		**  In fact, under FreeBSD, non-root getpwnam() on
-		**  non-existant users returns NULL with errno = EPERM.
-		**  This test won't work.
+		**  Only enable this code iff
+		**  user unknown <-> getpwnam() == NULL && errno == 0
+		**  (i.e., errno unchanged); see the POSIX spec.
 		*/
-		switch (errno)
-		{
-		  case 0:
-			return EX_NOUSER;
-		  case EIO:
-			return EX_OSERR;
-		  default:
+
+		if (errno != 0)
 			return EX_TEMPFAIL;
-		}
-#endif /* 0 */
+#endif /* _FFR_USE_GETPWNAM_ERRNO */
 		return EX_NOUSER;
 	}
 

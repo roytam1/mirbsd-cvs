@@ -1,6 +1,6 @@
 divert(-1)
 #
-# Copyright (c) 2003, 2004 Sendmail, Inc. and its suppliers.
+# Copyright (c) 2003, 2004 Proofpoint, Inc. and its suppliers.
 #	All rights reserved.
 #
 # By using this file, you agree to the terms and conditions set

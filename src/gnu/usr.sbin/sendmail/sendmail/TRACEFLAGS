@@ -98,7 +98,7 @@
 94,>99	srvrsmtp.c	cause commands to fail (for protocol testing)
 95	srvrsmtp.c	AUTH
 95	usersmtp.c	AUTH
-96	tls.c		Activate SSL_CTX_set_info_callback()
+96	tls.c		DHparam info, Activate SSL_CTX_set_info_callback()
 97	srvrsmtp.c	Trace automode settings for I/O
 98	*		timers
 99	main.c		avoid backgrounding (no printed output)

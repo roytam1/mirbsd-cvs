@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 1999-2009, 2012, 2013 Sendmail, Inc. and its suppliers.
+ * Copyright (c) 1999-2009, 2012, 2013 Proofpoint, Inc. and its suppliers.
  *	All rights reserved.
  *
  * By using this file, you agree to the terms and conditions set
