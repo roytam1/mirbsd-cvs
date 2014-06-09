@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.542 2014/05/27 13:29:58 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.543 2014/05/27 13:41:55 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1226,8 +1226,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
- <li>[tg] Fix initial IFS whitespace not being ignored when expanding
-  (<strong>reverted</strong>, needs fix without introducing a regression)</li>
+ <li>[tg] Fix initial IFS whitespace not being ignored when expanding</li>
  <li>[tg] (not yet: test_opin(b_ops_xsi, …))</li>
  <li>[tg] MKSH_BINSHREDUCED no longer mistakenly enables brace expansion</li>
  <li>[tg] Explain more clearly Vi input mode limitations in the manpage</li>
@@ -1244,6 +1243,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Improve <tt>nameref</tt> error checking (LP#1277691)</li>
  <li>[tg] Fix <tt>readonly</tt> bypass found by Bert Münnich</li>
  <li>[Ryan Schmidt] Improved system reporting for Mac OS X</li>
+ <li>[nDuff] Explain better [[ extglob handling in the manpage</li>
+ <li>[tg] Remove <tt>arr=([index]=value)</tt> syntax due to regressions</li>
+ <li>[tg] IFS-split arithmetic expansions as per POSIX 201x</li>
+ <li>[OpenBSD] Add more detailed Authors section to manpage</li>
+ <li>[tg] Fix <tt>set ±p</tt> issue for good: drop privs unless requested</li>
+ <li>[tg] Improve signal handling and use a more canonical probing order</li>
 </ul>
 <p id="r49">R49 is a recommended bugfix release:</p><ul>
  <li>[tg] <tt>dot.mkshrc</tt>: fix two issues with the <tt>cd</tt> wrapper</li>
