@@ -60,6 +60,7 @@
 #define _XOPEN_SOURCE 500
 
 #include <errno.h>
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -80,6 +81,8 @@
 #else
 # include <sys/stat.h>
 #endif
+
+__RCSID("$MirOS$");
 
 #undef BUFSIZE
 #define BUFSIZE	1024
