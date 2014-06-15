@@ -3,7 +3,7 @@
 
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.2 2014/04/14 20:03:59 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.3 2014/04/19 22:04:47 tg Exp $'
 mws_content <<'EOF'
 
 <p><a href="WPtg.htm#wpts" style="border:0;"><img style="border:0;"
@@ -69,6 +69,18 @@ mws_content <<'EOF'
 <p><img style="border:0px;"
  src="http://neersianer.de/listings/GC43VM8/banner.jpg"
  alt="GC43VM8│Der &#34;08/15&#34; Cache" /></p>
+
+<p><img style="border:0px;"
+ src="http://www.fotos-hochladen.net/uploads/bannersissiscau52cybeinl.jpg"
+ alt="GC3WGD9│Bonn/Rhein-Sieg 1. offizielle Sissi-T5 Letterbox" /></p>
+
+<p><img style="border:0px;"
+ src="http://imgcdn.geocaching.com/cache/ff1b2dea-b344-4615-a763-0bc620224e1d.jpg"
+ alt="GC4T3RE│Rätseln im Drachenfelser Ländchen" /></p>
+
+<p><img style="border:0px;"
+ src="http://imgcdn.geocaching.com/cache/large/44a34933-2924-4544-8959-4e17a40b9083.jpg"
+ alt="GC4WMM9│Das Burggespenst Metternich" /></p>
 
 <h3>Software</h3>
 

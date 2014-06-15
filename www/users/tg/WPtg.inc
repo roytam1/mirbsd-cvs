@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.35 2014/06/07 08:58:16 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.36 2014/06/07 20:02:51 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5011,6 +5011,234 @@ Date: 07.06.2014
 Waypoint: GC53T46
 Title: WWFM XI - Bonn ist dabei!
 Tag: D1 T1 Event
+----
+ID: 883
+Date: 13.06.2014
+Waypoint: GC3WGD9
+Title: Bonn/Rhein-Sieg 1. offizielle Sissi-T5 Letterbox
+Tag: D1 T4 Regular Letterbox
+----
+ID: 884
+Date: 13.06.2014
+Waypoint: GC4T3RE
+Title: Rätseln im Drachenfelser Ländchen !!!
+Tag: D25 T25 Small Multi
+----
+ID: 885
+Date: 14.06.2014
+Waypoint: GC2XA3Y
+Title: RosaStier im FoF
+Tag: D2 T1 Micro Tradi recommended
+----
+ID: 886
+Date: 14.06.2014
+Waypoint: GC25MTF
+Title: GeoTrolle
+Tag: D3 T15 Micro Tradi recommended
+----
+ID: 887
+Date: 14.06.2014
+Waypoint: GC1N7G0
+Title: Feuerhabicht
+Tag: D15 T15 Micro Tradi
+----
+ID: 888
+Date: 14.06.2014
+Waypoint: GC271T5
+Title: Free-Bird
+Tag: D25 T25 Regular Tradi
+----
+ID: 889
+Date: 14.06.2014
+Waypoint: GC23C6M
+Title: FF - Fietsen Freaks
+Tag: D15 T15 Micro Tradi
+----
+ID: 890
+Date: 14.06.2014
+Waypoint: GC35MWG
+Title: Yoda911 im FoF
+Tag: D1 T1 Micro Tradi
+----
+ID: 891
+Date: 14.06.2014
+Waypoint: GC28G6Q
+Title: TEMBO!
+Tag: D15 T15 Small Tradi
+----
+ID: 892
+Date: 14.06.2014
+Waypoint: GC2PZQH
+Title: corsamaus69 im FoF
+Tag: D1 T2 Small Tradi
+----
+ID: 893
+Date: 14.06.2014
+Waypoint: GC2FHBX
+Title: BeanJaro
+Tag: D15 T2 Micro Tradi
+----
+ID: 894
+Date: 14.06.2014
+Waypoint: GC30BJ8
+Title: Gu80 + guvi
+Tag: D15 T2 Small Tradi
+----
+ID: 895
+Date: 14.06.2014
+Waypoint: GC2FF85
+Title: Mediatas
+Tag: D15 T2 Small Tradi recommended
+----
+ID: 896
+Date: 14.06.2014
+Waypoint: GC31KG5
+Title: jps7999
+Tag: D15 T3 Small Tradi
+----
+ID: 897
+Date: 14.06.2014
+Waypoint: GC2ZDA2
+Title: BobbysBandit
+Tag: D15 T15 Small Tradi
+----
+ID: 898
+Date: 14.06.2014
+Waypoint: GC1PKW9
+Title: PeFaJo
+Tag: D15 T35 Small Tradi recommended
+----
+ID: 899
+Date: 14.06.2014
+Waypoint: GC2294H
+Title: gorgaz
+Tag: D2 T2 Small Tradi
+----
+ID: 900
+Date: 14.06.2014
+Waypoint: GC1WDMP
+Title: stetimm (ET Rhein-Mosel)
+Tag: D1 T15 Micro Tradi
+----
+ID: 901
+Date: 14.06.2014
+Waypoint: GC21J5K
+Title: Norbaer &amp; Norbaerfrau
+Tag: D2 T25 Small Tradi
+----
+ID: 902
+Date: 14.06.2014
+Waypoint: GC1ZCV2
+Title: Frilani
+Tag: D25 T15 Small Tradi recommended
+----
+ID: 903
+Date: 14.06.2014
+Waypoint: GC23VXF
+Title: Schinderhannes
+Tag: D1 T25 Large Tradi recommended
+----
+ID: 904
+Date: 14.06.2014
+Waypoint: GC233M8
+Title: 4xstone
+Tag: D15 T2 Small Tradi
+----
+ID: 905
+Date: 14.06.2014
+Waypoint: GC2JNXR
+Title: Ju &amp; Ni
+Tag: D15 T2 Small Tradi
+----
+ID: 906
+Date: 14.06.2014
+Waypoint: GC2NMQT
+Title: MaF im FoF
+Tag: D25 T15 Regular Tradi
+----
+ID: 907
+Date: 14.06.2014
+Waypoint: GC267QK
+Title: Lupus54 - FoF
+Tag: D15 T15 Small Tradi
+----
+ID: 908
+Date: 14.06.2014
+Waypoint: GC2ZEDC
+Title: CADS11
+Tag: D25 T15 Regular Tradi
+----
+ID: 909
+Date: 14.06.2014
+Waypoint: GC2QFG1
+Title: StiftLeer
+Tag: D2 T2 Small Tradi
+----
+ID: 910
+Date: 14.06.2014
+Waypoint: GC29NR5
+Title: Heizwert
+Tag: D1 T2 Small Tradi
+----
+ID: 911
+Date: 14.06.2014
+Waypoint: GC2DZNV
+Title: KaelhultFünf
+Tag: D15 T2 Small Tradi
+----
+ID: 912
+Date: 14.06.2014
+Waypoint: GC30E06
+Title: Daisy7861
+Tag: D15 T2 Regular Tradi
+----
+ID: 913
+Date: 14.06.2014
+Waypoint: GCPTV1
+Title: Koblenzer@FoF
+Tag: D2 T2 Micro Tradi
+----
+ID: 914
+Date: 14.06.2014
+Waypoint: GC1M98T
+Title: Pathfinder1980
+Tag: D15 T15 Small Tradi
+----
+ID: 915
+Date: 14.06.2014
+Waypoint: GC1MX2C
+Title: hoerspielnero
+Tag: D1 T45 Micro Tradi
+----
+ID: 916
+Date: 14.06.2014
+Waypoint: GC1MXRQ
+Title: algaert91
+Tag: D1 T15 Small Tradi
+----
+ID: 917
+Date: 15.06.2014
+Waypoint: GC1EYB0
+Title: In the mood
+Tag: D2 T5 Regular Multi
+----
+ID: 918
+Date: 15.06.2014
+Waypoint: GC4WMM9
+Title: Das Burggespenst Metternich
+Tag: D2 T2 Regular Letterbox recommended
+----
+ID: 919
+Date: 15.06.2014
+Waypoint: GC49RWN
+Title: Burg Metternich
+Tag: D15 T15 Small Tradi
+----
+ID: 920
+Date: 14.06.2014
+Waypoint: GC2H7CW
+Title: Schieferverwerfung &amp; Fossilien
+Tag: D15 T2 Earth
 ----
 # Eisevent TCEWN 12.07.2014
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
