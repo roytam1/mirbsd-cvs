@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.36 2014/06/07 20:02:51 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.37 2014/06/15 21:14:16 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5239,6 +5239,18 @@ Date: 14.06.2014
 Waypoint: GC2H7CW
 Title: Schieferverwerfung &amp; Fossilien
 Tag: D15 T2 Earth
+----
+ID: 921
+Date: 16.06.2014
+Waypoint: GC3BAXZ
+Title: CHALLENGE: XXXL (15 Dosen der Size LARGE)
+Tag: D5 T15 Micro Mystery
+----
+ID: 922
+Date: 16.06.2014
+Waypoint: GC3BAXW
+Title: CHALLENGE: DER GIERIGE (30 Caches am Tag)
+Tag: D5 T2 Micro Mystery
 ----
 # Eisevent TCEWN 12.07.2014
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
