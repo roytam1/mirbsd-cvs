@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.37 2014/06/15 21:14:16 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.38 2014/06/16 21:02:38 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5251,6 +5251,18 @@ Date: 16.06.2014
 Waypoint: GC3BAXW
 Title: CHALLENGE: DER GIERIGE (30 Caches am Tag)
 Tag: D5 T2 Micro Mystery
+----
+ID: 923
+Date: 18.06.2014
+Waypoint: GC496N4
+Title: BUNKER (Third Base)
+Tag: D2 T2 Small Tradi
+----
+ID: 924
+Date: 18.06.2014
+Waypoint: GC3VA8Z
+Title: Hardtberg Cache
+Tag: D35 T2 Small Multi
 ----
 # Eisevent TCEWN 12.07.2014
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
