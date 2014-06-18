@@ -119,7 +119,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_clnt.c,v 1.5 2014/06/05 13:26:41 tg Exp $");
 
 static SSL_METHOD *ssl3_get_client_method(int ver);
 static int ssl3_client_hello(SSL *s);
@@ -397,6 +397,7 @@ int ssl3_connect(SSL *s)
 				s->method->ssl3_enc->client_finished_label,
 				s->method->ssl3_enc->client_finished_label_len);
 			if (ret <= 0) goto end;
+			s->s3->flags |= SSL3_FLAGS_CCS_OK;
 			s->state=SSL3_ST_CW_FLUSH;
 
 			/* clear flags */
