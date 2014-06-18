@@ -115,7 +115,7 @@
 #include <openssl/md5.h>
 #include <openssl/rand.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_enc.c,v 1.9 2014/06/05 13:26:41 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_enc.c,v 1.10 2014/06/05 13:50:17 tg Exp $");
 
 static unsigned char ssl3_pad_1[48]={
 	0x36,0x36,0x36,0x36,0x36,0x36,0x36,0x36,
@@ -522,18 +522,23 @@ int ssl3_cert_verify_mac(SSL *s, EVP_MD_CTX *ctx, unsigned char *p)
 	return(ssl3_handshake_mac(s,ctx,NULL,0,p));
 	}
 
-int ssl3_final_finish_mac(SSL *s, EVP_MD_CTX *ctx1, EVP_MD_CTX *ctx2,
-	     const char *sender, int len, unsigned char *p)
-	{
-	int ret;
-	unsigned char *pp = p;
+int
+ssl3_final_finish_mac(SSL *s, EVP_MD_CTX *ctx1, EVP_MD_CTX *ctx2,
+    const char *sender, int len, unsigned char *p)
+{
+	int ret_md5, ret_sha1;
 
-	ret=ssl3_handshake_mac(s,ctx1,sender,len,p);
-	p+=ret;
-	ret+=ssl3_handshake_mac(s,ctx2,sender,len,p);
-	arc4random_pushb_fast(pp, ret);
-	return(ret);
-	}
+	ret_md5 = ssl3_handshake_mac(s, ctx1, sender, len, p);
+	if (ret_md5 == 0)
+		return (0);
+	arc4random_pushb_fast(p, ret_md5);
+	p += ret_md5;
+	ret_sha1 = ssl3_handshake_mac(s, ctx2, sender, len, p);
+	if (ret_sha1 == 0)
+		return (0);
+	arc4random_pushb_fast(p, ret_sha1);
+	return (ret_md5 + ret_sha1);
+}
 
 static int ssl3_handshake_mac(SSL *s, EVP_MD_CTX *in_ctx,
 	     const char *sender, int len, unsigned char *p)
