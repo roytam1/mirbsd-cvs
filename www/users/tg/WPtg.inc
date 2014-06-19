@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.38 2014/06/16 21:02:38 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.39 2014/06/18 20:35:00 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5263,6 +5263,30 @@ Date: 18.06.2014
 Waypoint: GC3VA8Z
 Title: Hardtberg Cache
 Tag: D35 T2 Small Multi
+----
+ID: 925
+Date: 19.06.2014
+Waypoint: GC4Z0PC
+Title: Suchbild : Burgfriedblick II
+Tag: D15 T25 Micro Tradi
+----
+ID: 926
+Date: 19.06.2014
+Waypoint: TC9BA
+Title: Silvio 4x4 (Moving Terracache)
+Tag: TC_Classic Small Moving recommended
+----
+ID: 927
+Date: 19.06.2014
+Waypoint: GC4YAP0
+Title: Suchbild : Burgfriedblick
+Tag: D1 T2 Micro Tradi recommended
+----
+ID: 928
+Date: 19.06.2014
+Waypoint: GC1JN59
+Title: Bleibergwerk Solingen - Reloaded
+Tag: D1 T1 Earth
 ----
 # Eisevent TCEWN 12.07.2014
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
