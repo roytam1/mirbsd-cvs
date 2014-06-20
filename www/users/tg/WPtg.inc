@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.39 2014/06/18 20:35:00 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.40 2014/06/19 20:13:02 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5287,6 +5287,42 @@ Date: 19.06.2014
 Waypoint: GC1JN59
 Title: Bleibergwerk Solingen - Reloaded
 Tag: D1 T1 Earth
+----
+ID: 929
+Date: 20.06.2014
+Waypoint: GC53AAP
+Title: Bahnhof Oberwinter
+Tag: D15 T15 Micro Tradi
+----
+ID: 930
+Date: 20.06.2014
+Waypoint: GC52QNK
+Title: Piep Piep Piep
+Tag: D1 T2 Regular Tradi
+----
+ID: 931
+Date: 20.06.2014
+Waypoint: GC4G2NR
+Title: Statistik . #40
+Tag: D2 T4 Micro Tradi
+----
+ID: 932
+Date: 20.06.2014
+Waypoint: GC4P84B
+Title: Die kleine Wald-Serie &#34;verflixte Runde&#34; #0
+Tag: D1 T1 Micro Tradi
+----
+ID: 933
+Date: 20.06.2014
+Waypoint: GC53E6D
+Title: Die kleine Wald-Serie &#34;verflixte Runde&#34; #0,5
+Tag: D2 T2 Micro Tradi
+----
+ID: 934
+Date: 20.06.2014
+Waypoint: GC54M0J
+Title: Entlang der B9 - Wasserwerk Rolandswerth
+Tag: D1 T15 Small Tradi
 ----
 # Eisevent TCEWN 12.07.2014
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
