@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.40 2014/06/19 20:13:02 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.41 2014/06/20 23:51:07 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5323,6 +5323,116 @@ Date: 20.06.2014
 Waypoint: GC54M0J
 Title: Entlang der B9 - Wasserwerk Rolandswerth
 Tag: D1 T15 Small Tradi
+----
+ID: 935
+Date: 21.06.2014
+Waypoint: GC47WR9
+Title: Kleingartenkolonie
+Tag: D2 T15 Micro Tradi
+----
+ID: 936
+Date: 21.06.2014
+Waypoint: GC250WW
+Title: LostPlace : Zollfeste der Piraten
+Tag: D15 T2 Regular Tradi
+----
+ID: 937
+Date: 21.06.2014
+Waypoint: GC25HAB
+Title: Denkmal der Petersbergbahn
+Tag: D1 T15 Small Tradi
+----
+ID: 938
+Date: 21.06.2014
+Waypoint: OCDB3B
+Title: Kleiner Trost
+Tag: D1 T15 Small Tradi
+----
+ID: 939
+Date: 21.06.2014
+Waypoint: GC43GXA
+Title: Burgruine Rosenau
+Tag: D25 T25 Micro Tradi
+----
+ID: 940
+Date: 21.06.2014
+Waypoint: GC56YTJ
+Title: Seufzerbrücke
+Tag: D15 T15 Micro Tradi
+----
+ID: 941
+Date: 21.06.2014
+Waypoint: GCRGR6
+Title: little quarry
+Tag: D2 T2 Small Tradi
+----
+ID: 942
+Date: 21.06.2014
+Waypoint: GC3GGQD
+Title: Die Brücke im Nachtigallental oder wo ist sie ?
+Tag: D15 T25 Micro Tradi
+----
+ID: 943
+Date: 21.06.2014
+Waypoint: GC5932
+Title: The Eye of the Dragon
+Tag: D1 T3 Virtual
+----
+ID: 944
+Date: 21.06.2014
+Waypoint: OC10F2D
+Title: Petersberger Bittweg #1
+nTF: B
+Tag: D15 T3 Virtual
+----
+ID: 945
+Date: 21.06.2014
+Waypoint: OC10F2E
+Title: Petersberger Bittweg #2
+nTF: B
+Tag: D15 T3 Virtual
+----
+ID: 946
+Date: 21.06.2014
+Waypoint: OC10F2F
+Title: Petersberger Bittweg #3
+nTF: B
+Tag: D15 T3 Virtual
+----
+ID: 947
+Date: 21.06.2014
+Waypoint: OC10F30
+Title: Petersberger Bittweg #4
+nTF: B
+Tag: D15 T3 Virtual
+----
+ID: 948
+Date: 21.06.2014
+Waypoint: OC10F31
+Title: Petersberger Bittweg #5
+nTF: B
+Tag: D15 T3 Virtual
+----
+ID: 949
+Date: 21.06.2014
+Waypoint: OC10F32
+Title: Petersberger Bittweg #6
+nTF: B
+Tag: D15 T3 Virtual
+----
+ID: 950
+Date: 21.06.2014
+Waypoint: OC10F33
+Title: Petersberger Bittweg #7
+nTF: B
+Tag: D15 T3 Virtual
+----
+ID: 951
+Date: 21.06.2014
+Waypoint: OC10F34
+Title: Esel 1,50 DM 25,2,my,none
+nTF: B
+Tag: D25 T2 Virtual Mystery
 ----
 # Eisevent TCEWN 12.07.2014
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'

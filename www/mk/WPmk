@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.19 2014/04/14 19:29:38 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.20 2014/04/15 20:31:05 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -208,6 +208,11 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 			class=gc_ztf
 			what="Owner"
 			sep=★
+			;;
+		(B)
+			class=gc_beta
+			what="Betatester"
+			sep=β
 			;;
 		(1)
 			class=gc_ftf
