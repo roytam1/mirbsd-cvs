@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.41 2014/06/20 23:51:07 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.42 2014/06/21 21:27:33 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5430,9 +5430,21 @@ Tag: D15 T3 Virtual
 ID: 951
 Date: 21.06.2014
 Waypoint: OC10F34
-Title: Esel 1,50 DM 25,2,my,none
+Title: Esel 1,50 DM
 nTF: B
 Tag: D25 T2 Virtual Mystery
+----
+ID: 952
+Date: 22.06.2014
+Waypoint: GC2TKQ3
+Title: Wupper-Bever-Wander-Cache
+Tag: D2 T3 Small Multi
+----
+ID: 953
+Date: 23.06.2014
+Waypoint: GC504RE
+Title: Old Tree with nice River Rhine View
+Tag: D2 T25 Micro Tradi recommended
 ----
 # Eisevent TCEWN 12.07.2014
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
