@@ -3510,13 +3510,16 @@ File:
 .el \{\
 .	ie "\\$1"-split" .nr aS 1
 .	el \{\
-.		if \\n(nY==1 \{\
+.		ie \\n(nY==1 \{\
 .			ie \\n(aN==1 \{\
 .				if \\n(aS==1 .br
 .			\}
 .			el \{\
 .				nr aN 1
 .			\}
+.		\}
+.		el \{\
+.			if \\n(aS==1 .br
 .		\}
 .		if \\n(aC==0 \{\
 .			ie \\n(.$==0 .tm Usage: .An -nosplit | -split | author_name ... \\*(Pu (#\\n(.c)
