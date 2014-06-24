@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.543 2014/05/27 13:41:55 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.544 2014/06/09 16:41:02 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1249,6 +1249,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[OpenBSD] Add more detailed Authors section to manpage</li>
  <li>[tg] Fix <tt>set ±p</tt> issue for good: drop privs unless requested</li>
  <li>[tg] Improve signal handling and use a more canonical probing order</li>
+ <li>[tg] Fix return values <tt>$?</tt> and <tt>${PIPESTATUS[*]}</tt>
+  interaction with <tt>set -o pipefail</tt> and COMSUBs</li>
+ <li>[enh] Detect ENOEXEC ELF files and use a less confusing error message</li>
+ <li>[tg] Update to Unicode 7.0.0</li>
 </ul>
 <p id="r49">R49 is a recommended bugfix release:</p><ul>
  <li>[tg] <tt>dot.mkshrc</tt>: fix two issues with the <tt>cd</tt> wrapper</li>
