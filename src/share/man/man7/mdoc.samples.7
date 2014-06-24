@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/man/man7/mdoc.samples.7,v 1.5 2011/09/14 16:41:01 tg Exp $
+.\"	$MirOS: src/share/man/man7/mdoc.samples.7,v 1.6 2014/02/09 16:33:59 tg Exp $
 .\"	$OpenBSD: mdoc.samples.7,v 1.64 2005/06/05 19:40:22 jmc Exp $
 .\"	$NetBSD: mdoc.samples.7,v 1.5 1996/04/03 20:17:34 jtc Exp $
 .\"
@@ -35,7 +35,7 @@
 .\" times and is guaranteed to give a worst case performance
 .\" for an already extremely slow package.
 .\"
-.Dd $Mdocdate: September 14 2011 $
+.Dd $Mdocdate: February 9 2014 $
 .Dt MDOC.SAMPLES 7
 .Os
 .Sh NAME
@@ -969,8 +969,33 @@ The
 .Ql \&.An
 macro is used to specify the name of the author of the utility,
 or the name of the author of the man page.
+It requires either the name of an author or one of the following arguments:
 .Pp
-.Dl Usage: .An author ... \*(Pu
+.Bl -tag -width "-nosplitX" -offset indent -compact
+.It Fl split
+Start a new output line before each subsequent invocation of
+.Sx \&An .
+.It Fl nosplit
+The opposite of
+.Fl split .
+.El
+.Pp
+The default is
+.Fl nosplit .
+The effect of selecting either of the
+.Fl split
+modes ends at the beginning of the
+.Em AUTHORS
+section.
+In the
+.Em AUTHORS
+section, the default is
+.Fl nosplit
+for the first author listing and
+.Fl split
+for all other author listings.
+.Pp
+.Dl Usage: .An [-nosplit|-split] author ... \*(Pu
 .Pp
 .Bl -tag -width ".An John Smith ) ) ," -offset indent -compact
 .It Li "\&.An John Smith"
