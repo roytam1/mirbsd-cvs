@@ -301,7 +301,7 @@
 .de St
 .if \\n(aC==0 \{\
 .	ie \\n(.$==0 \{\
-.tm Usage: .St [-p1003.1-88 | -p1003.1-90 | -p1003.1-96 | -p1003.1-2001 | -p1003.1-2004 | -p1003.1-2008 | -p1003.1 | -p1003.1b | -p1003.1b-93 | -p1003.1c-95 | -p1003.1g-2000 | -p1003.2-92 | -p1003.2-95 | -p1003.2 | -p1387.2 | -isoC-90 | -isoC-amd1 | -isoC-tcor1 | -isoC-tcor2 | -isoC-99 | -isoC-11 | -ansiC | -ansiC-89 | -ieee754 | -iso8802-3 | -xpg3 | -xpg4 | -xpg4.2 | -xpg4.3 | -xbd5 | -xcu5 | -xsh5 | -xns5 | -xns5.2d2.0 | -xcurses4.2 | -susv2 | -susv3 | -svid4] \\*(Pu ... (#\\n(.c)
+.tm Usage: .St [-p1003.1-88 | -p1003.1-90 | -p1003.1-96 | -p1003.1-2001 | -p1003.1-2004 | -p1003.1-2008 | -p1003.1 | -p1003.1b | -p1003.1b-93 | -p1003.1c-95 | -p1003.1g-2000 | -p1003.2-92 | -p1003.2-95 | -p1003.2 | -p1387.2 | -isoC-90 | -isoC-amd1 | -isoC-tcor1 | -isoC-tcor2 | -isoC-99 | -isoC-11 | -ansiC | -ansiC-89 | -ieee754 | -iso8802-3 | -xpg3 | -xpg4 | -xpg4.2 | -xpg4.3 | -xbd5 | -xcu5 | -xsh5 | -xns5 | -xns5.2d2.0 | -xcurses4.2 | -susv2 | -susv3 | -susv4 | -svid4] \\*(Pu ... (#\\n(.c)
 .	\}
 .	el \{\
 .		ds mN St
@@ -471,6 +471,11 @@
 .	\}
 .	if "\\*(A\\n(aP"-susv3" \{\
 .		ds b1 \&Version 3 of the Single\\*(aa\\*(sV
+.		as b1 \&\\*(tNUNIX\\*(aa\\*(sV
+.		as b1 \&Specification\\*(aa
+.	\}
+.	if "\\*(A\\n(aP"-susv4" \{\
+.		ds b1 \&Version 4 of the Single\\*(aa\\*(sV
 .		as b1 \&\\*(tNUNIX\\*(aa\\*(sV
 .		as b1 \&Specification\\*(aa
 .	\}
