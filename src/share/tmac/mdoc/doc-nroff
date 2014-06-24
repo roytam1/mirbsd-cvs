@@ -1,7 +1,7 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc-nroff,v 1.9 2008/12/27 18:23:48 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc-nroff,v 1.10 2012/05/21 23:53:02 tg Exp $
 .\"	$OpenBSD: doc-nroff,v 1.7 2004/06/06 22:38:10 jmc Exp $
 .\"
-.\" Copyright (c) 2005, 2008, 2012
+.\" Copyright (c) 2005, 2008, 2012, 2014
 .\"	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 .\" Copyright (c) 1991
 .\"	The Regents of the University of California.
@@ -149,22 +149,22 @@
 .de sW
 .nr sW \w\\$1
 .ie \\n(sW>=\\n(fW \{\
-.       ie \\n(sW%\\n(fW .nr sW (\\n(sW/\\n(fW)+1
-.       el .nr sW \\n(sW/\\n(fW
+.	ie \\n(sW%\\n(fW .nr sW (\\n(sW/\\n(fW)+1
+.	el .nr sW \\n(sW/\\n(fW
 .\}
 .el .nr sW 0
 ..
 .de aW
 .nr sW \w\\*(A\\$1
 .ie \\n(sW>=\\n(fW \{\
-.       ie \\n(sW%\\n(fW .nr sW (\\n(sW/\\n(fW)+1
-.       el .nr sW \\n(sW/\\n(fW
+.	ie \\n(sW%\\n(fW .nr sW (\\n(sW/\\n(fW)+1
+.	el .nr sW \\n(sW/\\n(fW
 .\}
 .el .nr sW 0
 ..
 .\" NS Ql macro - Quoted literal define
 .de Ql
-.if \\n(aC==0  \{\
+.if \\n(aC==0 \{\
 .	ds mN Ql
 .	ds A1 \\$1
 .	ds A2 \\$2
@@ -176,7 +176,7 @@
 .	ds A8 \\$8
 .	ds A9 \\$9
 .	nr fV \\n(.$
-. 	fV
+.	fV
 .\}
 .ds qL \&\\*(sL
 .ds qR \&\\*(sR
@@ -192,30 +192,30 @@
 .nr sE 0
 .nr iS 0
 .ie "\\$1"NAME" \{\
-.       hK
-'       in 0
+.	hK
+'	in 0
 .\}
 .el \{\
-.       nr nS 0
-.       nr nA 0
-.       nr nF 0
-.       nr nT 0
-.       nr nY 0
-.       nr aN 0
-.       nr oT 0
-.       if "\\$1"SEE" .nr nA 1
-.       if "\\$1"FILES" .nr nF 1
-.       if "\\$1"STANDARDS" .nr nT 1
-.       if "\\$1"SYNOPSIS" .nr nS 1
-.       if "\\$1"DESCRIPTION" \{\
-.               rr fB
-.               rr Fb
-.               ds Fb
-.               nr fY 0
-.               nr fZ 0
-.       \}
+.	nr nS 0
+.	nr nA 0
+.	nr nF 0
+.	nr nT 0
+.	nr nY 0
+.	nr aN 0
+.	nr oT 0
+.	if "\\$1"SEE" .nr nA 1
+.	if "\\$1"FILES" .nr nF 1
+.	if "\\$1"STANDARDS" .nr nT 1
+.	if "\\$1"SYNOPSIS" .nr nS 1
+.	if "\\$1"DESCRIPTION" \{\
+.		rr fB
+.		rr Fb
+.		ds Fb
+.		nr fY 0
+.		nr fZ 0
+.	\}
 .	if "\\$1"AUTHORS" .nr nY 1
-.       in 0
+.	in 0
 .\}
 .pL
 'sp

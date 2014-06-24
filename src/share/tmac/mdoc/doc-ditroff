@@ -1,7 +1,7 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc-ditroff,v 1.5 2008/12/27 18:23:48 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc-ditroff,v 1.6 2012/05/21 23:53:02 tg Exp $
 .\"	$OpenBSD: doc-ditroff,v 1.5 2004/06/06 22:38:10 jmc Exp $
 .\"
-.\" Copyright (c) 2012
+.\" Copyright (c) 2012, 2014
 .\"	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 .\" Copyright (c) 1991
 .\"	The Regents of the University of California.
@@ -123,8 +123,8 @@
 .de hK
 .ds hT \\*(dT
 .if !"\\*(cH"Null" \{\
-.       ie !"\\*(gP"Null" .as hT \|(\|\\*(cH\\*(gP\|)
-.       el .as hT \\|(\\|\\*(cH\\|)
+.	ie !"\\*(gP"Null" .as hT \|(\|\\*(cH\\*(gP\|)
+.	el .as hT \\|(\\|\\*(cH\\|)
 .\}
 .if "\\*(cH"Null" \{\
 .	if !"\\*(gP"Null" .as hT \&\|(\|\\*(gP\|)
@@ -150,8 +150,8 @@
 .de sW
 .nr sW \w\fC\\$1
 .ie \\n(sW>=\\n(fW \{\
-.       ie \\n(sW%\\n(fW .nr sW (\\n(sW/\\n(fW)+1
-.       el .nr sW \\n(sW/\\n(fW
+.	ie \\n(sW%\\n(fW .nr sW (\\n(sW/\\n(fW)+1
+.	el .nr sW \\n(sW/\\n(fW
 .\}
 .el \{\
 .	ie \\n(sW>0 .nr sW 1
@@ -162,8 +162,8 @@
 .de aW
 .nr sW \w\fC\\*(A\\$1
 .ie \\n(sW>=\\n(fW \{\
-.       ie \\n(sW%\\n(fW .nr sW (\\n(sW/\\n(fW)+1
-.       el .nr sW \\n(sW/\\n(fW
+.	ie \\n(sW%\\n(fW .nr sW (\\n(sW/\\n(fW)+1
+.	el .nr sW \\n(sW/\\n(fW
 .\}
 .el \{\
 .	ie \\n(sW>0 .nr sW 1
@@ -172,18 +172,18 @@
 ..
 .\" NS Ql macro - Quoted literal define
 .de Ql
-.if \\n(aC==0  \{\
+.if \\n(aC==0 \{\
 .	ds mN Ql
-.       ds A1 \\$1
-.       ds A2 \\$2
-.       ds A3 \\$3
-.       ds A4 \\$4
-.       ds A5 \\$5
-.       ds A6 \\$6
-.       ds A7 \\$7
-.       ds A8 \\$8
-. 	nr fV \\n(.$
-. 	fV
+.	ds A1 \\$1
+.	ds A2 \\$2
+.	ds A3 \\$3
+.	ds A4 \\$4
+.	ds A5 \\$5
+.	ds A6 \\$6
+.	ds A7 \\$7
+.	ds A8 \\$8
+.	nr fV \\n(.$
+.	fV
 .\}
 .nr aP \\n(aP+1
 .aW \\n(aP
@@ -207,7 +207,7 @@
 .		rn A2 A3
 .		rn A1 A2
 .		ds A1 Li
-.	 	nr fV \\n(aC+1
+.		nr fV \\n(aC+1
 .		nr aC 0
 .		fV
 .	\}
@@ -228,37 +228,37 @@
 .nr iS 0
 'ad
 .ie "\\$1"NAME" \{\
-.       hK
-'       in 0
+.	hK
+'	in 0
 .\}
 .el \{\
-.       nr nS 0
-.       nr nA 0
-.       nr nF 0
-.       nr nT 0
-.       nr nY 0
-.       nr oT 0
-.       if "\\$1"SYNOPSIS" \{\
+.	nr nS 0
+.	nr nA 0
+.	nr nF 0
+.	nr nT 0
+.	nr nY 0
+.	nr oT 0
+.	if "\\$1"SYNOPSIS" \{\
 .		na
 .		nr nS 1
 .	\}
-.       if "\\$1"DESCRIPTION" \{\
+.	if "\\$1"DESCRIPTION" \{\
 .		nr fY 0
 .		nr fZ 0
 .		nr fB 0
 .		nr Fb 0
 .		ds Fb
 .	\}
-.       if "\\$1"SEE" \{\
-.               nr nA 1
-.               na
-.       \}
-.       if "\\$1"FILES" .nr nF 1
-.       if "\\$1"STANDARDS" .nr nT 1
-.       if "\\$1"AUTHORS" .nr nY 1
+.	if "\\$1"SEE" \{\
+.		nr nA 1
+.		na
+.	\}
+.	if "\\$1"FILES" .nr nF 1
+.	if "\\$1"STANDARDS" .nr nT 1
+.	if "\\$1"AUTHORS" .nr nY 1
 .	if "\\$1"SEE" .nr sE 1
-.       in 0
-.       nr aN 0
+.	in 0
+.	nr aN 0
 .\}
 .pL
 'sp
