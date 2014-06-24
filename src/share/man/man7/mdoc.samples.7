@@ -983,6 +983,31 @@ or the name of the author of the man page.
 The
 .Ql \&.An
 macro is parsed, but is not callable.
+Requires either the name of an author or one of the following arguments:
+.Pp
+.Bl -tag -width "-nosplitX" -offset indent -compact
+.It Fl split
+Start a new output line before each subsequent invocation of
+.Sx \&An .
+.It Fl nosplit
+The opposite of
+.Fl split .
+.El
+.Pp
+The default is
+.Fl nosplit .
+The effect of selecting either of the
+.Fl split
+modes ends at the beginning of the
+.Em AUTHORS
+section.
+In the
+.Em AUTHORS
+section, the default is
+.Fl nosplit
+for the first author listing and
+.Fl split
+for all other author listings.
 .Ss Command Modifier
 The command modifier is identical to the
 .Ql \&.Fl
