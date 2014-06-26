@@ -6505,7 +6505,7 @@ int joe_towlower(struct charmap *foo, int c)
 
 /* Test the functions */
 
-#ifdef TEST
+#ifdef TEST_I18N
 int
 main(int argc,char *argv[])
 {
@@ -6558,7 +6558,7 @@ int unictrl(unsigned int ucs)
 
 PROG=		i18n
 NOMAN=		Yes
-CPPFLAGS+=	-DTEST
+CPPFLAGS+=	-DTEST -DTEST_I18N
 
 .include <bsd.own.mk>
 
