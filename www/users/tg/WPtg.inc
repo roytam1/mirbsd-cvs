@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.43 2014/06/23 19:47:16 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.44 2014/06/27 22:23:28 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5451,6 +5451,24 @@ Date: 27.06.2014
 Waypoint: GC24WB0
 Title: Gotteshäuser: Erlöserkirche
 Tag: D15 T15 Micro Tradi
+----
+ID: 955
+Date: 28.06.2014
+Waypoint: GC55N3Y
+Title: 50 Jahre grillen und kein Ende
+Tag: D15 T15 Other Event
+----
+ID: 956
+Date: 28.06.2014
+Waypoint: GC29B69
+Title: Drachenfels (Earthcache)
+Tag: D15 T3 Other Earth
+----
+ID: 957
+Date: 28.06.2014
+Waypoint: GC4KT6H
+Title: HK5 Nicht verwirklichte Baupläne
+Tag: D3 T15 Small Mystery
 ----
 # Eisevent TCEWN 12.07.2014
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
