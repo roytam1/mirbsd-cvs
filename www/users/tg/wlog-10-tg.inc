@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.12 2014/05/21 18:28:52 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.13 2014/06/05 08:43:44 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -7,7 +7,7 @@ Tag: geocache rant
 <p>I’ve been only sleeping, cooking and geocaching this weekend.
  Rather productive. Better than being angry at idiots, slowpokes
  (StartCom and Mozilla in particular), etc.</p>
-<p><a href="@@RELPATH@@wptg.htm#banners" style="border:0;"><img
+<p><a href="http://www.mirbsd.org/wptg.htm#banners" style="border:0;"><img
  style="border:0;" alt="mirabilos’ Waypoints"
  src="@@RELPATH@@WPtg.png" /></a></p>
 <p>Food was rather tasty, although I held back and put only ten
