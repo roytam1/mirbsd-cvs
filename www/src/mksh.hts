@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.546 2014/06/29 13:23:15 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.547 2014/06/29 20:01:49 wbx Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -461,8 +461,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  all supported targets.</p>
 
 <h5 class="cr" id="oe_wrt">Distribution: OpenWrt</h5>
-<p>This distribution provide the same support cross-platform,
- with µClibc and/or eglibc, and thus should behave the same on
+<p>This distribution provides the same support cross-platform,
+ with µClibc and/or glibc, and thus should behave the same on
  all supported targets.</p>
 
 <h5 class="cr" id="oe_android">Platform: Android</h5>
@@ -978,6 +978,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  spell</a> in their grimoire, developed by the MirOS Project together with
  Daniel “morfic” Goller, updated by Thomas “sobukus” Orgis and Vlad
  “Stealth” Glagolev.</li>
+<li class="cr"><img class="fr" width="112" height="64" alt="[FreeWRT logo]"
+ src="@@RELPATH@@pics/logos/freewrt.png" />In the FreeWRT Embedded GNU/Linux
+ Appliance Development Kit (meta distribution), now defunct, mksh was the
+ default shell.</li>
 <li><a href="http://openadk.org/">OpenADK - Open Source Appliance Development Kit</a>
  (a FreeWRT 1.0 fork) contains mksh as default shell.</li>
 <li><a href="http://openwrt.org/">OpenWrt Embedded GNU/Linux Distribution</a>
