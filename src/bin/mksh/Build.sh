@@ -1400,7 +1400,9 @@ gcc)
 	# mksh is not written in CFrustFrust!
 	ac_flags 1 no_eh_frame -fno-asynchronous-unwind-tables
 	ac_flags 1 fnostrictaliasing -fno-strict-aliasing
-	ac_flags 1 fstackprotectorall -fstack-protector-all
+	ac_flags 1 fstackprotectorstrong -fstack-protector-strong
+	test 1 = $HAVE_CAN_FSTACKPROTECTORSTRONG || \
+	    ac_flags 1 fstackprotectorall -fstack-protector-all
 	test $cm = dragonegg && case " $CC $CFLAGS $LDFLAGS " in
 	*\ -fplugin=*dragonegg*) ;;
 	*) ac_flags 1 fplugin_dragonegg -fplugin=dragonegg ;;
