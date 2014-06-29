@@ -1,4 +1,4 @@
- "jupp" resource file for JOE 3.7*nix (c) 1997-2013 Thorsten Glaser
+ "jupp" resource file for JOE 3.7*nix (c) 1997-2014 Thorsten Glaser
  Provided that these terms and disclaimer and all copyright notices
  are retained or reproduced in an accompanying document, permission
  is granted to deal in this work without restriction, including un-
@@ -52,6 +52,8 @@
 -smartbacks
 -tab 8
 --wordwrap
+
+ #HOOK#3701 global/default flags
 
  === Generic files
  No '.' in filename?
@@ -166,6 +168,11 @@
 -syntax c
 -c_comment
 
+*.nxc
+--highlight
+-syntax c
+-c_comment
+
  === C Shell
 *.csh
 -syntax csh
@@ -225,12 +232,12 @@
 -syntax diff
 
 *
-+\[1-9]\+\[0-9]\[cda]
++Index: \*\n======================================================
 -highlight
 -syntax diff
 
 *
-+Index: \*\n======================================================
++Index: \*\ndiff\*\n--- \*\n+++\[ ]
 -highlight
 -syntax diff
 
@@ -241,6 +248,11 @@
 
 *
 +diff\*\n--- \*\n+++\[ ]
+-highlight
+-syntax diff
+
+*
++diff --git\*\nindex\*\n--- \*\n+++\[ ]
 -highlight
 -syntax diff
 
@@ -431,16 +443,6 @@
 -syntax tcl
 -pound_comment
 
- === Text
-*.asc
--wordwrap
-
-*.doc
--wordwrap
-
-*.txt
--wordwrap
-
  === Verilog
 *.v
 -syntax verilog
@@ -556,6 +558,8 @@ mode,"orphan",rtn	% % -orphan% % % % % % % % % % % %Zorphan% %
 mode,"skiptop",rtn	% % -skiptop% % % % % % % % % % %Zskiptop% % 
 mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs% % 
 
+ #HOOK#3702 filename matching
+
 {Basic
 \i   Help Screen    turn off with ^J     more help with ESC . (^[.)              \i
 \i \i\u\bCURSOR\b\u           \u\bGOTO\b\u             \u\bBLOCK\b\u    \u\bDELETE\b\u    \u\bMISC\b\u         \u\bEXIT\b\u       \i \i
@@ -661,8 +665,10 @@ mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs% %
 \i \i go to \uhttp://sf.net/projects/joe-editor/\u for upstream bug reports. JUPP 2.8 \i \i
 \i \i for DOS compiled by A. Totlis, packed with LHarc 2.13; JUPP 3.x for UNIX\d(R)\d \i \i
 \i \i at \uhttp://mirbsd.de/jupp\u and by \bThorsten "\dmirabilos\d" Glaser <\utg@mirbsd.org\u>\b \i \i
-\i \i @(#) jupprc 2013-01-05; 3.7; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
+\i \i @(#) jupprc 2014-06-29; 3.7; autoCR-LF; UTF-8 via locale; per-file encoding \i \i
 }
+
+ #HOOK#3703 additional help screens
 
 {CharTable
 \i   Help Screen    turn off with ^J     prev. screen ^[,    \uCharacter Map\u       \i
@@ -679,6 +685,7 @@ mode,"usetabs",rtn	% % -usetabs% % % % % % % % % % %Zusetabs% %
 }
 
 :windows
+ #HOOK#3704 common keybindings
 type		^@ TO ÿ
 abort		^K Q
 abort		^K ^Q
@@ -723,6 +730,7 @@ stop		^[ )
 
 :main
 :inherit windows
+ #HOOK#3705 main keybindings
 bof,qrepl,"\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\+\\[",quote,"i",quote,"k",quote,"l",quote,"m ]\\$",rtn,rtn,rtn,"r",eof	^K ]
 edit,rtn,filt,query,parserr	^[ C
 edit,rtn,filt,query,parserr	^[ c
@@ -1023,6 +1031,7 @@ type		^@ TO ÿ
 
 :cua
 :inherit main
+ #HOOK#3706 extra keybindings in CUA mode
 undo		^Z
 blkdel,nmark	^X
 copy		^C
