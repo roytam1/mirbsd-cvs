@@ -38,7 +38,7 @@
 
 #include <sys/types.h>
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $");
+__RCSID("$MirOS: src/kern/include/mirhash.h,v 1.1 2014/01/11 15:59:41 tg Exp $");
 
 /*-
  * BAFH itself is defined by the following primitives:
@@ -83,6 +83,9 @@ __RCSID("$MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg R
  *
  * All macros may use ctx multiple times in their expansion, but all
  * other arguments are always evaluated at most once.
+ *
+ * To stay portable, never use the BAFHHost*() macros (these are for
+ * host-local entropy shuffling), and encode numbers using ULEB128.
  */
 
 #define BAFHInit(h) do {					\
