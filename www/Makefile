@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.97 2014/04/14 20:10:51 tg Exp $
+# $MirOS: www/Makefile,v 1.98 2014/04/18 22:59:51 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -172,7 +172,7 @@ _reinstall:
 	    rm -rf $$(find . -name CVS -o -name .cvsignore)
 	chgrp -R miros-cvswww dst
 	chmod -R ug=rwX,o=rX dst
-	chmod a+x dst/cvs.cgi dst/man.cgi dst/wp.cgi dst/wtf.cgi
+	chmod a+x dst/cvs.cgi dst/man.cgi dst/raw.cgi dst/wp.cgi dst/wtf.cgi
 
 .SUFFIXES: .val .htm~ .hts
 
