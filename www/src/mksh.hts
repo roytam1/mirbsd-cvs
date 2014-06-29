@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.545 2014/06/24 20:57:49 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.546 2014/06/29 13:23:15 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -455,14 +455,18 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>This is the vendor compiler on SCO OpenServer and SCO UnixWare. It is
  recognised from R40f onwards.</p>
 
-<h5 class="cr" id="oe_adk"><img width="112" height="64" alt="[FreeWRT logo]"
- class="fr" src="@@RELPATH@@pics/logos/freewrt.png" />Distribution: FreeWRT, OpenADK, OpenWrt</h5>
-<p>These distributions provide the same support cross-platform,
+<h5 class="cr" id="oe_adk">Distribution: OpenADK</h5>
+<p>This development kit provide the same support cross-platform,
+ with µClibc, musl and/or glibc, and thus should behave the same on
+ all supported targets.</p>
+
+<h5 class="cr" id="oe_wrt">Distribution: OpenWrt</h5>
+<p>This distribution provide the same support cross-platform,
  with µClibc and/or eglibc, and thus should behave the same on
  all supported targets.</p>
 
 <h5 class="cr" id="oe_android">Platform: Android</h5>
-<p>Supported with OpenADK (static eglibc) and NDK (although the build
+<p>Supported with OpenADK (static) and NDK (although the build
  process is currently not feasible with an Android.mk file but possible
  if the CPPFLAGS and signames.inc are pregenerated; sys_signame[] has
  been pushed upstream and is in Android 1.6). Integration
@@ -974,15 +978,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  spell</a> in their grimoire, developed by the MirOS Project together with
  Daniel “morfic” Goller, updated by Thomas “sobukus” Orgis and Vlad
  “Stealth” Glagolev.</li>
-<li class="cr"><img class="fr" width="112" height="64" alt="[FreeWRT logo]"
- src="@@RELPATH@@pics/logos/freewrt.png" />In the <a
- href="https://www.freewrt.org/trac/">FreeWRT Embedded GNU/Linux
- Appliance Development Kit (meta distribution)</a>, the <a
- href="https://www.freewrt.org/svn/trunk/freewrt/package/mksh/">mksh
- package</a> is maintained by us. mksh is also the default shell in FreeWRT
- trunk (soon to be 1.1) and above.</li>
-<li>With a sloppy update policy, <a href="http://openadk.org/">OpenADK</a>
- (a FreeWRT 1.0 fork) also contains mksh as an optional package.</li>
+<li><a href="http://openadk.org/">OpenADK - Open Source Appliance Development Kit</a>
+ (a FreeWRT 1.0 fork) contains mksh as default shell.</li>
 <li><a href="http://openwrt.org/">OpenWrt Embedded GNU/Linux Distribution</a>
  also <a href="http://git.openwrt.org/?p=packages.git;a=tree;f=utils/mksh">provides
  mksh</a> (rarely updated) on ADSL/WLAN routers thanks to Felix “nbd” Fietkau.</li>
