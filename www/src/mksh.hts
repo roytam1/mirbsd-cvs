@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.544 2014/06/09 16:41:02 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.545 2014/06/24 20:57:49 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R49</h2>
+<h2>mksh(1) R50</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -50,8 +50,8 @@ mws_content <<'EOF'
  “MirBSD Korn Shell”.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R49</strong> from
- <em>11 January 2014</em>.<!-- br />In the oldstable bugfixing-only series, the
+<p>The current version of mksh is <strong>mksh R50</strong> from
+ <em>29 June 2014</em>.<!-- br />In the oldstable bugfixing-only series, the
  current version is <em>mksh R44</em> from <em>5 March 2013</em>.--></p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
@@ -187,17 +187,15 @@ mws_content <<'EOF'
  <em>as well as</em> the hashes and/or checksums below, so you’re sure the
  content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R49.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R49.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R49.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R49.tgz</a></li>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R44.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R44.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R44.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R44.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
 <!-- cd /MirOS/dist/mir/mksh; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
-  <li>RMD160 (mksh-R49.tgz) = fa7a24e604daea30d5e5fd7bb78e24b2d7044764</li>
-  <li>TIGER (mksh-R49.tgz) = 1dd2d334e67e331486a25025f2466031354a74ab25c24b75</li>
-  <li>4184882702 371550 /MirOS/dist/mir/mksh/mksh-R49.tgz</li>
-  <li>MD5 (mksh-R49.tgz) = e8c205cac72c3dc8540bbc3897421422</li>
+  <li>RMD160 (mksh-R50.tgz) = 43776b890d8b5ba2a90cfa0c908d1ca9ea32b39f</li>
+  <li>TIGER (mksh-R50.tgz) = 4782758fce7114e7927ae120b8041cb8a62ac56e22e6c61a</li>
+  <li>3304788229 372461 /MirOS/dist/mir/mksh/mksh-R50.tgz</li>
+  <li>MD5 (mksh-R50.tgz) = 436a448f4124d3743adb9e4a1562b77e</li>
 <!--
  <li style="list-style:none;">↑ formal release │ stable bugfix series ↓</li>
   <li>RMD160 (mksh-R44.tgz) = 4cf1525c477c4bece519c024cc73ee6ca064d34a</li>
@@ -211,7 +209,7 @@ mws_content <<'EOF'
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
- so a simple <tt>tar xzf mksh-R49.tgz</tt> will work. It will create all files
+ so a simple <tt>tar xzf mksh-R50.tgz</tt> will work. It will create all files
  in a subdirectory <tt>./mksh/</tt>.</p>
 
 <h3 id="vendorpatching">Patching</h3>
@@ -821,6 +819,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p id="pcur"><i>current</i>:
  <i>(unfinished…)</i></p>
 -->
+<p id="p50">R50: <tt>test.sh</tt> now uses <tt>$TMPDIR</tt>.</p>
 <p id="p49">R49: There is now generated content at build time; it is known
  that this is beyond the capabilities of some shells such as Coherent
  <tt>/bin/sh</tt>. We plan to address this in a later release by rewriting
@@ -1125,6 +1124,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <!--
 <p id="ccur"><i>current</i>:
 -->
+<p id="c50">R50: Arithmetic expressions are now IFS-split, as per POSIX;
+ this matches what the manpage always documented. Due to regressions, the
+ <tt>arr=([index]=value)</tt> syntax (naming the indicēs during setting an
+ array) is gone for now, and will not reappear in “set -A”, only in the
+ “=(…)” syntax once we get its parsing fixed. Privileges are now dropped
+ upon start unless the shell is started with “-p”.</p>
 <p id="c49">R49: The hash algorithm has changed (for, hopefully, the last
  time); the old algorithms are gone from <tt>dot.mkshrc</tt> too, and the
  <tt>${foo@#}</tt> syntax no longer accepts a seed value (for more variety
@@ -1221,13 +1226,15 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
+<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
+-->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+<p id="r50">R50 is a recommended bugfix release:</p><ul>
  <li>[tg] Fix initial IFS whitespace not being ignored when expanding</li>
- <li>[tg] (not yet: test_opin(b_ops_xsi, …))</li>
  <li>[tg] MKSH_BINSHREDUCED no longer mistakenly enables brace expansion</li>
  <li>[tg] Explain more clearly Vi input mode limitations in the manpage</li>
  <li>[tg] Improve error reporting of the <tt>check.pl</tt> script (which needs
@@ -1238,7 +1245,6 @@ exec /usr/bin/ld "${args[@]}"</pre>
   tput(1) examples, for improved portability (e.g. to MidnightBSD)</li>
  <li>[tg] Avoid C99 Undefined Behaviour in mirtoconf LFS test (inspired
   by Debian #742780)</li>
- <li>[tg] Add new expected-fail test for change in POSIX we have yet to codify</li>
  <li>[tg] Fix <tt>${!foo}</tt> for when <tt>foo</tt> is unset</li>
  <li>[tg] Improve <tt>nameref</tt> error checking (LP#1277691)</li>
  <li>[tg] Fix <tt>readonly</tt> bypass found by Bert Münnich</li>
@@ -1253,6 +1259,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
   interaction with <tt>set -o pipefail</tt> and COMSUBs</li>
  <li>[enh] Detect ENOEXEC ELF files and use a less confusing error message</li>
  <li>[tg] Update to Unicode 7.0.0</li>
+ <li>[tg] Shut up valgrind in the <tt>$RANDOM</tt> code</li>
+ <li>[tg] Use -fstack-protector-strong in favour of -fstack-protector-all</li>
+ <li>[tg] Fix access-after-free crash spotted by Enjolras via IRC</li>
 </ul>
 <p id="r49">R49 is a recommended bugfix release:</p><ul>
  <li>[tg] <tt>dot.mkshrc</tt>: fix two issues with the <tt>cd</tt> wrapper</li>

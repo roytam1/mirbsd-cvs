@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.452 2014/05/20 14:12:01 bsiegert Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.453 2014/05/20 21:19:37 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10729,4 +10729,16 @@ Tag: tip
  Another lesson learned: run <tt>$VCS diff</tt> before committing!</p>
 <p>And something for me to take from this: check file encodings when
  importing from poorer OSes, and in general.</p>
+----
+Title: mksh R50, jupp 27 released
+Date: 29.06.2014 13:20
+Author: tg@
+Tag: jupp mksh news pcli
+
+<p>Both the <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a> and
+ <a href="@@RELPATH@@jupp.htm">jupp – the editor which sucks less</a>
+ have seen new releases today. Please test them, report all bugs,
+ and otherwise enjoy all the bugfixes.</p>
+<p>Other subprojects will also have new releases… once I get around
+ doing so after hacking them…</p>
 ----
