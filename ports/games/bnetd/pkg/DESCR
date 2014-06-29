@@ -1,8 +1,0 @@
-bnetd consists of a suite to emulate a battle.net(R) compatible
-server, including client programmes, a proxy and various other
-tools. This is the last revision of the code, since development
-in the USA has to be stopped - Vivendi's Game Section, Blizzard
-among them, has sued the original authors of bnetd. We believe
-that using bnetd is of no risk to non-US citizens, except that
-your battle.net(tm) account can be terminated.
-

@@ -1,3 +1,0 @@
-@comment $MirOS$
-include/argp.h
-lib/libargp.a
