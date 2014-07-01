@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.44 2014/06/27 22:23:28 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.45 2014/06/28 21:32:22 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -4670,7 +4670,7 @@ ID: 828
 Date: 23.04.2014
 Waypoint: GC18DV3
 Title: Wissenschaftsfiguren
-Tag: D3 T1 Other Unknown
+Tag: D3 T1 Other Mystery
 ----
 ID: 829
 Date: 27.04.2014
@@ -5469,6 +5469,60 @@ Date: 28.06.2014
 Waypoint: GC4KT6H
 Title: HK5 Nicht verwirklichte Baupläne
 Tag: D3 T15 Small Mystery
+----
+ID: 958
+Date: 30.06.2014
+Waypoint: GC42XQE
+Title: Durch die Felder statt Wälder (6) - Der Wendepunkt
+Tag: D15 T15 Micro Tradi
+----
+ID: 959
+Date: 30.06.2014
+Waypoint: GC4MWYV
+Title: Danke&#34;LEY&#34;be BROILER - (Die Broilerallee)
+Tag: D1 T2 Micro Tradi
+----
+ID: 960
+Date: 30.06.2014
+Waypoint: GC51QYD
+Title: Kleines Biotop
+Tag: D15 T15 Small Tradi
+----
+ID: 961
+Date: 30.06.2014
+Waypoint: GC51QY2
+Title: Räuberleiter
+Tag: D15 T3 Micro Tradi
+----
+ID: 962
+Date: 30.06.2014
+Waypoint: GC529XV
+Title: Schlumpfines Baumplantage
+Tag: D1 T25 Micro Tradi
+----
+ID: 963
+Date: 30.06.2014
+Waypoint: GC42XRM
+Title: Durch die Felder statt Wälder (2)
+Tag: D15 T1 Micro Tradi
+----
+ID: 964
+Date: 30.06.2014
+Waypoint: GC42XPW
+Title: Durch die Felder statt Wälder (3)
+Tag: D15 T2 Micro Tradi
+----
+ID: 965
+Date: 30.06.2014
+Waypoint: GC4ECKN
+Title: Alter Bahnübergang
+Tag: D15 T15 Micro Tradi
+----
+ID: 966
+Date: 01.07.2014
+Waypoint: GC618
+Title: Siebengebirge
+Tag: D25 T25 not_chosen Tradi
 ----
 # Eisevent TCEWN 12.07.2014
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
