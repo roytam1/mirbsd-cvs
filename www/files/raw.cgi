@@ -215,7 +215,7 @@ if (@files > 0) {
 	}
 }
 
-print "Content-Type: text/html; charset=utf-8\r\n\r\n";
+print "Content-Type: text/plain; charset=utf-8\r\n\r\n";
 
 foreach my $line (@wtfresults) {
 	print $line . "\r\n";
