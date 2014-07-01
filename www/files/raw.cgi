@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-# $MirOS$
+# $MirOS: www/files/raw.cgi,v 1.1 2014/06/29 13:56:28 tg Exp $
 #-
 # Copyright © 2012, 2014
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -71,7 +71,7 @@ if (defined($ENV{QUERY_STRING})) {
 }
 
 if ($queryorig ne "") {
-	$query = uc($query);
+	$query =~ y/a-z/A-Z/;
 	$query =~ y/äöü/ÄÖÜ/;
 
 	foreach my $line (<ACRONYMS>) {
