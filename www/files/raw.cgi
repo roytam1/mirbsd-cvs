@@ -71,14 +71,14 @@ if (defined($ENV{QUERY_STRING})) {
 }
 
 if ($queryorig ne "") {
-	$query =~ y/a-z/A-Z/;
-	$query =~ s/ä/Ä/g;
-	$query =~ s/ö/Ö/g;
-	$query =~ s/ü/Ü/g;
+	$queryorig =~ y/a-z/A-Z/;
+	$queryorig =~ s/ä/Ä/g;
+	$queryorig =~ s/ö/Ö/g;
+	$queryorig =~ s/ü/Ü/g;
 
 	foreach my $line (<ACRONYMS>) {
 		chomp($line);
-		if ($line =~ /^\Q$query	\E(.*)$/) {
+		if ($line =~ /^\Q$queryorig	\E(.*)$/) {
 			push(@wtfresults, $1);
 		}
 	}
