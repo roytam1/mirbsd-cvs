@@ -72,7 +72,9 @@ if (defined($ENV{QUERY_STRING})) {
 
 if ($queryorig ne "") {
 	$query =~ y/a-z/A-Z/;
-	$query =~ y/äöü/ÄÖÜ/;
+	$query =~ s/ä/Ä/g;
+	$query =~ s/ö/Ö/g;
+	$query =~ s/ü/Ü/g;
 
 	foreach my $line (<ACRONYMS>) {
 		chomp($line);
