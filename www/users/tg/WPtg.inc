@@ -2010,8 +2010,8 @@ Title: Das Goldene Em - Add on SU #1
 ----
 ID: 391
 Date: 20.06.2013
-Waypoint: GC374F5
-Title: Remember HIH OCDEA0
+Waypoint: GC374F5 OCDEA0
+Title: Remember HIH
 ----
 ID: 392
 Date: 20.06.2013
