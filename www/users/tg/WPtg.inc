@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.45 2014/06/28 21:32:22 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.46 2014/07/01 21:05:28 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -1075,7 +1075,7 @@ Title: Telefonjoker gesucht...
 ----
 ID: 208
 Date: 22.04.2012
-Waypoint: GC1GEDG
+Waypoint: GC1GEDG OC6885
 Title: Hillijehüsje
 ----
 ID: 209
@@ -1373,7 +1373,7 @@ Title: Düsseldorf Hbf - Bertha-von-Suttner-Platz
 ----
 ID: 267
 Date: 13.07.2012
-Waypoint: GC1X77C
+Waypoint: GC1X77C OCB481
 Title: It's All About the Numbers
 ----
 ID: 268
@@ -1463,7 +1463,7 @@ Title: Zum Burzeltag
 ----
 ID: 285
 Date: 08.09.2012
-Waypoint: GC3N3KM
+Waypoint: GC3N3KM OCE558
 Title: In der Nähe meines großen gelben Bruders
 ----
 ID: 286
@@ -1562,7 +1562,7 @@ Title: Steinkreis
 ----
 ID: 304
 Date: 13.02.2013
-Waypoint: GC22APZ
+Waypoint: GC22APZ OC9B37
 Title: Heinrichsblick
 Tag: recommended
 ----
@@ -1590,7 +1590,7 @@ Tag: recommended exceptional
 ----
 ID: 309
 Date: 10.03.2013
-Waypoint: GC3NBWF
+Waypoint: GC3NBWF OCE691
 Title: The Invisible Bicycle
 ----
 ID: 310
@@ -1655,7 +1655,7 @@ Title: Wo die Sonne scheint
 ----
 ID: 322
 Date: 31.03.2013
-Waypoint: GC1WVMW
+Waypoint: GC1WVMW OC8C44
 Title: offenes Logbuch
 ----
 ID: 323
@@ -1680,7 +1680,7 @@ Title: Willkommen in Mehlem 2.0
 ----
 ID: 327
 Date: 19.04.2013
-Waypoint: GC1X2MD
+Waypoint: GC1X2MD OCB3FD
 Title: Bundesämter BBK und THW
 ----
 ID: 328
@@ -1691,12 +1691,12 @@ Tag: recommended tech
 ----
 ID: 329
 Date: 19.04.2013
-Waypoint: GC31RJB
+Waypoint: GC31RJB OCD37F
 Title: Bonn-HiCOG, oder Stuttgart
 ----
 ID: 330
 Date: 19.04.2013
-Waypoint: GC3DM51
+Waypoint: GC3DM51 OCEDA7
 Title: Muffendorf Bildstock II
 ----
 ID: 331
@@ -2005,13 +2005,13 @@ Wenn Du hier bist, bist Du falsch, wenn Du zur A3 Richtung Köln willst.
 ----
 ID: 390
 Date: 17.06.2013
-Waypoint: GC188KM
+Waypoint: GC188KM OC4CF1
 Title: Das Goldene Em - Add on SU #1
 ----
 ID: 391
 Date: 20.06.2013
 Waypoint: GC374F5
-Title: Remember HIH
+Title: Remember HIH OCDEA0
 ----
 ID: 392
 Date: 20.06.2013
@@ -2063,7 +2063,7 @@ Title: Kunst am Wegesrand
 ----
 ID: 399
 Date: 24.06.2013
-Waypoint: GC3PZG4
+Waypoint: GC3PZG4 OCEDA8
 Title: Muffendorfer Bildstöcke
 ----
 ID: 400
@@ -2073,7 +2073,7 @@ Title: Project Eck 2013 - Meet &amp; Greet am Eck
 ----
 ID: 401
 Date: 28.06.2013
-Waypoint: GCTJ8X
+Waypoint: GCTJ8X OC183E
 Title: ZEICHEN VND SÄTZE (Megaevent Version)
 ----
 ID: 402
@@ -2327,7 +2327,7 @@ ID: 444
 Date: 10.08.2013
 Waypoint: GC3TT0R
 Title: Schafwiese
-Tag: recommended
+Tag: recommended exceptional
 
 Korrekt müßte es Schaf<b>s</b>wiese heißen.
 Geniales Logbuch!
@@ -2532,7 +2532,7 @@ Title: Die Heiligen der letzten Tage
 ----
 ID: 482
 Date: 28.08.2013
-Waypoint: GC1E8G7
+Waypoint: GC1E8G7 OC6104
 Title: Unkelbacher Brücke
 ----
 ID: 483
@@ -2576,7 +2576,7 @@ ID: 490
 Date: 29.08.2013
 Waypoint: GC32HCK
 Title: Gotteshäuser: Sankt Severin in Mehlem
-Tag: D4 T35 Micro Mystery recommended
+Tag: D4 T35 Micro Mystery recommended exceptional
 
 Geradezu faszinierend und ein würdiger Nachfolger für
 meinen [#46] OC58A9 „Gotteshäuser: Mehlem Kirche St. Severin“!
@@ -2712,7 +2712,7 @@ Tag: D1 T2 Micro Tradi
 ----
 ID: 511
 Date: 17.09.2013
-Waypoint: GC1N76E
+Waypoint: GC1N76E OC7A88
 Title: Gotteshäuser: St. Hubertus (Ückesdorf)
 Tag: D1 T1 Micro Tradi
 ----
@@ -3226,7 +3226,7 @@ Tag: D2 T2 Small Tradi
 ----
 ID: 596
 Date: 26.11.2013
-Waypoint: GC1NMFY
+Waypoint: GC1NMFY OC7B83
 Title: Bonner Kunstwerke: Aufbr. Samenkorn mit Keimling
 Tag: D15 T15 Micro Tradi
 ----
@@ -3306,13 +3306,13 @@ Tag: D25 T1 Regular Mystery
 ----
 ID: 609
 Date: 07.12.2013
-Waypoint: GC3WEWZ
+Waypoint: GC3WEWZ OCDEA5
 Title: Blackbox
 Tag: D25 T2 Small Tradi
 ----
 ID: 610
 Date: 07.12.2013
-Waypoint: GC1AKJ0
+Waypoint: GC1AKJ0 OC53F5
 Title: Das 13. Grab
 Tag: D3 T1 Micro Mystery
 ----
@@ -3700,7 +3700,7 @@ Tag: D1 T15 Micro Tradi
 ----
 ID: 672
 Date: 30.12.2013
-Waypoint: GC24VGE
+Waypoint: GC24VGE OCE644
 Title: Berühmte Meteorologen
 Tag: D2 T2 Small Mystery
 ----
@@ -3718,7 +3718,7 @@ Tag: D1 T1 Micro Tradi
 ----
 ID: 675
 Date: 31.12.2013
-Waypoint: GC2WKRE
+Waypoint: GC2WKRE OCF72A
 Title: Schauspielhalle
 Tag: D15 T1 Micro Tradi
 ----
@@ -3857,7 +3857,7 @@ Tag: D15 T15 Small Tradi
 ----
 ID: 698
 Date: 19.01.2014
-Waypoint: GCXCYD
+Waypoint: GCXCYD OC2251
 Title: 5208xxx
 Tag: D3 T2 Regular Mystery
 ----
@@ -4008,7 +4008,7 @@ Tag: D15 T15 Small Multi
 ----
 ID: 722
 Date: 08.02.2014
-Waypoint: GC16M0G
+Waypoint: GC16M0G OC470B
 Title: BonnBeuel Heimatmuseum
 Tag: D1 T15 Micro Tradi
 ----
@@ -4181,7 +4181,7 @@ ID: 750
 Date: 04.03.2014
 Waypoint: GC4CJ3B
 Title: Können Birnen glühen?
-Tag: D2 T2 Micro Tradi recommended
+Tag: D2 T2 Micro Tradi recommended exceptional
 ----
 ID: 751
 Date: 05.03.2014
@@ -4328,7 +4328,7 @@ ID: 774
 Date: 22.03.2014
 Waypoint: GC4BWQT
 Title: Vorsicht bissiger Rentner
-Tag: D25 1T Small Tradi recommended
+Tag: D25 1T Small Tradi recommended exceptional
 
 Aufwendig gemacht und verdammt schön ausgestaltet.
 Auf jeden Fall einen Besuch wert – und als Dreingabe
@@ -4345,7 +4345,7 @@ ID: 776
 Date: 22.03.2014
 Waypoint: GC4M90G
 Title: Beach TB Hotel GBH
-Tag: D1 T1 Large Tradi recommended
+Tag: D1 T1 Large Tradi recommended exceptional
 
 Die Beschallung war schon etwas übertrieben ☺ aber dieser Cache
 ist jeden seiner Favoritenpunkte wert.
@@ -4560,7 +4560,7 @@ ID: 810
 Date: 13.04.2014
 Waypoint: GC48Y6N
 Title: Die Notiz auf dem Küchentisch...
-Tag: D2 T15 Small Multi recommended
+Tag: D2 T15 Small Multi recommended exceptional
 
 Nerviges Final, aber super gemacht und… mitreißend ☺
 ----
@@ -4646,19 +4646,19 @@ ID: 824
 Date: 19.04.2014
 Waypoint: GC4NC2J
 Title: Hotte`s kleine Serie Der Petling &#34;O&#34; Meter
-Tag: D25 T15 Other Tradi recommended
+Tag: D25 T15 Other Tradi recommended exceptional
 ----
 ID: 825
 Date: 19.04.2014
 Waypoint: GC4CVC0
 Title: Auf der Suche nach dem verlorenen Henkelpott
-Tag: D3 T3 Large Multi recommended
+Tag: D3 T3 Large Multi recommended exceptional
 ----
 ID: 826
 Date: 19.04.2014
 Waypoint: GC43VM8
 Title: Der &#34;08/15&#34; Cache
-Tag: D35 T2 Large Multi
+Tag: D35 T2 Large Multi exceptional
 ----
 ID: 827
 Date: 19.04.2014
@@ -4670,7 +4670,7 @@ ID: 828
 Date: 23.04.2014
 Waypoint: GC18DV3
 Title: Wissenschaftsfiguren
-Tag: D3 T1 Other Mystery
+Tag: D3 T1 Other Mystery exceptional
 ----
 ID: 829
 Date: 27.04.2014
@@ -4755,7 +4755,7 @@ Tag: D15 T1 Small Tradi
 ----
 ID: 841
 Date: 02.05.2014
-Waypoint: GC1WD4P
+Waypoint: GC1WD4P OC8B28
 Title: Judas Thaddäus in Alfter
 Tag: D1 T15 Micro Tradi
 ----
@@ -4845,11 +4845,11 @@ ID: 855
 Date: 17.05.2014
 Waypoint: GC4ZQ4V
 Title: 10 Jahre Bonn grillt (2014)
-Tag: D1 T1 Other Event recommended
+Tag: D1 T1 Other Event recommended exceptional
 ----
 ID: 856
 Date: 17.05.2014
-Waypoint: GC42C73
+Waypoint: GC42C73 OCF72B
 Title: Nächster Halt: Limperich
 Tag: D15 T1 Micro Tradi
 ----
@@ -4940,7 +4940,7 @@ Tag: D1 T15 Micro Tradi
 ----
 ID: 871
 Date: 31.05.2014
-Waypoint: GC51X5M
+Waypoint: GC51X5M OC10AF6
 Title: Aussicht vom Parkdeck 11
 Tag: D1 T1 Small Tradi recommended
 ----
@@ -5106,7 +5106,7 @@ ID: 898
 Date: 14.06.2014
 Waypoint: GC1PKW9
 Title: PeFaJo
-Tag: D15 T35 Small Tradi recommended
+Tag: D15 T35 Small Tradi recommended exceptional
 ----
 ID: 899
 Date: 14.06.2014
@@ -5136,7 +5136,7 @@ ID: 903
 Date: 14.06.2014
 Waypoint: GC23VXF
 Title: Schinderhannes
-Tag: D1 T25 Large Tradi recommended
+Tag: D1 T25 Large Tradi recommended exceptional
 ----
 ID: 904
 Date: 14.06.2014
@@ -5308,13 +5308,13 @@ Tag: D2 T4 Micro Tradi
 ----
 ID: 932
 Date: 20.06.2014
-Waypoint: GC4P84B
+Waypoint: GC4P84B OC10144
 Title: Die kleine Wald-Serie &#34;verflixte Runde&#34; #0
 Tag: D1 T1 Micro Tradi
 ----
 ID: 933
 Date: 20.06.2014
-Waypoint: GC53E6D
+Waypoint: GC53E6D OC10C21
 Title: Die kleine Wald-Serie &#34;verflixte Runde&#34; #0,5
 Tag: D2 T2 Micro Tradi
 ----
@@ -5520,9 +5520,9 @@ Tag: D15 T15 Micro Tradi
 ----
 ID: 966
 Date: 01.07.2014
-Waypoint: GC618
+Waypoint: GC618 OC0147 N00180
 Title: Siebengebirge
-Tag: D25 T25 not_chosen Tradi
+Tag: D25 T25 not_chosen Tradi recommended
 ----
 # Eisevent TCEWN 12.07.2014
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
