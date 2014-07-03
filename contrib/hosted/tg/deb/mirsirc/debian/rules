@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# $MirOS: contrib/hosted/tg/deb/mirsirc/debian/rules,v 1.4 2012/06/24 14:10:16 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/mirsirc/debian/rules,v 1.5 2012/06/24 14:13:42 tg Exp $
 
 build build-arch:
 
@@ -10,8 +10,9 @@ debian/dsircp: dsircp
 		test x"$$x" = x"Version:" || continue; \
 		echo "$$y"; \
 		break; \
-	done) && test -n "$$v" && \
-	    sed "s#@@VERSION@@#$$v#" <dsircp >debian/dsircp~
+	done) && test -n "$$v" && sed \
+	    -e 'sMirPorts-@DIST_DATE@MirDebian-'"$$v"'' \
+	    -e 's@PREFIX@/usr' <dsircp >debian/dsircp~
 	mv debian/dsircp~ debian/dsircp
 
 clean:
