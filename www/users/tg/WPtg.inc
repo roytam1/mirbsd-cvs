@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.46 2014/07/01 21:05:28 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.48 2014/07/02 12:19:46 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5523,6 +5523,12 @@ Date: 01.07.2014
 Waypoint: GC618 OC0147 N00180
 Title: Siebengebirge
 Tag: D25 T25 not_chosen Tradi recommended
+----
+ID: 967
+Date: 03.07.2014
+Waypoint: GC57QZT
+Title: Farbe: Lila
+Tag: D1 T15 Micro Tradi recommended
 ----
 # Eisevent TCEWN 12.07.2014
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
