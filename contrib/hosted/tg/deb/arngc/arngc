@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/deb/arngc/arngc,v 1.3 2013/01/20 18:18:53 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/arngc/arngc,v 1.5 2013/10/24 09:32:36 tg Exp $
 #-
-# Copyright © 2011, 2013
+# Copyright © 2011, 2013, 2014
 #	Thorsten Glaser <tg@mirbsd.org>
 # Copyright © 2012
 #	Thorsten Glaser <t.glaser@tarent.de>
@@ -125,7 +125,7 @@ function doscript {
 			client = yes
 			connect = $server
 		EOF
-		print -r '	"$prog" -fd 4 4<"$T/control"'
+		print -r '	"$prog" "$T/control"'
 	else
 		print -r '	stunnel -c -r "$server"'
 	fi

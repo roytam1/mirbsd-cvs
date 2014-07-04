@@ -1,8 +1,14 @@
-arngc (20140401) UNRELEASED; urgency=low
+arngc (20140704) wtf; urgency=low
 
   * add arngb-slrd.c example, transfer MirBSD<->MirBSD using SSH
+  * do not use fd for stunnel4 to avoid zombies hanging around
+  * modernise
+  * conflict with rngd from The Distribution which cannot be named
+    since they switched away from Debian’s codebase to upstream’s
+    (which lacks required features)
+  * force gzip compression
 
- -- Thorsten Glaser <tg@mirbsd.de>  Tue, 01 Apr 2014 19:21:30 +0000
+ -- Thorsten Glaser <tg@mirbsd.de>  Fri, 04 Jul 2014 21:38:15 +0000
 
 arngc (20131024) unstable; urgency=low
 
