@@ -1,9 +1,9 @@
 This package was debianised by Thorsten Glaser <tg@mirbsd.de> on
 Sun, 24 Jun 2012 12:03:33 +0000.
 
-$MirOS: contrib/hosted/tg/deb/ssfe/debian/copyright,v 1.1 2012/06/23 16:16:44 tg Exp $
+$MirOS: contrib/hosted/tg/deb/mirsirc/debian/copyright,v 1.1 2012/06/24 12:45:45 tg Exp $
 
-It was downloaded from MirBSD anonymous CVS on 2012-06-24:
+It was downloaded from MirBSD anonymous CVS on 2014-07-04:
 • Server :extssh:_anoncvs@anoncvs.mirbsd.org:/cvs
 • Module ports/net/sirc/dist
 
@@ -16,11 +16,11 @@ can be found at: /usr/share/common-licenses/GPL-2
 # Copyright (C) 1995-1997 Roger Espel Llima
 # Copyright (c) 2002-2003 Hubert Feyrer
 # Copyright (c) Phil Stracchino
-# Copyright (c) 2001-2011 Thorsten Glaser
+# Copyright (c) 2001-2014 Thorsten Glaser
 
 Some support scripts and the packaging are covered by The MirOS Licence:
 
-# Copyright (c) 2002, 2003, 2004, 2005, 2007, 2008
+# Copyright (c) 2002, 2003, 2004, 2005, 2007, 2008, 2014
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices

@@ -1,11 +1,11 @@
-# $MirOS: contrib/hosted/tg/deb/mirsirc/debian/control,v 1.3 2012/06/24 13:21:16 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/mirsirc/debian/control,v 1.4 2012/06/24 14:01:27 tg Exp $
 #
 Source: mirsirc
 Section: net
 Priority: extra
 Maintainer: Thorsten Glaser <tg@mirbsd.de>
 Build-Depends: ed, pax (>= 1:20120216-1~)
-Standards-Version: 3.9.3
+Standards-Version: 3.9.5
 # First word is the $CVSROOT (-d arg) string, second word the module.
 # Upstream is on the same server, in the "ports/net/sirc/dist" module.
 Vcs-CVS: :ext:_anoncvs@anoncvs.mirbsd.org:/cvs contrib/hosted/tg/deb/mirsirc
