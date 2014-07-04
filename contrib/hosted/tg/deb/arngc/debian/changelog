@@ -7,8 +7,9 @@ arngc (20140704) wtf; urgency=low
     since they switched away from Debian’s codebase to upstream’s
     (which lacks required features)
   * force gzip compression
+  * fix operation with stunnel 5.x (and up to 9.x if they keep compatible)
 
- -- Thorsten Glaser <tg@mirbsd.de>  Fri, 04 Jul 2014 21:38:15 +0000
+ -- Thorsten Glaser <tg@mirbsd.de>  Fri, 04 Jul 2014 22:00:38 +0000
 
 arngc (20131024) unstable; urgency=low
 

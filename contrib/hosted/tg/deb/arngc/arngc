@@ -111,7 +111,7 @@ for prog in stunnel4 stunnel; do
 	prog=$(whence -p $prog)
 	[[ -n $prog && -x $prog ]] || continue
 	x=$("$prog" -version 2>&1 | grep '^stunnel [0-9]')
-	[[ $x = 'stunnel 4'* ]] || continue
+	[[ $x = 'stunnel '[4-9]* ]] || continue
 	use4=1
 	break
 done
