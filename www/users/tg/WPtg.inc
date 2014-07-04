@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.48 2014/07/02 12:19:46 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.49 2014/07/03 20:57:39 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5529,6 +5529,12 @@ Date: 03.07.2014
 Waypoint: GC57QZT
 Title: Farbe: Lila
 Tag: D1 T15 Micro Tradi recommended
+----
+ID: 968
+Date: 04.07.2014
+Waypoint: GC55VT1
+Title: Grüner Weg
+Tag: D1 T15 Small Tradi
 ----
 # Eisevent TCEWN 12.07.2014
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'

@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.453 2014/05/20 21:19:37 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.454 2014/06/29 13:23:11 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10741,4 +10741,7 @@ Tag: jupp mksh news pcli
  and otherwise enjoy all the bugfixes.</p>
 <p>Other subprojects will also have new releases… once I get around
  doing so after hacking them…</p>
+<p><strong>Update 03.07.2014</strong>: New release for MirCPIO, that
+ is, cpio(1) and pax(1) and tar(1) in a somewhat portable package.</p>
+<tt>-r--r--r--  4 tg  miros-cvssrc  141973 Jul  3 19:56 /MirOS/dist/mir/cpio/paxmirabilis-20140703.cpio.gz</tt>
 ----
