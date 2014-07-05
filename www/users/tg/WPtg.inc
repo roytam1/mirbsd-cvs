@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.49 2014/07/03 20:57:39 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.50 2014/07/04 19:15:58 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5535,6 +5535,19 @@ Date: 04.07.2014
 Waypoint: GC55VT1
 Title: Grüner Weg
 Tag: D1 T15 Small Tradi
+----
+ID: 969
+Date: 05.07.2014
+Waypoint: GC814B
+Title: The Bridge at Remagen I
+Tag: D15 T15 Micro Tradi recommended
+----
+ID: 970
+Date: 05.07.2014
+Waypoint: OC10FC6
+Title: Kapelle an der Brücke zu Remagen
+nTF: 0
+Tag: D1 T1 Virtual
 ----
 # Eisevent TCEWN 12.07.2014
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
