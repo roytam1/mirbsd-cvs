@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.50 2014/07/04 19:15:58 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.51 2014/07/05 20:11:35 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -62,7 +62,7 @@ Title: Geocoin Micro #4
 ----
 ID: 12
 Date: 19.09.2007
-Waypoint: GCYZR8 N0230A OC2777
+Waypoint: GCYZR8 N0230A OC2777 WM5CZY
 Title: Heute schon gelesen? [de/en/fr]
 Tag: recommended
 ----
@@ -4240,7 +4240,7 @@ Tag: D2 T2 Micro Tradi
 ----
 ID: 760
 Date: 08.03.2014
-Waypoint: GC3Z02Y
+Waypoint: GC3Z02Y OX3Z02Y
 Title: Der Scheißcache
 Tag: D2 T1 Micro Tradi
 ----
@@ -5436,7 +5436,7 @@ Tag: D25 T2 Virtual Mystery
 ----
 ID: 952
 Date: 22.06.2014
-Waypoint: GC2TKQ3
+Waypoint: GC2TKQ3 OX2TKQ3
 Title: Wupper-Bever-Wander-Cache
 Tag: D2 T3 Small Multi
 ----
@@ -5549,6 +5549,61 @@ Title: Kapelle an der Brücke zu Remagen
 nTF: 0
 Tag: D1 T1 Virtual
 ----
+ID: 971
+Date: 06.07.2014
+Waypoint: m/dschuwa/236
+Title: Bonner Punktejagd 044
+Tag: Munzee
+
+Mal das Munzee-Äpp ausprobieren… echt nicht leicht zu bedienen,
+ich habe bestimmt ½h gebraucht, um <em>eine</em> Münze zu loggen.
+----
+ID: 972
+Date: 06.07.2014
+Waypoint: GC3RX6V
+Title: Lüftet das Geheimnis der Gärten ...
+Tag: D2 T2 Small Multi
+----
+ID: 973
+Date: 06.07.2014
+Waypoint: GE02FC N02F74 OC10FCE
+Title: Godesberger Kreuze #1
+nTF: 0
+Tag: D1 T1 Virtual
+----
+ID: 974
+Date: 06.07.2014
+Waypoint: GE02FD OC10FCF
+Title: Godesberger Kreuze #2
+nTF: 0
+Tag: D15 T1 Virtual
+----
+ID: 975
+Date: 06.07.2014
+Waypoint: GE02FE OC10FD0
+Title: Godesberger Kreuze #3
+nTF: 0
+Tag: D1 T15 Virtual
+----
+ID: 976
+Date: 06.07.2014
+Waypoint: LC7TG
+Title: Truly Well-Rounded Cacher LC - Level II
+Tag: MC3 LC_Puzzle
+----
+#ID: 977?
+#Date: 06.07.2014
+#Waypoint: OXZRN5R
+#Title: Kapelle zu den „Sieben Schmerzen Mariens“
+#nTF: 0
+#Tag: D15 T15 Virtual
+#----
+#ID: 978? pending N02F74, OXZRN5R publish
+#Date: 06.07.2014
+#Waypoint: LC7QL
+#Title: Truly Well-Rounded Cacher Level III Award
+#Tag: MC5 LC_Puzzle
+#----
 # Eisevent TCEWN 12.07.2014
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat

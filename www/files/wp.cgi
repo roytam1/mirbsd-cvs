@@ -1,7 +1,7 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/wp.cgi,v 1.3 2013/06/23 20:02:48 tg Exp $';
+my $rcsid = '$MirOS: www/files/wp.cgi,v 1.4 2013/10/20 19:09:21 tg Exp $';
 #-
-# Copyright © 2013
+# Copyright © 2013, 2014
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -48,11 +48,17 @@ if (defined($ENV{QUERY_STRING})) {
 	}
 }
 
+if ($query =~ m!\b(m/[0-9A-Za-z_-]*/[0-9]+)/?\b!) {
+	$query = "http://www.munzee.com/$1/";
+	print("Status: 301\r\nLocation: $query\r\n\r\nRedirect: $query\r\n");
+	exit(0);
+}
+
 $query = "" unless $query =~ /^[0-9A-Za-z-]*$/;
 $query =~ y/a-z/A-Z/;
 
 if ($query ne "") {
-	$query =~		s`\b(N[0-9][0-9A-F]{4}|(G[ACE]|O[BCKPSUXZ]|SH|[TL]C)[0-9A-Z]{1,5}|GD[A-Z]{2}-[A-Z]{4})\b`
+	$query =~		s`\b(N[0-9][0-9A-F]{4}|(G[ACE]|O[BCKPSUXZ]|SH|[TL]C|WM)[0-9A-Z]{1,5}|GD[A-Z]{2}-[A-Z]{4})\b`
 					($query = $1) =~ /^GC/ ? "http://www.geocaching.com/seek/cache_details.aspx?wp=$query" :
 					$query =~ /^GA/ ? "http://geocaching.com.au/cache/$query" :
 					$query =~ /^GD/ ? "http://geodashing.gpsgames.org/cgi-bin/dp.pl?dp=$query" :
@@ -68,6 +74,7 @@ if ($query ne "") {
 					$query =~ /^OX/ ? "http://www.opencaching.com/#!geocache/$query" :
 					$query =~ /^SH/ ? "http://shutterspot.gpsgames.org/cgi-bin/sh.pl?wp=$query" :
 					$query =~ /^[TL]C/ ? "http://www.terracaching.com/viewcache.cgi?ID=$query" :
+					$query =~ /^WM/ ? "http://www.waymarking.com/waymarks/$query" :
 					"";
 				`eg;
 	$found = 1 if $query =~ /http/;

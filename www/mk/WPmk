@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.20 2014/04/15 20:31:05 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.21 2014/06/21 21:27:32 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -201,6 +201,7 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 	numox=0
 	numsh=0
 	numtc=0
+	num_m=0
 	while (( entryp < entries )); do
 		ent=${ei_indir[entryp++]}
 		case ${e_ntf[ent]} {
@@ -294,6 +295,13 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 				wp="<a href=\"http://www.terracaching.com/viewcache.cgi?ID=$wp\">$wp</a>"
 				let numtc++
 				;;
+			(WM*)
+				wp="<a href=\"http://www.waymarking.com/waymarks/$wp\">$wp</a>"
+				;;
+			(m/*/+([0-9]))
+				wp="<a href=\"http://www.munzee.com/$wp/\">Munzee:${wp#m/}</a>"
+				let num_m++
+				;;
 			(http*://*)
 				case $wp {
 				(*://labs.geocaching.com/*)
@@ -316,7 +324,7 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 			print '<div class="gc_body">'
 			#XXX some may be too lax or strict
 			print -r -- "${ei_body[ent]}" | perl -pe '
-				s`\b(N[0-9][0-9A-F]{4}|(G[ACE]|O[BCKPSUXZ]|SH|[TL]C)[0-9A-Z]{1,5}|GD[A-Z]{2}-[A-Z]{4})\b`
+				s`\b(N[0-9][0-9A-F]{4}|(G[ACE]|O[BCKPSUXZ]|SH|[TL]C|WM)[0-9A-Z]{1,5}|GD[A-Z]{2}-[A-Z]{4})\b`
 					($wp = $1) =~ /^GC/ ? "<a href=\"http://www.geocaching.com/seek/cache_details.aspx?wp=$wp\">$wp</a>" :
 					$wp =~ /^GA/ ? "<a href=\"http://geocaching.com.au/cache/$wp\">$wp</a>" :
 					$wp =~ /^GD/ ? "<a href=\"http://geodashing.gpsgames.org/cgi-bin/dp.pl?dp=$wp\">$wp</a>" :
@@ -332,6 +340,7 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 					$wp =~ /^OX/ ? "<a href=\"http://www.opencaching.com/#!geocache/$wp\">$wp</a>" :
 					$wp =~ /^SH/ ? "<a href=\"http://shutterspot.gpsgames.org/cgi-bin/sh.pl?wp=$wp\">$wp</a>" :
 					$wp =~ /^[TL]C/ ? "<a href=\"http://www.terracaching.com/viewcache.cgi?ID=$wp\">$wp</a>" :
+					$wp =~ /^WM/ ? "<a href=\"http://www.waymarking.com/waymarks/$wp\">$wp</a>" :
 					$wp;
 				`eg'
 			print '</div>'
@@ -340,12 +349,13 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 	done
 	print '</ul>'
 	(( numtot = numga + numgc + numgd + numge + numnc + numoc + numox + \
-	    numsh + numtc ))
+	    numsh + numtc + num_m ))
 	print -n "<p>Totals: $numtot waypoint links"
 	(( numga )) && print -n ", Australia $numga"
 	(( numgc )) && print -n ", Groundspeak <!-- gc.com --> $numgc"
 	(( numgd )) && print -n ", Geodashing <!-- (gpsgames) --> $numgd"
 	(( numge )) && print -n ", GPSgames <!-- geocaching --> $numge"
+	(( num_m )) && print -n ", Munzee $num_m"
 	(( numnc )) && print -n ", Navicaching $numnc"
 	(( numoc )) && print -n ", Opencaching <!-- network --> $numoc"
 	(( numox )) && print -n ", Garmin <!-- opencaching.com --> $numox"
