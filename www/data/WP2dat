@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: www/data/WP2dat,v 1.3 2014/03/22 20:14:52 tg Exp $
+# $MirOS: www/data/WP2dat,v 1.4 2014/04/14 19:29:36 tg Exp $
 #-
 # Pipe 'GC12345 Title of the cache' through this.
 
@@ -13,7 +13,7 @@ fi
 
 . "$(dirname "$0")/../mk/common"
 
-num=$(sed -n '/^ID: /s///p' WPtg.inc | tail -1)
+num=$(sed -n '/^ID: \([^p]\)/s//\1/p' WPtg.inc | tail -1)
 if (( !num )); then
 	print -ru2 "E: Number '$num' in 'WP$username.inc' invalid."
 	exit 1

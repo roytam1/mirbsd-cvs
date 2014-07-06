@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.41 2013/06/08 18:55:12 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.42 2013/09/29 20:18:29 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -404,6 +404,10 @@ pre {
 	border:2px solid green;
 	margin:0px 48px 0px 24px;
 	padding:2px 12px 2px 3px;
+}
+
+.gc_prospective {
+	color:#666666;
 }
 
 /* put text into a white-on-black rectangle */

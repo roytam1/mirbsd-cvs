@@ -5591,19 +5591,42 @@ Waypoint: LC7TG
 Title: Truly Well-Rounded Cacher LC - Level II
 Tag: MC3 LC_Puzzle
 ----
-#ID: 977?
-#Date: 06.07.2014
-#Waypoint: OXZRN5R
-#Title: Kapelle zu den „Sieben Schmerzen Mariens“
-#nTF: 0
-#Tag: D15 T15 Virtual
-#----
-#ID: 978? pending N02F74, OXZRN5R publish
-#Date: 06.07.2014
-#Waypoint: LC7QL
-#Title: Truly Well-Rounded Cacher Level III Award
-#Tag: MC5 LC_Puzzle
-#----
-# Eisevent TCEWN 12.07.2014
+ID: p977
+Date: 06.07.2014
+Waypoint: OXZRN5R
+Title: Kapelle zu den „Sieben Schmerzen Mariens“
+nTF: 0
+Tag: D15 T15 Virtual
+----
+ID: p978
+Waypoint: LC7QL
+Title: Truly Well-Rounded Cacher Level III Award
+Tag: MC5 LC_Puzzle
+
+pending N02F74, OXZRN5R publish
+----
+ID: p979
+Waypoint: TCGQ9
+Title: Wald ohne Hüter (Moving TerraCache)
+Tag: TC_Other Regular
+----
+ID: p20140712
+Date: 12.07.2014
+Waypoint: GC547K9 TCEWN
+Title: Eis, Eis, Baby... ⅯⅯⅩⅣ
+Tag: D1 T1 Event
+----
+ID: p20140717
+Date: 17.07.2014
+Waypoint: GC582N7
+Title: CAT - Eiszeit 5
+Tag: D15 T15 Event
+----
+ID: p20140720
+Date: 20.07.2014
+Waypoint: GC547AH
+Title: Lazy Sunday
+Tag: D2 T15 Event
+----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat

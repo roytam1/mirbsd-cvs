@@ -58,9 +58,17 @@ datadate=${datadate:8:2}.${datadate:5:2}.${datadate::4}
 
 set -A fwp
 integer entryp=0
+integer xentries=-1
 while (( entryp < entries )); do
 	ent=${ei_indir[entryp++]}
 	[[ -n ${e_title[ent]} ]] || continue
+	if [[ ${e_id[ent]} = p+([0-9]) ]]; then
+		(( xentries = xentries == -1 ? entryp - 1 : xentries ))
+		continue
+	elif (( xentries != -1 )); then
+		print -ru2 "Non-prospective ID '${e_id[ent]}' after prospective"
+		exit 1
+	fi
 	if [[ ${e_id[ent]} != [1-9]*([0-9]) ]]; then
 		# This also catches duplicates due to parser using '-g$guid'
 		print -ru2 "Non-numeric ID '${e_id[ent]}' for '${e_title[ent]}'"
@@ -72,11 +80,12 @@ while (( entryp < entries )); do
 	fi
 	fwp[${e_id[ent]}]=$ent
 done
+(( xentries == -1 )) && xentries=$entries
 set -A fwpk -- "${!fwp[@]}"
 fwpks=${#fwpk[*]}
 fwpkl=${fwpk[fwpks - 1]}
-if (( entries != fwpkl )); then
-	print -u2 "$entries entries, but the highest found# is $fwpkl"
+if (( xentries != fwpkl )); then
+	print -u2 "$xentries entries, but the highest found# is $fwpkl"
 	exit 1
 fi
 
@@ -178,6 +187,7 @@ mws_setname "gc/$committer" "$committer’s found Waypoints"
 mws_setheadline "Geocaches found by $gclogin"
 mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 {
+	didprosp=0
 	print '<p><a href="#wpts" style="border:0;"><img style="border:0;"'
 	print " alt=\"$statname WP=$fwpkl on $datadate\""
 	print " src=\"@@RELPATH@@WP$committer.png\" /></a></p>"
@@ -246,29 +256,39 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 			sep='•'
 			;;
 		}
-		print -r "<li id=\"wp${e_id[ent]}\"${what:+ title=\"$what\"}" \
-		    "class=\"$class\">${e_date[ent]} #${e_id[ent]} $sep"
+		if [[ ${e_id[ent]} = p+([0-9]) ]]; then
+			(( didprosp++ )) || print '</ul><ul' \
+			    'style="position:relative; left:-20px; top:1em; list-style:circle;">'
+			class="${class:+$class }gc_prospective"
+			xid=
+			xtx='(prosp.)'
+		else
+			xid=${e_id[ent]}
+			xtx="#$xid"
+		fi
+		print -r "<li${xid:+ id=\"wp$xid\"}${what:+ title=\"$what\"}" \
+		    "class=\"$class\">${e_date[ent]:-(not yet)} $xtx $sep"
 		for wp in ${e_waypoint[ent]}; do
 			case $wp {
 			(GA*)
 				wp="<a href=\"http://geocaching.com.au/cache/$wp\">$wp</a>"
-				let numga++
+				[[ -n $xid ]] && let numga++
 				;;
 			(GC*)
 				wp="<a href=\"http://www.geocaching.com/seek/cache_details.aspx?wp=$wp\">$wp</a>"
-				let numgc++
+				[[ -n $xid ]] && let numgc++
 				;;
 			(GD*)
 				wp="<a href=\"http://geodashing.gpsgames.org/cgi-bin/dp.pl?dp=$wp\">$wp</a>"
-				let numgd++
+				[[ -n $xid ]] && let numgd++
 				;;
 			(GE*)
 				wp="<a href=\"http://geocaching.gpsgames.org/cgi-bin/ge.pl?wp=$wp\">$wp</a>"
-				let numge++
+				[[ -n $xid ]] && let numge++
 				;;
 			(N[0-9]+([0-9A-F]))
 				wp="<a href=\"http://www.navicache.com/cgi-bin/db/displaycache2.pl?CacheID=$((16#${wp#N}))\">$wp</a>"
-				let numnc++
+				[[ -n $xid ]] && let numnc++
 				;;
 			(O[BCKPSUZ]*)
 				case $wp {
@@ -281,29 +301,29 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 				(OZ*) x=cz ;;
 				}
 				wp="<a href=\"http://www.opencaching.$x/viewcache.php?wp=$wp\">$wp</a>"
-				let numoc++
+				[[ -n $xid ]] && let numoc++
 				;;
 			(OX*)
 				wp="<a href=\"http://www.opencaching.com/#!geocache/$wp\">$wp</a>"
-				let numox++
+				[[ -n $xid ]] && let numox++
 				;;
 			(SH*)
 				wp="<a href=\"http://shutterspot.gpsgames.org/cgi-bin/sh.pl?wp=$wp\">$wp</a>"
-				let numsh++
+				[[ -n $xid ]] && let numsh++
 				;;
 			(TC*|LC*)
 				wp="<a href=\"http://www.terracaching.com/viewcache.cgi?ID=$wp\">$wp</a>"
-				let numtc++
+				[[ -n $xid ]] && let numtc++
 				;;
 			(WM*)
 				wp="<a href=\"http://www.waymarking.com/waymarks/$wp\">$wp</a>"
 				;;
 			(m/*/+([0-9]))
 				wp="<a href=\"http://www.munzee.com/$wp/\">Munzee:${wp#m/}</a>"
-				let num_m++
+				[[ -n $xid ]] && let num_m++
 				;;
 			(http*://*)
-				case $wp {
+				[[ -n $xid ]] && case $wp {
 				(*://labs.geocaching.com/*)
 					let numgc++ ;;
 				}
