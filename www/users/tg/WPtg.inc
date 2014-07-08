@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.51 2014/07/05 20:11:35 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.53 2014/07/06 19:15:36 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5591,12 +5591,24 @@ Waypoint: LC7TG
 Title: Truly Well-Rounded Cacher LC - Level II
 Tag: MC3 LC_Puzzle
 ----
-ID: p977
+ID: 977
 Date: 06.07.2014
-Waypoint: OXZRN5R
+Waypoint: GE02FF OC10FD8 OXZRN5R
 Title: Kapelle zu den „Sieben Schmerzen Mariens“
 nTF: 0
 Tag: D15 T15 Virtual
+----
+ID: 978
+Date: 08.07.2014
+Waypoint: GC2AC80
+Title: Streetart: Steckdosen
+Tag: D2 T15 Micro Tradi
+----
+ID: 979
+Date: 08.07.2014
+Waypoint: TCGQ9
+Title: Wald ohne Hüter (Moving TerraCache)
+Tag: TC_Other Regular
 ----
 ID: p978
 Waypoint: LC7QL
@@ -5604,11 +5616,6 @@ Title: Truly Well-Rounded Cacher Level III Award
 Tag: MC5 LC_Puzzle
 
 pending N02F74, OXZRN5R publish
-----
-ID: p979
-Waypoint: TCGQ9
-Title: Wald ohne Hüter (Moving TerraCache)
-Tag: TC_Other Regular
 ----
 ID: p20140712
 Date: 12.07.2014
