@@ -1,9 +1,9 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/deb/arngc/arngc,v 1.5 2013/10/24 09:32:36 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/arngc/arngc,v 1.7 2014/07/04 22:02:05 tg Exp $
 #-
 # Copyright © 2011, 2013, 2014
 #	Thorsten Glaser <tg@mirbsd.org>
-# Copyright © 2012
+# Copyright © 2012, 2014
 #	Thorsten Glaser <t.glaser@tarent.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -47,13 +47,16 @@ case $1 {
 	exit 0
 	;;
 (stop)
-	print -nu2 killing all rngd processes...
-	if ! pkill rngd; then
-		print -u2 none found
-		exit 1
-	fi
-	print -u2 done
-	exit 0
+	rv=0
+	for p in arngc-slrd rngd; do
+		print -nu2 killing all $p processes...
+		if ! pkill $p; then
+			print -u2 none found
+			rv=1
+		fi
+		print -u2 done
+	done
+	exit $rv
 	;;
 (start)
 	;;
@@ -124,6 +127,10 @@ function doscript {
 		cat >"$T/control" <<-EOF
 			client = yes
 			connect = $server
+			socket = r:SO_KEEPALIVE=1
+			socket = r:TCP_KEEPCNT=4
+			socket = r:TCP_KEEPIDLE=40
+			socket = r:TCP_KEEPINTVL=5
 		EOF
 		print -r '	"$prog" "$T/control"'
 	else

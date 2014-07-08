@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <unistd.h>
 
-static const char __rcsid[] = "$MirOS$";
+static const char __rcsid[] = "$MirOS: contrib/hosted/tg/deb/arngc/arngc-slrd.c,v 1.1 2013/10/24 09:32:36 tg Exp $";
 
 static const char errmsg[] = "arngc-slrd: I/O failed, first and only message\n";
 
@@ -13,7 +13,7 @@ main(void)
 	size_t sz;
 	unsigned int slp;
 	bool messaged = false;
-	uint8_t buf[32];
+	uint8_t buf[16];
 
  mainloop:
 	if (((sz = read(STDIN_FILENO, buf, sizeof(buf))) == (size_t)-1) ||
@@ -23,7 +23,8 @@ main(void)
 			messaged = sz == sizeof(errmsg) - 1;
 		}
 	}
-	slp = 240;
+	/* three keepalives, then our request 10s before the fourth one */
+	slp = 150;
 	while ((slp = sleep(slp)))
 		/* nothing */;
 	goto mainloop;
