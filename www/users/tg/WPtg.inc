@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.53 2014/07/06 19:15:36 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.54 2014/07/08 20:14:18 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -203,13 +203,13 @@ ID: 39
 Date: 14.04.2008
 Waypoint: TC9AV
 Title: Deutscher Terracachingpreis 2008
-Tag: TC_Virtual Micro
+Tag: Locationless Micro
 ----
 ID: 40
 Date: 14.04.2008
 Waypoint: LCHU
 Title: WCG (aka How to Fold a Protein)
-Tag: MC1 LC_Tools LC_Other
+Tag: MC1 Locationless Challenge
 ----
 ID: 41
 Date: 17.04.2008
@@ -288,7 +288,7 @@ Title: Bonner Stolpersteine
 ----
 ID: 55
 Date: 19.07.2008
-Waypoint: GC13MZN OC399D
+Waypoint: GC13MZN OC399D WM9EBD
 Title: Unter Dampf No. #4 - Drachenfelsbahn
 ----
 ID: 56
@@ -315,7 +315,7 @@ ID: 60
 Date: 10.08.2008
 Waypoint: LCHX
 Title: Google Up A Locationless!
-Tag: MC5 LC_Tools LC_Classic
+Tag: MC5 Locationless Challenge
 ----
 ID: 61
 Date: 10.08.2008
@@ -2036,20 +2036,20 @@ ID: 394
 Date: 22.06.2013
 Waypoint: LC7TB
 Title: Truly Well-Rounded Cacher LC - Level I
-Tag: MC3 LC_Puzzle
+Tag: MC3 Locationless Challenge
 ----
 ID: 395
 Date: 22.06.2013
 Waypoint: LCR2
 Title: WCG II - Keep it going
-Tag: MC0 LC_Tools LC_Other
+Tag: MC0 Locationless Challenge
 ----
 ID: 396
 Date: 23.06.2013
 Waypoint: LC7TL
 Title: Birthday Coordinates
 nTF: 3
-Tag: MC0 LC_Classic
+Tag: MC0 Locationless Challenge
 ----
 ID: 397
 Date: 24.06.2013
@@ -2187,7 +2187,7 @@ Date: 11.07.2013
 Waypoint: LC7TX
 Title: WCG III - Ruby's Reward
 nTF: 2
-Tag: MC0 LC_Other
+Tag: MC0 Locationless Challenge
 ----
 ID: 420
 Date: 11.07.2013
@@ -2225,7 +2225,7 @@ Date: 22.07.2013
 Waypoint: LC7QP
 Title: TerraCachin' Fashion
 nTF: 2
-Tag: MC0 LC_Clasic
+Tag: MC0 Locationless Challenge
 ----
 ID: 427
 Date: 27.07.2013
@@ -3138,7 +3138,7 @@ ID: 581
 Date: 15.11.2013
 Waypoint: GC3BAY0
 Title: CHALLENGE: SCHNAPSZAHLEN
-Tag: D5 T15 Micro Mystery
+Tag: D5 T15 Micro Mystery Challenge
 ----
 ID: 582
 Date: 15.11.2013
@@ -4286,7 +4286,7 @@ ID: 767
 Date: 12.03.2014
 Waypoint: LC7QX
 Title: ScottO's 30 day Challenge!
-Tag: MC0 LC_Other
+Tag: MC0 Locationless Challenge
 ----
 ID: 768
 Date: 14.03.2014
@@ -4328,7 +4328,7 @@ ID: 774
 Date: 22.03.2014
 Waypoint: GC4BWQT
 Title: Vorsicht bissiger Rentner
-Tag: D25 1T Small Tradi recommended exceptional
+Tag: D25 T1 Small Tradi recommended exceptional
 
 Aufwendig gemacht und verdammt schön ausgestaltet.
 Auf jeden Fall einen Besuch wert – und als Dreingabe
@@ -4961,7 +4961,7 @@ Date: 05.06.2014
 Waypoint: TCHDU
 Title: Cologne Cathedral
 nTF: 1
-Tag: TC_Virtual Large
+Tag: Virtual Large
 ----
 ID: 875
 Date: 05.06.2014
@@ -4973,7 +4973,7 @@ ID: 876
 Date: 05.06.2014
 Waypoint: LCVE
 Title: Traditional Terracache FTF Bonus Points LC
-Tag: MC2 LC_Classic
+Tag: MC2 Locationless Challenge
 ----
 ID: 877
 Date: 05.06.2014
@@ -5244,13 +5244,13 @@ ID: 921
 Date: 16.06.2014
 Waypoint: GC3BAXZ
 Title: CHALLENGE: XXXL (15 Dosen der Size LARGE)
-Tag: D5 T15 Micro Mystery
+Tag: D5 T15 Micro Mystery Challenge
 ----
 ID: 922
 Date: 16.06.2014
 Waypoint: GC3BAXW
 Title: CHALLENGE: DER GIERIGE (30 Caches am Tag)
-Tag: D5 T2 Micro Mystery
+Tag: D5 T2 Micro Mystery Challenge
 ----
 ID: 923
 Date: 18.06.2014
@@ -5274,7 +5274,7 @@ ID: 926
 Date: 19.06.2014
 Waypoint: TC9BA
 Title: Silvio 4x4 (Moving Terracache)
-Tag: TC_Classic Small Moving recommended
+Tag: Small Moving recommended
 ----
 ID: 927
 Date: 19.06.2014
@@ -5589,7 +5589,7 @@ ID: 976
 Date: 06.07.2014
 Waypoint: LC7TG
 Title: Truly Well-Rounded Cacher LC - Level II
-Tag: MC3 LC_Puzzle
+Tag: MC3 Locationless Challenge
 ----
 ID: 977
 Date: 06.07.2014
@@ -5608,20 +5608,34 @@ ID: 979
 Date: 08.07.2014
 Waypoint: TCGQ9
 Title: Wald ohne Hüter (Moving TerraCache)
-Tag: TC_Other Regular
+Tag: Regular Moving
 ----
-ID: p978
-Waypoint: LC7QL
-Title: Truly Well-Rounded Cacher Level III Award
-Tag: MC5 LC_Puzzle
-
-pending N02F74, OXZRN5R publish
+ID: 980
+Date: 10.07.2014
+Waypoint: GC21G32
+Title: St. Nikolaus contra Weihnachtsmann
+Tag: D25 T15 Small Tradi
+----
+ID: 981
+Date: 11.07.2014
+Waypoint: WMM2W4
+Title: Open Library in the parc: Bookcrossing Zone Frongasse (Bücherschrank)
+nTF: 0
+Tag: Virtual
 ----
 ID: p20140712
 Date: 12.07.2014
 Waypoint: GC547K9 TCEWN
 Title: Eis, Eis, Baby... ⅯⅯⅩⅣ
 Tag: D1 T1 Event
+----
+ID: p978
+Waypoint: LC7QL
+Title: Truly Well-Rounded Cacher Level III Award
+Tag: MC5 Locationless Challenge
+
+pending N02F74 publish, or Munzee deploy, or SH find or publish,
+or (unlikely) OX publish or (extremely unlikely) EC find or publish…
 ----
 ID: p20140717
 Date: 17.07.2014

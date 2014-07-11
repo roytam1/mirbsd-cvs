@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/wp.cgi,v 1.4 2013/10/20 19:09:21 tg Exp $';
+my $rcsid = '$MirOS: www/files/wp.cgi,v 1.5 2014/07/06 17:08:41 tg Exp $';
 #-
 # Copyright © 2013, 2014
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -58,8 +58,9 @@ $query = "" unless $query =~ /^[0-9A-Za-z-]*$/;
 $query =~ y/a-z/A-Z/;
 
 if ($query ne "") {
-	$query =~		s`\b(N[0-9][0-9A-F]{4}|(G[ACE]|O[BCKPSUXZ]|SH|[TL]C|WM)[0-9A-Z]{1,5}|GD[A-Z]{2}-[A-Z]{4})\b`
+	$query =~		s`\b(N[0-9][0-9A-F]{4}|(EC|G[ACE]|O[BCKPSUXZ]|SH|[TL]C|WM)[0-9A-Z]{1,5}|GD[A-Z]{2}-[A-Z]{4})\b`
 					($query = $1) =~ /^GC/ ? "http://www.geocaching.com/seek/cache_details.aspx?wp=$query" :
+					$query =~ /^EC/ ? sprintf("http://extremcaching.com/index.php/output-2/%s", substr($query, 2)) :
 					$query =~ /^GA/ ? "http://geocaching.com.au/cache/$query" :
 					$query =~ /^GD/ ? "http://geodashing.gpsgames.org/cgi-bin/dp.pl?dp=$query" :
 					$query =~ /^GE/ ? "http://geocaching.gpsgames.org/cgi-bin/ge.pl?wp=$query" :
