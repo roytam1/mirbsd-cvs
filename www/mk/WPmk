@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.23 2014/07/06 19:15:36 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.24 2014/07/11 18:41:09 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -187,7 +187,6 @@ mws_setname "gc/$committer" "$committer’s found Waypoints"
 mws_setheadline "Geocaches found by $gclogin"
 mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 {
-	didprosp=0
 	print '<p><a href="#wpts" style="border:0;"><img style="border:0;"'
 	print " alt=\"$statname WP=$fwpkl on $datadate\""
 	print " src=\"@@RELPATH@@WP$committer.png\" /></a></p>"
@@ -200,8 +199,10 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 		done
 	fi
 	print "<h2 id=\"wpts\">Waypoints: $fwpkl</h2>"
-	print '<ul style="position:relative; left:-20px;">'
-	entryp=0
+	ent=${ei_indir[entries - 1]}
+	[[ ${e_id[ent]} != p+([0-9]) ]]; didprosp=$?; didul=0
+	(( didprosp )) && print '<ul' \
+	    'style="position:relative; left:-20px; margin-bottom:1em; list-style:circle;">'
 	numec=0
 	numga=0
 	numgc=0
@@ -213,8 +214,9 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 	numsh=0
 	numtc=0
 	num_m=0
-	while (( entryp < entries )); do
-		ent=${ei_indir[entryp++]}
+	(( entryp = entries ))
+	while (( entryp )); do
+		ent=${ei_indir[--entryp]}
 		case ${e_ntf[ent]} {
 		(0)
 			class=gc_ztf
@@ -258,12 +260,14 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 			;;
 		}
 		if [[ ${e_id[ent]} = p+([0-9]) ]]; then
-			(( didprosp++ )) || print '</ul><ul' \
-			    'style="position:relative; left:-20px; top:1em; list-style:circle;">'
 			class="${class:+$class }gc_prospective"
 			xid=
 			xtx='(prosp.)'
 		else
+			if (( !didul++ )); then
+				(( didprosp )) && print '</ul>'
+				print '<ul style="position:relative; left:-20px;">'
+			fi
 			xid=${e_id[ent]}
 			xtx="#$xid"
 		fi

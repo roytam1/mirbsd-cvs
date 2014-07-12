@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.54 2014/07/08 20:14:18 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.55 2014/07/11 18:41:09 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5623,7 +5623,13 @@ Title: Open Library in the parc: Bookcrossing Zone Frongasse (Bücherschrank)
 nTF: 0
 Tag: Virtual
 ----
-ID: p20140712
+ID: 982
+Date: 12.07.2014
+Waypoint: GC575R4
+Title: B-Day Meet&amp;Greet
+Tag: D1 T1 Event
+----
+ID: 983
 Date: 12.07.2014
 Waypoint: GC547K9 TCEWN
 Title: Eis, Eis, Baby... ⅯⅯⅩⅣ
