@@ -1,4 +1,4 @@
-┋ $MirOS: contrib/samples/utf-8,v 1.7 2013/11/30 23:20:25 tg Exp $
+┋ $MirOS: contrib/samples/utf-8,v 1.8 2014/06/24 19:53:47 tg Exp $
 
 The Unicode 7.0.0 Basic Multilingual Plane
 ┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄┄
@@ -26,7 +26,7 @@ fixed by two spaces in the table below. Places where
 a C0 and C1 control character would appear show FFFD
 as the replacement character instead, again indented
 by two spaces instead of one (to mark this).
-____________________________________________________
+▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁▁
 
 ╭───────┰────┬────┬────┬────┬────┬────┬────┬────┰───────╮
 ╽ #0000 ┃  � │  � │  � │  � │  � │  � │  � │  � ┃ #0007 ╽
