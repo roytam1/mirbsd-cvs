@@ -1628,7 +1628,7 @@ x_zots(char *str)
 	int adj = x_adj_done;
 
 	x_lastcp();
-	while (*str && str < xlp && adj == x_adj_done)
+	while (*str && str < xlp && x_col < xx_cols && adj == x_adj_done)
 		x_zotc3(&str);
 }
 
