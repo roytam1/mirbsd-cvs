@@ -59,6 +59,8 @@
 #define	MAP_HASSEMAPHORE 0x0200	/* region may contain semaphores */
 #define	MAP_TRYFIXED	 0x0400 /* attempt hint address, even within heap */
 
+#define	__MAP_NOREPLACE	 0x0800	/* fail if address not available */
+
 /*
  * Error return from mmap()
  */
@@ -69,7 +71,9 @@
  */
 #define	MAP_FILE	0x0000	/* map from file (default) */
 #define	MAP_ANON	0x1000	/* allocated from memory, swap space */
-#define	MAP_FLAGMASK	0x17f7
+#define	MAP_ANONYMOUS	MAP_ANON	/* alternate POSIX spelling */
+
+#define	MAP_FLAGMASK	0x1ff7
 
 /*
  * Advice to madvise
@@ -88,8 +92,7 @@
 #define MAP_INHERIT_SHARE	0	/* share with child */
 #define MAP_INHERIT_COPY	1	/* copy into child */
 #define MAP_INHERIT_NONE	2	/* absent from child */
-#define MAP_INHERIT_DONATE_COPY	3	/* copy and delete -- not
-					   implemented in UVM */
+#define MAP_INHERIT_ZERO	3	/* zero in child */
 
 /*
  * Flags to msync
@@ -109,7 +112,6 @@
 #include <sys/cdefs.h>
 
 __BEGIN_DECLS
-/* Some of these int's should probably be size_t's */
 void *	mmap(void *, size_t, int, int, int, off_t);
 int	mprotect(void *, size_t, int);
 int	munmap(void *, size_t);
