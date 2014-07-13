@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/mman.h,v 1.2 2005/03/06 21:28:34 tg Exp $	*/
+/**	$MirOS: src/sys/sys/mman.h,v 1.3 2014/07/13 12:35:44 tg Exp $	*/
 /*	$OpenBSD: mman.h,v 1.18 2003/07/21 22:52:19 tedu Exp $	*/
 /*	$NetBSD: mman.h,v 1.11 1995/03/26 20:24:23 jtc Exp $	*/
 
@@ -35,6 +35,17 @@
 
 #ifndef	_SYS_MMAN_H
 #define	_SYS_MMAN_H
+
+/*
+ * I believe this is fundamentally wrong, but OpenBSD has relaxed
+ * the requirement to include <sys/types.h> before <sys/mman.h> so
+ * everyone else is going to follow. --mirabilos
+ *
+ * We can do nicer than this in MirMinze, but this suffices for now:
+ */
+#ifndef _SYS_TYPES_H_
+#include <sys/types.h>
+#endif
 
 /*
  * Protections are chosen from these bits, or-ed together
