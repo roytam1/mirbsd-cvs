@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/uvm/uvm_map.c,v 1.2 2005/03/06 21:28:40 tg Exp $ */
+/**	$MirOS: src/sys/uvm/uvm_map.c,v 1.3 2008/08/03 00:21:27 tg Exp $ */
 /*	$OpenBSD: uvm_map.c,v 1.68 2004/07/21 01:02:09 art Exp $	*/
 /*	$NetBSD: uvm_map.c,v 1.86 2000/11/27 08:40:03 chs Exp $	*/
 
@@ -2303,6 +2303,7 @@ uvm_map_inherit(map, start, end, new_inheritance)
 	case MAP_INHERIT_NONE:
 	case MAP_INHERIT_COPY:
 	case MAP_INHERIT_SHARE:
+	case MAP_INHERIT_ZERO:
 		break;
 	default:
 		UVMHIST_LOG(maphist,"<- done (INVALID ARG)",0,0,0,0);
@@ -3618,6 +3619,40 @@ uvmspace_fork(vm1)
 					          ~VM_PROT_WRITE);
 			  }
 
+			}
+			break;
+
+		case MAP_INHERIT_ZERO:
+			new_entry = uvm_mapent_alloc(new_map);
+			uvm_mapent_copy(old_entry, new_entry);
+
+			if (new_entry->aref.ar_amap)
+				uvm_map_reference_amap(new_entry, 0);
+
+			if (new_entry->object.uvm_obj &&
+			    new_entry->object.uvm_obj->pgops->pgo_reference)
+				new_entry->object.uvm_obj->pgops->pgo_reference
+				    (new_entry->object.uvm_obj);
+
+			new_entry->wired_count = 0;
+
+			new_entry->etype |=
+			    (UVM_ET_COPYONWRITE|UVM_ET_NEEDSCOPY);
+			uvm_map_entry_link(new_map, new_map->header.prev,
+			    new_entry);
+
+			if (new_entry->aref.ar_amap) {
+				uvm_map_unreference_amap(new_entry, 0);
+				new_entry->aref.ar_amap = NULL;
+				new_entry->aref.ar_pageoff = 0;
+			}
+
+			if (UVM_ET_ISOBJ(new_entry)) {
+				if (new_entry->object.uvm_obj->pgops->pgo_detach)
+					new_entry->object.uvm_obj->pgops->pgo_detach(
+					    new_entry->object.uvm_obj);
+				new_entry->object.uvm_obj = NULL;
+				new_entry->etype &= ~UVM_ET_OBJ;
 			}
 			break;
 		}  /* end of switch statement */

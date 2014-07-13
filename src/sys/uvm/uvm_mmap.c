@@ -1,5 +1,6 @@
-/**	$MirOS: src/sys/uvm/uvm_mmap.c,v 1.3 2005/05/14 15:59:44 tg Exp $ */
+/**	$MirOS: src/sys/uvm/uvm_mmap.c,v 1.4 2005/11/21 19:55:54 tg Exp $ */
 /*	$OpenBSD: uvm_mmap.c,v 1.55 2005/01/15 06:54:51 otto Exp $	*/
+/*	+OpenBSD: uvm_mmap.c,v 1.91 2012/07/21 06:46:58 matthew Exp $	*/
 /*	$NetBSD: uvm_mmap.c,v 1.49 2001/02/18 21:19:08 chs Exp $	*/
 
 /*
@@ -373,6 +374,8 @@ sys_mmap(p, v, retval)
 	if (flags & MAP_COPY)
 		flags = (flags & ~MAP_COPY) | MAP_PRIVATE;
 	if ((flags & (MAP_SHARED|MAP_PRIVATE)) == (MAP_SHARED|MAP_PRIVATE))
+		return (EINVAL);
+	if ((flags & (MAP_FIXED|__MAP_NOREPLACE)) == __MAP_NOREPLACE)
 		return (EINVAL);
 
 	/*
@@ -1163,8 +1166,10 @@ uvm_mmap(map, addr, size, prot, maxprot, flags, handle, foff, locklimit)
 	} else {
 		if (*addr & PAGE_MASK)
 			return(EINVAL);
+
 		uvmflag |= UVM_FLAG_FIXED;
-		uvm_unmap(map, *addr, *addr + size);	/* zap! */
+		if ((flags & __MAP_NOREPLACE) == 0)
+			uvm_unmap(map, *addr, *addr + size);	/* zap! */
 	}
 
 	/*
