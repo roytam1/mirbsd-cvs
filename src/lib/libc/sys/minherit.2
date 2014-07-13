@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: minherit.2,v 1.15 2014/07/02 22:22:35 matthew Exp $
 .\"
 .\" Copyright (c) 1991, 1993
@@ -29,7 +30,7 @@
 .\"
 .\"	@(#)minherit.2	8.1 (Berkeley) 6/9/93
 .\"
-.Dd $Mdocdate: July 2 2014 $
+.Dd $Mdocdate: July 13 2014 $
 .Dt MINHERIT 2
 .Os
 .Sh NAME
@@ -67,7 +68,7 @@ Not all implementations will guarantee that the inheritance characteristic
 can be set on a page basis;
 the granularity of changes may be as large as an entire region.
 .Sh RETURN VALUES
-.Rv -std
+.Rv -std minherit
 .Sh ERRORS
 The
 .Fn minherit
@@ -95,3 +96,7 @@ The
 .Fn minherit
 function first appeared in
 .Ox 2.0 .
+The
+.Dv MAP_INHERIT_ZERO
+flag first appeared in
+.Ox 5.6 .
