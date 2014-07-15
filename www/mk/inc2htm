@@ -1,4 +1,4 @@
-rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.31 2013/06/08 00:58:02 tg Exp $'
+rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.32 2013/08/01 09:39:50 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -203,7 +203,7 @@ while (( entryp >= 0 )); do
 	output permalinks/ | mws_content >>${name}_all.htm~
 	let entryp--
 	let entryc++
-	if (( ((entryc - cutoff) % perpage) == 0 )); then
+	if (( (((entryc - cutoff) % perpage) == 0) && (entryp >= 0) )); then
 		print -r -- "<p class=\"linkbot\">$plinks" >>$fn~
 		mclose $fn
 		mopen $(((entryc - cutoff) / perpage + 1))
