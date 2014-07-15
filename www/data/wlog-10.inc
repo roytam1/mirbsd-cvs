@@ -10746,6 +10746,5 @@ Tag: jupp mksh news pcli
  doing so after hacking them…</p>
 <p><strong>Update 03.07.2014</strong>: New release for MirCPIO, that
  is, cpio(1) and pax(1) and tar(1) in a somewhat portable package.</p>
-<p><tt>-r--r--r--  4 tg  miros-cvssrc  141973 Jul  3 19:56 \</tt><br />
- <tt> /MirOS/dist/mir/cpio/paxmirabilis-20140703.cpio.gz</tt></p>
+<tt class="dowrap">-r--r--r--  4 tg  miros-cvssrc  141973 Jul  3 19:56 /MirOS/dist/mir/cpio/paxmirabilis-20140703.cpio.gz</tt>
 ----

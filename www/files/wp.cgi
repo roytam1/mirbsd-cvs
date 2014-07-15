@@ -62,12 +62,13 @@ $query = "" unless $query =~ /^[0-9A-Za-z-]*$/;
 $query =~ y/a-z/A-Z/;
 
 if ($query ne "") {
-	$query =~		s`\b(N[0-9][0-9A-F]{4}|(EC|G[ACE]|O[BCKPSUXZ]|SH|[TL]C|WM)[0-9A-Z]{1,5}|GD[A-Z]{2}-[A-Z]{4})\b`
+	$query =~		s`\b(N[0-9][0-9A-F]{4}|(EC|G[ACEG]|O[BCKPSUXZ]|SH|[TL]C|WM)[0-9A-Z]{1,5}|(GD|VX)[A-Z]{2}-[A-Z]{4})\b`
 					($query = $1) =~ /^GC/ ? "http://www.geocaching.com/seek/cache_details.aspx?wp=$query" :
 					$query =~ /^EC/ ? sprintf("http://extremcaching.com/index.php/output-2/%s", substr($query, 2)) :
 					$query =~ /^GA/ ? "http://geocaching.com.au/cache/$query" :
 					$query =~ /^GD/ ? "http://geodashing.gpsgames.org/cgi-bin/dp.pl?dp=$query" :
 					$query =~ /^GE/ ? "http://geocaching.gpsgames.org/cgi-bin/ge.pl?wp=$query" :
+					$query =~ /^GG/ ? "http://golf.gpsgames.org/cgi-bin/golf.pl?course=$query&coursedetails=Go" :
 					$query =~ /^N[0-9]/ ? sprintf("http://www.navicache.com/cgi-bin/db/displaycache2.pl?CacheID=%d", hex(substr($query, 1))) :
 					$query =~ /^OB/ ? "http://www.opencaching.nl/viewcache.php?wp=$query" :
 					$query =~ /^OC/ ? "http://www.opencaching.de/viewcache.php?wp=$query" :
@@ -79,6 +80,7 @@ if ($query ne "") {
 					$query =~ /^OX/ ? "http://www.opencaching.com/#!geocache/$query" :
 					$query =~ /^SH/ ? "http://shutterspot.gpsgames.org/cgi-bin/sh.pl?wp=$query" :
 					$query =~ /^[TL]C/ ? "http://www.terracaching.com/viewcache.cgi?ID=$query" :
+					$query =~ /^VX/ ? "http://geovexilla.gpsgames.org/cgi-bin/vx.pl?listwaypointlogs=yes&wp=$query" :
 					$query =~ /^WM/ ? "http://www.waymarking.com/waymarks/$query" :
 					"";
 				`eg;
