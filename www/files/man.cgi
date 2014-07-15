@@ -69,14 +69,12 @@ if (defined($ENV{QUERY_STRING})) {
 		$queryorig = $p unless $p =~ /^(.*[;&])?q=([;&].*)?$/;
 	}
 
+	# ltrim and rtrim
+	$queryorig =~ s/^\s+//;
+	$queryorig =~ s/\s+$//;
+
 	$query = $queryorig unless $queryorig =~ /[^0-9A-Za-z+.:_-]/;
 }
-
-# ltrim and rtrim
-$query =~ s/^\s+//;
-$query =~ s/\s+$//;
-$queryorig =~ s/^\s+//;
-$queryorig =~ s/\s+$//;
 
 sub tohtml {
 	local ($_) = @_;
