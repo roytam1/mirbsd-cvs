@@ -3334,7 +3334,8 @@ Waypoint: GC274QT
 Title: Auf den Spuren der Wissenschaft: F. A. Kekulé
 Tag: D35 T2 Micro Mystery
 
-<pre>00:42⎜«Natureshadow» &#34;Success! Whoohoo! Yippee! uh-huh, uh-huh! w00t! Yeah, baby!&#34;
+<pre>00:42⎜«Natureshadow» &#34;Success! Whoohoo! Yippee!
+     ⎜    uh-huh, uh-huh! w00t! Yeah, baby!&#34;
 00:42⎜«Natureshadow» Super gemacht, Vutral ;)!</pre>
 ----
 ID: 614
