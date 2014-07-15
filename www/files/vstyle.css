@@ -236,6 +236,7 @@ a.manlink:hover {
 .trailing {
 	position:absolute;
 		top:130px;
+		left:0px; right:0px;
 }
 
 .lynxonly {
