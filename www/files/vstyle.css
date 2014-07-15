@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.42 2013/09/29 20:18:29 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.43 2014/07/06 19:15:35 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -402,8 +402,9 @@ pre {
 
 .gc_body {
 	border:2px solid green;
-	margin:0px 48px 0px 24px;
 	padding:2px 12px 2px 3px;
+	margin-left:5%;
+	width:85%;
 }
 
 .gc_prospective {
