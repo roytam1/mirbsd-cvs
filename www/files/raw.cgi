@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-# $MirOS: www/files/raw.cgi,v 1.1 2014/06/29 13:56:28 tg Exp $
+# $MirOS: www/files/raw.cgi,v 1.5 2014/07/01 21:34:16 tg Exp $
 #-
 # Copyright © 2012, 2014
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -69,6 +69,12 @@ if (defined($ENV{QUERY_STRING})) {
 
 	$query = $queryorig unless $queryorig =~ /[^0-9A-Za-z+.:_-]/;
 }
+
+# ltrim and rtrim
+$query =~ s/^\s+//;
+$query =~ s/\s+$//;
+$queryorig =~ s/^\s+//;
+$queryorig =~ s/\s+$//;
 
 if ($queryorig ne "") {
 	$queryorig =~ y/a-z/A-Z/;

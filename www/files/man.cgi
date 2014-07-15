@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/man.cgi,v 1.6 2013/10/17 23:28:57 tg Exp $';
+my $rcsid = '$MirOS: www/files/man.cgi,v 1.7 2014/05/31 18:48:31 tg Exp $';
 #-
 # Copyright © 2012, 2014
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -71,6 +71,12 @@ if (defined($ENV{QUERY_STRING})) {
 
 	$query = $queryorig unless $queryorig =~ /[^0-9A-Za-z+.:_-]/;
 }
+
+# ltrim and rtrim
+$query =~ s/^\s+//;
+$query =~ s/\s+$//;
+$queryorig =~ s/^\s+//;
+$queryorig =~ s/\s+$//;
 
 sub tohtml {
 	local ($_) = @_;

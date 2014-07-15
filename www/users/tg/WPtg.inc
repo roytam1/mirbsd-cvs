@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.55 2014/07/11 18:41:09 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.56 2014/07/12 19:05:33 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5635,13 +5635,32 @@ Waypoint: GC547K9 TCEWN
 Title: Eis, Eis, Baby... ⅯⅯⅩⅣ
 Tag: D1 T1 Event
 ----
+ID: 984
+Date: 15.07.2014
+Waypoint: GC38YRZ
+Title: Wasndasn #04
+Tag: D3 T1 Micro Mystery
+----
+ID: 985
+Date: 15.07.2014
+Waypoint: GC4YPQZ
+Title: Streetart Beethoven
+Tag: D2 T15 Micro Multi
+----
+ID: 986
+Date: 15.07.2014
+Waypoint: SH02BF
+Title: Bergblick
+nTF: 0
+----
 ID: p978
+Date: 15.07.2014
 Waypoint: LC7QL
 Title: Truly Well-Rounded Cacher Level III Award
 Tag: MC5 Locationless Challenge
 
-pending N02F74 publish, or Munzee deploy, or SH find or publish,
-or (unlikely) OX publish or (extremely unlikely) EC find or publish…
+SH02BF published but TC is currently migrating from TC1 to TC3
+so I cannot log it online even though I now have the qualification.
 ----
 ID: p20140717
 Date: 17.07.2014

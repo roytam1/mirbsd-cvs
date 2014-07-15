@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/wp.cgi,v 1.5 2014/07/06 17:08:41 tg Exp $';
+my $rcsid = '$MirOS: www/files/wp.cgi,v 1.6 2014/07/11 18:41:09 tg Exp $';
 #-
 # Copyright © 2013, 2014
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -48,7 +48,11 @@ if (defined($ENV{QUERY_STRING})) {
 	}
 }
 
-if ($query =~ m!\b(m/[0-9A-Za-z_-]*/[0-9]+)/?\b!) {
+# ltrim and rtrim
+$query =~ s/^\s+//;
+$query =~ s/\s+$//;
+
+if ($query =~ m!^(m/[0-9A-Za-z_-]*/[0-9]+)/?$!) {
 	$query = "http://www.munzee.com/$1/";
 	print("Status: 301\r\nLocation: $query\r\n\r\nRedirect: $query\r\n");
 	exit(0);
