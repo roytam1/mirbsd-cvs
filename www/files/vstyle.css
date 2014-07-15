@@ -177,6 +177,11 @@ tt {
 	white-space:nowrap;
 }
 
+/* for pre, tt */
+.dowrap {
+	white-space:normal;
+}
+
 /* bolding: set Gentium Basic Bold except for pre/tt (hack) */
 
 b,strong {

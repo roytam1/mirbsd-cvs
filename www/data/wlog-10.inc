@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.455 2014/07/04 19:15:45 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.456 2014/07/15 21:10:45 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -617,13 +617,13 @@ Title: more creative uses for ttftot42
 <p class="boxhead">On an unrelated note:</p>
 <div class="boxtext">
  <pre>
-	Apr 21 20:09:06 herc ppp[28555]: tun0: LCP: deflink: RecvTerminateReq(206) state = Opened
-	Apr 21 20:09:06 herc ppp[28555]: tun0: LCP: deflink: LayerDown
-	Apr 21 20:09:06 herc ppp[28555]: tun0: LCP: deflink: SendTerminateAck(206) state = Opened
-	Apr 21 20:09:06 herc ppp[28555]: tun0: LCP: deflink: State change Opened --> Stopping
-	Apr 21 20:09:06 herc ppp[28555]: tun0: CCP: deflink: State change Stopped --> Closed
-	Apr 21 20:09:06 herc ppp[28555]: tun0: CCP: deflink: State change Closed --> Initial
-	Apr 21 20:09:06 herc ppp[28555]: tun0: Phase: deflink: open -> lcp
+	ppp[28555]: tun0: LCP: deflink: RecvTerminateReq(206) state = Opened
+	ppp[28555]: tun0: LCP: deflink: LayerDown
+	ppp[28555]: tun0: LCP: deflink: SendTerminateAck(206) state = Opened
+	ppp[28555]: tun0: LCP: deflink: State change Opened --> Stopping
+	ppp[28555]: tun0: CCP: deflink: State change Stopped --> Closed
+	ppp[28555]: tun0: CCP: deflink: State change Closed --> Initial
+	ppp[28555]: tun0: Phase: deflink: open -> lcp
  </pre>
 </div><p class="boxfoot">(not using pppoe(4), to enable debugging)</p>
 <p>For me, this very much looks like my ISP doesn’t like my nose or something
@@ -806,7 +806,8 @@ Title: Improving the world, yet again
  firesomething-2.0.0.13-0, and I bumped the dash ver and made it work as
  well on MidnightBSD. Sample build:</p>
 <pre> $ cd /usr/mirports/www/firesomething
- $ mmake install clean PKG_CONFIG_PATH=$(mmake show=PKG_CONFIG_PATH):/usr/local/libdata/pkgconfig</pre>
+ $ mmake install clean PKG_CONFIG_PATH=$(mmake \
+    show=PKG_CONFIG_PATH):/usr/local/libdata/pkgconfig</pre>
 <p>You must have installed fontconfig from mports (and, of course, perl,
  for MirPorts to work at all.</p>
 <p>This beast now works on MirBSD/i386 and MidnightBSD/i386, should work
@@ -2129,7 +2130,7 @@ Tag: pcc unicode bug
  not worse. I’d rather shoot myself than publish such filth, if, like
  Benny says, the code had indeed been rewritten. Well, at least it is
  aware how insecure it is and kills itself:</p>
-<pre>14:46⎜«benz» Nov 23 16:40:29 mirbulk firesomething-bin: stack overflow in function virtual nsresult nsCryptoHash::Finish(PRBool, nsACString_internal&amp;)</pre>
+<pre class="dowrap">14:46⎜«benz» Nov 23 16:40:29 mirbulk firesomething-bin: stack overflow in function virtual nsresult nsCryptoHash::Finish(PRBool, nsACString_internal&amp;)</pre>
 <p>And if he wouldn’t document this in a wlog entry, I do ☻☺</p>
 <p>But then, I don’t believe him totally unaware:</p>
 <pre>14:09⎜«benz» The name "Minefield" is strangely appropriate</pre>
@@ -2458,9 +2459,11 @@ Tag: event
  couldn’t get to the BSD@Wien pre-christmas party either…)</p>
 <p class="boxhead">cnuke@ pointed me to a nice IRC quote:</p>
 <div class="boxtext"><pre>
-17:57 &lt; jtsn&gt; Der 25C3 ist lustig. Deutsche Vortragende brechen sich vor deutschen Zuhörern auf Englisch einen ab. ;-)
+17:57 &lt; jtsn&gt; Der 25C3 ist lustig. Deutsche Vortragende brechen
+        sich vor deutschen Zuhörern auf Englisch einen ab. ;-)
 18:01 &lt; jtsn&gt; Adolfs Werk war sehr nachhaltig. ;-)
-18:01 &lt; jtsn&gt; Das gab's nichtmal in der DDR, das<i>[sic!]</i> Deutsche mit Deutschen auf Russisch reden. ;-)
+18:01 &lt; jtsn&gt; Das gab's nichtmal in der DDR, das<i>[sic!]</i> Deutsche
+        mit Deutschen auf Russisch reden. ;-)
 </pre></div><p class="boxfoot">This’ll be my <tt>~/.etc/sig</tt> for
  a while… it does hold some truth. *looks at this wlog*</p>
 <p>Benny is still alive, yet a little offline, hacking on perl stuff for
@@ -5856,7 +5859,7 @@ Tag: debian
 <p>Annoyances: a-g d-u could ask me things at the start before working for
  some four+ hours instead of in the middle, and the same questions several
  times (PAM restart). The sid kernel doesn’t boot today but did yesterday,
- the lenny kernel produces this:<br /><tt>Starting the hotplug events
+ the lenny kernel produces this:<br /><tt class="dowrap">Starting the hotplug events
  dispatcher: udevdudevd[320]: udev: missing sysfs features; please update
  the kernel or disable the kernel's CONFIG_SYSFS_DEPRECATED option; udev
  may fail to work correctly</tt><br />(I hate udev.) And, worst of all,
