@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.56 2014/07/12 19:05:33 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.58 2014/07/15 21:19:48 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5653,6 +5653,12 @@ Date: 15.07.2014
 Waypoint: SH02BF
 Title: Bergblick
 nTF: 0
+----
+ID: 987
+Date: 16.07.2014
+Waypoint: GC2Y22K
+Title: Quo vadis?
+Tag: D25 T25 Nano Mystery
 ----
 ID: p978
 Date: 15.07.2014
