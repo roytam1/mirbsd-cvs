@@ -21,7 +21,7 @@
 #include <stdlib.h>
 #include <openssl/rand.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/crypto/rand/mbsdrand.c,v 1.1 2014/03/13 03:55:10 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/crypto/rand/mbsdrand.c,v 1.4 2014/03/13 05:48:22 tg Exp $");
 
 const char RAND_version[] = "MirBSD";
 
@@ -51,6 +51,7 @@ RAND_SSLeay(void)
 int
 RAND_poll(void)
 {
+	(void)arc4random();
 	return (1);
 }
 
