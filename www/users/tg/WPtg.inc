@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.58 2014/07/15 21:19:48 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.59 2014/07/16 19:40:53 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2754,7 +2754,7 @@ Tag: D2 T15 Small Tradi
 ----
 ID: 518
 Date: 22.09.2013
-Waypoint: GC3429W
+Waypoint: GC3429W OCD380
 Title: Wachtberger Kreuze # 14
 Tag: D1 T2 Micro Tradi
 ----
@@ -3483,7 +3483,7 @@ Tag: D1 T1 Micro Tradi
 ----
 ID: 637
 Date: 12.12.2013
-Waypoint: GCMG88
+Waypoint: GCMG88 OXMG88
 Title: Lame Micro - A38 Fuchsaue Süd
 Tag: D15 T2 Small Tradi
 ----
@@ -3810,7 +3810,7 @@ Tag: D15 T25 Small Tradi
 ----
 ID: 690
 Date: 11.01.2014
-Waypoint: GC1TYG5
+Waypoint: GC1TYG5 OX1TYG5
 Title: Der Balzar von Flammersfeld
 Tag: D1 T1 Nano Tradi
 ----
@@ -4615,7 +4615,7 @@ Tag: Wherigo_Cartridge
 ----
 ID: 819
 Date: 16.04.2014
-Waypoint: GC324G5
+Waypoint: GC324G5 OCCF29
 Title: Das &#34;Polengrab&#34; - reloaded
 Tag: D15 T15 Small Tradi
 ----
@@ -5660,20 +5660,56 @@ Waypoint: GC2Y22K
 Title: Quo vadis?
 Tag: D25 T25 Nano Mystery
 ----
+ID: 988
+Date: 17.07.2014
+Waypoint: GC7F6F OC01D8 N009F5
+Title: Cologne Clone?
+Tag: D1 T1 Virtual
+----
+ID: 989
+Date: 17.07.2014
+Waypoint: GC582N7
+Title: CAT - Eiszeit 5
+Tag: D15 T15 Event
+----
+ID: 990
+Date: 17.07.2014
+Waypoint: GC3797R
+Title: Römerhof
+Tag: D25 T1 Micro Tradi
+----
+ID: 991
+Date: 17.07.2014
+Waypoint: GC36QX6
+Title: Hl. Drei Könige
+Tag: D2 T2 Micro Tradi
+----
+ID: 992
+Date: 17.07.2014
+Waypoint: GC4EZKV
+Title: Hartplatzhelden
+Tag: D15 T15 Small Tradi
+----
+ID: 993
+Date: 17.07.2014
+Waypoint: GC2QGGX
+Title: Rest in peace
+Tag: D15 T15 Small Tradi
+----
+ID: 994
+Date: 17.07.2014
+Waypoint: GC2QGJP
+Title: Giesdorfer Hof
+Tag: D15 T1 Small Tradi
+----
 ID: p978
 Date: 15.07.2014
 Waypoint: LC7QL
 Title: Truly Well-Rounded Cacher Level III Award
 Tag: MC5 Locationless Challenge
 
-SH02BF published but TC is currently migrating from TC1 to TC3
+SH02BF published but TC is currently migrating from TC﻿1 to TC﻿3
 so I cannot log it online even though I now have the qualification.
-----
-ID: p20140717
-Date: 17.07.2014
-Waypoint: GC582N7
-Title: CAT - Eiszeit 5
-Tag: D15 T15 Event
 ----
 ID: p20140720
 Date: 20.07.2014
