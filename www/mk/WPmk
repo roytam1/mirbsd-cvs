@@ -325,8 +325,8 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 				wp="<a href=\"http://shutterspot.gpsgames.org/cgi-bin/sh.pl?wp=$wp\">$wp</a>"
 				[[ -n $xid ]] && let numsh++
 				;;
-			(TC*|LC*)
-				wp="<a href=\"http://www.terracaching.com/viewcache.cgi?ID=$wp\">$wp</a>"
+			(TC*|LC*|CC*)
+				wp="<a href=\"http://www.terracaching.com/Cache/$wp\">$wp</a>"
 				[[ -n $xid ]] && let numtc++
 				;;
 			(VX*)

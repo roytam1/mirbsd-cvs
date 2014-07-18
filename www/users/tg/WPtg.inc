@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.59 2014/07/16 19:40:53 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.60 2014/07/17 21:51:19 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -207,7 +207,7 @@ Tag: Locationless Micro
 ----
 ID: 40
 Date: 14.04.2008
-Waypoint: LCHU
+Waypoint: CCHU
 Title: WCG (aka How to Fold a Protein)
 Tag: MC1 Locationless Challenge
 ----
@@ -313,7 +313,7 @@ Title: Gundeldinger Feld
 ----
 ID: 60
 Date: 10.08.2008
-Waypoint: LCHX
+Waypoint: CCHX
 Title: Google Up A Locationless!
 Tag: MC5 Locationless Challenge
 ----
@@ -2034,13 +2034,13 @@ other multi-stage caches.
 ----
 ID: 394
 Date: 22.06.2013
-Waypoint: LC7TB
+Waypoint: CC7TB
 Title: Truly Well-Rounded Cacher LC - Level I
 Tag: MC3 Locationless Challenge
 ----
 ID: 395
 Date: 22.06.2013
-Waypoint: LCR2
+Waypoint: CCR2
 Title: WCG II - Keep it going
 Tag: MC0 Locationless Challenge
 ----
@@ -2184,7 +2184,7 @@ Title: Neue Perspektiven
 ----
 ID: 419
 Date: 11.07.2013
-Waypoint: LC7TX
+Waypoint: CC7TX
 Title: WCG III - Ruby's Reward
 nTF: 2
 Tag: MC0 Locationless Challenge
@@ -4285,7 +4285,7 @@ Tag: D35 T35 Small Multi
 ----
 ID: 767
 Date: 12.03.2014
-Waypoint: LC7QX
+Waypoint: CC7QX
 Title: ScottO's 30 day Challenge!
 Tag: MC0 Locationless Challenge
 ----
@@ -5588,7 +5588,7 @@ Tag: D1 T15 Virtual
 ----
 ID: 976
 Date: 06.07.2014
-Waypoint: LC7TG
+Waypoint: CC7TG
 Title: Truly Well-Rounded Cacher LC - Level II
 Tag: MC3 Locationless Challenge
 ----
@@ -5702,14 +5702,17 @@ Waypoint: GC2QGJP
 Title: Giesdorfer Hof
 Tag: D15 T1 Small Tradi
 ----
-ID: p978
+ID: 995
+Date: 18.07.2014
+Waypoint: GC2WP0D
+Title: Wachtberger Kreuze 8
+Tag: D1 T1 Micro Tradi
+----
+ID: 996
 Date: 15.07.2014
-Waypoint: LC7QL
+Waypoint: CC7QL
 Title: Truly Well-Rounded Cacher Level III Award
 Tag: MC5 Locationless Challenge
-
-SH02BF published but TC is currently migrating from TC﻿1 to TC﻿3
-so I cannot log it online even though I now have the qualification.
 ----
 ID: p20140720
 Date: 20.07.2014
