@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.24 2014/07/11 18:41:09 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.26 2014/07/15 22:14:35 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -362,7 +362,7 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 			print '<div class="gc_body">'
 			#XXX some may be too lax or strict
 			print -r -- "${ei_body[ent]}" | perl -pe '
-				s`\b(N[0-9][0-9A-F]{4}|(EC|G[ACEG]|O[BCKPSUXZ]|SH|[TL]C|WM)[0-9A-Z]{1,5}|(GD|VX)[A-Z]{2}-[A-Z]{4})\b`
+				s`\b(N[0-9][0-9A-F]{4}|(EC|G[ACEG]|O[BCKPSUXZ]|SH|[TLC]C|WM)[0-9A-Z]{1,5}|(GD|VX)[A-Z]{2}-[A-Z]{4})\b`
 					($wp = $1) =~ /^GC/ ? "<a href=\"http://www.geocaching.com/seek/cache_details.aspx?wp=$wp\">$wp</a>" :
 					$wp =~ /^EC/ ? sprintf("<a href=\"http://extremcaching.com/index.php/output-2/%s\">%s</a>", substr($wp, 2), $wp) :
 					$wp =~ /^GA/ ? "<a href=\"http://geocaching.com.au/cache/$wp\">$wp</a>" :
@@ -379,7 +379,7 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 					$wp =~ /^OZ/ ? "<a href=\"http://www.opencaching.cz/viewcache.php?wp=$wp\">$wp</a>" :
 					$wp =~ /^OX/ ? "<a href=\"http://www.opencaching.com/#!geocache/$wp\">$wp</a>" :
 					$wp =~ /^SH/ ? "<a href=\"http://shutterspot.gpsgames.org/cgi-bin/sh.pl?wp=$wp\">$wp</a>" :
-					$wp =~ /^[TL]C/ ? "<a href=\"http://www.terracaching.com/viewcache.cgi?ID=$wp\">$wp</a>" :
+					$wp =~ /^[TLC]C/ ? "<a href=\"http://www.terracaching.com/Cache/$wp\">$wp</a>" :
 					$wp =~ /^VX/ ? "<a href=\"http://geovexilla.gpsgames.org/cgi-bin/vx.pl?listwaypointlogs=yes&amp;wp=$wp\">$wp</a>" :
 					$wp =~ /^WM/ ? "<a href=\"http://www.waymarking.com/waymarks/$wp\">$wp</a>" :
 					$wp;
@@ -403,7 +403,7 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 	(( numoc )) && print -n ", Opencaching <!-- network --> $numoc"
 	(( numox )) && print -n ", Garmin <!-- opencaching.com --> $numox"
 	(( numsh )) && print -n ", Shutterstock <!-- (gpsgames) --> $numsh"
-	(( numtc )) && print -n ", TerraCaching <!-- TC/LC --> $numtc"
+	(( numtc )) && print -n ", TerraCaching <!-- TC/LC/CC --> $numtc"
 	(( numvx )) && print -n ", GeoVexilla <!-- (gpsgames) --> $numvx"
 	print ".</p>"
 } | mws_content >>"WP$committer.htm~"

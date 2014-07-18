@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/wp.cgi,v 1.6 2014/07/11 18:41:09 tg Exp $';
+my $rcsid = '$MirOS: www/files/wp.cgi,v 1.8 2014/07/15 22:14:34 tg Exp $';
 #-
 # Copyright © 2013, 2014
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -62,7 +62,7 @@ $query = "" unless $query =~ /^[0-9A-Za-z-]*$/;
 $query =~ y/a-z/A-Z/;
 
 if ($query ne "") {
-	$query =~		s`\b(N[0-9][0-9A-F]{4}|(EC|G[ACEG]|O[BCKPSUXZ]|SH|[TL]C|WM)[0-9A-Z]{1,5}|(GD|VX)[A-Z]{2}-[A-Z]{4})\b`
+	$query =~		s`\b(N[0-9][0-9A-F]{4}|(EC|G[ACEG]|O[BCKPSUXZ]|SH|[TLC]C|WM)[0-9A-Z]{1,5}|(GD|VX)[A-Z]{2}-[A-Z]{4})\b`
 					($query = $1) =~ /^GC/ ? "http://www.geocaching.com/seek/cache_details.aspx?wp=$query" :
 					$query =~ /^EC/ ? sprintf("http://extremcaching.com/index.php/output-2/%s", substr($query, 2)) :
 					$query =~ /^GA/ ? "http://geocaching.com.au/cache/$query" :
@@ -79,7 +79,7 @@ if ($query ne "") {
 					$query =~ /^OZ/ ? "http://www.opencaching.cz/viewcache.php?wp=$query" :
 					$query =~ /^OX/ ? "http://www.opencaching.com/#!geocache/$query" :
 					$query =~ /^SH/ ? "http://shutterspot.gpsgames.org/cgi-bin/sh.pl?wp=$query" :
-					$query =~ /^[TL]C/ ? "http://www.terracaching.com/viewcache.cgi?ID=$query" :
+					$query =~ /^[TLC]C/ ? "http://www.terracaching.com/Cache/$query" :
 					$query =~ /^VX/ ? "http://geovexilla.gpsgames.org/cgi-bin/vx.pl?listwaypointlogs=yes&wp=$query" :
 					$query =~ /^WM/ ? "http://www.waymarking.com/waymarks/$query" :
 					"";
