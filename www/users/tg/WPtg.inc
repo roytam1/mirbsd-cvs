@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.60 2014/07/17 21:51:19 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.61 2014/07/18 23:25:17 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5539,7 +5539,7 @@ Tag: D1 T15 Small Tradi
 ----
 ID: 969
 Date: 05.07.2014
-Waypoint: GC814B
+Waypoint: GC814B N00527
 Title: The Bridge at Remagen I
 Tag: D15 T15 Micro Tradi recommended
 ----
@@ -5714,11 +5714,54 @@ Waypoint: CC7QL
 Title: Truly Well-Rounded Cacher Level III Award
 Tag: MC5 Locationless Challenge
 ----
-ID: p20140720
+ID: 997
 Date: 20.07.2014
-Waypoint: GC547AH
-Title: Lazy Sunday
-Tag: D2 T15 Event
+Waypoint: LC7LQ
+Title: Babewyn
+nTF: 1
+Tag: Locationless Challenge
+----
+ID: 998
+Date: 20.07.2014
+Waypoint: GC348XJ
+Title: Natorampe Oberwinter
+Tag: D15 T1 Micro Tradi
+----
+ID: 999
+Date: 20.07.2014
+Waypoint: GCWDDD
+Title: Gotteshäuser: Apollinariskirche Remagen
+Tag: D1 T1 Micro Tradi
+----
+ID: 1000
+Date: 20.07.2014
+Waypoint: GC1CPJX
+Title: Der Froschkönig am andern Ufer #1
+Tag: D1 T1 Micro Tradi
+----
+ID: 1001
+Date: 20.07.2014
+Waypoint: GC52B6T
+Title: Schweinerei am Paradies
+Tag: D15 T15 Micro Tradi
+----
+ID: 1002
+Date: 20.07.2014
+Waypoint: GC35B8C
+Title: Kreuz in den Feldern mit Sonnenbank
+Tag: D1 T15 Micro Tradi
+----
+ID: 1003
+Date: 20.07.2014
+Waypoint: GC3BHX7
+Title: Spontan#2
+Tag: D1 T45 Micro Tradi
+----
+ID: 1004
+Date: 20.07.2014
+Waypoint: CCUT
+Title: Locationless Cache FTF Bonus Points LC
+Tag: Locationless Challenge
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
