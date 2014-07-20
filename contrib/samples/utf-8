@@ -9,8 +9,8 @@ show up fine in an uxterm on MirOS (see xterm(1) for
 further reference).
 
 This file was generated (and hand-edited afterwards)
-© by Thorsten "mirabilos" Glaser <tg@mirbsd.de>. Be‐
-cause this is a mere "database" it can be used with‐
+© by Thorsten “mirabilos” Glaser <tg@mirbsd.de>. Be‐
+cause this is a mere “database” it can be used with‐
 out the need of a special licence, but if possible I
 would like to be credited on derivates.
 
@@ -18,8 +18,8 @@ Now have fun cutting and pasting, although be remin‐
 ded that unicode characters above U+00FF can only be
 pasted while they are still marked in the source ux‐
 term and the latter is visible on the screen. Alter‐
-natively you can copy them using an utf-8 aware edi‐
-tor such as jupp (ports/editors/joe).
+natively you can copy them using an UTF-8 aware edi‐
+tor such as jupp: https://www.mirbsd.org/jupp.htm
 
 Combining characters with single-cell width are pre‐
 fixed by two spaces in the table below. Places where
