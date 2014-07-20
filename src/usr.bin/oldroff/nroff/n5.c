@@ -1,10 +1,8 @@
-/* $MirOS: src/usr.bin/oldroff/nroff/n5.c,v 1.5 2006/11/04 05:43:44 tg Exp $ */
-
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004, 2005
+ * Copyright (c) 2003, 2004, 2005, 2014
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
@@ -44,7 +42,7 @@
 
 #include <sys/cdefs.h>
 __SCCSID("@(#)n5.c	4.4 (Berkeley) 5/2/91");
-__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n5.c,v 1.5 2006/11/04 05:43:44 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/oldroff/nroff/n5.c,v 1.6 2008/11/08 23:04:41 tg Exp $");
 
 #include "tdef.h"
 #include <termios.h>
@@ -396,13 +394,17 @@ casebp(){
 	eject(savframe);
 }
 casetm(x) int x;{
-	register i;
+	register i, ch;
 	char tmbuf[NTM];
 
 	lgf++;
 	copyf++;
 	if(skip() && x)prstrfl("User Abort.");
-	for(i=0; i<NTM-2;)if((tmbuf[i++]=getch()) == '\n')break;
+	for (i = 0; i < NTM - 2; )
+		if ((tmbuf[i++] = ch = getch()) == '\n')
+			break;
+		else if (ch == UNPAD)
+			tmbuf[i-1] = ' ';
 	if(i == NTM-2)tmbuf[i++] = '\n';
 	tmbuf[i] = 0;
 	prstrfl(tmbuf);
