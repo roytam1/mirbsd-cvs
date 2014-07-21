@@ -21,7 +21,7 @@ lzma-4.32.7-0|archivers/lzma,||LZMA compressor with gzip-like interface (uses C+
 lzo-2.02-0|archivers/lzo,||portable speedy lossless data compression library|http://www.oberhumer.com/opensource/lzo/|archivers/lzo/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|archivers devel||:devel/metaauto autoconf->=2.61-1,<2.62:devel/autoconf/2.61||any|y|y|y|y
 macutil-2.0b3-0|archivers/macutil,||several programs to handle macintosh files and archives||archivers/macutil/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|archivers||||any|n|n|n|n
 makeself-1.5.5-0|archivers/makeself,||script generating a self-extractible .tgz from a directory|http://www.megastep.org/makeself/|archivers/makeself/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|archivers misc||||any|y|y|y|y
-paxmirabilis-20120606-0|archivers/mircpio,||MirOS cpio(1), pax(1) and tar(1)||archivers/mircpio/DESCR|Thorsten Glaser <tg@MirBSD.org>|archivers essentials||||any|y|y|y|y
+paxmirabilis-20140703-0|archivers/mircpio,||MirOS cpio(1), pax(1) and tar(1)||archivers/mircpio/DESCR|Thorsten Glaser <tg@MirBSD.org>|archivers essentials||||any|y|y|y|y
 mpczar-20091122-0|archivers/mpczar,||MirPorts CpioZ archiver for distfiles||archivers/mpczar/DESCR|Thorsten Glaser <tg@mirbsd.de>|archivers essentials|||paxmirabilis->=20091122:archivers/mircpio|any|y|y|y|y
 nulib-3.25-0|archivers/nulib,||NuFX archiver||archivers/nulib/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|archivers||||any|n|n|n|y
 p5-Archive-Tar-1.40-0|archivers/p5-Archive-Tar,||perl interface to tar archives||archivers/p5-Archive-Tar/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|archivers perl5||:devel/p5-Package-Constants|:devel/p5-Package-Constants|any|y|y|y|y
@@ -213,7 +213,7 @@ autobook-1.3-0|books/autobook,||documentation for autoconf, automake, libtool|ht
 cvs-guide-1.21-0|books/cvs-guide,||the definitive guide to CVS (broken)|http://cvsbook.red-bean.com/|books/cvs-guide/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|books||||any|y|y|y|y
 docbook-guide-2.0.8-0|books/docbook-guide,||the definite guide to DocBook (uses PKZip)|http://docbook.org/tdg/en/|books/docbook-guide/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|books||unzip-*:archivers/unzip||any|y|y|y|y
 grokking-the-gimp-1.0-0|books/grokking-the-gimp,||book about gimp||books/grokking-the-gimp/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|books graphics||||any|y|y|y|y
-mirex-20140403-0|books/mirex,||MirOS sample files, keys and information|http://MirBSD.de/|books/mirex/DESCR|Thorsten Glaser <tg@mirbsd.de>|books||||any|y|y|y|y
+mirex-20140722-0|books/mirex,||MirOS sample files, keys and information|http://MirBSD.de/|books/mirex/DESCR|Thorsten Glaser <tg@mirbsd.de>|books||||any|y|y|y|y
 selfhtml-8.1-0|books/selfhtml,||German HTML compendium (uses PKZip)|http://aktuell.de.selfhtml.org/|books/selfhtml/pkg/DESCR|Thorsten Glaser <tg@mirbsd.org>|books www||unzip-*:archivers/unzip||any|n|n|y|y
 chipmunk-1.57-0|cad/chipmunk,||electronic CAD system (uses X11)|http://www.cs.berkeley.edu/~lazzaro/chipmunk/|cad/chipmunk/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|cad||||any|y|y|y|y
 qcad-1.5.4-0|cad/qcad,||Qt-based 2D CAD system (uses C++) (uses X11)|http://www.qcad.org/|cad/qcad/pkg/DESCR|The MirPorts mailing list <miros-discuss@MirBSD.org>|cad x11|lib/qt3/qt-mt::x11/qt3|||any|y|y|y|y
