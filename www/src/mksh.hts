@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.547 2014/06/29 20:01:49 wbx Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.548 2014/06/29 20:04:49 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1227,13 +1227,16 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
-<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
--->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+ <li>[Ypnose] Fix operator description in the manpage</li>
+ <li>[tg] Change all mention of “eglibc” to “glibc”, it is merged back</li>
+ <li>[Colona] Fix rare infinite loop with invalid UTF-8 in the edit buffer</li>
+ <li>[tg] Make more clear when a shell is interactive in the manpage</li>
+</ul>
 <p id="r50">R50 is a recommended bugfix release:</p><ul>
  <li>[tg] Fix initial IFS whitespace not being ignored when expanding</li>
  <li>[tg] MKSH_BINSHREDUCED no longer mistakenly enables brace expansion</li>
