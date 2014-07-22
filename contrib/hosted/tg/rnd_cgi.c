@@ -1,6 +1,6 @@
 #if 0
 #-
-# Copyright © 2010, 2013
+# Copyright © 2010, 2013, 2014
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -48,7 +48,7 @@ LDADD+=		-lc
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: contrib/hosted/tg/rnd_cgi.c,v 1.3 2010/12/27 18:41:03 tg Exp $");
+__RCSID("$MirOS: contrib/hosted/tg/rnd_cgi.c,v 1.4 2013/10/31 20:05:53 tg Exp $");
 
 extern const char *__progname;
 extern const uint8_t mbsd_digits_base64[65];
@@ -59,6 +59,25 @@ extern void _thread_sys__exit(int) __dead;
 static uint8_t buf[4096];
 
 static void w(int, const void *, size_t);
+
+static uint8_t wBuf[4096];
+static size_t wBptr;
+
+static inline void
+wBF(int fd)
+{
+	if (wBptr)
+		w(fd, wBuf, wBptr);
+	wBptr = 0;
+}
+
+static inline void
+wB(int fd, char c)
+{
+	if (wBptr == sizeof(wBuf))
+		wBF(fd);
+	wBuf[wBptr++] = (uint8_t)c;
+}
 
 static inline void
 wc(int fd, char c)
@@ -152,7 +171,8 @@ main(int argc __unused, char *argv[], char *envp[]) {
 		}
 	}
 
-	ws(1, has_http11 ? "Cache-Control: no-store" : "Pragma: no-cache");
+	ws(1, has_http11 ? "Cache-Control: no-store\r\nConnection: close" :
+	    "Pragma: no-cache");
 	ws(1, "\r\nContent-Type: ");
 	ws(1, mode == BIN ? "application/octet-stream" : "text/plain");
 	ws(1, "\r\nContent-Length: ");
@@ -162,7 +182,7 @@ main(int argc __unused, char *argv[], char *envp[]) {
 	pn(1, arc4random() & 0x7FFF);
 	ws(1, "\r\nExpires: -1\r\n\r\n");
 
-	if (has_post && (n = read(0, buf, 4096)) <= 4096)
+	while (has_post && (n = read(0, buf, 4096)) && (n <= 4096))
 		arc4random_pushb_fast(buf, n);
 
 	arc4random_buf(buf, is_long ? 4096 : mode == NUM ? 57 : 32);
@@ -174,22 +194,24 @@ main(int argc __unused, char *argv[], char *envp[]) {
 	case HEX:
 		n = is_long ? 4096 : 32;
 		while (n--) {
-			wc(1, mbsd_digits_HEX[buf[n] >> 4]);
-			wc(1, mbsd_digits_HEX[buf[n] & 0x0F]);
+			wB(1, mbsd_digits_HEX[buf[n] >> 4]);
+			wB(1, mbsd_digits_HEX[buf[n] & 0x0F]);
 		}
+		wBF(1);
 		w(1, "\r\n", 2);
 		break;
 	case NUM:
 		n = is_long ? 4095 : 57;
 		while (n) {
 			n -= 3;
-#define pb(x) wc(1, mbsd_digits_base64[x])
+#define pb(x) wB(1, mbsd_digits_base64[x])
 			pb(buf[n + 0] >> 2);
 			pb(((buf[n + 0] & 0x03) << 4) + (buf[n + 1] >> 4));
 			pb(((buf[n + 1] & 0x0F) << 2) + (buf[n + 2] >> 6));
 			pb(buf[n + 2] & 0x3F);
 #undef pb
 		}
+		wBF(1);
 		w(1, "\r\n", 2);
 		break;
 	}
