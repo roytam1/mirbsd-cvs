@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/rc,v 1.117 2013/09/11 18:55:56 tg Exp $
+# $MirOS: src/etc/rc,v 1.118 2013/09/28 19:55:18 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -664,8 +664,7 @@ if [[ ! -s /etc/ssl/default.cer || ! -s /etc/ssl/deflt-ca.cer ]]; then
 fi
 if [[ ! -s /etc/ssh/ssh_host_rsa_key ]]; then
 	print -n "ssh-keygen: installing host RSA key... "
-	ln /etc/ssl/private/default.key /etc/ssh/ssh_host_rsa_key || \
-	    cp /etc/ssl/private/default.key /etc/ssh/ssh_host_rsa_key
+	cp -f /etc/ssl/private/default.key /etc/ssh/ssh_host_rsa_key
 	rm -f /etc/ssh/ssh_host_rsa_key.pub
 	print done.
 fi
