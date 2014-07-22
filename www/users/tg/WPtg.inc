@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.61 2014/07/18 23:25:17 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.62 2014/07/20 21:26:05 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5762,6 +5762,12 @@ Date: 20.07.2014
 Waypoint: CCUT
 Title: Locationless Cache FTF Bonus Points LC
 Tag: Locationless Challenge
+----
+ID: 1005
+Date: 22.07.2014
+Waypoint: GC50R22
+Title: TB-Hotel im Mini-Wald (FCSB-Schüler-Cache No.2)
+Tag: D2 T25 Regular Tradi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
