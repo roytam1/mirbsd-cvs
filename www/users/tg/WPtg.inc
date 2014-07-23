@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.62 2014/07/20 21:26:05 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.63 2014/07/22 20:41:39 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5768,6 +5768,12 @@ Date: 22.07.2014
 Waypoint: GC50R22
 Title: TB-Hotel im Mini-Wald (FCSB-Schüler-Cache No.2)
 Tag: D2 T25 Regular Tradi
+----
+ID: 1006
+Date: 23.07.2014
+Waypoint: GC53F4X
+Title: a simple cache
+Tag: D2 T15 Small Tradi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
