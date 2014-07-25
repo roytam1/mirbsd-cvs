@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/jupp/tty.c,v 1.18 2012/12/30 18:18:06 tg Exp $ */
+/* $MirOS: contrib/code/jupp/tty.c,v 1.19 2014/07/25 21:46:16 tg Exp $ */
 /*
  *	UNIX Tty and Process interface
  *	Copyright
@@ -391,7 +391,7 @@ void ttopnn(void)
 static void
 baud_reset(int bbaud)
 {
-	int x = 0;
+	size_t x = 0;
 
 	baud = 9600;
 	upc = 0;
