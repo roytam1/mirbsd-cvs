@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.63 2014/07/22 20:41:39 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.64 2014/07/23 19:22:37 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2627,7 +2627,7 @@ Tag: D2 T1 Micro Tradi
 ----
 ID: 498
 Date: 01.09.2013
-Waypoint: GC17RCY
+Waypoint: GC17RCY OC4AB7
 Title: Bonner Meilenstein
 Tag: D25 T1 Micro Mystery
 ----
@@ -5613,7 +5613,7 @@ Tag: Regular Moving
 ----
 ID: 980
 Date: 10.07.2014
-Waypoint: GC21G32
+Waypoint: GC21G32 OCB3FE
 Title: St. Nikolaus contra Weihnachtsmann
 Tag: D25 T15 Small Tradi
 ----
@@ -5774,6 +5774,36 @@ Date: 23.07.2014
 Waypoint: GC53F4X
 Title: a simple cache
 Tag: D2 T15 Small Tradi
+----
+ID: 1007
+Date: 24.07.2014
+Waypoint: GC3W8D6
+Title: Spontan#19
+Tag: D1 T3 Micro Mystery
+----
+ID: 1008
+Date: 25.07.2014
+Waypoint: GC3WEXV OCC674
+Title: Mapa &amp; Co
+Tag: D15 T15 Small Tradi
+----
+ID: 1009
+Date: 25.07.2014
+Waypoint: GC3WEYG OCC64C
+Title: Eine große Schweinerei
+Tag: D2 T2 Small Tradi
+----
+ID: p20140811
+Date: 11.08.2014
+Waypoint: GC59HJ5 OC11141 N02F79 TC1OYX GE0300
+Title: August-Eis ⅯⅯⅩⅣ
+Tag: D15 T1 Event
+----
+ID: p20140814
+Date: 14.08.2014
+Waypoint: GC58BP2
+Title: - A - M - P - E - L - 4 -
+Tag: D1 T1 Event
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
