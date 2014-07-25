@@ -1,11 +1,11 @@
-# $MirOS: www/src/jupp.hts,v 1.55 2014/06/29 13:23:14 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.56 2014/07/21 20:17:42 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/jupp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.55 2014/06/29 13:23:14 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.56 2014/07/21 20:17:42 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp2</em> for MS-DOS® compatible systems,
  and <em>joe-3.1jupp27</em> for Unix/GNU compatible systems. This page is
@@ -303,10 +303,12 @@ $ $SUDO make install</pre>
 </ul>
 
 <h2 id="clog">ChangeLog for Unix</h2>
-<p>[2014-07-21] Changes in the current development version:</p><ul>
+<p>[2014-07-25] Changes in the current development version:</p><ul>
  <li>Mention in comments that when enabling the <tt>-backpath</tt>
   option, its argument must not be quoted, nor followed by a comment;
   issue found by R. Hubbell</li>
+ <li>Some mostly harmless code cleanup; fix speeds[] array access/sizing;
+  reported by dcb (LP#1348559, LP#1348614)</li>
 </ul>
 <p id="r3_1j27">[2014-06-29] Changes for joe-3.1jupp27:</p><ul>
  <li>Completely rewritten wctype and wctrans code to go with the completely
