@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/wp.cgi,v 1.8 2014/07/15 22:14:34 tg Exp $';
+my $rcsid = '$MirOS: www/files/wp.cgi,v 1.9 2014/07/18 22:55:51 tg Exp $';
 #-
 # Copyright © 2013, 2014
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -21,6 +21,30 @@ my $rcsid = '$MirOS: www/files/wp.cgi,v 1.8 2014/07/15 22:14:34 tg Exp $';
 
 use strict;
 use warnings;
+
+sub htmlencode($) {
+	local ($_) = @_;
+
+	s/&/&amp;/g;
+	s/</&lt;/g;
+	s/>/&gt;/g;
+	s/\"/&#34;/g;
+
+	return $_;
+}
+
+sub redirect($) {
+	my ($dst) = @_;
+	my $enc = htmlencode($dst);
+
+	print("Status: 301\r\nLocation: $dst\r\n");
+	print("Content-type: text/html\r\n\r\n");
+	print("<html><head><title>Redirection</title></head><body>\n");
+	print("<h1>Redirection</h1>\n");
+	print("<p>Please visit <a href=\"$enc\">$enc</a> instead!</p>\n");
+	print("</body></html>\n");
+	exit(0);
+}
 
 my $output = "";
 my $query = "";
@@ -53,9 +77,7 @@ $query =~ s/^\s+//;
 $query =~ s/\s+$//;
 
 if ($query =~ m!^(m/[0-9A-Za-z_-]*/[0-9]+)/?$!) {
-	$query = "http://www.munzee.com/$1/";
-	print("Status: 301\r\nLocation: $query\r\n\r\nRedirect: $query\r\n");
-	exit(0);
+	&redirect("http://www.munzee.com/$1/");
 }
 
 $query = "" unless $query =~ /^[0-9A-Za-z-]*$/;
@@ -88,6 +110,4 @@ if ($query ne "") {
 }
 
 $query = "https://www.mirbsd.org/wp.htm" unless $found;
-
-print("Status: 301\r\nLocation: $query\r\n\r\nRedirect: $query\r\n");
-exit(0);
+&redirect($query);
