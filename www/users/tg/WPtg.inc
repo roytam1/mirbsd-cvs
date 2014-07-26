@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.64 2014/07/23 19:22:37 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.65 2014/07/25 20:40:43 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5792,6 +5792,156 @@ Date: 25.07.2014
 Waypoint: GC3WEYG OCC64C
 Title: Eine große Schweinerei
 Tag: D2 T2 Small Tradi
+----
+ID: 1010
+Date: 26.07.2014
+Waypoint: GC3HXYE
+Title: GC - Crossgolf #1
+Tag: D4 T25 Micro Mystery
+----
+ID: 1011
+Date: 26.07.2014
+Waypoint: GC3HXZ1
+Title: GC - Crossgolf #2
+Tag: D4 T15 Micro Mystery
+----
+ID: 1012
+Date: 26.07.2014
+Waypoint: GC3HXZ3
+Title: GC - Crossgolf #3
+Tag: D45 T2 Micro Mystery
+----
+ID: 1013
+Date: 26.07.2014
+Waypoint: GC3HXZ8
+Title: GC - Crossgolf #4
+Tag: D35 T1 Micro Mystery
+----
+ID: 1014
+Date: 26.07.2014
+Waypoint: GC3HXZG
+Title: GC - Crossgolf #5
+Tag: D35 T15 Micro Mystery
+----
+ID: 1015
+Date: 26.07.2014
+Waypoint: GC3HZP1
+Title: GC - Crossgolf #6
+Tag: D4 T2 Micro Mystery
+----
+ID: 1016
+Date: 26.07.2014
+Waypoint: GC3HZP7
+Title: GC - Crossgolf #7
+Tag: D35 T4 Micro Mystery
+----
+ID: 1017
+Date: 26.07.2014
+Waypoint: GC3HZPJ
+Title: GC - Crossgolf #9
+Tag: D35 T3 Micro Mystery
+----
+ID: 1018
+Date: 26.07.2014
+Waypoint: GC3HZPH
+Title: GC - Crossgolf #10
+Tag: D4 T25 Micro Mystery
+----
+ID: 1019
+Date: 26.07.2014
+Waypoint: GC3HZQ2
+Title: GC - Crossgolf #11
+Tag: D4 T3 Micro Mystery
+----
+ID: 1020
+Date: 26.07.2014
+Waypoint: GC3HZQ1
+Title: GC - Crossgolf #12
+Tag: D45 T4 Micro Mystery
+----
+ID: 1021
+Date: 26.07.2014
+Waypoint: GC3NJMF
+Title: GC - Crossgolf #13
+Tag: D3 T45 Micro Mystery
+----
+ID: 1022
+Date: 26.07.2014
+Waypoint: GC3NJMJ
+Title: GC - Crossgolf #14
+Tag: D45 T35 Micro Mystery
+----
+ID: 1023
+Date: 26.07.2014
+Waypoint: GC3NJMM
+Title: GC - Crossgolf #15
+Tag: D45 T45 Micro Mystery
+----
+ID: 1024
+Date: 26.07.2014
+Waypoint: GC26H2A
+Title: Himbrich
+Tag: D25 T25 Small Tradi
+----
+ID: 1025
+Date: 26.07.2014
+Waypoint: GC3NJMX
+Title: GC - Crossgolf #17
+Tag: D5 T25 Micro Mystery
+----
+ID: 1026
+Date: 26.07.2014
+Waypoint: GC3NJN1
+Title: GC - Crossgolf #18
+Tag: D45 T25 Micro Mystery
+----
+ID: 1027
+Date: 26.07.2014
+Waypoint: GC3NJN4
+Title: GC - Crossgolf #19
+Tag: D4 T2 Micro Mystery
+----
+ID: 1028
+Date: 26.07.2014
+Waypoint: GC3NJN6
+Title: GC - Crossgolf #20
+Tag: D4 T35 Micro Mystery
+----
+ID: 1029
+Date: 26.07.2014
+Waypoint: GC3NJN8
+Title: GC - Crossgolf #21
+Tag: D4 T45 Micro Mystery
+----
+ID: 1030
+Date: 26.07.2014
+Waypoint: GC3NJN9
+Title: GC - Crossgolf #22
+Tag: D4 T15 Micro Mystery
+----
+ID: 1031
+Date: 26.07.2014
+Waypoint: GC3NJNB
+Title: GC - Crossgolf #23
+Tag: D4 T1 Micro Mystery
+----
+ID: 1032
+Date: 26.07.2014
+Waypoint: GC3NJMT
+Title: GC - Crossgolf #16
+Tag: D45 T15 Small Mystery
+----
+ID: 1033
+Date: 26.07.2014
+Waypoint: GC3NJNG
+Title: GC - Crossgolf #24
+Tag: D5 T2 Small Mystery
+----
+ID: 1034
+Date: 26.07.2014
+Waypoint: GC3HZP5
+Title: GC - Crossgolf # 8
+Tag: D45 T15 Small Mystery recommended
 ----
 ID: p20140811
 Date: 11.08.2014
