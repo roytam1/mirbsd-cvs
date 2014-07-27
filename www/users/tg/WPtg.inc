@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.65 2014/07/25 20:40:43 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.66 2014/07/26 23:03:01 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -951,7 +951,7 @@ Tag: recommended
 ----
 ID: 184
 Date: 20.02.2012
-Waypoint: GC285T3
+Waypoint: GC285T3 OCA4A3
 Title: Top Of Schwelm
 ----
 ID: 185
@@ -1600,7 +1600,7 @@ Title: Hagelsiepen
 ----
 ID: 311
 Date: 23.03.2013
-Waypoint: GC3YJXK
+Waypoint: GC3YJXK OCEDFB
 Title: Oberbeck
 ----
 ID: 312
@@ -1640,7 +1640,7 @@ Title: Langweilliger Tradi weil einer keine Geduld hatte!
 ----
 ID: 319
 Date: 24.03.2013
-Waypoint: GC14BJ8
+Waypoint: GC14BJ8 OC3C6A
 Title: Tauschstübchen - Dvd
 ----
 ID: 320
@@ -2941,7 +2941,7 @@ Tag: D15 T3 Earth
 ----
 ID: 549
 Date: 13.10.2013
-Waypoint: GC1B6J2
+Waypoint: GC1B6J2 OC5C45
 Title: P&amp;G #4
 Tag: D15 T1 Micro Tradi
 ----
@@ -3324,7 +3324,7 @@ Tag: D2 T1 Micro Multi
 ----
 ID: 612
 Date: 08.12.2013
-Waypoint: GC1TN4W
+Waypoint: GC1TN4W OC8614
 Title: Die Schenkung
 Tag: D25 T1 Small Mystery
 ----
@@ -3394,7 +3394,7 @@ Tag: D25 T3 Regular Mystery
 ----
 ID: 623
 Date: 08.12.2013
-Waypoint: GC2H913
+Waypoint: GC2H913 OCB4FB
 Title: Wo sich Flüsse treffen
 Tag: D2 T2 Earth
 
@@ -3483,7 +3483,7 @@ Tag: D1 T1 Micro Tradi
 ----
 ID: 637
 Date: 12.12.2013
-Waypoint: GCMG88 OXMG88
+Waypoint: GCMG88 OXMG88 OC62E7
 Title: Lame Micro - A38 Fuchsaue Süd
 Tag: D15 T2 Small Tradi
 ----
@@ -3523,7 +3523,7 @@ Tag: D1 T1 Small Tradi
 ----
 ID: 643
 Date: 13.12.2013
-Waypoint: GC1AMVB
+Waypoint: GC1AMVB OC5606
 Title: A44 - Pausencache West
 Tag: D1 T15 Small Tradi
 ----
@@ -3942,7 +3942,7 @@ Tag: D2 T25 Regular Tradi
 ----
 ID: 711
 Date: 01.02.2014
-Waypoint: GC4V7ZQ
+Waypoint: GC4V7ZQ OC10510
 Title: FOSDEM 2014 Meetup (aka Where's that ULB cache?)
 Tag: D2 T2 Event
 ----
@@ -5437,7 +5437,7 @@ Tag: D25 T2 Virtual Mystery
 ----
 ID: 952
 Date: 22.06.2014
-Waypoint: GC2TKQ3 OX2TKQ3
+Waypoint: GC2TKQ3 OX2TKQ3 OCC426
 Title: Wupper-Bever-Wander-Cache
 Tag: D2 T3 Small Multi
 ----
@@ -5942,6 +5942,18 @@ Date: 26.07.2014
 Waypoint: GC3HZP5
 Title: GC - Crossgolf # 8
 Tag: D45 T15 Small Mystery recommended
+----
+ID: 1035
+Date: 27.07.2014
+Waypoint: GC4Y0DZ
+Title: “Große Namen“ # 6
+Tag: D3 T1 Small Multi
+----
+ID: 1036
+Date: 27.07.2014
+Waypoint: GCT355 OC15EA N01E8C
+Title: Derletal (Doros Geburtstagscache)
+Tag: D15 T15 Regular Multi recommended
 ----
 ID: p20140811
 Date: 11.08.2014
