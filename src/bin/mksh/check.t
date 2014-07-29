@@ -3733,6 +3733,17 @@ stdin:
 expected-stdout:
 	 <1> <shift> <1> <2>
 ---
+name: IFS-subst-3
+description:
+	Check leading IFS non-whitespace after trim does make a field
+expected-fail: yes
+stdin:
+	showargs() { for i; do echo -n " <$i>"; done; echo; }
+	IFS=:
+	showargs 1 ${-+:foo:bar}
+expected-stdout:
+	 <1> <> <foo> <bar>
+---
 name: IFS-arith-1
 description:
 	http://austingroupbugs.net/view.php?id=832
