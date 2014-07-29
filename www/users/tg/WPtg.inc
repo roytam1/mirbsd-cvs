@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.66 2014/07/26 23:03:01 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.67 2014/07/27 19:36:50 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5954,6 +5954,18 @@ Date: 27.07.2014
 Waypoint: GCT355 OC15EA N01E8C
 Title: Derletal (Doros Geburtstagscache)
 Tag: D15 T15 Regular Multi recommended
+----
+ID: 1037
+Date: 28.07.2014
+Waypoint: GC50CQK
+Title: Geisterstunde im Spinnenkeller
+Tag: D1 T15 Small Tradi recommended
+----
+ID: 1038
+Date: 29.07.2014
+Waypoint: GC3W548
+Title: Melb-Mikro #2: Die Brücke
+Tag: D15 T15 Micro Tradi
 ----
 ID: p20140811
 Date: 11.08.2014
