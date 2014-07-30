@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.67 2014/07/27 19:36:50 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.68 2014/07/29 07:29:55 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5966,6 +5966,25 @@ Date: 29.07.2014
 Waypoint: GC3W548
 Title: Melb-Mikro #2: Die Brücke
 Tag: D15 T15 Micro Tradi
+----
+ID: 1039
+Date: 30.07.2014
+Waypoint: GC46D19
+Title: Die kleine Waldfee
+Tag: D2 T25 Regular Multi
+----
+ID: 1040
+Date: 30.07.2014
+Waypoint: WMM6HD
+Title: Open Library in the parc: Bücherschrank Villip
+nTF: 0
+Tag: Virtual
+----
+ID: 1041
+Date: 30.07.2014
+Waypoint: GC20VXR
+Title: Gotteshäuser: St. Simon und Judas Thaddäus
+Tag: D2 T15 Small Multi
 ----
 ID: p20140811
 Date: 11.08.2014
