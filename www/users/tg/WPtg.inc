@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.69 2014/07/30 21:18:17 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.70 2014/07/31 20:17:18 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6009,6 +6009,13 @@ Date: 31.07.2014
 Waypoint: http://www.wherigo.com/cartridge/details.aspx?CGUID=6779cc32-84be-41e1-8b44-a7fa15bf35c9
 Title: Das Haus vom Nikolaus
 Tag: Wherigo_Cartridge
+----
+ID: 1046
+Date: 31.07.2014
+Waypoint: CC886G
+Title: Cheesy Cartridges
+nTF: 0
+Tag: Locationless Challenge
 ----
 ID: p20140811
 Date: 11.08.2014
