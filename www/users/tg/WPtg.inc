@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.68 2014/07/29 07:29:55 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.69 2014/07/30 21:18:17 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5985,6 +5985,30 @@ Date: 30.07.2014
 Waypoint: GC20VXR
 Title: Gotteshäuser: St. Simon und Judas Thaddäus
 Tag: D2 T15 Small Multi
+----
+ID: 1042
+Date: 31.07.2014
+Waypoint: GC57PBM
+Title: Kurz Multi mit Aussicht
+Tag: D15 T15 Micro Multi
+----
+ID: 1043
+Date: 31.07.2014
+Waypoint: GC3NP60
+Title: Innovationspark Rheinland
+Tag: D15 T3 Micro Tradi
+----
+ID: 1044
+Date: 31.07.2014
+Waypoint: GC41FE4
+Title: Challenge Cache: 366er Matrix
+Tag: D5 T15 Micro Mystery
+----
+ID: 1045
+Date: 31.07.2014
+Waypoint: http://www.wherigo.com/cartridge/details.aspx?CGUID=6779cc32-84be-41e1-8b44-a7fa15bf35c9
+Title: Das Haus vom Nikolaus
+Tag: Wherigo_Cartridge
 ----
 ID: p20140811
 Date: 11.08.2014
