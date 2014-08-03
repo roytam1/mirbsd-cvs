@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.70 2014/07/31 20:17:18 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.71 2014/07/31 21:04:34 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -1475,7 +1475,7 @@ ID: 287
 Date: 10.10.2012
 Waypoint: GC1HGEH
 Title: Eau de source à PARIS- Spring water in PARIS.
-Tag: recommended earth
+Tag: Earth recommended
 ----
 ID: 288
 Date: 25.10.2012
@@ -4152,7 +4152,7 @@ Date: 25.02.2014
 Waypoint: https://labs.geocaching.com/Adventures/Details/b9b2a933-c4fa-4f29-aed4-1d1355318d78
 Title: Challenge: Caching
 nTF: 0
-Tag: Lab
+Tag: Lab Challenge
 ----
 ID: 746
 Date: 28.02.2014
@@ -5017,7 +5017,7 @@ ID: 883
 Date: 13.06.2014
 Waypoint: GC3WGD9
 Title: Bonn/Rhein-Sieg 1. offizielle Sissi-T5 Letterbox
-Tag: D1 T4 Regular Letterbox
+Tag: D1 T4 Regular Letterbox_Hybrid
 ----
 ID: 884
 Date: 13.06.2014
@@ -5227,7 +5227,7 @@ ID: 918
 Date: 15.06.2014
 Waypoint: GC4WMM9
 Title: Das Burggespenst Metternich
-Tag: D2 T2 Regular Letterbox recommended
+Tag: D2 T2 Regular Letterbox_Hybrid recommended
 ----
 ID: 919
 Date: 15.06.2014
@@ -6016,6 +6016,128 @@ Waypoint: CC886G
 Title: Cheesy Cartridges
 nTF: 0
 Tag: Locationless Challenge
+----
+ID: 1047
+Date: 02.08.2014
+Waypoint: http://www.wherigo.com/cartridge/details.aspx?CGUID=4ec786d6-080e-4b29-be31-7d3383102f23
+Title: Hilf Bauer Heinrich!!
+Tag: Wherigo_Cartridge
+----
+ID: 1048
+Date: 02.08.2014
+Waypoint: GC42TQM
+Title: Hilf Bauer Heinrich!!
+Tag: D2 T15 Small Wherigo_Hybrid
+----
+ID: 1049
+Date: 02.08.2014
+Waypoint: GC3JGB6
+Title: Area 52 in Rheinbach - Geheimakte Freizeitpark
+Tag: D25 T2 Regular Letterbox_Hybrid recommended
+----
+ID: 1050
+Date: 02.08.2014
+Waypoint: GC54RXX
+Title: Das Revier # 8
+Tag: D2 T15 Micro Multi
+----
+ID: 1051
+Date: 02.08.2014
+Waypoint: GC2PYA3
+Title: Aquäduktenmarmor oder &#34;Travertin selbst gebaut&#34;
+Tag: D2 T15 Earth
+----
+ID: 1052
+Date: 02.08.2014
+Waypoint: GC4WFME
+Title: Römerkanal und Heidentempel V3
+Tag: D15 T2 Small Letterbox_Hybrid
+----
+ID: 1053
+Date: 02.08.2014
+Waypoint: GC31T3A
+Title: Römerbüchse
+Tag: D15 T15 Regular Tradi
+----
+ID: 1054
+Date: 02.08.2014
+Waypoint: GC3VB8V
+Title: Magnetischer Baum
+Tag: D25 T15 Micro Tradi recommended
+----
+ID: 1055
+Date: 02.08.2014
+Waypoint: GC2JX19
+Title: Das Haus vom Nikolaus
+Tag: D15 T15 Small Wherigo_Hybrid
+----
+ID: 1056
+Date: 02.08.2014
+Waypoint: GC58HPN
+Title: Rursee-Event
+Tag: D1 T1 Event
+----
+ID: 1057
+Date: 02.08.2014
+Waypoint: GC25AT9
+Title: Römischer Steinbruch Kall
+Tag: D1 T15 Earth
+----
+ID: 1058
+Date: 02.08.2014
+Waypoint: GCMX7C OC085C N01D00
+Title: Cologne's 14 Traffic Cams
+Tag: D15 T1 Webcam
+----
+ID: 1059
+Date: 02.08.2014
+Waypoint: GCMYD8 OC026D N017D8
+Title: Picture Postcard From Cologne (tiny)
+Tag: D1 T1 Webcam
+----
+ID: 1060
+Date: 02.08.2014
+Waypoint: GC5B4A
+Title: Portal to the Past (Köln)
+Tag: D1 T1 Virtual
+----
+ID: 1061
+Date: 02.08.2014
+Waypoint: GC307NQ
+Title: Ohm's Law - Ohmsches Gesetz
+Tag: D15 T1 Micro Multi
+----
+ID: 1062
+Date: 02.08.2014
+Waypoint: GC58K01
+Title: Das 2. kleine &#34;Jubi-Event zum 1000.&#34; ;-)
+Tag: D3 T1 Event
+
+toller Grillplatz der Forstverwaltung Remscheid
+----
+ID: 1063
+Date: 02.08.2014
+Waypoint: GCAE2D OC0931 N0044A
+Title: Walzen Cache / Walzing Matilda
+Tag: D1 T1 Virtual
+----
+ID: 1064
+Date: 02.08.2014
+Waypoint: GC2HNX7
+Title: 7 Caches Cologne (Challenge Cache)
+Tag: D3 T25 Small Mystery Challenge
+----
+ID: 1065
+Date: 02.08.2014
+Waypoint: GC2XT6K OCC8B9
+Title: Lore ist ein Challenge (8 Cachetypen)
+Tag: D25 T2 Small Mystery Challenge
+----
+ID: 1066
+Date: 02.08.2014
+Waypoint: OC2031
+Title: R(h)einblick
+Tag: D15 T1 Virtual
 ----
 ID: p20140811
 Date: 11.08.2014
