@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/genmanif,v 1.1 2014/04/01 19:24:46 tg Exp $
+# $MirOS: contrib/hosted/tg/genmanif,v 1.2 2014/04/07 20:27:43 tg Exp $
 #-
 # Copyright © 2014
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -36,7 +36,9 @@ addarg '*'
 
 set -o pipefail
 exec >MANIFEST
-find ${args[*]} -type f -print0 | sort -z | xargs -0r md5sum -b --
+find ${args[*]} -type f -print0 | sort -z | grep -v -z \
+    -e '^MANIFEST$' \
+    -e '^MANIFEST\.asc$' | xargs -0r md5sum -b --
 rv=$?
 (( rv )) && print ERRORS OCCURED
 (( rv )) && print -u2 E: errors occured
