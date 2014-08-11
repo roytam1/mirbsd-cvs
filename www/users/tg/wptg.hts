@@ -3,7 +3,7 @@
 
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.5 2014/08/05 21:52:18 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.6 2014/08/06 08:14:14 tg Exp $'
 
 function banner {
 	local wp=$1 img=$2 title=$3
@@ -159,8 +159,12 @@ mws_content <<'EOF'
  src="https://lh4.googleusercontent.com/-J8XlYOcxlPw/UVePvM_00LI/AAAAAAAAABU/amHPQQQLYyU/s647-fcrop64=1,00001c21ffffdc5c/IsThereAResistance-1024x768.png"
  alt="Ingress – Resistance" /></p>
 
-<p>Also on: bookcrossing.com letterboxing.org letterboxing-germany.info
- pathtags.com</p>
+<p>Also on:</p><ul>
+ <li><a href="http://www.bookcrossing.com/mybookshelf/mirabilos/">bookcrossing.com</a></li>
+ <li>letterboxing.org</li>
+ <li><a href="http://www.letterboxing-germany.info/lbg_forum/memberlist.php?mode=viewprofile&amp;u=2434">letterboxing-germany.info</a></li>
+ <li><a href="http://www.pathtags.com/community/viewuserprofile.php?id=114259">pathtags.com</a></li>
+</ul>
 
 EOF
 
