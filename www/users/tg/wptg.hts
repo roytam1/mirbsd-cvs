@@ -3,7 +3,7 @@
 
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.6 2014/08/06 08:14:14 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.7 2014/08/11 20:43:43 tg Exp $'
 
 function banner {
 	local wp=$1 img=$2 title=$3
@@ -165,6 +165,12 @@ mws_content <<'EOF'
  <li><a href="http://www.letterboxing-germany.info/lbg_forum/memberlist.php?mode=viewprofile&amp;u=2434">letterboxing-germany.info</a></li>
  <li><a href="http://www.pathtags.com/community/viewuserprofile.php?id=114259">pathtags.com</a></li>
 </ul>
+
+<h2>Not exactly Geocaching…</h2>
+
+<p>… but relevant for some TerraCaching challenges:<br /><img
+ style="border:0px;" src="http://signature.statseb.fr/sig-1100.gif"
+ alt="BOINC stats for mirabilos (AniGIF)" /></p>
 
 EOF
 

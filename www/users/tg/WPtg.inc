@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.72 2014/08/03 01:20:15 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.73 2014/08/11 20:43:43 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6146,7 +6146,7 @@ Title: August-Eis ⅯⅯⅩⅣ
 nTF: 0
 Tag: D15 T1 Event
 ----
-ID: p20140814
+ID: 1068
 Date: 14.08.2014
 Waypoint: GC58BP2
 Title: - A - M - P - E - L - 4 -
