@@ -1,3 +1,8 @@
-MD5 (rdesktop-1.3.1.tar.gz) = 968a1e3f5161bab80c306df31c54cfb1
-RMD160 (rdesktop-1.3.1.tar.gz) = 8af984cd883f3c7587a30b09e350129ed8ebbefa
-SHA1 (rdesktop-1.3.1.tar.gz) = d80e7c3afb671c77e4d8a6a74b33c3d6256675ce
+$MirOS$
+
+MD5 (rdesktop-1.8.2.tar.gz) = d05ee35b33cc909c9a48368ae5fc8d16
+RMD160 (rdesktop-1.8.2.tar.gz) = 190cb67a635c44b570b7881808dbecf8578bb732
+SHA1 (rdesktop-1.8.2.tar.gz) = 089e8f2b18688ded8afc659de5ba8d5b14c7b874
+SHA256 (rdesktop-1.8.2.tar.gz) = fbbf23d49d34c215c5a59b2d91c008b61ead4c9fbe1ccb7223973aed24061a78
+SIZE (rdesktop-1.8.2.tar.gz) = 318270
+TIGER (rdesktop-1.8.2.tar.gz) = 27d77fa4ab1727bbd70b9dc64ec95259eba2cf9e0cecacda
