@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.73 2014/08/11 20:43:43 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.74 2014/08/14 17:22:21 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6151,6 +6151,12 @@ Date: 14.08.2014
 Waypoint: GC58BP2
 Title: - A - M - P - E - L - 4 -
 Tag: D1 T1 Event
+----
+ID: 1069
+Date: 16.08.2014
+Waypoint: GC2PA5Y
+Title: Müllcache
+Tag: D25 T15 Micro Mystery
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat

@@ -1,4 +1,4 @@
-# $MirOS: www/users/tg/Makefile,v 1.2 2014/04/14 19:38:19 tg Exp $
+# $MirOS: www/users/tg/Makefile,v 1.3 2014/04/14 20:03:25 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -44,7 +44,13 @@ all: validations
 	@print -r Creating ${@:Q} from ${<:Q} ...
 	@${_inc2xhtml} <$< >$@
 
-validations: wpcheck validation
+validations: xmlcheck wpcheck validation
+
+xmlcheck: .PHONY
+	cd ${TOP} && ${MAKE} validate="$$(cd ${.CURDIR:Q} && \
+	    for x in *.hts; do \
+		[[ -e $$x ]] && print -r -- "$${x%%.hts}"; \
+	done)"
 
 wpcheck:
 	@cd ${TOP}/data && ${MAKE} $@ WPS=tg.gc

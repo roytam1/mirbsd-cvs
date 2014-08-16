@@ -3,7 +3,7 @@
 
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.7 2014/08/11 20:43:43 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.8 2014/08/14 17:22:22 tg Exp $'
 
 function banner {
 	local wp=$1 img=$2 title=$3
@@ -108,14 +108,16 @@ mws_content <<'EOF'
 </tr>
 </table>
 
-<p><span style="border:1px solid black; padding:6px;">
-  <a href="http://eastlands.dyndns.org/GeoScout/default.aspx">GeoScout</a>
-  by <a href="http://www.navstation.co.uk/">Rightfile Ltd.</a>
-  (currently defunct, domains no longer exist ☹ which also breaks OAuth)
+<p><span style="border:1px solid black; padding:6px;"><a
+ href="http://eastlands.dyndns.org/GeoScout/default.aspx">GeoScout</a>
+ by <a href="http://www.navstation.co.uk/">Rightfile Ltd.</a>
+ (currently defunct, domains no longer exist ☹ which also breaks OAuth)
 </span></p>
 
-<p>Also using: Cachebox (for Windows® Mobile, Community Edition),
- no longer maintained, mostly ☹</p>
+<p><span style="border:1px solid black; padding:6px;"><a
+ href="http://sourceforge.net/projects/cachebox/">Cachebox
+ (for Windows® Mobile, Community Edition)</a>,
+ no longer maintained, mostly ☹</span></p>
 
 <h3>Other Stats</h3>
 
