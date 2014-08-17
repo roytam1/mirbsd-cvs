@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.74 2014/08/14 17:22:21 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.75 2014/08/16 20:19:54 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6157,6 +6157,48 @@ Date: 16.08.2014
 Waypoint: GC2PA5Y
 Title: Müllcache
 Tag: D25 T15 Micro Mystery
+----
+ID: 1070
+Date: 17.08.2014
+Waypoint: GC2JVH7
+Title: Strümpfe
+Tag: D2 T1 Other Tradi recommended
+----
+ID: 1071
+Date: 17.08.2014
+Waypoint: GC200TZ
+Title: Rotweintour Teil 1
+Tag: D2 T3 Micro Tradi
+----
+ID: 1072
+Date: 17.08.2014
+Waypoint: GC1QFZT
+Title: Lost Place Das alte Schwimmbad
+Tag: D1 T1 Micro Tradi
+----
+ID: 1073
+Date: 17.08.2014
+Waypoint: GC1QG0P
+Title: Altenahrer Brücken Cache
+Tag: D1 T1 Micro Tradi
+----
+ID: 1074
+Date: 17.08.2014
+Waypoint: GC1YTV2
+Title: Altenahr : Tonsteinklippen / Slate stone cliff
+Tag: D2 T25 Earth
+----
+ID: 1075
+Date: 17.08.2014
+Waypoint: GC410RQ
+Title: AHR Lock
+Tag: D3 T15 Small Tradi recommended
+----
+ID: 1076
+Date: 17.08.2014
+Waypoint: GC2CCPN
+Title: ZWISCHEN KATZ UND KUH (AHRTAL)
+Tag: D2 T15 Earth recommended
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
