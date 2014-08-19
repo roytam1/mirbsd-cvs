@@ -27,7 +27,7 @@
 
 #include "extern.h"
 
-__RCSID("$MirOS: src/usr.bin/dc/dc.c,v 1.2 2005/03/13 18:32:51 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/dc/dc.c,v 1.3 2014/08/19 20:44:55 tg Exp $");
 
 static __dead void	usage(void);
 
@@ -50,7 +50,7 @@ main(int argc, char *argv[])
 	struct source	src;
 	char		*buf, *p;
 	struct stat	st;
-
+	bool		got_single_dash = false;
 
 	if ((buf = strdup("")) == NULL)
 		err(1, NULL);
@@ -67,6 +67,7 @@ main(int argc, char *argv[])
 			extended_regs = true;
 			break;
 		case '-':
+			got_single_dash = true;
 			break;
 		default:
 			usage();
@@ -86,7 +87,7 @@ main(int argc, char *argv[])
 		reset_bmachine(&src);
 		eval();
 		free(buf);
-		if (argc == 0)
+		if (argc == 0 && !got_single_dash)
 			return (0);
 	}
 	if (argc == 1) {
