@@ -26,6 +26,11 @@
 
 #include "extern.h"
 
+__RCSID("$MirOS$");
+
+/* compatibility glue */
+static BIGNUM zero;
+
 /* #define	DEBUGGING */
 
 #define MAX_ARRAY_INDEX		2048
@@ -219,7 +224,7 @@ static const struct jump_entry jump_table_data[] = {
 
 /* ARGSUSED */
 static void
-sighandler(int ignored)
+sighandler(int ignored __unused)
 {
 	bmachine.interrupted = true;
 }
@@ -227,7 +232,7 @@ sighandler(int ignored)
 void
 init_bmachine(bool extended_registers)
 {
-	int i;
+	size_t i;
 
 	bmachine.extended_regs = extended_registers;
 	bmachine.reg_array_size = bmachine.extended_regs ?
@@ -254,6 +259,8 @@ init_bmachine(bool extended_registers)
 	if (bmachine.readstack == NULL)
 		err(1, NULL);
 	bmachine.obase = bmachine.ibase = 10;
+	BN_init(&zero);
+	bn_check(BN_zero(&zero));
 	(void)signal(SIGINT, sighandler);
 }
 
@@ -349,7 +356,7 @@ scale_number(BIGNUM *n, int s)
 
 	abs_scale = s > 0 ? s : -s;
 
-	if (abs_scale < sizeof(factors)/sizeof(factors[0])) {
+	if ((size_t)abs_scale < sizeof(factors)/sizeof(factors[0])) {
 		if (s > 0)
 			bn_check(BN_mul_word(n, factors[abs_scale]));
 		else
@@ -429,7 +436,7 @@ get_ulong(struct number *n)
 void
 negate(struct number *n)
 {
-	BN_set_negative(n->number, !BN_is_negative(n->number));
+	bn_check(BN_sub(n->number, &zero, n->number));
 }
 
 static __inline void
@@ -773,7 +780,7 @@ readreg(void)
 		} else
 			idx = (ch1 << 8) + ch2 + UCHAR_MAX + 1;
 	}
-	if (idx < 0 || idx >= bmachine.reg_array_size) {
+	if (idx < 0 || (size_t)idx >= bmachine.reg_array_size) {
 		warnx("internal error: reg num = %d", idx);
 		idx = -1;
 	}
@@ -1765,4 +1772,19 @@ eval(void)
 		(void)fprintf(stderr, "%zd ==\n", bmachine.readsp);
 #endif
 	}
+}
+
+/* compatibility glue */
+
+int
+BN_is_negative(BIGNUM *b)
+{
+	return (BN_cmp(b, &zero) < 0);
+}
+
+void
+BN_set_negative(BIGNUM *b, int n)
+{
+	if (!n != !BN_is_negative(b))
+		bn_check(BN_sub(b, &zero, b));
 }

@@ -60,3 +60,10 @@ void		stack_print(FILE *, const struct stack *, const char *,
 void		frame_assign(struct stack *, size_t, const struct value *);
 struct value *	frame_retrieve(const struct stack *, size_t);
 /* void		frame_free(struct stack *); */
+
+/* compatibility glue */
+
+__dead void	errc(int, int, const char *, ...)
+			__attribute__((__format__(__printf__, 3, 4)));
+int		BN_is_negative(BIGNUM *);
+void		BN_set_negative(BIGNUM *, int);

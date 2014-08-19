@@ -1,5 +1,4 @@
-/**	$MirOS$ */
-/*	$OpenBSD: dc.c,v 1.6 2004/10/18 07:49:00 otto Exp $	*/
+/*	$OpenBSD: dc.c,v 1.12 2014/05/20 01:25:23 guenther Exp $	*/
 
 /*
  * Copyright (c) 2003, Otto Moerbeek <otto@drijf.net>
@@ -18,15 +17,17 @@
  */
 
 #include <sys/cdefs.h>
+#include <sys/stat.h>
 #include <err.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-#include <stdlib.h>
+#include <stdarg.h>
 
 #include "extern.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/dc/dc.c,v 1.2 2005/03/13 18:32:51 tg Exp $");
 
 static __dead void	usage(void);
 
@@ -35,7 +36,8 @@ extern char		*__progname;
 static __dead void
 usage(void)
 {
-	fprintf(stderr, "usage: %s [-x] [-e expr] [file]\n", __progname);
+	(void)fprintf(stderr, "usage: %s [-x] [-e expression] [file]\n",
+	    __progname);
 	exit(1);
 }
 
@@ -47,6 +49,8 @@ main(int argc, char *argv[])
 	FILE		*file;
 	struct source	src;
 	char		*buf, *p;
+	struct stat	st;
+
 
 	if ((buf = strdup("")) == NULL)
 		err(1, NULL);
@@ -72,8 +76,8 @@ main(int argc, char *argv[])
 	argv += optind;
 
 	init_bmachine(extended_regs);
-	setlinebuf(stdout);
-	setlinebuf(stderr);
+	(void)setlinebuf(stdout);
+	(void)setlinebuf(stderr);
 
 	if (argc > 1)
 		usage();
@@ -89,10 +93,14 @@ main(int argc, char *argv[])
 		file = fopen(argv[0], "r");
 		if (file == NULL)
 			err(1, "cannot open file %s", argv[0]);
+		if (fstat(fileno(file), &st) == -1)
+			err(1, "%s", argv[0]);
+		if (S_ISDIR(st.st_mode))
+			errc(1, EISDIR, "%s", argv[0]);
 		src_setstream(&src, file);
 		reset_bmachine(&src);
 		eval();
-		fclose(file);
+		(void)fclose(file);
 		/*
 		 * BSD and Solaris dc(1) continue with stdin after processing
 		 * the file given as the argument. We follow GNU dc(1).
@@ -104,4 +112,17 @@ main(int argc, char *argv[])
 	eval();
 
 	return (0);
+}
+
+/* compatibility glue */
+
+__dead void
+errc(int evalue, int ecode, const char *fmt, ...)
+{
+	va_list ap;
+
+	va_start(ap, fmt);
+	errno = ecode;
+	_verr(evalue, fmt, ap);
+	va_end(ap);
 }

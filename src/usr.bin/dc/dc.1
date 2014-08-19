@@ -1,4 +1,5 @@
-.\"	$OpenBSD: dc.1,v 1.19 2004/10/18 07:49:00 otto Exp $
+.\"	$MirOS$
+.\"	$OpenBSD: dc.1,v 1.27 2012/08/19 12:07:21 jmc Exp $
 .\"
 .\" Copyright (C) Caldera International Inc.  2001-2002.
 .\" All rights reserved.
@@ -34,8 +35,9 @@
 .\"
 .\"	@(#)dc.1	8.1 (Berkeley) 6/6/93
 .\"
-.Dd June 6, 1993
+.Dd $Mdocdate: August 19 2014 $
 .Dt DC 1
+.Os
 .Sh NAME
 .Nm dc
 .Nd desk calculator
@@ -70,12 +72,6 @@ Evaluate
 If multiple
 .Fl e
 options are specified, they will be processed in the order given.
-If no
-.Ar file
-argument is given, execution will stop after processing the expressions
-given on the command line,
-otherwise processing will continue with the contents of
-.Ar file .
 .It Fl x
 Enable extended register mode.
 This mode is used by
@@ -86,15 +82,27 @@ See
 for a more detailed description.
 .El
 .Pp
+If neither
+.Ar expression
+nor
+.Ar file
+are specified on the command line,
+.Nm
+reads from the standard input.
+Otherwise
+.Ar expression
+and
+.Ar file
+are processed and
+.Nm
+exits.
+.Pp
 Ordinarily,
 .Nm
 operates on decimal integers,
 but one may specify an input base, output base,
 and a number of fractional digits (scale) to be maintained.
-If an argument is given,
-input is taken from that file until its end,
-then from the standard input.
-Whitespace is ignored, expect where it signals the end of a number,
+Whitespace is ignored, except where it signals the end of a number,
 end of a line or when a register name is expected.
 The following constructions are recognized:
 .Bl -tag -width "number"
@@ -186,12 +194,12 @@ A one is pushed if the top of the stack is equal to the second number
 on the stack.
 A zero is pushed otherwise.
 This is a non-portable extension.
+.It Ic I
+Pushes the input base on the top of the stack.
 .It Ic i
 The top value on the stack is popped and used as the
 base for further input.
 The initial input base is 10.
-.It Ic I
-Pushes the input base on the top of the stack.
 .It Ic J
 Pop the top value from the stack.
 The recursion level is popped by that value and, following that,
@@ -303,7 +311,7 @@ The length of a number is its number of digits, not counting the minus sign
 and decimal point.
 .It Ic z
 The stack level is pushed onto the stack.
-.It Cm [ Ns ... Ns Cm ]
+.It Cm \&[ Ns ... Ns Cm \&]
 Puts the bracketed
 .Tn ASCII
 string onto the top of the stack.
@@ -363,12 +371,12 @@ command.
 .It Ic \&?
 A line of input is taken from the input source (usually the terminal)
 and executed.
-.It Ic : Ns Ar r
+.It Ic \&: Ns Ar r
 Pop two values from the stack.
 The second value on the stack is stored into the array
 .Ar r
 indexed by the top of stack.
-.It Ic ; Ns Ar r
+.It Ic \&; Ns Ar r
 Pop a value from the stack.
 The value is used as an index into register
 .Ar r .
@@ -469,7 +477,7 @@ for too many levels of nested execution.
 The recursion level is increased by one if the
 .Ar x
 or
-.Ar \&?
+.Ar ?\&
 operation or one of the compare operations resulting in the execution
 of register is executed.
 As an exception, the recursion level is not increased if the operation
@@ -523,6 +531,7 @@ command using the
 big number routines first appeared in
 .Ox 3.5 .
 .Sh AUTHORS
+.An -nosplit
 The original version of the
 .Nm
 command was written by

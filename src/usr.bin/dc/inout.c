@@ -23,6 +23,8 @@
 
 #include "extern.h"
 
+__RCSID("$MirOS$");
+
 #define MAX_CHARS_PER_LINE 68
 
 static int	lastchar;
@@ -84,7 +86,7 @@ src_ungetcharstream(struct source *src)
 
 /* ARGSUSED */
 static void
-src_freestream(struct source *src)
+src_freestream(struct source *src __unused)
 {
 }
 
@@ -289,7 +291,7 @@ printnumber(FILE *f, const struct number *b, u_int base)
 	int		digits;
 	char		buf[11];
 	size_t		sz;
-	int		i;
+	size_t		i;
 	struct stack	stack;
 	char		*p;
 

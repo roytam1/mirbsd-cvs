@@ -22,6 +22,8 @@
 
 #include "extern.h"
 
+__RCSID("$MirOS$");
+
 static __inline bool	stack_empty(const struct stack *);
 static void		stack_grow(struct stack *);
 static struct array	*array_new(void);
@@ -131,7 +133,7 @@ stack_grow(struct stack *stack)
 {
 	size_t new_size, i;
 
-	if (++stack->sp == stack->size) {
+	if ((size_t)(++stack->sp) == stack->size) {
 		new_size = stack->size * 2 + 1;
 		stack->stack = brealloc(stack->stack,
 		    new_size * sizeof(*stack->stack));
@@ -312,24 +314,24 @@ array_grow(struct array *array, size_t newsize)
 }
 
 static __inline void
-array_assign(struct array *array, size_t index, const struct value *v)
+array_assign(struct array *array, size_t indexv, const struct value *v)
 {
-	if (index >= array->size)
-		array_grow(array, index+1);
-	stack_free_value(&array->data[index]);
-	array->data[index] = *v;
+	if (indexv >= array->size)
+		array_grow(array, indexv+1);
+	stack_free_value(&array->data[indexv]);
+	array->data[indexv] = *v;
 }
 
 static __inline struct value *
-array_retrieve(const struct array *array, size_t index)
+array_retrieve(const struct array *array, size_t indexv)
 {
-	if (index >= array->size)
+	if (indexv >= array->size)
 		return NULL;
-	return &array->data[index];
+	return &array->data[indexv];
 }
 
 void
-frame_assign(struct stack *stack, size_t index, const struct value *v)
+frame_assign(struct stack *stack, size_t indexv, const struct value *v)
 {
 	struct array *a;
 	struct value n;
@@ -343,11 +345,11 @@ frame_assign(struct stack *stack, size_t index, const struct value *v)
 	a = stack->stack[stack->sp].array;
 	if (a == NULL)
 		a = stack->stack[stack->sp].array = array_new();
-	array_assign(a, index, v);
+	array_assign(a, indexv, v);
 }
 
 struct value *
-frame_retrieve(const struct stack *stack, size_t index)
+frame_retrieve(const struct stack *stack, size_t indexv)
 {
 	struct array *a;
 
@@ -356,5 +358,5 @@ frame_retrieve(const struct stack *stack, size_t index)
 	a = stack->stack[stack->sp].array;
 	if (a == NULL)
 		a = stack->stack[stack->sp].array = array_new();
-	return array_retrieve(a, index);
+	return array_retrieve(a, indexv);
 }
