@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.75 2014/08/16 20:19:54 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.76 2014/08/17 19:45:28 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6199,6 +6199,36 @@ Date: 17.08.2014
 Waypoint: GC2CCPN
 Title: ZWISCHEN KATZ UND KUH (AHRTAL)
 Tag: D2 T15 Earth recommended
+----
+ID: 1077
+Date: 19.08.2014
+Waypoint: GCTY6M
+Title: Kirchen &amp; Kapellen #3 - Chorruine Heisterbach
+Tag: D2 T15 Regular Multi
+----
+ID: 1078
+Date: 19.08.2014
+Waypoint: GC218G4
+Title: &#34;Basalt und Tuff&#34; am Weilberg
+Tag: D3 T15 Earth
+----
+ID: 1079
+Date: 19.08.2014
+Waypoint: GC4XRG5
+Title: Schloreley
+Tag: D15 T15 Micro Multi
+----
+ID: 1080
+Date: 19.08.2014
+Waypoint: GCG2JH OC4678
+Title: Alter Vulkan
+Tag: D2 T15 Regular Multi recommended
+----
+ID: 1081
+Date: 19.08.2014
+Waypoint: GC3A4VE
+Title: St. Michael - Niederdollendorf
+Tag: D1 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat

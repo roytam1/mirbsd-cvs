@@ -3,7 +3,7 @@
 
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.8 2014/08/14 17:22:22 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.9 2014/08/16 20:19:55 tg Exp $'
 
 function banner {
 	local wp=$1 img=$2 title=$3
@@ -87,7 +87,9 @@ mws_content <<'EOF'
 </form>
 
 <p><span style="border:1px solid black; padding:6px;"><a
- href="http://fish.mirbsd.org/mirkarte/">MirKarte</a> by mirabilos
+ href="http://fish.mirbsd.org/mirkarte/">MirKarte</a> by mirabilos (<a
+ href="http://fish.mirbsd.org/mirkarte/geohashing.cgi#zoom=8">variant
+ of mirabilos’ MirKarte for xkcd Geo Hashing</a>)
 </span></p>
 
 <table style="border:1px solid black; padding:6px;">
