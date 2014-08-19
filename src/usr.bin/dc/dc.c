@@ -1,4 +1,4 @@
-/*	$OpenBSD: dc.c,v 1.6 2004/10/18 07:49:00 otto Exp $	*/
+/*	$OpenBSD: dc.c,v 1.12 2014/05/20 01:25:23 guenther Exp $	*/
 
 /*
  * Copyright (c) 2003, Otto Moerbeek <otto@drijf.net>
@@ -16,11 +16,9 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef lint
-static const char rcsid[] = "$OpenBSD: dc.c,v 1.6 2004/10/18 07:49:00 otto Exp $";
-#endif /* not lint */
-
+#include <sys/stat.h>
 #include <err.h>
+#include <errno.h>
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
@@ -34,7 +32,8 @@ extern char		*__progname;
 static __dead void
 usage(void)
 {
-	fprintf(stderr, "usage: %s [-x] [-e expr] [file]\n", __progname);
+	(void)fprintf(stderr, "usage: %s [-x] [-e expression] [file]\n",
+	    __progname);
 	exit(1);
 }
 
@@ -46,6 +45,8 @@ main(int argc, char *argv[])
 	FILE		*file;
 	struct source	src;
 	char		*buf, *p;
+	struct stat	st;
+
 
 	if ((buf = strdup("")) == NULL)
 		err(1, NULL);
@@ -71,8 +72,8 @@ main(int argc, char *argv[])
 	argv += optind;
 
 	init_bmachine(extended_regs);
-	setlinebuf(stdout);
-	setlinebuf(stderr);
+	(void)setlinebuf(stdout);
+	(void)setlinebuf(stderr);
 
 	if (argc > 1)
 		usage();
@@ -88,10 +89,14 @@ main(int argc, char *argv[])
 		file = fopen(argv[0], "r");
 		if (file == NULL)
 			err(1, "cannot open file %s", argv[0]);
+		if (fstat(fileno(file), &st) == -1)
+			err(1, "%s", argv[0]);
+		if (S_ISDIR(st.st_mode))
+			errc(1, EISDIR, "%s", argv[0]);
 		src_setstream(&src, file);
 		reset_bmachine(&src);
 		eval();
-		fclose(file);
+		(void)fclose(file);
 		/*
 		 * BSD and Solaris dc(1) continue with stdin after processing
 		 * the file given as the argument. We follow GNU dc(1).
