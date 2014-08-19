@@ -1,4 +1,4 @@
-/*	$OpenBSD: bcode.c,v 1.29 2005/04/02 18:05:04 otto Exp $	*/
+/*	$OpenBSD: bcode.c,v 1.45 2012/11/07 11:06:14 otto Exp $	*/
 
 /*
  * Copyright (c) 2003, Otto Moerbeek <otto@drijf.net>
@@ -16,10 +16,6 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#ifndef lint
-static const char rcsid[] = "$OpenBSD: bcode.c,v 1.29 2005/04/02 18:05:04 otto Exp $";
-#endif /* not lint */
-
 #include <ssl/ssl.h>
 #include <err.h>
 #include <limits.h>
@@ -29,8 +25,6 @@ static const char rcsid[] = "$OpenBSD: bcode.c,v 1.29 2005/04/02 18:05:04 otto E
 #include <string.h>
 
 #include "extern.h"
-
-BIGNUM		zero;
 
 /* #define	DEBUGGING */
 
@@ -59,7 +53,7 @@ static struct bmachine	bmachine;
 static void sighandler(int);
 
 static __inline int	readch(void);
-static __inline int	unreadch(void);
+static __inline void	unreadch(void);
 static __inline char	*readline(void);
 static __inline void	src_free(void);
 
@@ -239,7 +233,7 @@ init_bmachine(bool extended_registers)
 	bmachine.reg_array_size = bmachine.extended_regs ?
 	    REG_ARRAY_SIZE_BIG : REG_ARRAY_SIZE_SMALL;
 
-	bmachine.reg = malloc(bmachine.reg_array_size *
+	bmachine.reg = calloc(bmachine.reg_array_size,
 	    sizeof(bmachine.reg[0]));
 	if (bmachine.reg == NULL)
 		err(1, NULL);
@@ -255,14 +249,18 @@ init_bmachine(bool extended_registers)
 		stack_init(&bmachine.reg[i]);
 
 	bmachine.readstack_sz = READSTACK_SIZE;
-	bmachine.readstack = malloc(sizeof(struct source) *
+	bmachine.readstack = calloc(sizeof(struct source),
 	    bmachine.readstack_sz);
 	if (bmachine.readstack == NULL)
 		err(1, NULL);
 	bmachine.obase = bmachine.ibase = 10;
-	BN_init(&zero);
-	bn_check(BN_zero(&zero));
-	signal(SIGINT, sighandler);
+	(void)signal(SIGINT, sighandler);
+}
+
+u_int
+bmachine_scale(void)
+{
+	return bmachine.scale;
 }
 
 /* Reset the things needed before processing a (new) file */
@@ -281,12 +279,12 @@ readch(void)
 	return src->vtable->readchar(src);
 }
 
-static __inline int
+static __inline void
 unreadch(void)
 {
 	struct source *src = &bmachine.readstack[bmachine.readsp];
 
-	return src->vtable->unreadchar(src);
+	src->vtable->unreadchar(src);
 }
 
 static __inline char *
@@ -312,8 +310,8 @@ pn(const char *str, const struct number *n)
 	char *p = BN_bn2dec(n->number);
 	if (p == NULL)
 		err(1, "BN_bn2dec failed");
-	fputs(str, stderr);
-	fprintf(stderr, " %s (%u)\n" , p, n->scale);
+	(void)fputs(str, stderr);
+	(void)fprintf(stderr, " %s (%u)\n" , p, n->scale);
 	OPENSSL_free(p);
 }
 
@@ -323,8 +321,8 @@ pbn(const char *str, const BIGNUM *n)
 	char *p = BN_bn2dec(n);
 	if (p == NULL)
 		err(1, "BN_bn2dec failed");
-	fputs(str, stderr);
-	fprintf(stderr, " %s\n", p);
+	(void)fputs(str, stderr);
+	(void)fprintf(stderr, " %s\n", p);
 	OPENSSL_free(p);
 }
 
@@ -355,7 +353,7 @@ scale_number(BIGNUM *n, int s)
 		if (s > 0)
 			bn_check(BN_mul_word(n, factors[abs_scale]));
 		else
-			BN_div_word(n, factors[abs_scale]);
+			(void)BN_div_word(n, factors[abs_scale]);
 	} else {
 		BIGNUM *a, *p;
 		BN_CTX *ctx;
@@ -388,11 +386,11 @@ split_number(const struct number *n, BIGNUM *i, BIGNUM *f)
 	bn_checkp(BN_copy(i, n->number));
 
 	if (n->scale == 0 && f != NULL)
-		BN_zero(f);
+		bn_check(BN_zero(f));
 	else if (n->scale < sizeof(factors)/sizeof(factors[0])) {
 		rem = BN_div_word(i, factors[n->scale]);
 		if (f != NULL)
-			BN_set_word(f, rem);
+			bn_check(BN_set_word(f, rem));
 	} else {
 		BIGNUM *a, *p;
 		BN_CTX *ctx;
@@ -414,7 +412,7 @@ split_number(const struct number *n, BIGNUM *i, BIGNUM *f)
 	}
 }
 
-__inline void
+void
 normalize(struct number *n, u_int s)
 {
 	scale_number(n->number, s - n->scale);
@@ -431,7 +429,7 @@ get_ulong(struct number *n)
 void
 negate(struct number *n)
 {
-	bn_check(BN_sub(n->number, &zero, n->number));
+	BN_set_negative(n->number, !BN_is_negative(n->number));
 }
 
 static __inline void
@@ -494,7 +492,7 @@ print_tos(void)
 	struct value *value = tos();
 	if (value != NULL) {
 		print_value(stdout, value, "", bmachine.obase);
-		putchar('\n');
+		(void)putchar('\n');
 	}
 	else
 		warnx("stack empty");
@@ -512,11 +510,11 @@ pop_print(void)
 		case BCODE_NUMBER:
 			normalize(value->u.num, 0);
 			print_ascii(stdout, value->u.num);
-			fflush(stdout);
+			(void)fflush(stdout);
 			break;
 		case BCODE_STRING:
-			fputs(value->u.string, stdout);
-			fflush(stdout);
+			(void)fputs(value->u.string, stdout);
+			(void)fflush(stdout);
 			break;
 		}
 		stack_free_value(value);
@@ -530,7 +528,7 @@ pop_printn(void)
 
 	if (value != NULL) {
 		print_value(stdout, value, "", bmachine.obase);
-		fflush(stdout);
+		(void)fflush(stdout);
 		stack_free_value(value);
 	}
 }
@@ -573,12 +571,12 @@ set_scale(void)
 
 	n = pop_number();
 	if (n != NULL) {
-		if (BN_cmp(n->number, &zero) < 0)
+		if (BN_is_negative(n->number))
 			warnx("scale must be a nonnegative number");
 		else {
 			scale = get_ulong(n);
-			if (scale != BN_MASK2)
-				bmachine.scale = scale;
+			if (scale != BN_MASK2 && scale <= UINT_MAX)
+				bmachine.scale = (u_int)scale;
 			else
 				warnx("scale too large");
 			}
@@ -605,8 +603,8 @@ set_obase(void)
 	n = pop_number();
 	if (n != NULL) {
 		base = get_ulong(n);
-		if (base != BN_MASK2 && base > 1)
-			bmachine.obase = base;
+		if (base != BN_MASK2 && base > 1 && base <= UINT_MAX)
+			bmachine.obase = (u_int)base;
 		else
 			warnx("output base must be a number greater than 1");
 		free_number(n);
@@ -633,7 +631,7 @@ set_ibase(void)
 	if (n != NULL) {
 		base = get_ulong(n);
 		if (base != BN_MASK2 && 2 <= base && base <= 16)
-			bmachine.ibase = base;
+			bmachine.ibase = (u_int)base;
 		else
 			warnx("input base must be a number between 2 and 16 "
 			    "(inclusive)");
@@ -644,7 +642,7 @@ set_ibase(void)
 static void
 stackdepth(void)
 {
-	u_int i;
+	size_t i;
 	struct number *n;
 
 	i = stack_size(&bmachine.stack);
@@ -686,7 +684,7 @@ count_digits(const struct number *n)
 	u_int		i;
 
 	if (BN_is_zero(n->number))
-		return 1;
+		return n->scale ? n->scale : 1;
 
 	int_part = new_number();
 	fract_part = new_number();
@@ -695,7 +693,7 @@ count_digits(const struct number *n)
 
 	i = 0;
 	while (!BN_is_zero(int_part->number)) {
-		BN_div_word(int_part->number, 10);
+		(void)BN_div_word(int_part->number, 10);
 		i++;
 	}
 	free_number(int_part);
@@ -707,7 +705,7 @@ static void
 num_digits(void)
 {
 	struct value	*value;
-	u_int		digits;
+	size_t		digits;
 	struct number	*n = NULL;
 
 	value = pop();
@@ -749,7 +747,7 @@ to_ascii(void)
 			normalize(n, 0);
 			if (BN_num_bits(n->number) > 8)
 				bn_check(BN_mask_bits(n->number, 8));
-			str[0] = BN_get_word(n->number);
+			str[0] = (char)BN_get_word(n->number);
 			break;
 		case BCODE_STRING:
 			str[0] = value->u.string[0];
@@ -763,35 +761,35 @@ to_ascii(void)
 static int
 readreg(void)
 {
-	int index, ch1, ch2;
+	int idx, ch1, ch2;
 
-	index = readch();
-	if (index == 0xff && bmachine.extended_regs) {
+	idx = readch();
+	if (idx == 0xff && bmachine.extended_regs) {
 		ch1 = readch();
 		ch2 = readch();
 		if (ch1 == EOF || ch2 == EOF) {
 			warnx("unexpected eof");
-			index = -1;
+			idx = -1;
 		} else
-			index = (ch1 << 8) + ch2 + UCHAR_MAX + 1;
+			idx = (ch1 << 8) + ch2 + UCHAR_MAX + 1;
 	}
-	if (index < 0 || index >= bmachine.reg_array_size) {
-		warnx("internal error: reg num = %d", index);
-		index = -1;
+	if (idx < 0 || idx >= bmachine.reg_array_size) {
+		warnx("internal error: reg num = %d", idx);
+		idx = -1;
 	}
-	return index;
+	return idx;
 }
 
 static void
 load(void)
 {
-	int		index;
+	int		idx;
 	struct value	*v, copy;
 	struct number	*n;
 
-	index = readreg();
-	if (index >= 0) {
-		v = stack_tos(&bmachine.reg[index]);
+	idx = readreg();
+	if (idx >= 0) {
+		v = stack_tos(&bmachine.reg[idx]);
 		if (v == NULL) {
 			n = new_number();
 			bn_check(BN_zero(n->number));
@@ -804,53 +802,53 @@ load(void)
 static void
 store(void)
 {
-	int		index;
+	int		idx;
 	struct value	*val;
 
-	index = readreg();
-	if (index >= 0) {
+	idx = readreg();
+	if (idx >= 0) {
 		val = pop();
 		if (val == NULL) {
 			return;
 		}
-		stack_set_tos(&bmachine.reg[index], val);
+		stack_set_tos(&bmachine.reg[idx], val);
 	}
 }
 
 static void
 load_stack(void)
 {
-	int		index;
+	int		idx;
 	struct stack	*stack;
-	struct value	*value, copy;
+	struct value	*value;
 
-	index = readreg();
-	if (index >= 0) {
-		stack = &bmachine.reg[index];
+	idx = readreg();
+	if (idx >= 0) {
+		stack = &bmachine.reg[idx];
 		value = NULL;
 		if (stack_size(stack) > 0) {
 			value = stack_pop(stack);
 		}
 		if (value != NULL)
-			push(stack_dup_value(value, &copy));
+			push(value);
 		else
 			warnx("stack register '%c' (0%o) is empty",
-			    index, index);
+			    idx, idx);
 	}
 }
 
 static void
 store_stack(void)
 {
-	int		index;
+	int		idx;
 	struct value	*value;
 
-	index = readreg();
-	if (index >= 0) {
+	idx = readreg();
+	if (idx >= 0) {
 		value = pop();
 		if (value == NULL)
 			return;
-		stack_push(&bmachine.reg[index], value);
+		stack_push(&bmachine.reg[idx], value);
 	}
 }
 
@@ -859,7 +857,7 @@ load_array(void)
 {
 	int			reg;
 	struct number		*inumber, *n;
-	u_long			index;
+	u_long			idx;
 	struct stack		*stack;
 	struct value		*v, copy;
 
@@ -868,15 +866,15 @@ load_array(void)
 		inumber = pop_number();
 		if (inumber == NULL)
 			return;
-		index = get_ulong(inumber);
-		if (BN_cmp(inumber->number, &zero) < 0)
-			warnx("negative index");
-		else if (index == BN_MASK2 || index > MAX_ARRAY_INDEX)
-			warnx("index too big");
+		idx = get_ulong(inumber);
+		if (BN_is_negative(inumber->number))
+			warnx("negative idx");
+		else if (idx == BN_MASK2 || idx > MAX_ARRAY_INDEX)
+			warnx("idx too big");
 		else {
 			stack = &bmachine.reg[reg];
-			v = frame_retrieve(stack, index);
-			if (v == NULL) {
+			v = frame_retrieve(stack, idx);
+			if (v == NULL || v->type == BCODE_NONE) {
 				n = new_number();
 				bn_check(BN_zero(n->number));
 				push_number(n);
@@ -893,7 +891,7 @@ store_array(void)
 {
 	int			reg;
 	struct number		*inumber;
-	u_long			index;
+	u_long			idx;
 	struct value		*value;
 	struct stack		*stack;
 
@@ -907,16 +905,16 @@ store_array(void)
 			free_number(inumber);
 			return;
 		}
-		index = get_ulong(inumber);
-		if (BN_cmp(inumber->number, &zero) < 0) {
-			warnx("negative index");
+		idx = get_ulong(inumber);
+		if (BN_is_negative(inumber->number)) {
+			warnx("negative idx");
 			stack_free_value(value);
-		} else if (index == BN_MASK2 || index > MAX_ARRAY_INDEX) {
-			warnx("index too big");
+		} else if (idx == BN_MASK2 || idx > MAX_ARRAY_INDEX) {
+			warnx("idx too big");
 			stack_free_value(value);
 		} else {
 			stack = &bmachine.reg[reg];
-			frame_assign(stack, index, value);
+			frame_assign(stack, idx, value);
 		}
 		free_number(inumber);
 	}
@@ -937,7 +935,7 @@ comment(void)
 static void
 bexec(char *line)
 {
-	system(line);
+	(void)system(line);
 	free(line);
 }
 
@@ -999,7 +997,7 @@ bsub(void)
 }
 
 void
-bmul_number(struct number *r, struct number *a, struct number *b)
+bmul_number(struct number *r, struct number *a, struct number *b, u_int scale)
 {
 	BN_CTX		*ctx;
 
@@ -1013,11 +1011,9 @@ bmul_number(struct number *r, struct number *a, struct number *b)
 	bn_check(BN_mul(r->number, a->number, b->number, ctx));
 	BN_CTX_free(ctx);
 
-	if (rscale > bmachine.scale && rscale > ascale && rscale > bscale) {
-		r->scale = rscale;
-		normalize(r, max(bmachine.scale, max(ascale, bscale)));
-	} else
-		r->scale = rscale;
+	r->scale = rscale;
+	if (rscale > bmachine.scale && rscale > ascale && rscale > bscale)
+		normalize(r, max(scale, max(ascale, bscale)));
 }
 
 static void
@@ -1037,7 +1033,7 @@ bmul(void)
 	}
 
 	r = new_number();
-	bmul_number(r, a, b);
+	bmul_number(r, a, b, bmachine.scale);
 
 	push_number(r);
 	free_number(a);
@@ -1168,7 +1164,7 @@ bexp(void)
 	struct number	*a, *p;
 	struct number	*r;
 	bool		neg;
-	u_int		scale;
+	u_int		rscale;
 
 	p = pop_number();
 	if (p == NULL) {
@@ -1180,15 +1176,26 @@ bexp(void)
 		return;
 	}
 
-	if (p->scale != 0)
-		warnx("Runtime warning: non-zero scale in exponent");
+	if (p->scale != 0) {
+		BIGNUM *i, *f;
+		i = BN_new();
+		bn_checkp(i);
+		f = BN_new();
+		bn_checkp(f);
+		split_number(p, i, f);
+		if (!BN_is_zero(f))
+			warnx("Runtime warning: non-zero fractional part in exponent");
+		BN_free(i);
+		BN_free(f);
+	}
+
 	normalize(p, 0);
 
 	neg = false;
-	if (BN_cmp(p->number, &zero) < 0) {
+	if (BN_is_negative(p->number)) {
 		neg = true;
 		negate(p);
-		scale = bmachine.scale;
+		rscale = bmachine.scale;
 	} else {
 		/* Posix bc says min(a.scale * b, max(a.scale, scale) */
 		u_long	b;
@@ -1196,29 +1203,37 @@ bexp(void)
 
 		b = BN_get_word(p->number);
 		m = max(a->scale, bmachine.scale);
-		scale = a->scale * b;
-		if (scale > m || b == BN_MASK2)
-			scale = m;
+		rscale = a->scale * (u_int)b;
+		if (rscale > m || (a->scale > 0 && (b == BN_MASK2 ||
+		    b > UINT_MAX)))
+			rscale = m;
 	}
 
 	if (BN_is_zero(p->number)) {
 		r = new_number();
 		bn_check(BN_one(r->number));
-		normalize(r, scale);
+		normalize(r, rscale);
 	} else {
+		u_int ascale, mscale;
+
+		ascale = a->scale;
 		while (!BN_is_bit_set(p->number, 0)) {
-			bmul_number(a, a, a);
+			ascale *= 2;
+			bmul_number(a, a, a, ascale);
 			bn_check(BN_rshift1(p->number, p->number));
 		}
 
 		r = dup_number(a);
-		normalize(r, scale);
 		bn_check(BN_rshift1(p->number, p->number));
 
+		mscale = ascale;
 		while (!BN_is_zero(p->number)) {
-			bmul_number(a, a, a);
-			if (BN_is_bit_set(p->number, 0))
-				bmul_number(r, r, a);
+			ascale *= 2;
+			bmul_number(a, a, a, ascale);
+			if (BN_is_bit_set(p->number, 0)) {
+				mscale += ascale;
+				bmul_number(r, r, a, mscale);
+			}
 			bn_check(BN_rshift1(p->number, p->number));
 		}
 
@@ -1228,16 +1243,21 @@ bexp(void)
 
 			one = BN_new();
 			bn_checkp(one);
-			BN_one(one);
+			bn_check(BN_one(one));
 			ctx = BN_CTX_new();
 			bn_checkp(ctx);
-			scale_number(one, r->scale + scale);
-			normalize(r, scale);
-			bn_check(BN_div(r->number, NULL, one, r->number, ctx));
+			scale_number(one, r->scale + rscale);
+
+			if (BN_is_zero(r->number))
+				warnx("divide by zero");
+			else
+				bn_check(BN_div(r->number, NULL, one,
+				    r->number, ctx));
 			BN_free(one);
 			BN_CTX_free(ctx);
+			r->scale = rscale;
 		} else
-			normalize(r, scale);
+			normalize(r, rscale);
 	}
 	push_number(r);
 	free_number(a);
@@ -1277,7 +1297,7 @@ bsqrt(void)
 	if (BN_is_zero(n->number)) {
 		r = new_number();
 		push_number(r);
-	} else if (BN_cmp(n->number, &zero) < 0)
+	} else if (BN_is_negative(n->number))
 		warnx("square root of negative number");
 	else {
 		scale = max(bmachine.scale, n->scale);
@@ -1448,7 +1468,7 @@ compare_numbers(enum bcode_compare type, struct number *a, struct number *b)
 
 	if (scale > a->scale)
 		normalize(a, scale);
-	else if (scale > scale)
+	else if (scale > b->scale)
 		normalize(b, scale);
 
 	cmp = BN_cmp(a->number, b->number);
@@ -1476,15 +1496,15 @@ compare_numbers(enum bcode_compare type, struct number *a, struct number *b)
 static void
 compare(enum bcode_compare type)
 {
-	int		index, elseindex;
+	int		idx, elseidx;
 	struct number	*a, *b;
 	bool		ok;
 	struct value	*v;
 
-	elseindex = NO_ELSE;
-	index = readreg();
+	elseidx = NO_ELSE;
+	idx = readreg();
 	if (readch() == 'e')
-		elseindex = readreg();
+		elseidx = readreg();
 	else
 		unreadch();
 
@@ -1499,18 +1519,17 @@ compare(enum bcode_compare type)
 
 	ok = compare_numbers(type, a, b);
 
-	if (!ok && elseindex != NO_ELSE)
-		index = elseindex;
+	if (!ok && elseidx != NO_ELSE)
+		idx = elseidx;
 
-	if (index >= 0 && (ok || (!ok && elseindex != NO_ELSE))) {
-		v = stack_tos(&bmachine.reg[index]);
+	if (idx >= 0 && (ok || (!ok && elseidx != NO_ELSE))) {
+		v = stack_tos(&bmachine.reg[idx]);
 		if (v == NULL)
-			warnx("register '%c' (0%o) is empty", index, index);
+			warnx("register '%c' (0%o) is empty", idx, idx);
 		else {
 			switch(v->type) {
 			case BCODE_NONE:
-				warnx("register '%c' (0%o) is empty",
-				    index, index);
+				warnx("register '%c' (0%o) is empty", idx, idx);
 				break;
 			case BCODE_NUMBER:
 				warn("eval called with non-string argument");
@@ -1550,6 +1569,7 @@ quitN(void)
 	if (n == NULL)
 		return;
 	i = get_ulong(n);
+	free_number(n);
 	if (i == BN_MASK2 || i == 0)
 		warnx("Q command requires a number >= 1");
 	else if (bmachine.readsp < i)
@@ -1607,9 +1627,9 @@ skip_until_mark(void)
 		case '<':
 		case '>':
 		case '=':
-			readreg();
+			(void)readreg();
 			if (readch() == 'e')
-				readreg();
+				(void)readreg();
 			else
 				unreadch();
 			break;
@@ -1621,9 +1641,9 @@ skip_until_mark(void)
 				case '<':
 				case '>':
 				case '=':
-					readreg();
+					(void)readreg();
 					if (readch() == 'e')
-						readreg();
+						(void)readreg();
 					else
 						unreadch();
 					break;
@@ -1688,6 +1708,7 @@ eval_line(void)
 	struct source	in;
 	char		*p;
 
+	clearerr(stdin);
 	src_setstream(&in, stdin);
 	p = (*in.vtable->readline)(&in);
 	eval_string(p);
@@ -1727,10 +1748,10 @@ eval(void)
 				bmachine.interrupted = false;
 		}
 #ifdef DEBUGGING
-		fprintf(stderr, "# %c\n", ch);
+		(void)fprintf(stderr, "# %c\n", ch);
 		stack_print(stderr, &bmachine.stack, "* ",
 		    bmachine.obase);
-		fprintf(stderr, "%d =>\n", bmachine.readsp);
+		(void)fprintf(stderr, "%zd =>\n", bmachine.readsp);
 #endif
 
 		if (0 <= ch && ch < UCHAR_MAX)
@@ -1741,7 +1762,7 @@ eval(void)
 #ifdef DEBUGGING
 		stack_print(stderr, &bmachine.stack, "* ",
 		    bmachine.obase);
-		fprintf(stderr, "%d ==\n", bmachine.readsp);
+		(void)fprintf(stderr, "%zd ==\n", bmachine.readsp);
 #endif
 	}
 }
