@@ -16,6 +16,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+#include <sys/param.h>
 #include <ssl/ssl.h>
 #include <ctype.h>
 #include <err.h>
@@ -23,7 +24,7 @@
 
 #include "extern.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/dc/inout.c,v 1.2 2014/08/19 20:44:55 tg Exp $");
 
 #define MAX_CHARS_PER_LINE 68
 
@@ -221,9 +222,25 @@ readnumber(struct source *src, u_int base)
 			bn_check(BN_add_word(n->number, v));
 	}
 	if (base != 10) {
-		scale_number(n->number, n->scale);
+		u_int iscale, dscale;
+
+		if ((dscale = bmachine_scale()) > n->scale) {
+			iscale = dscale;
+			dscale -= n->scale;
+		} else {
+			iscale = n->scale;
+			dscale = 0;
+		}
+		scale_number(n->number, iscale);
 		for (i = 0; i < n->scale; i++)
 			(void)BN_div_word(n->number, base);
+		n->scale += dscale;
+		/*
+		 * This makes the number have the k (scale) value
+		 * if set. What we really want is to use a sane
+		 * value in the default case, i.e. 0.1 -> one digit
+		 * -> 0xF -> 15 -> scale=2; two digits 256 ergo 3.
+		 */
 	}
 	if (sign)
 		negate(n);
