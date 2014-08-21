@@ -1,4 +1,4 @@
-$MirOS: src/sys/dev/usb/usbdevs,v 1.7 2012/07/06 14:15:43 tg Exp $
+$MirOS: src/sys/dev/usb/usbdevs,v 1.8 2012/07/06 14:28:59 tg Exp $
 /* $OpenBSD: usbdevs,v 1.579 2012/04/08 12:15:21 jsg Exp $ */
 /* $NetBSD: usbdevs,v 1.322 2003/05/10 17:47:14 hamajima Exp $ */
 
@@ -738,6 +738,7 @@ product ACERP AWL400		0x9001	AWL400
 product ACTIONTEC PRISM_25	0x0408	Prism2.5 WLAN
 product ACTIONTEC PRISM_25A	0x0421	Prism2.5 WLAN A
 product ACTIONTEC AR9287	0x1200	AR9287+AR7010
+product ACTIONTEC BMDC_2	0x2441	BMDC-2 IBM Bluetooth III w.56k
 product ACTIONTEC FREELAN	0x6106	ROPEX FreeLan 802.11b
 product ACTIONTEC 802UAT1	0x7605	802UAT1
 
