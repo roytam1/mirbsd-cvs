@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.76 2014/08/17 19:45:28 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.77 2014/08/19 22:06:30 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6154,7 +6154,7 @@ Tag: D1 T1 Event
 ----
 ID: 1069
 Date: 16.08.2014
-Waypoint: GC2PA5Y
+Waypoint: GC2PA5Y OCBF04
 Title: Müllcache
 Tag: D25 T15 Micro Mystery
 ----
@@ -6229,6 +6229,14 @@ Date: 19.08.2014
 Waypoint: GC3A4VE
 Title: St. Michael - Niederdollendorf
 Tag: D1 T15 Micro Tradi
+----
+ID: 1082
+Date: 27.08.2014
+Waypoint: GC14Y8P OC3EA7 N0265A
+Title: DARE INTO DARKNESS II
+Tag: D3 T35 Regular Multi recommended
+
+Vorher GLFAV8M0 lesen. Nix für Weicheier!
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
