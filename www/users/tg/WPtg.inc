@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.77 2014/08/19 22:06:30 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.78 2014/08/27 20:05:53 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -155,7 +155,7 @@ Tag: recommended
 ----
 ID: 30
 Date: 28.02.2008
-Waypoint: GCY1ZJ
+Waypoint: GCY1ZJ OC243A
 Title: Gotteshäuser: Waldkapelle Rheinbach
 Tag: recommended
 ----
@@ -1393,22 +1393,22 @@ Title: BAB3: Raststätte Fernthal West --&gt; Frankfurt
 ----
 ID: 271
 Date: 11.08.2012
-Waypoint: GC174WD
+Waypoint: GC174WD OC4790
 Title: &#34;Lore ist silber!&#34;
 ----
 ID: 272
 Date: 11.08.2012
-Waypoint: GC174WC
+Waypoint: GC174WC OC476D
 Title: &#34;Lore ist groß!&#34;
 ----
 ID: 273
 Date: 11.08.2012
-Waypoint: GC17038
+Waypoint: GC17038 OC474D
 Title: &#34;Lore ist zu dritt!&#34;
 ----
 ID: 274
 Date: 11.08.2012
-Waypoint: GC16VM0
+Waypoint: GC16VM0 OC4638
 Title: &#34;Lore ist flach!&#34;
 ----
 ID: 275
@@ -1573,7 +1573,7 @@ Title: Burgen &amp; Schlösser - Rolandsbogen - dritte Ausgabe
 ----
 ID: 306
 Date: 13.02.2013
-Waypoint: GC1TKGT
+Waypoint: GC1TKGT OC8744
 Title: Rodderberg Vulkan
 Tag: recommended earth
 ----
@@ -1802,7 +1802,7 @@ Title: Stellplatz
 ----
 ID: 351
 Date: 10.05.2013
-Waypoint: GC2CEK0
+Waypoint: GC2CEK0 OCB570
 Title: Häuser der Helfer: Polizeipräsidium Bonn
 ----
 ID: 352
@@ -1852,7 +1852,7 @@ Title: Rodderberger Erdnuckel
 ----
 ID: 361
 Date: 30.05.2013
-Waypoint: GCQCF8
+Waypoint: GCQCF8 OC0915
 Title: Auf dem Rodderberg
 ----
 ID: 362
@@ -2268,7 +2268,7 @@ Massiv off. Bessere Koordinaten in den Logs…
 ----
 ID: 433
 Date: 01.08.2013
-Waypoint: GC4HHZZ
+Waypoint: GC4HHZZ OC3378
 Title: Hinterm Busch gleich links
 nTF: 4
 ----
@@ -2310,7 +2310,7 @@ Title: Ankerbach
 ----
 ID: 441
 Date: 07.08.2013
-Waypoint: GCV21F
+Waypoint: GCV21F OC1A07
 Title: Burgen &amp; Schlösser #10 - Kommende Ramersdorf
 ----
 ID: 442
@@ -2664,7 +2664,7 @@ mal beim Rechnen nicht zu kompliziert denken.
 ----
 ID: 503
 Date: 05.09.2013
-Waypoint: GC3FP98
+Waypoint: GC3FP98 OCF2D5
 Title: TB Bunker BONN Duisdorf
 Tag: D2 T2 Large Tradi recommended
 ----
@@ -2778,7 +2778,7 @@ Tag: D15 T15 Small Tradi
 ----
 ID: 522
 Date: 27.09.2013
-Waypoint: GCVZR8
+Waypoint: GCVZR8 OC234B
 Title: Gotteshäuser Helenenkapelle
 Tag: D15 T1 Micro Tradi recommended
 ----
@@ -2898,7 +2898,7 @@ Tag: D2 T3 Small Tradi
 ----
 ID: 542
 Date: 08.10.2013
-Waypoint: GCZQQC
+Waypoint: GCZQQC OC2AE5
 Title: Didn't find it - der Cache - Vol. 2 - Heiderhof
 Tag: D1 T15 Regular Tradi
 ----
@@ -3300,7 +3300,7 @@ Tag: D1 T15 Micro Tradi
 ----
 ID: 608
 Date: 07.12.2013
-Waypoint: GCV20A
+Waypoint: GCV20A OC1A06
 Title: Dichter &amp; Denker #5 - Leibniz
 Tag: D25 T1 Regular Mystery
 ----
@@ -3318,7 +3318,7 @@ Tag: D3 T1 Micro Mystery
 ----
 ID: 611
 Date: 07.12.2013
-Waypoint: GC1BTE6
+Waypoint: GC1BTE6 OC5962
 Title: Gotteshaeuser: St_Elisabeth_Kirche_Bonn
 Tag: D2 T1 Micro Multi
 ----
@@ -3891,7 +3891,7 @@ War ja klar, daß gecko2 den doch noch macht… „ich bin müde“ my Foot…
 ----
 ID: 703
 Date: 24.01.2014
-Waypoint: GC17ZC0
+Waypoint: GC17ZC0 OC5C1B
 Title: Hermann Bleibtreu
 Tag: D2 T15 Micro Tradi
 ----
@@ -4547,7 +4547,7 @@ Tag: D3 T15 Micro Tradi
 ----
 ID: 808
 Date: 13.04.2014
-Waypoint: GC14E53
+Waypoint: GC14E53 OC3BF6
 Title: Gotteshäuser – Ehrendenkmal Bad Bodendorf
 Tag: D1 T1 Small Multi
 ----
@@ -6202,7 +6202,7 @@ Tag: D2 T15 Earth recommended
 ----
 ID: 1077
 Date: 19.08.2014
-Waypoint: GCTY6M
+Waypoint: GCTY6M OC1961
 Title: Kirchen &amp; Kapellen #3 - Chorruine Heisterbach
 Tag: D2 T15 Regular Multi
 ----
@@ -6237,6 +6237,12 @@ Title: DARE INTO DARKNESS II
 Tag: D3 T35 Regular Multi recommended
 
 Vorher GLFAV8M0 lesen. Nix für Weicheier!
+----
+ID: 1083
+Date: 28.08.2014
+Waypoint: GC33M48
+Title: Alles auf die 20!
+Tag: D4 T15 Small Mystery recommended
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
