@@ -3,7 +3,8 @@
 
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.9 2014/08/16 20:19:55 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.10 2014/08/19 22:06:31 tg Exp $'
+mws_maketoc
 
 function banner {
 	local wp=$1 img=$2 title=$3
@@ -42,7 +43,7 @@ mws_content <<'EOF'
 
 <h2 id="banners">Banners et al.</h2>
 
-<h3>Achievements</h3>
+<h3 id="banners_Achievements">Achievements</h3>
 
 <table style="border:1px solid black; padding:6px;">
 <tr style="border:0;"><td align="center" style="border:0;">
@@ -55,7 +56,7 @@ mws_content <<'EOF'
 </td></tr>
 </table>
 
-<h3>Cachebanner</h3>
+<h3 id="banners_Cachebanner">Cachebanner</h3>
 
 EOF
 
@@ -73,10 +74,11 @@ banner GC43VM8 http://neersianer.de/listings/GC43VM8/banner.jpg 'Der &#34;08/15&
 banner GC3WGD9 http://www.fotos-hochladen.net/uploads/bannersissiscau52cybeinl.jpg 'Bonn/Rhein-Sieg 1. offizielle Sissi-T5 Letterbox'
 banner GC4T3RE http://imgcdn.geocaching.com/cache/ff1b2dea-b344-4615-a763-0bc620224e1d.jpg 'Rätseln im Drachenfelser Ländchen'
 banner GC4WMM9 http://imgcdn.geocaching.com/cache/large/44a34933-2924-4544-8959-4e17a40b9083.jpg 'Das Burggespenst Metternich'
+banner GC4WT0N http://imgcdn.geocaching.com/cache/af0a637a-c6ff-4a57-a81e-04a09e64e03b.jpg 'Wachtberger Sterne'
 
 mws_content <<'EOF'
 
-<h3>Software</h3>
+<h3 id="Software">Software</h3>
 
 <form accept-charset="utf-8" id="lookup" action="wp.cgi" method="get">
  <p><span style="border:1px solid black; padding:6px;">
@@ -121,7 +123,7 @@ mws_content <<'EOF'
  (for Windows® Mobile, Community Edition)</a>,
  no longer maintained, mostly ☹</span></p>
 
-<h3>Other Stats</h3>
+<h3 id="other_stats">Other Stats</h3>
 
 EOF
 
@@ -170,7 +172,7 @@ mws_content <<'EOF'
  <li><a href="http://www.pathtags.com/community/viewuserprofile.php?id=114259">pathtags.com</a></li>
 </ul>
 
-<h2>Not exactly Geocaching…</h2>
+<h2 id="nqc">Not exactly Geocaching…</h2>
 
 <p>… but relevant for some TerraCaching challenges:<br /><img
  style="border:0px;" src="http://signature.statseb.fr/sig-1100.gif"

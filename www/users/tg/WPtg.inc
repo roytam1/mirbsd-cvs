@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.78 2014/08/27 20:05:53 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.79 2014/08/28 19:01:50 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6243,6 +6243,12 @@ Date: 28.08.2014
 Waypoint: GC33M48
 Title: Alles auf die 20!
 Tag: D4 T15 Small Mystery recommended
+----
+ID: 1084
+Date: 30.08.2014
+Waypoint: GC4WT0N
+Title: Wachtberger Sterne
+Tag: D25 T25 Regular Multi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
