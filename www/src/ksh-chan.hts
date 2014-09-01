@@ -3,7 +3,7 @@
 
 mws_setname hosted/ksh-chan "The #ksh on Freenode page"
 mws_setheadline 'Channel page for #ksh'
-mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.67 2014/06/24 20:57:49 tg Exp $'
+mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.68 2014/06/29 13:23:15 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of contents</h2>
 EOF
@@ -55,7 +55,7 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="vsns">Korn Shell versions</h2>
-<p>This information is current as of: 2014-06-29 (29 June 2014)</p>
+<p>This information is current as of: 2014-09-01 (1 September 2014)</p>
 <p><a href="http://www.kornshell.com/">AT&amp;T Korn Shell</a>: latest is
  ksh93v- (beta) dated 2014-06-25 (25 June 2014) and ksh93u+ (stable)
  dated 2012-08-01; actively developed</p>
@@ -112,7 +112,8 @@ mws_content <<'EOF'
  <tt>http://www2.research.att.com/~astopen/</tt> now.</p>
 <hr />
 <p>This page is hosted on the website of The MirOS Project, but not
- a part of it. However, mksh(1) is. Use memoserv on Freenode for
+ a part of it. However, mksh(1) is (but the original AT&amp;T Korn
+ Shell isn’t either). Use memoserv on the Freenode IRC network for
  sending “mirabilos” updates to this webpage.</p>
 EOF
 mws_putfooter
