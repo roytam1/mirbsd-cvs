@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.79 2014/08/28 19:01:50 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.80 2014/08/30 20:58:13 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6249,6 +6249,18 @@ Date: 30.08.2014
 Waypoint: GC4WT0N
 Title: Wachtberger Sterne
 Tag: D25 T25 Regular Multi
+----
+ID: 1085
+Date: 01.09.2014
+Waypoint: GC3HY37
+Title: BN Challenge Cache: 7 Icons²
+Tag: D4 T15 Micro Mystery
+----
+ID: 1086
+Date: 01.09.2014
+Waypoint: GC2NNFG
+Title: Projekt CT9 (Challenge Cache)
+Tag: D4 T25 Micro Mystery recommended
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
