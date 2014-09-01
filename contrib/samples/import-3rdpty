@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.45 2012/12/31 21:00:31 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.46 2014/03/23 20:04:37 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
 #		2012, 2014
@@ -20,7 +20,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.45 2012/12/31 21:00:31 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.46 2014/03/23 20:04:37 tg Exp $ ========='
 
 set -A PRECMDS --
 ignlist=0
@@ -1415,10 +1415,19 @@ case $module {
 	;;
 (tzdata)
 	IGNORELIST="\
+		CONTRIBUTING \
 		Makefile \
+		NEWS \
 		README \
+		Theory \
+		backzone \
+		checktab.awk \
+		iso3166.tab \
 		leap-seconds.list \
 		leapseconds.awk \
+		zone.tab \
+		zone1970.tab \
+		zoneinfo2tdf.pl \
 	"
 	vendor=tz
 	vpath=src/share/zoneinfo/datfiles
@@ -1652,7 +1661,7 @@ case $module {
 	[[ $tag = tzdata20[1-9][0-9][a-z] ]] || tagerr=1
 	realtag=$tag
 	tagformat=tzdataYYYYa
-	if [[ ! -e iso3166.tab || ! -e leapseconds || ! -e backward ]]; then
+	if [[ ! -e leapseconds || ! -e backward ]]; then
 		print -u2 Error: must be in src directory to commit.
 		exit 1
 	fi
