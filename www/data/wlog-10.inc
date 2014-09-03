@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.456 2014/07/15 21:10:45 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.458 2014/07/15 22:14:31 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10747,4 +10747,12 @@ Tag: jupp mksh news pcli
 <p><strong>Update 03.07.2014</strong>: New release for MirCPIO, that
  is, cpio(1) and pax(1) and tar(1) in a somewhat portable package.</p>
 <tt class="dowrap">-r--r--r--  4 tg  miros-cvssrc  141973 Jul  3 19:56 /MirOS/dist/mir/cpio/paxmirabilis-20140703.cpio.gz</tt>
+----
+Title: mksh R50b released
+Date: 03.09.2014 19:54
+Author: tg@
+Tag: mksh news pcli
+
+<p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a> has got
+ a new bugfix release. Thought you’d want to know ☺</p>
 ----
