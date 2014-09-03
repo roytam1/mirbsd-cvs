@@ -1,9 +1,0 @@
-$MirOS$
-
-	housekeeping for MPFR’s patch system, only
-
---- VERSION.orig	Thu May 29 18:52:21 2014
-+++ VERSION	Thu May 29 19:21:59 2014
-@@ -1 +1 @@
--2.4.2-p3
-+2.4.2-p3+rh643657+__gmp_const

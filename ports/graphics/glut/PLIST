@@ -1,7 +1,0 @@
-@comment $MirOS$
-include/GL/freeglut.h
-include/GL/freeglut_ext.h
-include/GL/freeglut_std.h
-include/GL/glut.h
-lib/libglut.la
-@dirrm include/GL
