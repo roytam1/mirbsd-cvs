@@ -2530,7 +2530,6 @@
 ./usr/share/misc/eqnchar
 ./usr/share/misc/getopt
 ./usr/share/misc/inter.phone
-./usr/share/misc/iso3166.tab
 ./usr/share/misc/licence.template
 ./usr/share/misc/license.template
 ./usr/share/misc/mail.help
@@ -2952,6 +2951,7 @@
 ./usr/share/zoneinfo/Asia/Bishkek
 ./usr/share/zoneinfo/Asia/Brunei
 ./usr/share/zoneinfo/Asia/Calcutta
+./usr/share/zoneinfo/Asia/Chita
 ./usr/share/zoneinfo/Asia/Choibalsan
 ./usr/share/zoneinfo/Asia/Chongqing
 ./usr/share/zoneinfo/Asia/Chungking
@@ -3009,6 +3009,7 @@
 ./usr/share/zoneinfo/Asia/Seoul
 ./usr/share/zoneinfo/Asia/Shanghai
 ./usr/share/zoneinfo/Asia/Singapore
+./usr/share/zoneinfo/Asia/Srednekolymsk
 ./usr/share/zoneinfo/Asia/Taipei
 ./usr/share/zoneinfo/Asia/Tashkent
 ./usr/share/zoneinfo/Asia/Tbilisi
@@ -3298,7 +3299,6 @@
 ./usr/share/zoneinfo/WET
 ./usr/share/zoneinfo/Zulu
 ./usr/share/zoneinfo/posixrules
-./usr/share/zoneinfo/zone.tab
 ./usr/src
 ./var
 ./var/account
