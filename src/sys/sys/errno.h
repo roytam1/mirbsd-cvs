@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/errno.h,v 1.9 2012/12/18 13:13:00 bsiegert Exp $ */
+/**	$MirOS: src/sys/sys/errno.h,v 1.10 2012/12/31 20:19:49 tg Exp $ */
 /*	$OpenBSD: errno.h,v 1.14 2005/06/17 21:48:03 espie Exp $	*/
 /*	$NetBSD: errno.h,v 1.10 1996/01/20 01:33:53 jtc Exp $	*/
 
@@ -206,6 +206,14 @@ __END_DECLS
 #ifndef _POSIX_SOURCE
 #define	ELAST		99		/* Must be equal largest errno */
 #endif /* _POSIX_SOURCE */
+
+/**
+ * IMPORTANT: changes to errnos require a libc major bump!
+ * ld(1) reserves space for a copy of libc’s sys_errlist[]
+ * in the .bss of a non-static non-PIE executable, as well
+ * as sys_nerr, and copies them at start; if sys_errlist[]
+ * gets bigger sys_nerr points after its end. (10x jilles)
+ */
 
 #ifdef _KERNEL
 /* pseudo-errors returned inside kernel to modify return to process */
