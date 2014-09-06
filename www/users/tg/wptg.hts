@@ -3,7 +3,7 @@
 
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.10 2014/08/19 22:06:31 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.11 2014/08/30 20:58:14 tg Exp $'
 mws_maketoc
 
 function banner {
@@ -75,6 +75,7 @@ banner GC3WGD9 http://www.fotos-hochladen.net/uploads/bannersissiscau52cybeinl.j
 banner GC4T3RE http://imgcdn.geocaching.com/cache/ff1b2dea-b344-4615-a763-0bc620224e1d.jpg 'Rätseln im Drachenfelser Ländchen'
 banner GC4WMM9 http://imgcdn.geocaching.com/cache/large/44a34933-2924-4544-8959-4e17a40b9083.jpg 'Das Burggespenst Metternich'
 banner GC4WT0N http://imgcdn.geocaching.com/cache/af0a637a-c6ff-4a57-a81e-04a09e64e03b.jpg 'Wachtberger Sterne'
+banner GC2EJCE http://img.geocaching.com/cache/large/462e8492-14c3-4920-944d-187160d5447a.bmp 'Liebesbrücke'
 
 mws_content <<'EOF'
 
