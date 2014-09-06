@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.551 2014/09/01 21:26:54 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.552 2014/09/03 19:55:48 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -888,6 +888,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
  href="http://download.opensuse.org/repositories/home:/mirabile/CentOS_5/src/">home
  project of mirabilos</a>; it’s buildable on Debian and MirBSD as well, and can be
  used for Mandrake/Mandriva/Mageia and, thanks to ragnar76, Atari SpareMiNT.</li>
+<li class="cr"><img class="fr" width="64" height="64" alt="[Void logo]"
+ src="@@RELPATH@@pics/logos/void.png" /><a
+ href="http://www.voidlinux.eu/">Void Linux</a> includes an up-to-date mksh <a
+ href="https://github.com/voidlinux/void-packages/blob/master/srcpkgs/mksh/template">template</a>.
+ It’s maintained and updated with “love” by “Ypnose”.</li>
 <li class="cr"><img class="fr" width="129" height="64" alt="[Fink logo]"
  src="@@RELPATH@@pics/logos/fink.png" /><a
  href="http://fink.sf.net/">Fink</a> delivers an <a
