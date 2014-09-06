@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.81 2014/09/01 19:25:16 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.82 2014/09/04 23:07:20 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6273,6 +6273,24 @@ Date: 05.09.2014
 Waypoint: GC53E1H
 Title: Hotte Hüh
 Tag: D1 T15 Micro Tradi
+----
+ID: 1089
+Date: 06.09.2014
+Waypoint: OC10C63
+Title: Pinkie*5
+Tag: D1 T1 Micro Tradi
+----
+ID: 1090
+Date: 06.09.2014
+Waypoint: OC10E39
+Title: Online-Liebe
+Tag: D1 T1 Virtual
+----
+ID: 1091
+Date: 06.09.2014
+Waypoint: GC2EJCE
+Title: Liebesbrücke
+Tag: D3 T15 Micro Tradi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
