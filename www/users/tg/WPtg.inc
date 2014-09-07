@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.82 2014/09/04 23:07:20 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.83 2014/09/06 22:43:48 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6291,6 +6291,40 @@ Date: 06.09.2014
 Waypoint: GC2EJCE
 Title: Liebesbrücke
 Tag: D3 T15 Micro Tradi
+----
+ID: 1092
+Date: 07.09.2014
+Waypoint: GC1M1NK
+Title: Servatiuskapelle
+Tag: D2 T15 Micro Tradi
+----
+ID: 1093
+Date: 07.09.2014
+Waypoint: GC4KMK7
+Title: Postamt unterm Hasengrill
+Tag: D15 T2 Regular Letterbox_Hybrid
+----
+ID: 1094
+Date: 07.09.2014
+Waypoint: GC3V1ZM
+Title: HÜTTENZAUBER IM SIEBENGEBIRGE-Florianshütte
+Tag: D2 T15 Small Tradi
+----
+ID: 1095
+Date: 07.09.2014
+Waypoint: GCB88
+Title: Himmerich
+Tag: D25 T25 Regular Multi recommended exceptional
+
+What can you say. Truly an exceptional old cache.
+Do not complain about your back aching, or your
+circulation going wild, though ☺
+----
+ID: 1096
+Date: 07.09.2014
+Waypoint: GC3NJNN
+Title: GC - Crossgolf #25
+Tag: D5 T5 Small Mystery
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat

@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.29 2014/08/18 22:23:40 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.30 2014/08/27 20:05:53 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -365,6 +365,9 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 		for x in ${e_tag[ent]}; do
 			[[ $x = recommended ]] && \
 			    sep='<span style="color:red;" title="Recommended">❧</span>'
+		done
+		for x in ${e_tag[ent]}; do
+			[[ $x = exceptional ]] && sep="<b>$sep</b>"
 		done
 		print -r " $sep ${e_title[ent]}"
 		if [[ -n ${ei_body[ent]} ]]; then
