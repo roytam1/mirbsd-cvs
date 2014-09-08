@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.83 2014/09/06 22:43:48 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.84 2014/09/07 19:22:01 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6325,6 +6325,12 @@ Date: 07.09.2014
 Waypoint: GC3NJNN
 Title: GC - Crossgolf #25
 Tag: D5 T5 Small Mystery
+----
+ID: 1097
+Date: 08.09.2014
+Waypoint: GC4YVD5
+Title: Stairway to Laneway
+Tag: D2 T3 Small Tradi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
