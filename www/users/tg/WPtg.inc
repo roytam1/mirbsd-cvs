@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.84 2014/09/07 19:22:01 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.85 2014/09/08 18:55:49 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6331,6 +6331,55 @@ Date: 08.09.2014
 Waypoint: GC4YVD5
 Title: Stairway to Laneway
 Tag: D2 T3 Small Tradi
+----
+ID: 1098
+Date: 21.06.2014
+Waypoint: TCBDS
+Title: Drachenlachen
+nTF: L
+Tag: Multi Medium exceptional
+----
+ID: 1099
+Date: 09.09.2014
+Waypoint: GC3KV89
+Title: Linie 16 - Haltepunkt Uedorf
+Tag: D15 T15 Small Tradi
+----
+ID: 1100
+Date: 09.09.2014
+Waypoint: GC3KV7K
+Title: Linie 16 - Haltepunkt Widdig
+Tag: D15 T1 Small Tradi
+----
+ID: 1101
+Date: 09.09.2014
+Waypoint: GC3KV8V
+Title: Linie 16 - Haltepunkt Urfeld
+Tag: D15 T15 Micro Tradi
+----
+ID: 1102
+Date: 09.09.2014
+Waypoint: GC43QBF OC10096
+Title: Rhein-Schifffahrt kurz
+Tag: D2 T15 Micro Tradi
+----
+ID: 1103
+Date: 09.09.2014
+Waypoint: GC21NE2
+Title: Advent Advent: Lichterfest der Luzia
+Tag: D15 T15 Micro Tradi
+----
+ID: 1104
+Date: 09.09.2014
+Waypoint: GC4F169 OC10092
+Title: Rhein-Astschnitt
+Tag: D2 T2 Micro Tradi recommended
+----
+ID: 1105
+Date: 09.09.2014
+Waypoint: GC33HBD
+Title: Mondorfer Bach
+Tag: D35 T15 Small Tradi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
