@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.85 2014/09/08 18:55:49 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.86 2014/09/09 21:10:43 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6380,6 +6380,19 @@ Date: 09.09.2014
 Waypoint: GC33HBD
 Title: Mondorfer Bach
 Tag: D35 T15 Small Tradi
+----
+ID: 1106
+Date: 11.09.2014
+Waypoint: OC11457 GC446WD
+Title: Kunst am Wegesrand: Stern des Rheins
+nTF: 2
+Tag: D25 T15 Small Mystery
+----
+ID: 1107
+Date: 11.09.2014
+Waypoint: GC55KJE
+Title: Städtekenner gesucht!!!
+Tag: D25 T15 Micro Mystery
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
