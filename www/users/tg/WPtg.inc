@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.86 2014/09/09 21:10:43 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.87 2014/09/11 19:10:19 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6393,6 +6393,60 @@ Date: 11.09.2014
 Waypoint: GC55KJE
 Title: Städtekenner gesucht!!!
 Tag: D25 T15 Micro Mystery
+----
+ID: 1108
+Date: 13.09.2014
+Waypoint: GC3608A
+Title: [CHIPS'11] HAUNTED 2
+Tag: D25 T25 Small Mystery
+----
+ID: 1109
+Date: 13.09.2014
+Waypoint: GCHM04
+Title: Alstad #1
+Tag: D2 T15 Regular Tradi
+----
+ID: 1110
+Date: 13.09.2014
+Waypoint: GC1X8BB
+Title: The Luxembourg Plateau – Luxembourg Sandstone
+Tag: D15 T15 Earth
+----
+ID: 1111
+Date: 13.09.2014
+Waypoint: GC2B1QF
+Title: Corkscrew Snake
+Tag: D2 T1 Small Tradi
+----
+ID: 1112
+Date: 13.09.2014
+Waypoint: GC21HTQ
+Title: Les vieux z' entrepots
+Tag: D3 T25 Small Tradi
+----
+ID: 1113
+Date: 13.09.2014
+Waypoint: GC2ATK2
+Title: Red Land
+Tag: D3 T2 Micro Mystery
+----
+ID: 1114
+Date: 13.09.2014
+Waypoint: GC4FYTK
+Title: Forever
+Tag: D3 T15 Micro Tradi
+----
+ID: 1115
+Date: 13.09.2014
+Waypoint: GC1V6AV
+Title: France
+Tag: D15 T2 Micro Tradi
+----
+ID: 1116
+Date: 13.09.2014
+Waypoint: GC21ZTP
+Title: Keiner da? #3
+Tag: D25 T3 Small Tradi
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
