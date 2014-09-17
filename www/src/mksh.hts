@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.552 2014/09/03 19:55:48 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.553 2014/09/06 22:43:35 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -706,6 +706,15 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>The QNX ed(1) used to fail the regression tests due to being broken;
  compile the MirBSD ed and place it in <tt>/bin/</tt> to fix this, or
  get an updated ed from vendor.</p>
+
+<h5 class="cr" id="oe_rtems">OS: RTEMS</h5>
+<pre>04:02 &lt; kiwichris&gt; Just dropped by to say I built mksh for RTEMS
+                   (http://www.rtems.org/) and can run it on a
+                   sparc simulator.
+04:02 &lt; xiaomiao&gt; nice!
+04:03 &lt; kiwichris&gt; yeah it is; cannot do to much at the moment because
+                   rtems is a statically linked binary and
+                   commands are 'functions'</pre>
 
 <h5 class="cr" id="oe_sco">OS: SCO OpenServer, SCO UnixWare</h5>
 <p>SCO OpenServer 5 lacks job support, which SCO OpenServer 6 and SCO
