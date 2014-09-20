@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.31 2014/09/07 19:22:00 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.32 2014/09/08 15:45:26 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -215,6 +215,7 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 	numsh=0
 	numtc=0
 	numvx=0
+	num_b=0
 	num_m=0
 	num_w=0
 	num_x=0
@@ -282,6 +283,7 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 			(EC*)
 				wp="<a href=\"http://extremcaching.com/index.php/output-2/${wp#EC}\">$wp</a>"
 				[[ -n $xid ]] && let numec++
+				;;
 			(GA*)
 				wp="<a href=\"http://geocaching.com.au/cache/$wp\">$wp</a>"
 				[[ -n $xid ]] && let numga++
@@ -351,6 +353,8 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 				[[ -n $xid ]] && case $wp {
 				(*://labs.geocaching.com/*)
 					let numgc++ ;;
+				(*://www.bessercacher.de/*)
+					let num_b++ ;;
 				(*://www.wherigo.com/*)
 					let num_w++ ;;
 				}
@@ -404,14 +408,17 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 	done
 	print '</ul>'
 	(( numtot = numec + numga + numgc + numgd + numge + numgg + numnc + \
-	    numoc + numox + numsh + numtc + numvx + num_m + num_w + num_x ))
+	    numoc + numox + numsh + numtc + numvx + num_b + num_m + num_w + \
+	    num_x ))
 	print -n "<p>Totals: $numtot waypoint links"
 	(( numga )) && print -n ", Australia $numga"
+	(( num_b )) && print -n ", BesserCacher $numec"
 	(( numec )) && print -n ", Extremcaching $numec"
 	(( numgc )) && print -n ", Groundspeak <!-- gc.com, waymarking --> $numgc"
 	(( numgd )) && print -n ", Geodashing <!-- (gpsgames) --> $numgd"
 	(( numge )) && print -n ", GPSgames <!-- geocaching --> $numge"
 	(( numgg )) && print -n ", GeoGolf <!-- (gpsgames) --> $numgg"
+	(( num_x )) && print -n ", Geo Hashing <!-- xkcd.com --> $num_x"
 	(( num_m )) && print -n ", Munzee $num_m"
 	(( numnc )) && print -n ", Navicaching $numnc"
 	(( numoc )) && print -n ", Opencaching <!-- network --> $numoc"
@@ -420,7 +427,6 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 	(( numtc )) && print -n ", TerraCaching <!-- TC/LC/CC --> $numtc"
 	(( numvx )) && print -n ", GeoVexilla <!-- (gpsgames) --> $numvx"
 	(( num_w )) && print -n ", Wherigo Cartridges $num_w"
-	(( num_x )) && print -n ", Geo Hashing <!-- xkcd.com --> $num_x"
 	print ".</p>"
 } | mws_content >>"WP$committer.htm~"
 mws_putfooter >>"WP$committer.htm~"

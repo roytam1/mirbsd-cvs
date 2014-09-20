@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.87 2014/09/11 19:10:19 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.88 2014/09/13 23:23:07 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6426,7 +6426,7 @@ Tag: D3 T25 Small Tradi
 ----
 ID: 1113
 Date: 13.09.2014
-Waypoint: GC2ATK2
+Waypoint: GC2ATK2 http://www.bessercacher.de/Forum/phpBB3/viewtopic.php?t=1293
 Title: Red Land
 Tag: D3 T2 Micro Mystery
 ----
@@ -6447,6 +6447,82 @@ Date: 13.09.2014
 Waypoint: GC21ZTP
 Title: Keiner da? #3
 Tag: D25 T3 Small Tradi
+----
+ID: 1117
+Date: 15.09.2014
+Waypoint: VX76-DIKA
+Title: [Austria]
+----
+ID: 1118
+Date: 15.09.2014
+Waypoint: VX75-YJYN
+Title: [Solomon Islands]
+----
+ID: 1119
+Date: 15.09.2014
+Waypoint: VX71-UPIK
+Title: [Jersey]
+----
+ID: 1120
+Date: 20.09.2014
+Waypoint: GC1G390 OC6ACF
+Title: Der Altar der Nibelungen
+Tag: D2 T3 Regular Multi recommended
+----
+ID: 1121
+Date: 20.09.2014
+Waypoint: GC4Y5HR
+Title: Der Ursprung eine Erinnerung an ....
+Tag: D3 T25 Small Mystery
+----
+ID: 1122
+Date: 20.09.2014
+Waypoint: GC3TE2K
+Title: Tell
+Tag: D1 T15 Micro Tradi
+----
+ID: 1123
+Date: 20.09.2014
+Waypoint: GC4WBBM
+Title: Paulownia
+Tag: D15 T15 Regular Tradi
+----
+ID: 1124
+Date: 20.09.2014
+Waypoint: GC34CMA
+Title: TB Hotel - Bad Honnef
+Tag: D15 T15 Regular Tradi
+----
+ID: 1125
+Date: 20.09.2014
+Waypoint: GC1K547
+Title: Villa Raterestohrp
+Tag: D15 T15 Micro Tradi
+----
+ID: p20140921
+Date: 21.09.2014
+Waypoint: GC5BW9C
+Title: Eis mit Aussicht - Eiszeit MMXIV
+Tag: D1 T1 Event
+----
+ID: p20140925
+Date: 25.09.2014
+Waypoint: GC5CQVC GE0304 N02F7F OC114D3 TC2EEL
+Title: AMT Ⅰ (2014 KW39)
+nTF: 0
+Tag: D1 T1 Event
+----
+ID: p20140927
+Date: 27.09.2014
+Waypoint: GC5B9WW
+Title: Caching goes Classic!
+Tag: D1 T15 Event
+----
+ID: p20141006
+Date: 06.10.2014
+Waypoint: GC5C0MZ
+Title: XLVII. Geocacher Stammtisch BN/SU
+Tag: D15 T15 Event
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
