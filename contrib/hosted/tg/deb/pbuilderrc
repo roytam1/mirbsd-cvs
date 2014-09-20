@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.40 2014/03/24 08:58:15 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.41 2014/05/02 14:59:34 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
@@ -117,6 +117,7 @@ case $DIST in
 	host_ARCHITECTURE=$(dpkg-architecture -qDEB_HOST_ARCH \
 	    -t$(uname -m)-linux-gnu 2>/dev/null)
 	ARCHITECTURE=${DIST##*/}
+	tgt_ARCHITECTURE=${ARCHITECTURE/x32/amd64}
 	DIST=${DIST%/*}
 	if test x"$ARCHITECTURE" = x"$(dpkg-architecture -qDEB_HOST_ARCH \
 	    -a"$ARCHITECTURE" 2>/dev/null)"; then
@@ -126,10 +127,10 @@ case $DIST in
 		setuptofail
 		return
 	fi
-	if test x"$ARCHITECTURE" = x"$host_ARCHITECTURE"; then
+	if test x"$tgt_ARCHITECTURE" = x"$host_ARCHITECTURE"; then
 		: uname values match
 	else
-		echo >&2 "E: Want $ARCHITECTURE but got $host_ARCHITECTURE"
+		echo >&2 "E: Want $tgt_ARCHITECTURE but got $host_ARCHITECTURE"
 		echo >&2 "W: Did you forget to prepend linux32 or linux64" \
 		    "to cowbuilder?"
 		setuptofail
@@ -230,7 +231,7 @@ export BUILDRESULT=/var/cache/pbuilder/result-$DIST/
 export CCACHEDIR=""	# requirement to empty it here!
 export BASEPATH=/var/cache/pbuilder/base.cow-$DIST$ARCHSUFFIX${CUSTOM:+-$CUSTOM}/
 export BUILDRESULTUID=2339
-export BUILDRESULTGID=200
+export BUILDRESULTGID=141
 export BUILDSOURCEROOTCMD=fakeroot
 export BUILDUSERID=1234
 export BUILDUSERNAME=pbuilder
