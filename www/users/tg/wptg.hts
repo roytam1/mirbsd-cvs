@@ -4,18 +4,8 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.13 2014/09/07 19:22:02 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.14 2014/09/20 16:37:21 tg Exp $'
 mws_maketoc
-
-function banner {
-	local ext=$1 wp=$2 title=$3
-
-	mws_content <<-EOF
-		<p><img style="border:0px;" src="http://mirsolutions.de/privat/$wp.$ext"
-		 alt="${wp}│${title}" /></p>
-
-EOF
-}
 
 function statpic {
 	local alt=$1 pic=$2 link=$3
@@ -61,23 +51,34 @@ mws_content <<'EOF'
 
 EOF
 
-banner jpg GC4GDXD 'CAT-Events im August 2013 – Ich war dabei!'
-banner jpg GC3ACGE 'Der “gehobene” Autobahn-Cache'
-banner jpg GC3DEF0 'Smørrebrød: Rezept gefunden'
-banner jpg GC4DCXA 'Mir stinkts...'
-banner jpg GC48Y6N 'Die Notiz auf dem Küchentisch...'
-banner gif GC4G63X 'TB Hotel 24h open'
-banner png GC4RT47 'Mitten in Oeverich 1'
-banner jpg GC4H327 'TB Hotel Fuderbach 1'
-banner jpg GC4M90G 'Beach TB Hotel GBH'
-banner png GC4CVC0 'Auf der Suche nach dem verlorenen Henkelpott'
-banner jpg GC43VM8 'Der &#34;08/15&#34; Cache'
-banner jpg GC3WGD9 'Bonn/Rhein-Sieg 1. offizielle Sissi-T5 Letterbox'
-banner jpg GC4T3RE 'Rätseln im Drachenfelser Ländchen'
-banner jpg GC4WMM9 'Das Burggespenst Metternich'
-banner jpg GC4WT0N 'Wachtberger Sterne'
-banner jpg GC2EJCE 'Liebesbrücke'
-banner jpg GC3NJNN 'GC - Crossgolf #25'
+#DEPEND users/tg/WPtg.inc
+sources=WPtg
+sourcedir_WPtg=users/tg
+
+integer notimesort=1
+integer parser_usedate=0
+
+#DEPEND mk/parser
+. "$TOP"/mk/parser
+
+integer entryp=0
+while (( entryp < entries )); do
+	ent=${ei_indir[entryp++]}
+	[[ -n ${e_banner[ent]} ]] || continue
+	wp=${e_waypoint[ent]%% *}
+	ext=${e_banner[ent]}
+	if [[ $ext = *' '* ]]; then
+		title=${ext#* }
+		ext=${ext%% *}
+	else
+		title=${e_title[ent]}
+	fi
+	cat <<-EOF
+		<p><img style="border:0px;" src="http://mirsolutions.de/privat/$wp.$ext"
+		 alt="${wp}│${title}" /></p>
+
+EOF
+done | mws_content
 
 mws_content <<'EOF'
 

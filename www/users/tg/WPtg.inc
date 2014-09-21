@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.88 2014/09/13 23:23:07 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.89 2014/09/20 16:37:20 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2250,6 +2250,7 @@ Title: NdV 2013 - Street End
 ID: 430
 Date: 01.08.2013
 Waypoint: GC4GDXD
+Banner: jpg CAT-Events im August 2013 – Ich war dabei!
 Title: CAT - Eiszeit 1
 
 Tolle Idee; übernehme ich mal, mit Einverständnis…
@@ -2411,6 +2412,7 @@ Title: Der Birnbaum
 ID: 459
 Date: 20.08.2013
 Waypoint: GC4G63X
+Banner: gif
 Title: TB Hotel 24h open
 ----
 ID: 460
@@ -2893,6 +2895,7 @@ Tag: D15 T15 Nano Tradi
 ID: 541
 Date: 08.10.2013
 Waypoint: GC4H327
+Banner: jpg
 Title: TB Hotel Fuderbach 1
 Tag: D2 T3 Small Tradi
 ----
@@ -3215,6 +3218,7 @@ Tag: D15 T2 Micro Tradi
 ID: 594
 Date: 24.11.2013
 Waypoint: GC4RT47
+Banner: png
 Title: Mitten in Oeverich 1
 Tag: D25 T2 Small Tradi
 ----
@@ -3518,6 +3522,7 @@ Distance: 24.3
 ID: 642
 Date: 13.12.2013
 Waypoint: GC3ACGE
+Banner: jpg Der “gehobene” Autobahn-Cache
 Title: TB-Hotel &#34;Lüner Grund&#34;
 Tag: D1 T1 Small Tradi
 ----
@@ -4345,6 +4350,7 @@ Tag: D2 T2 Micro Tradi
 ID: 776
 Date: 22.03.2014
 Waypoint: GC4M90G
+Banner: jpg
 Title: Beach TB Hotel GBH
 Tag: D1 T1 Large Tradi recommended exceptional
 
@@ -4410,6 +4416,7 @@ Tag: D15 T1 Micro Tradi
 ID: 785
 Date: 29.03.2014
 Waypoint: GC3DEF0
+Banner: jpg Smørrebrød: Rezept gefunden
 Title: „Smørrebrød“ oder „Das Lieblingsrezept“
 Tag: D25 T25 Large Multi
 ----
@@ -4530,6 +4537,7 @@ Tag: D2 T15 Micro Multi
 ID: 805
 Date: 13.04.2014
 Waypoint: GC4DCXA
+Banner: jpg
 Title: Mir stinkts...
 Tag: D1 T1 Micro Tradi
 ----
@@ -4560,6 +4568,7 @@ Tag: D2 T3 Micro Tradi
 ID: 810
 Date: 13.04.2014
 Waypoint: GC48Y6N
+Banner: jpg
 Title: Die Notiz auf dem Küchentisch...
 Tag: D2 T15 Small Multi recommended exceptional
 
@@ -4652,12 +4661,14 @@ Tag: D25 T15 Other Tradi recommended exceptional
 ID: 825
 Date: 19.04.2014
 Waypoint: GC4CVC0
+Banner: png
 Title: Auf der Suche nach dem verlorenen Henkelpott
 Tag: D3 T3 Large Multi recommended exceptional
 ----
 ID: 826
 Date: 19.04.2014
 Waypoint: GC43VM8
+Banner: jpg
 Title: Der &#34;08/15&#34; Cache
 Tag: D35 T2 Large Multi exceptional
 ----
@@ -5016,13 +5027,15 @@ Tag: D1 T1 Event
 ID: 883
 Date: 13.06.2014
 Waypoint: GC3WGD9
+Banner: jpg
 Title: Bonn/Rhein-Sieg 1. offizielle Sissi-T5 Letterbox
 Tag: D1 T4 Regular Letterbox_Hybrid
 ----
 ID: 884
 Date: 13.06.2014
 Waypoint: GC4T3RE
-Title: Rätseln im Drachenfelser Ländchen !!!
+Banner: jpg
+Title: Rätseln im Drachenfelser Ländchen
 Tag: D25 T25 Small Multi
 ----
 ID: 885
@@ -5226,6 +5239,7 @@ Tag: D2 T5 Regular Multi
 ID: 918
 Date: 15.06.2014
 Waypoint: GC4WMM9
+Banner: jpg
 Title: Das Burggespenst Metternich
 Tag: D2 T2 Regular Letterbox_Hybrid recommended
 ----
@@ -6098,12 +6112,14 @@ Tag: D1 T1 Webcam
 ID: 1060
 Date: 02.08.2014
 Waypoint: GC5B4A
+Banner: jpg
 Title: Portal to the Past (Köln)
 Tag: D1 T1 Virtual
 ----
 ID: 1061
 Date: 02.08.2014
 Waypoint: GC307NQ
+Banner: jpg
 Title: Ohm's Law - Ohmsches Gesetz
 Tag: D15 T1 Micro Multi
 ----
@@ -6247,6 +6263,7 @@ Tag: D4 T15 Small Mystery recommended
 ID: 1084
 Date: 30.08.2014
 Waypoint: GC4WT0N
+Banner: jpg
 Title: Wachtberger Sterne
 Tag: D25 T25 Regular Multi
 ----
@@ -6289,6 +6306,7 @@ Tag: D1 T1 Virtual
 ID: 1091
 Date: 06.09.2014
 Waypoint: GC2EJCE
+Banner: jpg
 Title: Liebesbrücke
 Tag: D3 T15 Micro Tradi
 ----
@@ -6323,6 +6341,7 @@ circulation going wild, though ☺
 ID: 1096
 Date: 07.09.2014
 Waypoint: GC3NJNN
+Banner: jpg
 Title: GC - Crossgolf #25
 Tag: D5 T5 Small Mystery
 ----
@@ -6499,11 +6518,29 @@ Waypoint: GC1K547
 Title: Villa Raterestohrp
 Tag: D15 T15 Micro Tradi
 ----
-ID: p20140921
+ID: 1126
+Date: 21.09.2014
+Waypoint: GCZZ08
+Title: Regenfänger
+Tag: D2 T1 Micro Tradi
+----
+ID: 1127
+Date: 21.09.2014
+Waypoint: GC4WP72
+Title: Entlang der B9 - Schloss Marienfels
+Tag: D2 T15 Nano Tradi
+----
+ID: 1128
 Date: 21.09.2014
 Waypoint: GC5BW9C
 Title: Eis mit Aussicht - Eiszeit MMXIV
 Tag: D1 T1 Event
+----
+ID: 1129
+Date: 21.09.2014
+Waypoint: GC22DA8 OC9B6B
+Title: Das doppelte Drachenfelsmotiv...
+Tag: D4 T1 Micro Mystery
 ----
 ID: p20140925
 Date: 25.09.2014
