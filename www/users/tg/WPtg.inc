@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.89 2014/09/20 16:37:20 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.90 2014/09/21 21:11:10 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5647,6 +5647,7 @@ Tag: D1 T1 Event
 ID: 983
 Date: 12.07.2014
 Waypoint: GC547K9 TCEWN
+Banner: png
 Title: Eis, Eis, Baby... ⅯⅯⅩⅣ
 Tag: D1 T1 Event
 ----
@@ -6157,7 +6158,8 @@ Tag: D15 T1 Virtual
 ----
 ID: 1067
 Date: 11.08.2014
-Waypoint: GC59HJ5 OC11141 N02F79 TC1OYX GE0300
+Waypoint: TC1OYX GC59HJ5 OC11141 N02F79 GE0300
+Banner: png
 Title: August-Eis ⅯⅯⅩⅣ
 nTF: 0
 Tag: D15 T1 Event
@@ -6434,6 +6436,7 @@ Tag: D15 T15 Earth
 ID: 1111
 Date: 13.09.2014
 Waypoint: GC2B1QF
+Banner: jpg
 Title: Corkscrew Snake
 Tag: D2 T1 Small Tradi
 ----
@@ -6452,6 +6455,7 @@ Tag: D3 T2 Micro Mystery
 ID: 1114
 Date: 13.09.2014
 Waypoint: GC4FYTK
+Banner: jpg
 Title: Forever
 Tag: D3 T15 Micro Tradi
 ----
@@ -6541,6 +6545,48 @@ Date: 21.09.2014
 Waypoint: GC22DA8 OC9B6B
 Title: Das doppelte Drachenfelsmotiv...
 Tag: D4 T1 Micro Mystery
+----
+ID: 1130
+Date: 23.09.2014
+Waypoint: GC5BFYK
+Title: AUENLAND TP – No.3: Erdkunde
+Tag: D1 T15 Micro Tradi
+----
+ID: 1131
+Date: 23.09.2014
+Waypoint: GC5BFYM
+Title: AUENLAND TP – No.4: Unterhaltung
+Tag: D1 T15 Micro Tradi
+----
+ID: 1132
+Date: 23.09.2014
+Waypoint: GC5BFYN
+Title: AUENLAND TP – No.5: Kunst und Literatur
+Tag: D15 T15 Micro Tradi
+----
+ID: 1133
+Date: 23.09.2014
+Waypoint: GC5BFYJ
+Title: AUENLAND TP – No.2: Geschichte
+Tag: D1 T15 Micro Tradi
+----
+ID: 1134
+Date: 23.09.2014
+Waypoint: GC5BFYH
+Title: AUENLAND TP – No.1: Wissenschaft und Technik
+Tag: D1 T2 Micro Tradi
+----
+ID: 1135
+Date: 23.09.2014
+Waypoint: GC5BFYP
+Title: AUENLAND TP – No.6: Sport und Vergnügen
+Tag: D1 T15 Micro Tradi
+----
+ID: 1136
+Date: 23.09.2014
+Waypoint: GC3ENR0
+Title: HONIKMELONE
+Tag: D25 T15 Small Mystery recommended
 ----
 ID: p20140925
 Date: 25.09.2014
