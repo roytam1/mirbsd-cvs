@@ -214,6 +214,7 @@ Tag: MC1 Locationless Challenge
 ID: 41
 Date: 17.04.2008
 Waypoint: GC10BF9
+Banner: jpg
 Title: Erdbeergraben
 ----
 ID: 42
@@ -252,6 +253,7 @@ Title: Gotteshäuser: Erlöserkirche Bad Godesberg
 ID: 48
 Date: 12.05.2008
 Waypoint: GC1AB2F OC59B8
+Banner: jpg
 Title: Underground Embassy
 Tag: recommended exceptional
 ----
@@ -406,7 +408,7 @@ Title: K.Ö.B. ein Micro
 ID: 78
 Date: 25.01.2009
 Waypoint: GC1J35E OC7153
-Title: Candy OrdersTation
+Title: Candy
 ----
 ID: 79
 Date: 07.03.2009
@@ -698,6 +700,7 @@ Title: Advent-Advent: Nikolaus oder Weihnachtsmann?
 ID: 135
 Date: 13.09.2010
 Waypoint: GC25ZYH
+Banner: jpg
 Title: Blütenzauber in Sülz - MARSILIUS Geschichte
 ----
 ID: 136
@@ -6596,6 +6599,12 @@ Waypoint: GC5CQVC GE0304 N02F7F OC114D3 TC2EEL
 Title: AMT Ⅰ (2014 KW39)
 nTF: 0
 Tag: D1 T1 Event
+----
+ID: 1138
+Date: 25.09.2014
+Waypoint: GC2NKTB
+Title: Lost Place: Neuer Weg
+Tag: D2 T4 Micro Tradi recommended
 ----
 ID: p20140927
 Date: 27.09.2014
