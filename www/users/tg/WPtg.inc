@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.90 2014/09/21 21:11:10 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.91 2014/09/23 18:53:28 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2079,6 +2079,7 @@ Title: ZEICHEN VND SÄTZE (Megaevent Version)
 ID: 402
 Date: 29.06.2013
 Waypoint: GC3TECK
+Banner: jpg
 Title: Project Eck 2013
 ----
 ID: 403
@@ -2230,6 +2231,7 @@ Tag: MC0 Locationless Challenge
 ID: 427
 Date: 27.07.2013
 Waypoint: GC21CET
+Banner: jpg
 Title: Nacht der Vulkane 2013
 
 Uns wurde nicht zuviel versprochen, und die Erde hat tatsächlich gebebt.
@@ -6588,7 +6590,7 @@ Waypoint: GC3ENR0
 Title: HONIKMELONE
 Tag: D25 T15 Small Mystery recommended
 ----
-ID: p20140925
+ID: 1137
 Date: 25.09.2014
 Waypoint: GC5CQVC GE0304 N02F7F OC114D3 TC2EEL
 Title: AMT Ⅰ (2014 KW39)
@@ -6606,6 +6608,13 @@ Date: 06.10.2014
 Waypoint: GC5C0MZ
 Title: XLVII. Geocacher Stammtisch BN/SU
 Tag: D15 T15 Event
+----
+ID: p20141010
+Date: 10.10.2014
+Waypoint: TC3T8O GC5DJTV OC1152E N02F80 GE0306
+Title: ⅯⅯⅩⅣ das Vorletzte
+nTF: 0
+Tag: D1 T15 Event
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat

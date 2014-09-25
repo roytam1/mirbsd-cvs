@@ -4,7 +4,7 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.14 2014/09/20 16:37:21 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.15 2014/09/21 21:11:11 tg Exp $'
 mws_maketoc
 
 function statpic {
@@ -46,6 +46,12 @@ mws_content <<'EOF'
  style="border:0;" alt="EarthCache Master" /></a>
 </td></tr>
 </table>
+
+<p><img style="border:0px;" src="http://mirsolutions.de/privat/31days.gif"
+ alt="31 days of August, 2013" /></p>
+
+<p><img style="border:0px;" src="http://mirsolutions.de/privat/7SoA.jpg"
+ alt="7 Souvenirs of August, 2014" /></p>
 
 <h3 id="banners_Cachebanner">Cachebanner</h3>
 
