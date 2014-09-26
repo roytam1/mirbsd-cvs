@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.91 2014/09/23 18:53:28 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.93 2014/09/25 19:43:15 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5402,56 +5402,56 @@ ID: 944
 Date: 21.06.2014
 Waypoint: OC10F2D
 Title: Petersberger Bittweg #1
-nTF: B
+nTF: A
 Tag: D15 T3 Virtual
 ----
 ID: 945
 Date: 21.06.2014
 Waypoint: OC10F2E
 Title: Petersberger Bittweg #2
-nTF: B
+nTF: A
 Tag: D15 T3 Virtual
 ----
 ID: 946
 Date: 21.06.2014
 Waypoint: OC10F2F
 Title: Petersberger Bittweg #3
-nTF: B
+nTF: A
 Tag: D15 T3 Virtual
 ----
 ID: 947
 Date: 21.06.2014
 Waypoint: OC10F30
 Title: Petersberger Bittweg #4
-nTF: B
+nTF: A
 Tag: D15 T3 Virtual
 ----
 ID: 948
 Date: 21.06.2014
 Waypoint: OC10F31
 Title: Petersberger Bittweg #5
-nTF: B
+nTF: A
 Tag: D15 T3 Virtual
 ----
 ID: 949
 Date: 21.06.2014
 Waypoint: OC10F32
 Title: Petersberger Bittweg #6
-nTF: B
+nTF: A
 Tag: D15 T3 Virtual
 ----
 ID: 950
 Date: 21.06.2014
 Waypoint: OC10F33
 Title: Petersberger Bittweg #7
-nTF: B
+nTF: A
 Tag: D15 T3 Virtual
 ----
 ID: 951
 Date: 21.06.2014
 Waypoint: OC10F34
 Title: Esel 1,50 DM
-nTF: B
+nTF: A
 Tag: D25 T2 Virtual Mystery
 ----
 ID: 952
@@ -6605,6 +6605,37 @@ Date: 25.09.2014
 Waypoint: GC2NKTB
 Title: Lost Place: Neuer Weg
 Tag: D2 T4 Micro Tradi recommended
+----
+ID: 1139
+Date: 26.09.2014
+Waypoint: N.N.
+Title: (unveröffentlichter Cache von Segamaster1998)
+nTF: A
+Tag: unpublished
+----
+ID: 1140
+Date: 26.09.2014
+Waypoint: GC319ZN
+Title: Willkommen in... Andernach 25,1,m,t
+Tag: D25 T1 Micro Tradi
+----
+ID: 1141
+Date: 26.09.2014
+Waypoint: GC3X6B5
+Title: Wer an der Quelle sitzt....
+Tag: D45 T15 Micro Tradi
+----
+ID: 1142
+Date: 26.09.2014
+Waypoint: GC3KEJW
+Title: Anglerparkplatz
+Tag: D15 T15 Micro Tradi
+----
+ID: 1143
+Date: 26.09.2014
+Waypoint: GC1VCVC
+Title: Willkommen in... Remagen
+Tag: D1 T15 Micro Tradi
 ----
 ID: p20140927
 Date: 27.09.2014
