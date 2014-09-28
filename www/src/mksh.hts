@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.553 2014/09/06 22:43:35 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.554 2014/09/17 20:55:02 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -833,7 +833,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <i>(unfinished…)</i></p>
 -->
 <p id="p50b">R50b: <tt>test.sh</tt> output is now clearer.</p>
-<p id="p50">R50: <tt>test.sh</tt> now uses <tt>$TMPDIR</tt>.</p>
+<p id="p50">R50: <tt>test.sh</tt> now uses <tt>$TMPDIR</tt>. If you want
+ to build without SSP, define <tt>HAVE_CAN_FSTACKPROTECTORSTRONG</tt> in
+ addition to <tt>HAVE_CAN_FSTACKPROTECTORALL</tt> if you have GCC 4.9+.</p>
 <p id="p49">R49: There is now generated content at build time; it is known
  that this is beyond the capabilities of some shells such as Coherent
  <tt>/bin/sh</tt>. We plan to address this in a later release by rewriting

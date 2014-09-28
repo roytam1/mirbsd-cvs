@@ -4,7 +4,7 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.15 2014/09/21 21:11:11 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.16 2014/09/25 11:11:49 tg Exp $'
 mws_maketoc
 
 function statpic {
@@ -101,13 +101,15 @@ mws_content <<'EOF'
 <p><span style="border:1px solid black; padding:6px;"><a
  href="http://fish.mirbsd.org/mirkarte/">MirKarte</a> by mirabilos (<a
  href="http://fish.mirbsd.org/mirkarte/geohashing.cgi#zoom=8">variant
- of mirabilos’ MirKarte for xkcd Geo Hashing</a>)
+ of mirabilos’ MirKarte for xkcd Geo Hashing</a> for the current day / <a
+ href="http://fish.mirbsd.org/mirkarte/ghtomorrow.cgi#zoom=8">for the
+ following day</a>)
 </span></p>
 
 <table style="border:1px solid black; padding:6px;">
 <tr style="border:0;">
  <td align="center" valign="middle" style="border:0;" rowspan="2">
-  <a href="http://www.earthcache.org/" style="border:0;"><img
+  <a href="http://cachewolf.aldos.de/" style="border:0;"><img
    src="pics/logos/cw.png"
    alt="CacheWolf logo" style="border:0;" /></a>
  </td><td align="left" valign="middle" style="border:0;">

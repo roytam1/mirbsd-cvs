@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.93 2014/09/25 19:43:15 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.94 2014/09/26 20:06:59 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6616,7 +6616,7 @@ Tag: unpublished
 ID: 1140
 Date: 26.09.2014
 Waypoint: GC319ZN
-Title: Willkommen in... Andernach 25,1,m,t
+Title: Willkommen in... Andernach
 Tag: D25 T1 Micro Tradi
 ----
 ID: 1141
@@ -6637,11 +6637,109 @@ Waypoint: GC1VCVC
 Title: Willkommen in... Remagen
 Tag: D1 T15 Micro Tradi
 ----
-ID: p20140927
+ID: 1144
+Date: 27.09.2014
+Waypoint: GC4XDN8
+Title: Von Null auf Heute | From zero hour to the present
+Tag: D3 T2 Regular Multi
+----
+ID: 1145
+Date: 27.09.2014
+Waypoint: GC2X17V
+Title: Karikaturengalerie (Mini-Multi)
+Tag: D3 T15 Small Multi
+----
+ID: 1146
+Date: 27.09.2014
+Waypoint: GC4XYMK
+Title: Bonus: Von Null auf Heute | From &#34;zero hour&#34;...
+Tag: D3 T2 Small Mystery
+----
+ID: 1147
+Date: 27.09.2014
+Waypoint: GC3MN7C
+Banner: jpg
+Title: Lost Place - Das Autohaus reloaded
+Tag: D2 T5 Small Tradi
+----
+ID: 1148
 Date: 27.09.2014
 Waypoint: GC5B9WW
 Title: Caching goes Classic!
 Tag: D1 T15 Event
+----
+ID: 1149
+Date: 27.09.2014
+Waypoint: GC59QR0
+Banner: jpg
+Title: Marmor, Stein und Eisen bricht....
+Tag: D3 T1 Small Mystery
+----
+ID: 1150
+Date: 28.09.2014
+Waypoint: GC1PF4T
+Title: Remagens weltbester Spanier
+Tag: D2 T2 Micro Tradi
+----
+ID: 1151
+Date: 28.09.2014
+Waypoint: GC5129X
+Title: Zum langen Heinrich
+Tag: D1 T15 Micro Tradi
+----
+ID: 1152
+Date: 28.09.2014
+Waypoint: GC1R4Z0
+Title: Schwimmbad Remagen
+Tag: D1 T1 Micro Tradi
+----
+ID: 1153
+Date: 28.09.2014
+Waypoint: GC1PYBW
+Title: Gotteshäuser: Schwarze Madonna
+Tag: D1 T1 Micro Tradi
+----
+ID: 1154
+Date: 28.09.2014
+Waypoint: OC1F07 GC8453 N004A9
+Title: Beweglicher Cache
+Tag: D2 T15 Virtual
+----
+ID: 1155
+Date: 28.09.2014
+Waypoint: OC9E4C
+Title: Webcam Fähre Linz
+Tag: D2 T1 Webcam
+----
+ID: 1156
+Date: 28.09.2014
+Waypoint: GC19HAH
+Title: Tilmann Joel Park
+Tag: D15 T15 Micro Tradi
+----
+ID: 1157
+Date: 28.09.2014
+Waypoint: GC4YZ3D
+Title: Reisebüro Glücksreisen
+Tag: D15 T15 Micro Tradi
+----
+ID: 1158
+Date: 28.09.2014
+Waypoint: GC42QVA
+Title: Es war einmal... (Volume1)
+Tag: D4 T45 Micro Mystery
+----
+ID: 1159
+Date: 28.09.2014
+Waypoint: GC5BQ7A
+Title: Skulpturenpark Remagen &#34;Heimat&#34;
+Tag: D2 T25 Micro Tradi
+----
+ID: 1160
+Date: 28.09.2014
+Waypoint: GC5BPMN
+Title: TB Hotel Landesgrenze NRW/RLP reloaded
+Tag: D15 T15 Regular Tradi
 ----
 ID: p20141006
 Date: 06.10.2014
