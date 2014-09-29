@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.94 2014/09/26 20:06:59 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.95 2014/09/28 19:49:59 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6689,7 +6689,7 @@ Tag: D1 T15 Micro Tradi
 ----
 ID: 1152
 Date: 28.09.2014
-Waypoint: GC1R4Z0
+Waypoint: GC1R4Z0 OC9B91
 Title: Schwimmbad Remagen
 Tag: D1 T1 Micro Tradi
 ----
