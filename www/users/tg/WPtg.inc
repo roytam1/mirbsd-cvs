@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.95 2014/09/28 19:49:59 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.96 2014/09/29 18:19:59 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6608,7 +6608,7 @@ Tag: D2 T4 Micro Tradi recommended
 ----
 ID: 1139
 Date: 26.09.2014
-Waypoint: N.N.
+Waypoint: GC5DR15
 Title: (unveröffentlichter Cache von Segamaster1998)
 nTF: A
 Tag: unpublished
@@ -6700,10 +6700,10 @@ Title: Gotteshäuser: Schwarze Madonna
 Tag: D1 T1 Micro Tradi
 ----
 ID: 1154
-Date: 28.09.2014
-Waypoint: OC1F07 GC8453 N004A9
-Title: Beweglicher Cache
-Tag: D2 T15 Virtual
+Date: 02.10.2014
+Waypoint: GC34NKX
+Title: Verstecketopf NKY
+Tag: D45 T25 Micro Mystery
 ----
 ID: 1155
 Date: 28.09.2014
@@ -6741,6 +6741,12 @@ Waypoint: GC5BPMN
 Title: TB Hotel Landesgrenze NRW/RLP reloaded
 Tag: D15 T15 Regular Tradi
 ----
+ID: 1161
+Date: 02.10.2014
+Waypoint: GC34NKY
+Title: Verstecketopf NKX
+Tag: D45 T25 Micro Mystery
+----
 ID: p20141006
 Date: 06.10.2014
 Waypoint: GC5C0MZ
@@ -6753,6 +6759,14 @@ Waypoint: TC3T8O GC5DJTV OC1152E N02F80 GE0306
 Title: ⅯⅯⅩⅣ das Vorletzte
 nTF: 0
 Tag: D1 T15 Event
+----
+ID: p1154
+Date: 28.09.2014 17:45
+Waypoint: OC1F07 GC8453 N004A9
+Title: Beweglicher Cache
+Tag: D2 T15 Virtual
+
+Warten auf Logfreigabe
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
