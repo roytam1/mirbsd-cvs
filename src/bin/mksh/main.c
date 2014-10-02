@@ -34,7 +34,7 @@
 #include <locale.h>
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/main.c,v 1.280 2014/06/09 12:28:17 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/main.c,v 1.281 2014/09/12 20:23:33 tg Exp $");
 
 extern char **environ;
 
@@ -63,7 +63,7 @@ static const char initsubs[] =
 
 static const char *initcoms[] = {
 	Ttypeset, "-r", initvsn, NULL,
-	Ttypeset, "-x", "HOME", "PATH", "RANDOM", "SHELL", NULL,
+	Ttypeset, "-x", "HOME", "PATH", "SHELL", NULL,
 	Ttypeset, "-i10", "COLUMNS", "LINES", "SECONDS", "TMOUT", NULL,
 	Talias,
 	"integer=typeset -i",
