@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.556 2014/10/02 14:15:46 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.557 2014/10/03 17:56:26 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -833,7 +833,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <i>(unfinished…)</i></p>
 -->
 <p id="p50c">R50c: New <tt>HAVE_ISSETUGID</tt> define. The example Debian
- <tt>/etc/skel/.mkshrc</tt> moved. <strong>Security release.</strong></p>
+ <tt>/etc/skel/.mkshrc</tt> moved. <strong>Security release.</strong> <a
+ href="@@RELPATH@@permalinks/wlog-10_e20141003-tg.htm">Details.</a></p>
 <p id="p50b">R50b: <tt>test.sh</tt> output is now clearer.</p>
 <p id="p50">R50: <tt>test.sh</tt> now uses <tt>$TMPDIR</tt>. If you want
  to build without SSP, define <tt>HAVE_CAN_FSTACKPROTECTORSTRONG</tt> in
@@ -1070,7 +1071,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p id="ccur"><i>current</i>:
 -->
 <p id="c50c">R50c: <tt>$RANDOM</tt> is no longer exported. Field splitting
- has improved. This version fixes one security issue of low importance which
+ has improved. This version fixes one security issue of low importance (<a
+ href="@@RELPATH@@permalinks/wlog-10_e20141003-tg.htm">details</a>) which
  is mksh-specific, and mksh is not vulnerable to all those GNU bash bugs,
  some of which affect AT&amp;T ksh93 as well.</p>
 <p id="c50b">R50b: <tt>nameref</tt> can alias <tt>$1</tt>, etc. again.</p>

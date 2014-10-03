@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.458 2014/07/15 22:14:31 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.459 2014/09/03 19:55:45 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10755,4 +10755,35 @@ Tag: mksh news pcli
 
 <p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a> has got
  a new bugfix release. Thought you’d want to know ☺</p>
+----
+Title: mksh R50c released, security fix
+Date: 03.10.2014 18:12
+Author: tg@
+Tag: android bug debian mksh news pcli release security
+
+<p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a> has got
+ a new <strong>security</strong> and maintenance release.</p>
+<p>This release fixes one mksh(1)-specific issue when importing
+ values from the environment. The issue has been detected by the
+ main developer during careful code review, looking at whether
+ the shell is affected by the recent “shellshock” bugs in GNU bash,
+ many of which also affect AT&amp;T ksh93. (The answer is: no, none
+ of these bugs affects mksh.) Stephane Chanzelas kindly provided me
+ with an in-depth look at how this can be exploited. The issue has
+ not got a CVE identifier because it was identified as low-risk.
+ The problem here is that the environment import filter mistakenly
+ accepted variables named “FOO+” (for any <i>FOO</i>), which are,
+ by general environ(7) syntax, distinct from “FOO”, and treated
+ them as appending to the value of “FOO”. An attacker who already
+ had access to the environment could so append values to parameters
+ passed through programs (including sudo(8) or setuid) to shell
+ scripts, including indirectly, after those programs intended to
+ sanitise the environment, e.g. invalidating the last <tt>$PATH</tt>
+ component. It could also be used to circumvent sudo’s environment
+ filter which protected against the vulnerability of an unpatched
+ GNU bash being exploited.</p>
+<p><strong>tl;dr:</strong> <a href="@@RELPATH@@mksh.htm">mksh</a>
+ not affected by any shellshock bugs, but we found a bug of our
+ own, with low impact, which does not affect any other shell, during
+ careful code review. Please do update to mksh R50c quickly.</p>
 ----
