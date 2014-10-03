@@ -1,12 +1,13 @@
-# $MirOS: ports/books/mirex/Makefile,v 1.30 2014/04/02 17:28:34 tg Exp $
+# $MirOS: ports/books/mirex/Makefile,v 1.31 2014/07/21 20:42:01 tg Exp $
 
 COMMENT=		MirOS sample files, keys and information
 CATEGORIES=		books
 MCZ_FETCH=		Yes
 CVS_DISTREPO=		${_MIROS_ANONCVS}
-CVS_DISTDATE=		2014/07/22
+CVS_DISTDATE=		2014/10/03
 PKGNAME=		${CVS_DISTFILE}-${CVS_DISTDATE:M*/*:S!/!!g}-${DASH_VER}
 CVS_DISTMODS=		contrib/samples \
+			contrib/hosted/tg/uhr \
 			src/share/doc/README \
 			src/share/misc \
 			www/files/MirOS-Licence \
@@ -39,6 +40,7 @@ pre-install:
 .for _k in ${KEYS}
 	${INSTALL_DATA} ${WRKBUILD}/gzsigkey.${_k} ${DATA_DIR}/
 .endfor
+	${INSTALL_DATA} ${WRKDIR}/contrib/hosted/tg/uhr ${DATA_DIR}/
 	cd ${WRKDIR}/src/share/misc && ${INSTALL_DATA} \
 	    acronyms getopt *.template utf-8-demo ${DATA_DIR}/
 	cd ${WRKDIR}/www/files && ${INSTALL_DATA} MirOS-Licence* ${DATA_DIR}/
