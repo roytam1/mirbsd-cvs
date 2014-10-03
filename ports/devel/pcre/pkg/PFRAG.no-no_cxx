@@ -1,9 +1,0 @@
-@comment $MirOS$
-include/pcre_scanner.h
-include/pcre_stringpiece.h
-include/pcrecpp.h
-include/pcrecpparg.h
-lib/libpcrecpp.la
-lib/pkgconfig/libpcrecpp.pc
-man/man3/pcrecpp.3
-share/doc/pcre/html/pcrecpp.html
