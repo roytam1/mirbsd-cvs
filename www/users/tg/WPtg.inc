@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.96 2014/09/29 18:19:59 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.97 2014/10/02 19:17:13 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6747,6 +6747,18 @@ Waypoint: GC34NKY
 Title: Verstecketopf NKX
 Tag: D45 T25 Micro Mystery
 ----
+ID: 1162
+Date: 04.10.2014
+Waypoint: GC2T5PN
+Title: Der Schatz der wundersamen Bäume
+Tag: D25 T2 Small Multi
+----
+ID: 1163
+Date: 04.10.2014
+Waypoint: OC1A1E
+Title: Rüngsdorf
+Tag: D25 T1 Virtual recommended
+----
 ID: p20141006
 Date: 06.10.2014
 Waypoint: GC5C0MZ
@@ -6759,6 +6771,24 @@ Waypoint: TC3T8O GC5DJTV OC1152E N02F80 GE0306
 Title: ⅯⅯⅩⅣ das Vorletzte
 nTF: 0
 Tag: D1 T15 Event
+----
+ID: p20141010b
+Date: 10.10.2014
+Waypoint: GC5DKKJ
+Title: stetig an der &#34;Dose&#34;
+Tag: D1 T15 Event
+----
+ID: p20141025
+Date: 25.10.2014
+Waypoint: GC5DCZH
+Title: Arrivederci ⅯⅯⅩⅣ
+Tag: D15 T2 Event
+----
+ID: p20141029
+Date: 29.10.2014
+Waypoint: GC5AZ9M
+Title: - A - M - P - E - L - 5 -
+Tag: D1 T1 Event
 ----
 ID: p1154
 Date: 28.09.2014 17:45
