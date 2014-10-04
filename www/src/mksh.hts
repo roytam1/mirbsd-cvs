@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.557 2014/10/03 17:56:26 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.558 2014/10/03 18:15:47 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1008,26 +1008,18 @@ exec /usr/bin/ld "${args[@]}"</pre>
  port</a> for <a href="http://www.openbsd.org/">OpenBSD</a> is available.
  Nobody dares commit it though, so it only gets updated on request.</li>
 <li class="cr">ChinaLinux mirrors (and apparently packages) mksh.</li>
-<li class="cr"><img class="fr" width="96" height="64" alt="[HMUG logo]"
- src="@@RELPATH@@pics/logos/hmug.png" />The <a
- href="http://www.hmug.org/pub/MacOS_X/BSD/Applications/Shells/mksh/">HMUG</a>,
- some US-American Apple Users’ Group packages mksh for Darwin, too.</li>
 <li class="cr">Frugalware Linux contains an orphaned and extremely old mksh <a
  href="http://www.frugalware.org/packages/107405">package</a> looking for a new
  maintainer.</li>
 <li class="cr">Olivier Duchateau used to provide Slackware/Zenwalk GNU/Linux
- packages, but <a href="http://slackbuilds.org/repository/13.37/system/mksh/">a
- SlackBuild for mksh</a> is also available now</li>
+ packages, but now updates the FreeBSD packages instead. A <a
+ href="http://slackbuilds.org/result/?search=mksh">SlackBuild for mksh</a> is
+ now available from Markus Reichelt.</li>
 <li class="cr"><img class="fr" width="262" height="60" alt="[GreenViolet logo]"
  src="@@RELPATH@@pics/logos/lewellyn.png" />(Open)Solaris <a
  href="http://www.greenviolet.net/projects/general-open-source/mksh.gv">packages</a>
  exist courtesy of Matt “lewellyn” Lewandowsky but it’s unlikely they
  will get updated again due to Solaris losing all relevance ☹</li>
-<li class="cr"><img class="fr" width="109" height="64" alt="[OpenPKG logo]"
- src="@@RELPATH@@pics/logos/openpkg.png" />Apparently, there was an <a
- href="http://www.openpkg.org/product/packages/?package=mksh">OpenPKG
- package</a> as well… before OpenPKG went down the commercial drain</li>
-<li class="cr">Dag Wieërs had an RPMforge package, based on Fedora’s</li>
 <li class="cr"><img class="fr" width="96" height="64" alt="[PLD Linux logo]"
  src="@@RELPATH@@pics/logos/pld.png" />The <a
  href="http://cvs.pld-linux.org/cgi-bin/viewvc.cgi/cvs/packages/mksh/">PLD
@@ -1049,6 +1041,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li><a href="http://linux.softpedia.com/get/System/Shells/MirBSD-Korn-Shell-24602.shtml">Softpedia</a>
  lists mksh, just like the <a href="http://directory.fsf.org/mksh.html">FSF/UNESCO
  directory of Free Software</a>.</li>
+<li class="cr">Dag Wieërs had an RPMforge package, based on Fedora’s</li>
+<li class="cr">The HMUG, some US-American Apple Users’ Group, used to package
+ mksh for Darwin, too. They recommend MacPorts, Homebrew or Fink now.</li>
+<li class="cr">OpenPKG had one, before it went down the commercial drain.</li>
 <li><strong>Missing packaging:</strong> Mandriva/Mageia (use OBS; being
  worked on), OpenEmbedded (being worked on), iPhoneOS (compile yourself),
  Knoppix and SIDUX (just add them), Nexenta (need a contact person), Arch
