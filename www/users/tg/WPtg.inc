@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.97 2014/10/02 19:17:13 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.98 2014/10/04 21:39:17 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6022,7 +6022,7 @@ ID: 1044
 Date: 31.07.2014
 Waypoint: GC41FE4
 Title: Challenge Cache: 366er Matrix
-Tag: D5 T15 Micro Mystery
+Tag: D5 T15 Micro Mystery Challenge
 ----
 ID: 1045
 Date: 31.07.2014
@@ -6278,13 +6278,13 @@ ID: 1085
 Date: 01.09.2014
 Waypoint: GC3HY37
 Title: BN Challenge Cache: 7 Icons²
-Tag: D4 T15 Micro Mystery
+Tag: D4 T15 Micro Mystery Challenge
 ----
 ID: 1086
 Date: 01.09.2014
 Waypoint: GC2NNFG
 Title: Projekt CT9 (Challenge Cache)
-Tag: D4 T25 Micro Mystery recommended
+Tag: D4 T25 Micro Mystery Challenge recommended
 ----
 ID: 1087
 Date: 04.09.2014
@@ -6759,6 +6759,43 @@ Waypoint: OC1A1E
 Title: Rüngsdorf
 Tag: D25 T1 Virtual recommended
 ----
+ID: 1164
+Date: 05.10.2014
+Waypoint: GC2Q842
+Title: Ei Ei Ei Sülzer Osterei
+Tag: D15 T15 Micro Tradi
+----
+ID: 1165
+Date: 05.10.2014
+Waypoint: GCKQFN
+Title: Grüngürtel - Cache
+Tag: D15 T1 Small Multi
+----
+ID: 1166
+Date: 05.10.2014
+Waypoint: GC2HFZY
+Title: Biogen
+Tag: D25 T1 Other Tradi
+----
+ID: 1167
+Date: 05.10.2014
+Waypoint: GC4NWZC
+Title: Souvenir CHALLENGE - 31-August-Tage
+Tag: D5 T15 Micro Mystery Challenge
+----
+ID: 1168
+Date: 05.10.2014
+Waypoint: GC5CX5G
+Title: Challenge: &#34;Happiest tenth'iest birthday!&#34;
+nTF: 3
+Tag: D35 T2 Small Mystery Challenge
+----
+ID: 1169
+Date: 05.10.2014
+Waypoint: GC531WK
+Title: Alles nur geklaut #5: Gehört hier nicht hin #1
+Tag: D15 T2 Micro Tradi recommended
+----
 ID: p20141006
 Date: 06.10.2014
 Waypoint: GC5C0MZ
@@ -6772,7 +6809,7 @@ Title: ⅯⅯⅩⅣ das Vorletzte
 nTF: 0
 Tag: D1 T15 Event
 ----
-ID: p20141010b
+ID: p201410102
 Date: 10.10.2014
 Waypoint: GC5DKKJ
 Title: stetig an der &#34;Dose&#34;
