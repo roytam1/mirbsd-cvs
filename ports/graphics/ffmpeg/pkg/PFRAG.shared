@@ -1,4 +1,0 @@
-@comment $MirOS: ports/graphics/ffmpeg/pkg/PFRAG.shared,v 1.1.7.1 2005/03/18 15:46:48 tg Exp $
-@comment $OpenBSD: PFRAG.shared,v 1.7 2004/04/18 00:36:22 jolan Exp $
-@lib lib/libavcodec.so.4.9
-@lib lib/libavformat.so.4.9

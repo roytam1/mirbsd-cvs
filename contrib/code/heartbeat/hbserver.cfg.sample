@@ -1,9 +1,0 @@
-# $MirOS$
-#
-# Separate entries by whitespace (TABs preferred)
-#
-# user		pass<base64>		script<must be +x>
-
-foo		Zm5vcmQ=		hbbackend.sample
-guest		Z2FzdA==		hbbackend.sample
-test		Zm9v			hbbackend.sample

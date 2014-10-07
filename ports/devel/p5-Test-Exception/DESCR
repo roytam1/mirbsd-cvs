@@ -1,8 +1,0 @@
-This module provides a few convenience methods for testing exception
-based code. It is built with Test::Builder and plays happily with
-Test::More and friends.
-
-Test::Exception only checks for exceptions. It will ignore other
-methods of stopping program execution - including exit(). If you have an
-exit() in evalled code, Test::Exception will not catch this with any of
-its testing functions.
