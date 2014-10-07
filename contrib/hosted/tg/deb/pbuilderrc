@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.41 2014/05/02 14:59:34 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.42 2014/09/20 21:14:39 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
@@ -255,8 +255,11 @@ case $DISTRO in
 		EXTRAPACKAGES='apt debian-archive-keyring fakeroot'
 		;;
 
-	(*)
+	(wheezy)
 		EXTRAPACKAGES='apt debian-archive-keyring eatmydata fakeroot'
+		;;
+	(*)
+		EXTRAPACKAGES='apt debian-archive-keyring eatmydata fakeroot sysvinit-core'
 		;;
 	esac
 	case $DIST in
