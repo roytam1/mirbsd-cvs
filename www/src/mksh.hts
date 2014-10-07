@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.558 2014/10/03 18:15:47 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.559 2014/10/04 12:24:08 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R50c</h2>
+<h2>mksh(1) R50d</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -50,8 +50,8 @@ mws_content <<'EOF'
  “MirBSD Korn Shell”.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R50c</strong> from
- <em>3 October 2014</em>.<!-- br />In the oldstable bugfixing-only series, the
+<p>The current version of mksh is <strong>mksh R50d</strong> from
+ <em>7 October 2014</em>.<!-- br />In the oldstable bugfixing-only series, the
  current version is <em>mksh R44</em> from <em>5 March 2013</em>.--></p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
@@ -187,15 +187,15 @@ mws_content <<'EOF'
  <em>as well as</em> the hashes and/or checksums below, so you’re sure the
  content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50c.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50c.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50c.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50c.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50d.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50d.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50d.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50d.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
 <!-- cd /MirOS/dist/mir/mksh; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
-  <li>RMD160 (mksh-R50c.tgz) = e207e92bdc8a47c21172674d5bafa5207593bbf5</li>
-  <li>TIGER (mksh-R50c.tgz) = 902019e19adc05ea09eafd400b0b6420c443f00cdfc7153c</li>
-  <li>718192419 373885 /MirOS/dist/mir/mksh/mksh-R50c.tgz</li>
-  <li>MD5 (mksh-R50c.tgz) = 263512ebbb06c92e6128da97b2eae17c</li>
+  <li>RMD160 (mksh-R50d.tgz) = 473417750fe50ed0f947076752677432aa9fbd82</li>
+  <li>TIGER (mksh-R50d.tgz) = 8ebcb5deba6dbffa89a4d7e8f08ac90bcdc20b97f9b3ba8d</li>
+  <li>3675541758 374014 /MirOS/dist/mir/mksh/mksh-R50d.tgz</li>
+  <li>MD5 (mksh-R50d.tgz) = 1c3882c07a760b23df1ad94ad0b4ed2e</li>
 <!--
  <li style="list-style:none;">↑ formal release │ stable bugfix series ↓</li>
   <li>RMD160 (mksh-R44.tgz) = 4cf1525c477c4bece519c024cc73ee6ca064d34a</li>
@@ -209,7 +209,7 @@ mws_content <<'EOF'
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
- so a simple <tt>tar xzf mksh-R50c.tgz</tt> will work. It will create all files
+ so a simple <tt>tar xzf mksh-R50d.tgz</tt> will work. It will create all files
  in a subdirectory <tt>./mksh/</tt>.</p>
 
 <h3 id="vendorpatching">Patching</h3>
@@ -832,6 +832,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p id="pcur"><i>current</i>:
  <i>(unfinished…)</i></p>
 -->
+<p id="p50d">R50d: Nothing to note.</p>
 <p id="p50c">R50c: New <tt>HAVE_ISSETUGID</tt> define. The example Debian
  <tt>/etc/skel/.mkshrc</tt> moved. <strong>Security release.</strong> <a
  href="@@RELPATH@@permalinks/wlog-10_e20141003-tg.htm">Details.</a></p>
@@ -1066,6 +1067,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <!--
 <p id="ccur"><i>current</i>:
 -->
+<p id="c50d">R50d: Fixed a segfault and a regression in field splitting
+ breaking update-initramfs. Sorry! Also, added a warning about not using
+ unchecked user input in arithmetics – <tt>[[ $x = +([0-9]) ]] || die</tt>
+ is a useful check. We’ll link a more detailed writeup about it later.</p>
 <p id="c50c">R50c: <tt>$RANDOM</tt> is no longer exported. Field splitting
  has improved. This version fixes one security issue of low importance (<a
  href="@@RELPATH@@permalinks/wlog-10_e20141003-tg.htm">details</a>) which
@@ -1099,6 +1104,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+<p id="r50d">R50d is a <strong>required</strong> bugfix release:</p><ul>
+ <li>[Goodbox] Fix NULL pointer dereference on “unset x; nameref x”</li>
+ <li>[tg] Fix severe regression in field splitting (LP#1378208)</li>
+ <li>[tg] Add a warning about not using tainted user input (including from
+  the environ(7)ment) in arithmetics, until Stéphane writes it up nicely</li>
+</ul>
 <p id="r50c">R50c is a <strong>security fix</strong> release:</p><ul>
  <li>[tg] Know more rare signals when generating sys_signame[] replacement</li>
  <li>[tg] OpenBSD sync (mostly RCSID only)</li>

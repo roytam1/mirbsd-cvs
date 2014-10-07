@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.98 2014/10/04 21:39:17 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.99 2014/10/05 17:50:14 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6796,7 +6796,7 @@ Waypoint: GC531WK
 Title: Alles nur geklaut #5: Gehört hier nicht hin #1
 Tag: D15 T2 Micro Tradi recommended
 ----
-ID: p20141006
+ID: 1170
 Date: 06.10.2014
 Waypoint: GC5C0MZ
 Title: XLVII. Geocacher Stammtisch BN/SU

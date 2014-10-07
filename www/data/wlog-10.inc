@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.459 2014/09/03 19:55:45 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.460 2014/10/03 18:15:43 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10786,4 +10786,16 @@ Tag: android bug debian mksh news pcli release security
  not affected by any shellshock bugs, but we found a bug of our
  own, with low impact, which does not affect any other shell, during
  careful code review. Please do update to mksh R50c quickly.</p>
+----
+Title: mksh R50d released
+Date: 07.10.2014 15:54
+Author: tg@
+Tag: bug debian mksh news pcli
+
+<p>The last <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a> update
+ broke <tt>update-initramfs</tt> because I accidentally introduced a
+ regression in field splitting while fixing other bugs – sorry!</p>
+<p>mksh R50d was just released to fix that, and a small NULL pointer
+ dereference found by Goodbox on IRC. Thanks to my employer <a
+ href="http://www.tarent.de/">tarent</a> for a bit of time to work on it.</p>
 ----
