@@ -187,8 +187,8 @@ fifo_open(v)
 			return (error);
 		}
 		fip->fi_readers = fip->fi_writers = 0;
+		wso->so_state |= SS_CANTSENDMORE;
 		wso->so_snd.sb_lowat = PIPE_BUF;
-		rso->so_state |= SS_CANTRCVMORE;
 	}
 	if (ap->a_mode & FREAD) {
 		fip->fi_readers++;
@@ -352,24 +352,12 @@ fifo_poll(v)
 		struct proc *a_p;
 	} */ *ap = v;
 	struct file filetmp;
-	short ostate;
 	int revents = 0;
 
 	if (ap->a_events & (POLLIN | POLLPRI | POLLRDNORM | POLLRDBAND)) {
-		/*
-		 * Socket and FIFO poll(2) semantics differ wrt EOF on read.
-		 * Unlike a normal socket, FIFOs don't care whether or not
-		 * SS_CANTRCVMORE is set.  To get the correct semantics we
-		 * must clear SS_CANTRCVMORE from so_state temporarily.
-		 */
-		ostate = ap->a_vp->v_fifoinfo->fi_readsock->so_state;
-		if (ap->a_events & (POLLIN | POLLRDNORM))
-			ap->a_vp->v_fifoinfo->fi_readsock->so_state &=
-			    ~SS_CANTRCVMORE;
 		filetmp.f_data = ap->a_vp->v_fifoinfo->fi_readsock;
 		if (filetmp.f_data)
 			revents |= soo_poll(&filetmp, ap->a_events, ap->a_p);
-		ap->a_vp->v_fifoinfo->fi_readsock->so_state = ostate;
 	}
 	if (ap->a_events & (POLLOUT | POLLWRNORM | POLLWRBAND)) {
 		filetmp.f_data = ap->a_vp->v_fifoinfo->fi_writesock;
