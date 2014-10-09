@@ -205,7 +205,7 @@ fifo_open(v)
 			goto bad;
 		}
 		if (fip->fi_writers == 1) {
-			fip->fi_readsock->so_state &= ~SS_CANTRCVMORE;
+			fip->fi_readsock->so_state &= ~(SS_CANTRCVMORE|SS_ISDISCONNECTED);
 			if (fip->fi_readers > 0)
 				wakeup(&fip->fi_readers);
 		}
@@ -270,6 +270,9 @@ fifo_read(v)
 		    ap->a_vp->v_fifoinfo->fi_writers == 0)
 			error = 0;
 	}
+	/* Clear EOF indicator so we have a clean slate for a new writer. */
+	if (error == 0)
+		rso->so_state &= ~(SS_CANTRCVMORE|SS_ISDISCONNECTED);
 	return (error);
 }
 
@@ -428,8 +431,11 @@ fifo_close(v)
 			socantsendmore(fip->fi_writesock);
 	}
 	if (ap->a_fflag & FWRITE) {
-		if (--fip->fi_writers == 0)
+		if (--fip->fi_writers == 0) {
+			/* SS_ISDISCONNECTED will result in POLLHUP */
+			fip->fi_readsock->so_state |= SS_ISDISCONNECTED;
 			socantrcvmore(fip->fi_readsock);
+		}
 	}
 	if (fip->fi_readers == 0 && fip->fi_writers == 0) {
 		error1 = soclose(fip->fi_readsock);
