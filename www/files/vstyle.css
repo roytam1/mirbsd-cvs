@@ -1,4 +1,4 @@
-/* $MirOS: www/files/vstyle.css,v 1.43 2014/07/06 19:15:35 tg Exp $ */
+/* $MirOS: www/files/vstyle.css,v 1.47 2014/07/15 21:40:44 tg Exp $ */
 
 /*-
  * The MirOS Project - Webpages
@@ -435,6 +435,19 @@ pre {
 
 .cr {
 	clear:right;
+}
+
+/* float box to the left and clear all (for banner galleries) */
+
+.flbox {
+	float:left;
+	margin:0px;
+	padding:6px;
+	border:1px solid #666;
+}
+
+.cb {
+	clear:both;
 }
 
 /* colours and other styles */

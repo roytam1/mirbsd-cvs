@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.559 2014/10/04 12:24:08 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.560 2014/10/07 15:56:05 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -931,7 +931,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li><a href="http://openadk.org/">OpenADK - Open Source Appliance Development Kit</a>
  (a FreeWRT 1.0 fork) contains mksh as default shell.</li>
 <li><a href="http://openwrt.org/">OpenWrt Embedded GNU/Linux Distribution</a>
- also <a href="http://git.openwrt.org/?p=packages.git;a=tree;f=utils/mksh">provides
+ also <a href="https://github.com/openwrt/packages/tree/master/utils/mksh">provides
  mksh</a> (rarely updated) on ADSL/WLAN routers thanks to Felix “nbd” Fietkau.</li>
 <li class="cr"><img class="fr" width="60" height="60" alt="[Android-x86 logo]"
  src="@@RELPATH@@pics/logos/andr_x86.png" />The <a
@@ -1029,10 +1029,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li class="cr"><a href="http://sisyphus.ru/en/srpm/mksh">Alt Linux Sisyphus</a>
  updated their package to R40… but not afterwards again, hmm…</li>
 <li class="cr">Sabotage Linux has a <a
- href="https://github.com/rofl0r/sabotage/commits/master/pkg/mksh">port</a>
+ href="https://github.com/sabotage-linux/sabotage/blob/master/pkg/mksh">port</a>
  of mksh, too.</li>
 <li class="cr">Homebrew for Mac OSX has a <a
- href="https://github.com/mxcl/homebrew/blob/master/Library/Formula/mksh.rb">Formula</a>
+ href="https://github.com/Homebrew/homebrew/blob/master/Library/Formula/mksh.rb">Formula</a>
  for mksh, too.</li>
 <li class="cr">Jens Staal maintains a <a
  href="http://plan9.bell-labs.com/sources/contrib/staal1978/pkg/">Plan 9

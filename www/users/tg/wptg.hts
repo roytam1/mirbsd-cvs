@@ -4,7 +4,7 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.16 2014/09/25 11:11:49 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.17 2014/09/28 19:49:59 tg Exp $'
 mws_maketoc
 
 function statpic {
@@ -47,13 +47,15 @@ mws_content <<'EOF'
 </td></tr>
 </table>
 
-<p><img style="border:0px;" src="http://mirsolutions.de/privat/31days.gif"
- alt="31 days of August, 2013" /></p>
+<div class="flbox"><img style="border:0px;"
+ src="http://mirsolutions.de/privat/31days.gif"
+ alt="31 days of August, 2013" /></div>
 
-<p><img style="border:0px;" src="http://mirsolutions.de/privat/7SoA.jpg"
- alt="7 Souvenirs of August, 2014" /></p>
+<div class="flbox"><img style="border:0px;"
+ src="http://mirsolutions.de/privat/7SoA.jpg"
+ alt="7 Souvenirs of August, 2014" /></div>
 
-<h3 id="banners_Cachebanner">Cachebanner</h3>
+<h3 class="cb" id="banners_Cachebanner">Cachebanner</h3>
 
 EOF
 
@@ -80,15 +82,15 @@ while (( entryp < entries )); do
 		title=${e_title[ent]}
 	fi
 	cat <<-EOF
-		<p><img style="border:0px;" src="http://mirsolutions.de/privat/$wp.$ext"
-		 alt="${wp}│${title}" /></p>
+		<div class="flbox"><img style="border:0px;" alt="${wp}│${title}"
+		 src="http://mirsolutions.de/privat/$wp.$ext" /></div>
 
 EOF
 done | mws_content
 
 mws_content <<'EOF'
 
-<h3 id="Software">Software</h3>
+<h3 class="cb" id="Software">Software</h3>
 
 <form accept-charset="utf-8" id="lookup" action="wp.cgi" method="get">
  <p><span style="border:1px solid black; padding:6px;">

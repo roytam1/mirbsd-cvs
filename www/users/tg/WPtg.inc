@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.100 2014/10/07 15:56:07 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.101 2014/10/09 00:51:21 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6803,6 +6803,18 @@ Waypoint: GC5C0MZ
 Title: XLVII. Geocacher Stammtisch BN/SU
 Tag: D15 T15 Event
 ----
+ID: 1171
+Date: 09.10.2014
+Waypoint: GC3YA61
+Title: Königreich Ückesdorf 8
+Tag: D1 T15 Micro Tradi
+----
+ID: 1172
+Date: 09.10.2014
+Waypoint: GC3VX46
+Title: Tarnen, Täuschen, Aufklären
+Tag: D15 T25 Micro Tradi recommended
+----
 ID: p20141010
 Date: 10.10.2014
 Waypoint: TC3T8O GC5DJTV OC1152E N02F80 GE0306
@@ -6819,6 +6831,7 @@ Tag: D1 T15 Event
 ID: p20141025
 Date: 25.10.2014
 Waypoint: GC5DCZH
+Banner: jpg
 Title: Arrivederci ⅯⅯⅩⅣ
 Tag: D15 T2 Event
 ----
