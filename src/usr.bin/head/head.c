@@ -1,4 +1,4 @@
-/*	$OpenBSD: head.c,v 1.11 2003/06/10 22:20:47 deraadt Exp $	*/
+/*	$OpenBSD: head.c,v 1.18 2014/10/08 08:31:53 schwarze Exp $	*/
 
 /*
  * Copyright (c) 1980, 1987 Regents of the University of California.
@@ -29,17 +29,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-char copyright[] =
-"@(#) Copyright (c) 1980, 1987 Regents of the University of California.\n\
- All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-/*static char sccsid[] = "from: @(#)head.c	5.5 (Berkeley) 6/1/90";*/
-static char rcsid[] = "$OpenBSD: head.c,v 1.11 2003/06/10 22:20:47 deraadt Exp $";
-#endif /* not lint */
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
@@ -59,44 +48,49 @@ static void usage(void);
 int
 main(int argc, char *argv[])
 {
+	FILE	*fp;
 	long 	cnt;
 	int	ch, firsttime;
 	long	linecnt = 10;
-	char	*inval = NULL, *p = NULL;
+	char	*p = NULL;
+	int	status = 0;
 
 	/* handle obsolete -number syntax */
-	if (argc > 1 && argv[1][0] == '-' && isdigit(argv[1][1])) {
-		linecnt = strtol((p = argv[1] + 1), &inval, 10);
-		argc--; argv++;
+	if (argc > 1 && argv[1][0] == '-' &&
+	    isdigit((unsigned char)argv[1][1])) {
+		p = argv[1] + 1;
+		argc--;
+		argv++;
 	}
 
-	while ((ch = getopt (argc, argv, "n:")) != -1)
+	while ((ch = getopt(argc, argv, "n:")) != -1) {
 		switch (ch) {
 		case 'n':
-			linecnt = strtol((p = optarg), &inval, 10);
+			p = optarg;
 			break;
 		default:
 			usage();	
 		}
+	}
 	argc -= optind, argv += optind;
 
 	if (p) {
-		if ((linecnt == LONG_MIN || linecnt == LONG_MAX) &&
-		    errno == ERANGE)
-			err(1, "illegal line count -- %s", p);
-		else if (linecnt <= 0 || *inval)
-			errx(1, "illegal line count -- %s", p);
+		const char *errstr;
+
+		linecnt = strtonum(p, 1, LONG_MAX, &errstr);
+		if (errstr)
+			errx(1, "line count %s: %s", errstr, p);
 	}
 
-	/* setlinebuf(stdout); */
 	for (firsttime = 1; ; firsttime = 0) {
 		if (!*argv) {
 			if (!firsttime)
-				exit(0);
-		}
-		else {
-			if (!freopen(*argv, "r", stdin)) {
+				exit(status);
+			fp = stdin;
+		} else {
+			if ((fp = fopen(*argv, "r")) == NULL) {
 				warn("%s", *argv++);
+				status = 1;
 				continue;
 			}
 			if (argc > 1) {
@@ -106,10 +100,11 @@ main(int argc, char *argv[])
 			}
 			++argv;
 		}
-		for (cnt = linecnt; cnt && !feof(stdin); --cnt)
-			while ((ch = getchar()) != EOF)
+		for (cnt = linecnt; cnt && !feof(fp); --cnt)
+			while ((ch = getc(fp)) != EOF)
 				if (putchar(ch) == '\n')
 					break;
+		fclose(fp);
 	}
 	/*NOTREACHED*/
 }
@@ -118,7 +113,6 @@ main(int argc, char *argv[])
 static void
 usage(void)
 {
-	fputs("usage: head [-n line_count] [file ...]\n", stderr);
+	fputs("usage: head [-count | -n count] [file ...]\n", stderr);
 	exit(1);
 }
-
