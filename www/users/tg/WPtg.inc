@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.99 2014/10/05 17:50:14 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.100 2014/10/07 15:56:07 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6780,6 +6780,7 @@ Tag: D25 T1 Other Tradi
 ID: 1167
 Date: 05.10.2014
 Waypoint: GC4NWZC
+Banner: jpg
 Title: Souvenir CHALLENGE - 31-August-Tage
 Tag: D5 T15 Micro Mystery Challenge
 ----

@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.14 2014/06/28 21:35:52 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.15 2014/06/29 13:19:46 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -162,4 +162,40 @@ Tag: debian pcli rant security tip work
  <tt>${GNUPGHOME:-~/.gnupg}/random_seed</tt> from a good source before even
  attempting to use GnuPG 2 for the first time. OK, you can run <tt>gpg -k</tt>
  once, to create the GNUPGHOME directory from a skeleton.)</p>
+----
+Date: 09.10.2014 00:50
+Author: tg@
+Title: Debian is a bit like a school class…
+Tag: personal rant
+
+<p>… which has never quite taken you as-is, bordering bullying maybe,
+ and has now made up rules to include some new kids, using these as
+ excuse to bully you around even more. You stay the outsider, having
+ tried to struggle along for a while, except of course when they want
+ to copy off your homework. Or, as happened to me, during a Maths test,
+ with carbon paper. Then you're thanked for a short while, and after
+ some time, you're alone again.</p>
+<p>… except, it all happened in the city, not in the internet, which
+ happily multiplies negative voices and likes to take things out of
+ context, especially if part of the context was in private mail or
+ other threads or long buried (closed as ignored/WONTFIX) bugreports.</p>
+<p>Of course, some sorts of misbehaviour are okay, as long as those
+ who do toe the party line ‒ and aren't outcast, to start with.</p>
+<p>I still pride myself as independent thinker and <em>like</em> to
+ play the devil's advocate rule (heh, double entendree, being a BSD
+ person). Critically looking at something new has led to lots of <a
+ href="@@RELPATH@@wtf.cgi?tys">tys</a> moments. If people listened
+ to my criticism in the first place, effort could have been saved.</p>
+<p>It seems to be an anglo-american-australian thing, putting political
+ correctness in expressions over real niceness. And the opinion about
+ cursing, in general. And this <a href="@@RELPATH@@wtf.cgi?sjw">SJW</a>
+ thing. You know, a good friend is someone who you can be silent with,
+ while being happy together. One whom you can insult, be it in jest or
+ in anger, and still stay friends.</p>
+<p>And look at those newcomers! Shiny, with makeup that promises faster
+ boot times (eh? I fail to see how this is relevant in a Unix…) and
+ all that. But these superficial people, always jumping from one thing
+ (HAL, consolekit) to the next, giving up their own projects which they
+ forced upon others the minute before ‒ no consistency.</p>
+<p>I'm too old for this shit. Ignore my rambling. Couldn't sleep.</p>
 ----
