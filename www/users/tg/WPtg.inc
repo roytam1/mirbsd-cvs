@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.101 2014/10/09 00:51:21 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.102 2014/10/09 19:14:17 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6815,14 +6815,26 @@ Waypoint: GC3VX46
 Title: Tarnen, Täuschen, Aufklären
 Tag: D15 T25 Micro Tradi recommended
 ----
-ID: p20141010
+ID: 1173
 Date: 10.10.2014
 Waypoint: TC3T8O GC5DJTV OC1152E N02F80 GE0306
 Title: ⅯⅯⅩⅣ das Vorletzte
 nTF: 0
 Tag: D1 T15 Event
 ----
-ID: p201410102
+ID: 1174
+Date: 10.10.2014
+Waypoint: GC51VZE
+Title: Pictogram storys #1
+Tag: D35 T2 Small Mystery
+----
+ID: 1175
+Date: 10.10.2014
+Waypoint: GC54FX6
+Title: Pictogram storys #2
+Tag: D4 T2 Micro Mystery
+----
+ID: 1176
 Date: 10.10.2014
 Waypoint: GC5DKKJ
 Title: stetig an der &#34;Dose&#34;
