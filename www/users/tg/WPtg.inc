@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.102 2014/10/09 19:14:17 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.103 2014/10/10 21:26:17 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -2737,7 +2737,7 @@ Tag: D1 T1 Micro Tradi
 ----
 ID: 514
 Date: 20.09.2013
-Waypoint: GC173FT
+Waypoint: GC173FT OC471E
 Title: Zechers Zuflucht
 Tag: D1 T25 Micro Tradi
 ----
@@ -6839,6 +6839,132 @@ Date: 10.10.2014
 Waypoint: GC5DKKJ
 Title: stetig an der &#34;Dose&#34;
 Tag: D1 T15 Event
+----
+ID: 1177
+Date: 11.10.2014
+Waypoint: GC53A9B
+Title: Landhuis &amp; LBB cache
+Tag: D15 T2 Large Tradi
+----
+ID: 1178
+Date: 11.10.2014
+Waypoint: GC4BMP2
+Title: #TB-HOTEL# EVENT MANU MENTEQUE
+Tag: D15 T25 Regular Tradi
+----
+ID: 1179
+Date: 11.10.2014
+Waypoint: GC1TN41
+Title: E42 sortie 8 - TB&amp;GC Hotel
+Tag: D15 T15 Regular Tradi
+----
+ID: 1180
+Date: 11.10.2014
+Waypoint: GC5A4YC
+Title: TB Hotel - Sortie 21 (E411) - Pont de Custinne
+Tag: D15 T15 Regular Tradi
+----
+ID: 1181
+Date: 11.10.2014
+Waypoint: GC4QKBV
+Title: La citée du Wandalino
+Tag: D15 T15 Nano Tradi
+----
+ID: 1182
+Date: 11.10.2014
+Waypoint: GC40 OC14A2
+Title: Geocache
+Tag: D1 T1 Regular Tradi
+----
+ID: 1183
+Date: 11.10.2014
+Waypoint: GC49283
+Title: La Harpe
+Tag: D15 T15 Micro Tradi
+----
+ID: 1184
+Date: 11.10.2014
+Waypoint: GC4XP2B
+Title: Aux héros du banel
+Tag: D15 T2 Small Tradi
+----
+ID: 1185
+Date: 11.10.2014
+Waypoint: GC4Q1YE
+Title: La maison forte
+Tag: D15 T15 Micro Tradi recommended
+----
+ID: 1186
+Date: 11.10.2014
+Waypoint: GC4JV08
+Title: RIP Messieurs d'Huard
+Tag: D15 T15 Micro Tradi recommended
+----
+ID: 1187
+Date: 11.10.2014
+Waypoint: GC4KJP4
+Title: Le monument
+Tag: D2 T2 Small Tradi
+----
+ID: 1188
+Date: 11.10.2014
+Waypoint: GC1K0XP
+Title: Pitstop &#34;Hondelange 2&#34;
+Tag: D15 T15 Micro Tradi
+----
+ID: 1189
+Date: 11.10.2014
+Waypoint: GC1K0XM
+Title: Pitstop &#34;Hondelange 1&#34;
+Tag: D15 T15 Micro Tradi
+----
+ID: 1190
+Date: 11.10.2014
+Waypoint: GC2TP04
+Title: Un peu plus près des étoiles - TB/GC Findel Hôtel
+Tag: D1 T15 Small Tradi
+----
+ID: 1191
+Date: 11.10.2014
+Waypoint: GC4VK7F
+Title: MacGyver
+Tag: D15 T15 Small Tradi
+----
+ID: 1192
+Date: 11.10.2014
+Waypoint: GC1PJ47
+Title: Réimerwee - Tumulus
+Tag: D15 T3 Small Tradi
+----
+ID: 1193
+Date: 11.10.2014
+Waypoint: GC48QWZ
+Title: Oratoire
+Tag: D1 T2 Micro Tradi
+----
+ID: 1194
+Date: 11.10.2014
+Waypoint: GC12QC8
+Title: Car Wash
+Tag: D1 T1 Micro Tradi
+----
+ID: 1195
+Date: 11.10.2014
+Waypoint: GC3V85X
+Title: B 51 - Raus auf´s Land
+Tag: D1 T15 Micro Tradi
+----
+ID: 1196
+Date: 11.10.2014
+Waypoint: GC4MXZT
+Title: Jonathan's Kids Cache Sirzenich
+Tag: D1 T15 Regular Tradi
+----
+ID: 1197
+Date: 11.10.2014
+Waypoint: GC53NWH
+Title: Die fünf Länder Challenge
+Tag: D5 T3 Micro Mystery
 ----
 ID: p20141025
 Date: 25.10.2014
