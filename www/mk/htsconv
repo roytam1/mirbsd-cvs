@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.76 2014/03/30 14:24:37 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.77 2014/03/30 14:37:34 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -10,7 +10,7 @@ mws__markindex=
 mws__pagename=
 mws__header=
 mws__rss=
-mws__difftag=MBSD_HTSCONV_GENDATE_TAG_15765
+mws__difftag=MBSD_HTSCONV_GENDATE_TAG_22830
 unset mws__srcfile
 unset mws__abspath
 unset mws__relpath
@@ -73,7 +73,8 @@ function mws_maketoc {
 		print -u2 Internal error: not called via mws__do!
 		exit 1
 	fi
-	(grep '^<h[2-6] id="[^">]*">.*</h[2-6]>$' "$mws__srcfile"
+	(grep '^<h[2-6] id="[^">]*"\( [a-z]*="[^">]*"\)*>.*</h[2-6]>$' \
+	    "$mws__srcfile"
 	 print '<h1') |&
 	while IFS= read -pr line; do
 		set -A lna -- $line
