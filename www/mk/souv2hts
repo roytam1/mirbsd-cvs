@@ -1,0 +1,72 @@
+#!/bin/mksh
+# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+#-
+# Copyright © 2014
+#	Thorsten Glaser <tg@mirbsd.org>
+#
+# Provided that these terms and disclaimer and all copyright notices
+# are retained or reproduced in an accompanying document, permission
+# is granted to deal in this work without restriction, including un‐
+# limited rights to use, publicly perform, distribute, sell, modify,
+# merge, give away, or sublicence.
+#
+# This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
+# the utmost extent permitted by applicable law, neither express nor
+# implied; without malicious intent or gross negligence. In no event
+# may a licensor, author or contributor be held liable for indirect,
+# direct, other damage, loss, or other issues arising in any way out
+# of dealing in the work, even if advised of the possibility of such
+# damage or existence of a defect, except proven that it results out
+# of said person’s immediate fault when using the work as intended.
+#-
+# Read the list of souvenirs from GC.COM (using lynx’ cookies); emit
+# ordered (by date) shell calls to souv2hts.out for inclusion in the
+# user-specific .hts files.
+
+IFS=$' \t\n\r'
+state=0
+lynx -source http://www.geocaching.com/my/souvenirs.aspx | sed \
+    -e '1,/div class="ProfileSouvenirsList"/d' \
+    -e '/id="ctl00_divContentSide"/,$d' | \
+    while read line; do
+	case $state {
+	(0)
+		[[ $line = *'<div id="souvenir_'* ]] || continue
+		state=1
+		linktgt=
+		imgsrc=
+		imgalt=
+		acquired=
+		;;
+	(1)
+		[[ $line = *'</div>'* ]] && print -u2 "WARN state=$state linktgt=$linktgt imgsrc=$imgsrc imgalt=$imgalt acquired=$acquired" && state=0 && continue
+		[[ $line = *'<a href='\''/souvenir'* ]] || continue
+		linktgt=${line#*'<a href='\'}
+		linktgt=${linktgt%%\'*}
+		[[ $linktgt = /* ]] && linktgt=http://www.geocaching.com$linktgt
+		state=2
+		;;
+	(2)
+		[[ $line = *'</div>'* ]] && print -u2 "WARN state=$state linktgt=$linktgt imgsrc=$imgsrc imgalt=$imgalt acquired=$acquired" && state=0 && continue
+		[[ $line = *'<img'* ]] || continue
+		imgsrc=${line#*'src="'}
+		imgsrc=${imgsrc%%\"*}
+		[[ $imgsrc = /* ]] && imgsrc=http://www.geocaching.com$imgsrc
+		imgalt=${line#*'alt="'}
+		imgalt=${imgalt%%*([	 ])\"*}
+		state=3
+		;;
+	(3)
+		[[ $line = *'</div>'* ]] && print -u2 "WARN state=$state linktgt=$linktgt imgsrc=$imgsrc imgalt=$imgalt acquired=$acquired" && state=0 && continue
+		[[ $line = *'Acquired on 20'[0-9][0-9]-[0-1][0-9]-[0-3][0-9][!0-9-]* ]] || continue
+		acquired=${line#*'Acquired on '}
+		acquired=${acquired%%[!0-9-]*}
+		state=4
+		;;
+	(4)
+		[[ $line = *'</div>'* ]] || continue
+		print -r -- "souvenir ${acquired@Q} ${imgalt@Q} ${imgsrc@Q} ${linktgt@Q}"
+		state=0
+		;;
+	}
+done | sort >souv2hts.out
