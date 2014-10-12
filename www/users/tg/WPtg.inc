@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.103 2014/10/10 21:26:17 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.104 2014/10/11 21:34:20 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6965,6 +6965,19 @@ Date: 11.10.2014
 Waypoint: GC53NWH
 Title: Die fünf Länder Challenge
 Tag: D5 T3 Micro Mystery
+----
+ID: 1198
+Date: 12.10.2014
+Waypoint: GDCI-JUNU
+Title: Dashpoint 50°N 7°E, Game 160 (Oktober 2014), BN-Röttgen
+nTF: 1
+Distance: 92
+----
+ID: 1199
+Date: 12.10.2014
+Waypoint: GC4NKYY
+Title: Bodenkunde im Kottenforst (rel.) - Kottenforstlehm
+Tag: D2 T2 Earth
 ----
 ID: p20141025
 Date: 25.10.2014
