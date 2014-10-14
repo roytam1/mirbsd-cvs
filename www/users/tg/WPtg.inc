@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.104 2014/10/11 21:34:20 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.105 2014/10/12 20:48:59 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6978,6 +6978,18 @@ Date: 12.10.2014
 Waypoint: GC4NKYY
 Title: Bodenkunde im Kottenforst (rel.) - Kottenforstlehm
 Tag: D2 T2 Earth
+----
+ID: 1200
+Date: 14.10.2014
+Waypoint: GC1ZJ8V
+Title: Hafenblick
+Tag: D2 T15 Micro Tradi
+----
+ID: 1201
+Date: 14.10.2014
+Waypoint: GC2M8CD
+Title: Die Erde bebt - eine Spurensuche
+Tag: D1 T15 Earth
 ----
 ID: p20141025
 Date: 25.10.2014
