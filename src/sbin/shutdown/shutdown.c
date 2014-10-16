@@ -2,7 +2,7 @@
 /*	$NetBSD: shutdown.c,v 1.9 1995/03/18 15:01:09 cgd Exp $	*/
 
 /*
- * Copyright © 2013
+ * Copyright © 2013, 2014
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1988, 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -56,7 +56,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1988, 1990, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)shutdown.c	8.2 (Berkeley) 2/16/94");
-__RCSID("$MirOS: src/sbin/shutdown/shutdown.c,v 1.3 2012/10/17 21:09:45 tg Exp $");
+__RCSID("$MirOS: src/sbin/shutdown/shutdown.c,v 1.4 2013/10/31 20:06:45 tg Exp $");
 
 #include "pathnames.h"
 
@@ -412,7 +412,7 @@ die_you_gravy_sucking_pig_dog(void)
 			t.c_oflag |= (ONLCR | OPOST);
 			tcsetattr(0, TCSANOW, &t);
 
-			execl(_PATH_BSHELL, "sh", _PATH_RC, "shutdown", (char *)NULL);
+			execl(_PATH_BSHELL, "sh", "-p", _PATH_RC, "shutdown", (char *)NULL);
 			_exit(1);
 		default:
 			waitpid(pid, NULL, 0);

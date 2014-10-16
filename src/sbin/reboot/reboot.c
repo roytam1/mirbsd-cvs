@@ -56,7 +56,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1980, 1986, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)reboot.c	8.1 (Berkeley) 6/5/93");
-__RCSID("$MirOS: src/sbin/reboot/reboot.c,v 1.5 2012/08/24 18:08:03 tg Exp $");
+__RCSID("$MirOS: src/sbin/reboot/reboot.c,v 1.6 2014/03/12 23:16:52 tg Exp $");
 
 extern const char *__progname;
 extern void arc4random_atexit(void);
@@ -204,7 +204,7 @@ main(int argc, char *argv[])
 			break;
 		case 0:
 			pull_console(true);
-			execl(_PATH_BSHELL, "sh", _PATH_RUNCOM, "shutdown", (char *)NULL);
+			execl(_PATH_BSHELL, "sh", "-p", _PATH_RUNCOM, "shutdown", (char *)NULL);
 			_exit(1);
 		default:
 			waitpid(pid, NULL, 0);
