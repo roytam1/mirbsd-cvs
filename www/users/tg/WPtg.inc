@@ -6981,7 +6981,7 @@ Tag: D2 T2 Earth
 ----
 ID: 1200
 Date: 14.10.2014
-Waypoint: GC1ZJ8V
+Waypoint: GC1ZJ8V OC5DF3
 Title: Hafenblick
 Tag: D2 T15 Micro Tradi
 ----

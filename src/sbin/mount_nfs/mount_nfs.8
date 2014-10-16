@@ -263,6 +263,10 @@ communicating with clients.
 In
 .Ox ,
 a reserved port is always used.
+.Sh CAVEATS
+Upon the first NFS mount, a number of kernel threads is started,
+which currently, due to unknown bugs, can cause the system to
+hang/crash upon shutdown, leaving an open RAID dirty.
 .Sh BUGS
 Due to the way that Sun RPC is implemented on top of UDP (unreliable datagram),
 tuning such mounts is really a black art that can only be expected

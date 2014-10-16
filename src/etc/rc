@@ -140,7 +140,7 @@ trap : 3	# shouldn't be needed
 # If we are about to shut down, execute this bunch of code,
 # otherwise (startup), skip below
 if [[ $1 = shutdown ]]; then
-	[[ -x /usr/sbin/wsconfig ]] && /usr/sbin/wsconfig -s 1 2>&-
+	[[ -x /usr/sbin/wsconfig ]] && /usr/sbin/wsconfig -s 1 2>/dev/null
 	echo Received shutdown request.
 
 	# empty lopool into compressor arcfour state
@@ -150,11 +150,25 @@ if [[ $1 = shutdown ]]; then
 	# cause the kernel to re-stir arc4random
 	dd if=/var/db/host.random of=/dev/arandom 2>/dev/null
 	# save a random seed
-	(dd if=/dev/arandom count=3; dd if=/dev/urandom count=8) \
-	    >/var/db/host.random 2>/dev/null
-	chmod 600 /var/db/host.random
-	[[ -x /usr/sbin/wsconfig ]] && /usr/sbin/wsconfig -s 1 2>&-
-	if [ $? -eq 0 -a -f /etc/rc.shutdown ]; then
+	rf=/var/db/host.random.new
+	while [[ -e $rf ]]; do
+		rf=/var/db/host.random.new.$$.$RANDOM
+	done
+	(
+		exec >$rf
+		chmod 600 $rf
+		dd if=/dev/arandom count=3 2>/dev/null
+		dd if=/dev/urandom count=8 2>/dev/null
+	)
+	[[ -x /usr/sbin/wsconfig ]] && /usr/sbin/wsconfig -s 1 2>/dev/null
+	if [[ ! -e $rf ]]; then
+		echo single user: not running /etc/rc.shutdown
+		exit 0
+	fi
+
+	mv -f "$rf" /var/db/host.random
+
+	if [[ -f /etc/rc.shutdown ]]; then
 		echo /etc/rc.shutdown in progress...
 		. /etc/rc.shutdown
 		echo /etc/rc.shutdown complete.
@@ -174,8 +188,6 @@ if [[ $1 = shutdown ]]; then
 		dd if=/dev/arandom count=1 >>/var/db/host.random 2>/dev/null
 
 		[[ $powerdown = YES ]] && exit 2
-	else
-		echo single user: not running /etc/rc.shutdown
 	fi
 	exit 0
 fi
@@ -415,13 +427,13 @@ fi
 	chmod 600 /var/db/host.random
 	sync
 
-	let RANDOM=$(dd if=/dev/arandom bs=4 count=1 2>&- | hexdump -ve '"%u"')
+	let RANDOM=$(dd if=/dev/arandom bs=4 count=1 2>/dev/null | hexdump -ve '"%u"')
 	typeset -i1 a=RANDOM b=RANDOM c=RANDOM d=RANDOM
 	print -nr -- "${a#1#}${b#1#}${c#1#}${d#1#}" >/dev/arandom
 	unset a b c d
 
 	dd if=/dev/arandom count=3 >>/var/db/host.random
-	let RANDOM=$(dd if=/dev/arandom bs=4 count=1 2>&- | hexdump -ve '"%u"')
+	let RANDOM=$(dd if=/dev/arandom bs=4 count=1 2>/dev/null | hexdump -ve '"%u"')
 } >/dev/wrandom 2>&1
 
 # clean up left-over files
