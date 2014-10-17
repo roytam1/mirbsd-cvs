@@ -4,7 +4,7 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.18 2014/10/09 19:14:18 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.19 2014/10/12 20:49:00 tg Exp $'
 mws_maketoc
 
 function statpic {
@@ -286,7 +286,9 @@ mws_content <<'EOF'
 
 <h2 id="nqc">Not exactly Geocaching…</h2>
 
-<p>… but relevant for some TerraCaching challenges:<br /><img
+<p>… but at least <a
+ href="http://www.worldcommunitygrid.org/reg/viewRegister.do?recruiterId=474443">WCG
+ (World Community Grid)</a> is relevant for some TerraCaching challenges:<br /><img
  style="border:0px;" src="http://signature.statseb.fr/sig-1100.gif"
  alt="BOINC stats for mirabilos (AniGIF)" /></p>
 
