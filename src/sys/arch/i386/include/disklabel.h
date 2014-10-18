@@ -1,10 +1,10 @@
-/**	$MirOS: src/sys/arch/i386/include/disklabel.h,v 1.2 2005/03/06 21:26:59 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/include/disklabel.h,v 1.3 2008/11/08 23:04:06 tg Exp $ */
 /*	$OpenBSD: disklabel.h,v 1.26 2003/11/16 20:30:06 avsm Exp $	*/
 /*	$NetBSD: disklabel.h,v 1.3 1996/03/09 20:52:54 ghudson Exp $	*/
 
 /*
  * Copyright (c) 1994 Christopher G. Demetriou
- * Copyright (c) 2004
+ * Copyright (c) 2004, 2014
  *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * All rights reserved.
  *
@@ -64,15 +64,15 @@ struct dos_partition {
 
 /* Known DOS partition types. */
 #define	DOSPTYP_UNUSED	0x00		/* Unused partition */
-#define	DOSPTYP_FAT12	0x01		/* 12-bit FAT */
-#define	DOSPTYP_FAT16S	0x04		/* 16-bit FAT, less than 32M */
-#define	DOSPTYP_EXTEND	0x05		/* Extended; contains sub-partitions */
-#define	DOSPTYP_FAT16B	0x06		/* 16-bit FAT, more than 32M */
+#define	DOSPTYP_FAT12	0x01		/* FAT <16 MiB, <1024 cyl */
+#define	DOSPTYP_FAT16S	0x04		/* FAT <32 MiB, <1024 cyl */
+#define	DOSPTYP_EXTEND	0x05		/* Extended, <1024 cyl */
+#define	DOSPTYP_FAT16B	0x06		/* FAT <2 GiB, <1024 cyl */
 #define	DOSPTYP_NTFS	0x07		/* OS/2 HPFS, now NT OS/2 NTFS */
-#define	DOSPTYP_FAT32	0x0B		/* 32-bit FAT */
-#define	DOSPTYP_FAT32L	0x0C		/* 32-bit FAT, LBA-mapped */
-#define	DOSPTYP_FAT16L	0x0E		/* 16-bit FAT, LBA-mapped */
-#define	DOSPTYP_EXTENDL	0x0F		/* Extended, LBA-mapped */
+#define	DOSPTYP_FAT32	0x0B		/* FAT <1024 cyl */
+#define	DOSPTYP_FAT32L	0x0C		/* FAT without those limits */
+#define	DOSPTYP_FAT16L	0x0E		/* FAT <2 GiB */
+#define	DOSPTYP_EXTENDL	0x0F		/* Extended, without limits */
 #define	DOSPTYP_MIRBSD	0x27		/* MirBSD partition type */
 #define	DOSPTYP_ONTRACK	0x54
 #define	DOSPTYP_LINUX	0x83		/* That other thing */

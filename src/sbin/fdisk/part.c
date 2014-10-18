@@ -1,4 +1,3 @@
-/**	$MirOS: src/sbin/fdisk/part.c,v 1.7 2010/11/20 18:41:42 tg Exp $	*/
 /*	$OpenBSD: part.c,v 1.42 2006/06/09 17:01:47 deraadt Exp $	*/
 
 /*
@@ -40,7 +39,7 @@
 #include "misc.h"
 #include "mbr.h"
 
-__RCSID("$MirOS: src/sbin/fdisk/part.c,v 1.7 2010/11/20 18:41:42 tg Exp $");
+__RCSID("$MirOS: src/sbin/fdisk/part.c,v 1.8 2014/02/27 21:52:11 tg Exp $");
 
 int	PRT_check_chs(prt_t *partn);
 
@@ -49,19 +48,19 @@ static const struct part_type {
 	char	sname[14];
 } part_types[] = {
 	{ 0x00, "unused      "},   /* unused */
-	{ 0x01, "DOS FAT12   "},   /* Primary DOS with 12 bit FAT */
+	{ 0x01, "FAT <16M CHS"},   /* Primary DOS usually with 12 bit FAT */
 	{ 0x02, "XENIX /     "},   /* XENIX / filesystem */
 	{ 0x03, "XENIX /usr  "},   /* XENIX /usr filesystem */
-	{ 0x04, "DOS FAT16   "},   /* Primary DOS with 16 bit FAT */
-	{ 0x05, "Extended DOS"},   /* Extended DOS */
-	{ 0x06, "DOS > 32MB  "},   /* Primary 'big' DOS (> 32MB) */
+	{ 0x04, "FAT <32M CHS"},   /* Primary DOS usually with 16 bit FAT */
+	{ 0x05, "Extended CHS"},   /* Extended DOS within 1024 cylinders */
+	{ 0x06, "FAT <2GB CHS"},   /* Primary 'big' DOS (> 32 MiB) */
 	{ 0x07, "HPFS/QNX/AUX"},   /* OS/2 HPFS, QNX-2 or Advanced UNIX */
 	{ 0x08, "AIX fs      "},   /* AIX filesystem */
 	{ 0x09, "AIX/Coherent"},   /* AIX boot partition or Coherent */
 	{ 0x0A, "OS/2 Bootmgr"},   /* OS/2 Boot Manager or OPUS */
-	{ 0x0B, "DOS FAT32   "},   /* Primary DOS w/ 32-bit FAT */
-	{ 0x0C, "DOS FAT32 L "},   /* Primary DOS w/ 32-bit FAT LBA-mapped */
-	{ 0x0E, "DOS FAT16 L "},   /* Primary DOS w/ 16-bit FAT LBA-mapped */
+	{ 0x0B, "FAT >2GB CHS"},   /* Primary DOS usually w/ 32-bit FAT */
+	{ 0x0C, "FAT >2GB LBA"},   /* Primary DOS u.w/ 32-bit FAT LBA-mapped */
+	{ 0x0E, "FAT <2GB LBA"},   /* Primary DOS u.w/ 16-bit FAT LBA-mapped */
 	{ 0x0F, "Extended LBA"},   /* Extended DOS LBA-mapped */
 	{ 0x10, "OPUS        "},   /* OPUS */
 	{ 0x11, "OS/2 hidden "},   /* OS/2 BM: hidden DOS 12-bit FAT */
@@ -79,7 +78,7 @@ static const struct part_type {
 	{ 0x39, "Plan 9      "},   /* Plan 9 */
 	{ 0x40, "VENIX 286   "},   /* VENIX 286 or LynxOS */
 	{ 0x41, "Lin/Minux DR"},   /* Linux/MINIX (sharing disk with DRDOS) or Personal RISC boot */
-	{ 0x42, "LinuxSwap DR"},   /* SFS or Linux swap (sharing disk with DRDOS) */
+	{ 0x42, "Dynamic Disc"},   /* NT LVM; SFS or Linux swap (sharing disk with DRDOS) */
 	{ 0x43, "Linux DR    "},   /* Linux native (sharing disk with DRDOS) */
 	{ 0x4D, "QNX 4.2 Pri "},   /* QNX 4.2 Primary */
 	{ 0x4E, "QNX 4.2 Sec "},   /* QNX 4.2 Secondary */
@@ -107,7 +106,7 @@ static const struct part_type {
 	{ 0x82, "Linux swap  "},   /* Linux swap */
 	{ 0x83, "Linux files*"},   /* Linux filesystem */
 	{ 0x84, "OS/2 hidden "},   /* OS/2 hidden C: drive */
-	{ 0x85, "Linux ext.  "},   /* Linux extended */
+	{ 0x85, "Linux ext.  "},   /* Linux extended LBA */
 	{ 0x86, "NT FAT VS   "},   /* NT FAT volume set */
 	{ 0x87, "NTFS VS     "},   /* NTFS volume set or HPFS mirrored */
 	{ 0x88, "O.ADK cfgfs "},   /* OpenADK cfgfs or fwcf */
