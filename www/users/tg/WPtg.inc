@@ -6787,6 +6787,7 @@ Tag: D5 T15 Micro Mystery Challenge
 ID: 1168
 Date: 05.10.2014
 Waypoint: GC5CX5G
+Banner: png
 Title: Challenge: &#34;Happiest tenth'iest birthday!&#34;
 nTF: 3
 Tag: D35 T2 Small Mystery Challenge
@@ -6990,6 +6991,30 @@ Date: 14.10.2014
 Waypoint: GC2M8CD
 Title: Die Erde bebt - eine Spurensuche
 Tag: D1 T15 Earth
+----
+ID: 1202
+Date: 18.10.2014
+Waypoint: GDCI-JURE
+Title: Dashpoint 50°N 7°E, Game 160 (Oktober 2014), Bad Hönningen-Rheinbrohl
+nTF: 1
+Distance: 17
+----
+ID: 1203
+Date: 18.10.2014
+Waypoint: GC2DA0R OCACEF
+Title: Kaiserberg
+Tag: D15 T1 Micro Tradi
+----
+ID: 1204
+Date: 18.10.2014
+Waypoint: VX76-XOCO
+Title: [Austria]
+----
+ID: 1205
+Date: 18.10.2014
+Waypoint: GC330JB
+Title: SCHWARZER PETER
+Tag: D3 T1 Small Tradi
 ----
 ID: p20141025
 Date: 25.10.2014
