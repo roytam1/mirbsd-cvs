@@ -1,8 +1,8 @@
-/* $MirOS: src/sys/arch/i386/stand/mbr/mbr.S,v 1.12 2009/01/31 23:39:55 tg Exp $ */
+/* $MirOS: src/sys/arch/i386/stand/mbr/mbr.S,v 1.13 2009/03/04 10:50:28 tg Exp $ */
 
 /*-
- * Copyright (c) 2009
- *	Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2009, 2014
+ *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
@@ -26,6 +26,14 @@
  *	$ gcc -D_ASM_SOURCE -DBOOT_QUIET -D__BOOT_VER=\"0AA6\" -c mbr.S
  *	$ ld -nostdlib -Ttext 0x0600 -N -Bstatic -e _start -o mbrldr.elf mbr.o
  *	$ objcopy -O binary mbrldr.elf mbrldr
+ *-
+ * Known bugs:
+ * + Relocation is to 0000:0600 but advice is to use 7C00‥FFFF as
+ *   scratchpad; also, only 64 KiB RAM can be assumed (and no 386,
+ *   but we control the environment for this to be a requirement)
+ * + ES:DI must be preserved, always
+ * + (not a bug) we set DL instead of relying on the BIOS
+ * + DH should be zero
  */
 
 	.intel_syntax noprefix
@@ -236,7 +244,9 @@ Lldlp:	pusha
 	pop	si		/* Lload return address */
 	pop	si		/* partition table entry */
 	mov	dl,[si]
-	/* DS:SI point to partition table entry, DL is set */
+	/* EAX must not be 0x54504721 (ensured by Lotxt) */
+	/* DL is set; DH should be zero (but isn’t) */
+	/* DS:SI point to partition table entry, actually used by some */
 	cli			/* be nice :) */
 	ret			/* jump to 0000:7C00h */
 Lldre:	pusha
