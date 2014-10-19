@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.21 2013/11/01 01:22:36 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.22 2014/05/11 17:23:27 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -195,6 +195,13 @@ tasks and can save you a great deal of time. It may seem daunting at
 first, but with the right instruction you can become highly skilled in
 it. This article will teach you to write your own Korn shells scripts.
 ----
+Title: ksh - An Extensible High Level Language
+Link: https://www.usenix.org/legacy/publications/library/proceedings/vhll/full_papers/korn.ksh.a
+
+Overview of design (good and bad sides) and features of ksh,
+with the advent of the new ksh93, and some history, from
+David G. Korn himself.
+----
 Title: * Portable Shell::
 Link: http://www.gnu.org/software/autoconf/manual/html_node/Portable-Shell.html
 
@@ -270,4 +277,10 @@ environments, you eventually need to crack the shell and enter the
 command line. Lots of command shells are available, from Bash and
 Korn to C shell and various exotic and strange shells. Learn which
 shell is right for you.
+----
+Title: KornShell Documentation
+Link: http://kornshell.com/doc/
+
+Collection of ksh-related documents (links, books, etc.) similar to
+this one. Maintained by David G. Korn; some links may be stale.
 ----
