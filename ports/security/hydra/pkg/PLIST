@@ -1,4 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2002/06/08 21:46:00 jsyn Exp $
-bin/hydra
-share/doc/hydra/README
-@dirrm share/doc/hydra

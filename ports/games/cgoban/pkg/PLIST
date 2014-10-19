@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2000/06/11 08:36:39 fgsch Exp $
-bin/cgoban
-man/man6/cgoban.6

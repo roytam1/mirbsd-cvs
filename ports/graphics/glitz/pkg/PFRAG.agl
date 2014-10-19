@@ -1,4 +1,0 @@
-@comment $MirOS$
-include/glitz-agl.h
-lib/libglitz-agl.la
-lib/pkgconfig/glitz-agl.pc
