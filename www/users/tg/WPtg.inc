@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.105 2014/10/12 20:48:59 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.108 2014/10/18 20:22:08 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -7015,6 +7015,25 @@ Date: 18.10.2014
 Waypoint: GC330JB
 Title: SCHWARZER PETER
 Tag: D3 T1 Small Tradi
+----
+ID: 1206
+Date: 19.10.2014
+Waypoint: GC3W54V
+Title: Melb-Mikro #3: Das Bad
+Tag: D2 T2 Micro Tradi
+----
+ID: 1207
+Date: 19.10.2014
+Waypoint: GC377NC
+Title: Melbtal ll
+Tag: D2 T2 Micro Tradi
+----
+ID: 1208
+Date: 19.10.2014
+Waypoint: GC5ECQA
+Title: Magicx67's magischer Geburtstags-Cache
+nTF: 5
+Tag: D2 T15 Nano Tradi
 ----
 ID: p20141025
 Date: 25.10.2014
