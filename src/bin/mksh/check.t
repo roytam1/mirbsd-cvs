@@ -22,6 +22,9 @@
 #-
 # You may also want to test IFS with the script at
 # http://www.research.att.com/~gsf/public/ifs.sh
+#
+# More testsuites at:
+# http://svnweb.freebsd.org/base/head/bin/test/tests/legacy_test.sh?view=co&content-type=text%2Fplain
 
 expected-stdout:
 	@(#)MIRBSD KSH R50 2014/10/19
