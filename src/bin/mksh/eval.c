@@ -23,7 +23,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/eval.c,v 1.153 2014/10/07 15:22:16 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/eval.c,v 1.154 2014/10/19 20:56:32 tg Exp $");
 
 /*
  * string expansion
@@ -664,7 +664,7 @@ expand(
 						f |= DOTEMP;
 						/* FALLTHROUGH */
 					default:
-						word = quote || (!*x.str && (f & DOASNFIELD)) ? IFS_WORD : IFS_WS;
+						word = quote || (!*x.str && (f & DOASNFIELD)) ? IFS_WORD : IFS_IWS;
 						/* Enable tilde expansion */
 						tilde_ok = 1;
 						f |= DOTILDE;
