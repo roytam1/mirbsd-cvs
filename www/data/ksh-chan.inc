@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.22 2014/05/11 17:23:27 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.23 2014/10/19 00:24:06 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -31,6 +31,14 @@ floating point arithmetic, will not be provided, even though
 the aim is as generic as ksh93’s (interactive and script use;
 embedding is not yet possible) and to be very portable, also
 to include some extensions of its own. It’s Unicode aware.
+----
+Title: mksh external (optional) bugtracker
+Link: https://bugs.launchpad.net/mksh
+
+The MirOS Project normally uses eMail and IRC for bug handling.
+However, some people prefer a web application. Launchpad offered,
+so this is the mksh external bugtracker which such people can use.
+Its bugmail will also be sent to the mksh mailing list.
 ----
 Title: mksh snapshot downloads
 Link: https://www.mirbsd.org/MirOS/dist/mir/mksh/snapshot/

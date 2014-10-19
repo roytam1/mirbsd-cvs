@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.560 2014/10/07 15:56:05 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.561 2014/10/09 19:14:16 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -828,10 +828,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  please note: it’s <tt>mksh</tt> or “The MirBSD Korn Shell” (“MidnightBSD
  Korn Shell” is also appropriate), but <em>never</em> <del>Mksh</del> or
  somesuch!</p>
-<!--
-<p id="pcur"><i>current</i>:
+<p id="pcur"><i>current</i>: Please remember to subscribe to the mksh
+ mailing list, either directly or via GMane, if you have an interest
+ in mksh, such as packaging it. Thanks!
  <i>(unfinished…)</i></p>
--->
 <p id="p50d">R50d: Nothing to note.</p>
 <p id="p50c">R50c: New <tt>HAVE_ISSETUGID</tt> define. The example Debian
  <tt>/etc/skel/.mkshrc</tt> moved. <strong>Security release.</strong> <a
@@ -1097,13 +1097,18 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
-<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
--->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+ <li>[tg] Add more tests detailing behaviour difference from GNU bash</li>
+ <li>[tg] Introduce a memory leak for <tt>x=&lt;&lt;</tt> fixing use of
+  freed memory instead, bug tracked as LP#1380389 still live</li>
+ <li>[tg] Add <tt>x+=&lt;&lt;</tt> parallel to <tt>x=&lt;&lt;</tt></li>
+ <li>[tg, ormaaj, jilles] POSIX “command” loses builtin special-ness</li>
+ <li>[tg] Begin fixing LP#1381965 and LP#1381993 (more field splitting)</li>
+</ul>
 <p id="r50d">R50d is a <strong>required</strong> bugfix release:</p><ul>
  <li>[Goodbox] Fix NULL pointer dereference on “unset x; nameref x”</li>
  <li>[tg] Fix severe regression in field splitting (LP#1378208)</li>
