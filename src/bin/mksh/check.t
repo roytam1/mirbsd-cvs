@@ -22,9 +22,6 @@
 #-
 # You may also want to test IFS with the script at
 # http://www.research.att.com/~gsf/public/ifs.sh
-#
-# More testsuites at:
-# http://www.freebsd.org/cgi/cvsweb.cgi/src/tools/regression/bin/test/regress.sh?rev=HEAD
 
 expected-stdout:
 	@(#)MIRBSD KSH R50 2014/10/19
@@ -4176,6 +4173,30 @@ expected-stdout:
 	[C]
 	<A B   C>
 	=b8iqa
+---
+name: IFS-subst-6
+description:
+	Regression wrt. vector expansion in trim
+stdin:
+	showargs() { for x in "$@"; do echo -n "<$x> "; done; echo .; }
+	IFS=
+	x=abc
+	set -- a b
+	showargs ${x#$*}
+expected-stdout:
+	<c> .
+---
+name: IFS-subst-7
+description:
+	ksh93 bug wrt. vector expansion in trim
+stdin:
+	showargs() { for x in "$@"; do echo -n "<$x> "; done; echo .; }
+	IFS="*"
+	a=abcd
+	set -- '' c
+	showargs "$*" ${a##"$*"}
+expected-stdout:
+	<*c> <abcd> .
 ---
 name: IFS-arith-1
 description:

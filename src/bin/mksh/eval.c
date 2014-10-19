@@ -246,7 +246,7 @@ expand(
 	/* for alias, readonly, set, typeset commands */
 	if ((f & DOVACHECK) && is_wdvarassign(ccp)) {
 		f &= ~(DOVACHECK | DOBLANK | DOGLOB | DOTILDE);
-		f |= DOASNTILDE | DOASNFIELD;
+		f |= DOASNTILDE | DOSCALAR;
 	}
 	if (Flag(FNOGLOB))
 		f &= ~DOGLOB;
@@ -622,7 +622,7 @@ expand(
 					case '%':
 						/* ! DOBLANK,DOBRACE,DOTILDE */
 						f = (f & DONTRUNCOMMAND) |
-						    DOPAT | DOTEMP;
+						    DOPAT | DOTEMP | DOSCALAR;
 						st->quotew = quote = 0;
 						/*
 						 * Prepend open pattern (so |
@@ -747,7 +747,7 @@ expand(
 					if (f & DOBLANK)
 						doblank++;
 					st = st->prev;
-					word = quote || (!*x.str && (f & DOASNFIELD)) ? IFS_WORD : IFS_IWS;
+					word = quote || (!*x.str && (f & DOSCALAR)) ? IFS_WORD : IFS_IWS;
 					continue;
 				case '?': {
 					char *s = Xrestpos(ds, dp, st->base);
@@ -763,7 +763,7 @@ expand(
 				case 0x100 | 'Q':
 					dp = Xrestpos(ds, dp, st->base);
 					type = XSUB;
-					word = quote || (!*x.str && (f & DOASNFIELD)) ? IFS_WORD : IFS_IWS;
+					word = quote || (!*x.str && (f & DOSCALAR)) ? IFS_WORD : IFS_IWS;
 					if (f & DOBLANK)
 						doblank++;
 					st = st->prev;
@@ -839,8 +839,8 @@ expand(
 					continue;
 				}
 				c = ifs0;
-				if ((f & DOASNFIELD)) {
-					/* assignment, do not field-split */
+				if ((f & DOSCALAR)) {
+					/* do not field-split */
 					if (x.split) {
 						c = ' ';
 						break;
