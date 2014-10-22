@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.23 2014/10/19 00:24:06 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.24 2014/10/19 22:04:16 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -291,4 +291,10 @@ Link: http://kornshell.com/doc/
 
 Collection of ksh-related documents (links, books, etc.) similar to
 this one. Maintained by David G. Korn; some links may be stale.
+----
+Title: The UNIX Grymoire
+Link: http://www.grymoire.com/Unix/
+
+Collection of Unix-related documents, with some sections on shells
+and related utilities.
 ----
