@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/jupp/types.h,v 1.12 2013/08/19 18:25:44 tg Exp $ */
+/* $MirOS: contrib/code/jupp/types.h,v 1.13 2014/07/25 21:41:49 tg Exp $ */
 
 #ifndef _JOE_TYPES_H
 #define _JOE_TYPES_H
@@ -12,10 +12,11 @@
 #include <sys/types.h>				/* we need pid_t */
 #endif
 
+/* from mksh */
 #if defined(DEBUG) || defined(__COVERITY__)
-#define mkssert(e)	((e) ? (void)0 : exit(255))
+#define mkssert(e)	do { if (!(e)) exit(255); } while (/* CONSTCOND */ 0)
 #else
-#define mkssert(e)	((void)0)
+#define mkssert(e)	do { } while (/* CONSTCOND */ 0)
 #endif
 
 /* from mksh */
