@@ -1,8 +1,0 @@
-# $MirOS$
-
-.ifndef _MODSRC_LIB_LIBCITRUS_ICONV_LIBC_MAKEFILE_INC
-_MODSRC_LIB_LIBCITRUS_ICONV_LIBC_MAKEFILE_INC=1
-
-.include "../Makefile.inc"
-
-.endif

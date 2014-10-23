@@ -1,5 +1,0 @@
-# $MirOS: contrib/hosted/tg/deb/arngc/debian/install,v 1.2 2011/08/04 20:47:40 tg Exp $
-#-
-arngc usr/bin
-debian/arngc-slrd usr/lib/stunnel
-debian/lintian/arngc usr/share/lintian/overrides
