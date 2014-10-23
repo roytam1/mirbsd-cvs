@@ -1,14 +1,14 @@
-# $MirOS: www/src/jupp.hts,v 1.57 2014/07/25 21:51:09 tg Exp $
+# $MirOS: www/src/jupp.hts,v 1.58 2014/09/01 21:26:54 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/jupp "jupp – Programmer’s Editor"
 mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.57 2014/07/25 21:51:09 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.58 2014/09/01 21:26:54 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp2</em> for MS-DOS® compatible systems,
- and <em>joe-3.1jupp27</em> for Unix/GNU compatible systems. This page is
+ and <em>joe-3.1jupp28</em> for Unix/GNU compatible systems. This page is
  accessible under <a href="http://mirbsd.de/jupp">http://mirbsd.de/jupp</a>
  canonically.</p>
 
@@ -109,8 +109,8 @@ mws_content <<'EOF'
 <h2 id="fetch">Retrieval</h2>
 <h3>Direct download</h3>
 <p>You can download jupp at least from one of the following mirrors:</p><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp27.tgz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp27.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp27.tgz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp27.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp28.tgz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp28.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp28.tgz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp28.tgz</a></li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz</a></li>
@@ -119,10 +119,10 @@ mws_content <<'EOF'
 <p>Please do not forget to check the received file’s integry using both
  gzsig(1) and one of the hashes below:</p><ul>
 <!-- cd /MirOS/dist/jupp; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
- <li>RMD160 (joe-3.1jupp27.tgz) = 512c90e434658448e1f7be50755657f5f34e2f29</li>
- <li>TIGER (joe-3.1jupp27.tgz) = f0c3982364756c942956129db2437a6fa30279219f3567f4</li>
- <li>3847590407 455759 /MirOS/dist/jupp/joe-3.1jupp27.tgz</li>
- <li>MD5 (joe-3.1jupp27.tgz) = 752fd84a0efb6e84d4ad0facb4212fbf</li>
+ <li>RMD160 (joe-3.1jupp28.tgz) = 5c23151954c1aa0de8a6185fe9ac446b703dba71</li>
+ <li>TIGER (joe-3.1jupp28.tgz) = 0808fd21a61b1f1ff72a56cda47e9e565bc8841fe04dc382</li>
+ <li>3904357634 456648 /MirOS/dist/jupp/joe-3.1jupp28.tgz</li>
+ <li>MD5 (joe-3.1jupp28.tgz) = 74b7b4033bc7ae38bc570c122c5b680b</li>
   <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li>RMD160 (joe-2.8jupp2.cpio.gz) = a4e8b49faae7dcda377479311092d9868207fe41</li>
  <li>TIGER (joe-2.8jupp2.cpio.gz) = c3a234efde9365e3b3d28094ce6133babc9c7325d8613555</li>
@@ -132,9 +132,9 @@ mws_content <<'EOF'
 
 <h3>Unpacking</h3>
 <p>Use a command like<br />
- <tt>$ tar xzf joe-3.1jupp27.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
- <tt>$ gzip -dc joe-3.1jupp27.tgz | cpio -idm</tt> # any cpio<br />
- <tt>$ pax -r -z &lt;joe-3.1jupp27.tgz</tt> # any POSIX® archiver<br />
+ <tt>$ tar xzf joe-3.1jupp28.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
+ <tt>$ gzip -dc joe-3.1jupp28.tgz | cpio -idm</tt> # any cpio<br />
+ <tt>$ pax -r -z &lt;joe-3.1jupp28.tgz</tt> # any POSIX® archiver<br />
  to extract the distfile. The DOS version requires similar commands,
  although GNU tar will not be able to extract the <tt>.cpio.gz</tt> archive.
  Both extract into a sub-directory <tt>jupp/</tt> (not versioned).</p>
@@ -303,13 +303,22 @@ $ $SUDO make install</pre>
 </ul>
 
 <h2 id="clog">ChangeLog for Unix</h2>
+<!--
 <p>[2014-07-25] Changes in the current development version:</p><ul>
+-->
+<p id="r3_1j28">[2014-10-23] Changes for joe-3.1jupp28:</p><ul>
  <li>Mention in comments that when enabling the <tt>-backpath</tt>
   option, its argument must not be quoted, nor followed by a comment;
   issue found by R. Hubbell</li>
  <li>Some mostly harmless code cleanup; fix speeds[] array access/sizing;
   reported by dcb (LP#1348559, LP#1348614)</li>
  <li>Fix size_t mixup</li>
+ <li>Introduce ^KF (jupprc): compile and download NXC program to NXT brick, for
+  Freedroidz, a project of Teckids e.V. sponsored by tarent solutions GmbH</li>
+ <li>Better const-cleanliness of code</li>
+ <li>Quell New File message for scratch buffers</li>
+ <li>Fix URI in ChangeLog file</li>
+ <li>Actually build with LFS on GNU/Linux</li>
 </ul>
 <p id="r3_1j27">[2014-06-29] Changes for joe-3.1jupp27:</p><ul>
  <li>Completely rewritten wctype and wctrans code to go with the completely
