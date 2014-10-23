@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/jupp/builtin.c,v 1.2 2010/04/08 15:31:01 tg Exp $ */
+/* $MirOS: contrib/code/jupp/builtin.c,v 1.3 2012/09/02 14:44:36 tg Exp $ */
 /*
  *	Built-in config files
  *	Copyright
@@ -7,8 +7,11 @@
  *	This file is part of JOE (Joe's Own Editor)
  */
 
+#include "config.h"
+
 #include <stdio.h>
 #include <string.h>
+
 #include "types.h"
 #include "builtin.h"
 #include "utils.h"

@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/jupp/utf8.c,v 1.10 2013/11/07 21:50:36 tg Exp $ */
+/* $MirOS: contrib/code/jupp/utf8.c,v 1.11 2014/06/26 18:15:17 tg Exp $ */
 /*
  *	UTF-8 Utilities
  *	Copyright
@@ -7,11 +7,11 @@
  *
  *	This file is part of JOE (Joe's Own Editor)
  */
-#include <stdio.h>
 
 #include "config.h"
 #include "types.h"
 
+#include <stdio.h>
 #include <string.h>
 
 #ifdef HAVE_STDLIB_H
