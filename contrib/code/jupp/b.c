@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/jupp/b.c,v 1.10 2012/06/07 22:16:08 tg Exp $ */
+/* $MirOS: contrib/code/jupp/b.c,v 1.11 2012/12/22 00:06:09 tg Exp $ */
 /*
  *	Editor engine
  *	Copyright
@@ -58,7 +58,7 @@ int error;
 int force = 0;
 VFILE *vmem;
 
-unsigned char *msgs[] = {
+const unsigned char *msgs[] = {
 	US "No error",
 	US "New File",
 	US "Error reading file",
