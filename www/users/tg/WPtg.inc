@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.108 2014/10/18 20:22:08 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.109 2014/10/19 20:38:24 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -7035,12 +7035,39 @@ Title: Magicx67's magischer Geburtstags-Cache
 nTF: 5
 Tag: D2 T15 Nano Tradi
 ----
-ID: p20141025
+ID: 1209
 Date: 25.10.2014
 Waypoint: GC5DCZH
 Banner: jpg
 Title: Arrivederci ⅯⅯⅩⅣ
 Tag: D15 T2 Event
+----
+ID: 1210
+Date: 25.10.2014
+Waypoint: GC5F3HT
+Banner: jpg
+Title: Cats delight
+Tag: D25 T15 Small Multi
+----
+ID: 1211
+Date: 25.10.2014
+Waypoint: GC3DRZ7
+Title: 2fast4you
+Tag: D5 T2 Small Mystery
+----
+ID: 1212
+Date: 25.10.2014
+Waypoint: OC116D5
+Title: Godesberger Kreuze #5
+nTF: 0
+Tag: D1 T1 Virtual
+----
+ID: 1213
+Date: 25.10.2014
+Waypoint: OC116D6
+Title: Godesberger Kreuze #4
+nTF: 0
+Tag: D2 T1 Virtual Mystery
 ----
 ID: p20141029
 Date: 29.10.2014
