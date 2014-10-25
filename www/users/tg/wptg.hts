@@ -4,7 +4,7 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.19 2014/10/12 20:49:00 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.20 2014/10/17 07:33:58 tg Exp $'
 mws_maketoc
 
 function statpic {
@@ -49,11 +49,11 @@ mws_content <<'EOF'
 
 <div class="flbox"><img style="border:0px;"
  src="http://mirsolutions.de/privat/31days.gif"
- alt="31 days of August, 2013" /></div>
+ title="31 days of August, 2013" alt="31 days of August, 2013" /></div>
 
 <div class="flbox"><img style="border:0px;"
  src="http://mirsolutions.de/privat/7SoA.jpg"
- alt="7 Souvenirs of August, 2014" /></div>
+ title="7 Souvenirs of August, 2014" alt="7 Souvenirs of August, 2014" /></div>
 
 <h3 id="banners_Cachebanner" class="cb">Cachebanner</h3>
 
@@ -81,9 +81,11 @@ while (( entryp < entries )); do
 	else
 		title=${e_title[ent]}
 	fi
+	title=$wp│$title
+	f=$wp.$ext
 	cat <<-EOF
-		<div class="flbox"><img style="border:0px;" alt="${wp}│${title}"
-		 src="http://mirsolutions.de/privat/$wp.$ext" /></div>
+		<div class="flbox"><img style="border:0px;" title="$title"
+		 alt="$title" src="http://mirsolutions.de/privat/$f" /></div>
 
 EOF
 done | mws_content
@@ -275,7 +277,7 @@ mws_content <<'EOF'
 
 <p><img style="width:162px; height:91px; border:0px;"
  src="https://lh4.googleusercontent.com/-J8XlYOcxlPw/UVePvM_00LI/AAAAAAAAABU/amHPQQQLYyU/s647-fcrop64=1,00001c21ffffdc5c/IsThereAResistance-1024x768.png"
- alt="Ingress – Resistance" /></p>
+ title="Ingress – Resistance" alt="Ingress – Resistance" /></p>
 
 <p>Also on:</p><ul>
  <li><a href="http://www.bookcrossing.com/mybookshelf/mirabilos/">bookcrossing.com</a></li>
