@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.109 2014/10/19 20:38:24 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.110 2014/10/25 19:14:42 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -7068,6 +7068,12 @@ Waypoint: OC116D6
 Title: Godesberger Kreuze #4
 nTF: 0
 Tag: D2 T1 Virtual Mystery
+----
+ID: 1214
+Date: 26.10.2014
+Waypoint: GC5AR2K
+Title: Mord in der Südstadt
+Tag: D3 T3 Small Multi recommended
 ----
 ID: p20141029
 Date: 29.10.2014
