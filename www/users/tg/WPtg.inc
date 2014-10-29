@@ -7102,13 +7102,11 @@ Date: 28.10.2014
 Waypoint: VX77-BENO
 Title: [Guernsey]
 ----
-ID: p1220
+ID: 1220
 Date: 28.10.2014
 Waypoint: OC2968 GCFB7E N0059E
 Title: Andernacher Standrundgang
 Tag: D2 T1 Virtual
-
-Warten auf Logfreigabe, 19:15
 ----
 ID: p1154
 Date: 28.09.2014 17:45
