@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.110 2014/10/25 19:14:42 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.111 2014/10/26 16:49:26 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -7075,11 +7075,40 @@ Waypoint: GC5AR2K
 Title: Mord in der Südstadt
 Tag: D3 T3 Small Multi recommended
 ----
-ID: p20141029
-Date: 29.10.2014
-Waypoint: GC5AZ9M
-Title: - A - M - P - E - L - 5 -
-Tag: D1 T1 Event
+ID: 1215
+Date: 28.10.2014
+Waypoint: GC2YPY9
+Title: ANTUNNACUM 2 ENDE + ANFANG
+Tag: D1 T1 Nano Tradi
+----
+ID: 1216
+Date: 28.10.2014
+Waypoint: 2014-10-28_50_7
+Title: Bonn, Germany (Koblenz)
+----
+ID: 1217
+Date: 28.10.2014
+Waypoint: VX76-WHAT
+Title: [Norway]
+----
+ID: 1218
+Date: 28.10.2014
+Waypoint: GC4W7R2
+Title: TB-Hotel L 113 / K 27
+Tag: D2 T2 Regular Tradi recommended
+----
+ID: 1219
+Date: 28.10.2014
+Waypoint: VX77-BENO
+Title: [Guernsey]
+----
+ID: p1220
+Date: 28.10.2014
+Waypoint: OC2968 GCFB7E N0059E
+Title: Andernacher Standrundgang
+Tag: D2 T1 Virtual
+
+Warten auf Logfreigabe, 19:15
 ----
 ID: p1154
 Date: 28.09.2014 17:45
