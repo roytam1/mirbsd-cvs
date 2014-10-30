@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.111 2014/10/26 16:49:26 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.113 2014/10/29 20:56:11 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -6480,16 +6480,19 @@ ID: 1117
 Date: 15.09.2014
 Waypoint: VX76-DIKA
 Title: [Austria]
+Distance: 7
 ----
 ID: 1118
 Date: 15.09.2014
 Waypoint: VX75-YJYN
 Title: [Solomon Islands]
+Distance: 49
 ----
 ID: 1119
 Date: 15.09.2014
 Waypoint: VX71-UPIK
 Title: [Jersey]
+Distance: 66
 ----
 ID: 1120
 Date: 20.09.2014
@@ -7009,6 +7012,7 @@ ID: 1204
 Date: 18.10.2014
 Waypoint: VX76-XOCO
 Title: [Austria]
+Distance: 51
 ----
 ID: 1205
 Date: 18.10.2014
@@ -7090,6 +7094,7 @@ ID: 1217
 Date: 28.10.2014
 Waypoint: VX76-WHAT
 Title: [Norway]
+Distance: 0
 ----
 ID: 1218
 Date: 28.10.2014
@@ -7101,12 +7106,32 @@ ID: 1219
 Date: 28.10.2014
 Waypoint: VX77-BENO
 Title: [Guernsey]
+Distance: 67
 ----
 ID: 1220
 Date: 28.10.2014
 Waypoint: OC2968 GCFB7E N0059E
 Title: Andernacher Standrundgang
 Tag: D2 T1 Virtual
+----
+ID: 1221
+Date: 30.10.2014
+Waypoint: GDCI-JUIZ
+Title: Dashpoint 50°N 6°E, Game 160 (Oktober 2014), Weilerswist-Bodenheim
+nTF: 1
+Distance: 42
+----
+ID: 1222
+Date: 30.10.2014
+Waypoint: VX77-BUSI
+Title: [Norway]
+Distance: 98
+----
+ID: 1223
+Date: 30.10.2014
+Waypoint: GC2BGCH
+Title: Meckis Spuren-Suche 2010
+Tag: D2 T2 Micro Tradi
 ----
 ID: p1154
 Date: 28.09.2014 17:45
