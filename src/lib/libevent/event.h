@@ -1,8 +1,7 @@
-/*	$MirOS$ */
 /*	$OpenBSD: event.h,v 1.25 2012/08/28 09:09:56 pascal Exp $	*/
 
 /*
- * Copyright © 2013
+ * Copyright © 2013, 2014
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2000-2007 Niels Provos <provos@citi.umich.edu>
  * All rights reserved.
@@ -30,7 +29,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #ifndef _EVENT_H_
-#define _EVENT_H_
+#define _EVENT_H_ "$MirOS$"
 
 /** @mainpage
 
@@ -171,8 +170,14 @@ extern "C" {
 #include <stdarg.h>
 #include <stdint.h>
 
-/* For int types. */
-#include <evutil.h>
+#ifndef ev_inttypes_defined
+#define ev_uint64_t uint64_t
+#define ev_int64_t int64_t
+#define ev_uint32_t uint32_t
+#define ev_uint16_t uint16_t
+#define ev_uint8_t uint8_t
+#define ev_inttypes_defined
+#endif
 
 #define EVLIST_TIMEOUT	0x01
 #define EVLIST_INSERTED	0x02

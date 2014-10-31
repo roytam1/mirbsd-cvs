@@ -1,7 +1,7 @@
 /*	$OpenBSD: evutil.h,v 1.3 2010/04/22 08:16:44 nicm Exp $	*/
 
 /*
- * Copyright © 2013
+ * Copyright © 2013, 2014
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2007 Niels Provos <provos@citi.umich.edu>
  * All rights reserved.
@@ -30,7 +30,7 @@
  */
 
 #ifndef _EVUTIL_H_
-#define _EVUTIL_H_ "$MirOS: src/lib/libevent/evutil.h,v 1.2 2012/10/19 19:58:18 tg Exp $"
+#define _EVUTIL_H_ "$MirOS: src/lib/libevent/evutil.h,v 1.3 2013/10/31 20:06:30 tg Exp $"
 
 /** @file evutil.h
 
@@ -48,13 +48,15 @@ extern "C" {
 
 #include <inttypes.h>
 #include <stdarg.h>
-#include <stdint.h>
 
+#ifndef ev_inttypes_defined
 #define ev_uint64_t uint64_t
 #define ev_int64_t int64_t
 #define ev_uint32_t uint32_t
 #define ev_uint16_t uint16_t
 #define ev_uint8_t uint8_t
+#define ev_inttypes_defined
+#endif
 
 int evutil_socketpair(int d, int type, int protocol, int sv[2]);
 int evutil_make_socket_nonblocking(int sock);
