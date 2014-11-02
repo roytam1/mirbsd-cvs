@@ -1,4 +1,5 @@
-# $MirOS: contrib/hosted/tg/assockit.ksh,v 1.3 2013/04/26 16:10:20 tg Exp $
+# $MirOS: contrib/hosted/tg/assockit.ksh,v 1.4 2013/04/26 17:20:33 tg Exp $
+# -*- mode: sh -*-
 #-
 # Copyright © 2011, 2013
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
