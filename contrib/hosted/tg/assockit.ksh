@@ -159,6 +159,7 @@ function asso_loadk {
 		return 2
 	fi
 
+	set -A asso_y
 	asso__lookup 0 "$@" || return 1
 	(( asso_f & ASSO_MASK_ARR )) || return 1
 	nameref _keys=${asso_b}${asso_k#16#}_k
