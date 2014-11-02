@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.113 2014/10/29 20:56:11 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.114 2014/10/30 20:55:48 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -1766,6 +1766,7 @@ ID: 343
 Date: 07.05.2013
 Waypoint: GC45V16
 Title: Der größte TB der Welt
+Tag: D15 T25 Micro Mystery recommended
 ----
 ID: 344
 Date: 07.05.2013
@@ -4423,7 +4424,7 @@ Date: 29.03.2014
 Waypoint: GC3DEF0
 Banner: jpg Smørrebrød: Rezept gefunden
 Title: „Smørrebrød“ oder „Das Lieblingsrezept“
-Tag: D25 T25 Large Multi
+Tag: D25 T25 Large Multi recommended
 ----
 ID: 786
 Date: 30.03.2014
@@ -7131,6 +7132,18 @@ ID: 1223
 Date: 30.10.2014
 Waypoint: GC2BGCH
 Title: Meckis Spuren-Suche 2010
+Tag: D2 T2 Micro Tradi
+----
+ID: 1224
+Date: 02.11.2014
+Waypoint: GC4WK01
+Title: Das FELD
+Tag: D2 T2 Regular Mystery
+----
+ID: 1225
+Date: 02.11.2014
+Waypoint: GC37HP1
+Title: Halbzeitpause im Chaos-Multi Land
 Tag: D2 T2 Micro Tradi
 ----
 ID: p1154
