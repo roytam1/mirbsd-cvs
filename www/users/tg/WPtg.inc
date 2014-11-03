@@ -7146,6 +7146,12 @@ Waypoint: GC37HP1
 Title: Halbzeitpause im Chaos-Multi Land
 Tag: D2 T2 Micro Tradi
 ----
+ID: 1226
+Date: 03.11.2014
+Waypoint: CC6NOO
+Title: The First NOT To Find Challenge
+Tag: Locationless Challenge
+----
 ID: p1154
 Date: 28.09.2014 17:45
 Waypoint: OC1F07 GC8453 N004A9
