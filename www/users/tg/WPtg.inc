@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.114 2014/10/30 20:55:48 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.116 2014/11/03 18:43:12 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -7151,6 +7151,12 @@ Date: 03.11.2014
 Waypoint: CC6NOO
 Title: The First NOT To Find Challenge
 Tag: Locationless Challenge
+----
+ID: 1227
+Date: 12.11.2011
+Waypoint: GC1H7A2
+Title: Lore Jacobi
+Tag: D1 T15 Small Tradi
 ----
 ID: p1154
 Date: 28.09.2014 17:45
