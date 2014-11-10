@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.33 2014/09/20 16:37:19 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.34 2014/09/26 20:06:58 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -383,7 +383,7 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 			print '<div class="gc_body">'
 			#XXX some may be too lax or strict
 			print -r -- "${ei_body[ent]}" | perl -pe '
-				s`\b(N[0-9][0-9A-F]{4}|(EC|G[ACEGL]|O[BCKPSUXZ]|PR|SH|[TLC]C|WM)[0-9A-Z]{1,6}|(GD|VX)[0-9A-Z]{2}-[A-Z]{4}|2[0-9]{3}-(0[1-9]|1[0-2])-[0-3][0-9]_-?[0-9]{1,3}_-?[0-9]{1,3})\b`
+				s@\b(N[0-9][0-9A-F]{4}|(EC|G[ACEGL]|O[BCKPSUXZ]|PR|SH|[TLC]C|WM)[0-9A-Z]{1,6}|(GD|VX)[0-9A-Z]{2}-[A-Z]{4}|2[0-9]{3}-(0[1-9]|1[0-2])-[0-3][0-9]_-?[0-9]{1,2}_-?[0-9]{1,3})\b@
 					($wp = $1) =~ /^GC/ ? "<a href=\"http://www.geocaching.com/seek/cache_details.aspx?wp=$wp\">$wp</a>" :
 					$wp =~ /^EC/ ? sprintf("<a href=\"http://extremcaching.com/index.php/output-2/%s\">%s</a>", substr($wp, 2), $wp) :
 					$wp =~ /^GA/ ? "<a href=\"http://geocaching.com.au/cache/$wp\">$wp</a>" :
@@ -406,7 +406,7 @@ mws_putheader "$rcsid_WPmk" >"WP$committer.htm~"
 					$wp =~ /^WM/ ? "<a href=\"http://www.waymarking.com/waymarks/$wp\">$wp</a>" :
 					$wp =~ /^2/ ? "<a href=\"http://wiki.xkcd.com/geohashing/$wp\">$wp</a>" :
 					$wp;
-				`eg'
+				@eg'
 			print '</div>'
 		fi
 		print '</li>'

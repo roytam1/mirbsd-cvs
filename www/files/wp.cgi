@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/wp.cgi,v 1.12 2014/08/27 20:05:52 tg Exp $';
+my $rcsid = '$MirOS: www/files/wp.cgi,v 1.13 2014/09/08 15:45:25 tg Exp $';
 #-
 # Copyright © 2013, 2014
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -84,7 +84,7 @@ $query = "" unless $query =~ /^[0-9A-Za-z_-]*$/;
 $query =~ y/a-z/A-Z/;
 
 if ($query ne "") {
-	$query =~		s`\b(N[0-9][0-9A-F]{4}|(EC|G[ACEGL]|O[BCKPSUXZ]|PR|SH|[TLC]C|WM)[0-9A-Z]{1,6}|(GD|VX)[0-9A-Z]{2}-[A-Z]{4}|2[0-9]{3}-(0[1-9]|1[0-2])-[0-3][0-9]_-?[0-9]{1,3}_-?[0-9]{1,3})\b`
+	$query =~		s@\b(N[0-9][0-9A-F]{4}|(EC|G[ACEGL]|O[BCKPSUXZ]|PR|SH|[TLC]C|WM)[0-9A-Z]{1,6}|(GD|VX)[0-9A-Z]{2}-[A-Z]{4}|2[0-9]{3}-(0[1-9]|1[0-2])-[0-3][0-9]_-?[0-9]{1,2}_-?[0-9]{1,3})\b@
 					($query = $1) =~ /^GC/ ? "http://www.geocaching.com/seek/cache_details.aspx?wp=$query" :
 					$query =~ /^EC/ ? sprintf("http://extremcaching.com/index.php/output-2/%s", substr($query, 2)) :
 					$query =~ /^GA/ ? "http://geocaching.com.au/cache/$query" :
@@ -107,7 +107,7 @@ if ($query ne "") {
 					$query =~ /^WM/ ? "http://www.waymarking.com/waymarks/$query" :
 					$query =~ /^2/ ? "http://wiki.xkcd.com/geohashing/$query" :
 					"";
-				`eg;
+				@eg;
 	$found = 1 if $query =~ /http/;
 }
 
