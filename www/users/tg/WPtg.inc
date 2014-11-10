@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.116 2014/11/03 18:43:12 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.117 2014/11/08 14:48:09 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -3035,7 +3035,7 @@ Tag: D15 T15 Micro Tradi
 ID: 563
 Date: 27.10.2013
 Waypoint: GDBW-JUGA
-Title: Dashpoint 50°N 7°E, Game 148 (Oktober 2013), AW-Weidenbach
+Title: [Game 148 (Oktober 2013)], AW-Weidenbach
 nTF: 1
 Distance: 17.5
 ----
@@ -3067,7 +3067,7 @@ Tag: D1 T15 Micro Tradi
 ID: 568
 Date: 01.11.2013
 Waypoint: GDBX-JOYQ
-Title: Dashpoint 50°N 6°E, Game 149 (November 2013), SU-Sechtem
+Title: [Game 149 (November 2013)], SU-Sechtem
 nTF: 1
 Distance: 3.4
 ----
@@ -3431,7 +3431,7 @@ Tag: D25 T15 Micro Tradi
 ID: 627
 Date: 08.12.2013
 Waypoint: GDBY-JUQY
-Title: Dashpoint 50°N 7°E, Game 150 (Dezember 2013), AK-Busenhausen
+Title: [Game 150 (Dezember 2013)], AK-Busenhausen
 nTF: 1
 Distance: 2.7
 ----
@@ -3521,7 +3521,7 @@ Tag: D15 T1 Micro Tradi
 ID: 641
 Date: 13.12.2013
 Waypoint: GDBY-KAUC
-Title: Dashpoint 51°N 10°E, Game 150 (Dezember 2013), Deuna
+Title: [Game 150 (Dezember 2013)], Deuna
 nTF: 1
 Distance: 24.3
 ----
@@ -3541,7 +3541,7 @@ Tag: D1 T15 Small Tradi
 ID: 644
 Date: 13.12.2013
 Waypoint: GDBY-JUIJ
-Title: Dashpoint 50°N 7°E, Game 150 (Dezember 2013), K-Mülheim
+Title: [Game 150 (Dezember 2013)], K-Mülheim
 nTF: 1
 Distance: 51.3
 ----
@@ -6480,19 +6480,19 @@ Tag: D25 T3 Small Tradi
 ID: 1117
 Date: 15.09.2014
 Waypoint: VX76-DIKA
-Title: [Austria]
+Title: [Austria], Bad Münstereifel-Wald
 Distance: 7
 ----
 ID: 1118
 Date: 15.09.2014
 Waypoint: VX75-YJYN
-Title: [Solomon Islands]
+Title: [Solomon Islands], Metternich-Weiler am Berge
 Distance: 49
 ----
 ID: 1119
 Date: 15.09.2014
 Waypoint: VX71-UPIK
-Title: [Jersey]
+Title: [Jersey], Zülpich-Ülpenich
 Distance: 66
 ----
 ID: 1120
@@ -6974,7 +6974,7 @@ Tag: D5 T3 Micro Mystery
 ID: 1198
 Date: 12.10.2014
 Waypoint: GDCI-JUNU
-Title: Dashpoint 50°N 7°E, Game 160 (Oktober 2014), BN-Röttgen
+Title: [Game 160 (Oktober 2014)], BN-Röttgen
 nTF: 1
 Distance: 92
 ----
@@ -6999,7 +6999,7 @@ Tag: D1 T15 Earth
 ID: 1202
 Date: 18.10.2014
 Waypoint: GDCI-JURE
-Title: Dashpoint 50°N 7°E, Game 160 (Oktober 2014), Bad Hönningen-Rheinbrohl
+Title: [Game 160 (Oktober 2014)], Bad Hönningen-Rheinbrohl
 nTF: 1
 Distance: 17
 ----
@@ -7012,7 +7012,7 @@ Tag: D15 T1 Micro Tradi
 ID: 1204
 Date: 18.10.2014
 Waypoint: VX76-XOCO
-Title: [Austria]
+Title: [Austria], Linz am Rhein
 Distance: 51
 ----
 ID: 1205
@@ -7089,12 +7089,12 @@ Tag: D1 T1 Nano Tradi
 ID: 1216
 Date: 28.10.2014
 Waypoint: 2014-10-28_50_7
-Title: Bonn, Germany (Koblenz)
+Title: [Bonn, Germany], Koblenz
 ----
 ID: 1217
 Date: 28.10.2014
 Waypoint: VX76-WHAT
-Title: [Norway]
+Title: [Norway], Polch
 Distance: 0
 ----
 ID: 1218
@@ -7106,7 +7106,7 @@ Tag: D2 T2 Regular Tradi recommended
 ID: 1219
 Date: 28.10.2014
 Waypoint: VX77-BENO
-Title: [Guernsey]
+Title: [Guernsey], Welling
 Distance: 67
 ----
 ID: 1220
@@ -7118,14 +7118,14 @@ Tag: D2 T1 Virtual
 ID: 1221
 Date: 30.10.2014
 Waypoint: GDCI-JUIZ
-Title: Dashpoint 50°N 6°E, Game 160 (Oktober 2014), Weilerswist-Bodenheim
+Title: [Game 160 (Oktober 2014)], Weilerswist-Bodenheim
 nTF: 1
 Distance: 42
 ----
 ID: 1222
 Date: 30.10.2014
 Waypoint: VX77-BUSI
-Title: [Norway]
+Title: [Norway], Zülpich-Schwerfen
 Distance: 98
 ----
 ID: 1223
@@ -7157,6 +7157,53 @@ Date: 12.11.2011
 Waypoint: GC1H7A2
 Title: Lore Jacobi
 Tag: D1 T15 Small Tradi
+----
+ID: 1228
+Date: 09.11.2014
+Waypoint: GC4J6JY
+Title: Landschafts_PARKen
+Tag: D2 T1 Micro Tradi
+----
+ID: 1229
+Date: 10.11.2014
+Waypoint: 2014-11-10_50_7
+Title: [Bonn, Germany], Wachtberg-Adendorf/Arzdorf
+----
+ID: 1230
+Date: 10.11.2014
+Waypoint: GC5A59J
+Title: drei Linden
+Tag: D1 T15 Small Tradi
+----
+ID: p1231
+Date: 11.11.2014
+Waypoint: VX77-BUSS
+Title: [Liechtenstein], Lohmar-Krewelshof
+----
+ID: p1232
+Date: 11.11.2014
+Waypoint: VX77-CIPO
+Title: [Israel], K-Bilderstöckchen
+----
+ID: p1233
+Date: 11.11.2014
+Waypoint: 2014-11-11_50_6
+Title: [Köln, Germany], Vettweiß-Ginnick
+----
+ID: p1234
+Date: 11.11.2014
+Waypoint: VX76-IWUD
+Title: [Netherlands], Nideggen-Berg
+----
+ID: p1235
+Date: 11.11.2014
+Waypoint: GDCJ-JUAJ
+Title: [Game 161 (November 2014)], EU-Schweinheim
+----
+ID: p1236
+Date: 11.11.2014
+Waypoint: GDCJ-JUDI
+Title: [Game 161 (November 2014)], Köln-Porz-Wahn
 ----
 ID: p1154
 Date: 28.09.2014 17:45

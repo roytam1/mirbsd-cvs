@@ -4,7 +4,7 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.20 2014/10/17 07:33:58 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.21 2014/10/25 19:32:06 tg Exp $'
 mws_maketoc
 
 function statpic {
@@ -32,7 +32,30 @@ mws_content <<'EOF'
 <p><a href="WPtg.htm#wpts" style="border:0;"><img style="border:0;"
  alt="mirabilos’ Waypoints" src="WPtg.png" /></a></p>
 
-<h2 id="banners">Banners et al.</h2>
+<div id="begform" class="fl">
+<form accept-charset="utf-8" action="/wp.cgi" method="get">
+ <fieldset>
+  <legend>Waypoint Lookup</legend>
+
+  <input type="text" name="q" />
+  <input type="submit" value="Lookup" />
+ </fieldset>
+</form>
+</div>
+
+<div class="fl">
+<form accept-charset="utf-8" action="http://fish.mirbsd.org/mirkarte/gpx.cgi" method="get">
+ <fieldset>
+  <legend>GPX download (experimental, incomplete)</legend>
+
+  <p>Currently supported platforms: OC, GeoHashing</p>
+  <input type="text" name="q" />
+  <input type="submit" value="Download" />
+ </fieldset>
+</form>
+</div>
+
+<h2 id="banners" class="cb">Banners et al.</h2>
 
 <h3 id="banners_Achievements">Achievements</h3>
 
@@ -192,13 +215,8 @@ mws_content <<'EOF'
 
 <h3 id="Software" class="cb">Software</h3>
 
-<form accept-charset="utf-8" id="lookup" action="wp.cgi" method="get">
- <p><span style="border:1px solid black; padding:6px;">
-  <input type="text" name="q" />
-  <input type="submit" value="Waypoint Lookup" />
-  by mirabilos
- </span></p>
-</form>
+<p><span style="border:1px solid black; padding:6px;"><a
+ href="#begform">Waypoint Lookup © by mirabilos</a></span></p>
 
 <p><span style="border:1px solid black; padding:6px;"><a
  href="http://fish.mirbsd.org/mirkarte/">MirKarte</a> by mirabilos (<a
