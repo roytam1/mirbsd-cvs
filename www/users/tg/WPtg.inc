@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.117 2014/11/08 14:48:09 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.118 2014/11/10 22:11:15 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -7175,25 +7175,34 @@ Waypoint: GC5A59J
 Title: drei Linden
 Tag: D1 T15 Small Tradi
 ----
-ID: p1231
+ID: 1231
 Date: 11.11.2014
 Waypoint: VX77-BUSS
 Title: [Liechtenstein], Lohmar-Krewelshof
+Distance: 4
 ----
-ID: p1232
+ID: 1232
+Date: 11.11.2014
+Waypoint: GC1QE7C
+Title: Nord-Süd-Verbindung
+Tag: D1 T1 Nano Tradi
+----
+ID: 1233
 Date: 11.11.2014
 Waypoint: VX77-CIPO
 Title: [Israel], K-Bilderstöckchen
+Distance: 87
 ----
-ID: p1233
+ID: 1234
 Date: 11.11.2014
 Waypoint: 2014-11-11_50_6
 Title: [Köln, Germany], Vettweiß-Ginnick
 ----
-ID: p1234
+ID: 1235
 Date: 11.11.2014
 Waypoint: VX76-IWUD
 Title: [Netherlands], Nideggen-Berg
+Distance: 64
 ----
 ID: p1235
 Date: 11.11.2014
