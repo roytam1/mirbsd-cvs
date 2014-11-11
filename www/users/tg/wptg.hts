@@ -4,7 +4,7 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.21 2014/10/25 19:32:06 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.22 2014/11/10 22:11:16 tg Exp $'
 mws_maketoc
 
 function statpic {
@@ -48,7 +48,7 @@ mws_content <<'EOF'
  <fieldset>
   <legend>GPX download (experimental, incomplete)</legend>
 
-  <p>Currently supported platforms: OC, GeoHashing</p>
+  <p>Currently supported platforms: OC, GeoDashing, GeoVexilla, GeoHashing</p>
   <input type="text" name="q" />
   <input type="submit" value="Download" />
  </fieldset>
