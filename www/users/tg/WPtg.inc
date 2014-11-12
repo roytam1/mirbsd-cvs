@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.118 2014/11/10 22:11:15 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.119 2014/11/11 20:47:50 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -7203,6 +7203,12 @@ Date: 11.11.2014
 Waypoint: VX76-IWUD
 Title: [Netherlands], Nideggen-Berg
 Distance: 64
+----
+ID: 1236
+Date: 11.11.2014
+Waypoint: OCF495
+Title: Go Geohashing
+Tag: D3 T3 Virtual Safari Challenge
 ----
 ID: p1235
 Date: 11.11.2014

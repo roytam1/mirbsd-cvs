@@ -1018,6 +1018,7 @@ BAR	[IATA] Baker Island, Baker & Howland Islands
 BAR	[Kfz:D] Landkreis Barnim
 BAS	[IATA] Balalae, Solomon Islands
 BASE	Basic Availability, Soft State and Eventual Consistency
+BASF	Badische Anilin- und Soda-Fabrik
 BASH	GNU Bourne-Again Shell
 BASIC	beginners' all-purpose symbolic instruction code (_the_ programming language per se)
 BAT	Baby-AT (Formfaktor, like ATX)
@@ -16287,8 +16288,10 @@ ZZV	[IATA] Zanesville Municipal Airport, OH, USA
 ÖVP	Österreichische Volkspartei
 ÜB	[Kfz:D] Landkreis Überlingen
 ÜBERMUT	Ü (deutsches Funkalphabet)
+МОН	[ccTLD] Mongolia
 СРБ	[ccTLD] Serbien
 бг	[ccTLD] Bulgarien
+мкд	[ccTLD] Macedonia
 онлайн	[sTLD] kyrillisch: online
 рф	[ccTLD] Российская Федерация, Rossijskaja Federazija‚ Russische Föderation
 сайт	[sTLD] kyrillisch: site
@@ -16326,6 +16329,7 @@ ZZV	[IATA] Zanesville Municipal Airport, OH, USA
 భాారత్్	[ccTLD] Indien (Telugu)
 ලංකා	[ccTLD] Sri Lanka (Sinhala)
 ไทย	[ccTLD] Thailand
+გე	[ccTLD] Georgia
 ⅓A4	99×210 mm (3.8976×8.2677 in)
 ⅓A5	70×148 mm (2.7559×5.8267 in)
 ⅔A4	198×210 mm (7.7952×8.2677 in) (cf. ⅙DIN)
@@ -16340,4 +16344,5 @@ ZZV	[IATA] Zanesville Municipal Airport, OH, USA
 游戏	[sTLD] chinesisch: game
 香港	[ccTLD] Hongkong
 한국	[ccTLD] Südkorea
+ﺍیﺭﺎﻧ	[ccTLD] Iran
 ﻢﻠﻴﺴﻳﺍ	[ccTLD] Malaysia
