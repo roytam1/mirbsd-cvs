@@ -105,7 +105,7 @@ char		*SSL_readline(SSL *, size_t *);
 
 #define EMPTYSTRING(x)	((x) == NULL || (*(x) == '\0'))
 
-static const char *at_encoding_warning =
+static const char at_encoding_warning[] =
     "Extra `@' characters in usernames and passwords should be encoded as %%40";
 
 jmp_buf	httpabort;
@@ -126,7 +126,7 @@ url_get(const char *origline, const char *proxyenv, const char *outfile)
 	struct addrinfo hints, *res0, *res;
 	const char * volatile savefile;
 	char * volatile proxyurl = NULL;
-	char *cookie = NULL;
+	char *credentials = NULL;
 	volatile int s = -1, out;
 	volatile sig_t oldintr;
 	FILE *fin = NULL;
@@ -225,13 +225,13 @@ url_get(const char *origline, const char *proxyenv, const char *outfile)
 		path = strchr(host, '@');	/* look for credentials in proxy */
 		if (!EMPTYSTRING(path)) {
 			*path++ = '\0';
-			cookie = strchr(host, ':');
-			if (EMPTYSTRING(cookie)) {
+			credentials = strchr(host, ':');
+			if (EMPTYSTRING(credentials)) {
 				warnx("Malformed proxy URL: %s", proxyenv);
 				goto cleanup_url_get;
 			}
-			cookie  = malloc(COOKIE_MAX_LEN);
-			b64_ntop(host, strlen(host), cookie, COOKIE_MAX_LEN);
+			credentials = malloc(COOKIE_MAX_LEN);
+			b64_ntop(host, strlen(host), credentials, COOKIE_MAX_LEN);
 			/*
 			 * This removes the password from proxyenv,
 			 * filling with stars
@@ -460,10 +460,10 @@ again:
 		 * Host: directive must use the destination host address for
 		 * the original URI (path).  We do not attach it at this moment.
 		 */
-		if (cookie)
+		if (credentials)
 			ftp_printf(fin, ssl, "GET %s HTTP/1.0\r\n"
 			    "Proxy-Authorization: Basic %s%s\r\n%s\r\n\r\n",
-			    path, cookie, buf ? buf : "", HTTP_USER_AGENT);
+			    path, credentials, buf ? buf : "", HTTP_USER_AGENT);
 		else
 			ftp_printf(fin, ssl, "GET %s HTTP/1.0\r\n%s%s\r\n\r\n",
 			    path, buf ? buf : "", HTTP_USER_AGENT);
