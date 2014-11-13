@@ -80,8 +80,8 @@
 __RCSID("$MirOS: src/usr.bin/ftp/fetch.c,v 1.9 2013/10/31 20:07:03 tg Exp $");
 
 static int	url_get(const char *, const char *, const char *);
-void		aborthttp(int);
-void		abortfile(int);
+static void	aborthttp(int) __dead;
+static void	abortfile(int) __dead;
 char		hextochar(const char *);
 char		*urldecode(const char *);
 int		ftp_printf(FILE *, SSL *, const char *, ...)
@@ -90,7 +90,8 @@ char		*ftp_readline(FILE *, SSL *, size_t *);
 size_t		ftp_read(FILE *, SSL *, char *, size_t);
 #ifndef SMALL
 int		proxy_connect(int, char *);
-int		SSL_vprintf(SSL *, const char *, va_list);
+int		SSL_vprintf(SSL *, const char *, va_list)
+    __attribute__((__format__(__printf__, 2, 0)));
 char		*SSL_readline(SSL *, size_t *);
 #endif
 
@@ -107,6 +108,9 @@ char		*SSL_readline(SSL *, size_t *);
 
 static const char at_encoding_warning[] =
     "Extra `@' characters in usernames and passwords should be encoded as %%40";
+static char L_slash[] = "/";
+static char L_cd[] = "cd";
+static char L_mget[] = "mget";
 
 jmp_buf	httpabort;
 
@@ -121,8 +125,10 @@ static int
 url_get(const char *origline, const char *proxyenv, const char *outfile)
 {
 	char pbuf[NI_MAXSERV], hbuf[NI_MAXHOST], *cp, *portnum, *path, ststr[4];
-	char *hosttail, *cause = "unknown", *newline, *host, *port, *buf = NULL;
-	int error, i, isftpurl = 0, isfileurl = 0, isredirect = 0, rval = -1;
+	char *hosttail, *newline, *host, *port, *buf = NULL;
+	const char *cause = "unknown";
+	int error, i, isftpurl = 0, isfileurl = 0, isredirect = 0;
+	volatile int rval = -1;
 	struct addrinfo hints, *res0, *res;
 	const char * volatile savefile;
 	char * volatile proxyurl = NULL;
@@ -138,8 +144,8 @@ url_get(const char *origline, const char *proxyenv, const char *outfile)
 	int ishttpsurl = 0;
 	SSL_CTX *ssl_ctx = NULL;
 #endif
-	SSL *ssl = NULL;
-	int status;
+	SSL * volatile ssl = NULL;
+	int statusx;
 
 	newline = strdup(origline);
 	if (newline == NULL)
@@ -174,7 +180,7 @@ url_get(const char *origline, const char *proxyenv, const char *outfile)
 		if (EMPTYSTRING(path)) {
 			if (isftpurl)
 				goto noftpautologin;
-			path = "/";
+			path = L_slash;
 		}
 	}
 
@@ -532,13 +538,13 @@ again:
 		cp++;
 
 	strlcpy(ststr, cp, sizeof(ststr));
-	status = strtonum(ststr, 200, 307, &errstr);
+	statusx = strtonum(ststr, 200, 307, &errstr);
 	if (errstr) {
 		warnx("Error retrieving file: %s", cp);
 		goto cleanup_url_get;
 	}
 
-	switch (status) {
+	switch (statusx) {
 	case 200:	/* OK */
 		break;
 	case 301:	/* Moved Permanently */
@@ -703,8 +709,8 @@ cleanup_url_get:
  * Abort a http retrieval
  */
 /* ARGSUSED */
-void
-aborthttp(int signo)
+static void
+aborthttp(int signo __unused)
 {
 
 	alarmtimer(0);
@@ -717,8 +723,8 @@ aborthttp(int signo)
  * Abort a http retrieval
  */
 /* ARGSUSED */
-void
-abortfile(int signo)
+static void
+abortfile(int signo __unused)
 {
 
 	alarmtimer(0);
@@ -962,7 +968,7 @@ bad_ftp_url:
 
 		/* Change directories, if necessary. */
 		if (!EMPTYSTRING(dir) && !dirhasglob) {
-			xargv[0] = "cd";
+			xargv[0] = L_cd;
 			xargv[1] = dir;
 			xargv[2] = NULL;
 			cd(2, xargv);
@@ -987,7 +993,7 @@ bad_ftp_url:
 
 		/* Fetch the file(s). */
 		xargc = 2;
-		xargv[0] = "get";
+		xargv[0] = L_mget + 1;
 		xargv[1] = file;
 		xargv[2] = NULL;
 		if (dirhasglob || filehasglob) {
@@ -995,7 +1001,7 @@ bad_ftp_url:
 
 			ointeractive = interactive;
 			interactive = 0;
-			xargv[0] = "mget";
+			xargv[0] = L_mget;
 			mget(xargc, xargv);
 			interactive = ointeractive;
 		} else {
@@ -1182,11 +1188,12 @@ SSL_readline(SSL *ssl, size_t *lenp)
 }
 
 int
-proxy_connect(int socket, char *host)
+proxy_connect(int socketfd, char *host)
 {
 	int l;
 	char buf[1024];
-	char *connstr, *hosttail, *port;
+	char *connstr, *hosttail;
+	const char *port;
 
 	if (*host == '[' && (hosttail = strrchr(host, ']')) != NULL &&
 		(hosttail[1] == '\0' || hosttail[1] == ':')) {
@@ -1195,10 +1202,11 @@ proxy_connect(int socket, char *host)
 	} else
 		hosttail = host;
 
-	port = strrchr(hosttail, ':');               /* find portnum */
-	if (port != NULL)
-		*port++ = '\0';
-	if (!port)
+	/* find portnum */
+	if ((connstr = strrchr(hosttail, ':'))) {
+		*connstr++ = '\0';
+		port = connstr;
+	} else
 		port = "443";
 
 	l = asprintf(&connstr, "CONNECT %s:%s HTTP/1.1\r\n\r\n", host, port);
@@ -1206,9 +1214,9 @@ proxy_connect(int socket, char *host)
 		errx(1, "Could not allocate memory to assemble connect string!");
 	if (debug)
 		printf("%s", connstr);
-	if (write(socket, connstr, l) != l)
+	if (write(socketfd, connstr, l) != l)
 		err(1, "Could not send connect string");
-	read(socket, &buf, sizeof(buf)); /* only proxy header XXX: error handling? */
+	read(socketfd, &buf, sizeof(buf)); /* only proxy header XXX: error handling? */
 	free(connstr);
 	return(200);
 }
