@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/ftp/main.c,v 1.8 2007/07/15 20:01:08 tg Exp $ */
+/**	$MirOS: src/usr.bin/ftp/main.c,v 1.9 2014/04/18 22:32:06 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.65 2007/06/16 08:58:33 espie Exp $	*/
 /*	$NetBSD: main.c,v 1.24 1997/08/18 10:20:26 lukem Exp $	*/
 
@@ -80,7 +80,7 @@
 
 __COPYRIGHT("@(#)Copyright (c) 1985, 1989, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
-__RCSID("$MirOS: src/usr.bin/ftp/main.c,v 1.8 2007/07/15 20:01:08 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/main.c,v 1.9 2014/04/18 22:32:06 tg Exp $");
 
 int family = PF_UNSPEC;
 
@@ -117,6 +117,8 @@ main(volatile int argc, char *argv[])
 	hist = NULL;
 	cookiefile = NULL;
 #endif
+	http_user_headers = NULL;
+	http_user_headers_seen = 0;
 	mark = HASHBYTES;
 	marg_sl = sl_init();
 #ifdef INET6
@@ -176,7 +178,7 @@ main(volatile int argc, char *argv[])
 	cookiefile = getenv("http_cookies");
 #endif
 
-	while ((ch = getopt(argc, argv, "46Aac:dEegik:mno:pP:r:tvV")) != -1) {
+	while ((ch = getopt(argc, argv, "46Aac:dEegH:ik:mno:pP:r:tvV")) != -1) {
 		switch (ch) {
 		case '4':
 			family = PF_INET;
@@ -216,6 +218,26 @@ main(volatile int argc, char *argv[])
 
 		case 'g':
 			doglob = 0;
+			break;
+
+		case 'H':
+			if (!optarg || !*optarg) {
+				/* clear all user headers */
+				free(http_user_headers);
+				http_user_headers = NULL;
+				http_user_headers_seen = 0;
+				break;
+			}
+			/* add new user header */
+			addheader(&http_user_headers, optarg);
+			if (!strncasecmp(optarg, "Host:", 5))
+				http_user_headers_seen |= HTTP_USER_HEADER_SEEN_HOST;
+			else if (!strncasecmp(optarg, "Cookie:", 7))
+				http_user_headers_seen |= HTTP_USER_HEADER_SEEN_COOKIE;
+			else if (!strncasecmp(optarg, "User-Agent:", 11))
+				http_user_headers_seen |= HTTP_USER_HEADER_SEEN_USER_AGENT;
+			else if (!strncasecmp(optarg, "Proxy-Authorization:", 20))
+				http_user_headers_seen |= HTTP_USER_HEADER_SEEN_PROXY_AUTH;
 			break;
 
 		case 'i':

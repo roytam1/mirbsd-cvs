@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.bin/ftp/ftp.1,v 1.5 2006/10/03 19:22:17 tg Exp $
+.\"	$MirOS: src/usr.bin/ftp/ftp.1,v 1.6 2007/07/15 20:01:08 tg Exp $
 .\" 	$OpenBSD: ftp.1,v 1.61 2007/06/16 08:58:33 espie Exp $
 .\" 	$NetBSD: ftp.1,v 1.22 1997/08/18 10:20:22 lukem Exp $
 .\"
@@ -54,12 +54,14 @@
 .Oc
 .Sm on
 .Nm ftp
+.Op Fl H Ar header
 .Op Fl o Ar output
 .Sm off
 .No http:// Ar host Oo : Ar port
 .Oc No / Ar file
 .Sm on
 .Nm ftp
+.Op Fl H Ar header
 .Op Fl o Ar output
 .Sm off
 .No https:// Ar host Oo : Ar port
@@ -133,6 +135,14 @@ Disables command line editing.
 Useful for Emacs ange-ftp.
 .It Fl g
 Disables file name globbing.
+.It Fl H Ar header
+If
+.Ar header
+is empty, all user-defined headers are reset.
+Otherwise, the
+.Ar header
+is added to the request, suppressing automatic generation of
+the header but passing all occurrences of it from the command line.
 .It Fl i
 Turns off interactive prompting during
 multiple file transfers.

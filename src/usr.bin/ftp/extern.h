@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: extern.h,v 1.31 2007/06/16 08:58:33 espie Exp $	*/
 /*	$NetBSD: extern.h,v 1.17 1997/08/18 10:20:19 lukem Exp $	*/
 
@@ -68,6 +69,7 @@ void    abortpt(int);
 void    abortrecv(int);
 void    abortsend(int);
 void	account(int, char **);
+void	addheader(char **, const char *);
 void	alarmtimer(int);
 int	another(int *, char ***, const char *);
 int	auto_fetch(int, char **, char *);

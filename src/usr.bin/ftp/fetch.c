@@ -125,7 +125,8 @@ static int
 url_get(const char *origline, const char *proxyenv, const char *outfile)
 {
 	char pbuf[NI_MAXSERV], hbuf[NI_MAXHOST], *cp, *portnum, *path, ststr[4];
-	char *hosttail, *newline, *host, *port, *buf = NULL;
+	char *hosttail, *host, *port, *buf = NULL;
+	char * volatile newline;
 	const char *cause = "unknown";
 	int error, i, isftpurl = 0, isfileurl = 0, isredirect = 0;
 	volatile int rval = -1;
@@ -135,7 +136,7 @@ url_get(const char *origline, const char *proxyenv, const char *outfile)
 	char *credentials = NULL;
 	volatile int s = -1, out;
 	volatile sig_t oldintr;
-	FILE *fin = NULL;
+	FILE * volatile fin = NULL;
 	off_t hashbytes;
 	const char *errstr;
 	size_t len, wlen;
@@ -174,12 +175,14 @@ url_get(const char *origline, const char *proxyenv, const char *outfile)
 			if (isftpurl)
 				goto noftpautologin;
 			warnx("Invalid URL (no `/' after host): %s", origline);
+			goto accept_it_nevertheless;
 			goto cleanup_url_get;
 		}
 		*path++ = '\0';
 		if (EMPTYSTRING(path)) {
 			if (isftpurl)
 				goto noftpautologin;
+ accept_it_nevertheless:
 			path = L_slash;
 		}
 	}
@@ -199,7 +202,9 @@ url_get(const char *origline, const char *proxyenv, const char *outfile)
 	if (!strcmp(savefile, "/"))
 		savefile = strdup(host);
 
-	if (!isfileurl && proxyenv != NULL) {		/* use proxy */
+	if (!isfileurl && proxyenv != NULL) {
+		/* use proxy */
+		statusx = path == L_slash;
 #ifndef SMALL
 		if (ishttpsurl) {
 			sslpath = strdup(path);
@@ -207,6 +212,13 @@ url_get(const char *origline, const char *proxyenv, const char *outfile)
 			if (! sslpath || ! sslhost)
 				errx(1, "Can't allocate memory for https path/host.");
 		}
+		if (*host == '[' && (hosttail = strrchr(host, ']')) != NULL &&
+		    (hosttail[1] == '\0' || hosttail[1] == ':')) {
+			host++;
+			*hosttail++ = '\0';
+		}
+		if (!(http_user_headers_seen & HTTP_USER_HEADER_SEEN_COOKIE))
+			cookie_get(host, path, ishttpsurl, &buf);
 #endif
 		proxyurl = strdup(proxyenv);
 		if (proxyurl == NULL)
@@ -242,13 +254,19 @@ url_get(const char *origline, const char *proxyenv, const char *outfile)
 			 * This removes the password from proxyenv,
 			 * filling with stars
 			 */
-			for (host = strchr(proxyenv + 5, ':');  *host != '@';
-			     host++)
+			host = strchr(proxyenv + 5, ':');
+			while (*++host != '@')
 				*host = '*';
 
 			host = path;
 		}
-		path = newline;
+		if (statusx) {
+			if (asprintf(&path, "%s/", newline) == -1)
+				errx(1, "Can't allocate memory to parse URL");
+			free(newline);
+			newline = path;
+		} else
+			path = newline;
 	}
 
 	if (isfileurl) {
@@ -454,11 +472,14 @@ again:
 	if (verbose)
 		fprintf(ttyout, "Requesting %s", origline);
 	/*
-	 * Construct and send the request. Proxy requests don't want leading /.
+	 * Construct and send the request.
 	 */
 #ifndef SMALL
-	cookie_get(host, path, ishttpsurl, &buf);
+	if (!proxyurl && !(http_user_headers_seen & HTTP_USER_HEADER_SEEN_COOKIE))
+		cookie_get(host, path, ishttpsurl, &buf);
 #endif
+	if (!(http_user_headers_seen & HTTP_USER_HEADER_SEEN_USER_AGENT))
+		addheader(&buf, HTTP_USER_AGENT);
 	if (proxyurl) {
 		if (verbose)
 			fprintf(ttyout, " (via %s)\n", proxyenv);
@@ -466,19 +487,21 @@ again:
 		 * Host: directive must use the destination host address for
 		 * the original URI (path).  We do not attach it at this moment.
 		 */
-		if (credentials)
-			ftp_printf(fin, ssl, "GET %s HTTP/1.0\r\n"
-			    "Proxy-Authorization: Basic %s\r\n%s%s\r\n\r\n",
-			    path, credentials, buf ? buf : "", HTTP_USER_AGENT);
-		else
-			ftp_printf(fin, ssl, "GET %s HTTP/1.0\r\n%s%s\r\n\r\n",
-			    path, buf ? buf : "", HTTP_USER_AGENT);
-
+		if (credentials && !(http_user_headers_seen &
+		    HTTP_USER_HEADER_SEEN_PROXY_AUTH)) {
+			if (asprintf(&cp, "Proxy-Authorization: Basic %s",
+			    credentials) == -1)
+				errx(1, "not enough memory for HTTP headers");
+			addheader(&buf, cp);
+			free(cp);
+		}
+		statusx = 0;
 	} else {
-		ftp_printf(fin, ssl, "GET /%s HTTP/1.0\r\nHost: ", path);
-		if (strchr(host, ':')) {
-			char *h, *p;
+		char *h, *p;
 
+		if (verbose)
+			fprintf(ttyout, "\n");
+		if (strchr(host, ':')) {
 			/*
 			 * strip off scoped address portion, since it's
 			 * local to node
@@ -488,10 +511,8 @@ again:
 				errx(1, "Can't allocate memory.");
 			if ((p = strchr(h, '%')) != NULL)
 				*p = '\0';
-			ftp_printf(fin, ssl, "[%s]", h);
-			free(h);
 		} else
-			ftp_printf(fin, ssl, "%s", host);
+			h = host;
 
 		/*
 		 * Send port number only if it's specified and does not equal
@@ -499,18 +520,26 @@ again:
 		 * send them the port number.
 		 */
 #ifndef SMALL
-		if (port && strcmp(port, (ishttpsurl ? "443" : "80")) != 0)
-			ftp_printf(fin, ssl, ":%s", port);
+		statusx = (port && strcmp(port, (ishttpsurl ? "443" : "80")) != 0);
 #else
-		if (port && strcmp(port, "80") != 0)
-			ftp_printf(fin, ssl, ":%s", port);
+		statusx = (port && strcmp(port, "80") != 0);
 #endif
-		ftp_printf(fin, ssl, "\r\n%s%s\r\n\r\n",
-		    buf ? buf : "", HTTP_USER_AGENT);
-		if (verbose)
-			fprintf(ttyout, "\n");
-	}
 
+		if (asprintf(&cp, "Host: %s%s%s%s%s",
+		    (h == host) ? "" : "[", h,
+		    (h == host) ? "" : "]",
+		    statusx ? ":" : "", statusx ? port : "") == -1)
+			errx(1, "not enough memory for HTTP headers");
+		if (h != host)
+			free(h);
+		if (!(http_user_headers_seen & HTTP_USER_HEADER_SEEN_HOST))
+			addheader(&buf, cp);
+		free(cp);
+		statusx = path[0] != '/';
+	}
+	ftp_printf(fin, ssl, "GET %s%s HTTP/1.0\r\n%s%s\r\n",
+	    statusx ? "/" : "", path,
+	    buf ? buf : "", http_user_headers ? http_user_headers : "");
 
 #ifndef SMALL
 	free(buf);
@@ -1221,3 +1250,15 @@ proxy_connect(int socketfd, char *host)
 	return(200);
 }
 #endif
+
+void
+addheader(char **bufp, const char *newheader)
+{
+	char *cp;
+
+	/* set a new header entry */
+	if (asprintf(&cp, "%s%s\r\n", *bufp ? *bufp : "", newheader) == -1)
+		errx(1, "not enough memory for HTTP headers");
+	free(*bufp);
+	*bufp = cp;
+}

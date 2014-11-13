@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/ftp/ftp_var.h,v 1.4 2006/10/03 19:22:17 tg Exp $ */
+/**	$MirOS: src/usr.bin/ftp/ftp_var.h,v 1.5 2007/07/15 20:01:08 tg Exp $ */
 /*	$OpenBSD: ftp_var.h,v 1.24 2007/06/13 13:52:26 pyr Exp $	*/
 /*	$NetBSD: ftp_var.h,v 1.18 1997/08/18 10:20:25 lukem Exp $	*/
 
@@ -179,6 +179,13 @@ char *httpport;			/* port number to use for http connections */
 char *httpsport;		/* port number to use for https connections */
 #endif
 char *gateport;			/* port number to use for gateftp connections */
+
+char *http_user_headers;	/* *(header\r\n) */
+unsigned int http_user_headers_seen;
+#define HTTP_USER_HEADER_SEEN_USER_AGENT 1
+#define HTTP_USER_HEADER_SEEN_COOKIE 2
+#define HTTP_USER_HEADER_SEEN_HOST 4
+#define HTTP_USER_HEADER_SEEN_PROXY_AUTH 8
 
 jmp_buf	toplevel;		/* non-local goto stuff for cmd scanner */
 
