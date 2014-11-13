@@ -468,7 +468,7 @@ again:
 		 */
 		if (credentials)
 			ftp_printf(fin, ssl, "GET %s HTTP/1.0\r\n"
-			    "Proxy-Authorization: Basic %s%s\r\n%s\r\n\r\n",
+			    "Proxy-Authorization: Basic %s\r\n%s%s\r\n\r\n",
 			    path, credentials, buf ? buf : "", HTTP_USER_AGENT);
 		else
 			ftp_printf(fin, ssl, "GET %s HTTP/1.0\r\n%s%s\r\n\r\n",
