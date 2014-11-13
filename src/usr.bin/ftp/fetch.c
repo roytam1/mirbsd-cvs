@@ -2,7 +2,7 @@
 /*	$NetBSD: fetch.c,v 1.14 1997/08/18 10:20:20 lukem Exp $	*/
 
 /*-
- * Copyright © 2013
+ * Copyright © 2013, 2014
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1997 The NetBSD Foundation, Inc.
  * All rights reserved.
@@ -77,7 +77,7 @@
 
 #include "ftp_var.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/fetch.c,v 1.8 2010/08/12 11:30:46 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/fetch.c,v 1.9 2013/10/31 20:07:03 tg Exp $");
 
 static int	url_get(const char *, const char *, const char *);
 void		aborthttp(int);
@@ -1201,7 +1201,7 @@ proxy_connect(int socket, char *host)
 	if (!port)
 		port = "443";
 
-	l = asprintf(&connstr, "CONNECT %s:%s HTTP/1.1\n\n", host, port);
+	l = asprintf(&connstr, "CONNECT %s:%s HTTP/1.1\r\n\r\n", host, port);
 	if (l == -1)
 		errx(1, "Could not allocate memory to assemble connect string!");
 	if (debug)
