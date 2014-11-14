@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-# $MirOS: www/files/raw.cgi,v 1.5 2014/07/01 21:34:16 tg Exp $
+# $MirOS: www/files/raw.cgi,v 1.7 2014/07/15 22:19:19 tg Exp $
 #-
 # Copyright © 2012, 2014
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -94,6 +94,8 @@ if ($query ne "") {
 		@files = <htman/*/man[1-9]/{,.}${query}*.htm>;
 		my @f;
 		@f = <htman/*/man{3p,PSD,SMM,USD,PAPERS}/${query}*.htm>;
+		push @files, @f if (@f > 0);
+		@f = <htman/*/man{PSD,SMM,USD,PAPERS}/*.${query}*.htm>;
 		push @files, @f if (@f > 0);
 		@f = <htman/*/manINFO/${query}*.html>;
 		push @files, @f if (@f > 0);
