@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.561 2014/10/09 19:14:16 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.562 2014/10/19 22:04:17 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1108,6 +1108,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Add <tt>x+=&lt;&lt;</tt> parallel to <tt>x=&lt;&lt;</tt></li>
  <li>[tg, ormaaj, jilles] POSIX “command” loses builtin special-ness</li>
  <li>[tg] Begin fixing LP#1381965 and LP#1381993 (more field splitting)</li>
+ <li>[jilles] Update location of FreeBSD testsuite for test(1)</li>
+ <li>[Martin Natano] Remove dead NULL elements from Emacs keybindings</li>
+ <li>[tg, Stéphane Chazelas, Geoff Clare] Change several testcases for $*/$@
+  expansion with/without quotes to expected-fail, with even more to come ☹</li>
 </ul>
 <p id="r50d">R50d is a <strong>required</strong> bugfix release:</p><ul>
  <li>[Goodbox] Fix NULL pointer dereference on “unset x; nameref x”</li>
