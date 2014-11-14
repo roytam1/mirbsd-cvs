@@ -27,7 +27,7 @@
 # http://svnweb.freebsd.org/base/head/bin/test/tests/legacy_test.sh?view=co&content-type=text%2Fplain
 
 expected-stdout:
-	@(#)MIRBSD KSH R50 2014/10/19
+	@(#)MIRBSD KSH R50 2014/11/14
 description:
 	Check version of shell.
 stdin:
@@ -36,7 +36,7 @@ name: KSH_VERSION
 category: shell:legacy-no
 ---
 expected-stdout:
-	@(#)LEGACY KSH R50 2014/10/19
+	@(#)LEGACY KSH R50 2014/11/14
 description:
 	Check version of legacy shell.
 stdin:
@@ -4070,6 +4070,7 @@ description:
 	'emulate sh' zsh has extra fields in
 	- a5ins (IFS_NWS unquoted $*)
 	- b5ins, matching mksh’s
+	!!WARNING!! more to come: http://austingroupbugs.net/view.php?id=888
 stdin:
 	"$__progname" -c 'IFS=; set -- "" 2 ""; printf "[%s]\n" $*; x=$*; printf "<%s>\n" "$x"'
 	echo '=a1zns'
@@ -4200,6 +4201,15 @@ stdin:
 	showargs "$*" ${a##"$*"}
 expected-stdout:
 	<*c> <abcd> .
+---
+name: IFS-subst-8
+description:
+	http://austingroupbugs.net/view.php?id=221
+stdin:
+	n() { echo "$#"; }; n "${foo-$@}"
+expected-fail: yes
+expected-stdout:
+	1
 ---
 name: IFS-arith-1
 description:
@@ -8324,10 +8334,11 @@ description:
 	Ensure concatenating behaviour matches other shells
 stdin:
 	showargs() { for i; do echo -n " <$i>"; done; echo; }
-	x=; showargs 1 "$x$@"
+	x=; showargs 1 "$x"$@
 	set A; showargs 2 "${@:+}"
+expected-fail: yes
 expected-stdout:
-	 <1>
+	 <1> <>
 	 <2> <>
 ---
 name: print-funny-chars
