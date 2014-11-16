@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: src/distrib/baselive/munge_it.sh,v 1.48 2013/09/28 19:55:15 tg Exp $
+# $MirOS: src/distrib/baselive/munge_it.sh,v 1.49 2013/11/30 13:45:21 tg Exp $
 #-
-# Copyright (c) 2006, 2007, 2008, 2013
+# Copyright (c) 2006, 2007, 2008, 2013, 2014
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -23,7 +23,7 @@
 # system generated live CD distribution.
 
 set -ex
-myplace=$(dirname "$(realpath "$0")")
+myplace=$(realpath "$0/..")
 
 ed -s etc/X11/XF86Config <<-'EOF'
 	/FontPath.*local/s/^/#/
@@ -78,7 +78,7 @@ ed -s etc/ntpd.conf <<-'EOMD'
 EOMD
 ed -s etc/rc <<-'EOMD'
 	1i
-		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.48 2013/09/28 19:55:15 tg Exp $
+		# $MirOS: src/distrib/baselive/munge_it.sh,v 1.49 2013/11/30 13:45:21 tg Exp $
 	.
 	/early munge point/d
 	i
