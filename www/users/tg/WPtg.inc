@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.119 2014/11/11 20:47:50 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.120 2014/11/12 20:06:58 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -7209,6 +7209,30 @@ Date: 11.11.2014
 Waypoint: OCF495
 Title: Go Geohashing
 Tag: D3 T3 Virtual Safari Challenge
+----
+ID: 1237
+Date: 16.11.2014
+Waypoint: OCCB62 GC2ZH3E
+Title: Schevastesstr.
+Tag: D1 T1 Small Tradi
+----
+ID: 1238
+Date: 16.11.2014
+Waypoint: VX77-LYYG
+Title: [Switzerland], BN-Beuel
+Distance: 0
+----
+ID: 1239
+Date: 16.11.2014
+Waypoint: OCE5B3
+Title: Alte Rathaus Bonn
+Tag: D1 T1 Virtual
+----
+ID: 1240
+Date: 16.11.2014
+Waypoint: OC1083E
+Title: Bonner Rathaustreppe
+Tag: D1 T1 Webcam
 ----
 ID: p1235
 Date: 11.11.2014
