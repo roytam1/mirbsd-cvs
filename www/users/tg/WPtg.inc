@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.120 2014/11/12 20:06:58 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.121 2014/11/16 22:38:24 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -7233,6 +7233,24 @@ Date: 16.11.2014
 Waypoint: OC1083E
 Title: Bonner Rathaustreppe
 Tag: D1 T1 Webcam
+----
+ID: 1241
+Date: 17.11.2014
+Waypoint: GC4NMDF
+Title: Witterschlicker Schleichwege.....#2
+Tag: D15 T15 Micro Tradi
+----
+ID: 1242
+Date: 17.11.2014
+Waypoint: GC37W06
+Title: Alfterer Kreuze 10
+Tag: D1 T15 Micro Tradi
+----
+ID: 1243
+Date: 17.11.2014
+Waypoint: GC2ZMWK
+Title: Lore im R.A.L.F.J.-Land #02
+Tag: D2 T15 Small Tradi
 ----
 ID: p1235
 Date: 11.11.2014
