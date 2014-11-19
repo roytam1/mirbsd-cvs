@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.15 2014/06/29 13:19:46 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.16 2014/10/09 00:51:22 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -198,4 +198,101 @@ Tag: personal rant
  (HAL, consolekit) to the next, giving up their own projects which they
  forced upon others the minute before ‒ no consistency.</p>
 <p>I'm too old for this shit. Ignore my rambling. Couldn't sleep.</p>
+----
+Date: 19.11.2014 12:44
+Author: tg@
+Title: Debian init system freedom of choice GR worst possible outcome
+Tag: debian rant work
+
+<p><a href="http://blog.venthur.de/index.php/2014/11/general-resolution-is-not-required/">Apparently</a>
+ (the actual results have not yet been published by the Secretary),
+ the GR is over, and the <strong>worst possible option</strong> has
+ won. This is an <strong>absolutely ambiguous result</strong>, while
+ at the same time <strong>sending a clear signal that Debian is not
+ to be trusted</strong> wrt. investing anything into it, right now.</p>
+<p>Why is this? Simply: “GR not required” means that “whatever people
+ do is probably right”. Besides this, we have one statement from the
+ CTTE (“systemd is default init system for jessie. Period.”) and
+ nothing else. This means that runit, or upstart, or file-rc, or
+ uselessd, can be the default init system for zurg^H^H^H^Hstretch,
+ or even the only one. It also means that the vast majority of Debian
+ Developers are sheeple, neither clearly voting to preserve freedom
+ of choice between init systems for its users, nor clearly voting to
+ unambiguously support systemd and progress over compatibility and
+ choice, nor clearly stating that systemd is important but supporting
+ other init systems is still recommended. (I’ll not go into detail on
+ how the proposer of the apparently winning choice recommends others
+ to ignore ftpmaster constraints and licences, and even suggests to
+ run a GR to soften up the DFSG interpretation.) I’d have voted this
+ as “no, absolutely not” if it was possible to do so more strongly.</p>
+<p>Judging from the statistics, the only thing I voted above NOTA/FD
+ is the one least accepted by DDs, although the only other proposal
+ I considered is the first-rated of them: support for other init
+ systems is recommended but not required. What made me vote it below
+ NOTA/FD was: “The Debian Project makes no statement at this time on
+ sysvinit support beyond the jessie release.” This sentence made even
+ this proposal unbearable, unacceptable, for people wanting to invest
+ (time, money, etc.) into Debian.</p>
+<p>This opens up a very hard problem: I’m absolutely stunned by this
+ and wondering what to do now. While there is no real alternative to
+ Debian at $dayjob I can always create customised packages in <a
+ href="http://users.unixforge.de/~tglaser/debs/debidx.htm">my own
+ APT repository</a>, and – while it was great when those were <a
+ href="http://metadata.ftp-master.debian.org/changelogs/main/j/jupp/unstable_changelog">eventually</a>
+ (3.1.17-1) accepted <a
+ href="https://packages.qa.debian.org/c/cvs/news/20110507T011726Z.html">into
+ Debian</a>, even <a
+ href="https://packages.qa.debian.org/p/pax/news/20120212T030643Z.html">replacing</a>
+ the previous packages completely – it is simpler and quicker to not do so. <a
+ href="http://article.gmane.org/gmane.org.wikimedia.mediawiki.distributors/56">While
+ $dayjob benefits</a> from having packages I work on inside Debian itself,
+ even though I cannot always test all scenarios Debian users would need, <a
+ href="https://packages.qa.debian.org/m/mediawiki/news/20141007T191941Z.html">some
+ work reduction</a> due to… reactions… already led to Debian <a
+ href="http://lists.alioth.debian.org/pipermail/pkg-mediawiki-devel/2014-November/003081.html">losing
+ out on Mediawiki for jessie</a> and some additional <a
+ href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=764400">suffering</a>.
+ With my own package repository, I can – modulo installing/debootstrap – serve
+ my needs for $dayjob much quicker, easily, etc. and only miss out on <a
+ href="https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=763842">absolutely
+ delightful user feedback</a>. But then, others could always package software
+ I’m upstream of for Debian. Or, if I do <em>not</em> leave the project,
+ continue doing so via QA uploads.</p>
+<p>I’d convert to OpenBSD because, despite MirBSD’s history with them,
+ they’re the only technically sound alternative, but apparently tedu still
+ has some sort of grudge against me. Plus, it’d be hard to get customers
+ to follow. So, no alternative right now. But I’m used to managing my own
+ forks of software; I’m doomed to basically hack and fix anything I use
+ (I recently got someone who owns a licence to an old-enough Visual Studio
+ version to transfer that to me, so I can hack on the Windows Mobile 6
+ version of Cachebox, to fix bugs in one of the geocaching applications
+ I use. Now I “just” need to learn C# and the .NET Compact Framework.
+ So I’m also used to some amount of pain.)</p>
+<p>I’m still unresolved wrt. the attitude I should show the Debian project
+ now. I had decided to just continue to live on, and work on the things I
+ need done, but that was before this GR non-result. I absolutely cannot
+ recommend anyone to “invest” into Debian (without sounding hypocriet), but
+ I cannot recommend anything else <em>either</em>. I cannot justify leaving
+ but don’t know if I want to stay. I think I should sleep over it.</p>
+<p>One thing I promised, and thus will do, is to organise a meeting of the
+ Debian/m68k people soonish. But then, major and important and powerful
+ forces inside Debian still insist that Debian-Ports are not part of it…
+ yet, <strong>all forks of Debian now suffer from the systemd adoption in
+ it</strong> instead of having a freedom-of-choice upstream. I’ve said, and
+ <strong>I still feel that systemd adoption should have done in a Debian
+ downstream / (pure?) blend</strong>, and maybe (parts of) GNOME removed
+ from Debian itself for it. (Adding cgroups support to the m68k kernel to
+ support systemd was done. I adviced against it, on the grounds of memory
+ and code size. But no downstream can remove it now.)</p><!-- RSS stop -->
+<p>On a closing note: an Ewok told me I should not be surprised because
+ of my communication style on the mailing lists. I just got private mails
+ telling me that, indeed, I’ve been more civilised recently, plus I’ve
+ not started out as aggressively as it became in the end of the heated
+ systemd debate (with this GR result, I precisely lost what I had feared),
+ plus I’ve hung on Usenet for too long… and I’m sometimes terse when I
+ don’t want to repeat the, for me, same topic once <em>again</em> (I’ve
+ usually looked at the things before and decided they’re just another
+ hype, and know from experience to avoid them). So I feel this should
+ not be held against me. Listen to advice, please. (I’m also somewhat
+ shocked by certain people asserting systemd is “unavoidable”, now.)</p>
 ----
