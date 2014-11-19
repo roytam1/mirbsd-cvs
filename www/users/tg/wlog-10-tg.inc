@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.16 2014/10/09 00:51:22 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.17 2014/11/19 13:28:35 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -258,8 +258,21 @@ Tag: debian rant work
  delightful user feedback</a>. But then, others could always package software
  I’m upstream of for Debian. Or, if I do <em>not</em> leave the project,
  continue doing so via QA uploads.</p>
+<p>I’m also disappointed because I have invested quite some effort into
+ trying to make Debian better (my idea to join as DD was “if I’ve got to
+ use it, it better be damn good!”), into packaging software and convincing
+ people at work that developing software as Debian packages instead of (or
+ not) thinking of packaging later was good. I’ve converted our versions of
+ FusionForge and d-push to Debian packages, and it works pretty damn well.
+ Sometimes it needs backports of my own, but that’s the corportate world,
+ and no problem to an experienced DD. (I just feel bad we lost some people,
+ an FTP master along them, before this really gained traction.)</p>
 <p>I’d convert to OpenBSD because, despite MirBSD’s history with them,
- they’re the only technically sound alternative, but apparently tedu still
+ they’re the only technically sound alternative, but apparently tedu (whom
+ I respect technically, and who used to offer good advice to even me when
+ asked, and who I think wouldn’t choose systemd himself) still (allying
+ with the systemd “side” (I’m not against people being able to choose
+ systemd, for the record, I just don’t want to be forced into it myself!))
  has some sort of grudge against me. Plus, it’d be hard to get customers
  to follow. So, no alternative right now. But I’m used to managing my own
  forks of software; I’m doomed to basically hack and fix anything I use
