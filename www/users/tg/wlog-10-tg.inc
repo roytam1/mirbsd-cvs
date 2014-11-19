@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.17 2014/11/19 13:28:35 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.18 2014/11/19 13:34:20 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -233,6 +233,10 @@ Tag: debian rant work
  sysvinit support beyond the jessie release.” This sentence made even
  this proposal unbearable, unacceptable, for people wanting to invest
  (time, money, etc.) into Debian.</p>
+<p><strong>Update:</strong> Formal result announced. So 358 out of 483
+ voting DDs decided to be sheeple (if I understand the eMail correctly).
+ We had 1006 DDs with voting rights, which is a bit ashaming as well.
+ That’s 48.01% only. I wonder what’s worse.</p>
 <p>This opens up a very hard problem: I’m absolutely stunned by this
  and wondering what to do now. While there is no real alternative to
  Debian at $dayjob I can always create customised packages in <a
@@ -265,8 +269,8 @@ Tag: debian rant work
  not) thinking of packaging later was good. I’ve converted our versions of
  FusionForge and d-push to Debian packages, and it works pretty damn well.
  Sometimes it needs backports of my own, but that’s the corportate world,
- and no problem to an experienced DD. (I just feel bad we lost some people,
- an FTP master along them, before this really gained traction.)</p>
+ and no problem to an experienced DD. (I just feel bad we ($orkplace) lost
+ some people, an FTP master along them, before this really gained traction.)</p>
 <p>I’d convert to OpenBSD because, despite MirBSD’s history with them,
  they’re the only technically sound alternative, but apparently tedu (whom
  I respect technically, and who used to offer good advice to even me when
@@ -290,6 +294,9 @@ Tag: debian rant work
 <p>One thing I promised, and thus will do, is to organise a meeting of the
  Debian/m68k people soonish. But then, major and important and powerful
  forces inside Debian still insist that Debian-Ports are not part of it…
+ [Update: yes, DSA is moving it closer, thanks for that by the way, but
+ that doesn’t mean anything to certain maintainers or the Release Team,
+ although, the latter is actually understandable and probably sensible.]
  yet, <strong>all forks of Debian now suffer from the systemd adoption in
  it</strong> instead of having a freedom-of-choice upstream. I’ve said, and
  <strong>I still feel that systemd adoption should have done in a Debian
