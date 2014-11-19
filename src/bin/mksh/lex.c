@@ -23,7 +23,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/lex.c,v 1.192 2014/01/11 18:09:40 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/lex.c,v 1.193 2014/06/29 11:28:28 tg Exp $");
 
 /*
  * states while lexing word
@@ -854,7 +854,7 @@ yylex(int cf)
 			*dp = '\0';
 			/* store the quoted string */
 			*wp++ = OQUOTE;
-			XcheckN(ws, wp, (dp - sp));
+			XcheckN(ws, wp, (dp - sp) * 2);
 			dp = sp;
 			while ((c = *dp++)) {
 				if (c == '\\') {
