@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.562 2014/10/19 22:04:17 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.563 2014/11/14 20:38:18 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1112,6 +1112,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[Martin Natano] Remove dead NULL elements from Emacs keybindings</li>
  <li>[tg, Stéphane Chazelas, Geoff Clare] Change several testcases for $*/$@
   expansion with/without quotes to expected-fail, with even more to come ☹</li>
+ <li>[tg] Fix miscalculating required memory for encoding the double-quoted
+  parts of a here document or here string delimiter, leading to a buffer
+  overflow; discovered by zacts from IRC</li>
 </ul>
 <p id="r50d">R50d is a <strong>required</strong> bugfix release:</p><ul>
  <li>[Goodbox] Fix NULL pointer dereference on “unset x; nameref x”</li>
