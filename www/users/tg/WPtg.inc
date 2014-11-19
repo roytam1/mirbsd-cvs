@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.121 2014/11/16 22:38:24 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.122 2014/11/17 22:28:48 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -7251,6 +7251,13 @@ Date: 17.11.2014
 Waypoint: GC2ZMWK
 Title: Lore im R.A.L.F.J.-Land #02
 Tag: D2 T15 Small Tradi
+----
+ID: 1244
+Date: 19.11.2014
+Waypoint: GC4E22H
+Title: Alles nur kein Geld
+nTF: 2
+Tag: D15 T2 Micro Tradi
 ----
 ID: p1235
 Date: 11.11.2014
