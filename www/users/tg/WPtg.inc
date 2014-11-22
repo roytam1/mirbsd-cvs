@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.122 2014/11/17 22:28:48 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.123 2014/11/19 19:34:08 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -7258,6 +7258,17 @@ Waypoint: GC4E22H
 Title: Alles nur kein Geld
 nTF: 2
 Tag: D15 T2 Micro Tradi
+----
+ID: 1245
+Date: 22.11.2014
+Waypoint: GCJ270
+Title: Schloss Birlinghoven
+Tag: D3 T3 Regular Multi
+----
+ID: p1246
+Date: 24.11.2014
+Waypoint: 2014-11-24_50_7
+Title: [Bonn, Germany], BN-Beuel-Vilich-Rheindorf
 ----
 ID: p1235
 Date: 11.11.2014
