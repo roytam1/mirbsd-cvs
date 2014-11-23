@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.123 2014/11/19 19:34:08 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.124 2014/11/22 19:33:18 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -7264,6 +7264,48 @@ Date: 22.11.2014
 Waypoint: GCJ270
 Title: Schloss Birlinghoven
 Tag: D3 T3 Regular Multi
+----
+ID: 1246
+Date: 23.11.2014
+Waypoint: GC41AFP
+Title: CHALLENGE: DER ROTIERER
+Tag: D5 T2 Micro Mystery Challenge
+----
+ID: 1247
+Date: 23.11.2014
+Waypoint: GC3YVFP
+Title: Kulturdenkmal Siechenhauskapelle
+Tag: D15 T15 Micro Tradi
+----
+ID: 1248
+Date: 23.11.2014
+Waypoint: GC48VMV
+Title: Anti Challenge – Mysterie Cache
+Tag: D15 T1 Micro Mystery
+----
+ID: 1249
+Date: 23.11.2014
+Waypoint: GC1Z931
+Title: CLOOS-FALTE BEI ALTENBURG (AHRTAL)
+Tag: D15 T1 Earth
+----
+ID: 1250
+Date: 23.11.2014
+Waypoint: GC2AKMB
+Title: &#34;Lore ist heiß!&#34;
+Tag: D15 T15 Micro Tradi
+----
+ID: 1251
+Date: 23.11.2014
+Waypoint: GC5FBFM
+Title: Geocacher in der Baracke
+Tag: D2 T1 Event
+----
+ID: 1252
+Date: 23.11.2014
+Waypoint: GC21XQX
+Title: Kunst am Wegesrand - Das Gemälde
+Tag: D3 T1 Micro Mystery
 ----
 ID: p1246
 Date: 24.11.2014
