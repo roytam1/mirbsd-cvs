@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.124 2014/11/22 19:33:18 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.125 2014/11/23 19:48:02 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -203,7 +203,7 @@ ID: 39
 Date: 14.04.2008
 Waypoint: TC9AV
 Title: Deutscher Terracachingpreis 2008
-Tag: Locationless Micro
+Tag: Locationless Challenge
 ----
 ID: 40
 Date: 14.04.2008
@@ -2053,7 +2053,7 @@ Date: 23.06.2013
 Waypoint: LC7TL
 Title: Birthday Coordinates
 nTF: 3
-Tag: MC0 Locationless Challenge
+Tag: MC0 Locationless
 ----
 ID: 397
 Date: 24.06.2013
@@ -5740,7 +5740,7 @@ Date: 20.07.2014
 Waypoint: LC7LQ
 Title: Babewyn
 nTF: 1
-Tag: Locationless Challenge
+Tag: Locationless
 ----
 ID: 998
 Date: 20.07.2014
@@ -6969,7 +6969,7 @@ ID: 1197
 Date: 11.10.2014
 Waypoint: GC53NWH
 Title: Die fünf Länder Challenge
-Tag: D5 T3 Micro Mystery
+Tag: D5 T3 Micro Mystery Challenge
 ----
 ID: 1198
 Date: 12.10.2014
@@ -7208,7 +7208,7 @@ ID: 1236
 Date: 11.11.2014
 Waypoint: OCF495
 Title: Go Geohashing
-Tag: D3 T3 Virtual Safari Challenge
+Tag: D3 T3 Virtual Locationless Challenge
 ----
 ID: 1237
 Date: 16.11.2014
@@ -7307,10 +7307,35 @@ Waypoint: GC21XQX
 Title: Kunst am Wegesrand - Das Gemälde
 Tag: D3 T1 Micro Mystery
 ----
-ID: p1246
+ID: 1253
+Date: 24.11.2014
+Waypoint: OCF9DE
+Title: Die Wolfsburg
+Tag: D1 T1 Virtual
+----
+ID: 1254
 Date: 24.11.2014
 Waypoint: 2014-11-24_50_7
 Title: [Bonn, Germany], BN-Beuel-Vilich-Rheindorf
+----
+ID: 1255
+Date: 24.11.2014
+Waypoint: GC5BJJ5
+Title: Clemensstraße Revival in Beuel
+Tag: D3 T15 Nano Tradi recommended
+----
+ID: 1256
+Date: 24.11.2014
+Waypoint: OCE45C
+Title: Schwarzrheindorfer Doppelkirche
+Tag: D1 T1 Virtual
+----
+ID: 1257
+Date: 24.11.2014
+Waypoint: LC5LT5
+Title: Find Your Head
+nTF: 1
+Tag: Locationless
 ----
 ID: p1235
 Date: 11.11.2014
