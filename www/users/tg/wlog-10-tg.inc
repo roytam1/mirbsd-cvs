@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.18 2014/11/19 13:34:20 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.19 2014/11/19 15:32:44 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -315,4 +315,29 @@ Tag: debian rant work
  hype, and know from experience to avoid them). So I feel this should
  not be held against me. Listen to advice, please. (I’m also somewhat
  shocked by certain people asserting systemd is “unavoidable”, now.)</p>
+----
+Date: 25.11.2014 17:00
+Author: tg@
+Title: d-i preseeding is not the answer
+Tag: debian rant work
+
+<p><a href="http://www.vitavonni.de/blog/201411/2014112501-installing-debian-with-sysvinit.html">This
+ post</a> details what the d-i team currently shows as the only way.</p>
+<p>It has several shortcomings and one missing documentation part.</p>
+<p>Shortcoming: <tt>--purge</tt> is missing from the <tt>apt-get</tt>
+ invocation. This leaves packages in “rc” state (requiring a manual
+ <tt>dpkg --purge</tt> to completely remove them later, as they are
+ then invisible to apt).</p>
+<p>Worse shortcoming: this still leaves all dependencies pulled in by
+ systemd around on the system, because packages installed by debootstrap
+ are not eligible for “apt-get --purge autoremove”. Additionally, it does
+ not influence debootstrap’s (nōn-existent, see #557322, #668001, #768062)
+ dependency resolver, leading to possibly pessimistic package selections.</p>
+<p class="boxhead">Missing: you can just hit Alt-F2 and enter the command…</p>
+<div class="boxtext">
+ <pre>
+	in-target apt-get --purge -y install sysvinit-core
+ </pre>
+</div><p class="boxfoot">… there, no need to preseed. But this does not
+ eliminate the aforementioned shortcomings, of course.</p>
 ----
