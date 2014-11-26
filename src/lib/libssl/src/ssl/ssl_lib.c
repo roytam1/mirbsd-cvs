@@ -117,7 +117,6 @@
 #endif
 #include <stdio.h>
 #include "ssl_locl.h"
-#include "kssl_lcl.h"
 #include <openssl/objects.h>
 #include <openssl/lhash.h>
 #include <openssl/x509v3.h>
@@ -1416,7 +1415,6 @@ SSL_CTX *SSL_CTX_new(SSL_METHOD *meth)
 	CRYPTO_new_ex_data(CRYPTO_EX_INDEX_SSL_CTX, ret, &ret->ex_data);
 
 	ret->extra_certs=NULL;
-	ret->comp_methods=SSL_COMP_get_compression_methods();
 
 	return(ret);
 err:
@@ -1479,12 +1477,6 @@ void SSL_CTX_free(SSL_CTX *a)
 		sk_X509_NAME_pop_free(a->client_CA,X509_NAME_free);
 	if (a->extra_certs != NULL)
 		sk_X509_pop_free(a->extra_certs,X509_free);
-#if 0 /* This should never be done, since it removes a global database */
-	if (a->comp_methods != NULL)
-		sk_SSL_COMP_pop_free(a->comp_methods,SSL_COMP_free);
-#else
-	a->comp_methods = NULL;
-#endif
 	OPENSSL_free(a);
 	}
 
@@ -2051,16 +2043,6 @@ void ssl_clear_cipher_ctx(SSL *s)
 		EVP_CIPHER_CTX_cleanup(s->enc_write_ctx);
 		OPENSSL_free(s->enc_write_ctx);
 		s->enc_write_ctx=NULL;
-		}
-	if (s->expand != NULL)
-		{
-		COMP_CTX_free(s->expand);
-		s->expand=NULL;
-		}
-	if (s->compress != NULL)
-		{
-		COMP_CTX_free(s->compress);
-		s->compress=NULL;
 		}
 	}
 

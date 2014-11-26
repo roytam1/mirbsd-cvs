@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/ssl/ssl3.h,v 1.2 2009/11/14 14:33:48 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/ssl/ssl3.h,v 1.3 2014/06/05 13:26:42 tg Exp $ */
 
 /* ssl/ssl3.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -417,7 +417,7 @@ typedef struct ssl3_state_st
 #ifndef OPENSSL_NO_COMP
 		const SSL_COMP *new_compression;
 #else
-		char *new_compression;
+		void *new_compression;
 #endif
 		int cert_request;
 		} tmp;

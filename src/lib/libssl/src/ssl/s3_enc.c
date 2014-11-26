@@ -115,7 +115,7 @@
 #include <openssl/md5.h>
 #include <openssl/rand.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_enc.c,v 1.10 2014/06/05 13:50:17 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_enc.c,v 1.11 2014/06/18 12:07:42 tg Exp $");
 
 static unsigned char ssl3_pad_1[48]={
 	0x36,0x36,0x36,0x36,0x36,0x36,0x36,0x36,
@@ -200,7 +200,7 @@ int ssl3_change_cipher_state(SSL *s, int which)
 	unsigned char *ms,*key,*iv,*er1,*er2;
 	EVP_CIPHER_CTX *dd;
 	const EVP_CIPHER *c;
-	COMP_METHOD *comp;
+	void *comp;
 	const EVP_MD *m;
 	EVP_MD_CTX md;
 	int is_exp,n,i,j,k,cl;
@@ -209,10 +209,7 @@ int ssl3_change_cipher_state(SSL *s, int which)
 	is_exp=SSL_C_IS_EXPORT(s->s3->tmp.new_cipher);
 	c=s->s3->tmp.new_sym_enc;
 	m=s->s3->tmp.new_hash;
-	if (s->s3->tmp.new_compression == NULL)
-		comp=NULL;
-	else
-		comp=s->s3->tmp.new_compression->method;
+	comp=NULL;
 	key_block=s->s3->tmp.key_block;
 
 	if (which & SSL3_CC_READ)
@@ -223,26 +220,6 @@ int ssl3_change_cipher_state(SSL *s, int which)
 			goto err;
 		dd= s->enc_read_ctx;
 		s->read_hash=m;
-		/* COMPRESS */
-		if (s->expand != NULL)
-			{
-			COMP_CTX_free(s->expand);
-			s->expand=NULL;
-			}
-		if (comp != NULL)
-			{
-			s->expand=COMP_CTX_new(comp);
-			if (s->expand == NULL)
-				{
-				SSLerr(SSL_F_SSL3_CHANGE_CIPHER_STATE,SSL_R_COMPRESSION_LIBRARY_ERROR);
-				goto err2;
-				}
-			if (s->s3->rrec.comp == NULL)
-				s->s3->rrec.comp=(unsigned char *)
-					OPENSSL_malloc(SSL3_RT_MAX_PLAIN_LENGTH);
-			if (s->s3->rrec.comp == NULL)
-				goto err;
-			}
 		memset(&(s->s3->read_sequence[0]),0,8);
 		mac_secret= &(s->s3->read_mac_secret[0]);
 		}
@@ -254,21 +231,6 @@ int ssl3_change_cipher_state(SSL *s, int which)
 			goto err;
 		dd= s->enc_write_ctx;
 		s->write_hash=m;
-		/* COMPRESS */
-		if (s->compress != NULL)
-			{
-			COMP_CTX_free(s->compress);
-			s->compress=NULL;
-			}
-		if (comp != NULL)
-			{
-			s->compress=COMP_CTX_new(comp);
-			if (s->compress == NULL)
-				{
-				SSLerr(SSL_F_SSL3_CHANGE_CIPHER_STATE,SSL_R_COMPRESSION_LIBRARY_ERROR);
-				goto err2;
-				}
-			}
 		memset(&(s->s3->write_sequence[0]),0,8);
 		mac_secret= &(s->s3->write_mac_secret[0]);
 		}
@@ -354,7 +316,7 @@ int ssl3_setup_key_block(SSL *s)
 	const EVP_MD *hash;
 	int num;
 	int ret = 0;
-	SSL_COMP *comp;
+	void *comp;
 
 	if (s->s3->tmp.key_block_length != 0)
 		return(1);

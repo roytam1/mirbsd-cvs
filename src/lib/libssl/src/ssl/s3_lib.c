@@ -112,10 +112,9 @@
 #include <stdio.h>
 #include <openssl/objects.h>
 #include "ssl_locl.h"
-#include "kssl_lcl.h"
 #include <openssl/md5.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_lib.c,v 1.4 2009/11/14 14:33:47 tg Exp $");
 
 const char ssl3_version_str[]="SSLv3" OPENSSL_VERSION_PTEXT;
 

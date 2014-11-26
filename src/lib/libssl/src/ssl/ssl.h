@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/ssl/ssl.h,v 1.5 2009/11/09 21:32:38 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/ssl/ssl.h,v 1.6 2014/06/05 13:26:42 tg Exp $ */
 
 /* ssl/ssl.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -178,7 +178,6 @@
 #ifndef OPENSSL_NO_X509
 #include <openssl/x509.h>
 #endif
-#include <openssl/kssl.h>
 #include <openssl/safestack.h>
 #include <openssl/symhacks.h>
 
@@ -679,7 +678,6 @@ struct ssl_ctx_st
 	const EVP_MD *sha1;   /* For SSLv3/TLSv1 'ssl3->sha1' */
 
 	STACK_OF(X509) *extra_certs;
-	STACK_OF(SSL_COMP) *comp_methods; /* stack of SSL_COMP, SSLv3/TLSv1 */
 
 
 	/* Default values used when no per-SSL value is defined follow */
@@ -866,19 +864,9 @@ struct ssl_st
 
 	EVP_CIPHER_CTX *enc_read_ctx;		/* cryptographic state */
 	const EVP_MD *read_hash;		/* used for mac generation */
-#ifndef OPENSSL_NO_COMP
-	COMP_CTX *expand;			/* uncompress */
-#else
-	char *expand;
-#endif
 
 	EVP_CIPHER_CTX *enc_write_ctx;		/* cryptographic state */
 	const EVP_MD *write_hash;		/* used for mac generation */
-#ifndef OPENSSL_NO_COMP
-	COMP_CTX *compress;			/* compression */
-#else
-	char *compress;	
-#endif
 
 	/* session info */
 

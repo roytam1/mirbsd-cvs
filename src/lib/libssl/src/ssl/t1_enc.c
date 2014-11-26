@@ -112,14 +112,13 @@
 #include <stdio.h>
 #include <string.h>
 #include "ssl_locl.h"
-#include <openssl/comp.h>
 #include <openssl/evp.h>
 #include <openssl/hmac.h>
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 #include <openssl/rand.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/t1_enc.c,v 1.9 2014/06/05 13:26:43 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/t1_enc.c,v 1.10 2014/06/05 13:50:18 tg Exp $");
 
 static void tls1_P_hash(const EVP_MD *md, const unsigned char *sec,
 			int sec_len, unsigned char *seed, int seed_len,
@@ -245,7 +244,7 @@ int tls1_change_cipher_state(SSL *s, int which)
 	is_export=SSL_C_IS_EXPORT(s->s3->tmp.new_cipher);
 	c=s->s3->tmp.new_sym_enc;
 	m=s->s3->tmp.new_hash;
-	comp=s->s3->tmp.new_compression;
+	comp=NULL;
 	key_block=s->s3->tmp.key_block;
 
 #ifdef KSSL_DEBUG
@@ -271,25 +270,6 @@ int tls1_change_cipher_state(SSL *s, int which)
 			goto err;
 		dd= s->enc_read_ctx;
 		s->read_hash=m;
-		if (s->expand != NULL)
-			{
-			COMP_CTX_free(s->expand);
-			s->expand=NULL;
-			}
-		if (comp != NULL)
-			{
-			s->expand=COMP_CTX_new(comp->method);
-			if (s->expand == NULL)
-				{
-				SSLerr(SSL_F_TLS1_CHANGE_CIPHER_STATE,SSL_R_COMPRESSION_LIBRARY_ERROR);
-				goto err2;
-				}
-			if (s->s3->rrec.comp == NULL)
-				s->s3->rrec.comp=(unsigned char *)
-					OPENSSL_malloc(SSL3_RT_MAX_ENCRYPTED_LENGTH);
-			if (s->s3->rrec.comp == NULL)
-				goto err;
-			}
 		memset(&(s->s3->read_sequence[0]),0,8);
 		mac_secret= &(s->s3->read_mac_secret[0]);
 		}
@@ -305,20 +285,6 @@ int tls1_change_cipher_state(SSL *s, int which)
 			goto err;
 		dd= s->enc_write_ctx;
 		s->write_hash=m;
-		if (s->compress != NULL)
-			{
-			COMP_CTX_free(s->compress);
-			s->compress=NULL;
-			}
-		if (comp != NULL)
-			{
-			s->compress=COMP_CTX_new(comp->method);
-			if (s->compress == NULL)
-				{
-				SSLerr(SSL_F_TLS1_CHANGE_CIPHER_STATE,SSL_R_COMPRESSION_LIBRARY_ERROR);
-				goto err2;
-				}
-			}
 		memset(&(s->s3->write_sequence[0]),0,8);
 		mac_secret= &(s->s3->write_mac_secret[0]);
 		}
@@ -441,7 +407,6 @@ int tls1_setup_key_block(SSL *s)
 	const EVP_CIPHER *c;
 	const EVP_MD *hash;
 	int num;
-	SSL_COMP *comp;
 
 #ifdef KSSL_DEBUG
 	printf ("tls1_setup_key_block()\n");
@@ -450,7 +415,7 @@ int tls1_setup_key_block(SSL *s)
 	if (s->s3->tmp.key_block_length != 0)
 		return(1);
 
-	if (!ssl_cipher_get_evp(s->session,&c,&hash,&comp))
+	if (!ssl_cipher_get_evp(s->session,&c,&hash,NULL))
 		{
 		SSLerr(SSL_F_TLS1_SETUP_KEY_BLOCK,SSL_R_CIPHER_OR_HASH_UNAVAILABLE);
 		return(0);

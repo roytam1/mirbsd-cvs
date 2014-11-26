@@ -115,7 +115,6 @@
 
 #include <stdio.h>
 #include "ssl_locl.h"
-#include "kssl_lcl.h"
 #include <openssl/buffer.h>
 #include <openssl/rand.h>
 #include <openssl/objects.h>
@@ -127,7 +126,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_srvr.c,v 1.9 2014/03/13 04:46:46 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_srvr.c,v 1.10 2014/06/05 13:26:42 tg Exp $");
 
 static SSL_METHOD *ssl3_get_server_method(int ver);
 static int ssl3_get_client_hello(SSL *s);
@@ -836,34 +835,7 @@ static int ssl3_get_client_hello(SSL *s)
 		goto f_err;
 		}
 
-	/* Worst case, we will use the NULL compression, but if we have other
-	 * options, we will now look for them.  We have i-1 compression
-	 * algorithms from the client, starting at q. */
 	s->s3->tmp.new_compression=NULL;
-	if (s->ctx->comp_methods != NULL)
-		{ /* See if we have a match */
-		int m,nn,o,v,done=0;
-
-		nn=sk_SSL_COMP_num(s->ctx->comp_methods);
-		for (m=0; m<nn; m++)
-			{
-			comp=sk_SSL_COMP_value(s->ctx->comp_methods,m);
-			v=comp->id;
-			for (o=0; o<i; o++)
-				{
-				if (v == q[o])
-					{
-					done=1;
-					break;
-					}
-				}
-			if (done) break;
-			}
-		if (done)
-			s->s3->tmp.new_compression=comp;
-		else
-			comp=NULL;
-		}
 
 	/* TLS does not mind if there is extra stuff */
 #if 0   /* SSL 3.0 does not mind either, so we should disable this test
@@ -1013,10 +985,7 @@ static int ssl3_send_server_hello(SSL *s)
 		p+=i;
 
 		/* put the compression method */
-		if (s->s3->tmp.new_compression == NULL)
-			*(p++)=0;
-		else
-			*(p++)=s->s3->tmp.new_compression->id;
+		*(p++)=0;
 
 		/* do the header */
 		l=(p-d);

@@ -111,7 +111,6 @@
 
 #include <stdio.h>
 #include "ssl_locl.h"
-#include "kssl_lcl.h"
 #include <openssl/buffer.h>
 #include <openssl/rand.h>
 #include <openssl/objects.h>
@@ -119,7 +118,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_clnt.c,v 1.5 2014/06/05 13:26:41 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_clnt.c,v 1.6 2014/06/18 11:58:16 tg Exp $");
 
 static SSL_METHOD *ssl3_get_client_method(int ver);
 static int ssl3_client_hello(SSL *s);
@@ -370,11 +369,7 @@ int ssl3_connect(SSL *s)
 			s->init_num=0;
 
 			s->session->cipher=s->s3->tmp.new_cipher;
-			if (s->s3->tmp.new_compression == NULL)
-				s->session->compress_meth=0;
-			else
-				s->session->compress_meth=
-					s->s3->tmp.new_compression->id;
+			s->session->compress_meth=0;
 			if (!s->method->ssl3_enc->setup_key_block(s))
 				{
 				ret= -1;
@@ -580,17 +575,8 @@ static int ssl3_client_hello(SSL *s)
 		s2n(i,p);
 		p+=i;
 
-		/* COMPRESSION */
-		if (s->ctx->comp_methods == NULL)
-			j=0;
-		else
-			j=sk_SSL_COMP_num(s->ctx->comp_methods);
+		j=0;
 		*(p++)=1+j;
-		for (i=0; i<j; i++)
-			{
-			comp=sk_SSL_COMP_value(s->ctx->comp_methods,i);
-			*(p++)=comp->id;
-			}
 		*(p++)=0; /* Add the NULL method */
 		
 		l=(p-d);
@@ -618,7 +604,7 @@ static int ssl3_get_server_hello(SSL *s)
 	int i,al,ok;
 	unsigned int j;
 	long n;
-	SSL_COMP *comp;
+	void *comp;
 
 	n=ssl3_get_message(s,
 		SSL3_ST_CR_SRVR_HELLO_A,
@@ -728,10 +714,7 @@ static int ssl3_get_server_hello(SSL *s)
 	/* lets get the compression algorithm */
 	/* COMPRESSION */
 	j= *(p++);
-	if (j == 0)
-		comp=NULL;
-	else
-		comp=ssl3_comp_find(s->ctx->comp_methods,j);
+	comp=NULL;
 	
 	if ((j != 0) && (comp == NULL))
 		{

@@ -116,15 +116,13 @@
 #include <openssl/evp.h>
 #include <openssl/buffer.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_pkt.c,v 1.8 2014/06/05 13:26:41 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_pkt.c,v 1.9 2014/06/05 13:50:17 tg Exp $");
 
 static int do_ssl3_write(SSL *s, int type, const unsigned char *buf,
 			 unsigned int len, int create_empty_fragment);
 static int ssl3_write_pending(SSL *s, int type, const unsigned char *buf,
 			      unsigned int len);
 static int ssl3_get_record(SSL *s);
-static int do_compress(SSL *ssl);
-static int do_uncompress(SSL *ssl);
 static int do_change_cipher_spec(SSL *ssl);
 
 /* used only by ssl3_get_record */
@@ -423,23 +421,6 @@ printf("\n");
 		goto f_err;
 		}
 
-	/* r->length is now just compressed */
-	if (s->expand != NULL)
-		{
-		if (rr->length > SSL3_RT_MAX_COMPRESSED_LENGTH+extra)
-			{
-			al=SSL_AD_RECORD_OVERFLOW;
-			SSLerr(SSL_F_SSL3_GET_RECORD,SSL_R_COMPRESSED_LENGTH_TOO_LONG);
-			goto f_err;
-			}
-		if (!do_uncompress(s))
-			{
-			al=SSL_AD_DECOMPRESSION_FAILURE;
-			SSLerr(SSL_F_SSL3_GET_RECORD,SSL_R_BAD_DECOMPRESSION);
-			goto f_err;
-			}
-		}
-
 	if (rr->length > SSL3_RT_MAX_PLAIN_LENGTH+extra)
 		{
 		al=SSL_AD_RECORD_OVERFLOW;
@@ -468,41 +449,6 @@ f_err:
 	ssl3_send_alert(s,SSL3_AL_FATAL,al);
 err:
 	return(ret);
-	}
-
-static int do_uncompress(SSL *ssl)
-	{
-	int i;
-	SSL3_RECORD *rr;
-
-	rr= &(ssl->s3->rrec);
-	i=COMP_expand_block(ssl->expand,rr->comp,
-		SSL3_RT_MAX_PLAIN_LENGTH,rr->data,(int)rr->length);
-	if (i < 0)
-		return(0);
-	else
-		rr->length=i;
-	rr->data=rr->comp;
-
-	return(1);
-	}
-
-static int do_compress(SSL *ssl)
-	{
-	int i;
-	SSL3_RECORD *wr;
-
-	wr= &(ssl->s3->wrec);
-	i=COMP_compress_block(ssl->compress,wr->data,
-		SSL3_RT_MAX_COMPRESSED_LENGTH,
-		wr->input,(int)wr->length);
-	if (i < 0)
-		return(0);
-	else
-		wr->length=i;
-
-	wr->input=wr->data;
-	return(1);
 	}
 
 /* Call this to write data in records of type 'type'
@@ -673,16 +619,6 @@ static int do_ssl3_write(SSL *s, int type, const unsigned char *buf,
 	/* we now 'read' from wr->input, wr->length bytes into
 	 * wr->data */
 
-	/* first we compress */
-	if (s->compress != NULL)
-		{
-		if (!do_compress(s))
-			{
-			SSLerr(SSL_F_DO_SSL3_WRITE,SSL_R_COMPRESSION_FAILURE);
-			goto err;
-			}
-		}
-	else
 		{
 		memcpy(wr->data,wr->input,wr->length);
 		wr->input=wr->data;

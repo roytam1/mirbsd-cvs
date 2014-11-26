@@ -151,20 +151,6 @@ int SSL_SESSION_print(BIO *bp, const SSL_SESSION *x)
 			if (BIO_printf(bp,"%02X",x->krb5_client_princ[i]) <= 0) goto err;
 			}
 #endif /* OPENSSL_NO_KRB5 */
-	if (x->compress_meth != 0)
-		{
-		SSL_COMP *comp;
-
-		ssl_cipher_get_evp(x,NULL,NULL,&comp);
-		if (comp == NULL)
-			{
-			if (BIO_printf(bp,"\n   Compression: %d",x->compress_meth) <= 0) goto err;
-			}
-		else
-			{
-			if (BIO_printf(bp,"\n   Compression: %d (%s)", comp->id,comp->method->name) <= 0) goto err;
-			}
-		}	
 	if (x->time != 0L)
 		{
 		if (BIO_printf(bp, "\n    Start Time: %ld",x->time) <= 0) goto err;

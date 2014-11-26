@@ -168,7 +168,6 @@
  */
 #include <stdio.h>
 #include <openssl/objects.h>
-#include <openssl/comp.h>
 #include <openssl/fips.h>
 #include "ssl_locl.h"
 
@@ -186,8 +185,6 @@
 static const EVP_CIPHER *ssl_cipher_methods[SSL_ENC_NUM_IDX]={
 	NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL
 	};
-
-static STACK_OF(SSL_COMP) *ssl_comp_methods=NULL;
 
 #define SSL_MD_MD5_IDX	0
 #define SSL_MD_SHA1_IDX	1
@@ -298,7 +295,7 @@ static void load_ciphers(void)
 	}
 
 int ssl_cipher_get_evp(const SSL_SESSION *s, const EVP_CIPHER **enc,
-	     const EVP_MD **md, SSL_COMP **comp)
+	     const EVP_MD **md, void **comp)
 	{
 	int i;
 	SSL_CIPHER *c;
@@ -307,25 +304,7 @@ int ssl_cipher_get_evp(const SSL_SESSION *s, const EVP_CIPHER **enc,
 	if (c == NULL) return(0);
 	if (comp != NULL)
 		{
-		SSL_COMP ctmp;
-
-		if (s->compress_meth == 0)
 			*comp=NULL;
-		else if (ssl_comp_methods == NULL)
-			{
-			/* bad */
-			*comp=NULL;
-			}
-		else
-			{
-
-			ctmp.id=s->compress_meth;
-			i=sk_SSL_COMP_find(ssl_comp_methods,&ctmp);
-			if (i >= 0)
-				*comp=sk_SSL_COMP_value(ssl_comp_methods,i);
-			else
-				*comp=NULL;
-			}
 		}
 
 	if ((enc == NULL) || (md == NULL)) return(0);
@@ -1234,60 +1213,4 @@ int SSL_CIPHER_get_bits(const SSL_CIPHER *c, int *alg_bits)
 		ret = c->strength_bits;
 		}
 	return(ret);
-	}
-
-SSL_COMP *ssl3_comp_find(STACK_OF(SSL_COMP) *sk, int n)
-	{
-	SSL_COMP *ctmp;
-	int i,nn;
-
-	if ((n == 0) || (sk == NULL)) return(NULL);
-	nn=sk_SSL_COMP_num(sk);
-	for (i=0; i<nn; i++)
-		{
-		ctmp=sk_SSL_COMP_value(sk,i);
-		if (ctmp->id == n)
-			return(ctmp);
-		}
-	return(NULL);
-	}
-
-static int sk_comp_cmp(const SSL_COMP * const *a,
-			const SSL_COMP * const *b)
-	{
-	return((*a)->id-(*b)->id);
-	}
-
-STACK_OF(SSL_COMP) *SSL_COMP_get_compression_methods(void)
-	{
-	return(ssl_comp_methods);
-	}
-
-int SSL_COMP_add_compression_method(int id, COMP_METHOD *cm)
-	{
-	SSL_COMP *comp;
-	STACK_OF(SSL_COMP) *sk;
-
-        if (cm == NULL || cm->type == NID_undef)
-                return 1;
-
-	MemCheck_off();
-	comp=(SSL_COMP *)OPENSSL_malloc(sizeof(SSL_COMP));
-	comp->id=id;
-	comp->method=cm;
-	if (ssl_comp_methods == NULL)
-		sk=ssl_comp_methods=sk_SSL_COMP_new(sk_comp_cmp);
-	else
-		sk=ssl_comp_methods;
-	if ((sk == NULL) || !sk_SSL_COMP_push(sk,comp))
-		{
-		MemCheck_on();
-		SSLerr(SSL_F_SSL_COMP_ADD_COMPRESSION_METHOD,ERR_R_MALLOC_FAILURE);
-		return(1);
-		}
-	else
-		{
-		MemCheck_on();
-		return(0);
-		}
 	}

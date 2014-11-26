@@ -119,7 +119,6 @@
 #include "e_os.h"
 
 #include <openssl/buffer.h>
-#include <openssl/comp.h>
 #include <openssl/bio.h>
 #include <openssl/crypto.h>
 #include <openssl/evp.h>
@@ -459,7 +458,7 @@ typedef struct ssl3_comp_st
 	{
 	int comp_id;	/* The identifier byte for this compression type */
 	char *name;	/* Text name used for the compression type */
-	COMP_METHOD *method; /* The method :-) */
+	void *method;	/* The method :-) */
 	} SSL3_COMP;
 
 extern SSL3_ENC_METHOD ssl3_undef_enc_method;
@@ -501,7 +500,7 @@ STACK_OF(SSL_CIPHER) *ssl_create_cipher_list(const SSL_METHOD *meth,
 					     const char *rule_str);
 void ssl_update_cache(SSL *s, int mode);
 int ssl_cipher_get_evp(const SSL_SESSION *s,const EVP_CIPHER **enc,
-		       const EVP_MD **md,SSL_COMP **comp);
+		       const EVP_MD **md, void **comp);
 int ssl_verify_cert_chain(SSL *s,STACK_OF(X509) *sk);
 int ssl_undefined_function(SSL *s);
 int ssl_undefined_const_function(const SSL *s);

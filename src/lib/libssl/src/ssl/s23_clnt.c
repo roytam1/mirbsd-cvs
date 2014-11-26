@@ -63,7 +63,7 @@
 #include <openssl/objects.h>
 #include <openssl/evp.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s23_clnt.c,v 1.5 2014/06/05 13:26:41 tg Exp $");
 
 static SSL_METHOD *ssl23_get_client_method(int ver);
 static int ssl23_client_hello(SSL *s);
@@ -376,16 +376,8 @@ static int ssl23_client_hello(SSL *s)
 			p+=i;
 
 			/* COMPRESSION */
-			if (s->ctx->comp_methods == NULL)
-				j=0;
-			else
-				j=sk_SSL_COMP_num(s->ctx->comp_methods);
+			j=0;
 			*(p++)=1+j;
-			for (i=0; i<j; i++)
-				{
-				comp=sk_SSL_COMP_value(s->ctx->comp_methods,i);
-				*(p++)=comp->id;
-				}
 			*(p++)=0; /* Add the NULL method */
 			
 			l = p-d;
