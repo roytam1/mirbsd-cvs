@@ -59,7 +59,7 @@
 #include <stdio.h>
 #include "ssl_locl.h"
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/ssl_stat.c,v 1.2 2014/06/05 13:26:43 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/ssl_stat.c,v 1.3 2014/06/05 13:50:17 tg Exp $");
 
 const char *SSL_state_string_long(const SSL *s)
 	{
@@ -184,7 +184,6 @@ case SSL3_ST_SR_CERT_VRFY_A:	str="SSLv3 read certificate verify A"; break;
 case SSL3_ST_SR_CERT_VRFY_B:	str="SSLv3 read certificate verify B"; break;
 #endif
 
-#if !defined(OPENSSL_NO_SSL2) && !defined(OPENSSL_NO_SSL3)
 /* SSLv2/v3 compatibility states */
 /* client */
 case SSL23_ST_CW_CLNT_HELLO_A:	str="SSLv2/v3 write client hello A"; break;
@@ -194,7 +193,6 @@ case SSL23_ST_CR_SRVR_HELLO_B:	str="SSLv2/v3 read server hello B"; break;
 /* server */
 case SSL23_ST_SR_CLNT_HELLO_A:	str="SSLv2/v3 read client hello A"; break;
 case SSL23_ST_SR_CLNT_HELLO_B:	str="SSLv2/v3 read client hello B"; break;
-#endif
 
 default:	str="unknown state"; break;
 		}
@@ -332,7 +330,6 @@ case SSL3_ST_SR_CERT_VRFY_A:			str="3RCV_A"; break;
 case SSL3_ST_SR_CERT_VRFY_B:			str="3RCV_B"; break;
 #endif
 
-#if !defined(OPENSSL_NO_SSL2) && !defined(OPENSSL_NO_SSL3)
 /* SSLv2/v3 compatibility states */
 /* client */
 case SSL23_ST_CW_CLNT_HELLO_A:			str="23WCHA"; break;
@@ -342,7 +339,6 @@ case SSL23_ST_CR_SRVR_HELLO_B:			str="23RSHA"; break;
 /* server */
 case SSL23_ST_SR_CLNT_HELLO_A:			str="23RCHA"; break;
 case SSL23_ST_SR_CLNT_HELLO_B:			str="23RCHB"; break;
-#endif
 
 default:					str="UNKWN "; break;
 		}
