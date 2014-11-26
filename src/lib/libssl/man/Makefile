@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/man/Makefile,v 1.8 2007/10/23 14:45:37 tg Exp $
+# $MirOS: src/lib/libssl/man/Makefile,v 1.9 2008/12/16 20:01:05 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2008/07/28 23:44:10 jsg Exp $
 
 .include <bsd.own.mk>		# for NOMAN
@@ -212,7 +212,6 @@ MANALL=	\
 	X509_NAME_get_index_by_NID.cat3 \
 	X509_NAME_print_ex.cat3 \
 	X509_new.cat3 \
-	acss.cat3 \
 	bn.cat3 \
 	bn_internal.cat3 \
 	crypto.cat3 \
@@ -886,7 +885,6 @@ MLINKS+=\
 	X509_NAME_print_ex.3 X509_NAME_print.3 \
 	X509_NAME_print_ex.3 X509_NAME_print_ex_fp.3 \
 	X509_new.3 X509_free.3 \
-	acss.3 acss_setkey.3 \
 	bn_internal.3 bn_add_words.3 \
 	bn_internal.3 bn_check_top.3 \
 	bn_internal.3 bn_cmp_words.3 \

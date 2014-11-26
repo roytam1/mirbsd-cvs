@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.25 2014/06/05 13:32:18 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.26 2014/11/26 19:22:06 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2006/10/14 19:43:57 drahn Exp $
 
 .include <bsd.own.mk>
@@ -24,7 +24,6 @@ SRCS+=	md5_dgst.c md5_one.c
 SRCS+=	sha_dgst.c sha1dgst.c sha_one.c sha1_one.c
 SRCS+=	hmac.c
 SRCS+=	rmd_dgst.c rmd_one.c
-SRCS+=	acss_skey.c acss_enc.c
 SRCS+=	aes_cbc.c aes_cfb.c aes_ctr.c aes_ecb.c aes_ofb.c aes_misc.c
 SRCS+=	cbc_cksm.c cbc_enc.c cfb64enc.c cfb_enc.c \
 	ecb3_enc.c ecb_enc.c enc_read.c enc_writ.c \
@@ -72,7 +71,7 @@ SRCS+=	c_all.c evp_err.c evp_acnf.c m_md4.c p5_crpt.c e_old.c
 SRCS+=	c_allc.c evp_key.c m_md5.c p5_crpt2.c
 SRCS+=	c_alld.c e_null.c evp_lib.c p_dec.c
 SRCS+=	digest.c e_rc2.c evp_pbe.c m_null.c p_enc.c
-SRCS+=	e_acss.c e_aes.c e_rc4.c evp_pkey.c m_ripemd.c p_lib.c
+SRCS+=	e_aes.c e_rc4.c evp_pkey.c m_ripemd.c p_lib.c
 SRCS+=	md4_dgst.c md4_one.c
 SRCS+=	pem_sign.c pem_seal.c pem_info.c pem_lib.c pem_pkey.c
 SRCS+=	pem_all.c pem_err.c pem_x509.c pem_pk8.c pem_oth.c pem_xaux.c
@@ -130,11 +129,10 @@ SRCS+=	ocsp_cl.c ocsp_ext.c ocsp_lib.c ocsp_srv.c
 	${LCRYPTO_SRC}/comp ${LCRYPTO_SRC}/txt_db ${LCRYPTO_SRC}/md4 \
 	${LCRYPTO_SRC}/engine ${LCRYPTO_SRC}/dso ${LCRYPTO_SRC}/ui \
 	${LCRYPTO_SRC}/ocsp ${LCRYPTO_SRC}/aes \
-	${LCRYPTO_SRC} ${LCRYPTO_SRC}/acss ${.CURDIR}/arch/${MACHINE_ARCH} \
+	${LCRYPTO_SRC} ${.CURDIR}/arch/${MACHINE_ARCH} \
 	${LCRYPTO_SRC}/bn/asm
 
 HDRS=\
-	crypto/acss/acss.h \
 	crypto/aes/aes.h \
 	crypto/asn1/asn1.h \
 	crypto/asn1/asn1_mac.h \
