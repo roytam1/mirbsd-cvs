@@ -116,7 +116,7 @@
 #include <openssl/evp.h>
 #include <openssl/buffer.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_pkt.c,v 1.9 2014/06/05 13:50:17 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_pkt.c,v 1.10 2014/11/26 20:21:37 tg Exp $");
 
 static int do_ssl3_write(SSL *s, int type, const unsigned char *buf,
 			 unsigned int len, int create_empty_fragment);
@@ -754,7 +754,7 @@ int ssl3_read_bytes(SSL *s, int type, unsigned char *buf, int len, int peek)
 		if (!ssl3_setup_buffers(s))
 			return(-1);
 
-	if ((type && (type != SSL3_RT_APPLICATION_DATA) && (type != SSL3_RT_HANDSHAKE) && type) ||
+	if ((type && (type != SSL3_RT_APPLICATION_DATA) && (type != SSL3_RT_HANDSHAKE)) ||
 	    (peek && (type != SSL3_RT_APPLICATION_DATA)))
 		{
 		SSLerr(SSL_F_SSL3_READ_BYTES, ERR_R_INTERNAL_ERROR);
