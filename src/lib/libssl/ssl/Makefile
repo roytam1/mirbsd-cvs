@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/ssl/Makefile,v 1.17 2009/02/14 15:07:16 tg Exp $
+# $MirOS: src/lib/libssl/ssl/Makefile,v 1.18 2014/11/26 19:22:16 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2005/11/24 20:49:23 deraadt Exp $
 
 SHLIB_VERSION?=	14.0
@@ -27,7 +27,7 @@ SRCS=	bio_ssl.c s2_clnt.c s3_both.c s3_srvr.c ssl_err2.c ssl_txt.c	\
 	t1_lib.c s23_srvr.c s2_srvr.c s3_pkt.c ssl_err.c \
 	t1_meth.c
 
-HDRS=	ssl.h ssl2.h ssl3.h ssl23.h tls1.h kssl.h
+HDRS=	ssl.h ssl2.h ssl3.h ssl23.h tls1.h
 HDRSRC=	${LSSL_SRC}
 HDRDST=	${DESTDIR}/usr/include/openssl
 
