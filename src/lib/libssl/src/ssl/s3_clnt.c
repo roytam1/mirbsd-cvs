@@ -118,7 +118,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_clnt.c,v 1.8 2014/11/26 20:34:04 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_clnt.c,v 1.9 2014/11/26 20:59:02 tg Exp $");
 
 static SSL_METHOD *ssl3_get_client_method(int ver);
 static int ssl3_client_hello(SSL *s);
@@ -1140,6 +1140,7 @@ static int ssl3_get_key_exchange(SSL *s)
 		if (pkey->type == EVP_PKEY_RSA)
 			{
 			int num;
+			unsigned int size;
 
 			j=0;
 			q=md_buf;
@@ -1153,9 +1154,9 @@ static int ssl3_get_key_exchange(SSL *s)
 				EVP_DigestUpdate(&md_ctx,&(s->s3->server_random[0]),SSL3_RANDOM_SIZE);
 				EVP_DigestUpdate(&md_ctx,param,param_len);
 				
-				EVP_DigestFinal_ex(&md_ctx,q,(unsigned int *)&i);
-				q+=i;
-				j+=i;
+				EVP_DigestFinal_ex(&md_ctx,q,&size);
+				q+=size;
+				j+=size;
 				}
 			i=RSA_verify(NID_md5_sha1, md_buf, j, p, n,
 								pkey->pkey.rsa);
