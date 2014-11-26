@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.26 2014/11/26 19:22:06 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.27 2014/11/26 19:36:00 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2006/10/14 19:43:57 drahn Exp $
 
 .include <bsd.own.mk>
@@ -101,7 +101,6 @@ SRCS+=	txt_db.c
 SRCS+=	pk7_lib.c pkcs7err.c
 SRCS+=	pk7_asn1.c pk7_doit.c pk7_mime.c
 SRCS+=	pk7_attr.c pk7_smime.c
-SRCS+=	c_rle.c c_zlib.c comp_lib.c comp_err.c
 SRCS+=	p12_add.c p12_crpt.c p12_init.c p12_mutl.c p12_p8e.c
 SRCS+=	p12_asn.c p12_crt.c p12_key.c p12_npas.c p12_utl.c
 SRCS+=	p12_attr.c p12_decr.c p12_kiss.c p12_p8d.c pk12err.c
@@ -126,7 +125,7 @@ SRCS+=	ocsp_cl.c ocsp_ext.c ocsp_lib.c ocsp_srv.c
 	${LCRYPTO_SRC}/evp ${LCRYPTO_SRC}/pem ${LCRYPTO_SRC}/asn1 \
 	${LCRYPTO_SRC}/asn1 ${LCRYPTO_SRC}/x509 ${LCRYPTO_SRC}/conf \
 	${LCRYPTO_SRC}/pkcs7 ${LCRYPTO_SRC}/x509v3 ${LCRYPTO_SRC}/pkcs12 \
-	${LCRYPTO_SRC}/comp ${LCRYPTO_SRC}/txt_db ${LCRYPTO_SRC}/md4 \
+	${LCRYPTO_SRC}/txt_db ${LCRYPTO_SRC}/md4 \
 	${LCRYPTO_SRC}/engine ${LCRYPTO_SRC}/dso ${LCRYPTO_SRC}/ui \
 	${LCRYPTO_SRC}/ocsp ${LCRYPTO_SRC}/aes \
 	${LCRYPTO_SRC} ${.CURDIR}/arch/${MACHINE_ARCH} \
@@ -142,7 +141,6 @@ HDRS=\
 	crypto/bn/bn.h \
 	crypto/buffer/buffer.h \
 	crypto/cast/cast.h \
-	crypto/comp/comp.h \
 	crypto/conf/conf.h \
 	crypto/conf/conf_api.h \
 	crypto/crypto.h \
