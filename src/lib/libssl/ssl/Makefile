@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/ssl/Makefile,v 1.22 2014/11/26 22:13:14 tg Exp $
+# $MirOS: src/lib/libssl/ssl/Makefile,v 1.23 2014/11/26 22:53:04 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2005/11/24 20:49:23 deraadt Exp $
 
 SHLIB_VERSION?=	14.0
@@ -19,12 +19,10 @@ CPPFLAGS+= -DBN_ASM
 
 CPPFLAGS+= -DNO_ERR -I${.CURDIR}/../${SSLEAYDIST}
 
-SRCS=	bio_ssl.c s3_both.c s3_srvr.c ssl_err2.c ssl_txt.c	\
-	t1_srvr.c s3_clnt.c ssl_algs.c ssl_lib.c	\
-	s3_enc.c ssl_asn1.c ssl_rsa.c			\
-	t1_clnt.c s3_lib.c ssl_cert.c ssl_sess.c	\
-	t1_enc.c ssl_ciph.c ssl_stat.c	\
-	t1_lib.c s3_pkt.c ssl_err.c t1_meth.c s23_srvr.c s23_pkt.c
+SRCS=	bio_ssl.c s23_pkt.c s23_srvr.c s3_both.c s3_clnt.c s3_enc.c \
+	s3_lib.c s3_pkt.c s3_srvr.c ssl_algs.c ssl_asn1.c ssl_cert.c \
+	ssl_ciph.c ssl_err.c ssl_err2.c ssl_lib.c ssl_rsa.c ssl_sess.c \
+	ssl_stat.c ssl_txt.c t1_clnt.c t1_enc.c t1_lib.c t1_meth.c t1_srvr.c
 
 HDRS=	ssl.h ssl2.h ssl3.h ssl23.h tls1.h
 HDRSRC=	${LSSL_SRC}
