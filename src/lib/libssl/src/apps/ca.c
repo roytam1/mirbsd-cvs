@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/apps/ca.c,v 1.4 2006/09/20 20:14:05 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/apps/ca.c,v 1.5 2007/05/17 16:38:16 tg Exp $ */
 
 /* apps/ca.c */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -2707,6 +2707,9 @@ char *make_revocation_str(int rev_type, char *rev_arg)
 		}
 
 	revtm = X509_gmtime_adj(NULL, 0);
+
+	if (!revtm)
+		return NULL;
 
 	i = revtm->length + 1;
 
