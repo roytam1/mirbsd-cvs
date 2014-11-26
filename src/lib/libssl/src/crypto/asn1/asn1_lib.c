@@ -62,7 +62,7 @@
 #include <openssl/asn1.h>
 #include <openssl/asn1_mac.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/crypto/asn1/asn1_lib.c,v 1.3 2014/03/23 22:50:57 tg Exp $");
 
 static int asn1_get_length(unsigned char **pp,int *inf,long *rl,int max);
 static void asn1_put_length(unsigned char **pp, int length);
@@ -122,6 +122,9 @@ int ASN1_get_object(unsigned char **pp, long *plength, int *ptag, int *pclass,
 	*ptag=tag;
 	*pclass=xclass;
 	if (!asn1_get_length(&p,&inf,plength,(int)max)) goto err;
+
+	if (inf && !(ret & V_ASN1_CONSTRUCTED))
+		goto err;
 
 #if 0
 	fprintf(stderr,"p=%d + *plength=%ld > omax=%ld + *pp=%d  (%d > %d)\n", 
