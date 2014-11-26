@@ -10,7 +10,6 @@ B<openssl> B<gendsa>
 [B<-out filename>]
 [B<-des>]
 [B<-des3>]
-[B<-idea>]
 [B<-rand file(s)>]
 [B<-engine id>]
 [B<paramfile>]
@@ -24,10 +23,10 @@ The B<gendsa> command generates a DSA private key from a DSA parameter file
 
 =over 4
 
-=item B<-des|-des3|-idea>
+=item B<-des|-des3>
 
-These options encrypt the private key with the DES, triple DES, or the 
-IDEA ciphers respectively before outputting it. A pass phrase is prompted for.
+These options encrypt the private key with the DES or triple DES
+ciphers respectively before outputting it. A pass phrase is prompted for.
 If none of these options is specified no encryption is used.
 
 =item B<-rand file(s)>

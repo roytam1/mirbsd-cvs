@@ -35,7 +35,7 @@ It uses a variable size key, but typically, 128 bit (16 byte) keys are
 considered good for strong encryption.  Blowfish can be used in the same
 modes as DES (see L<des_modes(7)|des_modes(7)>).  Blowfish is currently one
 of the faster block ciphers.  It is quite a bit faster than DES, and much
-faster than IDEA or RC2.
+faster than RC2.
 
 Blowfish consists of a key setup phase and the actual encryption or decryption
 phase.

@@ -69,7 +69,7 @@ representation of anonymous ciphers.
 
 Encryption method with number of secret bits: B<DES(40)>, B<DES(56)>,
 B<3DES(168)>, B<RC4(40)>, B<RC4(56)>, B<RC4(64)>, B<RC4(128)>,
-B<RC2(40)>, B<RC2(56)>, B<RC2(128)>, B<IDEA(128)>, B<Fortezza>, B<None>.
+B<RC2(40)>, B<RC2(56)>, B<RC2(128)>, B<Fortezza>, B<None>.
 
 =item Mac=<message authentication code>
 

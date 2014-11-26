@@ -74,7 +74,7 @@
 #include <openssl/objects.h>
 #include <openssl/pem.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/apps/x509.c,v 1.3 2014/03/23 22:20:13 tg Exp $");
 
 #undef PROG
 #define PROG x509_main
@@ -136,7 +136,7 @@ static char *x509_usage[]={
 " -set_serial     - serial number to use\n",
 " -text           - print the certificate in text form\n",
 " -C              - print out C code forms\n",
-" -md2/-md5/-sha1/-mdc2 - digest to use\n",
+" -md2/-md5/-sha1 - digest to use\n",
 " -extfile        - configuration file with X509V3 extensions to add\n",
 " -extensions     - section from config file with X509V3 extensions to add\n",
 " -clrext         - delete extensions before signing and input certificate\n",

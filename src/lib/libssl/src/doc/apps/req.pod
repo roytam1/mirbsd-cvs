@@ -27,7 +27,7 @@ B<openssl> B<req>
 [B<-key filename>]
 [B<-keyform PEM|DER>]
 [B<-keyout filename>]
-[B<-[md5|sha1|md2|mdc2]>]
+[B<-[md5|sha1|md2]>]
 [B<-config filename>]
 [B<-subj arg>]
 [B<-x509>]
@@ -154,7 +154,7 @@ configuration file is used.
 if this option is specified then if a private key is created it
 will not be encrypted.
 
-=item B<-[md5|sha1|md2|mdc2]>
+=item B<-[md5|sha1|md2]>
 
 this specifies the message digest to sign the request with. This
 overrides the digest algorithm specified in the configuration file.
@@ -313,7 +313,7 @@ option. For compatibility B<encrypt_rsa_key> is an equivalent option.
 =item B<default_md>
 
 This option specifies the digest algorithm to use. Possible values
-include B<md5 sha1 mdc2>. If not present then MD5 is used. This
+include B<md5 sha1>. If not present then MD5 is used. This
 option can be overridden on the command line.
 
 =item B<string_mask>

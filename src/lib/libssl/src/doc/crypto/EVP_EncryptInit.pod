@@ -231,8 +231,7 @@ or the parameters cannot be set (for example the RC2 effective key length
 is not supported.
 
 EVP_CIPHER_CTX_ctrl() allows various cipher specific parameters to be determined
-and set. Currently only the RC2 effective key length and the number of rounds of
-RC5 can be set.
+and set. Currently only the RC2 effective key length can be set.
 
 =head1 RETURN VALUES
 
@@ -306,10 +305,6 @@ RC4 stream cipher. This is a variable key length cipher with default key length 
 RC4 stream cipher with 40 bit key length. This is obsolete and new code should use EVP_rc4()
 and the EVP_CIPHER_CTX_set_key_length() function.
 
-=item EVP_idea_cbc() EVP_idea_ecb(void), EVP_idea_cfb(void), EVP_idea_ofb(void), EVP_idea_cbc(void)
-
-IDEA encryption algorithm in CBC, ECB, CFB and OFB modes respectively.
-
 =item EVP_rc2_cbc(void), EVP_rc2_ecb(void), EVP_rc2_cfb(void), EVP_rc2_ofb(void)
 
 RC2 encryption algorithm in CBC, ECB, CFB and OFB modes respectively. This is a variable key
@@ -331,12 +326,6 @@ length cipher.
 
 CAST encryption algorithm in CBC, ECB, CFB and OFB modes respectively. This is a variable key
 length cipher.
-
-=item EVP_rc5_32_12_16_cbc(void), EVP_rc5_32_12_16_ecb(void), EVP_rc5_32_12_16_cfb(void), EVP_rc5_32_12_16_ofb(void)
-
-RC5 encryption algorithm in CBC, ECB, CFB and OFB modes respectively. This is a variable key length
-cipher with an additional "number of rounds" parameter. By default the key length is set to 128
-bits and 12 rounds.
 
 =back
 
@@ -371,9 +360,6 @@ existing context without allocating and freeing it up on each call.
 
 =head1 BUGS
 
-For RC5 the number of rounds can currently only be set to 8, 12 or 16. This is
-a limitation of the current RC5 code rather than the EVP interface.
-
 EVP_MAX_KEY_LENGTH and EVP_MAX_IV_LENGTH only refer to the internal ciphers with
 default key lengths. If custom ciphers exceed these values the results are
 unpredictable. This is because it has become standard practice to define a 
@@ -384,20 +370,10 @@ for certain common S/MIME ciphers (RC2, DES, triple DES) in CBC mode.
 
 =head1 EXAMPLES
 
-Get the number of rounds used in RC5:
-
- int nrounds;
- EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GET_RC5_ROUNDS, 0, &nrounds);
-
 Get the RC2 effective key length:
 
  int key_bits;
  EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_GET_RC2_KEY_BITS, 0, &key_bits);
-
-Set the number of rounds used in RC5:
-
- int nrounds;
- EVP_CIPHER_CTX_ctrl(ctx, EVP_CTRL_SET_RC5_ROUNDS, nrounds, NULL);
 
 Set the effective key length used in RC2:
 

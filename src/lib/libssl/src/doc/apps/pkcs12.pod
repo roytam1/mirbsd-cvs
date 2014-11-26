@@ -25,7 +25,6 @@ B<openssl> B<pkcs12>
 [B<-info>]
 [B<-des>]
 [B<-des3>]
-[B<-idea>]
 [B<-nodes>]
 [B<-noiter>]
 [B<-maciter>]
@@ -111,10 +110,6 @@ use DES to encrypt private keys before outputting.
 =item B<-des3>
 
 use triple DES to encrypt private keys before outputting, this is the default.
-
-=item B<-idea>
-
-use IDEA to encrypt private keys before outputting.
 
 =item B<-nodes>
 

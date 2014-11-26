@@ -223,10 +223,6 @@ cipher suites using RC4.
 
 cipher suites using RC2.
 
-=item B<IDEA>
-
-cipher suites using IDEA.
-
 =item B<MD5>
 
 cipher suites using MD5.
@@ -252,7 +248,6 @@ e.g. DES-CBC3-SHA. In these cases, RSA authentication is used.
  SSL_RSA_WITH_RC4_128_MD5                RC4-MD5
  SSL_RSA_WITH_RC4_128_SHA                RC4-SHA
  SSL_RSA_EXPORT_WITH_RC2_CBC_40_MD5      EXP-RC2-CBC-MD5
- SSL_RSA_WITH_IDEA_CBC_SHA               IDEA-CBC-SHA
  SSL_RSA_EXPORT_WITH_DES40_CBC_SHA       EXP-DES-CBC-SHA
  SSL_RSA_WITH_DES_CBC_SHA                DES-CBC-SHA
  SSL_RSA_WITH_3DES_EDE_CBC_SHA           DES-CBC3-SHA
@@ -288,7 +283,6 @@ e.g. DES-CBC3-SHA. In these cases, RSA authentication is used.
  TLS_RSA_WITH_RC4_128_MD5                RC4-MD5
  TLS_RSA_WITH_RC4_128_SHA                RC4-SHA
  TLS_RSA_EXPORT_WITH_RC2_CBC_40_MD5      EXP-RC2-CBC-MD5
- TLS_RSA_WITH_IDEA_CBC_SHA               IDEA-CBC-SHA
  TLS_RSA_EXPORT_WITH_DES40_CBC_SHA       EXP-DES-CBC-SHA
  TLS_RSA_WITH_DES_CBC_SHA                DES-CBC-SHA
  TLS_RSA_WITH_3DES_EDE_CBC_SHA           DES-CBC3-SHA
@@ -346,7 +340,6 @@ Note: these ciphers can also be used in SSL v3.
  SSL_CK_RC4_128_EXPORT40_WITH_MD5        EXP-RC4-MD5
  SSL_CK_RC2_128_CBC_WITH_MD5             RC2-MD5
  SSL_CK_RC2_128_CBC_EXPORT40_WITH_MD5    EXP-RC2-MD5
- SSL_CK_IDEA_128_CBC_WITH_MD5            IDEA-CBC-MD5
  SSL_CK_DES_64_CBC_WITH_MD5              DES-CBC-MD5
  SSL_CK_DES_192_EDE3_CBC_WITH_MD5        DES-CBC3-MD5
 

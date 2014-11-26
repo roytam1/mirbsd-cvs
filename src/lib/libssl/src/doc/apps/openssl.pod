@@ -215,10 +215,6 @@ MD2 Digest
 
 MD5 Digest
 
-=item B<mdc2>
-
-MDC2 Digest
-
 =item B<rmd160>
 
 RMD-160 Digest
@@ -261,10 +257,6 @@ DES Cipher
 
 Triple-DES Cipher
 
-=item B<idea idea-cbc idea-cfb idea-ecb idea-ofb>
-
-IDEA Cipher
-
 =item B<rc2 rc2-cbc rc2-cfb rc2-ecb rc2-ofb>
 
 RC2 Cipher
@@ -272,10 +264,6 @@ RC2 Cipher
 =item B<rc4>
 
 RC4 Cipher
-
-=item B<rc5 rc5-cbc rc5-cfb rc5-ecb rc5-ofb>
-
-RC5 Cipher
 
 =back
 

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/man/Makefile,v 1.9 2008/12/16 20:01:05 tg Exp $
+# $MirOS: src/lib/libssl/man/Makefile,v 1.10 2014/11/26 19:36:00 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2008/07/28 23:44:10 jsg Exp $
 
 .include <bsd.own.mk>		# for NOMAN
@@ -233,7 +233,6 @@ MANALL=	\
 	evp.cat3 \
 	lh_stats.cat3 \
 	lhash.cat3 \
-	mdc2.cat3 \
 	openssltool.cat1 \
 	rsa.cat3 \
 	ssl.cat3 \
@@ -533,7 +532,6 @@ MLINKS+=\
 	EVP_DigestInit.3 EVP_md2.3 \
 	EVP_DigestInit.3 EVP_md5.3 \
 	EVP_DigestInit.3 EVP_md_null.3 \
-	EVP_DigestInit.3 EVP_mdc2.3 \
 	EVP_DigestInit.3 EVP_ripemd160.3 \
 	EVP_DigestInit.3 EVP_sha.3 \
 	EVP_DigestInit.3 EVP_sha1.3 \
@@ -981,10 +979,6 @@ MLINKS+=\
 	lhash.3 lh_insert.3 \
 	lhash.3 lh_new.3 \
 	lhash.3 lh_retrieve.3 \
-	mdc2.3 MDC2.3 \
-	mdc2.3 MDC2_Final.3 \
-	mdc2.3 MDC2_Init.3 \
-	mdc2.3 MDC2_Update.3 \
 	ui.3 ERR_load_UI_strings.3 \
 	ui.3 UI_OpenSSL.3 \
 	ui.3 UI_add_error_string.3 \
