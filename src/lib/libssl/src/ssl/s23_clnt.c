@@ -63,7 +63,7 @@
 #include <openssl/objects.h>
 #include <openssl/evp.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s23_clnt.c,v 1.6 2014/11/26 20:21:36 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s23_clnt.c,v 1.7 2014/11/26 20:34:03 tg Exp $");
 
 static SSL_METHOD *ssl23_get_client_method(int ver);
 static int ssl23_client_hello(SSL *s);
@@ -74,9 +74,11 @@ static SSL_METHOD *ssl23_get_client_method(int ver)
 	if (ver == SSL2_VERSION)
 		return(SSLv2_client_method());
 #endif
+#ifndef OPENSSL_NO_SSL3
 	if (ver == SSL3_VERSION)
 		return(SSLv3_client_method());
-	else if (ver == TLS1_VERSION)
+#endif
+	if (ver == TLS1_VERSION)
 		return(TLSv1_client_method());
 	else
 		return(NULL);
@@ -519,6 +521,7 @@ static int ssl23_get_server_hello(SSL *s)
 		{
 		/* we have sslv3 or tls1 (server hello or alert) */
 
+#ifndef OPENSSL_NO_SSL3
 		if ((p[2] == SSL3_VERSION_MINOR) &&
 			!(s->options & SSL_OP_NO_SSLv3))
 			{
@@ -533,7 +536,9 @@ static int ssl23_get_server_hello(SSL *s)
 			s->version=SSL3_VERSION;
 			s->method=SSLv3_client_method();
 			}
-		else if ((p[2] == TLS1_VERSION_MINOR) &&
+		else
+#endif
+		if ((p[2] == TLS1_VERSION_MINOR) &&
 			!(s->options & SSL_OP_NO_TLSv1))
 			{
 			s->version=TLS1_VERSION;
