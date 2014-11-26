@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/jpeg/files/Makefile.lib,v 1.1.7.1 2005/03/18 15:46:58 tg Exp $
+# $MirOS: ports/graphics/jpeg/files/Makefile.lib,v 1.2 2005/09/11 23:46:15 tg Exp $
 
 SRCDIR=		${.CURDIR}/..
 
@@ -29,7 +29,7 @@ INSTALL_DATA=		${BSD_INSTALL_DATA}
 all: dstincs
 
 # This is required because jmorecfg.h includes the definition whether
-# arithmetic coding is supported or not (dep on MKC_USAP at build time).
+# arithmetic coding is supported or not.
 dstincs: ${INCLUDES}
 .for _i in ${INCLUDES}
 	unifdef ${CPPFLAGS:M-[ID]*} ${CFLAGS:M-[ID]*} <${SRCDIR}/${_i} \

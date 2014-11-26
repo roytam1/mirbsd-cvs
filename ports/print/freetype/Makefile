@@ -1,4 +1,4 @@
-# $MirOS: ports/print/freetype/Makefile,v 1.5 2006/10/02 00:36:23 tg Exp $
+# $MirOS: ports/print/freetype/Makefile,v 1.6 2007/02/22 20:50:11 tg Exp $
 # $OpenBSD: Makefile,v 1.31 2004/02/04 07:39:18 sturm Exp $
 # $FreeBSD: Makefile,v 1.6 1998/06/21 02:42:33 jseger Exp $
 
@@ -23,11 +23,6 @@ CONFIGURE_ARGS+=	${CONFIGURE_SHARED}
 CONFIGURE_ARGS+=	--enable-static --disable-nls
 
 .include <mirports.sys.mk>
-.if ${MKC_USAP:L} == "yes"
-# See http://www.freetype.org/patents.html
-# bytecode interpreter disabled
-CPPFLAGS+=		-DTT_CONFIG_OPTION_NO_INTERPRETER
-.endif
 
 MULTI_PACKAGES= 	-doc
 SUBPACKAGE?=

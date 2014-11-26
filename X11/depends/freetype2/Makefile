@@ -1,4 +1,4 @@
-# $MirOS: X11/depends/freetype2/Makefile,v 1.12 2013/09/10 19:44:36 tg Exp $
+# $MirOS: X11/depends/freetype2/Makefile,v 1.13 2013/09/10 20:20:50 tg Exp $
 #-
 # Note: also change X11/xc/lib/font/FreeType/module/Imakefile,v
 
@@ -33,9 +33,7 @@ CPPFLAGS+=		-DFT_CONFIG_OPTION_SYSTEM_ZLIB
 .PATH:			${FT2_DIR}/src/${module}
 .endfor
 
-.if ${MKC_USAP:L} != "yes"
 CPPFLAGS+=		-DTT_CONFIG_OPTION_BYTECODE_INTERPRETER
-.endif
 
 LIB=			freetype
 NOMAN=			Yes

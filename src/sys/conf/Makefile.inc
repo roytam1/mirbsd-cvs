@@ -1,4 +1,4 @@
-# $MirOS: src/sys/conf/Makefile.inc,v 1.41 2013/08/06 17:06:26 tg Exp $
+# $MirOS: src/sys/conf/Makefile.inc,v 1.42 2014/02/09 22:49:30 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007, 2008
 #	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
@@ -81,9 +81,8 @@ SYSTEM_LD_GZIP=	echo gzip -n9 $@; rm -f $@.gz; gzip -n9 $@; mv $@.gz $@
 SYSTEM_LD_GZIP=	:
 .endif
 
-#.if ${MKC_USAP:L} == "yes"
+# currently always, not because patents but because broken
 CPPFLAGS+=	-DMSDOSFS_NO_LFN
-#.endif
 
 HOSTCC=		${CC}
 HOSTCPPFLAGS=	${CPPFLAGS:N-nostdinc:N-D_KERNEL}

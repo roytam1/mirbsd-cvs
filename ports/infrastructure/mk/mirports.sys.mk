@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.59 2014/04/02 17:02:30 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.60 2014/05/29 18:40:47 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2008, 2012, 2014
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -130,7 +130,6 @@ PATCH?=			${LOCALBASE}/bin/patch
 
 .if ${OStype} == "OpenBSD"
 HAS_CKSUM?=		old
-MKC_USAP?=		Yes
 PKG_ARGS_ADD+=		-Z
 PKG_SUFX=		.tgz
 FETCH_CMD=		/usr/bin/ftp -V -m -o
@@ -210,7 +209,6 @@ FETCH_CMD?=		/usr/bin/ftp -EV -m -o
 HAS_CKSUM?=		No
 HAS_CXX?=		base
 LP64_PLATFORMS?=	*:*:alpha *:*:amd64 *:*:sparc64
-MKC_USAP?=		No
 MKSH?=			/bin/mksh
 MODPERL_DESTDIR?=
 NOPIC_PLATFORMS?=

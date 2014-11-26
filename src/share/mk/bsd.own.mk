@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.own.mk,v 1.62 2010/08/14 20:53:08 tg Exp $
+# $MirOS: src/share/mk/bsd.own.mk,v 1.63 2010/12/24 00:11:00 tg Exp $
 # $OpenBSD: bsd.own.mk,v 1.92 2005/01/18 00:28:42 mickey Exp $
 # $NetBSD: bsd.own.mk,v 1.24 1996/04/13 02:08:09 thorpej Exp $
 
@@ -43,8 +43,6 @@ CFLAGS+=	-Wall -Wextra -Wunused -Wdeclaration-after-statement -Wundef \
 WARNINGS?=		No
 # Set to yes to build shared libraries with basic debugging information
 DEBUGLIBS?=		No	# yes, we have this twice
-# Set to yes for a stricter patent policy (USA and OpenBSD only)
-MKC_USAP?=		No
 # Set to sudo to automatically switch to root and only if needed
 SUDO?=
 # where the system object and source trees are kept; can be configurable

@@ -1,4 +1,4 @@
-XCOMM $MirOS: X11/xc/lib/font/FreeType/module/Imakefile,v 1.2 2006/07/01 20:18:13 tg Exp $
+XCOMM $MirOS: X11/xc/lib/font/FreeType/module/Imakefile,v 1.3 2013/09/10 20:20:51 tg Exp $
 XCOMM $XFree86: xc/lib/font/FreeType/module/Imakefile,v 1.22 2004/06/01 00:16:57 dawes Exp $
 /*
  * Copyright (c) 1994-2004 by The XFree86 Project, Inc.
@@ -59,9 +59,7 @@ XCOMM Yes this is MirMake specific!
 .include <bsd.own.mk>
 DEFINES+=	-DFT2_BUILD_LIBRARY -DMBSD_BUILD
 DEFINES+=	-DFT_CONFIG_OPTION_SYSTEM_ZLIB
-.if ${MKC_USAP:L} != "yes"
 DEFINES+=	-DTT_CONFIG_OPTION_BYTECODE_INTERPRETER
-.endif
 
 INCLUDES = -I. -I.. -I$(FONTINCSRC) -I../../include -I$(XINCLUDESRC) \
            -I$(SERVERSRC)/include \

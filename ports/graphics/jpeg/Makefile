@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/jpeg/Makefile,v 1.6 2007/01/15 22:01:34 tg Exp $
+# $MirOS: ports/graphics/jpeg/Makefile,v 1.7 2013/08/06 21:02:14 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2002/12/29 20:08:46 fgsch Exp $
 
 COMMENT=		IJG's JPEG compression utilities
@@ -17,24 +17,14 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 WRKDIST=		${WRKDIR}/jpeg-6b
-SUBST_VARS+=		HAS_ARI
 
 .include <mirports.sys.mk>
-
-.if ${MKC_USAP:L} != "yes"
-CPPFLAGS+=		-DMIRPORTS_ARI_OK
-HAS_ARI=		enabled
-.else
-HAS_ARI=		disabled
-.endif
 
 pre-patch:
 	# Prepare for arithmetic compression
 	cp ${WRKDIR}/jpeg-ari-28mar98/patchv6b/*.[ch] ${WRKSRC}/
-.if ${MKC_USAP:L} != "yes"
 	# Integrate arithmetic compression
 	cp ${WRKDIR}/jpeg-ari-28mar98/*.c ${WRKSRC}/
-.endif
 
 post-patch:
 	cp ${FILESDIR}/jconfig.h ${WRKSRC}

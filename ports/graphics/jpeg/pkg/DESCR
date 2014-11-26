@@ -25,8 +25,8 @@ IJG is not affiliated with the official ISO JPEG standards committee.
 NOTES on arithmetic compression
 ===============================
 
-JPEG supports compression using the arithmetic coding scheme.
-In this package, this support is ${HAS_ARI}.
+This JPEG implementation supports compression using the arithmetic
+coding scheme.
 
 This is the 28-Mar-98 / jpeg-6b version of the arithmetic coding
 patch by Guido Vollbeding <guido@jpegclub.org>, distributed from

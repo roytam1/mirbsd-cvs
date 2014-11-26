@@ -1,4 +1,4 @@
-# $MirOS: ports/games/bnetd/Makefile,v 1.3 2005/04/22 21:37:49 tg Exp $
+# $MirOS: ports/games/bnetd/Makefile,v 1.4 2006/09/14 00:09:18 tg Exp $
 
 COMMENT=			Battle.net(R) server emulator
 DISTNAME=		bnetd-20050215
@@ -28,9 +28,6 @@ CONFIGURE_ARGS+=	--localstatedir='$${${DESTDIRNAME}}${LIBDIR}'
 NO_REGRESS=		Yes
 
 .include <mirports.sys.mk>
-.if ${MKC_USAP:L} == "yes"
-IGNORE=			'disallowed: Your IP system is broken'
-.endif
 
 post-install:
 	${INSTALL_DATA_DIR} ${DOCDIR} ${LIBDIR}/scripts
