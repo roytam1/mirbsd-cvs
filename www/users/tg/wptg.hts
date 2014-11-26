@@ -4,7 +4,7 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.23 2014/11/11 01:26:34 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.24 2014/11/16 22:38:24 tg Exp $'
 mws_maketoc
 
 function statpic {
@@ -218,13 +218,11 @@ mws_content <<'EOF'
 <p><span style="border:1px solid black; padding:6px;"><a
  href="#begform">Waypoint Lookup © by mirabilos</a></span></p>
 
-<p><span style="border:1px solid black; padding:6px;"><a
+<p style="border:1px solid black; padding:6px;"><a
  href="http://fish.mirbsd.org/mirkarte/">MirKarte</a> by mirabilos (<a
- href="http://fish.mirbsd.org/mirkarte/geohashing.cgi#zoom=8">variant
- of mirabilos’ MirKarte for xkcd Geo Hashing</a> for the current day / <a
- href="http://fish.mirbsd.org/mirkarte/ghtomorrow.cgi#zoom=8">for the
- following day</a>)
-</span></p>
+ href="https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=useful-scripts/mirkarte.git">source
+ code</a>; <em>please</em> do <em>not</em> use the installation on my
+ server but instead host your own instance! ☺☻</p>
 
 <table style="border:1px solid black; padding:6px;">
 <tr style="border:0;">
@@ -248,6 +246,7 @@ mws_content <<'EOF'
  href="http://eastlands.dyndns.org/GeoScout/default.aspx">GeoScout</a>
  by <a href="http://www.navstation.co.uk/">Rightfile Ltd.</a>
  (currently defunct, domains no longer exist ☹ which also breaks OAuth)
+ (which means I <em>just</em> paid 20 £ for nothing!)
 </span></p>
 
 <p><span style="border:1px solid black; padding:6px;"><a

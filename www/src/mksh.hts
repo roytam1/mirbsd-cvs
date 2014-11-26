@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.563 2014/11/14 20:38:18 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.564 2014/11/19 18:53:45 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1115,6 +1115,19 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Fix miscalculating required memory for encoding the double-quoted
   parts of a here document or here string delimiter, leading to a buffer
   overflow; discovered by zacts from IRC</li>
+ <li>[RT] Rename a function conflicting with a MacRelix system header</li>
+ <li>[tg] Use <tt>size_t</tt> (and <tt>ssize_t</tt>) consistently, stop
+  using <tt>ptrdiff_t</tt>; fixes some arithmetics and S/390 bugs</li>
+ <li>[tg] Remove old workarounds for Clang 3.2 scan-build</li>
+ <li>[tg] Remove all Clang/Coverity assertions, making room for new checks</li>
+ <li>[tg] Fix <tt>NSIG</tt> generation on Debian sid gcc-snapshot</li>
+ <li>[tg] Make a testcase not fail in a corner case</li>
+ <li>[tg] Fix issues detected by GCC’s new sanitisers: data type of a
+  value to be shifted constantly must be <tt>unsigned</tt> (what not,
+  in C…); shebang check array accesses are always <tt>unsigned char</tt></li>
+ <li>[tg] Be <em>even</em> more explicit wrt. POSIX in the manpage</li>
+ <li>[tg] Fix shebang / file magic decoding</li>
+ <li>[tg] OpenBSD sync (RCSID only)</li>
 </ul>
 <p id="r50d">R50d is a <strong>required</strong> bugfix release:</p><ul>
  <li>[Goodbox] Fix NULL pointer dereference on “unset x; nameref x”</li>
