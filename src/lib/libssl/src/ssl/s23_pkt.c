@@ -63,6 +63,7 @@
 #include <openssl/evp.h>
 #include <openssl/buffer.h>
 
+#if !(defined(OPENSSL_NO_SSL2) && defined(OPENSSL_NO_SSL3))
 int ssl23_write_bytes(SSL *s)
 	{
 	int i,num,tot;
@@ -88,6 +89,7 @@ int ssl23_write_bytes(SSL *s)
 		tot+=i;
 		}
 	}
+#endif
 
 /* return regularly only when we have read (at least) 'n' bytes */
 int ssl23_read_bytes(SSL *s, int n)

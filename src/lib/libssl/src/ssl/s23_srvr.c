@@ -134,6 +134,7 @@ static SSL_METHOD *ssl23_get_server_method(int ver)
 		return(NULL);
 	}
 
+#if !(defined(OPENSSL_NO_SSL2) && defined(OPENSSL_NO_SSL3))
 SSL_METHOD *SSLv23_server_method(void)
 	{
 	static int init=1;
@@ -156,6 +157,7 @@ SSL_METHOD *SSLv23_server_method(void)
 		}
 	return(&SSLv23_server_data);
 	}
+#endif
 
 int ssl23_accept(SSL *s)
 	{
@@ -293,8 +295,10 @@ int ssl23_get_client_hello(SSL *s)
 				{
 				v[0]=p[3]; v[1]=p[4];
 				/* SSLv2 */
+#ifndef OPENSSL_NO_SSL2
 				if (!(s->options & SSL_OP_NO_SSLv2))
 					type=1;
+#endif
 				}
 			else if (p[3] == SSL3_VERSION_MAJOR)
 				{
@@ -308,26 +312,33 @@ int ssl23_get_client_hello(SSL *s)
 						/* type=2; */ /* done later to survive restarts */
 						s->state=SSL23_ST_SR_CLNT_HELLO_B;
 						}
+#ifndef OPENSSL_NO_SSL3
 					else if (!(s->options & SSL_OP_NO_SSLv3))
 						{
 						s->version=SSL3_VERSION;
 						/* type=2; */
 						s->state=SSL23_ST_SR_CLNT_HELLO_B;
 						}
+#endif
+#ifndef OPENSSL_NO_SSL2
 					else if (!(s->options & SSL_OP_NO_SSLv2))
 						{
 						type=1;
 						}
+#endif
 					}
+#ifndef OPENSSL_NO_SSL3
 				else if (!(s->options & SSL_OP_NO_SSLv3))
 					{
 					s->version=SSL3_VERSION;
 					/* type=2; */
 					s->state=SSL23_ST_SR_CLNT_HELLO_B;
 					}
+#endif
+#ifndef OPENSSL_NO_SSL2
 				else if (!(s->options & SSL_OP_NO_SSLv2))
 					type=1;
-
+#endif
 				}
 			}
 		else if ((p[0] == SSL3_RT_HANDSHAKE) &&
@@ -363,21 +374,26 @@ int ssl23_get_client_hello(SSL *s)
 					s->version=TLS1_VERSION;
 					type=3;
 					}
+#ifndef OPENSSL_NO_SSL3
 				else if (!(s->options & SSL_OP_NO_SSLv3))
 					{
 					s->version=SSL3_VERSION;
 					type=3;
 					}
+#endif
 				}
 			else
 				{
 				/* client requests SSL 3.0 */
+#ifndef OPENSSL_NO_SSL3
 				if (!(s->options & SSL_OP_NO_SSLv3))
 					{
 					s->version=SSL3_VERSION;
 					type=3;
 					}
-				else if (!(s->options & SSL_OP_NO_TLSv1))
+				else
+#endif
+				  if (!(s->options & SSL_OP_NO_TLSv1))
 					{
 					/* we won't be able to use TLS of course,
 					 * but this will send an appropriate alert */
@@ -542,7 +558,11 @@ int ssl23_get_client_hello(SSL *s)
 			}
 
 		s->state=SSL2_ST_GET_CLIENT_HELLO_A;
-		if (s->options & SSL_OP_NO_TLSv1 && s->options & SSL_OP_NO_SSLv3)
+		if (s->options & SSL_OP_NO_TLSv1
+#ifndef OPENSSL_NO_SSL3
+		    && s->options & SSL_OP_NO_SSLv3
+#endif
+		    )
 			s->s2->ssl2_rollback=0;
 		else
 			/* reject SSL 2.0 session if client supports SSL 3.0 or TLS 1.0
