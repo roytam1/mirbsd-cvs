@@ -56,12 +56,13 @@
  * [including the GNU Public Licence.]
  */
 
+#include <ctype.h>
 #include <stdio.h>
 #include "cryptlib.h"
 #include <openssl/asn1t.h>
 #include <openssl/x509.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/crypto/asn1/x_name.c,v 1.3 2014/06/05 12:47:57 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/crypto/asn1/x_name.c,v 1.4 2014/06/05 13:50:16 tg Exp $");
 
 static int x509_name_ex_d2i(ASN1_VALUE **val, unsigned char **in, long len, const ASN1_ITEM *it,
 					int tag, int aclass, char opt, ASN1_TLC *ctx);
