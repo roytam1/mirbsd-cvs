@@ -83,7 +83,7 @@ SSL_METHOD *TLSv1_method(void)
 			memcpy((char *)&TLSv1_data,(char *)tlsv1_base_method(),
 				sizeof(SSL_METHOD));
 			TLSv1_data.ssl_connect=ssl3_connect;
-			TLSv1_data.ssl_accept=ssl3_accept;
+			TLSv1_data.ssl_accept=ssl23_accept;
 			TLSv1_data.get_ssl_method=tls1_get_method;
 			init=0;
 			}
