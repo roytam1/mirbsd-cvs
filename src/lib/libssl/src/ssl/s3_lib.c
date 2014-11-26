@@ -114,7 +114,7 @@
 #include "ssl_locl.h"
 #include <openssl/md5.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_lib.c,v 1.4 2009/11/14 14:33:47 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_lib.c,v 1.5 2014/11/26 20:21:37 tg Exp $");
 
 const char ssl3_version_str[]="SSLv3" OPENSSL_VERSION_PTEXT;
 
@@ -1095,8 +1095,6 @@ void ssl3_free(SSL *s)
 		OPENSSL_free(s->s3->rbuf.buf);
 	if (s->s3->wbuf.buf != NULL)
 		OPENSSL_free(s->s3->wbuf.buf);
-	if (s->s3->rrec.comp != NULL)
-		OPENSSL_free(s->s3->rrec.comp);
 #ifndef OPENSSL_NO_DH
 	if (s->s3->tmp.dh != NULL)
 		DH_free(s->s3->tmp.dh);
@@ -1119,11 +1117,6 @@ void ssl3_clear(SSL *s)
 	if (s->s3->tmp.ca_names != NULL)
 		sk_X509_NAME_pop_free(s->s3->tmp.ca_names,X509_NAME_free);
 
-	if (s->s3->rrec.comp != NULL)
-		{
-		OPENSSL_free(s->s3->rrec.comp);
-		s->s3->rrec.comp=NULL;
-		}
 #ifndef OPENSSL_NO_DH
 	if (s->s3->tmp.dh != NULL)
 		DH_free(s->s3->tmp.dh);

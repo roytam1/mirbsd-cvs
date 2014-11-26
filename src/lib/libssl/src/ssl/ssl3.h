@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/ssl/ssl3.h,v 1.3 2014/06/05 13:26:42 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/ssl/ssl3.h,v 1.4 2014/11/26 20:21:39 tg Exp $ */
 
 /* ssl/ssl3.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -290,7 +290,6 @@ typedef struct ssl3_record_st
 /*r */	unsigned int off;       /* read/write offset into 'buf' */
 /*rw*/	unsigned char *data;    /* pointer to the record data */
 /*rw*/	unsigned char *input;   /* where the decode bytes are */
-/*r */	unsigned char *comp;    /* only used with decompression - malloc()ed */
 	} SSL3_RECORD;
 
 typedef struct ssl3_buffer_st
@@ -414,11 +413,6 @@ typedef struct ssl3_state_st
 
 		const EVP_CIPHER *new_sym_enc;
 		const EVP_MD *new_hash;
-#ifndef OPENSSL_NO_COMP
-		const SSL_COMP *new_compression;
-#else
-		void *new_compression;
-#endif
 		int cert_request;
 		} tmp;
 

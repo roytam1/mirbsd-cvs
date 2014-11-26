@@ -63,7 +63,7 @@
 #include <openssl/objects.h>
 #include <openssl/evp.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s23_clnt.c,v 1.5 2014/06/05 13:26:41 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s23_clnt.c,v 1.6 2014/11/26 20:21:36 tg Exp $");
 
 static SSL_METHOD *ssl23_get_client_method(int ver);
 static int ssl23_client_hello(SSL *s);
@@ -225,7 +225,6 @@ static int ssl23_client_hello(SSL *s)
 	unsigned long Time,l;
 	int ssl2_compat;
 	int version = 0, version_major, version_minor;
-	SSL_COMP *comp;
 	int ret;
 
 	ssl2_compat = 0 /* (s->options & SSL_OP_NO_SSLv2) ? 0 : 1 */;

@@ -295,17 +295,13 @@ static void load_ciphers(void)
 	}
 
 int ssl_cipher_get_evp(const SSL_SESSION *s, const EVP_CIPHER **enc,
-	     const EVP_MD **md, void **comp)
+	     const EVP_MD **md)
 	{
 	int i;
 	SSL_CIPHER *c;
 
 	c=s->cipher;
 	if (c == NULL) return(0);
-	if (comp != NULL)
-		{
-			*comp=NULL;
-		}
 
 	if ((enc == NULL) || (md == NULL)) return(0);
 

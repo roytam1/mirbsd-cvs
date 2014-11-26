@@ -126,7 +126,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_srvr.c,v 1.10 2014/06/05 13:26:42 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_srvr.c,v 1.11 2014/11/26 20:21:38 tg Exp $");
 
 static SSL_METHOD *ssl3_get_server_method(int ver);
 static int ssl3_get_client_hello(SSL *s);
@@ -654,7 +654,6 @@ static int ssl3_get_client_hello(SSL *s)
 	unsigned long id;
 	unsigned char *p,*d,*q;
 	SSL_CIPHER *c;
-	SSL_COMP *comp=NULL;
 	STACK_OF(SSL_CIPHER) *ciphers=NULL;
 
 	if (s->new_session
@@ -835,8 +834,6 @@ static int ssl3_get_client_hello(SSL *s)
 		goto f_err;
 		}
 
-	s->s3->tmp.new_compression=NULL;
-
 	/* TLS does not mind if there is extra stuff */
 #if 0   /* SSL 3.0 does not mind either, so we should disable this test
          * (was enabled in 0.9.6d through 0.9.6j and 0.9.7 through 0.9.7b,
@@ -859,7 +856,6 @@ static int ssl3_get_client_hello(SSL *s)
 
 	if (!s->hit)
 		{
-		s->session->compress_meth=(comp == NULL)?0:comp->id;
 		if (s->session->ciphers != NULL)
 			sk_SSL_CIPHER_free(s->session->ciphers);
 		s->session->ciphers=ciphers;

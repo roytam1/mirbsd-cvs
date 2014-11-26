@@ -61,7 +61,7 @@
 #include <openssl/rand.h>
 #include "ssl_locl.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/ssl_sess.c,v 1.2 2014/06/05 12:48:00 tg Exp $");
 
 static void SSL_SESSION_list_remove(SSL_CTX *ctx, SSL_SESSION *s);
 static void SSL_SESSION_list_add(SSL_CTX *ctx,SSL_SESSION *s);
@@ -123,7 +123,6 @@ SSL_SESSION *SSL_SESSION_new(void)
 	ss->time=(unsigned long)time(NULL);
 	ss->prev=NULL;
 	ss->next=NULL;
-	ss->compress_meth=0;
 	CRYPTO_new_ex_data(CRYPTO_EX_INDEX_SSL_SESSION, ss, &ss->ex_data);
 	return(ss);
 	}

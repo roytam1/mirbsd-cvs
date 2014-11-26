@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/ssl/ssl.h,v 1.6 2014/06/05 13:26:42 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/ssl/ssl.h,v 1.7 2014/11/26 20:21:38 tg Exp $ */
 
 /* ssl/ssl.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -446,8 +446,6 @@ typedef struct ssl_session_st
 	long timeout;
 	long time;
 
-	int compress_meth;		/* Need to lookup the method */
-
 	SSL_CIPHER *cipher;
 	unsigned long cipher_id;	/* when ASN.1 loaded, this
 					 * needs to be used to load
@@ -579,19 +577,6 @@ void SSL_set_msg_callback(SSL *ssl, void (*cb)(int write_p, int version, int con
  * zero. */
 typedef int (*GEN_SESSION_CB)(const SSL *ssl, unsigned char *id,
 				unsigned int *id_len);
-
-typedef struct ssl_comp_st
-	{
-	int id;
-	char *name;
-#ifndef OPENSSL_NO_COMP
-	COMP_METHOD *method;
-#else
-	char *method;
-#endif
-	} SSL_COMP;
-
-DECLARE_STACK_OF(SSL_COMP)
 
 struct ssl_ctx_st
 	{
@@ -1453,12 +1438,6 @@ void SSL_CTX_set_tmp_dh_callback(SSL_CTX *ctx,
 void SSL_set_tmp_dh_callback(SSL *ssl,
 				 DH *(*dh)(SSL *ssl,int is_export,
 					   int keylength));
-#endif
-
-#ifndef OPENSSL_NO_COMP
-int SSL_COMP_add_compression_method(int id,COMP_METHOD *cm);
-#else
-int SSL_COMP_add_compression_method(int id,char *cm);
 #endif
 
 /* BEGIN ERROR CODES */

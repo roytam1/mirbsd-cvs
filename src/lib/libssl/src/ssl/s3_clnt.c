@@ -118,7 +118,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_clnt.c,v 1.6 2014/06/18 11:58:16 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_clnt.c,v 1.7 2014/11/26 20:21:36 tg Exp $");
 
 static SSL_METHOD *ssl3_get_client_method(int ver);
 static int ssl3_client_hello(SSL *s);
@@ -369,7 +369,6 @@ int ssl3_connect(SSL *s)
 			s->init_num=0;
 
 			s->session->cipher=s->s3->tmp.new_cipher;
-			s->session->compress_meth=0;
 			if (!s->method->ssl3_enc->setup_key_block(s))
 				{
 				ret= -1;
@@ -517,7 +516,6 @@ static int ssl3_client_hello(SSL *s)
 	unsigned char *p,*d;
 	int i,j;
 	unsigned long Time,l;
-	SSL_COMP *comp;
 
 	buf=(unsigned char *)s->init_buf->data;
 	if (s->state == SSL3_ST_CW_CLNT_HELLO_A)
@@ -604,7 +602,6 @@ static int ssl3_get_server_hello(SSL *s)
 	int i,al,ok;
 	unsigned int j;
 	long n;
-	void *comp;
 
 	n=ssl3_get_message(s,
 		SSL3_ST_CR_SRVR_HELLO_A,
@@ -714,17 +711,12 @@ static int ssl3_get_server_hello(SSL *s)
 	/* lets get the compression algorithm */
 	/* COMPRESSION */
 	j= *(p++);
-	comp=NULL;
 	
-	if ((j != 0) && (comp == NULL))
+	if (j != 0)
 		{
 		al=SSL_AD_ILLEGAL_PARAMETER;
 		SSLerr(SSL_F_SSL3_GET_SERVER_HELLO,SSL_R_UNSUPPORTED_COMPRESSION_ALGORITHM);
 		goto f_err;
-		}
-	else
-		{
-		s->s3->tmp.new_compression=comp;
 		}
 
 	if (p != (d+n))

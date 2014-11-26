@@ -453,22 +453,9 @@ typedef struct ssl3_enc_method
 	int (*alert_value)(int);
 	} SSL3_ENC_METHOD;
 
-/* Used for holding the relevant compression methods loaded into SSL_CTX */
-typedef struct ssl3_comp_st
-	{
-	int comp_id;	/* The identifier byte for this compression type */
-	char *name;	/* Text name used for the compression type */
-	void *method;	/* The method :-) */
-	} SSL3_COMP;
-
 extern SSL3_ENC_METHOD ssl3_undef_enc_method;
 OPENSSL_EXTERN SSL_CIPHER ssl2_ciphers[];
 OPENSSL_EXTERN SSL_CIPHER ssl3_ciphers[];
-
-#ifdef OPENSSL_SYS_VMS
-#undef SSL_COMP_get_compression_methods
-#define SSL_COMP_get_compression_methods	SSL_COMP_get_compress_methods
-#endif
 
 
 SSL_METHOD *ssl_bad_method(int ver);
@@ -500,7 +487,7 @@ STACK_OF(SSL_CIPHER) *ssl_create_cipher_list(const SSL_METHOD *meth,
 					     const char *rule_str);
 void ssl_update_cache(SSL *s, int mode);
 int ssl_cipher_get_evp(const SSL_SESSION *s,const EVP_CIPHER **enc,
-		       const EVP_MD **md, void **comp);
+		       const EVP_MD **md);
 int ssl_verify_cert_chain(SSL *s,STACK_OF(X509) *sk);
 int ssl_undefined_function(SSL *s);
 int ssl_undefined_const_function(const SSL *s);
@@ -614,9 +601,5 @@ int tls1_generate_master_secret(SSL *s, unsigned char *out,
 int tls1_alert_code(int code);
 int ssl3_alert_code(int code);
 int ssl_ok(SSL *s);
-
-SSL_COMP *ssl3_comp_find(STACK_OF(SSL_COMP) *sk, int n);
-STACK_OF(SSL_COMP) *SSL_COMP_get_compression_methods(void);
-
 
 #endif

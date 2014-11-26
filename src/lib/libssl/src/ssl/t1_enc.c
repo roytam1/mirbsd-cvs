@@ -118,7 +118,7 @@
 #include <openssl/fips.h>
 #include <openssl/rand.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/t1_enc.c,v 1.10 2014/06/05 13:50:18 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/t1_enc.c,v 1.11 2014/11/26 20:21:40 tg Exp $");
 
 static void tls1_P_hash(const EVP_MD *md, const unsigned char *sec,
 			int sec_len, unsigned char *seed, int seed_len,
@@ -236,7 +236,6 @@ int tls1_change_cipher_state(SSL *s, int which)
 	int client_write;
 	EVP_CIPHER_CTX *dd;
 	const EVP_CIPHER *c;
-	const SSL_COMP *comp;
 	const EVP_MD *m;
 	int is_export,n,i,j,k,exp_label_len,cl;
 	int reuse_dd = 0;
@@ -244,13 +243,11 @@ int tls1_change_cipher_state(SSL *s, int which)
 	is_export=SSL_C_IS_EXPORT(s->s3->tmp.new_cipher);
 	c=s->s3->tmp.new_sym_enc;
 	m=s->s3->tmp.new_hash;
-	comp=NULL;
 	key_block=s->s3->tmp.key_block;
 
 #ifdef KSSL_DEBUG
-	printf("tls1_change_cipher_state(which= %d) w/\n", which);
-	printf("\talg= %ld, comp= %p\n", s->s3->tmp.new_cipher->algorithms,
-                comp);
+	printf("tls1_change_cipher_state(which= %d) w/ alg= %ld\n", which,
+	    s->s3->tmp.new_cipher->algorithms);
 	printf("\tevp_cipher == %p ==? &d_cbc_ede_cipher3\n", c);
 	printf("\tevp_cipher: nid, blksz= %d, %d, keylen=%d, ivlen=%d\n",
                 c->nid,c->block_size,c->key_len,c->iv_len);
@@ -415,7 +412,7 @@ int tls1_setup_key_block(SSL *s)
 	if (s->s3->tmp.key_block_length != 0)
 		return(1);
 
-	if (!ssl_cipher_get_evp(s->session,&c,&hash,NULL))
+	if (!ssl_cipher_get_evp(s->session,&c,&hash))
 		{
 		SSLerr(SSL_F_TLS1_SETUP_KEY_BLOCK,SSL_R_CIPHER_OR_HASH_UNAVAILABLE);
 		return(0);

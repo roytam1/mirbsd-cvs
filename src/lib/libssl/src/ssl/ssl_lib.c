@@ -1424,11 +1424,6 @@ err2:
 	return(NULL);
 	}
 
-#if 0
-static void SSL_COMP_free(SSL_COMP *comp)
-    { OPENSSL_free(comp); }
-#endif
-
 void SSL_CTX_free(SSL_CTX *a)
 	{
 	int i;
@@ -2334,4 +2329,3 @@ void SSL_set_msg_callback(SSL *ssl, void (*cb)(int write_p, int version, int con
 #endif
 
 IMPLEMENT_STACK_OF(SSL_CIPHER)
-IMPLEMENT_STACK_OF(SSL_COMP)

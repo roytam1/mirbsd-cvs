@@ -115,7 +115,7 @@
 #include <openssl/md5.h>
 #include <openssl/rand.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_enc.c,v 1.11 2014/06/18 12:07:42 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_enc.c,v 1.12 2014/11/26 20:21:37 tg Exp $");
 
 static unsigned char ssl3_pad_1[48]={
 	0x36,0x36,0x36,0x36,0x36,0x36,0x36,0x36,
@@ -316,12 +316,11 @@ int ssl3_setup_key_block(SSL *s)
 	const EVP_MD *hash;
 	int num;
 	int ret = 0;
-	void *comp;
 
 	if (s->s3->tmp.key_block_length != 0)
 		return(1);
 
-	if (!ssl_cipher_get_evp(s->session,&c,&hash,&comp))
+	if (!ssl_cipher_get_evp(s->session,&c,&hash))
 		{
 		SSLerr(SSL_F_SSL3_SETUP_KEY_BLOCK,SSL_R_CIPHER_OR_HASH_UNAVAILABLE);
 		return(0);
@@ -329,7 +328,6 @@ int ssl3_setup_key_block(SSL *s)
 
 	s->s3->tmp.new_sym_enc=c;
 	s->s3->tmp.new_hash=hash;
-	s->s3->tmp.new_compression=comp;
 
 	num=EVP_CIPHER_key_length(c)+EVP_MD_size(hash)+EVP_CIPHER_iv_length(c);
 	num*=2;
@@ -419,8 +417,6 @@ int ssl3_enc(SSL *s, int send)
 		{
 		l=rec->length;
 		bs=EVP_CIPHER_block_size(ds->cipher);
-
-		/* COMPRESS */
 
 		if ((bs != 1) && send)
 			{
