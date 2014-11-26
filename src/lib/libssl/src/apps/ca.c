@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/apps/ca.c,v 1.5 2007/05/17 16:38:16 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/apps/ca.c,v 1.6 2014/11/26 20:42:20 tg Exp $ */
 
 /* apps/ca.c */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -1542,12 +1542,14 @@ static int certify(X509 **xret, char *infile, EVP_PKEY *pkey, X509 *x509,
 		{
 		ok=0;
 		BIO_printf(bio_err,"Signature verification problems....\n");
+		ERR_print_errors(bio_err);
 		goto err;
 		}
 	if (i == 0)
 		{
 		ok=0;
 		BIO_printf(bio_err,"Signature did not match the certificate request\n");
+		ERR_print_errors(bio_err);
 		goto err;
 		}
 	else
