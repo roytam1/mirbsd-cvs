@@ -1,9 +1,9 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.24 2014/03/23 22:50:56 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.25 2014/06/05 13:32:18 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2006/10/14 19:43:57 drahn Exp $
 
 .include <bsd.own.mk>
 
-SHLIB_VERSION?=	15.1
+SHLIB_VERSION?=	16.0
 LIB=		crypto
 LDFLAGS+=	-Wl,-Bsymbolic
 
@@ -22,9 +22,6 @@ SRCS+=	tmdiff.c cversion.c uid.c
 SRCS+=	md2_dgst.c md2_one.c
 SRCS+=	md5_dgst.c md5_one.c
 SRCS+=	sha_dgst.c sha1dgst.c sha_one.c sha1_one.c
-.if ${MKC_USAP:L} != "yes"
-SRCS+=	mdc2dgst.c mdc2_one.c m_mdc2.c
-.endif
 SRCS+=	hmac.c
 SRCS+=	rmd_dgst.c rmd_one.c
 SRCS+=	acss_skey.c acss_enc.c
@@ -40,11 +37,6 @@ SRCS+=	cbc_cksm.c cbc_enc.c cfb64enc.c cfb_enc.c \
 SRCS+=	rc2_ecb.c rc2_skey.c rc2_cbc.c rc2cfb64.c
 SRCS+=	rc2ofb64.c
 SRCS+=	rc4_skey.c
-.if ${MKC_USAP:L} != "yes"
-SRCS+=	rc5_ecb.c rc5_enc.c rc5_skey.c rc5cfb64.c rc5ofb64.c e_rc5.c
-# http://www.mediacrypt.com/_contents/10_idea/102040_li_nc.asp
-SRCS+=	i_cbc.c i_cfb64.c i_ofb64.c i_ecb.c i_skey.c e_idea.c
-.endif
 SRCS+=	bf_skey.c bf_ecb.c bf_cfb64.c bf_ofb64.c
 SRCS+=	c_skey.c c_ecb.c c_cfb64.c c_ofb64.c c_enc.c
 SRCS+=	bn_add.c bn_div.c bn_exp.c bn_lib.c
@@ -126,9 +118,8 @@ SRCS+=	ocsp_asn.c ocsp_err.c ocsp_ht.c ocsp_prn.c ocsp_vfy.c
 SRCS+=	ocsp_cl.c ocsp_ext.c ocsp_lib.c ocsp_srv.c
 
 .PATH:	${LCRYPTO_SRC}/md2 ${LCRYPTO_SRC}/md5 ${LCRYPTO_SRC}/sha \
-	${LCRYPTO_SRC}/mdc2 ${LCRYPTO_SRC}/hmac ${LCRYPTO_SRC}/ripemd \
+	${LCRYPTO_SRC}/hmac ${LCRYPTO_SRC}/ripemd ${LCRYPTO_SRC}/bf \
 	${LCRYPTO_SRC}/des ${LCRYPTO_SRC}/rc2 ${LCRYPTO_SRC}/rc4 \
-	${LCRYPTO_SRC}/rc5 ${LCRYPTO_SRC}/idea ${LCRYPTO_SRC}/bf \
 	${LCRYPTO_SRC}/cast ${LCRYPTO_SRC}/bn ${LCRYPTO_SRC}/rsa \
 	${LCRYPTO_SRC}/dsa ${LCRYPTO_SRC}/dh ${LCRYPTO_SRC}/buffer \
 	${LCRYPTO_SRC}/bio ${LCRYPTO_SRC}/stack ${LCRYPTO_SRC}/lhash \
@@ -167,12 +158,10 @@ HDRS=\
 	crypto/err/err.h \
 	crypto/evp/evp.h \
 	crypto/hmac/hmac.h \
-	crypto/idea/idea.h \
 	crypto/lhash/lhash.h \
 	crypto/md2/md2.h \
 	crypto/md4/md4.h \
 	crypto/md5/md5.h \
-	crypto/mdc2/mdc2.h \
 	crypto/objects/objects.h \
 	crypto/ocsp/ocsp.h \
 	crypto/opensslv.h \
@@ -184,7 +173,6 @@ HDRS=\
 	crypto/rand/rand.h \
 	crypto/rc2/rc2.h \
 	crypto/rc4/rc4.h \
-	crypto/rc5/rc5.h \
 	crypto/ripemd/ripemd.h \
 	crypto/rsa/rsa.h \
 	crypto/sha/sha.h \
