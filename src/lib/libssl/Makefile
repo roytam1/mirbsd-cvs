@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/Makefile,v 1.5 2007/05/08 22:38:58 tg Exp $
+# $MirOS: src/lib/libssl/Makefile,v 1.6 2007/07/05 22:18:13 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2002/09/03 18:59:55 markus Exp $
 
 SUBDIR=	crypto ssl man
@@ -12,5 +12,7 @@ distribution:
 	   ${.CURDIR}/openssl.cnf ${DESTDIR}/etc/ssl/openssl.cnf
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${CONFGRP} -m ${NONBINMODE} \
 	   ${.CURDIR}/x509v3.cnf ${DESTDIR}/etc/ssl/x509v3.cnf
+
+prereq: _SUBDIRUSE
 
 .include <bsd.subdir.mk>

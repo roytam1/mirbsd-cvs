@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/man/Makefile,v 1.10 2014/11/26 19:36:00 tg Exp $
+# $MirOS: src/lib/libssl/man/Makefile,v 1.11 2014/11/26 19:48:58 tg Exp $
 # $OpenBSD: Makefile,v 1.13 2008/07/28 23:44:10 jsg Exp $
 
 .include <bsd.own.mk>		# for NOMAN
@@ -1047,3 +1047,5 @@ CLEANFILES+=\
 
 clean cleandir:
 	rm -f ${CLEANFILES}
+
+prereq:

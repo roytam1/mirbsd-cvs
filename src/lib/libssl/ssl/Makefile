@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/ssl/Makefile,v 1.18 2014/11/26 19:22:16 tg Exp $
+# $MirOS: src/lib/libssl/ssl/Makefile,v 1.19 2014/11/26 19:57:41 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2005/11/24 20:49:23 deraadt Exp $
 
 SHLIB_VERSION?=	14.0
@@ -32,5 +32,7 @@ HDRSRC=	${LSSL_SRC}
 HDRDST=	${DESTDIR}/usr/include/openssl
 
 .PATH:	${LSSL_SRC}
+
+prereq:
 
 .include <bsd.lib.mk>
