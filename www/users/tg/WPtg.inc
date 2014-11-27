@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.125 2014/11/23 19:48:02 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.126 2014/11/24 21:09:25 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -7336,6 +7336,12 @@ Waypoint: LC5LT5
 Title: Find Your Head
 nTF: 1
 Tag: Locationless
+----
+ID: 1258
+Date: 27.11.2014
+Waypoint: GC2340H
+Title: Waffenbrüder
+Tag: D2 T1 Micro Tradi
 ----
 ID: p1235
 Date: 11.11.2014
