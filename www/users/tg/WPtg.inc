@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.126 2014/11/24 21:09:25 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.127 2014/11/27 21:22:08 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -317,7 +317,7 @@ ID: 60
 Date: 10.08.2008
 Waypoint: CCHX
 Title: Google Up A Locationless!
-Tag: MC5 Locationless Challenge
+Tag: MC5 Locationless
 ----
 ID: 61
 Date: 10.08.2008
@@ -2053,7 +2053,7 @@ Date: 23.06.2013
 Waypoint: LC7TL
 Title: Birthday Coordinates
 nTF: 3
-Tag: MC0 Locationless
+Tag: MC0 Safari
 ----
 ID: 397
 Date: 24.06.2013
@@ -2230,7 +2230,7 @@ Date: 22.07.2013
 Waypoint: LC7QP
 Title: TerraCachin' Fashion
 nTF: 2
-Tag: MC0 Locationless Challenge
+Tag: MC0 Locationless
 ----
 ID: 427
 Date: 27.07.2013
@@ -5740,7 +5740,7 @@ Date: 20.07.2014
 Waypoint: LC7LQ
 Title: Babewyn
 nTF: 1
-Tag: Locationless
+Tag: Safari
 ----
 ID: 998
 Date: 20.07.2014
@@ -6036,7 +6036,7 @@ Date: 31.07.2014
 Waypoint: CC886G
 Title: Cheesy Cartridges
 nTF: 0
-Tag: Locationless Challenge
+Tag: Locationless
 ----
 ID: 1047
 Date: 02.08.2014
@@ -7208,7 +7208,7 @@ ID: 1236
 Date: 11.11.2014
 Waypoint: OCF495
 Title: Go Geohashing
-Tag: D3 T3 Virtual Locationless Challenge
+Tag: D3 T3 Virtual Safari
 ----
 ID: 1237
 Date: 16.11.2014
@@ -7335,13 +7335,19 @@ Date: 24.11.2014
 Waypoint: LC5LT5
 Title: Find Your Head
 nTF: 1
-Tag: Locationless
+Tag: Safari
 ----
 ID: 1258
 Date: 27.11.2014
 Waypoint: GC2340H
 Title: Waffenbrüder
 Tag: D2 T1 Micro Tradi
+----
+ID: 1259
+Date: 13.09.2014
+Waypoint: OC11249
+Title: SVC - Kompassrose (Challenge)
+Tag: D2 T15 Virtual Safari
 ----
 ID: p1235
 Date: 11.11.2014
