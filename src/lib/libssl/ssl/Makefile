@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/ssl/Makefile,v 1.23 2014/11/26 22:53:04 tg Exp $
+# $MirOS: src/lib/libssl/ssl/Makefile,v 1.24 2014/11/26 22:57:26 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2005/11/24 20:49:23 deraadt Exp $
 
 SHLIB_VERSION?=	14.0
@@ -13,11 +13,7 @@ LSSL_SRC=	${.CURDIR}/../${SSLEAYDIST}/ssl
 
 .include <bsd.own.mk>
 
-.if ${MACHINE_ARCH} == "i386"
-CPPFLAGS+= -DBN_ASM
-.endif
-
-CPPFLAGS+= -DNO_ERR -I${.CURDIR}/../${SSLEAYDIST}
+CPPFLAGS+=	-I${.CURDIR}/../${SSLEAYDIST}
 
 SRCS=	bio_ssl.c s23_pkt.c s23_srvr.c s3_both.c s3_clnt.c s3_enc.c \
 	s3_lib.c s3_pkt.c s3_srvr.c ssl_algs.c ssl_asn1.c ssl_cert.c \

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.27 2014/11/26 19:36:00 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.28 2014/11/26 19:52:50 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2006/10/14 19:43:57 drahn Exp $
 
 .include <bsd.own.mk>
@@ -11,11 +11,9 @@ SSLEAYDIST=	src
 SSL_SRC=	${.CURDIR}/../${SSLEAYDIST}
 LCRYPTO_SRC=	${SSL_SRC}/crypto
 
-CPPFLAGS+= -DNO_ERR -DNO_WINDOWS_BRAINDEATH -DOPENSSL_NO_EC
-CPPFLAGS+= -DOPENSSL_NO_HW_CSWIFT -DOPENSSL_NO_HW_NCIPHER -DOPENSSL_NO_HW_ATALLA
-CPPFLAGS+= -DOPENSSL_NO_HW_NURON -DOPENSSL_NO_HW_UBSEC -DOPENSSL_NO_HW_AEP
-CPPFLAGS+= -DOPENSSL_NO_HW_SUREWARE -DOPENSSL_NO_HW_4758_CCA
-CPPFLAGS+= -I${.CURDIR}/../${SSLEAYDIST} -I${LCRYPTO_SRC} -I.
+CPPFLAGS+=	-DNO_WINDOWS_BRAINDEATH
+CPPFLAGS+=	-I${.CURDIR}/../${SSLEAYDIST} -I${LCRYPTO_SRC} -I.
+
 SRCS+=	o_time.c
 SRCS+=	cryptlib.c ex_data.c cpt_err.c mem.c mem_dbg.c mem_clr.c
 SRCS+=	tmdiff.c cversion.c uid.c
@@ -226,7 +224,7 @@ SRCS+=	${f}.S
 GENERATED+=${f}.S
 ${f}.S: ${LCRYPTO_SRC}/${dir}/asm/${f}.pl ${LCRYPTO_SRC}/perlasm/x86unix.pl
 	/usr/bin/perl -I${LCRYPTO_SRC}/perlasm -I${LCRYPTO_SRC}/${dir}/asm \
-		${LCRYPTO_SRC}/${dir}/asm/${f}.pl openbsd-elf 386 >$@
+		${LCRYPTO_SRC}/${dir}/asm/${f}.pl openbsd-elf 486 >$@
 .  endfor
 SRCS+= bf_cbc.c
 .else

@@ -1,20 +1,90 @@
-/* opensslconf.h */
-/* WARNING: Generated automatically from opensslconf.h.in by Configure. */
+/* $MirOS$ */
 
-/* OpenSSL was configured with the following options: */
-#ifndef OPENSSL_DOING_MAKEDEPEND
-
+#ifndef OPENSSL_NO_ACSS
+# define OPENSSL_NO_ACSS
+#endif
+#ifndef OPENSSL_NO_COMP
+# define OPENSSL_NO_COMP
+#endif
+#ifndef OPENSSL_NO_IDEA
+# define OPENSSL_NO_IDEA
+#endif
+#ifndef OPENSSL_NO_MDC2
+# define OPENSSL_NO_MDC2
+#endif
+#ifndef OPENSSL_NO_RC5
+# define OPENSSL_NO_RC5
+#endif
+#ifndef OPENSSL_NO_EC
+# define OPENSSL_NO_EC
+#endif
+#ifndef OPENSSL_NO_SSL2
+# define OPENSSL_NO_SSL2
+#endif
+#ifndef OPENSSL_NO_SSL3
+# define OPENSSL_NO_SSL3
+#endif
 #ifndef OPENSSL_NO_KRB5
 # define OPENSSL_NO_KRB5
 #endif
 
-#endif /* OPENSSL_DOING_MAKEDEPEND */
+#ifndef OPENSSL_NO_ASM
+# define OPENSSL_NO_ASM
+#endif
+#ifndef OPENSSL_NO_HW_CSWIFT
+# define OPENSSL_NO_HW_CSWIFT
+#endif
+#ifndef OPENSSL_NO_HW_NCIPHER
+# define OPENSSL_NO_HW_NCIPHER
+#endif
+#ifndef OPENSSL_NO_HW_ATALLA
+# define OPENSSL_NO_HW_ATALLA
+#endif
+#ifndef OPENSSL_NO_HW_NURON
+# define OPENSSL_NO_HW_NURON
+#endif
+#ifndef OPENSSL_NO_HW_UBSEC
+# define OPENSSL_NO_HW_UBSEC
+#endif
+#ifndef OPENSSL_NO_HW_AEP
+# define OPENSSL_NO_HW_AEP
+#endif
+#ifndef OPENSSL_NO_HW_SUREWARE
+# define OPENSSL_NO_HW_SUREWARE
+#endif
+#ifndef OPENSSL_NO_HW_4758_CCA
+# define OPENSSL_NO_HW_4758_CCA
+#endif
 
 /* The OPENSSL_NO_* macros are also defined as NO_* if the application
    asks for it.  This is a transient feature that is provided for those
    who haven't had the time to do the appropriate changes in their
    applications.  */
 #ifdef OPENSSL_ALGORITHM_DEFINES
+# if defined(OPENSSL_NO_ACSS) && !defined(NO_ACSS)
+#  define NO_ACSS
+# endif
+# if defined(OPENSSL_NO_COMP) && !defined(NO_COMP)
+#  define NO_COMP
+# endif
+# if defined(OPENSSL_NO_IDEA) && !defined(NO_IDEA)
+#  define NO_IDEA
+# endif
+# if defined(OPENSSL_NO_MDC2) && !defined(NO_MDC2)
+#  define NO_MDC2
+# endif
+# if defined(OPENSSL_NO_RC5) && !defined(NO_RC5)
+#  define NO_RC5
+# endif
+# if defined(OPENSSL_NO_EC) && !defined(NO_EC)
+#  define NO_EC
+# endif
+# if defined(OPENSSL_NO_SSL2) && !defined(NO_SSL2)
+#  define NO_SSL2
+# endif
+# if defined(OPENSSL_NO_SSL3) && !defined(NO_SSL3)
+#  define NO_SSL3
+# endif
 # if defined(OPENSSL_NO_KRB5) && !defined(NO_KRB5)
 #  define NO_KRB5
 # endif
@@ -25,10 +95,8 @@
 /* Generate 80386 code? */
 #undef I386_ONLY
 
-#if !(defined(VMS) || defined(__VMS)) /* VMS uses logical names instead */
 #if defined(HEADER_CRYPTLIB_H) && !defined(OPENSSLDIR)
 #define OPENSSLDIR "/etc/ssl"
-#endif
 #endif
 
 #undef OPENSSL_UNISTD
