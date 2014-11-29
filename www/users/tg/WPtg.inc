@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.127 2014/11/27 21:22:08 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.128 2014/11/28 17:59:23 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -7232,6 +7232,7 @@ ID: 1240
 Date: 16.11.2014
 Waypoint: OC1083E
 Title: Bonner Rathaustreppe
+nTF: 4
 Tag: D1 T1 Webcam
 ----
 ID: 1241
@@ -7347,6 +7348,7 @@ ID: 1259
 Date: 13.09.2014
 Waypoint: OC11249
 Title: SVC - Kompassrose (Challenge)
+nTF: 3
 Tag: D2 T15 Virtual Safari
 ----
 ID: p1235

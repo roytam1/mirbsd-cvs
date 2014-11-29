@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.19 2014/11/19 15:32:44 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.20 2014/11/25 17:12:51 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -340,4 +340,76 @@ Tag: debian rant work
  </pre>
 </div><p class="boxfoot">… there, no need to preseed. But this does not
  eliminate the aforementioned shortcomings, of course.</p>
+----
+Date: 29.11.2014 15:11
+Author: tg@
+Title: RNG for MirBSD and subprojects
+Tag: plan
+
+<p>Feel free to ignore those semi-unsorted ramblings of mine, they are
+ unfinished, not binding, notes of plans that may come if I ever learn
+ 影分身の術 (Kage Bunshin no Jutsu) or bilocality…</p><!-- RSS stop -->
+<p>We currently have arc4random(9) in the kernel and arc4random(3) in
+ userspace. We also have the urandom(4) stuff, but nobody should use
+ them really. OpenBSD simplified theirs, but lost functionality like
+ arc4random_addrandom(3) during that. I complicated ours, to get e.g.
+ arc4random_pushb_fast(3), and for using userspace as additional pools,
+ but that grew complex too, and few applications really add to their
+ state other than using it anyway.</p>
+<p>My idea thus far is to begin with those applications. That would
+ be mksh(1) and ntpd(8) only, AFAICT. On the basis of the recently <a
+ href="http://article.gmane.org/gmane.os.miros.mksh/482"><span
+ style="font-variant:small-caps">Spritz</span></a>, an aRC4 successor
+ with great sponge properties, I plan on creating <tt>s4random</tt>,
+ which could serve their specific needs: an output state <span
+ style="font-variant:small-caps">Spritz</span> (like arc4random has);
+ an input <span style="font-variant:small-caps">Spritz</span> (which
+ corresponds to the arc4random_roundhash) tweaked to have, every time
+ <span style="font-variant:small-caps">Shuffle()</span> is called by
+ the absorption functions, four bytes sent to a BAFH state from <span
+ style="font-variant:small-caps">Drip()</span>; that 32-bit state is
+ then used to randomly drop from the output state (in addition to a
+ value from the output state itself like arc4random uses) for faster
+ feedback (think state recovery attacks). The output state can then
+ be seeded less often but in larger blocks, taking from the input
+ state as well as arc4random(3) or sysctl(3) <tt>KERN_ARND</tt> or
+ OpenBSD getentropy() or Linux getrandom() or <tt>/dev/urandom</tt>,
+ with the usual pushback. It could also need only 16 bytes instead
+ of 128/256 bytes from the kernel on such calls (possibly lowering
+ the a4s_count equivalent for the first two trips). It would also
+ need to work on lesser operating systems, so it can probably have
+ a function to determine seed status (2 = third trip, kernel entropy;
+ 1 = first or second trip, or Win32 CryptGenRandom; 0 = untrusted).
+ Also consider skipping initialisation by hardcoding one at compile
+ time, facilitated through Mirtoconf v2. (Also, reducing the maximum
+ <span style="font-variant:small-caps">Squeeze()</span> parameter to
+ 64 before random dropping engages, instead of 256, makes sense. The
+ BAFH state also needs feedback from the output state…)</p>
+<p>Then, I could simplify MirBSD libc arc4random(3) as all other
+ applications than those mentioned above (and maybe libcrypto, but
+ that’s a special case anyway) don’t need this sort of fast feedback
+ loop. I’ve not yet planned that part out. – Finally, the kernel may
+ or may not adopt <span style="font-variant:small-caps">Spritz</span>
+ but I’ve got ideas wrt. that, faster feedback loops, less overhead
+ for interrupt handlers, etc. as well. This can wait a bit, as <span
+ style="font-variant:small-caps">Spritz</span> is still very new, so
+ I’d prefer to not lower the security level accidentally, but it can
+ be prototyped for something eventually ending up in ntpd(8) where it
+ has low impact, and <a href="@@RELPATH@@mksh.htm">mksh</a>, where the
+ MirJSON and Mirkev code will need it.</p>
+<p>OpenSSL’s libcrypto is another case. Just using arc4random(3) now
+ has effectively reduced its state size from about 8184 bit to about
+ 1700 bit of aRC4 state while a Spritz state has about 1476‒1604 bit.
+ Of course, it reads from the kernel, which doesn’t offer more anyway,
+ and people say about security levels, but there’s still always EGD
+ and, more importantly, <tt>~/.rnd</tt> (or <tt>RANDFILE</tt> to be
+ exact). So, an upscaling solution is needed, too, but I can construct
+ one, similar to how arc4random_roundhash is comprised of 32 32-bit
+ BAFH states with appropriate (but slow) mixing. But that’s specific
+ to MirBSD anyway, and can take time.</p>
+<p>Meh. Reminds me, I probably should add getentropy() before upgrading
+ OpenSSH to a version doing the sandboxing. And let arc4random(3) use
+ the new <tt>MAP_INHERIT_ZERO</tt> stuff; at least minherit(2) throws
+ <tt>EINVAL</tt> as safe fallback but it still requires updating the
+ kernel first. But then it has been there for months already.</p>
 ----
