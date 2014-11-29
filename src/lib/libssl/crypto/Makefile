@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.28 2014/11/26 19:52:50 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.29 2014/11/29 22:18:31 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2006/10/14 19:43:57 drahn Exp $
 
 .include <bsd.own.mk>
@@ -19,7 +19,7 @@ SRCS+=	cryptlib.c ex_data.c cpt_err.c mem.c mem_dbg.c mem_clr.c
 SRCS+=	tmdiff.c cversion.c uid.c
 SRCS+=	md2_dgst.c md2_one.c
 SRCS+=	md5_dgst.c md5_one.c
-SRCS+=	sha_dgst.c sha1dgst.c sha_one.c sha1_one.c
+SRCS+=	sha1dgst.c sha1_one.c
 SRCS+=	hmac.c
 SRCS+=	rmd_dgst.c rmd_one.c
 SRCS+=	aes_cbc.c aes_cfb.c aes_ctr.c aes_ecb.c aes_ofb.c aes_misc.c
@@ -61,7 +61,7 @@ SRCS+=	randfile.c rand_lib.c rand_egd.c rand_err.c
 SRCS+=	mbsdrand.c
 SRCS+=	err.c err_all.c err_prn.c
 SRCS+=	obj_dat.c obj_lib.c obj_err.c o_names.c
-SRCS+=	bio_b64.c e_bf.c m_sha.c p_open.c
+SRCS+=	bio_b64.c e_bf.c p_open.c
 SRCS+=	bio_enc.c e_cast.c e_xcbc_d.c m_dss.c m_sha1.c p_seal.c
 SRCS+=	bio_md.c e_des.c encode.c m_dss1.c names.c p_sign.c
 SRCS+=	bio_ok.c e_des3.c evp_enc.c m_md2.c p_verify.c

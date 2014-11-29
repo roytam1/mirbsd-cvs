@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: src/lib/libssl/crypto/arch/i386/opensslconf.h,v 1.3 2014/11/29 22:18:31 tg Exp $ */
 
 #ifndef OPENSSL_NO_ACSS
 # define OPENSSL_NO_ACSS
@@ -23,6 +23,9 @@
 #endif
 #ifndef OPENSSL_NO_SSL3
 # define OPENSSL_NO_SSL3
+#endif
+#ifndef OPENSSL_NO_SHA0
+# define OPENSSL_NO_SHA0
 #endif
 #ifndef OPENSSL_NO_KRB5
 # define OPENSSL_NO_KRB5
@@ -84,6 +87,9 @@
 # endif
 # if defined(OPENSSL_NO_SSL3) && !defined(NO_SSL3)
 #  define NO_SSL3
+# endif
+# if defined(OPENSSL_NO_SHA0) && !defined(NO_SHA0)
+#  define NO_SHA0
 # endif
 # if defined(OPENSSL_NO_KRB5) && !defined(NO_KRB5)
 #  define NO_KRB5
