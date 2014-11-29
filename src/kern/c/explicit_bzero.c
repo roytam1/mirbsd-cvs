@@ -1,15 +1,9 @@
-/*	$OpenBSD: explicit_bzero.c,v 1.1 2011/01/10 23:23:56 tedu Exp $ */
-/*
- * Public domain.
- * Written by Ted Unangst
- */
-
 #include <libckern.h>
 
-__RCSID("$MirOS: src/kern/c/explicit_bzero.c,v 1.1 2011/07/17 17:21:02 tg Exp $");
+__RCSID("$MirOS: src/kern/c/explicit_bzero.c,v 1.2 2011/07/17 20:39:26 tg Exp $");
 
 /*
- * explicit_bzero - don't let the compiler optimize away bzero
+ * explicit_bzero - don't let the compiler optimise away bzero
  */
 void
 explicit_bzero(void *p, size_t n)
@@ -23,4 +17,6 @@ explicit_bzero(void *p, size_t n)
 	 * to not clutter libc symbol space
 	 */
 	bzero(p, n);
+	/* protect from reordering */
+	__asm __volatile("":::"memory");
 }

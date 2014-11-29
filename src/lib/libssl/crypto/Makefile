@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.29 2014/11/29 22:18:31 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.30 2014/11/29 22:41:57 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2006/10/14 19:43:57 drahn Exp $
 
 .include <bsd.own.mk>
@@ -15,7 +15,7 @@ CPPFLAGS+=	-DNO_WINDOWS_BRAINDEATH
 CPPFLAGS+=	-I${.CURDIR}/../${SSLEAYDIST} -I${LCRYPTO_SRC} -I.
 
 SRCS+=	o_time.c
-SRCS+=	cryptlib.c ex_data.c cpt_err.c mem.c mem_dbg.c mem_clr.c
+SRCS+=	cryptlib.c ex_data.c cpt_err.c mem.c mem_dbg.c
 SRCS+=	tmdiff.c cversion.c uid.c
 SRCS+=	md2_dgst.c md2_one.c
 SRCS+=	md5_dgst.c md5_one.c
@@ -233,6 +233,8 @@ SRCS+= bf_enc.c
 SRCS+= bn_asm.c
 SRCS+= rc4_enc.c
 .endif
+
+SRCS+=	mbsd_memclr.c
 
 all beforedepend: ${GENERATED}
 
