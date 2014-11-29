@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.30 2014/11/29 22:41:57 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.31 2014/11/29 23:00:29 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2006/10/14 19:43:57 drahn Exp $
 
 .include <bsd.own.mk>
@@ -70,7 +70,6 @@ SRCS+=	c_allc.c evp_key.c m_md5.c p5_crpt2.c
 SRCS+=	c_alld.c e_null.c evp_lib.c p_dec.c
 SRCS+=	digest.c e_rc2.c evp_pbe.c m_null.c p_enc.c
 SRCS+=	e_aes.c e_rc4.c evp_pkey.c m_ripemd.c p_lib.c
-SRCS+=	md4_dgst.c md4_one.c
 SRCS+=	pem_sign.c pem_seal.c pem_info.c pem_lib.c pem_pkey.c
 SRCS+=	pem_all.c pem_err.c pem_x509.c pem_pk8.c pem_oth.c pem_xaux.c
 SRCS+=	ui_err.c ui_lib.c ui_openssl.c ui_compat.c ui_util.c
@@ -123,7 +122,7 @@ SRCS+=	ocsp_cl.c ocsp_ext.c ocsp_lib.c ocsp_srv.c
 	${LCRYPTO_SRC}/evp ${LCRYPTO_SRC}/pem ${LCRYPTO_SRC}/asn1 \
 	${LCRYPTO_SRC}/asn1 ${LCRYPTO_SRC}/x509 ${LCRYPTO_SRC}/conf \
 	${LCRYPTO_SRC}/pkcs7 ${LCRYPTO_SRC}/x509v3 ${LCRYPTO_SRC}/pkcs12 \
-	${LCRYPTO_SRC}/txt_db ${LCRYPTO_SRC}/md4 \
+	${LCRYPTO_SRC}/txt_db \
 	${LCRYPTO_SRC}/engine ${LCRYPTO_SRC}/dso ${LCRYPTO_SRC}/ui \
 	${LCRYPTO_SRC}/ocsp ${LCRYPTO_SRC}/aes \
 	${LCRYPTO_SRC} ${.CURDIR}/arch/${MACHINE_ARCH} \
@@ -154,7 +153,7 @@ HDRS=\
 	crypto/hmac/hmac.h \
 	crypto/lhash/lhash.h \
 	crypto/md2/md2.h \
-	crypto/md4/md4.h \
+	${.CURDIR}/md4.h \
 	crypto/md5/md5.h \
 	crypto/objects/objects.h \
 	crypto/ocsp/ocsp.h \
@@ -235,6 +234,8 @@ SRCS+= rc4_enc.c
 .endif
 
 SRCS+=	mbsd_memclr.c
+
+SRCS+=	mbsd_md4.c
 
 all beforedepend: ${GENERATED}
 
