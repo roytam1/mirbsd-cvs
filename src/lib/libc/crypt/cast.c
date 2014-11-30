@@ -667,7 +667,7 @@ cast_decrypt(cast_key* key, u_int8_t* inblock, u_int8_t* outblock)
 /***** Key Schedual *****/
 
 void
-cast_setkey(cast_key* key, u_int8_t* rawkey, int keybytes)
+cast_setkey(cast_key* key, const u_int8_t* rawkey, int keybytes)
 {
 	u_int32_t t[4], z[4], x[4];
 	int i;
