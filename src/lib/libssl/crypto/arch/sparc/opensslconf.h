@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/crypto/arch/sparc/opensslconf.h,v 1.2 2014/11/29 22:18:32 tg Exp $ */
+/* $MirOS: src/lib/libssl/crypto/arch/sparc/opensslconf.h,v 1.3 2014/11/29 22:41:58 tg Exp $ */
 
 #ifndef OPENSSL_NO_ACSS
 # define OPENSSL_NO_ACSS
@@ -132,7 +132,7 @@
  * - Intel P6 because partial register stalls are very expensive;
  * - elder Alpha because it lacks byte load/store instructions;
  */
-#define RC4_INT unsigned int
+#define RC4_INT unsigned char
 #endif
 #if !defined(RC4_CHUNK)
 /*
@@ -166,13 +166,6 @@
 #define THIRTY_TWO_BIT
 #undef SIXTEEN_BIT
 #undef EIGHT_BIT
-#endif
-
-#if defined(HEADER_RC4_LOCL_H) && !defined(CONFIG_HEADER_RC4_LOCL_H)
-#define CONFIG_HEADER_RC4_LOCL_H
-/* if this is defined data[i] is used instead of *data, this is a %20
- * speedup on x86 */
-#define RC4_INDEX
 #endif
 
 #if defined(HEADER_BF_LOCL_H) && !defined(CONFIG_HEADER_BF_LOCL_H)

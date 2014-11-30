@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.35 2014/11/30 00:12:56 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.36 2014/11/30 00:23:22 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2006/10/14 19:43:57 drahn Exp $
 
 .include <bsd.own.mk>
@@ -31,7 +31,6 @@ SRCS+=	cbc_cksm.c cbc_enc.c cfb64enc.c cfb_enc.c \
 	des_old.c read2pwd.c
 SRCS+=	rc2_ecb.c rc2_skey.c rc2_cbc.c rc2cfb64.c
 SRCS+=	rc2ofb64.c
-SRCS+=	rc4_skey.c
 SRCS+=	bf_skey.c bf_ecb.c bf_cfb64.c bf_ofb64.c
 SRCS+=	c_skey.c c_ecb.c c_cfb64.c c_ofb64.c c_enc.c
 SRCS+=	bn_add.c bn_div.c bn_exp.c bn_lib.c
@@ -112,7 +111,7 @@ SRCS+=	ocsp_cl.c ocsp_ext.c ocsp_lib.c ocsp_srv.c
 
 .PATH:	${LCRYPTO_SRC}/md2 \
 	${LCRYPTO_SRC}/hmac ${LCRYPTO_SRC}/bf \
-	${LCRYPTO_SRC}/des ${LCRYPTO_SRC}/rc2 ${LCRYPTO_SRC}/rc4 \
+	${LCRYPTO_SRC}/des ${LCRYPTO_SRC}/rc2 \
 	${LCRYPTO_SRC}/cast ${LCRYPTO_SRC}/bn ${LCRYPTO_SRC}/rsa \
 	${LCRYPTO_SRC}/dsa ${LCRYPTO_SRC}/dh ${LCRYPTO_SRC}/buffer \
 	${LCRYPTO_SRC}/bio ${LCRYPTO_SRC}/stack ${LCRYPTO_SRC}/lhash \
@@ -163,7 +162,7 @@ HDRS=\
 	crypto/pkcs7/pkcs7.h \
 	crypto/rand/rand.h \
 	crypto/rc2/rc2.h \
-	crypto/rc4/rc4.h \
+	${.CURDIR}/rc4.h \
 	${.CURDIR}/ripemd.h \
 	crypto/rsa/rsa.h \
 	${.CURDIR}/sha.h \
@@ -219,8 +218,7 @@ SSLASM=\
 	bn bn-586 \
 	bn co-586 \
 	cast cast-586 \
-	des des-586 \
-	rc4 rc4-586
+	des des-586
 .  for dir f in ${SSLASM}
 SRCS+=	${f}.S
 GENERATED+=${f}.S
@@ -233,10 +231,10 @@ SRCS+= bf_cbc.c
 SRCS+= aes_core.c
 SRCS+= bf_enc.c
 SRCS+= bn_asm.c
-SRCS+= rc4_enc.c
 .endif
 
 SRCS+=	mbsd_memclr.c
+SRCS+=	mbsd_rc4.c
 
 SRCS+=	mbsd_md4.c
 SRCS+=	mbsd_md5.c
