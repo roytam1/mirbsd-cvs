@@ -19,7 +19,6 @@ SRCS+=	o_time.c
 SRCS+=	cryptlib.c ex_data.c cpt_err.c mem.c mem_dbg.c
 SRCS+=	tmdiff.c cversion.c uid.c
 SRCS+=	md2_dgst.c md2_one.c
-SRCS+=	md5_dgst.c md5_one.c
 SRCS+=	sha1dgst.c sha1_one.c
 SRCS+=	hmac.c
 SRCS+=	rmd_dgst.c rmd_one.c
@@ -113,7 +112,7 @@ SRCS+=	dso_openssl.c dso_win32.c dso_vms.c
 SRCS+=	ocsp_asn.c ocsp_err.c ocsp_ht.c ocsp_prn.c ocsp_vfy.c
 SRCS+=	ocsp_cl.c ocsp_ext.c ocsp_lib.c ocsp_srv.c
 
-.PATH:	${LCRYPTO_SRC}/md2 ${LCRYPTO_SRC}/md5 ${LCRYPTO_SRC}/sha \
+.PATH:	${LCRYPTO_SRC}/md2 ${LCRYPTO_SRC}/sha \
 	${LCRYPTO_SRC}/hmac ${LCRYPTO_SRC}/ripemd ${LCRYPTO_SRC}/bf \
 	${LCRYPTO_SRC}/des ${LCRYPTO_SRC}/rc2 ${LCRYPTO_SRC}/rc4 \
 	${LCRYPTO_SRC}/cast ${LCRYPTO_SRC}/bn ${LCRYPTO_SRC}/rsa \
@@ -155,7 +154,7 @@ HDRS=\
 	crypto/lhash/lhash.h \
 	crypto/md2/md2.h \
 	${.CURDIR}/md4.h \
-	crypto/md5/md5.h \
+	${.OBJDIR}/md5.h \
 	crypto/objects/objects.h \
 	crypto/ocsp/ocsp.h \
 	crypto/opensslv.h \
@@ -190,6 +189,19 @@ HDRDST=	${DESTDIR}/usr/include/openssl
 
 prereq: obj_mac.h
 
+.for _hash in md5
+GENERATED+=	${_hash}.h
+CLEANFILES+=	mbsd_${_hash}.c
+
+prereq: ${_hash}.h
+
+${_hash}.h: md4.h
+	sed -e 's/md4/${_hash}/g' -e 's/MD4/${_hash:U}/g' <$> >$@
+
+mbsd_${_hash}.c: mbsd_md4.c
+	sed -e 's/md4/${_hash}/g' -e 's/MD4/${_hash:U}/g' <$> >$@
+.endfor
+
 GENERATED=	obj_mac.h obj_dat.h
 CLEANFILES=	${GENERATED} obj_mac.num.tmp
 SSL_OBJECTS=	${SSL_SRC}/crypto/objects
@@ -215,7 +227,6 @@ SSLASM=\
 	bn co-586 \
 	cast cast-586 \
 	des des-586 \
-	md5 md5-586 \
 	rc4 rc4-586 \
 	ripemd rmd-586 \
 	sha sha1-586
@@ -237,6 +248,7 @@ SRCS+= rc4_enc.c
 SRCS+=	mbsd_memclr.c
 
 SRCS+=	mbsd_md4.c
+SRCS+=	mbsd_md5.c
 
 all beforedepend: ${GENERATED}
 
