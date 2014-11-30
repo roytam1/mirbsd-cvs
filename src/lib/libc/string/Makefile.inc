@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.27 2011/01/03 19:02:47 tg Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.28 2011/10/16 20:54:58 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
@@ -33,6 +33,10 @@ UIF_NUSRCS+=	wcswcs.c wcsstr.c -DWCSWCS
 SRCS+=		strndup.c
 UIF_NUSRCS+=	wcsndup.c strndup.c -DWIDEC
 
+SRCS+=		strnlen.c
+SRCS+=		timingsafe_bcmp.c
+SRCS+=		timingsafe_memcmp.c
+
 # machine-dependent net sources
 # m-d Makefile.inc must include sources for:
 #	bcopy()
@@ -49,7 +53,7 @@ MAN+=	bm.3 bcmp.3 bcopy.3 bstring.3 bzero.3 ffs.3 memccpy.3 memchr.3 \
 	strchr.3 strcmp.3 strcoll.3 strcpy.3 strcspn.3 strerror.3 \
 	string.3 strlen.3 strmode.3 strdup.3 strpbrk.3 strrchr.3 strsep.3 \
 	strsignal.3 strspn.3 strstr.3 strtok.3 strxfrm.3 swab.3 strlcpy.3 \
-	wcstok.3 wmemchr.3
+	timingsafe_bcmp.3 wcstok.3 wmemchr.3
 
 MLINKS+=bm.3 bm_comp.3 bm.3 bm_exec.3 bm.3 bm_free.3
 MLINKS+=strchr.3 index.3
@@ -60,9 +64,11 @@ MLINKS+=strcat.3 strncat.3
 MLINKS+=strcmp.3 strncmp.3
 MLINKS+=strcpy.3 strncpy.3
 MLINKS+=strlcpy.3 strlcat.3
+MLINKS+=strlen.3 strnlen.3
 MLINKS+=strstr.3 strcasestr.3
 MLINKS+=strtok.3 strtok_r.3
 MLINKS+=strerror.3 strerror_r.3
+MLINKS+=timingsafe_bcmp.3 timingsafe_memcmp.3
 MLINKS+=wmemchr.3 wcscasecmp.3
 MLINKS+=wmemchr.3 wcscat.3
 MLINKS+=wmemchr.3 wcschr.3

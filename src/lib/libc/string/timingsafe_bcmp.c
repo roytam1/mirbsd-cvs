@@ -1,4 +1,4 @@
-/*	$OpenBSD: timingsafe_bcmp.c,v 1.1 2010/07/20 15:28:44 matthew Exp $	*/
+/*	$OpenBSD: timingsafe_bcmp.c,v 1.2 2014/06/10 04:17:37 deraadt Exp $	*/
 /*
  * Copyright (c) 2010 Damien Miller.  All rights reserved.
  *
@@ -15,9 +15,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-#include <libckern.h>
-
-__RCSID("$MirOS: src/kern/c/timingsafe_bcmp.c,v 1.1 2013/09/10 17:38:33 tg Exp $");
+#include <string.h>
 
 int
 timingsafe_bcmp(const void *b1, const void *b2, size_t n)
@@ -29,13 +27,3 @@ timingsafe_bcmp(const void *b1, const void *b2, size_t n)
 		ret |= *p1++ ^ *p2++;
 	return (ret != 0);
 }
-
-#ifdef lint
-char *
-timingsafe_memcmp(const void *b1, const void *b2, size_t n)
-{
-	return (timingsafe_bcmp(b1, b2, n));
-}
-#else
-__strong_alias(timingsafe_memcmp, timingsafe_bcmp);
-#endif /* lint */

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/stdlib/Makefile.inc,v 1.14 2014/02/09 23:23:34 tg Exp $
+# $MirOS: src/lib/libc/stdlib/Makefile.inc,v 1.15 2014/03/19 22:54:00 tg Exp $
 
 # stdlib sources
 .PATH: ${LIBCSRCDIR}/arch/${MACHINE_ARCH}/stdlib ${LIBCSRCDIR}/stdlib
@@ -7,7 +7,7 @@ SRCS+=	a64l.c abort.c atexit.c atoi.c atof.c atol.c atoll.c bsearch.c \
 	cfree.c exit.c ecvt.c gcvt.c getenv.c getopt_long.c \
 	getsubopt.c hcreate.c heapsort.c l64a.c llabs.c lsearch.c \
 	merge.c putenv.c qsort.c radixsort.c rand.c random.c \
-	realpath.c rpmatch.c \
+	reallocarray.c realpath.c rpmatch.c \
 	setenv.c strtod.c strtof.c strtol.c strtoll.c strtonum.c strtoul.c \
 	strtoull.c system.c getprogname.c \
 	tfind.c tsearch.c _rand48.c drand48.c erand48.c jrand48.c lcong48.c \
@@ -74,7 +74,7 @@ MLINKS+=insque.3 remque.3
 MLINKS+=labs.3 llabs.3
 MLINKS+=lsearch.3 lfind.3
 MLINKS+=malloc.3 free.3 malloc.3 realloc.3 malloc.3 calloc.3
-MLINKS+=malloc.3 cfree.3 malloc.3 malloc.conf.5
+MLINKS+=malloc.3 cfree.3 malloc.3 malloc.conf.5 malloc.3 reallocarray.3
 MLINKS+=qsort.3 heapsort.3 qsort.3 mergesort.3
 MLINKS+=radixsort.3 sradixsort.3
 MLINKS+=rand.3 srand.3 rand.3 rand_r.3

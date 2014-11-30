@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/string.h,v 1.11 2014/02/09 16:15:32 tg Exp $ */
+/**	$MirOS: src/include/string.h,v 1.12 2014/11/30 02:45:32 tg Exp $ */
 /*	$OpenBSD: string.h,v 1.15 2005/03/30 03:04:16 deraadt Exp $	*/
 /*	$NetBSD: string.h,v 1.6 1994/10/26 00:56:30 cgd Exp $	*/
 
@@ -131,6 +131,7 @@ void	 strmode(mode_t, char *);
 int	 strncasecmp(const char *, const char *, size_t);
 #if __OPENBSD_VISIBLE
 char	*strndup(const char *, size_t);
+size_t	 strnlen(const char *, size_t);
 #endif
 char	*strsep(char **, const char *);
 char	*strsignal(int);

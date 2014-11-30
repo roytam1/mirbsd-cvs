@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.33 2014/02/09 23:19:55 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.34 2014/03/05 14:07:26 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -164,6 +164,9 @@ void	 qsort(void *, size_t, size_t, int (*)(const void *, const void *));
 int	 rand(void);
 int	 rand_r(unsigned int *);
 void	*realloc(void *, size_t);
+#if __OPENBSD_VISIBLE
+void	*reallocarray(void *, size_t, size_t);
+#endif
 void	 srand(unsigned);
 double	 strtod(const char *, char **);
 float	 strtof(const char *, char **);

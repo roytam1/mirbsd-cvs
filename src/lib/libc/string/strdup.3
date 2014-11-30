@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: src/lib/libc/string/strdup.3,v 1.3 2007/06/16 21:08:19 tg Exp $
 .\" $OpenBSD: strdup.3,v 1.13 2005/02/25 03:12:44 cloder Exp $
 .\"
 .\" Copyright (c) 1990, 1991, 1993
@@ -30,7 +30,7 @@
 .\"
 .\"     @(#)strdup.3	8.1 (Berkeley) 6/9/93
 .\"
-.Dd $Mdocdate$
+.Dd $Mdocdate: June 16 2007 $
 .Dt STRDUP 3
 .Os
 .Sh NAME
@@ -41,9 +41,6 @@
 .Fd #include <string.h>
 .Ft char *
 .Fn strdup "const char *s"
-.Pp
-.Fd #define _GNU_SOURCE
-.Fd #include <string.h>
 .Ft char *
 .Fn strndup "const char *s" "size_t n"
 .Sh DESCRIPTION
@@ -54,6 +51,7 @@ function allocates sufficient memory for a copy of the string
 does the copy, and returns a pointer to it.
 The pointer may subsequently be used as an argument to the function
 .Xr free 3 .
+.Pp
 The
 .Fn strndup
 function copies at most
@@ -73,15 +71,16 @@ to an allocated area of memory containing the NUL-terminated string
 .Bd -literal -offset indent
 char *p;
 
-if ((p = strdup("foobar")) == NULL) {
-	fprintf(stderr, "Out of memory.\en");
-	exit(1);
-}
+p = strdup("foobar");
+if (p == NULL)
+	err(1, NULL);
 .Ed
 .Sh ERRORS
 The
 .Fn strdup
-function may fail and set the external variable
+and
+.Fn strndup
+functions may fail and set the external variable
 .Va errno
 for any of the errors specified for the library function
 .Xr malloc 3 .
@@ -90,12 +89,27 @@ for any of the errors specified for the library function
 .Xr malloc 3 ,
 .Xr strcpy 3 ,
 .Xr strlcpy 3 ,
-.Xr strlen 3
-.Sh HISTORY
+.Xr strlen 3 ,
+.Xr wcsdup 3
+.Sh STANDARDS
 The
 .Fn strdup
-function first appeared in
-.Bx 4.4 .
+and
+.Fn strndup
+functions conform to
+.St -p1003.1-2008 .
+.Sh HISTORY
+A
+.Fn strdup
+macro was first used in the
+.Bx 4.1c
+debugger,
+.Sy dbx .
+It was rewritten as a C function for the
+.Bx 4.3
+.Xr inetd 8
+and first appeared in the C library of
+.Bx 4.3 Reno .
 The
 .Fn strndup
 function is a
