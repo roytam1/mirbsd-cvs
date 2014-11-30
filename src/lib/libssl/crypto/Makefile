@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.31 2014/11/29 23:00:29 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.34 2014/11/30 00:01:45 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2006/10/14 19:43:57 drahn Exp $
 
 .include <bsd.own.mk>
@@ -19,7 +19,6 @@ SRCS+=	o_time.c
 SRCS+=	cryptlib.c ex_data.c cpt_err.c mem.c mem_dbg.c
 SRCS+=	tmdiff.c cversion.c uid.c
 SRCS+=	md2_dgst.c md2_one.c
-SRCS+=	sha1dgst.c sha1_one.c
 SRCS+=	hmac.c
 SRCS+=	rmd_dgst.c rmd_one.c
 SRCS+=	aes_cbc.c aes_cfb.c aes_ctr.c aes_ecb.c aes_ofb.c aes_misc.c
@@ -112,7 +111,7 @@ SRCS+=	dso_openssl.c dso_win32.c dso_vms.c
 SRCS+=	ocsp_asn.c ocsp_err.c ocsp_ht.c ocsp_prn.c ocsp_vfy.c
 SRCS+=	ocsp_cl.c ocsp_ext.c ocsp_lib.c ocsp_srv.c
 
-.PATH:	${LCRYPTO_SRC}/md2 ${LCRYPTO_SRC}/sha \
+.PATH:	${LCRYPTO_SRC}/md2 \
 	${LCRYPTO_SRC}/hmac ${LCRYPTO_SRC}/ripemd ${LCRYPTO_SRC}/bf \
 	${LCRYPTO_SRC}/des ${LCRYPTO_SRC}/rc2 ${LCRYPTO_SRC}/rc4 \
 	${LCRYPTO_SRC}/cast ${LCRYPTO_SRC}/bn ${LCRYPTO_SRC}/rsa \
@@ -168,7 +167,7 @@ HDRS=\
 	crypto/rc4/rc4.h \
 	crypto/ripemd/ripemd.h \
 	crypto/rsa/rsa.h \
-	crypto/sha/sha.h \
+	${.CURDIR}/sha.h \
 	crypto/stack/safestack.h \
 	crypto/stack/stack.h \
 	crypto/symhacks.h \
@@ -216,7 +215,6 @@ obj_dat.h: obj_mac.h
 .if (${MACHINE_ARCH} == "i386")
 CPPFLAGS+= -DAES_ASM
 CPPFLAGS+= -DMD5_ASM
-CPPFLAGS+= -DSHA1_ASM
 CPPFLAGS+= -DRMD160_ASM
 CPPFLAGS+= -DOPENBSD_CAST_ASM
 CPPFLAGS+= -DOPENBSD_DES_ASM
@@ -228,8 +226,7 @@ SSLASM=\
 	cast cast-586 \
 	des des-586 \
 	rc4 rc4-586 \
-	ripemd rmd-586 \
-	sha sha1-586
+	ripemd rmd-586
 .  for dir f in ${SSLASM}
 SRCS+=	${f}.S
 GENERATED+=${f}.S
@@ -249,6 +246,7 @@ SRCS+=	mbsd_memclr.c
 
 SRCS+=	mbsd_md4.c
 SRCS+=	mbsd_md5.c
+SRCS+=	mbsd_sha1.c
 
 all beforedepend: ${GENERATED}
 
