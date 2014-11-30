@@ -65,7 +65,6 @@ CAST_encrypt(CAST_LONG *data, CAST_KEY *key)
 	unsigned char buf[CAST_BLOCK], *cp;
 
 	/* ugh! */
-#warning dead slow, PoC only!
 	cp = buf;
 	l2n(data[0], cp);
 	l2n(data[1], cp);
@@ -81,7 +80,6 @@ CAST_decrypt(CAST_LONG *data, CAST_KEY *key)
 	unsigned char buf[CAST_BLOCK], *cp;
 
 	/* ugh! */
-#warning dead slow, PoC only!
 	cp = buf;
 	l2n(data[0], cp);
 	l2n(data[1], cp);
