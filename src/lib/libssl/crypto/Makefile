@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.34 2014/11/30 00:01:45 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.35 2014/11/30 00:12:56 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2006/10/14 19:43:57 drahn Exp $
 
 .include <bsd.own.mk>
@@ -20,7 +20,6 @@ SRCS+=	cryptlib.c ex_data.c cpt_err.c mem.c mem_dbg.c
 SRCS+=	tmdiff.c cversion.c uid.c
 SRCS+=	md2_dgst.c md2_one.c
 SRCS+=	hmac.c
-SRCS+=	rmd_dgst.c rmd_one.c
 SRCS+=	aes_cbc.c aes_cfb.c aes_ctr.c aes_ecb.c aes_ofb.c aes_misc.c
 SRCS+=	cbc_cksm.c cbc_enc.c cfb64enc.c cfb_enc.c \
 	ecb3_enc.c ecb_enc.c enc_read.c enc_writ.c \
@@ -112,7 +111,7 @@ SRCS+=	ocsp_asn.c ocsp_err.c ocsp_ht.c ocsp_prn.c ocsp_vfy.c
 SRCS+=	ocsp_cl.c ocsp_ext.c ocsp_lib.c ocsp_srv.c
 
 .PATH:	${LCRYPTO_SRC}/md2 \
-	${LCRYPTO_SRC}/hmac ${LCRYPTO_SRC}/ripemd ${LCRYPTO_SRC}/bf \
+	${LCRYPTO_SRC}/hmac ${LCRYPTO_SRC}/bf \
 	${LCRYPTO_SRC}/des ${LCRYPTO_SRC}/rc2 ${LCRYPTO_SRC}/rc4 \
 	${LCRYPTO_SRC}/cast ${LCRYPTO_SRC}/bn ${LCRYPTO_SRC}/rsa \
 	${LCRYPTO_SRC}/dsa ${LCRYPTO_SRC}/dh ${LCRYPTO_SRC}/buffer \
@@ -165,7 +164,7 @@ HDRS=\
 	crypto/rand/rand.h \
 	crypto/rc2/rc2.h \
 	crypto/rc4/rc4.h \
-	crypto/ripemd/ripemd.h \
+	${.CURDIR}/ripemd.h \
 	crypto/rsa/rsa.h \
 	${.CURDIR}/sha.h \
 	crypto/stack/safestack.h \
@@ -188,18 +187,16 @@ HDRDST=	${DESTDIR}/usr/include/openssl
 
 prereq: obj_mac.h
 
-.for _hash in md5
-GENERATED+=	${_hash}.h
-CLEANFILES+=	mbsd_${_hash}.c
+GENERATED+=	md5.h
+CLEANFILES+=	mbsd_md5.c
 
-prereq: ${_hash}.h
+prereq: md5.h
 
-${_hash}.h: md4.h
-	sed -e 's/md4/${_hash}/g' -e 's/MD4/${_hash:U}/g' <$> >$@
+md5.h: md4.h
+	sed -e 's/md4/md5/g' -e 's/MD4/MD5/g' <$> >$@
 
-mbsd_${_hash}.c: mbsd_md4.c
-	sed -e 's/md4/${_hash}/g' -e 's/MD4/${_hash:U}/g' <$> >$@
-.endfor
+mbsd_md5.c: mbsd_md4.c
+	sed -e 's/md4/md5/g' -e 's/MD4/MD5/g' <$> >$@
 
 GENERATED=	obj_mac.h obj_dat.h
 CLEANFILES=	${GENERATED} obj_mac.num.tmp
@@ -214,8 +211,6 @@ obj_dat.h: obj_mac.h
 
 .if (${MACHINE_ARCH} == "i386")
 CPPFLAGS+= -DAES_ASM
-CPPFLAGS+= -DMD5_ASM
-CPPFLAGS+= -DRMD160_ASM
 CPPFLAGS+= -DOPENBSD_CAST_ASM
 CPPFLAGS+= -DOPENBSD_DES_ASM
 SSLASM=\
@@ -225,8 +220,7 @@ SSLASM=\
 	bn co-586 \
 	cast cast-586 \
 	des des-586 \
-	rc4 rc4-586 \
-	ripemd rmd-586
+	rc4 rc4-586
 .  for dir f in ${SSLASM}
 SRCS+=	${f}.S
 GENERATED+=${f}.S
@@ -246,6 +240,7 @@ SRCS+=	mbsd_memclr.c
 
 SRCS+=	mbsd_md4.c
 SRCS+=	mbsd_md5.c
+SRCS+=	mbsd_rmd160.c
 SRCS+=	mbsd_sha1.c
 
 all beforedepend: ${GENERATED}
