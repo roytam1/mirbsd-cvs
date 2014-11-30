@@ -30,14 +30,15 @@
 .\" OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 .\" SUCH DAMAGE.
 .\"
-.\"	$OpenBSD: malloc.3,v 1.73 2013/07/18 10:14:49 schwarze Exp $
+.\"	$OpenBSD: malloc.3,v 1.85 2014/10/30 21:47:47 deraadt Exp $
 .\"
-.Dd $Mdocdate: July 18 2013 $
+.Dd $Mdocdate: October 30 2014 $
 .Dt MALLOC 3
 .Os
 .Sh NAME
 .Nm malloc ,
 .Nm calloc ,
+.Nm reallocarray ,
 .Nm realloc ,
 .Nm free ,
 .Nm cfree
@@ -49,92 +50,37 @@
 .Ft void *
 .Fn calloc "size_t nmemb" "size_t size"
 .Ft void *
+.Fn reallocarray "void *ptr" "size_t nmemb" "size_t size"
+.Ft void *
 .Fn realloc "void *ptr" "size_t size"
 .Ft void
 .Fn free "void *ptr"
 .Ft void
 .Fn cfree "void *ptr"
-.Ft char *
+.Ft char * Ns
 .Va malloc_options ;
 .Sh DESCRIPTION
 The
 .Fn malloc
-function allocates uninitialized space for an object whose
-size is specified by
+function allocates uninitialized space for an object of
+the specified
 .Fa size .
-The
 .Fn malloc
-function maintains multiple lists of free blocks according to size, allocating
+maintains multiple lists of free blocks according to size, allocating
 space from the appropriate list.
-.Pp
-The allocated space is
-suitably aligned (after possible pointer
-coercion) for storage of any type of object.
+The allocated space is suitably aligned (after possible pointer coercion) for
+storage of any type of object.
 If the space is of
 .Em pagesize
 or larger, the memory returned will be page-aligned.
-.Pp
-Allocation of a zero size object returns a pointer to a zero size object.
-This zero size object is access protected, so any access to it will
-generate an exception (SIGSEGV).
-Many zero-sized objects can be placed consecutively in shared
-protected pages.
-The minimum size of the protection on each object is suitably aligned and
-sized as previously stated, but the protection may extend further depending
-on where in a protected zone the object lands.
-.Pp
-When using
-.Fn malloc
-be careful to avoid the following idiom:
-.Bd -literal -offset indent
-if ((p = malloc(num * size)) == NULL)
-	err(1, "malloc");
-.Ed
-.Pp
-The multiplication may lead to an integer overflow.
-To avoid this,
-.Fn calloc
-is recommended.
-.Pp
-If
-.Fn malloc
-must be used, be sure to test for overflow:
-.Bd -literal -offset indent
-if (size && num > SIZE_MAX / size) {
-	errno = ENOMEM;
-	err(1, "overflow");
-}
-.Ed
 .Pp
 The
 .Fn calloc
 function allocates space for an array of
 .Fa nmemb
-objects, each of whose size is
+objects, each of the specified
 .Fa size .
 The space is initialized to zero.
-The use of
-.Fn calloc
-is strongly encouraged when allocating multiple sized objects
-in order to avoid possible integer overflows.
-.Pp
-The
-.Fn free
-function causes the space pointed to by
-.Fa ptr
-to be either placed on a list of free pages to make it available for future
-allocation or, if required, to be returned to the kernel using
-.Xr munmap 2 .
-If
-.Fa ptr
-is a null pointer, no action occurs.
-.Pp
-A
-.Fn cfree
-function is also provided for compatibility with old systems and other
-.Nm malloc
-libraries; it is simply an alias for
-.Fn free .
 .Pp
 The
 .Fn realloc
@@ -147,26 +93,135 @@ The contents of the object are unchanged up to the lesser
 of the new and old sizes.
 If the new size is larger, the value of the newly allocated portion
 of the object is indeterminate and uninitialized.
-If
-.Fa ptr
-is a null pointer, the
-.Fn realloc
-function behaves like the
-.Fn malloc
-function for the specified size.
 If the space cannot be allocated, the object
 pointed to by
 .Fa ptr
 is unchanged.
 If
-.Fa size
-is zero and
 .Fa ptr
-is not a null pointer, the object it points to is freed and a new zero size
-object is returned.
+is
+.Dv NULL ,
+.Fn realloc
+behaves like
+.Fn malloc
+and allocates a new object.
+.Pp
+The
+.Fn reallocarray
+function is similar to
+.Fn realloc
+except it operates on
+.Fa nmemb
+members of size
+.Fa size
+and checks for integer overflow in the calculation
+.Fa nmemb
+*
+.Fa size .
+.Pp
+The
+.Fn free
+function causes the space pointed to by
+.Fa ptr
+to be either placed on a list of free pages to make it available for future
+allocation or, if required, to be returned to the kernel using
+.Xr munmap 2 .
+If
+.Fa ptr
+is a
+.Dv NULL
+pointer, no action occurs.
+If
+.Fa ptr
+was previously freed by
+.Fn free
+.Fn realloc ,
+or
+.Fn reallocarray ,
+the behavior is undefined and the double free is a security concern.
+.Pp
+A
+.Fn cfree
+function is also provided for compatibility with old systems and other
+.Nm malloc
+libraries; it is simply an alias for
+.Fn free .
+.Sh RETURN VALUES
+Upon successful completion, the functions
+.Fn malloc ,
+.Fn calloc ,
+.Fn realloc ,
+and
+.Fn reallocarray
+return a pointer to the allocated space; otherwise, a
+.Dv NULL
+pointer is returned and
+.Va errno
+is set to
+.Er ENOMEM .
+.Pp
+If
+.Fa size
+or
+.Fa nmemb
+is equal to 0, a unique pointer to an access protected,
+zero sized object is returned.
+Access via this pointer will generate a
+.Dv SIGSEGV
+exception.
+.Pp
+If multiplying
+.Fa nmemb
+and
+.Fa size
+results in integer overflow,
+.Fn calloc
+and
+.Fn reallocarray
+return
+.Dv NULL
+and set
+.Va errno
+to
+.Er ENOMEM .
+.Pp
+The
+.Fn free
+and
+.Fn cfree
+functions return no value.
+.Sh IDIOMS
+Consider
+.Fn calloc
+or the extension
+.Fn reallocarray
+when there is multiplication in the
+.Fa size
+argument of
+.Fn malloc
+or
+.Fn realloc .
+For example, avoid this common idiom as it may lead to integer overflow:
+.Bd -literal -offset indent
+if ((p = malloc(num * size)) == NULL)
+	err(1, "malloc");
+.Ed
+.Pp
+A drop-in replacement is the
+.Ox
+extension
+.Fn reallocarray :
+.Bd -literal -offset indent
+if ((p = reallocarray(NULL, num, size)) == NULL)
+	err(1, "reallocarray");
+.Ed
+.Pp
+Alternatively,
+.Fn calloc
+may be used at the cost of initialization overhead.
 .Pp
 When using
-.Fn realloc
+.Fn realloc ,
 be careful to avoid the following idiom:
 .Bd -literal -offset indent
 size += 50;
@@ -195,13 +250,176 @@ size = newsize;
 .Ed
 .Pp
 As with
-.Fn malloc
+.Fn malloc ,
 it is important to ensure the new size value will not overflow;
 i.e. avoid allocations like the following:
 .Bd -literal -offset indent
 if ((newp = realloc(p, num * size)) == NULL) {
 	...
 .Ed
+.Pp
+Instead, use
+.Fn reallocarray :
+.Bd -literal -offset indent
+if ((newp = reallocarray(p, num, size)) == NULL) {
+	...
+.Ed
+.Pp
+Calling
+.Fn realloc
+with a
+.Dv NULL
+.Fa ptr
+is equivalent to calling
+.Fn malloc .
+Instead of this idiom:
+.Bd -literal -offset indent
+if (p == NULL)
+	newp = malloc(newsize);
+else
+	newp = realloc(p, newsize);
+.Ed
+.Pp
+Use the following:
+.Bd -literal -offset indent
+newp = realloc(p, newsize);
+.Ed
+.Sh ENVIRONMENT
+.Bl -tag -width Ev
+.It Ev MALLOC_OPTIONS
+See below.
+.El
+.Sh FILES
+.Bl -tag -width "/etc/malloc.conf"
+.It Pa /etc/malloc.conf
+symbolic link to filename containing option flags
+.El
+.Sh EXAMPLES
+If
+.Fn malloc
+must be used with multiplication, be sure to test for overflow:
+.Bd -literal -offset indent
+size_t num, size;
+\&...
+
+/* Check for size_t overflow */
+if (size && num > SIZE_MAX / size)
+	errc(1, EOVERFLOW, "overflow");
+
+if ((p = malloc(size * num)) == NULL)
+	err(1, "malloc");
+.Ed
+.Pp
+The above test is not sufficient in all cases.
+For example, multiplying ints requires a different set of checks:
+.Bd -literal -offset indent
+int num, size;
+\&...
+
+/* Avoid invalid requests */
+if (size < 0 || num < 0)
+	errc(1, EOVERFLOW, "overflow");
+
+/* Check for signed int overflow */
+if (size && num > INT_MAX / size)
+	errc(1, EOVERFLOW, "overflow");
+
+if ((p = malloc(size * num)) == NULL)
+	err(1, "malloc");
+.Ed
+.Pp
+Assuming the implementation checks for integer overflow as
+.Ox
+does, it is much easier to use
+.Fn calloc
+or
+.Fn reallocarray .
+.Pp
+The above examples could be simplified to:
+.Bd -literal -offset indent
+if ((p = reallocarray(NULL, num, size)) == NULL)
+	err(1, "reallocarray");
+.Ed
+.Pp
+or at the cost of initialization:
+.Bd -literal -offset indent
+if ((p = calloc(num, size)) == NULL)
+	err(1, "calloc");
+.Ed
+.Sh DIAGNOSTICS
+If
+.Fn malloc ,
+.Fn calloc ,
+.Fn realloc ,
+.Fn reallocarray ,
+or
+.Fn free
+detect an error condition,
+a message will be printed to file descriptor
+2 (not using stdio).
+Errors will result in the process being aborted,
+unless the
+.Cm a
+option has been specified.
+.Pp
+Here is a brief description of the error messages and what they mean:
+.Bl -tag -width Ds
+.It Dq out of memory
+If the
+.Cm X
+option is specified it is an error for
+.Fn malloc ,
+.Fn calloc ,
+.Fn realloc ,
+or
+.Fn reallocarray
+to return
+.Dv NULL .
+.It Dq malloc init mmap failed
+This is a rather weird condition that is most likely to indicate a
+seriously overloaded system or a ulimit restriction.
+.It Dq bogus pointer (double free?)
+An attempt to
+.Fn free ,
+.Fn realloc ,
+or
+.Fn reallocarray
+an unallocated pointer was made.
+.It Dq chunk is already free
+There was an attempt to free a chunk that had already been freed.
+.It Dq modified chunk-pointer
+The pointer passed to
+.Fn free ,
+.Fn realloc ,
+or
+.Fn reallocarray
+has been modified.
+.It Dq recursive call
+An attempt was made to call recursively into these functions, i.e., from a
+signal handler.
+This behavior is not supported.
+In particular, signal handlers should
+.Em not
+use any of the
+.Fn malloc
+functions nor utilize any other functions which may call
+.Fn malloc
+(e.g.,
+.Xr stdio 3
+routines).
+.It Dq unknown char in MALLOC_OPTIONS
+We found something we didn't understand.
+.It Dq malloc cache overflow/underflow
+The internal malloc page cache has been corrupted.
+.It Dq malloc free slot lost
+The internal malloc page cache has been corrupted.
+.It Dq guard size
+An inconsistent guard size was detected.
+.It any other error
+.Fn malloc
+detected an internal error;
+consult sources and/or wizards.
+.El
 .Sh MALLOC_OPTIONS
 Malloc will first look for a symbolic link called
 .Pa /etc/malloc.conf
@@ -258,6 +476,11 @@ Currently junk is bytes of 0xd0 when allocating; this is pronounced
 .Dq Duh .
 \&:-)
 Freed chunks are filled with 0xdf.
+.It Cm j
+.Dq Don't Junk .
+By default, small chunks are always junked, and the first part of pages
+is junked after free.
+This option ensures that no junking is performed.
 .It Cm P
 .Dq Move allocations within a page.
 Allocations larger than half a page but smaller than a page
@@ -298,11 +521,6 @@ malloc_options = "X";
 .Pp
 Note that this will cause code that is supposed to handle
 out-of-memory conditions gracefully to abort instead.
-.It Cm Z
-.Dq Zero .
-Fill some junk into the area allocated (see
-.Cm J ) ,
-except for the exact length the user asked for, which is zeroed.
 .It Cm <
 .Dq Half the cache size .
 Decrease the size of the free page cache by a factor of two.
@@ -313,7 +531,7 @@ Increase the size of the free page cache by a factor of two.
 .Pp
 So to set a systemwide reduction of the cache to a quarter of the
 default size and use guard pages:
-.Dl # ln -s 'G\*(Lt\*(Lt' /etc/malloc.conf
+.Dl # ln -s 'G<<' /etc/malloc.conf
 .Pp
 The flags are mostly for testing and debugging.
 If a program changes behavior if any of these options (except
@@ -322,122 +540,45 @@ are used,
 it is buggy.
 .Pp
 The default number of free pages cached is 64.
-.Sh RETURN VALUES
-The
-.Fn malloc
-and
-.Fn calloc
-functions return a pointer to the allocated space if successful; otherwise,
-a null pointer is returned and
-.Va errno
-is set to
-.Er ENOMEM .
-.Pp
-The
-.Fn free
-and
-.Fn cfree
-functions return no value.
-.Pp
-The
-.Fn realloc
-function returns a pointer to the (possibly moved) allocated space
-if successful; otherwise, a null pointer is returned and
-.Va errno
-is set to
-.Er ENOMEM .
-.Sh ENVIRONMENT
-.Bl -tag -width Ev
-.It Ev MALLOC_OPTIONS
-See above.
-.El
-.Sh FILES
-.Bl -tag -width "/etc/malloc.conf"
-.It Pa /etc/malloc.conf
-symbolic link to filename containing option flags
-.El
-.Sh DIAGNOSTICS
-If
-.Fn malloc ,
-.Fn calloc ,
-.Fn realloc ,
-or
-.Fn free
-detect an error condition,
-a message will be printed to file descriptor
-2 (not using stdio).
-Errors will result in the process being aborted,
-unless the
-.Cm a
-option has been specified.
-.Pp
-Here is a brief description of the error messages and what they mean:
-.Bl -tag -width Ds
-.It Dq out of memory
-If the
-.Cm X
-option is specified it is an error for
-.Fn malloc ,
-.Fn calloc ,
-or
-.Fn realloc
-to return
-.Dv NULL .
-.It Dq malloc init mmap failed
-This is a rather weird condition that is most likely to indicate a
-seriously overloaded system or a ulimit restriction.
-.It Dq bogus pointer (double free?)
-An attempt to
-.Fn free
-or
-.Fn realloc
-an unallocated pointer was made.
-.It Dq chunk is already free
-There was an attempt to free a chunk that had already been freed.
-.It Dq modified chunk-pointer
-The pointer passed to
-.Fn free
-or
-.Fn realloc
-has been modified.
-.It Dq recursive call
-An attempt was made to call recursively into these functions, i.e., from a
-signal handler.
-This behavior is not supported.
-In particular, signal handlers should
-.Em not
-use any of the
-.Fn malloc
-functions nor utilize any other functions which may call
-.Fn malloc
-(e.g.,
-.Xr stdio 3
-routines).
-.It Dq unknown char in MALLOC_OPTIONS
-We found something we didn't understand.
-.It Dq malloc cache overflow/underflow
-The internal malloc page cache has been corrupted.
-.It Dq malloc free slot lost
-The internal malloc page cache has been corrupted.
-.It Dq guard size
-An inconsistent guard size was detected.
-.It any other error
-.Fn malloc
-detected an internal error;
-consult sources and/or wizards.
-.El
 .Sh SEE ALSO
 .Xr brk 2 ,
 .Xr mmap 2 ,
 .Xr munmap 2 ,
 .Xr alloca 3 ,
 .Xr getpagesize 3 ,
-.Xr posix_memalign 3
+.Xr posix_memalign 3 ,
+.Xr sysconf 3
 .Sh STANDARDS
 The
-.Fn malloc
-function conforms to
+.Fn malloc ,
+.Fn calloc ,
+.Fn realloc ,
+and
+.Fn free
+functions conform to
 .St -ansiC .
+.Pp
+If
+.Fa size
+or
+.Fa nmemb
+are 0, the return value is implementation defined;
+other conforming implementations may return
+.Dv NULL
+in this case.
+.Pp
+The standard does not require
+.Fn calloc
+to check for integer overflow,
+but most modern implementations provide this check.
+.Pp
+The
+.Ev MALLOC_OPTIONS
+environment variable, the file
+.Pa /etc/malloc.conf ,
+and the
+.Sx DIAGNOSTICS
+output are extensions to the standard.
 .Sh HISTORY
 A
 .Fn free
@@ -482,3 +623,47 @@ random.
 A rewrite by Otto Moerbeek introducing a new central data structure and more
 randomization appeared in
 .Ox 4.4 .
+.Pp
+The
+.Fn reallocarray
+function appeared in
+.Ox 5.6 .
+.Pp
+The
+.Fn cfree
+function appeared in SunOS 4.x.
+.Sh CAVEATS
+When using
+.Fn malloc ,
+be wary of signed integer and
+.Vt size_t
+overflow especially when there is multiplication in the
+.Fa size
+argument.
+.Pp
+Signed integer overflow will cause undefined behavior which compilers
+typically handle by wrapping back around to negative numbers.
+Depending on the input, this can result in allocating more or less
+memory than intended.
+.Pp
+An unsigned overflow has defined behavior which will wrap back around and
+return less memory than intended.
+.Pp
+A signed or unsigned integer overflow is a
+.Em security
+risk if less memory is returned than intended.
+Subsequent code may corrupt the heap by writing beyond the memory that was
+allocated.
+An attacker may be able to leverage this heap corruption to execute arbitrary
+code.
+.Pp
+Consider using
+.Fn calloc
+or
+.Fn reallocarray
+instead of using multiplication in
+.Fn malloc
+and
+.Fn realloc
+to avoid these problems on
+.Ox .
