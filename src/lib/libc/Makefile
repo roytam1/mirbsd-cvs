@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/Makefile,v 1.44 2014/01/01 15:16:30 bsiegert Exp $
+# $MirOS: src/lib/libc/Makefile,v 1.45 2014/02/19 17:43:26 tg Exp $
 # $OpenBSD: Makefile,v 1.23 2005/06/29 14:05:08 mickey Exp $
 #
 # All library objects contain sccsid strings by default; they may be
@@ -9,7 +9,7 @@
 
 .include <bsd.own.mk>
 
-SHLIB_VERSION?=		42.0	# note: If changes were made to the file
+SHLIB_VERSION?=		42.1	# note: If changes were made to the file
 #				# src/lib/libc/include/thread_private.h or
 #				# system calls have been added/changed,
 #				# libpthread must also be updated.

@@ -56,12 +56,14 @@
  * [including the GNU Public Licence.]
  */
 
+#include <sys/param.h>
 #include <openssl/cast.h>
 #include "cast_lcl.h"
 
 void
 CAST_encrypt(CAST_LONG *data, CAST_KEY *key)
 {
+#if (MirBSD < 0x0AB5)
 	unsigned char buf[CAST_BLOCK], *cp;
 
 	/* ugh! */
@@ -72,11 +74,15 @@ CAST_encrypt(CAST_LONG *data, CAST_KEY *key)
 	cp = buf;
 	n2l(cp, data[0]);
 	n2l(cp, data[1]);
+#else
+	cast_encrypt2(key, data);
+#endif
 }
 
 void
 CAST_decrypt(CAST_LONG *data, CAST_KEY *key)
 {
+#if (MirBSD < 0x0AB5)
 	unsigned char buf[CAST_BLOCK], *cp;
 
 	/* ugh! */
@@ -87,6 +93,9 @@ CAST_decrypt(CAST_LONG *data, CAST_KEY *key)
 	cp = buf;
 	n2l(cp, data[0]);
 	n2l(cp, data[1]);
+#else
+	cast_decrypt2(key, data);
+#endif
 }
 
 void CAST_cbc_encrypt(const unsigned char *in, unsigned char *out, long length,

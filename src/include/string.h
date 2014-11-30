@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/string.h,v 1.10 2013/10/31 20:06:09 tg Exp $ */
+/**	$MirOS: src/include/string.h,v 1.11 2014/02/09 16:15:32 tg Exp $ */
 /*	$OpenBSD: string.h,v 1.15 2005/03/30 03:04:16 deraadt Exp $	*/
 /*	$NetBSD: string.h,v 1.6 1994/10/26 00:56:30 cgd Exp $	*/
 
@@ -111,6 +111,10 @@ void	 bcopy(const void *, void *, size_t)
 		__attribute__((__bounded__(__buffer__, 2, 3)));
 void	 bzero(void *, size_t)
 		__attribute__((__bounded__(__buffer__, 1, 2)));
+#if __OPENBSD_VISIBLE
+void explicit_bzero(void *, size_t)
+    __attribute__((__bounded__(__buffer__, 1, 2)));
+#endif
 int	 ffs(int);
 char	*index(const char *, int);
 void	*memccpy(void *, const void *, int, size_t)
@@ -130,6 +134,14 @@ char	*strndup(const char *, size_t);
 #endif
 char	*strsep(char **, const char *);
 char	*strsignal(int);
+#endif
+#if __OPENBSD_VISIBLE
+int timingsafe_bcmp(const void *, const void *, size_t)
+    __attribute__((__bounded__(__buffer__, 1, 3)))
+    __attribute__((__bounded__(__buffer__, 2, 3)));
+int timingsafe_memcmp(const void *, const void *, size_t)
+    __attribute__((__bounded__(__buffer__, 1, 3)))
+    __attribute__((__bounded__(__buffer__, 2, 3)));
 #endif
 __END_DECLS
 

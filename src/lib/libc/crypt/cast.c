@@ -9,6 +9,7 @@
 #include <sys/types.h>
 
 #include <cast.h>
+#include <string.h>
 
 /* CAST S-Boxes */
 
@@ -575,15 +576,38 @@ static const u_int32_t cast_sbox8[256] = {
 /***** Encryption Function *****/
 
 void
-cast_encrypt(cast_key* key, u_int8_t* inblock, u_int8_t* outblock)
+cast_encrypt(const cast_key* key, u_int8_t* inblock, u_int8_t* outblock)
+{
+	u_int32_t d[2];
+
+	/* Get inblock into d */
+	d[0] = ((u_int32_t)inblock[0] << 24) | ((u_int32_t)inblock[1] << 16) |
+	    ((u_int32_t)inblock[2] << 8) | (u_int32_t)inblock[3];
+	d[1] = ((u_int32_t)inblock[4] << 24) | ((u_int32_t)inblock[5] << 16) |
+	    ((u_int32_t)inblock[6] << 8) | (u_int32_t)inblock[7];
+	/* Do the work */
+	cast_encrypt2(key, d);
+	/* Put d into outblock */
+	outblock[0] = U8a(d[1]);
+	outblock[1] = U8b(d[1]);
+	outblock[2] = U8c(d[1]);
+	outblock[3] = U8d(d[1]);
+	outblock[4] = U8a(d[0]);
+	outblock[5] = U8b(d[0]);
+	outblock[6] = U8c(d[0]);
+	outblock[7] = U8d(d[0]);
+	/* Wipe clean */
+	explicit_bzero(d, sizeof(d));
+}
+
+void
+cast_encrypt2(const cast_key* key, u_int32_t *data)
 {
 	u_int32_t t, l, r;
 
 	/* Get inblock into l,r */
-	l = ((u_int32_t)inblock[0] << 24) | ((u_int32_t)inblock[1] << 16) |
-	    ((u_int32_t)inblock[2] << 8) | (u_int32_t)inblock[3];
-	r = ((u_int32_t)inblock[4] << 24) | ((u_int32_t)inblock[5] << 16) |
-	    ((u_int32_t)inblock[6] << 8) | (u_int32_t)inblock[7];
+	l = data[0];
+	r = data[1];
 	/* Do the work */
 	F1(l, r,  0);
 	F2(r, l,  1);
@@ -605,14 +629,8 @@ cast_encrypt(cast_key* key, u_int8_t* inblock, u_int8_t* outblock)
 		F1(r, l, 15);
 	}
 	/* Put l,r into outblock */
-	outblock[0] = U8a(r);
-	outblock[1] = U8b(r);
-	outblock[2] = U8c(r);
-	outblock[3] = U8d(r);
-	outblock[4] = U8a(l);
-	outblock[5] = U8b(l);
-	outblock[6] = U8c(l);
-	outblock[7] = U8d(l);
+	data[0] = l;
+	data[1] = r;
 	/* Wipe clean */
 	t = l = r = 0;
 }
@@ -621,15 +639,38 @@ cast_encrypt(cast_key* key, u_int8_t* inblock, u_int8_t* outblock)
 /***** Decryption Function *****/
 
 void
-cast_decrypt(cast_key* key, u_int8_t* inblock, u_int8_t* outblock)
+cast_decrypt(const cast_key* key, u_int8_t* inblock, u_int8_t* outblock)
+{
+	u_int32_t d[2];
+
+	/* Get inblock into d */
+	d[1] = ((u_int32_t)inblock[0] << 24) | ((u_int32_t)inblock[1] << 16) |
+	    ((u_int32_t)inblock[2] << 8) | (u_int32_t)inblock[3];
+	d[0] = ((u_int32_t)inblock[4] << 24) | ((u_int32_t)inblock[5] << 16) |
+	    ((u_int32_t)inblock[6] << 8) | (u_int32_t)inblock[7];
+	/* Do the work */
+	cast_decrypt2(key, d);
+	/* Put d into outblock */
+	outblock[0] = U8a(d[0]);
+	outblock[1] = U8b(d[0]);
+	outblock[2] = U8c(d[0]);
+	outblock[3] = U8d(d[0]);
+	outblock[4] = U8a(d[1]);
+	outblock[5] = U8b(d[1]);
+	outblock[6] = U8c(d[1]);
+	outblock[7] = U8d(d[1]);
+	/* Wipe clean */
+	explicit_bzero(d, sizeof(d));
+}
+
+void
+cast_decrypt2(const cast_key* key, u_int32_t *data)
 {
 	u_int32_t t, l, r;
 
 	/* Get inblock into l,r */
-	r = ((u_int32_t)inblock[0] << 24) | ((u_int32_t)inblock[1] << 16) |
-	    ((u_int32_t)inblock[2] << 8) | (u_int32_t)inblock[3];
-	l = ((u_int32_t)inblock[4] << 24) | ((u_int32_t)inblock[5] << 16) |
-	    ((u_int32_t)inblock[6] << 8) | (u_int32_t)inblock[7];
+	l = data[0];
+	r = data[1];
 	/* Do the work */
 	/* Only do full 16 rounds if key length > 80 bits */
 	if (key->rounds > 12) {
@@ -651,20 +692,14 @@ cast_decrypt(cast_key* key, u_int8_t* inblock, u_int8_t* outblock)
 	F2(r, l,  1);
 	F1(l, r,  0);
 	/* Put l,r into outblock */
-	outblock[0] = U8a(l);
-	outblock[1] = U8b(l);
-	outblock[2] = U8c(l);
-	outblock[3] = U8d(l);
-	outblock[4] = U8a(r);
-	outblock[5] = U8b(r);
-	outblock[6] = U8c(r);
-	outblock[7] = U8d(r);
+	data[0] = l;
+	data[1] = r;
 	/* Wipe clean */
 	t = l = r = 0;
 }
 
 
-/***** Key Schedual *****/
+/***** Key Schedule *****/
 
 void
 cast_setkey(cast_key* key, const u_int8_t* rawkey, int keybytes)
