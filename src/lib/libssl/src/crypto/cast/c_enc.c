@@ -59,71 +59,37 @@
 #include <openssl/cast.h>
 #include "cast_lcl.h"
 
-#ifndef OPENBSD_CAST_ASM
-void CAST_encrypt(CAST_LONG *data, CAST_KEY *key)
-	{
-	register CAST_LONG l,r,*k,t;
+void
+CAST_encrypt(CAST_LONG *data, CAST_KEY *key)
+{
+	unsigned char buf[CAST_BLOCK], *cp;
 
-	k= &(key->data[0]);
-	l=data[0];
-	r=data[1];
+	/* ugh! */
+#warning dead slow, PoC only!
+	cp = buf;
+	l2n(data[0], cp);
+	l2n(data[1], cp);
+	cast_encrypt(key, buf, buf);
+	cp = buf;
+	n2l(cp, data[0]);
+	n2l(cp, data[1]);
+}
 
-	E_CAST( 0,k,l,r,+,^,-);
-	E_CAST( 1,k,r,l,^,-,+);
-	E_CAST( 2,k,l,r,-,+,^);
-	E_CAST( 3,k,r,l,+,^,-);
-	E_CAST( 4,k,l,r,^,-,+);
-	E_CAST( 5,k,r,l,-,+,^);
-	E_CAST( 6,k,l,r,+,^,-);
-	E_CAST( 7,k,r,l,^,-,+);
-	E_CAST( 8,k,l,r,-,+,^);
-	E_CAST( 9,k,r,l,+,^,-);
-	E_CAST(10,k,l,r,^,-,+);
-	E_CAST(11,k,r,l,-,+,^);
-	if(!key->short_key)
-	    {
-	    E_CAST(12,k,l,r,+,^,-);
-	    E_CAST(13,k,r,l,^,-,+);
-	    E_CAST(14,k,l,r,-,+,^);
-	    E_CAST(15,k,r,l,+,^,-);
-	    }
+void
+CAST_decrypt(CAST_LONG *data, CAST_KEY *key)
+{
+	unsigned char buf[CAST_BLOCK], *cp;
 
-	data[1]=l&0xffffffffL;
-	data[0]=r&0xffffffffL;
-	}
-
-void CAST_decrypt(CAST_LONG *data, CAST_KEY *key)
-	{
-	register CAST_LONG l,r,*k,t;
-
-	k= &(key->data[0]);
-	l=data[0];
-	r=data[1];
-
-	if(!key->short_key)
-	    {
-	    E_CAST(15,k,l,r,+,^,-);
-	    E_CAST(14,k,r,l,-,+,^);
-	    E_CAST(13,k,l,r,^,-,+);
-	    E_CAST(12,k,r,l,+,^,-);
-	    }
-	E_CAST(11,k,l,r,-,+,^);
-	E_CAST(10,k,r,l,^,-,+);
-	E_CAST( 9,k,l,r,+,^,-);
-	E_CAST( 8,k,r,l,-,+,^);
-	E_CAST( 7,k,l,r,^,-,+);
-	E_CAST( 6,k,r,l,+,^,-);
-	E_CAST( 5,k,l,r,-,+,^);
-	E_CAST( 4,k,r,l,^,-,+);
-	E_CAST( 3,k,l,r,+,^,-);
-	E_CAST( 2,k,r,l,-,+,^);
-	E_CAST( 1,k,l,r,^,-,+);
-	E_CAST( 0,k,r,l,+,^,-);
-
-	data[1]=l&0xffffffffL;
-	data[0]=r&0xffffffffL;
-	}
-#endif
+	/* ugh! */
+#warning dead slow, PoC only!
+	cp = buf;
+	l2n(data[0], cp);
+	l2n(data[1], cp);
+	cast_decrypt(key, buf, buf);
+	cp = buf;
+	n2l(cp, data[0]);
+	n2l(cp, data[1]);
+}
 
 void CAST_cbc_encrypt(const unsigned char *in, unsigned char *out, long length,
 	     CAST_KEY *ks, unsigned char *iv, int enc)

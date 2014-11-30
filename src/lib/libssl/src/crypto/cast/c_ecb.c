@@ -60,7 +60,7 @@
 #include "cast_lcl.h"
 #include <openssl/opensslv.h>
 
-const char CAST_version[]="CAST" OPENSSL_VERSION_PTEXT;
+const char CAST_version[] __attribute__((__used__)) = "$MirOS: src/lib/libssl/src/crypto/bf/bf_ecb.c,v 1.3 2014/11/30 01:30:09 tg Exp $";
 
 void CAST_ecb_encrypt(const unsigned char *in, unsigned char *out,
 		      CAST_KEY *ks, int enc)

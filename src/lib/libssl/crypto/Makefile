@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.37 2014/11/30 00:51:29 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.38 2014/11/30 01:30:06 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2006/10/14 19:43:57 drahn Exp $
 
 .include <bsd.own.mk>
@@ -210,13 +210,11 @@ obj_dat.h: obj_mac.h
 
 .if (${MACHINE_ARCH} == "i386")
 CPPFLAGS+= -DAES_ASM
-CPPFLAGS+= -DOPENBSD_CAST_ASM
 CPPFLAGS+= -DOPENBSD_DES_ASM
 SSLASM=\
 	aes aes-586 \
 	bn bn-586 \
 	bn co-586 \
-	cast cast-586 \
 	des des-586
 .  for dir f in ${SSLASM}
 SRCS+=	${f}.S
