@@ -124,6 +124,7 @@
 #include <openssl/bio.h>
 #include <openssl/evp.h>
 #include <openssl/rand.h>
+#include <sys/endian.h>
 
 static int ok_write(BIO *h, const char *buf, int num);
 static int ok_read(BIO *h, char *buf, int size);
@@ -141,7 +142,7 @@ static void block_in(BIO* b);
 #define IOBS		(OK_BLOCK_SIZE+ OK_BLOCK_BLOCK+ 3*EVP_MAX_MD_SIZE)
 #define WELLKNOWN "The quick brown fox jumped over the lazy dog's back."
 
-#ifndef L_ENDIAN
+#if BYTE_ORDER != LITTLE_ENDIAN
 #define swapem(x) \
 	((unsigned long int)((((unsigned long int)(x) & 0x000000ffU) << 24) | \
 			     (((unsigned long int)(x) & 0x0000ff00U) <<  8) | \
@@ -450,7 +451,7 @@ static long ok_callback_ctrl(BIO *b, int cmd, bio_info_cb *fp)
 
 static void longswap(void *_ptr, int len)
 {
-#ifndef L_ENDIAN
+#if BYTE_ORDER != LITTLE_ENDIAN
 	int i;
 	char *ptr=_ptr;
 
