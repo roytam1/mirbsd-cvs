@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.20 2014/11/25 17:12:51 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.21 2014/11/29 16:03:35 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -412,4 +412,20 @@ Tag: plan
  the new <tt>MAP_INHERIT_ZERO</tt> stuff; at least minherit(2) throws
  <tt>EINVAL</tt> as safe fallback but it still requires updating the
  kernel first. But then it has been there for months already.</p>
+----
+Date: 30.11.2014 20:06
+Author: gecko2@
+Title: Wegeskreuzungen, Pöller und Erkennbarkeit
+Tag: geocache
+Language: de-DE-1901
+
+<p>Wußtest Du schon, daß eine Abzweigung (eine andere Straße oder sogar
+ auch nur ein Feldweg) dadurch markiert wird, daß sie zwischen Pöllern
+ mit orangefarbenen statt weißen Reflektoren steht?</p>
+<p><i xml:lang="en">(tg@ continuing…)</i> Nein, wußte ich nicht, aber
+ jetzt wo Du’s sagst… danke! Hilfreich! Daß die Pöller links wie ein
+ Doppelpunkt und rechts wie ein senkrechter Strich geformt sind wußte
+ ich immerhin schon. Ja, kann mir vorstellen, daß es bei der Navigation
+ im Schnee hilft. Nein, in der Fahrschule hörte ich dies, und so manches
+ anderes, nicht… komme mir im Nachhinein betrogen vor…</p>
 ----

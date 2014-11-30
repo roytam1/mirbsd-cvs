@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.128 2014/11/28 17:59:23 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.129 2014/11/29 16:03:34 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -7351,15 +7351,44 @@ Title: SVC - Kompassrose (Challenge)
 nTF: 3
 Tag: D2 T15 Virtual Safari
 ----
-ID: p1235
-Date: 11.11.2014
+ID: 1260
+Date: 30.11.2014
+Waypoint: OC11861
+Title: Godesberger Kreuze #6
+nTF: 0
+Tag: D1 T1 Virtual
+----
+ID: 1261
+Date: 30.11.2014
+Waypoint: GC5GTPA
+Title: Keine Wendemöglichkeit
+Tag: D1 T2 Micro Tradi
+----
+ID: 1262
+Date: 30.11.2014
 Waypoint: GDCJ-JUAJ
 Title: [Game 161 (November 2014)], EU-Schweinheim
+nTF: 1
+Distance: 25
 ----
-ID: p1236
-Date: 11.11.2014
+ID: 1263
+Date: 30.11.2014
+Waypoint: GC4QBBH
+Title: ....es pfeift der .....
+Tag: D1 T15 Micro Tradi
+----
+ID: 1264
+Date: 30.11.2014
+Waypoint: GC40AQT
+Title: Der Bus kommt heut' spät... oder doch gar nicht..?
+Tag: D1 T15 Micro Tradi
+----
+ID: 1265
+Date: 30.11.2014
 Waypoint: GDCJ-JUDI
 Title: [Game 161 (November 2014)], Köln-Porz-Wahn
+nTF: 1
+Distance: 46
 ----
 ID: p1154
 Date: 28.09.2014 17:45
