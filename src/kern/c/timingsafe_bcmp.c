@@ -17,7 +17,7 @@
 
 #include <libckern.h>
 
-__RCSID("$MirOS: src/kern/c/explicit_bzero.c,v 1.2 2011/07/17 20:39:26 tg Exp $");
+__RCSID("$MirOS: src/kern/c/timingsafe_bcmp.c,v 1.1 2013/09/10 17:38:33 tg Exp $");
 
 int
 timingsafe_bcmp(const void *b1, const void *b2, size_t n)
@@ -29,3 +29,13 @@ timingsafe_bcmp(const void *b1, const void *b2, size_t n)
 		ret |= *p1++ ^ *p2++;
 	return (ret != 0);
 }
+
+#ifdef lint
+char *
+timingsafe_memcmp(const void *b1, const void *b2, size_t n)
+{
+	return (timingsafe_bcmp(b1, b2, n));
+}
+#else
+__strong_alias(timingsafe_memcmp, timingsafe_bcmp);
+#endif /* lint */
