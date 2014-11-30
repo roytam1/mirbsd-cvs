@@ -2,7 +2,7 @@
 #define HEADER_OPENSSLV_H
 
 #ifdef HEADER_OPENSSLV_H_RCSID_PLEASE
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/crypto/opensslv.h,v 1.4 2014/06/05 12:47:56 tg Exp $");
 #endif
 
 /* Numeric release version identifier:
@@ -33,7 +33,7 @@ __RCSID("$MirOS$");
 #ifdef OPENSSL_FIPS
 # error WTF? No FIPS here!
 #else
-#define OPENSSL_VERSION_TEXT	"OpenSSL 0.9.7m 05 Jun 2014"
+#define OPENSSL_VERSION_TEXT	"OpenSSL 0.9.7m 29 Nov 2014"
 #endif
 #define OPENSSL_VERSION_PTEXT	" part of " OPENSSL_VERSION_TEXT
 
