@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/crypto/arch/i386/opensslconf.h,v 1.4 2014/11/29 22:41:58 tg Exp $ */
+/* $MirOS: src/lib/libssl/crypto/arch/i386/opensslconf.h,v 1.5 2014/11/30 00:51:30 tg Exp $ */
 
 #ifndef OPENSSL_NO_ACSS
 # define OPENSSL_NO_ACSS
@@ -167,11 +167,6 @@
 #undef SIXTEEN_BIT
 #undef EIGHT_BIT
 #endif
-
-#if defined(HEADER_BF_LOCL_H) && !defined(CONFIG_HEADER_BF_LOCL_H)
-#define CONFIG_HEADER_BF_LOCL_H
-#undef BF_PTR
-#endif /* HEADER_BF_LOCL_H */
 
 #if defined(HEADER_DES_LOCL_H) && !defined(CONFIG_HEADER_DES_LOCL_H)
 #define CONFIG_HEADER_DES_LOCL_H

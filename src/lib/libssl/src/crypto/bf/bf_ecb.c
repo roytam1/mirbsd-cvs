@@ -60,22 +60,11 @@
 #include "bf_locl.h"
 #include <openssl/opensslv.h>
 
-/* Blowfish as implemented from 'Blowfish: Springer-Verlag paper'
- * (From LECTURE NOTES IN COMPUTER SCIENCE 809, FAST SOFTWARE ENCRYPTION,
- * CAMBRIDGE SECURITY WORKSHOP, CAMBRIDGE, U.K., DECEMBER 9-11, 1993)
- */
-
-const char BF_version[]="Blowfish" OPENSSL_VERSION_PTEXT;
+const char BF_version[] __attribute__((__used__)) = "$MirOS: src/lib/libssl/crypto/mbsd_md4.c,v 1.1 2014/11/29 23:47:03 tg Exp $";
 
 const char *BF_options(void)
 	{
-#ifdef BF_PTR
-	return("blowfish(ptr)");
-#elif defined(BF_PTR2)
-	return("blowfish(ptr2)");
-#else
 	return("blowfish(idx)");
-#endif
 	}
 
 void BF_ecb_encrypt(const unsigned char *in, unsigned char *out,

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.36 2014/11/30 00:23:22 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.37 2014/11/30 00:51:29 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2006/10/14 19:43:57 drahn Exp $
 
 .include <bsd.own.mk>
@@ -31,7 +31,7 @@ SRCS+=	cbc_cksm.c cbc_enc.c cfb64enc.c cfb_enc.c \
 	des_old.c read2pwd.c
 SRCS+=	rc2_ecb.c rc2_skey.c rc2_cbc.c rc2cfb64.c
 SRCS+=	rc2ofb64.c
-SRCS+=	bf_skey.c bf_ecb.c bf_cfb64.c bf_ofb64.c
+SRCS+=	bf_cfb64.c bf_ecb.c bf_enc.c bf_ofb64.c bf_skey.c
 SRCS+=	c_skey.c c_ecb.c c_cfb64.c c_ofb64.c c_enc.c
 SRCS+=	bn_add.c bn_div.c bn_exp.c bn_lib.c
 SRCS+=	bn_mul.c bn_print.c bn_rand.c bn_shift.c
@@ -214,7 +214,6 @@ CPPFLAGS+= -DOPENBSD_CAST_ASM
 CPPFLAGS+= -DOPENBSD_DES_ASM
 SSLASM=\
 	aes aes-586 \
-	bf bf-586 \
 	bn bn-586 \
 	bn co-586 \
 	cast cast-586 \
@@ -226,10 +225,8 @@ ${f}.S: ${LCRYPTO_SRC}/${dir}/asm/${f}.pl ${LCRYPTO_SRC}/perlasm/x86unix.pl
 	/usr/bin/perl -I${LCRYPTO_SRC}/perlasm -I${LCRYPTO_SRC}/${dir}/asm \
 		${LCRYPTO_SRC}/${dir}/asm/${f}.pl openbsd-elf 486 >$@
 .  endfor
-SRCS+= bf_cbc.c
 .else
 SRCS+= aes_core.c
-SRCS+= bf_enc.c
 SRCS+= bn_asm.c
 .endif
 
