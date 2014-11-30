@@ -1,4 +1,4 @@
-.\"	$MirOS: src/lib/libc/string/wmemchr.3,v 1.4 2014/02/09 22:35:56 tg Exp $
+.\"	$MirOS: src/lib/libc/string/wmemchr.3,v 1.5 2014/02/09 23:19:58 tg Exp $
 .\"	$OpenBSD: wmemchr.3,v 1.2 2005/04/13 20:42:48 jmc Exp $
 .\"
 .\"	$NetBSD: wmemchr.3,v 1.9 2003/09/08 17:54:33 wiz Exp $
@@ -56,7 +56,7 @@
 .Nm wcsncat ,
 .Nm wcsncmp ,
 .Nm wcsncpy ,
-.Nm wcsndup ,
+.\"Nm wcsndup ,
 .Nm wcspbrk ,
 .Nm wcsrchr ,
 .Nm wcsspn ,
@@ -109,8 +109,8 @@
 .Fn wcsncmp "const wchar_t *s1" "const wchar_t * s2" "size_t n"
 .Ft wchar_t *
 .Fn wcsncpy "wchar_t *s1" "const wchar_t *s2" "size_t n"
-.Ft wchar_t *
-.Fn wcsndup "const wchar_t *" "size_t"
+.\"Ft wchar_t *
+.\"Fn wcsndup "const wchar_t *" "size_t"
 .Ft wchar_t *
 .Fn wcspbrk "const wchar_t *s1" "const wchar_t *s2"
 .Ft wchar_t *
@@ -193,9 +193,10 @@ with the exception of
 .Fn wcslcat
 and
 .Fn wcslcpy ,
-which are BSD extensions, and
-.Fn wcsndup ,
-which is a GNU extension.
+which are BSD extensions.
+.\", and
+.\".Fn wcsndup ,
+.\"which is a GNU extension.
 .Pp
 .Fn wcswcs
 is a historic name for

@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libc/string/Makefile.inc,v 1.28 2011/10/16 20:54:58 tg Exp $
+# $MirOS: src/lib/libc/string/Makefile.inc,v 1.29 2014/11/30 21:30:58 tg Exp $
 # $OpenBSD: Makefile.inc,v 1.17 2005/05/26 12:56:01 otto Exp $
 
 # string sources
@@ -31,7 +31,7 @@ CFLAGS_wmemchr.o+= -Wno-cast-qual
 UIF_NUSRCS+=	wcswcs.c wcsstr.c -DWCSWCS
 
 SRCS+=		strndup.c
-UIF_NUSRCS+=	wcsndup.c strndup.c -DWIDEC
+#UIF_NUSRCS+=	wcsndup.c strndup.c -DWIDEC
 
 SRCS+=		strnlen.c
 SRCS+=		timingsafe_bcmp.c
@@ -85,7 +85,7 @@ MLINKS+=wmemchr.3 wcsncasecmp.3
 MLINKS+=wmemchr.3 wcsncat.3
 MLINKS+=wmemchr.3 wcsncmp.3
 MLINKS+=wmemchr.3 wcsncpy.3
-MLINKS+=wmemchr.3 wcsndup.3
+#MLINKS+=wmemchr.3 wcsndup.3
 MLINKS+=wmemchr.3 wcspbrk.3
 MLINKS+=wmemchr.3 wcsrchr.3
 MLINKS+=wmemchr.3 wcsspn.3
