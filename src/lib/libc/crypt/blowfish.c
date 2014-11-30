@@ -64,7 +64,7 @@
 #define BLFRND(s,p,i,j,n) (i ^= F(s,j) ^ (p)[n])
 
 void
-Blowfish_encipher(blf_ctx *c, u_int32_t *xl, u_int32_t *xr)
+Blowfish_encipher(const blf_ctx *c, u_int32_t *xl, u_int32_t *xr)
 {
 	u_int32_t Xl;
 	u_int32_t Xr;
@@ -89,7 +89,7 @@ Blowfish_encipher(blf_ctx *c, u_int32_t *xl, u_int32_t *xr)
 }
 
 void
-Blowfish_decipher(blf_ctx *c, u_int32_t *xl, u_int32_t *xr)
+Blowfish_decipher(const blf_ctx *c, u_int32_t *xl, u_int32_t *xr)
 {
 	u_int32_t Xl;
 	u_int32_t Xr;
@@ -505,7 +505,7 @@ blf_key(blf_ctx *c, const u_int8_t *k, u_int16_t len)
 }
 
 void
-blf_enc(blf_ctx *c, u_int32_t *data, u_int16_t blocks)
+blf_enc(const blf_ctx *c, u_int32_t *data, u_int16_t blocks)
 {
 	u_int32_t *d;
 	u_int16_t i;
@@ -518,7 +518,7 @@ blf_enc(blf_ctx *c, u_int32_t *data, u_int16_t blocks)
 }
 
 void
-blf_dec(blf_ctx *c, u_int32_t *data, u_int16_t blocks)
+blf_dec(const blf_ctx *c, u_int32_t *data, u_int16_t blocks)
 {
 	u_int32_t *d;
 	u_int16_t i;
@@ -531,7 +531,7 @@ blf_dec(blf_ctx *c, u_int32_t *data, u_int16_t blocks)
 }
 
 void
-blf_ecb_encrypt(blf_ctx *c, u_int8_t *data, u_int32_t len)
+blf_ecb_encrypt(const blf_ctx *c, u_int8_t *data, u_int32_t len)
 {
 	u_int32_t l, r;
 	u_int32_t i;
@@ -553,7 +553,7 @@ blf_ecb_encrypt(blf_ctx *c, u_int8_t *data, u_int32_t len)
 }
 
 void
-blf_ecb_decrypt(blf_ctx *c, u_int8_t *data, u_int32_t len)
+blf_ecb_decrypt(const blf_ctx *c, u_int8_t *data, u_int32_t len)
 {
 	u_int32_t l, r;
 	u_int32_t i;
@@ -575,7 +575,7 @@ blf_ecb_decrypt(blf_ctx *c, u_int8_t *data, u_int32_t len)
 }
 
 void
-blf_cbc_encrypt(blf_ctx *c, u_int8_t *iv, u_int8_t *data, u_int32_t len)
+blf_cbc_encrypt(const blf_ctx *c, u_int8_t *iv, u_int8_t *data, u_int32_t len)
 {
 	u_int32_t l, r;
 	u_int32_t i, j;
@@ -600,7 +600,7 @@ blf_cbc_encrypt(blf_ctx *c, u_int8_t *iv, u_int8_t *data, u_int32_t len)
 }
 
 void
-blf_cbc_decrypt(blf_ctx *c, u_int8_t *iva, u_int8_t *data, u_int32_t len)
+blf_cbc_decrypt(const blf_ctx *c, u_int8_t *iva, u_int8_t *data, u_int32_t len)
 {
 	u_int32_t l, r;
 	u_int8_t *iv;
