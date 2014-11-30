@@ -12,7 +12,8 @@ SSL_SRC=	${.CURDIR}/../${SSLEAYDIST}
 LCRYPTO_SRC=	${SSL_SRC}/crypto
 
 CPPFLAGS+=	-DNO_WINDOWS_BRAINDEATH
-CPPFLAGS+=	-I${.CURDIR}/../${SSLEAYDIST} -I${LCRYPTO_SRC} -I.
+CPPFLAGS+=	-I${.CURDIR}/../${SSLEAYDIST} -I${LCRYPTO_SRC}
+CPPFLAGS+=	-idirafter ${.OBJDIR}
 
 SRCS+=	o_time.c
 SRCS+=	cryptlib.c ex_data.c cpt_err.c mem.c mem_dbg.c
