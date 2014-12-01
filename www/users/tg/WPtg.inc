@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.129 2014/11/29 16:03:34 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.130 2014/11/30 20:12:20 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -7389,6 +7389,12 @@ Waypoint: GDCJ-JUDI
 Title: [Game 161 (November 2014)], Köln-Porz-Wahn
 nTF: 1
 Distance: 46
+----
+ID: 1266
+Date: 01.12.2014
+Waypoint: GC5FQTT
+Title: XLVIII. Geocacher Stammtisch BN/SU Xmas Edition
+Tag: D15 T1 Event
 ----
 ID: p1154
 Date: 28.09.2014 17:45
