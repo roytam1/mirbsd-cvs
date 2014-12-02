@@ -4,7 +4,7 @@
 mws_setname ports "The MirPorts Framework"
 mws_subdir 0
 mws_setheadline MirPorts: The MirOS Ports Framework
-mws_putheader '$MirOS: www/src/ports.hts,v 1.11 2011/02/09 19:51:50 tg Exp $'
+mws_putheader '$MirOS: www/src/ports.hts,v 1.12 2011/02/12 23:41:32 bsiegert Exp $'
 mws_content <<'EOF'
 <p>(The official MirPorts homepage can always be reached at <a
  href="http://mirbsd.de/ports">http://mirbsd.de/ports</a> which
@@ -122,6 +122,10 @@ $ source $localbase/db/SetEnv.csh
  $ make setup
 </pre><p>as an unprivileged user. The sudo command is invoked
  automatically to gain root privileges where needed.</p>
+
+<p><strong>Note:</strong> If you installed the <tt>pkgutl10.ngz</tt>
+ dist set, <em>do not</em> do this, because that set is basically
+ the result of running that command, tarred up.</p>
 
 <h3 id="darwin">Mac OS X</h3>
 
