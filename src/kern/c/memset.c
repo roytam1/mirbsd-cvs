@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2008
+ * Copyright (c) 2008, 2014
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -20,7 +20,7 @@
 
 #include <libckern.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/kern/c/memset.c,v 1.1 2008/08/01 18:09:17 tg Exp $");
 
 void *
 memset(void *b, int c, size_t len)
@@ -28,6 +28,6 @@ memset(void *b, int c, size_t len)
 	uint8_t *cp = b;
 
 	while (len--)
-		*cp++ = c;
+		*cp++ = (uint8_t)c;
 	return (b);
 }
