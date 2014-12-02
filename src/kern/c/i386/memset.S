@@ -1,5 +1,5 @@
 /*-
- * Copyright (c) 2008, 2009
+ * Copyright (c) 2008, 2009, 2014
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -20,7 +20,7 @@
 
 #include <machine/asm.h>
 
-RCSID("$MirOS: src/kern/c/i386/memset.S,v 1.5 2009/01/15 21:52:26 tg Exp $")
+RCSID("$MirOS: src/kern/c/i386/memset.S,v 1.6 2009/01/21 19:57:54 tg Exp $")
 
 	.intel_syntax noprefix
 	.text
@@ -38,7 +38,7 @@ ENTRY(memset)
 
 	movzx	eax,byte ptr 8[esp]
 	mov	ah,al
-	mov	cx,ax
+	mov	ecx,eax
 	shl	eax,16
 	mov	ax,cx
 
