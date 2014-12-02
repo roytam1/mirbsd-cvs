@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/install.sub,v 1.69 2013/12/01 12:49:18 tg Exp $
+# $MirOS: src/distrib/common/install.sub,v 1.70 2014/03/30 11:03:32 tg Exp $
 # $OpenBSD: install.sub,v 1.388 2005/07/02 00:55:48 uwe Exp $
 # $NetBSD: install.sub,v 1.5.2.8 1996/09/02 23:25:02 pk Exp $
 #
@@ -548,7 +548,8 @@ __EOT
 }
 
 configure_ifs() {
-	typeset _IFDEVS=$(ifconfig -l) _ifs _name _media _hn
+	local _ifs _name _media _hn
+	local _IFDEVS=$(echo $(ifconfig -l | sed 's/[[:<:]]lo0[[:>:]]//'))
 
 	while :; do
 		ask_which "interface" "do you wish to initialise" "$_IFDEVS" \
