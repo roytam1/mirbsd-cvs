@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.15 2011/07/18 13:11:06 tg Exp $ */
+/**	$MirOS: src/sys/arch/i386/i386/locore.s,v 1.16 2014/02/19 17:43:39 tg Exp $ */
 /*	$OpenBSD: locore.s,v 1.77.2.1 2005/02/27 00:39:58 brad Exp $	*/
 /*	$NetBSD: locore.s,v 1.145 1996/05/03 19:41:19 christos Exp $	*/
 
@@ -84,6 +84,7 @@
  * These are used on interrupt or trap entry or exit.
  */
 #define	INTRENTRY \
+	cld			; \
 	pushl	%eax		; \
 	pushl	%ecx		; \
 	pushl	%edx		; \
