@@ -1,9 +1,10 @@
 #!/bin/mksh
-# $MirOS: src/distrib/common/install.sh,v 1.27 2011/02/19 02:35:34 tg Exp $
+# $MirOS: src/distrib/common/install.sh,v 1.28 2013/09/11 18:55:55 tg Exp $
 # $OpenBSD: install.sh,v 1.152 2005/04/21 21:41:33 krw Exp $
 # $NetBSD: install.sh,v 1.5.2.8 1996/08/27 18:15:05 gwr Exp $
 #
-# Copyright (c) 2007, 2008, 2009 Thorsten Glaser
+# Copyright © 2007, 2008, 2009, 2014
+#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 # Copyright (c) 1997-2004 Todd Miller, Theo de Raadt, Ken Westerback
 # All rights reserved.
 #
@@ -485,7 +486,7 @@ $_rootuser:*:$_rootuid:
 .
 wq
 EOF
-print '/^. root:$/'"s//root:\t\t$_rootuser/\nwq" | ed -s /mnt/etc/mail/aliases
+print '/^. root:.*$/'"s//root:\t\t$_rootuser/\nwq" | ed -s /mnt/etc/mail/aliases
 cp -r /mnt/etc/skel /mnt/home/$_rootuser
 chmod 711 /mnt/home/$_rootuser
 chown -R $_rootuid:$_rootuid /mnt/home/$_rootuser
