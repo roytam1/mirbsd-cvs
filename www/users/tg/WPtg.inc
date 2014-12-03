@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.130 2014/11/30 20:12:20 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.131 2014/12/01 20:02:19 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -5574,7 +5574,7 @@ ID: 971
 Date: 06.07.2014
 Waypoint: m/dschuwa/236
 Title: Bonner Punktejagd 044
-Tag: Munzee
+Points: 5
 
 Mal das Munzee-Äpp ausprobieren… echt nicht leicht zu bedienen,
 ich habe bestimmt ½h gebraucht, um <em>eine</em> Münze zu loggen.
@@ -7395,6 +7395,2448 @@ Date: 01.12.2014
 Waypoint: GC5FQTT
 Title: XLVIII. Geocacher Stammtisch BN/SU Xmas Edition
 Tag: D15 T1 Event
+----
+ID: 1267
+Date: 02.12.2014
+Waypoint: m/munzee/26
+Title: Barrier
+Points: 2
+----
+ID: 1268
+Date: 02.12.2014
+Waypoint: m/MMII/40
+Title: Deuce of Hearts
+Points: 2
+----
+ID: 1269
+Date: 02.12.2014
+Waypoint: m/munzee/34
+Title: Plano Fire
+Points: 2
+----
+ID: 1270
+Date: 02.12.2014
+Waypoint: m/munzee/35
+Title: Download Munzee App
+Points: 5
+----
+ID: 1271
+Date: 02.12.2014
+Waypoint: m/thebitbandit/5
+Title: The Bit Bandit&#039;s Social Munzee - Year #1
+Points: 0
+----
+ID: 1272
+Date: 02.12.2014
+Waypoint: m/daysleeperdot/140
+Title: daysleeperdot&#039;s Steampunk Social Munzee
+Points: 0
+----
+ID: 1273
+Date: 02.12.2014
+Waypoint: m/heinz57/1
+Title: How did you catch up with me?
+Points: 1
+----
+ID: 1274
+Date: 02.12.2014
+Waypoint: m/MyFace/1
+Title: MyFace
+Points: 3
+----
+ID: 1275
+Date: 02.12.2014
+Waypoint: m/contra1971/278
+Title: Only The Shadow Knows
+Points: 0
+----
+ID: 1276
+Date: 02.12.2014
+Waypoint: m/munzee/39
+Title: WikiZee
+Points: 5
+----
+ID: 1277
+Date: 02.12.2014
+Waypoint: m/munzee/31
+Title: NOAC Press Release
+Points: 1
+----
+ID: 1278
+Date: 02.12.2014
+Waypoint: m/GeoBeTa/323
+Title: MunzeePod
+Points: 0
+----
+ID: 1279
+Date: 02.12.2014
+Waypoint: m/DaddyOMommyO/946
+Title: Munzee Madness II - DaddyO
+Points: 0
+----
+ID: 1280
+Date: 02.12.2014
+Waypoint: m/DaddyOMommyO/947
+Title: Munzee Madness II - MommyO
+Points: 0
+----
+ID: 1281
+Date: 02.12.2014
+Waypoint: m/DaddyOMommyO/942
+Title: Welcome to the Central California Coast
+Points: 0
+----
+ID: 1282
+Date: 02.12.2014
+Waypoint: m/1849/4004
+Title: 1849 Badge
+Points: 0
+----
+ID: 1283
+Date: 02.12.2014
+Waypoint: m/munzee/27
+Title: extralife
+Points: 45
+----
+ID: 1284
+Date: 02.12.2014
+Waypoint: m/cski/505
+Title: Cski&#039;s Social Munzee!!
+Points: 0
+----
+ID: 1285
+Date: 02.12.2014
+Waypoint: m/hksfarm/1083
+Title: Happy Fourth of July, From MHQ
+Points: 0
+----
+ID: 1286
+Date: 02.12.2014
+Waypoint: m/Bobo1/30
+Title: Wounded Warrior
+Points: 0
+----
+ID: 1287
+Date: 02.12.2014
+Waypoint: m/Tarirae/15
+Title: Munzee Together
+Points: 0
+----
+ID: 1288
+Date: 02.12.2014
+Waypoint: m/Bobo1/5
+Title: God Bless the USA
+Points: 0
+----
+ID: 1289
+Date: 02.12.2014
+Waypoint: m/nuclearjanitor/1493
+Title: nuclearjanitor
+Points: 0
+----
+ID: 1290
+Date: 02.12.2014
+Waypoint: m/munzee/43
+Title: Mist Airy Contest
+Points: 0
+----
+ID: 1291
+Date: 02.12.2014
+Waypoint: m/munzee/20
+Title: Page Not Found
+Points: 50
+----
+ID: 1292
+Date: 02.12.2014
+Waypoint: m/QRazy/7
+Title: Who do Voodoo?
+Points: 5
+----
+ID: 1293
+Date: 02.12.2014
+Waypoint: m/SDHryRedHd/7
+Title: The Land of Sandy Eggos
+Points: 0
+----
+ID: 1294
+Date: 02.12.2014
+Waypoint: m/Sivontim/5
+Title: Sivontim - Social Munzee
+Points: 0
+----
+ID: 1295
+Date: 02.12.2014
+Waypoint: m/KFL200/3140
+Title: KFL200 First Anniversary Social
+Points: 0
+----
+ID: 1296
+Date: 02.12.2014
+Waypoint: m/twiztidlildevil/15
+Title: A Wibbly Wobbly Social Munzee
+Points: 0
+----
+ID: 1297
+Date: 02.12.2014
+Waypoint: m/rosemark/243
+Title: www.my.tupperware.com/tupperose
+Points: 0
+----
+ID: 1298
+Date: 02.12.2014
+Waypoint: m/familyentertainment/126
+Title: Die weite Welt ist unser Feld
+Points: 0
+----
+ID: 1299
+Date: 02.12.2014
+Waypoint: m/spotters/326
+Title: Spotters Social Munzee 2
+Points: 0
+----
+ID: 1300
+Date: 02.12.2014
+Waypoint: m/QRazy/64
+Title: April Action Clan War
+Points: 5
+----
+ID: 1301
+Date: 02.12.2014
+Waypoint: m/ThePiedPiper/18
+Title: ThePiedPiper
+Points: 0
+----
+ID: 1302
+Date: 02.12.2014
+Waypoint: m/spotters/220
+Title: Spotters Social Munzee 1
+Points: 0
+----
+ID: 1303
+Date: 02.12.2014
+Waypoint: m/5daughters/5
+Title: 5daughters
+Points: 0
+----
+ID: 1304
+Date: 02.12.2014
+Waypoint: m/I-spy/5
+Title: Social Munzee by I-spy
+Points: 0
+----
+ID: 1305
+Date: 02.12.2014
+Waypoint: m/I-spy/125
+Title: Social Butterfly by I-Spy
+Points: 0
+----
+ID: 1306
+Date: 02.12.2014
+Waypoint: m/D1k74/28
+Title: D1k74
+Points: 0
+----
+ID: 1307
+Date: 02.12.2014
+Waypoint: m/dt07751/5
+Title: DT07751&#039;s Social
+Points: 0
+----
+ID: 1308
+Date: 02.12.2014
+Waypoint: m/Rememberlostisland/108
+Title: Rememberlostisland&#039;s Social Munzee
+Points: 0
+----
+ID: 1309
+Date: 02.12.2014
+Waypoint: m/mrbloodhound/21
+Title: Mr Bloodhound social munzee
+Points: 0
+----
+ID: 1310
+Date: 02.12.2014
+Waypoint: m/millan/12
+Title: Millans Social Munzee
+Points: 0
+----
+ID: 1311
+Date: 02.12.2014
+Waypoint: m/MamaJoss/238
+Title: Laters, Baby!
+Points: 0
+----
+ID: 1312
+Date: 02.12.2014
+Waypoint: m/divernick/1145
+Title: Resistance is Futile
+Points: 0
+----
+ID: 1313
+Date: 02.12.2014
+Waypoint: m/reedkickball/43
+Title: RKB the Geodork
+Points: 0
+----
+ID: 1314
+Date: 02.12.2014
+Waypoint: m/furkeszek/265
+Title: Fürkészek Social 1.
+Points: 0
+----
+ID: 1315
+Date: 02.12.2014
+Waypoint: m/valentino71/1
+Title: &#039;34 &#039;38 &#039;61 &#039;10 &#039;13
+Points: 0
+----
+ID: 1316
+Date: 02.12.2014
+Waypoint: m/hksfarm/1051
+Title: UNICORNS WILL NOT BE SILENCED!!!!
+Points: 0
+----
+ID: 1317
+Date: 02.12.2014
+Waypoint: m/anski/11
+Title: anski
+Points: 0
+----
+ID: 1318
+Date: 02.12.2014
+Waypoint: m/Primdahl/86
+Title: Primdahl&#039;s Social Munzee
+Points: 0
+----
+ID: 1319
+Date: 02.12.2014
+Waypoint: m/TeacherMike/20
+Title: TeacherMike&#039;s Social Munzee
+Points: 0
+----
+ID: 1320
+Date: 02.12.2014
+Waypoint: m/sproutter/32
+Title: SEA-HAWKS!!
+Points: 0
+----
+ID: 1321
+Date: 02.12.2014
+Waypoint: m/coffeeplease/19
+Title: Sues social munzee ... Memories from afar
+Points: 0
+----
+ID: 1322
+Date: 02.12.2014
+Waypoint: m/JosZ/306
+Title: JosZ
+Points: 0
+----
+ID: 1323
+Date: 02.12.2014
+Waypoint: m/cbbie77/764
+Title: Social Munzee
+Points: 0
+----
+ID: 1324
+Date: 02.12.2014
+Waypoint: m/cbbie77/1509
+Title: Social Munzee 2
+Points: 0
+----
+ID: 1325
+Date: 02.12.2014
+Waypoint: m/Awaken/71
+Title: Munzee page
+Points: 0
+----
+ID: 1326
+Date: 02.12.2014
+Waypoint: m/cptcranky/76
+Title: AntiSocial Munzee
+Points: 0
+----
+ID: 1327
+Date: 02.12.2014
+Waypoint: m/Chees/25
+Title: Chees&#039;s Social ^^
+Points: 0
+----
+ID: 1328
+Date: 02.12.2014
+Waypoint: m/mrshidude/93
+Title: MrsHiDude&#039;s Social Munzee
+Points: 0
+----
+ID: 1329
+Date: 02.12.2014
+Waypoint: m/whtwolfden/65
+Title: whtwolfden&#039;s Social Munzee
+Points: 0
+----
+ID: 1330
+Date: 02.12.2014
+Waypoint: m/diamondgoat/23
+Title: Diamondgoat Social
+Points: 0
+----
+ID: 1331
+Date: 02.12.2014
+Waypoint: m/BooGirs/105
+Title: BooGir&#039;s Social
+Points: 0
+----
+ID: 1332
+Date: 02.12.2014
+Waypoint: m/Koppertop/114
+Title: Koppertop 9 Volt
+Points: 0
+----
+ID: 1333
+Date: 02.12.2014
+Waypoint: m/silverfox/179
+Title: Gromit
+Points: 0
+----
+ID: 1334
+Date: 02.12.2014
+Waypoint: m/ozlurker/9
+Title: Social Lurker
+Points: 0
+----
+ID: 1335
+Date: 02.12.2014
+Waypoint: m/TeamPathfinder/57
+Title: Team Pathfinder Social Munzee
+Points: 0
+----
+ID: 1336
+Date: 02.12.2014
+Waypoint: m/CacheSense/148
+Title: CacheSense
+Points: 0
+----
+ID: 1337
+Date: 02.12.2014
+Waypoint: m/wolfeitz/36
+Title: Rob&#039;s Social Munzee
+Points: 0
+----
+ID: 1338
+Date: 02.12.2014
+Waypoint: m/the5ts/501
+Title: The 5Ts 1st Social Munzee
+Points: 0
+----
+ID: 1339
+Date: 02.12.2014
+Waypoint: m/HAWG/1
+Title: HAWG&#039;s Social
+Points: 0
+----
+ID: 1340
+Date: 02.12.2014
+Waypoint: m/NanaB/62
+Title: NanaB Social
+Points: 0
+----
+ID: 1341
+Date: 02.12.2014
+Waypoint: m/Arogant/360
+Title: Arogantovo sociálka
+Points: 0
+----
+ID: 1342
+Date: 02.12.2014
+Waypoint: m/lankyspanky/5
+Title: Spankmeister Social
+Points: 0
+----
+ID: 1343
+Date: 02.12.2014
+Waypoint: m/TNT/703
+Title: TNT on the Hunt
+Points: 0
+----
+ID: 1344
+Date: 02.12.2014
+Waypoint: m/TEAMLKN/1291
+Title: Social Gold Star Munzee
+Points: 0
+----
+ID: 1345
+Date: 02.12.2014
+Waypoint: m/TEAMLKN/1277
+Title: Social Mystery Munzee
+Points: 0
+----
+ID: 1346
+Date: 02.12.2014
+Waypoint: m/TEAMLKN/2405
+Title: Merry Christmas 2013 - Social Munzee
+Points: 0
+----
+ID: 1347
+Date: 02.12.2014
+Waypoint: m/Birdhouse/49
+Title: Christmas Social Munzee
+Points: 0
+----
+ID: 1348
+Date: 02.12.2014
+Waypoint: m/coachV/1357
+Title: coachV&#039;s Pebble Watch
+Points: 0
+----
+ID: 1349
+Date: 02.12.2014
+Waypoint: m/wavydale/229
+Title: Wavydale&#039;s 2nd Social Munzee
+Points: 0
+----
+ID: 1350
+Date: 02.12.2014
+Waypoint: m/sarahbrisbane/37
+Title: Sarah Brisbane social munzee
+Points: 0
+----
+ID: 1351
+Date: 02.12.2014
+Waypoint: m/AnneBijoux/13
+Title: Smile :D
+Points: 0
+----
+ID: 1352
+Date: 02.12.2014
+Waypoint: m/daysleeperdot/581
+Title: Daysleeperdot&#039;s Don&#039;t Panic Social
+Points: 0
+----
+ID: 1353
+Date: 02.12.2014
+Waypoint: m/snerdbe/622
+Title: snerdbe&#039;s 1st Social Munzee
+Points: 0
+----
+ID: 1354
+Date: 02.12.2014
+Waypoint: m/alaskawolf3/13
+Title: Alaskawolf3&#039;s Social Munzee
+Points: 0
+----
+ID: 1355
+Date: 02.12.2014
+Waypoint: m/awsmgimp/5
+Title: AWSMGIMP Social Munzee
+Points: 0
+----
+ID: 1356
+Date: 02.12.2014
+Waypoint: m/Thaedion/579
+Title: Thaedion&#039;s Social
+Points: 0
+----
+ID: 1357
+Date: 02.12.2014
+Waypoint: m/kimdot/20
+Title: kimdot&#039;s plain old social
+Points: 0
+----
+ID: 1358
+Date: 02.12.2014
+Waypoint: m/vectra1008/1696
+Title: vectra1008 Nr. 2 - Social Munzee
+Points: 0
+----
+ID: 1359
+Date: 02.12.2014
+Waypoint: m/TeamAshandy/34
+Title: TeamAshandy Social Munzee
+Points: 0
+----
+ID: 1360
+Date: 02.12.2014
+Waypoint: m/Sikko/5
+Title: Sikko&#039;s Social Munzee # 1
+Points: 0
+----
+ID: 1361
+Date: 02.12.2014
+Waypoint: m/Gredgeman/99
+Title: Gredgeman Social Munzee 1
+Points: 0
+----
+ID: 1362
+Date: 02.12.2014
+Waypoint: m/afriars/6
+Title: Afriars Social Munzee
+Points: 0
+----
+ID: 1363
+Date: 02.12.2014
+Waypoint: m/Sarahsliefie/6
+Title: Sarahsliefie Social Munzee
+Points: 0
+----
+ID: 1364
+Date: 02.12.2014
+Waypoint: m/obxgeek/1207
+Title: OBXGeek&#039;s Global Social
+Points: 0
+----
+ID: 1365
+Date: 02.12.2014
+Waypoint: m/ryves/337
+Title: Glenda Social 1
+Points: 0
+----
+ID: 1366
+Date: 02.12.2014
+Waypoint: m/choolou/157
+Title: choolou social munzee
+Points: 0
+----
+ID: 1367
+Date: 02.12.2014
+Waypoint: m/Turbo05/5
+Title: Social Munzee
+Points: 0
+----
+ID: 1368
+Date: 02.12.2014
+Waypoint: m/ruvah/5
+Title: RuVah
+Points: 0
+----
+ID: 1369
+Date: 02.12.2014
+Waypoint: m/Kaspa/19
+Title: Kaspa The Friendly Capper
+Points: 0
+----
+ID: 1370
+Date: 02.12.2014
+Waypoint: m/Justforalaugh75/57
+Title: Andrew&#039;s social munzee
+Points: 0
+----
+ID: 1371
+Date: 02.12.2014
+Waypoint: m/Xridesbikex/3466
+Title: XridesbikeX social fun!
+Points: 0
+----
+ID: 1372
+Date: 02.12.2014
+Waypoint: m/rudine/6
+Title: Odine Munzee
+Points: 0
+----
+ID: 1373
+Date: 02.12.2014
+Waypoint: m/munzee/29
+Title: Need Help?
+Points: 10
+----
+ID: 1374
+Date: 02.12.2014
+Waypoint: m/Tinkerbel/293
+Title: Tinkerbel
+Points: 0
+----
+ID: 1375
+Date: 02.12.2014
+Waypoint: m/LoneR/352
+Title: Lone R Social Munzee
+Points: 0
+----
+ID: 1376
+Date: 02.12.2014
+Waypoint: m/Tinkerbel/325
+Title: Meditate Social Munzee
+Points: 0
+----
+ID: 1377
+Date: 02.12.2014
+Waypoint: m/dydy/1
+Title: sylvester by dydy
+Points: 0
+----
+ID: 1378
+Date: 02.12.2014
+Waypoint: m/QRazy/39
+Title: Opposites Attract
+Points: 7
+----
+ID: 1379
+Date: 02.12.2014
+Waypoint: m/fdlseeker/10
+Title: Fdlseeker
+Points: 0
+----
+ID: 1380
+Date: 02.12.2014
+Waypoint: m/QRazy/18
+Title: Polly Styrene
+Points: 5
+----
+ID: 1381
+Date: 02.12.2014
+Waypoint: m/c-bn/2108
+Title: [c-bn] Social Munzee
+Points: 0
+----
+ID: 1382
+Date: 02.12.2014
+Waypoint: m/gensfan1/15
+Title: gensfan1
+Points: 0
+----
+ID: 1383
+Date: 02.12.2014
+Waypoint: m/countsmiley/5
+Title: countsmiley
+Points: 0
+----
+ID: 1384
+Date: 02.12.2014
+Waypoint: m/MamaDuck71/77
+Title: Mamaduck71&#039;s Nest
+Points: 0
+----
+ID: 1385
+Date: 02.12.2014
+Waypoint: m/TurtleFan/474
+Title: TurtleFan&#039;s Social Munzee
+Points: 0
+----
+ID: 1386
+Date: 02.12.2014
+Waypoint: m/Handsyhands/209
+Title: Handzee
+Points: 0
+----
+ID: 1387
+Date: 02.12.2014
+Waypoint: m/McDonald/1165
+Title: Social Munzee von McDonald
+Points: 0
+----
+ID: 1388
+Date: 02.12.2014
+Waypoint: m/gewei/105
+Title: Gewei&#039;s Social Munzee
+Points: 0
+----
+ID: 1389
+Date: 02.12.2014
+Waypoint: m/Manzoo/300
+Title: =| Social Manzoo |=
+Points: 0
+----
+ID: 1390
+Date: 02.12.2014
+Waypoint: m/elswood/58
+Title: Social Munzee by Elswood
+Points: 0
+----
+ID: 1391
+Date: 02.12.2014
+Waypoint: m/gamakite/9
+Title: GamaKite Munzee
+Points: 0
+----
+ID: 1392
+Date: 02.12.2014
+Waypoint: m/NS1220/20
+Title: Social Munzee from NS1220
+Points: 0
+----
+ID: 1393
+Date: 02.12.2014
+Waypoint: m/VanderArban/61
+Title: Barcodes &amp; Boxes - VanderArban Social
+Points: 0
+----
+ID: 1394
+Date: 02.12.2014
+Waypoint: m/Nevelhekse/25
+Title: Nevelhekse&#039;s Social Munzee
+Points: 0
+----
+ID: 1395
+Date: 02.12.2014
+Waypoint: m/tatch/212
+Title: Southend Virtual Garden goo.gl/8rhwl2
+Points: 0
+----
+ID: 1396
+Date: 02.12.2014
+Waypoint: m/CoffeeEater/564
+Title: The CoffeeEater Original
+Points: 0
+----
+ID: 1397
+Date: 02.12.2014
+Waypoint: m/halizwein/254
+Title: halizwein&#039;s Social Munzee
+Points: 0
+----
+ID: 1398
+Date: 02.12.2014
+Waypoint: m/MoSi8286/480
+Title: MoSi8286&#039;s Social Munzee
+Points: 0
+----
+ID: 1399
+Date: 02.12.2014
+Waypoint: m/CACHEEATER/95
+Title: CACHEEATER&#039;S SOCIAL MUNZEE
+Points: 0
+----
+ID: 1400
+Date: 02.12.2014
+Waypoint: m/2go2seek/113
+Title: Taking a break - 2go2seek&#039;s (Social Munzee)
+Points: 0
+----
+ID: 1401
+Date: 02.12.2014
+Waypoint: m/JayJayBee8/2112
+Title: It&#039;s Stuck On The Front!!
+Points: 0
+----
+ID: 1402
+Date: 02.12.2014
+Waypoint: m/JansEgal/1130
+Title: JansEgal - The Social
+Points: 0
+----
+ID: 1403
+Date: 02.12.2014
+Waypoint: m/RebelGTP/1013
+Title: Keep Calm and Capture Munzees
+Points: 0
+----
+ID: 1404
+Date: 02.12.2014
+Waypoint: m/TheRealGigi/1045
+Title: POTW 12/22 to 12/28 2013
+Points: 0
+----
+ID: 1405
+Date: 02.12.2014
+Waypoint: m/TheRealGigi/2354
+Title: Phoenix Rising September - 4,429,727 Points
+Points: 0
+----
+ID: 1406
+Date: 02.12.2014
+Waypoint: m/Mollymoo09/99
+Title: Mollymoo09&#039;s Scoial Munzee
+Points: 0
+----
+ID: 1407
+Date: 02.12.2014
+Waypoint: m/Bernie/19
+Title: Bernie
+Points: 0
+----
+ID: 1408
+Date: 02.12.2014
+Waypoint: m/ThePipers/421
+Title: Jay Piper
+Points: 0
+----
+ID: 1409
+Date: 02.12.2014
+Waypoint: m/JObbern/107
+Title: JObbern`s Social Munzee
+Points: 0
+----
+ID: 1410
+Date: 02.12.2014
+Waypoint: m/maxmaggott/99
+Title: Maxmaggott&#039;s Social Munzee
+Points: 0
+----
+ID: 1411
+Date: 02.12.2014
+Waypoint: m/AreOhBee/2
+Title: Quiz 2
+Points: 3
+----
+ID: 1412
+Date: 02.12.2014
+Waypoint: m/YorkshireTaff/808
+Title: GeoZee Hound Fudge
+Points: 0
+----
+ID: 1413
+Date: 02.12.2014
+Waypoint: m/fletchfam5/48
+Title: fletchfam5
+Points: 0
+----
+ID: 1414
+Date: 02.12.2014
+Waypoint: m/sarajsmith74/46
+Title: Dr Who
+Points: 0
+----
+ID: 1415
+Date: 02.12.2014
+Waypoint: m/Bozoid/88
+Title: Bozoid&#039;s Social Munzee
+Points: 0
+----
+ID: 1416
+Date: 02.12.2014
+Waypoint: m/prmarks1391/73
+Title: Minionator
+Points: 0
+----
+ID: 1417
+Date: 02.12.2014
+Waypoint: m/turnersrugs/528
+Title: TEAM 757 FLEX
+Points: 0
+----
+ID: 1418
+Date: 02.12.2014
+Waypoint: m/munzee/25
+Title: Fireball
+Points: 2
+----
+ID: 1419
+Date: 02.12.2014
+Waypoint: m/munzee/24
+Title: Spreader
+Points: 2
+----
+ID: 1420
+Date: 02.12.2014
+Waypoint: m/RebelGTP/1012
+Title: Phantom Regiment - RebelGTP
+Points: 0
+----
+ID: 1421
+Date: 02.12.2014
+Waypoint: m/AreOhBee/4
+Title: Quiz 4
+Points: 4
+----
+ID: 1422
+Date: 02.12.2014
+Waypoint: m/HideNSeek/82
+Title: You&#039;ve found HideNSeek!
+Points: 0
+----
+ID: 1423
+Date: 02.12.2014
+Waypoint: m/NativTxn/79
+Title: NativTxn&#039;s Social Munzee
+Points: 0
+----
+ID: 1424
+Date: 02.12.2014
+Waypoint: m/DarrylW4/164
+Title: GeoGearHeads Social Munzee
+Points: 0
+----
+ID: 1425
+Date: 02.12.2014
+Waypoint: m/TheJacksons/955
+Title: TheJacksons
+Points: 0
+----
+ID: 1426
+Date: 02.12.2014
+Waypoint: m/AreOhBee/3
+Title: Quiz 3
+Points: 5
+----
+ID: 1427
+Date: 02.12.2014
+Waypoint: m/QRazy/41
+Title: One Direction
+Points: 5
+----
+ID: 1428
+Date: 02.12.2014
+Waypoint: m/QRazy/77
+Title: Munzee Monthly
+Points: 30
+----
+ID: 1429
+Date: 02.12.2014
+Waypoint: m/Barbarix/5
+Title: Barbarix&#039;s Social Munzee
+Points: 0
+----
+ID: 1430
+Date: 02.12.2014
+Waypoint: m/23speds/976
+Title: 23speds Birthday Social Princess Munzee
+Points: 0
+----
+ID: 1431
+Date: 02.12.2014
+Waypoint: m/DorOngl/215
+Title: my first Social Munzee
+Points: 0
+----
+ID: 1432
+Date: 02.12.2014
+Waypoint: m/kimbree2005/25
+Title: Zephyr Boy Social Munzee
+Points: 0
+----
+ID: 1433
+Date: 02.12.2014
+Waypoint: m/VermonterAtHeart/443
+Title: VermonterAtHeart SM, Winter Edition
+Points: 0
+----
+ID: 1434
+Date: 02.12.2014
+Waypoint: m/Ratzzeputz/474
+Title: Team Ratzzeputz First Sozial Munzee
+Points: 0
+----
+ID: 1435
+Date: 02.12.2014
+Waypoint: m/abcgaertner/1203
+Title: Baltic Sea 2014 by abcgaertner
+Points: 0
+----
+ID: 1436
+Date: 02.12.2014
+Waypoint: m/QRazy/78
+Title: MunzPak Teaser
+Points: 10
+----
+ID: 1437
+Date: 02.12.2014
+Waypoint: m/abcgaertner/1202
+Title: Social Munzee Lago Maggiore by abcgaertner
+Points: 0
+----
+ID: 1438
+Date: 02.12.2014
+Waypoint: m/Elifanti98/197
+Title: 900 Tage Munzee
+Points: 0
+----
+ID: 1439
+Date: 02.12.2014
+Waypoint: m/meisterlampe001/715
+Title: MeisterLampe&#039;s &quot;1 Jahr Munzee!&quot; Social Munzee
+Points: 0
+----
+ID: 1440
+Date: 02.12.2014
+Waypoint: m/Team-MTB-OC/182
+Title: Team-MTB-OC&#039;s 1st Social
+Points: 0
+----
+ID: 1441
+Date: 02.12.2014
+Waypoint: m/Nexus69/42
+Title: /\/EXUS69
+Points: 0
+----
+ID: 1442
+Date: 02.12.2014
+Waypoint: m/Nexus69/429
+Title: Prince /\/exus69
+Points: 0
+----
+ID: 1443
+Date: 02.12.2014
+Waypoint: m/abcgaertner/973
+Title: Baltic Sea from abcgaertner
+Points: 0
+----
+ID: 1444
+Date: 02.12.2014
+Waypoint: m/teutoschleicher/189
+Title: Teutoschleichers 1st Social Munzee
+Points: 0
+----
+ID: 1445
+Date: 02.12.2014
+Waypoint: m/Suedschwede/106
+Title: der Suedschwede
+Points: 0
+----
+ID: 1446
+Date: 02.12.2014
+Waypoint: m/munzee/63
+Title: It&#039;s chock full of news you can use!
+Points: 5
+----
+ID: 1447
+Date: 02.12.2014
+Waypoint: m/kaschper69/1246
+Title: k69 - Social Munzee 3
+Points: 0
+----
+ID: 1448
+Date: 02.12.2014
+Waypoint: m/kaschper69/1245
+Title: k69 - Social Munzee 4
+Points: 0
+----
+ID: 1449
+Date: 02.12.2014
+Waypoint: m/kaschper69/1247
+Title: k69 - Social Munzee 5
+Points: 0
+----
+ID: 1450
+Date: 02.12.2014
+Waypoint: m/struppis/312
+Title: Struppis Social Munzee
+Points: 0
+----
+ID: 1451
+Date: 02.12.2014
+Waypoint: m/gruenthaler/20
+Title: the social gruenthaler
+Points: 0
+----
+ID: 1452
+Date: 02.12.2014
+Waypoint: m/meisterlampe001/29
+Title: MeisterLampe&#039;s Social Munzee
+Points: 0
+----
+ID: 1453
+Date: 02.12.2014
+Waypoint: m/wallace/1151
+Title: &quot;wallace´s social&quot;
+Points: 0
+----
+ID: 1454
+Date: 02.12.2014
+Waypoint: m/DieflottenKaefer/45
+Title: Social Munzee Kroatien
+Points: 0
+----
+ID: 1455
+Date: 02.12.2014
+Waypoint: m/abcgaertner/85
+Title: Social Munzee from abcgaertner
+Points: 0
+----
+ID: 1456
+Date: 02.12.2014
+Waypoint: m/lammy/523
+Title: lammys 1st Social Munzee
+Points: 0
+----
+ID: 1457
+Date: 02.12.2014
+Waypoint: m/KelemenGy/636
+Title: KGy&#039;s Social
+Points: 0
+----
+ID: 1458
+Date: 02.12.2014
+Waypoint: m/QRazy/67
+Title: MHQ Oktoberfest Bash
+Points: 5
+----
+ID: 1459
+Date: 02.12.2014
+Waypoint: m/ColesCruising/1521
+Title: For Love of the Crown (#2 Public Social)
+Points: 0
+----
+ID: 1460
+Date: 02.12.2014
+Waypoint: m/ColesCruising/1522
+Title: The Betrayal (#3 Public Social)
+Points: 0
+----
+ID: 1461
+Date: 02.12.2014
+Waypoint: m/ColesCruising/50
+Title: The Seeker (#1 Public Social)
+Points: 0
+----
+ID: 1462
+Date: 02.12.2014
+Waypoint: m/QRazy/62
+Title: Hello Maddie!
+Points: 14
+----
+ID: 1463
+Date: 02.12.2014
+Waypoint: m/pl1lkm/315
+Title:  pl1lkm
+Points: 0
+----
+ID: 1464
+Date: 02.12.2014
+Waypoint: m/Carmenwsw/5
+Title: Carmen aus WSW
+Points: 0
+----
+ID: 1465
+Date: 02.12.2014
+Waypoint: m/ClanCOLOGNE/1
+Title: Clan COLOGNE 2013
+Points: 0
+----
+ID: 1466
+Date: 02.12.2014
+Waypoint: m/elokheizer/906
+Title: elokheizer&#039;s public Social Munzee
+Points: 0
+----
+ID: 1467
+Date: 02.12.2014
+Waypoint: m/Nexus69/60
+Title: enjoy &amp; relax
+Points: 0
+----
+ID: 1468
+Date: 02.12.2014
+Waypoint: m/CouchPotato/5
+Title: We love you too!
+Points: 12
+----
+ID: 1469
+Date: 02.12.2014
+Waypoint: m/DSL/10
+Title: DSL&#039;s Social Munzee
+Points: 0
+----
+ID: 1470
+Date: 02.12.2014
+Waypoint: m/Gonzoni/12
+Title: Gonzoni&#039;s Social Munzee
+Points: 0
+----
+ID: 1471
+Date: 02.12.2014
+Waypoint: m/D1k74/33
+Title: Social Munzee Gold
+Points: 0
+----
+ID: 1472
+Date: 02.12.2014
+Waypoint: m/hans415/979
+Title: fun fun fun
+Points: 0
+----
+ID: 1473
+Date: 02.12.2014
+Waypoint: m/Wiffi67/522
+Title: Wiffi67 - Puzzle
+Points: 0
+----
+ID: 1474
+Date: 02.12.2014
+Waypoint: m/Wiffi67/121
+Title: Wiffi67 #1
+Points: 0
+----
+ID: 1475
+Date: 02.12.2014
+Waypoint: m/Wiffi67/122
+Title: Wiffi67 #2
+Points: 0
+----
+ID: 1476
+Date: 02.12.2014
+Waypoint: m/Wiffi67/202
+Title: Wiffi67 #3
+Points: 0
+----
+ID: 1477
+Date: 02.12.2014
+Waypoint: m/TimDream/5
+Title: Tim Dream Social Munzee
+Points: 0
+----
+ID: 1478
+Date: 02.12.2014
+Waypoint: m/TimDream/768
+Title: Mystere Social Munzee TimDream 5
+Points: 0
+----
+ID: 1479
+Date: 02.12.2014
+Waypoint: m/Pumti/1504
+Title: Can you see it?
+Points: 0
+----
+ID: 1480
+Date: 02.12.2014
+Waypoint: m/Thaedion/1094
+Title: Audio Video Social
+Points: 0
+----
+ID: 1481
+Date: 02.12.2014
+Waypoint: m/DangerousCurves/3
+Title: Social Munzee for DangerousCurves
+Points: 0
+----
+ID: 1482
+Date: 02.12.2014
+Waypoint: m/Nexus69/243
+Title: Schwarz-Rot-Gold
+Points: 0
+----
+ID: 1483
+Date: 02.12.2014
+Waypoint: m/c-bn/2908
+Title: [c-bn] Winner! 1st Loser! Lucky! Unlucky!
+Points: 0
+----
+ID: 1484
+Date: 02.12.2014
+Waypoint: m/johanenpaula/305
+Title: Chocolate sprinkles
+Points: 0
+----
+ID: 1485
+Date: 02.12.2014
+Waypoint: m/Mowsky/1001
+Title: Mowsky&#039;s Social Riddle Munzee
+Points: 0
+----
+ID: 1486
+Date: 02.12.2014
+Waypoint: m/8a22a/300
+Title: 8a22a&#039;s Puzzle Social
+Points: 0
+----
+ID: 1487
+Date: 02.12.2014
+Waypoint: m/c-bn/2909
+Title: [c-bn] My best munzee weekend ever!
+Points: 0
+----
+ID: 1488
+Date: 02.12.2014
+Waypoint: m/TimDream/669
+Title: Mystere Social Munzee TimDream 1
+Points: 0
+----
+ID: 1489
+Date: 02.12.2014
+Waypoint: m/Pharaonin/100
+Title: Pharaonins Social Munzee
+Points: 0
+----
+ID: 1490
+Date: 02.12.2014
+Waypoint: m/floydaner/58
+Title: floydaner Social Munzee
+Points: 0
+----
+ID: 1491
+Date: 02.12.2014
+Waypoint: m/QRazy/69
+Title: Special Guest Star!
+Points: 5
+----
+ID: 1492
+Date: 02.12.2014
+Waypoint: m/MirasEtrin/23
+Title: Social Munzee von MirasEtrin
+Points: 0
+----
+ID: 1493
+Date: 02.12.2014
+Waypoint: m/MrRuddy/255
+Title: Social Munzee MrRuddy
+Points: 0
+----
+ID: 1494
+Date: 02.12.2014
+Waypoint: m/wanderer49/45
+Title: Social Munzee by Wanderer49
+Points: 0
+----
+ID: 1495
+Date: 02.12.2014
+Waypoint: m/QRazy/68
+Title: Happy Valentine&#039;s Day!
+Points: 20
+----
+ID: 1496
+Date: 02.12.2014
+Waypoint: m/pulda1/218
+Title: A Place In Germany
+Points: 0
+----
+ID: 1497
+Date: 02.12.2014
+Waypoint: m/LittleYoda/429
+Title: Social Munzee von LittleYoda
+Points: 0
+----
+ID: 1498
+Date: 02.12.2014
+Waypoint: m/degeisi/98
+Title: degeisi´s Morning SunRise
+Points: 0
+----
+ID: 1499
+Date: 02.12.2014
+Waypoint: m/degeisi/31
+Title: degeisi´s Munzee-Team
+Points: 0
+----
+ID: 1500
+Date: 02.12.2014
+Waypoint: m/Zyklotrop/26
+Title: The Social Zyklotrop
+Points: 0
+----
+ID: 1501
+Date: 02.12.2014
+Waypoint: m/Powerfreak/48
+Title: Powerfreak´s Social
+Points: 0
+----
+ID: 1502
+Date: 02.12.2014
+Waypoint: m/kaschper69/400
+Title: k69 - Social Munzee 2
+Points: 0
+----
+ID: 1503
+Date: 02.12.2014
+Waypoint: m/Powerfreak/98
+Title: Big Social Munzee
+Points: 0
+----
+ID: 1504
+Date: 02.12.2014
+Waypoint: m/gro666/23
+Title: Sunset Munzee
+Points: 0
+----
+ID: 1505
+Date: 02.12.2014
+Waypoint: m/Bladenhorst/30
+Title: Greetings from Castrop-Rauxel
+Points: 0
+----
+ID: 1506
+Date: 02.12.2014
+Waypoint: m/munzee/58
+Title: Munzee shirt
+Points: 20
+----
+ID: 1507
+Date: 02.12.2014
+Waypoint: m/McRon/1146
+Title: McRon&#039;s Social Munzee
+Points: 0
+----
+ID: 1508
+Date: 02.12.2014
+Waypoint: m/jigsaw/595
+Title: jigsaw - Social Munzee
+Points: 0
+----
+ID: 1509
+Date: 02.12.2014
+Waypoint: m/3am/1079
+Title: 3AM&#039;s Social Munzee 03
+Points: 0
+----
+ID: 1510
+Date: 02.12.2014
+Waypoint: m/3am/1080
+Title: 3AM&#039;s Social Munzee 02
+Points: 0
+----
+ID: 1511
+Date: 02.12.2014
+Waypoint: m/3am/15
+Title: 3AM&#039;s Social Munzee 01
+Points: 0
+----
+ID: 1512
+Date: 02.12.2014
+Waypoint: m/Netty/146
+Title: Netty`s Social Munzee
+Points: 0
+----
+ID: 1513
+Date: 02.12.2014
+Waypoint: m/QRazy/27
+Title: Invisibility Factor
+Points: 45
+----
+ID: 1514
+Date: 02.12.2014
+Waypoint: m/McGrunty/48
+Title: Greetings from Germany!
+Points: 0
+----
+ID: 1515
+Date: 02.12.2014
+Waypoint: m/Pumti/1454
+Title: I ❤ Munzee
+Points: 0
+----
+ID: 1516
+Date: 02.12.2014
+Waypoint: m/munzee/55
+Title: Easter Egg 2.0
+Points: 5
+----
+ID: 1517
+Date: 02.12.2014
+Waypoint: m/QRazy/46
+Title: Dracula&#039;s Nightmare
+Points: 7
+----
+ID: 1518
+Date: 02.12.2014
+Waypoint: m/QRazy/36
+Title: What does &quot;Soon&quot; mean?
+Points: 2
+----
+ID: 1519
+Date: 02.12.2014
+Waypoint: m/PappaPad/1246
+Title: PappaPad -online-
+Points: 0
+----
+ID: 1520
+Date: 02.12.2014
+Waypoint: m/QRazy/28
+Title: Stinkin&#039; Bugs
+Points: 5
+----
+ID: 1521
+Date: 02.12.2014
+Waypoint: m/QRazy/25
+Title: Hulk patty
+Points: 5
+----
+ID: 1522
+Date: 02.12.2014
+Waypoint: m/QRazy/26
+Title: The face of comedy
+Points: 5
+----
+ID: 1523
+Date: 02.12.2014
+Waypoint: m/munzee/42
+Title: Welcome to Munzee!
+Points: 5
+----
+ID: 1524
+Date: 02.12.2014
+Waypoint: m/munzee/15
+Title: Timmy
+Points: 5
+----
+ID: 1525
+Date: 02.12.2014
+Waypoint: m/munzee/28
+Title: TheNewStore
+Points: 5
+----
+ID: 1526
+Date: 02.12.2014
+Waypoint: m/QRazy/16
+Title: The Rachel
+Points: 5
+----
+ID: 1527
+Date: 02.12.2014
+Waypoint: m/QRazy/12
+Title: Stuck in the Middle
+Points: 5
+----
+ID: 1528
+Date: 02.12.2014
+Waypoint: m/heinz57/3
+Title: Stuck Together
+Points: 45
+----
+ID: 1529
+Date: 02.12.2014
+Waypoint: m/QRazy/10
+Title: Stick Around For a While
+Points: 5
+----
+ID: 1530
+Date: 02.12.2014
+Waypoint: m/QRazy/22
+Title: Rob &amp; Big
+Points: 5
+----
+ID: 1531
+Date: 02.12.2014
+Waypoint: m/QRazy/3
+Title: Rain or Shine
+Points: 5
+----
+ID: 1532
+Date: 02.12.2014
+Waypoint: m/QRazy/19
+Title: Max Eisenhardt
+Points: 5
+----
+ID: 1533
+Date: 02.12.2014
+Waypoint: m/MyFace/2
+Title: Munzee.nl
+Points: 5
+----
+ID: 1534
+Date: 02.12.2014
+Waypoint: m/QRazy/15
+Title: My Buddy
+Points: 5
+----
+ID: 1535
+Date: 02.12.2014
+Waypoint: m/munzee/17
+Title: Loo Dens
+Points: 5
+----
+ID: 1536
+Date: 02.12.2014
+Waypoint: m/QRazy/17
+Title: Kermie
+Points: 5
+----
+ID: 1537
+Date: 02.12.2014
+Waypoint: m/QRazy/9
+Title: It&#039;s a Premium
+Points: 10
+----
+ID: 1538
+Date: 02.12.2014
+Waypoint: m/QRazy/20
+Title: Green Giant
+Points: 5
+----
+ID: 1539
+Date: 02.12.2014
+Waypoint: m/QRazy/8
+Title: Golden Arches
+Points: 5
+----
+ID: 1540
+Date: 02.12.2014
+Waypoint: m/QRazy/11
+Title: For real?
+Points: 5
+----
+ID: 1541
+Date: 02.12.2014
+Waypoint: m/QRazy/21
+Title: Clifford
+Points: 5
+----
+ID: 1542
+Date: 02.12.2014
+Waypoint: m/Boersentrader/194
+Title: Mein einer
+Points: 0
+----
+ID: 1543
+Date: 02.12.2014
+Waypoint: m/nene2911/2037
+Title: Let&#039;s get social.....
+Points: 0
+----
+ID: 1544
+Date: 02.12.2014
+Waypoint: m/vectra1008/1433
+Title: vectra1008 - Social Munzee
+Points: 0
+----
+ID: 1545
+Date: 02.12.2014
+Waypoint: m/kaschper69/287
+Title: k69 - Social Munzee 1
+Points: 0
+----
+ID: 1546
+Date: 02.12.2014
+Waypoint: m/McChickenNugget/557
+Title: McChickenNugget&#039;s Social Munzee 🐔
+Points: 0
+----
+ID: 1547
+Date: 02.12.2014
+Waypoint: m/computerwiz41/82
+Title: Hey Mailman, Better Run!
+Points: 0
+----
+ID: 1548
+Date: 02.12.2014
+Waypoint: m/Pigal/88
+Title: Pigalovo sociální munzee
+Points: 0
+----
+ID: 1549
+Date: 02.12.2014
+Waypoint: m/AirborneDave/7
+Title: AirborneDave&#039;s Social Munzee
+Points: 0
+----
+ID: 1550
+Date: 02.12.2014
+Waypoint: m/doggonefun/109
+Title: DogGoneFun - Cara
+Points: 0
+----
+ID: 1551
+Date: 02.12.2014
+Waypoint: m/lilgeodave/186
+Title: We support you lilgeodave!
+Points: 0
+----
+ID: 1552
+Date: 02.12.2014
+Waypoint: m/arts5/126
+Title: Brainz
+Points: 0
+----
+ID: 1553
+Date: 02.12.2014
+Waypoint: m/arts5/80
+Title: No BS
+Points: 0
+----
+ID: 1554
+Date: 02.12.2014
+Waypoint: m/halizwein/1883
+Title: halizwein&#039;s POTW Social Munzee
+Points: 0
+----
+ID: 1555
+Date: 02.12.2014
+Waypoint: m/xptwo/818
+Title: xptwo&#039;s POTW Social
+Points: 0
+----
+ID: 1556
+Date: 02.12.2014
+Waypoint: m/zeusi/8265
+Title: 2 Million Points !!!
+Points: 0
+----
+ID: 1557
+Date: 02.12.2014
+Waypoint: m/zeusi/5620
+Title: 777 Days of Munzee
+Points: 0
+----
+ID: 1558
+Date: 02.12.2014
+Waypoint: m/thornbird/66
+Title: Thornbirds social
+Points: 0
+----
+ID: 1559
+Date: 02.12.2014
+Waypoint: m/aufbau/732
+Title: WTF
+Points: 0
+----
+ID: 1560
+Date: 02.12.2014
+Waypoint: m/moff/142
+Title: Moffis Social
+Points: 0
+----
+ID: 1561
+Date: 02.12.2014
+Waypoint: m/QRazy/30
+Title: Gutentag
+Points: 5
+----
+ID: 1562
+Date: 02.12.2014
+Waypoint: m/CouchPotato/1
+Title: Humpty&#039;s Brothers
+Points: 5
+----
+ID: 1563
+Date: 02.12.2014
+Waypoint: m/QRazy/29
+Title: Monthly Warning
+Points: 5
+----
+ID: 1564
+Date: 02.12.2014
+Waypoint: m/CouchPotato/2
+Title: Mellow
+Points: 5
+----
+ID: 1565
+Date: 02.12.2014
+Waypoint: m/SeattleSeekers/290
+Title: Seattle Seekers
+Points: 0
+----
+ID: 1566
+Date: 02.12.2014
+Waypoint: m/JGC3/76
+Title: BIG Little Event
+Points: 0
+----
+ID: 1567
+Date: 02.12.2014
+Waypoint: m/Harry4077/46
+Title: Harry4077 Social Munzee - Public Social
+Points: 0
+----
+ID: 1568
+Date: 02.12.2014
+Waypoint: m/rynee/1158
+Title: Social Munzees Page 400 Likes
+Points: 0
+----
+ID: 1569
+Date: 02.12.2014
+Waypoint: m/rynee/1030
+Title: Mixed Nutz January Clan Social
+Points: 0
+----
+ID: 1570
+Date: 02.12.2014
+Waypoint: m/rynee/1028
+Title: Social Munzees Page 100 Likes
+Points: 0
+----
+ID: 1571
+Date: 02.12.2014
+Waypoint: m/rynee/1029
+Title: Social Munzees Page 300 Likes
+Points: 0
+----
+ID: 1572
+Date: 02.12.2014
+Waypoint: m/rynee/1027
+Title: Social Munzees Page 200 Likes
+Points: 0
+----
+ID: 1573
+Date: 02.12.2014
+Waypoint: m/rynee/739
+Title: I Am Rynee
+Points: 0
+----
+ID: 1574
+Date: 02.12.2014
+Waypoint: m/moonkatuk/20
+Title: Tweek!
+Points: 0
+----
+ID: 1575
+Date: 02.12.2014
+Waypoint: m/Queensapph/49
+Title: Queensapph
+Points: 0
+----
+ID: 1576
+Date: 02.12.2014
+Waypoint: m/Radioburwood/403
+Title: Radioburwood #403 Social Munzee
+Points: 0
+----
+ID: 1577
+Date: 02.12.2014
+Waypoint: m/MlKE/218
+Title: MlKE
+Points: 0
+----
+ID: 1578
+Date: 02.12.2014
+Waypoint: m/skeernc/10
+Title: KayakPirates
+Points: 0
+----
+ID: 1579
+Date: 02.12.2014
+Waypoint: m/Kuchenhorst/59
+Title: Social Munzee =&gt; Kuchenhorst
+Points: 0
+----
+ID: 1580
+Date: 02.12.2014
+Waypoint: m/kamkj/1383
+Title: KamKJ Shirt
+Points: 0
+----
+ID: 1581
+Date: 02.12.2014
+Waypoint: m/kampfzwergi/898
+Title: Social Munzee kampfzwergi
+Points: 0
+----
+ID: 1582
+Date: 02.12.2014
+Waypoint: m/hotwheelsnz/1715
+Title: Hotwheelsnz&#039;s - Social Munzee
+Points: 0
+----
+ID: 1583
+Date: 02.12.2014
+Waypoint: m/hellboy/81
+Title: Social Munzee Hellboy
+Points: 0
+----
+ID: 1584
+Date: 02.12.2014
+Waypoint: m/frf/672
+Title: frf&#039;s Social Munzee
+Points: 0
+----
+ID: 1585
+Date: 02.12.2014
+Waypoint: m/AKuhnSH/201
+Title: Social Friesen Munzee by AKuhnSH
+Points: 0
+----
+ID: 1586
+Date: 02.12.2014
+Waypoint: m/c-bn/4951
+Title: Bonn, Rochusstraße 4951 MOTEL
+Points: 5
+----
+ID: 1587
+Date: 02.12.2014
+Waypoint: m/feylino/1633
+Title: Bonn, Rochusstraße 4951 MOTEL Room #3
+Points: 5
+----
+ID: 1588
+Date: 02.12.2014
+Waypoint: m/JOJEVA/1310
+Title: Bonn, Rochusstraße 4951 MOTEL Room #1
+Points: 5
+----
+ID: 1589
+Date: 02.12.2014
+Waypoint: m/ajlis/2258
+Title: Bonn, Rochusstraße 4951 MOTEL Room #5
+Points: 5
+----
+ID: 1590
+Date: 02.12.2014
+Waypoint: m/Waldkauz/92
+Title: Bonn, Rochusstraße 4951 MOTEL Room #2
+Points: 5
+----
+ID: 1591
+Date: 02.12.2014
+Waypoint: m/hugosoft/1855
+Title: Bonn, Rochusstraße 4951 MOTEL Room #4
+Points: 5
+----
+ID: 1592
+Date: 02.12.2014
+Waypoint: m/JOJEVA/312
+Title: Munzee # 325
+Points: 5
+----
+ID: 1593
+Date: 02.12.2014
+Waypoint: m/zeusi/2018
+Title: Munzee Power 632
+Points: 5
+----
+ID: 1594
+Date: 02.12.2014
+Waypoint: m/zeusi/2115
+Title: Munzee Power 728
+Points: 5
+----
+ID: 1595
+Date: 02.12.2014
+Waypoint: m/c-bn/2177
+Title: Aktion &quot;Karte dunkelblau&quot; 038
+Points: 5
+----
+ID: 1596
+Date: 02.12.2014
+Waypoint: m/Wyando/1801
+Title: Bonn ~ Endenich Blau {1801}
+Points: 30
+----
+ID: 1597
+Date: 02.12.2014
+Waypoint: m/ReMiKu/3795
+Title: Mystery Endenich (3795)
+Points: 15
+----
+ID: 1598
+Date: 02.12.2014
+Waypoint: m/zeusi/2846
+Title: Aktion &quot;Karte dunkelblau&quot; 052
+Points: 35
+----
+ID: 1599
+Date: 02.12.2014
+Waypoint: m/c-bn/2162
+Title: Aktion &quot;Karte dunkelblau&quot; 023
+Points: 5
+----
+ID: 1600
+Date: 02.12.2014
+Waypoint: m/remstaler/2265
+Title: Bonn Nahe Mystery Trail
+Points: 5
+----
+ID: 1601
+Date: 02.12.2014
+Waypoint: m/Mieze/1114
+Title: Bonn nahe Mystietrail
+Points: 5
+----
+ID: 1602
+Date: 02.12.2014
+Waypoint: m/JOJEVA/477
+Title: Danke für die Mystery&#039;s
+Points: 5
+----
+ID: 1603
+Date: 02.12.2014
+Waypoint: m/remstaler/2271
+Title: Bonn Nahe Mystery Trail
+Points: 5
+----
+ID: 1604
+Date: 02.12.2014
+Waypoint: m/JOJEVA/465
+Title: Munzee # 478
+Points: 5
+----
+ID: 1605
+Date: 02.12.2014
+Waypoint: m/dschuwa/224
+Title: Bonner Punktejagd 030
+Points: 5
+----
+ID: 1606
+Date: 02.12.2014
+Waypoint: m/zeusi/1520
+Title: Munzee Power 198
+Points: 6
+----
+ID: 1607
+Date: 02.12.2014
+Waypoint: m/dschuwa/200
+Title: Bonner Punktejagd 061
+Points: 5
+----
+ID: 1608
+Date: 02.12.2014
+Waypoint: m/dschuwa/209
+Title: Bonner Punktejagd 098
+Points: 5
+----
+ID: 1609
+Date: 02.12.2014
+Waypoint: m/dschuwa/300
+Title: Quirinstrasse
+Points: 5
+----
+ID: 1610
+Date: 02.12.2014
+Waypoint: m/dschuwa/207
+Title: Bonner Punktejagd 087
+Points: 5
+----
+ID: 1611
+Date: 02.12.2014
+Waypoint: m/dschuwa/204
+Title: Bonner Punktejagd 056
+Points: 5
+----
+ID: 1612
+Date: 02.12.2014
+Waypoint: m/dschuwa/194
+Title: Bonner Punktejagd 027
+Points: 5
+----
+ID: 1613
+Date: 02.12.2014
+Waypoint: m/zeusi/1732
+Title: Munzee Power 429
+Points: 15
+----
+ID: 1614
+Date: 02.12.2014
+Waypoint: m/dschuwa/311
+Title: Bonner Punktejagd 074
+Points: 5
+----
+ID: 1615
+Date: 02.12.2014
+Waypoint: m/zeusi/1741
+Title: Munzee Power 438
+Points: 12
+----
+ID: 1616
+Date: 02.12.2014
+Waypoint: m/dschuwa/218
+Title: Bonner Punktejagd 022
+Points: 5
+----
+ID: 1617
+Date: 02.12.2014
+Waypoint: m/zeusi/1693
+Title: Munzee Power 390
+Points: 5
+----
+ID: 1618
+Date: 02.12.2014
+Waypoint: m/dschuwa/231
+Title: Bonner Punktejagd 038
+Points: 5
+----
+ID: 1619
+Date: 02.12.2014
+Waypoint: m/zeusi/1720
+Title: Munzee Power 417
+Points: 15
+----
+ID: 1620
+Date: 02.12.2014
+Waypoint: m/dschuwa/232
+Title: Bonner Punktejagd 040
+Points: 5
+----
+ID: 1621
+Date: 02.12.2014
+Waypoint: m/c-bn/2957
+Title: Bonn, Heinrich-Schneiders-Straße
+Points: 5
+----
+ID: 1622
+Date: 02.12.2014
+Waypoint: m/zeusi/1699
+Title: Munzee Power 396
+Points: 10
+----
+ID: 1623
+Date: 02.12.2014
+Waypoint: m/dschuwa/241
+Title: Bonner Punktejagd 050
+Points: 5
+----
+ID: 1624
+Date: 02.12.2014
+Waypoint: m/dschuwa/243
+Title: Bonner Punktejagd 053
+Points: 5
+----
+ID: 1625
+Date: 02.12.2014
+Waypoint: m/zeusi/1644
+Title: Munzee Power 341
+Points: 6
+----
+ID: 1626
+Date: 02.12.2014
+Waypoint: m/dschuwa/234
+Title: Bonner Punktejagd 042
+Points: 5
+----
+ID: 1627
+Date: 02.12.2014
+Waypoint: m/zeusi/1613
+Title: Munzee Power 310
+Points: 8
+----
+ID: 1628
+Date: 02.12.2014
+Waypoint: m/c-bn/2982
+Title: Bonn, Im Maigarten
+Points: 5
+----
+ID: 1629
+Date: 02.12.2014
+Waypoint: m/dschuwa/317
+Title: Bonner Punktejagd 067
+Points: 5
+----
+ID: 1630
+Date: 02.12.2014
+Waypoint: m/zeusi/1649
+Title: Munzee Power 346
+Points: 7
+----
+ID: 1631
+Date: 02.12.2014
+Waypoint: m/dschuwa/314
+Title: Bonner Punktejagd 062
+Points: 5
+----
+ID: 1632
+Date: 02.12.2014
+Waypoint: m/dschuwa/325
+Title: Bonner Punktejagd 065
+Points: 5
+----
+ID: 1633
+Date: 02.12.2014
+Waypoint: m/zeusi/1608
+Title: Munzee Power 305
+Points: 11
+----
+ID: 1634
+Date: 02.12.2014
+Waypoint: m/zeusi/1490
+Title: Munzee Power 168
+Points: 12
+----
+ID: 1635
+Date: 02.12.2014
+Waypoint: m/zeusi/1513
+Title: Munzee Power 191
+Points: 5
+----
+ID: 1636
+Date: 02.12.2014
+Waypoint: m/dschuwa/225
+Title: Bonner Punktejagd 031
+Points: 5
+----
+ID: 1637
+Date: 02.12.2014
+Waypoint: m/zeusi/1500
+Title: Munzee Power 178
+Points: 15
+----
+ID: 1638
+Date: 02.12.2014
+Waypoint: m/dschuwa/212
+Title: Bonner Punktejagd 015
+Points: 5
+----
+ID: 1639
+Date: 02.12.2014
+Waypoint: m/zeusi/1552
+Title: Munzee Power 230
+Points: 5
+----
+ID: 1640
+Date: 02.12.2014
+Waypoint: m/dschuwa/249
+Title: Bonner Punktejagd 069
+Points: 5
+----
+ID: 1641
+Date: 02.12.2014
+Waypoint: m/zeusi/1485
+Title: Munzee Power 163
+Points: 6
+----
+ID: 1642
+Date: 02.12.2014
+Waypoint: m/zeusi/41
+Title: 6
+Points: 8
+----
+ID: 1643
+Date: 02.12.2014
+Waypoint: m/dschuwa/244
+Title: Bonner Punktejagd 054
+Points: 5
+----
+ID: 1644
+Date: 02.12.2014
+Waypoint: m/zeusi/1547
+Title: Munzee Power 225
+Points: 5
+----
+ID: 1645
+Date: 02.12.2014
+Waypoint: m/dschuwa/247
+Title: Bonner Punktejagd 058
+Points: 5
+----
+ID: 1646
+Date: 02.12.2014
+Waypoint: m/dschuwa/233
+Title: Bonner Punktejagd 041
+Points: 5
+----
+ID: 1647
+Date: 02.12.2014
+Waypoint: m/dschuwa/877
+Title: Bonner Punktejagd 663
+Points: 5
+----
+ID: 1648
+Date: 02.12.2014
+Waypoint: m/JOJEVA/546
+Title: Munzee # 559
+Points: 5
+----
+ID: 1649
+Date: 02.12.2014
+Waypoint: m/dschuwa/220
+Title: Bonner Punktejagd 025
+Points: 5
+----
+ID: 1650
+Date: 02.12.2014
+Waypoint: m/zeusi/1539
+Title: Munzee Power 217
+Points: 13
+----
+ID: 1651
+Date: 02.12.2014
+Waypoint: m/zeusi/1511
+Title: Munzee Power 189
+Points: 5
+----
+ID: 1652
+Date: 02.12.2014
+Waypoint: m/dschuwa/219
+Title: Bonner Punktejagd 024
+Points: 5
+----
+ID: 1653
+Date: 02.12.2014
+Waypoint: m/dschuwa/238
+Title: Bonner Punktejagd 047
+Points: 5
+----
+ID: 1654
+Date: 02.12.2014
+Waypoint: m/zeusi/1655
+Title: Munzee Power 352
+Points: 11
+----
+ID: 1655
+Date: 02.12.2014
+Waypoint: m/dschuwa/248
+Title: Bonner Punktejagd 064
+Points: 5
+----
+ID: 1656
+Date: 02.12.2014
+Waypoint: m/dschuwa/329
+Title: Bonner Punktejagd 068
+Points: 5
+----
+ID: 1657
+Date: 02.12.2014
+Waypoint: m/dschuwa/227
+Title: Bonner Punktejagd 033
+Points: 5
+----
+ID: 1658
+Date: 02.12.2014
+Waypoint: m/dschuwa/239
+Title: Bonner Punktejagd 048
+Points: 5
+----
+ID: 1659
+Date: 02.12.2014
+Waypoint: m/dschuwa/198
+Title: Bonner Punktejagd 059
+Points: 5
+----
+ID: 1660
+Date: 02.12.2014
+Waypoint: m/dschuwa/199
+Title: Bonner Punktejagd 060
+Points: 5
+----
+ID: 1661
+Date: 02.12.2014
+Waypoint: m/dschuwa/320
+Title: Bonner Punktejagd 083
+Points: 5
+----
+ID: 1662
+Date: 02.12.2014
+Waypoint: m/dschuwa/310
+Title: Bonner Punktejagd 079
+Points: 5
+----
+ID: 1663
+Date: 02.12.2014
+Waypoint: m/zeusi/1645
+Title: Munzee Power 342
+Points: 5
+----
+ID: 1664
+Date: 02.12.2014
+Waypoint: m/zeusi/1799
+Title: Munzee Power 496
+Points: 5
+----
+ID: 1665
+Date: 02.12.2014
+Waypoint: m/dschuwa/770
+Title: Bonner Punktejagd 556
+Points: 5
+----
+ID: 1666
+Date: 02.12.2014
+Waypoint: m/dschuwa/865
+Title: Bonner Punktejagd 651
+Points: 5
+----
+ID: 1667
+Date: 02.12.2014
+Waypoint: m/dschuwa/760
+Title: Bonner Punktejagd 546
+Points: 5
+----
+ID: 1668
+Date: 02.12.2014
+Waypoint: m/dschuwa/323
+Title: Bonner Punktejagd 086
+Points: 5
+----
+ID: 1669
+Date: 02.12.2014
+Waypoint: m/dschuwa/293
+Title: Bonner Punktejagd 094
+Points: 5
+----
+ID: 1670
+Date: 02.12.2014
+Waypoint: m/zeusi/1507
+Title: Munzee Power 185
+Points: 9
+----
+ID: 1671
+Date: 02.12.2014
+Waypoint: m/zeusi/1778
+Title: Munzee Power 475
+Points: 11
+----
+ID: 1672
+Date: 02.12.2014
+Waypoint: m/dschuwa/315
+Title: Bonner Punktejagd 081
+Points: 5
+----
+ID: 1673
+Date: 02.12.2014
+Waypoint: m/dschuwa/49
+Title: Nächster Halt: Quirinusplatz
+Points: 5
 ----
 ID: p1154
 Date: 28.09.2014 17:45

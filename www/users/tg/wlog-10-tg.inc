@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.21 2014/11/29 16:03:35 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.22 2014/11/30 20:12:21 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -428,4 +428,19 @@ Language: de-DE-1901
  ich immerhin schon. Ja, kann mir vorstellen, daß es bei der Navigation
  im Schnee hilft. Nein, in der Fahrschule hörte ich dies, und so manches
  anderes, nicht… komme mir im Nachhinein betrogen vor…</p>
+----
+Date: 03.12.2014 02:05
+Author: tg@
+Title: Munzee-Plazierungen
+Tag: geocache
+Language: de-DE-1901
+
+<p>Wenn ich meine Geocaches so „genau“ ausmessen würde wie die Munzees
+ hier in der Ecke sind, würden mir wütende Finder die Bude einrennen…</p>
+<p>Und wieso überhaupt kann ich in der Ähpp ein DNF als Logtyp auswählen,
+ aber beim Sync sagt er dann, ginge nicht? (NM geht. Note sollte auch.)</p>
+<p>Alles in allem: besser als Ingress (nicht schwer…), aber ähnlich
+ stromfressend; nerviger als Geocaching (die Ähpp ist auch furchtbar lahm).
+ Und: <span xml:lang="en">it’s all about the numbers</span>, aber teilt
+ sich bei mir nunmal mit anderen GPS-Spielen die Statistik…</p>
 ----

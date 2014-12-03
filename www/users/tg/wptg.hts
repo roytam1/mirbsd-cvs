@@ -4,7 +4,7 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.24 2014/11/16 22:38:24 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.25 2014/11/26 23:25:21 tg Exp $'
 mws_maketoc
 
 function statpic {
@@ -209,6 +209,33 @@ mws_content <<EOF
 <p>This user has been given $nsouvenir souvenirs on GC.COM:</p>
 
 $souvenirs
+EOF
+
+nmzbadge=0
+mzbadges=
+function mzbadge {
+	local alt=$1 img=$2
+
+	let ++nmzbadge
+	mzbadges+="<div class=\"flbox\"><img style=\"border:0px;\"
+ alt=\"$alt\" src=\"http://static.munzee.com/images/new_badges/small/$img.png\" /></div>$nl"
+}
+
+mzbadge 'Perfect 10' lvl10
+mzbadge 'Hunter' hunter
+mzbadge 'Sampler' sampler
+mzbadge '1k Day' 1k
+mzbadge 'Social Caterpillar' socialcaterpillar
+mzbadge 'Social Cocoon' socialcocoon
+mzbadge 'Munzee turns 3' 3rd_birthday
+
+mws_content <<EOF
+
+<h3 id="badges_Munzee" class="cb">Badges</h3>
+
+<p>This user has been given $nmzbadge badges on Munzee:</p>
+
+$mzbadges
 EOF
 
 mws_content <<'EOF'
