@@ -4695,6 +4695,8 @@ FTA	[IATA] Futuna Island, Wallis and Futuna Islands
 FTAOD	for the avoidance of doubt
 FTBFS	fails to build from source
 FTBFS	failure to build from source
+FTC	Federal Trade Commission
+FTC	first to capture (Munzee FTF)
 FTCBFS	fails to cross-build from source
 FTE	full-time equivalent
 FTE	Manntag(e), Personentag(e)
@@ -9444,6 +9446,7 @@ NBH	[IATA] Nambucca Heads, NSW, Australia
 NBJ	[IATA] Barin Field (Naval Facility), AL, USA
 NBL	[IATA] San Blas, Panama
 NBO	[IATA] Nairobi (Jomo Kenyatta), Kenya
+NBP	network boot program
 NBR	[IATA] Nambour, Queensland, Australia
 NBSD	NetBSD®
 NBSP	U+00A0 NO-BREAK SPACE

@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.131 2014/12/01 20:02:19 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.132 2014/12/03 02:06:35 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -9837,6 +9837,61 @@ Date: 02.12.2014
 Waypoint: m/dschuwa/49
 Title: Nächster Halt: Quirinusplatz
 Points: 5
+----
+ID: 1674
+Date: 03.12.2014
+Waypoint: m/mirabilos/1
+Title: ehemaliger tarent-Hintereingang
+nTF: 0
+Points: 5
+----
+ID: 1675
+Date: 03.12.2014
+Waypoint: m/JOJEVA/339
+Title: Munzee # 352
+Points: 5
+----
+ID: 1676
+Date: 03.12.2014
+Waypoint: m/ReMiKu/4578
+Title: Mystery Endenich (4578)
+Points: 25
+----
+ID: 1677
+Date: 03.12.2014
+Waypoint: m/c-bn/2176
+Title: Aktion &quot;Karte dunkelblau&quot; 037
+Points: 25
+----
+ID: 1678
+Date: 03.12.2014
+Waypoint: m/zeusi/2859
+Title: Generic Name
+Points: 20
+----
+ID: 1679
+Date: 03.12.2014
+Waypoint: m/c-bn/2175
+Title: Aktion &quot;Karte dunkelblau&quot; 036
+Points: 10
+----
+ID: 1680
+Date: 03.12.2014
+Waypoint: m/zeusi/2858
+Title: Generic Name
+Points: 50
+----
+ID: 1681
+Date: 03.12.2014
+Waypoint: m/ReMiKu/3796
+Title: Mystery Endenich (3796)
+Points: 35
+----
+ID: 1682
+Date: 03.12.2014
+Waypoint: m/c-bn/2163
+Title: Aktion &quot;Karte dunkelblau&quot; 024
+Points: 35
 ----
 ID: p1154
 Date: 28.09.2014 17:45

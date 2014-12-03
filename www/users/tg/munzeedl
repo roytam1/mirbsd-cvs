@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: www/users/tg/munzeedl,v 1.1 2014/12/03 02:06:35 tg Exp $
 #-
 # Copyright © 2014
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -20,6 +20,8 @@
 # of said person’s immediate fault when using the work as intended.
 
 user=mirabilos
+num=${1:-0}
+[[ $num = +([0-9]) ]] || exit 1
 
 cd "$(dirname "$0")"
 
@@ -44,6 +46,7 @@ while (( hasmore )); do
 		names[i++]=$name
 		print -ru2 "D: $date $points $id \"$name\""
 	done
+	(( hasmore = ((num && (i >= num)) ? 0 : hasmore) ))
 done
 rm -f munzeedl.tmp
 
