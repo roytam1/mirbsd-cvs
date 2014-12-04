@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.132 2014/12/03 02:06:35 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.133 2014/12/03 19:30:11 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -9892,6 +9892,1190 @@ Date: 03.12.2014
 Waypoint: m/c-bn/2163
 Title: Aktion &quot;Karte dunkelblau&quot; 024
 Points: 35
+----
+ID: 1683
+Date: 03.12.2014
+Waypoint: m/QRazy/81
+Title: Nov Newsletter
+Points: 10
+----
+ID: 1684
+Date: 03.12.2014
+Waypoint: m/munzee/66
+Title: Winner Winner
+Points: 0
+----
+ID: 1685
+Date: 03.12.2014
+Waypoint: m/monkeyware/44
+Title: I Love to Draw!
+Points: 0
+----
+ID: 1686
+Date: 03.12.2014
+Waypoint: m/munzee/64
+Title: Monday Motivation
+Points: 0
+----
+ID: 1687
+Date: 03.12.2014
+Waypoint: m/munzee/65
+Title: The Brave
+Points: 5
+----
+ID: 1688
+Date: 03.12.2014
+Waypoint: m/QRazy/73
+Title: That&#039;s A LOT
+Points: 1
+----
+ID: 1689
+Date: 03.12.2014
+Waypoint: m/munzee/62
+Title: No Test Needed
+Points: 3
+----
+ID: 1690
+Date: 03.12.2014
+Waypoint: m/coolant/438
+Title: Atta&#039; Boy, Scott!
+Points: 0
+----
+ID: 1691
+Date: 03.12.2014
+Waypoint: m/cheapgeek/281
+Title: Let&#039;s Focus on Auto-Focus!
+Points: 0
+----
+ID: 1692
+Date: 03.12.2014
+Waypoint: m/cheapgeek/174
+Title: The Podcaster General
+Points: 0
+----
+ID: 1693
+Date: 03.12.2014
+Waypoint: m/munzee/59
+Title: What&#039;s that Sound?
+Points: 0
+----
+ID: 1694
+Date: 03.12.2014
+Waypoint: m/pilsleyguy/58
+Title: Iain&#039;s Social Munzee 
+Points: 0
+----
+ID: 1695
+Date: 03.12.2014
+Waypoint: m/aufbau/2097
+Title: Social Munzee
+Points: 0
+----
+ID: 1696
+Date: 03.12.2014
+Waypoint: m/arts5/24
+Title: Makin&#039; Bacon.
+Points: 0
+----
+ID: 1697
+Date: 03.12.2014
+Waypoint: m/ActMoritz/759
+Title: 🐡🐟🐍ActMoritz🐍🐟🐡
+Points: 0
+----
+ID: 1698
+Date: 03.12.2014
+Waypoint: m/xptwo/19
+Title: xptwo&#039;s Social Munzee
+Points: 0
+----
+ID: 1699
+Date: 03.12.2014
+Waypoint: m/rustyfurnace/1140
+Title: A Rusty Social
+Points: 0
+----
+ID: 1700
+Date: 03.12.2014
+Waypoint: m/iamfull/6
+Title: iamfull
+Points: 0
+----
+ID: 1701
+Date: 03.12.2014
+Waypoint: m/Czechroo/236
+Title: Czechroo&#039;s Official Social Munzee
+Points: 0
+----
+ID: 1702
+Date: 03.12.2014
+Waypoint: m/geoibsons/63
+Title: geoibsons
+Points: 0
+----
+ID: 1703
+Date: 03.12.2014
+Waypoint: m/GAD64/2575
+Title: GAD64&#039;s Social
+Points: 0
+----
+ID: 1704
+Date: 03.12.2014
+Waypoint: m/mobilemachine/1781
+Title: Year 2 social
+Points: 0
+----
+ID: 1705
+Date: 03.12.2014
+Waypoint: m/Semipaw/15
+Title: Semipaw&#039;s Social Munzee
+Points: 0
+----
+ID: 1706
+Date: 03.12.2014
+Waypoint: m/Jobok/2398
+Title: Jobok&#039;s POTW Social!
+Points: 0
+----
+ID: 1707
+Date: 03.12.2014
+Waypoint: m/JansEgal/2652
+Title: POTW JansEgal 
+Points: 0
+----
+ID: 1708
+Date: 03.12.2014
+Waypoint: m/rodz/918
+Title: rodz Social Munzee
+Points: 0
+----
+ID: 1709
+Date: 03.12.2014
+Waypoint: m/derbyguy/1133
+Title: POTW-DERBYGUY
+Points: 0
+----
+ID: 1710
+Date: 03.12.2014
+Waypoint: m/NativeTexan/6
+Title: NT&#039;s First Social
+Points: 0
+----
+ID: 1711
+Date: 03.12.2014
+Waypoint: m/zeusi/3909
+Title: Virtual Munzee 31
+Points: 5
+----
+ID: 1712
+Date: 03.12.2014
+Waypoint: m/zeusi/2211
+Title: Munzee Power 823
+Points: 11
+----
+ID: 1713
+Date: 03.12.2014
+Waypoint: m/zeusi/3908
+Title: Virtual Munzee 30
+Points: 5
+----
+ID: 1714
+Date: 04.12.2014
+Waypoint: m/MV1/4347
+Title: MVirtual Endenich1
+Points: 5
+----
+ID: 1715
+Date: 04.12.2014
+Waypoint: m/mastaxlolls/123
+Title: Aktion Blau-Weiße Karte
+Points: 5
+----
+ID: 1716
+Date: 04.12.2014
+Waypoint: m/guido/195
+Title: virtual guido in germany
+Points: 5
+----
+ID: 1717
+Date: 04.12.2014
+Waypoint: m/MorpheusHH/2238
+Title: VIRT blau(weiss)e-Karte 1 ;-)
+Points: 5
+----
+ID: 1718
+Date: 04.12.2014
+Waypoint: m/Heinevetter/338
+Title: VMM Bonn II
+Points: 10
+----
+ID: 1719
+Date: 04.12.2014
+Waypoint: m/McAdies/75
+Title: Hello from Australia! (Endenich)
+Points: 5
+----
+ID: 1720
+Date: 04.12.2014
+Waypoint: m/MV1/4344
+Title: MVirtual Endenich4
+Points: 5
+----
+ID: 1721
+Date: 04.12.2014
+Waypoint: m/zeusi/3717
+Title: Virtual Munzee Dunkelblau-Weiss 4
+Points: 5
+----
+ID: 1722
+Date: 04.12.2014
+Waypoint: m/Sundream/1172
+Title: VM Endenich
+Points: 5
+----
+ID: 1723
+Date: 04.12.2014
+Waypoint: m/mastaxlolls/184
+Title: Aktion Blau-Weiße Karte
+Points: 5
+----
+ID: 1724
+Date: 04.12.2014
+Waypoint: m/ajlis/72
+Title: Last Homezone
+Points: 5
+----
+ID: 1725
+Date: 04.12.2014
+Waypoint: m/Team-MTB-OC/560
+Title: Danke für Level 100 MVM
+Points: 40
+----
+ID: 1726
+Date: 04.12.2014
+Waypoint: m/Phobie81/1653
+Title: Virtualer Gruss
+Points: 5
+----
+ID: 1727
+Date: 04.12.2014
+Waypoint: m/Mowsky/375
+Title: bonus, bona, bonum
+Points: 5
+----
+ID: 1728
+Date: 04.12.2014
+Waypoint: m/MV1/4255
+Title: MVirtual A565/ Endenicher Allee
+Points: 5
+----
+ID: 1729
+Date: 04.12.2014
+Waypoint: m/KimSchreiber/241
+Title: Bonn - KHS 1
+Points: 5
+----
+ID: 1730
+Date: 04.12.2014
+Waypoint: m/Blackleather/69
+Title: Bonn Virtual Gruss aus Kassel
+Points: 5
+----
+ID: 1731
+Date: 04.12.2014
+Waypoint: m/remstaler/3427
+Title: Bonn Mystery Virtual Munzee
+Points: 45
+----
+ID: 1732
+Date: 04.12.2014
+Waypoint: m/BaDo/134
+Title: BaDo Bonn Hbf
+Points: 45
+----
+ID: 1733
+Date: 04.12.2014
+Waypoint: m/philnuim/840
+Title: Mystery Virtual Bonn 3
+Points: 25
+----
+ID: 1734
+Date: 04.12.2014
+Waypoint: m/disneyrunner/337
+Title: Bonn Hbf by disneyrunner
+Points: 30
+----
+ID: 1735
+Date: 04.12.2014
+Waypoint: m/Megatroniker/501
+Title: Bonn, Grüße aus Limbach-Oberfrohna
+Points: 5
+----
+ID: 1736
+Date: 04.12.2014
+Waypoint: m/BaDo/139
+Title: BaDo Bonn Hbf2
+Points: 10
+----
+ID: 1737
+Date: 04.12.2014
+Waypoint: m/MV1/4758
+Title: MV Bonn Busbahnhof
+Points: 5
+----
+ID: 1738
+Date: 04.12.2014
+Waypoint: m/MV1/4721
+Title: MV X and Drugs and Rock and Roll
+Points: 50
+----
+ID: 1739
+Date: 04.12.2014
+Waypoint: m/ajlis/1514
+Title: Ajlis - MVM Busbahnhof
+Points: 40
+----
+ID: 1740
+Date: 04.12.2014
+Waypoint: m/cashkids/389
+Title: Lost Kiwi OE
+Points: 5
+----
+ID: 1741
+Date: 04.12.2014
+Waypoint: m/MV1/4192
+Title: MVirtual Kaiserplatz
+Points: 5
+----
+ID: 1742
+Date: 04.12.2014
+Waypoint: m/Wyando/4742
+Title: Bonn - Myrtual Kaisersplatz
+Points: 15
+----
+ID: 1743
+Date: 04.12.2014
+Waypoint: m/zeusi/1977
+Title: Munzee Power 591
+Points: 5
+----
+ID: 1744
+Date: 04.12.2014
+Waypoint: m/zeusi/1982
+Title: Munzee Power 596
+Points: 5
+----
+ID: 1745
+Date: 04.12.2014
+Waypoint: m/zeusi/3910
+Title: Virtual Munzee 32
+Points: 5
+----
+ID: 1746
+Date: 04.12.2014
+Waypoint: m/JOJEVA/685
+Title: Hofgarten Bonn Virtual (JOJEVA)
+Points: 5
+----
+ID: 1747
+Date: 04.12.2014
+Waypoint: m/Pinguinbande2013/1820
+Title: Pinguinbande2013 - &quot;MYSTERY-VIRTUAL&quot; - 06
+Points: 20
+----
+ID: 1748
+Date: 04.12.2014
+Waypoint: m/dieeulenhueter/1443
+Title: VM Hofgartenwiese in Bonn # 2
+Points: 5
+----
+ID: 1749
+Date: 04.12.2014
+Waypoint: m/mcidahoan/745
+Title: Bonn MV
+Points: 10
+----
+ID: 1750
+Date: 04.12.2014
+Waypoint: m/Netty/1090
+Title: VM Bonn - Am Hofgarten
+Points: 5
+----
+ID: 1751
+Date: 04.12.2014
+Waypoint: m/budge/709
+Title: budge&#039;s Bonn MVM
+Points: 40
+----
+ID: 1752
+Date: 04.12.2014
+Waypoint: m/c-bn/3823
+Title: Bonn, Hofgartenwiese MVM 12
+Points: 50
+----
+ID: 1753
+Date: 04.12.2014
+Waypoint: m/Waldkauz/250
+Title: BN Hofgarten #4
+Points: 15
+----
+ID: 1754
+Date: 04.12.2014
+Waypoint: m/Pinguinbande2013/1821
+Title: Pinguinbande2013 - &quot;MYSTERY-VIRTUAL&quot; - 05
+Points: 5
+----
+ID: 1755
+Date: 04.12.2014
+Waypoint: m/MabusesErben/1602
+Title: LippeGhostMystery - BN - 01
+Points: 50
+----
+ID: 1756
+Date: 04.12.2014
+Waypoint: m/Lightshine/4
+Title: VM Saarländer in Bonn
+Points: 5
+----
+ID: 1757
+Date: 04.12.2014
+Waypoint: m/c-bn/3995
+Title: Bonn, Hofgartenwiese MVM 5
+Points: 30
+----
+ID: 1758
+Date: 04.12.2014
+Waypoint: m/Waldkauz/249
+Title: BN Hofgarten #5
+Points: 40
+----
+ID: 1759
+Date: 04.12.2014
+Waypoint: m/c-bn/3822
+Title: Bonn, Hofgartenwiese MVM 11
+Points: 20
+----
+ID: 1760
+Date: 04.12.2014
+Waypoint: m/struppis/508
+Title: struppis VM #6 Bonn Hofgartenwiese
+Points: 5
+----
+ID: 1761
+Date: 04.12.2014
+Waypoint: m/ReMiKu/7215
+Title: Mystery Virtual Bonn (7215)
+Points: 10
+----
+ID: 1762
+Date: 04.12.2014
+Waypoint: m/Boersentrader/602
+Title: Mystery Virtual Bonn 2 Hofgarten
+Points: 25
+----
+ID: 1763
+Date: 04.12.2014
+Waypoint: m/hunniees/365
+Title: Bonn Garten
+Points: 40
+----
+ID: 1764
+Date: 04.12.2014
+Waypoint: m/Captainwilly/81
+Title: Captainwilly&#039;s VM (Bonn)
+Points: 5
+----
+ID: 1765
+Date: 04.12.2014
+Waypoint: m/zeusi/7549
+Title: Mystery Virtual Munzee
+Points: 50
+----
+ID: 1766
+Date: 04.12.2014
+Waypoint: m/dydy/1064
+Title: Virtual Munzee Bonn
+Points: 5
+----
+ID: 1767
+Date: 04.12.2014
+Waypoint: m/pippin/104
+Title: Greetings from Granbury to the Bonn Star
+Points: 45
+----
+ID: 1768
+Date: 04.12.2014
+Waypoint: m/Waldkauz/251
+Title: BN Hofgarten #3
+Points: 45
+----
+ID: 1769
+Date: 04.12.2014
+Waypoint: m/c-bn/3965
+Title: Bonn, Hofgartenwiese MVM 8
+Points: 40
+----
+ID: 1770
+Date: 04.12.2014
+Waypoint: m/MabusesErben/1847
+Title: LippeGhostMystery - BN - 02
+Points: 15
+----
+ID: 1771
+Date: 04.12.2014
+Waypoint: m/DerTransporter/163
+Title: DerTransporter Virtual 3
+Points: 5
+----
+ID: 1772
+Date: 04.12.2014
+Waypoint: m/GS64/188
+Title: Hofgarten, Bonn
+Points: 5
+----
+ID: 1773
+Date: 04.12.2014
+Waypoint: m/Seventy6/25
+Title: Am Hofgarten Bonn Room #10
+Points: 5
+----
+ID: 1774
+Date: 04.12.2014
+Waypoint: m/Rah/535
+Title: Am Hofgarten Bonn Room #9
+Points: 5
+----
+ID: 1775
+Date: 04.12.2014
+Waypoint: m/c-bn/6215
+Title: Am Hofgarten Bonn Room #4
+Points: 5
+----
+ID: 1776
+Date: 04.12.2014
+Waypoint: m/Ackadia/159
+Title: Am Hofgarten Bonn Room #3
+Points: 5
+----
+ID: 1777
+Date: 04.12.2014
+Waypoint: m/Tamarisk/1227
+Title: Am Hofgarten Bonn Room #6
+Points: 5
+----
+ID: 1778
+Date: 04.12.2014
+Waypoint: m/Wyando/5006
+Title: Am Hofgarten Bonn Room #7
+Points: 5
+----
+ID: 1779
+Date: 04.12.2014
+Waypoint: m/MiniJoda/154
+Title: Am Hofgarten Bonn Room #2
+Points: 5
+----
+ID: 1780
+Date: 04.12.2014
+Waypoint: m/Piglett78/234
+Title: Am Hofgarten Bonn Room #1
+Points: 5
+----
+ID: 1781
+Date: 04.12.2014
+Waypoint: m/tau/3804
+Title: Am Hofgarten Bonn
+Points: 10
+----
+ID: 1782
+Date: 04.12.2014
+Waypoint: m/seal/1432
+Title: Am Hofgarten Bonn Room #8
+Points: 5
+----
+ID: 1783
+Date: 04.12.2014
+Waypoint: m/winkide/7889
+Title: Am Hofgarten Bonn Room #5
+Points: 5
+----
+ID: 1784
+Date: 04.12.2014
+Waypoint: m/TEAMLKN/895
+Title: Akademisches Kunstmuseum - Virtual Munzee
+Points: 5
+----
+ID: 1785
+Date: 04.12.2014
+Waypoint: m/SonoRad/123
+Title: Hello Bonn !!!! - Virtual
+Points: 5
+----
+ID: 1786
+Date: 04.12.2014
+Waypoint: m/CrazyLadyLisa/1780
+Title: Mystery Virtual - Bonn 01
+Points: 5
+----
+ID: 1787
+Date: 04.12.2014
+Waypoint: m/JlMMY/431
+Title: MVM Bonn Hofgarten
+Points: 5
+----
+ID: 1788
+Date: 04.12.2014
+Waypoint: m/mutti/25
+Title: Bonn, Hofgartenwiese
+Points: 15
+----
+ID: 1789
+Date: 04.12.2014
+Waypoint: m/CrazyLadyLisa/1785
+Title: Mystery Virtual - Bonn 06
+Points: 20
+----
+ID: 1790
+Date: 04.12.2014
+Waypoint: m/ajlis/1570
+Title: Ajlis - MVM Stern 4
+Points: 35
+----
+ID: 1791
+Date: 04.12.2014
+Waypoint: m/mutti/28
+Title: Bonn, Hofgartenwiese
+Points: 20
+----
+ID: 1792
+Date: 04.12.2014
+Waypoint: m/Pumti/145
+Title: Akademisches Kunstmuseum
+Points: 5
+----
+ID: 1793
+Date: 04.12.2014
+Waypoint: m/janzattic/212
+Title: Bonbon MVM
+Points: 50
+----
+ID: 1794
+Date: 04.12.2014
+Waypoint: m/Waldkauz/252
+Title: BN Hofgarten #2
+Points: 30
+----
+ID: 1795
+Date: 04.12.2014
+Waypoint: m/c-bn/3996
+Title: Bonn, Hofgartenwiese MVM 4
+Points: 25
+----
+ID: 1796
+Date: 04.12.2014
+Waypoint: m/zeusi/7548
+Title: Mystery Virtual Munzee
+Points: 35
+----
+ID: 1797
+Date: 04.12.2014
+Waypoint: m/Christian68/694
+Title: Hofgarten Motel by Ajlis
+Points: 5
+----
+ID: 1798
+Date: 04.12.2014
+Waypoint: m/ajlis/1367
+Title: Hofgarten Motel by Ajlis
+Points: 5
+----
+ID: 1799
+Date: 04.12.2014
+Waypoint: m/c-bn/4033
+Title: Hofgarten Motel by Ajlis Room #2
+Points: 5
+----
+ID: 1800
+Date: 04.12.2014
+Waypoint: m/EmserSpitzbuben/52
+Title: Hofgarten Motel by Ajlis Room #3
+Points: 5
+----
+ID: 1801
+Date: 04.12.2014
+Waypoint: m/MV1/4864
+Title: Hofgarten Motel by Ajlis Room #4
+Points: 5
+----
+ID: 1802
+Date: 04.12.2014
+Waypoint: m/Mel/78
+Title: Hofgarten Motel by Ajlis Room #5
+Points: 5
+----
+ID: 1803
+Date: 04.12.2014
+Waypoint: m/remstaler/3384
+Title: Bonn Mystery Virtual Munzee
+Points: 35
+----
+ID: 1804
+Date: 04.12.2014
+Waypoint: m/Waldkauz/253
+Title: BN Hofgarten #1
+Points: 25
+----
+ID: 1805
+Date: 04.12.2014
+Waypoint: m/c-bn/3153
+Title: Bonn, Hofgartenwiese
+Points: 12
+----
+ID: 1806
+Date: 04.12.2014
+Waypoint: m/CaroDame/224
+Title: MVM Bonn-Hofgarten
+Points: 20
+----
+ID: 1807
+Date: 04.12.2014
+Waypoint: m/c-bn/3821
+Title: Bonn, Hofgartenwiese MVM 10
+Points: 45
+----
+ID: 1808
+Date: 04.12.2014
+Waypoint: m/lbruggeman/75
+Title: Bonn, Hofgartenwiese MVM
+Points: 20
+----
+ID: 1809
+Date: 04.12.2014
+Waypoint: m/Boersentrader/591
+Title: Mystery Virtual Bonn 3 Hofgarten
+Points: 30
+----
+ID: 1810
+Date: 04.12.2014
+Waypoint: m/machierp/2126
+Title: MVM - Bonn Hofgarten
+Points: 30
+----
+ID: 1811
+Date: 04.12.2014
+Waypoint: m/mutti/27
+Title: Bonn, Hofgartenwiese
+Points: 30
+----
+ID: 1812
+Date: 04.12.2014
+Waypoint: m/McRon/3849
+Title: McRon in Bonn
+Points: 5
+----
+ID: 1813
+Date: 04.12.2014
+Waypoint: m/AusTrackers/2013
+Title: MV - Bonn
+Points: 45
+----
+ID: 1814
+Date: 04.12.2014
+Waypoint: m/hugosoft/1085
+Title: MVM Bonn Hofgartenwiese
+Points: 25
+----
+ID: 1815
+Date: 04.12.2014
+Waypoint: m/c-bn/3993
+Title: Bonn, Hofgartenwiese MVM 7
+Points: 15
+----
+ID: 1816
+Date: 04.12.2014
+Waypoint: m/ajlis/1497
+Title: Ajlis - MVM Stern 8
+Points: 35
+----
+ID: 1817
+Date: 04.12.2014
+Waypoint: m/oesel123/1033
+Title: Bonn-Uni Mystery Virtual
+Points: 5
+----
+ID: 1818
+Date: 04.12.2014
+Waypoint: m/MogwaiLiz/742
+Title: Mogwai&#039;s Bonn MVM
+Points: 25
+----
+ID: 1819
+Date: 04.12.2014
+Waypoint: m/ReMiKu/7176
+Title: Mystery Virtual Bonn (7176)
+Points: 35
+----
+ID: 1820
+Date: 04.12.2014
+Waypoint: m/Cachelady/1547
+Title: Sternzeichen
+Points: 20
+----
+ID: 1821
+Date: 04.12.2014
+Waypoint: m/Boersentrader/563
+Title: Mystery Virtual Bonn 1 Hofgarten
+Points: 5
+----
+ID: 1822
+Date: 04.12.2014
+Waypoint: m/Wyando/4740
+Title: Bonn - Myrtual Hofgarten
+Points: 40
+----
+ID: 1823
+Date: 04.12.2014
+Waypoint: m/MV1/804
+Title: MVirtual Schlosskirche
+Points: 5
+----
+ID: 1824
+Date: 04.12.2014
+Waypoint: m/aussiebee/75
+Title: Bonn Old City Hall Virtual
+Points: 5
+----
+ID: 1825
+Date: 04.12.2014
+Waypoint: m/MV1/4185
+Title: MVirtual Altes Rathaus
+Points: 5
+----
+ID: 1826
+Date: 04.12.2014
+Waypoint: m/hinco/1449
+Title: Bonn Old City Hall
+Points: 5
+----
+ID: 1827
+Date: 04.12.2014
+Waypoint: GC5GDVM
+Title: Game on - World Dice Day 2014
+Tag: D15 T15 Event
+----
+ID: 1828
+Date: 04.12.2014
+Waypoint: m/MV1/4193
+Title: MVirtual Koblenzer Tor
+Points: 5
+----
+ID: 1829
+Date: 04.12.2014
+Waypoint: m/Herbie/329
+Title: Herbies Bonn MVM
+Points: 15
+----
+ID: 1830
+Date: 04.12.2014
+Waypoint: m/c-bn/3819
+Title: Bonn, Hofgartenwiese MVM 8
+Points: 40
+----
+ID: 1831
+Date: 04.12.2014
+Waypoint: m/theirishduo/1315
+Title: TIDvmBonn
+Points: 30
+----
+ID: 1832
+Date: 04.12.2014
+Waypoint: m/c-bn/3820
+Title: Bonn, Hofgartenwiese MVM 9
+Points: 30
+----
+ID: 1833
+Date: 04.12.2014
+Waypoint: m/TimDream/675
+Title: Greetings from Paris (Bonn)
+Points: 5
+----
+ID: 1834
+Date: 04.12.2014
+Waypoint: m/IndianaCoins/219
+Title: VM Bonn Hofgarten
+Points: 5
+----
+ID: 1835
+Date: 04.12.2014
+Waypoint: m/ajlis/1538
+Title: Ajlis- MVM Stern 2
+Points: 30
+----
+ID: 1836
+Date: 04.12.2014
+Waypoint: m/CrazyLadyLisa/1782
+Title: Mystery Virtual - Bonn 03
+Points: 35
+----
+ID: 1837
+Date: 04.12.2014
+Waypoint: m/MeanderingMonkeys/817
+Title: Beethoven on the Rhine 💫 Bonn Germany
+Points: 35
+----
+ID: 1838
+Date: 04.12.2014
+Waypoint: m/c-bn/3997
+Title: Bonn, Hofgartenwiese MVM 3
+Points: 40
+----
+ID: 1839
+Date: 04.12.2014
+Waypoint: m/ajlis/1555
+Title: Ajlis - MVM Stern 3
+Points: 10
+----
+ID: 1840
+Date: 04.12.2014
+Waypoint: m/EarlofIslay/145
+Title: VW Graz grüsst Bonn
+Points: 5
+----
+ID: 1841
+Date: 04.12.2014
+Waypoint: m/CrazyLadyLisa/1781
+Title: Mystery Virtual - Bonn 02
+Points: 35
+----
+ID: 1842
+Date: 04.12.2014
+Waypoint: m/ReMiKu/7180
+Title: Mystery Virtual Bonn (7180)
+Points: 5
+----
+ID: 1843
+Date: 04.12.2014
+Waypoint: m/zeusi/7557
+Title: Mystery Virtual Munzee
+Points: 25
+----
+ID: 1844
+Date: 04.12.2014
+Waypoint: m/Phobie81/2333
+Title: ☆☆ Bonn ☆☆
+Points: 25
+----
+ID: 1845
+Date: 04.12.2014
+Waypoint: m/countsmiley/492
+Title: Next to the Horfartenwiese
+Points: 5
+----
+ID: 1846
+Date: 04.12.2014
+Waypoint: m/wakefieldbob/481
+Title: Wakefieldbob&#039;s Bonn Virtual
+Points: 5
+----
+ID: 1847
+Date: 04.12.2014
+Waypoint: m/Nexus69/249
+Title: Gruss aus Hessen -&gt; Bonn
+Points: 5
+----
+ID: 1848
+Date: 04.12.2014
+Waypoint: m/CoffeeEater/1965
+Title: CEV: Hofgarten, Bonn, Germany
+Points: 5
+----
+ID: 1849
+Date: 04.12.2014
+Waypoint: m/Mowsky/1201
+Title: Bonn-sai
+Points: 5
+----
+ID: 1850
+Date: 04.12.2014
+Waypoint: m/Jules4/76
+Title: VM Stern # 26
+Points: 5
+----
+ID: 1851
+Date: 04.12.2014
+Waypoint: m/schwaller/45
+Title: [schwaller] VM-Stern Bonn
+Points: 5
+----
+ID: 1852
+Date: 04.12.2014
+Waypoint: m/ReMiKu/1138
+Title: Virtual Bonn (1138)
+Points: 5
+----
+ID: 1853
+Date: 04.12.2014
+Waypoint: m/Pumti/600
+Title: [Pumti] VM-Stern Bonn
+Points: 5
+----
+ID: 1854
+Date: 04.12.2014
+Waypoint: m/ajlis/223
+Title: Königstraße, Bonn
+Points: 5
+----
+ID: 1855
+Date: 04.12.2014
+Waypoint: m/ajlis/180
+Title: Königstraße, Bonn
+Points: 5
+----
+ID: 1856
+Date: 04.12.2014
+Waypoint: m/ajlis/242
+Title: Königstraße, Bonn
+Points: 5
+----
+ID: 1857
+Date: 04.12.2014
+Waypoint: m/MV1/4572
+Title: MV Talweg 4572
+Points: 5
+----
+ID: 1858
+Date: 04.12.2014
+Waypoint: m/ajlis/303
+Title: Goebenstraße, Bonn
+Points: 5
+----
+ID: 1859
+Date: 04.12.2014
+Waypoint: m/wasproduct/1113
+Title: Südstadt - Motel Goebenstraße by Ajlis Room #4
+Points: 5
+----
+ID: 1860
+Date: 04.12.2014
+Waypoint: m/keromar/3198
+Title: Südstadt - Motel Goebenstraße by Ajlis Room #2
+Points: 5
+----
+ID: 1861
+Date: 04.12.2014
+Waypoint: m/tweety/1558
+Title: Südstadt - Motel Goebenstraße by Ajlis Room #3
+Points: 5
+----
+ID: 1862
+Date: 04.12.2014
+Waypoint: m/ajlis/281
+Title: Südstadt - Motel Goebenstraße by Ajlis
+Points: 5
+----
+ID: 1863
+Date: 04.12.2014
+Waypoint: m/dydy/1997
+Title: Südstadt - Motel Goebenstraße by Ajlis Room #1
+Points: 5
+----
+ID: 1864
+Date: 04.12.2014
+Waypoint: m/mirabilos/2
+Title: Südstadt - Motel Goebenstraße by Ajlis Room #5
+nTF: 0
+Points: 5
+----
+ID: 1865
+Date: 04.12.2014
+Waypoint: m/dschuwa/836
+Title: Bonner Punktejagd 622
+Points: 5
+----
+ID: 1866
+Date: 04.12.2014
+Waypoint: m/ajlis/282
+Title: Bonner Talweg, Bonn
+Points: 5
+----
+ID: 1867
+Date: 04.12.2014
+Waypoint: m/ajlis/266
+Title: Weberstraße, Bonn
+Points: 5
+----
+ID: 1868
+Date: 04.12.2014
+Waypoint: m/ajlis/240
+Title: Schumannstraße, Bonn
+Points: 5
+----
+ID: 1869
+Date: 04.12.2014
+Waypoint: m/Heidschnuck/284
+Title: Südstadt - Motel Schumannstraße by Ajlis Room #2
+Points: 5
+----
+ID: 1870
+Date: 04.12.2014
+Waypoint: m/roli29/124
+Title: Südstadt - Motel Schumannstraße by Ajlis Room #1
+Points: 5
+----
+ID: 1871
+Date: 04.12.2014
+Waypoint: m/ajlis/224
+Title: Südstadt - Motel Schumannstraße by Ajlis
+Points: 5
+----
+ID: 1872
+Date: 04.12.2014
+Waypoint: m/Bitbuster/594
+Title: Südstadt - Motel Schumannstraße by Ajlis Room #3
+Points: 5
+----
+ID: 1873
+Date: 04.12.2014
+Waypoint: m/mirabilos/3
+Title: Südstadt - Motel Schumannstraße by Ajlis Room #4
+nTF: 0
+Points: 5
+----
+ID: 1874
+Date: 04.12.2014
+Waypoint: m/ajlis/249
+Title: Lessingstraße, Bonn
+Points: 5
+----
+ID: 1875
+Date: 04.12.2014
+Waypoint: m/ajlis/283
+Title: Lessingstraße, Bonn
+Points: 5
+----
+ID: 1876
+Date: 04.12.2014
+Waypoint: m/dschuwa/732
+Title: Bonner Punktejagd 519
+Points: 5
+----
+ID: 1877
+Date: 04.12.2014
+Waypoint: m/ajlis/307
+Title: Bonner Talweg, Bonn
+Points: 5
+----
+ID: 1878
+Date: 04.12.2014
+Waypoint: m/dschuwa/155
+Title: Nächster Halt: Rittershausstraße
+Points: 5
+----
+ID: 1879
+Date: 04.12.2014
+Waypoint: m/ajlis/310
+Title: Bonner Talweg, Bonn
+Points: 5
 ----
 ID: p1154
 Date: 28.09.2014 17:45

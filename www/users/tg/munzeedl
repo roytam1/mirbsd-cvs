@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: www/users/tg/munzeedl,v 1.1 2014/12/03 02:06:35 tg Exp $
+# $MirOS: www/users/tg/munzeedl,v 1.2 2014/12/03 19:30:13 tg Exp $
 #-
 # Copyright © 2014
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -18,6 +18,13 @@
 # of dealing in the work, even if advised of the possibility of such
 # damage or existence of a defect, except proven that it results out
 # of said person’s immediate fault when using the work as intended.
+#-
+# Known issues:
+# - edit first line of output then run that through mksh
+# - intermixing with caches is… challenging… at right places, insert
+#   「(( ++curfinds ))」 lines
+# - not even FTC can be scanned for, so nTF is always unset (or “0”,
+#   but, these you got to do manually)
 
 user=mirabilos
 num=${1:-0}
@@ -36,11 +43,11 @@ hasmore=1
 while (( hasmore )); do
 	ftp -o munzeedl.tmp http://www.munzee.com/m/$user/captures/$((++n))/ >&2
 	<munzeedl.tmp sed $'s/<section>/\\\n/g' | \
-	    perl -ne 'print "$3|$4|$1|$2\n" if ($_ =~ m,^.*<a class="munzee-id" href="/(m/[^"]*)/">([^<]*)</a>.*data-captured-at="(2[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9])T.*<div class="stat"> <div class="number"> ([0-9]+) .*$,);' |&
+	    perl -ne 'print "$3|$4|$5|$1|$2\n" if ($_ =~ m,^.*<a class="munzee-id" href="/(m/[^"]*)/">([^<]*)</a>.*data-captured-at="(2[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9])T([^"]*)".*<div class="stat"> <div class="number"> ([0-9]+) .*$,);' |&
 	hasmore=0
-	while IFS=\| read -pr date points id name; do
+	while IFS=\| read -pr date time points id name; do
 		hasmore=1
-		dates[i]=${date:8:2}.${date:5:2}.${date::4}
+		dates[i]=${date:8:2}.${date:5:2}.${date::4},$time
 		pointses[i]=$points
 		ids[i]=$id
 		names[i++]=$name
@@ -55,8 +62,9 @@ print curfinds=0 >munzeedl.out
 while (( i-- )); do
 	cat <<-EOF
 		print -r -- "ID: \$((++curfinds))"
+		# ${dates[i]#*,}
 		cat <<'EOI'
-			Date: ${dates[i]}
+			Date: ${dates[i]%%,*}
 			Waypoint: ${ids[i]}
 			Title: ${names[i]}
 			Points: ${pointses[i]}

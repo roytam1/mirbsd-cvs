@@ -4,7 +4,7 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.25 2014/11/26 23:25:21 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.26 2014/12/03 02:06:36 tg Exp $'
 mws_maketoc
 
 function statpic {
@@ -223,6 +223,7 @@ function mzbadge {
 
 mzbadge 'Perfect 10' lvl10
 mzbadge 'Hunter' hunter
+mzbadge 'Collector' collector
 mzbadge 'Sampler' sampler
 mzbadge '1k Day' 1k
 mzbadge 'Social Caterpillar' socialcaterpillar
