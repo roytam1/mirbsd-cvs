@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.133 2014/12/03 19:30:11 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.134 2014/12/04 23:07:30 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -11075,6 +11075,264 @@ ID: 1879
 Date: 04.12.2014
 Waypoint: m/ajlis/310
 Title: Bonner Talweg, Bonn
+Points: 5
+----
+ID: 1880
+Date: 05.12.2014
+Waypoint: m/Christian68/24
+Title: BN Busbahnhof 01
+Points: 11
+----
+ID: 1881
+Date: 05.12.2014
+Waypoint: m/philnuim/846
+Title: Mystery Virtual Bonn 4
+Points: 40
+----
+ID: 1882
+Date: 05.12.2014
+Waypoint: m/ajlis/614
+Title: Munzee-t sich in Bonn
+Points: 5
+----
+ID: 1883
+Date: 05.12.2014
+Waypoint: m/philnuim/827
+Title: Mystery Virtual Bonn 2
+Points: 5
+----
+ID: 1884
+Date: 05.12.2014
+Waypoint: m/Leusink/4302
+Title: Virtual Bonn HBF Leusink
+Points: 5
+----
+ID: 1885
+Date: 05.12.2014
+Waypoint: m/Mowsky/91
+Title: Endstation Bonn HBF
+Points: 5
+----
+ID: 1886
+Date: 05.12.2014
+Waypoint: m/ajlis/1569
+Title: Munzee-t sich in Bonn Mystery Virtual
+Points: 25
+----
+ID: 1887
+Date: 05.12.2014
+Waypoint: m/remstaler/3424
+Title: Bonn Mystery Virtual Munzee
+Points: 35
+----
+ID: 1888
+Date: 05.12.2014
+Waypoint: m/pferdenahr/560
+Title: VIRT blau(weiss)e-Karte 12 ;-)
+Points: 5
+----
+ID: 1889
+Date: 05.12.2014
+Waypoint: m/MorpheusHH/2246
+Title: VIRT blau(weiss)e-Karte 9 ;-)
+Points: 5
+----
+ID: 1890
+Date: 05.12.2014
+Waypoint: m/robje64/613
+Title: Liebe Grüsse an Zeusi
+Points: 5
+----
+ID: 1891
+Date: 05.12.2014
+Waypoint: m/zeusi/3714
+Title: Virtual Munzee Dunkelblau-Weiss 1
+Points: 5
+----
+ID: 1892
+Date: 05.12.2014
+Waypoint: m/pferdenahr/561
+Title: VIRT blau(weiss)e-Karte 13 ;-)
+Points: 5
+----
+ID: 1893
+Date: 05.12.2014
+Waypoint: m/zeusi/3716
+Title: Virtual Munzee Dunkelblau-Weiss 3
+Points: 5
+----
+ID: 1894
+Date: 05.12.2014
+Waypoint: m/CACHEEATER/2658
+Title: CACHEEATER POTW SOCIAL
+Points: 0
+----
+ID: 1895
+Date: 05.12.2014
+Waypoint: m/CACHEEATER/1916
+Title: CACHEEATER&#039;S CZECH TEAM SOCIAL
+Points: 0
+----
+ID: 1896
+Date: 05.12.2014
+Waypoint: m/MV1/4248
+Title: MVirtual Endenich5
+Points: 5
+----
+ID: 1897
+Date: 05.12.2014
+Waypoint: m/pferdenahr/558
+Title: VIRT blau(weiss)e-Karte 10 ;-)
+Points: 5
+----
+ID: 1898
+Date: 05.12.2014
+Waypoint: m/zeusi/1499
+Title: Munzee Power 177
+Points: 10
+----
+ID: 1899
+Date: 05.12.2014
+Waypoint: m/dschuwa/5
+Title: St. Quirinus Bonn-Dottendorf
+Points: 5
+----
+ID: 1900
+Date: 05.12.2014
+Waypoint: m/dschuwa/312
+Title: Bonner Punktejagd 080
+Points: 5
+----
+ID: 1901
+Date: 05.12.2014
+Waypoint: m/zeusi/1763
+Title: Munzee Power 460
+Points: 5
+----
+ID: 1902
+Date: 05.12.2014
+Waypoint: m/c-bn/1193
+Title: ÖPNV Stephanstraße
+Points: 5
+----
+ID: 1903
+Date: 05.12.2014
+Waypoint: m/dschuwa/235
+Title: Bonner Punktejagd 043
+Points: 5
+----
+ID: 1904
+Date: 05.12.2014
+Waypoint: m/dschuwa/46
+Title: Nächster Halt: Stephanstraße
+Points: 5
+----
+ID: 1905
+Date: 05.12.2014
+Waypoint: m/dschuwa/192
+Title: Bonner Punktejagd 008
+Points: 5
+----
+ID: 1906
+Date: 05.12.2014
+Waypoint: m/dschuwa/237
+Title: Bonner Punktejagd 046
+Points: 5
+----
+ID: 1907
+Date: 05.12.2014
+Waypoint: m/dschuwa/211
+Title: Bonner Punktejagd 014
+Points: 5
+----
+ID: 1908
+Date: 05.12.2014
+Waypoint: m/dschuwa/229
+Title: Bonner Punktejagd 036
+Points: 5
+----
+ID: 1909
+Date: 05.12.2014
+Waypoint: m/dschuwa/51
+Title: Nächster Halt: Droste-Hülshoff-Straße
+Points: 5
+----
+ID: 1910
+Date: 05.12.2014
+Waypoint: m/dschuwa/242
+Title: Bonner Punktejagd 052
+Points: 5
+----
+ID: 1911
+Date: 05.12.2014
+Waypoint: m/c-bn/3329
+Title: Bonn, Eschelbachstraße
+Points: 5
+----
+ID: 1912
+Date: 05.12.2014
+Waypoint: m/dschuwa/318
+Title: Bonner Punktejagd 070
+Points: 5
+----
+ID: 1913
+Date: 05.12.2014
+Waypoint: m/c-bn/3204
+Title: Bonn, Eschelbachstraße
+Points: 5
+----
+ID: 1914
+Date: 05.12.2014
+Waypoint: m/c-bn/3032
+Title: Bonn, F.-A.-Schmidt-Weg
+Points: 5
+----
+ID: 1915
+Date: 05.12.2014
+Waypoint: m/dschuwa/195
+Title: Bonner Punktejagd 039
+Points: 5
+----
+ID: 1916
+Date: 05.12.2014
+Waypoint: m/c-bn/1243
+Title: Bonn, F.-A.-Schmidt-Weg
+Points: 5
+----
+ID: 1917
+Date: 05.12.2014
+Waypoint: m/dschuwa/261
+Title: Bonner Punktejagd 072
+Points: 5
+----
+ID: 1918
+Date: 05.12.2014
+Waypoint: m/c-bn/3254
+Title: Bonn, Eulenweg
+Points: 5
+----
+ID: 1919
+Date: 05.12.2014
+Waypoint: m/dschuwa/322
+Title: Bonner Punktejagd 071
+Points: 5
+----
+ID: 1920
+Date: 05.12.2014
+Waypoint: m/zeusi/1700
+Title: Munzee Power 397
+Points: 15
+----
+ID: 1921
+Date: 05.12.2014
+Waypoint: m/dschuwa/221
+Title: Bonner Punktejagd 026
+Points: 5
+----
+ID: 1922
+Date: 05.12.2014
+Waypoint: m/dschuwa/202
+Title: Bonner Punktejagd 034
 Points: 5
 ----
 ID: p1154
