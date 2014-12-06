@@ -1,7 +1,7 @@
 #!/bin/sh
-# $MirOS: ports/Setup.sh,v 1.46 2008/11/08 23:03:29 tg Exp $
+# $MirOS: ports/Setup.sh,v 1.47 2014/05/29 18:40:44 tg Exp $
 #-
-# Copyright (c) 2005, 2006
+# Copyright (c) 2005, 2006, 2014
 #	Thorsten Glaser <tg@mirbsd.de>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -96,8 +96,8 @@ PATH=$p; export PATH
 #%%END sync Setup.sh with setup.ksh %% paths
 
 # Where are we?
-ourpath=`dirname $0`
-ourpath=`(cd $ourpath && pwd)`
+ourpath=`dirname "$0"`
+ourpath=`(cd "$ourpath" && pwd)`
 export ourpath
 test -z "$DISTDIR" && DISTDIR=$ourpath/Distfiles
 test -d "$DISTDIR" || mkdir -p "$DISTDIR"
