@@ -2,7 +2,7 @@
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
-# Copyright (c) 2004, 2005, 2006, 2007
+# Copyright (c) 2004, 2005, 2006, 2007, 2014
 #	The MirOS Project <miros-discuss@mirbsd.org>
 #	and its contributors
 #
@@ -145,12 +145,10 @@ portupgrade: index
 setup: Setup.sh
 	@echo 'Use "mmake nfo" to generate documentation!'
 	@sleep 3
-	if [[ ! -e ${.CURDIR}/Distfiles ]]; then \
-		${SUDO} mkdir -m 0775 Distfiles; \
-	fi
-	if [[ ! -e ${.CURDIR}/Packages ]]; then \
-		${SUDO} mkdir -m 0775 Packages; \
-	fi
+	cd ${.CURDIR:Q}; \
+	    for dir in {Distfiles,Packages}{,/{CDROM,FTP}}; do \
+		[[ -e $$dir ]] || ${SUDO} mkdir -m 0775 $$dir; \
+	done
 	print '/@@local/d\ni\n    usr\n\tmpkg\n.\n%p\nQ' | \
 	    ed -s ${.CURDIR}/infrastructure/templates/fake.mtree | \
 	    ${SUDO} mtree -U -e -d -n -p /
