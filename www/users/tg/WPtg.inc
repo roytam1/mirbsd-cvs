@@ -11335,6 +11335,384 @@ Waypoint: m/dschuwa/202
 Title: Bonner Punktejagd 034
 Points: 5
 ----
+ID: 1923
+Date: 05.12.2014
+Waypoint: m/tweety/25
+Title: &quot;tweety&quot; created by dydy
+Points: 0
+----
+ID: 1924
+Date: 05.12.2014
+Waypoint: m/ajlis/76
+Title: Ajlis
+Points: 0
+----
+ID: 1925
+Date: 05.12.2014
+Waypoint: m/keromar/254
+Title: Keromar Social Munzee (254)
+Points: 0
+----
+ID: 1926
+Date: 05.12.2014
+Waypoint: m/keromar/259
+Title: Keromar Social Munzee2 (259)
+Points: 0
+----
+ID: 1927
+Date: 05.12.2014
+Waypoint: m/keromar/2666
+Title: Keromar Social Munzee3 (2666)
+Points: 0
+----
+ID: 1928
+Date: 05.12.2014
+Waypoint: m/dydy/1065
+Title: 2nd Social painting tweety by dydy
+Points: 0
+----
+ID: 1929
+Date: 05.12.2014
+Waypoint: m/remstaler/2504
+Title: remstaler&#039;s Social Munzee
+Points: 0
+----
+ID: 1930
+Date: 05.12.2014
+Waypoint: m/philnuim/347
+Title: philnuim´s Social Munzee
+Points: 0
+----
+ID: 1931
+Date: 05.12.2014
+Waypoint: m/zeusi/1896
+Title: Zeusis Social Munzee
+Points: 0
+----
+ID: 1932
+Date: 05.12.2014
+Waypoint: m/c-bn/2901
+Title: [c-bn] 666 days of munzee
+Points: 0
+----
+ID: 1933
+Date: 05.12.2014
+Waypoint: m/c-bn/4418
+Title: [c-bn] 888 days of munzee
+Points: 0
+----
+ID: 1934
+Date: 05.12.2014
+Waypoint: m/c-bn/4707
+Title: [c-bn] 999 days of munzee
+Points: 0
+----
+ID: 1935
+Date: 05.12.2014
+Waypoint: m/MV1/4342
+Title: Störtebeker by MV1
+Points: 0
+----
+ID: 1936
+Date: 05.12.2014
+Waypoint: m/MV1/4343
+Title: Vineta by MV1
+Points: 0
+----
+ID: 1937
+Date: 05.12.2014
+Waypoint: m/MV1/4461
+Title: Hummel Hummel GOLD by MV1
+Points: 0
+----
+ID: 1938
+Date: 05.12.2014
+Waypoint: m/MV1/4348
+Title: Petermännchen by MV1
+Points: 0
+----
+ID: 1939
+Date: 05.12.2014
+Waypoint: m/MV1/5188
+Title: Stop selling points
+Points: 0
+----
+ID: 1940
+Date: 05.12.2014
+Waypoint: m/robje64/615
+Title: Player of the Week @ Munzee
+Points: 0
+----
+ID: 1941
+Date: 05.12.2014
+Waypoint: m/robje64/1222
+Title: #1 Social Munzee created in 2014
+Points: 0
+----
+ID: 1942
+Date: 05.12.2014
+Waypoint: m/remstaler/2552
+Title: remstaler&#039;s Social Munzee 2
+Points: 0
+----
+ID: 1943
+Date: 05.12.2014
+Waypoint: m/Mowsky/114
+Title: Sozial-Mowsky Nr. 01
+Points: 0
+----
+ID: 1944
+Date: 05.12.2014
+Waypoint: m/Mowsky/669
+Title: Sozial-Mowsky Nr. 02
+Points: 0
+----
+ID: 1945
+Date: 05.12.2014
+Waypoint: m/Mowsky/908
+Title: Sozial-Mowsky Nr. 03
+Points: 0
+----
+ID: 1946
+Date: 05.12.2014
+Waypoint: m/Mowsky/926
+Title: Sozial-Mowsky Nr. 04
+Points: 0
+----
+ID: 1947
+Date: 05.12.2014
+Waypoint: m/Mowsky/927
+Title: Sozial-Mowsky Nr. 05
+Points: 0
+----
+ID: 1948
+Date: 05.12.2014
+Waypoint: m/Mowsky/1499
+Title: 2000x SM by Mowsky
+Points: 0
+----
+ID: 1949
+Date: 05.12.2014
+Waypoint: m/Mowsky/1471
+Title: Lucky Mowsky 
+Points: 0
+----
+ID: 1950
+Date: 05.12.2014
+Waypoint: m/philnuim/355
+Title: Philnuim´s second Social
+Points: 0
+----
+ID: 1951
+Date: 05.12.2014
+Waypoint: m/philnuim/930
+Title: 3rd year with Munzee
+Points: 0
+----
+ID: 1952
+Date: 05.12.2014
+Waypoint: m/Christian68/113
+Title: Christian68 Sozial Munzee
+Points: 0
+----
+ID: 1953
+Date: 05.12.2014
+Waypoint: m/Christian68/1030
+Title: Christian68 &#039;s 2. year of hunting Munzees 
+Points: 0
+----
+ID: 1954
+Date: 05.12.2014
+Waypoint: m/Bitbuster/762
+Title: Bitbuster&#039;s Social Munzee
+Points: 0
+----
+ID: 1955
+Date: 05.12.2014
+Waypoint: m/Cachelady/36
+Title: Cachelady becomes social
+Points: 0
+----
+ID: 1956
+Date: 05.12.2014
+Waypoint: m/JOJEVA/776
+Title: JOJEVA - Social
+Points: 0
+----
+ID: 1957
+Date: 05.12.2014
+Waypoint: m/Hiltsu/1148
+Title: Hiltsu´s second premium year social
+Points: 0
+----
+ID: 1958
+Date: 05.12.2014
+Waypoint: m/Lukyshak/185
+Title: Lukyshakovo Social Munzee
+Points: 0
+----
+ID: 1959
+Date: 05.12.2014
+Waypoint: m/Laczy76/8
+Title: Laczy76&#039;s Social Munzee
+Points: 0
+----
+ID: 1960
+Date: 05.12.2014
+Waypoint: m/cashkids/990
+Title: cashkids year 3 social munzee
+Points: 0
+----
+ID: 1961
+Date: 05.12.2014
+Waypoint: m/cashkids/665
+Title: cashkids out there!
+Points: 0
+----
+ID: 1962
+Date: 05.12.2014
+Waypoint: m/matte72boy/7
+Title: Matte minigolf social
+Points: 0
+----
+ID: 1963
+Date: 05.12.2014
+Waypoint: m/cashkids/799
+Title: Year two social Munzee
+Points: 0
+----
+ID: 1964
+Date: 05.12.2014
+Waypoint: m/bigZUMA/5
+Title: ZUMA social
+Points: 0
+----
+ID: 1965
+Date: 05.12.2014
+Waypoint: m/tomtom71/631
+Title: MUNZ EL I NG
+Points: 0
+----
+ID: 1966
+Date: 05.12.2014
+Waypoint: m/hans415/64
+Title: hans415
+Points: 0
+----
+ID: 1967
+Date: 05.12.2014
+Waypoint: m/Mieze/1643
+Title: Mieze&#039;s Social Munzee
+Points: 0
+----
+ID: 1968
+Date: 05.12.2014
+Waypoint: m/Mieze/2397
+Title: Miezes 2.Social Munzee
+Points: 0
+----
+ID: 1969
+Date: 05.12.2014
+Waypoint: m/JayJayBee8/2578
+Title: A Tribute to Eric Morecambe
+Points: 0
+----
+ID: 1970
+Date: 05.12.2014
+Waypoint: m/WE4NCS/1182
+Title: WE4NCS Social Munzee
+Points: 0
+----
+ID: 1971
+Date: 05.12.2014
+Waypoint: m/McRon/5624
+Title: McRon&#039;s Social Munzee Year 3
+Points: 0
+----
+ID: 1972
+Date: 05.12.2014
+Waypoint: m/karebear/53
+Title: Karebear&#039;s Funshine Social
+Points: 0
+----
+ID: 1973
+Date: 05.12.2014
+Waypoint: m/Christian68/972
+Title: Freaky MILLION Clan Social Munzee
+Points: 0
+----
+ID: 1974
+Date: 05.12.2014
+Waypoint: m/ageta/3892
+Title: ageta Social #2
+Points: 0
+----
+ID: 1975
+Date: 05.12.2014
+Waypoint: m/CleanCoen/6
+Title: Clean Coen
+Points: 0
+----
+ID: 1976
+Date: 05.12.2014
+Waypoint: m/geminiman/2963
+Title: Social Munzee
+Points: 0
+----
+ID: 1977
+Date: 05.12.2014
+Waypoint: m/JeanNine/144
+Title: Jean&#039;s Footprint
+Points: 0
+----
+ID: 1978
+Date: 05.12.2014
+Waypoint: m/Kuhmulus/32
+Title: Freaky Kuhmulus Social Munzee #1
+Points: 0
+----
+ID: 1979
+Date: 05.12.2014
+Waypoint: m/Nordmensch/5
+Title: Nordmensch&#039;s Social Munzee
+Points: 0
+----
+ID: 1980
+Date: 05.12.2014
+Waypoint: m/Qualiflyer/2682
+Title: Qualiflyer&#039;s Social Munzee
+Points: 0
+----
+ID: 1981
+Date: 06.12.2014
+Waypoint: m/dschuwa/201
+Title: Bonner Punktejagd 023
+Points: 5
+----
+ID: 1982
+Date: 06.12.2014
+Waypoint: m/dschuwa/216
+Title: Bonner Punktejagd 020
+Points: 5
+----
+ID: 1983
+Date: 06.12.2014
+Waypoint: m/dschuwa/226
+Title: Bonner Punktejagd 032
+Points: 5
+----
+ID: 1984
+Date: 06.12.2014
+Waypoint: m/MV1/4346
+Title: MVirtual Endenich2
+Points: 5
+----
+ID: 1985
+Date: 06.12.2014
+Waypoint: m/MV1/4253
+Title: MVirtual A565/ Provinzialstrasse
+Points: 5
+----
 ID: p1154
 Date: 28.09.2014 17:45
 Waypoint: OC1F07 GC8453 N004A9
