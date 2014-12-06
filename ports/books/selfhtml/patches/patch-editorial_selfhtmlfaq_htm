@@ -1,0 +1,15 @@
+$MirOS$
+
+	Sync with realityâ€¦
+
+--- editorial/selfhtmlfaq.htm.orig	Sat Dec  6 15:56:06 2014
++++ editorial/selfhtmlfaq.htm	Sat Dec  6 15:56:34 2014
+@@ -75,7 +75,7 @@
+ 
+ <h2><a class="an" name="reminder">Kann ich bei neuen SELFHTML Versionen informiert werden?</a></h2>
+ 
+-<p>Einen automatischen Update-Service gibt es nicht. Was Sie vor sich haben, ist die SELFHTML-Version 8.1.1. Um zu sehen, ob diese Version noch aktuell ist, rufen Sie im Online-Angebot von SELFHTML die Seite <img src="../src/serverdok.gif" width="15" height="10" alt="Online-Seite">&nbsp;<a href="http://aktuell.de.selfhtml.org/extras/version.htm?8.1.1">Aktuelle Version, Hinweise zur nächsten Version</a> auf.</p>
++<p>Einen automatischen Update-Service gibt es nicht. Was Sie vor sich haben, ist die SELFHTML-Version 8.1.2. Um zu sehen, ob diese Version noch aktuell ist, rufen Sie im Online-Angebot von SELFHTML die Seite <img src="../src/serverdok.gif" width="15" height="10" alt="Online-Seite">&nbsp;<a href="http://aktuell.de.selfhtml.org/extras/version.htm?8.1.2">Aktuelle Version, Hinweise zur nächsten Version</a> auf.</p>
+ 
+ 
+ 

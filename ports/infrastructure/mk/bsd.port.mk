@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.285 2014/05/29 18:36:29 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.288 2014/05/30 00:21:36 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -1103,9 +1103,18 @@ EXTRACT_CASES+=		\
 
 .if ${_USE_ZIP:L} != "no"
 BUILD_DEPENDS+=		:unzip-*:archivers/unzip
+# stupid stupid stupid, LHarc extract caces do this right,
+# but we cannot change the default to Yes now for compat…
+_USE_ZIP_SUBDIR?=	No
+.if ${_USE_ZIP_SUBDIR:L} == "no"
 EXTRACT_CASES+=		\
     *.zip) \
 	${UNZIP} -q ${FULLDISTDIR}/$$archive -d ${WRKDIR} ;;
+.else
+EXTRACT_CASES+=		\
+    *.zip) \
+	${UNZIP} -q ${FULLDISTDIR}/$$archive -d ${WRKDIR}/${DISTNAME} ;;
+.endif
 .endif
 
 EXTRACT_CASES+=		\
