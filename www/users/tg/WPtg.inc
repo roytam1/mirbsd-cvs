@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.134 2014/12/04 23:07:30 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.136 2014/12/06 23:56:07 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -11711,6 +11711,90 @@ ID: 1985
 Date: 06.12.2014
 Waypoint: m/MV1/4253
 Title: MVirtual A565/ Provinzialstrasse
+Points: 5
+----
+ID: 1986
+Date: 07.12.2014
+Waypoint: m/c-bn/3130
+Title: Bonn, Ermekeilstraße
+Points: 5
+----
+ID: 1987
+Date: 07.12.2014
+Waypoint: m/dschuwa/706
+Title: Bonner Punktejagd 493
+Points: 5
+----
+ID: 1988
+Date: 07.12.2014
+Waypoint: m/ajlis/295
+Title: Bonner Talweg, Bonn
+Points: 5
+----
+ID: 1989
+Date: 07.12.2014
+Waypoint: m/ajlis/298
+Title: Bonner Talweg, Bonn
+Points: 5
+----
+ID: 1990
+Date: 07.12.2014
+Waypoint: m/dschuwa/744
+Title: Bonner Punktejagd 530
+Points: 5
+----
+ID: 1991
+Date: 07.12.2014
+Waypoint: m/dschuwa/82
+Title: Nächster Halt: Weberstraße
+Points: 5
+----
+ID: 1992
+Date: 07.12.2014
+Waypoint: m/ajlis/247
+Title: Loestraße, Bonn
+Points: 5
+----
+ID: 1993
+Date: 07.12.2014
+Waypoint: m/ajlis/270
+Title: Loestraße, Bonn
+Points: 5
+----
+ID: 1994
+Date: 07.12.2014
+Waypoint: m/ajlis/248
+Title: Prinz-Albert-Straße, Bonn
+Points: 5
+----
+ID: 1995
+Date: 07.12.2014
+Waypoint: m/ajlis/246
+Title: Prinz-Albert-Straße, Bonn
+Points: 5
+----
+ID: 1996
+Date: 07.12.2014
+Waypoint: m/dschuwa/480
+Title: Bonner Punktejagd 304
+Points: 5
+----
+ID: 1997
+Date: 07.12.2014
+Waypoint: m/dschuwa/128
+Title: Nächster Halt: König Straße
+Points: 5
+----
+ID: 1998
+Date: 07.12.2014
+Waypoint: m/ajlis/239
+Title: Königstraße, Bonn
+Points: 5
+----
+ID: 1999
+Date: 07.12.2014
+Waypoint: m/ajlis/233
+Title: Königstraße, Bonn
 Points: 5
 ----
 ID: p1154
