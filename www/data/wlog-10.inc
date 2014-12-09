@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.460 2014/10/03 18:15:43 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.461 2014/10/07 15:56:00 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10798,4 +10798,26 @@ Tag: bug debian mksh news pcli
 <p>mksh R50d was just released to fix that, and a small NULL pointer
  dereference found by Goodbox on IRC. Thanks to my employer <a
  href="http://www.tarent.de/">tarent</a> for a bit of time to work on it.</p>
+----
+Title: The colon in the shell: corrigenda
+Date: 09.12.2014 10:40
+Author: tg@
+Tag: debian mksh pcli
+
+<p>Bernhard’s <a href="http://blog.brlink.eu/index.html#i70">article</a>
+ on Plänet Debian about the “colon” command in the shell could use a
+ clarification and a <em>security-relevant</em> correcture.</p>
+<p>There is, indeed, no difference between the <tt>:</tt> and <tt>true</tt>
+ built-in commands.</p>
+<p><a href="http://unix.stackexchange.com/q/171346/43720">Stéphane Chazelas
+ points out</a> that writing <tt style="color:red;">: ${VARNAME:=default}</tt>
+ is <strong>bad</strong>, <tt style="color:green;">: "${VARNAME:=default}"</tt>
+ is correct. Reason: someone could preset <tt>$VARNAME</tt> with, for
+ example, <tt>/*/*/*/*/../../../../*/*/*/*/../../../../*/*/*/*</tt> which
+ will exhaust during globbing.</p>
+<p>Besides that, the article is good. Thanks Bernhard for posting it!</p>
+<p>PS: I sometimes use the colon as comment leader in the last line of a
+ script or function, because it, unlike the <a
+ href="http://fsinfo.noone.org/~abe/Bloedsinn/Teppich.html##">octothorpe</a>,
+ sets <tt>$?</tt> to 0, which can be useful.</p>
 ----
