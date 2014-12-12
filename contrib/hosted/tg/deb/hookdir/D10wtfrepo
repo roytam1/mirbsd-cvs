@@ -1,17 +1,64 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/tg/deb/hookdir/D06agdu,v 1.1 2011/12/15 21:06:43 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/hookdir/D10wtfrepo-etch,v 1.2 2014/12/07 16:04:23 tg Exp $
 #-
 # Not complicated enough for copyright.
 
 unset LANGUAGE
 LC_ALL=C; export LC_ALL
 
-dpkg -i /tmp/wtf-debian-keyring_*.deb /tmp/ca-bundle_*.deb
-apt-get -y --force-yes -o Dpkg::Options::=--force-confnew,confmiss -f install
-apt-get -y --purge install apt-transport-https
+d=${DIST%/*}
+d=${d%-backports*}
+case $d in
+(etch|lenny|wheezy|jessie|sid)
+	;;
+(*)
+	echo >&2 W: D10wtfrepo: ignoring unknown DIST "'$DIST'"
+	exit 0
+	;;
+esac
 
-cat >>/etc/apt/sources.list <<'EOF'
-deb https://www.freewrt.org/~tg/debs sid wtf
+apt-key add - <<'EOF'
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+Version: GnuPG v1.4.14 (MirBSD)
+
+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
+=XR3i
+-----END PGP PUBLIC KEY BLOCK-----
+EOF
+
+cat >>/etc/apt/sources.list <<EOF
+deb http://www.mirbsd.org/~tg/Debs/ $d wtf
 EOF
 
 apt-get update
