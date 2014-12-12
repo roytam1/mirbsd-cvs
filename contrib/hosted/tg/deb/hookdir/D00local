@@ -1,5 +1,5 @@
 #!/bin/bash
-# $MirOS: contrib/hosted/tg/deb/hookdir/D00local,v 1.1 2014/09/24 12:02:25 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/hookdir/D00local,v 1.2 2014/10/07 08:39:06 tg Exp $
 #-
 # Copyright © 2014
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -24,7 +24,6 @@ LC_ALL=C; export LC_ALL
 
 echo >&2 "I: creating Packages file for local APT cache"
 rm -f /var/cache/Packages
-#XXX TODO: create only MD5Sum here
 (cd /var/cache
 dpkg-scanpackages -h md5 -m apt/archives >Packages 2>/dev/null || \
     dpkg-scanpackages -m apt/archives >Packages)
