@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.136 2014/12/06 23:56:07 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.137 2014/12/07 17:01:51 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -11796,6 +11796,13 @@ Date: 07.12.2014
 Waypoint: m/ajlis/233
 Title: Königstraße, Bonn
 Points: 5
+----
+ID: p20150104
+Date: 04.01.2015
+Waypoint: GC5HNZQ
+Title: Warten auf die Eiszeit ⅯⅯⅩⅤ
+nTF: 0
+Tag: D2 T15 Event
 ----
 ID: p1154
 Date: 28.09.2014 17:45

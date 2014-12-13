@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.22 2014/11/30 20:12:21 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.23 2014/12/03 02:06:36 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -443,4 +443,40 @@ Language: de-DE-1901
  stromfressend; nerviger als Geocaching (die Ähpp ist auch furchtbar lahm).
  Und: <span xml:lang="en">it’s all about the numbers</span>, aber teilt
  sich bei mir nunmal mit anderen GPS-Spielen die Statistik…</p>
+----
+Date: 12.12.2014 23:56
+Author: tg@
+Title: WTF is Jessie; PA4 paper size
+Tag: debian pcli rant
+
+<p><a href="https://www.mirbsd.org/~tg/Debs/debidx.htm">My personal APT
+ repository</a> now has a <tt>jessie</tt> suite – currently just a clone
+ of the <tt>sid</tt> suite, but so, people can get on the correct “upgrade
+ channel” already.</p>
+<p>Besides that, the usual small updates to my metapackages, bugfixes, etc.
+ – You might have noticed that it’s now on a (hopefully permanent) location.
+ I’ve put a donated eee-pc from my father to good use and am now running a
+ Debian system at home. (Fun, as I’m emeritus now, officially, and haven’t
+ had one during my time as active uploading DD.) I’ve created a coupld of
+ cowbuilder chroots (<tt>pbuilderrc</tt> to achieve that included in the
+ repo) and can build packages, but for i386 only (amd64 is still done on
+ the x32 desktop at work), but, more importantly, I can build, sign and
+ publish the repo, so it may grow. (popcon data is interesting. More than
+ double the amount of machines I have installed that stuff on.)</p>
+<hr />
+<p>Installing gimp and inkscape, I’m asked for a default paper size by
+ libpaper1. <a href="@@RELPATH@@wtf.cgi?pa4">PA4</a> is still not an
+ option, I wonder why. I also haven’t managed to get MirPorts GNU groff
+ and Artifex Ghostscript to use that paper size, so the various PDF
+ manpages I produce are still using <a href="@@RELPATH@@wtf.cgi?a4">DIN
+ ISO A4</a>, rendering e.g. Mexicans unable to print them. Help welcome.</p>
+<!-- RSS stop --><hr />
+<p>Note, for <tt>arngc</tt>, you need a server component (MirBSD-current,
+ of course; we’re rolling release nowadays). Config included, but I’m
+ willing to open my firewall to people I know, provided they won’t use
+ “too much” traffic (running a couple of arngc instances is fine, according
+ to what I estimated).</p>
+<p>A largish article about how to use some other packages in the repo,
+ such as <tt>dash-mksh</tt>, is yet to come. In the meantime, I wrote
+ a bit more in <tt>README.Debian</tt> in <tt>mirabilos-support</tt>.</p>
 ----
