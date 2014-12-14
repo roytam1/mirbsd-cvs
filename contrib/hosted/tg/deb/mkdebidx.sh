@@ -536,6 +536,7 @@ done
  <meta name="MSSmartTagsPreventParsing" content="TRUE" />
 EOF
 print -r -- " <title>${repo_title} Index</title>"
+[[ -s NEWS.rss ]] && print '<link rel="alternate" type="application/rss+xml" title="RSS" href="NEWS.rss" />'
 cat <<'EOF'
  <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.61 2014/05/23 09:44:30 tg Exp $" />
  <style type="text/css"><!--/*--><![CDATA[/*><!--*/
@@ -587,6 +588,7 @@ cat <<'EOF'
  href="sources.txt">/etc/apt/sources.list</a> in order to use it.
 EOF
 [[ -s 0-NOTE.txt ]] && print ' Also read my <a href="0-NOTE.txt">notes</a>.'
+[[ -s NEWS.rss ]] && print ' There is an <a href="NEWS.rss">RSS newsfeed</a>.'
 cat <<EOF
  This repository uses <a
   href="http://pgp.uni-mainz.de:11371/pks/lookup?search=${repo_keyid}&amp;op=vindex">${repo_keyid}</a>
