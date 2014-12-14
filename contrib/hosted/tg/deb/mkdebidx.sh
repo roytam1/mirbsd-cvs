@@ -1,8 +1,8 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.60 2013/11/14 15:07:45 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.61 2014/05/23 09:44:30 tg Exp $'
 #-
-# Copyright (c) 2008, 2009, 2010, 2011, 2012, 2013, 2014
-#	Thorsten Glaser <tg@mirbsd.org>
+# Copyright © 2008, 2009, 2010, 2011, 2012, 2013, 2014
+#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -26,6 +26,17 @@ gpg_remote=
 repo_origin='The MirOS Project'
 repo_label=wtf
 repo_title='MirDebian “WTF” Repository'
+function repo_intro {
+	cat <<-'EOF'
+	<p>This APT repository contains packages by mirabilos (<i>wtf</i>)
+	 for use with the Debian operating system and its derivates. It is
+	 not affiliated with Debian. Some of the content is merely hosted
+	 for people close to MirBSD or Debian; some is affiliated with The
+	 MirOS Project.<br /><i>Debian</i> is a registered trademark owned
+	 by Software in the Public Interest, Inc.<br />“The MirOS Project”
+	 and “MirBSD” are unregistered trademarks owned by mirabilos.</p>
+EOF
+}
 function repo_description {
 	typeset suite_nick=$1
 
@@ -35,7 +46,7 @@ function repo_description {
 
 set -A dpkgarchs -- alpha amd64 arm arm64 armel armhf hppa hurd-i386 i386 \
     ia64 kfreebsd-amd64 kfreebsd-i386 m68k mips mipsel powerpc powerpcspe \
-    ppc64 s390 s390x sh4 sparc sparc64 x32
+    ppc64 ppc64el s390 s390x sh4 sparc sparc64 x32
 
 function remsign {
 	target=$1; shift
@@ -48,6 +59,17 @@ function remsign {
 	ssh -o ControlPath=$tmpfnm "$target" "cat $tmpfnm.asc; rm -f $tmpfnm $tmpfnm.asc"
 	ssh -o ControlPath=$tmpfnm "$target" -O exit
 	return $rv
+}
+
+function die {
+	local rv=1
+
+	if [[ $1 = +([0-9]) ]]; then
+		rv=$1
+		shift
+	fi
+	print -ru2 -- "E: $*"
+	exit $rv
 }
 
 function putfile {
@@ -66,17 +88,6 @@ function sortlist {
 	for x in "$@"; do
 		print -r -- "$x"
 	done | sort $u
-}
-
-# DJB cdb hash (not via stdio, for speed)
-typeset -Z11 -Uui16 Lcdbhash_result
-function Lcdbhash_add {
-	typeset s="$*"
-	typeset -i i=0 n=${#s}
-
-	while (( i < n )); do
-		((# Lcdbhash_result = (Lcdbhash_result * 33) ^ 1#${s:(i++):1} ))
-	done
 }
 
 # escape XHTML characters (three mandatory XML ones plus double quotes,
@@ -99,10 +110,11 @@ unset LANGUAGE
 saveIFS=$IFS
 cd "$(dirname "$0")"
 rm -f dpkg_578162_workaround
+typeset -Z11 -Uui16 hv
 
-IFS=:
+IFS=:; set -o noglob
 dpkgarchl=:all:"${dpkgarchs[*]}":
-IFS=$saveIFS
+IFS=$saveIFS; set +o noglob
 
 suites=:
 for suite in "$@"; do
@@ -131,7 +143,9 @@ for suite in dists/*; do
 		archs=
 		[[ -s $dist/distinfo.sh ]] && . $dist/distinfo.sh
 		set -A distarchs -- $(sortlist -u all ${archs:-$suitearchs})
-		IFS=:; distarchl=:"${distarchs[*]}":; IFS=$saveIFS
+		IFS=:; set -o noglob
+		distarchl=:"${distarchs[*]}":
+		IFS=$saveIFS; set +o noglob
 		nmds=0
 		for arch in $(sortlist -u ${distarchs[*]} ${dpkgarchs[*]}) /; do
 			# put "all" last
@@ -139,8 +153,7 @@ for suite in dists/*; do
 			[[ $arch = / ]] && arch=all
 			# create index
 			if [[ $dpkgarchl != *:"$arch":* ]]; then
-				print -u2 "Invalid arch '$arch' in $dist"
-				exit 1
+				die "Invalid arch '$arch' in $dist"
 			elif [[ $distarchl != *:"$arch":* ]]; then
 				print "\n===> Linking all =>" \
 				    "${dist#dists/}/$arch/Packages"
@@ -168,6 +181,83 @@ for suite in dists/*; do
 		    $dist $ovf | \
 		    putfile $dist/source/Sources
 		print done.
+		print "\n===> Creating ${dist#dists/}/i18n/Index"
+		[[ -d $dist/i18n/. ]] || mkdir -p $dist/i18n
+		[[ -d $dist/i18n/. ]] || die "Cannot create $dist/i18n"
+		(cd $dist/i18n
+		tfiles=/
+		[[ -h .hashcache || ! -f .hashcache ]] && rm -rf .hashcache
+		for ent in .* *; do
+			[[ $ent = . || $ent = .. || $ent = .hashcache ]] && continue
+			[[ -h $ent || -e $ent ]] || continue
+			if [[ ! -f $ent || $ent != Translation-* ]]; then
+				rm -rf "$ent"
+				continue
+			fi
+			ent=${ent#Translation-}
+			ent=${ent%.bz2}
+			[[ $tfiles = */"$ent"/* ]] || tfiles+=$ent/
+		done
+		[[ -e .hashcache ]] || :>.hashcache
+		if [[ $tfiles = / ]]; then
+			:>Translation-tlh_DE
+			tfiles=/tlh_DE/
+		fi
+		print SHA1: >Index
+		IFS=/; set -o noglob
+		set -A tflist -- ${tfiles#/}
+		IFS=$saveIFS; set +o noglob
+		for ent in "${tflist[@]}"; do
+			ent=Translation-$ent
+			if [[ $ent -nt $ent.bz2 ]]; then
+				if ! bzip2 -9 <"$ent" >"$ent.bz2"; then
+					rm -f "$ent.bz2"
+					die "bzip2 '$ent' died"
+				fi
+			elif [[ -e $ent ]]; then
+				rm -f "$ent"
+			fi
+			set -A x -- $(sha1sum "$ent.bz2")
+			hash=${x[0]}
+			hnum=0
+			grep "^$hash " .hashcache |&
+			while read -p hsha1 hsize hmd5 hsha2 usha1 usize umd5 usha2; do
+				[[ $hsha1 = "$hash" ]] && let ++hnum
+			done
+			if (( hnum != 1 )); then
+				[[ -e $ent ]] || \
+				    if ! bzip2 -d <"$ent.bz2" >"$ent"; then
+					rm -f "$ent"
+					die "bzip2 '$ent.bz2' died"
+				fi
+				set -A x -- $(md5sum "$ent")
+				umd5=${x[0]}
+				set -A x -- $(md5sum "$ent.bz2")
+				hmd5=${x[0]}
+				set -A x -- $(sha1sum "$ent")
+				usha1=${x[0]}
+				hsha1=$hash
+				set -A x -- $(sha256sum "$ent")
+				usha2=${x[0]}
+				set -A x -- $(sha256sum "$ent.bz2")
+				hsha2=${x[0]}
+				usize=$(stat -c '%s' "$ent")
+				hsize=$(stat -c '%s' "$ent.bz2")
+				(( hnum )) || print $hsha1 $hsize $hmd5 $hsha2 $usha1 $usize $umd5 $usha2 >>.hashcache
+			fi
+			[[ -e $ent ]] && rm -f "$ent"
+			print -u4 $hsha1 $hsize $hmd5 $hsha2 $usha1 $usize $umd5 $usha2
+			print -ru5 " $hsha1 $hsize $ent.bz2"
+			print -ru6 " $umd5 $usize $dist/i18n/$ent"
+			print -ru6 " $hmd5 $hsize $dist/i18n/$ent.bz2"
+			print -ru7 " $usha1 $usize $dist/i18n/$ent"
+			print -ru7 " $hsha1 $hsize $dist/i18n/$ent.bz2"
+			print -ru8 " $usha2 $usize $dist/i18n/$ent"
+			print -ru8 " $hsha2 $hsize $dist/i18n/$ent.bz2"
+		done 4>.hashcache.new 5>>Index 6>.hashcache.md5 7>.hashcache.sha1 8>.hashcache.sha2
+		rm -f .hashcache
+		mv -f .hashcache.new .hashcache
+		); print done.
 	done
 	print "\n===> Creating ${suite#dists/}/Release"
 	rm -f $suite/Release-*
@@ -192,23 +282,22 @@ for suite in dists/*; do
 	set -A cache_sha1
 	set -A cache_sha2
 	set -A cache_size
-	for n in Contents-* */{binary-*,source}/{Packag,Sourc}es*; do
+	for n in Contents-* */{binary-*,i18n,source}/{Index,{Packag,Sourc}es*}; do
 		[[ -f $n ]] || continue
 		# realpath-ise $n and cache the checksum
 		nn=$(realpath "$n")
 		#XXX once mksh can, use associative arrays instead
-		Lcdbhash_result=5381
-		Lcdbhash_add "$nn"
+		hv=16#${nn@#}
 		# simple hash collision solver by increment
-		nc=${cache_fn[Lcdbhash_result]}
+		nc=${cache_fn[hv]}
 		while [[ -n $nc && $nc != "$nn" ]]; do
-			nc=${cache_fn[++Lcdbhash_result]}
+			nc=${cache_fn[++hv]}
 		done
 		if [[ $nc = "$nn" ]]; then
-			nm=${cache_md5[Lcdbhash_result]}
-			ns=${cache_size[Lcdbhash_result]}
-			nsha1=${cache_sha1[Lcdbhash_result]}
-			nsha2=${cache_sha2[Lcdbhash_result]}
+			nm=${cache_md5[hv]}
+			ns=${cache_size[hv]}
+			nsha1=${cache_sha1[hv]}
+			nsha2=${cache_sha2[hv]}
 		else
 			# GNU *sum tools are horridly inefficient
 			set -A x -- $(md5sum "$nn")
@@ -218,50 +307,38 @@ for suite in dists/*; do
 			set -A x -- $(sha256sum "$nn")
 			nsha2=${x[0]}
 			ns=$(stat -c '%s' "$nn")
-			cache_md5[Lcdbhash_result]=$nm
-			cache_size[Lcdbhash_result]=$ns
-			cache_fn[Lcdbhash_result]=$nn
-			cache_sha1[Lcdbhash_result]=$nsha1
-			cache_sha2[Lcdbhash_result]=$nsha2
+			cache_md5[hv]=$nm
+			cache_size[hv]=$ns
+			cache_fn[hv]=$nn
+			cache_sha1[hv]=$nsha1
+			cache_sha2[hv]=$nsha2
 		fi
 		print " $nm $ns $n"
 		print -u4 " $nsha1 $ns $n"
 		print -u5 " $nsha2 $ns $n"
+		if [[ $n = */i18n/Index ]]; then
+			n=${n%Index}
+			cat "${n}.hashcache.md5"
+			cat >&4 "${n}.hashcache.sha1"
+			cat >&5 "${n}.hashcache.sha2"
+			rm -f "${n}.hashcache."*
+		fi
 	done) >$suite/Release-tmp
 	cat $suite/Release-sha1 $suite/Release-sha2 >>$suite/Release-tmp
 
-	# note: InRelease files can only be safely used by wheezy
-	# onwards, and oneiric onwards; known to be insecure on
-	# natty, but usable concurrent to detached files on squeeze
-
-	unset release_sign_detached release_sign_inline
-	release_sign_detached=x
-	release_sign_inline=0
+	# note: InRelease files can only be safely used by jessie and up.
+	unset use_inrelease
 	. $suite/distinfo.sh
-	[[ $release_sign_inline = [01] ]] || release_sign_inline=0
-	[[ $release_sign_detached = [01] ]] || \
-	    (( release_sign_detached = release_sign_inline ? 0 : 1 ))
-
-	# Debian's fix for CVE-2013-1051 consists of disabling
-	# support for InRelease files altogether (WTF!)
-	release_sign_detached=1
-	release_sign_inline=0
-
-	(( release_sign_detached )) && $gpg_remote gpg -u $repo_keyid \
-	    -sab <$suite/Release-tmp >$suite/Release-sig
-	(( release_sign_inline )) && $gpg_remote gpg -u $repo_keyid \
-	    --clearsign <$suite/Release-tmp >$suite/Release-inl
-
-	if (( release_sign_inline )); then
+	rm -f $suite/InRelease $suite/Release $suite/Release.gpg
+	if [[ $use_inrelease = 1 ]]; then
+		$gpg_remote gpg -u $repo_keyid --no-comment --clearsign \
+		    <$suite/Release-tmp >$suite/Release-inl
 		mv -f $suite/Release-inl $suite/InRelease
 	else
-		rm -f $suite/InRelease
-	fi
-	if (( release_sign_detached )); then
+		$gpg_remote gpg -u $repo_keyid --no-comment -sab \
+		    <$suite/Release-tmp >$suite/Release-sig
 		mv -f $suite/Release-tmp $suite/Release
 		mv -f $suite/Release-sig $suite/Release.gpg
-	else
-		rm -f $suite/Release*
 	fi
 	rm -f $suite/Release-*
 done
@@ -280,7 +357,7 @@ if [[ -s mkdebidx.lnk ]]; then
 		[[ $pn = '#'* ]] && continue
 		if [[ $pn != +([a-z0-9_])/+([a-z0-9_-])/+([!/])/@(%|=|+([a-z0-9])) || \
 		    $pd != +([a-z0-9_]) ]]; then
-			print -u2 "Invalid lnk line '$pn' '$pd'"
+			print -u2 "W: Invalid lnk line '$pn' '$pd'"
 			continue
 		fi
 		preplsrc[nrpl]=$pn
@@ -293,12 +370,12 @@ for suite in dists/*; do
 		[[ -d $dist/. ]] || continue
 		suitename=${suite##*/}
 		if [[ $suitename != +([a-z0-9_]) ]]; then
-			print -u2 "Invalid suite name '$suitename'"
+			print -u2 "W: Invalid suite name '$suitename'"
 			continue 2
 		fi
 		distname=${dist##*/}
 		if [[ $distname != +([a-z0-9_-]) ]]; then
-			print -u2 "Invalid dist name '$distname'"
+			print -u2 "W: Invalid dist name '$distname'"
 			continue
 		fi
 
@@ -411,11 +488,9 @@ for suite in dists/*; do
 				Lf=
 				;;
 			(*)	# empty line
-				if [[ $pf = *:* || $pf = *'%'* ]]; then
-					print -u2 Illegal character in $dist \
-					    packages $pp "'Filename: $pf'"
-					exit 1
-				fi
+				[[ $pf = *:* || $pf = *'%'* ]] && \
+				    die Illegal character in $dist \
+				    packages $pp "'Filename: $pf'"
 				[[ -n $pn ]] || pn=$pN
 				if [[ -n $pn && -n $pv && -n $pd && -n $pp ]]; then
 					i=0
@@ -462,7 +537,7 @@ done
 EOF
 print -r -- " <title>${repo_title} Index</title>"
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.60 2013/11/14 15:07:45 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.61 2014/05/23 09:44:30 tg Exp $" />
  <style type="text/css"><!--/*--><![CDATA[/*><!--*/
   table {
    border: 1px solid black;
@@ -506,6 +581,7 @@ cat <<'EOF'
 </head><body>
 EOF
 print -r -- "<h1>${repo_title}</h1>"
+repo_intro
 cat <<'EOF'
 <p><a href="dists/">Browse</a> the repository or read about how to amend <a
  href="sources.txt">/etc/apt/sources.list</a> in order to use it.
@@ -573,10 +649,10 @@ while read -p num rest; do
 	for suitename in $allsuites; do
 		eval pvo=\${sp_ver_${suitename}[num]}
 		eval ppo=\${sp_dir_${suitename}[num]}
-		IFS=,
+		IFS=,; set -o noglob
 		set -A pva -- $pvo
 		set -A ppa -- $ppo
-		IFS=$saveIFS
+		IFS=$saveIFS; set +o noglob
 		(( ${#pva[*]} )) || pva[0]=
 		y=
 		i=0
