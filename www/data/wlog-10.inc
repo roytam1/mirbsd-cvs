@@ -10820,4 +10820,8 @@ Tag: debian mksh pcli
  script or function, because it, unlike the <a
  href="http://fsinfo.noone.org/~abe/Bloedsinn/Teppich.html##">octothorpe</a>,
  sets <tt>$?</tt> to 0, which can be useful.</p>
+<p><strong>Update:</strong> As jilles pointed out in IRC, “colon” (‘:’) is <a
+ href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_14">a
+ POSIX special built-in</a> (most importantly, it keeps assignments), whereas
+ “true” is a regular built-in utility.</p>
 ----

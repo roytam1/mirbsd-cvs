@@ -463,6 +463,10 @@ Tag: debian pcli rant
  the x32 desktop at work), but, more importantly, I can build, sign and
  publish the repo, so it may grow. (popcon data is interesting. More than
  double the amount of machines I have installed that stuff on.)</p>
+<p><strong>Update:</strong> I’ve started writing a <tt>NEWS</tt> file and
+ cobbled together an <a href="https://www.mirbsd.org/~tg/Debs/NEWS.rss">RSS
+ 2.0 feed</a> from that… still plaintext content, but at least signalling
+ in feedreaders upon updates.</p>
 <hr />
 <p>Installing gimp and inkscape, I’m asked for a default paper size by
  libpaper1. <a href="@@RELPATH@@wtf.cgi?pa4">PA4</a> is still not an
