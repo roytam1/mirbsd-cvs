@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.23 2014/12/03 02:06:36 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.24 2014/12/13 00:09:29 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -457,7 +457,7 @@ Tag: debian pcli rant
  – You might have noticed that it’s now on a (hopefully permanent) location.
  I’ve put a donated eee-pc from my father to good use and am now running a
  Debian system at home. (Fun, as I’m emeritus now, officially, and haven’t
- had one during my time as active uploading DD.) I’ve created a coupld of
+ had one during my time as active uploading DD.) I’ve created a couple of
  cowbuilder chroots (<tt>pbuilderrc</tt> to achieve that included in the
  repo) and can build packages, but for i386 only (amd64 is still done on
  the x32 desktop at work), but, more importantly, I can build, sign and
