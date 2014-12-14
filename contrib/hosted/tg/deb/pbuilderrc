@@ -5,8 +5,10 @@
 #
 # Example uses include setting DIST=sid (regular package build),
 # DIST=lenny-backports-sloppy/i386 or DIST=sid/amd64 CUSTOM=foo
-# (with linux32 or linux64, respectively, prepended to build for
-# the other architecture, and select chroots appropriately).
+# (with linux32 or linux64 (possibly --uname-2.6 also), respectively,
+# prepended to build for the other architecture, and select chroots
+# appropriately). Hint: use this nice wrapper script:
+# https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=shellsnippets/shellsnippets.git;a=blob;f=mksh/debian-dev/c;hb=HEAD
 #-
 # debian.org: sarge etch lenny squeeze wheezy jessie sid
 # debian-ports.org: dpo (unstable+unreleased)
@@ -14,7 +16,7 @@
 # Debian derivate from Canonical that cannot be named:
 #	dapper hardy jaunty karmic lucid maverick natty oneiric
 #	precise quantal raring saucy trusty utopic vivid
-# *-backports: sarge etch lenny squeeze wheezy
+# *-backports: sarge etch lenny squeeze wheezy jessie
 #	(plus all Debian derivate from Canonical that cannot be named)
 # *-backports-sloppy: lenny squeeze
 # univention: not supported… yet…
@@ -48,18 +50,18 @@ DISTROS='debian dpo ubuntu'
 DISTS_debian='sarge etch lenny squeeze wheezy jessie sid'
 DISTS_dpo='dpo'
 DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise quantal raring saucy trusty utopic vivid'
-DISTBACKPORTS_debian=sarge:etch:lenny:squeeze:wheezy
+DISTBACKPORTS_debian=sarge:etch:lenny:squeeze:wheezy:jessie
 DISTBACKPORTSLOPPY_debian=lenny:squeeze
 DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise:quantal:raring:saucy:trusty:utopic:vivid
 MIRROR_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
-MIRROR_squeeze=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
-MIRROR_wheezy=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
-MIRROR_jessie=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
-MIRROR_sid=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
-MIRROR_unstable=http://ftp.debian-ports.org/debian
-MIRROR_unreleased=http://ftp.debian-ports.org/debian
+MIRROR_squeeze=http://http.debian.net/debian
+MIRROR_wheezy=http://http.debian.net/debian
+MIRROR_jessie=http://http.debian.net/debian
+MIRROR_sid=http://http.debian.net/debian
+MIRROR_unstable=http://ftp.de.debian.org/debian-ports
+MIRROR_unreleased=http://ftp.de.debian.org/debian-ports
 MIRROR_dapper=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_hardy=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_jaunty=http://old-releases.ubuntu.com/ubuntu/
@@ -67,10 +69,10 @@ MIRROR_karmic=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_lucid=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_maverick=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_natty=http://old-releases.ubuntu.com/ubuntu/
-MIRROR_oneiric=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRROR_oneiric=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_precise=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
-MIRROR_quantal=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
-MIRROR_raring=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRROR_quantal=http://old-releases.ubuntu.com/ubuntu/
+MIRROR_raring=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_saucy=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_trusty=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRROR_utopic=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
@@ -78,32 +80,18 @@ MIRROR_vivid=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
 MIRRORSECURITY_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
 MIRRORSECURITY_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
-MIRRORSECURITY_squeeze=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
-MIRRORSECURITY_wheezy=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
-MIRRORSECURITY_jessie=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-security/
+MIRRORSECURITY_squeeze=http://http.debian.net/debian-security
+MIRRORSECURITY_wheezy=http://http.debian.net/debian-security
+MIRRORSECURITY_jessie=http://http.debian.net/debian-security
 MIRRORSECURITY_sid=NO
-MIRRORSECURITY_dapper=http://old-releases.ubuntu.com/ubuntu/
-MIRRORSECURITY_hardy=http://old-releases.ubuntu.com/ubuntu/
-MIRRORSECURITY_jaunty=http://old-releases.ubuntu.com/ubuntu/
-MIRRORSECURITY_karmic=http://old-releases.ubuntu.com/ubuntu/
-MIRRORSECURITY_lucid=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
-MIRRORSECURITY_maverick=http://old-releases.ubuntu.com/ubuntu/
-MIRRORSECURITY_natty=http://old-releases.ubuntu.com/ubuntu/
-MIRRORSECURITY_oneiric=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
-MIRRORSECURITY_precise=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
-MIRRORSECURITY_quantal=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
-MIRRORSECURITY_raring=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
-MIRRORSECURITY_saucy=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
-MIRRORSECURITY_trusty=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
-MIRRORSECURITY_utopic=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
-MIRRORSECURITY_vivid=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORBACKPORTS_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 MIRRORBACKPORTS_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 MIRRORBACKPORTS_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
-MIRRORBACKPORTS_squeeze=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-backports/
-MIRRORBACKPORTS_wheezy=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian/
+MIRRORBACKPORTS_squeeze=http://http.debian.net/debian-backports
+MIRRORBACKPORTS_wheezy=http://http.debian.net/debian
+MIRRORBACKPORTS_jessie=http://http.debian.net/debian
 MIRRORBACKPORTSLOPPY_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
-MIRRORBACKPORTSLOPPY_squeeze=http://ftp.hosteurope.de/mirror/ftp.debian.org/debian-backports/
+MIRRORBACKPORTSLOPPY_squeeze=http://http.debian.net/debian-backports
 
 COMPONENTS_debian=main
 COMPONENTS_dpo=main
@@ -338,6 +326,10 @@ export DEBIAN_FRONTEND=noninteractive
 eval MIRRORSITE=\$MIRROR_$DISTRIBUTION; export MIRRORSITE
 eval x=\$MIRRORSECURITY_$DISTRIBUTION
 case x$x:$DISTRO in
+(*:ubuntu)
+	: security is same as normal mirrors
+	OTHERMIRROR="deb $MIRRORSITE $DISTRIBUTION-security $COMPONENTS"
+	;;
 (*:dpo)
 	: always add unreleased
 	OTHERMIRROR="deb $MIRROR_unreleased unreleased $COMPONENTS"
@@ -354,9 +346,6 @@ case x$x:$DISTRO in
 	;;
 (*:debian)
 	OTHERMIRROR="deb $x $DISTRIBUTION/updates $COMPONENTS"
-	;;
-(*:ubuntu)
-	OTHERMIRROR="deb $x $DISTRIBUTION-security $COMPONENTS"
 	;;
 esac
 case $isbackports:$DIST in
