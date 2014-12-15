@@ -235,10 +235,12 @@ for suite in dists/*; do
 			grep "^$hash " .hashcache |&
 			while read -p hsha1 hsize hmd5 hsha2 usha1 usize umd5 usha2; do
 				[[ $hsha1 = "$hash" ]] || continue
-				let ++hnum
+				hnum=1
 				while read -p hsha1 x; do
-					[[ $hsha1 = "$hash" ]] && let ++hnum
+					# flush coprocess, look for dupes
+					[[ $hsha1 = "$hash" ]] && hnum=2
 				done
+				break
 			done
 			hsha1=$hash
 			if (( hnum != 1 )); then
