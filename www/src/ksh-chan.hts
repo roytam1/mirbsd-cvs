@@ -3,7 +3,7 @@
 
 mws_setname hosted/ksh-chan "The #ksh on Freenode page"
 mws_setheadline 'Channel page for #ksh'
-mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.74 2014/11/14 20:38:17 tg Exp $'
+mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.75 2014/11/26 23:25:19 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of contents</h2>
 EOF
@@ -55,7 +55,7 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="vsns">Korn Shell versions</h2>
-<p>This information is current as of: 2014-11-26 (26 November 2014)</p>
+<p>This information is current as of: 2014-12-15 (15 December 2014)</p>
 <p><a href="http://www.kornshell.com/">AT&amp;T Korn Shell</a>: latest is
  ksh93v- (beta) dated 2014-09-29 (29 September 2014) and ksh93u+ (stable)
  dated 2012-08-01; actively developed</p>

@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.564 2014/11/19 18:53:45 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.565 2014/11/26 23:25:19 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1127,7 +1127,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
   in C…); shebang check array accesses are always <tt>unsigned char</tt></li>
  <li>[tg] Be <em>even</em> more explicit wrt. POSIX in the manpage</li>
  <li>[tg] Fix shebang / file magic decoding</li>
- <li>[tg] OpenBSD sync (RCSID only)</li>
+ <li>[tg] More int → bool conversion</li>
+ <li>[tg] Let <tt>Build.sh</tt> be run by GNU bash 1.12.1 (Slackware 1.01)</li>
+ <li>[Stéphane Chazelas, tg] Fix here string parsing issue</li>
+ <li>[tg] OpenBSD sync: handle integer base out of band like ksh93 does</li>
 </ul>
 <p id="r50d">R50d is a <strong>required</strong> bugfix release:</p><ul>
  <li>[Goodbox] Fix NULL pointer dereference on “unset x; nameref x”</li>
@@ -1252,7 +1255,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  ‣ pretty hard, it turns out (parsing concept is done in tg@’s head)</li>
 <li>whence -p -a foo</li>
 <li>read -e (or something): use the edit.c stuff for inputting</li>
+<li>↑ actually make a libmkshedit, see my mirtoconf v2 plans</li>
 <li>Allow trimming arrays (e.g. <tt>${foo[*]@Q}</tt>)</li>
+<li>Add -DMKSH_BAIKA_NO_JUTSU (trade more size for more speed)</li>
+<li>FKSH functions have local scope for flags (<tt>set -o</tt>) in ksh93</li>
 <li><a href="mksh_old.htm#plans">older/unrealistic plans</a></li>
 <li>… such as a better website, more clearly arranged, etc…</li>
 <li>Although there is <em>definite</em> need, eventually, to have
