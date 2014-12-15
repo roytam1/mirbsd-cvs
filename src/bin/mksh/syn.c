@@ -196,10 +196,11 @@ synio(int cf)
 	musthave(LWORD, ishere ? HEREDELIM : 0);
 	if (ishere) {
 		iop->delim = yylval.cp;
-		if (*ident != 0)
+		if (*ident != 0) {
 			/* unquoted */
  gotnulldelim:
 			iop->flag |= IOEVAL;
+		}
 		if (herep > &heres[HERES - 1])
 			yyerror("too many %ss\n", "<<");
 		*herep++ = iop;
