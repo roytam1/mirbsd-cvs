@@ -1,4 +1,4 @@
-.\" $MirOS: src/share/man/man9/style.9,v 1.23 2013/10/31 20:06:46 tg Exp $
+.\" $MirOS: src/share/man/man9/style.9,v 1.24 2014/02/09 22:17:32 tg Exp $
 .\"-
 .\" Copyright (c) 2002-2014 The MirOS Project.
 .\" Copyright (c) ? OpenBSD
@@ -86,7 +86,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: October 31 2013 $
+.Dd $Mdocdate: February 9 2014 $
 .\"
 .\" Check which macro package we use, and do other -mdoc setup.
 .\"
@@ -590,9 +590,11 @@ It helps when debugging (define
 .Li return
 to a debug expression) though, except for void functions.
 .Pp
-No braces are
-used for control statements with zero or only a single statement unless that
-statement is more than a single line, in which case they are permitted.
+No braces are used for control statements with zero or only a single
+statement, unless that statement is more than a single line (in which
+case they are permitted), it contains a comment (in which case they
+are recommended), or it contains a label (in which case they are mandated).
+A separate project may choose to mandate braces for all cases.
 Always document single-semicolon bodies with a comment; here, same line is ok.
 .Bd -literal -offset indent
 for (p = buf; *p != \*(aq\e0\*(aq; ++p)
@@ -607,6 +609,11 @@ while (/* CONSTCOND */ 1) {
 while (/* CONSTCOND */ 1) {
 	if (cond)
 		stmt;
+}
+if (cond) {
+	/* comment */
+ somelabel:
+	stmt;
 }
 .Ed
 .Pp
