@@ -233,7 +233,7 @@ for suite in dists/*; do
 			hash=${|checkedhash sha1sum "$ent.bz2";} || exit 1
 			hnum=0
 			grep "^$hash " .hashcache |&
-			if read -p hsha1 hsize hmd5 hsha2 usha1 usize umd5 usha2; then
+			while read -p hsha1 hsize hmd5 hsha2 usha1 usize umd5 usha2; do
 				[[ $hsha1 = "$hash" ]] || continue
 				let ++hnum
 				while read -p hsha1 x; do
