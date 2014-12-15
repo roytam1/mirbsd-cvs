@@ -259,12 +259,12 @@ for suite in dists/*; do
 			[[ -e $ent ]] && rm -f "$ent"
 			print -u4 $hsha1 $hsize $hmd5 $hsha2 $usha1 $usize $umd5 $usha2
 			print -ru5 " $hsha1 $hsize $ent.bz2"
-			print -ru6 " $umd5 $usize $dist/i18n/$ent"
-			print -ru6 " $hmd5 $hsize $dist/i18n/$ent.bz2"
-			print -ru7 " $usha1 $usize $dist/i18n/$ent"
-			print -ru7 " $hsha1 $hsize $dist/i18n/$ent.bz2"
-			print -ru8 " $usha2 $usize $dist/i18n/$ent"
-			print -ru8 " $hsha2 $hsize $dist/i18n/$ent.bz2"
+			print -ru6 " $umd5 $usize ${dist##*/}/i18n/$ent"
+			print -ru6 " $hmd5 $hsize ${dist##*/}/i18n/$ent.bz2"
+			print -ru7 " $usha1 $usize ${dist##*/}/i18n/$ent"
+			print -ru7 " $hsha1 $hsize ${dist##*/}/i18n/$ent.bz2"
+			print -ru8 " $usha2 $usize ${dist##*/}/i18n/$ent"
+			print -ru8 " $hsha2 $hsize ${dist##*/}/i18n/$ent.bz2"
 		done 4>.hashcache.new 5>>Index 6>.hashcache.md5 7>.hashcache.sha1 8>.hashcache.sha2
 		rm -f .hashcache
 		mv -f .hashcache.new .hashcache
