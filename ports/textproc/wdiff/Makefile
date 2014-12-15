@@ -1,4 +1,4 @@
-# $MirOS: ports/textproc/wdiff/Makefile,v 1.3 2006/09/14 00:14:27 tg Exp $
+# $MirOS: ports/textproc/wdiff/Makefile,v 1.4 2007/09/08 19:47:10 tg Exp $
 # $OpenBSD: Makefile,v 1.16 2002/12/23 09:09:12 pvalchev Exp $
 
 COMMENT=		word differences between text files
@@ -7,7 +7,7 @@ DASH_VER=		2
 CATEGORIES=		textproc
 MASTER_SITES=		${MASTER_SITE_GNU:=wdiff/}
 
-# License: GPL
+# GPLv2+
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
