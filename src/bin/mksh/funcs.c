@@ -768,9 +768,13 @@ c_typeset(const char **wp)
 
 	if (fieldstr && !bi_getn(fieldstr, &field))
 		return (1);
-	if (basestr && (!bi_getn(basestr, &base) || base < 1 || base > 36)) {
-		bi_errorf("%s: %s", "bad integer base", basestr);
-		return (1);
+	if (basestr) {
+		if (!bi_getn(basestr, &base)) {
+			bi_errorf("%s: %s", "bad integer base", basestr);
+			return (1);
+		}
+		if (base < 1 || base > 36)
+			base = 10;
 	}
 
 	if (!(builtin_opt.info & GI_MINUSMINUS) && wp[builtin_opt.optind] &&
