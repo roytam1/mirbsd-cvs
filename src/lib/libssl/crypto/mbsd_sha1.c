@@ -1,6 +1,13 @@
 #include <openssl/sha.h>
 
-const char SHA1_version[] __attribute__((__used__)) = "$MirOS: src/lib/libssl/crypto/mbsd_sha1.c,v 1.1 2014/11/29 23:47:03 tg Exp $";
+#ifndef L_one
+#undef SHA1_version
+#undef SHA1_Init
+#undef SHA1_Update
+#undef SHA1_Final
+#undef SHA1_Transform
+
+const char SHA1_version[] __attribute__((__used__)) = "$MirOS: src/lib/libssl/crypto/mbsd_sha1.c,v 1.1 2014/11/30 00:12:56 tg Exp $";
 
 int
 SHA1_Init(SHA_CTX *c)
@@ -30,6 +37,8 @@ SHA1_Transform(SHA_CTX *c, const unsigned char *b)
 	SHA1Transform(c->state, b);
 }
 
+#else
+
 unsigned char *
 SHA1(const unsigned char *d, unsigned long n, unsigned char *md)
 {
@@ -45,3 +54,4 @@ SHA1(const unsigned char *d, unsigned long n, unsigned char *md)
 
 	return (md);
 }
+#endif

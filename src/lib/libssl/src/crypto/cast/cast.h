@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/crypto/bf/blowfish.h,v 1.2 2014/11/30 01:30:11 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/crypto/cast/cast.h,v 1.2 2014/11/30 01:59:38 tg Exp $ */
 
 #ifndef HEADER_CAST_H
 #define HEADER_CAST_H
@@ -35,6 +35,12 @@ void CAST_cfb64_encrypt(const unsigned char *in, unsigned char *out,
 void CAST_ofb64_encrypt(const unsigned char *in, unsigned char *out, 
 			long length, CAST_KEY *schedule, unsigned char *ivec,
 			int *num);
+
+#if (MirBSD >= 0x0AB5)
+#define CAST_encrypt(data,key)		cast_encrypt2(key, data)
+#define CAST_decrypt(data,key)		cast_decrypt2(key, data)
+#endif
+#define CAST_set_key(key,len,data)	cast_setkey(key, data, len)
 
 __END_DECLS
 

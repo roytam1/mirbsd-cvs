@@ -1,6 +1,11 @@
 #include <openssl/rc4.h>
 
-const char RC4_version[] __attribute__((__used__)) = "$MirOS: src/lib/libssl/crypto/mbsd_md4.c,v 1.1 2014/11/29 23:47:03 tg Exp $";
+#undef RC4_version
+#undef RC4_options
+#undef RC4_set_key
+#undef RC4
+
+const char RC4_version[] __attribute__((__used__)) = "$MirOS: src/lib/libssl/crypto/mbsd_rc4.c,v 1.1 2014/11/30 00:51:29 tg Exp $";
 
 const char *
 RC4_options(void)

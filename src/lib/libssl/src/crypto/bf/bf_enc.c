@@ -1,6 +1,10 @@
 #include <openssl/blowfish.h>
 #include <string.h>
 
+#undef BF_encrypt
+#undef BF_decrypt
+#undef BF_cbc_encrypt
+
 void
 BF_encrypt(BF_LONG *data, const BF_KEY *key)
 {

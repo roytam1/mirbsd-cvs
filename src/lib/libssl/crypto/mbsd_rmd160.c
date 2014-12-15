@@ -1,6 +1,13 @@
 #include <openssl/ripemd.h>
 
-const char RMD160_version[] __attribute__((__used__)) = "$MirOS: src/lib/libssl/crypto/mbsd_ripemd160.c,v 1.1 2014/11/29 23:47:03 tg Exp $";
+#ifndef L_one
+#undef RMD160_version
+#undef RIPEMD160_Init
+#undef RIPEMD160_Update
+#undef RIPEMD160_Final
+#undef RIPEMD160_Transform
+
+const char RMD160_version[] __attribute__((__used__)) = "$MirOS: src/lib/libssl/crypto/mbsd_rmd160.c,v 1.1 2014/11/30 00:23:22 tg Exp $";
 
 int
 RIPEMD160_Init(RIPEMD160_CTX *c)
@@ -30,6 +37,8 @@ RIPEMD160_Transform(RIPEMD160_CTX *c, const unsigned char *b)
 	RMD160Transform(c->state, b);
 }
 
+#else
+
 unsigned char *
 RIPEMD160(const unsigned char *d, unsigned long n, unsigned char *md)
 {
@@ -45,3 +54,4 @@ RIPEMD160(const unsigned char *d, unsigned long n, unsigned char *md)
 
 	return (md);
 }
+#endif

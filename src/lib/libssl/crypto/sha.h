@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/crypto/sha1.h,v 1.1 2014/11/29 23:47:04 tg Exp $ */
+/* $MirOS: src/lib/libssl/crypto/sha.h,v 1.1 2014/11/30 00:12:56 tg Exp $ */
 
 #ifndef HEADER_SHA1_H
 #define HEADER_SHA1_H
@@ -36,6 +36,12 @@ void SHA1_Transform(SHA_CTX *c, const unsigned char *b)
 unsigned char *SHA1(const unsigned char *d, unsigned long n, unsigned char *md)
     __attribute__((__bounded__(__string__, 1, 2)))
     __attribute__((__bounded__(__minbytes__, 3, SHA1_DIGEST_LENGTH)));
+
+#define SHA1_version		"$MirOS$"
+#define SHA1_Init(c)		(SHA1Init(c), 1)
+#define SHA1_Update(c,d,l)	(l ? (SHA1Update(c, d, l), 1) : 1)
+#define SHA1_Final(md,c)	(SHA1Final(md, c), 1)
+#define SHA1_Transform(c,b)	SHA1Transform(((SHA_CTX *)(c))->state, b)
 
 __END_DECLS
 

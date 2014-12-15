@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.39 2014/11/30 01:59:37 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.40 2014/11/30 21:56:18 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2006/10/14 19:43:57 drahn Exp $
 
 .include <bsd.own.mk>
@@ -196,6 +196,14 @@ md5.h: md4.h
 
 mbsd_md5.c: mbsd_md4.c
 	sed -e 's/md4/md5/g' -e 's/MD4/MD5/g' <$> >$@
+
+.for _i in md4 md5 rmd160 sha1
+CLEANFILES+=	mbsd_${_i}_one.c
+SRCS+=		mbsd_${_i}_one.c
+
+mbsd_${_i}_one.c: mbsd_${_i}.c
+	-unifdef -DL_one $> >$@
+.endfor
 
 GENERATED+=	obj_mac.h obj_dat.h
 CLEANFILES+=	${GENERATED} obj_mac.num.tmp

@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/crypto/ripemd160.h,v 1.1 2014/11/29 23:47:04 tg Exp $ */
+/* $MirOS: src/lib/libssl/crypto/ripemd.h,v 1.1 2014/11/30 00:23:22 tg Exp $ */
 
 #ifndef HEADER_RIPEMD160_H
 #define HEADER_RIPEMD160_H
@@ -31,6 +31,12 @@ void RIPEMD160_Transform(RIPEMD160_CTX *c, const unsigned char *b)
 unsigned char *RIPEMD160(const unsigned char *d, unsigned long n, unsigned char *md)
     __attribute__((__bounded__(__string__, 1, 2)))
     __attribute__((__bounded__(__minbytes__, 3, RIPEMD160_DIGEST_LENGTH)));
+
+#define RMD160_version		 "$MirOS$"
+#define RIPEMD160_Init(c)	 (RMD160Init(c), 1)
+#define RIPEMD160_Update(c,d,l)	 (l ? (RMD160Update(c, d, l), 1) : 1)
+#define RIPEMD160_Final(md,c)	 (RMD160Final(md, c), 1)
+#define RIPEMD160_Transform(c,b) RMD160Transform(((RIPEMD160_CTX *)(c))->state, b)
 
 __END_DECLS
 
