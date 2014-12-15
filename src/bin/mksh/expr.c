@@ -1,4 +1,4 @@
-/*	$OpenBSD: expr.c,v 1.23 2013/12/17 16:37:06 deraadt Exp $	*/
+/*	$OpenBSD: expr.c,v 1.24 2014/12/08 14:26:31 otto Exp $	*/
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
