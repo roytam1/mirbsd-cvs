@@ -233,9 +233,14 @@ for suite in dists/*; do
 			hash=${|checkedhash sha1sum "$ent.bz2";} || exit 1
 			hnum=0
 			grep "^$hash " .hashcache |&
-			while read -p hsha1 hsize hmd5 hsha2 usha1 usize umd5 usha2; do
-				[[ $hsha1 = "$hash" ]] && let ++hnum
+			if read -p hsha1 hsize hmd5 hsha2 usha1 usize umd5 usha2; then
+				[[ $hsha1 = "$hash" ]] || continue
+				let ++hnum
+				while read -p hsha1 x; do
+					[[ $hsha1 = "$hash" ]] && let ++hnum
+				done
 			done
+			hsha1=$hash
 			if (( hnum != 1 )); then
 				[[ -e $ent ]] || \
 				    if ! bzip2 -d <"$ent.bz2" >"$ent"; then
@@ -245,7 +250,6 @@ for suite in dists/*; do
 				umd5=${|checkedhash md5sum "$ent";} || exit 1
 				hmd5=${|checkedhash md5sum "$ent.bz2";} || exit 1
 				usha1=${|checkedhash sha1sum "$ent";} || exit 1
-				hsha1=$hash
 				usha2=${|checkedhash sha256sum "$ent";} || exit 1
 				hsha2=${|checkedhash sha256sum "$ent.bz2";} || exit 1
 				usize=${|checkedhash size "$ent";} || exit 1
