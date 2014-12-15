@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/apps/speed.c,v 1.4 2006/09/20 20:14:06 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/apps/speed.c,v 1.5 2009/01/08 20:50:10 tg Exp $ */
 
 /* apps/speed.c -*- mode:C; c-file-style: "eay" -*- */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -682,40 +682,18 @@ int MAIN(int argc, char **argv)
 #ifndef OPENSSL_NO_DES
 			if (strcmp(*argv,"des-cbc") == 0) doit[D_CBC_DES]=1;
 		else	if (strcmp(*argv,"des-ede3") == 0) doit[D_EDE3_DES]=1;
-		else
-#endif
-#ifndef OPENSSL_NO_AES
-			if (strcmp(*argv,"aes-128-cbc") == 0) doit[D_CBC_128_AES]=1;
-		else	if (strcmp(*argv,"aes-192-cbc") == 0) doit[D_CBC_192_AES]=1;
-		else	if (strcmp(*argv,"aes-256-cbc") == 0) doit[D_CBC_256_AES]=1;
-		else
-#endif
-#ifndef OPENSSL_NO_RSA
-#if 0 /* was: #ifdef RSAref */
-			if (strcmp(*argv,"rsaref") == 0)
+		else	if (strcmp(*argv,"des") == 0)
 			{
-			RSA_set_default_openssl_method(RSA_PKCS1_RSAref());
-			j--;
+			doit[D_CBC_DES]=1;
+			doit[D_EDE3_DES]=1;
 			}
 		else
 #endif
-#ifndef RSA_NULL
-			if (strcmp(*argv,"openssl") == 0)
-			{
-			RSA_set_default_method(RSA_PKCS1_SSLeay());
-			j--;
-			}
+#ifndef OPENSSL_NO_IDEA
+		     if (strcmp(*argv,"idea-cbc") == 0) doit[D_CBC_IDEA]=1;
+		else if (strcmp(*argv,"idea") == 0) doit[D_CBC_IDEA]=1;
 		else
 #endif
-#endif /* !OPENSSL_NO_RSA */
-		     if (strcmp(*argv,"dsa512") == 0) dsa_doit[R_DSA_512]=2;
-		else if (strcmp(*argv,"dsa1024") == 0) dsa_doit[R_DSA_1024]=2;
-		else if (strcmp(*argv,"dsa2048") == 0) dsa_doit[R_DSA_2048]=2;
-		else if (strcmp(*argv,"rsa512") == 0) rsa_doit[R_RSA_512]=2;
-		else if (strcmp(*argv,"rsa1024") == 0) rsa_doit[R_RSA_1024]=2;
-		else if (strcmp(*argv,"rsa2048") == 0) rsa_doit[R_RSA_2048]=2;
-		else if (strcmp(*argv,"rsa4096") == 0) rsa_doit[R_RSA_4096]=2;
-		else
 #ifndef OPENSSL_NO_RC2
 		     if (strcmp(*argv,"rc2-cbc") == 0) doit[D_CBC_RC2]=1;
 		else if (strcmp(*argv,"rc2") == 0) doit[D_CBC_RC2]=1;
@@ -724,11 +702,6 @@ int MAIN(int argc, char **argv)
 #ifndef OPENSSL_NO_RC5
 		     if (strcmp(*argv,"rc5-cbc") == 0) doit[D_CBC_RC5]=1;
 		else if (strcmp(*argv,"rc5") == 0) doit[D_CBC_RC5]=1;
-		else
-#endif
-#ifndef OPENSSL_NO_IDEA
-		     if (strcmp(*argv,"idea-cbc") == 0) doit[D_CBC_IDEA]=1;
-		else if (strcmp(*argv,"idea") == 0) doit[D_CBC_IDEA]=1;
 		else
 #endif
 #ifndef OPENSSL_NO_BF
@@ -743,16 +716,11 @@ int MAIN(int argc, char **argv)
 		else if (strcmp(*argv,"cast5") == 0) doit[D_CBC_CAST]=1;
 		else
 #endif
-#ifndef OPENSSL_NO_DES
-			if (strcmp(*argv,"des") == 0)
-			{
-			doit[D_CBC_DES]=1;
-			doit[D_EDE3_DES]=1;
-			}
-		else
-#endif
 #ifndef OPENSSL_NO_AES
-			if (strcmp(*argv,"aes") == 0)
+			if (strcmp(*argv,"aes-128-cbc") == 0) doit[D_CBC_128_AES]=1;
+		else	if (strcmp(*argv,"aes-192-cbc") == 0) doit[D_CBC_192_AES]=1;
+		else	if (strcmp(*argv,"aes-256-cbc") == 0) doit[D_CBC_256_AES]=1;
+		else	if (strcmp(*argv,"aes") == 0)
 			{
 			doit[D_CBC_128_AES]=1;
 			doit[D_CBC_192_AES]=1;
@@ -761,6 +729,14 @@ int MAIN(int argc, char **argv)
 		else
 #endif
 #ifndef OPENSSL_NO_RSA
+#ifndef RSA_NULL
+			if (strcmp(*argv,"openssl") == 0)
+			{
+			RSA_set_default_method(RSA_PKCS1_SSLeay());
+			j--;
+			}
+		else
+#endif
 			if (strcmp(*argv,"rsa") == 0)
 			{
 			rsa_doit[R_RSA_512]=1;
@@ -769,7 +745,15 @@ int MAIN(int argc, char **argv)
 			rsa_doit[R_RSA_4096]=1;
 			}
 		else
-#endif
+#endif /* !OPENSSL_NO_RSA */
+		     if (strcmp(*argv,"dsa512") == 0) dsa_doit[R_DSA_512]=2;
+		else if (strcmp(*argv,"dsa1024") == 0) dsa_doit[R_DSA_1024]=2;
+		else if (strcmp(*argv,"dsa2048") == 0) dsa_doit[R_DSA_2048]=2;
+		else if (strcmp(*argv,"rsa512") == 0) rsa_doit[R_RSA_512]=2;
+		else if (strcmp(*argv,"rsa1024") == 0) rsa_doit[R_RSA_1024]=2;
+		else if (strcmp(*argv,"rsa2048") == 0) rsa_doit[R_RSA_2048]=2;
+		else if (strcmp(*argv,"rsa4096") == 0) rsa_doit[R_RSA_4096]=2;
+		else
 #ifndef OPENSSL_NO_DSA
 			if (strcmp(*argv,"dsa") == 0)
 			{
@@ -806,10 +790,17 @@ int MAIN(int argc, char **argv)
 #endif
 #if !defined(OPENSSL_NO_MD2) || !defined(OPENSSL_NO_MDC2) || \
     !defined(OPENSSL_NO_MD4) || !defined(OPENSSL_NO_MD5) || \
-    !defined(OPENSSL_NO_SHA1) || !defined(OPENSSL_NO_RIPEMD160)
+    !defined(OPENSSL_NO_HMAC) || !defined(OPENSSL_NO_SHA1) || \
+    !defined(OPENSSL_NO_RIPEMD160)
 			BIO_printf(bio_err,"\n");
 #endif
 
+#ifndef OPENSSL_NO_RC4
+			BIO_printf(bio_err,"rc4      ");
+#endif
+#ifndef OPENSSL_NO_DES
+			BIO_printf(bio_err,"des-cbc  des-ede3 des      ");
+#endif
 #ifndef OPENSSL_NO_IDEA
 			BIO_printf(bio_err,"idea-cbc ");
 #endif
@@ -817,56 +808,33 @@ int MAIN(int argc, char **argv)
 			BIO_printf(bio_err,"rc2-cbc  ");
 #endif
 #ifndef OPENSSL_NO_RC5
-			BIO_printf(bio_err,"rc5-cbc  ");
+			BIO_printf(bio_err,"rc5-cbc");
 #endif
-#ifndef OPENSSL_NO_BF
-			BIO_printf(bio_err,"bf-cbc");
-#endif
-#if !defined(OPENSSL_NO_IDEA) || !defined(OPENSSL_NO_RC2) || \
-    !defined(OPENSSL_NO_BF) || !defined(OPENSSL_NO_RC5)
+#if !defined(OPENSSL_NO_RC4) || !defined(OPENSSL_NO_DES) || \
+    !defined(OPENSSL_NO_IDEA) || !defined(OPENSSL_NO_RC2) || \
+    !defined(OPENSSL_NO_RC5)
 			BIO_printf(bio_err,"\n");
 #endif
-#ifndef OPENSSL_NO_DES
-			BIO_printf(bio_err,"des-cbc  des-ede3 ");
+
+#ifndef OPENSSL_NO_BF
+			BIO_printf(bio_err,"bf-cbc   ");
+#endif
+#ifndef OPENSSL_NO_CAST
+			BIO_printf(bio_err,"cast-cbc ");
 #endif
 #ifndef OPENSSL_NO_AES
-			BIO_printf(bio_err,"aes-128-cbc aes-192-cbc aes-256-cbc ");
+			BIO_printf(bio_err,"aes-128-cbc aes-192-cbc aes-256-cbc aes");
 #endif
-#ifndef OPENSSL_NO_RC4
-			BIO_printf(bio_err,"rc4");
-#endif
+#if !defined(OPENSSL_NO_BF) || !defined(OPENSSL_NO_CAST) || !defined(OPENSSL_NO_AES)
 			BIO_printf(bio_err,"\n");
+#endif
 
 #ifndef OPENSSL_NO_RSA
-			BIO_printf(bio_err,"rsa512   rsa1024  rsa2048  rsa4096\n");
+			BIO_printf(bio_err,"rsa512   rsa1024  rsa2048  rsa4096  rsa\n");
 #endif
 
 #ifndef OPENSSL_NO_DSA
 			BIO_printf(bio_err,"dsa512   dsa1024  dsa2048\n");
-#endif
-
-#ifndef OPENSSL_NO_IDEA
-			BIO_printf(bio_err,"idea     ");
-#endif
-#ifndef OPENSSL_NO_RC2
-			BIO_printf(bio_err,"rc2      ");
-#endif
-#ifndef OPENSSL_NO_DES
-			BIO_printf(bio_err,"des      ");
-#endif
-#ifndef OPENSSL_NO_AES
-			BIO_printf(bio_err,"aes      ");
-#endif
-#ifndef OPENSSL_NO_RSA
-			BIO_printf(bio_err,"rsa      ");
-#endif
-#ifndef OPENSSL_NO_BF
-			BIO_printf(bio_err,"blowfish");
-#endif
-#if !defined(OPENSSL_NO_IDEA) || !defined(OPENSSL_NO_RC2) || \
-    !defined(OPENSSL_NO_DES) || !defined(OPENSSL_NO_RSA) || \
-    !defined(OPENSSL_NO_BF) || !defined(OPENSSL_NO_AES)
-			BIO_printf(bio_err,"\n");
 #endif
 
 			BIO_printf(bio_err,"\n");
