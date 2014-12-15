@@ -72,6 +72,18 @@ function die {
 	exit $rv
 }
 
+function checkedhash {
+	if [[ $1 = size ]]; then
+		REPLY=$(stat -c '%s' "$2")
+		[[ $REPLY = +([0-9]) ]] || die "Error getting size of '$2'"
+	else
+		set -o noglob
+		set -A REPLY -- $($1 "$2")
+		set +o noglob
+		[[ $REPLY = +([0-9a-f]) ]] || die "Error getting $1 of '$2'"
+	fi
+}
+
 function putfile {
 	tee $1 | gzip -n9 >$1.gz
 }
@@ -184,6 +196,7 @@ for suite in dists/*; do
 		print "\n===> Creating ${dist#dists/}/i18n/Index"
 		[[ -d $dist/i18n/. ]] || mkdir -p $dist/i18n
 		[[ -d $dist/i18n/. ]] || die "Cannot create $dist/i18n"
+		rm -f $dist/i18n/.done
 		(cd $dist/i18n
 		tfiles=/
 		[[ -h .hashcache || ! -f .hashcache ]] && rm -rf .hashcache
@@ -217,8 +230,7 @@ for suite in dists/*; do
 			elif [[ -e $ent ]]; then
 				rm -f "$ent"
 			fi
-			set -A x -- $(sha1sum "$ent.bz2")
-			hash=${x[0]}
+			hash=${|checkedhash sha1sum "$ent.bz2";} || exit 1
 			hnum=0
 			grep "^$hash " .hashcache |&
 			while read -p hsha1 hsize hmd5 hsha2 usha1 usize umd5 usha2; do
@@ -230,19 +242,14 @@ for suite in dists/*; do
 					rm -f "$ent"
 					die "bzip2 '$ent.bz2' died"
 				fi
-				set -A x -- $(md5sum "$ent")
-				umd5=${x[0]}
-				set -A x -- $(md5sum "$ent.bz2")
-				hmd5=${x[0]}
-				set -A x -- $(sha1sum "$ent")
-				usha1=${x[0]}
+				umd5=${|checkedhash md5sum "$ent";} || exit 1
+				hmd5=${|checkedhash md5sum "$ent.bz2";} || exit 1
+				usha1=${|checkedhash sha1sum "$ent";} || exit 1
 				hsha1=$hash
-				set -A x -- $(sha256sum "$ent")
-				usha2=${x[0]}
-				set -A x -- $(sha256sum "$ent.bz2")
-				hsha2=${x[0]}
-				usize=$(stat -c '%s' "$ent")
-				hsize=$(stat -c '%s' "$ent.bz2")
+				usha2=${|checkedhash sha256sum "$ent";} || exit 1
+				hsha2=${|checkedhash sha256sum "$ent.bz2";} || exit 1
+				usize=${|checkedhash size "$ent";} || exit 1
+				hsize=${|checkedhash size "$ent.bz2";} || exit 1
 				(( hnum )) || print $hsha1 $hsize $hmd5 $hsha2 $usha1 $usize $umd5 $usha2 >>.hashcache
 			fi
 			[[ -e $ent ]] && rm -f "$ent"
@@ -257,10 +264,14 @@ for suite in dists/*; do
 		done 4>.hashcache.new 5>>Index 6>.hashcache.md5 7>.hashcache.sha1 8>.hashcache.sha2
 		rm -f .hashcache
 		mv -f .hashcache.new .hashcache
-		); print done.
+		:>.done)
+		[[ -e $dist/i18n/.done ]] || die i18n generation unsuccessful
+		rm -f $dist/i18n/.done
+		print done.
 	done
 	print "\n===> Creating ${suite#dists/}/Release"
 	rm -f $suite/Release-*
+	xdone=$(realpath $suite/Release-done)
 	(cat <<-EOF
 		Origin: ${repo_origin}
 		Label: ${repo_label}
@@ -300,13 +311,10 @@ for suite in dists/*; do
 			nsha2=${cache_sha2[hv]}
 		else
 			# GNU *sum tools are horridly inefficient
-			set -A x -- $(md5sum "$nn")
-			nm=${x[0]}
-			set -A x -- $(sha1sum "$nn")
-			nsha1=${x[0]}
-			set -A x -- $(sha256sum "$nn")
-			nsha2=${x[0]}
-			ns=$(stat -c '%s' "$nn")
+			nm=${|checkedhash md5sum "$nn";} || exit 1
+			nsha1=${|checkedhash sha1sum "$nn";} || exit 1
+			nsha2=${|checkedhash sha256sum "$nn";} || exit 1
+			ns=${|checkedhash size "$nn";} || exit 1
 			cache_md5[hv]=$nm
 			cache_size[hv]=$ns
 			cache_fn[hv]=$nn
@@ -323,7 +331,9 @@ for suite in dists/*; do
 			cat >&5 "${n}.hashcache.sha2"
 			rm -f "${n}.hashcache."*
 		fi
-	done) >$suite/Release-tmp
+	done
+	:>"$xdone") >$suite/Release-tmp
+	[[ -e $xdone ]] || die Release generation died
 	cat $suite/Release-sha1 $suite/Release-sha2 >>$suite/Release-tmp
 
 	# note: InRelease files can only be safely used by jessie and up.
