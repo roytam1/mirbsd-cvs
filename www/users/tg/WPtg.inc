@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.137 2014/12/07 17:01:51 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.138 2014/12/13 00:09:28 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -11796,6 +11796,24 @@ Date: 07.12.2014
 Waypoint: m/ajlis/233
 Title: Königstraße, Bonn
 Points: 5
+----
+ID: 2000
+Date: 17.12.2014
+Waypoint: GC105R7
+Title: Südseeinsel
+Tag: D15 T1 Micro Tradi
+----
+ID: p20141221
+Date: 21.12.2014
+Waypoint: GC5GKC2
+Title: Thomasnacht
+Tag: D1 T15 Event
+----
+ID: p20150103
+Date: 03.01.2015
+Waypoint: GC5GF2J
+Title: 37. Ahrweiler Geocacher Treffen
+Tag: D1 T1 Event
 ----
 ID: p20150104
 Date: 04.01.2015
