@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.37 2014/12/20 22:12:16 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.38 2014/12/20 22:32:59 tg Exp $
 
 wd=$(realpath "$0/..")
 version=$(date +%Y%m%d)
@@ -38,6 +38,6 @@ topd=$(dirname $top)
 topf=$(basename $top)
 cd $topd
 find $topf -type f | xargs chmod 644
-find $topf -type f ! -path \*CVS\* | sort | cpio -oHdist \
-    | gzip -n9 >mirmake-$version.cpio.gz
+find $topf -type f ! -path \*CVS\* | sort | cpio -oC512 -Hustar -Mdist | \
+    gzip -n9 >mirmake_$version.orig.tar.gz
 [ -n "$DEBUG" ] || rm -rf $wd/../src $wd/Version.sh $wd/../contrib/gnu
