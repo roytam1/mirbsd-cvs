@@ -1,4 +1,3 @@
-/**	$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.11 2008/04/06 22:59:39 tg Exp $ */
 /*	$OpenBSD: xinstall.c,v 1.42 2004/10/04 05:21:27 jsg Exp $	*/
 /*	$NetBSD: xinstall.c,v 1.9 1995/12/20 10:25:17 jonathan Exp $	*/
 
@@ -58,7 +57,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1987, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)xinstall.c	8.1 (Berkeley) 7/21/93");
-__RCSID("$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.11 2008/04/06 22:59:39 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/xinstall/xinstall.c,v 1.12 2008/04/06 23:33:25 tg Exp $");
 
 #define	DIRECTORY	0x01		/* Tell install it's a directory. */
 #define	SETFLAGS	0x02		/* Tell install to set flags. */
@@ -129,13 +128,16 @@ main(int argc, char *argv[])
 	struct stat from_sb, to_sb;
 	void *set;
 #ifdef __APPLE__
-	u_long fset;
+	u_long fset = 0;
 #else
-	u_int32_t fset;
+	u_int32_t fset = 0;
 #endif
 	u_int iflags;
 	int ch, no_target;
-	char *flags, *to_name, *group = NULL, *owner = NULL;
+#if defined(BSD) || defined(__APPLE__)
+	char *flags;
+#endif
+	char *to_name, *group = NULL, *owner = NULL;
 
 	iflags = 0;
 	while ((ch = getopt(argc, argv, "BbCcdf:g:m:o:pSs")) != -1)
@@ -251,11 +253,12 @@ main(int argc, char *argv[])
  *	build a path name and install the file
  */
 void
-install(char *from_name, char *to_name, u_long fset, u_int flags)
+install(char *from_name, char *to_name,
+    u_long fset __attribute__((__unused__)), u_int flags)
 {
 	struct stat from_sb, to_sb;
 	struct utimbuf utb;
-	int devnull, from_fd, to_fd, serrno, files_match = 0;
+	int devnull, from_fd = -1, to_fd, serrno, files_match = 0;
 	char *p;
 
 	(void)memset((void *)&from_sb, 0, sizeof(from_sb));
@@ -489,7 +492,7 @@ copy(int from_fd, char *from_name, int to_fd, char *to_name, off_t size,
 		if (size)
 			madvise(p, size, MADV_SEQUENTIAL);
 		siz = (size_t)size;
-		if ((nw = write(to_fd, p, siz)) != siz) {
+		if ((size_t)(nw = write(to_fd, p, siz)) != siz) {
 			serrno = errno;
 			(void)unlink(to_name);
 			errx(EX_OSERR, "%s: %s",
@@ -686,7 +689,7 @@ create_tempfile(char *path, char *temp, size_t tsize)
  *	create a new file, overwriting an existing one if necessary
  */
 int
-create_newfile(char *path, struct stat *sbp)
+create_newfile(char *path, struct stat *sbp __attribute__((__unused__)))
 {
 	char backup[MAXPATHLEN];
 
@@ -822,7 +825,7 @@ file_write(int fd, char *str, size_t cnt, int *rem, int *isempt, int sz)
 		/*
 		 * have non-zero data in this file system block, have to write
 		 */
-		if (write(fd, st, wcnt) != wcnt) {
+		if ((size_t)write(fd, st, wcnt) != wcnt) {
 			warn("write");
 			return(-1);
 		}
