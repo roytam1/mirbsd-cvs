@@ -1,4 +1,0 @@
-@comment $MirOS: ports/archivers/mpczar/pkg/PLIST,v 1.1 2005/11/17 20:11:23 tg Exp $
-bin/mpczar
-libexec/mpczar.z
-man/cat1/mpczar.0
