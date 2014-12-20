@@ -37,14 +37,13 @@ CPPFLAGS+=		${EXTRA_CPPFLAGS}
 LDFLAGS+=		${EXTRA_LDFLAGS}
 endif
 
-build-arch: debian/arngc-slrd
-build-indep:
-build: build-arch build-indep
-
 clean:
 	dh_testdir
 	-rm -f debian/arngc-slrd*
 	dh_clean
+
+build-arch: debian/arngc-slrd
+build-indep:
 
 debian/arngc-slrd: arngc-slrd.c
 	dh_testdir
@@ -78,5 +77,6 @@ binary-arch:
 
 binary-indep:
 
+build: build-arch build-indep
 binary: binary-indep binary-arch
 .PHONY: binary binary-arch binary-indep build build-arch build-indep clean
