@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.35 2014/11/16 12:16:25 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Copy.sh,v 1.36 2014/12/20 21:44:19 tg Exp $
 
 wd=$(realpath "$0/..")
 version=$(date +%Y%m%d)
@@ -32,7 +32,6 @@ cvs -Rqd ${CVSROOT:-/cvs} co -PA \
     src/share/mk/bsd.prog.mk src/share/mk/bsd.subdir.mk \
     src/share/mk/bsd.sys.mk src/share/mk/sys.mk
 mv src/kern/include/md5.h src/include/
-rm -r src/kern
 cvs -Rqd ${CVSROOT:-/cvs} co -r1.15 src/bin/mksh/setmode.c
 top=$(dirname $(pwd))
 topd=$(dirname $top)
