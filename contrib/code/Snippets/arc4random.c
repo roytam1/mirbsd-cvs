@@ -1,5 +1,5 @@
 static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
-    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.28 2010/09/12 12:24:27 tg Exp $"
+    "\n	@(#)rcsid_master: $MirOS: contrib/code/Snippets/arc4random.c,v 1.29 2012/10/19 18:59:38 tg Exp $"
     ;
 
 /*-
@@ -32,7 +32,7 @@ static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
  */
 
 /*-
- * Copyright (c) 2008, 2009, 2010, 2012
+ * Copyright (c) 2008, 2009, 2010, 2012, 2014
  *	Thorsten Glaser <tg@mirbsd.org>
  * This is arc4random(3) made more portable,
  * as well as arc4random_pushb(3) for Cygwin.
@@ -56,6 +56,10 @@ static const char __vcsid[] = "@(#) MirOS contributed arc4random.c (old)"
 #include <sys/param.h>
 #include <sys/types.h>
 #include <sys/time.h>
+#if defined(__linux__) && defined(__x86_64__) && defined(__ILP32__)
+/* no sysctl on Linux/x32 */
+#undef HAVE_SYS_SYSCTL_H
+#endif
 #if defined(HAVE_SYS_SYSCTL_H) && HAVE_SYS_SYSCTL_H
 #include <sys/sysctl.h>
 #endif
