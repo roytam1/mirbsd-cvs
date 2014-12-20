@@ -20,12 +20,13 @@
  * fgetln() wrapper for operating systems with getline() – glibc
  */
 
+#undef _GNU_SOURCE
 #define _GNU_SOURCE		/* for getline() */
 #include <sys/types.h>
 #include <stdio.h>
 #include <string.h>
 
-__RCSID("$MirOS: contrib/code/mirmake/dist/contrib/fgetln.c,v 1.5 2009/05/20 10:40:28 tg Exp $");
+__RCSID("$MirOS: contrib/code/mirmake/dist/contrib/fgetln.c,v 1.6 2009/11/21 14:50:27 tg Exp $");
 
 #if defined(__GLIBC__)
 
