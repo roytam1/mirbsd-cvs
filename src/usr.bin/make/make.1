@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.bin/make/make.1,v 1.15 2009/11/22 15:55:25 tg Exp $
+.\"	$MirOS: src/usr.bin/make/make.1,v 1.16 2009/11/22 18:23:46 tg Exp $
 .\"	$OpenBSD: make.1,v 1.68 2007/05/31 19:20:13 jmc Exp $
 .\"	$OpenPackages$
 .\"	$NetBSD: make.1,v 1.18 1997/03/10 21:19:53 christos Exp $
@@ -327,7 +327,9 @@ Multiple directories can be added to form a search path.
 This path will override the default system include path:
 .Pa /usr/share/mk .
 Furthermore, the system include path will be appended to the search path used
-for "..."-style inclusions (see the
+for
+.Do ...\& Dc Ns -style
+inclusions (see the
 .Fl I
 option).
 .It Fl P
