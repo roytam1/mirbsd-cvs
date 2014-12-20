@@ -2,6 +2,7 @@ You might want to do this to prevent rngd from being started
 by its initscript:
 
 	sudo /usr/sbin/update-rc.d -f rng-tools remove
+	sudo /usr/sbin/update-rc.d -f rng-tools-debian remove
 
 This might also help: avoid running stunnel as daemon
 
@@ -9,7 +10,9 @@ This might also help: avoid running stunnel as daemon
 	sudo /usr/sbin/update-rc.d -f stunnel4 remove
 
 TODO: Add support for IP (matching IPs, especially with :: in
-them, is hard, and then stunnel must work with them as well).
+them, is hard, and then stunnel must work with them as well),
+and possibly hostnames. Allow the user to override flags such
+as the bits-of-entropy-per-byte for the remote.
 
 ___________________________________________________________________________________________
-$MirOS: contrib/hosted/tg/deb/arngc/debian/README.Debian,v 1.3 2012/05/09 10:27:59 tg Exp $
+$MirOS: contrib/hosted/tg/deb/arngc/debian/README.Debian,v 1.4 2013/02/22 11:48:23 tg Exp $

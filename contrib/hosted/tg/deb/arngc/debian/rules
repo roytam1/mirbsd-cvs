@@ -18,7 +18,7 @@ CC=			gcc
 endif
 endif
 
-EXTRA_CFLAGS=		-Wall -Wextra -Wformat
+EXTRA_CFLAGS=		-Wall -W -Wformat
 EXTRA_CPPFLAGS=
 EXTRA_LDFLAGS=		-Wl,--as-needed
 

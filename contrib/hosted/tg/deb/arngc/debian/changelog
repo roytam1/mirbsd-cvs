@@ -1,3 +1,19 @@
+arngc (20141220) wtf; urgency=medium
+
+  * Modernise debian/rules file
+  * Update README.Debian accordingly
+  * Allow stunnel4 to fulfil the stunnel Depends
+  * Policy 3.9.6 (no changes)
+  * Build on sarge
+
+ -- Thorsten Glaser <tg@mirbsd.de>  Sat, 20 Dec 2014 16:05:33 +0000
+
+arngc (20141219) wtf; urgency=medium
+
+  * Permit rng-tools-debian alternative, on *buntu saucy and up
+
+ -- Thorsten Glaser <t.glaser@tarent.de>  Fri, 19 Dec 2014 20:11:35 +0100
+
 arngc (20140708) wtf; urgency=low
 
   * make “arngc stop” kill arngc-slrd as well

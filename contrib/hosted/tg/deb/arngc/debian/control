@@ -1,27 +1,24 @@
-# $MirOS: contrib/hosted/tg/deb/arngc/debian/control,v 1.5 2014/04/01 19:24:48 tg Exp $
-#-
 Source: arngc
 Origin: WTF
 Bugs: mailto:wtf@mirbsd.org
 Section: admin
-Priority: extra
+Priority: optional
 Maintainer: Thorsten Glaser <tg@mirbsd.de>
-Build-Depends: debhelper (>= 5), ed
-Standards-Version: 3.9.5
-# First word is the $CVSROOT (-d arg) string, second word the module.
+Build-Depends: debhelper (>= 4), ed
+Standards-Version: 3.9.6
 Vcs-CVS: :ext:_anoncvs@anoncvs.mirbsd.org:/cvs contrib/hosted/tg/deb/arngc
 Vcs-Browser: http://cvs.mirbsd.de/contrib/hosted/tg/deb/arngc/
 
 Package: arngc
 Architecture: any
-Depends: ${misc:Depends}, ${shlibs:Depends},
- mksh (>= 35~), procps, rng-tools (>= 2-unofficial-mt.10),
- rng-tools (<< 3), stunnel
+Depends: ${misc:Depends}, ${shlibs:Depends}, mksh (>= 35~), procps,
+ rng-tools (>= 2-unofficial-mt.10) | rng-tools-debian (>= 2-unofficial-mt.10),
+ rng-tools (<< 3) | rng-tools-debian (<< 3), stunnel | stunnel4
 Suggests: sudo
 Conflicts: stunnel4 (<= 3:4.29-1~~)
-Enhances: rng-tools
+Enhances: rng-tools, rng-tools-debian
 Description: arc4random-pool transfer over the network
  This package contains a client for transferring entropy over
  the network and an example of how to configure the server side
- on a machine running MirBSD. A second example shows transfer
- between two MirBSD machines (in a secure manner).
+ on a machine running MirBSD-current. A second example shows
+ transfer between two MirBSD machines (in a secure manner).
