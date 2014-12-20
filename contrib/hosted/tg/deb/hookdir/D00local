@@ -1,8 +1,8 @@
 #!/bin/bash
-# $MirOS: contrib/hosted/tg/deb/hookdir/D00local,v 1.2 2014/10/07 08:39:06 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/hookdir/D00local,v 1.3 2014/12/12 21:50:19 tg Exp $
 #-
 # Copyright © 2014
-#	Thorsten Glaser <tg@mirbsd.org>
+#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -18,22 +18,34 @@
 # of dealing in the work, even if advised of the possibility of such
 # damage or existence of a defect, except proven that it results out
 # of said person’s immediate fault when using the work as intended.
+#-
+# Configure $base and $this at the beginning of the file. Do ensure:
+# • base must be URI safe since we do not encode it for sources.list
+# • this must be a valid basename for sources.list.d: [A-Za-z0-9._-]
+
+base=/var/cache/apt
+this=D00local
+
 
 unset LANGUAGE
 LC_ALL=C; export LC_ALL
 
-echo >&2 "I: creating Packages file for local APT cache"
-rm -f /var/cache/Packages
-(cd /var/cache
-dpkg-scanpackages -h md5 -m apt/archives >Packages 2>/dev/null || \
-    dpkg-scanpackages -m apt/archives >Packages)
-paste -d_ <(sed -n '/^Package: /s///p' /var/cache/Packages) \
-    <(sed -n '/^Version: /s///p' /var/cache/Packages) \
-    <(sed -n '/^Architecture: /s///p' /var/cache/Packages) | \
+shopt -s extglob
+base=${base%%*(/)}
+pstr=${base//\//_}_._Packages
+
+echo >&2 "I: creating Packages file for local APT cache in $base"
+rm -f "$base/Packages"
+(cd "$base"
+dpkg-scanpackages -h md5 -m . >Packages 2>/dev/null || \
+    dpkg-scanpackages -m . >Packages)
+paste -d_ <(sed -n '/^Package: /s///p' "$base/Packages") \
+    <(sed -n '/^Version: /s///p' "$base/Packages") \
+    <(sed -n '/^Architecture: /s///p' "$base/Packages") | \
     sed 's/^/N: /' >&2
 echo >&2 "I: updating APT repository information"
-cp /var/cache/Packages /var/lib/apt/lists/_var_cache_._Packages
-echo 'deb [trusted=yes] file:///var/cache ./' >/etc/apt/sources.list.d/D00local.list
+cp "$base/Packages" "/var/lib/apt/lists/$pstr"
+echo "deb [trusted=yes] file://$base ./" >"/etc/apt/sources.list.d/$this.list"
 apt-cache gencaches
-echo >&2 I: made $(grep -c '^Package: ' /var/cache/Packages) packages available
+echo >&2 "I: made $(grep -c '^Package: ' "$base/Packages") packages available from $base"
 exit 0
