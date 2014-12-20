@@ -1,13 +1,31 @@
 #!/usr/bin/make -f
-# $MirOS: contrib/hosted/tg/deb/arngc/debian/rules,v 1.4 2013/10/24 09:32:37 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/arngc/debian/rules,v 1.5 2014/07/04 21:40:39 tg Exp $
 
-CC?=			gcc
+shellescape='$(subst ','\'',$(1))'
+shellexport=$(1)=$(call shellescape,${$(1)})
+
+DEB_BUILD_ARCH=$(shell dpkg-architecture -qDEB_BUILD_ARCH)
+DEB_HOST_ARCH=$(shell dpkg-architecture -qDEB_HOST_ARCH)
+DEB_HOST_GNU_TYPE=$(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
+
+# is ${CC} defined anywhere (other than implicit rules?)
+ifneq (,$(findstring $(origin CC),default undefined))
+# no - then default to gcc (or cross-gcc)
+ifneq (${DEB_BUILD_ARCH},${DEB_HOST_ARCH})
+CC=			${DEB_HOST_GNU_TYPE}-gcc
+else
+CC=			gcc
+endif
+endif
+
 EXTRA_CFLAGS=		-Wall -Wextra -Wformat
+EXTRA_CPPFLAGS=
 EXTRA_LDFLAGS=		-Wl,--as-needed
 
 ifneq (,$(wildcard /usr/share/dpkg/buildflags.mk))
 # dpkg-dev (>= 1.16.1~)
 DEB_CFLAGS_MAINT_APPEND=${EXTRA_CFLAGS}
+DEB_CPPFLAGS_MAINT_APPEND=${EXTRA_CPPFLAGS}
 DEB_LDFLAGS_MAINT_APPEND=${EXTRA_LDFLAGS}
 DEB_BUILD_MAINT_OPTIONS=hardening=+all
 include /usr/share/dpkg/buildflags.mk
@@ -15,6 +33,7 @@ else
 # old-fashioned way to determine build flags
 CFLAGS=			-O$(if $(findstring noopt,${DEB_BUILD_OPTIONS}),0,2) -g
 CFLAGS+=		${EXTRA_CFLAGS}
+CPPFLAGS+=		${EXTRA_CPPFLAGS}
 LDFLAGS+=		${EXTRA_LDFLAGS}
 endif
 
