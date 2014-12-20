@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.61 2014/05/23 09:44:30 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.68 2014/12/15 13:11:39 tg Exp $'
 #-
 # Copyright © 2008, 2009, 2010, 2011, 2012, 2013, 2014
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -19,14 +19,19 @@ rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.61 2014/05/23 09:44:30 tg E
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-set -A normarchs -- i386
-repo_keyid=0xAA917C6F
+unset normarchs repo_keyid gpg_remote repo_origin repo_label repo_title
+unset -f repo_intro repo_description
+me=$(dirname "$0"); [[ -s $me/mkdebidx.inc ]] && . "$me/mkdebidx.inc"
+unset me
+
+[[ -n ${normarchs+x} ]] || set -A normarchs -- i386
 # either '' (locally) or 'remsign user@host.domain.com' (remote ssh)
-gpg_remote=
-repo_origin='The MirOS Project'
-repo_label=wtf
-repo_title='MirDebian “WTF” Repository'
-function repo_intro {
+[[ -n ${repo_keyid+x} ]] || repo_keyid=0xAA917C6F
+[[ -n ${gpg_remote+x} ]] || gpg_remote=
+[[ -n ${repo_origin+x} ]] || repo_origin='The MirOS Project'
+[[ -n ${repo_label+x} ]] || repo_label=wtf
+[[ -n ${repo_title+x} ]] || repo_title='MirDebian “WTF” Repository'
+typeset -f repo_intro >/dev/null || function repo_intro {
 	cat <<-'EOF'
 	<p>This APT repository contains packages by mirabilos (<i>wtf</i>)
 	 for use with the Debian operating system and its derivates. It is
@@ -37,16 +42,20 @@ function repo_intro {
 	 and “MirBSD” are unregistered trademarks owned by mirabilos.</p>
 EOF
 }
-function repo_description {
+typeset -f repo_description >/dev/null || function repo_description {
 	typeset suite_nick=$1
 
 	print -nr -- "WTF ${suite_nick} Repository"
 }
-
-
 set -A dpkgarchs -- alpha amd64 arm arm64 armel armhf hppa hurd-i386 i386 \
     ia64 kfreebsd-amd64 kfreebsd-i386 m68k mips mipsel powerpc powerpcspe \
     ppc64 ppc64el s390 s390x sh4 sparc sparc64 x32
+[[ -n "${normarchs[*]}" ]] || set -A normarchs -- "${dpkgarchs[@]}"
+
+set +U
+export LC_ALL=C
+unset LANGUAGE
+typeset -Z11 -Uui16 hv
 
 function remsign {
 	target=$1; shift
@@ -116,17 +125,12 @@ function xhtml_escape {
 	    -e 's"\&#34;g'
 }
 
-set +U
-export LC_ALL=C
-unset LANGUAGE
-saveIFS=$IFS
 cd "$(dirname "$0")"
 rm -f dpkg_578162_workaround
-typeset -Z11 -Uui16 hv
 
 IFS=:; set -o noglob
 dpkgarchl=:all:"${dpkgarchs[*]}":
-IFS=$saveIFS; set +o noglob
+IFS=$' \t\n'; set +o noglob
 
 suites=:
 for suite in "$@"; do
@@ -157,7 +161,7 @@ for suite in dists/*; do
 		set -A distarchs -- $(sortlist -u all ${archs:-$suitearchs})
 		IFS=:; set -o noglob
 		distarchl=:"${distarchs[*]}":
-		IFS=$saveIFS; set +o noglob
+		IFS=$' \t\n'; set +o noglob
 		nmds=0
 		for arch in $(sortlist -u ${distarchs[*]} ${dpkgarchs[*]}) /; do
 			# put "all" last
@@ -219,7 +223,7 @@ for suite in dists/*; do
 		print SHA1: >Index
 		IFS=/; set -o noglob
 		set -A tflist -- ${tfiles#/}
-		IFS=$saveIFS; set +o noglob
+		IFS=$' \t\n'; set +o noglob
 		for ent in "${tflist[@]}"; do
 			ent=Translation-$ent
 			if [[ $ent -nt $ent.bz2 ]]; then
@@ -554,7 +558,7 @@ EOF
 print -r -- " <title>${repo_title} Index</title>"
 [[ -s NEWS.rss ]] && print '<link rel="alternate" type="application/rss+xml" title="RSS" href="NEWS.rss" />'
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.61 2014/05/23 09:44:30 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.68 2014/12/15 13:11:39 tg Exp $" />
  <style type="text/css"><!--/*--><![CDATA[/*><!--*/
   table {
    border: 1px solid black;
@@ -670,7 +674,7 @@ while read -p num rest; do
 		IFS=,; set -o noglob
 		set -A pva -- $pvo
 		set -A ppa -- $ppo
-		IFS=$saveIFS; set +o noglob
+		IFS=$' \t\n'; set +o noglob
 		(( ${#pva[*]} )) || pva[0]=
 		y=
 		i=0
