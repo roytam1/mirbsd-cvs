@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/make/var.c,v 1.4 2006/09/21 03:46:53 tg Exp $ */
+/**	$MirOS: src/usr.bin/make/var.c,v 1.5 2007/06/21 14:17:08 tg Exp $ */
 /*	$OpenPackages$ */
 /*	$OpenBSD: var.c,v 1.61 2007/01/02 13:21:31 espie Exp $	*/
 /*	$NetBSD: var.c,v 1.18 1997/03/18 19:24:46 christos Exp $	*/
@@ -85,7 +85,7 @@
 #include "symtable.h"
 #include "gnode.h"
 
-__RCSID("$MirOS: src/usr.bin/make/var.c,v 1.4 2006/09/21 03:46:53 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/make/var.c,v 1.5 2007/06/21 14:17:08 tg Exp $");
 
 /* extended indices for System V stuff */
 #define FTARGET_INDEX	7
@@ -757,14 +757,12 @@ size_t
 Var_ParseSkip(const char *str, SymTable *ctxt, bool *result)
 {
     const char	*tstr;		/* Pointer into str */
-    Var 	*v;		/* Variable in invocation */
     char	endc;		/* Ending character when variable in parens
 				 * or braces */
     const char	*start;
     size_t	length;
     struct Name name;
 
-    v = NULL;
     start = str;
     str++;
 
