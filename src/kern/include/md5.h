@@ -1,9 +1,11 @@
-/* $MirOS: src/kern/include/md5.h,v 1.2 2013/10/31 20:06:13 tg Exp $ */
+/* $MirOS: src/kern/include/md5.h,v 1.3 2014/03/05 13:59:00 tg Exp $ */
 
 #ifndef SYSKERN_MD5_H
 #define SYSKERN_MD5_H
 
+#ifdef __MirBSD__
 #include <machine/types.h>
+#endif
 
 #define MD5_BLOCK_LENGTH		64
 #define MD5_DIGEST_LENGTH		16
