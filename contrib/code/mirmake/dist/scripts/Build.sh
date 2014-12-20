@@ -1,4 +1,4 @@
-# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.137 2011/01/24 21:26:19 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Build.sh,v 1.138 2013/10/31 20:05:45 tg Exp $
 #-
 # Copyright (c) 2006, 2008, 2011, 2013
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -510,7 +510,8 @@ sed -e 's/hashinc/tiger.h/g' -e 's/HASH/TIGER/g' \
     $d_src/lib/libc/hash/helper.c >tigerhl.c
 sed -e 's/hashinc/whirlpool.h/g' -e 's/HASH/WHIRLPOOL/g' \
     $d_src/lib/libc/hash/helper.c >whirlpoolhl.c
-cp  $d_src/lib/libc/hash/{adh32,md4,md5,rmd160,sfv,sha1,sha2,suma,tiger,whirlpool,hashpad,digits}.c \
+cp  $d_src/lib/libc/hash/{adh32,md4,md5,rmd160,sfv,sha1,sha2,suma,tiger,whirlpool}.c \
+    $d_src/kern/c/miscdata.c \
     $d_src/lib/libc/hash/suma-i386.S \
     $d_src/lib/libc/stdlib/{getopt_long,strtoll}.c \
     $d_src/lib/libc/stdio/{{,v}asprintf,mktemp}.c .

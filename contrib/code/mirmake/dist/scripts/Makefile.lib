@@ -1,12 +1,20 @@
-# $MirOS: contrib/code/mirmake/dist/scripts/Makefile.lib,v 1.22 2009/11/09 21:36:37 tg Exp $
+# $MirOS: contrib/code/mirmake/dist/scripts/Makefile.lib,v 1.23 2010/01/10 13:13:20 tg Exp $
 
 LIB=		mirmake
 SRCS+=		adh32.c md4.c md5.c rmd160.c sfv.c \
-		sha1.c sha2.c tiger.c whirlpool.c hashpad.c \
+		sha1.c sha2.c tiger.c whirlpool.c \
 		adler32hl.c md4hl.c md5hl.c rmd160hl.c sfvhl.c \
 		sha1hl.c sha256hl.c sha384hl.c sha512hl.c \
-		sumahl.c tigerhl.c whirlpoolhl.c digits.c \
+		sumahl.c tigerhl.c whirlpoolhl.c \
 		getopt_long.c
+
+UIF_KUSRCS+=	mbsd_digits_dec.c miscdata.c -DL_mbsd_digits_dec
+UIF_KUSRCS+=	mbsd_digits_hex.c miscdata.c -DL_mbsd_digits_hex
+UIF_KUSRCS+=	mbsd_digits_HEX.c miscdata.c -DL_mbsd_digits_HEX
+UIF_KUSRCS+=	mbsd_digits_base64.c miscdata.c -DL_mbsd_digits_base64
+UIF_KUSRCS+=	RFC1321_padding.c miscdata.c -DL_RFC1321_padding
+UIF_KUSRCS+=	mbsd_digits_md5crypt.c miscdata.c -DL_mbsd_digits_md5crypt
+UIF_KUSRCS+=	mbsd_digits_bcrypt.c miscdata.c -DL_mbsd_digits_bcrypt
 
 NOPIC=		yes
 CPPFLAGS+=	-D_LIBMIRMAKE
@@ -22,5 +30,15 @@ SRCS+=		suma.c
 .if ${OStype} == "Interix"
 SRCS+=		asprintf.c mktemp.c strtoll.c vasprintf.c
 .endif
+
+.for _z _q _s in ${UIF_KUSRCS}
+SRCS+=		${_z}
+CLEANFILES+=	${_z}
+
+${_z}: ${_q}
+	-unifdef ${_s:S/,/ /g} $> >$@
+
+beforedepend: ${_z}
+.endfor
 
 .include <bsd.lib.mk>
