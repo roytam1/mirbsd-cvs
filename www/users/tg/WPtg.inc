@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.138 2014/12/13 00:09:28 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.140 2014/12/21 22:38:01 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -11815,6 +11815,12 @@ Date: 21.12.2014
 Waypoint: GC5H6DV
 Title: Der Kleine Weg
 Tag: D15 T1 Nano Tradi
+----
+ID: 2003
+Date: 22.12.2014
+Waypoint: GC58DP3
+Title: Startposition
+Tag: D25 T1 Micro Mystery
 ----
 ID: p20150103
 Date: 03.01.2015
