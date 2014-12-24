@@ -1,7 +1,7 @@
-.\" $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+.\" $MirOS: src/usr.bin/brainfuck/brainfuck.1,v 1.5 2010/07/01 20:10:38 tg Exp $
 .\"-
-.\" Copyright (c) 2003, 2004, 2010
-.\"	Thorsten Glaser <tg@mirbsd.org>
+.\" Copyright (c) 2003, 2004, 2010, 2014
+.\"	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 .\"
 .\" Provided that these terms and disclaimer and all copyright notices
 .\" are retained or reproduced in an accompanying document, permission
@@ -72,7 +72,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: March 15 2010 $
+.Dd $Mdocdate: July 1 2010 $
 .\"
 .\" Check which macro package we use, and do other -mdoc setup.
 .\"
@@ -198,7 +198,7 @@ the array size limit and the executable size limit).
 This implementation reads and writes to stdio in bytes.
 Its cells are of the size of a standard Perl integral type,
 signed and with wrap-around behaviour.
-It uses LF as end of line and NUL as end of input indicator.
+It uses LF as end of line and \-1 as end of input indicator.
 .Sh SEE ALSO
 .Xr perl 1
 .Sh HISTORY
