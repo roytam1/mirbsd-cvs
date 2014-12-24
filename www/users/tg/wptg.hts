@@ -4,7 +4,7 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.26 2014/12/03 02:06:36 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.28 2014/12/22 21:29:29 tg Exp $'
 mws_maketoc
 
 function statpic {
@@ -244,8 +244,8 @@ mws_content <<'EOF'
 
 <h3 id="Software" class="cb">Software</h3>
 
-<p><span style="border:1px solid black; padding:6px;"><a
- href="#begform">Waypoint Lookup © by mirabilos</a></span></p>
+<p style="border:1px solid black; padding:6px;"><a
+ href="#begform">Waypoint Lookup © by mirabilos</a></p>
 
 <p style="border:1px solid black; padding:6px;"><a
  href="http://fish.mirbsd.org/mirkarte/">MirKarte</a> by mirabilos (<a
@@ -271,17 +271,17 @@ mws_content <<'EOF'
 </tr>
 </table>
 
-<p><span style="border:1px solid black; padding:6px;"><a
+<p style="border:1px solid black; padding:6px;"><a
  href="http://eastlands.dyndns.org/GeoScout/default.aspx">GeoScout</a>
  by <a href="http://www.navstation.co.uk/">Rightfile Ltd.</a>
  (currently defunct, domains no longer exist ☹ which also breaks OAuth)
  (which means I <em>just</em> paid 20 £ for nothing!)
-</span></p>
+</p>
 
-<p><span style="border:1px solid black; padding:6px;"><a
+<p style="border:1px solid black; padding:6px;"><a
  href="http://sourceforge.net/projects/cachebox/">Cachebox
  (for Windows® Mobile, Community Edition)</a>,
- no longer maintained, mostly ☹</span></p>
+ no longer maintained, mostly ☹</p>
 
 <h3 id="other_stats">Other Stats</h3>
 

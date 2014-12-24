@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.140 2014/12/21 22:38:01 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.141 2014/12/22 20:46:38 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -11822,6 +11822,12 @@ Waypoint: GC58DP3
 Title: Startposition
 Tag: D25 T1 Micro Mystery
 ----
+ID: 2004
+Date: 24.12.2014
+Waypoint: GC4WHMH
+Title: Der Cache im Park !!!
+Tag: D2 T15 Micro Tradi
+----
 ID: p20150103
 Date: 03.01.2015
 Waypoint: GC5GF2J
@@ -11834,6 +11840,13 @@ Waypoint: GC5HNZQ
 Title: Warten auf die Eiszeit ⅯⅯⅩⅤ
 nTF: 0
 Tag: D2 T15 Event
+----
+ID: p20150106
+Date: 06.01.2015
+Waypoint: GC5J5ZX
+Title: AMT Ⅱ (2015 KW2)
+nTF: 0
+Tag: D1 T1 Event
 ----
 ID: p20150124
 Date: 24.01.2015
