@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.141 2014/12/22 20:46:38 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.142 2014/12/24 23:35:27 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -11827,6 +11827,49 @@ Date: 24.12.2014
 Waypoint: GC4WHMH
 Title: Der Cache im Park !!!
 Tag: D2 T15 Micro Tradi
+----
+ID: 2005
+Date: 31.12.2014
+Waypoint: GC5GZAV
+Title: 1. Drachenfelser Adventskalender #1
+Tag: D15 T15 Micro Tradi
+----
+ID: 2006
+Date: 31.12.2014
+Waypoint: GC5H0NQ
+Title: 1. Drachenfelser Adventskalender #22
+Tag: D2 T2 Micro Tradi
+----
+ID: 2007
+Date: 31.12.2014
+Waypoint: GC5H0MM
+Title: 1. Drachenfelser Adventskalender #12
+Tag: D35 T2 Micro Mystery
+----
+ID: 2008
+Date: 31.12.2014
+Waypoint: GC5HFW1
+Title: Geisterjagd auf der Landskrone
+nTF: 1
+Tag: D2 T3 Event
+----
+ID: 2009
+Date: 01.01.2015
+Waypoint: GC4FYP0
+Title: Der Basalt der Landskrone
+Tag: D15 T3 Earth
+----
+ID: 2010
+Date: 01.01.2015
+Waypoint: GC59RP8
+Title: Geburtstagscache- Am Graurheindorfer Friedhof
+Tag: D15 T15 Small Tradi
+----
+ID: 2011
+Date: 01.01.2015
+Waypoint: GC2A4Y7
+Title: HHEK BN
+Tag: D1 T15 Micro Tradi
 ----
 ID: p20150103
 Date: 03.01.2015
