@@ -27,7 +27,7 @@
 # http://svnweb.freebsd.org/base/head/bin/test/tests/legacy_test.sh?view=co&content-type=text%2Fplain
 
 expected-stdout:
-	@(#)MIRBSD KSH R50 2014/12/15
+	@(#)MIRBSD KSH R50 2015/01/02
 description:
 	Check version of shell.
 stdin:
@@ -36,7 +36,7 @@ name: KSH_VERSION
 category: shell:legacy-no
 ---
 expected-stdout:
-	@(#)LEGACY KSH R50 2014/12/15
+	@(#)LEGACY KSH R50 2015/01/02
 description:
 	Check version of legacy shell.
 stdin:

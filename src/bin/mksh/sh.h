@@ -10,7 +10,7 @@
 
 /*-
  * Copyright © 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
- *	       2011, 2012, 2013, 2014
+ *	       2011, 2012, 2013, 2014, 2015
  *	Thorsten Glaser <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -171,7 +171,7 @@
 #ifdef EXTERN
 __RCSID("$MirOS: src/bin/mksh/sh.h,v 1.704 2014/11/19 21:49:12 tg Exp $");
 #endif
-#define MKSH_VERSION "R50 2014/12/15"
+#define MKSH_VERSION "R50 2015/01/02"
 
 /* arithmetic types: C implementation */
 #if !HAVE_CAN_INTTYPES
