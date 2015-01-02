@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/tools/Makefile,v 1.45 2013/01/01 17:31:05 tg Exp $
+# $MirOS: src/distrib/tools/Makefile,v 1.46 2014/01/04 20:24:59 tg Exp $
 
 all: sundsklbl
 
@@ -39,7 +39,7 @@ CDROM_OPTS+=	no-emul-boot
 CDROM_OPTS+=	label=MirOS~v${OSrev}~BSD~manifold-boot~CD
 CDROM_OPTS+=	no-trailing-padding
 CDROM_OPTS+=	preparer=MirBSD_and_its_contributors
-CDROM_OPTS+=	publisher=Copyright_\<c\>_2002=2014_The_MirOS_Project
+CDROM_OPTS+=	publisher=Copyright_\<c\>_2002=2015_The_MirOS_Project
 CDROM_OPTS+=	rockridge
 CDROM_OPTS+=	rr-squash
 CDROM_OPTS+=	volumeid=$$(uname -sl | tr -- '- \#' :_):i386\;sparc:Setup
