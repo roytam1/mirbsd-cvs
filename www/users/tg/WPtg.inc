@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.142 2014/12/24 23:35:27 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.143 2015/01/01 22:36:39 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -11870,6 +11870,13 @@ Date: 01.01.2015
 Waypoint: GC2A4Y7
 Title: HHEK BN
 Tag: D1 T15 Micro Tradi
+----
+ID: 2012
+Date: 02.01.2015
+Waypoint: OC10840
+Title: Am Alten Zoll
+nTF: 4
+Tag: D1 T1 Webcam
 ----
 ID: p20150103
 Date: 03.01.2015
