@@ -11878,18 +11878,72 @@ Title: Am Alten Zoll
 nTF: 4
 Tag: D1 T1 Webcam
 ----
-ID: p20150103
+ID: 2013
+Date: 03.01.2015
+Waypoint: VX78-BYAT
+Title: [Denmark], Bad Breisig-Margaretenhof
+Distance: 78
+----
+ID: 2014
+Date: 03.01.2015
+Waypoint: OC11396
+Title: Am Rheintor
+Tag: D15 T15 Micro Tradi
+----
+ID: 2015
 Date: 03.01.2015
 Waypoint: GC5GF2J
 Title: 37. Ahrweiler Geocacher Treffen
 Tag: D1 T1 Event
 ----
-ID: p20150104
+ID: 2016
+Date: 03.01.2015
+Waypoint: GC2W5NF
+Title: Grüße aus Ahrweiler
+Tag: D3 T15 Small Mystery recommended
+----
+ID: 2017
+Date: 03.01.2015
+Waypoint: OC1137F
+Title: Presse am Tor
+Tag: D15 T15 Micro Tradi
+----
+ID: 2018
 Date: 04.01.2015
 Waypoint: GC5HNZQ
 Title: Warten auf die Eiszeit ⅯⅯⅩⅤ
 nTF: 0
 Tag: D2 T15 Event
+----
+ID: 2019
+Date: 04.01.2015
+Waypoint: GC4YVFH
+Title: Der Hobbit
+Tag: D15 T3 Micro Tradi
+----
+ID: 2020
+Date: 04.01.2015
+Waypoint: GC1WQTZ
+Title: BUGA 1979 - Das vergessene Schild
+Tag: D3 T15 Micro Mystery
+----
+ID: 2021
+Date: 04.01.2015
+Waypoint: GC5H604
+Title: Gefährdet, nicht Gefährlich
+Tag: D15 T25 Regular Tradi
+----
+ID: 2022
+Date: 04.01.2015
+Waypoint: OC105C3
+Title: Parkverbot im Grünen
+Tag: D1 T15 Small Tradi
+----
+ID: 2023
+Date: 04.01.2015
+Waypoint: GC5BYZB
+Title: DIN 14 462
+Tag: D1 T15 Micro Tradi
 ----
 ID: p20150106
 Date: 06.01.2015

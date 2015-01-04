@@ -242,28 +242,6 @@ EOF
 
 mws_content <<'EOF'
 
-<h3 id="achievements_xkcd" class="cb">Expeditions and Achievements</h3>
-
- <script type="text/javascript" src="mirkarte/prototype/prototype.js"></script>
-<div id="xkcd_tgt"><a
- href="http://wiki.xkcd.com/geohashing/User:mirabilos#Expeditions_and_Achievements">xkcd
- Wiki listing GeoHashing Expeditions and Achievements</a></div>
- <script language="JavaScript" type="text/javascript">//<![CDATA[
- 	new Ajax.Updater('xkcd_tgt',
- 	    'http://wiki.xkcd.com/geohashing/User:mirabilos',
- 	    {
- 		"onComplete": function(response, json) {
- 			$($('xkcd_tgt').firstDescendant()).hide();
- 			$('xkcd_tgt').select('.editsection').each(Element.hide);
- 		},
- 		"parameters": {
- 			"section": 2,
- 			"action": "render"
- 		},
- 		"method": "get"
- 	    });
- //]]></script>
-
 <h2 id="Software" class="cb">Software</h2>
 
 <p style="border:1px solid black; padding:6px;"><a
