@@ -55,7 +55,7 @@ mws_content <<'EOF'
 </form>
 </div>
 
-<h2 id="banners" class="cb">Banners et al.</h2>
+<h2 id="banners" class="cb">Banners and Achievements</h2>
 
 <h3 id="banners_Achievements">Achievements</h3>
 
@@ -242,7 +242,29 @@ EOF
 
 mws_content <<'EOF'
 
-<h3 id="Software" class="cb">Software</h3>
+<h3 id="achievements_xkcd" class="cb">Expeditions and Achievements</h3>
+
+ <script type="text/javascript" src="mirkarte/prototype/prototype.js"></script>
+<div id="xkcd_tgt"><a
+ href="http://wiki.xkcd.com/geohashing/User:mirabilos#Expeditions_and_Achievements">xkcd
+ Wiki listing GeoHashing Expeditions and Achievements</a></div>
+ <script language="JavaScript" type="text/javascript">//<![CDATA[
+ 	new Ajax.Updater('xkcd_tgt',
+ 	    'http://wiki.xkcd.com/geohashing/User:mirabilos',
+ 	    {
+ 		"onComplete": function(response, json) {
+ 			$($('xkcd_tgt').firstDescendant()).hide();
+ 			$('xkcd_tgt').select('.editsection').each(Element.hide);
+ 		},
+ 		"parameters": {
+ 			"section": 2,
+ 			"action": "render"
+ 		},
+ 		"method": "get"
+ 	    });
+ //]]></script>
+
+<h2 id="Software" class="cb">Software</h2>
 
 <p style="border:1px solid black; padding:6px;"><a
  href="#begform">Waypoint Lookup © by mirabilos</a></p>
@@ -283,7 +305,7 @@ mws_content <<'EOF'
  (for Windows® Mobile, Community Edition)</a>,
  no longer maintained, mostly ☹</p>
 
-<h3 id="other_stats">Other Stats</h3>
+<h2 id="other_stats">Statistic Profile Banners</h2>
 
 EOF
 
