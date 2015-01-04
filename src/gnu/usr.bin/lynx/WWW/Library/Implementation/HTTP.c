@@ -124,7 +124,11 @@ SSL *HTGetSSLHandle(void)
 	ssl_opts &= ~SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS;
 #endif
 	SSLeay_add_ssl_algorithms();
+#if defined(OPENSSL_NO_SSL2) && defined(OPENSSL_NO_SSL3)
+	ssl_ctx = SSL_CTX_new(TLSv1_client_method());
+#else
 	ssl_ctx = SSL_CTX_new(SSLv23_client_method());
+#endif
 	SSL_CTX_set_options(ssl_ctx, ssl_opts);
 	SSL_CTX_set_default_verify_paths(ssl_ctx);
 	SSL_CTX_set_verify(ssl_ctx, SSL_VERIFY_PEER, HTSSLCallback);
