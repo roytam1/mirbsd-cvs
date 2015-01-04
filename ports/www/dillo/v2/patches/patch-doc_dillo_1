@@ -1,9 +1,9 @@
-$MirOS: ports/www/dillo/v2/patches/patch-doc_dillo_1,v 1.1 2009/08/24 16:54:23 tg Exp $
---- doc/dillo.1.orig	Mon Jan 18 18:00:19 2010
-+++ doc/dillo.1	Sun Feb 21 18:21:23 2010
-@@ -67,29 +67,29 @@ Dillo plugin daemon
- .I dpidc 
- Control program for dpid.
+$MirOS: ports/www/dillo/v2/patches/patch-doc_dillo_1,v 1.2 2010/02/21 20:08:41 bsiegert Exp $
+--- doc/dillo.1.orig	Sun Jun  7 03:40:24 2009
++++ doc/dillo.1	Mon Aug 24 16:30:22 2009
+@@ -65,29 +65,29 @@ URL of proxy to send HTTP traffic throug
+ .I dpid 
+ Dillo plugin daemon
  .TP
 -.I ~/.dillo/bm.txt 
 +.I ~/.etc/dillo/bm.txt 
@@ -21,9 +21,9 @@ $MirOS: ports/www/dillo/v2/patches/patch-doc_dillo_1,v 1.1 2009/08/24 16:54:23 t
 +.I ~/.etc/dillo/dillorc 
  Configuration file.
  .TP
--.I ~/.dillo/dpid_comm_keys
-+.I ~/.etc/dillo/dpid_comm_keys
- Keys used in dpi daemon communication.
+-.I ~/.dillo/dpi_socket_dir 
++.I ~/.etc/dillo/dpi_socket_dir 
+ Contains name of directory containing dpi sockets.
  .TP
 -.I ~/.dillo/dpidrc 
 +.I ~/.etc/dillo/dpidrc 

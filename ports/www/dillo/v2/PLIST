@@ -1,4 +1,4 @@
-@comment $MirOS: ports/www/dillo/v2/PLIST,v 1.2 2009/08/24 16:54:22 tg Exp $
+@comment $MirOS: ports/www/dillo/v2/PLIST,v 1.3 2010/02/21 20:08:41 bsiegert Exp $
 bin/dillo
 bin/dpid
 bin/dpidc
@@ -12,7 +12,6 @@ lib/dillo/dpi/hello/hello.filter.dpi
 lib/dillo/dpi/https/https.filter.dpi
 man/man1/dillo.1
 @sample ${SYSCONFDIR}/dillo/
-share/doc/dillo/user_help.html
 share/examples/dillo/dillorc
 @sample ${SYSCONFDIR}/dillo/dillorc
 share/examples/dillo/dpidrc
@@ -20,7 +19,6 @@ share/examples/dillo/dpidrc
 share/examples/dillo/keysrc
 @sample ${SYSCONFDIR}/dillo/keysrc
 @dirrm share/examples/dillo
-@dirrm share/doc/dillo
 @dirrm lib/dillo/dpi/https
 @dirrm lib/dillo/dpi/hello
 @dirrm lib/dillo/dpi/ftp

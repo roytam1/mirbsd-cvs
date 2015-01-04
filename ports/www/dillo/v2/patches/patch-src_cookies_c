@@ -1,7 +1,7 @@
-$MirOS: ports/www/dillo/v2/patches/patch-src_cookies_c,v 1.2 2009/08/23 15:27:58 bsiegert Exp $
---- src/cookies.c.orig	Mon Jan 18 18:00:19 2010
-+++ src/cookies.c	Sun Feb 21 18:17:00 2010
-@@ -238,7 +238,7 @@ static int Cookie_control_init(void)
+$MirOS: ports/www/dillo/v2/patches/patch-src_cookies_c,v 1.3 2010/02/21 20:08:42 bsiegert Exp $
+--- src/cookies.c.orig	Sat Jun 27 08:29:58 2009
++++ src/cookies.c	Sun Aug 23 17:03:44 2009
+@@ -241,7 +241,7 @@ static int Cookie_control_init(void)
     bool_t enabled = FALSE;
  
     /* Get a file pointer */

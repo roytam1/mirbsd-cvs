@@ -1,6 +1,6 @@
-$MirOS: ports/www/dillo/v2/patches/patch-dpi_bookmarks_c,v 1.2 2009/08/23 15:27:58 bsiegert Exp $
---- dpi/bookmarks.c.orig	Mon Jan 18 18:00:19 2010
-+++ dpi/bookmarks.c	Sun Feb 21 18:16:55 2010
+$MirOS: ports/www/dillo/v2/patches/patch-dpi_bookmarks_c,v 1.3 2010/02/21 20:08:42 bsiegert Exp $
+--- dpi/bookmarks.c.orig	Sat Jun 27 08:29:58 2009
++++ dpi/bookmarks.c	Sun Aug 23 17:03:44 2009
 @@ -691,7 +691,7 @@ static void Bms_check_import(void)
  
  
@@ -10,7 +10,7 @@ $MirOS: ports/www/dillo/v2/patches/patch-dpi_bookmarks_c,v 1.2 2009/08/23 15:27:
        if (access(OldBmFile, F_OK) == 0) {
           dStr_sprintf(dstr, cmd1, BmFile);
           rc = system(dstr->str);
-@@ -1710,7 +1710,7 @@ int main(void) {
+@@ -1708,7 +1708,7 @@ int main (void) {
     /* Initialize local data */
     B_bms = dList_new(512);
     B_secs = dList_new(32);

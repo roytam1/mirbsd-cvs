@@ -1,6 +1,6 @@
-$MirOS: ports/www/dillo/v2/patches/patch-dw_table_cc,v 1.1 2009/08/24 16:54:23 tg Exp $
---- dw/table.cc.orig	Mon Jan 18 18:00:19 2010
-+++ dw/table.cc	Sun Feb 21 18:16:58 2010
+$MirOS: ports/www/dillo/v2/patches/patch-dw_table_cc,v 1.2 2010/02/21 20:08:42 bsiegert Exp $
+--- dw/table.cc.orig	Sun Jun  7 03:40:25 2009
++++ dw/table.cc	Mon Aug 24 16:21:42 2009
 @@ -23,6 +23,7 @@
  #include "../lout/msg.h"
  #include "../lout/misc.hh"
@@ -8,4 +8,4 @@ $MirOS: ports/www/dillo/v2/patches/patch-dw_table_cc,v 1.1 2009/08/24 16:54:23 t
 +#undef MAX
  #define MAX misc::max
  
- using namespace lout;
+ 

@@ -1,7 +1,8 @@
 $MirOS$
 
-MD5 (dillo-2.2.tar.bz2) = f8bcd62093f178bed81e46cc54e73f42
-RMD160 (dillo-2.2.tar.bz2) = 050f5bcd46042764c9bba536e6e5fd97453e1d6f
-SHA1 (dillo-2.2.tar.bz2) = 06b325a246a639d936dabfc73d005f951d23c151
-SIZE (dillo-2.2.tar.bz2) = 630259
-TIGER (dillo-2.2.tar.bz2) = f1be6308065a9cc2bde4adb0e2d8f60926528d3089a6c29e
+MD5 (dillo-2.1.1.tar.bz2) = 93f674f2a42d90a1cdb88a6972325954
+RMD160 (dillo-2.1.1.tar.bz2) = 4b8fe423e3a0fd0e461cc8e1795bac39ad47d3b6
+SHA1 (dillo-2.1.1.tar.bz2) = eb252663b9480e53e0376d75b81130404ccf40ce
+SHA256 (dillo-2.1.1.tar.bz2) = 8eec025872030fc1419fb93ee41dbdf380a6d1f75f4d51aec5eee9a9a4aa4477
+SIZE (dillo-2.1.1.tar.bz2) = 612711
+TIGER (dillo-2.1.1.tar.bz2) = 9b509b069e2b83d8117eb3fbaab9cbdc25bc7d8a44635eb0
