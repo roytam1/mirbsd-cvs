@@ -3,7 +3,8 @@ My notes on JSON
 
 Compiled from both ECMA 262 (normative) and RFC 4627 (Informational)
 for tarent Gesellschaft fuer Softwareentwicklung und IT-Beratung mbH
-with subsequent independent development in private.
+with subsequent independent development in private. Updated via both
+RFC 7159 and ECMA 404.
 
 An implementation (no guarantees for completeness / correctness) is at:
 https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=evolvis-platfrm/evolvisforge.git;a=blob;f=src/common/include/minijson.php;hb=HEAD
@@ -26,17 +27,17 @@ deprecated alternative: UTF-16 and UTF-32, binary (deprecated)
 + note that the MIME type has no charset parameter, so signalling
   a non-UTF8 encoding is not possible
 
-A JSON text consists of a deprecated, optional, Unicode BOM U+FEFF
-followed by optional whitespace, exactly one expansion of the syn-
+A JSON text, following a deprecated, optional, Unicode BOM U+FEFF,
+consists of optional whitespace, exactly one expansion of the syn-
 tactic goal Value, followed by optional whitespace. Compliant code
 MUST NOT emit an Unicode BOM (using U+FEFF in the JSON text is, of
-course, perfectly valid). RFC 4627 (obsoleted by RFC 7159) limited
-interoperable JSON texts to an Array or Object top-level element.
+course, perfectly valid). RFC4627 limited interoperable JSON texts
+to an Array or Object top-level element; RFC7159 lifts that.
 
 
 primitive types that can be represented in JSON:
-- string (Unicode; not binary-safe; not NUL-safe in many implementations;
-  usually UTF-16 but no surrogate integrity guaranteed)
+- string (Unicode; not binary-safe)
+  + usually UTF-16, but no surrogate integrity guaranteed
 - number (can emit integral, fractional, exponential number or null literal)
 - boolean (literal: true, false)
 - null (literal: null) -- also: NaN, -Inf, +Inf (infinite numbers)
@@ -61,7 +62,7 @@ Rules for associative arrays:
 Strict rules for associative arrays:
 - the last element wins in case of duplicates
 - keys are sorted ASCIIbetically (read: in numerically ascending order
-  of their Unicode BMP (UTF-16) codepoints) before emitting
+  of their Unicode BMP codepoints (UTF-16 encoded)) before emitting
 - this implies that keys are unique when emitted
 - and that a round-trip is not order-preserving but the order is stable
 - rationale for this: CVE-2011-4815 (in short: we MUST NOT leak the
@@ -97,9 +98,16 @@ exponent ::= 'e' | 'E' ?( '+' | '-' ) decimaldigits
 literalnull ::= "null"
 literalbool ::= "true" | "false"
 
-/* syntactical grammar, separate tokens by *( whitespace ) */
+/* syntactical grammar */
 
-JSON<ECMA> ::= Value			// : goal element, ECMA 262
+JSON ::= *( whitespace ) Value *( whitespace )		// : goal element
+
+/*
+ * insignificant *( whitespace ) permitted explicitly between structural
+ * tokens ('[', ',', ']', '{', '}', and ':') and literal tokens
+ * (literalnull, literalbool), and implicitly (by the grammar) around
+ * any Value (Object, Array, string, Number) or Member
+ */
 
 Value ::= literalnull | literalbool | Object | Array | string | Number
 Array ::= '[' ?( Value *( ',' Value ) ) ']'
@@ -129,7 +137,10 @@ parsing the document in such cases instead.
   the base language uses (UCS-2) Unicode
   + RFC7159 warns that codes that are not valid Unicode characters,
     such as loose surrogares, are not interoperable and may cause faults
-  + we wish to forbid \u0000 (NUL) as many environments use C strings
+    (they are allowed since earlier versions of Unicode, BMP-only,
+    did not yet have surrogates, did not reserve the range thus)
+  + we wish to forbid \u0000 (NUL) as some environments use C strings
+    (but the RFC doesn't recognise this as interoperability problem)
   + we request to forbid \uFFFE and \uFFFF, as they are > WCHAR_MAX
 - impose a nesting depth limit when reading
 
@@ -149,13 +160,14 @@ parsing the document in such cases instead.
 - escape <0x00..0x1F> with \uNNNN
   (except <0x00> should never happen)
 - pass <0x7F> and <0080..009F> literally!
+  + you may wish to escape them though
 - for codepoints outside the BMP, emit the UTF-16 surrogate pair as
   escapes \uNNNN\uNNNN (do not pass them literally)
 - pass everything else (up to <FFFD>) literally
   (<FFFE> and <FFFF> should never happen either)
-- any character MAY be escaped (as unicode)
   + U+2028 and U+2029 SHOULD be escaped, they are not valid in
     literal strings in ECMAscript (but in JSON)
+- any character MAY be escaped (as unicode, not octet)
   + string comparison and other operations must operate on the unencoded form,
     i.e. operate on each UCS-2 codepoint sequentially, for interoperability
 
@@ -170,5 +182,5 @@ parsing the document in such cases instead.
 - Objects do not emit slots whose value is undefined at all! (but slots with null)
 - Arrays emit undefined values as literalnull
 
-__________________________________________________________________________________
+___________________________________________________________________________________
 $MirOS: contrib/hosted/tg/code/MirJSON/json.txt,v 1.6 2014/11/26 12:01:47 tg Exp $
