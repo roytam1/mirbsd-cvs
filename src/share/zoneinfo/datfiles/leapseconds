@@ -1,4 +1,4 @@
-# $MirOS: src/share/zoneinfo/datfiles/leapseconds,v 1.6 2014/03/23 20:04:24 tg Exp $
+# $MirOS: src/share/zoneinfo/datfiles/leapseconds,v 1.7 2014/09/01 21:49:03 tg Exp $
 #-
 # From http://hpiers.obspm.fr/eoppc/bul/bulc/bulletinc.dat
 # http://hpiers.obspm.fr/eop-pc/index.php?index=bulletin_registration&lang=en
@@ -59,3 +59,4 @@ Leap	1998	Dec	31	23:59:60	+	S
 Leap	2005	Dec	31	23:59:60	+	S
 Leap	2008	Dec	31	23:59:60	+	S
 Leap	2012	Jun	30	23:59:60	+	S
+Leap	2015	Jun	30	23:59:60	+	S
