@@ -19,12 +19,19 @@ Any JSON (JavaScript Object Notation) text shall be encoded in Unicode.
 MIME: application/json
 File extension: .json
 Macintosh code: TEXT
-default encoding and content-transfer-encoding: UTF-8, 8bit
-alternative: UTF-16 and UTF-32, binary (deprecated)
+default encoding and content-transfer-encoding: UTF-8, binary
+
+former default: UTF-8, 8bit (no change)
+deprecated alternative: UTF-16 and UTF-32, binary (deprecated)
++ note that the MIME type has no charset parameter, so signalling
+  a non-UTF8 encoding is not possible
 
 A JSON text consists of a deprecated, optional, Unicode BOM U+FEFF
 followed by optional whitespace, exactly one expansion of the syn-
-tactic goal Value, followed by optional whitespace.
+tactic goal Value, followed by optional whitespace. Compliant code
+MUST NOT emit an Unicode BOM (using U+FEFF in the JSON text is, of
+course, perfectly valid). RFC 4627 (obsoleted by RFC 7159) limited
+interoperable JSON texts to an Array or Object top-level element.
 
 
 primitive types that can be represented in JSON:
@@ -41,14 +48,16 @@ JSON basic data types:
 - literal null (also representing a non-number)
 - boolean (literal true, literal false)
 - integral Number
+  + IEEE 754 makes [-2^53+1; 2^53-1] interoperable
 - floating-point Number (decimal fractional with decimal exponent)
+  + RFC 7159 says IEEE 754 "double" are interoperable
 - String
 - Object (associative array)
 - Array (zero-based non-sparse indexed array)
 
 Rules for associative arrays:
-- keys SHOULD be unique
-- order of keys is unsorted but usually preserving
+- keys SHOULD be unique (RFC 7159 says duplicates are not interoperable)
+- order of keys is unsorted (rarely preserving; usually not visible)
 Strict rules for associative arrays:
 - the last element wins in case of duplicates
 - keys are sorted ASCIIbetically (read: in numerically ascending order
@@ -105,21 +114,23 @@ so neither next element lookup nor mandatory whitespace are required.
 
 Both lexems/tokens and the content (keys and values) are case-sensitive,
 although some decoders read e.g. literalnull or \n case-insensitively.
+RFC7159 allows parsers to accept such extensions, but we urge to fail
+parsing the document in such cases instead.
 
 /* security considerations */
-- ensure no invalid things (e.g. unencoded UTF-16) show up
+- ensure no invalid things (e.g. unencoded SMP characters) show up
 - according to ECMA-262, RFC4627 allows a parser to accept extensions
   (possibly, but not limited to, different numerical formats, writing
   Object keys with apostrophes or unescaped, allowing trailing commata
   in Object and Array definitions, allowing comments, etc.); this MUST
   NOT be done; be strict and anal as per the standard
 - a String is a sequence of arbitrary 16-bit Unicode codepoints, that
-  is, \u0000 \uFFFE \uFFFF and loose UTF-16 surrogates are valid; for
-  an information interchange format we'd like to forbid at least the
-  first three (NUL for its use in many programming environments in C
-  strings, and \uFFFE and \uFFFF as they're invalid Unicode as JSON
-  is not binary-safe anyway); the base language uses Unicode, so we
-  don't check for UTF-16 as that's something different
+  is, \u0000 \uFFFE \uFFFF and loose UTF-16 surrogates are valid, since
+  the base language uses (UCS-2) Unicode
+  + RFC7159 warns that codes that are not valid Unicode characters,
+    such as loose surrogares, are not interoperable and may cause faults
+  + we wish to forbid \u0000 (NUL) as many environments use C strings
+  + we request to forbid \uFFFE and \uFFFF, as they are > WCHAR_MAX
 - impose a nesting depth limit when reading
 
 
@@ -145,6 +156,8 @@ although some decoders read e.g. literalnull or \n case-insensitively.
 - any character MAY be escaped (as unicode)
   + U+2028 and U+2029 SHOULD be escaped, they are not valid in
     literal strings in ECMAscript (but in JSON)
+  + string comparison and other operations must operate on the unencoded form,
+    i.e. operate on each UCS-2 codepoint sequentially, for interoperability
 
 /* when emitting an Object or Array */
 - if the object/array is cyclical, throw an error
