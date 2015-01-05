@@ -148,6 +148,8 @@ although some decoders read e.g. literalnull or \n case-insensitively.
 - pass everything else (up to <FFFD>) literally
   (<FFFE> and <FFFF> should never happen either)
 - any character MAY be escaped (as unicode)
+  + U+2028 and U+2029 SHOULD be escaped, they are not valid in
+    literal strings in ECMAscript (but in JSON)
 
 /* when emitting an Object or Array */
 - if the object/array is cyclical, throw an error
@@ -161,4 +163,4 @@ although some decoders read e.g. literalnull or \n case-insensitively.
 - Arrays emit undefined values as literalnull
 
 __________________________________________________________________________________
-$MirOS: contrib/hosted/tg/code/MirJSON/json.txt,v 1.5 2013/02/26 21:20:55 tg Exp $
+$MirOS: contrib/hosted/tg/code/MirJSON/json.txt,v 1.6 2014/11/26 12:01:47 tg Exp $
