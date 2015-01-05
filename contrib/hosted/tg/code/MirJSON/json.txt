@@ -51,13 +51,13 @@ JSON basic data types:
 - integral Number
   + IEEE 754 makes [-2^53+1; 2^53-1] interoperable
 - floating-point Number (decimal fractional with decimal exponent)
-  + RFC 7159 says IEEE 754 "double" are interoperable
+  + RFC7159 says IEEE 754 "double" are interoperable
 - String
 - Object (associative array)
 - Array (zero-based non-sparse indexed array)
 
 Rules for associative arrays:
-- keys SHOULD be unique (RFC 7159 says duplicates are not interoperable)
+- keys SHOULD be unique (RFC7159 says duplicates are not interoperable)
 - order of keys is unsorted (rarely preserving; usually not visible)
 Strict rules for associative arrays:
 - the last element wins in case of duplicates
@@ -123,7 +123,11 @@ so neither next element lookup nor mandatory whitespace are required.
 Both lexems/tokens and the content (keys and values) are case-sensitive,
 although some decoders read e.g. literalnull or \n case-insensitively.
 RFC7159 allows parsers to accept such extensions, but we urge to fail
-parsing the document in such cases instead.
+parsing the document in such cases instead (ECMA-262 explicitly forbids
+them; ECMA-404 is silent on this but forbids them for conformant texts).
+
+To add insult to injury, RFC4627 listed ECMA-262 as normative reference;
+RFC7159 lists ECMA-262 and ECMA-404 as informative only.
 
 /* security considerations */
 - ensure no invalid things (e.g. unencoded SMP characters) show up
@@ -131,7 +135,7 @@ parsing the document in such cases instead.
   (possibly, but not limited to, different numerical formats, writing
   Object keys with apostrophes or unescaped, allowing trailing commata
   in Object and Array definitions, allowing comments, etc.); this MUST
-  NOT be done; be strict and anal as per the standard
+  NOT be done; be strict and anal as per the standard. (See above.)
 - a String is a sequence of arbitrary 16-bit Unicode codepoints, that
   is, \u0000 \uFFFE \uFFFF and loose UTF-16 surrogates are valid, since
   the base language uses (UCS-2) Unicode
