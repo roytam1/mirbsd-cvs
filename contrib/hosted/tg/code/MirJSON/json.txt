@@ -20,15 +20,11 @@ MIME: application/json
 File extension: .json
 Macintosh code: TEXT
 default encoding and content-transfer-encoding: UTF-8, 8bit
-alternative: UTF-16 and UTF-32, binary (the IETF will drop them)
+alternative: UTF-16 and UTF-32, binary (deprecated)
 
-A JSON text consists of an optional Unicode BOM <U+FEFF> in either
-UTF-16 variant (or UTF-8) and exactly one expansion of the syntac-
-tical goal either JSON<RFC> or JSON<ECMA>. Its first (after a BOM,
-if any) two octets are always 7-bit ASCII; the encoding can be de-
-tected using the pattern of NUL octets thus.
-
-The IETF will require UTF-8 encoding without a BOM.
+A JSON text consists of a deprecated, optional, Unicode BOM U+FEFF
+followed by optional whitespace, exactly one expansion of the syn-
+tactic goal Value, followed by optional whitespace.
 
 
 primitive types that can be represented in JSON:
@@ -94,7 +90,6 @@ literalbool ::= "true" | "false"
 
 /* syntactical grammar, separate tokens by *( whitespace ) */
 
-JSON<RFC> ::= Object | Array		// : goal element, RFC 4627
 JSON<ECMA> ::= Value			// : goal element, ECMA 262
 
 Value ::= literalnull | literalbool | Object | Array | string | Number
