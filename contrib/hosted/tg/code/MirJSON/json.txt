@@ -77,6 +77,7 @@ whitespace ::= <0x09> | <0x0A> | <0x0D> | <0x20>
 string ::= '"' *( stringcharacter ) '"'
 stringcharacter ::= literalcharacter | escapesequence
 literalcharacter ::= <0x20..D7FF except '"', '\'> | <E000..FFFD>
+					// : RFC7159 permits ..10FFFF
 escapesequence ::= '\'			// ''		: no production
 	( '"'				// '"'		: unescape
 	| '/'				// '/'		: unescape
@@ -146,6 +147,7 @@ RFC7159 lists ECMA-262 and ECMA-404 as informative only.
   + we wish to forbid \u0000 (NUL) as some environments use C strings
     (but the RFC doesn't recognise this as interoperability problem)
   + we request to forbid \uFFFE and \uFFFF, as they are > WCHAR_MAX
+  + see below about 21-bit Unicode codepoints and RFC7159 badness
 - impose a nesting depth limit when reading
 
 
@@ -167,6 +169,9 @@ RFC7159 lists ECMA-262 and ECMA-404 as informative only.
   + you may wish to escape them though
 - for codepoints outside the BMP, emit the UTF-16 surrogate pair as
   escapes \uNNNN\uNNNN (do not pass them literally)
+  + RFC7159 permits and suggests JSON generators to not encode them
+    but keep them as literal 4-octet UTF-8 forms; an attempt to tell
+    them about the wrongness and interop problem as erratum was rejected
 - pass everything else (up to <FFFD>) literally
   (<FFFE> and <FFFF> should never happen either)
   + U+2028 and U+2029 SHOULD be escaped, they are not valid in
