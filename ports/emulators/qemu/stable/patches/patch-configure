@@ -1,4 +1,4 @@
-$MirOS: ports/emulators/qemu/stable/patches/patch-configure,v 1.1 2008/05/07 15:46:08 tg Exp $
+$MirOS: ports/emulators/qemu/stable/patches/patch-configure,v 1.2 2008/05/11 20:35:48 tg Exp $
 --- configure.orig	Sun Sep  4 17:11:09 2005
 +++ configure	Sun May 11 19:41:27 2008
 @@ -21,8 +21,8 @@ prefix=""
@@ -172,7 +172,7 @@ $MirOS: ports/emulators/qemu/stable/patches/patch-configure,v 1.1 2008/05/07 15:
  fi
  echo "SRC_PATH=$source_path" >> $config_mak
  echo "TARGET_DIRS=$target_list" >> $config_mak
-@@ -600,6 +554,19 @@ if [ "$bsd" = "yes" ] ; then
+@@ -600,6 +554,16 @@ if [ "$bsd" = "yes" ] ; then
    echo "#define _BSD 1" >> $config_h
  fi
  
@@ -183,9 +183,6 @@ $MirOS: ports/emulators/qemu/stable/patches/patch-configure,v 1.1 2008/05/07 15:
 +  echo "#ifndef PRIx64" >>$config_h
 +  echo "#define PRIx64 \"llX\"" >> $config_h
 +  echo "#endif" >>$config_h
-+  echo "#define qemu_siginfo siginfo_t" >> $config_h
-+else
-+  echo "#define qemu_siginfo struct siginfo" >> $config_h
 +fi     
 +
 +

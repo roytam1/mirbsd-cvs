@@ -22,6 +22,7 @@
 #include "frame.h"
 #include "gdb_assert.h"
 #include "osabi.h"
+#include "solib-svr4.h"
 
 #include "alpha-tdep.h"
 
@@ -110,7 +111,7 @@ alpha_linux_sigcontext_addr (struct frame_info *next_frame)
   /* __NR_rt_sigreturn has a couple of structures on the stack.  This is:
 
 	struct rt_sigframe {
-	  struct siginfo info;
+	  siginfo_t info;
 	  struct ucontext uc;
         };
 
@@ -140,6 +141,10 @@ alpha_linux_init_abi (struct gdbarch_info info, struct gdbarch *gdbarch)
   tdep->pc_in_sigtramp = alpha_linux_pc_in_sigtramp;
   tdep->jb_pc = 2;
   tdep->jb_elt_size = 8;
+
+  /* Enable TLS support.  */
+  set_gdbarch_fetch_tls_load_module_address (gdbarch,
+                                             svr4_fetch_objfile_link_map);
 }
 
 void

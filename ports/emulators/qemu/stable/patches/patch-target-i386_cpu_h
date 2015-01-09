@@ -1,4 +1,4 @@
-$MirOS: ports/emulators/qemu/stable/patches/patch-target-i386_cpu_h,v 1.1 2008/05/07 15:46:12 tg Exp $
+$MirOS: ports/emulators/qemu/stable/patches/patch-target-i386_cpu_h,v 1.2 2008/05/11 20:35:49 tg Exp $
 --- target-i386/cpu.h.orig	Sun Sep  4 17:11:09 2005
 +++ target-i386/cpu.h	Sun May 11 19:58:19 2008
 @@ -253,22 +253,58 @@
@@ -68,7 +68,7 @@ $MirOS: ports/emulators/qemu/stable/patches/patch-target-i386_cpu_h,v 1.1 2008/0
     is returned if the signal was handled by the virtual CPU.  */
 -struct siginfo;
 -int cpu_x86_signal_handler(int host_signum, struct siginfo *info, 
-+int cpu_x86_signal_handler(int host_signum, qemu_siginfo *info, 
++int cpu_x86_signal_handler(int host_signum, siginfo_t *info, 
                             void *puc);
  void cpu_x86_set_a20(CPUX86State *env, int a20_state);
  

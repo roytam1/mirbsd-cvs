@@ -1,4 +1,4 @@
-$MirOS: ports/emulators/qemu/patches/patch-osdep_h,v 1.2 2005/05/03 19:30:05 tg Exp $
+$MirOS: ports/emulators/qemu/stable/patches/patch-osdep_h,v 1.1 2008/05/07 15:46:11 tg Exp $
 --- osdep.h.orig	Wed Apr 27 20:51:43 2005
 +++ osdep.h	Tue May  3 18:04:45 2005
 @@ -2,6 +2,10 @@
@@ -17,7 +17,7 @@ $MirOS: ports/emulators/qemu/patches/patch-osdep_h,v 1.2 2005/05/03 19:30:05 tg 
      union {
          void (*_sa_handler)(int);
 -        void (*_sa_sigaction)(int, struct siginfo *, void *);
-+        void (*_sa_sigaction)(int, qemu_siginfo *, void *);
++        void (*_sa_sigaction)(int, siginfo_t *, void *);
      } _u;
      unsigned long sa_flags;
      void (*sa_restorer)(void);

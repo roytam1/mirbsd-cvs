@@ -47,7 +47,7 @@ hppa_dwarf_reg_to_regnum (int reg)
   if (reg >= 32 && reg <= 85)
     return HPPA_FP4_REGNUM + (reg - 32);
 
-  warning ("Unmapped DWARF Register #%d encountered\n", reg);
+  warning (_("Unmapped DWARF Register #%d encountered."), reg);
   return -1;
 }
 #endif
@@ -278,7 +278,7 @@ hppa_linux_skip_trampoline_code (CORE_ADDR pc)
 	    }
 	  else
 	    {
-	      error ("Cannot resolve plt stub at 0x%s\n",
+	      error (_("Cannot resolve plt stub at 0x%s."),
 		     paddr_nz (pc));
 	      pc = 0;
 	    }
@@ -358,10 +358,10 @@ hppa_linux_sigtramp_find_sigcontext (CORE_ADDR pc)
     }
 
   /* sp + sfoffs[try] points to a struct rt_sigframe, which contains
-     a struct siginfo and a struct ucontext.  struct ucontext contains
+     a siginfo_t and a struct ucontext.  struct ucontext contains
      a struct sigcontext. Return an offset to this sigcontext here.  Too 
      bad we cannot include system specific headers :-(.  
-     sizeof(struct siginfo) == 128
+     sizeof(siginfo_t) == 128
      offsetof(struct ucontext, uc_mcontext) == 24.  */
   return sp + sfoffs[try] + 128 + 24;
 }
@@ -618,6 +618,10 @@ hppa_linux_init_abi (struct gdbarch_info info, struct gdbarch *gdbarch)
   frame_unwind_append_sniffer (gdbarch, dwarf2_frame_sniffer);
   frame_base_append_sniffer (gdbarch, dwarf2_frame_base_sniffer);
 #endif
+
+  /* Enable TLS support.  */
+  set_gdbarch_fetch_tls_load_module_address (gdbarch,
+                                             svr4_fetch_objfile_link_map);
 }
 
 void

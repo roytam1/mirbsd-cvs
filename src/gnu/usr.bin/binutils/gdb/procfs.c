@@ -246,7 +246,7 @@ typedef struct sigaction gdb_sigaction_t;
 #ifdef HAVE_PR_SIGINFO64_T
 typedef pr_siginfo64_t gdb_siginfo_t;
 #else
-typedef struct siginfo gdb_siginfo_t;
+typedef siginfo_t gdb_siginfo_t;
 #endif
 
 /* gdb_premptysysset */
@@ -466,10 +466,10 @@ find_procinfo_or_die (int pid, int tid)
   if (pi == NULL)
     {
       if (tid)
-	error ("procfs: couldn't find pid %d (kernel thread %d) in procinfo list.",
+	error (_("procfs: couldn't find pid %d (kernel thread %d) in procinfo list."),
 	       pid, tid);
       else
-	error ("procfs: couldn't find pid %d in procinfo list.", pid);
+	error (_("procfs: couldn't find pid %d in procinfo list."), pid);
     }
   return pi;
 }
@@ -833,7 +833,7 @@ dead_procinfo (procinfo *pi, char *msg, int kill_p)
     kill (pi->pid, SIGKILL);
 
   destroy_procinfo (pi);
-  error (msg);
+  error ((msg));
 }
 
 /*
@@ -902,18 +902,18 @@ load_syscalls (procinfo *pi)
   sysent_fd = open_with_retry (pathname, O_RDONLY);
   if (sysent_fd < 0)
     {
-      error ("load_syscalls: Can't open /proc/%d/sysent", pi->pid);
+      error (_("load_syscalls: Can't open /proc/%d/sysent"), pi->pid);
     }
 
   size = sizeof header - sizeof (prsyscall_t);
   if (read (sysent_fd, &header, size) != size)
     {
-      error ("load_syscalls: Error reading /proc/%d/sysent", pi->pid);
+      error (_("load_syscalls: Error reading /proc/%d/sysent"), pi->pid);
     }
 
   if (header.pr_nsyscalls == 0)
     {
-      error ("load_syscalls: /proc/%d/sysent contains no syscalls!", pi->pid);
+      error (_("load_syscalls: /proc/%d/sysent contains no syscalls!"), pi->pid);
     }
 
   size = header.pr_nsyscalls * sizeof (prsyscall_t);
@@ -922,7 +922,7 @@ load_syscalls (procinfo *pi)
   if (read (sysent_fd, syscalls, size) != size)
     {
       xfree (syscalls);
-      error ("load_syscalls: Error reading /proc/%d/sysent", pi->pid);
+      error (_("load_syscalls: Error reading /proc/%d/sysent"), pi->pid);
     }
 
   /* Find maximum syscall number.  This may not be the same as
@@ -1471,7 +1471,7 @@ proc_modify_flag (procinfo *pi, long flag, long mode)
   pi->status_valid = 0;
 
   if (!win)
-    warning ("procfs: modify_flag failed to turn %s %s",
+    warning (_("procfs: modify_flag failed to turn %s %s"),
 	     flag == PR_FORK  ? "PR_FORK"  :
 	     flag == PR_RLC   ? "PR_RLC"   :
 #ifdef PR_ASYNC
@@ -1819,7 +1819,7 @@ proc_set_traced_signals (procinfo *pi, gdb_sigset_t *sigset)
   pi->status_valid = 0;
 
   if (!win)
-    warning ("procfs: set_traced_signals failed");
+    warning (_("procfs: set_traced_signals failed"));
   return win;
 }
 
@@ -3512,21 +3512,21 @@ procfs_attach (char *args, int from_tty)
   int   pid;
 
   if (!args)
-    error_no_arg ("process-id to attach");
+    error_no_arg (_("process-id to attach"));
 
   pid = atoi (args);
   if (pid == getpid ())
-    error ("Attaching GDB to itself is not a good idea...");
+    error (_("Attaching GDB to itself is not a good idea..."));
 
   if (from_tty)
     {
       exec_file = get_exec_file (0);
 
       if (exec_file)
-	printf_filtered ("Attaching to program `%s', %s\n",
+	printf_filtered (_("Attaching to program `%s', %s\n"),
 			 exec_file, target_pid_to_str (pid_to_ptid (pid)));
       else
-	printf_filtered ("Attaching to %s\n",
+	printf_filtered (_("Attaching to %s\n"),
 	                 target_pid_to_str (pid_to_ptid (pid)));
 
       fflush (stdout);
@@ -3552,7 +3552,7 @@ procfs_detach (char *args, int from_tty)
       if (exec_file == NULL)
 	exec_file = "";
 
-      printf_filtered ("Detaching from program: %s, %s\n", exec_file,
+      printf_filtered (_("Detaching from program: %s, %s\n"), exec_file,
 		       target_pid_to_str (pid_to_ptid (pid)));
       gdb_flush (gdb_stdout);
     }
@@ -3570,7 +3570,7 @@ do_attach (ptid_t ptid)
   int fail;
 
   if ((pi = create_procinfo (PIDGET (ptid), 0)) == NULL)
-    perror ("procfs: out of memory in 'attach'");
+    perror (_("procfs: out of memory in 'attach'"));
 
   if (!open_procinfo_files (pi, FD_CTL))
     {
@@ -3648,7 +3648,7 @@ do_detach (int signo)
 
   if (signo || (proc_flags (pi) & (PR_STOPPED | PR_ISTOP)))
     if (signo || !(pi->was_stopped) ||
-	query ("Was stopped when attached, make it runnable again? "))
+	query (_("Was stopped when attached, make it runnable again? ")))
       {
 	/* Clear any pending signal.  */
 	if (!proc_clear_current_fault (pi))
@@ -3697,7 +3697,7 @@ procfs_fetch_registers (int regnum)
     pi = find_procinfo_or_die (pid, tid);
 
   if (pi == NULL)
-    error ("procfs: fetch_registers failed to find procinfo for %s",
+    error (_("procfs: fetch_registers failed to find procinfo for %s"),
 	   target_pid_to_str (inferior_ptid));
 
   gregs = proc_get_gregs (pi);
@@ -3765,7 +3765,7 @@ procfs_store_registers (int regnum)
     pi = find_procinfo_or_die (pid, tid);
 
   if (pi == NULL)
-    error ("procfs: store_registers: failed to find procinfo for %s",
+    error (_("procfs: store_registers: failed to find procinfo for %s"),
 	   target_pid_to_str (inferior_ptid));
 
   gregs = proc_get_gregs (pi);
@@ -3919,7 +3919,7 @@ wait_again:
 	      wait_retval = wait (&wstat); /* "wait" for the child's exit  */
 
 	      if (wait_retval != PIDGET (inferior_ptid)) /* wrong child? */
-		error ("procfs: couldn't stop process %d: wait returned %d\n",
+		error (_("procfs: couldn't stop process %d: wait returned %d."),
 		       PIDGET (inferior_ptid), wait_retval);
 	      /* FIXME: might I not just use waitpid?
 		 Or try find_procinfo to see if I know about this child? */
@@ -3973,7 +3973,7 @@ wait_again:
 	      case PR_SYSENTRY:
 		if (syscall_is_lwp_exit (pi, what))
 		  {
-		    printf_filtered ("[%s exited]\n",
+		    printf_filtered (_("[%s exited]\n"),
 				     target_pid_to_str (retval));
 		    delete_thread (retval);
 		    status->kind = TARGET_WAITKIND_SPURIOUS;
@@ -4020,7 +4020,7 @@ wait_again:
 		  }
 		else
 		  {
-		    printf_filtered ("procfs: trapped on entry to ");
+		    printf_filtered (_("procfs: trapped on entry to "));
 		    proc_prettyprint_syscall (proc_what (pi), 0);
 		    printf_filtered ("\n");
 #ifndef PIOCSSPCACT
@@ -4030,7 +4030,7 @@ wait_again:
 		      if ((nsysargs = proc_nsysarg (pi)) > 0 &&
 			  (sysargs  = proc_sysargs (pi)) != NULL)
 			{
-			  printf_filtered ("%ld syscall arguments:\n", nsysargs);
+			  printf_filtered (_("%ld syscall arguments:\n"), nsysargs);
 			  for (i = 0; i < nsysargs; i++)
 			    printf_filtered ("#%ld: 0x%08lx\n",
 					     i, sysargs[i]);
@@ -4097,7 +4097,7 @@ wait_again:
 		    /* If not in GDB's thread list, add it.  */
 		    if (!in_thread_list (temp_ptid))
 		      {
-			printf_filtered ("[New %s]\n",
+			printf_filtered (_("[New %s]\n"),
 					 target_pid_to_str (temp_ptid));
 			add_thread (temp_ptid);
 		      }
@@ -4107,7 +4107,7 @@ wait_again:
 		  }
 		else if (syscall_is_lwp_exit (pi, what))
 		  {
-		    printf_filtered ("[%s exited]\n",
+		    printf_filtered (_("[%s exited]\n"),
 				     target_pid_to_str (retval));
 		    delete_thread (retval);
 		    status->kind = TARGET_WAITKIND_SPURIOUS;
@@ -4124,7 +4124,7 @@ wait_again:
 		  }
 		else
 		  {
-		    printf_filtered ("procfs: trapped on exit from ");
+		    printf_filtered (_("procfs: trapped on exit from "));
 		    proc_prettyprint_syscall (proc_what (pi), 0);
 		    printf_filtered ("\n");
 #ifndef PIOCSSPCACT
@@ -4134,7 +4134,7 @@ wait_again:
 		      if ((nsysargs = proc_nsysarg (pi)) > 0 &&
 			  (sysargs  = proc_sysargs (pi)) != NULL)
 			{
-			  printf_filtered ("%ld syscall arguments:\n", nsysargs);
+			  printf_filtered (_("%ld syscall arguments:\n"), nsysargs);
 			  for (i = 0; i < nsysargs; i++)
 			    printf_filtered ("#%ld: 0x%08lx\n",
 					     i, sysargs[i]);
@@ -4152,7 +4152,7 @@ wait_again:
 #else
 		if (retry < 5)
 		  {
-		    printf_filtered ("Retry #%d:\n", retry);
+		    printf_filtered (_("Retry #%d:\n"), retry);
 		    pi->status_valid = 0;
 		    goto wait_again;
 		  }
@@ -4167,7 +4167,7 @@ wait_again:
 		    temp_ptid = MERGEPID (pi->pid, temp_tid);
 		    if (!in_thread_list (temp_ptid))
 		      {
-			printf_filtered ("[New %s]\n",
+			printf_filtered (_("[New %s]\n"),
 					 target_pid_to_str (temp_ptid));
 			add_thread (temp_ptid);
 		      }
@@ -4230,17 +4230,17 @@ wait_again:
 		default:	 /* FIXME: use si_signo if possible for fault */
 		  retval = pid_to_ptid (-1);
 		  printf_filtered ("procfs:%d -- ", __LINE__);
-		  printf_filtered ("child stopped for unknown reason:\n");
+		  printf_filtered (_("child stopped for unknown reason:\n"));
 		  proc_prettyprint_why (why, what, 1);
-		  error ("... giving up...");
+		  error (_("... giving up..."));
 		  break;
 		}
 		break;	/* case PR_FAULTED: */
 	      default:	/* switch (why) unmatched */
 		printf_filtered ("procfs:%d -- ", __LINE__);
-		printf_filtered ("child stopped for unknown reason:\n");
+		printf_filtered (_("child stopped for unknown reason:\n"));
 		proc_prettyprint_why (why, what, 1);
-		error ("... giving up...");
+		error (_("... giving up..."));
 		break;
 	      }
 	      /*
@@ -4257,7 +4257,7 @@ wait_again:
 		   * If we don't create a procinfo, resume may be unhappy
 		   * later.
 		   */
-		  printf_filtered ("[New %s]\n", target_pid_to_str (retval));
+		  printf_filtered (_("[New %s]\n"), target_pid_to_str (retval));
 		  add_thread (retval);
 		  if (find_procinfo (PIDGET (retval), TIDGET (retval)) == NULL)
 		    create_procinfo (PIDGET (retval), TIDGET (retval));
@@ -4283,7 +4283,7 @@ wait_again:
 	      printf_filtered ("procfs:%d -- process not stopped.\n",
 			       __LINE__);
 	      proc_prettyprint_flags (flags, 1);
-	      error ("procfs: ...giving up...");
+	      error (_("procfs: ...giving up..."));
 	    }
 	}
 
@@ -4554,7 +4554,7 @@ procfs_resume (ptid_t ptid, int step, enum target_signal signo)
   if (!proc_run_process (pi, step, native_signo))
     {
       if (errno == EBUSY)
-	warning ("resume: target already running.  Pretend to resume, and hope for the best!\n");
+	warning (_("resume: target already running.  Pretend to resume, and hope for the best!"));
       else
 	proc_error (pi, "target_resume", __LINE__);
     }
@@ -4614,7 +4614,7 @@ procfs_notice_signals (ptid_t ptid)
 static void
 procfs_files_info (struct target_ops *ignore)
 {
-  printf_filtered ("\tUsing the running image of %s %s via /proc.\n",
+  printf_filtered (_("\tUsing the running image of %s %s via /proc.\n"),
 		   attach_flag? "attached": "child",
 		   target_pid_to_str (inferior_ptid));
 }
@@ -4628,7 +4628,7 @@ procfs_files_info (struct target_ops *ignore)
 static void
 procfs_open (char *args, int from_tty)
 {
-  error ("Use the \"run\" command to start a Unix child process.");
+  error (_("Use the \"run\" command to start a Unix child process."));
 }
 
 /*
@@ -4912,7 +4912,7 @@ procfs_set_exec_trap (void)
   sysset_t *exitset;
 
   if ((pi = create_procinfo (getpid (), 0)) == NULL)
-    perror_with_name ("procfs: create_procinfo failed in child.");
+    perror_with_name (_("procfs: create_procinfo failed in child."));
 
   if (open_procinfo_files (pi, FD_CTL) == 0)
     {
@@ -5084,7 +5084,7 @@ procfs_create_inferior (char *exec_file, char *allargs, char **env,
 	/* Not found.  This must be an error rather than merely passing
 	   the file to execlp(), because execlp() would try all the
 	   exec()s, causing GDB to get confused.  */
-	error ("procfs:%d -- Can't find shell %s in PATH",
+	error (_("procfs:%d -- Can't find shell %s in PATH"),
 	       __LINE__, shell_file);
 
       shell_file = tryname;
@@ -5335,14 +5335,14 @@ procfs_find_LDT_entry (ptid_t ptid)
   /* Find procinfo for the lwp. */
   if ((pi = find_procinfo (PIDGET (ptid), TIDGET (ptid))) == NULL)
     {
-      warning ("procfs_find_LDT_entry: could not find procinfo for %d:%d.",
+      warning (_("procfs_find_LDT_entry: could not find procinfo for %d:%d."),
 	       PIDGET (ptid), TIDGET (ptid));
       return NULL;
     }
   /* get its general registers. */
   if ((gregs = proc_get_gregs (pi)) == NULL)
     {
-      warning ("procfs_find_LDT_entry: could not read gregs for %d:%d.",
+      warning (_("procfs_find_LDT_entry: could not read gregs for %d:%d."),
 	       PIDGET (ptid), TIDGET (ptid));
       return NULL;
     }
@@ -5577,7 +5577,7 @@ remove_dbx_link_breakpoint (void)
 
   if (memory_remove_breakpoint (dbx_link_bpt_addr,
                                 dbx_link_shadow_contents) != 0)
-    warning ("Unable to remove __dbx_link breakpoint.");
+    warning (_("Unable to remove __dbx_link breakpoint."));
 
   dbx_link_bpt_addr = 0;
 }
@@ -5630,7 +5630,7 @@ insert_dbx_link_bpt_in_file (int fd, CORE_ADDR ignored)
   abfd = bfd_fdopenr ("unamed", 0, fd);
   if (abfd == NULL)
     {
-      warning ("Failed to create a bfd: %s.\n", bfd_errmsg (bfd_get_error ()));
+      warning (_("Failed to create a bfd: %s."), bfd_errmsg (bfd_get_error ()));
       return 0;
     }
 
@@ -5649,7 +5649,7 @@ insert_dbx_link_bpt_in_file (int fd, CORE_ADDR ignored)
       dbx_link_bpt_addr = sym_addr;
       if (target_insert_breakpoint (sym_addr, dbx_link_shadow_contents) != 0)
         {
-          warning ("Failed to insert dbx_link breakpoint.");
+          warning (_("Failed to insert dbx_link breakpoint."));
           bfd_close (abfd);
           return 0;
         }
@@ -5770,7 +5770,7 @@ info_proc_mappings (procinfo *pi, int summary)
   if (summary)
     return;	/* No output for summary mode. */
 
-  printf_filtered ("Mapped address spaces:\n\n");
+  printf_filtered (_("Mapped address spaces:\n\n"));
   printf_filtered (header_fmt_string,
 		   "Start Addr",
 		   "  End Addr",
@@ -5833,7 +5833,7 @@ info_proc_cmd (char *args, int from_tty)
   if (pid == 0)
     pid = PIDGET (inferior_ptid);
   if (pid == 0)
-    error ("No current process: you must name one.");
+    error (_("No current process: you must name one."));
   else
     {
       /* Have pid, will travel.
@@ -5854,7 +5854,7 @@ info_proc_cmd (char *args, int from_tty)
 
   if (process)
     {
-      printf_filtered ("process %d flags:\n", process->pid);
+      printf_filtered (_("process %d flags:\n"), process->pid);
       proc_prettyprint_flags (proc_flags (process), 1);
       if (proc_flags (process) & (PR_STOPPED | PR_ISTOP))
 	proc_prettyprint_why (proc_why (process), proc_what (process), 1);
@@ -5864,7 +5864,7 @@ info_proc_cmd (char *args, int from_tty)
     }
   if (thread)
     {
-      printf_filtered ("thread %d flags:\n", thread->tid);
+      printf_filtered (_("thread %d flags:\n"), thread->tid);
       proc_prettyprint_flags (proc_flags (thread), 1);
       if (proc_flags (thread) & (PR_STOPPED | PR_ISTOP))
 	proc_prettyprint_why (proc_why (thread), proc_what (thread), 1);
@@ -5924,10 +5924,10 @@ proc_trace_syscalls (char *args, int from_tty, int entry_or_exit, int mode)
   procinfo *pi;
 
   if (PIDGET (inferior_ptid) <= 0)
-    error ("you must be debugging a process to use this command.");
+    error (_("you must be debugging a process to use this command."));
 
   if (args == NULL || args[0] == 0)
-    error_no_arg ("system call to trace");
+    error_no_arg (_("system call to trace"));
 
   pi = find_procinfo_or_die (PIDGET (inferior_ptid), 0);
   if (isdigit (args[0]))
@@ -5968,18 +5968,18 @@ _initialize_procfs (void)
 {
   init_procfs_ops ();
   add_target (&procfs_ops);
-  add_info ("proc", info_proc_cmd,
-	    "Show /proc process information about any running process.\n\
+  add_info ("proc", info_proc_cmd, _("\
+Show /proc process information about any running process.\n\
 Specify process id, or use the program being debugged by default.\n\
-Specify keyword 'mappings' for detailed info on memory mappings.");
+Specify keyword 'mappings' for detailed info on memory mappings."));
   add_com ("proc-trace-entry", no_class, proc_trace_sysentry_cmd,
-	   "Give a trace of entries into the syscall.");
+	   _("Give a trace of entries into the syscall."));
   add_com ("proc-trace-exit", no_class, proc_trace_sysexit_cmd,
-	   "Give a trace of exits from the syscall.");
+	   _("Give a trace of exits from the syscall."));
   add_com ("proc-untrace-entry", no_class, proc_untrace_sysentry_cmd,
-	   "Cancel a trace of entries into the syscall.");
+	   _("Cancel a trace of entries into the syscall."));
   add_com ("proc-untrace-exit", no_class, proc_untrace_sysexit_cmd,
-	   "Cancel a trace of exits from the syscall.");
+	   _("Cancel a trace of exits from the syscall."));
 }
 
 /* =================== END, GDB  "MODULE" =================== */
@@ -6141,7 +6141,7 @@ procfs_make_note_section (bfd *obfd, int *note_size)
 static char *
 procfs_make_note_section (bfd *obfd, int *note_size)
 {
-  error ("gcore not implemented for this host.");
+  error (_("gcore not implemented for this host."));
   return NULL;	/* lint */
 }
 #endif /* Solaris or Unixware */

@@ -1,7 +1,7 @@
 /* Functions specific to running gdb native on IA-64 running
    GNU/Linux.
 
-   Copyright 1999, 2000, 2001, 2002, 2003, 2004
+   Copyright 1999, 2000, 2001, 2002, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
    This file is part of GDB.
@@ -27,6 +27,7 @@
 #include "target.h"
 #include "gdbcore.h"
 #include "regcache.h"
+#include "ia64-tdep.h"
 
 #include <signal.h>
 #include <sys/ptrace.h>
@@ -307,7 +308,7 @@ register_addr (int regno, CORE_ADDR blockend)
   CORE_ADDR addr;
 
   if (regno < 0 || regno >= NUM_REGS)
-    error ("Invalid register number %d.", regno);
+    error (_("Invalid register number %d."), regno);
 
   if (u_offsets[regno] == -1)
     addr = 0;
@@ -635,7 +636,7 @@ ia64_linux_stopped_data_address (CORE_ADDR *addr_p)
 {
   CORE_ADDR psr;
   int tid;
-  struct siginfo siginfo;
+  siginfo_t siginfo;
   ptid_t ptid = inferior_ptid;
 
   tid = TIDGET(ptid);

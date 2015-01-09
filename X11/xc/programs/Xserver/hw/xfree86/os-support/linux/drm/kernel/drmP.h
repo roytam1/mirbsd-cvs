@@ -662,7 +662,7 @@ typedef drm_map_t drm_local_map_t;
 typedef struct drm_vbl_sig {
 	struct list_head	head;
 	unsigned int		sequence;
-	struct siginfo		info;
+	siginfo_t		info;
 	struct task_struct	*task;
 } drm_vbl_sig_t;
 

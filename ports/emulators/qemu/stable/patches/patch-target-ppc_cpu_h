@@ -1,4 +1,4 @@
-$MirOS: ports/emulators/qemu/patches/patch-target-ppc_cpu_h,v 1.3 2005/11/15 12:25:10 tg Exp $
+$MirOS: ports/emulators/qemu/stable/patches/patch-target-ppc_cpu_h,v 1.1 2008/05/07 15:46:13 tg Exp $
 --- target-ppc/cpu.h.orig	Sun Sep  4 17:11:09 2005
 +++ target-ppc/cpu.h	Tue Nov 15 11:37:45 2005
 @@ -589,8 +589,7 @@ void cpu_ppc_close(CPUPPCState *s);
@@ -7,7 +7,7 @@ $MirOS: ports/emulators/qemu/patches/patch-target-ppc_cpu_h,v 1.3 2005/11/15 12:
     is returned if the signal was handled by the virtual CPU.  */
 -struct siginfo;
 -int cpu_ppc_signal_handler(int host_signum, struct siginfo *info, 
-+int cpu_ppc_signal_handler(int host_signum, qemu_siginfo *info, 
++int cpu_ppc_signal_handler(int host_signum, siginfo_t *info, 
                             void *puc);
  
  void do_interrupt (CPUPPCState *env);
