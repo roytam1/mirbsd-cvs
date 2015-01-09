@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.143 2015/01/01 22:36:39 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.146 2015/01/06 12:38:36 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -11951,6 +11951,12 @@ Waypoint: GC5J5ZX
 Title: AMT Ⅱ (2015 KW2)
 nTF: 0
 Tag: D1 T1 Event
+----
+ID: 2025
+Date: 09.01.2015
+Waypoint: GC3N6RD
+Title: Find my Stone!
+Tag: D35 T15 Micro Mystery
 ----
 ID: p20150124
 Date: 24.01.2015
