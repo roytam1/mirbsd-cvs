@@ -1,12 +1,10 @@
-/* $MirOS: src/include/stdint.h,v 1.7 2007/09/21 10:43:01 tg Exp $ */
-
 /*-
  * "minimal" replacement for ISO C99 "stdint.h" header file (not com-
  * plete yet, but pretty near, with some ISO C11 sprinkled in for fun
  */
 
 #ifndef	_STDINT_H
-#define	_STDINT_H
+#define	_STDINT_H "$MirOS$"
 
 /* get {,u,u_}int8_t definitions and stuff */
 
@@ -137,10 +135,10 @@ typedef	uint64_t	uintmax_t;
 #endif /* __STDC_WANT_LIB_EXT1__ */
 
 /* wchar_t is an unsigned short */
-#define	WCHAR_MIN		0
+#define	WCHAR_MIN		0U
 #define	WCHAR_MAX		0xFFFDU		/* match <wchar.h> */
-#define	WINT_MIN		INT32_MIN
-#define	WINT_MAX		INT32_MAX
+#define	WINT_MIN		0U
+#define	WINT_MAX		0xFFFFFFFFUL
 
 #endif	/* ndef C++ or def __STDC_LIMIT_MACROS */
 
