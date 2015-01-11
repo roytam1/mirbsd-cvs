@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.25 2014/10/22 18:32:09 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.26 2014/11/14 20:38:17 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -39,6 +39,12 @@ The MirOS Project normally uses eMail and IRC for bug handling.
 However, some people prefer a web application. Launchpad offered,
 so this is the mksh external bugtracker which such people can use.
 Its bugmail will also be sent to the mksh mailing list.
+----
+Title: Homepage of Glenn Fowler
+Link: http://gsf.cococlyde.org/download
+
+This site occasionally contains links to newer AT&amp;T material
+than what’s available from the official sites.
 ----
 Title: mksh snapshot downloads
 Link: https://www.mirbsd.org/MirOS/dist/mir/mksh/snapshot/
