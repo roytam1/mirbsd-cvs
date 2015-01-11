@@ -132,6 +132,7 @@ RFC7159 lists ECMA-262 and ECMA-404 as informative only.
 
 /* security considerations */
 - ensure no invalid things (e.g. unencoded SMP characters) show up
+  + see below about codepoints from astral planes and RFC7159 badness
 - according to ECMA-262, RFC4627 allows a parser to accept extensions
   (possibly, but not limited to, different numerical formats, writing
   Object keys with apostrophes or unescaped, allowing trailing commata
