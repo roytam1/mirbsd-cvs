@@ -11958,6 +11958,29 @@ Waypoint: GC3N6RD
 Title: Find my Stone!
 Tag: D35 T15 Micro Mystery
 ----
+ID: 2026
+Date: 19.01.2015
+Waypoint: GC5G5MB
+Title: Turmstation Ersdorf
+Tag: D1 T1 Nano Tradi
+----
+ID: 2027
+Date: 19.01.2015
+Waypoint: VX78-QUIK
+Title: [Germany], RHB-Ersdorf
+----
+ID: 2028
+Date: 19.01.2015
+Waypoint: GC5KB73
+Title: St. Antonius Niederdrees
+Tag: D15 T15 Nano Tradi
+----
+ID: 2029
+Date: 19.01.2015
+Waypoint: GC4TM5R
+Title: Jetzt geht's rund
+Tag: D1 T1 Micro Tradi
+----
 ID: p20150124
 Date: 24.01.2015
 Waypoint: GC5H766
