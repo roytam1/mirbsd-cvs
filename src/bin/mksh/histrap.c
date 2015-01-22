@@ -1,5 +1,5 @@
-/*	$OpenBSD: history.c,v 1.39 2010/05/19 17:36:08 jasper Exp $	*/
 /*	$OpenBSD: history.c,v 1.40 2014/11/20 15:22:39 tedu Exp $	*/
+/*	$OpenBSD: trap.c,v 1.23 2010/05/19 17:36:08 jasper Exp $	*/
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
