@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.146 2015/01/06 12:38:36 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.149 2015/01/19 22:09:06 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -11980,6 +11980,12 @@ Date: 19.01.2015
 Waypoint: GC4TM5R
 Title: Jetzt geht's rund
 Tag: D1 T1 Micro Tradi
+----
+ID: 2030
+Date: 23.01.2015
+Waypoint: GC30132
+Title: Cacher In-Form
+Tag: D3 T2 Small Multi recommended
 ----
 ID: p20150124
 Date: 24.01.2015
