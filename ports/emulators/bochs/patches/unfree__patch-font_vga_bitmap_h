@@ -1,23 +1,9 @@
-$MirOS$
+$MirOS: ports/emulators/bochs/patches/unfree__patch-font_vga_bitmap_h,v 1.1.7.1 2005/03/18 15:45:52 tg Exp $
 
-	This font is under a special licence and thus not enabled by default.
-	It is not covered by the MirOS licence.
+	This font is derived from:
+	$MirBSD: vgaoem16.bdf,v 1.1 2003/09/22 12:49:39 tg Exp $
 
-COMMENT  _MirBSD: vgaoem16.bdf,v 1.1 2003/09/22 12:49:39 tg Exp $
-COMMENT  VGA Font, X-Window and Win16
-COMMENT
-COMMENT  Copyright (c) 1990-2003 Thorsten Glaser.
-COMMENT  All rights reserved.
-COMMENT
-COMMENT  Redistribution and use in unmodified form only are permitted
-COMMENT  for the operating environments Win16 (and Win32, NT ...) and
-COMMENT  X-Window, provided that you accept that the author disclaims
-COMMENT  any implications.
-COMMENT  This fontwork is provided "AS IS" and comes without warranty
-COMMENT  of any kind, neither express nor implied.
-COMMENT
-COMMENT  The user acknowledges that a redesign is planned, and relea-
-COMMENT  sing the redesigned font pack invalidates this font.
+	See mircvs://contrib/fonts/fixed/README.dist for legalities.
 
 To make it really useful, patch the Elpin VGA BIOS at offset 0x470E,
 or the LGPL BIOS accordingly, in the file with this 4096 Byte binary...

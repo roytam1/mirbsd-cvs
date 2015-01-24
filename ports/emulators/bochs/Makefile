@@ -1,14 +1,15 @@
-# $MirOS: ports/emulators/bochs/Makefile,v 1.3 2008/03/09 17:22:39 tg Exp $
+# $MirOS: ports/emulators/bochs/Makefile,v 1.4 2009/08/16 10:21:08 bsiegert Exp $
 # $OpenBSD: Makefile,v 1.36 2004/05/12 22:40:11 pedro Exp $
 # $NetBSD: Makefile,v 1.2 1998/09/22 06:11:36 garbled Exp $
 
 BROKEN=		fails to build
 
-COMMENT=			x86 machine simulator
-DISTNAME=	bochs-2.1.1
-CATEGORIES=	emulators
-MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=bochs/}
-HOMEPAGE=	http://bochs.sourceforge.net/
+COMMENT=		x86 machine simulator
+DISTNAME=		bochs-2.1.1
+DASH_VER=		1
+CATEGORIES=		emulators
+MASTER_SITES=		${MASTER_SITE_SOURCEFORGE:=bochs/}
+HOMEPAGE=		http://bochs.sourceforge.net/
 
 # GNU GPLv2
 PERMIT_PACKAGE_CDROM=	Yes
@@ -16,14 +17,15 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-CONFIGURE_STYLE= autoconf no-autoheader
-AUTOCONF_NEW=	 Yes
-CONFIGURE_ARGS=	--enable-cdrom \
-		--enable-fpu \
-		--enable-ne2000 \
-		--with-nogui \
-		--with-term \
-		--enable-all-optimizations
+USE_CXX=		Yes
+CONFIGURE_STYLE=	autoconf no-autoheader
+AUTOCONF_NEW=		Yes
+CONFIGURE_ARGS+=	--enable-cdrom \
+			--enable-fpu \
+			--enable-ne2000 \
+			--with-nogui \
+			--with-term \
+			--enable-all-optimizations
 
 FLAVOURS=	debug i386 i486 i686 x86_64 smp smp_4 smp_8 \
 		no_x11 no_mmx no_comp no_pci no_debug_readline
@@ -106,6 +108,9 @@ CONFIGURE_ARGS+= --enable-mmx
 .if !${FLAVOUR:L:Mno_comp}
 CONFIGURE_ARGS+= --enable-compressed-hd
 .endif
+
+post-extract:
+	cd ${WRKSRC:Q} && exec ${MKSH} ${.CURDIR}/patches/unfree__fontinstall
 
 post-configure:
 	@sed -e 's@!!PREFIX!!@${PREFIX}@' \

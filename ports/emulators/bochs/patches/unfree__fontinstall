@@ -1,12 +1,15 @@
 #!/bin/sh
-# $MirOS$
+# $MirOS: ports/emulators/bochs/patches/unfree__fontinstall,v 1.1.7.1 2005/03/18 15:45:52 tg Exp $
+#-
+# NOTE: see mircvs://contrib/fonts/fixed/README.dist for legalities.
+# NOTE: disregard the "unfree__" in the names of these four files.
 
 # XXX the LGPL bios looks nicer, because the Elpin bios seems
-# XXX to not use the font directly. Also, licence issues.
+# XXX to not use the font directly.
 
 [ -e configure.in ] || exit 1
 
-patch <$(dirname $0)/unfree__patch-font_vga_bitmap_h
+patch -z.orig-dist <$(dirname $0)/unfree__patch-font_vga_bitmap_h
 dd if=$(dirname $0)/unfree__vga14_0x3910_0x1396 bs=1 \
     seek=$(printf %d 0x1396) conv=notrunc \
     of=bios/VGABIOS-lgpl-latest
