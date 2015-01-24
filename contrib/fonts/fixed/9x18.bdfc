@@ -1,5 +1,5 @@
 =bdfc 1
-' "$MirOS: contrib/fonts/fixed/9x18.bdfc,v 1.7 2013/01/01 17:15:17 tg Exp $"
+' "$MirOS: contrib/fonts/fixed/9x18.bdfc,v 1.8 2013/09/26 23:14:21 tg Exp $"
 hFONT -Misc-Fixed-Medium-R-Normal--18-120-100-100-C-90-ISO10646-1
 hSIZE 12 100 100
 hFONTBOUNDINGBOX 9 18 0 -4
@@ -8,7 +8,7 @@ pAVERAGE_WIDTH 90
 pCAP_HEIGHT 10
 pCHARSET_ENCODING "1"
 pCHARSET_REGISTRY "ISO10646"
-pCOPYRIGHT "Fonts are not subject to Copyright law in Germany."
+pCOPYRIGHT "Bitmap fonts are not subject to Copyright law in Germany or the USA."
 pDEFAULT_CHAR 0
 pFAMILY_NAME "Fixed"
 pFONTNAME_REGISTRY ""
