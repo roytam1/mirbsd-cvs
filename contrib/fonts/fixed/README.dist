@@ -28,6 +28,10 @@ contain copyrightable information. This README is probably
 trivial. It was written in 2013 by Thorsten Glaser; the font
 effort was started in the 1990s, Fixed [Misc] in 2007.
 
+According to WP:PD, “a rasterized representation (e.g. bitmap)
+of the characters in a scalable font is not protected by
+copyright in the United States”, either.
+
 In countries where the Public Domain status is not valid,
 I offer a CC0 (Creative Commons Zero) or any OSI approved
 Open Source Licence as fallback, for my parts. The bitmaps
@@ -49,3 +53,6 @@ this is not enough for you seek legal counsel yourself.
 
 The preferred form of modification for X bitmap fonts is BDF or
 an equivalence transformation: https://www.mirbsd.org/man1/bdfctool
+
+__________________________________________________________________________
+$MirOS$
