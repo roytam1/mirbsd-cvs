@@ -134,7 +134,6 @@ static SSL_METHOD *ssl23_get_server_method(int ver)
 		return(NULL);
 	}
 
-#if !(defined(OPENSSL_NO_SSL2) && defined(OPENSSL_NO_SSL3))
 SSL_METHOD *SSLv23_server_method(void)
 	{
 	static int init=1;
@@ -147,7 +146,12 @@ SSL_METHOD *SSLv23_server_method(void)
 		if (init)
 			{
 			memcpy((char *)&SSLv23_server_data,
-				(char *)sslv23_base_method(),sizeof(SSL_METHOD));
+#if !(defined(OPENSSL_NO_SSL2) && defined(OPENSSL_NO_SSL3))
+				(char *)sslv23_base_method(),
+#else
+				(char *)tlsv1_base_method(),
+#endif
+				sizeof(SSL_METHOD));
 			SSLv23_server_data.ssl_accept=ssl23_accept;
 			SSLv23_server_data.get_ssl_method=ssl23_get_server_method;
 			init=0;
@@ -157,7 +161,6 @@ SSL_METHOD *SSLv23_server_method(void)
 		}
 	return(&SSLv23_server_data);
 	}
-#endif
 
 int ssl23_accept(SSL *s)
 	{
