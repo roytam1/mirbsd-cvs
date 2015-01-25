@@ -126,7 +126,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_srvr.c,v 1.13 2014/11/26 20:48:42 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_srvr.c,v 1.14 2015/01/25 17:07:22 tg Exp $");
 
 static SSL_METHOD *ssl3_get_server_method(int ver);
 static int ssl3_get_client_hello(SSL *s);
@@ -1774,7 +1774,7 @@ static int ssl3_get_cert_verify(SSL *s)
 	if (s->s3->tmp.message_type != SSL3_MT_CERTIFICATE_VERIFY)
 		{
 		s->s3->tmp.reuse_message=1;
-		if ((peer != NULL) && (type | EVP_PKT_SIGN))
+		if (peer != NULL)
 			{
 			al=SSL_AD_UNEXPECTED_MESSAGE;
 			SSLerr(SSL_F_SSL3_GET_CERT_VERIFY,SSL_R_MISSING_VERIFY_MESSAGE);
