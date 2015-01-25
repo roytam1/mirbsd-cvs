@@ -65,7 +65,7 @@
 #include <openssl/err.h>
 #include <openssl/ssl.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/apps/ocsp.c,v 1.3 2014/06/05 13:26:35 tg Exp $");
 
 /* Maximum leeway in validity period: default 5 minutes */
 #define MAX_VALIDITY_PERIOD	(5 * 60)
@@ -733,6 +733,8 @@ int MAIN(int argc, char **argv)
 			ctx = SSL_CTX_new(SSLv3_client_method());
 #elif !defined(OPENSSL_NO_SSL2)
 			ctx = SSL_CTX_new(SSLv2_client_method());
+#elif !defined(OPENSSL_NO_TLS1)
+			ctx = SSL_CTX_new(TLSv1_client_method());
 #else
 			BIO_printf(bio_err, "SSL is disabled\n");
 			goto end;
