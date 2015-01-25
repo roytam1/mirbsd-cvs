@@ -118,7 +118,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_clnt.c,v 1.11 2015/01/25 17:04:54 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_clnt.c,v 1.12 2015/01/25 17:07:22 tg Exp $");
 
 static SSL_METHOD *ssl3_get_client_method(int ver);
 static int ssl3_client_hello(SSL *s);
@@ -1000,7 +1000,7 @@ static int ssl3_get_key_exchange(SSL *s)
 		if (!SSL_C_IS_EXPORT(s->s3->tmp.new_cipher))
 			{
 			al=SSL_AD_UNEXPECTED_MESSAGE;
-			SSLerr(SSL_F_SSL3_GET_SERVER_CERTIFICATE,SSL_R_UNEXPECTED_MESSAGE);
+			SSLerr(SSL_F_SSL3_GET_KEY_EXCHANGE,SSL_R_UNEXPECTED_MESSAGE);
 			goto f_err;
 			}
 		if ((rsa=RSA_new()) == NULL)
