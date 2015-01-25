@@ -11987,12 +11987,6 @@ Waypoint: GC30132
 Title: Cacher In-Form
 Tag: D3 T2 Small Multi recommended
 ----
-ID: p20150124
-Date: 24.01.2015
-Waypoint: GC5H766
-Title: Geocacher in der Baracke 2
-Tag: D1 T1 Event
-----
 ID: p20150129
 Date: 29.01.2015
 Waypoint: GC5D5G4

@@ -171,7 +171,7 @@
 #ifdef EXTERN
 __RCSID("$MirOS: src/bin/mksh/sh.h,v 1.704 2014/11/19 21:49:12 tg Exp $");
 #endif
-#define MKSH_VERSION "R50 2015/01/04"
+#define MKSH_VERSION "R50 2015/01/25"
 
 /* arithmetic types: C implementation */
 #if !HAVE_CAN_INTTYPES
@@ -312,7 +312,11 @@ struct rusage {
 #undef PATH_MAX
 #else
 #ifndef PATH_MAX
+#ifdef MAXPATHLEN
+#define PATH_MAX	MAXPATHLEN
+#else
 #define PATH_MAX	1024
+#endif
 #endif
 #endif
 #ifndef SIZE_MAX

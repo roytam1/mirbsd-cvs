@@ -1,4 +1,4 @@
-/*	$OpenBSD: misc.c,v 1.38 2013/11/28 10:33:37 sobrado Exp $	*/
+/*	$OpenBSD: misc.c,v 1.39 2015/01/16 06:39:32 deraadt Exp $	*/
 /*	$OpenBSD: path.c,v 1.12 2005/03/30 17:16:37 deraadt Exp $	*/
 
 /*-
