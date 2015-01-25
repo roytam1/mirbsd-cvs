@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.568 2015/01/04 21:18:18 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.569 2015/01/11 00:23:08 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1102,6 +1102,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+ <li>[tg] OpenBSD sync: handle integer base out of band like ksh93 does</li>
+</ul>
+<p>Changes in the current (unreleased) R50-stable branch:</p><ul>
  <li>[tg] Add more tests detailing behaviour difference from GNU bash</li>
  <li>[tg] Introduce a memory leak for <tt>x=&lt;&lt;</tt> fixing use of
   freed memory instead, bug tracked as LP#1380389 still live</li>
@@ -1130,11 +1133,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] More int → bool conversion</li>
  <li>[tg] Let <tt>Build.sh</tt> be run by GNU bash 1.12.1 (Slackware 1.01)</li>
  <li>[Stéphane Chazelas, tg] Fix here string parsing issue</li>
- <li>[tg] OpenBSD sync: handle integer base out of band like ksh93 does</li>
  <li>[tg] Point out more future changes in the manpage</li>
  <li>[tg] Call setgid(2), setegid(2), setuid(2) before seteuid(2)</li>
  <li>[tg] Fix spurious empty line after ENOENT “whence -v”, found by Ypnose</li>
  <li>[tg] Optimise <tt>dot.mkshrc</tt> and modernise it a bit</li>
+ <li>[tg] Use MAXPATHLEN from &lt;sys/param.h&gt; for PATH_MAX fallback</li>
 </ul>
 <p id="r50d">R50d is a <strong>required</strong> bugfix release:</p><ul>
  <li>[Goodbox] Fix NULL pointer dereference on “unset x; nameref x”</li>
