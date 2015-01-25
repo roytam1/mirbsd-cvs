@@ -118,7 +118,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_clnt.c,v 1.9 2014/11/26 20:59:02 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_clnt.c,v 1.10 2014/11/26 21:05:54 tg Exp $");
 
 static SSL_METHOD *ssl3_get_client_method(int ver);
 static int ssl3_client_hello(SSL *s);
@@ -945,8 +945,24 @@ static int ssl3_get_key_exchange(SSL *s)
 
 	if (!ok) return((int)n);
 
+	alg=s->s3->tmp.new_cipher->algorithms;
+	EVP_MD_CTX_init(&md_ctx);
+
 	if (s->s3->tmp.message_type != SSL3_MT_SERVER_KEY_EXCHANGE)
 		{
+		/*
+		 * Can't skip server key exchange if this is an ephemeral
+		 * ciphersuite.
+		 */
+#ifndef SSL_kECDHE
+#define SSL_kECDHE 0
+#endif
+		if (alg & (SSL_kEDH|SSL_kECDHE))
+			{
+			SSLerr(SSL_F_SSL3_GET_KEY_EXCHANGE, SSL_R_UNEXPECTED_MESSAGE);
+			al = SSL_AD_UNEXPECTED_MESSAGE;
+			goto f_err;
+			}
 		s->s3->tmp.reuse_message=1;
 		return(1);
 		}
@@ -976,8 +992,6 @@ static int ssl3_get_key_exchange(SSL *s)
 		}
 
 	param_len=0;
-	alg=s->s3->tmp.new_cipher->algorithms;
-	EVP_MD_CTX_init(&md_ctx);
 
 #ifndef OPENSSL_NO_RSA
 	if (alg & SSL_kRSA)
