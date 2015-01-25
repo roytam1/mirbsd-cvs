@@ -65,7 +65,7 @@
 #include <openssl/buffer.h>
 #include <openssl/err.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/crypto/asn1/tasn_dec.c,v 1.8 2014/04/18 19:40:54 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/crypto/asn1/tasn_dec.c,v 1.9 2014/04/25 10:49:06 tg Exp $");
 
 static int asn1_check_eoc(unsigned char **in, long len);
 static int asn1_find_end(unsigned char **in, long len, char inf);
@@ -657,6 +657,14 @@ static int asn1_d2i_ex_primitive(ASN1_VALUE **pval, unsigned char **in, long inl
 			buf.data = NULL;
 		}
 	} else if(cst) {
+		if (utype == V_ASN1_NULL || utype == V_ASN1_BOOLEAN
+			|| utype == V_ASN1_OBJECT || utype == V_ASN1_INTEGER
+			|| utype == V_ASN1_ENUMERATED)
+			{
+			ASN1err(ASN1_F_ASN1_D2I_EX_PRIMITIVE,
+				ASN1_R_TYPE_NOT_PRIMITIVE);
+			return 0;
+			}
 		buf.length = 0;
 		buf.max = 0;
 		buf.data = NULL;
