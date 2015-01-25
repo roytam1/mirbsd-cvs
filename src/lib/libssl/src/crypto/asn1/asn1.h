@@ -974,6 +974,7 @@ void ERR_load_ASN1_strings(void);
 #define ASN1_F_ASN1_INTEGER_TO_BN			 119
 #define ASN1_F_ASN1_ITEM_EX_D2I				 120
 #define ASN1_F_ASN1_ITEM_NEW				 121
+#define ASN1_F_ASN1_ITEM_VERIFY				 197
 #define ASN1_F_ASN1_MBSTRING_COPY			 122
 #define ASN1_F_ASN1_OBJECT_NEW				 123
 #define ASN1_F_ASN1_PACK_STRING				 124
