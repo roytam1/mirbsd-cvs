@@ -126,7 +126,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_srvr.c,v 1.12 2014/11/26 20:34:05 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_srvr.c,v 1.13 2014/11/26 20:48:42 tg Exp $");
 
 static SSL_METHOD *ssl3_get_server_method(int ver);
 static int ssl3_get_client_hello(SSL *s);
@@ -328,22 +328,14 @@ int ssl3_accept(SSL *s)
 
 			/* clear this, it may get reset by
 			 * send_server_key_exchange */
-			if ((s->options & SSL_OP_EPHEMERAL_RSA)
-#ifndef OPENSSL_NO_KRB5
-				&& !(l & SSL_KRB5)
-#endif /* OPENSSL_NO_KRB5 */
-				)
-				/* option SSL_OP_EPHEMERAL_RSA sends temporary RSA key
-				 * even when forbidden by protocol specs
-				 * (handshake may fail as clients are not required to
-				 * be able to handle this) */
-				s->s3->tmp.use_rsa_tmp=1;
-			else
-				s->s3->tmp.use_rsa_tmp=0;
+			s->s3->tmp.use_rsa_tmp=0;
 
 			/* only send if a DH key exchange, fortezza or
 			 * RSA but we have a sign only certificate */
-			if (s->s3->tmp.use_rsa_tmp
+#ifndef SSL_kECDHE
+#define SSL_kECDHE 0
+#endif
+			if ((l & SSL_kECDHE)
 			    || (l & (SSL_DH|SSL_kFZA))
 			    || ((l & SSL_kRSA)
 				&& (s->cert->pkeys[SSL_PKEY_RSA_ENC].privatekey == NULL

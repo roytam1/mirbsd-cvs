@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/ssl/ssl.h,v 1.7 2014/11/26 20:21:38 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/ssl/ssl.h,v 1.8 2014/11/26 20:34:05 tg Exp $ */
 
 /* ssl/ssl.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -486,9 +486,8 @@ typedef struct ssl_session_st
 #define SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION	0x00010000L
 /* If set, always create a new key when using tmp_dh parameters */
 #define SSL_OP_SINGLE_DH_USE				0x00100000L
-/* Set to always use the tmp_rsa key when doing RSA operations,
- * even when this violates protocol specs */
-#define SSL_OP_EPHEMERAL_RSA				0x00200000L
+/* Does nothing: retained for compatibiity */
+#define SSL_OP_EPHEMERAL_RSA				0x0
 /* Set on servers to choose the cipher according to the server's
  * preferences */
 #define SSL_OP_CIPHER_SERVER_PREFERENCE			0x00400000L
