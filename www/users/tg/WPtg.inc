@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.149 2015/01/19 22:09:06 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.151 2015/01/25 15:23:50 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 ID: 1
 Date: 09.07.2006
@@ -11987,10 +11987,16 @@ Waypoint: GC30132
 Title: Cacher In-Form
 Tag: D3 T2 Small Multi recommended
 ----
-ID: p20150129
+ID: 2031
 Date: 29.01.2015
-Waypoint: GC5D5G4
-Title: - A - M - P - E - L - 6 -
+Waypoint: GC3CTKB
+Title: CHALLENGE: Happy Birthday!
+Tag: D45 T1 Micro Mystery Challenge
+----
+ID: p20150131
+Date: 31.01.2015
+Waypoint: GC5JQ00
+Title: FOSDEM 2015
 Tag: D1 T1 Event
 ----
 ID: p20150322
@@ -12006,19 +12012,6 @@ Title: Beweglicher Cache
 Tag: D2 T15 Virtual
 
 Warten auf Logfreigabe
-----
-ID: p20150404
-Date: 04.04.2015
-Waypoint: GC5JTZW OC1198A TC31TQ
-Banner: png
-Title: SciFun – Ostereier und Raketen 2015
-Tag: D2 T15 Event
-----
-ID: p201504042
-Date: 04.04.2015
-Waypoint: GC5K2E0
-Title: We ♥ Meßdorfer Feld
-Tag: D3 T2 CITO
 ----
 ID: p20150513
 Date: 13.05.2015
