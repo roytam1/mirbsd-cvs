@@ -11993,6 +11993,18 @@ Waypoint: GC3CTKB
 Title: CHALLENGE: Happy Birthday!
 Tag: D45 T1 Micro Mystery Challenge
 ----
+ID: 2032
+Date: 30.01.2015
+Waypoint: GC4XCXD
+Title: 💙 7 Art Nouveau Hankar
+Tag: D25 T1 Other Tradi
+----
+ID: 2033
+Date: 30.01.2015
+Waypoint: GC4XCYB
+Title: 💙 6 Art Nouveau Musée Horta
+Tag: D1 T1 Small Tradi
+----
 ID: p20150131
 Date: 31.01.2015
 Waypoint: GC5JQ00
