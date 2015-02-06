@@ -12023,10 +12023,29 @@ Waypoint: GC4X3EZ
 Title: Magna Plătĕa Bruocsellae (Fr-Nl-En)
 Tag: D3 T1 Small Tradi
 ----
+ID: 2039
+Date: 06.02.2015
+Waypoint: GC4WKHR
+Title: Virtuelle Peilung durch Fritzdorf
+Tag: D2 T15 Micro Multi
+----
+ID: 2040
+Date: 06.02.2015
+Waypoint: GC46N7N
+Title: Wachtberger Postämter: Fritzdorf
+Tag: D15 T25 Small Letterbox_Hybrid
+----
+ID: 2041
+Date: 06.02.2015
+Waypoint: OC11978
+Title: Godesberger Kreuze #7
+nTF: 3
+Tag: D15 T15 Virtual
+----
 ID: 2037
 Date: 31.01.2015
 Waypoint: GC51048
-Title: Manneken Pis 2,1,s,mu
+Title: Manneken Pis
 Tag: D2 T1 Small Multi
 
 Benötigt Vorarbeit oder Internetrecherche vor Ort.
@@ -12037,12 +12056,6 @@ Date: 31.01.2015
 Waypoint: GC4CZ33
 Title: Manneken Pis Takes A Break
 Tag: D15 T15 Nano Tradi
-----
-ID: p20150131
-Date: 31.01.2015
-Waypoint: GC5JQ00
-Title: FOSDEM 2015
-Tag: D1 T1 Event
 ----
 ID: p20150322
 Date: 22.03.2015
