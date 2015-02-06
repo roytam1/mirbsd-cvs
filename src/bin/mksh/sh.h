@@ -171,7 +171,7 @@
 #ifdef EXTERN
 __RCSID("$MirOS: src/bin/mksh/sh.h,v 1.704 2014/11/19 21:49:12 tg Exp $");
 #endif
-#define MKSH_VERSION "R50 2015/01/25"
+#define MKSH_VERSION "R50 2015/02/06"
 
 /* arithmetic types: C implementation */
 #if !HAVE_CAN_INTTYPES
@@ -1237,6 +1237,7 @@ struct block {
 
 /* Values for struct block.flags */
 #define BF_DOGETOPTS	BIT(0)	/* save/restore getopts state */
+#define BF_STOPENV	BIT(1)	/* do not export further */
 
 /*
  * Used by ktwalk() and ktnext() routines.
