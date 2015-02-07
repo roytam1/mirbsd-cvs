@@ -12023,6 +12023,21 @@ Waypoint: GC4X3EZ
 Title: Magna Plătĕa Bruocsellae (Fr-Nl-En)
 Tag: D3 T1 Small Tradi
 ----
+ID: 2037
+Date: 31.01.2015
+Waypoint: GC51048
+Title: Manneken Pis
+Tag: D2 T1 Small Multi
+
+Benötigt Vorarbeit oder Internetrecherche vor Ort.
+Kann <em>nicht</em> ausschließlich mit den Informationen vor Ort gelöst werden!
+----
+ID: 2038
+Date: 31.01.2015
+Waypoint: GC4CZ33
+Title: Manneken Pis Takes A Break
+Tag: D15 T15 Nano Tradi
+----
 ID: 2039
 Date: 06.02.2015
 Waypoint: GC4WKHR
@@ -12042,20 +12057,35 @@ Title: Godesberger Kreuze #7
 nTF: 3
 Tag: D15 T15 Virtual
 ----
-ID: 2037
-Date: 31.01.2015
-Waypoint: GC51048
-Title: Manneken Pis
-Tag: D2 T1 Small Multi
+ID: 2042
+Date: 07.02.2015
+Waypoint: GCF0E2
+Title: roldomo
+Tag: D15 T1 Regular Tradi
 
-Benötigt Vorarbeit oder Internetrecherche vor Ort.
-Kann <em>nicht</em> ausschließlich mit den Informationen vor Ort gelöst werden!
+Eher ein kleiner Regular, und definitiv <em>nicht</em> T1.
+Aber schöne Waldrunde.
 ----
-ID: 2038
-Date: 31.01.2015
-Waypoint: GC4CZ33
-Title: Manneken Pis Takes A Break
-Tag: D15 T15 Nano Tradi
+ID: 2043
+Date: 07.02.2015
+Waypoint: GC3M27Y
+Title: Duvenmaar im Heimerzheimer Wald
+Tag: D1 T2 Small Tradi
+
+Schöne Fortsetzung der Waldrunde.
+Hätte auch ein Earthcache sein können.
+----
+ID: 2044
+Date: 07.02.2015
+Waypoint: GC2XJ4W
+Title: Chicken run 9 (Waldrand)
+Tag: D15 T15 Micro Tradi
+----
+ID: 2045
+Date: 07.02.2015
+Waypoint: GC50MCE
+Title: Schutzengel
+Tag: D15 T1 Small Tradi
 ----
 ID: p20150322
 Date: 22.03.2015
