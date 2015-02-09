@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/sys/stddef.h,v 1.2 2014/02/09 16:15:33 tg Exp $ */
+/* $MirOS: src/sys/sys/stddef.h,v 1.3 2015/02/09 21:46:03 tg Exp $ */
 /* $OpenBSD: src/include/stddef.h,v 1.8 2005/05/11 18:44:12 espie Exp $ */
 /* $NetBSD: stddef.h,v 1.4 1994/10/26 00:56:26 cgd Exp $ */
 
@@ -51,8 +51,8 @@ typedef	__SIZE_TYPE__		size_t;
 /* C11 optional */
 #if !defined(__STDC_WANT_LIB_EXT1__) || (__STDC_WANT_LIB_EXT1__)
 #ifndef rsize_t
-#define rsize_t		rsize_t
-typedef size_t		rsize_t;
+#define rsize_t			rsize_t
+typedef size_t			rsize_t;
 #endif
 #endif /* __STDC_WANT_LIB_EXT1__ */
 

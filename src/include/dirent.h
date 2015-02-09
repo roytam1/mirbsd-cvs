@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/dirent.h,v 1.5 2013/10/31 20:06:07 tg Exp $ */
+/**	$MirOS: src/include/dirent.h,v 1.6 2015/02/09 21:46:01 tg Exp $ */
 /*	$OpenBSD: dirent.h,v 1.14 2005/06/18 18:09:42 millert Exp $	*/
 /*	$NetBSD: dirent.h,v 1.9 1995/03/26 20:13:37 jtc Exp $	*/
 
@@ -80,11 +80,11 @@ typedef struct _dirdesc {
 
 #ifndef NULL
 #ifdef __GNUG__
-#define	NULL			__null
+#define	NULL		__null
 #elif defined(lint) || defined(__cplusplus)
-#define	NULL			0
+#define	NULL		0
 #else
-#define	NULL			((void *)((__PTRDIFF_TYPE__)0UL))
+#define	NULL		((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
 

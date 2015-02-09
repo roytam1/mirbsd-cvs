@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdio.h,v 1.10 2014/02/09 16:30:28 tg Exp $ */
+/**	$MirOS: src/include/stdio.h,v 1.11 2015/02/09 21:46:02 tg Exp $ */
 /*	$OpenBSD: stdio.h,v 1.32 2005/05/11 18:39:19 espie Exp $	*/
 /*	$NetBSD: stdio.h,v 1.18 1996/04/25 18:29:21 jtc Exp $	*/
 
@@ -70,17 +70,17 @@ typedef	_BSD_OFF_T_	off_t;
 
 #ifndef NULL
 #ifdef __GNUG__
-#define	NULL			__null
+#define	NULL		__null
 #elif defined(lint) || defined(__cplusplus)
-#define	NULL			0
+#define	NULL		0
 #else
-#define	NULL			((void *)((__PTRDIFF_TYPE__)0UL))
+#define	NULL		((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
 
-#define	_FSTDIO			/* Define for new stdio with functions. */
+#define	_FSTDIO		/* Define for new stdio with functions. */
 
-typedef off_t fpos_t;		/* stdio file position type */
+typedef off_t fpos_t;	/* stdio file position type */
 
 /*
  * NB: to fit things in six character monocase externals, the stdio

@@ -50,11 +50,11 @@
 
 #ifndef NULL
 #ifdef __GNUG__
-#define	NULL			__null
+#define	NULL		__null
 #elif defined(lint) || defined(__cplusplus)
-#define	NULL			0
+#define	NULL		0
 #else
-#define	NULL			((void *)((__PTRDIFF_TYPE__)0UL))
+#define	NULL		((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
 
