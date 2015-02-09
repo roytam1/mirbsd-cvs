@@ -1,11 +1,11 @@
-/**	$MirOS: src/sys/sys/param.h,v 1.97 2013/08/06 20:34:01 tg Exp $ */
+/**	$MirOS: src/sys/sys/param.h,v 1.98 2014/02/20 01:01:00 tg Exp $ */
 /*	$OpenBSD: param.h,v 1.54 2004/02/27 18:06:55 deraadt Exp $	*/
 /*	$NetBSD: param.h,v 1.23 1996/03/17 01:02:29 thorpej Exp $	*/
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2009, 2011, 2012, 2013, 2014
  *	The MirOS Project.  All rights reserved.
- * Copyright (c) 2002, 2003, 2007, 2008
+ * Copyright (c) 2002, 2003, 2007, 2008, 2015
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1982, 1986, 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -58,11 +58,11 @@
 
 #ifndef NULL
 #ifdef __GNUG__
-#define	NULL		__null
-#elif defined(lint)
-#define	NULL		0
+#define	NULL			__null
+#elif defined(lint) || defined(__cplusplus)
+#define	NULL			0
 #else
-#define	NULL		((void *)((__PTRDIFF_TYPE__)0UL))
+#define	NULL			((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
 

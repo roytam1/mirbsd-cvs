@@ -1,9 +1,9 @@
-/**	$MirOS: src/include/time.h,v 1.11 2013/10/31 20:06:09 tg Exp $ */
+/**	$MirOS: src/include/time.h,v 1.12 2014/02/09 16:15:32 tg Exp $ */
 /*	$OpenBSD: time.h,v 1.16 2003/08/01 17:38:33 avsm Exp $	*/
 /*	$NetBSD: time.h,v 1.9 1994/10/26 00:56:35 cgd Exp $	*/
 
 /*
- * Copyright © 2013, 2014
+ * Copyright © 2013, 2014, 2015
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1989 The Regents of the University of California.
  * All rights reserved.
@@ -48,13 +48,13 @@
 #include <machine/ansi.h>
 #include <syskern/mirtime.h>
 
-#ifndef	NULL
-#ifdef 	__GNUG__
-#define	NULL	__null
-#elif defined(lint)
-#define	NULL	0
+#ifndef NULL
+#ifdef __GNUG__
+#define	NULL			__null
+#elif defined(lint) || defined(__cplusplus)
+#define	NULL			0
 #else
-#define	NULL	((void *)((__PTRDIFF_TYPE__)0UL))
+#define	NULL			((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
 

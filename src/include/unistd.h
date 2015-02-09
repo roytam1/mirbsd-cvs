@@ -1,9 +1,9 @@
-/**	$MirOS: src/include/unistd.h,v 1.6 2005/11/21 19:44:53 tg Exp $ */
+/**	$MirOS: src/include/unistd.h,v 1.7 2013/10/31 20:06:09 tg Exp $ */
 /*	$OpenBSD: unistd.h,v 1.53 2005/05/27 17:45:56 millert Exp $ */
 /*	$NetBSD: unistd.h,v 1.26.4.1 1996/05/28 02:31:51 mrg Exp $	*/
 
 /*-
- * Copyright © 2013
+ * Copyright © 2013, 2015
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1991 The Regents of the University of California.
  * All rights reserved.
@@ -47,12 +47,12 @@
 #define	STDERR_FILENO	2	/* standard error file descriptor */
 
 #ifndef NULL
-#ifdef 	__GNUG__
-#define	NULL	__null
-#elif defined(lint)
-#define	NULL	0
+#ifdef __GNUG__
+#define	NULL			__null
+#elif defined(lint) || defined(__cplusplus)
+#define	NULL			0
 #else
-#define	NULL	((void *)((__PTRDIFF_TYPE__)0UL))
+#define	NULL			((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
 

@@ -1,9 +1,9 @@
-/**	$MirOS: src/include/dirent.h,v 1.4 2005/11/21 19:31:53 tg Exp $ */
+/**	$MirOS: src/include/dirent.h,v 1.5 2013/10/31 20:06:07 tg Exp $ */
 /*	$OpenBSD: dirent.h,v 1.14 2005/06/18 18:09:42 millert Exp $	*/
 /*	$NetBSD: dirent.h,v 1.9 1995/03/26 20:13:37 jtc Exp $	*/
 
 /*-
- * Copyright © 2013
+ * Copyright © 2013, 2015
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -79,12 +79,12 @@ typedef struct _dirdesc {
 #define __DTF_READALL	0x0008	/* everything has been read */
 
 #ifndef NULL
-#ifdef 	__GNUG__
-#define	NULL	__null
-#elif defined(lint)
-#define	NULL	0
+#ifdef __GNUG__
+#define	NULL			__null
+#elif defined(lint) || defined(__cplusplus)
+#define	NULL			0
 #else
-#define	NULL	((void *)((__PTRDIFF_TYPE__)0UL))
+#define	NULL			((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
 

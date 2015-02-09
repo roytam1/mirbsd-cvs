@@ -1,9 +1,9 @@
-/**	$MirOS: src/include/stdlib.h,v 1.34 2014/03/05 14:07:26 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.35 2014/11/30 21:30:54 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
 /*-
- * Copyright © 2013, 2014
+ * Copyright © 2013, 2014, 2015
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
@@ -80,14 +80,13 @@ typedef struct {
 } qdiv_t;
 #endif
 
-
 #ifndef NULL
-#ifdef 	__GNUG__
-#define	NULL	__null
-#elif defined(lint)
-#define	NULL	0
+#ifdef __GNUG__
+#define	NULL			__null
+#elif defined(lint) || defined(__cplusplus)
+#define	NULL			0
 #else
-#define	NULL	((void *)((__PTRDIFF_TYPE__)0UL))
+#define	NULL			((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
 

@@ -1,9 +1,9 @@
-/**	$MirOS: src/include/stdio.h,v 1.9 2014/02/09 16:15:31 tg Exp $ */
+/**	$MirOS: src/include/stdio.h,v 1.10 2014/02/09 16:30:28 tg Exp $ */
 /*	$OpenBSD: stdio.h,v 1.32 2005/05/11 18:39:19 espie Exp $	*/
 /*	$NetBSD: stdio.h,v 1.18 1996/04/25 18:29:21 jtc Exp $	*/
 
 /*-
- * Copyright © 2013, 2014
+ * Copyright © 2013, 2014, 2015
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
@@ -69,12 +69,12 @@ typedef	_BSD_OFF_T_	off_t;
 #endif
 
 #ifndef NULL
-#ifdef 	__GNUG__
-#define	NULL	__null
-#elif defined(lint)
-#define	NULL	0
+#ifdef __GNUG__
+#define	NULL			__null
+#elif defined(lint) || defined(__cplusplus)
+#define	NULL			0
 #else
-#define	NULL	((void *)((__PTRDIFF_TYPE__)0UL))
+#define	NULL			((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
 

@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/sys/stddef.h,v 1.1 2013/09/10 21:24:21 tg Exp $ */
+/* $MirOS: src/sys/sys/stddef.h,v 1.2 2014/02/09 16:15:33 tg Exp $ */
 /* $OpenBSD: src/include/stddef.h,v 1.8 2005/05/11 18:44:12 espie Exp $ */
 /* $NetBSD: stddef.h,v 1.4 1994/10/26 00:56:26 cgd Exp $ */
 
@@ -69,7 +69,7 @@ typedef	__WINT_TYPE__		wint_t;
 #ifndef NULL
 #ifdef __GNUG__
 #define	NULL			__null
-#elif defined(lint)
+#elif defined(lint) || defined(__cplusplus)
 #define	NULL			0
 #else
 #define	NULL			((void *)((__PTRDIFF_TYPE__)0UL))

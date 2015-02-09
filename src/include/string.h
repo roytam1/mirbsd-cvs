@@ -1,9 +1,9 @@
-/**	$MirOS: src/include/string.h,v 1.12 2014/11/30 02:45:32 tg Exp $ */
+/**	$MirOS: src/include/string.h,v 1.13 2014/11/30 21:30:54 tg Exp $ */
 /*	$OpenBSD: string.h,v 1.15 2005/03/30 03:04:16 deraadt Exp $	*/
 /*	$NetBSD: string.h,v 1.6 1994/10/26 00:56:30 cgd Exp $	*/
 
 /*-
- * Copyright © 2013, 2014
+ * Copyright © 2013, 2014, 2015
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 1990 The Regents of the University of California.
  * All rights reserved.
@@ -59,12 +59,12 @@ typedef size_t		rsize_t;
 #endif /* __STDC_WANT_LIB_EXT1__ */
 
 #ifndef NULL
-#ifdef 	__GNUG__
-#define	NULL	__null
-#elif defined(lint)
-#define	NULL	0
+#ifdef __GNUG__
+#define	NULL			__null
+#elif defined(lint) || defined(__cplusplus)
+#define	NULL			0
 #else
-#define	NULL	((void *)((__PTRDIFF_TYPE__)0UL))
+#define	NULL			((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
 
