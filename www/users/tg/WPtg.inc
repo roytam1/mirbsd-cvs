@@ -12093,13 +12093,11 @@ Waypoint: GC5J68Z
 Title: Kunst im Glaskarree - Bad Godesberg
 Tag: D15 T15 Micro Tradi
 ----
-ID: p2047
+ID: 2047
 Date: 05.02.2015
 Waypoint: GCD3C0
 Title: Bornheim in USA?
 Tag: D5 T25 Virtual
-
-Warten auf Logfreigabe
 ----
 ID: p20150322
 Date: 22.03.2015
