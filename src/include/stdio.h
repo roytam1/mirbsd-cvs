@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdio.h,v 1.11 2015/02/09 21:46:02 tg Exp $ */
+/**	$MirOS: src/include/stdio.h,v 1.12 2015/02/09 21:50:44 tg Exp $ */
 /*	$OpenBSD: stdio.h,v 1.32 2005/05/11 18:39:19 espie Exp $	*/
 /*	$NetBSD: stdio.h,v 1.18 1996/04/25 18:29:21 jtc Exp $	*/
 
@@ -72,7 +72,7 @@ typedef	_BSD_OFF_T_	off_t;
 #ifdef __GNUG__
 #define	NULL		__null
 #elif defined(lint) || defined(__cplusplus)
-#define	NULL		0
+#define	NULL		0UL
 #else
 #define	NULL		((void *)((__PTRDIFF_TYPE__)0UL))
 #endif

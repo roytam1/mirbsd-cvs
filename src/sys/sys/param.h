@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/param.h,v 1.99 2015/02/09 21:46:03 tg Exp $ */
+/**	$MirOS: src/sys/sys/param.h,v 1.100 2015/02/09 21:50:45 tg Exp $ */
 /*	$OpenBSD: param.h,v 1.54 2004/02/27 18:06:55 deraadt Exp $	*/
 /*	$NetBSD: param.h,v 1.23 1996/03/17 01:02:29 thorpej Exp $	*/
 
@@ -60,7 +60,7 @@
 #ifdef __GNUG__
 #define	NULL		__null
 #elif defined(lint) || defined(__cplusplus)
-#define	NULL		0
+#define	NULL		0UL
 #else
 #define	NULL		((void *)((__PTRDIFF_TYPE__)0UL))
 #endif

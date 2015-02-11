@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/string.h,v 1.14 2015/02/09 21:46:02 tg Exp $ */
+/**	$MirOS: src/include/string.h,v 1.15 2015/02/09 21:50:44 tg Exp $ */
 /*	$OpenBSD: string.h,v 1.15 2005/03/30 03:04:16 deraadt Exp $	*/
 /*	$NetBSD: string.h,v 1.6 1994/10/26 00:56:30 cgd Exp $	*/
 
@@ -62,7 +62,7 @@ typedef size_t		rsize_t;
 #ifdef __GNUG__
 #define	NULL		__null
 #elif defined(lint) || defined(__cplusplus)
-#define	NULL		0
+#define	NULL		0UL
 #else
 #define	NULL		((void *)((__PTRDIFF_TYPE__)0UL))
 #endif

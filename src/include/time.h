@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/time.h,v 1.12 2014/02/09 16:15:32 tg Exp $ */
+/**	$MirOS: src/include/time.h,v 1.14 2015/02/09 21:50:44 tg Exp $ */
 /*	$OpenBSD: time.h,v 1.16 2003/08/01 17:38:33 avsm Exp $	*/
 /*	$NetBSD: time.h,v 1.9 1994/10/26 00:56:35 cgd Exp $	*/
 
@@ -52,7 +52,7 @@
 #ifdef __GNUG__
 #define	NULL		__null
 #elif defined(lint) || defined(__cplusplus)
-#define	NULL		0
+#define	NULL		0UL
 #else
 #define	NULL		((void *)((__PTRDIFF_TYPE__)0UL))
 #endif

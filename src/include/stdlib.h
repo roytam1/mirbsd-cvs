@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/stdlib.h,v 1.36 2015/02/09 21:46:02 tg Exp $ */
+/**	$MirOS: src/include/stdlib.h,v 1.37 2015/02/09 21:50:44 tg Exp $ */
 /*	$OpenBSD: stdlib.h,v 1.34 2005/05/27 17:45:56 millert Exp $	*/
 /*	$NetBSD: stdlib.h,v 1.25 1995/12/27 21:19:08 jtc Exp $	*/
 
@@ -84,7 +84,7 @@ typedef struct {
 #ifdef __GNUG__
 #define	NULL		__null
 #elif defined(lint) || defined(__cplusplus)
-#define	NULL		0
+#define	NULL		0UL
 #else
 #define	NULL		((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
