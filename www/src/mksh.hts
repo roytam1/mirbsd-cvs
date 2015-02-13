@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.570 2015/01/25 15:51:14 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.571 2015/02/06 11:00:50 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1105,6 +1105,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] OpenBSD sync: handle integer base out of band like ksh93 does</li>
  <li>[tg] Some code cleanup and warnings fixes</li>
  <li>[tg] Add options <tt>-a argv0</tt> and <tt>-c</tt> to <tt>exec</tt></li>
+ <li>[jsg] Prevent use-after-free when hitting multiple errors unwinding</li>
 </ul>
 <p>Changes in the current (unreleased) R50-stable branch:</p><ul>
  <li>[tg] Add more tests detailing behaviour difference from GNU bash</li>
@@ -1268,6 +1269,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li>Allow trimming arrays (e.g. <tt>${foo[*]@Q}</tt>)</li>
 <li>Add -DMKSH_BAIKA_NO_JUTSU (trade more size for more speed)</li>
 <li>FKSH functions have local scope for flags (<tt>set -o</tt>) in ksh93</li>
+<li>Someone should run mksh through afl and fix everything it finds</li>
 <li><a href="mksh_old.htm#plans">older/unrealistic plans</a></li>
 <li>… such as a better website, more clearly arranged, etc…</li>
 <li>Although there is <em>definite</em> need, eventually, to have
