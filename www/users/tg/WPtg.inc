@@ -12113,10 +12113,23 @@ Waypoint: GC490E0
 Title: Paulusplatz
 Tag: D25 T2 Micro Tradi
 ----
+ID: 2050
+Date: 13.02.2015
+Waypoint: GE0308 OC11AD8
+Title: Godesberger Kreuze #8
+nTF: 0
+Tag: D15 T1 Virtual
+----
 ID: p20150307
 Date: 07.03.2015
 Waypoint: GC5MN1G
 Title: 38. Ahrweiler Geocacher Treffen
+Tag: D1 T1 Event
+----
+ID: p20150313
+Date: 13.03.2015
+Waypoint: GC5KB7K
+Title: Klaav un Tratsch op Kölsch XLIII + Pre Pi(e)-DAY
 Tag: D1 T1 Event
 ----
 ID: p20150322
@@ -12133,11 +12146,36 @@ Tag: D2 T15 Virtual
 
 Warten auf Logfreigabe
 ----
+ID: p20150402
+Date: 02.04.2015
+Waypoint: GC5MDPH
+Title: Dönerstag 2015 -Bonn
+Tag: D15 T15 Event
+----
+ID: p201504041
+Date: 04.04.2015
+Waypoint: TC31TQ OC1198A GC5JTZW
+Banner: png
+Title: SciFun – Ostereier und Raketen 2015
+Tag: D2 T15 Event
+----
+ID: p201504042
+Date: 04.04.2015
+Waypoint: GC5K2E0
+Title: We ♥ Meßdorfer Feld
+Tag: D3 T2 CITO
+----
 ID: p20150513
 Date: 13.05.2015
 Waypoint: GC57V0R
 Title: GPS MAZE EUROPE - Germany
 Tag: D1 T1 Other GPS_Maze
+----
+ID: p20150426
+Date: 26.04.2015
+Waypoint: GC5M72Z
+Title: Bonner CITO-Day 2015
+Tag: D1 T2 CITO
 ----
 ID: p20150516
 Date: 16.05.2015
