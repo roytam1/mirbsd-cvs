@@ -1,5 +1,6 @@
 RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.151 2015/01/25 15:23:50 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
+# GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
 Date: 09.07.2006
 Waypoint: GCN89C OC01A9
@@ -12120,6 +12121,25 @@ Title: Godesberger Kreuze #8
 nTF: 0
 Tag: D15 T1 Virtual
 ----
+ID: 2051
+Date: 14.02.2015
+Waypoint: GE0309 OC11ADE
+Title: Godesberger Kreuze #9
+nTF: 0
+Tag: D2 T15 Virtual
+----
+ID: 2052
+Date: 14.02.2015
+Waypoint: GC4Q31C
+Title: Gotteshäuser: Evangelische Johanniskirchengemeinde
+Tag: D2 T1 Micro Tradi
+----
+ID: 2053
+Date: 14.02.2015
+Waypoint: GC36WXJ
+Title: Brücklein fein, klein und mein
+Tag: D25 T2 Nano Tradi
+----
 ID: p20150307
 Date: 07.03.2015
 Waypoint: GC5MN1G
@@ -12165,17 +12185,17 @@ Waypoint: GC5K2E0
 Title: We ♥ Meßdorfer Feld
 Tag: D3 T2 CITO
 ----
-ID: p20150513
-Date: 13.05.2015
-Waypoint: GC57V0R
-Title: GPS MAZE EUROPE - Germany
-Tag: D1 T1 Other GPS_Maze
-----
 ID: p20150426
 Date: 26.04.2015
 Waypoint: GC5M72Z
 Title: Bonner CITO-Day 2015
 Tag: D1 T2 CITO
+----
+ID: p20150513
+Date: 13.05.2015
+Waypoint: GC57V0R
+Title: GPS MAZE EUROPE - Germany
+Tag: D1 T1 Other GPS_Maze
 ----
 ID: p20150516
 Date: 16.05.2015
