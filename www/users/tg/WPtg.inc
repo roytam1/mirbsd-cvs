@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.151 2015/01/25 15:23:50 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.161 2015/02/14 20:37:42 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -12139,6 +12139,36 @@ Date: 14.02.2015
 Waypoint: GC36WXJ
 Title: Brücklein fein, klein und mein
 Tag: D25 T2 Nano Tradi
+----
+ID: 2054
+Date: 15.02.2015
+Waypoint: GC2F38 OC41B0
+Title: Cologne's First
+Tag: D1 T1 Regular Multi
+----
+ID: 2055
+Date: 15.02.2015
+Waypoint: GC1QVKH
+Title: T´s. Geburtstags-Nachtcache
+Tag: D15 T3 Regular Multi recommended
+----
+ID: 2056
+Date: 15.02.2015
+Waypoint: GC4BP35
+Title: Kackdreist
+Tag: D1 T15 Micro Tradi
+----
+ID: p2057
+Date: 15.02.2015
+Waypoint: GC9AE6 OC0936 N0044E
+Title: Earthcache Mt. Kalk
+Tag: D2 T2 Virtual
+----
+ID: p2058
+Date: 15.02.2015
+Waypoint: GCCB9B OC092D
+Title: Des Kaiser´s Handy#1-Station 50 / Köln-Flittard
+Tag: D3 T1 Virtual
 ----
 ID: p20150307
 Date: 07.03.2015
