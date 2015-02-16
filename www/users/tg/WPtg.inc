@@ -12158,6 +12158,30 @@ Waypoint: GC4BP35
 Title: Kackdreist
 Tag: D1 T15 Micro Tradi
 ----
+ID: 2057
+Date: 16.02.2015
+Waypoint: GC49VCA
+Title: KuhKiefer
+Tag: D2 T3 Micro Tradi
+----
+ID: 2058
+Date: 16.02.2015
+Waypoint: OCFC0A
+Title: Rettungspunkte [Safari-Cache]
+Tag: D2 T2 Virtual Safari
+----
+ID: 2059
+Date: 16.02.2015
+Waypoint: GCHB5V
+Title: Der verborgene Ring im Kottenforst
+Tag: D1 T15 Regular Multi
+----
+ID: 2060
+Date: 16.02.2015
+Waypoint: GC4NKYG
+Title: Bodenkunde im Kottenforst (reload) - Talentstehung
+Tag: D2 T2 Earth
+----
 ID: p2057
 Date: 15.02.2015
 Waypoint: GC9AE6 OC0936 N0044E
