@@ -1,6 +1,8 @@
 /*	$OpenBSD: process.c,v 1.12 2003/11/07 02:58:23 tedu Exp $	*/
 
 /*-
+ * Copyright (c) 2015
+ *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
  * Copyright (c) 1992 Diomidis Spinellis.
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -33,15 +35,13 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-/* from: static char sccsid[] = "@(#)process.c	8.1 (Berkeley) 6/6/93"; */
-static char *rcsid = "$OpenBSD: process.c,v 1.12 2003/11/07 02:58:23 tedu Exp $";
-#endif /* not lint */
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <sys/uio.h>
+
+__SCCSID("@(#)process.c	8.1 (Berkeley) 6/6/93");
+__RCSID("$MirOS$");
 
 #include <ctype.h>
 #include <errno.h>
@@ -227,7 +227,7 @@ redirect:
 				    DEFFILEMODE)) == -1)
 					err(FATAL, "%s: %s",
 					    cp->t, strerror(errno));
-				if (write(cp->u.fd, ps, psl) != psl)
+				if ((size_t)write(cp->u.fd, ps, psl) != psl)
 					err(FATAL, "%s: %s",
 					    cp->t, strerror(errno));
 				break;
@@ -411,7 +411,7 @@ substitute(struct s_command *cp)
 		if (cp->u.s->wfd == -1 && (cp->u.s->wfd = open(cp->u.s->wfile,
 		    O_WRONLY|O_APPEND|O_CREAT|O_TRUNC, DEFFILEMODE)) == -1)
 			err(FATAL, "%s: %s", cp->u.s->wfile, strerror(errno));
-		if (write(cp->u.s->wfd, ps, psl) != psl)
+		if ((size_t)write(cp->u.s->wfd, ps, psl) != psl)
 			err(FATAL, "%s: %s", cp->u.s->wfile, strerror(errno));
 	}
 	return (1);
@@ -459,11 +459,12 @@ static void
 lputs(char *s)
 {
 	int count;
-	char *escapes, *p;
+	char *p;
+	const char *escapes;
 	struct winsize win;
 	static int termwidth = -1;
 
-	if (termwidth == -1)
+	if (termwidth == -1) {
 		if ((p = getenv("COLUMNS")))
 			termwidth = atoi(p);
 		else if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &win) == 0 &&
@@ -471,6 +472,7 @@ lputs(char *s)
 			termwidth = win.ws_col;
 		else
 			termwidth = 60;
+	}
 
 	for (count = 0; *s; ++s) { 
 		if (count >= termwidth) {
@@ -482,6 +484,10 @@ lputs(char *s)
 			count++;
 		} else {
 			escapes = "\\\a\b\f\n\r\t\v";
+			if (*s == '\n' && s[1] == '\0') {
+				/* omit trailing newline */
+				break;
+			}
 			(void)putchar('\\');
 			if ((p = strchr(escapes, *s))) {
 				(void)putchar("\\abfnrtv"[p - escapes]);
