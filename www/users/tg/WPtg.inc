@@ -12200,6 +12200,13 @@ Waypoint: GC4T9WE
 Title: Zahlenspiel #2
 Tag: D3 T2 Micro Mystery
 ----
+ID: p20150304
+Date: 04.03.2015
+Waypoint: GC5N2BE GE030A N02F84 OC11B61 TC7LXR
+Title: AMT Ⅲ (2015 KW10)
+nTF: 0
+Tag: D1 T1 Event
+----
 ID: p20150307
 Date: 07.03.2015
 Waypoint: GC5MN1G
