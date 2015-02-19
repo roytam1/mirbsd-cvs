@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.571 2015/02/06 11:00:50 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.572 2015/02/13 12:56:45 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1106,6 +1106,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Some code cleanup and warnings fixes</li>
  <li>[tg] Add options <tt>-a argv0</tt> and <tt>-c</tt> to <tt>exec</tt></li>
  <li>[jsg] Prevent use-after-free when hitting multiple errors unwinding</li>
+ <li>[tg] Fix use of <tt>$*</tt> and <tt>$@</tt> in scalar context: within
+  <tt>[[ … ]]</tt> and after <tt>case</tt> (spotted by Stéphane Chazelas)
+  and in here documents (spotted by tg@); fix here document expansion</li>
+ <li>[tg] Unbreak when <tt>$@</tt> shares double quotes with others</li>
 </ul>
 <p>Changes in the current (unreleased) R50-stable branch:</p><ul>
  <li>[tg] Add more tests detailing behaviour difference from GNU bash</li>
@@ -1260,9 +1264,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li>Build and actually work on more platforms – DJGPP, PW32,
  Plan 9, Syllable, NuttX – debug these</li>
 <li>Bugfix for suspending <tt>a &amp;&amp; b</tt> chain</li>
-<li>“process substitution” echo diff &lt;(echo 1) &lt;(echo 2) <a
- href="http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=606821">#606821</a>
- ‣ pretty hard, it turns out (parsing concept is done in tg@’s head)</li>
+<li>“process substitution” echo diff &lt;(echo 1) &lt;(echo 2)</li>
 <li>whence -p -a foo</li>
 <li>read -e (or something): use the edit.c stuff for inputting</li>
 <li>↑ actually make a libmkshedit, see my mirtoconf v2 plans</li>
