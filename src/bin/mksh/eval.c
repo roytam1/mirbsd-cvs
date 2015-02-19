@@ -847,15 +847,20 @@ expand(
 					continue;
 				}
 				c = ifs0;
+				if ((f & DOHEREDOC)) {
+					/* pseudo-field-split reliably */
+					if (c == 0)
+						c = ' ';
+					break;
+				}
 				if ((f & DOSCALAR)) {
 					/* do not field-split */
 					if (x.split) {
 						c = ' ';
 						break;
 					}
-					if (c == 0) {
+					if (c == 0)
 						continue;
-					}
 				}
 				if (c == 0) {
 					if (quote && !x.split)

@@ -171,7 +171,7 @@
 #ifdef EXTERN
 __RCSID("$MirOS: src/bin/mksh/sh.h,v 1.704 2014/11/19 21:49:12 tg Exp $");
 #endif
-#define MKSH_VERSION "R50 2015/02/13"
+#define MKSH_VERSION "R50 2015/02/19"
 
 /* arithmetic types: C implementation */
 #if !HAVE_CAN_INTTYPES
@@ -1402,6 +1402,7 @@ struct ioword {
 #define DOMARKDIRS BIT(10)	/* force markdirs behaviour */
 #define DOTCOMEXEC BIT(11)	/* not an eval flag, used by sh -c hack */
 #define DOSCALAR BIT(12)	/* change field handling to non-list context */
+#define DOHEREDOC BIT(13)	/* change scalar handling to heredoc body */
 
 #define X_EXTRA	20	/* this many extra bytes in X string */
 

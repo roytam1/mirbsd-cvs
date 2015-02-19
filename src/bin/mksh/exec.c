@@ -1492,7 +1492,7 @@ hereinval(const char *content, int sub, char **resbuf, struct shf *shf)
 		if (yylex(sub) != LWORD)
 			internal_errorf("%s: %s", "herein", "yylex");
 		source = osource;
-		ccp = evalstr(yylval.cp, DOSCALAR);
+		ccp = evalstr(yylval.cp, DOSCALAR | DOHEREDOC);
 	}
 
 	if (resbuf == NULL)
