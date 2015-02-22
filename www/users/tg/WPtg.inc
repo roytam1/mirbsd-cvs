@@ -12237,6 +12237,49 @@ Title: Bonner Doppel-Webcam-Cache
 nTF: 2
 Tag: D1 T1 Virtual Webcam
 ----
+ID: 2070
+Date: 22.02.2015
+Waypoint: VX79-HIIS
+Title: [Sweden], RHB-Flerzheim
+----
+ID: 2071
+Date: 22.02.2015
+Waypoint: GC4KDG6
+Title: Challenge: Nasse Füße
+Tag: D4 T4 Regular Mystery Challenge
+----
+ID: 2072
+Date: 22.02.2015
+Waypoint: GC1XWRK
+Title: Gotteshäuser St. Cosmas und Damian Eckendorf
+Tag: D1 T15 Micro Tradi
+----
+ID: 2073
+Date: 22.02.2015
+Waypoint: GC3BAXA
+Title: CHALLENGE: DER SAMMLER (300 COINS oder TBs)
+Tag: D5 T2 Micro Mystery Challenge
+----
+ID: 2074
+Date: 22.02.2015
+Waypoint: GC2J0X2
+Title: Dornröschen reloaded
+Tag: D2 T1 Micro Tradi
+----
+ID: 2075
+Date: 22.02.2015
+Waypoint: GC3CV7H
+Title: Blechkisten - Party
+Tag: D1 T1 Micro Tradi
+
+Eher D3, und verdient das Attribut „dangerous area“…
+----
+ID: 2076
+Date: 22.02.2015
+Waypoint: GC55BR0
+Title: Besuch bei Betty Blüh
+Tag: D3 T1 Nano Tradi
+----
 ID: p20150304
 Date: 04.03.2015
 Waypoint: GC5N2BE GE030A N02F84 OC11B61 TC7LXR
