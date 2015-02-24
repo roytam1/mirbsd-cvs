@@ -12280,6 +12280,30 @@ Waypoint: GC55BR0
 Title: Besuch bei Betty Blüh
 Tag: D3 T1 Nano Tradi
 ----
+ID: 2077
+Date: 24.02.2015
+Waypoint: GC5BZ04
+Title: Auf dem Präsentierteller
+Tag: D15 T15 Other Tradi exceptional recommended
+----
+ID: 2078
+Date: 24.02.2015
+Waypoint: GC5DKBX
+Title: Jubiläum 1500
+Tag: D15 T2 Micro Tradi
+----
+ID: 2079
+Date: 24.02.2015
+Waypoint: GC4C8GN
+Title: Endlich zuhause
+Tag: D15 T1 Micro Tradi
+----
+ID: 2080
+Date: 24.02.2015
+Waypoint: GC3YGYB
+Title: Wanderparkplatz Gräfenhohn
+Tag: D15 T15 Micro Tradi
+----
 ID: p20150304
 Date: 04.03.2015
 Waypoint: GC5N2BE GE030A N02F84 OC11B61 TC7LXR
@@ -12304,6 +12328,12 @@ ID: p20150313
 Date: 13.03.2015
 Waypoint: GC5KB7K
 Title: Klaav un Tratsch op Kölsch XLIII + Pre Pi(e)-DAY
+Tag: D1 T1 Event
+----
+ID: p20150320
+Date: 20.03.2015
+Waypoint: GC5NA2Y
+Title: Sonnenfinsternis am Planetenlehrpfad
 Tag: D1 T1 Event
 ----
 ID: p20150321
