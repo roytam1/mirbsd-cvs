@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: X11/extras/bdfctool/bdfctool.sh,v 1.11 2012/09/01 19:00:01 tg Exp $
+# $MirOS: X11/extras/bdfctool/bdfctool.sh,v 1.12 2013/05/17 21:51:40 tg Exp $
 #-
-# Copyright © 2012, 2013
-#	Thorsten Glaser <tg@mirbsd.org>
+# Copyright © 2012, 2013, 2015
+#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -424,14 +424,19 @@ function parse_bdf {
 			if (( (numlines = cb[2]) )); then
 				bmps=
 				typeset -u linu
-				while IFS= read -r linu; do
+				while IFS= read -r linx; do
 					(( ++lno ))
-					if eval [[ '$linu' != "$ck" ]]; then
+					linu=$linx
+					while eval [[ '$linu' != "$ck" ]]; do
+						if [[ $linu = *00 ]]; then
+							linu=${linu%00}
+							continue
+						fi
 						print -ru2 "E: invalid hex encoding" \
 						    "for U+${ch#16#} (dec. $((ch)))" \
-						    "on line $lno: '$linu'"
+						    "on line $lno: '$linx'"
 						exit 2
-					fi
+					done
 					bmps+=$linu:
 					(( --numlines )) || break
 				done
