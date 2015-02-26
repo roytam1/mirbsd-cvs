@@ -1,7 +1,7 @@
 #!/bin/mksh
 # $MirOS: X11/extras/bdfctool/bdfctool.sh,v 1.12 2013/05/17 21:51:40 tg Exp $
 #-
-# Copyright © 2012, 2013, 2015
+# Copyright © 2007, 2008, 2009, 2010, 2012, 2013, 2015
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -24,13 +24,14 @@ set -o noglob
 uascii=-1
 ufast=0
 oform=0
-while getopts "acdeFgh" ch; do
+while getopts "acdeFGgh" ch; do
 	case $ch {
 	(a) uascii=1 ;;
 	(+a) uascii=0 ;;
 	(c|d|e|+e) mode=$ch ;;
 	(F) ufast=1 ;;
 	(+F) ufast=0 ;;
+	(G) oform=4 ;;
 	(g) oform=3 ;;
 	(h) mode=$ch ;;
 	(*) mode= ;;
@@ -41,15 +42,15 @@ shift $((OPTIND - 1))
 
 if [[ $mode = ?(h) ]] || [[ $mode != e && $uascii != -1 ]] || \
     [[ $mode != d && $ufast$oform != 00 ]]; then
-	print -ru2 "Usage: ${0##*/} -c | -d [-Fg] | -e [-a] | +e"
+	print -ru2 "Usage: ${0##*/} -c | -d [-FGg] | -e [-a] | +e"
 	[[ $mode = h ]]; exit $?
 fi
 
 # check padding on input, currently
-(( chkpad = (oform == 3) ))
+(( chkpad = (oform == 3 || oform == 4) ))
 
 # disable -F if -g
-(( ufast = (oform == 3) ? 0 : ufast ))
+(( ufast = (oform == 3 || oform == 4) ? 0 : ufast ))
 
 lno=0
 if [[ $mode = e ]]; then
@@ -686,6 +687,87 @@ for line in "${Fprop[@]}"; do
 	[[ $line = p* ]] && let ++numprop
 done
 (( ufast )) || numchar=${#Gdata[*]}
+
+# handle diverging and non-ufast output formats
+case $oform {
+(3)
+	# little-endian .gdf
+	function out_int32 {
+		typeset -Uui16 value=$1
+		typeset -Uui8 ba bb bc bd
+
+		(( bd = (value >> 24) & 0xFF ))
+		(( bc = (value >> 16) & 0xFF ))
+		(( bb = (value >> 8) & 0xFF ))
+		(( ba = value & 0xFF ))
+		print -n "\\0${ba#8#}\\0${bb#8#}\\0${bc#8#}\\0${bd#8#}"
+	}
+	;|
+(4)
+	# big-endian .gdf
+	function out_int32 {
+		typeset -Uui16 value=$1
+		typeset -Uui8 ba bb bc bd
+
+		(( ba = (value >> 24) & 0xFF ))
+		(( bb = (value >> 16) & 0xFF ))
+		(( bc = (value >> 8) & 0xFF ))
+		(( bd = value & 0xFF ))
+		print -n "\\0${ba#8#}\\0${bb#8#}\\0${bc#8#}\\0${bd#8#}"
+	}
+	;|
+(3|4)
+	# do some input analysis for .gdf output
+	if [[ -z $hFBB ]]; then
+		print -ru2 "E: missing FONTBOUNDINGBOX header"
+		exit 2
+	fi
+	set -A f -- ${!Gdata[*]}
+	typeset -i firstch=${f[0]} lastch=${f[${#f[*]} - 1]}
+	nullch=
+	x=$((hFBB[1] * hFBB[2]))
+	while (( x-- )); do
+		nullch+=\\0
+	done
+	if (( hFBB[1] <= 8 )); then
+		adds=000000
+	elif (( hFBB[1] <= 16 )); then
+		adds=0000
+	elif (( hFBB[1] <= 24 )); then
+		adds=00
+	else
+		adds=
+	fi
+	# write .gdf stream
+	out_int32 $((# lastch - firstch + 1))
+	out_int32 $((# firstch))
+	out_int32 $((# hFBB[1]))
+	out_int32 $((# hFBB[2]))
+	typeset -i curch
+	((# curch = firstch - 1 ))
+	while ((# ++curch <= lastch )); do
+		set -A f -- ${Gdata[curch]}
+		if [[ -z $f ]]; then
+			print -n "$nullch"
+			continue
+		fi
+		IFS=:
+		set -A bmp -- ${f[3]}
+		IFS=$' \t\n'
+		s=
+		for line in "${bmp[@]}"; do
+			typeset -Uui2 bbin=16#$line$adds
+			x=${hFBB[1]}
+			while (( x-- )); do
+				s+=\\0$(( (bbin & 0x80000000) ? 377 : 0 ))
+				(( bbin <<= 1 ))
+			done
+		done
+		print -n "$s"
+	done
+	exit 0
+	;;
+}
 
 # write BDF stream
 print 'STARTFONT 2.1'

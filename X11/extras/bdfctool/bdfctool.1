@@ -140,7 +140,7 @@
 .Fl c
 .Nm
 .Fl d
-.Op Fl F
+.Op Fl FGg
 .Nm
 .Fl e
 .Op Fl a
@@ -200,6 +200,10 @@ Used by the
 .Mx
 .Tn XFree86\(rg
 build process.
+.It Fl G
+Output a big-endian .gdf (libgd font) instead.
+.It Fl g
+Output a little-endian .gdf (libgd font) instead.
 .El
 .Sh BDFC FORMAT DESCRIPTION
 A
@@ -375,6 +379,8 @@ The
 .Tn XFree86\(rg
 .Ic Bitmap Distribution Format ,
 version 2.1, specification
+.Pp
+.Pa http://php.net/manual/en/function.imageloadfont.php
 .Sh AUTHORS
 .An Thorsten Glaser Aq tg@mirbsd.org
 wrote this tool because
@@ -409,3 +415,6 @@ is not equivalent to compressing then decompressing it.
 The position of the
 .Li STARTPROPERTIES
 line can change, if bordering comments, for example.
+.Pp
+There is no support for padding BDF fonts yet.
+Output to gdf fonts requires padded input.
