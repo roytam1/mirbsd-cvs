@@ -28,9 +28,8 @@ while getopts "acdeFGgh" ch; do
 	case $ch {
 	(a) uascii=1 ;;
 	(+a) uascii=0 ;;
-	(c|d|e|+e) mode=$ch ;;
-	(F) ufast=1 ;;
-	(+F) ufast=0 ;;
+	(c|d|e|+e) mode=$ch oform=0 ;;
+	(F) ufast=1 oform=0 ;;
 	(G) oform=4 ;;
 	(g) oform=3 ;;
 	(h) mode=$ch ;;
