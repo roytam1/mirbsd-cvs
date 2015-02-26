@@ -645,12 +645,12 @@ if ! IFS= read -r line; then
 	exit 2
 fi
 lno=1
-if [[ $line != '=bdfc 1' ]]; then
-	print -ru2 "E: not bdfc at BOF: '$line'"
-	exit 2
-fi
 
 if (( ufast )); then
+	if [[ $line != '=bdfc 1' ]]; then
+		print -ru2 "E: not bdfc at BOF: '$line'"
+		exit 2
+	fi
 	if ! T=$(mktemp /tmp/bdfctool.XXXXXXXXXX); then
 		print -u2 E: cannot make temporary file
 		exit 4
@@ -669,9 +669,15 @@ if (( ufast )); then
 		set -A last
 	done
 	Fprop+=("${last[@]}")
-else
+elif [[ $line = 'STARTFONT 2.1' ]]; then
+	# parse entire BDF file into memory
+	parse_bdf
+elif [[ $line = '=bdfc 1' ]]; then
 	# parse entire bdfc file into memory
 	parse_bdfc
+else
+	print -ru2 "E: not BDF or bdfc at BOF: '$line'"
+	exit 2
 fi
 
 # analyse data for BDF
