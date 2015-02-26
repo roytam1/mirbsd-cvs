@@ -1,4 +1,4 @@
-rcsid_cfg='$MirOS: www/data/tg.gc,v 1.18 2014/06/29 13:19:45 tg Exp $'
+rcsid_cfg='$MirOS: www/data/tg.gc,v 1.19 2014/07/20 21:31:21 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -7,6 +7,8 @@ gclogin=mirabilos
 statname=$gclogin
 fontsize1=28
 fontsize2=16
+fontadj1=0,0
+fontadj2=0,-1
 
 gcbanners[${#gcbanners[*]}]='<a href="http://fish.mirbsd.org/wptg.htm#banners">Cache banners for mirabilos</a>'
 
