@@ -1,4 +1,4 @@
-/* $MirOS: src/bin/rm/rm.c,v 1.7 2009/01/17 11:27:05 tg Exp $ */
+/* $MirOS: src/bin/rm/rm.c,v 1.8 2010/09/21 21:24:02 tg Exp $ */
 /* $NetBSD: rm.c,v 1.46 2007/06/24 17:59:31 christos Exp $ */
 /* $OpenBSD: rm.c,v 1.18 2005/06/14 19:15:35 millert Exp $ */
 
@@ -36,7 +36,7 @@ __COPYRIGHT("@(#) Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)rm.c	8.8 (Berkeley) 4/27/95");
 __RCSID("$NetBSD: rm.c,v 1.46 2007/06/24 17:59:31 christos Exp $");
-__RCSID("$MirOS: src/bin/rm/rm.c,v 1.7 2009/01/17 11:27:05 tg Exp $");
+__RCSID("$MirOS: src/bin/rm/rm.c,v 1.8 2010/09/21 21:24:02 tg Exp $");
 
 #include <sys/param.h>
 #include <sys/stat.h>
@@ -144,6 +144,7 @@ main(int argc, char *argv[])
 	char dname[MAXPATHLEN];					\
 	size_t dcount = strlen(fn);				\
 	uint64_t dhash = dcount * (intptr_t)(fn);		\
+	const char *dnp = dname;				\
 								\
 	/* for fun: push back hash of original pathname */	\
 	while (dcount--)					\
@@ -151,7 +152,12 @@ main(int argc, char *argv[])
 	arc4random_pushb_fast(&dhash, sizeof(dhash));		\
 								\
 	/* try to rename entry randomly before removal */	\
+	errno = 0;						\
 	do {							\
+		if (NONEXISTENT(errno)) {			\
+			dnp = (fn);				\
+			break;					\
+		}						\
 		if ((size_t)snprintf(dname, sizeof (dname),	\
 		    "%s/rm.%08X", dirname(fn),			\
 		    arc4random()) >= (sizeof(dname) + 5)) {	\
@@ -160,7 +166,7 @@ main(int argc, char *argv[])
 			break;					\
 		}						\
 	} while (rename((fn), dname));				\
-	rv = func(dname);					\
+	rv = func(dnp);						\
 } while (/* CONSTCOND */ 0)
 
 void
@@ -424,8 +430,7 @@ rm_overwrite(char *file, struct stat *sbp)
 
 #define	WRITE_PASS(mode, byte, buf, bufsz) do {				\
 	off_t len;							\
-	size_t wlen, i;							\
-	u_int32_t *qbuf = (u_int32_t *)buf;				\
+	size_t wlen;							\
 									\
 	if (fsync(fd) || lseek(fd, (off_t)0, SEEK_SET))			\
 		goto err;						\
@@ -538,9 +543,12 @@ check(char *path, char *name, struct stat *sp)
 		 * because their permissions are meaningless.  Check stdin_ok
 		 * first because we may not have stat'ed the file.
 		 */
+		errno = 0;
 		if (!stdin_ok || S_ISLNK(sp->st_mode) ||
 		    !(access(name, W_OK) && (errno != ETXTBSY)))
 			return (1);
+		if (NONEXISTENT(errno))
+			return (0);
 		strmode(sp->st_mode, modep);
 		if (Pflag) {
 			warnx(
