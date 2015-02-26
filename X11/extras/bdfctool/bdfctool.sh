@@ -23,13 +23,15 @@ set -o noglob
 
 uascii=-1
 ufast=0
-while getopts "acdeFh" ch; do
+oform=0
+while getopts "acdeFgh" ch; do
 	case $ch {
 	(a) uascii=1 ;;
 	(+a) uascii=0 ;;
 	(c|d|e|+e) mode=$ch ;;
 	(F) ufast=1 ;;
 	(+F) ufast=0 ;;
+	(g) oform=3 ;;
 	(h) mode=$ch ;;
 	(*) mode= ;;
 	}
@@ -38,10 +40,16 @@ shift $((OPTIND - 1))
 (( $# )) && mode=
 
 if [[ $mode = ?(h) ]] || [[ $mode != e && $uascii != -1 ]] || \
-    [[ $mode != d && $ufast != 0 ]]; then
-	print -ru2 "Usage: ${0##*/} -c | -d [-F] | -e [-a] | +e"
+    [[ $mode != d && $ufast$oform != 00 ]]; then
+	print -ru2 "Usage: ${0##*/} -c | -d [-Fg] | -e [-a] | +e"
 	[[ $mode = h ]]; exit $?
 fi
+
+# check padding on input, currently
+(( chkpad = (oform == 3) ))
+
+# disable -F if -g
+(( ufast = (oform == 3) ? 0 : ufast ))
 
 lno=0
 if [[ $mode = e ]]; then
@@ -138,21 +146,36 @@ function parse_bdfc_file {
 			state=1
 			return
 		elif [[ $line = '=bdfc 1' ]]; then
+			set -A hFBB
 			continue
 		fi
 		last+=("$line")
-		[[ $line = \' || $line = "' "* ]] && continue
-		if [[ $line = h* ]]; then
+		case $line {
+		(\'|\'\ *)
+			continue
+			;;
+		(hFONTBOUNDINGBOX\ +([0-9])\ +([0-9])\ +([0-9-])\ +([0-9-]))
+			set -A hFBB -- $line
 			Fhead+=("${last[@]}")
-		elif [[ $line = p* ]]; then
+			;;
+		(h*)
+			Fhead+=("${last[@]}")
+			;;
+		(p*)
 			Fprop+=("${last[@]}")
-		else
-			print -ru2 "E: invalid line #$lno: '$line'"
+			;;
+		(*)
+			print -ru2 "E: invalid line $lno: '$line'"
 			exit 2
-		fi
+			;;
+		}
 		set -A last
 	done
 	Fprop+=("${last[@]}")
+	(( chkpad )) && if [[ -z $hFBB ]]; then
+		print -ru2 "E: missing FONTBOUNDINGBOX header"
+		exit 2
+	fi
 	state=2
 }
 
@@ -192,7 +215,7 @@ function parse_bdfc_edit {
 		linx=${linx//[ .]/0}
 		linx=${linx//[#*]/1}
 		if [[ $linx != +([01])'|' || ${#linx} != $((w + 1)) ]]; then
-			print -ru2 "E: U+${ch#16#} (line #$lno) bitmap line" \
+			print -ru2 "E: U+${ch#16#} (line $lno) bitmap line" \
 			    $((f[3] - i)) "invalid: '$line'"
 			exit 2
 		fi
@@ -223,10 +246,14 @@ function parse_bdfc_glyph {
 		set -A f -- $line
 		if [[ ${f[0]} = d ]]; then
 			Fdef="${f[*]}"
+			(( chkpad )) && if [[ ${f[5]},${f[6]} != ${hFBB[3]},${hFBB[4]} ]]; then
+				print -ru2 "E: d line $lno does not match FONTBOUNDINGBOX … ${hFBB[3]} ${hFBB[4]}"
+				exit 2
+			fi
 			continue
 		fi
 		if [[ ${f[0]} != [ce] ]]; then
-			print -ru2 "E: invalid line #$lno: '$line'"
+			print -ru2 "E: invalid line $lno: '$line'"
 			exit 2
 		fi
 		if [[ $Fdef != 'd '* ]]; then
@@ -247,6 +274,10 @@ function parse_bdfc_glyph {
 			print -ru2 "E: width ${f[2]} not in 1‥32 at line $lno"
 			exit 2
 		fi
+		(( chkpad )) && if [[ ${f[2]} != ${hFBB[1]} ]]; then
+			print -ru2 "E: c line $lno width ${f[2]} does not match FONTBOUNDINGBOX ${hFBB[1]}"
+			exit 2
+		fi
 		[[ ${f[4]} = "uni${ch#16#}" ]] && unset f[4]
 		if [[ ${f[0]} = e ]]; then
 			parse_bdfc_edit
@@ -263,6 +294,13 @@ function parse_bdfc_glyph {
 			if eval [[ '${f[3]}:' != "$x" ]]; then
 				print -ru2 "E: invalid hex encoding for" \
 				    "U+${ch#16#}, line $lno: '${f[3]}'"
+				exit 2
+			fi
+		fi
+		if (( chkpad )); then
+			x=${f[3]//[!:]}
+			if (( (${#x} + 1) != hFBB[2] )); then
+				print -ru2 "E: c line $lno height $((${#x} + 1)) does not match FONTBOUNDINGBOX ${hFBB[2]}"
 				exit 2
 			fi
 		fi
@@ -290,6 +328,7 @@ function parse_bdfc {
 }
 
 function parse_bdf {
+	set -A hFBB
 	while IFS= read -r line; do
 		(( ++lno ))
 		case $line {
@@ -302,11 +341,19 @@ function parse_bdf {
 		(STARTPROPERTIES\ +([0-9]))
 			break
 			;;
+		(FONTBOUNDINGBOX\ +([0-9])\ +([0-9])\ +([0-9-])\ +([0-9-]))
+			set -A hFBB -- $line
+			Fhead+=("h$line")
+			;;
 		(*)
 			Fhead+=("h$line")
 			;;
 		}
 	done
+	(( chkpad )) && if [[ -z $hFBB ]]; then
+		print -ru2 "E: missing FONTBOUNDINGBOX header"
+		exit 2
+	fi
 	set -A f -- $line
 	numprop=${f[1]}
 	while IFS= read -r line; do
@@ -381,6 +428,10 @@ function parse_bdf {
 			;;
 		(BBX\ +([0-9])\ +([0-9])\ +([0-9-])\ +([0-9-]))
 			set -A cb -- $line
+			(( chkpad )) && if [[ ${cb[1]},${cb[2]},${cb[3]},${cb[4]} != ${hFBB[1]},${hFBB[2]},${hFBB[3]},${hFBB[4]} ]]; then
+				print -ru2 "E: BBX in line $lno does not match FONTBOUNDINGBOX ${hFBB[1]} ${hFBB[2]} ${hFBB[3]} ${hFBB[4]}"
+				exit 2
+			fi
 			;;
 		(BITMAP)
 			if [[ -z $cn ]]; then
@@ -543,7 +594,7 @@ if [[ $mode = +e ]]; then
 		fi
 		set -A f -- $line
 		if [[ ${f[0]} != [ce] ]]; then
-			print -ru2 "E: invalid line #$lno: '$line'"
+			print -ru2 "E: invalid line $lno: '$line'"
 			exit 2
 		fi
 		if [[ ${f[1]} != [0-9A-F][0-9A-F][0-9A-F][0-9A-F] ]]; then
