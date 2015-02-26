@@ -170,7 +170,8 @@ Figures 1 and 2 best illustrate the bitmap format and
 character metric information.
 .bp
 \&
-.sp 30
+.ie \n(.g .PSPIC fig1.ps 408p 653p
+.el .sp 30
 .ce 5
 BBw = 9, BBh = 22, BBox = -2, BBoy = -6
 DWIDTH = 8 0
@@ -180,8 +181,9 @@ SWIDTH = 355 0
 Figure 1: An example of a descender
 .bp
 \&
-.sp 30
-.ce 4
+.ie \n(.g .PSPIC fig2.ps 341p 588p
+.el .sp 30
+.ce 5
 BBh = 6, BBw = 4, BBox = +2, BBoy = +12
 DWIDTH = 5 0
 SWIDTH = 223 0
