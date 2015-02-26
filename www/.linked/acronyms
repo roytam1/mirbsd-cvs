@@ -6414,6 +6414,7 @@ I.D.R.	in der Regel
 I.E.	id est (it is, that is)
 I/O	input / output
 I000	[Oracle] Disk and Tape I/O Slave Process
+I18N	internationalisation
 I2O	intelligent input/output
 IA	information assurance
 IA	[USA] Iowa
@@ -7923,6 +7924,7 @@ L	[Kfz:D] kreisfreie Stadt Leipzig und Landkreis Leipziger Land
 L	[Kfz:D] Lahn-Dill-Kreis, Zulassungsstelle in Wetzlar, Nebenstelle in Dillenburg
 L	[Kfz] Luxemburg
 L000	[Oracle] Pooled Server Process
+L10N	localisation
 L8	late
 L8ER	later
 L8R	later
