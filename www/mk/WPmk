@@ -309,7 +309,8 @@ fi
 			print -r " $wp"
 		done
 		# skip if 1, or if 2 and not 4
-		(( (iskip & 1) || ((iskip & 6) == 2) )) || (( ++i_sum ))
+		[[ -z $xid ]] || \
+		    (( (iskip & 1) || ((iskip & 6) == 2) )) || (( ++i_sum ))
 		for x in ${e_tag[ent]}; do
 			[[ $x = recommended ]] && \
 			    sep='<span style="color:red;" title="Recommended">❧</span>'
