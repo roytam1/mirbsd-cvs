@@ -12310,6 +12310,12 @@ Waypoint: GC5N6J1
 Title: Happy Birthday mirabilos 1,225 Kg
 Tag: D15 T2 Micro Tradi
 ----
+ID: 2082
+Date: 27.02.2015
+Waypoint: OCED0F GC3XM4C
+Title: Koordinate-Jumelage
+Tag: D35 T1 Nano Mystery
+----
 ID: p20150304
 Date: 04.03.2015
 Waypoint: GC5N2BE GE030A N02F84 OC11B61 TC7LXR
@@ -12334,6 +12340,18 @@ ID: p20150313
 Date: 13.03.2015
 Waypoint: GC5KB7K
 Title: Klaav un Tratsch op Kölsch XLIII + Pre Pi(e)-DAY
+Tag: D1 T1 Event
+----
+ID: p201503143
+Date: 14.03.2015
+Waypoint: GC57DCW
+Title: Challenge - Events
+Tag: D3 T15 Micro Mystery Challenge
+----
+ID: p201503142
+Date: 14.03.2015
+Waypoint: GC5NFJF
+Title: Geocacher in der Baracke 3,14159...
 Tag: D1 T1 Event
 ----
 ID: p20150314
