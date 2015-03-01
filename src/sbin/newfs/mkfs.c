@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/newfs/mkfs.c,v 1.4 2006/08/18 18:05:48 tg Exp $ */
+/**	$MirOS: src/sbin/newfs/mkfs.c,v 1.5 2010/09/21 21:24:18 tg Exp $ */
 /*	$OpenBSD: mkfs.c,v 1.47 2005/04/14 19:58:32 deraadt Exp $	*/
 /*	$NetBSD: mkfs.c,v 1.25 1995/06/18 21:35:38 cgd Exp $	*/
 
@@ -53,7 +53,7 @@
 #endif
 
 __SCCSID("@(#)mkfs.c	8.3 (Berkeley) 2/3/94");
-__RCSID("$MirOS: src/sbin/newfs/mkfs.c,v 1.4 2006/08/18 18:05:48 tg Exp $");
+__RCSID("$MirOS: src/sbin/newfs/mkfs.c,v 1.5 2010/09/21 21:24:18 tg Exp $");
 
 /*
  * make file system for cylinder-group style file systems
@@ -306,7 +306,7 @@ recalc:
 	for (sblock.fs_cpc = NSPB(&sblock), i = sblock.fs_spc;
 	     sblock.fs_cpc > 1 && (i & 1) == 0;
 	     sblock.fs_cpc >>= 1, i >>= 1)
-		/* void */;
+		;	/* nothing */
 	mincpc = sblock.fs_cpc;
 	bpcg = sblock.fs_spc * sectorsize;
 	inospercg = roundup(bpcg / sizeof(struct ufs1_dinode), INOPB(&sblock));

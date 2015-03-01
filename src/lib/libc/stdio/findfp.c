@@ -142,7 +142,7 @@ f_prealloc(void)
 
 	n = getdtablesize() - FOPEN_MAX + 20;		/* 20 for slop. */
 	for (g = &__sglue; (n -= g->niobs) > 0 && g->next; g = g->next)
-		/* void */;
+		;	/* nothing */
 	if (n > 0)
 		g->next = moreglue(n);
 }

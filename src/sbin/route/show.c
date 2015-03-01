@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/route/show.c,v 1.2 2005/03/06 19:50:34 tg Exp $	*/
+/**	$MirOS: src/sbin/route/show.c,v 1.3 2005/10/26 17:57:06 tg Exp $	*/
 /*	$OpenBSD: show.c,v 1.43 2005/05/27 04:55:27 mcbride Exp $	*/
 /*	$NetBSD: show.c,v 1.1 1996/11/15 18:01:41 gwr Exp $	*/
 
@@ -655,7 +655,7 @@ ipx_print(struct sockaddr *sa)
 		snprintf(chost, sizeof(chost), "%02X%02X%02X%02X%02X%02XH",
 		    q[0], q[1], q[2], q[3], q[4], q[5]);
 		for (p = chost; *p == '0' && p < chost + 12; p++)
-			/* void */;
+			;	/* nothing */
 		host = p;
 	}
 	if (port)

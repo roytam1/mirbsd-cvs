@@ -1400,7 +1400,7 @@ defcomline(pacmac c12)
 			return;
 		}
 		while (C == '.')
-			/*VOID*/;
+			;	/* nothing */
 	}
 	++inmacro;
 	/*
@@ -1541,7 +1541,7 @@ sizetab(struct mactab *mp)
 	i = 0;
 	if (mp) {
 		for (; mp->macname; mp++, i++)
-			/*VOID*/ ;
+			;	/* nothing */
 	}
 	return(i);
 }

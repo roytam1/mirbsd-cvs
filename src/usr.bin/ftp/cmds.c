@@ -80,7 +80,7 @@
 #include "ftp_var.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/cmds.c,v 1.5 2007/07/15 20:01:07 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/cmds.c,v 1.6 2013/09/15 11:01:28 tg Exp $");
 
 jmp_buf	jabort;
 char   *mname;
@@ -2020,7 +2020,7 @@ macdef(int argc, char *argv[])
 	}
 	while (1) {
 		while ((c = getchar()) != '\n' && c != EOF)
-			/* LOOP */;
+			;	/* nothing */
 		if (c == EOF || getchar() == '\n') {
 			fputs("Macro not defined - 4K buffer exceeded.\n", ttyout);
 			code = -1;

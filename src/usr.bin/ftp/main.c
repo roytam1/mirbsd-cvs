@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/ftp/main.c,v 1.9 2014/04/18 22:32:06 tg Exp $ */
+/**	$MirOS: src/usr.bin/ftp/main.c,v 1.10 2014/11/13 22:58:29 tg Exp $ */
 /*	$OpenBSD: main.c,v 1.65 2007/06/16 08:58:33 espie Exp $	*/
 /*	$NetBSD: main.c,v 1.24 1997/08/18 10:20:26 lukem Exp $	*/
 
@@ -80,7 +80,7 @@
 
 __COPYRIGHT("@(#)Copyright (c) 1985, 1989, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
-__RCSID("$MirOS: src/usr.bin/ftp/main.c,v 1.9 2014/04/18 22:32:06 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/main.c,v 1.10 2014/11/13 22:58:29 tg Exp $");
 
 int family = PF_UNSPEC;
 
@@ -463,7 +463,7 @@ cmdscanner(int top)
 			} else if (num == sizeof(line) - 2) {
 				fputs("sorry, input line too long.\n", ttyout);
 				while ((num = getchar()) != '\n' && num != EOF)
-					/* void */;
+					;	/* nothing */
 				break;
 			} /* else it was a line without a newline */
 #ifndef SMALL

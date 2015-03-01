@@ -1161,7 +1161,7 @@ readhere(struct ioword *iop)
 	if (iop->flag & IOSKIP) {
 		/* skip over leading tabs */
 		while ((c = getsc()) == '\t')
-			/* nothing */;
+			;	/* nothing */
 		goto heredoc_parse_char;
 	}
  heredoc_read_char:

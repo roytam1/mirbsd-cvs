@@ -220,7 +220,7 @@ parsefmt(char *p)
 		struct varent *vent;
 
 		while ((cp = strsep(&p, FMTSEP)) != NULL && *cp == '\0')
-			/* void */;
+			;	/* nothing */
 		if (!cp)
 			break;
 		if (!(v = findvar(cp)) || v->parsed == 1)

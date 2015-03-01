@@ -71,7 +71,7 @@ crack(char *line, int *argc)
 
 	for (p = line, i = 0; p != NULL && i < 8; i++) {
 		while ((val = strsep(&p, " \t\n")) != NULL && *val == '\0')
-			/**/;
+			;	/* nothing */
 		if (val)
 			argv[i] = val;
 		else

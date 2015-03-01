@@ -84,7 +84,7 @@
 
 #include "ftp_var.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/ftp.c,v 1.6 2007/07/15 20:01:08 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/ftp.c,v 1.7 2010/08/12 11:30:46 tg Exp $");
 
 union sockunion {
 	struct sockinet {
@@ -1984,7 +1984,7 @@ abort_remote(FILE *din)
 	}
 	if (din && (pfd[1].revents & POLLIN)) {
 		while (read(fileno(din), buf, BUFSIZ) > 0)
-			/* LOOP */;
+			;	/* nothing */
 	}
 	if (getreply(0) == ERROR && code == 552) {
 		/* 552 needed for nic style abort */

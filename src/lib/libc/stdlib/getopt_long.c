@@ -55,7 +55,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-__RCSID("$MirOS: src/lib/libc/stdlib/getopt_long.c,v 1.3 2011/12/04 21:01:30 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdlib/getopt_long.c,v 1.4 2011/12/04 23:50:21 tg Exp $");
 
 int	opterr = 1;		/* if error message should be printed */
 int	optind = 1;		/* index into parent argv vector */
@@ -427,7 +427,7 @@ start:
 	if (long_options != NULL && optchar == 'W' && oli[1] == ';') {
 		/* -W long-option */
 		if (*place)			/* no space */
-			/* NOTHING */;
+			;	/* nothing */
 		else if (++optind >= nargc) {	/* no arg */
 			place = EMSG;
 			if (PRINT_ERROR)

@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <unistd.h>
 
-static const char __rcsid[] = "$MirOS: contrib/hosted/tg/deb/arngc/arngc-slrd.c,v 1.1 2013/10/24 09:32:36 tg Exp $";
+static const char __rcsid[] = "$MirOS: contrib/hosted/tg/deb/arngc/arngc-slrd.c,v 1.2 2014/07/08 13:00:19 tg Exp $";
 
 static const char errmsg[] = "arngc-slrd: I/O failed, first and only message\n";
 
@@ -26,7 +26,7 @@ main(void)
 	/* three keepalives, then our request 10s before the fourth one */
 	slp = 150;
 	while ((slp = sleep(slp)))
-		/* nothing */;
+		;	/* nothing */
 	goto mainloop;
 
 	/* NOTREACHED */

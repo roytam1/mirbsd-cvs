@@ -1240,7 +1240,7 @@ j_waitj(Job *j,
 	rv = j->status;
 
 	if (!(p = j->proc_list)) {
-		/* nothing */;
+		;	/* nothing */
 	} else if (flags & JW_PIPEST) {
 		uint32_t num = 0;
 		struct tbl *vp;

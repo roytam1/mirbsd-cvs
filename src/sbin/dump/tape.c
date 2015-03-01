@@ -1,4 +1,4 @@
-/**	$MirOS: src/sbin/dump/tape.c,v 1.2 2005/03/06 19:49:52 tg Exp $ */
+/**	$MirOS: src/sbin/dump/tape.c,v 1.3 2005/11/23 16:43:53 tg Exp $ */
 /*	$OpenBSD: tape.c,v 1.24 2005/03/13 19:10:49 cloder Exp $	*/
 /*	$NetBSD: tape.c,v 1.11 1997/06/05 11:13:26 lukem Exp $	*/
 
@@ -60,7 +60,7 @@
 #include "pathnames.h"
 
 __SCCSID("@(#)tape.c	8.2 (Berkeley) 3/17/94");
-__RCSID("$MirOS: src/sbin/dump/tape.c,v 1.2 2005/03/06 19:49:52 tg Exp $");
+__RCSID("$MirOS: src/sbin/dump/tape.c,v 1.3 2005/11/23 16:43:53 tg Exp $");
 
 int	writesize;		/* size of malloc()ed buffer for tape */
 long	lastspclrec = -1;	/* tape block number of last written header */
@@ -385,7 +385,7 @@ trewind(void)
 		(void) close(slaves[f].fd);
 	}
 	while (wait((int *)NULL) >= 0)	/* wait for any signals from slaves */
-		/* void */;
+		;	/* nothing */
 
 	if (pipeout)
 		return;

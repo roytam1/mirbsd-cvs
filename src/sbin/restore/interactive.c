@@ -333,8 +333,9 @@ getcmd(char *curdir, char *cmd, size_t cmdlen, char *name, size_t namelen,
 		(void)strlcpy(cmd, "quit", cmdlen);
 		return;
 	}
+	/* trim off trailing white space and newline */
 	for (cp = &input[strlen(input) - 2]; *cp == ' ' || *cp == '\t'; cp--)
-		/* trim off trailing white space and newline */;
+		;	/* nothing */
 	*++cp = '\0';
 	/*
 	 * Copy the command into "cmd".
@@ -414,8 +415,9 @@ copynext(char *input, char *output)
 	char *cp, *bp;
 	char quote;
 
+	/* skip to argument */
 	for (cp = input; *cp == ' ' || *cp == '\t'; cp++)
-		/* skip to argument */;
+		;	/* nothing */
 	bp = output;
 	while (*cp != ' ' && *cp != '\t' && *cp != '\0') {
 		/*
@@ -495,8 +497,9 @@ canon(char *rawname, char *canonname, size_t canonnamelen)
 		}
 		if (np - cp == 2 && strncmp(cp, "..", 2) == 0) {
 			cp--;
+			/* find beginning of name */
 			while (cp > &canonname[1] && *--cp != '/')
-				/* find beginning of name */;
+				;	/* nothing */
 			(void)strlcpy(cp, np, canonname + canonnamelen - cp);
 			np = cp;
 		}
