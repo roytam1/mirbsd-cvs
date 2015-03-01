@@ -3,7 +3,7 @@
 
 mws_setname hosted/ksh-chan "The #ksh on Freenode page"
 mws_setheadline 'Channel page for #ksh'
-mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.77 2015/01/11 00:23:08 tg Exp $'
+mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.78 2015/02/13 12:56:44 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of contents</h2>
 EOF
@@ -50,18 +50,18 @@ mws_content <<'EOF'
 	sprunge() {
 		curl -F "sprunge=&lt;-" http://sprunge.us
 	}
-  </pre> (currently down; uses Google ⇒ evil)</li>
+  </pre></li>
  <li>(Sorry, the others are down.)</li>
 </ul>
 
 <h2 id="vsns">Korn Shell versions</h2>
-<p>This information is current as of: 2015-02-13 (13 February 2015)</p>
+<p>This information is current as of: 2015-03-01 (1 March 2015)</p>
 <p><a href="http://www.kornshell.com/">AT&amp;T Korn Shell</a>: latest is
  ksh93v- (beta) dated 2014-09-29 (29 September 2014) and ksh93u+ (stable)
  dated 2012-08-01; actively developed</p>
 <p><a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a>: latest is
- mksh R50d, dated 2014-10-07 (7 October 2014)<!-- and, in the oldstable bugfix
- series, mksh R44, dated 2013-03-05 (5 March 2013)-->; link to active <a
+ mksh R50e, dated 2015-03-01 (1 March 2015)<!-- and, in the oldstable bugfix
+ series, mksh R50e, dated 2015-03-01 (1 March 2015)-->; link to active <a
  href="@@RELPATH@@mksh.htm#clog">development tree changelog</a></p>
 <p><a href="@@RELPATH@@permalinks/wlog-10_e20130718-tg.htm">mksh/Win32</a>:
  latest is Beta 14 (based on mksh R39), dated 2013-06-29 (29 June 2013)</p>

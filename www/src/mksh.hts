@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.572 2015/02/13 12:56:45 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.573 2015/02/19 22:30:26 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R50d</h2>
+<h2>mksh(1) R50e</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -50,9 +50,9 @@ mws_content <<'EOF'
  “MirBSD Korn Shell”.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R50d</strong> from
- <em>7 October 2014</em>.<!-- br />In the oldstable bugfixing-only series, the
- current version is <em>mksh R44</em> from <em>5 March 2013</em>.--></p>
+<p>The current version of mksh is <strong>mksh R50e</strong> from
+ <em>1 March 2015</em>.<!-- br />In the oldstable bugfixing-only series, the
+ current version is <em>mksh R50e</em> from <em>1 March 2015</em>.--></p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
  for just another account on a Sun E420 on Solaris 11β. Thanks to someone who
@@ -187,15 +187,15 @@ mws_content <<'EOF'
  <em>as well as</em> the hashes and/or checksums below, so you’re sure the
  content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50d.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50d.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50d.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50d.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50e.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50e.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50e.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50e.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
 <!-- cd /MirOS/dist/mir/mksh; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
-  <li>RMD160 (mksh-R50d.tgz) = 473417750fe50ed0f947076752677432aa9fbd82</li>
-  <li>TIGER (mksh-R50d.tgz) = 8ebcb5deba6dbffa89a4d7e8f08ac90bcdc20b97f9b3ba8d</li>
-  <li>3675541758 374014 /MirOS/dist/mir/mksh/mksh-R50d.tgz</li>
-  <li>MD5 (mksh-R50d.tgz) = 1c3882c07a760b23df1ad94ad0b4ed2e</li>
+  <li>RMD160 (mksh-R50e.tgz) = f105c2416f87cac0ef72e4790e0adb1cc057e90f</li>
+  <li>TIGER (mksh-R50e.tgz) = 868819329322cd2a78a7643156cf868543590c429d720f6e</li>
+  <li>4205226567 376013 /MirOS/dist/mir/mksh/mksh-R50e.tgz</li>
+  <li>MD5 (mksh-R50e.tgz) = 5f0bd21e64aabef4ac64d95a95e1b727</li>
 <!--
  <li style="list-style:none;">↑ formal release │ stable bugfix series ↓</li>
   <li>RMD160 (mksh-R44.tgz) = 4cf1525c477c4bece519c024cc73ee6ca064d34a</li>
@@ -209,7 +209,7 @@ mws_content <<'EOF'
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
- so a simple <tt>tar xzf mksh-R50d.tgz</tt> will work. It will create all files
+ so a simple <tt>tar xzf mksh-R50e.tgz</tt> will work. It will create all files
  in a subdirectory <tt>./mksh/</tt>.</p>
 
 <h3 id="vendorpatching">Patching</h3>
@@ -832,6 +832,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  mailing list, either directly or via GMane, if you have an interest
  in mksh, such as packaging it. Thanks!
  <i>(unfinished…)</i></p>
+<p id="p50e">R50e: Better portability; no conflict with system headers
+ defining a “tilde” function; no use of <tt>ptrdiff_t</tt> any more.
+ The old workarounds for static code checkers are gone. <tt>NSIG</tt>
+ generation works with GCC 5.</p>
 <p id="p50d">R50d: Nothing to note.</p>
 <p id="p50c">R50c: New <tt>HAVE_ISSETUGID</tt> define. The example Debian
  <tt>/etc/skel/.mkshrc</tt> moved. <strong>Security release.</strong> <a
@@ -1064,9 +1068,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <h2 id="caveat">Users' Upgrade Caveat</h2>
 <p>This does not necessarily list new features, only these which users
  should be aware of for existing scripts.</p>
-<!--
-<p id="ccur"><i>current</i>:
--->
+<p id="ccur"><i>current</i>: Integers with bases outside of the permitted
+ range are handled as base 10 instead of failing to parse, like ksh93.</p>
+<p id="c50e">R50e: <strong>Warning:</strong> do not use <tt>x=&lt;&lt;</tt>
+ inside a function, it has never worked.<br />Lots of POSIX compliance and
+ bug fixes. New options for the <tt>exec</tt> builtin.</p>
 <p id="c50d">R50d: Fixed a segfault and a regression in field splitting
  breaking update-initramfs. Sorry! Also, added a warning about not using
  unchecked user input in arithmetics – <tt>[[ $x = +([0-9]) ]] || die</tt>
@@ -1103,21 +1109,18 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
  <li>[tg] OpenBSD sync: handle integer base out of band like ksh93 does</li>
- <li>[tg] Some code cleanup and warnings fixes</li>
- <li>[tg] Add options <tt>-a argv0</tt> and <tt>-c</tt> to <tt>exec</tt></li>
- <li>[jsg] Prevent use-after-free when hitting multiple errors unwinding</li>
- <li>[tg] Fix use of <tt>$*</tt> and <tt>$@</tt> in scalar context: within
-  <tt>[[ … ]]</tt> and after <tt>case</tt> (spotted by Stéphane Chazelas)
-  and in here documents (spotted by tg@); fix here document expansion</li>
- <li>[tg] Unbreak when <tt>$@</tt> shares double quotes with others</li>
+ <li>[igli, tg] Some code cleanup and restructuring</li>
 </ul>
+<!--
 <p>Changes in the current (unreleased) R50-stable branch:</p><ul>
+-->
+<p id="r50e">R50e is a <strong>required</strong> bugfix release:</p><ul>
  <li>[tg] Add more tests detailing behaviour difference from GNU bash</li>
  <li>[tg] Introduce a memory leak for <tt>x=&lt;&lt;</tt> fixing use of
   freed memory instead, bug tracked as LP#1380389 still live</li>
  <li>[tg] Add <tt>x+=&lt;&lt;</tt> parallel to <tt>x=&lt;&lt;</tt></li>
  <li>[tg, ormaaj, jilles] POSIX “command” loses builtin special-ness</li>
- <li>[tg] Begin fixing LP#1381965 and LP#1381993 (more field splitting)</li>
+ <li>[tg] Fix LP#1381965 and LP#1381993 (more field splitting)</li>
  <li>[jilles] Update location of FreeBSD testsuite for test(1)</li>
  <li>[Martin Natano] Remove dead NULL elements from Emacs keybindings</li>
  <li>[tg, Stéphane Chazelas, Geoff Clare] Change several testcases for $*/$@
@@ -1145,6 +1148,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Fix spurious empty line after ENOENT “whence -v”, found by Ypnose</li>
  <li>[tg] Optimise <tt>dot.mkshrc</tt> and modernise it a bit</li>
  <li>[tg] Use MAXPATHLEN from &lt;sys/param.h&gt; for PATH_MAX fallback</li>
+ <li>[tg] Some code cleanup and warnings fixes</li>
+ <li>[tg] Add options <tt>-a argv0</tt> and <tt>-c</tt> to <tt>exec</tt></li>
+ <li>[jsg] Prevent use-after-free when hitting multiple errors unwinding</li>
+ <li>[tg] Fix use of <tt>$*</tt> and <tt>$@</tt> in scalar context: within
+  <tt>[[ … ]]</tt> and after <tt>case</tt> (spotted by Stéphane Chazelas)
+  and in here documents (spotted by tg@); fix here document expansion</li>
+ <li>[tg] Unbreak when <tt>$@</tt> shares double quotes with others</li>
+ <li>[tg] Fix <tt>set -x</tt> in <tt>PS4</tt> expansion infinite loop</li>
 </ul>
 <p id="r50d">R50d is a <strong>required</strong> bugfix release:</p><ul>
  <li>[Goodbox] Fix NULL pointer dereference on “unset x; nameref x”</li>
