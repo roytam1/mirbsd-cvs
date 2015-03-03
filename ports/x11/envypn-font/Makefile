@@ -1,4 +1,4 @@
-# $MirOS: ports/x11/envypn-font/Makefile,v 1.2 2013/05/31 15:28:11 tg Exp $
+# $MirOS: ports/x11/envypn-font/Makefile,v 1.3 2013/07/18 19:08:15 tg Exp $
 
 COMMENT=		Readable terminal font inspired by Envy Code R
 VSN=			1.6
@@ -12,7 +12,7 @@ PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
-MASTER_SITES=		http://linuxien.legtux.org/projects/envypn-font/
+MASTER_SITES=		http://files.ywstd.fr/p/envypn-font/MirBSD/
 DISTFILES=		envypn-font-MirBSD-${VSN}${EXTRACT_SUFX}
 
 NO_REGRESS=		Yes
