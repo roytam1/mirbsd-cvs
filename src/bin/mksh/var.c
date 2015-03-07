@@ -1351,6 +1351,11 @@ unsetspec(struct tbl *vp)
 	 */
 
 	switch (special(vp->name)) {
+#if HAVE_PERSISTENT_HISTORY
+	case V_HISTFILE:
+		sethistfile(NULL);
+		return;
+#endif
 	case V_IFS:
 		setctypes(TC_IFSWS, C_IFS);
 		ifs0 = ' ';
