@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.161 2015/02/14 20:37:42 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.170 2015/02/27 21:59:17 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -7305,7 +7305,7 @@ Tag: D2 T1 Event
 ----
 ID: 1252
 Date: 23.11.2014
-Waypoint: GC21XQX
+Waypoint: GC21XQX OC9A6A
 Title: Kunst am Wegesrand - Das Gemälde
 Tag: D3 T1 Micro Mystery
 ----
@@ -12316,18 +12316,14 @@ Waypoint: OCED0F GC3XM4C
 Title: Koordinate-Jumelage
 Tag: D35 T1 Nano Mystery
 ----
-ID: p20150304
+ID: 2083
 Date: 04.03.2015
 Waypoint: GC5N2BE GE030A N02F84 OC11B61 TC7LXR
 Title: AMT Ⅲ (2015 KW10)
 nTF: 0
 Tag: D1 T1 Event
-----
-ID: p20150307
-Date: 07.03.2015
-Waypoint: GC5MN1G
-Title: 38. Ahrweiler Geocacher Treffen
-Tag: D1 T1 Event
+
+gehalten i.V. durch König Moderig
 ----
 ID: p20150308
 Date: 08.03.2015
@@ -12427,7 +12423,7 @@ ID: p20150516
 Date: 16.05.2015
 Waypoint: GC50FTF
 Title: Mainz Gutenberg 2015
-Tag: D1 T1 Mega_Event
+Tag: D1 T1 Giga_Event
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
