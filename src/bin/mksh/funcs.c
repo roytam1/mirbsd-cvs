@@ -138,7 +138,7 @@ const struct builtin mkshbuiltins[] = {
 	{"ulimit", c_ulimit},
 	{"umask", c_umask},
 	{Tunalias, c_unalias},
-	{Tsgunset, c_unset},
+	{"*=unset", c_unset},
 	{"=wait", c_wait},
 	{"whence", c_whence},
 #ifndef MKSH_UNEMPLOYED
