@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.170 2015/02/27 21:59:17 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.171 2015/03/07 20:52:48 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -5618,7 +5618,9 @@ Date: 06.07.2014
 Waypoint: GE02FF OC10FD8 OXZRN5R
 Title: Kapelle zu den „Sieben Schmerzen Mariens“
 nTF: 0
-Tag: D15 T15 Virtual
+Tag: D3 T15 Virtual
+
+Rating nachträglich von D1½ auf D3 erhöht.
 ----
 ID: 978
 Date: 08.07.2014
@@ -12325,7 +12327,7 @@ Tag: D1 T1 Event
 
 gehalten i.V. durch König Moderig
 ----
-ID: p20150308
+ID: 2084
 Date: 08.03.2015
 Waypoint: GC5N5BA GE030B N02F85 OC11B74 TC9OH3
 Title: Das erste Eis des Jahres ⅯⅯⅩⅤ – Mysterium
