@@ -83,6 +83,8 @@ sub tohtml {
 	return $_;
 }
 
+my $acrcsid = "";
+
 if ($query ne "") {
 	my $enc = tohtml($query);
 
@@ -93,6 +95,9 @@ if ($query ne "") {
 
 	foreach my $line (<ACRONYMS>) {
 		chomp($line);
+		if ($line =~ /^\$MirOS: /) {
+			$acrcsid = $line;
+		}
 		if ($line =~ /^\Q$query	\E(.*)$/) {
 			push(@results, $1);
 		}
@@ -132,6 +137,9 @@ foreach my $line (<TEMPLATE>) {
 	}
 	if ($line =~ /rcsdiv.*rcsid/) {
 		$line =~ s!\Q</p>\E! by <span class=\"rcsid\">$rcsid</span>$&!;
+		if ($acrcsid ne "") {
+			$line =~ s!\Q</p>\E! from <span class=\"rcsid\">$acrcsid</span>$&!;
+		}
 	}
 	print $line . "\n" unless $state;
 }
