@@ -58,7 +58,6 @@ static struct op *newtp(int);
 static void syntaxerr(const char *) MKSH_A_NORETURN;
 static void nesting_push(struct nesting_state *, int);
 static void nesting_pop(struct nesting_state *);
-static int assign_command(const char *);
 static int inalias(struct source *) MKSH_A_PURE;
 static Test_op dbtestp_isa(Test_env *, Test_meta);
 static const char *dbtestp_getopnd(Test_env *, Test_op, bool);
@@ -927,7 +926,7 @@ compile(Source *s, bool skiputf8bom)
  *	a=a
  *	$
  */
-static int
+int
 assign_command(const char *s)
 {
 	if (!*s)
