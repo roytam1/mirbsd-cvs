@@ -1,8 +1,8 @@
 #!/usr/bin/perl -T
 my $rcsid = '$MirOS: www/files/wtf.cgi,v 1.11 2014/07/01 21:14:54 tg Exp $';
 #-
-# Copyright © 2012, 2014
-#	Thorsten Glaser <tg@mirbsd.org>
+# Copyright © 2012, 2014, 2015
+#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -92,6 +92,13 @@ if ($query ne "") {
 	$query =~ s/ä/Ä/g;
 	$query =~ s/ö/Ö/g;
 	$query =~ s/ü/Ü/g;
+	$query =~ s/ñ/Ñ/g;
+	$query =~ s/á/Á/g;
+	$query =~ s/é/É/g;
+	$query =~ s/í/Í/g;
+	$query =~ s/ó/Ó/g;
+	$query =~ s/ç/Ç/g;
+	$query =~ s/è/È/g;
 
 	foreach my $line (<ACRONYMS>) {
 		chomp($line);

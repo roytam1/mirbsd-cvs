@@ -12334,11 +12334,18 @@ Title: Das erste Eis des Jahres ⅯⅯⅩⅤ – Mysterium
 nTF: 0
 Tag: D2 T15 Event
 ----
-ID: p20150313
+ID: 2085
 Date: 13.03.2015
-Waypoint: GC5KB7K
-Title: Klaav un Tratsch op Kölsch XLIII + Pre Pi(e)-DAY
-Tag: D1 T1 Event
+Waypoint: OXZRXWT
+Title: Beethovens Brain
+nTF: 2
+Tag: D2 T1 Micro Tradi
+----
+ID: 2086
+Date: 13.03.2015
+Waypoint: GC5GANA
+Title: 1. FC Godesberg Ringsdorff 1919/22 e.V.
+Tag: D15 T15 Micro Tradi
 ----
 ID: p201503143
 Date: 14.03.2015

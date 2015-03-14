@@ -1,8 +1,8 @@
 #!/usr/bin/perl -T
 # $MirOS: www/files/raw.cgi,v 1.7 2014/07/15 22:19:19 tg Exp $
 #-
-# Copyright © 2012, 2014
-#	Thorsten Glaser <tg@mirbsd.org>
+# Copyright © 2012, 2014, 2015
+#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -79,6 +79,13 @@ if ($queryorig ne "") {
 	$queryorig =~ s/ä/Ä/g;
 	$queryorig =~ s/ö/Ö/g;
 	$queryorig =~ s/ü/Ü/g;
+	$queryorig =~ s/ñ/Ñ/g;
+	$queryorig =~ s/á/Á/g;
+	$queryorig =~ s/é/É/g;
+	$queryorig =~ s/í/Í/g;
+	$queryorig =~ s/ó/Ó/g;
+	$queryorig =~ s/ç/Ç/g;
+	$queryorig =~ s/è/È/g;
 
 	foreach my $line (<ACRONYMS>) {
 		chomp($line);
