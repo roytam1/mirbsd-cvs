@@ -713,7 +713,7 @@ function_body(char *name,
 		/* (2 * sizeof(char *)) is small enough */
 		t->left->args = alloc(2 * sizeof(char *), ATEMP);
 		t->left->args[0] = tv = alloc(3, ATEMP);
-		tv[0] = CHAR;
+		tv[0] = QCHAR;
 		tv[1] = ':';
 		tv[2] = EOS;
 		t->left->args[1] = NULL;
