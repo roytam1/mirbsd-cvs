@@ -289,7 +289,7 @@ get_command(int cf)
 		t->lineno = source->line;
 		while (/* CONSTCOND */ 1) {
 			cf = (t->u.evalflags ? ARRAYVAR : 0) |
-			    (XPsize(args) == 0 ? sALIAS|VARASN : CMDWORD);
+			    (XPsize(args) == 0 ? sALIAS|VARASN : 0);
 			switch (tpeek(cf)) {
 			case REDIR:
 				while ((iop = synio(cf)) != NULL) {
