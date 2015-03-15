@@ -196,6 +196,8 @@ souvenir 2014-08-03 'The Puzzler' http://souvenirs.geocaching.com/SouvenirImages
 souvenir 2014-08-16 'International Geocaching Day 2014' http://souvenirs.geocaching.com/SouvenirImages/OC8xMy8yMDE0/b4c9240b-f0fc-44bb-928b-0ebaee25f7e6.png 'http://www.geocaching.com/souvenir/?guid=6d3e432f-95ad-44a8-b19f-b13bf40bdeff'
 souvenir 2014-09-13 Saarland http://souvenirs.geocaching.com/SouvenirImages/MTIvMjMvMjAxMA/9c67b8ff-b7aa-4b3e-89e1-5350a27a131c.png 'http://www.geocaching.com/souvenir/?guid=69776da7-8840-4a0e-b587-c3f179e1e4df'
 souvenir 2014-10-12 'International EarthCache Day 2014' http://souvenirs.geocaching.com/SouvenirImages/MTAvMy8yMDE0/6d4bc36d-421b-4c7f-b608-9466f0c8c543.png 'http://www.geocaching.com/souvenir/?guid=0ad6289c-70f6-44bf-9d3a-6f834ec91e96'
+souvenir 2015-03-15 'Pi Day 3.14.15 - Event' http://souvenirs.geocaching.com/SouvenirImages/My8xMS8yMDE1/c3aed7a5-ca1e-4c8b-8594-37368a5618a4.png 'http://www.geocaching.com/souvenir/?guid=058b2fef-854d-48f8-aafc-c59d2b152cde'
+souvenir 2015-03-15 'Pi Day 3.14.15 - Mystery Cache' http://souvenirs.geocaching.com/SouvenirImages/My8xMS8yMDE1/bce96800-bbac-4b8a-9450-de2a517f0652.png 'http://www.geocaching.com/souvenir/?guid=f26ddacf-0c17-491f-a515-2e72e687c682'
 
 # kaputt, s.o.
 #if [[ $nsouvenir != 0 && -z $souvenirs ]]; then

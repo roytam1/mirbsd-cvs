@@ -12347,23 +12347,29 @@ Waypoint: GC5GANA
 Title: 1. FC Godesberg Ringsdorff 1919/22 e.V.
 Tag: D15 T15 Micro Tradi
 ----
-ID: p201503143
+ID: 2087
 Date: 14.03.2015
-Waypoint: GC57DCW
-Title: Challenge - Events
-Tag: D3 T15 Micro Mystery Challenge
+Waypoint: GC3N4ZZ
+Title: schwarz-rot-gold Europameister
+Tag: D25 T2 Micro Mystery
 ----
-ID: p201503142
-Date: 14.03.2015
-Waypoint: GC5NFJF
-Title: Geocacher in der Baracke 3,14159...
-Tag: D1 T1 Event
-----
-ID: p20150314
+ID: 2088
 Date: 14.03.2015
 Waypoint: GC5NBG1
 Title: Pi mal Daumen gegen Mitternacht
 Tag: D1 T1 Event
+----
+ID: 2089
+Date: 15.03.2015
+Waypoint: GC562W5
+Title: schwarz-rot-gold Weltmeister
+Tag: D3 T15 Micro Mystery
+----
+ID: 2090
+Date: 15.03.2015
+Waypoint: GC4ZNPY
+Title: Begegnung in Bad Godesberg
+Tag: D45 T2 Nano Mystery
 ----
 ID: p20150320
 Date: 20.03.2015
