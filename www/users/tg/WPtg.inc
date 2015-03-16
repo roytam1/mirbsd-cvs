@@ -12400,6 +12400,18 @@ Waypoint: GC3JA67
 Title: Linie 16- Haltepunkt Buschdorf
 Tag: D2 T15 Small Tradi
 ----
+ID: 2096
+Date: 16.03.2015
+Waypoint: GC5DJWC
+Title: Hardtbergbahn
+Tag: D1 T15 Small Tradi
+----
+ID: 2097
+Date: 16.03.2015
+Waypoint: GC3GX29
+Title: BUNKER (Second Base)
+Tag: D2 T2 Small Tradi recommended
+----
 ID: p20150320
 Date: 20.03.2015
 Waypoint: GC5NA2Y
