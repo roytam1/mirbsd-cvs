@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.171 2015/03/07 20:52:48 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.176 2015/03/16 21:36:36 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -12411,6 +12411,48 @@ Date: 16.03.2015
 Waypoint: GC3GX29
 Title: BUNKER (Second Base)
 Tag: D2 T2 Small Tradi recommended
+----
+ID: 2098
+Date: 17.03.2015
+Waypoint: GC2PEAV
+Title: Zwischenmalzeit II
+Tag: D15 T4 Small Tradi
+----
+ID: 2099
+Date: 17.03.2015
+Waypoint: GC3MRN5
+Title: CHALLENGE - Die 3 x 25er Aufgabe
+Tag: D5 T25 Regular Mystery Challenge
+----
+ID: 2100
+Date: 17.03.2015
+Waypoint: GC3Q425
+Title: Rot- Weiß- Buschhoven
+Tag: D15 T15 Micro Tradi
+----
+ID: 2101
+Date: 17.03.2015
+Waypoint: GC4G4YH
+Title: U. T. K.
+Tag: D45 T3 Small Tradi
+----
+ID: 2102
+Date: 17.03.2015
+Waypoint: GC4XHY5
+Title: +1 #2
+Tag: D15 T15 Micro Tradi
+----
+ID: 2103
+Date: 17.03.2015
+Waypoint: GC5C9F4
+Title: GeoPostOffice / Postamt GBH
+Tag: D25 T2 Regular Letterbox_Hybrid recommended
+----
+ID: 2104
+Date: 17.03.2015
+Waypoint: GC17ZC3
+Title: Noch 'ne Lore...
+Tag: D1 T1 Micro Tradi
 ----
 ID: p20150320
 Date: 20.03.2015
