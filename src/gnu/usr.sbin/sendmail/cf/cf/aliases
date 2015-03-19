@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/aliases,v 1.9 2014/01/29 10:59:16 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/aliases,v 1.10 2014/04/04 21:53:24 tg Exp $
 # $SendmailId: aliases,v 8.5 2002/06/05 22:54:26 gshapiro Exp $
 # @(#)aliases	8.2 (Berkeley) 3/5/94
 #
@@ -63,6 +63,11 @@ www:		webmaster
 uucp:		root
 ftp:		root
 ftp-bugs:	root
+
+# CA/Browser Forum domain validation addresses
+admin:		root
+administrator:	root
+# (also: {host,post,web}master)
 
 # Trap  d e c o d e  to catch security attacks
 # Note: Actually, the daily security cronjob warns about it.
