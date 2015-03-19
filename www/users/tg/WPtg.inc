@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.176 2015/03/16 21:36:36 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.177 2015/03/17 21:44:29 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -12453,6 +12453,18 @@ Date: 17.03.2015
 Waypoint: GC17ZC3
 Title: Noch 'ne Lore...
 Tag: D1 T1 Micro Tradi
+----
+ID: 2105
+Date: 19.03.2015
+Waypoint: GC1J59M OC6E3D
+Title: Jotts Bonncaches - Schönen Dunk!
+Tag: D2 T15 Small Multi
+----
+ID: 2106
+Date: 19.03.2015
+Waypoint: GC5PE2B
+Title: Das Hardtbergbad
+Tag: D15 T15 Micro Tradi
 ----
 ID: p20150320
 Date: 20.03.2015
