@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.177 2015/03/17 21:44:29 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.178 2015/03/19 20:58:50 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -12466,11 +12466,17 @@ Waypoint: GC5PE2B
 Title: Das Hardtbergbad
 Tag: D15 T15 Micro Tradi
 ----
-ID: p20150320
+ID: 2107
 Date: 20.03.2015
 Waypoint: GC5NA2Y
 Title: Sonnenfinsternis am Planetenlehrpfad
 Tag: D1 T1 Event
+----
+ID: 2108
+Date: 20.03.2015
+Waypoint: GCZ04M
+Title: Integration
+Tag: D25 T1 Small Multi
 ----
 ID: p20150321
 Date: 21.03.2015
