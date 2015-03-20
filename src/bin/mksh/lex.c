@@ -1080,8 +1080,7 @@ yylex(int cf)
 				 * pushed into an SREREAD) which is what
 				 * we want here anyway: find out whether
 				 * the alias name is followed by a POSIX
-				 * function definition (only the opening
-				 * parenthesis is checked though)
+				 * function definition
 				 */
 				++cp;
 			/* prefer functions over aliases */
