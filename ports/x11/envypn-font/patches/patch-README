@@ -1,12 +1,18 @@
-$MirOS: ports/x11/envypn-font/patches/patch-README,v 1.1 2013/05/29 20:44:59 tg Exp $
---- README.orig	Wed Jul 17 18:48:03 2013
-+++ README	Thu Jul 18 19:06:23 2013
-@@ -20,7 +20,7 @@ Why a README?
- How to use?
+$MirOS: ports/x11/envypn-font/patches/patch-README,v 1.2 2013/07/18 19:08:16 tg Exp $
+--- README.orig	Thu Jul 24 19:18:59 2014
++++ README	Fri Mar 20 20:24:51 2015
+@@ -26,11 +26,11 @@ USAGE
+ 	First, you need to "enable" the font. You can add these lignes in your
+ 	.xinitrc:
  
- 	First, you need to "enable" the font. You can add these lignes in your .xinitrc
 -		xset +fp /usr/share/fonts/envypn
 +		xset +fp @PREFIX@/lib/X11/fonts/envypn
  		xset fp rehash
  
- 	Restart X and now you can preview the font with xfontsel or xfd.
+-	If the font isn't installed in '/usr/share/fonts/envypn', modify it
+-	accordingly.
++	If the font isn't installed in '@PREFIX@/lib/X11/fonts/envypn',
++	modify it accordingly.
+ 	Restart X and now you can preview the font with xfontsel[2] or xfd[3].
+ 	The best way to include this font, is to use XLFD standard[4].
+ 
