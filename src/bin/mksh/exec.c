@@ -1020,11 +1020,13 @@ define(const char *name, struct op *t)
 
 	nhash = hash(name);
 
+#ifdef MKSH_LEGACY_MODE
 	if (t != NULL && !tobool(t->u.ksh_func)) {
 		/* drop same-name aliases for POSIX functions */
 		if ((tp = ktsearch(&aliases, name, nhash)))
 			ktdelete(tp);
 	}
+#endif
 
 	while (/* CONSTCOND */ 1) {
 		tp = findfunc(name, nhash, true);

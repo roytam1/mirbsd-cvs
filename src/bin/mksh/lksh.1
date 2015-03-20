@@ -256,6 +256,17 @@ or
 mode and
 .Nm lksh
 do not keep file descriptors \*(Gt 2 private from sub-processes.
+.It
+.Nm lksh
+undefines an alias when a
+.Tn POSIX
+function with the same name is defined,
+to make that function immediately callable.
+In
+.Nm mksh ,
+aliases have precedence; the name must be quoted or
+.Ic unalias Ns ed
+to access it.
 .El
 .Sh SEE ALSO
 .Xr mksh 1
