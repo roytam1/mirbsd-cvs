@@ -175,7 +175,7 @@ instead of relying on legacy or idiotic POSIX-mandated behaviour,
 since the MirBSD Korn Shell scripting language is much more consistent.
 .Sh LEGACY MODE
 .Nm
-has the following differences from
+currently has the following differences from
 .Nm mksh :
 .Bl -bullet
 .It
@@ -195,6 +195,11 @@ as
 .Dq LEGACY KSH
 instead of
 .Dq MIRBSD KSH .
+Note that the rest of the version string is identical between
+the two shell flavours, and the behaviour and differences can
+change between versions; see the accompanying manual page
+.Xr mksh 1
+for the versions this document applies to.
 .It
 .Nm
 only offers the traditional ten file descriptors to scripts.

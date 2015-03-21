@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.26 2014/11/14 20:38:17 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.27 2015/01/11 00:23:07 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -303,4 +303,9 @@ Link: http://www.grymoire.com/Unix/
 
 Collection of Unix-related documents, with some sections on shells
 and related utilities.
+----
+Title: (archived version of the) ksh FAQ
+Link: http://web.archive.org/web/20130527195150/http://www2.research.att.com/~gsf/download/ksh/faq.html
+
+FAQ for the Korn Shell, including which variants exist.
 ----

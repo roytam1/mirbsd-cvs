@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.575 2015/03/07 20:52:47 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.576 2015/03/08 23:54:26 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1110,19 +1110,26 @@ exec /usr/bin/ld "${args[@]}"</pre>
   limits in a single invocation from oksh (thanks millert) -->
  <li>[tg] OpenBSD sync: handle integer base out of band like ksh93 does</li>
  <li>[igli, tg] Some code cleanup and restructuring</li>
- <li>[tg] Add a patch marker for vendor patch versioning to <tt>mksh.1</tt></li>
- <li>[tg] SECURITY: make <tt>unset HISTFILE</tt> actually work</li>
- <li>[tg] Document some more issues with the current history code</li>
  <li>[tg] Protect standard code (predefined aliases, internal code, aliases
   and functions in <tt>dot.mkshrc</tt>) from being overridden by aliases and,
   in some cases, shell functions (i.e. permit overriding but ignore it)</li>
  <li>[tg] Implement GNU bash’s <tt>enable</tt> for <tt>dot.mkshrc</tt> using
   magic aliases to redirect the builtins to external utilities; this differs
   from GNU bash in that <tt>enable</tt> takes precedence over functions</li>
+ <li>[tg] Move <tt>unalias</tt>ing an identifier when defining a POSIX-style
+  function with the same name into lksh, as compatibility kludge</li>
 </ul>
-<!--
 <p>Changes in the current (unreleased) R50-stable branch:</p><ul>
--->
+ <li>[tg] Add a patch marker for vendor patch versioning to <tt>mksh.1</tt></li>
+ <li>[tg] SECURITY: make <tt>unset HISTFILE</tt> actually work</li>
+ <li>[tg] Document some more issues with the current history code</li>
+ <li>[tg] Remove some unused code</li>
+ <li>[tg] RCSID-only sync with OpenBSD, for bogus and irrelevant changes</li>
+ <li>[tg] Also disable field splitting for <tt>alias 'local=\typeset'</tt></li>
+ <li>[tg] Fix <tt>read -n-1</tt> to not be identical to <tt>read -N-1</tt></li>
+ <li>[tg] Several fixes and improvements to lksh(1) and mksh(1) manpages</li>
+ <li>[tg] More code (int → sizt_t), comment and testsuite fixes</li>
+</ul>
 <p id="r50e">R50e is a <strong>required</strong> bugfix release:</p><ul>
  <li>[tg] Add more tests detailing behaviour difference from GNU bash</li>
  <li>[tg] Introduce a memory leak for <tt>x=&lt;&lt;</tt> fixing use of
