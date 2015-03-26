@@ -1128,7 +1128,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Also disable field splitting for <tt>alias 'local=\typeset'</tt></li>
  <li>[tg] Fix <tt>read -n-1</tt> to not be identical to <tt>read -N-1</tt></li>
  <li>[tg] Several fixes and improvements to lksh(1) and mksh(1) manpages</li>
- <li>[tg] More code (int → sizt_t), comment and testsuite fixes</li>
+ <li>[tg] More code (int → size_t), comment and testsuite fixes</li>
 </ul>
 <p id="r50e">R50e is a <strong>required</strong> bugfix release:</p><ul>
  <li>[tg] Add more tests detailing behaviour difference from GNU bash</li>
