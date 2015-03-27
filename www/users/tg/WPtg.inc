@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.178 2015/03/19 20:58:50 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.183 2015/03/26 18:05:47 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -12668,10 +12668,11 @@ Banner: gif
 Title: 1. Drachenfelser Adventskalender #Bonus
 Tag: D35 T35 Large Mystery
 ----
-ID: p433
-Date: 01.08.2013
+ID: 2140
+Date: 27.03.2015
 Waypoint: OC3378 GC1263N
 Title: Hinter'm Busch gleich links
+Tag: D15 T15 Regular Multi
 ----
 ID: p1154
 Date: 28.09.2014 17:45
