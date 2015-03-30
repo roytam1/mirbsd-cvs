@@ -12310,6 +12310,7 @@ ID: 2081
 Date: 25.02.2015
 Waypoint: GC5N6J1
 Title: Happy Birthday mirabilos 1,225 Kg
+nTF: 1
 Tag: D15 T2 Micro Tradi
 ----
 ID: 2082
@@ -12674,13 +12675,17 @@ Waypoint: OC3378 GC1263N
 Title: Hinter'm Busch gleich links
 Tag: D15 T15 Regular Multi
 ----
-ID: p1154
+ID: 2141
 Date: 28.09.2014 17:45
 Waypoint: OC1F07 GC8453 N004A9
 Title: Beweglicher Cache
 Tag: D2 T15 Virtual
-
-Warten auf Logfreigabe
+----
+ID: 2142
+Date: 30.03.2015
+Waypoint: GC4WFRA
+Title: Meins!
+Tag: D2 T15 Micro Mystery recommended
 ----
 ID: p20150402
 Date: 02.04.2015
@@ -12703,7 +12708,8 @@ Tag: D3 T2 CITO
 ----
 ID: p20150411
 Date: 11.04.2015
-Waypoint: GC5PY1P
+Waypoint: GC5PY1P TC2IHW
+Banner: jpg
 Title: Riss im Raum und Eisgefüge!
 Tag: D1 T1 Event
 ----
