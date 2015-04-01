@@ -49,7 +49,7 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 #
-# $MirOS: www/files/cvs.cgi,v 1.9 2012/10/18 15:12:06 tg Exp $
+# $MirOS: www/files/cvs.cgi,v 1.10 2013/04/07 14:00:45 tg Exp $
 # $FreeBSD: projects/cvsweb/cvsweb.cgi,v 1.291 2005/01/22 12:43:55 scop Exp $
 # $Id$
 # $Idaemons: /home/cvs/cvsweb/cvsweb.cgi,v 1.84 2001/10/07 20:50:10 knu Exp $
@@ -124,7 +124,7 @@ use constant HAS_EDIFF    => eval { require String::Ediff;  };
 
 BEGIN
 {
-  $VERSION = '3.0.5 + $MirOS: www/files/cvs.cgi,v 1.9 2012/10/18 15:12:06 tg Exp $';
+  $VERSION = '3.0.5 + $MirOS: www/files/cvs.cgi,v 1.10 2013/04/07 14:00:45 tg Exp $';
 
   $HTML_DOCTYPE =
     '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" ' .
@@ -4347,6 +4347,29 @@ EOH
 sub html_footer()
 {
   print "<hr />\n<address>$address</address>\n" if $address;
+  print <<\EOF;
+	<script type="text/javascript"><!--//--><![CDATA[//><!--
+	  String.prototype.rot13 = function (s) {
+		return (s = (s) ? s : this).split('').map(function (_) {
+			if (!_.match(/[A-Za-z]/))
+				return (_);
+			c = Math.floor(_.charCodeAt(0) / 97);
+			k = (_.toLowerCase().charCodeAt(0) - 83) % 26 || 26;
+			return String.fromCharCode(k + ((c == 0) ? 64 : 96));
+		    }).join('');
+	  };
+
+	  (function () {
+		var n, walk = document.createTreeWalker(document.body,
+		    NodeFilter.SHOW_TEXT, null, false);
+
+		while (n = walk.nextNode()) {
+			var x = "" + n.nodeValue;
+			n.nodeValue = x.rot13();
+		}
+	  })();
+	//--><!]]></script>
+EOF
   print "</body>\n</html>\n";
 }
 

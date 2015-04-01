@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.77 2014/03/30 14:37:34 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.78 2014/10/12 20:48:19 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -295,6 +295,27 @@ function mws_putfooter {
 		 <img class="hdrlnks" alt="MirOS Logo"
 		  src="@@RELPATH@@pics/logo-grey.png" />
 		</div>
+		<script type="text/javascript"><!--//--><![CDATA[//><!--
+		  String.prototype.rot13 = function (s) {
+			return (s = (s) ? s : this).split('').map(function (_) {
+				if (!_.match(/[A-Za-z]/))
+					return (_);
+				c = Math.floor(_.charCodeAt(0) / 97);
+				k = (_.toLowerCase().charCodeAt(0) - 83) % 26 || 26;
+				return String.fromCharCode(k + ((c == 0) ? 64 : 96));
+			    }).join('');
+		  };
+
+		  (function () {
+			var n, walk = document.createTreeWalker(document.body,
+			    NodeFilter.SHOW_TEXT, null, false);
+
+			while (n = walk.nextNode()) {
+				var x = "" + n.nodeValue;
+				n.nodeValue = x.rot13();
+			}
+		  })();
+		//--><!]]></script>
 		</body></html>
 	EOF
 }
