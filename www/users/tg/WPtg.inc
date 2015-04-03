@@ -12687,12 +12687,6 @@ Waypoint: GC4WFRA
 Title: Meins!
 Tag: D2 T15 Micro Mystery recommended
 ----
-ID: p20150402
-Date: 02.04.2015
-Waypoint: GC5MDPH
-Title: Dönerstag 2015 -Bonn
-Tag: D15 T15 Event
-----
 ID: p201504041
 Date: 04.04.2015
 Waypoint: TC31TQ OC1198A GC5JTZW

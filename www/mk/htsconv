@@ -10,7 +10,7 @@ mws__markindex=
 mws__pagename=
 mws__header=
 mws__rss=
-mws__difftag=MBSD_HTSCONV_GENDATE_TAG_22830
+mws__difftag=MBSD_HTSCONV_GENDATE_TAG_16845
 unset mws__srcfile
 unset mws__abspath
 unset mws__relpath
@@ -295,27 +295,6 @@ function mws_putfooter {
 		 <img class="hdrlnks" alt="MirOS Logo"
 		  src="@@RELPATH@@pics/logo-grey.png" />
 		</div>
-		<script type="text/javascript"><!--//--><![CDATA[//><!--
-		  String.prototype.rot13 = function (s) {
-			return (s = (s) ? s : this).split('').map(function (_) {
-				if (!_.match(/[A-Za-z]/))
-					return (_);
-				c = Math.floor(_.charCodeAt(0) / 97);
-				k = (_.toLowerCase().charCodeAt(0) - 83) % 26 || 26;
-				return String.fromCharCode(k + ((c == 0) ? 64 : 96));
-			    }).join('');
-		  };
-
-		  (function () {
-			var n, walk = document.createTreeWalker(document.body,
-			    NodeFilter.SHOW_TEXT, null, false);
-
-			while (n = walk.nextNode()) {
-				var x = "" + n.nodeValue;
-				n.nodeValue = x.rot13();
-			}
-		  })();
-		//--><!]]></script>
 		</body></html>
 	EOF
 }

@@ -4347,29 +4347,6 @@ EOH
 sub html_footer()
 {
   print "<hr />\n<address>$address</address>\n" if $address;
-  print <<\EOF;
-	<script type="text/javascript"><!--//--><![CDATA[//><!--
-	  String.prototype.rot13 = function (s) {
-		return (s = (s) ? s : this).split('').map(function (_) {
-			if (!_.match(/[A-Za-z]/))
-				return (_);
-			c = Math.floor(_.charCodeAt(0) / 97);
-			k = (_.toLowerCase().charCodeAt(0) - 83) % 26 || 26;
-			return String.fromCharCode(k + ((c == 0) ? 64 : 96));
-		    }).join('');
-	  };
-
-	  (function () {
-		var n, walk = document.createTreeWalker(document.body,
-		    NodeFilter.SHOW_TEXT, null, false);
-
-		while (n = walk.nextNode()) {
-			var x = "" + n.nodeValue;
-			n.nodeValue = x.rot13();
-		}
-	  })();
-	//--><!]]></script>
-EOF
   print "</body>\n</html>\n";
 }
 
