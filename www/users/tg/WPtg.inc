@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.183 2015/03/26 18:05:47 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.186 2015/04/03 00:46:04 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -12687,18 +12687,25 @@ Waypoint: GC4WFRA
 Title: Meins!
 Tag: D2 T15 Micro Mystery recommended
 ----
-ID: p201504041
+ID: 2143
 Date: 04.04.2015
 Waypoint: TC31TQ OC1198A GC5JTZW
 Banner: png
 Title: SciFun – Ostereier und Raketen 2015
 Tag: D2 T15 Event
 ----
-ID: p201504042
+ID: 2144
 Date: 04.04.2015
 Waypoint: GC5K2E0
 Title: We ♥ Meßdorfer Feld
 Tag: D3 T2 CITO
+----
+ID: 2145
+Date: 04.04.2015
+Waypoint: LC2GC2
+Title: Gackt’s Sociable TerraCacher Challenge #1
+nTF: 1
+Tag: MC0 Locationless Challenge
 ----
 ID: p20150411
 Date: 11.04.2015
@@ -12706,6 +12713,8 @@ Waypoint: GC5PY1P TC2IHW
 Banner: jpg
 Title: Riss im Raum und Eisgefüge!
 Tag: D1 T1 Event
+
+Die Crew des Gaumenschiffs Eisterprise heißt euch willkommen!
 ----
 ID: p20150426
 Date: 26.04.2015
@@ -12724,6 +12733,8 @@ Date: 16.05.2015
 Waypoint: GC50FTF
 Title: Mainz Gutenberg 2015
 Tag: D1 T1 Giga_Event
+
+Hotelzimmer ist gebucht!
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
