@@ -12707,6 +12707,26 @@ Title: Gackt’s Sociable TerraCacher Challenge #1
 nTF: 1
 Tag: MC0 Locationless Challenge
 ----
+ID: 2146
+Date: 05.04.2015
+Waypoint: GDCO-JUIZ
+Title: [Game 166 (April 2015)], Bonn-Rheinaue
+nTF: 1
+Distance: 18
+----
+ID: 2147
+Date: 05.04.2015
+Waypoint: OC11354
+Title: Wo die Züge Fähre fuhren
+Tag: D15 T15 Regular Multi recommended
+----
+ID: 2148
+Date: 05.04.2015
+Waypoint: OC11D96
+Title: Godesberger Kreuze #10
+nTF: 0
+Tag: D1 T15 Virtual
+----
 ID: p20150411
 Date: 11.04.2015
 Waypoint: GC5PY1P TC2IHW
