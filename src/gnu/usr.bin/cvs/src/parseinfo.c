@@ -15,7 +15,7 @@
 #include "getline.h"
 #include "history.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_parseinfo_c,v 1.4 2010/09/18 22:35:09 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/parseinfo.c,v 1.10 2010/09/19 19:43:07 tg Exp $");
 
 /*
  * Parse the INFOFILE file for the specified REPOSITORY.  Invoke CALLPROC for
@@ -703,6 +703,21 @@ parse_config (const char *cvsroot, const char *path)
 	    retval->MaxCompressionLevel = dummy_sizet;
 	}
 #endif /* SERVER_SUPPORT */
+	else if (!strcmp (line, "tag")) {
+	    char *pp;
+
+	    pp = Xasprintf("%s=Id", p);
+	    RCS_setlocalid (infopath, ln, &retval->keywords, pp);
+	    free(pp);
+
+#if !defined(LOCK_COMPATIBILITY) || !defined(SUPPORT_OLD_INFO_FMT_STRINGS)
+	    error (0, 0, "%s: found keyword '%s' in repository",
+		   infopath, line);
+	    error (readonlyfs ? 0 : 1, 0, readonlyfs
+		? "Danger: Granting read access to incompatible repository!"
+		: "Do not try to access a cvs 1.11 repository!");
+#endif
+	}
 #if !defined(LOCK_COMPATIBILITY) || !defined(SUPPORT_OLD_INFO_FMT_STRINGS)
 	else if ((!strcmp (line, "tag")) || (!strcmp (line, "umask"))
 	  || (!strcmp (line, "DisableXProg")) || (!strcmp (line, "dlimit"))
