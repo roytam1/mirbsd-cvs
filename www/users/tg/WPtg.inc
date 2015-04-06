@@ -7211,7 +7211,7 @@ ID: 1236
 Date: 11.11.2014
 Waypoint: OCF495
 Title: Go Geohashing
-Tag: D3 T3 Virtual Safari
+Tag: D3 T3 Safari
 ----
 ID: 1237
 Date: 16.11.2014
@@ -7352,7 +7352,7 @@ Date: 13.09.2014
 Waypoint: OC11249
 Title: SVC - Kompassrose (Challenge)
 nTF: 3
-Tag: D2 T15 Virtual Safari
+Tag: D2 T15 Safari
 ----
 ID: 1260
 Date: 30.11.2014
@@ -12170,7 +12170,7 @@ ID: 2058
 Date: 16.02.2015
 Waypoint: OCFC0A
 Title: Rettungspunkte [Safari-Cache]
-Tag: D2 T2 Virtual Safari
+Tag: D2 T2 Safari
 ----
 ID: 2059
 Date: 16.02.2015
@@ -12726,6 +12726,67 @@ Waypoint: OC11D96
 Title: Godesberger Kreuze #10
 nTF: 0
 Tag: D1 T15 Virtual
+----
+ID: 2149
+Date: 06.04.2015
+Waypoint: GC3XED7
+Title: St. Margareta Stieldorf
+Tag: D15 T25 Micro Tradi
+----
+ID: 2150
+Date: 06.04.2015
+Waypoint: GC59EHB
+Title: Das stinkt bis zum Himmel
+Tag: D15 T15 Micro Tradi
+----
+ID: 2151
+Date: 06.04.2015
+Waypoint: GC499FV
+Title: Monsteritis
+Tag: D2 T2 Micro Tradi
+----
+ID: 2152
+Date: 06.04.2015
+Waypoint: GC53DDC
+Title: Mietwagen-Station Oberpleis (die Erste)
+Tag: D15 T2 Small Tradi
+----
+ID: 2153
+Date: 06.04.2015
+Waypoint: GC4GG2Y
+Title: Rund um Oberpleis #3
+Tag: D15 T2 Small Tradi
+----
+ID: 2154
+Date: 06.04.2015
+Waypoint: GC1V7A4
+Title: mathematisches Pleistal #8
+Tag: D35 T3 Regular Mystery
+----
+ID: 2155
+Date: 06.04.2015
+Waypoint: GC12650 OC33F9
+Title: kleiner Bruder
+Tag: D2 T2 Small Multi
+----
+ID: 2156
+Date: 06.04.2015
+Waypoint: OC3405 GC1265H
+Title: kleiner Bruder - Bonus
+Tag: D15 T15 Small Mystery
+----
+ID: 2157
+Date: 06.04.2015
+Waypoint: OC11DB4
+Title: spontanes Kreuz zum Abendessen
+nTF: 0
+Tag: D1 T25 Virtual
+----
+ID: 2158
+Date: 06.04.2015
+Waypoint: OC1113A
+Title: SVC - Lapidarium
+Tag: D25 T15 Safari
 ----
 ID: p20150411
 Date: 11.04.2015
