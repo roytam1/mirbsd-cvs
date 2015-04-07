@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.24 2014/12/13 00:09:29 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.26 2014/12/14 21:20:00 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -483,4 +483,74 @@ Tag: debian pcli rant
 <p>A largish article about how to use some other packages in the repo,
  such as <tt>dash-mksh</tt>, is yet to come. In the meantime, I wrote
  a bit more in <tt>README.Debian</tt> in <tt>mirabilos-support</tt>.</p>
+----
+Date: 07.04.2015 22:02
+Author: tg@
+Title: exciting news, or so
+Tag: debian event fun geocache mksh news personal pkgsrc plan rant security work
+
+<p>I implemented <tt>&lt;?</tt> support (including <tt>&lt;?php</tt>…)
+ script embedding support for <tt>*.inc</tt> in MirWebseite today; the
+ specific syntax was explicitely requested by <a
+ href="https://www.teckids.org/people.htm#nik">Natureshadow</a>. Ugh.</p>
+<p>My own hacking activities are progressing, even if slowly. I do some
+ other interesting, funny, social, beneficial, etc. stuff in between, though.
+ I’ll even have to get some of my DD buddies to sponsor me some QA uploads
+ of packages I formerly maintained, whereever changes are queued up… such as
+ better old-format repo compatibility in cvs(GNU) ☺ Though some of the stuff
+ I do at work is currently done only there… sorry.</p>
+<p>Also: prepare to be fully enlightened about just <a
+ href="https://blog.abevoelker.com/why-i-dont-use-docker-much-anymore/">what
+ evil</a> (nice picture) <a href="http://iops.io/blog/docker-hype/">Docker</a>
+ is. I especially liked the comparison of containers to a herd of cattle,
+ mere numbers, replaceable, whereas VMs are cats, each with their individual
+ name, lovely petted each day, etc.</p>
+<p>ObHint: Some may have noticed I do have a Twitter account now. I do not
+ really use it much. I got it because I wanted to rant at someone who only
+ gave Twitter as means to contact them (a European company running a lottery
+ for USA citizens only). But I found one nice thing: @HourlyCats (though
+ @FacesPics and @BahnAnsagen are funny too, and the Postillon anyway).
+ The internet is there for cat content, anyway.<br />Ahem. Do not contact
+ me there, use <a href="@@RELPATH@@irc.htm">IRC, more specifically, the
+ Freenode network, and possibly <tt>memoserv</tt> to <tt>mirabilos</tt></a>
+ instead, I can’t fit things into 140 chars, that’s just ridiculous. Also,
+ don’t follow me. It may contain rants, it’s NSFW, and I’m not censoring
+ there. As I said: I do not use it. So should you. (But kudos for having a
+ mostly functional “fallback” site (the “mobile” one), which even works in
+ PocketIE (Windows Mobile) and Opera 9, though not so much lynx(1)…)</p>
+<p>odc (from <tt>#!/bin/mksh</tt> on IRC) is hacking support to use <a
+ href="@@RELPATH@@mksh.htm">mksh</a> instead of GNU bash for bootstrapping
+ pkgsrc® (e.g. on Solaris). Nice! Good luck!</p>
+<p>… à propos mksh(1), dear Debian <tt>armel</tt> and <tt>armhf</tt> buildd
+ maintainer colleagues, pretty please with strawberries and chocolate ice
+ on top (I just had that on waffles at my favourite ice salon, so I may be
+ biased), do like s390x and update your chroots and wanna-build give-back <a
+ href="https://buildd.debian.org/status/package.php?p=mksh">mksh</a>, as we
+ requested, so the privacy fix makes it into jessie. Thanks in advance!</p>
+<p>Oh, and Y_Plentyn and I have both putting more and updated packages into
+ <a href="http://www.mirbsd.org/~tg/Debs/debidx.htm">my APT repository</a>.
+ XTaran held a talk at CLT 2015 mentioning it… maybe I should write up some
+ docs about how to use it for which purposes (e.g. how to avoid systemd but
+ not get the other packages from it, or how to use it with systemd (trivial
+ but has to be stated, it’s freedom of choice after all), etc.)?</p>
+<p>Besides decent fanfiction (the stories in the Uzumaki Naruto universe
+ seem, on average, to be much longer than those in the Harry Potter one),
+ the weather is becoming good, so I’ve already been enjoying myself with
+ geocaching and will have the bike fixed at the shop RSN (it suffers a bit
+ each winter, as it stands outside, since our basement is mouldy, which is
+ worse than a bit of rust IMHO) to get more activity in. Also planning to
+ head to the GPS Maze in Mainz and, besides what time FrOSCon (including
+ preparation) allows, heading to DebConf for a while.</p>
+<p><a href="http://fish.mirbsd.org/wptg.htm#banners" style="border:0;"><img
+ style="border:0;" alt="mirabilos’ Waypoints"
+ src="@@RELPATH@@WPtg.png" /></a></p><!-- RSS stop -->
+<p>… to my shame I must admit I fucked up, and we <em>still</em> do not have
+ support in libssl for SHA2-signed X.509 certificates. Also, StartSSL fucked
+ up, so currently https for <tt>www.mirbsd.org</tt> is toast.</p>
+<p>Also more on the rant side, services offered by web-based platforms, be
+ they web (e.g. Groundspeak’s GC.COM) or not (Googlemail, which $orkplace
+ switched to against my express veto some time ago) are getting worse and
+ worse over time. I had hoped they realise that and improve, especially
+ when seeing small signs (such as GC.COM pages shrinking to 20% of the
+ formerly served bloat) but… no.</p>
 ----

@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.186 2015/04/03 00:46:04 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.189 2015/04/06 20:56:02 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -12787,6 +12787,27 @@ Date: 06.04.2015
 Waypoint: OC1113A
 Title: SVC - Lapidarium
 Tag: D25 T15 Safari
+----
+ID: 2159
+Date: 07.04.2015
+Waypoint: GC2T1P0
+Title: Juri Gagarin – der erste Mensch im All
+Tag: D3 T1 Micro Mystery recommended
+----
+ID: 2160
+Date: 07.04.2015
+Waypoint: GC4WQE7
+Title: Scouting Bonn e.V.
+Tag: D2 T15 Regular Tradi
+
+Präsentierteller, aber handwerklich schön gemacht;
+wer kommunikativ ist… oder spätnachts halt.
+----
+ID: 2161
+Date: 07.04.2015
+Waypoint: GC5JEY5
+Title: Pictogram storys #4
+Tag: D35 T2 Micro Mystery
 ----
 ID: p20150411
 Date: 11.04.2015
