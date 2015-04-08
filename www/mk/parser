@@ -1,4 +1,4 @@
-rcsid_parser='$MirOS: www/mk/parser,v 1.23 2012/07/15 14:21:44 tg Exp $'
+rcsid_parser='$MirOS: www/mk/parser,v 1.24 2014/04/14 19:29:41 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -180,6 +180,33 @@ for srcf in $sources; do
 					e_tag[entry]=${e_tag[entry]}${e_tag[entry]+ }$x
 				done
 			fi
+		elif [[ $line = '<?'* ]]; then
+			interp=${line:2}
+			x=
+			while :; do
+				if ! IFS= read -r line; then
+					print -ru2 "EOF while looking for matching ?> in data/$srcf.inc!"
+					exit 1
+				fi
+				[[ $line = '?>' ]] && break
+				x+=$line$nl
+			done
+			if [[ -z $interp ]]; then
+				line=$(eval "$x")
+				state=$?
+			elif ! whence -p "$interp" >/dev/null; then
+				print -ru2 "Snippet interpreter '$interp' not found in data/$srcf.inc!"
+				exit 1
+			else
+				[[ $interp = php ]] && x='<?php'$nl$x
+				line=$(print -nr -- "$x" | "$interp")
+				state=$?
+			fi
+			if (( state )); then
+				print -ru2 "${interp:+Snippet for \"}${interp:-Inline shell snippet}${interp:+\"} returned errorlevel $state in data/$srcf.inc!"
+				exit 1
+			fi
+			ei_body[entry]=${ei_body[entry]}${ei_body[entry]+$nl}$line
 		else
 			ei_body[entry]=${ei_body[entry]}${ei_body[entry]+$nl}$line
 		fi
