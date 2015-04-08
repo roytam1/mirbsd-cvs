@@ -527,15 +527,15 @@ Tag: debian event fun geocache mksh news personal pkgsrc plan rant security work
  biased), do like s390x and update your chroots and wanna-build give-back <a
  href="https://buildd.debian.org/status/package.php?p=mksh">mksh</a>, as we
  requested, so the privacy fix makes it into jessie. Thanks in advance!</p>
-<p>Oh, and Y_Plentyn and I have both putting more and updated packages into
+<p>Oh, and Y_Plentyn and I both have been putting more and updated packages into
  <a href="http://www.mirbsd.org/~tg/Debs/debidx.htm">my APT repository</a>.
  XTaran held a talk at CLT 2015 mentioning it… maybe I should write up some
  docs about how to use it for which purposes (e.g. how to avoid systemd but
  not get the other packages from it, or how to use it with systemd (trivial
  but has to be stated, it’s freedom of choice after all), etc.)?</p>
 <p>Besides decent fanfiction (the stories in the Uzumaki Naruto universe
- seem, on average, to be much longer than those in the Harry Potter one),
- the weather is becoming good, so I’ve already been enjoying myself with
+ seem, on average, to be much longer than those in the Harry Potter one), the
+ weather is becoming good, so I’ve already been enjoying going out for some
  geocaching and will have the bike fixed at the shop RSN (it suffers a bit
  each winter, as it stands outside, since our basement is mouldy, which is
  worse than a bit of rust IMHO) to get more activity in. Also planning to
