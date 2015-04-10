@@ -12821,6 +12821,21 @@ Waypoint: GC3X7W4
 Title: Spaziergang am Rhein
 Tag: D15 T15 Micro Multi
 ----
+ID: 2164
+Date: 10.04.2015
+Waypoint: OC11DDB
+Title: Godesberger Kreuze #11
+nTF: 0
+Tag: D1 T1 Virtual
+----
+ID: 2165
+Date: 10.04.2015
+Waypoint: GC3574X
+Title: zum Finkenheim
+Tag: D3 T2 Regular Multi recommended
+
+Muß eigentlich T4 sein.
+----
 ID: p20150411
 Date: 11.04.2015
 Waypoint: TC2IHW GC5PY1P
