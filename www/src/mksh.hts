@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.576 2015/03/08 23:54:26 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.578 2015/03/26 18:05:46 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -831,6 +831,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p id="pcur"><i>current</i>: Please remember to subscribe to the mksh
  mailing list, either directly or via GMane, if you have an interest
  in mksh, such as packaging it. Thanks!
+ <br />Please let the mksh developer team review your .mkshrc file!
  <i>(unfinished…)</i></p>
 <p id="p50e">R50e: Better portability; no conflict with system headers
  defining a “tilde” function; no use of <tt>ptrdiff_t</tt> any more.
@@ -1069,7 +1070,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>This does not necessarily list new features, only these which users
  should be aware of for existing scripts.</p>
 <p id="ccur"><i>current</i>: Integers with bases outside of the permitted
- range are handled as base 10 instead of failing to parse, like ksh93.</p>
+ range are handled as base 10 instead of failing to parse, like ksh93.
+ Korn shell style functions (<tt>function foo {</tt>) now have locally
+ scoped shell options (e.g. <tt>set -o noglob</tt>) except in lksh.</p>
 <p id="c50e">R50e: <strong>Warning:</strong> do not use <tt>x=&lt;&lt;</tt>
  inside a function, it has never worked.<br />Lots of POSIX compliance and
  bug fixes. New options for the <tt>exec</tt> builtin.</p>
@@ -1118,6 +1121,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
   from GNU bash in that <tt>enable</tt> takes precedence over functions</li>
  <li>[tg] Move <tt>unalias</tt>ing an identifier when defining a POSIX-style
   function with the same name into lksh, as compatibility kludge</li>
+ <li>[tg] Make <tt>dot.mkshrc</tt> more robust (LP#1441853)</li>
+ <li>[tg] Fix issues with <tt>IFS='\' read</tt>, found by edualbus</li>
+ <li>[enh, tg] Fix integer overflows related to file descriptor parsing,
+  found by Pawel Wylecial (LP#1440685); reduce memory usage for I/O redirs</li>
+ <li>[tg] Document in the manpage how to <tt>set ±U</tt> according to <a
+  href="http://article.gmane.org/gmane.os.miros.mksh/606">the current locale
+  settings</a> via LANG/LC_* parameters (cf. Debian #782225)</li>
+ <li>[tg] Korn shell style functions now have locally scoped shell options</li>
 </ul>
 <p>Changes in the current (unreleased) R50-stable branch:</p><ul>
  <li>[tg] Add a patch marker for vendor patch versioning to <tt>mksh.1</tt></li>
@@ -1297,7 +1308,6 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li>↑ actually make a libmkshedit, see my mirtoconf v2 plans</li>
 <li>Allow trimming arrays (e.g. <tt>${foo[*]@Q}</tt>)</li>
 <li>Add -DMKSH_BAIKA_NO_JUTSU (trade more size for more speed)</li>
-<li>FKSH functions have local scope for flags (<tt>set -o</tt>) in ksh93</li>
 <li>Someone should run mksh through afl and fix everything it finds</li>
 <li><a href="mksh_old.htm#plans">older/unrealistic plans</a></li>
 <li>… such as a better website, more clearly arranged, etc…</li>

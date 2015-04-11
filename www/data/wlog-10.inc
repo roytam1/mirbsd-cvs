@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.461 2014/10/07 15:56:00 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.463 2014/12/14 21:19:56 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10824,4 +10824,15 @@ Tag: debian mksh pcli
  href="http://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_14">a
  POSIX special built-in</a> (most importantly, it keeps assignments), whereas
  “true” is a regular built-in utility.</p>
+----
+Title: mksh R50f coming soon
+Date: 11.04.2015 23:39
+Author: tg@
+Tag: mksh pcli
+
+<p>Please test <a href="@@RELPATH@@mksh.htm">mksh</a>-current from CVS (or
+ the <a href="https://github.com/MirBSD/mksh">inofficial git mirror</a>)!
+ There are security-related fixes I’ll MFC in a few days, for which I’d
+ prefer for them (and the other changes) to not introduce any regressions.
+ Thanks!</p>
 ----
