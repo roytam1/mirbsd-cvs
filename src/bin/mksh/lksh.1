@@ -272,6 +272,12 @@ In
 aliases have precedence; the name must be quoted or
 .Ic unalias Ns ed
 to access it.
+.It
+Functions defined with the
+.Ic function
+reserved word share the shell flags
+.Pq Ic set -o
+instead of locally scoping them.
 .El
 .Sh SEE ALSO
 .Xr mksh 1

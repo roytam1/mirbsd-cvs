@@ -1204,7 +1204,7 @@ and
 .Ic return
 work, and in that
 .Ic exit
-terminates the parent shell.
+terminates the parent shell; flags are shared.
 .Pp
 Another variant of substitution are the valsubs (value substitutions)
 .Pf ${\*(Ba\& Ns Ar command Ns \&;}
@@ -2903,6 +2903,10 @@ untouched, so using
 inside a function interferes with using
 .Ic getopts
 outside the function).
+.It
+Shell options
+.Pq Ic set Fl o
+have local scope, i.e. changes inside a function are reset upon its exit.
 .El
 .Pp
 In the future, the following differences may also be added:
@@ -2916,10 +2920,6 @@ trapped) will have their default effect in a function.
 .It
 The EXIT trap, if set in a function, will be executed after the function
 returns.
-.It
-Shell options
-.Pq Ic set Fl o
-have local scope, i.e. changes inside a function are reset upon its exit.
 .El
 .Ss Command execution
 After evaluation of command-line arguments, redirections, and parameter
