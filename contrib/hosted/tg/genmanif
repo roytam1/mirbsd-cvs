@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/genmanif,v 1.2 2014/04/07 20:27:43 tg Exp $
+# $MirOS: contrib/hosted/tg/genmanif,v 1.3 2014/08/05 08:31:18 tg Exp $
 #-
-# Copyright © 2014
-#	Thorsten Glaser <tg@mirbsd.org>
+# Copyright © 2014, 2015
+#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -18,8 +18,6 @@
 # of dealing in the work, even if advised of the possibility of such
 # damage or existence of a defect, except proven that it results out
 # of said person’s immediate fault when using the work as intended.
-#-
-# (enhance later, e.g. symlinks)
 
 function addarg {
 	local x
@@ -36,11 +34,22 @@ addarg '*'
 
 set -o pipefail
 exec >MANIFEST
-find ${args[*]} -type f -print0 | sort -z | grep -v -z \
+print ^
+find ${args[*]} -print0 | sort -z | grep -v -z \
     -e '^MANIFEST$' \
-    -e '^MANIFEST\.asc$' | xargs -0r md5sum -b --
-rv=$?
+    -e '^MANIFEST\.asc$' | while IFS= read -r -d ''; do
+	if [[ -h $REPLY ]]; then
+		dst=$(readlink -- "$REPLY") || return $?
+		print -r -- "@ ${REPLY@Q} -> ${dst@Q}"
+	elif [[ -f $REPLY ]]; then
+		set -A dst -- $(md5sum -b -- "$REPLY") || return $?
+		print -r -- "$dst ${REPLY@Q}"
+	elif [[ ! -d $REPLY ]]; then
+		print -ru2 "Unknown entity: ${REPLY@Q}"
+	fi
+done
+(( rv |= $? ))
 (( rv )) && print ERRORS OCCURED
 (( rv )) && print -u2 E: errors occured
-(( rv )) || print 0BF22FC49CA50DF354C7619CAAAA96D2 v1
+(( rv )) || print v2
 exit $rv
