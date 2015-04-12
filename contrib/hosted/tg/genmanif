@@ -42,7 +42,7 @@ find ${args[*]} -print0 | sort -z | grep -v -z \
 		dst=$(readlink -- "$REPLY") || return $?
 		print -r -- "@ ${REPLY@Q} -> ${dst@Q}"
 	elif [[ -f $REPLY ]]; then
-		set -A dst -- $(md5sum -b -- "$REPLY") || return $?
+		set -A dst -- $(md5sum -b <"$REPLY") || return $?
 		print -r -- "$dst ${REPLY@Q}"
 	elif [[ ! -d $REPLY ]]; then
 		print -ru2 "Unknown entity: ${REPLY@Q}"
