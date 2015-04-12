@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/ssl/ssl.h,v 1.8 2014/11/26 20:34:05 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/ssl/ssl.h,v 1.9 2015/01/25 17:07:23 tg Exp $ */
 
 /* ssl/ssl.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -304,7 +304,7 @@ extern "C" {
 /* The following cipher list is used by default.
  * It also is substituted when an application-defined cipher list string
  * starts with 'DEFAULT'. */
-#define SSL_DEFAULT_CIPHER_LIST	"ALL:!aNULL:!eNULL+RC4:@STRENGTH:-IDEA" /* low priority for RC4 */
+#define SSL_DEFAULT_CIPHER_LIST	"ALL:!aNULL:!eNULL:!EXP:@STRENGTH:+3DES:+kRSA:+RC4:-LOW"
 
 /* Used in SSL_set_shutdown()/SSL_get_shutdown(); */
 #define SSL_SENT_SHUTDOWN	1

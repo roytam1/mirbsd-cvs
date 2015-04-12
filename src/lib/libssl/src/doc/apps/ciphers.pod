@@ -104,9 +104,9 @@ The following is a list of all permitted cipher strings and their meanings.
 
 =item B<DEFAULT>
 
-the default cipher list. This is determined at compile time and is normally
-B<ALL:!ADH:RC4+RSA:+SSLv2:@STRENGTH>. This must be the first cipher string
-specified.
+the default cipher list. This is determined at compile time and is currently
+B<ALL:!aNULL:!eNULL:!EXP:@STRENGTH:+3DES:+kRSA:+RC4:-LOW>.
+This must be the first cipher string specified.
 
 =item B<COMPLEMENTOFDEFAULT>
 
