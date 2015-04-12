@@ -1,0 +1,126 @@
+.\" $MirOS: src/libexec/cprng/cprng.8,v 1.3 2007/09/28 20:04:12 tg Exp $
+.\"-
+.\" Copyright (c) 2007
+.\"	Thorsten Glaser <tg@mirbsd.de>
+.\"
+.\" Provided that these terms and disclaimer and all copyright notices
+.\" are retained or reproduced in an accompanying document, permission
+.\" is granted to deal in this work without restriction, including un-
+.\" limited rights to use, publicly perform, distribute, sell, modify,
+.\" merge, give away, or sublicence.
+.\"
+.\" This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+.\" the utmost extent permitted by applicable law, neither express nor
+.\" implied; without malicious intent or gross negligence. In no event
+.\" may a licensor, author or contributor be held liable for indirect,
+.\" direct, other damage, loss, or other issues arising in any way out
+.\" of dealing in the work, even if advised of the possibility of such
+.\" damage or existence of a defect, except proven that it results out
+.\" of said person's immediate fault when using the work as intended.
+.\"-
+.Dd $Mdocdate: September 28 2007 $
+.Dt CPRNG 8
+.Os
+.Sh NAME
+.Nm cprng
+.Nd CPU Oscillation Random Number Generator
+.Sh SYNOPSIS
+.Nm
+.Op Fl p
+.Nm
+.Op Fl p
+.Fl r Ns Ar number
+.Sh DESCRIPTION
+.Nm
+generates random numbers by taking the difference between the
+cyclic clock of the mainboard and the CPU.
+This algorithm is often known as
+.Dq truerand
+and only works if the CPU and timer interrupt are driven by
+separate stroke sources, and works better the more idle
+the system is, because otherwise basically the scheduler
+is measured.
+.Pp
+Normal mode of operation is to run in the background and
+periodically feed some bytes into the kernel
+.Xr random 9
+subsystem by writes to
+.Pa /dev/urandom .
+If you have better entropy sources, like a hardware RNG
+on some chipsets, or a combination of much disc, network
+and interactive I/O, or if your interrupt and CPU clocks
+are not driven by separate ticks, you might want to disable
+.Nm
+in
+.Pa /etc/rc.conf .
+.Pp
+The options are as follows:
+.Bl -tag -width Ds
+.It Fl p
+Use
+.Dv ITIMER_PROF
+as timer source.
+This one is often more reliably from a different clock source than
+.Dv ITIMER_REAL ,
+but does not exist on some operating systems.
+.It Fl r Ns Ar number
+Instead of becoming a daemon and running in the background with low
+priority, feeding generated entropy into
+.Pa /dev/urandom ,
+create
+.Ar number
+bytes of entropy and write it to standard output while running with
+high priority, then exit.
+The
+.Ar number
+argument must be decimal and between 1 and 1024, inclusive.
+This is the preferred mode of operation on other operating systems.
+Output quality can be measured with MirPorts
+.Pa ports/math/ent
+and this option.
+.El
+.Sh SEE ALSO
+.Xr arc4random 3 ,
+.Xr RC4 3 ,
+.Xr random 4 ,
+.Xr random 9
+.Pp
+.Pa http://www.cs.berkeley.edu/~daw/rnd/mab-rand
+.Pp
+.Pa http://fourmilab.ch/random/
+.Sh HISTORY
+The
+.Nm
+daemon first appeared in
+.Mx 10 .
+.Sh AUTHORS
+The
+.Nm
+utility was written by
+.An Thorsten Glaser Aq tg@mirbsd.de .
+.Sh CAVEATS
+The output produced by the
+.Fl r
+option is debiased using the von Neumann compressor (whitener) algorithm,
+but still not yet suitable for direct use.
+It can be fed into the kernel
+.Xr random 9
+subsystem on
+.Mx
+and
+.Ox ,
+but not, for example, on
+.Fx
+or
+.Tn GNU/Linux .
+Post-processing with
+.Xr RC4 3
+and mixing with other entropy sources is highly recommended.
+.Pp
+Measure output quality with John Walker's
+.Nm ent
+utility before use on any system.
+Take special attention to the Chi-Square values.
+.Pp
+This utility has been retired and is no longer part of
+.Mx .
