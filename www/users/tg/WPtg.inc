@@ -12858,12 +12858,32 @@ Title: Gackt’s Sociable TerraCacher Challenge #2
 nTF: 1
 Tag: MC0 Locationless Challenge
 ----
+ID: 2169
+Date: 12.04.2015
+Waypoint: OC11DED
+Title: Godesberger Kreuze #14
+nTF: 1
+Tag: D2 T1 Virtual
+----
+ID: 2170
+Date: 12.04.2015
+Waypoint: OC11DFE
+Title: Godesberger Kreuze #15
+nTF: 0
+Tag: D2 T1 Virtual
+----
 ID: p20150416
 Date: 16.04.2015
 Waypoint: OC11CBA
 Banner: jpg
 Title: Schanitzelchenjagd Nr. 13 - Das Glücks(mit)bringer-Event!
 Tag: D1 T15 Event
+----
+ID: p20150418
+Date: 18.04.2015
+Waypoint: GC57103
+Title: Natürlich wandern &amp; lecker einkehren IV
+Tag: D2 T2 Event
 ----
 ID: p20150426
 Date: 26.04.2015
@@ -12884,6 +12904,12 @@ Title: Mainz Gutenberg 2015
 Tag: D1 T1 Giga_Event
 
 Hotelzimmer ist gebucht!
+----
+ID: p20150523
+Date: 23.05.2015
+Waypoint: GC5Q1XM
+Title: Geocacher in der Baracke 4
+Tag: D1 T1 Event
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat

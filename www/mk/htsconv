@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.78 2014/10/12 20:48:19 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.80 2015/04/03 00:46:05 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -10,7 +10,7 @@ mws__markindex=
 mws__pagename=
 mws__header=
 mws__rss=
-mws__difftag=MBSD_HTSCONV_GENDATE_TAG_16845
+mws__difftag=MBSD_HTSCONV_GENDATE_TAG_23100
 unset mws__srcfile
 unset mws__abspath
 unset mws__relpath
@@ -199,7 +199,6 @@ function mws_putheader {
 		<li class="@@CAT=subprojects/kwalletcli@@"><a href="@@RELPATH@@kwalletcli.htm">KWalletCLI</a></li>
 		<!-- li class="@@CAT=subprojects/makefs@@"><a href="@@RELPATH@@makefs.htm">makefs</a></li -->
 		<li class="@@CAT=subprojects/mksh@@"><a href="@@RELPATH@@mksh.htm">mksh</a> Shell</li>
-		<li class="@@CAT=subprojects/CA@@"><a href="@@RELPATH@@CA.htm">X.509v3 Root CA</a></li>
 		</ul></li>
 		 </ul>
 		<div style="margin-top:18px; margin-left:6px;">Sponsored
