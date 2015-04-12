@@ -109,6 +109,7 @@
                                         -- Unknown   */
 #include "mod_ssl.h"
 
+__RCSID("$MirOS$");
 
 /*  _________________________________________________________________
 **
@@ -570,10 +571,7 @@ void ssl_init_ConfigureServer(server_rec *s, pool *p, SSLSrvConfigRec *sc)
      *  Create the new per-server SSL context
      */
     if (sc->nProtocol == SSL_PROTOCOL_NONE) {
-        ssl_log(s, SSL_LOG_ERROR,
-                "Init: (%s) No SSL protocols available [hint: SSLProtocol]",
-                cpVHostID);
-        ssl_die();
+        goto no_ssl_protos;
     }
     cp = ap_pstrcat(p, (sc->nProtocol & SSL_PROTOCOL_SSLV2 ? "SSLv2, " : ""),
                        (sc->nProtocol & SSL_PROTOCOL_SSLV3 ? "SSLv3, " : ""),
@@ -582,9 +580,20 @@ void ssl_init_ConfigureServer(server_rec *s, pool *p, SSLSrvConfigRec *sc)
     ssl_log(s, SSL_LOG_TRACE,
             "Init: (%s) Creating new SSL context (protocols: %s)", cpVHostID, cp);
     if (sc->nProtocol == SSL_PROTOCOL_SSLV2)
+#ifdef OPENSSL_NO_SSL2
+        ctx = NULL;
+#else
         ctx = SSL_CTX_new(SSLv2_server_method());  /* only SSLv2 is left */
+#endif
     else
         ctx = SSL_CTX_new(SSLv23_server_method()); /* be more flexible */
+    if (!ctx) {
+ no_ssl_protos:
+        ssl_log(s, SSL_LOG_ERROR,
+                "Init: (%s) No SSL protocols available [hint: SSLProtocol]",
+                cpVHostID);
+        ssl_die();
+    }
     SSL_CTX_set_options(ctx, SSL_OP_ALL);
     if (!(sc->nProtocol & SSL_PROTOCOL_SSLV2))
         SSL_CTX_set_options(ctx, SSL_OP_NO_SSLv2);
