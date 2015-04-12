@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: sort.1,v 1.21 2003/07/14 12:56:07 jmc Exp $
 .\"
 .\" Copyright (c) 1991, 1993
@@ -88,7 +89,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 17 2009 $
+.Dd $Mdocdate: November 22 2009 $
 .\"
 .\" Check which macro package we use
 .\"
@@ -166,7 +167,8 @@
 .Nd sort or merge text files
 .Sh SYNOPSIS
 .Nm sort
-.Op Fl cmubdfinrH
+.\"XXX todo: sort options (obsd?)
+.Op Fl cmubdfinrHz
 .Op Fl t Ar char
 .Op Fl R Ar char
 .Oo
@@ -312,6 +314,16 @@ This should be used with discretion;
 .Fl R Ar <alphanumeric>
 usually produces undesirable results.
 The default record separator is newline.
+.It Fl z
+Use the NUL
+.Pq Ql \e0
+character as the record separator character.
+This is the same as
+.Fl R Ar '' .
+This option is expected to be used in concert with the
+.Fl print0
+function in
+.Xr find 1 .
 .It Fl k Ar field1[,field2]
 Designates the starting position,
 .Ar field1 ,

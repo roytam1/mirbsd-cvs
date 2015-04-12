@@ -36,7 +36,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)sort.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/sort/sort.c,v 1.2 2007/07/05 23:09:43 tg Exp $");
 
 /*
  * Sort sorts a file using an optional user-defined key.
@@ -119,7 +119,7 @@ main(int argc, char *argv[])
 	fixit(&argc, argv);
 	if (!issetugid() && (outfile = getenv("TMPDIR")))
 		tmpdir = outfile;
-	while ((ch = getopt(argc, argv, "bcdfik:mHno:rR:t:T:uy:")) != -1) {
+	while ((ch = getopt(argc, argv, "bcdfik:mHno:rR:t:T:uy:z")) != -1) {
 		switch (ch) {
 		case 'b': fldtab->flags |= BI | BT;
 			break;
@@ -154,9 +154,11 @@ main(int argc, char *argv[])
 				err(2, "record/field delimiter clash");
 			break;
 		case 'R':
+			ch = *optarg;
+ opt_R:
 			if (REC_D != '\n')
 				usage("multiple record delimiters");
-			if ('\n' == (REC_D = *optarg))
+			if ('\n' == (REC_D = ch))
 				break;
 			d_mask['\n'] = d_mask[' '];
 			d_mask[REC_D] = REC_D_F;
@@ -179,6 +181,9 @@ main(int argc, char *argv[])
 		case 'y':
 			/* accept -y for backwards compat. */
 			break;
+		case 'z':
+			ch = '\0';
+			goto opt_R;
 		case '?':
 		default:
 			usage(NULL);
