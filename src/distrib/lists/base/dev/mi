@@ -971,7 +971,6 @@
 ./usr/include/ohash.h
 ./usr/include/olf_abi.h
 ./usr/include/openssl
-./usr/include/openssl/acss.h
 ./usr/include/openssl/aes.h
 ./usr/include/openssl/asn1.h
 ./usr/include/openssl/asn1_mac.h
@@ -981,7 +980,6 @@
 ./usr/include/openssl/bn.h
 ./usr/include/openssl/buffer.h
 ./usr/include/openssl/cast.h
-./usr/include/openssl/comp.h
 ./usr/include/openssl/conf.h
 ./usr/include/openssl/conf_api.h
 ./usr/include/openssl/crypto.h
@@ -998,13 +996,10 @@
 ./usr/include/openssl/fips.h
 ./usr/include/openssl/fips_rand.h
 ./usr/include/openssl/hmac.h
-./usr/include/openssl/idea.h
-./usr/include/openssl/kssl.h
 ./usr/include/openssl/lhash.h
 ./usr/include/openssl/md2.h
 ./usr/include/openssl/md4.h
 ./usr/include/openssl/md5.h
-./usr/include/openssl/mdc2.h
 ./usr/include/openssl/obj_mac.h
 ./usr/include/openssl/objects.h
 ./usr/include/openssl/ocsp.h
@@ -1018,7 +1013,6 @@
 ./usr/include/openssl/rand.h
 ./usr/include/openssl/rc2.h
 ./usr/include/openssl/rc4.h
-./usr/include/openssl/rc5.h
 ./usr/include/openssl/ripemd.h
 ./usr/include/openssl/rsa.h
 ./usr/include/openssl/safestack.h
@@ -4589,7 +4583,6 @@
 ./usr/share/man/cat3/EVP_md2.0
 ./usr/share/man/cat3/EVP_md5.0
 ./usr/share/man/cat3/EVP_md_null.0
-./usr/share/man/cat3/EVP_mdc2.0
 ./usr/share/man/cat3/EVP_ripemd160.0
 ./usr/share/man/cat3/EVP_sha.0
 ./usr/share/man/cat3/EVP_sha1.0
@@ -4646,10 +4639,6 @@
 ./usr/share/man/cat3/MD5_Final.0
 ./usr/share/man/cat3/MD5_Init.0
 ./usr/share/man/cat3/MD5_Update.0
-./usr/share/man/cat3/MDC2.0
-./usr/share/man/cat3/MDC2_Final.0
-./usr/share/man/cat3/MDC2_Init.0
-./usr/share/man/cat3/MDC2_Update.0
 ./usr/share/man/cat3/OBJ_cleanup.0
 ./usr/share/man/cat3/OBJ_cmp.0
 ./usr/share/man/cat3/OBJ_create.0
@@ -5247,8 +5236,6 @@
 ./usr/share/man/cat3/acosf.0
 ./usr/share/man/cat3/acosh.0
 ./usr/share/man/cat3/acoshf.0
-./usr/share/man/cat3/acss.0
-./usr/share/man/cat3/acss_setkey.0
 ./usr/share/man/cat3/add_wch.0
 ./usr/share/man/cat3/add_wchnstr.0
 ./usr/share/man/cat3/add_wchstr.0
@@ -6429,7 +6416,6 @@
 ./usr/share/man/cat3/md4.0
 ./usr/share/man/cat3/md5.0
 ./usr/share/man/cat3/md5crypt.0
-./usr/share/man/cat3/mdc2.0
 ./usr/share/man/cat3/memccpy.0
 ./usr/share/man/cat3/memchr.0
 ./usr/share/man/cat3/memcmp.0
@@ -6853,6 +6839,7 @@
 ./usr/share/man/cat3/readpassphrase.0
 ./usr/share/man/cat3/readskey.0
 ./usr/share/man/cat3/realloc.0
+./usr/share/man/cat3/reallocarray.0
 ./usr/share/man/cat3/realpath.0
 ./usr/share/man/cat3/recno.0
 ./usr/share/man/cat3/redrawwin.0
@@ -7147,6 +7134,7 @@
 ./usr/share/man/cat3/strncmp.0
 ./usr/share/man/cat3/strncpy.0
 ./usr/share/man/cat3/strndup.0
+./usr/share/man/cat3/strnlen.0
 ./usr/share/man/cat3/strnsvis.0
 ./usr/share/man/cat3/strnvis.0
 ./usr/share/man/cat3/strpbrk.0
@@ -7266,6 +7254,8 @@
 ./usr/share/man/cat3/timet2posix.0
 ./usr/share/man/cat3/timet2tm.0
 ./usr/share/man/cat3/timezone.0
+./usr/share/man/cat3/timingsafe_bcmp.0
+./usr/share/man/cat3/timingsafe_memcmp.0
 ./usr/share/man/cat3/tm2timet.0
 ./usr/share/man/cat3/tmpfile.0
 ./usr/share/man/cat3/tmpnam.0
@@ -7406,7 +7396,6 @@
 ./usr/share/man/cat3/wcsncat.0
 ./usr/share/man/cat3/wcsncmp.0
 ./usr/share/man/cat3/wcsncpy.0
-./usr/share/man/cat3/wcsndup.0
 ./usr/share/man/cat3/wcsnrtombs.0
 ./usr/share/man/cat3/wcspbrk.0
 ./usr/share/man/cat3/wcsrchr.0

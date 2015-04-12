@@ -1313,7 +1313,6 @@
 ./man3/EVP_md2.htm
 ./man3/EVP_md5.htm
 ./man3/EVP_md_null.htm
-./man3/EVP_mdc2.htm
 ./man3/EVP_ripemd160.htm
 ./man3/EVP_sha.htm
 ./man3/EVP_sha1.htm
@@ -1392,10 +1391,6 @@
 ./man3/MD5_Final.htm
 ./man3/MD5_Init.htm
 ./man3/MD5_Update.htm
-./man3/MDC2.htm
-./man3/MDC2_Final.htm
-./man3/MDC2_Init.htm
-./man3/MDC2_Update.htm
 ./man3/MaxCmapsOfScreen.htm
 ./man3/MenuPopdown.htm
 ./man3/MenuPopup.htm
@@ -2991,8 +2986,6 @@
 ./man3/acosf.htm
 ./man3/acosh.htm
 ./man3/acoshf.htm
-./man3/acss.htm
-./man3/acss_setkey.htm
 ./man3/add_wch.htm
 ./man3/add_wchnstr.htm
 ./man3/add_wchstr.htm
@@ -4641,7 +4634,6 @@
 ./man3/md4.htm
 ./man3/md5.htm
 ./man3/md5crypt.htm
-./man3/mdc2.htm
 ./man3/memccpy.htm
 ./man3/memchr.htm
 ./man3/memcmp.htm
@@ -5075,6 +5067,7 @@
 ./man3/readpassphrase.htm
 ./man3/readskey.htm
 ./man3/realloc.htm
+./man3/reallocarray.htm
 ./man3/realpath.htm
 ./man3/recno.htm
 ./man3/redrawwin.htm
@@ -5369,6 +5362,7 @@
 ./man3/strncmp.htm
 ./man3/strncpy.htm
 ./man3/strndup.htm
+./man3/strnlen.htm
 ./man3/strnsvis.htm
 ./man3/strnvis.htm
 ./man3/strpbrk.htm
@@ -5488,6 +5482,8 @@
 ./man3/timet2posix.htm
 ./man3/timet2tm.htm
 ./man3/timezone.htm
+./man3/timingsafe_bcmp.htm
+./man3/timingsafe_memcmp.htm
 ./man3/tm2timet.htm
 ./man3/tmpfile.htm
 ./man3/tmpnam.htm
@@ -5628,7 +5624,6 @@
 ./man3/wcsncat.htm
 ./man3/wcsncmp.htm
 ./man3/wcsncpy.htm
-./man3/wcsndup.htm
 ./man3/wcsnrtombs.htm
 ./man3/wcspbrk.htm
 ./man3/wcsrchr.htm
