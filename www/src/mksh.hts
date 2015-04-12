@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.578 2015/03/26 18:05:46 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.579 2015/04/11 23:42:36 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1121,13 +1121,6 @@ exec /usr/bin/ld "${args[@]}"</pre>
   from GNU bash in that <tt>enable</tt> takes precedence over functions</li>
  <li>[tg] Move <tt>unalias</tt>ing an identifier when defining a POSIX-style
   function with the same name into lksh, as compatibility kludge</li>
- <li>[tg] Make <tt>dot.mkshrc</tt> more robust (LP#1441853)</li>
- <li>[tg] Fix issues with <tt>IFS='\' read</tt>, found by edualbus</li>
- <li>[enh, tg] Fix integer overflows related to file descriptor parsing,
-  found by Pawel Wylecial (LP#1440685); reduce memory usage for I/O redirs</li>
- <li>[tg] Document in the manpage how to <tt>set ±U</tt> according to <a
-  href="http://article.gmane.org/gmane.os.miros.mksh/606">the current locale
-  settings</a> via LANG/LC_* parameters (cf. Debian #782225)</li>
  <li>[tg] Korn shell style functions now have locally scoped shell options</li>
 </ul>
 <p>Changes in the current (unreleased) R50-stable branch:</p><ul>
@@ -1140,6 +1133,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Fix <tt>read -n-1</tt> to not be identical to <tt>read -N-1</tt></li>
  <li>[tg] Several fixes and improvements to lksh(1) and mksh(1) manpages</li>
  <li>[tg] More code (int → size_t), comment and testsuite fixes</li>
+ <li>[tg] Make <tt>dot.mkshrc</tt> more robust (LP#1441853)</li>
+ <li>[tg] Fix issues with <tt>IFS='\' read</tt>, found by edualbus</li>
+ <li>[enh, tg] Fix integer overflows related to file descriptor parsing,
+  found by Pawel Wylecial (LP#1440685); reduce memory usage for I/O redirs</li>
+ <li>[tg] Document in the manpage how to <tt>set ±U</tt> according to <a
+  href="http://article.gmane.org/gmane.os.miros.mksh/606">the current locale
+  settings</a> via LANG/LC_* parameters (cf. Debian #782225)</li>
 </ul>
 <p id="r50e">R50e is a <strong>required</strong> bugfix release:</p><ul>
  <li>[tg] Add more tests detailing behaviour difference from GNU bash</li>
