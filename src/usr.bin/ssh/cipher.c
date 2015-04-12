@@ -46,7 +46,7 @@
 #include "log.h"
 #include "cipher.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/cipher.c,v 1.12 2009/10/04 14:29:03 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/cipher.c,v 1.13 2010/09/21 21:24:36 tg Exp $");
 
 extern const EVP_CIPHER *evp_ssh1_bf(void);
 extern const EVP_CIPHER *evp_ssh1_3des(void);
@@ -82,7 +82,6 @@ struct Cipher {
 	{ "aes128-ctr",		SSH_CIPHER_SSH2, 16, 16, 0, 0, evp_aes_128_ctr },
 	{ "aes192-ctr",		SSH_CIPHER_SSH2, 16, 24, 0, 0, evp_aes_128_ctr },
 	{ "aes256-ctr",		SSH_CIPHER_SSH2, 16, 32, 0, 0, evp_aes_128_ctr },
-	{ "acss@openssh.org",	SSH_CIPHER_SSH2, 16, 5, 0, 0, EVP_acss },
 
 	{ NULL,			SSH_CIPHER_INVALID, 0, 0, 0, 0, NULL }
 };
@@ -402,7 +401,7 @@ cipher_get_keycontext(const CipherContext *cc, u_char *dat)
 	Cipher *c = cc->cipher;
 	int plen = 0;
 
-	if (c->evptype == EVP_rc4 || c->evptype == EVP_acss) {
+	if (c->evptype == EVP_rc4) {
 		plen = EVP_X_STATE_LEN(cc->evp);
 		if (dat == NULL)
 			return (plen);
@@ -417,7 +416,7 @@ cipher_set_keycontext(CipherContext *cc, u_char *dat)
 	Cipher *c = cc->cipher;
 	int plen;
 
-	if (c->evptype == EVP_rc4 || c->evptype == EVP_acss) {
+	if (c->evptype == EVP_rc4) {
 		plen = EVP_X_STATE_LEN(cc->evp);
 		memcpy(EVP_X_STATE(cc->evp), dat, plen);
 	}
