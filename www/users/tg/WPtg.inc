@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.189 2015/04/06 20:56:02 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.194 2015/04/12 19:36:25 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -12871,6 +12871,19 @@ Waypoint: OC11DFE
 Title: Godesberger Kreuze #15
 nTF: 0
 Tag: D2 T1 Virtual
+----
+ID: 2171
+Date: 14.04.2015
+Waypoint: GC46Q0F
+Title: Wachtberger Postämter: Ließem
+Tag: D15 T25 Small Letterbox_Hybrid
+----
+ID: 2172
+Date: 14.04.2015
+Waypoint: OC11E12
+Title: Godesberger Kreuze #16
+nTF: 0
+Tag: D1 T15 Virtual
 ----
 ID: p20150416
 Date: 16.04.2015
