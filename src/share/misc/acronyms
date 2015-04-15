@@ -3989,6 +3989,7 @@ DSA	Debian Security Advisory
 DSA	Debian Systems Administration
 DSA	Digital Signature Algorithm
 DSB	Danske Statsbaner
+DSB	Datenschutzbeauftragter
 DSB	double-sideband modulation
 DSC	Doctor of Science
 DSC	[IATA] Dschang, Cameroon
@@ -8894,6 +8895,7 @@ LSP1	[Oracle] Logical Standby Dictionary Build Process
 LSP2	[Oracle] Logical Standby Set Guard Process
 LSQ	[IATA] Los Angeles, Chile
 LSR	label switch router
+LSR	Leistungsschutzrecht
 LSR	[IATA] Lost River, Alaska, United States of America
 LSS	[IATA] Les Saintes/Terre de Haut, Guadeloupe
 LST	[IATA] Launceston, Tasmania
@@ -16157,6 +16159,7 @@ VDM	[IATA] Viedma (Gobernador Castello), Argentina
 VDP	[IATA] Valle de Pascua, Venezuela
 VDPAU	Video Decode and Presentation API for Unix
 VDR	[IATA] Villa Dolores, Argentina
+VDS	Vorratsdatenspeicherung
 VDS	[IATA] Vadso, Norway
 VDSL	very-high-bit-rate digital subscriber line
 VDU	video display

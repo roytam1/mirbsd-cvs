@@ -12885,6 +12885,53 @@ Title: Godesberger Kreuze #16
 nTF: 0
 Tag: D1 T15 Virtual
 ----
+ID: 2173
+Date: 15.04.2015
+Waypoint: GC3JW7E
+Title: Irlenbuscher Kreuze #1
+Tag: D15 T15 Micro Tradi
+----
+ID: 2174
+Date: 15.04.2015
+Waypoint: GC3JYDA
+Title: Irlenbuscher Kreuze #2
+Tag: D15 T15 Micro Multi
+----
+ID: 2175
+Date: 15.04.2015
+Waypoint: GC3JYDC
+Title: Irlenbuscher Kreuze #3
+Tag: D15 T2 Micro Tradi
+----
+ID: 2176
+Date: 15.04.2015
+Waypoint: GC3JYDE
+Title: Irlenbuscher Kreuze #4
+Tag: D2 T15 Micro Tradi
+----
+ID: 2177
+Date: 15.04.2015
+Waypoint: GC3JYDG
+Title: Irlenbuscher Kreuze #5
+Tag: D2 T15 Micro Tradi
+----
+ID: 2178
+Date: 15.04.2015
+Waypoint: GC3JYDM
+Title: Irlenbuscher Kreuze #Bonus
+Tag: D15 T2 Small Mystery
+----
+ID: 2179
+Date: 15.04.2015
+Waypoint: GC5G7F5
+Title: Turmstation Merzbach Bergstrasse
+Tag: D15 T15 Micro Tradi
+----
+ID: 2180
+Date: 15.04.2015
+Waypoint: 2015-04-15_50_6
+Title: [Köln, Germany], Rheinbach-Irlenbusch
+----
 ID: p20150416
 Date: 16.04.2015
 Waypoint: OC11CBA
