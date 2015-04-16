@@ -12896,6 +12896,8 @@ Date: 15.04.2015
 Waypoint: GC3JYDA
 Title: Irlenbuscher Kreuze #2
 Tag: D15 T15 Micro Multi
+
+Von einer Katze beobachtet…
 ----
 ID: 2175
 Date: 15.04.2015
@@ -12908,6 +12910,12 @@ Date: 15.04.2015
 Waypoint: GC3JYDE
 Title: Irlenbuscher Kreuze #4
 Tag: D2 T15 Micro Tradi
+
+Beim Loggen von einer Katze angeschaut, begrüßt und dann
+ignoriert worden, als sie an mir vorbei den Zaun hochsprang,
+natürlich genau da, wo ich gerade stand, und mich dabei
+touchierend. Möglicherweise die vom Kreuz #2… dann putzte
+sie sich oben auf dem Zaun. Tolle Viecher ;-)
 ----
 ID: 2177
 Date: 15.04.2015
@@ -12926,24 +12934,60 @@ Date: 15.04.2015
 Waypoint: GC5G7F5
 Title: Turmstation Merzbach Bergstrasse
 Tag: D15 T15 Micro Tradi
+
+Spannend… hier gehen zwei Muggel mit einem Hund (an
+der Leine) und einer Katze (freilaufend) Gassi, und
+eine zweite Katze folgt der Gruppe „einfach so“.
 ----
 ID: 2180
 Date: 15.04.2015
 Waypoint: 2015-04-15_50_6
 Title: [Köln, Germany], Rheinbach-Irlenbusch
 ----
-ID: p20150416
+ID: 2181
 Date: 16.04.2015
-Waypoint: OC11CBA
+Waypoint: OC105E7
+Title: 10 Schanitzel - 10 Begriffe
+Tag: D25 T25 Small Mystery recommended
+----
+ID: 2182
+Date: 16.04.2015
+Waypoint: GC2BKT6
+Title: Schanitzelchen
+Tag: D15 T15 Micro Tradi
+----
+ID: 2183
+Date: 16.04.2015
+Waypoint: OC11CBA GC5PVHX
 Banner: jpg
 Title: Schanitzelchenjagd Nr. 13 - Das Glücks(mit)bringer-Event!
 Tag: D1 T15 Event
+----
+ID: 2184
+Date: 16.04.2015
+Waypoint: GC597XA
+Title: Elkes 1000
+Tag: D2 T15 Micro Tradi
+----
+ID: 2185
+Date: 16.04.2015
+Waypoint: GC59803
+Title: Elkes Jubiläums Dose
+Tag: D25 T2 Micro Tradi
+----
+ID: 2186
+Date: 16.04.2015
+Waypoint: OC375D
+Title: V 5 an der Mühle
+Tag: D1 T1 Micro Tradi
 ----
 ID: p20150418
 Date: 18.04.2015
 Waypoint: GC57103
 Title: Natürlich wandern &amp; lecker einkehren IV
 Tag: D2 T2 Event
+
+Ohweiohwei, das ist ja schon übermorgen…
 ----
 ID: p20150426
 Date: 26.04.2015
