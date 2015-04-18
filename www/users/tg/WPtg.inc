@@ -12977,17 +12977,41 @@ Tag: D25 T2 Micro Tradi
 ----
 ID: 2186
 Date: 16.04.2015
-Waypoint: OC375D
+Waypoint: OC375D GC134PN
 Title: V 5 an der Mühle
 Tag: D1 T1 Micro Tradi
 ----
-ID: p20150418
+ID: 2187
+Date: 18.04.2015
+Waypoint: GC26P50
+Title: Hirschburg
+Tag: D15 T15 Small Tradi
+----
+ID: 2188
+Date: 18.04.2015
+Waypoint: GCGYJ4
+Title: Wolkenburg
+Tag: D1 T15 Regular Tradi
+
+Eher D1 T4… je nach Wegwahl sogar D1 T4½!
+----
+ID: 2189
 Date: 18.04.2015
 Waypoint: GC57103
 Title: Natürlich wandern &amp; lecker einkehren IV
 Tag: D2 T2 Event
-
-Ohweiohwei, das ist ja schon übermorgen…
+----
+ID: 2190
+Date: 18.04.2015
+Waypoint: GC39Y5C OX39Y5C
+Title: Leos TB - Hotel Königswinter
+Tag: D15 T15 Regular Tradi
+----
+ID: 2191
+Date: 18.04.2015
+Waypoint: GC2H28T
+Title: Caldera im Siebengebirge
+Tag: D15 T1 Earth
 ----
 ID: p20150426
 Date: 26.04.2015

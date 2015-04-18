@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.26 2014/12/14 21:20:00 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.28 2015/04/08 21:02:15 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -553,4 +553,67 @@ Tag: debian event fun geocache mksh news personal pkgsrc plan rant security work
  worse over time. I had hoped they realise that and improve, especially
  when seeing small signs (such as GC.COM pages shrinking to 20% of the
  formerly served bloat) but… no.</p>
+----
+Date: 18.04.2015 22:12
+Author: tg@
+Title: Pannekōche
+Tag: food fun tip
+Language: de-DE-1901
+
+<p>Dies ist ein Rezept für polnische Hefepfannkuchen (<span
+ xml:lang="pl">Racuchy drożdżowe</span>) mit Äpfeln (<span
+ xml:lang="pl">z jabłkami</span>). Bei uns zu Hause gab es
+ allerdings auch immer diese Pfannkuchen, nur mit Backpulver
+ statt Hefe. Hefe ist allerdings besser. Das, was man sonst
+ in Deutschland (außer Berlin, da heißen Berliner so, obschon
+ die nicht in der Pfanne zubereitet werden) als Pfannkuchen
+ kennt heißt bei uns <span xml:lang="fr">Crêpe</span>s.<br />
+ Die Pfannkuchen werden etwas mehr als handtellergroß, sind
+ wunderbar prall und weich in der Mitte.</p>
+<p>Die Mengenangaben sind für eine Standardfamilie gedacht;
+ auf Arbeit doppeln wir alles, um die halbe Firma satt zu
+ kriegen, und beim Firmenfest haben wir alles vervierfacht;
+ das Rezept skaliert linear sehr gut.</p>
+<p>Zutaten:</p><ul>
+ <li>1 Pfund Weizenmehl (½ kg)</li>
+ <li>1 Prise Salz</li>
+ <li>50g frische Hefe</li>
+ <li>3 Eßlöffel Zucker</li>
+ <li>1½ Tassen Milch auf Zimmertemperatur(!)</li>
+ <li>1 Ei</li>
+ <li>3–4 Äpfel (am besten „Topaz“)</li>
+</ul>
+<p>Zubereitung: Das Mehl in eine große(!) Schüssel geben (der
+ Teig steigt enorm hoch), das Salz hinzumischen. In die Mitte
+ eine kleine Kuhle machen und dort die Hefe hineingeben und
+ mit dem Zucker überhäufen, danach mit einer halben Tasse Milch
+ übergießen und eine Viertelstunde gehen lassen. Dann das Ei
+ und eine ganze Tasse Milch zugeben, kneten und zugedeckt etwa
+ ein bis zwei Stunden gehen lassen.</p>
+<p>Die Äpfel schälen, vierteln und in dünne Scheiben (etwa 2–3
+ mm dick) schneiden. (Für 16 Äpfel muß man hier über eine Stunde
+ Arbeitszeit einkalkulieren!) Diese nach dem Ziehen dem Teig
+ zugeben und nochmals durchmischen und eine weitere Stunde (im
+ polnischsprachigen Rezept stand 15–20 Minuten, aber wir gehen
+ hier von Erfahrungswerten von Paweł und mir auf Arbeit aus)
+ zugedeckt gehen lassen.</p>
+<p>In einer Pfanne (bei doppelter oder gar vierfacher Menge
+ besser in drei Pfannen zu zweit gleichzeitig) Öl mit einem
+ Klecks Butter heißwerden lassen und dann mit einem großen
+ Eßlöffel oder, besser, einem Salatbestecklöffel, drei bis
+ vier Kleckse des Teigs in die Pfanne geben (separiert); nach
+ kurzer Zeit (wenn der Boden und die Ränder schon etwas fest
+ sind) mit einem Pfannenwender umdrehen und leicht obendrauf
+ drücken, dann braten lassen und noch 3–4 Mal wenden, bis sie
+ auf beiden Seiten goldbraun (oft auch etwas mehr als das…)
+ und in der Mitte durch sind, dann auf einen Teller geben,
+ der mit zwei Lagen Zewa ausgelegt wurde, um das überschüssige
+ Fett aufzusaugen. Dann die nächsten Pfannkuchen machen und
+ auf den Teller (oder einen neuen) stapeln.</p>
+<p>Heiß servieren. Kann man so (sind mir süß genug) oder mit
+ Puderzucker bestreut (mag Paweł lieber) oder mit Marmelade
+ essen. (Wenn man die vierfache Menge für die ganze Firma
+ macht sollte man bereits während des Bratens ab und zu selber
+ einen essen, weil man sonst nix mehr bekommt, weil das so
+ lecker riecht, daß die Kollegen einen belagern…)</p>
 ----
