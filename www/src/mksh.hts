@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.579 2015/04/11 23:42:36 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.580 2015/04/12 22:32:36 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R50e</h2>
+<h2>mksh(1) R50f</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -50,9 +50,9 @@ mws_content <<'EOF'
  “MirBSD Korn Shell”.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R50e</strong> from
- <em>1 March 2015</em>.<!-- br />In the oldstable bugfixing-only series, the
- current version is <em>mksh R50e</em> from <em>1 March 2015</em>.--></p>
+<p>The current version of mksh is <strong>mksh R50f</strong> from
+ <em>19 April 2015</em>.<!-- br />In the oldstable bugfixing-only series, the
+ current version is <em>mksh R50f</em> from <em>19 April 2015</em>.--></p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
  for just another account on a Sun E420 on Solaris 11β. Thanks to someone who
@@ -187,15 +187,15 @@ mws_content <<'EOF'
  <em>as well as</em> the hashes and/or checksums below, so you’re sure the
  content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50e.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50e.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50e.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50e.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
 <!-- cd /MirOS/dist/mir/mksh; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
-  <li>RMD160 (mksh-R50e.tgz) = f105c2416f87cac0ef72e4790e0adb1cc057e90f</li>
-  <li>TIGER (mksh-R50e.tgz) = 868819329322cd2a78a7643156cf868543590c429d720f6e</li>
-  <li>4205226567 376013 /MirOS/dist/mir/mksh/mksh-R50e.tgz</li>
-  <li>MD5 (mksh-R50e.tgz) = 5f0bd21e64aabef4ac64d95a95e1b727</li>
+  <li>RMD160 (mksh-R50f.tgz) = b1d21cc83bdd58aff3ae51213f37f40b6759431c</li>
+  <li>TIGER (mksh-R50f.tgz) = 5bd401f667cd94155c672ca7774441ffe26cbbb1c2cc27d7</li>
+  <li>3794836939 377803 /MirOS/dist/mir/mksh/mksh-R50f.tgz</li>
+  <li>MD5 (mksh-R50f.tgz) = 8d75e15fd5d14b82abd8c09a219785e0</li>
 <!--
  <li style="list-style:none;">↑ formal release │ stable bugfix series ↓</li>
   <li>RMD160 (mksh-R44.tgz) = 4cf1525c477c4bece519c024cc73ee6ca064d34a</li>
@@ -209,7 +209,7 @@ mws_content <<'EOF'
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
- so a simple <tt>tar xzf mksh-R50e.tgz</tt> will work. It will create all files
+ so a simple <tt>tar xzf mksh-R50f.tgz</tt> will work. It will create all files
  in a subdirectory <tt>./mksh/</tt>.</p>
 
 <h3 id="vendorpatching">Patching</h3>
@@ -831,8 +831,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p id="pcur"><i>current</i>: Please remember to subscribe to the mksh
  mailing list, either directly or via GMane, if you have an interest
  in mksh, such as packaging it. Thanks!
- <br />Please let the mksh developer team review your .mkshrc file!
  <i>(unfinished…)</i></p>
+<p id="p50f">R50f: If you patch mksh, please do not only update the
+ version in <tt>check.t</tt> (twice) and <tt>sh.h</tt> but now in
+ <tt>mksh.1</tt> as well; thanks!<br />Please let the mksh developer
+ team review your <tt>.mkshrc</tt> files for robustness!</p>
 <p id="p50e">R50e: Better portability; no conflict with system headers
  defining a “tilde” function; no use of <tt>ptrdiff_t</tt> any more.
  The old workarounds for static code checkers are gone. <tt>NSIG</tt>
@@ -1073,6 +1076,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  range are handled as base 10 instead of failing to parse, like ksh93.
  Korn shell style functions (<tt>function foo {</tt>) now have locally
  scoped shell options (e.g. <tt>set -o noglob</tt>) except in lksh.</p>
+<p id="c50f">R50f: <tt>unset HISTFILE</tt> actually works. Several more
+ bugfixes and robustness improvements. The mksh(1) manpage now documents
+ how to enable/disable the UTF-8 mode based on the current POSIX locale
+ according to how it’s done at startup on some OSes.</p>
 <p id="c50e">R50e: <strong>Warning:</strong> do not use <tt>x=&lt;&lt;</tt>
  inside a function, it has never worked.<br />Lots of POSIX compliance and
  bug fixes. New options for the <tt>exec</tt> builtin.</p>
@@ -1112,7 +1119,6 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
  <li>[tg] OpenBSD sync: handle integer base out of band like ksh93 does</li>
- <li>[igli, tg] Some code cleanup and restructuring</li>
  <li>[tg] Protect standard code (predefined aliases, internal code, aliases
   and functions in <tt>dot.mkshrc</tt>) from being overridden by aliases and,
   in some cases, shell functions (i.e. permit overriding but ignore it)</li>
@@ -1123,7 +1129,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
   function with the same name into lksh, as compatibility kludge</li>
  <li>[tg] Korn shell style functions now have locally scoped shell options</li>
 </ul>
+<!--
 <p>Changes in the current (unreleased) R50-stable branch:</p><ul>
+-->
+<p id="r50f">R50f is a <strong>required</strong> security and bugfix release:</p><ul>
  <li>[tg] Add a patch marker for vendor patch versioning to <tt>mksh.1</tt></li>
  <li>[tg] SECURITY: make <tt>unset HISTFILE</tt> actually work</li>
  <li>[tg] Document some more issues with the current history code</li>
@@ -1140,6 +1149,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Document in the manpage how to <tt>set ±U</tt> according to <a
   href="http://article.gmane.org/gmane.os.miros.mksh/606">the current locale
   settings</a> via LANG/LC_* parameters (cf. Debian #782225)</li>
+ <li>[igli, tg] Some code cleanup and restructuring</li>
+ <li>[tg, oksh] Handle number parsing and storing more carefully</li>
 </ul>
 <p id="r50e">R50e is a <strong>required</strong> bugfix release:</p><ul>
  <li>[tg] Add more tests detailing behaviour difference from GNU bash</li>
