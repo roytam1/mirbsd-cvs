@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.580 2015/04/12 22:32:36 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.581 2015/04/19 19:37:32 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -192,10 +192,10 @@ mws_content <<'EOF'
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
 <!-- cd /MirOS/dist/mir/mksh; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
-  <li>RMD160 (mksh-R50f.tgz) = b1d21cc83bdd58aff3ae51213f37f40b6759431c</li>
-  <li>TIGER (mksh-R50f.tgz) = 5bd401f667cd94155c672ca7774441ffe26cbbb1c2cc27d7</li>
-  <li>3794836939 377803 /MirOS/dist/mir/mksh/mksh-R50f.tgz</li>
-  <li>MD5 (mksh-R50f.tgz) = 8d75e15fd5d14b82abd8c09a219785e0</li>
+  <li>RMD160 (mksh-R50f.tgz) = e0de1dd07e6ca02830407b9db43de8f5c98d800f</li>
+  <li>TIGER (mksh-R50f.tgz) = db437ce08d7c6a8449c5ba5827a9742cbaca7c16be261971</li>
+  <li>571627567 377797 /MirOS/dist/mir/mksh/mksh-R50f.tgz</li>
+  <li>MD5 (mksh-R50f.tgz) = c3bdd668992e7369165910f0902fa854</li>
 <!--
  <li style="list-style:none;">↑ formal release │ stable bugfix series ↓</li>
   <li>RMD160 (mksh-R44.tgz) = 4cf1525c477c4bece519c024cc73ee6ca064d34a</li>
