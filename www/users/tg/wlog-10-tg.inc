@@ -601,7 +601,7 @@ Language: de-DE-1901
  besser in drei Pfannen zu zweit gleichzeitig) Öl mit einem
  Klecks Butter heißwerden lassen und dann mit einem großen
  Eßlöffel oder, besser, einem Salatbestecklöffel, drei bis
- vier Kleckse des Teigs in die Pfanne geben (separiert); nach
+ vier Kleckse des Teigs (separat) in die Pfanne geben; nach
  kurzer Zeit (wenn der Boden und die Ränder schon etwas fest
  sind) mit einem Pfannenwender umdrehen und leicht obendrauf
  drücken, dann braten lassen und noch 3–4 Mal wenden, bis sie
@@ -609,11 +609,13 @@ Language: de-DE-1901
  und in der Mitte durch sind, dann auf einen Teller geben,
  der mit zwei Lagen Zewa ausgelegt wurde, um das überschüssige
  Fett aufzusaugen. Dann die nächsten Pfannkuchen machen und
- auf den Teller (oder einen neuen) stapeln.</p>
+ auf den Teller (oder einen neuen) stapeln. Zielgröße ist
+ etwas mehr als handtellergroß und mehrere Zentimeter dick.</p>
 <p>Heiß servieren. Kann man so (sind mir süß genug) oder mit
  Puderzucker bestreut (mag Paweł lieber) oder mit Marmelade
  essen. (Wenn man die vierfache Menge für die ganze Firma
  macht sollte man bereits während des Bratens ab und zu selber
  einen essen, weil man sonst nix mehr bekommt, weil das so
  lecker riecht, daß die Kollegen einen belagern…)</p>
+<p>tbd: Photo. Kommt, wenn wir die ’s nächste Mal machen.</p>
 ----
