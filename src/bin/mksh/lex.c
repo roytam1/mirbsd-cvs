@@ -1480,7 +1480,7 @@ getsc_line(Source *s)
 void
 set_prompt(int to, Source *s)
 {
-	cur_prompt = to;
+	cur_prompt = (uint8_t)to;
 
 	switch (to) {
 	/* command */
@@ -1503,8 +1503,8 @@ set_prompt(int to, Source *s)
 				if (*ps1 != '!' || *++ps1 == '!')
 					shf_putchar(*ps1++, shf);
 				else
-					shf_fprintf(shf, "%d",
-						s ? s->line + 1 : 0);
+					shf_fprintf(shf, "%lu", s ?
+					    (unsigned long)s->line + 1 : 0UL);
 			ps1 = shf_sclose(shf);
 			saved_atemp = ATEMP;
 			newenv(E_ERRH);

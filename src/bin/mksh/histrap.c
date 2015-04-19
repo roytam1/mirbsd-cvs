@@ -275,8 +275,9 @@ c_fc(const char **wp)
 		for (hp = rflag ? hlast : hfirst;
 		    hp >= hfirst && hp <= hlast; hp += rflag ? -1 : 1) {
 			if (!nflag)
-				shf_fprintf(shl_stdout, "%d",
-				    hist_source->line - (int)(histptr - hp));
+				shf_fprintf(shl_stdout, "%lu",
+				    (unsigned long)hist_source->line -
+				    (unsigned long)(histptr - hp));
 			shf_putc('\t', shl_stdout);
 			/* print multi-line commands correctly */
 			s = *hp;

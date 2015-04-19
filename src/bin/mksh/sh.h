@@ -1264,7 +1264,7 @@ EXTERN char *path;		/* copy of either PATH or def_path */
 EXTERN const char *def_path;	/* path to use if PATH not set */
 EXTERN char *tmpdir;		/* TMPDIR value */
 EXTERN const char *prompt;
-EXTERN int cur_prompt;		/* PS1 or PS2 */
+EXTERN uint8_t cur_prompt;	/* PS1 or PS2 */
 EXTERN int current_lineno;	/* LINENO value */
 
 /*
