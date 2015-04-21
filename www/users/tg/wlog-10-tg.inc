@@ -567,9 +567,14 @@ Language: de-DE-1901
  statt Hefe. Hefe ist allerdings besser. Das, was man sonst
  in Deutschland (außer Berlin, da heißen Berliner so, obschon
  die nicht in der Pfanne zubereitet werden) als Pfannkuchen
- kennt heißt bei uns <span xml:lang="fr">Crêpe</span>s.<br />
+ (oder Eier(pfann)kuchen) kennt heißt bei uns <span
+ xml:lang="fr">Crêpe</span>s (oder Eierkuchen).<br />
  Die Pfannkuchen werden etwas mehr als handtellergroß, sind
  wunderbar prall und weich in der Mitte.</p>
+<p>Man kann die nicht nur als Apfelpfannkuchen zubereiten,
+ sondern sie schmecken auch mit Erdbeeren total lecker, was
+ allerdings recht matschig ist. Blaubeeren oder Pfirsische
+ bieten sich auch an.</p>
 <p>Die Mengenangaben sind für eine Standardfamilie gedacht;
  auf Arbeit doppeln wir alles, um die halbe Firma satt zu
  kriegen, und beim Firmenfest haben wir alles vervierfacht;

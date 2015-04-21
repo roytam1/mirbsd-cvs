@@ -13013,6 +13013,67 @@ Waypoint: GC2H28T
 Title: Caldera im Siebengebirge
 Tag: D15 T1 Earth
 ----
+ID: 2192
+Date: 21.04.2015
+Waypoint: GC3QERP
+Title: 0,0
+Tag: D35 T15 Micro Tradi
+----
+ID: 2193
+Date: 21.04.2015
+Waypoint: OC1F16 N004AF GCB1E3
+Title: Alte Fabrik
+Tag: D25 T35 Regular Multi
+
+Echt Malamute. Mindestens T4 nach Guidelines, eher T4½.
+Geht ohne Ausrüstung mit Teamwork und Bäumeklettern,
+aber ein Seil, und sei es nur 2m lang, hilft. Lost Place.
+----
+ID: 2194
+Date: 21.04.2015
+Waypoint: OC4AAD GC17RZG
+Title: A61 Reisewanzen Hotel
+Tag: D2 T15 D1 T2 Regular Tradi
+----
+ID: 2195
+Date: 21.04.2015
+Waypoint: GC3MN3J
+Title: Ausblick auf Löhndorf
+Tag: D1 T5 Micro Tradi
+----
+ID: 2196
+Date: 21.04.2015
+Waypoint: GC3NPE6
+Title: Ausblick auf Bad Bodendorf
+Tag: D1 T4 Micro Tradi
+----
+ID: 2197
+Date: 21.04.2015
+Waypoint: GC3MV47
+Title: Ausblick auf Franken
+Tag: D1 T5 Micro Tradi
+----
+ID: 2198
+Date: 21.04.2015
+Waypoint: GC3KAFF
+Title: Ausblick auf Koisdorf
+Tag: D15 T35 Micro Tradi
+
+Kaff (GC3KAFF) paßt zu Koisdorf :þ
+----
+ID: 2199
+Date: 21.04.2015
+Waypoint: GC1T68Y
+Title: Pommes Frites
+Tag: D5 T15 Micro Mystery
+----
+ID: 2200
+Date: 21.04.2015
+Waypoint: OC11E82
+Title: Besinnliches im Wald
+nTF: 0
+Tag: D1 T15 Virtual
+----
 ID: p20150426
 Date: 26.04.2015
 Waypoint: GC5M72Z
