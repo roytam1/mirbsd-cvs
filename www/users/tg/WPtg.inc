@@ -13074,6 +13074,44 @@ Title: Besinnliches im Wald
 nTF: 0
 Tag: D1 T15 Virtual
 ----
+ID: 2201
+Date: 23.04.2015
+Waypoint: GC2M8DH
+Title: Ein Gespräch unter ehrbaren Herren
+Tag: D4 T15 Micro Mystery
+----
+ID: 2202
+Date: 23.04.2015
+Waypoint: GC38GKB
+Title: Verstecketopf Blank
+Tag: D5 T35 Micro Mystery recommended
+----
+ID: 2203
+Date: 23.04.2015
+Waypoint: GC35BNH
+Title: Wachtberger Kreuze # 17
+Tag: D15 T15 Micro Tradi
+----
+ID: 2204
+Date: 23.04.2015
+Waypoint: GC4A4F7
+Title: Na logo: ein PETling
+Tag: D3 T45 Micro Mystery
+
+Nettes „Rätsel“ ;-)
+----
+ID: 2205
+Date: 23.04.2015
+Waypoint: GC37CX3
+Title: Wachtberger Kreuze # 18
+Tag: D15 T2 Micro Tradi
+----
+ID: p2208
+Date: 25.04.2015
+Waypoint: GC5QCJ1
+Title: CITO - Frühjahrsputz rund um die Burg
+Tag: D1 T25 CITO
+----
 ID: p20150426
 Date: 26.04.2015
 Waypoint: GC5M72Z
