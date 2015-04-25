@@ -13106,17 +13106,82 @@ Waypoint: GC37CX3
 Title: Wachtberger Kreuze # 18
 Tag: D15 T2 Micro Tradi
 ----
-ID: p2208
+ID: 2206
+Date: 24.04.2015
+Waypoint: OC017E GCN6M4 N01845
+Title: Ohne Worte
+Tag: D2 T25 Regular Multi
+
+Eher ein Mystery-Multi, und eher T3½, aber ok.
+----
+ID: 2207
+Date: 24.04.2015
+Waypoint: OC1BB0 GCVDQR
+Title: Geisberg is back!
+Tag: D2 T3 Regular Tradi
+----
+ID: 2208
+Date: 24.04.2015
+Waypoint: OC11EA5
+Title: abgrundtiefe Sucherei
+nTF: 0
+Tag: D4 T35 Virtual
+----
+ID: 2209
+Date: 24.04.2015
+Waypoint: OC11EA6
+Title: spontanes Kreuz bei scharfer Currywurst
+nTF: 0
+Tag: D1 T1 Virtual
+----
+ID: 2210
+Date: 25.04.2015
+Waypoint: GC37HD2
+Title: Der rote Turm von Nideggen
+Tag: D2 T15 Micro Tradi
+----
+ID: 2211
+Date: 25.04.2015
+Waypoint: GC28BE
+Title: Castle Nideggen
+Tag: D2 T2 Regular Tradi
+----
+ID: 2212
+Date: 25.04.2015
+Waypoint: GC43DJQ
+Title: Marienkapelle in Nideggen
+Tag: D15 T2 Small Tradi
+----
+ID: 2213
+Date: 25.04.2015
+Waypoint: GC5JVET
+Title: Bücherschrank Nideggen
+Tag: D1 T15 Micro Tradi
+----
+ID: 2214
+Date: 25.04.2015
+Waypoint: GC3TJ4X
+Title: Das Wappen von Nideggen
+Tag: D15 T2 Micro Tradi
+----
+ID: 2215
 Date: 25.04.2015
 Waypoint: GC5QCJ1
 Title: CITO - Frühjahrsputz rund um die Burg
 Tag: D1 T25 CITO
 ----
-ID: p20150426
-Date: 26.04.2015
-Waypoint: GC5M72Z
-Title: Bonner CITO-Day 2015
-Tag: D1 T2 CITO
+ID: 2216
+Date: 25.04.2015
+Waypoint: GC23N49
+Title: Burgwand Nideggen
+Tag: D1 T1 Earth
+
+Schon eher T2 hier…
+----
+ID: 2217
+Date: 25.04.2015
+Waypoint: VX80-VIIG
+Title: [Egypt], EU-Kessenich
 ----
 ID: p20150513
 Date: 13.05.2015
