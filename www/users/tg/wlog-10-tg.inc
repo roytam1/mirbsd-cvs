@@ -560,7 +560,8 @@ Title: Pannekōche
 Tag: food fun tip
 Language: de-DE-1901
 
-<p>Dies ist ein Rezept für polnische Hefepfannkuchen (<span
+<p>Dies ist ein Rezept für polnische <span
+ xml:lang="de-PL">Hefepfannkuchen</span> (<span
  xml:lang="pl">Racuchy drożdżowe</span>) mit Äpfeln (<span
  xml:lang="pl">z jabłkami</span>). Bei uns zu Hause gab es
  allerdings auch immer diese Pfannkuchen, nur mit Backpulver
@@ -568,9 +569,16 @@ Language: de-DE-1901
  in Deutschland (außer Berlin, da heißen Berliner so, obschon
  die nicht in der Pfanne zubereitet werden) als Pfannkuchen
  (oder Eier(pfann)kuchen) kennt heißt bei uns <span
- xml:lang="fr">Crêpe</span>s (oder Eierkuchen).<br />
- Die Pfannkuchen werden etwas mehr als handtellergroß, sind
- wunderbar prall und weich in der Mitte.</p>
+ xml:lang="fr">Crêpe</span>s (oder Eierkuchen). (Natureshadow
+ und ich haben und jetzt drauf geëinigt, daß der Begriff
+ „Pfannkuchen“ zu überladen ist, und zwischen Pannekōche (wie
+ diese hier, nur mit Backpulver), Hefepfannkuchen (diese hier),
+ Eierkuchen (pfannengroß, ½cm dick, mit Zeug eingebacken),
+ Crêpes (beinahe selber Teig wie Eierkuchen, pfannengroß,
+ deutlich dünner, um Zeug gewickelt) und Berlinern zu
+ unterscheiden.<br />
+ Die Hefepfannkuchen werden etwas mehr als handtellergroß,
+ sind wunderbar luftig und prall und weich in der Mitte.</p>
 <p>Man kann die nicht nur als Apfelpfannkuchen zubereiten,
  sondern sie schmecken auch mit Erdbeeren total lecker, was
  allerdings recht matschig ist. Blaubeeren oder Pfirsische

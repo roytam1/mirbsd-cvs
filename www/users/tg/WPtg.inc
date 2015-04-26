@@ -12697,6 +12697,7 @@ Tag: D2 T15 Event
 ID: 2144
 Date: 04.04.2015
 Waypoint: GC5K2E0
+Banner: png
 Title: We ♥ Meßdorfer Feld
 Tag: D3 T2 CITO
 ----
@@ -12717,6 +12718,7 @@ Distance: 18
 ID: 2147
 Date: 05.04.2015
 Waypoint: OC11354
+Banner: jpg
 Title: Wo die Züge Fähre fuhren
 Tag: D15 T15 Regular Multi recommended
 ----
@@ -12791,6 +12793,7 @@ Tag: D25 T15 Safari
 ID: 2159
 Date: 07.04.2015
 Waypoint: GC2T1P0
+Banner: jpg
 Title: Juri Gagarin – der erste Mensch im All
 Tag: D3 T1 Micro Mystery recommended
 ----
@@ -13161,12 +13164,14 @@ Tag: D1 T15 Micro Tradi
 ID: 2214
 Date: 25.04.2015
 Waypoint: GC3TJ4X
+Banner: jpg
 Title: Das Wappen von Nideggen
 Tag: D15 T2 Micro Tradi
 ----
 ID: 2215
 Date: 25.04.2015
 Waypoint: GC5QCJ1
+Banner: jpg
 Title: CITO - Frühjahrsputz rund um die Burg
 Tag: D1 T25 CITO
 ----
@@ -13182,6 +13187,18 @@ ID: 2217
 Date: 25.04.2015
 Waypoint: VX80-VIIG
 Title: [Egypt], EU-Kessenich
+----
+ID: 2218
+Date: 26.04.2015
+Waypoint: GC5DHRM
+Title: Das ist nur was für Statistikcacher
+Tag: D4 T1 Micro Mystery
+----
+ID: p20150509
+Date: 09.05.2015
+Waypoint: GC5PBRG
+Title: 39. Ahrweiler Geocacher Treffen
+Tag: D1 T1 Event
 ----
 ID: p20150513
 Date: 13.05.2015
