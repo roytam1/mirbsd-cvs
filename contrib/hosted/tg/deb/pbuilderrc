@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.44 2014/10/07 18:43:18 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.46 2014/12/14 18:51:57 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
@@ -10,7 +10,7 @@
 # appropriately). Hint: use this nice wrapper script:
 # https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=shellsnippets/shellsnippets.git;a=blob;f=mksh/debian-dev/c;hb=HEAD
 #-
-# debian.org: sarge etch lenny squeeze wheezy jessie sid
+# debian.org: sarge etch lenny squeeze wheezy jessie stretch sid
 # debian-ports.org: dpo (unstable+unreleased)
 # not supported: experimental
 # Debian derivate from Canonical that cannot be named:
@@ -18,7 +18,7 @@
 #	precise quantal raring saucy trusty utopic vivid
 # *-backports: sarge etch lenny squeeze wheezy jessie
 #	(plus all Debian derivate from Canonical that cannot be named)
-# *-backports-sloppy: lenny squeeze
+# *-backports-sloppy: lenny squeeze wheezy
 # univention: not supported… yet…
 #
 # NOTE for sarge: bootstrapping includes sarge-backports for
@@ -47,11 +47,11 @@ setuptofail() {
 
 # known distributions and distribution-specific things (suites, mirrors, …)
 DISTROS='debian dpo ubuntu'
-DISTS_debian='sarge etch lenny squeeze wheezy jessie sid'
+DISTS_debian='sarge etch lenny squeeze wheezy jessie stretch sid'
 DISTS_dpo='dpo'
 DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise quantal raring saucy trusty utopic vivid'
 DISTBACKPORTS_debian=sarge:etch:lenny:squeeze:wheezy:jessie
-DISTBACKPORTSLOPPY_debian=lenny:squeeze
+DISTBACKPORTSLOPPY_debian=lenny:squeeze:wheezy
 DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise:quantal:raring:saucy:trusty:utopic:vivid
 MIRROR_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
@@ -59,6 +59,7 @@ MIRROR_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_squeeze=http://http.debian.net/debian
 MIRROR_wheezy=http://http.debian.net/debian
 MIRROR_jessie=http://http.debian.net/debian
+MIRROR_stretch=http://http.debian.net/debian
 MIRROR_sid=http://http.debian.net/debian
 MIRROR_unstable=http://ftp.de.debian.org/debian-ports
 MIRROR_unreleased=http://ftp.de.debian.org/debian-ports
@@ -83,6 +84,7 @@ MIRRORSECURITY_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-s
 MIRRORSECURITY_squeeze=http://http.debian.net/debian-security
 MIRRORSECURITY_wheezy=http://http.debian.net/debian-security
 MIRRORSECURITY_jessie=http://http.debian.net/debian-security
+MIRRORSECURITY_stretch=http://http.debian.net/debian-security
 MIRRORSECURITY_sid=NO
 MIRRORBACKPORTS_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 MIRRORBACKPORTS_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
@@ -92,6 +94,7 @@ MIRRORBACKPORTS_wheezy=http://http.debian.net/debian
 MIRRORBACKPORTS_jessie=http://http.debian.net/debian
 MIRRORBACKPORTSLOPPY_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 MIRRORBACKPORTSLOPPY_squeeze=http://http.debian.net/debian-backports
+MIRRORBACKPORTSLOPPY_wheezy=http://http.debian.net/debian-backports
 
 COMPONENTS_debian=main
 COMPONENTS_dpo=main
