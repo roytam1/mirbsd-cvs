@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.28 2015/04/08 21:02:15 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.32 2015/04/26 16:59:36 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -631,4 +631,29 @@ Language: de-DE-1901
  einen essen, weil man sonst nix mehr bekommt, weil das so
  lecker riecht, daß die Kollegen einen belagern…)</p>
 <p>tbd: Photo. Kommt, wenn wir die ’s nächste Mal machen.</p>
+----
+Date: 28.04.2015 20:54
+Author: tg@
+Title: さくら – Kirschblüte
+Tag: fun twitxr
+
+<p>I took some photos of the cherry blossoms fading today.
+ As usual, small versions (about five à 100K) inline,
+ linking to bigger versions (over 1 MiB each).</p>
+<p><a href="http://mirsolutions.de/pub/sakura-1.jpg"><img
+ alt="桜一" src="http://mirsolutions.de/pub/sakura_1.jpg" /></a></p>
+<p><a href="http://mirsolutions.de/pub/sakura-2.jpg"><img
+ alt="桜二" src="http://mirsolutions.de/pub/sakura_2.jpg" /></a></p>
+<p><a href="http://mirsolutions.de/pub/sakura-3.jpg"><img
+ alt="桜三" src="http://mirsolutions.de/pub/sakura_3.jpg" /></a></p>
+<p><a href="http://mirsolutions.de/pub/sakura-4.jpg"><img
+ alt="桜四" src="http://mirsolutions.de/pub/sakura_4.jpg" /></a></p>
+<p><a href="http://mirsolutions.de/pub/sakura-5.jpg"><img
+ alt="桜五" src="http://mirsolutions.de/pub/sakura_5.jpg" /></a></p>
+<p>They are published under the terms and conditions of <a
+ href="@@RELPATH@@MirOS-Licence.htm">The MirOS Licence</a>. Enjoy.</p>
+<p>(I am aware that I missed the <span xml:lang="de">Kirschblütenfest</span>.
+ This is a deliberate shot, well five, of the blossoms waning. There is <a
+ href="http://coord.info/GLH9GE47">another shot</a> of cherry and apple trees
+ in fuller bloom, though I did not take it and thus cannot licence it.)</p>
 ----

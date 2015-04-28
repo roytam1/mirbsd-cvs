@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.194 2015/04/12 19:36:25 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.202 2015/04/26 16:59:35 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -13193,6 +13193,21 @@ Date: 26.04.2015
 Waypoint: GC5DHRM
 Title: Das ist nur was für Statistikcacher
 Tag: D4 T1 Micro Mystery
+----
+ID: 2219
+Date: 28.04.2015
+Waypoint: GC5FDRC
+Title: boh, eh, schwör, schabs jesehn &#34;3&#34;
+Tag: D25 T15 Micro Mystery
+----
+ID: 2220
+Date: 28.04.2015
+Waypoint: GC5BPZQ
+Title: Wo wohnen eigentlich die Travel Bug`s
+Tag: D15 T15 Regular Multi recommended
+
+Wermutstropfen bleibt der Zeichensetzungsfehler im Titel…
+und daß der Owner den nicht auf OC publiziert.
 ----
 ID: p20150509
 Date: 09.05.2015
