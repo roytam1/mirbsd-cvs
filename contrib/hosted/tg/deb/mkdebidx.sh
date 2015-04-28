@@ -1,7 +1,7 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.68 2014/12/15 13:11:39 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.69 2014/12/20 14:12:15 tg Exp $'
 #-
-# Copyright © 2008, 2009, 2010, 2011, 2012, 2013, 2014
+# Copyright © 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -140,6 +140,7 @@ done
 allsuites=
 for suite in dists/*; do
 	allsuites="$allsuites${allsuites:+ }${suite##*/}"
+	[[ -h $suite ]] && continue
 	[[ $suites = : || $suites = *:"$suite":* ]] || continue
 	archs=
 	distribution=
@@ -386,6 +387,7 @@ if [[ -s mkdebidx.lnk ]]; then
 fi
 
 for suite in dists/*; do
+	[[ -h $suite ]] && continue
 	for dist in $suite/*; do
 		[[ -d $dist/. ]] || continue
 		suitename=${suite##*/}
@@ -558,7 +560,7 @@ EOF
 print -r -- " <title>${repo_title} Index</title>"
 [[ -s NEWS.rss ]] && print '<link rel="alternate" type="application/rss+xml" title="RSS" href="NEWS.rss" />'
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.68 2014/12/15 13:11:39 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.69 2014/12/20 14:12:15 tg Exp $" />
  <style type="text/css"><!--/*--><![CDATA[/*><!--*/
   table {
    border: 1px solid black;
@@ -624,6 +626,18 @@ done | sort -u)
 
 for suitename in $allsuites; do
 	suite=dists/$suitename
+	if [[ -h $suite ]]; then
+		ent=$(realpath "$suite")
+		n=$(realpath dists)
+		[[ $ent = "$n"/+([!/]) ]] || continue
+		ent=${ent#"$n"/}
+		for n in $allsuites; do
+			[[ $n = "$ent" ]] && break
+		done
+		[[ $n = "$ent" ]] && print -r \
+		    " <li>$suitename: symbolic link to $ent</li>"
+		continue
+	fi
 	. $suite/distinfo.sh
 	print -n " <li>${suite##*/}: <a href=\"$suite/\">$desc</a> (dists:"
 	for dist in $suite/*; do
@@ -640,6 +654,7 @@ print "<tr class=\"tablehead\">"
 print " <th class=\"tableheadcell\">dist</th>"
 print " <th class=\"tableheadcell\" rowspan=\"2\">Binary / Description</th>"
 for suitename in $allsuites; do
+	[[ -h dists/$suitename ]] && continue
 	print " <th class=\"tableheadcell\" rowspan=\"2\">$suitename</th>"
 done
 print "</tr><tr class=\"tablehead\">"
@@ -669,6 +684,7 @@ while read -p num rest; do
 	done
 	print " <td rowspan=\"2\" class=\"srcpkgdesc\">${pd#, }</td>"
 	for suitename in $allsuites; do
+		[[ -h dists/$suitename ]] && continue
 		eval pvo=\${sp_ver_${suitename}[num]}
 		eval ppo=\${sp_dir_${suitename}[num]}
 		IFS=,; set -o noglob
@@ -722,6 +738,7 @@ while read -p num rest; do
 		print " <td class=\"binpkgname\">${bp_disp[i]}</td>"
 		print " <td class=\"binpkgdesc\">$(xhtml_escape "${bp_desc[i]}")</td>"
 		for suitename in $allsuites; do
+			[[ -h dists/$suitename ]] && continue
 			eval pv=\${bp_ver_${suitename}[i]}
 			if [[ -z $pv ]]; then
 				pv=-
@@ -751,6 +768,7 @@ for i in ${bp_sort[*]}; do
 		print " <td class=\"srcpkgdesc\">binary" \
 		    "packages without a matching source package</td>"
 		for suitename in $allsuites; do
+			[[ -h dists/$suitename ]] && continue
 			print " <td class=\"srcpkgitem\">-</td>"
 		done
 		print "</tr>"
@@ -762,6 +780,7 @@ for i in ${bp_sort[*]}; do
 	print " <td class=\"binpkgdist\">${bp_dist[i]}</td>"
 	print " <td rowspan=\"2\" class=\"binpkgdesc\">$(xhtml_escape "${bp_desc[i]}")</td>"
 	for suitename in $allsuites; do
+		[[ -h dists/$suitename ]] && continue
 		eval pv=\${bp_ver_${suitename}[i]}
 		if [[ -z $pv ]]; then
 			pv=-
