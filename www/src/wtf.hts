@@ -3,12 +3,13 @@
 
 mws_setname wtf "WTF acronym database"
 mws_setheadline "What the Fuck?"
-mws_putheader '$MirOS: www/src/wtf.hts,v 1.6 2012/06/11 12:26:51 tg Exp $'
+mws_putheader '$MirOS: www/src/wtf.hts,v 1.7 2013/10/17 23:28:57 tg Exp $'
 mws_content <<'EOF'
 <h2>Display all acronyms</h2>
 <p>The <a href="@@RELPATH@@acronyms" type="text/plain; charset=utf-8"
  title="MirBSD WTF acronym database">acronyms</a> file lists all expansions
- currently known to the wtf(1) utility, which is core to MirBSD. We also
+ currently known to the wtf(1) utility, which is core to MirBSD and has been
+ extended by many contributors, including “wtfubar”. We also
  have a <a href="@@RELPATH@@man.htm">manual page search</a> page.</p>
 
 <h2>Query the WTF acronym database</h2>
