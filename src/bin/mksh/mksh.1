@@ -4036,23 +4036,6 @@ and also supported by
 .Nm ksh93
 is:
 .Ic foo=(a b c); foo+=(d e)
-.Pp
-Another
-.At
-.Nm ksh93
-and
-.Tn GNU
-.Nm bash
-extension allows specifying the indices used for
-.Ar arg ...
-.Pq from the above example, Ic a b c
-like this:
-.Ic set \-A foo \-\- [0]=a [1]=b [2]=c
-or
-.Ic foo=([0]=a [1]=b [2]=c)
-which can also be written
-.Ic foo=([0]=a b c)
-because indices are incremented automatically.
 .It Fl a \*(Ba Fl o Ic allexport
 All new parameters are created with the export attribute.
 .It Fl b \*(Ba Fl o Ic notify
