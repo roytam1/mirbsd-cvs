@@ -214,10 +214,10 @@ synio(int cf)
 
 		if (iop->unit > 9) {
 			*cp++ = CHAR;
-			*cp++ = '0' + (iop->unit / 10);
+			*cp++ = digits_lc[iop->unit / 10];
 		}
 		*cp++ = CHAR;
-		*cp++ = '0' + (iop->unit % 10);
+		*cp++ = digits_lc[iop->unit % 10];
 		*cp = EOS;
 
 		iop->ioflag &= ~IOBASH;
@@ -1074,7 +1074,8 @@ parse_usec(const char *s, struct timeval *tv)
 	tv->tv_sec = 0;
 	/* parse integral part */
 	while (ksh_isdigit(*s)) {
-		tt.tv_sec = tv->tv_sec * 10 + (*s++ - '0');
+		tt.tv_sec = tv->tv_sec * 10 + ksh_numdig(*s++);
+		/*XXX this overflow check maybe UB */
 		if (tt.tv_sec / 10 != tv->tv_sec) {
 			errno = EOVERFLOW;
 			return (true);
@@ -1095,7 +1096,7 @@ parse_usec(const char *s, struct timeval *tv)
 	/* parse decimal fraction */
 	i = 100000;
 	while (ksh_isdigit(*s)) {
-		tv->tv_usec += i * (*s++ - '0');
+		tv->tv_usec += i * ksh_numdig(*s++);
 		if (i == 1)
 			break;
 		i /= 10;

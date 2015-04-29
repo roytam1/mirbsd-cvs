@@ -1666,8 +1666,11 @@ c_umask(const char **wp)
 		mode_t new_umask;
 
 		if (ksh_isdigit(*cp)) {
-			for (new_umask = 0; *cp >= '0' && *cp <= '7'; cp++)
-				new_umask = new_umask * 8 + (*cp - '0');
+			new_umask = 0;
+			while (*cp >= ord('0') && *cp <= ord('7')) {
+				new_umask = new_umask * 8 + ksh_numdig(*cp);
+				++cp;
+			}
 			if (*cp) {
 				bi_errorf("bad number");
 				return (1);

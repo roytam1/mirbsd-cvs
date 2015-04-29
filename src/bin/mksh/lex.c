@@ -920,7 +920,7 @@ yylex(int cf)
 				goto no_iop;
 			if (!ksh_isdigit(dp[c2 + 1]))
 				goto no_iop;
-			iop->unit = (iop->unit * 10) + dp[c2 + 1] - '0';
+			iop->unit = iop->unit * 10 + ksh_numdig(dp[c2 + 1]);
 			if (iop->unit >= FDBASE)
 				goto no_iop;
 		}

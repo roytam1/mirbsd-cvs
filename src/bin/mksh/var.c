@@ -553,11 +553,11 @@ getint(struct tbl *vp, mksh_ari_u *nump, bool arith)
 			continue;
 		}
 		if (ksh_isdigit(c))
-			c -= '0';
+			c = ksh_numdig(c);
 		else if (ksh_isupper(c))
-			c -= 'A' - 10;
+			c = ksh_numuc(c) + 10;
 		else if (ksh_islower(c))
-			c -= 'a' - 10;
+			c = ksh_numlc(c) + 10;
 		else
 			return (-1);
 		if (c >= base)
