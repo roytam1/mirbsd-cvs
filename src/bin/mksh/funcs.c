@@ -2308,7 +2308,7 @@ c_trap(const char **wp)
 	 */
 	/* get command */
 	s = (gettrap(*wp, false) == NULL) ? *wp++ : NULL;
-	if (s != NULL && s[0] == '-' && s[1] == '\0')
+	if (s != NULL && ksh_isdash(s))
 		s = NULL;
 
 	/* set/clear traps */
@@ -3634,7 +3634,7 @@ c_cat(const char **wp)
 	do {
 		if (*wp) {
 			fn = *wp++;
-			if (fn[0] == '-' && fn[1] == '\0')
+			if (ksh_isdash(fn))
 				fd = STDIN_FILENO;
 			else if ((fd = open(fn, O_RDONLY | O_BINARY)) < 0) {
 				eno = errno;

@@ -1734,7 +1734,7 @@ do_tilde(char *cp)
 		dp = str_val(global("HOME"));
 	else if (cp[0] == '+' && cp[1] == '\0')
 		dp = str_val(global("PWD"));
-	else if (cp[0] == '-' && cp[1] == '\0')
+	else if (ksh_isdash(cp))
 		dp = str_val(global("OLDPWD"));
 #ifndef MKSH_NOPWNAM
 	else

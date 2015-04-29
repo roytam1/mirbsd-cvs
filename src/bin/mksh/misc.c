@@ -1007,7 +1007,7 @@ ksh_getopt(const char **argv, Getopt *go, const char *optionsp)
 		const char *arg = argv[go->optind], flag = arg ? *arg : '\0';
 
 		go->p = 1;
-		if (flag == '-' && arg[1] == '-' && arg[2] == '\0') {
+		if (flag == '-' && ksh_isdash(arg + 1)) {
 			go->optind++;
 			go->p = 0;
 			go->info |= GI_MINUSMINUS;

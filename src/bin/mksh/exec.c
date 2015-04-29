@@ -1382,7 +1382,7 @@ iosetup(struct ioword *iop, struct tbl *tp)
 		const char *emsg;
 
 		do_open = false;
-		if (*cp == '-' && !cp[1]) {
+		if (ksh_isdash(cp)) {
 			/* prevent error return below */
 			u = 1009;
 			do_close = true;
