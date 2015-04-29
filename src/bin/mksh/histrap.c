@@ -1234,16 +1234,17 @@ runtrap(Trap *p, bool is_last)
 	p->set = 0;
 	if (trapstr == NULL) {
 		/* SIG_DFL */
-		if (p->flags & TF_FATAL) {
-			/* eg, SIGHUP */
-			exstat = (int)ksh_min(128U + (unsigned)i, 255U);
+		if (p->flags & (TF_FATAL | TF_DFL_INTR)) {
+			exstat = (int)(128U + (unsigned)i);
+			if ((unsigned)exstat > 255U)
+				exstat = 255;
+		}
+		/* e.g. SIGHUP */
+		if (p->flags & TF_FATAL)
 			unwind(LLEAVE);
-		}
-		if (p->flags & TF_DFL_INTR) {
-			/* eg, SIGINT, SIGQUIT, SIGTERM, etc. */
-			exstat = (int)ksh_min(128U + (unsigned)i, 255U);
+		/* e.g. SIGINT, SIGQUIT, SIGTERM, etc. */
+		if (p->flags & TF_DFL_INTR)
 			unwind(LINTR);
-		}
 		goto donetrap;
 	}
 	if (trapstr[0] == '\0')
