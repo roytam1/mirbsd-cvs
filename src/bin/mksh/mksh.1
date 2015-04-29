@@ -3895,8 +3895,8 @@ option, use of the
 .Fl r
 option might be prudent; the same applies for:
 .Bd -literal -offset indent
-find . \-type f \-print0 \*(Ba \e
-    while IFS= read \-d \*(aq\*(aq \-r filename; do
+find . \-type f \-print0 \*(Ba& \e
+    while IFS= read \-d \*(aq\*(aq \-pr filename; do
 	print \-r \-\- "found \*(Lt${filename#./}\*(Gt"
 done
 .Ed
