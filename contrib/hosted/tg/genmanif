@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/genmanif,v 1.5 2015/04/12 02:22:01 tg Exp $
+# $MirOS: contrib/hosted/tg/genmanif,v 1.6 2015/04/22 18:02:08 tg Exp $
 #-
 # Copyright © 2014, 2015
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -18,6 +18,8 @@
 # of dealing in the work, even if advised of the possibility of such
 # damage or existence of a defect, except proven that it results out
 # of said person’s immediate fault when using the work as intended.
+#-
+# Intended to be run on a Debian system: using GNU utility syntax.
 
 function addarg {
 	local x
@@ -43,6 +45,8 @@ if [[ $alg != @(md5|sha1|sha224|sha256|sha384|sha512) ]]; then
 	exit 1
 fi
 
+rm -f MANIFEST MANIFEST.tmp
+
 set -A args
 addarg '.*'
 addarg '*'
@@ -66,5 +70,16 @@ done
 (( rv |= $? ))
 (( rv )) && print ERRORS OCCURED
 (( rv )) && print -u2 E: errors occured
-(( rv )) || print v2 ${alg/md5}
-exit $rv
+(( rv )) && exit $rv
+print v2 ${alg/md5}
+exec >&2
+[[ -s MANIFEST.asc ]] && sed -n '/^^$/,/^v/p' MANIFEST.asc | \
+    if command -v git >/dev/null; then
+	# stupid git can’t take it from stdin
+	cat >MANIFEST.tmp
+	git diff --color=auto <&2 --no-index --no-prefix MANIFEST.tmp MANIFEST
+	rm -f MANIFEST.tmp
+else
+	diff -u - MANIFEST
+fi
+exit 0
