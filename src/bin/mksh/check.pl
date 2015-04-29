@@ -1165,7 +1165,7 @@ read_test
 		print STDERR "$prog:$test{':long-name'}: expected-exit value $val not in 0..255\n";
 		return undef;
 	    }
-	} elsif ($val !~ /^([\s<>+-=*%\/&|!()]|\b[wse]\b|\bSIG[A-Z][A-Z0-9]*\b)+$/) {
+	} elsif ($val !~ /^([\s\d<>+=*%\/&|!()-]|\b[wse]\b|\bSIG[A-Z][A-Z0-9]*\b)+$/) {
 	    print STDERR "$prog:$test{':long-name'}: bad expected-exit expression: $val\n";
 	    return undef;
 	}
