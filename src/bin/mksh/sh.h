@@ -305,6 +305,7 @@ struct rusage {
 #define ksh_toupper(c)	(((c) >= 'a') && ((c) <= 'z') ? (c) - 'a' + 'A' : (c))
 #define ksh_isdash(s)	(((s)[0] == '-') && ((s)[1] == '\0'))
 #define ksh_isspace(c)	((((c) >= 0x09) && ((c) <= 0x0D)) || ((c) == 0x20))
+#define ksh_eq(c,u,l)	(((c) | 0x20) == (l))
 #define ksh_min(x,y)	((x) < (y) ? (x) : (y))
 #define ksh_max(x,y)	((x) > (y) ? (x) : (y))
 

@@ -2284,7 +2284,7 @@ mksh_cfg= NSIG
 	sigs="ABRT FPE ILL INT SEGV TERM ALRM BUS CHLD CONT HUP KILL PIPE QUIT"
 	sigs="$sigs STOP TSTP TTIN TTOU USR1 USR2 POLL PROF SYS TRAP URG VTALRM"
 	sigs="$sigs XCPU XFSZ INFO WINCH EMT IO DIL LOST PWR SAK CLD IOT RESV"
-	sigs="$sigs STKFLT UNUSED"
+	sigs="$sigs STKFLT ABND DCE DUMP IOERR TRACE DANGER UNUSED"
 	test 1 = $HAVE_CPP_DD && test $NSIG -gt 1 && sigs="$sigs "`vq \
 	    "$CPP $CFLAGS $CPPFLAGS $NOWARN -dD conftest.c" | \
 	    grep '[	 ]SIG[A-Z0-9][A-Z0-9]*[	 ]' | \

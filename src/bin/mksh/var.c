@@ -510,7 +510,7 @@ getint(struct tbl *vp, mksh_ari_u *nump, bool arith)
 	}
 
 	if (c == '0' && arith) {
-		if ((s[0] | 0x20) == 'x') {
+		if (ksh_eq(s[0], 'X', 'x')) {
 			/* interpret as hexadecimal */
 			base = 16;
 			++s;
@@ -554,12 +554,12 @@ getint(struct tbl *vp, mksh_ari_u *nump, bool arith)
 		}
 		if (ksh_isdigit(c))
 			c -= '0';
-		else {
-			c |= 0x20;
-			if (!ksh_islower(c))
-				return (-1);
+		else if (ksh_isupper(c))
+			c -= 'A' - 10;
+		else if (ksh_islower(c))
 			c -= 'a' - 10;
-		}
+		else
+			return (-1);
 		if (c >= base)
 			return (-1);
 		/* handle overflow as truncation */
