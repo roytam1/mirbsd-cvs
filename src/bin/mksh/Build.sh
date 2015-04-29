@@ -2248,20 +2248,22 @@ if test 0 = $HAVE_SYS_SIGNAME; then
 	sigseenone=:
 	sigseentwo=:
 	echo '#include <signal.h>
-#ifndef NSIG
-#if defined(_NSIG)
-#define NSIG _NSIG
+#if defined(NSIG_MAX)
+#define cfg_NSIG NSIG_MAX
+#elif defined(NSIG)
+#define cfg_NSIG NSIG
+#elif defined(_NSIG)
+#define cfg_NSIG _NSIG
 #elif defined(SIGMAX)
-#define NSIG (SIGMAX+1)
+#define cfg_NSIG (SIGMAX + 1)
 #elif defined(_SIGMAX)
-#define NSIG (_SIGMAX+1)
+#define cfg_NSIG (_SIGMAX + 1)
 #else
-/* XXX better error out, see sh.h */
-#define NSIG 64
-#endif
+/*XXX better error out, see sh.h */
+#define cfg_NSIG 64
 #endif
 int
-mksh_cfg= NSIG
+mksh_cfg= cfg_NSIG
 ;' >conftest.c
 	# GNU sed 2.03 segfaults when optimising this to sed -n
 	NSIG=`vq "$CPP $CFLAGS $CPPFLAGS $NOWARN conftest.c" | \
@@ -2310,7 +2312,7 @@ mksh_cfg= NSIG
 		    sed 's/^ *mksh_cfg *=[	 ]*\([0-9][0-9x]*\).*$/:\1 '$name/
 	done | sed -n '/^:[^ ]/s/^://p' | while read nr name; do
 		test $printf = echo || nr=`printf %d "$nr" 2>/dev/null`
-		test $nr -gt 0 && test $nr -le $NSIG || continue
+		test $nr -gt 0 && test $nr -lt $NSIG || continue
 		case $sigseentwo in
 		*:$nr:*) ;;
 		*)	echo "		{ \"$name\", $nr },"

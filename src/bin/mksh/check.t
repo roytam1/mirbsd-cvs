@@ -30,7 +30,7 @@
 # (2013/12/02 20:39:44) http://openbsd.cs.toronto.edu/cgi-bin/cvsweb/src/regress/bin/ksh/?sortby=date
 
 expected-stdout:
-	@(#)MIRBSD KSH R51 2015/04/19
+	@(#)MIRBSD KSH R51 2015/04/29
 description:
 	Check version of shell.
 stdin:
@@ -39,7 +39,7 @@ name: KSH_VERSION
 category: shell:legacy-no
 ---
 expected-stdout:
-	@(#)LEGACY KSH R51 2015/04/19
+	@(#)LEGACY KSH R51 2015/04/29
 description:
 	Check version of legacy shell.
 stdin:
@@ -4837,7 +4837,7 @@ expected-stdout:
 	PROG: trap: bad signal 'UNKNOWNSIGNAL'
 	PROG: trap: bad signal '999999'
 	PROG: trap: bad signal 'FNORD'
-	= 3
+	= 1
 	trap 2 executed
 ---
 name: read-IFS-1
