@@ -93,8 +93,6 @@ setctypes(const char *s, int t)
 void
 initctypes(void)
 {
-	int c;
-
 	setctypes(digits_uc, C_ALPHA);
 	setctypes(digits_lc, C_ALPHA);
 	chtypes['_'] |= C_ALPHA;
