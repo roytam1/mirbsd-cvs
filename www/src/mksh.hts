@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.582 2015/04/19 19:50:16 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.583 2015/04/29 20:39:02 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1151,10 +1151,19 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Move <tt>unalias</tt>ing an identifier when defining a POSIX-style
   function with the same name into lksh, as compatibility kludge</li>
  <li>[tg] Korn shell style functions now have locally scoped shell options</li>
+ <li>[tg, iSKUNK] Change some ASCII-isms to be EBCDIC-aware or pluggable</li>
+ <li>[tg, Ypnose] Mention lksh build instructions on manpage and website</li>
+ <li>[tg] Overhaul signal handling; support new POSIX <tt>NSIG_MAX</tt>, add <a
+  href="http://austingroupbugs.net/view.php?id=741"><tt>sysconf(_SC_NSIG)</tt></a>
+  as a later TODO item</li>
+ <li>[tg] Fix signal bounds (1 ≤ <i>signum</i> &lt; <tt>NSIG</tt>)</li>
+ <li>[tg] Improve manual pages</li>
+ <li>[tg, iSKUNK] Initial EBCDIC work for <tt>dot.mkshrc</tt></li>
 </ul>
-<!--
 <p>Changes in the current (unreleased) R50-stable branch:</p><ul>
--->
+ <li>[tg] Correct some mistakes in the manual page</li>
+ <li>[tg] Fix a bug in the testsuite driver, spotted on EBCDIC systems</li>
+</ul>
 <p id="r50f">R50f is a <strong>required</strong> security and bugfix release:</p><ul>
  <li>[tg] Add a patch marker for vendor patch versioning to <tt>mksh.1</tt></li>
  <li>[tg] SECURITY: make <tt>unset HISTFILE</tt> actually work</li>
