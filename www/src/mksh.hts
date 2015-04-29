@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.581 2015/04/19 19:37:32 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.582 2015/04/19 19:50:16 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -263,8 +263,31 @@ mws_content <<'EOF'
  and the one we consider best is <tt>-c lto</tt> (since it achieves the best
  optimisations). It is sometimes possible to use <tt>-j</tt> together
  with <tt>-c llvm</tt> to parallelise LLVM Bytecode generation, though.</p>
+<p>Note: LTO is brittle (GCC developers like to break it once every few
+ releases); LLVM has not been used for a long time.</p>
 <p>The <a href="@@RELPATH@@cvs.cgi/src/bin/mksh/Build.sh?rev=HEAD">build
  script</a> also honours some environment variables detailed at its end.</p>
+<p>Install this binary as <tt>/bin/mksh</tt> and its manual page; you may
+ want to also install <tt>dot.mkshrc</tt>, either directly into the skeleton
+ directory, or with <a
+ href="http://anonscm.debian.org/cgit/collab-maint/mksh.git/plain/debian/.mkshrc">a
+ wrapper <tt>/etc/skel/.mkshrc</tt> file</a> that reads <tt>/etc/mkshrc</tt>,
+ especially if packaging for a GNU distribution.</p>
+
+<h5 id="compile_lksh">Building lksh</h5>
+
+<p>Add the <tt>-L</tt> flag to the <tt>Build.sh</tt> to create lksh(1),
+ a variant of the shell that uses POSIX-compliant arithmetics with the
+ host “long” data type, instead of mksh’s guaranteed-reliable 32-bit
+ arithmetics. You probably want to add <tt>-DMKSH_BINSHPOSIX</tt> and,
+ possibly, <tt>-DMKSH_BINSHREDUCED</tt> to the command line and install
+ the <tt>lksh</tt> binary as your system <tt>/bin/sh</tt> if you go that
+ route. (This shell is not intended to be used interactively. Its purpose
+ is to run legacy sh scripts (especially with the <tt>MKSH_BINSHREDUCED</tt>
+ option) and POSIX sh scripts, including Debian maintainer scripts.)</p>
+<p>Install this binary as <tt>/bin/lksh</tt> and its companion manpage,
+ but remember that it does not come stand-alone and to always ship the
+ full proper mksh shell alongside it.</p>
 
 <h4 id="oespec">Operating Environment specific notes</h4>
 

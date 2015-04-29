@@ -2670,4 +2670,7 @@ using $NROFF. Consider using a forward script as /etc/skel/.mkshrc like
 http://anonscm.debian.org/cgit/collab-maint/mksh.git/plain/debian/.mkshrc
 and put dot.mkshrc as /etc/mkshrc so users need not keep up their HOME.
 
+You may also want to install the lksh binary (also as /bin/sh) built by:
+$ CPPFLAGS="$CPPFLAGS -DMKSH_BINSHPOSIX" sh Build.sh -L -r -c lto
+
 EOD
