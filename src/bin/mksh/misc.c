@@ -93,8 +93,8 @@ setctypes(const char *s, int t)
 void
 initctypes(void)
 {
-	setctypes(digits_uc, C_ALPHA);
-	setctypes(digits_lc, C_ALPHA);
+	setctypes(letters_uc, C_ALPHA);
+	setctypes(letters_lc, C_ALPHA);
 	chtypes['_'] |= C_ALPHA;
 	setctypes("0123456789", C_DIGIT);
 	/* \0 added automatically */
