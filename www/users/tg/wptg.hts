@@ -199,6 +199,7 @@ souvenir 2014-10-12 'International EarthCache Day 2014' http://souvenirs.geocach
 souvenir 2015-03-15 'Pi Day 3.14.15 - Event' http://souvenirs.geocaching.com/SouvenirImages/My8xMS8yMDE1/c3aed7a5-ca1e-4c8b-8594-37368a5618a4.png 'http://www.geocaching.com/souvenir/?guid=058b2fef-854d-48f8-aafc-c59d2b152cde'
 souvenir 2015-03-15 'Pi Day 3.14.15 - Mystery Cache' http://souvenirs.geocaching.com/SouvenirImages/My8xMS8yMDE1/bce96800-bbac-4b8a-9450-de2a517f0652.png 'http://www.geocaching.com/souvenir/?guid=f26ddacf-0c17-491f-a515-2e72e687c682'
 souvenir 2015-04-25 'CITO 2015' http://souvenirs.geocaching.com/SouvenirImages/NC8yMi8yMDE1/0d6ea8d0-e88a-4c56-8344-e4a60351df8c.png 'http://www.geocaching.com/souvenir/?guid=707cf8ac-cd2e-4f26-a8c6-68a5cc1f4f36'
+souvenir 2015-05-01 '15 Years of Geocaching' http://souvenirs.geocaching.com/SouvenirImages/NC8yNC8yMDE1/c0537527-43f3-45ab-95d9-a30129fe0183.png 'http://www.geocaching.com/souvenir/?guid=90c4d6db-a470-404d-841e-27453a786db7'
 
 # kaputt, s.o.
 #if [[ $nsouvenir != 0 && -z $souvenirs ]]; then

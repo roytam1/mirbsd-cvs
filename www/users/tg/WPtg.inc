@@ -13209,6 +13209,48 @@ Tag: D15 T15 Regular Multi recommended
 Wermutstropfen bleibt der Zeichensetzungsfehler im Titel…
 und daß der Owner den nicht auf OC publiziert.
 ----
+ID: 2221
+Date: 01.05.2015
+Waypoint: OC11E53
+Title: Godesberger Kreuze #17
+nTF: 3
+Tag: D1 T1 Virtual
+----
+ID: 2222
+Date: 01.05.2015
+Waypoint: OC11E54
+Title: Godesberger Kreuze #18
+nTF: 3
+Tag: D1 T1 Virtual
+----
+ID: 2223
+Date: 01.05.2015
+Waypoint: OC11E58
+Title: Godesberger Kreuze #19
+nTF: 3
+Tag: D1 T1 Virtual
+----
+ID: 2224
+Date: 01.05.2015
+Waypoint: OC11E59
+Title: Godesberger Kreuze #20
+nTF: 3
+Tag: D15 T15 Virtual
+----
+ID: 2225
+Date: 02.05.2015
+Waypoint: OCBA25 GC2KNHH
+Title: Das Erbe des Engel
+Tag: D45 T2 Small Mystery
+----
+ID: p20150502
+Date: 02.05.2015
+Waypoint: GC5R134
+Title: Happy Birthday Geocaching-Party am Rhein
+Tag: D25 T35 Event
+
+09:30–10:00 *schauder*…
+----
 ID: p20150509
 Date: 09.05.2015
 Waypoint: GC5PBRG
@@ -13233,6 +13275,18 @@ ID: p20150523
 Date: 23.05.2015
 Waypoint: GC5Q1XM
 Title: Geocacher in der Baracke 4
+Tag: D1 T1 Event
+----
+ID: p20150528
+Date: 28.05.2015
+Waypoint: GC5TFVZ
+Title: - A - M - P - E - L - 8 -
+Tag: D1 T1 Event
+----
+ID: p20150613
+Date: 13.06.2015
+Waypoint: GC5T6CW
+Title: BONN GRILLT 2015
 Tag: D1 T1 Event
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
