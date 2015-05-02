@@ -13243,13 +13243,11 @@ Waypoint: OCBA25 GC2KNHH
 Title: Das Erbe des Engel
 Tag: D45 T2 Small Mystery
 ----
-ID: p20150502
+ID: 2226
 Date: 02.05.2015
-Waypoint: GC5R134
-Title: Happy Birthday Geocaching-Party am Rhein
-Tag: D25 T35 Event
-
-09:30–10:00 *schauder*…
+Waypoint: OC6430 GC1F4JB
+Title: TB Tauschstation Bonn Venusberg
+Tag: D1 T15 Small Tradi
 ----
 ID: p20150509
 Date: 09.05.2015
@@ -13268,8 +13266,6 @@ Date: 16.05.2015
 Waypoint: GC50FTF
 Title: Mainz Gutenberg 2015
 Tag: D1 T1 Giga_Event
-
-Hotelzimmer ist gebucht!
 ----
 ID: p20150523
 Date: 23.05.2015
