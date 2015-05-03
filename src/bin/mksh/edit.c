@@ -1099,6 +1099,7 @@ static struct x_defbindings const x_defbindings[] = {
 	{ XFUNC_mv_end | 0x80,		2,	'8'	},
 	{ XFUNC_mv_end,			2,	'F'	},
 	{ XFUNC_del_char | 0x80,	2,	'3'	},
+       { XFUNC_del_char,               2,      'P'     },
 	{ XFUNC_search_hist_up | 0x80,	2,	'5'	},
 	{ XFUNC_search_hist_dn | 0x80,	2,	'6'	},
 	/* more non-standard ones */
