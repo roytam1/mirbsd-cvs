@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.202 2015/04/26 16:59:35 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.205 2015/05/02 17:00:19 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -13248,6 +13248,13 @@ Date: 02.05.2015
 Waypoint: OC6430 GC1F4JB
 Title: TB Tauschstation Bonn Venusberg
 Tag: D1 T15 Small Tradi
+----
+ID: 2227
+Date: 03.05.2015
+Waypoint: OC11F2D
+Title: erstes Reuterkreuz
+nTF: 0
+Tag: D2 T1 Virtual
 ----
 ID: p20150509
 Date: 09.05.2015
