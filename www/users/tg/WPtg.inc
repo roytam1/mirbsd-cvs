@@ -13256,6 +13256,19 @@ Title: erstes Reuterkreuz
 nTF: 0
 Tag: D2 T1 Virtual
 ----
+ID: 2228
+Date: 06.05.2015
+Waypoint: GC49581
+Title: Alle gut gefunden?
+Tag: D4 T1 Micro Mystery
+----
+ID: 2229
+Date: 06.05.2015
+Waypoint: OC11F3E
+Title: Godesberger Kreuze #21
+nTF: 0
+Tag: D15 T15 Virtual
+----
 ID: p20150509
 Date: 09.05.2015
 Waypoint: GC5PBRG
