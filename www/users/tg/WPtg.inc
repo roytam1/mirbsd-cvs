@@ -13269,6 +13269,31 @@ Title: Godesberger Kreuze #21
 nTF: 0
 Tag: D15 T15 Virtual
 ----
+ID: 2230
+Date: 07.05.2015
+Waypoint: GC36813
+Title: Wer im Glashaus sitzt... (D2.5/T1.5)
+Tag: D25 T15 Micro Mystery
+----
+ID: 2231
+Date: 07.05.2015
+Waypoint: GC2ZANF
+Title: Sehtest Nr. 40
+Tag: D25 T15 Small Mystery
+----
+ID: 2232
+Date: 07.05.2015
+Waypoint: GC41PFZ
+Title: Spaziergang mit Cacherpause
+Tag: D1 T25 Micro Multi
+----
+ID: 2233
+Date: 07.05.2015
+Waypoint: GC4PBXB
+Title: Verstecketopf Souvenir
+nTF: 4
+Tag: D45 T15 Nano Mystery recommended
+----
 ID: p20150509
 Date: 09.05.2015
 Waypoint: GC5PBRG
