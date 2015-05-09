@@ -13294,11 +13294,31 @@ Title: Verstecketopf Souvenir
 nTF: 4
 Tag: D45 T15 Nano Mystery recommended
 ----
-ID: p20150509
+ID: 2234
+Date: 09.05.2015
+Waypoint: GC5A1JQ
+Title: Turmstation Ringen
+Tag: D15 T15 Small Tradi
+----
+ID: 2235
+Date: 09.05.2015
+Waypoint: GC1QEEB
+Title: Willkommen in... Bad Neuenahr
+Tag: D1 T1 Micro Tradi
+----
+ID: 2236
 Date: 09.05.2015
 Waypoint: GC5PBRG
 Title: 39. Ahrweiler Geocacher Treffen
 Tag: D1 T1 Event
+----
+ID: 2237
+Date: 09.05.2015
+Waypoint: GC55PAC
+Title: Unser Postbote, der Herr Schmitz...
+Tag: D3 T3 Micro Multi recommended
+
+Auch hier ist GC55P̲A̲C̲ Omen und nicht nur Nomen…
 ----
 ID: p20150513
 Date: 13.05.2015
