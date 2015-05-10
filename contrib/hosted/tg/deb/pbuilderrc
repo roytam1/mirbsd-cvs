@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.46 2014/12/14 18:51:57 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.47 2015/04/27 13:04:22 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. May work, but may just as well break. Experimental.
@@ -56,11 +56,11 @@ DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiri
 MIRROR_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
 MIRROR_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
-MIRROR_squeeze=http://http.debian.net/debian
-MIRROR_wheezy=http://http.debian.net/debian
-MIRROR_jessie=http://http.debian.net/debian
-MIRROR_stretch=http://http.debian.net/debian
-MIRROR_sid=http://http.debian.net/debian
+MIRROR_squeeze=http://httpredir.debian.org/debian
+MIRROR_wheezy=http://httpredir.debian.org/debian
+MIRROR_jessie=http://httpredir.debian.org/debian
+MIRROR_stretch=http://httpredir.debian.org/debian
+MIRROR_sid=http://httpredir.debian.org/debian
 MIRROR_unstable=http://ftp.de.debian.org/debian-ports
 MIRROR_unreleased=http://ftp.de.debian.org/debian-ports
 MIRROR_dapper=http://old-releases.ubuntu.com/ubuntu/
@@ -81,20 +81,20 @@ MIRROR_vivid=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
 MIRRORSECURITY_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
 MIRRORSECURITY_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
 MIRRORSECURITY_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
-MIRRORSECURITY_squeeze=http://http.debian.net/debian-security
-MIRRORSECURITY_wheezy=http://http.debian.net/debian-security
-MIRRORSECURITY_jessie=http://http.debian.net/debian-security
-MIRRORSECURITY_stretch=http://http.debian.net/debian-security
+MIRRORSECURITY_squeeze=http://httpredir.debian.org/debian-security
+MIRRORSECURITY_wheezy=http://httpredir.debian.org/debian-security
+MIRRORSECURITY_jessie=http://httpredir.debian.org/debian-security
+MIRRORSECURITY_stretch=http://httpredir.debian.org/debian-security
 MIRRORSECURITY_sid=NO
 MIRRORBACKPORTS_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 MIRRORBACKPORTS_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
 MIRRORBACKPORTS_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
-MIRRORBACKPORTS_squeeze=http://http.debian.net/debian-backports
-MIRRORBACKPORTS_wheezy=http://http.debian.net/debian
-MIRRORBACKPORTS_jessie=http://http.debian.net/debian
+MIRRORBACKPORTS_squeeze=http://httpredir.debian.org/debian-backports
+MIRRORBACKPORTS_wheezy=http://httpredir.debian.org/debian
+MIRRORBACKPORTS_jessie=http://httpredir.debian.org/debian
 MIRRORBACKPORTSLOPPY_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
-MIRRORBACKPORTSLOPPY_squeeze=http://http.debian.net/debian-backports
-MIRRORBACKPORTSLOPPY_wheezy=http://http.debian.net/debian-backports
+MIRRORBACKPORTSLOPPY_squeeze=http://httpredir.debian.org/debian-backports
+MIRRORBACKPORTSLOPPY_wheezy=http://httpredir.debian.org/debian-backports
 
 COMPONENTS_debian=main
 COMPONENTS_dpo=main
