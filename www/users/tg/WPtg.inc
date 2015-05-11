@@ -13062,7 +13062,7 @@ Waypoint: GC3KAFF
 Title: Ausblick auf Koisdorf
 Tag: D15 T35 Micro Tradi
 
-Kaff (GC3KAFF) paßt zu Koisdorf :þ
+G‍C3K̲A̲F̲F̲ paßt zu Koisdorf :þ
 ----
 ID: 2199
 Date: 21.04.2015
@@ -13318,10 +13318,42 @@ Waypoint: GC55PAC
 Title: Unser Postbote, der Herr Schmitz...
 Tag: D3 T3 Micro Multi recommended
 
-Auch hier ist GC55P̲A̲C̲ Omen und nicht nur Nomen…
+Auch hier ist G‍C55P̲A̲C̲ Omen und nicht nur Nomen…
+----
+ID: 2238
+Date: 11.05.2015
+Waypoint: GCD87C
+Title: Calling All Nations
+Tag: D5 T5 Regular Mystery Moving
+----
+ID: 2239
+Date: 11.05.2015
+Waypoint: GC2KX2P
+Title: Bonner Bilderrätsel
+Tag: D3 T2 Micro Mystery
+----
+ID: 2240
+Date: 11.05.2015
+Waypoint: GC2PZQK
+Title: Erinnerung an eine Legende
+Tag: D3 T2 Regular Mystery
+----
+ID: 2241
+Date: 11.05.2015
+Waypoint: OC11F90
+Title: Kunst am Wegesrand: Eisenbahn
+nTF: 0
+Tag: D3 T2 Virtual Mystery
+----
+ID: 2242
+Date: 11.05.2015
+Waypoint: OC11F91
+Title: Godesberger Kreuze #22
+nTF: 0
+Tag: D2 T1 Virtual
 ----
 ID: p20150513
-Date: 13.05.2015
+Date: 15.05.2015
 Waypoint: GC57V0R
 Title: GPS MAZE EUROPE - Germany
 Tag: D1 T1 Other GPS_Maze
