@@ -13330,6 +13330,7 @@ ID: 2239
 Date: 11.05.2015
 Waypoint: GC2KX2P
 Title: Bonner Bilderrätsel
+nTF: L
 Tag: D3 T2 Micro Mystery
 ----
 ID: 2240
@@ -13351,6 +13352,12 @@ Waypoint: OC11F91
 Title: Godesberger Kreuze #22
 nTF: 0
 Tag: D2 T1 Virtual
+----
+ID: 2243
+Date: 12.05.2015
+Waypoint: GC5QNE5
+Title: Ruhestätte
+Tag: D2 T15 Micro Mystery
 ----
 ID: p20150513
 Date: 15.05.2015
@@ -13381,6 +13388,32 @@ Date: 13.06.2015
 Waypoint: GC5T6CW
 Title: BONN GRILLT 2015
 Tag: D1 T1 Event
+----
+ID: p20150614
+Date: 14.06.2015
+Waypoint: GC5T6CX
+Title: Reinemachen auf dem Finkenberg
+Tag: D1 T1 CITO
+
+… aber unwahrscheinlich, daß ich um die Zeit schon wach bin.
+----
+ID: p20150619
+Date: 19.06.2015
+Waypoint: GC5JB14
+Title: 9.Bad Breisiger Geocacher Meeting
+Tag: D15 T1 Event
+----
+ID: p20150627
+Date: 27.06.2015
+Waypoint: GC5PBT1
+Title: 40. Ahrweiler Geocacher Treffen - Grillevent
+Tag: D1 T15 Event
+----
+ID: p20150704
+Date: 04.07.2015
+Waypoint: GC5TBZ3
+Title: Smalldosenrennen ...das Zweite
+Tag: D3 T1 Event
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
