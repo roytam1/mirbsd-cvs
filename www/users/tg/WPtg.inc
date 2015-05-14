@@ -13359,6 +13359,12 @@ Waypoint: GC5QNE5
 Title: Ruhestätte
 Tag: D2 T15 Micro Mystery
 ----
+ID: 2244
+Date: 14.05.2015
+Waypoint: http://www.wherigo.com/cartridge/details.aspx?CGUID=a041a136-6814-43cd-96e1-6249212615c0
+Title: Cacheolotto 6 aus 49
+Tag: Wherigo_Cartridge
+----
 ID: p20150513
 Date: 15.05.2015
 Waypoint: GC57V0R
