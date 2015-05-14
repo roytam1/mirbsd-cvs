@@ -3990,8 +3990,8 @@ Tag: D25 T2 Small Tradi recommended
 ----
 ID: 717
 Date: 04.02.2014
-Waypoint: https://labs.geocaching.com/Adventures/Details/fe30453c-7418-4416-a2fa-c543810ab8f8
-Title: Mach mal Mirffee!
+Waypoint: https://labs.geocaching.com/Geocaches/Details/a9210b3e-1ae1-454f-bbef-1428c642958d?adventureId=fe30453c-7418-4416-a2fa-c543810ab8f8
+Title: I &lt;3 Geocaching / Mach mal Mirffee!
 nTF: 1
 Tag: Lab
 ----
@@ -13364,6 +13364,18 @@ Date: 14.05.2015
 Waypoint: http://www.wherigo.com/cartridge/details.aspx?CGUID=a041a136-6814-43cd-96e1-6249212615c0
 Title: Cacheolotto 6 aus 49
 Tag: Wherigo_Cartridge
+----
+ID: 2245
+Date: 14.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/6e22edf8-f9cd-475e-947c-dc4b03754525?adventureId=143d45ca-d607-4d35-8065-a4d695e83b07
+Title: Roemisches Mainz - The roman Mainz / Zeugen des Mithraskults: Weihealtäre
+Tag: Lab
+----
+ID: 2246
+Date: 14.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/5d171972-b55d-49ec-bc88-0e21b39ad7bf?adventureId=143d45ca-d607-4d35-8065-a4d695e83b07
+Title: Roemisches Mainz - The roman Mainz / Das Hypokaustum
+Tag: Lab
 ----
 ID: p20150513
 Date: 15.05.2015
