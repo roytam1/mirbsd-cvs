@@ -13574,12 +13574,89 @@ Waypoint: GCB39F
 Title: Eisenbahnfreund
 Tag: D1 T1 Virtual recommended
 ----
-ID: p20150516
+ID: 2276
+Date: 16.05.2015
+Waypoint: GC1DPPY
+Title: Schrott
+Tag: D1 T1 Micro Tradi recommended
+----
+ID: 2277
+Date: 16.05.2015
+Waypoint: GC47BCV
+Banner: jpg
+Title: UNDER CONSTRUCTION
+Tag: D25 T2 Small Tradi recommended
+
+Zeit mitnehmen und im Team agieren!
+Nicht spontan, und auf Muggel achten!
+----
+ID: 2278
+Date: 16.05.2015
+Waypoint: GC52F7B
+Title: 39 - Cachen auf dem 50. Breitengrad
+Tag: D1 T35 Micro Mystery
+----
+ID: 2279
+Date: 16.05.2015
+Waypoint: GC52F8Z
+Title: 46 - Cachen auf dem 50. Breitengrad
+Tag: D35 T3 Micro Mystery
+----
+ID: 2280
+Date: 16.05.2015
+Waypoint: GC2MNCY
+Title: 17
+Tag: D25 T15 Small Tradi
+----
+ID: 2281
+Date: 16.05.2015
+Waypoint: GC38FHW
+Title: So ein Mystphi! Voll abgefahren...
+Tag: D4 T15 Micro Tradi
+----
+ID: 2282
+Date: 16.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/166b5b8f-cfe5-4e55-8eb6-0e4c7efc3bcf?adventureId=143d45ca-d607-4d35-8065-a4d695e83b07
+Title: Roemisches Mainz - The roman Mainz / Das Heiligtum der Isis und Mater Magna
+Tag: Lab
+----
+ID: 2283
+Date: 16.05.2015
+Waypoint: GC5MEX4 WMNREC
+Banner: jpg
+Title: CityView of Mainz [Reverse Cache]
+Tag: D25 T15 Micro Wherigo_Hybrid
+----
+ID: 2284
+Date: 16.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/178c9ebc-5715-4a8e-96fb-10c8d0fe6ea4?adventureId=76c0883c-0696-4420-81dd-e287fa12da05
+Title: Mainz Gutenberg 2015 - Das ist GIGA / Altes Rathaus (Stele)
+Tag: Lab
+----
+ID: 2285
+Date: 16.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/66420b42-7bd3-4840-b6c2-9df41e1a0963?adventureId=76c0883c-0696-4420-81dd-e287fa12da05
+Title: Mainz Gutenberg 2015 - Das ist GIGA / Mainzer Kunstobjekt
+Tag: Lab
+----
+ID: 2286
+Date: 16.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/1e025742-b239-4e67-979f-8c0162661659?adventureId=76c0883c-0696-4420-81dd-e287fa12da05
+Title: Mainz Gutenberg 2015 - Das ist GIGA / Der virtuelle Lab-Cache
+Tag: Lab
+----
+ID: 2287
 Date: 16.05.2015
 Waypoint: GC50FTF
 Banner: jpg
 Title: Mainz Gutenberg 2015
 Tag: D1 T1 Giga_Event
+----
+ID: 2288
+Date: 16.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/5e21c81c-2a30-43a2-acb0-b80c2b02408b?adventureId=76c0883c-0696-4420-81dd-e287fa12da05
+Title: Mainz Gutenberg 2015 - Das ist GIGA / DMSG , DSO und DKMS
+Tag: Lab
 ----
 ID: p20150523
 Date: 23.05.2015
