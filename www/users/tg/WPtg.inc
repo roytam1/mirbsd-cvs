@@ -13368,24 +13368,216 @@ Tag: Wherigo_Cartridge
 ID: 2245
 Date: 14.05.2015
 Waypoint: https://labs.geocaching.com/Geocaches/Details/6e22edf8-f9cd-475e-947c-dc4b03754525?adventureId=143d45ca-d607-4d35-8065-a4d695e83b07
+LabBanner: ROMMIT
 Title: Roemisches Mainz - The roman Mainz / Zeugen des Mithraskults: Weihealtäre
 Tag: Lab
 ----
 ID: 2246
 Date: 14.05.2015
 Waypoint: https://labs.geocaching.com/Geocaches/Details/5d171972-b55d-49ec-bc88-0e21b39ad7bf?adventureId=143d45ca-d607-4d35-8065-a4d695e83b07
+LabBanner: ROMHYP
 Title: Roemisches Mainz - The roman Mainz / Das Hypokaustum
 Tag: Lab
 ----
-ID: p20150513
+ID: 2247
+Date: 15.05.2015
+Waypoint: GC5GQDA
+Banner: jpg
+Title: Cacher-Lotto $$$ Teste Dein Glück!
+Tag: D2 T2 Small Wherigo_Hybrid recommended
+----
+ID: 2248
+Date: 15.05.2015
+Waypoint: GC3XEMT
+Title: Hexemer Überblick
+Tag: D15 T15 Nano Tradi
+----
+ID: 2249
+Date: 15.05.2015
+Waypoint: GC2G9P5
+Banner: jpg
+Title: Da steppt immer noch der Bär
+Tag: D15 T1 Micro Multi
+----
+ID: 2250
+Date: 15.05.2015
+Waypoint: GC52FAM
+Banner: jpg
+Title: 51 - Cachen auf dem 50. Breitengrad
+Tag: D4 T35 Micro Mystery
+----
+ID: 2251
+Date: 15.05.2015
+Waypoint: GC3N14P
+Banner: jpg
+Title: Geo Post Office - Mainz
+Tag: D2 T2 Regular Letterbox_Hybrid recommended
+----
+ID: 2252
+Date: 15.05.2015
+Waypoint: GCNDCG
+Title: RheinCam
+Tag: D1 T1 Webcam
+----
+ID: 2253
+Date: 15.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/0ab0391f-ead6-4d07-8a5f-6547caf0b760?adventureId=143d45ca-d607-4d35-8065-a4d695e83b07
+LabBanner: ROMIUP
+Title: Roemisches Mainz - The roman Mainz / Jupitersäule
+Tag: Lab
+----
+ID: 2254
+Date: 15.05.2015
+Waypoint: GC1HKWQ
+Title: Garden Of Stones
+Tag: D1 T1 Earth recommended
+----
+ID: 2255
+Date: 15.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/b03187b0-2b5f-4a1c-98fe-10b7d55ae7d1?adventureId=7f0b2860-063e-4dc2-afa1-4ca225816c4d
+LabBanner: MAZE01
+Title: First MAZE in Germany / 01 Tree of Caches
+Tag: Lab
+----
+ID: 2256
+Date: 15.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/02863802-acb3-4805-b75e-405b485ab1fb?adventureId=7f0b2860-063e-4dc2-afa1-4ca225816c4d
+LabBanner: MAZE02
+Title: First MAZE in Germany / 02 Braille Code
+Tag: Lab
+----
+ID: 2257
+Date: 15.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/335a106b-4aba-4173-851a-07fd486fe6b1?adventureId=7f0b2860-063e-4dc2-afa1-4ca225816c4d
+LabBanner: MAZE03
+Title: First MAZE in Germany / 03 Flag Semaphore
+Tag: Lab
+----
+ID: 2258
+Date: 15.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/27c48a16-007e-4cec-ba1c-90a9b9b232a2?adventureId=7f0b2860-063e-4dc2-afa1-4ca225816c4d
+LabBanner: MAZE04
+Title: First MAZE in Germany / 04 Morse Code
+Tag: Lab
+----
+ID: 2259
+Date: 15.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/87349411-4d19-49d0-94a9-caea943cc6e5?adventureId=7f0b2860-063e-4dc2-afa1-4ca225816c4d
+LabBanner: MAZE05
+Title: First MAZE in Germany / 05 Air and Water
+Tag: Lab
+----
+ID: 2260
+Date: 15.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/f45dbf25-3dee-4464-addb-84ed4b946389?adventureId=7f0b2860-063e-4dc2-afa1-4ca225816c4d
+LabBanner: MAZE06
+Title: First MAZE in Germany / 06 Caching rocks
+Tag: Lab
+----
+ID: 2261
+Date: 15.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/237d5571-4137-4e90-998e-0c3b96acc548?adventureId=7f0b2860-063e-4dc2-afa1-4ca225816c4d
+LabBanner: MAZE07
+Title: First MAZE in Germany / 07 CHIRP
+Tag: Lab
+----
+ID: 2262
+Date: 15.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/1a2a3619-5856-4538-858f-193fea8b7456?adventureId=7f0b2860-063e-4dc2-afa1-4ca225816c4d
+LabBanner: MAZE08
+Title: First MAZE in Germany / 08 Magnets
+Tag: Lab
+----
+ID: 2263
+Date: 15.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/2c147a1c-5f44-4359-9bcd-c3fc0fac7be1?adventureId=7f0b2860-063e-4dc2-afa1-4ca225816c4d
+LabBanner: MAZE09
+Title: First MAZE in Germany / 09 Night I.
+Tag: Lab
+----
+ID: 2264
+Date: 15.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/97e111d4-a39d-473c-9c8a-8b86c5a2b071?adventureId=7f0b2860-063e-4dc2-afa1-4ca225816c4d
+Bannercode: <div class="flbox"><img style="border:0px;" title="Lab / First MAZE in Germany / 10 Night II." alt="Lab / First MAZE in Germany / 10 Night II." src="http://mirsolutions.de/privat/MAZE10.jpg" /></div><div class="flbox"><img style="border:0px;" title="Lab / First MAZE in Germany" alt="Lab / First MAZE in Germany" src="http://mirsolutions.de/privat/MAZEALL.jpg" /></div>
+Title: First MAZE in Germany / 10 Night II.
+Tag: Lab
+----
+ID: 2265
 Date: 15.05.2015
 Waypoint: GC57V0R
+Banner: jpg
 Title: GPS MAZE EUROPE - Germany
-Tag: D1 T1 Other GPS_Maze
+Tag: D1 T1 GPS_Adventures_Exhibit recommended
+----
+ID: 2266
+Date: 15.05.2015
+Waypoint: GC5555E
+Banner: jpg
+Title: Gutenberg GIGA 2015 Meet &amp; Greet
+Tag: D1 T1 Event
+----
+ID: 2267
+Date: 15.05.2015
+Waypoint: GC5T643
+Banner: jpg
+Title: I love Geocaching in Mainz
+Tag: D2 T1 Micro Tradi
+----
+ID: 2268
+Date: 15.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/c904849c-4cb3-4d31-943f-72459e73cc22?adventureId=143d45ca-d607-4d35-8065-a4d695e83b07
+LabBanner: ROMBRK
+Title: Roemisches Mainz - The roman Mainz / Römische Rheinbrücke
+Tag: Lab
+----
+ID: 2269
+Date: 15.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/ff668c8c-b3b2-469a-963e-66812f17acce?adventureId=76c0883c-0696-4420-81dd-e287fa12da05
+LabBanner: MZQUIN
+Title: Mainz Gutenberg 2015 - Das ist GIGA / St. Quintin
+Tag: Lab
+----
+ID: 2270
+Date: 15.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/23e24450-cadb-4059-954d-45d864b27d24?adventureId=76c0883c-0696-4420-81dd-e287fa12da05
+LabBanner: MZDRUK
+Title: Mainz Gutenberg 2015 - Das ist GIGA / Erste Druckerei des Johannes Gutenberg
+Tag: Lab
+----
+ID: 2271
+Date: 15.05.2015
+Waypoint: GC52FBV
+Title: 56 - Cachen auf dem 50. Breitengrad
+Tag: D1 T4 Micro Mystery
+----
+ID: 2272
+Date: 15.05.2015
+Waypoint: GC52FC3
+Title: 57 - Cachen auf dem 50. Breitengrad
+Tag: D1 T1 Micro Mystery
+----
+ID: 2273
+Date: 15.05.2015
+Waypoint: GC55C47
+Title: Festung Mainz
+Tag: D1 T15 Micro Tradi
+----
+ID: 2274
+Date: 15.05.2015
+Waypoint: GC5CF61
+Title: Gute Besserung
+Tag: D2 T15 Micro Tradi
+----
+ID: 2275
+Date: 15.05.2015
+Waypoint: GCB39F
+Title: Eisenbahnfreund
+Tag: D1 T1 Virtual recommended
 ----
 ID: p20150516
 Date: 16.05.2015
 Waypoint: GC50FTF
+Banner: jpg
 Title: Mainz Gutenberg 2015
 Tag: D1 T1 Giga_Event
 ----
