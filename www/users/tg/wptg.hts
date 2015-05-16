@@ -101,10 +101,19 @@ while (( entryp < entries )); do
 		continue
 	elif [[ -n ${e_labbanner[ent]} ]]; then
 		title="Lab / ${e_title[ent]}"
-		f=${e_labbanner[ent]}.jpg
+		f=${e_labbanner[ent]%%,*}
 		cat <<-EOF
 			<div class="flbox"><img style="border:0px;" title="$title"
-			 alt="$title" src="http://mirsolutions.de/privat/$f" /></div>
+			 alt="$title" src="http://mirsolutions.de/privat/$f.jpg" /></div>
+
+EOF
+		[[ ${e_labbanner[ent]} = *,* ]] || continue
+		f=${e_labbanner[ent]#*,}
+		title="Lab / ${f#*=}"
+		f=${f%%=*}
+		cat <<-EOF
+			<div class="flbox"><img style="border:0px;" title="$title"
+			 alt="$title" src="http://mirsolutions.de/privat/$f.jpg" /></div>
 
 EOF
 		continue

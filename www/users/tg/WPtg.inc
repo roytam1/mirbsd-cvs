@@ -3991,6 +3991,7 @@ Tag: D25 T2 Small Tradi recommended
 ID: 717
 Date: 04.02.2014
 Waypoint: https://labs.geocaching.com/Geocaches/Details/a9210b3e-1ae1-454f-bbef-1428c642958d?adventureId=fe30453c-7418-4416-a2fa-c543810ab8f8
+LabBanner: MKMIRFFE,I3GC=I &lt;3 Geocaching
 Title: I &lt;3 Geocaching / Mach mal Mirffee!
 nTF: 1
 Tag: Lab
@@ -13498,7 +13499,7 @@ Tag: Lab
 ID: 2264
 Date: 15.05.2015
 Waypoint: https://labs.geocaching.com/Geocaches/Details/97e111d4-a39d-473c-9c8a-8b86c5a2b071?adventureId=7f0b2860-063e-4dc2-afa1-4ca225816c4d
-Bannercode: <div class="flbox"><img style="border:0px;" title="Lab / First MAZE in Germany / 10 Night II." alt="Lab / First MAZE in Germany / 10 Night II." src="http://mirsolutions.de/privat/MAZE10.jpg" /></div><div class="flbox"><img style="border:0px;" title="Lab / First MAZE in Germany" alt="Lab / First MAZE in Germany" src="http://mirsolutions.de/privat/MAZEALL.jpg" /></div>
+LabBanner: MAZE10,MAZEALL=First MAZE in Germany
 Title: First MAZE in Germany / 10 Night II.
 Tag: Lab
 ----
@@ -13617,6 +13618,7 @@ Tag: D4 T15 Micro Tradi
 ID: 2282
 Date: 16.05.2015
 Waypoint: https://labs.geocaching.com/Geocaches/Details/166b5b8f-cfe5-4e55-8eb6-0e4c7efc3bcf?adventureId=143d45ca-d607-4d35-8065-a4d695e83b07
+LabBanner: ROMIST
 Title: Roemisches Mainz - The roman Mainz / Das Heiligtum der Isis und Mater Magna
 Tag: Lab
 ----
@@ -13630,18 +13632,21 @@ Tag: D25 T15 Micro Wherigo_Hybrid
 ID: 2284
 Date: 16.05.2015
 Waypoint: https://labs.geocaching.com/Geocaches/Details/178c9ebc-5715-4a8e-96fb-10c8d0fe6ea4?adventureId=76c0883c-0696-4420-81dd-e287fa12da05
+LabBanner: MZRATH
 Title: Mainz Gutenberg 2015 - Das ist GIGA / Altes Rathaus (Stele)
 Tag: Lab
 ----
 ID: 2285
 Date: 16.05.2015
 Waypoint: https://labs.geocaching.com/Geocaches/Details/66420b42-7bd3-4840-b6c2-9df41e1a0963?adventureId=76c0883c-0696-4420-81dd-e287fa12da05
+LabBanner: MZKNST
 Title: Mainz Gutenberg 2015 - Das ist GIGA / Mainzer Kunstobjekt
 Tag: Lab
 ----
 ID: 2286
 Date: 16.05.2015
 Waypoint: https://labs.geocaching.com/Geocaches/Details/1e025742-b239-4e67-979f-8c0162661659?adventureId=76c0883c-0696-4420-81dd-e287fa12da05
+LabBanner: MZCHRP
 Title: Mainz Gutenberg 2015 - Das ist GIGA / Der virtuelle Lab-Cache
 Tag: Lab
 ----
@@ -13655,7 +13660,109 @@ Tag: D1 T1 Giga_Event
 ID: 2288
 Date: 16.05.2015
 Waypoint: https://labs.geocaching.com/Geocaches/Details/5e21c81c-2a30-43a2-acb0-b80c2b02408b?adventureId=76c0883c-0696-4420-81dd-e287fa12da05
+LabBanner: MZDKMS
 Title: Mainz Gutenberg 2015 - Das ist GIGA / DMSG , DSO und DKMS
+Tag: Lab
+----
+ID: 2289
+Date: 16.05.2015
+Waypoint: GC342XR
+Banner: jpg
+Title: Gautor
+Tag: D25 T1 Micro Multi
+----
+ID: 2290
+Date: 16.05.2015
+Waypoint: GC52F7G
+Title: 40 - Cachen auf dem 50. Breitengrad
+Tag: D15 T5 Micro Mystery
+----
+ID: 2291
+Date: 16.05.2015
+Waypoint: GC3XPRF
+Banner: jpg
+Title: Windmühlenberg - Auf geht's
+Tag: D35 T4 Micro Tradi
+----
+ID: 2292
+Date: 16.05.2015
+Waypoint: GCKH5K
+Title: Mainz Altstadt
+Tag: D1 T1 Regular Tradi
+----
+ID: 2293
+Date: 16.05.2015
+Waypoint: GC1GVR0
+Title: Schlaraffenland
+Tag: D15 T1 Nano Tradi
+----
+ID: 2294
+Date: 16.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/bb177842-fed7-49cb-bd6e-90b798652551?adventureId=143d45ca-d607-4d35-8065-a4d695e83b07
+LabBanner: ROMDRU
+Title: Roemisches Mainz - The roman Mainz / Drususstein
+Tag: Lab
+----
+ID: 2295
+Date: 16.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/2ffc1c53-754e-45f3-9ae2-a711394c5a99?adventureId=143d45ca-d607-4d35-8065-a4d695e83b07
+LabBanner: ROMTHE
+Title: Roemisches Mainz - The roman Mainz / Römisches Theater
+Tag: Lab
+----
+ID: 2296
+Date: 16.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/99806515-757c-4560-a4cb-dbb0706511d5?adventureId=143d45ca-d607-4d35-8065-a4d695e83b07
+LabBanner: ROMSFM
+Title: Roemisches Mainz - The roman Mainz / Römer-Schiff-Museum
+Tag: Lab
+----
+ID: 2297
+Date: 16.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/42b141b9-4907-4df9-a292-90116083fa82?adventureId=76c0883c-0696-4420-81dd-e287fa12da05
+LabBanner: MZNAGL
+Title: Mainz Gutenberg 2015 - Das ist GIGA / Nagelsäule
+Tag: Lab
+----
+ID: 2298
+Date: 16.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/f120b905-cc12-4877-8bbb-43ca3ebec14e?adventureId=76c0883c-0696-4420-81dd-e287fa12da05
+LabBanner: MZHEUN
+Title: Mainz Gutenberg 2015 - Das ist GIGA / Heunensäule
+Tag: Lab
+----
+ID: 2299
+Date: 16.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/2ff0e23d-a15d-42ce-90c9-17346c5cec9e?adventureId=76c0883c-0696-4420-81dd-e287fa12da05
+LabBanner: MZBONI
+Title: Mainz Gutenberg 2015 - Das ist GIGA / Bonifatius
+Tag: Lab
+----
+ID: 2300
+Date: 16.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/ac42db74-5dcb-43b8-aa9b-3634bc5383d7?adventureId=76c0883c-0696-4420-81dd-e287fa12da05
+LabBanner: MZWAPN,MZALL=Mainz Gutenberg 2015 - Das ist GIGA
+Title: Mainz Gutenberg 2015 - Das ist GIGA / Wappen
+Tag: Lab
+----
+ID: 2301
+Date: 16.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/369e4d2d-fb72-49d9-8ad0-83110e823454?adventureId=143d45ca-d607-4d35-8065-a4d695e83b07
+LabBanner: ROMVIC
+Title: Roemisches Mainz - The roman Mainz / Dativius-Victor-Bogen
+Tag: Lab
+----
+ID: 2302
+Date: 16.05.2015
+Waypoint: GC3BKYV
+Title: Mainz bleibt Mainz, wie es singt und lacht.
+Tag: D15 T1 Micro Tradi
+----
+ID: 2303
+Date: 16.05.2015
+Waypoint: https://labs.geocaching.com/Geocaches/Details/0a3b05c0-6aa3-43cb-89da-d1c4294b9392?adventureId=143d45ca-d607-4d35-8065-a4d695e83b07
+LabBanner: ROMTOR,ROMALL=Roemisches Mainz - The roman Mainz
+Title: Roemisches Mainz - The roman Mainz / Das römische Stadttor
 Tag: Lab
 ----
 ID: p20150523
