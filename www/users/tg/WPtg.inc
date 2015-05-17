@@ -13765,6 +13765,53 @@ LabBanner: ROMTOR,ROMALL=Roemisches Mainz - The roman Mainz
 Title: Roemisches Mainz - The roman Mainz / Das römische Stadttor
 Tag: Lab
 ----
+ID: 2304
+Date: 17.05.2015
+Waypoint: http://www.wherigo.com/cartridge/details.aspx?CGUID=4adbe6a9-dd20-4e71-ac74-16076c6547fc
+Title: 4 Bilder
+Tag: Wherigo_Cartridge
+----
+ID: 2305
+Date: 17.05.2015
+Waypoint: GC43E0P
+Title: Excellenter Zeitvertreib
+Tag: D45 T1 Nano Mystery
+
+Benötigt proprietäre Software (oder einen Nachbau) ☹
+----
+ID: 2306
+Date: 17.05.2015
+Waypoint: GC4ZX2R
+Title: Die guten alten Zeiten.
+Tag: D5 T25 Micro Mystery
+----
+ID: 2307
+Date: 17.05.2015
+Waypoint: OC11FC1
+Title: Maislabyrinthkreuz
+nTF: 0
+Tag: D15 T1 Virtual
+----
+ID: 2308
+Date: 17.05.2015
+Waypoint: GC4MCGC
+Title: confused
+Tag: D4 T2 Micro Mystery
+----
+ID: 2309
+Date: 17.05.2015
+Waypoint: GC4T1KJ
+Banner: jpg
+Title: Ein Bild passt nicht
+Tag: D2 T2 Large Wherigo_Hybrid
+----
+ID: 2310
+Date: 17.05.2015
+Waypoint: GC4ZX8P
+Banner: jpg
+Title: Spieleabend
+Tag: D15 T15 Regular Wherigo_Hybrid
+----
 ID: p20150523
 Date: 23.05.2015
 Waypoint: GC5Q1XM
