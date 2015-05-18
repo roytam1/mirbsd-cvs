@@ -13810,7 +13810,14 @@ Date: 17.05.2015
 Waypoint: GC4ZX8P
 Banner: jpg
 Title: Spieleabend
-Tag: D15 T15 Regular Wherigo_Hybrid
+Tag: D15 T15 Regular Wherigo_Hybrid recommended
+----
+ID: 2311
+Date: 18.05.2015
+Waypoint: OC11FCE
+Title: Verkehrsknotenpunktskreuz
+nTF: 0
+Tag: D15 T1 Virtual
 ----
 ID: p20150523
 Date: 23.05.2015
@@ -13843,12 +13850,6 @@ Date: 19.06.2015
 Waypoint: GC5JB14
 Title: 9.Bad Breisiger Geocacher Meeting
 Tag: D15 T1 Event
-----
-ID: p20150627
-Date: 27.06.2015
-Waypoint: GC5PBT1
-Title: 40. Ahrweiler Geocacher Treffen - Grillevent
-Tag: D1 T15 Event
 ----
 ID: p20150704
 Date: 04.07.2015
