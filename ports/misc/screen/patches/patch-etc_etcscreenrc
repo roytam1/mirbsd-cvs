@@ -1,9 +1,9 @@
-$MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.16 2013/05/18 01:28:51 tg Exp $
+$MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.17 2014/04/02 16:12:28 tg Exp $
 --- etc/etcscreenrc.orig	Fri Dec  5 13:45:51 2003
-+++ etc/etcscreenrc	Wed Apr  2 16:11:25 2014
++++ etc/etcscreenrc	Tue May 19 16:43:48 2015
 @@ -1,12 +1,13 @@
 +# $MirSecuCron$
-+# $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.16 2013/05/18 01:28:51 tg Exp $
++# $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.17 2014/04/02 16:12:28 tg Exp $
  #
  # This is an example for the global screenrc file.
 -# You may want to install this file as /usr/local/etc/screenrc.
@@ -67,7 +67,7 @@ $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.16 2013/05/18 01:28:
  
  #
  # Do not use xterms alternate window buffer. 
-@@ -81,14 +89,52 @@ terminfo hp700 'Z0=\E[?3h:Z1=\E[?3l:hs:t
+@@ -81,14 +89,68 @@ terminfo hp700 'Z0=\E[?3h:Z1=\E[?3l:hs:t
  termcap wy75-42 nx:xo:Z0=\E[?3h\E[31h:Z1=\E[?3l\E[31h
  terminfo wy75-42 nx:xo:Z0=\E[?3h\E[31h:Z1=\E[?3l\E[31h
  
@@ -106,19 +106,35 @@ $MirOS: ports/misc/screen/patches/patch-etc_etcscreenrc,v 1.16 2013/05/18 01:28:
 +# c) other screen versions, window encoding is ASCII or 8-bit
 +#bind u digraph '0x'
 +
-+# Enable non-blocking mode to better cope with flakey ssh connections.
-+defnonblock 5
++# enable non-blocking mode to better cope with flakey ssh connections.
++defnonblock 120
++
++# this is still broken in Debian, purge ncurses-term to fix it
++term screen
 +
 +shell "-${SHELL}"
 +shelltitle -
-+# append ":%s" to "%0c" to display seconds on the clock
-+hardstatus alwayslastline "%{kr} %H %{ky} %l %{kg} %D %d.%m.%Y %0c %{=b by} %=%?%-w%?[%n%f %t]%?%+w%? "
 +nethack on
 +defscrollback 4096
 +defutf8 on
 +setenv LC_CTYPE en_US.UTF-8
 +
-+# set the escape character to ^O, ^P or ^X instead of ^A
++# omit seconds on the clock; escape characters ^A (default), ^O, ^P, ^X
++escape ^Aa
++hardstatus alwayslastline "%{wm}A %{kr} %H %{ky} %l %{kg} %D %d.%m.%Y %0c %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
 +#escape ^Oo
++#hardstatus alwayslastline "%{wm}O %{kr} %H %{ky} %l %{kg} %D %d.%m.%Y %0c %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
 +#escape ^Pp
++#hardstatus alwayslastline "%{wm}P %{kr} %H %{ky} %l %{kg} %D %d.%m.%Y %0c %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
 +#escape ^Xx
++#hardstatus alwayslastline "%{wm}X %{kr} %H %{ky} %l %{kg} %D %d.%m.%Y %0c %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
++
++# display seconds on the clock; escape characters ^A, ^O, ^P, ^X
++#escape ^Aa
++#hardstatus alwayslastline "%{wm}A %{kr} %H %{ky} %l %{kg} %D %d.%m.%Y %0c:%s %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
++#escape ^Oo
++#hardstatus alwayslastline "%{wm}O %{kr} %H %{ky} %l %{kg} %D %d.%m.%Y %0c:%s %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
++#escape ^Pp
++#hardstatus alwayslastline "%{wm}P %{kr} %H %{ky} %l %{kg} %D %d.%m.%Y %0c:%s %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
++#escape ^Xx
++#hardstatus alwayslastline "%{wm}X %{kr} %H %{ky} %l %{kg} %D %d.%m.%Y %0c:%s %{=b by} %01L=%=%-w%50L>[%n%f %t]%+w%-1< "
