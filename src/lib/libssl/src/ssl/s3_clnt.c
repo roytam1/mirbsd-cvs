@@ -118,7 +118,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_clnt.c,v 1.12 2015/01/25 17:07:22 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_clnt.c,v 1.13 2015/01/25 17:08:16 tg Exp $");
 
 static SSL_METHOD *ssl3_get_client_method(int ver);
 static int ssl3_client_hello(SSL *s);
@@ -1107,6 +1107,14 @@ static int ssl3_get_key_exchange(SSL *s)
 			}
 		p+=i;
 		n-=param_len;
+
+		/* require 1024-bit DH for non-EXPORT ciphersuites */
+		if (!SSL_C_IS_EXPORT(s->s3->tmp.new_cipher) &&
+		    DH_size(dh) < (1024 / 8 - /* deliberate */ 1)) {
+			SSLerr(SSL_F_SSL3_GET_KEY_EXCHANGE,SSL_R_BAD_DH_P_LENGTH);
+			al = SSL_AD_HANDSHAKE_FAILURE;
+			goto f_err;
+		}
 
 #ifndef OPENSSL_NO_RSA
 		if (alg & SSL_aRSA)
