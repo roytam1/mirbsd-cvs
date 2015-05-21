@@ -13694,7 +13694,7 @@ ID: 2293
 Date: 16.05.2015
 Waypoint: GC1GVR0
 Title: Schlaraffenland
-Tag: D15 T1 Nano Tradi
+Tag: D15 T1 Nano Virtual Tradi
 ----
 ID: 2294
 Date: 16.05.2015
@@ -13775,9 +13775,8 @@ ID: 2305
 Date: 17.05.2015
 Waypoint: GC43E0P
 Title: Excellenter Zeitvertreib
+nTF: L
 Tag: D45 T1 Nano Mystery
-
-Benötigt proprietäre Software (oder einen Nachbau) ☹
 ----
 ID: 2306
 Date: 17.05.2015
@@ -13818,6 +13817,24 @@ Waypoint: OC11FCE
 Title: Verkehrsknotenpunktskreuz
 nTF: 0
 Tag: D15 T1 Virtual
+----
+ID: 2312
+Date: 16.05.2015
+Waypoint: GC4C35
+Title: Cuckoo Cache (could be anywhere)
+Tag: D5 T1 Regular Mystery Moving
+----
+ID: 2313
+Date: 21.05.2015
+Waypoint: CC1KHB
+Title: 2015 Walk to Defeat ALS (CC)
+Tag: Locationless Challenge
+----
+ID: 2314
+Date: 21.05.2015
+Waypoint: CC7JO
+Title: Futbol / Soccer
+Tag: Locationless Challenge
 ----
 ID: p20150523
 Date: 23.05.2015
