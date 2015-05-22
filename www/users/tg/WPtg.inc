@@ -13836,6 +13836,20 @@ Waypoint: CC7JO
 Title: Futbol / Soccer
 Tag: Locationless Challenge
 ----
+ID: 2315
+Date: 22.05.2015
+Waypoint: OC12009
+Title: Kreuzzeiger
+nTF: 0
+Tag: D15 T15 Virtual
+----
+ID: 2316
+Date: 22.05.2015
+Waypoint: GC3VXGT
+Banner: jpg
+Title: Manchmal braucht man meer der Ruhe
+Tag: D25 T1 Micro Mystery
+----
 ID: p20150523
 Date: 23.05.2015
 Waypoint: GC5Q1XM
