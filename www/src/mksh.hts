@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.583 2015/04/29 20:39:02 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.584 2015/04/29 21:01:07 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1159,6 +1159,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Fix signal bounds (1 ≤ <i>signum</i> &lt; <tt>NSIG</tt>)</li>
  <li>[tg] Improve manual pages</li>
  <li>[tg, iSKUNK] Initial EBCDIC work for <tt>dot.mkshrc</tt></li>
+ <li>[tg, iSKUNK] Add list of z/OS signals to <tt>Build.sh</tt></li>
+ <li>[tg] Work around the sh(1) backslash-newline problem by moving the
+  code triggering it out of <tt>*.opt</tt> and into the consumers</li>
+ <li>[colona] Bind another well-known ANSI Del key in the Emacs mode</li>
+ <li>[tg] Fix <tt>${foo/*/x}</tt> pattern checks, spotted by izabera</li>
 </ul>
 <p>Changes in the current (unreleased) R50-stable branch:</p><ul>
  <li>[tg] Correct some mistakes in the manual page</li>
