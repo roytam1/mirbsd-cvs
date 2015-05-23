@@ -105,7 +105,6 @@
 #define EVP_PKT_EXCH	0x0040
 #define EVP_PKS_RSA	0x0100
 #define EVP_PKS_DSA	0x0200
-#define EVP_PKT_EXP	0x1000 /* <= 512 bit key */
 
 #define EVP_PKEY_NONE	NID_undef
 #define EVP_PKEY_RSA	NID_rsaEncryption

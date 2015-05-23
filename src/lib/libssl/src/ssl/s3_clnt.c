@@ -118,7 +118,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_clnt.c,v 1.13 2015/01/25 17:08:16 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_clnt.c,v 1.14 2015/05/21 08:13:27 tg Exp $");
 
 static SSL_METHOD *ssl3_get_client_method(int ver);
 static int ssl3_client_hello(SSL *s);
@@ -1108,6 +1108,13 @@ static int ssl3_get_key_exchange(SSL *s)
 		p+=i;
 		n-=param_len;
 
+		/*-
+		 * this is similar to upstream
+		 * commit 10a70da729948bb573d27cef4459077c49f3eb46
+		 * except they mistakenly do not set al, but they
+		 * do also cover SSL_kDHr and SSL_kDHd, not just
+		 * SSL_kDHE (SSL_kEDH here), though 768 bit only.
+		 */
 		/* require 1024-bit DH for non-EXPORT ciphersuites */
 		if (!SSL_C_IS_EXPORT(s->s3->tmp.new_cipher) &&
 		    DH_size(dh) < (1024 / 8 - /* deliberate */ 1)) {
@@ -1886,6 +1893,7 @@ static int ssl3_check_cert_and_algorithm(SSL *s)
 	int i,idx;
 	long algs;
 	EVP_PKEY *pkey=NULL;
+	int pkey_bits;
 	SESS_CERT *sc;
 #ifndef OPENSSL_NO_RSA
 	RSA *rsa;
@@ -1919,6 +1927,7 @@ static int ssl3_check_cert_and_algorithm(SSL *s)
 
 	idx=sc->peer_cert_type;
 	pkey=X509_get_pubkey(sc->peer_pkeys[idx].x509);
+	pkey_bits = EVP_PKEY_bits(pkey);
 	i=X509_certificate_type(sc->peer_pkeys[idx].x509,pkey);
 	EVP_PKEY_free(pkey);
 
@@ -1965,7 +1974,8 @@ static int ssl3_check_cert_and_algorithm(SSL *s)
 #endif
 #endif
 
-	if (SSL_C_IS_EXPORT(s->s3->tmp.new_cipher) && !has_bits(i,EVP_PKT_EXP))
+	if (SSL_C_IS_EXPORT(s->s3->tmp.new_cipher) &&
+	    pkey_bits > SSL_C_EXPORT_PKEYLENGTH(s->s3->tmp.new_cipher)) {
 		{
 #ifndef OPENSSL_NO_RSA
 		if (algs & SSL_kRSA)

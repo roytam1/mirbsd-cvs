@@ -106,9 +106,6 @@ int X509_certificate_type(X509 *x, EVP_PKEY *pkey)
 		break;
 		}
 
-	if (EVP_PKEY_size(pk) <= 1024/8)/* /8 because it's 1024 bits we look
-					   for, not bytes */
-		ret|=EVP_PKT_EXP;
 	if(pkey==NULL) EVP_PKEY_free(pk);
 	return(ret);
 	}
