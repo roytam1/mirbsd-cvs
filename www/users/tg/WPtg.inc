@@ -13850,11 +13850,11 @@ Banner: jpg
 Title: Manchmal braucht man meer der Ruhe
 Tag: D25 T1 Micro Mystery
 ----
-ID: p20150523
+ID: 2317
 Date: 23.05.2015
-Waypoint: GC5Q1XM
-Title: Geocacher in der Baracke 4
-Tag: D1 T1 Event
+Waypoint: GC2VMCX
+Title: Annaberger Bach - Wissenschaftliche Untersuchungen
+Tag: D25 T2 Micro Mystery
 ----
 ID: p20150528
 Date: 28.05.2015
