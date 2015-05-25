@@ -118,7 +118,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_clnt.c,v 1.14 2015/05/21 08:13:27 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_clnt.c,v 1.15 2015/05/23 19:43:58 tg Exp $");
 
 static SSL_METHOD *ssl3_get_client_method(int ver);
 static int ssl3_client_hello(SSL *s);
@@ -1976,7 +1976,6 @@ static int ssl3_check_cert_and_algorithm(SSL *s)
 
 	if (SSL_C_IS_EXPORT(s->s3->tmp.new_cipher) &&
 	    pkey_bits > SSL_C_EXPORT_PKEYLENGTH(s->s3->tmp.new_cipher)) {
-		{
 #ifndef OPENSSL_NO_RSA
 		if (algs & SSL_kRSA)
 			{
