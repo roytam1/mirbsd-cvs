@@ -1,4 +1,4 @@
-# $MirOS: src/etc/Makefile,v 1.52 2014/03/29 20:56:44 tg Exp $
+# $MirOS: src/etc/Makefile,v 1.53 2014/06/09 13:49:36 tg Exp $
 # $OpenBSD: Makefile,v 1.226 2005/05/26 23:06:06 mcbride Exp $
 
 TZDIR=		/usr/share/zoneinfo
@@ -229,11 +229,11 @@ install-generated:
 	@echo "Set DESTDIR before trying this!"; false
 .endif
 
-DHSIZE=	1024 1536 2048 3072 4096 5120 6144
+DHSIZE=	2048 3072 4096 5120 6144
 update-moduli:
 	{ \
 		echo '# $$MirSecuCron$$'; \
-		echo '# $$MirOS: src/etc/Makefile,v 1.52 2014/03/29 20:56:44 tg Exp $$'; \
+		echo '# $$MirOS: src/etc/Makefile,v 1.53 2014/06/09 13:49:36 tg Exp $$'; \
 		echo '#-'; \
 		echo '# Time Type Tests Tries Size Generator Modulus'; \
 		for i in ${DHSIZE}; do \
