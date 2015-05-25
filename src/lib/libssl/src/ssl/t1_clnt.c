@@ -99,3 +99,8 @@ SSL_METHOD *SSLv23_client_method(void)
 	{
 	return(TLSv1_client_method());
 	}
+
+SSL_METHOD *TLS_client_method(void)
+	{
+	return(TLSv1_client_method());
+	}

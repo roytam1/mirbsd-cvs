@@ -83,7 +83,7 @@ SSL_METHOD *TLSv1_method(void)
 			memcpy((char *)&TLSv1_data,(char *)tlsv1_base_method(),
 				sizeof(SSL_METHOD));
 			TLSv1_data.ssl_connect=ssl3_connect;
-			TLSv1_data.ssl_accept=ssl23_accept;
+			TLSv1_data.ssl_accept=ssl3_accept;
 			TLSv1_data.get_ssl_method=tls1_get_method;
 			init=0;
 			}
@@ -94,3 +94,33 @@ SSL_METHOD *TLSv1_method(void)
 	return(&TLSv1_data);
 	}
 
+static SSL_METHOD *tls_get_method(int ver);
+static SSL_METHOD *tls_get_method(int ver)
+	{
+		return(TLS_method());
+	}
+
+SSL_METHOD *TLS_method(void)
+	{
+	static int init=1;
+	static SSL_METHOD TLS_data;
+
+	if (init)
+		{
+		CRYPTO_w_lock(CRYPTO_LOCK_SSL_METHOD);
+
+		if (init)
+			{
+			memcpy((char *)&TLS_data,(char *)tlsv1_base_method(),
+				sizeof(SSL_METHOD));
+			TLS_data.ssl_connect=ssl3_connect;
+			TLS_data.ssl_accept=ssl23_accept;
+			TLS_data.get_ssl_method=tls_get_method;
+			init=0;
+			}
+
+		CRYPTO_w_unlock(CRYPTO_LOCK_SSL_METHOD);
+		}
+
+	return(&TLS_data);
+	}

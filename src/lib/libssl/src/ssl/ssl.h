@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/ssl/ssl.h,v 1.9 2015/01/25 17:07:23 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/ssl/ssl.h,v 1.10 2015/04/12 12:53:51 tg Exp $ */
 
 /* ssl/ssl.h */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
@@ -1313,13 +1313,18 @@ SSL_METHOD *SSLv3_method(void);		/* SSLv3 */
 SSL_METHOD *SSLv3_server_method(void);	/* SSLv3 */
 SSL_METHOD *SSLv3_client_method(void);	/* SSLv3 */
 
+/* actually same as TLS_method but deprecated */
 SSL_METHOD *SSLv23_method(void);	/* SSLv3 but can rollback to v2 */
 SSL_METHOD *SSLv23_server_method(void);	/* SSLv3 but can rollback to v2 */
 SSL_METHOD *SSLv23_client_method(void);	/* SSLv3 but can rollback to v2 */
 
-SSL_METHOD *TLSv1_method(void);		/* TLSv1.0 */
-SSL_METHOD *TLSv1_server_method(void);	/* TLSv1.0 */
-SSL_METHOD *TLSv1_client_method(void);	/* TLSv1.0 */
+SSL_METHOD *TLSv1_method(void);		/* TLSv1.0 only */
+SSL_METHOD *TLSv1_server_method(void);	/* TLSv1.0 only */
+SSL_METHOD *TLSv1_client_method(void);	/* TLSv1.0 only */
+
+SSL_METHOD *TLS_method(void);		/* highest supported, with rollback */
+SSL_METHOD *TLS_server_method(void);	/* highest supported, with rollback */
+SSL_METHOD *TLS_client_method(void);	/* highest supported, with rollback */
 
 STACK_OF(SSL_CIPHER) *SSL_get_ciphers(const SSL *s);
 

@@ -162,6 +162,36 @@ SSL_METHOD *SSLv23_server_method(void)
 	return(&SSLv23_server_data);
 	}
 
+static SSL_METHOD *tls_get_server_method(int ver);
+static SSL_METHOD *tls_get_server_method(int ver)
+	{
+		return(TLS_server_method());
+	}
+
+SSL_METHOD *TLS_server_method(void)
+	{
+	static int init=1;
+	static SSL_METHOD TLS_server_data;
+
+	if (init)
+		{
+		CRYPTO_w_lock(CRYPTO_LOCK_SSL_METHOD);
+
+		if (init)
+			{
+			memcpy((char *)&TLS_server_data,
+				(char *)tlsv1_base_method(),
+				sizeof(SSL_METHOD));
+			TLS_server_data.ssl_accept=ssl23_accept;
+			TLS_server_data.get_ssl_method=tls_get_server_method;
+			init=0;
+			}
+
+		CRYPTO_w_unlock(CRYPTO_LOCK_SSL_METHOD);
+		}
+	return(&TLS_server_data);
+	}
+
 int ssl23_accept(SSL *s)
 	{
 	BUF_MEM *buf;
