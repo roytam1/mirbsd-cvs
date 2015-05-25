@@ -150,6 +150,7 @@ define(`confCLIENT_CERT',	`/etc/ssl/default.cer')dnl
 define(`confSERVER_KEY',	`/etc/ssl/private/default.key')dnl
 define(`confCLIENT_KEY',	`/etc/ssl/private/default.key')dnl
 define(`confCIPHER_LIST',	`kEECDH+aRSA:kEDH+aRSA:!COMPLEMENTOFDEFAULT:!ADH:!AECDH:-MEDIUM:!LOW:!EXPORT:!aNULL:!eNULL:EDH-DSS-DES-CBC3-SHA:ECDHE-RSA-RC4-SHA:RC4-SHA')dnl
+dnl define(`confDH_PARAMETERS',	`/etc/ssl/dhparams.pem')dnl
 define(`confRAND_FILE',		`/dev/arandom')dnl
 dnl
 dnl
