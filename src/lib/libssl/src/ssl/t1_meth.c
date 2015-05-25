@@ -94,6 +94,11 @@ SSL_METHOD *TLSv1_method(void)
 	return(&TLSv1_data);
 	}
 
+SSL_METHOD *SSLv23_method(void)
+	{
+		return(TLS_method());
+	}
+
 static SSL_METHOD *tls_get_method(int ver);
 static SSL_METHOD *tls_get_method(int ver)
 	{
