@@ -1,5 +1,6 @@
 divert(-1)
 #
+# Copyright (c) 2015 Thorsten "mirabilos" Glaser <tg@mirbsd.org>
 # Copyright (c) 2009 Thorsten Glaser <t.glaser@tarent.de>
 # Copyright (c) 1998-2010 Proofpoint, Inc. and its suppliers.
 #	All rights reserved.
@@ -14,7 +15,7 @@ divert(-1)
 #
 divert(0)
 
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/m4/proto.m4,v 1.7 2012/12/31 21:02:24 tg Exp $')
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/m4/proto.m4,v 1.8 2014/06/09 15:16:48 tg Exp $')
 VERSIONID(`$Id$')
 
 # level CF_LEVEL config file format
@@ -672,6 +673,8 @@ _OPTION(ClientCertFile, `confCLIENT_CERT', `')
 _OPTION(ClientKeyFile, `confCLIENT_KEY', `')
 # File containing certificate revocation lists 
 _OPTION(CRLFile, `confCRL', `')
+# cipher list (for 'openssl ciphers -v') to use
+_OPTION(CipherList, `confCIPHER_LIST', `')
 # DHParameters (only required if DSA/DH is used)
 _OPTION(DHParameters, `confDH_PARAMETERS', `')
 # Random data source (required for systems without /dev/urandom under OpenSSL)
