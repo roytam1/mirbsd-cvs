@@ -1,8 +1,8 @@
 XCOMM UTF-8 (Unicode) compose sequence
 XCOMM David.Monniaux@ens.fr
 XCOMM
-XCOMM $MirOS: X11/xc/nls/Compose/en_US.UTF-8,v 1.5 2008/03/23 18:11:20 tg Exp $
-XCOMM $XFree86: xc/nls/Compose/en_US.UTF-8,v 1.13 2004/05/08 06:10:16 pascal Exp $
+XCOMM $MirOS: X11/xc/nls/Compose/en_US.UTF-8,v 1.6 2012/05/21 13:28:21 tg Exp $
+XCOMM $XFree86: xc/nls/Compose/en_US.UTF-8,v 1.14 2006/01/25 04:45:59 dawes Exp $
 
 XCOMM Part 1 - Manual definitions
 
@@ -93,7 +93,9 @@ XCOMM Spaces
 
 <Multi_key> <period> <greater> : "›" U203a
 <Multi_key> <period> <less> : "‹" U2039
-<Multi_key> <period> <period> : "·" periodcentered
+<Multi_key> <period> <period> : "…" ellipsis
+<Multi_key> <period> <minus> : "·" periodcentered
+<Multi_key> <period> <equal> : "•" enfilledcircbullet
 <Multi_key> <exclam> <asciicircum> : "¦" brokenbar
 <Multi_key> <exclam> <exclam> : "¡" exclamdown
 <Multi_key> <p> <exclam> : "¶" paragraph
@@ -127,14 +129,14 @@ XCOMM Quotation marks
 <Multi_key> <apostrophe> <less>		: "‘" leftsinglequotemark # LEFT SINGLE QUOTATION MARK
 <Multi_key> <greater> <apostrophe>	: "’" rightsinglequotemark # RIGHT SINGLE QUOTATION MARK
 <Multi_key> <apostrophe> <greater>	: "’" rightsinglequotemark # RIGHT SINGLE QUOTATION MARK
-<Multi_key> <comma> <apostrophe>        : "‚" singlelowquotemark # SINGLE LOW-9 QUOTATION MARK
-<Multi_key> <apostrophe> <comma>        : "‚" singlelowquotemark # SINGLE LOW-9 QUOTATION MARK
+<Multi_key> <comma> <apostrophe>	: "‚" singlelowquotemark # SINGLE LOW-9 QUOTATION MARK
+<Multi_key> <apostrophe> <comma>	: "‚" singlelowquotemark # SINGLE LOW-9 QUOTATION MARK
 <Multi_key> <less> <quotedbl>		: "“" leftdoublequotemark # LEFT DOUBLE QUOTATION MARK
 <Multi_key> <quotedbl> <less>		: "“" leftdoublequotemark # LEFT DOUBLE QUOTATION MARK
 <Multi_key> <greater> <quotedbl>	: "”" rightdoublequotemark # RIGHT DOUBLE QUOTATION MARK
 <Multi_key> <quotedbl> <greater>	: "”" rightdoublequotemark # RIGHT DOUBLE QUOTATION MARK
-<Multi_key> <comma> <quotedbl>          : "„" doublelowquotemark # DOUBLE LOW-9 QUOTATION MARK
-<Multi_key> <quotedbl> <comma>          : "„" doublelowquotemark # DOUBLE LOW-9 QUOTATION MARK
+<Multi_key> <comma> <quotedbl>		: "„" doublelowquotemark # DOUBLE LOW-9 QUOTATION MARK
+<Multi_key> <quotedbl> <comma>		: "„" doublelowquotemark # DOUBLE LOW-9 QUOTATION MARK
 
 XCOMM Per xxx
 <Multi_key> <percent> <o>		: "‰" U2030 # PER MILLE SIGN
@@ -161,6 +163,10 @@ XCOMM "₪" NewSheqelSign NEW SHEQEL SIGN
 <Multi_key> <equal> <C>			: "€" EuroSign # EURO SIGN
 <Multi_key> <E> <equal>			: "€" EuroSign # EURO SIGN
 <Multi_key> <equal> <E>			: "€" EuroSign # EURO SIGN
+<Multi_key> <Cyrillic_ES> <equal>	: "€" EuroSign # EURO SIGN
+<Multi_key> <equal> <Cyrillic_ES>	: "€" EuroSign # EURO SIGN
+<Multi_key> <Cyrillic_IE> <equal>	: "€" EuroSign # EURO SIGN
+<Multi_key> <equal> <Cyrillic_IE>	: "€" EuroSign # EURO SIGN
 
 <Multi_key> <bar> <c>			: "¢" cent # CENT SIGN
 <Multi_key> <bar> <C>			: "¢" cent # CENT SIGN
@@ -176,12 +182,12 @@ XCOMM "₪" NewSheqelSign NEW SHEQEL SIGN
 <Multi_key> <equal><Y>			: "¥" yen
 
 XCOMM Long S
-<Multi_key> <f> <s>	: "ſ" U017f # LONG S
-<Multi_key> <f> <S>	: "ſ" U017f # LONG S
+<Multi_key> <f> <s>			: "ſ" U017f # LONG S
+<Multi_key> <f> <S>			: "ſ" U017f # LONG S
 
 XCOMM Dashes
-<Multi_key> <minus> <minus> <period> : "–" endash # EN DASH
-<Multi_key> <minus> <minus> <minus>  : "—" emdash # EM DASH
+<Multi_key> <minus> <minus> <period>	: "–" endash # EN DASH
+<Multi_key> <minus> <minus> <minus>	: "—" emdash # EM DASH
 
 XCOMM Musical alterations
 <Multi_key> <numbersign> <b>		: "♭" musicalflat # MUSIC FLAT SIGN
@@ -189,13 +195,19 @@ XCOMM Musical alterations
 <Multi_key> <numbersign> <numbersign>	: "♯" musicalsharp # MUSIC SHARP SIGN
 
 XCOMM Other symbols
-<Multi_key> <s> <o>             : "§" section # SECTION SIGN
-<Multi_key> <o> <s>             : "§" section # SECTION SIGN
+<Multi_key> <s> <o>			: "§" section # SECTION SIGN
+<Multi_key> <o> <s>			: "§" section # SECTION SIGN
+<Multi_key> <Cyrillic_pe> <Cyrillic_a>	: "§" section # SECTION SIGN
 
-<Multi_key> <o> <x>		: "¤" currency
-<Multi_key> <x> <o>		: "¤" currency
+<Multi_key> <o> <x>			: "¤" currency
+<Multi_key> <x> <o>			: "¤" currency
 
-<Multi_key> <P> <P>		: "¶" paragraph # PILCROW SIGN (PARAGRAPH SIGN)
+<Multi_key> <P> <P>			: "¶" paragraph # PILCROW SIGN (PARAGRAPH SIGN)
+
+<Multi_key> <N> <o>			: "№" numerosign # NUMERO SIGN
+<Multi_key> <N> <O>			: "№" numerosign # NUMERO SIGN
+<Multi_key> <Cyrillic_EN> <Cyrillic_o>	: "№" numerosign # NUMERO SIGN
+<Multi_key> <Cyrillic_EN> <Cyrillic_O>	: "№" numerosign # NUMERO SIGN
 
 XCOMM Part 2
 
@@ -207,257 +219,257 @@ XCOMM There are some conflicts among sequences, but I left them alone.
 XCOMM
 XCOMM group 1: cluster jamos made of three basic jamos
 
-  <Multi_key> <U1107> <U1109> <U1100> : "ᄢ"  	U1122	 # ᄇᅠ ᄉᅠ ᄀᅠ  = ᄢᅠ
-  <Multi_key> <U1107> <U1109> <U1103> : "ᄣ"  	U1123	 # ᄇᅠ ᄉᅠ ᄃᅠ  = ᄣᅠ
-  <Multi_key> <U1107> <U1109> <U1107> : "ᄤ"  	U1124	 # ᄇᅠ ᄉᅠ ᄇᅠ  = ᄤᅠ
-  <Multi_key> <U1107> <U1109> <U1109> : "ᄥ"  	U1125	 # ᄇᅠ ᄉᅠ ᄉᅠ  = ᄥᅠ
-  <Multi_key> <U1107> <U1109> <U110c> : "ᄦ"  	U1126	 # ᄇᅠ ᄉᅠ ᄌᅠ  = ᄦᅠ
-  <Multi_key> <U1107> <U1107> <U110b> : "ᄬ"  	U112c	 # ᄇᅠ ᄇᅠ ᄋᅠ  = ᄬᅠ
-  <Multi_key> <U1109> <U1107> <U1100> : "ᄳ"  	U1133	 # ᄉᅠ ᄇᅠ ᄀᅠ  = ᄳᅠ
-  <Multi_key> <U1109> <U1109> <U1109> : "ᄴ"  	U1134	 # ᄉᅠ ᄉᅠ ᄉᅠ  = ᄴᅠ
-  <Multi_key> <U1169> <U1161> <U1175> : "ᅫ"  	U116b	 # ᅟᅩ ᅟᅡ ᅟᅵ  = ᅟᅫ
-  <Multi_key> <U116e> <U1165> <U1175> : "ᅰ"  	U1170	 # ᅟᅮ ᅟᅥ ᅟᅵ  = ᅟᅰ
-  <Multi_key> <U116e> <U1165> <U1173> : "ᆋ"  	U118b	 # ᅟᅮ ᅟᅥ ᅟᅳ  = ᅟᆋ
-  <Multi_key> <U11a8> <U11ba> <U11a8> : "ᇄ"  	U11c4	 # ᅟᅠᆨ ᅟᅠᆺ ᅟᅠᆨ  = ᅟᅠᇄ
-  <Multi_key> <U11af> <U11a8> <U11ba> : "ᇌ"  	U11cc	 # ᅟᅠᆯ ᅟᅠᆨ ᅟᅠᆺ  = ᅟᅠᇌ
-  <Multi_key> <U11af> <U11ae> <U11c2> : "ᇏ"  	U11cf	 # ᅟᅠᆯ ᅟᅠᆮ ᅟᅠᇂ  = ᅟᅠᇏ
-  <Multi_key> <U11af> <U11b7> <U11a8> : "ᇑ"  	U11d1	 # ᅟᅠᆯ ᅟᅠᆷ ᅟᅠᆨ  = ᅟᅠᇑ
-  <Multi_key> <U11af> <U11b7> <U11ba> : "ᇒ"  	U11d2	 # ᅟᅠᆯ ᅟᅠᆷ ᅟᅠᆺ  = ᅟᅠᇒ
-  <Multi_key> <U11af> <U11b8> <U11ba> : "ᇓ"  	U11d3	 # ᅟᅠᆯ ᅟᅠᆸ ᅟᅠᆺ  = ᅟᅠᇓ
-  <Multi_key> <U11af> <U11b8> <U11c2> : "ᇔ"  	U11d4	 # ᅟᅠᆯ ᅟᅠᆸ ᅟᅠᇂ  = ᅟᅠᇔ
-  <Multi_key> <U11af> <U11b8> <U11bc> : "ᇕ"  	U11d5	 # ᅟᅠᆯ ᅟᅠᆸ ᅟᅠᆼ  = ᅟᅠᇕ
-  <Multi_key> <U11af> <U11ba> <U11ba> : "ᇖ"  	U11d6	 # ᅟᅠᆯ ᅟᅠᆺ ᅟᅠᆺ  = ᅟᅠᇖ
-  <Multi_key> <U11b7> <U11ba> <U11ba> : "ᇞ"  	U11de	 # ᅟᅠᆷ ᅟᅠᆺ ᅟᅠᆺ  = ᅟᅠᇞ
-  <Multi_key> <U11bc> <U11a8> <U11a8> : "ᇭ"  	U11ed	 # ᅟᅠᆼ ᅟᅠᆨ ᅟᅠᆨ  = ᅟᅠᇭ
-  <Multi_key> <U1100> <U1100> : "ᄁ"  	U1101	 # ᄀᅠ ᄀᅠ   = ᄁᅠ
-  <Multi_key> <U1103> <U1103> : "ᄄ"  	U1104	 # ᄃᅠ ᄃᅠ   = ᄄᅠ
-  <Multi_key> <U1107> <U1107> : "ᄈ"  	U1108	 # ᄇᅠ ᄇᅠ   = ᄈᅠ
-  <Multi_key> <U1109> <U1109> : "ᄊ"  	U110a	 # ᄉᅠ ᄉᅠ   = ᄊᅠ
-  <Multi_key> <U110c> <U110c> : "ᄍ"  	U110d	 # ᄌᅠ ᄌᅠ   = ᄍᅠ
-  <Multi_key> <U1102> <U1100> : "ᄓ"  	U1113	 # ᄂᅠ ᄀᅠ   = ᄓᅠ
-  <Multi_key> <U1102> <U1102> : "ᄔ"  	U1114	 # ᄂᅠ ᄂᅠ   = ᄔᅠ
-  <Multi_key> <U1102> <U1103> : "ᄕ"  	U1115	 # ᄂᅠ ᄃᅠ   = ᄕᅠ
-  <Multi_key> <U1102> <U1107> : "ᄖ"  	U1116	 # ᄂᅠ ᄇᅠ   = ᄖᅠ
-  <Multi_key> <U1103> <U1100> : "ᄗ"  	U1117	 # ᄃᅠ ᄀᅠ   = ᄗᅠ
-  <Multi_key> <U1105> <U1102> : "ᄘ"  	U1118	 # ᄅᅠ ᄂᅠ   = ᄘᅠ
-  <Multi_key> <U1105> <U1105> : "ᄙ"  	U1119	 # ᄅᅠ ᄅᅠ   = ᄙᅠ
-  <Multi_key> <U1105> <U1112> : "ᄚ"  	U111a	 # ᄅᅠ ᄒᅠ   = ᄚᅠ
-  <Multi_key> <U1105> <U110b> : "ᄛ"  	U111b	 # ᄅᅠ ᄋᅠ   = ᄛᅠ
-  <Multi_key> <U1106> <U1107> : "ᄜ"  	U111c	 # ᄆᅠ ᄇᅠ   = ᄜᅠ
-  <Multi_key> <U1106> <U110b> : "ᄝ"  	U111d	 # ᄆᅠ ᄋᅠ   = ᄝᅠ
-  <Multi_key> <U1107> <U1100> : "ᄞ"  	U111e	 # ᄇᅠ ᄀᅠ   = ᄞᅠ
-  <Multi_key> <U1107> <U1102> : "ᄟ"  	U111f	 # ᄇᅠ ᄂᅠ   = ᄟᅠ
-  <Multi_key> <U1107> <U1103> : "ᄠ"  	U1120	 # ᄇᅠ ᄃᅠ   = ᄠᅠ
-  <Multi_key> <U1107> <U1109> : "ᄡ"  	U1121	 # ᄇᅠ ᄉᅠ   = ᄡᅠ
-  <Multi_key> <U1107> <U110c> : "ᄧ"  	U1127	 # ᄇᅠ ᄌᅠ   = ᄧᅠ
-  <Multi_key> <U1107> <U110e> : "ᄨ"  	U1128	 # ᄇᅠ ᄎᅠ   = ᄨᅠ
-  <Multi_key> <U1107> <U1110> : "ᄩ"  	U1129	 # ᄇᅠ ᄐᅠ   = ᄩᅠ
-  <Multi_key> <U1107> <U1111> : "ᄪ"  	U112a	 # ᄇᅠ ᄑᅠ   = ᄪᅠ
-  <Multi_key> <U1107> <U110b> : "ᄫ"  	U112b	 # ᄇᅠ ᄋᅠ   = ᄫᅠ
-  <Multi_key> <U1109> <U1100> : "ᄭ"  	U112d	 # ᄉᅠ ᄀᅠ   = ᄭᅠ
-  <Multi_key> <U1109> <U1102> : "ᄮ"  	U112e	 # ᄉᅠ ᄂᅠ   = ᄮᅠ
-  <Multi_key> <U1109> <U1103> : "ᄯ"  	U112f	 # ᄉᅠ ᄃᅠ   = ᄯᅠ
-  <Multi_key> <U1109> <U1105> : "ᄰ"  	U1130	 # ᄉᅠ ᄅᅠ   = ᄰᅠ
-  <Multi_key> <U1109> <U1106> : "ᄱ"  	U1131	 # ᄉᅠ ᄆᅠ   = ᄱᅠ
-  <Multi_key> <U1109> <U1107> : "ᄲ"  	U1132	 # ᄉᅠ ᄇᅠ   = ᄲᅠ
-  <Multi_key> <U1109> <U110b> : "ᄵ"  	U1135	 # ᄉᅠ ᄋᅠ   = ᄵᅠ
-  <Multi_key> <U1109> <U110c> : "ᄶ"  	U1136	 # ᄉᅠ ᄌᅠ   = ᄶᅠ
-  <Multi_key> <U1109> <U110e> : "ᄷ"  	U1137	 # ᄉᅠ ᄎᅠ   = ᄷᅠ
-  <Multi_key> <U1109> <U110f> : "ᄸ"  	U1138	 # ᄉᅠ ᄏᅠ   = ᄸᅠ
-  <Multi_key> <U1109> <U1110> : "ᄹ"  	U1139	 # ᄉᅠ ᄐᅠ   = ᄹᅠ
-  <Multi_key> <U1109> <U1111> : "ᄺ"  	U113a	 # ᄉᅠ ᄑᅠ   = ᄺᅠ
-  <Multi_key> <U1109> <U1112> : "ᄻ"  	U113b	 # ᄉᅠ ᄒᅠ   = ᄻᅠ
-  <Multi_key> <U113c> <U113c> : "ᄽ"  	U113d	 # ᄼᅠ ᄼᅠ   = ᄽᅠ
-  <Multi_key> <U113e> <U113e> : "ᄿ"  	U113f	 # ᄾᅠ ᄾᅠ   = ᄿᅠ
-  <Multi_key> <U110b> <U1100> : "ᅁ"  	U1141	 # ᄋᅠ ᄀᅠ   = ᅁᅠ
-  <Multi_key> <U110b> <U1103> : "ᅂ"  	U1142	 # ᄋᅠ ᄃᅠ   = ᅂᅠ
-  <Multi_key> <U110b> <U1106> : "ᅃ"  	U1143	 # ᄋᅠ ᄆᅠ   = ᅃᅠ
-  <Multi_key> <U110b> <U1107> : "ᅄ"  	U1144	 # ᄋᅠ ᄇᅠ   = ᅄᅠ
-  <Multi_key> <U110b> <U1109> : "ᅅ"  	U1145	 # ᄋᅠ ᄉᅠ   = ᅅᅠ
-  <Multi_key> <U110b> <U1140> : "ᅆ"  	U1146	 # ᄋᅠ ᅀᅠ   = ᅆᅠ
-  <Multi_key> <U110b> <U110b> : "ᅇ"  	U1147	 # ᄋᅠ ᄋᅠ   = ᅇᅠ
-  <Multi_key> <U110b> <U110c> : "ᅈ"  	U1148	 # ᄋᅠ ᄌᅠ   = ᅈᅠ
-  <Multi_key> <U110b> <U110e> : "ᅉ"  	U1149	 # ᄋᅠ ᄎᅠ   = ᅉᅠ
-  <Multi_key> <U110b> <U1110> : "ᅊ"  	U114a	 # ᄋᅠ ᄐᅠ   = ᅊᅠ
-  <Multi_key> <U110b> <U1111> : "ᅋ"  	U114b	 # ᄋᅠ ᄑᅠ   = ᅋᅠ
-  <Multi_key> <U110c> <U110b> : "ᅍ"  	U114d	 # ᄌᅠ ᄋᅠ   = ᅍᅠ
-  <Multi_key> <U114e> <U114e> : "ᅏ"  	U114f	 # ᅎᅠ ᅎᅠ   = ᅏᅠ
-  <Multi_key> <U1150> <U1150> : "ᅑ"  	U1151	 # ᅐᅠ ᅐᅠ   = ᅑᅠ
-  <Multi_key> <U110e> <U110f> : "ᅒ"  	U1152	 # ᄎᅠ ᄏᅠ   = ᅒᅠ
-  <Multi_key> <U110e> <U1112> : "ᅓ"  	U1153	 # ᄎᅠ ᄒᅠ   = ᅓᅠ
-  <Multi_key> <U1111> <U1107> : "ᅖ"  	U1156	 # ᄑᅠ ᄇᅠ   = ᅖᅠ
-  <Multi_key> <U1111> <U110b> : "ᅗ"  	U1157	 # ᄑᅠ ᄋᅠ   = ᅗᅠ
-  <Multi_key> <U1112> <U1112> : "ᅘ"  	U1158	 # ᄒᅠ ᄒᅠ   = ᅘᅠ
-  <Multi_key> <U1161> <U1175> : "ᅢ"  	U1162	 # ᅟᅡ ᅟᅵ   = ᅟᅢ
-  <Multi_key> <U1163> <U1175> : "ᅤ"  	U1164	 # ᅟᅣ ᅟᅵ   = ᅟᅤ
-  <Multi_key> <U1165> <U1175> : "ᅦ"  	U1166	 # ᅟᅥ ᅟᅵ   = ᅟᅦ
-  <Multi_key> <U1167> <U1175> : "ᅨ"  	U1168	 # ᅟᅧ ᅟᅵ   = ᅟᅨ
-  <Multi_key> <U1169> <U1161> : "ᅪ"  	U116a	 # ᅟᅩ ᅟᅡ   = ᅟᅪ
-  <Multi_key> <U1169> <U1175> : "ᅬ"  	U116c	 # ᅟᅩ ᅟᅵ   = ᅟᅬ
-  <Multi_key> <U116e> <U1165> : "ᅯ"  	U116f	 # ᅟᅮ ᅟᅥ   = ᅟᅯ
-  <Multi_key> <U116e> <U1175> : "ᅱ"  	U1171	 # ᅟᅮ ᅟᅵ   = ᅟᅱ
-  <Multi_key> <U1173> <U1175> : "ᅴ"  	U1174	 # ᅟᅳ ᅟᅵ   = ᅟᅴ
-  <Multi_key> <U1161> <U1169> : "ᅶ"  	U1176	 # ᅟᅡ ᅟᅩ   = ᅟᅶ
-  <Multi_key> <U1161> <U116e> : "ᅷ"  	U1177	 # ᅟᅡ ᅟᅮ   = ᅟᅷ
-  <Multi_key> <U1163> <U1169> : "ᅸ"  	U1178	 # ᅟᅣ ᅟᅩ   = ᅟᅸ
-  <Multi_key> <U1163> <U116d> : "ᅹ"  	U1179	 # ᅟᅣ ᅟᅭ   = ᅟᅹ
-  <Multi_key> <U1165> <U1169> : "ᅺ"  	U117a	 # ᅟᅥ ᅟᅩ   = ᅟᅺ
-  <Multi_key> <U1165> <U116e> : "ᅻ"  	U117b	 # ᅟᅥ ᅟᅮ   = ᅟᅻ
-  <Multi_key> <U1165> <U1173> : "ᅼ"  	U117c	 # ᅟᅥ ᅟᅳ   = ᅟᅼ
-  <Multi_key> <U1167> <U1169> : "ᅽ"  	U117d	 # ᅟᅧ ᅟᅩ   = ᅟᅽ
-  <Multi_key> <U1167> <U116e> : "ᅾ"  	U117e	 # ᅟᅧ ᅟᅮ   = ᅟᅾ
-  <Multi_key> <U1169> <U1165> : "ᅿ"  	U117f	 # ᅟᅩ ᅟᅥ   = ᅟᅿ
-  <Multi_key> <U1169> <U1166> : "ᆀ"  	U1180	 # ᅟᅩ ᅟᅦ   = ᅟᆀ
-  <Multi_key> <U1169> <U1168> : "ᆁ"  	U1181	 # ᅟᅩ ᅟᅨ   = ᅟᆁ
-  <Multi_key> <U1169> <U1169> : "ᆂ"  	U1182	 # ᅟᅩ ᅟᅩ   = ᅟᆂ
-  <Multi_key> <U1169> <U116e> : "ᆃ"  	U1183	 # ᅟᅩ ᅟᅮ   = ᅟᆃ
-  <Multi_key> <U116d> <U1163> : "ᆄ"  	U1184	 # ᅟᅭ ᅟᅣ   = ᅟᆄ
-  <Multi_key> <U116d> <U1164> : "ᆅ"  	U1185	 # ᅟᅭ ᅟᅤ   = ᅟᆅ
-  <Multi_key> <U116d> <U1167> : "ᆆ"  	U1186	 # ᅟᅭ ᅟᅧ   = ᅟᆆ
-  <Multi_key> <U116d> <U1169> : "ᆇ"  	U1187	 # ᅟᅭ ᅟᅩ   = ᅟᆇ
-  <Multi_key> <U116d> <U1175> : "ᆈ"  	U1188	 # ᅟᅭ ᅟᅵ   = ᅟᆈ
-  <Multi_key> <U116e> <U1161> : "ᆉ"  	U1189	 # ᅟᅮ ᅟᅡ   = ᅟᆉ
-  <Multi_key> <U116e> <U1162> : "ᆊ"  	U118a	 # ᅟᅮ ᅟᅢ   = ᅟᆊ
-  <Multi_key> <U116e> <U1168> : "ᆌ"  	U118c	 # ᅟᅮ ᅟᅨ   = ᅟᆌ
-  <Multi_key> <U116e> <U116e> : "ᆍ"  	U118d	 # ᅟᅮ ᅟᅮ   = ᅟᆍ
-  <Multi_key> <U1172> <U1161> : "ᆎ"  	U118e	 # ᅟᅲ ᅟᅡ   = ᅟᆎ
-  <Multi_key> <U1172> <U1165> : "ᆏ"  	U118f	 # ᅟᅲ ᅟᅥ   = ᅟᆏ
-  <Multi_key> <U1172> <U1166> : "ᆐ"  	U1190	 # ᅟᅲ ᅟᅦ   = ᅟᆐ
-  <Multi_key> <U1172> <U1167> : "ᆑ"  	U1191	 # ᅟᅲ ᅟᅧ   = ᅟᆑ
-  <Multi_key> <U1172> <U1168> : "ᆒ"  	U1192	 # ᅟᅲ ᅟᅨ   = ᅟᆒ
-  <Multi_key> <U1172> <U116e> : "ᆓ"  	U1193	 # ᅟᅲ ᅟᅮ   = ᅟᆓ
-  <Multi_key> <U1172> <U1175> : "ᆔ"  	U1194	 # ᅟᅲ ᅟᅵ   = ᅟᆔ
-  <Multi_key> <U1173> <U116e> : "ᆕ"  	U1195	 # ᅟᅳ ᅟᅮ   = ᅟᆕ
-  <Multi_key> <U1173> <U1173> : "ᆖ"  	U1196	 # ᅟᅳ ᅟᅳ   = ᅟᆖ
-  <Multi_key> <U1174> <U116e> : "ᆗ"  	U1197	 # ᅟᅴ ᅟᅮ   = ᅟᆗ
-  <Multi_key> <U1175> <U1161> : "ᆘ"  	U1198	 # ᅟᅵ ᅟᅡ   = ᅟᆘ
-  <Multi_key> <U1175> <U1163> : "ᆙ"  	U1199	 # ᅟᅵ ᅟᅣ   = ᅟᆙ
-  <Multi_key> <U1175> <U1169> : "ᆚ"  	U119a	 # ᅟᅵ ᅟᅩ   = ᅟᆚ
-  <Multi_key> <U1175> <U116e> : "ᆛ"  	U119b	 # ᅟᅵ ᅟᅮ   = ᅟᆛ
-  <Multi_key> <U1175> <U1173> : "ᆜ"  	U119c	 # ᅟᅵ ᅟᅳ   = ᅟᆜ
-  <Multi_key> <U1175> <U119e> : "ᆝ"  	U119d	 # ᅟᅵ ᅟᆞ   = ᅟᆝ
-  <Multi_key> <U119e> <U1165> : "ᆟ"  	U119f	 # ᅟᆞ ᅟᅥ   = ᅟᆟ
-  <Multi_key> <U119e> <U116e> : "ᆠ"  	U11a0	 # ᅟᆞ ᅟᅮ   = ᅟᆠ
-  <Multi_key> <U119e> <U1175> : "ᆡ"  	U11a1	 # ᅟᆞ ᅟᅵ   = ᅟᆡ
-  <Multi_key> <U119e> <U119e> : "ᆢ"  	U11a2	 # ᅟᆞ ᅟᆞ   = ᅟᆢ
-  <Multi_key> <U11a8> <U11a8> : "ᆩ"  	U11a9	 # ᅟᅠᆨ ᅟᅠᆨ   = ᅟᅠᆩ
-  <Multi_key> <U11a8> <U11ba> : "ᆪ"  	U11aa	 # ᅟᅠᆨ ᅟᅠᆺ   = ᅟᅠᆪ
-  <Multi_key> <U11ab> <U11bd> : "ᆬ"  	U11ac	 # ᅟᅠᆫ ᅟᅠᆽ   = ᅟᅠᆬ
-  <Multi_key> <U11ab> <U11c2> : "ᆭ"  	U11ad	 # ᅟᅠᆫ ᅟᅠᇂ   = ᅟᅠᆭ
-  <Multi_key> <U11af> <U11a8> : "ᆰ"  	U11b0	 # ᅟᅠᆯ ᅟᅠᆨ   = ᅟᅠᆰ
-  <Multi_key> <U11af> <U11b7> : "ᆱ"  	U11b1	 # ᅟᅠᆯ ᅟᅠᆷ   = ᅟᅠᆱ
-  <Multi_key> <U11af> <U11b8> : "ᆲ"  	U11b2	 # ᅟᅠᆯ ᅟᅠᆸ   = ᅟᅠᆲ
-  <Multi_key> <U11af> <U11ba> : "ᆳ"  	U11b3	 # ᅟᅠᆯ ᅟᅠᆺ   = ᅟᅠᆳ
-  <Multi_key> <U11af> <U11c0> : "ᆴ"  	U11b4	 # ᅟᅠᆯ ᅟᅠᇀ   = ᅟᅠᆴ
-  <Multi_key> <U11af> <U11c1> : "ᆵ"  	U11b5	 # ᅟᅠᆯ ᅟᅠᇁ   = ᅟᅠᆵ
-  <Multi_key> <U11af> <U11c2> : "ᆶ"  	U11b6	 # ᅟᅠᆯ ᅟᅠᇂ   = ᅟᅠᆶ
-  <Multi_key> <U11b8> <U11ba> : "ᆹ"  	U11b9	 # ᅟᅠᆸ ᅟᅠᆺ   = ᅟᅠᆹ
-  <Multi_key> <U11ba> <U11ba> : "ᆻ"  	U11bb	 # ᅟᅠᆺ ᅟᅠᆺ   = ᅟᅠᆻ
-  <Multi_key> <U11a8> <U11af> : "ᇃ"  	U11c3	 # ᅟᅠᆨ ᅟᅠᆯ   = ᅟᅠᇃ
-  <Multi_key> <U11ab> <U11a8> : "ᇅ"  	U11c5	 # ᅟᅠᆫ ᅟᅠᆨ   = ᅟᅠᇅ
-  <Multi_key> <U11ab> <U11ae> : "ᇆ"  	U11c6	 # ᅟᅠᆫ ᅟᅠᆮ   = ᅟᅠᇆ
-  <Multi_key> <U11ab> <U11ba> : "ᇇ"  	U11c7	 # ᅟᅠᆫ ᅟᅠᆺ   = ᅟᅠᇇ
-  <Multi_key> <U11ab> <U11eb> : "ᇈ"  	U11c8	 # ᅟᅠᆫ ᅟᅠᇫ   = ᅟᅠᇈ
-  <Multi_key> <U11ab> <U11c0> : "ᇉ"  	U11c9	 # ᅟᅠᆫ ᅟᅠᇀ   = ᅟᅠᇉ
-  <Multi_key> <U11ae> <U11a8> : "ᇊ"  	U11ca	 # ᅟᅠᆮ ᅟᅠᆨ   = ᅟᅠᇊ
-  <Multi_key> <U11ae> <U11af> : "ᇋ"  	U11cb	 # ᅟᅠᆮ ᅟᅠᆯ   = ᅟᅠᇋ
-  <Multi_key> <U11af> <U11ab> : "ᇍ"  	U11cd	 # ᅟᅠᆯ ᅟᅠᆫ   = ᅟᅠᇍ
-  <Multi_key> <U11af> <U11ae> : "ᇎ"  	U11ce	 # ᅟᅠᆯ ᅟᅠᆮ   = ᅟᅠᇎ
-  <Multi_key> <U11af> <U11af> : "ᇐ"  	U11d0	 # ᅟᅠᆯ ᅟᅠᆯ   = ᅟᅠᇐ
-  <Multi_key> <U11af> <U11eb> : "ᇗ"  	U11d7	 # ᅟᅠᆯ ᅟᅠᇫ   = ᅟᅠᇗ
-  <Multi_key> <U11af> <U11bf> : "ᇘ"  	U11d8	 # ᅟᅠᆯ ᅟᅠᆿ   = ᅟᅠᇘ
-  <Multi_key> <U11af> <U11f9> : "ᇙ"  	U11d9	 # ᅟᅠᆯ ᅟᅠᇹ   = ᅟᅠᇙ
-  <Multi_key> <U11b7> <U11a8> : "ᇚ"  	U11da	 # ᅟᅠᆷ ᅟᅠᆨ   = ᅟᅠᇚ
-  <Multi_key> <U11b7> <U11af> : "ᇛ"  	U11db	 # ᅟᅠᆷ ᅟᅠᆯ   = ᅟᅠᇛ
-  <Multi_key> <U11b7> <U11b8> : "ᇜ"  	U11dc	 # ᅟᅠᆷ ᅟᅠᆸ   = ᅟᅠᇜ
-  <Multi_key> <U11b7> <U11ba> : "ᇝ"  	U11dd	 # ᅟᅠᆷ ᅟᅠᆺ   = ᅟᅠᇝ
-  <Multi_key> <U11b7> <U11eb> : "ᇟ"  	U11df	 # ᅟᅠᆷ ᅟᅠᇫ   = ᅟᅠᇟ
-  <Multi_key> <U11b7> <U11be> : "ᇠ"  	U11e0	 # ᅟᅠᆷ ᅟᅠᆾ   = ᅟᅠᇠ
-  <Multi_key> <U11b7> <U11c2> : "ᇡ"  	U11e1	 # ᅟᅠᆷ ᅟᅠᇂ   = ᅟᅠᇡ
-  <Multi_key> <U11b7> <U11bc> : "ᇢ"  	U11e2	 # ᅟᅠᆷ ᅟᅠᆼ   = ᅟᅠᇢ
-  <Multi_key> <U11b8> <U11af> : "ᇣ"  	U11e3	 # ᅟᅠᆸ ᅟᅠᆯ   = ᅟᅠᇣ
-  <Multi_key> <U11b8> <U11c1> : "ᇤ"  	U11e4	 # ᅟᅠᆸ ᅟᅠᇁ   = ᅟᅠᇤ
-  <Multi_key> <U11b8> <U11c2> : "ᇥ"  	U11e5	 # ᅟᅠᆸ ᅟᅠᇂ   = ᅟᅠᇥ
-  <Multi_key> <U11b8> <U11bc> : "ᇦ"  	U11e6	 # ᅟᅠᆸ ᅟᅠᆼ   = ᅟᅠᇦ
-  <Multi_key> <U11ba> <U11a8> : "ᇧ"  	U11e7	 # ᅟᅠᆺ ᅟᅠᆨ   = ᅟᅠᇧ
-  <Multi_key> <U11ba> <U11ae> : "ᇨ"  	U11e8	 # ᅟᅠᆺ ᅟᅠᆮ   = ᅟᅠᇨ
-  <Multi_key> <U11ba> <U11af> : "ᇩ"  	U11e9	 # ᅟᅠᆺ ᅟᅠᆯ   = ᅟᅠᇩ
-  <Multi_key> <U11ba> <U11b8> : "ᇪ"  	U11ea	 # ᅟᅠᆺ ᅟᅠᆸ   = ᅟᅠᇪ
-  <Multi_key> <U11bc> <U11a8> : "ᇬ"  	U11ec	 # ᅟᅠᆼ ᅟᅠᆨ   = ᅟᅠᇬ
-  <Multi_key> <U11bc> <U11bc> : "ᇮ"  	U11ee	 # ᅟᅠᆼ ᅟᅠᆼ   = ᅟᅠᇮ
-  <Multi_key> <U11bc> <U11bf> : "ᇯ"  	U11ef	 # ᅟᅠᆼ ᅟᅠᆿ   = ᅟᅠᇯ
-  <Multi_key> <U11f0> <U11ba> : "ᇱ"  	U11f1	 # ᅟᅠᇰ ᅟᅠᆺ   = ᅟᅠᇱ
-  <Multi_key> <U11f0> <U11eb> : "ᇲ"  	U11f2	 # ᅟᅠᇰ ᅟᅠᇫ   = ᅟᅠᇲ
-  <Multi_key> <U11c1> <U11b8> : "ᇳ"  	U11f3	 # ᅟᅠᇁ ᅟᅠᆸ   = ᅟᅠᇳ
-  <Multi_key> <U11c1> <U11bc> : "ᇴ"  	U11f4	 # ᅟᅠᇁ ᅟᅠᆼ   = ᅟᅠᇴ
-  <Multi_key> <U11c2> <U11ab> : "ᇵ"  	U11f5	 # ᅟᅠᇂ ᅟᅠᆫ   = ᅟᅠᇵ
-  <Multi_key> <U11c2> <U11af> : "ᇶ"  	U11f6	 # ᅟᅠᇂ ᅟᅠᆯ   = ᅟᅠᇶ
-  <Multi_key> <U11c2> <U11b7> : "ᇷ"  	U11f7	 # ᅟᅠᇂ ᅟᅠᆷ   = ᅟᅠᇷ
-  <Multi_key> <U11c2> <U11b8> : "ᇸ"  	U11f8	 # ᅟᅠᇂ ᅟᅠᆸ   = ᅟᅠᇸ
-  <Multi_key> <U1121> <U1100> : "ᄢ"  	U1122	 # ᄡᅠ ᄀᅠ   = ᄢᅠ
-  <Multi_key> <U1121> <U1103> : "ᄣ"  	U1123	 # ᄡᅠ ᄃᅠ   = ᄣᅠ
-  <Multi_key> <U1121> <U1107> : "ᄤ"  	U1124	 # ᄡᅠ ᄇᅠ   = ᄤᅠ
-  <Multi_key> <U1121> <U1109> : "ᄥ"  	U1125	 # ᄡᅠ ᄉᅠ   = ᄥᅠ
-  <Multi_key> <U1121> <U110c> : "ᄦ"  	U1126	 # ᄡᅠ ᄌᅠ   = ᄦᅠ
-  <Multi_key> <U1108> <U110b> : "ᄬ"  	U112c	 # ᄈᅠ ᄋᅠ   = ᄬᅠ
-  <Multi_key> <U1132> <U1100> : "ᄳ"  	U1133	 # ᄲᅠ ᄀᅠ   = ᄳᅠ
-  <Multi_key> <U110a> <U1109> : "ᄴ"  	U1134	 # ᄊᅠ ᄉᅠ   = ᄴᅠ
-  <Multi_key> <U116a> <U1175> : "ᅫ"  	U116b	 # ᅟᅪ ᅟᅵ   = ᅟᅫ
-  <Multi_key> <U116f> <U1175> : "ᅰ"  	U1170	 # ᅟᅯ ᅟᅵ   = ᅟᅰ
-  <Multi_key> <U116f> <U1173> : "ᆋ"  	U118b	 # ᅟᅯ ᅟᅳ   = ᅟᆋ
-  <Multi_key> <U11aa> <U11a8> : "ᇄ"  	U11c4	 # ᅟᅠᆪ ᅟᅠᆨ   = ᅟᅠᇄ
-  <Multi_key> <U11b0> <U11ba> : "ᇌ"  	U11cc	 # ᅟᅠᆰ ᅟᅠᆺ   = ᅟᅠᇌ
-  <Multi_key> <U11ce> <U11c2> : "ᇏ"  	U11cf	 # ᅟᅠᇎ ᅟᅠᇂ   = ᅟᅠᇏ
-  <Multi_key> <U11b1> <U11a8> : "ᇑ"  	U11d1	 # ᅟᅠᆱ ᅟᅠᆨ   = ᅟᅠᇑ
-  <Multi_key> <U11b1> <U11ba> : "ᇒ"  	U11d2	 # ᅟᅠᆱ ᅟᅠᆺ   = ᅟᅠᇒ
-  <Multi_key> <U11b2> <U11ba> : "ᇓ"  	U11d3	 # ᅟᅠᆲ ᅟᅠᆺ   = ᅟᅠᇓ
-  <Multi_key> <U11b2> <U11c2> : "ᇔ"  	U11d4	 # ᅟᅠᆲ ᅟᅠᇂ   = ᅟᅠᇔ
-  <Multi_key> <U11b2> <U11bc> : "ᇕ"  	U11d5	 # ᅟᅠᆲ ᅟᅠᆼ   = ᅟᅠᇕ
-  <Multi_key> <U11b3> <U11ba> : "ᇖ"  	U11d6	 # ᅟᅠᆳ ᅟᅠᆺ   = ᅟᅠᇖ
-  <Multi_key> <U11dd> <U11ba> : "ᇞ"  	U11de	 # ᅟᅠᇝ ᅟᅠᆺ   = ᅟᅠᇞ
-  <Multi_key> <U11ec> <U11a8> : "ᇭ"  	U11ed	 # ᅟᅠᇬ ᅟᅠᆨ   = ᅟᅠᇭ
-  <Multi_key> <U1107> <U112d> : "ᄢ"  	U1122	 # ᄇᅠ ᄭᅠ   = ᄢᅠ
-  <Multi_key> <U1107> <U112f> : "ᄣ"  	U1123	 # ᄇᅠ ᄯᅠ   = ᄣᅠ
-  <Multi_key> <U1107> <U1132> : "ᄤ"  	U1124	 # ᄇᅠ ᄲᅠ   = ᄤᅠ
-  <Multi_key> <U1107> <U110a> : "ᄥ"  	U1125	 # ᄇᅠ ᄊᅠ   = ᄥᅠ
-  <Multi_key> <U1107> <U1136> : "ᄦ"  	U1126	 # ᄇᅠ ᄶᅠ   = ᄦᅠ
-  <Multi_key> <U1107> <U112b> : "ᄬ"  	U112c	 # ᄇᅠ ᄫᅠ   = ᄬᅠ
-  <Multi_key> <U1109> <U111e> : "ᄳ"  	U1133	 # ᄉᅠ ᄞᅠ   = ᄳᅠ
-  <Multi_key> <U1109> <U110a> : "ᄴ"  	U1134	 # ᄉᅠ ᄊᅠ   = ᄴᅠ
-  <Multi_key> <U1169> <U1162> : "ᅫ"  	U116b	 # ᅟᅩ ᅟᅢ   = ᅟᅫ
-  <Multi_key> <U116e> <U1166> : "ᅰ"  	U1170	 # ᅟᅮ ᅟᅦ   = ᅟᅰ
-  <Multi_key> <U116e> <U117c> : "ᆋ"  	U118b	 # ᅟᅮ ᅟᅼ   = ᅟᆋ
-  <Multi_key> <U11a8> <U11e7> : "ᇄ"  	U11c4	 # ᅟᅠᆨ ᅟᅠᇧ   = ᅟᅠᇄ
-  <Multi_key> <U11af> <U11aa> : "ᇌ"  	U11cc	 # ᅟᅠᆯ ᅟᅠᆪ   = ᅟᅠᇌ
-  <Multi_key> <U11af> <U11da> : "ᇑ"  	U11d1	 # ᅟᅠᆯ ᅟᅠᇚ   = ᅟᅠᇑ
-  <Multi_key> <U11af> <U11dd> : "ᇒ"  	U11d2	 # ᅟᅠᆯ ᅟᅠᇝ   = ᅟᅠᇒ
-  <Multi_key> <U11af> <U11b9> : "ᇓ"  	U11d3	 # ᅟᅠᆯ ᅟᅠᆹ   = ᅟᅠᇓ
-  <Multi_key> <U11af> <U11e5> : "ᇔ"  	U11d4	 # ᅟᅠᆯ ᅟᅠᇥ   = ᅟᅠᇔ
-  <Multi_key> <U11af> <U11e6> : "ᇕ"  	U11d5	 # ᅟᅠᆯ ᅟᅠᇦ   = ᅟᅠᇕ
-  <Multi_key> <U11af> <U11bb> : "ᇖ"  	U11d6	 # ᅟᅠᆯ ᅟᅠᆻ   = ᅟᅠᇖ
-  <Multi_key> <U11b7> <U11bb> : "ᇞ"  	U11de	 # ᅟᅠᆷ ᅟᅠᆻ   = ᅟᅠᇞ
-  <Multi_key> <U11bc> <U11a9> : "ᇭ"  	U11ed	 # ᅟᅠᆼ ᅟᅠᆩ   = ᅟᅠᇭ
+<Multi_key> <U1107> <U1109> <U1100>	: "ᄢ"	U1122	# ᄇᅠ ᄉᅠ ᄀᅠ = ᄢᅠ
+<Multi_key> <U1107> <U1109> <U1103>	: "ᄣ"	U1123	# ᄇᅠ ᄉᅠ ᄃᅠ = ᄣᅠ
+<Multi_key> <U1107> <U1109> <U1107>	: "ᄤ"	U1124	# ᄇᅠ ᄉᅠ ᄇᅠ = ᄤᅠ
+<Multi_key> <U1107> <U1109> <U1109>	: "ᄥ"	U1125	# ᄇᅠ ᄉᅠ ᄉᅠ = ᄥᅠ
+<Multi_key> <U1107> <U1109> <U110c>	: "ᄦ"	U1126	# ᄇᅠ ᄉᅠ ᄌᅠ = ᄦᅠ
+<Multi_key> <U1107> <U1107> <U110b>	: "ᄬ"	U112c	# ᄇᅠ ᄇᅠ ᄋᅠ = ᄬᅠ
+<Multi_key> <U1109> <U1107> <U1100>	: "ᄳ"	U1133	# ᄉᅠ ᄇᅠ ᄀᅠ = ᄳᅠ
+<Multi_key> <U1109> <U1109> <U1109>	: "ᄴ"	U1134	# ᄉᅠ ᄉᅠ ᄉᅠ = ᄴᅠ
+<Multi_key> <U1169> <U1161> <U1175>	: "ᅫ"	U116b	# ᅟᅩ ᅟᅡ ᅟᅵ = ᅟᅫ
+<Multi_key> <U116e> <U1165> <U1175>	: "ᅰ"	U1170	# ᅟᅮ ᅟᅥ ᅟᅵ = ᅟᅰ
+<Multi_key> <U116e> <U1165> <U1173>	: "ᆋ"	U118b	# ᅟᅮ ᅟᅥ ᅟᅳ = ᅟᆋ
+<Multi_key> <U11a8> <U11ba> <U11a8>	: "ᇄ"	U11c4	# ᅟᅠᆨ ᅟᅠᆺ ᅟᅠᆨ = ᅟᅠᇄ
+<Multi_key> <U11af> <U11a8> <U11ba>	: "ᇌ"	U11cc	# ᅟᅠᆯ ᅟᅠᆨ ᅟᅠᆺ = ᅟᅠᇌ
+<Multi_key> <U11af> <U11ae> <U11c2>	: "ᇏ"	U11cf	# ᅟᅠᆯ ᅟᅠᆮ ᅟᅠᇂ = ᅟᅠᇏ
+<Multi_key> <U11af> <U11b7> <U11a8>	: "ᇑ"	U11d1	# ᅟᅠᆯ ᅟᅠᆷ ᅟᅠᆨ = ᅟᅠᇑ
+<Multi_key> <U11af> <U11b7> <U11ba>	: "ᇒ"	U11d2	# ᅟᅠᆯ ᅟᅠᆷ ᅟᅠᆺ = ᅟᅠᇒ
+<Multi_key> <U11af> <U11b8> <U11ba>	: "ᇓ"	U11d3	# ᅟᅠᆯ ᅟᅠᆸ ᅟᅠᆺ = ᅟᅠᇓ
+<Multi_key> <U11af> <U11b8> <U11c2>	: "ᇔ"	U11d4	# ᅟᅠᆯ ᅟᅠᆸ ᅟᅠᇂ = ᅟᅠᇔ
+<Multi_key> <U11af> <U11b8> <U11bc>	: "ᇕ"	U11d5	# ᅟᅠᆯ ᅟᅠᆸ ᅟᅠᆼ = ᅟᅠᇕ
+<Multi_key> <U11af> <U11ba> <U11ba>	: "ᇖ"	U11d6	# ᅟᅠᆯ ᅟᅠᆺ ᅟᅠᆺ = ᅟᅠᇖ
+<Multi_key> <U11b7> <U11ba> <U11ba>	: "ᇞ"	U11de	# ᅟᅠᆷ ᅟᅠᆺ ᅟᅠᆺ = ᅟᅠᇞ
+<Multi_key> <U11bc> <U11a8> <U11a8>	: "ᇭ"	U11ed	# ᅟᅠᆼ ᅟᅠᆨ ᅟᅠᆨ = ᅟᅠᇭ
+<Multi_key> <U1100> <U1100>		: "ᄁ"	U1101	#    ᄀᅠ ᄀᅠ = ᄁᅠ
+<Multi_key> <U1103> <U1103>		: "ᄄ"	U1104	#    ᄃᅠ ᄃᅠ = ᄄᅠ
+<Multi_key> <U1107> <U1107>		: "ᄈ"	U1108	#    ᄇᅠ ᄇᅠ = ᄈᅠ
+<Multi_key> <U1109> <U1109>		: "ᄊ"	U110a	#    ᄉᅠ ᄉᅠ = ᄊᅠ
+<Multi_key> <U110c> <U110c>		: "ᄍ"	U110d	#    ᄌᅠ ᄌᅠ = ᄍᅠ
+<Multi_key> <U1102> <U1100>		: "ᄓ"	U1113	#    ᄂᅠ ᄀᅠ = ᄓᅠ
+<Multi_key> <U1102> <U1102>		: "ᄔ"	U1114	#    ᄂᅠ ᄂᅠ = ᄔᅠ
+<Multi_key> <U1102> <U1103>		: "ᄕ"	U1115	#    ᄂᅠ ᄃᅠ = ᄕᅠ
+<Multi_key> <U1102> <U1107>		: "ᄖ"	U1116	#    ᄂᅠ ᄇᅠ = ᄖᅠ
+<Multi_key> <U1103> <U1100>		: "ᄗ"	U1117	#    ᄃᅠ ᄀᅠ = ᄗᅠ
+<Multi_key> <U1105> <U1102>		: "ᄘ"	U1118	#    ᄅᅠ ᄂᅠ = ᄘᅠ
+<Multi_key> <U1105> <U1105>		: "ᄙ"	U1119	#    ᄅᅠ ᄅᅠ = ᄙᅠ
+<Multi_key> <U1105> <U1112>		: "ᄚ"	U111a	#    ᄅᅠ ᄒᅠ = ᄚᅠ
+<Multi_key> <U1105> <U110b>		: "ᄛ"	U111b	#    ᄅᅠ ᄋᅠ = ᄛᅠ
+<Multi_key> <U1106> <U1107>		: "ᄜ"	U111c	#    ᄆᅠ ᄇᅠ = ᄜᅠ
+<Multi_key> <U1106> <U110b>		: "ᄝ"	U111d	#    ᄆᅠ ᄋᅠ = ᄝᅠ
+<Multi_key> <U1107> <U1100>		: "ᄞ"	U111e	#    ᄇᅠ ᄀᅠ = ᄞᅠ
+<Multi_key> <U1107> <U1102>		: "ᄟ"	U111f	#    ᄇᅠ ᄂᅠ = ᄟᅠ
+<Multi_key> <U1107> <U1103>		: "ᄠ"	U1120	#    ᄇᅠ ᄃᅠ = ᄠᅠ
+<Multi_key> <U1107> <U1109>		: "ᄡ"	U1121	#    ᄇᅠ ᄉᅠ = ᄡᅠ
+<Multi_key> <U1107> <U110c>		: "ᄧ"	U1127	#    ᄇᅠ ᄌᅠ = ᄧᅠ
+<Multi_key> <U1107> <U110e>		: "ᄨ"	U1128	#    ᄇᅠ ᄎᅠ = ᄨᅠ
+<Multi_key> <U1107> <U1110>		: "ᄩ"	U1129	#    ᄇᅠ ᄐᅠ = ᄩᅠ
+<Multi_key> <U1107> <U1111>		: "ᄪ"	U112a	#    ᄇᅠ ᄑᅠ = ᄪᅠ
+<Multi_key> <U1107> <U110b>		: "ᄫ"	U112b	#    ᄇᅠ ᄋᅠ = ᄫᅠ
+<Multi_key> <U1109> <U1100>		: "ᄭ"	U112d	#    ᄉᅠ ᄀᅠ = ᄭᅠ
+<Multi_key> <U1109> <U1102>		: "ᄮ"	U112e	#    ᄉᅠ ᄂᅠ = ᄮᅠ
+<Multi_key> <U1109> <U1103>		: "ᄯ"	U112f	#    ᄉᅠ ᄃᅠ = ᄯᅠ
+<Multi_key> <U1109> <U1105>		: "ᄰ"	U1130	#    ᄉᅠ ᄅᅠ = ᄰᅠ
+<Multi_key> <U1109> <U1106>		: "ᄱ"	U1131	#    ᄉᅠ ᄆᅠ = ᄱᅠ
+<Multi_key> <U1109> <U1107>		: "ᄲ"	U1132	#    ᄉᅠ ᄇᅠ = ᄲᅠ
+<Multi_key> <U1109> <U110b>		: "ᄵ"	U1135	#    ᄉᅠ ᄋᅠ = ᄵᅠ
+<Multi_key> <U1109> <U110c>		: "ᄶ"	U1136	#    ᄉᅠ ᄌᅠ = ᄶᅠ
+<Multi_key> <U1109> <U110e>		: "ᄷ"	U1137	#    ᄉᅠ ᄎᅠ = ᄷᅠ
+<Multi_key> <U1109> <U110f>		: "ᄸ"	U1138	#    ᄉᅠ ᄏᅠ = ᄸᅠ
+<Multi_key> <U1109> <U1110>		: "ᄹ"	U1139	#    ᄉᅠ ᄐᅠ = ᄹᅠ
+<Multi_key> <U1109> <U1111>		: "ᄺ"	U113a	#    ᄉᅠ ᄑᅠ = ᄺᅠ
+<Multi_key> <U1109> <U1112>		: "ᄻ"	U113b	#    ᄉᅠ ᄒᅠ = ᄻᅠ
+<Multi_key> <U113c> <U113c>		: "ᄽ"	U113d	#    ᄼᅠ ᄼᅠ = ᄽᅠ
+<Multi_key> <U113e> <U113e>		: "ᄿ"	U113f	#    ᄾᅠ ᄾᅠ = ᄿᅠ
+<Multi_key> <U110b> <U1100>		: "ᅁ"	U1141	#    ᄋᅠ ᄀᅠ = ᅁᅠ
+<Multi_key> <U110b> <U1103>		: "ᅂ"	U1142	#    ᄋᅠ ᄃᅠ = ᅂᅠ
+<Multi_key> <U110b> <U1106>		: "ᅃ"	U1143	#    ᄋᅠ ᄆᅠ = ᅃᅠ
+<Multi_key> <U110b> <U1107>		: "ᅄ"	U1144	#    ᄋᅠ ᄇᅠ = ᅄᅠ
+<Multi_key> <U110b> <U1109>		: "ᅅ"	U1145	#    ᄋᅠ ᄉᅠ = ᅅᅠ
+<Multi_key> <U110b> <U1140>		: "ᅆ"	U1146	#    ᄋᅠ ᅀᅠ = ᅆᅠ
+<Multi_key> <U110b> <U110b>		: "ᅇ"	U1147	#    ᄋᅠ ᄋᅠ = ᅇᅠ
+<Multi_key> <U110b> <U110c>		: "ᅈ"	U1148	#    ᄋᅠ ᄌᅠ = ᅈᅠ
+<Multi_key> <U110b> <U110e>		: "ᅉ"	U1149	#    ᄋᅠ ᄎᅠ = ᅉᅠ
+<Multi_key> <U110b> <U1110>		: "ᅊ"	U114a	#    ᄋᅠ ᄐᅠ = ᅊᅠ
+<Multi_key> <U110b> <U1111>		: "ᅋ"	U114b	#    ᄋᅠ ᄑᅠ = ᅋᅠ
+<Multi_key> <U110c> <U110b>		: "ᅍ"	U114d	#    ᄌᅠ ᄋᅠ = ᅍᅠ
+<Multi_key> <U114e> <U114e>		: "ᅏ"	U114f	#    ᅎᅠ ᅎᅠ = ᅏᅠ
+<Multi_key> <U1150> <U1150>		: "ᅑ"	U1151	#    ᅐᅠ ᅐᅠ = ᅑᅠ
+<Multi_key> <U110e> <U110f>		: "ᅒ"	U1152	#    ᄎᅠ ᄏᅠ = ᅒᅠ
+<Multi_key> <U110e> <U1112>		: "ᅓ"	U1153	#    ᄎᅠ ᄒᅠ = ᅓᅠ
+<Multi_key> <U1111> <U1107>		: "ᅖ"	U1156	#    ᄑᅠ ᄇᅠ = ᅖᅠ
+<Multi_key> <U1111> <U110b>		: "ᅗ"	U1157	#    ᄑᅠ ᄋᅠ = ᅗᅠ
+<Multi_key> <U1112> <U1112>		: "ᅘ"	U1158	#    ᄒᅠ ᄒᅠ = ᅘᅠ
+<Multi_key> <U1161> <U1175>		: "ᅢ"	U1162	#    ᅟᅡ ᅟᅵ = ᅟᅢ
+<Multi_key> <U1163> <U1175>		: "ᅤ"	U1164	#    ᅟᅣ ᅟᅵ = ᅟᅤ
+<Multi_key> <U1165> <U1175>		: "ᅦ"	U1166	#    ᅟᅥ ᅟᅵ = ᅟᅦ
+<Multi_key> <U1167> <U1175>		: "ᅨ"	U1168	#    ᅟᅧ ᅟᅵ = ᅟᅨ
+<Multi_key> <U1169> <U1161>		: "ᅪ"	U116a	#    ᅟᅩ ᅟᅡ = ᅟᅪ
+<Multi_key> <U1169> <U1175>		: "ᅬ"	U116c	#    ᅟᅩ ᅟᅵ = ᅟᅬ
+<Multi_key> <U116e> <U1165>		: "ᅯ"	U116f	#    ᅟᅮ ᅟᅥ = ᅟᅯ
+<Multi_key> <U116e> <U1175>		: "ᅱ"	U1171	#    ᅟᅮ ᅟᅵ = ᅟᅱ
+<Multi_key> <U1173> <U1175>		: "ᅴ"	U1174	#    ᅟᅳ ᅟᅵ = ᅟᅴ
+<Multi_key> <U1161> <U1169>		: "ᅶ"	U1176	#    ᅟᅡ ᅟᅩ = ᅟᅶ
+<Multi_key> <U1161> <U116e>		: "ᅷ"	U1177	#    ᅟᅡ ᅟᅮ = ᅟᅷ
+<Multi_key> <U1163> <U1169>		: "ᅸ"	U1178	#    ᅟᅣ ᅟᅩ = ᅟᅸ
+<Multi_key> <U1163> <U116d>		: "ᅹ"	U1179	#    ᅟᅣ ᅟᅭ = ᅟᅹ
+<Multi_key> <U1165> <U1169>		: "ᅺ"	U117a	#    ᅟᅥ ᅟᅩ = ᅟᅺ
+<Multi_key> <U1165> <U116e>		: "ᅻ"	U117b	#    ᅟᅥ ᅟᅮ = ᅟᅻ
+<Multi_key> <U1165> <U1173>		: "ᅼ"	U117c	#    ᅟᅥ ᅟᅳ = ᅟᅼ
+<Multi_key> <U1167> <U1169>		: "ᅽ"	U117d	#    ᅟᅧ ᅟᅩ = ᅟᅽ
+<Multi_key> <U1167> <U116e>		: "ᅾ"	U117e	#    ᅟᅧ ᅟᅮ = ᅟᅾ
+<Multi_key> <U1169> <U1165>		: "ᅿ"	U117f	#    ᅟᅩ ᅟᅥ = ᅟᅿ
+<Multi_key> <U1169> <U1166>		: "ᆀ"	U1180	#    ᅟᅩ ᅟᅦ = ᅟᆀ
+<Multi_key> <U1169> <U1168>		: "ᆁ"	U1181	#    ᅟᅩ ᅟᅨ = ᅟᆁ
+<Multi_key> <U1169> <U1169>		: "ᆂ"	U1182	#    ᅟᅩ ᅟᅩ = ᅟᆂ
+<Multi_key> <U1169> <U116e>		: "ᆃ"	U1183	#    ᅟᅩ ᅟᅮ = ᅟᆃ
+<Multi_key> <U116d> <U1163>		: "ᆄ"	U1184	#    ᅟᅭ ᅟᅣ = ᅟᆄ
+<Multi_key> <U116d> <U1164>		: "ᆅ"	U1185	#    ᅟᅭ ᅟᅤ = ᅟᆅ
+<Multi_key> <U116d> <U1167>		: "ᆆ"	U1186	#    ᅟᅭ ᅟᅧ = ᅟᆆ
+<Multi_key> <U116d> <U1169>		: "ᆇ"	U1187	#    ᅟᅭ ᅟᅩ = ᅟᆇ
+<Multi_key> <U116d> <U1175>		: "ᆈ"	U1188	#    ᅟᅭ ᅟᅵ = ᅟᆈ
+<Multi_key> <U116e> <U1161>		: "ᆉ"	U1189	#    ᅟᅮ ᅟᅡ = ᅟᆉ
+<Multi_key> <U116e> <U1162>		: "ᆊ"	U118a	#    ᅟᅮ ᅟᅢ = ᅟᆊ
+<Multi_key> <U116e> <U1168>		: "ᆌ"	U118c	#    ᅟᅮ ᅟᅨ = ᅟᆌ
+<Multi_key> <U116e> <U116e>		: "ᆍ"	U118d	#    ᅟᅮ ᅟᅮ = ᅟᆍ
+<Multi_key> <U1172> <U1161>		: "ᆎ"	U118e	#    ᅟᅲ ᅟᅡ = ᅟᆎ
+<Multi_key> <U1172> <U1165>		: "ᆏ"	U118f	#    ᅟᅲ ᅟᅥ = ᅟᆏ
+<Multi_key> <U1172> <U1166>		: "ᆐ"	U1190	#    ᅟᅲ ᅟᅦ = ᅟᆐ
+<Multi_key> <U1172> <U1167>		: "ᆑ"	U1191	#    ᅟᅲ ᅟᅧ = ᅟᆑ
+<Multi_key> <U1172> <U1168>		: "ᆒ"	U1192	#    ᅟᅲ ᅟᅨ = ᅟᆒ
+<Multi_key> <U1172> <U116e>		: "ᆓ"	U1193	#    ᅟᅲ ᅟᅮ = ᅟᆓ
+<Multi_key> <U1172> <U1175>		: "ᆔ"	U1194	#    ᅟᅲ ᅟᅵ = ᅟᆔ
+<Multi_key> <U1173> <U116e>		: "ᆕ"	U1195	#    ᅟᅳ ᅟᅮ = ᅟᆕ
+<Multi_key> <U1173> <U1173>		: "ᆖ"	U1196	#    ᅟᅳ ᅟᅳ = ᅟᆖ
+<Multi_key> <U1174> <U116e>		: "ᆗ"	U1197	#    ᅟᅴ ᅟᅮ = ᅟᆗ
+<Multi_key> <U1175> <U1161>		: "ᆘ"	U1198	#    ᅟᅵ ᅟᅡ = ᅟᆘ
+<Multi_key> <U1175> <U1163>		: "ᆙ"	U1199	#    ᅟᅵ ᅟᅣ = ᅟᆙ
+<Multi_key> <U1175> <U1169>		: "ᆚ"	U119a	#    ᅟᅵ ᅟᅩ = ᅟᆚ
+<Multi_key> <U1175> <U116e>		: "ᆛ"	U119b	#    ᅟᅵ ᅟᅮ = ᅟᆛ
+<Multi_key> <U1175> <U1173>		: "ᆜ"	U119c	#    ᅟᅵ ᅟᅳ = ᅟᆜ
+<Multi_key> <U1175> <U119e>		: "ᆝ"	U119d	#    ᅟᅵ ᅟᆞ = ᅟᆝ
+<Multi_key> <U119e> <U1165>		: "ᆟ"	U119f	#    ᅟᆞ ᅟᅥ = ᅟᆟ
+<Multi_key> <U119e> <U116e>		: "ᆠ"	U11a0	#    ᅟᆞ ᅟᅮ = ᅟᆠ
+<Multi_key> <U119e> <U1175>		: "ᆡ"	U11a1	#    ᅟᆞ ᅟᅵ = ᅟᆡ
+<Multi_key> <U119e> <U119e>		: "ᆢ"	U11a2	#    ᅟᆞ ᅟᆞ = ᅟᆢ
+<Multi_key> <U11a8> <U11a8>		: "ᆩ"	U11a9	#    ᅟᅠᆨ ᅟᅠᆨ = ᅟᅠᆩ
+<Multi_key> <U11a8> <U11ba>		: "ᆪ"	U11aa	#    ᅟᅠᆨ ᅟᅠᆺ = ᅟᅠᆪ
+<Multi_key> <U11ab> <U11bd>		: "ᆬ"	U11ac	#    ᅟᅠᆫ ᅟᅠᆽ = ᅟᅠᆬ
+<Multi_key> <U11ab> <U11c2>		: "ᆭ"	U11ad	#    ᅟᅠᆫ ᅟᅠᇂ = ᅟᅠᆭ
+<Multi_key> <U11af> <U11a8>		: "ᆰ"	U11b0	#    ᅟᅠᆯ ᅟᅠᆨ = ᅟᅠᆰ
+<Multi_key> <U11af> <U11b7>		: "ᆱ"	U11b1	#    ᅟᅠᆯ ᅟᅠᆷ = ᅟᅠᆱ
+<Multi_key> <U11af> <U11b8>		: "ᆲ"	U11b2	#    ᅟᅠᆯ ᅟᅠᆸ = ᅟᅠᆲ
+<Multi_key> <U11af> <U11ba>		: "ᆳ"	U11b3	#    ᅟᅠᆯ ᅟᅠᆺ = ᅟᅠᆳ
+<Multi_key> <U11af> <U11c0>		: "ᆴ"	U11b4	#    ᅟᅠᆯ ᅟᅠᇀ = ᅟᅠᆴ
+<Multi_key> <U11af> <U11c1>		: "ᆵ"	U11b5	#    ᅟᅠᆯ ᅟᅠᇁ = ᅟᅠᆵ
+<Multi_key> <U11af> <U11c2>		: "ᆶ"	U11b6	#    ᅟᅠᆯ ᅟᅠᇂ = ᅟᅠᆶ
+<Multi_key> <U11b8> <U11ba>		: "ᆹ"	U11b9	#    ᅟᅠᆸ ᅟᅠᆺ = ᅟᅠᆹ
+<Multi_key> <U11ba> <U11ba>		: "ᆻ"	U11bb	#    ᅟᅠᆺ ᅟᅠᆺ = ᅟᅠᆻ
+<Multi_key> <U11a8> <U11af>		: "ᇃ"	U11c3	#    ᅟᅠᆨ ᅟᅠᆯ = ᅟᅠᇃ
+<Multi_key> <U11ab> <U11a8>		: "ᇅ"	U11c5	#    ᅟᅠᆫ ᅟᅠᆨ = ᅟᅠᇅ
+<Multi_key> <U11ab> <U11ae>		: "ᇆ"	U11c6	#    ᅟᅠᆫ ᅟᅠᆮ = ᅟᅠᇆ
+<Multi_key> <U11ab> <U11ba>		: "ᇇ"	U11c7	#    ᅟᅠᆫ ᅟᅠᆺ = ᅟᅠᇇ
+<Multi_key> <U11ab> <U11eb>		: "ᇈ"	U11c8	#    ᅟᅠᆫ ᅟᅠᇫ = ᅟᅠᇈ
+<Multi_key> <U11ab> <U11c0>		: "ᇉ"	U11c9	#    ᅟᅠᆫ ᅟᅠᇀ = ᅟᅠᇉ
+<Multi_key> <U11ae> <U11a8>		: "ᇊ"	U11ca	#    ᅟᅠᆮ ᅟᅠᆨ = ᅟᅠᇊ
+<Multi_key> <U11ae> <U11af>		: "ᇋ"	U11cb	#    ᅟᅠᆮ ᅟᅠᆯ = ᅟᅠᇋ
+<Multi_key> <U11af> <U11ab>		: "ᇍ"	U11cd	#    ᅟᅠᆯ ᅟᅠᆫ = ᅟᅠᇍ
+<Multi_key> <U11af> <U11ae>		: "ᇎ"	U11ce	#    ᅟᅠᆯ ᅟᅠᆮ = ᅟᅠᇎ
+<Multi_key> <U11af> <U11af>		: "ᇐ"	U11d0	#    ᅟᅠᆯ ᅟᅠᆯ = ᅟᅠᇐ
+<Multi_key> <U11af> <U11eb>		: "ᇗ"	U11d7	#    ᅟᅠᆯ ᅟᅠᇫ = ᅟᅠᇗ
+<Multi_key> <U11af> <U11bf>		: "ᇘ"	U11d8	#    ᅟᅠᆯ ᅟᅠᆿ = ᅟᅠᇘ
+<Multi_key> <U11af> <U11f9>		: "ᇙ"	U11d9	#    ᅟᅠᆯ ᅟᅠᇹ = ᅟᅠᇙ
+<Multi_key> <U11b7> <U11a8>		: "ᇚ"	U11da	#    ᅟᅠᆷ ᅟᅠᆨ = ᅟᅠᇚ
+<Multi_key> <U11b7> <U11af>		: "ᇛ"	U11db	#    ᅟᅠᆷ ᅟᅠᆯ = ᅟᅠᇛ
+<Multi_key> <U11b7> <U11b8>		: "ᇜ"	U11dc	#    ᅟᅠᆷ ᅟᅠᆸ = ᅟᅠᇜ
+<Multi_key> <U11b7> <U11ba>		: "ᇝ"	U11dd	#    ᅟᅠᆷ ᅟᅠᆺ = ᅟᅠᇝ
+<Multi_key> <U11b7> <U11eb>		: "ᇟ"	U11df	#    ᅟᅠᆷ ᅟᅠᇫ = ᅟᅠᇟ
+<Multi_key> <U11b7> <U11be>		: "ᇠ"	U11e0	#    ᅟᅠᆷ ᅟᅠᆾ = ᅟᅠᇠ
+<Multi_key> <U11b7> <U11c2>		: "ᇡ"	U11e1	#    ᅟᅠᆷ ᅟᅠᇂ = ᅟᅠᇡ
+<Multi_key> <U11b7> <U11bc>		: "ᇢ"	U11e2	#    ᅟᅠᆷ ᅟᅠᆼ = ᅟᅠᇢ
+<Multi_key> <U11b8> <U11af>		: "ᇣ"	U11e3	#    ᅟᅠᆸ ᅟᅠᆯ = ᅟᅠᇣ
+<Multi_key> <U11b8> <U11c1>		: "ᇤ"	U11e4	#    ᅟᅠᆸ ᅟᅠᇁ = ᅟᅠᇤ
+<Multi_key> <U11b8> <U11c2>		: "ᇥ"	U11e5	#    ᅟᅠᆸ ᅟᅠᇂ = ᅟᅠᇥ
+<Multi_key> <U11b8> <U11bc>		: "ᇦ"	U11e6	#    ᅟᅠᆸ ᅟᅠᆼ = ᅟᅠᇦ
+<Multi_key> <U11ba> <U11a8>		: "ᇧ"	U11e7	#    ᅟᅠᆺ ᅟᅠᆨ = ᅟᅠᇧ
+<Multi_key> <U11ba> <U11ae>		: "ᇨ"	U11e8	#    ᅟᅠᆺ ᅟᅠᆮ = ᅟᅠᇨ
+<Multi_key> <U11ba> <U11af>		: "ᇩ"	U11e9	#    ᅟᅠᆺ ᅟᅠᆯ = ᅟᅠᇩ
+<Multi_key> <U11ba> <U11b8>		: "ᇪ"	U11ea	#    ᅟᅠᆺ ᅟᅠᆸ = ᅟᅠᇪ
+<Multi_key> <U11bc> <U11a8>		: "ᇬ"	U11ec	#    ᅟᅠᆼ ᅟᅠᆨ = ᅟᅠᇬ
+<Multi_key> <U11bc> <U11bc>		: "ᇮ"	U11ee	#    ᅟᅠᆼ ᅟᅠᆼ = ᅟᅠᇮ
+<Multi_key> <U11bc> <U11bf>		: "ᇯ"	U11ef	#    ᅟᅠᆼ ᅟᅠᆿ = ᅟᅠᇯ
+<Multi_key> <U11f0> <U11ba>		: "ᇱ"	U11f1	#    ᅟᅠᇰ ᅟᅠᆺ = ᅟᅠᇱ
+<Multi_key> <U11f0> <U11eb>		: "ᇲ"	U11f2	#    ᅟᅠᇰ ᅟᅠᇫ = ᅟᅠᇲ
+<Multi_key> <U11c1> <U11b8>		: "ᇳ"	U11f3	#    ᅟᅠᇁ ᅟᅠᆸ = ᅟᅠᇳ
+<Multi_key> <U11c1> <U11bc>		: "ᇴ"	U11f4	#    ᅟᅠᇁ ᅟᅠᆼ = ᅟᅠᇴ
+<Multi_key> <U11c2> <U11ab>		: "ᇵ"	U11f5	#    ᅟᅠᇂ ᅟᅠᆫ = ᅟᅠᇵ
+<Multi_key> <U11c2> <U11af>		: "ᇶ"	U11f6	#    ᅟᅠᇂ ᅟᅠᆯ = ᅟᅠᇶ
+<Multi_key> <U11c2> <U11b7>		: "ᇷ"	U11f7	#    ᅟᅠᇂ ᅟᅠᆷ = ᅟᅠᇷ
+<Multi_key> <U11c2> <U11b8>		: "ᇸ"	U11f8	#    ᅟᅠᇂ ᅟᅠᆸ = ᅟᅠᇸ
+<Multi_key> <U1121> <U1100>		: "ᄢ"	U1122	#    ᄡᅠ ᄀᅠ = ᄢᅠ
+<Multi_key> <U1121> <U1103>		: "ᄣ"	U1123	#    ᄡᅠ ᄃᅠ = ᄣᅠ
+<Multi_key> <U1121> <U1107>		: "ᄤ"	U1124	#    ᄡᅠ ᄇᅠ = ᄤᅠ
+<Multi_key> <U1121> <U1109>		: "ᄥ"	U1125	#    ᄡᅠ ᄉᅠ = ᄥᅠ
+<Multi_key> <U1121> <U110c>		: "ᄦ"	U1126	#    ᄡᅠ ᄌᅠ = ᄦᅠ
+<Multi_key> <U1108> <U110b>		: "ᄬ"	U112c	#    ᄈᅠ ᄋᅠ = ᄬᅠ
+<Multi_key> <U1132> <U1100>		: "ᄳ"	U1133	#    ᄲᅠ ᄀᅠ = ᄳᅠ
+<Multi_key> <U110a> <U1109>		: "ᄴ"	U1134	#    ᄊᅠ ᄉᅠ = ᄴᅠ
+<Multi_key> <U116a> <U1175>		: "ᅫ"	U116b	#    ᅟᅪ ᅟᅵ = ᅟᅫ
+<Multi_key> <U116f> <U1175>		: "ᅰ"	U1170	#    ᅟᅯ ᅟᅵ = ᅟᅰ
+<Multi_key> <U116f> <U1173>		: "ᆋ"	U118b	#    ᅟᅯ ᅟᅳ = ᅟᆋ
+<Multi_key> <U11aa> <U11a8>		: "ᇄ"	U11c4	#    ᅟᅠᆪ ᅟᅠᆨ = ᅟᅠᇄ
+<Multi_key> <U11b0> <U11ba>		: "ᇌ"	U11cc	#    ᅟᅠᆰ ᅟᅠᆺ = ᅟᅠᇌ
+<Multi_key> <U11ce> <U11c2>		: "ᇏ"	U11cf	#    ᅟᅠᇎ ᅟᅠᇂ = ᅟᅠᇏ
+<Multi_key> <U11b1> <U11a8>		: "ᇑ"	U11d1	#    ᅟᅠᆱ ᅟᅠᆨ = ᅟᅠᇑ
+<Multi_key> <U11b1> <U11ba>		: "ᇒ"	U11d2	#    ᅟᅠᆱ ᅟᅠᆺ = ᅟᅠᇒ
+<Multi_key> <U11b2> <U11ba>		: "ᇓ"	U11d3	#    ᅟᅠᆲ ᅟᅠᆺ = ᅟᅠᇓ
+<Multi_key> <U11b2> <U11c2>		: "ᇔ"	U11d4	#    ᅟᅠᆲ ᅟᅠᇂ = ᅟᅠᇔ
+<Multi_key> <U11b2> <U11bc>		: "ᇕ"	U11d5	#    ᅟᅠᆲ ᅟᅠᆼ = ᅟᅠᇕ
+<Multi_key> <U11b3> <U11ba>		: "ᇖ"	U11d6	#    ᅟᅠᆳ ᅟᅠᆺ = ᅟᅠᇖ
+<Multi_key> <U11dd> <U11ba>		: "ᇞ"	U11de	#    ᅟᅠᇝ ᅟᅠᆺ = ᅟᅠᇞ
+<Multi_key> <U11ec> <U11a8>		: "ᇭ"	U11ed	#    ᅟᅠᇬ ᅟᅠᆨ = ᅟᅠᇭ
+<Multi_key> <U1107> <U112d>		: "ᄢ"	U1122	#    ᄇᅠ ᄭᅠ = ᄢᅠ
+<Multi_key> <U1107> <U112f>		: "ᄣ"	U1123	#    ᄇᅠ ᄯᅠ = ᄣᅠ
+<Multi_key> <U1107> <U1132>		: "ᄤ"	U1124	#    ᄇᅠ ᄲᅠ = ᄤᅠ
+<Multi_key> <U1107> <U110a>		: "ᄥ"	U1125	#    ᄇᅠ ᄊᅠ = ᄥᅠ
+<Multi_key> <U1107> <U1136>		: "ᄦ"	U1126	#    ᄇᅠ ᄶᅠ = ᄦᅠ
+<Multi_key> <U1107> <U112b>		: "ᄬ"	U112c	#    ᄇᅠ ᄫᅠ = ᄬᅠ
+<Multi_key> <U1109> <U111e>		: "ᄳ"	U1133	#    ᄉᅠ ᄞᅠ = ᄳᅠ
+<Multi_key> <U1109> <U110a>		: "ᄴ"	U1134	#    ᄉᅠ ᄊᅠ = ᄴᅠ
+<Multi_key> <U1169> <U1162>		: "ᅫ"	U116b	#    ᅟᅩ ᅟᅢ = ᅟᅫ
+<Multi_key> <U116e> <U1166>		: "ᅰ"	U1170	#    ᅟᅮ ᅟᅦ = ᅟᅰ
+<Multi_key> <U116e> <U117c>		: "ᆋ"	U118b	#    ᅟᅮ ᅟᅼ = ᅟᆋ
+<Multi_key> <U11a8> <U11e7>		: "ᇄ"	U11c4	#    ᅟᅠᆨ ᅟᅠᇧ = ᅟᅠᇄ
+<Multi_key> <U11af> <U11aa>		: "ᇌ"	U11cc	#    ᅟᅠᆯ ᅟᅠᆪ = ᅟᅠᇌ
+<Multi_key> <U11af> <U11da>		: "ᇑ"	U11d1	#    ᅟᅠᆯ ᅟᅠᇚ = ᅟᅠᇑ
+<Multi_key> <U11af> <U11dd>		: "ᇒ"	U11d2	#    ᅟᅠᆯ ᅟᅠᇝ = ᅟᅠᇒ
+<Multi_key> <U11af> <U11b9>		: "ᇓ"	U11d3	#    ᅟᅠᆯ ᅟᅠᆹ = ᅟᅠᇓ
+<Multi_key> <U11af> <U11e5>		: "ᇔ"	U11d4	#    ᅟᅠᆯ ᅟᅠᇥ = ᅟᅠᇔ
+<Multi_key> <U11af> <U11e6>		: "ᇕ"	U11d5	#    ᅟᅠᆯ ᅟᅠᇦ = ᅟᅠᇕ
+<Multi_key> <U11af> <U11bb>		: "ᇖ"	U11d6	#    ᅟᅠᆯ ᅟᅠᆻ = ᅟᅠᇖ
+<Multi_key> <U11b7> <U11bb>		: "ᇞ"	U11de	#    ᅟᅠᆷ ᅟᅠᆻ = ᅟᅠᇞ
+<Multi_key> <U11bc> <U11a9>		: "ᇭ"	U11ed	#    ᅟᅠᆼ ᅟᅠᆩ = ᅟᅠᇭ
 
-<Multi_key> <comma> <minus>	: "¬" notsign # NOT SIGN
-<Multi_key> <minus> <comma>	: "¬" notsign # NOT SIGN
+<Multi_key> <comma> <minus>		: "¬" notsign # NOT SIGN
+<Multi_key> <minus> <comma>		: "¬" notsign # NOT SIGN
 <dead_circumflex> <Multi_key> <underscore> <a>	: "ª" ordfeminine # FEMININE ORDINAL INDICATOR
 <Multi_key> <asciicircum> <underscore> <a>	: "ª" ordfeminine # FEMININE ORDINAL INDICATOR
 <dead_circumflex> <Multi_key> <underbar> <a>	: "ª" ordfeminine # FEMININE ORDINAL INDICATOR
 <Multi_key> <asciicircum> <underbar> <a>	: "ª" ordfeminine # FEMININE ORDINAL INDICATOR
-<dead_circumflex> <2>	: "²" twosuperior # SUPERSCRIPT TWO
-<Multi_key> <asciicircum> <2>	: "²" twosuperior # SUPERSCRIPT TWO
-<dead_circumflex> <KP_Space>	: "²" twosuperior # SUPERSCRIPT TWO
+<dead_circumflex> <2>			: "²" twosuperior # SUPERSCRIPT TWO
+<Multi_key> <asciicircum> <2>		: "²" twosuperior # SUPERSCRIPT TWO
+<dead_circumflex> <KP_Space>		: "²" twosuperior # SUPERSCRIPT TWO
 <Multi_key> <asciicircum> <KP_Space>	: "²" twosuperior # SUPERSCRIPT TWO
-<dead_circumflex> <KP_2>	: "²" twosuperior # SUPERSCRIPT TWO
+<dead_circumflex> <KP_2>		: "²" twosuperior # SUPERSCRIPT TWO
 <Multi_key> <asciicircum> <KP_2>	: "²" twosuperior # SUPERSCRIPT TWO
-<dead_circumflex> <3>	: "³" threesuperior # SUPERSCRIPT THREE
-<Multi_key> <asciicircum> <3>	: "³" threesuperior # SUPERSCRIPT THREE
-<dead_circumflex> <KP_3>	: "³" threesuperior # SUPERSCRIPT THREE
+<dead_circumflex> <3>			: "³" threesuperior # SUPERSCRIPT THREE
+<Multi_key> <asciicircum> <3>		: "³" threesuperior # SUPERSCRIPT THREE
+<dead_circumflex> <KP_3>		: "³" threesuperior # SUPERSCRIPT THREE
 <Multi_key> <asciicircum> <KP_3>	: "³" threesuperior # SUPERSCRIPT THREE
-<Multi_key> <m> <u>	: "µ" mu # MICRO SIGN
-<dead_circumflex> <1>	: "¹" onesuperior # SUPERSCRIPT ONE
-<Multi_key> <asciicircum> <1>	: "¹" onesuperior # SUPERSCRIPT ONE
-<dead_circumflex> <KP_1>	: "¹" onesuperior # SUPERSCRIPT ONE
+<Multi_key> <m> <u>			: "µ" mu # MICRO SIGN
+<dead_circumflex> <1>			: "¹" onesuperior # SUPERSCRIPT ONE
+<Multi_key> <asciicircum> <1>		: "¹" onesuperior # SUPERSCRIPT ONE
+<dead_circumflex> <KP_1>		: "¹" onesuperior # SUPERSCRIPT ONE
 <Multi_key> <asciicircum> <KP_1>	: "¹" onesuperior # SUPERSCRIPT ONE
 <dead_circumflex> <Multi_key> <underscore> <o>	: "º" masculine # MASCULINE ORDINAL INDICATOR
 <Multi_key> <asciicircum> <underscore> <o>	: "º" masculine # MASCULINE ORDINAL INDICATOR
@@ -1342,41 +1354,41 @@ XCOMM group 1: cluster jamos made of three basic jamos
 <dead_diaeresis> <acute>	: "̈́" U0344 # COMBINING GREEK DIALYTIKA TONOS
 <dead_diaeresis> <apostrophe>	: "̈́" U0344 # COMBINING GREEK DIALYTIKA TONOS
 <Multi_key> <quotedbl> <dead_acute>	: "̈́" U0344 # COMBINING GREEK DIALYTIKA TONOS
-<Multi_key> <quotedbl> <acute>	: "̈́" U0344 # COMBINING GREEK DIALYTIKA TONOS
+<Multi_key> <quotedbl> <acute>		: "̈́" U0344 # COMBINING GREEK DIALYTIKA TONOS
 <Multi_key> <quotedbl> <apostrophe>	: "̈́" U0344 # COMBINING GREEK DIALYTIKA TONOS
 <Multi_key> <quotedbl> <combining_acute>	: "̈́" U0344 # COMBINING GREEK DIALYTIKA TONOS
 <Multi_key> <diaeresis> <dead_acute>	: "΅" Greek_accentdieresis # GREEK DIALYTIKA TONOS
-<Multi_key> <diaeresis> <acute>	: "΅" Greek_accentdieresis # GREEK DIALYTIKA TONOS
+<Multi_key> <diaeresis> <acute>		: "΅" Greek_accentdieresis # GREEK DIALYTIKA TONOS
 <Multi_key> <diaeresis> <apostrophe>	: "΅" Greek_accentdieresis # GREEK DIALYTIKA TONOS
 <Multi_key> <diaeresis> <combining_acute>	: "΅" Greek_accentdieresis # GREEK DIALYTIKA TONOS
-<dead_acute> <Greek_ALPHA>	: "Ά" Greek_ALPHAaccent # GREEK CAPITAL LETTER ALPHA WITH TONOS
+<dead_acute> <Greek_ALPHA>		: "Ά" Greek_ALPHAaccent # GREEK CAPITAL LETTER ALPHA WITH TONOS
 <Multi_key> <acute> <Greek_ALPHA>	: "Ά" Greek_ALPHAaccent # GREEK CAPITAL LETTER ALPHA WITH TONOS
 <Multi_key> <apostrophe> <Greek_ALPHA>	: "Ά" Greek_ALPHAaccent # GREEK CAPITAL LETTER ALPHA WITH TONOS
-<combining_acute> <Greek_ALPHA>	: "Ά" Greek_ALPHAaccent # GREEK CAPITAL LETTER ALPHA WITH TONOS
-<dead_acute> <Greek_EPSILON>	: "Έ" Greek_EPSILONaccent # GREEK CAPITAL LETTER EPSILON WITH TONOS
+<combining_acute> <Greek_ALPHA>		: "Ά" Greek_ALPHAaccent # GREEK CAPITAL LETTER ALPHA WITH TONOS
+<dead_acute> <Greek_EPSILON>		: "Έ" Greek_EPSILONaccent # GREEK CAPITAL LETTER EPSILON WITH TONOS
 <Multi_key> <acute> <Greek_EPSILON>	: "Έ" Greek_EPSILONaccent # GREEK CAPITAL LETTER EPSILON WITH TONOS
 <Multi_key> <apostrophe> <Greek_EPSILON>	: "Έ" Greek_EPSILONaccent # GREEK CAPITAL LETTER EPSILON WITH TONOS
 <combining_acute> <Greek_EPSILON>	: "Έ" Greek_EPSILONaccent # GREEK CAPITAL LETTER EPSILON WITH TONOS
-<dead_acute> <Greek_ETA>	: "Ή" Greek_ETAaccent # GREEK CAPITAL LETTER ETA WITH TONOS
-<Multi_key> <acute> <Greek_ETA>	: "Ή" Greek_ETAaccent # GREEK CAPITAL LETTER ETA WITH TONOS
+<dead_acute> <Greek_ETA>		: "Ή" Greek_ETAaccent # GREEK CAPITAL LETTER ETA WITH TONOS
+<Multi_key> <acute> <Greek_ETA>		: "Ή" Greek_ETAaccent # GREEK CAPITAL LETTER ETA WITH TONOS
 <Multi_key> <apostrophe> <Greek_ETA>	: "Ή" Greek_ETAaccent # GREEK CAPITAL LETTER ETA WITH TONOS
-<combining_acute> <Greek_ETA>	: "Ή" Greek_ETAaccent # GREEK CAPITAL LETTER ETA WITH TONOS
-<dead_acute> <Greek_IOTA>	: "Ί" Greek_IOTAaccent # GREEK CAPITAL LETTER IOTA WITH TONOS
+<combining_acute> <Greek_ETA>		: "Ή" Greek_ETAaccent # GREEK CAPITAL LETTER ETA WITH TONOS
+<dead_acute> <Greek_IOTA>		: "Ί" Greek_IOTAaccent # GREEK CAPITAL LETTER IOTA WITH TONOS
 <Multi_key> <acute> <Greek_IOTA>	: "Ί" Greek_IOTAaccent # GREEK CAPITAL LETTER IOTA WITH TONOS
 <Multi_key> <apostrophe> <Greek_IOTA>	: "Ί" Greek_IOTAaccent # GREEK CAPITAL LETTER IOTA WITH TONOS
-<combining_acute> <Greek_IOTA>	: "Ί" Greek_IOTAaccent # GREEK CAPITAL LETTER IOTA WITH TONOS
-<dead_acute> <Greek_OMICRON>	: "Ό" Greek_OMICRONaccent # GREEK CAPITAL LETTER OMICRON WITH TONOS
+<combining_acute> <Greek_IOTA>		: "Ί" Greek_IOTAaccent # GREEK CAPITAL LETTER IOTA WITH TONOS
+<dead_acute> <Greek_OMICRON>		: "Ό" Greek_OMICRONaccent # GREEK CAPITAL LETTER OMICRON WITH TONOS
 <Multi_key> <acute> <Greek_OMICRON>	: "Ό" Greek_OMICRONaccent # GREEK CAPITAL LETTER OMICRON WITH TONOS
 <Multi_key> <apostrophe> <Greek_OMICRON>	: "Ό" Greek_OMICRONaccent # GREEK CAPITAL LETTER OMICRON WITH TONOS
 <combining_acute> <Greek_OMICRON>	: "Ό" Greek_OMICRONaccent # GREEK CAPITAL LETTER OMICRON WITH TONOS
-<dead_acute> <Greek_UPSILON>	: "Ύ" Greek_UPSILONaccent # GREEK CAPITAL LETTER UPSILON WITH TONOS
+<dead_acute> <Greek_UPSILON>		: "Ύ" Greek_UPSILONaccent # GREEK CAPITAL LETTER UPSILON WITH TONOS
 <Multi_key> <acute> <Greek_UPSILON>	: "Ύ" Greek_UPSILONaccent # GREEK CAPITAL LETTER UPSILON WITH TONOS
 <Multi_key> <apostrophe> <Greek_UPSILON>	: "Ύ" Greek_UPSILONaccent # GREEK CAPITAL LETTER UPSILON WITH TONOS
 <combining_acute> <Greek_UPSILON>	: "Ύ" Greek_UPSILONaccent # GREEK CAPITAL LETTER UPSILON WITH TONOS
-<dead_acute> <Greek_OMEGA>	: "Ώ" Greek_OMEGAaccent # GREEK CAPITAL LETTER OMEGA WITH TONOS
+<dead_acute> <Greek_OMEGA>		: "Ώ" Greek_OMEGAaccent # GREEK CAPITAL LETTER OMEGA WITH TONOS
 <Multi_key> <acute> <Greek_OMEGA>	: "Ώ" Greek_OMEGAaccent # GREEK CAPITAL LETTER OMEGA WITH TONOS
 <Multi_key> <apostrophe> <Greek_OMEGA>	: "Ώ" Greek_OMEGAaccent # GREEK CAPITAL LETTER OMEGA WITH TONOS
-<combining_acute> <Greek_OMEGA>	: "Ώ" Greek_OMEGAaccent # GREEK CAPITAL LETTER OMEGA WITH TONOS
+<combining_acute> <Greek_OMEGA>		: "Ώ" Greek_OMEGAaccent # GREEK CAPITAL LETTER OMEGA WITH TONOS
 <dead_acute> <Greek_iotadieresis>	: "ΐ" Greek_iotaaccentdieresis # GREEK SMALL LETTER IOTA WITH DIALYTIKA AND TONOS
 <Multi_key> <acute> <Greek_iotadieresis>	: "ΐ" Greek_iotaaccentdieresis # GREEK SMALL LETTER IOTA WITH DIALYTIKA AND TONOS
 <Multi_key> <apostrophe> <Greek_iotadieresis>	: "ΐ" Greek_iotaaccentdieresis # GREEK SMALL LETTER IOTA WITH DIALYTIKA AND TONOS
@@ -1652,21 +1664,21 @@ XCOMM group 1: cluster jamos made of three basic jamos
 <Multi_key> <U0fab> <U0fb7>	: "ྫྷ" U0FAC # TIBETAN SUBJOINED LETTER DZHA
 <Multi_key> <U0f90> <U0fb5>	: "ྐྵ" U0FB9 # TIBETAN SUBJOINED LETTER KSSA
 <Multi_key> <U102e> <U1025>	: "ဦ" U1026 # MYANMAR LETTER UU
-<U0325> <A>	: "Ḁ" U1E00 # LATIN CAPITAL LETTER A WITH RING BELOW
-<U0325> <a>	: "ḁ" U1E01 # LATIN SMALL LETTER A WITH RING BELOW
-<dead_abovedot> <B>	: "Ḃ" U1E02 # LATIN CAPITAL LETTER B WITH DOT ABOVE
+<U0325> <A>			: "Ḁ" U1E00 # LATIN CAPITAL LETTER A WITH RING BELOW
+<U0325> <a>			: "ḁ" U1E01 # LATIN SMALL LETTER A WITH RING BELOW
+<dead_abovedot> <B>		: "Ḃ" U1E02 # LATIN CAPITAL LETTER B WITH DOT ABOVE
 <Multi_key> <period> <B>	: "Ḃ" U1E02 # LATIN CAPITAL LETTER B WITH DOT ABOVE
-<dead_abovedot> <b>	: "ḃ" U1E03 # LATIN SMALL LETTER B WITH DOT ABOVE
+<dead_abovedot> <b>		: "ḃ" U1E03 # LATIN SMALL LETTER B WITH DOT ABOVE
 <Multi_key> <period> <b>	: "ḃ" U1E03 # LATIN SMALL LETTER B WITH DOT ABOVE
-<dead_belowdot> <B>	: "Ḅ" U1E04 # LATIN CAPITAL LETTER B WITH DOT BELOW
+<dead_belowdot> <B>		: "Ḅ" U1E04 # LATIN CAPITAL LETTER B WITH DOT BELOW
 <Multi_key> <exclam> <B>	: "Ḅ" U1E04 # LATIN CAPITAL LETTER B WITH DOT BELOW
 <combining_belowdot> <B>	: "Ḅ" U1E04 # LATIN CAPITAL LETTER B WITH DOT BELOW
-<dead_belowdot> <b>	: "ḅ" U1E05 # LATIN SMALL LETTER B WITH DOT BELOW
+<dead_belowdot> <b>		: "ḅ" U1E05 # LATIN SMALL LETTER B WITH DOT BELOW
 <Multi_key> <exclam> <b>	: "ḅ" U1E05 # LATIN SMALL LETTER B WITH DOT BELOW
 <combining_belowdot> <b>	: "ḅ" U1E05 # LATIN SMALL LETTER B WITH DOT BELOW
-<U0331> <B>	: "Ḇ" U1E06 # LATIN CAPITAL LETTER B WITH LINE BELOW
-<U0331> <b>	: "ḇ" U1E07 # LATIN SMALL LETTER B WITH LINE BELOW
-<dead_acute> <Ccedilla>	: "Ḉ" U1E08 # LATIN CAPITAL LETTER C WITH CEDILLA AND ACUTE
+<U0331> <B>			: "Ḇ" U1E06 # LATIN CAPITAL LETTER B WITH LINE BELOW
+<U0331> <b>			: "ḇ" U1E07 # LATIN SMALL LETTER B WITH LINE BELOW
+<dead_acute> <Ccedilla>		: "Ḉ" U1E08 # LATIN CAPITAL LETTER C WITH CEDILLA AND ACUTE
 <Multi_key> <acute> <Ccedilla>	: "Ḉ" U1E08 # LATIN CAPITAL LETTER C WITH CEDILLA AND ACUTE
 <Multi_key> <apostrophe> <Ccedilla>	: "Ḉ" U1E08 # LATIN CAPITAL LETTER C WITH CEDILLA AND ACUTE
 <dead_acute> <dead_cedilla> <C>	: "Ḉ" U1E08 # LATIN CAPITAL LETTER C WITH CEDILLA AND ACUTE
@@ -4883,126 +4895,126 @@ XCOMM group 1: cluster jamos made of three basic jamos
 <Multi_key> <Greek_iota> <apostrophe> <Greek_omega>	: "ῴ" U1FF4 # GREEK SMALL LETTER OMEGA WITH OXIA AND YPOGEGRAMMENI
 <dead_iota> <combining_acute> <Greek_omega>	: "ῴ" U1FF4 # GREEK SMALL LETTER OMEGA WITH OXIA AND YPOGEGRAMMENI
 <Multi_key> <Greek_iota> <combining_acute> <Greek_omega>	: "ῴ" U1FF4 # GREEK SMALL LETTER OMEGA WITH OXIA AND YPOGEGRAMMENI
-<U0342> <Greek_omega>	: "ῶ" U1FF6 # GREEK SMALL LETTER OMEGA WITH PERISPOMENI
-<dead_tilde> <Greek_omega>	: "ῶ" U1FF6 # GREEK SMALL LETTER OMEGA WITH PERISPOMENI
+<U0342> <Greek_omega>			: "ῶ" U1FF6 # GREEK SMALL LETTER OMEGA WITH PERISPOMENI
+<dead_tilde> <Greek_omega>		: "ῶ" U1FF6 # GREEK SMALL LETTER OMEGA WITH PERISPOMENI
 <Multi_key> <asciitilde> <Greek_omega>	: "ῶ" U1FF6 # GREEK SMALL LETTER OMEGA WITH PERISPOMENI
-<dead_iota> <U1ff6>	: "ῷ" U1FF7 # GREEK SMALL LETTER OMEGA WITH PERISPOMENI AND YPOGEGRAMMENI
+<dead_iota> <U1ff6>			: "ῷ" U1FF7 # GREEK SMALL LETTER OMEGA WITH PERISPOMENI AND YPOGEGRAMMENI
 <Multi_key> <Greek_iota> <U1ff6>	: "ῷ" U1FF7 # GREEK SMALL LETTER OMEGA WITH PERISPOMENI AND YPOGEGRAMMENI
 <dead_iota> <U0342> <Greek_omega>	: "ῷ" U1FF7 # GREEK SMALL LETTER OMEGA WITH PERISPOMENI AND YPOGEGRAMMENI
 <dead_iota> <dead_tilde> <Greek_omega>	: "ῷ" U1FF7 # GREEK SMALL LETTER OMEGA WITH PERISPOMENI AND YPOGEGRAMMENI
 <dead_iota> <Multi_key> <asciitilde> <Greek_omega>	: "ῷ" U1FF7 # GREEK SMALL LETTER OMEGA WITH PERISPOMENI AND YPOGEGRAMMENI
-<Multi_key> <Greek_iota> <U0342> <Greek_omega>	: "ῷ" U1FF7 # GREEK SMALL LETTER OMEGA WITH PERISPOMENI AND YPOGEGRAMMENI
+<Multi_key> <Greek_iota> <U0342> <Greek_omega>		: "ῷ" U1FF7 # GREEK SMALL LETTER OMEGA WITH PERISPOMENI AND YPOGEGRAMMENI
 <Multi_key> <Greek_iota> <dead_tilde> <Greek_omega>	: "ῷ" U1FF7 # GREEK SMALL LETTER OMEGA WITH PERISPOMENI AND YPOGEGRAMMENI
 <Multi_key> <Greek_iota> <asciitilde> <Greek_omega>	: "ῷ" U1FF7 # GREEK SMALL LETTER OMEGA WITH PERISPOMENI AND YPOGEGRAMMENI
-<dead_grave> <Greek_OMICRON>	: "Ὸ" U1FF8 # GREEK CAPITAL LETTER OMICRON WITH VARIA
+<dead_grave> <Greek_OMICRON>		: "Ὸ" U1FF8 # GREEK CAPITAL LETTER OMICRON WITH VARIA
 <Multi_key> <grave> <Greek_OMICRON>	: "Ὸ" U1FF8 # GREEK CAPITAL LETTER OMICRON WITH VARIA
 <combining_grave> <Greek_OMICRON>	: "Ὸ" U1FF8 # GREEK CAPITAL LETTER OMICRON WITH VARIA
-<dead_grave> <Greek_OMEGA>	: "Ὼ" U1FFA # GREEK CAPITAL LETTER OMEGA WITH VARIA
+<dead_grave> <Greek_OMEGA>		: "Ὼ" U1FFA # GREEK CAPITAL LETTER OMEGA WITH VARIA
 <Multi_key> <grave> <Greek_OMEGA>	: "Ὼ" U1FFA # GREEK CAPITAL LETTER OMEGA WITH VARIA
-<combining_grave> <Greek_OMEGA>	: "Ὼ" U1FFA # GREEK CAPITAL LETTER OMEGA WITH VARIA
-<dead_iota> <Greek_OMEGA>	: "ῼ" U1FFC # GREEK CAPITAL LETTER OMEGA WITH PROSGEGRAMMENI
+<combining_grave> <Greek_OMEGA>		: "Ὼ" U1FFA # GREEK CAPITAL LETTER OMEGA WITH VARIA
+<dead_iota> <Greek_OMEGA>		: "ῼ" U1FFC # GREEK CAPITAL LETTER OMEGA WITH PROSGEGRAMMENI
 <Multi_key> <Greek_iota> <Greek_OMEGA>	: "ῼ" U1FFC # GREEK CAPITAL LETTER OMEGA WITH PROSGEGRAMMENI
-<dead_circumflex> <0>	: "⁰" U2070 # SUPERSCRIPT ZERO
-<Multi_key> <asciicircum> <0>	: "⁰" U2070 # SUPERSCRIPT ZERO
-<dead_circumflex> <KP_0>	: "⁰" U2070 # SUPERSCRIPT ZERO
+<dead_circumflex> <0>			: "⁰" U2070 # SUPERSCRIPT ZERO
+<Multi_key> <asciicircum> <0>		: "⁰" U2070 # SUPERSCRIPT ZERO
+<dead_circumflex> <KP_0>		: "⁰" U2070 # SUPERSCRIPT ZERO
 <Multi_key> <asciicircum> <KP_0>	: "⁰" U2070 # SUPERSCRIPT ZERO
 <dead_circumflex> <Multi_key> <underscore> <i>	: "ⁱ" U2071 # SUPERSCRIPT LATIN SMALL LETTER I
 <Multi_key> <asciicircum> <underscore> <i>	: "ⁱ" U2071 # SUPERSCRIPT LATIN SMALL LETTER I
 <dead_circumflex> <Multi_key> <underbar> <i>	: "ⁱ" U2071 # SUPERSCRIPT LATIN SMALL LETTER I
 <Multi_key> <asciicircum> <underbar> <i>	: "ⁱ" U2071 # SUPERSCRIPT LATIN SMALL LETTER I
-<dead_circumflex> <4>	: "⁴" U2074 # SUPERSCRIPT FOUR
-<Multi_key> <asciicircum> <4>	: "⁴" U2074 # SUPERSCRIPT FOUR
-<dead_circumflex> <KP_4>	: "⁴" U2074 # SUPERSCRIPT FOUR
+<dead_circumflex> <4>			: "⁴" U2074 # SUPERSCRIPT FOUR
+<Multi_key> <asciicircum> <4>		: "⁴" U2074 # SUPERSCRIPT FOUR
+<dead_circumflex> <KP_4>		: "⁴" U2074 # SUPERSCRIPT FOUR
 <Multi_key> <asciicircum> <KP_4>	: "⁴" U2074 # SUPERSCRIPT FOUR
-<dead_circumflex> <5>	: "⁵" U2075 # SUPERSCRIPT FIVE
-<Multi_key> <asciicircum> <5>	: "⁵" U2075 # SUPERSCRIPT FIVE
-<dead_circumflex> <KP_5>	: "⁵" U2075 # SUPERSCRIPT FIVE
+<dead_circumflex> <5>			: "⁵" U2075 # SUPERSCRIPT FIVE
+<Multi_key> <asciicircum> <5>		: "⁵" U2075 # SUPERSCRIPT FIVE
+<dead_circumflex> <KP_5>		: "⁵" U2075 # SUPERSCRIPT FIVE
 <Multi_key> <asciicircum> <KP_5>	: "⁵" U2075 # SUPERSCRIPT FIVE
-<dead_circumflex> <6>	: "⁶" U2076 # SUPERSCRIPT SIX
-<Multi_key> <asciicircum> <6>	: "⁶" U2076 # SUPERSCRIPT SIX
-<dead_circumflex> <KP_6>	: "⁶" U2076 # SUPERSCRIPT SIX
+<dead_circumflex> <6>			: "⁶" U2076 # SUPERSCRIPT SIX
+<Multi_key> <asciicircum> <6>		: "⁶" U2076 # SUPERSCRIPT SIX
+<dead_circumflex> <KP_6>		: "⁶" U2076 # SUPERSCRIPT SIX
 <Multi_key> <asciicircum> <KP_6>	: "⁶" U2076 # SUPERSCRIPT SIX
-<dead_circumflex> <7>	: "⁷" U2077 # SUPERSCRIPT SEVEN
-<Multi_key> <asciicircum> <7>	: "⁷" U2077 # SUPERSCRIPT SEVEN
-<dead_circumflex> <KP_7>	: "⁷" U2077 # SUPERSCRIPT SEVEN
+<dead_circumflex> <7>			: "⁷" U2077 # SUPERSCRIPT SEVEN
+<Multi_key> <asciicircum> <7>		: "⁷" U2077 # SUPERSCRIPT SEVEN
+<dead_circumflex> <KP_7>		: "⁷" U2077 # SUPERSCRIPT SEVEN
 <Multi_key> <asciicircum> <KP_7>	: "⁷" U2077 # SUPERSCRIPT SEVEN
-<dead_circumflex> <8>	: "⁸" U2078 # SUPERSCRIPT EIGHT
-<Multi_key> <asciicircum> <8>	: "⁸" U2078 # SUPERSCRIPT EIGHT
-<dead_circumflex> <KP_8>	: "⁸" U2078 # SUPERSCRIPT EIGHT
+<dead_circumflex> <8>			: "⁸" U2078 # SUPERSCRIPT EIGHT
+<Multi_key> <asciicircum> <8>		: "⁸" U2078 # SUPERSCRIPT EIGHT
+<dead_circumflex> <KP_8>		: "⁸" U2078 # SUPERSCRIPT EIGHT
 <Multi_key> <asciicircum> <KP_8>	: "⁸" U2078 # SUPERSCRIPT EIGHT
-<dead_circumflex> <9>	: "⁹" U2079 # SUPERSCRIPT NINE
-<Multi_key> <asciicircum> <9>	: "⁹" U2079 # SUPERSCRIPT NINE
-<dead_circumflex> <KP_9>	: "⁹" U2079 # SUPERSCRIPT NINE
+<dead_circumflex> <9>			: "⁹" U2079 # SUPERSCRIPT NINE
+<Multi_key> <asciicircum> <9>		: "⁹" U2079 # SUPERSCRIPT NINE
+<dead_circumflex> <KP_9>		: "⁹" U2079 # SUPERSCRIPT NINE
 <Multi_key> <asciicircum> <KP_9>	: "⁹" U2079 # SUPERSCRIPT NINE
-<dead_circumflex> <plus>	: "⁺" U207A # SUPERSCRIPT PLUS SIGN
+<dead_circumflex> <plus>		: "⁺" U207A # SUPERSCRIPT PLUS SIGN
 <Multi_key> <asciicircum> <plus>	: "⁺" U207A # SUPERSCRIPT PLUS SIGN
-<dead_circumflex> <KP_Add>	: "⁺" U207A # SUPERSCRIPT PLUS SIGN
+<dead_circumflex> <KP_Add>		: "⁺" U207A # SUPERSCRIPT PLUS SIGN
 <Multi_key> <asciicircum> <KP_Add>	: "⁺" U207A # SUPERSCRIPT PLUS SIGN
-<dead_circumflex> <U2212>	: "⁻" U207B # SUPERSCRIPT MINUS
+<dead_circumflex> <U2212>		: "⁻" U207B # SUPERSCRIPT MINUS
 <Multi_key> <asciicircum> <U2212>	: "⁻" U207B # SUPERSCRIPT MINUS
-<dead_circumflex> <equal>	: "⁼" U207C # SUPERSCRIPT EQUALS SIGN
+<dead_circumflex> <equal>		: "⁼" U207C # SUPERSCRIPT EQUALS SIGN
 <Multi_key> <asciicircum> <equal>	: "⁼" U207C # SUPERSCRIPT EQUALS SIGN
-<dead_circumflex> <KP_Equal>	: "⁼" U207C # SUPERSCRIPT EQUALS SIGN
+<dead_circumflex> <KP_Equal>		: "⁼" U207C # SUPERSCRIPT EQUALS SIGN
 <Multi_key> <asciicircum> <KP_Equal>	: "⁼" U207C # SUPERSCRIPT EQUALS SIGN
-<dead_circumflex> <parenleft>	: "⁽" U207D # SUPERSCRIPT LEFT PARENTHESIS
+<dead_circumflex> <parenleft>		: "⁽" U207D # SUPERSCRIPT LEFT PARENTHESIS
 <Multi_key> <asciicircum> <parenleft>	: "⁽" U207D # SUPERSCRIPT LEFT PARENTHESIS
-<dead_circumflex> <parenright>	: "⁾" U207E # SUPERSCRIPT RIGHT PARENTHESIS
+<dead_circumflex> <parenright>		: "⁾" U207E # SUPERSCRIPT RIGHT PARENTHESIS
 <Multi_key> <asciicircum> <parenright>	: "⁾" U207E # SUPERSCRIPT RIGHT PARENTHESIS
 <dead_circumflex> <Multi_key> <underscore> <n>	: "ⁿ" U207F # SUPERSCRIPT LATIN SMALL LETTER N
 <Multi_key> <asciicircum> <underscore> <n>	: "ⁿ" U207F # SUPERSCRIPT LATIN SMALL LETTER N
 <dead_circumflex> <Multi_key> <underbar> <n>	: "ⁿ" U207F # SUPERSCRIPT LATIN SMALL LETTER N
 <Multi_key> <asciicircum> <underbar> <n>	: "ⁿ" U207F # SUPERSCRIPT LATIN SMALL LETTER N
-<Multi_key> <underscore> <0>	: "₀" U2080 # SUBSCRIPT ZERO
-<Multi_key> <underscore> <KP_0>	: "₀" U2080 # SUBSCRIPT ZERO
-<Multi_key> <underbar> <0>	: "₀" U2080 # SUBSCRIPT ZERO
-<Multi_key> <underbar> <KP_0>	: "₀" U2080 # SUBSCRIPT ZERO
-<Multi_key> <underscore> <1>	: "₁" U2081 # SUBSCRIPT ONE
-<Multi_key> <underscore> <KP_1>	: "₁" U2081 # SUBSCRIPT ONE
-<Multi_key> <underbar> <1>	: "₁" U2081 # SUBSCRIPT ONE
-<Multi_key> <underbar> <KP_1>	: "₁" U2081 # SUBSCRIPT ONE
-<Multi_key> <underscore> <2>	: "₂" U2082 # SUBSCRIPT TWO
+<Multi_key> <underscore> <0>		: "₀" U2080 # SUBSCRIPT ZERO
+<Multi_key> <underscore> <KP_0>		: "₀" U2080 # SUBSCRIPT ZERO
+<Multi_key> <underbar> <0>		: "₀" U2080 # SUBSCRIPT ZERO
+<Multi_key> <underbar> <KP_0>		: "₀" U2080 # SUBSCRIPT ZERO
+<Multi_key> <underscore> <1>		: "₁" U2081 # SUBSCRIPT ONE
+<Multi_key> <underscore> <KP_1>		: "₁" U2081 # SUBSCRIPT ONE
+<Multi_key> <underbar> <1>		: "₁" U2081 # SUBSCRIPT ONE
+<Multi_key> <underbar> <KP_1>		: "₁" U2081 # SUBSCRIPT ONE
+<Multi_key> <underscore> <2>		: "₂" U2082 # SUBSCRIPT TWO
 <Multi_key> <underscore> <KP_Space>	: "₂" U2082 # SUBSCRIPT TWO
-<Multi_key> <underscore> <KP_2>	: "₂" U2082 # SUBSCRIPT TWO
-<Multi_key> <underbar> <2>	: "₂" U2082 # SUBSCRIPT TWO
+<Multi_key> <underscore> <KP_2>		: "₂" U2082 # SUBSCRIPT TWO
+<Multi_key> <underbar> <2>		: "₂" U2082 # SUBSCRIPT TWO
 <Multi_key> <underbar> <KP_Space>	: "₂" U2082 # SUBSCRIPT TWO
-<Multi_key> <underbar> <KP_2>	: "₂" U2082 # SUBSCRIPT TWO
-<Multi_key> <underscore> <3>	: "₃" U2083 # SUBSCRIPT THREE
-<Multi_key> <underscore> <KP_3>	: "₃" U2083 # SUBSCRIPT THREE
-<Multi_key> <underbar> <3>	: "₃" U2083 # SUBSCRIPT THREE
-<Multi_key> <underbar> <KP_3>	: "₃" U2083 # SUBSCRIPT THREE
-<Multi_key> <underscore> <4>	: "₄" U2084 # SUBSCRIPT FOUR
-<Multi_key> <underscore> <KP_4>	: "₄" U2084 # SUBSCRIPT FOUR
-<Multi_key> <underbar> <4>	: "₄" U2084 # SUBSCRIPT FOUR
-<Multi_key> <underbar> <KP_4>	: "₄" U2084 # SUBSCRIPT FOUR
-<Multi_key> <underscore> <5>	: "₅" U2085 # SUBSCRIPT FIVE
-<Multi_key> <underscore> <KP_5>	: "₅" U2085 # SUBSCRIPT FIVE
-<Multi_key> <underbar> <5>	: "₅" U2085 # SUBSCRIPT FIVE
-<Multi_key> <underbar> <KP_5>	: "₅" U2085 # SUBSCRIPT FIVE
-<Multi_key> <underscore> <6>	: "₆" U2086 # SUBSCRIPT SIX
-<Multi_key> <underscore> <KP_6>	: "₆" U2086 # SUBSCRIPT SIX
-<Multi_key> <underbar> <6>	: "₆" U2086 # SUBSCRIPT SIX
-<Multi_key> <underbar> <KP_6>	: "₆" U2086 # SUBSCRIPT SIX
-<Multi_key> <underscore> <7>	: "₇" U2087 # SUBSCRIPT SEVEN
-<Multi_key> <underscore> <KP_7>	: "₇" U2087 # SUBSCRIPT SEVEN
-<Multi_key> <underbar> <7>	: "₇" U2087 # SUBSCRIPT SEVEN
-<Multi_key> <underbar> <KP_7>	: "₇" U2087 # SUBSCRIPT SEVEN
-<Multi_key> <underscore> <8>	: "₈" U2088 # SUBSCRIPT EIGHT
-<Multi_key> <underscore> <KP_8>	: "₈" U2088 # SUBSCRIPT EIGHT
-<Multi_key> <underbar> <8>	: "₈" U2088 # SUBSCRIPT EIGHT
-<Multi_key> <underbar> <KP_8>	: "₈" U2088 # SUBSCRIPT EIGHT
-<Multi_key> <underscore> <9>	: "₉" U2089 # SUBSCRIPT NINE
-<Multi_key> <underscore> <KP_9>	: "₉" U2089 # SUBSCRIPT NINE
-<Multi_key> <underbar> <9>	: "₉" U2089 # SUBSCRIPT NINE
-<Multi_key> <underbar> <KP_9>	: "₉" U2089 # SUBSCRIPT NINE
-<Multi_key> <underscore> <plus>	: "₊" U208A # SUBSCRIPT PLUS SIGN
+<Multi_key> <underbar> <KP_2>		: "₂" U2082 # SUBSCRIPT TWO
+<Multi_key> <underscore> <3>		: "₃" U2083 # SUBSCRIPT THREE
+<Multi_key> <underscore> <KP_3>		: "₃" U2083 # SUBSCRIPT THREE
+<Multi_key> <underbar> <3>		: "₃" U2083 # SUBSCRIPT THREE
+<Multi_key> <underbar> <KP_3>		: "₃" U2083 # SUBSCRIPT THREE
+<Multi_key> <underscore> <4>		: "₄" U2084 # SUBSCRIPT FOUR
+<Multi_key> <underscore> <KP_4>		: "₄" U2084 # SUBSCRIPT FOUR
+<Multi_key> <underbar> <4>		: "₄" U2084 # SUBSCRIPT FOUR
+<Multi_key> <underbar> <KP_4>		: "₄" U2084 # SUBSCRIPT FOUR
+<Multi_key> <underscore> <5>		: "₅" U2085 # SUBSCRIPT FIVE
+<Multi_key> <underscore> <KP_5>		: "₅" U2085 # SUBSCRIPT FIVE
+<Multi_key> <underbar> <5>		: "₅" U2085 # SUBSCRIPT FIVE
+<Multi_key> <underbar> <KP_5>		: "₅" U2085 # SUBSCRIPT FIVE
+<Multi_key> <underscore> <6>		: "₆" U2086 # SUBSCRIPT SIX
+<Multi_key> <underscore> <KP_6>		: "₆" U2086 # SUBSCRIPT SIX
+<Multi_key> <underbar> <6>		: "₆" U2086 # SUBSCRIPT SIX
+<Multi_key> <underbar> <KP_6>		: "₆" U2086 # SUBSCRIPT SIX
+<Multi_key> <underscore> <7>		: "₇" U2087 # SUBSCRIPT SEVEN
+<Multi_key> <underscore> <KP_7>		: "₇" U2087 # SUBSCRIPT SEVEN
+<Multi_key> <underbar> <7>		: "₇" U2087 # SUBSCRIPT SEVEN
+<Multi_key> <underbar> <KP_7>		: "₇" U2087 # SUBSCRIPT SEVEN
+<Multi_key> <underscore> <8>		: "₈" U2088 # SUBSCRIPT EIGHT
+<Multi_key> <underscore> <KP_8>		: "₈" U2088 # SUBSCRIPT EIGHT
+<Multi_key> <underbar> <8>		: "₈" U2088 # SUBSCRIPT EIGHT
+<Multi_key> <underbar> <KP_8>		: "₈" U2088 # SUBSCRIPT EIGHT
+<Multi_key> <underscore> <9>		: "₉" U2089 # SUBSCRIPT NINE
+<Multi_key> <underscore> <KP_9>		: "₉" U2089 # SUBSCRIPT NINE
+<Multi_key> <underbar> <9>		: "₉" U2089 # SUBSCRIPT NINE
+<Multi_key> <underbar> <KP_9>		: "₉" U2089 # SUBSCRIPT NINE
+<Multi_key> <underscore> <plus>		: "₊" U208A # SUBSCRIPT PLUS SIGN
 <Multi_key> <underscore> <KP_Add>	: "₊" U208A # SUBSCRIPT PLUS SIGN
-<Multi_key> <underbar> <plus>	: "₊" U208A # SUBSCRIPT PLUS SIGN
-<Multi_key> <underbar> <KP_Add>	: "₊" U208A # SUBSCRIPT PLUS SIGN
+<Multi_key> <underbar> <plus>		: "₊" U208A # SUBSCRIPT PLUS SIGN
+<Multi_key> <underbar> <KP_Add>		: "₊" U208A # SUBSCRIPT PLUS SIGN
 <Multi_key> <underscore> <U2212>	: "₋" U208B # SUBSCRIPT MINUS
-<Multi_key> <underbar> <U2212>	: "₋" U208B # SUBSCRIPT MINUS
+<Multi_key> <underbar> <U2212>		: "₋" U208B # SUBSCRIPT MINUS
 <Multi_key> <underscore> <equal>	: "₌" U208C # SUBSCRIPT EQUALS SIGN
 <Multi_key> <underscore> <KP_Equal>	: "₌" U208C # SUBSCRIPT EQUALS SIGN
-<Multi_key> <underbar> <equal>	: "₌" U208C # SUBSCRIPT EQUALS SIGN
+<Multi_key> <underbar> <equal>		: "₌" U208C # SUBSCRIPT EQUALS SIGN
 <Multi_key> <underbar> <KP_Equal>	: "₌" U208C # SUBSCRIPT EQUALS SIGN
 <Multi_key> <underscore> <parenleft>	: "₍" U208D # SUBSCRIPT LEFT PARENTHESIS
 <Multi_key> <underbar> <parenleft>	: "₍" U208D # SUBSCRIPT LEFT PARENTHESIS
@@ -5012,55 +5024,55 @@ XCOMM group 1: cluster jamos made of three basic jamos
 <Multi_key> <asciicircum> <S> <M>	: "℠" U2120 # SERVICE MARK
 <dead_circumflex> <Multi_key> <T> <M>	: "™" trademark # TRADE MARK SIGN
 <Multi_key> <asciicircum> <T> <M>	: "™" trademark # TRADE MARK SIGN
-<Multi_key> <slash> <leftarrow>	: "↚" U219A # LEFTWARDS ARROW WITH STROKE
+<Multi_key> <slash> <leftarrow>		: "↚" U219A # LEFTWARDS ARROW WITH STROKE
 <Multi_key> <KP_Divide> <leftarrow>	: "↚" U219A # LEFTWARDS ARROW WITH STROKE
 <Multi_key> <slash> <rightarrow>	: "↛" U219B # RIGHTWARDS ARROW WITH STROKE
 <Multi_key> <KP_Divide> <rightarrow>	: "↛" U219B # RIGHTWARDS ARROW WITH STROKE
-<Multi_key> <slash> <U2194>	: "↮" U21AE # LEFT RIGHT ARROW WITH STROKE
-<Multi_key> <KP_Divide> <U2194>	: "↮" U21AE # LEFT RIGHT ARROW WITH STROKE
-<Multi_key> <U2203> <U0338>	: "∄" U2204 # THERE DOES NOT EXIST
-<Multi_key> <U2208> <U0338>	: "∉" U2209 # NOT AN ELEMENT OF
-<Multi_key> <U220b> <U0338>	: "∌" U220C # DOES NOT CONTAIN AS MEMBER
-<Multi_key> <U2223> <U0338>	: "∤" U2224 # DOES NOT DIVIDE
-<Multi_key> <U2225> <U0338>	: "∦" U2226 # NOT PARALLEL TO
-<Multi_key> <U223c> <U0338>	: "≁" U2241 # NOT TILDE
-<Multi_key> <U2243> <U0338>	: "≄" U2244 # NOT ASYMPTOTICALLY EQUAL TO
+<Multi_key> <slash> <U2194>		: "↮" U21AE # LEFT RIGHT ARROW WITH STROKE
+<Multi_key> <KP_Divide> <U2194>		: "↮" U21AE # LEFT RIGHT ARROW WITH STROKE
+<Multi_key> <U2203> <U0338>		: "∄" U2204 # THERE DOES NOT EXIST
+<Multi_key> <U2208> <U0338>		: "∉" U2209 # NOT AN ELEMENT OF
+<Multi_key> <U220b> <U0338>		: "∌" U220C # DOES NOT CONTAIN AS MEMBER
+<Multi_key> <U2223> <U0338>		: "∤" U2224 # DOES NOT DIVIDE
+<Multi_key> <U2225> <U0338>		: "∦" U2226 # NOT PARALLEL TO
+<Multi_key> <U223c> <U0338>		: "≁" U2241 # NOT TILDE
+<Multi_key> <U2243> <U0338>		: "≄" U2244 # NOT ASYMPTOTICALLY EQUAL TO
 <Multi_key> <approximate> <U0338>	: "≇" U2247 # NEITHER APPROXIMATELY NOR ACTUALLY EQUAL TO
-<Multi_key> <U2248> <U0338>	: "≉" U2249 # NOT ALMOST EQUAL TO
-<Multi_key> <equal> <U0338>	: "≠" notequal # NOT EQUAL TO
-<Multi_key> <KP_Equal> <U0338>	: "≠" notequal # NOT EQUAL TO
-<Multi_key> <identical> <U0338>	: "≢" U2262 # NOT IDENTICAL TO
-<Multi_key> <U224d> <U0338>	: "≭" U226D # NOT EQUIVALENT TO
-<Multi_key> <less> <U0338>	: "≮" U226E # NOT LESS-THAN
-<Multi_key> <leftcaret> <U0338>	: "≮" U226E # NOT LESS-THAN
-<Multi_key> <greater> <U0338>	: "≯" U226F # NOT GREATER-THAN
+<Multi_key> <U2248> <U0338>		: "≉" U2249 # NOT ALMOST EQUAL TO
+<Multi_key> <equal> <U0338>		: "≠" notequal # NOT EQUAL TO
+<Multi_key> <KP_Equal> <U0338>		: "≠" notequal # NOT EQUAL TO
+<Multi_key> <identical> <U0338>		: "≢" U2262 # NOT IDENTICAL TO
+<Multi_key> <U224d> <U0338>		: "≭" U226D # NOT EQUIVALENT TO
+<Multi_key> <less> <U0338>		: "≮" U226E # NOT LESS-THAN
+<Multi_key> <leftcaret> <U0338>		: "≮" U226E # NOT LESS-THAN
+<Multi_key> <greater> <U0338>		: "≯" U226F # NOT GREATER-THAN
 <Multi_key> <rightcaret> <U0338>	: "≯" U226F # NOT GREATER-THAN
 <Multi_key> <lessthanequal> <U0338>	: "≰" U2270 # NEITHER LESS-THAN NOR EQUAL TO
 <Multi_key> <greaterthanequal> <U0338>	: "≱" U2271 # NEITHER GREATER-THAN NOR EQUAL TO
-<Multi_key> <U2272> <U0338>	: "≴" U2274 # NEITHER LESS-THAN NOR EQUIVALENT TO
-<Multi_key> <U2273> <U0338>	: "≵" U2275 # NEITHER GREATER-THAN NOR EQUIVALENT TO
-<Multi_key> <U2276> <U0338>	: "≸" U2278 # NEITHER LESS-THAN NOR GREATER-THAN
-<Multi_key> <U2277> <U0338>	: "≹" U2279 # NEITHER GREATER-THAN NOR LESS-THAN
-<Multi_key> <U227a> <U0338>	: "⊀" U2280 # DOES NOT PRECEDE
-<Multi_key> <U227b> <U0338>	: "⊁" U2281 # DOES NOT SUCCEED
+<Multi_key> <U2272> <U0338>		: "≴" U2274 # NEITHER LESS-THAN NOR EQUIVALENT TO
+<Multi_key> <U2273> <U0338>		: "≵" U2275 # NEITHER GREATER-THAN NOR EQUIVALENT TO
+<Multi_key> <U2276> <U0338>		: "≸" U2278 # NEITHER LESS-THAN NOR GREATER-THAN
+<Multi_key> <U2277> <U0338>		: "≹" U2279 # NEITHER GREATER-THAN NOR LESS-THAN
+<Multi_key> <U227a> <U0338>		: "⊀" U2280 # DOES NOT PRECEDE
+<Multi_key> <U227b> <U0338>		: "⊁" U2281 # DOES NOT SUCCEED
 <Multi_key> <includedin> <U0338>	: "⊄" U2284 # NOT A SUBSET OF
-<Multi_key> <leftshoe> <U0338>	: "⊄" U2284 # NOT A SUBSET OF
-<Multi_key> <includes> <U0338>	: "⊅" U2285 # NOT A SUPERSET OF
-<Multi_key> <rightshoe> <U0338>	: "⊅" U2285 # NOT A SUPERSET OF
-<Multi_key> <U2286> <U0338>	: "⊈" U2288 # NEITHER A SUBSET OF NOR EQUAL TO
-<Multi_key> <U2287> <U0338>	: "⊉" U2289 # NEITHER A SUPERSET OF NOR EQUAL TO
-<Multi_key> <righttack> <U0338>	: "⊬" U22AC # DOES NOT PROVE
-<Multi_key> <U22a8> <U0338>	: "⊭" U22AD # NOT TRUE
-<Multi_key> <U22a9> <U0338>	: "⊮" U22AE # DOES NOT FORCE
-<Multi_key> <U22ab> <U0338>	: "⊯" U22AF # NEGATED DOUBLE VERTICAL BAR DOUBLE RIGHT TURNSTILE
-<Multi_key> <U227c> <U0338>	: "⋠" U22E0 # DOES NOT PRECEDE OR EQUAL
-<Multi_key> <U227d> <U0338>	: "⋡" U22E1 # DOES NOT SUCCEED OR EQUAL
-<Multi_key> <U2291> <U0338>	: "⋢" U22E2 # NOT SQUARE IMAGE OF OR EQUAL TO
-<Multi_key> <U2292> <U0338>	: "⋣" U22E3 # NOT SQUARE ORIGINAL OF OR EQUAL TO
-<Multi_key> <U22b2> <U0338>	: "⋪" U22EA # NOT NORMAL SUBGROUP OF
-<Multi_key> <U22b3> <U0338>	: "⋫" U22EB # DOES NOT CONTAIN AS NORMAL SUBGROUP
-<Multi_key> <U22b4> <U0338>	: "⋬" U22EC # NOT NORMAL SUBGROUP OF OR EQUAL TO
-<Multi_key> <U22b5> <U0338>	: "⋭" U22ED # DOES NOT CONTAIN AS NORMAL SUBGROUP OR EQUAL
+<Multi_key> <leftshoe> <U0338>		: "⊄" U2284 # NOT A SUBSET OF
+<Multi_key> <includes> <U0338>		: "⊅" U2285 # NOT A SUPERSET OF
+<Multi_key> <rightshoe> <U0338>		: "⊅" U2285 # NOT A SUPERSET OF
+<Multi_key> <U2286> <U0338>		: "⊈" U2288 # NEITHER A SUBSET OF NOR EQUAL TO
+<Multi_key> <U2287> <U0338>		: "⊉" U2289 # NEITHER A SUPERSET OF NOR EQUAL TO
+<Multi_key> <righttack> <U0338>		: "⊬" U22AC # DOES NOT PROVE
+<Multi_key> <U22a8> <U0338>		: "⊭" U22AD # NOT TRUE
+<Multi_key> <U22a9> <U0338>		: "⊮" U22AE # DOES NOT FORCE
+<Multi_key> <U22ab> <U0338>		: "⊯" U22AF # NEGATED DOUBLE VERTICAL BAR DOUBLE RIGHT TURNSTILE
+<Multi_key> <U227c> <U0338>		: "⋠" U22E0 # DOES NOT PRECEDE OR EQUAL
+<Multi_key> <U227d> <U0338>		: "⋡" U22E1 # DOES NOT SUCCEED OR EQUAL
+<Multi_key> <U2291> <U0338>		: "⋢" U22E2 # NOT SQUARE IMAGE OF OR EQUAL TO
+<Multi_key> <U2292> <U0338>		: "⋣" U22E3 # NOT SQUARE ORIGINAL OF OR EQUAL TO
+<Multi_key> <U22b2> <U0338>		: "⋪" U22EA # NOT NORMAL SUBGROUP OF
+<Multi_key> <U22b3> <U0338>		: "⋫" U22EB # DOES NOT CONTAIN AS NORMAL SUBGROUP
+<Multi_key> <U22b4> <U0338>		: "⋬" U22EC # NOT NORMAL SUBGROUP OF OR EQUAL TO
+<Multi_key> <U22b5> <U0338>		: "⋭" U22ED # DOES NOT CONTAIN AS NORMAL SUBGROUP OR EQUAL
 <Multi_key> <parenleft> <1> <parenright>	: "①" U2460 # CIRCLED DIGIT ONE
 <Multi_key> <parenleft> <KP_1> <parenright>	: "①" U2460 # CIRCLED DIGIT ONE
 <Multi_key> <parenleft> <2> <parenright>	: "②" U2461 # CIRCLED DIGIT TWO
@@ -5182,65 +5194,65 @@ XCOMM group 1: cluster jamos made of three basic jamos
 <Multi_key> <parenleft> <z> <parenright>	: "ⓩ" U24E9 # CIRCLED LATIN SMALL LETTER Z
 <Multi_key> <parenleft> <0> <parenright>	: "⓪" U24EA # CIRCLED DIGIT ZERO
 <Multi_key> <parenleft> <KP_0> <parenright>	: "⓪" U24EA # CIRCLED DIGIT ZERO
-<Multi_key> <U2add> <U0338>	: "⫝̸" U2ADC # FORKING
-<dead_voiced_sound> <U304b>	: "が" U304C # HIRAGANA LETTER GA
-<dead_voiced_sound> <U304d>	: "ぎ" U304E # HIRAGANA LETTER GI
-<dead_voiced_sound> <U304f>	: "ぐ" U3050 # HIRAGANA LETTER GU
-<dead_voiced_sound> <U3051>	: "げ" U3052 # HIRAGANA LETTER GE
-<dead_voiced_sound> <U3053>	: "ご" U3054 # HIRAGANA LETTER GO
-<dead_voiced_sound> <U3055>	: "ざ" U3056 # HIRAGANA LETTER ZA
-<dead_voiced_sound> <U3057>	: "じ" U3058 # HIRAGANA LETTER ZI
-<dead_voiced_sound> <U3059>	: "ず" U305A # HIRAGANA LETTER ZU
-<dead_voiced_sound> <U305b>	: "ぜ" U305C # HIRAGANA LETTER ZE
-<dead_voiced_sound> <U305d>	: "ぞ" U305E # HIRAGANA LETTER ZO
-<dead_voiced_sound> <U305f>	: "だ" U3060 # HIRAGANA LETTER DA
-<dead_voiced_sound> <U3061>	: "ぢ" U3062 # HIRAGANA LETTER DI
-<dead_voiced_sound> <U3064>	: "づ" U3065 # HIRAGANA LETTER DU
-<dead_voiced_sound> <U3066>	: "で" U3067 # HIRAGANA LETTER DE
-<dead_voiced_sound> <U3068>	: "ど" U3069 # HIRAGANA LETTER DO
-<dead_voiced_sound> <U306f>	: "ば" U3070 # HIRAGANA LETTER BA
-<dead_semivoiced_sound> <U306f>	: "ぱ" U3071 # HIRAGANA LETTER PA
-<dead_voiced_sound> <U3072>	: "び" U3073 # HIRAGANA LETTER BI
-<dead_semivoiced_sound> <U3072>	: "ぴ" U3074 # HIRAGANA LETTER PI
-<dead_voiced_sound> <U3075>	: "ぶ" U3076 # HIRAGANA LETTER BU
-<dead_semivoiced_sound> <U3075>	: "ぷ" U3077 # HIRAGANA LETTER PU
-<dead_voiced_sound> <U3078>	: "べ" U3079 # HIRAGANA LETTER BE
-<dead_semivoiced_sound> <U3078>	: "ぺ" U307A # HIRAGANA LETTER PE
-<dead_voiced_sound> <U307b>	: "ぼ" U307C # HIRAGANA LETTER BO
-<dead_semivoiced_sound> <U307b>	: "ぽ" U307D # HIRAGANA LETTER PO
-<dead_voiced_sound> <U3046>	: "ゔ" U3094 # HIRAGANA LETTER VU
-<dead_voiced_sound> <U309d>	: "ゞ" U309E # HIRAGANA VOICED ITERATION MARK
-<dead_voiced_sound> <kana_KA>	: "ガ" U30AC # KATAKANA LETTER GA
-<dead_voiced_sound> <kana_KI>	: "ギ" U30AE # KATAKANA LETTER GI
-<dead_voiced_sound> <kana_KU>	: "グ" U30B0 # KATAKANA LETTER GU
-<dead_voiced_sound> <kana_KE>	: "ゲ" U30B2 # KATAKANA LETTER GE
-<dead_voiced_sound> <kana_KO>	: "ゴ" U30B4 # KATAKANA LETTER GO
-<dead_voiced_sound> <kana_SA>	: "ザ" U30B6 # KATAKANA LETTER ZA
-<dead_voiced_sound> <kana_SHI>	: "ジ" U30B8 # KATAKANA LETTER ZI
-<dead_voiced_sound> <kana_SU>	: "ズ" U30BA # KATAKANA LETTER ZU
-<dead_voiced_sound> <kana_SE>	: "ゼ" U30BC # KATAKANA LETTER ZE
-<dead_voiced_sound> <kana_SO>	: "ゾ" U30BE # KATAKANA LETTER ZO
-<dead_voiced_sound> <kana_TA>	: "ダ" U30C0 # KATAKANA LETTER DA
-<dead_voiced_sound> <kana_CHI>	: "ヂ" U30C2 # KATAKANA LETTER DI
-<dead_voiced_sound> <kana_TSU>	: "ヅ" U30C5 # KATAKANA LETTER DU
-<dead_voiced_sound> <kana_TE>	: "デ" U30C7 # KATAKANA LETTER DE
-<dead_voiced_sound> <kana_TO>	: "ド" U30C9 # KATAKANA LETTER DO
-<dead_voiced_sound> <kana_HA>	: "バ" U30D0 # KATAKANA LETTER BA
+<Multi_key> <U2add> <U0338>		: "⫝̸" U2ADC # FORKING
+<dead_voiced_sound> <U304b>		: "が" U304C # HIRAGANA LETTER GA
+<dead_voiced_sound> <U304d>		: "ぎ" U304E # HIRAGANA LETTER GI
+<dead_voiced_sound> <U304f>		: "ぐ" U3050 # HIRAGANA LETTER GU
+<dead_voiced_sound> <U3051>		: "げ" U3052 # HIRAGANA LETTER GE
+<dead_voiced_sound> <U3053>		: "ご" U3054 # HIRAGANA LETTER GO
+<dead_voiced_sound> <U3055>		: "ざ" U3056 # HIRAGANA LETTER ZA
+<dead_voiced_sound> <U3057>		: "じ" U3058 # HIRAGANA LETTER ZI
+<dead_voiced_sound> <U3059>		: "ず" U305A # HIRAGANA LETTER ZU
+<dead_voiced_sound> <U305b>		: "ぜ" U305C # HIRAGANA LETTER ZE
+<dead_voiced_sound> <U305d>		: "ぞ" U305E # HIRAGANA LETTER ZO
+<dead_voiced_sound> <U305f>		: "だ" U3060 # HIRAGANA LETTER DA
+<dead_voiced_sound> <U3061>		: "ぢ" U3062 # HIRAGANA LETTER DI
+<dead_voiced_sound> <U3064>		: "づ" U3065 # HIRAGANA LETTER DU
+<dead_voiced_sound> <U3066>		: "で" U3067 # HIRAGANA LETTER DE
+<dead_voiced_sound> <U3068>		: "ど" U3069 # HIRAGANA LETTER DO
+<dead_voiced_sound> <U306f>		: "ば" U3070 # HIRAGANA LETTER BA
+<dead_semivoiced_sound> <U306f>		: "ぱ" U3071 # HIRAGANA LETTER PA
+<dead_voiced_sound> <U3072>		: "び" U3073 # HIRAGANA LETTER BI
+<dead_semivoiced_sound> <U3072>		: "ぴ" U3074 # HIRAGANA LETTER PI
+<dead_voiced_sound> <U3075>		: "ぶ" U3076 # HIRAGANA LETTER BU
+<dead_semivoiced_sound> <U3075>		: "ぷ" U3077 # HIRAGANA LETTER PU
+<dead_voiced_sound> <U3078>		: "べ" U3079 # HIRAGANA LETTER BE
+<dead_semivoiced_sound> <U3078>		: "ぺ" U307A # HIRAGANA LETTER PE
+<dead_voiced_sound> <U307b>		: "ぼ" U307C # HIRAGANA LETTER BO
+<dead_semivoiced_sound> <U307b>		: "ぽ" U307D # HIRAGANA LETTER PO
+<dead_voiced_sound> <U3046>		: "ゔ" U3094 # HIRAGANA LETTER VU
+<dead_voiced_sound> <U309d>		: "ゞ" U309E # HIRAGANA VOICED ITERATION MARK
+<dead_voiced_sound> <kana_KA>		: "ガ" U30AC # KATAKANA LETTER GA
+<dead_voiced_sound> <kana_KI>		: "ギ" U30AE # KATAKANA LETTER GI
+<dead_voiced_sound> <kana_KU>		: "グ" U30B0 # KATAKANA LETTER GU
+<dead_voiced_sound> <kana_KE>		: "ゲ" U30B2 # KATAKANA LETTER GE
+<dead_voiced_sound> <kana_KO>		: "ゴ" U30B4 # KATAKANA LETTER GO
+<dead_voiced_sound> <kana_SA>		: "ザ" U30B6 # KATAKANA LETTER ZA
+<dead_voiced_sound> <kana_SHI>		: "ジ" U30B8 # KATAKANA LETTER ZI
+<dead_voiced_sound> <kana_SU>		: "ズ" U30BA # KATAKANA LETTER ZU
+<dead_voiced_sound> <kana_SE>		: "ゼ" U30BC # KATAKANA LETTER ZE
+<dead_voiced_sound> <kana_SO>		: "ゾ" U30BE # KATAKANA LETTER ZO
+<dead_voiced_sound> <kana_TA>		: "ダ" U30C0 # KATAKANA LETTER DA
+<dead_voiced_sound> <kana_CHI>		: "ヂ" U30C2 # KATAKANA LETTER DI
+<dead_voiced_sound> <kana_TSU>		: "ヅ" U30C5 # KATAKANA LETTER DU
+<dead_voiced_sound> <kana_TE>		: "デ" U30C7 # KATAKANA LETTER DE
+<dead_voiced_sound> <kana_TO>		: "ド" U30C9 # KATAKANA LETTER DO
+<dead_voiced_sound> <kana_HA>		: "バ" U30D0 # KATAKANA LETTER BA
 <dead_semivoiced_sound> <kana_HA>	: "パ" U30D1 # KATAKANA LETTER PA
-<dead_voiced_sound> <kana_HI>	: "ビ" U30D3 # KATAKANA LETTER BI
+<dead_voiced_sound> <kana_HI>		: "ビ" U30D3 # KATAKANA LETTER BI
 <dead_semivoiced_sound> <kana_HI>	: "ピ" U30D4 # KATAKANA LETTER PI
-<dead_voiced_sound> <kana_FU>	: "ブ" U30D6 # KATAKANA LETTER BU
+<dead_voiced_sound> <kana_FU>		: "ブ" U30D6 # KATAKANA LETTER BU
 <dead_semivoiced_sound> <kana_FU>	: "プ" U30D7 # KATAKANA LETTER PU
-<dead_voiced_sound> <kana_HE>	: "ベ" U30D9 # KATAKANA LETTER BE
+<dead_voiced_sound> <kana_HE>		: "ベ" U30D9 # KATAKANA LETTER BE
 <dead_semivoiced_sound> <kana_HE>	: "ペ" U30DA # KATAKANA LETTER PE
-<dead_voiced_sound> <kana_HO>	: "ボ" U30DC # KATAKANA LETTER BO
+<dead_voiced_sound> <kana_HO>		: "ボ" U30DC # KATAKANA LETTER BO
 <dead_semivoiced_sound> <kana_HO>	: "ポ" U30DD # KATAKANA LETTER PO
-<dead_voiced_sound> <kana_U>	: "ヴ" U30F4 # KATAKANA LETTER VU
-<dead_voiced_sound> <kana_WA>	: "ヷ" U30F7 # KATAKANA LETTER VA
-<dead_voiced_sound> <U30f0>	: "ヸ" U30F8 # KATAKANA LETTER VI
-<dead_voiced_sound> <U30f1>	: "ヹ" U30F9 # KATAKANA LETTER VE
-<dead_voiced_sound> <kana_WO>	: "ヺ" U30FA # KATAKANA LETTER VO
-<dead_voiced_sound> <U30fd>	: "ヾ" U30FE # KATAKANA VOICED ITERATION MARK
+<dead_voiced_sound> <kana_U>		: "ヴ" U30F4 # KATAKANA LETTER VU
+<dead_voiced_sound> <kana_WA>		: "ヷ" U30F7 # KATAKANA LETTER VA
+<dead_voiced_sound> <U30f0>		: "ヸ" U30F8 # KATAKANA LETTER VI
+<dead_voiced_sound> <U30f1>		: "ヹ" U30F9 # KATAKANA LETTER VE
+<dead_voiced_sound> <kana_WO>		: "ヺ" U30FA # KATAKANA LETTER VO
+<dead_voiced_sound> <U30fd>		: "ヾ" U30FE # KATAKANA VOICED ITERATION MARK
 <Multi_key> <voiced_sound> <U304b>	: "が" U304C # HIRAGANA LETTER GA
 <Multi_key> <voiced_sound> <U304d>	: "ぎ" U304E # HIRAGANA LETTER GI
 <Multi_key> <voiced_sound> <U304f>	: "ぐ" U3050 # HIRAGANA LETTER GU
@@ -5357,33 +5369,33 @@ XCOMM group 1: cluster jamos made of three basic jamos
 <Multi_key> <U30f1> <voiced_sound>	: "ヹ" U30F9 # KATAKANA LETTER VE
 <Multi_key> <kana_WO> <voiced_sound>	: "ヺ" U30FA # KATAKANA LETTER VO
 <Multi_key> <U30fd> <voiced_sound>	: "ヾ" U30FE # KATAKANA VOICED ITERATION MARK
-<dead_circumflex> <U4e00>	: "㆒" U3192 # IDEOGRAPHIC ANNOTATION ONE MARK
+<dead_circumflex> <U4e00>		: "㆒" U3192 # IDEOGRAPHIC ANNOTATION ONE MARK
 <Multi_key> <asciicircum> <U4e00>	: "㆒" U3192 # IDEOGRAPHIC ANNOTATION ONE MARK
-<dead_circumflex> <U4e8c>	: "㆓" U3193 # IDEOGRAPHIC ANNOTATION TWO MARK
+<dead_circumflex> <U4e8c>		: "㆓" U3193 # IDEOGRAPHIC ANNOTATION TWO MARK
 <Multi_key> <asciicircum> <U4e8c>	: "㆓" U3193 # IDEOGRAPHIC ANNOTATION TWO MARK
-<dead_circumflex> <U4e09>	: "㆔" U3194 # IDEOGRAPHIC ANNOTATION THREE MARK
+<dead_circumflex> <U4e09>		: "㆔" U3194 # IDEOGRAPHIC ANNOTATION THREE MARK
 <Multi_key> <asciicircum> <U4e09>	: "㆔" U3194 # IDEOGRAPHIC ANNOTATION THREE MARK
-<dead_circumflex> <U56db>	: "㆕" U3195 # IDEOGRAPHIC ANNOTATION FOUR MARK
+<dead_circumflex> <U56db>		: "㆕" U3195 # IDEOGRAPHIC ANNOTATION FOUR MARK
 <Multi_key> <asciicircum> <U56db>	: "㆕" U3195 # IDEOGRAPHIC ANNOTATION FOUR MARK
-<dead_circumflex> <U4e0a>	: "㆖" U3196 # IDEOGRAPHIC ANNOTATION TOP MARK
+<dead_circumflex> <U4e0a>		: "㆖" U3196 # IDEOGRAPHIC ANNOTATION TOP MARK
 <Multi_key> <asciicircum> <U4e0a>	: "㆖" U3196 # IDEOGRAPHIC ANNOTATION TOP MARK
-<dead_circumflex> <U4e2d>	: "㆗" U3197 # IDEOGRAPHIC ANNOTATION MIDDLE MARK
+<dead_circumflex> <U4e2d>		: "㆗" U3197 # IDEOGRAPHIC ANNOTATION MIDDLE MARK
 <Multi_key> <asciicircum> <U4e2d>	: "㆗" U3197 # IDEOGRAPHIC ANNOTATION MIDDLE MARK
-<dead_circumflex> <U4e0b>	: "㆘" U3198 # IDEOGRAPHIC ANNOTATION BOTTOM MARK
+<dead_circumflex> <U4e0b>		: "㆘" U3198 # IDEOGRAPHIC ANNOTATION BOTTOM MARK
 <Multi_key> <asciicircum> <U4e0b>	: "㆘" U3198 # IDEOGRAPHIC ANNOTATION BOTTOM MARK
-<dead_circumflex> <U7532>	: "㆙" U3199 # IDEOGRAPHIC ANNOTATION FIRST MARK
+<dead_circumflex> <U7532>		: "㆙" U3199 # IDEOGRAPHIC ANNOTATION FIRST MARK
 <Multi_key> <asciicircum> <U7532>	: "㆙" U3199 # IDEOGRAPHIC ANNOTATION FIRST MARK
-<dead_circumflex> <U4e59>	: "㆚" U319A # IDEOGRAPHIC ANNOTATION SECOND MARK
+<dead_circumflex> <U4e59>		: "㆚" U319A # IDEOGRAPHIC ANNOTATION SECOND MARK
 <Multi_key> <asciicircum> <U4e59>	: "㆚" U319A # IDEOGRAPHIC ANNOTATION SECOND MARK
-<dead_circumflex> <U4e19>	: "㆛" U319B # IDEOGRAPHIC ANNOTATION THIRD MARK
+<dead_circumflex> <U4e19>		: "㆛" U319B # IDEOGRAPHIC ANNOTATION THIRD MARK
 <Multi_key> <asciicircum> <U4e19>	: "㆛" U319B # IDEOGRAPHIC ANNOTATION THIRD MARK
-<dead_circumflex> <U4e01>	: "㆜" U319C # IDEOGRAPHIC ANNOTATION FOURTH MARK
+<dead_circumflex> <U4e01>		: "㆜" U319C # IDEOGRAPHIC ANNOTATION FOURTH MARK
 <Multi_key> <asciicircum> <U4e01>	: "㆜" U319C # IDEOGRAPHIC ANNOTATION FOURTH MARK
-<dead_circumflex> <U5929>	: "㆝" U319D # IDEOGRAPHIC ANNOTATION HEAVEN MARK
+<dead_circumflex> <U5929>		: "㆝" U319D # IDEOGRAPHIC ANNOTATION HEAVEN MARK
 <Multi_key> <asciicircum> <U5929>	: "㆝" U319D # IDEOGRAPHIC ANNOTATION HEAVEN MARK
-<dead_circumflex> <U5730>	: "㆞" U319E # IDEOGRAPHIC ANNOTATION EARTH MARK
+<dead_circumflex> <U5730>		: "㆞" U319E # IDEOGRAPHIC ANNOTATION EARTH MARK
 <Multi_key> <asciicircum> <U5730>	: "㆞" U319E # IDEOGRAPHIC ANNOTATION EARTH MARK
-<dead_circumflex> <U4eba>	: "㆟" U319F # IDEOGRAPHIC ANNOTATION MAN MARK
+<dead_circumflex> <U4eba>		: "㆟" U319F # IDEOGRAPHIC ANNOTATION MAN MARK
 <Multi_key> <asciicircum> <U4eba>	: "㆟" U319F # IDEOGRAPHIC ANNOTATION MAN MARK
 <Multi_key> <parenleft> <2> <1> <parenright>	: "㉑" U3251 # CIRCLED NUMBER TWENTY ONE
 <Multi_key> <parenleft> <2> <KP_1> <parenright>	: "㉑" U3251 # CIRCLED NUMBER TWENTY ONE
@@ -5655,12 +5667,12 @@ XCOMM group 1: cluster jamos made of three basic jamos
 <Multi_key> <parenleft> <U30f1> <parenright>	: "㋽" U32FD # CIRCLED KATAKANA WE
 <Multi_key> <parenleft> <kana_WO> <parenright>	: "㋾" U32FE # CIRCLED KATAKANA WO
 <Multi_key> <U05b4> <hebrew_yod>	: "יִ" UFB1D # HEBREW LETTER YOD WITH HIRIQ
-<Multi_key> <U05b7> <U05f2>	: "ײַ" UFB1F # HEBREW LIGATURE YIDDISH YOD YOD PATAH
+<Multi_key> <U05b7> <U05f2>		: "ײַ" UFB1F # HEBREW LIGATURE YIDDISH YOD YOD PATAH
 <Multi_key> <U05c1> <hebrew_shin>	: "שׁ" UFB2A # HEBREW LETTER SHIN WITH SHIN DOT
 <Multi_key> <U05c2> <hebrew_shin>	: "שׂ" UFB2B # HEBREW LETTER SHIN WITH SIN DOT
-<Multi_key> <U05c1> <Ufb49>	: "שּׁ" UFB2C # HEBREW LETTER SHIN WITH DAGESH AND SHIN DOT
+<Multi_key> <U05c1> <Ufb49>		: "שּׁ" UFB2C # HEBREW LETTER SHIN WITH DAGESH AND SHIN DOT
 <Multi_key> <U05c1> <U05bc> <hebrew_shin>	: "שּׁ" UFB2C # HEBREW LETTER SHIN WITH DAGESH AND SHIN DOT
-<Multi_key> <U05c2> <Ufb49>	: "שּׂ" UFB2D # HEBREW LETTER SHIN WITH DAGESH AND SIN DOT
+<Multi_key> <U05c2> <Ufb49>		: "שּׂ" UFB2D # HEBREW LETTER SHIN WITH DAGESH AND SIN DOT
 <Multi_key> <U05c2> <U05bc> <hebrew_shin>	: "שּׂ" UFB2D # HEBREW LETTER SHIN WITH DAGESH AND SIN DOT
 <Multi_key> <U05b7> <hebrew_aleph>	: "אַ" UFB2E # HEBREW LETTER ALEF WITH PATAH
 <Multi_key> <U05b8> <hebrew_aleph>	: "אָ" UFB2F # HEBREW LETTER ALEF WITH QAMATS
@@ -5671,7 +5683,7 @@ XCOMM group 1: cluster jamos made of three basic jamos
 <Multi_key> <U05bc> <hebrew_gimmel>	: "גּ" UFB32 # HEBREW LETTER GIMEL WITH DAGESH
 <Multi_key> <U05bc> <hebrew_dalet>	: "דּ" UFB33 # HEBREW LETTER DALET WITH DAGESH
 <Multi_key> <U05bc> <hebrew_daleth>	: "דּ" UFB33 # HEBREW LETTER DALET WITH DAGESH
-<Multi_key> <U05bc> <hebrew_he>	: "הּ" UFB34 # HEBREW LETTER HE WITH MAPIQ
+<Multi_key> <U05bc> <hebrew_he>		: "הּ" UFB34 # HEBREW LETTER HE WITH MAPIQ
 <Multi_key> <U05bc> <hebrew_waw>	: "וּ" UFB35 # HEBREW LETTER VAV WITH DAGESH
 <Multi_key> <U05bc> <hebrew_zain>	: "זּ" UFB36 # HEBREW LETTER ZAYIN WITH DAGESH
 <Multi_key> <U05bc> <hebrew_zayin>	: "זּ" UFB36 # HEBREW LETTER ZAYIN WITH DAGESH
@@ -5686,7 +5698,7 @@ XCOMM group 1: cluster jamos made of three basic jamos
 <Multi_key> <U05bc> <hebrew_samech>	: "סּ" UFB41 # HEBREW LETTER SAMEKH WITH DAGESH
 <Multi_key> <U05bc> <hebrew_samekh>	: "סּ" UFB41 # HEBREW LETTER SAMEKH WITH DAGESH
 <Multi_key> <U05bc> <hebrew_finalpe>	: "ףּ" UFB43 # HEBREW LETTER FINAL PE WITH DAGESH
-<Multi_key> <U05bc> <hebrew_pe>	: "פּ" UFB44 # HEBREW LETTER PE WITH DAGESH
+<Multi_key> <U05bc> <hebrew_pe>		: "פּ" UFB44 # HEBREW LETTER PE WITH DAGESH
 <Multi_key> <U05bc> <hebrew_zade>	: "צּ" UFB46 # HEBREW LETTER TSADI WITH DAGESH
 <Multi_key> <U05bc> <hebrew_zadi>	: "צּ" UFB46 # HEBREW LETTER TSADI WITH DAGESH
 <Multi_key> <U05bc> <hebrew_kuf>	: "קּ" UFB47 # HEBREW LETTER QOF WITH DAGESH
@@ -5699,26 +5711,36 @@ XCOMM group 1: cluster jamos made of three basic jamos
 <Multi_key> <U05bf> <hebrew_bet>	: "בֿ" UFB4C # HEBREW LETTER BET WITH RAFE
 <Multi_key> <U05bf> <hebrew_beth>	: "בֿ" UFB4C # HEBREW LETTER BET WITH RAFE
 <Multi_key> <U05bf> <hebrew_kaph>	: "כֿ" UFB4D # HEBREW LETTER KAF WITH RAFE
-<Multi_key> <U05bf> <hebrew_pe>	: "פֿ" UFB4E # HEBREW LETTER PE WITH RAFE
-<Multi_key> <U1d157> <U1d165>	: "텞" U1D15E # MUSICAL SYMBOL HALF NOTE
-<Multi_key> <U1d158> <U1d165>	: "텟" U1D15F # MUSICAL SYMBOL QUARTER NOTE
-<Multi_key> <U1d15f> <U1d16e>	: "텠" U1D160 # MUSICAL SYMBOL EIGHTH NOTE
-<Multi_key> <U1d158> <U1d165> <U1d16e>	: "텠" U1D160 # MUSICAL SYMBOL EIGHTH NOTE
-<Multi_key> <U1d15f> <U1d16f>	: "텡" U1D161 # MUSICAL SYMBOL SIXTEENTH NOTE
-<Multi_key> <U1d158> <U1d165> <U1d16f>	: "텡" U1D161 # MUSICAL SYMBOL SIXTEENTH NOTE
-<Multi_key> <U1d15f> <U1d170>	: "텢" U1D162 # MUSICAL SYMBOL THIRTY-SECOND NOTE
-<Multi_key> <U1d158> <U1d165> <U1d170>	: "텢" U1D162 # MUSICAL SYMBOL THIRTY-SECOND NOTE
-<Multi_key> <U1d15f> <U1d171>	: "텣" U1D163 # MUSICAL SYMBOL SIXTY-FOURTH NOTE
-<Multi_key> <U1d158> <U1d165> <U1d171>	: "텣" U1D163 # MUSICAL SYMBOL SIXTY-FOURTH NOTE
-<Multi_key> <U1d15f> <U1d172>	: "텤" U1D164 # MUSICAL SYMBOL ONE HUNDRED TWENTY-EIGHTH NOTE
-<Multi_key> <U1d158> <U1d165> <U1d172>	: "텤" U1D164 # MUSICAL SYMBOL ONE HUNDRED TWENTY-EIGHTH NOTE
-<Multi_key> <U1d1b9> <U1d165>	: "톻" U1D1BB # MUSICAL SYMBOL MINIMA
-<Multi_key> <U1d1ba> <U1d165>	: "톼" U1D1BC # MUSICAL SYMBOL MINIMA BLACK
-<Multi_key> <U1d1bb> <U1d16e>	: "톽" U1D1BD # MUSICAL SYMBOL SEMIMINIMA WHITE
-<Multi_key> <U1d1b9> <U1d165> <U1d16e>	: "톽" U1D1BD # MUSICAL SYMBOL SEMIMINIMA WHITE
-<Multi_key> <U1d1bc> <U1d16e>	: "톾" U1D1BE # MUSICAL SYMBOL SEMIMINIMA BLACK
-<Multi_key> <U1d1ba> <U1d165> <U1d16e>	: "톾" U1D1BE # MUSICAL SYMBOL SEMIMINIMA BLACK
-<Multi_key> <U1d1bb> <U1d16f>	: "톿" U1D1BF # MUSICAL SYMBOL FUSA WHITE
-<Multi_key> <U1d1b9> <U1d165> <U1d16f>	: "톿" U1D1BF # MUSICAL SYMBOL FUSA WHITE
-<Multi_key> <U1d1bc> <U1d16f>	: "퇀" U1D1C0 # MUSICAL SYMBOL FUSA BLACK
-<Multi_key> <U1d1ba> <U1d165> <U1d16f>	: "퇀" U1D1C0 # MUSICAL SYMBOL FUSA BLACK
+<Multi_key> <U05bf> <hebrew_pe>		: "פֿ" UFB4E # HEBREW LETTER PE WITH RAFE
+<Multi_key> <U1d157> <U1d165>		: "𝅗𝅥" U1D15E # MUSICAL SYMBOL HALF NOTE
+<Multi_key> <U1d158> <U1d165>		: "𝅘𝅥" U1D15F # MUSICAL SYMBOL QUARTER NOTE
+<Multi_key> <U1d15f> <U1d16e>		: "𝅘𝅥𝅮" U1D160 # MUSICAL SYMBOL EIGHTH NOTE
+<Multi_key> <U1d158> <U1d165> <U1d16e>	: "𝅘𝅥𝅮" U1D160 # MUSICAL SYMBOL EIGHTH NOTE
+<Multi_key> <U1d15f> <U1d16f>		: "𝅘𝅥𝅯" U1D161 # MUSICAL SYMBOL SIXTEENTH NOTE
+<Multi_key> <U1d158> <U1d165> <U1d16f>	: "𝅘𝅥𝅯" U1D161 # MUSICAL SYMBOL SIXTEENTH NOTE
+<Multi_key> <U1d15f> <U1d170>		: "𝅘𝅥𝅰" U1D162 # MUSICAL SYMBOL THIRTY-SECOND NOTE
+<Multi_key> <U1d158> <U1d165> <U1d170>	: "𝅘𝅥𝅰" U1D162 # MUSICAL SYMBOL THIRTY-SECOND NOTE
+<Multi_key> <U1d15f> <U1d171>		: "𝅘𝅥𝅱" U1D163 # MUSICAL SYMBOL SIXTY-FOURTH NOTE
+<Multi_key> <U1d158> <U1d165> <U1d171>	: "𝅘𝅥𝅱" U1D163 # MUSICAL SYMBOL SIXTY-FOURTH NOTE
+<Multi_key> <U1d15f> <U1d172>		: "𝅘𝅥𝅲" U1D164 # MUSICAL SYMBOL ONE HUNDRED TWENTY-EIGHTH NOTE
+<Multi_key> <U1d158> <U1d165> <U1d172>	: "𝅘𝅥𝅲" U1D164 # MUSICAL SYMBOL ONE HUNDRED TWENTY-EIGHTH NOTE
+<Multi_key> <U1d1b9> <U1d165>		: "𝆹𝅥" U1D1BB # MUSICAL SYMBOL MINIMA
+<Multi_key> <U1d1ba> <U1d165>		: "𝆺𝅥" U1D1BC # MUSICAL SYMBOL MINIMA BLACK
+<Multi_key> <U1d1bb> <U1d16e>		: "𝆹𝅥𝅮" U1D1BD # MUSICAL SYMBOL SEMIMINIMA WHITE
+<Multi_key> <U1d1b9> <U1d165> <U1d16e>	: "𝆹𝅥𝅮" U1D1BD # MUSICAL SYMBOL SEMIMINIMA WHITE
+<Multi_key> <U1d1bc> <U1d16e>		: "𝆺𝅥𝅮" U1D1BE # MUSICAL SYMBOL SEMIMINIMA BLACK
+<Multi_key> <U1d1ba> <U1d165> <U1d16e>	: "𝆺𝅥𝅮" U1D1BE # MUSICAL SYMBOL SEMIMINIMA BLACK
+<Multi_key> <U1d1bb> <U1d16f>		: "𝆹𝅥𝅯" U1D1BF # MUSICAL SYMBOL FUSA WHITE
+<Multi_key> <U1d1b9> <U1d165> <U1d16f>	: "𝆹𝅥𝅯" U1D1BF # MUSICAL SYMBOL FUSA WHITE
+<Multi_key> <U1d1bc> <U1d16f>		: "𝆺𝅥𝅯" U1D1C0 # MUSICAL SYMBOL FUSA BLACK
+<Multi_key> <U1d1ba> <U1d165> <U1d16f>	: "𝆺𝅥𝅯" U1D1C0 # MUSICAL SYMBOL FUSA BLACK
+
+XCOMM  Khmer digraphs
+
+<U17ff>	:	"ាំ"
+<U17fe>	:	"ោះ"
+<U17fd>	:	"េះ"
+<U17fc>	:	"ុំ"
+<U17fb>	:	"ុះ"
+
+XCOMM End
