@@ -1307,12 +1307,7 @@ SSL_CTX *SSL_CTX_new(SSL_METHOD *meth)
 	
 	if (meth == NULL)
 		{
-#if defined(OPENSSL_NO_SSL2) && defined(OPENSSL_NO_SSL3)
-		meth = TLSv1_method();
-#else
-		SSLerr(SSL_F_SSL_CTX_NEW,SSL_R_NULL_SSL_METHOD_PASSED);
-		return(NULL);
-#endif
+		meth = TLS_method();
 		}
 
 #ifdef OPENSSL_FIPS

@@ -65,7 +65,7 @@
 #include <openssl/err.h>
 #include <openssl/ssl.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/apps/ocsp.c,v 1.3 2014/06/05 13:26:35 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/apps/ocsp.c,v 1.4 2015/01/25 17:26:46 tg Exp $");
 
 /* Maximum leeway in validity period: default 5 minutes */
 #define MAX_VALIDITY_PERIOD	(5 * 60)
@@ -727,18 +727,7 @@ int MAIN(int argc, char **argv)
 		if (use_ssl == 1)
 			{
 			BIO *sbio;
-#if !defined(OPENSSL_NO_SSL2) && !defined(OPENSSL_NO_SSL3)
-			ctx = SSL_CTX_new(SSLv23_client_method());
-#elif !defined(OPENSSL_NO_SSL3)
-			ctx = SSL_CTX_new(SSLv3_client_method());
-#elif !defined(OPENSSL_NO_SSL2)
-			ctx = SSL_CTX_new(SSLv2_client_method());
-#elif !defined(OPENSSL_NO_TLS1)
-			ctx = SSL_CTX_new(TLSv1_client_method());
-#else
-			BIO_printf(bio_err, "SSL is disabled\n");
-			goto end;
-#endif
+			ctx = SSL_CTX_new(TLS_client_method());
 			SSL_CTX_set_mode(ctx, SSL_MODE_AUTO_RETRY);
 			sbio = BIO_new_ssl(ctx, 1);
 			cbio = BIO_push(sbio, cbio);
