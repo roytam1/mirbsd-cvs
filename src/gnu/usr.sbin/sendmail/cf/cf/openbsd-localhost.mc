@@ -1,6 +1,6 @@
 divert(-1)dnl
 #
-# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.11 2011/11/20 05:07:10 tg Exp $
+# $MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.13 2015/05/25 14:58:41 tg Exp $
 # @(#)openbsd-proto.mc $Revision$
 #
 # Copyright (c) 2002, 2003, 2004, 2005, 2007, 2008, 2011, 2015
@@ -21,7 +21,7 @@ divert(-1)dnl
 #
 
 divert(0)dnl
-VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.11 2011/11/20 05:07:10 tg Exp $')dnl
+VERSIONID(`$MirOS: src/gnu/usr.sbin/sendmail/cf/cf/openbsd-localhost.mc,v 1.13 2015/05/25 14:58:41 tg Exp $')dnl
 OSTYPE(openbsd)dnl
 dnl
 dnl
@@ -149,7 +149,7 @@ define(`confSERVER_CERT',	`/etc/ssl/default.cer')dnl
 define(`confCLIENT_CERT',	`/etc/ssl/default.cer')dnl
 define(`confSERVER_KEY',	`/etc/ssl/private/default.key')dnl
 define(`confCLIENT_KEY',	`/etc/ssl/private/default.key')dnl
-define(`confCIPHER_LIST',	`kEECDH+aRSA:kEDH+aRSA:!COMPLEMENTOFDEFAULT:!ADH:!AECDH:-MEDIUM:!LOW:!EXPORT:!aNULL:!eNULL:EDH-DSS-DES-CBC3-SHA:ECDHE-RSA-RC4-SHA:RC4-SHA')dnl
+define(`confCIPHER_LIST',	`kEECDH+aRSA:kEDH+aRSA:!COMPLEMENTOFDEFAULT:!ADH:!AECDH:-MEDIUM:!LOW:!EXPORT:!aNULL:!eNULL:!PSK:!aECDH:!DES:!MD5:EDH-DSS-DES-CBC3-SHA:ECDHE-RSA-RC4-SHA:RC4-SHA')dnl
 dnl define(`confDH_PARAMETERS',	`/etc/ssl/dhparams.pem')dnl
 define(`confRAND_FILE',		`/dev/arandom')dnl
 dnl
