@@ -13856,17 +13856,32 @@ Waypoint: GC2VMCX
 Title: Annaberger Bach - Wissenschaftliche Untersuchungen
 Tag: D25 T2 Micro Mystery
 ----
-ID: p20150528
-Date: 28.05.2015
-Waypoint: GC5TFVZ
-Title: - A - M - P - E - L - 8 -
-Tag: D1 T1 Event
+ID: 2318
+Date: 24.05.2015
+Waypoint: GC5T59K
+Title: Caracol
+Tag: D15 T1 Nano Tradi
+----
+ID: p20150611
+Date: 11.06.2015
+Waypoint: GE030E GC5WAVJ OC12050 N02F87 TC1QXF
+Title: Huch, der Mai ist ja schon rum!
+nTF: 0
+Tag: D1 T15 Event
 ----
 ID: p20150613
 Date: 13.06.2015
 Waypoint: GC5T6CW
 Title: BONN GRILLT 2015
 Tag: D1 T1 Event
+
+Geht leider nur kurz, weil ich noch zu ’ner Familienfeier muß ☹
+----
+ID: p201506132
+Date: 13.06.2015
+Waypoint: GC5Q6FR
+Title: WWFM XII - Bonner Part
+Tag: D1 T15 Event
 ----
 ID: p20150614
 Date: 14.06.2015
