@@ -13862,6 +13862,12 @@ Waypoint: GC5T59K
 Title: Caracol
 Tag: D15 T1 Nano Tradi
 ----
+ID: 2319
+Date: 28.05.2015
+Waypoint: m/dschuwa/867
+Title: Bonner Punktejagd 653
+Points: 5
+----
 ID: p20150611
 Date: 11.06.2015
 Waypoint: GE030E GC5WAVJ OC12050 N02F87 TC1QXF
