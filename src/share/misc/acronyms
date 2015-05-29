@@ -3319,6 +3319,7 @@ CT	[USA] Connecticut
 CTA	[IATA] Catania (Fontanarossa), Sicily, Italy
 CTB	[IATA] Coritgo Blanco, United Kingdom of Great Britain and Northern Ireland
 CTC	[IATA] Catamarca, Argentina
+CTE	committee
 CTE	common table expression
 CTE	[IATA] Carti, Panama
 CTF	capture the flag
@@ -15465,7 +15466,10 @@ TINSTA	there is no such thing as ...
 TINWIS	this is not what I said
 TIO	[IATA] Tilin, Myanmar
 TIOOWTDI	There is only one way to do it
+TIP	(English) de:Trinkgeld en:tip
+TIP	(German) de:Hinweis en:hint
 TIP	[IATA] Tripoli (Idris), Libya
+TIPP	(cf. TIP)
 TIQ	[IATA] Tinian (Peipeinimaru), Mariana Islands
 TIR	[IATA] Tirupati, India
 TIR	[Kfz:D] Landkreis Tirschenreuth
