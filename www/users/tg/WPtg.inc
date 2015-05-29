@@ -9684,12 +9684,14 @@ ID: 1647
 Date: 02.12.2014
 Waypoint: m/dschuwa/877
 Title: Bonner Punktejagd 663
+nTF: 1
 Points: 5
 ----
 ID: 1648
 Date: 02.12.2014
 Waypoint: m/JOJEVA/546
 Title: Munzee # 559
+nTF: 1
 Points: 5
 ----
 ID: 1649
@@ -9804,6 +9806,7 @@ ID: 1667
 Date: 02.12.2014
 Waypoint: m/dschuwa/760
 Title: Bonner Punktejagd 546
+nTF: 1
 Points: 5
 ----
 ID: 1668
@@ -10927,12 +10930,14 @@ ID: 1854
 Date: 04.12.2014
 Waypoint: m/ajlis/223
 Title: Königstraße, Bonn
+nTF: 1
 Points: 5
 ----
 ID: 1855
 Date: 04.12.2014
 Waypoint: m/ajlis/180
 Title: Königstraße, Bonn
+nTF: 1
 Points: 5
 ----
 ID: 1856
@@ -10951,12 +10956,14 @@ ID: 1858
 Date: 04.12.2014
 Waypoint: m/ajlis/303
 Title: Goebenstraße, Bonn
+nTF: 1
 Points: 5
 ----
 ID: 1859
 Date: 04.12.2014
 Waypoint: m/wasproduct/1113
 Title: Südstadt - Motel Goebenstraße by Ajlis Room #4
+nTF: 1
 Points: 5
 ----
 ID: 1860
@@ -11036,6 +11043,7 @@ ID: 1872
 Date: 04.12.2014
 Waypoint: m/Bitbuster/594
 Title: Südstadt - Motel Schumannstraße by Ajlis Room #3
+nTF: 1
 Points: 5
 ----
 ID: 1873
@@ -11271,6 +11279,7 @@ ID: 1911
 Date: 05.12.2014
 Waypoint: m/c-bn/3329
 Title: Bonn, Eschelbachstraße
+nTF: 1
 Points: 5
 ----
 ID: 1912
@@ -11283,6 +11292,7 @@ ID: 1913
 Date: 05.12.2014
 Waypoint: m/c-bn/3204
 Title: Bonn, Eschelbachstraße
+nTF: 1
 Points: 5
 ----
 ID: 1914
@@ -13866,6 +13876,442 @@ ID: 2319
 Date: 28.05.2015
 Waypoint: m/dschuwa/867
 Title: Bonner Punktejagd 653
+nTF: 1
+Points: 5
+----
+ID: 2320
+Date: 29.05.2015
+Waypoint: m/MV1/4254
+Title: MVirtual A565/ Sebastianstrasse
+Points: 5
+----
+ID: 2321
+Date: 29.05.2015
+Waypoint: m/raunas/1955
+Title: ♔ POTW social by raunas ♔
+Points: 0
+----
+ID: 2322
+Date: 29.05.2015
+Waypoint: m/Annika/2071
+Title: Munzee box Annika
+Points: 0
+----
+ID: 2323
+Date: 29.05.2015
+Waypoint: m/fluffyfish/307
+Title: fluffy&#039;s Autism Awareness Social
+Points: 0
+----
+ID: 2324
+Date: 29.05.2015
+Waypoint: m/fluffyfish/1248
+Title: The Mighty Manly Sea Eagles
+Points: 0
+----
+ID: 2325
+Date: 29.05.2015
+Waypoint: m/debmitc/390
+Title: Deb&#039;s Social Munzee
+Points: 0
+----
+ID: 2326
+Date: 29.05.2015
+Waypoint: m/Georiffles/2447
+Title: Georiffles&#039; Player of the Week Social
+Points: 0
+----
+ID: 2327
+Date: 29.05.2015
+Waypoint: m/crawil/2291
+Title: CRAWIL - POTW Social Munzee
+Points: 0
+----
+ID: 2328
+Date: 29.05.2015
+Waypoint: m/kj6soz/2264
+Title: kj6soz POTW Social Munzee
+Points: 0
+----
+ID: 2329
+Date: 29.05.2015
+Waypoint: m/dt07751/2434
+Title: DT07751 POTW
+Points: 0
+----
+ID: 2330
+Date: 29.05.2015
+Waypoint: m/dt07751/867
+Title: Me a Princess?!
+Points: 0
+----
+ID: 2331
+Date: 29.05.2015
+Waypoint: m/dt07751/1728
+Title: DT07751 @ MHQ Oktoberfest
+Points: 0
+----
+ID: 2332
+Date: 29.05.2015
+Waypoint: m/Primdahl/1047
+Title: Player of the Week
+Points: 0
+----
+ID: 2333
+Date: 29.05.2015
+Waypoint: m/HedgeHopper/5
+Title: HedgeHopper&#039;s Social Munzee
+Points: 0
+----
+ID: 2334
+Date: 29.05.2015
+Waypoint: m/MustangJoni/5
+Title: MJ&#039;s Social Munzee
+Points: 0
+----
+ID: 2335
+Date: 29.05.2015
+Waypoint: m/reej/3678
+Title: ReeJ - POTW#2015
+Points: 0
+----
+ID: 2336
+Date: 29.05.2015
+Waypoint: m/WhompCanada/78
+Title: POTW
+Points: 0
+----
+ID: 2337
+Date: 29.05.2015
+Waypoint: m/TheUglyHari/1746
+Title: Haris Social
+Points: 0
+----
+ID: 2338
+Date: 29.05.2015
+Waypoint: m/ZandK/225
+Title: ZandK Social Munzee
+Points: 0
+----
+ID: 2339
+Date: 29.05.2015
+Waypoint: m/theirishduo/2326
+Title: TheIrishDuo - POTW
+Points: 0
+----
+ID: 2340
+Date: 29.05.2015
+Waypoint: m/theirishduo/577
+Title: TheIrishDuo Social
+Points: 0
+----
+ID: 2341
+Date: 29.05.2015
+Waypoint: m/GeoBeTa/1108
+Title: GeoBeTa - #POTW
+Points: 0
+----
+ID: 2342
+Date: 29.05.2015
+Waypoint: m/munzee/69
+Title: Welcome 2015
+Points: 30
+----
+ID: 2343
+Date: 29.05.2015
+Waypoint: m/Mrs5Daughters/74
+Title: Mrs. 5Daughters&#039; Social Munzee
+Points: 0
+----
+ID: 2344
+Date: 29.05.2015
+Waypoint: m/FrankBroughton/30
+Title: Frank Broughton&#039;s 1st Social Munzee 👊
+Points: 0
+----
+ID: 2345
+Date: 29.05.2015
+Waypoint: m/AusTrackers/2728
+Title: POTW
+Points: 0
+----
+ID: 2346
+Date: 29.05.2015
+Waypoint: m/fotoluca/332
+Title: 2014 Munzee Photo Contest
+Points: 0
+----
+ID: 2347
+Date: 29.05.2015
+Waypoint: m/GOF/2470
+Title: Grandpa&#039;s Girl!
+Points: 0
+----
+ID: 2348
+Date: 29.05.2015
+Waypoint: m/GOF/1064
+Title: GOF
+Points: 0
+----
+ID: 2349
+Date: 29.05.2015
+Waypoint: m/GOF/1906
+Title: GOF&#039;s Year 2 social munzee
+Points: 0
+----
+ID: 2350
+Date: 29.05.2015
+Waypoint: m/munzee/41
+Title: SocialEyes
+Points: 0
+----
+ID: 2351
+Date: 29.05.2015
+Waypoint: m/jrobinson81/7
+Title: jrobinson81&#039;s social munzee
+Points: 0
+----
+ID: 2352
+Date: 29.05.2015
+Waypoint: m/Wickedblessed/56
+Title: DalMunzee
+Points: 0
+----
+ID: 2353
+Date: 29.05.2015
+Waypoint: m/Pfanni/343
+Title: VM Knuddel Bonn HbF 01
+Points: 5
+----
+ID: 2354
+Date: 29.05.2015
+Waypoint: m/sidsefrank/7412
+Title: sidsefrank in Bonn 2015
+Points: 5
+----
+ID: 2355
+Date: 29.05.2015
+Waypoint: m/kaschper69/254
+Title: k69 - Bonn Hbf. 1
+Points: 5
+----
+ID: 2356
+Date: 29.05.2015
+Waypoint: m/Pumti/1319
+Title: VM Bonn Hbf.
+Points: 5
+----
+ID: 2357
+Date: 29.05.2015
+Waypoint: m/MV1/4760
+Title: MV Bonn Hbf
+Points: 15
+----
+ID: 2358
+Date: 29.05.2015
+Waypoint: m/deano1007/53
+Title: Herwarthstrasse - Bonn Station
+Points: 5
+----
+ID: 2359
+Date: 29.05.2015
+Waypoint: m/JlMMY/1135
+Title: [JlMMY]@Bönnsch #MVM
+Points: 50
+----
+ID: 2360
+Date: 29.05.2015
+Waypoint: m/zeusi/7561
+Title: Munzee Stammtisch
+Points: 25
+----
+ID: 2361
+Date: 29.05.2015
+Waypoint: m/zeusi/7559
+Title: Munzee Stammtisch
+Points: 45
+----
+ID: 2362
+Date: 29.05.2015
+Waypoint: m/ajlis/799
+Title: Bonner Altstadt 23
+Points: 5
+----
+ID: 2363
+Date: 29.05.2015
+Waypoint: GC2FH2Q
+Title: Der mit den Vögeln spricht
+Tag: D1 T1 Micro Mystery
+----
+ID: 2364
+Date: 29.05.2015
+Waypoint: m/ajlis/895
+Title: Mysterys rundum die Bonner Altstadt 14
+Points: 10
+----
+ID: 2365
+Date: 29.05.2015
+Waypoint: m/c-bn/3485
+Title: Mysterys rund um die Bonner Altstadt 13½
+Points: 40
+----
+ID: 2366
+Date: 29.05.2015
+Waypoint: m/ajlis/891
+Title: Mysterys rundum die Bonner Altstadt 10
+Points: 40
+----
+ID: 2367
+Date: 29.05.2015
+Waypoint: m/MV1/2922
+Title: MV2922 Kölnstrasse
+Points: 35
+----
+ID: 2368
+Date: 29.05.2015
+Waypoint: m/c-bn/3486
+Title: Mysterys rund um die Bonner Altstadt 9½
+Points: 15
+----
+ID: 2369
+Date: 29.05.2015
+Waypoint: m/c-bn/6492
+Title: Bonn, Wachsbleiche 6492 AXT
+Points: 23
+----
+ID: 2370
+Date: 29.05.2015
+Waypoint: m/c-bn/6495
+Title: Bonn, Welschnonnenstraße 6495 WAFFE
+nTF: 1
+Points: 15
+----
+ID: 2371
+Date: 29.05.2015
+Waypoint: m/Powerslice/1254
+Title: virtual Freimaurerei Bonn Zeusi
+Points: 5
+----
+ID: 2372
+Date: 29.05.2015
+Waypoint: m/ajlis/1532
+Title: Ajlis - MVM City 4
+Points: 30
+----
+ID: 2373
+Date: 29.05.2015
+Waypoint: m/zeusi/1335
+Title: Virtual Tour de Bonn
+Points: 5
+----
+ID: 2374
+Date: 29.05.2015
+Waypoint: m/ReMiKu/7169
+Title: Mystery Virtual Bonn (7169)
+Points: 25
+----
+ID: 2375
+Date: 29.05.2015
+Waypoint: m/zeusi/3912
+Title: Virtual Munzee 34
+Points: 5
+----
+ID: 2376
+Date: 29.05.2015
+Waypoint: m/Sundream/1116
+Title: Virtual Munzee Stalkerin
+Points: 5
+----
+ID: 2377
+Date: 29.05.2015
+Waypoint: m/JOJEVA/917
+Title: BN City - Munzee # 801 16
+Points: 5
+----
+ID: 2378
+Date: 29.05.2015
+Waypoint: m/zeusi/3914
+Title: Virtual Munzee 36
+Points: 5
+----
+ID: 2379
+Date: 29.05.2015
+Waypoint: m/zeusi/3911
+Title: Virtual Munzee 33
+Points: 5
+----
+ID: 2380
+Date: 29.05.2015
+Waypoint: m/MV1/4177
+Title: MVirtual Gravis
+Points: 5
+----
+ID: 2381
+Date: 29.05.2015
+Waypoint: m/Rodomici/236
+Title: Bonn - Prague
+Points: 5
+----
+ID: 2382
+Date: 29.05.2015
+Waypoint: m/ajlis/1512
+Title: Ajlis - MVM City 3
+Points: 45
+----
+ID: 2383
+Date: 29.05.2015
+Waypoint: m/Airwolf26/3632
+Title: Bonn - 4.Stammtisch CC Bönnsch
+Points: 45
+----
+ID: 2384
+Date: 29.05.2015
+Waypoint: m/ReMiKu/10175
+Title: 4. Rheinischer Stammtisch (10175)
+Points: 45
+----
+ID: 2385
+Date: 29.05.2015
+Waypoint: m/MunzeeSamba/517
+Title: TSOTW: Bonn Hauptbahnhof
+Points: 40
+----
+ID: 2386
+Date: 29.05.2015
+Waypoint: m/MV1/687
+Title: MVirtual Bonn HBF
+Points: 5
+----
+ID: 2387
+Date: 29.05.2015
+Waypoint: m/MV1/629
+Title: MV629 Next stop Eduard-Otto-Straße
+Points: 5
+----
+ID: 2388
+Date: 29.05.2015
+Waypoint: m/dschuwa/69
+Title: Nächster Halt: Eduard-Otto-Straße
+Points: 5
+----
+ID: 2389
+Date: 29.05.2015
+Waypoint: m/MV1/652
+Title: MV652 St.Nikolaus
+Points: 5
+----
+ID: 2390
+Date: 29.05.2015
+Waypoint: m/dschuwa/747
+Title: Bonner Punktejagd 533
+nTF: 1
+Points: 5
+----
+ID: 2391
+Date: 29.05.2015
+Waypoint: m/dschuwa/796
+Title: Bonner Punktejagd 582
+nTF: 1
 Points: 5
 ----
 ID: p20150611

@@ -1,0 +1,97 @@
+#!/bin/mksh
+# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+#-
+# Copyright © 2015
+#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+#
+# Provided that these terms and disclaimer and all copyright notices
+# are retained or reproduced in an accompanying document, permission
+# is granted to deal in this work without restriction, including un‐
+# limited rights to use, publicly perform, distribute, sell, modify,
+# merge, give away, or sublicence.
+#
+# This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
+# the utmost extent permitted by applicable law, neither express nor
+# implied; without malicious intent or gross negligence. In no event
+# may a licensor, author or contributor be held liable for indirect,
+# direct, other damage, loss, or other issues arising in any way out
+# of dealing in the work, even if advised of the possibility of such
+# damage or existence of a defect, except proven that it results out
+# of said person’s immediate fault when using the work as intended.
+#-
+# Hotel and Motel rooms cannot be FTC-checked; tag them manually and
+# just don’t run stuff twice through this script if it’s done right.
+
+user=mirabilos
+
+s=0
+while IFS= read -r line; do
+	case $s$line {
+	(0)
+		s=1
+		;;
+	(0Waypoint:\ m/*/+([0-9]))
+		s=2
+		m=${line#* }
+		;;
+	(0*)
+		;;
+	(1----)
+		s=0
+		;;
+	(1*)
+		;;
+	(2)
+		s=3
+		;;
+	(2nTF:\ *)
+		continue
+		;;
+	(2Title:\ *)
+		s=9
+		;;
+	(2----|3----)
+		s=0
+		;;
+	(2*|3*)
+		;;
+	(*)
+		print -ru2 -- "E: inval ${line@Q}"
+		exit 1
+		;;
+	}
+	print -r -- "$line"
+	(( s == 9 )) || continue
+
+	s=2
+
+	if [[ $m = m/"$user"/* ]]; then
+		print -r -- nTF: 0
+		continue
+	fi
+
+	if ! x=$(ftp -4 -o - "http://www.munzee.com/$m/"); then
+		print -ru2 -- "W: neterr $m"
+		print -ru2 -- "D: $x"
+		continue
+	fi
+
+	# somehow buggy
+	:|| if [[ $x = *'<h4>Not captured</h4>'* ]]; then
+		print -ru2 -- "W: not captured? $m"
+		print -ru2 -- "D: $x"
+		continue
+	fi
+
+	if [[ $x = *'<p class="text-center"> FTC by</br> <a href="/m/'"$user/\">$user</a>"* ]]; then
+		print -r -- nTF: 1
+		continue
+	fi
+
+	# may happen for motel rooms, unfortunately
+	if [[ $x != *'<p class="text-center"> FTC by</br> <a href="/m/'* ]]; then
+		print -ru2 -- "W: not FTC’d? $m"
+		print -ru2 -- "D: $x"
+		continue
+	fi
+done
