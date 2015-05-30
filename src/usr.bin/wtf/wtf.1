@@ -260,6 +260,10 @@ only translated acronyms;
 functionality to look up the meaning of terms in other sources was added later.
 Option processing was added in
 .Mx 11 .
+.Sh CAVEATS
+The acronym database is a line-based file consisting of the upper-cased
+(see above) search term, an ASCII HT character, and the definition.
+The file must be sorted ASCIIbetically for the first column.
 .Sh FEEDBACK
 .An Thorsten Glaser Aq tg@mirbsd.org
 maintains

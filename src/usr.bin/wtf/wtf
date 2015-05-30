@@ -136,6 +136,7 @@ for target in "$@"; do
 	tgsrch=${tgsrch//ó/Ó}
 	tgsrch=${tgsrch//ç/Ç}
 	tgsrch=${tgsrch//è/È}
+	tgsrc1=${tgsrch::1}
 
 	if (( use_ports )); then
 		p=$(ports_acquire "$target")
@@ -150,6 +151,8 @@ for target in "$@"; do
 		while IFS= read -r line; do
 			[[ $line = "$tgsrch	"* ]] || if (( found )); then
 				# assume the file is sorted
+				break
+			elif [[ ${line::1} > "$tgsrc1" ]]; then
 				break
 			else
 				continue
