@@ -1,8 +1,8 @@
 #!/bin/mksh
 # $MirOS: www/users/tg/munzeedl,v 1.3 2014/12/04 23:07:31 tg Exp $
 #-
-# Copyright © 2014
-#	Thorsten Glaser <tg@mirbsd.org>
+# Copyright © 2014, 2015
+#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -50,7 +50,8 @@ while (( hasmore )); do
 		dates[i]=${date:8:2}.${date:5:2}.${date::4},$time
 		pointses[i]=$points
 		ids[i]=$id
-		names[i++]=$name
+		name=${name##+([	 ])}
+		names[i++]=${name%%+([	 ])}
 		print -ru2 "D: $date $points $id \"$name\""
 	done
 	(( hasmore = ((num && (i >= num)) ? 0 : hasmore) ))

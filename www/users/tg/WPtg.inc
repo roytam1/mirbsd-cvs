@@ -7426,7 +7426,7 @@ Points: 5
 ----
 ID: 1271
 Date: 02.12.2014
-Waypoint: m/thebitbandit/5
+Waypoint: m/TheBitBandit/5
 Title: The Bit Bandit&#039;s Social Munzee - Year #1
 Points: 0
 ----
@@ -8171,7 +8171,7 @@ Points: 0
 ID: 1395
 Date: 02.12.2014
 Waypoint: m/tatch/212
-Title: Southend Virtual Garden goo.gl/8rhwl2
+Title: tatch Southend Virtual Garden
 Points: 0
 ----
 ID: 1396
@@ -8579,7 +8579,7 @@ Points: 14
 ID: 1463
 Date: 02.12.2014
 Waypoint: m/pl1lkm/315
-Title:  pl1lkm
+Title: pl1lkm - 1. social Munzee
 Points: 0
 ----
 ID: 1464
@@ -9975,7 +9975,7 @@ Points: 0
 ID: 1695
 Date: 03.12.2014
 Waypoint: m/aufbau/2097
-Title: Social Munzee
+Title: Can&#039;t See Me
 Points: 0
 ----
 ID: 1696
@@ -13419,7 +13419,7 @@ Tag: D4 T35 Micro Mystery
 ----
 ID: 2251
 Date: 15.05.2015
-Waypoint: GC3N14P
+Waypoint: GC3N14P OCFC04
 Banner: jpg
 Title: Geo Post Office - Mainz
 Tag: D2 T2 Regular Letterbox_Hybrid recommended
@@ -13764,7 +13764,7 @@ Tag: Lab
 ----
 ID: 2302
 Date: 16.05.2015
-Waypoint: GC3BKYV
+Waypoint: GC3BKYV OCFBDC
 Title: Mainz bleibt Mainz, wie es singt und lacht.
 Tag: D15 T1 Micro Tradi
 ----
@@ -14139,7 +14139,7 @@ Points: 5
 ----
 ID: 2363
 Date: 29.05.2015
-Waypoint: GC2FH2Q
+Waypoint: GC2FH2Q OX2FH2Q
 Title: Der mit den Vögeln spricht
 Tag: D1 T1 Micro Mystery
 ----
@@ -14312,6 +14312,217 @@ Date: 29.05.2015
 Waypoint: m/dschuwa/796
 Title: Bonner Punktejagd 582
 nTF: 1
+Points: 5
+----
+ID: 2392
+Date: 30.05.2015
+Waypoint: m/ajlis/88
+Title: Dagobah
+Points: 17
+----
+ID: 2393
+Date: 30.05.2015
+Waypoint: m/c-bn/2863
+Title: Bonn, Wesselbahnweg 3
+Points: 5
+----
+ID: 2394
+Date: 30.05.2015
+Waypoint: m/ajlis/15
+Title: Neuenahrer Straße, Bonn
+Points: 5
+----
+ID: 2395
+Date: 30.05.2015
+Waypoint: m/ajlis/100
+Title: Lando Calrissian
+Points: 5
+----
+ID: 2396
+Date: 30.05.2015
+Waypoint: m/gruschenka/20
+Title: Luke Skywalker
+Points: 5
+----
+ID: 2397
+Date: 30.05.2015
+Waypoint: m/ajlis/96
+Title: Alderann
+Points: 5
+----
+ID: 2398
+Date: 30.05.2015
+Waypoint: m/Steffi78/322
+Title: Steffi&#039;s
+nTF: 1
+Points: 5
+----
+ID: 2399
+Date: 30.05.2015
+Waypoint: m/Steffi78/321
+Title: Steffi&#039;s
+nTF: 1
+Points: 5
+----
+ID: 2400
+Date: 30.05.2015
+Waypoint: m/Steffi78/320
+Title: Steffi&#039;s Blaue
+nTF: 1
+Points: 40
+----
+ID: 2401
+Date: 30.05.2015
+Waypoint: m/Steffi78/319
+Title: Steffi&#039;s Blaue
+nTF: 1
+Points: 10
+----
+ID: 2402
+Date: 30.05.2015
+Waypoint: m/Steffi78/318
+Title: Steffi&#039;s Blaue
+nTF: 1
+Points: 30
+----
+ID: 2403
+Date: 30.05.2015
+Waypoint: m/ajlis/1850
+Title: [c-bn] Motel 🏨 #59 {A565 Bonn-Endenich} Room #1
+Points: 5
+----
+ID: 2404
+Date: 30.05.2015
+Waypoint: m/Wyando/3712
+Title: [c-bn] Motel 🏨 #59 {A565 Bonn-Endenich} Room #2
+Points: 5
+----
+ID: 2405
+Date: 30.05.2015
+Waypoint: m/Tamarisk/460
+Title: [c-bn] Motel 🏨 #59 {A565 Bonn-Endenich} Room #3
+Points: 5
+----
+ID: 2406
+Date: 30.05.2015
+Waypoint: m/TMA2007/2324
+Title: [c-bn] Motel 🏨 #59 {A565 Bonn-Endenich} Room #4
+Points: 5
+----
+ID: 2407
+Date: 30.05.2015
+Waypoint: m/Munzeemia/478
+Title: [c-bn] Motel 🏨 #59 {A565 Bonn-Endenich} Room #5
+Points: 5
+----
+ID: 2408
+Date: 30.05.2015
+Waypoint: m/c-bn/2917
+Title: [c-bn] Motel 🏨 #59 {A565 Bonn-Endenich}
+Points: 5
+----
+ID: 2409
+Date: 30.05.2015
+Waypoint: m/Powerslice/1369
+Title: Virtual Munzee Support Bonn
+Points: 5
+----
+ID: 2410
+Date: 30.05.2015
+Waypoint: m/MV1/4256
+Title: MVirtual A565/ Endenicher Strasse
+Points: 5
+----
+ID: 2411
+Date: 30.05.2015
+Waypoint: m/dschuwa/290
+Title: Nächster Halt: Verdistraße
+Points: 5
+----
+ID: 2412
+Date: 30.05.2015
+Waypoint: m/wxbee/25
+Title: Gelb
+Points: 10
+----
+ID: 2413
+Date: 30.05.2015
+Waypoint: m/c-bn/6971
+Title: [c-bn] Bonn, Magdalenenstr. 6971 HOTEL
+nTF: 1
+Points: 10
+----
+ID: 2414
+Date: 30.05.2015
+Waypoint: m/mirabilos/4
+Title: [c-bn] Bonn, Magdalenenstr. 6971 HOTEL Room #1
+nTF: 0
+Points: 5
+----
+ID: 2415
+Date: 30.05.2015
+Waypoint: m/MV1/4345
+Title: MVirtual Endenich3
+Points: 5
+----
+ID: 2416
+Date: 30.05.2015
+Waypoint: m/Christian68/109
+Title: Virtual Endenich
+Points: 5
+----
+ID: 2417
+Date: 30.05.2015
+Waypoint: m/Christian68/129
+Title: Laterne 5
+Points: 6
+----
+ID: 2418
+Date: 30.05.2015
+Waypoint: m/tigersden/18
+Title: tigersden&#039;s VM#3 from Australia
+Points: 5
+----
+ID: 2419
+Date: 30.05.2015
+Waypoint: m/MorpheusHH/2239
+Title: VIRT blau(weiss)e-Karte 2 ;-)
+Points: 5
+----
+ID: 2420
+Date: 30.05.2015
+Waypoint: m/mbagger/1309
+Title: 10000 special captures (BN)
+Points: 5
+----
+ID: 2421
+Date: 30.05.2015
+Waypoint: m/ikselom/729
+Title: munzee bonna Mystery
+Points: 45
+----
+ID: 2422
+Date: 30.05.2015
+Waypoint: m/ReMiKu/4582
+Title: Mystery Endenich (4582)
+Points: 25
+----
+ID: 2423
+Date: 30.05.2015
+Waypoint: m/Wyando/1799
+Title: Bonn ~ Endenich Blau {1799}
+Points: 25
+----
+ID: 2424
+Date: 30.05.2015
+Waypoint: m/ReMiKu/4583
+Title: Mystery Endenich (4583)
+Points: 50
+----
+ID: 2425
+Date: 30.05.2015
+Waypoint: m/mastaxlolls/120
+Title: Aktion Blau-Weiße Karte
 Points: 5
 ----
 ID: p20150611

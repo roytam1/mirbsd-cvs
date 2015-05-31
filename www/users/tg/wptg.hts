@@ -245,21 +245,23 @@ EOF
 nmzbadge=0
 mzbadges=
 function mzbadge {
-	local alt=$1 img=$2
+	local alt=$2 img=$1 desc=$3
 
 	let ++nmzbadge
-	mzbadges+="<div class=\"flbox\"><img style=\"border:0px;\"
+	mzbadges+="<div class=\"flbox\"><img style=\"border:0px;\"$nl title=\"$desc\"
  alt=\"$alt\" src=\"http://static.munzee.com/images/new_badges/small/$img.png\" /></div>$nl"
 }
 
-mzbadge 'Perfect 10' lvl10
-mzbadge 'Hunter' hunter
-mzbadge 'Collector' collector
-mzbadge 'Sampler' sampler
-mzbadge '1k Day' 1k
-mzbadge 'Social Caterpillar' socialcaterpillar
-mzbadge 'Social Cocoon' socialcocoon
-mzbadge 'Munzee turns 3' 3rd_birthday
+mzbadge lvl10 'Perfect 10' 'You&#039;re a perfect 10! Don&#039;t ever change. Until you become an 11.'
+mzbadge lvl50 'Over The Hill' 'Level 50? That takes alot of work. Keep it up, you&#039;re halfway there!'
+mzbadge hunter Hunter 'You really are a special icon hunter! Keep hunting them to reach the next level.'
+mzbadge collector Collector 'You are a collector of the finer things in life, a special Munzee icon. Keep collecting!'
+mzbadge sampler Sampler 'You&#039;ve made your way through our Munzee sampler. Do you have a favorite?'
+mzbadge 1k '1k Day' '1000 points? Was this a 24 hour sprint, or a one hour stroll?'
+mzbadge socialcaterpillar 'Social Caterpillar' 'You are just learning to crawl socially!'
+mzbadge socialcocoon 'Social Cocoon' 'You are a hungry worm who needs to cap more socials so you can spread your wings!'
+mzbadge 3rd_birthday 'Munzee turns 3' 'Thanks for celebrating our 3rd birthday! It&#039;s a Fiesta!'
+mzbadge mayflowers 'May Flowers' 'April showers brings a May badge. Thanks for playing!'
 
 mws_content <<EOF
 
