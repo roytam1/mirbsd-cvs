@@ -14525,6 +14525,165 @@ Waypoint: m/mastaxlolls/120
 Title: Aktion Blau-Weiße Karte
 Points: 5
 ----
+ID: 2426
+Date: 31.05.2015
+Waypoint: m/QRazy/34
+Title: Munzee Blog
+Points: 0
+----
+ID: 2427
+Date: 01.06.2015
+Waypoint: m/MV1/2976
+Title: MVirtual Puppenkönig
+Points: 5
+----
+ID: 2428
+Date: 01.06.2015
+Waypoint: m/mastaxlolls/182
+Title: Bonn HBF
+Points: 5
+----
+ID: 2429
+Date: 01.06.2015
+Waypoint: m/MV1/4225
+Title: MVirtual Bonner Loch
+Points: 5
+----
+ID: 2430
+Date: 01.06.2015
+Waypoint: m/MirDrei/938
+Title: Virtual Munzee Bonn by MirDrei
+Points: 5
+----
+ID: 2431
+Date: 01.06.2015
+Waypoint: m/GS64/189
+Title: Hauptbahnhof, Bonn
+Points: 5
+----
+ID: 2432
+Date: 01.06.2015
+Waypoint: m/winkide/135
+Title: Bonn - Hbf #135 V
+Points: 5
+----
+ID: 2433
+Date: 01.06.2015
+Waypoint: m/CzStefan/31
+Title: Bonn Hbf
+Points: 5
+----
+ID: 2434
+Date: 01.06.2015
+Waypoint: m/Powerfreak/133
+Title: Bonn Hbf.
+Points: 5
+----
+ID: 2435
+Date: 01.06.2015
+Waypoint: m/dschuwa/522
+Title: VM Bonn HBF
+Points: 5
+----
+ID: 2436
+Date: 01.06.2015
+Waypoint: m/Darkneser/922
+Title: VM Bonn - gute Fahrt
+Points: 5
+----
+ID: 2437
+Date: 01.06.2015
+Waypoint: m/Phobie81/2280
+Title: Bonn HBF
+Points: 5
+----
+ID: 2438
+Date: 01.06.2015
+Waypoint: m/philnuim/864
+Title: Mystery Virtual Bonn 1
+Points: 45
+----
+ID: 2439
+Date: 01.06.2015
+Waypoint: m/Airwolf26/4296
+Title: Bonn - Hauptbahnhof
+Points: 5
+----
+ID: 2440
+Date: 01.06.2015
+Waypoint: m/zeusi/3721
+Title: Willkommen in BN HBF - zeusi -
+Points: 5
+----
+ID: 2441
+Date: 01.06.2015
+Waypoint: m/oesel123/1085
+Title: Bonn Hbf.Mystery Virtual Munzee
+Points: 45
+----
+ID: 2442
+Date: 01.06.2015
+Waypoint: m/Wyando/1346
+Title: Bonn - Wyrtual HBF
+Points: 5
+----
+ID: 2443
+Date: 01.06.2015
+Waypoint: m/ajlis/144
+Title: Herwarthstraße, Bonn
+Points: 5
+----
+ID: 2444
+Date: 01.06.2015
+Waypoint: m/ReMiKu/11848
+Title: [c-bn] Bonn, Hermann-Wandersleb-Ring 6970 HOTEL Ro
+nTF: 2
+Points: 5
+----
+ID: 2445
+Date: 01.06.2015
+Waypoint: m/winkide/9396
+Title: [c-bn] Bonn, Hermann-Wandersleb-Ring 6970 HOTEL Ro
+nTF: 1
+Points: 5
+----
+ID: 2446
+Date: 01.06.2015
+Waypoint: m/c-bn/6970
+Title: [c-bn] Bonn, Hermann-Wandersleb-Ring 6970 HOTEL
+Points: 10
+----
+ID: 2447
+Date: 01.06.2015
+Waypoint: m/mirabilos/5
+Title: [c-bn] Bonn, Hermann-Wandersleb-Ring 6970 HOTEL Ro
+nTF: 0
+Points: 5
+----
+ID: 2448
+Date: 01.06.2015
+Waypoint: m/dschuwa/420
+Title: Bonner Punktejagd 289
+Points: 5
+----
+ID: 2449
+Date: 01.06.2015
+Waypoint: m/JOJEVA/562
+Title: Poppelsdorf - Munzee # 575
+Points: 5
+----
+ID: 2450
+Date: 01.06.2015
+Waypoint: m/MV1/508
+Title: MV508 Bonner Talweg
+Points: 5
+----
+ID: 2451
+Date: 01.06.2015
+Waypoint: m/dschuwa/781
+Title: Bonner Punktejagd 567
+Points: 5
+----
 ID: p20150611
 Date: 11.06.2015
 Waypoint: GE030E GC5WAVJ OC12050 N02F87 TC1QXF
