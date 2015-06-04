@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: www/users/tg/munz_ftc,v 1.1 2015/05/29 23:07:50 tg Exp $
 #-
 # Copyright © 2015
 #	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -71,14 +71,14 @@ while IFS= read -r line; do
 	fi
 
 	if ! x=$(ftp -4 -o - "http://www.munzee.com/$m/"); then
-		print -ru2 -- "W: neterr $m"
+		print -ru2 -- "W: neterr http://www.munzee.com/$m"
 		print -ru2 -- "D: $x"
 		continue
 	fi
 
 	# somehow buggy
 	:|| if [[ $x = *'<h4>Not captured</h4>'* ]]; then
-		print -ru2 -- "W: not captured? $m"
+		print -ru2 -- "W: not captured? http://www.munzee.com/$m"
 		print -ru2 -- "D: $x"
 		continue
 	fi
@@ -90,7 +90,7 @@ while IFS= read -r line; do
 
 	# may happen for motel rooms, unfortunately
 	if [[ $x != *'<p class="text-center"> FTC by</br> <a href="/m/'* ]]; then
-		print -ru2 -- "W: not FTC’d? $m"
+		print -ru2 -- "W: not FTC’d? http://www.munzee.com/$m"
 		print -ru2 -- "D: $x"
 		continue
 	fi

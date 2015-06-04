@@ -14684,6 +14684,347 @@ Waypoint: m/dschuwa/781
 Title: Bonner Punktejagd 567
 Points: 5
 ----
+ID: 2452
+Date: 02.06.2015
+Waypoint: m/ajlis/83
+Title: Endenicher Straße, Bonn
+Points: 5
+----
+ID: 2453
+Date: 02.06.2015
+Waypoint: m/c-bn/2140
+Title: Aktion &quot;Karte dunkelblau&quot; 001
+Points: 20
+----
+ID: 2454
+Date: 02.06.2015
+Waypoint: m/c-bn/2505
+Title: Endenich - I was there!
+Points: 0
+----
+ID: 2455
+Date: 02.06.2015
+Waypoint: m/MirDrei/398
+Title: Aktion Karte dunkelblau Mir Drei
+Points: 45
+----
+ID: 2456
+Date: 02.06.2015
+Waypoint: m/c-bn/2270
+Title: Aktion &quot;Karte dunkelblau&quot; 113
+Points: 45
+----
+ID: 2457
+Date: 02.06.2015
+Waypoint: m/ReMiKu/11849
+Title: [c-bn] Bonn, Von-Weichs-Str. 3222 MOTEL Room #1
+nTF: 4
+Points: 5
+----
+ID: 2458
+Date: 02.06.2015
+Waypoint: m/winkide/9395
+Title: [c-bn] Bonn, Von-Weichs-Str. 3222 MOTEL Room #2
+nTF: 3
+Points: 5
+----
+ID: 2459
+Date: 02.06.2015
+Waypoint: m/Wyando/6038
+Title: [c-bn] Bonn, Von-Weichs-Str. 3222 MOTEL Room #3
+nTF: 2
+Points: 5
+----
+ID: 2460
+Date: 02.06.2015
+Waypoint: m/Tamarisk/1746
+Title: [c-bn] Bonn, Von-Weichs-Str. 3222 MOTEL Room #4
+nTF: 1
+Points: 5
+----
+ID: 2461
+Date: 02.06.2015
+Waypoint: m/c-bn/3222
+Title: [c-bn] Bonn, Von-Weichs-Str. 3222 MOTEL
+Points: 5
+----
+ID: 2462
+Date: 02.06.2015
+Waypoint: m/mirabilos/6
+Title: [c-bn] Bonn, Von-Weichs-Str. 3222 MOTEL Room #5
+nTF: 0
+Points: 5
+----
+ID: 2463
+Date: 02.06.2015
+Waypoint: m/MV1/4247
+Title: MVirtual Endenich6
+Points: 5
+----
+ID: 2464
+Date: 02.06.2015
+Waypoint: m/Wyando/1794
+Title: Bonn ~ Endenich Blau {1794}
+Points: 5
+----
+ID: 2465
+Date: 02.06.2015
+Waypoint: m/c-bn/2271
+Title: Aktion &quot;Karte dunkelblau&quot; 114
+Points: 35
+----
+ID: 2466
+Date: 02.06.2015
+Waypoint: m/MorpheusHH/2245
+Title: VIRT blau(weiss)e-Karte 8 ;-)
+Points: 5
+----
+ID: 2467
+Date: 02.06.2015
+Waypoint: m/seal/218
+Title: Mystery Endenich IV
+Points: 15
+----
+ID: 2468
+Date: 02.06.2015
+Waypoint: m/zeusi/2844
+Title: Aktion &quot;Karte dunkelblau&quot; 050
+Points: 15
+----
+ID: 2469
+Date: 02.06.2015
+Waypoint: m/Rah/9
+Title: parkplatz
+Points: 5
+----
+ID: 2470
+Date: 02.06.2015
+Waypoint: m/mastaxlolls/38
+Title: Endenich
+Points: 5
+----
+ID: 2471
+Date: 02.06.2015
+Waypoint: m/pferdenahr/562
+Title: VIRT blau(weiss)e-Karte 14 ;-)
+Points: 5
+----
+ID: 2472
+Date: 02.06.2015
+Waypoint: m/zeusi/3071
+Title: Virtual Endenich
+Points: 5
+----
+ID: 2473
+Date: 02.06.2015
+Waypoint: m/c-bn/2161
+Title: Aktion &quot;Karte dunkelblau&quot; 022
+Points: 45
+----
+ID: 2474
+Date: 02.06.2015
+Waypoint: m/zeusi/2845
+Title: Aktion &quot;Karte dunkelblau&quot; 051
+Points: 10
+----
+ID: 2475
+Date: 02.06.2015
+Waypoint: m/MV1/2982
+Title: MVirtual Ohligmühle
+Points: 5
+----
+ID: 2476
+Date: 02.06.2015
+Waypoint: m/MV1/4241
+Title: MVirtual Endenich8
+Points: 5
+----
+ID: 2477
+Date: 02.06.2015
+Waypoint: m/koebes/291
+Title: [c-bn] Bonn, Am Klostergarten 6967 HOTEL Room #1
+nTF: 3
+Points: 5
+----
+ID: 2478
+Date: 02.06.2015
+Waypoint: m/Wyando/6036
+Title: [c-bn] Bonn, Am Klostergarten 6967 HOTEL Room #2
+nTF: 2
+Points: 5
+----
+ID: 2479
+Date: 02.06.2015
+Waypoint: m/Tamarisk/1744
+Title: [c-bn] Bonn, Am Klostergarten 6967 HOTEL Room #3
+nTF: 1
+Points: 5
+----
+ID: 2480
+Date: 02.06.2015
+Waypoint: m/c-bn/6967
+Title: [c-bn] Bonn, Am Klostergarten 6967 HOTEL
+Points: 10
+----
+ID: 2481
+Date: 02.06.2015
+Waypoint: m/mirabilos/7
+Title: [c-bn] Bonn, Am Klostergarten 6967 HOTEL Room #4
+nTF: 0
+Points: 5
+----
+ID: 2482
+Date: 02.06.2015
+Waypoint: m/zeusi/2951
+Title: Aktion &quot;Karte dunkelblau&quot; 120
+Points: 15
+----
+ID: 2483
+Date: 02.06.2015
+Waypoint: m/ReMiKu/4786
+Title: Mystery Endenich (4786)
+Points: 35
+----
+ID: 2484
+Date: 02.06.2015
+Waypoint: m/c-bn/2245
+Title: Aktion &quot;Karte dunkelblau&quot; 095
+Points: 45
+----
+ID: 2485
+Date: 02.06.2015
+Waypoint: m/zeusi/2952
+Title: Aktion &quot;Karte dunkelblau&quot; 119
+Points: 50
+----
+ID: 2486
+Date: 02.06.2015
+Waypoint: m/c-bn/2244
+Title: Aktion &quot;Karte dunkelblau&quot; 094
+Points: 5
+----
+ID: 2487
+Date: 02.06.2015
+Waypoint: m/Libra/92
+Title: Am Klostergarten
+Points: 5
+----
+ID: 2488
+Date: 02.06.2015
+Waypoint: m/ReMiKu/4785
+Title: Mystery Endenich (4785)
+Points: 20
+----
+ID: 2489
+Date: 02.06.2015
+Waypoint: m/zeusi/2949
+Title: Aktion &quot;Karte dunkelblau&quot; 122
+Points: 50
+----
+ID: 2490
+Date: 02.06.2015
+Waypoint: m/c-bn/2238
+Title: Aktion &quot;Karte dunkelblau&quot; 088
+Points: 30
+----
+ID: 2491
+Date: 02.06.2015
+Waypoint: m/zeusi/2950
+Title: Aktion &quot;Karte dunkelblau&quot; 121
+Points: 45
+----
+ID: 2492
+Date: 02.06.2015
+Waypoint: m/c-bn/2237
+Title: Aktion &quot;Karte dunkelblau&quot; 087
+Points: 30
+----
+ID: 2493
+Date: 02.06.2015
+Waypoint: m/mastaxlolls/354
+Title: Blaues Lengsdorf
+Points: 45
+----
+ID: 2494
+Date: 02.06.2015
+Waypoint: m/mastaxlolls/353
+Title: Blaues Lengsdorf
+Points: 30
+----
+ID: 2495
+Date: 03.06.2015
+Waypoint: m/OutofPicture/149
+Title: Out of Picture&#039;s Social Munzee
+Points: 0
+----
+ID: 2496
+Date: 04.06.2015
+Waypoint: GC5KRCF
+Title: Luftschiffe über Spich
+Tag: D25 T15 Micro Mystery
+----
+ID: 2497
+Date: 04.06.2015
+Waypoint: GC39B2N
+Title: Sürther Friedhof
+Tag: D2 T1 Micro Tradi
+----
+ID: 2498
+Date: 04.06.2015
+Waypoint: GC38BB1
+Title: Gotteshäuser: Christuskirche Brühl
+Tag: D15 T15 Small Multi
+
+Eher D3½, was das Finden des Finals angeht… und nicht verzählen!
+----
+ID: 2499
+Date: 04.06.2015
+Waypoint: GC434V0
+Title: Brauhauswanderweg
+Tag: D2 T15 Small Tradi
+----
+ID: 2500
+Date: 04.06.2015
+Waypoint: GC4VDA1
+Title: Lahme Schnecke an der A61
+Tag: D25 T25 Micro Mystery
+----
+ID: 2501
+Date: 04.06.2015
+Waypoint: m/Colonius/871
+Title: Motel Heimerzheim (7686) Room #1
+Points: 5
+----
+ID: 2502
+Date: 04.06.2015
+Waypoint: m/winkide/5836
+Title: Motel Heimerzheim (7686) Room #2
+Points: 5
+----
+ID: 2503
+Date: 04.06.2015
+Waypoint: m/Wyando/4007
+Title: Motel Heimerzheim (7686) Room #3
+Points: 5
+----
+ID: 2504
+Date: 04.06.2015
+Waypoint: m/c-bn/4970
+Title: Motel Heimerzheim (7686) Room #4
+Points: 5
+----
+ID: 2505
+Date: 04.06.2015
+Waypoint: m/Killerspielspielerin/1497
+Title: Motel Heimerzheim (7686) Room #5
+Points: 5
+----
+ID: 2506
+Date: 04.06.2015
+Waypoint: m/ReMiKu/7686
+Title: Motel Heimerzheim (7686)
+Points: 5
+----
 ID: p20150611
 Date: 11.06.2015
 Waypoint: GE030E GC5WAVJ OC12050 N02F87 TC1QXF
