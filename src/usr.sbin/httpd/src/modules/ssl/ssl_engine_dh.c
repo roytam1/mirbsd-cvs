@@ -114,17 +114,8 @@ static DH *get_dh1024(void)
 }
 /* ----END GENERATED SECTION---------- */
 
-DH *ssl_dh_GetTmpParam(int nKeyLen)
-{
-    DH *dh;
-
-    if (nKeyLen == 512)
-        dh = get_dh512();
-    else if (nKeyLen == 1024)
-        dh = get_dh1024();
-    else
-        dh = get_dh1024();
-    return dh;
+DH *ssl_dh_GetTmpParam(int nKeyLen) {
+	return (get_dh1024());
 }
 
 DH *ssl_dh_GetParamFromFile(char *file)
