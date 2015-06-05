@@ -1108,21 +1108,6 @@ static int ssl3_get_key_exchange(SSL *s)
 		p+=i;
 		n-=param_len;
 
-		/*-
-		 * this is similar to upstream
-		 * commit 10a70da729948bb573d27cef4459077c49f3eb46
-		 * except they mistakenly do not set al, but they
-		 * do also cover SSL_kDHr and SSL_kDHd, not just
-		 * SSL_kDHE (SSL_kEDH here), though 768 bit only.
-		 */
-		/* require 1024-bit DH for non-EXPORT ciphersuites */
-		if (!SSL_C_IS_EXPORT(s->s3->tmp.new_cipher) &&
-		    DH_size(dh) < (1024 / 8 - /* deliberate */ 1)) {
-			SSLerr(SSL_F_SSL3_GET_KEY_EXCHANGE,SSL_R_BAD_DH_P_LENGTH);
-			al = SSL_AD_HANDSHAKE_FAILURE;
-			goto f_err;
-		}
-
 #ifndef OPENSSL_NO_RSA
 		if (alg & SSL_aRSA)
 			pkey=X509_get_pubkey(s->session->sess_cert->peer_pkeys[SSL_PKEY_RSA_ENC].x509);
@@ -1973,6 +1958,14 @@ static int ssl3_check_cert_and_algorithm(SSL *s)
 		goto f_err;
 		}
 #endif
+
+	/* require 1008 bit DH (512 bit for EXPORT ciphersuites) */
+	if ((algs & (SSL_kEDH|SSL_kDHr|SSL_kDHd)) &&
+	    (dh == NULL || (BN_num_bits(dh->p) <
+	    (SSL_C_IS_EXPORT(s->s3->tmp.new_cipher) ? 512 : 1008)))) {
+		SSLerr(SSL_F_SSL3_GET_KEY_EXCHANGE,SSL_R_BAD_DH_P_LENGTH);
+		goto f_err;
+	}
 #endif
 
 	if (SSL_C_IS_EXPORT(s->s3->tmp.new_cipher) &&
