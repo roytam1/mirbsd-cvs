@@ -64,6 +64,8 @@
 
 #include "mod_ssl.h"
 
+__RCSID("$MirOS$");
+
 /* ----BEGIN GENERATED SECTION-------- */
 
 /*
@@ -193,7 +195,7 @@ print FP $source;
 close(FP);
 
 #   generate the DH parameters
-print "1. Generate 512 and 1024 bit Diffie-Hellman parameters (p, g)\n";
+print "1. Generate 1024 bit Diffie-Hellman parameters (p, g)\n";
 my $rand = '';
 foreach $file (qw(/var/log/messages /var/adm/messages 
                   /kernel /vmunix /vmlinuz /etc/hosts /etc/resolv.conf)) {
@@ -203,14 +205,10 @@ foreach $file (qw(/var/log/messages /var/adm/messages
     }
 }
 $rand = "-rand $rand" if ($rand ne '');
-system("openssl gendh $rand -out dh512.pem 512");
 system("openssl gendh $rand -out dh1024.pem 1024");
 
 #   generate DH param info 
 my $dhinfo = '';
-open(FP, "openssl dh -noout -text -in dh512.pem |") || die;
-$dhinfo .= $_ while (<FP>);
-close(FP);
 open(FP, "openssl dh -noout -text -in dh1024.pem |") || die;
 $dhinfo .= $_ while (<FP>);
 close(FP);
@@ -219,9 +217,6 @@ $dhinfo = "\n\/\*\n$dhinfo\*\/\n\n";
 
 #   generate C source from DH params
 my $dhsource = '';
-open(FP, "openssl dh -noout -C -in dh512.pem | indent -npro -st -bad -nbs -ncdb -ci2 -ncsp -di0 -i4 -l80 -lc72 -nlp -nlpi -npsl -TBIO -TDH | expand |") || die;
-$dhsource .= $_ while (<FP>);
-close(FP);
 open(FP, "openssl dh -noout -C -in dh1024.pem | indent -npro -st -bad -nbs -ncdb -ci2 -ncsp -di0 -i4 -l80 -lc72 -nlp -nlpi -npsl -TBIO -TDH | expand |") || die;
 $dhsource .= $_ while (<FP>);
 close(FP);
@@ -242,7 +237,6 @@ print FP $source;
 close(FP);
 
 #   cleanup
-unlink("dh512.pem");
 unlink("dh1024.pem");
 
 =pod
