@@ -118,7 +118,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_clnt.c,v 1.15 2015/05/23 19:43:58 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_clnt.c,v 1.16 2015/05/25 14:22:59 tg Exp $");
 
 static SSL_METHOD *ssl3_get_client_method(int ver);
 static int ssl3_client_hello(SSL *s);
@@ -1665,7 +1665,8 @@ static int ssl3_send_client_key_exchange(SSL *s)
 			{
 			DH *dh_srvr,*dh_clnt;
 
-			if (s->session->sess_cert->peer_dh_tmp != NULL)
+			if (s->session->sess_cert != NULL &&
+			    s->session->sess_cert->peer_dh_tmp != NULL)
 				dh_srvr=s->session->sess_cert->peer_dh_tmp;
 			else
 				{
