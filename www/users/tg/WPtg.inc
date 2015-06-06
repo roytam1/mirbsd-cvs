@@ -15025,6 +15025,60 @@ Waypoint: m/ReMiKu/7686
 Title: Motel Heimerzheim (7686)
 Points: 5
 ----
+ID: 2507
+Date: 05.06.2015
+Waypoint: m/mysticegg/8
+Title: mysticegg
+Points: 0
+----
+ID: 2508
+Date: 05.06.2015
+Waypoint: m/c-bn/2160
+Title: Aktion &quot;Karte dunkelblau&quot; 021
+Points: 5
+----
+ID: 2509
+Date: 05.06.2015
+Waypoint: m/winkide/2017
+Title: Bonn - Euskirchener Str. #2017 M
+Points: 50
+----
+ID: 2510
+Date: 05.06.2015
+Waypoint: m/c-bn/2159
+Title: Aktion &quot;Karte dunkelblau&quot; 020
+Points: 10
+----
+ID: 2511
+Date: 05.06.2015
+Waypoint: m/c-bn/2158
+Title: Aktion &quot;Karte dunkelblau&quot; 019
+Points: 45
+----
+ID: 2512
+Date: 06.06.2015
+Waypoint: m/Pharaonin/354
+Title: Grüße nach Bonn aus Weimar
+Points: 5
+----
+ID: 2513
+Date: 06.06.2015
+Waypoint: m/ajlis/2596
+Title: Quick Deploy By ajlis
+Points: 25
+----
+ID: 2514
+Date: 06.06.2015
+Waypoint: m/Christian68/1972
+Title: VM - Vater Rhein ⛵
+Points: 5
+----
+ID: 2515
+Date: 06.06.2015
+Waypoint: m/zeusi/1986
+Title: Munzee Power 600
+Points: 5
+----
 ID: p20150611
 Date: 11.06.2015
 Waypoint: GE030E GC5WAVJ OC12050 N02F87 TC1QXF
@@ -15059,6 +15113,12 @@ Date: 19.06.2015
 Waypoint: GC5JB14
 Title: 9.Bad Breisiger Geocacher Meeting
 Tag: D15 T1 Event
+----
+ID: p20150620
+Date: 20.06.2015
+Waypoint: GC5W0K7
+Title: Solstitium aestatem MMXV
+Tag: D2 T35 Event
 ----
 ID: p20150704
 Date: 04.07.2015
