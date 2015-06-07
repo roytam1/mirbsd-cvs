@@ -15079,6 +15079,60 @@ Waypoint: m/zeusi/1986
 Title: Munzee Power 600
 Points: 5
 ----
+ID: 2516
+Date: 07.06.2015
+Waypoint: GC2VVKJ
+Title: Ippendorfer Sportstätten #5
+Tag: D2 T15 Micro Tradi
+----
+ID: 2517
+Date: 07.06.2015
+Waypoint: GCMCH6 OC0157 N016CA
+Title: Melbtal
+Tag: D2 T25 Regular Multi recommended
+----
+ID: 2518
+Date: 07.06.2015
+Waypoint: GC3W556
+Title: Melb-Mikro #4: Das Gut
+Tag: D15 T15 Micro Tradi
+----
+ID: 2519
+Date: 07.06.2015
+Waypoint: m/gerds/36
+Title: Melbbad - Noch ein Blick aufs Wasser
+Points: 5
+----
+ID: 2520
+Date: 07.06.2015
+Waypoint: m/gerds/71
+Title: Melbbad - Blick aufs Wasser
+Points: 5
+----
+ID: 2521
+Date: 07.06.2015
+Waypoint: GCM0RZ OC0D4C
+Title: Waldau
+Tag: D25 T2 Small Multi
+----
+ID: 2522
+Date: 07.06.2015
+Waypoint: GC3HE5J
+Title: Philipps Fichtenwald
+Tag: D15 T2 Small Tradi
+----
+ID: 2523
+Date: 07.06.2015
+Waypoint: GC3W52M
+Title: Melb-Mikro #1: Die Quelle
+Tag: D15 T15 Micro Tradi
+----
+ID: 2524
+Date: 07.06.2015
+Waypoint: GC3W55V
+Title: Melb-Mikro #5: Das Finale (oder der Makro)
+Tag: D2 T15 Regular Mystery
+----
 ID: p20150611
 Date: 11.06.2015
 Waypoint: GE030E GC5WAVJ OC12050 N02F87 TC1QXF
