@@ -15133,6 +15133,240 @@ Waypoint: GC3W55V
 Title: Melb-Mikro #5: Das Finale (oder der Makro)
 Tag: D2 T15 Regular Mystery
 ----
+ID: 2525
+Date: 08.06.2015
+Waypoint: m/oesel123/1107
+Title: Bonn Mystery Virtual Munzee
+Points: 15
+----
+ID: 2526
+Date: 08.06.2015
+Waypoint: m/ajlis/252
+Title: Kurfürstenstraße, Bonn
+Points: 5
+----
+ID: 2527
+Date: 08.06.2015
+Waypoint: m/ajlis/261
+Title: Kurfürstenstraße, Bonn
+Points: 5
+----
+ID: 2528
+Date: 09.06.2015
+Waypoint: m/koebes/259
+Title: [c-bn] BMVg 6822 MOTEL Room #1
+Points: 5
+----
+ID: 2529
+Date: 09.06.2015
+Waypoint: m/winkide/9130
+Title: [c-bn] BMVg 6822 MOTEL Room #2
+Points: 5
+----
+ID: 2530
+Date: 09.06.2015
+Waypoint: m/ReMiKu/11682
+Title: [c-bn] BMVg 6822 MOTEL Room #3
+Points: 5
+----
+ID: 2531
+Date: 09.06.2015
+Waypoint: m/Waldkauz/803
+Title: [c-bn] BMVg 6822 MOTEL Room #4
+Points: 5
+----
+ID: 2532
+Date: 09.06.2015
+Waypoint: m/JOJEVA/2022
+Title: [c-bn] BMVg 6822 MOTEL Room #5
+Points: 5
+----
+ID: 2533
+Date: 09.06.2015
+Waypoint: m/c-bn/6822
+Title: [c-bn] BMVg 6822 MOTEL
+Points: 5
+----
+ID: 2534
+Date: 09.06.2015
+Waypoint: m/c-bn/3270
+Title: 1/5 - [c-bn] BMVg Trail #3270
+Points: 5
+----
+ID: 2535
+Date: 09.06.2015
+Waypoint: m/Waldkauz/705
+Title: 1/5 - [WaldKauz] - BMVG Trail #1
+Points: 5
+----
+ID: 2536
+Date: 09.06.2015
+Waypoint: m/JOJEVA/1511
+Title: 1/5 - [JOJEVA] BMVG Trail #1
+Points: 5
+----
+ID: 2537
+Date: 09.06.2015
+Waypoint: m/mutti/44
+Title: 1/5 - Generic Name
+Points: 5
+----
+ID: 2538
+Date: 09.06.2015
+Waypoint: m/radschlaeger/34
+Title: 1/5 - Generic Name
+Points: 5
+----
+ID: 2539
+Date: 09.06.2015
+Waypoint: m/koebes/250
+Title: 1/5 - Generic Name
+Points: 5
+----
+ID: 2540
+Date: 09.06.2015
+Waypoint: m/koebes/261
+Title: [koebes] BMVg 261 MM
+Points: 35
+----
+ID: 2541
+Date: 09.06.2015
+Waypoint: m/koebes/262
+Title: [c-bn] BMVg 6890 MOTEL Room #1
+Points: 5
+----
+ID: 2542
+Date: 09.06.2015
+Waypoint: m/winkide/9131
+Title: [c-bn] BMVg 6890 MOTEL Room #2
+Points: 5
+----
+ID: 2543
+Date: 09.06.2015
+Waypoint: m/ReMiKu/11681
+Title: [c-bn] BMVg 6890 MOTEL Room #3
+Points: 5
+----
+ID: 2544
+Date: 09.06.2015
+Waypoint: m/JOJEVA/2023
+Title: [c-bn] BMVg 6890 MOTEL Room #4
+Points: 5
+----
+ID: 2545
+Date: 09.06.2015
+Waypoint: m/Waldkauz/804
+Title: [c-bn] BMVg 6890 MOTEL Room #5
+Points: 5
+----
+ID: 2546
+Date: 09.06.2015
+Waypoint: m/c-bn/6890
+Title: [c-bn] BMVg 6890 MOTEL
+Points: 5
+----
+ID: 2547
+Date: 09.06.2015
+Waypoint: m/c-bn/3098
+Title: 2/5 - [c-bn] BMVg Trail #3098
+Points: 5
+----
+ID: 2548
+Date: 09.06.2015
+Waypoint: GC2PP1K
+Title: BMVg-Südwache
+Tag: D15 T15 Micro Tradi
+----
+ID: 2549
+Date: 09.06.2015
+Waypoint: m/c-bn/6892
+Title: [c-bn] BMVg 6892 MM
+Points: 15
+----
+ID: 2550
+Date: 09.06.2015
+Waypoint: m/koebes/260
+Title: [koebes] BMVg 260 MM
+Points: 20
+----
+ID: 2551
+Date: 09.06.2015
+Waypoint: m/c-bn/6891
+Title: [c-bn] BMVg 6891 MM
+Points: 30
+----
+ID: 2552
+Date: 09.06.2015
+Waypoint: m/c-bn/138
+Title: Rund ums BMVg #15
+Points: 5
+----
+ID: 2553
+Date: 09.06.2015
+Waypoint: m/zeusi/1570
+Title: Munzee Power 248
+Points: 5
+----
+ID: 2554
+Date: 09.06.2015
+Waypoint: m/c-bn/139
+Title: Rund ums BMVg #16
+Points: 5
+----
+ID: 2555
+Date: 09.06.2015
+Waypoint: m/c-bn/140
+Title: Rund ums BMVg #17
+Points: 5
+----
+ID: 2556
+Date: 09.06.2015
+Waypoint: m/c-bn/2319
+Title: Kreisverkehr
+Points: 5
+----
+ID: 2557
+Date: 09.06.2015
+Waypoint: m/c-bn/2315
+Title: Kreisverkehr
+Points: 5
+----
+ID: 2558
+Date: 09.06.2015
+Waypoint: m/c-bn/2317
+Title: Kreisverkehr
+Points: 5
+----
+ID: 2559
+Date: 09.06.2015
+Waypoint: m/c-bn/2364
+Title: Kreisverkehr
+Points: 5
+----
+ID: 2560
+Date: 09.06.2015
+Waypoint: m/c-bn/2363
+Title: Kreisverkehr
+Points: 5
+----
+ID: 2561
+Date: 09.06.2015
+Waypoint: m/c-bn/2316
+Title: Kreisverkehr
+Points: 5
+----
+ID: 2562
+Date: 09.06.2015
+Waypoint: m/c-bn/2318
+Title: Kreisverkehr
+Points: 5
+----
+ID: 2563
+Date: 09.06.2015
+Waypoint: m/c-bn/2320
+Title: Kreisverkehr
+Points: 5
+----
 ID: p20150611
 Date: 11.06.2015
 Waypoint: GE030E GC5WAVJ OC12050 N02F87 TC1QXF
