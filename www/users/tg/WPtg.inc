@@ -15367,7 +15367,19 @@ Waypoint: m/c-bn/2320
 Title: Kreisverkehr
 Points: 5
 ----
-ID: p20150611
+ID: 2564
+Date: 10.06.2015
+Waypoint: m/oesel123/194
+Title: Endenich
+Points: 5
+----
+ID: 2565
+Date: 11.06.2015
+Waypoint: m/dschuwa/740
+Title: Bonner Punktejagd 527
+Points: 5
+----
+ID: 2566
 Date: 11.06.2015
 Waypoint: GE030E GC5WAVJ OC12050 N02F87 TC1QXF
 Title: Huch, der Mai ist ja schon rum!
