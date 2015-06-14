@@ -15386,27 +15386,136 @@ Title: Huch, der Mai ist ja schon rum!
 nTF: 0
 Tag: D1 T15 Event
 ----
-ID: p20150613
+ID: 2567
+Date: 12.06.2015
+Waypoint: m/c-bn/3108
+Title: Bonn, Hinter Hoben
+Points: 5
+----
+ID: 2568
 Date: 13.06.2015
 Waypoint: GC5T6CW
 Title: BONN GRILLT 2015
 Tag: D1 T1 Event
-
-Geht leider nur kurz, weil ich noch zu ’ner Familienfeier muß ☹
 ----
-ID: p201506132
+ID: 2569
 Date: 13.06.2015
-Waypoint: GC5Q6FR
-Title: WWFM XII - Bonner Part
-Tag: D1 T15 Event
+Waypoint: m/c-bn/4923
+Title: Munzee Power 14 Room #1
+Points: 5
 ----
-ID: p20150614
+ID: 2570
+Date: 13.06.2015
+Waypoint: m/JOJEVA/1296
+Title: Munzee Power 14 Room #2
+nTF: 4
+Points: 5
+----
+ID: 2571
+Date: 13.06.2015
+Waypoint: m/Waldkauz/78
+Title: Munzee Power 14 Room #3
+nTF: 3
+Points: 5
+----
+ID: 2572
+Date: 13.06.2015
+Waypoint: m/Christian68/1085
+Title: Munzee Power 14 Room #4
+nTF: 2
+Points: 5
+----
+ID: 2573
+Date: 13.06.2015
+Waypoint: m/ajlis/2264
+Title: Munzee Power 14 Room #5
+nTF: 1
+Points: 5
+----
+ID: 2574
+Date: 13.06.2015
+Waypoint: m/zeusi/3251
+Title: Munzee Power 14
+Points: 5
+----
+ID: 2575
+Date: 13.06.2015
+Waypoint: GDCQ-JUBI
+Title: [Game 168 (Juni 2015)], Rheinbach
+nTF: 1
+Distance: 18
+----
+ID: 2576
+Date: 13.06.2015
+Waypoint: m/c-bn/334
+Title: gelbe Klappe 📫 010 - Rheinbach, Pützstraße
+Points: 5
+----
+ID: 2577
+Date: 13.06.2015
+Waypoint: m/QQ/148
+Title: Time for Munzee 10
+Points: 5
+----
+ID: 2578
 Date: 14.06.2015
-Waypoint: GC5T6CX
-Title: Reinemachen auf dem Finkenberg
-Tag: D1 T1 CITO
-
-… aber unwahrscheinlich, daß ich um die Zeit schon wach bin.
+Waypoint: GC4VD8M
+Title: Das Kreuz am Straßenrand!!!
+Tag: D2 T2 Micro Tradi
+----
+ID: 2579
+Date: 14.06.2015
+Waypoint: GC4VD8D
+Title: Vorfahrt gewähren !!!
+Tag: D2 T2 Micro Tradi
+----
+ID: 2580
+Date: 14.06.2015
+Waypoint: GC4VD88
+Title: Auf nach Nirgendswo !!!
+Tag: D25 T15 Micro Tradi
+----
+ID: 2581
+Date: 14.06.2015
+Waypoint: GC4THTG
+Title: Straßfeld Gemeinde Swisstal
+Tag: D25 T25 Micro Tradi
+----
+ID: 2582
+Date: 14.06.2015
+Waypoint: GC2W8VF
+Title: Das Revier # 2
+Tag: D15 T15 Nano Tradi
+----
+ID: 2583
+Date: 14.06.2015
+Waypoint: GC4HQVC
+Title: It’s magic #2 - Der Zauberstab
+Tag: D3 T15 Micro Tradi recommended
+----
+ID: 2584
+Date: 14.06.2015
+Waypoint: GC4HQTT
+Title: It’s magic #1 - Baum des Lebens
+Tag: D2 T3 Micro Tradi
+----
+ID: 2585
+Date: 14.06.2015
+Waypoint: m/winkide/8462
+Title: Metternich - Pfingstmühlenweg #8462
+Points: 5
+----
+ID: 2586
+Date: 14.06.2015
+Waypoint: GC4V72J
+Title: Kurzlogs sind scheiße !!! #1
+Tag: D2 T25 Small Multi
+----
+ID: 2587
+Date: 14.06.2015
+Waypoint: GC3RXMK
+Title: Der Husqvarna Bär
+Tag: D15 T1 Small Tradi recommended
 ----
 ID: p20150619
 Date: 19.06.2015
@@ -15419,6 +15528,12 @@ Date: 20.06.2015
 Waypoint: GC5W0K7
 Title: Solstitium aestatem MMXV
 Tag: D2 T35 Event
+----
+ID: p20150701
+Date: 01.07.2015
+Waypoint: GC5XB1X
+Title: A cache a day keeps the doctor away - Meet &amp; Greet
+Tag: D1 T1 Event
 ----
 ID: p20150704
 Date: 04.07.2015
