@@ -15517,11 +15517,125 @@ Waypoint: GC3RXMK
 Title: Der Husqvarna Bär
 Tag: D15 T1 Small Tradi recommended
 ----
-ID: p20150619
+ID: 2588
+Date: 15.06.2015
+Waypoint: m/dschuwa/687
+Title: Bonner Punktejagd 474
+Points: 5
+----
+ID: 2589
+Date: 16.06.2015
+Waypoint: m/JOJEVA/1871
+Title: Laterne
+Points: 5
+----
+ID: 2590
+Date: 17.06.2015
+Waypoint: m/MorpheusHH/2244
+Title: VIRT blau(weiss)e-Karte 7 ;-)
+Points: 5
+----
+ID: 2591
+Date: 18.06.2015
+Waypoint: GC3CKFK
+Title: Trackable Hotel Radevormwald
+Tag: D15 T1 Small Tradi
+----
+ID: 2592
+Date: 18.06.2015
+Waypoint: m/zeusi/1728
+Title: Munzee Power 425
+Points: 6
+----
+ID: 2593
 Date: 19.06.2015
-Waypoint: GC5JB14
-Title: 9.Bad Breisiger Geocacher Meeting
-Tag: D15 T1 Event
+Waypoint: m/CrazyLadyLisa/4443
+Title: CLL is a POTW
+Points: 0
+----
+ID: 2594
+Date: 19.06.2015
+Waypoint: GC24V88
+Title: Foveaux-Häuschen
+Tag: D15 T2 Regular Tradi recommended
+----
+ID: 2595
+Date: 19.06.2015
+Waypoint: m/Christian68/313
+Title: Gerichtsweg
+Points: 6
+----
+ID: 2596
+Date: 19.06.2015
+Waypoint: m/ajlis/1269
+Title: blauer dank!
+Points: 10
+----
+ID: 2597
+Date: 19.06.2015
+Waypoint: m/Christian68/295
+Title: Gerichtsweg
+Points: 10
+----
+ID: 2598
+Date: 19.06.2015
+Waypoint: m/dschuwa/162
+Title: Nächster Halt: Samansstraße
+Points: 5
+----
+ID: 2599
+Date: 19.06.2015
+Waypoint: m/Millerman01/277
+Title: Bonner Punktejagd 27
+Points: 5
+----
+ID: 2600
+Date: 19.06.2015
+Waypoint: m/ajlis/1268
+Title: Für Christian!
+Points: 50
+----
+ID: 2601
+Date: 19.06.2015
+Waypoint: m/Christian68/278
+Title: Königswinterer
+Points: 22
+----
+ID: 2602
+Date: 19.06.2015
+Waypoint: m/Christian68/2063
+Title: C68 HQ
+Points: 20
+----
+ID: 2603
+Date: 19.06.2015
+Waypoint: m/Christian68/276
+Title: Königswinterer
+Points: 11
+----
+ID: 2604
+Date: 19.06.2015
+Waypoint: m/dschuwa/137
+Title: Nächster Halt: Mehlemstraße
+Points: 5
+----
+ID: 2605
+Date: 19.06.2015
+Waypoint: m/ajlis/1270
+Title: Runde zu Ende!
+Points: 45
+----
+ID: 2606
+Date: 19.06.2015
+Waypoint: m/Christian68/772
+Title: Beuel 3
+Points: 5
+----
+ID: 2607
+Date: 17.06.2015
+Waypoint: OC5A44
+Title: Webcam Wuppertal Gathe
+Tag: D15 T1 Webcam
 ----
 ID: p20150620
 Date: 20.06.2015
@@ -15534,6 +15648,12 @@ Date: 01.07.2015
 Waypoint: GC5XB1X
 Title: A cache a day keeps the doctor away - Meet &amp; Greet
 Tag: D1 T1 Event
+----
+ID: p201507042
+Date: 04.07.2015
+Waypoint: GC5XT5W
+Title: 3. FeenTreff BN Bad Godesberg
+Tag: D15 T15 Event
 ----
 ID: p20150704
 Date: 04.07.2015

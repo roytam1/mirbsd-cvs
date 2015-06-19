@@ -226,6 +226,7 @@ souvenir 2015-05-01 '15 Years of Geocaching' http://souvenirs.geocaching.com/Sou
 souvenir 2015-05-15 'GPS MAZE EUROPE - Germany' http://souvenirs.geocaching.com/SouvenirImages/My82LzIwMTU/ec38caa3-05e5-4e11-a3e5-9f92c6738e5f.PNG 'http://www.geocaching.com/souvenir/?guid=ac1093ee-2a57-4392-b7d6-a83d2a0475cd'
 souvenir 2015-05-16 'Mainz Gutenberg 2015' http://souvenirs.geocaching.com/SouvenirImages/My82LzIwMTU/4b39828c-2c18-430f-881f-493606401af3.PNG 'http://www.geocaching.com/souvenir/?guid=70380303-cdf1-45ee-b786-80d9bee1cc67'
 souvenir 2015-05-19 'United Kingdom' http://souvenirs.geocaching.com/SouvenirImages/My82LzIwMTM/d12e8152-2e31-4fb5-98fc-7eab52024840.png 'http://www.geocaching.com/souvenir/?guid=0812c82a-b019-43d3-b05b-8606f4935a51'
+souvenir 2015-06-19 'Fun with Favorites' http://souvenirs.geocaching.com/SouvenirImages/NS8yNy8yMDE1/f81eae85-afa0-4ac1-9f1b-5e9f7bc161bc.png 'http://www.geocaching.com/souvenir/?guid=f2ceb791-78c6-44e7-882f-f815706895cf'
 
 # kaputt, s.o.
 #if [[ $nsouvenir != 0 && -z $souvenirs ]]; then
