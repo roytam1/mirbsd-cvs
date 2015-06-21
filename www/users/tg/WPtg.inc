@@ -15637,11 +15637,59 @@ Waypoint: OC5A44
 Title: Webcam Wuppertal Gathe
 Tag: D15 T1 Webcam
 ----
-ID: p20150620
+ID: 2608
+Date: 20.06.2015
+Waypoint: m/zeusi/2630
+Title: Munzee Power 1238
+Points: 5
+----
+ID: 2609
+Date: 20.06.2015
+Waypoint: m/Romael/42
+Title: Ardennen3
+Points: 5
+----
+ID: 2610
+Date: 20.06.2015
+Waypoint: GC5DC8P
+Title: Wanderparkplatz Ramersbach
+Tag: D15 T2 Micro Tradi
+----
+ID: 2611
 Date: 20.06.2015
 Waypoint: GC5W0K7
 Title: Solstitium aestatem MMXV
 Tag: D2 T35 Event
+----
+ID: 2612
+Date: 20.06.2015
+Waypoint: GC55QCH
+Title: heute
+Tag: D1 T15 Micro Multi
+----
+ID: 2613
+Date: 20.06.2015
+Waypoint: GC5BY20
+Title: Auf dem Weg zum Hilgesberg
+Tag: D15 T15 Micro Tradi
+----
+ID: 2614
+Date: 20.06.2015
+Waypoint: GC5BY2C
+Title: Blick auf den Hilgesberg
+Tag: D15 T15 Micro Tradi
+----
+ID: 2615
+Date: 21.06.2015
+Waypoint: GCREJH
+Title: Wiwelsberg
+Tag: D2 T3 Regular Tradi recommended
+----
+ID: 2616
+Date: 21.06.2015
+Waypoint: m/dschuwa/62
+Title: Nächster Halt: In der Raste
+Points: 5
 ----
 ID: p20150701
 Date: 01.07.2015
@@ -15660,6 +15708,12 @@ Date: 04.07.2015
 Waypoint: GC5TBZ3
 Title: Smalldosenrennen ...das Zweite
 Tag: D3 T1 Event
+----
+ID: p20150905
+Date: 05.09.2015
+Waypoint: GC5X94N
+Title: Auf Mercators Spuren
+Tag: D1 T1 Event
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
