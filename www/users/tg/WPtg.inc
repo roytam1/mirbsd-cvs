@@ -14960,6 +14960,7 @@ Points: 0
 ID: 2496
 Date: 04.06.2015
 Waypoint: GC5KRCF
+Banner: jpg
 Title: Luftschiffe über Spich
 Tag: D25 T15 Micro Mystery
 ----
@@ -15514,6 +15515,7 @@ Tag: D2 T25 Small Multi
 ID: 2587
 Date: 14.06.2015
 Waypoint: GC3RXMK
+Banner: jpg
 Title: Der Husqvarna Bär
 Tag: D15 T1 Small Tradi recommended
 ----
@@ -15691,9 +15693,76 @@ Waypoint: m/dschuwa/62
 Title: Nächster Halt: In der Raste
 Points: 5
 ----
+ID: 2617
+Date: 22.06.2015
+Waypoint: m/tango71/350
+Title: Social Munzee - Tango71
+Points: 0
+----
+ID: 2618
+Date: 22.06.2015
+Waypoint: m/GunnerSteve/638
+Title: GunnerSteve&#039;s Social Munzee
+Points: 0
+----
+ID: 2619
+Date: 22.06.2015
+Waypoint: m/BomberJohn/71
+Title: BomberJohn&#039;s Social Munzee
+Points: 0
+----
+ID: 2620
+Date: 22.06.2015
+Waypoint: m/Skogen78/232
+Title: Fjes munzeen min
+Points: 0
+----
+ID: 2621
+Date: 22.06.2015
+Waypoint: m/paulandrobbit/41
+Title: Snowbird Social Munzee
+Points: 0
+----
+ID: 2622
+Date: 22.06.2015
+Waypoint: m/Tigerkrissi/98
+Title: Frog Friends Social Munzee @ Tigerkrissi
+Points: 0
+----
+ID: 2623
+Date: 22.06.2015
+Waypoint: m/TURTLE/1129
+Title: TURTLE&#039;S WANDERING MUNZEE
+Points: 0
+----
+ID: 2624
+Date: 22.06.2015
+Waypoint: m/targeteer2k/5
+Title: targeteer2k&#039;s liger social munzee!
+Points: 0
+----
+ID: 2625
+Date: 22.06.2015
+Waypoint: m/tonydev/84
+Title: TonyDev Loves Pompey
+Points: 0
+----
+ID: 2626
+Date: 22.06.2015
+Waypoint: m/specialteacher/1383
+Title: Special Teacher goes Social
+Points: 0
+----
+ID: 2627
+Date: 22.06.2015
+Waypoint: m/Darrylspicer/499
+Title: Darrylspicer
+Points: 0
+----
 ID: p20150701
 Date: 01.07.2015
 Waypoint: GC5XB1X
+Banner: png
 Title: A cache a day keeps the doctor away - Meet &amp; Greet
 Tag: D1 T1 Event
 ----
@@ -15709,11 +15778,25 @@ Waypoint: GC5TBZ3
 Title: Smalldosenrennen ...das Zweite
 Tag: D3 T1 Event
 ----
+ID: p20150711
+Date: 11.07.2015
+Waypoint: GC5XMMQ
+Title: Geocacher in der Baracke 5
+Tag: D1 T1 Event
+----
 ID: p20150905
 Date: 05.09.2015
 Waypoint: GC5X94N
+Banner: jpg
 Title: Auf Mercators Spuren
 Tag: D1 T1 Event
+----
+ID: p20160729
+Date: 29.07.2016
+Waypoint: GC276WT
+Banner: jpg
+Title: Nacht der Vulkane 2016 (Arbeitstitel)
+Tag: Event
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
