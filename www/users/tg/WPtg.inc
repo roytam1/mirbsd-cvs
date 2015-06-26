@@ -16260,6 +16260,34 @@ Title: Godesberger Kreuze #25
 nTF: 0
 Tag: D15 T1 Virtual
 ----
+ID: 2707
+Date: 23.06.2015
+Waypoint: m/mirabilos/8
+Title: Motel Hersel (11901) Room #5
+nTF: 0
+Points: 5
+----
+ID: 2708
+Date: 23.06.2015
+Waypoint: m/mirabilos/9
+Title: Hotel Hersel (11725) Room #7
+nTF: 0
+Points: 5
+----
+ID: 2709
+Date: 23.06.2015
+Waypoint: m/mirabilos/10
+Title: Basteistr BG- Motel Room #5
+nTF: 0
+Points: 5
+----
+ID: 2710
+Date: 24.06.2015
+Waypoint: m/mirabilos/11
+Title: [c-bn] Universitätsklinikum Bonn 6975 HOTEL Room d-2
+nTF: 0
+Points: 5
+----
 ID: p20150701
 Date: 01.07.2015
 Waypoint: GC5XB1X
