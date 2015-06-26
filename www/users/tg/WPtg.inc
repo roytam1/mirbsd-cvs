@@ -15759,12 +15759,519 @@ Waypoint: m/Darrylspicer/499
 Title: Darrylspicer
 Points: 0
 ----
+ID: 2628
+Date: 23.06.2015
+Waypoint: m/c-bn/2178
+Title: Aktion &quot;Karte dunkelblau&quot; 039
+Points: 40
+----
+ID: 2629
+Date: 23.06.2015
+Waypoint: m/supersilli/602
+Title: Generic Name Room #1
+nTF: 4
+Points: 5
+----
+ID: 2630
+Date: 23.06.2015
+Waypoint: m/winkide/9569
+Title: Generic Name Room #2
+nTF: 3
+Points: 5
+----
+ID: 2631
+Date: 23.06.2015
+Waypoint: m/QQ/591
+Title: Motel Hersel (11901) Room #3
+nTF: 2
+Points: 5
+----
+ID: 2632
+Date: 23.06.2015
+Waypoint: m/Steffi78/394
+Title: Motel Hersel (11901) Room #4
+nTF: 1
+Points: 5
+----
+ID: 2633
+Date: 23.06.2015
+Waypoint: m/ReMiKu/11901
+Title: Motel Hersel (11901)
+Points: 5
+----
+ID: 2634
+Date: 23.06.2015
+Waypoint: m/JOJEVA/1998
+Title: Blue -Hersel
+Points: 5
+----
+ID: 2635
+Date: 23.06.2015
+Waypoint: m/supersilli/601
+Title: (11725) Room #1
+Points: 5
+----
+ID: 2636
+Date: 23.06.2015
+Waypoint: m/winkide/9570
+Title: Hotel Hersel (11725) Room #2
+Points: 5
+----
+ID: 2637
+Date: 23.06.2015
+Waypoint: m/Wyando/6147
+Title: Hotel Hersel (11725) Room #3
+nTF: 4
+Points: 5
+----
+ID: 2638
+Date: 23.06.2015
+Waypoint: m/Tamarisk/1775
+Title: Hotel Hersel (11725) Room #4
+nTF: 3
+Points: 5
+----
+ID: 2639
+Date: 23.06.2015
+Waypoint: m/QQ/590
+Title: Hotel Hersel (11725) Room #5
+nTF: 2
+Points: 5
+----
+ID: 2640
+Date: 23.06.2015
+Waypoint: m/Steffi78/393
+Title: Hotel Hersel (11725) Room #6
+nTF: 1
+Points: 5
+----
+ID: 2641
+Date: 23.06.2015
+Waypoint: m/ReMiKu/11725
+Title: Hotel Hersel (11725)
+Points: 10
+----
+ID: 2642
+Date: 23.06.2015
+Waypoint: m/JOJEVA/1890
+Title: Blue -Hersel
+Points: 50
+----
+ID: 2643
+Date: 23.06.2015
+Waypoint: m/JOJEVA/1891
+Title: Blue -Hersel
+Points: 30
+----
+ID: 2644
+Date: 23.06.2015
+Waypoint: m/Waldkauz/794
+Title: - Motel Room #1
+nTF: 4
+Points: 5
+----
+ID: 2645
+Date: 23.06.2015
+Waypoint: m/QQ/177
+Title: Basteistr BG- Motel Room #2
+nTF: 3
+Points: 5
+----
+ID: 2646
+Date: 23.06.2015
+Waypoint: m/Pfanni/340
+Title: Basteistr BG- Motel Room #3
+nTF: 2
+Points: 5
+----
+ID: 2647
+Date: 23.06.2015
+Waypoint: m/McMel/6
+Title: Basteistr BG- Motel Room #4
+nTF: 1
+Points: 5
+----
+ID: 2648
+Date: 23.06.2015
+Waypoint: m/JOJEVA/1490
+Title: Basteistr BG- Motel
+Points: 5
+----
+ID: 2649
+Date: 23.06.2015
+Waypoint: m/JOJEVA/1679
+Title: BG - Ruby
+Points: 24
+----
+ID: 2650
+Date: 23.06.2015
+Waypoint: m/ajlis/1884
+Title: Motel - Munzee # 16 Room #1
+Points: 5
+----
+ID: 2651
+Date: 23.06.2015
+Waypoint: m/struppis/158
+Title: Motel - Munzee # 16 Room #2
+nTF: 4
+Points: 5
+----
+ID: 2652
+Date: 23.06.2015
+Waypoint: m/Kathleen/63
+Title: Motel - Munzee # 16 Room #3
+nTF: 3
+Points: 5
+----
+ID: 2653
+Date: 23.06.2015
+Waypoint: m/QQ/108
+Title: Motel - Munzee # 16 Room #4
+nTF: 2
+Points: 5
+----
+ID: 2654
+Date: 23.06.2015
+Waypoint: m/Waldkauz/795
+Title: Motel - Munzee # 16 Room #5
+nTF: 1
+Points: 5
+----
+ID: 2655
+Date: 23.06.2015
+Waypoint: m/JOJEVA/760
+Title: Motel - Munzee # 16
+Points: 5
+----
+ID: 2656
+Date: 23.06.2015
+Waypoint: m/JOJEVA/153
+Title: Munzee # 166
+Points: 5
+----
+ID: 2657
+Date: 23.06.2015
+Waypoint: m/JOJEVA/721
+Title: Munzee # 2
+Points: 5
+----
+ID: 2658
+Date: 23.06.2015
+Waypoint: m/ReMiKu/580
+Title: Walk the Rhine (0580)
+Points: 5
+----
+ID: 2659
+Date: 23.06.2015
+Waypoint: m/JOJEVA/753
+Title: Munzee # 9
+Points: 5
+----
+ID: 2660
+Date: 23.06.2015
+Waypoint: m/JOJEVA/1555
+Title: BG - Munzee - # 9
+Points: 5
+----
+ID: 2661
+Date: 23.06.2015
+Waypoint: m/JOJEVA/694
+Title: Munzee # 7
+Points: 5
+----
+ID: 2662
+Date: 24.06.2015
+Waypoint: m/winkide/4783
+Title: [winkide] GRAVATAR
+Points: 0
+----
+ID: 2663
+Date: 24.06.2015
+Waypoint: m/supersilli/3
+Title: Dovahkiin`s Social
+Points: 0
+----
+ID: 2664
+Date: 24.06.2015
+Waypoint: m/Wyando/6139
+Title: [c-bn] Universitätsklinikum Bonn 6975 HOTEL Room
+Points: 5
+----
+ID: 2665
+Date: 24.06.2015
+Waypoint: m/Tamarisk/1768
+Title: [c-bn] Universitätsklinikum Bonn 6975 HOTEL Room
+Points: 5
+----
+ID: 2666
+Date: 24.06.2015
+Waypoint: m/winkide/9439
+Title: [c-bn] Universitätsklinikum Bonn 6975 HOTEL Room
+Points: 5
+----
+ID: 2667
+Date: 24.06.2015
+Waypoint: m/supersilli/591
+Title: [c-bn] Universitätsklinikum Bonn 6975 HOTEL Room
+nTF: 4
+Points: 5
+----
+ID: 2668
+Date: 24.06.2015
+Waypoint: m/ReMiKu/11892
+Title: [c-bn] Universitätsklinikum Bonn 6975 HOTEL Room
+nTF: 3
+Points: 5
+----
+ID: 2669
+Date: 24.06.2015
+Waypoint: m/QQ/579
+Title: [c-bn] Universitätsklinikum Bonn 6975 HOTEL Room
+nTF: 2
+Points: 5
+----
+ID: 2670
+Date: 24.06.2015
+Waypoint: m/Steffi78/385
+Title: [c-bn] Universitätsklinikum Bonn 6975 HOTEL Room
+nTF: 1
+Points: 5
+----
+ID: 2671
+Date: 24.06.2015
+Waypoint: m/c-bn/6975
+Title: [c-bn] Universitätsklinikum Bonn 6975 HOTEL
+Points: 10
+----
+ID: 2672
+Date: 24.06.2015
+Waypoint: m/mastaxlolls/145
+Title: Kiefernweg
+Points: 5
+----
+ID: 2673
+Date: 24.06.2015
+Waypoint: m/ajlis/2050
+Title: Uniklinik Rubin 1
+Points: 6
+----
+ID: 2674
+Date: 24.06.2015
+Waypoint: m/JOJEVA/1655
+Title: Laterne 8 - Munzee 123 # 1655
+Points: 5
+----
+ID: 2675
+Date: 24.06.2015
+Waypoint: m/ajlis/1999
+Title: Uniklinik Rubin 2
+Points: 8
+----
+ID: 2676
+Date: 24.06.2015
+Waypoint: m/gruschenka/5
+Title: M
+Points: 5
+----
+ID: 2677
+Date: 24.06.2015
+Waypoint: m/gruschenka/39
+Title: Anakins Podracer
+Points: 5
+----
+ID: 2678
+Date: 24.06.2015
+Waypoint: m/gruschenka/41
+Title: Slave I
+Points: 5
+----
+ID: 2679
+Date: 24.06.2015
+Waypoint: m/gruschenka/42
+Title: Republikanisches Kanonenboot
+Points: 5
+----
+ID: 2680
+Date: 24.06.2015
+Waypoint: m/JOJEVA/1694
+Title: Laterne 8 - Munzee 123 # 1694
+Points: 5
+----
+ID: 2681
+Date: 24.06.2015
+Waypoint: m/JOJEVA/1886
+Title: Laterne 6 - # 1886
+Points: 5
+----
+ID: 2682
+Date: 24.06.2015
+Waypoint: m/JOJEVA/1663
+Title: Laterne 4 - Munzee 123 # 1663
+Points: 5
+----
+ID: 2683
+Date: 24.06.2015
+Waypoint: m/JOJEVA/1673
+Title: Ortsverband Backsite - Munzee 123 # 1673
+Points: 5
+----
+ID: 2684
+Date: 25.06.2015
+Waypoint: m/McRon/6077
+Title: McRon&#039;s POTW Social
+Points: 0
+----
+ID: 2685
+Date: 26.06.2015
+Waypoint: m/ReMiKu/4797
+Title: Mystery Endenich (4797)
+Points: 50
+----
+ID: 2686
+Date: 26.06.2015
+Waypoint: OC1219F
+Title: Godesberger Kreuze #23
+nTF: 0
+Tag: D15 T1 Virtual
+----
+ID: 2687
+Date: 26.06.2015
+Waypoint: m/JOJEVA/778
+Title: - Munzee # 2
+Points: 5
+----
+ID: 2688
+Date: 26.06.2015
+Waypoint: m/JOJEVA/786
+Title: - Munzee # 10
+Points: 5
+----
+ID: 2689
+Date: 26.06.2015
+Waypoint: m/JOJEVA/906
+Title: - Munzee # 801 5
+Points: 5
+----
+ID: 2690
+Date: 26.06.2015
+Waypoint: m/JOJEVA/1008
+Title: - Munzee # 805 12
+Points: 5
+----
+ID: 2691
+Date: 26.06.2015
+Waypoint: m/JOJEVA/1000
+Title: - Munzee # 805 4
+Points: 5
+----
+ID: 2692
+Date: 26.06.2015
+Waypoint: m/JOJEVA/932
+Title: - Munzee # 802 6
+Points: 5
+----
+ID: 2693
+Date: 26.06.2015
+Waypoint: OC121A0
+Title: Godesberger Kreuze #24
+nTF: 0
+Tag: D2 T15 Virtual
+----
+ID: 2694
+Date: 26.06.2015
+Waypoint: m/JOJEVA/1004
+Title: - Munzee # 805 8
+Points: 5
+----
+ID: 2695
+Date: 26.06.2015
+Waypoint: m/JOJEVA/1005
+Title: - Munzee # 805 9
+Points: 5
+----
+ID: 2696
+Date: 26.06.2015
+Waypoint: m/JOJEVA/1012
+Title: - Munzee # 805 16
+Points: 5
+----
+ID: 2697
+Date: 26.06.2015
+Waypoint: m/JOJEVA/785
+Title: - Munzee # 9
+Points: 5
+----
+ID: 2698
+Date: 26.06.2015
+Waypoint: m/JOJEVA/999
+Title: - Munzee # 805 3
+Points: 5
+----
+ID: 2699
+Date: 26.06.2015
+Waypoint: m/JOJEVA/521
+Title: Diamond - Plittersdorf # 534
+Points: 10
+----
+ID: 2700
+Date: 26.06.2015
+Waypoint: m/Waldkauz/326
+Title: Motel - Munzee #654 11 Room #1
+Points: 5
+----
+ID: 2701
+Date: 26.06.2015
+Waypoint: m/coolvava/25
+Title: Motel - Munzee #654 11 Room #2
+nTF: 4
+Points: 5
+----
+ID: 2702
+Date: 26.06.2015
+Waypoint: m/Kathleen/62
+Title: ⌂ Motel ⌂ - BG Room #3
+nTF: 3
+Points: 5
+----
+ID: 2703
+Date: 26.06.2015
+Waypoint: m/QQ/107
+Title: ⌂ Motel ⌂ - BG Room #4
+nTF: 2
+Points: 5
+----
+ID: 2704
+Date: 26.06.2015
+Waypoint: m/Steffi78/243
+Title: ⌂ Motel ⌂ - BG Room #5
+nTF: 1
+Points: 5
+----
+ID: 2705
+Date: 26.06.2015
+Waypoint: m/JOJEVA/1342
+Title: ⌂ Motel ⌂ - BG
+Points: 5
+----
+ID: 2706
+Date: 26.06.2015
+Waypoint: OC121A1
+Title: Godesberger Kreuze #25
+nTF: 0
+Tag: D15 T1 Virtual
+----
 ID: p20150701
 Date: 01.07.2015
 Waypoint: GC5XB1X
 Banner: png
 Title: A cache a day keeps the doctor away - Meet &amp; Greet
 Tag: D1 T1 Event
+----
+ID: p201507043
+Date: 04.07.2015
+Waypoint: GC5GEAD
+Title: Red Lion meets Signal
+Tag: D1 T1 Mega_Event
 ----
 ID: p201507042
 Date: 04.07.2015
