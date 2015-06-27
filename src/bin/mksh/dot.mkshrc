@@ -112,7 +112,7 @@ function chpwd {
 	\:
 }
 \chpwd .
-function cd {
+cd() {
 	\builtin cd "$@" || \return $?
 	\chpwd "$@"
 }
