@@ -16288,6 +16288,184 @@ Title: [c-bn] Universitätsklinikum Bonn 6975 HOTEL Room d-2
 nTF: 0
 Points: 5
 ----
+ID: 2711
+Date: 27.06.2015
+Waypoint: m/dschuwa/122
+Title: Nächster Halt: Jugendherberge
+Points: 5
+----
+ID: 2712
+Date: 27.06.2015
+Waypoint: m/JoKaBo87/9
+Title: VenusbergBonn5
+Points: 5
+----
+ID: 2713
+Date: 27.06.2015
+Waypoint: m/ajlis/405
+Title: Wir waren hier!
+Points: 5
+----
+ID: 2714
+Date: 27.06.2015
+Waypoint: m/anjasi/9
+Title: BN-A 5
+nTF: 1
+Points: 5
+----
+ID: 2715
+Date: 27.06.2015
+Waypoint: m/QQ/305
+Title: Steffi&#039;s Motel Room #1
+nTF: 1
+Points: 5
+----
+ID: 2716
+Date: 27.06.2015
+Waypoint: m/Steffi78/314
+Title: Steffi&#039;s Motel
+nTF: 2
+Points: 5
+----
+ID: 2717
+Date: 27.06.2015
+Waypoint: m/mirabilos/12
+Title: Steffi&#039;s Motel Room #2
+nTF: 0
+Points: 5
+----
+ID: 2718
+Date: 27.06.2015
+Waypoint: m/Wyando/6137
+Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL Room #1
+Points: 5
+----
+ID: 2719
+Date: 27.06.2015
+Waypoint: m/Tamarisk/1766
+Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL Room #2
+Points: 5
+----
+ID: 2720
+Date: 27.06.2015
+Waypoint: m/winkide/9438
+Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL Room #3
+Points: 5
+----
+ID: 2721
+Date: 27.06.2015
+Waypoint: m/supersilli/588
+Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL Room #4
+Points: 5
+----
+ID: 2722
+Date: 27.06.2015
+Waypoint: m/ReMiKu/11889
+Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL Room #5
+Points: 5
+----
+ID: 2723
+Date: 27.06.2015
+Waypoint: m/Steffi78/375
+Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL Room #6
+Points: 5
+----
+ID: 2724
+Date: 27.06.2015
+Waypoint: m/QQ/569
+Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL Room #7
+nTF: 4
+Points: 5
+----
+ID: 2725
+Date: 27.06.2015
+Waypoint: m/charlino/240
+Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL Room #8
+nTF: 3
+Points: 5
+----
+ID: 2726
+Date: 27.06.2015
+Waypoint: m/feylino/3070
+Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL Room #9
+nTF: 2
+Points: 5
+----
+ID: 2727
+Date: 27.06.2015
+Waypoint: m/hugosoft/3404
+Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL Room #10
+nTF: 1
+Points: 5
+----
+ID: 2728
+Date: 27.06.2015
+Waypoint: m/c-bn/7074
+Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL
+Points: 10
+----
+ID: 2729
+Date: 27.06.2015
+Waypoint: m/Steffi78/401
+Title: Steffi&#039;s
+nTF: 1
+Points: 5
+----
+ID: 2730
+Date: 27.06.2015
+Waypoint: m/dschuwa/70
+Title: Nächster Halt: Pütz Straße
+Points: 5
+----
+ID: 2731
+Date: 27.06.2015
+Waypoint: m/dschuwa/785
+Title: Bonner Punktejagd 571
+Points: 5
+----
+ID: 2732
+Date: 27.06.2015
+Waypoint: m/dschuwa/852
+Title: Bonner Punktejagd 638
+Points: 5
+----
+ID: 2733
+Date: 27.06.2015
+Waypoint: m/dschuwa/828
+Title: Bonner Punktejagd 614
+Points: 5
+----
+ID: 2734
+Date: 27.06.2015
+Waypoint: m/dschuwa/903
+Title: Bonner Punktejagd 689
+Points: 5
+----
+ID: 2735
+Date: 27.06.2015
+Waypoint: m/dschuwa/752
+Title: Bonner Punktejagd 538
+Points: 5
+----
+ID: 2736
+Date: 27.06.2015
+Waypoint: m/dschuwa/728
+Title: Bonner Punktejagd 515
+Points: 5
+----
+ID: 2737
+Date: 27.06.2015
+Waypoint: m/dschuwa/878
+Title: Bonner Punktejagd 664
+Points: 5
+----
+ID: 2738
+Date: 27.06.2015
+Waypoint: m/dschuwa/849
+Title: Bonner Punktejagd 635
+nTF: 1
+Points: 5
+----
 ID: p20150701
 Date: 01.07.2015
 Waypoint: GC5XB1X

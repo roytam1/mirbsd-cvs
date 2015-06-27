@@ -256,6 +256,7 @@ function mzbadge {
 mzbadge lvl10 'Perfect 10' 'You&#039;re a perfect 10! Don&#039;t ever change. Until you become an 11.'
 mzbadge lvl50 'Over The Hill' 'Level 50? That takes alot of work. Keep it up, you&#039;re halfway there!'
 mzbadge seeker Seeker 'A good seeker knows how to find what they are after.'
+mzbadge cap 'Capture Streak' 'You are on fire! 31 days in a row of captures!'
 mzbadge hunter Hunter 'You really are a special icon hunter! Keep hunting them to reach the next level.'
 mzbadge collector Collector 'You are a collector of the finer things in life, a special Munzee icon. Keep collecting!'
 mzbadge hoarder Hoarder 'Sometimes hoarding isn&#039;t a bad thing! You&#039;ve hoarded a lot of icons but can you get more?'

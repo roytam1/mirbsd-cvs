@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.463 2014/12/14 21:19:56 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.464 2015/04/11 23:42:32 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10835,4 +10835,77 @@ Tag: mksh pcli
  There are security-related fixes I’ll MFC in a few days, for which I’d
  prefer for them (and the other changes) to not introduce any regressions.
  Thanks!</p>
+----
+Title: portable shebang for mksh on Unix and Android
+Date: 27.06.2015 21:50
+Author: tg@
+Tag: mksh pcli
+
+<p><tt>carstenh</tt> asked in <a href="@@RELPATH@@irc.htm">IRC</a> how
+ to make a shebang for mksh(1) scripts that works on both regular Unix
+ and Android.</p>
+<p>This is not as easy as it looks, though. Most Unicēs will have <a
+ href="@@RELPATH@@mksh.htm">mksh</a> installed, either manually or by
+ means of the native package system, as <tt>/bin/mksh</tt>. Some put it
+ into package manager-specific directories; I saw <tt>/sw/bin/mksh</tt>,
+ <tt>/usr/local/bin/mksh</tt> and <tt>/usr/pkg/bin/mksh</tt> so far.
+ Some systems have it as <tt>/usr/bin/mksh</tt> but these are usually
+ those who got poettering’d and have <tt>/bin</tt> a symlink anyway.
+ Most of these systems also have env(1) as <tt>/usr/bin/env</tt>.</p>
+<p>Android, on the contrary, ships with precisely one shell. This has
+ been mksh for a while, thankfully. There is, however, <em>neither</em>
+ a <tt>/bin</tt> nor a <tt>/usr</tt> directory. mksh usually lives as
+ <tt>/system/bin/mksh</tt>, with <tt>/system/bin/sh</tt> a symlink(7)
+ to the former location. Some broken Android versions ship the binary
+ in the latter location instead and do not ship anything that matches
+ mksh on the <tt>$PATH</tt>, but I hope they merge my AOSP patch to
+ revert this bad change (especially as some third-party Android toolkits
+ overwrite <tt>/system/bin/sh</tt> with busybox sh or GNU bash and you’d
+ lose mksh in the progress). However, on all official Android systems,
+ mksh is the system shell. This will be important later.</p>
+<p>The obvious and correct fix is, of course, to <tt>chmod -x</tt> the
+ scripts and call them explicitly as <tt>mksh scriptname</tt>. This is
+ not always possible or desirable; sometimes, people will wish it to be
+ in the <tt>$PATH</tt> and executable, so we need a different solution.</p>
+<p>There’s a neat trick with shebangs – the absence of one is handled
+ specifically by <em>most</em> systems in various ways. I remember reading
+ about it, but don’t remember where; I can’t find it on Sven Mascheck’s
+ excellent pages… but: the C shell variants run a script with the Bourne
+ Shell if its first line is a sole colon (‘:’), the Bourne family shells
+ run it with themselves or <tt>${EXECSHELL:-/bin/sh}</tt> in those cases,
+ and the kernel with the system shell, AFAIK. So we have a way to get most
+ things that could call the script to interpret it as Bourne/POSIX shell
+ script on most systems. Then we just have to add a Bourne shell scriptlet
+ that switches to mksh iff the current shell isn’t it (lksh, or something
+ totally different). On Android, there is only ever one shell (or the
+ toolkit installer better preserve mksh as mksh), so this doesn’t do
+ anything (I hope – but did not test – that the kernel invokes the system
+ shell correctly despite it not lying under <tt>/bin/sh</tt>) nor does
+ it need to.</p>
+<p class="boxhead">This leaves us with the following “shebang”:</p>
+<div class="boxtext">
+ <pre>
+	:
+	case ${KSH_VERSION-} in
+	*MIRBSD\ KSH*) ;;
+	*)	# re-run with The MirBSD Korn Shell, this is an mksh-specific script
+		test "${ZSH_VERSION+set}" = set &amp;&amp; alias -g '${1+"$@"}'='"$@"'
+		exec mksh "$0" ${1+"$@"}
+		echo &gt;&amp;2 E: mksh re-exec failed, should not happen
+		exit 127 ;;
+	esac
+ </pre>
+</div><p class="boxfoot">The case argument not only does not need to,
+ but actually should not be quoted; the expansion is a <tt>set -u</tt>
+ guard; the entire scriptlet is <tt>set -e</tt> safe as well; comments
+ and expansions are safe. <tt>exec</tt> shall not return, but if it
+ does (GNU bash violates POSIX that way, for example), we use POSIX’
+ appropriate errorlevel. zsh is funny with the Bourne shell’s way of
+ using <tt>"$@"</tt> properly. But this should really be portable.
+ The snippet is both too short and too obvious (“only way to do it”)
+ to be protected by copyright law.</p>
+<p>Thanks to <tt>carstenh</tt> and <tt>Ypnose</tt> for discussing things
+ like this with us in <a href="@@RELPATH@@irc.htm">IRC</a>, sending in
+ bugfixes (and changes we decline, with reason), etc. – it feels like we
+ have a real community, not just consuments ☺</p>
 ----
