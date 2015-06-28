@@ -3832,7 +3832,8 @@ if empty, instead of the ASCII newline character as input line delimiter.
 .It Fl N Ar z
 Instead of reading till end-of-line, read exactly
 .Ar z
-bytes; less if EOF or a timeout occurs.
+bytes.
+If EOF or a timeout occurs, a partial read is returned with exit status 1.
 .It Fl n Ar z
 Instead of reading till end-of-line, read up to
 .Ar z
@@ -3851,6 +3852,9 @@ The argument must immediately follow the option character.
 Interrupt reading after
 .Ar n
 seconds (specified as positive decimal value with an optional fractional part).
+The exit status of
+.Nm read
+is 1 if the timeout occurred, but partial reads may still be returned.
 .It Fl r
 Normally, the ASCII backslash character escapes the special
 meaning of the following character and is stripped from the input;
