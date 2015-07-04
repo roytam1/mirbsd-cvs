@@ -16466,36 +16466,359 @@ Title: Bonner Punktejagd 635
 nTF: 1
 Points: 5
 ----
-ID: p20150701
+ID: 2739
+Date: 28.06.2015
+Waypoint: m/dschuwa/196
+Title: Bonner Punktejagd 051
+nTF: 1
+Points: 5
+----
+ID: 2740
+Date: 28.06.2015
+Waypoint: m/dschuwa/193
+Title: Bonner Punktejagd 013
+Points: 5
+----
+ID: 2741
+Date: 28.06.2015
+Waypoint: m/dschuwa/208
+Title: Bonner Punktejagd 097
+Points: 5
+----
+ID: 2742
+Date: 29.06.2015
+Waypoint: m/c-bn/3194
+Title: 3/5 - [c-bn] BMVg Trail #3194
+Points: 10
+----
+ID: 2743
+Date: 29.06.2015
+Waypoint: m/c-bn/131
+Title: Rund ums BMVg #08
+Points: 5
+----
+ID: 2744
+Date: 29.06.2015
+Waypoint: GC5XVAD
+Title: Voreifelbahn - Brücke Nr. 12
+Tag: D1 T15 Micro Tradi
+----
+ID: 2745
+Date: 29.06.2015
+Waypoint: m/mastaxlolls/162
+Title: Brücke
+Points: 5
+----
+ID: 2746
+Date: 30.06.2015
+Waypoint: OC121BA
+Title: unauffälliges Kreuz am Rosenburghang
+nTF: 0
+Tag: D1 T15 Virtual
+----
+ID: 2747
+Date: 30.06.2015
+Waypoint: m/MorpheusHH/2241
+Title: VIRT blau(weiss)e-Karte 4 ;-)
+Points: 5
+----
+ID: 2748
+Date: 01.07.2015
+Waypoint: m/zeusi/2835
+Title: Aktion &quot;Karte dunkelblau&quot; 042
+Points: 5
+----
+ID: 2749
+Date: 01.07.2015
+Waypoint: m/ajlis/143
+Title: Pastoratsgasse
+Points: 9
+----
+ID: 2750
+Date: 01.07.2015
+Waypoint: m/zeusi/3069
+Title: Virtual Endenich
+Points: 5
+----
+ID: 2751
 Date: 01.07.2015
 Waypoint: GC5XB1X
 Banner: png
 Title: A cache a day keeps the doctor away - Meet &amp; Greet
+nTF: 1
 Tag: D1 T1 Event
 ----
-ID: p201507043
-Date: 04.07.2015
-Waypoint: GC5GEAD
-Title: Red Lion meets Signal
-Tag: D1 T1 Mega_Event
+ID: 2752
+Date: 01.07.2015
+Waypoint: m/struppis/331
+Title: struppis 9
+nTF: 1
+Points: 5
 ----
-ID: p201507042
+ID: 2753
+Date: 01.07.2015
+Waypoint: m/c-bn/4997
+Title: Bonn, Otto-Hahn-Str. 4997
+Points: 44
+----
+ID: 2754
+Date: 01.07.2015
+Waypoint: m/Baumhoernchen/210
+Title: Generic Name
+Points: 10
+----
+ID: 2755
+Date: 01.07.2015
+Waypoint: m/wxbee/21
+Title: Joggingrunde
+Points: 50
+----
+ID: 2756
+Date: 01.07.2015
+Waypoint: m/JOJEVA/1232
+Title: Poppelsdorfer Schloss - Motel by Ajlis Room #1
+Points: 5
+----
+ID: 2757
+Date: 01.07.2015
+Waypoint: m/Waldkauz/46
+Title: Poppelsdorfer Schloss - Motel by Ajlis Room #2
+Points: 5
+----
+ID: 2758
+Date: 01.07.2015
+Waypoint: m/Aurelie/1
+Title: Poppelsdorfer Schloss - Motel by Ajlis Room #3
+Points: 5
+----
+ID: 2759
+Date: 01.07.2015
+Waypoint: m/FelisCatus/37
+Title: Poppelsdorfer Schloss - Motel by Ajlis Room #4
+Points: 5
+----
+ID: 2760
+Date: 01.07.2015
+Waypoint: m/tombraidergirl/121
+Title: Poppelsdorfer Schloss - Motel by Ajlis Room #5
+nTF: 4
+Points: 5
+----
+ID: 2761
+Date: 01.07.2015
+Waypoint: m/ajlis/132
+Title: Poppelsdorfer Schloss - Motel by Ajlis
+Points: 5
+----
+ID: 2762
+Date: 01.07.2015
+Waypoint: m/c-bn/4521
+Title: Bonn, Agnesstr. 4521
+Points: 44
+----
+ID: 2763
+Date: 01.07.2015
+Waypoint: m/zeusi/5793
+Title: Generic Name
+Points: 10
+----
+ID: 2764
+Date: 01.07.2015
+Waypoint: m/zeusi/5792
+Title: Generic Name
+Points: 5
+----
+ID: 2765
+Date: 01.07.2015
+Waypoint: m/dschuwa/1063
+Title: NoName 20
+Points: 44
+----
+ID: 2766
+Date: 01.07.2015
+Waypoint: m/JOJEVA/1137
+Title: Kw- Munzee #103 6
+Points: 5
+----
+ID: 2767
+Date: 01.07.2015
+Waypoint: m/JOJEVA/1085
+Title: Kw- Munzee # 101 1
+Points: 5
+----
+ID: 2768
+Date: 01.07.2015
+Waypoint: m/darlaStubbs/21
+Title: Bus frei Room #1
+Points: 5
+----
+ID: 2769
+Date: 01.07.2015
+Waypoint: m/felixhunter/1936
+Title: Bus frei Room #2
+nTF: 4
+Points: 5
+----
+ID: 2770
+Date: 01.07.2015
+Waypoint: m/zeusi/8740
+Title: Bus frei Room #3
+nTF: 3
+Points: 5
+----
+ID: 2771
+Date: 01.07.2015
+Waypoint: m/Pfanni/197
+Title: Bus frei Room #4
+nTF: 2
+Points: 5
+----
+ID: 2772
+Date: 01.07.2015
+Waypoint: m/QQ/112
+Title: Bus frei Room #5
+nTF: 1
+Points: 5
+----
+ID: 2773
+Date: 01.07.2015
+Waypoint: m/CleanCoen/957
+Title: Bus frei
+Points: 5
+----
+ID: 2774
+Date: 01.07.2015
+Waypoint: m/zeusi/4349
+Title: Der muck
+Points: 45
+----
+ID: 2775
+Date: 01.07.2015
+Waypoint: m/JOJEVA/898
+Title: - Munzee # 800 22
+Points: 44
+----
+ID: 2776
+Date: 02.07.2015
+Waypoint: m/zeusi/2767
+Title: Virtual Munzee Power
+Points: 5
+----
+ID: 2777
+Date: 02.07.2015
+Waypoint: m/DerTransporter/83
+Title: Maxi Munzee 83
+Points: 44
+----
+ID: 2778
+Date: 02.07.2015
+Waypoint: m/zeusi/2266
+Title: Munzee Power 877
+Points: 9
+----
+ID: 2779
+Date: 03.07.2015
+Waypoint: m/ajlis/229
+Title: Oskar-Walzel-Straße, Bonn
+Points: 100
+----
+ID: 2780
+Date: 03.07.2015
+Waypoint: OC121DE
+Title: Spontan-Eis weil heiß
+nTF: 1
+Tag: D1 T1 Event
+----
+ID: 2781
 Date: 04.07.2015
 Waypoint: GC5XT5W
 Title: 3. FeenTreff BN Bad Godesberg
 Tag: D15 T15 Event
 ----
-ID: p20150704
+ID: 2782
 Date: 04.07.2015
-Waypoint: GC5TBZ3
-Title: Smalldosenrennen ...das Zweite
-Tag: D3 T1 Event
+Waypoint: m/JOJEVA/881
+Title: - Munzee # 800 5
+Points: 20
+----
+ID: 2783
+Date: 04.07.2015
+Waypoint: m/JOJEVA/887
+Title: - Munzee # 800 11
+Points: 400
+----
+ID: 2784
+Date: 04.07.2015
+Waypoint: m/DerTransporter/161
+Title: DerTransporter Virtual 1
+Points: 20
+----
+ID: 2785
+Date: 04.07.2015
+Waypoint: m/zeusi/2759
+Title: Virtual Munzee Power
+Points: 20
+----
+ID: 2786
+Date: 04.07.2015
+Waypoint: m/DerTransporter/216
+Title: Maxi Munzee 204
+Points: 20
+----
+ID: 2787
+Date: 04.07.2015
+Waypoint: m/JOJEVA/413
+Title: Munzee # 426
+Points: 20
+----
+ID: 2788
+Date: 04.07.2015
+Waypoint: m/dschuwa/64
+Title: Nächster Halt: Wichernstraße
+Points: 176
+----
+ID: 2789
+Date: 04.07.2015
+Waypoint: m/zeusi/2769
+Title: Virtual Munzee Power
+Points: 20
+----
+ID: 2790
+Date: 04.07.2015
+Waypoint: OC1988 GC5E31 N00670
+Title: Naturschauspiel
+Tag: D3 T1 Regular Mystery recommended
+----
+ID: 2791
+Date: 04.07.2015
+Waypoint: GC54PZZ OXC2295 OC2295
+Title: EDKB
+Tag: D1 T1 Micro Tradi
+----
+ID: 2792
+Date: 04.07.2015
+Waypoint: OCDA72
+Title: Learn to fly!
+Tag: D1 T1 Virtual
+----
+ID: 2793
+Date: 04.07.2015
+Waypoint: OC4795
+Title: &#34;Lore mal anders&#34;
+Tag: D1 T1 Virtual
 ----
 ID: p20150711
 Date: 11.07.2015
 Waypoint: GC5XMMQ
 Title: Geocacher in der Baracke 5
 Tag: D1 T1 Event
+----
+ID: p20150716
+Date: 16.07.2015
+Waypoint: GC5YKAC
+Title: Ein Eis im Juli, zwei Eis im Juli, …
+nTF: 0
+Tag: D1 T15 Event
 ----
 ID: p20150905
 Date: 05.09.2015
