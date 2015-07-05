@@ -803,6 +803,8 @@ shell(Source * volatile s, volatile bool toplevel)
 			set_prompt(PS1, s);
 		}
 		t = compile(s, sfirst);
+		if (interactive)
+			histsave(&s->line, NULL, HIST_FLUSH, true);
 		sfirst = false;
 		if (!t)
 			goto source_no_tree;

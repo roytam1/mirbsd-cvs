@@ -1859,7 +1859,8 @@ below for more information.
 .It Ev HISTFILE
 The name of the file used to store command history.
 When assigned to or unset, the file is opened, history is truncated
-then loaded from the file; subsequent new lines are appended.
+then loaded from the file; subsequent new commands (possibly consisting
+of several lines) are appended once they successfully compiled.
 Also, several invocations of the shell will share history if their
 .Ev HISTFILE
 parameters all point to the same file.
