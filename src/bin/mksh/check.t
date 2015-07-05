@@ -8533,6 +8533,7 @@ description:
 	Ensure concatenating behaviour matches other shells
 stdin:
 	showargs() { for s_arg in "$@"; do echo -n "<$s_arg> "; done; echo .; }
+	#showargs 0 ""$@
 	x=; showargs 1 "$x"$@
 	set A; showargs 2 "${@:+}"
 	n() { echo "$#"; }
@@ -8566,6 +8567,17 @@ expected-stdout:
 	1
 	0
 	1
+---
+name: varexpand-null-3a
+description:
+	Ensure concatenating behaviour matches other shells
+	(currently broken cases)
+expected-fail: yes
+stdin:
+	showargs() { for s_arg in "$@"; do echo -n "<$s_arg> "; done; echo .; }
+	showargs 0 ""$@
+expected-stdout:
+	<0> <> .
 ---
 name: print-funny-chars
 description:
