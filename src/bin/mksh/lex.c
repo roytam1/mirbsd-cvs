@@ -1474,8 +1474,10 @@ getsc_line(Source *s)
 		cp = Xstring(s->xs, xp);
 		while (*cp && ctype(*cp, C_IFSWS))
 			++cp;
-		if (!*cp)
+		if (!*cp) {
+			histsave(&s->line, NULL, HIST_FLUSH, true);
 			histsync();
+		}
 #endif
 	}
 	if (interactive)

@@ -84,6 +84,9 @@ static const char TFCEDIT_dollaru[] = "${FCEDIT:-/bin/ed} $_";
 /* maximum considered size of persistent history file */
 #define MKSH_MAXHISTFSIZE	((off_t)1048576 * 96)
 
+/* hidden option */
+#define HIST_DISCARD		5
+
 int
 c_fc(const char **wp)
 {
@@ -567,6 +570,7 @@ sethistfile(const char *name)
 		afree(hname, APERM);
 		hname = NULL;
 		/* let's reset the history */
+		histsave(NULL, NULL, HIST_DISCARD, true);
 		histptr = history - 1;
 		hist_source->line = 0;
 	}
@@ -601,6 +605,8 @@ histsync(void)
 {
 	bool changed = false;
 
+	/* called by histsave(), may not HIST_DISCARD, caller should flush */
+
 	if (histfd != -1) {
 		int lno = hist_source->line;
 
@@ -625,6 +631,12 @@ histsave(int *lnp, const char *cmd, int svmode, bool ignoredups)
 	static char *enqueued = NULL;
 	char **hp, *c;
 	const char *ccp;
+
+	if (svmode == HIST_DISCARD) {
+		afree(enqueued, APERM);
+		enqueued = NULL;
+		return;
+	}
 
 	if (svmode == HIST_APPEND) {
 		if (!enqueued)
@@ -733,6 +745,8 @@ hist_init(Source *s)
 	int lines, fd;
 	enum { hist_init_first, hist_init_retry, hist_init_restore } hs;
 #endif
+
+	histsave(NULL, NULL, HIST_DISCARD, true);
 
 	if (Flag(FTALKING) == 0)
 		return;
