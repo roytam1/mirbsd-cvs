@@ -3582,7 +3582,7 @@ expected-stdout:
 	a new line
 	1	echo abc def
 	2	echo FOOBAR def
-	3	echo a new line
+		echo a new line
 expected-stderr-pattern:
 	/^X*echo FOOBAR def\necho a new line\nX*$/
 ---
@@ -3664,7 +3664,7 @@ expected-stdout:
 	a new line
 	1	echo abc def
 	2	echo FOOBAR def
-	3	echo a new line
+		echo a new line
 expected-stderr-pattern:
 	/^X*13\n32\necho FOOBAR def\necho a new line\nX*$/
 ---
