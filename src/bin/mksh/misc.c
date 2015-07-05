@@ -1286,7 +1286,7 @@ print_columns(struct shf *shf, unsigned int n,
 			if (i < n) {
 				shf_fprintf(shf, "%*s", max_col,
 				    (*func)(str, max_oct, i, arg));
-				if (c + 1 < cols)
+				if (i + rows < n)
 					shf_fprintf(shf, "%*s", nspace, null);
 			}
 		}
