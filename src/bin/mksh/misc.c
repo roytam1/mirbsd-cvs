@@ -1283,13 +1283,14 @@ print_columns(struct shf *shf, unsigned int n,
 		nspace = 1;
 	for (r = 0; r < rows; r++) {
 		for (c = 0; c < cols; c++) {
-			i = c * rows + r;
-			if (i < n) {
-				(*func)(str, max_oct, i, arg);
-				shf_fprintf(shf, "%*s", max_col, str);
-				if (i + rows < n)
-					shf_fprintf(shf, "%*s", nspace, null);
-			}
+			if ((i = c * rows + r) >= n)
+				break;
+			(*func)(str, max_oct, i, arg);
+			if (i + rows >= n)
+				shf_puts(str, shf);
+			else
+				shf_fprintf(shf, "%*s%*s",
+				    max_col, str, nspace, null);
 		}
 		shf_putchar('\n', shf);
 	}
