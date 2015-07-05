@@ -13326,6 +13326,7 @@ Tag: D1 T1 Event
 ID: 2237
 Date: 09.05.2015
 Waypoint: GC55PAC
+Banner: jpg
 Title: Unser Postbote, der Herr Schmitz...
 Tag: D3 T3 Micro Multi recommended
 
@@ -16825,6 +16826,8 @@ Waypoint: GC5YKAC
 Title: Ein Eis im Juli, zwei Eis im Juli, …
 nTF: 0
 Tag: D1 T15 Event
+
+… wenn der Reviewer das noch hinkriegt…
 ----
 ID: p20150905
 Date: 05.09.2015
@@ -16839,6 +16842,18 @@ Waypoint: GC276WT
 Banner: jpg
 Title: Nacht der Vulkane 2016 (Arbeitstitel)
 Tag: Event
+----
+ID: p10000
+Date: 01.01.2016
+Waypoint: GCWFR6
+Title: World Cache (Germany)
+Tag: D35 T3 Regular Mystery exceptional
+----
+ID: p10001
+Date: 01.01.2017
+Waypoint: GCWDD0
+Title: World Cache (United Kingdom)
+Tag: D4 T2 Regular Multi exceptional
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat

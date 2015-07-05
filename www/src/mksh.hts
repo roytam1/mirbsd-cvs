@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.585 2015/05/23 19:20:14 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.586 2015/07/05 15:29:19 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1164,6 +1164,18 @@ exec /usr/bin/ld "${args[@]}"</pre>
   code triggering it out of <tt>*.opt</tt> and into the consumers</li>
  <li>[colona] Bind another well-known ANSI Del key in the Emacs mode</li>
  <li>[tg] Fix <tt>${foo/*/x}</tt> pattern checks, spotted by izabera</li>
+ <li>[carstenh] Fix error output of <tt>cd</tt> function in dot.mkshrc</li>
+ <li>[tg] <tt>read</tt> partial returns in <tt>-N</tt> and timeout cases</li>
+ <li>[tg] Fix <tt>$LINENO</tt> inside <tt>PS1</tt>; spotted by carstenh</li>
+ <li>[tg] Ensure correct padding of at least 2 spaces in print_columns</li>
+ <li>[tg] Add known failure (<tt>""$@</tt>) to testsuite</li>
+ <li>[tg] Note <a href="https://bugs.launchpad.net/bugs/1453827">issues with
+  nested complex parameter expansions</a> and follow-up bugfixes to expect</li>
+ <li>[OpenBSD] Some language fixes in documentation; comments</li>
+ <li>[tg] Implement cat “if flag call external” hack for realpath, rename</li>
+ <li>[tg] Reimplement multi-line command history (Debian #783978) + fixes</li>
+ <li>[Martijn Dekker] Fix <tt>command -v</tt> for “shell reserved words”</li>
+ <li>[tg] In <tt>dot.mkshrc</tt> make use of latest feature: local options</li>
 </ul>
 <p>Changes in the current (unreleased) R50-stable branch:</p><ul>
  <li>[tg] Correct some mistakes in the manual page</li>
