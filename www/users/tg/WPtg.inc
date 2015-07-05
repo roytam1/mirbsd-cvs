@@ -16807,6 +16807,12 @@ Waypoint: OC4795
 Title: &#34;Lore mal anders&#34;
 Tag: D1 T1 Virtual
 ----
+ID: 2794
+Date: 05.07.2015
+Waypoint: m/elton/1055
+Title: Elton&#039;s Social Munzee
+Points: 0
+----
 ID: p20150711
 Date: 11.07.2015
 Waypoint: GC5XMMQ
