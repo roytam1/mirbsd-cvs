@@ -1,4 +1,4 @@
-$MirOS: X11/README,v 1.6 2006/08/08 21:42:43 tg Exp $
+$MirOS: X11/README,v 1.7 2006/11/17 02:51:56 tg Exp $
 
 This module contains the X-Window subsystem for the MirOS
 operating system family. Currently, it is based upon a
@@ -14,7 +14,7 @@ read the MirOS licence template first, which covers this
 module as a collective-work copyright. Then refer to the file
 xc/programs/Xserver/hw/xfree86/doc/LICENSE which documents
 all the licences, trademarks and advertising clauses imposed
-by the use of Xfree86®. Finally, there are some additions
+by the use of XFree86®. Finally, there are some additions
 taken over from OpenBSD originally. All advertising clauses
 and trademark attributions required are reproduced in the
 file /usr/share/doc/legal/LICENCE-BSD for reference (compiled

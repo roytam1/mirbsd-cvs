@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.464 2015/04/11 23:42:32 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.465 2015/06/27 21:50:43 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -2244,7 +2244,7 @@ Tag: hardware
 
 <p>Yay, the IBM X40 is back. No explanatory letter, just an invoice over
  0 € (funny), but it works. The BIOS clock was off by an hour, I suppose
- they have booted a Windowd® – maybe its “driver” has fixed the graphics
+ they have booted a Windows® – maybe its “driver” has fixed the graphics
  chip. So I can go back trying to build a working snapshot again.</p>
 <p>And never boot a GNU/Linux, especially not KNOPPIX!</p>
 <p>PACKSTATION rules! Even though I yet have to figure out how to use it
@@ -3441,7 +3441,7 @@ Tag: bug geocache
  from user space), and I can’t make <tt>-fwrapv</tt> default because
  <tt>-ftrapv</tt> wouldn’t disable it then. Unless I look more into
  gcc’s source again. But I hereby <strong>officially announce</strong>
- that code on MirBSD® can assume wrapping semantics and 8/16/32/64 bit
+ that code on MirBSD™ can assume wrapping semantics and 8/16/32/64 bit
  wide integral types, big or little endian. No 9 bit bytes, 36 bit PDP
  endian integers, saturation arithmetics. Ever. It’s a promise.</p>
 <p>The IcedTea cross-compile patch and the OpenJDK BSD patchkit are
