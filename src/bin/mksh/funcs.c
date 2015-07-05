@@ -538,7 +538,7 @@ c_whence(const char **wp)
 		uint32_t h = 0;
 
 		tp = NULL;
-		if ((iam_whence || vflag) && !pflag)
+		if (!pflag)
 			tp = ktsearch(&keywords, id, h = hash(id));
 		if (!tp && !pflag) {
 			tp = ktsearch(&aliases, id, h ? h : hash(id));
