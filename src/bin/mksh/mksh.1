@@ -3957,6 +3957,12 @@ it's also checked for existence and whether it is a directory; otherwise,
 returns 0 if the pathname either exists or can be created immediately,
 i.e. all but the last component exist and are directories.
 .Pp
+Unless compiled with
+.Dv MKSH_NO_EXTERNAL_REALPATH ,
+if any options are given and this is not a direct builtin call, an external
+.Xr realpath 1
+utility is invoked instead.
+.Pp
 .It Xo
 .Ic rename
 .Op Fl \-
@@ -3971,6 +3977,11 @@ This builtin is intended for emergency situations where
 .Pa /bin/mv
 becomes unusable, and directly calls
 .Xr rename 2 .
+Unless compiled with
+.Dv MKSH_NO_EXTERNAL_RENAME ,
+if any options are given and this is not a direct builtin call, an external
+.Xr rename 1
+utility is invoked instead.
 .Pp
 .It Ic return Op Ar status
 Returns from a function or

@@ -2646,6 +2646,8 @@ MKSH_NOPWNAM			skip PAM calls, for -static on glibc or Solaris
 MKSH_NO_CMDLINE_EDITING		disable command line editing code entirely
 MKSH_NO_DEPRECATED_WARNING	omit warning when deprecated stuff is run
 MKSH_NO_EXTERNAL_CAT		omit hack to skip cat builtin when flags passed
+MKSH_NO_EXTERNAL_REALPATH	same for realpath builtin
+MKSH_NO_EXTERNAL_RENAME		same for rename builtin
 MKSH_NO_LIMITS			omit ulimit code
 MKSH_NO_SIGSETJMP		define if sigsetjmp is broken or not available
 MKSH_NO_SIGSUSPEND		use sigprocmask+pause instead of sigsuspend
