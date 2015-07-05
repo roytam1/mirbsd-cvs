@@ -1894,7 +1894,7 @@ int ksh_getopt(const char **, Getopt *, const char *);
 void print_value_quoted(struct shf *, const char *);
 char *quote_value(const char *);
 void print_columns(struct shf *, unsigned int,
-    char *(*)(char *, size_t, unsigned int, const void *),
+    void (*)(char *, size_t, unsigned int, const void *),
     const void *, size_t, size_t, bool);
 void strip_nuls(char *, size_t)
     MKSH_A_BOUNDED(__string__, 1, 2);
