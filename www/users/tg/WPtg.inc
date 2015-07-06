@@ -16814,6 +16814,18 @@ Waypoint: m/elton/1055
 Title: Elton&#039;s Social Munzee
 Points: 0
 ----
+ID: 2795
+Date: 06.07.2015
+Waypoint: m/c-bn/2338
+Title: Bonn, Gottfried-Kinkel-Straße 2338
+Points: 100
+----
+ID: 2796
+Date: 06.07.2015
+Waypoint: m/c-bn/2341
+Title: Bonn, Ludwig-Richter-Straße 2341
+Points: 5
+----
 ID: p20150711
 Date: 11.07.2015
 Waypoint: GC5XMMQ
@@ -16822,12 +16834,10 @@ Tag: D1 T1 Event
 ----
 ID: p20150716
 Date: 16.07.2015
-Waypoint: GC5YKAC
+Waypoint: GC5YKAC OC1220E TC9SHU GE0310
 Title: Ein Eis im Juli, zwei Eis im Juli, …
 nTF: 0
 Tag: D1 T15 Event
-
-… wenn der Reviewer das noch hinkriegt…
 ----
 ID: p20150905
 Date: 05.09.2015

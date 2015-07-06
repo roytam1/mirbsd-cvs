@@ -1172,10 +1172,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Note <a href="https://bugs.launchpad.net/bugs/1453827">issues with
   nested complex parameter expansions</a> and follow-up bugfixes to expect</li>
  <li>[OpenBSD] Some language fixes in documentation; comments</li>
- <li>[tg] Implement cat “if flag call external” hack for realpath, rename</li>
  <li>[tg] Reimplement multi-line command history (Debian #783978) + fixes</li>
  <li>[Martijn Dekker] Fix <tt>command -v</tt> for “shell reserved words”</li>
  <li>[tg] In <tt>dot.mkshrc</tt> make use of latest feature: local options</li>
+ <li>[tg] Fix <tt>""$@</tt> to emit a word</li>
+ <li>[tg] Change cat(1) hack to look first and not ignore <tt>builtin</tt></li>
 </ul>
 <p>Changes in the current (unreleased) R50-stable branch:</p><ul>
  <li>[tg] Correct some mistakes in the manual page</li>
