@@ -291,21 +291,14 @@ expand(
 				c = *sp++;
 				break;
 			case OQUOTE:
-				switch (word) {
-				case IFS_QUOTE:
-					/* """something */
-					word = IFS_WORD;
-					break;
-				case IFS_WORD:
-					break;
-				default:
+				if (word != IFS_WORD)
 					word = IFS_QUOTE;
-					break;
-				}
 				tilde_ok = 0;
 				quote = 1;
 				continue;
 			case CQUOTE:
+				if (word == IFS_QUOTE)
+					word = IFS_WORD;
 				quote = st->quotew;
 				continue;
 			case COMSUB:
