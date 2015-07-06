@@ -30,7 +30,7 @@
 # (2013/12/02 20:39:44) http://openbsd.cs.toronto.edu/cgi-bin/cvsweb/src/regress/bin/ksh/?sortby=date
 
 expected-stdout:
-	@(#)MIRBSD KSH R51 2015/07/05
+	@(#)MIRBSD KSH R51 2015/07/06
 description:
 	Check version of shell.
 stdin:
@@ -39,7 +39,7 @@ name: KSH_VERSION
 category: shell:legacy-no
 ---
 expected-stdout:
-	@(#)LEGACY KSH R51 2015/07/05
+	@(#)LEGACY KSH R51 2015/07/06
 description:
 	Check version of legacy shell.
 stdin:
@@ -8533,7 +8533,7 @@ description:
 	Ensure concatenating behaviour matches other shells
 stdin:
 	showargs() { for s_arg in "$@"; do echo -n "<$s_arg> "; done; echo .; }
-	#showargs 0 ""$@
+	showargs 0 ""$@
 	x=; showargs 1 "$x"$@
 	set A; showargs 2 "${@:+}"
 	n() { echo "$#"; }
@@ -8553,6 +8553,7 @@ stdin:
 	n "$@"
 	n "$@""$e"
 expected-stdout:
+	<0> <> .
 	<1> <> .
 	<2> <> .
 	2
@@ -8567,17 +8568,6 @@ expected-stdout:
 	1
 	0
 	1
----
-name: varexpand-null-3a
-description:
-	Ensure concatenating behaviour matches other shells
-	(currently broken cases)
-expected-fail: yes
-stdin:
-	showargs() { for s_arg in "$@"; do echo -n "<$s_arg> "; done; echo .; }
-	showargs 0 ""$@
-expected-stdout:
-	<0> <> .
 ---
 name: print-funny-chars
 description:

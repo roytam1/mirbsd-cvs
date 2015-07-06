@@ -87,7 +87,7 @@ static const char *initcoms[] = {
 	NULL,
 	 /* this is what AT&T ksh seems to track, with the addition of emacs */
 	Talias, "-tU",
-	"cat", "cc", "chmod", "cp", "date", "ed", "emacs", "grep", "ls",
+	Tcat, "cc", "chmod", "cp", "date", "ed", "emacs", "grep", "ls",
 	"make", "mv", "pr", "rm", "sed", "sh", "vi", "who", NULL,
 	NULL
 };

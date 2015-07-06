@@ -99,7 +99,7 @@ const struct builtin mkshbuiltins[] = {
 	{Talias, c_alias},
 	{"*=break", c_brkcont},
 	{Tgbuiltin, c_builtin},
-	{"cat", c_cat},
+	{Tcat, c_cat},
 	{"cd", c_cd},
 	/* dash compatibility hack */
 	{"chdir", c_cd},
