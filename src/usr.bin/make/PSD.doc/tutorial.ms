@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.bin/make/PSD.doc/tutorial.ms,v 1.3 2005/07/07 13:39:53 tg Exp $
+.\"	$MirOS: src/usr.bin/make/PSD.doc/tutorial.ms,v 1.4 2007/06/21 14:17:09 tg Exp $
 .\"	$OpenBSD: tutorial.ms,v 1.10 2007/02/20 08:18:47 jmc Exp $
 .\"	$NetBSD: tutorial.ms,v 1.3 1996/03/06 00:15:31 christos Exp $
 .\" Copyright (c) 1988, 1989 by Adam de Boor
@@ -140,7 +140,7 @@ purpose.  It is provided "as is" without express or implied warranty.
 .PP
 .xH 1 Introduction
 .LP
-This is a historic document describing PMake, the predecessor of
+This is a historic document describing PMake, the antecessor of
 BSD and MirOS make, NetBSD(TM) nmake and some others.
 Please keep this in mind while reading the following documentation.
 In case of doubt please consider the manual page for your make

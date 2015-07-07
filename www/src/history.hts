@@ -3,12 +3,12 @@
 
 mws_setname legacy/history "MirOS Legacy Content"
 mws_setheadline History of MirOS
-mws_putheader '$MirOS: www/src/history.hts,v 1.4 2011/03/21 16:18:49 tg Exp $'
+mws_putheader '$MirOS: www/src/history.hts,v 1.5 2013/06/22 23:26:05 tg Exp $'
 mws_content_keeptabs <<'EOF'
 <p>On <a href="http://marc.info/?m=103065556502499">August
  29th, 2002</a>, <a href="http://theos.com/">Theo de Raadt</a>, leader
  of the operating system project <a href="http://www.openbsd.org/">OpenBSD</a>,
- co-founder of its predecessor <a href="http://www.netbsd.org/">NetBSD</a>,
+ co-founder of its antecessor <a href="http://www.netbsd.org/">NetBSD</a>,
  dismissed the port of some NetBSD user-land utility to OpenBSD, made by
  a person already known, loved and hated in the community: Thorsten
  Glaser. After struggling around, he eventually decided to not only keep

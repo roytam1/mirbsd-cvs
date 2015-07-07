@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/crypto/randcore.c,v 1.11 2014/02/19 22:17:25 tg Exp $ */
+/* $MirOS: src/sys/crypto/randcore.c,v 1.12 2014/02/20 00:57:23 tg Exp $ */
 
 /*-
  * Copyright © 2010, 2011, 2014
@@ -113,7 +113,7 @@ rnd_pool_add(struct rnd_pooladd *sa, const void *d, size_t n)
 
 /*
  * called from most of the initialisation code; historical because
- * we used to be unable to run either lopool’s predecessor or
+ * we used to be unable to run either lopool’s antecessor or
  * arc4random itself early in the boot process; nowadays, this is
  * merely a “big data” function, e.g. for the pre-start log message
  * buffer, which may have leftovers from the last kernel, or some

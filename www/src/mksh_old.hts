@@ -1,11 +1,11 @@
-# $MirOS: www/src/mksh_old.hts,v 1.47 2012/12/29 03:06:44 tg Exp $
+# $MirOS: www/src/mksh_old.hts,v 1.48 2014/09/03 19:55:50 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname subprojects/mksh/old "mksh – old versions"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.47 2012/12/29 03:06:44 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.48 2014/09/03 19:55:50 tg Exp $'
 mws_content <<'EOF'
 <h2><a href="mksh.htm">mksh</a> – old versions</h2>
 
@@ -197,7 +197,7 @@ mws_content <<'EOF'
  <tt>( (foo; bar) 2>&amp;1 || baz)</tt><br />because ((…)) is shell arithmetics;
  brace expansion is turned on by default; etc.</p>
 <p>mksh R33 supports more (later versions even more) bash/ksh93/zsh constructs
- than its predecessors; sometimes, not all cases (e.g. applying string trimming
+ than its antecessors; sometimes, not all cases (e.g. applying string trimming
  on arrays) are supported, but you probably will not notice that.</p>
 
 <h3 id="co-hints">Hints and other useful stuff</h3>

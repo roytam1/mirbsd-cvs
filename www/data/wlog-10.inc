@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.465 2015/06/27 21:50:43 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.466 2015/07/05 12:24:11 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -7482,7 +7482,7 @@ Author: bsiegert@
  it quickly become hooked.</p>
 
 <p>I myself was primarily programming in C when I started using Go. I
- had written some code in Limbo, which an be seen as the predecessor of
+ had written some code in Limbo, which an be seen as the antecessor of
  Go, so trying it seemed natural. I quickly discovered that it is a very
  well-designed language, whose constructs make perfect sense and are
  easy to grasp. The standard library is also very well done and makes
