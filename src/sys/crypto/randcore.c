@@ -61,7 +61,7 @@ void rnd_lopool_dequeue(void *);
  * operational; timeouts for arc4random and lopool-collapse can be run;
  * lopool-collapse arcfour state has been initialised
  */
-int rnd_attached = 0;
+uint8_t rnd_attached = 0;
 
 size_t lopool_content = 0;
 uint32_t lopool_uhash[32];

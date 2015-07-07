@@ -1,4 +1,4 @@
-/* $MirOS: src/sys/crypto/randimpl.h,v 1.2 2010/12/23 19:25:31 tg Exp $ */
+/* $MirOS: src/sys/crypto/randimpl.h,v 1.3 2011/02/19 14:41:39 tg Exp $ */
 
 /*#define RNDEBUG*/
 
@@ -29,7 +29,7 @@ extern int hz;
 extern void arc4random_reinit(void *);
 
 /* import from crypto/randcore.c */
-extern int rnd_attached;
+extern uint8_t rnd_attached;
 extern void rnd_flush(void);
 
 #ifdef RNDEBUG
