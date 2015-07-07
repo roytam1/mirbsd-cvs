@@ -834,7 +834,7 @@ rf_DoubleDegSmallWrite(RF_Raid_t *raidPtr, RF_AccessStripeMap_t *asmap,
 		DISK_NODE_PARAMS(rqNodes[1], pda);
 	}
 	/*
-	 * The recovery node has all reads as precedessors and all writes as
+	 * The recovery node has all reads as antecessors and all writes as
 	 * successors. It generates a result for every write P or write Q
 	 * node. As parameters, it takes a pda per read and a pda per stripe
 	 * of user data written. It also takes as the last params the raidPtr
