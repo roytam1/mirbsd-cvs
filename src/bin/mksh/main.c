@@ -193,6 +193,12 @@ main_init(int argc, const char *argv[], Source **sp, struct block **lp)
 	ssize_t k;
 #endif
 
+#ifdef __OS2__
+	for (i = 0; i < 3; ++i)
+		if (!isatty(i))
+			setmode(i, O_BINARY);
+#endif
+
 	/* do things like getpgrp() et al. */
 	chvt_reinit();
 
@@ -1637,7 +1643,7 @@ maketemp(Area *ap, Temp_type type, struct temp **tlist)
 		} while (len < 6);
 
 		/* check if this one works */
-		if ((i = open(tp->tffn, O_CREAT | O_EXCL | O_RDWR | O_BINARY,
+		if ((i = binopen3(tp->tffn, O_CREAT | O_EXCL | O_RDWR,
 		    0600)) < 0 && errno != EEXIST)
 			goto maketemp_out;
 	} while (i < 0);

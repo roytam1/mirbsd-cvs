@@ -30,7 +30,7 @@
 # (2013/12/02 20:39:44) http://openbsd.cs.toronto.edu/cgi-bin/cvsweb/src/regress/bin/ksh/?sortby=date
 
 expected-stdout:
-	@(#)MIRBSD KSH R51 2015/07/06
+	@(#)MIRBSD KSH R51 2015/07/09
 description:
 	Check version of shell.
 stdin:
@@ -39,7 +39,7 @@ name: KSH_VERSION
 category: shell:legacy-no
 ---
 expected-stdout:
-	@(#)LEGACY KSH R51 2015/07/06
+	@(#)LEGACY KSH R51 2015/07/09
 description:
 	Check version of legacy shell.
 stdin:
@@ -8613,6 +8613,7 @@ stdin:
 	cat >foo <<-'EOF'
 		x='bar
 		' #
+		echo .${#x} #
 		if test x"$KSH_VERSION" = x""; then #
 			printf '<%s>' "$x" #
 		else #
@@ -8624,8 +8625,10 @@ stdin:
 		print -r -- "{$line}"
 	done
 expected-stdout:
-	[<bar
+	[.5
+	<bar
 	>]
+	{.5}
 	{<bar}
 ---
 name: print-lf
@@ -8635,6 +8638,7 @@ stdin:
 	cat >foo <<-'EOF'
 		x='bar
 		' #
+		echo .${#x} #
 		if test x"$KSH_VERSION" = x""; then #
 			printf '<%s>' "$x" #
 		else #
@@ -8646,8 +8650,10 @@ stdin:
 		print -r -- "{$line}"
 	done
 expected-stdout:
-	[<bar
+	[.4
+	<bar
 	>]
+	{.4}
 	{<bar}
 ---
 name: print-nul-chars

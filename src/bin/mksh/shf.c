@@ -62,7 +62,7 @@ shf_open(const char *name, int oflags, int mode, int sflags)
 	shf->flags = SHF_ALLOCS;
 	/* Rest filled in by reopen. */
 
-	fd = open(name, oflags | O_BINARY, mode);
+	fd = binopen3(name, oflags, mode);
 	if (fd < 0) {
 		eno = errno;
 		afree(shf, shf->areap);

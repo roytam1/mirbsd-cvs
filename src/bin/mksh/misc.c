@@ -2009,9 +2009,9 @@ chvt(const Getopt *go)
 #endif
 	    }
 	}
-	if ((fd = open(dv, O_RDWR | O_BINARY)) < 0) {
+	if ((fd = binopen2(dv, O_RDWR)) < 0) {
 		sleep(1);
-		if ((fd = open(dv, O_RDWR | O_BINARY)) < 0) {
+		if ((fd = binopen2(dv, O_RDWR)) < 0) {
 			errorf("%s: %s %s", "chvt", "can't open", dv);
 		}
 	}
