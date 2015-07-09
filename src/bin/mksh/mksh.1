@@ -3691,6 +3691,9 @@ and
 See
 .Xr mknod 8
 for further information.
+This is not normally part of
+.Nm mksh ;
+however, distributors may have added this as builtin as a speed hack.
 .Pp
 .It Xo
 .Ic print
@@ -3751,7 +3754,7 @@ Approximately the same as the
 .Xr printf 1 ,
 utility, except it uses the same
 .Sx Backslash expansion
-and I/O code and does hot handle floating point as the rest of
+and I/O code and does not handle floating point as the rest of
 .Nm mksh .
 This is not normally part of
 .Nm mksh ;
