@@ -3555,7 +3555,6 @@ name: history-ed-3-old
 description:
 	Newly created multi line commands show up as single command
 	in history.
-	(NOTE: adjusted for COMPLEX HISTORY compile time option)
 	(ksh88 fails 'cause it lists the fc command)
 category: stdout-ed
 need-ctty: yes
@@ -5019,8 +5018,8 @@ description:
 	need to be moved out of the switch to before findcom() is
 	called - I don't know what this will break.
 stdin:
-	: ${PWD:-`pwd 2> /dev/null`}
-	: ${PWD:?"PWD not set - can't do test"}
+	: "${PWD:-`pwd 2> /dev/null`}"
+	: "${PWD:?"PWD not set - can't do test"}"
 	mkdir Y
 	cat > Y/xxxscript << EOF
 	#!/bin/sh
