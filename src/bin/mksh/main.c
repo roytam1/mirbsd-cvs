@@ -264,7 +264,7 @@ main_init(int argc, const char *argv[], Source **sp, struct block **lp)
 
 #if defined(MKSH_BINSHPOSIX) || defined(MKSH_BINSHREDUCED)
 		/* are we called as -sh or /bin/sh or so? */
-		if (!strcmp(ccp, "sh")) {
+		if (!strcmp(ccp, "sh" MKSH_EXE_EXT)) {
 			/* either also turns off braceexpand */
 #ifdef MKSH_BINSHPOSIX
 			/* enable better POSIX conformance */

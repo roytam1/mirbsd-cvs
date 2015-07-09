@@ -375,6 +375,13 @@ struct rusage {
 
 /* OS-dependent additions (functions, variables, by OS) */
 
+#ifdef MKSH_EXE_EXT
+#undef MKSH_EXE_EXT
+#define MKSH_EXE_EXT ".exe"
+#else
+#define MKSH_EXE_EXT ""
+#endif
+
 #if !HAVE_FLOCK_DECL
 extern int flock(int, int);
 #endif
