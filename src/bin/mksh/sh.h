@@ -833,6 +833,9 @@ EXTERN const char Tcat[] E_INIT("cat");
 #ifdef __OS2__
 EXTERN const char Textproc[] E_INIT("extproc");
 #endif
+#ifdef MKSH_PRINTF_BUILTIN
+EXTERN const char Tprintf[] E_INIT("printf");
+#endif
 EXTERN const char Tsgset[] E_INIT("*=set");
 #define Tset		(Tsgset + 2)		/* "set" */
 EXTERN const char Tsgexport[] E_INIT("*=export");

@@ -152,7 +152,7 @@ const struct builtin mkshbuiltins[] = {
 	{"mknod", c_mknod},
 #endif
 #ifdef MKSH_PRINTF_BUILTIN
-	{"printf", c_printf},
+	{Tprintf, c_printf},
 #endif
 #if HAVE_SELECT
 	{"sleep", c_sleep},
