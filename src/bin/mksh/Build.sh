@@ -1060,7 +1060,7 @@ ct="unknown"
 #endif
 ;
 const char *
-#if defined(__KLIBC__)
+#if defined(__KLIBC__) && !defined(__OS2__)
 et="klibc"
 #else
 et="unknown"
