@@ -836,6 +836,8 @@ OS/2)
 	check_categories="$check_categories nosymlink"
 	: ${CC=gcc}
 	: ${SIZE=: size}
+	add_cppflags -DMKSH_UNEMPLOYED
+	add_cppflags -DMKSH_NOPROSPECTOFWORK
 	;;
 OSF1)
 	HAVE_SIG_T=0	# incompatible

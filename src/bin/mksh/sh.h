@@ -253,7 +253,8 @@ typedef MKSH_TYPEDEF_SSIZE_T ssize_t;
 
 /* extra types */
 
-#if !HAVE_GETRUSAGE
+/* getrusage does not exist on OS/2 kLIBC */
+#if !HAVE_GETRUSAGE && !defined(__OS2__)
 #undef rusage
 #undef RUSAGE_SELF
 #undef RUSAGE_CHILDREN
@@ -829,6 +830,9 @@ EXTERN const char T_typeset[] E_INIT("=typeset");
 EXTERN const char Talias[] E_INIT("alias");
 EXTERN const char Tunalias[] E_INIT("unalias");
 EXTERN const char Tcat[] E_INIT("cat");
+#ifdef __OS2__
+EXTERN const char Textproc[] E_INIT("extproc");
+#endif
 EXTERN const char Tsgset[] E_INIT("*=set");
 #define Tset		(Tsgset + 2)		/* "set" */
 EXTERN const char Tsgexport[] E_INIT("*=export");
