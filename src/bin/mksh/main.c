@@ -1404,7 +1404,7 @@ savefd(int fd)
 	int nfd = fd;
 
 	if (fd < FDBASE && (nfd = fcntl(fd, F_DUPFD, FDBASE)) < 0 &&
-	    errno == EBADF)
+	    (errno == EBADF || errno == EPERM))
 		return (-1);
 	if (nfd < 0 || nfd > SHRT_MAX)
 		errorf("too many files open in shell");

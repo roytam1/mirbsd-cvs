@@ -314,6 +314,7 @@ ac_testnnd() {
 	vv ']' "$CC $CFLAGS $CPPFLAGS $LDFLAGS $NOWARN conftest.c $LIBS $ccpr"
 	test $tcfn = no && test -f a.out && tcfn=a.out
 	test $tcfn = no && test -f a.exe && tcfn=a.exe
+	test $tcfn = no && test -f conftest.exe && tcfn=conftest.exe
 	test $tcfn = no && test -f conftest && tcfn=conftest
 	if test -f $tcfn; then
 		test 1 = $fr || fv=1
@@ -2340,8 +2341,8 @@ files=
 objs=
 sp=
 case $tcfn in
-a.exe)	mkshexe=$tfn.exe ;;
-*)	mkshexe=$tfn ;;
+a.exe|conftest.exe) mkshexe=$tfn.exe ;;
+*) mkshexe=$tfn ;;
 esac
 case $curdir in
 *\ *)	mkshshebang="#!./$mkshexe" ;;
