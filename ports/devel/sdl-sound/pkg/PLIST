@@ -1,5 +1,0 @@
-@comment $MirOS$
-bin/playsound
-include/SDL/SDL_sound.h
-lib/libSDL_sound.la
-@dirrm include/SDL
