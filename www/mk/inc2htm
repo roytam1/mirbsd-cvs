@@ -1,4 +1,4 @@
-rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.32 2013/08/01 09:39:50 tg Exp $'
+rcsid_inc2htm='$MirOS: www/mk/inc2htm,v 1.34 2014/07/15 21:34:52 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -41,8 +41,16 @@ function output {
 	rpath=$1
 	efe="${rpath}${ei_srcf[ent]}_${eid}.htm#${eid}_${ei_srcf[ent]}"
 	title=${e_date[ent]}
-	[[ -n ${e_author[ent]} ]] && \
-	    title="$title by <a href=\"mailto:${e_author[ent]}mirbsd.org\">${e_author[ent]}</a>"
+	if [[ -n ${e_author[ent]} ]]; then
+		i=${e_author[ent]}
+		j=
+		if [[ $i = *@ ]]; then
+			j=" ${i%%@*}"
+			i="${i}mirbsd.org"
+		fi
+		[[ $i = *\(*\)* ]] || i="$i (MirOS Developer$j)"
+		title="$title by <a href=\"mailto:${i%% *}\">${e_author[ent]}</a>"
+	fi
 	subtitle=
 	if [[ ${e_language[ent]} = +([A-Za-z0-9-]) ]]; then
 		xmllang=" xml:lang=\"${e_language[ent]}\""

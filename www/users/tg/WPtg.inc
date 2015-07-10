@@ -16826,6 +16826,155 @@ Waypoint: m/c-bn/2341
 Title: Bonn, Ludwig-Richter-Straße 2341
 Points: 5
 ----
+ID: 2797
+Date: 07.07.2015
+Waypoint: m/c-bn/2983
+Title: Bonn, Langwartweg 2983
+nTF: 1
+Points: 44
+----
+ID: 2798
+Date: 08.07.2015
+Waypoint: m/MV1/629
+Title: MV629 Next stop Eduard-Otto-Straße
+Points: 100
+----
+ID: 2799
+Date: 09.07.2015
+Waypoint: m/JOJEVA/1132
+Title: Ückesdorf - Munzee #103 1
+Points: 100
+----
+ID: 2800
+Date: 09.07.2015
+Waypoint: m/gerds/168
+Title: Ückesdorf 1
+Points: 5
+----
+ID: 2801
+Date: 09.07.2015
+Waypoint: m/c-bn/1313
+Title: Bonn-Ückesdorf 1313
+Points: 5
+----
+ID: 2802
+Date: 09.07.2015
+Waypoint: m/dschuwa/884
+Title: Bonner Punktejagd 670
+Points: 5
+----
+ID: 2803
+Date: 09.07.2015
+Waypoint: m/dschuwa/546
+Title: Bonner Punktejagd 323
+Points: 44
+----
+ID: 2804
+Date: 09.07.2015
+Waypoint: m/dschuwa/751
+Title: Bonner Punktejagd 537
+Points: 5
+----
+ID: 2805
+Date: 09.07.2015
+Waypoint: m/dschuwa/748
+Title: Bonner Punktejagd 534
+Points: 5
+----
+ID: 2806
+Date: 09.07.2015
+Waypoint: m/dschuwa/728
+Title: Bonner Punktejagd 515
+Points: 44
+----
+ID: 2807
+Date: 09.07.2015
+Waypoint: m/dschuwa/697
+Title: Bonner Punktejagd 484
+Points: 5
+----
+ID: 2808
+Date: 10.07.2015
+Waypoint: m/koebes/292
+Title: [c-bn] 6969 HOTEL Room #1
+Points: 5
+----
+ID: 2809
+Date: 10.07.2015
+Waypoint: m/radschlaeger/51
+Title: [c-bn] 6969 HOTEL Room #2
+Points: 5
+----
+ID: 2810
+Date: 10.07.2015
+Waypoint: m/mutti/50
+Title: [c-bn] 6969 HOTEL Room #3
+Points: 5
+----
+ID: 2811
+Date: 10.07.2015
+Waypoint: m/ReMiKu/11857
+Title: [c-bn] Bonn, Maarweg 6969 HOTEL Room #4
+Points: 5
+----
+ID: 2812
+Date: 10.07.2015
+Waypoint: m/supersilli/301
+Title: [c-bn] Bonn, Maarweg 6969 HOTEL Room #5
+Points: 5
+----
+ID: 2813
+Date: 10.07.2015
+Waypoint: m/winkide/9405
+Title: [c-bn] Bonn, Maarweg 6969 HOTEL Room #6
+Points: 5
+----
+ID: 2814
+Date: 10.07.2015
+Waypoint: m/mcmicha/844
+Title: [c-bn] Bonn, Maarweg 6969 HOTEL Room #7
+nTF: 4
+Points: 5
+----
+ID: 2815
+Date: 10.07.2015
+Waypoint: m/zeusi/9434
+Title: [c-bn] Bonn, Maarweg 6969 HOTEL Room #8
+nTF: 3
+Points: 5
+----
+ID: 2816
+Date: 10.07.2015
+Waypoint: m/CTeam/6113
+Title: [c-bn] Bonn, Maarweg 6969 HOTEL Room #9
+nTF: 2
+Points: 5
+----
+ID: 2817
+Date: 10.07.2015
+Waypoint: m/QQ/562
+Title: [c-bn] Bonn, Maarweg 6969 HOTEL Room #10
+nTF: 1
+Points: 5
+----
+ID: 2818
+Date: 10.07.2015
+Waypoint: m/c-bn/6969
+Title: [c-bn] Bonn, Maarweg 6969 HOTEL
+Points: 10
+----
+ID: 2819
+Date: 10.07.2015
+Waypoint: m/Revi/14
+Title: Rochusstraße #6 - Do you like shopping?
+Points: 5
+----
+ID: 2820
+Date: 10.07.2015
+Waypoint: m/gruschenka/59
+Title: Klontruppen-Turbo-Panzer
+Points: 5
+----
 ID: p20150711
 Date: 11.07.2015
 Waypoint: GC5XMMQ

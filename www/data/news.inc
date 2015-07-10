@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.156 2014/04/04 22:20:10 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.157 2014/05/13 22:12:21 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -2101,4 +2101,32 @@ Tag: snapshot
  I cancelled the Manitu server (for monetary reasons), which
  is blazingly fast, before I was able to finish doing a usable
  G++ 4.4 port…)</p>
+----
+Title: mksh R51 released, plans for R52 and R50g
+Date: 10.07.2015
+Author: tg@
+Tag: mksh pcli
+
+<p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a> R51
+ was published today. This is a feature release clearly, but
+ still something a lot of people would wish to use. It contains
+ several known severe bugs, but they all are no regressions,
+ i.e. they exist in R50f already.</p>
+<p>This one is kinda an early release, as I wish to have those
+ known issues all fixed, but the changes – both deep down and
+ enduser-visible – already warrant people looking for breakages,
+ plus it makes synchronisation with mksh-os2 easier.</p>
+<p>mksh R52 will follow, as bugfix release, pretty soon. Itinerary</p><ul>
+ <li>Fixes for as much of these known bugs as possible (code rewrites)</li>
+ <li>Unicode 8</li>
+ <li>New feature: <tt>print -a</tt></li>
+ <li>Fixes for bugs reported against R51</li>
+ <li>Possibly more EBCDIC and OS/2 code synchronisation</li>
+ <li>Maybe a dead useful debug tool…</li>
+</ul>
+<p>Once that’s out, I’ll roll up the fixes into R50g, so that
+ particular code branch is not dead yet either ☺</p>
+<p>And afterwards, at least mksh(1)-wise – I have got a lot of other
+ things on my plate after all – we can attempt getting EBCDIC and
+ maybe OS/2 to a state where the code is included in CVS.</p>
 ----
