@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.586 2015/07/05 15:29:19 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.588 2015/07/06 17:49:12 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R50f</h2>
+<h2>mksh(1) R51</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -50,9 +50,9 @@ mws_content <<'EOF'
  “MirBSD Korn Shell”.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R50f</strong> from
- <em>19 April 2015</em>.<!-- br />In the oldstable bugfixing-only series, the
- current version is <em>mksh R50f</em> from <em>19 April 2015</em>.--></p>
+<p>The current version of mksh is <strong>mksh R51</strong> from
+ <em>10 July 2015</em>.<br />In the oldstable bugfixing-only series, the
+ current version is <em>mksh R50f</em> from <em>19 April 2015</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
  for just another account on a Sun E420 on Solaris 11β. Thanks to someone who
@@ -187,29 +187,27 @@ mws_content <<'EOF'
  <em>as well as</em> the hashes and/or checksums below, so you’re sure the
  content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R51.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R51.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R51.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R51.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
 <!-- cd /MirOS/dist/mir/mksh; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
+  <li>RMD160 (mksh-R51.tgz) = 11ad9db9b2f528b8bfd9c4600e68bd016064c9df</li>
+  <li>TIGER (mksh-R51.tgz) = 35db122521ced11619a347c6dd7a7d49eb64a29a8c802360</li>
+  <li>3691754220 382169 /MirOS/dist/mir/mksh/mksh-R51.tgz</li>
+  <li>MD5 (mksh-R51.tgz) = 8e522475da795c60f35a6f8035481baf</li>
+ <li style="list-style:none;">↑ formal release │ stable bugfix series ↓</li>
   <li>RMD160 (mksh-R50f.tgz) = e0de1dd07e6ca02830407b9db43de8f5c98d800f</li>
   <li>TIGER (mksh-R50f.tgz) = db437ce08d7c6a8449c5ba5827a9742cbaca7c16be261971</li>
   <li>571627567 377797 /MirOS/dist/mir/mksh/mksh-R50f.tgz</li>
   <li>MD5 (mksh-R50f.tgz) = c3bdd668992e7369165910f0902fa854</li>
-<!--
- <li style="list-style:none;">↑ formal release │ stable bugfix series ↓</li>
-  <li>RMD160 (mksh-R44.tgz) = 4cf1525c477c4bece519c024cc73ee6ca064d34a</li>
-  <li>TIGER (mksh-R44.tgz) = f1658a67757b42cc8f0f39b6736ef329e34d1d248e204d1a</li>
-  <li>927023341 346239 /MirOS/dist/mir/mksh/mksh-R44.tgz</li>
-  <li>MD5 (mksh-R44.tgz) = fe011686319a8c50d5e237fd5e195fd8</li>
--->
  <li style="list-style:none;">All official distfiles are gzsig(1)d. with our
   <a href="/gzsigkey.cer">current signature key</a>.</li>
 </ul>
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
- so a simple <tt>tar xzf mksh-R50f.tgz</tt> will work. It will create all files
+ so a simple <tt>tar xzf mksh-R51.tgz</tt> will work. It will create all files
  in a subdirectory <tt>./mksh/</tt>.</p>
 
 <h3 id="vendorpatching">Patching</h3>
@@ -701,6 +699,15 @@ exec /usr/bin/ld "${args[@]}"</pre>
  supposed to be a superset of oksh (except GNU bash-style PS1, weird
  POSuX character classes, and an incompatible ulimit builtin change).</p>
 
+<h5 class="cr" id="oe_os2"><img width="79" height="79" alt="[OS/2 logo]"
+ class="fr" src="@@RELPATH@@pics/logos/os2.png" />OS: OS/2</h5>
+<p>Porting mksh proper to OS/2 is currently ongoing. There is a <a
+ href="https://github.com/komh/mksh-os2">derivate called mksh-os2</a>
+ which is already usable but deliberately breaks consistence and
+ compatibility with all other platforms for better integration with
+ native OS/2, EMX and kLIBC behaviour. The port code is shared, but
+ even basic job control is still missing similar to Syllable.</p>
+
 <h5 class="cr" id="oe_osf1">OS: DEC/Compaq OSF/1, Compaq/HP Tru64</h5>
 <p>Digital Unix is somewhat supported using gcc as of mksh R31b.
  With mksh R33b, many more versions and the native compiler work.
@@ -855,6 +862,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
  mailing list, either directly or via GMane, if you have an interest
  in mksh, such as packaging it. Thanks!
  <i>(unfinished…)</i></p>
+<p id="p51">R51: Please review all mksh scripts, such as a skeleton
+ <tt>~/.mkshrc</tt> file, for alias safety and security – in case of
+ doubt, contact us. The EBCDIC and OS/2 ports are not finished, but
+ some improvements are already included. CVS snapshots now use ‘j’ ipv
+ ‘i’ making room for one more stable version; after R51, we will release
+ R52, mostly bugfixes, and roll them all up in R50g.</p>
 <p id="p50f">R50f: If you patch mksh, please do not only update the
  version in <tt>check.t</tt> (twice) and <tt>sh.h</tt> but now in
  <tt>mksh.1</tt> as well; thanks!<br />Please let the mksh developer
@@ -1095,10 +1108,21 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <h2 id="caveat">Users' Upgrade Caveat</h2>
 <p>This does not necessarily list new features, only these which users
  should be aware of for existing scripts.</p>
-<p id="ccur"><i>current</i>: Integers with bases outside of the permitted
+<p id="ccur"><i>current</i>:
+ <i>(unfinished…)</i></p>
+<p id="c51">R51: Integers with bases outside of the permitted
  range are handled as base 10 instead of failing to parse, like ksh93.
  Korn shell style functions (<tt>function foo {</tt>) now have locally
- scoped shell options (e.g. <tt>set -o noglob</tt>) except in lksh.</p>
+ scoped shell options (e.g. <tt>set -o noglob</tt>) except in lksh. Much
+ standard code is now protected from being overridden by aliases; the new
+ <tt>enable</tt> function in <tt>dot.mkshrc</tt> can be used to enable or
+ disable a built-in utility (such as <tt>rename</tt>) or function (including
+ those in <tt>dot.mkshrc</tt>) by means of an alias. The feature to
+ <tt>unalias</tt> an identifier when a POSIX-style function with the same
+ name is defined only persists in lksh, as it is a legacy feature. cat(1),
+ when a flag is given, and printf(1), now prefer an external utility over
+ the builtin reliably. Several bugfixes, such as <tt>command -v</tt> now
+ handling shell reserved words, impact compatibility.</p>
 <p id="c50f">R50f: <tt>unset HISTFILE</tt> actually works. Several more
  bugfixes and robustness improvements. The mksh(1) manpage now documents
  how to enable/disable the UTF-8 mode based on the current POSIX locale
@@ -1136,11 +1160,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
+<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
+-->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+<p id="r51">R51 is a strongly recommended feature release:</p><ul>
  <li>[tg] OpenBSD sync: handle integer base out of band like ksh93 does</li>
  <li>[tg] Protect standard code (predefined aliases, internal code, aliases
   and functions in <tt>dot.mkshrc</tt>) from being overridden by aliases and,
@@ -1157,7 +1184,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
   href="http://austingroupbugs.net/view.php?id=741"><tt>sysconf(_SC_NSIG)</tt></a>
   as a later TODO item</li>
  <li>[tg] Fix signal bounds (1 ≤ <i>signum</i> &lt; <tt>NSIG</tt>)</li>
- <li>[tg] Improve manual pages</li>
+ <li>[tg] Improve manual pages, especially wrt. standards compliance</li>
  <li>[tg, iSKUNK] Initial EBCDIC work for <tt>dot.mkshrc</tt></li>
  <li>[tg, iSKUNK] Add list of z/OS signals to <tt>Build.sh</tt></li>
  <li>[tg] Work around the sh(1) backslash-newline problem by moving the
@@ -1168,7 +1195,6 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] <tt>read</tt> partial returns in <tt>-N</tt> and timeout cases</li>
  <li>[tg] Fix <tt>$LINENO</tt> inside <tt>PS1</tt>; spotted by carstenh</li>
  <li>[tg] Ensure correct padding of at least 2 spaces in print_columns</li>
- <li>[tg] Add known failure (<tt>""$@</tt>) to testsuite</li>
  <li>[tg] Note <a href="https://bugs.launchpad.net/bugs/1453827">issues with
   nested complex parameter expansions</a> and follow-up bugfixes to expect</li>
  <li>[OpenBSD] Some language fixes in documentation; comments</li>
@@ -1177,8 +1203,18 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] In <tt>dot.mkshrc</tt> make use of latest feature: local options</li>
  <li>[tg] Fix <tt>""$@</tt> to emit a word</li>
  <li>[tg] Change cat(1) hack to look first and not ignore <tt>builtin</tt></li>
+ <li>[KO Myung-Hun] Begin porting mksh to OS/2</li>
+ <li>[komh, tg] Some generic minor bugfixes from OS/2 porting</li>
+ <li>[tg] Document mknod(8) isn’t normally part of mksh(1)</li>
+ <li>[tg] Quote arguments to <tt>:</tt> in build/test scripts as well</li>
+ <li>[tg] Add cat(1) hack for printf(1)-as-builtin: always prefer external</li>
+ <li>[tg] Explicitly use binary mode for any and all file I/O in stock mksh</li>
+ <li>[Ilya Zakharevich] Use termio, not termios(4), on OS/2</li>
+ <li>[tg] Set edchars to sane BSD defaults if any are NUL</li>
+ <li>[tg] Implement support for PC scancodes in Vi and Emacs editing mode</li>
+ <li>[komh] OS/2 uses ‘;’ as PATH separator plus support drive letters</li>
 </ul>
-<p>Changes in the current (unreleased) R50-stable branch:</p><ul>
+<p id="r50stable">Changes in the current (unreleased) R50-stable branch:</p><ul>
  <li>[tg] Correct some mistakes in the manual page</li>
  <li>[tg] Fix a bug in the testsuite driver, spotted on EBCDIC systems</li>
 </ul>
