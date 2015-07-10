@@ -174,7 +174,7 @@
 #ifdef EXTERN
 __RCSID("$MirOS: src/bin/mksh/sh.h,v 1.721 2015/03/20 23:37:55 tg Exp $");
 #endif
-#define MKSH_VERSION "R51 2015/07/09"
+#define MKSH_VERSION "R51 2015/07/10"
 
 /* arithmetic types: C implementation */
 #if !HAVE_CAN_INTTYPES
@@ -381,9 +381,19 @@ struct rusage {
 
 #ifdef MKSH_EXE_EXT
 #undef MKSH_EXE_EXT
-#define MKSH_EXE_EXT ".exe"
+#define MKSH_EXE_EXT	".exe"
 #else
-#define MKSH_EXE_EXT ""
+#define MKSH_EXE_EXT	""
+#endif
+
+#ifdef __OS2__
+#define MKSH_PATHSEPS	";"
+#define MKSH_PATHSEPC	';'
+#define MKSH_UNIXROOT	"/@unixroot"
+#else
+#define MKSH_PATHSEPS	":"
+#define MKSH_PATHSEPC	':'
+#define MKSH_UNIXROOT	""
 #endif
 
 #if !HAVE_FLOCK_DECL
@@ -2100,9 +2110,15 @@ extern int tty_init_fd(void);	/* initialise tty_fd, tty_devtty */
 		setmode(binopen3_fd, O_BINARY);				\
 	(binopen3_fd);							\
 })
+#define mksh_abspath(s)			__extension__({			\
+	const char *mksh_abspath_s = (s);				\
+	(mksh_abspath_s[0] == '/' || (ksh_isalphx(mksh_abspath_s[0]) &&	\
+	    mksh_abspath_s[1] == ':'));					\
+})
 #else
 #define binopen2(path,flags)		open((path), (flags) | O_BINARY)
 #define binopen3(path,flags,mode)	open((path), (flags) | O_BINARY, (mode))
+#define mksh_abspath(s)			((s)[0] == '/')
 #endif
 
 /* be sure not to interfere with anyone else's idea about EXTERN */

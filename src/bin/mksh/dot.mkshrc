@@ -406,6 +406,7 @@ function enable {
 	i_alias[nalias]=nameref; b_alias[nalias++]='\typeset -n'
 	i_alias[nalias]=nohup; b_alias[nalias++]='nohup '
 	i_alias[nalias]=r; b_alias[nalias++]='\builtin fc -e -'
+	#XXX OS/2
 	i_alias[nalias]=source; b_alias[nalias++]='PATH=$PATH:. \command .'
 	i_alias[nalias]=stop; b_alias[nalias++]='\kill -STOP'
 	i_alias[nalias]=type; b_alias[nalias++]='\builtin whence -v'
@@ -582,6 +583,7 @@ function enable {
 
 for p in ~/.etc/bin ~/bin; do
 	[[ -d $p/. ]] || \continue
+	#XXX OS/2
 	[[ :$PATH: = *:$p:* ]] || PATH=$p:$PATH
 done
 
