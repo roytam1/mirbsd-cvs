@@ -6441,9 +6441,6 @@ The complete legalese is at:
 .\"
 .Sh CAVEATS
 .Nm
-only supports the Unicode BMP (Basic Multilingual Plane).
-.Pp
-.Nm
 has a different scope model from
 .At
 .Nm ksh ,
@@ -6488,8 +6485,20 @@ For the purpose of
 supports only the
 .Dq C
 locale.
-For users of UTF-8 locales, the following sh code makes the shell
-match the locale:
+.Nm mksh Ns 's
+.Ic utf8\-mode
+only supports the Unicode BMP (Basic Multilingual Plane) and maps
+raw octets into the U+EF80..U+EFFF wide character range; compare
+.Sx Arithmetic expressions .
+The following
+.Tn POSIX
+.Nm sh
+code toggles the
+.Ic utf8\-mode
+option dependent on the current
+.Tn POSIX
+locale for mksh to allow using the UTF-8 mode, within the constraints
+outlined above, in code portable across various shell implementations:
 .Bd -literal -offset indent
 case ${KSH_VERSION:\-} in
 *MIRBSD\ KSH*\*(Ba*LEGACY\ KSH*)
