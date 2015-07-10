@@ -3291,7 +3291,22 @@ x_mode(bool onoff)
 		edchars.eof = tty_state.c_cc[VEOF];
 #ifdef VWERASE
 		edchars.werase = tty_state.c_cc[VWERASE];
+#else
+		edchars.werase = 0;
 #endif
+
+		if (!edchars.erase)
+			edchars.erase = CTRL('H');
+		if (!edchars.kill)
+			edchars.kill = CTRL('U');
+		if (!edchars.intr)
+			edchars.intr = CTRL('C');
+		if (!edchars.quit)
+			edchars.quit = CTRL('\\');
+		if (!edchars.eof)
+			edchars.eof = CTRL('D');
+		if (!edchars.werase)
+			edchars.werase = CTRL('W');
 
 #ifdef _POSIX_VDISABLE
 		/* Convert unset values to internal 'unset' value */
