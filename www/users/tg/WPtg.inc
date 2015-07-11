@@ -16975,7 +16975,14 @@ Waypoint: m/gruschenka/59
 Title: Klontruppen-Turbo-Panzer
 Points: 5
 ----
-ID: p20150711
+ID: 2821
+Date: 11.07.2015
+Waypoint: m/CADS11/45
+Title: Denkmal Synagoge
+nTF: 3
+Points: 5
+----
+ID: 2822
 Date: 11.07.2015
 Waypoint: GC5XMMQ
 Title: Geocacher in der Baracke 5
