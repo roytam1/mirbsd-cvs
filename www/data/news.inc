@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.157 2014/05/13 22:12:21 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.158 2015/07/10 22:44:33 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -2116,7 +2116,7 @@ Tag: mksh pcli
  known issues all fixed, but the changes – both deep down and
  enduser-visible – already warrant people looking for breakages,
  plus it makes synchronisation with mksh-os2 easier.</p>
-<p>mksh R52 will follow, as bugfix release, pretty soon. Itinerary</p><ul>
+<p>mksh R52 will follow, as bugfix release, pretty soon. Itinerary:</p><ul>
  <li>Fixes for as much of these known bugs as possible (code rewrites)</li>
  <li>Unicode 8</li>
  <li>New feature: <tt>print -a</tt></li>

@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.27 2015/01/11 00:23:07 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.28 2015/03/21 00:12:49 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -76,6 +76,17 @@ It has been ported to other operating systems several times:
 <a href="http://web.archive.org/web/20090701170731/http://www.delilinux.de/oksh/">oksh in DeliLinux</a>,
 <a href="http://people.freebsd.org/~tmclaugh/">OpenKSH by
  FreeBSD’s Tom McLaughlin</a>, etc.
+----
+Title: Unix sh manual page (current)
+Link: http://osr507doc.sco.com/en/man/html.C/sh.C.html
+
+SCO OpenServer™ documentation for sh (by Xinuos).
+----
+Title: Unix sh manual page (archived)
+Link: http://web.archive.org/web/20110204094833/http://docsrv.sco.com:507/en/man/html.C/sh.C.html
+
+The Internet Archive (Wayback Machine) link of the last
+Unix sh manual page from SCO times.
 ----
 Title: ksh88 manual page
 Link: http://uw714doc.sco.com/en/man/html.1/ksh88.1.html
