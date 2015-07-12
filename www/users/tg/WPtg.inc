@@ -16988,6 +16988,108 @@ Waypoint: GC5XMMQ
 Title: Geocacher in der Baracke 5
 Tag: D1 T1 Event
 ----
+ID: 2823
+Date: 12.07.2015
+Waypoint: m/dschuwa/82
+Title: Nächster Halt: Weberstraße
+Points: 100
+----
+ID: 2824
+Date: 12.07.2015
+Waypoint: m/Avalanche74/282
+Title: Avalanche74 grüßt Bonn
+Points: 5
+----
+ID: 2825
+Date: 12.07.2015
+Waypoint: m/dlbisblest/178
+Title: DLB V85 Bonn Hauptbahnhof
+Points: 5
+----
+ID: 2826
+Date: 12.07.2015
+Waypoint: m/JOJEVA/482
+Title: Kessenich-Munzee # 495
+Points: 5
+----
+ID: 2827
+Date: 12.07.2015
+Waypoint: m/JOJEVA/407
+Title: Kessenich-Munzee # 420
+Points: 5
+----
+ID: 2828
+Date: 12.07.2015
+Waypoint: m/JOJEVA/415
+Title: Kessenich-Munzee # 428
+Points: 5
+----
+ID: 2829
+Date: 12.07.2015
+Waypoint: m/JOJEVA/444
+Title: Kessenich-Munzee # 457
+Points: 5
+----
+ID: 2830
+Date: 12.07.2015
+Waypoint: m/JOJEVA/423
+Title: Kessenich-Munzee # 436
+Points: 5
+----
+ID: 2831
+Date: 12.07.2015
+Waypoint: m/dschuwa/671
+Title: Bonner Punktejagd 458
+Points: 5
+----
+ID: 2832
+Date: 12.07.2015
+Waypoint: m/JOJEVA/380
+Title: Kessenich-Munzee # 393
+Points: 5
+----
+ID: 2833
+Date: 12.07.2015
+Waypoint: m/JOJEVA/327
+Title: Kessenich-Munzee # 340
+Points: 5
+----
+ID: 2834
+Date: 12.07.2015
+Waypoint: m/dschuwa/859
+Title: Bonner Punktejagd 645
+Points: 5
+----
+ID: 2835
+Date: 12.07.2015
+Waypoint: m/JOJEVA/388
+Title: Kessenich-Munzee # 401
+Points: 5
+----
+ID: 2836
+Date: 12.07.2015
+Waypoint: m/dschuwa/316
+Title: Bonner Punktejagd 082
+Points: 5
+----
+ID: 2837
+Date: 12.07.2015
+Waypoint: m/zeusi/1536
+Title: Munzee Power 214
+Points: 5
+----
+ID: 2838
+Date: 12.07.2015
+Waypoint: m/dschuwa/252
+Title: Bonner Punktejagd 095
+Points: 5
+----
+ID: 2839
+Date: 12.07.2015
+Waypoint: m/dschuwa/253
+Title: Bonner Punktejagd 096
+Points: 5
+----
 ID: p20150716
 Date: 16.07.2015
 Waypoint: GC5YKAC OC1220E TC9SHU GE0310
