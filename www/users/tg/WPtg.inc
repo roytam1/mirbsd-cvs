@@ -17090,10 +17090,257 @@ Waypoint: m/dschuwa/253
 Title: Bonner Punktejagd 096
 Points: 5
 ----
-ID: p20150716
+ID: 2840
+Date: 13.07.2015
+Waypoint: m/DerTransporter/26
+Title: Maxi Munzee 26
+Points: 100
+----
+ID: 2840
+Date: 13.07.2015
+Waypoint: CC7TMQ
+Title: WCG IV - Team TC 10 Year Celebration
+Tag: Locationless Challenge
+----
+ID: 2842
+Date: 14.07.2015
+Waypoint: m/robje64/1995
+Title: Churchill Blau
+Points: 20
+----
+ID: 2843
+Date: 14.07.2015
+Waypoint: m/dschuwa/435
+Title: Bonner Punktejagd 252
+Points: 5
+----
+ID: 2844
+Date: 14.07.2015
+Waypoint: m/Maxxomat/9
+Title: Generic Name
+Points: 45
+----
+ID: 2845
+Date: 14.07.2015
+Waypoint: m/dschuwa/408
+Title: Bonner Punktejagd 253
+Points: 100
+----
+ID: 2846
+Date: 14.07.2015
+Waypoint: m/Schnueffelnase/170
+Title: Generic Name
+Points: 50
+----
+ID: 2847
+Date: 14.07.2015
+Waypoint: m/dschuwa/551
+Title: Bonner Punktejagd 328
+Points: 5
+----
+ID: 2848
+Date: 14.07.2015
+Waypoint: m/zeusi/7658
+Title: Generic Name
+Points: 10
+----
+ID: 2849
+Date: 14.07.2015
+Waypoint: m/dschuwa/514
+Title: Bonner Punktejagd 271
+Points: 5
+----
+ID: 2850
+Date: 14.07.2015
+Waypoint: m/robje64/1997
+Title: Parkautomaten
+Points: 5
+----
+ID: 2851
+Date: 14.07.2015
+Waypoint: m/Bixby/373
+Title: bonn bixby
+Points: 5
+----
+ID: 2852
+Date: 15.07.2015
+Waypoint: m/ReMiKu/2084
+Title: Dottendorf (2084)
+Points: 5
+----
+ID: 2853
 Date: 16.07.2015
 Waypoint: GC5YKAC OC1220E TC9SHU GE0310
 Title: Ein Eis im Juli, zwei Eis im Juli, …
+nTF: 0
+Tag: D1 T15 Event
+----
+ID: 2854
+Date: 16.07.2015
+Waypoint: m/struppis/430
+Title: struppis 6
+Points: 5
+----
+ID: 2855
+Date: 16.07.2015
+Waypoint: m/ReMiKu/287
+Title: Walk the Rhine - 036
+Points: 20
+----
+ID: 2856
+Date: 16.07.2015
+Waypoint: m/esci/131
+Title: [esci] schöner Rhein
+Points: 5
+----
+ID: 2857
+Date: 16.07.2015
+Waypoint: m/CleanCoen/958
+Title: Bonn, Schloßallee 4952 MOTEL Room #1
+Points: 5
+----
+ID: 2858
+Date: 16.07.2015
+Waypoint: m/darlaStubbs/22
+Title: Bonn, Schloßallee 4952 MOTEL Room #2
+Points: 5
+----
+ID: 2859
+Date: 16.07.2015
+Waypoint: m/struppis/319
+Title: Bonn, Schloßallee 4952 MOTEL Room #3
+Points: 5
+----
+ID: 2860
+Date: 16.07.2015
+Waypoint: m/Airwolf26/3633
+Title: Bonn, Schloßallee 4952 MOTEL Room #4
+Points: 5
+----
+ID: 2861
+Date: 16.07.2015
+Waypoint: m/Hachiko/84
+Title: Bonn, Schloßallee 4952 MOTEL Room #5
+Points: 5
+----
+ID: 2862
+Date: 16.07.2015
+Waypoint: m/c-bn/4952
+Title: Bonn, Schloßallee 4952 MOTEL
+Points: 5
+----
+ID: 2863
+Date: 16.07.2015
+Waypoint: m/JOJEVA/642
+Title: Mehlem - Longsword # 655
+Points: 20
+----
+ID: 2864
+Date: 16.07.2015
+Waypoint: m/ReMiKu/600
+Title: Walk the Rhine - 039
+Points: 5
+----
+ID: 2865
+Date: 16.07.2015
+Waypoint: m/JOJEVA/602
+Title: Mehlem - Munzee # 615
+Points: 5
+----
+ID: 2866
+Date: 16.07.2015
+Waypoint: m/Airwolf26/1842
+Title: Bonn - Jon-Jay-McCloy-Ufer
+Points: 5
+----
+ID: 2867
+Date: 16.07.2015
+Waypoint: m/ReMiKu/599
+Title: Walk the Rhine - 040
+Points: 5
+----
+ID: 2868
+Date: 16.07.2015
+Waypoint: m/JOJEVA/595
+Title: Mehlem - Munzee # 608
+Points: 5
+----
+ID: 2869
+Date: 16.07.2015
+Waypoint: m/Airwolf26/2104
+Title: Bonn - Rüdigerstraße
+Points: 8
+----
+ID: 2870
+Date: 16.07.2015
+Waypoint: m/c-bn/4925
+Title: Bonn, Rüdigerstraße 4925
+Points: 5
+----
+ID: 2871
+Date: 16.07.2015
+Waypoint: m/JOJEVA/608
+Title: Mehlem - Mace # 621
+Points: 5
+----
+ID: 2872
+Date: 16.07.2015
+Waypoint: m/kaschper69/377
+Title: k69 - Bonn-Mehlem 4
+Points: 5
+----
+ID: 2873
+Date: 16.07.2015
+Waypoint: m/JOJEVA/663
+Title: Diamond - Mehlem # 676
+Points: 5
+----
+ID: 2874
+Date: 16.07.2015
+Waypoint: m/JOJEVA/655
+Title: Mehlem - Longsword # 668
+Points: 13
+----
+ID: 2875
+Date: 16.07.2015
+Waypoint: m/ajlis/1594
+Title: Motel - Mehlem # 605 Room #1
+Points: 5
+----
+ID: 2876
+Date: 16.07.2015
+Waypoint: m/kaschper69/620
+Title: Motel - Mehlem # 605 Room #2
+Points: 5
+----
+ID: 2877
+Date: 16.07.2015
+Waypoint: m/souli/1617
+Title: Motel - Mehlem # 605 Room #3
+Points: 5
+----
+ID: 2878
+Date: 16.07.2015
+Waypoint: m/Riolounge/187
+Title: Motel - Mehlem # 605 Room #4
+Points: 5
+----
+ID: 2879
+Date: 16.07.2015
+Waypoint: m/struppis/154
+Title: Motel - Mehlem # 605 Room #5
+Points: 5
+----
+ID: 2880
+Date: 16.07.2015
+Waypoint: m/JOJEVA/592
+Title: Motel - Mehlem # 605
+Points: 5
+----
+ID: p20150730
+Date: 30.07.2015
+Waypoint: GC5ZE9G
+Title: Erst lecken dann loggen! – Eis im Drachensteinpark
 nTF: 0
 Tag: D1 T15 Event
 ----
