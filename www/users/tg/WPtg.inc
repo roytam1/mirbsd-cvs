@@ -17337,12 +17337,49 @@ Waypoint: m/JOJEVA/592
 Title: Motel - Mehlem # 605
 Points: 5
 ----
+ID: 2881
+Date: 17.07.2015
+Waypoint: OC1228C
+Title: SVC: Anatomie XXL
+nTF: 1
+Tag: D25 T15 Safari
+----
+ID: 2882
+Date: 17.07.2015
+Waypoint: OC103DC
+Title: Berliner Mauer - Segmente
+Tag: D15 T15 Safari
+----
+ID: 2883
+Date: 16.07.2015
+Waypoint: m/kaschper69/374
+Title: k69 - Bonn-Mehlem 3
+Points: 5
+----
+ID: 2884
+Date: 17.07.2015
+Waypoint: m/zeusi/1974
+Title: Munzee Power 588
+Points: 15
+----
+ID: 2885
+Date: 17.07.2015
+Waypoint: m/DevilsEnd/174
+Title: Devil #174
+Points: 5
+----
 ID: p20150730
 Date: 30.07.2015
 Waypoint: GC5ZE9G
 Title: Erst lecken dann loggen! – Eis im Drachensteinpark
 nTF: 0
 Tag: D1 T15 Event
+----
+ID: p20150827
+Date: 27.08.2015
+Waypoint: GC5ZEMX
+Title: -A-M-P-E-L-9
+Tag: D1 T1 Event
 ----
 ID: p20150905
 Date: 05.09.2015
