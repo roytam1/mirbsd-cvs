@@ -30,7 +30,7 @@
 #undef SHA1_Final
 #undef SHA1_Transform
 
-const char SHA1_version[] = "$MirOS: src/lib/libssl/crypto/mbsd_sha1.c,v 1.2 2014/12/15 21:04:21 tg Exp $";
+const char SHA1_version[] = "$MirOS: src/lib/libssl/crypto/mbsd_sha1.c,v 1.3 2015/07/18 21:12:43 tg Exp $";
 const char *SHA256_version = SHA1_version;
 const char *SHA512_version = SHA1_version;
 
@@ -62,6 +62,52 @@ SHA1_Transform(SHA_CTX *c, const unsigned char *b)
 	SHA1Transform(c->state, b);
 }
 
+int
+SHA224_Init(SHA256_CTX *context)
+{
+	context->state[0] = 0xc1059ed8UL;
+	context->state[1] = 0x367cd507UL;
+	context->state[2] = 0x3070dd17UL;
+	context->state[3] = 0xf70e5939UL;
+	context->state[4] = 0xffc00b31UL;
+	context->state[5] = 0x68581511UL;
+	context->state[6] = 0x64f98fa7UL;
+	context->state[7] = 0xbefa4fa4UL;
+	OPENSSL_cleanse(context->buffer, sizeof(context->buffer));
+	context->bitcount = 0;
+	return (1);
+}
+
+int
+SHA224_Update(SHA256_CTX *c, const void *data, size_t len)
+{
+	return (SHA256_Update(c, data, len));
+}
+
+int
+SHA224_Final(unsigned char digest[SHA224_DIGEST_LENGTH], SHA256_CTX *context)
+{
+	SHA256_Pad(context);
+
+	if (digest != NULL) {
+#if BYTE_ORDER != BIG_ENDIAN
+		int i;
+
+		for (i = 0; i < 7; i++) {
+			digest[i * 4 + 0] = context->state[i] >> 24;
+			digest[i * 4 + 1] = context->state[i] >> 16;
+			digest[i * 4 + 2] = context->state[i] >> 8;
+			digest[i * 4 + 3] = context->state[i];
+		}
+#else
+		memcpy(digest, context->state, SHA224_DIGEST_LENGTH);
+#endif
+	}
+
+	OPENSSL_cleanse(context, sizeof(SHA256_CTX));
+	return (1);
+}
+
 #else
 
 __RCSID(SHA1_version);
@@ -79,7 +125,20 @@ SHA1(const unsigned char *d, size_t n, unsigned char *md)
 	if (n)
 		SHA1Update(&ctx, d, n);
 	SHA1Final(md, &ctx);
-	OPENSSL_cleanse(&ctx, sizeof(ctx));
+
+	return (md);
+}
+
+unsigned char *
+SHA224(const unsigned char *d, size_t n, unsigned char *md)
+{
+	SHA256_CTX ctx;
+
+	if (!md)
+		md = imd;
+	SHA224_Init(&ctx);
+	SHA256_Update(&ctx, d, n);
+	SHA224_Final(md, &ctx);
 
 	return (md);
 }
@@ -94,7 +153,6 @@ SHA256(const unsigned char *d, size_t n, unsigned char *md)
 	SHA256_Init(&ctx);
 	SHA256_Update(&ctx, d, n);
 	SHA256_Final(md, &ctx);
-	OPENSSL_cleanse(&ctx, sizeof(ctx));
 
 	return (md);
 }
@@ -109,7 +167,6 @@ SHA384(const unsigned char *d, size_t n, unsigned char *md)
 	SHA384_Init(&ctx);
 	SHA384_Update(&ctx, d, n);
 	SHA384_Final(md, &ctx);
-	OPENSSL_cleanse(&ctx, sizeof(ctx));
 
 	return (md);
 }
@@ -124,7 +181,6 @@ SHA512(const unsigned char *d, size_t n, unsigned char *md)
 	SHA512_Init(&ctx);
 	SHA512_Update(&ctx, d, n);
 	SHA512_Final(md, &ctx);
-	OPENSSL_cleanse(&ctx, sizeof(ctx));
 
 	return (md);
 }
