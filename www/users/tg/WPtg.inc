@@ -17096,7 +17096,7 @@ Waypoint: m/DerTransporter/26
 Title: Maxi Munzee 26
 Points: 100
 ----
-ID: 2840
+ID: 2841
 Date: 13.07.2015
 Waypoint: CC7TMQ
 Title: WCG IV - Team TC 10 Year Celebration
@@ -17366,6 +17366,74 @@ ID: 2885
 Date: 17.07.2015
 Waypoint: m/DevilsEnd/174
 Title: Devil #174
+Points: 5
+----
+ID: 2886
+Date: 18.07.2015
+Waypoint: m/dschuwa/642
+Title: Bonner Punktejagd 419
+Points: 5
+----
+ID: 2887
+Date: 18.07.2015
+Waypoint: m/c-bn/3280
+Title: Bonn, Dottendorfer Straße
+nTF: 1
+Points: 5
+----
+ID: 2888
+Date: 18.07.2015
+Waypoint: m/c-bn/2958
+Title: Bonn, Dottendorfer Straße
+nTF: 1
+Points: 5
+----
+ID: 2889
+Date: 18.07.2015
+Waypoint: m/zeusi/1807
+Title: Munzee Power 503
+Points: 9
+----
+ID: 2890
+Date: 18.07.2015
+Waypoint: m/Baumhoernchen/4
+Title: Virtual Munzee Buschdorf 4
+Points: 5
+----
+ID: 2891
+Date: 18.07.2015
+Waypoint: m/c-bn/5604
+Title: Bonn, Pariser Straße 5604
+Points: 5
+----
+ID: 2892
+Date: 18.07.2015
+Waypoint: m/c-bn/5131
+Title: Bonn, Flensburger Str. 5131 WAFFE
+Points: 13
+----
+ID: 2893
+Date: 18.07.2015
+Waypoint: m/zeusi/2071
+Title: Munzee Power 684
+Points: 9
+----
+ID: 2894
+Date: 18.07.2015
+Waypoint: m/ajlis/1842
+Title: Ajlis 18
+Points: 11
+----
+ID: 2895
+Date: 18.07.2015
+Waypoint: m/seal/663
+Title: VM Buschdorf
+Points: 5
+----
+ID: 2896
+Date: 18.07.2015
+Waypoint: m/mbagger/1704
+Title: mbagger@Buschdorf
 Points: 5
 ----
 ID: p20150730
