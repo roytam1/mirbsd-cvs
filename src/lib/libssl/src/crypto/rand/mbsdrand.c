@@ -21,7 +21,7 @@
 #include <stdlib.h>
 #include <openssl/rand.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/crypto/rand/mbsdrand.c,v 1.5 2014/07/17 09:02:57 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/crypto/rand/mbsdrand.c,v 1.6 2014/11/26 19:16:45 tg Exp $");
 
 const char RAND_version[] = "MirBSD";
 
@@ -99,14 +99,3 @@ ssleay_rand_addb(int w, const void *buf, int num, double add_entropy)
 		arc4random_pushb_fast(buf, num);
 	arc4random_ctl(0);
 }
-
-/*XXX temporary */
-#include <sys/param.h>
-#if (MirBSD < 0x0AB5)
-void
-arc4random_ctl(unsigned int x)
-{
-	/* not a correct implementation */
-	arc4random_pushb_fast(&x, sizeof(x));
-}
-#endif
