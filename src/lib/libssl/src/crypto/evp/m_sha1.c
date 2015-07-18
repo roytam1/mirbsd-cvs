@@ -63,6 +63,8 @@
 #include <openssl/objects.h>
 #include <openssl/x509.h>
 
+__RCSID("$MirOS$");
+
 static int init(EVP_MD_CTX *ctx)
 	{ return SHA1_Init(ctx->md_data); }
 
@@ -101,7 +103,6 @@ const EVP_MD *EVP_sha1(void)
 	}
 #endif
 
-#ifdef OPENSSL_FIPS
 #ifndef OPENSSL_NO_SHA256
 static int init224(EVP_MD_CTX *ctx)
 	{ return SHA224_Init(ctx->md_data); }
@@ -117,6 +118,8 @@ static int update256(EVP_MD_CTX *ctx,const void *data,unsigned long count)
 	OPENSSL_assert(sizeof(count)<=sizeof(size_t));
 	return SHA256_Update(ctx->md_data,data,count);
 	}
+static int final224(EVP_MD_CTX *ctx,unsigned char *md)
+	{ return SHA224_Final(md,ctx->md_data); }
 static int final256(EVP_MD_CTX *ctx,unsigned char *md)
 	{ return SHA256_Final(md,ctx->md_data); }
 
@@ -128,7 +131,7 @@ static const EVP_MD sha224_md=
 	EVP_MD_FLAG_FIPS,
 	init224,
 	update256,
-	final256,
+	final224,
 	NULL,
 	NULL,
 	EVP_PKEY_RSA_method,
@@ -211,4 +214,3 @@ static const EVP_MD sha512_md=
 const EVP_MD *EVP_sha512(void)
 	{ return(&sha512_md); }
 #endif /* ifndef OPENSSL_NO_SHA512 */
-#endif /* ifdef OPENSSL_FIPS */

@@ -62,6 +62,8 @@
 #include <openssl/pkcs12.h>
 #include <openssl/objects.h>
 
+__RCSID("$MirOS$");
+
 void OpenSSL_add_all_digests(void)
 	{
 #ifndef OPENSSL_NO_MD2
@@ -100,7 +102,6 @@ void OpenSSL_add_all_digests(void)
 	EVP_add_digest_alias(SN_ripemd160,"ripemd");
 	EVP_add_digest_alias(SN_ripemd160,"rmd160");
 #endif
-#ifdef OPENSSL_FIPS
 #ifndef OPENSSL_NO_SHA256
 	EVP_add_digest(EVP_sha224());
 	EVP_add_digest(EVP_sha256());
@@ -108,6 +109,5 @@ void OpenSSL_add_all_digests(void)
 #ifndef OPENSSL_NO_SHA512
 	EVP_add_digest(EVP_sha384());
 	EVP_add_digest(EVP_sha512());
-#endif
 #endif
 	}

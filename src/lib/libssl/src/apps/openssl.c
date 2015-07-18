@@ -127,6 +127,9 @@
 #endif
 #define USE_SOCKETS /* needed for the _O_BINARY defs in the MS world */
 #include "progs.h"
+#ifndef PROGS_H_PATCHED
+# error Sorry, we need to patch progs.h, refer to MirBSD CVS
+#endif
 #include "s_apps.h"
 #include <openssl/err.h>
 #include <openssl/fips.h>

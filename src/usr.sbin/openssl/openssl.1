@@ -1,4 +1,4 @@
-.\" $MirOS: src/usr.sbin/openssl/openssl.1,v 1.8 2014/03/23 22:54:35 tg Exp $
+.\" $MirOS: src/usr.sbin/openssl/openssl.1,v 1.9 2015/07/18 21:12:40 tg Exp $
 .\" $OpenBSD: openssl.1,v 1.56 2006/06/27 14:23:52 jmc Exp $
 .\" ====================================================================
 .\" Copyright (c) 1998-2002 The OpenSSL Project.  All rights reserved.
@@ -113,7 +113,7 @@
 .\"
 .\" OPENSSL
 .\"
-.Dd $Mdocdate$
+.Dd $Mdocdate: July 18 2015 $
 .Dt OPENSSL 1
 .Os
 .Sh NAME
@@ -349,10 +349,16 @@ MD4 Digest.
 MD5 Digest.
 .It Cm ripemd160
 RIPEMD-160 Digest.
-.It Cm sha
-SHA Digest.
 .It Cm sha1
 SHA-1 Digest.
+.It Cm sha224
+SHA-224 Digest.
+.It Cm sha256
+SHA-256 Digest.
+.It Cm sha384
+SHA-384 Digest.
+.It Cm sha512
+SHA-512 Digest.
 .El
 .Sh ENCODING AND CIPHER COMMANDS
 .Bl -tag -width Ds -compact
@@ -1936,7 +1942,8 @@ install user certificates and CAs in MSIE using the Xenroll control.
 .Bk -words
 .Oo
 .Fl dss1 | md2 | md4 | md5 |
-.Fl ripemd160 | sha | sha1
+.Fl ripemd160 | sha1 | sha224 | sha256 |
+.Fl sha384 | sha512
 .Oc
 .Op Fl binary
 .Op Fl c
@@ -1957,7 +1964,8 @@ install user certificates and CAs in MSIE using the Xenroll control.
 .Nm openssl
 .Xo
 .Cm md2 | md4 | md5 |
-.Cm ripemd160 | sha | sha1
+.Cm ripemd160 | sha | sha1 |
+.Cm sha224 | sha256 | sha384 | sha512
 .Xc
 .Op Fl c
 .Op Fl d
@@ -8451,6 +8459,7 @@ certificates.
 .Xr RAND_egd 3 ,
 .Xr rsa 3 ,
 .Xr sha1 3 ,
+.Xr sha2 3 ,
 .Xr ssl 3 ,
 .Xr des_modes 7 ,
 .Xr httpd 8 ,

@@ -68,7 +68,7 @@
 #include <openssl/pem.h>
 #include <openssl/hmac.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/apps/dgst.c,v 1.2 2009/05/20 09:51:52 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/apps/dgst.c,v 1.3 2014/11/29 22:48:17 tg Exp $");
 
 #undef BUFSIZE
 #define BUFSIZE	1024*8
@@ -248,6 +248,18 @@ int MAIN(int argc, char **argv)
 			LN_md2,LN_md2);
 		BIO_printf(bio_err,"-%3s to use the %s message digest algorithm\n",
 			LN_sha1,LN_sha1);
+#ifndef OPENSSL_NO_SHA256
+		BIO_printf(bio_err,"-%3s to use the %s message digest algorithm\n",
+			LN_sha224,LN_sha224);
+		BIO_printf(bio_err,"-%3s to use the %s message digest algorithm\n",
+			LN_sha256,LN_sha256);
+#endif
+#ifndef OPENSSL_NO_SHA512
+		BIO_printf(bio_err,"-%3s to use the %s message digest algorithm\n",
+			LN_sha384,LN_sha384);
+		BIO_printf(bio_err,"-%3s to use the %s message digest algorithm\n",
+			LN_sha512,LN_sha512);
+#endif
 #ifndef OPENSSL_NO_SHA0
 		BIO_printf(bio_err,"-%3s to use the %s message digest algorithm\n",
 			LN_sha,LN_sha);

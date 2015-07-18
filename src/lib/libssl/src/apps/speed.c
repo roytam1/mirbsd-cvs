@@ -209,7 +209,7 @@
 # define HAVE_FORK 1
 #endif
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/apps/speed.c,v 1.7 2015/07/18 21:12:44 tg Exp $");
 
 #undef BUFSIZE
 #define BUFSIZE	((long)1024*8+1)
@@ -1177,7 +1177,6 @@ int MAIN(int argc, char **argv)
 			print_result(D_SHA1,j,count,d);
 			}
 		}
-	/*XXX EVP_Digest */
 	if (doit[D_SHA256])
 		{
 		for (j=0; j<SIZE_NUM; j++)
@@ -1185,7 +1184,7 @@ int MAIN(int argc, char **argv)
 			print_message(names[D_SHA256],c[D_SHA256][j],lengths[j]);
 			Time_F(START);
 			for (count=0,run=1; COND(c[D_SHA256][j]); count++)
-				SHA256(buf,lengths[j],sha256);
+				EVP_Digest(buf,(unsigned long)lengths[j],&(sha[0]),NULL,EVP_sha256(),NULL);
 			d=Time_F(STOP);
 			print_result(D_SHA256,j,count,d);
 			}
@@ -1197,7 +1196,7 @@ int MAIN(int argc, char **argv)
 			print_message(names[D_SHA512],c[D_SHA512][j],lengths[j]);
 			Time_F(START);
 			for (count=0,run=1; COND(c[D_SHA512][j]); count++)
-				SHA512(buf,lengths[j],sha512);
+				EVP_Digest(buf,(unsigned long)lengths[j],&(sha[0]),NULL,EVP_sha512(),NULL);
 			d=Time_F(STOP);
 			print_result(D_SHA512,j,count,d);
 			}
