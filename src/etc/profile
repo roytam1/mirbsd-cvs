@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/profile,v 1.65 2009/09/06 17:09:27 tg Exp $
+# $MirOS: src/etc/profile,v 1.66 2009/11/15 11:49:17 tg Exp $
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/mpkg/bin
 umask 022
@@ -64,7 +64,7 @@ XDG_CACHE_HOME=$HOME/.etc/xdg/cache
 XDG_CONFIG_HOME=$HOME/.etc/xdg/config
 XDG_DATA_HOME=$HOME/.etc/xdg/data
 export BROWSER CVSUMASK EDITOR HOME IRCNAME IRCPORT IRCSERVER LC_CTYPE OSNAME
-export PAGER PS1 TERM XDG_CACHE_HOME XDG_CONFIG_HOME XDG_DATA_HOME
+export PAGER TERM XDG_CACHE_HOME XDG_CONFIG_HOME XDG_DATA_HOME
 unset HISTFILE NOCOLOURPROMPT x
 test -n "$_shellok" || return 0
 unset _shellok
@@ -100,4 +100,4 @@ if [ -O /var/run/ssh-agent/$USER_ID ]; then
 	unset _dir
 fi
 
-: $MirOS: src/etc/profile,v 1.65 2009/09/06 17:09:27 tg Exp $
+: $MirOS: src/etc/profile,v 1.66 2009/11/15 11:49:17 tg Exp $
