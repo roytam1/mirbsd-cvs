@@ -1,6 +1,6 @@
-$MirOS$
+$MirOS: ports/mailnews/pine/patches/patch-imap_src_osdep_unix_ssl_unix_c,v 1.1 2005/05/04 23:37:40 tg Exp $
 --- imap/src/osdep/unix/ssl_unix.c.orig	Tue Apr 27 19:54:29 2004
-+++ imap/src/osdep/unix/ssl_unix.c	Wed May  4 23:28:08 2005
++++ imap/src/osdep/unix/ssl_unix.c	Sat Jul 18 23:27:57 2015
 @@ -89,7 +89,8 @@ void ssl_onceonlyinit (void)
      struct stat sbuf;
  				/* if system doesn't have /dev/urandom */
@@ -11,3 +11,11 @@ $MirOS$
  	i = (unsigned long) tmp;
        else {
  	unlink (tmp);		/* don't need the file */
+@@ -108,6 +109,7 @@ void ssl_onceonlyinit (void)
+     mail_parameters (NIL,SET_SSLDRIVER,(void *) &ssldriver);
+     mail_parameters (NIL,SET_SSLSTART,(void *) ssl_start);
+     SSL_library_init ();	/* add all algorithms */
++    OpenSSL_add_all_algorithms();
+   }
+ }
+ 

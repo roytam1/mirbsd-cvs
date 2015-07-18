@@ -1,0 +1,12 @@
+$MirOS$
+--- imap/src/mlock/Makefile.orig	Tue Nov 19 00:42:20 2002
++++ imap/src/mlock/Makefile	Sat Jul 18 23:35:18 2015
+@@ -28,7 +28,7 @@ CFLAGS = `cat $C/CFLAGS`
+ all:	mlock
+ 
+ mlock:	mlock.o
+-	$(CC) $(CFLAGS) -o mlock mlock.o
++	$(CC) $(CFLAGS) -o mlock mlock.o $(LDSTATIC)
+ 
+ install: mlock
+ 	chgrp mail mlock

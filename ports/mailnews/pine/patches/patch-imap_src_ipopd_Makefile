@@ -1,0 +1,16 @@
+$MirOS$
+--- imap/src/ipopd/Makefile.orig	Tue Oct 24 23:54:45 2000
++++ imap/src/ipopd/Makefile	Sat Jul 18 23:34:38 2015
+@@ -31,10 +31,10 @@ LDFLAGS = $(CCLIENTLIB) `cat $C/LDFLAGS`
+ ipopd: ipop2d ipop3d
+ 
+ ipop2d: $(CCLIENTLIB) ipop2d.o
+-	$(CC) $(CFLAGS) -o ipop2d ipop2d.o $(LDFLAGS)
++	$(CC) $(CFLAGS) -o ipop2d ipop2d.o $(LDFLAGS) $(LDSTATIC)
+ 
+ ipop3d: $(CCLIENTLIB) ipop3d.o
+-	$(CC) $(CFLAGS) -o ipop3d ipop3d.o $(LDFLAGS)
++	$(CC) $(CFLAGS) -o ipop3d ipop3d.o $(LDFLAGS) $(LDSTATIC)
+ 
+ ipop2d.o: $C/mail.h $C/misc.h $C/osdep.h
+ 

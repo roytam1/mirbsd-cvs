@@ -1,0 +1,16 @@
+$MirOS$
+--- pico/makefile.bso.orig	Tue Oct 23 22:18:14 2001
++++ pico/makefile.bso	Sat Jul 18 23:35:53 2015
+@@ -65,10 +65,10 @@ all:		pico pilot
+ pico pilot:	libpico.a
+ 
+ pico:		main.o
+-		$(CC) $(CFLAGS) main.o -L. -lpico $(LIBS) -o pico
++		$(CC) $(CFLAGS) main.o -L. -lpico $(LIBS) -o pico $(LDSTATIC)
+ 
+ pilot:		pilot.o
+-		$(CC) $(CFLAGS) pilot.o -L. -lpico $(LIBS) -o pilot
++		$(CC) $(CFLAGS) pilot.o -L. -lpico $(LIBS) -o pilot $(LDSTATIC)
+ 
+ .c.so:		; $(CC) -fpic -DPIC -c $(CFLAGS) ${@:.so=.c} -o $@
+ 

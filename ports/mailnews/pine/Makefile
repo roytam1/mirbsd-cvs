@@ -1,4 +1,4 @@
-# $MirOS: ports/mailnews/pine/Makefile,v 1.27 2009/08/16 16:27:26 tg Exp $
+# $MirOS: ports/mailnews/pine/Makefile,v 1.28 2012/10/18 17:11:53 tg Exp $
 # $OpenBSD: Makefile,v 1.56 2003/10/05 21:42:29 jakob Exp $
 
 ONLY_FOR_PLATFORM=	OpenBSD:*:* MirBSD:*:*
@@ -14,10 +14,10 @@ VERSION=		4.64
 PICO_VERSION=		4.10
 PILOT_VERSION=		2.0
 IMAP_VERSION=		2004.357
-PINE_PATCHLEV=		7	# must be the highest
-CCLIENT_PATCHLEV=	7
-PICOLOT_PATCHLEV=	2
+CCLIENT_PATCHLEV=	8
+#PINE_PATCHLEV=		8	# must be the highest
 PINE_PATCHLEV?=		${CCLIENT_PATCHLEV}
+PICOLOT_PATCHLEV=	3
 DISTNAME=		pine${VERSION}
 PKGNAME=		pine-${VERSION}-${PINE_PATCHLEV}
 PKGNAME-cclient=	c-client-${VERSION}-${CCLIENT_PATCHLEV}

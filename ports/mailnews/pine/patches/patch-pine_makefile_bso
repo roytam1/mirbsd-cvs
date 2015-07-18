@@ -1,6 +1,6 @@
-$MirOS$
+$MirOS: ports/mailnews/pine/patches/patch-pine_makefile_bso,v 1.4 2006/03/19 18:39:02 tg Exp $
 --- pine/makefile.bso.orig	Tue Nov 25 06:45:39 2003
-+++ pine/makefile.bso	Sun Mar 19 17:57:39 2006
++++ pine/makefile.bso	Sat Jul 18 23:34:09 2015
 @@ -67,7 +67,11 @@ LOCLIBDIR=   -L$(PICODIR)
  LIBS=        $(LOCLIBDIR) $(LOCLIBS) $(LDAPLIBS) $(STDLIBS) \
               `cat $(CCLIENTDIR)/LDFLAGS`
@@ -13,12 +13,22 @@ $MirOS$
  CFLAGS+=     $(OPTIMIZE) $(PROFILE) $(DEBUG) $(EXTRACFLAGS) $(LDAPCFLAGS) \
  	     $(LOCALPINECFLAGS) $(STDCFLAGS)
  
-@@ -88,7 +92,7 @@ all:	pine rpload rpdump
+@@ -88,14 +92,14 @@ all:	pine rpload rpdump
  
  pine:  $(OFILES) $(LOCLIBS)
  	echo "char datestamp[]="\"`LC_TIME=C date`\"";" > date.c
 -	echo "char hoststamp[]="\"`hostname`\"";" >> date.c
+-	$(CC) $(LDFLAGS) $(CFLAGS) -o pine $(OFILES) date.c $(LIBS)
 +	echo "char hoststamp[]="\"noname.mydomain.invalid\"";" >> date.c
- 	$(CC) $(LDFLAGS) $(CFLAGS) -o pine $(OFILES) date.c $(LIBS)
++	$(CC) $(LDFLAGS) $(CFLAGS) -o pine $(OFILES) date.c $(LIBS) $(LDSTATIC)
  
  rpload:	rpload.o $(CCLIENTDIR)/c-client.a
+-	$(CC) $(LDFLAGS) $(CFLAGS) -o rpload rpload.o $(LIBS)
++	$(CC) $(LDFLAGS) $(CFLAGS) -o rpload rpload.o $(LIBS) $(LDSTATIC)
+ 
+ rpdump:	rpdump.o $(CCLIENTDIR)/c-client.a
+-	$(CC) $(LDFLAGS) $(CFLAGS) -o rpdump rpdump.o $(LIBS)
++	$(CC) $(LDFLAGS) $(CFLAGS) -o rpdump rpdump.o $(LIBS) $(LDSTATIC)
+ 
+ pine-use:	pine-use.c
+ 	$(CC) -o pine-use pine-use.c

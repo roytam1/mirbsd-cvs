@@ -1,0 +1,12 @@
+$MirOS$
+--- imap/src/dmail/Makefile.orig	Tue Nov 19 00:43:09 2002
++++ imap/src/dmail/Makefile	Sat Jul 18 23:35:07 2015
+@@ -28,7 +28,7 @@ CFLAGS = -I$C `cat $C/CFLAGS`
+ LDFLAGS = $(CCLIENTLIB) `cat $C/LDFLAGS`
+ 
+ dmail: $(CCLIENTLIB) dmail.o
+-	$(CC) $(CFLAGS) -o dmail dmail.o $(LDFLAGS)
++	$(CC) $(CFLAGS) -o dmail dmail.o $(LDFLAGS) $(LDSTATIC)
+ 
+ dmail.o: $C/mail.h $C/misc.h $C/osdep.h
+ 
