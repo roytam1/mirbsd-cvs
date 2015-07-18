@@ -1,9 +1,9 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.40 2014/11/30 21:56:18 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.41 2014/12/15 21:04:20 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2006/10/14 19:43:57 drahn Exp $
 
 .include <bsd.own.mk>
 
-SHLIB_VERSION?=	16.0
+SHLIB_VERSION?=	16.1
 LIB=		crypto
 LDFLAGS+=	-Wl,-Bsymbolic
 

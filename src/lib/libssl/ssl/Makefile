@@ -1,7 +1,7 @@
-# $MirOS: src/lib/libssl/ssl/Makefile,v 1.24 2014/11/26 22:57:26 tg Exp $
+# $MirOS: src/lib/libssl/ssl/Makefile,v 1.25 2014/11/29 22:18:32 tg Exp $
 # $OpenBSD: Makefile,v 1.21 2005/11/24 20:49:23 deraadt Exp $
 
-SHLIB_VERSION?=	14.0
+SHLIB_VERSION?=	14.1
 LIB=		ssl
 DPADD+=		${LIBCRYPTO}
 LDADD+=		-lcrypto
