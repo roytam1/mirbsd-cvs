@@ -1,4 +1,4 @@
-/*	$MirOS: src/lib/libc/hash/sha2.c,v 1.3 2005/09/22 20:09:06 tg Exp $	*/
+/*	$MirOS: src/lib/libc/hash/sha2.c,v 1.4 2006/06/02 02:29:51 tg Exp $	*/
 /*	$OpenBSD: sha2.c,v 1.11 2005/08/08 08:05:35 espie Exp $	*/
 
 /*
@@ -272,15 +272,18 @@ static const u_int64_t sha512_initial_hash_value[8] = {
 
 
 /*** SHA-256: *********************************************************/
-void
+int
 SHA256_Init(SHA256_CTX *context)
 {
 	if (context == NULL)
-		return;
+		return (1);
 	memcpy(context->state, sha256_initial_hash_value,
 	    sizeof(sha256_initial_hash_value));
 	memset(context->buffer, 0, sizeof(context->buffer));
 	context->bitcount = 0;
+
+	/* for OpenSSL */
+	return (1);
 }
 
 #ifdef SHA2_UNROLL_TRANSFORM
@@ -309,8 +312,9 @@ SHA256_Init(SHA256_CTX *context)
 } while(0)
 
 void
-SHA256_Transform(u_int32_t state[8], const u_int8_t data[SHA256_BLOCK_LENGTH])
+SHA256_Transform(void *statebuf, const unsigned char data[SHA256_BLOCK_LENGTH])
 {
+	u_int32_t *state = statebuf;
 	u_int32_t	a, b, c, d, e, f, g, h, s0, s1;
 	u_int32_t	T1, W256[16];
 	int		j;
@@ -367,8 +371,9 @@ SHA256_Transform(u_int32_t state[8], const u_int8_t data[SHA256_BLOCK_LENGTH])
 #else /* SHA2_UNROLL_TRANSFORM */
 
 void
-SHA256_Transform(u_int32_t state[8], const u_int8_t data[SHA256_BLOCK_LENGTH])
+SHA256_Transform(void *statebuf, const unsigned char data[SHA256_BLOCK_LENGTH])
 {
+	u_int32_t *state = statebuf;
 	u_int32_t	a, b, c, d, e, f, g, h, s0, s1;
 	u_int32_t	T1, T2, W256[16];
 	int		j;
@@ -441,14 +446,15 @@ SHA256_Transform(u_int32_t state[8], const u_int8_t data[SHA256_BLOCK_LENGTH])
 
 #endif /* SHA2_UNROLL_TRANSFORM */
 
-void
-SHA256_Update(SHA256_CTX *context, const u_int8_t *data, size_t len)
+int
+SHA256_Update(SHA256_CTX *context, const void *buf, size_t len)
 {
+	const u_int8_t *data = buf;
 	size_t	freespace, usedspace;
 
 	/* Calling with no data is valid (we do nothing) */
 	if (len == 0)
-		return;
+		return (1);
 
 	usedspace = (context->bitcount >> 3) % SHA256_BLOCK_LENGTH;
 	if (usedspace > 0) {
@@ -468,7 +474,7 @@ SHA256_Update(SHA256_CTX *context, const u_int8_t *data, size_t len)
 			context->bitcount += len << 3;
 			/* Clean up: */
 			usedspace = freespace = 0;
-			return;
+			return (1);
 		}
 	}
 	while (len >= SHA256_BLOCK_LENGTH) {
@@ -485,6 +491,9 @@ SHA256_Update(SHA256_CTX *context, const u_int8_t *data, size_t len)
 	}
 	/* Clean up: */
 	usedspace = freespace = 0;
+
+	/* for OpenSSL */
+	return (1);
 }
 
 void
@@ -530,8 +539,8 @@ SHA256_Pad(SHA256_CTX *context)
 	usedspace = 0;
 }
 
-void
-SHA256_Final(u_int8_t digest[SHA256_DIGEST_LENGTH], SHA256_CTX *context)
+int
+SHA256_Final(unsigned char digest[SHA256_DIGEST_LENGTH], SHA256_CTX *context)
 {
 	SHA256_Pad(context);
 
@@ -548,19 +557,25 @@ SHA256_Final(u_int8_t digest[SHA256_DIGEST_LENGTH], SHA256_CTX *context)
 #endif
 		memset(context, 0, sizeof(*context));
 	}
+
+	/* for OpenSSL */
+	return (1);
 }
 
 
 /*** SHA-512: *********************************************************/
-void
+int
 SHA512_Init(SHA512_CTX *context)
 {
 	if (context == NULL)
-		return;
+		return (1);
 	memcpy(context->state, sha512_initial_hash_value,
 	    sizeof(sha512_initial_hash_value));
 	memset(context->buffer, 0, sizeof(context->buffer));
 	context->bitcount[0] = context->bitcount[1] =  0;
+
+	/* for OpenSSL */
+	return (1);
 }
 
 #ifdef SHA2_UNROLL_TRANSFORM
@@ -590,8 +605,9 @@ SHA512_Init(SHA512_CTX *context)
 } while(0)
 
 void
-SHA512_Transform(u_int64_t state[8], const u_int8_t data[SHA512_BLOCK_LENGTH])
+SHA512_Transform(void *statebuf, const unsigned char data[SHA512_BLOCK_LENGTH])
 {
+	u_int64_t *state = statebuf;
 	u_int64_t	a, b, c, d, e, f, g, h, s0, s1;
 	u_int64_t	T1, W512[16];
 	int		j;
@@ -648,8 +664,9 @@ SHA512_Transform(u_int64_t state[8], const u_int8_t data[SHA512_BLOCK_LENGTH])
 #else /* SHA2_UNROLL_TRANSFORM */
 
 void
-SHA512_Transform(u_int64_t state[8], const u_int8_t data[SHA512_BLOCK_LENGTH])
+SHA512_Transform(void *statebuf, const unsigned char data[SHA512_BLOCK_LENGTH])
 {
+	u_int64_t *state = statebuf;
 	u_int64_t	a, b, c, d, e, f, g, h, s0, s1;
 	u_int64_t	T1, T2, W512[16];
 	int		j;
@@ -722,14 +739,15 @@ SHA512_Transform(u_int64_t state[8], const u_int8_t data[SHA512_BLOCK_LENGTH])
 
 #endif /* SHA2_UNROLL_TRANSFORM */
 
-void
-SHA512_Update(SHA512_CTX *context, const u_int8_t *data, size_t len)
+int
+SHA512_Update(SHA512_CTX *context, const void *buf, size_t len)
 {
+	const u_int8_t *data = buf;
 	size_t	freespace, usedspace;
 
 	/* Calling with no data is valid (we do nothing) */
 	if (len == 0)
-		return;
+		return (1);
 
 	usedspace = (context->bitcount[0] >> 3) % SHA512_BLOCK_LENGTH;
 	if (usedspace > 0) {
@@ -749,7 +767,7 @@ SHA512_Update(SHA512_CTX *context, const u_int8_t *data, size_t len)
 			ADDINC128(context->bitcount, len << 3);
 			/* Clean up: */
 			usedspace = freespace = 0;
-			return;
+			return (1);
 		}
 	}
 	while (len >= SHA512_BLOCK_LENGTH) {
@@ -766,6 +784,9 @@ SHA512_Update(SHA512_CTX *context, const u_int8_t *data, size_t len)
 	}
 	/* Clean up: */
 	usedspace = freespace = 0;
+
+	/* for OpenSSL */
+	return (1);
 }
 
 void
@@ -811,8 +832,8 @@ SHA512_Pad(SHA512_CTX *context)
 	usedspace = 0;
 }
 
-void
-SHA512_Final(u_int8_t digest[SHA512_DIGEST_LENGTH], SHA512_CTX *context)
+int
+SHA512_Final(unsigned char digest[SHA512_DIGEST_LENGTH], SHA512_CTX *context)
 {
 	SHA512_Pad(context);
 
@@ -829,19 +850,25 @@ SHA512_Final(u_int8_t digest[SHA512_DIGEST_LENGTH], SHA512_CTX *context)
 #endif
 		memset(context, 0, sizeof(*context));
 	}
+
+	/* for OpenSSL */
+	return (1);
 }
 
 
 /*** SHA-384: *********************************************************/
-void
+int
 SHA384_Init(SHA384_CTX *context)
 {
 	if (context == NULL)
-		return;
+		return (1);
 	memcpy(context->state, sha384_initial_hash_value,
 	    sizeof(sha384_initial_hash_value));
 	memset(context->buffer, 0, sizeof(context->buffer));
 	context->bitcount[0] = context->bitcount[1] = 0;
+
+	/* for OpenSSL */
+	return (1);
 }
 
 #ifdef __weak_alias
@@ -850,15 +877,15 @@ __weak_alias(SHA384_Update, SHA512_Update);
 __weak_alias(SHA384_Pad, SHA512_Pad);
 #else
 inline void
-SHA384_Transform(u_int64_t state[8], const u_int8_t data[SHA512_BLOCK_LENGTH])
+SHA384_Transform(void *statebuf, const unsigned char data[SHA512_BLOCK_LENGTH])
 {
-	SHA512_Transform(state, data);
+	SHA512_Transform(statebuf, data);
 }
 
-inline void
-SHA384_Update(SHA384_CTX *context, const u_int8_t *data, size_t len)
+inline int
+SHA384_Update(SHA384_CTX *context, const void *buf, size_t len)
 {
-	SHA512_Update(context, data, len);
+	return (SHA512_Update(context, buf, len));
 }
 
 inline void
@@ -868,8 +895,8 @@ SHA384_Pad(SHA384_CTX *context)
 }
 #endif
 
-void
-SHA384_Final(u_int8_t digest[SHA384_DIGEST_LENGTH], SHA384_CTX *context)
+int
+SHA384_Final(unsigned char digest[SHA384_DIGEST_LENGTH], SHA384_CTX *context)
 {
 	SHA384_Pad(context);
 
@@ -888,4 +915,7 @@ SHA384_Final(u_int8_t digest[SHA384_DIGEST_LENGTH], SHA384_CTX *context)
 
 	/* Zero out state data */
 	memset(context, 0, sizeof(*context));
+
+	/* for OpenSSL */
+	return (1);
 }

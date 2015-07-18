@@ -1,5 +1,3 @@
-/* $MirOS: src/lib/libssl/src/apps/speed.c,v 1.5 2009/01/08 20:50:10 tg Exp $ */
-
 /* apps/speed.c -*- mode:C; c-file-style: "eay" -*- */
 /* Copyright (C) 1995-1998 Eric Young (eay@cryptsoft.com)
  * All rights reserved.
@@ -211,6 +209,8 @@
 # define HAVE_FORK 1
 #endif
 
+__RCSID("$MirOS$");
+
 #undef BUFSIZE
 #define BUFSIZE	((long)1024*8+1)
 int run=0;
@@ -227,7 +227,7 @@ static void print_result(int alg,int run_no,int count,double time_used);
 static int do_multi(int multi);
 #endif
 
-#define ALGOR_NUM	19
+#define ALGOR_NUM	21
 #define SIZE_NUM	5
 #define RSA_NUM		4
 #define DSA_NUM		3
@@ -235,7 +235,8 @@ static const char *names[ALGOR_NUM]={
   "md2","mdc2","md4","md5","hmac(md5)","sha1","rmd160","rc4",
   "des cbc","des ede3","idea cbc",
   "rc2 cbc","rc5-32/12 cbc","blowfish cbc","cast cbc",
-  "aes-128 cbc","aes-192 cbc","aes-256 cbc"};
+  "aes-128 cbc","aes-192 cbc","aes-256 cbc",
+  "evp", "sha256", "sha512"};
 static double results[ALGOR_NUM][SIZE_NUM];
 static int lengths[SIZE_NUM]={16,64,256,1024,8*1024};
 static double rsa_results[RSA_NUM][2];
@@ -403,6 +404,8 @@ int MAIN(int argc, char **argv)
 #endif
 #ifndef OPENSSL_NO_SHA
 	unsigned char sha[SHA_DIGEST_LENGTH];
+	unsigned char sha256[SHA256_DIGEST_LENGTH];
+	unsigned char sha512[SHA512_DIGEST_LENGTH];
 #endif
 #ifndef OPENSSL_NO_RIPEMD
 	unsigned char rmd160[RIPEMD160_DIGEST_LENGTH];
@@ -475,6 +478,8 @@ int MAIN(int argc, char **argv)
 #define D_CBC_192_AES	16
 #define D_CBC_256_AES	17
 #define D_EVP		18
+#define D_SHA256        19
+#define D_SHA512        20
 	double d=0.0;
 	long c[ALGOR_NUM][SIZE_NUM];
 #define	R_DSA_512	0
@@ -664,7 +669,15 @@ int MAIN(int argc, char **argv)
 #ifndef OPENSSL_NO_SHA
 			if (strcmp(*argv,"sha1") == 0) doit[D_SHA1]=1;
 		else
-			if (strcmp(*argv,"sha") == 0) doit[D_SHA1]=1;
+			if (strcmp(*argv,"sha") == 0) {
+				doit[D_SHA1] = 1;
+				doit[D_SHA256] = 1;
+				doit[D_SHA512] = 1;
+			}
+		else
+			if (strcmp(*argv,"sha256") == 0) doit[D_SHA256]=1;
+		else
+			if (strcmp(*argv,"sha512") == 0) doit[D_SHA512]=1;
 		else
 #endif
 #ifndef OPENSSL_NO_RIPEMD
@@ -784,6 +797,8 @@ int MAIN(int argc, char **argv)
 #endif
 #ifndef OPENSSL_NO_SHA1
 			BIO_printf(bio_err,"sha1     ");
+			BIO_printf(bio_err,"sha256   ");
+			BIO_printf(bio_err,"sha512   ");
 #endif
 #ifndef OPENSSL_NO_RIPEMD160
 			BIO_printf(bio_err,"rmd160");
@@ -968,6 +983,8 @@ int MAIN(int argc, char **argv)
 	c[D_MD5][0]=count;
 	c[D_HMAC][0]=count;
 	c[D_SHA1][0]=count;
+	c[D_SHA256][0]=count;
+	c[D_SHA512][0]=count;
 	c[D_RMD160][0]=count;
 	c[D_RC4][0]=count*5;
 	c[D_CBC_DES][0]=count;
@@ -989,6 +1006,8 @@ int MAIN(int argc, char **argv)
 		c[D_MD5][i]=c[D_MD5][0]*4*lengths[0]/lengths[i];
 		c[D_HMAC][i]=c[D_HMAC][0]*4*lengths[0]/lengths[i];
 		c[D_SHA1][i]=c[D_SHA1][0]*4*lengths[0]/lengths[i];
+		c[D_SHA256][i]=c[D_SHA256][0]*4*lengths[0]/lengths[i];
+		c[D_SHA512][i]=c[D_SHA512][0]*4*lengths[0]/lengths[i];
 		c[D_RMD160][i]=c[D_RMD160][0]*4*lengths[0]/lengths[i];
 		}
 	for (i=1; i<SIZE_NUM; i++)
@@ -1156,6 +1175,31 @@ int MAIN(int argc, char **argv)
 				EVP_Digest(buf,(unsigned long)lengths[j],&(sha[0]),NULL,EVP_sha1(),NULL);
 			d=Time_F(STOP);
 			print_result(D_SHA1,j,count,d);
+			}
+		}
+	/*XXX EVP_Digest */
+	if (doit[D_SHA256])
+		{
+		for (j=0; j<SIZE_NUM; j++)
+			{
+			print_message(names[D_SHA256],c[D_SHA256][j],lengths[j]);
+			Time_F(START);
+			for (count=0,run=1; COND(c[D_SHA256][j]); count++)
+				SHA256(buf,lengths[j],sha256);
+			d=Time_F(STOP);
+			print_result(D_SHA256,j,count,d);
+			}
+		}
+	if (doit[D_SHA512])
+		{
+		for (j=0; j<SIZE_NUM; j++)
+			{
+			print_message(names[D_SHA512],c[D_SHA512][j],lengths[j]);
+			Time_F(START);
+			for (count=0,run=1; COND(c[D_SHA512][j]); count++)
+				SHA512(buf,lengths[j],sha512);
+			d=Time_F(STOP);
+			print_result(D_SHA512,j,count,d);
 			}
 		}
 #endif

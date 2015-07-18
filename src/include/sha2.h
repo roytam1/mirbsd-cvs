@@ -1,11 +1,11 @@
-/*	$MirOS: src/include/sha2.h,v 1.3 2014/03/05 14:07:26 tg Exp $ */
+/*	$MirOS: src/include/sha2.h,v 1.4 2014/03/05 20:12:51 tg Exp $ */
 /*	$OpenBSD: sha2.h,v 1.6 2004/06/22 01:57:30 jfb Exp $	*/
 
 /*
  * FILE:	sha2.h
  * AUTHOR:	Aaron D. Gifford <me@aarongifford.com>
  * 
- * Copyright © 2013
+ * Copyright © 2013, 2015
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
  * Copyright (c) 2000-2001, Aaron D. Gifford
  * All rights reserved.
@@ -54,12 +54,12 @@
 
 
 /*** SHA-256/384/512 Context Structures *******************************/
-typedef struct _SHA256_CTX {
+typedef struct SHA256state_st {
 	u_int32_t	state[8];
 	u_int64_t	bitcount;
 	u_int8_t	buffer[SHA256_BLOCK_LENGTH];
 } SHA256_CTX;
-typedef struct _SHA512_CTX {
+typedef struct SHA512state_st {
 	u_int64_t	state[8];
 	u_int64_t	bitcount[2];
 	u_int8_t	buffer[SHA512_BLOCK_LENGTH];
@@ -70,14 +70,14 @@ typedef SHA512_CTX SHA384_CTX;
 #include <sys/cdefs.h>
 
 __BEGIN_DECLS
-void SHA256_Init(SHA256_CTX *);
-void SHA256_Transform(u_int32_t *, const u_int8_t *)
+int SHA256_Init(SHA256_CTX *);
+void SHA256_Transform(void *, const unsigned char *)
 	__attribute__((__bounded__(__minbytes__, 1, 32)))
 	__attribute__((__bounded__(__minbytes__, 2, SHA256_BLOCK_LENGTH)));
-void SHA256_Update(SHA256_CTX *, const u_int8_t *, size_t)
+int SHA256_Update(SHA256_CTX *, const void *, size_t)
 	__attribute__((__bounded__(__string__, 2, 3)));
 void SHA256_Pad(SHA256_CTX *);
-void SHA256_Final(u_int8_t *, SHA256_CTX *)
+int SHA256_Final(unsigned char *, SHA256_CTX *)
 	__attribute__((__bounded__(__minbytes__, 1, SHA256_DIGEST_LENGTH)));
 char *SHA256_End(SHA256_CTX *, char *)
 	__attribute__((__bounded__(__minbytes__, 2, SHA256_DIGEST_STRING_LENGTH)));
@@ -89,14 +89,14 @@ char *SHA256_Data(const u_int8_t *, size_t, char *)
 	__attribute__((__bounded__(__string__, 1, 2)))
 	__attribute__((__bounded__(__minbytes__, 3, SHA256_DIGEST_STRING_LENGTH)));
 
-void SHA384_Init(SHA384_CTX *);
-void SHA384_Transform(u_int64_t *, const u_int8_t *)
+int SHA384_Init(SHA384_CTX *);
+void SHA384_Transform(void *, const unsigned char *)
 	__attribute__((__bounded__(__minbytes__, 1, 64)))
 	__attribute__((__bounded__(__minbytes__, 2, SHA384_BLOCK_LENGTH)));
-void SHA384_Update(SHA384_CTX *, const u_int8_t *, size_t)
+int SHA384_Update(SHA384_CTX *, const void *, size_t)
 	__attribute__((__bounded__(__string__, 2, 3)));
 void SHA384_Pad(SHA384_CTX *);
-void SHA384_Final(u_int8_t *, SHA384_CTX *)
+int SHA384_Final(unsigned char *, SHA384_CTX *)
 	__attribute__((__bounded__(__minbytes__, 1, SHA384_DIGEST_LENGTH)));
 char *SHA384_End(SHA384_CTX *, char *)
 	__attribute__((__bounded__(__minbytes__, 2, SHA384_DIGEST_STRING_LENGTH)));
@@ -108,14 +108,14 @@ char *SHA384_Data(const u_int8_t *, size_t, char *)
 	__attribute__((__bounded__(__string__, 1, 2)))
 	__attribute__((__bounded__(__minbytes__, 3, SHA384_DIGEST_STRING_LENGTH)));
 
-void SHA512_Init(SHA512_CTX *);
-void SHA512_Transform(u_int64_t *, const u_int8_t *)
+int SHA512_Init(SHA512_CTX *);
+void SHA512_Transform(void *, const unsigned char *)
 	__attribute__((__bounded__(__minbytes__, 1, 64)))
 	__attribute__((__bounded__(__minbytes__, 2, SHA512_BLOCK_LENGTH)));
-void SHA512_Update(SHA512_CTX *, const u_int8_t *, size_t)
+int SHA512_Update(SHA512_CTX *, const void *, size_t)
 	__attribute__((__bounded__(__string__, 2, 3)));
 void SHA512_Pad(SHA512_CTX *);
-void SHA512_Final(u_int8_t *, SHA512_CTX *)
+int SHA512_Final(unsigned char *, SHA512_CTX *)
 	__attribute__((__bounded__(__minbytes__, 1, SHA512_DIGEST_LENGTH)));
 char *SHA512_End(SHA512_CTX *, char *)
 	__attribute__((__bounded__(__minbytes__, 2, SHA512_DIGEST_STRING_LENGTH)));

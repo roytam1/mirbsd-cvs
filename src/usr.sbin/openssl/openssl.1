@@ -1,4 +1,4 @@
-.\" $MirOS: src/usr.sbin/openssl/openssl.1,v 1.7 2006/09/20 20:42:25 tg Exp $
+.\" $MirOS: src/usr.sbin/openssl/openssl.1,v 1.8 2014/03/23 22:54:35 tg Exp $
 .\" $OpenBSD: openssl.1,v 1.56 2006/06/27 14:23:52 jmc Exp $
 .\" ====================================================================
 .\" Copyright (c) 1998-2002 The OpenSSL Project.  All rights reserved.
@@ -113,7 +113,7 @@
 .\"
 .\" OPENSSL
 .\"
-.Dd February 28, 2003
+.Dd $Mdocdate$
 .Dt OPENSSL 1
 .Os
 .Sh NAME
@@ -6904,6 +6904,8 @@ v3 structures may cause parsing errors.
 .Op Cm rsa2048
 .Op Cm rsa4096
 .Op Cm sha1
+.Op Cm sha256
+.Op Cm sha512
 .Op Fl decrypt
 .Op Fl elapsed
 .Op Fl mr

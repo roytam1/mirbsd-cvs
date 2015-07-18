@@ -14,6 +14,8 @@ B<openssl speed>
 [B<md5>]
 [B<hmac>]
 [B<sha1>]
+[B<sha256>]
+[B<sha512>]
 [B<rmd160>]
 [B<rc4>]
 [B<des-cbc>]

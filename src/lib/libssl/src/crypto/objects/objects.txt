@@ -251,6 +251,13 @@ rsadsi 2 4		: MD4			: md4
 rsadsi 2 5		: MD5			: md5
 			: MD5-SHA1		: md5-sha1
 rsadsi 2 7		:			: hmacWithSHA1
+
+# From RFC4231
+rsadsi 2 8		:			: hmacWithSHA224
+rsadsi 2 9		:			: hmacWithSHA256
+rsadsi 2 10		:			: hmacWithSHA384
+rsadsi 2 11		:			: hmacWithSHA512
+
 rsadsi 3 2		: RC2-CBC		: rc2-cbc
 			: RC2-ECB		: rc2-ecb
 !Cname rc2-cfb64
@@ -716,6 +723,11 @@ nist_hashalgs 1		: SHA256		: sha256
 nist_hashalgs 2		: SHA384		: sha384
 nist_hashalgs 3		: SHA512		: sha512
 nist_hashalgs 4		: SHA224		: sha224
+
+# OIDs for dsa-with-sha224 and dsa-with-sha256
+!Alias dsa_with_sha2 nistAlgorithms 3
+dsa_with_sha2 1		: dsa_with_SHA224
+dsa_with_sha2 2		: dsa_with_SHA256
 
 # Hold instruction CRL entry extension
 !Cname hold-instruction-code

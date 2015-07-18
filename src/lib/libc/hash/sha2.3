@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: sha2.3,v 1.12 2005/09/12 10:33:29 jmc Exp $
 .\"
 .\" Copyright (c) 2003, 2004 Todd C. Miller <Todd.Miller@courtesan.com>
@@ -20,7 +21,7 @@
 .\"
 .\" See http://www.nist.gov/sha/ for the detailed standard
 .\"
-.Dd April 24, 2003
+.Dd $Mdocdate$
 .Dt SHA2 3
 .Os
 .Sh NAME
@@ -40,13 +41,13 @@
 .Ft void
 .Fn SHA256_Init "SHA256_CTX *context"
 .Ft void
-.Fn SHA256_Update "SHA256_CTX *context" "const u_int8_t *data" "size_t len"
+.Fn SHA256_Update "SHA256_CTX *context" "const void *data" "size_t len"
 .Ft void
 .Fn SHA256_Pad "SHA256_CTX *context"
 .Ft void
-.Fn SHA256_Final "u_int8_t digest[SHA256_DIGEST_LENGTH]" "SHA256_CTX *context"
+.Fn SHA256_Final "unsigned char digest[SHA256_DIGEST_LENGTH]" "SHA256_CTX *context"
 .Ft void
-.Fn SHA256_Transform "u_int32_t state[8]" "const u_int8_t buffer[SHA256_BLOCK_LENGTH]"
+.Fn SHA256_Transform "u_int32_t state[8]" "const unsigned char buffer[SHA256_BLOCK_LENGTH]"
 .Ft "char *"
 .Fn SHA256_End "SHA256_CTX *context" "char *buf"
 .Ft "char *"
@@ -58,13 +59,13 @@
 .Ft void
 .Fn SHA384_Init "SHA384_CTX *context"
 .Ft void
-.Fn SHA384_Update "SHA384_CTX *context" "const u_int8_t *data" "size_t len"
+.Fn SHA384_Update "SHA384_CTX *context" "const void *data" "size_t len"
 .Ft void
 .Fn SHA384_Pad "SHA384_CTX *context"
 .Ft void
-.Fn SHA384_Final "u_int8_t digest[SHA384_DIGEST_LENGTH]" "SHA384_CTX *context"
+.Fn SHA384_Final "unsigned char digest[SHA384_DIGEST_LENGTH]" "SHA384_CTX *context"
 .Ft void
-.Fn SHA384_Transform "u_int64_t state[8]" "const u_int8_t buffer[SHA384_BLOCK_LENGTH]"
+.Fn SHA384_Transform "u_int64_t state[8]" "const unsigned char buffer[SHA384_BLOCK_LENGTH]"
 .Ft "char *"
 .Fn SHA384_End "SHA384_CTX *context" "char *buf"
 .Ft "char *"
@@ -76,13 +77,13 @@
 .Ft void
 .Fn SHA512_Init "SHA512_CTX *context"
 .Ft void
-.Fn SHA512_Update "SHA512_CTX *context" "const u_int8_t *data" "size_t len"
+.Fn SHA512_Update "SHA512_CTX *context" "const void *data" "size_t len"
 .Ft void
 .Fn SHA512_Pad "SHA512_CTX *context"
 .Ft void
-.Fn SHA512_Final "u_int8_t digest[SHA512_DIGEST_LENGTH]" "SHA512_CTX *context"
+.Fn SHA512_Final "unsigned char digest[SHA512_DIGEST_LENGTH]" "SHA512_CTX *context"
 .Ft void
-.Fn SHA512_Transform "u_int64_t state[8]" "const u_int8_t buffer[SHA512_BLOCK_LENGTH]"
+.Fn SHA512_Transform "u_int64_t state[8]" "const unsigned char buffer[SHA512_BLOCK_LENGTH]"
 .Ft "char *"
 .Fn SHA512_End "SHA512_CTX *context" "char *buf"
 .Ft "char *"
@@ -226,12 +227,12 @@ which is
 SHA256_CTX ctx;
 u_int8_t results[SHA256_DIGEST_LENGTH];
 char *buf;
-int n;
+size_t n;
 
 buf = "abc";
 n = strlen(buf);
 SHA256_Init(&ctx);
-SHA256_Update(&ctx, (u_int8_t *)buf, n);
+SHA256_Update(&ctx, buf, n);
 SHA256_Final(results, &ctx);
 
 /* Print the digest as one long hex value */
