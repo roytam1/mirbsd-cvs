@@ -55,6 +55,8 @@
 #endif
 #endif
 
+__RCSID("$MirOS$");
+
 BOOLEAN reloading = FALSE;	/* Reloading => send no-cache pragma to proxy */
 char *redirecting_url = NULL;	/* Location: value. */
 BOOL permanent_redirection = FALSE;	/* Got 301 status? */
@@ -124,6 +126,7 @@ SSL *HTGetSSLHandle(void)
 	ssl_opts &= ~SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS;
 #endif
 	SSLeay_add_ssl_algorithms();
+	OpenSSL_add_all_algorithms();
 	ssl_ctx = SSL_CTX_new(SSLv23_client_method());
 	SSL_CTX_set_options(ssl_ctx, ssl_opts);
 	SSL_CTX_set_default_verify_paths(ssl_ctx);

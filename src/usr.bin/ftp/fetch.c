@@ -2,8 +2,8 @@
 /*	$NetBSD: fetch.c,v 1.14 1997/08/18 10:20:20 lukem Exp $	*/
 
 /*-
- * Copyright © 2013, 2014
- *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+ * Copyright © 2013, 2014, 2015
+ *	mirabilos <tg@mirbsd.org>
  * Copyright (c) 1997 The NetBSD Foundation, Inc.
  * All rights reserved.
  *
@@ -77,7 +77,7 @@
 
 #include "ftp_var.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/fetch.c,v 1.9 2013/10/31 20:07:03 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/fetch.c,v 1.15 2014/11/13 22:58:28 tg Exp $");
 
 static int	url_get(const char *, const char *, const char *);
 static void	aborthttp(int) __dead;
@@ -447,7 +447,7 @@ again:
 		}
 		SSL_library_init();
 		SSL_load_error_strings();
-		SSLeay_add_ssl_algorithms();
+		OpenSSL_add_all_algorithms();
 		ssl_ctx = SSL_CTX_new(SSLv23_client_method());
 		ssl = SSL_new(ssl_ctx);
 		if (ssl == NULL || ssl_ctx == NULL) {

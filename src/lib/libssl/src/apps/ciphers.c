@@ -155,6 +155,7 @@ int MAIN(int argc, char **argv)
 		}
 
 	OpenSSL_add_ssl_algorithms();
+	OpenSSL_add_all_algorithms();
 
 	ctx=SSL_CTX_new(meth);
 	if (ctx == NULL) goto err;

@@ -28,7 +28,7 @@ SSL_library_init() must be called before any other action takes place.
 
 SSL_library_init() only registers ciphers. Another important initialization
 is the seeding of the PRNG (Pseudo Random Number Generator), which has to
-be performed separately.
+be performed separately. Furthermore, some hash algorithms need to be loaded.
 
 =head1 EXAMPLES
 
@@ -37,6 +37,7 @@ will provide readable error messages and will seed the PRNG.
 
  SSL_load_error_strings();                /* readable error messages */
  SSL_library_init();                      /* initialize library */
+ OpenSSL_add_all_algorithms();            /* load all algorithms */
  actions_to_seed_PRNG(); 
 
 =head1 RETURN VALUES

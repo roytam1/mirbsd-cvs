@@ -140,7 +140,7 @@ typedef unsigned int u_int;
 #include <openssl/rand.h>
 #include "s_apps.h"
 
-__RCSID("$MirOS: src/lib/libssl/src/apps/s_server.c,v 1.6 2008/07/06 15:44:51 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/apps/s_server.c,v 1.7 2008/07/06 16:08:03 tg Exp $");
 
 #ifdef OPENSSL_SYS_WINCE
 /* Windows CE incorrectly defines fileno as returning void*, so to avoid problems below... */
@@ -702,6 +702,7 @@ bad:
 
 	SSL_load_error_strings();
 	OpenSSL_add_ssl_algorithms();
+	OpenSSL_add_all_algorithms();
 
 #ifndef OPENSSL_NO_ENGINE
         e = setup_engine(bio_err, engine_id, 1);
