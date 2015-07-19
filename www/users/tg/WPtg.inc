@@ -17436,6 +17436,144 @@ Waypoint: m/mbagger/1704
 Title: mbagger@Buschdorf
 Points: 5
 ----
+ID: 2897
+Date: 19.07.2015
+Waypoint: m/ajlis/2125
+Title: Generic Name
+Points: 20
+----
+ID: 2898
+Date: 19.07.2015
+Waypoint: m/Pinguinbande2013/1801
+Title: PINGUIN - &quot;SCHATZKAMMER&quot; - DIAMAND 07 - [1801]
+Points: 5
+----
+ID: 2899
+Date: 19.07.2015
+Waypoint: m/ReMiKu/8831
+Title: Mystery Auerberg (8831)
+Points: 5
+----
+ID: 2900
+Date: 19.07.2015
+Waypoint: m/Baumhoernchen/144
+Title: Generic Name
+Points: 45
+----
+ID: 2901
+Date: 19.07.2015
+Waypoint: m/ajlis/2117
+Title: Generic Name
+Points: 35
+----
+ID: 2902
+Date: 19.07.2015
+Waypoint: m/zeusi/6332
+Title: Generic Name
+Points: 45
+----
+ID: 2903
+Date: 19.07.2015
+Waypoint: m/Baumhoernchen/143
+Title: Generic Name
+Points: 40
+----
+ID: 2904
+Date: 19.07.2015
+Waypoint: m/zeusi/6331
+Title: Generic Name
+Points: 40
+----
+ID: 2905
+Date: 19.07.2015
+Waypoint: m/Baumhoernchen/141
+Title: Generic Name
+Points: 30
+----
+ID: 2906
+Date: 19.07.2015
+Waypoint: m/zeusi/6329
+Title: Generic Name
+Points: 25
+----
+ID: 2907
+Date: 19.07.2015
+Waypoint: m/MV1/4981
+Title: MV Blau im Grünen
+Points: 45
+----
+ID: 2908
+Date: 19.07.2015
+Waypoint: m/zeusi/6304
+Title: Virtual Munzee Buschdorf 2
+Points: 5
+----
+ID: 2909
+Date: 19.07.2015
+Waypoint: m/ajlis/1452
+Title: Munzee from ajlis 15
+Points: 15
+----
+ID: 2910
+Date: 19.07.2015
+Waypoint: m/JOJEVA/1314
+Title: Bonn, Saarbrückener Str. 5019 MOTEL Room #1
+Points: 5
+----
+ID: 2911
+Date: 19.07.2015
+Waypoint: m/Waldkauz/96
+Title: Bonn, Saarbrückener Str. 5019 MOTEL Room #2
+Points: 5
+----
+ID: 2912
+Date: 19.07.2015
+Waypoint: m/winkide/6199
+Title: Bonn, Saarbrückener Str. 5019 MOTEL Room #3
+Points: 5
+----
+ID: 2913
+Date: 19.07.2015
+Waypoint: m/zeusi/6328
+Title: Bonn, Saarbrückener Str. 5019 MOTEL Room #4
+Points: 5
+----
+ID: 2914
+Date: 19.07.2015
+Waypoint: m/Baumhoernchen/140
+Title: Bonn, Saarbrückener Str. 5019 MOTEL Room #5
+Points: 5
+----
+ID: 2915
+Date: 19.07.2015
+Waypoint: m/c-bn/5019
+Title: Bonn, Saarbrückener Str. 5019 MOTEL
+Points: 5
+----
+ID: 2916
+Date: 19.07.2015
+Waypoint: m/Baumhoernchen/139
+Title: Generic Name
+Points: 15
+----
+ID: 2917
+Date: 19.07.2015
+Waypoint: m/zeusi/6330
+Title: Generic Name
+Points: 30
+----
+ID: 2918
+Date: 19.07.2015
+Waypoint: m/c-bn/5176
+Title: Bonn, Allensteiner Str. 5176 💎
+Points: 8
+----
+ID: 2919
+Date: 19.07.2015
+Waypoint: m/MV1/4982
+Title: MV1 BN Jotwede
+Points: 50
+----
 ID: p20150730
 Date: 30.07.2015
 Waypoint: GC5ZE9G
