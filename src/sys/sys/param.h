@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/sys/param.h,v 1.100 2015/02/09 21:50:45 tg Exp $ */
+/**	$MirOS: src/sys/sys/param.h,v 1.101 2015/02/11 21:42:23 tg Exp $ */
 /*	$OpenBSD: param.h,v 1.54 2004/02/27 18:06:55 deraadt Exp $	*/
 /*	$NetBSD: param.h,v 1.23 1996/03/17 01:02:29 thorpej Exp $	*/
 
@@ -6,7 +6,7 @@
  * Copyright (c) 2003, 2004, 2005, 2006, 2009, 2011, 2012, 2013, 2014
  *	The MirOS Project.  All rights reserved.
  * Copyright (c) 2002, 2003, 2007, 2008, 2015
- *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+ *	mirabilos <tg@mirbsd.org>
  * Copyright (c) 1982, 1986, 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
  * (c) UNIX System Laboratories, Inc.
@@ -48,7 +48,7 @@
 #define	BSD	199306		/* System version (year & month). */
 #define BSD4_3	1
 #define BSD4_4	1
-#define	MirBSD	0x0AB5		/* minor 10-7F=prerelease; 80=release
+#define	MirBSD	0x0AB6		/* minor 10-7F=prerelease; 80=release
 				 * minor 81-9F=stable; A0-FF=unlocked
 				 */
 #ifndef _LOCORE
