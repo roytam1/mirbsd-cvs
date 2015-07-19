@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.58 2014/04/18 20:13:18 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.59 2014/04/18 20:18:55 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -203,6 +203,10 @@ CONFIGURE_ENV+=		ac_cv_header_poll_h=no
 CONFIGURE_ENV+=		ac_cv_func_malloc_0_nonnull=yes
 # check prevented by systrace
 CONFIGURE_ENV+=		ac_cv_sys_long_file_names=yes
+.  if ${OStype} == "MirBSD"
+# cannot be used
+CONFIGURE_ENV+=		ac_cv_type_long_double=no ac_cv_sizeof_long_double=0
+.  endif
 .endif
 
 .if defined(LDADD) && !empty(LDADD)
