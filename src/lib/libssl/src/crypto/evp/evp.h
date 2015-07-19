@@ -487,7 +487,7 @@ int	EVP_DigestInit_ex(EVP_MD_CTX *ctx, const EVP_MD *type, ENGINE *impl);
 int	EVP_DigestUpdate(EVP_MD_CTX *ctx,const void *d,
 			 unsigned int cnt);
 int	EVP_DigestFinal_ex(EVP_MD_CTX *ctx,unsigned char *md,unsigned int *s);
-int	EVP_Digest(void *data, unsigned int count,
+int	EVP_Digest(const void *data, unsigned int count,
 		unsigned char *md, unsigned int *size, const EVP_MD *type, ENGINE *impl);
 
 int     EVP_MD_CTX_copy(EVP_MD_CTX *out,const EVP_MD_CTX *in);  
