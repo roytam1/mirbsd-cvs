@@ -612,17 +612,14 @@ const EVP_CIPHER *EVP_des_ede_ecb(void);
 const EVP_CIPHER *EVP_des_ede3_ecb(void);
 const EVP_CIPHER *EVP_des_cfb64(void);
 # define EVP_des_cfb EVP_des_cfb64
-const EVP_CIPHER *EVP_des_cfb1(void);
 const EVP_CIPHER *EVP_des_cfb8(void);
 const EVP_CIPHER *EVP_des_ede_cfb64(void);
 # define EVP_des_ede_cfb EVP_des_ede_cfb64
 #if 0
-const EVP_CIPHER *EVP_des_ede_cfb1(void);
 const EVP_CIPHER *EVP_des_ede_cfb8(void);
 #endif
 const EVP_CIPHER *EVP_des_ede3_cfb64(void);
 # define EVP_des_ede3_cfb EVP_des_ede3_cfb64
-const EVP_CIPHER *EVP_des_ede3_cfb1(void);
 const EVP_CIPHER *EVP_des_ede3_cfb8(void);
 const EVP_CIPHER *EVP_des_ofb(void);
 const EVP_CIPHER *EVP_des_ede_ofb(void);
@@ -685,7 +682,6 @@ const EVP_CIPHER *EVP_rc5_32_12_16_ofb(void);
 #ifndef OPENSSL_NO_AES
 const EVP_CIPHER *EVP_aes_128_ecb(void);
 const EVP_CIPHER *EVP_aes_128_cbc(void);
-const EVP_CIPHER *EVP_aes_128_cfb1(void);
 const EVP_CIPHER *EVP_aes_128_cfb8(void);
 const EVP_CIPHER *EVP_aes_128_cfb128(void);
 # define EVP_aes_128_cfb EVP_aes_128_cfb128
@@ -695,7 +691,6 @@ const EVP_CIPHER *EVP_aes_128_ctr(void);
 #endif
 const EVP_CIPHER *EVP_aes_192_ecb(void);
 const EVP_CIPHER *EVP_aes_192_cbc(void);
-const EVP_CIPHER *EVP_aes_192_cfb1(void);
 const EVP_CIPHER *EVP_aes_192_cfb8(void);
 const EVP_CIPHER *EVP_aes_192_cfb128(void);
 # define EVP_aes_192_cfb EVP_aes_192_cfb128
@@ -705,7 +700,6 @@ const EVP_CIPHER *EVP_aes_192_ctr(void);
 #endif
 const EVP_CIPHER *EVP_aes_256_ecb(void);
 const EVP_CIPHER *EVP_aes_256_cbc(void);
-const EVP_CIPHER *EVP_aes_256_cfb1(void);
 const EVP_CIPHER *EVP_aes_256_cfb8(void);
 const EVP_CIPHER *EVP_aes_256_cfb128(void);
 # define EVP_aes_256_cfb EVP_aes_256_cfb128

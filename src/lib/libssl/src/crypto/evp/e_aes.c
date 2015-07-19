@@ -55,6 +55,8 @@
 #include <openssl/aes.h>
 #include "evp_locl.h"
 
+__RCSID("$MirOS$");
+
 static int aes_init_key(EVP_CIPHER_CTX *ctx, const unsigned char *key,
 					const unsigned char *iv, int enc);
 
@@ -85,10 +87,6 @@ IMPLEMENT_BLOCK_CIPHER(aes_256, ks, AES, EVP_AES_KEY,
 		       NULL)
 
 #define IMPLEMENT_AES_CFBR(ksize,cbits,flags)	IMPLEMENT_CFBR(aes,AES,EVP_AES_KEY,ks,ksize,cbits,16,flags)
-
-IMPLEMENT_AES_CFBR(128,1,EVP_CIPH_FLAG_FIPS)
-IMPLEMENT_AES_CFBR(192,1,EVP_CIPH_FLAG_FIPS)
-IMPLEMENT_AES_CFBR(256,1,EVP_CIPH_FLAG_FIPS)
 
 IMPLEMENT_AES_CFBR(128,8,EVP_CIPH_FLAG_FIPS)
 IMPLEMENT_AES_CFBR(192,8,EVP_CIPH_FLAG_FIPS)

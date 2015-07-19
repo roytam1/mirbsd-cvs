@@ -135,25 +135,21 @@ int EVP_CIPHER_type(const EVP_CIPHER *ctx)
 
 		case NID_aes_128_cfb128:
 		case NID_aes_128_cfb8:
-		case NID_aes_128_cfb1:
 
 		return NID_aes_128_cfb128;
 
 		case NID_aes_192_cfb128:
 		case NID_aes_192_cfb8:
-		case NID_aes_192_cfb1:
 
 		return NID_aes_192_cfb128;
 
 		case NID_aes_256_cfb128:
 		case NID_aes_256_cfb8:
-		case NID_aes_256_cfb1:
 
 		return NID_aes_256_cfb128;
 
 		case NID_des_cfb64:
 		case NID_des_cfb8:
-		case NID_des_cfb1:
 
 		return NID_des_cfb64;
 
