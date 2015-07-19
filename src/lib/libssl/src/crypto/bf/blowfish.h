@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libssl/src/crypto/bf/blowfish.h,v 1.2 2014/11/30 01:30:11 tg Exp $ */
+/* $MirOS: src/lib/libssl/src/crypto/bf/blowfish.h,v 1.3 2014/12/15 21:04:22 tg Exp $ */
 
 #ifndef HEADER_BLOWFISH_H
 #define HEADER_BLOWFISH_H
@@ -40,37 +40,37 @@ void BF_ofb64_encrypt(const unsigned char *in, unsigned char *out, long length,
 	const BF_KEY *schedule, unsigned char *ivec, int *num);
 const char *BF_options(void);
 
-#define BF_encrypt(buf,key) do {			\
-	BF_LONG *data = (BF_LONG *)(buf);		\
-							\
-	Blowfish_encipher(&((BF_KEY *)(key))->c,	\
-	    &data[0], &data[1]);			\
+#define BF_encrypt(buf,key) do {					\
+	BF_LONG *BLOWFISH_H_data = (BF_LONG *)(buf);			\
+									\
+	Blowfish_encipher(&((BF_KEY *)(key))->c,			\
+	    &BLOWFISH_H_data[0], &BLOWFISH_H_data[1]);			\
 } while (/* CONSTCOND */ 0)
-#define BF_decrypt(buf,key) do {			\
-	BF_LONG *data = (BF_LONG *)(buf);		\
-							\
-	Blowfish_decipher(&((BF_KEY *)(key))->c,	\
-	    &data[0], &data[1]);			\
+#define BF_decrypt(buf,key) do {					\
+	BF_LONG *BLOWFISH_H_data = (BF_LONG *)(buf);			\
+									\
+	Blowfish_decipher(&((BF_KEY *)(key))->c,			\
+	    &BLOWFISH_H_data[0], &BLOWFISH_H_data[1]);			\
 } while (/* CONSTCOND */ 0)
-#define BF_cbc_encrypt(in,buf,l,s,iv,encrypt) do {	\
-	unsigned char *out = (void *)(buf);		\
-	long length = (l);				\
-	const BF_KEY *schedule = (const void *)(s);	\
-	unsigned char *ivec = (void *)(iv);		\
-							\
-	memcpy(out, (in), length);			\
-	if (encrypt)					\
-		blf_cbc_encrypt(&schedule->c, ivec,	\
-		    out, length);			\
-	else						\
-		blf_cbc_decrypt(&schedule->c, ivec,	\
-		    out, length);			\
+#define BF_cbc_encrypt(in,buf,l,s,iv,encrypt) do {			\
+	unsigned char *BLOWFISH_H_out = (void *)(buf);			\
+	long BLOWFISH_H_len = (l);					\
+	const BF_KEY *BLOWFISH_H_schedule = (const void *)(s);		\
+	unsigned char *BLOWFISH_H_ivec = (void *)(iv);			\
+									\
+	memcpy(BLOWFISH_H_out, (in), BLOWFISH_H_len);			\
+	if (encrypt)							\
+		blf_cbc_encrypt(&BLOWFISH_H_schedule->c,		\
+		    BLOWFISH_H_ivec, BLOWFISH_H_out, BLOWFISH_H_len);	\
+	else								\
+		blf_cbc_decrypt(&BLOWFISH_H_schedule->c,		\
+		    BLOWFISH_H_ivec, BLOWFISH_H_out, BLOWFISH_H_len);	\
 } while (/* CONSTCOND */ 0)
-#define BF_set_key(key,bsz,data) do {			\
-	int len = (bsz);				\
-							\
-	blf_key(&((BF_KEY *)(key))->c, (data),		\
-	    len > 65535 ? 65535 : len);			\
+#define BF_set_key(key,bsz,data) do {					\
+	int BLOWFISH_H_len = (bsz);					\
+									\
+	blf_key(&((BF_KEY *)(key))->c, (data),				\
+	    BLOWFISH_H_len > 65535 ? 65535 : BLOWFISH_H_len);		\
 } while (/* CONSTCOND */ 0)
 
 __END_DECLS
