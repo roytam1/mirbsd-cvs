@@ -1,0 +1,25 @@
+$MirOS$
+--- src/openvpn/ntlm.c.orig	Mon May 11 08:00:06 2015
++++ src/openvpn/ntlm.c	Sun Jul 19 13:46:25 2015
+@@ -260,9 +260,10 @@ ntlm_phase_3 (const struct http_proxy_in
+ 	        int tib_len;
+ 
+ 		/* NTLMv2 hash */
+-	        my_strupr((unsigned char *)strcpy(userdomain, username));
++		strlcpy(userdomain, username, sizeof(userdomain));
++	        my_strupr(userdomain);
+ 		if (strlen(username) + strlen(domain) < sizeof(userdomain))
+-			strcat(userdomain, domain);
++			strlcat(userdomain, domain, sizeof(userdomain));
+ 		else
+ 			msg (M_INFO, "Warning: Username or domain too long");
+ 		unicodize (userdomain_u, userdomain);
+@@ -319,7 +320,7 @@ ntlm_phase_3 (const struct http_proxy_in
+ 
+ 	memset (phase3, 0, sizeof (phase3)); /* clear reply */
+ 
+-	strcpy ((char *)phase3, "NTLMSSP\0"); /* signature */
++	memcpy ((char *)phase3, "NTLMSSP\0", 8); /* signature */
+ 	phase3[8] = 3; /* type 3 */
+ 
+ 	if (ntlmv2_enabled){ /* NTLMv2 response */

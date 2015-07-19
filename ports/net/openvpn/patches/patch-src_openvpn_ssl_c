@@ -1,0 +1,30 @@
+$MirOS: ports/net/openvpn/patches/patch-ssl_c,v 1.3 2010/09/21 21:23:56 tg Exp $
+
+same patch as with openssh - push back randomness found
+by exchanging keys with server into kernel entropy pool
+
+--- src/openvpn/ssl.c.orig	Tue Jun  2 08:00:59 2015
++++ src/openvpn/ssl.c	Sun Jul 19 13:18:57 2015
+@@ -1648,6 +1648,10 @@ key_source2_read (struct key_source2 *k2
+   if (!buf_read (buf, k->random2, sizeof (k->random2)))
+     return 0;
+ 
++#ifdef HAVE_ARC4RANDOM_PUSHB_FAST
++  arc4random_pushb_fast(k, sizeof(struct key_source2));
++#endif
++
+   return 1;
+ }
+ 
+@@ -1980,6 +1984,11 @@ key_method_1_read (struct buffer *buf, s
+ 	   "TLS Error: Error reading data channel key from plaintext buffer");
+       goto error;
+     }
++
++#ifdef HAVE_ARC4RANDOM_PUSHB_FAST
++  arc4random_pushb_fast(&key, sizeof(struct key));
++  arc4random_pushb_fast(session, sizeof(struct tls_session));
++#endif
+ 
+   if (!check_key (&key, &session->opt->key_type))
+     {

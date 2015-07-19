@@ -1,0 +1,12 @@
+$MirOS$
+--- src/openvpn/options.c.orig	Tue Jun  2 08:00:59 2015
++++ src/openvpn/options.c	Sun Jul 19 13:47:41 2015
+@@ -3741,7 +3741,7 @@ in_src_get (const struct in_src *is, cha
+     {
+       bool status = buf_parse (is->u.multiline, '\n', line, size);
+       if ((int) strlen (line) + 1 < size)
+-	strcat (line, "\n");
++	strlcat (line, "\n", size);
+       return status;
+     }
+   else

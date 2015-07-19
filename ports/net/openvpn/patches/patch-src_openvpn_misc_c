@@ -1,0 +1,82 @@
+$MirOS$
+--- src/openvpn/misc.c.orig	Tue Jun  2 08:00:14 2015
++++ src/openvpn/misc.c	Sun Jul 19 13:44:36 2015
+@@ -408,25 +408,6 @@ openvpn_popen (const struct argv *a,  co
+ 
+ 
+ 
+-/*
+- * Initialize random number seed.  random() is only used
+- * when "weak" random numbers are acceptable.
+- * OpenSSL routines are always used when cryptographically
+- * strong random numbers are required.
+- */
+-
+-void
+-init_random_seed(void)
+-{
+-  struct timeval tv;
+-
+-  if (!gettimeofday (&tv, NULL))
+-    {
+-      const unsigned int seed = (unsigned int) tv.tv_sec ^ tv.tv_usec;
+-      srandom (seed);
+-    }
+-}
+-
+ /* thread-safe strerror */
+ 
+ const char *
+@@ -1089,7 +1070,7 @@ get_user_pass_cr (struct user_pass *up,
+ 	    msg (M_FATAL, "ERROR: could not read %s ok-confirmation from stdin", prefix);
+ 	  
+ 	  if (!strlen (up->password))
+-	    strcpy (up->password, "ok");
++	    memcpy(up->password, "ok", 3);
+ 	}
+ 	  
+       /*
+@@ -1632,14 +1613,14 @@ argv_system_str_append (struct argv *a, 
+       check_malloc_return (newstr);
+       if (a->system_str)
+ 	{
+-	  strcpy (newstr, a->system_str);
+-	  strcat (newstr, " ");
++	  strlcpy (newstr, a->system_str, l);
++	  strlcat (newstr, " ", l);
+ 	}
+       if (enquote)
+-	strcat (newstr, "\"");
+-      strcat (newstr, str);
++	strlcat (newstr, "\"", l);
++      strlcat (newstr, str, l);
+       if (enquote)
+-	strcat (newstr, "\"");
++	strlcat (newstr, "\"", l);
+       free (a->system_str);
+       a->system_str = newstr;
+     }
+@@ -1877,9 +1858,9 @@ argv_printf_arglist (struct argv *a, con
+ 		char *combined = (char *) malloc (len);
+ 		check_malloc_return (combined);
+ 
+-		strcpy (combined, s);
+-		strcat (combined, "/");
+-		strcat (combined, numstr);
++		strlcpy (combined, s, len);
++		strlcat (combined, "/", len);
++		strlcat (combined, numstr, len);
+ 		argv_append (a, combined);
+ 		argv_system_str_append (a, combined, false);
+ 	      }
+@@ -1895,8 +1876,8 @@ argv_printf_arglist (struct argv *a, con
+ 	      if (!s2) s2 = "";
+ 	      combined = (char *) malloc (strlen(s1) + strlen(s2) + 1);
+ 	      check_malloc_return (combined);
+-	      strcpy (combined, s1);
+-	      strcat (combined, s2);
++	      memcpy (combined, s1, strlen(s1));
++	      memcpy (combined + strlen(s1), s2, strlen(s2) + 1);
+ 	      argv_append (a, combined);
+ 
+ 	      cmd_name = argv_extract_cmd_name (combined);

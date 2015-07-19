@@ -1,34 +1,72 @@
-$MirOS: ports/net/openvpn/patches/patch-configure_ac,v 1.5 2006/08/18 18:05:50 tg Exp $
---- configure.ac.orig	Sun Oct  1 12:17:52 2006
-+++ configure.ac	Tue Sep 21 18:47:29 2010
-@@ -216,8 +216,8 @@ case "$target" in
- *solaris*)
- 	AC_DEFINE(TARGET_SOLARIS, 1, [Are we running on Solaris?])
- 	;;
--*openbsd*)
--	AC_DEFINE(TARGET_OPENBSD, 1, [Are we running on OpenBSD?])
-+*mirbsd*|*openbsd*)
-+	AC_DEFINE(TARGET_OPENBSD, 1, [Are we running on MirOS BSD or OpenBSD?])
- 	;;
- *freebsd*)
- 	AC_DEFINE(TARGET_FREEBSD, 1, [Are we running on FreeBSD?])
-@@ -361,7 +361,8 @@ AC_CHECK_FUNCS(daemon chroot getpwnam se
- 	       getpass strerror syslog openlog mlockall getgrnam setgid dnl
- 	       setgroups stat flock readv writev setsockopt getsockopt dnl
- 	       setsid chdir gettimeofday putenv getpeername unlink dnl
--               poll chsize ftruncate)
-+	       poll chsize ftruncate arc4random arc4random_push dnl
-+	       arc4random_pushb_fast)
- AC_CACHE_SAVE
+$MirOS: ports/net/openvpn/patches/patch-configure_ac,v 1.6 2010/09/21 21:23:56 tg Exp $
+--- configure.ac.orig	Tue Jun  2 08:00:59 2015
++++ configure.ac	Sun Jul 19 13:52:47 2015
+@@ -36,20 +36,7 @@ AC_CONFIG_HEADERS([config.h])
+ AC_CONFIG_SRCDIR([src/openvpn/syshead.h])
+ AC_CONFIG_MACRO_DIR([m4])
  
- dnl Required library functions
-@@ -408,8 +409,7 @@ if test "$PTHREAD" = "yes"; then
-   ACX_PTHREAD(
-         [
- 	    case "$target" in
--	    *openbsd*)
--		AC_MSG_RESULT([WARNING: pthread support on OpenBSD is unstable!])
-+	    *mirbsd*|*openbsd*)
- 		CFLAGS="$CFLAGS -pthread"
+-dnl Initialize automake.  automake < 1.12 didn't have serial-tests and
+-dnl gives an error if it sees this, but for automake >= 1.13
+-dnl serial-tests is required so we have to include it.  Solution is to
+-dnl test for the version of automake (by running an external command)
+-dnl and provide it if necessary.  Note we have to do this entirely using
+-dnl m4 macros since automake queries this macro by running
+-dnl 'autoconf --trace ...'.
+-m4_define([serial_tests], [
+-    m4_esyscmd([automake --version |
+-                head -1 |
+-                awk '{split ($NF,a,"."); if (a[1] == 1 && a[2] >= 12) { print "serial-tests" }}'
+-    ])
+-])
+-AM_INIT_AUTOMAKE(foreign serial_tests) dnl NB: Do not [quote] this parameter.
++AM_INIT_AUTOMAKE([foreign])
+ AC_CANONICAL_HOST
+ AC_USE_SYSTEM_EXTENSIONS
+ 
+@@ -213,7 +200,7 @@ AC_ARG_ENABLE(
+ 	,
+ 	[
+ 		case "$host" in
+-			*-*-openbsd*) enable_plugin_auth_pam="no";;
++			*-*-openbsd*|*-*-mirbsd*) enable_plugin_auth_pam="no";;
+ 			*-mingw*) enable_plugin_auth_pam="no";;
+ 			*) enable_plugin_auth_pam="yes";;
+ 		esac
+@@ -322,8 +309,8 @@ case "$host" in
+ 		AC_DEFINE([TARGET_SOLARIS], [1], [Are we running on Solaris?])
+ 		AC_DEFINE_UNQUOTED([TARGET_PREFIX], ["S"], [Target prefix])
  		;;
- 	    esac
+-	*-*-openbsd*)
+-		AC_DEFINE([TARGET_OPENBSD], [1], [Are we running on OpenBSD?])
++	*-*-openbsd*|*-*-mirbsd*)
++		AC_DEFINE([TARGET_OPENBSD], [1], [Are we running on MirBSD or OpenBSD?])
+ 		AC_DEFINE_UNQUOTED([TARGET_PREFIX], ["O"], [Target prefix])
+ 		;;
+ 	*-*-freebsd*)
+@@ -387,18 +374,9 @@ AC_DEFINE_UNQUOTED([SYSTEMD_ASK_PASSWORD
+ #
+ # Libtool
+ #
+-ifdef(
+-	[LT_INIT],
+-	[
+-		LT_INIT([win32-dll])
+-		LT_LANG([Windows Resource])
+-	],
+-	[
+ 		AC_LIBTOOL_WIN32_DLL
+ 		AC_LIBTOOL_RC
+ 		AC_PROG_LIBTOOL
+-	]
+-)
+ 
+ AC_C_CONST
+ AC_C_INLINE
+@@ -588,6 +566,7 @@ AC_CHECK_FUNCS([ \
+ 	setsid chdir putenv getpeername unlink \
+ 	chsize ftruncate execve getpeereid umask basename dirname access \
+ 	epoll_create \
++	arc4random_pushb_fast RSA_generate_key_ex \
+ ])
+ 
+ AC_CHECK_LIB(

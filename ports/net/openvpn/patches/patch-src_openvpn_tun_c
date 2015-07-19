@@ -1,0 +1,39 @@
+$MirOS: ports/net/openvpn/patches/patch-tun_c,v 1.4 2006/02/21 19:48:16 tg Exp $
+--- src/openvpn/tun.c.orig	Mon Jun  8 06:16:10 2015
++++ src/openvpn/tun.c	Sun Jul 19 13:23:44 2015
+@@ -945,7 +945,7 @@ do_ifconfig (struct tuntap *tt,
+ 	}
+       else
+ 	argv_printf (&argv,
+-			  "%s %s %s netmask %s mtu %d broadcast %s link0",
++			  "%s %s %s netmask %s mtu %d broadcast %s link0 up",
+ 			  IFCONFIG_PATH,
+ 			  actual,
+ 			  ifconfig_local,
+@@ -954,7 +954,7 @@ do_ifconfig (struct tuntap *tt,
+ 			  ifconfig_broadcast
+ 			  );
+       argv_msg (M_INFO, &argv);
+-      openvpn_execve_check (&argv, es, S_FATAL, "OpenBSD ifconfig failed");
++      openvpn_execve_check (&argv, es, S_FATAL, "MirBSD/OpenBSD ifconfig failed");
+       if ( do_ipv6 )
+ 	{
+ 	  argv_printf (&argv,
+@@ -965,7 +965,7 @@ do_ifconfig (struct tuntap *tt,
+ 			  tt->netbits_ipv6
+ 			  );
+ 	  argv_msg (M_INFO, &argv);
+-	  openvpn_execve_check (&argv, es, S_FATAL, "OpenBSD ifconfig inet6 failed");
++	  openvpn_execve_check (&argv, es, S_FATAL, "MirBSD/OpenBSD ifconfig inet6 failed");
+ 
+ 	  /* and, hooray, we explicitely need to add a route... */
+ 	  add_route_connected_v6_net(tt, es);
+@@ -2146,7 +2146,7 @@ close_tun (struct tuntap* tt)
+       close_tun_generic (tt);
+ 
+       argv_msg (M_INFO, &argv);
+-      openvpn_execve_check (&argv, NULL, 0, "OpenBSD 'destroy tun interface' failed (non-critical)");
++      openvpn_execve_check (&argv, NULL, 0, "MirBSD/OpenBSD 'destroy tun interface' failed (non-critical)");
+ 
+       free (tt);
+     }

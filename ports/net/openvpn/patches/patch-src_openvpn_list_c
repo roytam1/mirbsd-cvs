@@ -1,0 +1,12 @@
+$MirOS$
+--- src/openvpn/list.c.orig	Mon May 11 08:00:06 2015
++++ src/openvpn/list.c	Sun Jul 19 13:41:20 2015
+@@ -440,7 +440,7 @@ list_test (void)
+ 			w->word = string_alloc (wordbuf, &gc);
+ 			w->n = 1;
+ 			ASSERT (hash_add (hash, w->word, w, false));
+-			ASSERT (hash_add (nhash, w->word, (void*) ((random() & 0x0F) + 1), false));
++			ASSERT (hash_add (nhash, w->word, (void*) ((arc4random() & 0x0F) + 1), false));
+ 		      }
+ 		  }
+ 		wbi = 0;
