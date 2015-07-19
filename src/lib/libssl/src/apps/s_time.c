@@ -451,7 +451,6 @@ int MAIN(int argc, char **argv)
 		goto end;
 
 	OpenSSL_add_ssl_algorithms();
-	OpenSSL_add_all_algorithms();
 	if ((tm_ctx=SSL_CTX_new(s_time_meth)) == NULL) return(1);
 
 	SSL_CTX_set_quiet_shutdown(tm_ctx,1);

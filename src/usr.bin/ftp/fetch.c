@@ -77,7 +77,7 @@
 
 #include "ftp_var.h"
 
-__RCSID("$MirOS: src/usr.bin/ftp/fetch.c,v 1.15 2014/11/13 22:58:28 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ftp/fetch.c,v 1.16 2015/07/18 23:16:47 tg Exp $");
 
 static int	url_get(const char *, const char *, const char *);
 static void	aborthttp(int) __dead;
@@ -447,7 +447,6 @@ again:
 		}
 		SSL_library_init();
 		SSL_load_error_strings();
-		OpenSSL_add_all_algorithms();
 		ssl_ctx = SSL_CTX_new(SSLv23_client_method());
 		ssl = SSL_new(ssl_ctx);
 		if (ssl == NULL || ssl_ctx == NULL) {

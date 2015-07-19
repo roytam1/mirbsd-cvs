@@ -120,7 +120,7 @@
 #define APPS_WIN16
 #endif
 
-__RCSID("$MirOS: src/lib/libssl/src/apps/s_client.c,v 1.7 2014/06/05 12:47:55 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/apps/s_client.c,v 1.8 2015/07/18 23:16:45 tg Exp $");
 
 /* With IPv6, it looks like Digital has mixed up the proper order of
    recursive header file inclusion, resulting in the compiler complaining
@@ -468,7 +468,6 @@ bad:
 		}
 
 	OpenSSL_add_ssl_algorithms();
-	OpenSSL_add_all_algorithms();
 	SSL_load_error_strings();
 
 #ifndef OPENSSL_NO_ENGINE
