@@ -482,6 +482,7 @@
 ./etc/ssl/certs/fde84897.0
 ./etc/ssl/certs/ff588423.0
 ./etc/ssl/certs/ff783690.0
+./etc/ssl/dhparams.pem
 ./etc/ssl/openssl.cnf
 ./etc/ssl/x509v3.cnf
 ./etc/sudoers
