@@ -17574,12 +17574,233 @@ Waypoint: m/MV1/4982
 Title: MV1 BN Jotwede
 Points: 50
 ----
-ID: p20150730
-Date: 30.07.2015
-Waypoint: GC5ZE9G
-Title: Erst lecken dann loggen! – Eis im Drachensteinpark
-nTF: 0
-Tag: D1 T15 Event
+ID: 2920
+Date: 20.07.2015
+Waypoint: m/ReMiKu/4586
+Title: Mystery Endenich (4586)
+Points: 35
+----
+ID: 2921
+Date: 21.07.2015
+Waypoint: m/dschuwa/326
+Title: Bonner Punktejagd 089
+Points: 100
+----
+ID: 2922
+Date: 21.07.2015
+Waypoint: m/c-bn/3180
+Title: Bonn, Langwartweg
+Points: 5
+----
+ID: 2923
+Date: 21.07.2015
+Waypoint: m/zeusi/1594
+Title: Bonn Hbf -zeusi-
+Points: 5
+----
+ID: 2924
+Date: 21.07.2015
+Waypoint: m/ERolli/199
+Title: Bonn Hbf
+Points: 40
+----
+ID: 2925
+Date: 21.07.2015
+Waypoint: m/Norballe/4958
+Title: Norballe in Bonn 2015
+Points: 5
+----
+ID: 2926
+Date: 21.07.2015
+Waypoint: m/robje64/1958
+Title: [robje64] Bonn Bönnsch
+Points: 50
+----
+ID: 2927
+Date: 21.07.2015
+Waypoint: m/zeusi/8348
+Title: VM Bonn Stammtisch
+Points: 5
+----
+ID: 2928
+Date: 21.07.2015
+Waypoint: m/ajlis/1496
+Title: Ajlis - MVM City 1
+Points: 5
+----
+ID: 2929
+Date: 21.07.2015
+Waypoint: m/c-bn/4177
+Title: ajlis zu 1.000.000 Clan-Punkten
+Points: 15
+----
+ID: 2930
+Date: 21.07.2015
+Waypoint: m/feylino/1141
+Title: MVM Deploy in Bonn
+Points: 45
+----
+ID: 2931
+Date: 21.07.2015
+Waypoint: m/zeusi/4839
+Title: MVM Bonn Innenstadt
+Points: 25
+----
+ID: 2932
+Date: 21.07.2015
+Waypoint: m/kimdot/23
+Title: Hello from Florida #3
+Points: 5
+----
+ID: 2933
+Date: 21.07.2015
+Waypoint: m/ajlis/5
+Title: Friedrichstr. - eine der schönsten Strassen Bonns
+Points: 14
+----
+ID: 2934
+Date: 21.07.2015
+Waypoint: m/ajlis/2769
+Title: Quick Deploy By ajlis
+Points: 5
+----
+ID: 2935
+Date: 21.07.2015
+Waypoint: m/ajlis/2796
+Title: Quick Deploy By ajlis
+Points: 5
+----
+ID: 2936
+Date: 21.07.2015
+Waypoint: m/Christian68/1918
+Title: VM Hofgarten BN
+Points: 5
+----
+ID: 2937
+Date: 21.07.2015
+Waypoint: m/ajlis/2799
+Title: Quick Deploy By ajlis
+Points: 5
+----
+ID: 2938
+Date: 21.07.2015
+Waypoint: m/Christian68/1076
+Title: BN Hofgarten
+Points: 5
+----
+ID: 2939
+Date: 21.07.2015
+Waypoint: m/Christian68/1914
+Title: VM Hofgarten BN
+Points: 5
+----
+ID: 2940
+Date: 21.07.2015
+Waypoint: m/survey-adjo/1683
+Title: Virtual Munzee Bonn
+Points: 5
+----
+ID: 2941
+Date: 21.07.2015
+Waypoint: m/Christian68/1926
+Title: VM Hofgarten BN
+Points: 5
+----
+ID: 2942
+Date: 21.07.2015
+Waypoint: m/Christian68/1927
+Title: VM Hofgarten BN
+Points: 5
+----
+ID: 2943
+Date: 21.07.2015
+Waypoint: m/ajlis/2802
+Title: Quick Deploy By ajlis
+Points: 5
+----
+ID: 2944
+Date: 21.07.2015
+Waypoint: m/wrose/813
+Title: Wrose in Bonn 1
+Points: 5
+----
+ID: 2945
+Date: 21.07.2015
+Waypoint: m/Christian68/1077
+Title: BN Hofgarten
+Points: 13
+----
+ID: 2946
+Date: 21.07.2015
+Waypoint: m/survey-adjo/1682
+Title: Mystery Virtual Munzee Bonn 1
+Points: 40
+----
+ID: 2947
+Date: 21.07.2015
+Waypoint: m/Dreikken/643
+Title: Dreikken @ Bonn 1
+Points: 15
+----
+ID: 2948
+Date: 21.07.2015
+Waypoint: m/RonBanjo/534
+Title: Quick Deploy By RonBanjo
+Points: 5
+----
+ID: 2949
+Date: 21.07.2015
+Waypoint: m/Dreikken/644
+Title: Dreikken @ Bonn 2
+Points: 30
+----
+ID: 2950
+Date: 21.07.2015
+Waypoint: m/sammge3/240
+Title: Bonn virtual
+Points: 5
+----
+ID: 2951
+Date: 21.07.2015
+Waypoint: m/ChaosTim/116
+Title: Quick Deploy By ChaosTim
+Points: 5
+----
+ID: 2952
+Date: 21.07.2015
+Waypoint: m/superdennis/5813
+Title: Quick Deploy By superdennis
+Points: 5
+----
+ID: 2953
+Date: 21.07.2015
+Waypoint: m/pilsleyguy/6483
+Title: Bonn By pilsleyguy
+Points: 5
+----
+ID: 2954
+Date: 21.07.2015
+Waypoint: m/Curt360/550
+Title: Binngo/Bonngo
+Points: 15
+----
+ID: 2955
+Date: 21.07.2015
+Waypoint: m/superdennis/5811
+Title: Quick Deploy By superdennis
+Points: 5
+----
+ID: 2956
+Date: 21.07.2015
+Waypoint: m/Team-MTB-OC/949
+Title: Danke für die Punkte
+Points: 50
+----
+ID: 2957
+Date: 21.07.2015
+Waypoint: m/Dreikken/645
+Title: Dreikken @ Bonn 3
+Points: 35
 ----
 ID: p20150827
 Date: 27.08.2015
