@@ -228,6 +228,7 @@ souvenir 2015-05-16 'Mainz Gutenberg 2015' http://souvenirs.geocaching.com/Souve
 souvenir 2015-05-19 'United Kingdom' http://souvenirs.geocaching.com/SouvenirImages/My82LzIwMTM/d12e8152-2e31-4fb5-98fc-7eab52024840.png 'http://www.geocaching.com/souvenir/?guid=0812c82a-b019-43d3-b05b-8606f4935a51'
 souvenir 2015-06-19 'Fun with Favorites' http://souvenirs.geocaching.com/SouvenirImages/NS8yNy8yMDE1/f81eae85-afa0-4ac1-9f1b-5e9f7bc161bc.png 'http://www.geocaching.com/souvenir/?guid=f2ceb791-78c6-44e7-882f-f815706895cf'
 souvenir 2015-07-04 'Meet Your Road Trip Crew' http://souvenirs.geocaching.com/SouvenirImages/NS8yNy8yMDE1/ca6f3c81-0fc8-4afe-9bdc-ede4fc2b51b2.png 'http://www.geocaching.com/souvenir/?guid=32449bd1-3cfb-4f5d-a9a3-b256c18931c3'
+souvenir 2015-07-23 'Let&#39;s Get Extreme' http://souvenirs.geocaching.com/SouvenirImages/NS8yNy8yMDE1/2cc48d86-ecf3-4f00-8bf5-5fcfb6e5b232.png 'http://www.geocaching.com/souvenir/?guid=b3f884d1-6699-49af-a983-1a2c72cc3511'
 
 # kaputt, s.o.
 #if [[ $nsouvenir != 0 && -z $souvenirs ]]; then
@@ -269,6 +270,7 @@ mzbadge socialcocoon 'Social Cocoon' 'You are a hungry worm who needs to cap mor
 mzbadge breakfast Breakfast 'Congratulations, You were able to rent a room in 5 motels!'
 mzbadge 3rd_birthday 'Munzee turns 3' 'Thanks for celebrating our 3rd birthday! It&#039;s a Fiesta!'
 mzbadge mayflowers 'May Flowers' 'April showers brings a May badge. Thanks for playing!'
+mzbadge 4thbdayplaydate '4th Birthday Playdate' 'You played Munzee during our 4th birthday party weekend in July 2015!'
 
 mws_content <<EOF
 

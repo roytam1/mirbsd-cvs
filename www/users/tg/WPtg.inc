@@ -17802,6 +17802,942 @@ Waypoint: m/Dreikken/645
 Title: Dreikken @ Bonn 3
 Points: 35
 ----
+ID: 2958
+Date: 22.07.2015
+Waypoint: m/Christian68/40
+Title: BN-HBf Gleis1
+nTF: 1
+Points: 5
+----
+ID: 2959
+Date: 22.07.2015
+Waypoint: m/Christian68/183
+Title: BN-HBf Gleis 1
+Points: 5
+----
+ID: 2960
+Date: 22.07.2015
+Waypoint: m/Nicky04/244
+Title: Nicky04 grüßt Bonn
+Points: 5
+----
+ID: 2961
+Date: 22.07.2015
+Waypoint: m/KleineWelp/478
+Title: Bonn Hbf
+Points: 5
+----
+ID: 2962
+Date: 22.07.2015
+Waypoint: m/Baumhoernchen/487
+Title: VM Bonn Hauptbahnhof
+Points: 5
+----
+ID: 2963
+Date: 23.07.2015
+Waypoint: m/dschuwa/200
+Title: Bonner Punktejagd 061
+Points: 44
+----
+ID: 2964
+Date: 23.07.2015
+Waypoint: m/c-bn/2285
+Title: Bonn, Köslinstraße 5
+Points: 5
+----
+ID: 2965
+Date: 23.07.2015
+Waypoint: m/zeusi/2139
+Title: Munzee Power 752
+Points: 5
+----
+ID: 2966
+Date: 23.07.2015
+Waypoint: m/JOJEVA/383
+Title: Munzee # 396
+Points: 5
+----
+ID: 2967
+Date: 23.07.2015
+Waypoint: m/JOJEVA/1227
+Title: Duisdorf-Motel by ajlis Room #1
+Points: 5
+----
+ID: 2968
+Date: 23.07.2015
+Waypoint: m/Waldkauz/40
+Title: Duisdorf-Motel by ajlis Room #2
+nTF: 4
+Points: 5
+----
+ID: 2969
+Date: 23.07.2015
+Waypoint: m/c-bn/4703
+Title: Duisdorf-Motel by ajlis Room #3
+nTF: 3
+Points: 5
+----
+ID: 2970
+Date: 23.07.2015
+Waypoint: m/TMA2007/2803
+Title: Duisdorf-Motel by ajlis Room #4
+nTF: 2
+Points: 5
+----
+ID: 2971
+Date: 23.07.2015
+Waypoint: m/Munzeemia/621
+Title: Duisdorf-Motel by ajlis Room #5
+nTF: 1
+Points: 5
+----
+ID: 2972
+Date: 23.07.2015
+Waypoint: m/ajlis/633
+Title: Duisdorf-Motel by ajlis
+Points: 5
+----
+ID: 2973
+Date: 23.07.2015
+Waypoint: m/JOJEVA/206
+Title: Duisdorf-Munzee # 219
+Points: 5
+----
+ID: 2974
+Date: 23.07.2015
+Waypoint: m/JOJEVA/1309
+Title: Bonn, Rochusstraße 4960 MOTEL Room #1
+Points: 5
+----
+ID: 2975
+Date: 23.07.2015
+Waypoint: m/Waldkauz/91
+Title: Bonn, Rochusstraße 4960 MOTEL Room #2
+Points: 5
+----
+ID: 2976
+Date: 23.07.2015
+Waypoint: m/feylino/1634
+Title: Bonn, Rochusstraße 4960 MOTEL Room #3
+Points: 5
+----
+ID: 2977
+Date: 23.07.2015
+Waypoint: m/hugosoft/1856
+Title: Bonn, Rochusstraße 4960 MOTEL Room #4
+nTF: 4
+Points: 5
+----
+ID: 2978
+Date: 23.07.2015
+Waypoint: m/ajlis/2259
+Title: Bonn, Rochusstraße 4960 MOTEL Room #5
+nTF: 3
+Points: 5
+----
+ID: 2979
+Date: 23.07.2015
+Waypoint: m/c-bn/4960
+Title: Bonn, Rochusstraße 4960 MOTEL
+Points: 5
+----
+ID: 2980
+Date: 23.07.2015
+Waypoint: m/zeusi/2121
+Title: Munzee Power 734
+Points: 5
+----
+ID: 2981
+Date: 23.07.2015
+Waypoint: m/malof/1778
+Title: VM Bonn
+Points: 5
+----
+ID: 2982
+Date: 23.07.2015
+Waypoint: m/Desdencha/58
+Title: Desdencha v Bonnu
+Points: 5
+----
+ID: 2983
+Date: 23.07.2015
+Waypoint: m/zeusi/5108
+Title: Quick Deploy By zeusi
+Points: 40
+----
+ID: 2984
+Date: 23.07.2015
+Waypoint: m/remstaler/3373
+Title: Bonn Mystery Virtual Munzee
+Points: 45
+----
+ID: 2985
+Date: 23.07.2015
+Waypoint: m/Tinkerbel/3007
+Title: Mystery Virtual Munzee @ Bonn
+Points: 25
+----
+ID: 2986
+Date: 23.07.2015
+Waypoint: m/G1enter/226
+Title: Bonn, am Hofgarten
+Points: 50
+----
+ID: 2987
+Date: 23.07.2015
+Waypoint: m/hunniees/362
+Title: Beethoven 🎼
+Points: 30
+----
+ID: 2988
+Date: 23.07.2015
+Waypoint: m/mutti/26
+Title: Bonn, Hofgartenwiese
+Points: 35
+----
+ID: 2989
+Date: 23.07.2015
+Waypoint: m/dt07751/353
+Title: MV Bonn Star
+Points: 20
+----
+ID: 2990
+Date: 23.07.2015
+Waypoint: m/ajlis/1547
+Title: Ajlis - MVM Stern 5
+Points: 20
+----
+ID: 2991
+Date: 23.07.2015
+Waypoint: m/CrazyLadyLisa/1784
+Title: Mystery Virtual - Bonn 05
+Points: 40
+----
+ID: 2992
+Date: 23.07.2015
+Waypoint: m/ReMiKu/7214
+Title: Mystery Virtual Bonn (7214)
+Points: 50
+----
+ID: 2993
+Date: 23.07.2015
+Waypoint: m/zeusi/7547
+Title: Mystery Virtual Munzee
+Points: 40
+----
+ID: 2994
+Date: 23.07.2015
+Waypoint: m/Spider1969/879
+Title: MVM Bonn Hofgarten @ Spider1969
+Points: 20
+----
+ID: 2995
+Date: 23.07.2015
+Waypoint: m/hugosoft/1204
+Title: MVM Bonn Hofgartenwiese
+Points: 30
+----
+ID: 2996
+Date: 23.07.2015
+Waypoint: m/halizwein/1028
+Title: MVM Garden Bonn
+Points: 45
+----
+ID: 2997
+Date: 23.07.2015
+Waypoint: m/c-bn/3994
+Title: Bonn, Hofgartenwiese MVM 6
+Points: 20
+----
+ID: 2998
+Date: 23.07.2015
+Waypoint: m/zeusi/7556
+Title: Mystery Virtual Munzee
+Points: 35
+----
+ID: 2999
+Date: 23.07.2015
+Waypoint: m/WE4NCS/3265
+Title: Bonn City Hofgarten
+Points: 20
+----
+ID: 3000
+Date: 23.07.2015
+Waypoint: GC3CKJR
+Title: Projekt 366: Challenge-Cache im Hexenwald
+Tag: D5 T2 Regular Mystery Challenge
+----
+ID: 3001
+Date: 23.07.2015
+Waypoint: m/Ragge1/1466
+Title: Quick Deploy 4Bonn By Ragge1
+Points: 5
+----
+ID: 3002
+Date: 23.07.2015
+Waypoint: m/c-bn/7008
+Title: [c-bn] 4. Munzee-Geburtstag @Bonn 7008 VM
+Points: 5
+----
+ID: 3003
+Date: 23.07.2015
+Waypoint: m/ajlis/516
+Title: Kaiserplatz by ajlis, Bonn
+Points: 5
+----
+ID: 3004
+Date: 23.07.2015
+Waypoint: m/Ragge1/1465
+Title: Quick Deploy 4Bonn By Ragge1
+Points: 5
+----
+ID: 3005
+Date: 23.07.2015
+Waypoint: m/superdennis/5429
+Title: Quick Deploy By superdennis
+Points: 5
+----
+ID: 3006
+Date: 23.07.2015
+Waypoint: m/pilsleyguy/6482
+Title: Bonn By pilsleyguy
+Points: 5
+----
+ID: 3007
+Date: 23.07.2015
+Waypoint: m/Ragge1/1469
+Title: Quick Deploy 4Bonn By Ragge1
+Points: 5
+----
+ID: 3008
+Date: 23.07.2015
+Waypoint: m/Ragge1/1467
+Title: Quick Deploy 4Bonn By Ragge1
+Points: 5
+----
+ID: 3009
+Date: 23.07.2015
+Waypoint: m/Pinguinbande2013/1585
+Title: Pinguinbande2013 - &quot;MYSTERY-VIRTUAL&quot; - 08
+Points: 35
+----
+ID: 3010
+Date: 23.07.2015
+Waypoint: m/Ragge1/1468
+Title: Quick Deploy 4Bonn By Ragge1
+Points: 5
+----
+ID: 3011
+Date: 23.07.2015
+Waypoint: m/MV1/722
+Title: MV722 Kreuzkirche
+Points: 10
+----
+ID: 3012
+Date: 23.07.2015
+Waypoint: m/Airwolf26/4330
+Title: Bonn - 4.Geb.Munzee C-BN
+Points: 50
+----
+ID: 3013
+Date: 23.07.2015
+Waypoint: m/pilsleyguy/6481
+Title: Bonn By pilsleyguy
+Points: 5
+----
+ID: 3014
+Date: 23.07.2015
+Waypoint: m/c-bn/5729
+Title: Bonn, HARIBO-Shop
+Points: 17
+----
+ID: 3015
+Date: 23.07.2015
+Waypoint: m/Christian68/1931
+Title: BN
+Points: 15
+----
+ID: 3016
+Date: 23.07.2015
+Waypoint: m/MV1/4191
+Title: MVirtual Martinsplatz
+Points: 5
+----
+ID: 3017
+Date: 23.07.2015
+Waypoint: m/photograaff/178
+Title: Greetings from Cologne: Bonn
+Points: 5
+----
+ID: 3018
+Date: 23.07.2015
+Waypoint: m/Heinevetter/306
+Title: VMM Bonn I
+Points: 30
+----
+ID: 3019
+Date: 23.07.2015
+Waypoint: m/QQ/20
+Title: City - Münsterplatz
+Points: 5
+----
+ID: 3020
+Date: 23.07.2015
+Waypoint: m/MV1/4839
+Title: MV Uni Bonn
+Points: 30
+----
+ID: 3021
+Date: 23.07.2015
+Waypoint: m/ajlis/1544
+Title: Ajlis - MVM City 6
+Points: 20
+----
+ID: 3022
+Date: 23.07.2015
+Waypoint: m/zeusi/5099
+Title: Bonn
+Points: 45
+----
+ID: 3023
+Date: 23.07.2015
+Waypoint: m/kel-ku/441
+Title: Virtual Mystery BONN
+Points: 45
+----
+ID: 3024
+Date: 23.07.2015
+Waypoint: m/dlbisblest/185
+Title: DLB V87 Altes Rathaus Bonn
+Points: 5
+----
+ID: 3025
+Date: 23.07.2015
+Waypoint: m/JOJEVA/967
+Title: BN City - Munzee # 802 16
+Points: 5
+----
+ID: 3026
+Date: 23.07.2015
+Waypoint: m/JOJEVA/922
+Title: BN City - Munzee # 801 21
+Points: 5
+----
+ID: 3027
+Date: 23.07.2015
+Waypoint: m/Curt360/554
+Title: Binngo/Bonngo 2
+Points: 15
+----
+ID: 3028
+Date: 23.07.2015
+Waypoint: m/c-bn/3998
+Title: Bonn, Hofgartenwiese MVM 2
+Points: 20
+----
+ID: 3029
+Date: 23.07.2015
+Waypoint: m/dschuwa/277
+Title: Nächster Halt: Universität/Markt
+Points: 5
+----
+ID: 3030
+Date: 23.07.2015
+Waypoint: m/survey-adjo/1681
+Title: Mystery Virtual Munzee Bonn 2
+Points: 15
+----
+ID: 3031
+Date: 23.07.2015
+Waypoint: m/CrazyLadyLisa/1783
+Title: Mystery Virtual - Bonn 04
+Points: 5
+----
+ID: 3032
+Date: 23.07.2015
+Waypoint: m/ajlis/1546
+Title: Ajlis - MVM Stern 1
+Points: 50
+----
+ID: 3033
+Date: 23.07.2015
+Waypoint: m/Christian68/375
+Title: VM Bonn Hofgarten
+Points: 5
+----
+ID: 3034
+Date: 23.07.2015
+Waypoint: m/c-bn/505
+Title: [c-bn] VM-Stern ☆ Bonn [1]
+Points: 5
+----
+ID: 3035
+Date: 23.07.2015
+Waypoint: m/Christian68/379
+Title: VM Bonn Hofgarten
+Points: 5
+----
+ID: 3036
+Date: 23.07.2015
+Waypoint: m/zeusi/5419
+Title: Hofgarten Lampe
+Points: 50
+----
+ID: 3037
+Date: 23.07.2015
+Waypoint: m/mastaxlolls/183
+Title: Mitte des ☆
+Points: 5
+----
+ID: 3038
+Date: 23.07.2015
+Waypoint: m/VaKe/555
+Title: [Vake] VM-Stern Bonn
+Points: 5
+----
+ID: 3039
+Date: 23.07.2015
+Waypoint: m/remstaler/1202
+Title: [remstaler] VM-Stern Bonn
+Points: 5
+----
+ID: 3040
+Date: 23.07.2015
+Waypoint: m/ReMiKu/1137
+Title: Virtual Bonn (1137)
+Points: 5
+----
+ID: 3041
+Date: 23.07.2015
+Waypoint: m/survey-adjo/321
+Title: [survey-adjo] VM-Stern Bonn
+Points: 5
+----
+ID: 3042
+Date: 23.07.2015
+Waypoint: m/winkide/492
+Title: Bonn - Stern #492 V
+Points: 5
+----
+ID: 3043
+Date: 23.07.2015
+Waypoint: m/dschuwa/1
+Title: dschuwa VM1-Stern Bonn
+Points: 5
+----
+ID: 3044
+Date: 23.07.2015
+Waypoint: m/DrStevo/352
+Title: VM Hofgarten Market
+Points: 5
+----
+ID: 3045
+Date: 23.07.2015
+Waypoint: m/Baumhoernchen/398
+Title: Baumhörnchen am Stern
+Points: 5
+----
+ID: 3046
+Date: 23.07.2015
+Waypoint: m/philnuim/291
+Title: [philnuim] VM-Stern Bonn
+Points: 5
+----
+ID: 3047
+Date: 23.07.2015
+Waypoint: m/hunterfrank/243
+Title: Virtual Hunterfrank in Bonn
+Points: 5
+----
+ID: 3048
+Date: 23.07.2015
+Waypoint: m/Sundream/135
+Title: Virtual Munzee - Stern Bonn
+Points: 5
+----
+ID: 3049
+Date: 23.07.2015
+Waypoint: m/HowlinMaikel/182
+Title: [HowlinMaikel] VM Stern Bonn
+Points: 5
+----
+ID: 3050
+Date: 23.07.2015
+Waypoint: m/esci/148
+Title: [esci] VM-Stern Bonn [24]
+Points: 5
+----
+ID: 3051
+Date: 23.07.2015
+Waypoint: m/MV1/813
+Title: MVirtual Hofgartenstern
+Points: 5
+----
+ID: 3052
+Date: 23.07.2015
+Waypoint: m/Shigoist/48
+Title: Shigoist VM-Stern Bonn
+Points: 5
+----
+ID: 3053
+Date: 23.07.2015
+Waypoint: m/dschuwa/2
+Title: dschuwa VM2-Stern Bonn
+Points: 5
+----
+ID: 3054
+Date: 23.07.2015
+Waypoint: m/Mieze/1005
+Title: [Mieze] VM-Stern Bonn [13]
+Points: 5
+----
+ID: 3055
+Date: 23.07.2015
+Waypoint: m/robje64/484
+Title: Robje64 VM-Stern Bonn
+Points: 5
+----
+ID: 3056
+Date: 23.07.2015
+Waypoint: m/Shigoist/47
+Title: Shigoist VM-Stern Bonn
+Points: 5
+----
+ID: 3057
+Date: 23.07.2015
+Waypoint: m/ReMiKu/7172
+Title: Mystery Virtual Bonn (7172)
+Points: 20
+----
+ID: 3058
+Date: 23.07.2015
+Waypoint: m/Netty/518
+Title: MVM Bonn Am Hofgarten
+Points: 5
+----
+ID: 3059
+Date: 23.07.2015
+Waypoint: m/c-bn/3999
+Title: Bonn, Hofgartenwiese MVM 1
+Points: 35
+----
+ID: 3060
+Date: 23.07.2015
+Waypoint: m/MirDrei/756
+Title: Mystery Virtual Munzee Bonn by MirDrei
+Points: 20
+----
+ID: 3061
+Date: 23.07.2015
+Waypoint: m/hugosoft/1194
+Title: MVM Bonn Hofgartenwiese
+Points: 5
+----
+ID: 3062
+Date: 23.07.2015
+Waypoint: m/ajlis/1561
+Title: Ajlis - MVM Stern 6
+Points: 5
+----
+ID: 3063
+Date: 23.07.2015
+Waypoint: m/Marnic/949
+Title: MN#949 VM Hofgarten Bonn
+Points: 5
+----
+ID: 3064
+Date: 23.07.2015
+Waypoint: m/Boston2005/770
+Title: Bonn Hofgartenwiese by Boston
+Points: 5
+----
+ID: 3065
+Date: 23.07.2015
+Waypoint: m/Wyando/4699
+Title: Bonn - Myrtual Hofgarten
+Points: 45
+----
+ID: 3066
+Date: 23.07.2015
+Waypoint: m/dieeulenhueter/1444
+Title: VM Hofgartenwiese in Bonn # 1
+Points: 5
+----
+ID: 3067
+Date: 23.07.2015
+Waypoint: m/Kuhmulus/2091
+Title: Bonn - Geländer innen
+Points: 11
+----
+ID: 3068
+Date: 23.07.2015
+Waypoint: m/pilsleyguy/6455
+Title: Bonn By pilsleyguy
+Points: 5
+----
+ID: 3069
+Date: 23.07.2015
+Waypoint: m/pilsleyguy/6456
+Title: Bonn By pilsleyguy
+Points: 5
+----
+ID: 3070
+Date: 23.07.2015
+Waypoint: m/hunniees/4506
+Title: Bonn Sudstadt
+Points: 5
+----
+ID: 3071
+Date: 23.07.2015
+Waypoint: m/dt07751/4258
+Title: V Bonn Kaiserplatz
+Points: 5
+----
+ID: 3072
+Date: 23.07.2015
+Waypoint: m/superdennis/5430
+Title: Quick Deploy By superdennis
+Points: 5
+----
+ID: 3073
+Date: 23.07.2015
+Waypoint: m/pilsleyguy/6459
+Title: Bonn By pilsleyguy
+Points: 5
+----
+ID: 3074
+Date: 23.07.2015
+Waypoint: m/ajlis/441
+Title: Kaiserplatz 1, Bonn
+Points: 5
+----
+ID: 3075
+Date: 23.07.2015
+Waypoint: m/esci/94
+Title: [esci] Parkverbot
+Points: 5
+----
+ID: 3076
+Date: 23.07.2015
+Waypoint: m/havi/397
+Title: 312 Bonn bei Gold
+Points: 5
+----
+ID: 3077
+Date: 23.07.2015
+Waypoint: m/c-bn/3303
+Title: Bonn, Kaiserstraße 3303 WAFFE
+Points: 22
+----
+ID: 3078
+Date: 23.07.2015
+Waypoint: m/robje64/929
+Title: Myst zur Dank
+Points: 15
+----
+ID: 3079
+Date: 23.07.2015
+Waypoint: m/ajlis/461
+Title: Kaiserstraße 2, Bonn
+Points: 5
+----
+ID: 3080
+Date: 23.07.2015
+Waypoint: m/zeusi/1960
+Title: Munzee Power 574
+Points: 5
+----
+ID: 3081
+Date: 23.07.2015
+Waypoint: m/ajlis/484
+Title: Kaiserstraße 3, Bonn
+Points: 5
+----
+ID: 3082
+Date: 23.07.2015
+Waypoint: m/DerTransporter/165
+Title: Maxi Munzee 153
+Points: 5
+----
+ID: 3083
+Date: 23.07.2015
+Waypoint: m/ajlis/385
+Title: Fritz-Tillmann-Straße 1, Bonn
+Points: 5
+----
+ID: 3084
+Date: 23.07.2015
+Waypoint: m/DerTransporter/137
+Title: Maxi Munzee 137
+Points: 5
+----
+ID: 3085
+Date: 23.07.2015
+Waypoint: m/c-bn/2702
+Title: Bonn, Kaiserstraße 2
+Points: 5
+----
+ID: 3086
+Date: 23.07.2015
+Waypoint: m/ajlis/265
+Title: Weberstraße, Bonn
+Points: 5
+----
+ID: 3087
+Date: 23.07.2015
+Waypoint: m/ajlis/232
+Title: Schumannstraße, Bonn
+Points: 5
+----
+ID: 3088
+Date: 23.07.2015
+Waypoint: m/ajlis/234
+Title: Schumannstraße, Bonn
+Points: 5
+----
+ID: 3089
+Date: 23.07.2015
+Waypoint: m/Tamarisk/1765
+Title: [c-bn] Bonn, 7070 HOTEL Room #1
+Points: 5
+----
+ID: 3090
+Date: 23.07.2015
+Waypoint: m/Wyando/6136
+Title: [c-bn] Bonn, 7070 HOTEL Room #2
+Points: 5
+----
+ID: 3091
+Date: 23.07.2015
+Waypoint: m/supersilli/586
+Title: [c-bn] Bonn, Lessingstr. 7070 HOTEL Room #3
+Points: 5
+----
+ID: 3092
+Date: 23.07.2015
+Waypoint: m/ReMiKu/11887
+Title: [c-bn] Bonn, Lessingstr. 7070 HOTEL Room #4
+Points: 5
+----
+ID: 3093
+Date: 23.07.2015
+Waypoint: m/winkide/9443
+Title: [c-bn] Bonn, Lessingstr. 7070 HOTEL Room #5
+Points: 5
+----
+ID: 3094
+Date: 23.07.2015
+Waypoint: m/Steffi78/378
+Title: [c-bn] Bonn, Lessingstr. 7070 HOTEL Room #6
+Points: 5
+----
+ID: 3095
+Date: 23.07.2015
+Waypoint: m/QQ/571
+Title: [c-bn] Bonn, Lessingstr. 7070 HOTEL Room #7
+nTF: 4
+Points: 5
+----
+ID: 3096
+Date: 23.07.2015
+Waypoint: m/hugosoft/3401
+Title: [c-bn] Bonn, Lessingstr. 7070 HOTEL Room #8
+nTF: 3
+Points: 5
+----
+ID: 3097
+Date: 23.07.2015
+Waypoint: m/feylino/3067
+Title: [c-bn] Bonn, Lessingstr. 7070 HOTEL Room #9
+nTF: 2
+Points: 5
+----
+ID: 3098
+Date: 23.07.2015
+Waypoint: m/charlino/238
+Title: [c-bn] Bonn, Lessingstr. 7070 HOTEL Room #10
+nTF: 1
+Points: 5
+----
+ID: 3099
+Date: 23.07.2015
+Waypoint: m/c-bn/7070
+Title: [c-bn] Bonn, Lessingstr. 7070 HOTEL
+Points: 10
+----
+ID: 3100
+Date: 23.07.2015
+Waypoint: m/ajlis/323
+Title: An der Elisabethkirche, Bonn
+Points: 5
+----
+ID: 3101
+Date: 23.07.2015
+Waypoint: m/zeusi/2692
+Title: Munzee Power 1299
+Points: 10
+----
+ID: 3102
+Date: 23.07.2015
+Waypoint: m/zeusi/2202
+Title: Munzee Power 814
+Points: 9
+----
+ID: 3103
+Date: 23.07.2015
+Waypoint: m/DerTransporter/14
+Title: Maxi Munzee 14
+Points: 5
+----
+ID: 3104
+Date: 23.07.2015
+Waypoint: m/zeusi/2196
+Title: Munzee Power 808
+Points: 7
+----
+ID: 3105
+Date: 23.07.2015
+Waypoint: m/ajlis/268
+Title: Bernhard-Custodis-Straße, Bonn
+nTF: 1
+Points: 5
+----
+ID: 3106
+Date: 23.07.2015
+Waypoint: m/ajlis/244
+Title: Schumannstraße, Bonn
+Points: 5
+----
+ID: 3107
+Date: 23.07.2015
+Waypoint: m/zeusi/2208
+Title: Munzee Power 820
+Points: 5
+----
+ID: 3108
+Date: 24.07.2015
+Waypoint: m/zeusi/2889
+Title: Aktion Karte Dunkelblau
+Points: 15
+----
+ID: 3109
+Date: 24.07.2015
+Waypoint: m/c-bn/2203
+Title: Aktion &quot;Karte dunkelblau&quot; 065
+Points: 10
+----
+ID: 3110
+Date: 24.07.2015
+Waypoint: m/c-bn/2201
+Title: Aktion &quot;Karte dunkelblau&quot; 063
+Points: 45
+----
+ID: 3111
+Date: 24.07.2015
+Waypoint: m/mastaxlolls/43
+Title: Endenich
+Points: 5
+----
 ID: p20150827
 Date: 27.08.2015
 Waypoint: GC5ZEMX
