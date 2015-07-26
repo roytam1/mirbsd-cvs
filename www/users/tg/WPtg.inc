@@ -18738,6 +18738,36 @@ Waypoint: m/mastaxlolls/43
 Title: Endenich
 Points: 5
 ----
+ID: 3112
+Date: 25.07.2015
+Waypoint: GC42GVR
+Title: Breloher Steig
+Tag: D15 T15 Small Tradi
+----
+ID: 3113
+Date: 25.07.2015
+Waypoint: m/mecki/10
+Title: Linuxhotel
+Points: 5
+----
+ID: 3114
+Date: 26.07.2015
+Waypoint: GC42GVZ
+Title: Ofenbank
+Tag: D15 T1 Micro Tradi
+----
+ID: 3115
+Date: 26.07.2015
+Waypoint: m/wxbee/26
+Title: Alma Mater
+Points: 5
+----
+ID: 3116
+Date: 26.07.2015
+Waypoint: m/c-bn/2964
+Title: Bonn, Wesselstraße 2964 WAFFE
+Points: 20
+----
 ID: p20150827
 Date: 27.08.2015
 Waypoint: GC5ZEMX
