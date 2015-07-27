@@ -18768,6 +18768,39 @@ Waypoint: m/c-bn/2964
 Title: Bonn, Wesselstraße 2964 WAFFE
 Points: 20
 ----
+ID: 3117
+Date: 27.07.2015
+Waypoint: m/c-bn/5437
+Title: Generic Name
+nTF: 1
+Points: 5
+----
+ID: 3118
+Date: 27.07.2015
+Waypoint: GC2ZVP5
+Title: Alfterer Kreuze 05
+Tag: D15 T1 Micro Tradi
+----
+ID: 3119
+Date: 27.07.2015
+Waypoint: m/c-bn/853
+Title: 853
+nTF: 1
+Points: 5
+----
+ID: 3120
+Date: 27.07.2015
+Waypoint: m/c-bn/855
+Title: 855
+Points: 5
+----
+ID: 3121
+Date: 27.07.2015
+Waypoint: m/c-bn/5438
+Title: Generic Name
+nTF: 1
+Points: 5
+----
 ID: p20150827
 Date: 27.08.2015
 Waypoint: GC5ZEMX
