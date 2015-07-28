@@ -18801,6 +18801,170 @@ Title: Generic Name
 nTF: 1
 Points: 5
 ----
+ID: 3122
+Date: 28.07.2015
+Waypoint: m/hunniees/23
+Title: Hunniees Social 🐝
+Points: 0
+----
+ID: 3123
+Date: 28.07.2015
+Waypoint: m/JOJEVA/632
+Title: Mehlem - Munzee # 645
+Points: 5
+----
+ID: 3124
+Date: 28.07.2015
+Waypoint: m/Airwolf26/2099
+Title: Bonn - Rüdigerstraße
+Points: 5
+----
+ID: 3125
+Date: 28.07.2015
+Waypoint: GC2RENF
+Title: Cacher's Island
+Tag: D15 T35 Micro Tradi recommended
+----
+ID: 3126
+Date: 28.07.2015
+Waypoint: m/JOJEVA/1118
+Title: Kw- Longsword 102 12
+Points: 15
+----
+ID: 3127
+Date: 28.07.2015
+Waypoint: m/zeusi/5804
+Title: Kw- Motel # 101 21 Room #1
+Points: 5
+----
+ID: 3128
+Date: 28.07.2015
+Waypoint: m/ralphmaria/5
+Title: Kw- Motel # 101 21 Room #2
+Points: 5
+----
+ID: 3129
+Date: 28.07.2015
+Waypoint: m/felixhunter/1161
+Title: Kw- Motel # 101 21 Room #3
+Points: 5
+----
+ID: 3130
+Date: 28.07.2015
+Waypoint: m/AnWi/222
+Title: Kw- Motel # 101 21 Room #4
+Points: 5
+----
+ID: 3131
+Date: 28.07.2015
+Waypoint: m/Steffi78/292
+Title: Kw- Motel # 101 21 Room #5
+Points: 5
+----
+ID: 3132
+Date: 28.07.2015
+Waypoint: m/JOJEVA/1105
+Title: Kw- Motel # 101 21
+Points: 5
+----
+ID: 3133
+Date: 28.07.2015
+Waypoint: m/zeusi/5803
+Title: Generic Name
+Points: 10
+----
+ID: 3134
+Date: 28.07.2015
+Waypoint: m/JOJEVA/1039
+Title: Kw-Munzee # 3
+Points: 5
+----
+ID: 3135
+Date: 28.07.2015
+Waypoint: m/JOJEVA/1108
+Title: Kw- Munzee 102 2
+Points: 5
+----
+ID: 3136
+Date: 28.07.2015
+Waypoint: GC23XRE
+Title: Walk along the river Rhein #3 (~2,5m)
+Tag: D1 T4 Micro Tradi
+----
+ID: 3137
+Date: 28.07.2015
+Waypoint: m/JOJEVA/1120
+Title: Kw- Munzee 102 14
+Points: 5
+----
+ID: 3138
+Date: 28.07.2015
+Waypoint: m/JOJEVA/1034
+Title: Kw - Munzee # 3
+Points: 5
+----
+ID: 3139
+Date: 28.07.2015
+Waypoint: m/JOJEVA/1134
+Title: Kw- Munzee #103 3
+Points: 5
+----
+ID: 3140
+Date: 28.07.2015
+Waypoint: m/JOJEVA/1139
+Title: ❎ Ruby ❎ - Königswinter 1
+Points: 16
+----
+ID: 3141
+Date: 28.07.2015
+Waypoint: m/JOJEVA/1130
+Title: Kw- Munzee 102 24
+Points: 5
+----
+ID: 3142
+Date: 28.07.2015
+Waypoint: GC5G7BG
+Title: Fafners Gartenzaun
+Tag: D1 T15 Micro Tradi
+----
+ID: 3143
+Date: 28.07.2015
+Waypoint: GC1G0WY
+Title: Pfarrkirche Mariä Heimsuchung Rhöndorf
+Tag: D4 T1 Micro Tradi
+----
+ID: 3144
+Date: 28.07.2015
+Waypoint: GC451HK
+Title: Erster Bundeskanzler der BRD
+Tag: D15 T1 Small Tradi
+----
+ID: 3145
+Date: 28.07.2015
+Waypoint: GC5ZTYN
+Title: Feuerwehr Rhöndorf
+Tag: D2 T15 Micro Tradi
+----
+ID: p201507302
+Date: 30.07.2015
+Waypoint: GC5ZA9P
+Title: Sternentor Bonn
+Tag: D1 T1 Event
+
+… statt meines eigenen Eisevents dann halt ☹
+----
+ID: p20150810
+Date: 10.08.2015
+Waypoint: GC608W1
+Title: TEMBO! on tour (III) oder &#34;ab über'n Teich&#34;
+Tag: D2 T1 Event
+----
+ID: p20150816
+Date: 16.08.2015
+Waypoint: GC607PK
+Title: Ein Eis zu 366 und 2000
+Tag: D1 T1 Event
+----
 ID: p20150827
 Date: 27.08.2015
 Waypoint: GC5ZEMX
