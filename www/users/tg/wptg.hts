@@ -229,6 +229,7 @@ souvenir 2015-05-19 'United Kingdom' http://souvenirs.geocaching.com/SouvenirIma
 souvenir 2015-06-19 'Fun with Favorites' http://souvenirs.geocaching.com/SouvenirImages/NS8yNy8yMDE1/f81eae85-afa0-4ac1-9f1b-5e9f7bc161bc.png 'http://www.geocaching.com/souvenir/?guid=f2ceb791-78c6-44e7-882f-f815706895cf'
 souvenir 2015-07-04 'Meet Your Road Trip Crew' http://souvenirs.geocaching.com/SouvenirImages/NS8yNy8yMDE1/ca6f3c81-0fc8-4afe-9bdc-ede4fc2b51b2.png 'http://www.geocaching.com/souvenir/?guid=32449bd1-3cfb-4f5d-a9a3-b256c18931c3'
 souvenir 2015-07-23 'Let&#39;s Get Extreme' http://souvenirs.geocaching.com/SouvenirImages/NS8yNy8yMDE1/2cc48d86-ecf3-4f00-8bf5-5fcfb6e5b232.png 'http://www.geocaching.com/souvenir/?guid=b3f884d1-6699-49af-a983-1a2c72cc3511'
+souvenir 2015-07-31 'High-Five for the Earth' http://souvenirs.geocaching.com/SouvenirImages/Ni8xNS8yMDE1/ea426007-3585-4cec-9c63-0b1554f9d096.png 'http://www.geocaching.com/souvenir/?guid=3744b629-acbd-46f7-8497-ce7e54878f93'
 
 # kaputt, s.o.
 #if [[ $nsouvenir != 0 && -z $souvenirs ]]; then
