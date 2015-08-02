@@ -17100,6 +17100,7 @@ ID: 2841
 Date: 13.07.2015
 Waypoint: CC7TMQ
 Title: WCG IV - Team TC 10 Year Celebration
+nTF: 1
 Tag: Locationless Challenge
 ----
 ID: 2842
@@ -19490,6 +19491,37 @@ ID: 3234
 Date: 01.08.2015
 Waypoint: m/dschuwa/299
 Title: Bonner Punktejagd 011
+Points: 5
+----
+ID: 3235
+Date: 02.08.2015
+Waypoint: GC2JMG0
+Title: Jimmy, der Außerirdische
+Tag: D2 T2 Regular Wherigo_Hybrid recommended
+----
+ID: 3236
+Date: 02.08.2015
+Waypoint: GC410GZ
+Title: Spannung im Turm 4 - Am Hirschpark
+Tag: D2 T15 Micro Multi
+----
+ID: 3237
+Date: 02.08.2015
+Waypoint: m/Vorticity/2
+Title: Burg Wissem
+Points: 5
+----
+ID: 3238
+Date: 02.08.2015
+Waypoint: m/Shigoist/1191
+Title: Burg Wissem
+Points: 45
+----
+ID: 3239
+Date: 02.08.2015
+Waypoint: m/montana/99
+Title: Troisdorf virtual - Ursulaplatz
+nTF: 1
 Points: 5
 ----
 ID: p20150810
