@@ -19496,6 +19496,7 @@ Points: 5
 ID: 3235
 Date: 02.08.2015
 Waypoint: GC2JMG0
+Banner: jpg
 Title: Jimmy, der Außerirdische
 Tag: D2 T2 Regular Wherigo_Hybrid recommended
 ----
@@ -19524,6 +19525,1308 @@ Title: Troisdorf virtual - Ursulaplatz
 nTF: 1
 Points: 5
 ----
+ID: 3240
+Date: 03.08.2015
+Waypoint: m/c-bn/3203
+Title: Bonn, Maximilianstraße
+Points: 5
+----
+ID: 3241
+Date: 04.08.2015
+Waypoint: m/c-bn/490
+Title: gelbe Klappe 📫 017 - Bonn, Wittelsbacherring
+Points: 5
+----
+ID: 3242
+Date: 05.08.2015
+Waypoint: m/JacquesC/751
+Title: ElectroJack #2
+Points: 0
+----
+ID: 3243
+Date: 06.08.2015
+Waypoint: m/c-bn/2210
+Title: Aktion &quot;Karte dunkelblau&quot; 072
+Points: 45
+----
+ID: 3244
+Date: 06.08.2015
+Waypoint: m/zeusi/2897
+Title: Aktion &quot;Karte dunkelblau&quot; 141
+Points: 35
+----
+ID: 3245
+Date: 06.08.2015
+Waypoint: m/ReMiKu/4589
+Title: Mystery Endenich (4589)
+Points: 35
+----
+ID: 3246
+Date: 06.08.2015
+Waypoint: m/MV1/4246
+Title: MVirtual Endenich7
+Points: 5
+----
+ID: 3247
+Date: 06.08.2015
+Waypoint: m/zeusi/2878
+Title: Generic Name
+Points: 20
+----
+ID: 3248
+Date: 06.08.2015
+Waypoint: m/ReMiKu/4590
+Title: Mystery Endenich (4590)
+Points: 40
+----
+ID: 3249
+Date: 06.08.2015
+Waypoint: m/Tamarisk/1762
+Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL Room #1
+Points: 5
+----
+ID: 3250
+Date: 06.08.2015
+Waypoint: m/Wyando/6133
+Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL Room #2
+Points: 5
+----
+ID: 3251
+Date: 06.08.2015
+Waypoint: m/supersilli/589
+Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL Room #3
+Points: 5
+----
+ID: 3252
+Date: 06.08.2015
+Waypoint: m/ReMiKu/11890
+Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL Room #4
+Points: 5
+----
+ID: 3253
+Date: 06.08.2015
+Waypoint: m/winkide/9440
+Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL Room #5
+Points: 5
+----
+ID: 3254
+Date: 06.08.2015
+Waypoint: m/QQ/570
+Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL Room #6
+Points: 5
+----
+ID: 3255
+Date: 06.08.2015
+Waypoint: m/Steffi78/377
+Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL Room #7
+nTF: 4
+Points: 5
+----
+ID: 3256
+Date: 06.08.2015
+Waypoint: m/hugosoft/3405
+Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL Room #8
+nTF: 3
+Points: 5
+----
+ID: 3257
+Date: 06.08.2015
+Waypoint: m/feylino/3071
+Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL Room #9
+nTF: 2
+Points: 5
+----
+ID: 3258
+Date: 06.08.2015
+Waypoint: m/charlino/241
+Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL Room #10
+nTF: 1
+Points: 5
+----
+ID: 3259
+Date: 06.08.2015
+Waypoint: m/c-bn/7071
+Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL
+Points: 10
+----
+ID: 3260
+Date: 06.08.2015
+Waypoint: m/dschuwa/133
+Title: Nächster Halt: Lotharstraße
+Points: 5
+----
+ID: 3261
+Date: 06.08.2015
+Waypoint: m/dschuwa/660
+Title: Bonner Punktejagd 447
+Points: 5
+----
+ID: 3262
+Date: 06.08.2015
+Waypoint: m/dschuwa/909
+Title: Bonner Punktejagd 695
+Points: 5
+----
+ID: 3263
+Date: 06.08.2015
+Waypoint: m/dschuwa/733
+Title: Bonner Punktejagd 520
+Points: 5
+----
+ID: 3264
+Date: 06.08.2015
+Waypoint: m/dschuwa/847
+Title: Bonner Punktejagd 633
+nTF: 1
+Points: 5
+----
+ID: 3265
+Date: 06.08.2015
+Waypoint: m/dschuwa/715
+Title: Bonner Punktejagd 502
+Points: 5
+----
+ID: 3266
+Date: 06.08.2015
+Waypoint: m/dschuwa/822
+Title: Bonner Punktejagd 608
+nTF: 1
+Points: 5
+----
+ID: 3267
+Date: 06.08.2015
+Waypoint: m/dschuwa/841
+Title: Bonner Punktejagd 627
+Points: 5
+----
+ID: 3268
+Date: 06.08.2015
+Waypoint: m/dschuwa/739
+Title: Bonner Punktejagd 526
+nTF: 1
+Points: 5
+----
+ID: 3269
+Date: 06.08.2015
+Waypoint: m/dschuwa/746
+Title: Bonner Punktejagd 532
+nTF: 1
+Points: 5
+----
+ID: 3270
+Date: 06.08.2015
+Waypoint: m/dschuwa/745
+Title: Bonner Punktejagd 531
+Points: 5
+----
+ID: 3271
+Date: 07.08.2015
+Waypoint: m/dschuwa/328
+Title: Bonner Punktejagd 063
+Points: 5
+----
+ID: 3272
+Date: 07.08.2015
+Waypoint: m/dschuwa/230
+Title: Bonner Punktejagd 037
+Points: 5
+----
+ID: 3273
+Date: 07.08.2015
+Waypoint: m/dschuwa/205
+Title: Bonner Punktejagd 066
+Points: 5
+----
+ID: 3274
+Date: 07.08.2015
+Waypoint: m/c-bn/3255
+Title: Bonn, Dottendorfer Straße
+Points: 5
+----
+ID: 3275
+Date: 07.08.2015
+Waypoint: m/zeusi/2286
+Title: Munzee Power 897
+Points: 7
+----
+ID: 3276
+Date: 07.08.2015
+Waypoint: m/JOJEVA/346
+Title: Dottendorf-Munzee # 359
+Points: 5
+----
+ID: 3277
+Date: 07.08.2015
+Waypoint: m/DerTransporter/124
+Title: Maxi Munzee 124
+Points: 5
+----
+ID: 3278
+Date: 07.08.2015
+Waypoint: m/zeusi/2264
+Title: Munzee Power 875
+Points: 10
+----
+ID: 3279
+Date: 07.08.2015
+Waypoint: m/JOJEVA/304
+Title: Dottendorf-Munzee # 317
+Points: 5
+----
+ID: 3280
+Date: 07.08.2015
+Waypoint: m/JOJEVA/303
+Title: Dottendorf-Munzee # 316
+Points: 5
+----
+ID: 3281
+Date: 07.08.2015
+Waypoint: m/JOJEVA/331
+Title: Dottendorf-Munzee # 344
+Points: 5
+----
+ID: 3282
+Date: 07.08.2015
+Waypoint: m/DerTransporter/81
+Title: Maxi Munzee 81
+Points: 5
+----
+ID: 3283
+Date: 07.08.2015
+Waypoint: m/zeusi/3907
+Title: Virtual Munzee 29
+Points: 5
+----
+ID: 3284
+Date: 07.08.2015
+Waypoint: m/c-bn/1954
+Title: Bonn, Servatiusstraße
+Points: 5
+----
+ID: 3285
+Date: 07.08.2015
+Waypoint: m/zeusi/2238
+Title: Munzee Power 850
+Points: 6
+----
+ID: 3286
+Date: 07.08.2015
+Waypoint: m/zeusi/2233
+Title: Munzee Power 845
+Points: 15
+----
+ID: 3287
+Date: 07.08.2015
+Waypoint: m/zeusi/2167
+Title: Munzee Power 779
+Points: 9
+----
+ID: 3288
+Date: 07.08.2015
+Waypoint: m/DerTransporter/77
+Title: Maxi Munzee 77
+Points: 5
+----
+ID: 3289
+Date: 07.08.2015
+Waypoint: m/zeusi/2232
+Title: Munzee Power 844
+Points: 6
+----
+ID: 3290
+Date: 07.08.2015
+Waypoint: m/DerTransporter/76
+Title: Maxi Munzee 76
+Points: 5
+----
+ID: 3291
+Date: 07.08.2015
+Waypoint: m/zeusi/2656
+Title: Munzee Power 1263
+Points: 10
+----
+ID: 3292
+Date: 07.08.2015
+Waypoint: m/DerTransporter/74
+Title: Maxi Munzee 74
+Points: 5
+----
+ID: 3293
+Date: 07.08.2015
+Waypoint: m/zeusi/2181
+Title: Munzee Power 793
+Points: 11
+----
+ID: 3294
+Date: 07.08.2015
+Waypoint: m/MV1/5050
+Title: MV1 Friesdorf 15
+Points: 50
+----
+ID: 3295
+Date: 07.08.2015
+Waypoint: m/MV1/5049
+Title: MV1 Friesdorf 14
+Points: 20
+----
+ID: 3296
+Date: 07.08.2015
+Waypoint: m/MV1/5048
+Title: MV1 Friesdorf 13
+Points: 40
+----
+ID: 3297
+Date: 07.08.2015
+Waypoint: m/MV1/5047
+Title: MV1 Friesdorf 12
+Points: 40
+----
+ID: 3298
+Date: 07.08.2015
+Waypoint: m/MV1/5046
+Title: MV1 Friesdorf 11
+Points: 20
+----
+ID: 3299
+Date: 07.08.2015
+Waypoint: m/MV1/5045
+Title: MV1 Friesdorf 10
+Points: 5
+----
+ID: 3300
+Date: 07.08.2015
+Waypoint: m/MV1/5044
+Title: MV1 Friesdorf 9
+Points: 50
+----
+ID: 3301
+Date: 07.08.2015
+Waypoint: m/MV1/2372
+Title: MV2373 Friesdorf
+Points: 15
+----
+ID: 3302
+Date: 07.08.2015
+Waypoint: m/MV1/5043
+Title: MV1 Friesdorf 8
+Points: 20
+----
+ID: 3303
+Date: 07.08.2015
+Waypoint: m/MV1/1073
+Title: MV1073 Friesdorf
+Points: 15
+----
+ID: 3304
+Date: 07.08.2015
+Waypoint: m/MV1/1243
+Title: MV1243 Friesdorf
+Points: 17
+----
+ID: 3305
+Date: 07.08.2015
+Waypoint: m/MV1/5042
+Title: MV1 Friesdorf 7
+Points: 40
+----
+ID: 3306
+Date: 07.08.2015
+Waypoint: m/MV1/5041
+Title: MV1 Friesdorf 6
+Points: 50
+----
+ID: 3307
+Date: 07.08.2015
+Waypoint: m/MV1/5040
+Title: MV1 Friesdorf 5
+Points: 40
+----
+ID: 3308
+Date: 07.08.2015
+Waypoint: m/MV1/5039
+Title: MV1 Friesdorf 4
+Points: 35
+----
+ID: 3309
+Date: 07.08.2015
+Waypoint: m/zeusi/2766
+Title: Virtual Munzee Power
+Points: 5
+----
+ID: 3310
+Date: 07.08.2015
+Waypoint: m/MV1/5038
+Title: MV1 Friesdorf 3
+Points: 5
+----
+ID: 3311
+Date: 07.08.2015
+Waypoint: m/DerTransporter/164
+Title: DerTransporter Virtual 4
+Points: 5
+----
+ID: 3312
+Date: 07.08.2015
+Waypoint: m/MV1/5037
+Title: MV1 Friesdorf 2
+Points: 50
+----
+ID: 3313
+Date: 07.08.2015
+Waypoint: m/MV1/998
+Title: MV1 Friesdorf
+Points: 10
+----
+ID: 3314
+Date: 07.08.2015
+Waypoint: m/zeusi/2221
+Title: Munzee Power 833
+Points: 11
+----
+ID: 3315
+Date: 07.08.2015
+Waypoint: m/JOJEVA/318
+Title: BG-Munzee # 331
+Points: 5
+----
+ID: 3316
+Date: 07.08.2015
+Waypoint: m/zeusi/2765
+Title: Virtual Munzee 8
+Points: 5
+----
+ID: 3317
+Date: 07.08.2015
+Waypoint: m/zeusi/2229
+Title: Munzee Power 841
+Points: 11
+----
+ID: 3318
+Date: 07.08.2015
+Waypoint: m/zeusi/2764
+Title: Virtual Munzee Power
+Points: 5
+----
+ID: 3319
+Date: 07.08.2015
+Waypoint: m/DerTransporter/61
+Title: Maxi Munzee 61
+Points: 5
+----
+ID: 3320
+Date: 07.08.2015
+Waypoint: m/Airwolf26/1302
+Title: Bonn - Friesdorferstr
+Points: 5
+----
+ID: 3321
+Date: 07.08.2015
+Waypoint: m/zeusi/2225
+Title: Munzee Power 837
+Points: 15
+----
+ID: 3322
+Date: 07.08.2015
+Waypoint: m/Airwolf26/1345
+Title: Bonn - Friesdorfer Straße
+Points: 8
+----
+ID: 3323
+Date: 07.08.2015
+Waypoint: m/zeusi/2309
+Title: Munzee Power 920
+Points: 15
+----
+ID: 3324
+Date: 07.08.2015
+Waypoint: m/DerTransporter/60
+Title: Maxi Munzee 60
+Points: 5
+----
+ID: 3325
+Date: 07.08.2015
+Waypoint: m/zeusi/2243
+Title: Munzee Power 855
+Points: 13
+----
+ID: 3326
+Date: 07.08.2015
+Waypoint: m/JOJEVA/336
+Title: BG-Munzee # 349
+Points: 5
+----
+ID: 3327
+Date: 07.08.2015
+Waypoint: m/zeusi/3904
+Title: Virtual Munzee 26
+Points: 5
+----
+ID: 3328
+Date: 07.08.2015
+Waypoint: m/DerTransporter/117
+Title: Maxi Munzee 117
+Points: 5
+----
+ID: 3329
+Date: 07.08.2015
+Waypoint: m/zeusi/2230
+Title: Munzee Power 842
+Points: 8
+----
+ID: 3330
+Date: 07.08.2015
+Waypoint: m/zeusi/3728
+Title: Virtual Munzee 25
+Points: 5
+----
+ID: 3331
+Date: 07.08.2015
+Waypoint: m/zeusi/2270
+Title: Munzee Power 881
+Points: 7
+----
+ID: 3332
+Date: 07.08.2015
+Waypoint: m/zeusi/2316
+Title: Munzee Power 927
+Points: 15
+----
+ID: 3333
+Date: 07.08.2015
+Waypoint: m/TAZ/154
+Title: Haribo
+Points: 5
+----
+ID: 3334
+Date: 07.08.2015
+Waypoint: m/omani/51
+Title: Haribo!!!
+Points: 5
+----
+ID: 3335
+Date: 07.08.2015
+Waypoint: m/ajlis/1896
+Title: [c-bn] Motel 🏨 {HARIBO Werksverkauf} Room #1
+Points: 5
+----
+ID: 3336
+Date: 07.08.2015
+Waypoint: m/CTeam/4112
+Title: [c-bn] Motel 🏨 {HARIBO Werksverkauf} Room #2
+Points: 5
+----
+ID: 3337
+Date: 07.08.2015
+Waypoint: m/JlMMY/472
+Title: [c-bn] Motel 🏨 {HARIBO Werksverkauf} Room #3
+Points: 5
+----
+ID: 3338
+Date: 07.08.2015
+Waypoint: m/struppis/155
+Title: [c-bn] Motel 🏨 {HARIBO Werksverkauf} Room #4
+Points: 5
+----
+ID: 3339
+Date: 07.08.2015
+Waypoint: m/Bitbuster/593
+Title: [c-bn] Motel 🏨 {HARIBO Werksverkauf} Room #5
+Points: 5
+----
+ID: 3340
+Date: 07.08.2015
+Waypoint: m/c-bn/4499
+Title: [c-bn] Motel 🏨 {HARIBO Werksverkauf}
+Points: 5
+----
+ID: 3341
+Date: 07.08.2015
+Waypoint: m/dreiengel/1344
+Title: Haribo
+Points: 13
+----
+ID: 3342
+Date: 07.08.2015
+Waypoint: m/JansEgal/2318
+Title: Freaky Munzee Clan @ HARIBO
+Points: 5
+----
+ID: 3343
+Date: 07.08.2015
+Waypoint: m/Airwolf26/2341
+Title: Bonn - 🐻 HARIBO
+Points: 5
+----
+ID: 3344
+Date: 07.08.2015
+Waypoint: m/Bitbuster/542
+Title: Haribo
+Points: 5
+----
+ID: 3345
+Date: 07.08.2015
+Waypoint: m/CTeam/4113
+Title: Haribo Werkverkauf
+Points: 5
+----
+ID: 3346
+Date: 07.08.2015
+Waypoint: m/DerTransporter/154
+Title: Maxi Munzee 147
+Points: 5
+----
+ID: 3347
+Date: 07.08.2015
+Waypoint: m/zeusi/2288
+Title: Munzee Power 899
+Points: 7
+----
+ID: 3348
+Date: 07.08.2015
+Waypoint: m/DerTransporter/153
+Title: Maxi Munzee 146
+Points: 5
+----
+ID: 3349
+Date: 07.08.2015
+Waypoint: m/zeusi/2222
+Title: Munzee Power 834
+Points: 9
+----
+ID: 3350
+Date: 07.08.2015
+Waypoint: m/DerTransporter/152
+Title: Maxi Munzee 145
+Points: 5
+----
+ID: 3351
+Date: 07.08.2015
+Waypoint: m/zeusi/2227
+Title: Munzee Power 839
+Points: 13
+----
+ID: 3352
+Date: 07.08.2015
+Waypoint: m/DerTransporter/115
+Title: Maxi Munzee 115
+Points: 5
+----
+ID: 3353
+Date: 07.08.2015
+Waypoint: m/zeusi/2235
+Title: Munzee Power 847
+Points: 13
+----
+ID: 3354
+Date: 07.08.2015
+Waypoint: m/DerTransporter/114
+Title: Maxi Munzee 114
+Points: 5
+----
+ID: 3355
+Date: 07.08.2015
+Waypoint: m/JOJEVA/369
+Title: BG-Munzee # 382
+Points: 5
+----
+ID: 3356
+Date: 07.08.2015
+Waypoint: m/zeusi/2272
+Title: Munzee Power 883
+Points: 9
+----
+ID: 3357
+Date: 07.08.2015
+Waypoint: m/DerTransporter/113
+Title: Maxi Munzee 113
+Points: 5
+----
+ID: 3358
+Date: 07.08.2015
+Waypoint: m/zeusi/2268
+Title: Munzee Power 879
+Points: 10
+----
+ID: 3359
+Date: 07.08.2015
+Waypoint: m/c-bn/4498
+Title: Bonn, Friesdorfer Str. 4498
+Points: 5
+----
+ID: 3360
+Date: 07.08.2015
+Waypoint: m/DerTransporter/151
+Title: Maxi Munzee 144
+Points: 5
+----
+ID: 3361
+Date: 07.08.2015
+Waypoint: m/zeusi/2240
+Title: Munzee Power 852
+Points: 7
+----
+ID: 3362
+Date: 07.08.2015
+Waypoint: m/zeusi/2763
+Title: Virtual Munzee Power
+Points: 5
+----
+ID: 3363
+Date: 07.08.2015
+Waypoint: m/zeusi/3905
+Title: Virtual Munzee 27
+Points: 5
+----
+ID: 3364
+Date: 07.08.2015
+Waypoint: m/DerTransporter/150
+Title: Maxi Munzee 143
+Points: 5
+----
+ID: 3365
+Date: 07.08.2015
+Waypoint: m/QQ/234
+Title: Zeit für Munzee! 7
+nTF: 1
+Points: 5
+----
+ID: 3366
+Date: 07.08.2015
+Waypoint: m/DevilsEnd/173
+Title: Devil #173
+Points: 5
+----
+ID: 3367
+Date: 07.08.2015
+Waypoint: m/QQ/236
+Title: Zeit für Munzee! 9
+nTF: 1
+Points: 5
+----
+ID: 3368
+Date: 07.08.2015
+Waypoint: m/winkide/5736
+Title: Bonn - Koblenzer Str. #5736
+Points: 5
+----
+ID: 3369
+Date: 07.08.2015
+Waypoint: m/ajlis/1895
+Title: [c-bn] Motel 🏨 #72 {Bad Godesberg} Room #1
+Points: 5
+----
+ID: 3370
+Date: 07.08.2015
+Waypoint: m/CTeam/4114
+Title: [c-bn] Motel 🏨 #72 {Bad Godesberg} Room #2
+Points: 5
+----
+ID: 3371
+Date: 07.08.2015
+Waypoint: m/JlMMY/473
+Title: [c-bn] Motel 🏨 #72 {Bad Godesberg} Room #3
+Points: 5
+----
+ID: 3372
+Date: 07.08.2015
+Waypoint: m/struppis/145
+Title: [c-bn] Motel 🏨 #72 {Bad Godesberg} Room #4
+Points: 5
+----
+ID: 3373
+Date: 07.08.2015
+Waypoint: m/JOJEVA/1280
+Title: [c-bn] Motel 🏨 #72 {Bad Godesberg} Room #5
+Points: 5
+----
+ID: 3374
+Date: 07.08.2015
+Waypoint: m/c-bn/4439
+Title: [c-bn] Motel 🏨 #72 {Bad Godesberg}
+Points: 5
+----
+ID: 3375
+Date: 07.08.2015
+Waypoint: m/DerTransporter/112
+Title: Maxi Munzee 112
+Points: 5
+----
+ID: 3376
+Date: 07.08.2015
+Waypoint: m/zeusi/2280
+Title: Munzee Power 891
+Points: 8
+----
+ID: 3377
+Date: 08.08.2015
+Waypoint: m/MV1/5051
+Title: MV1 Friesdorf Final
+Points: 40
+----
+ID: 3378
+Date: 08.08.2015
+Waypoint: m/struppis/340
+Title: struppis 18
+Points: 5
+----
+ID: 3379
+Date: 08.08.2015
+Waypoint: m/struppis/362
+Title: struppis 6
+Points: 5
+----
+ID: 3380
+Date: 08.08.2015
+Waypoint: m/struppis/351
+Title: struppis 6
+Points: 5
+----
+ID: 3381
+Date: 08.08.2015
+Waypoint: m/struppis/437
+Title: struppis 13
+Points: 5
+----
+ID: 3382
+Date: 08.08.2015
+Waypoint: m/struppis/426
+Title: struppis 2
+Points: 5
+----
+ID: 3383
+Date: 08.08.2015
+Waypoint: m/struppis/415
+Title: struppis 16
+Points: 5
+----
+ID: 3384
+Date: 08.08.2015
+Waypoint: m/JOJEVA/787
+Title: - Munzee # 11
+Points: 5
+----
+ID: 3385
+Date: 08.08.2015
+Waypoint: m/JOJEVA/793
+Title: - Munzee # 17
+Points: 5
+----
+ID: 3386
+Date: 08.08.2015
+Waypoint: m/JOJEVA/789
+Title: - Munzee # 13
+Points: 5
+----
+ID: 3387
+Date: 08.08.2015
+Waypoint: m/JOJEVA/865
+Title: - Munzee # 14
+Points: 5
+----
+ID: 3388
+Date: 08.08.2015
+Waypoint: m/JOJEVA/803
+Title: - Munzee # 2
+Points: 5
+----
+ID: 3389
+Date: 08.08.2015
+Waypoint: m/JOJEVA/792
+Title: - Munzee # 16
+Points: 5
+----
+ID: 3390
+Date: 08.08.2015
+Waypoint: m/JOJEVA/812
+Title: - Munzee # 11
+Points: 5
+----
+ID: 3391
+Date: 08.08.2015
+Waypoint: m/JOJEVA/872
+Title: Rüngsdorf - Munzee # 21
+Points: 5
+----
+ID: 3392
+Date: 08.08.2015
+Waypoint: m/JOJEVA/796
+Title: Rüngsdorf - Munzee # 20
+Points: 5
+----
+ID: 3393
+Date: 08.08.2015
+Waypoint: m/JOJEVA/836
+Title: Rüngsdorf - Munzee # 10
+Points: 5
+----
+ID: 3394
+Date: 08.08.2015
+Waypoint: m/JOJEVA/794
+Title: Rüngsdorf - Munzee # 18
+Points: 5
+----
+ID: 3395
+Date: 08.08.2015
+Waypoint: m/JOJEVA/798
+Title: Rüngsdorf - Munzee # 22
+Points: 5
+----
+ID: 3396
+Date: 08.08.2015
+Waypoint: m/JOJEVA/868
+Title: Rüngsdorf - Munzee # 17
+Points: 5
+----
+ID: 3397
+Date: 08.08.2015
+Waypoint: m/JOJEVA/863
+Title: Rüngsdorf - Munzee # 12
+Points: 5
+----
+ID: 3398
+Date: 08.08.2015
+Waypoint: m/JOJEVA/791
+Title: Rüngsdorf - Munzee # 15
+Points: 5
+----
+ID: 3399
+Date: 08.08.2015
+Waypoint: m/JOJEVA/828
+Title: Rüngsdorf - Munzee # 2
+Points: 5
+----
+ID: 3400
+Date: 08.08.2015
+Waypoint: m/JOJEVA/852
+Title: Rüngsdorf - Munzee # 1
+Points: 5
+----
+ID: 3401
+Date: 08.08.2015
+Waypoint: m/JOJEVA/837
+Title: Rüngsdorf - Munzee # 11
+Points: 5
+----
+ID: 3402
+Date: 08.08.2015
+Waypoint: m/JOJEVA/916
+Title: Pennenfeld - Munzee # 801 15
+Points: 5
+----
+ID: 3403
+Date: 08.08.2015
+Waypoint: m/JOJEVA/910
+Title: Pennenfeld - Munzee # 801 9
+Points: 5
+----
+ID: 3404
+Date: 08.08.2015
+Waypoint: m/JOJEVA/926
+Title: - Munzee # 801 25
+Points: 5
+----
+ID: 3405
+Date: 08.08.2015
+Waypoint: m/JOJEVA/945
+Title: - Munzee # 802 19
+Points: 5
+----
+ID: 3406
+Date: 08.08.2015
+Waypoint: m/JOJEVA/942
+Title: Pennenfeld - Munzee # 802 16
+Points: 5
+----
+ID: 3407
+Date: 08.08.2015
+Waypoint: m/JOJEVA/783
+Title: - Munzee # 7
+Points: 5
+----
+ID: 3408
+Date: 08.08.2015
+Waypoint: m/JOJEVA/861
+Title: - Munzee # 10
+Points: 5
+----
+ID: 3409
+Date: 08.08.2015
+Waypoint: m/JOJEVA/880
+Title: - Munzee # 800 4
+Points: 5
+----
+ID: 3410
+Date: 08.08.2015
+Waypoint: m/JOJEVA/883
+Title: - Munzee # 800 7
+Points: 5
+----
+ID: 3411
+Date: 08.08.2015
+Waypoint: m/JOJEVA/874
+Title: - Munzee # 23
+Points: 5
+----
+ID: 3412
+Date: 08.08.2015
+Waypoint: m/JOJEVA/801
+Title: - Munzee # 25
+Points: 5
+----
+ID: 3413
+Date: 08.08.2015
+Waypoint: m/JOJEVA/807
+Title: - Munzee # 6
+Points: 5
+----
+ID: 3414
+Date: 08.08.2015
+Waypoint: m/JOJEVA/893
+Title: - Munzee # 800 17
+Points: 5
+----
+ID: 3415
+Date: 08.08.2015
+Waypoint: m/JOJEVA/962
+Title: - Munzee # 802 11
+Points: 5
+----
+ID: 3416
+Date: 08.08.2015
+Waypoint: m/JOJEVA/851
+Title: - Munzee # 25
+Points: 5
+----
+ID: 3417
+Date: 08.08.2015
+Waypoint: m/JOJEVA/921
+Title: - Munzee # 801 20
+Points: 5
+----
+ID: 3418
+Date: 08.08.2015
+Waypoint: m/JOJEVA/859
+Title: - Munzee # 8
+Points: 5
+----
+ID: 3419
+Date: 08.08.2015
+Waypoint: m/JOJEVA/781
+Title: - Munzee # 5
+Points: 5
+----
+ID: 3420
+Date: 08.08.2015
+Waypoint: m/JOJEVA/943
+Title: - Munzee # 802 17
+Points: 5
+----
+ID: 3421
+Date: 08.08.2015
+Waypoint: m/JOJEVA/909
+Title: - Munzee # 801 8
+Points: 5
+----
+ID: 3422
+Date: 08.08.2015
+Waypoint: m/JOJEVA/900
+Title: - Munzee # 800 24
+Points: 5
+----
+ID: 3423
+Date: 08.08.2015
+Waypoint: m/JOJEVA/902
+Title: - Munzee # 801 1
+Points: 5
+----
+ID: 3424
+Date: 08.08.2015
+Waypoint: m/JOJEVA/848
+Title: - Munzee # 22
+Points: 5
+----
+ID: 3425
+Date: 08.08.2015
+Waypoint: m/JOJEVA/782
+Title: - Munzee # 6
+Points: 5
+----
+ID: 3426
+Date: 08.08.2015
+Waypoint: m/JOJEVA/897
+Title: - Munzee # 800 21
+Points: 5
+----
+ID: 3427
+Date: 08.08.2015
+Waypoint: m/JOJEVA/831
+Title: - Munzee # 5
+Points: 5
+----
+ID: 3428
+Date: 08.08.2015
+Waypoint: m/JOJEVA/799
+Title: - Munzee # 23
+Points: 5
+----
+ID: 3429
+Date: 08.08.2015
+Waypoint: m/JOJEVA/788
+Title: - Munzee # 12
+Points: 5
+----
+ID: 3430
+Date: 08.08.2015
+Waypoint: m/JOJEVA/886
+Title: - Munzee # 800 10
+Points: 5
+----
+ID: 3431
+Date: 08.08.2015
+Waypoint: m/JOJEVA/847
+Title: Rigalsche Wiese- Munzee # 21
+Points: 5
+----
+ID: 3432
+Date: 08.08.2015
+Waypoint: GC3XWJ2
+Title: Die goldgelbe Dose der Baumhirtin
+Tag: D3 T3 Small Mystery
+----
+ID: 3433
+Date: 08.08.2015
+Waypoint: m/JOJEVA/821
+Title: Rigalsche Wiese- Munzee # 20
+Points: 5
+----
+ID: 3434
+Date: 08.08.2015
+Waypoint: m/DevilsEnd/176
+Title: Rigal&#039;sche Wiese
+Points: 5
+----
+ID: 3435
+Date: 08.08.2015
+Waypoint: m/JOJEVA/870
+Title: Rigalsche Wiese- Munzee # 19
+Points: 5
+----
+ID: 3436
+Date: 08.08.2015
+Waypoint: m/JOJEVA/824
+Title: Rigalsche Wiese- Munzee # 23
+Points: 5
+----
+ID: 3437
+Date: 08.08.2015
+Waypoint: m/JOJEVA/899
+Title: Rigalsche Wiese- Munzee # 800 23
+Points: 5
+----
+ID: 3438
+Date: 08.08.2015
+Waypoint: m/JOJEVA/853
+Title: Rigalsche Wiese- Munzee # 2
+Points: 5
+----
+ID: 3439
+Date: 08.08.2015
+Waypoint: m/JOJEVA/805
+Title: Rigalsche Wiese- Munzee # 4
+Points: 5
+----
+ID: 3440
+Date: 08.08.2015
+Waypoint: m/JOJEVA/846
+Title: Rigalsche Wiese- Munzee # 20
+Points: 5
+----
+ID: 3441
+Date: 08.08.2015
+Waypoint: m/JOJEVA/854
+Title: Rigalsche Wiese- Munzee # 3
+Points: 5
+----
+ID: 3442
+Date: 08.08.2015
+Waypoint: m/JOJEVA/903
+Title: Rigalsche Wiese- Munzee # 801 2
+Points: 5
+----
+ID: 3443
+Date: 08.08.2015
+Waypoint: m/JOJEVA/940
+Title: Rigalsche Wiese- Munzee # 802 14
+Points: 5
+----
+ID: 3444
+Date: 08.08.2015
+Waypoint: m/JOJEVA/838
+Title: Rigalsche Wiese - Munzee # 12
+Points: 5
+----
+ID: 3445
+Date: 08.08.2015
+Waypoint: m/winkide/5735
+Title: Bonn - Stadtpark #5735
+Points: 5
+----
+ID: 3446
+Date: 08.08.2015
+Waypoint: m/ajlis/2173
+Title: Ajlis 23
+Points: 5
+----
+ID: 3447
+Date: 08.08.2015
+Waypoint: m/winkide/5776
+Title: Bonn - Koblenzer Str. #5776
+Points: 5
+----
+ID: 3448
+Date: 08.08.2015
+Waypoint: m/ajlis/2269
+Title: Winkis House Of Bonn #5742 Room #1
+Points: 5
+----
+ID: 3449
+Date: 08.08.2015
+Waypoint: m/ReMiKu/10291
+Title: Winkis House Of Bonn #5742 Room #2
+Points: 5
+----
+ID: 3450
+Date: 08.08.2015
+Waypoint: m/CTeam/4907
+Title: Winkis House Of Bonn #5742 Room #3
+Points: 5
+----
+ID: 3451
+Date: 08.08.2015
+Waypoint: m/dreiengel/1348
+Title: Winkis House Of Bonn #5742 Room #4
+nTF: 4
+Points: 5
+----
+ID: 3452
+Date: 08.08.2015
+Waypoint: m/QQ/11
+Title: Winkis House Of Bonn #5742 Room #5
+nTF: 3
+Points: 5
+----
+ID: 3453
+Date: 08.08.2015
+Waypoint: m/winkide/5742
+Title: Winkis House Of Bonn #5742
+Points: 5
+----
+ID: 3454
+Date: 08.08.2015
+Waypoint: m/winkide/5766
+Title: Bonn - Koblenzer Str. #5766
+Points: 5
+----
 ID: p20150810
 Date: 10.08.2015
 Waypoint: GC608W1
@@ -19534,6 +20837,19 @@ ID: p20150816
 Date: 16.08.2015
 Waypoint: GC607PK
 Title: Ein Eis zu 366 und 2000
+Tag: D1 T1 Event
+----
+ID: p20150819
+Date: 19.08.2015
+Waypoint: GC60YMQ
+Title: Sommer, Sonne, Sonnenschein - mit Eis
+Tag: D1 T1 Event
+----
+ID: p20150820
+Date: 20.08.2015
+Waypoint: GC60W0H OC12425
+Title: AMT Ⅳ (2015 KW34)
+nTF: 0
 Tag: D1 T1 Event
 ----
 ID: p20150827
@@ -19550,11 +20866,11 @@ Title: Auf Mercators Spuren
 Tag: D1 T1 Event
 ----
 ID: p20160729
-Date: 29.07.2016
+Date: 30.07.2016
 Waypoint: GC276WT
 Banner: jpg
-Title: Nacht der Vulkane 2016 (Arbeitstitel)
-Tag: Event
+Title: Nacht der Vulkane 2016
+Tag: D1 T1 Event
 ----
 ID: p10000
 Date: 01.01.2016
