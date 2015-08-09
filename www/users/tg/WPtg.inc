@@ -20827,6 +20827,108 @@ Waypoint: m/winkide/5766
 Title: Bonn - Koblenzer Str. #5766
 Points: 5
 ----
+ID: 3455
+Date: 09.08.2015
+Waypoint: m/winkide/5765
+Title: Bonn - Am Michaelshof #5765
+Points: 5
+----
+ID: 3456
+Date: 09.08.2015
+Waypoint: m/ajlis/2267
+Title: Winkis House Of Bonn #5734 Room #1
+Points: 5
+----
+ID: 3457
+Date: 09.08.2015
+Waypoint: m/ReMiKu/10293
+Title: Winkis House Of Bonn #5734 Room #2
+Points: 5
+----
+ID: 3458
+Date: 09.08.2015
+Waypoint: m/CTeam/4905
+Title: Winkis House Of Bonn #5734 Room #3
+Points: 5
+----
+ID: 3459
+Date: 09.08.2015
+Waypoint: m/dreiengel/1346
+Title: Winkis House Of Bonn #5734 Room #4
+Points: 5
+----
+ID: 3460
+Date: 09.08.2015
+Waypoint: m/c-bn/6241
+Title: Winkis House Of Bonn #5734 Room #5
+Points: 5
+----
+ID: 3461
+Date: 09.08.2015
+Waypoint: m/winkide/5734
+Title: Winkis House Of Bonn #5734
+Points: 5
+----
+ID: 3462
+Date: 09.08.2015
+Waypoint: m/winkide/5715
+Title: Bonn - Am Fronhof #5715
+Points: 5
+----
+ID: 3463
+Date: 09.08.2015
+Waypoint: m/winkide/5738
+Title: Bonn - Pfarrer-Minartz-Str. #5738
+Points: 5
+----
+ID: 3464
+Date: 09.08.2015
+Waypoint: m/winkide/5754
+Title: Bonn - Am Fronhof #5754
+Points: 5
+----
+ID: 3465
+Date: 09.08.2015
+Waypoint: m/winkide/5722
+Title: Bonn - Am Fronhof #5722
+Points: 5
+----
+ID: 3466
+Date: 09.08.2015
+Waypoint: m/CTeam/4782
+Title: Bonn
+Points: 5
+----
+ID: 3467
+Date: 09.08.2015
+Waypoint: m/winkide/5718
+Title: Bonn - Kurfürstenallee #5718
+Points: 5
+----
+ID: 3468
+Date: 09.08.2015
+Waypoint: m/winkide/5713
+Title: Bonn - Koblenzer Str. #5713
+Points: 5
+----
+ID: 3469
+Date: 09.08.2015
+Waypoint: m/ajlis/2174
+Title: Ajlis 24
+Points: 5
+----
+ID: 3470
+Date: 09.08.2015
+Waypoint: m/winkide/5709
+Title: Bonn - Koblenzer Str. #5709
+Points: 5
+----
+ID: 3471
+Date: 23.07.2015
+Waypoint: m/ajlis/245
+Title: An der Elisabethkirche, Bonn
+Points: 5
+----
 ID: p20150810
 Date: 10.08.2015
 Waypoint: GC608W1
