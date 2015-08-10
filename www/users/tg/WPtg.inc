@@ -9314,28 +9314,10 @@ Waypoint: m/AKuhnSH/201
 Title: Social Friesen Munzee by AKuhnSH
 Points: 0
 ----
-ID: 1586
-Date: 02.12.2014
-Waypoint: m/c-bn/4951
-Title: Bonn, Rochusstraße 4951 MOTEL
-Points: 5
-----
-ID: 1587
-Date: 02.12.2014
-Waypoint: m/feylino/1633
-Title: Bonn, Rochusstraße 4951 MOTEL Room #3
-Points: 5
-----
 ID: 1588
 Date: 02.12.2014
 Waypoint: m/JOJEVA/1310
 Title: Bonn, Rochusstraße 4951 MOTEL Room #1
-Points: 5
-----
-ID: 1589
-Date: 02.12.2014
-Waypoint: m/ajlis/2258
-Title: Bonn, Rochusstraße 4951 MOTEL Room #5
 Points: 5
 ----
 ID: 1590
@@ -9344,10 +9326,28 @@ Waypoint: m/Waldkauz/92
 Title: Bonn, Rochusstraße 4951 MOTEL Room #2
 Points: 5
 ----
+ID: 1587
+Date: 02.12.2014
+Waypoint: m/feylino/1633
+Title: Bonn, Rochusstraße 4951 MOTEL Room #3
+Points: 5
+----
 ID: 1591
 Date: 02.12.2014
 Waypoint: m/hugosoft/1855
 Title: Bonn, Rochusstraße 4951 MOTEL Room #4
+Points: 5
+----
+ID: 1589
+Date: 02.12.2014
+Waypoint: m/ajlis/2258
+Title: Bonn, Rochusstraße 4951 MOTEL Room #5
+Points: 5
+----
+ID: 1586
+Date: 02.12.2014
+Waypoint: m/c-bn/4951
+Title: Bonn, Rochusstraße 4951 MOTEL
 Points: 5
 ----
 ID: 1592
@@ -10440,16 +10440,22 @@ Waypoint: m/GS64/188
 Title: Hofgarten, Bonn
 Points: 5
 ----
-ID: 1773
+ID: 1780
 Date: 04.12.2014
-Waypoint: m/Seventy6/25
-Title: Am Hofgarten Bonn Room #10
+Waypoint: m/Piglett78/234
+Title: Am Hofgarten Bonn Room #1
 Points: 5
 ----
-ID: 1774
+ID: 1779
 Date: 04.12.2014
-Waypoint: m/Rah/535
-Title: Am Hofgarten Bonn Room #9
+Waypoint: m/MiniJoda/154
+Title: Am Hofgarten Bonn Room #2
+Points: 5
+----
+ID: 1776
+Date: 04.12.2014
+Waypoint: m/Ackadia/159
+Title: Am Hofgarten Bonn Room #3
 Points: 5
 ----
 ID: 1775
@@ -10458,10 +10464,10 @@ Waypoint: m/c-bn/6215
 Title: Am Hofgarten Bonn Room #4
 Points: 5
 ----
-ID: 1776
+ID: 1783
 Date: 04.12.2014
-Waypoint: m/Ackadia/159
-Title: Am Hofgarten Bonn Room #3
+Waypoint: m/winkide/7889
+Title: Am Hofgarten Bonn Room #5
 Points: 5
 ----
 ID: 1777
@@ -10476,16 +10482,22 @@ Waypoint: m/Wyando/5006
 Title: Am Hofgarten Bonn Room #7
 Points: 5
 ----
-ID: 1779
+ID: 1782
 Date: 04.12.2014
-Waypoint: m/MiniJoda/154
-Title: Am Hofgarten Bonn Room #2
+Waypoint: m/seal/1432
+Title: Am Hofgarten Bonn Room #8
 Points: 5
 ----
-ID: 1780
+ID: 1774
 Date: 04.12.2014
-Waypoint: m/Piglett78/234
-Title: Am Hofgarten Bonn Room #1
+Waypoint: m/Rah/535
+Title: Am Hofgarten Bonn Room #9
+Points: 5
+----
+ID: 1773
+Date: 04.12.2014
+Waypoint: m/Seventy6/25
+Title: Am Hofgarten Bonn Room #10
 Points: 5
 ----
 ID: 1781
@@ -10493,18 +10505,6 @@ Date: 04.12.2014
 Waypoint: m/tau/3804
 Title: Am Hofgarten Bonn
 Points: 10
-----
-ID: 1782
-Date: 04.12.2014
-Waypoint: m/seal/1432
-Title: Am Hofgarten Bonn Room #8
-Points: 5
-----
-ID: 1783
-Date: 04.12.2014
-Waypoint: m/winkide/7889
-Title: Am Hofgarten Bonn Room #5
-Points: 5
 ----
 ID: 1784
 Date: 04.12.2014
@@ -10590,12 +10590,6 @@ Waypoint: m/Christian68/694
 Title: Hofgarten Motel by Ajlis
 Points: 5
 ----
-ID: 1798
-Date: 04.12.2014
-Waypoint: m/ajlis/1367
-Title: Hofgarten Motel by Ajlis
-Points: 5
-----
 ID: 1799
 Date: 04.12.2014
 Waypoint: m/c-bn/4033
@@ -10618,6 +10612,12 @@ ID: 1802
 Date: 04.12.2014
 Waypoint: m/Mel/78
 Title: Hofgarten Motel by Ajlis Room #5
+Points: 5
+----
+ID: 1798
+Date: 04.12.2014
+Waypoint: m/ajlis/1367
+Title: Hofgarten Motel by Ajlis
 Points: 5
 ----
 ID: 1803
@@ -10959,11 +10959,10 @@ Title: Goebenstraße, Bonn
 nTF: 1
 Points: 5
 ----
-ID: 1859
+ID: 1863
 Date: 04.12.2014
-Waypoint: m/wasproduct/1113
-Title: Südstadt - Motel Goebenstraße by Ajlis Room #4
-nTF: 1
+Waypoint: m/dydy/1997
+Title: Südstadt - Motel Goebenstraße by Ajlis Room #1
 Points: 5
 ----
 ID: 1860
@@ -10978,16 +10977,17 @@ Waypoint: m/tweety/1558
 Title: Südstadt - Motel Goebenstraße by Ajlis Room #3
 Points: 5
 ----
+ID: 1859
+Date: 04.12.2014
+Waypoint: m/wasproduct/1113
+Title: Südstadt - Motel Goebenstraße by Ajlis Room #4
+nTF: 1
+Points: 5
+----
 ID: 1862
 Date: 04.12.2014
 Waypoint: m/ajlis/281
 Title: Südstadt - Motel Goebenstraße by Ajlis
-Points: 5
-----
-ID: 1863
-Date: 04.12.2014
-Waypoint: m/dydy/1997
-Title: Südstadt - Motel Goebenstraße by Ajlis Room #1
 Points: 5
 ----
 ID: 1864
@@ -11021,22 +11021,16 @@ Waypoint: m/ajlis/240
 Title: Schumannstraße, Bonn
 Points: 5
 ----
-ID: 1869
-Date: 04.12.2014
-Waypoint: m/Heidschnuck/284
-Title: Südstadt - Motel Schumannstraße by Ajlis Room #2
-Points: 5
-----
 ID: 1870
 Date: 04.12.2014
 Waypoint: m/roli29/124
 Title: Südstadt - Motel Schumannstraße by Ajlis Room #1
 Points: 5
 ----
-ID: 1871
+ID: 1869
 Date: 04.12.2014
-Waypoint: m/ajlis/224
-Title: Südstadt - Motel Schumannstraße by Ajlis
+Waypoint: m/Heidschnuck/284
+Title: Südstadt - Motel Schumannstraße by Ajlis Room #2
 Points: 5
 ----
 ID: 1872
@@ -11044,6 +11038,12 @@ Date: 04.12.2014
 Waypoint: m/Bitbuster/594
 Title: Südstadt - Motel Schumannstraße by Ajlis Room #3
 nTF: 1
+Points: 5
+----
+ID: 1871
+Date: 04.12.2014
+Waypoint: m/ajlis/224
+Title: Südstadt - Motel Schumannstraße by Ajlis
 Points: 5
 ----
 ID: 1873
@@ -17296,6 +17296,12 @@ Waypoint: m/JOJEVA/663
 Title: Diamond - Mehlem # 676
 Points: 5
 ----
+ID: 2883
+Date: 16.07.2015
+Waypoint: m/kaschper69/374
+Title: k69 - Bonn-Mehlem 3
+Points: 5
+----
 ID: 2874
 Date: 16.07.2015
 Waypoint: m/JOJEVA/655
@@ -17350,12 +17356,6 @@ Date: 17.07.2015
 Waypoint: OC103DC
 Title: Berliner Mauer - Segmente
 Tag: D15 T15 Safari
-----
-ID: 2883
-Date: 16.07.2015
-Waypoint: m/kaschper69/374
-Title: k69 - Bonn-Mehlem 3
-Points: 5
 ----
 ID: 2884
 Date: 17.07.2015
@@ -18695,6 +18695,12 @@ Date: 23.07.2015
 Waypoint: m/zeusi/2196
 Title: Munzee Power 808
 Points: 7
+----
+ID: 3471
+Date: 23.07.2015
+Waypoint: m/ajlis/245
+Title: An der Elisabethkirche, Bonn
+Points: 5
 ----
 ID: 3105
 Date: 23.07.2015
@@ -20923,17 +20929,35 @@ Waypoint: m/winkide/5709
 Title: Bonn - Koblenzer Str. #5709
 Points: 5
 ----
-ID: 3471
-Date: 23.07.2015
-Waypoint: m/ajlis/245
-Title: An der Elisabethkirche, Bonn
-Points: 5
-----
-ID: p20150810
+ID: 3472
 Date: 10.08.2015
 Waypoint: GC608W1
 Title: TEMBO! on tour (III) oder &#34;ab über'n Teich&#34;
 Tag: D2 T1 Event
+----
+ID: 3473
+Date: 10.08.2015
+Waypoint: m/winkide/6556
+Title: Bonn - Rheinaue #6556 MW
+Points: 10
+----
+ID: 3474
+Date: 10.08.2015
+Waypoint: m/Marnic/1641
+Title: MN#1641 Bonner Rheinaue 1
+Points: 40
+----
+ID: 3475
+Date: 10.08.2015
+Waypoint: m/HBRB/4583
+Title: Virtual HBRB - Bonn - Rheinaue
+Points: 5
+----
+ID: 3476
+Date: 10.08.2015
+Waypoint: m/Pumti/3131
+Title: VM [Blue] Bonn Rheinaue
+Points: 5
 ----
 ID: p20150816
 Date: 16.08.2015
