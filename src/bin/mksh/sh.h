@@ -174,7 +174,7 @@
 #ifdef EXTERN
 __RCSID("$MirOS: src/bin/mksh/sh.h,v 1.721 2015/03/20 23:37:55 tg Exp $");
 #endif
-#define MKSH_VERSION "R51 2015/07/10"
+#define MKSH_VERSION "R51 2015/08/13"
 
 /* arithmetic types: C implementation */
 #if !HAVE_CAN_INTTYPES
@@ -337,15 +337,15 @@ struct rusage {
 /* determine ksh_NSIG: first, use the traditional definitions */
 #undef ksh_NSIG
 #if defined(NSIG)
-#define ksh_NSIG NSIG
+#define ksh_NSIG (NSIG)
 #elif defined(_NSIG)
-#define ksh_NSIG _NSIG
+#define ksh_NSIG (_NSIG)
 #elif defined(SIGMAX)
 #define ksh_NSIG (SIGMAX + 1)
 #elif defined(_SIGMAX)
 #define ksh_NSIG (_SIGMAX + 1)
 #elif defined(NSIG_MAX)
-#define ksh_NSIG NSIG_MAX
+#define ksh_NSIG (NSIG_MAX)
 #else
 # error Please have your platform define NSIG.
 #endif
@@ -367,7 +367,7 @@ struct rusage {
 #else
 /* since it’s usable, prefer it */
 #undef ksh_NSIG
-#define ksh_NSIG NSIG_MAX
+#define ksh_NSIG (NSIG_MAX)
 #endif
 /* if NSIG_MAX is now still defined, use sysconf(_SC_NSIG) at runtime */
 #endif
