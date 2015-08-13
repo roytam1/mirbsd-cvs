@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.48 2015/07/19 10:54:00 tg Exp $
+# $MirOS: src/gnu/usr.bin/lynx/Makefile.bsd-wrapper,v 1.49 2015/07/19 12:25:44 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.12 2003/05/01 18:59:36 avsm Exp $
 
 MAN=		lynx.1
@@ -9,7 +9,7 @@ FSFISLIB=	No
 .include <bsd.own.mk>
 
 # MirOS patchlevel
-CPPFLAGS+=	-DLYNX_VERSION=\"2.8.8dev.16-MirOS-0AB5.1\"
+CPPFLAGS+=	-DLYNX_VERSION=\"2.8.8dev.16-MirOS-0AB6.2\"
 
 CFARGS+=	--prefix=/usr \
 		--sysconfdir=/etc \
@@ -57,11 +57,9 @@ CFARGS+=	--with-build-cc=${HOSTCC:Q} \
 		--with-build-cflags=${HOSTCFLAGS:Q}
 .endif
 
-.ifdef DEBUG
 CPPFLAGS+=	-DLYNX_DONT_CATCH_SIGBUS
 CPPFLAGS+=	-DLYNX_DONT_CATCH_SIGSEGV
 CPPFLAGS+=	-DLYNX_DONT_CATCH_SIGILL
-.endif
 
 # do not hardcode paths; do not scan for ports stuff
 # bzip2 is special and must always be disabled, otherwise
