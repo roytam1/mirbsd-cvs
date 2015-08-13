@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/ksh-chan.inc,v 1.28 2015/03/21 00:12:49 tg Exp $
+RCSID: $MirOS: www/data/ksh-chan.inc,v 1.29 2015/07/12 19:09:52 tg Exp $
 Title: Homepage of the original Korn Shell
 Link: http://www.kornshell.com/
 
@@ -68,7 +68,7 @@ where last development happened in 1999, when the original
 Korn Shell used to be commercial/proprietary software.
 ----
 Title: CVSweb for OpenBSD’s ksh
-Link: http://openbsd.cs.toronto.edu/cgi-bin/cvsweb/src/bin/ksh/
+Link: http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/bin/ksh/
 
 This is OpenBSD’s version of pdksh, which has been enhanced
 and bugfixed relative to it and eventually spawned mksh.

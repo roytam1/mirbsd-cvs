@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.588 2015/07/06 17:49:12 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.589 2015/07/10 21:02:53 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1160,13 +1160,19 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
-<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
--->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+ <li>[_0bitcount] Move moving external link from mksh(1) to the <a
+  href="@@RELPATH@@ksh-chan.htm">#ksh channel homepage</a> linked therein</li>
+ <li>[tg] Make setenv “set -u”-safe and fix when invoked with no args</li>
+ <li>[tg] Make “typeset -f” output reentrant if name is a reserved word</li>
+ <li>[oksh] Zero-pad seconds in “time” output to align columns</li>
+ <li>[tg] Check signals and errorlevels from OS to be within bounds</li>
+ <li>[komh, tg] Quote and document ‘;’ as PATH separator in some places</li>
+</ul>
 <p id="r51">R51 is a strongly recommended feature release:</p><ul>
  <li>[tg] OpenBSD sync: handle integer base out of band like ksh93 does</li>
  <li>[tg] Protect standard code (predefined aliases, internal code, aliases
