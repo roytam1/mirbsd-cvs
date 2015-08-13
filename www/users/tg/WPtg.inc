@@ -20959,6 +20959,102 @@ Waypoint: m/Pumti/3131
 Title: VM [Blue] Bonn Rheinaue
 Points: 5
 ----
+ID: 3477
+Date: 11.08.2015
+Waypoint: m/JOJEVA/349
+Title: Munzee # 362
+Points: 5
+----
+ID: 3478
+Date: 11.08.2015
+Waypoint: m/JOJEVA/341
+Title: Munzee # 354
+Points: 5
+----
+ID: 3479
+Date: 11.08.2015
+Waypoint: m/zeusi/2269
+Title: Munzee Power 880
+Points: 5
+----
+ID: 3480
+Date: 11.08.2015
+Waypoint: m/c-bn/2174
+Title: Aktion &quot;Karte dunkelblau&quot; 035
+Points: 20
+----
+ID: 3481
+Date: 11.08.2015
+Waypoint: m/seal/216
+Title: Mystery Endenich III
+Points: 10
+----
+ID: 3482
+Date: 11.08.2015
+Waypoint: m/mastaxlolls/37
+Title: Nächster Halt: Euskirchener Stra
+Points: 5
+----
+ID: 3483
+Date: 12.08.2015
+Waypoint: m/radschlaeger/2
+Title: Bonn, Im jungen Winterzeit MOTEL Room #1
+Points: 5
+----
+ID: 3484
+Date: 12.08.2015
+Waypoint: m/koebes/221
+Title: Bonn, Im jungen Winterzeit MOTEL Room #2
+Points: 5
+----
+ID: 3485
+Date: 12.08.2015
+Waypoint: m/mutti/10
+Title: Bonn, Im jungen Winterzeit MOTEL Room #3
+Points: 5
+----
+ID: 3486
+Date: 12.08.2015
+Waypoint: m/ReMiKu/10285
+Title: Bonn, Im jungen Wingert MOTEL Room #4
+Points: 5
+----
+ID: 3487
+Date: 12.08.2015
+Waypoint: m/Team-MTB-OC/572
+Title: Bonn, Im jungen Wingert MOTEL Room #5
+Points: 5
+----
+ID: 3488
+Date: 12.08.2015
+Waypoint: m/c-bn/2382
+Title: Bonn, Im jungen Wingert MOTEL
+Points: 5
+----
+ID: 3489
+Date: 12.08.2015
+Waypoint: m/winkide/2019
+Title: Bonn - Kapellenstr. #2019 M
+Points: 15
+----
+ID: 3490
+Date: 12.08.2015
+Waypoint: m/Wyando/1797
+Title: Bonn ~ Endenich Blau {1797}
+Points: 25
+----
+ID: 3491
+Date: 12.08.2015
+Waypoint: m/c-bn/2195
+Title: Aktion &quot;Karte dunkelblau&quot; 057
+Points: 45
+----
+ID: 3492
+Date: 13.08.2015
+Waypoint: m/zeusi/2833
+Title: Aktion &quot;Karte dunkelblau&quot; 040
+Points: 20
+----
 ID: p20150816
 Date: 16.08.2015
 Waypoint: GC607PK
@@ -20990,6 +21086,12 @@ Waypoint: GC5X94N
 Banner: jpg
 Title: Auf Mercators Spuren
 Tag: D1 T1 Event
+----
+ID: p20151021
+Date: 21.10.2015
+Waypoint: GC60K94
+Title: Wir kommen aus der Vergangenheit
+Tag: D45 T2 Event
 ----
 ID: p20160729
 Date: 30.07.2016

@@ -42,7 +42,7 @@ n=-1
 hasmore=1
 while (( hasmore )); do
 	(( ++n )) && sleep 3
-	ftp -4 -o munzeedl.tmp http://www.munzee.com/m/$user/captures/$n/ >&2
+	ftp -4 -o munzeedl.tmp https://www.munzee.com/m/$user/captures/$n/ >&2
 	<munzeedl.tmp sed $'s/<section>/\\\n/g' | \
 	    perl -ne 'print "$3|$4|$5|$1|$2\n" if ($_ =~ m,^.*<a class="munzee-id" href="/(m/[^"]*)/">([^<]*)</a>.*data-captured-at="(2[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9])T([^"]*)".*<div class="stat"> <div class="number"> ([0-9]+) .*$,);' |&
 	hasmore=0

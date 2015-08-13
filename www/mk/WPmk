@@ -270,7 +270,7 @@ fi
 				(( iskip |= 1 ))
 				;;
 			(m/*/+([0-9]))
-				wp="<a href=\"http://www.munzee.com/$wp/\">Munzee:${wp#m/}</a>"
+				wp="<a href=\"https://www.munzee.com/$wp/\">Munzee:${wp#m/}</a>"
 				[[ -n $xid ]] && let num_m++
 				(( iskip |= 1 ))
 				;;

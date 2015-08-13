@@ -1,8 +1,8 @@
 #!/usr/bin/perl -T
 my $rcsid = '$MirOS: www/files/wp.cgi,v 1.15 2014/11/10 22:11:14 tg Exp $';
 #-
-# Copyright © 2013, 2014
-#	Thorsten Glaser <tg@mirbsd.org>
+# Copyright © 2013, 2014, 2015
+#	mirabilos <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -77,7 +77,7 @@ $query =~ s/^\s+//;
 $query =~ s/\s+$//;
 
 if ($query =~ m!^(m/[0-9A-Za-z_-]*/[0-9]+)/?$!) {
-	&redirect("http://www.munzee.com/$1/");
+	&redirect("https://www.munzee.com/$1/");
 }
 
 $query = "" unless $query =~ /^[0-9A-Za-z_-]*$/;

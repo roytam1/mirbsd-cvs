@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: www/users/tg/munzeedl,v 1.4 2015/05/29 22:25:59 tg Exp $
+# $MirOS: www/users/tg/munzbadg,v 1.1 2015/05/31 02:27:37 tg Exp $
 #-
 # Copyright © 2014, 2015
-#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+#	mirabilos <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -21,9 +21,9 @@
 
 user=mirabilos
 
-ftp -4 -o - http://www.munzee.com/m/$user/badges/ | \
+ftp -4 -o - https://www.munzee.com/m/$user/badges/ | \
     sed $'s/<li/\\\n/g' | \
-    perl -ne 'print "$3|$1|$2\n" if ($_ =~ m,^.*class="badge-helper"[^>]*data-title="([^"]*)".*<p class=.badge-desc.>([^<]*)</p>.*src="http://static.munzee.com/images/new_badges/small/([^"]*).png".*$,);' | \
+    perl -ne 'print "$3|$1|$2\n" if ($_ =~ m,^.*class="badge-helper"[^>]*data-title="([^"]*)".*<p class=.badge-desc.>([^<]*)</p>.*src="https://munzee.global.ssl.fastly.net/images/new_badges/small/([^"]*).png".*$,);' | \
     while IFS=\| read -r image title desc; do
 	[[ $image = *_null ]] || \
 	    print -r -- "mzbadge ${image@Q} ${title@Q} ${desc@Q}"

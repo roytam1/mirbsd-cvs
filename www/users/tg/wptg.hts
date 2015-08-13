@@ -253,7 +253,7 @@ function mzbadge {
 
 	let ++nmzbadge
 	mzbadges+="<div class=\"flbox\"><img style=\"border:0px;\"$nl title=\"$desc\"
- alt=\"$alt\" src=\"http://static.munzee.com/images/new_badges/small/$img.png\" /></div>$nl"
+ alt=\"$alt\" src=\"https://munzee.global.ssl.fastly.net/images/new_badges/small/$img.png\" /></div>$nl"
 }
 
 mzbadge lvl10 'Perfect 10' 'You&#039;re a perfect 10! Don&#039;t ever change. Until you become an 11.'
@@ -347,8 +347,8 @@ statpic 'Caching, Dashing, etc. – GPS games' \
     'http://geocaching.gpsgames.org/cgi-bin/sig.pl?bg=gc&amp;user=mirabilos&amp;txt=more+than+just+geocaching' \
     http://www.gpsgames.org/cgi-bin/mystats.pl?user=mirabilos
 statpic 'It’s all about the numbers: Munzee' \
-    http://www.munzee.com/embed/mirabilos/ \
-    http://www.munzee.com/m/mirabilos/
+    https://www.munzee.com/embed/mirabilos/ \
+    https://www.munzee.com/m/mirabilos/
 statpic 'Open^WClosedCaching.de' \
     http://www.opencaching.de/images/statpics/statpic106521EN.jpg \
     http://www.opencaching.de/viewprofile.php?userid=106521
