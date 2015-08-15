@@ -21055,6 +21055,155 @@ Waypoint: m/zeusi/2833
 Title: Aktion &quot;Karte dunkelblau&quot; 040
 Points: 20
 ----
+ID: 3493
+Date: 13.08.2015
+Waypoint: m/mirabilos/26
+Title: Beste Eisdiele wo gibt❣
+nTF: 0
+Points: 5
+
+Erste Ernte aus den Munzee Clan Wars, wo ich beim Eisdielenevent
+für angeworben worden war ☺
+----
+ID: 3494
+Date: 14.08.2015
+Waypoint: OC12459
+Title: Didn't find it - der Cache - Vol. 3 - Rhöndorf
+nTF: 0
+Tag: D1 T1 Virtual
+----
+ID: 3495
+Date: 14.08.2015
+Waypoint: OC1245A
+Title: Godesberger Kreuze #26
+nTF: 0
+Tag: D1 T15 Virtual
+----
+ID: 3496
+Date: 14.08.2015
+Waypoint: m/dschuwa/683
+Title: Bonner Punktejagd 470
+nTF: 1
+Points: 5
+----
+ID: 3497
+Date: 14.08.2015
+Waypoint: m/dschuwa/772
+Title: Bonner Punktejagd 558
+Points: 5
+----
+ID: 3498
+Date: 14.08.2015
+Waypoint: m/zeusi/1629
+Title: Munzee Power 326
+Points: 5
+----
+ID: 3499
+Date: 14.08.2015
+Waypoint: m/dschuwa/251
+Title: Bonner Punktejagd 093
+Points: 5
+----
+ID: 3500
+Date: 14.08.2015
+Waypoint: m/zeusi/1812
+Title: Munzee Power 508
+Points: 5
+----
+ID: 3501
+Date: 14.08.2015
+Waypoint: m/dschuwa/280
+Title: Bonner Punktejagd 092
+Points: 5
+----
+ID: 3502
+Date: 14.08.2015
+Waypoint: m/dschuwa/250
+Title: Gelbe Klappe
+Points: 5
+----
+ID: 3503
+Date: 14.08.2015
+Waypoint: m/zeusi/1550
+Title: Munzee Power 228
+Points: 11
+----
+ID: 3504
+Date: 14.08.2015
+Waypoint: m/dschuwa/321
+Title: Bonner Punktejagd 085
+Points: 5
+----
+ID: 3505
+Date: 14.08.2015
+Waypoint: m/DerTransporter/202
+Title: Maxi Munzee 190
+Points: 5
+----
+ID: 3506
+Date: 14.08.2015
+Waypoint: m/zeusi/1958
+Title: Munzee Power 572
+Points: 6
+----
+ID: 3507
+Date: 14.08.2015
+Waypoint: m/zeusi/2652
+Title: Munzee Power 1259
+Points: 15
+----
+ID: 3508
+Date: 14.08.2015
+Waypoint: m/dschuwa/279
+Title: Bonner Punktejagd 088
+Points: 5
+----
+ID: 3509
+Date: 14.08.2015
+Waypoint: m/DerTransporter/204
+Title: Maxi Munzee 192
+Points: 5
+----
+ID: 3510
+Date: 14.08.2015
+Waypoint: m/zeusi/1971
+Title: Munzee Power 585
+Points: 5
+----
+ID: 3511
+Date: 14.08.2015
+Waypoint: m/Steffi78/441
+Title: Steffi&#039;s
+nTF: 1
+Points: 5
+----
+ID: 3512
+Date: 15.08.2015
+Waypoint: GC5EZHR
+Title: &#34;Apollinaris&#34; für lau!
+Tag: D4 T15 Micro Mystery
+----
+ID: 3513
+Date: 15.08.2015
+Waypoint: m/DevilsEnd/61
+Title: Deutsches Eck
+nTF: 3
+Points: 5
+----
+ID: 3514
+Date: 15.08.2015
+Waypoint: GC59NCZ
+Title: EarthCache Dächelsberg
+nTF: 3
+Tag: D2 T2 Earth
+----
+ID: 3515
+Date: 15.08.2015
+Waypoint: m/struppis/308
+Title: struppis 8
+nTF: 2
+Points: 5
+----
 ID: p20150816
 Date: 16.08.2015
 Waypoint: GC607PK
