@@ -5576,7 +5576,6 @@ ID: 971
 Date: 06.07.2014
 Waypoint: m/dschuwa/236
 Title: Bonner Punktejagd 044
-Points: 5
 
 Mal das Munzee-Äpp ausprobieren… echt nicht leicht zu bedienen,
 ich habe bestimmt ½h gebraucht, um <em>eine</em> Münze zu loggen.
@@ -7422,7 +7421,6 @@ ID: 1270
 Date: 02.12.2014
 Waypoint: m/munzee/35
 Title: Download Munzee App
-Points: 5
 ----
 ID: 1271
 Date: 02.12.2014
@@ -7458,7 +7456,6 @@ ID: 1276
 Date: 02.12.2014
 Waypoint: m/munzee/39
 Title: WikiZee
-Points: 5
 ----
 ID: 1277
 Date: 02.12.2014
@@ -7554,7 +7551,6 @@ ID: 1292
 Date: 02.12.2014
 Waypoint: m/QRazy/7
 Title: Who do Voodoo?
-Points: 5
 ----
 ID: 1293
 Date: 02.12.2014
@@ -7602,7 +7598,6 @@ ID: 1300
 Date: 02.12.2014
 Waypoint: m/QRazy/64
 Title: April Action Clan War
-Points: 5
 ----
 ID: 1301
 Date: 02.12.2014
@@ -8082,7 +8077,6 @@ ID: 1380
 Date: 02.12.2014
 Waypoint: m/QRazy/18
 Title: Polly Styrene
-Points: 5
 ----
 ID: 1381
 Date: 02.12.2014
@@ -8358,13 +8352,11 @@ ID: 1426
 Date: 02.12.2014
 Waypoint: m/AreOhBee/3
 Title: Quiz 3
-Points: 5
 ----
 ID: 1427
 Date: 02.12.2014
 Waypoint: m/QRazy/41
 Title: One Direction
-Points: 5
 ----
 ID: 1428
 Date: 02.12.2014
@@ -8478,7 +8470,6 @@ ID: 1446
 Date: 02.12.2014
 Waypoint: m/munzee/63
 Title: It&#039;s chock full of news you can use!
-Points: 5
 ----
 ID: 1447
 Date: 02.12.2014
@@ -8550,7 +8541,6 @@ ID: 1458
 Date: 02.12.2014
 Waypoint: m/QRazy/67
 Title: MHQ Oktoberfest Bash
-Points: 5
 ----
 ID: 1459
 Date: 02.12.2014
@@ -8748,7 +8738,6 @@ ID: 1491
 Date: 02.12.2014
 Waypoint: m/QRazy/69
 Title: Special Guest Star!
-Points: 5
 ----
 ID: 1492
 Date: 02.12.2014
@@ -8898,7 +8887,6 @@ ID: 1516
 Date: 02.12.2014
 Waypoint: m/munzee/55
 Title: Easter Egg 2.0
-Points: 5
 ----
 ID: 1517
 Date: 02.12.2014
@@ -8922,49 +8910,41 @@ ID: 1520
 Date: 02.12.2014
 Waypoint: m/QRazy/28
 Title: Stinkin&#039; Bugs
-Points: 5
 ----
 ID: 1521
 Date: 02.12.2014
 Waypoint: m/QRazy/25
 Title: Hulk patty
-Points: 5
 ----
 ID: 1522
 Date: 02.12.2014
 Waypoint: m/QRazy/26
 Title: The face of comedy
-Points: 5
 ----
 ID: 1523
 Date: 02.12.2014
 Waypoint: m/munzee/42
 Title: Welcome to Munzee!
-Points: 5
 ----
 ID: 1524
 Date: 02.12.2014
 Waypoint: m/munzee/15
 Title: Timmy
-Points: 5
 ----
 ID: 1525
 Date: 02.12.2014
 Waypoint: m/munzee/28
 Title: TheNewStore
-Points: 5
 ----
 ID: 1526
 Date: 02.12.2014
 Waypoint: m/QRazy/16
 Title: The Rachel
-Points: 5
 ----
 ID: 1527
 Date: 02.12.2014
 Waypoint: m/QRazy/12
 Title: Stuck in the Middle
-Points: 5
 ----
 ID: 1528
 Date: 02.12.2014
@@ -8976,49 +8956,41 @@ ID: 1529
 Date: 02.12.2014
 Waypoint: m/QRazy/10
 Title: Stick Around For a While
-Points: 5
 ----
 ID: 1530
 Date: 02.12.2014
 Waypoint: m/QRazy/22
 Title: Rob &amp; Big
-Points: 5
 ----
 ID: 1531
 Date: 02.12.2014
 Waypoint: m/QRazy/3
 Title: Rain or Shine
-Points: 5
 ----
 ID: 1532
 Date: 02.12.2014
 Waypoint: m/QRazy/19
 Title: Max Eisenhardt
-Points: 5
 ----
 ID: 1533
 Date: 02.12.2014
 Waypoint: m/MyFace/2
 Title: Munzee.nl
-Points: 5
 ----
 ID: 1534
 Date: 02.12.2014
 Waypoint: m/QRazy/15
 Title: My Buddy
-Points: 5
 ----
 ID: 1535
 Date: 02.12.2014
 Waypoint: m/munzee/17
 Title: Loo Dens
-Points: 5
 ----
 ID: 1536
 Date: 02.12.2014
 Waypoint: m/QRazy/17
 Title: Kermie
-Points: 5
 ----
 ID: 1537
 Date: 02.12.2014
@@ -9030,25 +9002,21 @@ ID: 1538
 Date: 02.12.2014
 Waypoint: m/QRazy/20
 Title: Green Giant
-Points: 5
 ----
 ID: 1539
 Date: 02.12.2014
 Waypoint: m/QRazy/8
 Title: Golden Arches
-Points: 5
 ----
 ID: 1540
 Date: 02.12.2014
 Waypoint: m/QRazy/11
 Title: For real?
-Points: 5
 ----
 ID: 1541
 Date: 02.12.2014
 Waypoint: m/QRazy/21
 Title: Clifford
-Points: 5
 ----
 ID: 1542
 Date: 02.12.2014
@@ -9168,25 +9136,21 @@ ID: 1561
 Date: 02.12.2014
 Waypoint: m/QRazy/30
 Title: Gutentag
-Points: 5
 ----
 ID: 1562
 Date: 02.12.2014
 Waypoint: m/CouchPotato/1
 Title: Humpty&#039;s Brothers
-Points: 5
 ----
 ID: 1563
 Date: 02.12.2014
 Waypoint: m/QRazy/29
 Title: Monthly Warning
-Points: 5
 ----
 ID: 1564
 Date: 02.12.2014
 Waypoint: m/CouchPotato/2
 Title: Mellow
-Points: 5
 ----
 ID: 1565
 Date: 02.12.2014
@@ -9318,61 +9282,51 @@ ID: 1588
 Date: 02.12.2014
 Waypoint: m/JOJEVA/1310
 Title: Bonn, Rochusstraße 4951 MOTEL Room #1
-Points: 5
 ----
 ID: 1590
 Date: 02.12.2014
 Waypoint: m/Waldkauz/92
 Title: Bonn, Rochusstraße 4951 MOTEL Room #2
-Points: 5
 ----
 ID: 1587
 Date: 02.12.2014
 Waypoint: m/feylino/1633
 Title: Bonn, Rochusstraße 4951 MOTEL Room #3
-Points: 5
 ----
 ID: 1591
 Date: 02.12.2014
 Waypoint: m/hugosoft/1855
 Title: Bonn, Rochusstraße 4951 MOTEL Room #4
-Points: 5
 ----
 ID: 1589
 Date: 02.12.2014
 Waypoint: m/ajlis/2258
 Title: Bonn, Rochusstraße 4951 MOTEL Room #5
-Points: 5
 ----
 ID: 1586
 Date: 02.12.2014
 Waypoint: m/c-bn/4951
 Title: Bonn, Rochusstraße 4951 MOTEL
-Points: 5
 ----
 ID: 1592
 Date: 02.12.2014
 Waypoint: m/JOJEVA/312
 Title: Munzee # 325
-Points: 5
 ----
 ID: 1593
 Date: 02.12.2014
 Waypoint: m/zeusi/2018
 Title: Munzee Power 632
-Points: 5
 ----
 ID: 1594
 Date: 02.12.2014
 Waypoint: m/zeusi/2115
 Title: Munzee Power 728
-Points: 5
 ----
 ID: 1595
 Date: 02.12.2014
 Waypoint: m/c-bn/2177
 Title: Aktion &quot;Karte dunkelblau&quot; 038
-Points: 5
 ----
 ID: 1596
 Date: 02.12.2014
@@ -9396,43 +9350,36 @@ ID: 1599
 Date: 02.12.2014
 Waypoint: m/c-bn/2162
 Title: Aktion &quot;Karte dunkelblau&quot; 023
-Points: 5
 ----
 ID: 1600
 Date: 02.12.2014
 Waypoint: m/remstaler/2265
 Title: Bonn Nahe Mystery Trail
-Points: 5
 ----
 ID: 1601
 Date: 02.12.2014
 Waypoint: m/Mieze/1114
 Title: Bonn nahe Mystietrail
-Points: 5
 ----
 ID: 1602
 Date: 02.12.2014
 Waypoint: m/JOJEVA/477
 Title: Danke für die Mystery&#039;s
-Points: 5
 ----
 ID: 1603
 Date: 02.12.2014
 Waypoint: m/remstaler/2271
 Title: Bonn Nahe Mystery Trail
-Points: 5
 ----
 ID: 1604
 Date: 02.12.2014
 Waypoint: m/JOJEVA/465
 Title: Munzee # 478
-Points: 5
 ----
 ID: 1605
 Date: 02.12.2014
 Waypoint: m/dschuwa/224
 Title: Bonner Punktejagd 030
-Points: 5
 ----
 ID: 1606
 Date: 02.12.2014
@@ -9444,37 +9391,31 @@ ID: 1607
 Date: 02.12.2014
 Waypoint: m/dschuwa/200
 Title: Bonner Punktejagd 061
-Points: 5
 ----
 ID: 1608
 Date: 02.12.2014
 Waypoint: m/dschuwa/209
 Title: Bonner Punktejagd 098
-Points: 5
 ----
 ID: 1609
 Date: 02.12.2014
 Waypoint: m/dschuwa/300
 Title: Quirinstrasse
-Points: 5
 ----
 ID: 1610
 Date: 02.12.2014
 Waypoint: m/dschuwa/207
 Title: Bonner Punktejagd 087
-Points: 5
 ----
 ID: 1611
 Date: 02.12.2014
 Waypoint: m/dschuwa/204
 Title: Bonner Punktejagd 056
-Points: 5
 ----
 ID: 1612
 Date: 02.12.2014
 Waypoint: m/dschuwa/194
 Title: Bonner Punktejagd 027
-Points: 5
 ----
 ID: 1613
 Date: 02.12.2014
@@ -9486,7 +9427,6 @@ ID: 1614
 Date: 02.12.2014
 Waypoint: m/dschuwa/311
 Title: Bonner Punktejagd 074
-Points: 5
 ----
 ID: 1615
 Date: 02.12.2014
@@ -9498,19 +9438,16 @@ ID: 1616
 Date: 02.12.2014
 Waypoint: m/dschuwa/218
 Title: Bonner Punktejagd 022
-Points: 5
 ----
 ID: 1617
 Date: 02.12.2014
 Waypoint: m/zeusi/1693
 Title: Munzee Power 390
-Points: 5
 ----
 ID: 1618
 Date: 02.12.2014
 Waypoint: m/dschuwa/231
 Title: Bonner Punktejagd 038
-Points: 5
 ----
 ID: 1619
 Date: 02.12.2014
@@ -9522,13 +9459,11 @@ ID: 1620
 Date: 02.12.2014
 Waypoint: m/dschuwa/232
 Title: Bonner Punktejagd 040
-Points: 5
 ----
 ID: 1621
 Date: 02.12.2014
 Waypoint: m/c-bn/2957
 Title: Bonn, Heinrich-Schneiders-Straße
-Points: 5
 ----
 ID: 1622
 Date: 02.12.2014
@@ -9540,13 +9475,11 @@ ID: 1623
 Date: 02.12.2014
 Waypoint: m/dschuwa/241
 Title: Bonner Punktejagd 050
-Points: 5
 ----
 ID: 1624
 Date: 02.12.2014
 Waypoint: m/dschuwa/243
 Title: Bonner Punktejagd 053
-Points: 5
 ----
 ID: 1625
 Date: 02.12.2014
@@ -9558,7 +9491,6 @@ ID: 1626
 Date: 02.12.2014
 Waypoint: m/dschuwa/234
 Title: Bonner Punktejagd 042
-Points: 5
 ----
 ID: 1627
 Date: 02.12.2014
@@ -9570,13 +9502,11 @@ ID: 1628
 Date: 02.12.2014
 Waypoint: m/c-bn/2982
 Title: Bonn, Im Maigarten
-Points: 5
 ----
 ID: 1629
 Date: 02.12.2014
 Waypoint: m/dschuwa/317
 Title: Bonner Punktejagd 067
-Points: 5
 ----
 ID: 1630
 Date: 02.12.2014
@@ -9588,13 +9518,11 @@ ID: 1631
 Date: 02.12.2014
 Waypoint: m/dschuwa/314
 Title: Bonner Punktejagd 062
-Points: 5
 ----
 ID: 1632
 Date: 02.12.2014
 Waypoint: m/dschuwa/325
 Title: Bonner Punktejagd 065
-Points: 5
 ----
 ID: 1633
 Date: 02.12.2014
@@ -9612,13 +9540,11 @@ ID: 1635
 Date: 02.12.2014
 Waypoint: m/zeusi/1513
 Title: Munzee Power 191
-Points: 5
 ----
 ID: 1636
 Date: 02.12.2014
 Waypoint: m/dschuwa/225
 Title: Bonner Punktejagd 031
-Points: 5
 ----
 ID: 1637
 Date: 02.12.2014
@@ -9630,19 +9556,16 @@ ID: 1638
 Date: 02.12.2014
 Waypoint: m/dschuwa/212
 Title: Bonner Punktejagd 015
-Points: 5
 ----
 ID: 1639
 Date: 02.12.2014
 Waypoint: m/zeusi/1552
 Title: Munzee Power 230
-Points: 5
 ----
 ID: 1640
 Date: 02.12.2014
 Waypoint: m/dschuwa/249
 Title: Bonner Punktejagd 069
-Points: 5
 ----
 ID: 1641
 Date: 02.12.2014
@@ -9660,45 +9583,38 @@ ID: 1643
 Date: 02.12.2014
 Waypoint: m/dschuwa/244
 Title: Bonner Punktejagd 054
-Points: 5
 ----
 ID: 1644
 Date: 02.12.2014
 Waypoint: m/zeusi/1547
 Title: Munzee Power 225
-Points: 5
 ----
 ID: 1645
 Date: 02.12.2014
 Waypoint: m/dschuwa/247
 Title: Bonner Punktejagd 058
-Points: 5
 ----
 ID: 1646
 Date: 02.12.2014
 Waypoint: m/dschuwa/233
 Title: Bonner Punktejagd 041
-Points: 5
 ----
 ID: 1647
 Date: 02.12.2014
 Waypoint: m/dschuwa/877
 Title: Bonner Punktejagd 663
 nTF: 1
-Points: 5
 ----
 ID: 1648
 Date: 02.12.2014
 Waypoint: m/JOJEVA/546
 Title: Munzee # 559
 nTF: 1
-Points: 5
 ----
 ID: 1649
 Date: 02.12.2014
 Waypoint: m/dschuwa/220
 Title: Bonner Punktejagd 025
-Points: 5
 ----
 ID: 1650
 Date: 02.12.2014
@@ -9710,19 +9626,16 @@ ID: 1651
 Date: 02.12.2014
 Waypoint: m/zeusi/1511
 Title: Munzee Power 189
-Points: 5
 ----
 ID: 1652
 Date: 02.12.2014
 Waypoint: m/dschuwa/219
 Title: Bonner Punktejagd 024
-Points: 5
 ----
 ID: 1653
 Date: 02.12.2014
 Waypoint: m/dschuwa/238
 Title: Bonner Punktejagd 047
-Points: 5
 ----
 ID: 1654
 Date: 02.12.2014
@@ -9734,92 +9647,77 @@ ID: 1655
 Date: 02.12.2014
 Waypoint: m/dschuwa/248
 Title: Bonner Punktejagd 064
-Points: 5
 ----
 ID: 1656
 Date: 02.12.2014
 Waypoint: m/dschuwa/329
 Title: Bonner Punktejagd 068
-Points: 5
 ----
 ID: 1657
 Date: 02.12.2014
 Waypoint: m/dschuwa/227
 Title: Bonner Punktejagd 033
-Points: 5
 ----
 ID: 1658
 Date: 02.12.2014
 Waypoint: m/dschuwa/239
 Title: Bonner Punktejagd 048
-Points: 5
 ----
 ID: 1659
 Date: 02.12.2014
 Waypoint: m/dschuwa/198
 Title: Bonner Punktejagd 059
-Points: 5
 ----
 ID: 1660
 Date: 02.12.2014
 Waypoint: m/dschuwa/199
 Title: Bonner Punktejagd 060
-Points: 5
 ----
 ID: 1661
 Date: 02.12.2014
 Waypoint: m/dschuwa/320
 Title: Bonner Punktejagd 083
-Points: 5
 ----
 ID: 1662
 Date: 02.12.2014
 Waypoint: m/dschuwa/310
 Title: Bonner Punktejagd 079
-Points: 5
 ----
 ID: 1663
 Date: 02.12.2014
 Waypoint: m/zeusi/1645
 Title: Munzee Power 342
-Points: 5
 ----
 ID: 1664
 Date: 02.12.2014
 Waypoint: m/zeusi/1799
 Title: Munzee Power 496
-Points: 5
 ----
 ID: 1665
 Date: 02.12.2014
 Waypoint: m/dschuwa/770
 Title: Bonner Punktejagd 556
-Points: 5
 ----
 ID: 1666
 Date: 02.12.2014
 Waypoint: m/dschuwa/865
 Title: Bonner Punktejagd 651
-Points: 5
 ----
 ID: 1667
 Date: 02.12.2014
 Waypoint: m/dschuwa/760
 Title: Bonner Punktejagd 546
 nTF: 1
-Points: 5
 ----
 ID: 1668
 Date: 02.12.2014
 Waypoint: m/dschuwa/323
 Title: Bonner Punktejagd 086
-Points: 5
 ----
 ID: 1669
 Date: 02.12.2014
 Waypoint: m/dschuwa/293
 Title: Bonner Punktejagd 094
-Points: 5
 ----
 ID: 1670
 Date: 02.12.2014
@@ -9837,26 +9735,22 @@ ID: 1672
 Date: 02.12.2014
 Waypoint: m/dschuwa/315
 Title: Bonner Punktejagd 081
-Points: 5
 ----
 ID: 1673
 Date: 02.12.2014
 Waypoint: m/dschuwa/49
 Title: Nächster Halt: Quirinusplatz
-Points: 5
 ----
 ID: 1674
 Date: 03.12.2014
 Waypoint: m/mirabilos/1
 Title: ehemaliger tarent-Hintereingang
 nTF: 0
-Points: 5
 ----
 ID: 1675
 Date: 03.12.2014
 Waypoint: m/JOJEVA/339
 Title: Munzee # 352
-Points: 5
 ----
 ID: 1676
 Date: 03.12.2014
@@ -9928,7 +9822,6 @@ ID: 1687
 Date: 03.12.2014
 Waypoint: m/munzee/65
 Title: The Brave
-Points: 5
 ----
 ID: 1688
 Date: 03.12.2014
@@ -10072,7 +9965,6 @@ ID: 1711
 Date: 03.12.2014
 Waypoint: m/zeusi/3909
 Title: Virtual Munzee 31
-Points: 5
 ----
 ID: 1712
 Date: 03.12.2014
@@ -10084,31 +9976,26 @@ ID: 1713
 Date: 03.12.2014
 Waypoint: m/zeusi/3908
 Title: Virtual Munzee 30
-Points: 5
 ----
 ID: 1714
 Date: 04.12.2014
 Waypoint: m/MV1/4347
 Title: MVirtual Endenich1
-Points: 5
 ----
 ID: 1715
 Date: 04.12.2014
 Waypoint: m/mastaxlolls/123
 Title: Aktion Blau-Weiße Karte
-Points: 5
 ----
 ID: 1716
 Date: 04.12.2014
 Waypoint: m/guido/195
 Title: virtual guido in germany
-Points: 5
 ----
 ID: 1717
 Date: 04.12.2014
 Waypoint: m/MorpheusHH/2238
 Title: VIRT blau(weiss)e-Karte 1 ;-)
-Points: 5
 ----
 ID: 1718
 Date: 04.12.2014
@@ -10120,37 +10007,31 @@ ID: 1719
 Date: 04.12.2014
 Waypoint: m/McAdies/75
 Title: Hello from Australia! (Endenich)
-Points: 5
 ----
 ID: 1720
 Date: 04.12.2014
 Waypoint: m/MV1/4344
 Title: MVirtual Endenich4
-Points: 5
 ----
 ID: 1721
 Date: 04.12.2014
 Waypoint: m/zeusi/3717
 Title: Virtual Munzee Dunkelblau-Weiss 4
-Points: 5
 ----
 ID: 1722
 Date: 04.12.2014
 Waypoint: m/Sundream/1172
 Title: VM Endenich
-Points: 5
 ----
 ID: 1723
 Date: 04.12.2014
 Waypoint: m/mastaxlolls/184
 Title: Aktion Blau-Weiße Karte
-Points: 5
 ----
 ID: 1724
 Date: 04.12.2014
 Waypoint: m/ajlis/72
 Title: Last Homezone
-Points: 5
 ----
 ID: 1725
 Date: 04.12.2014
@@ -10162,31 +10043,26 @@ ID: 1726
 Date: 04.12.2014
 Waypoint: m/Phobie81/1653
 Title: Virtualer Gruss
-Points: 5
 ----
 ID: 1727
 Date: 04.12.2014
 Waypoint: m/Mowsky/375
 Title: bonus, bona, bonum
-Points: 5
 ----
 ID: 1728
 Date: 04.12.2014
 Waypoint: m/MV1/4255
 Title: MVirtual A565/ Endenicher Allee
-Points: 5
 ----
 ID: 1729
 Date: 04.12.2014
 Waypoint: m/KimSchreiber/241
 Title: Bonn - KHS 1
-Points: 5
 ----
 ID: 1730
 Date: 04.12.2014
 Waypoint: m/Blackleather/69
 Title: Bonn Virtual Gruss aus Kassel
-Points: 5
 ----
 ID: 1731
 Date: 04.12.2014
@@ -10216,7 +10092,6 @@ ID: 1735
 Date: 04.12.2014
 Waypoint: m/Megatroniker/501
 Title: Bonn, Grüße aus Limbach-Oberfrohna
-Points: 5
 ----
 ID: 1736
 Date: 04.12.2014
@@ -10228,7 +10103,6 @@ ID: 1737
 Date: 04.12.2014
 Waypoint: m/MV1/4758
 Title: MV Bonn Busbahnhof
-Points: 5
 ----
 ID: 1738
 Date: 04.12.2014
@@ -10246,13 +10120,11 @@ ID: 1740
 Date: 04.12.2014
 Waypoint: m/cashkids/389
 Title: Lost Kiwi OE
-Points: 5
 ----
 ID: 1741
 Date: 04.12.2014
 Waypoint: m/MV1/4192
 Title: MVirtual Kaiserplatz
-Points: 5
 ----
 ID: 1742
 Date: 04.12.2014
@@ -10264,25 +10136,21 @@ ID: 1743
 Date: 04.12.2014
 Waypoint: m/zeusi/1977
 Title: Munzee Power 591
-Points: 5
 ----
 ID: 1744
 Date: 04.12.2014
 Waypoint: m/zeusi/1982
 Title: Munzee Power 596
-Points: 5
 ----
 ID: 1745
 Date: 04.12.2014
 Waypoint: m/zeusi/3910
 Title: Virtual Munzee 32
-Points: 5
 ----
 ID: 1746
 Date: 04.12.2014
 Waypoint: m/JOJEVA/685
 Title: Hofgarten Bonn Virtual (JOJEVA)
-Points: 5
 ----
 ID: 1747
 Date: 04.12.2014
@@ -10294,7 +10162,6 @@ ID: 1748
 Date: 04.12.2014
 Waypoint: m/dieeulenhueter/1443
 Title: VM Hofgartenwiese in Bonn # 2
-Points: 5
 ----
 ID: 1749
 Date: 04.12.2014
@@ -10306,7 +10173,6 @@ ID: 1750
 Date: 04.12.2014
 Waypoint: m/Netty/1090
 Title: VM Bonn - Am Hofgarten
-Points: 5
 ----
 ID: 1751
 Date: 04.12.2014
@@ -10330,7 +10196,6 @@ ID: 1754
 Date: 04.12.2014
 Waypoint: m/Pinguinbande2013/1821
 Title: Pinguinbande2013 - &quot;MYSTERY-VIRTUAL&quot; - 05
-Points: 5
 ----
 ID: 1755
 Date: 04.12.2014
@@ -10342,7 +10207,6 @@ ID: 1756
 Date: 04.12.2014
 Waypoint: m/Lightshine/4
 Title: VM Saarländer in Bonn
-Points: 5
 ----
 ID: 1757
 Date: 04.12.2014
@@ -10366,7 +10230,6 @@ ID: 1760
 Date: 04.12.2014
 Waypoint: m/struppis/508
 Title: struppis VM #6 Bonn Hofgartenwiese
-Points: 5
 ----
 ID: 1761
 Date: 04.12.2014
@@ -10390,7 +10253,6 @@ ID: 1764
 Date: 04.12.2014
 Waypoint: m/Captainwilly/81
 Title: Captainwilly&#039;s VM (Bonn)
-Points: 5
 ----
 ID: 1765
 Date: 04.12.2014
@@ -10402,7 +10264,6 @@ ID: 1766
 Date: 04.12.2014
 Waypoint: m/dydy/1064
 Title: Virtual Munzee Bonn
-Points: 5
 ----
 ID: 1767
 Date: 04.12.2014
@@ -10432,73 +10293,61 @@ ID: 1771
 Date: 04.12.2014
 Waypoint: m/DerTransporter/163
 Title: DerTransporter Virtual 3
-Points: 5
 ----
 ID: 1772
 Date: 04.12.2014
 Waypoint: m/GS64/188
 Title: Hofgarten, Bonn
-Points: 5
 ----
 ID: 1780
 Date: 04.12.2014
 Waypoint: m/Piglett78/234
 Title: Am Hofgarten Bonn Room #1
-Points: 5
 ----
 ID: 1779
 Date: 04.12.2014
 Waypoint: m/MiniJoda/154
 Title: Am Hofgarten Bonn Room #2
-Points: 5
 ----
 ID: 1776
 Date: 04.12.2014
 Waypoint: m/Ackadia/159
 Title: Am Hofgarten Bonn Room #3
-Points: 5
 ----
 ID: 1775
 Date: 04.12.2014
 Waypoint: m/c-bn/6215
 Title: Am Hofgarten Bonn Room #4
-Points: 5
 ----
 ID: 1783
 Date: 04.12.2014
 Waypoint: m/winkide/7889
 Title: Am Hofgarten Bonn Room #5
-Points: 5
 ----
 ID: 1777
 Date: 04.12.2014
 Waypoint: m/Tamarisk/1227
 Title: Am Hofgarten Bonn Room #6
-Points: 5
 ----
 ID: 1778
 Date: 04.12.2014
 Waypoint: m/Wyando/5006
 Title: Am Hofgarten Bonn Room #7
-Points: 5
 ----
 ID: 1782
 Date: 04.12.2014
 Waypoint: m/seal/1432
 Title: Am Hofgarten Bonn Room #8
-Points: 5
 ----
 ID: 1774
 Date: 04.12.2014
 Waypoint: m/Rah/535
 Title: Am Hofgarten Bonn Room #9
-Points: 5
 ----
 ID: 1773
 Date: 04.12.2014
 Waypoint: m/Seventy6/25
 Title: Am Hofgarten Bonn Room #10
-Points: 5
 ----
 ID: 1781
 Date: 04.12.2014
@@ -10510,25 +10359,21 @@ ID: 1784
 Date: 04.12.2014
 Waypoint: m/TEAMLKN/895
 Title: Akademisches Kunstmuseum - Virtual Munzee
-Points: 5
 ----
 ID: 1785
 Date: 04.12.2014
 Waypoint: m/SonoRad/123
 Title: Hello Bonn !!!! - Virtual
-Points: 5
 ----
 ID: 1786
 Date: 04.12.2014
 Waypoint: m/CrazyLadyLisa/1780
 Title: Mystery Virtual - Bonn 01
-Points: 5
 ----
 ID: 1787
 Date: 04.12.2014
 Waypoint: m/JlMMY/431
 Title: MVM Bonn Hofgarten
-Points: 5
 ----
 ID: 1788
 Date: 04.12.2014
@@ -10558,7 +10403,6 @@ ID: 1792
 Date: 04.12.2014
 Waypoint: m/Pumti/145
 Title: Akademisches Kunstmuseum
-Points: 5
 ----
 ID: 1793
 Date: 04.12.2014
@@ -10588,37 +10432,31 @@ ID: 1797
 Date: 04.12.2014
 Waypoint: m/Christian68/694
 Title: Hofgarten Motel by Ajlis
-Points: 5
 ----
 ID: 1799
 Date: 04.12.2014
 Waypoint: m/c-bn/4033
 Title: Hofgarten Motel by Ajlis Room #2
-Points: 5
 ----
 ID: 1800
 Date: 04.12.2014
 Waypoint: m/EmserSpitzbuben/52
 Title: Hofgarten Motel by Ajlis Room #3
-Points: 5
 ----
 ID: 1801
 Date: 04.12.2014
 Waypoint: m/MV1/4864
 Title: Hofgarten Motel by Ajlis Room #4
-Points: 5
 ----
 ID: 1802
 Date: 04.12.2014
 Waypoint: m/Mel/78
 Title: Hofgarten Motel by Ajlis Room #5
-Points: 5
 ----
 ID: 1798
 Date: 04.12.2014
 Waypoint: m/ajlis/1367
 Title: Hofgarten Motel by Ajlis
-Points: 5
 ----
 ID: 1803
 Date: 04.12.2014
@@ -10678,7 +10516,6 @@ ID: 1812
 Date: 04.12.2014
 Waypoint: m/McRon/3849
 Title: McRon in Bonn
-Points: 5
 ----
 ID: 1813
 Date: 04.12.2014
@@ -10708,7 +10545,6 @@ ID: 1817
 Date: 04.12.2014
 Waypoint: m/oesel123/1033
 Title: Bonn-Uni Mystery Virtual
-Points: 5
 ----
 ID: 1818
 Date: 04.12.2014
@@ -10732,7 +10568,6 @@ ID: 1821
 Date: 04.12.2014
 Waypoint: m/Boersentrader/563
 Title: Mystery Virtual Bonn 1 Hofgarten
-Points: 5
 ----
 ID: 1822
 Date: 04.12.2014
@@ -10744,25 +10579,21 @@ ID: 1823
 Date: 04.12.2014
 Waypoint: m/MV1/804
 Title: MVirtual Schlosskirche
-Points: 5
 ----
 ID: 1824
 Date: 04.12.2014
 Waypoint: m/aussiebee/75
 Title: Bonn Old City Hall Virtual
-Points: 5
 ----
 ID: 1825
 Date: 04.12.2014
 Waypoint: m/MV1/4185
 Title: MVirtual Altes Rathaus
-Points: 5
 ----
 ID: 1826
 Date: 04.12.2014
 Waypoint: m/hinco/1449
 Title: Bonn Old City Hall
-Points: 5
 ----
 ID: 1827
 Date: 04.12.2014
@@ -10774,7 +10605,6 @@ ID: 1828
 Date: 04.12.2014
 Waypoint: m/MV1/4193
 Title: MVirtual Koblenzer Tor
-Points: 5
 ----
 ID: 1829
 Date: 04.12.2014
@@ -10804,13 +10634,11 @@ ID: 1833
 Date: 04.12.2014
 Waypoint: m/TimDream/675
 Title: Greetings from Paris (Bonn)
-Points: 5
 ----
 ID: 1834
 Date: 04.12.2014
 Waypoint: m/IndianaCoins/219
 Title: VM Bonn Hofgarten
-Points: 5
 ----
 ID: 1835
 Date: 04.12.2014
@@ -10846,7 +10674,6 @@ ID: 1840
 Date: 04.12.2014
 Waypoint: m/EarlofIslay/145
 Title: VW Graz grüsst Bonn
-Points: 5
 ----
 ID: 1841
 Date: 04.12.2014
@@ -10858,7 +10685,6 @@ ID: 1842
 Date: 04.12.2014
 Waypoint: m/ReMiKu/7180
 Title: Mystery Virtual Bonn (7180)
-Points: 5
 ----
 ID: 1843
 Date: 04.12.2014
@@ -10876,218 +10702,183 @@ ID: 1845
 Date: 04.12.2014
 Waypoint: m/countsmiley/492
 Title: Next to the Horfartenwiese
-Points: 5
 ----
 ID: 1846
 Date: 04.12.2014
 Waypoint: m/wakefieldbob/481
 Title: Wakefieldbob&#039;s Bonn Virtual
-Points: 5
 ----
 ID: 1847
 Date: 04.12.2014
 Waypoint: m/Nexus69/249
 Title: Gruss aus Hessen -&gt; Bonn
-Points: 5
 ----
 ID: 1848
 Date: 04.12.2014
 Waypoint: m/CoffeeEater/1965
 Title: CEV: Hofgarten, Bonn, Germany
-Points: 5
 ----
 ID: 1849
 Date: 04.12.2014
 Waypoint: m/Mowsky/1201
 Title: Bonn-sai
-Points: 5
 ----
 ID: 1850
 Date: 04.12.2014
 Waypoint: m/Jules4/76
 Title: VM Stern # 26
-Points: 5
 ----
 ID: 1851
 Date: 04.12.2014
 Waypoint: m/schwaller/45
 Title: [schwaller] VM-Stern Bonn
-Points: 5
 ----
 ID: 1852
 Date: 04.12.2014
 Waypoint: m/ReMiKu/1138
 Title: Virtual Bonn (1138)
-Points: 5
 ----
 ID: 1853
 Date: 04.12.2014
 Waypoint: m/Pumti/600
 Title: [Pumti] VM-Stern Bonn
-Points: 5
 ----
 ID: 1854
 Date: 04.12.2014
 Waypoint: m/ajlis/223
 Title: Königstraße, Bonn
 nTF: 1
-Points: 5
 ----
 ID: 1855
 Date: 04.12.2014
 Waypoint: m/ajlis/180
 Title: Königstraße, Bonn
 nTF: 1
-Points: 5
 ----
 ID: 1856
 Date: 04.12.2014
 Waypoint: m/ajlis/242
 Title: Königstraße, Bonn
-Points: 5
 ----
 ID: 1857
 Date: 04.12.2014
 Waypoint: m/MV1/4572
 Title: MV Talweg 4572
-Points: 5
 ----
 ID: 1858
 Date: 04.12.2014
 Waypoint: m/ajlis/303
 Title: Goebenstraße, Bonn
 nTF: 1
-Points: 5
 ----
 ID: 1863
 Date: 04.12.2014
 Waypoint: m/dydy/1997
 Title: Südstadt - Motel Goebenstraße by Ajlis Room #1
-Points: 5
 ----
 ID: 1860
 Date: 04.12.2014
 Waypoint: m/keromar/3198
 Title: Südstadt - Motel Goebenstraße by Ajlis Room #2
-Points: 5
 ----
 ID: 1861
 Date: 04.12.2014
 Waypoint: m/tweety/1558
 Title: Südstadt - Motel Goebenstraße by Ajlis Room #3
-Points: 5
 ----
 ID: 1859
 Date: 04.12.2014
 Waypoint: m/wasproduct/1113
 Title: Südstadt - Motel Goebenstraße by Ajlis Room #4
 nTF: 1
-Points: 5
 ----
 ID: 1862
 Date: 04.12.2014
 Waypoint: m/ajlis/281
 Title: Südstadt - Motel Goebenstraße by Ajlis
-Points: 5
 ----
 ID: 1864
 Date: 04.12.2014
 Waypoint: m/mirabilos/2
 Title: Südstadt - Motel Goebenstraße by Ajlis Room #5
 nTF: 0
-Points: 5
 ----
 ID: 1865
 Date: 04.12.2014
 Waypoint: m/dschuwa/836
 Title: Bonner Punktejagd 622
-Points: 5
 ----
 ID: 1866
 Date: 04.12.2014
 Waypoint: m/ajlis/282
 Title: Bonner Talweg, Bonn
-Points: 5
 ----
 ID: 1867
 Date: 04.12.2014
 Waypoint: m/ajlis/266
 Title: Weberstraße, Bonn
-Points: 5
 ----
 ID: 1868
 Date: 04.12.2014
 Waypoint: m/ajlis/240
 Title: Schumannstraße, Bonn
-Points: 5
 ----
 ID: 1870
 Date: 04.12.2014
 Waypoint: m/roli29/124
 Title: Südstadt - Motel Schumannstraße by Ajlis Room #1
-Points: 5
 ----
 ID: 1869
 Date: 04.12.2014
 Waypoint: m/Heidschnuck/284
 Title: Südstadt - Motel Schumannstraße by Ajlis Room #2
-Points: 5
 ----
 ID: 1872
 Date: 04.12.2014
 Waypoint: m/Bitbuster/594
 Title: Südstadt - Motel Schumannstraße by Ajlis Room #3
 nTF: 1
-Points: 5
 ----
 ID: 1871
 Date: 04.12.2014
 Waypoint: m/ajlis/224
 Title: Südstadt - Motel Schumannstraße by Ajlis
-Points: 5
 ----
 ID: 1873
 Date: 04.12.2014
 Waypoint: m/mirabilos/3
 Title: Südstadt - Motel Schumannstraße by Ajlis Room #4
 nTF: 0
-Points: 5
 ----
 ID: 1874
 Date: 04.12.2014
 Waypoint: m/ajlis/249
 Title: Lessingstraße, Bonn
-Points: 5
 ----
 ID: 1875
 Date: 04.12.2014
 Waypoint: m/ajlis/283
 Title: Lessingstraße, Bonn
-Points: 5
 ----
 ID: 1876
 Date: 04.12.2014
 Waypoint: m/dschuwa/732
 Title: Bonner Punktejagd 519
-Points: 5
 ----
 ID: 1877
 Date: 04.12.2014
 Waypoint: m/ajlis/307
 Title: Bonner Talweg, Bonn
-Points: 5
 ----
 ID: 1878
 Date: 04.12.2014
 Waypoint: m/dschuwa/155
 Title: Nächster Halt: Rittershausstraße
-Points: 5
 ----
 ID: 1879
 Date: 04.12.2014
 Waypoint: m/ajlis/310
 Title: Bonner Talweg, Bonn
-Points: 5
 ----
 ID: 1880
 Date: 05.12.2014
@@ -11105,25 +10896,21 @@ ID: 1882
 Date: 05.12.2014
 Waypoint: m/ajlis/614
 Title: Munzee-t sich in Bonn
-Points: 5
 ----
 ID: 1883
 Date: 05.12.2014
 Waypoint: m/philnuim/827
 Title: Mystery Virtual Bonn 2
-Points: 5
 ----
 ID: 1884
 Date: 05.12.2014
 Waypoint: m/Leusink/4302
 Title: Virtual Bonn HBF Leusink
-Points: 5
 ----
 ID: 1885
 Date: 05.12.2014
 Waypoint: m/Mowsky/91
 Title: Endstation Bonn HBF
-Points: 5
 ----
 ID: 1886
 Date: 05.12.2014
@@ -11141,37 +10928,31 @@ ID: 1888
 Date: 05.12.2014
 Waypoint: m/pferdenahr/560
 Title: VIRT blau(weiss)e-Karte 12 ;-)
-Points: 5
 ----
 ID: 1889
 Date: 05.12.2014
 Waypoint: m/MorpheusHH/2246
 Title: VIRT blau(weiss)e-Karte 9 ;-)
-Points: 5
 ----
 ID: 1890
 Date: 05.12.2014
 Waypoint: m/robje64/613
 Title: Liebe Grüsse an Zeusi
-Points: 5
 ----
 ID: 1891
 Date: 05.12.2014
 Waypoint: m/zeusi/3714
 Title: Virtual Munzee Dunkelblau-Weiss 1
-Points: 5
 ----
 ID: 1892
 Date: 05.12.2014
 Waypoint: m/pferdenahr/561
 Title: VIRT blau(weiss)e-Karte 13 ;-)
-Points: 5
 ----
 ID: 1893
 Date: 05.12.2014
 Waypoint: m/zeusi/3716
 Title: Virtual Munzee Dunkelblau-Weiss 3
-Points: 5
 ----
 ID: 1894
 Date: 05.12.2014
@@ -11189,13 +10970,11 @@ ID: 1896
 Date: 05.12.2014
 Waypoint: m/MV1/4248
 Title: MVirtual Endenich5
-Points: 5
 ----
 ID: 1897
 Date: 05.12.2014
 Waypoint: m/pferdenahr/558
 Title: VIRT blau(weiss)e-Karte 10 ;-)
-Points: 5
 ----
 ID: 1898
 Date: 05.12.2014
@@ -11207,129 +10986,108 @@ ID: 1899
 Date: 05.12.2014
 Waypoint: m/dschuwa/5
 Title: St. Quirinus Bonn-Dottendorf
-Points: 5
 ----
 ID: 1900
 Date: 05.12.2014
 Waypoint: m/dschuwa/312
 Title: Bonner Punktejagd 080
-Points: 5
 ----
 ID: 1901
 Date: 05.12.2014
 Waypoint: m/zeusi/1763
 Title: Munzee Power 460
-Points: 5
 ----
 ID: 1902
 Date: 05.12.2014
 Waypoint: m/c-bn/1193
 Title: ÖPNV Stephanstraße
-Points: 5
 ----
 ID: 1903
 Date: 05.12.2014
 Waypoint: m/dschuwa/235
 Title: Bonner Punktejagd 043
-Points: 5
 ----
 ID: 1904
 Date: 05.12.2014
 Waypoint: m/dschuwa/46
 Title: Nächster Halt: Stephanstraße
-Points: 5
 ----
 ID: 1905
 Date: 05.12.2014
 Waypoint: m/dschuwa/192
 Title: Bonner Punktejagd 008
-Points: 5
 ----
 ID: 1906
 Date: 05.12.2014
 Waypoint: m/dschuwa/237
 Title: Bonner Punktejagd 046
-Points: 5
 ----
 ID: 1907
 Date: 05.12.2014
 Waypoint: m/dschuwa/211
 Title: Bonner Punktejagd 014
-Points: 5
 ----
 ID: 1908
 Date: 05.12.2014
 Waypoint: m/dschuwa/229
 Title: Bonner Punktejagd 036
-Points: 5
 ----
 ID: 1909
 Date: 05.12.2014
 Waypoint: m/dschuwa/51
 Title: Nächster Halt: Droste-Hülshoff-Straße
-Points: 5
 ----
 ID: 1910
 Date: 05.12.2014
 Waypoint: m/dschuwa/242
 Title: Bonner Punktejagd 052
-Points: 5
 ----
 ID: 1911
 Date: 05.12.2014
 Waypoint: m/c-bn/3329
 Title: Bonn, Eschelbachstraße
 nTF: 1
-Points: 5
 ----
 ID: 1912
 Date: 05.12.2014
 Waypoint: m/dschuwa/318
 Title: Bonner Punktejagd 070
-Points: 5
 ----
 ID: 1913
 Date: 05.12.2014
 Waypoint: m/c-bn/3204
 Title: Bonn, Eschelbachstraße
 nTF: 1
-Points: 5
 ----
 ID: 1914
 Date: 05.12.2014
 Waypoint: m/c-bn/3032
 Title: Bonn, F.-A.-Schmidt-Weg
-Points: 5
 ----
 ID: 1915
 Date: 05.12.2014
 Waypoint: m/dschuwa/195
 Title: Bonner Punktejagd 039
-Points: 5
 ----
 ID: 1916
 Date: 05.12.2014
 Waypoint: m/c-bn/1243
 Title: Bonn, F.-A.-Schmidt-Weg
-Points: 5
 ----
 ID: 1917
 Date: 05.12.2014
 Waypoint: m/dschuwa/261
 Title: Bonner Punktejagd 072
-Points: 5
 ----
 ID: 1918
 Date: 05.12.2014
 Waypoint: m/c-bn/3254
 Title: Bonn, Eulenweg
-Points: 5
 ----
 ID: 1919
 Date: 05.12.2014
 Waypoint: m/dschuwa/322
 Title: Bonner Punktejagd 071
-Points: 5
 ----
 ID: 1920
 Date: 05.12.2014
@@ -11341,13 +11099,11 @@ ID: 1921
 Date: 05.12.2014
 Waypoint: m/dschuwa/221
 Title: Bonner Punktejagd 026
-Points: 5
 ----
 ID: 1922
 Date: 05.12.2014
 Waypoint: m/dschuwa/202
 Title: Bonner Punktejagd 034
-Points: 5
 ----
 ID: 1923
 Date: 05.12.2014
@@ -11701,115 +11457,96 @@ ID: 1981
 Date: 06.12.2014
 Waypoint: m/dschuwa/201
 Title: Bonner Punktejagd 023
-Points: 5
 ----
 ID: 1982
 Date: 06.12.2014
 Waypoint: m/dschuwa/216
 Title: Bonner Punktejagd 020
-Points: 5
 ----
 ID: 1983
 Date: 06.12.2014
 Waypoint: m/dschuwa/226
 Title: Bonner Punktejagd 032
-Points: 5
 ----
 ID: 1984
 Date: 06.12.2014
 Waypoint: m/MV1/4346
 Title: MVirtual Endenich2
-Points: 5
 ----
 ID: 1985
 Date: 06.12.2014
 Waypoint: m/MV1/4253
 Title: MVirtual A565/ Provinzialstrasse
-Points: 5
 ----
 ID: 1986
 Date: 07.12.2014
 Waypoint: m/c-bn/3130
 Title: Bonn, Ermekeilstraße
-Points: 5
 ----
 ID: 1987
 Date: 07.12.2014
 Waypoint: m/dschuwa/706
 Title: Bonner Punktejagd 493
-Points: 5
 ----
 ID: 1988
 Date: 07.12.2014
 Waypoint: m/ajlis/295
 Title: Bonner Talweg, Bonn
-Points: 5
 ----
 ID: 1989
 Date: 07.12.2014
 Waypoint: m/ajlis/298
 Title: Bonner Talweg, Bonn
-Points: 5
 ----
 ID: 1990
 Date: 07.12.2014
 Waypoint: m/dschuwa/744
 Title: Bonner Punktejagd 530
-Points: 5
 ----
 ID: 1991
 Date: 07.12.2014
 Waypoint: m/dschuwa/82
 Title: Nächster Halt: Weberstraße
-Points: 5
 ----
 ID: 1992
 Date: 07.12.2014
 Waypoint: m/ajlis/247
 Title: Loestraße, Bonn
-Points: 5
 ----
 ID: 1993
 Date: 07.12.2014
 Waypoint: m/ajlis/270
 Title: Loestraße, Bonn
-Points: 5
 ----
 ID: 1994
 Date: 07.12.2014
 Waypoint: m/ajlis/248
 Title: Prinz-Albert-Straße, Bonn
-Points: 5
 ----
 ID: 1995
 Date: 07.12.2014
 Waypoint: m/ajlis/246
 Title: Prinz-Albert-Straße, Bonn
-Points: 5
 ----
 ID: 1996
 Date: 07.12.2014
 Waypoint: m/dschuwa/480
 Title: Bonner Punktejagd 304
-Points: 5
 ----
 ID: 1997
 Date: 07.12.2014
 Waypoint: m/dschuwa/128
 Title: Nächster Halt: König Straße
-Points: 5
 ----
 ID: 1998
 Date: 07.12.2014
 Waypoint: m/ajlis/239
 Title: Königstraße, Bonn
-Points: 5
 ----
 ID: 1999
 Date: 07.12.2014
 Waypoint: m/ajlis/233
 Title: Königstraße, Bonn
-Points: 5
 ----
 ID: 2000
 Date: 17.12.2014
@@ -13878,13 +13615,11 @@ Date: 28.05.2015
 Waypoint: m/dschuwa/867
 Title: Bonner Punktejagd 653
 nTF: 1
-Points: 5
 ----
 ID: 2320
 Date: 29.05.2015
 Waypoint: m/MV1/4254
 Title: MVirtual A565/ Sebastianstrasse
-Points: 5
 ----
 ID: 2321
 Date: 29.05.2015
@@ -14082,25 +13817,21 @@ ID: 2353
 Date: 29.05.2015
 Waypoint: m/Pfanni/343
 Title: VM Knuddel Bonn HbF 01
-Points: 5
 ----
 ID: 2354
 Date: 29.05.2015
 Waypoint: m/sidsefrank/7412
 Title: sidsefrank in Bonn 2015
-Points: 5
 ----
 ID: 2355
 Date: 29.05.2015
 Waypoint: m/kaschper69/254
 Title: k69 - Bonn Hbf. 1
-Points: 5
 ----
 ID: 2356
 Date: 29.05.2015
 Waypoint: m/Pumti/1319
 Title: VM Bonn Hbf.
-Points: 5
 ----
 ID: 2357
 Date: 29.05.2015
@@ -14112,7 +13843,6 @@ ID: 2358
 Date: 29.05.2015
 Waypoint: m/deano1007/53
 Title: Herwarthstrasse - Bonn Station
-Points: 5
 ----
 ID: 2359
 Date: 29.05.2015
@@ -14136,7 +13866,6 @@ ID: 2362
 Date: 29.05.2015
 Waypoint: m/ajlis/799
 Title: Bonner Altstadt 23
-Points: 5
 ----
 ID: 2363
 Date: 29.05.2015
@@ -14191,7 +13920,6 @@ ID: 2371
 Date: 29.05.2015
 Waypoint: m/Powerslice/1254
 Title: virtual Freimaurerei Bonn Zeusi
-Points: 5
 ----
 ID: 2372
 Date: 29.05.2015
@@ -14203,7 +13931,6 @@ ID: 2373
 Date: 29.05.2015
 Waypoint: m/zeusi/1335
 Title: Virtual Tour de Bonn
-Points: 5
 ----
 ID: 2374
 Date: 29.05.2015
@@ -14215,43 +13942,36 @@ ID: 2375
 Date: 29.05.2015
 Waypoint: m/zeusi/3912
 Title: Virtual Munzee 34
-Points: 5
 ----
 ID: 2376
 Date: 29.05.2015
 Waypoint: m/Sundream/1116
 Title: Virtual Munzee Stalkerin
-Points: 5
 ----
 ID: 2377
 Date: 29.05.2015
 Waypoint: m/JOJEVA/917
 Title: BN City - Munzee # 801 16
-Points: 5
 ----
 ID: 2378
 Date: 29.05.2015
 Waypoint: m/zeusi/3914
 Title: Virtual Munzee 36
-Points: 5
 ----
 ID: 2379
 Date: 29.05.2015
 Waypoint: m/zeusi/3911
 Title: Virtual Munzee 33
-Points: 5
 ----
 ID: 2380
 Date: 29.05.2015
 Waypoint: m/MV1/4177
 Title: MVirtual Gravis
-Points: 5
 ----
 ID: 2381
 Date: 29.05.2015
 Waypoint: m/Rodomici/236
 Title: Bonn - Prague
-Points: 5
 ----
 ID: 2382
 Date: 29.05.2015
@@ -14281,39 +14001,33 @@ ID: 2386
 Date: 29.05.2015
 Waypoint: m/MV1/687
 Title: MVirtual Bonn HBF
-Points: 5
 ----
 ID: 2387
 Date: 29.05.2015
 Waypoint: m/MV1/629
 Title: MV629 Next stop Eduard-Otto-Straße
-Points: 5
 ----
 ID: 2388
 Date: 29.05.2015
 Waypoint: m/dschuwa/69
 Title: Nächster Halt: Eduard-Otto-Straße
-Points: 5
 ----
 ID: 2389
 Date: 29.05.2015
 Waypoint: m/MV1/652
 Title: MV652 St.Nikolaus
-Points: 5
 ----
 ID: 2390
 Date: 29.05.2015
 Waypoint: m/dschuwa/747
 Title: Bonner Punktejagd 533
 nTF: 1
-Points: 5
 ----
 ID: 2391
 Date: 29.05.2015
 Waypoint: m/dschuwa/796
 Title: Bonner Punktejagd 582
 nTF: 1
-Points: 5
 ----
 ID: 2392
 Date: 30.05.2015
@@ -14325,45 +14039,38 @@ ID: 2393
 Date: 30.05.2015
 Waypoint: m/c-bn/2863
 Title: Bonn, Wesselbahnweg 3
-Points: 5
 ----
 ID: 2394
 Date: 30.05.2015
 Waypoint: m/ajlis/15
 Title: Neuenahrer Straße, Bonn
-Points: 5
 ----
 ID: 2395
 Date: 30.05.2015
 Waypoint: m/ajlis/100
 Title: Lando Calrissian
-Points: 5
 ----
 ID: 2396
 Date: 30.05.2015
 Waypoint: m/gruschenka/20
 Title: Luke Skywalker
-Points: 5
 ----
 ID: 2397
 Date: 30.05.2015
 Waypoint: m/ajlis/96
 Title: Alderann
-Points: 5
 ----
 ID: 2398
 Date: 30.05.2015
 Waypoint: m/Steffi78/322
 Title: Steffi&#039;s
 nTF: 1
-Points: 5
 ----
 ID: 2399
 Date: 30.05.2015
 Waypoint: m/Steffi78/321
 Title: Steffi&#039;s
 nTF: 1
-Points: 5
 ----
 ID: 2400
 Date: 30.05.2015
@@ -14390,55 +14097,46 @@ ID: 2403
 Date: 30.05.2015
 Waypoint: m/ajlis/1850
 Title: [c-bn] Motel 🏨 #59 {A565 Bonn-Endenich} Room #1
-Points: 5
 ----
 ID: 2404
 Date: 30.05.2015
 Waypoint: m/Wyando/3712
 Title: [c-bn] Motel 🏨 #59 {A565 Bonn-Endenich} Room #2
-Points: 5
 ----
 ID: 2405
 Date: 30.05.2015
 Waypoint: m/Tamarisk/460
 Title: [c-bn] Motel 🏨 #59 {A565 Bonn-Endenich} Room #3
-Points: 5
 ----
 ID: 2406
 Date: 30.05.2015
 Waypoint: m/TMA2007/2324
 Title: [c-bn] Motel 🏨 #59 {A565 Bonn-Endenich} Room #4
-Points: 5
 ----
 ID: 2407
 Date: 30.05.2015
 Waypoint: m/Munzeemia/478
 Title: [c-bn] Motel 🏨 #59 {A565 Bonn-Endenich} Room #5
-Points: 5
 ----
 ID: 2408
 Date: 30.05.2015
 Waypoint: m/c-bn/2917
 Title: [c-bn] Motel 🏨 #59 {A565 Bonn-Endenich}
-Points: 5
 ----
 ID: 2409
 Date: 30.05.2015
 Waypoint: m/Powerslice/1369
 Title: Virtual Munzee Support Bonn
-Points: 5
 ----
 ID: 2410
 Date: 30.05.2015
 Waypoint: m/MV1/4256
 Title: MVirtual A565/ Endenicher Strasse
-Points: 5
 ----
 ID: 2411
 Date: 30.05.2015
 Waypoint: m/dschuwa/290
 Title: Nächster Halt: Verdistraße
-Points: 5
 ----
 ID: 2412
 Date: 30.05.2015
@@ -14458,19 +14156,16 @@ Date: 30.05.2015
 Waypoint: m/mirabilos/4
 Title: [c-bn] Bonn, Magdalenenstr. 6971 HOTEL Room #1
 nTF: 0
-Points: 5
 ----
 ID: 2415
 Date: 30.05.2015
 Waypoint: m/MV1/4345
 Title: MVirtual Endenich3
-Points: 5
 ----
 ID: 2416
 Date: 30.05.2015
 Waypoint: m/Christian68/109
 Title: Virtual Endenich
-Points: 5
 ----
 ID: 2417
 Date: 30.05.2015
@@ -14482,19 +14177,16 @@ ID: 2418
 Date: 30.05.2015
 Waypoint: m/tigersden/18
 Title: tigersden&#039;s VM#3 from Australia
-Points: 5
 ----
 ID: 2419
 Date: 30.05.2015
 Waypoint: m/MorpheusHH/2239
 Title: VIRT blau(weiss)e-Karte 2 ;-)
-Points: 5
 ----
 ID: 2420
 Date: 30.05.2015
 Waypoint: m/mbagger/1309
 Title: 10000 special captures (BN)
-Points: 5
 ----
 ID: 2421
 Date: 30.05.2015
@@ -14524,7 +14216,6 @@ ID: 2425
 Date: 30.05.2015
 Waypoint: m/mastaxlolls/120
 Title: Aktion Blau-Weiße Karte
-Points: 5
 ----
 ID: 2426
 Date: 31.05.2015
@@ -14536,67 +14227,56 @@ ID: 2427
 Date: 01.06.2015
 Waypoint: m/MV1/2976
 Title: MVirtual Puppenkönig
-Points: 5
 ----
 ID: 2428
 Date: 01.06.2015
 Waypoint: m/mastaxlolls/182
 Title: Bonn HBF
-Points: 5
 ----
 ID: 2429
 Date: 01.06.2015
 Waypoint: m/MV1/4225
 Title: MVirtual Bonner Loch
-Points: 5
 ----
 ID: 2430
 Date: 01.06.2015
 Waypoint: m/MirDrei/938
 Title: Virtual Munzee Bonn by MirDrei
-Points: 5
 ----
 ID: 2431
 Date: 01.06.2015
 Waypoint: m/GS64/189
 Title: Hauptbahnhof, Bonn
-Points: 5
 ----
 ID: 2432
 Date: 01.06.2015
 Waypoint: m/winkide/135
 Title: Bonn - Hbf #135 V
-Points: 5
 ----
 ID: 2433
 Date: 01.06.2015
 Waypoint: m/CzStefan/31
 Title: Bonn Hbf
-Points: 5
 ----
 ID: 2434
 Date: 01.06.2015
 Waypoint: m/Powerfreak/133
 Title: Bonn Hbf.
-Points: 5
 ----
 ID: 2435
 Date: 01.06.2015
 Waypoint: m/dschuwa/522
 Title: VM Bonn HBF
-Points: 5
 ----
 ID: 2436
 Date: 01.06.2015
 Waypoint: m/Darkneser/922
 Title: VM Bonn - gute Fahrt
-Points: 5
 ----
 ID: 2437
 Date: 01.06.2015
 Waypoint: m/Phobie81/2280
 Title: Bonn HBF
-Points: 5
 ----
 ID: 2438
 Date: 01.06.2015
@@ -14608,13 +14288,11 @@ ID: 2439
 Date: 01.06.2015
 Waypoint: m/Airwolf26/4296
 Title: Bonn - Hauptbahnhof
-Points: 5
 ----
 ID: 2440
 Date: 01.06.2015
 Waypoint: m/zeusi/3721
 Title: Willkommen in BN HBF - zeusi -
-Points: 5
 ----
 ID: 2441
 Date: 01.06.2015
@@ -14626,27 +14304,23 @@ ID: 2442
 Date: 01.06.2015
 Waypoint: m/Wyando/1346
 Title: Bonn - Wyrtual HBF
-Points: 5
 ----
 ID: 2443
 Date: 01.06.2015
 Waypoint: m/ajlis/144
 Title: Herwarthstraße, Bonn
-Points: 5
 ----
 ID: 2444
 Date: 01.06.2015
 Waypoint: m/ReMiKu/11848
 Title: [c-bn] Bonn, Hermann-Wandersleb-Ring 6970 HOTEL Ro
 nTF: 2
-Points: 5
 ----
 ID: 2445
 Date: 01.06.2015
 Waypoint: m/winkide/9396
 Title: [c-bn] Bonn, Hermann-Wandersleb-Ring 6970 HOTEL Ro
 nTF: 1
-Points: 5
 ----
 ID: 2446
 Date: 01.06.2015
@@ -14659,37 +14333,31 @@ Date: 01.06.2015
 Waypoint: m/mirabilos/5
 Title: [c-bn] Bonn, Hermann-Wandersleb-Ring 6970 HOTEL Ro
 nTF: 0
-Points: 5
 ----
 ID: 2448
 Date: 01.06.2015
 Waypoint: m/dschuwa/420
 Title: Bonner Punktejagd 289
-Points: 5
 ----
 ID: 2449
 Date: 01.06.2015
 Waypoint: m/JOJEVA/562
 Title: Poppelsdorf - Munzee # 575
-Points: 5
 ----
 ID: 2450
 Date: 01.06.2015
 Waypoint: m/MV1/508
 Title: MV508 Bonner Talweg
-Points: 5
 ----
 ID: 2451
 Date: 01.06.2015
 Waypoint: m/dschuwa/781
 Title: Bonner Punktejagd 567
-Points: 5
 ----
 ID: 2452
 Date: 02.06.2015
 Waypoint: m/ajlis/83
 Title: Endenicher Straße, Bonn
-Points: 5
 ----
 ID: 2453
 Date: 02.06.2015
@@ -14720,53 +14388,45 @@ Date: 02.06.2015
 Waypoint: m/ReMiKu/11849
 Title: [c-bn] Bonn, Von-Weichs-Str. 3222 MOTEL Room #1
 nTF: 4
-Points: 5
 ----
 ID: 2458
 Date: 02.06.2015
 Waypoint: m/winkide/9395
 Title: [c-bn] Bonn, Von-Weichs-Str. 3222 MOTEL Room #2
 nTF: 3
-Points: 5
 ----
 ID: 2459
 Date: 02.06.2015
 Waypoint: m/Wyando/6038
 Title: [c-bn] Bonn, Von-Weichs-Str. 3222 MOTEL Room #3
 nTF: 2
-Points: 5
 ----
 ID: 2460
 Date: 02.06.2015
 Waypoint: m/Tamarisk/1746
 Title: [c-bn] Bonn, Von-Weichs-Str. 3222 MOTEL Room #4
 nTF: 1
-Points: 5
 ----
 ID: 2461
 Date: 02.06.2015
 Waypoint: m/c-bn/3222
 Title: [c-bn] Bonn, Von-Weichs-Str. 3222 MOTEL
-Points: 5
 ----
 ID: 2462
 Date: 02.06.2015
 Waypoint: m/mirabilos/6
 Title: [c-bn] Bonn, Von-Weichs-Str. 3222 MOTEL Room #5
 nTF: 0
-Points: 5
 ----
 ID: 2463
 Date: 02.06.2015
 Waypoint: m/MV1/4247
 Title: MVirtual Endenich6
-Points: 5
 ----
 ID: 2464
 Date: 02.06.2015
 Waypoint: m/Wyando/1794
 Title: Bonn ~ Endenich Blau {1794}
-Points: 5
 ----
 ID: 2465
 Date: 02.06.2015
@@ -14778,7 +14438,6 @@ ID: 2466
 Date: 02.06.2015
 Waypoint: m/MorpheusHH/2245
 Title: VIRT blau(weiss)e-Karte 8 ;-)
-Points: 5
 ----
 ID: 2467
 Date: 02.06.2015
@@ -14796,25 +14455,21 @@ ID: 2469
 Date: 02.06.2015
 Waypoint: m/Rah/9
 Title: parkplatz
-Points: 5
 ----
 ID: 2470
 Date: 02.06.2015
 Waypoint: m/mastaxlolls/38
 Title: Endenich
-Points: 5
 ----
 ID: 2471
 Date: 02.06.2015
 Waypoint: m/pferdenahr/562
 Title: VIRT blau(weiss)e-Karte 14 ;-)
-Points: 5
 ----
 ID: 2472
 Date: 02.06.2015
 Waypoint: m/zeusi/3071
 Title: Virtual Endenich
-Points: 5
 ----
 ID: 2473
 Date: 02.06.2015
@@ -14832,34 +14487,29 @@ ID: 2475
 Date: 02.06.2015
 Waypoint: m/MV1/2982
 Title: MVirtual Ohligmühle
-Points: 5
 ----
 ID: 2476
 Date: 02.06.2015
 Waypoint: m/MV1/4241
 Title: MVirtual Endenich8
-Points: 5
 ----
 ID: 2477
 Date: 02.06.2015
 Waypoint: m/koebes/291
 Title: [c-bn] Bonn, Am Klostergarten 6967 HOTEL Room #1
 nTF: 3
-Points: 5
 ----
 ID: 2478
 Date: 02.06.2015
 Waypoint: m/Wyando/6036
 Title: [c-bn] Bonn, Am Klostergarten 6967 HOTEL Room #2
 nTF: 2
-Points: 5
 ----
 ID: 2479
 Date: 02.06.2015
 Waypoint: m/Tamarisk/1744
 Title: [c-bn] Bonn, Am Klostergarten 6967 HOTEL Room #3
 nTF: 1
-Points: 5
 ----
 ID: 2480
 Date: 02.06.2015
@@ -14872,7 +14522,6 @@ Date: 02.06.2015
 Waypoint: m/mirabilos/7
 Title: [c-bn] Bonn, Am Klostergarten 6967 HOTEL Room #4
 nTF: 0
-Points: 5
 ----
 ID: 2482
 Date: 02.06.2015
@@ -14902,13 +14551,11 @@ ID: 2486
 Date: 02.06.2015
 Waypoint: m/c-bn/2244
 Title: Aktion &quot;Karte dunkelblau&quot; 094
-Points: 5
 ----
 ID: 2487
 Date: 02.06.2015
 Waypoint: m/Libra/92
 Title: Am Klostergarten
-Points: 5
 ----
 ID: 2488
 Date: 02.06.2015
@@ -14995,37 +14642,31 @@ ID: 2501
 Date: 04.06.2015
 Waypoint: m/Colonius/871
 Title: Motel Heimerzheim (7686) Room #1
-Points: 5
 ----
 ID: 2502
 Date: 04.06.2015
 Waypoint: m/winkide/5836
 Title: Motel Heimerzheim (7686) Room #2
-Points: 5
 ----
 ID: 2503
 Date: 04.06.2015
 Waypoint: m/Wyando/4007
 Title: Motel Heimerzheim (7686) Room #3
-Points: 5
 ----
 ID: 2504
 Date: 04.06.2015
 Waypoint: m/c-bn/4970
 Title: Motel Heimerzheim (7686) Room #4
-Points: 5
 ----
 ID: 2505
 Date: 04.06.2015
 Waypoint: m/Killerspielspielerin/1497
 Title: Motel Heimerzheim (7686) Room #5
-Points: 5
 ----
 ID: 2506
 Date: 04.06.2015
 Waypoint: m/ReMiKu/7686
 Title: Motel Heimerzheim (7686)
-Points: 5
 ----
 ID: 2507
 Date: 05.06.2015
@@ -15037,7 +14678,6 @@ ID: 2508
 Date: 05.06.2015
 Waypoint: m/c-bn/2160
 Title: Aktion &quot;Karte dunkelblau&quot; 021
-Points: 5
 ----
 ID: 2509
 Date: 05.06.2015
@@ -15061,7 +14701,6 @@ ID: 2512
 Date: 06.06.2015
 Waypoint: m/Pharaonin/354
 Title: Grüße nach Bonn aus Weimar
-Points: 5
 ----
 ID: 2513
 Date: 06.06.2015
@@ -15073,13 +14712,11 @@ ID: 2514
 Date: 06.06.2015
 Waypoint: m/Christian68/1972
 Title: VM - Vater Rhein ⛵
-Points: 5
 ----
 ID: 2515
 Date: 06.06.2015
 Waypoint: m/zeusi/1986
 Title: Munzee Power 600
-Points: 5
 ----
 ID: 2516
 Date: 07.06.2015
@@ -15103,13 +14740,11 @@ ID: 2519
 Date: 07.06.2015
 Waypoint: m/gerds/36
 Title: Melbbad - Noch ein Blick aufs Wasser
-Points: 5
 ----
 ID: 2520
 Date: 07.06.2015
 Waypoint: m/gerds/71
 Title: Melbbad - Blick aufs Wasser
-Points: 5
 ----
 ID: 2521
 Date: 07.06.2015
@@ -15145,85 +14780,71 @@ ID: 2526
 Date: 08.06.2015
 Waypoint: m/ajlis/252
 Title: Kurfürstenstraße, Bonn
-Points: 5
 ----
 ID: 2527
 Date: 08.06.2015
 Waypoint: m/ajlis/261
 Title: Kurfürstenstraße, Bonn
-Points: 5
 ----
 ID: 2528
 Date: 09.06.2015
 Waypoint: m/koebes/259
 Title: [c-bn] BMVg 6822 MOTEL Room #1
-Points: 5
 ----
 ID: 2529
 Date: 09.06.2015
 Waypoint: m/winkide/9130
 Title: [c-bn] BMVg 6822 MOTEL Room #2
-Points: 5
 ----
 ID: 2530
 Date: 09.06.2015
 Waypoint: m/ReMiKu/11682
 Title: [c-bn] BMVg 6822 MOTEL Room #3
-Points: 5
 ----
 ID: 2531
 Date: 09.06.2015
 Waypoint: m/Waldkauz/803
 Title: [c-bn] BMVg 6822 MOTEL Room #4
-Points: 5
 ----
 ID: 2532
 Date: 09.06.2015
 Waypoint: m/JOJEVA/2022
 Title: [c-bn] BMVg 6822 MOTEL Room #5
-Points: 5
 ----
 ID: 2533
 Date: 09.06.2015
 Waypoint: m/c-bn/6822
 Title: [c-bn] BMVg 6822 MOTEL
-Points: 5
 ----
 ID: 2534
 Date: 09.06.2015
 Waypoint: m/c-bn/3270
 Title: 1/5 - [c-bn] BMVg Trail #3270
-Points: 5
 ----
 ID: 2535
 Date: 09.06.2015
 Waypoint: m/Waldkauz/705
 Title: 1/5 - [WaldKauz] - BMVG Trail #1
-Points: 5
 ----
 ID: 2536
 Date: 09.06.2015
 Waypoint: m/JOJEVA/1511
 Title: 1/5 - [JOJEVA] BMVG Trail #1
-Points: 5
 ----
 ID: 2537
 Date: 09.06.2015
 Waypoint: m/mutti/44
 Title: 1/5 - Generic Name
-Points: 5
 ----
 ID: 2538
 Date: 09.06.2015
 Waypoint: m/radschlaeger/34
 Title: 1/5 - Generic Name
-Points: 5
 ----
 ID: 2539
 Date: 09.06.2015
 Waypoint: m/koebes/250
 Title: 1/5 - Generic Name
-Points: 5
 ----
 ID: 2540
 Date: 09.06.2015
@@ -15235,43 +14856,36 @@ ID: 2541
 Date: 09.06.2015
 Waypoint: m/koebes/262
 Title: [c-bn] BMVg 6890 MOTEL Room #1
-Points: 5
 ----
 ID: 2542
 Date: 09.06.2015
 Waypoint: m/winkide/9131
 Title: [c-bn] BMVg 6890 MOTEL Room #2
-Points: 5
 ----
 ID: 2543
 Date: 09.06.2015
 Waypoint: m/ReMiKu/11681
 Title: [c-bn] BMVg 6890 MOTEL Room #3
-Points: 5
 ----
 ID: 2544
 Date: 09.06.2015
 Waypoint: m/JOJEVA/2023
 Title: [c-bn] BMVg 6890 MOTEL Room #4
-Points: 5
 ----
 ID: 2545
 Date: 09.06.2015
 Waypoint: m/Waldkauz/804
 Title: [c-bn] BMVg 6890 MOTEL Room #5
-Points: 5
 ----
 ID: 2546
 Date: 09.06.2015
 Waypoint: m/c-bn/6890
 Title: [c-bn] BMVg 6890 MOTEL
-Points: 5
 ----
 ID: 2547
 Date: 09.06.2015
 Waypoint: m/c-bn/3098
 Title: 2/5 - [c-bn] BMVg Trail #3098
-Points: 5
 ----
 ID: 2548
 Date: 09.06.2015
@@ -15301,85 +14915,71 @@ ID: 2552
 Date: 09.06.2015
 Waypoint: m/c-bn/138
 Title: Rund ums BMVg #15
-Points: 5
 ----
 ID: 2553
 Date: 09.06.2015
 Waypoint: m/zeusi/1570
 Title: Munzee Power 248
-Points: 5
 ----
 ID: 2554
 Date: 09.06.2015
 Waypoint: m/c-bn/139
 Title: Rund ums BMVg #16
-Points: 5
 ----
 ID: 2555
 Date: 09.06.2015
 Waypoint: m/c-bn/140
 Title: Rund ums BMVg #17
-Points: 5
 ----
 ID: 2556
 Date: 09.06.2015
 Waypoint: m/c-bn/2319
 Title: Kreisverkehr
-Points: 5
 ----
 ID: 2557
 Date: 09.06.2015
 Waypoint: m/c-bn/2315
 Title: Kreisverkehr
-Points: 5
 ----
 ID: 2558
 Date: 09.06.2015
 Waypoint: m/c-bn/2317
 Title: Kreisverkehr
-Points: 5
 ----
 ID: 2559
 Date: 09.06.2015
 Waypoint: m/c-bn/2364
 Title: Kreisverkehr
-Points: 5
 ----
 ID: 2560
 Date: 09.06.2015
 Waypoint: m/c-bn/2363
 Title: Kreisverkehr
-Points: 5
 ----
 ID: 2561
 Date: 09.06.2015
 Waypoint: m/c-bn/2316
 Title: Kreisverkehr
-Points: 5
 ----
 ID: 2562
 Date: 09.06.2015
 Waypoint: m/c-bn/2318
 Title: Kreisverkehr
-Points: 5
 ----
 ID: 2563
 Date: 09.06.2015
 Waypoint: m/c-bn/2320
 Title: Kreisverkehr
-Points: 5
 ----
 ID: 2564
 Date: 10.06.2015
 Waypoint: m/oesel123/194
 Title: Endenich
-Points: 5
 ----
 ID: 2565
 Date: 11.06.2015
 Waypoint: m/dschuwa/740
 Title: Bonner Punktejagd 527
-Points: 5
 ----
 ID: 2566
 Date: 11.06.2015
@@ -15392,7 +14992,6 @@ ID: 2567
 Date: 12.06.2015
 Waypoint: m/c-bn/3108
 Title: Bonn, Hinter Hoben
-Points: 5
 ----
 ID: 2568
 Date: 13.06.2015
@@ -15404,41 +15003,35 @@ ID: 2569
 Date: 13.06.2015
 Waypoint: m/c-bn/4923
 Title: Munzee Power 14 Room #1
-Points: 5
 ----
 ID: 2570
 Date: 13.06.2015
 Waypoint: m/JOJEVA/1296
 Title: Munzee Power 14 Room #2
 nTF: 4
-Points: 5
 ----
 ID: 2571
 Date: 13.06.2015
 Waypoint: m/Waldkauz/78
 Title: Munzee Power 14 Room #3
 nTF: 3
-Points: 5
 ----
 ID: 2572
 Date: 13.06.2015
 Waypoint: m/Christian68/1085
 Title: Munzee Power 14 Room #4
 nTF: 2
-Points: 5
 ----
 ID: 2573
 Date: 13.06.2015
 Waypoint: m/ajlis/2264
 Title: Munzee Power 14 Room #5
 nTF: 1
-Points: 5
 ----
 ID: 2574
 Date: 13.06.2015
 Waypoint: m/zeusi/3251
 Title: Munzee Power 14
-Points: 5
 ----
 ID: 2575
 Date: 13.06.2015
@@ -15451,13 +15044,11 @@ ID: 2576
 Date: 13.06.2015
 Waypoint: m/c-bn/334
 Title: gelbe Klappe 📫 010 - Rheinbach, Pützstraße
-Points: 5
 ----
 ID: 2577
 Date: 13.06.2015
 Waypoint: m/QQ/148
 Title: Time for Munzee 10
-Points: 5
 ----
 ID: 2578
 Date: 14.06.2015
@@ -15505,7 +15096,6 @@ ID: 2585
 Date: 14.06.2015
 Waypoint: m/winkide/8462
 Title: Metternich - Pfingstmühlenweg #8462
-Points: 5
 ----
 ID: 2586
 Date: 14.06.2015
@@ -15524,19 +15114,16 @@ ID: 2588
 Date: 15.06.2015
 Waypoint: m/dschuwa/687
 Title: Bonner Punktejagd 474
-Points: 5
 ----
 ID: 2589
 Date: 16.06.2015
 Waypoint: m/JOJEVA/1871
 Title: Laterne
-Points: 5
 ----
 ID: 2590
 Date: 17.06.2015
 Waypoint: m/MorpheusHH/2244
 Title: VIRT blau(weiss)e-Karte 7 ;-)
-Points: 5
 ----
 ID: 2591
 Date: 18.06.2015
@@ -15584,13 +15171,11 @@ ID: 2598
 Date: 19.06.2015
 Waypoint: m/dschuwa/162
 Title: Nächster Halt: Samansstraße
-Points: 5
 ----
 ID: 2599
 Date: 19.06.2015
 Waypoint: m/Millerman01/277
 Title: Bonner Punktejagd 27
-Points: 5
 ----
 ID: 2600
 Date: 19.06.2015
@@ -15620,7 +15205,6 @@ ID: 2604
 Date: 19.06.2015
 Waypoint: m/dschuwa/137
 Title: Nächster Halt: Mehlemstraße
-Points: 5
 ----
 ID: 2605
 Date: 19.06.2015
@@ -15632,7 +15216,6 @@ ID: 2606
 Date: 19.06.2015
 Waypoint: m/Christian68/772
 Title: Beuel 3
-Points: 5
 ----
 ID: 2607
 Date: 17.06.2015
@@ -15644,13 +15227,11 @@ ID: 2608
 Date: 20.06.2015
 Waypoint: m/zeusi/2630
 Title: Munzee Power 1238
-Points: 5
 ----
 ID: 2609
 Date: 20.06.2015
 Waypoint: m/Romael/42
 Title: Ardennen3
-Points: 5
 ----
 ID: 2610
 Date: 20.06.2015
@@ -15692,7 +15273,6 @@ ID: 2616
 Date: 21.06.2015
 Waypoint: m/dschuwa/62
 Title: Nächster Halt: In der Raste
-Points: 5
 ----
 ID: 2617
 Date: 22.06.2015
@@ -15771,80 +15351,68 @@ Date: 23.06.2015
 Waypoint: m/supersilli/602
 Title: Generic Name Room #1
 nTF: 4
-Points: 5
 ----
 ID: 2630
 Date: 23.06.2015
 Waypoint: m/winkide/9569
 Title: Generic Name Room #2
 nTF: 3
-Points: 5
 ----
 ID: 2631
 Date: 23.06.2015
 Waypoint: m/QQ/591
 Title: Motel Hersel (11901) Room #3
 nTF: 2
-Points: 5
 ----
 ID: 2632
 Date: 23.06.2015
 Waypoint: m/Steffi78/394
 Title: Motel Hersel (11901) Room #4
 nTF: 1
-Points: 5
 ----
 ID: 2633
 Date: 23.06.2015
 Waypoint: m/ReMiKu/11901
 Title: Motel Hersel (11901)
-Points: 5
 ----
 ID: 2634
 Date: 23.06.2015
 Waypoint: m/JOJEVA/1998
 Title: Blue -Hersel
-Points: 5
 ----
 ID: 2635
 Date: 23.06.2015
 Waypoint: m/supersilli/601
 Title: (11725) Room #1
-Points: 5
 ----
 ID: 2636
 Date: 23.06.2015
 Waypoint: m/winkide/9570
 Title: Hotel Hersel (11725) Room #2
-Points: 5
 ----
 ID: 2637
 Date: 23.06.2015
 Waypoint: m/Wyando/6147
 Title: Hotel Hersel (11725) Room #3
 nTF: 4
-Points: 5
 ----
 ID: 2638
 Date: 23.06.2015
 Waypoint: m/Tamarisk/1775
 Title: Hotel Hersel (11725) Room #4
 nTF: 3
-Points: 5
 ----
 ID: 2639
 Date: 23.06.2015
 Waypoint: m/QQ/590
 Title: Hotel Hersel (11725) Room #5
 nTF: 2
-Points: 5
 ----
 ID: 2640
 Date: 23.06.2015
 Waypoint: m/Steffi78/393
 Title: Hotel Hersel (11725) Room #6
 nTF: 1
-Points: 5
 ----
 ID: 2641
 Date: 23.06.2015
@@ -15869,34 +15437,29 @@ Date: 23.06.2015
 Waypoint: m/Waldkauz/794
 Title: - Motel Room #1
 nTF: 4
-Points: 5
 ----
 ID: 2645
 Date: 23.06.2015
 Waypoint: m/QQ/177
 Title: Basteistr BG- Motel Room #2
 nTF: 3
-Points: 5
 ----
 ID: 2646
 Date: 23.06.2015
 Waypoint: m/Pfanni/340
 Title: Basteistr BG- Motel Room #3
 nTF: 2
-Points: 5
 ----
 ID: 2647
 Date: 23.06.2015
 Waypoint: m/McMel/6
 Title: Basteistr BG- Motel Room #4
 nTF: 1
-Points: 5
 ----
 ID: 2648
 Date: 23.06.2015
 Waypoint: m/JOJEVA/1490
 Title: Basteistr BG- Motel
-Points: 5
 ----
 ID: 2649
 Date: 23.06.2015
@@ -15908,77 +15471,65 @@ ID: 2650
 Date: 23.06.2015
 Waypoint: m/ajlis/1884
 Title: Motel - Munzee # 16 Room #1
-Points: 5
 ----
 ID: 2651
 Date: 23.06.2015
 Waypoint: m/struppis/158
 Title: Motel - Munzee # 16 Room #2
 nTF: 4
-Points: 5
 ----
 ID: 2652
 Date: 23.06.2015
 Waypoint: m/Kathleen/63
 Title: Motel - Munzee # 16 Room #3
 nTF: 3
-Points: 5
 ----
 ID: 2653
 Date: 23.06.2015
 Waypoint: m/QQ/108
 Title: Motel - Munzee # 16 Room #4
 nTF: 2
-Points: 5
 ----
 ID: 2654
 Date: 23.06.2015
 Waypoint: m/Waldkauz/795
 Title: Motel - Munzee # 16 Room #5
 nTF: 1
-Points: 5
 ----
 ID: 2655
 Date: 23.06.2015
 Waypoint: m/JOJEVA/760
 Title: Motel - Munzee # 16
-Points: 5
 ----
 ID: 2656
 Date: 23.06.2015
 Waypoint: m/JOJEVA/153
 Title: Munzee # 166
-Points: 5
 ----
 ID: 2657
 Date: 23.06.2015
 Waypoint: m/JOJEVA/721
 Title: Munzee # 2
-Points: 5
 ----
 ID: 2658
 Date: 23.06.2015
 Waypoint: m/ReMiKu/580
 Title: Walk the Rhine (0580)
-Points: 5
 ----
 ID: 2659
 Date: 23.06.2015
 Waypoint: m/JOJEVA/753
 Title: Munzee # 9
-Points: 5
 ----
 ID: 2660
 Date: 23.06.2015
 Waypoint: m/JOJEVA/1555
 Title: BG - Munzee - # 9
-Points: 5
 ----
 ID: 2661
 Date: 23.06.2015
 Waypoint: m/JOJEVA/694
 Title: Munzee # 7
-Points: 5
 ----
 ID: 2662
 Date: 24.06.2015
@@ -15996,47 +15547,40 @@ ID: 2664
 Date: 24.06.2015
 Waypoint: m/Wyando/6139
 Title: [c-bn] Universitätsklinikum Bonn 6975 HOTEL Room
-Points: 5
 ----
 ID: 2665
 Date: 24.06.2015
 Waypoint: m/Tamarisk/1768
 Title: [c-bn] Universitätsklinikum Bonn 6975 HOTEL Room
-Points: 5
 ----
 ID: 2666
 Date: 24.06.2015
 Waypoint: m/winkide/9439
 Title: [c-bn] Universitätsklinikum Bonn 6975 HOTEL Room
-Points: 5
 ----
 ID: 2667
 Date: 24.06.2015
 Waypoint: m/supersilli/591
 Title: [c-bn] Universitätsklinikum Bonn 6975 HOTEL Room
 nTF: 4
-Points: 5
 ----
 ID: 2668
 Date: 24.06.2015
 Waypoint: m/ReMiKu/11892
 Title: [c-bn] Universitätsklinikum Bonn 6975 HOTEL Room
 nTF: 3
-Points: 5
 ----
 ID: 2669
 Date: 24.06.2015
 Waypoint: m/QQ/579
 Title: [c-bn] Universitätsklinikum Bonn 6975 HOTEL Room
 nTF: 2
-Points: 5
 ----
 ID: 2670
 Date: 24.06.2015
 Waypoint: m/Steffi78/385
 Title: [c-bn] Universitätsklinikum Bonn 6975 HOTEL Room
 nTF: 1
-Points: 5
 ----
 ID: 2671
 Date: 24.06.2015
@@ -16048,7 +15592,6 @@ ID: 2672
 Date: 24.06.2015
 Waypoint: m/mastaxlolls/145
 Title: Kiefernweg
-Points: 5
 ----
 ID: 2673
 Date: 24.06.2015
@@ -16060,7 +15603,6 @@ ID: 2674
 Date: 24.06.2015
 Waypoint: m/JOJEVA/1655
 Title: Laterne 8 - Munzee 123 # 1655
-Points: 5
 ----
 ID: 2675
 Date: 24.06.2015
@@ -16072,49 +15614,41 @@ ID: 2676
 Date: 24.06.2015
 Waypoint: m/gruschenka/5
 Title: M
-Points: 5
 ----
 ID: 2677
 Date: 24.06.2015
 Waypoint: m/gruschenka/39
 Title: Anakins Podracer
-Points: 5
 ----
 ID: 2678
 Date: 24.06.2015
 Waypoint: m/gruschenka/41
 Title: Slave I
-Points: 5
 ----
 ID: 2679
 Date: 24.06.2015
 Waypoint: m/gruschenka/42
 Title: Republikanisches Kanonenboot
-Points: 5
 ----
 ID: 2680
 Date: 24.06.2015
 Waypoint: m/JOJEVA/1694
 Title: Laterne 8 - Munzee 123 # 1694
-Points: 5
 ----
 ID: 2681
 Date: 24.06.2015
 Waypoint: m/JOJEVA/1886
 Title: Laterne 6 - # 1886
-Points: 5
 ----
 ID: 2682
 Date: 24.06.2015
 Waypoint: m/JOJEVA/1663
 Title: Laterne 4 - Munzee 123 # 1663
-Points: 5
 ----
 ID: 2683
 Date: 24.06.2015
 Waypoint: m/JOJEVA/1673
 Title: Ortsverband Backsite - Munzee 123 # 1673
-Points: 5
 ----
 ID: 2684
 Date: 25.06.2015
@@ -16139,37 +15673,31 @@ ID: 2687
 Date: 26.06.2015
 Waypoint: m/JOJEVA/778
 Title: - Munzee # 2
-Points: 5
 ----
 ID: 2688
 Date: 26.06.2015
 Waypoint: m/JOJEVA/786
 Title: - Munzee # 10
-Points: 5
 ----
 ID: 2689
 Date: 26.06.2015
 Waypoint: m/JOJEVA/906
 Title: - Munzee # 801 5
-Points: 5
 ----
 ID: 2690
 Date: 26.06.2015
 Waypoint: m/JOJEVA/1008
 Title: - Munzee # 805 12
-Points: 5
 ----
 ID: 2691
 Date: 26.06.2015
 Waypoint: m/JOJEVA/1000
 Title: - Munzee # 805 4
-Points: 5
 ----
 ID: 2692
 Date: 26.06.2015
 Waypoint: m/JOJEVA/932
 Title: - Munzee # 802 6
-Points: 5
 ----
 ID: 2693
 Date: 26.06.2015
@@ -16182,31 +15710,26 @@ ID: 2694
 Date: 26.06.2015
 Waypoint: m/JOJEVA/1004
 Title: - Munzee # 805 8
-Points: 5
 ----
 ID: 2695
 Date: 26.06.2015
 Waypoint: m/JOJEVA/1005
 Title: - Munzee # 805 9
-Points: 5
 ----
 ID: 2696
 Date: 26.06.2015
 Waypoint: m/JOJEVA/1012
 Title: - Munzee # 805 16
-Points: 5
 ----
 ID: 2697
 Date: 26.06.2015
 Waypoint: m/JOJEVA/785
 Title: - Munzee # 9
-Points: 5
 ----
 ID: 2698
 Date: 26.06.2015
 Waypoint: m/JOJEVA/999
 Title: - Munzee # 805 3
-Points: 5
 ----
 ID: 2699
 Date: 26.06.2015
@@ -16218,41 +15741,35 @@ ID: 2700
 Date: 26.06.2015
 Waypoint: m/Waldkauz/326
 Title: Motel - Munzee #654 11 Room #1
-Points: 5
 ----
 ID: 2701
 Date: 26.06.2015
 Waypoint: m/coolvava/25
 Title: Motel - Munzee #654 11 Room #2
 nTF: 4
-Points: 5
 ----
 ID: 2702
 Date: 26.06.2015
 Waypoint: m/Kathleen/62
 Title: ⌂ Motel ⌂ - BG Room #3
 nTF: 3
-Points: 5
 ----
 ID: 2703
 Date: 26.06.2015
 Waypoint: m/QQ/107
 Title: ⌂ Motel ⌂ - BG Room #4
 nTF: 2
-Points: 5
 ----
 ID: 2704
 Date: 26.06.2015
 Waypoint: m/Steffi78/243
 Title: ⌂ Motel ⌂ - BG Room #5
 nTF: 1
-Points: 5
 ----
 ID: 2705
 Date: 26.06.2015
 Waypoint: m/JOJEVA/1342
 Title: ⌂ Motel ⌂ - BG
-Points: 5
 ----
 ID: 2706
 Date: 26.06.2015
@@ -16266,138 +15783,117 @@ Date: 23.06.2015
 Waypoint: m/mirabilos/8
 Title: Motel Hersel (11901) Room #5
 nTF: 0
-Points: 5
 ----
 ID: 2708
 Date: 23.06.2015
 Waypoint: m/mirabilos/9
 Title: Hotel Hersel (11725) Room #7
 nTF: 0
-Points: 5
 ----
 ID: 2709
 Date: 23.06.2015
 Waypoint: m/mirabilos/10
 Title: Basteistr BG- Motel Room #5
 nTF: 0
-Points: 5
 ----
 ID: 2710
 Date: 24.06.2015
 Waypoint: m/mirabilos/11
 Title: [c-bn] Universitätsklinikum Bonn 6975 HOTEL Room d-2
 nTF: 0
-Points: 5
 ----
 ID: 2711
 Date: 27.06.2015
 Waypoint: m/dschuwa/122
 Title: Nächster Halt: Jugendherberge
-Points: 5
 ----
 ID: 2712
 Date: 27.06.2015
 Waypoint: m/JoKaBo87/9
 Title: VenusbergBonn5
-Points: 5
 ----
 ID: 2713
 Date: 27.06.2015
 Waypoint: m/ajlis/405
 Title: Wir waren hier!
-Points: 5
 ----
 ID: 2714
 Date: 27.06.2015
 Waypoint: m/anjasi/9
 Title: BN-A 5
 nTF: 1
-Points: 5
 ----
 ID: 2715
 Date: 27.06.2015
 Waypoint: m/QQ/305
 Title: Steffi&#039;s Motel Room #1
 nTF: 1
-Points: 5
 ----
 ID: 2716
 Date: 27.06.2015
 Waypoint: m/Steffi78/314
 Title: Steffi&#039;s Motel
 nTF: 2
-Points: 5
 ----
 ID: 2717
 Date: 27.06.2015
 Waypoint: m/mirabilos/12
 Title: Steffi&#039;s Motel Room #2
 nTF: 0
-Points: 5
 ----
 ID: 2718
 Date: 27.06.2015
 Waypoint: m/Wyando/6137
 Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL Room #1
-Points: 5
 ----
 ID: 2719
 Date: 27.06.2015
 Waypoint: m/Tamarisk/1766
 Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL Room #2
-Points: 5
 ----
 ID: 2720
 Date: 27.06.2015
 Waypoint: m/winkide/9438
 Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL Room #3
-Points: 5
 ----
 ID: 2721
 Date: 27.06.2015
 Waypoint: m/supersilli/588
 Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL Room #4
-Points: 5
 ----
 ID: 2722
 Date: 27.06.2015
 Waypoint: m/ReMiKu/11889
 Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL Room #5
-Points: 5
 ----
 ID: 2723
 Date: 27.06.2015
 Waypoint: m/Steffi78/375
 Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL Room #6
-Points: 5
 ----
 ID: 2724
 Date: 27.06.2015
 Waypoint: m/QQ/569
 Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL Room #7
 nTF: 4
-Points: 5
 ----
 ID: 2725
 Date: 27.06.2015
 Waypoint: m/charlino/240
 Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL Room #8
 nTF: 3
-Points: 5
 ----
 ID: 2726
 Date: 27.06.2015
 Waypoint: m/feylino/3070
 Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL Room #9
 nTF: 2
-Points: 5
 ----
 ID: 2727
 Date: 27.06.2015
 Waypoint: m/hugosoft/3404
 Title: [c-bn] Bonn, Hausdorffstr. 7074 HOTEL Room #10
 nTF: 1
-Points: 5
 ----
 ID: 2728
 Date: 27.06.2015
@@ -16410,81 +15906,68 @@ Date: 27.06.2015
 Waypoint: m/Steffi78/401
 Title: Steffi&#039;s
 nTF: 1
-Points: 5
 ----
 ID: 2730
 Date: 27.06.2015
 Waypoint: m/dschuwa/70
 Title: Nächster Halt: Pütz Straße
-Points: 5
 ----
 ID: 2731
 Date: 27.06.2015
 Waypoint: m/dschuwa/785
 Title: Bonner Punktejagd 571
-Points: 5
 ----
 ID: 2732
 Date: 27.06.2015
 Waypoint: m/dschuwa/852
 Title: Bonner Punktejagd 638
-Points: 5
 ----
 ID: 2733
 Date: 27.06.2015
 Waypoint: m/dschuwa/828
 Title: Bonner Punktejagd 614
-Points: 5
 ----
 ID: 2734
 Date: 27.06.2015
 Waypoint: m/dschuwa/903
 Title: Bonner Punktejagd 689
-Points: 5
 ----
 ID: 2735
 Date: 27.06.2015
 Waypoint: m/dschuwa/752
 Title: Bonner Punktejagd 538
-Points: 5
 ----
 ID: 2736
 Date: 27.06.2015
 Waypoint: m/dschuwa/728
 Title: Bonner Punktejagd 515
-Points: 5
 ----
 ID: 2737
 Date: 27.06.2015
 Waypoint: m/dschuwa/878
 Title: Bonner Punktejagd 664
-Points: 5
 ----
 ID: 2738
 Date: 27.06.2015
 Waypoint: m/dschuwa/849
 Title: Bonner Punktejagd 635
 nTF: 1
-Points: 5
 ----
 ID: 2739
 Date: 28.06.2015
 Waypoint: m/dschuwa/196
 Title: Bonner Punktejagd 051
 nTF: 1
-Points: 5
 ----
 ID: 2740
 Date: 28.06.2015
 Waypoint: m/dschuwa/193
 Title: Bonner Punktejagd 013
-Points: 5
 ----
 ID: 2741
 Date: 28.06.2015
 Waypoint: m/dschuwa/208
 Title: Bonner Punktejagd 097
-Points: 5
 ----
 ID: 2742
 Date: 29.06.2015
@@ -16496,7 +15979,6 @@ ID: 2743
 Date: 29.06.2015
 Waypoint: m/c-bn/131
 Title: Rund ums BMVg #08
-Points: 5
 ----
 ID: 2744
 Date: 29.06.2015
@@ -16508,7 +15990,6 @@ ID: 2745
 Date: 29.06.2015
 Waypoint: m/mastaxlolls/162
 Title: Brücke
-Points: 5
 ----
 ID: 2746
 Date: 30.06.2015
@@ -16521,13 +16002,11 @@ ID: 2747
 Date: 30.06.2015
 Waypoint: m/MorpheusHH/2241
 Title: VIRT blau(weiss)e-Karte 4 ;-)
-Points: 5
 ----
 ID: 2748
 Date: 01.07.2015
 Waypoint: m/zeusi/2835
 Title: Aktion &quot;Karte dunkelblau&quot; 042
-Points: 5
 ----
 ID: 2749
 Date: 01.07.2015
@@ -16539,7 +16018,6 @@ ID: 2750
 Date: 01.07.2015
 Waypoint: m/zeusi/3069
 Title: Virtual Endenich
-Points: 5
 ----
 ID: 2751
 Date: 01.07.2015
@@ -16554,7 +16032,6 @@ Date: 01.07.2015
 Waypoint: m/struppis/331
 Title: struppis 9
 nTF: 1
-Points: 5
 ----
 ID: 2753
 Date: 01.07.2015
@@ -16578,38 +16055,32 @@ ID: 2756
 Date: 01.07.2015
 Waypoint: m/JOJEVA/1232
 Title: Poppelsdorfer Schloss - Motel by Ajlis Room #1
-Points: 5
 ----
 ID: 2757
 Date: 01.07.2015
 Waypoint: m/Waldkauz/46
 Title: Poppelsdorfer Schloss - Motel by Ajlis Room #2
-Points: 5
 ----
 ID: 2758
 Date: 01.07.2015
 Waypoint: m/Aurelie/1
 Title: Poppelsdorfer Schloss - Motel by Ajlis Room #3
-Points: 5
 ----
 ID: 2759
 Date: 01.07.2015
 Waypoint: m/FelisCatus/37
 Title: Poppelsdorfer Schloss - Motel by Ajlis Room #4
-Points: 5
 ----
 ID: 2760
 Date: 01.07.2015
 Waypoint: m/tombraidergirl/121
 Title: Poppelsdorfer Schloss - Motel by Ajlis Room #5
 nTF: 4
-Points: 5
 ----
 ID: 2761
 Date: 01.07.2015
 Waypoint: m/ajlis/132
 Title: Poppelsdorfer Schloss - Motel by Ajlis
-Points: 5
 ----
 ID: 2762
 Date: 01.07.2015
@@ -16627,7 +16098,6 @@ ID: 2764
 Date: 01.07.2015
 Waypoint: m/zeusi/5792
 Title: Generic Name
-Points: 5
 ----
 ID: 2765
 Date: 01.07.2015
@@ -16639,53 +16109,45 @@ ID: 2766
 Date: 01.07.2015
 Waypoint: m/JOJEVA/1137
 Title: Kw- Munzee #103 6
-Points: 5
 ----
 ID: 2767
 Date: 01.07.2015
 Waypoint: m/JOJEVA/1085
 Title: Kw- Munzee # 101 1
-Points: 5
 ----
 ID: 2768
 Date: 01.07.2015
 Waypoint: m/darlaStubbs/21
 Title: Bus frei Room #1
-Points: 5
 ----
 ID: 2769
 Date: 01.07.2015
 Waypoint: m/felixhunter/1936
 Title: Bus frei Room #2
 nTF: 4
-Points: 5
 ----
 ID: 2770
 Date: 01.07.2015
 Waypoint: m/zeusi/8740
 Title: Bus frei Room #3
 nTF: 3
-Points: 5
 ----
 ID: 2771
 Date: 01.07.2015
 Waypoint: m/Pfanni/197
 Title: Bus frei Room #4
 nTF: 2
-Points: 5
 ----
 ID: 2772
 Date: 01.07.2015
 Waypoint: m/QQ/112
 Title: Bus frei Room #5
 nTF: 1
-Points: 5
 ----
 ID: 2773
 Date: 01.07.2015
 Waypoint: m/CleanCoen/957
 Title: Bus frei
-Points: 5
 ----
 ID: 2774
 Date: 01.07.2015
@@ -16703,7 +16165,6 @@ ID: 2776
 Date: 02.07.2015
 Waypoint: m/zeusi/2767
 Title: Virtual Munzee Power
-Points: 5
 ----
 ID: 2777
 Date: 02.07.2015
@@ -16824,7 +16285,6 @@ ID: 2796
 Date: 06.07.2015
 Waypoint: m/c-bn/2341
 Title: Bonn, Ludwig-Richter-Straße 2341
-Points: 5
 ----
 ID: 2797
 Date: 07.07.2015
@@ -16849,19 +16309,16 @@ ID: 2800
 Date: 09.07.2015
 Waypoint: m/gerds/168
 Title: Ückesdorf 1
-Points: 5
 ----
 ID: 2801
 Date: 09.07.2015
 Waypoint: m/c-bn/1313
 Title: Bonn-Ückesdorf 1313
-Points: 5
 ----
 ID: 2802
 Date: 09.07.2015
 Waypoint: m/dschuwa/884
 Title: Bonner Punktejagd 670
-Points: 5
 ----
 ID: 2803
 Date: 09.07.2015
@@ -16873,13 +16330,11 @@ ID: 2804
 Date: 09.07.2015
 Waypoint: m/dschuwa/751
 Title: Bonner Punktejagd 537
-Points: 5
 ----
 ID: 2805
 Date: 09.07.2015
 Waypoint: m/dschuwa/748
 Title: Bonner Punktejagd 534
-Points: 5
 ----
 ID: 2806
 Date: 09.07.2015
@@ -16891,71 +16346,60 @@ ID: 2807
 Date: 09.07.2015
 Waypoint: m/dschuwa/697
 Title: Bonner Punktejagd 484
-Points: 5
 ----
 ID: 2808
 Date: 10.07.2015
 Waypoint: m/koebes/292
 Title: [c-bn] 6969 HOTEL Room #1
-Points: 5
 ----
 ID: 2809
 Date: 10.07.2015
 Waypoint: m/radschlaeger/51
 Title: [c-bn] 6969 HOTEL Room #2
-Points: 5
 ----
 ID: 2810
 Date: 10.07.2015
 Waypoint: m/mutti/50
 Title: [c-bn] 6969 HOTEL Room #3
-Points: 5
 ----
 ID: 2811
 Date: 10.07.2015
 Waypoint: m/ReMiKu/11857
 Title: [c-bn] Bonn, Maarweg 6969 HOTEL Room #4
-Points: 5
 ----
 ID: 2812
 Date: 10.07.2015
 Waypoint: m/supersilli/301
 Title: [c-bn] Bonn, Maarweg 6969 HOTEL Room #5
-Points: 5
 ----
 ID: 2813
 Date: 10.07.2015
 Waypoint: m/winkide/9405
 Title: [c-bn] Bonn, Maarweg 6969 HOTEL Room #6
-Points: 5
 ----
 ID: 2814
 Date: 10.07.2015
 Waypoint: m/mcmicha/844
 Title: [c-bn] Bonn, Maarweg 6969 HOTEL Room #7
 nTF: 4
-Points: 5
 ----
 ID: 2815
 Date: 10.07.2015
 Waypoint: m/zeusi/9434
 Title: [c-bn] Bonn, Maarweg 6969 HOTEL Room #8
 nTF: 3
-Points: 5
 ----
 ID: 2816
 Date: 10.07.2015
 Waypoint: m/CTeam/6113
 Title: [c-bn] Bonn, Maarweg 6969 HOTEL Room #9
 nTF: 2
-Points: 5
 ----
 ID: 2817
 Date: 10.07.2015
 Waypoint: m/QQ/562
 Title: [c-bn] Bonn, Maarweg 6969 HOTEL Room #10
 nTF: 1
-Points: 5
 ----
 ID: 2818
 Date: 10.07.2015
@@ -16967,20 +16411,17 @@ ID: 2819
 Date: 10.07.2015
 Waypoint: m/Revi/14
 Title: Rochusstraße #6 - Do you like shopping?
-Points: 5
 ----
 ID: 2820
 Date: 10.07.2015
 Waypoint: m/gruschenka/59
 Title: Klontruppen-Turbo-Panzer
-Points: 5
 ----
 ID: 2821
 Date: 11.07.2015
 Waypoint: m/CADS11/45
 Title: Denkmal Synagoge
 nTF: 3
-Points: 5
 ----
 ID: 2822
 Date: 11.07.2015
@@ -16998,97 +16439,81 @@ ID: 2824
 Date: 12.07.2015
 Waypoint: m/Avalanche74/282
 Title: Avalanche74 grüßt Bonn
-Points: 5
 ----
 ID: 2825
 Date: 12.07.2015
 Waypoint: m/dlbisblest/178
 Title: DLB V85 Bonn Hauptbahnhof
-Points: 5
 ----
 ID: 2826
 Date: 12.07.2015
 Waypoint: m/JOJEVA/482
 Title: Kessenich-Munzee # 495
-Points: 5
 ----
 ID: 2827
 Date: 12.07.2015
 Waypoint: m/JOJEVA/407
 Title: Kessenich-Munzee # 420
-Points: 5
 ----
 ID: 2828
 Date: 12.07.2015
 Waypoint: m/JOJEVA/415
 Title: Kessenich-Munzee # 428
-Points: 5
 ----
 ID: 2829
 Date: 12.07.2015
 Waypoint: m/JOJEVA/444
 Title: Kessenich-Munzee # 457
-Points: 5
 ----
 ID: 2830
 Date: 12.07.2015
 Waypoint: m/JOJEVA/423
 Title: Kessenich-Munzee # 436
-Points: 5
 ----
 ID: 2831
 Date: 12.07.2015
 Waypoint: m/dschuwa/671
 Title: Bonner Punktejagd 458
-Points: 5
 ----
 ID: 2832
 Date: 12.07.2015
 Waypoint: m/JOJEVA/380
 Title: Kessenich-Munzee # 393
-Points: 5
 ----
 ID: 2833
 Date: 12.07.2015
 Waypoint: m/JOJEVA/327
 Title: Kessenich-Munzee # 340
-Points: 5
 ----
 ID: 2834
 Date: 12.07.2015
 Waypoint: m/dschuwa/859
 Title: Bonner Punktejagd 645
-Points: 5
 ----
 ID: 2835
 Date: 12.07.2015
 Waypoint: m/JOJEVA/388
 Title: Kessenich-Munzee # 401
-Points: 5
 ----
 ID: 2836
 Date: 12.07.2015
 Waypoint: m/dschuwa/316
 Title: Bonner Punktejagd 082
-Points: 5
 ----
 ID: 2837
 Date: 12.07.2015
 Waypoint: m/zeusi/1536
 Title: Munzee Power 214
-Points: 5
 ----
 ID: 2838
 Date: 12.07.2015
 Waypoint: m/dschuwa/252
 Title: Bonner Punktejagd 095
-Points: 5
 ----
 ID: 2839
 Date: 12.07.2015
 Waypoint: m/dschuwa/253
 Title: Bonner Punktejagd 096
-Points: 5
 ----
 ID: 2840
 Date: 13.07.2015
@@ -17113,7 +16538,6 @@ ID: 2843
 Date: 14.07.2015
 Waypoint: m/dschuwa/435
 Title: Bonner Punktejagd 252
-Points: 5
 ----
 ID: 2844
 Date: 14.07.2015
@@ -17137,7 +16561,6 @@ ID: 2847
 Date: 14.07.2015
 Waypoint: m/dschuwa/551
 Title: Bonner Punktejagd 328
-Points: 5
 ----
 ID: 2848
 Date: 14.07.2015
@@ -17149,25 +16572,21 @@ ID: 2849
 Date: 14.07.2015
 Waypoint: m/dschuwa/514
 Title: Bonner Punktejagd 271
-Points: 5
 ----
 ID: 2850
 Date: 14.07.2015
 Waypoint: m/robje64/1997
 Title: Parkautomaten
-Points: 5
 ----
 ID: 2851
 Date: 14.07.2015
 Waypoint: m/Bixby/373
 Title: bonn bixby
-Points: 5
 ----
 ID: 2852
 Date: 15.07.2015
 Waypoint: m/ReMiKu/2084
 Title: Dottendorf (2084)
-Points: 5
 ----
 ID: 2853
 Date: 16.07.2015
@@ -17180,7 +16599,6 @@ ID: 2854
 Date: 16.07.2015
 Waypoint: m/struppis/430
 Title: struppis 6
-Points: 5
 ----
 ID: 2855
 Date: 16.07.2015
@@ -17192,43 +16610,36 @@ ID: 2856
 Date: 16.07.2015
 Waypoint: m/esci/131
 Title: [esci] schöner Rhein
-Points: 5
 ----
 ID: 2857
 Date: 16.07.2015
 Waypoint: m/CleanCoen/958
 Title: Bonn, Schloßallee 4952 MOTEL Room #1
-Points: 5
 ----
 ID: 2858
 Date: 16.07.2015
 Waypoint: m/darlaStubbs/22
 Title: Bonn, Schloßallee 4952 MOTEL Room #2
-Points: 5
 ----
 ID: 2859
 Date: 16.07.2015
 Waypoint: m/struppis/319
 Title: Bonn, Schloßallee 4952 MOTEL Room #3
-Points: 5
 ----
 ID: 2860
 Date: 16.07.2015
 Waypoint: m/Airwolf26/3633
 Title: Bonn, Schloßallee 4952 MOTEL Room #4
-Points: 5
 ----
 ID: 2861
 Date: 16.07.2015
 Waypoint: m/Hachiko/84
 Title: Bonn, Schloßallee 4952 MOTEL Room #5
-Points: 5
 ----
 ID: 2862
 Date: 16.07.2015
 Waypoint: m/c-bn/4952
 Title: Bonn, Schloßallee 4952 MOTEL
-Points: 5
 ----
 ID: 2863
 Date: 16.07.2015
@@ -17240,31 +16651,26 @@ ID: 2864
 Date: 16.07.2015
 Waypoint: m/ReMiKu/600
 Title: Walk the Rhine - 039
-Points: 5
 ----
 ID: 2865
 Date: 16.07.2015
 Waypoint: m/JOJEVA/602
 Title: Mehlem - Munzee # 615
-Points: 5
 ----
 ID: 2866
 Date: 16.07.2015
 Waypoint: m/Airwolf26/1842
 Title: Bonn - Jon-Jay-McCloy-Ufer
-Points: 5
 ----
 ID: 2867
 Date: 16.07.2015
 Waypoint: m/ReMiKu/599
 Title: Walk the Rhine - 040
-Points: 5
 ----
 ID: 2868
 Date: 16.07.2015
 Waypoint: m/JOJEVA/595
 Title: Mehlem - Munzee # 608
-Points: 5
 ----
 ID: 2869
 Date: 16.07.2015
@@ -17276,31 +16682,26 @@ ID: 2870
 Date: 16.07.2015
 Waypoint: m/c-bn/4925
 Title: Bonn, Rüdigerstraße 4925
-Points: 5
 ----
 ID: 2871
 Date: 16.07.2015
 Waypoint: m/JOJEVA/608
 Title: Mehlem - Mace # 621
-Points: 5
 ----
 ID: 2872
 Date: 16.07.2015
 Waypoint: m/kaschper69/377
 Title: k69 - Bonn-Mehlem 4
-Points: 5
 ----
 ID: 2873
 Date: 16.07.2015
 Waypoint: m/JOJEVA/663
 Title: Diamond - Mehlem # 676
-Points: 5
 ----
 ID: 2883
 Date: 16.07.2015
 Waypoint: m/kaschper69/374
 Title: k69 - Bonn-Mehlem 3
-Points: 5
 ----
 ID: 2874
 Date: 16.07.2015
@@ -17312,37 +16713,31 @@ ID: 2875
 Date: 16.07.2015
 Waypoint: m/ajlis/1594
 Title: Motel - Mehlem # 605 Room #1
-Points: 5
 ----
 ID: 2876
 Date: 16.07.2015
 Waypoint: m/kaschper69/620
 Title: Motel - Mehlem # 605 Room #2
-Points: 5
 ----
 ID: 2877
 Date: 16.07.2015
 Waypoint: m/souli/1617
 Title: Motel - Mehlem # 605 Room #3
-Points: 5
 ----
 ID: 2878
 Date: 16.07.2015
 Waypoint: m/Riolounge/187
 Title: Motel - Mehlem # 605 Room #4
-Points: 5
 ----
 ID: 2879
 Date: 16.07.2015
 Waypoint: m/struppis/154
 Title: Motel - Mehlem # 605 Room #5
-Points: 5
 ----
 ID: 2880
 Date: 16.07.2015
 Waypoint: m/JOJEVA/592
 Title: Motel - Mehlem # 605
-Points: 5
 ----
 ID: 2881
 Date: 17.07.2015
@@ -17367,27 +16762,23 @@ ID: 2885
 Date: 17.07.2015
 Waypoint: m/DevilsEnd/174
 Title: Devil #174
-Points: 5
 ----
 ID: 2886
 Date: 18.07.2015
 Waypoint: m/dschuwa/642
 Title: Bonner Punktejagd 419
-Points: 5
 ----
 ID: 2887
 Date: 18.07.2015
 Waypoint: m/c-bn/3280
 Title: Bonn, Dottendorfer Straße
 nTF: 1
-Points: 5
 ----
 ID: 2888
 Date: 18.07.2015
 Waypoint: m/c-bn/2958
 Title: Bonn, Dottendorfer Straße
 nTF: 1
-Points: 5
 ----
 ID: 2889
 Date: 18.07.2015
@@ -17399,13 +16790,11 @@ ID: 2890
 Date: 18.07.2015
 Waypoint: m/Baumhoernchen/4
 Title: Virtual Munzee Buschdorf 4
-Points: 5
 ----
 ID: 2891
 Date: 18.07.2015
 Waypoint: m/c-bn/5604
 Title: Bonn, Pariser Straße 5604
-Points: 5
 ----
 ID: 2892
 Date: 18.07.2015
@@ -17429,13 +16818,11 @@ ID: 2895
 Date: 18.07.2015
 Waypoint: m/seal/663
 Title: VM Buschdorf
-Points: 5
 ----
 ID: 2896
 Date: 18.07.2015
 Waypoint: m/mbagger/1704
 Title: mbagger@Buschdorf
-Points: 5
 ----
 ID: 2897
 Date: 19.07.2015
@@ -17447,13 +16834,11 @@ ID: 2898
 Date: 19.07.2015
 Waypoint: m/Pinguinbande2013/1801
 Title: PINGUIN - &quot;SCHATZKAMMER&quot; - DIAMAND 07 - [1801]
-Points: 5
 ----
 ID: 2899
 Date: 19.07.2015
 Waypoint: m/ReMiKu/8831
 Title: Mystery Auerberg (8831)
-Points: 5
 ----
 ID: 2900
 Date: 19.07.2015
@@ -17507,7 +16892,6 @@ ID: 2908
 Date: 19.07.2015
 Waypoint: m/zeusi/6304
 Title: Virtual Munzee Buschdorf 2
-Points: 5
 ----
 ID: 2909
 Date: 19.07.2015
@@ -17519,37 +16903,31 @@ ID: 2910
 Date: 19.07.2015
 Waypoint: m/JOJEVA/1314
 Title: Bonn, Saarbrückener Str. 5019 MOTEL Room #1
-Points: 5
 ----
 ID: 2911
 Date: 19.07.2015
 Waypoint: m/Waldkauz/96
 Title: Bonn, Saarbrückener Str. 5019 MOTEL Room #2
-Points: 5
 ----
 ID: 2912
 Date: 19.07.2015
 Waypoint: m/winkide/6199
 Title: Bonn, Saarbrückener Str. 5019 MOTEL Room #3
-Points: 5
 ----
 ID: 2913
 Date: 19.07.2015
 Waypoint: m/zeusi/6328
 Title: Bonn, Saarbrückener Str. 5019 MOTEL Room #4
-Points: 5
 ----
 ID: 2914
 Date: 19.07.2015
 Waypoint: m/Baumhoernchen/140
 Title: Bonn, Saarbrückener Str. 5019 MOTEL Room #5
-Points: 5
 ----
 ID: 2915
 Date: 19.07.2015
 Waypoint: m/c-bn/5019
 Title: Bonn, Saarbrückener Str. 5019 MOTEL
-Points: 5
 ----
 ID: 2916
 Date: 19.07.2015
@@ -17591,13 +16969,11 @@ ID: 2922
 Date: 21.07.2015
 Waypoint: m/c-bn/3180
 Title: Bonn, Langwartweg
-Points: 5
 ----
 ID: 2923
 Date: 21.07.2015
 Waypoint: m/zeusi/1594
 Title: Bonn Hbf -zeusi-
-Points: 5
 ----
 ID: 2924
 Date: 21.07.2015
@@ -17609,7 +16985,6 @@ ID: 2925
 Date: 21.07.2015
 Waypoint: m/Norballe/4958
 Title: Norballe in Bonn 2015
-Points: 5
 ----
 ID: 2926
 Date: 21.07.2015
@@ -17621,13 +16996,11 @@ ID: 2927
 Date: 21.07.2015
 Waypoint: m/zeusi/8348
 Title: VM Bonn Stammtisch
-Points: 5
 ----
 ID: 2928
 Date: 21.07.2015
 Waypoint: m/ajlis/1496
 Title: Ajlis - MVM City 1
-Points: 5
 ----
 ID: 2929
 Date: 21.07.2015
@@ -17651,7 +17024,6 @@ ID: 2932
 Date: 21.07.2015
 Waypoint: m/kimdot/23
 Title: Hello from Florida #3
-Points: 5
 ----
 ID: 2933
 Date: 21.07.2015
@@ -17663,67 +17035,56 @@ ID: 2934
 Date: 21.07.2015
 Waypoint: m/ajlis/2769
 Title: Quick Deploy By ajlis
-Points: 5
 ----
 ID: 2935
 Date: 21.07.2015
 Waypoint: m/ajlis/2796
 Title: Quick Deploy By ajlis
-Points: 5
 ----
 ID: 2936
 Date: 21.07.2015
 Waypoint: m/Christian68/1918
 Title: VM Hofgarten BN
-Points: 5
 ----
 ID: 2937
 Date: 21.07.2015
 Waypoint: m/ajlis/2799
 Title: Quick Deploy By ajlis
-Points: 5
 ----
 ID: 2938
 Date: 21.07.2015
 Waypoint: m/Christian68/1076
 Title: BN Hofgarten
-Points: 5
 ----
 ID: 2939
 Date: 21.07.2015
 Waypoint: m/Christian68/1914
 Title: VM Hofgarten BN
-Points: 5
 ----
 ID: 2940
 Date: 21.07.2015
 Waypoint: m/survey-adjo/1683
 Title: Virtual Munzee Bonn
-Points: 5
 ----
 ID: 2941
 Date: 21.07.2015
 Waypoint: m/Christian68/1926
 Title: VM Hofgarten BN
-Points: 5
 ----
 ID: 2942
 Date: 21.07.2015
 Waypoint: m/Christian68/1927
 Title: VM Hofgarten BN
-Points: 5
 ----
 ID: 2943
 Date: 21.07.2015
 Waypoint: m/ajlis/2802
 Title: Quick Deploy By ajlis
-Points: 5
 ----
 ID: 2944
 Date: 21.07.2015
 Waypoint: m/wrose/813
 Title: Wrose in Bonn 1
-Points: 5
 ----
 ID: 2945
 Date: 21.07.2015
@@ -17747,7 +17108,6 @@ ID: 2948
 Date: 21.07.2015
 Waypoint: m/RonBanjo/534
 Title: Quick Deploy By RonBanjo
-Points: 5
 ----
 ID: 2949
 Date: 21.07.2015
@@ -17759,25 +17119,21 @@ ID: 2950
 Date: 21.07.2015
 Waypoint: m/sammge3/240
 Title: Bonn virtual
-Points: 5
 ----
 ID: 2951
 Date: 21.07.2015
 Waypoint: m/ChaosTim/116
 Title: Quick Deploy By ChaosTim
-Points: 5
 ----
 ID: 2952
 Date: 21.07.2015
 Waypoint: m/superdennis/5813
 Title: Quick Deploy By superdennis
-Points: 5
 ----
 ID: 2953
 Date: 21.07.2015
 Waypoint: m/pilsleyguy/6483
 Title: Bonn By pilsleyguy
-Points: 5
 ----
 ID: 2954
 Date: 21.07.2015
@@ -17789,7 +17145,6 @@ ID: 2955
 Date: 21.07.2015
 Waypoint: m/superdennis/5811
 Title: Quick Deploy By superdennis
-Points: 5
 ----
 ID: 2956
 Date: 21.07.2015
@@ -17808,31 +17163,26 @@ Date: 22.07.2015
 Waypoint: m/Christian68/40
 Title: BN-HBf Gleis1
 nTF: 1
-Points: 5
 ----
 ID: 2959
 Date: 22.07.2015
 Waypoint: m/Christian68/183
 Title: BN-HBf Gleis 1
-Points: 5
 ----
 ID: 2960
 Date: 22.07.2015
 Waypoint: m/Nicky04/244
 Title: Nicky04 grüßt Bonn
-Points: 5
 ----
 ID: 2961
 Date: 22.07.2015
 Waypoint: m/KleineWelp/478
 Title: Bonn Hbf
-Points: 5
 ----
 ID: 2962
 Date: 22.07.2015
 Waypoint: m/Baumhoernchen/487
 Title: VM Bonn Hauptbahnhof
-Points: 5
 ----
 ID: 2963
 Date: 23.07.2015
@@ -17844,121 +17194,102 @@ ID: 2964
 Date: 23.07.2015
 Waypoint: m/c-bn/2285
 Title: Bonn, Köslinstraße 5
-Points: 5
 ----
 ID: 2965
 Date: 23.07.2015
 Waypoint: m/zeusi/2139
 Title: Munzee Power 752
-Points: 5
 ----
 ID: 2966
 Date: 23.07.2015
 Waypoint: m/JOJEVA/383
 Title: Munzee # 396
-Points: 5
 ----
 ID: 2967
 Date: 23.07.2015
 Waypoint: m/JOJEVA/1227
 Title: Duisdorf-Motel by ajlis Room #1
-Points: 5
 ----
 ID: 2968
 Date: 23.07.2015
 Waypoint: m/Waldkauz/40
 Title: Duisdorf-Motel by ajlis Room #2
 nTF: 4
-Points: 5
 ----
 ID: 2969
 Date: 23.07.2015
 Waypoint: m/c-bn/4703
 Title: Duisdorf-Motel by ajlis Room #3
 nTF: 3
-Points: 5
 ----
 ID: 2970
 Date: 23.07.2015
 Waypoint: m/TMA2007/2803
 Title: Duisdorf-Motel by ajlis Room #4
 nTF: 2
-Points: 5
 ----
 ID: 2971
 Date: 23.07.2015
 Waypoint: m/Munzeemia/621
 Title: Duisdorf-Motel by ajlis Room #5
 nTF: 1
-Points: 5
 ----
 ID: 2972
 Date: 23.07.2015
 Waypoint: m/ajlis/633
 Title: Duisdorf-Motel by ajlis
-Points: 5
 ----
 ID: 2973
 Date: 23.07.2015
 Waypoint: m/JOJEVA/206
 Title: Duisdorf-Munzee # 219
-Points: 5
 ----
 ID: 2974
 Date: 23.07.2015
 Waypoint: m/JOJEVA/1309
 Title: Bonn, Rochusstraße 4960 MOTEL Room #1
-Points: 5
 ----
 ID: 2975
 Date: 23.07.2015
 Waypoint: m/Waldkauz/91
 Title: Bonn, Rochusstraße 4960 MOTEL Room #2
-Points: 5
 ----
 ID: 2976
 Date: 23.07.2015
 Waypoint: m/feylino/1634
 Title: Bonn, Rochusstraße 4960 MOTEL Room #3
-Points: 5
 ----
 ID: 2977
 Date: 23.07.2015
 Waypoint: m/hugosoft/1856
 Title: Bonn, Rochusstraße 4960 MOTEL Room #4
 nTF: 4
-Points: 5
 ----
 ID: 2978
 Date: 23.07.2015
 Waypoint: m/ajlis/2259
 Title: Bonn, Rochusstraße 4960 MOTEL Room #5
 nTF: 3
-Points: 5
 ----
 ID: 2979
 Date: 23.07.2015
 Waypoint: m/c-bn/4960
 Title: Bonn, Rochusstraße 4960 MOTEL
-Points: 5
 ----
 ID: 2980
 Date: 23.07.2015
 Waypoint: m/zeusi/2121
 Title: Munzee Power 734
-Points: 5
 ----
 ID: 2981
 Date: 23.07.2015
 Waypoint: m/malof/1778
 Title: VM Bonn
-Points: 5
 ----
 ID: 2982
 Date: 23.07.2015
 Waypoint: m/Desdencha/58
 Title: Desdencha v Bonnu
-Points: 5
 ----
 ID: 2983
 Date: 23.07.2015
@@ -18072,49 +17403,41 @@ ID: 3001
 Date: 23.07.2015
 Waypoint: m/Ragge1/1466
 Title: Quick Deploy 4Bonn By Ragge1
-Points: 5
 ----
 ID: 3002
 Date: 23.07.2015
 Waypoint: m/c-bn/7008
 Title: [c-bn] 4. Munzee-Geburtstag @Bonn 7008 VM
-Points: 5
 ----
 ID: 3003
 Date: 23.07.2015
 Waypoint: m/ajlis/516
 Title: Kaiserplatz by ajlis, Bonn
-Points: 5
 ----
 ID: 3004
 Date: 23.07.2015
 Waypoint: m/Ragge1/1465
 Title: Quick Deploy 4Bonn By Ragge1
-Points: 5
 ----
 ID: 3005
 Date: 23.07.2015
 Waypoint: m/superdennis/5429
 Title: Quick Deploy By superdennis
-Points: 5
 ----
 ID: 3006
 Date: 23.07.2015
 Waypoint: m/pilsleyguy/6482
 Title: Bonn By pilsleyguy
-Points: 5
 ----
 ID: 3007
 Date: 23.07.2015
 Waypoint: m/Ragge1/1469
 Title: Quick Deploy 4Bonn By Ragge1
-Points: 5
 ----
 ID: 3008
 Date: 23.07.2015
 Waypoint: m/Ragge1/1467
 Title: Quick Deploy 4Bonn By Ragge1
-Points: 5
 ----
 ID: 3009
 Date: 23.07.2015
@@ -18126,7 +17449,6 @@ ID: 3010
 Date: 23.07.2015
 Waypoint: m/Ragge1/1468
 Title: Quick Deploy 4Bonn By Ragge1
-Points: 5
 ----
 ID: 3011
 Date: 23.07.2015
@@ -18144,7 +17466,6 @@ ID: 3013
 Date: 23.07.2015
 Waypoint: m/pilsleyguy/6481
 Title: Bonn By pilsleyguy
-Points: 5
 ----
 ID: 3014
 Date: 23.07.2015
@@ -18162,13 +17483,11 @@ ID: 3016
 Date: 23.07.2015
 Waypoint: m/MV1/4191
 Title: MVirtual Martinsplatz
-Points: 5
 ----
 ID: 3017
 Date: 23.07.2015
 Waypoint: m/photograaff/178
 Title: Greetings from Cologne: Bonn
-Points: 5
 ----
 ID: 3018
 Date: 23.07.2015
@@ -18180,7 +17499,6 @@ ID: 3019
 Date: 23.07.2015
 Waypoint: m/QQ/20
 Title: City - Münsterplatz
-Points: 5
 ----
 ID: 3020
 Date: 23.07.2015
@@ -18210,19 +17528,16 @@ ID: 3024
 Date: 23.07.2015
 Waypoint: m/dlbisblest/185
 Title: DLB V87 Altes Rathaus Bonn
-Points: 5
 ----
 ID: 3025
 Date: 23.07.2015
 Waypoint: m/JOJEVA/967
 Title: BN City - Munzee # 802 16
-Points: 5
 ----
 ID: 3026
 Date: 23.07.2015
 Waypoint: m/JOJEVA/922
 Title: BN City - Munzee # 801 21
-Points: 5
 ----
 ID: 3027
 Date: 23.07.2015
@@ -18240,7 +17555,6 @@ ID: 3029
 Date: 23.07.2015
 Waypoint: m/dschuwa/277
 Title: Nächster Halt: Universität/Markt
-Points: 5
 ----
 ID: 3030
 Date: 23.07.2015
@@ -18252,7 +17566,6 @@ ID: 3031
 Date: 23.07.2015
 Waypoint: m/CrazyLadyLisa/1783
 Title: Mystery Virtual - Bonn 04
-Points: 5
 ----
 ID: 3032
 Date: 23.07.2015
@@ -18264,19 +17577,16 @@ ID: 3033
 Date: 23.07.2015
 Waypoint: m/Christian68/375
 Title: VM Bonn Hofgarten
-Points: 5
 ----
 ID: 3034
 Date: 23.07.2015
 Waypoint: m/c-bn/505
 Title: [c-bn] VM-Stern ☆ Bonn [1]
-Points: 5
 ----
 ID: 3035
 Date: 23.07.2015
 Waypoint: m/Christian68/379
 Title: VM Bonn Hofgarten
-Points: 5
 ----
 ID: 3036
 Date: 23.07.2015
@@ -18288,121 +17598,101 @@ ID: 3037
 Date: 23.07.2015
 Waypoint: m/mastaxlolls/183
 Title: Mitte des ☆
-Points: 5
 ----
 ID: 3038
 Date: 23.07.2015
 Waypoint: m/VaKe/555
 Title: [Vake] VM-Stern Bonn
-Points: 5
 ----
 ID: 3039
 Date: 23.07.2015
 Waypoint: m/remstaler/1202
 Title: [remstaler] VM-Stern Bonn
-Points: 5
 ----
 ID: 3040
 Date: 23.07.2015
 Waypoint: m/ReMiKu/1137
 Title: Virtual Bonn (1137)
-Points: 5
 ----
 ID: 3041
 Date: 23.07.2015
 Waypoint: m/survey-adjo/321
 Title: [survey-adjo] VM-Stern Bonn
-Points: 5
 ----
 ID: 3042
 Date: 23.07.2015
 Waypoint: m/winkide/492
 Title: Bonn - Stern #492 V
-Points: 5
 ----
 ID: 3043
 Date: 23.07.2015
 Waypoint: m/dschuwa/1
 Title: dschuwa VM1-Stern Bonn
-Points: 5
 ----
 ID: 3044
 Date: 23.07.2015
 Waypoint: m/DrStevo/352
 Title: VM Hofgarten Market
-Points: 5
 ----
 ID: 3045
 Date: 23.07.2015
 Waypoint: m/Baumhoernchen/398
 Title: Baumhörnchen am Stern
-Points: 5
 ----
 ID: 3046
 Date: 23.07.2015
 Waypoint: m/philnuim/291
 Title: [philnuim] VM-Stern Bonn
-Points: 5
 ----
 ID: 3047
 Date: 23.07.2015
 Waypoint: m/hunterfrank/243
 Title: Virtual Hunterfrank in Bonn
-Points: 5
 ----
 ID: 3048
 Date: 23.07.2015
 Waypoint: m/Sundream/135
 Title: Virtual Munzee - Stern Bonn
-Points: 5
 ----
 ID: 3049
 Date: 23.07.2015
 Waypoint: m/HowlinMaikel/182
 Title: [HowlinMaikel] VM Stern Bonn
-Points: 5
 ----
 ID: 3050
 Date: 23.07.2015
 Waypoint: m/esci/148
 Title: [esci] VM-Stern Bonn [24]
-Points: 5
 ----
 ID: 3051
 Date: 23.07.2015
 Waypoint: m/MV1/813
 Title: MVirtual Hofgartenstern
-Points: 5
 ----
 ID: 3052
 Date: 23.07.2015
 Waypoint: m/Shigoist/48
 Title: Shigoist VM-Stern Bonn
-Points: 5
 ----
 ID: 3053
 Date: 23.07.2015
 Waypoint: m/dschuwa/2
 Title: dschuwa VM2-Stern Bonn
-Points: 5
 ----
 ID: 3054
 Date: 23.07.2015
 Waypoint: m/Mieze/1005
 Title: [Mieze] VM-Stern Bonn [13]
-Points: 5
 ----
 ID: 3055
 Date: 23.07.2015
 Waypoint: m/robje64/484
 Title: Robje64 VM-Stern Bonn
-Points: 5
 ----
 ID: 3056
 Date: 23.07.2015
 Waypoint: m/Shigoist/47
 Title: Shigoist VM-Stern Bonn
-Points: 5
 ----
 ID: 3057
 Date: 23.07.2015
@@ -18414,7 +17704,6 @@ ID: 3058
 Date: 23.07.2015
 Waypoint: m/Netty/518
 Title: MVM Bonn Am Hofgarten
-Points: 5
 ----
 ID: 3059
 Date: 23.07.2015
@@ -18432,25 +17721,21 @@ ID: 3061
 Date: 23.07.2015
 Waypoint: m/hugosoft/1194
 Title: MVM Bonn Hofgartenwiese
-Points: 5
 ----
 ID: 3062
 Date: 23.07.2015
 Waypoint: m/ajlis/1561
 Title: Ajlis - MVM Stern 6
-Points: 5
 ----
 ID: 3063
 Date: 23.07.2015
 Waypoint: m/Marnic/949
 Title: MN#949 VM Hofgarten Bonn
-Points: 5
 ----
 ID: 3064
 Date: 23.07.2015
 Waypoint: m/Boston2005/770
 Title: Bonn Hofgartenwiese by Boston
-Points: 5
 ----
 ID: 3065
 Date: 23.07.2015
@@ -18462,7 +17747,6 @@ ID: 3066
 Date: 23.07.2015
 Waypoint: m/dieeulenhueter/1444
 Title: VM Hofgartenwiese in Bonn # 1
-Points: 5
 ----
 ID: 3067
 Date: 23.07.2015
@@ -18474,55 +17758,46 @@ ID: 3068
 Date: 23.07.2015
 Waypoint: m/pilsleyguy/6455
 Title: Bonn By pilsleyguy
-Points: 5
 ----
 ID: 3069
 Date: 23.07.2015
 Waypoint: m/pilsleyguy/6456
 Title: Bonn By pilsleyguy
-Points: 5
 ----
 ID: 3070
 Date: 23.07.2015
 Waypoint: m/hunniees/4506
 Title: Bonn Sudstadt
-Points: 5
 ----
 ID: 3071
 Date: 23.07.2015
 Waypoint: m/dt07751/4258
 Title: V Bonn Kaiserplatz
-Points: 5
 ----
 ID: 3072
 Date: 23.07.2015
 Waypoint: m/superdennis/5430
 Title: Quick Deploy By superdennis
-Points: 5
 ----
 ID: 3073
 Date: 23.07.2015
 Waypoint: m/pilsleyguy/6459
 Title: Bonn By pilsleyguy
-Points: 5
 ----
 ID: 3074
 Date: 23.07.2015
 Waypoint: m/ajlis/441
 Title: Kaiserplatz 1, Bonn
-Points: 5
 ----
 ID: 3075
 Date: 23.07.2015
 Waypoint: m/esci/94
 Title: [esci] Parkverbot
-Points: 5
 ----
 ID: 3076
 Date: 23.07.2015
 Waypoint: m/havi/397
 Title: 312 Bonn bei Gold
-Points: 5
 ----
 ID: 3077
 Date: 23.07.2015
@@ -18540,125 +17815,105 @@ ID: 3079
 Date: 23.07.2015
 Waypoint: m/ajlis/461
 Title: Kaiserstraße 2, Bonn
-Points: 5
 ----
 ID: 3080
 Date: 23.07.2015
 Waypoint: m/zeusi/1960
 Title: Munzee Power 574
-Points: 5
 ----
 ID: 3081
 Date: 23.07.2015
 Waypoint: m/ajlis/484
 Title: Kaiserstraße 3, Bonn
-Points: 5
 ----
 ID: 3082
 Date: 23.07.2015
 Waypoint: m/DerTransporter/165
 Title: Maxi Munzee 153
-Points: 5
 ----
 ID: 3083
 Date: 23.07.2015
 Waypoint: m/ajlis/385
 Title: Fritz-Tillmann-Straße 1, Bonn
-Points: 5
 ----
 ID: 3084
 Date: 23.07.2015
 Waypoint: m/DerTransporter/137
 Title: Maxi Munzee 137
-Points: 5
 ----
 ID: 3085
 Date: 23.07.2015
 Waypoint: m/c-bn/2702
 Title: Bonn, Kaiserstraße 2
-Points: 5
 ----
 ID: 3086
 Date: 23.07.2015
 Waypoint: m/ajlis/265
 Title: Weberstraße, Bonn
-Points: 5
 ----
 ID: 3087
 Date: 23.07.2015
 Waypoint: m/ajlis/232
 Title: Schumannstraße, Bonn
-Points: 5
 ----
 ID: 3088
 Date: 23.07.2015
 Waypoint: m/ajlis/234
 Title: Schumannstraße, Bonn
-Points: 5
 ----
 ID: 3089
 Date: 23.07.2015
 Waypoint: m/Tamarisk/1765
 Title: [c-bn] Bonn, 7070 HOTEL Room #1
-Points: 5
 ----
 ID: 3090
 Date: 23.07.2015
 Waypoint: m/Wyando/6136
 Title: [c-bn] Bonn, 7070 HOTEL Room #2
-Points: 5
 ----
 ID: 3091
 Date: 23.07.2015
 Waypoint: m/supersilli/586
 Title: [c-bn] Bonn, Lessingstr. 7070 HOTEL Room #3
-Points: 5
 ----
 ID: 3092
 Date: 23.07.2015
 Waypoint: m/ReMiKu/11887
 Title: [c-bn] Bonn, Lessingstr. 7070 HOTEL Room #4
-Points: 5
 ----
 ID: 3093
 Date: 23.07.2015
 Waypoint: m/winkide/9443
 Title: [c-bn] Bonn, Lessingstr. 7070 HOTEL Room #5
-Points: 5
 ----
 ID: 3094
 Date: 23.07.2015
 Waypoint: m/Steffi78/378
 Title: [c-bn] Bonn, Lessingstr. 7070 HOTEL Room #6
-Points: 5
 ----
 ID: 3095
 Date: 23.07.2015
 Waypoint: m/QQ/571
 Title: [c-bn] Bonn, Lessingstr. 7070 HOTEL Room #7
 nTF: 4
-Points: 5
 ----
 ID: 3096
 Date: 23.07.2015
 Waypoint: m/hugosoft/3401
 Title: [c-bn] Bonn, Lessingstr. 7070 HOTEL Room #8
 nTF: 3
-Points: 5
 ----
 ID: 3097
 Date: 23.07.2015
 Waypoint: m/feylino/3067
 Title: [c-bn] Bonn, Lessingstr. 7070 HOTEL Room #9
 nTF: 2
-Points: 5
 ----
 ID: 3098
 Date: 23.07.2015
 Waypoint: m/charlino/238
 Title: [c-bn] Bonn, Lessingstr. 7070 HOTEL Room #10
 nTF: 1
-Points: 5
 ----
 ID: 3099
 Date: 23.07.2015
@@ -18670,7 +17925,6 @@ ID: 3100
 Date: 23.07.2015
 Waypoint: m/ajlis/323
 Title: An der Elisabethkirche, Bonn
-Points: 5
 ----
 ID: 3101
 Date: 23.07.2015
@@ -18688,7 +17942,6 @@ ID: 3103
 Date: 23.07.2015
 Waypoint: m/DerTransporter/14
 Title: Maxi Munzee 14
-Points: 5
 ----
 ID: 3104
 Date: 23.07.2015
@@ -18700,26 +17953,22 @@ ID: 3471
 Date: 23.07.2015
 Waypoint: m/ajlis/245
 Title: An der Elisabethkirche, Bonn
-Points: 5
 ----
 ID: 3105
 Date: 23.07.2015
 Waypoint: m/ajlis/268
 Title: Bernhard-Custodis-Straße, Bonn
 nTF: 1
-Points: 5
 ----
 ID: 3106
 Date: 23.07.2015
 Waypoint: m/ajlis/244
 Title: Schumannstraße, Bonn
-Points: 5
 ----
 ID: 3107
 Date: 23.07.2015
 Waypoint: m/zeusi/2208
 Title: Munzee Power 820
-Points: 5
 ----
 ID: 3108
 Date: 24.07.2015
@@ -18743,7 +17992,6 @@ ID: 3111
 Date: 24.07.2015
 Waypoint: m/mastaxlolls/43
 Title: Endenich
-Points: 5
 ----
 ID: 3112
 Date: 25.07.2015
@@ -18755,7 +18003,6 @@ ID: 3113
 Date: 25.07.2015
 Waypoint: m/mecki/10
 Title: Linuxhotel
-Points: 5
 ----
 ID: 3114
 Date: 26.07.2015
@@ -18767,7 +18014,6 @@ ID: 3115
 Date: 26.07.2015
 Waypoint: m/wxbee/26
 Title: Alma Mater
-Points: 5
 ----
 ID: 3116
 Date: 26.07.2015
@@ -18780,7 +18026,6 @@ Date: 27.07.2015
 Waypoint: m/c-bn/5437
 Title: Generic Name
 nTF: 1
-Points: 5
 ----
 ID: 3118
 Date: 27.07.2015
@@ -18793,20 +18038,17 @@ Date: 27.07.2015
 Waypoint: m/c-bn/853
 Title: 853
 nTF: 1
-Points: 5
 ----
 ID: 3120
 Date: 27.07.2015
 Waypoint: m/c-bn/855
 Title: 855
-Points: 5
 ----
 ID: 3121
 Date: 27.07.2015
 Waypoint: m/c-bn/5438
 Title: Generic Name
 nTF: 1
-Points: 5
 ----
 ID: 3122
 Date: 28.07.2015
@@ -18818,13 +18060,11 @@ ID: 3123
 Date: 28.07.2015
 Waypoint: m/JOJEVA/632
 Title: Mehlem - Munzee # 645
-Points: 5
 ----
 ID: 3124
 Date: 28.07.2015
 Waypoint: m/Airwolf26/2099
 Title: Bonn - Rüdigerstraße
-Points: 5
 ----
 ID: 3125
 Date: 28.07.2015
@@ -18842,37 +18082,31 @@ ID: 3127
 Date: 28.07.2015
 Waypoint: m/zeusi/5804
 Title: Kw- Motel # 101 21 Room #1
-Points: 5
 ----
 ID: 3128
 Date: 28.07.2015
 Waypoint: m/ralphmaria/5
 Title: Kw- Motel # 101 21 Room #2
-Points: 5
 ----
 ID: 3129
 Date: 28.07.2015
 Waypoint: m/felixhunter/1161
 Title: Kw- Motel # 101 21 Room #3
-Points: 5
 ----
 ID: 3130
 Date: 28.07.2015
 Waypoint: m/AnWi/222
 Title: Kw- Motel # 101 21 Room #4
-Points: 5
 ----
 ID: 3131
 Date: 28.07.2015
 Waypoint: m/Steffi78/292
 Title: Kw- Motel # 101 21 Room #5
-Points: 5
 ----
 ID: 3132
 Date: 28.07.2015
 Waypoint: m/JOJEVA/1105
 Title: Kw- Motel # 101 21
-Points: 5
 ----
 ID: 3133
 Date: 28.07.2015
@@ -18884,13 +18118,11 @@ ID: 3134
 Date: 28.07.2015
 Waypoint: m/JOJEVA/1039
 Title: Kw-Munzee # 3
-Points: 5
 ----
 ID: 3135
 Date: 28.07.2015
 Waypoint: m/JOJEVA/1108
 Title: Kw- Munzee 102 2
-Points: 5
 ----
 ID: 3136
 Date: 28.07.2015
@@ -18902,19 +18134,16 @@ ID: 3137
 Date: 28.07.2015
 Waypoint: m/JOJEVA/1120
 Title: Kw- Munzee 102 14
-Points: 5
 ----
 ID: 3138
 Date: 28.07.2015
 Waypoint: m/JOJEVA/1034
 Title: Kw - Munzee # 3
-Points: 5
 ----
 ID: 3139
 Date: 28.07.2015
 Waypoint: m/JOJEVA/1134
 Title: Kw- Munzee #103 3
-Points: 5
 ----
 ID: 3140
 Date: 28.07.2015
@@ -18926,7 +18155,6 @@ ID: 3141
 Date: 28.07.2015
 Waypoint: m/JOJEVA/1130
 Title: Kw- Munzee 102 24
-Points: 5
 ----
 ID: 3142
 Date: 28.07.2015
@@ -18956,25 +18184,21 @@ ID: 3146
 Date: 29.07.2015
 Waypoint: m/kaschper69/255
 Title: k69 - Bonn Hbf. 2
-Points: 5
 ----
 ID: 3147
 Date: 30.07.2015
 Waypoint: m/c-bn/4277
 Title: Oedekoven, Maarbachstraße 4277
-Points: 5
 ----
 ID: 3148
 Date: 30.07.2015
 Waypoint: m/c-bn/4276
 Title: Oedekoven, Maarbachstraße 4276
-Points: 5
 ----
 ID: 3149
 Date: 30.07.2015
 Waypoint: m/JOJEVA/1534
 Title: Munzee - # 13
-Points: 5
 ----
 ID: 3150
 Date: 30.07.2015
@@ -18986,69 +18210,58 @@ ID: 3151
 Date: 30.07.2015
 Waypoint: m/c-bn/4274
 Title: Oedekoven, Maarbachstraße 4274
-Points: 5
 ----
 ID: 3152
 Date: 30.07.2015
 Waypoint: m/c-bn/4273
 Title: Oedekoven, Maarbachstraße 4273
-Points: 5
 ----
 ID: 3153
 Date: 30.07.2015
 Waypoint: m/c-bn/4278
 Title: Oedekoven, Maarbachstraße 4278
-Points: 5
 ----
 ID: 3154
 Date: 30.07.2015
 Waypoint: m/JOJEVA/1471
 Title: Munzee - # 17
-Points: 5
 ----
 ID: 3155
 Date: 30.07.2015
 Waypoint: m/c-bn/4279
 Title: Bonn, Alter Heerweg 4279
-Points: 5
 ----
 ID: 3156
 Date: 30.07.2015
 Waypoint: m/JOJEVA/1507
 Title: Munzee - # 11
 nTF: 1
-Points: 5
 ----
 ID: 3157
 Date: 30.07.2015
 Waypoint: m/c-bn/4280
 Title: Bonn, Alter Heerweg 4280
-Points: 5
 ----
 ID: 3158
 Date: 30.07.2015
 Waypoint: m/c-bn/4281
 Title: Bonn, Alter Heerweg 4281
-Points: 5
 ----
 ID: 3159
 Date: 30.07.2015
 Waypoint: m/c-bn/486
 Title: ÖPNV Alter Heerweg
-Points: 5
 ----
 ID: 3160
 Date: 30.07.2015
 Waypoint: m/JOJEVA/1502
 Title: Munzee - # 23
 nTF: 1
-Points: 5
 ----
 ID: 3161
 Date: 30.07.2015
 Waypoint: m/JOJEVA/1455
 Title: Munzee - # 1
-Points: 5
 ----
 ID: 3162
 Date: 30.07.2015
@@ -19060,7 +18273,6 @@ ID: 3163
 Date: 30.07.2015
 Waypoint: m/Bienchen2011/17
 Title: 05 Poppelsdorfer Allee
-Points: 5
 ----
 ID: 3164
 Date: 31.07.2015
@@ -19074,13 +18286,11 @@ Date: 31.07.2015
 Waypoint: m/c-bn/3356
 Title: Jetzt habe ich auch &quot;Grüne&quot; in Endenich!
 nTF: 1
-Points: 5
 ----
 ID: 3166
 Date: 31.07.2015
 Waypoint: m/ajlis/146
 Title: Sportpark Endenich
-Points: 5
 ----
 ID: 3167
 Date: 31.07.2015
@@ -19092,7 +18302,6 @@ ID: 3168
 Date: 31.07.2015
 Waypoint: m/MV1/4231
 Title: MVirtual Sportpark Endenich
-Points: 5
 ----
 ID: 3169
 Date: 31.07.2015
@@ -19158,7 +18367,6 @@ ID: 3179
 Date: 31.07.2015
 Waypoint: m/zeusi/1935
 Title: Munzee Power 548
-Points: 5
 ----
 ID: 3180
 Date: 31.07.2015
@@ -19170,26 +18378,22 @@ ID: 3181
 Date: 31.07.2015
 Waypoint: m/JOJEVA/57
 Title: Kleine Runde am Brüser Berg #35
-Points: 5
 ----
 ID: 3182
 Date: 31.07.2015
 Waypoint: m/c-bn/146
 Title: Rund ums BMVg #23
-Points: 5
 ----
 ID: 3183
 Date: 31.07.2015
 Waypoint: m/dschuwa/758
 Title: Bonner Punktejagd 544
-Points: 5
 ----
 ID: 3184
 Date: 31.07.2015
 Waypoint: m/QQ/617
 Title: Cap me if you can!! 7
 nTF: 1
-Points: 5
 ----
 ID: 3185
 Date: 31.07.2015
@@ -19207,13 +18411,11 @@ ID: 3187
 Date: 31.07.2015
 Waypoint: m/dschuwa/260
 Title: Bonner Punktejagd 102
-Points: 5
 ----
 ID: 3188
 Date: 31.07.2015
 Waypoint: m/zeusi/1794
 Title: Munzee Power 491
-Points: 5
 ----
 ID: 3189
 Date: 31.07.2015
@@ -19231,32 +18433,27 @@ ID: 3191
 Date: 31.07.2015
 Waypoint: m/zeusi/5762
 Title: Generic Name
-Points: 5
 ----
 ID: 3192
 Date: 31.07.2015
 Waypoint: m/ajlis/2224
 Title: Ajlis 13
 nTF: 1
-Points: 5
 ----
 ID: 3193
 Date: 31.07.2015
 Waypoint: m/Christian68/855
 Title: BN- 11
-Points: 5
 ----
 ID: 3194
 Date: 31.07.2015
 Waypoint: m/Christian68/866
 Title: BN- 22
-Points: 5
 ----
 ID: 3195
 Date: 31.07.2015
 Waypoint: m/c-bn/228
 Title: The Sunny Side 075
-Points: 5
 ----
 ID: 3196
 Date: 31.07.2015
@@ -19274,137 +18471,115 @@ ID: 3198
 Date: 01.08.2015
 Waypoint: m/c-bn/219
 Title: The Sunny Side 066
-Points: 5
 ----
 ID: 3199
 Date: 01.08.2015
 Waypoint: m/Boersentrader/24
 Title: Happy Birthday Frosch !!!
-Points: 5
 ----
 ID: 3200
 Date: 01.08.2015
 Waypoint: m/zeusi/1671
 Title: Munzee Power 368
-Points: 5
 ----
 ID: 3201
 Date: 01.08.2015
 Waypoint: m/zeusi/1692
 Title: Munzee Power 389
-Points: 5
 ----
 ID: 3202
 Date: 01.08.2015
 Waypoint: m/zeusi/1777
 Title: Munzee Power 474
-Points: 5
 ----
 ID: 3203
 Date: 01.08.2015
 Waypoint: m/CTeam/6027
 Title: Königswinter Rheinblick
 nTF: 1
-Points: 5
 ----
 ID: 3204
 Date: 01.08.2015
 Waypoint: m/c-bn/221
 Title: The Sunny Side 068
-Points: 5
 ----
 ID: 3205
 Date: 01.08.2015
 Waypoint: m/zeusi/1633
 Title: Munzee Power 330
-Points: 5
 ----
 ID: 3206
 Date: 01.08.2015
 Waypoint: m/c-bn/222
 Title: The Sunny Side 069
-Points: 5
 ----
 ID: 3207
 Date: 01.08.2015
 Waypoint: m/CTeam/6022
 Title: Königswinter Rheinblick
 nTF: 1
-Points: 5
 ----
 ID: 3208
 Date: 01.08.2015
 Waypoint: m/c-bn/223
 Title: The Sunny Side 070
-Points: 5
 ----
 ID: 3209
 Date: 01.08.2015
 Waypoint: m/c-bn/224
 Title: The Sunny Side 071
-Points: 5
 ----
 ID: 3210
 Date: 01.08.2015
 Waypoint: m/c-bn/229
 Title: The Sunny Side 076
-Points: 5
 ----
 ID: 3211
 Date: 01.08.2015
 Waypoint: m/c-bn/230
 Title: The Sunny Side 077
-Points: 5
 ----
 ID: 3212
 Date: 01.08.2015
 Waypoint: m/c-bn/231
 Title: The Sunny Side 078
-Points: 5
 ----
 ID: 3213
 Date: 01.08.2015
 Waypoint: m/c-bn/232
 Title: The Sunny Side 079
-Points: 5
 ----
 ID: 3214
 Date: 01.08.2015
 Waypoint: m/c-bn/233
 Title: The Sunny Side 080
-Points: 5
 ----
 ID: 3215
 Date: 01.08.2015
 Waypoint: m/QQ/191
 Title: Time for Munzee 14
 nTF: 1
-Points: 5
 ----
 ID: 3216
 Date: 01.08.2015
 Waypoint: m/JOJEVA/1122
 Title: Kw- Munzee 102 16
-Points: 5
 ----
 ID: 3217
 Date: 01.08.2015
 Waypoint: m/QQ/183
 Title: Time for Munzee 6
 nTF: 1
-Points: 5
 ----
 ID: 3218
 Date: 01.08.2015
 Waypoint: m/c-bn/218
 Title: The Sunny Side 065
-Points: 5
 ----
 ID: 3219
 Date: 01.08.2015
 Waypoint: m/ReMiKu/573
 Title: Walk the Rhine (0573)
-Points: 5
 ----
 ID: 3220
 Date: 01.08.2015
@@ -19417,56 +18592,47 @@ ID: 3221
 Date: 01.08.2015
 Waypoint: m/JOJEVA/974
 Title: - Munzee # 802 23
-Points: 5
 ----
 ID: 3222
 Date: 01.08.2015
 Waypoint: m/JOJEVA/960
 Title: - Munzee # 802 9
-Points: 5
 ----
 ID: 3223
 Date: 01.08.2015
 Waypoint: m/JOJEVA/1011
 Title: - Munzee # 805 15
-Points: 5
 ----
 ID: 3224
 Date: 01.08.2015
 Waypoint: m/JOJEVA/981
 Title: - Munzee # 804 5
-Points: 5
 ----
 ID: 3225
 Date: 01.08.2015
 Waypoint: m/dschuwa/85
 Title: Nächster Halt: Am Büchel
-Points: 5
 ----
 ID: 3226
 Date: 01.08.2015
 Waypoint: m/JOJEVA/994
 Title: - Munzee # 804 18
-Points: 5
 ----
 ID: 3227
 Date: 01.08.2015
 Waypoint: m/dschuwa/138
 Title: Nächster Halt: Mittelstraße
-Points: 5
 ----
 ID: 3228
 Date: 01.08.2015
 Waypoint: m/dschuwa/115
 Title: Nächster Halt: Hindenburgallee
 nTF: 1
-Points: 5
 ----
 ID: 3229
 Date: 01.08.2015
 Waypoint: m/dschuwa/695
 Title: Bonner Punktejagd 482
-Points: 5
 ----
 ID: 3230
 Date: 01.08.2015
@@ -19478,26 +18644,22 @@ ID: 3231
 Date: 01.08.2015
 Waypoint: m/DerTransporter/40
 Title: Maxi Munzee 40
-Points: 5
 ----
 ID: 3232
 Date: 01.08.2015
 Waypoint: m/c-bn/4507
 Title: Bonn, Hochkreuzallee 4507
-Points: 5
 ----
 ID: 3233
 Date: 01.08.2015
 Waypoint: m/anjasi/7
 Title: BN-A 3
 nTF: 1
-Points: 5
 ----
 ID: 3234
 Date: 01.08.2015
 Waypoint: m/dschuwa/299
 Title: Bonner Punktejagd 011
-Points: 5
 ----
 ID: 3235
 Date: 02.08.2015
@@ -19516,7 +18678,6 @@ ID: 3237
 Date: 02.08.2015
 Waypoint: m/Vorticity/2
 Title: Burg Wissem
-Points: 5
 ----
 ID: 3238
 Date: 02.08.2015
@@ -19529,19 +18690,16 @@ Date: 02.08.2015
 Waypoint: m/montana/99
 Title: Troisdorf virtual - Ursulaplatz
 nTF: 1
-Points: 5
 ----
 ID: 3240
 Date: 03.08.2015
 Waypoint: m/c-bn/3203
 Title: Bonn, Maximilianstraße
-Points: 5
 ----
 ID: 3241
 Date: 04.08.2015
 Waypoint: m/c-bn/490
 Title: gelbe Klappe 📫 017 - Bonn, Wittelsbacherring
-Points: 5
 ----
 ID: 3242
 Date: 05.08.2015
@@ -19571,7 +18729,6 @@ ID: 3246
 Date: 06.08.2015
 Waypoint: m/MV1/4246
 Title: MVirtual Endenich7
-Points: 5
 ----
 ID: 3247
 Date: 06.08.2015
@@ -19589,65 +18746,55 @@ ID: 3249
 Date: 06.08.2015
 Waypoint: m/Tamarisk/1762
 Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL Room #1
-Points: 5
 ----
 ID: 3250
 Date: 06.08.2015
 Waypoint: m/Wyando/6133
 Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL Room #2
-Points: 5
 ----
 ID: 3251
 Date: 06.08.2015
 Waypoint: m/supersilli/589
 Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL Room #3
-Points: 5
 ----
 ID: 3252
 Date: 06.08.2015
 Waypoint: m/ReMiKu/11890
 Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL Room #4
-Points: 5
 ----
 ID: 3253
 Date: 06.08.2015
 Waypoint: m/winkide/9440
 Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL Room #5
-Points: 5
 ----
 ID: 3254
 Date: 06.08.2015
 Waypoint: m/QQ/570
 Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL Room #6
-Points: 5
 ----
 ID: 3255
 Date: 06.08.2015
 Waypoint: m/Steffi78/377
 Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL Room #7
 nTF: 4
-Points: 5
 ----
 ID: 3256
 Date: 06.08.2015
 Waypoint: m/hugosoft/3405
 Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL Room #8
 nTF: 3
-Points: 5
 ----
 ID: 3257
 Date: 06.08.2015
 Waypoint: m/feylino/3071
 Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL Room #9
 nTF: 2
-Points: 5
 ----
 ID: 3258
 Date: 06.08.2015
 Waypoint: m/charlino/241
 Title: [c-bn] Bonn, Argelanderstr. 7071 HOTEL Room #10
 nTF: 1
-Points: 5
 ----
 ID: 3259
 Date: 06.08.2015
@@ -19659,95 +18806,80 @@ ID: 3260
 Date: 06.08.2015
 Waypoint: m/dschuwa/133
 Title: Nächster Halt: Lotharstraße
-Points: 5
 ----
 ID: 3261
 Date: 06.08.2015
 Waypoint: m/dschuwa/660
 Title: Bonner Punktejagd 447
-Points: 5
 ----
 ID: 3262
 Date: 06.08.2015
 Waypoint: m/dschuwa/909
 Title: Bonner Punktejagd 695
-Points: 5
 ----
 ID: 3263
 Date: 06.08.2015
 Waypoint: m/dschuwa/733
 Title: Bonner Punktejagd 520
-Points: 5
 ----
 ID: 3264
 Date: 06.08.2015
 Waypoint: m/dschuwa/847
 Title: Bonner Punktejagd 633
 nTF: 1
-Points: 5
 ----
 ID: 3265
 Date: 06.08.2015
 Waypoint: m/dschuwa/715
 Title: Bonner Punktejagd 502
-Points: 5
 ----
 ID: 3266
 Date: 06.08.2015
 Waypoint: m/dschuwa/822
 Title: Bonner Punktejagd 608
 nTF: 1
-Points: 5
 ----
 ID: 3267
 Date: 06.08.2015
 Waypoint: m/dschuwa/841
 Title: Bonner Punktejagd 627
-Points: 5
 ----
 ID: 3268
 Date: 06.08.2015
 Waypoint: m/dschuwa/739
 Title: Bonner Punktejagd 526
 nTF: 1
-Points: 5
 ----
 ID: 3269
 Date: 06.08.2015
 Waypoint: m/dschuwa/746
 Title: Bonner Punktejagd 532
 nTF: 1
-Points: 5
 ----
 ID: 3270
 Date: 06.08.2015
 Waypoint: m/dschuwa/745
 Title: Bonner Punktejagd 531
-Points: 5
 ----
 ID: 3271
 Date: 07.08.2015
 Waypoint: m/dschuwa/328
 Title: Bonner Punktejagd 063
-Points: 5
 ----
 ID: 3272
 Date: 07.08.2015
 Waypoint: m/dschuwa/230
 Title: Bonner Punktejagd 037
-Points: 5
 ----
 ID: 3273
 Date: 07.08.2015
 Waypoint: m/dschuwa/205
 Title: Bonner Punktejagd 066
-Points: 5
 ----
 ID: 3274
 Date: 07.08.2015
 Waypoint: m/c-bn/3255
 Title: Bonn, Dottendorfer Straße
-Points: 5
 ----
 ID: 3275
 Date: 07.08.2015
@@ -19759,13 +18891,11 @@ ID: 3276
 Date: 07.08.2015
 Waypoint: m/JOJEVA/346
 Title: Dottendorf-Munzee # 359
-Points: 5
 ----
 ID: 3277
 Date: 07.08.2015
 Waypoint: m/DerTransporter/124
 Title: Maxi Munzee 124
-Points: 5
 ----
 ID: 3278
 Date: 07.08.2015
@@ -19777,37 +18907,31 @@ ID: 3279
 Date: 07.08.2015
 Waypoint: m/JOJEVA/304
 Title: Dottendorf-Munzee # 317
-Points: 5
 ----
 ID: 3280
 Date: 07.08.2015
 Waypoint: m/JOJEVA/303
 Title: Dottendorf-Munzee # 316
-Points: 5
 ----
 ID: 3281
 Date: 07.08.2015
 Waypoint: m/JOJEVA/331
 Title: Dottendorf-Munzee # 344
-Points: 5
 ----
 ID: 3282
 Date: 07.08.2015
 Waypoint: m/DerTransporter/81
 Title: Maxi Munzee 81
-Points: 5
 ----
 ID: 3283
 Date: 07.08.2015
 Waypoint: m/zeusi/3907
 Title: Virtual Munzee 29
-Points: 5
 ----
 ID: 3284
 Date: 07.08.2015
 Waypoint: m/c-bn/1954
 Title: Bonn, Servatiusstraße
-Points: 5
 ----
 ID: 3285
 Date: 07.08.2015
@@ -19831,7 +18955,6 @@ ID: 3288
 Date: 07.08.2015
 Waypoint: m/DerTransporter/77
 Title: Maxi Munzee 77
-Points: 5
 ----
 ID: 3289
 Date: 07.08.2015
@@ -19843,7 +18966,6 @@ ID: 3290
 Date: 07.08.2015
 Waypoint: m/DerTransporter/76
 Title: Maxi Munzee 76
-Points: 5
 ----
 ID: 3291
 Date: 07.08.2015
@@ -19855,7 +18977,6 @@ ID: 3292
 Date: 07.08.2015
 Waypoint: m/DerTransporter/74
 Title: Maxi Munzee 74
-Points: 5
 ----
 ID: 3293
 Date: 07.08.2015
@@ -19897,7 +19018,6 @@ ID: 3299
 Date: 07.08.2015
 Waypoint: m/MV1/5045
 Title: MV1 Friesdorf 10
-Points: 5
 ----
 ID: 3300
 Date: 07.08.2015
@@ -19957,19 +19077,16 @@ ID: 3309
 Date: 07.08.2015
 Waypoint: m/zeusi/2766
 Title: Virtual Munzee Power
-Points: 5
 ----
 ID: 3310
 Date: 07.08.2015
 Waypoint: m/MV1/5038
 Title: MV1 Friesdorf 3
-Points: 5
 ----
 ID: 3311
 Date: 07.08.2015
 Waypoint: m/DerTransporter/164
 Title: DerTransporter Virtual 4
-Points: 5
 ----
 ID: 3312
 Date: 07.08.2015
@@ -19993,13 +19110,11 @@ ID: 3315
 Date: 07.08.2015
 Waypoint: m/JOJEVA/318
 Title: BG-Munzee # 331
-Points: 5
 ----
 ID: 3316
 Date: 07.08.2015
 Waypoint: m/zeusi/2765
 Title: Virtual Munzee 8
-Points: 5
 ----
 ID: 3317
 Date: 07.08.2015
@@ -20011,19 +19126,16 @@ ID: 3318
 Date: 07.08.2015
 Waypoint: m/zeusi/2764
 Title: Virtual Munzee Power
-Points: 5
 ----
 ID: 3319
 Date: 07.08.2015
 Waypoint: m/DerTransporter/61
 Title: Maxi Munzee 61
-Points: 5
 ----
 ID: 3320
 Date: 07.08.2015
 Waypoint: m/Airwolf26/1302
 Title: Bonn - Friesdorferstr
-Points: 5
 ----
 ID: 3321
 Date: 07.08.2015
@@ -20047,7 +19159,6 @@ ID: 3324
 Date: 07.08.2015
 Waypoint: m/DerTransporter/60
 Title: Maxi Munzee 60
-Points: 5
 ----
 ID: 3325
 Date: 07.08.2015
@@ -20059,19 +19170,16 @@ ID: 3326
 Date: 07.08.2015
 Waypoint: m/JOJEVA/336
 Title: BG-Munzee # 349
-Points: 5
 ----
 ID: 3327
 Date: 07.08.2015
 Waypoint: m/zeusi/3904
 Title: Virtual Munzee 26
-Points: 5
 ----
 ID: 3328
 Date: 07.08.2015
 Waypoint: m/DerTransporter/117
 Title: Maxi Munzee 117
-Points: 5
 ----
 ID: 3329
 Date: 07.08.2015
@@ -20083,7 +19191,6 @@ ID: 3330
 Date: 07.08.2015
 Waypoint: m/zeusi/3728
 Title: Virtual Munzee 25
-Points: 5
 ----
 ID: 3331
 Date: 07.08.2015
@@ -20101,49 +19208,41 @@ ID: 3333
 Date: 07.08.2015
 Waypoint: m/TAZ/154
 Title: Haribo
-Points: 5
 ----
 ID: 3334
 Date: 07.08.2015
 Waypoint: m/omani/51
 Title: Haribo!!!
-Points: 5
 ----
 ID: 3335
 Date: 07.08.2015
 Waypoint: m/ajlis/1896
 Title: [c-bn] Motel 🏨 {HARIBO Werksverkauf} Room #1
-Points: 5
 ----
 ID: 3336
 Date: 07.08.2015
 Waypoint: m/CTeam/4112
 Title: [c-bn] Motel 🏨 {HARIBO Werksverkauf} Room #2
-Points: 5
 ----
 ID: 3337
 Date: 07.08.2015
 Waypoint: m/JlMMY/472
 Title: [c-bn] Motel 🏨 {HARIBO Werksverkauf} Room #3
-Points: 5
 ----
 ID: 3338
 Date: 07.08.2015
 Waypoint: m/struppis/155
 Title: [c-bn] Motel 🏨 {HARIBO Werksverkauf} Room #4
-Points: 5
 ----
 ID: 3339
 Date: 07.08.2015
 Waypoint: m/Bitbuster/593
 Title: [c-bn] Motel 🏨 {HARIBO Werksverkauf} Room #5
-Points: 5
 ----
 ID: 3340
 Date: 07.08.2015
 Waypoint: m/c-bn/4499
 Title: [c-bn] Motel 🏨 {HARIBO Werksverkauf}
-Points: 5
 ----
 ID: 3341
 Date: 07.08.2015
@@ -20155,31 +19254,26 @@ ID: 3342
 Date: 07.08.2015
 Waypoint: m/JansEgal/2318
 Title: Freaky Munzee Clan @ HARIBO
-Points: 5
 ----
 ID: 3343
 Date: 07.08.2015
 Waypoint: m/Airwolf26/2341
 Title: Bonn - 🐻 HARIBO
-Points: 5
 ----
 ID: 3344
 Date: 07.08.2015
 Waypoint: m/Bitbuster/542
 Title: Haribo
-Points: 5
 ----
 ID: 3345
 Date: 07.08.2015
 Waypoint: m/CTeam/4113
 Title: Haribo Werkverkauf
-Points: 5
 ----
 ID: 3346
 Date: 07.08.2015
 Waypoint: m/DerTransporter/154
 Title: Maxi Munzee 147
-Points: 5
 ----
 ID: 3347
 Date: 07.08.2015
@@ -20191,7 +19285,6 @@ ID: 3348
 Date: 07.08.2015
 Waypoint: m/DerTransporter/153
 Title: Maxi Munzee 146
-Points: 5
 ----
 ID: 3349
 Date: 07.08.2015
@@ -20203,7 +19296,6 @@ ID: 3350
 Date: 07.08.2015
 Waypoint: m/DerTransporter/152
 Title: Maxi Munzee 145
-Points: 5
 ----
 ID: 3351
 Date: 07.08.2015
@@ -20215,7 +19307,6 @@ ID: 3352
 Date: 07.08.2015
 Waypoint: m/DerTransporter/115
 Title: Maxi Munzee 115
-Points: 5
 ----
 ID: 3353
 Date: 07.08.2015
@@ -20227,13 +19318,11 @@ ID: 3354
 Date: 07.08.2015
 Waypoint: m/DerTransporter/114
 Title: Maxi Munzee 114
-Points: 5
 ----
 ID: 3355
 Date: 07.08.2015
 Waypoint: m/JOJEVA/369
 Title: BG-Munzee # 382
-Points: 5
 ----
 ID: 3356
 Date: 07.08.2015
@@ -20245,7 +19334,6 @@ ID: 3357
 Date: 07.08.2015
 Waypoint: m/DerTransporter/113
 Title: Maxi Munzee 113
-Points: 5
 ----
 ID: 3358
 Date: 07.08.2015
@@ -20257,13 +19345,11 @@ ID: 3359
 Date: 07.08.2015
 Waypoint: m/c-bn/4498
 Title: Bonn, Friesdorfer Str. 4498
-Points: 5
 ----
 ID: 3360
 Date: 07.08.2015
 Waypoint: m/DerTransporter/151
 Title: Maxi Munzee 144
-Points: 5
 ----
 ID: 3361
 Date: 07.08.2015
@@ -20275,87 +19361,73 @@ ID: 3362
 Date: 07.08.2015
 Waypoint: m/zeusi/2763
 Title: Virtual Munzee Power
-Points: 5
 ----
 ID: 3363
 Date: 07.08.2015
 Waypoint: m/zeusi/3905
 Title: Virtual Munzee 27
-Points: 5
 ----
 ID: 3364
 Date: 07.08.2015
 Waypoint: m/DerTransporter/150
 Title: Maxi Munzee 143
-Points: 5
 ----
 ID: 3365
 Date: 07.08.2015
 Waypoint: m/QQ/234
 Title: Zeit für Munzee! 7
 nTF: 1
-Points: 5
 ----
 ID: 3366
 Date: 07.08.2015
 Waypoint: m/DevilsEnd/173
 Title: Devil #173
-Points: 5
 ----
 ID: 3367
 Date: 07.08.2015
 Waypoint: m/QQ/236
 Title: Zeit für Munzee! 9
 nTF: 1
-Points: 5
 ----
 ID: 3368
 Date: 07.08.2015
 Waypoint: m/winkide/5736
 Title: Bonn - Koblenzer Str. #5736
-Points: 5
 ----
 ID: 3369
 Date: 07.08.2015
 Waypoint: m/ajlis/1895
 Title: [c-bn] Motel 🏨 #72 {Bad Godesberg} Room #1
-Points: 5
 ----
 ID: 3370
 Date: 07.08.2015
 Waypoint: m/CTeam/4114
 Title: [c-bn] Motel 🏨 #72 {Bad Godesberg} Room #2
-Points: 5
 ----
 ID: 3371
 Date: 07.08.2015
 Waypoint: m/JlMMY/473
 Title: [c-bn] Motel 🏨 #72 {Bad Godesberg} Room #3
-Points: 5
 ----
 ID: 3372
 Date: 07.08.2015
 Waypoint: m/struppis/145
 Title: [c-bn] Motel 🏨 #72 {Bad Godesberg} Room #4
-Points: 5
 ----
 ID: 3373
 Date: 07.08.2015
 Waypoint: m/JOJEVA/1280
 Title: [c-bn] Motel 🏨 #72 {Bad Godesberg} Room #5
-Points: 5
 ----
 ID: 3374
 Date: 07.08.2015
 Waypoint: m/c-bn/4439
 Title: [c-bn] Motel 🏨 #72 {Bad Godesberg}
-Points: 5
 ----
 ID: 3375
 Date: 07.08.2015
 Waypoint: m/DerTransporter/112
 Title: Maxi Munzee 112
-Points: 5
 ----
 ID: 3376
 Date: 07.08.2015
@@ -20373,325 +19445,271 @@ ID: 3378
 Date: 08.08.2015
 Waypoint: m/struppis/340
 Title: struppis 18
-Points: 5
 ----
 ID: 3379
 Date: 08.08.2015
 Waypoint: m/struppis/362
 Title: struppis 6
-Points: 5
 ----
 ID: 3380
 Date: 08.08.2015
 Waypoint: m/struppis/351
 Title: struppis 6
-Points: 5
 ----
 ID: 3381
 Date: 08.08.2015
 Waypoint: m/struppis/437
 Title: struppis 13
-Points: 5
 ----
 ID: 3382
 Date: 08.08.2015
 Waypoint: m/struppis/426
 Title: struppis 2
-Points: 5
 ----
 ID: 3383
 Date: 08.08.2015
 Waypoint: m/struppis/415
 Title: struppis 16
-Points: 5
 ----
 ID: 3384
 Date: 08.08.2015
 Waypoint: m/JOJEVA/787
 Title: - Munzee # 11
-Points: 5
 ----
 ID: 3385
 Date: 08.08.2015
 Waypoint: m/JOJEVA/793
 Title: - Munzee # 17
-Points: 5
 ----
 ID: 3386
 Date: 08.08.2015
 Waypoint: m/JOJEVA/789
 Title: - Munzee # 13
-Points: 5
 ----
 ID: 3387
 Date: 08.08.2015
 Waypoint: m/JOJEVA/865
 Title: - Munzee # 14
-Points: 5
 ----
 ID: 3388
 Date: 08.08.2015
 Waypoint: m/JOJEVA/803
 Title: - Munzee # 2
-Points: 5
 ----
 ID: 3389
 Date: 08.08.2015
 Waypoint: m/JOJEVA/792
 Title: - Munzee # 16
-Points: 5
 ----
 ID: 3390
 Date: 08.08.2015
 Waypoint: m/JOJEVA/812
 Title: - Munzee # 11
-Points: 5
 ----
 ID: 3391
 Date: 08.08.2015
 Waypoint: m/JOJEVA/872
 Title: Rüngsdorf - Munzee # 21
-Points: 5
 ----
 ID: 3392
 Date: 08.08.2015
 Waypoint: m/JOJEVA/796
 Title: Rüngsdorf - Munzee # 20
-Points: 5
 ----
 ID: 3393
 Date: 08.08.2015
 Waypoint: m/JOJEVA/836
 Title: Rüngsdorf - Munzee # 10
-Points: 5
 ----
 ID: 3394
 Date: 08.08.2015
 Waypoint: m/JOJEVA/794
 Title: Rüngsdorf - Munzee # 18
-Points: 5
 ----
 ID: 3395
 Date: 08.08.2015
 Waypoint: m/JOJEVA/798
 Title: Rüngsdorf - Munzee # 22
-Points: 5
 ----
 ID: 3396
 Date: 08.08.2015
 Waypoint: m/JOJEVA/868
 Title: Rüngsdorf - Munzee # 17
-Points: 5
 ----
 ID: 3397
 Date: 08.08.2015
 Waypoint: m/JOJEVA/863
 Title: Rüngsdorf - Munzee # 12
-Points: 5
 ----
 ID: 3398
 Date: 08.08.2015
 Waypoint: m/JOJEVA/791
 Title: Rüngsdorf - Munzee # 15
-Points: 5
 ----
 ID: 3399
 Date: 08.08.2015
 Waypoint: m/JOJEVA/828
 Title: Rüngsdorf - Munzee # 2
-Points: 5
 ----
 ID: 3400
 Date: 08.08.2015
 Waypoint: m/JOJEVA/852
 Title: Rüngsdorf - Munzee # 1
-Points: 5
 ----
 ID: 3401
 Date: 08.08.2015
 Waypoint: m/JOJEVA/837
 Title: Rüngsdorf - Munzee # 11
-Points: 5
 ----
 ID: 3402
 Date: 08.08.2015
 Waypoint: m/JOJEVA/916
 Title: Pennenfeld - Munzee # 801 15
-Points: 5
 ----
 ID: 3403
 Date: 08.08.2015
 Waypoint: m/JOJEVA/910
 Title: Pennenfeld - Munzee # 801 9
-Points: 5
 ----
 ID: 3404
 Date: 08.08.2015
 Waypoint: m/JOJEVA/926
 Title: - Munzee # 801 25
-Points: 5
 ----
 ID: 3405
 Date: 08.08.2015
 Waypoint: m/JOJEVA/945
 Title: - Munzee # 802 19
-Points: 5
 ----
 ID: 3406
 Date: 08.08.2015
 Waypoint: m/JOJEVA/942
 Title: Pennenfeld - Munzee # 802 16
-Points: 5
 ----
 ID: 3407
 Date: 08.08.2015
 Waypoint: m/JOJEVA/783
 Title: - Munzee # 7
-Points: 5
 ----
 ID: 3408
 Date: 08.08.2015
 Waypoint: m/JOJEVA/861
 Title: - Munzee # 10
-Points: 5
 ----
 ID: 3409
 Date: 08.08.2015
 Waypoint: m/JOJEVA/880
 Title: - Munzee # 800 4
-Points: 5
 ----
 ID: 3410
 Date: 08.08.2015
 Waypoint: m/JOJEVA/883
 Title: - Munzee # 800 7
-Points: 5
 ----
 ID: 3411
 Date: 08.08.2015
 Waypoint: m/JOJEVA/874
 Title: - Munzee # 23
-Points: 5
 ----
 ID: 3412
 Date: 08.08.2015
 Waypoint: m/JOJEVA/801
 Title: - Munzee # 25
-Points: 5
 ----
 ID: 3413
 Date: 08.08.2015
 Waypoint: m/JOJEVA/807
 Title: - Munzee # 6
-Points: 5
 ----
 ID: 3414
 Date: 08.08.2015
 Waypoint: m/JOJEVA/893
 Title: - Munzee # 800 17
-Points: 5
 ----
 ID: 3415
 Date: 08.08.2015
 Waypoint: m/JOJEVA/962
 Title: - Munzee # 802 11
-Points: 5
 ----
 ID: 3416
 Date: 08.08.2015
 Waypoint: m/JOJEVA/851
 Title: - Munzee # 25
-Points: 5
 ----
 ID: 3417
 Date: 08.08.2015
 Waypoint: m/JOJEVA/921
 Title: - Munzee # 801 20
-Points: 5
 ----
 ID: 3418
 Date: 08.08.2015
 Waypoint: m/JOJEVA/859
 Title: - Munzee # 8
-Points: 5
 ----
 ID: 3419
 Date: 08.08.2015
 Waypoint: m/JOJEVA/781
 Title: - Munzee # 5
-Points: 5
 ----
 ID: 3420
 Date: 08.08.2015
 Waypoint: m/JOJEVA/943
 Title: - Munzee # 802 17
-Points: 5
 ----
 ID: 3421
 Date: 08.08.2015
 Waypoint: m/JOJEVA/909
 Title: - Munzee # 801 8
-Points: 5
 ----
 ID: 3422
 Date: 08.08.2015
 Waypoint: m/JOJEVA/900
 Title: - Munzee # 800 24
-Points: 5
 ----
 ID: 3423
 Date: 08.08.2015
 Waypoint: m/JOJEVA/902
 Title: - Munzee # 801 1
-Points: 5
 ----
 ID: 3424
 Date: 08.08.2015
 Waypoint: m/JOJEVA/848
 Title: - Munzee # 22
-Points: 5
 ----
 ID: 3425
 Date: 08.08.2015
 Waypoint: m/JOJEVA/782
 Title: - Munzee # 6
-Points: 5
 ----
 ID: 3426
 Date: 08.08.2015
 Waypoint: m/JOJEVA/897
 Title: - Munzee # 800 21
-Points: 5
 ----
 ID: 3427
 Date: 08.08.2015
 Waypoint: m/JOJEVA/831
 Title: - Munzee # 5
-Points: 5
 ----
 ID: 3428
 Date: 08.08.2015
 Waypoint: m/JOJEVA/799
 Title: - Munzee # 23
-Points: 5
 ----
 ID: 3429
 Date: 08.08.2015
 Waypoint: m/JOJEVA/788
 Title: - Munzee # 12
-Points: 5
 ----
 ID: 3430
 Date: 08.08.2015
 Waypoint: m/JOJEVA/886
 Title: - Munzee # 800 10
-Points: 5
 ----
 ID: 3431
 Date: 08.08.2015
 Waypoint: m/JOJEVA/847
 Title: Rigalsche Wiese- Munzee # 21
-Points: 5
 ----
 ID: 3432
 Date: 08.08.2015
@@ -20703,231 +19721,193 @@ ID: 3433
 Date: 08.08.2015
 Waypoint: m/JOJEVA/821
 Title: Rigalsche Wiese- Munzee # 20
-Points: 5
 ----
 ID: 3434
 Date: 08.08.2015
 Waypoint: m/DevilsEnd/176
 Title: Rigal&#039;sche Wiese
-Points: 5
 ----
 ID: 3435
 Date: 08.08.2015
 Waypoint: m/JOJEVA/870
 Title: Rigalsche Wiese- Munzee # 19
-Points: 5
 ----
 ID: 3436
 Date: 08.08.2015
 Waypoint: m/JOJEVA/824
 Title: Rigalsche Wiese- Munzee # 23
-Points: 5
 ----
 ID: 3437
 Date: 08.08.2015
 Waypoint: m/JOJEVA/899
 Title: Rigalsche Wiese- Munzee # 800 23
-Points: 5
 ----
 ID: 3438
 Date: 08.08.2015
 Waypoint: m/JOJEVA/853
 Title: Rigalsche Wiese- Munzee # 2
-Points: 5
 ----
 ID: 3439
 Date: 08.08.2015
 Waypoint: m/JOJEVA/805
 Title: Rigalsche Wiese- Munzee # 4
-Points: 5
 ----
 ID: 3440
 Date: 08.08.2015
 Waypoint: m/JOJEVA/846
 Title: Rigalsche Wiese- Munzee # 20
-Points: 5
 ----
 ID: 3441
 Date: 08.08.2015
 Waypoint: m/JOJEVA/854
 Title: Rigalsche Wiese- Munzee # 3
-Points: 5
 ----
 ID: 3442
 Date: 08.08.2015
 Waypoint: m/JOJEVA/903
 Title: Rigalsche Wiese- Munzee # 801 2
-Points: 5
 ----
 ID: 3443
 Date: 08.08.2015
 Waypoint: m/JOJEVA/940
 Title: Rigalsche Wiese- Munzee # 802 14
-Points: 5
 ----
 ID: 3444
 Date: 08.08.2015
 Waypoint: m/JOJEVA/838
 Title: Rigalsche Wiese - Munzee # 12
-Points: 5
 ----
 ID: 3445
 Date: 08.08.2015
 Waypoint: m/winkide/5735
 Title: Bonn - Stadtpark #5735
-Points: 5
 ----
 ID: 3446
 Date: 08.08.2015
 Waypoint: m/ajlis/2173
 Title: Ajlis 23
-Points: 5
 ----
 ID: 3447
 Date: 08.08.2015
 Waypoint: m/winkide/5776
 Title: Bonn - Koblenzer Str. #5776
-Points: 5
 ----
 ID: 3448
 Date: 08.08.2015
 Waypoint: m/ajlis/2269
 Title: Winkis House Of Bonn #5742 Room #1
-Points: 5
 ----
 ID: 3449
 Date: 08.08.2015
 Waypoint: m/ReMiKu/10291
 Title: Winkis House Of Bonn #5742 Room #2
-Points: 5
 ----
 ID: 3450
 Date: 08.08.2015
 Waypoint: m/CTeam/4907
 Title: Winkis House Of Bonn #5742 Room #3
-Points: 5
 ----
 ID: 3451
 Date: 08.08.2015
 Waypoint: m/dreiengel/1348
 Title: Winkis House Of Bonn #5742 Room #4
 nTF: 4
-Points: 5
 ----
 ID: 3452
 Date: 08.08.2015
 Waypoint: m/QQ/11
 Title: Winkis House Of Bonn #5742 Room #5
 nTF: 3
-Points: 5
 ----
 ID: 3453
 Date: 08.08.2015
 Waypoint: m/winkide/5742
 Title: Winkis House Of Bonn #5742
-Points: 5
 ----
 ID: 3454
 Date: 08.08.2015
 Waypoint: m/winkide/5766
 Title: Bonn - Koblenzer Str. #5766
-Points: 5
 ----
 ID: 3455
 Date: 09.08.2015
 Waypoint: m/winkide/5765
 Title: Bonn - Am Michaelshof #5765
-Points: 5
 ----
 ID: 3456
 Date: 09.08.2015
 Waypoint: m/ajlis/2267
 Title: Winkis House Of Bonn #5734 Room #1
-Points: 5
 ----
 ID: 3457
 Date: 09.08.2015
 Waypoint: m/ReMiKu/10293
 Title: Winkis House Of Bonn #5734 Room #2
-Points: 5
 ----
 ID: 3458
 Date: 09.08.2015
 Waypoint: m/CTeam/4905
 Title: Winkis House Of Bonn #5734 Room #3
-Points: 5
 ----
 ID: 3459
 Date: 09.08.2015
 Waypoint: m/dreiengel/1346
 Title: Winkis House Of Bonn #5734 Room #4
-Points: 5
 ----
 ID: 3460
 Date: 09.08.2015
 Waypoint: m/c-bn/6241
 Title: Winkis House Of Bonn #5734 Room #5
-Points: 5
 ----
 ID: 3461
 Date: 09.08.2015
 Waypoint: m/winkide/5734
 Title: Winkis House Of Bonn #5734
-Points: 5
 ----
 ID: 3462
 Date: 09.08.2015
 Waypoint: m/winkide/5715
 Title: Bonn - Am Fronhof #5715
-Points: 5
 ----
 ID: 3463
 Date: 09.08.2015
 Waypoint: m/winkide/5738
 Title: Bonn - Pfarrer-Minartz-Str. #5738
-Points: 5
 ----
 ID: 3464
 Date: 09.08.2015
 Waypoint: m/winkide/5754
 Title: Bonn - Am Fronhof #5754
-Points: 5
 ----
 ID: 3465
 Date: 09.08.2015
 Waypoint: m/winkide/5722
 Title: Bonn - Am Fronhof #5722
-Points: 5
 ----
 ID: 3466
 Date: 09.08.2015
 Waypoint: m/CTeam/4782
 Title: Bonn
-Points: 5
 ----
 ID: 3467
 Date: 09.08.2015
 Waypoint: m/winkide/5718
 Title: Bonn - Kurfürstenallee #5718
-Points: 5
 ----
 ID: 3468
 Date: 09.08.2015
 Waypoint: m/winkide/5713
 Title: Bonn - Koblenzer Str. #5713
-Points: 5
 ----
 ID: 3469
 Date: 09.08.2015
 Waypoint: m/ajlis/2174
 Title: Ajlis 24
-Points: 5
 ----
 ID: 3470
 Date: 09.08.2015
 Waypoint: m/winkide/5709
 Title: Bonn - Koblenzer Str. #5709
-Points: 5
 ----
 ID: 3472
 Date: 10.08.2015
@@ -20951,31 +19931,26 @@ ID: 3475
 Date: 10.08.2015
 Waypoint: m/HBRB/4583
 Title: Virtual HBRB - Bonn - Rheinaue
-Points: 5
 ----
 ID: 3476
 Date: 10.08.2015
 Waypoint: m/Pumti/3131
 Title: VM [Blue] Bonn Rheinaue
-Points: 5
 ----
 ID: 3477
 Date: 11.08.2015
 Waypoint: m/JOJEVA/349
 Title: Munzee # 362
-Points: 5
 ----
 ID: 3478
 Date: 11.08.2015
 Waypoint: m/JOJEVA/341
 Title: Munzee # 354
-Points: 5
 ----
 ID: 3479
 Date: 11.08.2015
 Waypoint: m/zeusi/2269
 Title: Munzee Power 880
-Points: 5
 ----
 ID: 3480
 Date: 11.08.2015
@@ -20993,43 +19968,36 @@ ID: 3482
 Date: 11.08.2015
 Waypoint: m/mastaxlolls/37
 Title: Nächster Halt: Euskirchener Stra
-Points: 5
 ----
 ID: 3483
 Date: 12.08.2015
 Waypoint: m/radschlaeger/2
 Title: Bonn, Im jungen Winterzeit MOTEL Room #1
-Points: 5
 ----
 ID: 3484
 Date: 12.08.2015
 Waypoint: m/koebes/221
 Title: Bonn, Im jungen Winterzeit MOTEL Room #2
-Points: 5
 ----
 ID: 3485
 Date: 12.08.2015
 Waypoint: m/mutti/10
 Title: Bonn, Im jungen Winterzeit MOTEL Room #3
-Points: 5
 ----
 ID: 3486
 Date: 12.08.2015
 Waypoint: m/ReMiKu/10285
 Title: Bonn, Im jungen Wingert MOTEL Room #4
-Points: 5
 ----
 ID: 3487
 Date: 12.08.2015
 Waypoint: m/Team-MTB-OC/572
 Title: Bonn, Im jungen Wingert MOTEL Room #5
-Points: 5
 ----
 ID: 3488
 Date: 12.08.2015
 Waypoint: m/c-bn/2382
 Title: Bonn, Im jungen Wingert MOTEL
-Points: 5
 ----
 ID: 3489
 Date: 12.08.2015
@@ -21060,7 +20028,6 @@ Date: 13.08.2015
 Waypoint: m/mirabilos/26
 Title: Beste Eisdiele wo gibt❣
 nTF: 0
-Points: 5
 
 Erste Ernte aus den Munzee Clan Wars, wo ich beim Eisdielenevent
 für angeworben worden war ☺
@@ -21084,43 +20051,36 @@ Date: 14.08.2015
 Waypoint: m/dschuwa/683
 Title: Bonner Punktejagd 470
 nTF: 1
-Points: 5
 ----
 ID: 3497
 Date: 14.08.2015
 Waypoint: m/dschuwa/772
 Title: Bonner Punktejagd 558
-Points: 5
 ----
 ID: 3498
 Date: 14.08.2015
 Waypoint: m/zeusi/1629
 Title: Munzee Power 326
-Points: 5
 ----
 ID: 3499
 Date: 14.08.2015
 Waypoint: m/dschuwa/251
 Title: Bonner Punktejagd 093
-Points: 5
 ----
 ID: 3500
 Date: 14.08.2015
 Waypoint: m/zeusi/1812
 Title: Munzee Power 508
-Points: 5
 ----
 ID: 3501
 Date: 14.08.2015
 Waypoint: m/dschuwa/280
 Title: Bonner Punktejagd 092
-Points: 5
 ----
 ID: 3502
 Date: 14.08.2015
 Waypoint: m/dschuwa/250
 Title: Gelbe Klappe
-Points: 5
 ----
 ID: 3503
 Date: 14.08.2015
@@ -21132,13 +20092,11 @@ ID: 3504
 Date: 14.08.2015
 Waypoint: m/dschuwa/321
 Title: Bonner Punktejagd 085
-Points: 5
 ----
 ID: 3505
 Date: 14.08.2015
 Waypoint: m/DerTransporter/202
 Title: Maxi Munzee 190
-Points: 5
 ----
 ID: 3506
 Date: 14.08.2015
@@ -21156,26 +20114,22 @@ ID: 3508
 Date: 14.08.2015
 Waypoint: m/dschuwa/279
 Title: Bonner Punktejagd 088
-Points: 5
 ----
 ID: 3509
 Date: 14.08.2015
 Waypoint: m/DerTransporter/204
 Title: Maxi Munzee 192
-Points: 5
 ----
 ID: 3510
 Date: 14.08.2015
 Waypoint: m/zeusi/1971
 Title: Munzee Power 585
-Points: 5
 ----
 ID: 3511
 Date: 14.08.2015
 Waypoint: m/Steffi78/441
 Title: Steffi&#039;s
 nTF: 1
-Points: 5
 ----
 ID: 3512
 Date: 15.08.2015
@@ -21188,7 +20142,6 @@ Date: 15.08.2015
 Waypoint: m/DevilsEnd/61
 Title: Deutsches Eck
 nTF: 3
-Points: 5
 ----
 ID: 3514
 Date: 15.08.2015
@@ -21202,13 +20155,23 @@ Date: 15.08.2015
 Waypoint: m/struppis/308
 Title: struppis 8
 nTF: 2
-Points: 5
 ----
-ID: p20150816
+ID: 3516
+Date: 16.08.2015
+Waypoint: m/Christian68/353
+Title: Poppelsdorf
+nTF: 4
+----
+ID: 3517
 Date: 16.08.2015
 Waypoint: GC607PK
 Title: Ein Eis zu 366 und 2000
 Tag: D1 T1 Event
+----
+ID: 3518
+Date: 16.08.2015
+Waypoint: m/mirabilos/21
+Title: Privatparkplätze
 ----
 ID: p20150819
 Date: 19.08.2015
