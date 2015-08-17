@@ -20173,6 +20173,183 @@ Date: 16.08.2015
 Waypoint: m/mirabilos/21
 Title: Privatparkplätze
 ----
+ID: 3519
+Date: 17.08.2015
+Waypoint: m/mirabilos/24
+Title: Chorprobe
+----
+ID: 3520
+Date: 17.08.2015
+Waypoint: m/Waldkauz/518
+Title: Fahrrad frei
+----
+ID: 3521
+Date: 17.08.2015
+Waypoint: m/JOJEVA/1835
+Title: Laterne
+----
+ID: 3522
+Date: 17.08.2015
+Waypoint: m/JOJEVA/1714
+Title: Laterne
+----
+ID: 3523
+Date: 17.08.2015
+Waypoint: m/JOJEVA/1836
+Title: Laterne
+----
+ID: 3524
+Date: 17.08.2015
+Waypoint: m/Waldkauz/563
+Title: Laterne
+----
+ID: 3525
+Date: 17.08.2015
+Waypoint: m/JOJEVA/1829
+Title: Laterne
+----
+ID: 3526
+Date: 17.08.2015
+Waypoint: m/Waldkauz/541
+Title: Laterne
+----
+ID: 3527
+Date: 17.08.2015
+Waypoint: m/JOJEVA/1878
+Title: Laterne
+----
+ID: 3528
+Date: 17.08.2015
+Waypoint: m/Waldkauz/498
+Title: Laterne
+----
+ID: 3529
+Date: 17.08.2015
+Waypoint: m/JOJEVA/1863
+Title: Laterne
+----
+ID: 3530
+Date: 17.08.2015
+Waypoint: m/Waldkauz/538
+Title: Laterne
+----
+ID: 3531
+Date: 17.08.2015
+Waypoint: m/JOJEVA/1848
+Title: Laterne
+----
+ID: 3532
+Date: 17.08.2015
+Waypoint: m/Waldkauz/572
+Title: Laterne
+----
+ID: 3533
+Date: 17.08.2015
+Waypoint: m/JOJEVA/1688
+Title: Rettungsweg Feuerwehr
+----
+ID: 3534
+Date: 17.08.2015
+Waypoint: m/Waldkauz/515
+Title: Laterne
+----
+ID: 3535
+Date: 17.08.2015
+Waypoint: m/JOJEVA/1840
+Title: Eingeschränkter Winterdienst
+----
+ID: 3536
+Date: 17.08.2015
+Waypoint: m/Waldkauz/505
+Title: Laterne
+----
+ID: 3537
+Date: 17.08.2015
+Waypoint: m/JOJEVA/1845
+Title: Laterne
+----
+ID: 3538
+Date: 17.08.2015
+Waypoint: m/Waldkauz/497
+Title: Laterne
+----
+ID: 3539
+Date: 17.08.2015
+Waypoint: m/c-bn/7139
+Title: Bonn, Im Pützgarten 7139
+nTF: 1
+----
+ID: 3540
+Date: 17.08.2015
+Waypoint: m/c-bn/4839
+Title: Bonn, Im Pützengarten 4839
+----
+ID: 3541
+Date: 17.08.2015
+Waypoint: m/koebes/255
+Title: HELLWEG-Hotel Room #1
+----
+ID: 3542
+Date: 17.08.2015
+Waypoint: m/Wyando/5328
+Title: [c-bn] HELLWEG-Hotel 6510 Room #2
+----
+ID: 3543
+Date: 17.08.2015
+Waypoint: m/winkide/8622
+Title: [c-bn] HELLWEG-Hotel 6510 Room #3
+----
+ID: 3544
+Date: 17.08.2015
+Waypoint: m/Christian68/1994
+Title: [c-bn] HELLWEG-Hotel 6510 Room #4
+----
+ID: 3545
+Date: 17.08.2015
+Waypoint: m/ajlis/2807
+Title: [c-bn] HELLWEG-Hotel 6510 Room #5
+----
+ID: 3546
+Date: 17.08.2015
+Waypoint: m/JeanNine/1088
+Title: [c-bn] HELLWEG-Hotel 6510 Room #6
+----
+ID: 3547
+Date: 17.08.2015
+Waypoint: m/CaptainMad/38
+Title: [c-bn] HELLWEG-Hotel 6510 Room #7
+----
+ID: 3548
+Date: 17.08.2015
+Waypoint: m/Kuhmulus/2936
+Title: [c-bn] HELLWEG-Hotel 6510 Room #8
+----
+ID: 3549
+Date: 17.08.2015
+Waypoint: m/JansEgal/3071
+Title: [c-bn] HELLWEG-Hotel 6510 Room #9
+----
+ID: 3550
+Date: 17.08.2015
+Waypoint: m/ReMiKu/11303
+Title: [c-bn] HELLWEG-Hotel 6510 Room #10
+----
+ID: 3551
+Date: 17.08.2015
+Waypoint: m/c-bn/6510
+Title: [c-bn] HELLWEG-Hotel 6510
+Points: 10
+----
+ID: 3552
+Date: 17.08.2015
+Waypoint: m/JOJEVA/1690
+Title: Laterne
+----
+ID: 3553
+Date: 17.08.2015
+Waypoint: m/Waldkauz/528
+Title: Laterne
+----
 ID: p20150819
 Date: 19.08.2015
 Waypoint: GC60YMQ
