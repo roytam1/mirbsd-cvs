@@ -4379,7 +4379,7 @@ Waypoint: GC4D3EX
 Title: Im Brooch #3
 Tag: D2 T25 Micro Tradi
 
-Recht nahe an der Bahn. Aber wenn die Pänz hier uch spelle…
+Recht nahe an der Bahn. Ävve wenn de Pänz hee uch spelle…
 ----
 ID: 779
 Date: 22.03.2014
@@ -20349,6 +20349,352 @@ ID: 3553
 Date: 17.08.2015
 Waypoint: m/Waldkauz/528
 Title: Laterne
+----
+ID: 3554
+Date: 18.08.2015
+Waypoint: m/zeusi/8366
+Title: Generic Name
+----
+ID: 3555
+Date: 18.08.2015
+Waypoint: m/robje64/2201
+Title: Generic Name
+----
+ID: 3556
+Date: 18.08.2015
+Waypoint: m/zeusi/8365
+Title: Generic Name
+----
+ID: 3557
+Date: 18.08.2015
+Waypoint: m/robje64/2200
+Title: Generic Name
+----
+ID: 3558
+Date: 18.08.2015
+Waypoint: m/zeusi/8364
+Title: Generic Name
+----
+ID: 3559
+Date: 18.08.2015
+Waypoint: m/mirabilos/16
+Title: Frust-Munzee
+nTF: 0
+----
+ID: 3560
+Date: 18.08.2015
+Waypoint: GC508BD
+Title: Wald und Wiesen Igel
+Tag: D1 T15 Small Tradi
+----
+ID: 3561
+Date: 18.08.2015
+Waypoint: GC385TD
+Title: Das faule Ei
+Tag: D15 T1 Earth
+----
+ID: 3562
+Date: 18.08.2015
+Waypoint: m/AgentC/69
+Title: Generic Name
+----
+ID: 3563
+Date: 18.08.2015
+Waypoint: m/Baumhoernchen/903
+Title: Generic Name
+----
+ID: 3564
+Date: 18.08.2015
+Waypoint: m/AgentC/72
+Title: Generic Name
+----
+ID: 3565
+Date: 18.08.2015
+Waypoint: m/Baumhoernchen/906
+Title: Generic Name
+----
+ID: 3566
+Date: 18.08.2015
+Waypoint: m/AgentC/135
+Title: Generic Name
+----
+ID: 3567
+Date: 18.08.2015
+Waypoint: m/AgentC/73
+Title: Generic Name
+----
+ID: 3568
+Date: 18.08.2015
+Waypoint: m/Baumhoernchen/908
+Title: Generic Name
+----
+ID: 3569
+Date: 18.08.2015
+Waypoint: m/AgentC/75
+Title: Generic Name
+----
+ID: 3570
+Date: 18.08.2015
+Waypoint: m/Baumhoernchen/909
+Title: Generic Name
+----
+ID: 3571
+Date: 18.08.2015
+Waypoint: m/AgentC/76
+Title: Generic Name
+----
+ID: 3572
+Date: 18.08.2015
+Waypoint: m/zeusi/4862
+Title: Quick Deploy By zeusi
+Points: 20
+----
+ID: 3573
+Date: 18.08.2015
+Waypoint: m/winkide/5775
+Title: Bonn - Burgstr. #5775
+----
+ID: 3574
+Date: 18.08.2015
+Waypoint: m/winkide/5778
+Title: Bonn - Burgstr. #5778
+----
+ID: 3575
+Date: 18.08.2015
+Waypoint: m/DevilsEnd/175
+Title: Godesburg
+----
+ID: 3576
+Date: 18.08.2015
+Waypoint: m/winkide/5773
+Title: Bonn - Burgstr. #5773
+----
+ID: 3577
+Date: 18.08.2015
+Waypoint: m/winkide/5767
+Title: Bonn - Brunnenallee #5767
+----
+ID: 3578
+Date: 18.08.2015
+Waypoint: m/winkide/5729
+Title: Bonn - Schwertberger Str. #5729
+----
+ID: 3579
+Date: 18.08.2015
+Waypoint: m/winkide/5745
+Title: Bonn - Schwertberger Str. #5745
+----
+ID: 3580
+Date: 18.08.2015
+Waypoint: m/Christian68/399
+Title: Heider Hof
+----
+ID: 3581
+Date: 18.08.2015
+Waypoint: GC3H3M3
+Title: Trash Cache
+Tag: D2 T5 Small Mystery
+----
+ID: 3582
+Date: 18.08.2015
+Waypoint: GC31XZW
+Title: In 8 Minuten um die Welt
+Tag: D45 T2 Small Mystery
+----
+ID: 3583
+Date: 18.08.2015
+Waypoint: m/Christian68/411
+Title: Heider Hof
+Points: 25
+----
+ID: 3584
+Date: 18.08.2015
+Waypoint: m/kaschper69/386
+Title: k69 - Bonn Heiderhof
+----
+ID: 3585
+Date: 18.08.2015
+Waypoint: m/JOJEVA/578
+Title: Heiderhof # 591
+----
+ID: 3586
+Date: 18.08.2015
+Waypoint: m/Christian68/381
+Title: Leider Hof
+Points: 45
+----
+ID: 3587
+Date: 18.08.2015
+Waypoint: m/JOJEVA/559
+Title: Heiderhof # 572
+----
+ID: 3588
+Date: 18.08.2015
+Waypoint: m/Christian68/382
+Title: Heider Hof
+----
+ID: 3589
+Date: 18.08.2015
+Waypoint: m/JOJEVA/511
+Title: Heiderhof # 524
+----
+ID: 3590
+Date: 18.08.2015
+Waypoint: m/kaschper69/384
+Title: k69 - Bonn Heiderhof
+----
+ID: 3591
+Date: 18.08.2015
+Waypoint: m/kaschper69/388
+Title: k69 - Bonn Heiderhof
+----
+ID: 3592
+Date: 18.08.2015
+Waypoint: m/Christian68/383
+Title: Leider Hof
+Points: 30
+----
+ID: 3593
+Date: 18.08.2015
+Waypoint: m/JOJEVA/548
+Title: Heiderhof # 561
+----
+ID: 3594
+Date: 18.08.2015
+Waypoint: m/Christian68/384
+Title: Leider Hof
+Points: 40
+----
+ID: 3595
+Date: 18.08.2015
+Waypoint: m/JOJEVA/500
+Title: Heiderhof # 513
+----
+ID: 3596
+Date: 18.08.2015
+Waypoint: m/Christian68/385
+Title: Leider Hof
+Points: 35
+----
+ID: 3597
+Date: 18.08.2015
+Waypoint: m/JOJEVA/503
+Title: Heiderhof # 516
+----
+ID: 3598
+Date: 18.08.2015
+Waypoint: m/c-bn/3389
+Title: Bonn Heiderhof 💎 2
+Points: 7
+----
+ID: 3599
+Date: 18.08.2015
+Waypoint: m/Christian68/386
+Title: Heider Hof
+Points: 40
+----
+ID: 3600
+Date: 18.08.2015
+Waypoint: m/HBRB/690
+Title: BN - Heiderhof
+----
+ID: 3601
+Date: 18.08.2015
+Waypoint: m/JOJEVA/495
+Title: Heiderhof # 508
+----
+ID: 3602
+Date: 18.08.2015
+Waypoint: m/Christian68/387
+Title: Heider Hof
+Points: 30
+----
+ID: 3603
+Date: 18.08.2015
+Waypoint: m/zeusi/3962
+Title: Generic Name
+Points: 40
+----
+ID: 3604
+Date: 18.08.2015
+Waypoint: m/JOJEVA/534
+Title: Heiderhof # 547
+----
+ID: 3605
+Date: 18.08.2015
+Waypoint: m/c-bn/3551
+Title: Bonn Heiderhof MM 28
+Points: 20
+----
+ID: 3606
+Date: 18.08.2015
+Waypoint: m/ReMiKu/6052
+Title: BN Heiderhof Diamant
+Points: 10
+----
+ID: 3607
+Date: 18.08.2015
+Waypoint: m/c-bn/2763
+Title: Bonn Heiderhof 2763
+----
+ID: 3608
+Date: 18.08.2015
+Waypoint: m/c-bn/2760
+Title: Bonn Heiderhof 2760
+----
+ID: 3609
+Date: 18.08.2015
+Waypoint: m/JOJEVA/572
+Title: Heiderhof # 585
+----
+ID: 3610
+Date: 18.08.2015
+Waypoint: m/c-bn/2484
+Title: Bonn Heiderhof 2484
+----
+ID: 3611
+Date: 18.08.2015
+Waypoint: m/JOJEVA/568
+Title: Heiderhof # 581
+----
+ID: 3612
+Date: 18.08.2015
+Waypoint: m/c-bn/2642
+Title: Bonn Heiderhof 💎 2642
+Points: 6
+----
+ID: 3613
+Date: 18.08.2015
+Waypoint: m/JOJEVA/520
+Title: Heiderhof # 533
+----
+ID: 3614
+Date: 18.08.2015
+Waypoint: m/Christian68/409
+Title: Heider Hof
+Points: 10
+----
+ID: 3615
+Date: 18.08.2015
+Waypoint: m/JOJEVA/563
+Title: Heiderhof # 576
+----
+ID: 3616
+Date: 18.08.2015
+Waypoint: m/Christian68/410
+Title: Heider Hof
+Points: 20
+----
+ID: 3617
+Date: 18.08.2015
+Waypoint: m/JOJEVA/505
+Title: Heiderhof # 518
+----
+ID: 3618
+Date: 18.08.2015
+Waypoint: m/c-bn/3553
+Title: Bonn Heiderhof MM 31
+Points: 45
 ----
 ID: p20150819
 Date: 19.08.2015
