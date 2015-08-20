@@ -270,6 +270,7 @@ mzbadge hoarder Hoarder 'Sometimes hoarding isn&#039;t a bad thing! You&#039;ve 
 mzbadge pi 'Easy as Pi' 'The relationship of the capture to the deploy with included residual points is defined as pi.'
 mzbadge sampler Sampler 'You&#039;ve made your way through our Munzee sampler. Do you have a favorite?'
 mzbadge 1k '1k Day' '1000 points? Was this a 24 hour sprint, or a one hour stroll?'
+mzbadge battleready 'Battle Ready' 'You have deployed a weapon and are ready for the battle!'
 mzbadge socialcaterpillar 'Social Caterpillar' 'You are just learning to crawl socially!'
 mzbadge socialcocoon 'Social Cocoon' 'You are a hungry worm who needs to cap more socials so you can spread your wings!'
 mzbadge breakfast Breakfast 'Congratulations, You were able to rent a room in 5 motels!'

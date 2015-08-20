@@ -20696,18 +20696,68 @@ Waypoint: m/c-bn/3553
 Title: Bonn Heiderhof MM 31
 Points: 45
 ----
-ID: p20150819
+ID: 3619
+Date: 19.08.2015
+Waypoint: m/mirabilos/15
+Title: Krieg der Eisbecher
+nTF: 0
+Points: 25
+----
+ID: 3620
+Date: 19.08.2015
+Waypoint: m/JOJEVA/679
+Title: Longsword - Mehlem # 692
+Points: 16
+----
+ID: 3621
+Date: 19.08.2015
+Waypoint: m/c-bn/4932
+Title: Bonn, Rüdigerstraße 4932
+----
+ID: 3622
+Date: 19.08.2015
+Waypoint: m/Airwolf26/2030
+Title: Bonn - Rüdigerstraße
+----
+ID: 3623
+Date: 19.08.2015
+Waypoint: m/c-bn/4935
+Title: Bonn, Rüdigerstraße 4935
+----
+ID: 3624
+Date: 19.08.2015
+Waypoint: m/Airwolf26/2027
+Title: Bonn - Rüdigerstraße
+----
+ID: 3625
+Date: 19.08.2015
+Waypoint: m/struppis/295
+Title: struppis 22
+nTF: 1
+----
+ID: 3626
 Date: 19.08.2015
 Waypoint: GC60YMQ
 Title: Sommer, Sonne, Sonnenschein - mit Eis
 Tag: D1 T1 Event
 ----
-ID: p20150820
+ID: 3627
 Date: 20.08.2015
 Waypoint: GC60W0H OC12425
 Title: AMT Ⅳ (2015 KW34)
 nTF: 0
 Tag: D1 T1 Event
+----
+ID: 3628
+Date: 20.08.2015
+Waypoint: m/ReMiKu/1984
+Title: Dottendorf (1984)
+----
+ID: 3629
+Date: 20.08.2015
+Waypoint: m/mirabilos/18
+Title: BaseCamp
+nTF: 0
 ----
 ID: p20150827
 Date: 27.08.2015
