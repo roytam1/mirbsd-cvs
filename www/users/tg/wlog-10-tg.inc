@@ -1601,3 +1601,25 @@ Tag: work debian
 
 <p>I have no solutions for this. I stopped using the Googlemail calendars because they didn’t think it a problem that, when I accept an invitation in Kontact (KDEPIM as packaged in Debian sid), the organiser of the calendar item in the <em>sender’s calendar</em> (for which I do not have write permissions) changes to me (so the actual meeting organiser cannot change anything afterwards) and/or calendar items get doubled. I now run a local <tt>uw-imapd</tt> (forward-ported to sid by means of a binNMU) for sent-mail folders etc. and a local iCalendar directory for calendars.</p>
 ----
+Date: 27.08.2015 14:12
+Author: tg@
+Title: Go enjoy shell
+Tag: debian fun pcli
+
+<p class="boxhead">Dimitri, I personally enjoy shell…</p><div class="boxtext">
+ <pre>
+tglase@tglase:~ $ x=車賈滑豈更串句龜龜契金喇車賈滑豈更串句龜龜契金喇
+tglase@tglase:~ $ echo ${x::12}
+車賈滑豈更串句龜龜契金喇
+tglase@tglase:~ $ printf '%s\n' 'import sys' 'print(sys.argv[1][:12])' &gt;x.py
+tglase@tglase:~ $ python x.py $x
+車賈滑豈
+ </pre>
+</div><p class="boxfoot">… much more than Python, actually. (Python is
+ <em>the</em> language in which you <em>do not</em> want to write code
+ dealing with strings, due to UnicodeDecodeError and all; even py3k is
+ not much better.)</p>
+<p>I would have commented on your post if <a
+ href="http://blog.surgut.co.uk/2015/08/go-enjoy-python3.html">it</a>
+ allowed doing so without getting a proprietary Google+ account.</p>
+----
