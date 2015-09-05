@@ -892,7 +892,7 @@ j_resume(const char *cp, int bg)
 				    (long)kshpgrp, "failed", cstrerror(errno));
 		}
 		sigprocmask(SIG_SETMASK, &omask, NULL);
-		bi_errorf("%s %s %s", "can't continue job",
+		bi_errorf("%s %s: %s", "can't continue job",
 		    cp, cstrerror(eno));
 		return (1);
 	}

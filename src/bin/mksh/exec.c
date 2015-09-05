@@ -1482,7 +1482,7 @@ iosetup(struct ioword *iop, struct tbl *tp)
 			char *sp;
 
 			eno = errno;
-			warningf(true, "%s %s %s",
+			warningf(true, "%s %s: %s",
 			    "can't finish (dup) redirection",
 			    (sp = snptreef(NULL, 32, "%R", &iotmp)),
 			    cstrerror(eno));
