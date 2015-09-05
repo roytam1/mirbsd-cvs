@@ -29,8 +29,18 @@ EOF
 
 mws_content <<'EOF'
 
+<div class="fl">
 <p><a href="WPtg.htm#wpts" style="border:0;"><img style="border:0;"
  alt="mirabilos’ Waypoints" src="WPtg.png" /></a></p>
+</div>
+
+<div class="fl">
+<p><a href="http://www.geocaching.com/track/details.aspx?tracker=TB71WET"
+ style="border:0;"><img style="border:0;" alt="Social mirzee"
+ src="@@RELPATH@@pics/wlog/socmirze.png" /></a></p>
+</div>
+
+<div style="cb"> </div>
 
 <div id="begform" class="fl">
 <form accept-charset="utf-8" action="/wp.cgi" method="get">
@@ -101,19 +111,19 @@ while (( entryp < entries )); do
 		continue
 	elif [[ -n ${e_labbanner[ent]} ]]; then
 		title="Lab / ${e_title[ent]}"
-		f=${e_labbanner[ent]%%,*}
+		f=http://mirsolutions.de/privat/${e_labbanner[ent]%%,*}.jpg
 		cat <<-EOF
-			<div class="flbox"><img style="border:0px;" title="$title"
-			 alt="$title" src="http://mirsolutions.de/privat/$f.jpg" /></div>
+			<div class="flbox"><img alt="$title" title="$title"
+			 src="$f" style="border:0px;" /></div>
 
 EOF
 		[[ ${e_labbanner[ent]} = *,* ]] || continue
 		f=${e_labbanner[ent]#*,}
 		title="Lab / ${f#*=}"
-		f=${f%%=*}
+		f=http://mirsolutions.de/privat/${f%%=*}.jpg
 		cat <<-EOF
-			<div class="flbox"><img style="border:0px;" title="$title"
-			 alt="$title" src="http://mirsolutions.de/privat/$f.jpg" /></div>
+			<div class="flbox"><img alt="$title" title="$title"
+			 src="$f" style="border:0px;" /></div>
 
 EOF
 		continue
@@ -127,11 +137,12 @@ EOF
 	else
 		title=${e_title[ent]}
 	fi
-	title=$wp│$title
-	f=$wp.$ext
+	title=${e_waypoint[ent]}│$title
+	f=http://mirsolutions.de/privat/$wp.$ext
+	[[ $ext = *://* ]] && f=$ext
 	cat <<-EOF
-		<div class="flbox"><img style="border:0px;" title="$title"
-		 alt="$title" src="http://mirsolutions.de/privat/$f" /></div>
+		<div class="flbox"><img alt="$title" title="$title"
+		 src="$f" style="border:0px;" /></div>
 
 EOF
 done | mws_content
@@ -267,8 +278,10 @@ mzbadge cap 'Capture Streak' 'You are on fire! 31 days in a row of captures!'
 mzbadge hunter Hunter 'You really are a special icon hunter! Keep hunting them to reach the next level.'
 mzbadge collector Collector 'You are a collector of the finer things in life, a special Munzee icon. Keep collecting!'
 mzbadge hoarder Hoarder 'Sometimes hoarding isn&#039;t a bad thing! You&#039;ve hoarded a lot of icons but can you get more?'
+mzbadge watson Watson 'It&#039;s a mystery where you deployed to be solved by others.'
 mzbadge pi 'Easy as Pi' 'The relationship of the capture to the deploy with included residual points is defined as pi.'
 mzbadge sampler Sampler 'You&#039;ve made your way through our Munzee sampler. Do you have a favorite?'
+mzbadge repeater Repeater 'You ended the day with 111 points on Jul 28, 2015 and earned this badge. Congratulations!'
 mzbadge 1k '1k Day' '1000 points? Was this a 24 hour sprint, or a one hour stroll?'
 mzbadge battleready 'Battle Ready' 'You have deployed a weapon and are ready for the battle!'
 mzbadge socialcaterpillar 'Social Caterpillar' 'You are just learning to crawl socially!'

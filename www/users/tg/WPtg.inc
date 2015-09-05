@@ -20758,19 +20758,1572 @@ Date: 20.08.2015
 Waypoint: m/mirabilos/18
 Title: BaseCamp
 nTF: 0
+Points: 25
 ----
-ID: p20150827
+ID: 3630
+Date: 21.08.2015
+Waypoint: m/mirabilos/25
+Title: FH BRS
+nTF: 0
+----
+ID: 3631
+Date: 21.08.2015
+Waypoint: m/CzStefan/32
+Title: HS Bonn Rhein Sieg - Sankt Augustin
+----
+ID: 3632
+Date: 21.08.2015
+Waypoint: m/hurricanesfan66/293
+Title: Cologne #2 Mystery Virtual Munzee
+Points: 35
+----
+ID: 3633
+Date: 21.08.2015
+Waypoint: m/pilsleyguy/1850
+Title: Pilsleyguy&#039;s Neumarkt MVM 3
+Points: 10
+----
+ID: 3634
+Date: 21.08.2015
+Waypoint: m/hugosoft/1154
+Title: Mystery Virtual Munzee - Köln Neumarkt
+Points: 45
+----
+ID: 3635
+Date: 21.08.2015
+Waypoint: m/hugosoft/1015
+Title: Mystery Virtual Munzee - Köln Neumarkt
+Points: 50
+----
+ID: 3636
+Date: 21.08.2015
+Waypoint: m/wallace/1202
+Title: Neumakt Köln VM 2
+Points: 50
+----
+ID: 3637
+Date: 21.08.2015
+Waypoint: m/TSkrlm/682
+Title: Neumarkt MVM 1
+Points: 45
+----
+ID: 3638
+Date: 21.08.2015
+Waypoint: m/KleineWelp/421
+Title: MV - Neumarkt Köln
+Points: 30
+----
+ID: 3639
+Date: 21.08.2015
+Waypoint: m/Airwolf26/2754
+Title: Köln - Neumarkt MVM #02
+Points: 35
+----
+ID: 3640
+Date: 21.08.2015
+Waypoint: m/pilsleyguy/1761
+Title: Pilsleyguy&#039;s Neumarkt MVM 2
+Points: 20
+----
+ID: 3641
+Date: 21.08.2015
+Waypoint: m/c-bn/1679
+Title: [c-bn] Köln, Neumarkt 1679 VM
+----
+ID: 3642
+Date: 21.08.2015
+Waypoint: m/Buddy/696
+Title: Cologne 16
+Points: 10
+----
+ID: 3643
+Date: 21.08.2015
+Waypoint: m/c-bn/1680
+Title: [c-bn] Köln, Neumarkt 1680 VM
+----
+ID: 3644
+Date: 21.08.2015
+Waypoint: m/jonseyboy52/593
+Title: Barcelo Hotel Cologne
+----
+ID: 3645
+Date: 21.08.2015
+Waypoint: m/dexterjg/1371
+Title: Cologne MVM-07
+----
+ID: 3646
+Date: 21.08.2015
+Waypoint: m/kirdonnemo/229
+Title: KDE - Cologne Virtual 3
+----
+ID: 3647
+Date: 21.08.2015
+Waypoint: m/dexterjg/1346
+Title: Cologne MVM-06
+Points: 50
+----
+ID: 3648
+Date: 21.08.2015
+Waypoint: m/adventuretharon/199
+Title: AT NZ Cologne
+----
+ID: 3649
+Date: 21.08.2015
+Waypoint: m/adventuretharon/215
+Title: AT NZ Cologne3
+----
+ID: 3650
+Date: 21.08.2015
+Waypoint: m/Deedster/283
+Title: Deedster&#039;s Mystery Virtual Munzee
+Points: 40
+----
+ID: 3651
+Date: 21.08.2015
+Waypoint: m/tau/1929
+Title: Munzee Europe Event 2013 #2
+----
+ID: 3652
+Date: 21.08.2015
+Waypoint: m/Leusink/5000
+Title: Clan the Netherlands
+----
+ID: 3653
+Date: 21.08.2015
+Waypoint: m/mbagger/2314
+Title: mbagger@Uni Aachener Str.
+----
+ID: 3654
+Date: 21.08.2015
+Waypoint: m/zeusi/8598
+Title: Quick Deploy By zeusi
+Points: 10
+----
+ID: 3655
+Date: 21.08.2015
+Waypoint: m/schwester69/725
+Title: 1 fc köln
+Points: 35
+----
+ID: 3656
+Date: 21.08.2015
+Waypoint: m/schwester69/1351
+Title: Vm Aachener Straße
+----
+ID: 3657
+Date: 21.08.2015
+Waypoint: m/CaptainMad/26
+Title: Mystery Virtual Munzee Köln
+Points: 40
+----
+ID: 3658
+Date: 21.08.2015
+Waypoint: m/schwester69/1301
+Title: 1 fc köln
+----
+ID: 3659
+Date: 21.08.2015
+Waypoint: m/schwester69/1230
+Title: MV Aachener Straße
+Points: 45
+----
+ID: 3660
+Date: 21.08.2015
+Waypoint: m/schwester69/1168
+Title: MV Aachener Straße
+Points: 30
+----
+ID: 3661
+Date: 21.08.2015
+Waypoint: m/schwester69/1136
+Title: Vm Aachener Straße
+----
+ID: 3662
+Date: 21.08.2015
+Waypoint: m/schwester69/236
+Title: fc colonia boke 2
+Points: 40
+----
+ID: 3663
+Date: 21.08.2015
+Waypoint: m/adilts1257/366
+Title: Red Mystery Virtual Munzee from adilts1257 USA
+Points: 20
+----
+ID: 3664
+Date: 21.08.2015
+Waypoint: m/hugosoft/1077
+Title: MVM Köln Stadion
+Points: 10
+----
+ID: 3665
+Date: 21.08.2015
+Waypoint: m/hugosoft/1100
+Title: MVM - Köln Stadion
+Points: 15
+----
+ID: 3666
+Date: 21.08.2015
+Waypoint: m/zeusi/4821
+Title: Mystery Virtual Junkersdorf
+Points: 15
+----
+ID: 3667
+Date: 21.08.2015
+Waypoint: m/ly2kw/2600
+Title: Rheinenergie Stadion - Cologne
+----
+ID: 3668
+Date: 21.08.2015
+Waypoint: m/Cachelady/704
+Title: Cachelady an der Jahnwiese
+Points: 40
+----
+ID: 3669
+Date: 21.08.2015
+Waypoint: m/souli/2391
+Title: Europe Event II ( . ) Souli ( . )
+Points: 10
+----
+ID: 3670
+Date: 21.08.2015
+Waypoint: m/ReMiKu/7475
+Title: Mystery Virtual Junkersdorf (7475)
+Points: 35
+----
+ID: 3671
+Date: 21.08.2015
+Waypoint: m/zeusi/4834
+Title: Mystery Virtual Junkersdorf
+Points: 30
+----
+ID: 3672
+Date: 21.08.2015
+Waypoint: m/zeusi/5013
+Title: Mystery Virtual Junkersdorf
+Points: 35
+----
+ID: 3673
+Date: 21.08.2015
+Waypoint: m/Wyando/3352
+Title: Köln - Junkersdorf Myrtual 70 (+)
+Points: 10
+----
+ID: 3674
+Date: 21.08.2015
+Waypoint: m/zeusi/5034
+Title: Mystery Virtual Junkersdorf
+Points: 40
+----
+ID: 3675
+Date: 21.08.2015
+Waypoint: m/winkide/5072
+Title: Köln - Am Römerhof #5072 MV
+Points: 30
+----
+ID: 3676
+Date: 21.08.2015
+Waypoint: m/ReMiKu/7173
+Title: Mystery Virtual Junkersdorf (7173)
+Points: 50
+----
+ID: 3677
+Date: 21.08.2015
+Waypoint: m/Dad35/4583
+Title: MVM by Dad35@Aachener Str. Köln
+Points: 30
+----
+ID: 3678
+Date: 21.08.2015
+Waypoint: m/TMA2007/4666
+Title: MVM Köln, Aachener Straße by TMA2007
+Points: 30
+----
+ID: 3679
+Date: 21.08.2015
+Waypoint: m/StealthRT/731
+Title: MV Köln ARB StealthRT 731
+Points: 40
+----
+ID: 3680
+Date: 21.08.2015
+Waypoint: m/TMA2007/4658
+Title: MVM Köln, Aachener Straße by TMA2007
+Points: 25
+----
+ID: 3681
+Date: 21.08.2015
+Waypoint: m/javthrowr/587
+Title: Javthrowr MVM Köln
+Points: 25
+----
+ID: 3682
+Date: 21.08.2015
+Waypoint: m/Christian68/666
+Title: MVM 1.FC Köln - Mc Donalds
+Points: 15
+----
+ID: 3683
+Date: 21.08.2015
+Waypoint: m/Hitman35mm/3035
+Title: Mac Rainbow 26
+----
+ID: 3684
+Date: 21.08.2015
+Waypoint: m/c-bn/6105
+Title: Köln, Aachener Str. 6105 MVM
+Points: 15
+----
+ID: 3685
+Date: 21.08.2015
+Waypoint: m/Hitman35mm/3037
+Title: Mac Rainbow 25
+----
+ID: 3686
+Date: 21.08.2015
+Waypoint: m/Cachelady/739
+Title: Auf dem Weg zur Jahnwiese
+Points: 50
+----
+ID: 3687
+Date: 21.08.2015
+Waypoint: m/FreeAgent/656
+Title: FreeAgents MV Cologne #2
+Points: 30
+----
+ID: 3688
+Date: 21.08.2015
+Waypoint: m/Hitman35mm/2921
+Title: Mac Rainbow 1
+----
+ID: 3689
+Date: 21.08.2015
+Waypoint: m/rebelacts/2852
+Title: Virtual Munzee
+----
+ID: 3690
+Date: 21.08.2015
+Waypoint: m/Hitman35mm/2922
+Title: Mac Rainbow 2
+----
+ID: 3691
+Date: 21.08.2015
+Waypoint: m/Tom33/65
+Title: VM - Köln #005 - Tom33
+----
+ID: 3692
+Date: 21.08.2015
+Waypoint: m/kimdot/633
+Title: McDonalds - Cologne
+----
+ID: 3693
+Date: 21.08.2015
+Waypoint: m/Remoke/48
+Title: Remoke At Mac Koln
+----
+ID: 3694
+Date: 21.08.2015
+Waypoint: m/OdinsFiRe/2
+Title: Team OdinsFiRe at the mac drek
+----
+ID: 3695
+Date: 21.08.2015
+Waypoint: m/SeekNmunz/645
+Title: McDonald&#039;s Aachener Straße
+----
+ID: 3696
+Date: 21.08.2015
+Waypoint: m/Colonius/297
+Title: #0297 Virtual Köln
+----
+ID: 3697
+Date: 21.08.2015
+Waypoint: m/Tom33/30
+Title: VM - Köln #002 - Tom33
+----
+ID: 3698
+Date: 21.08.2015
+Waypoint: m/Hitman35mm/2924
+Title: Macs Virt
+----
+ID: 3699
+Date: 21.08.2015
+Waypoint: m/felixhunter/2507
+Title: VM-Mäc - Junkersdorf - Köln
+----
+ID: 3700
+Date: 21.08.2015
+Waypoint: m/JackSparrow/3145
+Title: cologne gasthof zur goldenen möve [v-black]
+----
+ID: 3701
+Date: 21.08.2015
+Waypoint: m/Boersentrader/577
+Title: Mystery Virtual Köln 1 Müngersdorf
+Points: 50
+----
+ID: 3702
+Date: 21.08.2015
+Waypoint: m/Killerspielspielerin/720
+Title: Killerspielspielerin´s MV Cologne #3
+Points: 50
+----
+ID: 3703
+Date: 21.08.2015
+Waypoint: m/Suedschwede/349
+Title: MVM aus FDB
+Points: 50
+----
+ID: 3704
+Date: 21.08.2015
+Waypoint: m/Heinevetter/2471
+Title: VMM Aachener Straße (Junkersdorf)
+Points: 10
+----
+ID: 3705
+Date: 21.08.2015
+Waypoint: m/Lewini/174
+Title: K&amp;I MVM Junkersdorf
+Points: 45
+----
+ID: 3706
+Date: 21.08.2015
+Waypoint: m/mcmicha/382
+Title: Mystery Virtual Munzee
+Points: 45
+----
+ID: 3707
+Date: 21.08.2015
+Waypoint: m/mcmicha/380
+Title: Mystery Virtual Munzee
+Points: 50
+----
+ID: 3708
+Date: 21.08.2015
+Waypoint: m/mcmicha/384
+Title: Mystery Virtual Munzee
+Points: 45
+----
+ID: 3709
+Date: 21.08.2015
+Waypoint: m/mcmicha/386
+Title: Mystery Virtual Munzee
+Points: 20
+----
+ID: 3710
+Date: 21.08.2015
+Waypoint: m/Saske100/544
+Title: Saske100 MVM 3
+Points: 35
+----
+ID: 3711
+Date: 21.08.2015
+Waypoint: m/KaitlynB/365
+Title: MD. Munzee
+----
+ID: 3712
+Date: 21.08.2015
+Waypoint: m/janzattic/572
+Title: Still another CG from JB
+Points: 50
+----
+ID: 3713
+Date: 21.08.2015
+Waypoint: m/zeusi/4848
+Title: Mystery Virtual Junkersdorf
+Points: 15
+----
+ID: 3714
+Date: 21.08.2015
+Waypoint: m/zeusi/5251
+Title: Mystery Virtual Junkersdorf
+Points: 40
+----
+ID: 3715
+Date: 21.08.2015
+Waypoint: m/zeusi/5232
+Title: Mystery Virtual Junkersdorf
+Points: 25
+----
+ID: 3716
+Date: 21.08.2015
+Waypoint: m/zeusi/5231
+Title: Mystery Virtual Junkersdorf
+Points: 50
+----
+ID: 3717
+Date: 21.08.2015
+Waypoint: m/zeusi/5250
+Title: Mystery Virtual Junkersdorf
+Points: 50
+----
+ID: 3718
+Date: 21.08.2015
+Waypoint: m/zeusi/5242
+Title: Mystery Virtual Junkersdorf
+Points: 40
+----
+ID: 3719
+Date: 21.08.2015
+Waypoint: m/zeusi/4947
+Title: Mystery Virtual Junkersdorf
+Points: 50
+----
+ID: 3720
+Date: 21.08.2015
+Waypoint: m/schwester69/1135
+Title: MV Aachener Straße
+Points: 15
+----
+ID: 3721
+Date: 21.08.2015
+Waypoint: m/zeusi/6141
+Title: Mystery Virtual Munzee
+----
+ID: 3722
+Date: 21.08.2015
+Waypoint: m/ThyiaDeucaliaPromethea/1236
+Title: Thyia of PotT represents in Köln!
+Points: 15
+----
+ID: 3723
+Date: 21.08.2015
+Waypoint: m/robje64/2514
+Title: Quick Deploy By robje64
+----
+ID: 3724
+Date: 21.08.2015
+Waypoint: m/tweety/1201
+Title: tweety&#039;s Mystery Virtual @ Frechen E40
+Points: 40
+----
+ID: 3725
+Date: 21.08.2015
+Waypoint: m/dydy/1602
+Title: dydy&#039;s Mystery Virtual @ Frechen E40
+Points: 25
+----
+ID: 3726
+Date: 21.08.2015
+Waypoint: m/tweety/1208
+Title: Tweety&#039;s Mystery Virtual @ Frechen
+Points: 40
+----
+ID: 3727
+Date: 21.08.2015
+Waypoint: m/dydy/1606
+Title: dydy&#039;s Mystery Virtual @ Frechen E40
+Points: 45
+----
+ID: 3728
+Date: 21.08.2015
+Waypoint: m/wasproduct/1115
+Title: wasproduct&#039;s Mystery Virtual @ Frechen E40
+Points: 20
+----
+ID: 3729
+Date: 21.08.2015
+Waypoint: m/afar/7081
+Title: A4 MV Raststätte Frechen
+Points: 15
+----
+ID: 3730
+Date: 21.08.2015
+Waypoint: m/Adsche/14
+Title: Social Munzee
+Points: 0
+----
+ID: 3731
+Date: 21.08.2015
+Waypoint: m/Adsche/15
+Title: Social Munzee #015
+Points: 0
+----
+ID: 3732
+Date: 21.08.2015
+Waypoint: m/Adsche/7
+Title: Social Munzee #07
+Points: 0
+----
+ID: 3733
+Date: 22.08.2015
+Waypoint: m/mirabilos/27
+Title: Warten auf den Bus
+nTF: 0
+----
+ID: 3734
+Date: 22.08.2015
+Waypoint: m/zeusi/5754
+Title: Generic Name
+Points: 10
+----
+ID: 3735
+Date: 23.08.2015
+Waypoint: m/ajlis/1733
+Title: &quot;Zeusis Inn&quot; Motel Room #1
+----
+ID: 3736
+Date: 23.08.2015
+Waypoint: m/Paverick/8886
+Title: &quot;Zeusis Inn&quot; Motel Room #2
+----
+ID: 3737
+Date: 23.08.2015
+Waypoint: m/Tinkerbel/2122
+Title: &quot;Zeusis Inn&quot; Motel Room #3
+----
+ID: 3738
+Date: 23.08.2015
+Waypoint: m/Geokobold/1
+Title: &quot;Zeusis Inn&quot; Motel Room #4
+----
+ID: 3739
+Date: 23.08.2015
+Waypoint: m/taxi343/5841
+Title: &quot;Zeusis Inn&quot; Motel Room #5
+----
+ID: 3740
+Date: 23.08.2015
+Waypoint: m/zeusi/4108
+Title: &quot;Zeusis Inn&quot; Motel
+----
+ID: 3741
+Date: 23.08.2015
+Waypoint: m/mirabilos/28
+Title: FrOSCon is over, see y’all next year, via Bonn
+nTF: 0
+Points: 20
+----
+ID: 3742
+Date: 24.08.2015
+Waypoint: m/ReMiKu/2092
+Title: Telekom Runde (2092)
+----
+ID: 3743
+Date: 24.08.2015
+Waypoint: m/mirabilos/14
+Title: Packstation
+nTF: 0
+Points: 35
+----
+ID: 3744
+Date: 25.08.2015
+Waypoint: m/mirabilos/20
+Title: so komische geolokationsbasierte Spiele
+nTF: 0
+Points: 25
+----
+ID: 3745
+Date: 25.08.2015
+Waypoint: m/JOJEVA/398
+Title: Kessenich-Munzee # 411
+----
+ID: 3746
+Date: 25.08.2015
+Waypoint: m/dschuwa/791
+Title: Bonner Punktejagd 577
+nTF: 1
+----
+ID: 3747
+Date: 25.08.2015
+Waypoint: m/JOJEVA/433
+Title: Munzee # 446
+----
+ID: 3748
+Date: 25.08.2015
+Waypoint: m/dschuwa/885
+Title: Bonner Punktejagd 671
+nTF: 1
+----
+ID: 3749
+Date: 25.08.2015
+Waypoint: m/zeusi/2209
+Title: Munzee Power 821
+Points: 12
+----
+ID: 3750
+Date: 25.08.2015
+Waypoint: m/DerTransporter/197
+Title: Maxi Munzee 185
+----
+ID: 3751
+Date: 25.08.2015
+Waypoint: m/zeusi/2319
+Title: Munzee Power 930
+Points: 8
+----
+ID: 3752
+Date: 25.08.2015
+Waypoint: m/DerTransporter/198
+Title: Maxi Munzee 186
+----
+ID: 3753
+Date: 25.08.2015
+Waypoint: m/dschuwa/848
+Title: Bonner Punktejagd 634
+----
+ID: 3754
+Date: 26.08.2015
+Waypoint: m/ReMiKu/4572
+Title: Mystery Endenich (4572)
+Points: 45
+----
+ID: 3755
+Date: 26.08.2015
+Waypoint: m/mirabilos/17
+Title: Auf der Steige
+nTF: 0
+----
+ID: 3756
 Date: 27.08.2015
-Waypoint: GC5ZEMX
-Title: -A-M-P-E-L-9
-Tag: D1 T1 Event
+Waypoint: m/G1enter/108
+Title: G1enter on Tour
+Points: 0
 ----
-ID: p20150905
+ID: 3757
+Date: 27.08.2015
+Waypoint: m/mirabilos/30
+Title: BMFSFJ
+nTF: 0
+----
+ID: 3758
+Date: 28.08.2015
+Waypoint: CC6S8W
+Title: Stringng You Along
+nTF: 3
+Tag: Locationless Challenge
+----
+ID: 3759
+Date: 28.08.2015
+Waypoint: m/ReMiKu/4794
+Title: Mystery Endenich (4794)
+Points: 35
+----
+ID: 3760
+Date: 28.08.2015
+Waypoint: m/c-bn/2252
+Title: Aktion &quot;Karte dunkelblau&quot; 102
+Points: 15
+----
+ID: 3761
+Date: 28.08.2015
+Waypoint: m/Killerspielspielerin/1274
+Title: Killerspielspielerin@Bonn
+----
+ID: 3762
+Date: 28.08.2015
+Waypoint: m/c-bn/2253
+Title: Aktion &quot;Karte dunkelblau&quot; 103
+Points: 50
+----
+ID: 3763
+Date: 28.08.2015
+Waypoint: m/ReMiKu/4793
+Title: Mystery Endenich (4793)
+Points: 30
+----
+ID: 3764
+Date: 28.08.2015
+Waypoint: m/Wyando/2337
+Title: Bonn ~ Endenich Blau {2337}
+Points: 40
+----
+ID: 3765
+Date: 28.08.2015
+Waypoint: m/c-bn/2231
+Title: Aktion &quot;Karte dunkelblau&quot; 081
+Points: 10
+----
+ID: 3766
+Date: 28.08.2015
+Waypoint: m/zeusi/2907
+Title: Aktion &quot;Karte dunkelblau&quot; 132
+----
+ID: 3767
+Date: 28.08.2015
+Waypoint: m/c-bn/2230
+Title: Aktion &quot;Karte dunkelblau&quot; 080
+Points: 45
+----
+ID: 3768
+Date: 28.08.2015
+Waypoint: m/MV1/4242
+Title: MVirtual Endenich9
+----
+ID: 3769
+Date: 28.08.2015
+Waypoint: m/c-bn/2229
+Title: Aktion &quot;Karte dunkelblau&quot; 079
+Points: 40
+----
+ID: 3770
+Date: 28.08.2015
+Waypoint: m/Airwolf26/2588
+Title: Bonn - Blaues Wunder
+Points: 15
+----
+ID: 3771
+Date: 28.08.2015
+Waypoint: m/MorpheusHH/2243
+Title: VIRT blau(weiss)e-Karte 6 ;-)
+----
+ID: 3772
+Date: 28.08.2015
+Waypoint: m/Kuhmulus/131
+Title: Bonn - Laterne 4
+Points: 12
+----
+ID: 3773
+Date: 28.08.2015
+Waypoint: m/mastaxlolls/88
+Title: Lost: Sayid
+Points: 12
+----
+ID: 3774
+Date: 28.08.2015
+Waypoint: m/mirabilos/22
+Title: Pfosten
+nTF: 0
+----
+ID: 3775
+Date: 28.08.2015
+Waypoint: m/Wyando/2339
+Title: Bonn ~ Endenich Blau {2339}
+----
+ID: 3776
+Date: 28.08.2015
+Waypoint: m/Wyando/2340
+Title: Bonn ~ Endenich Blau {2340}
+Points: 35
+----
+ID: 3777
+Date: 28.08.2015
+Waypoint: m/Bixby/406
+Title: [bixby] 4. Kölner (Rheinischer) Stammtisch
+----
+ID: 3778
+Date: 28.08.2015
+Waypoint: m/robje64/1959
+Title: [robje64] Bonn Bönnsch
+Points: 20
+----
+ID: 3779
+Date: 28.08.2015
+Waypoint: m/winkide/7656
+Title: Bonn - 4. Rheinischer Stammtisch #7656 MV
+Points: 15
+----
+ID: 3780
+Date: 28.08.2015
+Waypoint: m/zeusi/7560
+Title: Munzee Stammtisch
+Points: 40
+----
+ID: 3781
+Date: 28.08.2015
+Waypoint: m/ajlis/2378
+Title: Bönnsch - 4. Rheinischer Stammtisch
+Points: 50
+----
+ID: 3782
+Date: 28.08.2015
+Waypoint: m/zeusi/7562
+Title: Munzee Stammtisch
+Points: 45
+----
+ID: 3783
+Date: 28.08.2015
+Waypoint: m/zeusi/7558
+Title: Munzee Stammtisch
+Points: 20
+----
+ID: 3784
+Date: 28.08.2015
+Waypoint: m/Moonworker/364
+Title: MVM Bonn
+----
+ID: 3785
+Date: 28.08.2015
+Waypoint: m/1849/5242
+Title: Mystery Virtual Munzee - Beethoven!
+Points: 50
+----
+ID: 3786
+Date: 28.08.2015
+Waypoint: m/kimdot/2
+Title: Hello from Florida #2
+----
+ID: 3787
+Date: 28.08.2015
+Waypoint: m/TheRealGigi/1104
+Title: Gigi&#039;s Bonn Bonn
+Points: 35
+----
+ID: 3788
+Date: 28.08.2015
+Waypoint: m/kimdot/22
+Title: Hello from Florida #4
+----
+ID: 3789
+Date: 28.08.2015
+Waypoint: m/c-bn/3991
+Title: [c-bn] Bonn, Friedrichstr. 3991 MVM
+Points: 30
+----
+ID: 3790
+Date: 28.08.2015
+Waypoint: m/hugosoft/1162
+Title: MVM - Bonn Friedrichstrasse
+Points: 25
+----
+ID: 3791
+Date: 28.08.2015
+Waypoint: m/Pumti/3219
+Title: MVM Bonn Friedrichstrasse
+Points: 45
+----
+ID: 3792
+Date: 28.08.2015
+Waypoint: m/JackWolfskinStoreBonn/1
+Title: Jack Wolfskin Store
+Points: 1
+----
+ID: 3793
+Date: 28.08.2015
+Waypoint: m/JansEgal/1682
+Title: ?VM - Freaky MILLION Clan empfiehlt Steppenwolf
+Points: 10
+----
+ID: 3794
+Date: 28.08.2015
+Waypoint: m/COR-Viper/288
+Title: Viper&#039;s BONN MVM
+Points: 15
+----
+ID: 3795
+Date: 28.08.2015
+Waypoint: m/hinco/1448
+Title: Bonn Beethoven&#039;s House of Birth
+----
+ID: 3796
+Date: 28.08.2015
+Waypoint: m/zeusi/1434
+Title: Virtual Tour de Bonn
+----
+ID: 3797
+Date: 28.08.2015
+Waypoint: m/robje64/674
+Title: Beethoven Haus Bonn
+----
+ID: 3798
+Date: 28.08.2015
+Waypoint: m/ajlis/7
+Title: Friedrichstr. - eine der schönsten Strassen Bonns
+----
+ID: 3799
+Date: 28.08.2015
+Waypoint: m/Airwolf26/4419
+Title: Bonn - Maximillianstraße
+----
+ID: 3800
+Date: 28.08.2015
+Waypoint: m/Christian68/987
+Title: BN HBf
+----
+ID: 3801
+Date: 29.08.2015
+Waypoint: m/mirabilos/31
+Title: Jugoslawisches Restaurnt Primošten/Dalmatiengrill
+nTF: 0
+Points: 20
+----
+ID: 3802
+Date: 29.08.2015
+Waypoint: m/Hotellounge/1654
+Title: Welcome to Bonn
+----
+ID: 3803
+Date: 29.08.2015
+Waypoint: m/c-bn/6494
+Title: Bonn, Wachsbleiche 6494 AXT
+Points: 21
+----
+ID: 3804
+Date: 29.08.2015
+Waypoint: m/zeusi/2304
+Title: Munzee Power 915
+----
+ID: 3805
+Date: 29.08.2015
+Waypoint: m/Christian68/68
+Title: BN Beethoven
+----
+ID: 3806
+Date: 30.08.2015
+Waypoint: m/dschuwa/432
+Title: JAMs
+----
+ID: 3807
+Date: 30.08.2015
+Waypoint: m/mirabilos/29
+nTF: 0
+Title: Phantasy-Pub &amp; Spielekneipe „Voyager“
+----
+ID: 3808
+Date: 31.08.2015
+Waypoint: m/mirabilos/32
+Title: Am Bleidriesch / Schleichweg
+nTF: 0
+----
+ID: 3809
+Date: 31.08.2015
+Waypoint: m/dschuwa/222
+Title: Bonner Punktejagd 028
+----
+ID: 3810
+Date: 01.09.2015
+Waypoint: m/mirabilos/33
+Title: Kannheideweg
+nTF: 0
+----
+ID: 3811
+Date: 01.09.2015
+Waypoint: m/c-bn/1952
+Title: Bonn, Wesselheideweg 4
+----
+ID: 3812
+Date: 02.09.2015
+Waypoint: m/mirabilos/34
+Title: Social Mirzee
+nTF: 0
+Points: 0
+----
+ID: 3813
+Date: 02.09.2015
+Waypoint: m/JOJEVA/340
+Title: Munzee # 353
+----
+ID: 3814
+Date: 03.09.2015
+Waypoint: CC5PF0
+Title: trace italienne
+Tag: Locationless Challenge
+----
+ID: 3815
+Date: 03.09.2015
+Waypoint: m/mirabilos/35
+Title: Max-Cohen-Straße
+nTF: 0
+Points: 25
+----
+ID: 3816
+Date: 03.09.2015
+Waypoint: m/c-bn/2023
+Title: Aktion &quot;Karte dunkelblau&quot; 051
+Points: 45
+----
+ID: 3817
+Date: 03.09.2015
+Waypoint: m/mastaxlolls/112
+Title: Lost: Miles
+----
+ID: 3818
+Date: 03.09.2015
+Waypoint: m/zeusi/2872
+Title: Generic Name
+Points: 40
+----
+ID: 3819
+Date: 03.09.2015
+Waypoint: m/seal/214
+Title: Mystery Endenich I
+Points: 35
+----
+ID: 3820
+Date: 03.09.2015
+Waypoint: m/Wyando/1805
+Title: Bonn ~ Endenich Blau {1805}
+Points: 25
+----
+ID: 3821
+Date: 03.09.2015
+Waypoint: m/c-bn/2188
+Title: Aktion &quot;Karte dunkelblau&quot; 049
+Points: 35
+----
+ID: 3822
+Date: 03.09.2015
+Waypoint: m/Killerspielspielerin/1504
+Title: FreeAgents Motel@Bonn Room #1
+----
+ID: 3823
+Date: 03.09.2015
+Waypoint: m/c-bn/5191
+Title: FreeAgents Motel@Bonn Room #2
+----
+ID: 3824
+Date: 03.09.2015
+Waypoint: m/JOJEVA/1316
+Title: FreeAgents Motel@Bonn Room #3
+----
+ID: 3825
+Date: 03.09.2015
+Waypoint: m/Waldkauz/99
+Title: FreeAgents Motel@Bonn Room #4
+----
+ID: 3826
+Date: 03.09.2015
+Waypoint: m/ajlis/2257
+Title: FreeAgents Motel@Bonn Room #5
+nTF: 4
+----
+ID: 3827
+Date: 03.09.2015
+Waypoint: m/FreeAgent/990
+Title: FreeAgents Motel@Bonn
+----
+ID: 3828
+Date: 03.09.2015
+Waypoint: m/zeusi/2871
+Title: Generic Name
+Points: 35
+----
+ID: 3829
+Date: 03.09.2015
+Waypoint: m/c-bn/2187
+Title: Aktion &quot;Karte dunkelblau&quot; 048
+Points: 10
+----
+ID: 3830
+Date: 03.09.2015
+Waypoint: m/ReMiKu/4571
+Title: Mystery Endenich (4571)
+Points: 40
+----
+ID: 3831
+Date: 03.09.2015
+Waypoint: m/zeusi/2870
+Title: Generic Name
+Points: 30
+----
+ID: 3832
+Date: 03.09.2015
+Waypoint: m/c-bn/2185
+Title: Aktion &quot;Karte dunkelblau&quot; 047
+Points: 20
+----
+ID: 3833
+Date: 03.09.2015
+Waypoint: m/zeusi/2869
+Title: Endenich-Hainstrasse
+Points: 15
+----
+ID: 3834
+Date: 03.09.2015
+Waypoint: m/mastaxlolls/164
+Title: Zaun
+----
+ID: 3835
+Date: 03.09.2015
+Waypoint: m/c-bn/2186
+Title: Aktion &quot;Karte dunkelblau&quot; 046
+Points: 20
+----
+ID: 3836
+Date: 03.09.2015
+Waypoint: m/seal/220
+Title: Mystery Endenich V
+Points: 10
+----
+ID: 3837
+Date: 03.09.2015
+Waypoint: m/zeusi/2868
+Title: Generic Name
+Points: 45
+----
+ID: 3838
+Date: 03.09.2015
+Waypoint: m/ReMiKu/4570
+Title: Mystery Endenich (4570)
+Points: 40
+----
+ID: 3839
+Date: 03.09.2015
+Waypoint: m/c-bn/2154
+Title: Aktion &quot;Karte dunkelblau&quot; 015
+Points: 45
+----
+ID: 3840
+Date: 03.09.2015
+Waypoint: m/winkide/2009
+Title: Bonn - Erich-Hoffmann-Str. #2009 M
+Points: 35
+----
+ID: 3841
+Date: 03.09.2015
+Waypoint: m/zeusi/2838
+Title: Aktion &quot;Karte dunkelblau&quot; 044
+Points: 50
+----
+ID: 3842
+Date: 03.09.2015
+Waypoint: m/ReMiKu/4577
+Title: Mystery Endenich (4577)
+Points: 10
+----
+ID: 3843
+Date: 03.09.2015
+Waypoint: m/c-bn/2155
+Title: Aktion &quot;Karte dunkelblau&quot; 016
+Points: 20
+----
+ID: 3844
+Date: 03.09.2015
+Waypoint: m/zeusi/2839
+Title: Aktion &quot;Karte dunkelblau&quot; 045
+Points: 45
+----
+ID: 3845
+Date: 03.09.2015
+Waypoint: m/c-bn/2156
+Title: Aktion &quot;Karte dunkelblau&quot; 017
+Points: 10
+----
+ID: 3846
+Date: 03.09.2015
+Waypoint: m/ReMiKu/4576
+Title: Mystery Endenich (4576)
+Points: 45
+----
+ID: 3847
+Date: 03.09.2015
+Waypoint: m/ajlis/859
+Title: Blau Blau Blau
+Points: 40
+----
+ID: 3848
+Date: 03.09.2015
+Waypoint: m/winkide/2021
+Title: Bonn - Kollegienweg #2021 M
+Points: 40
+----
+ID: 3849
+Date: 03.09.2015
+Waypoint: m/ReMiKu/4575
+Title: Mystery Endenich (4575)
+Points: 45
+----
+ID: 3850
+Date: 03.09.2015
+Waypoint: m/zeusi/2867
+Title: Generic Name
+Points: 20
+----
+ID: 3851
+Date: 03.09.2015
+Waypoint: m/c-bn/2184
+Title: Aktion &quot;Karte dunkelblau&quot; 045
+Points: 50
+----
+ID: 3852
+Date: 03.09.2015
+Waypoint: m/zeusi/2866
+Title: Generic Name
+Points: 45
+----
+ID: 3853
+Date: 03.09.2015
+Waypoint: m/c-bn/2183
+Title: Aktion &quot;Karte dunkelblau&quot; 044
+Points: 10
+----
+ID: 3854
+Date: 03.09.2015
+Waypoint: m/zeusi/2865
+Title: Generic Name
+Points: 50
+----
+ID: 3855
+Date: 03.09.2015
+Waypoint: m/ReMiKu/4574
+Title: Mystery Endenich (4574)
+Points: 30
+----
+ID: 3856
+Date: 03.09.2015
+Waypoint: m/c-bn/2182
+Title: Aktion &quot;Karte dunkelblau&quot; 043
+Points: 40
+----
+ID: 3857
+Date: 03.09.2015
+Waypoint: m/c-bn/2274
+Title: Aktion &quot;Karte dunkelblau&quot; 117
+Points: 35
+----
+ID: 3858
+Date: 03.09.2015
+Waypoint: m/zeusi/2861
+Title: Generic Name
+Points: 15
+----
+ID: 3859
+Date: 03.09.2015
+Waypoint: m/c-bn/2179
+Title: Aktion &quot;Karte dunkelblau&quot; 040
+Points: 15
+----
+ID: 3860
+Date: 03.09.2015
+Waypoint: m/Rah/42
+Title: rah 041-050 1
+----
+ID: 3861
+Date: 03.09.2015
+Waypoint: m/zeusi/2862
+Title: Generic Name
+Points: 35
+----
+ID: 3862
+Date: 03.09.2015
+Waypoint: m/zeusi/2863
+Title: Generic Name
+Points: 50
+----
+ID: 3863
+Date: 03.09.2015
+Waypoint: m/seal/215
+Title: Mystery Endenich II
+Points: 20
+----
+ID: 3864
+Date: 03.09.2015
+Waypoint: m/c-bn/2181
+Title: Aktion &quot;Karte dunkelblau&quot; 042
+Points: 25
+----
+ID: 3865
+Date: 03.09.2015
+Waypoint: m/zeusi/2864
+Title: Aktion &quot;Karte dunkelblau&quot; #10.000
+Points: 40
+----
+ID: 3866
+Date: 03.09.2015
+Waypoint: m/oesel123/193
+Title: Bonn-Endenich
+----
+ID: 3867
+Date: 03.09.2015
+Waypoint: m/havi/2778
+Title: Endenich
+----
+ID: 3868
+Date: 03.09.2015
+Waypoint: m/Libra/65
+Title: zu Gast in der Hainstraße
+----
+ID: 3869
+Date: 03.09.2015
+Waypoint: m/robje64/721
+Title: Robje64 grüsst Endenich
+----
+ID: 3870
+Date: 03.09.2015
+Waypoint: m/Airwolf26/1479
+Title: Bonn - Endenich
+----
+ID: 3871
+Date: 03.09.2015
+Waypoint: m/JOJEVA/443
+Title: Endenich-Munzee # 456
+----
+ID: 3872
+Date: 03.09.2015
+Waypoint: m/havi/2762
+Title: Endenich
+----
+ID: 3873
+Date: 03.09.2015
+Waypoint: m/JOJEVA/488
+Title: Endenich-Munzee # 501
+----
+ID: 3874
+Date: 03.09.2015
+Waypoint: m/seal/233
+Title: Endenich
+----
+ID: 3875
+Date: 03.09.2015
+Waypoint: m/afar/5694
+Title: da ist wohl jemand farbenblind ;)
+Points: 50
+----
+ID: 3876
+Date: 03.09.2015
+Waypoint: m/esci/344
+Title: [esci] Endenich
+----
+ID: 3877
+Date: 03.09.2015
+Waypoint: m/Rah/45
+Title: blau weiß
+----
+ID: 3878
+Date: 04.09.2015
+Waypoint: m/mirabilos/23
+Title: steil hier
+nTF: 0
+----
+ID: 3879
+Date: 04.09.2015
+Waypoint: m/zeusi/2856
+Title: Generic Name
+Points: 25
+----
+ID: 3880
+Date: 04.09.2015
+Waypoint: m/c-bn/6496
+Title: Bonn, Berta-von-Suttner-Platz 6496 WAFFE
+Points: 8
+----
+ID: 3881
+Date: 04.09.2015
+Waypoint: m/dschuwa/77
+Title: Nächster Halt: Berta-von-Suttner-Platz /Beethoven
+----
+ID: 3882
+Date: 04.09.2015
+Waypoint: m/mastaxlolls/360
+Title: Bertha-von-Suttner-Platz Motel by ajlis Room #1
+----
+ID: 3883
+Date: 04.09.2015
+Waypoint: m/MV1/4865
+Title: Bertha-von-Suttner-Platz Motel by ajlis Room #2
+----
+ID: 3884
+Date: 04.09.2015
+Waypoint: m/Mel/79
+Title: Bertha-von-Suttner-Platz Motel by ajlis Room #3
+----
+ID: 3885
+Date: 04.09.2015
+Waypoint: m/roli29/122
+Title: Bertha-von-Suttner-Platz Motel by ajlis Room #4
+----
+ID: 3886
+Date: 04.09.2015
+Waypoint: m/Chrissi/15
+Title: Bertha-von-Suttner-Platz Motel by ajlis Room #5
+----
+ID: 3887
+Date: 04.09.2015
+Waypoint: m/ajlis/1362
+Title: Bertha-von-Suttner-Platz Motel by ajlis
+----
+ID: 3888
+Date: 04.09.2015
+Waypoint: m/c-bn/6493
+Title: Bonn, Berta-von-Suttner-Platz 6493 WAFFE
+Points: 18
+----
+ID: 3889
+Date: 04.09.2015
+Waypoint: m/Sundream/1115
+Title: Virtual Munzee Stalkerin
+----
+ID: 3890
+Date: 04.09.2015
+Waypoint: m/Powerslice/1259
+Title: virtual Freimaurerei Bonn ReMiKu
+----
+ID: 3891
+Date: 04.09.2015
+Waypoint: m/MV1/4176
+Title: MVirtual MCD
+----
+ID: 3892
+Date: 04.09.2015
+Waypoint: m/ajlis/887
+Title: Mysterys rundum die Bonner Altstadt 6
+Points: 25
+----
+ID: 3893
+Date: 04.09.2015
+Waypoint: m/c-bn/1092
+Title: Bonn, Kölnstraße 6
+----
+ID: 3894
+Date: 04.09.2015
+Waypoint: m/wolche/29
+Title: Bonn 1
+----
+ID: 3895
+Date: 04.09.2015
+Waypoint: m/ButchL/608
+Title: MVM ButchL Bonn City
+Points: 45
+----
+ID: 3896
+Date: 04.09.2015
+Waypoint: m/ReMiKu/10173
+Title: 4. Rheinischer Stammtisch (10173)
+Points: 10
+----
+ID: 3897
+Date: 04.09.2015
+Waypoint: m/robje64/2168
+Title: [robje64] 4. Kölner (Rheinischer) Stammtisch
+Points: 40
+----
+ID: 3898
 Date: 05.09.2015
 Waypoint: GC5X94N
-Banner: jpg
+Banner: https://d1u1p2xjjiahg3.cloudfront.net/6283cd74-bc27-44ed-981d-1ea39d840896_l.jpg
 Title: Auf Mercators Spuren
 Tag: D1 T1 Event
+----
+ID: 3899
+Date: 05.09.2015
+Waypoint: m/mirabilos/36
+Title: Auf Mercators Spuren
+nTF: 0
+----
+ID: 3900
+Date: 05.09.2015
+Waypoint: m/ie6157/2
+Title: 2015_09 #0002
+nTF: 1
+----
+ID: 3901
+Date: 05.09.2015
+Waypoint: m/ie6157/33
+Title: 2015_09 #0033
+nTF: 1
+----
+ID: 3902
+Date: 05.09.2015
+Waypoint: m/winkide/5599
+Title: Euskirchen - 270314 #5599
+----
+ID: 3903
+Date: 05.09.2015
+Waypoint: m/ie6157/34
+Title: 2015_09 #0034
+nTF: 1
+----
+ID: p20150925
+Date: 25.09.2015
+Waypoint: GC61MDA
+Title: Geocacher in der Baracke 6
+Tag: D1 T1 Event
+----
+ID: p20151010
+Date: 10.10.2015
+Waypoint: m/EventIndicator/56
+Title: Kölner Stammtisch V
+Tag: Event
 ----
 ID: p20151021
 Date: 21.10.2015
