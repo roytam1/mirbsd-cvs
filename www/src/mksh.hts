@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.589 2015/07/10 21:02:53 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.590 2015/08/13 22:20:49 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1172,6 +1172,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[oksh] Zero-pad seconds in “time” output to align columns</li>
  <li>[tg] Check signals and errorlevels from OS to be within bounds</li>
  <li>[komh, tg] Quote and document ‘;’ as PATH separator in some places</li>
+ <li>[oksh, tg] Simplify code to call afree() even if arg is NULL</li>
+ <li>[tg] Fix tree-printing and reentrancy of multiple here documents</li>
+ <li>[tg] Work around LP#1030581 by permitting exactly one space after</li>
 </ul>
 <p id="r51">R51 is a strongly recommended feature release:</p><ul>
  <li>[tg] OpenBSD sync: handle integer base out of band like ksh93 does</li>
