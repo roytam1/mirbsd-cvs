@@ -822,8 +822,8 @@ initkeywords(void)
 static void
 syntaxerr(const char *what)
 {
-	/* 2<<- is the longest redirection, I think */
-	char redir[6];
+	/* 23<<- is the longest redirection, I think */
+	char redir[8];
 	const char *s;
 	struct tokeninfo const *tt;
 	int c;
