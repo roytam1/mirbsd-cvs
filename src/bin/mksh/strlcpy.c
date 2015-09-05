@@ -1,6 +1,6 @@
 /*-
  * Copyright (c) 2006, 2008, 2009, 2013
- *	Thorsten Glaser <tg@mirbsd.org>
+ *	mirabilos <tg@mirbsd.org>
  * Copyright (c) 1998 Todd C. Miller <Todd.Miller@courtesan.com>
  *
  * Permission to use, copy, modify, and distribute this software for any

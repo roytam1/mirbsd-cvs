@@ -1,10 +1,10 @@
 /*	$OpenBSD: misc.c,v 1.40 2015/03/18 15:12:36 tedu Exp $	*/
-/*	$OpenBSD: path.c,v 1.12 2005/03/30 17:16:37 deraadt Exp $	*/
+/*	$OpenBSD: path.c,v 1.13 2015/09/05 09:47:08 jsg Exp $	*/
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
  *		 2011, 2012, 2013, 2014, 2015
- *	Thorsten Glaser <tg@mirbsd.org>
+ *	mirabilos <tg@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
@@ -1570,16 +1570,14 @@ do_realpath(const char *upath)
 	}
 
 	/* return target path */
-	if (ldest != NULL)
-		afree(ldest, ATEMP);
+	afree(ldest, ATEMP);
 	afree(ipath, ATEMP);
 	return (Xclose(xs, xp));
 
  notfound:
 	/* save; freeing memory might trash it */
 	llen = errno;
-	if (ldest != NULL)
-		afree(ldest, ATEMP);
+	afree(ldest, ATEMP);
 	afree(ipath, ATEMP);
 	Xfree(xs, xp);
 	errno = llen;
