@@ -285,15 +285,14 @@ pioact(struct shf *shf, struct ioword *iop)
 	if (type == IOHERE) {
 		if (iop->delim)
 			wdvarput(shf, iop->delim, 0, WDS_TPUTS);
-		if (flag & IOHERESTR)
-			shf_putc(' ', shf);
+		/*XXX see IONDELIM hack */
 	} else if (iop->name) {
 		if (flag & IONAMEXP)
 			print_value_quoted(shf, iop->name);
 		else
 			wdvarput(shf, iop->name, 0, WDS_TPUTS);
-		shf_putc(' ', shf);
 	}
+	shf_putc(' ', shf);
 	prevent_semicolon = false;
 }
 

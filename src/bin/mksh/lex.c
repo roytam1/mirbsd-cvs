@@ -946,6 +946,14 @@ yylex(int cf)
 					c2 = getsc();
 				} else if (c2 == '<')
 					iop->ioflag |= IOHERESTR;
+				if (c2 == ' ') {
+					/*XXX reentrancy hack IONDELIM */
+					c2 = getsc();
+					if (c2 != '\n') {
+						ungetsc(c2);
+						c2 = ' ';
+					}
+				}
 				ungetsc(c2);
 				if (c2 == '\n')
 					iop->ioflag |= IONDELIM;
