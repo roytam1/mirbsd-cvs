@@ -22313,6 +22313,553 @@ Waypoint: m/ie6157/34
 Title: 2015_09 #0034
 nTF: 1
 ----
+ID: 3904
+Date: 06.09.2015
+Waypoint: m/winkide/323
+Title: Köln - Vitalisstr. #323
+Points: 100
+----
+ID: 3905
+Date: 06.09.2015
+Waypoint: m/mirabilos/37
+Title: Thanks for the Nomad Munzee
+nTF: 0
+----
+ID: 3906
+Date: 06.09.2015
+Waypoint: m/winkide/3840
+Title: Köln - Vitalisstr. #3840
+----
+ID: 3907
+Date: 06.09.2015
+Waypoint: m/winkide/215
+Title: Köln - Vitalisstr. #215
+----
+ID: 3908
+Date: 06.09.2015
+Waypoint: m/winkide/3834
+Title: Köln - Vitalisstr. #3834
+----
+ID: 3909
+Date: 06.09.2015
+Waypoint: m/winkide/3835
+Title: Köln - Vitalisstr. #3835
+----
+ID: 3910
+Date: 06.09.2015
+Waypoint: m/winkide/424
+Title: Köln - Vitalisstr. #424
+----
+ID: 3911
+Date: 06.09.2015
+Waypoint: m/winkide/911
+Title: Köln - Vitalisstr. #911
+----
+ID: 3912
+Date: 06.09.2015
+Waypoint: m/Wyando/3650
+Title: Winkis House of Fun * Vitalis #4348 Room #1
+----
+ID: 3913
+Date: 06.09.2015
+Waypoint: m/hugosoft/1343
+Title: Winkis House of Fun * Vitalis #4348 Room #2
+----
+ID: 3914
+Date: 06.09.2015
+Waypoint: m/ReMiKu/7633
+Title: Winkis House of Fun * Vitalis #4348 Room #3
+----
+ID: 3915
+Date: 06.09.2015
+Waypoint: m/Cymage/186
+Title: Winkis House of Fun * Vitalis #4348 Room #4
+----
+ID: 3916
+Date: 06.09.2015
+Waypoint: m/ajlis/1862
+Title: Winkis House of Fun * Vitalis #4348 Room #5
+----
+ID: 3917
+Date: 06.09.2015
+Waypoint: m/winkide/4348
+Title: Winkis House of Fun * Vitalis #4348
+----
+ID: 3918
+Date: 06.09.2015
+Waypoint: m/Tamarisk/1858
+Title: Köln Ehrenfeld (1858)
+----
+ID: 3919
+Date: 06.09.2015
+Waypoint: m/winkide/2969
+Title: Köln - Stadion-Parkplatz P1 #2969
+----
+ID: 3920
+Date: 06.09.2015
+Waypoint: m/JazQ/33
+Title: The Jaz Virtual
+----
+ID: 3921
+Date: 06.09.2015
+Waypoint: m/dexterjg/213
+Title: Cologne Virtual Trail JG1
+----
+ID: 3922
+Date: 06.09.2015
+Waypoint: m/esci/559
+Title: [esci] Hello to all! 1st European Munzee Meeting
+----
+ID: 3923
+Date: 06.09.2015
+Waypoint: m/grandpadave/1275
+Title: MVM Cologne
+----
+ID: 3924
+Date: 06.09.2015
+Waypoint: m/reej/3906
+Title: ReeJ&#039;s chillout Place @ Cologne
+----
+ID: 3925
+Date: 06.09.2015
+Waypoint: m/SusiUndStrolch/982
+Title: VM Projekt Köln 1
+----
+ID: 3926
+Date: 06.09.2015
+Waypoint: m/TURTLE/885
+Title: TURTLE &amp; HAWG ON A VIRTUAL PLAYGROUND I
+----
+ID: 3927
+Date: 06.09.2015
+Waypoint: m/specialteacher/1342
+Title: 2012 Cologne Project 9 from Arkansas
+----
+ID: 3928
+Date: 06.09.2015
+Waypoint: m/zeusi/1293
+Title: Euro Munzee Meeting Point -zeusi-
+----
+ID: 3929
+Date: 06.09.2015
+Waypoint: m/iBixi/40
+Title: Munzee Europe Event [iBixi]
+----
+ID: 3930
+Date: 06.09.2015
+Waypoint: m/aufbau/667
+Title: Aufbau Goes to Germany
+----
+ID: 3931
+Date: 06.09.2015
+Waypoint: m/leveler/459
+Title: Levs MVM #1 - Hiroshima-Nagasaki Park Cologne
+Points: 10
+----
+ID: 3932
+Date: 06.09.2015
+Waypoint: m/zeusi/1572
+Title: Mystery # 1
+Points: 50
+----
+ID: 3933
+Date: 06.09.2015
+Waypoint: m/Colonius/1257
+Title: #1257 Mystery Virtual
+Points: 35
+----
+ID: 3934
+Date: 06.09.2015
+Waypoint: m/c-bn/1670
+Title: Köln 1670 VM
+----
+ID: 3935
+Date: 06.09.2015
+Waypoint: m/Colonius/1256
+Title: #1256 Mystery Virtual
+Points: 35
+----
+ID: 3936
+Date: 06.09.2015
+Waypoint: m/tau/1931
+Title: Munzee Europe Event 2013 #1
+----
+ID: 3937
+Date: 06.09.2015
+Waypoint: m/keromar/3799
+Title: VM keromar R-Wagnerstr. #3799#
+----
+ID: 3938
+Date: 06.09.2015
+Waypoint: m/Colonius/1255
+Title: #1255 Mystery Virtual
+Points: 30
+----
+ID: 3939
+Date: 06.09.2015
+Waypoint: m/c-bn/1671
+Title: Köln 1671 VM
+----
+ID: 3940
+Date: 06.09.2015
+Waypoint: m/c-bn/1672
+Title: Köln 1672 VM
+----
+ID: 3941
+Date: 06.09.2015
+Waypoint: m/MorpheusHH/2363
+Title: Virt Triple Point Day K 2
+----
+ID: 3942
+Date: 06.09.2015
+Waypoint: m/c-bn/1673
+Title: Köln 1673 VM
+----
+ID: 3943
+Date: 06.09.2015
+Waypoint: m/c-bn/1674
+Title: Köln 1674 VM
+----
+ID: 3944
+Date: 06.09.2015
+Waypoint: m/c-bn/1675
+Title: Köln 1675 VM
+----
+ID: 3945
+Date: 06.09.2015
+Waypoint: m/MorpheusHH/2364
+Title: Virt Triple Point Day K 1
+----
+ID: 3946
+Date: 06.09.2015
+Waypoint: m/winkide/982
+Title: Köln - Richard-Wagner-Str. #982 M
+Points: 35
+----
+ID: 3947
+Date: 06.09.2015
+Waypoint: m/c-bn/1676
+Title: Köln 1676 VM
+----
+ID: 3948
+Date: 06.09.2015
+Waypoint: m/LILYGRIMALDI/3713
+Title: Vapiano virtual
+----
+ID: 3949
+Date: 06.09.2015
+Waypoint: m/simonh/13
+Title: Westgate
+----
+ID: 3950
+Date: 06.09.2015
+Waypoint: m/robje64/1765
+Title: Walking with the irish duo
+Points: 30
+----
+ID: 3951
+Date: 06.09.2015
+Waypoint: m/Lewini/553
+Title: K&amp;I Topaz Fahrradweg
+Points: 24
+----
+ID: 3952
+Date: 06.09.2015
+Waypoint: m/robje64/1957
+Title: [robje64] Keulen / Köln / Cologne
+Points: 15
+----
+ID: 3953
+Date: 06.09.2015
+Waypoint: m/Drewnation/162
+Title: Rudolfplatz MVM 2
+Points: 15
+----
+ID: 3954
+Date: 06.09.2015
+Waypoint: m/ReMiKu/2933
+Title: Virtual Rudolfplatz (2933)
+----
+ID: 3955
+Date: 06.09.2015
+Waypoint: m/kadence/2852
+Title: enjoy McDonalds cologne
+Points: 20
+----
+ID: 3956
+Date: 06.09.2015
+Waypoint: m/Mattie/1063
+Title: MVM Greetings from Prague
+Points: 20
+----
+ID: 3957
+Date: 06.09.2015
+Waypoint: m/HAL126/43
+Title: HAL am Hahnentorburg
+----
+ID: 3958
+Date: 06.09.2015
+Waypoint: m/robje64/1956
+Title: [robje64] Keulen / Köln / Cologne
+Points: 50
+----
+ID: 3959
+Date: 06.09.2015
+Waypoint: m/Colonius/1407
+Title: #1407 Virtual Munzee
+----
+ID: 3960
+Date: 06.09.2015
+Waypoint: m/Drewnation/145
+Title: Rudolfplatz MVM 1
+Points: 15
+----
+ID: 3961
+Date: 06.09.2015
+Waypoint: m/ReMiKu/2934
+Title: Virtual Rudolfplatz (2934)
+----
+ID: 3962
+Date: 06.09.2015
+Waypoint: m/ReMiKu/2932
+Title: Virtual Mittelstrasse (2932)
+----
+ID: 3963
+Date: 06.09.2015
+Waypoint: m/ingr1d/17
+Title: MVM Keulen
+----
+ID: 3964
+Date: 06.09.2015
+Waypoint: m/LILYGRIMALDI/3714
+Title: Resturant Colina virtual
+----
+ID: 3965
+Date: 06.09.2015
+Waypoint: m/Wyando/3594
+Title: [c-bn] Motel 🏨 #43 {Köln, Aachener Str.} Room
+----
+ID: 3966
+Date: 06.09.2015
+Waypoint: m/winkide/5117
+Title: [c-bn] Motel 🏨 #43 {Köln, Aachener Str.} Room
+----
+ID: 3967
+Date: 06.09.2015
+Waypoint: m/ReMiKu/7433
+Title: [c-bn] Motel 🏨 #43 {Köln, Aachener Str.} Room
+----
+ID: 3968
+Date: 06.09.2015
+Waypoint: m/hugosoft/1226
+Title: [c-bn] Motel 🏨 #43 {Köln, Aachener Str.} Room
+----
+ID: 3969
+Date: 06.09.2015
+Waypoint: m/Paverick/8248
+Title: [c-bn] Motel 🏨 #43 {Köln, Aachener Str.} Room
+----
+ID: 3970
+Date: 06.09.2015
+Waypoint: m/c-bn/4122
+Title: [c-bn] Motel 🏨 #43 {Köln, Aachener Str.}
+----
+ID: 3971
+Date: 06.09.2015
+Waypoint: m/DevilCZ/178
+Title: Devil&#039;s Mystery Virtual Munzee Köln
+Points: 25
+----
+ID: 3972
+Date: 06.09.2015
+Waypoint: m/AnWi/321
+Title: MVM Aachener Weiher @AnWi
+Points: 15
+----
+ID: 3973
+Date: 06.09.2015
+Waypoint: m/pferdenahr/1436
+Title: VIRT Europe Meet 1
+----
+ID: 3974
+Date: 06.09.2015
+Waypoint: m/Pumti/1288
+Title: VM Projekt Köln
+----
+ID: 3975
+Date: 06.09.2015
+Waypoint: m/Paverick/3866
+Title: Virtual Munzee - Project Cologne
+----
+ID: 3976
+Date: 06.09.2015
+Waypoint: m/ReMiKu/2910
+Title: Virtual Park Cologne (2910)
+----
+ID: 3977
+Date: 06.09.2015
+Waypoint: m/winkide/821
+Title: Köln - VM Projekt #821 V
+----
+ID: 3978
+Date: 06.09.2015
+Waypoint: m/specialteacher/1294
+Title: 2012 Cologne Project 19 from Arkansas
+----
+ID: 3979
+Date: 06.09.2015
+Waypoint: m/Mieze/1293
+Title: VM Projekt Köln # 01
+----
+ID: 3980
+Date: 06.09.2015
+Waypoint: m/winkide/5022
+Title: Köln - Aachener Str. #5022 MV
+Points: 45
+----
+ID: 3981
+Date: 06.09.2015
+Waypoint: m/MorpheusHH/2366
+Title: Virt Triple Point Day K Punktefarm 7
+----
+ID: 3982
+Date: 06.09.2015
+Waypoint: m/kasimir/1508
+Title: Köln Mystery Aachener Weiher-2
+----
+ID: 3983
+Date: 06.09.2015
+Waypoint: m/shadefinder/85
+Title: US comes to Germany
+----
+ID: 3984
+Date: 06.09.2015
+Waypoint: m/ReMiKu/1761
+Title: Aachener Strasse - 011
+----
+ID: 3985
+Date: 06.09.2015
+Waypoint: m/zeusi/5152
+Title: Mystery Virtual Munzee
+Points: 45
+----
+ID: 3986
+Date: 06.09.2015
+Waypoint: m/dlbisblest/485
+Title: DLB V156 Aachener Weiher Köln
+----
+ID: 3987
+Date: 06.09.2015
+Waypoint: m/c-bn/1531
+Title: Köln, Aachener Str. 1531
+----
+ID: 3988
+Date: 06.09.2015
+Waypoint: m/PappaPad/914
+Title: PappaPad - Aachener Weiher #08
+----
+ID: 3989
+Date: 06.09.2015
+Waypoint: m/Pumti/1287
+Title: VM Projekt Köln
+----
+ID: 3990
+Date: 06.09.2015
+Waypoint: m/Robby/1470
+Title: MV K
+Points: 35
+----
+ID: 3991
+Date: 06.09.2015
+Waypoint: m/hugosoft/1062
+Title: Mystery Virtual Munzee - Köln Aachener Weiher
+Points: 50
+----
+ID: 3992
+Date: 06.09.2015
+Waypoint: m/IndianaCoins/275
+Title: MVM Achener Weiher
+Points: 50
+----
+ID: 3993
+Date: 06.09.2015
+Waypoint: m/Bosuil/17
+Title: Bosuil - VM Project Köln #013
+----
+ID: 3994
+Date: 06.09.2015
+Waypoint: m/PappaPad/911
+Title: PappaPad - Aachener Weiher #05
+----
+ID: 3995
+Date: 06.09.2015
+Waypoint: m/winkide/834
+Title: Köln - MUNZEE EUROPE EVENT 2013 #834 V
+----
+ID: 3996
+Date: 06.09.2015
+Waypoint: m/Powerslice/1312
+Title: virtual water - achener weiher rechts
+----
+ID: 3997
+Date: 06.09.2015
+Waypoint: m/rynee/1516
+Title: Mystery Virtual Munzee
+Points: 10
+----
+ID: 3998
+Date: 06.09.2015
+Waypoint: m/quasar/166
+Title: Quasar&#039;s Virtual in Koln 1
+----
+ID: 3999
+Date: 06.09.2015
+Waypoint: m/rynee/1515
+Title: Mystery Virtual Munzee
+Points: 45
+----
+ID: 4000
+Date: 06.09.2015
+Waypoint: m/superjiva/1273
+Title: Virtual Munzee Koln
+----
+ID: 4001
+Date: 06.09.2015
+Waypoint: m/MorpheusHH/2369
+Title: Virt Triple Point Day K Punktefarm 4
+----
+ID: 4002
+Date: 06.09.2015
+Waypoint: m/ageta/2531
+Title: VM Aachener Weiher
+----
+ID: 4003
+Date: 06.09.2015
+Waypoint: m/Sundream/1143
+Title: Virtual Munzee Achener Weiher
+----
+ID: 4004
+Date: 06.09.2015
+Waypoint: m/ajlis/889
+Title: Mysterys rundum die Bonner Altstadt 8
+Points: 20
+----
+ID: 4005
+Date: 06.09.2015
+Waypoint: m/c-bn/3488
+Title: Mysterys rund um die Bonner Altstadt 7½
+----
+ID: 4006
+Date: 06.09.2015
+Waypoint: m/MV1/67
+Title: MV067 Stiftskirche
+----
+ID: 4007
+Date: 06.09.2015
+Waypoint: m/ajlis/888
+Title: Mysterys rundum die Bonner Altstadt 7
+Points: 40
+----
 ID: p20150925
 Date: 25.09.2015
 Waypoint: GC61MDA
