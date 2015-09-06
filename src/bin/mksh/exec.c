@@ -1518,9 +1518,9 @@ iosetup(struct ioword *iop, struct tbl *tp)
  * unquoted, the string is expanded first.
  */
 static int
-hereinval(const char *content, int sub, char **resbuf, struct shf *shf)
+hereinval(struct ioword *iop, int sub, char **resbuf, struct shf *shf)
 {
-	const char * volatile ccp = content;
+	const char * volatile ccp = iop->heredoc;
 	struct source *s, *osource;
 
 	osource = source;
@@ -1531,7 +1531,9 @@ hereinval(const char *content, int sub, char **resbuf, struct shf *shf)
 		/* special to iosetup(): don't print error */
 		return (-2);
 	}
-	if (sub) {
+	if (iop->ioflag & IOHERESTR) {
+		ccp = evalstr(iop->delim, DOHERESTR | DOSCALAR | DOHEREDOC);
+	} else if (sub) {
 		/* do substitutions on the content of heredoc */
 		s = pushs(SSTRING, ATEMP);
 		s->start = s->str = ccp;
@@ -1560,7 +1562,7 @@ herein(struct ioword *iop, char **resbuf)
 	int i;
 
 	/* ksh -c 'cat <<EOF' can cause this... */
-	if (iop->heredoc == NULL) {
+	if (iop->heredoc == NULL && !(iop->ioflag & IOHERESTR)) {
 		warningf(true, "%s missing", "here document");
 		/* special to iosetup(): don't print error */
 		return (-2);
@@ -1571,7 +1573,7 @@ herein(struct ioword *iop, char **resbuf)
 
 	/* skip all the fd setup if we just want the value */
 	if (resbuf != NULL)
-		return (hereinval(iop->heredoc, i, resbuf, NULL));
+		return (hereinval(iop, i, resbuf, NULL));
 
 	/*
 	 * Create temp file to hold content (done before newenv
@@ -1588,7 +1590,7 @@ herein(struct ioword *iop, char **resbuf)
 		return (-2);
 	}
 
-	if (hereinval(iop->heredoc, i, NULL, shf) == -2) {
+	if (hereinval(iop, i, NULL, shf) == -2) {
 		close(fd);
 		/* special to iosetup(): don't print error */
 		return (-2);

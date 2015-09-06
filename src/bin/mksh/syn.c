@@ -172,6 +172,8 @@ c_list(bool multi)
 	return (t);
 }
 
+static const char IONDELIM_delim[] = { CHAR, '<', CHAR, '<', EOS };
+
 static struct ioword *
 synio(int cf)
 {
@@ -189,15 +191,19 @@ synio(int cf)
 		return (NULL);
 	ACCEPT;
 	iop = yylval.iop;
-	if (iop->ioflag & IONDELIM)
-		goto gotnulldelim;
 	ishere = (iop->ioflag & IOTYPE) == IOHERE;
-	musthave(LWORD, ishere ? HEREDELIM : 0);
+	if (iop->ioflag & IOHERESTR) {
+		musthave(LWORD, 0);
+	} else if (ishere && tpeek(HEREDELIM) == '\n') {
+		ACCEPT;
+		yylval.cp = wdcopy(IONDELIM_delim, ATEMP);
+		iop->ioflag |= IOEVAL | IONDELIM;
+	} else
+		musthave(LWORD, ishere ? HEREDELIM : 0);
 	if (ishere) {
 		iop->delim = yylval.cp;
-		if (*ident != 0) {
+		if (*ident != 0 && !(iop->ioflag & IOHERESTR)) {
 			/* unquoted */
- gotnulldelim:
 			iop->ioflag |= IOEVAL;
 		}
 		if (herep > &heres[HERES - 1])

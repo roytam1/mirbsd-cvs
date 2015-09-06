@@ -919,6 +919,8 @@ expand(
 			    (word == IFS_IWS || word == IFS_NWS) &&
 			    !ctype(c, C_IFSWS))) {
  emit_word:
+				if (f & DOHERESTR)
+					*dp++ = '\n';
 				*dp++ = '\0';
 				cp = Xclose(ds, dp);
 				if (fdo & DOBRACE)
