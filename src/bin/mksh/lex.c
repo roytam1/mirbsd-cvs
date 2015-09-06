@@ -61,7 +61,7 @@ typedef struct lex_state {
 		/* point to the next state block */
 		struct lex_state *base;
 		/* marks start of state output in output string */
-		int start;
+		size_t start;
 		/* SBQUOTE: true if in double quotes: "`...`" */
 		/* SEQUOTE: got NUL, ignore rest of string */
 		bool abool;
@@ -1150,7 +1150,7 @@ readhere(struct ioword *iop)
 	const char *eof, *eofp;
 	XString xs;
 	char *xp;
-	int xpos;
+	size_t xpos;
 
 	if (iop->ioflag & IOHERESTR) {
 		/* process the here string */
