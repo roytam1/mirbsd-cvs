@@ -27,7 +27,16 @@
 #   but, these you got to do manually)
 
 user=mirabilos
-num=${1:-0}
+if [[ $1 = -d ]]; then
+	p=deploys
+	a=deployed
+	shift
+	num=${1:-1}
+else
+	p=captures
+	a=captured
+	num=${1:-0}
+fi
 [[ $num = +([0-9]) ]] || exit 1
 
 cd "$(dirname "$0")"
@@ -42,9 +51,9 @@ n=-1
 hasmore=1
 while (( hasmore )); do
 	(( ++n )) && sleep 3
-	ftp -4 -o munzeedl.tmp https://www.munzee.com/m/$user/captures/$n/ >&2
+	ftp -4 -o munzeedl.tmp https://www.munzee.com/m/$user/$p/$n/ >&2
 	<munzeedl.tmp sed $'s/<section>/\\\n/g' | \
-	    perl -ne 'print "$3|$4|$5|$1|$2\n" if ($_ =~ m,^.*<a class="munzee-id" href="/(m/[^"]*)/">([^<]*)</a>.*data-captured-at="(2[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9])T([^"]*)".*<div class="stat"> <div class="number"> ([0-9]+) .*$,);' |&
+	    perl -ne 'print "$3|$4|$5|$1|$2\n" if ($_ =~ m,^.*<a class="munzee-id" href="/(m/[^"]*)/">([^<]*)</a>.*data-'$a'-at="(2[0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9])T([^"]*)".*<div class="stat"> <div class="number"> ([0-9]+) .*$,);' |&
 	hasmore=0
 	while IFS=\| read -pr date time points id name; do
 		hasmore=1
