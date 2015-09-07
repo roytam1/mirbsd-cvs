@@ -22319,13 +22319,13 @@ Waypoint: m/winkide/323
 Title: Köln - Vitalisstr. #323
 Points: 100
 ----
-ID: 3905
+ID: 3906
 Date: 06.09.2015
 Waypoint: m/mirabilos/37
 Title: Thanks for the Nomad Munzee
 nTF: 0
 ----
-ID: 3906
+ID: 3905
 Date: 06.09.2015
 Waypoint: m/winkide/3840
 Title: Köln - Vitalisstr. #3840
@@ -22859,6 +22859,88 @@ Date: 06.09.2015
 Waypoint: m/ajlis/888
 Title: Mysterys rundum die Bonner Altstadt 7
 Points: 40
+----
+ID: 4008
+Date: 07.09.2015
+Waypoint: m/mirabilos/38
+Title: Steigungsstrecke In der Lies
+nTF: 0
+----
+ID: 4009
+Date: 07.09.2015
+Waypoint: m/dschuwa/630
+Title: Bonner Punktejagd 407
+----
+ID: 4010
+Date: 07.09.2015
+Waypoint: m/dschuwa/497
+Title: Bonner Punktejagd 292
+----
+ID: 4011
+Date: 07.09.2015
+Waypoint: m/JOJEVA/552
+Title: Poppelsdorf - Munzee # 565
+nTF: 1
+----
+ID: 4012
+Date: 07.09.2015
+Waypoint: m/JOJEVA/532
+Title: Poppelsdorf - Munzee # 545
+----
+ID: 4013
+Date: 07.09.2015
+Waypoint: m/dschuwa/493
+Title: 187
+----
+ID: 4014
+Date: 07.09.2015
+Waypoint: m/JOJEVA/549
+Title: Poppelsdorf - Munzee # 562
+----
+ID: 4015
+Date: 07.09.2015
+Waypoint: m/dschuwa/622
+Title: Bonner Punktejagd 399
+----
+ID: 4016
+Date: 07.09.2015
+Waypoint: m/JOJEVA/541
+Title: Poppelsdorf - Munzee # 554
+----
+ID: 4017
+Date: 07.09.2015
+Waypoint: m/JOJEVA/550
+Title: Poppelsdorf - Munzee # 563
+----
+ID: 4018
+Date: 07.09.2015
+Waypoint: m/dschuwa/634
+Title: Bonner Punktejagd 411
+----
+ID: 4019
+Date: 07.09.2015
+Waypoint: m/JOJEVA/570
+Title: Poppelsdorf - Munzee # 583
+----
+ID: 4020
+Date: 07.09.2015
+Waypoint: m/dschuwa/628
+Title: Bonner Punktejagd 405
+----
+ID: 4021
+Date: 07.09.2015
+Waypoint: m/JOJEVA/547
+Title: Poppelsdorf - Munzee # 560
+----
+ID: 4022
+Date: 07.09.2015
+Waypoint: m/JOJEVA/515
+Title: Poppelsdorf - Munzee # 528
+----
+ID: 4023
+Date: 07.09.2015
+Waypoint: m/dschuwa/609
+Title: Bonner Punktejagd 386
 ----
 ID: p20150925
 Date: 25.09.2015
