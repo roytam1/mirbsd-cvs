@@ -14266,6 +14266,7 @@ SD	[ccTLD] Sudan
 SD	[ISO 3166] Sudan
 SD	[Kfz] Swasiland
 SD	[USA] South Dakota
+SDA	Seventh-day Adventist
 SDA	[IATA] Baghdad (Saddam International), Iraq
 SDB	support database
 SDB	symbolic debugger (UNIX/32V)
@@ -14716,8 +14717,11 @@ SLZ	[IATA] Sao Luis, Maranhão, Brazil
 SLZ	[Kfz:D] Landkreis Bad Salzungen
 SLZ	[Schule DE] Selbstlernzentrum
 SLÜ	[Kfz:D] Landkreis Schlüchtern
+SM	sado/maso
 SM	Security Module
+SM	service mark
 SM	Sm (PSE#62) Samarium | Metalle der seltenen Erden (Lanthaniden) | lanthanides | lanthanida
+SM	state machine
 SM	[ccTLD] San Marino
 SM	[ISO 3166] San Marino
 SM	[Kfz:D] Landkreis Schmalkalden-Meiningen
@@ -18439,6 +18443,7 @@ ZBY	[IATA] Sayaboury, Laos
 ZCC	[IATA] Baden Baden (Railway Station), Germany
 ZCL	[IATA] Zacatecas (General Leobardo Ruiz), Mexico
 ZCO	[IATA] Temuco, Chile
+ZDF	Zuerst das Formular
 ZDF	Zweites Deutsches Fernsehen
 ZDJ	[IATA] Bern, Switzerland
 ZDT	[IATA] Chur, Switzerland
