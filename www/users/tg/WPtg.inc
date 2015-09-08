@@ -22942,6 +22942,283 @@ Date: 07.09.2015
 Waypoint: m/dschuwa/609
 Title: Bonner Punktejagd 386
 ----
+ID: 4024
+Date: 08.09.2015
+Waypoint: m/mirabilos/39
+Title: Elisabethstraße
+nTF: 0
+Points: 25
+----
+ID: 4025
+Date: 08.09.2015
+Waypoint: m/mirabilos/19
+Title: Drachenfelsstraße #1
+nTF: 0
+----
+ID: 4026
+Date: 08.09.2015
+Waypoint: m/mirabilos/40
+Title: Nächster Halt: Aloisiuskolleg
+nTF: 0
+----
+ID: 4027
+Date: 08.09.2015
+Waypoint: m/mirabilos/41
+Title: Petersbergstraße #1
+nTF: 0
+----
+ID: 4028
+Date: 08.09.2015
+Waypoint: m/mirabilos/42
+Title: Petersbergstraße #2
+nTF: 0
+----
+ID: 4029
+Date: 08.09.2015
+Waypoint: m/mirabilos/43
+Title: Topaz auf dem AKo-Berg
+nTF: 0
+Points: 28
+----
+ID: 4030
+Date: 08.09.2015
+Waypoint: m/mirabilos/44
+Title: Petersbergstraße #3
+nTF: 0
+----
+ID: 4031
+Date: 08.09.2015
+Waypoint: m/mirabilos/45
+Title: Nächster Halt: Petersbergstraße (Nord)
+nTF: 0
+----
+ID: 4032
+Date: 08.09.2015
+Waypoint: m/mirabilos/46
+Title: Nächster Halt: Petersbergstraße (Süd)
+nTF: 0
+----
+ID: 4033
+Date: 08.09.2015
+Waypoint: m/mirabilos/47
+Title: Petersbergstraße #4
+nTF: 0
+----
+ID: 4034
+Date: 08.09.2015
+Waypoint: m/mirabilos/48
+Title: Nächster Halt: Marienforster Steinweg
+nTF: 0
+----
+ID: 4035
+Date: 08.09.2015
+Waypoint: m/mirabilos/49
+Title: PP für Omnibusfahrer
+nTF: 0
+Points: 25
+----
+ID: 4036
+Date: 08.09.2015
+Waypoint: m/mirabilos/50
+Title: Marienforster Steinweg
+nTF: 0
+----
+ID: 4037
+Date: 08.09.2015
+Waypoint: m/mirabilos/51
+Title: Ölbergstraße #1
+nTF: 0
+----
+ID: 4038
+Date: 08.09.2015
+Waypoint: m/mirabilos/52
+Title: Ölbergstraße #2
+nTF: 0
+Points: 25
+----
+ID: 4039
+Date: 08.09.2015
+Waypoint: m/mirabilos/53
+Title: Drachenfelsstraße #4
+nTF: 0
+----
+ID: 4040
+Date: 08.09.2015
+Waypoint: m/mirabilos/54
+Title: Drachenfelsstraße #3
+nTF: 0
+----
+ID: 4041
+Date: 08.09.2015
+Waypoint: m/mirabilos/55
+Title: Drachenfelsstraße #2
+nTF: 0
+----
+ID: 4042
+Date: 08.09.2015
+Waypoint: m/mirabilos/56
+Title: Marienforster Promenade
+nTF: 0
+----
+ID: 4043
+Date: 08.09.2015
+Waypoint: m/mirabilos/57
+Title: Minigolfplatz
+nTF: 0
+----
+ID: 4044
+Date: 08.09.2015
+Waypoint: m/mirabilos/58
+Title: Am Draitschbusch
+nTF: 0
+----
+ID: 4045
+Date: 08.09.2015
+Waypoint: m/mirabilos/59
+Title: Marienforster Kirche (Draitschbusch)
+nTF: 0
+----
+ID: 4046
+Date: 08.09.2015
+Waypoint: m/mirabilos/60
+Title: Draitschquelle und Kurfürstenquelle
+nTF: 0
+----
+ID: 4047
+Date: 08.09.2015
+Waypoint: m/JOJEVA/938
+Title: Rheinallee - Munzee # 802 12
+----
+ID: 4048
+Date: 08.09.2015
+Waypoint: m/lammy/868
+Title: MVM BN - Rheinaue 1 - lammy
+Points: 50
+----
+ID: 4049
+Date: 08.09.2015
+Waypoint: m/HBRB/4576
+Title: Mystery Virtual HBRB - Bonn - Rheinaue
+Points: 30
+----
+ID: 4050
+Date: 08.09.2015
+Waypoint: m/souli/2127
+Title: Bonn Freizeitpark
+----
+ID: 4051
+Date: 08.09.2015
+Waypoint: m/JansEgal/1739
+Title: ?VM by JansEgal @ Rheinaue Bonn
+Points: 30
+----
+ID: 4052
+Date: 08.09.2015
+Waypoint: m/felixhunter/1374
+Title: MVM Rheinaue Bonn #1
+Points: 10
+----
+ID: 4053
+Date: 08.09.2015
+Waypoint: m/Baumhoernchen/302
+Title: MVM Rheinaue blau
+Points: 20
+----
+ID: 4054
+Date: 08.09.2015
+Waypoint: m/hugosoft/1081
+Title: MVM Bonner Rheinaue
+Points: 30
+----
+ID: 4055
+Date: 08.09.2015
+Waypoint: m/zeusi/6434
+Title: MVM Rheinaue blau
+Points: 20
+----
+ID: 4056
+Date: 08.09.2015
+Waypoint: m/JansEgal/1737
+Title: ?VM by JansEgal @ Rheinaue Bonn
+----
+ID: 4057
+Date: 08.09.2015
+Waypoint: m/souli/2128
+Title: Bonn Freizeitpark
+Points: 20
+----
+ID: 4058
+Date: 08.09.2015
+Waypoint: m/zeusi/7544
+Title: Mystery Virtual Munzee
+Points: 50
+----
+ID: 4059
+Date: 08.09.2015
+Waypoint: m/Kuhmulus/2496
+Title: Freaky Kuhmulus Bonn #11
+Points: 35
+----
+ID: 4060
+Date: 08.09.2015
+Waypoint: m/Baumhoernchen/301
+Title: MVM Rheinaue blau
+Points: 45
+----
+ID: 4061
+Date: 08.09.2015
+Waypoint: m/ReMiKu/9232
+Title: Mystery Virtual Rheinaue (9232)
+Points: 45
+----
+ID: 4062
+Date: 08.09.2015
+Waypoint: m/JansEgal/1751
+Title: ?VM by JansEgal @ Rheinaue Bonn
+Points: 45
+----
+ID: 4063
+Date: 08.09.2015
+Waypoint: m/zeusi/6435
+Title: MVM Rheinaue blau
+Points: 35
+----
+ID: 4064
+Date: 08.09.2015
+Waypoint: m/hugosoft/1107
+Title: MVM Bonner Rheinaue
+Points: 45
+----
+ID: 4065
+Date: 08.09.2015
+Waypoint: m/Kuhmulus/2495
+Title: Freaky Kuhmulus Bonn #12
+Points: 10
+----
+ID: 4066
+Date: 08.09.2015
+Waypoint: m/zeusi/5924
+Title: MVM Rheinaue blau
+Points: 20
+----
+ID: 4067
+Date: 08.09.2015
+Waypoint: m/Wyando/4086
+Title: Bonn - Myrtual Rheinaue
+Points: 50
+----
+ID: 4068
+Date: 08.09.2015
+Waypoint: m/souli/2129
+Title: Bonn Freizeitpark
+Points: 30
+----
+ID: 4069
+Date: 08.09.2015
+Waypoint: m/zeusi/7243
+Title: MVM Rhinepark Bonn
+Points: 25
+----
 ID: p20150925
 Date: 25.09.2015
 Waypoint: GC61MDA
