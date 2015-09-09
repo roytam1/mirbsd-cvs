@@ -23219,6 +23219,315 @@ Waypoint: m/zeusi/7243
 Title: MVM Rhinepark Bonn
 Points: 25
 ----
+ID: 4070
+Date: 09.09.2015
+Waypoint: m/zeusi/2904
+Title: Aktion &quot;Karte dunkelblau&quot; 135
+----
+ID: 4071
+Date: 09.09.2015
+Waypoint: m/mirabilos/61
+Title: Topaz an der Mehlemer Eisdiele
+nTF: 0
+Points: 28
+----
+ID: 4072
+Date: 09.09.2015
+Waypoint: m/JOJEVA/647
+Title: Mehlem - Munzee # 660
+----
+ID: 4073
+Date: 09.09.2015
+Waypoint: m/Airwolf26/1843
+Title: Bonn - Jon-Jay-McCloy-Ufer
+Points: 13
+----
+ID: 4074
+Date: 09.09.2015
+Waypoint: m/c-bn/4950
+Title: Bonn, John-Jay-McCloy-Ufer 4950
+----
+ID: 4075
+Date: 09.09.2015
+Waypoint: m/JOJEVA/666
+Title: Diamond Mehlem - Munzee # 679
+Points: 10
+----
+ID: 4076
+Date: 09.09.2015
+Waypoint: m/Airwolf26/1844
+Title: Bonn - Jon-Jay-McCloy-Ufer
+----
+ID: 4077
+Date: 09.09.2015
+Waypoint: m/JOJEVA/658
+Title: Mehlem - Munzee # 671
+----
+ID: 4078
+Date: 09.09.2015
+Waypoint: m/ReMiKu/859
+Title: Walk the Rhine (0859)
+----
+ID: 4079
+Date: 09.09.2015
+Waypoint: m/JOJEVA/650
+Title: Mehlem - Munzee # 663
+----
+ID: 4080
+Date: 09.09.2015
+Waypoint: m/c-bn/4953
+Title: Bonn, John-Jay-McCloy-Ufer 4953
+----
+ID: 4081
+Date: 09.09.2015
+Waypoint: m/souli/1626
+Title: Bonn Rhein ufer
+----
+ID: 4082
+Date: 09.09.2015
+Waypoint: m/JOJEVA/634
+Title: Mehlem - Munzee # 647 Quiz
+----
+ID: 4083
+Date: 09.09.2015
+Waypoint: m/JOJEVA/752
+Title: Munzee # 8
+----
+ID: 4084
+Date: 09.09.2015
+Waypoint: m/JOJEVA/733
+Title: Munzee # 14
+----
+ID: 4085
+Date: 09.09.2015
+Waypoint: m/JOJEVA/750
+Title: Munzee # 6
+----
+ID: 4086
+Date: 09.09.2015
+Waypoint: m/JOJEVA/722
+Title: Munzee # 3
+----
+ID: 4087
+Date: 09.09.2015
+Waypoint: m/JOJEVA/690
+Title: Munzee # 3
+----
+ID: 4088
+Date: 09.09.2015
+Waypoint: m/JOJEVA/755
+Title: Munzee # 11
+----
+ID: 4089
+Date: 09.09.2015
+Waypoint: m/ReMiKu/594
+Title: Walk the Rhine - 045
+----
+ID: 4090
+Date: 09.09.2015
+Waypoint: m/JOJEVA/695
+Title: Munzee # 8
+----
+ID: 4091
+Date: 09.09.2015
+Waypoint: m/JOJEVA/740
+Title: Munzee # 21
+----
+ID: 4092
+Date: 09.09.2015
+Waypoint: m/ReMiKu/593
+Title: Walk the Rhine - 046
+----
+ID: 4093
+Date: 09.09.2015
+Waypoint: m/JOJEVA/767
+Title: Munzee # 23
+----
+ID: 4094
+Date: 09.09.2015
+Waypoint: m/JOJEVA/744
+Title: Munzee # 25
+----
+ID: 4095
+Date: 09.09.2015
+Waypoint: m/JOJEVA/749
+Title: Munzee # 5
+----
+ID: 4096
+Date: 09.09.2015
+Waypoint: m/JOJEVA/688
+Title: Munzee # 1
+----
+ID: 4097
+Date: 09.09.2015
+Waypoint: m/JOJEVA/739
+Title: Munzee # 20
+----
+ID: 4098
+Date: 09.09.2015
+Waypoint: m/ReMiKu/591
+Title: Walk the Rhine - 048
+----
+ID: 4099
+Date: 09.09.2015
+Waypoint: m/JOJEVA/696
+Title: Munzee # 9
+----
+ID: 4100
+Date: 09.09.2015
+Waypoint: m/JOJEVA/762
+Title: Munzee # 18
+----
+ID: 4101
+Date: 09.09.2015
+Waypoint: m/JOJEVA/754
+Title: Mace - Munzee # 10
+Points: 6
+----
+ID: 4102
+Date: 09.09.2015
+Waypoint: m/JOJEVA/719
+Title: Munzee #
+----
+ID: 4103
+Date: 09.09.2015
+Waypoint: m/ReMiKu/590
+Title: Walk the Rhine - 049
+----
+ID: 4104
+Date: 09.09.2015
+Waypoint: m/JOJEVA/706
+Title: Munzee # 19
+----
+ID: 4105
+Date: 09.09.2015
+Waypoint: m/ReMiKu/589
+Title: Walk the Rhine - 050
+----
+ID: 4106
+Date: 09.09.2015
+Waypoint: m/JOJEVA/697
+Title: Munzee # 10
+----
+ID: 4107
+Date: 09.09.2015
+Waypoint: m/JOJEVA/689
+Title: Munzee # 2
+----
+ID: 4108
+Date: 09.09.2015
+Waypoint: m/JOJEVA/699
+Title: Munzee # 12
+----
+ID: 4109
+Date: 09.09.2015
+Waypoint: m/JOJEVA/728
+Title: Munzee # 9
+----
+ID: 4110
+Date: 09.09.2015
+Waypoint: m/JOJEVA/140
+Title: Munzee # 153
+----
+ID: 4111
+Date: 09.09.2015
+Waypoint: m/ReMiKu/586
+Title: Walk the Rhine - 053
+----
+ID: 4112
+Date: 09.09.2015
+Waypoint: m/JOJEVA/709
+Title: Munzee # 22
+----
+ID: 4113
+Date: 09.09.2015
+Waypoint: m/JOJEVA/735
+Title: Munzee # 16
+----
+ID: 4114
+Date: 09.09.2015
+Waypoint: m/JOJEVA/736
+Title: Munzee # 17
+----
+ID: 4115
+Date: 09.09.2015
+Waypoint: m/JOJEVA/691
+Title: Diamond - Munzee # 4
+Points: 14
+----
+ID: 4116
+Date: 09.09.2015
+Waypoint: m/JOJEVA/757
+Title: Munzee # 13
+----
+ID: 4117
+Date: 09.09.2015
+Waypoint: m/JOJEVA/743
+Title: Munzee # 24
+----
+ID: 4118
+Date: 09.09.2015
+Waypoint: m/ReMiKu/583
+Title: Walk the Rhine - 056
+----
+ID: 4119
+Date: 09.09.2015
+Waypoint: m/JOJEVA/741
+Title: Diamond - Munzee # 22
+Points: 10
+----
+ID: 4120
+Date: 09.09.2015
+Waypoint: m/JOJEVA/764
+Title: Munzee # 20
+----
+ID: 4121
+Date: 09.09.2015
+Waypoint: m/JOJEVA/724
+Title: Munzee # 5
+----
+ID: 4122
+Date: 09.09.2015
+Waypoint: m/JOJEVA/747
+Title: Diamond - Munzee # 3
+Points: 9
+----
+ID: 4123
+Date: 09.09.2015
+Waypoint: m/ReMiKu/579
+Title: Walk the Rhine - 060
+----
+ID: 4124
+Date: 09.09.2015
+Waypoint: m/JOJEVA/139
+Title: Munzee # 152
+----
+ID: 4125
+Date: 09.09.2015
+Waypoint: m/JOJEVA/173
+Title: Munzee # 186
+----
+ID: 4126
+Date: 09.09.2015
+Waypoint: m/JOJEVA/1553
+Title: BG - Munzee - # 7
+----
+ID: 4127
+Date: 09.09.2015
+Waypoint: m/JOJEVA/1542
+Title: BG - Munzee - # 21
+----
+ID: 4128
+Date: 09.09.2015
+Waypoint: m/JOJEVA/952
+Title: - Munzee # 802 1
+----
+ID: p20150923
+Date: 23.09.2015
+Waypoint: OC125A1 GC633VH
+Title: Herbstanfang – mit Eis
+Tag: D15 T15 Event
+----
 ID: p20150925
 Date: 25.09.2015
 Waypoint: GC61MDA
