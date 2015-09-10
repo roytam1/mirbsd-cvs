@@ -38,10 +38,7 @@ mws_content <<'EOF'
 <h2>Non-monetary donations</h2>
 <p>Of course, we're always interested in other things as well. Travel
  expenses, food at the exhibitions, hardware (please don't ask us to
- support other architectures than sparc32, i386, maybe amd64, possibly
- macppc/socppc or some arm/mips embedded stuff!).
- <!-- We've started to collect a <a href="@@RELPATH@@want.htm">wanted hardware</a> list,
- which is horridly out of date though. --></p>
+ support other architectures than i386 and sparc32).</p>
 
 <h2>Offline donations</h2>
 <p>For wiring money please contact the developers directly, preferably
