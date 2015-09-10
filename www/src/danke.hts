@@ -4,7 +4,7 @@
 mws_setname donations "Donations"
 mws_subdir 0
 mws_setheadline Donating to the MirOS Project
-mws_putheader '$MirOS: www/src/danke.hts,v 1.11 2013/05/19 22:41:49 tg Exp $'
+mws_putheader '$MirOS: www/src/danke.hts,v 1.12 2014/12/06 23:56:07 tg Exp $'
 mws_content <<'EOF'
 <h2>Considering to donate?</h2>
 <p>Thanks for considering to donate. You can contact the individual
@@ -15,7 +15,7 @@ mws_content <<'EOF'
  lost.</p>
 <p>After a successful donation, you may be listed below &ndash; this
  is an opt-in, and you must explicitly state that. Please note that
- some persons who donate <a
+ some persons who donate <a rel="nofollow"
 EOF
 # sponsored link follows
 mws_content <<'EOF'
