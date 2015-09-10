@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.158 2015/07/10 22:44:33 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.159 2015/07/12 19:09:52 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -287,7 +287,7 @@ Date: 09.07.2007
 Title: mksh now the default shell in FreeWRT
 Date: 16.07.2007
 
-<p><a href="https://www.freewrt.org/">FreeWRT</a>, an embedded applicance
+<p>FreeWRT, an embedded applicance
  development kit, has adopted <a href="@@RELPATH@@mksh.htm">mksh</a> as its
  default shell and <tt>/bin/sh</tt> for the upcoming 1.1 release.</p>
 <p>We would like to thank everyone for their support and feedback, hope that
@@ -1741,7 +1741,7 @@ Tag: bug mksh
 <p>The new distfile {RMD160 (/MirOS/dist/mir/make/mirmake-20091020.cpio.gz)
  = b9ac1258bc66b3d0d63537cc82d02c91408d1ba8} has been uploaded for your
  convenience already and will be integrated (after testing) into both The
- MirPorts Framework and <a href="https://www.freewrt.org/">FreeWRT</a> as
+ MirPorts Framework and FreeWRT as
  soon as we get to it, probably tomorrow.</p>
 ----
 Title: New MirOS snapshots (BSD, CVS, grml, ISO)

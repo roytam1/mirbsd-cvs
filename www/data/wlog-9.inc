@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-9.inc,v 1.101 2011/08/13 22:31:24 tg Exp $
+RCSID: $MirOS: www/data/wlog-9.inc,v 1.102 2013/06/22 23:26:00 tg Exp $
 Date: 25.06.2006
 Author: tg@
 
@@ -1270,7 +1270,7 @@ Author: tg@
 <p><a href="@@RELPATH@@mksh.htm">mksh</a> is now a better <tt>/bin/sh</tt>
  for some people in Debilian who don't know of Korn Shell tradition. Also,
  it won't try to execute ELF, a.out, COFF, gzip and NE any longer.</p>
-<p>Been working on <a href="https://www.freewrt.org/trac/">FreeWRT</a> all
+<p>Been working on FreeWRT all
  the time (even during the dayjob), so I didn't have the energy left to do
  more on the SPARC issues.</p>
 ----
@@ -1360,8 +1360,8 @@ Author: tg@
  to more popular OSes ☺ which makes it truly great. So just use one source
  of entropy – <tt>/dev/arandom</tt> – which is rather high-quality even if
  its absolute entropy count is less than the one from urandom.</p>
-<p>Somehow, I also managed to wreck something in my other pet project – <a
- href="https://www.freewrt.org/">FreeWRT</a>. It is often annoying to work
+<p>Somehow, I also managed to wreck something in my other pet project –
+ FreeWRT. It is often annoying to work
  with Linux, and this shows it one more time: module loading doesn't work,
  and we have issues with binary-only stuff (BLOBs) too. Still it is slowly
  being undermined by addition of mir-tools to the system ☻ and – while a̲l̲l̲
@@ -1451,7 +1451,7 @@ Title: SPARC is dead, long live SPARC!
  what would MirOS be without you.</p>
 <p>I've still got my dayjob, and working with parsing, databases, SQL, and
  C string operations at the same time isn't really fun. But it's me who is
- able to make <a href="https://www.freewrt.org/">FreeWRT 1.1</a> shine, so
+ able to make FreeWRT 1.1 shine, so
  I've got to do it. I bet it'll have been a lot of fun once I'm done. Just
  the way there is hard. So be it. On the contrary, my boss's got a Zaurus,
  and Dr. Pfeffer's geocacheing software (in Java™) runs on it. And he will
@@ -1470,9 +1470,9 @@ Author: tg@
  maybe MirOS #10/sparc will be in #10semel this time.</p>
 <p>The website… some things are difficult to do until you go to the toilet
  and come back with a great idea. Put back mtimes on the pages.</p>
-<p>At work, I hacked some major C code for FreeWRT today, namely in the <a
- href="https://www.freewrt.org/svn/branches/common-nfo/tools/nfotiser/">nfotiser</a>
- (and <a href="https://www.freewrt.org/svn/branches/common-nfo/tools/sqlite/nfohelpr.h">here</a>).
+<p>At work, I hacked some major C code for FreeWRT today, namely in the
+ nfotiser
+ (and here[link removed]).
  That's a complicated programme, difficult to do even for me (mostly since
  it grows high-level stuff, data structures, and not only close-to-machine
  stuff, especially the SQL stuff), but it turns out to become fun once you
@@ -2407,8 +2407,7 @@ Author: tg@
  networking</a>, in a Xen HVM configuration. Since it was at work, I
  couldn’t really do much. It was tricky, though. My boss now wants to
  know if Windows® would also work (I assume so, now I know how).</p>
-<p><a href="https://www.freewrt.org/trac/">FreeWRT</a> nor also has <a
- href="https://www.freewrt.org/docs/htman/">online manual pages</a>,
+<p>FreeWRT nor also has online manual pages,
  now guess whose script is doing the job. Right. I’m especially proud
  of the fact that this was in no way paid work (and that ekkoBSD was
  not for void either). I thought, after having hacked on it for quite
@@ -2442,9 +2441,9 @@ Author: tg@
 Date: 27.10.2007
 Author: tg@
 
-<p>Synergy effects are the best. The geocacheing software Cachewolf now has <a
- href="https://flyingfish.freewrt.org/~tomcat55/CacheWolf-BE/">automatically
- generated nightly builds</a> thanks to a FreeWRT box, whose developers help
+<p>Synergy effects are the best. The geocacheing software Cachewolf now has
+ automatically
+ generated nightly builds thanks to a FreeWRT box, whose developers help
  testing and spotting all the bugs in <a href="@@RELPATH@@mksh.htm">mksh</a>,
  make(1) and the HTML manpage stuff, and all projects get better. Wow.</p>
 <p>I feel a little ill at the moment, which quite sucks. Not even bad enough

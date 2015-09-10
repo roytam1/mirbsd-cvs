@@ -3,7 +3,7 @@
 
 mws_setname legacy/wlog-8 "MirBSD Weblog"
 mws_setheadline MirBSD – WTF, We Have a Release!?
-mws_putheader '$MirOS: www/src/wlog-8.hts,v 1.5 2011/03/21 16:18:50 tg Exp $'
+mws_putheader '$MirOS: www/src/wlog-8.hts,v 1.6 2013/06/22 23:26:12 tg Exp $'
 mws_content_keeptabs <<'EOF'
 <p><small><a href="#eof">bottom</a> or <a href="@@RELPATH@@older.htm">older</a>
  editions</small></p>
@@ -1391,7 +1391,7 @@ celebrate this event, rotate the wlog and start a new one.</p>
 
 <div class="wlentry">
  <h3 id="e20060611">11.06.2006 by tg@</h3>
- <p>I had some initial <a href="https://www.freewrt.org/">FreeWRT</a> ci
+ <p>I had some initial FreeWRT ci
   with wbx@ today and better would ask gmane and marc guys for archives,
   before it's too late.</p>
  <p>I built a sparc bsd.net kernel (with elf2aout(1) on i386!) but can't
@@ -1517,9 +1517,9 @@ celebrate this event, rotate the wlog and start a new one.</p>
 <div class="wlentry">
  <h3 id="e20060618"><small>still counts as</small> 18.06.2006 by tg@</h3>
  <p>Today's entry is not a wlog but a blog entry, sorry people, but wbx@
-  prodded (provoked too) me after an 18-hour hacking session to write <a
-  href="http://www.freewrt.org/index.php?blog/show/3">about FreeWRT been
-  cross-built</a>. Guess: Which host operating system, target OS editor,
+  prodded (provoked too) me after an 18-hour hacking session to write
+  about FreeWRT been
+  cross-built. Guess: Which host operating system, target OS editor,
   shell? (You probably already know without reading that blog entry.)</p>
  <p>MirOS also profited from it &ndash; fixed a corner case in $PS1 home
   directory to tilde character (bash-like) expansion.</p>

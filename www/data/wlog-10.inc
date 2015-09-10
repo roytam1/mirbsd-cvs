@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.466 2015/07/05 12:24:11 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.467 2015/07/07 17:56:30 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -716,10 +716,7 @@ Tag: geocache
  to go geocaching.</p><!-- RSS stop -->
 <p>Speaking of geocaching: more stats bragging… although a little different
  this time:<br />
- <img src="https://flyingfish.freewrt.org/fwrtcommitstats/mirabilos.png"
-  alt="mirabilos’ commit stats" /><br />
- <img src="https://flyingfish.freewrt.org/fwrtcommitstats/pfeffer.png"
-  alt="Dr. Pfeffer’s commit stats" /><br />
+ 〔fwrtcommitstats removed due to FreeWRT archival〕
  <img src="http://img.geocaching.com/stats/img.aspx?txt=Mac+Fanboy&amp;uid=d57c5767-047b-4aff-a00a-784356b94e9e"
   alt="gecko2@’s founds and hides" /><br />
  Although only the first two are CacheWolf committers…</p>
@@ -1054,8 +1051,8 @@ Tag: geocache
  were integrated in Mac OSX, as most MidnightBSD developers (like Benny)
  do most of their work on a Macintosh. He has integrated mksh in his
  operating system quite some time ago.</p>
-<p>mksh is also the default shell, including <tt>/bin/sh</tt>, on <a
- href="https://www.freewrt.org/trac">FreeWRT</a> Embedded GNU/Linux.</p>
+<p>mksh is also the default shell, including <tt>/bin/sh</tt>, on
+ FreeWRT Embedded GNU/Linux.</p>
 <p>Andreas already has run tests for using mksh(1) as <tt>/bin/sh</tt>
  on Darwin, although I did not request that personally, and brought up
  the question of <tt>/etc/profile</tt> adjustments and <tt>~/.mkshrc</tt>
@@ -5157,7 +5154,7 @@ Tag: mksh
  of bug fixes, raw octet support in UTF-8 mode, UTF-8 support in the 8-bit
  modes, and <a href="@@RELPATH@@jupp.htm#r3_1j12">more changes</a>. If you
  already use it, update please. If not, give it a try! It’s included in at
- least <a href="https://www.freewrt.org/">FreeWRT</a> already, and I build
+ least FreeWRT already, and I build
  Debian packages (link on the jupp website) in my “play repository”, as well
  as packages for Univention Corporate Server at work (from these packages).
  I’m also using it on Solaris 8, Solaris 10 and AIX 5.3 ☻ (and many more)</p>
@@ -5890,7 +5887,7 @@ Date: 01.01.2010 20:46
  some of dpkg’s low-level functionality (must be reimplemented though),
  and for these who want, a (GPL’d…) high-level tool for binary package
  management.</p>
-<p><a href="https://www.freewrt.org/">FreeWRT</a> is also slowly gaining
+<p>FreeWRT is also slowly gaining
  a little more traction, even from its founder (who asserts that FreeWRT
  1.0-stable is the only OS for WRT-like devices that does WDS correctly,
  and feeds us patches). I still think we need MirWRT ☺ with a ports-like
@@ -6819,8 +6816,8 @@ Tag: debian event geocache grml
  a non-kids version of that as well) but this year’s FrOSCon is nothing
  for me to curse about either: I managed to get <strong>both</strong> a
  booth for <a href="@@RELPATH@@main.htm">The MirOS Project</a> (MirBSD,
- mksh and other subprojects) as well as one for Waldemar’s <a
- href="https://www.freewrt.org/">FreeWRT</a> (although wbx@ – if he
+ mksh and other subprojects) as well as one for Waldemar’s
+ FreeWRT (although wbx@ – if he
  comes – won’t join there since he forked his own fork since its
  conception). Booth staff are, currently: tg@ and bsiegert@ (Developer),
  gecko2@ (Staff) for MirOS, tg@ and “XTaran” abe@ (Developer), kimnotyze
@@ -6845,7 +6842,7 @@ Tag: debian event grml
 <div class="boxtext">
  <pre>
 	┌──┐              I ❦ STANDPLAN FROSCON 2010
-	│ <a style="border:none;" href="https://www.freewrt.org/">F</a>│<a style="border:none;" href="https://www.freewrt.org/">reeWRT</a>
+	│ F│reeWRT
 	├──┤
 	│ <a style="border:none;" href="https://www.mirbsd.org/">M</a>│<a style="border:none;" href="https://www.mirbsd.org/">irBSD</a>
 	│  │
@@ -7145,8 +7142,8 @@ Tag: debian event mksh
  I’ll be off for 2-4 days at least from then (see below). Ingo tried
  to test on real hardware, but as Murphy wants a hard disc failed…
  we’ll still try to get something done over the weekend. If you want
- to have <a href="https://www.freewrt.org/~tg/debs68k/debidx.htm">a
- look</a>, see my repository index (<tt>sources.txt</tt> contains a
+ to have a
+ look, see my repository index (<tt>sources.txt</tt> contains a
  sample sources.list file, <tt>0-NOTE.txt</tt> some hints, including
  the right debootstrap/cowbuilder magic and speed tricks). I’ll need
  to learn how to use LVM and set up a buildd now…</p>
@@ -8188,7 +8185,7 @@ Tag: debian event grml news
  aka mksh(1), <a href="@@RELPATH@@jupp.htm">jupp</a> the editor,
  and developers’ private projects such as slowly undermining Debian
  or Google-Go. While slow we are still working on World Domination.
- And <a href="https://freewrt.org/projects/shellsnippets/">teaching
+ And <a href="https://evolvis.org/projects/shellsnippets/">teaching
  people good shell programming</a> by example code.</p>
 <p>We might even bring CDs, but I’m still working on the ISO… last
  night’s build aborted because the OS grew a bit making the floppy
@@ -8805,7 +8802,7 @@ Tag: debian mksh news pcli release
  are working on WinAPI and DJGPP in their spare time, and Cygwin and
  Debian packagers have deprecated pdksh in favour of mksh (thanks!).
  So, everything looking well on that front.</p>
-<p>I’ve started <a href="https://freewrt.org/projects/shellsnippets/">a
+<p>I’ve started <a href="https://evolvis.org/projects/shellsnippets/">a
  collection of shell snippets</a> some time ago, where most of “those
  small things” of mine ends up. Even stuff I write at work – we’re an
  Open Source company and can generally publish under (currently) AGPLv3
@@ -9028,7 +9025,7 @@ Tag: debian mksh news pcli tip
  title="MirBSD WTF acronym database">acronym database</a>
  has been accessible by <a href="@@RELPATH@@cvs.cgi">CVSweb</a>,
  what we never had was a DAU compatible (and <a
- href="https://freewrt.org/projects/shellsnippets/">shellsnippets</a>
+ href="https://evolvis.org/projects/shellsnippets/">shellsnippets</a>
  compatible) lookup. This has now changed: the above link to
  the acronyms file is a persistent link to its latest version
  (well, latest when the website was last recompiled), tooltips
@@ -9233,7 +9230,7 @@ Tag: debian tip work
  legacy vhosts to the new configuration, as everything worked on lenny.</p>
 <p>This wlog entry brought to you by the system administrators of <a
  href="https://www.tarent.de/">tarent solutions GmbH</a> and the <a
- href="https://freewrt.org/projects/shellsnippets/">Evolvis Project</a>,
+ href="https://evolvis.org/projects/shellsnippets/">Evolvis Project</a>,
  based on <a href="https://fusionforge.org/">FusionForge</a>.</p>
 <hr />
 <p><strong>Update</strong> 17.05.2013 – Absolutely <strong>do not
@@ -10220,7 +10217,7 @@ Tag: debian event geocache mksh
  but probably more in a workshop setting. And booth space is precious
  enough in the FH so I think that’d be unfair.</p>
 <p>All the other subprojects and side projects Benny and I have, such
- as <a href="https://freewrt.org/projects/mirmince/">mirₘᵢₙcⒺ</a>,
+ as mirₘᵢₙcⒺ,
  josef stalin, FreeWRT, Lunix Ewe, Shellsnippets, the fonts, etc. are
  interesting but share few, if any, common ground. Again, this does not
  match the vast majority of visitors. While we probably should push a

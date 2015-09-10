@@ -1,6 +1,6 @@
 mws_setname about 'About MirOS'
 mws_setheadline About MirOS
-mws_putheader '$MirOS: www/src/about.hts,v 1.5 2013/05/19 23:39:21 tg Exp $'
+mws_putheader '$MirOS: www/src/about.hts,v 1.6 2014/01/13 00:57:57 tg Exp $'
 mws_content <<'EOF'
 <p>On this page:</p>
 
@@ -166,12 +166,12 @@ to elaborate more -->
  individual developers have semi-official subprojects like <a
  href="jupp.htm">jupp – the Editor which sucks less</a> or the
  image/tiff part of the Issue 9 (golang) standard library. Finally,
- <a href="https://freewrt.org/projects/miros/">The MirOS Project at
- FreeWRT.org Evolvis</a> is a supplemental hosting platform site
+ The MirOS Project at
+ FreeWRT.org Evolvis was a supplemental hosting platform site
  where experimental or detached (CVS), or otherwise non-core (git,
  Debian APT Repository, etc.) publications appear; the FreeWRT.org
  <a href="https://fusionforge.org/">FusionForge/Evolvis</a> system
- also permits separate, distinct project setups.</p>
+ also permitted separate, distinct project setups.</p>
 
 EOF
 mws_putfooter
