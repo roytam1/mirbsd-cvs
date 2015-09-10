@@ -1,4 +1,4 @@
-rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.80 2015/04/03 00:46:05 tg Exp $'
+rcsid_htsconv='$MirOS: www/mk/htsconv,v 1.81 2015/04/12 19:36:24 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -202,7 +202,7 @@ function mws_putheader {
 		</ul></li>
 		 </ul>
 		<div style="margin-top:18px; margin-left:6px;">Sponsored
-		 by<br /><a href="https://www.hosteurope.de/"
+		 by<br /><a href="https://www.hosteurope.de/" rel="nofollow"
 		  style="border:none; text-decoration:none;"><img
 		  style="border:none; text-decoration:none;"
 		  src="@@RELPATH@@pics/hoster.gif"
