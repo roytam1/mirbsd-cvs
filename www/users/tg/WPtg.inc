@@ -23783,6 +23783,56 @@ Title: Rochusweg #4
 nTF: 0
 Points: 25
 ----
+ID: 4173
+Date: 11.09.2015
+Waypoint: CC9WOQ
+Title: The Witch of November
+Tag: Locationless Challenge
+----
+ID: 4174
+Date: 11.09.2015
+Waypoint: m/zeusi/3715
+Title: Virtual Munzee Dunkelblau-Weiss 2
+----
+ID: 4175
+Date: 11.09.2015
+Waypoint: m/mirabilos/70
+Title: Pfarrer-Hürth-Straße
+nTF: 0
+----
+ID: 4176
+Date: 11.09.2015
+Waypoint: m/mirabilos/71
+Title: Rehfuesstraße
+nTF: 0
+
+Wat ’n Name…
+----
+ID: 4177
+Date: 11.09.2015
+Waypoint: m/mirabilos/72
+Title: Kirschallee
+nTF: 0
+----
+ID: 4178
+Date: 11.09.2015
+Waypoint: m/mirabilos/73
+Title: Zu Ehren Rudolf Steiners
+nTF: 0
+
+Vor der Johannes-Schule, daher der Name
+----
+ID: 4179
+Date: 11.09.2015
+Waypoint: m/mirabilos/74
+Title: Hospitalweg
+nTF: 0
+----
+ID: 4180
+Date: 11.09.2015
+Waypoint: m/dschuwa/258
+Title: Gelbe Klappe
+----
 ID: p20150923
 Date: 23.09.2015
 Waypoint: OC125A1 GC633VH
