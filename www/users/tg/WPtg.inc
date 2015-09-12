@@ -23833,6 +23833,80 @@ Date: 11.09.2015
 Waypoint: m/dschuwa/258
 Title: Gelbe Klappe
 ----
+ID: 4181
+Date: 12.09.2015
+Waypoint: m/mirabilos/75
+Title: World War Ⅱ Warrior Memorial (Portal)
+nTF: 0
+----
+ID: 4182
+Date: 12.09.2015
+Waypoint: m/mirabilos/76
+Title: Lotharstraße Bunker
+nTF: 0
+----
+ID: 4183
+Date: 12.09.2015
+Waypoint: m/mirabilos/77
+Title: Gregor-Mendel-Straße Süd
+nTF: 0
+----
+ID: 4184
+Date: 12.09.2015
+Waypoint: m/mirabilos/78
+Title: Gregor-Mendel-Straße Mitte
+nTF: 0
+----
+ID: 4185
+Date: 12.09.2015
+Waypoint: m/mirabilos/79
+Title: Am Buchenhang
+nTF: 0
+----
+ID: 4186
+Date: 12.09.2015
+Waypoint: m/mastaxlolls/114
+Title: Lost: Shannon
+----
+ID: 4187
+Date: 12.09.2015
+Waypoint: m/ajlis/150
+Title: Sportplatz
+----
+ID: 4188
+Date: 12.09.2015
+Waypoint: m/Rah/44
+Title: zaun
+----
+ID: 4189
+Date: 12.09.2015
+Waypoint: m/c-bn/3064
+Title: Bonn, Gerhard-von-Are-Str. 3064
+----
+ID: 4190
+Date: 12.09.2015
+Waypoint: m/Lewini/440
+Title: K&amp;I S200 Bonn
+nTF: 1
+----
+ID: 4191
+Date: 12.09.2015
+Waypoint: CC2ISO
+Title: Guns of Naverone
+Tag: Locationless Challenge
+----
+ID: 4192
+Date: 12.09.2015
+Waypoint: CC7LH2
+Title: Ground Zero
+Tag: Locationless Challenge
+----
+ID: 4193
+Date: 12.09.2015
+Waypoint: CC3PV2
+Title: Caching DNA
+Tag: Locationless Challenge
+----
 ID: p20150923
 Date: 23.09.2015
 Waypoint: OC125A1 GC633VH
