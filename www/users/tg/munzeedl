@@ -69,7 +69,12 @@ done
 rm -f munzeedl.tmp
 
 print -ru2 Generating output...
-print curfinds=0 >munzeedl.out
+if [[ -s munzeedl.out ]]; then
+	print -ru2 WARNING: munzeedl.out exists, appending!
+	print "# appending on $(date)" >>munzeedl.out
+else
+	print curfinds=0 >munzeedl.out
+fi
 while (( i-- )); do
 	cat <<-EOF
 		print -r -- "ID: \$((++curfinds))"
