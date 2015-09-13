@@ -23907,6 +23907,317 @@ Waypoint: CC3PV2
 Title: Caching DNA
 Tag: Locationless Challenge
 ----
+ID: 4194
+Date: 13.09.2015
+Waypoint: m/mirabilos/80
+Title: Hausdorffstraße
+nTF: 0
+----
+ID: 4195
+Date: 13.09.2015
+Waypoint: m/mirabilos/81
+Title: Hausdorffstraße
+nTF: 0
+----
+ID: 4196
+Date: 13.09.2015
+Waypoint: m/Steffi78/313
+Title: Steffi&#039;s
+nTF: 1
+----
+ID: 4197
+Date: 13.09.2015
+Waypoint: m/mirabilos/82
+Title: Hausdorffstraße
+nTF: 0
+----
+ID: 4198
+Date: 13.09.2015
+Waypoint: m/mirabilos/83
+Title: Hausdorffstraße
+nTF: 0
+----
+ID: 4199
+Date: 13.09.2015
+Waypoint: m/mirabilos/84
+Title: August-Bier-Straße
+nTF: 0
+----
+ID: 4200
+Date: 13.09.2015
+Waypoint: m/QQ/475
+Title: Cap me if you can! 1
+nTF: 1
+----
+ID: 4201
+Date: 13.09.2015
+Waypoint: m/DerTransporter/29
+Title: Maxi Munzee 29
+----
+ID: 4202
+Date: 13.09.2015
+Waypoint: m/zeusi/2150
+Title: Munzee Power 762
+Points: 13
+----
+ID: 4203
+Date: 13.09.2015
+Waypoint: m/DerTransporter/13
+Title: Maxi Munzee 13
+----
+ID: 4204
+Date: 13.09.2015
+Waypoint: m/ajlis/505
+Title: Niebuhrstraße 4, Bonn
+----
+ID: 4205
+Date: 13.09.2015
+Waypoint: m/ajlis/438
+Title: Niebuhrstraße 5, Bonn
+----
+ID: 4206
+Date: 13.09.2015
+Waypoint: m/ajlis/543
+Title: Niebuhrstraße 2, Bonn
+----
+ID: 4207
+Date: 13.09.2015
+Waypoint: m/ajlis/399
+Title: Niebuhrstraße 1, Bonn
+----
+ID: 4208
+Date: 13.09.2015
+Waypoint: m/c-bn/3295
+Title: Bonn, 💎 Adenauerallee 2
+Points: 14
+----
+ID: 4209
+Date: 13.09.2015
+Waypoint: m/dschuwa/123
+Title: Nächster Halt: Juiridicum
+----
+ID: 4210
+Date: 13.09.2015
+Waypoint: m/Steffi78/263
+Title: Motel zur befahrenen Straße Room #1
+----
+ID: 4211
+Date: 13.09.2015
+Waypoint: m/JOJEVA/2016
+Title: Motel zur befahrenen Straße Room #2
+----
+ID: 4212
+Date: 13.09.2015
+Waypoint: m/Waldkauz/799
+Title: Motel zur befahrenen Straße Room #3
+----
+ID: 4213
+Date: 13.09.2015
+Waypoint: m/Rubinheart/149
+Title: Motel zur befahrenen Straße Room #4
+nTF: 4
+----
+ID: 4214
+Date: 13.09.2015
+Waypoint: m/AnWi/383
+Title: Motel zur befahrenen Straße Room #5
+nTF: 3
+----
+ID: 4215
+Date: 13.09.2015
+Waypoint: m/QQ/204
+Title: Motel zur befahrenen Straße
+----
+ID: 4216
+Date: 13.09.2015
+Waypoint: m/RonBanjo/343
+Title: Quick Deploy By RonBanjo
+----
+ID: 4217
+Date: 13.09.2015
+Waypoint: m/MV1/675
+Title: MV675 Fährgasse
+----
+ID: 4218
+Date: 13.09.2015
+Waypoint: m/lutschfruchtbonbon/18
+Title: Collegium Albertinum
+----
+ID: 4219
+Date: 13.09.2015
+Waypoint: m/JOJEVA/460
+Title: BN-City-Munzee # 473
+----
+ID: 4220
+Date: 13.09.2015
+Waypoint: m/Avalanche74/324
+Title: Avalanche74 grüßt Bonn
+----
+ID: 4221
+Date: 13.09.2015
+Waypoint: m/ajlis/2771
+Title: Quick Deploy By ajlis
+----
+ID: 4222
+Date: 13.09.2015
+Waypoint: m/ajlis/2798
+Title: Quick Deploy By ajlis
+----
+ID: 4223
+Date: 13.09.2015
+Waypoint: m/ajlis/2584
+Title: Quick Deploy By ajlis
+----
+ID: 4224
+Date: 13.09.2015
+Waypoint: m/ajlis/2770
+Title: Quick Deploy By ajlis
+----
+ID: 4225
+Date: 13.09.2015
+Waypoint: m/ajlis/2797
+Title: Quick Deploy By ajlis
+----
+ID: 4226
+Date: 13.09.2015
+Waypoint: m/Christian68/1997
+Title: MVM -Vater Rhein 🚢 🚢 🚢 🚢 🚢 🚢 ?
+Points: 15
+----
+ID: 4227
+Date: 13.09.2015
+Waypoint: m/JOJEVA/445
+Title: BN-City-Munzee # 458
+----
+ID: 4228
+Date: 13.09.2015
+Waypoint: m/Christian68/2051
+Title: VM - Vater Rhein 🚤🚤
+----
+ID: 4229
+Date: 13.09.2015
+Waypoint: m/Christian68/1996
+Title: VM - Vater Rhein 🚤
+----
+ID: 4230
+Date: 13.09.2015
+Waypoint: m/ajlis/2590
+Title: Blau am Rhein 1
+Points: 30
+----
+ID: 4231
+Date: 13.09.2015
+Waypoint: m/Christian68/1995
+Title: MVM -Vater Rhein 🚢 🚢 🚢 🚢 🚢 🚢
+----
+ID: 4232
+Date: 13.09.2015
+Waypoint: m/Waldkauz/27
+Title: Motel - BN-City # 208 Room #1
+----
+ID: 4233
+Date: 13.09.2015
+Waypoint: m/ajlis/1712
+Title: Motel - BN-City # 208 Room #2
+----
+ID: 4234
+Date: 13.09.2015
+Waypoint: m/atpandora/1
+Title: Motel - BN-City # 208 Room #3
+----
+ID: 4235
+Date: 13.09.2015
+Waypoint: m/struppis/118
+Title: Motel - BN-City # 208 Room #4
+----
+ID: 4236
+Date: 13.09.2015
+Waypoint: m/Paverick/8893
+Title: Motel - BN-City # 208 Room #5
+----
+ID: 4237
+Date: 13.09.2015
+Waypoint: m/JOJEVA/195
+Title: Motel - BN-City # 208
+----
+ID: 4238
+Date: 13.09.2015
+Waypoint: m/ajlis/2591
+Title: Blau am Rhein 2
+Points: 20
+----
+ID: 4239
+Date: 13.09.2015
+Waypoint: m/Christian68/1974
+Title: MVM - Vater Rhein 🚢🚢🚢🚢🚢
+Points: 10
+----
+ID: 4240
+Date: 13.09.2015
+Waypoint: m/Christian68/1841
+Title: MVM - Vater Rhein 🚢🚢🚢🚢
+Points: 35
+----
+ID: 4241
+Date: 13.09.2015
+Waypoint: m/ajlis/2592
+Title: Blau am Rhein 3
+Points: 35
+----
+ID: 4242
+Date: 13.09.2015
+Waypoint: m/JOJEVA/193
+Title: BN-City-Munzee # 206
+----
+ID: 4243
+Date: 13.09.2015
+Waypoint: m/Christian68/1842
+Title: MVM - Vater Rhein 🚢🚢🚢
+Points: 15
+----
+ID: 4244
+Date: 13.09.2015
+Waypoint: m/ajlis/2595
+Title: Quick Deploy By ajlis
+Points: 30
+----
+ID: 4245
+Date: 13.09.2015
+Waypoint: m/FelisCatus/30
+Title: July, 26th
+----
+ID: 4246
+Date: 13.09.2015
+Waypoint: m/c-bn/2282
+Title: Bonn, Altes Rathaus
+Points: 10
+----
+ID: 4247
+Date: 13.09.2015
+Waypoint: m/Christian68/1948
+Title: BN Virtual Munzee Marktplatz
+----
+ID: 4248
+Date: 13.09.2015
+Waypoint: m/ajlis/1533
+Title: Ajlis - MVM City 5
+Points: 50
+----
+ID: 4249
+Date: 13.09.2015
+Waypoint: m/MV1/4186
+Title: MVirtual Marktbrunnen
+----
+ID: 4250
+Date: 13.09.2015
+Waypoint: m/MV1/4190
+Title: MVirtual Remigiusplatz
+----
+ID: 4251
+Date: 13.09.2015
+Waypoint: m/Bitbuster/931
+Title: Bonn
+----
 ID: p20150923
 Date: 23.09.2015
 Waypoint: OC125A1 GC633VH
@@ -23918,6 +24229,8 @@ Date: 25.09.2015
 Waypoint: GC61MDA
 Title: Geocacher in der Baracke 6
 Tag: D1 T1 Event
+
+Meuh! Ist auch Rheinisches Buffet bei Nolden…
 ----
 ID: p20151010
 Date: 10.10.2015
