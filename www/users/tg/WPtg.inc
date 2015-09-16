@@ -24218,6 +24218,72 @@ Date: 13.09.2015
 Waypoint: m/Bitbuster/931
 Title: Bonn
 ----
+ID: 4252
+Date: 14.09.2015
+Waypoint: m/mirabilos/63
+Title: Bahnübergang des Grauens
+nTF: 0
+----
+ID: 4253
+Date: 14.09.2015
+Waypoint: m/mirabilos/62
+Title: Mein erstes Munzee-Event, aber…
+nTF: 0
+----
+ID: 4254
+Date: 14.09.2015
+Waypoint: m/mirabilos/64
+Title: Linuxhotel Essen
+nTF: 0
+----
+ID: 4255
+Date: 14.09.2015
+Waypoint: m/mirabilos/85
+Title: Bäckerei &amp; Restaurant Keban „Hinterhoftürke“
+nTF: 0
+----
+ID: 4256
+Date: 14.09.2015
+Waypoint: m/mirabilos/86
+Title: Winzerstraße
+nTF: 0
+----
+ID: 4257
+Date: 14.09.2015
+Waypoint: m/Ramor/1
+Title: Social Munzee
+Points: 0
+----
+ID: 4258
+Date: 15.09.2015
+Waypoint: m/DarthGarbage/93
+Title: The Amazing Spider-Man
+Points: 0
+----
+ID: 4259
+Date: 15.09.2015
+Waypoint: m/mirabilos/87
+Title: Saarbrückener Straße; Auerberg NICHT Buschdorf
+nTF: 0
+----
+ID: 4260
+Date: 15.09.2015
+Waypoint: m/zeusi/6333
+Title: Generic Name
+Points: 35
+----
+ID: 4261
+Date: 16.09.2015
+Waypoint: CC158O
+Title: The Transmitting Tower
+Tag: Locationless Challenge
+----
+ID: 4262
+Date: 16.09.2015
+Waypoint: m/Annika/1004
+Title: Annikas Social 2k14
+Points: 0
+----
 ID: p20150923
 Date: 23.09.2015
 Waypoint: OC125A1 GC633VH
