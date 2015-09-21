@@ -13002,7 +13002,7 @@ Date: 03.05.2015
 Waypoint: OC11F2D
 Title: erstes Reuterkreuz
 nTF: 0
-Tag: D2 T1 Virtual
+Tag: D4 T1 Virtual
 ----
 ID: 2228
 Date: 06.05.2015
@@ -24283,6 +24283,556 @@ Date: 16.09.2015
 Waypoint: m/Annika/1004
 Title: Annikas Social 2k14
 Points: 0
+----
+ID: 4263
+Date: 17.09.2015
+Waypoint: m/Geotosserne/4
+Title: Geotossernes Social Munzee
+Points: 0
+----
+ID: 4264
+Date: 18.09.2015
+Waypoint: m/seal/549
+Title: Bonn-Baumschulallee
+----
+ID: 4265
+Date: 18.09.2015
+Waypoint: m/ajlis/203
+Title: Meckenheimer Allee, Bonn
+----
+ID: 4266
+Date: 18.09.2015
+Waypoint: m/c-bn/114
+Title: gelbe Klappe 📫 006 - Bonn, Meckenheimer Allee
+----
+ID: 4267
+Date: 19.09.2015
+Waypoint: m/mirabilos/89
+Title: Kölner Event für geolokationsbasierte Spiele
+nTF: 0
+----
+ID: 4268
+Date: 19.09.2015
+Waypoint: m/mirabilos/88
+Title: Bad Godesberg Bf.
+nTF: 0
+----
+ID: 4269
+Date: 19.09.2015
+Waypoint: m/Baumhoernchen/145
+Title: Generic Name
+Points: 35
+----
+ID: 4270
+Date: 19.09.2015
+Waypoint: m/Wyando/2722
+Title: Bonn ## Waffe (Buschdorf) {2722}
+----
+ID: 4271
+Date: 19.09.2015
+Waypoint: m/zeusi/6334
+Title: Generic Name
+Points: 40
+----
+ID: 4272
+Date: 19.09.2015
+Waypoint: m/Baumhoernchen/146
+Title: Generic Name
+Points: 35
+----
+ID: 4273
+Date: 19.09.2015
+Waypoint: m/zeusi/6335
+Title: Generic Name
+----
+ID: 4274
+Date: 19.09.2015
+Waypoint: m/Baumhoernchen/147
+Title: Generic Name
+Points: 30
+----
+ID: 4275
+Date: 19.09.2015
+Waypoint: m/JOJEVA/1315
+Title: Bonn, Saarbrückener Str. 5020 MOTEL Room #1
+----
+ID: 4276
+Date: 19.09.2015
+Waypoint: m/Waldkauz/97
+Title: Bonn, Saarbrückener Str. 5020 MOTEL Room #2
+----
+ID: 4277
+Date: 19.09.2015
+Waypoint: m/winkide/6200
+Title: Bonn, Saarbrückener Str. 5020 MOTEL Room #3
+----
+ID: 4278
+Date: 19.09.2015
+Waypoint: m/zeusi/6336
+Title: Bonn, Saarbrückener Str. 5020 MOTEL Room #4
+----
+ID: 4279
+Date: 19.09.2015
+Waypoint: m/Baumhoernchen/148
+Title: Bonn, Saarbrückener Str. 5020 MOTEL Room #5
+----
+ID: 4280
+Date: 19.09.2015
+Waypoint: m/c-bn/5020
+Title: Bonn, Saarbrückener Str. 5020 MOTEL
+----
+ID: 4281
+Date: 19.09.2015
+Waypoint: m/zeusi/6306
+Title: Virtual Munzee Buschdorf 2
+----
+ID: 4282
+Date: 19.09.2015
+Waypoint: m/Baumhoernchen/2
+Title: Virtual Munzee Buschdorf 2
+----
+ID: 4283
+Date: 19.09.2015
+Waypoint: m/Baumhoernchen/3
+Title: Virtual Munzee Buschdorf 3
+----
+ID: 4284
+Date: 19.09.2015
+Waypoint: m/Kuhmulus/2102
+Title: Freaky Weapons - Stromkasten
+Points: 12
+----
+ID: 4285
+Date: 19.09.2015
+Waypoint: m/Wyando/3625
+Title: 02. Wyando Public Social
+Points: 0
+----
+ID: 4286
+Date: 19.09.2015
+Waypoint: m/Wyando/2731
+Title: Bonn ## Waffe (Buschdorf) {2731}
+Points: 13
+----
+ID: 4287
+Date: 19.09.2015
+Waypoint: m/zeusi/6337
+Title: Generic Name
+Points: 25
+----
+ID: 4288
+Date: 19.09.2015
+Waypoint: m/MV1/4984
+Title: MV1 Blauer Tilsiter
+Points: 10
+----
+ID: 4289
+Date: 19.09.2015
+Waypoint: m/c-bn/5178
+Title: Bonn, Tilsiter Str. 5178 💎
+Points: 10
+----
+ID: 4290
+Date: 19.09.2015
+Waypoint: m/zeusi/2595
+Title: Munzee Power 1203
+Points: 7
+----
+ID: 4291
+Date: 19.09.2015
+Waypoint: m/MV1/1036
+Title: MV1036 Diamond Auerberg
+Points: 13
+----
+ID: 4292
+Date: 19.09.2015
+Waypoint: m/c-bn/5177
+Title: Bonn, Tilsiter Str. 5177 💎
+Points: 6
+----
+ID: 4293
+Date: 19.09.2015
+Waypoint: m/Baumhoernchen/191
+Title: Generic Name
+Points: 10
+----
+ID: 4294
+Date: 19.09.2015
+Waypoint: m/zeusi/3483
+Title: Spielplatz für esci
+----
+ID: 4295
+Date: 19.09.2015
+Waypoint: m/Tamarisk/589
+Title: Bonn # Diamant (Buschdorf) (589)
+Points: 14
+----
+ID: 4296
+Date: 19.09.2015
+Waypoint: m/ReMiKu/8833
+Title: Mystery Auerberg (8833)
+Points: 35
+----
+ID: 4297
+Date: 19.09.2015
+Waypoint: m/Baumhoernchen/192
+Title: Generic Name
+Points: 25
+----
+ID: 4298
+Date: 19.09.2015
+Waypoint: m/zeusi/3380
+Title: Munzee Power 18
+Points: 12
+----
+ID: 4299
+Date: 19.09.2015
+Waypoint: m/Baumhoernchen/193
+Title: Generic Name
+Points: 20
+----
+ID: 4300
+Date: 19.09.2015
+Waypoint: m/MV1/1376
+Title: MV1376 Diamond Auerberg
+Points: 9
+----
+ID: 4301
+Date: 19.09.2015
+Waypoint: m/zeusi/2080
+Title: Munzee Power 693
+Points: 11
+----
+ID: 4302
+Date: 19.09.2015
+Waypoint: m/mirabilos/99
+Title: Tilsiter Straße, Auerberg (NICHT Buschdorf!)
+nTF: 0
+----
+ID: 4303
+Date: 19.09.2015
+Waypoint: m/Wyando/2682
+Title: Bonn ## Waffe (Buschdorf) {2682}
+Points: 17
+----
+ID: 4304
+Date: 19.09.2015
+Waypoint: m/ajlis/2227
+Title: Ajlis 16
+Points: 13
+----
+ID: 4305
+Date: 19.09.2015
+Waypoint: m/zeusi/3277
+Title: Munzee Power 15
+Points: 13
+----
+ID: 4306
+Date: 19.09.2015
+Waypoint: m/Tamarisk/595
+Title: Bonn ## Waffe (Buschdorf) (595)
+Points: 16
+----
+ID: 4307
+Date: 19.09.2015
+Waypoint: m/mirabilos/100
+Title: Tilsiter Straße, Auerberg (NICHT Buschdorf!)
+nTF: 0
+----
+ID: 4308
+Date: 19.09.2015
+Waypoint: m/QQ/551
+Title: Buschdorf
+Points: 50
+----
+ID: 4309
+Date: 19.09.2015
+Waypoint: m/zeusi/3173
+Title: Munzee Power 11
+Points: 6
+----
+ID: 4310
+Date: 19.09.2015
+Waypoint: m/mirabilos/96
+Title: Schwert, Auerberg (NICHT Buschdorf!)
+nTF: 0
+Points: 35
+----
+ID: 4311
+Date: 19.09.2015
+Waypoint: m/ajlis/2114
+Title: Generic Name
+Points: 15
+----
+ID: 4312
+Date: 19.09.2015
+Waypoint: m/c-bn/5132
+Title: Bonn, Flensburger Str. 5132 WAFFE
+Points: 14
+----
+ID: 4313
+Date: 19.09.2015
+Waypoint: m/QQ/180
+Title: Time for Munzee 3
+Points: 11
+----
+ID: 4314
+Date: 19.09.2015
+Waypoint: m/ajlis/1824
+Title: Ajlis 21
+Points: 12
+----
+ID: 4315
+Date: 19.09.2015
+Waypoint: m/ReMiKu/8830
+Title: Mystery Buschdorf (8830)
+Points: 45
+----
+ID: 4316
+Date: 19.09.2015
+Waypoint: m/c-bn/5133
+Title: Buschdorfer Kreisel Room #1
+----
+ID: 4317
+Date: 19.09.2015
+Waypoint: m/zeusi/6360
+Title: Buschdorfer Kreisel Room #2
+----
+ID: 4318
+Date: 19.09.2015
+Waypoint: m/Baumhoernchen/186
+Title: Buschdorfer Kreisel Room #3
+----
+ID: 4319
+Date: 19.09.2015
+Waypoint: m/Kuhmulus/2104
+Title: Buschdorfer Kreisel Room #4
+----
+ID: 4320
+Date: 19.09.2015
+Waypoint: m/MV1/4979
+Title: Buschdorfer Kreisel Room #5
+----
+ID: 4321
+Date: 19.09.2015
+Waypoint: m/ajlis/1756
+Title: Buschdorfer Kreisel
+----
+ID: 4322
+Date: 19.09.2015
+Waypoint: m/ReMiKu/8829
+Title: Mystery Buschdorf (8829)
+----
+ID: 4323
+Date: 19.09.2015
+Waypoint: m/c-bn/5134
+Title: Bonn, Eupener Str. 5134 WAFFE
+Points: 21
+----
+ID: 4324
+Date: 19.09.2015
+Waypoint: m/Wyando/2622
+Title: Bonn ## Waffe (Buschdorf) 2622
+Points: 8
+----
+ID: 4325
+Date: 19.09.2015
+Waypoint: m/Baumhoernchen/185
+Title: Generic Name
+Points: 40
+----
+ID: 4326
+Date: 19.09.2015
+Waypoint: m/Tamarisk/588
+Title: Bonn # Diamant (Buschdorf) (588)
+Points: 6
+----
+ID: 4327
+Date: 19.09.2015
+Waypoint: m/zeusi/3248
+Title: Munzee Power 11
+Points: 7
+----
+ID: 4328
+Date: 19.09.2015
+Waypoint: m/mirabilos/97
+Title: Morgenstern, Auerberg (NICHT Buschdorf!)
+nTF: 0
+Points: 25
+----
+ID: 4329
+Date: 19.09.2015
+Waypoint: m/ReMiKu/8825
+Title: Mystery Buschdorf (8825)
+Points: 30
+----
+ID: 4330
+Date: 19.09.2015
+Waypoint: m/zeusi/6327
+Title: Generic Name
+Points: 10
+----
+ID: 4331
+Date: 19.09.2015
+Waypoint: m/Baumhoernchen/138
+Title: Generic Name
+----
+ID: 4332
+Date: 19.09.2015
+Waypoint: m/zeusi/6326
+Title: Generic Name
+Points: 15
+----
+ID: 4333
+Date: 19.09.2015
+Waypoint: m/Baumhoernchen/137
+Title: Generic Name
+Points: 30
+----
+ID: 4334
+Date: 19.09.2015
+Waypoint: m/zeusi/6325
+Title: Generic Name
+Points: 35
+----
+ID: 4335
+Date: 19.09.2015
+Waypoint: m/Wyando/4087
+Title: Bonn ~ Buschdorf Blau! {4087}
+----
+ID: 4336
+Date: 19.09.2015
+Waypoint: m/Baumhoernchen/157
+Title: Generic Name
+Points: 10
+----
+ID: 4337
+Date: 19.09.2015
+Waypoint: m/ajlis/1386
+Title: Munzee from Ajlis 14
+Points: 18
+----
+ID: 4338
+Date: 19.09.2015
+Waypoint: m/ajlis/1787
+Title: Ajlis 19
+Points: 8
+----
+ID: 4339
+Date: 19.09.2015
+Waypoint: m/zeusi/3428
+Title: Munzee Power 16
+Points: 8
+----
+ID: 4340
+Date: 19.09.2015
+Waypoint: m/MV1/4980
+Title: MV Flens
+Points: 30
+----
+ID: 4341
+Date: 19.09.2015
+Waypoint: m/ajlis/1795
+Title: Ajlis 2
+Points: 11
+----
+ID: 4342
+Date: 19.09.2015
+Waypoint: m/Tamarisk/628
+Title: Bonn ~ Buschdorf Blau! (628)
+Points: 15
+----
+ID: 4343
+Date: 19.09.2015
+Waypoint: m/Wyando/2804
+Title: Bonn # Diamant (Buschdorf) {2804}
+Points: 15
+----
+ID: 4344
+Date: 19.09.2015
+Waypoint: m/c-bn/5174
+Title: Bonn, Allensteiner Str. 5174 💎
+Points: 6
+----
+ID: 4345
+Date: 19.09.2015
+Waypoint: m/Tamarisk/606
+Title: Bonn ## Waffe (Buschdorf) (608)
+Points: 8
+----
+ID: 4346
+Date: 19.09.2015
+Waypoint: m/c-bn/5175
+Title: Bonn, Allensteiner Str. 5175 💎
+Points: 6
+----
+ID: 4347
+Date: 19.09.2015
+Waypoint: m/Wyando/2833
+Title: Bonn ## Waffe (Buschdorf) {2833}
+Points: 15
+----
+ID: 4348
+Date: 19.09.2015
+Waypoint: m/mirabilos/101
+Title: Lohrbergstraße
+nTF: 0
+----
+ID: 4349
+Date: 19.09.2015
+Waypoint: m/mirabilos/95
+Title: Hotel „Wattwanderung am AKoberg“
+nTF: 0
+Points: 35
+----
+ID: 4350
+Date: 19.09.2015
+Waypoint: m/mirabilos/98
+Title: Godesberger ......bach
+nTF: 0
+----
+ID: 4351
+Date: 20.09.2015
+Waypoint: m/ajlis/317
+Title: Argelanderstraße, Bonn
+----
+ID: 4352
+Date: 21.09.2015
+Waypoint: m/thickbert/1
+Title: Ups, meiner?
+nTF: 1
+
+Ja, „ups“… grml…
+----
+ID: 4353
+Date: 21.09.2015
+Waypoint: m/c-bn/2277
+Title: Bonn, Am Burgweiher 2
+----
+ID: 4354
+Date: 21.09.2015
+Waypoint: m/JOJEVA/387
+Title: Duisdorf-Munzee # 400
+----
+ID: 4355
+Date: 21.09.2015
+Waypoint: m/c-bn/2314
+Title: Bonn, Am Burgweiher
+----
+ID: 4356
+Date: 21.09.2015
+Waypoint: m/JOJEVA/323
+Title: Munzee # 336
+----
+ID: 4357
+Date: 21.09.2015
+Waypoint: m/zeusi/2117
+Title: Munzee Power 730
+----
+ID: 4358
+Date: 21.09.2015
+Waypoint: m/zeusi/2062
+Title: Munzee Power 675
 ----
 ID: p20150923
 Date: 23.09.2015
