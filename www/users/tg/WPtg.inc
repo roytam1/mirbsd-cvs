@@ -24834,11 +24834,75 @@ Date: 21.09.2015
 Waypoint: m/zeusi/2062
 Title: Munzee Power 675
 ----
-ID: p20150923
+ID: 4359
+Date: 22.09.2015
+Waypoint: m/zeusi/2125
+Title: Munzee Power 738
+----
+ID: 4360
+Date: 22.09.2015
+Waypoint: CC9MBV
+Title: Oh No! Faro!
+Tag: Locationless Challenge
+----
+ID: 4361
+Date: 22.09.2015
+Waypoint: CC6VC6
+Title: Doctoring The Tardis
+Tag: Locationless Challenge
+----
+ID: 4362
 Date: 23.09.2015
 Waypoint: OC125A1 GC633VH
 Title: Herbstanfang – mit Eis
+nTF: 0
 Tag: D15 T15 Event
+----
+ID: 4363
+Date: 23.09.2015
+Waypoint: m/JOJEVA/635
+Title: Mehlem - Munzee # 648
+----
+ID: 4364
+Date: 23.09.2015
+Waypoint: m/ReMiKu/867
+Title: Walk the Rhine - 027
+----
+ID: 4365
+Date: 23.09.2015
+Waypoint: m/c-bn/4948
+Title: Bonn, Rheinufer 4948
+----
+ID: 4366
+Date: 23.09.2015
+Waypoint: m/ReMiKu/868
+Title: Walk the Rhine - 026
+----
+ID: 4367
+Date: 23.09.2015
+Waypoint: m/Airwolf26/2028
+Title: Bonn - Nibelungenstraße
+----
+ID: 4368
+Date: 23.09.2015
+Waypoint: m/Airwolf26/2074
+Title: Bonn - Rheinufer
+----
+ID: 4369
+Date: 23.09.2015
+Waypoint: m/ReMiKu/864
+Title: ** Walk the Rhine - 030 (0864)
+----
+ID: 4370
+Date: 23.09.2015
+Waypoint: m/JOJEVA/636
+Title: Mace - Mehlem # 649
+Points: 6
+----
+ID: 4371
+Date: 23.09.2015
+Waypoint: m/c-bn/4949
+Title: Bonn, Rheinufer 4949
 ----
 ID: p20150925
 Date: 25.09.2015
