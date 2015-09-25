@@ -20,8 +20,24 @@
 # of said person’s immediate fault when using the work as intended.
 
 user=mirabilos
+set -A wheres -- \
+    5/capturedeploy \
+    10/munzee \
+    15/munzee-special \
+    20/mhq-visit \
+    25/meet-greet \
+    30/leaderboard \
+    35/clan \
+    40/social \
+    45/hotelmotel \
+    50/rover \
+    55/eventzee \
+    60/event-host \
+    65/event \
 
-ftp -4 -o - https://www.munzee.com/m/$user/badges/ | \
+for where in "${wheres[@]}"; do
+	ftp -4 -o - https://www.munzee.com/m/$user/badges/$where
+done | \
     sed $'s/<li/\\\n/g' | \
     perl -ne 'print "$3|$1|$2\n" if ($_ =~ m,^.*class="badge-helper"[^>]*data-title="([^"]*)".*<p class=.badge-desc.>([^<]*)</p>.*src="https://munzee.global.ssl.fastly.net/images/new_badges/small/([^"]*).png".*$,);' | \
     while IFS=\| read -r image title desc; do
