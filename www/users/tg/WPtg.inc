@@ -24904,19 +24904,269 @@ Date: 23.09.2015
 Waypoint: m/c-bn/4949
 Title: Bonn, Rheinufer 4949
 ----
-ID: p20150925
+ID: 4372
+Date: 24.09.2015
+Waypoint: m/ReMiKu/8832
+Title: Mystery Auerberg (8832)
+Points: 20
+----
+ID: 4373
+Date: 24.09.2015
+Waypoint: m/Christian68/2029
+Title: Laterne 1
+----
+ID: 4374
+Date: 24.09.2015
+Waypoint: m/c-bn/5597
+Title: Bonn, Osloer Straße 5597
+----
+ID: 4375
+Date: 24.09.2015
+Waypoint: m/BaDo/2204
+Title: H
+----
+ID: 4376
+Date: 24.09.2015
+Waypoint: m/c-bn/5595
+Title: Bonn, Kopenhagener Straße 5595
+----
+ID: 4377
+Date: 24.09.2015
+Waypoint: m/Christian68/2030
+Title: Laterne 25
+----
+ID: 4378
+Date: 24.09.2015
+Waypoint: m/c-bn/5594
+Title: Bonn, Kopenhagener Straße 5594
+----
+ID: 4379
+Date: 24.09.2015
+Waypoint: m/MV1/2630
+Title: MV2631 BN
+Points: 11
+----
+ID: 4380
+Date: 24.09.2015
+Waypoint: m/remstaler/3703
+Title: Müllestumpe
+----
+ID: 4381
+Date: 24.09.2015
+Waypoint: m/Mieze/2937
+Title: Múllestumpe
+Points: 6
+----
+ID: 4382
+Date: 24.09.2015
+Waypoint: m/Christian68/2031
+Title: Laterne 12
+----
+ID: 4383
+Date: 24.09.2015
+Waypoint: m/MV1/422
+Title: MV422 TV Rheindorf
+----
+ID: 4384
+Date: 24.09.2015
+Waypoint: m/ReMiKu/8826
+Title: Buschdorf (8826)
+----
+ID: 4385
+Date: 24.09.2015
+Waypoint: m/zeusi/3389
+Title: Munzee Power 2
+Points: 12
+----
+ID: 4386
+Date: 25.09.2015
+Waypoint: m/ReMiKu/888
+Title: Walk the Rhine - 006
+----
+ID: 4387
+Date: 25.09.2015
+Waypoint: m/JOJEVA/131
+Title: Mehlem - Munzee # 144
+nTF: 1
+----
+ID: 4388
+Date: 25.09.2015
+Waypoint: m/JOJEVA/615
+Title: Mehlem - Munzee # 628
+Points: 9
+----
+ID: 4389
+Date: 25.09.2015
+Waypoint: m/ReMiKu/890
+Title: Walk the Rhine - 004
+----
+ID: 4390
+Date: 25.09.2015
+Waypoint: m/JOJEVA/623
+Title: Mehlem - Munzee # 636
+nTF: 1
+----
+ID: 4391
+Date: 25.09.2015
+Waypoint: m/ReMiKu/891
+Title: Walk the Rhine - 003
+----
+ID: 4392
+Date: 25.09.2015
+Waypoint: m/ReMiKu/892
+Title: Walk the Rhine - 002
+----
+ID: 4393
+Date: 25.09.2015
+Waypoint: m/JOJEVA/123
+Title: Mehlem - Munzee # 136
+nTF: 1
+----
+ID: 4394
+Date: 25.09.2015
+Waypoint: m/ReMiKu/893
+Title: Walk the Rhine - 001
+----
+ID: 4395
+Date: 25.09.2015
+Waypoint: m/DevilsEnd/206
+Title: Devil # 213
+nTF: 1
+----
+ID: 4396
+Date: 25.09.2015
+Waypoint: m/Paverick/538
+Title: One For The Road (538)
+----
+ID: 4397
+Date: 25.09.2015
+Waypoint: m/c-bn/410
+Title: Fähre Rolandseck
+----
+ID: 4398
+Date: 25.09.2015
+Waypoint: m/Steffi78/279
+Title: Steffi&#039;s
+nTF: 1
+----
+ID: 4399
+Date: 25.09.2015
+Waypoint: m/zeusi/7645
+Title: Oberwinters first :)
+Points: 35
+----
+ID: 4400
+Date: 25.09.2015
+Waypoint: m/CADS11/11
+Title: Schwimmbad Remagen
+----
+ID: 4401
+Date: 25.09.2015
+Waypoint: m/montana/116
+Title: Freibad Remagen
+nTF: 1
+----
+ID: 4402
+Date: 25.09.2015
+Waypoint: m/montana/115
+Title: Zum Rhein
+nTF: 1
+----
+ID: 4403
+Date: 25.09.2015
+Waypoint: GC579J0
+Title: Das Blumenboot
+Tag: D15 T15 Micro Tradi
+----
+ID: 4404
 Date: 25.09.2015
 Waypoint: GC61MDA
 Title: Geocacher in der Baracke 6
 Tag: D1 T1 Event
-
-Meuh! Ist auch Rheinisches Buffet bei Nolden…
+----
+ID: 4405
+Date: 26.09.2015
+Waypoint: GC3JN4G
+Title: Kreuz mit Getöse
+Tag: D1 T1 Micro Tradi
+----
+ID: 4406
+Date: 26.09.2015
+Waypoint: GC19JF5
+Title: Gotteshäuser St. Mauritius Heimersheim
+Tag: D2 T1 Micro Tradi
+----
+ID: 4407
+Date: 26.09.2015
+Waypoint: GC1R7VM
+Title: Spielbank Bad Neuenahr
+Tag: D1 T1 Micro Tradi
+----
+ID: 4408
+Date: 26.09.2015
+Waypoint: m/CADS11/89
+Title: Bad Neuenahr Ahr 28
+----
+ID: 4409
+Date: 26.09.2015
+Waypoint: m/MV1/570
+Title: MV570 Ahr
+----
+ID: 4410
+Date: 26.09.2015
+Waypoint: m/MV1/587
+Title: MV587 Ahr
+----
+ID: 4411
+Date: 26.09.2015
+Waypoint: m/Shigoist/889
+Title: Maria Hilf
+----
+ID: 4412
+Date: 26.09.2015
+Waypoint: GC1YZFY
+Title: Maria Hilf
+Tag: D15 T15 Small Tradi
+----
+ID: 4413
+Date: 26.09.2015
+Waypoint: GC2MWM1
+Title: Willkommen in ... Bachem!
+Tag: D2 T15 Micro Tradi
+----
+ID: 4414
+Date: 26.09.2015
+Waypoint: m/QQ/614
+Title: Cap me if you can!! 4
+----
+ID: 4415
+Date: 26.09.2015
+Waypoint: m/QQ/420
+Title: Cap on! 21
+nTF: 1
+----
+ID: 4416
+Date: 26.09.2015
+Waypoint: m/QQ/419
+Title: Cap on! 20
+nTF: 1
+----
+ID: 4417
+Date: 26.09.2015
+Waypoint: m/QQ/441
+Title: Cap me if you can! 17
 ----
 ID: p20151010
 Date: 10.10.2015
 Waypoint: m/EventIndicator/56
 Title: Kölner Stammtisch V
 Tag: Event
+----
+ID: p20151012
+Date: 12.10.2015
+Waypoint: GC63K03
+Title: Hier gibt's kein Eis?
+Tag: D1 T1 Event
 ----
 ID: p20151021
 Date: 21.10.2015
