@@ -498,7 +498,7 @@
  * The definition here can be overridden at run time by defining a
  * "LYNX_HELPFILE" environment variable.
  */
-#define HELPFILE "http://lynx.isc.org/release/lynx2-8-7/lynx_help/lynx_help_main.html"
+#define HELPFILE "http://lynx.invisible-island.net/lynx_help/lynx_help_main.html"
 /* #define HELPFILE "file://localhost/PATH_TO/lynx_help/lynx_help_main.html" */
 
 /*****************************
@@ -1436,8 +1436,8 @@
 #ifndef LYNX_VERSION
 #define LYNX_VERSION "2.8.8dev.16"
 #endif
-#define LYNX_WWW_HOME "http://lynx.isc.org/"
-#define LYNX_WWW_DIST "http://lynx.isc.org/current/"
+#define LYNX_WWW_HOME "http://lynx.invisible-island.net/"
+#define LYNX_WWW_DIST "http://lynx.invisible-island.net/current/index.html"
 /* $Format: "#define LYNX_DATE \"$ProjectDate$\""$ */
 #define LYNX_DATE "Mon, 29 Jul 2013 14:38:35 -0700"
 #define LYNX_DATE_OFF 5		/* truncate the automatically-generated date */

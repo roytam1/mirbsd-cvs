@@ -1,4 +1,4 @@
-# $MirOS: ports/www/lynx/Makefile,v 1.36 2011/06/21 17:35:52 tg Exp $
+# $MirOS: ports/www/lynx/Makefile,v 1.37 2012/03/03 18:34:15 tg Exp $
 
 COMMENT=		standard text-mode world wide web browser
 CATEGORIES=		www essentials
@@ -9,9 +9,9 @@ DISTNAME=		lynx${VSN:C/[a-z]$//}
 PATCHFILES=		lynx${VSN}.patch.gz:0
 .endif
 PKGNAME=		lynx-${VSN}-${DASH_VER}
-HOMEPAGE=		http://lynx.isc.org/
+HOMEPAGE=		http://lynx.invisible-island.net/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
-MASTER_SITES=		http://lynx.isc.org/current/
+MASTER_SITES=		http://invisible-mirror.net/archives/lynx/tarballs/
 MASTER_SITES0=		ftp://invisible-island.net/temp/
 PATCH_DIST_STRIP=	-p1
 

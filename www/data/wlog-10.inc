@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.467 2015/07/07 17:56:30 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.468 2015/09/10 19:46:26 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4567,7 +4567,7 @@ Tag: mksh news
  to include better version reporting and, for XChat, seedfile support and
  better responsibility. Now all I need to do is build more binaries and
  ports (DEB RPM OpenBSD FreeWRT etc.) of the subprojects, update <a
- href="http://lynx.isc.org/current/">Lynx</a> in base and ports (there is
+ href="http://lynx.invisible-island.net/">Lynx</a> in base and ports (there is
  a new major release out, even), update MirGRML, fix the HDD in my sparc,
  compile stuff, … you see I’m busy.</p>
 <p>Here’s a “checksum and link collection” for today’s finest:</p><ul>
@@ -7553,7 +7553,7 @@ Tag: debian grml tip
 <p>As usual, try at your own risk, bug Canonical if it breaks. It
  works with <a href="http://archiveofourown.org/">AO3</a>, Gerrit
  Code Review, and others though (interestingly enough, better in
- <a href="http://lynx.isc.org/">Lynx</a> than GUI browsers because
+ <a href="http://lynx.invisible-island.net/">Lynx</a> than GUI browsers because
  I stay logged in across Lynx sessions (and just have to confirm
  sending “my information” to the accessing site), whereas I have
  to re-login to the LLS in every GUI browser session).</p>
@@ -10586,7 +10586,7 @@ Tag: bug debian news rant security work
  href="https://bugzilla.mozilla.org/show_bug.cgi?id=994033#c20">nor do
  I</a>. (There’s also a great Twitter discussion-thingy about this
  involving Zugschlus, but I won’t link Twitter because they are not
- accessible to <a href="https://lynx.isc.org/current/">Lynx</a> users
+ accessible to <a href="http://lynx.invisible-island.net/">Lynx</a> users
  like me and other Planet Debian authors.)</p>
 <div style="font-size:90%;">
 <p>① I’ve been using GoDaddy privately for a while, paid for a wildcard
