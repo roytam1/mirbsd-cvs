@@ -25156,6 +25156,311 @@ Date: 26.09.2015
 Waypoint: m/QQ/441
 Title: Cap me if you can! 17
 ----
+ID: 4418
+Date: 27.09.2015
+Waypoint: m/Christian68/735
+Title: Stromkasten
+nTF: 1
+----
+ID: 4419
+Date: 27.09.2015
+Waypoint: m/Christian68/705
+Title: H100
+Points: 7
+----
+ID: 4420
+Date: 27.09.2015
+Waypoint: m/Baumhoernchen/250
+Title: Kopflose Mühle Inn Room #1
+----
+ID: 4421
+Date: 27.09.2015
+Waypoint: m/Schnueffelnase/133
+Title: Kopflose Mühle Inn Room #2
+----
+ID: 4422
+Date: 27.09.2015
+Waypoint: m/zeusi/6393
+Title: Kopflose Mühle Inn Room #3
+----
+ID: 4423
+Date: 27.09.2015
+Waypoint: m/ajlis/2254
+Title: Kopflose Mühle Inn Room #4
+----
+ID: 4424
+Date: 27.09.2015
+Waypoint: m/remstaler/3936
+Title: Kopflose Mühle Inn Room #5
+----
+ID: 4425
+Date: 27.09.2015
+Waypoint: m/ChaosTim/152
+Title: Kopflose Mühle Inn
+----
+ID: 4426
+Date: 27.09.2015
+Waypoint: m/c-bn/5622
+Title: Bonn, An der Josefshöhe 5622
+----
+ID: 4427
+Date: 27.09.2015
+Waypoint: m/Christian68/721
+Title: 3. Geländerpfosten
+nTF: 1
+----
+ID: 4428
+Date: 27.09.2015
+Waypoint: m/Christian68/738
+Title: Mülleimer
+----
+ID: 4429
+Date: 27.09.2015
+Waypoint: m/Christian68/743
+Title: Laterne
+----
+ID: 4430
+Date: 27.09.2015
+Waypoint: m/remstaler/3937
+Title: Motel Haus Müllestumpe Room #1
+----
+ID: 4431
+Date: 27.09.2015
+Waypoint: m/seal/877
+Title: Motel Haus Müllestumpe Room #2
+----
+ID: 4432
+Date: 27.09.2015
+Waypoint: m/Rah/170
+Title: Motel Haus Müllestumpe Room #3
+----
+ID: 4433
+Date: 27.09.2015
+Waypoint: m/MV1/5053
+Title: Motel Haus Müllestumpe Room #4
+----
+ID: 4434
+Date: 27.09.2015
+Waypoint: m/Mel/232
+Title: Motel Haus Müllestumpe Room #5
+----
+ID: 4435
+Date: 27.09.2015
+Waypoint: m/Mieze/2831
+Title: Motel Haus Müllestumpe
+----
+ID: 4436
+Date: 27.09.2015
+Waypoint: m/Christian68/1949
+Title: BN
+nTF: 1
+Points: 14
+----
+ID: 4437
+Date: 27.09.2015
+Waypoint: m/c-bn/5627
+Title: Bonn, Prager Straße 5627
+----
+ID: 4438
+Date: 27.09.2015
+Waypoint: m/c-bn/5626
+Title: Bonn, Prager Straße 5626
+----
+ID: 4439
+Date: 27.09.2015
+Waypoint: m/c-bn/5625
+Title: Bonn, Osloer Straße 5625
+----
+ID: 4440
+Date: 27.09.2015
+Waypoint: m/c-bn/5624
+Title: Bonn, Osloer Straße 5624
+----
+ID: 4441
+Date: 27.09.2015
+Waypoint: m/c-bn/5615
+Title: Bonn, Osloer Straße 5615
+----
+ID: 4442
+Date: 27.09.2015
+Waypoint: m/Christian68/2026
+Title: Stromkasten
+----
+ID: 4443
+Date: 27.09.2015
+Waypoint: m/c-bn/5614
+Title: Bonn, Osloer Straße 5614
+----
+ID: 4444
+Date: 27.09.2015
+Waypoint: m/Christian68/2027
+Title: Rettungsweg
+nTF: 1
+----
+ID: 4445
+Date: 27.09.2015
+Waypoint: m/c-bn/5613
+Title: Bonn, Osloer Straße 5613
+----
+ID: 4446
+Date: 27.09.2015
+Waypoint: m/c-bn/5607
+Title: Bonn, Osloer Straße 5607
+----
+ID: 4447
+Date: 27.09.2015
+Waypoint: m/Christian68/2028
+Title: Laterne 3
+----
+ID: 4448
+Date: 27.09.2015
+Waypoint: m/c-bn/5602
+Title: Bonn, Osloer Straße 5602
+----
+ID: 4449
+Date: 27.09.2015
+Waypoint: m/MV1/4983
+Title: MV Kopenhagen blau
+Points: 40
+----
+ID: 4450
+Date: 27.09.2015
+Waypoint: m/MV1/1131
+Title: MV1131 Diamond Auerberg
+Points: 13
+----
+ID: 4451
+Date: 27.09.2015
+Waypoint: m/Wyando/2692
+Title: Bonn # Diamant (Buschdorf) {2692}
+Points: 15
+----
+ID: 4452
+Date: 27.09.2015
+Waypoint: m/ReMiKu/8834
+Title: Mystery Auerberg (8834)
+Points: 45
+----
+ID: 4453
+Date: 27.09.2015
+Waypoint: m/ajlis/2115
+Title: Generic Name
+Points: 35
+----
+ID: 4454
+Date: 27.09.2015
+Waypoint: m/zeusi/6340
+Title: Generic Name
+----
+ID: 4455
+Date: 27.09.2015
+Waypoint: m/c-bn/5603
+Title: Bonn, Pariser Straße 5603
+----
+ID: 4456
+Date: 27.09.2015
+Waypoint: m/c-bn/5593
+Title: Bonn, Pariser Straße 5593
+----
+ID: 4457
+Date: 27.09.2015
+Waypoint: m/wolche/27
+Title: Bonn 3
+Points: 50
+----
+ID: 4458
+Date: 27.09.2015
+Waypoint: m/kimdot/1
+Title: Hello from Florida #1
+----
+ID: 4459
+Date: 27.09.2015
+Waypoint: m/Crab/185
+Title: Crab&#039;s Bonn Virt
+----
+ID: 4460
+Date: 27.09.2015
+Waypoint: m/SteppenwolfBonn/1
+Title: Steppenwolf - business munzee
+Points: 1
+----
+ID: 4461
+Date: 27.09.2015
+Waypoint: m/Christian68/152
+Title: Jesuitenkirche
+----
+ID: 4462
+Date: 28.09.2015
+Waypoint: m/McRon/4278
+Title: McRon&#039;s 500 Days of Munzee
+Points: 0
+----
+ID: 4463
+Date: 28.09.2015
+Waypoint: m/McRon/4465
+Title: HaSi &amp; Pumti 23.05.2014
+Points: 0
+----
+ID: 4464
+Date: 28.09.2015
+Waypoint: m/McRon/4038
+Title: A full set of badges
+Points: 0
+----
+ID: 4465
+Date: 28.09.2015
+Waypoint: m/McRon/4103
+Title: another complete collection
+Points: 0
+----
+ID: 4466
+Date: 28.09.2015
+Waypoint: m/McRon/3843
+Title: McRon&#039;s Social Munzee Year 2
+Points: 0
+----
+ID: 4467
+Date: 28.09.2015
+Waypoint: m/McRon/4068
+Title: A Second Full Set of Badges
+Points: 0
+----
+ID: 4468
+Date: 28.09.2015
+Waypoint: m/McRon/4859
+Title: McRon&#039;s 1st Million Points
+Points: 0
+----
+ID: 4469
+Date: 28.09.2015
+Waypoint: m/McRon/5555
+Title: McRon&#039;s is a Social Queen
+Points: 0
+----
+ID: 4470
+Date: 29.09.2015
+Waypoint: GC3HP7B
+Title: Versteckte Pfade
+Tag: D2 T3 Micro Tradi
+----
+ID: 4471
+Date: 29.09.2015
+Waypoint: m/ReMiKu/8828
+Title: Mystery Buschdorf (8828)
+Points: 10
+----
+ID: 4472
+Date: 29.09.2015
+Waypoint: m/teamkiwii/898
+Title: MVM@Bonn
+Points: 15
+----
+ID: 4473
+Date: 29.09.2015
+Waypoint: m/ajlis/2123
+Title: Generic Name
+Points: 20
+----
 ID: p20151010
 Date: 10.10.2015
 Waypoint: m/EventIndicator/56
