@@ -349,8 +349,8 @@ install-doc : $(DOCDIR) $(HELPDIR)
 FIX_SED = tr '=' '"'
 
 LYNX_URL='http://lynx.invisible-island.net/lynx2.8.7'
-LYNXDOCS_URL='$(LYNX_URL)/docs/'
-LYNXHELP_URL='$(LYNX_URL)/lynx_help/'
+LYNXDOCS_URL='http://lynx.isc.org/release/lynx2-8-7/docs/'	#XXX
+LYNXHELP_URL='http://lynx.invisible-island.net/lynx_help/'
 
 @LYNXCFG_MAKE@$(CFG2HTML) :
 @LYNXCFG_MAKE@	@echo 'Making htmlized lynx.cfg'
