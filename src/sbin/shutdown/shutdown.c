@@ -2,8 +2,8 @@
 /*	$NetBSD: shutdown.c,v 1.9 1995/03/18 15:01:09 cgd Exp $	*/
 
 /*
- * Copyright © 2013, 2014
- *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+ * Copyright © 2013, 2014, 2015
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1988, 1990, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -297,6 +297,9 @@ timewarn(int timeleft)
 	if (!first++)
 		(void)gethostname(hostname, sizeof(hostname));
 
+	/* wall as non-root */
+	seteuid(getuid());
+
 	/* undoc -n option to wall suppresses normal wall banner */
 	(void)snprintf(wcmd, sizeof(wcmd), "%s -n", _PATH_WALL);
 	environ = restricted_environ;
@@ -334,6 +337,9 @@ timewarn(int timeleft)
 		(void)alarm((u_int)0);
 		(void)signal(SIGALRM, SIG_DFL);
 	}
+
+	/* return to being superuser */
+	seteuid(0);
 }
 
 void
@@ -345,6 +351,8 @@ timeout(int signo __attribute__((__unused__)))
 void
 die_you_gravy_sucking_pig_dog(void)
 {
+	/* call halt(8) as superuser, not suid-root */
+	setuid(0);
 
 	syslog(LOG_NOTICE, "%s by %s: %s",
 	    doreboot ? "reboot" : dohalt ? "halt" : "shutdown", whom, mbuf);
@@ -412,7 +420,7 @@ die_you_gravy_sucking_pig_dog(void)
 			t.c_oflag |= (ONLCR | OPOST);
 			tcsetattr(0, TCSANOW, &t);
 
-			execl(_PATH_BSHELL, "sh", "-p", _PATH_RC, "shutdown", (char *)NULL);
+			execl(_PATH_BSHELL, "sh", _PATH_RC, "shutdown", (char *)NULL);
 			_exit(1);
 		default:
 			waitpid(pid, NULL, 0);
