@@ -2,8 +2,8 @@
 /*	$NetBSD: reboot.c,v 1.8 1995/10/05 05:36:22 mycroft Exp $	*/
 
 /*
- * Copyright (c) 2011, 2014
- *	Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2011, 2014, 2015
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1980, 1986, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -204,7 +204,7 @@ main(int argc, char *argv[])
 			break;
 		case 0:
 			pull_console(true);
-			execl(_PATH_BSHELL, "sh", "-p", _PATH_RUNCOM, "shutdown", (char *)NULL);
+			execl(_PATH_BSHELL, "sh", _PATH_RUNCOM, "shutdown", (char *)NULL);
 			_exit(1);
 		default:
 			waitpid(pid, NULL, 0);
