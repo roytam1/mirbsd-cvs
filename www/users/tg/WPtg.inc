@@ -25461,6 +25461,274 @@ Waypoint: m/ajlis/2123
 Title: Generic Name
 Points: 20
 ----
+ID: 4474
+Date: 30.09.2015
+Waypoint: m/c-bn/2171
+Title: Aktion &quot;Karte dunkelblau&quot; 032
+Points: 20
+----
+ID: 4475
+Date: 01.10.2015
+Waypoint: m/CaptainKidd/1601
+Title: Captain Kidd - Social Munzee
+Points: 0
+----
+ID: 4476
+Date: 02.10.2015
+Waypoint: m/zeusi/1569
+Title: Munzee Power 247
+Points: 6
+----
+ID: 4477
+Date: 04.10.2015
+Waypoint: m/Waldkauz/17
+Title: Ruby - Munzee # 9
+Points: 7
+----
+ID: 4478
+Date: 04.10.2015
+Waypoint: m/JOJEVA/1497
+Title: Auerberg - Axe
+Points: 7
+----
+ID: 4479
+Date: 04.10.2015
+Waypoint: m/Waldkauz/645
+Title: - Ruby
+Points: 8
+----
+ID: 4480
+Date: 04.10.2015
+Waypoint: m/JOJEVA/1427
+Title: Auerberg - Axe
+Points: 22
+----
+ID: 4481
+Date: 04.10.2015
+Waypoint: m/Waldkauz/632
+Title: - Ruby
+----
+ID: 4482
+Date: 04.10.2015
+Waypoint: m/c-bn/7066
+Title: Bonn, An der Josefshöhe 7066 WAFFE
+Points: 13
+----
+ID: 4483
+Date: 04.10.2015
+Waypoint: m/JOJEVA/1500
+Title: Auerberg -Longsword
+Points: 11
+----
+ID: 4484
+Date: 04.10.2015
+Waypoint: m/Waldkauz/634
+Title: - Ruby
+Points: 28
+----
+ID: 4485
+Date: 04.10.2015
+Waypoint: m/c-bn/7065
+Title: Bonn, An der Josefshöhe 7065 WAFFE
+Points: 10
+----
+ID: 4486
+Date: 04.10.2015
+Waypoint: m/JOJEVA/1418
+Title: Auerberg - Longsword
+Points: 21
+----
+ID: 4487
+Date: 04.10.2015
+Waypoint: m/Waldkauz/660
+Title: - Ruby
+Points: 15
+----
+ID: 4488
+Date: 04.10.2015
+Waypoint: m/c-bn/7067
+Title: Bonn, An der Josefshöhe 7067 AXT
+Points: 21
+----
+ID: 4489
+Date: 04.10.2015
+Waypoint: m/koebes/297
+Title: Hotel Room #1
+----
+ID: 4490
+Date: 04.10.2015
+Waypoint: m/winkide/9433
+Title: [c-bn] Bonn, Josephinum 7064 HOTEL Room #2
+----
+ID: 4491
+Date: 04.10.2015
+Waypoint: m/Steffi78/372
+Title: [c-bn] Bonn, Josephinum 7064 HOTEL Room #3
+----
+ID: 4492
+Date: 04.10.2015
+Waypoint: m/QQ/566
+Title: [c-bn] Bonn, Josephinum 7064 HOTEL Room #4
+----
+ID: 4493
+Date: 04.10.2015
+Waypoint: m/feylino/3064
+Title: [c-bn] Bonn, Josephinum 7064 HOTEL Room #5
+----
+ID: 4494
+Date: 04.10.2015
+Waypoint: m/hugosoft/3399
+Title: [c-bn] Bonn, Josephinum 7064 HOTEL Room #6
+----
+ID: 4495
+Date: 04.10.2015
+Waypoint: m/charlino/235
+Title: [c-bn] Bonn, Josephinum 7064 HOTEL Room #7
+----
+ID: 4496
+Date: 04.10.2015
+Waypoint: m/supersilli/595
+Title: [c-bn] Bonn, Josephinum 7064 HOTEL Room #8
+----
+ID: 4497
+Date: 04.10.2015
+Waypoint: m/ReMiKu/11896
+Title: [c-bn] Bonn, Josephinum 7064 HOTEL Room #9
+----
+ID: 4498
+Date: 04.10.2015
+Waypoint: m/Colonius/2160
+Title: [c-bn] Bonn, Josephinum 7064 HOTEL Room #10
+----
+ID: 4499
+Date: 04.10.2015
+Waypoint: m/c-bn/7064
+Title: [c-bn] Bonn, Josephinum 7064 HOTEL
+Points: 10
+----
+ID: 4500
+Date: 04.10.2015
+Waypoint: m/JOJEVA/1571
+Title: Auerberg - Mace
+Points: 15
+----
+ID: 4501
+Date: 04.10.2015
+Waypoint: m/Waldkauz/639
+Title: - Ruby
+Points: 17
+----
+ID: 4502
+Date: 04.10.2015
+Waypoint: m/JOJEVA/1923
+Title: Auerberg - Mace
+Points: 15
+----
+ID: 4503
+Date: 04.10.2015
+Waypoint: m/Waldkauz/164
+Title: Ruby - Munzee # 1
+Points: 16
+----
+ID: 4504
+Date: 04.10.2015
+Waypoint: m/Waldkauz/630
+Title: - Diamond
+Points: 8
+----
+ID: 4505
+Date: 04.10.2015
+Waypoint: m/JOJEVA/1924
+Title: Auerberg - Mace
+Points: 6
+----
+ID: 4506
+Date: 04.10.2015
+Waypoint: m/Waldkauz/647
+Title: - Ruby
+Points: 20
+----
+ID: 4507
+Date: 04.10.2015
+Waypoint: m/JOJEVA/1463
+Title: Auerberg - Mace
+Points: 13
+----
+ID: 4508
+Date: 04.10.2015
+Waypoint: m/Waldkauz/664
+Title: - Diamond
+Points: 10
+----
+ID: 4509
+Date: 04.10.2015
+Waypoint: m/JOJEVA/1423
+Title: Auerberg - Axe
+Points: 35
+----
+ID: 4510
+Date: 04.10.2015
+Waypoint: m/Waldkauz/633
+Title: - Ruby
+Points: 12
+----
+ID: 4511
+Date: 04.10.2015
+Waypoint: m/JOJEVA/1557
+Title: Auerberg - Longsword
+Points: 9
+----
+ID: 4512
+Date: 04.10.2015
+Waypoint: m/c-bn/7068
+Title: Bonn, Am Josephinum 7068 AXT
+Points: 28
+----
+ID: 4513
+Date: 04.10.2015
+Waypoint: m/c-bn/7069
+Title: Bonn, Friedrich-Wöhler-Str. 7069 💎
+Points: 11
+----
+ID: 4514
+Date: 04.10.2015
+Waypoint: m/CrazyLadyLisa/1861
+Title: Mystery Virtual - Bonn A555
+Points: 10
+----
+ID: 4515
+Date: 04.10.2015
+Waypoint: m/struppis/132
+Title: struppis #41
+----
+ID: 4516
+Date: 04.10.2015
+Waypoint: m/Christian68/668
+Title: MVM 555
+Points: 25
+----
+ID: 4517
+Date: 04.10.2015
+Waypoint: m/Christian68/377
+Title: VM 555
+----
+ID: 4518
+Date: 04.10.2015
+Waypoint: m/c-bn/3825
+Title: A555 🚗 MVM 3825
+----
+ID: 4519
+Date: 04.10.2015
+Waypoint: m/struppis/99
+Title: struppis #60
+Points: 10
+----
+ID: 4520
+Date: 04.10.2015
+Waypoint: m/Waldkauz/161
+Title: Ruby - Munzee # 23
+Points: 26
+----
 ID: p20151010
 Date: 10.10.2015
 Waypoint: m/EventIndicator/56
@@ -25471,6 +25739,12 @@ ID: p20151012
 Date: 12.10.2015
 Waypoint: GC63K03
 Title: Hier gibt's kein Eis?
+Tag: D1 T1 Event
+----
+ID: p20151015
+Date: 15.10.2015
+Waypoint: GC647CD
+Title: Il gelato in ottobre
 Tag: D1 T1 Event
 ----
 ID: p20151021
