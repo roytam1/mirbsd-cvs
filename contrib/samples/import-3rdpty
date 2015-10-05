@@ -1,9 +1,9 @@
 #!/bin/mksh
-# $MirOS: contrib/samples/import-3rdpty,v 1.46 2014/03/23 20:04:37 tg Exp $
+# $MirOS: contrib/samples/import-3rdpty,v 1.48 2015/06/30 08:25:27 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
 #		2012, 2014
-#	Thorsten Glaser <tg@mirbsd.org>
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -20,7 +20,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.46 2014/03/23 20:04:37 tg Exp $ ========='
+print -ru2 -- '========= $MirOS: contrib/samples/import-3rdpty,v 1.48 2015/06/30 08:25:27 tg Exp $ ========='
 
 set -A PRECMDS --
 ignlist=0
@@ -32,8 +32,8 @@ while getopts "fhnp" option; do
 	(h)	print -u2 Syntax:
 		print -u2 "\t$0 [-fnp] module tag"
 		print -u2 "\t$0 [-fnp] - path vendor tag"
-		print -u2 modules: binutils cdk cvs expat lynx openbsd openbsd/sendmail
-		print -u2 \\tpng rcs sendmail texinfo -
+		print -u2 modules: binutils cvs expat lynx openbsd openbsd/sendmail
+		print -u2 \\tpng rcs sendmail texinfo tzdata -
 		exit 0
 		;;
 	(n)	DO_CVS="print -- \$ cvs"
@@ -236,35 +236,6 @@ case $module {
 	"
 	vendor=FSF
 	vpath=src/gnu/usr.bin/binutils
-	;;
-(cdk)
-	IGNORELIST="\
-		CHANGES \
-		COPYING \
-		EXPANDING \
-		INSTALL \
-		Makefile.in \
-		NOTES \
-		README \
-		TODO \
-		VERSION \
-		aclocal.m4 \
-		cdk-4.9.11.lsm \
-		cdk.spec \
-		config.guess \
-		config.sub \
-		configure \
-		configure.in \
-		headers.sh \
-		include/cdk_version.hin \
-		include/config.hin \
-		install-sh \
-		manlinks.sed \
-		manlinks.sh \
-		mkdirs.sh \
-	"
-	vendor=cdk
-	vpath=src/lib/libcdk
 	;;
 (cvs)
 	IGNORELIST="\
@@ -1585,10 +1556,6 @@ case $module {
 		print -u2 Error: must be in combined src directory to commit.
 		exit 1
 	fi
-	;;
-(cdk)
-	print -u2 not implemented yet
-	exit 1
 	;;
 (cvs)
 	[[ $tag = cvs-[1-9]_+([0-9])_+([0-9]) ]] || tagerr=1
