@@ -2,8 +2,8 @@
 # $MirSecuCron: etc_cronrun 0.0 0000/00/00 00:00:00 root Backup $
 # $MirOS: src/etc/cronrun,v 1.12 2009/11/10 17:35:47 tg Exp $
 #-
-# Copyright (c) 2007
-#	Thorsten Glaser <tg@mirbsd.de>
+# Copyright (c) 2007,2015
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -20,6 +20,7 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
+set -o pipefail
 export PATH=/bin:/usr/bin:/sbin:/usr/sbin
 cd /
 umask 077
@@ -56,8 +57,8 @@ function tm_chk {
 	return 0
 }
 
-do_log=0
-nolock=0
+integer do_log=0
+integer nolock=0
 integer chk_tm=0
 while getopts ":lnt:" ch; do
 	case $ch {
@@ -76,13 +77,14 @@ jobname=$1
 	die 0 "not running '$jobname', has been run $ct hours ago"
 fi
 
-if [[ $nolock = 0 ]]; then
+if (( !nolock )); then
+	#XXX do this right (noclobber, maybe?)
 	[[ -e /var/run/cron.maintenance ]] && die 0 "not running" \
 	    "'$jobname', '$(</var/run/cron.maintenance)' already running"
 	print -nr -- "$jobname" >/var/run/cron.maintenance
 fi
 
-if [[ $do_log = 1 ]]; then
+if (( do_log )); then
 	nice mksh "/etc/$jobname" 2>&1 | \
 	    logger -t "cronrun: $jobname"
 else
@@ -95,5 +97,5 @@ else
 	chmod 0640 /var/log/$jobname.out.gz
 fi
 
-[[ $nolock = 1 ]] || rm -f /var/run/cron.maintenance
+(( nolock )) || rm -f /var/run/cron.maintenance
 exit 0
