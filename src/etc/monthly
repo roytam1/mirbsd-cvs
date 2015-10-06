@@ -1,6 +1,6 @@
 #!/bin/mksh
-# $MirSecuCron$
-# $MirOS: src/etc/monthly,v 1.20 2009/08/01 23:15:31 tg Exp $
+# $MirSecuCron: etc_monthly 0.0 0000/00/00 00:00:00 root Backup $
+# $MirOS: src/etc/monthly,v 1.21 2009/08/15 17:30:44 tg Exp $
 # $OpenBSD: monthly,v 1.5 1998/02/02 23:08:57 millert Exp $
 
 umask 022

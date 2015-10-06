@@ -1,5 +1,5 @@
-# $MirSecuCron: etc_rc 0.0 2014/00/00 00:00:00 root Backup $
-# $MirOS: src/etc/rc,v 1.119 2014/07/22 20:33:42 tg Exp $
+# $MirSecuCron: etc_rc 0.0 0000/00/00 00:00:00 root Backup $
+# $MirOS: src/etc/rc,v 1.121 2014/10/16 20:01:34 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.

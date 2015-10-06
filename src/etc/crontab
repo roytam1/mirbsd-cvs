@@ -1,8 +1,8 @@
 #
 #
 #
-# $MirSecuCron$
-# $MirOS: src/etc/crontab,v 1.31 2009/08/16 13:36:18 tg Exp $
+# $MirSecuCron: var_cron_tabs_root 0.0 0000/00/00 00:00:00 root Backup $
+# $MirOS: src/etc/crontab,v 1.32 2009/11/28 13:01:34 tg Exp $
 # $OpenBSD: crontab,v 1.15 2007/02/27 16:04:16 beck Exp $
 #
 # /var/cron/tabs/root - root's crontab

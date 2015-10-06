@@ -1,6 +1,6 @@
 #!/bin/mksh
-# $MirSecuCron$
-# $MirOS: src/etc/anacron,v 1.7 2009/03/29 13:04:15 tg Exp $
+# $MirSecuCron: etc_anacron 0.0 0000/00/00 00:00:00 root Backup $
+# $MirOS: src/etc/anacron,v 1.8 2009/07/18 14:08:59 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>

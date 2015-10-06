@@ -1,6 +1,6 @@
 #!/bin/mksh
-# $MirSecuCron$
-# $MirOS: src/etc/cronrun,v 1.11 2009/07/18 14:09:00 tg Exp $
+# $MirSecuCron: etc_cronrun 0.0 0000/00/00 00:00:00 root Backup $
+# $MirOS: src/etc/cronrun,v 1.12 2009/11/10 17:35:47 tg Exp $
 #-
 # Copyright (c) 2007
 #	Thorsten Glaser <tg@mirbsd.de>
