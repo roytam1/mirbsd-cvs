@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: CVSROOT/mklogtag,v 1.24 2015/10/09 14:51:36 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2011, 2015
 #	mirabilos <m@mirbsd.org>
@@ -39,6 +39,8 @@ if [[ -z $id || $id = @(-|%I) ]]; then
 		print -u2 your \$PATH for perl.
 		exit 255
 	fi
+	cidline=0
+elif [[ $id != +([0-9A-Za-z]) ]]; then
 	cidline=0
 else
 	cidline=1
