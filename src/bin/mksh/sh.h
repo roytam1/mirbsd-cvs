@@ -1398,7 +1398,7 @@ struct op {
  * IO redirection
  */
 struct ioword {
-	char *name;		/* filename (unused if heredoc) */
+	char *ioname;		/* filename (unused if heredoc) */
 	char *delim;		/* delimiter for <<, <<- */
 	char *heredoc;		/* content of heredoc */
 	unsigned short ioflag;	/* action (below) */

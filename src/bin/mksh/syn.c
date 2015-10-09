@@ -210,18 +210,22 @@ synio(int cf)
 			yyerror("too many %ss\n", "<<");
 		*herep++ = iop;
 	} else
-		iop->name = yylval.cp;
+		iop->ioname = yylval.cp;
 
 	if (iop->ioflag & IOBASH) {
 		char *cp;
 
 		nextiop = alloc(sizeof(*iop), ATEMP);
-		nextiop->name = cp = alloc(5, ATEMP);
+#ifdef MKSH_CONSERVATIVE_FDS
+		nextiop->ioname = cp = alloc(3, ATEMP);
+#else
+		nextiop->ioname = cp = alloc(5, ATEMP);
 
 		if (iop->unit > 9) {
 			*cp++ = CHAR;
 			*cp++ = digits_lc[iop->unit / 10];
 		}
+#endif
 		*cp++ = CHAR;
 		*cp++ = digits_lc[iop->unit % 10];
 		*cp = EOS;

@@ -951,7 +951,7 @@ yylex(int cf)
 				ungetsc(c2);
 		}
 
-		iop->name = NULL;
+		iop->ioname = NULL;
 		iop->delim = NULL;
 		iop->heredoc = NULL;
 		/* free word */

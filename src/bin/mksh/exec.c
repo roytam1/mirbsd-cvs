@@ -1369,7 +1369,7 @@ static int
 iosetup(struct ioword *iop, struct tbl *tp)
 {
 	int u = -1;
-	char *cp = iop->name;
+	char *cp = iop->ioname;
 	int iotype = iop->ioflag & IOTYPE;
 	bool do_open = true, do_close = false;
 	int flags = 0;
@@ -1381,7 +1381,7 @@ iosetup(struct ioword *iop, struct tbl *tp)
 
 	/* Used for tracing and error messages to print expanded cp */
 	iotmp = *iop;
-	iotmp.name = (iotype == IOHERE) ? NULL : cp;
+	iotmp.ioname = (iotype == IOHERE) ? NULL : cp;
 	iotmp.ioflag |= IONAMEXP;
 
 	if (Flag(FXTRACE)) {
