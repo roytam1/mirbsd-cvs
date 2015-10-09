@@ -1265,8 +1265,7 @@ bi_errorf(const char *fmt, ...)
 
 	/*
 	 * POSIX special builtins and ksh special builtins cause
-	 * non-interactive shells to exit.
-	 * XXX odd use of KEEPASN; also may not want LERROR here
+	 * non-interactive shells to exit. XXX may not want LERROR here
 	 */
 	if (builtin_spec) {
 		builtin_argv0 = NULL;
