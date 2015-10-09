@@ -1,8 +1,8 @@
-#!/usr/bin/env mksh
-# $MirOS: CVSROOT/mklogci,v 1.44 2011/06/11 21:43:58 tg Exp $
+#!/bin/mksh
+# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
 #-
-# Copyright (c) 2005, 2006, 2007, 2011
-#	Thorsten Glaser <tg@mirbsd.org>
+# Copyright (c) 2005, 2006, 2007, 2011, 2015
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -68,13 +68,18 @@ function writelog {
 
 function writemail {
 	sendmail -t |&
+	(( cidline )) && print -pr -- "Message-ID: <commitid.$id.CVS-ci@$hn>"
+	print -pr -- 'MIME-Version: 1.0'
+	print -pr -- 'Content-Type: text/plain; charset=UTF-8'
+	print -pr -- 'Content-Transfer-Encoding: 8bit'
 	print -pr -- To: $(set -A x $mailto; IFS=,; print -r -- "${x[*]}")
+	[[ -n $replyto ]] && print -pr -- Reply-To: $replyto
 	(( opt_pts )) && print -pr -- X-PTS-Approved: 1
+	#XXX RFC2047 encoding tbd
 	print -pr -- Subject: CVS: $hn: $module
-	if [[ -n $replyto ]]; then
-		print -pr -- Mail-Followup-To: $replyto
-		print -pr -- Reply-To: $replyto
-	fi
+	print -pr -- 'Auto-Submitted: auto-generated'
+	#XXX should be done by the mailing list manager instead (list, not bulk)
+	print -pr -- 'Precedence: bulk' #XXX for now
 	print -p
 	exec 3>&p
 	cat "$@" >&3
