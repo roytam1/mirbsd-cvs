@@ -1,9 +1,9 @@
-/*	$OpenBSD: lex.c,v 1.50 2015/07/30 14:59:12 zhuk Exp $	*/
+/*	$OpenBSD: lex.c,v 1.51 2015/09/10 22:48:58 nicm Exp $	*/
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
  *		 2011, 2012, 2013, 2014, 2015
- *	mirabilos <tg@mirbsd.org>
+ *	mirabilos <m@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission

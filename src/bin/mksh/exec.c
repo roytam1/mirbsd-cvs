@@ -1,4 +1,4 @@
-/*	$OpenBSD: exec.c,v 1.51 2015/04/18 18:28:36 deraadt Exp $	*/
+/*	$OpenBSD: exec.c,v 1.52 2015/09/10 22:48:58 nicm Exp $	*/
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
