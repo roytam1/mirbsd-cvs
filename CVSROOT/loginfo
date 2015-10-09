@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/loginfo,v 1.30 2014/04/14 18:43:57 tg Exp $
+# $MirOS: CVSROOT/loginfo,v 1.31 2014/04/14 18:47:43 tg Exp $
 #-
 # Note: with the current system, the last directory to be committed
 # into “wins” the eMail and changelog location. This will be replaced
@@ -72,6 +72,7 @@
 ^www/users/tg\(/\|$\)			$CVSROOT/CVSROOT/mklogci %I -m tg@mirbsd.org -f $CVSROOT/Logs/.cpr.tg -C %r -p %p %{sVv}
 
 # regular global project commit mails
+^test\(/\|$\)				$CVSROOT/CVSROOT/mklogci %I -I http://www.mirbsd.org/clogs/ChangeLog -R miros-discuss@mirbsd.org -m miros-dev@mirbsd.org -f $CVSROOT/Logs/ChangeLog -C %r -p %p %{sVv}
 DEFAULT					$CVSROOT/CVSROOT/mklogci %I -I http://www.mirbsd.org/clogs/ChangeLog -R miros-discuss@mirbsd.org -m miros-changes@mirbsd.org -f $CVSROOT/Logs/ChangeLog -C %r -p %p %{sVv}
 
 # non-MirBSD operation
