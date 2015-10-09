@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.590 2015/08/13 22:20:49 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.591 2015/09/05 20:20:46 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -861,6 +861,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p id="pcur"><i>current</i>: Please remember to subscribe to the mksh
  mailing list, either directly or via GMane, if you have an interest
  in mksh, such as packaging it. Thanks!
+Android can define MKSH_DEFAULT_PROFILEDIR itself but we don’t.
  <i>(unfinished…)</i></p>
 <p id="p51">R51: Please review all mksh scripts, such as a skeleton
  <tt>~/.mkshrc</tt> file, for alias safety and security – in case of
@@ -1175,6 +1176,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[oksh, tg] Simplify code to call afree() even if arg is NULL</li>
  <li>[tg] Fix tree-printing and reentrancy of multiple here documents</li>
  <li>[tg] Work around LP#1030581 by permitting exactly one space after</li>
+ <li>[tg, oksh] Code quality work</li>
+ <li>[tg] New code for here documents/strings with several bugfixes</li>
+ <li>[tg] Stop using issetugid(2) for ±p checks, wrong tool for the job</li>
+ <li>[tg] Reintroduce some -o posix changes lost in 2005, plus fixes</li>
+ <li>[tg] Make “source” into a built-in command</li>
+ <li>[tg] Drop “stop” alias, lksh(1) functionality to auto-unalias</li>
 </ul>
 <p id="r51">R51 is a strongly recommended feature release:</p><ul>
  <li>[tg] OpenBSD sync: handle integer base out of band like ksh93 does</li>
