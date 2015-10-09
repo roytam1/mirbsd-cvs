@@ -3,7 +3,7 @@
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2011,
  *		 2012, 2013, 2015
- *	mirabilos <tg@mirbsd.org>
+ *	mirabilos <m@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
@@ -1099,14 +1099,10 @@ cstrerror(int errnum)
 	switch (errnum) {
 	case 0:
 		return ("Undefined error: 0");
-#ifdef EPERM
 	case EPERM:
 		return ("Operation not permitted");
-#endif
-#ifdef ENOENT
 	case ENOENT:
 		return ("No such file or directory");
-#endif
 #ifdef ESRCH
 	case ESRCH:
 		return ("No such process");
@@ -1115,22 +1111,18 @@ cstrerror(int errnum)
 	case E2BIG:
 		return ("Argument list too long");
 #endif
-#ifdef ENOEXEC
 	case ENOEXEC:
 		return ("Exec format error");
-#endif
+	case EBADF:
+		return ("Bad file descriptor");
 #ifdef ENOMEM
 	case ENOMEM:
 		return ("Cannot allocate memory");
 #endif
-#ifdef EACCES
 	case EACCES:
 		return ("Permission denied");
-#endif
-#ifdef ENOTDIR
 	case ENOTDIR:
 		return ("Not a directory");
-#endif
 #ifdef EINVAL
 	case EINVAL:
 		return ("Invalid argument");
