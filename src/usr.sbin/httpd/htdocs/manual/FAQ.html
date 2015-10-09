@@ -1603,6 +1603,9 @@
         directive to a different directory. Make sure that this
         directory is writable by the user the server runs as (as
         opposed to the user the server is <em>started</em> as).</p>
+        <p>The <tt>P_SUGID</tt> check in <tt>/sys/kern/kern_sig.c</tt>
+        prevents MirBSD from writing a core dump once the process has
+        ever used setuid() or similar, so keep the uid started as.</p>
         <hr />
       </li>
 
