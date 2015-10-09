@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.41 2014/12/15 21:04:20 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.42 2015/07/18 22:48:20 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2006/10/14 19:43:57 drahn Exp $
 
 .include <bsd.own.mk>
@@ -11,7 +11,6 @@ SSLEAYDIST=	src
 SSL_SRC=	${.CURDIR}/../${SSLEAYDIST}
 LCRYPTO_SRC=	${SSL_SRC}/crypto
 
-CPPFLAGS+=	-DNO_WINDOWS_BRAINDEATH
 CPPFLAGS+=	-I${.CURDIR}/../${SSLEAYDIST} -I${LCRYPTO_SRC}
 CPPFLAGS+=	-idirafter ${.OBJDIR}
 

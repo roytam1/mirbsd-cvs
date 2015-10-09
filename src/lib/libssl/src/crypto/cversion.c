@@ -64,11 +64,7 @@
 #include "cryptlib.h"
 #include <openssl/crypto.h>
 
-__RCSID("$MirOS$");
-
-#ifndef NO_WINDOWS_BRAINDEATH
-#include "buildinf.h"
-#endif
+__RCSID("$MirOS: src/lib/libssl/src/crypto/cversion.c,v 1.2 2014/06/05 12:47:56 tg Exp $");
 
 const char *SSLeay_version(int t)
 	{
