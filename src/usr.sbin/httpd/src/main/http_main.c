@@ -113,7 +113,7 @@
 #endif
 #include "sa_len.h"
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.10 2008/12/03 11:23:00 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.11 2013/10/31 20:07:23 tg Exp $");
 
 /* This next function is never used. It is here to ensure that if we
  * make all the modules into shared libraries that core httpd still
@@ -1676,6 +1676,8 @@ static void set_signals(void)
 	    ap_log_error(APLOG_MARK, APLOG_WARNING, server_conf, "sigaction(SIGABRT)");
 	if (sigaction(SIGILL, &sa, NULL) < 0)
 	    ap_log_error(APLOG_MARK, APLOG_WARNING, server_conf, "sigaction(SIGILL)");
+	if (sigaction(SIGSEGV, &sa, NULL) < 0)
+	    ap_log_error(APLOG_MARK, APLOG_WARNING, server_conf, "sigaction(SIGSEGV)");
 	sa.sa_flags = 0;
     }
     sa.sa_handler = sig_term;
