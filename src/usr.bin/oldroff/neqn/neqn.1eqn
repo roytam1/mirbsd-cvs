@@ -2,13 +2,13 @@
 .\" NOTE: this manpage *and* the tmac.doc.old package are buggy,
 .\"	especially this page is totally bogus and better be rewritten.
 .\"-
-.\" $MirOS: src/usr.bin/oldroff/neqn/neqn.1eqn,v 1.2 2008/11/08 23:04:37 tg Exp $
+.\" $MirOS: src/usr.bin/oldroff/neqn/neqn.1eqn,v 1.3 2009/11/22 17:08:22 tg Exp $
 .\"
 .\" Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
 .\"     The Regents of the University of California.
 .\" Copyright (C) Caldera International Inc.  2001-2002.
-.\" Copyright (c) 2003, 2004
-.\"	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
+.\" Copyright (c) 2003, 2004, 2015
+.\"	mirabilos <m@mirbsd.org>
 .\" All rights reserved.
 .\"
 .\" Redistribution and use in source and binary forms,
@@ -347,7 +347,7 @@ Greek letters are spelled out in the desired case, as in
 or
 .Ar GAMMA .
 Mathematical words like sin, cos, log are made Roman automatically.
-.Xr Troff 1
+.Xr troff 1
 four-character escapes like \e(co (\(co)
 can be used anywhere.
 Strings enclosed in double quotes "..."
