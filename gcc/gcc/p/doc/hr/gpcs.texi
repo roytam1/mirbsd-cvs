@@ -383,7 +383,7 @@ ili imaju nekoliko uzastopnih znakova za podvlačenje
 
 @item
 jedinice samo pisane za Borland Pascal kompatibilnost (@pxref{GPC Units,
-, , GPC}). Primijetimo međutim, @samp{CRT} i @samp{Printer} nisu samo za
+, , gpc}). Primijetimo međutim, @samp{CRT} i @samp{Printer} nisu samo za
 Borland Pascal kompatibilnost, već također i za generalnu uporabu.
 
 @end itemize

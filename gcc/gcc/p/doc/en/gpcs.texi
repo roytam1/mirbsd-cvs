@@ -347,7 +347,7 @@ adjacent underscores
 
 @item
 units only written for Borland Pascal compatibility. (@pxref{GPC Units,
-, , GPC}) Note, @samp{CRT} and @samp{Printer} are not only for
+, , gpc}) Note, @samp{CRT} and @samp{Printer} are not only for
 Borland Pascal compatibility, but also for general use.
 
 @end itemize

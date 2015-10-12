@@ -398,7 +398,7 @@ beginnen oder enden.
 
 @item
 Units, die nur zur Kompatibilität mit Borland Pascal geschrieben
-wurden. (@pxref{GPC Units, , , GPC}) Die Units @samp{CRT}
+wurden. (@pxref{GPC Units, , , gpc}) Die Units @samp{CRT}
 und @samp{Printer} hingegen dienen sowohl der Kompatibilität
 zu Borland Pascal als auch dem allgemeinen Nutzen.
 
