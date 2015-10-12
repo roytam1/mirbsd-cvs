@@ -1,4 +1,4 @@
-# $MirOS: www/files/.htaccess,v 1.15 2013/11/06 18:36:23 tg Exp $
+# $MirOS: www/files/.htaccess,v 1.16 2013/11/27 22:15:52 tg Exp $
 
 Options ExecCGI Indexes FollowSymLinks
 IndexOptions -FancyIndexing
@@ -13,7 +13,7 @@ RedirectMatch 301 ^/cman/(.*$) /htman/i386/$1.htm
 RedirectMatch 301 ^/man(/*)$ /htman/i386/
 RedirectMatch 301 ^/man(i386|sparc)(/*)$ /htman/$1/
 RedirectMatch 301 ^/man(i386|sparc)/man([1-9]|3p|DOCS|INFO|PAPERS|PSD|SMM|USD)(/*)$ /htman/$1/man$2/
-RedirectMatch 301 ^/man(i386|sparc)/(.*)\.([1-9]|3p|PAPERS|PSD|SMM|USD)$ /htman/$1/man$3/$2.htm
+RedirectMatch 301 ^/man(i386|sparc)/(.*)\.([1-9]|3p|DOCS|PAPERS|PSD|SMM|USD)$ /htman/$1/man$3/$2.htm
 RedirectMatch 301 ^/man(i386|sparc)/(.*)\.(INFO|info)$ /htman/$1/manINFO/$2.html
 RedirectMatch 301 ^/man(i386|sparc)/man(.*\.htm$) /htman/$1/man$2
 RedirectMatch 301 ^/man(i386|sparc)/man(.*$) /htman/$1/man$2.htm
@@ -24,13 +24,33 @@ RedirectMatch 301 ^/man([1-9]|3p|DOCS|INFO|PAPERS|PSD|SMM|USD)/(.*\.html*$) /htm
 RedirectMatch 301 ^/man([1-9]|3p|PAPERS|PSD|SMM|USD)/(.*$) /htman/i386/man$1/$2.htm
 RedirectMatch 301 ^/man(info|INFO)/(.*$) /htman/i386/manINFO/$2.html
 RedirectMatch 301 ^/man(docs|DOCS)/(.*$) /htman/i386/manDOCS/$2
-RedirectMatch 301 ^/man/(.*)\.([1-9]|3p|PAPERS|PSD|SMM|USD)$ /htman/i386/man$2/$1.htm
+RedirectMatch 301 ^/man/(.*)\.([1-9]|3p|DOCS|PAPERS|PSD|SMM|USD)$ /htman/i386/man$2/$1.htm
 RedirectMatch 301 ^/man/(.*)\.(INFO|info)$ /htman/i386/manINFO/$1.html
 
 # redirects for legacy links (mod_alias cannot inspect query strings)
 RewriteEngine On
 RewriteCond %{QUERY_STRING} ^([^/]+)$
 RewriteRule ^(index.php)?$ /%1.htm? [R=301,L]
+
+RedirectMatch 301 ^/htman/(i386|sparc)/man1/cc.htm$ /htman/$1/man1/mgcc.htm
+RedirectMatch 301 ^/htman/(i386|sparc)/man1/cpp.htm$ /htman/$1/man1/mcpp.htm
+RedirectMatch 301 ^/htman/(i386|sparc)/man1/eqn.htm$ /htman/$1/man1/neqn.htm
+RedirectMatch 301 ^/htman/(i386|sparc)/man1/gcc.htm$ /htman/$1/man1/mgcc.htm
+RedirectMatch 301 ^/htman/(i386|sparc)/man1/ksh.htm$ /htman/$1/man1/mksh.htm
+RedirectMatch 301 ^/htman/(i386|sparc)/man1/mmake.htm$ /htman/$1/man1/make.htm
+RedirectMatch 301 ^/htman/(i386|sparc)/man1/nawk.htm$ /htman/$1/man1/awk.htm
+RedirectMatch 301 ^/htman/(i386|sparc)/man1/troff.htm$ /htman/$1/man1/nroff.htm
+RedirectMatch 301 ^/htman/(i386|sparc)/man3/arc4random_add.htm$ /htman/$1/man3/arc4random.htm
+RedirectMatch 301 ^/htman/(i386|sparc)/man3/mjd2tai.htm$ /htman/$1/man3/mirtime.htm
+RedirectMatch 301 ^/htman/(i386|sparc)/man3/mjd2tm.htm$ /htman/$1/man3/mirtime.htm
+RedirectMatch 301 ^/htman/(i386|sparc)/man3/tai2mjd.htm$ /htman/$1/man3/mirtime.htm
+RedirectMatch 301 ^/htman/(i386|sparc)/man3/tai2timet.htm$ /htman/$1/man3/mirtime.htm
+RedirectMatch 301 ^/htman/(i386|sparc)/man3/tai2utc.htm$ /htman/$1/man3/mirtime.htm
+RedirectMatch 301 ^/htman/(i386|sparc)/man3/tai_leaps.htm$ /htman/$1/man3/mirtime.htm
+RedirectMatch 301 ^/htman/(i386|sparc)/man3/tai_time.htm$ /htman/$1/man3/mirtime.htm
+RedirectMatch 301 ^/htman/(i386|sparc)/man3/taina_time.htm$ /htman/$1/man3/mirtime.htm
+RedirectMatch 301 ^/htman/(i386|sparc)/man3/taitime.htm$ /htman/$1/man3/mirtime.htm
+RedirectMatch 301 ^/htman/(i386|sparc)/man3/tm2mjd.htm$ /htman/$1/man3/mirtime.htm
 
 # redirects for broken links from external
 RedirectMatch 301 ^/jupp$ /jupp.htm

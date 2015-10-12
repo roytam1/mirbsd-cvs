@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.159 2015/07/12 19:09:52 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.160 2015/09/10 19:46:24 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -14,7 +14,7 @@ Date: 27.03.2006
 Title: MirOS #9 released
 Date: 01.04.2006
 
-<p><a href="@@RELPATH@@ann-9.htm">MirOS #9</a> is available via our <a
+<p>MirOS #9 is available via our <a
  href="http://f.scarywater.net/miros/">BitTorrent tracker</a>. There is
  also an <a href="@@RELPATH@@MirOS/v9/">HTTP(S)</a> download/netinstall
  option.</p>

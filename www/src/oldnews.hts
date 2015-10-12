@@ -4,7 +4,7 @@
 mws_setname oldnews "Old News and Weblog"
 mws_subdir 0
 mws_setheadline Older News and Weblogs
-mws_putheader '$MirOS: www/src/oldnews.hts,v 1.9 2011/03/21 16:18:49 tg Exp $'
+mws_putheader '$MirOS: www/src/oldnews.hts,v 1.10 2011/10/16 01:15:24 tg Exp $'
 mws_content_keeptabs <<'EOF'
 <h2 id="owlog">Old Weblog</h2><ul>
 <li><a href="@@RELPATH@@wlog-0.htm">From the beginning to December 2002</a> after
@@ -776,7 +776,7 @@ mws_content_keeptabs <<'EOF'
 	Georgina O Economou from the XFree86 project reminds us to announce
 	that XFree86 4.4.0 is included in MirOS-current (snapshots will be
 	available soon), and to improve this site's readability by providing
-	<a href="@@RELPATH@@style.htm">different style sheets</a> for selection.</li>
+	different style sheets for selection.</li>
 
 <li>19.03.2004<br />
 	Benny Siegert has MFCd the latest OpenBSD errata into MirOS-stable

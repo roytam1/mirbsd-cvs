@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.468 2015/09/10 19:46:26 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.469 2015/09/29 21:48:16 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -4106,8 +4106,8 @@ Author: tg@
 <p>This plugin is therefore tested to compile (by myself), with strict
  warnings on MirOS BSD/i386, Debian Lenny/i386, Mac OSX/i386, Cygwin32
  (for MinGW); it works on Lenny, Win2k (myself) and Mac OSX (gecko2@).
- A <a href="@@ABSPATH@@/MirOS/dist/hosted/tg/randex.dll.gz.1.05">ready
- made DLL</a> for Win32 is available for direct download from us as is
+ A ready
+ made DLL for Win32 is available for direct download from us as is
  the <a href="@@ABSPATH@@/MirOS/dist/hosted/tg/xchat-randex_1.05.orig.tar.gz">source
  code</a>. It is, of course, <a href="@@RELPATH@@MirOS-Licence">MirOS
  licenced</a>.</p>
@@ -4574,7 +4574,7 @@ Tag: mksh news
  <li style="list-style:none;">Simple CVS file drops</li>
  <li>RMD160 (printf.c.1.10) = 8e8b88401a04474db973be07540a79b129919ff5</li>
  <li>TIGER (printf.c.1.10) = 3cec4bc24074e88c7889143d19f7659ced17482115ea5afb</li>
- <li>3098389975 10575 <a href="@@ABSPATH@@/MirOS/dist/hosted/other/printf.c.1.10">/MirOS/dist/hosted/other/printf.c.1.10</a></li>
+ <li>3098389975 10575 /MirOS/dist/hosted/other/printf.c.1.10</li>
  <li>MD5 (printf.c.1.10) = d09ae97aebac104f834d3d3ddd1702ca</li>
  <li>RMD160 (arc4random.c.1.16) = b0caa3509d2cade6d86cb2c13e6b8817ced2d9a9</li>
  <li>TIGER (arc4random.c.1.16) = ef6d7a281d451e28434b0e003990eebb47edd0cd4d899fd1</li>
@@ -4626,7 +4626,7 @@ Tag: mksh news
  <li>MD5 (xchat-randex-1.10.tar.gz) = d1585c5fae3ee531deeffc8314910553</li>
  <li>RMD160 (randex.dll.gz.1.10) = a4aaa67cfdad1f9a1bcdc3eea797aff3a30703c4</li>
  <li>TIGER (randex.dll.gz.1.10) = 55b2dcd7d790d28944d7424121cf5c6d4d386a99751fb556</li>
- <li>972086546 23998 <a href="@@ABSPATH@@/MirOS/dist/hosted/xchat-randex/randex.dll.gz.1.10">/MirOS/dist/hosted/xchat-randex/randex.dll.gz.1.10</a></li>
+ <li>972086546 23998 /MirOS/dist/hosted/xchat-randex/randex.dll.gz.1.10</li>
  <li>MD5 (randex.dll.gz.1.10) = 793ce548256efc6a23f7a37dde9215a2</li>
 </ul>
 <p>An observation… mksh “print $RANDOM” on Cygwin is very slow, and the
@@ -5466,7 +5466,7 @@ Tag: debian
  what you get for being a sysadmin, and our
  <a href="http://www.gepa3.de/shop/index.php">coffee</a> (GEPA, <span
  xml:lang="de-DE-1901">ganze Bohne, im Eimer, fair gehandelt</span>),
- even if not <a href="@@RELPATH@@anargeek.htm@koffie">Café Libertad</a>,
+ even if not <a href="@@RELPATH@@anargeek.htm#koffie">Café Libertad</a>,
  who, incidentally, are Debian Wine distributors, is good), but since I’m
  usually not working for customer projects, I’m rarely time bound, and
  quite some good ideas have come from distraction (or timeouts, such as

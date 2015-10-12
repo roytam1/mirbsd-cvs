@@ -3,7 +3,7 @@
 
 mws_setname legacy/wlog-7 "MirBSD Weblog"
 mws_setheadline MirBSD – RELEASE TIME!!! Stable Services for Commercial Customers
-mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.7 2013/06/22 23:26:10 tg Exp $'
+mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.8 2013/11/09 01:21:41 tg Exp $'
 mws_content <<'EOF'
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -858,8 +858,8 @@ mws_content <<'EOF'
  fix (SHM) for -current, sync contrib/gnu files, users/groups, and start
  updating this website. Get OK for torrents. Disabled fortran libraries (libg2c
  and libfrtbegin) because of unknown breakage, temporarily.</p>
-<p>04.05.2004 by tg@<br />Fix a bunch of issues documented on the new <a
- href="@@RELPATH@@errata.htm">errata page</a>, make another snapshot, release that via
+<p>04.05.2004 by tg@<br />Fix a bunch of issues documented on the new
+ errata page, make another snapshot, release that via
  BitTorrent (thanks to Eike Frost, Scarywater (Anime ;) Tracker admin).
  Go over the website once again. Fix the libpng issue post-snapshot.
  Man am I tired, I should go to bed (I've got a dayjob, y'know?).</p>

@@ -3,7 +3,7 @@
 
 mws_setname legacy/ann-8 "MirOS Legacy Content"
 mws_setheadline 'MirOS #8'
-mws_putheader '$MirOS: www/src/ann-8.hts,v 1.5 2012/05/09 18:39:19 tg Exp $'
+mws_putheader '$MirOS: www/src/ann-8.hts,v 1.6 2015/09/10 19:31:19 tg Exp $'
 mws_content <<'EOF'
 <p id="top" style="font-size:smaller; text-align:right;">Codename:
  WTF we have a release?</p>
@@ -120,7 +120,7 @@ mws_content <<'EOF'
  released to prevent a core dump in shared library dependencies.</p>
 
 <p>The afterboot(8) manual page refers to the <a
- href="@@RELPATH@@errata.htm">errata page</a> for the current release.</p>
+ href="@@RELPATH@@errata8.htm">errata page</a> for the current release.</p>
 
 
 <h2 id="get">Getting MirOS</h2>
