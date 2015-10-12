@@ -25729,13 +25729,830 @@ Waypoint: m/Waldkauz/161
 Title: Ruby - Munzee # 23
 Points: 26
 ----
-ID: p20151010
+ID: 4521
+Date: 07.10.2015
+Waypoint: GC640MB
+Title: Blumenhof
+Tag: D25 T15 Nano Tradi
+----
+ID: 4522
+Date: 08.10.2015
+Waypoint: m/zeusi/1735
+Title: Munzee Power 432
+Points: 7
+----
+ID: 4523
+Date: 08.10.2015
+Waypoint: m/zeusi/1707
+Title: Munzee Power 404
+Points: 13
+----
+ID: 4524
+Date: 08.10.2015
+Waypoint: m/zeusi/1760
+Title: Munzee Power 457
+Points: 6
+----
+ID: 4525
+Date: 10.10.2015
+Waypoint: m/hugosoft/3446
+Title: P :: #3446
+Points: 6
+----
+ID: 4526
+Date: 10.10.2015
+Waypoint: m/mcmicha/937
+Title: Generic Name
+Points: 21
+----
+ID: 4527
+Date: 10.10.2015
+Waypoint: m/event235/54
+Title: Stammtisch 5
+----
+ID: 4528
+Date: 10.10.2015
+Waypoint: m/hugosoft/3481
+Title: keine Wendemöglichkeit :: #3481
+Points: 11
+----
+ID: 4529
+Date: 10.10.2015
+Waypoint: m/winkide/9842
+Title: Köln - Wichterichstr. #9842 RU
+Points: 15
+----
+ID: 4530
+Date: 10.10.2015
+Waypoint: m/event235/42
+Title: Stammtisch 5
+----
+ID: 4531
+Date: 10.10.2015
+Waypoint: m/ClanCOLOGNE/44
+Title: 5. Stammtisch
+Points: 0
+----
+ID: 4532
+Date: 10.10.2015
+Waypoint: m/event235/87
+Title: Stammtisch 5
+----
+ID: 4533
+Date: 10.10.2015
+Waypoint: m/event235/73
+Title: Stammtisch 5
+----
+ID: 4534
+Date: 10.10.2015
+Waypoint: m/event235/1
+Title: Event Badge
+----
+ID: 4535
+Date: 10.10.2015
+Waypoint: m/event235/83
+Title: Stammtisch 5
+----
+ID: 4536
+Date: 10.10.2015
+Waypoint: m/event235/62
+Title: Stammtisch 5
+----
+ID: 4537
 Date: 10.10.2015
 Waypoint: m/EventIndicator/56
 Title: Kölner Stammtisch V
 Tag: Event
+Points: 0
 ----
-ID: p20151012
+ID: 4538
+Date: 10.10.2015
+Waypoint: m/JOJEVA/2042
+Title: Quick Deploy By JOJEVA
+----
+ID: 4539
+Date: 10.10.2015
+Waypoint: m/theirishduo/1135
+Title: TIDvm Köln Haus Unkelbach
+Points: 30
+----
+ID: 4540
+Date: 10.10.2015
+Waypoint: m/robje64/2564
+Title: Quick Deploy By robje64
+----
+ID: 4541
+Date: 10.10.2015
+Waypoint: m/Airwolf26/4424
+Title: Köln - Clan Stammtisch #5
+Points: 45
+----
+ID: 4542
+Date: 10.10.2015
+Waypoint: m/Cachelady/2822
+Title: Kölner Stammtischhäppchen
+----
+ID: 4543
+Date: 10.10.2015
+Waypoint: m/G1enter/862
+Title: Kölner Stammtisch V
+Points: 30
+----
+ID: 4544
+Date: 10.10.2015
+Waypoint: m/Waldkauz/820
+Title: Quick Deploy By Waldkauz
+----
+ID: 4545
+Date: 10.10.2015
+Waypoint: m/Hachiko/30
+Title: Köln - Clan Stammtisch #5
+----
+ID: 4546
+Date: 10.10.2015
+Waypoint: m/seal/1836
+Title: 5. Rheinischer Stammtisch
+----
+ID: 4547
+Date: 10.10.2015
+Waypoint: m/Wyando/6372
+Title: Köln Wyrtual Stammtisch IV (Klettenberg)
+Points: 35
+----
+ID: 4548
+Date: 10.10.2015
+Waypoint: m/ReMiKu/12392
+Title: Mystery Virtual Klettenberg Stammtisch IV (12392)
+Points: 15
+----
+ID: 4549
+Date: 10.10.2015
+Waypoint: m/Tamarisk/2030
+Title: Köln Klettnberg MVM Stammtisch by Tamarisk
+Points: 15
+----
+ID: 4550
+Date: 10.10.2015
+Waypoint: m/seal/1694
+Title: Stammtisch by seal
+Points: 20
+----
+ID: 4551
+Date: 10.10.2015
+Waypoint: m/Derlame/2770
+Title: MVM 5.Kölner Stammtisch @ Derlame
+Points: 10
+----
+ID: 4552
+Date: 10.10.2015
+Waypoint: m/winkide/8264
+Title: Köln - Luxemburger Str. #8264 MV
+Points: 10
+----
+ID: 4553
+Date: 10.10.2015
+Waypoint: m/c-bn/7164
+Title: [c-bn] 5. Rheinischer Munzee-Stammtisch
+----
+ID: 4554
+Date: 10.10.2015
+Waypoint: m/barmbek/572
+Title: MVM barmbek@Luxemburger Str. [Köln]
+Points: 25
+----
+ID: 4555
+Date: 10.10.2015
+Waypoint: m/MabusesErben/2453
+Title: LippeGhost zum Stammtisch
+----
+ID: 4556
+Date: 10.10.2015
+Waypoint: m/machierp/2822
+Title: Keulen - Luxemburgerstrasse
+----
+ID: 4557
+Date: 10.10.2015
+Waypoint: m/Airwolf26/4452
+Title: Köln - Clan Stammtisch #5
+Points: 15
+----
+ID: 4558
+Date: 10.10.2015
+Waypoint: m/winkide/10150
+Title: Köln - Luxemburger Str. #10150 MV
+Points: 15
+----
+ID: 4559
+Date: 10.10.2015
+Waypoint: m/Lewini/796
+Title: K&amp;I Eckstein
+Points: 50
+----
+ID: 4560
+Date: 10.10.2015
+Waypoint: m/feylino/3180
+Title: Stammtisch Köln
+----
+ID: 4561
+Date: 10.10.2015
+Waypoint: m/teamkiwii/2331
+Title: teamkiwii @ V. Stammtisch Köln
+Points: 50
+----
+ID: 4562
+Date: 10.10.2015
+Waypoint: m/Tamarisk/2036
+Title: Köln - Klettenberg MVM By Tamarisk
+Points: 15
+----
+ID: 4563
+Date: 10.10.2015
+Waypoint: m/RoversEnd/432
+Title: RoversEnd&#039;s - Zollstock, Stammtisch 5 VM
+----
+ID: 4564
+Date: 10.10.2015
+Waypoint: m/Tamarisk/2165
+Title: Köln Klettenberg MVM by Tamarisk
+Points: 20
+----
+ID: 4565
+Date: 10.10.2015
+Waypoint: m/remstaler/6378
+Title: 5. Kölner Stammtisch @remstaler
+----
+ID: 4566
+Date: 10.10.2015
+Waypoint: m/SueBee22/386
+Title: SB22v Kölner Stammtisch
+----
+ID: 4567
+Date: 10.10.2015
+Waypoint: m/Wyando/1657
+Title: 01. Wyando Meet &amp; Greet!
+Points: 0
+----
+ID: 4568
+Date: 10.10.2015
+Waypoint: m/Tamarisk/80
+Title: 01. Tamarisk Meet &amp; Greet!
+Points: 0
+----
+ID: 4569
+Date: 10.10.2015
+Waypoint: m/Felix11/442
+Title: Felix11
+Points: 0
+----
+ID: 4570
+Date: 10.10.2015
+Waypoint: m/G1enter/2296
+Title: Kölner Stammtisch V
+Points: 20
+----
+ID: 4571
+Date: 10.10.2015
+Waypoint: m/dag/159
+Title: CGN Luxemburger Str.
+----
+ID: 4572
+Date: 10.10.2015
+Waypoint: m/event235/28
+Title: Stammtisch 5
+----
+ID: 4573
+Date: 10.10.2015
+Waypoint: m/winkide/10783
+Title: Generic Name Room #1
+----
+ID: 4574
+Date: 10.10.2015
+Waypoint: m/c-bn/7778
+Title: Event Motel Room #2
+----
+ID: 4575
+Date: 10.10.2015
+Waypoint: m/feylino/3217
+Title: Event Motel Room #3
+----
+ID: 4576
+Date: 10.10.2015
+Waypoint: m/hugosoft/3724
+Title: Event Motel Room #4
+----
+ID: 4577
+Date: 10.10.2015
+Waypoint: m/Tamarisk/2198
+Title: Event Motel Room #5
+----
+ID: 4578
+Date: 10.10.2015
+Waypoint: m/event235/102
+Title: Event Motel
+----
+ID: 4579
+Date: 10.10.2015
+Waypoint: m/winkide/10784
+Title: Event Hotel Room #1
+----
+ID: 4580
+Date: 10.10.2015
+Waypoint: m/c-bn/7779
+Title: Event Hotel Room #2
+----
+ID: 4581
+Date: 10.10.2015
+Waypoint: m/feylino/3218
+Title: Event Hotel Room #3
+----
+ID: 4582
+Date: 10.10.2015
+Waypoint: m/hugosoft/3725
+Title: Event Hotel Room #4
+----
+ID: 4583
+Date: 10.10.2015
+Waypoint: m/Wyando/6570
+Title: Event Hotel Room #5
+----
+ID: 4584
+Date: 10.10.2015
+Waypoint: m/Tamarisk/2199
+Title: Event Hotel Room #6
+----
+ID: 4585
+Date: 10.10.2015
+Waypoint: m/Steffi78/569
+Title: Event Hotel Room #7
+----
+ID: 4586
+Date: 10.10.2015
+Waypoint: m/QQ/794
+Title: Event Hotel Room #8
+----
+ID: 4587
+Date: 10.10.2015
+Waypoint: m/csThanner/1546
+Title: Event Hotel Room #9
+----
+ID: 4588
+Date: 10.10.2015
+Waypoint: m/Felix11/1045
+Title: Event Hotel Room #10
+----
+ID: 4589
+Date: 10.10.2015
+Waypoint: m/event235/103
+Title: Event Hotel
+Points: 10
+----
+ID: 4590
+Date: 10.10.2015
+Waypoint: m/event235/31
+Title: Stammtisch 5
+----
+ID: 4591
+Date: 10.10.2015
+Waypoint: m/event235/30
+Title: Stammtisch 5
+----
+ID: 4592
+Date: 10.10.2015
+Waypoint: m/event235/26
+Title: Stammtisch 5
+----
+ID: 4593
+Date: 10.10.2015
+Waypoint: m/event235/29
+Title: Stammtisch 5
+----
+ID: 4594
+Date: 10.10.2015
+Waypoint: m/event235/32
+Title: Stammtisch 5
+----
+ID: 4595
+Date: 10.10.2015
+Waypoint: m/Mieze/5017
+Title: 5. Kölner Stammtisch @Mieze
+----
+ID: 4596
+Date: 10.10.2015
+Waypoint: m/G1enter/1974
+Title: Quick Deploy By G1enter
+Points: 20
+----
+ID: 4597
+Date: 10.10.2015
+Waypoint: m/G1enter/2298
+Title: Quick Deploy By G1enter
+Points: 20
+----
+ID: 4598
+Date: 10.10.2015
+Waypoint: m/G1enter/1973
+Title: Quick Deploy By G1enter
+Points: 20
+----
+ID: 4599
+Date: 10.10.2015
+Waypoint: m/G1enter/2297
+Title: Kölner Stammtisch V
+Points: 20
+----
+ID: 4600
+Date: 10.10.2015
+Waypoint: m/G1enter/2303
+Title: Quick Deploy By G1enter
+Points: 20
+----
+ID: 4601
+Date: 10.10.2015
+Waypoint: m/ill/646
+Title: Köln Stammtisch 7.10.2015
+Points: 30
+----
+ID: 4602
+Date: 10.10.2015
+Waypoint: m/Minerva123/1613
+Title: MVM Kölner Stammtisch V
+Points: 10
+----
+ID: 4603
+Date: 10.10.2015
+Waypoint: m/Minerva123/1585
+Title: MVM Kölner Stammtisch V
+Points: 50
+----
+ID: 4604
+Date: 10.10.2015
+Waypoint: m/h0tdog/3004
+Title: MVMUNZEE-TREFF by h0tdog
+Points: 30
+----
+ID: 4605
+Date: 10.10.2015
+Waypoint: m/winkide/9851
+Title: Köln - Wichterichstr. #9851 RU
+Points: 24
+----
+ID: 4606
+Date: 10.10.2015
+Waypoint: m/winkide/10279
+Title: Köln - Gottesweg #10279 AQ
+Points: 10
+----
+ID: 4607
+Date: 10.10.2015
+Waypoint: m/supersilli/1016
+Title: (01016) Bischofsweg
+Points: 13
+----
+ID: 4608
+Date: 10.10.2015
+Waypoint: m/Colonius/2107
+Title: #2107 Aquamarine
+Points: 10
+----
+ID: 4609
+Date: 10.10.2015
+Waypoint: m/supersilli/1015
+Title: (01015) Bischofsweg
+Points: 10
+----
+ID: 4610
+Date: 10.10.2015
+Waypoint: m/Colonius/2101
+Title: #2101 Ruby
+Points: 7
+----
+ID: 4611
+Date: 10.10.2015
+Waypoint: m/ReMiKu/12278
+Title: Ruby Zollstock (12278)
+Points: 25
+----
+ID: 4612
+Date: 10.10.2015
+Waypoint: m/supersilli/1014
+Title: (01014) Bischofsweg
+Points: 7
+----
+ID: 4613
+Date: 10.10.2015
+Waypoint: m/ReMiKu/12274
+Title: Ruby Zollstock (12274)
+Points: 16
+----
+ID: 4614
+Date: 10.10.2015
+Waypoint: m/Colonius/2094
+Title: #2094 Diamond
+Points: 15
+----
+ID: 4615
+Date: 10.10.2015
+Waypoint: m/supersilli/1008
+Title: (01008) Bischofsweg
+Points: 6
+----
+ID: 4616
+Date: 10.10.2015
+Waypoint: m/supersilli/1006
+Title: (01006) Bischofsweg
+Points: 10
+----
+ID: 4617
+Date: 10.10.2015
+Waypoint: m/ReMiKu/12285
+Title: Aquamarine Zollstock (12285)
+Points: 10
+----
+ID: 4618
+Date: 10.10.2015
+Waypoint: m/ReMiKu/12291
+Title: Aquamarine Zollstock (12291)
+Points: 10
+----
+ID: 4619
+Date: 10.10.2015
+Waypoint: m/supersilli/1004
+Title: (01004) Bischofsweg
+Points: 12
+----
+ID: 4620
+Date: 10.10.2015
+Waypoint: m/supersilli/1002
+Title: (01002) Bischofsweg
+Points: 21
+----
+ID: 4621
+Date: 10.10.2015
+Waypoint: m/ReMiKu/12283
+Title: Aquamarine Zollstock (12283)
+Points: 10
+----
+ID: 4622
+Date: 10.10.2015
+Waypoint: m/Colonius/2106
+Title: #2106 Ruby
+Points: 19
+----
+ID: 4623
+Date: 10.10.2015
+Waypoint: m/ReMiKu/12284
+Title: Aquamarine Zollstock (12284)
+Points: 10
+----
+ID: 4624
+Date: 10.10.2015
+Waypoint: m/Colonius/2103
+Title: #2103 Ruby
+Points: 10
+----
+ID: 4625
+Date: 10.10.2015
+Waypoint: m/supersilli/1000
+Title: (01000) Bischofsweg
+Points: 9
+----
+ID: 4626
+Date: 10.10.2015
+Waypoint: m/ReMiKu/12290
+Title: Aquamarine Zollstock (12290)
+Points: 10
+----
+ID: 4627
+Date: 10.10.2015
+Waypoint: m/Colonius/2104
+Title: #2104 Ruby
+Points: 14
+----
+ID: 4628
+Date: 10.10.2015
+Waypoint: m/mirabilos/109
+Title: Mehlem Bahnhof
+nTF: 0
+----
+ID: 4629
+Date: 10.10.2015
+Waypoint: m/mirabilos/104
+Title: Königswinter Drachenfelsbahn
+nTF: 0
+----
+ID: 4630
+Date: 10.10.2015
+Waypoint: m/ReMiKu/12166
+Title: Longsword Zollstock (12166)
+Points: 12
+----
+ID: 4631
+Date: 10.10.2015
+Waypoint: m/Wyando/6227
+Title: Köln # Ruby (Raderthal) {6227}
+Points: 9
+----
+ID: 4632
+Date: 10.10.2015
+Waypoint: m/mirabilos/103
+Title: Grill-Restaurant An der Bitze
+nTF: 0
+----
+ID: 4633
+Date: 10.10.2015
+Waypoint: m/ReMiKu/12282
+Title: Aquamarine Zollstock (12282)
+Points: 10
+----
+ID: 4634
+Date: 10.10.2015
+Waypoint: m/Wyando/6092
+Title: Köln # Ruby (Raderberg) {6092}
+Points: 27
+----
+ID: 4635
+Date: 10.10.2015
+Waypoint: m/Lewini/631
+Title: K&amp;I Aqua am Wappen
+Points: 10
+----
+ID: 4636
+Date: 10.10.2015
+Waypoint: m/KingColonia/341
+Title: I&amp;K Halteverbot am Wappen
+Points: 10
+----
+ID: 4637
+Date: 11.10.2015
+Waypoint: GCZ8H6
+Title: Geology in the Klettenbergpark
+Tag: D15 T15 Earth
+----
+ID: 4638
+Date: 11.10.2015
+Waypoint: m/zeusi/3068
+Title: Virtual Endenich
+----
+ID: 4639
+Date: 11.10.2015
+Waypoint: m/pferdenahr/565
+Title: VIRT blau(weiss)e-Karte 17 ;-)
+----
+ID: 4640
+Date: 11.10.2015
+Waypoint: m/c-bn/2180
+Title: Aktion &quot;Karte dunkelblau&quot; 041
+Points: 25
+----
+ID: 4641
+Date: 11.10.2015
+Waypoint: m/ReMiKu/4573
+Title: Mystery Endenich (4573)
+Points: 20
+----
+ID: 4642
+Date: 11.10.2015
+Waypoint: m/Airwolf26/1714
+Title: Bonn - L261
+----
+ID: 4643
+Date: 11.10.2015
+Waypoint: m/c-bn/2303
+Title: 💎 am Mystery-Feld 4
+Points: 10
+----
+ID: 4644
+Date: 11.10.2015
+Waypoint: m/Airwolf26/1750
+Title: Bonn - L261
+----
+ID: 4645
+Date: 11.10.2015
+Waypoint: m/c-bn/2301
+Title: 💎 am Mystery-Feld 3
+Points: 6
+----
+ID: 4646
+Date: 11.10.2015
+Waypoint: m/mastaxlolls/84
+Title: LOST: The Tempest
+----
+ID: 4647
+Date: 11.10.2015
+Waypoint: m/Airwolf26/1752
+Title: Bonn - L261
+----
+ID: 4648
+Date: 11.10.2015
+Waypoint: m/mastaxlolls/92
+Title: LOST: Sawyer
+----
+ID: 4649
+Date: 11.10.2015
+Waypoint: m/c-bn/2302
+Title: 💎 am Mystery-Feld 1
+Points: 14
+----
+ID: 4650
+Date: 11.10.2015
+Waypoint: m/c-bn/2483
+Title: Aktion beendet - MEIN LETZTER!
+Points: 15
+----
+ID: 4651
+Date: 11.10.2015
+Waypoint: m/zeusi/2993
+Title: Generic Name
+Points: 50
+----
+ID: 4652
+Date: 11.10.2015
+Waypoint: m/c-bn/2482
+Title: Aktion &quot;Karte dunkelblau&quot; 140
+Points: 40
+----
+ID: 4653
+Date: 11.10.2015
+Waypoint: m/zeusi/3070
+Title: Virtual Endenich
+----
+ID: 4654
+Date: 11.10.2015
+Waypoint: m/pferdenahr/563
+Title: VIRT blau(weiss)e-Karte 15 ;-)
+----
+ID: 4655
+Date: 11.10.2015
+Waypoint: m/huggyd1/188
+Title: VM Endenich - huggyd1
+----
+ID: 4656
+Date: 11.10.2015
+Waypoint: m/iDrops/66
+Title: Bonn - Kapellenstrasse
+Points: 9
+----
+ID: 4657
+Date: 11.10.2015
+Waypoint: m/ajlis/151
+Title: Karl-Simrock-Schule
+Points: 15
+----
+ID: 4658
+Date: 11.10.2015
+Waypoint: m/QQ/610
+Title: E 5 Room #1
+nTF: 4
+----
+ID: 4659
+Date: 11.10.2015
+Waypoint: m/Team-MTB-OC/1165
+Title: E 5 Room #2
+nTF: 3
+----
+ID: 4660
+Date: 11.10.2015
+Waypoint: m/RobieSterling/204
+Title: E 5 Room #3
+nTF: 2
+----
+ID: 4661
+Date: 11.10.2015
+Waypoint: m/MrsPommelhorst/212
+Title: E 5 Room #4
+nTF: 1
+----
+ID: 4662
+Date: 11.10.2015
+Waypoint: m/JansEgal/2959
+Title: E 5
+----
+ID: 4663
+Date: 11.10.2015
+Waypoint: m/mirabilos/118
+Title: E 5 Room #5
+nTF: 0
+----
+ID: 4664
+Date: 11.10.2015
+Waypoint: GC36WX8
+Title: Burg Rheinbach
+Tag: D25 T15 Nano Tradi
+----
+ID: 4665
+Date: 11.10.2015
+Waypoint: GC63JWH
+Title: Duisdorfer Schleichwege
+Tag: D15 T15 Nano Tradi
+----
+ID: 4666
+Date: 11.10.2015
+Waypoint: m/mirabilos/117
+Title: Griechisches Restaurant Nepheli
+nTF: 0
+Points: 20
+----
+ID: 4667
 Date: 12.10.2015
 Waypoint: GC63K03
 Title: Hier gibt's kein Eis?
@@ -25752,6 +26569,13 @@ Date: 21.10.2015
 Waypoint: GC60K94
 Title: Wir kommen aus der Vergangenheit
 Tag: D45 T2 Event
+----
+ID: p20151031
+Date: 31.10.2015
+Waypoint: GC650MH
+Title: Ende der Eiszeit ⅯⅯⅩⅤ
+nTF: 0
+Tag: D1 T1 Event
 ----
 ID: p20160729
 Date: 30.07.2016

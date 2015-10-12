@@ -244,6 +244,7 @@ souvenir 2015-07-31 'High-Five for the Earth' http://souvenirs.geocaching.com/So
 souvenir 2015-08-15 'International Geocaching Day 2015' http://souvenirs.geocaching.com/SouvenirImages/OC8xMC8yMDE1/62e547e1-40fd-430f-9d1d-77a7d8ffed87.png 'http://www.geocaching.com/souvenir/?guid=27c65a4d-0ddd-44f3-a762-0c3d7055e8a9'
 souvenir 2015-08-15 'Put On Your Thinking Cap' http://souvenirs.geocaching.com/SouvenirImages/Ni8xNS8yMDE1/8f6dfb7a-5e88-439c-9b37-647741eca689.png 'http://www.geocaching.com/souvenir/?guid=9d1e9809-96ea-4a9b-96f2-1a5e95768147'
 souvenir 2015-08-15 'Road Trip Hero' http://souvenirs.geocaching.com/SouvenirImages/Ni8xNS8yMDE1/4bbd5f00-7eb0-452b-a0db-d85c55fddb07.png 'http://www.geocaching.com/souvenir/?guid=e35efbe5-8eea-4548-8d22-57e8522382bb'
+souvenir 2015-10-11 'International EarthCache Day 2015' http://souvenirs.geocaching.com/SouvenirImages/OS8xMS8yMDE1/ecbf262e-a005-41fe-b60f-eb8d6105ed15.png 'http://www.geocaching.com/souvenir/?guid=234905c3-8a94-4cb5-aa27-b5ba0751cfbd'
 
 # kaputt, s.o.
 #if [[ $nsouvenir != 0 && -z $souvenirs ]]; then
@@ -276,7 +277,10 @@ mzbadge deploy 'Deploy Streak' 'You are on fire! 31 days in a row of deploys!'
 mzbadge super 'Super Streak' 'You are a superstar! 31 days in a row with a capture AND a deploy!'
 mzbadge seeker Seeker 'A good seeker knows how to find what they are after.'
 mzbadge sampler Sampler 'You&#039;ve made your way through our Munzee sampler. Do you have a favorite?'
+mzbadge 5by5 '5 by 5' 'Munzee! You captured 5 by 5 which showed great focus and restraint!'
+mzbadge rainbow 'ROY G BIV' 'Congratulations, You captured the rainbow! ROY G BIV would be proud!'
 mzbadge jordan 'Air Munzee' 'Did you have to rely on a bunny and his friends to earn this badge? I wanna be like Mike.'
+mzbadge virthigh5 'Virtual High 5' 'High five from Team Munzee! You deployed five virtuals!'
 mzbadge watson Watson 'It&#039;s a mystery where you deployed to be solved by others.'
 mzbadge 5x5deploy '5 by 5 deployed' 'Congratulations on deploying your 5x5 munzees! 5 days with 5 munzees each takes great focus and determination. You&#039;ve earned it!'
 mzbadge hunter Hunter 'You really are a special icon hunter! Keep hunting them to reach the next level.'
@@ -293,6 +297,7 @@ mzbadge battleready 'Battle Ready' 'You have deployed a weapon and are ready for
 mzbadge socialcaterpillar 'Social Caterpillar' 'You are just learning to crawl socially!'
 mzbadge socialcocoon 'Social Cocoon' 'You are a hungry worm who needs to cap more socials so you can spread your wings!'
 mzbadge breakfast Breakfast 'Congratulations, You were able to rent a room in 5 motels!'
+mzbadge cologne5 'Kölner Stammtisch V' 'Thanks for participating, hope you have fun! Prost!'
 mzbadge 3rd_birthday 'Munzee turns 3' 'Thanks for celebrating our 3rd birthday! It&#039;s a Fiesta!'
 mzbadge 4thbdayplaydate '4th Birthday Playdate' 'You played Munzee during our 4th birthday party weekend in July 2015!'
 
