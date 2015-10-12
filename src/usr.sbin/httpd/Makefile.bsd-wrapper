@@ -1,5 +1,5 @@
 # Build wrapper for the HTTP daemon
-# $MirOS: src/usr.sbin/httpd/Makefile.bsd-wrapper,v 1.11 2007/09/13 15:55:02 tg Exp $
+# $MirOS: src/usr.sbin/httpd/Makefile.bsd-wrapper,v 1.12 2008/03/19 23:07:16 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.64 2008/01/08 10:08:31 henning Exp $
 
 .include <bsd.own.mk>
@@ -634,6 +634,8 @@ clean: cleanman
 .else
 clean: cleanman
 	@cd ${.OBJDIR} && find . \! -type d -print0 | xargs -0r rm
+	-@mkdir -p ${.OBJDIR}/Makefile.bsd-wrapper.kludge
+	-@cd ${.OBJDIR} && find -d * -type d -print0 | xargs -0r rmdir
 .endif
 
 cleandir: clean
