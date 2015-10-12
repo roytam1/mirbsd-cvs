@@ -3,8 +3,8 @@
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright © 2013
- *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+ * Copyright © 2013, 2015
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 2000-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
@@ -113,7 +113,7 @@
 #endif
 #include "sa_len.h"
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.11 2013/10/31 20:07:23 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.12 2015/10/09 22:31:51 tg Exp $");
 
 /* This next function is never used. It is here to ensure that if we
  * make all the modules into shared libraries that core httpd still
@@ -765,6 +765,7 @@ static void timeout(int sig)
     if (!current_conn) {
 	ap_longjmp(jmpbuffer, 1);
     }
+    current_conn->timeout_signal_received = 1;
 
     if (timeout_req != NULL)
 	dirconf = timeout_req->per_dir_config;
@@ -2648,6 +2649,12 @@ static void child_main(int child_num_arg)
 
 	    if(ap_extended_status)
 		increment_counts(my_child_num, r);
+
+	    if (current_conn->timeout_death_request) {
+		ap_log_error(APLOG_MARK, APLOG_NOERRNO | APLOG_INFO,
+		  server_conf, "Exiting from timeout signal handler");
+		clean_child_exit(0);
+	    }
 
 	    if (!current_conn->keepalive || current_conn->aborted)
 		break;

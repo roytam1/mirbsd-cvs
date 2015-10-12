@@ -1,11 +1,11 @@
-/* $MirOS: src/usr.sbin/httpd/src/include/httpd.h,v 1.9 2008/12/03 11:22:57 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/include/httpd.h,v 1.10 2013/10/31 20:07:21 tg Exp $ */
 /* $OpenBSD: httpd.h,v 1.27 2006/02/22 15:07:12 henning Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
  *
- * Copyright © 2002, 2005, 2013
- *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+ * Copyright © 2002, 2005, 2013, 2015
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 2000-2003 The Apache Software Foundation.  All rights
  * reserved.
  *
@@ -882,6 +882,10 @@ struct conn_rec {
 	unsigned keptalive:1;	/* Did we use HTTP Keep-Alive? */
 	signed int double_reverse:2;/* have we done double-reverse DNS?
 				 * -1 yes/failure, 0 not yet, 1 yes/success */
+	/* the timeout() signal handler sets this flag */
+	unsigned timeout_signal_received:1;
+	/* if this is set, the child will die at earliest convenience */
+	unsigned timeout_death_request:1;
 	int keepalives;		/* How many times have we used it? */
 	char *local_ip;		/* server IP address */
 	char *local_host;		/* used for ap_get_server_name when

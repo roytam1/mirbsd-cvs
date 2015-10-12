@@ -9,6 +9,8 @@
 */
 
 /* ====================================================================
+ * Copyright (c) 2015
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1998-2003 Ralf S. Engelschall. All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -109,6 +111,7 @@
                                             -- Unknown                */
 #include "mod_ssl.h"
 
+__RCSID("$MirOS$");
 
 /*  _________________________________________________________________
 **
@@ -471,6 +474,15 @@ void ssl_hook_CloseConnection(conn_rec *conn)
      */
     ap_bflush(conn->client);
 
+    /* if called from signal handler, DO NOT touch the SSL context! */
+    if (conn->timeout_signal_received) {
+        /* request child death at convenience but ASAP */
+        conn->timeout_death_request = 1;
+        /* skip closing SSL layer */
+        cpType = "leaking";
+        goto ssl_hook_CloseConnection_leaking;
+    }
+
     /*
      * Now close the SSL layer of the connection. We've to take
      * the TLSv1 standard into account here:
@@ -529,6 +541,7 @@ void ssl_hook_CloseConnection(conn_rec *conn)
 
     /* deallocate the SSL connection */
     SSL_free(ssl);
+ ssl_hook_CloseConnection_leaking:
     ap_ctx_set(conn->client->ctx, "ssl", NULL);
 
     /* and finally log the fact that we've closed the connection */
