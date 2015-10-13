@@ -1,7 +1,7 @@
-# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.60 2014/05/29 18:40:47 tg Exp $
+# $MirOS: ports/infrastructure/mk/mirports.sys.mk,v 1.61 2014/11/26 19:29:28 tg Exp $
 #-
-# Copyright (c) 2005, 2006, 2008, 2012, 2014
-#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+# Copyright (c) 2005, 2006, 2008, 2012, 2014, 2015
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -41,7 +41,7 @@ OSname=			${OSNAME:L}
 .  if ${OStype} == "MirBSD"
 OSver!=	print '.include "/usr/share/mk/sys.mk"\nall:\n.ifdef OSrelm\n\t@echo' \
 	    '$${OSrel}.$${OSrelm}\n.else\n\t@echo $${OSrev}.$${OSrpl}\n.endif' \
-	    | MAKEFLAGS= ${MAKE} -rf - all
+	    | env -i "PATH=$$PATH" ${MAKE} -rf - all
 # fake 'uname -r' for speed
 OSREV=	${OSver:R}
 .  elif ${OStype} == "MidnightBSD"
@@ -49,7 +49,7 @@ OSver!=	uname -r | sed 's/^\([0-9]*\)\.\([0-9]*\)[^0-9]*.*$$/\1.\2/'
 OSREV=	${OSver}
 .  elif ${OStype} == "OpenBSD"
 OSver!=	print '.include "/usr/share/mk/sys.mk"\nall:\n\t@echo $${OSREV}' \
-	    | MAKEFLAGS= ${MAKE} -rf - all
+	    | env -i "PATH=$$PATH" ${MAKE} -rf - all
 # fake 'uname -r' for speed
 OSREV=	${OSver}
 .  elif ${OStype} == "Interix"
