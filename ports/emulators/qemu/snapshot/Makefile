@@ -1,4 +1,4 @@
-# $MirOS: ports/emulators/qemu/snapshot/Makefile,v 1.4 2009/08/16 16:26:45 tg Exp $
+# $MirOS: ports/emulators/qemu/snapshot/Makefile,v 1.5 2009/10/17 21:43:52 tg Exp $
 # $OpenBSD: Makefile,v 1.32 2008/04/28 22:52:38 todd Exp $
 # $NetBSD: Makefile,v 1.60 2009/10/11 16:04:13 asau Exp $
 
@@ -11,7 +11,7 @@ ONLY_FOR_PLATFORMS=	\
 COMMENT=		multi system emulator
 DISTNAME=		qemu-0.11.0
 CATEGORIES=		emulators
-HOMEPAGE=		http://www.nongnu.org/qemu/
+HOMEPAGE=		http://wiki.qemu.org/Index.html
 MASTER_SITES=		http://download.savannah.gnu.org/releases/qemu/
 
 # GPLv2/LGPLv2/BSD

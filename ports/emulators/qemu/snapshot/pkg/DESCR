@@ -10,3 +10,5 @@ QEMU has two operating modes:
 
 * User mode emulation (Linux host only). In this mode, QEMU can
   launch Linux processes compiled for one CPU on another CPU.
+
+This version works with kqemu 1.4 only.
