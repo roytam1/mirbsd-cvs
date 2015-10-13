@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.man.mk,v 1.3 2005/09/18 20:59:29 tg Exp $
+# $MirOS: src/share/mk/bsd.man.mk,v 1.4 2008/04/10 14:07:46 tg Exp $
 # $OpenBSD: bsd.man.mk,v 1.28 2004/02/08 01:19:54 espie Exp $
 # $NetBSD: bsd.man.mk,v 1.23 1996/02/10 07:49:33 jtc Exp $
 # @(#)bsd.man.mk	5.2 (Berkeley) 5/11/90
@@ -57,7 +57,10 @@ CLEANFILES+=	${_i:S/eqn$//} ${_i:S/eqn$/tbl/}
 .  endif
 .endif
 
-maninstall:
+maninstall: __MANINSTALL
+.PHONY: __MANINSTALL
+
+__MANINSTALL:
 .if defined(MANALL)
 .  for _i in ${MANALL}
 	${MINSTALL} ${_i} ${DESTDIR}${MANDIR}${_i:E:S/^cat//}/${_i:T:R}.0
