@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.i386,v 1.14 2011/08/18 14:56:27 tg Exp $
+# $MirOS: src/distrib/common/Makefile.i386,v 1.15 2013/09/15 21:19:32 tg Exp $
 
 IMAGESIZE=	2880
 IMAGETYPE=	floppy3
@@ -10,7 +10,7 @@ LISTADDS=	boot-fd cd9660 dhclient disktools dl-noman ext2fs i386 \
 FLOPPY?=	floppy${SERIALSPEED}.fs
 FLOPPY_BOOTCFG=	cp ${BOOT_TAR} ${WRKDIR}/boot; \
 		sed 's/@SPEED@/${SERIALSPEED}/g' \
-		    ${TOPDIR}/tools/boot.cfg.serial >${WRKDIR}/boot.cfg
+		    ${TOPDIR}/common/boot.cfg.serial-floppy >${WRKDIR}/boot.cfg
 FLOPPYFILES=	boot boot.cfg bsd
 .else
 FLOPPY_BOOTCFG=	cp ${BOOT_TAR} ${WRKDIR}/boot
