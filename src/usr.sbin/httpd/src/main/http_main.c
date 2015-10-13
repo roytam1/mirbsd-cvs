@@ -113,7 +113,7 @@
 #endif
 #include "sa_len.h"
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.12 2015/10/09 22:31:51 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/main/http_main.c,v 1.13 2015/10/12 21:21:26 tg Exp $");
 
 /* This next function is never used. It is here to ensure that if we
  * make all the modules into shared libraries that core httpd still
@@ -2651,6 +2651,7 @@ static void child_main(int child_num_arg)
 		increment_counts(my_child_num, r);
 
 	    if (current_conn->timeout_death_request) {
+ timeout_death_request_received:
 		ap_log_error(APLOG_MARK, APLOG_NOERRNO | APLOG_INFO,
 		  server_conf, "Exiting from timeout signal handler");
 		clean_child_exit(0);
@@ -2685,6 +2686,9 @@ static void child_main(int child_num_arg)
 	    usr1_just_die = 1;
 	    signal(SIGUSR1, usr1_handler);
 	}
+
+	if (current_conn && current_conn->timeout_death_request)
+		goto timeout_death_request_received;
 
 	/*
 	 * Close the connection, being careful to send out whatever is still
