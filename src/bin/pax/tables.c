@@ -2,8 +2,8 @@
 /*	$NetBSD: tables.c,v 1.4 1995/03/21 09:07:45 cgd Exp $	*/
 
 /*-
- * Copyright (c) 2005, 2012
- *	Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2005, 2012, 2015
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 2011
  *	Svante Signell <svante.signell@telia.com>
  *	Guillem Jover <guillem@debian.org>
@@ -378,10 +378,6 @@ chk_ftime(ARCHD *arcn)
 	int namelen;
 	u_int indx;
 	char ckname[PAXPATHLEN+1];
-
-	if (arcn->nlen > PAXPATHLEN)
-		/*XXX just skip over this file */
-		return (-1);
 
 	/*
 	 * no info, go ahead and add to archive
