@@ -31,7 +31,7 @@ CLEANFILES+=	stamp_portmans
 all: stamp_portmans
 stamp_portmans:
 	rm -rf portmans
-	mkdir -p portmans
+	mkdir -p portmans/cat{1,2,3,3p,4,5,6,7,8,9}
 	cd ${PORTSDIR:Q}/games/bsdgames && mmake clean && mmake \
 	    MANPAGES_ONLY=1 ALL_TARGET=__MANALL \
 	    INSTALL_TARGET=__MANINSTALL fake
