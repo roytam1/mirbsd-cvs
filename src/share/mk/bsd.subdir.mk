@@ -1,4 +1,4 @@
-# $MirOS: src/share/mk/bsd.subdir.mk,v 1.7 2008/04/10 14:07:46 tg Exp $
+# $MirOS: src/share/mk/bsd.subdir.mk,v 1.8 2009/03/22 15:27:34 tg Exp $
 # $OpenBSD: bsd.subdir.mk,v 1.14 2005/02/05 10:39:50 espie Exp $
 # $NetBSD: bsd.subdir.mk,v 1.11 1996/04/04 02:05:06 jtc Exp $
 # @(#)bsd.subdir.mk	5.9 (Berkeley) 2/1/91
@@ -80,7 +80,7 @@ realinstall: beforeinstall _SUBDIRUSE
 BSD_SUBDIR_MK_NOINCLUDES=1
 .endif
 
-.for t in all clean cleandir includes depend lint obj tags regress
+.for t in all clean cleandir includes depend lint obj tags regress __MANALL __MANINSTALL
 .  if !target($t)
 $t: _SUBDIRUSE
 .  endif
