@@ -40,10 +40,10 @@ stamp_portmans:
 	    INSTALL_TARGET=__MANINSTALL fake
 	set -o pipefail && cd $$(cd ${PORTSDIR:Q}/games/bsdgames && \
 	    mmake show=WRKINST)/usr/share/man && find cat* -name \*.0 | \
-	    cpio -pdlu ${.OBJDIR:Q}/portmans/
+	    cpio -pdluv ${.OBJDIR:Q}/portmans/
 	set -o pipefail && cd $$(cd ${PORTSDIR:Q}/shells/csh && \
 	    mmake show=WRKINST)/usr/mpkg/man && find cat* -name \*.0 | \
-	    cpio -pdlu ${.OBJDIR:Q}/portmans/
+	    cpio -pdluv ${.OBJDIR:Q}/portmans/
 	cd ${PORTSDIR:Q}/games/bsdgames && mmake clean
 	cd ${PORTSDIR:Q}/shells/csh && mmake clean
 	@:>$@
@@ -107,7 +107,7 @@ lint:
 install:
 	rm -rf dst
 	mkdir -p dst/cat{1,2,3,3p,4,5,6,7,8,9}
-	cd portmans && pax -rw -l -pe cat*/*.0 ../dst/
+	cd portmans && pax -rw -l -pe -v cat*/*.0 ../dst/
 	cd bxmans && ${MAKE} MANPATH=${.OBJDIR:Q}/dst install.man
 	cd ${.CURDIR:Q} && ${MAKE} MANDIR=${.OBJDIR:Q}/dst/cat \
 	    MANOWN="$$(id -un)" MANGRP="$$(id -gn)" maninstall
@@ -121,7 +121,7 @@ install:
 	ln -s ../man8/praliases.htm dst/man1/praliases.htm
 	ln -s add_auvis_randomness.htm dst/man9/add_audio_randomness.htm
 	cd dst && find man* \( -name \*.htm -o -name \*.html \) -print0 | \
-	    sort -R '' | cpio -o0C512 -Hsv4cpio -Mdist | \
+	    sort -R '' | cpio -o0vC512 -Hsv4cpio -Mdist | \
 	    gzip -n9 >../htmxtr10.ngz
 	rm -rf dst
 	ls -la htmxtr10.ngz

@@ -142,7 +142,7 @@ all: ${OBJS}
 
 site.tgz.stamp: _reinstall
 #	find dst | sort | sed -e '/^dst$$/d' -e 's,^dst/,,' | \
-#	    (cd dst && cpio -oC512 -Hustar -Mdist) | gzip -n9 >site.tgz.tmp
+#	    (cd dst && cpio -ovC512 -Hustar -Mdist) | gzip -n9 >site.tgz.tmp
 #	mv site.tgz.tmp site.tgz
 	:>$@
 
@@ -153,18 +153,18 @@ WLOG_LATEST:=${_i}
 _reinstall:
 	-rm -rf dst
 	mkdir dst dst/permalinks
-	pax -rw -pe hashed dst/
-	pax -rw -pe -d ${OBJS:Nstamp_*:S/htm~$/htm/} dst/
+	pax -rw -pe -v hashed dst/
+	pax -rw -pe -v -d ${OBJS:Nstamp_*:S/htm~$/htm/} dst/
 .for _i in ${GENSRCS}
 	[[ -s ${_i} ]]
-	pax -rw -pe -d $$(<${_i}) dst/
+	pax -rw -pe -v -d $$(<${_i}) dst/
 .endfor
-	cd ${TOP}/.linked && pax -rw -pe ${USELINKED} ${DST}/dst/
-	cd ${TOP}/files && pax -rw -pe . ${DST}/dst/
+	cd ${TOP}/.linked && pax -rw -pe -v ${USELINKED} ${DST}/dst/
+	cd ${TOP}/files && pax -rw -pe -v . ${DST}/dst/
 	print '/MirOS:/s!www/files/MirOS-Licence.asc,v!src/share/misc/licence.template,v!\nwq' | \
 	    ed -s ${DST}/dst/MirOS-Licence.asc
 	touch -r ${TOP}/files/MirOS-Licence.asc ${DST}/dst/MirOS-Licence.asc
-	cd ${TOP} && pax -rw -pe pics ${DST}/dst/
+	cd ${TOP} && pax -rw -pe -v pics ${DST}/dst/
 	cd dst && \
 	    ln -sf wlog-${WLOG_LATEST}.htm wlog.htm && \
 	    ln -sf wlog-${WLOG_LATEST}.rss wlog.rss && \
