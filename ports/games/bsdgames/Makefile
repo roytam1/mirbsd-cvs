@@ -1,4 +1,4 @@
-# $MirOS: ports/games/bsdgames/Makefile,v 1.21 2009/08/16 16:26:48 tg Exp $
+# $MirOS: ports/games/bsdgames/Makefile,v 1.22 2012/09/12 17:24:58 tg Exp $
 
 COMMENT=		BSD base system games
 CATEGORIES=		games
@@ -47,18 +47,25 @@ post-extract:
 do-configure:
 	cd ${WRKSRC} && ${MAKE} obj
 
+.ifndef MANPAGES_ONLY
 pre-build:
 	cd ${WRKBUILD} && exec ${SETENV} ${MAKE_ENV} \
 	    ${MAKE_PROGRAM} ${MAKE_FLAGS} -f ${MAKE_FILE} depend
+.endif
 
 pre-install:
 	${SUDO} rm -rf ${WRKINST}/usr{,/share}/{man,info}
 	${SUDO} /usr/sbin/mtree -U -e -d -n -p ${WRKINST} \
 	    -f ${FILESDIR}/BSD.games.dist
+.ifdef MANPAGES_ONLY
+	mkdir -p ${WRKINST}/usr/share/man/cat8
+.endif
 
+.ifndef MANPAGES_ONLY
 post-install:
 	cd ${WRKINST}/var && ${SUDO} tar cf \
 	    ${WRKINST}/usr/share/games/_tarball.dist games && \
 	    rm -rf games
+.endif
 
 .include <bsd.port.mk>
