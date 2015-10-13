@@ -1,11 +1,10 @@
-# $MirOS: src/distrib/tools/boot.cfg.serial,v 1.10 2015/01/02 13:54:19 tg Exp $
+# $MirOS: src/distrib/common/boot.cfg.serial-floppy,v 1.1 2015/10/13 21:34:45 tg Exp $
 #
 echo
 echo MirOS BSD #10-current (i386) | (c) 2002-2015 The MirOS Project
 echo
 echo Booting MirBSD Installer with serial console at COM1:@SPEED@,8N1
 echo
-#@TEXT@
 set tty com0
 stty com0 @SPEED@
 echo
@@ -13,5 +12,4 @@ echo MirOS BSD #10-current (i386) | (c) 2002-2015 The MirOS Project
 echo
 echo Booting MirBSD Installer with serial console at COM1:@SPEED@,8N1
 echo
-#@TEXT@
 boot /bsd
