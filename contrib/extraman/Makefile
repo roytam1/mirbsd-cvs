@@ -1,9 +1,52 @@
-# $MirOS$
+# $MirOS: contrib/extraman/Makefile,v 1.1 2015/04/12 21:56:00 tg Exp $
 
 all:
-CLEANFILES+=	extrahtmi10.ngz
+CLEANFILES+=	htmxtr10.ngz
 
 .include <bsd.own.mk>
+
+.ifndef PORTSDIR
+PORTSDIR!=	x=$$(echo '.include <mirports.sys.mk>' | env -i "PATH=$$PATH" \
+		    mmake -f - ___DISPLAY_MAKEVARS=PORTSDIR \
+		    2>/dev/null) || x=; print -nr -- $$x
+.endif
+
+.if "${PORTSDIR}" == ""
+. error PORTSDIR is empty
+.endif
+
+.if !exists(${PORTSDIR}/infrastructure/mk/mirports.bsd.mk)
+. error PORTSDIR ${PORTSDIR} incorrect
+.endif
+
+.if !exists(${PORTSDIR}/games/bsdgames/Makefile)
+. error PORTSDIR ${PORTSDIR} lacking bsdgames port
+.endif
+
+.if !exists(${PORTSDIR}/shells/csh/Makefile)
+. error PORTSDIR ${PORTSDIR} lacking csh port
+.endif
+
+CLEANFILES+=	stamp_portmans
+all: stamp_portmans
+stamp_portmans:
+	rm -rf portmans
+	mkdir -p portmans
+	cd ${PORTSDIR:Q}/games/bsdgames && mmake clean && mmake \
+	    MANPAGES_ONLY=1 ALL_TARGET=__MANALL \
+	    INSTALL_TARGET=__MANINSTALL fake
+	cd ${PORTSDIR:Q}/shells/csh && mmake clean && mmake \
+	    MANPAGES_ONLY=1 ALL_TARGET=__MANALL \
+	    INSTALL_TARGET=__MANINSTALL fake
+	set -o pipefail && cd $$(cd ${PORTSDIR:Q}/games/bsdgames && \
+	    mmake show=WRKINST)/usr/share/man && find cat* -name \*.0 | \
+	    cpio -pdlu ${.OBJDIR:Q}/portmans/
+	set -o pipefail && cd $$(cd ${PORTSDIR:Q}/shells/csh && \
+	    mmake show=WRKINST)/usr/mpkg/man && find cat* -name \*.0 | \
+	    cpio -pdlu ${.OBJDIR:Q}/portmans/
+	cd ${PORTSDIR:Q}/games/bsdgames && mmake clean
+	cd ${PORTSDIR:Q}/shells/csh && mmake clean
+	@:>$@
 
 MAN+=		cprng.8
 MAN+=		tcpdump.8
@@ -57,13 +100,14 @@ stamp_xmans:
 	@:>$@
 
 clean:
-	rm -rf bjoe bxmans dst
+	rm -rf bjoe bxmans dst portmans
 	rm -f a.out [Ee]rrs mklog core *.core ${CLEANFILES}
 
 lint:
 install:
 	rm -rf dst
 	mkdir -p dst/cat{1,2,3,3p,4,5,6,7,8,9}
+	cd portmans && pax -rw -l -pe cat*/*.0 ../dst/
 	cd bxmans && ${MAKE} MANPATH=${.OBJDIR:Q}/dst install.man
 	cd ${.CURDIR:Q} && ${MAKE} MANDIR=${.OBJDIR:Q}/dst/cat \
 	    MANOWN="$$(id -un)" MANGRP="$$(id -gn)" maninstall
@@ -78,11 +122,11 @@ install:
 	ln -s add_auvis_randomness.htm dst/man9/add_audio_randomness.htm
 	cd dst && find man* \( -name \*.htm -o -name \*.html \) -print0 | \
 	    sort -R '' | cpio -o0C512 -Hsv4cpio -Mdist | \
-	    gzip -n9 >../extrahtmi10.ngz
+	    gzip -n9 >../htmxtr10.ngz
 	rm -rf dst
-	ls -la extrahtmi10.ngz
+	ls -la htmxtr10.ngz
 .if defined(RELEASEDIR) && !empty(RELEASEDIR)
-	mv -f extrahtmi10.ngz ${RELEASEDIR:Q}/
+	mv -f htmxtr10.ngz ${RELEASEDIR:Q}/
 .endif
 
 .include <bsd.prog.mk>
