@@ -10,7 +10,7 @@
 ##
 #
 # This script falls under the Apache License.
-# See /usr/share/doc/legal/LICENSE.httpd
+# See /usr/share/doc/legal/LICENCE.httpd
 
 
 list=`

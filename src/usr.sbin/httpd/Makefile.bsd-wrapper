@@ -1,5 +1,5 @@
 # Build wrapper for the HTTP daemon
-# $MirOS: src/usr.sbin/httpd/Makefile.bsd-wrapper,v 1.12 2008/03/19 23:07:16 tg Exp $
+# $MirOS: src/usr.sbin/httpd/Makefile.bsd-wrapper,v 1.13 2015/10/12 21:24:55 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.64 2008/01/08 10:08:31 henning Exp $
 
 .include <bsd.own.mk>
@@ -587,7 +587,9 @@ includes:
 
 install: maninstall includes
 	${INSTALL} -c -o ${DOCOWN} -g ${DOCGRP} -m ${DOCMODE} \
-	    ${.CURDIR}/LICENCE.httpd ${DESTDIR}${DOCDIR}/legal/
+	    ${.CURDIR}/LICENCE.httpd ${DESTDIR}${HTTPD_HTDOCSDIR}/manual/
+	-rm -f ${DESTDIR}${DOCDIR}/legal/LICENCE.httpd
+	ln -s ${HTTPD_HTDOCSDIR}/manual/LICENCE.httpd ${DESTDIR}${DOCDIR}/legal/
 	@-for i in ${BINFILES}; do \
 		j=$$(basename $$i); \
 		echo "Installing ${DESTDIR}${HTTPD_BINDIR}/$$j"; \
