@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.289 2014/12/06 16:14:17 tg Exp $
+# $MirOS: ports/infrastructure/mk/bsd.port.mk,v 1.290 2015/07/19 00:00:00 tg Exp $
 # $OpenBSD: bsd.port.mk,v 1.677 2005/01/06 19:30:34 espie Exp $
 # $FreeBSD: bsd.port.mk,v 1.264 1996/12/25 02:27:44 imp Exp $
 # $NetBSD: bsd.port.mk,v 1.62 1998/04/09 12:47:02 hubertf Exp $
@@ -2484,8 +2484,8 @@ ${_FAKE_COOKIE}: ${_BUILD_COOKIE} ${WRKPKG}/mtree.spec
 	@${SUDO} mount -u -w ${_p}
 .  endfor
 .  if ${PREFIX} == "/usr"
-	@[[ $$(readlink ${WRKINST}/usr/share/man) != ../man ]] || \
-	    ${SUDO} rm ${WRKINST}/usr/share/man
+	@cd ${WRKINST:Q}/usr/share; \
+	    [[ ! -h man || $$(readlink man) != ../man ]] || ${SUDO} rm man
 .  endif
 	@${SUDO} ${_MAKE_COOKIE} $@
 
