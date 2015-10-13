@@ -1003,7 +1003,7 @@ Circulate unmapped window to top.
 .SH X DEFAULTS
 There are no X defaults used by this program.
 .SH "SEE ALSO"
-X(__miscmansuffix__), xbench(1), x11perfcomp(1)
+X(__miscmansuffix__), x11perfcomp(1)
 .SH AUTHORS
 Joel McCormack
 .br
