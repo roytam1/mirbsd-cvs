@@ -475,6 +475,9 @@ stdin:
 	va[1975973142]=right
 	va[4123456789]=wrong
 	echo x7 ${va[#4123456789%2147483647]}
+	# make sure multiple calculations don't interfere with each other
+	let '# mca = -4 % -2' ' mcb = -4 % -2'
+	echo x8 $mca $mcb
 expected-stdout:
 	x1 -1 4294967295
 	x2 -171510507 4123456789
@@ -483,6 +486,7 @@ expected-stdout:
 	x5 -171510507 4123456789
 	x6 1975973142 1975973142
 	x7 right
+	x8 -4 0
 ---
 name: arith-limit32-1
 description:
