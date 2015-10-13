@@ -1,6 +1,0 @@
-# $MirOS: www/files/FNT/.htaccess,v 1.2 2011/11/14 22:35:36 tg Exp $
-
-<IfModule mod_expires.c>
-	ExpiresActive On
-	ExpiresDefault A31556952
-</IfModule>

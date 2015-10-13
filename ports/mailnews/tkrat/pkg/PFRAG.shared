@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.2 2003/12/27 23:34:42 jose Exp $
-@lib lib/tkrat/blt_busy.so.1.0
-@lib lib/tkrat/ratatosk.so.2.1

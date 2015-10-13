@@ -1,5 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.2 2004/05/08 06:43:40 sturm Exp $
-@lib lib/libgnutls-extra.so.12.20
-@lib lib/libgnutls-openssl.so.12.20
-@lib lib/libgnutls.so.12.20

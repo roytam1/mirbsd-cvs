@@ -1,4 +1,0 @@
-@comment $MirOS$
-bin/ttf2eot
-share/doc/ttf2eot/README
-@dirrm share/doc/ttf2eot

@@ -1,6 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PLIST,v 1.1.1.1 2001/04/12 08:55:51 aaron Exp $
-bin/vgb
-share/doc/vgb/CART.GB
-share/doc/vgb/VGB.html
-@dirrm share/doc/vgb
