@@ -4,7 +4,7 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.56 2015/10/12 17:37:43 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.57 2015/10/14 18:05:28 tg Exp $'
 mws_maketoc
 
 function statpic {
@@ -38,6 +38,11 @@ mws_content <<'EOF'
 <p><a href="http://www.geocaching.com/track/details.aspx?tracker=TB71WET"
  style="border:0;"><img style="border:0;" alt="Social mirzee"
  src="@@RELPATH@@pics/wlog/socmirze.png" /></a></p>
+</div>
+
+<div class="fl">
+<p><img style="border:0;" alt="Referral to Munzee"
+ src="http://mirsolutions.de/privat/mzref.png" /></p>
 </div>
 
 <div style="cb"> </div>
