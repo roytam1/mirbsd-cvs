@@ -4,8 +4,7 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.57 2015/10/14 18:05:28 tg Exp $'
-mws_maketoc
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.58 2015/10/14 18:27:07 tg Exp $'
 
 function statpic {
 	local alt=$1 pic=$2 link=$3
@@ -27,12 +26,17 @@ function statnopic {
 EOF
 }
 
+# class="fl" here malfunctions in FF38
 mws_content <<'EOF'
-
-<div class="fl">
+<div>
 <p><a href="WPtg.htm#wpts" style="border:0;"><img style="border:0;"
  alt="mirabilos’ Waypoints" src="WPtg.png" /></a></p>
 </div>
+
+EOF
+mws_maketoc
+
+mws_content <<'EOF'
 
 <div class="fl">
 <p><a href="http://www.geocaching.com/track/details.aspx?tracker=TB71WET"
@@ -45,7 +49,7 @@ mws_content <<'EOF'
  src="http://mirsolutions.de/privat/mzref.png" /></p>
 </div>
 
-<div style="cb"> </div>
+<div class="cb"> </div>
 
 <div id="begform" class="fl">
 <form accept-charset="utf-8" action="/wp.cgi" method="get">
