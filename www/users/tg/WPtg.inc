@@ -22280,7 +22280,7 @@ Points: 40
 ID: 3898
 Date: 05.09.2015
 Waypoint: GC5X94N
-Banner: https://d1u1p2xjjiahg3.cloudfront.net/6283cd74-bc27-44ed-981d-1ea39d840896_l.jpg
+Banner: jpg
 Title: Auf Mercators Spuren
 Tag: D1 T1 Event
 ----
@@ -26561,6 +26561,7 @@ Tag: D1 T1 Event
 ID: p20151015
 Date: 15.10.2015
 Waypoint: GC647CD
+Banner: jpg
 Title: Il gelato in ottobre
 Tag: D1 T1 Event
 ----
