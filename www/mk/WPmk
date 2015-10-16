@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.38 2015/02/27 22:02:58 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.40 2015/08/13 22:02:25 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -255,7 +255,7 @@ fi
 				(( iskip |= 1 ))
 				;&
 			(TC*)
-				wp="<a href=\"http://www.terracaching.com/Cache/$wp\">$wp</a>"
+				wp="<a href=\"http://play.terracaching.com/Cache/$wp\">$wp</a>"
 				[[ -n $xid ]] && let numtc++
 				(( iskip |= 4 ))
 				;;
@@ -341,7 +341,7 @@ fi
 					$wp =~ /^OZ/ ? "<a href=\"http://www.opencaching.cz/viewcache.php?wp=$wp\">$wp</a>" :
 					$wp =~ /^OX/ ? "<a href=\"http://www.opencaching.com/#!geocache/$wp\">$wp</a>" :
 					$wp =~ /^SH/ ? "<a href=\"http://shutterspot.gpsgames.org/cgi-bin/sh.pl?wp=$wp\">$wp</a>" :
-					$wp =~ /^[TLC]C/ ? "<a href=\"http://www.terracaching.com/Cache/$wp\">$wp</a>" :
+					$wp =~ /^[TLC]C/ ? "<a href=\"http://play.terracaching.com/Cache/$wp\">$wp</a>" :
 					$wp =~ /^VX/ ? "<a href=\"http://geovexilla.gpsgames.org/cgi-bin/vx.pl?listwaypointlogs=yes&amp;wp=$wp\">$wp</a>" :
 					$wp =~ /^WM/ ? "<a href=\"http://www.waymarking.com/waymarks/$wp\">$wp</a>" :
 					$wp =~ /^2/ ? "<a href=\"http://wiki.xkcd.com/geohashing/$wp\">$wp</a>" :
