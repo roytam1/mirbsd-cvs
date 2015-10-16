@@ -1,8 +1,8 @@
-# $MirOS: src/scripts/roff2htm,v 1.79 2014/02/10 00:36:11 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.80 2015/01/02 13:54:19 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
-# Copyright (c) 2004, 2005, 2006, 2007, 2011, 2012, 2014
-#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+# Copyright (c) 2004, 2005, 2006, 2007, 2011, 2012, 2014, 2015
+#	mirabilos <m@mirbsd.org>
 # Original version for ekkoBSD by:
 # Copyright (c) 2004
 #	Stephen Paskaluk <sap@mirbsd.org>
@@ -18,7 +18,7 @@
 #
 # Advertising materials mentioning features or use of this work must
 # display the following acknowledgement:
-#	This product includes material provided by Thorsten Glaser.
+#	This product includes material provided by mirabilos.
 #
 # This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
@@ -36,7 +36,7 @@
 # Note: this script assumes MirBSD filesystem interna: ino_t=uint32_t
 
 # check if mksh R31:2007/10/18 or up
-if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(3[2-9]|[4-9][0-9]|[1-9][0-9][0-9])\ +([0-9])/+([0-9])/+([0-9])?(\ *) ]]; then
+if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(3[2-9]|[4-9][0-9]|[1-9][0-9]+([0-9]))\ +([0-9])/+([0-9])/+([0-9])?(\ *) ]]; then
 	i=0
 elif [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R31)* ]]; then
 	eval $(print "$KSH_VERSION" | sed 's#^.*R31 \([0-9]*\)/\([0-9]*\)/\([0-9]*\)\( .*\)*$#y=\1 m=\2 d=\3#')
@@ -271,14 +271,14 @@ function output_header {
 function output_footer {
 	print '
 <hr /><p style="font-size:xx-small;">Generated on' $roff2htm_gendate 'by
- <tt>$MirOS: src/scripts/roff2htm,v 1.79 2014/02/10 00:36:11 tg Exp $</tt></p>
+ <tt>$MirOS: src/scripts/roff2htm,v 1.80 2015/01/02 13:54:19 tg Exp $</tt></p>
 <p>These manual pages and other documentation are <a
  href="'$roff2htm_rel'man7/BSD-Licence.htm">copyrighted</a> by their respective writers;
  their source is available at our <a href="http://cvs.mirbsd.de/">CVSweb</a>,
  AnonCVS, and other mirrors. The rest is Copyright © 2002–2015 <a
  href="https://www.mirbsd.org/">The MirOS Project</a>, Germany.<br /><span
  style="font-size:3pt; font-style:italic;">This product includes material
- provided by Thorsten Glaser.</span></p>
+ provided by <i>mirabilos</i>.</span></p>
 <p style="font-size:x-small;">This manual page’s HTML representation
  is supposed to be <a href="http://validator.w3.org/check/referer">valid
  XHTML/1.1</a>; if not, please send a bug report – diffs preferred.</p>
