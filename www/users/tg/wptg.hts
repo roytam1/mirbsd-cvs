@@ -4,7 +4,7 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.59 2015/10/14 20:52:31 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.60 2015/10/16 18:15:47 tg Exp $'
 
 function statpic {
 	local alt=$1 pic=$2 link=$3
@@ -395,8 +395,6 @@ statpic 'Island Apes: OC UK' \
 statpic 'Broken Webpages²: NaviCache' \
     'http://geocaching.gpsgames.org/cgi-bin/sig.pl?user=mirabilos&amp;txt=Open+Source+Wizard' \
     http://www.navicache.com/cgi-bin/db/MemberDetails2.google2.wap.pl?MemberID=23184
-statnopic 'Even worse: Garmin' \
-    'http://www.opencaching.com/en/#!people/mirabilos'
 statpic 'Project GC – Badges' \
     'http://maxcdn.project-gc.com/BadgeBar/mirabilos.png' \
     'http://project-gc.com/ProfileStats/mirabilos#BadgeGen'

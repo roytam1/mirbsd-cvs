@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/wp.cgi,v 1.17 2015/08/13 22:02:24 tg Exp $';
+my $rcsid = '$MirOS: www/files/wp.cgi,v 1.18 2015/10/16 18:15:46 tg Exp $';
 #-
 # Copyright © 2013, 2014, 2015
 #	mirabilos <tg@mirbsd.org>
@@ -100,7 +100,6 @@ if ($query ne "") {
 					$query =~ /^OS/ ? "http://www.opencaching.se/viewcache.php?wp=$query" :
 					$query =~ /^OU/ ? "http://www.opencaching.us/viewcache.php?wp=$query" :
 					$query =~ /^OZ/ ? "http://www.opencaching.cz/viewcache.php?wp=$query" :
-					$query =~ /^OX/ ? "http://www.opencaching.com/#!geocache/$query" :
 					$query =~ /^SH/ ? "http://shutterspot.gpsgames.org/cgi-bin/sh.pl?wp=$query" :
 					$query =~ /^[TLC]C/ ? "http://play.terracaching.com/Cache/$query" :
 					$query =~ /^VX/ ? "http://geovexilla.gpsgames.org/cgi-bin/vx.pl?listwaypointlogs=yes&wp=$query" :
