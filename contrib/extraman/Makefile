@@ -1,4 +1,4 @@
-# $MirOS: contrib/extraman/Makefile,v 1.1 2015/04/12 21:56:00 tg Exp $
+# $MirOS: contrib/extraman/Makefile,v 1.4 2015/10/13 20:51:44 tg Exp $
 
 all:
 CLEANFILES+=	htmxtr10.ngz
@@ -32,12 +32,10 @@ all: stamp_portmans
 stamp_portmans:
 	rm -rf portmans
 	mkdir -p portmans/cat{1,2,3,3p,4,5,6,7,8,9}
-	cd ${PORTSDIR:Q}/games/bsdgames && mmake clean && mmake \
-	    MANPAGES_ONLY=1 ALL_TARGET=__MANALL \
-	    INSTALL_TARGET=__MANINSTALL fake
+	cd ${PORTSDIR:Q}/games/bsdgames && mmake clean && mmake MAN_ONLY=1 \
+	    ALL_TARGET=__MANALL INSTALL_TARGET=__MANINSTALL fake
 	cd ${PORTSDIR:Q}/shells/csh && mmake clean && mmake \
-	    MANPAGES_ONLY=1 ALL_TARGET=__MANALL \
-	    INSTALL_TARGET=__MANINSTALL fake
+	    ALL_TARGET=__MANALL INSTALL_TARGET=__MANINSTALL fake
 	set -o pipefail && cd $$(cd ${PORTSDIR:Q}/games/bsdgames && \
 	    mmake show=WRKINST)/usr/share/man && find cat* -name \*.0 | \
 	    cpio -pdluv ${.OBJDIR:Q}/portmans/
