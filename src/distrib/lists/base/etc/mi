@@ -522,6 +522,7 @@
 ./var/www/conf/mime.types
 ./var/www/htdocs/index.htm
 ./var/www/htdocs/manual/FAQ.html
+./var/www/htdocs/manual/LICENCE.httpd
 ./var/www/htdocs/manual/bind.html
 ./var/www/htdocs/manual/configuring.html
 ./var/www/htdocs/manual/content-negotiation.html
