@@ -26558,12 +26558,50 @@ Waypoint: GC63K03
 Title: Hier gibt's kein Eis?
 Tag: D1 T1 Event
 ----
-ID: p20151015
+ID: 4668
 Date: 15.10.2015
-Waypoint: GC647CD
+Waypoint: GC647CD OC12716
 Banner: jpg
 Title: Il gelato in ottobre
 Tag: D1 T1 Event
+----
+ID: 4669
+Date: 16.10.2015
+Waypoint: m/H2OKLAN/5281
+Title: H2O KLAN&#039;s Social Munzee
+Points: 0
+----
+ID: 4670
+Date: 17.10.2015
+Waypoint: m/Wyando/224
+Title: Bonn - Endenich {224}
+----
+ID: 4671
+Date: 17.10.2015
+Waypoint: GC6326Y
+Title: Der Weg zum Gesundwerden
+Tag: D1 T1 Micro Tradi
+----
+ID: 4672
+Date: 18.10.2015
+Waypoint: GC5NMAB
+Title: Einbahnstraße, wen interessiert das?
+Tag: D15 T15 Micro Tradi
+----
+ID: 4673
+Date: 18.10.2015
+Waypoint: OCBDCE
+Title: Gotteshäuser: Hubertus Kapelle, Wormersdorf
+Tag: D15 T1 Virtual Tradi
+----
+ID: 4674
+Date: 18.10.2015
+Waypoint: GC652D6
+Title: Under the cherry tree
+nTF: 3
+Tag: D15 T15 Small Tradi
+
+Nice hide!
 ----
 ID: p20151021
 Date: 21.10.2015
@@ -26573,7 +26611,7 @@ Tag: D45 T2 Event
 ----
 ID: p20151031
 Date: 31.10.2015
-Waypoint: GC650MH
+Waypoint: GE0314 GC650MH OC1271B TC4THI
 Title: Ende der Eiszeit ⅯⅯⅩⅤ
 nTF: 0
 Tag: D1 T1 Event
