@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile.Grml,v 1.4 2012/09/02 22:14:45 tg Exp $
+# $MirOS: src/distrib/common/Makefile.Grml,v 1.5 2013/03/29 16:49:52 tg Exp $
 
 CBIN?=		instbin
 IMAGESIZE=	8192
@@ -44,7 +44,7 @@ gnustuff: .PHONY
 	cp ${TOPDIR}/../contrib/gnu/e3/{Makefile,README,e3.*} gplsrcs/e3/
 	cp ${TOPDIR}/../contrib/code/Snippets/tinyirc.c gplsrcs/tinyirc/
 	(cd gplsrcs && find * -type f | sort | cpio -oC512 -Hustar -Mdist | \
-	    gzip -n9) >gpl_srcs.tgz
+	    xz -3e) >gpl_srcs.txz
 
 cleannobsd: clean_grmldirs
 
