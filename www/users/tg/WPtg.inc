@@ -26603,11 +26603,43 @@ Tag: D15 T15 Small Tradi
 
 Nice hide!
 ----
-ID: p20151021
+ID: 4675
+Date: 20.10.2015
+Waypoint: GC652JA
+Title: Die Gruselbox des Gruselbaumes
+nTF: 3
+Tag: D2 T15 Small Tradi
+----
+ID: 4676
+Date: 20.10.2015
+Waypoint: GC5790N
+Banner: jpg
+Title: Die blaue Pause
+Tag: D25 T15 Small Tradi recommended
+----
+ID: 4677
+Date: 20.10.2015
+Waypoint: GC3PWNX
+Title: Grenzcache
+Tag: D3 T15 Small Mystery
+----
+ID: 4678
+Date: 21.10.2015
+Waypoint: m/JOJEVA/477
+Title: Danke für die Mystery&#039;s
+----
+ID: 4679
 Date: 21.10.2015
 Waypoint: GC60K94
+Banner: jpg
 Title: Wir kommen aus der Vergangenheit
 Tag: D45 T2 Event
+----
+ID: p20151025
+Date: 25.10.2015
+Waypoint: GC64X93
+Title: Meet &amp; Greet beim LVR-LandesMuseum Bonn
+Tag: D1 T1 Event
 ----
 ID: p20151031
 Date: 31.10.2015
@@ -26615,6 +26647,12 @@ Waypoint: GE0314 GC650MH OC1271B TC4THI
 Title: Ende der Eiszeit ⅯⅯⅩⅤ
 nTF: 0
 Tag: D1 T1 Event
+----
+ID: p201510312
+Date: 31.10.2015
+Waypoint: GC60R8J
+Title: Musikgenuss die zweite
+Tag: D1 T15 Event
 ----
 ID: p20160729
 Date: 30.07.2016
