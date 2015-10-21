@@ -2,7 +2,7 @@
 # $MirOS: www/files/raw.cgi,v 1.7 2014/07/15 22:19:19 tg Exp $
 #-
 # Copyright © 2012, 2014, 2015
-#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -76,6 +76,7 @@ if (defined($ENV{QUERY_STRING})) {
 
 if ($queryorig ne "") {
 	$queryorig =~ y/a-z/A-Z/;
+	$queryorig =~ y/.//d if $queryorig =~ /[A-Z]\./;
 	$queryorig =~ s/ä/Ä/g;
 	$queryorig =~ s/ö/Ö/g;
 	$queryorig =~ s/ü/Ü/g;
