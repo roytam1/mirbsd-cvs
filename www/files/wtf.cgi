@@ -2,7 +2,7 @@
 my $rcsid = '$MirOS: www/files/wtf.cgi,v 1.14 2015/03/14 01:09:22 tg Exp $';
 #-
 # Copyright © 2012, 2014, 2015
-#	mirabilos <tg@mirbsd.org>
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -89,6 +89,7 @@ if ($query ne "") {
 	my $enc = tohtml($query);
 
 	$query =~ y/a-z/A-Z/;
+	$query =~ y/.//d if $query =~ /[A-Z]\./;
 	$query =~ s/ä/Ä/g;
 	$query =~ s/ö/Ö/g;
 	$query =~ s/ü/Ü/g;
