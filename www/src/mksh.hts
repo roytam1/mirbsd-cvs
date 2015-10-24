@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.591 2015/09/05 20:20:46 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.592 2015/10/09 22:58:18 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1182,6 +1182,7 @@ Android can define MKSH_DEFAULT_PROFILEDIR itself but we don’t.
  <li>[tg] Reintroduce some -o posix changes lost in 2005, plus fixes</li>
  <li>[tg] Make “source” into a built-in command</li>
  <li>[tg] Drop “stop” alias, lksh(1) functionality to auto-unalias</li>
+ <li>[tg] Fix <tt>\u0000</tt> ignored in <tt>$'…'</tt> and <tt>print</tt></li>
 </ul>
 <p id="r51">R51 is a strongly recommended feature release:</p><ul>
  <li>[tg] OpenBSD sync: handle integer base out of band like ksh93 does</li>
