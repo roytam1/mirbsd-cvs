@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/special/mksh/Makefile,v 1.86 2015/07/09 20:52:34 tg Exp $
+# $MirOS: src/distrib/special/mksh/Makefile,v 1.87 2015/10/05 17:58:55 tg Exp $
 #-
 # Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
 #		2011, 2012, 2013, 2014, 2015
@@ -56,6 +56,7 @@ CPPFLAGS+=	-DMKSH_ASSUME_UTF8 -DMKSH_DISABLE_DEPRECATED -DMKSH_SMALL \
 		-DHAVE_PERSISTENT_HISTORY=0 -DMKSH_BUILD_R=511
 CPPFLAGS+=	-D${${PROG:L}_tf:C/(Mir${MAN:E}{0,1}){2}/4/:S/x/mksh_BUILD/:U}
 CPPFLAGS+=	-I.
+CPPFLAGS+=	-DMIRBSD_BOOTFLOPPY
 COPTS+=		-std=c89 -Wall
 
 DEBUGFILE?=	No

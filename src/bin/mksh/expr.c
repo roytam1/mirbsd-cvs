@@ -916,6 +916,7 @@ ksh_access(const char *fn, int mode)
 	return (rv);
 }
 
+#ifndef MIRBSD_BOOTFLOPPY
 /* From: X11/xc/programs/xterm/wcwidth.c,v 1.8 2014/06/24 19:53:53 tg Exp $ */
 
 struct mb_ucsrange {
@@ -1195,3 +1196,4 @@ utf_wcwidth(unsigned int wc)
 		return (2);
 	return (1);
 }
+#endif
