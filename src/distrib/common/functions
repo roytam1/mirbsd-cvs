@@ -1,7 +1,7 @@
-# $MirOS: src/distrib/common/functions,v 1.5 2012/01/15 00:33:14 tg Exp $
+# $MirOS: src/distrib/common/functions,v 1.6 2014/02/10 00:47:11 tg Exp $
 #-
-# Copyright (c) 2008, 2010, 2011, 2012, 2014
-#	Thorsten Glaser <tg@mirbsd.org>
+# Copyright (c) 2008, 2010, 2011, 2012, 2014, 2015
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -20,33 +20,33 @@
 
 function uri_escape {
 	print -nr -- "$*" | sed -e '
-	    s.%.%25.g
-	    s.;.%3B.g
-	    s./.%2F.g
-	    s.?.%3F.g
-	    s.:.%3A.g
-	    s.@.%40.g
-	    s.&.%26.g
-	    s.=.%3D.g
-	    s.+.%2B.g
-	    s.\$.%24.g
-	    s.,.%2C.g
-	    s.	.%09.g
-	    s. .%20.g
-	    s.<.%3C.g
-	    s.>.%3E.g
-	    s.#.%23.g
-	    s.".%22.g
-	    s.{.%7B.g
-	    s.}.%7D.g
-	    s.|.%7C.g
-	    s.\\.%5C.g
-	    s.\^.%5E.g
-	    s.\[.%5B.g
-	    s.].%5D.g
-	    s.`.%60.g
-	    s.'\''.%27.g
-	'
+s.%.%25.g
+s.;.%3B.g
+s./.%2F.g
+s.?.%3F.g
+s.:.%3A.g
+s.@.%40.g
+s.&.%26.g
+s.=.%3D.g
+s.+.%2B.g
+s.\$.%24.g
+s.,.%2C.g
+s.	.%09.g
+s. .%20.g
+s.<.%3C.g
+s.>.%3E.g
+s.#.%23.g
+s.".%22.g
+s.{.%7B.g
+s.}.%7D.g
+s.|.%7C.g
+s.\\.%5C.g
+s.\^.%5E.g
+s.\[.%5B.g
+s.].%5D.g
+s.`.%60.g
+s.'\''.%27.g
+'
 }
 
 _getrnd() {
@@ -58,8 +58,8 @@ _getrnd() {
 }
 
 _ntp() {
-	ps ax 2>&- | fgrep ntp | fgrep -v grep | while read pid rest; do
-		kill $pid 2>&-
+	ps ax 2>/dev/null | fgrep ntp | fgrep -v grep | while read pid rest; do
+		kill $pid 2>/dev/null
 	done
 	if [[ -x /usr/sbin/rdate ]]; then
 		print -n Adjusting the clock...
@@ -78,8 +78,7 @@ _ntp() {
 }
 
 _vbox_check() {
-	grep '^.d[0-9].*<VBOX[, >]' /var/run/dmesg.boot >/dev/null 2>&1 && \
-	    return 0
+	grep '^.d[0-9].*<VBOX[, >]' /var/run/dmesg.boot >/dev/null 2>&1 && return 0
 	# something with sysctl hw, hw.sensors, machdep here?
 	return 1
 }

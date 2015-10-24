@@ -13,9 +13,7 @@ _portmap:*:28:
 _identd:*:29:
 _sshagnt:*:34:
 utmp:*:45:
-_lkm:*:61:
 _shadow:*:65:
-_isakmpd:*:68:
 network:*:69:
 proxy:*:71:
 _syslogd:*:73:
@@ -25,7 +23,6 @@ _dhcp:*:77:
 _tftpd:*:79:
 _ppp:*:82:
 _ntp:*:83:
-_ripd:*:88:
 dialer:*:117:
 audio:*:250:
 nogroup:*:32766:

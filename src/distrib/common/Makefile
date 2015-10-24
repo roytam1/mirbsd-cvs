@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/Makefile,v 1.65 2014/01/04 20:24:57 tg Exp $
+# $MirOS: src/distrib/common/Makefile,v 1.66 2015/01/02 13:54:17 tg Exp $
 
 .include <bsd.own.mk>
 
@@ -150,7 +150,7 @@ ${IMAGE}: ${CBIN}
 	${SUDO} rm ${WRKDIR}/${CBIN}
 	${SUDO} makefs -s ${IMAGESIZE}b -o ${IMAGEOPTS} ${IMAGE} ${WRKDIR}
 .ifndef IMAGE_NO_ARND
-	${SUDO} dd if=/dev/arandom bs=128 count=1 of=$@ conv=notrunc
+	${SUDO} dd if=/dev/arandom bs=32 count=1 of=$@ conv=notrunc
 .endif
 	sync
 	${SUDO} mkdir -p ${TMPMOUNT}
