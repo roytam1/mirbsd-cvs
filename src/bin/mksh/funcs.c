@@ -431,8 +431,10 @@ c_print(const char **wp)
 					char ts[4];
 
 					ts[utf_wctomb(ts, c - 0x100)] = 0;
-					for (c = 0; ts[c]; ++c)
+					c = 0;
+					do {
 						Xput(xs, xp, ts[c]);
+					} while (ts[++c]);
 					continue;
 				}
 			}

@@ -601,10 +601,11 @@ yylex(int cf)
 					} else {
 						cz = utf_wctomb(ts, c2 - 0x100);
 						ts[cz] = 0;
-						for (cz = 0; ts[cz]; ++cz) {
+						cz = 0;
+						do {
 							*wp++ = QCHAR;
 							*wp++ = ts[cz];
-						}
+						} while (ts[++cz]);
 					}
 				}
 			} else if (!statep->ls_bool) {
