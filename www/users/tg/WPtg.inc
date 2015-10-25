@@ -26635,7 +26635,13 @@ Banner: jpg
 Title: Wir kommen aus der Vergangenheit
 Tag: D45 T2 Event
 ----
-ID: p20151025
+ID: 4680
+Date: 25.10.2015
+Waypoint: OC125A4 GCWG8N
+Title: Streichelkühe?
+Tag: D2 T1 Micro Multi
+----
+ID: 4681
 Date: 25.10.2015
 Waypoint: GC64X93
 Title: Meet &amp; Greet beim LVR-LandesMuseum Bonn
@@ -26653,6 +26659,12 @@ Date: 31.10.2015
 Waypoint: GC60R8J
 Title: Musikgenuss die zweite
 Tag: D1 T15 Event
+----
+ID: p20151121
+Date: 21.11.2015
+Waypoint: GC6434M
+Title: Geocacher in der Baracke 7
+Tag: D1 T1 Event
 ----
 ID: p20160729
 Date: 30.07.2016
