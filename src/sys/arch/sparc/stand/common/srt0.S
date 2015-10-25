@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/arch/sparc/stand/common/srt0.S,v 1.6 2010/01/16 21:12:27 tg Exp $ */
+/**	$MirOS: src/sys/arch/sparc/stand/common/srt0.S,v 1.7 2010/01/16 21:30:33 tg Exp $ */
 /*	$OpenBSD: srt0.S,v 1.2 2002/08/11 12:20:43 art Exp $	*/
 /*	$NetBSD: srt0.S,v 1.5.4.2 1996/07/17 01:51:46 jtc Exp $	*/
 
@@ -41,7 +41,7 @@
 #define	CCFSZ	96
 #define fofs_text 0x20
 
-	.file	"str0.s"
+	.file	"srt0.s"
 
 	.data
 	.global	_C_LABEL(cputyp), _C_LABEL(nbpg), _C_LABEL(pgofset)
