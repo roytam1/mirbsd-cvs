@@ -1,4 +1,4 @@
-# $MirOS: src/lib/libssl/crypto/Makefile,v 1.42 2015/07/18 22:48:20 tg Exp $
+# $MirOS: src/lib/libssl/crypto/Makefile,v 1.43 2015/10/09 22:20:27 tg Exp $
 # $OpenBSD: Makefile,v 1.46 2006/10/14 19:43:57 drahn Exp $
 
 .include <bsd.own.mk>
@@ -191,7 +191,9 @@ CLEANFILES+=	mbsd_md5.c
 prereq: md5.h
 
 md5.h: md4.h
-	sed -e 's/md4/md5/g' -e 's/MD4/MD5/g' <$> >$@
+	sed -e 's/md4/md5/g' -e 's/MD4/MD5/g' \
+	    -e 's!#include <md5.h>!#include <syskern/md5.h>!' \
+	    <$> >$@
 
 mbsd_md5.c: mbsd_md4.c
 	sed -e 's/md4/md5/g' -e 's/MD4/MD5/g' <$> >$@
