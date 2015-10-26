@@ -1,9 +1,9 @@
-# $MirOS: ports/graphics/jpeg/Makefile,v 1.7 2013/08/06 21:02:14 tg Exp $
+# $MirOS: ports/graphics/jpeg/Makefile,v 1.8 2014/11/26 19:29:31 tg Exp $
 # $OpenBSD: Makefile,v 1.24 2002/12/29 20:08:46 fgsch Exp $
 
 COMMENT=		IJG's JPEG compression utilities
 DISTNAME=		jpegsrc.v6b
-PKGNAME=		jpeg-6b-6
+PKGNAME=		jpeg-6b-7
 CATEGORIES=		graphics
 DISTFILES=		${DISTNAME}${EXTRACT_SUFX} \
 			jpeg-ari-28mar98.tar.gz:0

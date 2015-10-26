@@ -1,4 +1,4 @@
-# $MirOS: ports/graphics/jpeg/files/Makefile.lib,v 1.2 2005/09/11 23:46:15 tg Exp $
+# $MirOS: ports/graphics/jpeg/files/Makefile.lib,v 1.3 2014/11/26 19:29:27 tg Exp $
 
 SRCDIR=		${.CURDIR}/..
 
@@ -26,20 +26,10 @@ INSTALL_DATA=		${BSD_INSTALL_DATA}
 
 .PATH:		${SRCDIR}
 
-all: dstincs
-
-# This is required because jmorecfg.h includes the definition whether
-# arithmetic coding is supported or not.
-dstincs: ${INCLUDES}
-.for _i in ${INCLUDES}
-	unifdef ${CPPFLAGS:M-[ID]*} ${CFLAGS:M-[ID]*} <${SRCDIR}/${_i} \
-	    >${_i}.dist || test $$? -ne 2
-.endfor
-
 beforeinstall:
 	${INSTALL_DATA_DIR} ${DESTDIR}${INCLUDEDIR}
 .for _i in ${INCLUDES}
-	${INSTALL_DATA} ${_i}.dist ${DESTDIR}${INCLUDEDIR}/${_i}
+	${INSTALL_DATA} ${SRCDIR}/${_i} ${DESTDIR}${INCLUDEDIR}/
 .endfor
 
 .include <bsd.lib.mk>
