@@ -23,6 +23,7 @@
 ./usr/bin/sysdump
 ./usr/bin/unprotoize
 ./usr/include/FlexLexer.h
+./usr/include/MirBSD
 ./usr/include/a.out.h
 ./usr/include/adler32.h
 ./usr/include/altq

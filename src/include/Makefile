@@ -93,6 +93,8 @@ includes:
 	done
 	@rm -f ${DESTDIR}/usr/include/ssl && \
 	    ln -sf openssl ${DESTDIR}/usr/include/ssl
+	@rm -f ${DESTDIR}/usr/include/MirBSD && \
+	    ln -sf . ${DESTDIR}/usr/include/MirBSD
 	@echo installing ${KFILES}
 	@for i in ${KFILES}; do \
 		rm -f ${DESTDIR}/usr/include/$$i && \
