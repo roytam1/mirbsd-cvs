@@ -1,4 +1,4 @@
-# $MirOS: src/usr.sbin/pwd_mkdb/Makefile,v 1.5 2009/01/24 13:02:11 tg Exp $
+# $MirOS: src/usr.sbin/pwd_mkdb/Makefile,v 1.6 2009/03/29 13:04:25 tg Exp $
 # $OpenBSD: Makefile,v 1.8 2002/06/27 20:01:59 art Exp $
 
 PROG=		pwd_mkdb
@@ -9,7 +9,7 @@ DPADD+=		${LIBUTIL}
 LDSTATIC=	-static
 
 .ifdef SMALL
-BSIZE?=		256
+BSIZE?=		1024
 NELEM?=		32
 CPPFLAGS+=	-DPWD_MKDB_FOR_BSD_RD -DBSIZE=${BSIZE} -DNELEM=${NELEM}
 PROG=		pwd_mkdb_${BSIZE}_${NELEM}
