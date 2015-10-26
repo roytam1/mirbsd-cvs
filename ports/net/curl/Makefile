@@ -1,8 +1,9 @@
-# $MirOS: ports/net/curl/Makefile,v 1.12 2008/04/06 01:51:20 tg Exp $
+# $MirOS: ports/net/curl/Makefile,v 1.13 2008/08/26 19:16:09 tg Exp $
 # $OpenBSD: Makefile,v 1.44 2004/05/18 23:30:45 brad Exp $
 
 COMMENT=		get files from FTP, Gopher, HTTP or HTTPS servers
 DISTNAME=		curl-7.18.2
+DASH_VER=		1
 CATEGORIES=		net
 MASTER_SITES=		http://curl.haxx.se/download/ \
 			ftp://ftp.sunet.se/pub/www/utilities/curl/ \

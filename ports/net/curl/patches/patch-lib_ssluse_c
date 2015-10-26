@@ -1,0 +1,20 @@
+$MirOS$
+--- lib/ssluse.c.orig	Mon May 26 17:02:26 2008
++++ lib/ssluse.c	Mon Oct 26 16:51:07 2015
+@@ -1318,12 +1318,16 @@ ossl_connect_step1(struct connectdata *c
+   case CURL_SSLVERSION_TLSv1:
+     req_method = TLSv1_client_method();
+     break;
++#ifndef OPENSSL_NO_SSL2
+   case CURL_SSLVERSION_SSLv2:
+     req_method = SSLv2_client_method();
+     break;
++#endif
++#ifndef OPENSSL_NO_SSL3
+   case CURL_SSLVERSION_SSLv3:
+     req_method = SSLv3_client_method();
+     break;
++#endif
+   }
+ 
+   if(connssl->ctx)
