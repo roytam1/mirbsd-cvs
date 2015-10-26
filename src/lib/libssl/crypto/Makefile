@@ -191,9 +191,7 @@ CLEANFILES+=	mbsd_md5.c
 prereq: md5.h
 
 md5.h: md4.h
-	sed -e 's/md4/md5/g' -e 's/MD4/MD5/g' \
-	    -e 's!#include <md5.h>!#include <syskern/md5.h>!' \
-	    <$> >$@
+	sed -e 's/md4/md5/g' -e 's/MD4/MD5/g' <$> >$@
 
 mbsd_md5.c: mbsd_md4.c
 	sed -e 's/md4/md5/g' -e 's/MD4/MD5/g' <$> >$@

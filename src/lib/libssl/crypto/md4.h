@@ -1,10 +1,10 @@
-/* $MirOS: src/lib/libssl/crypto/md4.h,v 1.1 2014/11/29 23:47:04 tg Exp $ */
+/* $MirOS: src/lib/libssl/crypto/md4.h,v 1.2 2014/12/15 21:04:21 tg Exp $ */
 
 #ifndef HEADER_MD4_H
 #define HEADER_MD4_H
 
 #include <sys/types.h>
-#include <md4.h>
+#include <MirBSD/md4.h>
 #include <openssl/e_os2.h>
 
 #ifdef OPENSSL_NO_MD4
@@ -29,7 +29,7 @@ unsigned char *MD4(const unsigned char *d, unsigned long n, unsigned char *md)
     __attribute__((__bounded__(__string__, 1, 2)))
     __attribute__((__bounded__(__minbytes__, 3, MD4_DIGEST_LENGTH)));
 
-#define MD4_version		"$MirOS$"
+#define MD4_version		"$MirOS: src/lib/libssl/crypto/md4.h,v 1.2 2014/12/15 21:04:21 tg Exp $"
 #define MD4_Init(c)		(MD4Init(c), 1)
 #define MD4_Update(c,d,l)	(l ? (MD4Update(c, d, l), 1) : 1)
 #define MD4_Final(md,c)		(MD4Final(md, c), 1)

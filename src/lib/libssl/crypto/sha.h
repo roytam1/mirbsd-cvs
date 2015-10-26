@@ -1,11 +1,11 @@
-/* $MirOS: src/lib/libssl/crypto/sha.h,v 1.3 2015/07/18 21:12:43 tg Exp $ */
+/* $MirOS: src/lib/libssl/crypto/sha.h,v 1.4 2015/07/18 21:41:00 tg Exp $ */
 
 #ifndef HEADER_SHA1_H
 #define HEADER_SHA1_H
 
 #include <sys/types.h>
-#include <sha1.h>
-#include <sha2.h>
+#include <MirBSD/sha1.h>
+#include <MirBSD/sha2.h>
 #include <openssl/e_os2.h>
 
 #ifdef OPENSSL_NO_SHA
@@ -42,7 +42,7 @@ unsigned char *SHA1(const unsigned char *d, size_t n, unsigned char *md)
     __attribute__((__bounded__(__string__, 1, 2)))
     __attribute__((__bounded__(__minbytes__, 3, SHA1_DIGEST_LENGTH)));
 
-#define SHA1_version		"$MirOS: src/lib/libssl/crypto/sha.h,v 1.3 2015/07/18 21:12:43 tg Exp $"
+#define SHA1_version		"$MirOS: src/lib/libssl/crypto/sha.h,v 1.4 2015/07/18 21:41:00 tg Exp $"
 #define SHA256_version		SHA1_version
 #define SHA512_version		SHA1_version
 #define SHA1_Init(c)		(SHA1Init(c), 1)

@@ -1,10 +1,10 @@
-/* $MirOS: src/lib/libssl/crypto/ripemd.h,v 1.1 2014/11/30 00:23:22 tg Exp $ */
+/* $MirOS: src/lib/libssl/crypto/ripemd.h,v 1.2 2014/12/15 21:04:21 tg Exp $ */
 
 #ifndef HEADER_RIPEMD160_H
 #define HEADER_RIPEMD160_H
 
 #include <sys/types.h>
-#include <rmd160.h>
+#include <MirBSD/rmd160.h>
 #include <openssl/e_os2.h>
 
 #ifdef OPENSSL_NO_RIPEMD
@@ -32,7 +32,7 @@ unsigned char *RIPEMD160(const unsigned char *d, unsigned long n, unsigned char 
     __attribute__((__bounded__(__string__, 1, 2)))
     __attribute__((__bounded__(__minbytes__, 3, RIPEMD160_DIGEST_LENGTH)));
 
-#define RMD160_version		 "$MirOS$"
+#define RMD160_version		 "$MirOS: src/lib/libssl/crypto/ripemd.h,v 1.2 2014/12/15 21:04:21 tg Exp $"
 #define RIPEMD160_Init(c)	 (RMD160Init(c), 1)
 #define RIPEMD160_Update(c,d,l)	 (l ? (RMD160Update(c, d, l), 1) : 1)
 #define RIPEMD160_Final(md,c)	 (RMD160Final(md, c), 1)
