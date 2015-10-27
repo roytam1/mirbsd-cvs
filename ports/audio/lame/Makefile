@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/lame/Makefile,v 1.5 2007/04/04 18:00:25 bsiegert Exp $
+# $MirOS: ports/audio/lame/Makefile,v 1.6 2008/03/09 17:22:24 tg Exp $
 # $OpenBSD: Makefile,v 1.26 2005/12/23 15:03:07 espie Exp $
 
 COMMENT=		lame ain't an MP3 encoder
@@ -14,6 +14,7 @@ PERMIT_DISTFILES_CDROM=	MP3 patent, http://mp3licensing.com/royalty/swenc.html
 PERMIT_DISTFILES_FTP=	Yes
 
 USE_GMAKE=		Yes
+# WARNING: automake breaks
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 
