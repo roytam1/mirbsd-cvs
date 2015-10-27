@@ -1,4 +1,4 @@
-# $MirOS: ports/textproc/groff/Makefile,v 1.7 2008/03/09 17:23:35 tg Exp $
+# $MirOS: ports/textproc/groff/Makefile,v 1.8 2008/03/23 16:16:31 tg Exp $
 
 # probably easy to add others, but packing list is different
 ONLY_FOR_PLATFORM=		MirBSD:*:* Interix:*:*
@@ -12,7 +12,7 @@ DISTNAME=			groff-${VERSION}
 PKGNAME-docs=			groff-docs-${VERSION}-${DASH_VER}
 HOMEPAGE=			http://www.gnu.org/software/groff/
 RESPONSIBLE=			Thorsten Glaser <tg@mirbsd.de>
-MASTER_SITES=			${MASTER_SITE_GNU:=groff/}
+MASTER_SITES=			${MASTER_SITE_GNU:=groff/old/}
 SUBST_VARS+=			VERSION
 
 # GNU GPL Version 2 or later
