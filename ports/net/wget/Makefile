@@ -1,17 +1,16 @@
-# $MirOS: ports/net/wget/Makefile,v 1.9 2006/10/14 23:39:36 tg Exp $
+# $MirOS: ports/net/wget/Makefile,v 1.10 2009/08/16 17:18:33 tg Exp $
 # $OpenBSD: Makefile,v 1.35 2003/05/14 15:03:51 brad Exp $
 
 COMMENT=		retrieve files via HTTP and FTP
 VSN=			1.10.2
-DASH_VER=		2
+DASH_VER=		3
 DISTNAME=		wget-${VSN}
-PKGNAME=		wget-${VSN}-${DASH_VER}
 CATEGORIES=		net
 MASTER_SITES=		${MASTER_SITE_GNU:=wget/}
 MASTER_SITES0=		${MASTER_SITE_DEBIAN:=w/wget/}
 HOMEPAGE=		http://www.gnu.org/software/wget/
 
-PATCHFILES=		wget_${VSN}-${DASH_VER}.diff.gz:0
+PATCHFILES=		wget_${VSN}-2.diff.gz:0
 PATCH_DIST_STRIP=	-p1
 
 # GNU GPLv2 or later

@@ -1,6 +1,6 @@
-$MirOS: ports/net/wget/patches/patch-src_utils_c,v 1.2 2005/06/29 14:04:46 tg Exp $
---- src/utils.c.orig	Mon Jun 27 14:12:20 2005
-+++ src/utils.c	Thu Nov 10 21:23:08 2005
+$MirOS: ports/net/wget/patches/patch-src_utils_c,v 1.3 2005/11/10 22:20:44 tg Exp $
+--- src/utils.c.orig	Mon Jun 27 16:11:58 2005
++++ src/utils.c	Tue Oct 27 14:40:13 2015
 @@ -305,8 +305,8 @@ datetime_str (time_t *tm)
        return output;
      }
@@ -12,3 +12,35 @@ $MirOS: ports/net/wget/patches/patch-src_utils_c,v 1.2 2005/06/29 14:04:46 tg Ex
  	   ptm->tm_hour, ptm->tm_min, ptm->tm_sec);
    return output;
  }
+@@ -1635,30 +1635,7 @@ determine_screen_width (void)
+ int
+ random_number (int max)
+ {
+-  static int seeded;
+-  double bounded;
+-  int rnd;
+-
+-  if (!seeded)
+-    {
+-      srand (time (NULL));
+-      seeded = 1;
+-    }
+-  rnd = rand ();
+-
+-  /* On systems that don't define RAND_MAX, assume it to be 2**15 - 1,
+-     and enforce that assumption by masking other bits.  */
+-#ifndef RAND_MAX
+-# define RAND_MAX 32767
+-  rnd &= RAND_MAX;
+-#endif
+-
+-  /* This is equivalent to rand() % max, but uses the high-order bits
+-     for better randomness on architecture where rand() is implemented
+-     using a simple congruential generator.  */
+-
+-  bounded = (double)max * rnd / (RAND_MAX + 1.0);
+-  return (int)bounded;
++	return ((int)arc4random_uniform((unsigned int)max));
+ }
+ 
+ /* Return a random uniformly distributed floating point number in the
