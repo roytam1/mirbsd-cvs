@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.32 2015/04/26 16:59:36 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.35 2015/08/27 14:20:53 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -656,6 +656,8 @@ Tag: fun twitxr
  This is a deliberate shot, well five, of the blossoms waning. There is <a
  href="http://coord.info/GLH9GE47">another shot</a> of cherry and apple trees
  in fuller bloom, though I did not take it and thus cannot licence it.)</p>
+<p>Update: <a href="@@RELPATH@@permalinks/wlog-10-tg_e20151027-tg.htm">follow-up
+ post</a> during Autumn.</p>
 ----
 ID: evo-3
 Date: 01.03.2010 15:21:07
@@ -1622,4 +1624,18 @@ tglase@tglase:~ $ python x.py $x
 <p>I would have commented on your post if <a
  href="http://blog.surgut.co.uk/2015/08/go-enjoy-python3.html">it</a>
  allowed doing so without getting a proprietary Google+ account.</p>
+----
+Date: 27.10.2015 16:29
+Author: tg@
+Title: Oktobr Rain
+Tag: fun twitxr
+
+<p>The title is a pun on “November Rain” and “Красный Октябрь” (Red
+ Oktober, or nice october)… as a follow-up on my earlier <a
+ href="@@RELPATH@@permalinks/wlog-10-tg_e20150428-tg.htm">Sakura</a>
+ weblog entry. Again, small images as links to bigger ones:</p>
+<p><a href="http://mirsolutions.de/pub/octrainA.jpg"><img
+ alt="OR1" src="http://mirsolutions.de/pub/octrain1.jpg" /></a></p>
+<p><a href="http://mirsolutions.de/pub/octrainB.jpg"><img
+ alt="OR2" src="http://mirsolutions.de/pub/octrain2.jpg" /></a></p>
 ----
