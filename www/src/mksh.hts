@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.592 2015/10/09 22:58:18 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.593 2015/10/24 19:58:23 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1068,8 +1068,8 @@ Android can define MKSH_DEFAULT_PROFILEDIR itself but we don’t.
  will get updated again due to Solaris losing all relevance ☹</li>
 <li class="cr"><img class="fr" width="96" height="64" alt="[PLD Linux logo]"
  src="@@RELPATH@@pics/logos/pld.png" />The <a
- href="http://cvs.pld-linux.org/cgi-bin/viewvc.cgi/cvs/packages/mksh/">PLD
- Linux Distribution</a> also has a package (now not very actively maintained)
+ href="http://git.pld-linux.org/gitweb.cgi/?p=packages/mksh.git">PLD
+ Linux Distribution</a> also has a package
  by Kacper “draenog” Kornet and Arkadiusz “arekm” Miśkiewicz</li>
 <li class="cr"><a href="http://sisyphus.ru/en/srpm/mksh">Alt Linux Sisyphus</a>
  has an updated package finally</li>
