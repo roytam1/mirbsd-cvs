@@ -45,6 +45,8 @@ is from Food::Fish, Life::Fungus, and Chemicals), and some of those
 superclasses may themselves each be derived, via its @ISA, from one or
 more superclasses (as above).
 
+@ISA stands for "is a" here, that is, a derived class "is a" superclass.
+
 When, then, you call a method in that class ($fishstick->calories),
 Perl first searches there for that method, but if it's not there, it
 goes searching in its superclasses, and so on, in a depth-first (or
