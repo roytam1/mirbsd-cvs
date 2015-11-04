@@ -26769,7 +26769,7 @@ Tag: D1 T1 Micro Tradi
 ----
 ID: 4702
 Date: 01.11.2015
-Waypoint: OC10ACA
+Waypoint: OC10ACA GC3Y1BF
 Title: Straffe Hendrik
 Tag: D25 T3 Regular Mystery
 ----
@@ -26790,10 +26790,28 @@ Waypoint: m/Waldkauz/375
 Title: Laterne - Rewe
 Points: 18
 ----
+ID: 4706
+Date: 04.11.2015
+Waypoint: m/oesel123/195
+Title: Bonn-Astronomie
+Points: 18
+----
+ID: 4707
+Date: 04.11.2015
+Waypoint: m/dschuwa/30
+Title: Nächster Halt: Hochkreuz / Deutsches Museum Bonn
+Points: 18
+----
 ID: p20151121
 Date: 21.11.2015
 Waypoint: GC6434M
 Title: Geocacher in der Baracke 7
+Tag: D1 T1 Event
+----
+ID: p20151126
+Date: 26.11.2015
+Waypoint: GC667T0
+Title: - A - M - P - E - L - 10 - -
 Tag: D1 T1 Event
 ----
 ID: p20151231
