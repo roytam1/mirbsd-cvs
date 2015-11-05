@@ -1259,7 +1259,7 @@ static char *pretty_html(int c)
 	    for (n = 0; n < TABLESIZE(table); n++) {
 		if (c == table[n].code) {
 		    found = TRUE;
-		    LYStrNCpy(dst, table[n].name, sizeof(dst) - 1);
+		    LYStrNCpy(dst, table[n].name, sizeof(buf) - (dst - buf) - 1);
 		    adj += (int) strlen(dst) - 1;
 		    dst += (int) strlen(dst);
 		    break;
