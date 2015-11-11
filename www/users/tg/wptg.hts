@@ -298,6 +298,7 @@ mzbadge hoarder Hoarder 'Sometimes hoarding isn&#039;t a bad thing! You&#039;ve 
 mzbadge lvl10 'Perfect 10' 'You&#039;re a perfect 10! Don&#039;t ever change. Until you become an 11.'
 mzbadge lvl50 'Over The Hill' 'Level 50? That takes alot of work. Keep it up, you&#039;re halfway there!'
 mzbadge 1k '1k Day' '1000 points? Was this a 24 hour sprint, or a one hour stroll?'
+mzbadge 5k '5k Day' '5000 points in one day? Now I&#039;m impressed, but you will have to speed up to get 10K.'
 mzbadge pi 'Easy as Pi' 'The relationship of the capture to the deploy with included residual points is defined as pi.'
 mzbadge repeater Repeater 'You ended the day with 111 points on Jul 28, 2015 and earned this badge. Congratulations!'
 mzbadge mayflowers 'May Flowers' 'April showers brings a May badge. Thanks for playing!'
