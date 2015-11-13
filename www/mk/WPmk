@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.41 2015/10/16 18:15:47 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.42 2015/10/16 21:50:03 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -122,7 +122,6 @@ fi
 	numtc=0
 	numvx=0
 	num_b=0
-	num_m=0
 	num_w=0
 	num_x=0
 	(( entryp = entries ))
@@ -268,11 +267,6 @@ fi
 				[[ -n $xid ]] && let numgc++
 				(( iskip |= 1 ))
 				;;
-			(m/*/+([0-9]))
-				wp="<a href=\"https://www.munzee.com/$wp/\">Munzee:${wp#m/}</a>"
-				[[ -n $xid ]] && let num_m++
-				(( iskip |= 1 ))
-				;;
 			(2[0-9][0-9][0-9]-@(0[1-9]|1[0-2])-[0-3][0-9]_@(?(-)+([0-9])_?(-)+([0-9])|global))
 				wp="<a href=\"http://wiki.xkcd.com/geohashing/$wp\">$wp</a>"
 				[[ -n $xid ]] && let num_x++
@@ -351,8 +345,7 @@ fi
 	done
 	print '</ul>'
 	(( numtot = numec + numga + numgc + numgd + numge + numgg + numnc + \
-	    numoc + numox + numsh + numtc + numvx + num_b + num_m + num_w + \
-	    num_x ))
+	    numoc + numox + numsh + numtc + numvx + num_b + num_w + num_x ))
 	print -n "<p>Totals: $numtot waypoint links ($i_sum without virtual-ish)"
 	(( numga )) && print -n ", Australia $numga"
 	(( num_b )) && print -n ", BesserCacher $num_b"
@@ -362,7 +355,6 @@ fi
 	(( numge )) && print -n ", GPSgames <!-- geocaching --> $numge"
 	(( numgg )) && print -n ", GeoGolf <!-- (gpsgames) --> $numgg"
 	(( num_x )) && print -n ", Geo Hashing <!-- xkcd.com --> $num_x"
-	(( num_m )) && print -n ", Munzee $num_m"
 	(( numnc )) && print -n ", Navicaching $numnc"
 	(( numoc )) && print -n ", Opencaching <!-- network --> $numoc"
 	(( numox )) && print -n ", ex-Garmin $numox"
@@ -373,7 +365,7 @@ fi
 	print ".</p>"
 	print '<p style="font-size:small;">“virtual-ish”' means Cyber, \
 	    GeoDashing, GeoGolf, GeoHashing, GeoVexilla, Lab Caches, \
-	    Locationless, Munzee, Shutterspot, Waymarking, Wherigo'</p>'
+	    Locationless, Shutterspot, Waymarking, Wherigo'</p>'
 } >"WP$committer.png~"
 
 print -r -- "WP$committer.htm"

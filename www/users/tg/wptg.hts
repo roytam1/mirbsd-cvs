@@ -4,7 +4,7 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.60 2015/10/16 18:15:47 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.64 2015/11/11 21:42:01 tg Exp $'
 
 function statpic {
 	local alt=$1 pic=$2 link=$3
@@ -30,7 +30,8 @@ EOF
 mws_content <<'EOF'
 <div>
 <p><a href="WPtg.htm#wpts" style="border:0;"><img style="border:0;"
- alt="mirabilos’ Waypoints" src="WPtg.png" /></a></p>
+ alt="mirabilos’ Waypoints" src="WPtg.png" /></a> – New: no longer
+ counting Munzees!</p>
 </div>
 
 EOF
