@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.35 2015/08/27 14:20:53 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.36 2015/10/27 16:35:35 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -1638,4 +1638,22 @@ Tag: fun twitxr
  alt="OR1" src="http://mirsolutions.de/pub/octrain1.jpg" /></a></p>
 <p><a href="http://mirsolutions.de/pub/octrainB.jpg"><img
  alt="OR2" src="http://mirsolutions.de/pub/octrain2.jpg" /></a></p>
+----
+Date: 13.11.2015
+Author: tg@
+Title: no more Munzee in stats
+
+<p>My <a href="@@RELPATH@@WPtg.htm">waypoint statistics</a> and
+ supporting scripts ceased to handle Munzee in any way whatsoever.
+ This is because they’re getting ridiculous, especially in amount,
+ and loss of play fun due to a too slow “äpp”. This means that my
+ figure is now much closer to the real geocaching count, and you
+ have to look at two, separate, statpics to get the entire scoop,
+ but then, the separation does make it all clearer ☺</p>
+<p><a href="http://fish.mirbsd.org/wptg.htm#banners" style="border:0;"><img
+ style="border:0;" alt="mirabilos’ Waypoints"
+ src="@@RELPATH@@WPtg.png" /></a> • <a style="border:0;"
+ href="https://www.munzee.com/m/mirabilos/"><img style="border:0;"
+ src="https://www.munzee.com/embed/mirabilos/"
+ alt="It’s all about the numbers: Munzee"/></a></p>
 ----
