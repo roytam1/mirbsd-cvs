@@ -103,10 +103,7 @@ if ($query ne "") {
 
 	foreach my $line (<ACRONYMS>) {
 		chomp($line);
-		if ($line =~ /^\$MirOS: /) {
-			$acrcsid = $line;
-		}
-		if ($line =~ /^\Q@(#)\E(.*)$/) {
+		if ($line =~ /^ \@\(\#\)(.*)$/) {
 			$acrcsid = $1;
 		}
 		if ($line =~ /^\Q$query	\E(.*)$/) {
