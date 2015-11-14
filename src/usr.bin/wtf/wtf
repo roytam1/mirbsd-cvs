@@ -151,11 +151,21 @@ if (( use_acronyms )); then
 
 	# create output mapping, remove mapping number from stsrch
 	set -A omsrch
-	i=0
+	tgsrch=
+	i=0 n=-1
 	for s in "${stsrch[@]}"; do
-		stsrch[i]=${s%=*}
-		(( omsrch[${s##*=}] = i++ ))
+		p=${s%=*}
+		if [[ $p = $tgsrch ]]; then
+			# this is a repeat
+			unset stsrch[i++]
+		else
+			stsrch[i++]=$p
+			tgsrch=$p
+			let ++n
+		fi
+		(( omsrch[${s##*=}] = n ))
 	done
+	set -A stsrch -- "${stsrch[@]}"
 	# now: stsrch=(BAR BAZ FOO) omsrch[1]=2 omsrch[2]=0 omsrch[3]=1
 
 	# look up acronyms
