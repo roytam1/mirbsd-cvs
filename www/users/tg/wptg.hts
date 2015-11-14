@@ -4,7 +4,7 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.64 2015/11/11 21:42:01 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.65 2015/11/13 17:45:15 tg Exp $'
 
 function statpic {
 	local alt=$1 pic=$2 link=$3
@@ -290,6 +290,7 @@ mzbadge sampler Sampler 'You&#039;ve made your way through our Munzee sampler. D
 mzbadge 5by5 '5 by 5' 'Munzee! You captured 5 by 5 which showed great focus and restraint!'
 mzbadge rainbow 'ROY G BIV' 'Congratulations, You captured the rainbow! ROY G BIV would be proud!'
 mzbadge jordan 'Air Munzee' 'Did you have to rely on a bunny and his friends to earn this badge? I wanna be like Mike.'
+mzbadge familyjewels 'Family Jewels' 'Congratulations, you added each of the family jewels to your collection! Show them off with pride!'
 mzbadge virthigh5 'Virtual High 5' 'High five from Team Munzee! You deployed five virtuals!'
 mzbadge watson Watson 'It&#039;s a mystery where you deployed to be solved by others.'
 mzbadge 5x5deploy '5 by 5 deployed' 'Congratulations on deploying your 5x5 munzees! 5 days with 5 munzees each takes great focus and determination. You&#039;ve earned it!'
