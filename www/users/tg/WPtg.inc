@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.205 2015/05/02 17:00:19 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.290 2015/11/13 17:54:11 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -10235,6 +10235,12 @@ Date: 08.11.2015
 Waypoint: GC244EW
 Title: Am Bahnhof Zur Zinkfabrik
 Tag: D25 T15 Micro Multi
+----
+ID: 1710
+Date: 18.11.2015
+Waypoint: GC5VQVN
+Title: Einer von vielen
+Tag: D25 T1 Micro Tradi
 ----
 ID: p20151121
 Date: 21.11.2015
