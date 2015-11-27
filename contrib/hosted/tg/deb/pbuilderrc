@@ -1,7 +1,7 @@
 # $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.48 2015/05/10 12:22:10 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
-# suite support. May work, but may just as well break. Experimental.
+# suite support. For me, works rather well; may just as well break.
 #
 # Example uses include setting DIST=sid (regular package build),
 # DIST=lenny-backports-sloppy/i386 or DIST=sid/amd64 CUSTOM=foo
@@ -11,11 +11,12 @@
 # https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=shellsnippets/shellsnippets.git;a=blob;f=mksh/debian-dev/c;hb=HEAD
 #-
 # debian.org: sarge etch lenny squeeze wheezy jessie stretch sid
+# debian LTS: squeeze
 # debian-ports.org: dpo (unstable+unreleased)
-# not supported: experimental
+# not supported: experimental etch-m68k jessie-kfreebsd
 # Debian derivate from Canonical that cannot be named:
 #	dapper hardy jaunty karmic lucid maverick natty oneiric
-#	precise quantal raring saucy trusty utopic vivid
+#	precise quantal raring saucy trusty utopic vivid wily xenial
 # *-backports: sarge etch lenny squeeze wheezy jessie
 #	(plus all Debian derivate from Canonical that cannot be named)
 # *-backports-sloppy: lenny squeeze wheezy
@@ -26,6 +27,19 @@
 # base.cow after creating and before updating!
 #
 # NOTE for all: run cowbuilder --update after --create once.
+#
+# TODO: using -backports chroots is deprecated in favour of
+# adding the backports sources.list.d entries in a hook script.
+#
+# TODO: changes to the mirrors don’t apply to existing chroots
+# as they are read on --create only… move into a sources.list
+# update script instead.
+
+export BUILDRESULTUID=1000
+export BUILDRESULTGID=1000
+export BUILDUSERID=1234
+export BUILDUSERNAME=pbuilder
+export DEBEMAIL='Thorsten Glaser <tg@mirbsd.de>'
 
 # desirable, unless you *want* to run most time-consuming
 # testsuites, which usually fail anyway… (yay for optimism)
@@ -49,52 +63,56 @@ setuptofail() {
 DISTROS='debian dpo ubuntu'
 DISTS_debian='sarge etch lenny squeeze wheezy jessie stretch sid'
 DISTS_dpo='dpo'
-DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise quantal raring saucy trusty utopic vivid'
+DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise quantal raring saucy trusty utopic vivid wily xenial'
+DISTLTS_debian=squeeze
 DISTBACKPORTS_debian=sarge:etch:lenny:squeeze:wheezy:jessie
 DISTBACKPORTSLOPPY_debian=lenny:squeeze:wheezy
-DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise:quantal:raring:saucy:trusty:utopic:vivid
-MIRROR_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
-MIRROR_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
-MIRROR_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian/
-MIRROR_squeeze=http://httpredir.debian.org/debian
-MIRROR_wheezy=http://httpredir.debian.org/debian
-MIRROR_jessie=http://httpredir.debian.org/debian
-MIRROR_stretch=http://httpredir.debian.org/debian
-MIRROR_sid=http://httpredir.debian.org/debian
-MIRROR_unstable=http://ftp.de.debian.org/debian-ports
-MIRROR_unreleased=http://ftp.de.debian.org/debian-ports
+DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise:quantal:raring:saucy:trusty:utopic:vivid:wily:xenial
+MIRROR_sarge=http://archive.debian.org/debian/
+MIRROR_etch=http://archive.debian.org/debian/
+MIRROR_lenny=http://archive.debian.org/debian/
+MIRROR_squeeze=http://archive.debian.org/debian/
+MIRROR_wheezy=http://httpredir.debian.org/debian/
+MIRROR_jessie=http://httpredir.debian.org/debian/
+MIRROR_stretch=http://httpredir.debian.org/debian/
+MIRROR_sid=http://httpredir.debian.org/debian/
+MIRROR_unstable=http://ftp.de.debian.org/debian-ports/
+MIRROR_unreleased=http://ftp.de.debian.org/debian-ports/
 MIRROR_dapper=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_hardy=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_jaunty=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_karmic=http://old-releases.ubuntu.com/ubuntu/
-MIRROR_lucid=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRROR_lucid=http://archive.ubuntu.com/ubuntu/
 MIRROR_maverick=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_natty=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_oneiric=http://old-releases.ubuntu.com/ubuntu/
-MIRROR_precise=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
+MIRROR_precise=http://archive.ubuntu.com/ubuntu/
 MIRROR_quantal=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_raring=http://old-releases.ubuntu.com/ubuntu/
-MIRROR_saucy=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
-MIRROR_trusty=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
-MIRROR_utopic=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
-MIRROR_vivid=http://ftp.hosteurope.de/mirror/archive.ubuntu.com/
-MIRRORSECURITY_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
-MIRRORSECURITY_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
-MIRRORSECURITY_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-security/
-MIRRORSECURITY_squeeze=http://httpredir.debian.org/debian-security
-MIRRORSECURITY_wheezy=http://httpredir.debian.org/debian-security
-MIRRORSECURITY_jessie=http://httpredir.debian.org/debian-security
-MIRRORSECURITY_stretch=http://httpredir.debian.org/debian-security
+MIRROR_saucy=http://old-releases.ubuntu.com/ubuntu/
+MIRROR_trusty=http://archive.ubuntu.com/ubuntu/
+MIRROR_utopic=http://old-releases.ubuntu.com/ubuntu/
+MIRROR_vivid=http://archive.ubuntu.com/ubuntu/
+MIRROR_wily=http://archive.ubuntu.com/ubuntu/
+MIRROR_xenial=http://archive.ubuntu.com/ubuntu/
+MIRRORSECURITY_sarge=http://archive.debian.org/debian-security/
+MIRRORSECURITY_etch=http://archive.debian.org/debian-security/
+MIRRORSECURITY_lenny=http://archive.debian.org/debian-security/
+MIRRORSECURITY_squeeze=http://httpredir.debian.org/debian-security/
+MIRRORSECURITY_wheezy=http://httpredir.debian.org/debian-security/
+MIRRORSECURITY_jessie=http://httpredir.debian.org/debian-security/
+MIRRORSECURITY_stretch=http://httpredir.debian.org/debian-security/
 MIRRORSECURITY_sid=NO
-MIRRORBACKPORTS_sarge=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
-MIRRORBACKPORTS_etch=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
-MIRRORBACKPORTS_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
-MIRRORBACKPORTS_squeeze=http://httpredir.debian.org/debian-backports
-MIRRORBACKPORTS_wheezy=http://httpredir.debian.org/debian
-MIRRORBACKPORTS_jessie=http://httpredir.debian.org/debian
-MIRRORBACKPORTSLOPPY_lenny=http://ftp.hosteurope.de/mirror/archive.debian.org/debian-backports/
-MIRRORBACKPORTSLOPPY_squeeze=http://httpredir.debian.org/debian-backports
-MIRRORBACKPORTSLOPPY_wheezy=http://httpredir.debian.org/debian-backports
+MIRRORSECURITY_debian_LTS=http://httpredir.debian.org/debian/
+MIRRORBACKPORTS_sarge=http://archive.debian.org/debian-backports/
+MIRRORBACKPORTS_etch=http://archive.debian.org/debian-backports/
+MIRRORBACKPORTS_lenny=http://archive.debian.org/debian-backports/
+MIRRORBACKPORTS_squeeze=http://httpredir.debian.org/debian-backports/
+MIRRORBACKPORTS_wheezy=http://httpredir.debian.org/debian/
+MIRRORBACKPORTS_jessie=http://httpredir.debian.org/debian/
+MIRRORBACKPORTSLOPPY_lenny=http://archive.debian.org/debian-backports/
+MIRRORBACKPORTSLOPPY_squeeze=http://httpredir.debian.org/debian-backports/
+MIRRORBACKPORTSLOPPY_wheezy=http://httpredir.debian.org/debian/
 
 COMPONENTS_debian=main
 COMPONENTS_dpo=main
@@ -224,11 +242,11 @@ export BUILDRESULT=/var/cache/pbuilder/result-$DIST/
 # absolutely never use ccache with pbuilder, it is positively unsafe
 export CCACHEDIR=""	# requirement to empty it here!
 export BASEPATH=/var/cache/pbuilder/base.cow-$DIST$ARCHSUFFIX${CUSTOM:+-$CUSTOM}/
-export BUILDRESULTUID=2339
-export BUILDRESULTGID=141
+test -d "$BASEPATH/." || if test -z "$ARCHSUFFIX"; then
+	ARCHSUFFIX=-$ARCHITECTURE
+	BASEPATH=/var/cache/pbuilder/base.cow-$DIST$ARCHSUFFIX${CUSTOM:+-$CUSTOM}/
+fi
 export BUILDSOURCEROOTCMD=fakeroot
-export BUILDUSERID=1234
-export BUILDUSERNAME=pbuilder
 eval COMPONENTS=\$COMPONENTS_$DISTRO; export COMPONENTS
 case $DISTRIBUTION in
 (sarge|etch)
@@ -236,6 +254,7 @@ case $DISTRIBUTION in
 	;;
 esac
 export DEBOOTSTRAP=debootstrap
+# add emile, elilo, etc. for nōn-x86 arches
 REMOVEPACKAGES='grub grub2 grub-pc grub-legacy lilo tasksel tasksel-data'
 case $DISTRO in
 (debian)
@@ -325,7 +344,6 @@ case $DISTRO in
 	;;
 esac
 export DEBOOTSTRAPOPTS EXTRAPACKAGES REMOVEPACKAGES
-export DEBEMAIL='Thorsten Glaser <tg@mirbsd.de>'
 export DEBIAN_FRONTEND=noninteractive
 eval MIRRORSITE=\$MIRROR_$DISTRIBUTION; export MIRRORSITE
 eval x=\$MIRRORSECURITY_$DISTRIBUTION
@@ -350,6 +368,11 @@ case x$x:$DISTRO in
 	;;
 (*:debian)
 	OTHERMIRROR="deb $x $DISTRIBUTION/updates $COMPONENTS"
+	case :$DISTLTS_debian: in
+	(*:$DISTRIBUTION:*)
+		OTHERMIRROR="$OTHERMIRROR|deb $MIRRORSECURITY_debian_LTS $DISTRIBUTION-lts $COMPONENTS"
+		;;
+	esac
 	;;
 esac
 case $isbackports:$DIST in
@@ -427,7 +450,7 @@ case $DISTRIBUTION in
 	;;
 esac
 
-unset LANGUAGE LC_ADDRESS LC_ALL LC_COLLATE LC_IDENTIFICATION LC_MONETARY \
-    LC_NAME LC_NUMERIC LC_TELEPHONE LC_TIME
-unset LANG LC_CTYPE LC_MEASUREMENT LC_MESSAGES LC_PAPER
+unset LANG LANGUAGE LC_ADDRESS LC_COLLATE LC_CTYPE LC_IDENTIFICATION \
+    LC_MEASUREMENT LC_MESSAGES LC_MONETARY LC_NAME LC_NUMERIC LC_PAPER \
+    LC_TELEPHONE LC_TIME
 export LC_ALL=C
