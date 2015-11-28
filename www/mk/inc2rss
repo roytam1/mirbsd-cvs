@@ -1,4 +1,4 @@
-rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.39 2015/07/10 22:44:34 tg Exp $'
+rcsid_inc2rss='$MirOS: www/mk/inc2rss,v 1.38 2014/12/14 21:39:33 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -150,9 +150,10 @@ function rss_output {
 	else
 		rcmd=cat
 	fi
-	readmore="<p><a href=\"$mws__canonsite/permalinks/${ei_srcf[ent]}_${eid}.htm\">(read more…)</a></p>"
-	"${rcmd[@]}" <<<"${ei_body[ent]%%@(<!-- RSS stop -->)*/$readmore}" | \
-	    mws_content | xhtml_escape
+	x=${ei_body[ent]}
+	[[ $x = *'<!-- RSS stop -->'* ]] && \
+	    x="${x%%@(<!-- RSS stop -->)*}<p><a href=\"$mws__canonsite/permalinks/${ei_srcf[ent]}_${eid}.htm\">(read more…)</a></p>"
+	"${rcmd[@]}" <<<"$x" | mws_content | xhtml_escape
 	print "</description></item>"
 }
 
