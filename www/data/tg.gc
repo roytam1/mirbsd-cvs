@@ -12,7 +12,9 @@ fontadj2=0,-1
 
 gcbanners[${#gcbanners[*]}]='<a href="http://fish.mirbsd.org/wptg.htm#banners">Cache banners for mirabilos</a>'
 
-gcbanners[${#gcbanners[*]}]='<a href="http://geo.co/s/Enxm">Begin on geocaching.com today!</a>'
+gcbanners[${#gcbanners[*]}]='<a href="http://geo.co/s/Enxm">Begin on geocaching.com today…</a>'
+
+gcbanners[${#gcbanners[*]}]='<a href="http://project-gc.com/r/42a471cc">… and inspect extra GC.COM statistics!</a>'
 
 gcbanners[${#gcbanners[*]}]='<a href="http://mirsolutions.de/privat/mzref.png">Scan my Munzee referral code!</a>'
 

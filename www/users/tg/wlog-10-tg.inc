@@ -1657,3 +1657,26 @@ Title: no more Munzee in stats
  src="https://www.munzee.com/embed/mirabilos/"
  alt="It’s all about the numbers: Munzee"/></a></p>
 ----
+Date: 28.11.2015 18:42
+Author: tg@
+Title: FixedMisc [MirOS] for GNU GRUB2
+Tag: debian fun news
+
+<p>If you install the <tt>xfonts-base</tt> package from <a
+ href="https://www.mirbsd.org/~tg/Debs/debidx.htm">my APT repository</a>
+ you now not only get the <tt>FixedMisc [MirOS]</tt> type from <a
+ href="@@RELPATH@@about.htm#project">The MirOS Project type foundry</a>
+ for the X Window System, but now also for GNU GRUB2:</p>
+<!-- RSS stop --><p><img src="http://mirsolutions.de/privat/fmgrub.png"
+ alt="FixedMisc [MirOS] for GNU GRUB2 – Screenshot" /></p>
+<p>Just add <tt>GRUB_FONT=/usr/share/grub/FixedMisc.pf2</tt>
+ to <tt>/etc/default/grub</tt>, make sure gfxterm is enabled
+ (usually by commenting out <tt>GRUB_TERMINAL=console</tt> and
+ removing the comment sign before <tt>GRUB_GFXMODE=640x480</tt>),
+ run <tt>sudo update-grub</tt> and be happy at the next reboot.</p>
+<p>The combining and Katakana characters depicted in the above
+ screenshot are the result of manual <tt>grub.cfg</tt> editing
+ and for demonstration (bragging) purposes <em>only</em>.</p>
+<p>The <a href="https://www.mirbsd.org/~tg/Debs/NEWS.rss">RSS
+ feed of my APT repository</a> will also contain such news…</p>
+----

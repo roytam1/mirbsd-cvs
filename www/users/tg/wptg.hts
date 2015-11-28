@@ -7,10 +7,10 @@ mws_setheadline "Cache banners for mirabilos"
 mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.66 2015/11/14 21:34:11 tg Exp $'
 
 function statpic {
-	local alt=$1 pic=$2 link=$3
+	local alt=$1 pic=$2 link=$3 extra=$4
 
 	mws_content <<-EOF
-		<p><a href="$link" style="border:0;"><img
+		<p>$extra<a href="$link" style="border:0;"><img
 		 style="border:0;" src="$pic" alt="$alt" /></a></p>
 
 EOF
@@ -405,7 +405,8 @@ statpic 'Broken Webpages²: NaviCache' \
     http://www.navicache.com/cgi-bin/db/MemberDetails2.google2.wap.pl?MemberID=23184
 statpic 'Project GC – Badges' \
     'http://maxcdn.project-gc.com/BadgeBar/mirabilos.png' \
-    'http://project-gc.com/ProfileStats/mirabilos#BadgeGen'
+    'http://project-gc.com/ProfileStats/mirabilos#BadgeGen' \
+    '<a href="http://project-gc.com/r/42a471cc">Project GC</a> is an interesting statistics page:<br />'
 statpic 'Project GC – Statistics' \
     'http://maxcdn.project-gc.com/statbar.php?user=mirabilos&amp;quote=Geocaching%20-%20more%20than%20Groundspeak!' \
     'http://project-gc.com/ProfileStats/mirabilos'
