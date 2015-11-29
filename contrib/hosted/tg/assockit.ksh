@@ -1,10 +1,8 @@
 # $MirOS: contrib/hosted/tg/assockit.ksh,v 1.4 2013/04/26 17:20:33 tg Exp $
 # -*- mode: sh -*-
 #-
-# Copyright © 2011, 2013
-#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
-# Copyright © 2013
-#	Thorsten Glaser <t.glaser@tarent.de>
+# Copyright © 2011, 2013, 2015
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -98,7 +96,7 @@ function asso_setv {
 	# look up the item, creating paths as needed
 	asso__lookup 1 "$@"
 	# if it’s an array, free that recursively
-	if (( (_f = asso_f) & ASSO_MASK_ARR )); then
+	if (( ((_f = asso_f) & ASSO_MASK_ARR) == ASSO_MASK_ARR )); then
 		asso__r_free 1
 		(( _f &= ~ASSO_MASK_TYPE ))
 	fi
@@ -142,7 +140,7 @@ function asso_loadv {
 		return 2
 	fi
 
-	asso__lookup 0 "$@" || return 1
+	asso__lookup 2 "$@" || return 1
 	if (( (asso_f & ASSO_MASK_TYPE) < ASSO_NULL )); then
 		nameref _Av=${asso_b}_v
 		asso_x=${_Av[asso_k]}
@@ -161,9 +159,9 @@ function asso_loadk {
 
 	set -A asso_y
 	asso__lookup 0 "$@" || return 1
-	(( asso_f & ASSO_MASK_ARR )) || return 1
+	(( (asso_f & ASSO_MASK_ARR) == ASSO_MASK_ARR )) || return 1
 	nameref _keys=${asso_b}${asso_k#16#}_k
-	set -A asso_y -- "${_keys[@]}"
+	set -sA asso_y -- "${_keys[@]}"
 }
 
 # set a string value
@@ -277,7 +275,7 @@ function asso_setidx {
 	local _f _v
 
 	asso__lookup 1 "$@"
-	if (( !((_f = asso_f) & ASSO_MASK_ARR) )); then
+	if (( ((_f = asso_f) & ASSO_MASK_ARR) != ASSO_MASK_ARR )); then
 		nameref _Av=${asso_b}_v
 		_v=${_Av[asso_k]}
 	elif (( (_f & ASSO_MASK_TYPE) == ASSO_AIDX )); then
@@ -285,7 +283,7 @@ function asso_setidx {
 	fi
 	asso__r_free 1
 	asso__r_setf $ASSO_AIDX
-	if (( !(_f & ASSO_MASK_ARR) )); then
+	if (( (_f & ASSO_MASK_ARR) != ASSO_MASK_ARR )); then
 		asso__lookup 1 "$@" 0
 		asso__r_setfv $_f "$_v"
 	fi
@@ -303,7 +301,7 @@ function asso_setasso {
 	local _f
 
 	asso__lookup 1 "$@"
-	if (( !((_f = asso_f) & ASSO_MASK_ARR) )); then
+	if (( ((_f = asso_f) & ASSO_MASK_ARR) != ASSO_MASK_ARR )); then
 		asso__r_free 1
 		asso__r_setf $ASSO_AASS
 	elif (( (_f & ASSO_MASK_TYPE) == ASSO_AIDX )); then
@@ -322,7 +320,7 @@ function asso__settv {
 	# look up the item, creating paths as needed
 	asso__lookup 1 "$@"
 	# if it’s an array, free that recursively
-	if (( (_f = asso_f) & ASSO_MASK_ARR )); then
+	if (( ((_f = asso_f) & ASSO_MASK_ARR) == ASSO_MASK_ARR )); then
 		asso__r_free 1
 	fi
 	(( _f = (_f & ~ASSO_MASK_TYPE) | _t ))
@@ -372,12 +370,12 @@ function asso__typeck {
 		(( $? < 2 ))
 		return
 	fi
-	(( _t & ASSO_MASK_ARR )) && return 1
+	(( (_t & ASSO_MASK_ARR) == ASSO_MASK_ARR )) && return 1
 	# ASSO_REAL
 	[[ $_v = ?(-)@(0|[1-9]*([0-9]))?(.+([0-9]))?([Ee]?([+-])+([0-9])) ]]
 }
 
-# look up an item ($1=1: create paths as necessary)
+# look up an item ($1 &1: create paths as necessary; &2: only scalar values)
 function asso__lookup {
 	local _c=$1 _k _n _r
 	shift
@@ -386,7 +384,7 @@ function asso__lookup {
 	_r=0
 	asso_f=$ASSO_AASS
 	for _k in "$@"; do
-		if (( _r || !(asso_f & ASSO_MASK_ARR) )); then
+		if (( _r || (asso_f & ASSO_MASK_ARR) != ASSO_MASK_ARR )); then
 			(( _r )) || asso__r_free 1
 			asso__r_setf $ASSO_AASS
 		elif (( (asso_f & ASSO_MASK_TYPE) == ASSO_AIDX )); then
@@ -396,12 +394,18 @@ function asso__lookup {
 		asso__lookup_once "$_k"
 		if (( _r = $? )); then
 			# not found. not create?
-			(( _c )) || return 1
+			(( _c & 1 )) || return 1
 			asso__r_setk "$_k"
 		fi
 		_n=$_n${asso_k#16#}
 	done
-	return 0
+	(( _c & 2 )) || return 0
+	# assume $1==3 does not happen
+	while (( (asso_f & ASSO_MASK_ARR) == ASSO_MASK_ARR )); do
+		asso_b=$_n
+		asso__lookup_once 0 || return 1
+		_n=$_n${asso_k#16#}
+	done
 }
 
 # set flags for asso_b[asso_k] and update asso_f
@@ -443,7 +447,6 @@ function asso__lookup_once {
 		asso_k=$((_e))
 	else
 		asso_k=16#${_e@#}
-#		asso_k=$(somehash "$_e")
 		while :; do
 			asso_f=${_Af[asso_k]}
 			(( asso_f & ASSO_ALLOC )) || break
@@ -480,7 +483,7 @@ function asso__r_free {
 	asso_f=${_Af[asso_k]}
 	(( asso_f & ASSO_ALLOC )) || return
 	if (( asso_f & ASSO_ISSET )); then
-		if (( asso_f & ASSO_MASK_ARR )); then
+		if (( (asso_f & ASSO_MASK_ARR) == ASSO_MASK_ARR )); then
 			local _ob=$asso_b _ok=$asso_k
 			asso_b=$asso_b${asso_k#16#}
 			nameref _s=${asso_b}_f
