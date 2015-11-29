@@ -10254,24 +10254,54 @@ Waypoint: GC61ATE
 Title: S-Bahn Haltepunkt Endenich Nord
 Tag: D15 T3 Micro Tradi
 ----
-ID: p20151124
+ID: 1713
 Date: 24.11.2015
 Waypoint: OC127F2 GC66KZH
 Title: AMT Ⅴ (2015 KW48)
 nTF: 0
 Tag: D1 T1 Event
 ----
-ID: p20151126
+ID: 1714
 Date: 26.11.2015
 Waypoint: GC667T0
 Title: - A - M - P - E - L - 10 - -
 Tag: D1 T1 Event
+----
+ID: 1715
+Date: 29.11.2015
+Waypoint: CC5YO4
+Title: Patriotism is Not Enough
+Tag: Locationless Challenge
+----
+ID: 1716
+Date: 29.11.2015
+Waypoint: CCPV
+Title: Post a Picture of Yourself
+Tag: Locationless Challenge
+----
+ID: p20151204
+Date: 04.12.2015
+Waypoint: GC66N7V
+Title: Game on - World Dice Day 2015
+Tag: D15 T15 Event
+----
+ID: p20151210
+Date: 10.12.2015
+Waypoint: OC1281D GC6738N
+Title: Schanitzelchenjagd Nr. 15 - Das Wichtelevent
+Tag: D1 T15 Event
 ----
 ID: p20151231
 Date: 31.12.2015
 Waypoint: GC64Z37
 Title: The Same Procedure As Every Year
 Tag: D35 T35 Event
+----
+ID: p20160101
+Date: 01.01.2016
+Waypoint: GC66RFY
+Title: 1.1.2016, 11:16 Neujahrs-Event
+Tag: D3 T1 Event
 ----
 ID: p20160729
 Date: 30.07.2016
