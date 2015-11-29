@@ -1,6 +1,6 @@
 /*-
  * Copyright (c) 2009, 2010, 2011, 2013, 2014
- *	mirabilos <tg@mirbsd.org>
+ *	mirabilos <m@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
