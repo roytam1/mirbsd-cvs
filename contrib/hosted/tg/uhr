@@ -1,8 +1,8 @@
 #!/bin/mksh
 # $MirOS: contrib/hosted/tg/uhr,v 1.14 2013/02/19 18:07:46 tg Exp $
 #-
-# Copyright © 2012, 2013
-#	Thorsten Glaser <tg@mirbsd.org>
+# Copyright © 2012, 2013, 2015
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -43,7 +43,19 @@ trap got_sigwinch=1 WINCH
 while :; do
 got_sigwinch=0
 
-print "\e[0m\nPregenerating arrays, please wait..."
+S='Pregenerating arrays, please wait...'
+if (( (r = (COLUMNS - ${%S}) / 2 - 2) < 1 )); then
+	d="\\e[0m\\n$S"
+else
+	d=
+	(( n = ${%S} + 2 ))
+	while (( n-- )); do
+		d+=─
+	done
+	d="\\e[0m\\e[$((LINES / 2 - 1));${r}H\\e7┌$d┐\\e8\\e[B│ $S │\\e8\\e[2B└$d┘"
+fi
+print "$d"
+
 (( r = LINES * 2 ))
 (( r = (r > COLUMNS ? COLUMNS : r) / 2 - 1))
 (( n = 2 * r + 1 ))
