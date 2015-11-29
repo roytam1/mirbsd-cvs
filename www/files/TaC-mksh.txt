@@ -12,14 +12,14 @@ if any are found. We don't think so though.)
 All paths are relative to The MirOS Project's CVS repository.
 
 
-The following files form The MirBSD Korn Shell R50j-current:
+The following files form The MirBSD Korn Shell R52:
 - build system
   * mksh/Build.sh
 - testsuite driver
   * mksh/check.pl
 - testsuite with code examples
   * mksh/check.t
-- configuration with/and code examples
+- configuration with/and code examples (informal)
   * mksh/dot.mkshrc
   * contrib/hosted/tg/assockit.ksh
   * contrib/hosted/tg/uhr
@@ -74,8 +74,8 @@ Appendix D.
 The creator of mksh acknowledges the contributions of several people
 to the Public Domain Korn Shell as well as suggestions and work from
 packagers, other developers etc. and everyone else who helped making
-mksh what it is today. Thanks! The MirBSD Korn Shell is covered by a
-copyright licence fallback from the original author of the shell.
+mksh what it is today. Thanks!  The MirBSD Korn Shell is sublicenced
+under a copyright licence fallback from the original pdsh author.
 
 
 The following files belong to mksh and are distributed inside of its
@@ -122,14 +122,14 @@ Appendix A - The MirOS Licence (OSI approved)
 The MirBSD Korn Shell (mksh) is
 Copyright (c) 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
 	      2011, 2012, 2013, 2014, 2015
-	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
+	mirabilos <m@mirbsd.org>
 All rights reserved.
 
 The mksh logo is
 Copyright (c) 2008, 2009
 	Lukas U. <smultron@midnightbsd.org>
 Copyright (c) 2008, 2009
-	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
+	mirabilos <m@mirbsd.org>
 
 
 Provided that these terms and disclaimer and all copyright notices
@@ -186,8 +186,8 @@ Appendix C - ISC Licence (OSI approved)
 ========================
 
 strlcpy.c is
-Copyright (c) 2006, 2008, 2009
-	Thorsten Glaser <tg@mirbsd.org>
+Copyright (c) 2006, 2008, 2009, 2013
+	mirabilos <m@mirbsd.org>
 Copyright (c) 1998
 	Todd C. Miller <Todd.Miller@courtesan.com>
 
@@ -213,7 +213,7 @@ of modification and is an unregistered trademark:
 
 Copyright (c) 2013 Michael Langguth
 Copyright (c) 2006 Benny Siegert
-Copyright (c) 2005 Thorsten Glaser
+Copyright (c) 2005 mirabilos
 
 This icon may be used to refer to The MirBSD Korn Shell and
 its Win32 port. Distribution patches are acceptable as long
@@ -240,4 +240,4 @@ possible, the text shown above is to be included.
 
 
 __________________________________________________________________
-$MirOS: www/files/TaC-mksh.txt,v 1.22 2014/10/03 17:56:25 tg Exp $
+$MirOS: www/files/TaC-mksh.txt,v 1.23 2015/01/02 13:54:22 tg Exp $
