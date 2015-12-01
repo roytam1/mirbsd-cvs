@@ -434,8 +434,7 @@ case $isbackports:$DISTRIBUTION in
 	;;
 esac
 PBUILDERSATISFYDEPENDSOPT=(--check-key)
-#APTGETOPT=(--force-yes --purge)
-APTGETOPT=(--purge)
+APTGETOPT=(-oAPT::Get::Purge=true)
 export USEDEVFS=no
 export USEDEVPTS=yes
 export USEPROC=yes
