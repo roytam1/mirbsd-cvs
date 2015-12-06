@@ -1,8 +1,8 @@
 ! $MirSecuCron$
-! $MirOS: src/etc/skel/dot.Xresources,v 1.21 2013/05/17 20:26:16 tg Exp $
+! $MirOS: src/etc/skel/dot.Xresources,v 1.22 2014/03/07 21:18:05 tg Exp $
 !-
-! Copyright © 2003, 2006, 2007, 2009, 2010, 2011, 2013, 2014
-!	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+! Copyright © 2003, 2006, 2007, 2009, 2010, 2011, 2013, 2014, 2015
+!	mirabilos <m@mirbsd.org>
 !
 ! Provided that these terms and disclaimer and all copyright notices
 ! are retained or reproduced in an accompanying document, permission
@@ -20,7 +20,7 @@
 ! of said person’s immediate fault when using the work as intended.
 !-
 ! Xresources file, for xterm and uxterm with FixedMisc [MirOS] font,
-! and VGA xterm with CP437 encoding, VGA font and tty size.
+! and VGA xterm with FixedMisc font in cp437 encoding and tty size.
 
 XTerm*VT100*loginShell:		true
 XTerm*keepSelection:		true
@@ -187,16 +187,16 @@ VXTerm*VT100*colorBD:		white
 VXTerm*fontMenu*background:	AntiqueWhite
 VXTerm*fontMenu*foreground:	gray15
 VXTerm*fontMenu.Label:		VGA Fonts
-VXTerm*VT100*font:		-misc-vga-bold-r-normal--14-110-96-96-c-80-ibm-cp437
-VXTerm*VT100*boldFont:		-misc-vga-bold-r-normal--14-110-96-96-c-80-ibm-cp437
+VXTerm*VT100*font:		-miros-fixedmisc-medium-r-normal--16-120-100-100-c-80-ibm-cp437
+VXTerm*VT100*boldFont:		-miros-fixedmisc-medium-r-normal--16-120-100-100-c-80-ibm-cp437
 VXTerm*fontMenu*font1*Label:	Small
-VXTerm*fontMenu*font2*Label:	Large
+VXTerm*fontMenu*font2*Label:	Default
 VXTerm*fontMenu*font3*Label:	TerminusSmall
 VXTerm*fontMenu*font4*Label:	TerminusMed
 VXTerm*fontMenu*font5*Label:	vga8x14
 VXTerm*fontMenu*font6*Label:	vga8x16
 VXTerm*VT100*font1:		6x10
-VXTerm*VT100*font2:		9x15
+VXTerm*VT100*font2:		-miros-fixedmisc-medium-r-normal--16-120-100-100-c-80-ibm-cp437
 VXTerm*VT100*font3:		-xos4-terminus-bold-r-normal--14-140-72-72-c-80-iso8859-1
 VXTerm*VT100*font4:		-xos4-terminus-medium-r-normal--16-160-72-72-c-80-iso8859-1
 VXTerm*VT100*font5:		-misc-vga-bold-r-normal--14-110-96-96-c-80-ibm-cp437

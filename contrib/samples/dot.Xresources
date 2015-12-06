@@ -1,9 +1,9 @@
 ! $MirSecuCron$
-! $MirOS: contrib/samples/dot.Xresources,v 1.23 2013/05/17 20:26:15 tg Exp $
+! $MirOS: contrib/samples/dot.Xresources,v 1.24 2014/03/07 21:18:04 tg Exp $
 !-
 ! Copyright © 2003, 2004, 2005, 2006, 2007, 2009, 2010, 2011,
-!	      2012, 2013, 2014
-!	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+!	      2012, 2013, 2014, 2015
+!	mirabilos <m@mirbsd.org>
 !
 ! Provided that these terms and disclaimer and all copyright notices
 ! are retained or reproduced in an accompanying document, permission
@@ -22,8 +22,8 @@
 !-
 ! ~/.Xresources file for xterm (XTerm COLOR 7,0 (small font), UXTerm
 ! COLOR 7,0 (large), AXTerm amber on black, BXTerm monochrome (black
-! on white), TXTerm (Terminus font) and VXTerm (80x25 size, VGA font
-! and CP437 encoding)), kterm (EUC-JP), kinput2 IME, scroll wheel in
+! on white), TXTerm (Terminus font) and VXTerm (FixedMisc, cp437 en‐
+! coding, 80x25 size)), kterm (EUC-JP), kinput2 IME, scroll wheel in
 ! Netscape 4, and whatever else pleases you. Works best with a most‐
 ! ly recent xterm.
 
@@ -361,16 +361,16 @@ VXTerm*VT100*colorBD:		white
 VXTerm*fontMenu*background:	AntiqueWhite
 VXTerm*fontMenu*foreground:	gray15
 VXTerm*fontMenu.Label:		VGA Fonts
-VXTerm*VT100*font:		-misc-vga-bold-r-normal--14-110-96-96-c-80-ibm-cp437
-VXTerm*VT100*boldFont:		-misc-vga-bold-r-normal--14-110-96-96-c-80-ibm-cp437
+VXTerm*VT100*font:		-miros-fixedmisc-medium-r-normal--16-120-100-100-c-80-ibm-cp437
+VXTerm*VT100*boldFont:		-miros-fixedmisc-medium-r-normal--16-120-100-100-c-80-ibm-cp437
 VXTerm*fontMenu*font1*Label:	Small
-VXTerm*fontMenu*font2*Label:	Large
+VXTerm*fontMenu*font2*Label:	Default
 VXTerm*fontMenu*font3*Label:	TerminusSmall
 VXTerm*fontMenu*font4*Label:	TerminusMed
 VXTerm*fontMenu*font5*Label:	vga8x14
 VXTerm*fontMenu*font6*Label:	vga8x16
 VXTerm*VT100*font1:		6x10
-VXTerm*VT100*font2:		9x15
+VXTerm*VT100*font2:		-miros-fixedmisc-medium-r-normal--16-120-100-100-c-80-ibm-cp437
 VXTerm*VT100*font3:		-xos4-terminus-bold-r-normal--14-140-72-72-c-80-iso8859-1
 VXTerm*VT100*font4:		-xos4-terminus-medium-r-normal--16-160-72-72-c-80-iso8859-1
 VXTerm*VT100*font5:		-misc-vga-bold-r-normal--14-110-96-96-c-80-ibm-cp437
