@@ -1,4 +1,4 @@
-XCOMM $MirOS: X11/xc/fonts/bdf/misc/Imakefile,v 1.3 2012/09/01 19:03:44 tg Exp $
+XCOMM $MirOS: X11/xc/fonts/bdf/misc/Imakefile,v 1.4 2013/05/17 20:04:22 tg Exp $
 XCOMM $XFree86: xc/fonts/bdf/misc/Imakefile,v 1.31 2004/06/01 00:16:55 dawes Exp $
 /*
  * Copyright (c) 1994-2004 by The XFree86 Project, Inc.
@@ -354,7 +354,7 @@ MISC_ZH_OBJS = \
 MISC_MISC_OBJS = \
 	FontObj(cursor) FontObj(deccurs) FontObj(decsess) FontObj(olcursor) \
 	FontObj(olgl10) FontObj(olgl12) FontObj(olgl14) FontObj(olgl19) \
-	FontObj(micro) FontObj(mirf18hw) FontObj(mirf18fw) \
+	FontObj(micro) FontObj(mirf16v8) FontObj(mirf18hw) FontObj(mirf18fw) \
 	FontObj(nil2) FontObj(clB6x10) FontObj(clB6x12) FontObj(clB8x10) \
 	FontObj(clB8x12) FontObj(clB8x13) FontObj(clB8x14) FontObj(clB8x16) \
 	FontObj(clB8x8) FontObj(clB9x15) FontObj(clI6x12) FontObj(clI8x8) \
@@ -843,6 +843,7 @@ FontTarget(olgl12)
 FontTarget(olgl14)
 FontTarget(olgl19)
 FontTarget(micro)
+FontTarget(mirf16v8)
 FontTarget(mirf18hw)
 FontTarget(mirf18fw)
 FontTarget(nil2)

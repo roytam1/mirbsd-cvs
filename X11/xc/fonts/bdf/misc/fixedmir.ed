@@ -1,5 +1,5 @@
 1a
-' "$MirOS: contrib/fonts/fixed/fixedmir.ed,v 1.1 2013/04/09 12:28:49 tg Exp $"
+' "$MirOS: contrib/fonts/fixed/fixedmir.ed,v 1.2 2013/05/17 22:18:29 tg Exp $"
 .
 /^hFONT/s/-Misc-Fixed/-MirOS-FixedMisc/
 .g/-ko/s//-/
