@@ -2,7 +2,7 @@
 │ How to install FixedMisc [MirOS] │
 └──────────────────────────────────┘
 
-Just place the two *.bdf files into some directory – such as
+Just place the three *.bdf files into a directory – such as
 /usr/X11R6/lib/X11/fonts/local – which is in the X server’s
 FontPath (Section "Files"), then go into that directory and
 run “sudo mkfontdir .” and “sudo fc-cache -v .”.
@@ -55,4 +55,4 @@ The preferred form of modification for X bitmap fonts is BDF or
 an equivalence transformation: https://www.mirbsd.org/man1/bdfctool
 
 __________________________________________________________________________
-$MirOS$
+$MirOS: contrib/fonts/fixed/README.dist,v 1.2 2015/01/24 16:01:14 tg Exp $
