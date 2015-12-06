@@ -10279,11 +10279,18 @@ Waypoint: CCPV
 Title: Post a Picture of Yourself
 Tag: Locationless Challenge
 ----
-ID: p20151204
+ID: 1717
 Date: 04.12.2015
 Waypoint: GC66N7V
 Title: Game on - World Dice Day 2015
 Tag: D15 T15 Event
+----
+ID: 1718
+Date: 06.12.2015
+Waypoint: CC3UNG
+Title: Seven Days of Random Kindness
+nTF: 1
+Tag: Locationless Challenge
 ----
 ID: p20151210
 Date: 10.12.2015
