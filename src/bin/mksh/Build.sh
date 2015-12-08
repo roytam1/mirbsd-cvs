@@ -1195,7 +1195,7 @@ tcc)
 	;;
 tendra)
 	vv '|' "$CC $CFLAGS $CPPFLAGS $LDFLAGS $NOWARN $LIBS -V 2>&1 | \
-	    fgrep -i -e version -e release"
+	    grep -F -i -e version -e release"
 	;;
 ucode)
 	vv '|' "$CC $CFLAGS $CPPFLAGS $LDFLAGS $NOWARN $LIBS -V"
@@ -2409,7 +2409,7 @@ cat >test.sh <<-EOF
 		args[\${#args[*]}]=\$TMPDIR
 	fi
 	print Testing mksh for conformance:
-	fgrep -e Mir''OS: -e MIRBSD "\$sflag"
+	grep -F -e Mir''OS: -e MIRBSD "\$sflag"
 	print "This shell is actually:\\n\\t\$KSH_VERSION"
 	print 'test.sh built for mksh $dstversion'
 	cstr='\$os = defined \$^O ? \$^O : "unknown";'
