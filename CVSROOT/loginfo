@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/loginfo,v 1.31 2014/04/14 18:47:43 tg Exp $
+# $MirOS: CVSROOT/loginfo,v 1.32 2015/10/09 14:40:22 tg Exp $
 #-
 # Note: with the current system, the last directory to be committed
 # into “wins” the eMail and changelog location. This will be replaced
@@ -51,17 +51,6 @@
 #DEFAULT (echo ""; id; echo %{sVv}; date; cat) >> $CVSROOT/CVSROOT/commitlog
 
 # normal operation
-
-# Debian PTS and commit mails
-^contrib/hosted/tg/deb/cvs\(/\|$\)			$CVSROOT/CVSROOT/mklogci %I -R miros-discuss@mirbsd.org -m tg@mirbsd.org -f $CVSROOT/Logs/.cpr.tg -P cvs -C %r -p %p %{sVv}
-^contrib/hosted/tg/deb/jupp\(/\|$\)			$CVSROOT/CVSROOT/mklogci %I -R miros-discuss@mirbsd.org -m tg@mirbsd.org -f $CVSROOT/Logs/.cpr.tg -P jupp -C %r -p %p %{sVv}
-^contrib/hosted/tg/deb/kwalletcli\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -R miros-discuss@mirbsd.org -m tg@mirbsd.org -f $CVSROOT/Logs/.cpr.tg -P kwalletcli -C %r -p %p %{sVv}
-^contrib/hosted/tg/deb/libbsd-arc4random-perl\(/\|$\)	$CVSROOT/CVSROOT/mklogci %I -R miros-discuss@mirbsd.org -m tg@mirbsd.org -f $CVSROOT/Logs/.cpr.tg -P libbsd-arc4random-perl -C %r -p %p %{sVv}
-^contrib/hosted/tg/deb/makefs\(/\|$\)			$CVSROOT/CVSROOT/mklogci %I -R miros-discuss@mirbsd.org -m tg@mirbsd.org -f $CVSROOT/Logs/.cpr.tg -P makefs -C %r -p %p %{sVv}
-^contrib/hosted/tg/deb/mircpio\(/\|$\)			$CVSROOT/CVSROOT/mklogci %I -R miros-discuss@mirbsd.org -m tg@mirbsd.org -f $CVSROOT/Logs/.cpr.tg -P pax -C %r -p %p %{sVv}
-^contrib/hosted/tg/deb/mksh\(/\|$\)			$CVSROOT/CVSROOT/mklogci %I -R miros-discuss@mirbsd.org -m tg@mirbsd.org -f $CVSROOT/Logs/.cpr.tg -P mksh -C %r -p %p %{sVv}
-^contrib/hosted/tg/deb/pcc\(/\|$\)			$CVSROOT/CVSROOT/mklogci %I -R miros-discuss@mirbsd.org -m tg@mirbsd.org -f $CVSROOT/Logs/.cpr.tg -P pcc -C %r -p %p %{sVv}
-^contrib/hosted/tg/deb/rs\(/\|$\)			$CVSROOT/CVSROOT/mklogci %I -R miros-discuss@mirbsd.org -m tg@mirbsd.org -f $CVSROOT/Logs/.cpr.tg -P rs -C %r -p %p %{sVv}
 
 # regular commit mails per developer
 ^contrib/hosted/fwcf\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -D -R freewrt-developers@freewrt.org -m miros-hosted-fwcf@mirbsd.org -f $CVSROOT/Logs/ChangeLog -C %r -p %p %{sVv}
