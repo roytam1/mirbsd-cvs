@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogci,v 1.46 2015/10/09 14:51:36 tg Exp $
+# $MirOS: CVSROOT/mklogci,v 1.47 2015/10/09 14:55:09 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2007, 2011, 2015
 #	mirabilos <m@mirbsd.org>
@@ -208,7 +208,7 @@ while getopts "C:Df:I:M:m:P:p:R: :" flag; do
 	(M)	module=$OPTARG ;;
 	(m)	mailto="$mailto $OPTARG" ;;
 	(P)	opt_pts=1
-		mailto="$mailto ${OPTARG}_cvs@packages.qa.debian.org"
+		mailto="$mailto dispatch+${OPTARG}_vcs@tracker.debian.org"
 		;;
 	(p)	pathr=$OPTARG ;;
 	(R)	replyto=$OPTARG ;;

@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: CVSROOT/mklogtag,v 1.24 2015/10/09 14:51:36 tg Exp $
+# $MirOS: CVSROOT/mklogtag,v 1.25 2015/10/09 14:55:10 tg Exp $
 #-
 # Copyright (c) 2005, 2006, 2011, 2015
 #	mirabilos <m@mirbsd.org>
@@ -158,7 +158,7 @@ while (( $# > 0 )); do
 		shift; shift
 	elif [[ $1 = -P && $opt_done = 0 ]]; then
 		opt_pts=1
-		rcpt="$rcpt ${2}_cvs@packages.qa.debian.org"
+		rcpt="$rcpt dispatch+${2}_vcs@tracker.debian.org"
 		shift; shift
 	elif [[ $1 = -f && $opt_done = 0 ]]; then
 		logf=$2
