@@ -5068,7 +5068,7 @@ description:
 	called - I don't know what this will break.
 stdin:
 	: "${PWD:-`pwd 2> /dev/null`}"
-	: "${PWD:?"PWD not set - can't do test"}"
+	: "${PWD:?"PWD not set - cannot do test"}"
 	mkdir Y
 	cat > Y/xxxscript << EOF
 	#!/bin/sh
