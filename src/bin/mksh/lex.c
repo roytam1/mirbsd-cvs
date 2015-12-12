@@ -784,7 +784,7 @@ yylex(int cf)
 					 */
 					*wp = EOS;
 					sp = Xstring(ws, wp);
-					dp = wdstrip(sp, WDS_KEEPQ);
+					dp = wdstrip(sp + 1, WDS_TPUTS);
 					s = pushs(SREREAD, source->areap);
 					s->start = s->str = s->u.freeme = dp;
 					s->next = source;
