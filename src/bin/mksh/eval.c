@@ -496,30 +496,9 @@ expand(
 						else
 							d[-2] = EOS;
 						sp += (d ? d : p) - s - 1;
-						tpat0 = wdstrip(s,
-						    WDS_KEEPQ | WDS_MAGIC);
-						pat = substitute(tpat0, DOTILDE);
-						if (d) {
-							d = wdstrip(p, WDS_KEEPQ);
-							rrep = substitute(d,
-							    DOTILDE);
-							afree(d, ATEMP);
-						} else
-							rrep = null;
+						pat = evalstr(s, DOTILDE | DOPAT);
+						rrep = d ? evalstr(p, DOTILDE) : null;
 						afree(s, ATEMP);
-						s = d = pat;
-						while (*s)
-							if (*s != '\\' ||
-							    s[1] == '%' ||
-							    s[1] == '#' ||
-							    s[1] == '\0' ||
-				/* XXX really? */	    s[1] == '\\' ||
-							    s[1] == '/')
-								*d++ = *s++;
-							else
-								s++;
-						*d = '\0';
-						afree(tpat0, ATEMP);
 
 						/* check for special cases */
 						switch (*pat) {
