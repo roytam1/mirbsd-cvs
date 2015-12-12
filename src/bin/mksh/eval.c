@@ -498,10 +498,11 @@ expand(
 						sp += (d ? d : p) - s - 1;
 						tpat0 = wdstrip(s,
 						    WDS_KEEPQ | WDS_MAGIC);
-						pat = substitute(tpat0, 0);
+						pat = substitute(tpat0, DOTILDE);
 						if (d) {
 							d = wdstrip(p, WDS_KEEPQ);
-							rrep = substitute(d, 0);
+							rrep = substitute(d,
+							    DOTILDE);
 							afree(d, ATEMP);
 						} else
 							rrep = null;
@@ -608,9 +609,11 @@ expand(
 					    }
 					case '#':
 					case '%':
-						/* ! DOBLANK,DOBRACE,DOTILDE */
+						/* ! DOBLANK,DOBRACE */
 						f = (f & DONTRUNCOMMAND) |
-						    DOPAT | DOTEMP | DOSCALAR;
+						    DOPAT | DOTILDE |
+						    DOTEMP | DOSCALAR;
+						tilde_ok = 1;
 						st->quotew = quote = 0;
 						/*
 						 * Prepend open pattern (so |
