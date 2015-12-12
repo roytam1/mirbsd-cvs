@@ -40,7 +40,7 @@ PS4='[$EPOCHREALTIME] '; PS1=$'\001\r''${|
 	(( e )) && REPLY+="$e|"
 	REPLY+=${USER}@${HOSTNAME%%.*}:
 
-	\typeset d=${PWD:-?} p=~; [[ $p = ?(*/) ]] || d=${d/#$p/~}
+	\typeset d=${PWD:-?} p=~; [[ $p = ?(*/) ]] || d=${d/#$p/\~}
 	\typeset m=${%d} n p=...; (( m > 0 )) || m=${#d}
 	(( m > (n = (COLUMNS/3 < 7 ? 7 : COLUMNS/3)) )) && d=${d:(-n)} || p=
 	REPLY+=$p$d
@@ -109,7 +109,7 @@ function chpwd {
 	DIRSTACK[0]=$(\builtin realpath . 2>/dev/null || \
 	    \builtin print -r -- "$PWD")
 	[[ $DIRSTACKBASE = ?(*/) ]] || \
-	    DIRSTACK[0]=${DIRSTACK[0]/#$DIRSTACKBASE/~}
+	    DIRSTACK[0]=${DIRSTACK[0]/#$DIRSTACKBASE/\~}
 	\:
 }
 \chpwd .
@@ -118,7 +118,7 @@ cd() {
 	\chpwd "$@"
 }
 function cd_csh {
-	\typeset d t=${1/#~/$DIRSTACKBASE}
+	\typeset d t=${1/#\~/$DIRSTACKBASE}
 
 	if ! d=$(\builtin cd "$t" 2>&1); then
 		\builtin print -u2 "${1}: ${d##*cd: $t: }."
@@ -148,7 +148,7 @@ function dirs {
 		fv=0
 		while (( fv < ${#DIRSTACK[*]} )); do
 			d=${DIRSTACK[fv]}
-			(( fl )) && d=${d/#~/$DIRSTACKBASE}
+			(( fl )) && d=${d/#\~/$DIRSTACKBASE}
 			\builtin print -r -- "$fv	$d"
 			\builtin let fv++
 		done
@@ -156,7 +156,7 @@ function dirs {
 		fv=0
 		while (( fv < ${#DIRSTACK[*]} )); do
 			d=${DIRSTACK[fv]}
-			(( fl )) && d=${d/#~/$DIRSTACKBASE}
+			(( fl )) && d=${d/#\~/$DIRSTACKBASE}
 			(( dwidth = (${%d} > 0 ? ${%d} : ${#d}) ))
 			if (( fn && (cpos += dwidth + 1) >= 79 && \
 			    dwidth < 80 )); then
