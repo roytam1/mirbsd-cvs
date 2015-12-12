@@ -520,6 +520,12 @@ get_command(int cf)
 		XPfree(vars);
 	}
 
+	if (c == MDPAREN) {
+		t = block(TBRACE, t, NULL);
+		t->ioact = t->left->ioact;
+		t->left->ioact = NULL;
+	}
+
 	return (t);
 }
 
