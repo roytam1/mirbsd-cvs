@@ -5,7 +5,7 @@ derivate currently being actively developed.  It includes bug
 fixes and feature improvements, in order to produce a modern,
 robust shell good for interactive and especially script use.
 mksh has UTF-8 support (in substring operations and the Emacs
-editing mode) and – while R51 corresponds to OpenBSD 5.7-cur‐
+editing mode) and – while R52 corresponds to OpenBSD 5.7-cur‐
 rent ksh (without GNU bash-like PS1 and fancy character clas‐
 ses) – adheres to SUSv4 and is much more robust. The code has
 been cleaned up and simplified, bugs fixed, standards compli‐
