@@ -177,7 +177,7 @@
 #ifdef EXTERN
 __RCSID("$MirOS: src/bin/mksh/sh.h,v 1.740 2015/08/13 21:38:19 tg Exp $");
 #endif
-#define MKSH_VERSION "R51 2015/10/24"
+#define MKSH_VERSION "R52 2015/12/12"
 
 /* arithmetic types: C implementation */
 #if !HAVE_CAN_INTTYPES
@@ -576,7 +576,7 @@ char *ucstrstr(char *, const char *);
 #define mkssert(e)	do { } while (/* CONSTCOND */ 0)
 #endif
 
-#if (!defined(MKSH_BUILDMAKEFILE4BSD) && !defined(MKSH_BUILDSH)) || (MKSH_BUILD_R != 511)
+#if (!defined(MKSH_BUILDMAKEFILE4BSD) && !defined(MKSH_BUILDSH)) || (MKSH_BUILD_R != 521)
 #error Must run Build.sh to compile this.
 extern void thiswillneverbedefinedIhope(void);
 int
@@ -1998,8 +1998,6 @@ struct op *tcopy(struct op *, Area *);
 char *wdcopy(const char *, Area *);
 const char *wdscan(const char *, int);
 #define WDS_TPUTS	BIT(0)		/* tputS (dumpwdvar) mode */
-#define WDS_KEEPQ	BIT(1)		/* keep quote characters */
-#define WDS_MAGIC	BIT(2)		/* make MAGIC */
 char *wdstrip(const char *, int);
 void tfree(struct op *, Area *);
 void dumpchar(struct shf *, int);
