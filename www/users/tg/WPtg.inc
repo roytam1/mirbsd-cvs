@@ -10292,10 +10292,11 @@ Title: Seven Days of Random Kindness
 nTF: 1
 Tag: Locationless Challenge
 ----
-ID: p20151210
+ID: 1719
 Date: 10.12.2015
 Waypoint: OC1281D GC6738N
 Title: Schanitzelchenjagd Nr. 15 - Das Wichtelevent
+nTF: 1
 Tag: D1 T15 Event
 ----
 ID: p20151231
