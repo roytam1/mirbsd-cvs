@@ -2146,5 +2146,13 @@ Tag: mksh pcli
 <p>This release has a nōnzero chance to break existing scripts
  that use some extension features – I had to quote some tildes
  in <tt>dot.mkshrc</tt> and a variable expansion in ${x/y"$z"}
- in MirWebseite (the <tt>$z</tt>). As usual, test!</p>
+ in MirWebseite (the <tt>$z</tt>) – <em>twice</em>!. As usual,
+ test!</p>
+<p>In less related news, a new release of the <a
+ href="@@ABSPATH@@/MirOS/dist/mir/Foundry/"><tt>FixedMisc [MirOS]</tt>
+ font</a> is available (in BDF form and no conflict with the
+ system <tt>Fixed [Misc]</tt> font); our CVS has the <a
+ href="@@RELPATH@@cvs.cgi/contrib/fonts/fixed/">sources</a>
+ in bdfctool(1) format.</p>
+<!-- note to self: news.inc is not normally included in tag_pcli -->
 ----

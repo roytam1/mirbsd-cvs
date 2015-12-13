@@ -862,7 +862,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  mailing list, either directly or via GMane, if you have an interest
  in mksh, such as packaging it. Thanks! <i>(unfinished…)</i>
 </p>
-<p> id="p52">R52:
+<p id="p52">R52:
  Android can define MKSH_DEFAULT_PROFILEDIR itself but we don’t.
  We no longer ship the <tt>stop</tt> alias.
 </p>
