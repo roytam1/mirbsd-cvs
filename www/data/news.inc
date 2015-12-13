@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.160 2015/09/10 19:46:24 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.161 2015/10/12 22:40:47 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -2129,4 +2129,22 @@ Tag: mksh pcli
 <p>And afterwards, at least mksh(1)-wise – I have got a lot of other
  things on my plate after all – we can attempt getting EBCDIC and
  maybe OS/2 to a state where the code is included in CVS.</p>
+----
+Title: mksh R52 released
+Date: 12.12.2015 23:39
+Author: tg@
+Tag: mksh pcli
+
+<p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a> R52
+ was published today. While there are still several known bugs,
+ this is a release that primarily fixes lots of these, and, as
+ with R51, we have no known regressions. Some of the itinerary
+ for R52 has moved to R53 instead, as some bugfixes change the
+ shell language and thus warrant a new major version, which is
+ why this is not R51b, and they accumulated and could use some
+ testing ;-)</p>
+<p>This release has a nōnzero chance to break existing scripts
+ that use some extension features – I had to quote some tildes
+ in <tt>dot.mkshrc</tt> and a variable expansion in ${x/y"$z"}
+ in MirWebseite (the <tt>$z</tt>). As usual, test!</p>
 ----

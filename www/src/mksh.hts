@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.594 2015/11/04 20:09:48 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.595 2015/11/18 22:23:59 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R51</h2>
+<h2>mksh(1) R52</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -50,8 +50,8 @@ mws_content <<'EOF'
  “MirBSD Korn Shell”.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R51</strong> from
- <em>10 July 2015</em>.<br />In the oldstable bugfixing-only series, the
+<p>The current version of mksh is <strong>mksh R52</strong> from
+ <em>12 December 2015</em>.<br />In the oldstable bugfixing-only series, the
  current version is <em>mksh R50f</em> from <em>19 April 2015</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
@@ -187,15 +187,15 @@ mws_content <<'EOF'
  <em>as well as</em> the hashes and/or checksums below, so you’re sure the
  content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R51.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R51.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R51.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R51.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R52.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R52.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R52.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R52.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
 <!-- cd /MirOS/dist/mir/mksh; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
-  <li>RMD160 (mksh-R51.tgz) = 11ad9db9b2f528b8bfd9c4600e68bd016064c9df</li>
-  <li>TIGER (mksh-R51.tgz) = 35db122521ced11619a347c6dd7a7d49eb64a29a8c802360</li>
-  <li>3691754220 382169 /MirOS/dist/mir/mksh/mksh-R51.tgz</li>
-  <li>MD5 (mksh-R51.tgz) = 8e522475da795c60f35a6f8035481baf</li>
+  <li>RMD160 (mksh-R52.tgz) = a0b715f52db301dd5dd99a4c50c39646999a91d6</li>
+  <li>TIGER (mksh-R52.tgz) = 0800ddbb530cc544905e9e8061b01ee7f13aba2bb9e3bda6</li>
+  <li>893651723 383814 /MirOS/dist/mir/mksh/mksh-R52.tgz</li>
+  <li>MD5 (mksh-R52.tgz) = cd5b92fc2e455d33cbd59f3e7518f257</li>
  <li style="list-style:none;">↑ formal release │ stable bugfix series ↓</li>
   <li>RMD160 (mksh-R50f.tgz) = e0de1dd07e6ca02830407b9db43de8f5c98d800f</li>
   <li>TIGER (mksh-R50f.tgz) = db437ce08d7c6a8449c5ba5827a9742cbaca7c16be261971</li>
@@ -207,7 +207,7 @@ mws_content <<'EOF'
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
- so a simple <tt>tar xzf mksh-R51.tgz</tt> will work. It will create all files
+ so a simple <tt>tar xzf mksh-R52.tgz</tt> will work. It will create all files
  in a subdirectory <tt>./mksh/</tt>.</p>
 
 <h3 id="vendorpatching">Patching</h3>
@@ -860,9 +860,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
  somesuch!</p>
 <p id="pcur"><i>current</i>: Please remember to subscribe to the mksh
  mailing list, either directly or via GMane, if you have an interest
- in mksh, such as packaging it. Thanks!
-Android can define MKSH_DEFAULT_PROFILEDIR itself but we don’t.
- <i>(unfinished…)</i></p>
+ in mksh, such as packaging it. Thanks! <i>(unfinished…)</i>
+</p>
+<p> id="p52">R52:
+ Android can define MKSH_DEFAULT_PROFILEDIR itself but we don’t.
+ We no longer ship the <tt>stop</tt> alias.
+</p>
 <p id="p51">R51: Please review all mksh scripts, such as a skeleton
  <tt>~/.mkshrc</tt> file, for alias safety and security – in case of
  doubt, contact us. The EBCDIC and OS/2 ports are not finished, but
@@ -1111,6 +1114,16 @@ Android can define MKSH_DEFAULT_PROFILEDIR itself but we don’t.
  should be aware of for existing scripts.</p>
 <p id="ccur"><i>current</i>:
  <i>(unfinished…)</i></p>
+<p id="c52">R52: <tt>(( … ))</tt> is now a compound command, which changes
+ the way I/O redirections work. <tt>${x#~}</tt>, <tt>${x/y/z}</tt>, etc.
+ now have tilde expansion enabled. <tt>${x//#y}</tt> no longer works, for
+ anchored patterns use only one slash; quotes are now honoured better in
+ such expressions, though. <tt>alias stop='\kill -STOP'</tt> is no longer
+ defined by default anywhere; <tt>source</tt> is no longer an alias but a
+ built-in utility, unbreaking it in some cases; the <tt>lksh</tt> hack to
+ remove an alias upon function definition is removed. issetugid(2) is no
+ longer used for <tt>set ±p</tt> checks, unbreaking suid in some cases.
+ More bugfixes, although there are (sorry!) still some known bugs ☹</p>
 <p id="c51">R51: Integers with bases outside of the permitted
  range are handled as base 10 instead of failing to parse, like ksh93.
  Korn shell style functions (<tt>function foo {</tt>) now have locally
@@ -1161,11 +1174,14 @@ Android can define MKSH_DEFAULT_PROFILEDIR itself but we don’t.
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
+<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
+-->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+<p id="r52">R52 is a strongly recommended bugfix release:</p><ul>
  <li>[_0bitcount] Move moving external link from mksh(1) to the <a
   href="@@RELPATH@@ksh-chan.htm">#ksh channel homepage</a> linked therein</li>
  <li>[tg] Make setenv “set -u”-safe and fix when invoked with no args</li>
@@ -1176,13 +1192,21 @@ Android can define MKSH_DEFAULT_PROFILEDIR itself but we don’t.
  <li>[oksh, tg] Simplify code to call afree() even if arg is NULL</li>
  <li>[tg] Fix tree-printing and reentrancy of multiple here documents</li>
  <li>[tg] Work around LP#1030581 by permitting exactly one space after</li>
- <li>[tg, oksh] Code quality work</li>
+ <li>[tg, oksh] Code quality work, cleanups</li>
  <li>[tg] New code for here documents/strings with several bugfixes</li>
  <li>[tg] Stop using issetugid(2) for ±p checks, wrong tool for the job</li>
  <li>[tg] Reintroduce some -o posix changes lost in 2005, plus fixes</li>
  <li>[tg] Make “source” into a built-in command</li>
  <li>[tg] Drop “stop” alias, lksh(1) functionality to auto-unalias</li>
  <li>[tg] Fix <tt>\u0000</tt> ignored in <tt>$'…'</tt> and <tt>print</tt></li>
+ <li>[tg] Improve portability of <tt>Build.sh</tt></li>
+ <li>[Jilles Tjoelker] Improve portability of testsuite</li>
+ <li>[tg] Fix tilde expansion for some substitutions (izabera, Chet, Geoff)</li>
+ <li>[tg] Improve reparsing of <tt>((…) |…)</tt> as <tt>( (…) |…)</tt></li>
+ <li>[Martijn Dekker] Fix test(1) not returning evaluation errors</li>
+ <li>[tg] Fix <tt>${*:+x}</tt> constructs (carstenh)</li>
+ <li>[tg] Make <tt>(( … ))</tt> into a compound command (ormaaj)</li>
+ <li>[tg] Repair a few parameter substitution expansion mistakes</li>
 </ul>
 <p id="r51">R51 is a strongly recommended feature release:</p><ul>
  <li>[tg] OpenBSD sync: handle integer base out of band like ksh93 does</li>
