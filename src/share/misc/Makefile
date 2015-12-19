@@ -26,4 +26,7 @@ realinstall:
 	cd ${.CURDIR}; install -c -o ${BINOWN} -g ${BINGRP} -m ${SHAREMODE} \
 	    ${FILES} ${DESTDIR}${BINDIR}/misc/
 
+check:
+	ACRONYMDB=${.CURDIR:Q}/acronyms ${MKSH} ${BSDSRCDIR:Q}/usr.bin/wtf/chkdb
+
 .include <bsd.prog.mk>

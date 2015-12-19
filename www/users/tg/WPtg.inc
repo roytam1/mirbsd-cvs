@@ -10299,6 +10299,30 @@ Title: Schanitzelchenjagd Nr. 15 - Das Wichtelevent
 nTF: 1
 Tag: D1 T15 Event
 ----
+ID: 1720
+Date: 19.12.2015
+Waypoint: OCAD82 GC2DCZ1
+Title: Feuerwehr Ensen
+Tag: D1 T1 Micro Tradi
+----
+ID: 1721
+Date: 19.12.2015
+Waypoint: GC19XY3
+Title: Unloggbar!!!?
+Tag: D5 T1 Micro Mystery Challenge
+----
+ID: 1722
+Date: 19.12.2015
+Waypoint: GC4BBTW
+Title: Porzer Brüder
+Tag: D1 T15 Micro Tradi
+----
+ID: 1723
+Date: 19.12.2015
+Waypoint: GC4RVMT
+Title: TVEW
+Tag: D1 T1 Micro Tradi
+----
 ID: p20151231
 Date: 31.12.2015
 Waypoint: GC64Z37
