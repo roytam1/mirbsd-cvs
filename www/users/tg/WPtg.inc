@@ -10323,6 +10323,18 @@ Waypoint: GC4RVMT
 Title: TVEW
 Tag: D1 T1 Micro Tradi
 ----
+ID: 1724
+Date: 25.12.2015
+Waypoint: GC2DB2V
+Title: Der Marcusbrunnen
+Tag: D15 T1 Small Tradi
+----
+ID: 1725
+Date: 26.12.2015
+Waypoint: GC4H4TV
+Title: Vogel gesucht!
+Tag: D1 T15 Micro Tradi
+----
 ID: p20151231
 Date: 31.12.2015
 Waypoint: GC64Z37
