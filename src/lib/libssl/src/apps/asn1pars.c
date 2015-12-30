@@ -69,6 +69,8 @@
 #include <openssl/x509.h>
 #include <openssl/pem.h>
 
+__RCSID("$MirOS$");
+
 /* -inform arg	- input format - default PEM (DER or PEM)
  * -in arg	- input file - default stdin
  * -i		- indent the details by depth
@@ -185,7 +187,7 @@ bad:
 		BIO_printf(bio_err," -inform arg   input format - one of DER PEM\n");
 		BIO_printf(bio_err," -in arg       input file\n");
 		BIO_printf(bio_err," -out arg      output file (output format is always DER\n");
-		BIO_printf(bio_err," -noout arg    don't produce any output\n");
+		BIO_printf(bio_err," -noout        don't produce any output\n");
 		BIO_printf(bio_err," -offset arg   offset into file\n");
 		BIO_printf(bio_err," -length arg   length of section in file\n");
 		BIO_printf(bio_err," -i            indent entries\n");
