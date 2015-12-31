@@ -2,7 +2,7 @@
 @comment Documentation for CVS.
 @setfilename cvs.info
 @afourpaper
-@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.19 2013/06/26 18:15:56 tg Exp $
+@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.20 2014/02/09 21:56:22 tg Exp $
 @macro copyleftnotice
 @noindent
 Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -11,6 +11,9 @@ Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
 
 @multitable @columnfractions .12 .88
 @item Portions
+@item @tab Copyright @copyright{} 2003, 2004, 2005, 2007, 2009, 2010, 2011,
+                                  2013, 2014, 2015
+                                  mirabilos, The MirOS Project
 @item @tab Copyright @copyright{} 1999, 2000, 2001, 2002, 2003, 2004, 2005
                                   Derek R. Price,
 @item @tab Copyright @copyright{} 2002, 2003, 2004, 2005
@@ -7198,7 +7201,7 @@ The date (UTC) the revision was checked in, in a format suitable
 for the Berkeley mdoc macro processing.
 
 @example
-$Mdocdate: June 26 2013 $
+$Mdocdate: February 9 2014 $
 @end example
 
 @cindex Header keyword
@@ -11475,12 +11478,12 @@ supported beginning with @sc{cvs} release 1.12.13.
 
 @itemize @bullet
 @item
-suck module/path
+suck module/pa/th
 @item
 Requires: repository
 @end itemize
 
-Locates the file module/path,v or module/pa/Attic/th,v and downloads
+Locates the file module/pa/th,v or module/pa/Attic/th,v and downloads
 it raw as RCS comma-v file.
 
 Output consists of the real pathname of the comma-v file, relative to
