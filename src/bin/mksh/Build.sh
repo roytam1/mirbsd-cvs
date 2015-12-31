@@ -1237,19 +1237,20 @@ dragonegg|llvm)
 	vv '|' "llc -version"
 	;;
 esac
+etd=" on $et"
 case $et in
 klibc)
 	add_cppflags -DMKSH_NO_LIMITS
 	;;
 unknown)
 	# nothing special detected, don’t worry
-	unset et
+	etd=
 	;;
 *)
 	# huh?
 	;;
 esac
-$e "$bi==> which compiler seems to be used...$ao $ui$ct${et+ on $et}$ao"
+$e "$bi==> which compiler seems to be used...$ao $ui$ct$etd$ao"
 rmf conftest.c conftest.o conftest a.out* a.exe* conftest.exe* vv.out
 
 #
