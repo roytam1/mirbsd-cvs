@@ -1121,6 +1121,8 @@ cstrerror(int errnum)
 #endif
 	case EACCES:
 		return ("Permission denied");
+	case EEXIST:
+		return ("File exists");
 	case ENOTDIR:
 		return ("Not a directory");
 #ifdef EINVAL
