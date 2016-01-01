@@ -4,7 +4,7 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.66 2015/11/14 21:34:11 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.68 2015/11/28 18:43:38 tg Exp $'
 
 function statpic {
 	local alt=$1 pic=$2 link=$3 extra=$4
@@ -255,6 +255,8 @@ souvenir 2015-08-15 'International Geocaching Day 2015' http://souvenirs.geocach
 souvenir 2015-08-15 'Put On Your Thinking Cap' http://souvenirs.geocaching.com/SouvenirImages/Ni8xNS8yMDE1/8f6dfb7a-5e88-439c-9b37-647741eca689.png 'http://www.geocaching.com/souvenir/?guid=9d1e9809-96ea-4a9b-96f2-1a5e95768147'
 souvenir 2015-08-15 'Road Trip Hero' http://souvenirs.geocaching.com/SouvenirImages/Ni8xNS8yMDE1/4bbd5f00-7eb0-452b-a0db-d85c55fddb07.png 'http://www.geocaching.com/souvenir/?guid=e35efbe5-8eea-4548-8d22-57e8522382bb'
 souvenir 2015-10-11 'International EarthCache Day 2015' http://souvenirs.geocaching.com/SouvenirImages/OS8xMS8yMDE1/ecbf262e-a005-41fe-b60f-eb8d6105ed15.png 'http://www.geocaching.com/souvenir/?guid=234905c3-8a94-4cb5-aa27-b5ba0751cfbd'
+souvenir 2015-12-31 'Goodbye 2015' http://souvenirs.geocaching.com/SouvenirImages/MTIvMjIvMjAxNQ/914b6c66-8f35-479b-a320-63cdf060c070.png 'http://www.geocaching.com/souvenir/?guid=b4076675-88c3-46f0-867b-2e656fb4073e'
+souvenir 2016-01-01 'Hello 2016' http://souvenirs.geocaching.com/SouvenirImages/MTIvMjIvMjAxNQ/b0438218-11c4-4c9a-a727-17f48f2e882c.png 'http://www.geocaching.com/souvenir/?guid=f42a65a8-433c-487f-8926-0b27fc8f045d'
 
 # kaputt, s.o.
 #if [[ $nsouvenir != 0 && -z $souvenirs ]]; then

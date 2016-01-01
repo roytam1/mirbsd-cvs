@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.290 2015/11/13 17:54:11 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.297 2015/12/27 01:32:14 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -10334,6 +10334,18 @@ Date: 26.12.2015
 Waypoint: GC4H4TV
 Title: Vogel gesucht!
 Tag: D1 T15 Micro Tradi
+----
+ID: 1726
+Date: 31.12.2015
+Waypoint: GC64Z37
+Title: The Same Procedure As Every Year
+Tag: D35 T35 Event
+----
+ID: 1727
+Date: 01.01.2016
+Waypoint: GC683P1
+Title: Prost Neijoer
+Tag: D1 T15 Event
 ----
 ID: p20151231
 Date: 31.12.2015
