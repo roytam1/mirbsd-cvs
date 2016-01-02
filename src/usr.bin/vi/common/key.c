@@ -28,7 +28,7 @@
 #include "common.h"
 #include "../vi/vi.h"
 
-__RCSID("$MirOS: src/usr.bin/vi/common/key.c,v 1.3 2007/07/05 23:09:44 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/vi/common/key.c,v 1.4 2010/12/27 18:11:30 tg Exp $");
 
 static int	v_event_append(SCR *, EVENT *);
 static int	v_event_grow(SCR *, int);
@@ -115,19 +115,7 @@ v_key_init(sp)
 	 * 8-bit only, for now.  Recompilation should get you any 8-bit
 	 * character set, as long as nul isn't a character.
 	 */
-#ifndef __MirBSD__
 	(void)setlocale(LC_ALL, "");
-#endif
-#if __linux__
-	/*
-	 * In libc 4.5.26, setlocale(LC_ALL, ""), doesn't setup the table
-	 * for ctype(3c) correctly.  This bug is fixed in libc 4.6.x.
-	 *
-	 * This code works around this problem for libc 4.5.x users.
-	 * Note that this code is harmless if you're using libc 4.6.x.
-	 */
-	(void)setlocale(LC_CTYPE, "");
-#endif
 	v_key_ilookup(sp);
 
 	v_keyval(sp, K_CNTRLD, KEY_VEOF);

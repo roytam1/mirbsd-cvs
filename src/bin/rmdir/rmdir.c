@@ -34,7 +34,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1992, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)rmdir.c	8.3 (Berkeley) 4/2/94");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/bin/rmdir/rmdir.c,v 1.2 2007/07/05 23:09:33 tg Exp $");
 
 #include <err.h>
 #include <errno.h>
@@ -55,9 +55,7 @@ main(int argc, char *argv[])
 	int ch, errors;
 	int pflag;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 
 	pflag = 0;
 	while ((ch = getopt(argc, argv, "p")) != -1)

@@ -61,14 +61,12 @@ namespace std
     {
       char* __old = std::setlocale(LC_NUMERIC, NULL);
       char* __sav = NULL;
-#ifndef __MirBSD__
       if (std::strcmp(__old, "C"))
 	{
 	  __sav = new char[std::strlen(__old) + 1];
 	  std::strcpy(__sav, __old);
 	  std::setlocale(LC_NUMERIC, "C");
 	}
-#endif
 
 #ifdef _GLIBCXX_USE_C99
       const int __ret = std::snprintf(__out, __size, __fmt, __prec, __v);

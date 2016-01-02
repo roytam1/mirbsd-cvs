@@ -35,7 +35,7 @@ const char	*version = "version 20110810";
 #include "awk.h"
 #include "awkgram.h"
 
-__RCSID("$MirOS: src/usr.bin/awk/main.c,v 1.4 2014/03/13 00:37:36 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/awk/main.c,v 1.5 2014/03/23 20:18:27 tg Exp $");
 
 extern	char	**environ;
 extern	int	nfields;
@@ -60,10 +60,8 @@ int main(int argc, char *argv[])
 {
 	const char *fs = NULL;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
 	setlocale(LC_NUMERIC, "C"); /* for parsing cmdline & prog */
-#endif
 	cmdname = __progname;
 	if (argc == 1) {
 		fprintf(stderr, "usage: %s [-safe] [-V] [-d[n]] [-F fs] "
@@ -170,9 +168,7 @@ int main(int argc, char *argv[])
 	if (!safe)
 		envinit(environ);
 	yyparse();
-#ifndef __MirBSD__
 	setlocale(LC_NUMERIC, ""); /* back to whatever it is locally */
-#endif
 	if (fs)
 		*FS = qstring(fs, '\0');
 	   dprintf( ("errorflag=%d\n", errorflag) );

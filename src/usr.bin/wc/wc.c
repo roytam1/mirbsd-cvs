@@ -33,7 +33,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1980, 1987, 1991, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)wc.c	8.2 (Berkeley) 5/2/95");
-__RCSID("$MirOS: src/usr.bin/wc/wc.c,v 1.3 2009/05/31 15:27:49 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/wc/wc.c,v 1.4 2009/05/31 15:28:18 tg Exp $");
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -59,9 +59,7 @@ main(int argc, char *argv[])
 {
 	int ch;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 
 	while ((ch = getopt(argc, argv, "lwcm")) != -1)
 		switch((char)ch) {

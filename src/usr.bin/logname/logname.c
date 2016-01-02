@@ -34,7 +34,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1991, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)logname.c	8.2 (Berkeley) 4/3/94");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/logname/logname.c,v 1.2 2007/07/05 23:09:42 tg Exp $");
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -50,9 +50,7 @@ main(int argc, char *argv[])
 	int ch;
 	char *p;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 
 	while ((ch = getopt(argc, argv, "")) != -1)
 		switch (ch) {

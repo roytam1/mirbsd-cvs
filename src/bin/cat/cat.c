@@ -37,7 +37,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1989, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)cat.c	8.2 (Berkeley) 4/27/95");
-__RCSID("$MirOS: src/bin/cat/cat.c,v 1.2 2007/07/05 23:09:31 tg Exp $");
+__RCSID("$MirOS: src/bin/cat/cat.c,v 1.3 2012/05/20 15:31:59 tg Exp $");
 
 #include <sys/param.h>
 #include <sys/stat.h>
@@ -69,9 +69,7 @@ main(int argc, char *argv[])
 	int ch;
 	struct flock stdout_lock;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 
 	while ((ch = getopt(argc, argv, "belnstuv")) != -1)
 		switch (ch) {

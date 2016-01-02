@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/col/col.c,v 1.12 2008/08/02 01:48:08 tg Exp $ */
+/**	$MirOS: src/usr.bin/col/col.c,v 1.13 2009/07/03 18:15:18 tg Exp $ */
 /*	$OpenBSD: col.c,v 1.9 2003/06/10 22:20:45 deraadt Exp $	*/
 /*	$NetBSD: col.c,v 1.7 1995/09/02 05:48:50 jtc Exp $	*/
 
@@ -51,7 +51,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)col.c	8.5 (Berkeley) 5/4/95");
-__RCSID("$MirOS: src/usr.bin/col/col.c,v 1.12 2008/08/02 01:48:08 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/col/col.c,v 1.13 2009/07/03 18:15:18 tg Exp $");
 
 #define	BS	'\b'		/* backspace */
 #define	TAB	'\t'		/* tab */
@@ -148,9 +148,7 @@ main(int argc, char *argv[])
 	no_backspaces = ex_b;
 	fine = ex_f;
 #else
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 
 	while ((opt = getopt(argc, argv, "bfhl:x")) != -1)
 		switch (opt) {

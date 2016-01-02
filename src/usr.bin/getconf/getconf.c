@@ -49,7 +49,7 @@
 #include <err.h>
 #include <errno.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/getconf/getconf.c,v 1.2 2007/07/05 23:09:41 tg Exp $");
 
 static void usage(void);
 
@@ -148,9 +148,7 @@ main(int argc, char *argv[])
 	size_t slen;
 	char * sval;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 
 	while ((ch = getopt(argc, argv, "")) != -1) {
 		switch (ch) {

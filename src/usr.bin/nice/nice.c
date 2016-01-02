@@ -34,7 +34,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1989 The Regents of the University of California.\n\
  All rights reserved.\n");
 __SCCSID("@(#)nice.c	5.4 (Berkeley) 6/1/90");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/nice/nice.c,v 1.2 2007/07/05 23:09:42 tg Exp $");
 
 #include <sys/time.h>
 #include <sys/resource.h>
@@ -57,9 +57,7 @@ main(int argc, char *argv[])
 	int niceness = DEFNICE;
 	int c;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 
 	/* handle obsolete -number syntax */
 	if (argc > 1 && argv[1][0] == '-' && isdigit(argv[1][1])) {

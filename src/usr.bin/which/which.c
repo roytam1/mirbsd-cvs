@@ -31,7 +31,7 @@
 #define PROG_WHICH	1
 #define PROG_WHEREIS	2
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/which/which.c,v 1.2 2007/07/05 23:09:45 tg Exp $");
 
 extern char *__progname;
 
@@ -55,9 +55,7 @@ main(int argc, char *argv[])
 	size_t n;
 	int ch, allmatches = 0, notfound = 0, progmode = PROG_WHICH;
 
-#ifndef __MirBSD__
 	(void)setlocale(LC_ALL, "");
-#endif
 
 	if (argc == 1)
 		usage();

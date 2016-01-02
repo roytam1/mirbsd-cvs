@@ -51,7 +51,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1985, 1987, 1988, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)date.c	8.2 (Berkeley) 4/28/95");
-__RCSID("$MirOS: src/bin/date/date.c,v 1.7 2011/03/08 21:14:51 tg Exp $");
+__RCSID("$MirOS: src/bin/date/date.c,v 1.8 2011/11/20 20:12:40 tg Exp $");
 
 extern const char *__progname;
 
@@ -72,9 +72,7 @@ main(int argc, char *argv[])
 	char buf[1024];
 	int whatformat = 0;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 
 	tz.tz_dsttime = tz.tz_minuteswest = 0;
 	rflag = 0;
@@ -147,9 +145,7 @@ main(int argc, char *argv[])
 		format = "%a %b %e %H:%M:%S %Z %Y";
 	else if (whatformat == 1) {
 		format = "%a, %d %b %Y %H:%M:%S %z";
-#ifndef __MirBSD__
 		setlocale(LC_TIME, "C");
-#endif
 	} else if (whatformat != 2 && whatformat != 4)
 		errx(1, "more than one format specified");
 

@@ -37,7 +37,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1989, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)cut.c	8.3 (Berkeley) 5/4/95");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/cut/cut.c,v 1.2 2007/07/05 23:09:39 tg Exp $");
 
 #include <ctype.h>
 #include <err.h>
@@ -67,9 +67,7 @@ main(int argc, char *argv[])
 	void (*fcn)(FILE *, char *);
 	int ch;
 
-#ifndef __MirBSD__
 	setlocale (LC_ALL, "");
-#endif
 
 	dchar = '\t';			/* default delimiter is \t */
 

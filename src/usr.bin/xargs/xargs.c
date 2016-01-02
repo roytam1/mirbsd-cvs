@@ -39,7 +39,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1990, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)xargs.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/xargs/xargs.c,v 1.2 2007/07/05 23:09:45 tg Exp $");
 
 #include <sys/param.h>
 #include <sys/wait.h>
@@ -90,9 +90,7 @@ main(int argc, char *argv[])
 	eofstr = "";
 	Jflag = nflag = 0;
 
-#ifndef __MirBSD__
 	(void)setlocale(LC_MESSAGES, "");
-#endif
 
 	/*
 	 * POSIX.2 limits the exec line length to ARG_MAX - 2K.  Running that

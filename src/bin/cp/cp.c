@@ -37,7 +37,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1988, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)cp.c	8.5 (Berkeley) 4/29/95");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/bin/cp/cp.c,v 1.2 2007/07/05 23:09:31 tg Exp $");
 
 /*
  * Cp copies source files to target files.
@@ -94,9 +94,7 @@ main(int argc, char *argv[])
 	int Hflag, Lflag, Pflag, ch, fts_options, r;
 	char *target;
 
-#ifndef __MirBSD__
 	(void)setlocale(LC_ALL, "");
-#endif
 
 	Hflag = Lflag = Pflag = Rflag = 0;
 	while ((ch = getopt(argc, argv, "HLPRfipr")) != -1)

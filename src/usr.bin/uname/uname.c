@@ -30,7 +30,7 @@
  */
 
 #include <sys/cdefs.h>
-__RCSID("$MirOS: src/usr.bin/uname/uname.c,v 1.4 2007/05/16 21:30:09 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/uname/uname.c,v 1.5 2007/07/05 23:09:44 tg Exp $");
 __RCSID("$NetBSD: uname.c,v 1.10 1998/11/09 13:24:05 kleink Exp $");
 
 #include <sys/param.h>
@@ -69,9 +69,7 @@ main(int argc, char *argv[])
 	int space = 0;
 	int print_mask = 0;
 
-#ifndef __MirBSD__
 	(void)setlocale(LC_ALL, "");
-#endif
 
 	while ((c = getopt(argc,argv,"almnprsv")) != -1) {
 		switch (c) {

@@ -46,7 +46,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1988, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)tr.c	8.2 (Berkeley) 5/4/95");
-__RCSID("$MirOS: src/usr.bin/tr/tr.c,v 1.6 2009/09/25 23:09:13 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/tr/tr.c,v 1.7 2014/02/20 01:16:27 tg Exp $");
 
 static wchar_t string1[NCHARS], string2[NCHARS];
 
@@ -93,9 +93,7 @@ main(int argc, char *argv[])
 	int ich;
 	bool cflag, dflag, sflag, isstring2;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 
 	for (lastch = 0; lastch < NCHARS; ++lastch)
 		string1[lastch] = lastch;

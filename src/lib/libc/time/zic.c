@@ -480,7 +480,6 @@ char *	argv[];
 #ifdef unix
 	(void) umask(umask(S_IWGRP | S_IWOTH) | (S_IWGRP | S_IWOTH));
 #endif /* defined unix */
-#ifndef __MirBSD__
 #if HAVE_GETTEXT
 	(void) setlocale(LC_ALL, "");
 #ifdef TZ_DOMAINDIR
@@ -488,7 +487,6 @@ char *	argv[];
 #endif /* defined TEXTDOMAINDIR */
 	(void) textdomain(TZ_DOMAIN);
 #endif /* HAVE_GETTEXT */
-#endif
 	progname = argv[0];
 	while ((c = getopt(argc, argv, "d:l:p:L:vsy:")) != -1)
 		switch (c) {

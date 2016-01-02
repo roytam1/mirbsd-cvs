@@ -255,9 +255,7 @@ main(int argc, char *argv[])
 {
 	int ch;			/* used for |getopt| processing */
 
-#ifndef __MirBSD__
 	(void)setlocale(LC_CTYPE, "");
-#endif
 
 	/* 1. Grok parameters. */
 	while ((ch = getopt(argc, argv, "0123456789cd:hl:mnpst:w:")) != -1) {

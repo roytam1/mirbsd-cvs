@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/uuencode/uuencode.c,v 1.2 2005/03/13 18:33:52 tg Exp $ */
+/**	$MirOS: src/usr.bin/uuencode/uuencode.c,v 1.3 2007/07/05 23:09:44 tg Exp $ */
 /*	$OpenBSD: uuencode.c,v 1.7 2004/04/09 22:54:02 millert Exp $	*/
 /*	$FreeBSD: uuencode.c,v 1.18 2004/01/22 07:23:35 grehan Exp $	*/
 
@@ -54,7 +54,7 @@ __COPYRIGHT("@(#) Copyright (c) 1983, 1993\n\
 #include <unistd.h>
 
 __SCCSID("@(#)uuencode.c	8.2 (Berkeley) 4/2/94");
-__RCSID("$MirOS: src/usr.bin/uuencode/uuencode.c,v 1.2 2005/03/13 18:33:52 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/uuencode/uuencode.c,v 1.3 2007/07/05 23:09:44 tg Exp $");
 
 void encode(void);
 void base64_encode(void);
@@ -79,9 +79,7 @@ main(int argc, char *argv[])
 	if (strcmp(__progname, "b64encode") == 0)
 		base64 = 1;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 	while ((ch = getopt(argc, argv, "mro:")) != -1) {
 		switch (ch) {
 		case 'm':

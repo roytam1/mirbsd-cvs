@@ -36,7 +36,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)sort.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/sort/sort.c,v 1.2 2007/07/05 23:09:43 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/sort/sort.c,v 1.3 2015/04/12 21:48:02 tg Exp $");
 
 /*
  * Sort sorts a file using an optional user-defined key.
@@ -106,9 +106,7 @@ main(int argc, char *argv[])
 	FILE *outfp = NULL;
 	void *p;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 
 	if ((clist = calloc((ND+1)*2, sizeof(struct coldesc))) == NULL ||
 	    (ftpos = fldtab = calloc(ND+2, sizeof(struct field))) == NULL)

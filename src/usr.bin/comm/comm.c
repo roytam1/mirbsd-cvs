@@ -37,7 +37,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1989, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)comm.c	8.4 (Berkeley) 5/4/95");
-__RCSID("$MirOS: src/usr.bin/comm/comm.c,v 1.2 2007/07/05 23:09:39 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/comm/comm.c,v 1.3 2007/07/05 23:16:48 tg Exp $");
 
 #include <err.h>
 #include <limits.h>
@@ -65,9 +65,7 @@ main(int argc, char *argv[])
 	char **p, line1[MAXLINELEN], line2[MAXLINELEN];
 	int (*compare)(const char * ,const char *);
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 
 	flag1 = flag2 = flag3 = 1;
 #ifndef __MirBSD__

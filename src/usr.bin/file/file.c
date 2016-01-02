@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/file/file.c,v 1.5 2007/07/10 14:10:14 tg Exp $ */
+/**	$MirOS: src/usr.bin/file/file.c,v 1.6 2007/07/10 14:22:36 tg Exp $ */
 /*	$OpenBSD: LEGAL.NOTICE,v 1.6 2003/06/13 18:31:14 deraadt Exp $	*/
 /*	$OpenBSD: file.c,v 1.17 2007/02/19 13:02:08 tom Exp $ */
 /*
@@ -77,7 +77,7 @@
 
 #include "patchlevel.h"
 
-__RCSID("$MirOS: src/usr.bin/file/file.c,v 1.5 2007/07/10 14:10:14 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/file/file.c,v 1.6 2007/07/10 14:22:36 tg Exp $");
 
 #ifdef S_IFLNK
 #define SYMLINKFLAG "L"
@@ -161,10 +161,8 @@ main(int argc, char *argv[])
 	};
 #endif
 
-#ifndef __MirBSD__
 #ifdef LC_CTYPE
 	setlocale(LC_CTYPE, ""); /* makes islower etc work for other langs */
-#endif
 #endif
 
 #ifdef __EMX__

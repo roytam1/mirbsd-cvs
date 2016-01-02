@@ -34,7 +34,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1987, 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)cmp.c	8.3 (Berkeley) 4/2/94");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/cmp/cmp.c,v 1.2 2007/07/05 23:09:38 tg Exp $");
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -61,9 +61,7 @@ main(int argc, char *argv[])
 	int ch, fd1, fd2, special;
 	char *file1, *file2;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 
 	while ((ch = getopt(argc, argv, "ls")) != -1)
 		switch (ch) {

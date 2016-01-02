@@ -151,11 +151,9 @@ namespace std
     // Currently, the generic model only supports the "C" locale.
     // See http://gcc.gnu.org/ml/libstdc++/2003-02/msg00345.html
     __cloc = NULL;
-#ifndef __MirBSD__
     if (strcmp(__s, "C"))
       __throw_runtime_error(__N("locale::facet::_S_create_c_locale "
 			    "name not valid"));
-#endif
   }
 
   void

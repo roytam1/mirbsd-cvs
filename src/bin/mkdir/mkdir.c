@@ -34,7 +34,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1983, 1992, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)mkdir.c	8.2 (Berkeley) 1/25/94");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/bin/mkdir/mkdir.c,v 1.2 2007/07/05 23:09:33 tg Exp $");
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -59,9 +59,7 @@ main(int argc, char *argv[])
 	void *set;
 	mode_t mode, dir_mode;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 
 	/*
 	 * The default file mode is a=rwx (0777) with selected permissions

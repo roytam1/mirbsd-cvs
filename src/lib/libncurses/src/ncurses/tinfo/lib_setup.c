@@ -55,7 +55,7 @@
 
 MODULE_ID("$Id$")
 #ifdef __MirBSD__
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libncurses/src/ncurses/tinfo/lib_setup.c,v 1.6 2009/09/06 13:46:36 tg Exp $");
 #endif
 
 /****************************************************************************
@@ -370,9 +370,6 @@ _nc_set_locale(char *newlocale)
 /*
  * Find the locale which is in effect.
  */
-#ifdef __MirBSD__
-static char _nc_get_locale_storage[16];
-#endif
 
 NCURSES_EXPORT(char *)
 _nc_get_locale(void)
@@ -384,10 +381,6 @@ _nc_get_locale(void)
 	goto _nc_get_locale_out;
     }
 
-#ifdef __MirBSD__
-    /* this result is constant in MirBSD */
-    memcpy(env = _nc_get_locale_storage, "en_US.UTF-8", 12);
-#else
 #if HAVE_LOCALE_H
     /*
      * This is preferable to using getenv() since it ensures that we are using
@@ -401,7 +394,6 @@ _nc_get_locale(void)
 	;
     }
 #endif
-#endif
  _nc_get_locale_out:
     T(("_nc_get_locale %s", _nc_visbuf(env)));
     return env;
@@ -413,17 +405,12 @@ _nc_get_locale(void)
 NCURSES_EXPORT(int)
 _nc_unicode_locale(void)
 {
-#ifndef __MirBSD__
     int result = 0;
     char *env;
-#endif
 
     if (_nc_overridden_locale())
 	return (_nc_locale_isutf8);
 
-#ifdef __MirBSD__
-    return (1);
-#else
 #if HAVE_LANGINFO_CODESET
     env = nl_langinfo(CODESET);
     result = !strcmp(env, "UTF-8");
@@ -438,7 +425,6 @@ _nc_unicode_locale(void)
     }
 #endif
     return result;
-#endif
 }
 
 #define CONTROL_N(s) ((s) != 0 && strstr(s, "\016") != 0)

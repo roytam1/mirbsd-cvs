@@ -40,7 +40,7 @@ __COPYRIGHT("@(#) Copyright (c) 1995-1996 Wolfram Schneider, Berlin.\n\
 @(#) Copyright (c) 1989, 1993\n\
         The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)locate.c    8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/locate/locate/locate.c,v 1.2 2007/07/05 23:09:42 tg Exp $");
 
 /*
  * Ref: Usenix ;login:, Vol 8, No 1, February/March, 1983, p. 8.
@@ -141,9 +141,7 @@ main(int argc, char *argv[])
 #ifdef MMAP
 	f_mmap = 1;		/* mmap is default */
 #endif
-#ifndef __MirBSD__
 	(void) setlocale(LC_ALL, "");
-#endif
 
 	while ((ch = getopt(argc, argv, "Scd:il:ms")) != -1)
 		switch (ch) {

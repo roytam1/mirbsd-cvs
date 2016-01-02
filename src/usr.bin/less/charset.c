@@ -24,7 +24,7 @@
 #include <locale.h>
 #endif
 
-__RCSID("$MirOS: src/usr.bin/less/charset.c,v 1.2 2006/11/09 00:59:48 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/less/charset.c,v 1.3 2007/07/05 23:09:42 tg Exp $");
 
 public int utf_mode = 0;
 
@@ -183,9 +183,7 @@ ilocale()
 {
 	register int c;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 	for (c = 0;  c < (int) sizeof(chardef);  c++)
 	{
 		if (isprint(c))

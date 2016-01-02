@@ -45,7 +45,7 @@
 #include "isdnd.h"
 #undef MAIN
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/isdn/isdnd/main.c,v 1.3 2014/03/13 00:43:03 tg Exp $");
 
 #ifdef I4B_EXTERNAL_MONITOR
 
@@ -126,9 +126,7 @@ main(int argc, char **argv)
 #endif
 #endif
 
-#ifndef __MirBSD__
 	setlocale (LC_ALL, "");
-#endif
 	
 	while ((i = getopt(argc, argv, "mc:d:fFlL:Pr:s:t:u:")) != -1)
 	{

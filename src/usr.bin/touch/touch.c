@@ -34,7 +34,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)touch.c	8.2 (Berkeley) 4/28/95");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/touch/touch.c,v 1.2 2007/07/05 23:09:43 tg Exp $");
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -64,9 +64,7 @@ main(int argc, char *argv[])
 	int aflag, cflag, mflag, ch, fd, len, rval, timeset;
 	char *p;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 
 	aflag = cflag = mflag = timeset = 0;
 	if (gettimeofday(&tv[0], NULL))

@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/uudecode/uudecode.c,v 1.4 2010/12/27 18:39:13 tg Exp $ */
+/**	$MirOS: src/usr.bin/uudecode/uudecode.c,v 1.5 2014/04/21 15:41:09 tg Exp $ */
 /*	$OpenBSD: uudecode.c,v 1.14 2004/04/09 22:54:02 millert Exp $	*/
 /*	$FreeBSD: uudecode.c,v 1.49 2003/05/03 19:44:46 obrien Exp $	*/
 
@@ -62,7 +62,7 @@ __COPYRIGHT("@(#) Copyright (c) 1983, 1993\n\
 #endif
 
 __SCCSID("@(#)uudecode.c	8.2 (Berkeley) 4/2/94");
-__RCSID("$MirOS: src/usr.bin/uudecode/uudecode.c,v 1.4 2010/12/27 18:39:13 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/uudecode/uudecode.c,v 1.5 2014/04/21 15:41:09 tg Exp $");
 
 static const char *infile, *outfile;
 static FILE *infp, *outfp;
@@ -83,9 +83,7 @@ main(int argc, char *argv[])
 	if (strcmp(__progname, "b64decode") == 0)
 		base64 = 1;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 	while ((ch = getopt(argc, argv, "cimo:prs")) != -1) {
 		switch(ch) {
 		case 'c':

@@ -34,7 +34,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1988, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)tee.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/tee/tee.c,v 1.2 2007/07/05 23:09:43 tg Exp $");
 
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -67,9 +67,7 @@ main(int argc, char *argv[])
 	char *buf;
 #define	BSIZE (8 * 1024)
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 
 	append = 0;
 	while ((ch = getopt(argc, argv, "ai")) != -1)

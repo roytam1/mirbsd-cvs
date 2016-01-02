@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.bin/iconv/iconv.c,v 1.1 2006/11/01 22:59:00 tg Exp $ */
+/* $MirOS: src/usr.bin/iconv/iconv.c,v 1.2 2007/07/05 23:09:41 tg Exp $ */
 
 /*-
  * Copyright (c) 2006
@@ -42,7 +42,7 @@
 #include <string.h>
 #include <unistd.h>
 
-__RCSID("$MirOS: src/usr.bin/iconv/iconv.c,v 1.1 2006/11/01 22:59:00 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/iconv/iconv.c,v 1.2 2007/07/05 23:09:41 tg Exp $");
 
 __dead void dump_csets(void);
 __dead void usage(void);
@@ -65,9 +65,7 @@ main(int argc, char *argv[])
 	iconv_t cd;
 	off_t iofs;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 
 	while ((c = getopt(argc, argv, "cf:lst:")) != -1)
 		switch (c) {

@@ -23,7 +23,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/dirname/dirname.c,v 1.2 2007/07/05 23:09:39 tg Exp $");
 
 void usage(void);
 
@@ -33,9 +33,7 @@ main(int argc, char *argv[])
 	int ch;
 	char *dir;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 
 	while ((ch = getopt(argc, argv, "")) != -1) {
 		switch (ch) {

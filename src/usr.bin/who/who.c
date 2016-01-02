@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.bin/who/who.c,v 1.3 2005/11/23 18:04:29 tg Exp $ */
+/**	$MirOS: src/usr.bin/who/who.c,v 1.4 2007/07/05 23:09:45 tg Exp $ */
 /*	$OpenBSD: who.c,v 1.17 2004/08/18 21:24:27 jmc Exp $	*/
 /*	$NetBSD: who.c,v 1.4 1994/12/07 04:28:49 jtc Exp $	*/
 
@@ -52,7 +52,7 @@ __COPYRIGHT("@(#) Copyright (c) 1989, 1993\n\
 #include <locale.h>
 
 __SCCSID("@(#)who.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS: src/usr.bin/who/who.c,v 1.3 2005/11/23 18:04:29 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/who/who.c,v 1.4 2007/07/05 23:09:45 tg Exp $");
 
 void  output(struct utmp *);
 void  output_labels(void);
@@ -76,9 +76,7 @@ main(int argc, char *argv[])
 	FILE *ufp;
 	int c;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 
 	only_current_term = show_term = show_idle = show_labels = 0;
 	show_quick = 0;

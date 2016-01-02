@@ -51,7 +51,7 @@ __COPYRIGHT("@(#) Copyright (c) 1989, 1993, 1994\n\
 __SCCSID("@(#)chmod.c	8.8 (Berkeley) 4/1/94");
 __RCSID("$OpenBSD: chmod.c,v 1.18 2004/07/01 18:25:47 otto Exp $");
 __RCSID("$NetBSD: chmod.c,v 1.33 2005/10/01 20:09:18 christos Exp $");
-__RCSID("$MirOS: src/bin/chmod/chmod.c,v 1.2 2007/05/20 19:20:28 tg Exp $");
+__RCSID("$MirOS: src/bin/chmod/chmod.c,v 1.3 2007/07/05 23:09:31 tg Exp $");
 
 int ischflags, ischown, ischgrp, ischmod;
 extern const char *__progname;
@@ -75,9 +75,7 @@ main(int argc, char *argv[])
 	u_int32_t fclear, fset;
 	char *ep, *mode, *cp, *flags;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 
 	ischown = __progname[2] == 'o';
 	ischgrp = __progname[2] == 'g';

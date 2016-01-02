@@ -68,7 +68,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1991, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)spell.c	8.1 (Berkeley) 6/6/93");
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/spell/spellprog.c,v 1.2 2007/07/05 23:09:43 tg Exp $");
 
 #include <sys/param.h>
 #include <sys/mman.h>
@@ -253,9 +253,7 @@ main(int argc, char **argv)
 	struct stat sb;
 	FILE *file, *found;
 
-#ifndef __MirBSD__
 	setlocale(LC_ALL, "");
-#endif
 
 	outfile = NULL;
 	while ((ch = getopt(argc, argv, "bvxo:")) != -1) {

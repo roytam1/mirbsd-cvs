@@ -1,4 +1,4 @@
-/* $MirOS: src/bin/rm/rm.c,v 1.8 2010/09/21 21:24:02 tg Exp $ */
+/* $MirOS: src/bin/rm/rm.c,v 1.9 2015/02/26 21:13:28 tg Exp $ */
 /* $NetBSD: rm.c,v 1.46 2007/06/24 17:59:31 christos Exp $ */
 /* $OpenBSD: rm.c,v 1.18 2005/06/14 19:15:35 millert Exp $ */
 
@@ -36,7 +36,7 @@ __COPYRIGHT("@(#) Copyright (c) 1990, 1993, 1994\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)rm.c	8.8 (Berkeley) 4/27/95");
 __RCSID("$NetBSD: rm.c,v 1.46 2007/06/24 17:59:31 christos Exp $");
-__RCSID("$MirOS: src/bin/rm/rm.c,v 1.8 2010/09/21 21:24:02 tg Exp $");
+__RCSID("$MirOS: src/bin/rm/rm.c,v 1.9 2015/02/26 21:13:28 tg Exp $");
 
 #include <sys/param.h>
 #include <sys/stat.h>
@@ -88,9 +88,7 @@ main(int argc, char *argv[])
 {
 	int ch, rflag;
 
-#ifndef __MirBSD__	/* irrelevant, as there is only one locale */
 	setlocale(LC_ALL, "");
-#endif
 
 	Pflag = rflag = 0;
 	while ((ch = getopt(argc, argv, "dfiPRrv")) != -1)
