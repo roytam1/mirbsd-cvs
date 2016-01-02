@@ -12,8 +12,21 @@ mws_content <<'EOF'
  extended by many contributors, including “wtfubar”; Natureshadow
  made a <a href="https://github.com/Natureshadow/MirWTFApp">Free
  Android äpp</a> (also available in F-Droid) which also understands the
- extended format of the MirBSD acronyms database compared to other BSDs.</p>
+ extended format of the MirBSD acronyms database compared to other BSDs.
+EOF
 
+#DEPEND .linked/acronyms
+ac_vsn=$(awk -- '/^ @\(#\)/ { print $3; }' <"$TOP"/.linked/acronyms)
+integer ac_cnt=$(sed -n '/	/s/	.*$//p' "$TOP"/.linked/acronyms | \
+    uniq | wc -l)
+integer ac_exp=$(fgrep -c '	' "$TOP"/.linked/acronyms)
+
+mws_content <<EOF
+ As of database CVS revision $ac_vsn, $ac_exp expansions
+ for $ac_cnt unique acronyms are known.</p>
+EOF
+
+mws_content <<'EOF'
 <p>For the regular MirBSD online documentation, we also
  have a <a href="@@RELPATH@@man.htm">manual page search</a> page.</p>
 
