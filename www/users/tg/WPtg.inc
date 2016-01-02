@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.297 2015/12/27 01:32:14 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.290 2015/11/13 17:54:11 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -10347,17 +10347,11 @@ Waypoint: GC683P1
 Title: Prost Neijoer
 Tag: D1 T15 Event
 ----
-ID: p20151231
-Date: 31.12.2015
-Waypoint: GC64Z37
-Title: The Same Procedure As Every Year
-Tag: D35 T35 Event
-----
-ID: p20160101
-Date: 01.01.2016
-Waypoint: GC66RFY
-Title: 1.1.2016, 11:16 Neujahrs-Event
-Tag: D3 T1 Event
+ID: 1728
+Date: 02.01.2016
+Waypoint: OC4FF4
+Title: Zweiter Weltkrieg – Schumannseck
+Tag: D1 T1 Virtual
 ----
 ID: p20160729
 Date: 30.07.2016
@@ -10367,7 +10361,7 @@ Title: Nacht der Vulkane 2016
 Tag: D1 T1 Event
 ----
 ID: p10000
-Date: 01.01.2016
+Date: 01.01.2017
 Waypoint: GCWFR6
 Title: World Cache (Germany)
 Tag: D35 T3 Regular Mystery exceptional

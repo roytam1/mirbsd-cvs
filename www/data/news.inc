@@ -2156,3 +2156,47 @@ Tag: mksh pcli
  in bdfctool(1) format.</p>
 <!-- note to self: news.inc is not normally included in tag_pcli -->
 ----
+Title: POSIX locales; POSIX shell and `…` command substitutions
+Date: 02.01.2016 21:01
+Author: tg@
+Tag: mksh plan
+
+<p class="boxhead"><tt>izabera</tt> did make a good point in IRC the other
+ day for why we <em>will</em> need to have two locales at the very least in
+ MirBSD – <tt>C</tt> and <tt>C.UTF-8</tt> (the latter being widespread
+ enough by now, <a href="https://bugs.debian.org/609306">thanks to me</a>,
+ interestingly enough. He uses code which leads to unexpected results…</p>
+<div class="boxtext"><pre>
+	$ generate() { tr -dc "[:alnum:]" &lt; /dev/urandom | dd bs="$len" count=1; }
+	$ len=10; echo $(generate 2&gt;/dev/null)
+	Ut流54Ȫf
+</pre></div><p class="boxfoot">… because tr(1) was the first utility I
+ converted to Unicode, to explore possibilities and craft the <a
+ href="@@RELPATH@@permalinks/wlog-10_e20080802-tg.htm">OPTU encoding</a>
+ and, thus, “流” is, indeed, an alphanumeric character.</p>
+<p>This implies two things: we need to change MirBSD libc locale functions
+ back to support two charsets (and make setlocale(3) match), and mksh(1)
+ should implement locale tracking (to change <tt>set ±U</tt> whenever one
+ of the relevant parameters (<tt>${LC_ALL:-${LC_CTYPE:-${LANG:-C}}}</tt>)
+ changes in the session; users could still set <tt>utf8-mode</tt> manually
+ though). For this to not break anything, we’ll have to audit scripts in
+ MirBSD though (usually adding <tt>export LC_ALL=C</tt> at their begin is
+ enough, and we need this for portable scripts anyway) and remove all
+ occurrences of <tt>#ifndef __MirBSD__</tt> before setlocale(3) calls in
+ applications. This will take a while.</p>
+<hr />
+<p>Secondly, I opened <a href="http://austingroupbugs.net/view.php?id=1015">an
+ issue with POSIX</a> about handling of the (deprecated, and for good reason)
+ <tt>`</tt>-style command substitutions. The GNU autoconf texinfo manual gives
+ good advice for portable shell scripts, and we all knew that <tt>foo="bar
+ `echo \"baz\"`"</tt> wasn’t portable due to use of more than one set of double
+ quotes, but my (and the yash authors’) reading of the standard (and <a
+ href="@@RELPATH@@mksh.htm#r52">mksh R52</a>’s POSIX mode) make it set $foo to
+ <tt>bar "baz"</tt> instead of the historic <tt>bar baz</tt> now, and I wish
+ to get this clarified (and, possibly, the standard changed to match historic
+ practice, as this breaks at least the Acrobat Reader 5 start script). Nothing
+ has been decided yet (due to the holidays, I’m sure), but we got input from
+ some other people involved in shell.</p>
+<p>So, if any <tt>#!/bin/sh</tt> scripts break or behave weirdly with R52,
+ you now know why. I’m waiting for an official statement.</p>
+----
