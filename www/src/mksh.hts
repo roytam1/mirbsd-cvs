@@ -1174,13 +1174,19 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
-<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
--->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+ <li>[tg] Recognise ksh93 compiled scripts and LZIP compressed files
+  as binary (i.e. to not run as mksh plaintext script)</li>
+ <li>[tg] Document that we will implement locale tracking later</li>
+ <li>[tg] Add <tt>EEXIST</tt> to failback strerror(3)</li>
+ <li>[jilles] Make <tt>set -C; :&gt;foo</tt> race-free</li>
+ <li>[tg] Don’t use <tt>unset</tt> in portable build script</li>
+ <li>[tg] Plug warning on GNU/kFreeBSD, GNU/Hurd</li>
+</ul>
 <p id="r52">R52 is a strongly recommended bugfix release:</p><ul>
  <li>[_0bitcount] Move moving external link from mksh(1) to the <a
   href="@@RELPATH@@ksh-chan.htm">#ksh channel homepage</a> linked therein</li>
