@@ -1,7 +1,7 @@
 #!/bin/mksh
 rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.69 2014/12/20 14:12:15 tg Exp $'
 #-
-# Copyright © 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015
+# Copyright © 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016
 #	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -183,9 +183,12 @@ for suite in dists/*; do
 				print "\n===> Creating" \
 				    "${dist#dists/}/$arch/Packages\n"
 				mkdir -p $dist/binary-$arch
-				dpkg-scanpackages $oef $om -a $arch \
-				    $dist $ovf | \
+				(dpkg-scanpackages $oef $om -a $arch \
+				    $dist $ovf || \
+				    echo $? >$dist/binary-$arch/failed) | \
 				    putfile $dist/binary-$arch/Packages
+				[[ -e $dist/binary-$arch/failed ]] && \
+				    exit $(<$dist/binary-$arch/failed)
 				(( nmds++ )) || firstmd=$arch
 			fi
 		done
@@ -194,9 +197,10 @@ for suite in dists/*; do
 		[[ -e dpkg_578162_workaround ]] || (dpkg-scansources $oef $osf \
 		    $dist $ovf || touch dpkg_578162_workaround) | \
 		    putfile $dist/source/Sources
-		[[ -e dpkg_578162_workaround ]] && dpkg-scansources $osf \
-		    $dist $ovf | \
+		[[ -e dpkg_578162_workaround ]] && (dpkg-scansources $osf \
+		    $dist $ovf || echo $? >$dist/source/failed) | \
 		    putfile $dist/source/Sources
+		[[ -e $dist/source/failed ]] && exit $(<$dist/source/failed)
 		print done.
 		print "\n===> Creating ${dist#dists/}/i18n/Index"
 		[[ -d $dist/i18n/. ]] || mkdir -p $dist/i18n
