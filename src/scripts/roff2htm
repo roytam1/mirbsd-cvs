@@ -1,4 +1,4 @@
-# $MirOS: src/scripts/roff2htm,v 1.80 2015/01/02 13:54:19 tg Exp $
+# $MirOS: src/scripts/roff2htm,v 1.81 2015/10/16 13:19:09 tg Exp $
 # $ekkoBSD: catman2html.sh,v 1.2 2004/03/07 03:02:53 stephen Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2007, 2011, 2012, 2014, 2015
@@ -271,11 +271,11 @@ function output_header {
 function output_footer {
 	print '
 <hr /><p style="font-size:xx-small;">Generated on' $roff2htm_gendate 'by
- <tt>$MirOS: src/scripts/roff2htm,v 1.80 2015/01/02 13:54:19 tg Exp $</tt></p>
+ <tt>$MirOS: src/scripts/roff2htm,v 1.81 2015/10/16 13:19:09 tg Exp $</tt></p>
 <p>These manual pages and other documentation are <a
  href="'$roff2htm_rel'man7/BSD-Licence.htm">copyrighted</a> by their respective writers;
  their source is available at our <a href="http://cvs.mirbsd.de/">CVSweb</a>,
- AnonCVS, and other mirrors. The rest is Copyright © 2002–2015 <a
+ AnonCVS, and other mirrors. The rest is Copyright © 2002–2016 <a
  href="https://www.mirbsd.org/">The MirOS Project</a>, Germany.<br /><span
  style="font-size:3pt; font-style:italic;">This product includes material
  provided by <i>mirabilos</i>.</span></p>
