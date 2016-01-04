@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.290 2015/11/13 17:54:11 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.299 2016/01/02 21:01:17 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -10345,13 +10345,26 @@ ID: 1727
 Date: 01.01.2016
 Waypoint: GC683P1
 Title: Prost Neijoer
-Tag: D1 T15 Event
+Tag: D1 T15 Event exceptional
+
+Ein herzliches Willkommen zu unserem Luxemburg-Urlaub…
+selbstgemachter Glühwein (der leckerste, den ich je zu
+trinken bekam) und Spaghetti Bolognese (auch echt gut)
+obwohl wir nichtmals welche bestellt hatten, Grill und
+Lagerfeuer im Garten; viele nordluxemburgische Cacher,
+die nett zu uns waren… das kann kaum ein Event toppen!
 ----
 ID: 1728
 Date: 02.01.2016
 Waypoint: OC4FF4
 Title: Zweiter Weltkrieg – Schumannseck
 Tag: D1 T1 Virtual
+----
+ID: 1729
+Date: 04.01.2016
+Waypoint: GC4VJC1
+Title: Den Kreizwee bei d`Mariakapell zu Béiwen.
+Tag: D15 T2 Micro Tradi
 ----
 ID: p20160729
 Date: 30.07.2016
