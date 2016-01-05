@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.36 2015/10/27 16:35:35 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.38 2015/11/28 18:43:37 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -557,7 +557,7 @@ Tag: debian event fun geocache mksh news personal pkgsrc plan rant security work
 Date: 18.04.2015 22:12
 Author: tg@
 Title: Pannekōche
-Tag: food fun tip
+Tag: food fun tip twitxr
 Language: de-DE-1901
 
 <p>Dies ist ein Rezept für polnische <span
@@ -579,6 +579,9 @@ Language: de-DE-1901
  unterscheiden.<br />
  Die Hefepfannkuchen werden etwas mehr als handtellergroß,
  sind wunderbar luftig und prall und weich in der Mitte.</p>
+<p><a href="@@RELPATH@@pics/wlog/Pfannkuchen.JPG"><img
+ src="@@RELPATH@@pics/wlog/Pfannkuchen.jpg"
+ alt="Pfannkuchen • Pannekōche • Hefepfannkuchen" /></a></p>
 <p>Man kann die nicht nur als Apfelpfannkuchen zubereiten,
  sondern sie schmecken auch mit Erdbeeren total lecker, was
  allerdings recht matschig ist. Blaubeeren oder Pfirsische
@@ -630,7 +633,9 @@ Language: de-DE-1901
  macht sollte man bereits während des Bratens ab und zu selber
  einen essen, weil man sonst nix mehr bekommt, weil das so
  lecker riecht, daß die Kollegen einen belagern…)</p>
-<p>tbd: Photo. Kommt, wenn wir die ’s nächste Mal machen.</p>
+<p>Update: Photo. Diesmal mit Vollkornmehl – eher mehr Milch
+ nehmen hierbei, sonst fallen die Äpfel raus. Stevia geht auch,
+ aber ein bißchen Zucker muß zum Gären sein.</p>
 ----
 Date: 28.04.2015 20:54
 Author: tg@
