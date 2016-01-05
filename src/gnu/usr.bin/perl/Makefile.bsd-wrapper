@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.35 2014/03/13 03:03:18 tg Exp $
+# $MirOS: src/gnu/usr.bin/perl/Makefile.bsd-wrapper,v 1.36 2016/01/05 19:25:44 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.75 2007/11/26 11:12:29 espie Exp $
 #
 # Build wrapper for Perl 5.8.8
@@ -16,16 +16,13 @@ THREADED_PERL?=	No
 COPTS+=		-fno-strict-aliasing
 COPTS+=		-fno-delete-null-pointer-checks
 
-# Definitione to use for libperl and miniperl/perl
-XDEFS+=		-DPERL_USE_SAFE_PUTENV
-
 # Arguments passed to Configure...
 .if ${THREADED_PERL:L} == "yes"
 CONFIGURE_ARGS+=-Dusethreads
 CFLAGS+=	-pthread
 .endif
 
-XFLAGS=		${CFLAGS} ${XDEFS} -Werror-maybe-reset
+XFLAGS=		${CFLAGS} -Werror-maybe-reset
 CONFIGURE_ARGS+=-dsE -D${OSname}_distribution=defined \
 		-Doptimize=${XFLAGS:N-g*:M*:Q}
 
@@ -53,7 +50,6 @@ SRCS=	perl.c gv.c toke.c perly.c op.c pad.c regcomp.c dump.c util.c mg.c \
 	globals.c perlio.c perlapi.c numeric.c locale.c pp_pack.c pp_sort.c
 
 CPPFLAGS+=	-DPERL_CORE -DPERL_RANDOM_DEVICE=\"/dev/arandom\" -I.
-CPPFLAGS+=	${XDEFS}
 
 # MirPorts Framework support
 CPPFLAGS+=	-DAPPLLIB_EXP=\"/usr/mpkg/libdata/perl5:/usr/mpkg/libdata/perl5/site_perl\"

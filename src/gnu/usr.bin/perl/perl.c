@@ -4706,10 +4706,6 @@ S_init_postdump_symbols(pTHX_ register int argc, register char **argv, register 
 #endif
 	    sv = newSVpv(s+1, 0);
 	    (void)hv_store(hv, *env, s - *env, sv, 0);
-#undef fprintf
-#undef stderr
-#define stderr (&__sF[2])
-fprintf(stderr,"{store<%s>}\n",*env);
 	    if (env != environ)
 	        mg_set(sv);
 	    if (origenv != environ) {
