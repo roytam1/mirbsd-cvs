@@ -1,7 +1,8 @@
-/**	$MirOS: src/lib/libc/stdlib/setenv.c,v 1.5 2006/07/04 21:38:13 tg Exp $ */
 /*	$OpenBSD: setenv.c,v 1.9 2005/08/08 08:05:37 espie Exp $ */
 /*
  * Copyright (c) 1987 Regents of the University of California.
+ * Copyright (c) 2003, 2005, 2006 mirabilos <m@mirbsd.org>
+ * Copyright (c) 2006 Frank Denis
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,9 +34,9 @@
 #include <stdlib.h>
 #include <string.h>
 
-__RCSID("$MirOS: src/lib/libc/stdlib/setenv.c,v 1.5 2006/07/04 21:38:13 tg Exp $");
+__RCSID("$MirOS: src/lib/libc/stdlib/setenv.c,v 1.6 2006/07/04 21:43:02 tg Exp $");
 
-char *__findenv(const char *name, int *offset);
+extern char *__findenv(const char *name, int *offset);
 
 extern char **environ;
 
@@ -58,6 +59,7 @@ setenv(const char *name, const char *value, int rewrite)
 	if ((C = __findenv(name, &offset))) {	/* find if already exists */
 		if (!rewrite)
 			return (0);
+		/*XXX should remove all duplicates here */
 		if (strlen(C) >= (size_t)l_value) {	/* old larger; copy over */
 			while ((*C++ = *value++))
 				;

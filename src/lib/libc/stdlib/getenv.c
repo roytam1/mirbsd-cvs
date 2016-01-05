@@ -2,6 +2,8 @@
 /*
  * Copyright (c) 1987, 1993
  *	The Regents of the University of California.  All rights reserved.
+ * Copyright (c) 2016
+ *	mirabilos <m@mirbsd.org>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions
@@ -31,6 +33,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+__RCSID("$MirOS$");
+
 char *__findenv(const char *name, int *offset);
 
 /*
@@ -39,6 +43,7 @@ char *__findenv(const char *name, int *offset);
  *	Sets offset to be the offset of the name/value combination in the
  *	environmental array, for use by setenv(3) and unsetenv(3).
  *	Explicitly removes '=' in argument name.
+ *	Finds the *last* occurrence.
  *
  *	This routine *should* be a static; don't use it.
  */
@@ -49,6 +54,7 @@ __findenv(const char *name, int *offset)
 	int len, i;
 	const char *np;
 	char **p, *cp;
+	char *rv = NULL;
 
 	if (name == NULL || environ == NULL)
 		return (NULL);
@@ -61,10 +67,10 @@ __findenv(const char *name, int *offset)
 				break;
 		if (i == 0 && *cp++ == '=') {
 			*offset = p - environ;
-			return (cp);
+			rv = cp;
 		}
 	}
-	return (NULL);
+	return (rv);
 }
 
 /*
