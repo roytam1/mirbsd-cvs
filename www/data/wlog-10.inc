@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.469 2015/09/29 21:48:16 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.470 2015/10/12 22:40:48 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10905,4 +10905,61 @@ Tag: mksh pcli
  like this with us in <a href="@@RELPATH@@irc.htm">IRC</a>, sending in
  bugfixes (and changes we decline, with reason), etc. – it feels like we
  have a real community, not just consuments ☺</p>
+----
+Date: 07.01.2016 01:24
+Author: tg@
+Title: “git find” published; test, review, fix it please
+Tag: debian fun mksh pcli tip
+
+<p>I just published the first version of <tt>git find</tt> on <a
+ href="https://github.com/mirabilos/git-find">gh/mirabilos/git-find</a>
+ for easy collaboration. The repository deliberately only contains the
+ script and the manual page so it can easily be merged into git.git with
+ complete history later, should they accept it. <tt>git find</tt> is <a
+ href="@@RELPATH@@MirOS-Licence.htm">MirOS licenced</a>. It does require
+ a recent <a href="@@RELPATH@@mksh.htm">mksh</a> and some common utility
+ extensions to deal with NUL-separated lines (<tt>sort -z</tt>, <tt>grep
+ -z</tt>, <tt>git ls-tree -z</tt>); also, support for <tt>'\0'</tt> in
+ tr(1) and a comm(1) that does not choke on embedded NULs in lines.</p>
+<p class="boxhead">To install or uninstall it, run…</p>
+<div class="boxtext"><pre>
+	$ git clone git@github.com:mirabilos/git-find.git
+	$ cd git-find
+	$ sudo ln -sf $PWD/git-find /usr/lib/git-core/
+	$ sudo cp git-find.1 /usr/local/share/man/man1/
+	… hack …
+	$ sudo rm /usr/lib/git-core/git-find \
+	    /usr/local/share/man/man1/git-find.1
+</pre></div><p class="boxfoot">… then you can call it as “git find”
+ and look at the documentation with “git help find”, as is customary.</p>
+<p>The idea behind this utility is to have a tool like “git grep” that
+ acts on the list of files known to git (and not e.g. ignored files)
+ to quickly search for, say, all PNG files in the repository (but not
+ the generated ones). “git find” acts on the index for the HEAD, i.e.
+ whatever commit is currently checked-out (unlike “git grep” which also
+ knows about “git add”ed files; fix welcome) and then offers a filter
+ syntax similar to find(1) to follow up: parenthesēs, <tt>!</tt> for
+ negation, <tt>-a</tt> and <tt>-o</tt> for boolean are supported, as
+ well as <tt>-name</tt>, <tt>-regex</tt> and <tt>-wholename</tt> and
+ their case-insensitive variants, although regex uses grep(1) without
+ (or, if the global option <tt>-E</tt> is given, with) <tt>-E</tt>,
+ and the pattern matches use mksh(1)’s, which ignores the locale and
+ doesn’t do <tt>[[:alpha:]]</tt> character classes yet. On the plus
+ side, the output is guaranteed to be sorted; on the minus side, it
+ is rather wastefully using temporary files (under <tt>$TMPDIR</tt>
+ of course, so use of tmpfs is recommended). <tt>-print0</tt> is the
+ only output option (<tt>-print</tt> being the default).</p>
+<p>Another mode “forwards” the file list to the system <tt>find</tt>;
+ since it doesn’t support DOS-style response files, this only works
+ if the amount of files is smaller than the operating system’s limit;
+ this mode supports the full range (except <tt>-maxdepth</tt>) of the
+ system find(1) filters, e.g. <tt>-mmin -1</tt> and <tt>-ls</tt>, but
+ it occurs filesystem access penalty for the entire tree and doesn’t
+ sort the output, but can do <tt>-ls</tt> or even <tt>-exec</tt>.</p>
+<p>The idea here is that it can collaboratively be improved, reviewed,
+ fixed, etc. and then, should they agree, with the entire history, <a
+ href="https://www.kernel.org/pub/software/scm/git/docs/howto/using-merge-subtree.html"
+ >subtree-merge</a>d into <tt>git.git</tt> and shipped to the world.</p>
+<p>Part of the development was sponsored by tarent solutions GmbH, the
+ rest and the entire manual page were done in my vacation.</p>
 ----
