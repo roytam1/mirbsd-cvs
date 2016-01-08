@@ -10366,6 +10366,27 @@ Waypoint: GC4VJC1
 Title: Den Kreizwee bei d`Mariakapell zu Béiwen.
 Tag: D15 T2 Micro Tradi
 ----
+ID: 1730
+Date: 08.01.2016
+Waypoint: GC534HA
+Title: Le Cimetière de Trains
+Tag: D2 T25 Small Tradi recommended
+
+Magnificent! I took a lot of photos and uploaded 26 of them
+(sadly, some didn’t get well with my crappy ancient camera).
+----
+ID: 1731
+Date: 08.01.2016
+Waypoint: GC4Z66Q
+Title: The secret passage
+Tag: D2 T15 Small Tradi
+----
+ID: 1732
+Date: 08.01.2016
+Waypoint: GCR7ZP
+Title: Alstad #2
+Tag: D15 T1 Micro Tradi
+----
 ID: p20160729
 Date: 30.07.2016
 Waypoint: GC276WT

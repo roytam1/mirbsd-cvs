@@ -10917,10 +10917,12 @@ Tag: debian fun mksh pcli tip
  script and the manual page so it can easily be merged into git.git with
  complete history later, should they accept it. <tt>git find</tt> is <a
  href="@@RELPATH@@MirOS-Licence.htm">MirOS licenced</a>. It does require
- a recent <a href="@@RELPATH@@mksh.htm">mksh</a> and some common utility
- extensions to deal with NUL-separated lines (<tt>sort -z</tt>, <tt>grep
- -z</tt>, <tt>git ls-tree -z</tt>); also, support for <tt>'\0'</tt> in
- tr(1) and a comm(1) that does not choke on embedded NULs in lines.</p>
+ a recent <a href="@@RELPATH@@mksh.htm">mksh</a> (Update: I did start it
+ in POSIX sh first, but it eventually turned out to require arrays, and
+ I don’t know perl(1) and am not going to rewrite it in C) and some common
+ utility extensions to deal with NUL-separated lines (<tt>sort -z</tt>,
+ <tt>grep -z</tt>, <tt>git ls-tree -z</tt>); also, support for <tt>'\0'</tt>
+ in tr(1) and a comm(1) that does not choke on embedded NULs in lines.</p>
 <p class="boxhead">To install or uninstall it, run…</p>
 <div class="boxtext"><pre>
 	$ git clone git@github.com:mirabilos/git-find.git
