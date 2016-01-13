@@ -1186,6 +1186,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[jilles] Make <tt>set -C; :&gt;foo</tt> race-free</li>
  <li>[tg] Don’t use <tt>unset</tt> in portable build script</li>
  <li>[tg] Plug warning on GNU/kFreeBSD, GNU/Hurd</li>
+ <li>[tg] Document <tt>read -a</tt> resets the integer base</li>
+ <li>[J�rg] Fix manpage: <tt>time</tt> is not a builtin but a reserved word</li>
+ <li>[J�rg, tg] Make <tt>exit</tt> (and <tt>return</tt>) eat <tt>-1</tt></li>
 </ul>
 <p id="r52">R52 is a strongly recommended bugfix release:</p><ul>
  <li>[_0bitcount] Move moving external link from mksh(1) to the <a
