@@ -10387,6 +10387,12 @@ Waypoint: GCR7ZP
 Title: Alstad #2
 Tag: D15 T1 Micro Tradi
 ----
+ID: 1733
+Date: 10.01.2016
+Waypoint: GC1M627
+Title: View to DAM
+Tag: D15 T15 Small Tradi
+----
 ID: p20160729
 Date: 30.07.2016
 Waypoint: GC276WT
