@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.595 2015/11/18 22:23:59 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.598 2016/01/02 21:01:28 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -233,7 +233,7 @@ mws_content <<'EOF'
  href="http://heirloom.sourceforge.net/sh.html">Heirloom sh</a>, DEC OSF/1
  V2.0 <tt>/bin/sh</tt>), Korn shell (ksh, ksh88, ksh93, pdksh, mksh, oksh,
  maybe the MKS ksh), POSIX shell (posh, <tt>/usr/xpg4/bin/sh</tt>, ash, dash),
- related shell (yash, J�rg Schilling’s bsh or sh, the Z Shell), or a Bourne
+ related shell (yash, J�rg Schilling’s bosh or sh, the Z Shell), or a Bourne
  or POSIX superset (such as GNU bash) to work; the ULTRIX <tt>/bin/sh</tt>
  or the C shell (csh, tcsh) or “bsh” or a scripting shell like the wish won’t.
  <br />Accepted arguments are:</p><ul>
