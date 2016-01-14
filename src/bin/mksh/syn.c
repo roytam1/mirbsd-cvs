@@ -2,7 +2,7 @@
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009,
- *		 2011, 2012, 2013, 2014, 2015
+ *		 2011, 2012, 2013, 2014, 2015, 2016
  *	mirabilos <m@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -400,6 +400,7 @@ get_command(int cf)
 		case LWORD:
 			break;
 		case '(': /*)*/
+			c = '(';
 			goto Subshell;
 		default:
 			syntaxerr(NULL);
