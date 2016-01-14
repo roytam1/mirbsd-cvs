@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.472 2016/01/08 19:14:59 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.473 2016/01/14 10:34:34 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10975,4 +10975,14 @@ Tag: bug hardware news rant
  This is rather unfortunate; it’s possible the website will be
  down for a while, depending on what service I’ll be able to get
  for the antique thing.</p>
+----
+Date: 14.01.2016 23:40
+Author: tg@
+Title: CVE-2016-0777 OpenSSH roaming leak
+Tag: bug security snapshot
+
+<p>While our OpenSSH has (now: had) some code related to roaming,
+ I believe our version not affected. If desired, CVS HEAD ships
+ with the entire code removed.</p>
+<p>I fixed lots of <a href="@@RELPATH@@mksh.htm">mksh</a> bugs today!</p>
 ----

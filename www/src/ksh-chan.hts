@@ -55,7 +55,7 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="vsns">Korn Shell versions</h2>
-<p>This information is current as of: 2015-12-13 (13 December 2015)</p>
+<p>This information is current as of: 2016-01-14 (14 January 2016)</p>
 <p><a href="http://www.kornshell.com/">AT&amp;T Korn Shell</a>: latest is
  ksh93v- (beta) dated 2014-09-29 (29 September 2014) and ksh93u+ (stable)
  dated 2012-08-01; download server unreachable, development unclear</p>
@@ -64,7 +64,7 @@ mws_content <<'EOF'
  series, mksh R50f, dated 2015-04-19 (19 April 2015); link to active <a
  href="@@RELPATH@@mksh.htm#clog">development tree changelog</a></p>
 <p><a href="https://github.com/komh/mksh-os2">mksh-os2</a> for OS/2:
- under development, no formal release yet</p>
+ under development, no formal release yet; synchronised with mksh R52</p>
 <p><a href="@@RELPATH@@permalinks/wlog-10_e20130718-tg.htm">mksh/Win32</a>:
  latest is Beta 14 (based on mksh R39), dated 2013-06-29 (29 June 2013)</p>
 <p><a href="http://www.cs.mun.ca/~michael/pdksh/">Public Domain Korn

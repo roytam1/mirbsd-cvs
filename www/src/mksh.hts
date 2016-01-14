@@ -1195,6 +1195,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Document <tt>read -a</tt> resets the integer base</li>
  <li>[J�rg] Fix manpage: <tt>time</tt> is not a builtin but a reserved word</li>
  <li>[J�rg, tg] Make <tt>exit</tt> (and <tt>return</tt>) eat <tt>-1</tt></li>
+ <li>[tg] parse “$( (( … ) … ) … )” correctly (LP#1532621), Jan Palus</li>
+ <li>[tg] reduce memory footprint by free(3)ing more aggressively</li>
+ <li>[tg] fix buffer overrun (LP#1533394), bugreport by izabera</li>
+ <li>[tg] correctly handle nested ADELIM parsing (LP#1453827), Teckids</li>
+ <li>[tg] permit “read -A/-a arr[idx]” as long as only one element is read;
+  fix corruption of array indicēs with this construct (LP#1533396), izabera</li>
+ <li>[tg] Sanitise OS-provided signal number in even more places</li>
+ <li>[tg] As requested by J�rg, be clear manpage advice is for mksh</li>
 </ul>
 <p id="r52">R52 is a strongly recommended bugfix release:</p><ul>
  <li>[_0bitcount] Move moving external link from mksh(1) to the <a
