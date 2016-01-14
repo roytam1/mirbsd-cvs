@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/special/sshd/Makefile,v 1.10 2009/10/04 20:56:36 tg Exp $
+# $MirOS: src/distrib/special/sshd/Makefile,v 1.11 2014/03/28 22:35:20 tg Exp $
 # $OpenBSD: Makefile,v 1.68 2008/11/04 08:22:13 djm Exp $
 #-
 # Build an extra small sshd(8) without BSD auth
@@ -32,5 +32,3 @@ LDADD+=	-lcrypto -lutil -lz -ldes
 
 DPADD+=	${SSHDIR}/lib/${__objdir}/libssh.a
 LDADD+=	-L${SSHDIR}/lib/${__objdir} -L${SSHDIR}/lib -lssh
-DPADD+=	${SSHDIR}/libroaming_on/${__objdir}/libroaming_on.a
-LDADD+=	-L${SSHDIR}/libroaming_on/${__objdir} -L${SSHDIR}/libroaming_on -lroaming_on

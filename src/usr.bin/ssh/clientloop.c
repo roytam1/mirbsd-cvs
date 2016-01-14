@@ -100,9 +100,8 @@
 #include "misc.h"
 #include "match.h"
 #include "msg.h"
-#include "roaming.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/clientloop.c,v 1.16 2009/10/02 16:58:47 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/clientloop.c,v 1.17 2009/10/04 14:29:03 tg Exp $");
 
 /* import options */
 extern Options options;
@@ -628,7 +627,7 @@ client_suspend_self(Buffer *bin, Buffer *bout, Buffer *berr)
 static void
 client_process_net_input(fd_set *readset)
 {
-	int len, cont = 0;
+	int len;
 	char buf[8192];
 
 	/*
@@ -637,8 +636,8 @@ client_process_net_input(fd_set *readset)
 	 */
 	if (FD_ISSET(connection_in, readset)) {
 		/* Read as much as possible. */
-		len = roaming_read(connection_in, buf, sizeof(buf), &cont);
-		if (len == 0 && cont == 0) {
+		len = read(connection_in, buf, sizeof(buf));
+		if (len == 0) {
 			/*
 			 * Received EOF.  The remote host has closed the
 			 * connection.

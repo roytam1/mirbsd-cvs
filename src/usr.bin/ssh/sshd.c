@@ -98,10 +98,9 @@
 #include "monitor_mm.h"
 #include "monitor.h"
 #include "monitor_wrap.h"
-#include "roaming.h"
 #include "version.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.21 2014/03/13 04:46:47 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshd.c,v 1.22 2014/03/13 14:18:53 tg Exp $");
 
 #ifndef O_NOCTTY
 #define O_NOCTTY	0
@@ -391,7 +390,7 @@ sshd_exchange_identification(int sock_in, int sock_out)
 	server_version_string = xstrdup(buf);
 
 	/* Send our protocol version identification. */
-	if (roaming_atomicio(vwrite, sock_out, server_version_string,
+	if (atomicio(vwrite, sock_out, server_version_string,
 	    strlen(server_version_string))
 	    != strlen(server_version_string)) {
 		logit("Could not write ident string to %s", get_remote_ipaddr());
@@ -401,7 +400,7 @@ sshd_exchange_identification(int sock_in, int sock_out)
 	/* Read other sides version identification. */
 	memset(buf, 0, sizeof(buf));
 	for (i = 0; i < sizeof(buf) - 1; i++) {
-		if (roaming_atomicio(read, sock_in, &buf[i], 1) != 1) {
+		if (atomicio(read, sock_in, &buf[i], 1) != 1) {
 			logit("Did not receive identification string from %s",
 			    get_remote_ipaddr());
 			cleanup_exit(255);

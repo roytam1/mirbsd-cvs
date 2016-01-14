@@ -41,7 +41,7 @@
 #include "kex.h"
 #include "mac.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.20 2011/01/15 21:52:40 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/readconf.c,v 1.21 2014/03/28 22:31:56 tg Exp $");
 
 /* Format of the configuration file:
 
@@ -130,7 +130,7 @@ typedef enum {
 	oServerAliveInterval, oServerAliveCountMax, oIdentitiesOnly,
 	oSendEnv, oControlPath, oControlMaster, oHashKnownHosts,
 	oTunnel, oTunnelDevice, oLocalCommand, oPermitLocalCommand,
-	oVisualHostKey, oUseRoaming,
+	oVisualHostKey,
 	oDeprecated, oUnsupported
 } OpCodes;
 
@@ -223,7 +223,7 @@ static struct {
 	{ "localcommand", oLocalCommand },
 	{ "permitlocalcommand", oPermitLocalCommand },
 	{ "visualhostkey", oVisualHostKey },
-	{ "useroaming", oUseRoaming },
+	{ "useroaming", oDeprecated },
 
 	{ NULL, oBadOption }
 };
@@ -890,10 +890,6 @@ parse_int:
 		intptr = &options->visual_host_key;
 		goto parse_flag;
 
-	case oUseRoaming:
-		intptr = &options->use_roaming;
-		goto parse_flag;
-
 	case oDeprecated:
 		debug("%s line %d: Deprecated option \"%s\"",
 		    filename, linenum, keyword);
@@ -1041,7 +1037,6 @@ initialize_options(Options *options)
 	options->tun_remote = -1;
 	options->local_command = NULL;
 	options->permit_local_command = -1;
-	options->use_roaming = -1;
 	options->visual_host_key = -1;
 }
 
@@ -1178,8 +1173,6 @@ fill_default_options(Options *options, struct passwd *pw)
 		options->tun_remote = SSH_TUNID_ANY;
 	if (options->permit_local_command == -1)
 		options->permit_local_command = 0;
-	if (options->use_roaming == -1)
-		options->use_roaming = 1;
 	if (options->visual_host_key == -1)
 		options->visual_host_key = 0;
 	/* options->local_command should not be set by default */

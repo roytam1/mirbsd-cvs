@@ -1,4 +1,4 @@
-# $MirOS: src/usr.bin/ssh/ssh/Makefile,v 1.4 2009/10/04 14:29:14 tg Exp $
+# $MirOS: src/usr.bin/ssh/ssh/Makefile,v 1.5 2009/10/04 20:48:35 tg Exp $
 # $OpenBSD: Makefile,v 1.53 2009/05/28 16:50:16 andreas Exp $
 
 .PATH:		${.CURDIR}/..
@@ -19,5 +19,5 @@ CFLAGS_sshconnect2.o+=	-Wno-unused
 
 .include <bsd.prog.mk>
 
-DPADD+=	${LIBCRYPTO} ${LIBZ} ${LIBDES} ${DP_R_ON}
-LDADD+=	-lcrypto -lz -ldes ${LD_R_ON}
+DPADD+=	${LIBCRYPTO} ${LIBZ} ${LIBDES}
+LDADD+=	-lcrypto -lz -ldes

@@ -14,5 +14,5 @@ SRCS=	ssh-keysign.c readconf.c
 
 .include <bsd.prog.mk>
 
-LDADD+=	-lcrypto -lz ${LD_R_OFF}
-DPADD+=	${LIBCRYPTO} ${LIBZ} ${DP_R_OFF}
+LDADD+=	-lcrypto -lz
+DPADD+=	${LIBCRYPTO} ${LIBZ}

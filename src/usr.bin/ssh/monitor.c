@@ -68,9 +68,8 @@
 #include "misc.h"
 #include "compat.h"
 #include "ssh2.h"
-#include "roaming.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.15 2009/10/04 14:29:05 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/monitor.c,v 1.16 2014/03/28 22:31:55 tg Exp $");
 
 /* Imports */
 extern ServerOptions options;
@@ -105,8 +104,6 @@ struct {
 	u_int ilen;
 	u_char *output;
 	u_int olen;
-	u_int64_t sent_bytes;
-	u_int64_t recv_bytes;
 } child_state;
 
 /* Functions on the monitor that answer unprivileged requests */
@@ -1326,10 +1323,6 @@ monitor_apply_keystate(struct monitor *pmonitor_)
 		      child_state.olen);
 	memset(child_state.output, 0, child_state.olen);
 	xfree(child_state.output);
-
-	/* Roaming */
-	if (compat20)
-		roam_set_bytes(child_state.sent_bytes, child_state.recv_bytes);
 }
 
 static Kex *
@@ -1444,12 +1437,6 @@ mm_get_keystate(struct monitor *pmonitor_)
 	debug3("%s: Getting Network I/O buffers", __func__);
 	child_state.input = buffer_get_string(&m, &child_state.ilen);
 	child_state.output = buffer_get_string(&m, &child_state.olen);
-
-	/* Roaming */
-	if (compat20) {
-		child_state.sent_bytes = buffer_get_int64(&m);
-		child_state.recv_bytes = buffer_get_int64(&m);
-	}
 
 	buffer_free(&m);
 }

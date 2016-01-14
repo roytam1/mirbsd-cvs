@@ -72,9 +72,8 @@
 #include "canohost.h"
 #include "misc.h"
 #include "ssh.h"
-#include "roaming.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/packet.c,v 1.16 2009/10/04 14:29:05 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/packet.c,v 1.17 2010/09/21 21:24:37 tg Exp $");
 
 const char NULs[8] = { 0, 0, 0, 0, 0, 0, 0, 0 };
 
@@ -193,7 +192,7 @@ struct session_state {
 	TAILQ_HEAD(, packet) outgoing;
 };
 
-static struct session_state *active_state, *backup_state;
+static struct session_state *active_state;
 
 static struct session_state *
 alloc_session_state(void)
@@ -1014,7 +1013,7 @@ packet_send(void)
 int
 packet_read_seqnr(u_int32_t *seqnr_p)
 {
-	int type, len, ret, ms_remain, cont;
+	int type, len, ret, ms_remain;
 	fd_set *setp;
 	char buf[8192];
 	struct timeval timeout, start, *timeoutp = NULL;
@@ -1079,11 +1078,7 @@ packet_read_seqnr(u_int32_t *seqnr_p)
 			cleanup_exit(255);
 		}
 		/* Read data from the socket. */
-		do {
-			cont = 0;
-			len = roaming_read(active_state->connection_in, buf,
-			    sizeof(buf), &cont);
-		} while (len == 0 && cont);
+		len = read(active_state->connection_in, buf, sizeof(buf));
 		if (len == 0) {
 			logit("Connection closed by %.200s", get_remote_ipaddr());
 			cleanup_exit(255);
@@ -1632,18 +1627,16 @@ void
 packet_write_poll(void)
 {
 	int len = buffer_len(&active_state->output);
-	int cont;
 
 	if (len > 0) {
-		cont = 0;
-		len = roaming_write(active_state->connection_out,
-		    buffer_ptr(&active_state->output), len, &cont);
+		len = write(active_state->connection_out,
+		    buffer_ptr(&active_state->output), len);
 		if (len == -1) {
 			if (errno == EINTR || errno == EAGAIN)
 				return;
 			fatal("Write failed: %.100s", strerror(errno));
 		}
-		if (len == 0 && !cont)
+		if (len == 0)
 			fatal("Write connection closed");
 		buffer_consume(&active_state->output, len);
 	}
@@ -1880,53 +1873,6 @@ void *
 packet_get_newkeys(int mode)
 {
 	return (void *)active_state->newkeys[mode];
-}
-
-/*
- * Save the state for the real connection, and use a separate state when
- * resuming a suspended connection.
- */
-void
-packet_backup_state(void)
-{
-	struct session_state *tmp;
-
-	close(active_state->connection_in);
-	active_state->connection_in = -1;
-	close(active_state->connection_out);
-	active_state->connection_out = -1;
-	if (backup_state)
-		tmp = backup_state;
-	else
-		tmp = alloc_session_state();
-	backup_state = active_state;
-	active_state = tmp;
-}
-
-/*
- * Swap in the old state when resuming a connecion.
- */
-void
-packet_restore_state(void)
-{
-	struct session_state *tmp;
-	void *buf;
-	u_int len;
-
-	tmp = backup_state;
-	backup_state = active_state;
-	active_state = tmp;
-	active_state->connection_in = backup_state->connection_in;
-	backup_state->connection_in = -1;
-	active_state->connection_out = backup_state->connection_out;
-	backup_state->connection_out = -1;
-	len = buffer_len(&backup_state->input);
-	if (len > 0) {
-		buf = buffer_ptr(&backup_state->input);
-		buffer_append(&active_state->input, buf, len);
-		buffer_clear(&backup_state->input);
-		add_recv_bytes(len);
-	}
 }
 
 static void

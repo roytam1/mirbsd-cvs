@@ -1,10 +1,10 @@
-/* $MirOS: src/usr.bin/ssh/packet.h,v 1.6 2009/10/04 14:29:06 tg Exp $ */
+/* $MirOS: src/usr.bin/ssh/packet.h,v 1.7 2013/10/31 20:07:12 tg Exp $ */
 /* $OpenBSD: packet.h,v 1.52 2009/06/27 09:29:06 andreas Exp $ */
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
- * Copyright © 2013
- *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+ * Copyright © 2013, 2016
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1995 Tatu Ylonen <ylo@cs.hut.fi>, Espoo, Finland
  *                    All rights reserved
  * Interface for the packet protocol functions.
@@ -111,9 +111,6 @@ do { \
 
 int	 packet_need_rekeying(void);
 void	 packet_set_rekey_limit(u_int32_t);
-
-void	 packet_backup_state(void);
-void	 packet_restore_state(void);
 
 void	*packet_get_input(void);
 void	*packet_get_output(void);

@@ -47,10 +47,9 @@
 #include "atomicio.h"
 #include "misc.h"
 #include "dns.h"
-#include "roaming.h"
 #include "version.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/sshconnect.c,v 1.16 2009/10/04 14:29:11 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/sshconnect.c,v 1.17 2009/10/04 16:35:26 tg Exp $");
 
 char *client_version_string = NULL;
 char *server_version_string = NULL;
@@ -446,7 +445,7 @@ ssh_exchange_identification(int timeout_ms)
 				}
 			}
 
-			len = roaming_atomicio(read, connection_in, &buf[i], 1);
+			len = atomicio(read, connection_in, &buf[i], 1);
 
 			if (len != 1 && errno == EPIPE)
 				fatal("ssh_exchange_identification: "
@@ -532,8 +531,7 @@ ssh_exchange_identification(int timeout_ms)
 	    compat20 ? PROTOCOL_MINOR_2 : minor1,
 	    SSH_VERSION, (unsigned)(arc4random() & 0xFFFF),
 	    compat20 ? "\r\n" : "\n");
-	if (roaming_atomicio(vwrite, connection_out, buf, strlen(buf))
-	    != strlen(buf))
+	if (atomicio(vwrite, connection_out, buf, strlen(buf)) != strlen(buf))
 		fatal("write: %.100s", strerror(errno));
 	client_version_string = xstrdup(buf);
 	chop(client_version_string);

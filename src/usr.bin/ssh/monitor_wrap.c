@@ -63,9 +63,8 @@
 #include "channels.h"
 #include "session.h"
 #include "servconf.h"
-#include "roaming.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/monitor_wrap.c,v 1.13 2009/10/04 14:29:05 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/monitor_wrap.c,v 1.14 2014/03/28 22:31:56 tg Exp $");
 
 /* Imports */
 extern int compat20;
@@ -646,12 +645,6 @@ mm_send_keystate(struct monitor *monitor)
 	output = (Buffer *)packet_get_output();
 	buffer_put_string(&m, buffer_ptr(input), buffer_len(input));
 	buffer_put_string(&m, buffer_ptr(output), buffer_len(output));
-
-	/* Roaming */
-	if (compat20) {
-		buffer_put_int64(&m, get_sent_bytes());
-		buffer_put_int64(&m, get_recv_bytes());
-	}
 
 	mm_request_send(monitor->m_recvfd, MONITOR_REQ_KEYEXPORT, &m);
 	debug3("%s: Finished sending state", __func__);
