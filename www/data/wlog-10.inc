@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.470 2015/10/12 22:40:48 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.472 2016/01/08 19:14:59 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10964,4 +10964,15 @@ Tag: debian fun mksh pcli tip
  >subtree-merge</a>d into <tt>git.git</tt> and shipped to the world.</p>
 <p>Part of the development was sponsored by tarent solutions GmbH, the
  rest and the entire manual page were done in my vacation.</p>
+----
+Date: 14.01.2016
+Author: tg@
+Title: hardware problems on www.mirbsd.org
+Tag: bug hardware news rant
+
+<p>I just got <tt>wd0a: uncorrectable data error reading fsbn</tt>
+ style messages in dmesg(8) on the machine behind our website.
+ This is rather unfortunate; it’s possible the website will be
+ down for a while, depending on what service I’ll be able to get
+ for the antique thing.</p>
 ----
