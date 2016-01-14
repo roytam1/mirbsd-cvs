@@ -179,6 +179,11 @@ script use.
 Its command language is a superset of the
 .Xr sh C
 shell language and largely compatible to the original Korn shell.
+At times, this manual page may give scripting advice; while it
+sometimes does take portable shell scripting or various standards
+into account all information is first and foremost presented with
+.Nm
+in mind and should be taken as such.
 .Ss I'm an Android user, so what's mksh?
 .Nm mksh
 is a
@@ -1744,7 +1749,7 @@ command below for a list of options).
 The exit status of the last non-asynchronous command executed.
 If the last command was killed by a signal,
 .Ic $?\&
-is set to 128 plus the signal number.
+is set to 128 plus the signal number, but at most 255.
 .It Ev 0
 The name of the shell, determined as follows:
 the first argument to

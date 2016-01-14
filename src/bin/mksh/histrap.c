@@ -3,7 +3,7 @@
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
- *		 2011, 2012, 2014, 2015
+ *		 2011, 2012, 2014, 2015, 2016
  *	mirabilos <m@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -1213,7 +1213,7 @@ fatal_trap_check(void)
 	do {
 		if (p->set && (p->flags & (TF_DFL_INTR|TF_FATAL)))
 			/* return value is used as an exit code */
-			return (128 + p->signal);
+			return (ksh_sigmask(p->signal));
 		++p;
 	} while (--i);
 	return (0);
