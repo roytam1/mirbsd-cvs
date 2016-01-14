@@ -303,6 +303,12 @@ command line. Lots of command shells are available, from Bash and
 Korn to C shell and various exotic and strange shells. Learn which
 shell is right for you.
 ----
+Title: bosh – Schily Bourne Shell
+Link: http://schilytools.sourceforge.net/bosh.html
+
+Documentation and source code project based on the Bourne Shell
+codebase. Maintained by J�rg/Jvrg/Joerg/Jörg Schilling.
+----
 Title: KornShell Documentation
 Link: http://kornshell.com/doc/
 

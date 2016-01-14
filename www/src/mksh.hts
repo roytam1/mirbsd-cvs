@@ -204,6 +204,12 @@ mws_content <<'EOF'
  <li style="list-style:none;">All official distfiles are gzsig(1)d. with our
   <a href="/gzsigkey.cer">current signature key</a>.</li>
 </ul>
+<h3 id="cats">Preformatted Documentation</h3><ul>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R52.cat1.gz">catman</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R52.htm.gz">XHTML</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R52.pdf">PDF</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R52.txt.gz">plaintext</a></li>
+</ul>
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
@@ -232,11 +238,11 @@ mws_content <<'EOF'
 <p>The build script requires a Bourne shell (Solaris <tt>/bin/sh</tt>, the <a
  href="http://heirloom.sourceforge.net/sh.html">Heirloom sh</a>, DEC OSF/1
  V2.0 <tt>/bin/sh</tt>), Korn shell (ksh, ksh88, ksh93, pdksh, mksh, oksh,
- maybe the MKS ksh), POSIX shell (posh, <tt>/usr/xpg4/bin/sh</tt>, ash, dash),
- related shell (yash, J�rg Schilling’s bosh or sh, the Z Shell), or a Bourne
- or POSIX superset (such as GNU bash) to work; the ULTRIX <tt>/bin/sh</tt>
- or the C shell (csh, tcsh) or “bsh” or a scripting shell like the wish won’t.
- <br />Accepted arguments are:</p><ul>
+ maybe the MKS ksh), POSIX shell (posh, <tt>/usr/xpg4/bin/sh</tt>, ash, dash,
+ yash), a related shell (J�rg/Jvrg/Joerg/Jörg Schilling’s bosh or sh, or the
+ Z Shell), or a Bourne or POSIX superset (such as GNU bash) to work; the
+ ULTRIX <tt>/bin/sh</tt> or the C shell (csh, tcsh) or “bsh” or a scripting
+ shell like the wish won’t.<br />Accepted arguments are:</p><ul>
 <li><tt>-c</tt> <i>mode</i> – set compiler mode:<ul>
  <li><tt>combine</tt> to use “-fwhole-program --combine” (gcc4)</li>
  <li><tt>dragonegg</tt> to use the LLVM Dragonegg plugin with GCC</li>
