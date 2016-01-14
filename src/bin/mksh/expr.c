@@ -2,7 +2,7 @@
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
- *		 2011, 2012, 2013, 2014
+ *		 2011, 2012, 2013, 2014, 2016
  *	mirabilos <m@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -659,7 +659,8 @@ exprtoken(Expr_state *es)
 		es->tok = VAR;
 	} else if (c == '1' && cp[1] == '#') {
 		cp += 2;
-		cp += utf_ptradj(cp);
+		if (*cp)
+			cp += utf_ptradj(cp);
 		strndupx(tvar, es->tokp, cp - es->tokp, ATEMP);
 		goto process_tvar;
 #ifndef MKSH_SMALL
