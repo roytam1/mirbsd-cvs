@@ -2,8 +2,8 @@
 /*	$NetBSD: tr.c,v 1.5 1995/08/31 22:13:48 jtc Exp $	*/
 
 /*
- * Copyright (c) 2007, 2008, 2009, 2014
- *	Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2007, 2008, 2009, 2014, 2016
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1988, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -37,6 +37,7 @@
 #include <unistd.h>
 #include <err.h>
 #include <errno.h>
+#include <locale.h>
 #include <stdbool.h>
 #include <mbfun.h>
 #include <wctype.h>
@@ -46,7 +47,7 @@
 __COPYRIGHT("@(#) Copyright (c) 1988, 1993\n\
 	The Regents of the University of California.  All rights reserved.\n");
 __SCCSID("@(#)tr.c	8.2 (Berkeley) 5/4/95");
-__RCSID("$MirOS: src/usr.bin/tr/tr.c,v 1.7 2014/02/20 01:16:27 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/tr/tr.c,v 1.8 2016/01/02 21:33:19 tg Exp $");
 
 static wchar_t string1[NCHARS], string2[NCHARS];
 
