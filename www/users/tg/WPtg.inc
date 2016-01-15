@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.299 2016/01/02 21:01:17 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.302 2016/01/13 17:23:00 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -10392,6 +10392,12 @@ Date: 10.01.2016
 Waypoint: GC1M627
 Title: View to DAM
 Tag: D15 T15 Small Tradi
+----
+ID: 1734
+Date: 15.01.2016
+Waypoint: OCFEBC
+Title: Friedrich II. Landgraf Hessen-Kassel
+Tag: D1 T1 Virtual
 ----
 ID: p20160729
 Date: 30.07.2016
