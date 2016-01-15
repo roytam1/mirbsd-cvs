@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.473 2016/01/14 10:34:34 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.474 2016/01/14 23:41:28 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10975,6 +10975,9 @@ Tag: bug hardware news rant
  This is rather unfortunate; it’s possible the website will be
  down for a while, depending on what service I’ll be able to get
  for the antique thing.</p>
+<p>Update: it’s still there after a reboot; I’ll most likely ask
+ the hoster for a hardware check early next week and take the
+ website down durinf that.</p>
 ----
 Date: 14.01.2016 23:40
 Author: tg@
