@@ -1,4 +1,4 @@
-# $MirOS: src/share/tmac/tab/Makefile,v 1.1.7.1 2005/03/06 16:33:42 tg Exp $
+# $MirOS: src/share/tmac/tab/Makefile,v 1.2 2006/06/16 22:55:11 tg Exp $
 # @(#)Makefile	4.14 (Berkeley) 4/30/91
 
 .include <bsd.own.mk>
@@ -6,7 +6,7 @@
 PROGS=	tab300 tab300-12 tab302 tab302-12 tab37 tab382 tab382-12 tab450 \
 	tab450-12 tab833 tab833-12 tabepson tabitoh tabitoh12 tablpr \
 	tabnec tabnec-t tabnec12 tabnec25-t tabqume tabqume12 tabx-ecs \
-	tabx-ecs12 tabxerox tabxerox12 tabcol
+	tabx-ecs12 tabxerox tabxerox12 tabcol tabcolhl
 OBJS=	${PROGS:=.o} mktab.o
 SRCS=	${PROGS:=.c} mktab.c
 CLEANFILES+=${PROGS} xtab*

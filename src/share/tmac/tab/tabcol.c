@@ -1,11 +1,11 @@
-/* $MirOS: src/share/tmac/tab/tabcol.c,v 1.4 2008/11/08 22:24:21 tg Exp $ */
+/* $MirOS: src/share/tmac/tab/tabcol.c,v 1.5 2012/05/22 00:06:46 tg Exp $ */
 
 /*-
  * Copyright (c) 1979, 1980, 1981, 1986, 1988, 1990, 1991, 1992
  *     The Regents of the University of California.
  * Copyright (C) Caldera International Inc.  2001-2002.
- * Copyright (c) 2003, 2004, 2006, 2012
- *	Thorsten "mirabilos" Glaser <tg@mirbsd.org>
+ * Copyright (c) 2003, 2004, 2006, 2012, 2016
+ *	mirabilos <m@mirbsd.org>
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms,
@@ -90,7 +90,7 @@ struct {
 /*twinit*/	"",		/* invoke elite */
 /*twrest*/	"",		/* reset printer to defaults */
 /*twnl*/	"\n",
-#if 0
+#ifdef col_halflines
 /*hlr*/		"\033\012",	/* half line forward (???) */
 /*hlf*/		"\033\013",	/* half line reverse (???) */
 #else
@@ -98,7 +98,7 @@ struct {
 /*hlf*/		"",
 #endif
 /*flr*/		"\013",		/* full line reverse (???) */
-#if 0
+#ifdef col_altbold
 /*bdon*/	"\016",		/* Alternate chars.  '\fB' to invoke */
 /*bdoff*/	"\017",		/* Standard chars. '\fP' to invoke */
 #else
