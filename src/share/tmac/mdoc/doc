@@ -1,8 +1,8 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc,v 1.21 2014/06/24 20:45:45 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc,v 1.22 2014/06/28 14:02:27 tg Exp $
 .\"	$OpenBSD: doc,v 1.16 2005/09/27 18:57:17 jaredy Exp $
 .\"
-.\" Copyright (c) 2003, 2004, 2005, 2006, 2008, 2012, 2013, 2014
-.\"	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+.\" Copyright (c) 2003, 2004, 2005, 2006, 2008, 2012, 2013, 2014, 2016
+.\"	mirabilos <m@mirbsd.org>
 .\" Copyright (c) 1991, 1993
 .\"	The Regents of the University of California.
 .\" All rights reserved.
@@ -15,10 +15,7 @@
 .\" 2. Redistributions in binary form must reproduce the above copyright
 .\"    notice, this list of conditions and the following disclaimer in the
 .\"    documentation and/or other materials provided with the distribution.
-.\" 3. All advertising materials mentioning features or use of this soft-
-.\"    ware must display the following acknowledgement:
-.\"	This product includes material provided by Thorsten Glaser.
-.\" 4. Neither the name of the University nor the names of its contributors
+.\" 3. Neither the name of the University nor the names of its contributors
 .\"    may be used to endorse or promote products derived from this software
 .\"    without specific prior written permission.
 .\"
@@ -1697,8 +1694,8 @@
 .	if \\n(O\\n(dP>0 'in \\n(.iu+\\n(O\\n(dPu
 .	if (\\n(bV==0) \{\
 .		if (\\n(nS==0) \{\
-.			ie "\\*(d\\n(dP"dR" .sp \\n(dVu
-.			el 'sp \\n(dVu
+.			ie "\\*(d\\n(dP"dR" .SP \\n(dVu
+.			el 'SP \\n(dVu nobreak
 .		\}
 .	\}
 .	if \\n(cR==0 .ne 2v
@@ -1875,7 +1872,7 @@
 .					nr aa 0
 .				\}
 .				el \{\
-.					sp \\n(dVu
+.					SP \\n(dVu
 .				\}
 .				nf
 .				nr wV 0
@@ -2235,7 +2232,7 @@
 .ie \\n(tC \{\
 .	nr tC 0
 .	nr tW 0
-.	if \\n(v\\n(lC==0 .sp \\n(dVu
+.	if \\n(v\\n(lC==0 .SP \\n(dVu
 .	in \\n(.iu+\\n(w\\n(lCu+\\n(o\\n(lCu+\\n(lSu
 .\}
 .el \{\
@@ -2243,7 +2240,7 @@
 .		nr aa 0
 .	\}
 .	el \{\
-.		sp \\n(dVu
+.		SP \\n(dVu
 .	\}
 .\}
 .if !\\n(cR .ne 2v
@@ -2253,7 +2250,7 @@
 .ie \\n(tC \{\
 .	nr tC 0
 .	nr tW 0
-.	if \\n(v\\n(lC==0 .sp \\n(dVu
+.	if \\n(v\\n(lC==0 .SP \\n(dVu
 .	in \\n(.iu+\\n(o\\n(lCu
 .\}
 .el \{\
@@ -2261,7 +2258,7 @@
 .		nr aa 0
 .	\}
 .	el \{\
-.		sp \\n(dVu
+.		SP \\n(dVu
 .	\}
 .\}
 .if !\\n(cR .ne 2v
