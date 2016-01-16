@@ -173,7 +173,7 @@ Search the acronym database
 Search the dictionary.
 Needs a dict client installed.
 .It Fl f Ar dbfile
-Acronym database to use, overrides the
+Overrides the default acronym database, bypassing the value of the
 .Ev ACRONYMDB
 variable.
 .It Fl P
@@ -224,7 +224,10 @@ contains, after upper-casing, an ASCII letter [A\-Z] followed by a dot
 .Sh ENVIRONMENT
 .Bl -tag -width ACRONYMDB
 .It Ev ACRONYMDB
-Path to a file in the proper format (acronym[tab]meaning).
+The default acronym database may be overridden by setting the
+environment variable
+.Ev ACRONYMDB
+to the name of a file in the proper format (acronym[tab]meaning).
 .El
 .Sh FILES
 .Bl -tag -width /usr/share/misc/acronyms -compact
