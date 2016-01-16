@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc-common,v 1.23 2014/06/28 14:02:28 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc-common,v 1.24 2016/01/16 22:42:50 tg Exp $
 .\"	$OpenBSD: doc-common,v 1.62 2009/07/14 05:10:21 jmc Exp $
 .\"
 .\" Copyright (c) 2003, 2004, 2006, 2007, 2009, 2013, 2014, 2016
@@ -393,9 +393,11 @@
 ..
 .de SP
 .nr SP \\n(.t/\\n(.v*\\n(.v
-.if \\n(SP<=\\$1 \{\
-.	pl -\\n(SP
-'	bp
+.if \\n(cR \{\
+.	if \\n(SP<=\\$1 \{\
+.		pl \\n(nlu
+'		bp
+.	\}
 .\}
 .ie "\\$2"" .sp \\$1
 .el 'sp \\$1
