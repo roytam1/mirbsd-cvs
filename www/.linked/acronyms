@@ -1042,6 +1042,8 @@ ARF	[IATA] Acaricura, Colombia
 ARG	[FIFA] Argentina
 ARG	[IATA] Walnut Ridge Regional Airport, Arkansas, United States of America
 ARGE	Amt für Repression, Grundrechtsentzug und Existenzvernichtung
+ARGE	Arbeitsgemeinschaft
+ARGE	Jobcenter
 ARH	[IATA] Talagi, Arkhangelsk, Russia
 ARI	[IATA] Chacalluta International, Arica, Chile
 ARITH	arithmetic(ally)
@@ -4311,6 +4313,7 @@ DFC	data flow control
 DFC	delicious flat {chest,chests}
 DFDC	[gc] Danke für den Cache (TFTC)
 DFDD	[gc] Danke für die Dose (TFTC)
+DFDOC	[gc] Danke für den Opencache (TFTC)
 DFG	Deutsche Forschungsgemeinschaft
 DFI	[IATA] Defiance Memorial Airport, Ohio, United States of America
 DFORENSPSY	Doctor of Forensic Psychology
@@ -17366,6 +17369,7 @@ SWAHBI	silly, wild-assed hare-brained idea
 SWAT	special weapons and tactics
 SWB	Stadtwerke Bonn
 SWB	stehen, warten, beten
+SWB	Steuern wie besoffen
 SWB	Stillstand wegen Bombe
 SWB	[IATA] Shaw River, Western Australia, Australia
 SWC	[IATA] Stawell, Victoria, Australia
@@ -17793,6 +17797,7 @@ TFT	[IATA] Taftan, Pakistan
 TFTC	[gc] thanks for the cache
 TFTE	[gc] thanks for the event cache
 TFTH	[gc] thanks for the hunt
+TFTOC	[gc] thanks for the opencache
 TFTP	Trivial File Transfer Protocol
 TFY	[IATA] Tarfaya, Morocco
 TG	[ccTLD] Togo

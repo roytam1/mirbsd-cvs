@@ -10399,6 +10399,12 @@ Waypoint: OCFEBC
 Title: Friedrich II. Landgraf Hessen-Kassel
 Tag: D1 T1 Virtual
 ----
+ID: 1735
+Date: 17.01.2016
+Waypoint: OCA080 GC236AC
+Title: Simplicity
+Tag: D1 T15 Small Mystery
+----
 ID: p20160729
 Date: 30.07.2016
 Waypoint: GC276WT
