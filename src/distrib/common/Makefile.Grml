@@ -17,7 +17,7 @@ CDROM=		bsd4grml.iso
 CDROM_OPTS+=	bootimage=i386\;eltorito.loo
 CDROM_OPTS+=	no-emul-boot
 
-CLEANFILES+=	ldbsd.* LICENCE.TXT gpl_srcs.tgz
+CLEANFILES+=	ldbsd.* LICENCE.TXT gpl_srcs.txz
 
 all: templates/bsd4grml.stamp
 
@@ -82,7 +82,7 @@ cdrom-mdcopy:
 	mv ${WRKDIR}/boot/grub/loopback.* templates/boot/addons/bsd4grml/
 	mv ${WRKDIR}/v${OSrev}/${MACHINE}/bsd.rd templates/boot/addons/bsd4grml/
 	cd ${WRKDIR} && rm -rf *
-	cp ${.CURDIR}/boot.* LICENCE.TXT gpl_srcs.tgz ldbsd.{com,iso,txt} \
+	cp ${.CURDIR}/boot.* LICENCE.TXT gpl_srcs.txz ldbsd.{com,iso,txt} \
 	    templates/boot/addons/bsd4grml/
 	chmod 0644 templates/boot/addons/bsd4grml/* templates/boot/grub/*
 	cd templates && pax -rw -l -pe boot ${WRKDIR}/
