@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.474 2016/01/14 23:41:28 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.475 2016/01/15 18:16:45 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -10988,4 +10988,51 @@ Tag: bug security snapshot
  I believe our version not affected. If desired, CVS HEAD ships
  with the entire code removed.</p>
 <p>I fixed lots of <a href="@@RELPATH@@mksh.htm">mksh</a> bugs today!</p>
+----
+Date: 20.01.2016
+Author: tg@
+Title: hardware problems on www.mirbsd.org solved (thanks HE) + snapshot
+Tag: bug hardware news snapshot
+
+<p>Fearing loss of the server or the hard disc when reporting <a
+ href="@@RELPATH@@permalinks/wlog-10_e20160114-tg.htm">the hard
+ disc issue</a> I postponed that and created a snapshot (for i386)
+ and a CVS repository snapshot and uploaded them first then backed
+ up everything worthwhile on <tt>fish</tt> and created myself some
+ custom rescue media.</p>
+<p>(Some background info – this server is from 2006, and back then,
+ they usually cost around 100 €, while this is partially sponsored.
+ I was fearing stopping of the sponsoring or shutdown of such an old
+ real iron hardware even though it works fine for my needs.)</p>
+<p>Then I shut the server down and asked HostEurope support to check
+ the HDD and, if possible, when replacing, put the old HDD into the
+ second slot (I checked, the PowerEdge 750 has two of them). With a
+ big German dedicated hoster that shall stay unnamed (it’s not the
+ Uffline one), even <em>with</em> a RAID 1 you’re SOL because they
+ refuse to just swap the discs, but I decided to try anyway.</p>
+<p>So I put the request up in KIS and thought they’d do it during
+ normal working hours (as off-hour work costs extra), but no more
+ than four hours later, the HDD was checked as faulty, a new one
+ (even bigger as they don’t stock 80 GB ones any more ☺) was put
+ into the first slot and the old one into the second slot, and… oh
+ well. The machine was booted into BIOS Setup, and I may connect
+ with the DRAC III/XT (which needs a Java 1.4 plugin for MSIE, or
+ telnet (not ssh), and whose password I forget due to unuse).</p>
+<p>Some tricking around later I found out that their new netbootable
+ rescue system (a Grml 2014.03 PONY WAGON) doesn’t work with my
+ server, so I resigned to pay the 25 € to have someone boot it up
+ with a Knoppix CD (uh-oh). After all, I just needed any system with
+ which I could dd(1) the custom MirBSD installer ISO I previously made
+ onto <tt>/dev/sda</tt> then boot into it.</p>
+<p>To my surprise, I got an eMail telling me they had booted it with
+ a <a href="http://grml.org/">Grml</a> (not from network) and set it
+ up so I could ssh(1) in… with the “initial password”. One eMail later
+ I found out that this server predates passwords in KIS, and by now
+ I’m in the process of restoring services by copying everything from
+ the old to the new disc (only lost some directories under the anoncvs
+ mirror from <tt>ocvs</tt> which is easily rsync’d right later)… ah,
+ this completed during writing of this wlog/news entry.</p>
+<p>In the end, this all worked perfectly fine, and I’ll be pointing
+ the <tt>www</tt> RR back to <tt>fish</tt> after the bad disc was
+ removed and everything has rsync’d back to my satisfaction.</p>
 ----

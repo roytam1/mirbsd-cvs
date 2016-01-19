@@ -1203,6 +1203,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
   fix corruption of array indicēs with this construct (LP#1533396), izabera</li>
  <li>[tg] Sanitise OS-provided signal number in even more places</li>
  <li>[tg] As requested by J�rg, be clear manpage advice is for mksh</li>
+ <li>[tg] Revert (as it was a regression) POSIX bugfix from R52/2005 related to
+  accent gravis-style command substitution until POSIX decides either way</li>
+ <li>[tg] Handle <tt>export</tt> et al. after <tt>command</tt> (Austin#351)</li>
 </ul>
 <p id="r52">R52 is a strongly recommended bugfix release:</p><ul>
  <li>[_0bitcount] Move moving external link from mksh(1) to the <a
