@@ -23,7 +23,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/lex.c,v 1.198 2015/03/20 23:37:39 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/lex.c,v 1.215 2016/01/14 19:52:20 tg Exp $");
 
 /*
  * states while lexing word
@@ -550,8 +550,10 @@ yylex(int cf)
 				 * undefined results occur.”).
 				 */
 				statep->ls_bool = false;
+#ifdef austingroupbugs1015_is_still_not_resolved
 				if (Flag(FPOSIX))
 					break;
+#endif
 				s2 = statep;
 				base = state_info.base;
 				while (/* CONSTCOND */ 1) {
