@@ -103,7 +103,7 @@ const struct builtin mkshbuiltins[] = {
 	{"cd", c_cd},
 	/* dash compatibility hack */
 	{"chdir", c_cd},
-	{"command", c_command},
+	{Tcommand, c_command},
 	{"*=continue", c_brkcont},
 	{"echo", c_print},
 	{"*=eval", c_eval},

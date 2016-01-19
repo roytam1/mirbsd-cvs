@@ -269,7 +269,7 @@ yylex(int cf)
 			}
 			/* FALLTHROUGH */
 		case SBASE:
-			if (c == '[' && (cf & (VARASN|ARRAYVAR))) {
+			if (c == '[' && (cf & CMDASN)) {
 				/* temporary */
 				*wp = EOS;
 				if (is_wdvarname(Xstring(ws, wp), false)) {
@@ -1092,7 +1092,7 @@ yylex(int cf)
 		}
 	} else if (cf & ALIAS) {
 		/* retain typeset et al. even when quoted */
-		if (assign_command((dp = wdstrip(yylval.cp, 0))))
+		if (assign_command((dp = wdstrip(yylval.cp, 0)), true))
 			strlcpy(ident, dp, sizeof(ident));
 		afree(dp, ATEMP);
 	}
