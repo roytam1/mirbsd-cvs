@@ -3,7 +3,7 @@
 
 mws_setname hosted/ksh-chan "The #ksh on Freenode page"
 mws_setheadline 'Channel page for #ksh'
-mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.83 2015/08/13 22:20:49 tg Exp $'
+mws_putheader '$MirOS: www/src/ksh-chan.hts,v 1.85 2016/01/14 23:41:33 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of contents</h2>
 EOF
@@ -55,12 +55,12 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="vsns">Korn Shell versions</h2>
-<p>This information is current as of: 2016-01-14 (14 January 2016)</p>
+<p>This information is current as of: 2016-01-20 (20 January 2016)</p>
 <p><a href="http://www.kornshell.com/">AT&amp;T Korn Shell</a>: latest is
  ksh93v- (beta) dated 2014-09-29 (29 September 2014) and ksh93u+ (stable)
  dated 2012-08-01; download server unreachable, development unclear</p>
 <p><a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a>: latest is
- mksh R52, dated 2015-12-12 (12 December 2015) and, in the oldstable bugfix
+ mksh R52b, dated 2016-01-20 (20 January 2015) and, in the oldstable bugfix
  series, mksh R50f, dated 2015-04-19 (19 April 2015); link to active <a
  href="@@RELPATH@@mksh.htm#clog">development tree changelog</a></p>
 <p><a href="https://github.com/komh/mksh-os2">mksh-os2</a> for OS/2:

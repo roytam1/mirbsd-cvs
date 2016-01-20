@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.598 2016/01/02 21:01:28 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.603 2016/01/19 23:46:07 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R52</h2>
+<h2>mksh(1) R52b</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -50,8 +50,8 @@ mws_content <<'EOF'
  “MirBSD Korn Shell”.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R52</strong> from
- <em>12 December 2015</em>.<br />In the oldstable bugfixing-only series, the
+<p>The current version of mksh is <strong>mksh R52b</strong> from
+ <em>20 January 2016</em>.<br />In the oldstable bugfixing-only series, the
  current version is <em>mksh R50f</em> from <em>19 April 2015</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
@@ -187,15 +187,15 @@ mws_content <<'EOF'
  <em>as well as</em> the hashes and/or checksums below, so you’re sure the
  content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R52.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R52.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R52.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R52.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R52b.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R52b.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R52b.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R52b.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
 <!-- cd /MirOS/dist/mir/mksh; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
-  <li>RMD160 (mksh-R52.tgz) = a0b715f52db301dd5dd99a4c50c39646999a91d6</li>
-  <li>TIGER (mksh-R52.tgz) = 0800ddbb530cc544905e9e8061b01ee7f13aba2bb9e3bda6</li>
-  <li>893651723 383814 /MirOS/dist/mir/mksh/mksh-R52.tgz</li>
-  <li>MD5 (mksh-R52.tgz) = cd5b92fc2e455d33cbd59f3e7518f257</li>
+  <li>RMD160 (mksh-R52b.tgz) = 0093d8325d76da39d8d80dff51dc12ed2eb851f5</li>
+  <li>TIGER (mksh-R52b.tgz) = 4e46937aae0511b073bfa7c5b7e7970fe9bb60c3d53b7e67</li>
+  <li>2220755377 385085 /MirOS/dist/mir/mksh/mksh-R52b.tgz</li>
+  <li>MD5 (mksh-R52b.tgz) = 123f713e71754da87a455b5fbe0b03b7</li>
  <li style="list-style:none;">↑ formal release │ stable bugfix series ↓</li>
   <li>RMD160 (mksh-R50f.tgz) = e0de1dd07e6ca02830407b9db43de8f5c98d800f</li>
   <li>TIGER (mksh-R50f.tgz) = db437ce08d7c6a8449c5ba5827a9742cbaca7c16be261971</li>
@@ -205,15 +205,15 @@ mws_content <<'EOF'
   <a href="/gzsigkey.cer">current signature key</a>.</li>
 </ul>
 <h3 id="cats">Preformatted Documentation</h3><ul>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R52.cat1.gz">catman</a></li>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R52.htm.gz">XHTML</a></li>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R52.pdf">PDF</a></li>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R52.txt.gz">plaintext</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R52b.cat1.gz">catman</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R52b.htm.gz">XHTML</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R52b.pdf">PDF</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R52b.txt.gz">plaintext</a></li>
 </ul>
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
- so a simple <tt>tar xzf mksh-R52.tgz</tt> will work. It will create all files
+ so a simple <tt>tar xzf mksh-R52b.tgz</tt> will work. It will create all files
  in a subdirectory <tt>./mksh/</tt>.</p>
 
 <h3 id="vendorpatching">Patching</h3>
@@ -868,6 +868,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  mailing list, either directly or via GMane, if you have an interest
  in mksh, such as packaging it. Thanks! <i>(unfinished…)</i>
 </p>
+<p id="p52b">R52b: nothing of note, but prepare to review all mksh
+ scripts to ensure they start with <tt>export LC_ALL=C</tt> soon.</p>
 <p id="p52">R52:
  Android can define MKSH_DEFAULT_PROFILEDIR itself but we don’t.
  We no longer ship the <tt>stop</tt> alias.
@@ -877,7 +879,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  doubt, contact us. The EBCDIC and OS/2 ports are not finished, but
  some improvements are already included. CVS snapshots now use ‘j’ ipv
  ‘i’ making room for one more stable version; after R51, we will release
- R52, mostly bugfixes, and roll them all up in R50g.</p>
+ R53, mostly bugfixes, and roll them all up in R50g.</p>
 <p id="p50f">R50f: If you patch mksh, please do not only update the
  version in <tt>check.t</tt> (twice) and <tt>sh.h</tt> but now in
  <tt>mksh.1</tt> as well; thanks!<br />Please let the mksh developer
@@ -1120,6 +1122,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
  should be aware of for existing scripts.</p>
 <p id="ccur"><i>current</i>:
  <i>(unfinished…)</i></p>
+<p id="c52b">R52b: Prepare to audit all scripts to ensure they begin with
+ <tt>export LC_ALL=C</tt> as we’ll implement locale trackiing some day.
+ Handling of <tt>"`\"`"</tt> is now again not POSIX-compliant even in
+ <tt>posix</tt> mode to unbreak existing code (Austin#1015, mktexlsr).
+ <tt>set -C; :&gt;foo</tt> is now race-free. Some bugfixes.</p>
 <p id="c52">R52: <tt>(( … ))</tt> is now a compound command, which changes
  the way I/O redirections work. <tt>${x#~}</tt>, <tt>${x/y/z}</tt>, etc.
  now have tilde expansion enabled. <tt>${x//#y}</tt> no longer works, for
@@ -1129,6 +1136,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  built-in utility, unbreaking it in some cases; the <tt>lksh</tt> hack to
  remove an alias upon function definition is removed. issetugid(2) is no
  longer used for <tt>set ±p</tt> checks, unbreaking suid in some cases.
+ Handling of <tt>"`\"`"</tt> is now POSIX-compliant (this breaks scripts)!
  More bugfixes, although there are (sorry!) still some known bugs ☹</p>
 <p id="c51">R51: Integers with bases outside of the permitted
  range are handled as base 10 instead of failing to parse, like ksh93.
@@ -1180,11 +1188,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
+<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
+-->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+<p id="r52b">R52b is a strongly recommended bugfix-only release:</p><ul>
  <li>[tg] Recognise ksh93 compiled scripts and LZIP compressed files
   as binary (i.e. to not run as mksh plaintext script)</li>
  <li>[tg] Document that we will implement locale tracking later</li>
@@ -1206,6 +1217,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Revert (as it was a regression) POSIX bugfix from R52/2005 related to
   accent gravis-style command substitution until POSIX decides either way</li>
  <li>[tg] Handle <tt>export</tt> et al. after <tt>command</tt> (Austin#351)</li>
+ <li>[tg] Catch EPIPE in built-in cat and return as SIGPIPE (LP#1532621)</li>
+ <li>[tg] Fix errno in print/echo builtin; optimise that and unbksl</li>
+ <li>[tg] Update documentation, point out POSIX violation (Austin#1015)</li>
 </ul>
 <p id="r52">R52 is a strongly recommended bugfix release:</p><ul>
  <li>[_0bitcount] Move moving external link from mksh(1) to the <a
