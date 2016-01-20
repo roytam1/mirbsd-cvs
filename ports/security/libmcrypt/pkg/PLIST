@@ -1,8 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PLIST,v 1.5 2003/01/18 22:53:29 avsm Exp $
-bin/libmcrypt-config
-include/mcrypt.h
-lib/libmcrypt.la
-man/man3/mcrypt.3
-share/aclocal/libmcrypt.m4
-@dirrm share/aclocal

@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.1.1.1 2004/02/18 19:23:40 sturm Exp $
-bin/cplay
-man/man1/cplay.1
