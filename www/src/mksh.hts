@@ -1188,13 +1188,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
-<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
--->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+ <li>[tg] Shave 200 bytes off .text by revisiting string pooling</li>
+</ul>
 <p id="r52b">R52b is a strongly recommended bugfix-only release:</p><ul>
  <li>[tg] Recognise ksh93 compiled scripts and LZIP compressed files
   as binary (i.e. to not run as mksh plaintext script)</li>
