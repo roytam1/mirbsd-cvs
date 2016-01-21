@@ -3,7 +3,7 @@
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
- *		 2011, 2012, 2013, 2014, 2015
+ *		 2011, 2012, 2013, 2014, 2015, 2016
  *	mirabilos <m@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -1861,7 +1861,7 @@ c_cd(const char **wp)
 		 * we don't
 		 */
 		if ((cp = strstr(current_wd, wp[0])) == NULL) {
-			bi_errorf("bad substitution");
+			bi_errorf(Tbadsubst);
 			return (2);
 		}
 		/*-

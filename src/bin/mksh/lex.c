@@ -1173,7 +1173,7 @@ readhere(struct ioword *iop)
 	while (c != '\n') {
 		if (!c)
 			/* oops, reached EOF */
-			yyerror("%s '%s' unclosed\n", "here document", eof);
+			yyerror("%s '%s' unclosed\n", Theredoc, eof);
 		/* store character */
 		Xcheck(xs, xp);
 		Xput(xs, xp, c);

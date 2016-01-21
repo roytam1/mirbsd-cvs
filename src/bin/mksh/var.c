@@ -241,7 +241,7 @@ global(const char *n)
 	c = (unsigned char)vn[0];
 	if (!ksh_isalphx(c)) {
 		if (array)
-			errorf("bad substitution");
+			errorf(Tbadsubst);
 		vp = &vtemp;
 		vp->flag = DEFINED;
 		vp->type = 0;

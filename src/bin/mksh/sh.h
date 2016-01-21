@@ -177,7 +177,7 @@
 #ifdef EXTERN
 __RCSID("$MirOS: src/bin/mksh/sh.h,v 1.754 2016/01/14 22:49:32 tg Exp $");
 #endif
-#define MKSH_VERSION "R52 2016/01/20"
+#define MKSH_VERSION "R52 2016/01/21"
 
 /* arithmetic types: C implementation */
 #if !HAVE_CAN_INTTYPES
@@ -578,7 +578,7 @@ char *ucstrstr(char *, const char *);
 #define mkssert(e)	do { } while (/* CONSTCOND */ 0)
 #endif
 
-#if (!defined(MKSH_BUILDMAKEFILE4BSD) && !defined(MKSH_BUILDSH)) || (MKSH_BUILD_R != 521)
+#if (!defined(MKSH_BUILDMAKEFILE4BSD) && !defined(MKSH_BUILDSH)) || (MKSH_BUILD_R != 522)
 #error Must run Build.sh to compile this.
 extern void thiswillneverbedefinedIhope(void);
 int
@@ -866,6 +866,10 @@ EXTERN const char T_function[] E_INIT(" function");
 #define Tfunction	(T_function + 1)	/* "function" */
 EXTERN const char T_funny_command[] E_INIT("funny $() command");
 #define Tcommand	(T_funny_command + 10)	/* "command" */
+EXTERN const char Tfg_badsubst[] E_INIT("fileglob: bad substitution");
+#define Tbadsubst	(Tfg_badsubst + 10)	/* "bad substitution" */
+EXTERN const char Tmissinghere[] E_INIT("missing here document");
+#define Theredoc	(Tmissinghere + 8)	/* "here document" */
 EXTERN const char TC_LEX1[] E_INIT("|&;<>() \t\n");
 #define TC_IFSWS	(TC_LEX1 + 7)		/* space tab newline */
 
