@@ -867,7 +867,12 @@ EXTERN const char T_function[] E_INIT(" function");
 EXTERN const char T_funny_command[] E_INIT("funny $() command");
 #define Tcommand	(T_funny_command + 10)	/* "command" */
 EXTERN const char Tfg_badsubst[] E_INIT("fileglob: bad substitution");
+#if defined(__GNUC__)
+/* trust this to have string pooling; -Wformat bitches otherwise */
+#define Tbadsubst	"bad substitution"
+#else
 #define Tbadsubst	(Tfg_badsubst + 10)	/* "bad substitution" */
+#endif
 EXTERN const char Tmissinghere[] E_INIT("missing here document");
 #define Theredoc	(Tmissinghere + 8)	/* "here document" */
 EXTERN const char TC_LEX1[] E_INIT("|&;<>() \t\n");
