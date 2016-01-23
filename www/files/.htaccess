@@ -1,4 +1,4 @@
-# $MirOS: www/files/.htaccess,v 1.16 2013/11/27 22:15:52 tg Exp $
+# $MirOS: www/files/.htaccess,v 1.17 2015/10/12 22:40:53 tg Exp $
 
 Options ExecCGI Indexes FollowSymLinks
 IndexOptions -FancyIndexing
@@ -56,6 +56,7 @@ RedirectMatch 301 ^/htman/(i386|sparc)/man3/tm2mjd.htm$ /htman/$1/man3/mirtime.h
 RedirectMatch 301 ^/jupp$ /jupp.htm
 RedirectMatch 301 ^/mksh$ /mksh.htm
 RedirectMatch 301 ^/ports$ /ports.htm
+RedirectMatch 301 ^/trac(/.*)?$ /FreeWRT.htm
 # and crawlers that pretend HTTP were case-insensitive, which it is not
 RedirectMatch 301 ^/fnt(/+(.*))?$ /FNT/$2
 RedirectMatch 301 ^/isc-licence$ /ISC-Licence
