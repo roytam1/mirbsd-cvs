@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.475 2016/01/15 18:16:45 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.476 2016/01/19 23:45:59 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -11035,4 +11035,18 @@ Tag: bug hardware news snapshot
 <p>In the end, this all worked perfectly fine, and I’ll be pointing
  the <tt>www</tt> RR back to <tt>fish</tt> after the bad disc was
  removed and everything has rsync’d back to my satisfaction.</p>
+----
+Date: 28.01.2016 21:19
+Author: tg@
+Title: FOSDEM
+Tag: event
+
+<p>Of course, some MirBSD presence will be at FOSDEM this year.
+ There’s no FOSDEM without mirabilos, after all.</p>
+<p>We have no booth nor any other set place, and no planned talk
+ schedule either, so coordination of meetups will be tricky. I’ll
+ try to get into IRC at least occasionally, but WLAN is usually
+ shitty.</p>
+<p><a href="http://fosdem.org"><img alt="FOSDEM"
+ src="/2016/support/promote/wide.png" /></a></p>
 ----

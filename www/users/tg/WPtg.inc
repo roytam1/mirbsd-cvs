@@ -10405,6 +10405,34 @@ Waypoint: OCA080 GC236AC
 Title: Simplicity
 Tag: D1 T15 Small Mystery
 ----
+ID: 1736
+Date: 26.01.2016
+Waypoint: GC68W0G
+Title: Statistik #35-Reloaded
+Tag: D25 T2 Micro Tradi
+With: MM
+----
+ID: 1737
+Date: 26.01.2016
+Waypoint: GC4FTGQ
+Title: Statistik . #37
+Tag: D35 T15 Micro Mystery
+With: MM
+----
+ID: 1738
+Date: 26.01.2016
+Waypoint: GC673MA
+Title: Dose auf der Flucht - Verlassenes Versteck II
+Tag: D2 T15 Micro Tradi
+With: MM
+----
+ID: 1739
+Date: 26.01.2016
+Waypoint: GC65YPJ
+Title: Dose auf der Flucht - Verlassenes Versteck I
+Tag: D35 T25 Micro Tradi
+With: MM
+----
 ID: p20160729
 Date: 30.07.2016
 Waypoint: GC276WT
