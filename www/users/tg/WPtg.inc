@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.302 2016/01/13 17:23:00 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.305 2016/01/28 21:19:14 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -10432,6 +10432,42 @@ Waypoint: GC65YPJ
 Title: Dose auf der Flucht - Verlassenes Versteck I
 Tag: D35 T25 Micro Tradi
 With: MM
+----
+ID: 1740
+Date: 29.01.2016
+Waypoint: GC59TRK
+Title: Saltire
+Tag: D15 T15 Small Tradi
+----
+ID: 1741
+Date: 29.01.2016
+Waypoint: GC5WW9H
+Title: XL Abbaye de La Cambre 2
+Tag: D2 T1 Other Traditional recommended
+----
+ID: 1742
+Date: 29.01.2016
+Waypoint: GC4XCWH
+Title: XL Art Nouveau 1 Vilain XIIII
+Tag: D1 T1 Micro Tradi
+----
+ID: 1743
+Date: 29.01.2016
+Waypoint: GC3VJ8E
+Title: XL Yarn Bombing near Museum of Ixelles
+Tag: D1 T1 Small Tradi recommended
+----
+ID: 1744
+Date: 31.01.2016
+Waypoint: GC64R9Z
+Title: Cache de l'université
+Tag: D1 T15 Regular Tradi
+----
+ID: 1745
+Date: 03.02.2016
+Waypoint: OC12A32
+Title: Straßenschild-Safari
+Tag: D2 T1 Safari
 ----
 ID: p20160729
 Date: 30.07.2016
