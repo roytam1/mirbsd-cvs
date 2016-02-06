@@ -5,7 +5,7 @@
 #	  Originally written by Toshiharu OHNO
 #
 # $MirSecuCron$
-# $MirOS: src/etc/ppp/ppp.conf.sample,v 1.5 2012/07/06 16:21:16 tg Exp $
+# $MirOS: src/etc/ppp/ppp.conf.sample,v 1.6 2012/07/06 16:44:51 tg Exp $
 # $OpenBSD: ppp.conf.sample,v 1.21 2002/06/09 06:15:15 todd Exp $
 #
 #################################################################
@@ -612,4 +612,7 @@ telekom:
 
 vodafone:
  set phone web.vodafone.de
+ load MirUMTS
+tmobile:
+ set phone internet.t-d1.de
  load MirUMTS
