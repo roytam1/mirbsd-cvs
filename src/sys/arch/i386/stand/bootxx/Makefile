@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/bootxx/Makefile,v 1.16 2009/06/29 20:50:59 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/bootxx/Makefile,v 1.17 2010/12/01 19:56:58 tg Exp $
 
 PROG=		bootxx
 SRCS+=		bootxx.S
@@ -25,6 +25,7 @@ ${.CURDIR}/disasm: ${PROG}
 	objdump -dS -Mintel,i8086 ${PROG}~ >$@
 
 .include <bsd.prog.mk>
+BINMODE=	${SHAREMODE}
 
 BOOT_TYPE?=	bsd
 .if (${BOOT_TYPE:L} == "grub") || (${BOOT_TYPE:L} == "grubfat")

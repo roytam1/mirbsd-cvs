@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/bootxx_ustarfs/Makefile,v 1.3 2010/01/10 12:43:55 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/bootxx_ustarfs/Makefile,v 1.4 2010/01/16 22:34:25 tg Exp $
 
 PROG=		bootxx.tar
 SRCS+=		bootxx.S
@@ -25,3 +25,4 @@ ${.CURDIR}/disasm: ${PROG}
 	objdump -dS -Mintel,i8086 ${PROG}.elf >$@
 
 .include <bsd.prog.mk>
+BINMODE=	${SHAREMODE}

@@ -1,4 +1,4 @@
-# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.33 2009/12/26 15:09:00 tg Exp $
+# $MirOS: src/sys/arch/i386/stand/boot/Makefile,v 1.34 2010/01/10 19:21:35 tg Exp $
 
 SMALL_BOOT?=	No
 BOOTLDR_PATH?=	${.CURDIR}
@@ -95,3 +95,4 @@ testtar: .PHONY ${PROG}
 	tar -tvvf $@
 
 .include <bsd.prog.mk>
+BINMODE=	${SHAREMODE}
