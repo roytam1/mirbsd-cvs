@@ -4,7 +4,7 @@
 mws_setname oldnews "Old News and Weblog"
 mws_subdir 0
 mws_setheadline Older News and Weblogs
-mws_putheader '$MirOS: www/src/oldnews.hts,v 1.10 2011/10/16 01:15:24 tg Exp $'
+mws_putheader '$MirOS: www/src/oldnews.hts,v 1.11 2015/10/12 22:40:53 tg Exp $'
 mws_content_keeptabs <<'EOF'
 <h2 id="owlog">Old Weblog</h2><ul>
 <li><a href="@@RELPATH@@wlog-0.htm">From the beginning to December 2002</a> after
@@ -56,19 +56,15 @@ mws_content_keeptabs <<'EOF'
 	module. Note: GNAT (the Ada compiler of GCC) requires itself to be
 	built (you can pull it from an older snapshot or #8-stable).</li>
 
-<li>29.03.2006<br />We've added a new server to the Freeforge IRC network,
-	<tt>herc.mirbsd.org</tt> Port 6668 (SSL), 6667 and 6666 (non-SSL).
+<li>29.03.2006<br />We've added a new server to the Freeforge IRC network.
 	You can either directly connect to that server or the round-robin,
-	<tt>irc.mirbsd.org</tt> (or <tt>irc4.mirbsd.org</tt> for IPv4-only
-	or <tt>irc6.mirbsd.org</tt> for IPv6-only connections). Note: this
+	<tt>irc.mirbsd.org</tt>. Note: this
 	server does have IPv6 connectivity, however it's only a SixXS over
 	ADSL (consumer line) connection, so don't overload it.</li>
 
-<li>19.03.2006<br />We've added a new server to the Freeforge IRC network,
-	<tt>maou.mirbsd.org</tt> Port 6668 (SSL), 6667 and 6666 (non-SSL).
+<li>19.03.2006<br />We've added a new server to the Freeforge IRC network.
 	You can either directly connect to that server or the round-robin,
-	<tt>irc.mirbsd.org</tt> (or <tt>irc4.mirbsd.org</tt> for IPv4-only
-	connections). We sit on channel <tt>#mirbsd</tt> and <tt>#bsd</tt>
+	<tt>irc.mirbsd.org</tt>. We sit on channel <tt>#mirbsd</tt>
 	like before.</li>
 
 <li>gzsig(1) keys have switched; the new one can be found in CAcert-signed
