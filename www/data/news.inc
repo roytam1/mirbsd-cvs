@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.161 2015/10/12 22:40:47 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.164 2016/01/02 21:01:15 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -907,48 +907,11 @@ Tag: security
  only using DNSSEC is a fix… I wonder if this is truth or advertising
  for a technique without wide-spread use.</p>
 ----
-Title: anoncvs mirror naming scheme changed [updated 2x]
+Title: anoncvs mirror naming scheme changed [updated 3x]
 Date: 09.07.2008 18:20
 
 <p>As mentioned on the <a href="@@RELPATH@@getting.htm">Downloads</a> page,
- the naming scheme of the anoncvs mirrors changed. We now have:</p><ul>
- <li>master system, restricted access, ssh, rsync + cvs: <ul>
-  <li>offering: <tt>/MirOS</tt> <tt>/Pkgs</tt> <tt>/cvs</tt> <tt>/ncvs</tt> <tt>/ocvs</tt></li>
-  <li><tt>_anoncvs@herc.mirbsd.org</tt> (private, IPv4 + IPv6)</li>
-  <li><tt>_anoncvs@herc.mirbsd.org</tt> (private, IPv4 + IPv6)</li>
- </ul></li>
- <li>primary mirror, ssh, rsync + cvs, currently the same as 2.anoncvs: <ul>
-  <li><tt>_anoncvs@anoncvs.mirbsd.org</tt> (public, IPv4 + IPv6)</li>
-  <li><tt>_anoncvs@anoncvs4.mirbsd.org</tt> (public, IPv4 only)</li>
-  <li><tt>_anoncvs@anoncvs6.mirbsd.org</tt> (public, IPv6 only)</li>
- </ul></li>
- <li>hephaistos (unixforge.de), Germany, ssh, rsync + cvs: <ul>
-  <li>‣ sshd(8) <i>[old broken link removed]</i> host keys</li>
-  <li>offering: <tt>/MirOS</tt> <tt>/Pkgs</tt> <tt>/cvs</tt></li>
-  <li><tt>anoncvs@1.anoncvs.mirbsd.org</tt> (public, IPv4 + IPv6)</li>
-  <li><tt>anoncvs@1.anoncvs4.mirbsd.org</tt> (public, IPv4 only)</li>
-  <li><tt>anoncvs@1.anoncvs6.mirbsd.org</tt> (public, IPv6 only)</li>
- </ul></li>
- <li>eurynome (VMware instance), Germany, ssh, rsync + cvs: <ul>
-  <li>‣ sshd(8) <i>[old broken link removed]</i> host key</li>
-  <li>offering: <tt>/MirOS</tt> <tt>/Pkgs</tt> <tt>/cvs</tt> (<tt>/Distfiles</tt> <tt>/www</tt> not yet)</li>
-  <li><tt>_anoncvs@2.anoncvs.mirbsd.org</tt> (public, IPv4 + IPv6)</li>
-  <li><tt>_anoncvs@2.anoncvs4.mirbsd.org</tt> (public, IPv4 only)</li>
-  <li><tt>_anoncvs@2.anoncvs6.mirbsd.org</tt> (public, IPv6 only)</li>
- </ul></li>
- <li>allbsd.org, Japan, IPv4 + IPv6, rsync only: <ul>
-  <li>offering: <tt>/MirOS</tt> <tt>/cvs</tt></li>
-  <li><tt>rsync://rsync.allbsd.org/miros-cvs/</tt> = <tt>/cvs</tt></li>
-  <li><tt>rsync://rsync.allbsd.org/miros-ftp/</tt> = <tt>/MirOS</tt></li>
- </ul></li>
-</ul>
-
-<p>We are in the process of setting up eurynome (see above) to take over
- most functions from <tt>www.mirbsd.org</tt> and mirror everything, but,
- as this is a new system and VMware has issues, this will probably take
- a while. However, all data should be available from some place anytime.</p>
-<p>Update 20.07.2008: moved SSH host keys from this page, to keep width
- inside some reasonable bounds, 10x gecko2@ for noticing in MobileSafari</p>
+ the naming scheme of the anoncvs mirrors changed, multiple times.</p>
 ----
 Title: mksh R35 released! [Update: R35b]
 Date: 11.07.2008
@@ -1524,8 +1487,7 @@ Tag: snapshot
 
 <p>The <a href="@@ABSPATH@@/MirOS/current/i386/">i386 NetInstall</a>
  directory has got a new snapshot of MirOS-current, built today from
- the <a href="@@ABSPATH@@/MirOS/CVS/cvsrepo-20090410.cgz">sources of
- 20090410</a>.</p>
+ the sources of 20090410.</p>
 <p>Expect a new snapshot for the sparc architecture next weekend.</p>
 <p>The <a href="@@ABSPATH@@/MirOS/current/older/i386/fixes10.ngz">updated
  bootloader</a> (<tt>fixes10.ngz</tt>) for the problem with the <a
@@ -1822,7 +1784,7 @@ Picture3: Allerheiligen 2009-11-01
 <p>Once this release is done, I will create a cpio-with-crc-ball of the
  CVS repository again, for initial extraction purposes, to speed up an
  rsync mirror process. It will be available from our usual web mirrors.
- <a href="@@ABSPATH@@/MirOS/CVS/cvsrepo-20091101.cgz">(Link)</a></p>
+</p>
 <p>You can also pull <tt>/cvs</tt> directly, and <tt>/MirOS</tt> and
  <tt>/Pkgs</tt>. We plan to make <em>all</em> distfiles used to build
  MirPorts packages available as well, but currently lack disc space on

@@ -1,11 +1,11 @@
-# $MirOS: www/src/getting.hts,v 1.26 2013/11/26 22:51:39 tg Exp $
+# $MirOS: www/src/getting.hts,v 1.27 2014/05/13 22:12:29 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
 mws_setname getting "Get MirOS!"
 mws_setheadline Get MirOS!
-mws_putheader '$MirOS: www/src/getting.hts,v 1.26 2013/11/26 22:51:39 tg Exp $'
+mws_putheader '$MirOS: www/src/getting.hts,v 1.27 2014/05/13 22:12:29 tg Exp $'
 mws_content <<'EOF'
 <p>MirOS consists of several parts: the base system (including X11), the
  MirPorts framework, and the source tree. And you may want to read the
@@ -130,20 +130,10 @@ mws_content <<'EOF'
 <p>To access the source code in the CVS repository, either point your
  browser to <a href="http://cvs.mirbsd.de">cvs.mirbsd.de (CVSweb)</a>
  or <a href="/cvs.cgi/">local CVSweb</a> or use anonymous CVS with <a
- href="http://openssh.com/">ssh</a> to one of the following mirrors:</p>
-<ul>
- <li><tt>:ext:_anoncvs@anoncvs.mirbsd.org:/cvs</tt></li>
- <li><tt>:ext:_anoncvs@anoncvs4.mirbsd.org:/cvs</tt></li>
- <li><tt>:ext:_anoncvs@anoncvs6.mirbsd.org:/cvs</tt></li>
- <li><tt>:ext:anoncvs@1.anoncvs.mirbsd.org:/cvs</tt></li>
- <li><tt>:ext:anoncvs@1.anoncvs4.mirbsd.org:/cvs</tt></li>
- <li><tt>:ext:anoncvs@1.anoncvs6.mirbsd.org:/cvs</tt></li>
- <li><tt>:ext:anoncvs@2.anoncvs.mirbsd.org:/cvs</tt></li>
- <li><tt>:ext:anoncvs@2.anoncvs4.mirbsd.org:/cvs</tt></li>
- <li><tt>:ext:anoncvs@2.anoncvs6.mirbsd.org:/cvs</tt></li>
-</ul>
+ href="http://openssh.com/">ssh</a> to:
+ <tt>:ext:_anoncvs@anoncvs.mirbsd.org:/cvs</tt></p>
 
-<p>The old CVS repository may be available at some of these mirrors as well,
+<p>The old CVS repository may be available at some anoncvs mirrors as well,
  using <tt>:ext:anoncvs@…:/ncvs</tt> and <tt>:ext:anoncvs@…:/ocvs</tt></p>
 
 <p>If you get asked for a password, use <tt>anoncvs</tt> (but most mirrors
