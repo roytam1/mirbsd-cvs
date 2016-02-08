@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: ports/essentials/ca-certificates/mntner/moz2tdb,v 1.1 2009/11/14 23:43:48 tg Exp $
+# $MirOS: ports/essentials/ca-certificates/mntner/moz2tdb,v 1.2 2012/05/30 18:26:15 tg Exp $
 #-
-# Copyright (c) 2009, 2012
-#	Thorsten Glaser <tg@mirbsd.org>
+# Copyright (c) 2009, 2012, 2016
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -28,11 +28,13 @@ mkdir tdb
 
 cd tdb
 s=0
+f=0
 while IFS= read -r line; do
 	case $s {
 	(0)
 		[[ $line = "CKA_VALUE MULTILINE_OCTAL" ]] || continue
 		s=1
+		f=0
 		c=
 		;;
 	(1)
@@ -45,11 +47,18 @@ while IFS= read -r line; do
 		;;
 	(2)
 		case $line {
+		(CKA_TRUST_STEP_UP_APPROVED*)
+			(( f )) && s=0
+			;;
 		(CKA_CERTIFICATE_TYPE*)
 			s=0
 			;;
 		(@(CKA_TRUST_SERVER_AUTH|CKA_TRUST_EMAIL_PROTECTION|CKA_TRUST_CODE_SIGNING)*)
-			print -r -- "$line" >>$h
+			print -r -- "$line" | sed \
+			    -e 's/CKT_NSS_NOT_TRUSTED/CKT_NETSCAPE_VALID/g' \
+			    -e 's/CKT_NSS_MUST_VERIFY_TRUST/CKT_NETSCAPE_TRUST_UNKNOWN/g' \
+			    -e 's/\(CK[OT]_\)NSS_/\1NETSCAPE_/g' >>$h
+			f=1
 			;;
 		}
 		;;

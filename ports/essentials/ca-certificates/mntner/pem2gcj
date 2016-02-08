@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: ports/essentials/ca-certificates/mntner/pem2gcj,v 1.4 2012/05/24 16:27:13 tg Exp $
+# $MirOS: ports/essentials/ca-certificates/mntner/pem2gcj,v 1.5 2012/05/30 18:26:15 tg Exp $
 #-
-# Copyright (c) 2009, 2010, 2012
-#	Thorsten Glaser <tg@mirbsd.org>
+# Copyright (c) 2009, 2010, 2012, 2016
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -19,18 +19,18 @@
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 #-
-# To be run on fwrt-www:SID/~ with gcj-4.4-jre-headless installed.
+# To be run on ork with gcj-4.8-jre-headless installed.
 #
 # Requirements:
 #	./pem/*.[0-9]	→ certs (PEM format)
 #	./dsc/*		→ descriptions (we assume every one has one!)
-#	gkeytool-4.4	→ GCJ version (not Sun or OpenJDK/IcedTea)
+#	gkeytool-4.8	→ GCJ version (not Sun or OpenJDK/IcedTea)
 # We also assume certs with the same hash have the same description
 # and trust (this is not necessarily true, but WFM for now).
 # If you get an error during creation or listing, drop the last cert
-# added before that (in my case, f10dd942.0) from the pem/ directory.
+# added before that (in my case, 8c24b137.0) from the pem/ directory.
 
-V=-4.4
+V=-4.8
 rm -f keystore.gcj
 cd pem
 for bn in *; do
