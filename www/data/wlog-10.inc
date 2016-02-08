@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.476 2016/01/19 23:45:59 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.477 2016/01/28 21:19:09 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -11049,4 +11049,43 @@ Tag: event
  shitty.</p>
 <p><a href="http://fosdem.org"><img alt="FOSDEM"
  src="/2016/support/promote/wide.png" /></a></p>
+----
+Date: 08.02.2016 16:40
+Author: tg@
+Title: expect turmoil
+Tag: archaeology bug hardware news pcli personal plan rant
+
+<p>My network at home is unstable. NetCologne suggests to switch
+ to fibre network, but that only comes with a dynamic IPv6 address
+ and NAT64; completely unsuitable to running a server. (I could
+ arguably tunnel a static IPv4 address from a dedicated server to
+ home, but that would completely foil my plans for redundancy.) So
+ I <em>may</em> need an ISP (phone isn’t important) that provides
+ me with connectivity where a static IPv4 (and, ideally, a static
+ IPv6 /64 or /48 – but only if the reverse DNS gets delegated to
+ me, otherwise that’s unusable) ends up at a device of my choosing
+ (and <em>not</em> a plastic router which can then “forward ports”;
+ I require full internet to end up at my own device).</p>
+<p>HostEurope is relocating the other server, both physically and
+ network-wise. Their plan seems fool-proof so far, though.</p>
+<p>gecko2@ is decommissioning the server on which <tt>eurynome</tt>
+ is hosted, shortly. This will also be no small amount of fun for
+ everyone involved. Expect old links, SSH host keys, etc. to break.
+ This explicitly includes <tt>/etc/ssh/*known_hosts</tt>.</p>
+<p>During all those moves, I will downsize my DNS zones and change
+ some entries, so that old or duplicate records will be gone.</p>
+<p>I’ll likely generate and publish completely new hostkeys (both
+ gzsig(1) and PGP clearsigned) once this is all over. The current
+ gzsig(1) key is at the end of <tt>/usr/share/doc/README</tt> in any
+ installed system. (Do note MD5 is considered insecure.) My current
+ PGP key is <tt>9031955E7A97A4FDA32B2B8676B534B2E99007E0</tt> but
+ this requires GnuPG, so check both.</p>
+<p>My seeming inability to remember rarely-used “secure” passwords,
+ i.e. those not fitting into my normal schemata, led to me not
+ attempting to run a CA myself any more. While, thanks to rsc, we
+ have an official certificate for <tt>www.mirbsd.org</tt> now, I
+ probably will get StartSSL for “all” other systems (i.e. herc, as
+ I appear to be downsizing), despite it lacking the SSL client
+ purpose (important e.g. to SMTP). This shouldn’t affect anyone.</p>
+<p>PS: I still hate Karneval!</p>
 ----

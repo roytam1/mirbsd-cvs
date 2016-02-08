@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.305 2016/01/28 21:19:14 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.306 2016/02/03 20:25:08 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -10468,6 +10468,19 @@ Date: 03.02.2016
 Waypoint: OC12A32
 Title: Straßenschild-Safari
 Tag: D2 T1 Safari
+----
+ID: 1746
+Date: 05.02.2016
+Waypoint: GC66BRF
+Title: Beuel hats!
+Tag: D15 T15 Small Tradi
+----
+ID: 1747
+Date: 08.02.2016
+Waypoint: CC4E0R
+Title: Somewhere Else in Canada
+nTF: 3
+Tag: Locationless Challenge
 ----
 ID: p20160729
 Date: 30.07.2016
