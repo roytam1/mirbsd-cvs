@@ -70,7 +70,7 @@
 #include <openssl/x509v3.h>
 #include <openssl/objects.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/crypto/x509/x509_vfy.c,v 1.4 2011/11/20 01:12:41 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/crypto/x509/x509_vfy.c,v 1.5 2011/11/20 23:39:46 tg Exp $");
 
 static int null_callback(int ok,X509_STORE_CTX *e);
 static int check_issued(X509_STORE_CTX *ctx, X509 *x, X509 *issuer);
@@ -152,6 +152,22 @@ int X509_verify_cert(X509_STORE_CTX *ctx)
 		/* If we are self signed, we break */
 		xn=X509_get_issuer_name(x);
 		if (ctx->check_issued(ctx, x,x)) break;
+
+		/* (*If asked*) See if we can find issuer in trusted store first */
+		/*if (ctx->param->flags & X509_V_FLAG_TRUSTED_FIRST)*/
+			{
+			ok = ctx->get_issuer(&xtmp, ctx, x);
+			if (ok < 0)
+				return ok;
+			/* If successful for now free up cert so it
+			 * will be picked up again later.
+			 */
+			if (ok > 0)
+				{
+				X509_free(xtmp);
+				break;
+				}
+			}
 
 		/* If we were passed a cert chain, use it first */
 		if (ctx->untrusted != NULL)
