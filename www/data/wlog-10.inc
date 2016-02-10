@@ -11089,3 +11089,27 @@ Tag: archaeology bug hardware news pcli personal plan rant
  purpose (important e.g. to SMTP). This shouldn’t affect anyone.</p>
 <p>PS: I still hate Karneval!</p>
 ----
+Date: 10.02.2016 21:08
+Author: tg@
+Title: PDF manpages look better than before
+Tag: mksh pcli
+
+<p>Our PDF manpages will, starting from now, be generated with
+ Inconsolata instead of Bitstream Vera Mono as monospace font.
+ The body font is still Gentium, of course.</p>
+<p>To be more exact: the Teχ flavour of Inconsolata Regular and
+ Bold, with the <tt>varl</tt> and <tt>varqu</tt> flags, is used,
+ and because GNU groff also requires an Italic or at least Oblique
+ font (also in its bold variant, which the mksh(1) manpage doesn’t
+ use though), Inconsolata LGC (both Italic and Bold Italic) are
+ plugged in there. I added them as PFA Type 1 fonts to GNU groff,
+ so I had to make some fixes in FontForge (merging the variants
+ into the main font, removing unused glyphs (not for LGC), fixing
+ the validation (mostly, and not so much for LGC), autohinting
+ where FontForge expressed a need for that, renaming glyphs to
+ the names expected by <tt>afmtodit</tt>, …), but it works.</p>
+<p>I’m not regenerating older PDF manpages though.</p>
+<p>Inconsolata is also not all I wish for a monospaced font (and
+ even bsiegert@ says nothing goes over FixedMisc) but it has, at
+ least, a 0 (digit zero) with a correct stroke through it ☺</p>
+----
