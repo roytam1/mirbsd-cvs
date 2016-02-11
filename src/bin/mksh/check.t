@@ -12183,7 +12183,7 @@ stdin:
 	Copyright (C) 2002 Free Software Foundation, Inc.'
 	EOF
 	chmod +x bash
-	"$__progname" -xc 'foo=$(./bash --version 2>&1 | head -1); echo "=$foo="'
+	"$__progname" -xc 'foo=$(./bash --version 2>&1 | sed 1q); echo "=$foo="'
 expected-stdout:
 	=GNU bash, version 2.05b.0(1)-release (i386-ecce-mirbsd10)=
 expected-stderr-pattern:
