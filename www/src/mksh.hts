@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.603 2016/01/19 23:46:07 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.605 2016/01/21 20:41:28 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1194,6 +1194,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
  <li>[tg] Shave 200 bytes off .text by revisiting string pooling</li>
+ <li>[tg, J�rg] Fix manpage for ditroff on Schillix</li>
+ <li>[tg, wbx] Use <tt>sed 1q</tt> instead of unportable head(1)</li>
 </ul>
 <p id="r52b">R52b is a strongly recommended bugfix-only release:</p><ul>
  <li>[tg] Recognise ksh93 compiled scripts and LZIP compressed files
