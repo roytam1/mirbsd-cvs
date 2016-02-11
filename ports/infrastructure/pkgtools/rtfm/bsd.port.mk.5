@@ -1,7 +1,7 @@
 .\" $MirOS: ports/infrastructure/pkgtools/rtfm/bsd.port.mk.5,v 1.40 2014/05/28 18:52:55 tg Exp $
 .\" $OpenBSD: bsd.port.mk.5,v 1.134 2004/02/18 13:39:02 xsa Exp $
 .\"
-.\" Copyright (c) 2007, 2008, 2009, 2010 Thorsten Glaser
+.\" Copyright (c) 2007, 2008, 2009, 2010, 2016 mirabilos
 .\" Copyright (c) 2006, 2009 Benny Siegert
 .\" Copyright (c) 2000 Marc Espie
 .\"
@@ -35,6 +35,10 @@
 .\" * ~ is size-reduced and placed atop in groff, so use \*(TI
 .\" * ^ is size-reduced and placed atop in groff, so use \*(ha
 .\" * \(en does not work in nroff, so use \*(en
+.\" * <>| are problematic, so redefine and use \*(Lt\*(Gt\*(Ba
+.\" Also make sure to use \& *before* a punctuation char that is to not
+.\" be interpreted as punctuation, and especially with two-letter words
+.\" but also (after) a period that does not end a sentence (“e.g.\&”).
 .\" The section after the "doc" macropackage has been loaded contains
 .\" additional code to convene between the UCB mdoc macropackage (and
 .\" its variant as BSD mdoc in groff) and the GNU mdoc macropackage.
@@ -81,9 +85,11 @@
 .\"
 .Dd $Mdocdate: May 28 2014 $
 .\"
-.\" Check which macro package we use
+.\" Check which macro package we use, and do other -mdoc setup.
 .\"
 .ie \n(.g \{\
+.	if \*[.T]utf8 .tr \[la]\*(Lt
+.	if \*[.T]utf8 .tr \[ra]\*(Gt
 .	ie d volume-ds-1 .ds tT gnu
 .	el .ds tT bsd
 .\}
@@ -1189,7 +1195,7 @@ Indicates that the port, using
 magic, will properly fake installation into ${WRKINST}, to be packaged
 and properly installed from the package.
 Set to
-.Sq No\&
+.Sq \&No
 in very rare cases, and during port creation.
 .It Ev FAKE_FLAGS
 Flags passed to ${MAKE_PROGRAM} on fake invocation.
@@ -1370,7 +1376,7 @@ This variable affects all distfiles, i.e.\&
 .Pp
 Possible values are:
 .Bl -tag -width lzma
-.It Va No\&
+.It Va \&No
 Directly fetch from the VCS and compress using
 .Xr mpczar 1 .
 .Pp

@@ -15,8 +15,8 @@
 .\"
 .\" Jordan K. Hubbard
 .\"-
-.\" Copyright (c) 2008, 2009
-.\"	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+.\" Copyright (c) 2008, 2009, 2010, 2016
+.\"	mirabilos <m@mirbsd.org>
 .\"-
 .\" Try to make GNU groff and AT&T nroff more compatible
 .\" * ` generates ‘ in gnroff, so use \`
@@ -26,6 +26,10 @@
 .\" * ~ is size-reduced and placed atop in groff, so use \*(TI
 .\" * ^ is size-reduced and placed atop in groff, so use \*(ha
 .\" * \(en does not work in nroff, so use \*(en
+.\" * <>| are problematic, so redefine and use \*(Lt\*(Gt\*(Ba
+.\" Also make sure to use \& *before* a punctuation char that is to not
+.\" be interpreted as punctuation, and especially with two-letter words
+.\" but also (after) a period that does not end a sentence (“e.g.\&”).
 .\" The section after the "doc" macropackage has been loaded contains
 .\" additional code to convene between the UCB mdoc macropackage (and
 .\" its variant as BSD mdoc in groff) and the GNU mdoc macropackage.
@@ -72,9 +76,11 @@
 .\"
 .Dd $Mdocdate: November 22 2009 $
 .\"
-.\" Check which macro package we use
+.\" Check which macro package we use, and do other -mdoc setup.
 .\"
 .ie \n(.g \{\
+.	if \*[.T]utf8 .tr \[la]\*(Lt
+.	if \*[.T]utf8 .tr \[ra]\*(Gt
 .	ie d volume-ds-1 .ds tT gnu
 .	el .ds tT bsd
 .\}

@@ -1,5 +1,6 @@
-.\"	$OpenBSD: lorder.1,v 1.7 2003/06/03 02:56:10 millert Exp $
-.\"	$NetBSD: lorder.1,v 1.5 1995/08/31 22:42:44 jtc Exp $
+.\" $MirOS$
+.\" $OpenBSD: lorder.1,v 1.7 2003/06/03 02:56:10 millert Exp $
+.\" $NetBSD: lorder.1,v 1.5 1995/08/31 22:42:44 jtc Exp $
 .\"
 .\" Copyright (c) 1990, 1993
 .\"	The Regents of the University of California.  All rights reserved.
@@ -31,8 +32,8 @@
 .\"     @(#)lorder.1	8.2 (Berkeley) 4/28/95
 .\"
 .\"-
-.\" Copyright (c) 2008, 2009
-.\"	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+.\" Copyright (c) 2008, 2009, 2010, 2016
+.\"	mirabilos <m@mirbsd.org>
 .\"-
 .\" Try to make GNU groff and AT&T nroff more compatible
 .\" * ` generates ‘ in gnroff, so use \`
@@ -42,6 +43,10 @@
 .\" * ~ is size-reduced and placed atop in groff, so use \*(TI
 .\" * ^ is size-reduced and placed atop in groff, so use \*(ha
 .\" * \(en does not work in nroff, so use \*(en
+.\" * <>| are problematic, so redefine and use \*(Lt\*(Gt\*(Ba
+.\" Also make sure to use \& *before* a punctuation char that is to not
+.\" be interpreted as punctuation, and especially with two-letter words
+.\" but also (after) a period that does not end a sentence (“e.g.\&”).
 .\" The section after the "doc" macropackage has been loaded contains
 .\" additional code to convene between the UCB mdoc macropackage (and
 .\" its variant as BSD mdoc in groff) and the GNU mdoc macropackage.
@@ -86,11 +91,13 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: November 17 2009 $
+.Dd $Mdocdate: February 11 2016 $
 .\"
-.\" Check which macro package we use
+.\" Check which macro package we use, and do other -mdoc setup.
 .\"
 .ie \n(.g \{\
+.	if \*[.T]utf8 .tr \[la]\*(Lt
+.	if \*[.T]utf8 .tr \[ra]\*(Gt
 .	ie d volume-ds-1 .ds tT gnu
 .	el .ds tT bsd
 .\}

@@ -4,8 +4,8 @@
 .\"-
 .\" Copyright (c) 1993
 .\"	The Regents of the University of California.  All rights reserved.
-.\" Copyright (c) 2008, 2009, 2010, 2012
-.\"	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+.\" Copyright (c) 2008, 2009, 2010, 2012, 2016
+.\"	mirabilos <m@mirbsd.org>
 .\"
 .\" Redistribution and use in source and binary forms, with or without
 .\" modification, are permitted provided that the following conditions
@@ -43,7 +43,9 @@
 .\" * ^ is size-reduced and placed atop in groff, so use \*(ha
 .\" * \(en does not work in nroff, so use \*(en
 .\" * <>| are problematic, so redefine and use \*(Lt\*(Gt\*(Ba
-.\" Also make sure to use \& especially with two-letter words.
+.\" Also make sure to use \& *before* a punctuation char that is to not
+.\" be interpreted as punctuation, and especially with two-letter words
+.\" but also (after) a period that does not end a sentence (“e.g.\&”).
 .\" The section after the "doc" macropackage has been loaded contains
 .\" additional code to convene between the UCB mdoc macropackage (and
 .\" its variant as BSD mdoc in groff) and the GNU mdoc macropackage.

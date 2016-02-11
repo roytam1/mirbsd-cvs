@@ -1,10 +1,10 @@
-# $MirOS: ports/misc/cksfv/Makefile,v 1.5 2008/05/01 00:52:33 tg Exp $
+# $MirOS: ports/misc/cksfv/Makefile,v 1.6 2009/11/22 15:48:49 tg Exp $
 
 COMMENT=		checksummer for .sfv files
 VERSION=		1.3
 CATEGORIES=		archivers misc net
 DISTNAME=		cksfv-${VERSION}
-DASH_VER=		3
+DASH_VER=		4
 HOMEPAGE=		http://www.fodder.org/cksfv/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.de>
 
