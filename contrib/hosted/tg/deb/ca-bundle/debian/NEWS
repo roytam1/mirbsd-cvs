@@ -1,0 +1,15 @@
+ca-bundle (20160212) wtf; urgency=high
+
+  The removal of the 1024-bit roots may leave users of older OpenSSL
+  versions unable to connect to some sites such as www.benefind.de –
+  if this happens, consider applying the following patch:
+
+  https://www.mirbsd.org/cvs.cgi/src/lib/libssl/src/crypto/x509/x509_vfy.c.diff?r1=1.5;r2=1.6
+
+  The patch will cause OpenSSL to accept any and all certificates in
+  the trust store as valid instead of using the provided certificate
+  chain up to its root (some newer roots we still ship were additio‐
+  nally cross-signed by a 1024-bit root causing this issue when pre‐
+  sent in a certificate chain delivered by the SSL server).
+
+ -- Thorsten Glaser <t.glaser@tarent.de>  Fri, 12 Feb 2016 12:10:43 +0000

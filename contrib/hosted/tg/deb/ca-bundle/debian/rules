@@ -1,5 +1,5 @@
 #!/usr/bin/make -f
-# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/rules,v 1.10 2012/05/30 19:56:07 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/rules,v 1.11 2014/03/29 23:18:52 tg Exp $
 
 build-arch:
 build build-indep: generated/.build_stamp
@@ -31,6 +31,9 @@ binary-indep: build-indep
 	dh_installchangelogs
 	dh_installdocs
 	dh_install
+	mkdir -p debian/ca-bundle/usr/share/lintian/overrides
+	install -c -o 0 -g 0 -m 644 debian/ca-bundle.lintian \
+	    debian/ca-bundle/usr/share/lintian/overrides/ca-bundle
 	dh_installman
 	cd debian/ca-bundle/usr/share/ca-bundle/certs && \
 	    exec sh -e ../../../../../../bsd/ssl.links.shar

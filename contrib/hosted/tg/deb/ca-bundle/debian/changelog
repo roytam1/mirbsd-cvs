@@ -1,3 +1,12 @@
+ca-bundle (20160212) wtf; urgency=high
+
+  * Bump Policy; prepare for Java™ 9
+  * Update from latest MirBSD SSL certificate list
+  * Add NEWS file warning about the 1024-bit roots
+  * Introduce lintian override files
+
+ -- Thorsten Glaser <t.glaser@tarent.de>  Fri, 12 Feb 2016 14:11:37 +0100
+
 ca-bundle (20140329) wtf; urgency=high
 
   * Prepare for Java™ versions 7 and 8, including java-package made ones

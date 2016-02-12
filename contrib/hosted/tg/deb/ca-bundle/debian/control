@@ -3,11 +3,11 @@ Origin: WTF
 Bugs: mailto:wtf@mirbsd.org
 Section: misc
 Priority: extra
-Maintainer: Thorsten Glaser <tg@mirbsd.de>
+Maintainer: Thorsten Glaser <t.glaser@tarent.de>
 Build-Depends: debhelper (>= 4), ed, openssl
-Standards-Version: 3.9.5
+Standards-Version: 3.9.7
 Vcs-CVS: :ext:_anoncvs@anoncvs.mirbsd.org:/cvs contrib/hosted/tg/deb/ca-bundle
-Vcs-Browser: http://cvs.mirbsd.de/contrib/hosted/tg/deb/ca-bundle/
+Vcs-Browser: https://www.mirbsd.org/cvs.cgi/contrib/hosted/tg/deb/ca-bundle/
 
 Package: ca-bundle
 Architecture: all
@@ -20,15 +20,18 @@ Replaces: ca-certificates, ca-certificates-java,
  kdelibs-data, kdelibs-data-kde3, kdelibs-data-trinity, kdelibs5-data,
  libapache-mod-ssl, libgcj-common, libgcj10, libgcj11,
  openjdk-6-jre-headless, openjdk-7-jre-headless, openjdk-8-jre-headless,
+ openjdk-9-jre-headless,
  oracle-j2sdk1.6, oracle-java6-jre, oracle-java7-jre, oracle-java8-jre,
- sun-java5-bin, sun-java6-bin, sympa
+ oracle-java9-jre, sun-java5-bin, sun-java6-bin, sympa
 Provides: ca-certificates, ca-certificates-java
 Enhances: curl, gajim, gnutls-bin, libgnutls13, libgnutls26, libssl0.9.8,
- lynx-cur, openssl, oracle-j2sdk1.6, oracle-j2sdk1.7,
+ libssl1.0.0, libssl1.0.2, lynx, lynx-cur, lynx-secure, openssl,
+ oracle-j2sdk1.6, oracle-j2sdk1.7, oracle-j2sdk1.8, oracle-j2sdk1.9,
  cacao-oj6-jre-headless, ia32-sun-java5-bin, ia32-sun-java6-bin, j2re1.4,
  java-gcj-compat-headless, kdelibs-data, kdelibs-data-kde3, kdelibs5-data,
  libapache-mod-ssl, libgcj-common, libgcj10, libgcj11, libgcj12,
- openjdk-6-jre-headless, sun-java5-bin, sun-java6-bin, sympa, jxplorer
+ openjdk-6-jre-headless, openjdk-7-jre-headless, openjdk-8-jre-headless,
+ openjdk-9-jre-headless, sun-java5-bin, sun-java6-bin, sympa, jxplorer
 Description: ca-certificates and -java replacement (WTF suite, from MirBSD)
  This WTF suite package uses the static MirBSD CA certificate bundle
  to replace both the Debian ca-certificates and ca-certificates-java
