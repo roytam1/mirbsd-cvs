@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.38 2015/11/28 18:43:37 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.39 2016/01/05 22:37:55 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -1684,4 +1684,34 @@ Tag: debian fun news
  and for demonstration (bragging) purposes <em>only</em>.</p>
 <p>The <a href="https://www.mirbsd.org/~tg/Debs/NEWS.rss">RSS
  feed of my APT repository</a> will also contain such news…</p>
+----
+Date: 13.02.2016 18:10
+Author: tg@
+Title: The things you find in upstream code…
+Tag: archaeology bug pcli rant security snapshot
+
+<p class="boxhead">I had just gotten an eMail from the nightly
+ <tt>/etc/security</tt> cronjob that the mailbox from the user
+ <tt><i>foo</i>.lock</tt> belongs to the user <tt><i>foo</i></tt>
+ (name changed to protect the… innocent? well, I know that guy
+ from #OpenBSD on IRC, so… YMMV… anyway). Of course, I wanted to
+ change that to exclude mbox lockfiles…</p><div class="boxtext">
+ <pre>
+	# Mailboxes should be owned by user and unreadable.
+	ls -l /var/mail | sed 1d | \
+	awk '$3 != $9 \
+		{ print "user " $9 " mailbox is owned by " $3 }
+ </pre>
+</div><p class="boxfoot">… oh wow. Needless to say I fixed that,
+ although you <em>must</em> update your stat(1) first; it now
+ has a possibility to generate NUL-terminated output (or any
+ separator, really) which I used for this. (And no, Schily, I’m
+ still of the opinion that NUL termination, even when one has to
+ add it to each utility separately, is the better way to go.)</p>
+<p>Dear OpenBSD developers, repeat after me:<br />
+ <strong>Do n̲o̲t̲ parse ls(1) output!</strong><br />
+ Or write 100 lines of it, or something, until it sinks in.</p>
+<p>(It can take some writing for it to sink in… just yesternight
+ the fanfiction I was reading was at the point where Dolores
+ Umbridge uses her Blood Quill on the students. Coincidence.)</p>
 ----
