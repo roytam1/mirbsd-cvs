@@ -448,11 +448,14 @@ if [ -s $OUTPUT ] ; then
 fi
 
 # Mailboxes should be owned by user and unreadable.
-ls -l /var/mail | sed 1d | \
-awk '$3 != $9 \
-	{ print "user " $9 " mailbox is owned by " $3 }
-     $1 != "-rw-------" \
-	{ print "user " $9 " mailbox is " $1 ", group " $4 }' > $OUTPUT
+(cd /var/mail; stat -nf '%Sp:%Su:%Sg%/00%N%/00' *) | \
+    while IFS=: read -d '' -r perms owner group; do
+	IFS= read -d '' -r name || break
+	[[ $owner = "$name" ]] || print -r -- \
+	    user "$name" mailbox is owned by "$owner"
+	[[ $perms = -rw------- ]] || print -r -- \
+	    user "$name" mailbox is "$perms", group "$group"
+done >$OUTPUT
 if [ -s $OUTPUT ] ; then
 	echo "\nChecking mailbox ownership."
 	cat $OUTPUT
