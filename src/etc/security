@@ -451,10 +451,15 @@ fi
 (cd /var/mail; stat -nf '%Sp:%Su:%Sg%/00%N%/00' *) | \
     while IFS=: read -d '' -r perms owner group; do
 	IFS= read -d '' -r name || break
+	[[ $name = "$owner".lock && -e /var/mail/$owner ]] && continue
 	[[ $owner = "$name" ]] || print -r -- \
 	    user "$name" mailbox is owned by "$owner"
 	[[ $perms = -rw------- ]] || print -r -- \
 	    user "$name" mailbox is "$perms", group "$group"
+	[[ $name = +([a-z0-9-]) ]] || print -r -- \
+	    mailbox name "$name" is not composed only of safe characters
+	[[ $name = +([0-9]) ]] && print -r -- \
+	    mailbox name "$name" is composed only of digits
 done >$OUTPUT
 if [ -s $OUTPUT ] ; then
 	echo "\nChecking mailbox ownership."
