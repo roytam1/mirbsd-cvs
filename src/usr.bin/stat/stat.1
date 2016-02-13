@@ -149,6 +149,9 @@ a character that selects the field of the struct stat which is to be
 formatted.
 If the
 .Cm %
+if immediately followed by a slash
+.Pq Sq \&/
+and two hexadecimal digits, the corresponding octet is output; if it
 is immediately followed by one of
 .Cm n ,
 .Cm t ,
@@ -506,6 +509,10 @@ utility appeared in
 .Nx 1.6
 and was ported to
 .Mx 8 .
+The
+.Dq %/00
+output format specifier was added in
+.Mx 11 .
 .Sh AUTHORS
 .An -nosplit
 The

@@ -1,8 +1,8 @@
 /*	$NetBSD: stat.c,v 1.20 2004/12/31 03:24:31 atatat Exp $ */
 
 /*
- * Copyright © 2013
- *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+ * Copyright © 2013, 2016
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 2002 The NetBSD Foundation, Inc.
  * All rights reserved.
  *
@@ -43,7 +43,7 @@
 #endif
 
 #include <sys/cdefs.h>
-__RCSID("$MirOS: src/usr.bin/stat/stat.c,v 1.5 2008/07/10 13:30:53 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/stat/stat.c,v 1.6 2013/10/31 20:07:16 tg Exp $");
 __RCSID("$NetBSD: stat.c,v 1.20 2004/12/31 03:24:31 atatat Exp $");
 
 #if !defined(HAVE_NBTOOL_CONFIG_H) || (!HAVE_NBTOOL_CONFIG_H)
@@ -134,6 +134,7 @@ __RCSID("$NetBSD: stat.c,v 1.20 2004/12/31 03:24:31 atatat Exp $");
 #define FMT_MAGIC	'%'
 #define FMT_DOT		'.'
 
+#define SIMPLE_OCTET	'/'
 #define SIMPLE_NEWLINE	'n'
 #define SIMPLE_TAB	't'
 #define SIMPLE_PERCENT	'%'
@@ -401,6 +402,23 @@ output(const struct stat *st, const char *file,
 		 * Some simple one-character "formats".
 		 */
 		switch (*statfmt) {
+		case SIMPLE_OCTET:
+			statfmt++;
+			if (*statfmt < '0' || *statfmt > 'f' ||
+			    (*statfmt > '9' && *statfmt < 'A') ||
+			    (*statfmt > 'F' && *statfmt < 'a'))
+				goto badfmt;
+			i = (((*statfmt & 0x40) >> 6) * 9) + (*statfmt & 0x0F);
+			statfmt++;
+			if (*statfmt < '0' || *statfmt > 'f' ||
+			    (*statfmt > '9' && *statfmt < 'A') ||
+			    (*statfmt > 'F' && *statfmt < 'a'))
+				goto badfmt;
+			i <<= 4;
+			i |= (((*statfmt & 0x40) >> 6) * 9) + (*statfmt & 0x0F);
+			addchar(stdout, i, &nl);
+			statfmt++;
+			continue;
 		case SIMPLE_NEWLINE:
 			addchar(stdout, '\n', &nl);
 			statfmt++;
