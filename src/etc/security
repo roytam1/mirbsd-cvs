@@ -450,11 +450,9 @@ fi
 # Mailboxes should be owned by user and unreadable.
 (
 	cd /var/mail
-	for x in *; do
-		[[ -e $x ]] || exit 0
-		break
-	done
-	stat -nf '%Sp:%Su:%Sg%/00%N%/00' *
+	set -A f -- *
+	[[ -e ${f[0]} ]] || exit 0
+	stat -nf '%Sp:%Su:%Sg%/00%N%/00' -- "${f[@]}"
 ) | while IFS=: read -d '' -r perms owner group; do
 	IFS= read -d '' -r name || break
 	[[ $name = "$owner".lock && -e /var/mail/$owner ]] && continue
