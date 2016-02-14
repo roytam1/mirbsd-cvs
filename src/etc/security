@@ -448,8 +448,14 @@ if [ -s $OUTPUT ] ; then
 fi
 
 # Mailboxes should be owned by user and unreadable.
-(cd /var/mail; stat -nf '%Sp:%Su:%Sg%/00%N%/00' *) | \
-    while IFS=: read -d '' -r perms owner group; do
+(
+	cd /var/mail
+	for x in *; do
+		[[ -e $x ]] || exit 0
+		break
+	done
+	stat -nf '%Sp:%Su:%Sg%/00%N%/00' *
+) | while IFS=: read -d '' -r perms owner group; do
 	IFS= read -d '' -r name || break
 	[[ $name = "$owner".lock && -e /var/mail/$owner ]] && continue
 	[[ $owner = "$name" ]] || print -r -- \
