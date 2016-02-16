@@ -30,7 +30,7 @@ mws_content <<'EOF'
  implementation of the Korn Shell programming language and a successor to the
  Public Domain Korn Shell (pdksh).</p>
 
-<p class="cr"><span class="fr" style="width:136px; height:128px;"><object
+<p class="cr"><span class="fr" style="width:128px; height:100px;"><object
   type="image/svg+xml" data="@@RELPATH@@pics/mksh.svg"
   width="128" height="100"><img alt="mksh Logo"
   src="@@RELPATH@@pics/mksh128x100.png" /></object>
