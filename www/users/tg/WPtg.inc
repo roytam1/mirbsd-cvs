@@ -156,7 +156,7 @@ Tag: recommended
 ----
 ID: 30
 Date: 28.02.2008
-Waypoint: GCY1ZJ OC243A
+Waypoint: GCY1ZJ OC243A OC82F7
 Title: Gotteshäuser: Waldkapelle Rheinbach
 Tag: recommended
 ----
@@ -515,7 +515,7 @@ Title: Kriegerdenkmal
 ----
 ID: 99
 Date: 20.07.2009
-Waypoint: GCTYFY
+Waypoint: GCTYFY OC1971
 Title: H2O
 ----
 ID: 100
@@ -1998,7 +1998,7 @@ Title: Bonner Retter - Löscheinheit 14 -&gt; Endenich
 ----
 ID: 388
 Date: 17.06.2013
-Waypoint: GC4BYEZ
+Waypoint: GC4BYEZ OC126B6
 Title: Wasserhäuschen
 ----
 ID: 389
@@ -2342,7 +2342,7 @@ Geniales Logbuch!
 ----
 ID: 445
 Date: 10.08.2013
-Waypoint: GC4F9VA
+Waypoint: GC4F9VA OC126B5
 Title: Owerdreeser Ollichsmill
 ----
 ID: 446
@@ -5126,7 +5126,7 @@ Tag: D15 T15 Small Tradi
 ----
 ID: 898
 Date: 14.06.2014
-Waypoint: GC1PKW9
+Waypoint: GC1PKW9 OCC03C
 Title: PeFaJo
 Tag: D15 T35 Small Tradi recommended exceptional
 ----
@@ -5162,7 +5162,7 @@ Tag: D1 T25 Large Tradi recommended exceptional
 ----
 ID: 904
 Date: 14.06.2014
-Waypoint: GC233M8
+Waypoint: GC233M8 OCE637
 Title: 4xstone
 Tag: D15 T2 Small Tradi
 ----
@@ -7178,7 +7178,7 @@ Distance: 4
 ----
 ID: 1231
 Date: 11.11.2014
-Waypoint: GC1QE7C
+Waypoint: GC1QE7C OC802F
 Title: Nord-Süd-Verbindung
 Tag: D1 T1 Nano Tradi
 ----
@@ -7399,7 +7399,7 @@ Tag: D15 T15 Event
 ----
 ID: 1267
 Date: 17.12.2014
-Waypoint: GC105R7
+Waypoint: GC105R7 OC2C7F
 Title: Südseeinsel
 Tag: D15 T1 Micro Tradi
 ----
@@ -8899,7 +8899,7 @@ Tag: D15 T15 Small Tradi
 ----
 ID: 1502
 Date: 09.05.2015
-Waypoint: GC1QEEB
+Waypoint: GC1QEEB OC80A0
 Title: Willkommen in... Bad Neuenahr
 Tag: D1 T1 Micro Tradi
 ----
@@ -9867,7 +9867,7 @@ Tag: D15 T15 Safari
 ----
 ID: 1651
 Date: 02.08.2015
-Waypoint: GC2JMG0
+Waypoint: GC2JMG0 OCE074
 Banner: jpg
 Title: Jimmy, der Außerirdische
 Tag: D2 T2 Regular Wherigo_Hybrid recommended
@@ -10055,7 +10055,7 @@ Tag: D2 T1 Micro Tradi
 ----
 ID: 1681
 Date: 26.09.2015
-Waypoint: GC1R7VM
+Waypoint: GC1R7VM OC84F5
 Title: Spielbank Bad Neuenahr
 Tag: D1 T1 Micro Tradi
 ----
@@ -10480,6 +10480,26 @@ Date: 08.02.2016
 Waypoint: CC4E0R
 Title: Somewhere Else in Canada
 nTF: 3
+Tag: Locationless Challenge
+----
+ID: 1748
+Date: 16.02.2016
+Waypoint: GC6BBCD
+Title: Bombensicher
+Tag: D1 T1 Micro Tradi
+----
+ID: 1749
+Date: 17.02.2016
+Waypoint: OC12B20
+Title: Ich bin bombensicher ein Nichtraucher
+nTF: 0
+Tag: D1 T15 Virtual
+----
+ID: 1750
+Date: 17.02.2016
+Waypoint: CC377K
+Title: Tues@8 - Under Wiltshire Cyber
+nTF: 1
 Tag: Locationless Challenge
 ----
 ID: p20160729
