@@ -10502,6 +10502,77 @@ Title: Tues@8 - Under Wiltshire Cyber
 nTF: 1
 Tag: Locationless Challenge
 ----
+ID: 1751
+Date: 18.02.2016
+Waypoint: OC127CA
+Title: Auf Reise
+Tag: D2 T2 Micro Moving
+
+<b>Warnung</b> an alle zukünftigen Logger: macht ein Photo eures
+Eintrags im Logbuch und packt es an das Online-Log; der Owner ist
+zu blöd zum Lesen und löscht gerne vorschnell Einträge und denkt,
+jeder einzelne Account muß den Cache erst wiederverstecken, bevor
+der nächste drankan. (Alternativ OC1177B loggen… ☹)
+----
+ID: 1752
+Date: 19.02.2016
+Waypoint: GC64KYJ
+Title: Smarcs First
+Tag: D2 T1 Micro Tradi
+----
+ID: 1753
+Date: 19.02.2016
+Waypoint: GC4YB6Y
+Title: Warheit oder Mythos?
+Tag: D1 T1 Micro Tradi
+----
+ID: 1754
+Date: 19.02.2016
+Waypoint: GC4T7TV
+Title: Wermelskirchen - Wappen (3)
+Tag: D2 T1 Micro Tradi
+----
+ID: 1755
+Date: 19.02.2016
+Waypoint: GC4T7VN
+Title: Wermelskirchen - Wappen (2)
+Tag: D15 T15 Micro Tradi
+----
+ID: 1756
+Date: 19.02.2016
+Waypoint: OC10242
+Title: 16 BL - Bremen
+Tag: D2 T1 Safari
+----
+ID: 1757
+Date: 19.02.2016
+Waypoint: GC427
+Title: Altenberg
+Tag: D2 T3 Large Tradi recommended
+
+Das Versteck ist echt kraß! Ist aber schwer zu bergen; Cacher, die
+nicht so viele Muckis haben, oder Juniorcacher brauchen ggfs. Hilfe.
+----
+ID: 1758
+Date: 19.02.2016
+Waypoint: -
+Title: unpublizierter Cache von König Moderig am Altenberg
+nTF: A
+Tag: T25 Micro Tradi
+----
+ID: 1759
+Date: 21.02.2016
+Waypoint: OC12B2D
+Title: Säulenbasalt an der A3
+nTF: 1
+Tag: D1 T1 Virtual
+----
+ID: 1760
+Date: 21.02.2016
+Waypoint: GC5CKXW
+Title: Dreizehn Sorgen
+Tag: D25 T2 Micro Mystery
+----
 ID: p20160729
 Date: 30.07.2016
 Waypoint: GC276WT
