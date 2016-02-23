@@ -145,6 +145,8 @@ a new DH key during each handshake but it is also recommended.
 B<SSL_OP_SINGLE_DH_USE> should therefore be enabled whenever
 temporary/ephemeral DH parameters are used.
 
+This is set by default in OpenSSL 0.9.7 on MirBSD.
+
 =item SSL_OP_EPHEMERAL_RSA
 
 This option is no longer implemented and is treated as no op.

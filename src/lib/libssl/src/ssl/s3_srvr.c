@@ -126,7 +126,7 @@
 #include <openssl/md5.h>
 #include <openssl/fips.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_srvr.c,v 1.14 2015/01/25 17:07:22 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_srvr.c,v 1.15 2015/01/25 17:15:17 tg Exp $");
 
 static SSL_METHOD *ssl3_get_server_method(int ver);
 static int ssl3_get_client_hello(SSL *s);
@@ -1107,28 +1107,12 @@ static int ssl3_send_server_key_exchange(SSL *s)
 				}
 
 			s->s3->tmp.dh=dh;
-			if ((dhp->pub_key == NULL ||
-			     dhp->priv_key == NULL ||
-			     (s->options & SSL_OP_SINGLE_DH_USE)))
-				{
-				if(!DH_generate_key(dh))
-				    {
-				    SSLerr(SSL_F_SSL3_SEND_SERVER_KEY_EXCHANGE,
-					   ERR_R_DH_LIB);
-				    goto err;
-				    }
-				}
-			else
-				{
-				dh->pub_key=BN_dup(dhp->pub_key);
-				dh->priv_key=BN_dup(dhp->priv_key);
-				if ((dh->pub_key == NULL) ||
-					(dh->priv_key == NULL))
-					{
-					SSLerr(SSL_F_SSL3_SEND_SERVER_KEY_EXCHANGE,ERR_R_DH_LIB);
-					goto err;
-					}
-				}
+			if(!DH_generate_key(dh))
+			    {
+			    SSLerr(SSL_F_SSL3_SEND_SERVER_KEY_EXCHANGE,
+				   ERR_R_DH_LIB);
+			    goto err;
+			    }
 			r[0]=dh->p;
 			r[1]=dh->g;
 			r[2]=dh->pub_key;

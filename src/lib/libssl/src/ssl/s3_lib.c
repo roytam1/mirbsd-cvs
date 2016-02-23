@@ -114,7 +114,7 @@
 #include "ssl_locl.h"
 #include <openssl/md5.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_lib.c,v 1.5 2014/11/26 20:21:37 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/ssl/s3_lib.c,v 1.6 2014/11/26 20:34:04 tg Exp $");
 
 const char ssl3_version_str[]="SSLv3" OPENSSL_VERSION_PTEXT;
 
@@ -1237,15 +1237,6 @@ long ssl3_ctrl(SSL *s, int cmd, long larg, void *parg)
 				SSLerr(SSL_F_SSL3_CTRL, ERR_R_DH_LIB);
 				return(ret);
 				}
-			if (!(s->options & SSL_OP_SINGLE_DH_USE))
-				{
-				if (!DH_generate_key(dh))
-					{
-					DH_free(dh);
-					SSLerr(SSL_F_SSL3_CTRL, ERR_R_DH_LIB);
-					return(ret);
-					}
-				}
 			if (s->cert->dh_tmp != NULL)
 				DH_free(s->cert->dh_tmp);
 			s->cert->dh_tmp = dh;
@@ -1372,15 +1363,6 @@ long ssl3_ctx_ctrl(SSL_CTX *ctx, int cmd, long larg, void *parg)
 			{
 			SSLerr(SSL_F_SSL3_CTX_CTRL,ERR_R_DH_LIB);
 			return 0;
-			}
-		if (!(ctx->options & SSL_OP_SINGLE_DH_USE))
-			{
-			if (!DH_generate_key(new))
-				{
-				SSLerr(SSL_F_SSL3_CTX_CTRL,ERR_R_DH_LIB);
-				DH_free(new);
-				return 0;
-				}
 			}
 		if (cert->dh_tmp != NULL)
 			DH_free(cert->dh_tmp);
