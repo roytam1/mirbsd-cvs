@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.14 2011/11/17 15:27:53 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/BuildDSC.sh,v 1.17 2016/02/23 18:01:35 tg Exp $
 #-
 # Copyright (c) 2010, 2011
 #	Thorsten Glaser <t.glaser@tarent.de>
@@ -146,7 +146,7 @@ newname=$pkgstem-$upstreamversion
 cd "$newname"
 dpkg-buildpackage -rfakeroot -S -I -i $optd $optN
 rv=$?
-fakeroot debian/rules clean
+[[ -n $optN ]] || fakeroot debian/rules clean
 cd ..
 [[ $newname = $curname ]] || mv "$newname" "$curname"
 
