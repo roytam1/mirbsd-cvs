@@ -144,7 +144,7 @@ curname=${mydir##*/}
 newname=$pkgstem-$upstreamversion
 [[ $newname = $curname ]] || mv "$curname" "$newname"
 cd "$newname"
-dpkg-buildpackage -rfakeroot -S -I -i $optd $optN
+dpkg-buildpackage -rfakeroot -S -I -i $optd $optN -us -uc
 rv=$?
 [[ -n $optN ]] || fakeroot debian/rules clean
 cd ..
