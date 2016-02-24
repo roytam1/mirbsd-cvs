@@ -1151,7 +1151,7 @@ varsub(Expand *xp, const char *sp, const char *word,
 	if (!stype && c == '/') {
 		slen += 2;
 		stype = c;
-		if (word[slen] == ADELIM) {
+		if (word[slen] == ADELIM && word[slen + 1] == c) {
 			slen += 2;
 			stype |= 0x80;
 		}
