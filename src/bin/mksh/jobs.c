@@ -45,8 +45,8 @@ struct proc {
 	int state;
 	int status;		/* wait status */
 	/* process command string from vistree */
-	char command[256 - (ALLOC_SIZE + sizeof(Proc *) + sizeof(pid_t) +
-	    2 * sizeof(int))];
+	char command[256 - (ALLOC_OVERHEAD + sizeof(Proc *) +
+	    sizeof(pid_t) + 2 * sizeof(int))];
 };
 
 /* Notify/print flag - j_print() argument */
