@@ -699,20 +699,20 @@ im_sorry_dave(void)
 
 
 /* 1. internal structure */
-struct lalloc_area {
-	struct lalloc_area *next;
+struct lalloc_common {
+	struct lalloc_common *next;
 };
 
-struct lalloc {
-	struct lalloc_area *next;
+struct lalloc_item {
+	struct lalloc_common *next;
 #ifdef MKSH_ALLOC_CATCH_UNDERRUNS
 	size_t len;
-	char dummy[8192 - sizeof(struct lalloc_area *) - sizeof(size_t)];
+	char dummy[8192 - sizeof(struct lalloc_common *) - sizeof(size_t)];
 #endif
 };
 
 /* 2. sizes */
-#define ALLOC_ITEM	struct lalloc
+#define ALLOC_ITEM	struct lalloc_item
 #define ALLOC_SIZE	(sizeof(ALLOC_ITEM))
 #ifndef MKSH_ALLOC_CATCH_UNDERRUNS
 #define ALLOC_OVERHEAD	ALLOC_SIZE
@@ -721,7 +721,7 @@ struct lalloc {
 #endif
 
 /* 3. group structure */
-typedef struct lalloc_area Area;
+typedef struct lalloc_common Area;
 
 
 EXTERN Area aperm;		/* permanent object space */
