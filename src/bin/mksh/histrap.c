@@ -658,7 +658,9 @@ histsave(int *lnp, const char *cmd, int svmode, bool ignoredups)
 	strndupx(c, cmd, ccp - cmd, APERM);
 
 	if (svmode != HIST_APPEND) {
-		if (ignoredups && !strcmp(c, *histptr)
+		if (ignoredups &&
+		    histptr >= history &&
+		    !strcmp(c, *histptr)
 #if !defined(MKSH_SMALL) && HAVE_PERSISTENT_HISTORY
 		    && !histsync()
 #endif
