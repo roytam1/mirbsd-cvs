@@ -817,7 +817,7 @@ dumpwdvar_i(struct shf *shf, const char *wp, int quotelevel)
 			return (--wp);
 		case ADELIM:
 			if (*wp == /*{*/'}') {
-				shf_puts("]ADELIM(})", shf);
+				shf_puts(/*{*/ "]ADELIM(})", shf);
 				return (wp + 1);
 			}
 			shf_puts("ADELIM=", shf);
@@ -852,10 +852,10 @@ dumpwdvar_i(struct shf *shf, const char *wp, int quotelevel)
 			shf_puts("EXPRSUB<", shf);
 			goto dumpsub;
 		case OQUOTE:
-			shf_fprintf(shf, "OQUOTE{%d", ++quotelevel);
+			shf_fprintf(shf, "OQUOTE{%d" /*}*/, ++quotelevel);
 			break;
 		case CQUOTE:
-			shf_fprintf(shf, "%d}CQUOTE", quotelevel);
+			shf_fprintf(shf, /*{*/ "%d}CQUOTE", quotelevel);
 			if (quotelevel)
 				quotelevel--;
 			else
