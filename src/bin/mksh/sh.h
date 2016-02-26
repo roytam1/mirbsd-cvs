@@ -177,7 +177,7 @@
 #ifdef EXTERN
 __RCSID("$MirOS: src/bin/mksh/sh.h,v 1.754 2016/01/14 22:49:32 tg Exp $");
 #endif
-#define MKSH_VERSION "R52 2016/02/23"
+#define MKSH_VERSION "R52 2016/02/26"
 
 /* arithmetic types: C implementation */
 #if !HAVE_CAN_INTTYPES
@@ -1216,7 +1216,7 @@ struct tbl {
 	char name[4];
 };
 
-EXTERN struct tbl vtemp;
+EXTERN struct tbl *vtemp;
 /* set by global() and local() */
 EXTERN bool last_lookup_was_array;
 
@@ -1768,7 +1768,7 @@ size_t utf_ptradj(const char *) MKSH_A_PURE;
 int utf_wcwidth(unsigned int) MKSH_A_PURE;
 #endif
 int ksh_access(const char *, int);
-struct tbl *tempvar(void);
+struct tbl *tempvar(const char *);
 /* funcs.c */
 int c_hash(const char **);
 int c_pwd(const char **);

@@ -404,8 +404,8 @@ expand(
 					st->stype = stype;
 					st->base = Xsavepos(ds, dp);
 					st->f = f;
-					if (x.var == &vtemp) {
-						st->var = tempvar();
+					if (x.var == vtemp) {
+						st->var = tempvar(vtemp->name);
 						st->var->flag &= ~INTEGER;
 						/* can't fail here */
 						setstr(st->var,

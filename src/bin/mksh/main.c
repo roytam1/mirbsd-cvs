@@ -208,6 +208,8 @@ main_init(int argc, const char *argv[], Source **sp, struct block **lp)
 
 	/* initialise permanent Area */
 	ainit(&aperm);
+	/* max. name length: -2147483648 = 11 (+ NUL) */
+	vtemp = alloc(offsetof(struct tbl, name[0]) + 12, APERM);
 
 	/* set up base environment */
 	env.type = E_NONE;
