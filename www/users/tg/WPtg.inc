@@ -10573,6 +10573,18 @@ Waypoint: GC5CKXW
 Title: Dreizehn Sorgen
 Tag: D25 T2 Micro Mystery
 ----
+ID: 1761
+Date: 25.02.2016
+Waypoint: OC0054
+Title: DIXI
+Tag: D1 T1 Safari
+----
+ID: 1762
+Date: 25.02.2016
+Waypoint: GC2N20E
+Title: Feuerwehr Rheinbach
+Tag: D15 T15 Regular Multi
+----
 ID: p20160729
 Date: 30.07.2016
 Waypoint: GC276WT
