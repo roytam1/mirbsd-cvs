@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.605 2016/01/21 20:41:28 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.607 2016/02/16 14:56:35 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1196,6 +1196,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Shave 200 bytes off .text by revisiting string pooling</li>
  <li>[tg, J�rg] Fix manpage for ditroff on Schillix</li>
  <li>[tg, wbx] Use <tt>sed 1q</tt> instead of unportable head(1)</li>
+ <li>[tg] Implement underrun debugging tool for area-based memory allocator</li>
+ <li>[tg] Fix history underrun when first interactive command is entered</li>
+ <li>[tg, bef0rd] Do not misinterpret “${0/}” as “${0//”, fixes segfault</li>
+ <li>[tg, Stéphane Chazelas] Fix display problems with special parameters</li>
+ <li>[tg, Stéphane Chazelas] Catch attempt to trim $* and $@ with ?, fixes
+  segfault (Todd Miller did this in 2004 for ${x[*]} already, so just sync)</li>
+ <li>[Martijn Dekker] Fix “command -p” with -Vv to behave as POSIX requires</li>
+ <li>[tg, jilles, Oleg Bulatov] Fix recusive parser with active heredocs</li>
 </ul>
 <p id="r52b">R52b is a strongly recommended bugfix-only release:</p><ul>
  <li>[tg] Recognise ksh93 compiled scripts and LZIP compressed files
