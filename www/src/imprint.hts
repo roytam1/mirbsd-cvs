@@ -1,6 +1,6 @@
 mws_setname imprint "Impressum (imprint)"
 mws_setheadline "Impressum (imprint)"
-mws_putheader '$MirOS: www/src/imprint.hts,v 1.6 2013/12/19 15:47:59 tg Exp $'
+mws_putheader '$MirOS: www/src/imprint.hts,v 1.7 2014/06/05 21:17:31 tg Exp $'
 mws_content <<'EOF'
 <h2>Legal information</h2>
 <p>All content of the website mirbsd.de including the main content mirrors,
@@ -38,6 +38,24 @@ mws_content <<'EOF'
  und anderen öffentlichen Bereichen (wie dem ehemaligen MirWiki) sind Eigentum
  der jeweiligen Autoren; V.i.S.d.P. ist auch hier Thorsten Glaser &ndash; es
  wird darauf hingewiesen, daß Mailinglisten nicht redigierbar sind.</p>
+
+<h2>Personenbezogene Daten</h2>
+<p>Auf dieser Webseite findet keine Verfolgung von Nutzern, z.B. durch
+ Cookies statt; die meisten Inhalte sind ohnehin statisches HTML, aber
+ auch die CGI-Skripte sind zustandslos. Erhoben werden daher lediglich
+ Systeminformationen zur Untersuchung von Zugriffsfehlern: IP-Adresse
+ und reverse-DNS, Datum/Uhrzeit des Requests, verwendetes SSL-Protokoll
+ und Chiffre, angesteuerter Host und Pfad und Methode (GET/POST) und
+ HTTP-Version (der Request selbst), HTTP-Ergebniscode, Antwortgröße,
+ Referrer (verweisende Webseite), User Agent (Browser o.ä.)</p>
+<p>Diese Daten werden von uns nur wenige Tage lang vorgehalten und für
+ keine automatische Analyse / Webserverstatistiken verwendet; manuelle
+ Abrufe, z.B. zur Fehleranalyse, behalten wir uns jedoch vor, allerdings
+ nur ohne Vorqualifizierung, die eine Inspektion des Verhaltens eines
+ bestimmten Nutzers ermöglichen würde, sondern nur gesammelt oder einen
+ einzelnen Fehler betreffend.</p>
+<p>Für Kopiën dieser Webseite, die von Dritten gehostet werden, gelten
+ deren Datenschutzbestimmungen, soweit zutreffend.</p>
 
 <h2>Urheberrechte</h2>
 <p>Das Urheberrecht für die genannten Webseiten liegt bei den jeweiligen

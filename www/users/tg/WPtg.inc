@@ -10555,10 +10555,12 @@ nicht so viele Muckis haben, oder Juniorcacher brauchen ggfs. Hilfe.
 ----
 ID: 1758
 Date: 19.02.2016
-Waypoint: -
-Title: unpublizierter Cache von König Moderig am Altenberg
+Waypoint: OC12B5F
+Title: Schmackofatz: Kanzel mit Domblick
 nTF: A
-Tag: T25 Micro Tradi
+Tag: D1 T2 Micro Tradi
+
+vormals: (unpublizierter Cache von König Moderig am Altenberg)
 ----
 ID: 1759
 Date: 21.02.2016
