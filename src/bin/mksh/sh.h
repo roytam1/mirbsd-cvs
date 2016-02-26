@@ -703,21 +703,21 @@ struct lalloc_common {
 	struct lalloc_common *next;
 };
 
+#ifdef MKSH_ALLOC_CATCH_UNDERRUNS
 struct lalloc_item {
 	struct lalloc_common *next;
-#ifdef MKSH_ALLOC_CATCH_UNDERRUNS
 	size_t len;
 	char dummy[8192 - sizeof(struct lalloc_common *) - sizeof(size_t)];
-#endif
 };
+#endif
 
 /* 2. sizes */
+#ifdef MKSH_ALLOC_CATCH_UNDERRUNS
 #define ALLOC_ITEM	struct lalloc_item
-#define ALLOC_SIZE	(sizeof(ALLOC_ITEM))
-#ifndef MKSH_ALLOC_CATCH_UNDERRUNS
-#define ALLOC_OVERHEAD	ALLOC_SIZE
-#else
 #define ALLOC_OVERHEAD	0
+#else
+#define ALLOC_ITEM	struct lalloc_common
+#define ALLOC_OVERHEAD	(sizeof(ALLOC_ITEM))
 #endif
 
 /* 3. group structure */
