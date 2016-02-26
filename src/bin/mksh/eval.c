@@ -1193,6 +1193,7 @@ varsub(Expand *xp, const char *sp, const char *word,
 		/* can't trim a vector (yet) */
 		case '%':
 		case '#':
+		case '?':
 		case '0':
 		case '/':
 		case 0x100 | '#':
