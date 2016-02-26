@@ -375,8 +375,9 @@ expand(
  unwind_substsyn:
 					/* restore sp */
 					sp = varname - 2;
-					end = (beg = wdcopy(sp, ATEMP)) +
-					    (wdscan(sp, CSUBST) - sp);
+					beg = wdcopy(sp, ATEMP);
+					end = (wdscan(cstrchr(sp, '\0') + 1,
+					    CSUBST) - sp) + beg;
 					/* ({) the } or x is already skipped */
 					if (end < wdscan(beg, EOS))
 						*end = EOS;
