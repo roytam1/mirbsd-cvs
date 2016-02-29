@@ -257,6 +257,8 @@ souvenir 2015-08-15 'Road Trip Hero' http://souvenirs.geocaching.com/SouvenirIma
 souvenir 2015-10-11 'International EarthCache Day 2015' http://souvenirs.geocaching.com/SouvenirImages/OS8xMS8yMDE1/ecbf262e-a005-41fe-b60f-eb8d6105ed15.png 'http://www.geocaching.com/souvenir/?guid=234905c3-8a94-4cb5-aa27-b5ba0751cfbd'
 souvenir 2015-12-31 'Goodbye 2015' http://souvenirs.geocaching.com/SouvenirImages/MTIvMjIvMjAxNQ/914b6c66-8f35-479b-a320-63cdf060c070.png 'http://www.geocaching.com/souvenir/?guid=b4076675-88c3-46f0-867b-2e656fb4073e'
 souvenir 2016-01-01 'Hello 2016' http://souvenirs.geocaching.com/SouvenirImages/MTIvMjIvMjAxNQ/b0438218-11c4-4c9a-a727-17f48f2e882c.png 'http://www.geocaching.com/souvenir/?guid=f42a65a8-433c-487f-8926-0b27fc8f045d'
+souvenir 2016-02-27 'Leap Day Weekend 2016' http://souvenirs.geocaching.com/SouvenirImages/Mi8yMi8yMDE2/43add974-5cca-4ce9-94e2-7a8f0e1502aa.png 'http://www.geocaching.com/souvenir/?guid=684e9fbe-4c49-4a86-89e5-7597991b8983'
+souvenir 2016-02-29 'Leap Day 2016' http://souvenirs.geocaching.com/SouvenirImages/Mi8yMi8yMDE2/a5758109-fc88-45ec-84cf-86c2374ac60c.png 'http://www.geocaching.com/souvenir/?guid=e3379b49-5c59-4882-93dc-8e9db069ba04'
 
 # kaputt, s.o.
 #if [[ $nsouvenir != 0 && -z $souvenirs ]]; then
@@ -315,9 +317,10 @@ mzbadge monster 'The Perfect Monster' 'You&#039;ve found all of the parts to bui
 mzbadge battleready 'Battle Ready' 'You have deployed a weapon and are ready for the battle!'
 mzbadge socialcaterpillar 'Social Caterpillar' 'You are just learning to crawl socially!'
 mzbadge socialcocoon 'Social Cocoon' 'You are a hungry worm who needs to cap more socials so you can spread your wings!'
+mzbadge socialtadpole 'Social Tadpole' 'You are just learning to swim socially! Have you joined a Munzee support group?'
 mzbadge breakfast Breakfast 'Congratulations, You were able to rent a room in 5 motels!'
-mzbadge 3rd_birthday 'Munzee turns 3' 'Thanks for celebrating our 3rd birthday! It&#039;s a Fiesta!'
 mzbadge cologne5 'Kölner Stammtisch V' 'Thanks for participating, hope you have fun! Prost!'
+mzbadge 3rd_birthday 'Munzee turns 3' 'Thanks for celebrating our 3rd birthday! It&#039;s a Fiesta!'
 mzbadge 4thbdayplaydate '4th Birthday Playdate' 'You played Munzee during our 4th birthday party weekend in July 2015!'
 
 mws_content <<EOF

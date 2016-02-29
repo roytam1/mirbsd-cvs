@@ -9831,7 +9831,7 @@ Tag: D1 T15 Micro Tradi
 ----
 ID: 1645
 Date: 28.07.2015
-Waypoint: GC1G0WY
+Waypoint: GC1G0WY OC66E8
 Title: Pfarrkirche Mariä Heimsuchung Rhöndorf
 Tag: D4 T1 Micro Tradi
 ----
@@ -10586,6 +10586,18 @@ Date: 25.02.2016
 Waypoint: GC2N20E
 Title: Feuerwehr Rheinbach
 Tag: D15 T15 Regular Multi
+----
+ID: 1763
+Date: 27.02.2016
+Waypoint: GC649EH
+Title: Schoten zu jeder Jahreszeit ?
+Tag: D2 T15 Micro Tradi
+----
+ID: 1764
+Date: 29.02.2016
+Waypoint: GC69PYW OC12A43
+Title: Ein ungewöhnlicher Montag...
+Tag: D2 T1 Event
 ----
 ID: p20160729
 Date: 30.07.2016
