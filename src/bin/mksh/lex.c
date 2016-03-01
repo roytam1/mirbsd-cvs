@@ -1359,8 +1359,10 @@ getsc_line(Source *s)
 		ksh_tmout_state = TMOUT_READING;
 		alarm(ksh_tmout);
 	}
-	if (interactive)
+	if (interactive) {
+		histsave(&s->line, NULL, HIST_FLUSH, true);
 		change_winsz();
+	}
 #ifndef MKSH_NO_CMDLINE_EDITING
 	if (have_tty && (
 #if !MKSH_S_NOVI
