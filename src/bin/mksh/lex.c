@@ -526,33 +526,13 @@ yylex(int cf)
 				*wp++ = COMSUB;
 				/*
 				 * We need to know whether we are within double
-				 * quotes, since most shells translate \" to "
-				 * within "…`…\"…`…". This is not done in POSIX
-				 * mode (§2.2.3 Double-Quotes: “The backquote
-				 * shall retain its special meaning introducing
-				 * the other form of command substitution (see
-				 * Command Substitution). The portion of the
-				 * quoted string from the initial backquote and
-				 * the characters up to the next backquote that
-				 * is not preceded by a <backslash>, having
-				 * escape characters removed, defines that
-				 * command whose output replaces "`...`" when
-				 * the word is expanded.”; §2.6.3 Command
-				 * Substitution: “Within the backquoted style
-				 * of command substitution, <backslash> shall
-				 * retain its literal meaning, except when
-				 * followed by: '$', '`', or <backslash>. The
-				 * search for the matching backquote shall be
-				 * satisfied by the first unquoted non-escaped
-				 * backquote; during this search, if a
-				 * non-escaped backquote is encountered[…],
-				 * undefined results occur.”).
+				 * quotes in order to translate \" to " within
+				 * "…`…\"…`…" because, unlike for COMSUBs, the
+				 * outer double quoteing changes the backslash
+				 * meaning for the inside. For more details:
+				 * http://austingroupbugs.net/view.php?id=1015
 				 */
 				statep->ls_bool = false;
-#ifdef austingroupbugs1015_is_still_not_resolved
-				if (Flag(FPOSIX))
-					break;
-#endif
 				s2 = statep;
 				base = state_info.base;
 				while (/* CONSTCOND */ 1) {
