@@ -1204,6 +1204,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
   segfault (Todd Miller did this in 2004 for ${x[*]} already, so just sync)</li>
  <li>[Martijn Dekker] Fix “command -p” with -Vv to behave as POSIX requires</li>
  <li>[tg, jilles, Oleg Bulatov] Fix recusive parser with active heredocs</li>
+ <li>[tg] Flush even syntax-failing or interrupted commands to history</li>
+ <li>[tg, fmunozs] Fix invalid memory access for “'\0'” in arithmetics</li>
+ <li>[tg] Explicitly reserve SIGEXIT and SIGERR for ksh</li>
+ <li>[tg, izabera] Catch missing here documents at EOF even under “set -n”</li>
+ <li>[kre, tg] Document Austin#1015 handling (not considered a violation)</li>
 </ul>
 <p id="r52b">R52b is a strongly recommended bugfix-only release:</p><ul>
  <li>[tg] Recognise ksh93 compiled scripts and LZIP compressed files
