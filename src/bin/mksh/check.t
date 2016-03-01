@@ -30,7 +30,7 @@
 # (2013/12/02 20:39:44) http://openbsd.cs.toronto.edu/cgi-bin/cvsweb/src/regress/bin/ksh/?sortby=date
 
 expected-stdout:
-	@(#)MIRBSD KSH R52 2016/02/26
+	@(#)MIRBSD KSH R52 2016/03/01
 description:
 	Check version of shell.
 stdin:
@@ -39,7 +39,7 @@ name: KSH_VERSION
 category: shell:legacy-no
 ---
 expected-stdout:
-	@(#)LEGACY KSH R52 2016/02/26
+	@(#)LEGACY KSH R52 2016/03/01
 description:
 	Check version of legacy shell.
 stdin:
@@ -2249,13 +2249,41 @@ expected-stdout:
 	hi
 	there
 ---
-name: heredoc-4
+name: heredoc-4a
 description:
 	Check that an error occurs if the heredoc-delimiter is missing.
 stdin: !
 	cat << EOF
 	hi
 	there
+expected-exit: e > 0
+expected-stderr-pattern: /.*/
+---
+name: heredoc-4an
+description:
+	Check that an error occurs if the heredoc-delimiter is missing.
+arguments: !-n!
+stdin: !
+	cat << EOF
+	hi
+	there
+expected-exit: e > 0
+expected-stderr-pattern: /.*/
+---
+name: heredoc-4b
+description:
+	Check that an error occurs if the heredoc is missing.
+stdin: !
+	cat << EOF
+expected-exit: e > 0
+expected-stderr-pattern: /.*/
+---
+name: heredoc-4bn
+description:
+	Check that an error occurs if the heredoc is missing.
+arguments: !-n!
+stdin: !
+	cat << EOF
 expected-exit: e > 0
 expected-stderr-pattern: /.*/
 ---
