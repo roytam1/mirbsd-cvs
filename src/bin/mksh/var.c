@@ -833,9 +833,8 @@ typeset(const char *var, uint32_t set, uint32_t clr, int field, int base)
 
 			if (!(c = (unsigned char)qval[0]))
 				goto nameref_empty;
-			else if (ksh_isdigit(c))
-				if (getn(qval, &c))
-					goto nameref_rhs_checked;
+			else if (ksh_isdigit(c) && getn(qval, &c))
+				goto nameref_rhs_checked;
 			else if (qval[1] == '\0') switch (c) {
 			case '$':
 			case '!':
