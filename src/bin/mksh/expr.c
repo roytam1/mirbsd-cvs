@@ -665,7 +665,10 @@ exprtoken(Expr_state *es)
 		goto process_tvar;
 #ifndef MKSH_SMALL
 	} else if (c == '\'') {
-		++cp;
+		if (*++cp == '\0') {
+			es->tok = END;
+			evalerr(es, ET_UNEXPECTED, NULL);
+		}
 		cp += utf_ptradj(cp);
 		if (*cp++ != '\'')
 			evalerr(es, ET_STR,
