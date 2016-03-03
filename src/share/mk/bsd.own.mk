@@ -150,7 +150,7 @@ MKSH?=		/bin/mksh
 NROFF?=		nrcon ${MACROS} ${PAGES}
 PIC?=		pic
 REFER?=		refer
-ROFF?=		groff -Tps ${MACROS} ${PAGES}
+ROFF?=		groff -Tps -P-p28c,21c ${MACROS} ${PAGES}
 SOELIM?=	soelim
 TBL?=		tbl
 
