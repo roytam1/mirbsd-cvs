@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.306 2016/02/03 20:25:08 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.312 2016/02/29 20:49:09 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -10598,6 +10598,13 @@ Date: 29.02.2016
 Waypoint: GC69PYW OC12A43
 Title: Ein ungewöhnlicher Montag...
 Tag: D2 T1 Event
+----
+ID: p20160317
+Date: 17.03.2016
+Waypoint: GE0319 GC6CF8K OC12BB4 TC3ECU
+Title: AMT Ⅵ (2016 KW11)
+nTF: 0
+Tag: D1 T1 Event
 ----
 ID: p20160729
 Date: 30.07.2016
