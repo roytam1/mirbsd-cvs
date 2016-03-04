@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: extern.h,v 1.11 2015/10/26 14:08:47 mmcc Exp $ */
 /*-
  * Copyright (c) 1992 Diomidis Spinellis.
@@ -48,7 +49,8 @@ void	 cfclose(struct s_command *, struct s_command *);
 void	 compile(void);
 void	 cspace(SPACE *, const char *, size_t, enum e_spflag);
 char	*cu_fgets(char **, size_t *);
-void	 error(int, const char *, ...);
+void	 error(int, const char *, ...)
+    __attribute__((__format__(__printf__, 2, 3)));
 int	 mf_fgets(SPACE *, enum e_spflag);
 int	 lastline(void);
 void	 process(void);

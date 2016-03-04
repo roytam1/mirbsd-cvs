@@ -1,6 +1,8 @@
 /*	$OpenBSD: compile.c,v 1.40 2015/10/26 22:24:44 jca Exp $	*/
 
 /*-
+ * Copyright (c) 2016
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1992 Diomidis Spinellis.
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -48,6 +50,8 @@
 #include "defs.h"
 #include "extern.h"
 
+__RCSID("$MirOS$");
+
 #define LHSZ	128
 #define	LHMASK	(LHSZ - 1)
 static struct labhash {
@@ -67,7 +71,7 @@ static char	 *compile_text(void);
 static char	 *compile_tr(char *, char **);
 static struct s_command
 		**compile_stream(struct s_command **);
-static char	 *duptoeol(char *, char *, char **);
+static char	 *duptoeol(char *, const char *, char **);
 static void	  enterlabel(struct s_command *);
 static struct s_command
 		 *findlabel(char *);
@@ -456,7 +460,7 @@ compile_subst(char *p, struct s_subst *s)
 {
 	static char *lbuf;
 	static size_t bufsize;
-	int asize, ref, size;
+	size_t asize, ref, size;
 	char c, *text, *op, *sp;
 	int sawesc = 0;
 
@@ -662,7 +666,8 @@ bad:
 static char *
 compile_text(void)
 {
-	int asize, esc_nl, size;
+	size_t asize, size;
+	int esc_nl;
 	char *lbuf, *text, *p, *op, *s;
 	size_t bufsize;
 
@@ -734,7 +739,7 @@ compile_addr(char *p, struct s_addr *a)
  *	Return a copy of all the characters up to \n or \0.
  */
 static char *
-duptoeol(char *s, char *ctype, char **semi)
+duptoeol(char *s, const char *ctype, char **semi)
 {
 	size_t len;
 	int ws;

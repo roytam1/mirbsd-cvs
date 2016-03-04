@@ -1,6 +1,8 @@
 /*	$OpenBSD: main.c,v 1.31 2016/01/01 20:55:13 tb Exp $	*/
 
 /*-
+ * Copyright (c) 2016
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1992 Diomidis Spinellis.
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -52,6 +54,8 @@
 #include "defs.h"
 #include "extern.h"
 
+__RCSID("$MirOS$");
+
 /*
  * Linked list of units (strings and files) to be compiled
  */
@@ -96,7 +100,7 @@ const char *fname;		/* File name. */
 const char *outfname;		/* Output file name */
 static char oldfname[PATH_MAX];	/* Old file name (for in-place editing) */
 static char tmpfname[PATH_MAX];	/* Temporary file name (for in-place editing) */
-char *inplace;			/* Inplace edit file extension */
+const char *inplace;		/* Inplace edit file extension */
 u_long linenum;
 
 static void add_compunit(enum e_cut, char *);
@@ -159,6 +163,7 @@ main(int argc, char *argv[])
 	if (termwidth == 0)
 		termwidth = 60;
 
+#if defined(__OpenBSD__) && !defined(__MirBSD__)
 	if (inplace != NULL) {
 		if (pledge("stdio rpath wpath cpath fattr", NULL) == -1)
 			error(FATAL, "pledge: %s", strerror(errno));
@@ -166,6 +171,7 @@ main(int argc, char *argv[])
 		if (pledge("stdio rpath wpath cpath", NULL) == -1)
 			error(FATAL, "pledge: %s", strerror(errno));
 	}
+#endif
 
 	/* First usage case; script is the first arg */
 	if (!eflag && !fflag && *argv) {
@@ -209,7 +215,7 @@ again:
 	switch (state) {
 	case ST_EOF:
 		if (script == NULL)
-			return (NULL);
+			goto cu_fgets_nilreturn;
 		linenum = 0;
 		switch (script->type) {
 		case CU_FILE:
@@ -220,7 +226,7 @@ again:
 			state = ST_FILE;
 			goto again;
 		case CU_STRING:
-			if ((snprintf(string_ident,
+			if (((size_t)snprintf(string_ident,
 			    sizeof(string_ident), "\"%s\"", script->s)) >=
 			    sizeof(string_ident))
 				strlcpy(string_ident +
@@ -286,6 +292,9 @@ again:
 		}
 	}
 	/* NOTREACHED */
+	/* but GCC doesn't care, so: */
+ cu_fgets_nilreturn:
+	return (NULL);
 }
 
 /*
@@ -454,7 +463,7 @@ add_file(char *s)
 
 
 static int
-next_files_have_lines()
+next_files_have_lines(void)
 {
 	struct s_flist *file;
 	FILE *file_fd;

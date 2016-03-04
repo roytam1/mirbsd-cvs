@@ -1,6 +1,8 @@
 /*	$OpenBSD: misc.c,v 1.11 2015/10/26 14:08:47 mmcc Exp $	*/
 
 /*-
+ * Copyright (c) 2016
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1992 Diomidis Spinellis.
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -44,6 +46,8 @@
 
 #include "defs.h"
 #include "extern.h"
+
+__RCSID("$MirOS$");
 
 /*
  * malloc with result test
@@ -92,7 +96,7 @@ strregerror(int errcode, regex_t *preg)
 	size_t s;
 
 	free(oe);
-	s = regerror(errcode, preg, "", 0);
+	s = regerror(errcode, preg, NULL, 0);
 	oe = xmalloc(s);
 	(void)regerror(errcode, preg, oe, s);
 	return (oe);

@@ -1,11 +1,8 @@
-# $MirOS$
-# $OpenBSD: Makefile,v 1.3 2003/08/27 07:54:38 jmc Exp $
+# $MirOS: src/usr.bin/sed/Makefile,v 1.2 2005/03/13 18:33:27 tg Exp $
+# $OpenBSD: Makefile,v 1.4 2010/01/04 17:50:39 deraadt Exp $
 
 PROG=	sed
 SRCS=	compile.c main.c misc.c process.c
-
-# SSP doesn't get this right
-CFLAGS_compile.o+= -fno-stack-protector-all
 
 # These get installed verbatim
 .if make(install)

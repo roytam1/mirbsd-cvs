@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: defs.h,v 1.7 2015/10/26 22:24:44 jca Exp $ */
 /*-
  * Copyright (c) 1992 Diomidis Spinellis.
@@ -63,7 +64,7 @@ struct s_subst {
 	char *wfile;				/* NULL if no wfile */
 	int wfd;				/* Cached file descriptor */
 	regex_t *re;				/* Regular expression */
-	int maxbref;				/* Largest backreference. */
+	size_t maxbref;				/* Largest backreference. */
 	u_long linenum;				/* Line number. */
 	char *new;				/* Replacement text */
 };
