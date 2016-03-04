@@ -4313,6 +4313,11 @@ options (with single letter names) can be found in the parameter
 with no option name will list all the options and whether each is on or off;
 .Ic set +o
 will print the long names of all options that are currently on.
+In a future version,
+.Ic set +o
+will behave
+.Tn POSIX
+compliant and print commands to restore the current options instead.
 .Pp
 Remaining arguments, if any, are positional parameters and are assigned, in
 order, to the positional parameters (i.e. $1, $2, etc.).
@@ -6580,7 +6585,7 @@ for the in-memory portion of the history is slow, should use
 .Xr memmove 3 .
 .Pp
 This document attempts to describe
-.Nm mksh\ R52b+CVS
+.Nm mksh\ R52c
 and up,
 .\" with vendor patches from insert-your-name-here,
 compiled without any options impacting functionality, such as
