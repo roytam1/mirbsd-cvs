@@ -631,8 +631,8 @@ wdscan(const char *wp, int c)
 			break;
 		default:
 			internal_warningf(
-			    "wdscan: unknown char 0x%x (carrying on)",
-			    wp[-1]);
+			    "wdscan: unknown char 0x%X (carrying on)",
+			    (unsigned char)wp[-1]);
 		}
 }
 

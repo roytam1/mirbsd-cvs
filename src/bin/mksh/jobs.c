@@ -1425,8 +1425,8 @@ check_job(Job *j)
 
 	/* XXX debugging (nasty - interrupt routine using shl_out) */
 	if (!(j->flags & JF_STARTED)) {
-		internal_warningf("check_job: job started (flags 0x%x)",
-		    j->flags);
+		internal_warningf("check_job: job started (flags 0x%X)",
+		    (unsigned int)j->flags);
 		return;
 	}
 

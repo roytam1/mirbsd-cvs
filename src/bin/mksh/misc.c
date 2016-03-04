@@ -1291,7 +1291,7 @@ print_columns(struct shf *shf, unsigned int n,
 				shf_puts(str, shf);
 			else
 				shf_fprintf(shf, "%*s%*s",
-				    max_col, str, nspace, null);
+				    (int)max_col, str, (int)nspace, null);
 		}
 		shf_putchar('\n', shf);
 	}

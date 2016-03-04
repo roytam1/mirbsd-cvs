@@ -4597,8 +4597,8 @@ vi_cmd(int argcnt, const char *cmd)
 static int
 domove(int argcnt, const char *cmd, int sub)
 {
-	int bcount, i = 0, t;
-	int ncursor = 0;
+	int ncursor = 0, i = 0, t;
+	unsigned int bcount;
 
 	switch (*cmd) {
 	case 'b':

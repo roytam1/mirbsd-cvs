@@ -1017,16 +1017,19 @@ inittraps(void)
 {
 	int i;
 	const char *cs;
+#if !HAVE_SYS_SIGNAME
+	const struct mksh_sigpair *pair;
+#endif
 
 	trap_exstat = -1;
 
-	/* Populate sigtraps based on sys_signame and sys_siglist. */
+	/* populate sigtraps based on sys_signame and sys_siglist */
 	for (i = 1; i < ksh_NSIG; i++) {
 		sigtraps[i].signal = i;
 #if HAVE_SYS_SIGNAME
 		cs = sys_signame[i];
 #else
-		const struct mksh_sigpair *pair = mksh_sigpairs;
+		pair = mksh_sigpairs;
 		while ((pair->nr != i) && (pair->name != NULL))
 			++pair;
 		cs = pair->name;
