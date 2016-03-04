@@ -1,4 +1,4 @@
-/* *	$OpenBSD: defs.h,v 1.3 2003/06/03 02:56:16 millert Exp $*/
+/*	$OpenBSD: defs.h,v 1.7 2015/10/26 22:24:44 jca Exp $ */
 /*-
  * Copyright (c) 1992 Diomidis Spinellis.
  * Copyright (c) 1992, 1993
@@ -128,6 +128,7 @@ typedef struct {
 	char *space;		/* Current space pointer. */
 	size_t len;		/* Current length. */
 	int deleted;		/* If deleted. */
+	int append_newline;	/* If originally terminated by \n. */
 	char *back;		/* Backing memory. */
 	size_t blen;		/* Backing memory length. */
 } SPACE;
@@ -135,8 +136,12 @@ typedef struct {
 /*
  * Error severity codes:
  */
-#define	FATAL		0	/* Exit immediately with 1 */
-#define	ERROR		1	/* Continue, but change exit value */
-#define	WARNING		2	/* Just print the warning */
-#define	COMPILE		3	/* Print error, count and finish script */
-#define	COMPILE2	3	/* Print error, count and finish script */
+#define	WARNING		0	/* Just print the warning */
+#define	FATAL		1	/* Exit immediately with 1 */
+#define	COMPILE		2	/* Print error, count and finish script */
+
+/*
+ * Round up to the nearest multiple of _POSIX2_LINE_MAX
+ */
+#define ROUNDLEN(x) \
+    (((x) + _POSIX2_LINE_MAX - 1) & ~(_POSIX2_LINE_MAX - 1))

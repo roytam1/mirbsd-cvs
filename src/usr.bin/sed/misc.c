@@ -1,4 +1,4 @@
-/*	$OpenBSD: misc.c,v 1.6 2004/07/20 03:50:26 deraadt Exp $	*/
+/*	$OpenBSD: misc.c,v 1.11 2015/10/26 14:08:47 mmcc Exp $	*/
 
 /*-
  * Copyright (c) 1992 Diomidis Spinellis.
@@ -33,11 +33,6 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-/* from: static char sccsid[] = "@(#)misc.c	8.1 (Berkeley) 6/6/93"; */
-static char *rcsid = "$OpenBSD: misc.c,v 1.6 2004/07/20 03:50:26 deraadt Exp $";
-#endif /* not lint */
-
 #include <sys/types.h>
 
 #include <errno.h>
@@ -54,12 +49,22 @@ static char *rcsid = "$OpenBSD: misc.c,v 1.6 2004/07/20 03:50:26 deraadt Exp $";
  * malloc with result test
  */
 void *
-xmalloc(u_int size)
+xmalloc(size_t size)
 {
 	void *p;
 
 	if ((p = malloc(size)) == NULL)
-		err(FATAL, "%s", strerror(errno));
+		error(FATAL, "%s", strerror(errno));
+	return (p);
+}
+
+void *
+xreallocarray(void *o, size_t nmemb, size_t size)
+{
+	void *p;
+
+	if ((p = reallocarray(o, nmemb, size)) == NULL)
+		error(FATAL, "%s", strerror(errno));
 	return (p);
 }
 
@@ -67,13 +72,11 @@ xmalloc(u_int size)
  * realloc with result test
  */
 void *
-xrealloc(void *p, u_int size)
+xrealloc(void *p, size_t size)
 {
-	if (p == NULL)			/* Compatibility hack. */
-		return (xmalloc(size));
 
 	if ((p = realloc(p, size)) == NULL)
-		err(FATAL, "%s", strerror(errno));
+		error(FATAL, "%s", strerror(errno));
 	return (p);
 }
 
@@ -88,8 +91,7 @@ strregerror(int errcode, regex_t *preg)
 	static char *oe;
 	size_t s;
 
-	if (oe != NULL)
-		free(oe);
+	free(oe);
 	s = regerror(errcode, preg, "", 0);
 	oe = xmalloc(s);
 	(void)regerror(errcode, preg, oe, s);
@@ -100,7 +102,7 @@ strregerror(int errcode, regex_t *preg)
  * Error reporting function
  */
 void
-err(int severity, const char *fmt, ...)
+error(int severity, const char *fmt, ...)
 {
 	va_list ap;
 
