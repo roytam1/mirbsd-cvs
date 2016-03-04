@@ -5,6 +5,7 @@ JUPP-current
 
 - …
 - Bind execmd in jstarrc, so all flavours bind it
+- Fix paths in joe(1) manpage
 
 JOE 3.1jupp28
 

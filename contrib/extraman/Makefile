@@ -1,4 +1,4 @@
-# $MirOS: contrib/extraman/Makefile,v 1.4 2015/10/13 20:51:44 tg Exp $
+# $MirOS: contrib/extraman/Makefile,v 1.5 2015/10/16 14:50:54 tg Exp $
 
 all:
 CLEANFILES+=	htmxtr10.ngz
@@ -58,8 +58,9 @@ MLINKS+=	joe.1 rjoe.1
 bjoe/joe.1:
 	-rm -rf bjoe
 	mkdir bjoe
-	cd bjoe && CC=${CC:Q} CFLAGS=${CFLAGS:Q} GCC_NO_WERROR=1 \
-	    ${MKSH} ${BSDSRCDIR:Q}/contrib/code/jupp/configure
+	cd bjoe && lndir ${BSDSRCDIR:Q}/contrib/code/jupp
+	cd bjoe && rm -rf obj
+	cd bjoe && ${MAKE} -f Makefile.bsd-wrapper joe.1
 
 RxMANS+=	contrib/hosted/tg/code/kwalletcli/kwalletaskpass.1
 RxMANS+=	contrib/hosted/tg/code/kwalletcli/kwalletcli.1
