@@ -1,4 +1,4 @@
-/* *	$OpenBSD: extern.h,v 1.4 2003/06/03 02:56:16 millert Exp $*/
+/*	$OpenBSD: extern.h,v 1.11 2015/10/26 14:08:47 mmcc Exp $ */
 /*-
  * Copyright (c) 1992 Diomidis Spinellis.
  * Copyright (c) 1992, 1993
@@ -39,18 +39,21 @@ extern struct s_appends *appends;
 extern regmatch_t *match;
 extern size_t maxnsub;
 extern u_long linenum;
-extern int appendnum;
-extern int lastline;
-extern int aflag, eflag, nflag;
-extern char *fname;
+extern size_t appendnum;
+extern int Eflag, aflag, eflag, nflag;
+extern const char *fname, *outfname;
+extern FILE *infile, *outfile;
 
 void	 cfclose(struct s_command *, struct s_command *);
 void	 compile(void);
-void	 cspace(SPACE *, char *, size_t, enum e_spflag);
-char	*cu_fgets(char *, int);
-void	 err(int, const char *, ...);
+void	 cspace(SPACE *, const char *, size_t, enum e_spflag);
+char	*cu_fgets(char **, size_t *);
+void	 error(int, const char *, ...);
 int	 mf_fgets(SPACE *, enum e_spflag);
+int	 lastline(void);
 void	 process(void);
+void	 resetranges(void);
 char	*strregerror(int, regex_t *);
-void	*xmalloc(u_int);
-void	*xrealloc(void *, u_int);
+void	*xmalloc(size_t);
+void	*xreallocarray(void *, size_t, size_t);
+void	*xrealloc(void *, size_t);
