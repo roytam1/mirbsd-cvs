@@ -1,6 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2003/06/10 07:41:11 kevlo Exp $
-bin/poppy
-bin/spamkill
-${P5SITE}/Poppy.pm
-man/man1/poppy.1
-man/man3/Poppy.3p

@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.1 2001/08/23 16:23:23 espie Exp $
-@lib lib/libcdda_interface.so.0.0
-@lib lib/libcdda_paranoia.so.0.0
