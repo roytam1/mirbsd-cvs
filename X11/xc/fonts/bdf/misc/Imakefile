@@ -1,4 +1,4 @@
-XCOMM $MirOS: X11/xc/fonts/bdf/misc/Imakefile,v 1.4 2013/05/17 20:04:22 tg Exp $
+XCOMM $MirOS: X11/xc/fonts/bdf/misc/Imakefile,v 1.5 2015/12/06 01:09:57 tg Exp $
 XCOMM $XFree86: xc/fonts/bdf/misc/Imakefile,v 1.31 2004/06/01 00:16:55 dawes Exp $
 /*
  * Copyright (c) 1994-2004 by The XFree86 Project, Inc.
@@ -359,7 +359,7 @@ MISC_MISC_OBJS = \
 	FontObj(clB8x12) FontObj(clB8x13) FontObj(clB8x14) FontObj(clB8x16) \
 	FontObj(clB8x8) FontObj(clB9x15) FontObj(clI6x12) FontObj(clI8x8) \
 	FontObj(clR4x6) FontObj(clR5x10) FontObj(clR5x6) FontObj(clR5x8) \
-	FontObj(clR6x10) FontObj(clR6x13) FontObj(clR6x6) \
+	FontObj(clR6x10) FontObj(clR6x13) FontObj(clR6x6) FontObj(mirfhw18) \
 	FontObj(clR6x8) FontObj(clR7x10) FontObj(clR7x12) FontObj(clR7x14) \
 	FontObj(clR7x8) FontObj(clR8x10) FontObj(clR8x12) FontObj(clR8x13) \
 	FontObj(clR8x14) FontObj(clR8x16) FontObj(clR8x8) FontObj(clR9x15)
@@ -846,6 +846,7 @@ FontTarget(micro)
 FontTarget(mirf16v8)
 FontTarget(mirf18hw)
 FontTarget(mirf18fw)
+FontTarget(mirfhw18)
 FontTarget(nil2)
 FontTarget(clB6x10)
 FontTarget(clB6x12)
@@ -1323,4 +1324,8 @@ mirf18hw.bdfc: 9x18.bdfc fixedmir.ed
 mirf18fw.bdfc: 18x18ko.bdfc fixedmir.ed
 	cp 18x18ko.bdfc $@~
 	ed -s $@~ <fixedmir.ed
+	mv -f $@~ $@
+
+mirfhw18.bdf: mirf18hw.bdf
+	sed 's/FixedMisc/FixedMiscHW/g' <mirf18hw.bdf >$@~
 	mv -f $@~ $@
