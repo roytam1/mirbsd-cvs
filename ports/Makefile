@@ -2,7 +2,7 @@
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
-# Copyright (c) 2004, 2005, 2006, 2007, 2014
+# Copyright (c) 2004, 2005, 2006, 2007, 2014, 2016
 #	The MirOS Project <miros-discuss@mirbsd.org>
 #	and its contributors
 #
@@ -143,6 +143,14 @@ portupgrade: index
 
 # Yes, this does hardcode /bin/sh and that's correct.
 setup: Setup.sh
+	@rv=1; if [[ -d /usr/mpkg/db/pkg ]]; then \
+		cd /usr/mpkg/db/pkg && for x in pkgtools-*; do \
+			rv=1; [[ -e $$x ]] && break; rv=0; \
+		done; \
+		(( rv )) && echo Do not call '"make setup"' if \
+		    the package utilities are already installed!; \
+	    else rv=0; fi; exit $$rv
+	@echo ok; exit 1
 	@echo 'Use "mmake nfo" to generate documentation!'
 	@sleep 3
 	cd ${.CURDIR:Q}; \
