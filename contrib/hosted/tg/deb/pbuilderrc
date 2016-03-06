@@ -158,6 +158,7 @@ case $DIST in
 	ARCHSUFFIX=
 	;;
 esac
+echo >&2 "I: Building for $DIST/$ARCHITECTURE"
 
 # check $DIST for validity and load settings
 export DISTRIBUTION=${DIST%%-*}
