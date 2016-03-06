@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PLIST-pico,v 1.2 2002/12/01 20:57:10 jakob Exp $
-bin/pico
-man/man1/pico.1

@@ -1,7 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.3 2003/12/20 19:51:27 naddy Exp $
-bin/xslt-parser
-${P5SITE}/XML/XSLT.pm
-@comment ${P5ARCH}/auto/XML/XSLT/.packlist
-man/man1/xslt-parser.1
-man/man3/XML::XSLT.3p
-@comment @dirrm ${P5ARCH}/auto/XML/XSLT
