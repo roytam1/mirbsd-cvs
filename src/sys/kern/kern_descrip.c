@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/kern_descrip.c,v 1.2 2005/03/06 21:28:00 tg Exp $ */
+/**	$MirOS: src/sys/kern/kern_descrip.c,v 1.3 2006/01/31 10:27:03 tg Exp $ */
 /*	$OpenBSD: kern_descrip.c,v 1.68 2004/01/12 18:06:51 tedu Exp $	*/
 /*	$NetBSD: kern_descrip.c,v 1.42 1996/03/30 22:24:38 christos Exp $	*/
 
@@ -1266,7 +1266,8 @@ dupfdopen(fdp, indx, dfd, mode, error)
 		if (wfp->f_count == LONG_MAX-2)
 			return (EDEADLK);
 		fdp->fd_ofiles[indx] = wfp;
-		fdp->fd_ofileflags[indx] = fdp->fd_ofileflags[dfd];
+		fdp->fd_ofileflags[indx] = (fdp->fd_ofileflags[indx] & UF_EXCLOSE) |
+		    (fdp->fd_ofileflags[dfd] & ~UF_EXCLOSE);
 		wfp->f_count++;
 		fd_used(fdp, indx);
 		return (0);

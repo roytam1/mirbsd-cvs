@@ -30,7 +30,7 @@
 .\"
 .\"     @(#)open.2	8.2 (Berkeley) 11/16/93
 .\"
-.Dd November 16, 1993
+.Dd $Mdocdate: January 19 2013 $
 .Dt OPEN 2
 .Os
 .Sh NAME
@@ -60,17 +60,23 @@ as described in
 and modified by the process' umask value (see
 .Xr umask 2 ) .
 .Pp
-The flags specified are formed by
+The flags specified are formed by bitwise-inclusive
 .Tn OR Ns 'ing
-the following values:
+the following values.
+Exactly one of the first three values (file access modes) must be specified:
 .Pp
-.Bl -tag -width O_NONBLOCK -offset indent -compact
+.Bl -tag -width O_DIRECTORY -offset indent -compact
 .It Dv O_RDONLY
 Open for reading only.
 .It Dv O_WRONLY
 Open for writing only.
 .It Dv O_RDWR
 Open for reading and writing.
+.El
+.Pp
+Any combination of the following flags may additionally be used:
+.Pp
+.Bl -tag -width O_DIRECTORY -offset indent -compact
 .It Dv O_NONBLOCK
 Do not block on open or for data to become available.
 .It Dv O_APPEND
@@ -89,6 +95,12 @@ Atomically obtain a shared lock.
 Atomically obtain an exclusive lock.
 .It Dv O_NOFOLLOW
 If last path element is a symlink, don't follow it.
+.It Dv O_CLOEXEC
+Set new file descriptor to close on exec.
+.It Dv O_DIRECTORY
+Error if
+.Fa path
+does not name a directory.
 .El
 .Pp
 Opening a file with
@@ -185,6 +197,11 @@ The named file is opened unless:
 .Bl -tag -width Er
 .It Bq Er ENOTDIR
 A component of the path prefix is not a directory.
+.It Bq Er ENOTDIR
+.Dv O_DIRECTORY
+is specified and
+.Fa path
+does not name a directory.
 .It Bq Er ENAMETOOLONG
 A component of a pathname exceeded
 .Dv {NAME_MAX}

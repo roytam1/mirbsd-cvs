@@ -136,6 +136,10 @@ vn_open(ndp, fmode, cmode)
 		error = EMLINK;
 		goto bad;
 	}
+	if ((fmode & O_DIRECTORY) && vp->v_type != VDIR) {
+		error = ENOTDIR;
+		goto bad;
+	}
 	if ((fmode & O_CREAT) == 0) {
 		if (fmode & FREAD) {
 			if ((error = VOP_ACCESS(vp, VREAD, cred, p)) != 0)

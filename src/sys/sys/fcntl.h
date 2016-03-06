@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: fcntl.h,v 1.9 2003/06/02 23:28:21 millert Exp $	*/
 /*	$NetBSD: fcntl.h,v 1.8 1995/03/26 20:24:12 jtc Exp $	*/
 
@@ -104,6 +105,10 @@
 
 /* defined by POSIX 1003.1; BSD default, this bit is not required */
 #define	O_NOCTTY	0x8000		/* don't assign controlling terminal */
+
+/* defined by POSIX Issue 7 */
+#define	O_CLOEXEC	0x10000		/* atomically set FD_CLOEXEC */
+#define	O_DIRECTORY	0x20000		/* fail if not a directory */
 
 #ifdef _KERNEL
 /*

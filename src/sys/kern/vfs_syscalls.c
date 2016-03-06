@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/vfs_syscalls.c,v 1.7 2006/10/17 20:48:48 tg Exp $ */
+/**	$MirOS: src/sys/kern/vfs_syscalls.c,v 1.8 2007/05/19 21:31:57 tg Exp $ */
 /*	$OpenBSD: vfs_syscalls.c,v 1.125 2005/06/17 20:39:14 millert Exp $	*/
 /*	$NetBSD: vfs_syscalls.c,v 1.71 1996/04/23 10:29:02 mycroft Exp $	*/
 
@@ -926,6 +926,9 @@ sys_open(p, v, retval)
 		goto out;
 
 	flags = FFLAGS(SCARG(uap, flags));
+	if (flags & O_CLOEXEC)
+		fdp->fd_ofileflags[indx] |= UF_EXCLOSE;
+
 	cmode = ((SCARG(uap, mode) &~ fdp->fd_cmask) & ALLPERMS) &~ S_ISTXT;
 	NDINIT(&nd, LOOKUP, FOLLOW, UIO_USERSPACE, SCARG(uap, path), p);
 	p->p_dupfd = -indx - 1;			/* XXX check for fdopen */
@@ -1089,6 +1092,8 @@ sys_fhopen(p, v, retval)
 		fp = NULL;
 		goto bad;
 	}
+	if (flags & O_CLOEXEC)
+		fdp->fd_ofileflags[indx] |= UF_EXCLOSE;
 
 	if ((error = copyin(SCARG(uap, fhp), &fh, sizeof(fhandle_t))) != 0)
 		goto bad;
@@ -1107,6 +1112,10 @@ sys_fhopen(p, v, retval)
 
 	if (vp->v_type == VSOCK) {
 		error = EOPNOTSUPP;
+		goto bad;
+	}
+	if ((flags & O_DIRECTORY) && vp->v_type != VDIR) {
+		error = ENOTDIR;
 		goto bad;
 	}
 	if (flags & FREAD) {
