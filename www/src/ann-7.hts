@@ -3,7 +3,7 @@
 
 mws_setname legacy/ann-7 "MirOS Legacy Content"
 mws_setheadline 'MirOS #7quinquies'
-mws_putheader '$MirOS: www/src/ann-7.hts,v 1.4 2009/07/19 15:34:44 tg Exp $'
+mws_putheader '$MirOS: www/src/ann-7.hts,v 1.5 2011/03/21 16:18:49 tg Exp $'
 mws_content <<'EOF'
 <p>The MirOS Team is proud to announce the immediate release of MirOS BSD
 #quinquies. This release is the fifth in the stable #7 branch. It is a
@@ -284,7 +284,7 @@ to <tt>ksh</tt> - using tcsh or GNU bash is not officially supported.</p>
 <p>Please read the full stuff at <a href="@@RELPATH@@about.htm">About MirOS</a>.</p>
 
 <pre>
-# $MirOS: www/src/ann-7.hts,v 1.4 2009/07/19 15:34:44 tg Exp $
+# $MirBSD: src/share/man/man0/COPYRIGHT,v 1.27 2004/05/23 15:57:22 tg Exp $
 # $OpenBSD: COPYRIGHT,v 1.2 2001/01/29 02:11:07 niklas Exp $
 # @(#)COPYRIGHT	5.1 (Berkeley) 7/1/91
 
