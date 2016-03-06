@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R52b</h2>
+<h2>mksh(1) R52c</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -50,8 +50,8 @@ mws_content <<'EOF'
  “MirBSD Korn Shell”.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R52b</strong> from
- <em>20 January 2016</em>.<br />In the oldstable bugfixing-only series, the
+<p>The current version of mksh is <strong>mksh R52c</strong> from
+ <em>6 February 2016</em>.<br />In the oldstable bugfixing-only series, the
  current version is <em>mksh R50f</em> from <em>19 April 2015</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
@@ -187,15 +187,17 @@ mws_content <<'EOF'
  <em>as well as</em> the hashes and/or checksums below, so you’re sure the
  content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R52b.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R52b.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R52b.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R52b.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R52c.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R52c.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R52c.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R52c.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
 <!-- cd /MirOS/dist/mir/mksh; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
-  <li>RMD160 (mksh-R52b.tgz) = 0093d8325d76da39d8d80dff51dc12ed2eb851f5</li>
-  <li>TIGER (mksh-R52b.tgz) = 4e46937aae0511b073bfa7c5b7e7970fe9bb60c3d53b7e67</li>
-  <li>2220755377 385085 /MirOS/dist/mir/mksh/mksh-R52b.tgz</li>
-  <li>MD5 (mksh-R52b.tgz) = 123f713e71754da87a455b5fbe0b03b7</li>
+  <li>RMD160 (mksh-R52c.tgz) = ec445d75ab0080a7482ff10b60f18d578ede9ca7</li>
+  <li>TIGER (mksh-R52c.tgz) = 2a886a03afd303eb2efab7be830120ced6ecce4959d276c7</li>
+  <li>1580113564 386254 /MirOS/dist/mir/mksh/mksh-R52c.tgz</li>
+  <li>MD5 (mksh-R52c.tgz) = cc3884e02314447e7b4a3073b8d65d1e</li>
  <li style="list-style:none;">↑ formal release │ stable bugfix series ↓</li>
   <li>RMD160 (mksh-R50f.tgz) = e0de1dd07e6ca02830407b9db43de8f5c98d800f</li>
   <li>TIGER (mksh-R50f.tgz) = db437ce08d7c6a8449c5ba5827a9742cbaca7c16be261971</li>
@@ -205,15 +207,15 @@ mws_content <<'EOF'
   <a href="/gzsigkey.cer">current signature key</a>.</li>
 </ul>
 <h3 id="cats">Preformatted Documentation</h3><ul>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R52b.cat1.gz">catman</a></li>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R52b.htm.gz">XHTML</a></li>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R52b.pdf">PDF</a></li>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R52b.txt.gz">plaintext</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R52c.cat1.gz">catman</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R52c.htm.gz">XHTML</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R52c.pdf">PDF</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R52c.txt.gz">plaintext</a></li>
 </ul>
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
- so a simple <tt>tar xzf mksh-R52b.tgz</tt> will work. It will create all files
+ so a simple <tt>tar xzf mksh-R52c.tgz</tt> will work. It will create all files
  in a subdirectory <tt>./mksh/</tt>.</p>
 
 <h3 id="vendorpatching">Patching</h3>
@@ -868,6 +870,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  mailing list, either directly or via GMane, if you have an interest
  in mksh, such as packaging it. Thanks! <i>(unfinished…)</i>
 </p>
+<p id="p52c">R52c: prepare to review use of <tt>set +o</tt>.</p>
 <p id="p52b">R52b: nothing of note, but prepare to review all mksh
  scripts to ensure they start with <tt>export LC_ALL=C</tt> soon.</p>
 <p id="p52">R52:
@@ -1122,6 +1125,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
  should be aware of for existing scripts.</p>
 <p id="ccur"><i>current</i>:
  <i>(unfinished…)</i></p>
+<p id="c52c">R52c: Prepare to audit all uses of <tt>set +o</tt>. Handling
+ of <tt>"`\"`"</tt> is now considered not a POSIX violation, until this
+ issue is officially resolved. Our PDF manpages now use the PA4 paper size
+ enabling printing without the need to scale of crop on both DIN ISO A4 and
+ USA “letter” paper. The manpages now compile with an older version of the
+ mdoc macropackage (in use by e.g. Schillix) installed. <tt>command -pv</tt>
+ and <tt>command -pV</tt> now behave POSIX conformant.</p>
 <p id="c52b">R52b: Prepare to audit all scripts to ensure they begin with
  <tt>export LC_ALL=C</tt> as we’ll implement locale trackiing some day.
  Handling of <tt>"`\"`"</tt> is now again not POSIX-compliant even in
@@ -1188,11 +1198,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
+<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
+-->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+<p id="r52c">R52c is a bugfix-only release:</p><ul>
  <li>[tg] Shave 200 bytes off .text by revisiting string pooling</li>
  <li>[tg, J�rg] Fix manpage for ditroff on Schillix</li>
  <li>[tg, wbx] Use <tt>sed 1q</tt> instead of unportable head(1)</li>
@@ -1209,6 +1222,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Explicitly reserve SIGEXIT and SIGERR for ksh</li>
  <li>[tg, izabera] Catch missing here documents at EOF even under “set -n”</li>
  <li>[kre, tg] Document Austin#1015 handling (not considered a violation)</li>
+ <li>[tg, fmunozs] Fix buffer overread for empty nameref targets</li>
+ <li>[tg] Fix warnings pointed out by latest Debian gcc-snapshot</li>
+ <li>[tg, Martijn Dekker] Document upcoming <tt>set +o</tt> changes</li>
+ <li>[Martijn Dekker] Expand testsuite for <tt>command</tt>/<tt>whence</tt></li>
 </ul>
 <p id="r52b">R52b is a strongly recommended bugfix-only release:</p><ul>
  <li>[tg] Recognise ksh93 compiled scripts and LZIP compressed files

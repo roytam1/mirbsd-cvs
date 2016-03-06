@@ -5,7 +5,7 @@
 
 COMMENT=		MirOS cpio(1), pax(1) and tar(1)
 CATEGORIES=		archivers essentials
-DISTNAME=		paxmirabilis-20151013
+DISTNAME=		paxmirabilis-20160306
 EXTRACT_SUFX=		.cpio.gz
 RESPONSIBLE=		mirabilos <m@mirbsd.org>
 MASTER_SITES=		${_MASTER_SITE_MIRBSD:distfiles/=dist/mir/cpio/}

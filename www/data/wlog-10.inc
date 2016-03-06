@@ -11113,3 +11113,87 @@ Tag: mksh pcli
  even bsiegert@ says nothing goes over FixedMisc) but it has, at
  least, a 0 (digit zero) with a correct stroke through it ☺</p>
 ----
+Title: mksh R52c, paxmirabilis 20160306 released; PA4 paper size PDF manpages
+Date: 06.03.2016
+Author: tg@
+Tag: bug debian mksh news pcli security
+
+<p>The <a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a> R52c
+ was published today as bugfix-accumulating release of low upto
+ medium importance. Thanks to everyone who helped squashing all
+ those bugs; this includes our bug reporters who always include
+ reproducer testcases; you’re wonderful!</p>
+<p>MirCPIO was also resynchronised from OpenBSD, to address the
+ CVE-2015-{1193,1194} test cases, after a downstream (wow there
+ are <em>so</em> many?) reminded us of it; thanks!<br />This is
+ mostly to prevent extracting <tt>../foo</tt> – either directly
+ or from a symlink(7) – from actually ending up being placed in
+ the parent directory. As such the severity is medium-high. And
+ it has a <a href="@@RELPATH@@pax.htm">page</a> now – initially
+ just a landing page / stub; will be fleshed out later.</p>
+<p>Uploads for both should make their way into Debian very soon
+ (these are the packages mksh and pax). Uploading backports for
+ mksh (jessie and wheezy-sloppy) have been requested by several
+ users, but none of the four(?) DDs asked about sponsoring them
+ even answered at all, and the regular (current) sponsors don’t
+ have experience with bpo, so… SOL ☹</p>
+<p>I’ve also tweaked a bug in sed(1), in MirBSD. Unfortunately,
+ this means it now comes with the GNUism <tt>-i</tt> too: don’t
+ use it, use ed(1) (much nicer anyway) or perlrun(1) -p/-n…</p>
+<p>Finally, our PDF manpages now use the PA4 paper size instead
+ of DIN ISO A4, meaning they can be printed without cropping or
+ scaling on both A4 and US-american “letter” paper. And a Бодун
+ from the last announcement: we now use Gentium and Inconsolata
+ as body text and monospace fonts, respectively. (And à propos,
+ the website ought to be more legible due to text justification
+ and better line spacing now.) I managed to hack this up in GNU
+ groff and Ghostscript, thankfully. (LaTeX too) Currently there
+ are PDF manpages for joe (jupp), mksh, and cpio/pax/tar.</p>
+<p>And we had Grünkohl today!</p>
+<p>Also, new console-setup package in the <a
+ href="@@RELPATH@@permalinks/wlog-10-tg_e20141212-tg.htm">“WTF”
+ APT repository</a> since upstream managed to do actual work on
+ it (even fixed some bugs). Read its feed if interested, as its
+ news will not be repeated here usually. (That means, subscribe
+ as there won’t be many future reminders in this place.)</p>
+<p>The <tt>netboot.me</tt> service appears to be gone. I’ll not
+ remove our images, but if someone knows what became of it drop
+ us a message (IRC or mailing list will work just fine).</p>
+<p>PS: This was originally written on 20160304 but opax refused
+ to be merged in time… Happy Birthday, gecko2! In the meantime,
+ the Street Food festival weekend provided wonderful food at <a
+ href="http://www.basecamp-bonn.de/">BaseCamp</a>, and headache
+ prevented this from being finished on the fifth.</p>
+<p><strong>Update 06.03.2016:</strong> The pax changes were too
+ intrusive, so I decided to only backport the fixes OpenBSD did
+ (both those they mentioned and those silently included), well,
+ the applicable parts of them, anyway, instead. There will be a
+ MirCPIO release completely rebased later after all changes are
+ merged and, more importantly, tested. Another release although
+ not set for immediate future should bring a more sensible (and
+ mksh-like) buildsystem for improved portability (and thus some
+ more changes we had to exclude at first).</p>
+<p>I’ve also cloned the halfwidth part of the FixedMisc [MirOS]
+ font as FixedMiscHW for use with Qt5 applications, xfonts-base
+ in the “WTF” APT repo. (Debian #809979)</p>
+<p>tl;dr: mksh R52c (bugfix-only, low-medium); mircpio 20160306
+ (security backport; high) with future complete rebase (medium)
+ upstream and in Debian. No mksh backports due to lacking a bpo
+ capable sponsor. New console-setup in “WTF” APT repo, and mksh
+ there as usual. xfonts-base too. <tt>netboot.me</tt> gone?</p>
+----
+Title: PSA: when upgrading to snapshots, boot into new kernel first
+Date: 06.03.2016 15:37
+Author: tg@
+Tag: news plan snapshot tip
+
+<p>I’ll have to add <tt>O_DIRECTORY</tt> support to open(2) for
+ more security in cpio(1), pax(1), and tar(1). (Maybe I’ll also
+ add <tt>O_CLOEXEC</tt> while there…) Today’s paxmirabilis will
+ however pick this up as soon as it’s there and thus fail if it
+ is not supported by the running kernel yet.</p>
+<p>Morale: when upgrading to a snapshot take care of the kernel
+ first (install and reboot), userspace second.</p>
+<p>To be clear: this will affect the first -current snapshot to
+ be published after today on <tt>/MirOS/current</tt>.</p>
+----
