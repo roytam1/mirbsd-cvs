@@ -2,8 +2,8 @@
 /*	$NetBSD: tty_subs.c,v 1.5 1995/03/21 09:07:52 cgd Exp $	*/
 
 /*-
- * Copyright (c) 2012, 2014
- *	Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2012, 2014, 2016
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1992 Keith Muller.
  * Copyright (c) 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
