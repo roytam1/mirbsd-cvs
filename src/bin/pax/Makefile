@@ -20,6 +20,10 @@ LINKS+=	${BINDIR}/pax ${BINDIR}/tar
 CPPFLAGS+= -DLONG_OFF_T
 .endif
 
+.if (${MACHINE_OS} == "GNU") || (${MACHINE_OS} == "Linux")
+CPPFLAGS+= -DHAVE_LINKAT # probably
+.endif
+
 .if (${MACHINE_OS} == "BSD")
 CPPFLAGS+= -DHAVE_STRLCPY
 CPPFLAGS+= -DHAVE_STRMODE
