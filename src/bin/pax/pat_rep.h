@@ -1,4 +1,3 @@
-/**	$MirOS$ */
 /*	$OpenBSD: pat_rep.h,v 1.4 2003/06/02 23:32:08 millert Exp $	*/
 /*	$NetBSD: pat_rep.h,v 1.3 1995/03/21 09:07:35 cgd Exp $	*/
 
@@ -37,6 +36,9 @@
  *	@(#)pat_rep.h	8.1 (Berkeley) 5/31/93
  */
 
+#ifndef MIRCPIO_PAT_REP_H
+#define MIRCPIO_PAT_REP_H "$MirOS$"
+
 /*
  * data structure for storing user supplied replacement strings (-s)
  */
@@ -48,3 +50,5 @@ typedef struct replace {
 #define	GLOB		0x2
 	struct replace	*fow;	/* pointer to next pattern */
 } REPLACE;
+
+#endif

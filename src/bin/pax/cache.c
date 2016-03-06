@@ -49,6 +49,7 @@
 #include "extern.h"
 
 __RCSID("$MirOS: src/bin/pax/cache.c,v 1.7 2012/05/20 16:13:16 tg Exp $");
+__IDSTRING(rcsid_cache_h, MIRCPIO_CACHE_H);
 
 /*
  * routines that control user, group, uid and gid caches (for the archive

@@ -61,6 +61,12 @@
 #endif
 
 __RCSID("$MirOS: src/bin/pax/options.c,v 1.51 2012/06/05 19:19:44 tg Exp $");
+__IDSTRING(rcsid_ar_h, MIRCPIO_AR_H);
+__IDSTRING(rcsid_cpio_h, MIRCPIO_CPIO_H);
+__IDSTRING(rcsid_extern_h, MIRCPIO_EXTERN_H);
+__IDSTRING(rcsid_options_h, MIRCPIO_OPTIONS_H);
+__IDSTRING(rcsid_pax_h, MIRCPIO_PAX_H);
+__IDSTRING(rcsid_tar_h, MIRCPIO_TAR_H);
 
 #ifndef _PATH_DEFTAPE
 #define _PATH_DEFTAPE "/dev/rmt0"

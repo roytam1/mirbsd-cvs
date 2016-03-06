@@ -1,4 +1,3 @@
-/**	$MirOS$ */
 /*	$OpenBSD: tar.h,v 1.7 2003/06/02 23:32:09 millert Exp $	*/
 /*	$NetBSD: tar.h,v 1.3 1995/03/21 09:07:51 cgd Exp $	*/
 
@@ -36,6 +35,9 @@
  *
  *	@(#)tar.h	8.2 (Berkeley) 4/18/94
  */
+
+#ifndef MIRCPIO_TAR_H
+#define MIRCPIO_TAR_H "$MirOS$"
 
 /*
  * defines and data structures common to all tar formats
@@ -152,3 +154,5 @@ typedef struct {
 	char devminor[8];		/* minor device number */
 	char prefix[TPFSZ];		/* linked to name */
 } HD_USTAR;
+
+#endif

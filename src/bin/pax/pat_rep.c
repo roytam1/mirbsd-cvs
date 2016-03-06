@@ -49,6 +49,7 @@
 #include "extern.h"
 
 __RCSID("$MirOS: src/bin/pax/pat_rep.c,v 1.5 2012/05/20 16:13:18 tg Exp $");
+__IDSTRING(rcsid_pat_rep_h, MIRCPIO_PAT_REP_H);
 
 /*
  * routines to handle pattern matching, name modification (regular expression

@@ -1,4 +1,3 @@
-/**	$MirOS$ */
 /*	$OpenBSD: cache.h,v 1.4 2003/10/20 06:22:27 jmc Exp $	*/
 /*	$NetBSD: cache.h,v 1.3 1995/03/21 09:07:12 cgd Exp $	*/
 
@@ -37,6 +36,9 @@
  *      @(#)cache.h	8.1 (Berkeley) 5/31/93
  */
 
+#ifndef MIRCPIO_CACHE_H
+#define MIRCPIO_CACHE_H "$MirOS$"
+
 /*
  * Constants and data structures used to implement group and password file
  * caches. Traditional passwd/group cache routines perform quite poorly with
@@ -72,3 +74,5 @@ typedef struct gidc {
 	char name[GNMLEN];	/* gid name */
 	gid_t gid;		/* cached gid */
 } GIDC;
+
+#endif
