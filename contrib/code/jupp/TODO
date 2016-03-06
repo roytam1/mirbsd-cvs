@@ -669,6 +669,10 @@ Other requests:
   – ⚠ by design
   – it begins to complete after the last space (i.e. “bar/*”)
   – escaping is broken, see point above this one
+• asarch requests merging the .joe_state file code, although
+  it must be disabled by default like mksh’s HISTFILE is:
+  18:48⎜«asarch» That would be for a wish list then: to keep the
+       ⎜    list of all opened files with their last position
 • …
 
 __________________________________________________________________
