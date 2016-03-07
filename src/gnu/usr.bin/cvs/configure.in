@@ -17,7 +17,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.])
 
-AC_INIT([Concurrent Versions System (CVS)],[1.12.13-MirOS-0AB5.1],
+AC_INIT([Concurrent Versions System (CVS)],[1.12.13-MirOS-0AB7.1],
 	[miros-discuss@mirbsd.org],[cvs])
 AC_CONFIG_SRCDIR(src/cvs.h)
 AM_INIT_AUTOMAKE([gnu 1.9.2 dist-bzip2 no-define])
@@ -206,7 +206,6 @@ AC_CHECK_FUNCS(\
 	login \
 	logout \
 	mbsrtowcs \
-	mknod \
 	regcomp \
 	regerror \
 	regexec \
