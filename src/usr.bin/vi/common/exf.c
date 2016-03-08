@@ -188,10 +188,10 @@ file_init(sp, frp, rcv_name, flags)
 		 */
 		if (frp->tname != NULL)
 			goto err;
-		if (opts_empty(sp, O_DIRECTORY, 0))
+		if (opts_empty(sp, O_TMP_DIRECTORY, 0))
 			goto err;
 		(void)snprintf(tname, sizeof(tname),
-		    "%s/vi.XXXXXXXXXX", O_STR(sp, O_DIRECTORY));
+		    "%s/vi.XXXXXXXXXX", O_STR(sp, O_TMP_DIRECTORY));
 		fd = mkstemp(tname);
 		if (fd == -1 || fchmod(fd, S_IRUSR | S_IWUSR) == -1) {
 			msgq(sp, M_SYSERR,
