@@ -4485,6 +4485,7 @@
 ./usr/X11R6/lib/X11/fonts/misc/mirf16v8.pcf.gz
 ./usr/X11R6/lib/X11/fonts/misc/mirf18fw.pcf.gz
 ./usr/X11R6/lib/X11/fonts/misc/mirf18hw.pcf.gz
+./usr/X11R6/lib/X11/fonts/misc/mirfhw18.pcf.gz
 ./usr/X11R6/lib/X11/fonts/misc/nil2.pcf.gz
 ./usr/X11R6/lib/X11/fonts/misc/olcursor.pcf.gz
 ./usr/X11R6/lib/X11/fonts/misc/olgl10.pcf.gz
