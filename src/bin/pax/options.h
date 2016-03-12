@@ -46,13 +46,15 @@
 enum fsub_order {
 #ifndef SMALL
 	FSUB_AR,
-#endif
 	FSUB_BCPIO,
+#endif
 	FSUB_CPIO,
 	FSUB_DIST,
 	FSUB_SV4CPIO,
 	FSUB_SV4CRC,
+#ifndef SMALL
 	FSUB_TAR,
+#endif
 	FSUB_USTAR,
 	FSUB_V4NORM,
 	FSUB_V4ROOT,
