@@ -1001,9 +1001,9 @@ Third, a double quote
 .Pq Sq \&"
 quotes all characters, except
 .Ql $ ,
-.Ql \`
-and
 .Ql \e ,
+and
+.Ql \` ,
 up to the next unescaped double quote.
 .Ql $
 and
@@ -1015,13 +1015,15 @@ substitution has backslash-quoting for double quotes enabled.
 If a
 .Ql \e
 inside a double-quoted string is followed by
-.Ql \e ,
-.Ql $ ,
-.Ql \` ,
-or
 .Ql \&" ,
-it is replaced by the second character; if it is followed by a newline, both
-the
+.Ql $ ,
+.Ql \e ,
+or
+.Ql \` ,
+only the
+.Ql \e
+is removed, i.e. the combination is replaced by the second character;
+if it is followed by a newline, both the
 .Ql \e
 and the newline are stripped; otherwise, both the
 .Ql \e
