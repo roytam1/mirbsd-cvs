@@ -1,4 +1,4 @@
-# $MirOS: ports/Makefile,v 1.34 2009/02/24 17:58:44 bsiegert Exp $
+# $MirOS: ports/Makefile,v 1.37 2016/03/06 19:30:48 tg Exp $
 # $OpenBSD: Makefile,v 1.43 2003/12/15 17:56:40 espie Exp $
 # $FreeBSD: Makefile,v 1.36 1997/10/04 15:54:31 jkh Exp $
 #-
@@ -150,7 +150,6 @@ setup: Setup.sh
 		(( rv )) && echo Do not call '"make setup"' if \
 		    the package utilities are already installed!; \
 	    else rv=0; fi; exit $$rv
-	@echo ok; exit 1
 	@echo 'Use "mmake nfo" to generate documentation!'
 	@sleep 3
 	cd ${.CURDIR:Q}; \
