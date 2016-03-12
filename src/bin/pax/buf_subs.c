@@ -1007,6 +1007,7 @@ buf_flush(int bufcnt)
 	return(-1);
 }
 
+#ifndef SMALL
 /*
  * wr_rdfile replacement for the Unix Archiver (padding)
  */
@@ -1030,3 +1031,4 @@ uar_wr_data(ARCHD *arcn, int ifd, off_t *left)
 	*bufpt++ = '\n';
 	return (0);
 }
+#endif

@@ -2,7 +2,7 @@
 /*	$NetBSD: ar_subs.c,v 1.5 1995/03/21 09:07:06 cgd Exp $	*/
 
 /*-
- * Copyright (c) 2008, 2011, 2012
+ * Copyright (c) 2008, 2011, 2012, 2016
  *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1992 Keith Muller.
  * Copyright (c) 1992, 1993
@@ -1209,18 +1209,18 @@ get_arc(void)
 	hdsz = 0;
 	hdend = hdbuf;
 
+#ifndef SMALL
 	/* try to verify against ar first */
 	if (buf_fill_internal(8) == 8) {
 		i = rd_wrbuf(hdend, 8);
 		if (i == 8 && uar_ismagic(hdbuf) == 0) {
-			extern int F_UAR;
-
-			frmt = &(fsub[F_UAR]);
+			frmt = &(fsub[FSUB_AR]);
 			return (0);
 		}
 		if (i > 0)
 			pback(hdend, i);
 	}
+#endif
 
 	for (;;) {
 		for (;;) {
