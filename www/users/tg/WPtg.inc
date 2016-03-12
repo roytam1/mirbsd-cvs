@@ -10599,11 +10599,29 @@ Waypoint: GC69PYW OC12A43
 Title: Ein ungewöhnlicher Montag...
 Tag: D2 T1 Event
 ----
+ID: 1765
+Date: 12.03.2016
+Waypoint: GC9D96
+Title: Ancient Secrets / Uralte Rätsel
+Tag: D15 T2 Regular Multi exceptional
+----
+ID: 1766
+Date: 12.03.2016
+Waypoint: OC120D9
+Title: Walporzheimer Presse
+Tag: D1 T1 Micro Tradi
+----
 ID: p20160317
 Date: 17.03.2016
 Waypoint: GE0319 GC6CF8K OC12BB4 TC3ECU
 Title: AMT Ⅵ (2016 KW11)
 nTF: 0
+Tag: D1 T1 Event
+----
+ID: p201603172
+Date: 17.03.2016
+Waypoint: GC6C8PT
+Title: Die erste Eiszeit Anno MMXVI
 Tag: D1 T1 Event
 ----
 ID: p20160729
@@ -10612,18 +10630,6 @@ Waypoint: GC276WT
 Banner: jpg
 Title: Nacht der Vulkane 2016
 Tag: D1 T1 Event
-----
-ID: p10000
-Date: 01.01.2017
-Waypoint: GCWFR6
-Title: World Cache (Germany)
-Tag: D35 T3 Regular Mystery exceptional
-----
-ID: p10001
-Date: 01.01.2017
-Waypoint: GCWDD0
-Title: World Cache (United Kingdom)
-Tag: D4 T2 Regular Multi exceptional
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
