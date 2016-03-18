@@ -259,6 +259,7 @@ souvenir 2015-12-31 'Goodbye 2015' http://souvenirs.geocaching.com/SouvenirImage
 souvenir 2016-01-01 'Hello 2016' http://souvenirs.geocaching.com/SouvenirImages/MTIvMjIvMjAxNQ/b0438218-11c4-4c9a-a727-17f48f2e882c.png 'http://www.geocaching.com/souvenir/?guid=f42a65a8-433c-487f-8926-0b27fc8f045d'
 souvenir 2016-02-27 'Leap Day Weekend 2016' http://souvenirs.geocaching.com/SouvenirImages/Mi8yMi8yMDE2/43add974-5cca-4ce9-94e2-7a8f0e1502aa.png 'http://www.geocaching.com/souvenir/?guid=684e9fbe-4c49-4a86-89e5-7597991b8983'
 souvenir 2016-02-29 'Leap Day 2016' http://souvenirs.geocaching.com/SouvenirImages/Mi8yMi8yMDE2/a5758109-fc88-45ec-84cf-86c2374ac60c.png 'http://www.geocaching.com/souvenir/?guid=e3379b49-5c59-4882-93dc-8e9db069ba04'
+mws__header="$mws__header and <span class=\"rcsid\">\$MirOS: www/mk/souv2hts,v 1.2 2016/03/12 20:45:40 tg Exp \$</span> (on 2016-03-18 20:07:10)"
 
 # kaputt, s.o.
 #if [[ $nsouvenir != 0 && -z $souvenirs ]]; then
@@ -301,6 +302,12 @@ mzbadge 5x5deploy '5 by 5 deployed' 'Congratulations on deploying your 5x5 munze
 mzbadge hunter Hunter 'You really are a special icon hunter! Keep hunting them to reach the next level.'
 mzbadge collector Collector 'You are a collector of the finer things in life, a special Munzee icon. Keep collecting!'
 mzbadge hoarder Hoarder 'Sometimes hoarding isn&#039;t a bad thing! You&#039;ve hoarded a lot of icons but can you get more?'
+mzbadge scorpio Scorpio 'Congratulations on earning the Scorpio Badge!'
+mzbadge capricorn Capricorn 'Congratulations on earning the Capricorn Badge!'
+mzbadge pisces Pisces 'Congratulations on earning the Pisces Badge!'
+mzbadge aries Aries 'Congratulations on earning the Aries Badge!'
+mzbadge unicorn1 'First Class Unicorn Finder' 'You may be new at this, but you&#039;ve managed to capture a Mythical Unicorn! There&#039;s 999 more out there though, so keep searching!'
+mzbadge leprechaun1 'First Class Leprechaun Finder' 'The Luck O&#039; The Irish must be on your side- you caught a Leprechaun! There&#039;s 999 more out there though, so keep searching!'
 mzbadge lvl10 'Perfect 10' 'You&#039;re a perfect 10! Don&#039;t ever change. Until you become an 11.'
 mzbadge lvl50 'Over The Hill' 'Level 50? That takes alot of work. Keep it up, you&#039;re halfway there!'
 mzbadge lvl100 Centurion 'To reach Level 100 it takes dedication, passion, and an understanding family!'
@@ -319,9 +326,10 @@ mzbadge socialcaterpillar 'Social Caterpillar' 'You are just learning to crawl s
 mzbadge socialcocoon 'Social Cocoon' 'You are a hungry worm who needs to cap more socials so you can spread your wings!'
 mzbadge socialtadpole 'Social Tadpole' 'You are just learning to swim socially! Have you joined a Munzee support group?'
 mzbadge breakfast Breakfast 'Congratulations, You were able to rent a room in 5 motels!'
-mzbadge cologne5 'Kölner Stammtisch V' 'Thanks for participating, hope you have fun! Prost!'
 mzbadge 3rd_birthday 'Munzee turns 3' 'Thanks for celebrating our 3rd birthday! It&#039;s a Fiesta!'
+mzbadge cologne5 'Kölner Stammtisch V' 'Thanks for participating, hope you have fun! Prost!'
 mzbadge 4thbdayplaydate '4th Birthday Playdate' 'You played Munzee during our 4th birthday party weekend in July 2015!'
+mws__header="$mws__header and <span class=\"rcsid\">\$MirOS: www/users/tg/munzbadg,v 1.5 2016/03/12 20:45:41 tg Exp \$</span> (on 2016-03-18 20:07:23)"
 
 mws_content <<EOF
 

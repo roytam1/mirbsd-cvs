@@ -6476,18 +6476,21 @@ ID: 1116
 Date: 15.09.2014
 Waypoint: VX76-DIKA
 Title: [Austria], Bad Münstereifel-Wald
+nTF: 1
 Distance: 7
 ----
 ID: 1117
 Date: 15.09.2014
 Waypoint: VX75-YJYN
 Title: [Solomon Islands], Metternich-Weiler am Berge
+nTF: 1
 Distance: 49
 ----
 ID: 1118
 Date: 15.09.2014
 Waypoint: VX71-UPIK
 Title: [Jersey], Zülpich-Ülpenich
+nTF: 1
 Distance: 66
 ----
 ID: 1119
@@ -7008,6 +7011,7 @@ ID: 1203
 Date: 18.10.2014
 Waypoint: VX76-XOCO
 Title: [Austria], Linz am Rhein
+nTF: 1
 Distance: 51
 ----
 ID: 1204
@@ -7090,6 +7094,7 @@ ID: 1216
 Date: 28.10.2014
 Waypoint: VX76-WHAT
 Title: [Norway], Polch
+nTF: 1
 Distance: 0
 ----
 ID: 1217
@@ -7102,6 +7107,7 @@ ID: 1218
 Date: 28.10.2014
 Waypoint: VX77-BENO
 Title: [Guernsey], Welling
+nTF: 1
 Distance: 67
 ----
 ID: 1219
@@ -7121,6 +7127,7 @@ ID: 1221
 Date: 30.10.2014
 Waypoint: VX77-BUSI
 Title: [Norway], Zülpich-Schwerfen
+nTF: 1
 Distance: 98
 ----
 ID: 1222
@@ -7174,6 +7181,7 @@ ID: 1230
 Date: 11.11.2014
 Waypoint: VX77-BUSS
 Title: [Liechtenstein], Lohmar-Krewelshof
+nTF: 1
 Distance: 4
 ----
 ID: 1231
@@ -7186,6 +7194,7 @@ ID: 1232
 Date: 11.11.2014
 Waypoint: VX77-CIPO
 Title: [Israel], K-Bilderstöckchen
+nTF: 1
 Distance: 87
 ----
 ID: 1233
@@ -7197,6 +7206,7 @@ ID: 1234
 Date: 11.11.2014
 Waypoint: VX76-IWUD
 Title: [Netherlands], Nideggen-Berg
+nTF: 1
 Distance: 64
 ----
 ID: 1235
@@ -7215,6 +7225,7 @@ ID: 1237
 Date: 16.11.2014
 Waypoint: VX77-LYYG
 Title: [Switzerland], BN-Beuel
+nTF: 1
 Distance: 0
 ----
 ID: 1238
@@ -7482,6 +7493,7 @@ ID: 1280
 Date: 03.01.2015
 Waypoint: VX78-BYAT
 Title: [Denmark], Bad Breisig-Margaretenhof
+nTF: 1
 Distance: 78
 ----
 ID: 1281
@@ -7568,6 +7580,7 @@ ID: 1294
 Date: 19.01.2015
 Waypoint: VX78-QUIK
 Title: [Germany], RHB-Ersdorf
+nTF: 1
 ----
 ID: 1295
 Date: 19.01.2015
@@ -7840,6 +7853,7 @@ ID: 1337
 Date: 22.02.2015
 Waypoint: VX79-HIIS
 Title: [Sweden], RHB-Flerzheim
+nTF: 1
 ----
 ID: 1338
 Date: 22.02.2015
@@ -7973,6 +7987,7 @@ ID: 1358
 Date: 15.03.2015
 Waypoint: VX79-NAUJ
 Title: [Germany], BN-Graurheindorf
+nTF: 1
 ----
 ID: 1359
 Date: 15.03.2015
@@ -8784,6 +8799,7 @@ ID: 1484
 Date: 25.04.2015
 Waypoint: VX80-VIIG
 Title: [Egypt], EU-Kessenich
+nTF: 1
 ----
 ID: 1485
 Date: 26.04.2015
@@ -10609,20 +10625,51 @@ ID: 1766
 Date: 12.03.2016
 Waypoint: OC120D9
 Title: Walporzheimer Presse
+nTF: 3
 Tag: D1 T1 Micro Tradi
 ----
-ID: p20160317
+ID: 1767
+Date: 13.03.2016
+Waypoint: GC6B6CC
+Title: Last Call!
+Tag: D1 T15 Event
+----
+ID: 1768
 Date: 17.03.2016
 Waypoint: GE0319 GC6CF8K OC12BB4 TC3ECU
 Title: AMT Ⅵ (2016 KW11)
 nTF: 0
 Tag: D1 T1 Event
 ----
-ID: p201603172
+ID: 1769
 Date: 17.03.2016
 Waypoint: GC6C8PT
 Title: Die erste Eiszeit Anno MMXVI
 Tag: D1 T1 Event
+----
+ID: 1770
+Date: 18.03.2016
+Waypoint: OCF6CA
+Title: LORE (Safari)
+Tag: D1 T1 Safari
+----
+ID: 1771
+Date: 18.03.2016
+Waypoint: VX85-JOAB
+Title: [Germany], Steinbachtalsperre, Euskirchen-Kirchheim
+nTF: 1
+----
+ID: 1772
+Date: 18.03.2016
+Waypoint: GC2J8F5
+Title: 2,0|0,5 7,1
+Tag: D2 T15 Regular Multi recommended
+----
+ID: 1773
+Date: 18.03.2016
+Waypoint: OC121BD
+Title: So schmeckt der Sommer (Safari)
+Tag: D15 T15 Safari
 ----
 ID: p20160729
 Date: 30.07.2016
