@@ -51,7 +51,7 @@ mws_content <<'EOF'
 
 <h2 class="cr" id="prefetch">Introduction</h2>
 <p>The current version of mksh is <strong>mksh R52c</strong> from
- <em>6 February 2016</em>.<br />In the oldstable bugfixing-only series, the
+ <em>6 March 2016</em>.<br />In the oldstable bugfixing-only series, the
  current version is <em>mksh R50f</em> from <em>19 April 2015</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
