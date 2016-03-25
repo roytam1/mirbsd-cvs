@@ -35,15 +35,10 @@ certified to conform to OKD⁽⁴⁾ 1.0 and OSD⁽⁵⁾ 1.9, and qualifies as 
 Free Software⁽⁶⁾ and also Free Documentation⁽⁷⁾ licence and is inclu‐
 ded in some relevant lists⁽⁸⁾⁽⁹⁾⁽¹⁰⁾⁽¹¹⁾.
 
-We believe you are not liable for work inserted which is intellectual
-property of third parties, if you were not aware of the fact, act ap‐
-propriately as soon as you become aware of that problem, seek an ami‐
-cable solution for all parties, and never knowingly distribute a work
-without being authorised to do so by its licensors.
-
 R̲E̲F̲E̲R̲E̲N̲C̲E̲S̲:̲
-① also at https://www.mirbsd.org/MirOS-Licence (and with .htm appended);
-  ASCII version (instead of UTF-8) at http://mirbsd.de/MirOS-Licence.asc
+① also (as ASCII version) at http://mirbsd.de/MirOS-Licence.asc and (in
+  UTF-8) at https://www.mirbsd.org/MirOS-Licence and (HTML, with an in‐
+  official German translation) https://www.mirbsd.org/MirOS-Licence.htm
 ② http://www.opensource.org/licenses/historical.php
 ③ http://www.debian.org/social_contract#guidelines
 ④ http://www.opendefinition.org/1.0
@@ -56,5 +51,5 @@ R̲E̲F̲E̲R̲E̲N̲C̲E̲S̲:̲
 ⑪ http://copyfree.org/licenses/
 
 ⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼⎼
-$miros: src/share/misc/licence.template,v 1.29 2013/11/06 18:36:23 tg Rel $
+$miros: src/share/misc/licence.template,v 1.30 2016/03/25 20:13:23 tg Rel $
 $MirOS: www/files/MirOS-Licence,v 1.8 2008/11/14 15:33:38 tg Exp $
