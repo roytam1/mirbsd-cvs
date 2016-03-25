@@ -1,4 +1,4 @@
-/*	$OpenBSD: mkpath.c,v 1.2 2005/06/20 07:14:06 otto Exp $ */
+/*	$OpenBSD: mkpath.c,v 1.4 2014/05/20 01:25:23 guenther Exp $ */
 /*
  * Copyright (c) 1983, 1992, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -34,6 +34,9 @@
 #include <errno.h>
 #include <string.h>
 
+#include "common.h"
+#include "util.h"
+
 /* Code taken directly from mkdir(1).
 
  * mkpath -- create directories.
@@ -62,7 +65,7 @@ mkpath(char *path)
 				return (-1);
 			}
 		} else if (!S_ISDIR(sb.st_mode)) {
-			warnx("%s: %s", path, strerror(ENOTDIR));
+			warnc(ENOTDIR, "%s", path);
 			return (-1);
 		}
 

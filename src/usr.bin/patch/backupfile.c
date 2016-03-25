@@ -1,4 +1,4 @@
-/*	$OpenBSD: backupfile.c,v 1.18 2004/08/05 21:47:24 deraadt Exp $	*/
+/*	$OpenBSD: backupfile.c,v 1.21 2013/11/26 13:19:07 deraadt Exp $	*/
 
 /*
  * backupfile.c -- make Emacs style backup file names Copyright (C) 1990 Free
@@ -15,10 +15,6 @@
 /*
  * David MacKenzie <djm@ai.mit.edu>. Some algorithms adapted from GNU Emacs.
  */
-
-#ifndef lint
-static const char rcsid[] = "$OpenBSD: backupfile.c,v 1.18 2004/08/05 21:47:24 deraadt Exp $";
-#endif /* not lint */
 
 #include <ctype.h>
 #include <dirent.h>
@@ -45,7 +41,7 @@ char		*simple_backup_suffix = "~";
 static char	*concat(const char *, const char *);
 static char	*make_version_name(const char *, int);
 static int	max_backup_version(const char *, const char *);
-static int	version_number(const char *, const char *, int);
+static int	version_number(const char *, const char *, size_t);
 static int	argmatch(const char *, const char **);
 static void	invalid_arg(const char *, const char *, int);
 
@@ -88,7 +84,8 @@ max_backup_version(const char *file, const char *dir)
 {
 	DIR	*dirp;
 	struct dirent	*dp;
-	int	highest_version, this_version, file_name_length;
+	int	highest_version, this_version;
+	size_t	file_name_length;
 
 	dirp = opendir(dir);
 	if (dirp == NULL)
@@ -129,14 +126,15 @@ make_version_name(const char *file, int version)
  * already have ".~" appended to it.
  */
 static int
-version_number(const char *base, const char *backup, int base_length)
+version_number(const char *base, const char *backup, size_t base_length)
 {
 	int		version;
 	const char	*p;
 
 	version = 0;
-	if (!strncmp(base, backup, base_length) && ISDIGIT(backup[base_length])) {
-		for (p = &backup[base_length]; ISDIGIT(*p); ++p)
+	if (!strncmp(base, backup, base_length) &&
+	    ISDIGIT((unsigned char)backup[base_length])) {
+		for (p = &backup[base_length]; ISDIGIT((unsigned char)*p); ++p)
 			version = version * 10 + *p - '0';
 		if (p[0] != '~' || p[1])
 			version = 0;
