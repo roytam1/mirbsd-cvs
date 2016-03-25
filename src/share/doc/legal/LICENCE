@@ -1,4 +1,4 @@
-$MirOS: src/share/doc/legal/LICENCE,v 1.28 2015/01/02 13:54:20 tg Exp $
+$MirOS: src/share/doc/legal/LICENCE,v 1.29 2016/01/02 20:05:08 tg Exp $
 
 MirOS base system and BSD - TOU
 -------------------------------
@@ -61,6 +61,11 @@ OSI certification is not a requirement, due to braindead po-
 licies of OSI.
 We strongly request people to not reuse our work in material
 covered by problematic licences such as the GNU FDL.
+Parts of the code and documentation inherited are not publi-
+shed under such free licences (mostly PD and GFDL); while we
+can still distribute them we acknowledge they are a problem,
+minimise them and seek for better alternatives - while still
+distributing works where we believe that to not be unlawful.
 
 We ask all of our contributors to publish their work under a
 licence boilerplate derived from the "licence.template" file
