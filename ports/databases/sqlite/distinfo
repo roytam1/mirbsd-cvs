@@ -3,5 +3,6 @@ $MirOS$
 MD5 (sqlite-3.6.1.tar.gz) = eeef61635d89710bb8d976c2a0b99841
 RMD160 (sqlite-3.6.1.tar.gz) = c4948553fe2a0de96f6612a41aa2889eb97b1b42
 SHA1 (sqlite-3.6.1.tar.gz) = 756f45e812a2063dacd947b9642fdb82301348fa
+SHA256 (sqlite-3.6.1.tar.gz) = ce549db764913cf8d24f3c8adba4e2717e4ce8adcdf0ecd07e5cf044af89d22a
 SIZE (sqlite-3.6.1.tar.gz) = 2187909
 TIGER (sqlite-3.6.1.tar.gz) = fdcba7b146c83a639f8bdbc36dbe766655f02c55982a1768

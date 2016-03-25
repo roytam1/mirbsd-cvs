@@ -1,8 +1,9 @@
-# $MirOS: ports/databases/sqlite/Makefile,v 1.13 2008/08/26 12:53:58 tg Exp $
+# $MirOS: ports/databases/sqlite/Makefile,v 1.14 2013/07/03 20:49:28 tg Exp $
 
 COMMENT=		Embedded SQL implementation
 COMMENT-lemon=		Lightweight parser
 _V=			3.6.1
+DASH_VER=		1
 DISTNAME=		sqlite-${_V}
 PKGNAME=		sqlite3-${_V}-${DASH_VER}
 PKGNAME-lemon=		lemon-${_V}-${DASH_VER}

@@ -1,8 +1,9 @@
-# $MirOS: ports/databases/sqlite2/Makefile,v 1.5 2006/10/06 20:18:38 tg Exp $
+# $MirOS: ports/databases/sqlite2/Makefile,v 1.6 2013/07/03 20:49:29 tg Exp $
 # $OpenBSD: Makefile,v 1.2 2004/03/04 17:49:26 espie Exp $
 
 COMMENT=		Embedded SQL implementation (obsolete version)
 DISTNAME=		sqlite-2.8.17
+DASH_VER=		1
 CATEGORIES=		databases
 HOMEPAGE=		http://www.sqlite.org/
 MASTER_SITES=		${HOMEPAGE}
