@@ -36,8 +36,8 @@ struct tm {
 
 /* Modified Julian Date */
 typedef struct {
-	time_t mjd;
-	int32_t sec;
+	time_t mjd;		/* Julian Date minus 2'400'000.5, floor'd */
+	int32_t sec;		/* UTC (not TT) seconds into that [0-86400] */
 } mirtime_mjd;
 
 

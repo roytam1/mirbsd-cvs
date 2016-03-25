@@ -31,8 +31,9 @@
 .\"
 .\"     from: @(#)strftime.3    5.12 (Berkeley) 6/29/91
 .\"	$OpenBSD: strftime.3,v 1.20 2005/07/22 03:23:37 jaredy Exp $
+.\"	$MirOS$
 .\"
-.Dd January 18, 1998
+.Dd $Mdocdate$
 .Dt STRFTIME 3
 .Os
 .Sh NAME
@@ -111,6 +112,10 @@ is replaced by the hour (12-hour clock) as a decimal number (01\-12).
 is replaced by the julian date (days since noon in Greenwich on
 November 24, 4714 BC) as a floating point number.
 Subtract 2400000.5 to get a modified julian date.
+The fractional part is not measured in TT but instead expressed as
+civil UTC seconds into the MJD day divided by number of UTC seconds
+(including leap seconds) in that MJD day, then converted to JD,
+giving a bit over a minute smaller values, varying with leap seconds.
 .It Cm \&%j
 is replaced by the day of the year as a decimal number (001\-366).
 .It Cm \&%k
