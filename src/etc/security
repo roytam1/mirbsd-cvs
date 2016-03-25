@@ -1,10 +1,10 @@
 #!/bin/mksh
 # $MirSecuCron: etc_security 0.0 0000/00/00 00:00:00 root Backup $
-# $MirOS: src/etc/security,v 1.22 2009/10/17 16:20:04 tg Exp $
+# $MirOS: src/etc/security,v 1.27 2016/02/14 23:47:16 tg Exp $
 # $OpenBSD: security,v 1.71 2005/02/22 10:50:55 otto Exp $
 # from: @(#)security	8.1 (Berkeley) 6/9/93
 
-export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin RCSLOCALID='!MirSecuCron'
+export LC_ALL=C PATH=/bin:/usr/bin:/sbin:/usr/sbin RCSLOCALID='!MirSecuCron'
 cd /
 nl='
 '
@@ -18,10 +18,11 @@ function _diffhdr {
 	print ======
 }
 function _stripcom {
-	cat "$@" | { set -o noglob; while read _line; do
+	set -o noglob
+	cat "$@" | while read _line; do
 		_line=${_line%%#*}
 		[[ -n $_line ]] && print -r -- $_line
-	done; }
+	done
 }
 rm -f /var/backups/rcs.log
 
@@ -119,7 +120,7 @@ function fback {
 			diff -u /dev/null /var/backups/"$bf"
 		fi
 		ci -x -M -T -u -d"$fd" -t-"automatic backup for $fn" -w"$fo" \
-		    -sBackup -m"$(date) backup for $fn" "$bf" >>rcs.log 2>&1
+		    -sBackup -m"$(date -u) backup for $fn" "$bf" >>rcs.log 2>&1
 		cp -p "$bf" "$cf"
 		chown 0:0 "$bf" "RCS/$bf"
 		chmod 0400 "$bf" "RCS/$bf"

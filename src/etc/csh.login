@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS$
+# $MirOS: src/etc/csh.login,v 1.1 2009/09/06 15:08:00 tg Exp $
 
 umask 022
 if (${?USER} == 0) then
@@ -29,6 +29,7 @@ setenv EDITOR /bin/ed
 setenv IRCNAME "MirOS packages a kernel, userland and the attitude"
 setenv IRCPORT 6667
 setenv IRCSERVER irc.eu.freenode.net
+unsetenv LC_ALL
 setenv LC_CTYPE en_US.UTF-8
 setenv PAGER /usr/bin/less
 setenv XDG_CACHE_HOME ~/.etc/xdg/cache

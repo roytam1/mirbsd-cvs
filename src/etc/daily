@@ -1,11 +1,11 @@
 #!/bin/mksh
 # $MirSecuCron: etc_daily 0.0 0000/00/00 00:00:00 root Backup $
-# $MirOS: src/etc/daily,v 1.24 2009/07/18 14:09:00 tg Exp $
+# $MirOS: src/etc/daily,v 1.25 2015/10/06 15:05:43 tg Exp $
 # $OpenBSD: daily,v 1.50 2005/03/17 18:16:52 millert Exp $
 # From: @(#)daily	8.2 (Berkeley) 1/25/94
 
 umask 022
-export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/mpkg/bin
+export LC_ALL=C PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/mpkg/bin
 bak=/var/backups
 cd /
 

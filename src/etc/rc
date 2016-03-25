@@ -1,5 +1,5 @@
 # $MirSecuCron: etc_rc 0.0 0000/00/00 00:00:00 root Backup $
-# $MirOS: src/etc/rc,v 1.122 2015/10/06 15:05:43 tg Exp $
+# $MirOS: src/etc/rc,v 1.123 2016/02/06 15:59:53 tg Exp $
 # $OpenBSD: rc,v 1.277 2006/01/12 21:54:15 deraadt Exp $
 #-
 # System startup script run by init on autoboot or after single-user.
@@ -7,7 +7,7 @@
 # is the controlling terminal. This is called with _PATH_BSHELL which
 # must be an mksh(1).
 
-export HOME=/ LC_CTYPE=en_US.UTF-8 PATH=/sbin:/bin:/usr/sbin:/usr/bin
+export HOME=/ LC_ALL=C PATH=/sbin:/bin:/usr/sbin:/usr/bin
 umask 022
 cd /
 
@@ -16,10 +16,11 @@ cd /
 # strip comments (and leading/trailing whitespace if IFS is set) from
 # any file(s) given as argument, or stdin if none, and spew to stdout
 function stripcom {
-	cat "$@" | { set -o noglob; while read _line; do
+	set -o noglob
+	cat "$@" | while read _line; do
 		_line=${_line%%#*}
 		[[ -n $_line ]] && print -r -- $_line
-	done; }
+	done
 }
 
 # Update resource limits when sysctl changes

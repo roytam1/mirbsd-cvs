@@ -1,16 +1,18 @@
 #!/bin/mksh
 # $MirSecuCron$
-# $MirOS: src/etc/netstart,v 1.11 2009/03/29 13:04:15 tg Exp $
+# $MirOS: src/etc/netstart,v 1.12 2009/07/18 14:09:03 tg Exp $
 # $OpenBSD: netstart,v 1.105 2005/05/22 08:56:08 todd Exp $
+
+export LC_ALL=C
 
 # strip comments (and leading/trailing whitespace if IFS is set) from
 # any file(s) given as argument, or stdin if none, and spew to stdout
-function stripcom
-{
-	cat "$@" | { set -o noglob; while read _line; do
+function stripcom {
+	set -o noglob
+	cat "$@" | while read _line; do
 		_line=${_line%%#*}
 		[[ -n $_line ]] && print -r -- $_line
-	done; }
+	done
 }
 
 # Returns true if $1 contains only alphanumerics
@@ -376,4 +378,4 @@ for bn in /etc/bridgename.*; do
 	bridgestart $if
 done
 
-[[ -e /etc/hostname.local ]] && eval $(stripcom /etc/hostname.local)
+[[ -s /etc/hostname.local ]] && . /etc/hostname.local

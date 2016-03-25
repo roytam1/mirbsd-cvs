@@ -1,5 +1,5 @@
 # $MirSecuCron$
-# $MirOS: src/etc/profile,v 1.66 2009/11/15 11:49:17 tg Exp $
+# $MirOS: src/etc/profile,v 1.67 2015/07/18 22:53:25 tg Exp $
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/bin:/usr/mpkg/bin
 umask 022
@@ -28,6 +28,7 @@ EDITOR=/bin/ed
 IRCNAME="MirOS packages a kernel, userland and the attitude"
 IRCPORT=6667
 IRCSERVER=irc.eu.freenode.net
+unset LC_ALL
 LC_CTYPE=en_US.UTF-8
 PAGER=/usr/bin/less
 if [ -n "$KSH_VERSION" ]; then
@@ -100,4 +101,4 @@ if [ -O /var/run/ssh-agent/$USER_ID ]; then
 	unset _dir
 fi
 
-: $MirOS: src/etc/profile,v 1.66 2009/11/15 11:49:17 tg Exp $
+: $MirOS: src/etc/profile,v 1.67 2015/07/18 22:53:25 tg Exp $

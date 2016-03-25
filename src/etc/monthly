@@ -1,10 +1,10 @@
 #!/bin/mksh
 # $MirSecuCron: etc_monthly 0.0 0000/00/00 00:00:00 root Backup $
-# $MirOS: src/etc/monthly,v 1.21 2009/08/15 17:30:44 tg Exp $
+# $MirOS: src/etc/monthly,v 1.22 2015/10/06 15:05:43 tg Exp $
 # $OpenBSD: monthly,v 1.5 1998/02/02 23:08:57 millert Exp $
 
 umask 022
-export TZ=UTC PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/mpkg/bin
+export LC_ALL=C PATH=/bin:/usr/bin:/sbin:/usr/sbin:/usr/local/bin:/usr/mpkg/bin
 cd /
 
 print RUNTIME=$(date +%J)

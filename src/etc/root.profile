@@ -2,9 +2,9 @@
 
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
 HOME=/
-LC_CTYPE=en_US.UTF-8
+LC_ALL=C
 PS1='# '
-export PATH HOME LC_CTYPE PS1
+export PATH HOME LC_ALL PS1
 umask 022
 
 # this is only run if /etc/profile has not been executed
@@ -47,4 +47,4 @@ print '
 	Do not login as root, use sudo(8)!
 	**********************************
 '
-: $MirOS: src/etc/root.profile,v 1.12 2008/12/28 06:58:08 tg Exp $
+: $MirOS: src/etc/root.profile,v 1.13 2009/07/18 14:09:07 tg Exp $

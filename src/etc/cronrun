@@ -1,8 +1,8 @@
 #!/bin/mksh
 # $MirSecuCron: etc_cronrun 0.0 0000/00/00 00:00:00 root Backup $
-# $MirOS: src/etc/cronrun,v 1.12 2009/11/10 17:35:47 tg Exp $
+# $MirOS: src/etc/cronrun,v 1.14 2015/10/06 15:11:21 tg Exp $
 #-
-# Copyright (c) 2007,2015
+# Copyright (c) 2007, 2015, 2016
 #	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -21,7 +21,7 @@
 # of said person's immediate fault when using the work as intended.
 
 set -o pipefail
-export PATH=/bin:/usr/bin:/sbin:/usr/sbin
+export LC_ALL=C PATH=/bin:/usr/bin:/sbin:/usr/sbin
 cd /
 umask 077
 exec >/dev/null
