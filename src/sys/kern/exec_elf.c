@@ -401,6 +401,8 @@ ELFNAME(load_file)(struct proc *p, char *path, struct exec_package *epp,
 
 	for (i = 0; i < eh.e_phnum; i++) {
 		if (ph[i].p_type == PT_LOAD) {
+			if (ph[i].p_filesz > ph[i].p_memsz)
+				goto bad1;
 			loadmap[idx].vaddr = trunc_page(ph[i].p_vaddr);
 			loadmap[idx].memsz = round_page (ph[i].p_vaddr +
 			    ph[i].p_memsz - loadmap[idx].vaddr);
@@ -578,10 +580,12 @@ ELFNAME2(exec,makecmds)(struct proc *p, struct exec_package *epp)
 	for (i = 0; i < eh->e_phnum; i++) {
 		pp = &ph[i];
 		if (pp->p_type == PT_INTERP) {
-			if (pp->p_filesz >= sizeof(interp))
+			if (pp->p_filesz < 2 || pp->p_filesz >= sizeof(interp))
 				goto bad;
 			if ((error = ELFNAME(read_from)(p, epp->ep_vp,
 			    pp->p_offset, (caddr_t)interp, pp->p_filesz)) != 0)
+				goto bad;
+			if (interp[pp->p_filesz - 1] != '\0')
 				goto bad;
 			break;
 		}
@@ -637,6 +641,10 @@ native:
 
 		switch (ph[i].p_type) {
 		case PT_LOAD:
+			if (pp->p_filesz > pp->p_memsz) {
+				error = EINVAL;
+				goto bad;
+			}
 			/*
 			 * Calcuates size of text and data segments
 			 * by starting at first and going to end of last.

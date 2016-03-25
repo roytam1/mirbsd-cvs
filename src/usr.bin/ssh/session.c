@@ -41,6 +41,7 @@
 #include <sys/param.h>
 #include <sys/queue.h>
 
+#include <ctype.h>
 #include <errno.h>
 #include <grp.h>
 #include <login_cap.h>
@@ -265,6 +266,21 @@ do_authenticated(Authctxt *authctxt)
 	do_cleanup(authctxt);
 }
 
+/* Check untrusted xauth strings for metacharacters */
+static int
+xauth_valid_string(const char *s)
+{
+	size_t i;
+
+	for (i = 0; s[i] != '\0'; i++) {
+		if (!isalnum((u_char)s[i]) &&
+		    s[i] != '.' && s[i] != ':' && s[i] != '/' &&
+		    s[i] != '-' && s[i] != '_')
+		return 0;
+	}
+	return 1;
+}
+
 /*
  * Prepares for an interactive session.  This is called after the user has
  * been successfully authenticated.  During this message exchange, pseudo
@@ -338,7 +354,13 @@ do_authenticated1(Authctxt *authctxt)
 				s->screen = 0;
 			}
 			packet_check_eom();
-			success = session_setup_x11fwd(s);
+			if (xauth_valid_string(s->auth_proto) &&
+			    xauth_valid_string(s->auth_data))
+				success = session_setup_x11fwd(s);
+			else {
+				success = 0;
+				error("Invalid X11 forwarding data");
+			}
 			if (!success) {
 				xfree(s->auth_proto);
 				xfree(s->auth_data);
@@ -1752,7 +1774,13 @@ session_x11_req(Session *s)
 	s->screen = packet_get_int();
 	packet_check_eom();
 
-	success = session_setup_x11fwd(s);
+	if (xauth_valid_string(s->auth_proto) &&
+	    xauth_valid_string(s->auth_data))
+		success = session_setup_x11fwd(s);
+	else {
+		success = 0;
+		error("Invalid X11 forwarding data");
+	}
 	if (!success) {
 		xfree(s->auth_proto);
 		xfree(s->auth_data);
