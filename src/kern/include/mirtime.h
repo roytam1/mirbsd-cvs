@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/mirtime.h,v 1.1 2011/11/20 04:57:10 tg Exp $ */
+/* $MirOS: src/kern/include/mirtime.h,v 1.2 2011/11/20 23:40:11 tg Exp $ */
 
 /* Do not include this header, include <time.h> and/or <sys/time.h> */
 
@@ -24,7 +24,7 @@ struct tm {
 	int tm_hour;		/* hours [0-23] */
 	int tm_mday;		/* day of month [1-31] */
 	int tm_mon;		/* month of year - 1 [0-11] */
-	time_t tm_year;		/* year - 1900 */
+	time_t tm_year;		/* years since 1900 */
 	int tm_wday;		/* day of week (0 = sunday) */
 	int tm_yday;		/* day of year [0-365] */
 	int tm_isdst;		/* summer time effective? [0/1] */
