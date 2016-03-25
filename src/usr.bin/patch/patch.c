@@ -45,8 +45,10 @@
 #include "pathnames.h"
 #include "ed.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/patch/patch.c,v 1.2 2016/03/25 18:55:37 tg Exp $");
+__IDSTRING(rcsid_backupfile_h, MIRPATCH_BACKUPFILE_H);
 __IDSTRING(rcsid_common_h, MIRPATCH_COMMON_H);
+__IDSTRING(rcsid_pch_h, MIRPATCH_PCH_H);
 __IDSTRING(rcsid_util_h, MIRPATCH_UTIL_H);
 
 mode_t		filemode = 0644;

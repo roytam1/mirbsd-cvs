@@ -29,7 +29,7 @@
  */
 
 #ifndef MIRPATCH_UTIL_H
-#define MIRPATCH_UTIL_H "$MirOS$"
+#define MIRPATCH_UTIL_H "$MirOS: src/usr.bin/patch/util.h,v 1.3 2016/03/25 18:55:37 tg Exp $"
 
 char		*fetchname(const char *, bool *, int);
 int		backup_file(const char *);
@@ -38,8 +38,10 @@ int		copy_file(const char *, const char *);
 void		say(const char *, ...)
 		    __attribute__((__format__(__printf__, 1, 2)));
 void		fatal(const char *, ...)
+		    __attribute__((__noreturn__))
 		    __attribute__((__format__(__printf__, 1, 2)));
 void		pfatal(const char *, ...)
+		    __attribute__((__noreturn__))
 		    __attribute__((__format__(__printf__, 1, 2)));
 void		ask(const char *, ...)
 		    __attribute__((__format__(__printf__, 1, 2)));
@@ -48,7 +50,7 @@ char		*xstrdup(const char *);
 void		set_signals(int);
 void		ignore_signals(void);
 void		makedirs(const char *, bool);
-void		version(void);
+void		version(void) __attribute__((__noreturn__));
 void		my_exit(int) __attribute__((__noreturn__));
 
 /* in mkpath.c */

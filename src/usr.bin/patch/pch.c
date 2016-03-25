@@ -30,6 +30,7 @@
 #include <sys/stat.h>
 
 #include <ctype.h>
+#include <err.h>
 #include <libgen.h>
 #include <limits.h>
 #include <stdint.h>
@@ -42,6 +43,8 @@
 #include "util.h"
 #include "pch.h"
 #include "pathnames.h"
+
+__RCSID("$MirOS$");
 
 /* Patch (diff listing) abstract type. */
 
@@ -76,6 +79,7 @@ static void	skip_to(off_t, LINENUM);
 static char	*best_name(const struct file_name *, bool);
 static char	*posix_name(const struct file_name *, bool);
 static size_t	num_components(const char *);
+static void	malformed(void) __attribute__((__noreturn__));
 
 /*
  * Prepare to look for the next patch in the patch file.
@@ -483,7 +487,7 @@ another_hunk(void)
 	LINENUM	repl_beginning;			/* index of --- line */
 	LINENUM	fillcnt;			/* #lines of missing ptrn or repl */
 	LINENUM	fillsrc;			/* index of first line to copy */
-	LINENUM	filldst;			/* index of first missing line */
+	LINENUM	filldst = LINENUM_UNINITIALISED;/* index of first missing line */
 	bool	ptrn_spaces_eaten;		/* ptrn was slightly misformed */
 	bool	repl_could_be_missing;		/* no + or ! lines in this hunk */
 	bool	repl_missing;			/* we are now backtracking */
@@ -786,6 +790,9 @@ hunk_done:
 		} else if (!p_context && fillcnt == 1) {
 			/* the first hunk was a null hunk with no context */
 			/* and we were expecting one line -- fix it up. */
+			if (filldst == LINENUM_UNINITIALISED)
+				errx(255, "filldst uninitialised in %s:%d",
+				    __FILE__, __LINE__);
 			while (filldst < p_end) {
 				p_line[filldst] = p_line[filldst + 1];
 				p_char[filldst] = p_char[filldst + 1];
@@ -811,6 +818,9 @@ hunk_done:
 		}
 		/* if there were omitted context lines, fill them in now */
 		if (fillcnt) {
+			if (filldst == LINENUM_UNINITIALISED)
+				errx(255, "filldst uninitialised in %s:%d",
+				    __FILE__, __LINE__);
 			p_bfake = filldst;	/* remember where not to free() */
 			p_efake = filldst + fillcnt - 1;
 			while (fillcnt-- > 0) {
@@ -845,11 +855,11 @@ hunk_done:
 			}
 		}
 	} else if (diff_type == UNI_DIFF) {
-		off_t	line_beginning = ftello(pfp); /* file pos of the current line */
-		LINENUM	fillsrc;	/* index of old lines */
-		LINENUM	filldst;	/* index of new lines */
+		/* LINENUM	fillsrc;	- index of old lines */
+		/* LINENUM	filldst;	- index of new lines */
 		char	ch;
 
+		line_beginning = ftello(pfp); /* file pos of the current line */
 		ret = pgets(buf, sizeof buf, pfp);
 		p_input_line++;
 		if (ret == NULL || strnNE(buf, "@@ -", 4)) {
@@ -1011,8 +1021,8 @@ hunk_done:
 		char	hunk_type;
 		int	i;
 		LINENUM	min, max;
-		off_t	line_beginning = ftello(pfp);
 
+		line_beginning = ftello(pfp);
 		p_context = 0;
 		ret = pgets(buf, sizeof buf, pfp);
 		p_input_line++;

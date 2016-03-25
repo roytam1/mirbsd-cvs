@@ -27,7 +27,7 @@
  */
 
 #ifndef MIRPATCH_COMMON_H
-#define MIRPATCH_COMMON_H "$MirOS$"
+#define MIRPATCH_COMMON_H "$MirOS: src/usr.bin/patch/common.h,v 1.3 2016/03/25 18:55:36 tg Exp $"
 
 #include <sys/types.h>
 
@@ -46,7 +46,12 @@
 #define INITHUNKMAX 125		/* initial dynamic allocation size */
 #define MAXLINELEN 8192
 #define BUFFERSIZE 1024
+#if 0
 #define LINENUM_MAX LONG_MAX
+#else
+#define LINENUM_MAX (LONG_MAX - 1)
+#define LINENUM_UNINITIALISED LONG_MAX
+#endif
 
 #define ORIGEXT ".orig"
 #define REJEXT ".rej"

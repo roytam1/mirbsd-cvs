@@ -26,6 +26,7 @@
 
 #include "backupfile.h"
 
+__RCSID("$MirOS$");
 
 #define ISDIGIT(c) (isascii (c) && isdigit (c))
 
@@ -36,7 +37,7 @@ enum backup_type backup_type = none;
  * The extension added to file names to produce a simple (as opposed to
  * numbered) backup file name.
  */
-char		*simple_backup_suffix = "~";
+const char	*simple_backup_suffix = "~";
 
 static char	*concat(const char *, const char *);
 static char	*make_version_name(const char *, int);

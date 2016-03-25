@@ -25,9 +25,12 @@
 #include <string.h>
 
 #include "common.h"
+#include "ed.h"
 #include "util.h"
 #include "pch.h"
 #include "inp.h"
+
+__RCSID("$MirOS$");
 
 /* states of finite state machine */
 #define FSM_CMD		1

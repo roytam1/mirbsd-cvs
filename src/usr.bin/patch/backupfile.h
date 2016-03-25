@@ -13,6 +13,9 @@
  * 
  */
 
+#ifndef MIRPATCH_BACKUPFILE_H
+#define MIRPATCH_BACKUPFILE_H "$MirOS$"
+
 /* When to make backup files. */
 enum backup_type {
 	/* Never make backups. */
@@ -32,7 +35,9 @@ enum backup_type {
 };
 
 extern enum backup_type backup_type;
-extern char	*simple_backup_suffix;
+extern const char *simple_backup_suffix;
 
 char		*find_backup_file_name(const char *file);
-enum backup_type get_version(const char *version);
+enum backup_type get_version(const char *);
+
+#endif

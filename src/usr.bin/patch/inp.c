@@ -45,13 +45,14 @@
 #include "pch.h"
 #include "inp.h"
 
-__RCSID("$MirOS: src/usr.bin/patch/inp.c,v 1.2 2005/06/08 10:37:53 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/patch/inp.c,v 1.3 2016/03/25 18:55:36 tg Exp $");
 
 /* Input-file-with-indexable-lines abstract type */
 
 static off_t	i_size;		/* size of the input file */
 static char	*i_womp;	/* plan a buffer for entire file */
 static char	**i_ptr;	/* pointers to lines in i_womp */
+static char	null[] = "";	/* some valid memory */
 
 static int	tifd = -1;	/* plan b virtual string array */
 static char	*tibuf[2];	/* plan b buffers */
@@ -239,7 +240,7 @@ plan_a(const char *filename)
 		p[sz] = '\n';
 		i_ptr[iline] = p;
 		/* count the extra line and make it point to some valid mem */
-		i_ptr[++iline] = "";
+		i_ptr[++iline] = null;
 	} else
 		last_line_missing_eol = false;
 

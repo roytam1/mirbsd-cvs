@@ -1,3 +1,6 @@
+#ifndef MIRPATCH_PCH_H
+#define MIRPATCH_PCH_H "$MirOS$"
+
 void		next_intuit_at(off_t, LINENUM);
 LINENUM		strtolinenum(char *, char **);
 
@@ -58,4 +61,5 @@ LINENUM		pch_end(void);
 LINENUM		pch_context(void);
 LINENUM		pch_hunk_beg(void);
 char		pch_char(LINENUM);
-char		*pfetch(LINENUM);
+
+#endif
