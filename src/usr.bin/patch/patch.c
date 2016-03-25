@@ -1,4 +1,4 @@
-/*	$OpenBSD: patch.c,v 1.43 2004/11/19 20:08:11 otto Exp $	*/
+/*	$OpenBSD: patch.c,v 1.63 2016/01/04 14:09:46 gsoares Exp $	*/
 
 /*
  * patch - a program to apply diffs to original files
@@ -26,10 +26,6 @@
  * behaviour
  */
 
-#ifndef lint
-static const char rcsid[] = "$OpenBSD: patch.c,v 1.43 2004/11/19 20:08:11 otto Exp $";
-#endif /* not lint */
-
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
@@ -47,8 +43,9 @@ static const char rcsid[] = "$OpenBSD: patch.c,v 1.43 2004/11/19 20:08:11 otto E
 #include "inp.h"
 #include "backupfile.h"
 #include "pathnames.h"
+#include "ed.h"
 
-int		filemode = 0644;
+mode_t		filemode = 0644;
 
 char		buf[MAXLINELEN];	/* general purpose buffer */
 
@@ -113,9 +110,6 @@ static bool	reverse_flag_specified = false;
 /* buffer holding the name of the rejected patch file. */
 static char	rejname[NAME_MAX + 1];
 
-/* buffer for stderr */
-static char	serrbuf[BUFSIZ];
-
 /* how many input lines have been irretractibly output */
 static LINENUM	last_frozen_line = 0;
 
@@ -149,11 +143,18 @@ int
 main(int argc, char *argv[])
 {
 	int	error = 0, hunk, failed, i, fd;
+	bool	patch_seen;
 	LINENUM	where = 0, newwhere, fuzz, mymaxfuzz;
 	const	char *tmpdir;
 	char	*v;
 
-	setbuf(stderr, serrbuf);
+	if (pledge("stdio rpath wpath cpath tmppath fattr", NULL) == -1) {
+		perror("pledge");
+		my_exit(2);
+	}
+
+	setvbuf(stdout, NULL, _IOLBF, 0);
+	setvbuf(stderr, NULL, _IOLBF, 0);
 	for (i = 0; i < MAXFILEC; i++)
 		filearg[i] = NULL;
 
@@ -208,20 +209,18 @@ main(int argc, char *argv[])
 	/* make sure we clean up /tmp in case of disaster */
 	set_signals(0);
 
+	patch_seen = false;
 	for (open_patch_file(filearg[1]); there_is_another_patch();
 	    reinitialize_almost_everything()) {
 		/* for each patch in patch file */
 
+		patch_seen = true;
+
 		warn_on_invalid_line = true;
 
 		if (outname == NULL)
-			outname = savestr(filearg[0]);
+			outname = xstrdup(filearg[0]);
 
-		/* for ed script just up and do it and exit */
-		if (diff_type == ED_DIFF) {
-			do_ed_script();
-			continue;
-		}
 		/* initialize the patched file */
 		if (!skip_rest_of_patch)
 			init_output(TMPOUTNAME);
@@ -232,6 +231,12 @@ main(int argc, char *argv[])
 		/* find out where all the lines are */
 		if (!skip_rest_of_patch)
 			scan_input(filearg[0]);
+
+		/* for ed script just up and do it and exit */
+		if (diff_type == ED_DIFF) {
+			do_ed_script();
+			continue;
+		}
 
 		/* from here on, open no standard i/o files, because malloc */
 		/* might misfire and we can't catch it easily */
@@ -385,18 +390,21 @@ main(int argc, char *argv[])
 				    sizeof(rejname)) >= sizeof(rejname))
 					fatal("filename %s is too long\n", outname);
 			}
-			if (skip_rest_of_patch) {
-				say("%d out of %d hunks ignored--saving rejects to %s\n",
-				    failed, hunk, rejname);
-			} else {
-				say("%d out of %d hunks failed--saving rejects to %s\n",
-				    failed, hunk, rejname);
-			}
+			if (!check_only)
+				say("%d out of %d hunks %s--saving rejects to %s\n",
+				    failed, hunk, skip_rest_of_patch ? "ignored" : "failed", rejname);
+			else
+				say("%d out of %d hunks %s\n",
+				    failed, hunk, skip_rest_of_patch ? "ignored" : "failed");
 			if (!check_only && move_file(TMPREJNAME, rejname) < 0)
 				trejkeep = true;
 		}
 		set_signals(1);
 	}
+
+	if (!patch_seen)
+		error = 2;
+
 	my_exit(error);
 	/* NOTREACHED */
 }
@@ -490,10 +498,10 @@ get_some_switches(void)
 			/* FALLTHROUGH */
 		case 'z':
 			/* must directly follow 'b' case for backwards compat */
-			simple_backup_suffix = savestr(optarg);
+			simple_backup_suffix = xstrdup(optarg);
 			break;
 		case 'B':
-			origprae = savestr(optarg);
+			origprae = xstrdup(optarg);
 			break;
 		case 'c':
 			diff_type = CONTEXT_DIFF;
@@ -507,7 +515,7 @@ get_some_switches(void)
 			break;
 		case 'D':
 			do_defines = true;
-			if (!isalpha(*optarg) && *optarg != '_')
+			if (!isalpha((unsigned char)*optarg) && *optarg != '_')
 				fatal("argument to -D is not an identifier\n");
 			snprintf(if_defined, sizeof if_defined,
 			    "#ifdef %s\n", optarg);
@@ -531,7 +539,7 @@ get_some_switches(void)
 		case 'i':
 			if (++filec == MAXFILEC)
 				fatal("too many file arguments\n");
-			filearg[filec] = savestr(optarg);
+			filearg[filec] = xstrdup(optarg);
 			break;
 		case 'l':
 			canonicalize = true;
@@ -543,7 +551,7 @@ get_some_switches(void)
 			noreverse = true;
 			break;
 		case 'o':
-			outname = savestr(optarg);
+			outname = xstrdup(optarg);
 			break;
 		case 'p':
 			strippath = atoi(optarg);
@@ -587,12 +595,12 @@ get_some_switches(void)
 	Argv += optind;
 
 	if (Argc > 0) {
-		filearg[0] = savestr(*Argv++);
+		filearg[0] = xstrdup(*Argv++);
 		Argc--;
 		while (Argc > 0) {
 			if (++filec == MAXFILEC)
 				fatal("too many file arguments\n");
-			filearg[filec] = savestr(*Argv++);
+			filearg[filec] = xstrdup(*Argv++);
 			Argc--;
 		}
 	}
@@ -605,11 +613,12 @@ static __dead void
 usage(void)
 {
 	fprintf(stderr,
-"usage: patch [-bcCeEflnNRstuv] [-B backup-prefix] [-d directory] [-D symbol]\n"
+"usage: patch [-bCcEeflNnRstuv] [-B backup-prefix] [-D symbol] [-d directory]\n"
 "             [-F max-fuzz] [-i patchfile] [-o out-file] [-p strip-count]\n"
-"             [-r rej-name] [-V {numbered,existing,simple}] [-z backup-ext]\n"
-"             [origfile [patchfile]]\n");
-	my_exit(EXIT_SUCCESS);
+"             [-r rej-name] [-V t | nil | never] [-x number] [-z backup-ext]\n"
+"             [--posix] [origfile [patchfile]]\n"
+"       patch <patchfile\n");
+	my_exit(2);
 }
 
 /*
@@ -630,13 +639,7 @@ locate_hunk(LINENUM fuzz)
 		    || diff_type == UNI_DIFF)) {
 			say("Empty context always matches.\n");
 		}
-		if (diff_type == CONTEXT_DIFF
-		    || diff_type == NEW_CONTEXT_DIFF
-		    || diff_type == UNI_DIFF) {
-			if (fuzz == 0)
-				return (input_lines == 0 ? first_guess : 0);
-		} else
-			return (first_guess);
+		return (first_guess);
 	}
 	if (max_neg_offset >= first_guess)	/* do not try lines < 0 */
 		max_neg_offset = first_guess - 1;
@@ -1034,12 +1037,12 @@ static bool
 similar(const char *a, const char *b, int len)
 {
 	while (len) {
-		if (isspace(*b)) {	/* whitespace (or \n) to match? */
-			if (!isspace(*a))	/* no corresponding whitespace? */
-				return false;
-			while (len && isspace(*b) && *b != '\n')
+		if (isspace((unsigned char)*b)) { /* whitespace (or \n) to match? */
+			if (!isspace((unsigned char)*a))
+				return false;	/* no corresponding whitespace */
+			while (len && isspace((unsigned char)*b) && *b != '\n')
 				b++, len--;	/* skip pattern whitespace */
-			while (isspace(*a) && *a != '\n')
+			while (isspace((unsigned char)*a) && *a != '\n')
 				a++;	/* skip target whitespace */
 			if (*a == '\n' || *b == '\n')
 				return (*a == *b);	/* should end in sync */

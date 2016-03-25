@@ -1,4 +1,4 @@
-/*	$OpenBSD: common.h,v 1.25 2003/10/31 20:20:45 millert Exp $	*/
+/*	$OpenBSD: common.h,v 1.29 2015/07/26 14:32:19 millert Exp $	*/
 
 /*
  * patch - a program to apply diffs to original files
@@ -26,6 +26,9 @@
  * behaviour
  */
 
+#include <sys/types.h>
+
+#include <limits.h>
 #include <stdbool.h>
 
 #define DEBUGGING
@@ -36,14 +39,7 @@
 #define INITHUNKMAX 125		/* initial dynamic allocation size */
 #define MAXLINELEN 8192
 #define BUFFERSIZE 1024
-
-#define SCCSPREFIX "s."
-#define GET "get -e %s"
-#define SCCSDIFF "get -p %s | diff - %s >/dev/null"
-
-#define RCSSUFFIX ",v"
-#define CHECKOUT "co -l %s"
-#define RCSDIFF "rcsdiff %s > /dev/null"
+#define LINENUM_MAX LONG_MAX
 
 #define ORIGEXT ".orig"
 #define REJEXT ".rej"
@@ -61,7 +57,7 @@ typedef long    LINENUM;	/* must be signed */
 
 /* globals */
 
-extern int	filemode;
+extern mode_t	filemode;
 
 extern char	buf[MAXLINELEN];/* general purpose buffer */
 
