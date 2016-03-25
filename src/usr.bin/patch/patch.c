@@ -45,6 +45,10 @@
 #include "pathnames.h"
 #include "ed.h"
 
+__RCSID("$MirOS$");
+__IDSTRING(rcsid_common_h, MIRPATCH_COMMON_H);
+__IDSTRING(rcsid_util_h, MIRPATCH_UTIL_H);
+
 mode_t		filemode = 0644;
 
 char		buf[MAXLINELEN];	/* general purpose buffer */
@@ -148,10 +152,12 @@ main(int argc, char *argv[])
 	const	char *tmpdir;
 	char	*v;
 
+#if defined(__OpenBSD__) && !defined(__MirBSD__)
 	if (pledge("stdio rpath wpath cpath tmppath fattr", NULL) == -1) {
 		perror("pledge");
 		my_exit(2);
 	}
+#endif
 
 	setvbuf(stdout, NULL, _IOLBF, 0);
 	setvbuf(stderr, NULL, _IOLBF, 0);

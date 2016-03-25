@@ -1,16 +1,15 @@
-/**	$MirOS: src/usr.bin/patch/util.c,v 1.2 2005/06/08 10:37:53 tg Exp $ */
-/*	$OpenBSD: util.c,v 1.31 2005/06/20 07:14:06 otto Exp $	*/
+/*	$OpenBSD: util.c,v 1.40 2015/07/26 14:32:19 millert Exp $	*/
 
 /*
  * patch - a program to apply diffs to original files
- *
+ * 
  * Copyright 1986, Larry Wall
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following condition is met:
  * 1. Redistributions of source code must retain the above copyright notice,
  * this condition and the following disclaimer.
- *
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND ANY
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -22,12 +21,11 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- *
+ * 
  * -C option added in 1998, original code by Marc Espie, based on FreeBSD
  * behaviour
  */
 
-#include <sys/param.h>
 #include <sys/stat.h>
 
 #include <ctype.h>
@@ -46,8 +44,6 @@
 #include "util.h"
 #include "backupfile.h"
 #include "pathnames.h"
-
-__RCSID("$MirOS: src/usr.bin/patch/util.c,v 1.2 2005/06/08 10:37:53 tg Exp $");
 
 /* Rename a file, copying it if necessary. */
 
@@ -98,7 +94,7 @@ int
 backup_file(const char *orig)
 {
 	struct stat	filestat;
-	char		bakname[MAXPATHLEN], *s, *simplename;
+	char		bakname[PATH_MAX], *s, *simplename;
 	dev_t		orig_device;
 	ino_t		orig_inode;
 
@@ -132,10 +128,10 @@ backup_file(const char *orig)
 	while (stat(bakname, &filestat) == 0 &&
 	    orig_device == filestat.st_dev && orig_inode == filestat.st_ino) {
 		/* Skip initial non-lowercase chars.  */
-		for (s = simplename; *s && !islower(*s); s++)
+		for (s = simplename; *s && !islower((unsigned char)*s); s++)
 			;
 		if (*s)
-			*s = toupper(*s);
+			*s = toupper((unsigned char)*s);
 		else
 			memmove(simplename, simplename + 1,
 			    strlen(simplename + 1) + 1);
@@ -195,6 +191,22 @@ savestr(const char *s)
 }
 
 /*
+ * Allocate a unique area for a string.  Call fatal if out of memory.
+ */
+char *
+xstrdup(const char *s)
+{
+	char	*rv;
+
+	if (!s)
+		s = "Oops";
+	rv = strdup(s);
+	if (rv == NULL)
+		fatal("out of memory\n");
+	return rv;
+}
+
+/*
  * Vanilla terminal output (buffered).
  */
 void
@@ -203,9 +215,9 @@ say(const char *fmt, ...)
 	va_list	ap;
 
 	va_start(ap, fmt);
-	vfprintf(stderr, fmt, ap);
+	vfprintf(stdout, fmt, ap);
 	va_end(ap);
-	fflush(stderr);
+	fflush(stdout);
 }
 
 /*
@@ -313,8 +325,10 @@ makedirs(const char *filename, bool striplast)
 
 	if (striplast) {
 		char	*s = strrchr(tmpbuf, '/');
-		if (s == NULL)
+		if (s == NULL) {
+			free(tmpbuf);
 			return;	/* nothing to be done */
+		}
 		*s = '\0';
 	}
 	if (mkpath(tmpbuf) != 0)
@@ -334,7 +348,7 @@ fetchname(const char *at, bool *exists, int strip_leading)
 
 	if (at == NULL || *at == '\0')
 		return NULL;
-	while (isspace(*at))
+	while (isspace((unsigned char)*at))
 		at++;
 #ifdef DEBUGGING
 	if (debug & 128)
@@ -348,7 +362,7 @@ fetchname(const char *at, bool *exists, int strip_leading)
 	tab = strchr(t, '\t') != NULL;
 	/* Strip off up to `strip_leading' path components and NUL terminate. */
 	for (sleading = strip_leading; *t != '\0' && ((tab && *t != '\t') ||
-	    !isspace(*t)); t++) {
+	    !isspace((unsigned char)*t)); t++) {
 		if (t[0] == '/' && t[1] != '/' && t[1] != '\0')
 			if (--sleading >= 0)
 				name = t + 1;
@@ -372,32 +386,6 @@ fetchname(const char *at, bool *exists, int strip_leading)
 
 	*exists = stat(name, &filestat) == 0;
 	return name;
-}
-
-/*
- * Takes the name returned by fetchname and looks in RCS/SCCS directories
- * for a checked in version.
- */
-char *
-checked_in(char *file)
-{
-	char		*filebase, *filedir, tmpbuf[MAXPATHLEN];
-	struct stat	filestat;
-
-	filebase = basename(file);
-	filedir = dirname(file);
-
-#define try(f, a1, a2, a3) \
-(snprintf(tmpbuf, sizeof tmpbuf, f, a1, a2, a3), stat(tmpbuf, &filestat) == 0)
-
-	if (try("%s/RCS/%s%s", filedir, filebase, RCSSUFFIX) ||
-	    try("%s/RCS/%s%s", filedir, filebase, "") ||
-	    try("%s/%s%s", filedir, filebase, RCSSUFFIX) ||
-	    try("%s/SCCS/%s%s", filedir, SCCSPREFIX, filebase) ||
-	    try("%s/%s%s", filedir, SCCSPREFIX, filebase))
-		return file;
-
-	return NULL;
 }
 
 void

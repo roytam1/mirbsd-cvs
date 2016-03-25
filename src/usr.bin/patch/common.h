@@ -1,16 +1,15 @@
-/*	$MirOS$ */
-/*	$OpenBSD: common.h,v 1.25 2003/10/31 20:20:45 millert Exp $	*/
+/*	$OpenBSD: common.h,v 1.29 2015/07/26 14:32:19 millert Exp $	*/
 
 /*
  * patch - a program to apply diffs to original files
- *
+ * 
  * Copyright 1986, Larry Wall
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following condition is met:
  * 1. Redistributions of source code must retain the above copyright notice,
  * this condition and the following disclaimer.
- *
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND ANY
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -22,17 +21,23 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- *
+ * 
  * -C option added in 1998, original code by Marc Espie, based on FreeBSD
  * behaviour
  */
 
+#ifndef MIRPATCH_COMMON_H
+#define MIRPATCH_COMMON_H "$MirOS$"
+
+#include <sys/types.h>
+
+#include <limits.h>
 #include <stdbool.h>
 
 #define DEBUGGING
 
 #if !defined(SIZE_MAX) && defined(SIZE_T_MAX)
-#define	SIZE_MAX	SIZE_T_MAX
+#define SIZE_MAX SIZE_T_MAX
 #endif
 
 /* constants */
@@ -41,14 +46,7 @@
 #define INITHUNKMAX 125		/* initial dynamic allocation size */
 #define MAXLINELEN 8192
 #define BUFFERSIZE 1024
-
-#define SCCSPREFIX "s."
-#define GET "get -e %s"
-#define SCCSDIFF "get -p %s | diff - %s >/dev/null"
-
-#define RCSSUFFIX ",v"
-#define CHECKOUT "co -l %s"
-#define RCSDIFF "rcsdiff %s > /dev/null"
+#define LINENUM_MAX LONG_MAX
 
 #define ORIGEXT ".orig"
 #define REJEXT ".rej"
@@ -66,7 +64,7 @@ typedef long    LINENUM;	/* must be signed */
 
 /* globals */
 
-extern int	filemode;
+extern mode_t	filemode;
 
 extern char	buf[MAXLINELEN];/* general purpose buffer */
 
@@ -116,3 +114,5 @@ extern char	*revision;	/* prerequisite revision, if any */
 extern LINENUM	input_lines;	/* how long is input file in lines */
 
 extern int	posix;
+
+#endif

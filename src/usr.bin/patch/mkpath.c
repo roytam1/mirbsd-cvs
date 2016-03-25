@@ -37,6 +37,8 @@
 #include "common.h"
 #include "util.h"
 
+__RCSID("$MirOS$");
+
 /* Code taken directly from mkdir(1).
 
  * mkpath -- create directories.
@@ -65,7 +67,7 @@ mkpath(char *path)
 				return (-1);
 			}
 		} else if (!S_ISDIR(sb.st_mode)) {
-			warnc(ENOTDIR, "%s", path);
+			warnx("%s: %s", path, strerror(ENOTDIR));
 			return (-1);
 		}
 

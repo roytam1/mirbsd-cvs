@@ -1,16 +1,15 @@
-/**	$MirOS$ */
-/*	$OpenBSD: inp.c,v 1.32 2004/08/05 21:47:24 deraadt Exp $	*/
+/*	$OpenBSD: inp.c,v 1.45 2015/11/11 01:12:10 deraadt Exp $	*/
 
 /*
  * patch - a program to apply diffs to original files
- *
+ * 
  * Copyright 1986, Larry Wall
- *
+ * 
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following condition is met:
  * 1. Redistributions of source code must retain the above copyright notice,
  * this condition and the following disclaimer.
- *
+ * 
  * THIS SOFTWARE IS PROVIDED BY THE AUTHOR AND CONTRIBUTORS ``AS IS'' AND ANY
  * EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -22,7 +21,7 @@
  * LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
- *
+ * 
  * -C option added in 1998, original code by Marc Espie, based on FreeBSD
  * behaviour
  */
@@ -34,8 +33,8 @@
 
 #include <ctype.h>
 #include <libgen.h>
-#include <limits.h>
 #include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -46,7 +45,7 @@
 #include "pch.h"
 #include "inp.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/patch/inp.c,v 1.2 2005/06/08 10:37:53 tg Exp $");
 
 /* Input-file-with-indexable-lines abstract type */
 
@@ -57,8 +56,9 @@ static char	**i_ptr;	/* pointers to lines in i_womp */
 static int	tifd = -1;	/* plan b virtual string array */
 static char	*tibuf[2];	/* plan b buffers */
 static LINENUM	tiline[2] = {-1, -1};	/* 1st line in each buffer */
-static LINENUM	lines_per_buf;	/* how many lines per buffer */
-static int	tireclen;	/* length of records in tmp file */
+static size_t	lines_per_buf;	/* how many lines per buffer */
+static size_t	tibuflen;	/* plan b buffer length */
+static size_t	tireclen;	/* length of records in tmp file */
 
 static bool	rev_in_string(const char *);
 static bool	reallocate_lines(size_t *);
@@ -74,13 +74,13 @@ void
 re_input(void)
 {
 	if (using_plan_a) {
-		i_size = 0;
 		free(i_ptr);
 		i_ptr = NULL;
 		if (i_womp != NULL) {
 			munmap(i_womp, i_size);
 			i_womp = NULL;
 		}
+		i_size = 0;
 	} else {
 		using_plan_a = true;	/* maybe the next one is smaller */
 		close(tifd);
@@ -93,7 +93,7 @@ re_input(void)
 	}
 }
 
-/* Constuct the line index, somehow or other. */
+/* Construct the line index, somehow or other. */
 
 void
 scan_input(const char *filename)
@@ -113,7 +113,7 @@ reallocate_lines(size_t *lines_allocated)
 	size_t	new_size;
 
 	new_size = *lines_allocated * 3 / 2;
-	p = realloc(i_ptr, (new_size + 2) * sizeof(char *));
+	p = reallocarray(i_ptr, new_size + 2, sizeof(char *));
 	if (p == NULL) {	/* shucks, it was a near thing */
 		munmap(i_womp, i_size);
 		i_womp = NULL;
@@ -133,12 +133,11 @@ static bool
 plan_a(const char *filename)
 {
 	int		ifd, statfailed;
-	char		*p, *s, lbuf[MAXLINELEN];
-	LINENUM		iline;
+	char		*p, *s;
 	struct stat	filestat;
 	off_t		i;
 	ptrdiff_t	sz;
-	size_t		lines_allocated;
+	size_t		iline, lines_allocated;
 
 #ifdef DEBUGGING
 	if (debug & 8)
@@ -161,75 +160,11 @@ plan_a(const char *filename)
 		if (check_only)
 			return true;
 		makedirs(filename, true);
-		close(creat(filename, 0666));
+		close(open(filename, O_CREAT | O_TRUNC | O_WRONLY, 0666));
 		statfailed = stat(filename, &filestat);
 	}
-	if (statfailed && check_only)
-		fatal("%s not found, -C mode, can't probe further\n", filename);
-	/* For nonexistent or read-only files, look for RCS or SCCS versions.  */
-	if (statfailed ||
-	    /* No one can write to it.  */
-	    (filestat.st_mode & 0222) == 0 ||
-	    /* I can't write to it.  */
-	    ((filestat.st_mode & 0022) == 0 && filestat.st_uid != getuid())) {
-		char	*cs = NULL, *filebase, *filedir;
-		struct stat	cstat;
-
-		filebase = basename(filename);
-		filedir = dirname(filename);
-
-		/* Leave room in lbuf for the diff command.  */
-		s = lbuf + 20;
-
-#define try(f, a1, a2, a3) \
-	(snprintf(s, sizeof lbuf - 20, f, a1, a2, a3), stat(s, &cstat) == 0)
-
-		if (try("%s/RCS/%s%s", filedir, filebase, RCSSUFFIX) ||
-		    try("%s/RCS/%s%s", filedir, filebase, "") ||
-		    try("%s/%s%s", filedir, filebase, RCSSUFFIX)) {
-			snprintf(buf, sizeof buf, CHECKOUT, filename);
-			snprintf(lbuf, sizeof lbuf, RCSDIFF, filename);
-			cs = "RCS";
-		} else if (try("%s/SCCS/%s%s", filedir, SCCSPREFIX, filebase) ||
-		    try("%s/%s%s", filedir, SCCSPREFIX, filebase)) {
-			snprintf(buf, sizeof buf, GET, s);
-			snprintf(lbuf, sizeof lbuf, SCCSDIFF, s, filename);
-			cs = "SCCS";
-		} else if (statfailed)
-			fatal("can't find %s\n", filename);
-		/*
-		 * else we can't write to it but it's not under a version
-		 * control system, so just proceed.
-		 */
-		if (cs) {
-			if (!statfailed) {
-				if ((filestat.st_mode & 0222) != 0)
-					/* The owner can write to it.  */
-					fatal("file %s seems to be locked "
-					    "by somebody else under %s\n",
-					    filename, cs);
-				/*
-				 * It might be checked out unlocked.  See if
-				 * it's safe to check out the default version
-				 * locked.
-				 */
-				if (verbose)
-					say("Comparing file %s to default "
-					    "%s version...\n",
-					    filename, cs);
-				if (system(lbuf))
-					fatal("can't check out file %s: "
-					    "differs from default %s version\n",
-					    filename, cs);
-			}
-			if (verbose)
-				say("Checking out file %s from %s...\n",
-				    filename, cs);
-			if (system(buf) || stat(filename, &filestat))
-				fatal("can't check out file %s from %s\n",
-				    filename, cs);
-		}
-	}
+	if (statfailed)
+		fatal("can't find %s\n", filename);
 	filemode = filestat.st_mode;
 	if (!S_ISREG(filemode))
 		fatal("%s is not a normal file--can't patch\n", filename);
@@ -246,14 +181,18 @@ plan_a(const char *filename)
 	if ((ifd = open(filename, O_RDONLY)) < 0)
 		pfatal("can't open file %s", filename);
 
-	i_womp = mmap(NULL, i_size, PROT_READ, MAP_PRIVATE, ifd, 0);
-	if (i_womp == MAP_FAILED) {
+	if (i_size) {
+		i_womp = mmap(NULL, i_size, PROT_READ, MAP_PRIVATE, ifd, 0);
+		if (i_womp == MAP_FAILED) {
 #ifndef __INTERIX
-		perror("mmap failed");
+			perror("mmap failed");
 #endif
+			i_womp = NULL;
+			close(ifd);
+			return false;
+		}
+	} else {
 		i_womp = NULL;
-		close(ifd);
-		return false;
 	}
 
 	close(ifd);
@@ -309,7 +248,7 @@ plan_a(const char *filename)
 	/* now check for revision, if any */
 
 	if (revision != NULL) {
-		if (!rev_in_string(i_womp)) {
+		if (i_womp == NULL || !rev_in_string(i_womp)) {
 			if (force) {
 				if (verbose)
 					say("Warning: this file doesn't appear "
@@ -339,8 +278,8 @@ static void
 plan_b(const char *filename)
 {
 	FILE	*ifp;
-	int	i = 0, j, maxlen = 1;
-	char	*p;
+	size_t	i = 0, j, len, maxlen = 1;
+	char	*lbuf = NULL, *p;
 	bool	found_revision = (revision == NULL);
 
 	using_plan_a = false;
@@ -349,15 +288,28 @@ plan_b(const char *filename)
 	(void) unlink(TMPINNAME);
 	if ((tifd = open(TMPINNAME, O_EXCL | O_CREAT | O_WRONLY, 0666)) < 0)
 		pfatal("can't open file %s", TMPINNAME);
-	while (fgets(buf, sizeof buf, ifp) != NULL) {
-		if (revision != NULL && !found_revision && rev_in_string(buf))
+	while ((p = fgetln(ifp, &len)) != NULL) {
+		if (p[len - 1] == '\n')
+			p[len - 1] = '\0';
+		else {
+			/* EOF without EOL, copy and add the NUL */
+			if ((lbuf = malloc(len + 1)) == NULL)
+				fatal("out of memory\n");
+			memcpy(lbuf, p, len);
+			lbuf[len] = '\0';
+			p = lbuf;
+
+			last_line_missing_eol = true;
+			len++;
+		}
+		if (revision != NULL && !found_revision && rev_in_string(p))
 			found_revision = true;
-		if ((i = strlen(buf)) > maxlen)
-			maxlen = i;	/* find longest line */
+		if (len > maxlen)
+			maxlen = len;	/* find longest line */
 	}
-	last_line_missing_eol = i > 0 && buf[i - 1] != '\n';
-	if (last_line_missing_eol && maxlen == i)
-		maxlen++;
+	free(lbuf);
+	if (ferror(ifp))
+		pfatal("can't read file %s", filename);
 
 	if (revision != NULL) {
 		if (!found_revision) {
@@ -382,23 +334,26 @@ plan_b(const char *filename)
 			    revision);
 	}
 	fseek(ifp, 0L, SEEK_SET);	/* rewind file */
-	lines_per_buf = BUFFERSIZE / maxlen;
 	tireclen = maxlen;
-	tibuf[0] = malloc(BUFFERSIZE + 1);
+	tibuflen = maxlen > BUFFERSIZE ? maxlen : BUFFERSIZE;
+	lines_per_buf = tibuflen / maxlen;
+	tibuf[0] = malloc(tibuflen + 1);
 	if (tibuf[0] == NULL)
 		fatal("out of memory\n");
-	tibuf[1] = malloc(BUFFERSIZE + 1);
+	tibuf[1] = malloc(tibuflen + 1);
 	if (tibuf[1] == NULL)
 		fatal("out of memory\n");
 	for (i = 1;; i++) {
 		p = tibuf[0] + maxlen * (i % lines_per_buf);
 		if (i % lines_per_buf == 0)	/* new block */
-			if (write(tifd, tibuf[0], BUFFERSIZE) < BUFFERSIZE)
+			if (write(tifd, tibuf[0], tibuflen) !=
+			    (ssize_t) tibuflen)
 				pfatal("can't write temp file");
 		if (fgets(p, maxlen + 1, ifp) == NULL) {
 			input_lines = i - 1;
 			if (i % lines_per_buf != 0)
-				if (write(tifd, tibuf[0], BUFFERSIZE) < BUFFERSIZE)
+				if (write(tifd, tibuf[0], tibuflen) !=
+				    (ssize_t) tibuflen)
 					pfatal("can't write temp file");
 			break;
 		}
@@ -439,10 +394,12 @@ ifetch(LINENUM line, int whichbuf)
 		else {
 			tiline[whichbuf] = baseline;
 
-			lseek(tifd, (off_t) (baseline / lines_per_buf *
-			    BUFFERSIZE), SEEK_SET);
+			if (lseek(tifd, (off_t) (baseline / lines_per_buf *
+			    tibuflen), SEEK_SET) < 0)
+				pfatal("cannot seek in the temporary input file");
 
-			if (read(tifd, tibuf[whichbuf], BUFFERSIZE) < 0)
+			if (read(tifd, tibuf[whichbuf], tibuflen)
+			    != (ssize_t) tibuflen)
 				pfatal("error reading tmp file %s", TMPINNAME);
 		}
 		return tibuf[whichbuf] + (tireclen * offline);
@@ -456,16 +413,17 @@ static bool
 rev_in_string(const char *string)
 {
 	const char	*s;
-	int		patlen;
+	size_t		patlen;
 
 	if (revision == NULL)
 		return true;
 	patlen = strlen(revision);
-	if (strnEQ(string, revision, patlen) && isspace(string[patlen]))
+	if (strnEQ(string, revision, patlen) &&
+	    isspace((unsigned char)string[patlen]))
 		return true;
 	for (s = string; *s; s++) {
-		if (isspace(*s) && strnEQ(s + 1, revision, patlen) &&
-		    isspace(s[patlen + 1])) {
+		if (isspace((unsigned char)*s) && strnEQ(s + 1, revision, patlen) &&
+		    isspace((unsigned char)s[patlen + 1])) {
 			return true;
 		}
 	}
