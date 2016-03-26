@@ -679,7 +679,7 @@
 .\" NS In macro - include
 .de In
 .ds mN In
-.if \\n(nS>0 \{\
+.ie \\n(nS>0 \{\
 .\"	if a variable type was the last thing given, want vertical space
 .	if \\n(fX>0 \{\
 .		Pp
@@ -694,14 +694,15 @@
 .		el .br
 .	\}
 .	nr fD \\n(fD+1
-.\}
-.nr cF \\n(.f
-.nr cZ \\n(.s
-.fI
+.	nr cF \\n(.f
+.	nr cZ \\n(.s
+.	fI
 \&\\*(fD#include <\\$1>
-.br
-.ft \\n(cF
-.fs \\n(cZ
+.	br
+.	ft \\n(cF
+.	fs \\n(cZ
+.\}
+.el .Pa \&<\\$1\&> \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
 ..
 .\" NS Li macro - literals
 .de Li
