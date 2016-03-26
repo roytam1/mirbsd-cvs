@@ -65,7 +65,7 @@
 #include <openssl/err.h>
 #include <openssl/ssl.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/apps/ocsp.c,v 1.4 2015/01/25 17:26:46 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/apps/ocsp.c,v 1.5 2015/05/25 15:32:46 tg Exp $");
 
 /* Maximum leeway in validity period: default 5 minutes */
 #define MAX_VALIDITY_PERIOD	(5 * 60)
@@ -170,6 +170,7 @@ int MAIN(int argc, char **argv)
 					{
 					BIO_printf(bio_err, "Error parsing URL\n");
 					badarg = 1;
+					break;
 					}
 				thost = host;
 				tport = port;
