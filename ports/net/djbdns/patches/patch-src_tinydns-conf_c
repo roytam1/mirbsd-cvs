@@ -1,25 +1,10 @@
-$MirOS: ports/net/djbdns/patches/patch-src_tinydns-conf_c,v 1.1.201.1 2005/05/14 23:21:06 tg Exp $
+$MirOS: ports/net/djbdns/patches/patch-src_tinydns-conf_c,v 1.2 2005/12/14 23:28:39 tg Exp $
 --- src/tinydns-conf.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/tinydns-conf.c	Tue Dec 13 21:43:28 2005
-@@ -47,7 +47,11 @@ int main(int argc,char **argv)
-   start("run");
-   outs("#!/bin/sh\nexec 2>&1\nexec envuidgid "); outs(user);
-   outs(" envdir ./env softlimit -d300000 ");
-+#ifndef DJB_V6ONLY
-   outs(auto_home); outs("/bin/tinydns\n");
-+#else
-+  outs(auto_home); outs("/bin/tinydnst6\n");
-+#endif /* DJB_V6ONLY */
++++ src/tinydns-conf.c	Sat Mar 26 14:36:22 2016
+@@ -82,6 +82,18 @@ int main(int argc,char **argv)
    finish();
    perm(0755);
  
-@@ -79,6 +83,18 @@ int main(int argc,char **argv)
-   start("root/add-alias");
-   outs("#!/bin/sh\nexec ");
-   outs(auto_home); outs("/bin/tinydns-edit data data.new add alias ${1+\"$@\"}\n");
-+  finish();
-+  perm(0755);
-+
 +  start("root/add-host6");
 +  outs("#!/bin/sh\nexec ");
 +  outs(auto_home); outs("/bin/tinydns-edit data data.new add host6 ${1+\"$@\"}\n");
@@ -29,6 +14,9 @@ $MirOS: ports/net/djbdns/patches/patch-src_tinydns-conf_c,v 1.1.201.1 2005/05/14
 +  start("root/add-alias6");
 +  outs("#!/bin/sh\nexec ");
 +  outs(auto_home); outs("/bin/tinydns-edit data data.new add alias6 ${1+\"$@\"}\n");
-   finish();
-   perm(0755);
- 
++  finish();
++  perm(0755);
++
+   start("root/add-mx");
+   outs("#!/bin/sh\nexec ");
+   outs(auto_home); outs("/bin/tinydns-edit data data.new add mx ${1+\"$@\"}\n");

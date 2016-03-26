@@ -1,4 +1,4 @@
-# $MirOS$
+# $MirOS: ports/net/djbdns/files/build/bins/lib/Makefile,v 1.1.201.1 2005/05/14 23:21:07 tg Exp $
 
 LIB=		djbdns
 SRCS=		alloc.c alloc_re.c auto_home.c buffer.c buffer_1.c buffer_2.c \
@@ -14,11 +14,11 @@ SRCS=		alloc.c alloc_re.c auto_home.c buffer.c buffer_1.c buffer_2.c \
 		iopause.c ip4_fmt.c ip4_scan.c ip6_fmt.c ip6_scan.c \
 		ndelay_off.c ndelay_on.c open_read.c open_trunc.c \
 		openreadclose.c parsetype.c printpacket.c printrecord.c \
-		prot.c qlog.c readclose.c response.c scan_ulong.c \
+		prot.c qlog.c qmerge.c readclose.c response.c scan_ulong.c \
 		scan_xlong.c seek_set.c server.c sgetopt.c socket_accept.c \
 		socket_accept6.o socket_bind.c socket_bind6.o socket_conn.c \
 		socket_connect6.o socket_getifidx.o socket_listen.c \
-		socket_noipv6.o socket_recv.c socket_recv6.o socket_send.c \
+		clientloc.c socket_recv.c socket_recv6.o socket_send.c \
 		socket_send6.o socket_tcp.c socket_tcp6.o socket_udp.c \
 		socket_udp6.o str_chr.c str_diff.c str_len.c str_rchr.c \
 		str_start.c stralloc_cat.c stralloc_catb.c stralloc_cats.c \

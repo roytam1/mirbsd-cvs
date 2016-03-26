@@ -1,20 +1,27 @@
-$MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:05 tg Exp $
+$MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.2 2005/12/14 23:28:37 tg Exp $
 --- src/query.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/query.c	Tue Dec 13 23:46:20 2005
-@@ -12,7 +12,12 @@
++++ src/query.c	Sat Mar 26 16:55:30 2016
+@@ -12,7 +12,10 @@
  #include "alloc.h"
  #include "response.h"
  #include "query.h"
-+#ifdef DJB_V6ONLY
 +#include "ip6.h"
-+#endif /* DJB_V6ONLY */
  
 +extern stralloc ignoreip;
 +
  static int flagforwardonly = 0;
  
  void query_forwardonly(void)
-@@ -91,6 +96,21 @@ static void cleanup(struct query *z)
+@@ -81,7 +84,7 @@ static void cleanup(struct query *z)
+   int j;
+   int k;
+ 
+-  dns_transmit_free(&z->dt);
++  qmerge_free(&z->qm);
+   for (j = 0;j < QUERY_MAXALIAS;++j)
+     dns_domain_free(&z->alias[j]);
+   for (j = 0;j < QUERY_MAXLEVEL;++j) {
+@@ -91,6 +94,21 @@ static void cleanup(struct query *z)
    }
  }
  
@@ -36,19 +43,16 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
  static int rqa(struct query *z)
  {
    int i;
-@@ -110,7 +130,11 @@ static int rqa(struct query *z)
+@@ -110,7 +128,7 @@ static int rqa(struct query *z)
    return 1;
  }
  
-+#ifndef DJB_V6ONLY
- static int globalip(char *d,char ip[4])
-+#else
+-static int globalip(char *d,char ip[4])
 +static int globalip(char *d,char ip[16])
-+#endif /* DJB_V6ONLY */
  {
    if (dns_domain_equal(d,"\011localhost\0")) {
      byte_copy(ip,4,"\177\0\0\1");
-@@ -123,7 +147,6 @@ static int globalip(char *d,char ip[4])
+@@ -123,7 +141,6 @@ static int globalip(char *d,char ip[4])
  static char *t1 = 0;
  static char *t2 = 0;
  static char *t3 = 0;
@@ -56,19 +60,16 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
  static char *referral = 0;
  static unsigned int *records = 0;
  
-@@ -165,7 +188,11 @@ static int doit(struct query *z,int stat
+@@ -165,7 +182,7 @@ static int doit(struct query *z,int stat
    char *buf;
    unsigned int len;
    const char *whichserver;
-+#ifndef DJB_V6ONLY
-   char header[12];
-+#else
+-  char header[12];
 +  char header[24];
-+#endif /* DJB_V6ONLY */
    char misc[20];
    unsigned int rcode;
    unsigned int posanswers;
-@@ -179,20 +206,20 @@ static int doit(struct query *z,int stat
+@@ -179,20 +196,20 @@ static int doit(struct query *z,int stat
    uint16 datalen;
    char *control;
    char *d;
@@ -91,24 +92,27 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
  
    errno = error_io;
    if (state == 1) goto HAVEPACKET;
-@@ -210,9 +237,16 @@ static int doit(struct query *z,int stat
+@@ -205,14 +222,15 @@ static int doit(struct query *z,int stat
+   NEWNAME:
+   if (++z->loop == 100) goto DIE;
+   d = z->name[z->level];
+-  dtype = z->level ? DNS_T_A : z->type;
++  dtype = z->level ? (z->ipv6[z->level] ? DNS_T_AAAA : DNS_T_A) : z->type;
+   dlen = dns_domain_length(d);
  
    if (globalip(d,misc)) {
      if (z->level) {
-+#ifndef DJB_V6ONLY
-       for (k = 0;k < 64;k += 4)
-         if (byte_equal(z->servers[z->level - 1] + k,4,"\0\0\0\0")) {
- 	  byte_copy(z->servers[z->level - 1] + k,4,misc);
-+#else
+-      for (k = 0;k < 64;k += 4)
+-        if (byte_equal(z->servers[z->level - 1] + k,4,"\0\0\0\0")) {
+-	  byte_copy(z->servers[z->level - 1] + k,4,misc);
 +      for (k = 0;k < 256;k += 16)
 +        if (byte_equal(z->servers[z->level - 1] + k,16,V6any)) {
 +	  byte_copy(z->servers[z->level - 1] + k,12,V4mappedprefix);
 +	  byte_copy(z->servers[z->level - 1] + k + 12,4,misc);
-+#endif /* DJB_V6ONLY */
  	  break;
  	}
        goto LOWERLEVEL;
-@@ -227,6 +261,158 @@ static int doit(struct query *z,int stat
+@@ -227,6 +245,158 @@ static int doit(struct query *z,int stat
      return 1;
    }
  
@@ -267,7 +271,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
    if (dns_domain_equal(d,"\0011\0010\0010\003127\7in-addr\4arpa\0")) {
      if (z->level) goto LOWERLEVEL;
      if (!rqa(z)) goto DIE;
-@@ -252,7 +438,10 @@ static int doit(struct query *z,int stat
+@@ -252,7 +422,10 @@ static int doit(struct query *z,int stat
  
      byte_copy(key,2,DNS_T_CNAME);
      cached = cache_get(key,dlen + 2,&cachedlen,&ttl);
@@ -279,7 +283,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
        if (typematch(DNS_T_CNAME,dtype)) {
          log_cachedanswer(d,DNS_T_CNAME);
          if (!rqa(z)) goto DIE;
-@@ -261,8 +450,11 @@ static int doit(struct query *z,int stat
+@@ -261,8 +434,11 @@ static int doit(struct query *z,int stat
  	return 1;
        }
        log_cachedcname(d,cached);
@@ -293,7 +297,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
      }
  
      if (typematch(DNS_T_NS,dtype)) {
-@@ -272,7 +464,7 @@ static int doit(struct query *z,int stat
+@@ -272,7 +448,7 @@ static int doit(struct query *z,int stat
  	log_cachedanswer(d,DNS_T_NS);
  	if (!rqa(z)) goto DIE;
  	pos = 0;
@@ -302,7 +306,37 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
  	  if (!response_rstart(d,DNS_T_NS,ttl)) goto DIE;
  	  if (!response_addname(t2)) goto DIE;
  	  response_rfinish(RESPONSE_ANSWER);
-@@ -289,7 +481,7 @@ static int doit(struct query *z,int stat
+@@ -282,6 +458,29 @@ static int doit(struct query *z,int stat
+       }
+     }
+ 
++    if (typematch(DNS_T_SOA,dtype)) {
++      byte_copy(key,2,DNS_T_SOA);
++      cached = cache_get(key,dlen + 2,&cachedlen,&ttl);
++      if (cached && (cachedlen || byte_diff(dtype,2,DNS_T_ANY))) {
++        log_cachedanswer(d,DNS_T_SOA);
++        if (!rqa(z)) goto DIE;
++        pos = 0;
++        while (pos = dns_packet_copy(cached,cachedlen,pos,misc,20)) {
++          pos = dns_packet_getname(cached,cachedlen,pos,&t2);
++          if (!pos) break;
++          pos = dns_packet_getname(cached,cachedlen,pos,&t3);
++          if (!pos) break;
++          if (!response_rstart(d,DNS_T_SOA,ttl)) goto DIE;
++          if (!response_addname(t2)) goto DIE;
++          if (!response_addname(t3)) goto DIE;
++          if (!response_addbytes(misc,20)) goto DIE;
++          response_rfinish(RESPONSE_ANSWER);
++        }
++        cleanup(z);
++        return 1;
++      }
++    }
++
+     if (typematch(DNS_T_PTR,dtype)) {
+       byte_copy(key,2,DNS_T_PTR);
+       cached = cache_get(key,dlen + 2,&cachedlen,&ttl);
+@@ -289,7 +488,7 @@ static int doit(struct query *z,int stat
  	log_cachedanswer(d,DNS_T_PTR);
  	if (!rqa(z)) goto DIE;
  	pos = 0;
@@ -311,7 +345,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
  	  if (!response_rstart(d,DNS_T_PTR,ttl)) goto DIE;
  	  if (!response_addname(t2)) goto DIE;
  	  response_rfinish(RESPONSE_ANSWER);
-@@ -306,7 +498,7 @@ static int doit(struct query *z,int stat
+@@ -306,7 +505,7 @@ static int doit(struct query *z,int stat
  	log_cachedanswer(d,DNS_T_MX);
  	if (!rqa(z)) goto DIE;
  	pos = 0;
@@ -320,28 +354,10 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
  	  pos = dns_packet_getname(cached,cachedlen,pos,&t2);
  	  if (!pos) break;
  	  if (!response_rstart(d,DNS_T_MX,ttl)) goto DIE;
-@@ -326,9 +518,16 @@ static int doit(struct query *z,int stat
- 	if (z->level) {
- 	  log_cachedanswer(d,DNS_T_A);
- 	  while (cachedlen >= 4) {
-+#ifndef DJB_V6ONLY
- 	    for (k = 0;k < 64;k += 4)
- 	      if (byte_equal(z->servers[z->level - 1] + k,4,"\0\0\0\0")) {
- 		byte_copy(z->servers[z->level - 1] + k,4,cached);
-+#else
-+	    for (k = 0;k < 256;k += 16)
-+	      if (byte_equal(z->servers[z->level - 1] + k,16,V6any)) {
-+		byte_copy(z->servers[z->level - 1] + k,12,V4mappedprefix);
-+		byte_copy(z->servers[z->level - 1] + k + 12,4,cached);
-+#endif /* DJB_V6ONLY */
- 		break;
- 	      }
- 	    cached += 4;
-@@ -351,7 +550,45 @@ static int doit(struct query *z,int stat
+@@ -319,16 +518,54 @@ static int doit(struct query *z,int stat
        }
      }
  
--    if (!typematch(DNS_T_ANY,dtype) && !typematch(DNS_T_AXFR,dtype) && !typematch(DNS_T_CNAME,dtype) && !typematch(DNS_T_NS,dtype) && !typematch(DNS_T_PTR,dtype) && !typematch(DNS_T_A,dtype) && !typematch(DNS_T_MX,dtype)) {
 +    if (typematch(DNS_T_AAAA,dtype)) {
 +      byte_copy(key,2,DNS_T_AAAA);
 +      cached = cache_get(key,dlen + 2,&cachedlen,&ttl);
@@ -349,15 +365,9 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
 +	if (z->level) {
 +	  log_cachedanswer(d,DNS_T_AAAA);
 +	  while (cachedlen >= 16) {
-+#ifndef DJB_V6ONLY
-+	    for (k = 0;k < 64;k += 4)
-+	      if (byte_equal(z->servers[z->level - 1] + k,4,"\0\0\0\0")) {
-+		byte_copy(z->servers[z->level - 1] + k,4,cached);
-+#else
 +	    for (k = 0;k < 256;k += 16)
 +	      if (byte_equal(z->servers[z->level - 1] + k,16,V6any)) {
 +		byte_copy(z->servers[z->level - 1] + k,16,cached);
-+#endif /* DJB_V6ONLY */
 +		break;
 +	      }
 +	    cached += 16;
@@ -380,19 +390,43 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
 +      }
 +    }
 +
-+    if (!typematch(DNS_T_ANY,dtype) && !typematch(DNS_T_AXFR,dtype) && !typematch(DNS_T_NS,dtype) && !typematch(DNS_T_PTR,dtype) && !typematch(DNS_T_A,dtype) && !typematch(DNS_T_MX,dtype) && !typematch(DNS_T_AAAA,dtype)) {
+     if (typematch(DNS_T_A,dtype)) {
+       byte_copy(key,2,DNS_T_A);
+       cached = cache_get(key,dlen + 2,&cachedlen,&ttl);
++      if (cached && !cachedlen && z->level) {
++	/* if we were looking the A record up to find an NS, try IPv6 too */
++	z->ipv6[z->level]=1;
++	goto NEWNAME;
++      }
+       if (cached && (cachedlen || byte_diff(dtype,2,DNS_T_ANY))) {
+ 	if (z->level) {
+ 	  log_cachedanswer(d,DNS_T_A);
+ 	  while (cachedlen >= 4) {
+-	    for (k = 0;k < 64;k += 4)
+-	      if (byte_equal(z->servers[z->level - 1] + k,4,"\0\0\0\0")) {
+-		byte_copy(z->servers[z->level - 1] + k,4,cached);
++	    for (k = 0;k < 256;k += 16)
++	      if (byte_equal(z->servers[z->level - 1] + k,16,V6any)) {
++		byte_copy(z->servers[z->level - 1] + k,12,V4mappedprefix);
++		byte_copy(z->servers[z->level - 1] + k + 12,4,cached);
+ 		break;
+ 	      }
+ 	    cached += 4;
+@@ -351,7 +588,7 @@ static int doit(struct query *z,int stat
+       }
+     }
+ 
+-    if (!typematch(DNS_T_ANY,dtype) && !typematch(DNS_T_AXFR,dtype) && !typematch(DNS_T_CNAME,dtype) && !typematch(DNS_T_NS,dtype) && !typematch(DNS_T_PTR,dtype) && !typematch(DNS_T_A,dtype) && !typematch(DNS_T_MX,dtype)) {
++    if (!typematch(DNS_T_ANY,dtype) && !typematch(DNS_T_AXFR,dtype) && !typematch(DNS_T_NS,dtype) && !typematch(DNS_T_SOA,dtype) && !typematch(DNS_T_PTR,dtype) && !typematch(DNS_T_AAAA,dtype) && !typematch(DNS_T_A,dtype) && !typematch(DNS_T_MX,dtype)) {
        byte_copy(key,2,dtype);
        cached = cache_get(key,dlen + 2,&cachedlen,&ttl);
        if (cached && (cachedlen || byte_diff(dtype,2,DNS_T_ANY))) {
-@@ -390,12 +627,16 @@ static int doit(struct query *z,int stat
+@@ -390,12 +627,12 @@ static int doit(struct query *z,int stat
          cached = cache_get(key,dlen + 2,&cachedlen,&ttl);
          if (cached && cachedlen) {
  	  z->control[z->level] = d;
-+#ifndef DJB_V6ONLY
-           byte_zero(z->servers[z->level],64);
-+#else
+-          byte_zero(z->servers[z->level],64);
 +          byte_zero(z->servers[z->level],256);
-+#endif /* DJB_V6ONLY */
            for (j = 0;j < QUERY_MAXNS;++j)
              dns_domain_free(&z->ns[z->level][j]);
            pos = 0;
@@ -402,45 +436,58 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
  	    log_cachedns(d,t1);
              if (j < QUERY_MAXNS)
                if (!dns_domain_copy(&z->ns[z->level][j++],t1)) goto DIE;
-@@ -423,12 +664,25 @@ static int doit(struct query *z,int stat
+@@ -418,25 +655,20 @@ static int doit(struct query *z,int stat
+         if (!dns_domain_copy(&z->name[z->level + 1],z->ns[z->level][j])) goto DIE;
+         dns_domain_free(&z->ns[z->level][j]);
+         ++z->level;
++        z->ipv6[z->level]=0;
+         goto NEWNAME;
+       }
        dns_domain_free(&z->ns[z->level][j]);
      }
  
-+#ifndef DJB_V6ONLY
-   for (j = 0;j < 64;j += 4)
-     if (byte_diff(z->servers[z->level] + j,4,"\0\0\0\0"))
-+#else
+-  for (j = 0;j < 64;j += 4)
+-    if (byte_diff(z->servers[z->level] + j,4,"\0\0\0\0"))
 +  for (j = 0;j < 256;j += 16)
 +    if (byte_diff(z->servers[z->level] + j,16,V6any))
-+#endif /* DJB_V6ONLY */
        break;
-+#ifndef DJB_V6ONLY
-   if (j == 64) goto SERVFAIL;
-+#else
+-  if (j == 64) goto SERVFAIL;
 +  if (j == 256) goto SERVFAIL;
-+#endif /* DJB_V6ONLY */
  
-+#ifndef DJB_V6ONLY
-   dns_sortip(z->servers[z->level],64);
-+#else
+-  dns_sortip(z->servers[z->level],64);
+-  if (z->level) {
+-    log_tx(z->name[z->level],DNS_T_A,z->control[z->level],z->servers[z->level],z->level);
+-    if (dns_transmit_start(&z->dt,z->servers[z->level],flagforwardonly,z->name[z->level],DNS_T_A,z->localip) == -1) goto DIE;
+-  }
+-  else {
+-    log_tx(z->name[0],z->type,z->control[0],z->servers[0],0);
+-    if (dns_transmit_start(&z->dt,z->servers[0],flagforwardonly,z->name[0],z->type,z->localip) == -1) goto DIE;
+-  }
 +  dns_sortip6(z->servers[z->level],256);
-+#endif /* DJB_V6ONLY */
-   if (z->level) {
-     log_tx(z->name[z->level],DNS_T_A,z->control[z->level],z->servers[z->level],z->level);
-     if (dns_transmit_start(&z->dt,z->servers[z->level],flagforwardonly,z->name[z->level],DNS_T_A,z->localip) == -1) goto DIE;
-@@ -453,7 +707,11 @@ static int doit(struct query *z,int stat
-   buf = z->dt.packet;
-   len = z->dt.packetlen;
++  dtype = z->level ? (z->ipv6[z->level] ? DNS_T_AAAA : DNS_T_A) : z->type;
++  if (qmerge_start(&z->qm,z->servers[z->level],flagforwardonly,z->name[z->level],dtype,z->localip,z->control[z->level]) == -1) goto DIE;
+   return 0;
  
-+#ifndef DJB_V6ONLY
-   whichserver = z->dt.servers + 4 * z->dt.curserver;
-+#else
-+  whichserver = z->dt.servers + 16 * z->dt.curserver;
-+#endif /* DJB_V6ONLY */
+ 
+@@ -450,13 +682,13 @@ static int doit(struct query *z,int stat
+ 
+   HAVEPACKET:
+   if (++z->loop == 100) goto DIE;
+-  buf = z->dt.packet;
+-  len = z->dt.packetlen;
++  buf = z->qm->dt.packet;
++  len = z->qm->dt.packetlen;
+ 
+-  whichserver = z->dt.servers + 4 * z->dt.curserver;
++  whichserver = z->qm->dt.servers + 16 * z->qm->dt.curserver;
    control = z->control[z->level];
    d = z->name[z->level];
-   dtype = z->level ? DNS_T_A : z->type;
-@@ -471,29 +729,31 @@ static int doit(struct query *z,int stat
+-  dtype = z->level ? DNS_T_A : z->type;
++  dtype = z->level ? (z->ipv6[z->level] ? DNS_T_AAAA : DNS_T_A) : z->type;
+ 
+   pos = dns_packet_copy(buf,len,0,header,12); if (!pos) goto DIE;
+   pos = dns_packet_skipname(buf,len,pos); if (!pos) goto DIE;
+@@ -471,29 +703,31 @@ static int doit(struct query *z,int stat
    if (rcode && (rcode != 3)) goto DIE; /* impossible; see irrelevant() */
  
    flagout = 0;
@@ -478,7 +525,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
    posauthority = pos;
  
    for (j = 0;j < numauthority;++j) {
-@@ -516,14 +776,6 @@ static int doit(struct query *z,int stat
+@@ -516,14 +750,6 @@ static int doit(struct query *z,int stat
    posglue = pos;
  
  
@@ -493,25 +540,45 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
    if (records) { alloc_free(records); records = 0; }
  
    k = numanswers + numauthority + numglue;
-@@ -643,6 +895,17 @@ static int doit(struct query *z,int stat
+@@ -585,15 +811,24 @@ static int doit(struct query *z,int stat
+     else if (byte_equal(type,2,DNS_T_AXFR))
+       ;
+     else if (byte_equal(type,2,DNS_T_SOA)) {
++      int non_authority = 0;
++      save_start();
+       while (i < j) {
+         pos = dns_packet_skipname(buf,len,records[i]); if (!pos) goto DIE;
+         pos = dns_packet_getname(buf,len,pos + 10,&t2); if (!pos) goto DIE;
+         pos = dns_packet_getname(buf,len,pos,&t3); if (!pos) goto DIE;
+         pos = dns_packet_copy(buf,len,pos,misc,20); if (!pos) goto DIE;
+-        if (records[i] < posauthority)
++        if (records[i] < posauthority) {
+           log_rrsoa(whichserver,t1,t2,t3,misc,ttl);
++          save_data(misc,20);
++          save_data(t2,dns_domain_length(t2));
++          save_data(t3,dns_domain_length(t3));
++          non_authority++;
++        }
+         ++i;
+       }
++      if (non_authority)
++        save_finish(DNS_T_SOA,t1,ttl);
+     }
+     else if (byte_equal(type,2,DNS_T_CNAME)) {
+       pos = dns_packet_skipname(buf,len,records[j - 1]); if (!pos) goto DIE;
+@@ -643,6 +878,11 @@ static int doit(struct query *z,int stat
          pos = dns_packet_copy(buf,len,pos,header,10); if (!pos) goto DIE;
          if (byte_equal(header + 8,2,"\0\4")) {
            pos = dns_packet_copy(buf,len,pos,header,4); if (!pos) goto DIE;
 +          if (ignoreip.len)
-+#ifdef DJB_V6ONLY
-+	    for(ii = 0; ii < ignoreip.len; ii+= 16) {
++	    for (ii = 0; ii < ignoreip.len; ii+= 16) {
 +	      if (byte_equal(ignoreip.s+ii,12,V4mappedprefix) &&
 +	          byte_equal(header,4,ignoreip.s+ii+12)) goto NXDOMAIN;
 +	    }
-+#else
-+	    for(ii = 0; ii < ignoreip.len; ii+= 4) {
-+	      if (byte_equal(header,4,ignoreip.s+ii)) goto NXDOMAIN;
-+	    }
-+#endif
            save_data(header,4);
            log_rr(whichserver,t1,DNS_T_A,header,4,ttl);
          }
-@@ -650,6 +913,25 @@ static int doit(struct query *z,int stat
+@@ -650,6 +890,23 @@ static int doit(struct query *z,int stat
        }
        save_finish(DNS_T_A,t1,ttl);
      }
@@ -522,11 +589,9 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
 +        pos = dns_packet_copy(buf,len,pos,header,10); if (!pos) goto DIE;
 +        if (byte_equal(header + 8,2,"\0\20")) {
 +          pos = dns_packet_copy(buf,len,pos,header,16); if (!pos) goto DIE;
-+#ifdef DJB_V6ONLY
 +          if (ignoreip.len)
-+	    for(ii = 0; ii < ignoreip.len; ii+= 16)
++	    for (ii = 0; ii < ignoreip.len; ii+= 16)
 +	      if (byte_equal(header,16,ignoreip.s+ii)) goto NXDOMAIN;
-+#endif
 +          save_data(header,16);
 +          log_rr(whichserver,t1,DNS_T_AAAA,header,16,ttl);
 +        }
@@ -537,7 +602,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
      else {
        save_start();
        while (i < j) {
-@@ -670,24 +952,36 @@ static int doit(struct query *z,int stat
+@@ -670,24 +927,36 @@ static int doit(struct query *z,int stat
  
    alloc_free(records); records = 0;
  
@@ -588,7 +653,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
    if (rcode == 3) {
      log_nxdomain(whichserver,d,soattl);
      cachegeneric(DNS_T_ANY,d,"",0,soattl);
-@@ -700,10 +994,30 @@ static int doit(struct query *z,int stat
+@@ -700,13 +969,34 @@ static int doit(struct query *z,int stat
      return 1;
    }
  
@@ -604,11 +669,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
 +  if (!rcode && !flagout && flagreferral && !flagsoa)
 +    if (dns_domain_equal(referral,control) || !dns_domain_suffix(referral,control)) {
 +      log_lame(whichserver,control,referral);
-+#ifndef DJB_V6ONLY
-+      byte_zero(whichserver,4);
-+#else
 +      byte_zero(whichserver,16);
-+#endif /* DJB_V6ONLY */
 +      goto HAVENS;
 +    }
 +
@@ -621,24 +682,45 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
            save_start();
            save_finish(dtype,d,soattl);
  	  log_nodata(whichserver,d,dtype,soattl);
-@@ -723,9 +1037,16 @@ static int doit(struct query *z,int stat
++	  if (z->level && !byte_diff(DNS_T_A,2,dtype)) {
++	    d = z->name[z->level];
++	    z->ipv6[z->level] = 1;
++	    goto NEWNAME; /* retry, will ask for AAAA next */
++	  }
+         }
+ 
+   log_stats();
+@@ -719,15 +1009,25 @@ static int doit(struct query *z,int stat
+         pos = dns_packet_getname(buf,len,pos,&t1); if (!pos) goto DIE;
+         pos = dns_packet_copy(buf,len,pos,header,10); if (!pos) goto DIE;
+         uint16_unpack_big(header + 8,&datalen);
+-        if (dns_domain_equal(t1,d))
++        if (dns_domain_equal(t1,d)) {
            if (typematch(header,DNS_T_A))
              if (byte_equal(header + 2,2,DNS_C_IN)) /* should always be true */
                if (datalen == 4)
-+#ifndef DJB_V6ONLY
-                 for (k = 0;k < 64;k += 4)
-                   if (byte_equal(z->servers[z->level - 1] + k,4,"\0\0\0\0")) {
-                     if (!dns_packet_copy(buf,len,pos,z->servers[z->level - 1] + k,4)) goto DIE;
-+#else
+-                for (k = 0;k < 64;k += 4)
+-                  if (byte_equal(z->servers[z->level - 1] + k,4,"\0\0\0\0")) {
+-                    if (!dns_packet_copy(buf,len,pos,z->servers[z->level - 1] + k,4)) goto DIE;
 +                for (k = 0;k < 256;k += 16)
 +                  if (byte_equal(z->servers[z->level - 1] + k,16,V6any)) {
 +		    byte_copy(z->servers[z->level - 1] + k,12,V4mappedprefix);
 +                    if (!dns_packet_copy(buf,len,pos,z->servers[z->level - 1] + k + 12,4)) goto DIE;
-+#endif /* DJB_V6ONLY */
                      break;
                    }
++          if (typematch(header,DNS_T_AAAA))
++            if (byte_equal(header + 2,2,DNS_C_IN)) /* should always be true */
++              if (datalen == 16)
++                for (k = 0;k < 256;k += 16)
++                  if (byte_equal(z->servers[z->level - 1] + k,16,V6any)) {
++                    if (!dns_packet_copy(buf,len,pos,z->servers[z->level - 1] + k,16)) goto DIE;
++                    break;
++                  }
++        }
          pos += datalen;
-@@ -781,6 +1102,22 @@ static int doit(struct query *z,int stat
+       }
+       goto LOWERLEVEL;
+@@ -781,9 +1081,21 @@ static int doit(struct query *z,int stat
  
  
    if (!dns_domain_suffix(d,referral)) goto DIE;
@@ -650,18 +732,18 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
 +  */
 +  if (flagforwardonly) {
 +      log_ignore_referral(whichserver,control,referral);
-+#ifndef DJB_V6ONLY
-+      byte_zero(whichserver,4);
-+#else
 +      byte_zero(whichserver,16);
-+#endif /* DJB_V6ONLY */
 +      goto HAVENS;
 +  }
 +
    control = d + dns_domain_suffixpos(d,referral);
    z->control[z->level] = control;
-   byte_zero(z->servers[z->level],64);
-@@ -815,10 +1152,15 @@ static int doit(struct query *z,int stat
+-  byte_zero(z->servers[z->level],64);
++  byte_zero(z->servers[z->level],256);
+   for (j = 0;j < QUERY_MAXNS;++j)
+     dns_domain_free(&z->ns[z->level][j]);
+   k = 0;
+@@ -815,10 +1127,11 @@ static int doit(struct query *z,int stat
    DIE:
    cleanup(z);
    if (records) { alloc_free(records); records = 0; }
@@ -669,24 +751,34 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.1.201.1 2005/05/14 23:21:
    return -1;
  }
  
-+#ifndef DJB_V6ONLY
- int query_start(struct query *z,char *dn,char type[2],char class[2],char localip[4])
-+#else
+-int query_start(struct query *z,char *dn,char type[2],char class[2],char localip[4])
 +int query_start(struct query *z,char *dn,char type[2],char class[2],char localip[16],unsigned int scope_id)
-+#endif /* DJB_V6ONLY */
  {
    if (byte_equal(type,2,DNS_T_AXFR)) { errno = error_perm; return -1; }
  
-@@ -829,7 +1171,12 @@ int query_start(struct query *z,char *dn
+@@ -829,14 +1142,16 @@ int query_start(struct query *z,char *dn
    if (!dns_domain_copy(&z->name[0],dn)) return -1;
    byte_copy(z->type,2,type);
    byte_copy(z->class,2,class);
-+#ifndef DJB_V6ONLY
-   byte_copy(z->localip,4,localip);
-+#else
+-  byte_copy(z->localip,4,localip);
 +  byte_copy(z->localip,16,localip);
 +  z->scope_id=scope_id;
-+#endif /* DJB_V6ONLY */
++  z->ipv6[0]=0;
  
    return doit(z,0);
+ }
+ 
+ int query_get(struct query *z,iopause_fd *x,struct taia *stamp)
+ {
+-  switch(dns_transmit_get(&z->dt,x,stamp)) {
++  switch(qmerge_get(&z->qm,x,stamp)) {
+     case 1:
+       return doit(z,1);
+     case -1:
+@@ -847,5 +1162,5 @@ int query_get(struct query *z,iopause_fd
+ 
+ void query_io(struct query *z,iopause_fd *x,struct taia *deadline)
+ {
+-  dns_transmit_io(&z->dt,x,deadline);
++  qmerge_io(z->qm,x,deadline);
  }

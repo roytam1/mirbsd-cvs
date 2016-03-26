@@ -1,10 +1,10 @@
-# $MirOS: ports/net/djbdns/Makefile,v 1.46 2013/09/10 18:40:40 tg Exp $
+# $MirOS: ports/net/djbdns/Makefile,v 1.47 2014/06/09 14:21:59 tg Exp $
 
 COMMENT=		collection of Domain Name System server and tools
 VERSION=		1.05
 CATEGORIES=		net
 DISTNAME=		djbdns-${VERSION}
-DASH_VER=		43
+DASH_VER=		44
 MANVER=			20031023
 HOMEPAGE=		http://cr.yp.to/djbdns.html
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
@@ -36,7 +36,6 @@ NO_REGRESS=		Yes
 BROKEN=			Multiple DNS Roots chosen; invalid combination
 .  else
 DNSROOT=		icann
-DNSROOT6=		icann
 .  endif
 .endif
 
@@ -47,7 +46,6 @@ DNSROOT6=		icann
 BROKEN=			Multiple DNS Roots chosen; invalid combination
 .  else
 DNSROOT=		eorsn
-DNSROOT6=		eorsn6
 .  endif
 .endif
 
@@ -58,7 +56,6 @@ DNSROOT6=		eorsn6
 BROKEN=			Multiple DNS Roots chosen; invalid combination
 .  else
 DNSROOT=		opennic
-DNSROOT6=		opennic6
 .  endif
 .endif
 
@@ -79,16 +76,9 @@ post-extract:
 	cd ${FILESDIR}; pax -rw build ${WRKDIR}
 	cd ${WRKDIR}; mv djbdns-${VERSION} src; mv djbdns-man man
 
-post-build:
-	cat ${FILESDIR}/data/dnsroots.${DNSROOT6} \
-	    ${FILESDIR}/data/dnsroots.${DNSROOT} \
-	    >${WRKBUILD}/dnsroots.6+4
-
 post-install:
 	${INSTALL_DATA_DIR} ${PREFIX}/share/djbdns
 	${INSTALL_DATA} ${FILESDIR}/data/dnsroots.${DNSROOT} \
 	    ${PREFIX}/share/djbdns/dnsroots.global
-	${INSTALL_DATA} ${WRKBUILD}/dnsroots.6+4 \
-	    ${PREFIX}/share/djbdns/dnsroots.global.v6
 
 .include <bsd.port.mk>

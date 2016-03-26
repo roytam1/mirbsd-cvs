@@ -1,35 +1,25 @@
-$MirOS: ports/net/djbdns/patches/patch-src_okclient_c,v 1.3 2006/01/17 21:08:43 tg Exp $
+$MirOS: ports/net/djbdns/patches/patch-src_okclient_c,v 1.4 2008/10/27 21:40:38 tg Exp $
 --- src/okclient.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/okclient.c	Mon Oct 27 21:35:22 2008
-@@ -2,24 +2,67 @@
++++ src/okclient.c	Sat Mar 26 14:44:04 2016
+@@ -2,24 +2,45 @@
  #include <sys/stat.h>
  #include "str.h"
  #include "ip4.h"
-+#ifdef DJB_V6ONLY
 +#include "ip6.h"
 +#include "byte.h"
-+#endif /* DJB_V6ONLY */
  #include "okclient.h"
 +#include "env.h"
  
-+#ifndef DJB_V6ONLY
- static char fn[3 + IP4_FMT];
-+#else
+-static char fn[3 + IP4_FMT];
 +static char fn[3 + IP6_FMT];
-+#endif /* DJB_V6ONLY */
  
-+#ifndef DJB_V6ONLY
- int okclient(char ip[4])
-+#else
+-int okclient(char ip[4])
 +int okclient(char ip[16])
-+#endif /* DJB_V6ONLY */
  {
 +  static int init_done = 0;
    struct stat st;
    int i;
-+#ifdef DJB_V6ONLY
 +  char sep;
-+#endif /* DJB_V6ONLY */
  
 +  if (!init_done) {
 +    if (env_get("OKCLIENT"))
@@ -43,9 +33,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_okclient_c,v 1.3 2006/01/17 21:08:43 
    fn[0] = 'i';
    fn[1] = 'p';
    fn[2] = '/';
-+#ifndef DJB_V6ONLY
-   fn[3 + ip4_fmt(fn + 3,ip)] = 0;
-+#else
+-  fn[3 + ip4_fmt(fn + 3,ip)] = 0;
 +  if (byte_equal(ip,12,V4mappedprefix)) {
 +    fn[3 + ip4_fmt(fn + 3,ip+12)] = 0;
 +    sep='.';
@@ -53,19 +41,13 @@ $MirOS: ports/net/djbdns/patches/patch-src_okclient_c,v 1.3 2006/01/17 21:08:43 
 +    fn[3 + ip6_fmt(fn + 3,ip)] = 0;
 +    sep=':';
 +  }
-+#endif /* DJB_V6ONLY */
  
    for (;;) {
-+#ifdef DJB_V6ONLY
 +    if (!fn[3]) return 0;
-+#endif /* DJB_V6ONLY */
      if (stat(fn,&st) == 0) return 1;
      /* treat temporary error as rejection */
-+#ifndef DJB_V6ONLY
-     i = str_rchr(fn,'.');
-+#else
+-    i = str_rchr(fn,'.');
 +    i = str_rchr(fn,sep);
-+#endif /* DJB_V6ONLY */
      if (!fn[i]) return 0;
      fn[i] = 0;
    }

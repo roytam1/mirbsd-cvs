@@ -1,11 +1,11 @@
-$MirOS: ports/net/djbdns/patches/patch-src_scan_h,v 1.1 2005/12/14 23:28:38 tg Exp $
+$MirOS: ports/net/djbdns/patches/patch-src_scan_h,v 1.2 2005/12/27 17:46:18 tg Exp $
 --- src/scan.h.orig	Sun Feb 11 21:11:23 2001
-+++ src/scan.h	Tue Dec 27 17:41:42 2005
++++ src/scan.h	Sat Mar 26 16:17:11 2016
 @@ -1,6 +1,8 @@
  #ifndef SCAN_H
  #define SCAN_H
  
-+#include <inttypes.h>
++#include <stdint.h>
 +
  extern unsigned int scan_uint(const char *,unsigned int *);
  extern unsigned int scan_xint(const char *,unsigned int *);

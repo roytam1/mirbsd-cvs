@@ -1,7 +1,8 @@
-# $MirOS: ports/net/djbdns/files/build/bins/Makefile,v 1.1.201.1 2005/05/14 23:21:07 tg Exp $
+# $MirOS: ports/net/djbdns/files/build/bins/Makefile,v 1.2 2006/07/27 00:58:12 tg Exp $
 
   SUBDIR+= lib
   SUBDIR+= axfr-get
+  SUBDIR+= axfrdns
   SUBDIR+= axfrdns-conf
   SUBDIR+= dnscache
   SUBDIR+= dnscache-conf

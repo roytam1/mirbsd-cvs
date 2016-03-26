@@ -1,30 +1,22 @@
-$MirOS: ports/net/djbdns/patches/patch-src_qlog_c,v 1.1.201.1 2005/05/14 23:21:04 tg Exp $
+$MirOS: ports/net/djbdns/patches/patch-src_qlog_c,v 1.2 2005/12/14 23:28:36 tg Exp $
 --- src/qlog.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/qlog.c	Tue Dec 13 21:44:34 2005
-@@ -20,15 +20,26 @@ static void octal(unsigned char c)
++++ src/qlog.c	Sat Mar 26 14:45:12 2016
+@@ -20,15 +20,13 @@ static void octal(unsigned char c)
    put('0' + (c & 7));
  }
  
-+#ifndef DJB_V6ONLY
- void qlog(const char ip[4],uint16 port,const char id[2],const char *q,const char qtype[2],const char *result)
-+#else
+-void qlog(const char ip[4],uint16 port,const char id[2],const char *q,const char qtype[2],const char *result)
 +void qlog(const char ip[16],uint16 port,const char id[2],const char *q,const char qtype[2],const char *result)
-+#endif /* DJB_V6ONLY */
  {
    char ch;
    char ch2;
++  int i;
  
-+#ifndef DJB_V6ONLY
-   hex(ip[0]);
-   hex(ip[1]);
-   hex(ip[2]);
-   hex(ip[3]);
-+#else
-+  {
-+    int i;
-+    for (i=0; i<16; ++i) hex(ip[i]);
-+  }
-+#endif /* DJB_V6ONLY */
+-  hex(ip[0]);
+-  hex(ip[1]);
+-  hex(ip[2]);
+-  hex(ip[3]);
++  for (i=0; i<16; ++i) hex(ip[i]);
    put(':');
    hex(port >> 8);
    hex(port & 255);

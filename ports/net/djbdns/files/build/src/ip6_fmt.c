@@ -49,7 +49,7 @@ unsigned int ip6_fmt(char *s,const char ip[16])
   return len;
 }
 
-unsigned int ip6_fmt_flat(char *s,char ip[16])
+unsigned int ip6_fmt_flat(char *s,const char ip[16])
 {
   int i;
   for (i=0; i<16; i++) {

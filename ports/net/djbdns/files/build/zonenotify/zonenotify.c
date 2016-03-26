@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2006  Thorsten Glaser <tg@mirbsd.de>
+ * Copyright (c) 2006  mirabilos <m@mirbsd.org>
  * Copyright (c) 2004  Morettoni Luca <luca@morettoni.net>
  * All rights reserved.
  *
@@ -24,7 +24,7 @@
  * OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
  * SUCH DAMAGE.
  *
- * $MirOS: ports/net/djbdns/files/build/zonenotify/zonenotify.c,v 1.4 2006/07/27 01:15:35 tg Exp $
+ * $MirOS: ports/net/djbdns/files/build/zonenotify/zonenotify.c,v 1.5 2006/08/10 15:31:57 tg Exp $
  * $Id$
  */
 
@@ -48,7 +48,7 @@
 #include <unistd.h>
 #include "zonenotify.h"
 
-__RCSID("$MirOS: ports/net/djbdns/files/build/zonenotify/zonenotify.c,v 1.4 2006/07/27 01:15:35 tg Exp $");
+__RCSID("$MirOS: ports/net/djbdns/files/build/zonenotify/zonenotify.c,v 1.5 2006/08/10 15:31:57 tg Exp $");
 
 int
 main(int argc, char *argv[])

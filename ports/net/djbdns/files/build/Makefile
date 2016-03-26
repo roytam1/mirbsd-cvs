@@ -1,7 +1,6 @@
-# $MirOS: ports/net/djbdns/files/build/Makefile,v 1.2 2005/12/14 23:27:53 tg Exp $
+# $MirOS: ports/net/djbdns/files/build/Makefile,v 1.3 2006/01/17 22:40:37 tg Exp $
 
   SUBDIR+= bins
-  SUBDIR+= binst6
   SUBDIR+= dnstracesort
   SUBDIR+= ignoreip-update
   SUBDIR+= zonenotify

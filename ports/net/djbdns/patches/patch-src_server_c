@@ -1,83 +1,67 @@
-$MirOS: ports/net/djbdns/patches/patch-src_server_c,v 1.2 2005/12/14 23:28:39 tg Exp $
+$MirOS: ports/net/djbdns/patches/patch-src_server_c,v 1.3 2006/06/15 01:43:17 tg Exp $
 --- src/server.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/server.c	Thu Jun 15 01:16:06 2006
-@@ -4,6 +4,9 @@
++++ src/server.c	Sat Mar 26 16:17:11 2016
+@@ -4,6 +4,7 @@
  #include "buffer.h"
  #include "strerr.h"
  #include "ip4.h"
-+#ifdef DJB_V6ONLY
 +#include "ip6.h"
-+#endif /* DJB_V6ONLY */
  #include "uint16.h"
  #include "ndelay.h"
  #include "socket.h"
-@@ -11,13 +14,23 @@
+@@ -11,13 +12,17 @@
  #include "qlog.h"
  #include "response.h"
  #include "dns.h"
-+#ifdef DJB_V6ONLY
 +#include "alloc.h"
 +#include "iopause.h"
 +#include "str.h"
-+#include <stdbool.h>
-+#endif /* DJB_V6ONLY */
++#include <stdint.h>
  
  extern char *fatal;
  extern char *starting;
  extern int respond(char *,char *,char *);
  extern void initialize(void);
  
-+#ifndef DJB_V6ONLY
- static char ip[4];
-+#else
+-static char ip[4];
 +static char ip[16];
-+#endif /* DJB_V6ONLY */
  static uint16 port;
  
  static char buf[513];
-@@ -25,6 +38,13 @@ static int len;
+@@ -25,6 +30,11 @@ static int len;
  
  static char *q;
  
-+#ifdef DJB_V6ONLY
 +void nomem()
 +{
 +  strerr_die2x(111,fatal,"out of memory");
 +}
 +
-+#endif /* DJB_V6ONLY */
  static int doit(void)
  {
    unsigned int pos;
-@@ -82,11 +102,20 @@ static int doit(void)
+@@ -82,35 +92,99 @@ static int doit(void)
  int main()
  {
    char *x;
-+#ifndef DJB_V6ONLY
-   int udp53;
-+#else
+-  int udp53;
 +  int *udp53;
-+  bool *udp53t;
++  uint8_t *udp53t;
 +  unsigned int off;
 +  unsigned int cnt;
 +  iopause_fd *iop;
-+#endif /* DJB_V6ONLY */
  
    x = env_get("IP");
    if (!x)
      strerr_die2x(111,fatal,"$IP not set");
-+#ifndef DJB_V6ONLY
-   if (!ip4_scan(x,ip))
-     strerr_die3x(111,fatal,"unable to parse IP address ",x);
+-  if (!ip4_scan(x,ip))
+-    strerr_die3x(111,fatal,"unable to parse IP address ",x);
  
-@@ -96,21 +125,102 @@ int main()
-   if (socket_bind4_reuse(udp53,ip,53) == -1)
-     strerr_die2sys(111,fatal,"unable to bind UDP socket: ");
- 
-+  ndelay_off(udp53);
-+  socket_tryreservein(udp53,65536);
-+
-+#else
+-  udp53 = socket_udp();
+-  if (udp53 == -1)
+-    strerr_die2sys(111,fatal,"unable to create UDP socket: ");
+-  if (socket_bind4_reuse(udp53,ip,53) == -1)
+-    strerr_die2sys(111,fatal,"unable to bind UDP socket: ");
 +  off=cnt=0;
 +  while (x[off]) {
 +    unsigned int l;
@@ -95,11 +79,11 @@ $MirOS: ports/net/djbdns/patches/patch-src_server_c,v 1.2 2005/12/14 23:28:39 tg
 +  }
 +  udp53=(int *) alloc(sizeof(int) *cnt);
 +  if (!udp53) nomem();
-+  udp53t=(bool *) alloc(sizeof(bool) *cnt);
++  udp53t=(uint8_t *) alloc(sizeof(uint8_t) *cnt);
 +  if (!udp53t) nomem();
 +  iop=(iopause_fd *) alloc(sizeof(*iop) * cnt);
 +  if (!iop) nomem();
-+
+ 
 +  off=cnt=0;
 +  while (x[off]) {
 +    unsigned int l;
@@ -131,7 +115,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_server_c,v 1.2 2005/12/14 23:28:39 tg
 +    if (!x[off+l]) break;
 +    off+=l+1;
 +  }
-+#endif /* DJB_V6ONLY */
++
    droproot(fatal);
  
    initialize();
@@ -142,14 +126,12 @@ $MirOS: ports/net/djbdns/patches/patch-src_server_c,v 1.2 2005/12/14 23:28:39 tg
    buffer_putsflush(buffer_2,starting);
  
    for (;;) {
-+#ifndef DJB_V6ONLY
-     len = socket_recv4(udp53,buf,sizeof buf,ip,&port);
-     if (len < 0) continue;
-     if (!doit()) continue;
-     if (response_len > 512) response_tc();
-     socket_send4(udp53,response,response_len,ip,port);
-     /* may block for buffer space; if it fails, too bad */
-+#else
+-    len = socket_recv4(udp53,buf,sizeof buf,ip,&port);
+-    if (len < 0) continue;
+-    if (!doit()) continue;
+-    if (response_len > 512) response_tc();
+-    socket_send4(udp53,response,response_len,ip,port);
+-    /* may block for buffer space; if it fails, too bad */
 +    struct taia stamp;
 +    struct taia deadline;
 +    unsigned int i;
@@ -173,6 +155,5 @@ $MirOS: ports/net/djbdns/patches/patch-src_server_c,v 1.2 2005/12/14 23:28:39 tg
 +	  socket_send6(udp53[i],response,response_len,ip,port,ifid);
 +	/* may block for buffer space; if it fails, too bad */
 +      }
-+#endif /* DJB_V6ONLY */
    }
  }

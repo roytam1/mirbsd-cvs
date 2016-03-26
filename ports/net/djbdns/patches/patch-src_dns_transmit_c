@@ -1,136 +1,115 @@
-$MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.2 2005/12/14 23:28:32 tg Exp $
+$MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.3 2006/07/27 00:58:16 tg Exp $
 --- src/dns_transmit.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/dns_transmit.c	Wed Jul 26 23:42:44 2006
-@@ -7,7 +7,18 @@
++++ src/dns_transmit.c	Sat Mar 26 15:26:29 2016
+@@ -7,6 +7,7 @@
  #include "byte.h"
  #include "uint16.h"
  #include "dns.h"
-+#ifdef DJB_V6ONLY
 +#include "ip6.h"
-+#endif /* DJB_V6ONLY */
  
-+#ifdef DJB_V6ONLY
-+static int callv4 = 0;
-+static int callv4ofs = 12;
-+#else
-+static int callv4 = 1;
-+static int callv4ofs = 0;
-+#endif /* DJB_V6ONLY */
-+
  static int serverwantstcp(const char *buf,unsigned int len)
  {
-   char out[12];
-@@ -83,11 +94,26 @@ void dns_transmit_free(struct dns_transm
- static int randombind(struct dns_transmit *d)
+@@ -80,14 +81,31 @@ void dns_transmit_free(struct dns_transm
+   packetfree(d);
+ }
+ 
+-static int randombind(struct dns_transmit *d)
++static int randombind(struct dns_transmit *d, int callv4)
  {
    int j;
 +  char localip[16];
  
 +  byte_copy(localip,16,d->localip);
 +
-+#ifdef DJB_V6ONLY
-+  /*
-+   * If we are calling an IPv4 server from an IPv6-transport tool,
-+   * we probably bind ourselves to an IPv6 socket (d'uh), so, in
-+   * the IPv4 case use INADDR_ANY as local bind address instead.
-+   */
-+  if (callv4)
-+    byte_zero(localip,4);
-+#endif /* DJB_V6ONLY */
++  if (callv4 || ip6_isv4mapped(localip)) {
++    /* Calling an IPv4 server with an IPv6 localip? If so, use any. */
++    /*XXX consider having two IPSENDs */
++    if (!ip6_isv4mapped(localip))
++      byte_zero(localip+12,4);
++
++    for (j = 0;j < 10;++j)
++      if (socket_bind4(d->s1 - 1,localip + 12,1025 + dns_random(64510)) == 0)
++        return 0;
++    if (socket_bind4(d->s1 - 1,localip + 12,0) == 0)
++      return 0;
++    return -1;
++  }
 +
    for (j = 0;j < 10;++j)
 -    if (socket_bind4(d->s1 - 1,d->localip,1025 + dns_random(64510)) == 0)
-+    if ((callv4 ? socket_bind4(d->s1 - 1,localip,1025 + dns_random(64510))
-+     : socket_bind6(d->s1 - 1,localip,1025 + dns_random(64510),d->scope_id)) == 0)
++    if (socket_bind6(d->s1 - 1,localip,1025 + dns_random(64510),d->scope_id) == 0)
        return 0;
 -  if (socket_bind4(d->s1 - 1,d->localip,0) == 0)
-+  if ((callv4 ? socket_bind4(d->s1 - 1,localip,0)
-+   : socket_bind6(d->s1 - 1,localip,0,d->scope_id)) == 0)
++  if (socket_bind6(d->s1 - 1,localip,0,d->scope_id) == 0)
      return 0;
    return -1;
  }
-@@ -102,16 +128,26 @@ static int thisudp(struct dns_transmit *
+@@ -102,16 +120,18 @@ static int thisudp(struct dns_transmit *
  
    while (d->udploop < 4) {
      for (;d->curserver < 16;++d->curserver) {
-+#ifndef DJB_V6ONLY
-       ip = d->servers + 4 * d->curserver;
-       if (byte_diff(ip,4,"\0\0\0\0")) {
-+#else
+-      ip = d->servers + 4 * d->curserver;
+-      if (byte_diff(ip,4,"\0\0\0\0")) {
 +      ip = d->servers + 16 * d->curserver;
 +      if (byte_diff(ip,16,V6any)) {
-+	if (byte_equal(ip,12,V4mappedprefix))
-+	  callv4 = 1;
-+	else
-+	  callv4 = 0;
-+#endif /* DJB_V6ONLY */
++	int callv4 = byte_equal(ip,12,V4mappedprefix);
  	d->query[2] = dns_random(256);
  	d->query[3] = dns_random(256);
    
 -        d->s1 = 1 + socket_udp();
 +        d->s1 = 1 + (callv4 ? socket_udp() : socket_udp6());
          if (!d->s1) { dns_transmit_free(d); return -1; }
- 	if (randombind(d) == -1) { dns_transmit_free(d); return -1; }
+-	if (randombind(d) == -1) { dns_transmit_free(d); return -1; }
++	if (randombind(d,callv4) == -1) { dns_transmit_free(d); return -1; }
  
 -        if (socket_connect4(d->s1 - 1,ip,53) == 0)
-+	if ((callv4 ? socket_connect4(d->s1 - 1,ip + callv4ofs,53)
++	if ((callv4 ? socket_connect4(d->s1 - 1,ip + 12,53)
 +	 : socket_connect6(d->s1 - 1,ip,53,d->scope_id)) == 0)
            if (send(d->s1 - 1,d->query + 2,d->querylen - 2,0) == d->querylen - 2) {
              struct taia now;
              taia_now(&now);
-@@ -153,19 +189,29 @@ static int thistcp(struct dns_transmit *
+@@ -153,19 +173,21 @@ static int thistcp(struct dns_transmit *
    packetfree(d);
  
    for (;d->curserver < 16;++d->curserver) {
-+#ifndef DJB_V6ONLY
-     ip = d->servers + 4 * d->curserver;
-     if (byte_diff(ip,4,"\0\0\0\0")) {
-+#else
+-    ip = d->servers + 4 * d->curserver;
+-    if (byte_diff(ip,4,"\0\0\0\0")) {
 +    ip = d->servers + 16 * d->curserver;
 +    if (byte_diff(ip,16,V6any)) {
-+      if (byte_equal(ip,12,V4mappedprefix))
-+	callv4 = 1;
-+      else
-+	callv4 = 0;
-+#endif /* DJB_V6ONLY */
++      int callv4 = byte_equal(ip,12,V4mappedprefix);
        d->query[2] = dns_random(256);
        d->query[3] = dns_random(256);
  
 -      d->s1 = 1 + socket_tcp();
 +      d->s1 = 1 + (callv4 ? socket_tcp() : socket_tcp6());
        if (!d->s1) { dns_transmit_free(d); return -1; }
-       if (randombind(d) == -1) { dns_transmit_free(d); return -1; }
+-      if (randombind(d) == -1) { dns_transmit_free(d); return -1; }
++      if (randombind(d,callv4) == -1) { dns_transmit_free(d); return -1; }
    
        taia_now(&now);
        taia_uint(&d->deadline,10);
        taia_add(&d->deadline,&d->deadline,&now);
 -      if (socket_connect4(d->s1 - 1,ip,53) == 0) {
-+      if ((callv4 ? socket_connect4(d->s1 - 1,ip + callv4ofs,53)
++      if ((callv4 ? socket_connect4(d->s1 - 1,ip + 12,53)
 +       : socket_connect6(d->s1 - 1,ip,53,d->scope_id)) == 0) {
          d->tcpstate = 2;
          return 0;
        }
-@@ -193,7 +239,11 @@ static int nexttcp(struct dns_transmit *
+@@ -193,7 +215,7 @@ static int nexttcp(struct dns_transmit *
    return thistcp(d);
  }
  
-+#ifndef DJB_V6ONLY
- int dns_transmit_start(struct dns_transmit *d,const char servers[64],int flagrecursive,const char *q,const char qtype[2],const char localip[4])
-+#else
+-int dns_transmit_start(struct dns_transmit *d,const char servers[64],int flagrecursive,const char *q,const char qtype[2],const char localip[4])
 +int dns_transmit_start(struct dns_transmit *d,const char servers[256],int flagrecursive,const char *q,const char qtype[2],const char localip[16])
-+#endif /* DJB_V6ONLY */
  {
    unsigned int len;
  
-@@ -213,7 +263,11 @@ int dns_transmit_start(struct dns_transm
+@@ -213,7 +235,7 @@ int dns_transmit_start(struct dns_transm
  
    byte_copy(d->qtype,2,qtype);
    d->servers = servers;
-+#ifndef DJB_V6ONLY
-   byte_copy(d->localip,4,localip);
-+#else
+-  byte_copy(d->localip,4,localip);
 +  byte_copy(d->localip,16,localip);
-+#endif /* DJB_V6ONLY */
  
    d->udploop = flagrecursive ? 1 : 0;
  

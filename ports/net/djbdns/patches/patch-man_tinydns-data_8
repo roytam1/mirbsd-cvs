@@ -1,6 +1,6 @@
-$MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.4 2006/07/27 00:58:16 tg Exp $
+$MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.5 2011/08/27 22:15:00 tg Exp $
 --- man/tinydns-data.8.orig	Thu Oct 23 07:47:10 2003
-+++ man/tinydns-data.8	Sat Aug 27 22:08:46 2011
++++ man/tinydns-data.8	Sat Mar 26 16:17:10 2016
 @@ -1,4 +1,4 @@
 -.TH tinydns-data 8
 +.TH tinydns-data 8 "June 13, 2003" "" "DJBDNS Operation Guide"
@@ -51,7 +51,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.4 2006/07/27 00:58
  .I fqdn
  listing 
  .IR x\fR.ns.\fIfqdn
-@@ -304,33 +304,50 @@ and an A record showing
+@@ -304,33 +304,48 @@ and an A record showing
  as the IP address of
  .IR ns7.panic.mil .
  
@@ -98,8 +98,6 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.4 2006/07/27 00:58
 +
 +A PTR record of
 +.IR 0.1.2.3.4.5.6.7.8.9.a.b.c.d.e.f.f.e.d.c.b.a.9.8.7.6.5.4.0.1.2.3 .ip6.arpa
-+and (deprecated fallback)
-+.IR 0.1.2.3.4.5.6.7.8.9.a.b.c.d.e.f.f.e.d.c.b.a.9.8.7.6.5.4.0.1.2.3 .ip6.int
 +linking to
 +.I fqdn
 +is created if
@@ -109,7 +107,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.4 2006/07/27 00:58
  .P
  
  Remember to specify name servers for some suffix of
-@@ -358,7 +375,9 @@ and a PTR record showing
+@@ -358,7 +373,9 @@ and a PTR record showing
  as the name of
  .IR 108.7.8.1.in-addr.arpa .
  
@@ -120,7 +118,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.4 2006/07/27 00:58
  
  Alias
  .I fqdn
-@@ -366,6 +385,8 @@ with IP address 
+@@ -366,6 +383,8 @@ with IP address 
  .IR ip .
  This is just like 
  .RI = fqdn\fR:\fIip\fR:\fIttl\fR
@@ -129,7 +127,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.4 2006/07/27 00:58
  except that 
  .B tinydns-data
  does not create the PTR record.
-@@ -376,8 +397,12 @@ returns addresses
+@@ -376,8 +395,12 @@ returns addresses
  (from
  .I +
  or
@@ -142,7 +140,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.4 2006/07/27 00:58
  .I @
  or
  .I .
-@@ -405,7 +430,7 @@ Mail exchanger for 
+@@ -405,7 +428,7 @@ Mail exchanger for 
  .B tinydns-data
  creates
  .IP
@@ -151,7 +149,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.4 2006/07/27 00:58
  showing 
  .IR x\fR.mx.\fIfqdn
  as a mail exchanger for 
-@@ -471,7 +496,7 @@ The line is ignored.
+@@ -471,7 +494,7 @@ The line is ignored.
  
  .RI ' fqdn\fR:\fIs\fR:\fIttl\fR:\fItimestamp\fR:\fIlo\fR
  
@@ -160,7 +158,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.4 2006/07/27 00:58
  .IR fqdn .
  .B tinydns-data
  creates a TXT record for 
-@@ -479,12 +504,12 @@ creates a TXT record for 
+@@ -479,12 +502,12 @@ creates a TXT record for 
  containing the string 
  .IR s .
  You may use octal 
@@ -175,7 +173,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.4 2006/07/27 00:58
  is a colon.
  
  .RI ^ fqdn\fR:\fIp\fR:\fIttl\fR:\fItimestamp\fR:\fIlo\fR
-@@ -499,7 +524,7 @@ pointing to the domain name 
+@@ -499,7 +522,7 @@ pointing to the domain name 
  
  .RI C fqdn\fR:\fIp\fR:\fIttl\fR:\fItimestamp\fR:\fIlo\fR
  
@@ -184,7 +182,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.4 2006/07/27 00:58
  .IR fqdn .
  .B tinydns-data
  creates a CNAME record for 
-@@ -518,8 +543,8 @@ use
+@@ -518,8 +541,8 @@ use
  .RI + fqdn
  instead.
  Remember the wise words of Inigo Montoya:
@@ -195,7 +193,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.4 2006/07/27 00:58
  
  .RI Z fqdn\fR:\fImname\fR:\fIrname\fR:\fIser\fR:\fIref\fR:\fIret\fR:\fIexp\fR:\fImin\fR:\fIttl\fR:\fItimestamp\fR:\fIlo\fR
  
-@@ -579,7 +604,7 @@ The proper format of
+@@ -579,7 +602,7 @@ The proper format of
  depends on 
  .IR n .
  You may use octal 
@@ -204,7 +202,7 @@ $MirOS: ports/net/djbdns/patches/patch-man_tinydns-data_8,v 1.4 2006/07/27 00:58
  codes
  to include arbitrary bytes inside 
  .IR rdata .
-@@ -704,3 +729,11 @@ if the database were rebuilt periodicall
+@@ -704,3 +727,11 @@ if the database were rebuilt periodicall
  tinydns(8)
  
  http://cr.yp.to/djbdns.html

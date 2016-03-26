@@ -5,7 +5,7 @@ extern unsigned int ip6_scan(const char *,char *);
 extern unsigned int ip6_fmt(char *,const char *);
 
 extern unsigned int ip6_scan_flat(const char *,char *);
-extern unsigned int ip6_fmt_flat(char *,char *);
+extern unsigned int ip6_fmt_flat(char *,const char *);
 
 /*
  ip6 address syntax: (h = hex digit), no leading '0' required
