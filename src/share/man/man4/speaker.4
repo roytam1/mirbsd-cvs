@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: speaker.4,v 1.9 2015/11/21 08:04:20 jmc Exp $
 .\"	$NetBSD: speaker.4,v 1.9 1998/08/18 08:16:56 augustss Exp $
 .\"
@@ -100,10 +101,16 @@ are omitted.
 The
 .Dq octave-tracking
 feature is also new.
+This language is also known as
+.Dq modern MML
+.Pq music macro language .
 .Pp
 There are 84 accessible notes numbered 1-83 in 7 octaves, each running from
-C to B, numbered 0-6; the scale is equal-tempered A440 and octave 3 starts
-with middle C.
+C to B, numbered 0-6; octave 3 starts with Treble C (English C5, German c''
+.No or Sy lowercase c , superscript 2 ) ,
+which is also the lowest tone a soprano recorder (flute) can play; the scale
+is equal-tempered A440 (which is in octave 2, whose C (English C4, German c')
+is the tone between bass clef and violin/treble clef).
 By default, the play function emits half-second notes with the last 1/16th
 second being
 .Dq rest time .
@@ -113,20 +120,22 @@ letter case is ignored.
 Play command groups are as follows:
 .Bl -tag -width xxx
 .It CDEFGAB
-Letters A through G cause the corresponding note to be played in the current
-octave.
+Letters A through G cause the corresponding note
+.Pq German: Letter \&B plays the note Sy \&H
+to be played in the current octave.
 A note letter may optionally be followed by an
 .Dq accidental sign ,
 one of
 .Ql # ,
 .Ql + ,
 or
-.Ql - ;
+.Ql \- ;
 the first two of these cause it to be sharped one half-tone, the last causes
 it to be flatted one half-tone.
+.Pq German: Combination \&B- plays the note Sy B .
 It may also be followed by a time value number and by sustain dots (see below).
 Time values are interpreted as for the L command below;.
-.It O Aq Ar n
+.It O Ns Ar n
 If
 .Ar n
 is numeric, this sets the current octave.
@@ -152,29 +161,31 @@ Octave locking is disabled for one letter note following by
 .Ql < ,
 and
 .Ql O[0123456] .
-.Bd -literal -offset indent
-> -- bump the current octave up one.
-< -- drop the current octave down one.
-.Ed
-.It N Aq Ar n
+.It \&>
+Bump the current octave up one.
+.It \&<
+Drop the current octave down one.
+.It N Ns Ar n
 Play note
 .Ar n ,
 .Ar n
 being 1 to 84 or 0 for a rest of current time value.
 May be followed by sustain dots.
-.It L Aq Ar n
+Note 34 is A440, i.e. the note number is 15 less than
+its claviature, 34 less than its MIDI number.
+.It L Ns Ar n
 Sets the current time value for notes.
 The default is L4, quarter notes.
 The lowest possible value is 1; values up to 64 are accepted.
 L1 sets whole notes, L2 sets half notes, L4 sets quarter notes, etc.
-.It P Aq Ar n
+.It P Ns Ar n
 Pause (rest), with
 .Ar n
 interpreted as for L.
 May be followed by sustain dots.
 May also be written
 .Ql ~ .
-.It T Aq Ar n
+.It T Ns Ar n
 Sets the number of quarter notes per minute; default is 120.
 Musical names for common tempi are:
 .Bl -column "Description" "Larghissimo" "Beats per minute" -offset indent
@@ -231,3 +242,9 @@ There is no volume control.
 In play strings which are very long (longer than your system's physical I/O
 blocks) note suffixes or numbers may occasionally be parsed incorrectly due
 to crossing a block boundary.
+.Pp
+The original Microsoft\(rg GW-BASIC\(rg documentation, as well as the
+IBM Personal Computer Hardware Reference Library BASIC manual, Second
+Edition (May 1982), Version 1.10, already wrongly stated that octave 3
+begins at the middle C; the middle C (German Schloss-C) begins octave 2,
+octave 3 begins with the "vocal" Tenor C, even in GW-BASIC\(rg.
