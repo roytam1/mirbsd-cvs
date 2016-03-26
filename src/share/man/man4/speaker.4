@@ -29,6 +29,8 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
+.ie \n(.g .ds en \(en
+.el .ds en \(em
 .Dd $Mdocdate: November 21 2015 $
 .Dt SPKR 4
 .Os
@@ -177,22 +179,22 @@ Sets the number of quarter notes per minute; default is 120.
 Musical names for common tempi are:
 .Bl -column "Description" "Larghissimo" "Beats per minute" -offset indent
 .It Em "Description" Ta Em "Tempo" Ta Em "Beats per Minute"
-.It "very slow" Ta Larghissimo Ta 40\(en60
-.It "very slow" Ta Largo Ta 40\(en60
-.It "very slow"  Ta Larghetto Ta 60\(en66
-.It "very slow" Ta Grave Ta 60\(en66
-.It "very slow" Ta Lento Ta 60\(en66
-.It "slow" Ta Adagio Ta 66\(en76
-.It "slow" Ta Adagietto Ta 66\(en76
-.It "medium" Ta Andante Ta 76\(en108
-.It "medium" Ta Andantino Ta 76\(en108
-.It "fast" Ta Moderato Ta 108\(en120
-.It "fast" Ta Allegretto Ta 108\(en120
-.It "fast" Ta Allegro Ta 120\(en168
-.It "fast" Ta Vivace Ta 120\(en168
-.It "fast" Ta Veloce Ta 120\(en168
-.It "very fast" Ta Presto Ta 168\(en208
-.It "very fast" Ta Prestissimo Ta 168\(en208
+.It "very slow" Ta Larghissimo Ta 40\*(en60
+.It "very slow" Ta Largo Ta 40\*(en60
+.It "very slow"  Ta Larghetto Ta 60\*(en66
+.It "very slow" Ta Grave Ta 60\*(en66
+.It "very slow" Ta Lento Ta 60\*(en66
+.It "slow" Ta Adagio Ta 66\*(en76
+.It "slow" Ta Adagietto Ta 66\*(en76
+.It "medium" Ta Andante Ta 76\*(en108
+.It "medium" Ta Andantino Ta 76\*(en108
+.It "fast" Ta Moderato Ta 108\*(en120
+.It "fast" Ta Allegretto Ta 108\*(en120
+.It "fast" Ta Allegro Ta 120\*(en168
+.It "fast" Ta Vivace Ta 120\*(en168
+.It "fast" Ta Veloce Ta 120\*(en168
+.It "very fast" Ta Presto Ta 168\*(en208
+.It "very fast" Ta Prestissimo Ta 168\*(en208
 .El
 .It M[LNS]
 Set articulation.
