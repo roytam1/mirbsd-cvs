@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc,v 1.22 2014/06/28 14:02:27 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc,v 1.23 2016/01/16 22:42:49 tg Exp $
 .\"	$OpenBSD: doc,v 1.16 2005/09/27 18:57:17 jaredy Exp $
 .\"
 .\" Copyright (c) 2003, 2004, 2005, 2006, 2008, 2012, 2013, 2014, 2016
@@ -2916,8 +2916,8 @@
 .\}
 .hy
 ..
-.\" NS fb macro - if SYNOPSIS, set hard space inbetween function args
-.\" NS fb register - count of words in a function argument
+.\" NS fB macro - if SYNOPSIS, set hard space inbetween function args
+.\" NS fB register - count of words in a function argument
 .\" NS Fb register - counter
 .\" NS Fb string - temporary string
 .de fB
