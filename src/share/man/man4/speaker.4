@@ -114,7 +114,10 @@ Play strings are interpreted left to right as a series of play command groups;
 letter case is ignored.
 Play command groups are as follows:
 .Bl -tag -width xxx
-.It CDEFGAB
+.It Xo CDEFGAB Ns
+.Op Ar sign Ns
+.Op Ar len
+.Xc
 Letters A through G cause the corresponding note
 .Pq German: Letter \&B plays the note Sy \&H
 to be played in the current octave.
@@ -128,38 +131,18 @@ or
 the first two of these cause it to be sharped one half-tone, the last causes
 it to be flatted one half-tone.
 .Pq German: Combination \&B- plays the note Sy B .
-It may also be followed by a time value number and by sustain dots (see below).
-Time values are interpreted as for the L command below;.
-.It O Ns Ar n
-If
-.Ar n
-is numeric, this sets the current octave.
-.Ar n
-may also be one of
-.Sq L
-or
-.Sq N
-to enable or disable octave-tracking (it is disabled by default).
-When octave-tracking is on, interpretation of a pair of letter notes will
-change octaves if necessary in order to make the smallest possible jump between
-notes.
-Thus
-.Qq olbc
-will be played as
-.Qq olb>c ,
-and
-.Qq olcb
-as
-.Qq olc<b .
-Octave locking is disabled for one letter note following by
-.Ql > ,
-.Ql < ,
-and
-.Ql O[0123456] .
-.It \&>
-Bump the current octave up one.
-.It \&<
-Drop the current octave down one.
+It may also be followed by a time value number (see the L command below)
+and by sustain dots (see below).
+.It L Ns Ar l
+Sets the current time value for notes.
+The default is L4, quarter notes.
+The lowest possible value is 1; values up to 64 are accepted.
+L1 sets whole notes, L2 sets half notes, L4 sets quarter notes, etc.
+.It M[LNS]
+Set articulation.
+MN (N for normal) is the default; the last 1/8th of the note's value is rest
+time.
+You can set ML for legato (no rest space) or MS for staccato (1/4 rest space).
 .It N Ns Ar n
 Play note
 .Ar n ,
@@ -168,20 +151,43 @@ being 1 to 84 or 0 for a rest of current time value.
 May be followed by sustain dots.
 Note 34 is A440, i.e. the note number is 15 less than
 its claviature, 34 less than its MIDI number.
-.It L Ns Ar n
-Sets the current time value for notes.
-The default is L4, quarter notes.
-The lowest possible value is 1; values up to 64 are accepted.
-L1 sets whole notes, L2 sets half notes, L4 sets quarter notes, etc.
-.It P Ns Ar n
-Pause (rest), with
 .Ar n
-interpreted as for L.
+defaults to 0 if omitted.
+.It O Ns Ar x
+If
+.Ar x
+is numeric, this sets the current octave.
+.Ar x
+may also be one of
+.Sq L
+or
+.Sq N
+to enable or disable octave-tracking (it is disabled by default); when
+enabled, interpretation of a pair of letter notes will change octaves
+if necessary in order to make the smallest possible jump between notes.
+Thus
+.Qq olbc
+will be played as
+.Qq olb>c ,
+and
+.Qq olcb
+as
+.Qq olc<b .
+Octave tracking is disabled for one letter note following by
+.Ql > ,
+.Ql < ,
+and
+.Ql O[0123456] .
+.Ar x
+defaults to 4 if omitted.
+.It P Ns Ar l
+Pause (rest) for the duration
+.Ar l ,
+interpreted as for L; if omitted, the current time value is used.
 May be followed by sustain dots.
-As an extension, this may also be written
-.Ql \*(TI .
-.It T Ns Ar n
+.It T Ns Ar t
 Sets the number of quarter notes per minute; default is 120.
+.Pp
 Musical names for common tempi are:
 .Bl -column "Description" "Larghissimo" "Beats per minute" -offset indent
 .It Em "Description" Ta Em "Tempo" Ta Em "Beats per Minute"
@@ -202,18 +208,17 @@ Musical names for common tempi are:
 .It "very fast" Ta Presto Ta 168\*(en208
 .It "very fast" Ta Prestissimo Ta 168\*(en208
 .El
-.It M[LNS]
-Set articulation.
-MN (N for normal) is the default; the last 1/8th of the note's value is rest
-time.
-You can set ML for legato (no rest space) or MS (staccato) 1/4 rest space.
-.El
-.Pp
-Notes (that is, CDEFGAB or N command character groups) may be followed by
-sustain dots.
-Each dot causes the note's value to be lengthened by one-half for each one.
+.It \&.
+Notes (including pauses, that is, CDEFGAB, P, or N command character groups)
+may be followed (after all other arguments) by sustain dots.
+Each dot causes the note's time value to be lengthened by one-half.
 Thus, a note dotted once is held for 3/2 of its undotted value;
 dotted twice, it is held 9/4, and three times would give 27/8.
+.It \&>
+Bump the current octave up one.
+.It \&<
+Drop the current octave down one.
+.El
 .Pp
 Whitespace in play strings is simply skipped and may be used to separate
 melody sections.
@@ -242,16 +247,19 @@ environment; this implementation skips the byte after an M,
 as well as from an X up to a semicolon
 .Pq Sq \&; .
 .Pp
-The use of the tilde
+As an extension, if the arguments to L, N, O, P, and T are omitted,
+their default values are used; BASIC requires the arguments.
+.Pp
+As a local extension, a tilde
 .Pq Sq \*(TI
-as an alias for P is an extension.
+can be used as an alias for P.
 Some implementations of modern MML use R (rest) instead of P
 for a pause; this is not supported, either in BASIC or by this
 implementation.
 .Pp
 The
 .Dq octave-tracking
-feature is also new.
+feature is also a local extension.
 .Pp
 Some implementations of parallel MML use the bar character
 .Pq Sq \*(Ba ,
