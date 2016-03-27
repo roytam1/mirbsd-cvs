@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/isa/spkr.c,v 1.2 2005/03/06 21:27:43 tg Exp $ */
+/**	$MirOS: src/sys/dev/isa/spkr.c,v 1.4 2016/03/27 03:57:06 tg Exp $ */
 /*	$OpenBSD: spkr.c,v 1.7 2002/03/14 01:26:56 millert Exp $	*/
 /*	$NetBSD: spkr.c,v 1.1 1998/04/15 20:26:18 drochner Exp $	*/
 
@@ -350,14 +350,12 @@ playstring(char *cp, int slen)
 	case 'M':
 	    if (slen > 0 && (cp[1] == 'N' || cp[1] == 'n')) {
 		fill = NORMAL;
-		++cp;
-		slen--;
 	    } else if (slen > 0 && (cp[1] == 'L' || cp[1] == 'l')) {
 		fill = LEGATO;
-		++cp;
-		slen--;
 	    } else if (slen > 0 && (cp[1] == 'S' || cp[1] == 's')) {
 		fill = STACCATO;
+	    }
+	    if (slen > 0) {
 		++cp;
 		slen--;
 	    }
