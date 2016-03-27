@@ -171,7 +171,8 @@ static const int pitchtab[] =
 /* 5 */ 2093, 2218, 2350, 2489, 2637, 2794, 2960, 3136, 3323, 3520, 3730, 3951,
 /* 6 */ 4186, 4435, 4699, 4978, 5274, 5588, 5920, 6272, 6645, 7040, 7459, 7902,
 };
-#define NOCTAVES (sizeof(pitchtab) / sizeof(pitchtab[0]) / OCTAVE_NOTES)
+#define NNOTES   (sizeof(pitchtab) / sizeof(pitchtab[0]))	/* 84 */
+#define NOCTAVES (NNOTES / OCTAVE_NOTES)			/* 7 */
 
 static void
 playinit(void)
@@ -200,7 +201,7 @@ playtone(int pitch, int value, int sustain)
 
     if (pitch == -1)
 	rest(whole * snum / (value * sdenom));
-    else if ((pitch>=0)&&(pitch < (sizeof(pitchtab)/sizeof(pitchtab[0])) )) {
+    else if ((pitch >= 0) && (pitch < NNOTES)) {
 	sound = (whole * snum) / (value * sdenom)
 		- (whole * (FILLTIME - fill)) / (value * FILLTIME);
 	silence = whole * (FILLTIME-fill) * snum / (FILLTIME * value * sdenom);
@@ -241,11 +242,13 @@ playstring(char *cp, int slen)
 
 	    /* this may be followed by an accidental sign */
 	    if (slen > 0 && (cp[1] == '#' || cp[1] == '+')) {
-		++pitch;
+		if (pitch < (NNOTES - 1))
+			++pitch;
 		++cp;
 		slen--;
 	    } else if (slen > 0 && cp[1] == '-') {
-		--pitch;
+		if (pitch > 0)
+			--pitch;
 		++cp;
 		slen--;
 	    }

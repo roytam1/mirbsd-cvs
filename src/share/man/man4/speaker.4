@@ -256,14 +256,13 @@ form is not even parsed correctly, for obvious reasons.
 As extensions, if the arguments to L, N, O, P, and T are omitted,
 their default values are used; BASIC requires the arguments.
 The
-.Dq accidental sign ,
-when applied to a wrong note
-.Pq such as \&E# ,
-is handled naturally.
-Out-of-range values for immediate note lengths and the value for P
-use the current time value; N ignores the command on too large
-.Ar n ,
-and for the values for L, O, and T, their default values are used.
+.Dq accidental sign
+can be applied abnormally (e.g. E# = F) and is ignored for O0C-\&
+and O6B#; too large values for immediate note lengths and the value
+for P use the current time value; for the values for L, O, and T,
+their respective default values are used; an N command with too large
+.Ar n
+is just ignored.
 .Pp
 As a local extension, a tilde
 .Pq Sq \*(TI
