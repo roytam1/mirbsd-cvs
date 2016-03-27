@@ -99,18 +99,7 @@ The
 ioctl accepts a pointer to the first of an array of tone structures and plays
 them in continuous sequence; this array must be terminated by a final member
 with a zero duration.
-.Pp
-The play-string language is modelled on the PLAY statement conventions of
-IBM BASIC 2.0.
-The MB, MF and X primitives of PLAY are not useful in a UNIX environment and
-are omitted.
-The
-.Dq octave-tracking
-feature is also new.
-This language is also known as
-.Dq modern MML
-.Pq music macro language .
-.Pp
+.Ss Music Macro Language
 There are 84 accessible notes numbered 1-83 in 7 octaves, each running from
 C to B, numbered 0-6; octave 3 starts with Treble C (English C5, German c''
 .No or Sy lowercase c , superscript 2 ) ,
@@ -230,7 +219,7 @@ Whitespace in play strings is simply skipped and may be used to separate
 melody sections.
 .Pp
 The default initialisation string is:
-.Li MN ON O4 L4 T120
+.Li MF MN ON O4 L4 T120
 .Sh FILES
 .Bl -tag -width Pa -compact
 .It Pa /dev/speaker
@@ -238,6 +227,29 @@ The default initialisation string is:
 .Sh SEE ALSO
 .Xr intro 4 ,
 .Xr pcppi 4
+.Sh STANDARDS
+The play-string language is modelled on the PLAY statement conventions of
+IBM BASIC 2.0.
+This language is also known as
+.Dq modern MML
+.Pq music macro language .
+.Pp
+The MB, MF, and X directives, as well as variable references,
+are tied to the BASIC realisation and not useful in a UNIX
+environment; this implementation skips the byte after an M,
+as well as from an X up to a semicolon
+.Pq Sq \&; .
+.Pp
+The use of the tilde
+.Pq Sq \*(TI
+as an alias for P is an extension.
+Some implementations of modern MML use R (rest) instead of P
+for a pause; this is not supported, either in BASIC or by this
+implementation.
+.Pp
+The
+.Dq octave-tracking
+feature is also new.
 .Sh AUTHORS
 .An Eric S. Raymond Aq Mt esr@snark.thyrsus.com ,
 Feb 1990
@@ -251,6 +263,7 @@ There is no volume control.
 In play strings which are very long (longer than your system's physical I/O
 blocks) note suffixes or numbers may occasionally be parsed incorrectly due
 to crossing a block boundary.
+This also applies to multi-character commands such as M or X.
 .Pp
 The original Microsoft\(rg GW-BASIC\(rg documentation, as well as the
 IBM Personal Computer Hardware Reference Library BASIC manual, Second

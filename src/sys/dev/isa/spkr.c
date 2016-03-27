@@ -361,6 +361,14 @@ playstring(char *cp, int slen)
 	    }
 	    /* intentionally no support for MF/MB (Foreground/Background) */
 	    break;
+
+	case 'X':
+	    /* intentionally no support; skip till end of character */
+	    while (slen > 0 && cp[1] != ';') {
+		++cp;
+		slen--;
+	    }
+	    break;
 	}
     }
 }
