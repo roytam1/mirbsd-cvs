@@ -6,7 +6,7 @@
  * Copyright (c) 1990 Eric S. Raymond (esr@snark.thyrsus.com)
  * Copyright (c) 1990 Andrew A. Chernov (ache@astral.msk.su)
  * Copyright (c) 1990 Lennart Augustsson (lennart@augustsson.net)
- * Copyright (c) 2002 Thorsten "mirabilos" Glaser (tg@mirbsd.org)
+ * Copyright (c) 2002, 2016 mirabilos (m@mirbsd.org)
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,11 +38,6 @@
 
 /*
  * spkr.c -- device driver for console speaker on 80386
- *
- * v1.1 by Eric S. Raymond (esr@snark.thyrsus.com) Feb 1990
- *      modified for 386bsd by Andrew A. Chernov <ache@astral.msk.su>
- *      386bsd only clean version, all SYSV stuff removed
- *      use hz value from param.c
  */
 
 #include <sys/param.h>
@@ -93,8 +88,8 @@ static void playtone(int, int, int);
 static void playstring(char *, int);
 
 /* emit tone of frequency hz for given number of ticks */
-static
-void tone(u_int hz, u_int ticks)
+static void
+tone(u_int hz, u_int ticks)
 {
 	pcppi_bell(ppicookie, hz, ticks, PCPPI_BELL_SLEEP);
 }
@@ -157,24 +152,24 @@ static bool octprefix;	/* override current octave-tracking state? */
 #define DENOM_MULT	2	/* denominator of dot multiplier */
 
 /* letter to half-tone:  A   B  C  D  E  F  G */
-static int notetab[8] = {9, 11, 0, 2, 4, 5, 7};
+static const int notetab[8] = {9, 11, 0, 2, 4, 5, 7};
 
 /*
- * This is the American Standard A440 Equal-Tempered scale with frequencies
- * rounded to nearest integer. Thank Goddess for the good ol' CRC Handbook...
+ * These pitches are constructed from the fixed table in octave 6 by
+ * shifting right once per octave, then rounding up (adding the carry);
  * our octave 0 is standard octave 2.
  */
 #define OCTAVE_NOTES	12	/* semitones per octave */
-static int pitchtab[] =
+static const int pitchtab[] =
 {
 /*        C     C#    D     D#    E     F     F#    G     G#    A     A#    B*/
-/* 0 */   65,   69,   73,   78,   82,   87,   93,   98,  103,  110,  117,  123,
+/* 0 */   65,   69,   73,   78,   82,   87,   93,   98,  104,  110,  117,  123,
 /* 1 */  131,  139,  147,  156,  165,  175,  185,  196,  208,  220,  233,  247,
 /* 2 */  262,  277,  294,  311,  330,  349,  370,  392,  415,  440,  466,  494,
-/* 3 */  523,  554,  587,  622,  659,  698,  740,  784,  831,  880,  932,  988,
-/* 4 */ 1047, 1109, 1175, 1245, 1319, 1397, 1480, 1568, 1661, 1760, 1865, 1975,
-/* 5 */ 2093, 2217, 2349, 2489, 2637, 2794, 2960, 3136, 3322, 3520, 3729, 3951,
-/* 6 */ 4186, 4435, 4698, 4978, 5274, 5588, 5920, 6272, 6644, 7040, 7459, 7902,
+/* 3 */  523,  554,  587,  622,  659,  699,  740,  784,  831,  880,  932,  988,
+/* 4 */ 1047, 1109, 1175, 1245, 1319, 1397, 1480, 1568, 1661, 1760, 1865, 1976,
+/* 5 */ 2093, 2218, 2350, 2489, 2637, 2794, 2960, 3136, 3323, 3520, 3730, 3951,
+/* 6 */ 4186, 4435, 4699, 4978, 5274, 5588, 5920, 6272, 6645, 7040, 7459, 7902,
 };
 #define NOCTAVES (sizeof(pitchtab) / sizeof(pitchtab[0]) / OCTAVE_NOTES)
 
