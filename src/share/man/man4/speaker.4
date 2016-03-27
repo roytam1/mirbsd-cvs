@@ -30,8 +30,14 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.ie \n(.g .ds en \(en
-.el .ds en \(em
+.ie \n(.g \{\
+.	ds TI \(ti
+.	ds en \(en
+.\}
+.el \{\
+.	ds TI ~
+.	ds en \(em
+.\}
 .Dd $Mdocdate: March 26 2016 $
 .Dt SPKR 4
 .Os
@@ -183,8 +189,8 @@ Pause (rest), with
 .Ar n
 interpreted as for L.
 May be followed by sustain dots.
-May also be written
-.Ql ~ .
+As an extension, this may also be written
+.Ql \*(TI .
 .It T Ns Ar n
 Sets the number of quarter notes per minute; default is 120.
 Musical names for common tempi are:
