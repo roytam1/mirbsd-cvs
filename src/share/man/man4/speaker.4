@@ -227,6 +227,8 @@ The default initialisation string is:
 .Sh SEE ALSO
 .Xr intro 4 ,
 .Xr pcppi 4
+.Pp
+.Pa http://natureshadow.github.io/floppi-music/
 .Sh STANDARDS
 The play-string language is modelled on the PLAY statement conventions of
 IBM BASIC 2.0.
@@ -250,9 +252,24 @@ implementation.
 The
 .Dq octave-tracking
 feature is also new.
+.Pp
+Some implementations of parallel MML use the bar character
+.Pq Sq \*(Ba ,
+analog to bar lines, for synchronisation, as an extension.
+This implementation ignores these characters, allowing an
+individual staff from such MML file to be played without
+modification.
 .Sh AUTHORS
 .An Eric S. Raymond Aq Mt esr@snark.thyrsus.com ,
 Feb 1990
+.Sh CAVEATS
+Often-used file extensions for files containing play strings are
+.Pa \&.PLY Pq BASIC play
+and
+.Pa \&.MML Pq often with extensions .
+Parallel MML files usually contain a per-file global header and
+multiple staff lines in an ordered fashion, akin to a container
+format for multiple MML tracks.
 .Sh BUGS
 Due to roundoff in the pitch tables and slop in the tone-generation and timer
 hardware (neither of which was designed for precision), neither pitch accuracy
