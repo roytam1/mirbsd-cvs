@@ -188,8 +188,8 @@ Pause (rest) for the duration
 interpreted as for L; if omitted, the current time value is used.
 May be followed by sustain dots.
 .It T Ns Ar t
-Sets the number of quarter notes per minute; default is 120.
-.Pp
+Sets the number of quarter notes per minute; values from 32 to 255
+are accepted; default is 120.
 Musical names for common tempi are:
 .Bl -column "Description" "Larghissimo" "Beats per minute" -offset indent
 .It Em "Description" Ta Em "Tempo" Ta Em "Beats per Minute"
@@ -253,8 +253,17 @@ Passing a command argument as
 .No or its Li VARPTR$()
 form is not even parsed correctly, for obvious reasons.
 .Pp
-As an extension, if the arguments to L, N, O, P, and T are omitted,
+As extensions, if the arguments to L, N, O, P, and T are omitted,
 their default values are used; BASIC requires the arguments.
+The
+.Dq accidental sign ,
+when applied to a wrong note
+.Pq such as \&E# ,
+is handled naturally.
+Out-of-range values for immediate note lengths and the value for P
+use the current time value; N ignores the command on too large
+.Ar n ,
+and for the values for L, O, and T, their default values are used.
 .Pp
 As a local extension, a tilde
 .Pq Sq \*(TI
