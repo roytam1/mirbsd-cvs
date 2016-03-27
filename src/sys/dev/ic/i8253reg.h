@@ -65,6 +65,14 @@
  */
 
 /*
+ * The timer frequency of 1193182 is inexact; old IBM/MS code
+ * uses 1193180 instead, but the value is probably closer to
+ * the real value, which is a twelfth of the CGA dot clock on
+ * the ISA bus (yes!), so 1193181.6̅ or 1193181.816̅ depending
+ * on which crystal was used; APIC (AMD64) uses 1193182 too.
+ */
+
+/*
  * Frequency of all three count-down timers; (TIMER_FREQ/freq) is the
  * appropriate count to generate a frequency of freq hz.
  */
