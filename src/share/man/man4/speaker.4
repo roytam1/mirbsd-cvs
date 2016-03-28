@@ -141,10 +141,9 @@ The default is L4, quarter notes.
 The lowest possible value is 1; values up to 64 are accepted.
 L1 sets whole notes, L2 sets half notes, L4 sets quarter notes, etc.
 .It M[LNS]
-Set articulation.
-MN (N for normal) is the default; the last 1/8th of the note's value is rest
-time.
-You can set ML for legato (no rest space) or MS for staccato (1/4 rest space).
+MN sets normal articulation; the last 1/8th of the note's value is rest time.
+MS is staccato, the last 1/4th is rest time.
+ML implements both legato (Bindebogen) and slur (Haltebogen) with no rest.
 .It N Ns Ar n
 Play note
 .Ar n ,
