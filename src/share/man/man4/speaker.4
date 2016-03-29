@@ -299,6 +299,12 @@ and
 Parallel MML files usually contain a per-file global header and
 multiple staff lines in an ordered fashion, akin to a container
 format for multiple MML tracks.
+.Pp
+ML articulation does not prohibit rearticulation, although it is
+expected that if a note played with ML articulation is followed
+immediately by another sound with the same frequency, their play
+times are merged.
+This implementation does not support merging; this is a known shortcoming.
 .Sh BUGS
 Due to roundoff in the pitch tables and slop in the tone-generation and timer
 hardware (neither of which was designed for precision), neither pitch accuracy
