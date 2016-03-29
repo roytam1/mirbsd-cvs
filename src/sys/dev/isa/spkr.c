@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/dev/isa/spkr.c,v 1.4 2016/03/27 03:57:06 tg Exp $ */
+/**	$MirOS: src/sys/dev/isa/spkr.c,v 1.7 2016/03/27 18:52:07 tg Exp $ */
 /*	$OpenBSD: spkr.c,v 1.7 2002/03/14 01:26:56 millert Exp $	*/
 /*	$NetBSD: spkr.c,v 1.1 1998/04/15 20:26:18 drochner Exp $	*/
 
@@ -202,9 +202,9 @@ playtone(int pitch, int value, int sustain)
     if (pitch == -1)
 	rest(whole * snum / (value * sdenom));
     else if ((pitch >= 0) && (pitch < NNOTES)) {
-	sound = (whole * snum) / (value * sdenom)
-		- (whole * (FILLTIME - fill)) / (value * FILLTIME);
-	silence = whole * (FILLTIME-fill) * snum / (FILLTIME * value * sdenom);
+	silence = whole * (FILLTIME - fill) * snum /
+	    (value * FILLTIME * sdenom);
+	sound = whole * snum / (value * sdenom) - silence;
 
 #ifdef SPKRDEBUG
 	printf("playtone: pitch %d for %d ticks, rest for %d ticks\n",
