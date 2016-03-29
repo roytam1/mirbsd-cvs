@@ -1,6 +1,7 @@
+$MirOS$
 $OpenBSD: patch-instrum_c,v 1.1 2001/07/05 10:48:22 espie Exp $
 --- instrum.c.orig	Mon May 20 13:14:50 1996
-+++ instrum.c	Fri Jul 30 20:51:07 2010
++++ instrum.c	Tue Mar 29 19:59:31 2016
 @@ -31,7 +31,7 @@
  #include <strings.h>
  #endif
@@ -21,3 +22,21 @@ $OpenBSD: patch-instrum_c,v 1.1 2001/07/05 10:48:22 espie Exp $
  	      if ((fp=open_file(tmp, 1, OF_NORMAL)))
  		{
  		  noluck=0;
+@@ -421,7 +421,7 @@ static Instrument *load_instrument(char 
+ 	}
+ 
+       /* Then read the sample data */
+-      sp->data = safe_malloc(sp->data_length);
++      sp->data = safe_malloc(sp->data_length /*XXX*/ + 16);
+       if (1 != fread(sp->data, sp->data_length, 1, fp))
+ 	goto fail;
+       
+@@ -430,7 +430,7 @@ static Instrument *load_instrument(char 
+ 	  int32 i=sp->data_length;
+ 	  uint8 *cp=(uint8 *)(sp->data);
+ 	  uint16 *tmp,*new;
+-	  tmp=new=safe_malloc(sp->data_length*2);
++	  tmp=new=safe_malloc(sp->data_length*2 /*XXX*/ + 16);
+ 	  while (i--)
+ 	    *tmp++ = (uint16)(*cp++) << 8;
+ 	  cp=(uint8 *)(sp->data);

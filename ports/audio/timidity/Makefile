@@ -1,9 +1,9 @@
-# $MirOS: ports/audio/timidity/Makefile,v 1.5 2008/03/09 17:22:26 tg Exp $
+# $MirOS: ports/audio/timidity/Makefile,v 1.6 2010/07/30 21:00:40 tg Exp $
 # $OpenBSD: Makefile,v 1.25 2003/10/26 23:49:31 naddy Exp $
 
 COMMENT=		MIDI to WAV renderer and player
 DISTNAME=		timidity-0.2i
-DASH_VER=		1
+DASH_VER=		2
 CATEGORIES=		audio
 
 MASTER_SITES=		http://www.goice.co.jp/member/mo/timidity/dist/
