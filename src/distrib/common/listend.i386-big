@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/listend.i386-big,v 1.43 2013/03/22 21:10:44 tg Exp $
+# $MirOS: src/distrib/common/listend.i386-big,v 1.44 2013/03/22 21:29:31 tg Exp $
 
 # missing from mksh here
 LINK	instbin					sbin/mknod
@@ -45,7 +45,7 @@ LINK	instbin					usr/sbin/stat
 LINK	instbin					usr/sbin/wsmoused
 
 # devices stuff
-SPECIAL	cd dev; mksh MAKEDEV ramdisk rambig wscons
+SPECIAL	cd dev; mksh MAKEDEV ramdisk rambig speaker wscons
 
 # extra stuff
 COPY	${DESTDIR}/usr/mdec/mbrmgr		usr/mdec/mbrmgr
