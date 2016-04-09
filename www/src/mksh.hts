@@ -1207,6 +1207,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
   limits in a single invocation from oksh (thanks millert) -->
  <li>[lintian] Fix spelling</li>
  <li>[tg] Unbreak multi-line command history broken by history flush</li>
+ <li>[tg] Fix redefining POSIX functions that were Korn functions before</li>
 </ul>
 <p id="r52c">R52c is a bugfix-only release:</p><ul>
  <li>[tg] Shave 200 bytes off .text by revisiting string pooling</li>
