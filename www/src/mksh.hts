@@ -938,7 +938,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li class="cr"><img class="fr" width="61" height="64" alt="[Gentoo logo]"
  src="@@RELPATH@@pics/logos/gentoo.png" /><a
  href="http://www.gentoo.org/">Gentoo GNU/Linux</a> has an mksh <a
- href="http://sources.gentoo.org/cgi-bin/viewvc.cgi/gentoo-x86/app-shells/mksh/">ebuild</a>
+ href="https://gitweb.gentoo.org/repo/gentoo.git/tree/app-shells/mksh">ebuild</a>
  created by <a href="http://www.hboeck.de/">Hanno Böck</a> and kept up
  to date by bonsaikitten.</li>
 <li class="cr"><img class="fr" width="64" height="64" alt="[Fedora logo]"
@@ -988,7 +988,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  Appliance Development Kit (meta distribution), now defunct, mksh was the
  default shell.</li>
 <li><a href="http://openadk.org/">OpenADK - Open Source Appliance Development Kit</a>
- (a FreeWRT 1.0 fork) contains mksh as default shell.</li>
+ (a FreeWRT 1.0 fork) contains <a
+ href="http://cgit.openadk.org/cgi/cgit/openadk.git/tree/package/mksh">mksh</a>
+ as default shell.</li>
 <li><a href="http://openwrt.org/">OpenWrt Embedded GNU/Linux Distribution</a>
  also <a href="https://github.com/openwrt/packages/tree/master/utils/mksh">provides
  mksh</a> (rarely updated) on ADSL/WLAN routers thanks to Felix “nbd” Fietkau.</li>
@@ -1198,13 +1200,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
-<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
--->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+ <li>[lintian] Fix spelling</li>
+ <li>[tg] Unbreak multi-line command history broken by history flush</li>
+</ul>
 <p id="r52c">R52c is a bugfix-only release:</p><ul>
  <li>[tg] Shave 200 bytes off .text by revisiting string pooling</li>
  <li>[tg, J�rg] Fix manpage for ditroff on Schillix</li>
