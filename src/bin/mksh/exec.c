@@ -1084,7 +1084,7 @@ define(const char *name, struct op *t)
 	}
 
 	if (tp->flag & ALLOC) {
-		tp->flag &= ~(ISSET|ALLOC);
+		tp->flag &= ~(ISSET|ALLOC|FKSH);
 		tfree(tp->val.t, tp->areap);
 	}
 
