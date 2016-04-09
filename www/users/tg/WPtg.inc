@@ -10671,6 +10671,64 @@ Waypoint: OC121BD
 Title: So schmeckt der Sommer (Safari)
 Tag: D15 T15 Safari
 ----
+ID: 1774
+Date: 01.04.2016
+Waypoint: GC654E
+Title: Blue Stone (Blauer Stein)
+Tag: D2 T15 Micro Tradi
+
+Warnung vor der Hundescheiße direkt nebenan. Gut getarnt ☹
+----
+ID: 1775
+Date: 01.04.2016
+Waypoint: GC5W4Q2
+Title: Auf dem Feld
+Tag: D4 T15 Micro Mystery recommended
+----
+ID: 1776
+Date: 05.04.2016
+Waypoint: GC1AAC9
+Title: Jannowitzbrücke
+Tag: D1 T1 Micro Tradi
+----
+ID: 1777
+Date: 06.04.2016
+Waypoint: OCFBFA
+Title: Berliner Bär(enjagd) [Reverse Cache]
+Tag: D1 T1 Safari
+----
+ID: 1778
+Date: 06.04.2016
+Waypoint: GC39Y1C
+Title: Spittelkolonnaden
+Tag: D1 T1 Micro Tradi
+
+Dreist! ☻☺
+----
+ID: 1779
+Date: 06.04.2016
+Waypoint: GC50P3K
+Title: Küchenhilfe gesucht - kitchen help wanted
+Tag: D2 T15 Other Tradi recommended
+----
+ID: 1780
+Date: 07.04.2016
+Waypoint: OCB68A
+Title: SSVC: Berlin - Brandenburg's Tor
+Tag: D1 T1 Virtual
+----
+ID: 1781
+Date: 07.04.2016
+Waypoint: OCC1EE
+Title: SSVC: Berlin - Gleis Neundreiviertel
+Tag: D15 T1 Virtual recommended
+----
+ID: 1782
+Date: 09.04.2016
+Waypoint: GC2JCH7
+Title: Töschen #1
+Tag: D15 T1 Micro Multi
+----
 ID: p20160729
 Date: 30.07.2016
 Waypoint: GC276WT
