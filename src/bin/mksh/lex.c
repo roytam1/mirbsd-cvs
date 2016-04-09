@@ -1350,7 +1350,8 @@ getsc_line(Source *s)
 		alarm(ksh_tmout);
 	}
 	if (interactive) {
-		histsave(&s->line, NULL, HIST_FLUSH, true);
+		if (cur_prompt == PS1)
+			histsave(&s->line, NULL, HIST_FLUSH, true);
 		change_winsz();
 	}
 #ifndef MKSH_NO_CMDLINE_EDITING
