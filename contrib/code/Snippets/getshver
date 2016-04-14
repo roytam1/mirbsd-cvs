@@ -1,7 +1,7 @@
 # $MirOS: contrib/code/Snippets/getshver,v 1.16 2013/09/27 18:26:06 tg Exp $
 #-
-# Copyright (c) 2009, 2010, 2011, 2012, 2013, 2014
-#	Thorsten Glaser <tg@mirbsd.org>
+# Copyright (c) 2009, 2010, 2011, 2012, 2013, 2014, 2016
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -92,6 +92,10 @@ esac
 
 case $YASH_VERSION in
 *.*) echo "yash $YASH_VERSION"; exit 0 ;;
+esac
+
+case $NETBSD_SHELL in
+2*) echo "nbsh $NETBSD_SHELL"; exit 0 ;;
 esac
 
 case x$SHELL_VERSION in
@@ -205,7 +209,7 @@ if test x"`
 	if test x"$(PATH=/nonexistent; export PATH
 	    printf 'f%so' o 2>/dev/null)" = x"foo"; then
 		# probably, but not certain
-		# also: NetBSD /bin/sh on MirBSD; dash on Debian
+		# also: (old) NetBSD /bin/sh (e.g. on MirBSD); dash on Debian
 		echo posix-dash
 		exit 0
 	fi
