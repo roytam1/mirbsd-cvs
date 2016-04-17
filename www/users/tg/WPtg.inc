@@ -1479,7 +1479,7 @@ ID: 287
 Date: 10.10.2012
 Waypoint: GC1HGEH
 Title: Eau de source à PARIS- Spring water in PARIS.
-Tag: Earth recommended
+Tag: D15 T15 Earth recommended
 ----
 ID: 288
 Date: 25.10.2012
@@ -4357,7 +4357,7 @@ Tag: D2 T2 Micro Tradi
 ----
 ID: 776
 Date: 22.03.2014
-Waypoint: GC4M90G
+Waypoint: GC4M90G http://www.bessercacher.de/Forum/phpBB3/viewtopic.php?t=2036
 Banner: jpg
 Title: Beach TB Hotel GBH
 Tag: D1 T1 Large Tradi recommended exceptional
@@ -4423,7 +4423,7 @@ Tag: D15 T1 Micro Tradi
 ----
 ID: 785
 Date: 29.03.2014
-Waypoint: GC3DEF0
+Waypoint: GC3DEF0 http://www.bessercacher.de/Forum/phpBB3/viewtopic.php?t=1979
 Banner: jpg Smørrebrød: Rezept gefunden
 Title: „Smørrebrød“ oder „Das Lieblingsrezept“
 Tag: D25 T25 Large Multi recommended
@@ -6333,7 +6333,7 @@ Tag: D2 T15 Small Tradi
 ----
 ID: 1094
 Date: 07.09.2014
-Waypoint: GCB88
+Waypoint: GCB88 http://www.bessercacher.de/Forum/phpBB3/viewtopic.php?t=2070
 Title: Himmerich
 Tag: D25 T25 Regular Multi recommended exceptional
 
@@ -10728,6 +10728,183 @@ Date: 09.04.2016
 Waypoint: GC2JCH7
 Title: Töschen #1
 Tag: D15 T1 Micro Multi
+----
+ID: 1783
+Date: 10.04.2016
+Waypoint: OC10995
+Title: Auf Safari: Liebesschlösser
+Tag: D15 T15 Safari
+----
+ID: 1784
+Date: 10.04.2016
+Waypoint: GC2HT2H
+Title: Auf den Spuren der Diplomatie
+Tag: D2 T15 Small Multi
+----
+ID: 1785
+Date: 10.04.2016
+Waypoint: OC10422
+Title: Rhein-Kilometer
+Tag: D1 T2 Safari
+----
+ID: 1786
+Date: 10.04.2016
+Waypoint: OC11DDA
+Title: SVC - Historische Fachwerkhäuser
+Tag: D15 T15 Safari
+----
+ID: 1787
+Date: 10.04.2016
+Waypoint: OC10BC6
+Title: Auf Safari: Litfaßsäule
+Tag: D15 T1 Safari
+----
+ID: 1788
+Date: 10.04.2016
+Waypoint: OC1112C
+Title: SVC: Wegkreuz
+Tag: D15 T15 Safari
+----
+ID: 1789
+Date: 10.04.2016
+Waypoint: OC1038A
+Title: Kaugummi-Automaten-Safari 2.0
+Tag: D2 T1 Safari
+----
+ID: 1790
+Date: 10.04.2016
+Waypoint: OCFF66
+Title: SVC: Wo geht's denn da hin?
+Tag: D2 T2 Safari
+----
+ID: 1791
+Date: 11.04.2016
+Waypoint: GC33C1N
+Title: Mühleholzrüfe
+Tag: D15 T15 Earth
+----
+ID: 1792
+Date: 12.04.2016
+Waypoint: OC12D48
+Title: Godesberger Kreuze #27
+nTF: 0
+Tag: D1 T2 Virtual
+----
+ID: 1793
+Date: 15.04.2016
+Waypoint: GC39G92
+Title: Clever versteckt
+Tag: D4 T1 Micro Mystery
+----
+ID: 1794
+Date: 16.04.2016
+Waypoint: GC3BR5H
+Title: XXL-TB-Hotel &#34;Buschhoven&#34; --&gt; Danke für über 600FP
+Tag: D25 T3 Large Tradi
+----
+ID: 1795
+Date: 16.04.2016
+Waypoint: GC3QCQ9
+Title: Eine haarige Angelegenheit!
+Tag: D15 T15 Small Tradi
+----
+ID: 1796
+Date: 16.04.2016
+Waypoint: GC5ZGX9
+Title: Presse- Multi - Bekannt aus Radio und Zeitung
+Tag: D35 T25 Regular Multi
+----
+ID: 1797
+Date: 16.04.2016
+Waypoint: GC5ZEP8
+Title: Wanderparkplatz Buschhoven
+Tag: D25 T15 Micro Tradi
+
+Braucht eigentlich eine deutlich höhere T-Wertung;
+ich war nicht groß genug, um selbständig heben zu können.
+----
+ID: 1798
+Date: 16.04.2016
+Waypoint: GC5ZCYN
+Title: Ein &#34;MAST-have&#34; Cache
+Tag: D3 T15 Micro Tradi
+----
+ID: 1799
+Date: 16.04.2016
+Waypoint: GC4EMKZ
+Title: Juhu, ein &#34;small&#34; am Waldrand!
+Tag: D15 T15 Small Tradi
+----
+ID: 1800
+Date: 16.04.2016
+Waypoint: GC3YQRG
+Title: Geocaching Postamt - Von Swisttal in alle Welt! ;)
+Tag: D2 T2 Regular Letterbox_Hybrid
+
+Definitiv <em>keine</em> Letterbox, „nur“ ein „Postamt“,
+ein Offset-Tradi (Realkoordinaten sind als WP angegeben)
+----
+ID: 1801
+Date: 17.04.2016
+Waypoint: GC5XDNA
+Title: Waldgeister &#34;Ecki&#34;
+Tag: D15 T15 Micro Tradi
+----
+ID: 1802
+Date: 17.04.2016
+Waypoint: OC106FD GC4HWJ2 http://www.bessercacher.de/Forum/phpBB3/viewtopic.php?t=1852
+Title: Herr der Waldgeister
+Tag: D15 T3 Regular Tradi recommended exceptional
+----
+ID: 1803
+Date: 17.04.2016
+Waypoint: GC26C http://www.bessercacher.de/Forum/phpBB3/viewtopic.php?t=1851
+Title: Medieval View
+Tag: D15 T15 Regular Tradi recommended exceptional
+
+Eher T2½ bis T3; Koordinaten in meinem Log
+----
+ID: 1804
+Date: 17.04.2016
+Waypoint: OC10706 GC4F9VC
+Title: Panoramablick
+Tag: D15 T15 Micro Tradi
+----
+ID: 1805
+Date: 17.04.2016
+Waypoint: GC55Y6Q
+Title: Waldgeister &#34;Happy&#34;
+Tag: D15 T15 Micro Tradi recommended
+----
+ID: 1806
+Date: 17.04.2016
+Waypoint: OC10701 GC4F9X7
+Title: Waldgeister 2 &#34;Lazy&#34;
+Tag: D25 T3 Micro Tradi recommended
+----
+ID: 1807
+Date: 17.04.2016
+Waypoint: OC10702 GC4F9YG
+Title: Waldgeister 3: &#34;Tizzy&#34;
+Tag: D2 T2 Micro Tradi recommended
+----
+ID: 1808
+Date: 17.04.2016
+Waypoint: OC10703 GC4FA09
+Title: Waldgeister 4 &#34;Crazy&#34;
+Tag: D2 T25 Small Tradi recommended
+----
+ID: 1809
+Date: 17.04.2016
+Waypoint: GC3Z1BE
+Title: Heiligenhäuschen in Keldung.
+Tag: D1 T15 Micro Tradi recommended
+----
+ID: 1810
+Date: 17.04.2016
+Waypoint: OC10705 GC4EQB7
+Title: Traumpfad Eltzer Burgpanorama
+Tag: D2 T1 Micro Tradi
 ----
 ID: p20160729
 Date: 30.07.2016
