@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: www/users/tg/munzbadg,v 1.4 2015/10/11 12:21:22 tg Exp $'
+rcsid='$MirOS: www/users/tg/munzbadg,v 1.5 2016/03/12 20:45:41 tg Exp $'
 #-
 # Copyright © 2014, 2015, 2016
 #	mirabilos <m@mirbsd.org>
@@ -29,4 +29,4 @@ ftp -4 -o - https://www.munzee.com/m/$user/badges/0/all | \
 	    print -r -- "mzbadge ${image@Q} ${title@Q} ${desc@Q}"
 done
 print -r -- "mws__header=\"\$mws__header and <span" \
-    "class=\\\"rcsid\\\">${rcsid//\$/\\\$}</span> (on $(date +'%F %T'))\""
+    "class=\\\"rcsid\\\">${rcsid//\$/\\\$\"\"}</span> (on $(date +'%F %T'))\""
