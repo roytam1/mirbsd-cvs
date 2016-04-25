@@ -1,6 +1,6 @@
 /*-
- * Copyright (c) 2009
- *	Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2009, 2016
+ *	mirabilos <m@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
@@ -25,7 +25,9 @@
 #include <lib/libsa/stand.h>
 #include <lib/libsa/lmbmfs.h>
 
-__RCSID("$MirOS: src/sys/lib/libsa/lmbmfs.c,v 1.4 2009/12/26 15:06:15 tg Exp $");
+/*#define LMBMFS_DEBUG*/
+
+__RCSID("$MirOS: src/sys/lib/libsa/lmbmfs.c,v 1.5 2010/01/10 17:47:52 tg Exp $");
 
 extern struct lmbm_modinfo {
 	void *mod_start;
@@ -74,10 +76,16 @@ lmbmfs_init(void)
 
 	allitems = alloc(lmbm_num * sizeof(struct lmbm_item));
 
+#ifdef LMBMFS_DEBUG
+	printf(" lmbm...\n");
+#endif
 	for (i = 0; i < lmbm_num; ++i) {
 		char *cp, *bp;
 
 		bp = cp = lmbm_ofs[i].mod_string;
+#ifdef LMBMFS_DEBUG
+		printf("\t%X: '%s' ", i, cp);
+#endif
 		while (*cp && *cp != ' ')
 			if (*cp++ == '/')
 				bp = cp;
@@ -91,6 +99,9 @@ lmbmfs_init(void)
 		}
 		allitems[i].data = dstaddr;
 		allitems[i].size = lmbm_ofs[i].mod_end - lmbm_ofs[i].mod_start;
+#ifdef LMBMFS_DEBUG
+		printf("%s(%lu)\n", allitems[i].name, (u_long)allitems[i].size);
+#endif
 		memcpy(dstaddr, lmbm_ofs[i].mod_start, allitems[i].size);
 		dstaddr += allitems[i].size;
 	}
