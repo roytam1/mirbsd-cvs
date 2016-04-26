@@ -262,6 +262,7 @@ ID: 49
 Date: 20.06.2008
 Waypoint: GC1DC3T OC5E73
 Title: IPTC BN
+nTF: 2
 Tag: recommended
 ----
 ID: 50
@@ -9429,7 +9430,7 @@ Date: 18.05.2015
 Waypoint: OC11FCE
 Title: Verkehrsknotenpunktskreuz
 nTF: 0
-Tag: D15 T1 Virtual
+Tag: D1 T1 Virtual
 ----
 ID: 1579
 Date: 16.05.2015
@@ -10905,6 +10906,44 @@ Date: 17.04.2016
 Waypoint: OC10705 GC4EQB7
 Title: Traumpfad Eltzer Burgpanorama
 Tag: D2 T1 Micro Tradi
+----
+ID: 1811
+Date: 23.04.2016
+Waypoint: GC6ADDX
+Banner: png
+Title: CITO- WAS SONST 🌋
+Tag: D15 T5 CITO
+----
+ID: 1812
+Date: 23.04.2016
+Waypoint: GC66RBH
+Banner: png
+Title: Laachgraben
+Tag: D2 T3 Small Tradi
+----
+ID: 1813
+Date: 23.04.2016
+Waypoint: OC106A1 GC23QK7
+Title: Kaplan Peter Schlicker
+Tag: D1 T1 Micro Tradi recommended
+----
+ID: 1814
+Date: 23.04.2016
+Waypoint: OC06D9 N007E9
+Title: Der Basalt im Ort
+Tag: D1 T1 Virtual
+----
+ID: 1815
+Date: 23.04.2016
+Waypoint: GC36K27
+Title: Die helle Erleuchtung
+Tag: D15 T15 Micro Tradi
+----
+ID: 1816
+Date: 24.04.2016
+Waypoint: GC6D4JV
+Title: Little Cache
+Tag: D15 T15 Micro Tradi
 ----
 ID: p20160729
 Date: 30.07.2016

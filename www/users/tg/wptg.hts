@@ -4,7 +4,7 @@
 mws__canonsite=http://fish.mirbsd.org
 mws_setname "" "mirabilos’ geocaching banners"
 mws_setheadline "Cache banners for mirabilos"
-mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.68 2015/11/28 18:43:38 tg Exp $'
+mws_putheader '$MirOS: www/users/tg/wptg.hts,v 1.72 2016/04/17 20:49:50 tg Exp $'
 
 function statpic {
 	local alt=$1 pic=$2 link=$3 extra=$4
@@ -259,7 +259,8 @@ souvenir 2015-12-31 'Goodbye 2015' https://souvenirs.geocaching.com/SouvenirImag
 souvenir 2016-01-01 'Hello 2016' https://souvenirs.geocaching.com/SouvenirImages/MTIvMjIvMjAxNQ/b0438218-11c4-4c9a-a727-17f48f2e882c.png 'http://www.geocaching.com/souvenir/?guid=f42a65a8-433c-487f-8926-0b27fc8f045d'
 souvenir 2016-02-27 'Leap Day Weekend 2016' https://souvenirs.geocaching.com/SouvenirImages/Mi8yMi8yMDE2/43add974-5cca-4ce9-94e2-7a8f0e1502aa.png 'http://www.geocaching.com/souvenir/?guid=684e9fbe-4c49-4a86-89e5-7597991b8983'
 souvenir 2016-02-29 'Leap Day 2016' https://souvenirs.geocaching.com/SouvenirImages/Mi8yMi8yMDE2/a5758109-fc88-45ec-84cf-86c2374ac60c.png 'http://www.geocaching.com/souvenir/?guid=e3379b49-5c59-4882-93dc-8e9db069ba04'
-mws__header="$mws__header and <span class=\"rcsid\">\$""MirOS: www/mk/souv2hts,v 1.3 2016/04/17 20:41:31 tg Exp \$""</span> (on 2016-04-17 20:41:50)"
+souvenir 2016-04-23 'CITO Week - April 2016' https://souvenirs.geocaching.com/SouvenirImages/NC8xMi8yMDE2/dc73558a-78ca-4cca-97ad-4db3b35fc232.png 'http://www.geocaching.com/souvenir/?guid=16990a1c-968e-4489-8ae0-030295631d1a'
+mws__header="$mws__header and <span class=\"rcsid\">\$""MirOS: www/mk/souv2hts,v 1.3 2016/04/17 20:41:31 tg Exp \$""</span> (on 2016-04-26 22:46:41)"
 
 # kaputt, s.o.
 #if [[ $nsouvenir != 0 && -z $souvenirs ]]; then
@@ -321,15 +322,16 @@ mzbadge nomad 'Good Samaritan' 'You captured The Nomad and helped him move along
 mzbadge btfd 'Back To The Future Day' 'You hit 88 Mile Per Hour! Hope you enjoyed going back in time!'
 mzbadge flatrob 'Flat Rob' 'Rob is flying Zee Air somewhere, and you captured Flat Rob!'
 mzbadge monster 'The Perfect Monster' 'You&#039;ve found all of the parts to build the perfect monster! Keep an eye on him to make sure he doesn&#039;t wreak havoc!'
+mzbadge ap16 'April Showers 2016' 'April Showers may get you wet, but they bring good things in May.'
 mzbadge battleready 'Battle Ready' 'You have deployed a weapon and are ready for the battle!'
 mzbadge socialcaterpillar 'Social Caterpillar' 'You are just learning to crawl socially!'
 mzbadge socialcocoon 'Social Cocoon' 'You are a hungry worm who needs to cap more socials so you can spread your wings!'
 mzbadge socialtadpole 'Social Tadpole' 'You are just learning to swim socially! Have you joined a Munzee support group?'
 mzbadge breakfast Breakfast 'Congratulations, You were able to rent a room in 5 motels!'
-mzbadge 3rd_birthday 'Munzee turns 3' 'Thanks for celebrating our 3rd birthday! It&#039;s a Fiesta!'
 mzbadge cologne5 'Kölner Stammtisch V' 'Thanks for participating, hope you have fun! Prost!'
+mzbadge 3rd_birthday 'Munzee turns 3' 'Thanks for celebrating our 3rd birthday! It&#039;s a Fiesta!'
 mzbadge 4thbdayplaydate '4th Birthday Playdate' 'You played Munzee during our 4th birthday party weekend in July 2015!'
-mws__header="$mws__header and <span class=\"rcsid\">\$""MirOS: www/users/tg/munzbadg,v 1.6 2016/04/17 20:41:32 tg Exp \$""</span> (on 2016-04-17 20:41:54)"
+mws__header="$mws__header and <span class=\"rcsid\">\$""MirOS: www/users/tg/munzbadg,v 1.6 2016/04/17 20:41:32 tg Exp \$""</span> (on 2016-04-26 22:46:42)"
 
 mws_content <<EOF
 
