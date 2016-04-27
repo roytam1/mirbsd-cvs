@@ -123,6 +123,13 @@ DEPSRCS+=	mk/inc2htm mk/inc2rss
 OBJS+=		${GENSRCS}
 CLEANFILES+=	${GENSRCS}
 
+OBJS+=		acronyms.gz
+CLEANFILES+=	acronyms.gz
+
+acronyms.gz: ${TOP}/.linked/acronyms
+	gzip -n9 <${.ALLSRC:Q} >$@~
+	mv -f $@~ $@
+
 clean:
 .for _i in ${GENSRCS}
 	-rm -rf $$(<${_i})
