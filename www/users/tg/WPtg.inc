@@ -10945,6 +10945,60 @@ Waypoint: GC6D4JV
 Title: Little Cache
 Tag: D15 T15 Micro Tradi
 ----
+ID: 1817
+Date: 01.05.2016
+Waypoint: GC5V8QA
+Title: Peter Parker's World
+Tag: D3 T2 Micro Tradi
+----
+ID: 1818
+Date: 01.05.2016
+Waypoint: GC60HY7
+Title: Der &#34;schwarze&#34; Ring
+Tag: D3 T2 Micro Tradi
+----
+ID: 1819
+Date: 01.05.2016
+Waypoint: GC60G4K
+Title: Super Klein, Super Süß und Super Sexy
+Tag: D2 T15 Nano Tradi
+----
+ID: 1820
+Date: 01.05.2016
+Waypoint: GC5YF5E
+Title: be different - feel diversity
+Tag: D15 T15 Small Tradi
+----
+ID: 1821
+Date: 01.05.2016
+Waypoint: GC69XN4
+Title: Ja wo ist denn der Nano hin ...?
+Tag: D3 T15 Nano Tradi
+----
+ID: 1822
+Date: 01.05.2016
+Waypoint: OCF72C GC2WM0G
+Title: Nächster Halt: Schießbergweg
+Tag: D15 T1 Nano Tradi
+----
+ID: 1823
+Date: 01.05.2016
+Waypoint: GC361ZD
+Title: Geräuschkulisse
+Tag: D2 T25 Small Tradi
+----
+ID: 1824
+Date: 01.05.2016
+Waypoint: GC653MA
+Title: Lass Ihn raus den Tiger ...
+Tag: D2 T3 Nano Tradi
+----
+ID: 1825
+Date: 01.05.2016
+Waypoint: OC10BE2
+Title: Stromkasten (Safari)
+Tag: D1 T1 Safari
+----
 ID: p20160729
 Date: 30.07.2016
 Waypoint: GC276WT

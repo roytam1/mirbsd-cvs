@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.477 2016/01/28 21:19:09 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.480 2016/03/06 19:06:34 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -677,10 +677,7 @@ Tag: geocache
  after repeated phoning (an 0800 number then) and resetting the NTBBA.</p>
 <p>Some more statistics:</p><!-- RSS stop -->
 <p>Geocacheing continues:
- <img src="https://call.mirbsd.org/sp.cgi?oc" alt="OpenCaching.de" />
- <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
- <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
- <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ (Update: images moved <a href="@@RELPATH@@wptg.htm#other_stats">here</a>)
  – now I’ve hidden my first two traditional micros (easy series), and
  one of them even is sort of a “<tt>lost+found</tt>” directory virtual
  cache overload.</p>
@@ -1072,10 +1069,7 @@ Tag: geocache
  the OpenBSD ports tree still does not include our port, which was ready-made
  for committing by me to reduce workload for them.</p>
 <p>Some unrelated side notes… Geocacheing continues:
- <img src="https://call.mirbsd.org/sp.cgi?oc" alt="OpenCaching.de" />
- <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
- <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
- <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ (Update: images moved <a href="@@RELPATH@@wptg.htm#other_stats">here</a>)
  – Dr. Pfeffer especially liked mine<tt>^W</tt>Waldemar’s Zaurus SL-C3200 with
  CacheWolf running on Ewe… even if I still think it’s dead slow. Interestingly,
  porting Ewe to the iPhone G3 would not violate the clause preventing you from
@@ -1588,10 +1582,7 @@ Tag: event geocache
  nicht existieren oder saugen: Suchmaschine (ja ich hab sie alle durch)
  und Karten (bin halt Geocacher).</p>
 <p>Während ich die 2⁶ Caches locker voll habe, siehe die diversen…
- <img src="https://call.mirbsd.org/sp.cgi?oc" alt="Open, Free, Cool" />
- <img src="https://call.mirbsd.org/sp.cgi?gc" alt="CommerceFrog Site" />
- <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
- <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ (Update: images moved <a href="@@RELPATH@@wptg.htm#other_stats">here</a>)
  …Statistiken, fängt Benny erst an, immerhin 2³ hat er schon:
  <img src="http://img.geocaching.com/stats/img.aspx?txt=MirPorts+Developer&amp;uid=a1e7bb35-ff5a-48dd-b435-91f822b3f8c1" alt="Required in CH/F" />
  Kimnotyze macht nicht wirklich weiter…
@@ -2920,10 +2911,7 @@ Title: Cachers Sättigungsbeilage
 Date: 21.01.2009 13:08
 
 <p>Heute mit einem Kollegen in der Mittagspause aufm Weg zum Chinesen:<br />
- <img src="https://call.mirbsd.org/sp.cgi?oc" alt="OpenCaching.de" />
- <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
- <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
- <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ (Update: images moved <a href="@@RELPATH@@wptg.htm#other_stats">here</a>)
  <br />Incr(Caches);</p>
 ----
 Author: tg@
@@ -3014,10 +3002,7 @@ Date: 25.01.2009 15:02
 Tag: geocache
 
 <p>Heute mal wieder das Vélo aus- und mich gut eingepackt:<br />
- <img src="https://call.mirbsd.org/sp.cgi?oc" alt="OpenCaching.de" />
- <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
- <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
- <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ (Update: images moved <a href="@@RELPATH@@wptg.htm#other_stats">here</a>)
  <br />        inc     dword ptr ds:[caches]</p>
 <p>Diesen hatte ich auch schon länger auf’m Kieker, allerdings nie die
  Muße, dort hinzufahren, bei dem Wetter, und der FTF lockte auch nicht,
@@ -3480,10 +3465,7 @@ Tag: bug event geocache hardware
  in eine Liste packen, da die meisten eben nicht in allen Datenbanken
  gelistet sind.</p><!-- RSS stop -->
 <p>Hier dann die aktuellen „Statistiken“:<br />
- <img src="https://call.mirbsd.org/sp.cgi?oc" alt="OpenCaching.de" />
- <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
- <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
- <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ (Update: images moved <a href="@@RELPATH@@wptg.htm#other_stats">here</a>)
  <br />Drei mehr dabei, aber leider kaum auf OC</p>
 <p><strong>Unterstützt <i>JamesDoe</i> nicht, boykottiert seine Caches,
  schreibt die Logeinträge bei ihm ausschließlich auf OC.de hin, sodaß
@@ -3627,10 +3609,7 @@ Tag: geocache
  Kommerzseite) habe ich <tt>src/share/misc/acronyms</tt> für wtf(1)
  mal um entsprechenden Jargon erweitert.</p><!-- RSS stop -->
 <p>Hier dann die aktuellen „Statistiken“:<br />
- <img src="https://call.mirbsd.org/sp.cgi?oc" alt="OpenCaching.de" />
- <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
- <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
- <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ (Update: images moved <a href="@@RELPATH@@wptg.htm#other_stats">here</a>)
  <br />Zwei mehr, auch wenn ich für einen was länger brauchte…</p>
 ----
 Author: tg@
@@ -3735,10 +3714,7 @@ Language: de
  wegen der anderen kleinen Änderungen. Ob ich dann das Easteregg (hm…) wieder
  einfüge? gecko2@ spielt dieweil Musik. Jetzt ist mal RL angesagt.</p>
 <!-- RSS stop --><p>Hier dann noch die aktuellen „Statistiken“:<br />
- <img src="https://call.mirbsd.org/sp.cgi?oc" alt="OpenCaching.de" />
- <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
- <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
- <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ (Update: images moved <a href="@@RELPATH@@wptg.htm#other_stats">here</a>)
  <br />Paar mehr, schön nach Feierabend oder so.</p>
 ----
 Date: 17.04.2009 15:03
@@ -4119,7 +4095,7 @@ Author: tg@
  due to a hypothetical arc4random_pushk(3) function needing root privs
  – it can still be used to access the pool by typing <tt>/RANDOM</tt>,
  or simply participate in the distribution (one can get back some from
- the pool from <a href="https://call.mirbsd.org/rn.cgi?from=wlog">call
+ the pool from <a href="https://www.mirbsd.org/rn.cgi?from=wlog">call
  MirBSD</a>), thus gecko2@ offered to push it into Fink.</p>
 <p>I hope “Biertier” comrad now joins the fun set up by Vutral and me,
  especially since he operates an SSL-only private IRC server.</p>
@@ -4202,10 +4178,7 @@ Tag: geocache
 <p>I however did get to geocache, especially today, as I discovered
  one in almost spit distance from my home. Too bad it was listed on
  the .COMmercial site only, so I hadn’t noticed. Anyway…<br />
- <img src="https://call.mirbsd.org/sp.cgi?oc" alt="OpenCaching.de" />
- <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
- <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
- <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ (Update: images moved <a href="@@RELPATH@@wptg.htm#other_stats">here</a>)
  <br />I still plan on inventarising them…</p>
 ----
 Title: hot
@@ -4399,10 +4372,7 @@ Tag: geocache
 <p>gecko2@ hat lustige Musik da, ganz gut, mal was Anderes. Wie die aber
  alle heißen muß er selber ins wlog schreiben :þ</p><!-- RSS stop -->
 <p>Hier nun (nicht im RSS) die Statpix (:<br />
- <img src="https://call.mirbsd.org/sp.cgi?oc" alt="OpenCaching.de" />
- <img src="https://call.mirbsd.org/sp.cgi?gc" alt="The Frog Site" />
- <img src="https://call.mirbsd.org/sp.cgi?tc" alt="Rare Jewels" />
- <img src="https://call.mirbsd.org/sp.cgi?nc" alt="Broken Webpages²" />
+ (Update: images moved <a href="@@RELPATH@@wptg.htm#other_stats">here</a>)
  <br />Leider fast keine OCs hier in der Gegend.</p>
 ----
 Title: iPhone Navigation
