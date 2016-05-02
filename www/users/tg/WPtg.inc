@@ -10999,6 +10999,25 @@ Waypoint: OC10BE2
 Title: Stromkasten (Safari)
 Tag: D1 T1 Safari
 ----
+ID: 1826
+Date: 01.05.2016
+Waypoint: OC12E5E
+Title: en passant zur Geräuschskulisse
+nTF: 0
+Tag: D15 T1 Virtual
+----
+ID: 1827
+Date: 02.05.2016
+Waypoint: OC10420
+Title: Gestrandete Anker
+Tag: D2 T15 Safari
+----
+ID: 1828
+Date: 02.05.2016
+Waypoint: GC5AMAQ
+Title: AUENLAND TP (Bonus) – Der Schicksalsberg
+Tag: D35 T15 Small Mystery
+----
 ID: p20160729
 Date: 30.07.2016
 Waypoint: GC276WT
