@@ -217,19 +217,13 @@ validation: .PHONY ${VOBJS}
 	@print '\nValidation complete.'
 
 .PHONY: clean cleandir depend install deinstall reinstall _reinstall \
-	cp-herc cp-heph rs-heph rs-eurynome rs-fish
+	cp-herc rs-gecko2 rs-fish
 
 #cp-herc: site.tgz.stamp
 #	ssh hercs 'cd /var/www/oldsite; tar xzvf -' <site.tgz
-#
-#cp-heph: site.tgz.stamp
-#	ssh hephaistos 'cd Web; tar xzvpf -' <site.tgz
 
-rs-heph:
+rs-gecko2:
 	rsync -rxlztpgavPHK dst/ tglaser@www.ig42.org:/var/www/miros.unixforge.de/htdocs/
-
-rs-eurynome:
-	rsync -rxlztpgavPHK --rsh='ssh -4' dst/ eurynome:/var/anoncvs/anoncvs/www/
 
 rs-fish:
 	rsync -rxlztpgavPHK --rsh='ssh -4' dst/ fish:/var/anoncvs/www/
@@ -242,7 +236,7 @@ depend: .depend
 
 lazy: .PHONY
 	cd ${.CURDIR} && make depend && make && \
-	    make _reinstall && exec make rs-fish rs-eurynome rs-heph tagslst
+	    make _reinstall && exec make rs-fish rs-gecko2 tagslst
 
 tagslst: .PHONY
 	@(echo === TAGS USED/UNUSED/ACCOUNTED FOR ==; cat stamp_tag_* | \
