@@ -11018,6 +11018,18 @@ Waypoint: GC5AMAQ
 Title: AUENLAND TP (Bonus) – Der Schicksalsberg
 Tag: D35 T15 Small Mystery
 ----
+ID: 1829
+Date: 02.05.2016
+Waypoint: GC50WHE
+Title: Schwarzrheinauen #3 TB Hotel
+Tag: D2 T25 Regular Tradi
+----
+ID: 1830
+Date: 03.05.2016
+Waypoint: GC4V7WH
+Title: Logik 02
+Tag: D2 T15 Micro Mystery
+----
 ID: p20160729
 Date: 30.07.2016
 Waypoint: GC276WT
