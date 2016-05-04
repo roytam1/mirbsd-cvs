@@ -1,4 +1,4 @@
-# $MirOS: ports/audio/mpg123/Makefile,v 1.9 2008/06/02 22:16:21 tg Exp $
+# $MirOS: ports/audio/mpg123/Makefile,v 1.10 2010/09/21 21:23:51 tg Exp $
 # $OpenBSD: Makefile,v 1.30 2003/11/13 20:51:50 margarida Exp $
 
 # might not be too hard to add more
@@ -6,7 +6,7 @@ ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
 COMMENT=		MPEG audio 1/2 Layer 1, 2 and 3 player
 DISTNAME=		mpg123-0.59r
-DASH_VER=		7
+DASH_VER=		8
 CATEGORIES=		audio
 HOMEPAGE=		http://www.mpg123.de/
 
