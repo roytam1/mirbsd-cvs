@@ -809,19 +809,26 @@ utf_mbswidth(const char *s)
 }
 
 const char *
-utf_skipcols(const char *p, int cols)
+utf_skipcols(const char *p, int cols, int *colp)
 {
 	int c = 0;
 	const char *q;
 
 	while (c < cols) {
-		if (!*p)
-			return (p + cols - c);
+		if (!*p) {
+			/* end of input; special handling for edit.c */
+			if (!colp)
+				return (p + cols - c);
+			*colp = c;
+			return (p);
+		}
 		c += utf_widthadj(p, &p);
 	}
 	if (UTFMODE)
 		while (utf_widthadj(p, &q) == 0)
 			p = q;
+	if (colp)
+		*colp = c;
 	return (p);
 }
 

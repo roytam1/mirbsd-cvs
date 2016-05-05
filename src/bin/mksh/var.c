@@ -649,14 +649,14 @@ formatstr(struct tbl *vp, const char *s)
 
 	p = alloc((psiz = nlen * /* MB_LEN_MAX */ 3 + 1), ATEMP);
 	if (vp->flag & (RJUST|LJUST)) {
-		int slen = olen, i = 0;
+		int slen = olen;
 
 		if (vp->flag & RJUST) {
-			const char *qq = s;
+			const char *qq;
 			int n = 0;
 
-			while (i < slen)
-				i += utf_widthadj(qq, &qq);
+			qq = utf_skipcols(s, slen, &slen);
+
 			/* strip trailing spaces (AT&T uses qq[-1] == ' ') */
 			while (qq > s && ksh_isspace(qq[-1])) {
 				--qq;

@@ -1041,7 +1041,7 @@ shf_vfprintf(struct shf *shf, const char *fmt, va_list args)
 			field = 0;
 
 		nwritten += precision;
-		precision = utf_skipcols(s, precision) - s;
+		precision = utf_skipcols(s, precision, &tmp) - s;
 		while (precision--)
 			shf_putc(*s++, shf);
 
