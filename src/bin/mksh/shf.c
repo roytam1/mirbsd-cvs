@@ -1040,15 +1040,11 @@ shf_vfprintf(struct shf *shf, const char *fmt, va_list args)
 		} else
 			field = 0;
 
-		if (precision) {
-			const char *q;
+		nwritten += precision;
+		precision = utf_skipcols(s, precision) - s;
+		while (precision--)
+			shf_putc(*s++, shf);
 
-			nwritten += precision;
-			q = utf_skipcols(s, precision);
-			while (s < q) {
-				shf_putc(*s++, shf);
-			}
-		}
 		nwritten += field;
 		while (field--)
 			shf_putc(c, shf);
