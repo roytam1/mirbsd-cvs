@@ -60,7 +60,7 @@
 #include "cryptlib.h"
 #include <openssl/asn1.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/lib/libssl/src/crypto/asn1/a_int.c,v 1.2 2014/06/05 13:26:36 tg Exp $");
 
 ASN1_INTEGER *ASN1_INTEGER_dup(ASN1_INTEGER *x)
 { return M_ASN1_INTEGER_dup(x);}
@@ -125,6 +125,8 @@ int i2c_ASN1_INTEGER(ASN1_INTEGER *a, unsigned char **pp)
 		{
 		ret=a->length;
 		i=a->data[0];
+		if (ret == 1 && i == 0)
+			neg = 0;
 		if (!neg && (i > 127)) {
 			pad=1;
 			pb=0;
@@ -158,7 +160,7 @@ int i2c_ASN1_INTEGER(ASN1_INTEGER *a, unsigned char **pp)
 		p += a->length - 1;
 		i = a->length;
 		/* Copy zeros to destination as long as source is zero */
-		while(!*n) {
+		while (!*n && i > 1) {
 			*(p--) = 0;
 			n--;
 			i--;
@@ -414,8 +416,10 @@ ASN1_INTEGER *BN_to_ASN1_INTEGER(BIGNUM *bn, ASN1_INTEGER *ai)
 		ASN1err(ASN1_F_BN_TO_ASN1_INTEGER,ERR_R_NESTED_ASN1_ERROR);
 		goto err;
 		}
-	if(bn->neg) ret->type = V_ASN1_NEG_INTEGER;
-	else ret->type=V_ASN1_INTEGER;
+	if (bn->neg && !BN_is_zero(bn))
+		ret->type = V_ASN1_NEG_INTEGER;
+	else
+		ret->type=V_ASN1_INTEGER;
 	j=BN_num_bits(bn);
 	len=((j == 0)?0:((j/8)+1));
 	if (ret->length < len+4)
