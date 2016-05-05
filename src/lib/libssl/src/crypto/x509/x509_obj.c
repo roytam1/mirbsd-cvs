@@ -121,9 +121,9 @@ int i;
 		    type == V_ASN1_TELETEXSTRING ||
 		    type == V_ASN1_VISIBLESTRING ||
 		    type == V_ASN1_IA5STRING) {
-                        ascii2ebcdic(ebcdic_buf, q,
-				     (num > sizeof ebcdic_buf)
-				     ? sizeof ebcdic_buf : num);
+			if (num > (int)sizeof(ebcdic_buf))
+				num = (int)sizeof(ebcdic_buf);
+			ascii2ebcdic(ebcdic_buf, q, num);
                         q=ebcdic_buf;
 		}
 #endif
