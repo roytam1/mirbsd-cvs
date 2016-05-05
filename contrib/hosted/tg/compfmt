@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: contrib/hosted/tg/compfmt,v 1.1 2016/05/05 20:31:41 tg Exp $
 #-
 # Copyright © 2016
 #	mirabilos <m@mirbsd.org>
@@ -53,8 +53,8 @@ expand | sed -e 's/   */ /g' -e 's/ $//g' | \
 		    die word $nwords does not match syntax
 		if [[ $word = '<U'+([0-9A-Fa-f])'>' ]]; then
 			word=${word%'>'}
-			typeset -Uui16 -Z7 wc=0x${word#'<U'}
-			(( wc > 0xFFFF )) && typeset -Uui16 wc
+			typeset -Uui16 wc=0x${word#'<U'}
+			(( wc < 0xFFFE )) && typeset -Uui16 -Z7 wc
 			word="<U${wc#16#}>"
 		fi
 		outs+=$word
@@ -107,8 +107,8 @@ expand | sed -e 's/   */ /g' -e 's/ $//g' | \
 	fi
 	[[ $name = *\ * ]] && die "RHS name ($name) contains spaces"
 	if [[ $name = U+([0-9A-Fa-f]) ]]; then
-		typeset -Uui16 -Z7 wc=0x${name#U}
-		(( wc > 0xFFFF )) && typeset -Uui16 wc
+		typeset -Uui16 wc=0x${name#U}
+		(( wc < 0xFFFE )) && typeset -Uui16 -Z7 wc
 		name=U${wc#16#}
 	fi
 	if [[ -n $name ]]; then
