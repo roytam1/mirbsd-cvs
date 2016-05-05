@@ -1566,20 +1566,34 @@ get_brace_var(XString *wsp, char *wp)
 {
 	char c;
 	enum parse_state {
-		PS_INITIAL, PS_SAW_HASH, PS_IDENT,
-		PS_NUMBER, PS_VAR1
+		PS_INITIAL, PS_SAW_PERCENT, PS_SAW_HASH, PS_SAW_BANG,
+		PS_IDENT, PS_NUMBER, PS_VAR1
 	} state = PS_INITIAL;
 
 	while (/* CONSTCOND */ 1) {
 		c = getsc();
 		/* State machine to figure out where the variable part ends. */
 		switch (state) {
+		case PS_SAW_BANG:
+			if (ctype(c, C_VAR1))
+				goto out;
+
+			if (0)
+				/* FALLTHROUGH */
 		case PS_INITIAL:
-			if (c == '#' || c == '!' || c == '%') {
+			  switch (c) {
+			case '%':
+				state = PS_SAW_PERCENT;
+				goto next;
+			case '#':
 				state = PS_SAW_HASH;
-				break;
+				goto next;
+			case '!':
+				state = PS_SAW_BANG;
+				goto next;
 			}
 			/* FALLTHROUGH */
+		case PS_SAW_PERCENT:
 		case PS_SAW_HASH:
 			if (ksh_isalphx(c))
 				state = PS_IDENT;
@@ -1620,6 +1634,7 @@ get_brace_var(XString *wsp, char *wp)
 				}
 				goto out;
 			}
+ next:
 			break;
 		case PS_NUMBER:
 			if (!ksh_isdigit(c))

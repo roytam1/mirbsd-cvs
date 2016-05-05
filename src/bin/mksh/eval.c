@@ -1258,7 +1258,7 @@ varsub(Expand *xp, const char *sp, const char *word,
 		if ((stype & 0x17F) == '=' &&
 		    ctype(*sp, C_VAR1 | C_DIGIT))
 			return (-1);
-		if (*sp == '!' && sp[1]) {
+		if (*sp == '!' && sp[1] && !ctype(sp[1], C_VAR1)) {
 			++sp;
 			xp->var = global(sp);
 			if (vstrchr(sp, '['))
