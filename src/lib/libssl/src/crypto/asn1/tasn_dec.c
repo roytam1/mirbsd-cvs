@@ -65,7 +65,7 @@
 #include <openssl/buffer.h>
 #include <openssl/err.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/crypto/asn1/tasn_dec.c,v 1.9 2014/04/25 10:49:06 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/crypto/asn1/tasn_dec.c,v 1.10 2015/01/25 16:49:33 tg Exp $");
 
 static int asn1_check_eoc(unsigned char **in, long len);
 static int asn1_find_end(unsigned char **in, long len, char inf);
@@ -755,9 +755,7 @@ int asn1_ex_c2i(ASN1_VALUE **pval, unsigned char *cont, int len, int utype, char
 		break;
 
 		case V_ASN1_INTEGER:
-		case V_ASN1_NEG_INTEGER:
 		case V_ASN1_ENUMERATED:
-		case V_ASN1_NEG_ENUMERATED:
 		tint = (ASN1_INTEGER **)pval;
 		if(!c2i_ASN1_INTEGER(tint, &cont, len)) goto err;
 		/* Fixup type to match the expected form */
