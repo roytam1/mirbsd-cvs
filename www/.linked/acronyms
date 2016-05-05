@@ -7250,6 +7250,7 @@ DFA	[DB] Betriebsstelle Falkenstein (Vogtl) (Bf)
 DFA	[IATA] Abu Dhabi (Al Dhafra Military Airport), UAE
 DFA 1	[DB] Betriebsstelle Falkenstein (Vogtl) (Est)
 DFB	Dampfbahn Furka-Bergstrecke
+DFB	Deutscher Fußballbund e.V.
 DFB	Dispositive Fahrplanbearbeitung
 DFB	[DB] Betriebsstelle Freital Ost Güteranlage (Bf)
 DFB	[IATA] Driftwood Bay, Alaska, United States of America
@@ -22410,6 +22411,7 @@ MDAR	[DB] Betriebsstelle Darching (Hp)
 MDAS	[DB] Betriebsstelle Dachau Stadt (Hp Anst)
 MDB	Mitglied des Bundestages
 MDB	[IATA] Melinda, Belize
+MDC	Mapped Diagnostic Context
 MDC	[IATA] Manado (Sam Ratulangi), Indonesia
 MDCT	modified discrete cosine transform
 MDD	[IATA] Midland Airpark, Texas, United States of America
@@ -24885,6 +24887,7 @@ NDAU	[DB] Betriebsstelle Döhlau (Hp)
 NDB	[DB] Betriebsstelle Dombühl (Bf)
 NDB	[IATA] Nouadhibou, Mauritania
 NDB B	[DB] Betriebsstelle Dohmbühl BEM (Museum)
+NDC	Nested Diagnostic Context
 NDC	[IATA] Nanded, India
 NDD	[IATA] Sumbe, Angola
 NDE	[DB] Betriebsstelle Deining (Oberpf) (Bf)
