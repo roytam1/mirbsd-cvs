@@ -812,12 +812,16 @@ const char *
 utf_skipcols(const char *p, int cols)
 {
 	int c = 0;
+	const char *q;
 
 	while (c < cols) {
 		if (!*p)
 			return (p + cols - c);
 		c += utf_widthadj(p, &p);
 	}
+	if (UTFMODE)
+		while (utf_widthadj(p, &q) == 0)
+			p = q;
 	return (p);
 }
 
