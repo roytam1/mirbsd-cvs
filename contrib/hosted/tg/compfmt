@@ -21,8 +21,27 @@
 #-
 # Pretty-printer for XFree86® Compose files with duplicate check
 
+force=0
+while getopts "f" ch; do
+	case $ch {
+	(f)	force=1 ;;
+	(+f)	force=0 ;;
+	(*)	print -u2 E: syntax error; exit 1 ;;
+	}
+done
+shift $((OPTIND - 1))
+
 mydir=$(realpath "$0/..")
-PATH="$mydir:$PATH" . assockit.ksh
+(( force )) || PATH="$mydir:$PATH" . assockit.ksh
+
+if (( force )); then
+	function asso_sets {
+		:
+	}
+	function asso_isset {
+		return 1
+	}
+fi
 
 set -o noglob
 set -U
