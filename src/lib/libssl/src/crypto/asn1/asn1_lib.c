@@ -62,9 +62,9 @@
 #include <openssl/asn1.h>
 #include <openssl/asn1_mac.h>
 
-__RCSID("$MirOS: src/lib/libssl/src/crypto/asn1/asn1_lib.c,v 1.3 2014/03/23 22:50:57 tg Exp $");
+__RCSID("$MirOS: src/lib/libssl/src/crypto/asn1/asn1_lib.c,v 1.4 2014/11/26 20:47:06 tg Exp $");
 
-static int asn1_get_length(unsigned char **pp,int *inf,long *rl,int max);
+static int asn1_get_length(unsigned char **pp,int *inf,long *rl,long max);
 static void asn1_put_length(unsigned char **pp, int length);
 const char ASN1_version[]="ASN.1" OPENSSL_VERSION_PTEXT;
 
@@ -121,7 +121,7 @@ int ASN1_get_object(unsigned char **pp, long *plength, int *ptag, int *pclass,
 		}
 	*ptag=tag;
 	*pclass=xclass;
-	if (!asn1_get_length(&p,&inf,plength,(int)max)) goto err;
+	if (!asn1_get_length(&p,&inf,plength,max)) goto err;
 
 	if (inf && !(ret & V_ASN1_CONSTRUCTED))
 		goto err;
@@ -146,11 +146,11 @@ err:
 	return(0x80);
 	}
 
-static int asn1_get_length(unsigned char **pp, int *inf, long *rl, int max)
+static int asn1_get_length(unsigned char **pp, int *inf, long *rl, long max)
 	{
 	unsigned char *p= *pp;
 	unsigned long ret=0;
-	int i;
+	unsigned long i;
 
 	if (max-- < 1) return(0);
 	if (*p == 0x80)
@@ -165,14 +165,12 @@ static int asn1_get_length(unsigned char **pp, int *inf, long *rl, int max)
 		i= *p&0x7f;
 		if (*(p++) & 0x80)
 			{
-			if (i > sizeof(long))
+			if (i > sizeof(ret) || max < (long)i)
 				return 0;
-			if (max-- == 0) return(0);
 			while (i-- > 0)
 				{
 				ret<<=8L;
 				ret|= *(p++);
-				if (max-- == 0) return(0);
 				}
 			}
 		else
