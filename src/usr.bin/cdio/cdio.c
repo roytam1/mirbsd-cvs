@@ -73,7 +73,7 @@
 
 #include "extern.h"
 
-__RCSID("$MirOS: src/usr.bin/cdio/cdio.c,v 1.2 2009/02/09 11:07:47 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/cdio/cdio.c,v 1.3 2010/03/06 19:57:41 tg Exp $");
 
 #define ASTS_INVALID    0x00  /* Audio status byte not valid */
 #define ASTS_PLAYING    0x11  /* Audio play operation in progress */
@@ -163,6 +163,7 @@ char		**track_names;
 EditLine	*el = NULL;	/* line-editing structure */
 History		*hist = NULL;	/* line-editing history */
 void		switch_el(void);
+char		is_interactive = 0;
 
 extern char	*__progname;
 
@@ -306,6 +307,7 @@ main(int argc, char **argv)
 	}
 
 	switch_el();
+	is_interactive = 1;
 
 	for (;;) {
 		arg = input(&cmd);
@@ -442,8 +444,16 @@ run(int cmd, char *arg)
 		if (fd < 0 && ! open_cd(cdname, 0))
 			return (0);
 
-		rc = ioctl(fd, CDIOCPREVENT);
-		return (rc < 0 ? rc : 0);
+		if ((rc = ioctl(fd, CDIOCPREVENT)))
+			return (rc);
+
+		if (!is_interactive) {
+			printf("Locked; keeping program running until aborted...");
+			fflush(NULL);
+			while (/* CONSTCOND */ 1)
+				pause();
+		}
+		return (0);
 
 	case CMD_CLOSE:
 #if defined(CDIOCCLOSE)
