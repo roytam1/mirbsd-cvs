@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/news.inc,v 1.164 2016/01/02 21:01:15 tg Exp $
+RCSID: $MirOS: www/data/news.inc,v 1.165 2016/02/08 16:07:09 tg Exp $
 Title: Older news from the MirOS Project
 Date: 01.03.2006
 
@@ -2161,4 +2161,23 @@ Tag: mksh plan
  some other people involved in shell.</p>
 <p>So, if any <tt>#!/bin/sh</tt> scripts break or behave weirdly with R52,
  you now know why. I’m waiting for an official statement.</p>
+----
+Title: New SSH hostkey for fish, taking over AnonCVS/AnonRSYNC service
+Date: 09.05.2016 22:10
+Author: tg@
+Tag: archaeology hardware news plan security snapshot
+
+<p>As announced in the earlier wlog entry about <a
+ href="@@RELPATH@@permalinks/wlog-10_e20160208-tg.htm">server reorg</a>
+ I’ve now switched over most services from the soon-to-be-defunct
+ <tt>eurynome</tt> to <tt>fish</tt>, with gecko2’s <tt>www.ig42.org</tt>
+ providing the redirection HTTP vhost for hostname-less <tt>mirbsd.org</tt>
+ requests (i.e. people who don’t know how this works) and, soon, fallback
+ HTTP services should they be needed. (He’s trusted with the SSL key and
+ certificate.)</p>
+<p>This also involves switching SSH hostkeys for AnonCVS, unfortunately;
+ I’ve taken the chance to generate a fresh key for <tt>fish</tt>. Look in
+ <a href="@@ABSPATH@@/MirOS/"><tt>/MirOS/</tt></a> for the files (gzsig(1)
+ signed) <tt>hostkeys.gz</tt> or (PGP signed) <tt>hostkeys.asc</tt> for a
+ less-dependent source for the new keys.</p>
 ----
