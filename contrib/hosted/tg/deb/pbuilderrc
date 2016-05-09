@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.48 2015/05/10 12:22:10 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.52 2016/03/06 16:04:27 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. For me, works rather well; may just as well break.
@@ -11,12 +11,13 @@
 # https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=shellsnippets/shellsnippets.git;a=blob;f=mksh/debian-dev/c;hb=HEAD
 #-
 # debian.org: sarge etch lenny squeeze wheezy jessie stretch sid
-# debian LTS: squeeze
+# debian LTS: squeeze (extra mirror retired for wheezy LTS)
 # debian-ports.org: dpo (unstable+unreleased)
 # not supported: experimental etch-m68k jessie-kfreebsd
 # Debian derivate from Canonical that cannot be named:
 #	dapper hardy jaunty karmic lucid maverick natty oneiric
-#	precise quantal raring saucy trusty utopic vivid wily xenial
+#	precise quantal raring saucy trusty utopic vivid wily
+#	xenial yakkety
 # *-backports: sarge etch lenny squeeze wheezy jessie
 #	(plus all Debian derivate from Canonical that cannot be named)
 # *-backports-sloppy: lenny squeeze wheezy
@@ -63,11 +64,11 @@ setuptofail() {
 DISTROS='debian dpo ubuntu'
 DISTS_debian='sarge etch lenny squeeze wheezy jessie stretch sid'
 DISTS_dpo='dpo'
-DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise quantal raring saucy trusty utopic vivid wily xenial'
+DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise quantal raring saucy trusty utopic vivid wily xenial yakkety'
 DISTLTS_debian=squeeze
 DISTBACKPORTS_debian=sarge:etch:lenny:squeeze:wheezy:jessie
 DISTBACKPORTSLOPPY_debian=lenny:squeeze:wheezy
-DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise:quantal:raring:saucy:trusty:utopic:vivid:wily:xenial
+DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise:quantal:raring:saucy:trusty:utopic:vivid:wily:xenial:yakkety
 MIRROR_sarge=http://archive.debian.org/debian/
 MIRROR_etch=http://archive.debian.org/debian/
 MIRROR_lenny=http://archive.debian.org/debian/
@@ -95,6 +96,7 @@ MIRROR_utopic=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_vivid=http://archive.ubuntu.com/ubuntu/
 MIRROR_wily=http://archive.ubuntu.com/ubuntu/
 MIRROR_xenial=http://archive.ubuntu.com/ubuntu/
+MIRROR_yakkety=http://archive.ubuntu.com/ubuntu/
 MIRRORSECURITY_sarge=http://archive.debian.org/debian-security/
 MIRRORSECURITY_etch=http://archive.debian.org/debian-security/
 MIRRORSECURITY_lenny=http://archive.debian.org/debian-security/
@@ -447,6 +449,20 @@ case $DISTRIBUTION in
 	;;
 (*)
 	REMOVEPACKAGES="$REMOVEPACKAGES debconf-i18n"
+	;;
+esac
+
+# commented out, remove the :|| to enable, pbuilder/cowbuilder currently
+# totally freak out if --debbuildopts is not also given (use -sa or -B)
+:||case x$DEBEMAIL in
+(x*' <'*'>')
+	export DEBBUILDOPTS="-m'$DEBEMAIL' -e'$DEBEMAIL'"
+	;;
+(x)
+	;;
+(*)
+	[[ -n $DEBFULLNAME ]] && \
+	    export DEBBUILDOPTS="-m'$DEBFULLNAME <$DEBEMAIL>' -e'$DEBFULLNAME <$DEBEMAIL>'"
 	;;
 esac
 
