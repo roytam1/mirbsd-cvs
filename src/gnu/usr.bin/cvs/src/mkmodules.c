@@ -156,8 +156,8 @@ static const char *const verifymsg_contents[] = {
 
 static const char *const commitinfo_contents[] = {
     "# The \"commitinfo\" file is used to control pre-commit checks.\n",
-    "# The filter on the right is invoked with the repository and a list \n",
-    "# of files to check.  A non-zero exit of the filter program will \n",
+    "# The filter on the right is invoked with the repository and a list\n",
+    "# of files to check.  A non-zero exit of the filter program will\n",
     "# cause the commit to be aborted.\n",
     "#\n",
     "# The first entry on a line is a regular expression which is tested\n",
