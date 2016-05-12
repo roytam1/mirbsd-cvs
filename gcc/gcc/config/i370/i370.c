@@ -553,7 +553,7 @@ mvs_add_label (id)
      is very conservatively handled; we'll tend to have 
      a good bit more reloads than actually needed.  Someday,
      we should tighten the estimates (which are driven by
-     the (set_att "length") insn attibute.
+     the (set_att "length") insn attribute.
     
      Currently, we estimate that number of page literals 
      same as number of insns, which is a vast overestimate,

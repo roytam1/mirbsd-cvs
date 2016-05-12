@@ -15,7 +15,7 @@
 #include "history.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.11 2011/06/10 21:53:25 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/mkmodules.c,v 1.12 2011/06/10 22:08:46 tg Exp $");
 
 #ifndef DBLKSIZ
 #define	DBLKSIZ	4096			/* since GNU ndbm doesn't define it */
@@ -373,7 +373,7 @@ static const char *const posttag_contents[] = {
 
 static const char *const postwatch_contents[] = {
     "# The \"postwatch\" file is called after any command finishes writing new\n",
-    "# file attibute (watch/edit) information in a directory.\n",
+    "# file attribute (watch/edit) information in a directory.\n",
     "#\n",
     "# If any format strings are present in the filter, they will be replaced\n",
     "# as follows:\n",

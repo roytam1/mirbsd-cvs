@@ -5810,7 +5810,7 @@ package Einfo is
       Id   : Attribute_Id)
       return Node_Id;
    --  Searches the Rep_Item chain for a given entity E, for an instance
-   --  of an attribute definition clause with the given attibute Id Id. If
+   --  of an attribute definition clause with the given attribute Id Id. If
    --  found, the value returned is the N_Attribute_Definition_Clause node,
    --  otherwise Empty is returned.
 

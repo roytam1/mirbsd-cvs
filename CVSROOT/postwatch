@@ -1,5 +1,5 @@
 # The "postwatch" file is called after any command finishes writing new
-# file attibute (watch/edit) information in a directory.
+# file attribute (watch/edit) information in a directory.
 #
 # If any format strings are present in the filter, they will be replaced
 # as follows:
