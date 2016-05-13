@@ -11037,6 +11037,48 @@ Banner: png
 Title: Flammen über dem Rhein
 Tag: D1 T1 Event
 ----
+ID: 1832
+Date: 12.05.2016
+Waypoint: GC3PKMN
+Title: Einblick oder Rheinblick?
+Tag: D25 T15 Small Tradi
+----
+ID: 1833
+Date: 12.05.2016
+Waypoint: GC4Z885
+Title: Schwarzrheinauen #2
+Tag: D2 T2 Small Tradi
+----
+ID: 1834
+Date: 12.05.2016
+Waypoint: OC100F9
+Title: Brunnenstatuen
+Tag: D2 T2 Safari
+----
+ID: 1835
+Date: 12.05.2016
+Waypoint: OC103F5
+Title: Kulturvielfalt - Brunnen
+Tag: D1 T1 Safari
+----
+ID: 1836
+Date: 12.05.2016
+Waypoint: OC1213C
+Title: Stadtbrunnen
+Tag: D2 T15 Safari
+----
+ID: 1837
+Date: 12.05.2016
+Waypoint: GC5Q832
+Title: Beueler Rheinufer
+Tag: D3 T15 Small Tradi
+----
+ID: 1838
+Date: 13.05.2016
+Waypoint: OC12720
+Title: SVC: Omnibusbahnhof mit Fernbus (2 Fotos)
+Tag: D2 T1 Safari
+----
 ID: p20160729
 Date: 30.07.2016
 Waypoint: GC276WT
