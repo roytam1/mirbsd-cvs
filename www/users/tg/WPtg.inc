@@ -11079,6 +11079,389 @@ Waypoint: OC12720
 Title: SVC: Omnibusbahnhof mit Fernbus (2 Fotos)
 Tag: D2 T1 Safari
 ----
+ID: 1839
+Date: 15.05.2016
+Waypoint: GC5CB9M
+Title: Rund um Waldorf 3 - Wanderhütte &#34;Eifelblick&#34;
+Tag: D2 T15 Micro Tradi
+----
+ID: 1840
+Date: 15.05.2016
+Waypoint: GC5D71A
+Title: 1 Über die Felder von Oberbreisig
+Tag: D15 T15 Micro Tradi
+----
+ID: 1841
+Date: 15.05.2016
+Waypoint: GC5D71X
+Title: 2 Über die Felder von Oberbreisig
+Tag: D1 T15 Micro Tradi
+----
+ID: 1842
+Date: 15.05.2016
+Waypoint: GC3R2Z7
+Title: Bänkchen auf´m Feld
+Tag: D1 T15 Micro Tradi
+----
+ID: 1843
+Date: 15.05.2016
+Waypoint: GC5D729
+Title: 3 Über die Felder von Oberbreisig
+Tag: D25 T15 Micro Tradi
+----
+ID: 1844
+Date: 15.05.2016
+Waypoint: GC5D73M
+Title: 4 Über die Felder von Oberbreisig
+Tag: D15 T15 Micro Tradi
+----
+ID: 1845
+Date: 15.05.2016
+Waypoint: GC5D73T
+Title: 5 Über die Felder von Oberbreisig
+Tag: D2 T15 Micro Tradi recommended
+----
+ID: 1846
+Date: 15.05.2016
+Waypoint: GC5D743
+Title: 6 Über die Felder von Oberbreisig
+Tag: D2 T2 Micro Tradi recommended
+----
+ID: 1847
+Date: 15.05.2016
+Waypoint: GC5D74C
+Title: 7 Über die Felder von Oberbreisig
+Tag: D25 T25 Micro Tradi
+----
+ID: 1848
+Date: 15.05.2016
+Waypoint: GC5D74N
+Title: 8 Über die Felder von Oberbreisig
+Tag: D2 T3 Micro Tradi
+----
+ID: 1849
+Date: 15.05.2016
+Waypoint: GC5D74X
+Title: 9 Durch die Wälder von Oberbreisig
+Tag: D2 T25 Micro Tradi
+----
+ID: 1850
+Date: 15.05.2016
+Waypoint: GC5D754
+Title: 10 Durch die Wälder von Oberbreisig
+Tag: D25 T25 Micro Tradi
+----
+ID: 1851
+Date: 15.05.2016
+Waypoint: GC5D75J
+Title: 11 Durch die Wälder von Oberbreisig
+Tag: D35 T15 Micro Tradi recommended
+----
+ID: 1852
+Date: 15.05.2016
+Waypoint: GC5D75T
+Title: 12 Durch die Wälder von Oberbreisig
+Tag: D25 T3 Small Tradi
+----
+ID: 1853
+Date: 15.05.2016
+Waypoint: GC5D76M
+Title: 13 Durch die Wälder von Oberbreisig
+Tag: D2 T25 Micro Tradi
+----
+ID: 1854
+Date: 15.05.2016
+Waypoint: GC5BEW4
+Title: 14 Wald(&#34;Tb&#34;)hotel
+Tag: D2 T25 Large Multi recommended
+----
+ID: 1855
+Date: 15.05.2016
+Waypoint: GC5D76W
+Title: 15 Durch die Wälder von Oberbreisig
+Tag: D25 T25 Small Tradi
+----
+ID: 1856
+Date: 15.05.2016
+Waypoint: GC5D775
+Title: 16 Über die Felder u.d. die Wälder von Oberbreisig
+Tag: D2 T25 Micro Tradi recommended
+----
+ID: 1857
+Date: 15.05.2016
+Waypoint: GC5D77E
+Title: 17 Über die Felder u.d. die Wälder von Oberbreisig
+Tag: D2 T25 Micro Tradi
+----
+ID: 1858
+Date: 15.05.2016
+Waypoint: GC5VF02
+Title: Sonnenbank I
+Tag: D1 T2 Small Tradi
+----
+ID: 1859
+Date: 15.05.2016
+Waypoint: GC5D77V
+Title: 18 Durch die Felder u.d. Wälder von Oberbreisig
+Tag: D15 T2 Regular Tradi
+----
+ID: 1860
+Date: 15.05.2016
+Waypoint: GC5D781
+Title: 19 Durch die Felder u.d. Wälder von Oberbreisig
+Tag: D2 T1 Micro Tradi
+----
+ID: 1861
+Date: 15.05.2016
+Waypoint: GC5D789
+Title: 20 Durch die Felder u.d. Wälder von Oberbreisig
+Tag: D15 T2 Micro Tradi
+----
+ID: 1862
+Date: 15.05.2016
+Waypoint: GC5D78W
+Title: 21 Durch die Felder u.d. Wälder von Oberbreisig
+Tag: D2 T15 Micro Tradi
+----
+ID: 1863
+Date: 15.05.2016
+Waypoint: GC5D795
+Title: 22 Durch die Felder u.d. Wälder von Oberbreisig
+Tag: D2 T2 Micro Tradi
+----
+ID: 1864
+Date: 15.05.2016
+Waypoint: GC5D79A
+Title: 23 Durch die Felder u.d. Wälder von Oberbreisig
+Tag: D15 T15 Micro Tradi
+----
+ID: 1865
+Date: 15.05.2016
+Waypoint: GC5D79N
+Title: 24 Durch die Felder u.d. Wälder von Oberbreisig
+Tag: D25 T3 Small Tradi recommended
+----
+ID: 1866
+Date: 15.05.2016
+Waypoint: GC5D7A0
+Title: 25 Durch die Wälder von Oberbreisig
+Tag: D15 T2 Micro Tradi
+----
+ID: 1867
+Date: 15.05.2016
+Waypoint: GC5D7AN
+Title: Durch die Felder und die Wälder BONUS
+Tag: D2 T2 Regular Mystery
+----
+ID: 1868
+Date: 15.05.2016
+Waypoint: GC5RPD3
+Title: Rund um Waldorf 2 - Pilgerkreuz
+Tag: D2 T15 Nano Tradi
+----
+ID: 1869
+Date: 15.05.2016
+Waypoint: GC3D96T
+Title: Das Döschen am &#34;Ende der Straße&#34;
+Tag: D15 T1 Micro Tradi
+----
+ID: 1870
+Date: 15.05.2016
+Waypoint: OC9B8F GC1PR3E
+Title: Gotteshäuser St. Viktor Oberbreisig
+Tag: D2 T15 Micro Tradi
+----
+ID: 1871
+Date: 15.05.2016
+Waypoint: GC3186Q
+Title: Kapellchen Oberbreisig
+Tag: D1 T15 Micro Tradi
+----
+ID: 1872
+Date: 15.05.2016
+Waypoint: GC1EW90
+Title: Der Froschkönig vom anderen Ufer 8
+Tag: D15 T15 Micro Tradi
+----
+ID: 1873
+Date: 15.05.2016
+Waypoint: GC3F6B9
+Title: Dönertradi
+Tag: D15 T15 Micro Tradi
+----
+ID: 1874
+Date: 15.05.2016
+Waypoint: OC9BED GC1R2EK
+Title: Spuk am Mühlenteich
+Tag: D15 T1 Small Tradi
+----
+ID: 1875
+Date: 15.05.2016
+Waypoint: GC5R8A7
+Title: FunCaches #3 - Der Koffer
+Tag: D2 T25 Regular Tradi
+----
+ID: 1876
+Date: 15.05.2016
+Waypoint: GC56AJ4
+Title: Alle guten Dinge sind 3
+Tag: D35 T15 Micro Tradi
+----
+ID: 1877
+Date: 15.05.2016
+Waypoint: GC57DCW
+Title: Challenge - Events
+Tag: D3 T15 Micro Mystery Challenge
+----
+ID: 1878
+Date: 15.05.2016
+Waypoint: GC52XXB
+Title: Der Pärchen Weg
+Tag: D15 T2 Small Tradi
+----
+ID: 1879
+Date: 15.05.2016
+Waypoint: GC3318H
+Title: Rettungswache Remagen
+Tag: D2 T15 Micro Tradi
+----
+ID: 1880
+Date: 15.05.2016
+Waypoint: GC6FVXD
+Title: Stairway to Rodderberg...
+Tag: D15 T1 Micro Tradi
+----
+ID: 1881
+Date: 15.05.2016
+Waypoint: GC6AAK6
+Title: Auenland #1 Vilicher Bach
+Tag: D15 T15 Micro Tradi
+----
+ID: 1882
+Date: 15.05.2016
+Waypoint: GC6AFCW
+Title: Auenland #4 Friedrich Ebert
+Tag: D2 T1 Small Tradi
+----
+ID: 1883
+Date: 15.05.2016
+Waypoint: GC6AFC7
+Title: Auenland #3 Der goldene Hund
+Tag: D15 T2 Micro Tradi
+----
+ID: 1884
+Date: 15.05.2016
+Waypoint: OC12135
+Title: SVC: Schöne Runde! (hard)
+Tag: D3 T4 Safari
+----
+ID: 1885
+Date: 15.05.2016
+Waypoint: OC12137
+Title: SVC: Schöne Runde! (light)
+Tag: D2 T25 Safari
+----
+ID: 1886
+Date: 16.05.2016
+Waypoint: OC12F68
+Title: Hillijehüsje Auf Wallers
+nTF: 0
+Tag: D1 T1 Virtual
+----
+ID: 1887
+Date: 16.05.2016
+Waypoint: GC5W43A
+Title: Rund um Waldorf 6 - Schnaaks Heiligenhäuschen
+Tag: D15 T15 Micro Tradi
+----
+ID: 1888
+Date: 16.05.2016
+Waypoint: GC36MKB
+Title: God damn microfilm canisters!
+Tag: D1 T1 Micro Tradi
+----
+ID: 1889
+Date: 16.05.2016
+Waypoint: GC4M8WG
+Title: Schiessgässchen
+Tag: D2 T2 Nano Tradi
+----
+ID: 1890
+Date: 16.05.2016
+Waypoint: GC51R3Q
+Title: Decke Steen
+Tag: D25 T15 Nano Multi
+----
+ID: 1891
+Date: 16.05.2016
+Waypoint: OC109C0
+Title: Vorsicht ! Bienen
+Tag: D1 T15 Safari
+----
+ID: 1892
+Date: 16.05.2016
+Waypoint: GC1FARW
+Title: Lost Place: Autobahn-Notlandeplatz A61
+Tag: D2 T2 Small Multi
+----
+ID: 1893
+Date: 16.05.2016
+Waypoint: OC1170F
+Title: SVC: Römische Bauwerke (Bei den Römern #3)
+Tag: D15 T15 Safari
+----
+ID: 1894
+Date: 16.05.2016
+Waypoint: OC12F67
+Title: SVC: Spuren der Eifelwasserleitung
+nTF: A
+Tag: D2 T2 Safari
+----
+ID: 1895
+Date: 16.05.2016
+Waypoint: OC107DA
+Title: Turmstationen (Stromhäuschen)
+Tag: D1 T1 Safari
+----
+ID: 1896
+Date: 16.05.2016
+Waypoint: GC5G9VF
+Title: Turmstation Rheinbach
+Tag: D15 T15 Nano Tradi
+----
+ID: 1897
+Date: 16.05.2016
+Waypoint: OC12F66
+Title: Rheinbacher Römerkanal
+nTF: A
+Tag: D15 T1 Virtual
+----
+ID: 1898
+Date: 16.05.2016
+Waypoint: OC1042E
+Title: Kreisverkehr
+Tag: D2 T1 Safari
+----
+ID: 1899
+Date: 12.05.2016
+Waypoint: OC119D4
+Title: SVC - 3 in 1
+Tag: D3 T2 Safari
+----
+ID: 1900
+Date: 17.05.2016
+Waypoint: OC12BB2
+Title: π Pi-Safari
+Tag: D25 T15 Safari
+----
+ID: p20160524
+Date: 24.05.2016
+Waypoint: GE031A GC6H7GB OC12F1F
+Banner: jpg
+Title: ⅩⅩⅢ Mehlemer Eisevent
+nTF: 0
+Tag: D1 T1 Event
+----
 ID: p20160729
 Date: 30.07.2016
 Waypoint: GC276WT
