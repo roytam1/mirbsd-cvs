@@ -1,4 +1,4 @@
-# $MirOS: src/distrib/common/netboot.me/listadd,v 1.3 2009/11/12 22:24:40 tg Exp $
+# $MirOS: src/distrib/common/listadd.netboot.me,v 1.1 2010/01/30 13:19:07 tg Exp $
 
 CRUNCHSPECIAL tinyirc	srcdir distrib/common/grml/tinyirc
 
@@ -17,4 +17,4 @@ SPECIAL	ln usr/bin/e3 usr/bin/e3vi
 SPECIAL	ln usr/bin/e3 usr/bin/e3ne
 
 # tweak
-SPECIAL	print '/^Welcome/,/^This work/-1c\nWelcome to MirOS for netboot.me!\n\nWelcome to the MirOS BSD4me live/setup netboot system. For further\ninformation please visit http://mirbsd.de/\nNote that the network is not set up yet (use "dhclient ne3" or si-\nmilar to do so). Ctrl-Alt-F2 (-F3, ...) switches virtual consoles.\n.\n/-lT1/a\nmksh -lT2 >/dev/null 2>&1\nmksh -lT3 >/dev/null 2>&1\nmksh -lT4 >/dev/null 2>&1\nmksh -lT5 >/dev/null 2>&1\n.\n/IRCUSER=MirBSD_s/s//IRCUSER=MirOS4me/\n/IRCNICK=MirOS_BSD/s//IRCNICK=MirBSD4me/\nwq' | ed -s .profile
+SPECIAL	print '/^Welcome/,/^This work/-1c\nWelcome to MirOS for netboot.xyz!\n\nWelcome to the MirOS BSD4me live/setup netboot system. For further\ninformation please visit http://mirbsd.de/\nNote that the network is not set up yet (use "dhclient ne3" or si-\nmilar to do so). Ctrl-Alt-F2 (-F3, ...) switches virtual consoles.\n.\n/-lT1/a\nmksh -lT2 >/dev/null 2>&1\nmksh -lT3 >/dev/null 2>&1\nmksh -lT4 >/dev/null 2>&1\nmksh -lT5 >/dev/null 2>&1\n.\n/IRCUSER=MirBSD_s/s//IRCUSER=MirOS4me/\n/IRCNICK=MirOS_BSD/s//IRCNICK=MirBSD4me/\nwq' | ed -s .profile
