@@ -774,7 +774,7 @@ shf_vfprintf(struct shf *shf, const char *fmt, va_list args)
 	size_t field, precision, len;
 	unsigned long lnum;
 	/* %#o produces the longest output */
-	char numbuf[(8 * sizeof(long) + 2) / 3 + 1];
+	char numbuf[(8 * sizeof(long) + 2) / 3 + 1 + /* NUL */ 1];
 	/* this stuff for dealing with the buffer */
 	ssize_t nwritten = 0;
 
@@ -914,6 +914,7 @@ shf_vfprintf(struct shf *shf, const char *fmt, va_list args)
  integral:
 			flags |= FL_NUMBER;
 			cp = numbuf + sizeof(numbuf);
+			*--cp = '\0';
 
 			switch (c) {
 			case 'd':
@@ -964,7 +965,7 @@ shf_vfprintf(struct shf *shf, const char *fmt, va_list args)
 				}
 			    }
 			}
-			len = numbuf + sizeof(numbuf) - (s = cp);
+			len = numbuf + sizeof(numbuf) - 1 - (s = cp);
 			if (flags & FL_DOT) {
 				if (precision > len) {
 					field = precision;
