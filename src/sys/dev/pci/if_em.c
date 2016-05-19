@@ -126,7 +126,6 @@ const struct pci_matchid em_devices[] = {
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82546GB_PCIE },
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82546GB_QUAD_COPPER },
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82546GB_SERDES },
-	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82541GI_LF },
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82547EI },
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82547EI_MOBILE },
 	{ PCI_VENDOR_INTEL, PCI_PRODUCT_INTEL_82547GI },
@@ -1018,17 +1017,7 @@ em_encap(struct em_softc *sc, struct mbuf *m_head)
 	}
 	error = bus_dmamap_load_mbuf(sc->txtag, q.map,
 				     m_head, BUS_DMA_NOWAIT);
-	switch (error) {
-	case 0:
-		break;
-	case EFBIG:
-		if ((error = m_defrag(m_head, M_DONTWAIT)) == 0 &&
-		    (error = bus_dmamap_load_mbuf(sc->txtag, map, m_head,
-		     BUS_DMA_NOWAIT)) == 0)
-			break;
-
-		/* FALLTHROUGH */
-	default:
+	if (error) {
 		sc->no_tx_dma_setup++;
 		bus_dmamap_destroy(sc->txtag, q.map);
 		return (error);
@@ -1460,7 +1449,8 @@ em_update_link_status(struct em_softc * sc)
                         sc->link_active = 1;
                         sc->smartspeed = 0;
 		}
-		if (!LINK_STATE_IS_UP(ifp->if_link_state)) {
+		if (!(ifp->if_link_state >= LINK_STATE_UP ||
+		    ifp->if_link_state == LINK_STATE_UNKNOWN)) {
 			ifp->if_link_state = LINK_STATE_UP;
 			if_link_state_change(ifp);
                 }

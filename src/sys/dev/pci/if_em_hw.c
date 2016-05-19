@@ -292,23 +292,32 @@ em_set_mac_type(struct em_hw *hw)
     case E1000_DEV_ID_82546GB_COPPER:
     case E1000_DEV_ID_82546GB_FIBER:
     case E1000_DEV_ID_82546GB_SERDES:
+    case E1000_DEV_ID_82546GB_PCIE:
+    case E1000_DEV_ID_82546GB_QUAD_COPPER:
         hw->mac_type = em_82546_rev_3;
         break;
     case E1000_DEV_ID_82541EI:
     case E1000_DEV_ID_82541EI_MOBILE:
+    case E1000_DEV_ID_82541ER_LOM:
         hw->mac_type = em_82541;
         break;
     case E1000_DEV_ID_82541ER:
     case E1000_DEV_ID_82541GI:
+    case E1000_DEV_ID_82541GI_LF:
     case E1000_DEV_ID_82541GI_MOBILE:
         hw->mac_type = em_82541_rev_2;
         break;
     case E1000_DEV_ID_82547EI:
+    case E1000_DEV_ID_82547EI_MOBILE:
         hw->mac_type = em_82547;
         break;
     case E1000_DEV_ID_82547GI:
         hw->mac_type = em_82547_rev_2;
         break;
+    case E1000_DEV_ID_82573E:
+    case E1000_DEV_ID_82573E_IAMT:
+	hw->mac_type = em_82573;
+	break;
     default:
         /* Should never have loaded on this device */
         return -E1000_ERR_MAC_TYPE;
@@ -4653,7 +4662,7 @@ em_get_cable_length(struct em_hw *hw,
 {
     int32_t ret_val;
     uint16_t agc_value = 0;
-    uint16_t cur_agc, min_agc = IGP01E1000_AGC_LENGTH_TABLE_SIZE;
+    uint16_t cur_agc, min_agc = IGP01E1000_AGC_LENGTH_TABLE_SIZE - 1;
     uint16_t i, phy_data;
 
     DEBUGFUNC("em_get_cable_length");
