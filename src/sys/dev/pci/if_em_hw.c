@@ -294,6 +294,7 @@ em_set_mac_type(struct em_hw *hw)
     case E1000_DEV_ID_82546GB_SERDES:
     case E1000_DEV_ID_82546GB_PCIE:
     case E1000_DEV_ID_82546GB_QUAD_COPPER:
+    case E1000_DEV_ID_82546GB_2:
         hw->mac_type = em_82546_rev_3;
         break;
     case E1000_DEV_ID_82541EI:
@@ -316,6 +317,11 @@ em_set_mac_type(struct em_hw *hw)
         break;
     case E1000_DEV_ID_82573E:
     case E1000_DEV_ID_82573E_IAMT:
+    case E1000_DEV_ID_82573E_PM:
+    case E1000_DEV_ID_82573L:
+    case E1000_DEV_ID_82573L_PL_1:
+    case E1000_DEV_ID_82573L_PL_2:
+    case E1000_DEV_ID_82573V_PM:
 	hw->mac_type = em_82573;
 	break;
     default:

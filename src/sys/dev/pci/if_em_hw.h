@@ -374,6 +374,7 @@ int32_t em_set_d3_lplu_state(struct em_hw *hw, boolean_t active);
 #define E1000_DEV_ID_82546EB_COPPER      0x1010
 #define E1000_DEV_ID_82546EB_FIBER       0x1012
 #define E1000_DEV_ID_82546EB_QUAD_COPPER 0x101D
+#define E1000_DEV_ID_82546GB_2		 0x109B
 #define E1000_DEV_ID_82546GB_COPPER      0x1079
 #define E1000_DEV_ID_82546GB_FIBER       0x107A
 #define E1000_DEV_ID_82546GB_PCIE	 0x108A
@@ -384,6 +385,11 @@ int32_t em_set_d3_lplu_state(struct em_hw *hw, boolean_t active);
 #define E1000_DEV_ID_82547GI             0x1075
 #define E1000_DEV_ID_82573E		 0x108B
 #define E1000_DEV_ID_82573E_IAMT	 0x108C
+#define E1000_DEV_ID_82573E_PM		 0x10B3
+#define E1000_DEV_ID_82573L		 0x109A
+#define E1000_DEV_ID_82573L_PL_1	 0x10B0
+#define E1000_DEV_ID_82573L_PL_2	 0x10B4
+#define E1000_DEV_ID_82573V_PM		 0x10B2
 
 #define NODE_ADDRESS_SIZE 6
 #define ETH_LENGTH_OF_ADDRESS 6
