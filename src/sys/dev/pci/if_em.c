@@ -2190,12 +2190,20 @@ em_get_buf(struct em_softc *sc, int i)
 	MGETHDR(m, M_DONTWAIT, MT_DATA);
 	if (m == NULL) {
 		sc->mbuf_alloc_failed++;
+#ifdef DIAGNOSTIC
+		printf("%s: allocating an mbuf %ser for descriptor %d failed\n",
+		    sc->sc_dv.dv_xname, "head", i);
+#endif
 		return (ENOBUFS);
 	}
 	MCLGET(m, M_DONTWAIT);
 	if ((m->m_flags & M_EXT) == 0) {
 		m_freem(m);
 		sc->mbuf_cluster_failed++;
+#ifdef DIAGNOSTIC
+		printf("%s: allocating an mbuf %ser for descriptor %d failed\n",
+		    sc->sc_dv.dv_xname, "clust", i);
+#endif
 		return (ENOBUFS);
 	}
 	m->m_len = m->m_pkthdr.len = MCLBYTES;
