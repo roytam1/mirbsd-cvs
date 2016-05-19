@@ -69,6 +69,7 @@ typedef enum {
     em_82541_rev_2,
     em_82547,
     em_82547_rev_2,
+    em_82573,
     em_num_macs
 } em_mac_type;
 
@@ -346,18 +347,25 @@ int32_t em_set_d3_lplu_state(struct em_hw *hw, boolean_t active);
     em_write_reg_io((a), E1000_##reg, val)
 
 /* PCI Device IDs */
+#define E1000_DEV_ID_82540EM             0x100E
+#define E1000_DEV_ID_82540EM_LOM         0x1015
+#define E1000_DEV_ID_82540EP             0x1017
+#define E1000_DEV_ID_82540EP_LOM         0x1016
+#define E1000_DEV_ID_82540EP_LP          0x101E
+#define E1000_DEV_ID_82541EI             0x1013
+#define E1000_DEV_ID_82541EI_MOBILE      0x1018
+#define E1000_DEV_ID_82541ER             0x1078
+#define E1000_DEV_ID_82541ER_LOM	 0x1014
+#define E1000_DEV_ID_82541GI             0x1076
+#define E1000_DEV_ID_82541GI_LF		 0x107C
+#define E1000_DEV_ID_82541GI_MOBILE      0x1077
 #define E1000_DEV_ID_82542               0x1000
-#define E1000_DEV_ID_82543GC_FIBER       0x1001
 #define E1000_DEV_ID_82543GC_COPPER      0x1004
+#define E1000_DEV_ID_82543GC_FIBER       0x1001
 #define E1000_DEV_ID_82544EI_COPPER      0x1008
 #define E1000_DEV_ID_82544EI_FIBER       0x1009
 #define E1000_DEV_ID_82544GC_COPPER      0x100C
 #define E1000_DEV_ID_82544GC_LOM         0x100D
-#define E1000_DEV_ID_82540EM             0x100E
-#define E1000_DEV_ID_82540EM_LOM         0x1015
-#define E1000_DEV_ID_82540EP_LOM         0x1016
-#define E1000_DEV_ID_82540EP             0x1017
-#define E1000_DEV_ID_82540EP_LP          0x101E
 #define E1000_DEV_ID_82545EM_COPPER      0x100F
 #define E1000_DEV_ID_82545EM_FIBER       0x1011
 #define E1000_DEV_ID_82545GM_COPPER      0x1026
@@ -366,16 +374,16 @@ int32_t em_set_d3_lplu_state(struct em_hw *hw, boolean_t active);
 #define E1000_DEV_ID_82546EB_COPPER      0x1010
 #define E1000_DEV_ID_82546EB_FIBER       0x1012
 #define E1000_DEV_ID_82546EB_QUAD_COPPER 0x101D
-#define E1000_DEV_ID_82541EI             0x1013
-#define E1000_DEV_ID_82541EI_MOBILE      0x1018
-#define E1000_DEV_ID_82541ER             0x1078
-#define E1000_DEV_ID_82547GI             0x1075
-#define E1000_DEV_ID_82541GI             0x1076
-#define E1000_DEV_ID_82541GI_MOBILE      0x1077
 #define E1000_DEV_ID_82546GB_COPPER      0x1079
 #define E1000_DEV_ID_82546GB_FIBER       0x107A
+#define E1000_DEV_ID_82546GB_PCIE	 0x108A
+#define E1000_DEV_ID_82546GB_QUAD_COPPER 0x1099
 #define E1000_DEV_ID_82546GB_SERDES      0x107B
 #define E1000_DEV_ID_82547EI             0x1019
+#define E1000_DEV_ID_82547EI_MOBILE	 0x101A
+#define E1000_DEV_ID_82547GI             0x1075
+#define E1000_DEV_ID_82573E		 0x108B
+#define E1000_DEV_ID_82573E_IAMT	 0x108C
 
 #define NODE_ADDRESS_SIZE 6
 #define ETH_LENGTH_OF_ADDRESS 6
