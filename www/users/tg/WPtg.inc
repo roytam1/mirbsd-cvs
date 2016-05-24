@@ -11454,7 +11454,27 @@ Waypoint: OC12BB2
 Title: π Pi-Safari
 Tag: D25 T15 Safari
 ----
-ID: p20160524
+ID: 1901
+Date: 19.05.2016
+Waypoint: OC12F90
+Title: Godesberger Kreuze #28
+nTF: 0
+Tag: D1 T15 Virtual
+----
+ID: 1902
+Date: 19.05.2016
+Waypoint: OC12F91
+Title: Godesberger Kreuze #29
+nTF: 0
+Tag: D2 T15 Virtual
+----
+ID: 1903
+Date: 19.05.2016
+Waypoint: GC6H7HV
+Title: Fischerreimuseum
+Tag: D15 T15 Micro Tradi
+----
+ID: 1904
 Date: 24.05.2016
 Waypoint: GE031A GC6H7GB OC12F1F
 Banner: jpg
