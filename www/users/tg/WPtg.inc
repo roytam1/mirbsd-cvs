@@ -9931,7 +9931,7 @@ ID: 1658
 Date: 15.08.2015
 Waypoint: GC59NCZ
 Title: EarthCache Dächelsberg
-nTF: 3
+nTF: 2
 Tag: D2 T2 Earth
 ----
 ID: 1659
@@ -11480,6 +11480,130 @@ Waypoint: GE031A GC6H7GB OC12F1F
 Banner: jpg
 Title: ⅩⅩⅢ Mehlemer Eisevent
 nTF: 0
+Tag: D1 T1 Event
+----
+ID: 1905
+Date: 27.05.2016
+Waypoint: GC4N30G
+Title: Brohltal #2 - auf Abwegen
+Tag: D15 T15 Micro Tradi
+----
+ID: 1906
+Date: 27.05.2016
+Waypoint: GC5J9WC
+Title: Ja, wo fährt er denn jetzt hin?
+Tag: D3 T15 Micro Tradi
+----
+ID: 1907
+Date: 27.05.2016
+Waypoint: GC4N384
+Title: Mofa frei
+Tag: D2 T2 Micro Tradi
+----
+ID: 1908
+Date: 27.05.2016
+Waypoint: GC3R570
+Title: Die Ennerttrolle haben ....
+Tag: D1 T1 Micro Tradi
+----
+ID: 1909
+Date: 27.05.2016
+Waypoint: GC4TF16
+Title: Logik 01
+Tag: D25 T15 Micro Mystery
+----
+ID: 1910
+Date: 27.05.2016
+Waypoint: GC64TZY
+Title: Der Zweite zum 200.
+Tag: D2 T35 Micro Tradi
+----
+ID: 1911
+Date: 28.05.2016
+Waypoint: GC66Z0X
+Title: 2. Drachenfelser Adventskalender #15
+Tag: D3 T25 Micro Mystery
+----
+ID: 1912
+Date: 28.05.2016
+Waypoint: GC66Z0A
+Title: 2. Drachenfelser Adventskalender #12
+Tag: D25 T4 Micro Mystery
+----
+ID: 1913
+Date: 28.05.2016
+Waypoint: GC66YZN
+Title: 2. Drachenfelser Adventskalender #11
+Tag: D25 T45 Micro Mystery
+----
+ID: 1914
+Date: 28.05.2016
+Waypoint: GC66Z0N
+Title: 2. Drachenfelser Adventskalender #13
+Tag: D3 T2 Micro Mystery
+----
+ID: 1915
+Date: 28.05.2016
+Waypoint: GC66Z0R
+Title: 2. Drachenfelser Adventskalender #14
+Tag: D35 T2 Micro Mystery
+----
+ID: 1916
+Date: 28.05.2016
+Waypoint: GC66Z25
+Title: 2. Drachenfelser Adventskalender #16
+Tag: D3 T2 Micro Mystery
+----
+ID: 1917
+Date: 28.05.2016
+Waypoint: GC66Z2C
+Title: 2. Drachenfelser Adventskalender #17
+Tag: D3 T2 Micro Mystery
+----
+ID: 1918
+Date: 28.05.2016
+Waypoint: OC12FC8
+Title: Wachtberger Kreuze virtuell #1
+nTF: 0
+Tag: D1 T1 Virtual
+----
+ID: 1919
+Date: 28.05.2016
+Waypoint: GC66Z4C
+Title: 2. Drachenfelser Adventskalender #18
+Tag: D35 T2 Micro Mystery
+----
+ID: 1920
+Date: 29.05.2016
+Waypoint: GC6AQKA
+Title: BiBo Go
+Tag: D15 T15 Large Tradi
+----
+ID: 1921
+Date: 29.05.2016
+Waypoint: GC6JM2M
+Title: Kein Schlösschen mit Aussicht
+nTF: 2
+Tag: D15 T2 Micro Tradi
+
+Found #100 (excluding Owned (excluding Events)) of May 2016!
+----
+ID: 1922
+Date: 29.05.2016
+Waypoint: GC60BXK
+Title: Mondscheinwiese
+Tag: D15 T2 Micro Tradi
+----
+ID: 1923
+Date: 29.05.2016
+Waypoint: OC87E8 GC1ANCY
+Title: Gotteshäuser: Kreuzbergkirche
+Tag: D15 T15 Small Multi
+----
+ID: p20160625
+Date: 25.06.2016
+Waypoint: GC6FV7E
+Title: BONN GRILLT 2016
 Tag: D1 T1 Event
 ----
 ID: p20160729
