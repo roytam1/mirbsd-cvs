@@ -199,7 +199,7 @@ description:
 stdin:
 	alias X='case '
 	alias Y=Z
-	X Y in 'Y') echo is y ;; Z) echo is z ; esac
+	X Y in 'Y') echo is y ;; Z) echo is z ;; esac
 expected-stdout:
 	is z
 ---
