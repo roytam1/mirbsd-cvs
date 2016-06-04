@@ -1,9 +1,7 @@
-! $MirOS: contrib/samples/dot.Xmodmap,v 1.24.2.1.2.1 2012/04/24 08:12:48 tg Exp $
+! $MirOS: contrib/samples/dot.Xmodmap,v 1.25 2012/08/03 17:36:32 tg Exp $
 !-
-! Copyright © 2004, 2007, 2008, 2010, 2012
-!	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
-! Copyright © 2012
-!	Thorsten Glaser <t.glaser@tarent.de>
+! Copyright © 2004, 2007, 2008, 2010, 2012, 2016
+!	mirabilos <m@mirbsd.org>
 !
 ! Provided that these terms and disclaimer and all copyright notices
 ! are retained or reproduced in an accompanying document, permission
@@ -20,28 +18,29 @@
 ! damage or existence of a defect, except proven that it results out
 ! of said person’s immediate fault when using the work as intended.
 !-
-! MirKBD Revision 3WIP, English (Europe), Meta on AltGr, for X.org
+! MirKBD Revision 4.00 Meta on AltGr, English (Europe), for XFree86®
 !
-! Advanced .Xmodmap file with US-based layout plus Meta and Compose,
-! for 105-key PC keyboards (usable with 101-key or laptop keyboards,
-! too).
-! All ISO-8859-1 code points are directly typable on a 101-key board
-! and most directly typable code points are a part of codepage 1252.
+! Advanced .Xmodmap file with US-based layout plus Meta (emulated by
+! Mode_switch), for 102/105-key and laptop keyboards. All ISO 8859-1
+! characters are directly typable, as well as some extra characters,
+! most of which are in codepage 1252.
 !
 ! Diversions from pristine XFree86(R) and Windows(R) 2000 US layout:
-! • The Alt_R key generates Mode_switch	(emulates Meta for X apps)
 ! • The Win_L key generates Meta_L	(adds 0x80 to latin1 code)
-! • The Win_R key generates Meta_R
+! • The Alt_R key generates Mode_switch	(emulates Meta for X apps)
+! • The Win_R key generates Meta_R	(adds 0x80 to latin1 code)
 ! • The Win_M key generates Compose	(also for Unicode compose)
-! • The CapsLock key also is Multi_key (Compose)
-! • The < > | (102nd) key does Ellipsis, Euro, DE-DblQL, Trademark
-! • The Tab key, with Mode_switch, generates EN-DblQL and EN-DblQR
+! • The CapsLock key acts as Compose key
+! • The <>| (102nd) key generates Ellipsis, €, DE-DblQL, Trademark
 ! • The Backspace key, shifted and with Mode_switch, generates ‘Ÿ’
+! • The Tab key, with Mode_switch, generates EN-DblQL and EN-DblQR
 ! • The Return key, with Mode_switch, generates Bullet and en dash
+! The following behavioural differences can be seen on NT platforms:
+! • The Win_L, Win_R, Win_M, CapsLock keys retain normal behaviour
+! • There is no such thing as a Compose key
 ! The following behavioural differences can be seen on X11 platform:
-! • In unshifted states, Escape and U+0060 (`) have switched place
-! • The ModeSwitch-F1 combination generates U+263B (☻) good smiley
-! • The ModeSwitch-F2 combination generates U+263A (☺) dark smiley
+! • The ModeSwitch-F1 combination generates U+263B (☻) dark smiley
+! • The ModeSwitch-F2 combination generates U+263A (☺) glad smiley
 ! • The ModeSwitch-F3 combination generates U+2639 (☹) down smiley
 ! • The ModeSwitch-F4 combination generates U+1E9E (ẞ) majuscle sz
 ! • The ModeSwitch-F5 combination generates U+FFFD (�) replacement
@@ -67,123 +66,125 @@
 ! • ModeSwitch and arrow keys generates single-dashed (without) or
 !   double-dashed (with shift) pictograph U+21[9D][0123] ↑←↓→ ⇑⇐⇓⇒
 ! • ModeSwitch + {Ins,Del}, {Home,End}, {PgUp,PgDn} generates wide
-!   parentheses: (unshift/shift) 〈〉 《》 / 〔〕 【】/ 「」 『』 
+!   parenthesēs: (unshift/shift) 〈〉 《》 / 〔〕 【】 / 「」 『』
 ! • ModeSwitch-Shift-{Space,Esc} are wide space/creative heaven ䷀
 
-keycode	0x09 =	grave		Escape			U00E0	U4DC0
-keycode	0x43 =	F1		XF86_Switch_VT_1	U263B	U250C
-keycode	0x44 =	F2		XF86_Switch_VT_2	U263A	U2500
-keycode	0x45 =	F3		XF86_Switch_VT_3	U2639	U2510
-keycode	0x46 =	F4		XF86_Switch_VT_4	U1E9E	U2502
-keycode	0x47 =	F5		XF86_Switch_VT_5	UFFFD	U2514
-keycode	0x48 =	F6		XF86_Switch_VT_6	U2260	U2518
-keycode	0x49 =	F7		XF86_Switch_VT_7	U2018	U251C
-keycode	0x4A =	F8		XF86_Switch_VT_8	U2019	U2524
-keycode	0x4B =	F9		XF86_Switch_VT_9	U0332	U253C
-keycode	0x4C =	F10		XF86_Switch_VT_10	U0305	U252C
-keycode	0x5F =	F11		XF86_Switch_VT_11	U2023	U2534
-keycode	0x60 =	F12		XF86_Switch_VT_12	U2025	U2588
-keycode	0x6F =	Print		Sys_Req
-keycode	0x4E =	Scroll_Lock	Pointer_Accelerate
-keycode	0x6E =	Pause		Break
+keycode	0x09 =	Escape		Escape			Escape		U4DC0
+keycode	0x43 =	F1		XF86_Switch_VT_1	U263B		U250C
+keycode	0x44 =	F2		XF86_Switch_VT_2	U263A		U2500
+keycode	0x45 =	F3		XF86_Switch_VT_3	U2639		U2510
+keycode	0x46 =	F4		XF86_Switch_VT_4	U1E9E		U2502
+keycode	0x47 =	F5		XF86_Switch_VT_5	UFFFD		U2514
+keycode	0x48 =	F6		XF86_Switch_VT_6	U2260		U2518
+keycode	0x49 =	F7		XF86_Switch_VT_7	U2018		U251C
+keycode	0x4A =	F8		XF86_Switch_VT_8	U2019		U2524
+keycode	0x4B =	F9		XF86_Switch_VT_9	U0332		U253C
+keycode	0x4C =	F10		XF86_Switch_VT_10	U0305		U252C
+keycode	0x5F =	F11		XF86_Switch_VT_11	U2023		U2534
+keycode	0x60 =	F12		XF86_Switch_VT_12	U2025		U2588
+keycode	0x6F =	Print		Sys_Req			Print		Sys_Req
+keycode	0x5C =	Print		Sys_Req			Print		Sys_Req
+keycode	0x4E =	Scroll_Lock	Pointer_Accelerate	Scroll_Lock	Pointer_Accelerate
+keycode	0x6E =	Pause		Break			Pause		Break
+keycode	0x72 =	Pause		Break			Pause		Break
 
-keycode	0x31 =	Escape		asciitilde	Escape		U00FE
-keycode	0x0A =	1		exclam		U00B1		U00A1
-keycode	0x0B =	2		at		U00B2		U00C0
-keycode	0x0C =	3		numbersign	U00B3		U00A3
-keycode	0x0D =	4		dollar		U00B4		U00A4
-keycode	0x0E =	5		percent		U00B5		U00A5
-keycode	0x0F =	6		asciicircum	U00B6		U00DE
-keycode	0x10 =	7		ampersand	U00B7		U00A6
-keycode	0x11 =	8		asterisk	U00B8		U00AA
-keycode	0x12 =	9		parenleft	U00B9		U00A8
-keycode	0x13 =	0		parenright	U00B0		U00A9
-keycode	0x14 =	minus		underscore	U00AD		U00DF
-keycode	0x15 =	equal		plus		U00BD		U00AB
-keycode	0x16 =	BackSpace	Terminate_Server  U00FF		U0178
-keycode	0x6A =	Insert		Insert		U3008		U300A
-keycode	0x61 =	Home		Home		U3014		U3010
-keycode	0x63 =	Prior		Prior		U300C		U300E
-keycode	0x4D =	Num_Lock	Pointer_EnableKeys
-keycode	0x70 =	KP_Divide	XF86_Ungrab
-keycode	0x3F =	KP_Multiply	XF86_ClearGrab
-keycode	0x52 =	KP_Subtract	XF86_Prev_VMode
+keycode	0x31 =	grave		asciitilde		agrave		thorn
+keycode	0x0A =	1		exclam			plusminus	exclamdown
+keycode	0x0B =	2		at			twosuperior	Agrave
+keycode	0x0C =	3		numbersign		threesuperior	sterling
+keycode	0x0D =	4		dollar			acute		currency
+keycode	0x0E =	5		percent			mu		yen
+keycode	0x0F =	6		asciicircum		paragraph	THORN
+keycode	0x10 =	7		ampersand		periodcentered	brokenbar
+keycode	0x11 =	8		asterisk		cedilla		ordfeminine
+keycode	0x12 =	9		parenleft		onesuperior	diaeresis
+keycode	0x13 =	0		parenright		degree		copyright
+keycode	0x14 =	minus		underscore		hyphen		ssharp
+keycode	0x15 =	equal		plus			onehalf		guillemotleft
+keycode	0x16 =	BackSpace	Terminate_Server	ydiaeresis	U0178
+keycode	0x6A =	Insert		Insert			U3008		U300A
+keycode	0x61 =	Home		Home			U3014		U3010
+keycode	0x63 =	Prior		Prior			U300C		U300E
+keycode	0x4D =	Num_Lock	Pointer_EnableKeys	Num_Lock	Pointer_EnableKeys
+keycode	0x70 =	KP_Divide	XF86_Ungrab		KP_Divide	XF86_Ungrab
+keycode	0x3F =	KP_Multiply	XF86_ClearGrab		KP_Multiply	XF86_ClearGrab
+keycode	0x52 =	KP_Subtract	XF86_Prev_VMode		KP_Subtract	XF86_Prev_VMode
 
-keycode	0x17 =	Tab		ISO_Left_Tab	U201C		U201D
-keycode	0x18 =	q		Q		U00F1		U00D1
-keycode	0x19 =	w		W		U00F7		U00D7
-keycode	0x1A =	e		E		U00E5		U00C5
-keycode	0x1B =	r		R		U00F2		U00D2
-keycode	0x1C =	t		T		U00F4		U00D4
-keycode	0x1D =	y		Y		U00F9		U00D9
-keycode	0x1E =	u		U		U00F5		U00D5
-keycode	0x1F =	i		I		U00E9		U00C9
-keycode	0x20 =	o		O		U00EF		U00CF
-keycode	0x21 =	p		P		U00F0		U00D0
-keycode	0x22 =	bracketleft	braceleft	U00DB		U00FB
-keycode	0x23 =	bracketright	braceright	U00DD		U00FD
-keycode	0x24 =	Return		Return		U2022		U2013
-keycode	0x6B =	KP_Delete	Delete		U3009		U300B
-keycode	0x67 =	End		End		U3015		U3011
-keycode	0x69 =	Next		Next		U300D		U300F
-keycode	0x4F =	KP_Home		KP_7
-keycode	0x50 =	KP_Up		KP_8
-keycode	0x51 =	KP_Prior	KP_9
-keycode	0x56 =	KP_Add		XF86_Next_VMode
+keycode	0x17 =	Tab		ISO_Left_Tab		U201C		U201D
+keycode	0x18 =	q		Q			ntilde		Ntilde
+keycode	0x19 =	w		W			division	multiply
+keycode	0x1A =	e		E			aring		Aring
+keycode	0x1B =	r		R			ograve		Ograve
+keycode	0x1C =	t		T			ocircumflex	Ocircumflex
+keycode	0x1D =	y		Y			ugrave		Ugrave
+keycode	0x1E =	u		U			otilde		Otilde
+keycode	0x1F =	i		I			eacute		Eacute
+keycode	0x20 =	o		O			idiaeresis	Idiaeresis
+keycode	0x21 =	p		P			eth		ETH
+keycode	0x22 =	bracketleft	braceleft		Ucircumflex	ucircumflex
+keycode	0x23 =	bracketright	braceright		Yacute		yacute
+keycode	0x24 =	Return		Return			U2022		U2013
+keycode	0x6B =	KP_Delete	Delete			U3009		U300B
+keycode	0x67 =	End		End			U3015		U3011
+keycode	0x69 =	Next		Next			U300D		U300F
+keycode	0x4F =	KP_Home		KP_7			KP_Home		KP_7
+keycode	0x50 =	KP_Up		KP_8			KP_Up		KP_8
+keycode	0x51 =	KP_Prior	KP_9			KP_Prior	KP_9
+keycode	0x56 =	KP_Add		XF86_Next_VMode		KP_Add		XF86_Next_VMode
 
-keycode	0x42 =	Multi_key	Multi_key
-keycode	0x26 =	a		A		U00E1		U00C1
-keycode	0x27 =	s		S		U00F3		U00D3
-keycode	0x28 =	d		D		U00E4		U00C4
-keycode	0x29 =	f		F		U00E6		U00C6
-keycode	0x2A =	g		G		U00E7		U00C7
-keycode	0x2B =	h		H		U00E8		U00C8
-keycode	0x2C =	j		J		U00EA		U00CA
-keycode	0x2D =	k		K		U00EB		U00CB
-keycode	0x2E =	l		L		U00EC		U00CC
-keycode	0x2F =	semicolon	colon		U00BB		U00BA
-keycode	0x30 =	apostrophe	quotedbl	U00A7		U00A2
-keycode	0x33 =	backslash	bar		U00DC		U00FC
-keycode	0x53 =	KP_Left		KP_4
-keycode	0x54 =	KP_Begin	KP_5
-keycode	0x55 =	KP_Right	KP_6
+keycode	0x42 =	Multi_key	Multi_key		Multi_key	Multi_key
+keycode	0x26 =	a		A			aacute		Aacute
+keycode	0x27 =	s		S			oacute		Oacute
+keycode	0x28 =	d		D			adiaeresis	Adiaeresis
+keycode	0x29 =	f		F			ae		AE
+keycode	0x2A =	g		G			ccedilla	Ccedilla
+keycode	0x2B =	h		H			egrave		Egrave
+keycode	0x2C =	j		J			ecircumflex	Ecircumflex
+keycode	0x2D =	k		K			ediaeresis	Ediaeresis
+keycode	0x2E =	l		L			igrave		Igrave
+keycode	0x2F =	semicolon	colon			guillemotright	masculine
+keycode	0x30 =	apostrophe	quotedbl		section		cent
+keycode	0x33 =	backslash	bar			Udiaeresis	udiaeresis
+keycode	0x53 =	KP_Left		KP_4			KP_Left		KP_4
+keycode	0x54 =	KP_Begin	KP_5			KP_Begin	KP_5
+keycode	0x55 =	KP_Right	KP_6			KP_Right	KP_6
 
-keycode	0x32 =	Shift_L		Shift_L
-keycode	0x5E =	U2026		U20AC		U201E		U2122
-keycode	0x34 =	z		Z		U00FA		U00DA
-keycode	0x35 =	x		X		U00F8		U00D8
-keycode	0x36 =	c		C		U00E3		U00C3
-keycode	0x37 =	v		V		U00F6		U00D6
-keycode	0x38 =	b		B		U00E2		U00C2
-keycode	0x39 =	n		N		U00EE		U00CE
-keycode	0x3A =	m		M		U00ED		U00CD
-keycode	0x3B =	comma		less		U00AC		U00BC
-keycode	0x3C =	period		greater		U00AE		U00BE
-keycode	0x3D =	slash		question	U00AF		U00BF
-keycode	0x3E =	Shift_R		Shift_R
-keycode	0x62 =	Up		Up		U2191		U21D1
-keycode	0x57 =	KP_End		KP_1
-keycode	0x58 =	KP_Down		KP_2
-keycode	0x59 =	KP_Next		KP_3
-keycode	0x6C =	KP_Enter	Return
+keycode	0x32 =	Shift_L		Shift_L			Shift_L		Shift_L
+keycode	0x5E =	U2026		U20AC			U201E		U2122
+keycode	0x34 =	z		Z			uacute		Uacute
+keycode	0x35 =	x		X			oslash		Oslash
+keycode	0x36 =	c		C			atilde		Atilde
+keycode	0x37 =	v		V			odiaeresis	Odiaeresis
+keycode	0x38 =	b		B			acircumflex	Acircumflex
+keycode	0x39 =	n		N			icircumflex	Icircumflex
+keycode	0x3A =	m		M			iacute		Iacute
+keycode	0x3B =	comma		less			notsign		onequarter
+keycode	0x3C =	period		greater			registered	threequarters
+keycode	0x3D =	slash		question		macron		questiondown
+keycode	0x3E =	Shift_R		Shift_R			Shift_R		Shift_R
+keycode	0x62 =	Up		Up			U2191		U21D1
+keycode	0x57 =	KP_End		KP_1			KP_End		KP_1
+keycode	0x58 =	KP_Down		KP_2			KP_Down		KP_2
+keycode	0x59 =	KP_Next		KP_3			KP_Next		KP_3
+keycode	0x6C =	KP_Enter	Return			KP_Enter	Return
 
-keycode	0x25 =	Control_L	Control_L
-keycode	0x73 =	Meta_L		Meta_L
-keycode	0x40 =	Alt_L		Alt_L
-keycode	0x41 =	space		space		U00A0		U3000
-keycode	0x71 =	Mode_switch	Mode_switch
-keycode	0x74 =	Meta_R		Meta_R
-keycode	0x75 =	Multi_key	Multi_key
-keycode	0x6D =	Control_R	Control_R
-keycode	0x64 =	Left		Left		U2190		U21D0
-keycode	0x68 =	Down		Down		U2193		U21D3
-keycode	0x66 =	Right		Right		U2192		U21D2
-keycode	0x5A =	KP_Insert	KP_0
-keycode	0x5B =	KP_Delete	KP_Decimal
+keycode	0x25 =	Control_L	Control_L		Control_L	Control_L
+keycode	0x73 =	Meta_L		Meta_L			Meta_L		Meta_L
+keycode	0x40 =	Alt_L		Alt_L			Alt_L		Alt_L
+keycode	0x41 =	space		space			nobreakspace	U3000
+keycode	0x71 =	Mode_switch	Mode_switch		Mode_switch	Mode_switch
+keycode	0x74 =	Meta_R		Meta_R			Meta_R		Meta_R
+keycode	0x75 =	Multi_key	Multi_key		Multi_key	Multi_key
+keycode	0x6D =	Control_R	Control_R		Control_R	Control_R
+keycode	0x64 =	Left		Left			U2190		U21D0
+keycode	0x68 =	Down		Down			U2193		U21D3
+keycode	0x66 =	Right		Right			U2192		U21D2
+keycode	0x5A =	KP_Insert	KP_0			KP_Insert	KP_0
+keycode	0x5B =	KP_Delete	KP_Decimal		KP_Delete	KP_Decimal
 
 keycode	0x5C =
 keycode	0x5D =
-keycode	0x72 =
+keycode	0x65 =
 keycode	0x7C =
 keycode	0x7D =
 keycode	0x7E =
