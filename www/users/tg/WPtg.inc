@@ -11600,6 +11600,81 @@ Waypoint: OC87E8 GC1ANCY
 Title: Gotteshäuser: Kreuzbergkirche
 Tag: D15 T15 Small Multi
 ----
+ID: 1924
+Date: 02.06.2016
+Waypoint: GC5FG21
+Title: boh, eh, schwör, schabs jesehn &#34;4&#34;
+Tag: D2 T15 Micro Mystery
+----
+ID: 1925
+Date: 04.06.2016
+Waypoint: GC5VCK3
+Title: U66 Adelheidisstraße
+Tag: D25 T1 Small Tradi
+----
+ID: 1926
+Date: 05.06.2016
+Waypoint: GC5J9R9
+Title: Ruhestätte am Mini Tempel
+Tag: D25 T15 Micro Tradi
+----
+ID: 1927
+Date: 05.06.2016
+Waypoint: GC3T13G
+Banner: jpg
+Title: Der Schatz der weißen Falken
+Tag: D4 T2 Micro Mystery
+
+Unbedingt den Film sehen!
+----
+ID: 1928
+Date: 05.06.2016
+Waypoint: GC63VAE
+Title: _____Cache____da_____
+Tag: D25 T15 Micro Mystery
+----
+ID: 1929
+Date: 05.06.2016
+Waypoint: GC5P8X9
+Title: Safe
+Tag: D15 T15 Micro Tradi
+----
+ID: 1930
+Date: 05.06.2016
+Waypoint: GC4B0CZ
+Title: St. Margarethen Kapelle Tollhausen
+Tag: D15 T15 Micro Tradi
+----
+ID: 1931
+Date: 05.06.2016
+Waypoint: OC128BF
+Title: VAPC: Ein Loch in der Landschaft - Braunkohletagebau Hambach
+Tag: D1 T15 Virtual
+----
+ID: 1932
+Date: 05.06.2016
+Waypoint: GC1XT16
+Title: Open-Cast Mine Hambach
+Tag: D1 T15 Earth
+----
+ID: 1933
+Date: 05.06.2016
+Waypoint: GC4V8PB
+Title: Klingelmännchen
+Tag: D2 T3 Regular Tradi
+----
+ID: 1934
+Date: 05.06.2016
+Waypoint: GC40XQJ
+Title: Gotteshäuser: Lutherkirche Elsdorf
+Tag: D1 T1 Micro Tradi
+----
+ID: 1935
+Date: 05.06.2016
+Waypoint: GC6636F
+Title: Wasser marsch!!!
+Tag: D15 T15 Micro Tradi
+----
 ID: p20160625
 Date: 25.06.2016
 Waypoint: GC6FV7E

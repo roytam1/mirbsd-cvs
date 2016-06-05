@@ -396,7 +396,7 @@ statpic 'The Frog Site: Groundspeak' \
     'http://img.geocaching.com/stats/img.aspx?txt=http://mirbsd.de/mksh+-+helps!&amp;uid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658' \
     http://www.geocaching.com/profile/?guid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658
 statpic 'The Frog’s new Virtuals: Waymarking' \
-    'http://www.waymarking.com/images/stats.aspx?f=1&amp;guid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658' \
+    'http://www.waymarking.com/dyn_img/stats.aspx?f=1&amp;guid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658' \
     'http://www.waymarking.com/users/profile.aspx?f=1&amp;guid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658'
 statnopic 'The Frog’s Questor: Wherigo' \
     http://www.wherigo.com/my/profile.aspx?uid=d6aaa6ad-797c-419a-91b3-8cf6a5b40658
