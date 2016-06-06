@@ -103,13 +103,18 @@ function util_sendmail_encode_hdr_int($fname, $ftext) {
  * from this function.
  *
  * @param	string	$adr
- *		The eMail address (RFC822 addr-spec) to check
- * @result	1 if the addr-spec is valid, 0 if not, false
+ *		The eMail address to check for validity
+ * @result	1 if the address is a valid RFC822 addr-spec
+ *		and RFC5321 Mailbox, 0 if not, or false
  *		if an error occurred (same as preg_match)
  */
 function util_sendmail_valid($adr) {
+	/*
+	 * note for regex reuse: to check a domain, take the part
+	 * after the ‘@’ but prepend: _^(?=.{1,255}\$)
+	 */
 	return preg_match(
-	    "_^[-!#-'*+/-9=?A-Z^-~]+(\.[-!#-'*+/-9=?A-Z^-~]+)*@(?=.{1,255}\$)[0-9A-Za-z]([-0-9A-Za-z]{0,61}[0-9A-Za-z])?(\.[0-9A-Za-z]([-0-9A-Za-z]{0,61}[0-9A-Za-z])?)*\$_",
+	    "_^(?=.{1,254}\$)(?=.{1,64}@)[-!#-'*+/-9=?A-Z^-~]+(\.[-!#-'*+/-9=?A-Z^-~]+)*@[0-9A-Za-z]([-0-9A-Za-z]{0,61}[0-9A-Za-z])?(\.[0-9A-Za-z]([-0-9A-Za-z]{0,61}[0-9A-Za-z])?)*\$_",
 	    $adr);
 }
 
