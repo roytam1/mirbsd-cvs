@@ -1,9 +1,9 @@
 <?php
 /*-
- * $MirOS: contrib/hosted/tg/mailfrom.php,v 1.4 2013/01/14 15:08:40 tg Exp $
+ * $MirOS: contrib/hosted/tg/mailfrom.php,v 1.5 2013/02/18 10:16:34 tg Exp $
  *-
- * Copyright © 2012, 2013
- *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+ * Copyright © 2012, 2013, 2016
+ *	mirabilos <t.glaser@tarent.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
@@ -53,6 +53,7 @@
  * ‣ http://gynvael.coldwind.pl/?id=492
  * ‣ https://en.wikiquote.org/wiki/Rasmus_Lerdorf
  * ‣ http://www.rfc-editor.org/rfc/rfc822.txt and its successors
+ * ‣ http://www.cs.tut.fi/~jkorpela/rfc/822addr.html
  */
 
 /**
@@ -73,17 +74,43 @@
  */
 function util_sendmail_encode_hdr($fname, $ftext) {
 	$old_encoding = mb_internal_encoding();
-	mb_internal_encoding("UTF-8");
+	mb_internal_encoding('UTF-8');
 	$rv = util_sendmail_encode_hdr_int($fname, $ftext);
 	mb_internal_encoding($old_encoding);
 	return $rv;
 }
 function util_sendmail_encode_hdr_int($fname, $ftext) {
-	$field = $fname . ": " . $ftext;
+	$field = $fname . ': ' . $ftext;
 	if (strlen($field) > 78 || preg_match('/[^ -~]/', $field) !== 0) {
-		$field = mb_encode_mimeheader($field, "UTF-8", "Q", "\015\012");
+		$field = mb_encode_mimeheader($field, 'UTF-8', 'Q', "\015\012");
 	}
 	return $field;
+}
+
+/**
+ * util_sendmail_valid() - Check an eMail address for validity
+ *
+ * Check address syntax. For the localpart, we only
+ * permit a dot-atom, not a quoted-string or any of
+ * the obsolete forms, here, and the domain is mat‐
+ * ched using the modern standard, allowing numeric
+ * labels as per most zones including the root zone
+ * but otherwise per DNS/DARPA. Domain literals and
+ * whitespace are not permitted. The domain part is
+ * expected to be an FQDN resolving to an MX, AAAA,
+ * or A RR – the caller can verify that itself once
+ * validity is established by a truthy return value
+ * from this function.
+ *
+ * @param	string	$adr
+ *		The eMail address (RFC822 addr-spec) to check
+ * @result	1 if the addr-spec is valid, 0 if not, false
+ *		if an error occurred (same as preg_match)
+ */
+function util_sendmail_valid($adr) {
+	return preg_match(
+	    "_^[-!#-'*+/-9=?A-Z^-~]+(\.[-!#-'*+/-9=?A-Z^-~]+)*@(?=.{1,255}\$)[0-9A-Za-z]([-0-9A-Za-z]{0,61}[0-9A-Za-z])?(\.[0-9A-Za-z]([-0-9A-Za-z]{0,61}[0-9A-Za-z])?)*\$_",
+	    $adr);
 }
 
 /**
@@ -109,7 +136,7 @@ function util_sendmail_encode_hdr_int($fname, $ftext) {
  */
 function util_sendmail($sender, $recip, $hdrs, $body) {
 	$old_encoding = mb_internal_encoding();
-	if (!mb_internal_encoding("UTF-8")) {
+	if (!mb_internal_encoding('UTF-8')) {
 		mb_internal_encoding($old_encoding);
 		return array(false, false,
 		    'mb_internal_encoding("UTF-8") failed');
@@ -122,34 +149,26 @@ function util_sendmail($sender, $recip, $hdrs, $body) {
 		$recip = array($recip);
 	}
 	/* the first address only */
-	$what = "Sender";
+	$what = 'Sender';
 	array_unshift($recip, $sender);
-	foreach ($recip as $adr) {
+	foreach ($recip as $i => $adr) {
 		if (!is_string($adr)) {
 			mb_internal_encoding($old_encoding);
 			return array(false, false,
-			    $what . " not a string");
+			    $what . ' not a string');
 		}
-		/*
-		 * Check address syntax. For the localpart, we only
-		 * permit a dot-atom, not a quoted-string or any of
-		 * the obsolete forms, here, and the domain is mat‐
-		 * ched using the modern standard, allowing numeric
-		 * labels as per most zones including the root zone
-		 * but otherwise per DNS/DARPA. Domain literals and
-		 * whitespace are not permitted.
-		 */
-		if (!preg_match(
-		    "_^[-!#-'*+/-9=?A-Z^-~]+(\.[-!#-'*+/-9=?A-Z^-~]+)*@[0-9A-Za-z]([-0-9A-Za-z]{0,61}[0-9A-Za-z])?(\.[0-9A-Za-z]([-0-9A-Za-z]{0,61}[0-9A-Za-z])?)*\$_",
-		    $adr)) {
+		$adr = trim($adr);
+		/* check addr-spec syntax */
+		if (!util_sendmail_valid($adr)) {
 			mb_internal_encoding($old_encoding);
 			return array(false, false,
-			    $what . " not a valid address: " . $adr);
+			    $what . ' not a valid address: ' . $adr);
 		}
+		$recip[$i] = $adr;
 		/* quote for shell */
 		$adrs[] = "'" . str_replace("'", "'\\''", $adr) . "'";
 		/* all but the first address */
-		$what = "Recipient";
+		$what = 'Recipient';
 	}
 
 	/* handle the mail header */
@@ -161,21 +180,21 @@ function util_sendmail($sender, $recip, $hdrs, $body) {
 		if (strlen(($k = strval($k))) < 1) {
 			mb_internal_encoding($old_encoding);
 			return array(false, false,
-			    "Empty header found");
+			    'Empty header found');
 		}
 		if (preg_match('/[^!-9;-~]/', $k) !== 0) {
 			mb_internal_encoding($old_encoding);
 			return array(false, false,
-			    "Illegal char in header: " . $k);
+			    'Illegal char in header: ' . $k);
 		}
 		/* lowercase, independent on the locale */
 		$kf = strtr($k,
-		    "QWERTYUIOPASDFGHJKLZXCVBNM",
-		    "qwertyuiopasdfghjklzxcvbnm");
+		    'QWERTYUIOPASDFGHJKLZXCVBNM',
+		    'qwertyuiopasdfghjklzxcvbnm');
 		if (isset($hdr_seen[$kf])) {
 			mb_internal_encoding($old_encoding);
 			return array(false, false,
-			    "Duplicate header: " . $kf);
+			    'Duplicate header: ' . $kf);
 		}
 		$hdr_seen[$kf] = true;
 		/* append to message */
@@ -185,13 +204,14 @@ function util_sendmail($sender, $recip, $hdrs, $body) {
 	/* handle mandatory header fields */
 
 	if (!isset($hdr_seen['date'])) {
-		$msg[] = util_sendmail_encode_hdr_int("Date", date("r"));
+		/* date() is locale-independent and thus correct here */
+		$msg[] = util_sendmail_encode_hdr_int('Date', date('r'));
 	}
 	if (!isset($hdr_seen['from'])) {
-		$msg[] = util_sendmail_encode_hdr_int("From", $adrs[0]);
+		$msg[] = util_sendmail_encode_hdr_int('From', $recip[0]);
 	}
 
-	$msg[] = "";
+	$msg[] = '';
 
 	/* take care of the body */
 
@@ -215,7 +235,7 @@ function util_sendmail($sender, $recip, $hdrs, $body) {
 		if (strlen($v) > 998) {
 			mb_internal_encoding($old_encoding);
 			return array(false, false,
-			    "Line too long: " . $v);
+			    'Line too long: ' . $v);
 		}
 		$msg[] = $v;
 	}
@@ -224,13 +244,11 @@ function util_sendmail($sender, $recip, $hdrs, $body) {
 
 	$body = implode("\015\012", $msg) . "\015\012";
 
-	$cmd = "/usr/sbin/sendmail -f" . $adrs[0] . " -i --";
-	array_shift($adrs);
-	foreach ($adrs as $adr) {
-		$cmd .= " " . $adr;
-	}
+	/* this is only safe because $adrs is shell-escaped */
+	$adrs[0] = '/usr/sbin/sendmail -f' . $adrs[0] . ' -i --';
+	$cmd = implode(' ', $adrs);
 
-	if (($p = popen($cmd, "wb")) === false) {
+	if (($p = popen($cmd, 'wb')) === false) {
 		mb_internal_encoding($old_encoding);
 		return array(false, false,
 		    "Could not popen($cmd, 'wb');");
@@ -242,10 +260,10 @@ function util_sendmail($sender, $recip, $hdrs, $body) {
 	}
 	mb_internal_encoding($old_encoding);
 	if (($i = pclose($p)) == -1 ||
-	    (function_exists("pcntl_wifexited") && !pcntl_wifexited($i))) {
+	    (function_exists('pcntl_wifexited') && !pcntl_wifexited($i))) {
 		return array(false, -1);
 	}
-	if (!function_exists("pcntl_wexitstatus")) {
+	if (!function_exists('pcntl_wexitstatus')) {
 		return array(true, -1);
 	}
 	$i = pcntl_wexitstatus($i);
