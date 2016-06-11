@@ -48,7 +48,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: makefs.c,v 1.26 2006/10/22 21:11:56 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/makefs.c,v 1.13 2010/03/16 22:05:55 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/makefs.c,v 1.14 2016/06/11 14:52:48 tg Exp $");
 #endif	/* !__lint */
 
 #include <sys/param.h>
@@ -358,7 +358,7 @@ usage(void)
 "usage: %s [-t fs-type] [-o fs-options] [-d debug-mask] [-B endian]\n"
 "\t[-S sector-size] [-M minimum-size] [-m maximum-size] [-s image-size]\n"
 "\t[-b free-blocks] [-f free-files] [-F mtree-specfile] [-x]\n"
-"\t[-N userdb-dir] image-file directory\n",
+"\t[-N userdb-dir] [-T maximum-time] image-file directory\n",
 	    __progname);
 	exit(1);
 }
