@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.sbin/makefs/makefs.8,v 1.13 2010/03/07 00:22:27 tg Exp $
+.\"	$MirOS: src/usr.sbin/makefs/makefs.8,v 1.15 2016/02/11 20:12:26 tg Exp $
 .\"	$NetBSD: makefs.8,v 1.32 2009/01/20 20:47:25 bjh21 Exp $
 .\"
 .\" Copyright (c) 2001-2003 Wasabi Systems, Inc.
@@ -93,7 +93,7 @@
 .\" with -mandoc, it might implement .Mx itself, but we want to
 .\" use our own definition. And .Dd must come *first*, always.
 .\"
-.Dd $Mdocdate: March 7 2010 $
+.Dd $Mdocdate: February 11 2016 $
 .\"
 .\" Check which macro package we use, and do other -mdoc setup.
 .\"
@@ -186,6 +186,7 @@
 .Op Fl S Ar sector-size
 .Op Fl s Ar image-size
 .Op Fl t Ar fs-type
+.Op Fl T Ar maximum-time
 .Ar image-file
 .Ar directory
 .Sh DESCRIPTION
@@ -324,6 +325,10 @@ BSD fast file system (default).
 .It Sy cd9660
 ISO 9660 file system.
 .El
+.It Fl T Ar maximum-time
+Clamp superblock and file timestamps to
+.Ar maximum-time
+seconds since the Epoch.
 .It Fl x
 Exclude file system nodes not explicitly listed in the specfile.
 .El

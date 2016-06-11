@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/makefs/makefs.h,v 1.15 2010/03/16 22:24:45 tg Exp $ */
+/**	$MirOS: src/usr.sbin/makefs/makefs.h,v 1.16 2013/10/31 20:07:26 tg Exp $ */
 /*	$NetBSD: makefs.h,v 1.20 2008/12/28 21:51:46 christos Exp $	*/
 
 /*
@@ -163,6 +163,7 @@ typedef struct {
 	int	freeblockpc;	/* free block % */
 	int	needswap;	/* non-zero if byte swapping needed */
 	int	sectorsize;	/* sector size */
+	time_t	maxtime;	/* maximum allowed timestamp value */
 
 	void	*fs_specific;	/* File system specific additions. */
 } fsinfo_t;

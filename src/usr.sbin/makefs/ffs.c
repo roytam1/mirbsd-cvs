@@ -73,7 +73,7 @@
 
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs.c,v 1.11 2010/03/06 21:29:03 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/ffs.c,v 1.12 2010/03/07 00:02:17 tg Exp $");
 __RCSID("$NetBSD: ffs.c,v 1.44 2009/04/28 22:49:26 joerg Exp $");
 #endif	/* !__lint */
 
@@ -647,6 +647,27 @@ ffs_build_dinode1(struct ufs1_dinode *dinp, dirbuf_t *dbufp, fsnode *cur,
 	dinp->di_mtimensec = cur->inode->st.st_mtimensec;
 	dinp->di_ctimensec = cur->inode->st.st_ctimensec;
 #endif
+	/* if maxtime was given, clamp all timestamps to this */
+	if (fsopts->maxtime >= 0) {
+		if (dinp->di_atime >= fsopts->maxtime) {
+			dinp->di_atime = fsopts->maxtime;
+#if HAVE_STRUCT_STAT_ST_MTIMENSEC
+			dinp->di_atimensec = 0;
+#endif
+		}
+		if (dinp->di_mtime >= fsopts->maxtime) {
+			dinp->di_mtime = fsopts->maxtime;
+#if HAVE_STRUCT_STAT_ST_MTIMENSEC
+			dinp->di_mtimensec = 0;
+#endif
+		}
+		if (dinp->di_ctime >= fsopts->maxtime) {
+			dinp->di_ctime = fsopts->maxtime;
+#if HAVE_STRUCT_STAT_ST_MTIMENSEC
+			dinp->di_ctimensec = 0;
+#endif
+		}
+	}
 #if HAVE_STRUCT_STAT_ST_FLAGS
 	dinp->di_flags = cur->inode->st.st_flags;
 #endif

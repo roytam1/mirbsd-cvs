@@ -48,7 +48,7 @@
 #include <sys/cdefs.h>
 #if defined(__RCSID) && !defined(__lint)
 __RCSID("$NetBSD: makefs.c,v 1.26 2006/10/22 21:11:56 christos Exp $");
-__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/makefs.c,v 1.12 2010/03/07 00:02:17 tg Exp $");
+__IDSTRING(mbsdid, "$MirOS: src/usr.sbin/makefs/makefs.c,v 1.13 2010/03/16 22:05:55 tg Exp $");
 #endif	/* !__lint */
 
 #include <sys/param.h>
@@ -130,6 +130,7 @@ main(int argc, char *argv[])
 	(void)memset(&fsoptions, 0, sizeof(fsoptions));
 	fsoptions.fd = -1;
 	fsoptions.sectorsize = -1;
+	fsoptions.maxtime = -1;
 
 	if (fstype->prepare_options)
 		fstype->prepare_options(&fsoptions);
@@ -141,7 +142,7 @@ main(int argc, char *argv[])
 	start_time.tv_sec = start.tv_sec;
 	start_time.tv_nsec = start.tv_usec * 1000;
 
-	while ((ch = getopt(argc, argv, "B:b:d:f:F:M:m:N:o:s:S:t:x")) != -1) {
+	while ((ch = getopt(argc, argv, "B:b:d:f:F:M:m:N:o:s:S:t:T:x")) != -1) {
 		switch (ch) {
 
 		case 'B':
@@ -248,6 +249,14 @@ main(int argc, char *argv[])
 			if ((fstype = get_fstype(optarg)) == NULL)
 				errx(1, "Unknown fs type `%s'.", optarg);
 			fstype->prepare_options(&fsoptions);
+			break;
+
+		case 'T':
+			fsoptions.maxtime = strtoll(optarg, NULL, 10);
+			if (start_time.tv_sec >= fsoptions.maxtime) {
+				start_time.tv_sec = fsoptions.maxtime;
+				start_time.tv_nsec = 0;
+			}
 			break;
 
 		case 'x':
