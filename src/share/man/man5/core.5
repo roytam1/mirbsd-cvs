@@ -164,3 +164,14 @@ A
 .Nm
 file format appeared in
 .At v3 .
+.Sh CAVEATS
+Programs which are started with (either) the set-user-ID or
+set-group-ID bits set,
+or which change their uid or gid after starting, will normally not
+dump core.
+This is to prevent sensitive information from inadvertently ending
+up on disk.
+This behaviour can be changed (for debugging purposes) by changing
+.Li kern.nosuidcoredump
+.Xr sysctl 3
+variable to the right settings.
