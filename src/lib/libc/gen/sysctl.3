@@ -573,7 +573,14 @@ Number of open files.
 .It Dv KERN_NGROUPS
 The maximum number of supplemental groups.
 .It Dv KERN_NOSUIDCOREDUMP
-Programs with their set-user-ID bit set will not dump core when this is set.
+Whether a process may dump core after changing user or group ID:
+.Bl -column "value" "condition" "current directory"
+.It Sy "value" Ta Sy "condition" Ta Sy "dump core to"
+.It 0 Ta "euid == 0" Ta "current directory"
+.It 1 Ta "never" Ta ""
+.It 2 Ta "always" Ta Pa "/var/crash"
+.It 3 Ta "depends" Ta Pa "/var/crash/$programname/"
+.El
 .It Dv KERN_NPROCS
 The number of entries in the kernel process table.
 .It Dv KERN_NSELCOLL

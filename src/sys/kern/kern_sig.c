@@ -53,6 +53,7 @@
 #include <sys/buf.h>
 #include <sys/acct.h>
 #include <sys/file.h>
+#include <sys/filedesc.h>
 #include <sys/kernel.h>
 #include <sys/wait.h>
 #include <sys/ktrace.h>
@@ -1349,18 +1350,22 @@ coredump(p)
 	struct nameidata nd;
 	struct vattr vattr;
 	int error, error1;
-	char name[MAXCOMLEN+6];		/* progname.core */
+	int incrash = 0;
+	char name[MAXPATHLEN];
+	const char *dir = "/var/crash";
 	struct core core;
 
 	/*
-	 * Don't dump if not root and the process has used set user or
-	 * group privileges.
+	 * If the process has inconsistant uids, nosuidcoredump
+	 * determines coredump placement policy.
 	 */
-	if ((p->p_flag & P_SUGID) &&
-	    (error = suser(p, 0)) != 0)
-		return (error);
-	if ((p->p_flag & P_SUGID) && nosuidcoredump)
-		return (EPERM);
+	if (((p->p_flag & P_SUGID) && (error = suser(p, 0))) ||
+	   ((p->p_flag & P_SUGID) && nosuidcoredump)) {
+		if (nosuidcoredump == 3 || nosuidcoredump == 2)
+			incrash = 1;
+		else
+			return (EPERM);
+	}
 
 	/* Don't dump if will exceed file size limit. */
 	if (USPACE + ctob(vm->vm_dsize + vm->vm_ssize) >=
@@ -1374,7 +1379,43 @@ coredump(p)
 	cred->cr_uid = p->p_cred->p_ruid;
 	cred->cr_gid = p->p_cred->p_rgid;
 
-	snprintf(name, sizeof name, "%s.core", p->p_comm);
+	if (incrash && nosuidcoredump == 3) {
+		/*
+		 * If the program directory does not exist, dumps of
+		 * that core will silently fail.
+		 */
+		error1 = snprintf(name, sizeof(name), "%s/%s/%u.core",
+		    dir, p->p_comm, p->p_pid);
+	} else if (incrash && nosuidcoredump == 2)
+		error1 = snprintf(name, sizeof(name), "%s/%s.core",
+		    dir, p->p_comm);
+	else
+		error1 = snprintf(name, sizeof(name), "%s.core", p->p_comm);
+	if (error1 >= sizeof(name))
+		return (EACCES);
+
+	/*
+	 * Control the UID used to write out.  The normal case uses
+	 * the real UID.  If the sugid case is going to write into the
+	 * controlled directory, we do so as root.
+	 */
+	if (incrash == 0) {
+		cred = crdup(cred);
+		cred->cr_uid = cred->cr_ruid;
+		cred->cr_gid = cred->cr_rgid;
+	} else {
+		if (p->p_fd->fd_rdir) {
+			vrele(p->p_fd->fd_rdir);
+			p->p_fd->fd_rdir = NULL;
+		}
+		p->p_ucred = crdup(p->p_ucred);
+		crfree(cred);
+		cred = p->p_ucred;
+		crhold(cred);
+		cred->cr_uid = 0;
+		cred->cr_gid = 0;
+	}
+
 	NDINIT(&nd, LOOKUP, NOFOLLOW, UIO_SYSSPACE, name, p);
 
 	error = vn_open(&nd, O_CREAT | FWRITE | O_NOFOLLOW, S_IRUSR | S_IWUSR);
