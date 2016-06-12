@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/kern/kern_sig.c,v 1.4 2008/05/30 12:42:57 tg Exp $ */
+/**	$MirOS: src/sys/kern/kern_sig.c,v 1.5 2016/06/12 14:14:53 tg Exp $ */
 /*	$OpenBSD: kern_sig.c,v 1.70 2004/04/06 17:24:11 mickey Exp $	*/
 /*	$NetBSD: kern_sig.c,v 1.54 1996/04/22 01:38:32 christos Exp $	*/
 
@@ -1410,8 +1410,8 @@ coredump(p)
 	 */
 	if (incrash == 0) {
 		cred = crdup(cred);
-		cred->cr_uid = cred->cr_ruid;
-		cred->cr_gid = cred->cr_rgid;
+		cred->cr_uid = p->p_cred->p_ruid;
+		cred->cr_gid = p->p_cred->p_rgid;
 	} else {
 		if (p->p_fd->fd_rdir) {
 			vrele(p->p_fd->fd_rdir);
