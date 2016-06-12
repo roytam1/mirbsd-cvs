@@ -1372,13 +1372,6 @@ coredump(p)
 	    p->p_rlimit[RLIMIT_CORE].rlim_cur)
 		return (EFBIG);
 
-	/*
-	 * ... but actually write it as UID
-	 */
-	cred = crdup(cred);
-	cred->cr_uid = p->p_cred->p_ruid;
-	cred->cr_gid = p->p_cred->p_rgid;
-
 	if (incrash && nosuidcoredump == 3) {
 		/*
 		 * If the program directory does not exist, dumps of
