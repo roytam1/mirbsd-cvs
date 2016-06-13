@@ -272,9 +272,11 @@ case $DISTRO in
 		;;
 	(*:squeeze|*:wheezy)
 		EXTRAPACKAGES='apt debian-archive-keyring eatmydata fakeroot'
+		EATMYDATA=yes
 		;;
 	(*)
 		EXTRAPACKAGES='apt debian-archive-keyring eatmydata fakeroot sysvinit-core'
+		EATMYDATA=yes
 		;;
 	esac
 	case $DIST in
@@ -313,6 +315,7 @@ case $DISTRO in
 	# fails if the architecture is not bootstrappable without unreleased
 	# (use multistrap or a custom repository then; adjust dist above)
 	EXTRAPACKAGES='apt debian-ports-archive-keyring eatmydata fakeroot'
+	EATMYDATA=yes
 	DEBOOTSTRAPOPTS=(
 		--arch=$ARCHITECTURE
 		--include=cowdancer,apt,debian-ports-archive-keyring
@@ -329,6 +332,7 @@ case $DISTRO in
 		;;
 	(*)
 		EXTRAPACKAGES='apt ubuntu-keyring eatmydata fakeroot'
+		EATMYDATA=yes
 		;;
 	esac
 	DEBOOTSTRAPOPTS=(
