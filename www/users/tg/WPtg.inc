@@ -10941,7 +10941,7 @@ Tag: D15 T15 Micro Tradi
 ----
 ID: 1816
 Date: 24.04.2016
-Waypoint: GC6D4JV
+Waypoint: GC6D4JV OC1302B
 Title: Little Cache
 Tag: D15 T15 Micro Tradi
 ----
@@ -11674,6 +11674,51 @@ Date: 05.06.2016
 Waypoint: GC6636F
 Title: Wasser marsch!!!
 Tag: D15 T15 Micro Tradi
+----
+ID: 1936
+Date: 11.06.2016
+Waypoint: GC18Y1F
+Title: Lostplace: &#34;Die Wäscherei&#34;
+Tag: D2 T2 Regular Tradi
+----
+ID: 1937
+Date: 11.06.2016
+Waypoint: GC659YN
+Title: Das Prozessionskreuz
+Tag: D1 T1 Small Tradi recommended
+
+Eher D3…
+----
+ID: 1938
+Date: 11.06.2016
+Waypoint: GC3906N
+Title: KSI
+Tag: D2 T15 Micro Tradi
+----
+ID: 1939
+Date: 12.06.2016
+Waypoint: GC593T8
+Title: Muffel 17 Die Brücke
+Tag: D2 T45 Small Tradi recommended
+----
+ID: 1940
+Date: 12.06.2016
+Waypoint: GC5KCNK
+Title: Biss zum Cachen
+Tag: D15 T15 Micro Tradi
+----
+ID: 1941
+Date: 14.06.2016
+Waypoint: GC6JW7Z
+Title: Rheinuferweg #3
+Tag: D15 T4 Micro Tradi
+----
+ID: 1942
+Date: 14.06.2016
+Waypoint: GC6JNW9
+Title: Weltuntergangs-Eisevent
+nTF: 0
+Tag: D3 T1 Event
 ----
 ID: p20160625
 Date: 25.06.2016

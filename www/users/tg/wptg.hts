@@ -260,7 +260,8 @@ souvenir 2016-01-01 'Hello 2016' https://souvenirs.geocaching.com/SouvenirImages
 souvenir 2016-02-27 'Leap Day Weekend 2016' https://souvenirs.geocaching.com/SouvenirImages/Mi8yMi8yMDE2/43add974-5cca-4ce9-94e2-7a8f0e1502aa.png 'http://www.geocaching.com/souvenir/?guid=684e9fbe-4c49-4a86-89e5-7597991b8983'
 souvenir 2016-02-29 'Leap Day 2016' https://souvenirs.geocaching.com/SouvenirImages/Mi8yMi8yMDE2/a5758109-fc88-45ec-84cf-86c2374ac60c.png 'http://www.geocaching.com/souvenir/?guid=e3379b49-5c59-4882-93dc-8e9db069ba04'
 souvenir 2016-04-23 'CITO Week - April 2016' https://souvenirs.geocaching.com/SouvenirImages/NC8xMi8yMDE2/dc73558a-78ca-4cca-97ad-4db3b35fc232.png 'http://www.geocaching.com/souvenir/?guid=16990a1c-968e-4489-8ae0-030295631d1a'
-mws__header="$mws__header and <span class=\"rcsid\">\$""MirOS: www/mk/souv2hts,v 1.3 2016/04/17 20:41:31 tg Exp \$""</span> (on 2016-04-26 22:46:41)"
+souvenir 2016-06-11 'Get Outdoors Day 2016' https://souvenirs.geocaching.com/SouvenirImages/NS8zMS8yMDE2/2ecad462-9ae0-45b8-a90a-ed71690203e4.png 'http://www.geocaching.com/souvenir/?guid=3be140d7-b325-4a68-b557-7fd853a11209'
+mws__header="$mws__header and <span class=\"rcsid\">\$""MirOS: www/mk/souv2hts,v 1.3 2016/04/17 20:41:31 tg Exp \$""</span> (on 2016-06-14 18:57:54)"
 
 # kaputt, s.o.
 #if [[ $nsouvenir != 0 && -z $souvenirs ]]; then
@@ -323,6 +324,7 @@ mzbadge btfd 'Back To The Future Day' 'You hit 88 Mile Per Hour! Hope you enjoye
 mzbadge flatrob 'Flat Rob' 'Rob is flying Zee Air somewhere, and you captured Flat Rob!'
 mzbadge monster 'The Perfect Monster' 'You&#039;ve found all of the parts to build the perfect monster! Keep an eye on him to make sure he doesn&#039;t wreak havoc!'
 mzbadge ap16 'April Showers 2016' 'April Showers may get you wet, but they bring good things in May.'
+mzbadge getout16 'Get Outside With Munzee 2016' 'You got outside with Munzee in 2016. Hope you had a good time!'
 mzbadge battleready 'Battle Ready' 'You have deployed a weapon and are ready for the battle!'
 mzbadge socialcaterpillar 'Social Caterpillar' 'You are just learning to crawl socially!'
 mzbadge socialcocoon 'Social Cocoon' 'You are a hungry worm who needs to cap more socials so you can spread your wings!'
@@ -331,10 +333,10 @@ mzbadge breakfast Breakfast 'Congratulations, You were able to rent a room in 5 
 mzbadge pinholecamera 'Pin Hole Camera' 'These old cameras make it so hard to get good photos- time for an upgrade?'
 mzbadge plinysfoolsgold 'Pliny&#039;s Fool&#039;s Gold' 'YOU&#039;VE FOUND GOLD! Unfortunately it&#039;s fool&#039;s gold- Keep hunting!'
 mzbadge funflamingo 'Fun Flamingo' 'The fun&#039;s started and you&#039;ve got a leg up on the competition!'
-mzbadge 3rd_birthday 'Munzee turns 3' 'Thanks for celebrating our 3rd birthday! It&#039;s a Fiesta!'
 mzbadge cologne5 'Kölner Stammtisch V' 'Thanks for participating, hope you have fun! Prost!'
+mzbadge 3rd_birthday 'Munzee turns 3' 'Thanks for celebrating our 3rd birthday! It&#039;s a Fiesta!'
 mzbadge 4thbdayplaydate '4th Birthday Playdate' 'You played Munzee during our 4th birthday party weekend in July 2015!'
-mws__header="$mws__header and <span class=\"rcsid\">\$""MirOS: www/users/tg/munzbadg,v 1.6 2016/04/17 20:41:32 tg Exp \$""</span> (on 2016-05-24 19:07:06)"
+mws__header="$mws__header and <span class=\"rcsid\">\$""MirOS: www/users/tg/munzbadg,v 1.6 2016/04/17 20:41:32 tg Exp \$""</span> (on 2016-06-14 18:57:56)"
 
 mws_content <<EOF
 

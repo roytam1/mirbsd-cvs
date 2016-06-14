@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.613 2016/04/09 20:35:18 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.614 2016/05/06 00:30:01 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1211,6 +1211,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg, TNF] Fix bounds checks in Vi editing mode</li>
  <li>[tg] Handle combining characters at end of string or output correctly</li>
  <li>[tg] Fix <tt>${!#} ${!?} ${!-}</tt> (POSIX, prompted by izabera)</li>
+ <li>[tg] Fix shf.c-internal buffer overread on printing digits</li>
+ <li>[J�rg] Fix a typo in the testsuite</li>
 </ul>
 <p id="r52c">R52c is a bugfix-only release:</p><ul>
  <li>[tg] Shave 200 bytes off .text by revisiting string pooling</li>
