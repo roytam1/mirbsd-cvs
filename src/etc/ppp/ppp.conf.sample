@@ -5,7 +5,7 @@
 #	  Originally written by Toshiharu OHNO
 #
 # $MirSecuCron$
-# $MirOS: src/etc/ppp/ppp.conf.sample,v 1.6 2012/07/06 16:44:51 tg Exp $
+# $MirOS: src/etc/ppp/ppp.conf.sample,v 1.7 2016/02/06 15:32:23 tg Exp $
 # $OpenBSD: ppp.conf.sample,v 1.21 2002/06/09 06:15:15 todd Exp $
 #
 #################################################################
@@ -539,8 +539,8 @@ MirADSL:
  set speed sync
  disable ipv6cp
  set timeout 0
- set mtu max 1454
- set mru max 1454
+ set mtu max 1446
+ set mru max 1446
  disable acfcomp protocomp ipv6cp
  deny acfcomp
  enable lqr mssfixup # dns

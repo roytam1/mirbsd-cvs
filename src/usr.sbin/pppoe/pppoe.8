@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.sbin/pppoe/pppoe.8,v 1.5 2005/12/04 15:02:29 tg Exp $
+.\"	$MirOS: src/usr.sbin/pppoe/pppoe.8,v 1.6 2008/06/04 13:14:52 tg Exp $
 .\"	$OpenBSD: pppoe.8,v 1.18 2005/02/18 12:19:22 jmc Exp $
 .\"
 .\" Copyright (c) 2000 Network Security Technologies, Inc.
@@ -26,7 +26,7 @@
 .\" POSSIBILITY OF SUCH DAMAGE.
 .\"
 .\"
-.Dd $Mdocdate$
+.Dd $Mdocdate: June 4 2008 $
 .Dt PPPOE 8
 .Os
 .Sh NAME
@@ -102,8 +102,8 @@ if no
 is specified):
 .Bd -literal -offset indent
 set device "!/usr/sbin/pppoe"
-set mtu max 1454
-set mru max 1454
+set mtu max 1446
+set mru max 1446
 set speed sync
 disable acfcomp protocomp
 deny acfcomp
@@ -121,7 +121,7 @@ The
 .Nm mtu
 and
 .Nm mru
-must be set to at maximum 1492, better 1454 (see below), to leave
+must be set to at maximum 1492, better 1446 (see below), to leave
 room in the outgoing Ethernet packet for the
 .Nm pppoe
 headers.
@@ -167,8 +167,8 @@ default:
 
 pppoe:
    set device "!/usr/sbin/pppoe -i xl0"
-   set mtu max 1454
-   set mru max 1454
+   set mtu max 1446
+   set mru max 1446
    set speed sync
    disable acfcomp protocomp
    deny acfcomp
@@ -233,13 +233,15 @@ to adjust the maximum segment size on outgoing SYN packets.
 .Re
 .Pp
 For an explanation how PPPoE is further encapsulated on the way
-to your ISP, and why 1454 is the optimum MTU for native IPv4 and
+to your ISP, and why 1446 is the optimum MTU for native IPv4 and
 native IPv6 connections, go to
-.Pa http://www.mynetwatchman.com/kb/adsl/pppoemtu.htm .
+.Pq changing User-Agent to "foo" in lynx
+.Pa http://whirlpool.net.au/wiki/adsl_theory_ppp .
 Tunneled IPv6 connections using
 .Xr gif 4
-tunnels have an optimum MTU of 1434, the difference is just
-the size of an IPv4 header for the simple encapsulation.
+tunnels have an optimum MTU of 1426, the difference is just
+the size of an IPv4 header for the simple encapsulation; the
+maximum TCP-MSS would be 1406 and 1386, respectively.
 .Sh HISTORY
 This implementation of
 .Nm pppoe
