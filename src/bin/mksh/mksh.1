@@ -2723,9 +2723,15 @@ Rotate left (right); the result is similar to shift (see
 .Ic \*(Lt\*(Lt )
 except that the bits shifted out at one end are shifted in
 at the other end, instead of zero or sign bits.
+.Pp
+.Em Note :
+These operators are deprecated; in a subsequent mksh release,
+.Ic \*(ha\*(Lt No and Ic \*(ha\*(Gt
+.No will replace them, and Ic \*(Gt\*(Gt\*(Gt
+will be an arithmetic right shift.
 .It \*(Lt\*(Lt \*(Gt\*(Gt
-Shift left (right); the result is the left argument with its bits shifted left
-(right) by the amount given in the right argument.
+Shift left (right); the result is the left argument with its bits logically
+shifted left (right) by the amount given in the right argument.
 .It + \- * /
 Addition, subtraction, multiplication, and division.
 .It %
