@@ -1082,7 +1082,11 @@ EXTERN bool builtin_spec;
 EXTERN char	*current_wd;
 
 /* input line size */
+#ifdef MKSH_SMALL
 #define LINE		(4096 - ALLOC_OVERHEAD)
+#else
+#define LINE		(16384 - ALLOC_OVERHEAD)
+#endif
 /*
  * Minimum required space to work with on a line - if the prompt leaves
  * less space than this on a line, the prompt is truncated.
