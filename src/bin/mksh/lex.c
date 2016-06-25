@@ -1574,14 +1574,29 @@ get_brace_var(XString *wsp, char *wp)
 		c = getsc();
 		/* State machine to figure out where the variable part ends. */
 		switch (state) {
-		case PS_SAW_BANG:
-			if (ctype(c, C_VAR1))
-				goto out;
+		case PS_SAW_HASH:
+			if (ctype(c, C_VAR1)) {
+				char c2;
 
-			if (0)
-				/* FALLTHROUGH */
+				c2 = getsc();
+				ungetsc(c2);
+				if (c2 != /*{*/ '}') {
+					ungetsc(c);
+					goto out;
+				}
+			}
+			goto ps_common;
+		case PS_SAW_BANG:
+			switch (c) {
+			case '@':
+			case '#':
+			case '-':
+			case '?':
+				goto out;
+			}
+			goto ps_common;
 		case PS_INITIAL:
-			  switch (c) {
+			switch (c) {
 			case '%':
 				state = PS_SAW_PERCENT;
 				goto next;
@@ -1594,24 +1609,12 @@ get_brace_var(XString *wsp, char *wp)
 			}
 			/* FALLTHROUGH */
 		case PS_SAW_PERCENT:
-		case PS_SAW_HASH:
+ ps_common:
 			if (ksh_isalphx(c))
 				state = PS_IDENT;
 			else if (ksh_isdigit(c))
 				state = PS_NUMBER;
-			else if (c == '#') {
-				if (state == PS_SAW_HASH) {
-					char c2;
-
-					c2 = getsc();
-					ungetsc(c2);
-					if (c2 != /*{*/ '}') {
-						ungetsc(c);
-						goto out;
-					}
-				}
-				state = PS_VAR1;
-			} else if (ctype(c, C_VAR1))
+			else if (ctype(c, C_VAR1))
 				state = PS_VAR1;
 			else
 				goto out;
