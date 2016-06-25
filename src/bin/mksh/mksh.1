@@ -2456,16 +2456,19 @@ This is called a here string.
 Standard input is duplicated from file descriptor
 .Ar fd .
 .Ar fd
-can be a number, indicating the number of an existing file descriptor;
+can be a single digit, indicating the number of an existing file descriptor;
 the letter
 .Ql p ,
 indicating the file descriptor associated with the output of the current
 co-process; or the character
 .Ql \- ,
 indicating standard input is to be closed.
-Note that
-.Ar fd
-is limited to a single digit in most shell implementations.
+.Pp
+Note that the current version of
+.Nm
+supports some two-digit fd numbers in some environments;
+this feature is deprecated and will be removed from a subsequent release
+in favour of a ksh93-/perl-style "named file descriptors" feature.
 .It \*(Gt& Ns Ar fd
 Same as
 .Ic \*(Lt& ,
@@ -2477,7 +2480,7 @@ This is a deprecated (legacy) GNU
 .Nm bash
 extension supported by
 .Nm
-which also supports the preceding explicit fd number, for example,
+which also supports the preceding explicit fd digit, for example,
 .Ic 3&\*(Gt Ns Ar file
 is the same as
 .Ic 3\*(Gt Ns Ar file 2\*(Gt&3
@@ -2506,7 +2509,7 @@ extensions.
 In any of the above redirections, the file descriptor that is redirected
 (i.e. standard input or standard output)
 can be explicitly given by preceding the
-redirection with a number (portably, only a single digit).
+redirection with a single digit.
 Parameter, command, and arithmetic
 substitutions, tilde substitutions, and (if the shell is interactive)
 file name generation are all performed on the
