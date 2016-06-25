@@ -1,6 +1,6 @@
-$MirOS$
+$MirOS: ports/games/xmj/patches/patch-mj_c,v 1.1 2016/06/25 19:35:09 tg Exp $
 --- mj.c.orig	Fri May  5 22:59:30 1989
-+++ mj.c	Sat Jun 25 19:32:48 2016
++++ mj.c	Sat Jun 25 20:23:32 2016
 @@ -33,6 +33,7 @@
  
  
@@ -33,12 +33,41 @@ $MirOS$
  
  	tile_count = 144;
  
-@@ -711,7 +716,7 @@ boolean oldimage;
+@@ -699,6 +704,12 @@ boolean oldimage;
+ 
+ 	    if (!oldimage) { /* not repeating last board */
+ 
++#ifdef __OpenBSD__
++		do {
++			i = RANDOM(42);
++		} while (pool[i] == 0);
++		pool[i]--;
++#else
+ 		/* Randomly seed index into pool. Randomly *
+ 		 *  run up or down list until unused tile  *
+ 		 *  is found or end of list. If end of     *
+@@ -709,18 +720,19 @@ boolean oldimage;
+ 
+ 		ok = FALSE;
  		while (ok == FALSE) {
- 			i = RANDOM(41);
+-			i = RANDOM(41);
++			i = RANDOM(42);
  			/* Up, up, up! */
 -			dir = random()&01;
-+			dir = RANDOM(1);
- 			while ((i < 42 || i >=0) && pool[i] == 0) (dir) ? i++ : i--;
+-			while ((i < 42 || i >=0) && pool[i] == 0) (dir) ? i++ : i--;
++			dir = RANDOM(2);
++			while ((i < 42 && i >= 0) && pool[i] == 0) (dir) ? i++ : i--;
  			if (i == 42 || i < 0) { /* Thud! Reverse march! */
- 				i = RANDOM(41);
+-				i = RANDOM(41);
+-				while ((i < 42 || i >= 0) && pool[i] == 0) (dir) ? i-- : i++;
++				i = RANDOM(42);
++				while ((i < 42 && i >= 0) && pool[i] == 0) (dir) ? i-- : i++;
+ 			}
+ 			if (i == 42 || i < 0) continue; /* Missed! try again */
+ 			pool[i]--;
+ 			ok = TRUE;
+ 		}
++#endif
+ 
+ 		/* all flowers and all seasons */
+ 

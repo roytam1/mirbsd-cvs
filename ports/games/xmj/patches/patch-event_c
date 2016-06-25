@@ -1,6 +1,15 @@
-$MirOS$
+$MirOS: ports/games/xmj/patches/patch-event_c,v 1.1 2016/06/25 19:35:08 tg Exp $
 --- event.c.orig	Mon May  8 18:50:42 1989
-+++ event.c	Sat Jun 25 19:30:19 2016
++++ event.c	Sat Jun 25 20:34:07 2016
+@@ -572,7 +572,7 @@ void quit_proc()
+ 
+ void new_proc()
+ {
+-    seed = random() % 20011;
++    seed = RANDOM(20011);
+     build_image(FALSE);
+     place_tiles(FALSE);
+     redraw_all();
 @@ -599,6 +599,7 @@ void board_num_proc()
      place_tiles(FALSE);
  }
