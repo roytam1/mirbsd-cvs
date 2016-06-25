@@ -2004,20 +2004,20 @@ c_read(const char **wp)
 	}
 #endif
 
-	bytesread = blocking_read(fd, xp, bytesleft);
-	if (bytesread == (size_t)-1) {
-		/* interrupted */
-		if (errno == EINTR && fatal_trap_check()) {
-			/*
-			 * Was the offending signal one that would
-			 * normally kill a process? If so, pretend
-			 * the read was killed.
-			 */
-			rv = 2;
-			goto c_read_out;
+	if ((bytesread = blocking_read(fd, xp, bytesleft)) == (size_t)-1) {
+		if (errno == EINTR) {
+			/* check whether the signal would normally kill */
+			if (!fatal_trap_check()) {
+				/* no, just ignore the signal */
+				goto c_read_readloop;
+			}
+			/* pretend the read was killed */
+		} else {
+			/* unexpected error */
+			bi_errorf("%s", cstrerror(errno));
 		}
-		/* just ignore the signal */
-		goto c_read_readloop;
+		rv = 2;
+		goto c_read_out;
 	}
 
  c_read_didread:
