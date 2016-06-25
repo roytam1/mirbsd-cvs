@@ -1,0 +1,11 @@
+$MirOS$
+--- event.c.orig	Mon May  8 18:50:42 1989
++++ event.c	Sat Jun 25 19:30:19 2016
+@@ -599,6 +599,7 @@ void board_num_proc()
+     place_tiles(FALSE);
+ }
+ 
++void
+ msg_event_proc(event)
+     XEvent *event;
+ {

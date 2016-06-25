@@ -1,0 +1,12 @@
+$MirOS$
+--- tiles/cQUIT.orig	Thu May  4 13:15:11 1989
++++ tiles/cQUIT	Sat Jun 25 19:28:11 2016
+@@ -1,6 +1,6 @@
+ /*	@(#)cQUIT	10.1	(MASSCOMP)	edited 3/27/89, built 5/4/89	*/
+-#define cQUIT_width=64
+-#define cQUIT_height=16
++#define cQUIT_width 64
++#define cQUIT_height 16
+ static char cQUIT_bits[] = {
+ 	6,6,6,6,6,6,6,6,
+ 	6,6,6,6,6,6,6,6,

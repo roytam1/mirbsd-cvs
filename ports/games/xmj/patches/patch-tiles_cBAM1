@@ -1,0 +1,12 @@
+$MirOS$
+--- tiles/cBAM1.orig	Thu May  4 13:14:27 1989
++++ tiles/cBAM1	Sat Jun 25 19:28:11 2016
+@@ -1,6 +1,6 @@
+ /*	@(#)cBAM1	10.1	(MASSCOMP)	edited 3/27/89, built 5/4/89	*/
+-#define cBAM1_width=64
+-#define cBAM1_height=64
++#define cBAM1_width 64
++#define cBAM1_height 64
+  char cBAM1_bits[] = {
+ 	0,0,0,0,0,0,0,0,
+ 	0,0,0,0,0,0,0,0,

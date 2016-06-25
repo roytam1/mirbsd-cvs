@@ -1,0 +1,12 @@
+$MirOS$
+--- tiles/cNEW.orig	Thu May  4 13:14:58 1989
++++ tiles/cNEW	Sat Jun 25 19:28:11 2016
+@@ -1,6 +1,6 @@
+ /*	@(#)cNEW	10.1	(MASSCOMP)	edited 3/27/89, built 5/4/89	*/
+-#define cNEW_width=64
+-#define cNEW_height=16
++#define cNEW_width 64
++#define cNEW_height 16
+ static char cNEW_bits[] = {
+ 	4,4,4,4,4,4,4,4,
+ 	4,4,4,4,4,4,4,4,

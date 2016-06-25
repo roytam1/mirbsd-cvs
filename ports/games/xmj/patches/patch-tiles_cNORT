@@ -1,0 +1,12 @@
+$MirOS$
+--- tiles/cNORT.orig	Thu May  4 13:14:59 1989
++++ tiles/cNORT	Sat Jun 25 19:28:11 2016
+@@ -1,6 +1,6 @@
+ /*	@(#)cNORT	10.1	(MASSCOMP)	edited 3/27/89, built 5/4/89	*/
+-#define cNORT_width=64
+-#define cNORT_height=64
++#define cNORT_width 64
++#define cNORT_height 64
+  char cNORT_bits[] = {
+ 	0,0,0,0,0,0,0,0,
+ 	0,0,0,0,0,0,0,0,

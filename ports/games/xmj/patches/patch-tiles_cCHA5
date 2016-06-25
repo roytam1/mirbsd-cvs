@@ -1,0 +1,12 @@
+$MirOS$
+--- tiles/cCHA5.orig	Thu May  4 13:14:39 1989
++++ tiles/cCHA5	Sat Jun 25 19:28:11 2016
+@@ -1,6 +1,6 @@
+ /*	@(#)cCHA5	10.1	(MASSCOMP)	edited 3/27/89, built 5/4/89	*/
+-#define cCHA5_width=64
+-#define cCHA5_height=64
++#define cCHA5_width 64
++#define cCHA5_height 64
+  char cCHA5_bits[] = {
+ 	0,0,0,0,0,0,0,0,
+ 	0,0,0,0,0,0,0,0,

@@ -1,0 +1,12 @@
+$MirOS$
+--- tiles/cORC.orig	Thu May  4 13:15:09 1989
++++ tiles/cORC	Sat Jun 25 19:28:11 2016
+@@ -1,6 +1,6 @@
+ /*	@(#)cORC	10.1	(MASSCOMP)	edited 3/27/89, built 5/4/89	*/
+-#define cORC_width=64
+-#define cORC_height=64
++#define cORC_width 64
++#define cORC_height 64
+ char cORC_bits[] = {
+ 	0,0,0,0,0,0,0,0,
+ 	0,0,0,0,0,0,0,0,

@@ -1,0 +1,12 @@
+$MirOS$
+--- tiles/cSPR.orig	Thu May  4 13:15:17 1989
++++ tiles/cSPR	Sat Jun 25 19:28:11 2016
+@@ -1,6 +1,6 @@
+ /*	@(#)cSPR	10.1	(MASSCOMP)	edited 3/27/89, built 5/4/89	*/
+-#define cSPR_width=64
+-#define cSPR_height=64
++#define cSPR_width 64
++#define cSPR_height 64
+ char cSPR_bits[] = {
+ 	0,0,0,0,0,0,0,0,
+ 	0,0,0,0,0,0,0,0,

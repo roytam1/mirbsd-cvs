@@ -1,0 +1,12 @@
+$MirOS$
+--- tiles/cDOT3.orig	Thu May  4 13:14:49 1989
++++ tiles/cDOT3	Sat Jun 25 19:28:11 2016
+@@ -1,6 +1,6 @@
+ /*	@(#)cDOT3	10.1	(MASSCOMP)	edited 3/27/89, built 5/4/89	*/
+-#define cDOT3_width=64
+-#define cDOT3_height=64
++#define cDOT3_width 64
++#define cDOT3_height 64
+  char cDOT3_bits[] = {
+ 	0,0,0,0,0,0,0,0,
+ 	0,0,0,0,0,0,0,0,

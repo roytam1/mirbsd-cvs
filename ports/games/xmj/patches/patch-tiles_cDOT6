@@ -1,0 +1,12 @@
+$MirOS$
+--- tiles/cDOT6.orig	Thu May  4 13:14:53 1989
++++ tiles/cDOT6	Sat Jun 25 19:28:11 2016
+@@ -1,6 +1,6 @@
+ /*	@(#)cDOT6	10.1	(MASSCOMP)	edited 3/27/89, built 5/4/89	*/
+-#define cDOT6_width=64
+-#define cDOT6_height=64
++#define cDOT6_width 64
++#define cDOT6_height 64
+  char cDOT6_bits[] = {
+ 	0,0,0,0,0,0,0,0,
+ 	0,0,0,0,0,0,0,0,

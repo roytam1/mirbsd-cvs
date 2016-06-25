@@ -1,0 +1,12 @@
+$MirOS$
+--- tiles/cEAST.orig	Thu May  4 13:14:56 1989
++++ tiles/cEAST	Sat Jun 25 19:28:11 2016
+@@ -1,6 +1,6 @@
+ /*	@(#)cEAST	10.1	(MASSCOMP)	edited 3/27/89, built 5/4/89	*/
+-#define cEAST_width=64
+-#define cEAST_height=64
++#define cEAST_width 64
++#define cEAST_height 64
+  char cEAST_bits[] = {
+ 	0,0,0,0,0,0,0,0,
+ 	0,0,0,0,0,0,0,0,

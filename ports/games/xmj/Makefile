@@ -2,13 +2,12 @@
 
 ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
 
-COMMENT=			Mahjongg
+COMMENT=		Mahjongg
+DISTNAME=		xmj
+PKGNAME=		xmj-1.0-1
+CATEGORIES=		games
 
-DISTNAME=       xmj
-PKGNAME=	xmj-1.0-0
-CATEGORIES=	games
-
-MASTER_SITES=	${MASTER_SITE_BACKUP}
+MASTER_SITES=		${MASTER_SITE_BACKUP}
 
 # License: BSD
 PERMIT_PACKAGE_CDROM=	Yes
@@ -17,7 +16,7 @@ PERMIT_DISTFILES_CDROM=	Yes
 PERMIT_DISTFILES_FTP=	Yes
 
 CONFIGURE_STYLE=	imake noman
-
-NO_REGRESS=	Yes
+USE_X11=		Yes
+NO_REGRESS=		Yes
 
 .include <bsd.port.mk>

@@ -1,0 +1,12 @@
+$MirOS$
+--- tiles/cBAM8.orig	Thu May  4 13:14:34 1989
++++ tiles/cBAM8	Sat Jun 25 19:28:11 2016
+@@ -1,6 +1,6 @@
+ /*	@(#)cBAM8	10.1	(MASSCOMP)	edited 3/27/89, built 5/4/89	*/
+-#define cBAM8_width=64
+-#define cBAM8_height=64
++#define cBAM8_width 64
++#define cBAM8_height 64
+  char cBAM8_bits[] = {
+ 	0,0,0,0,0,0,0,0,
+ 	0,0,0,0,0,0,0,0,

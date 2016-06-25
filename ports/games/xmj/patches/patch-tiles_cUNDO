@@ -1,0 +1,12 @@
+$MirOS$
+--- tiles/cUNDO.orig	Thu May  4 13:15:19 1989
++++ tiles/cUNDO	Sat Jun 25 19:28:11 2016
+@@ -1,6 +1,6 @@
+ /*	@(#)cUNDO	10.1	(MASSCOMP)	edited 3/27/89, built 5/4/89	*/
+-#define cUNDO_width=64
+-#define cUNDO_height=16
++#define cUNDO_width 64
++#define cUNDO_height 16
+ static char cUNDO_bits[] = {
+ 	5,5,5,5,5,5,5,5,
+ 	5,5,5,5,5,5,5,5,
