@@ -2613,6 +2613,10 @@ stdin:
 	eval "$fnd"
 	foo
 	print -r -- "| va={$va} vb={$vb} vc={$vc} vd={$vd} |"
+	x=y
+	foo
+	typeset -f foo
+	print -r -- "| vc={$vc} vd={$vd} |"
 	# check append
 	v=<<-
 		vapp1
@@ -2636,6 +2640,19 @@ expected-stdout:
 	| va={=a u \x40=
 	} vb={=b $x \x40=
 	} vc={=c u \x40=
+	} vd={=d $x \x40=
+	} |
+	function foo {
+		vc=<<- 
+	=c $x \x40=
+	<<
+	
+		vd=<<-"" 
+	=d $x \x40=
+	
+	
+	} 
+	| vc={=c y \x40=
 	} vd={=d $x \x40=
 	} |
 	| vapp1^vapp2^ |
