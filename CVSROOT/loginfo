@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/loginfo,v 1.32 2015/10/09 14:40:22 tg Exp $
+# $MirOS: CVSROOT/loginfo,v 1.33 2015/12/09 14:31:04 tg Exp $
 #-
 # Note: with the current system, the last directory to be committed
 # into “wins” the eMail and changelog location. This will be replaced
@@ -53,8 +53,6 @@
 # normal operation
 
 # regular commit mails per developer
-^contrib/hosted/fwcf\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -D -R freewrt-developers@freewrt.org -m miros-hosted-fwcf@mirbsd.org -f $CVSROOT/Logs/ChangeLog -C %r -p %p %{sVv}
-
 ^contrib/hosted/bsiegert\(/\|$\)	$CVSROOT/CVSROOT/mklogci %I -m bsiegert@mirbsd.org -f $CVSROOT/Logs/.cpr.bsiegert -C %r -p %p %{sVv}
 ^www/users/bsiegert\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m bsiegert@mirbsd.org -f $CVSROOT/Logs/.cpr.bsiegert -C %r -p %p %{sVv}
 ^contrib/hosted/tg\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m tg@mirbsd.org -f $CVSROOT/Logs/.cpr.tg -C %r -p %p %{sVv}

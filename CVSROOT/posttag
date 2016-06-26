@@ -1,4 +1,4 @@
-# $MirOS: CVSROOT/posttag,v 1.24 2015/10/09 14:40:22 tg Exp $
+# $MirOS: CVSROOT/posttag,v 1.25 2015/12/09 14:31:05 tg Exp $
 #-
 # The "posttag" file is called after the "tag" command finishes
 # processing a directory.
@@ -42,8 +42,6 @@
 # normal operation
 
 # regular commit mails per developer
-^contrib/hosted/fwcf\(/\|$\)		$CVSROOT/CVSROOT/mklogtag %I %o '%b' %t %r %p -R freewrt-developers@freewrt.org -m miros-hosted-fwcf@mirbsd.org -f $CVSROOT/Logs/ChangeLog %{sVv}
-
 ^contrib/hosted/bsiegert\(/\|$\)	$CVSROOT/CVSROOT/mklogtag %I %o '%b' %t %r %p -m bsiegert@mirbsd.org -f $CVSROOT/Logs/.cpr.bsiegert %{sVv}
 ^www/users/bsiegert\(/\|$\)		$CVSROOT/CVSROOT/mklogtag %I %o '%b' %t %r %p -m bsiegert@mirbsd.org -f $CVSROOT/Logs/.cpr.bsiegert %{sVv}
 ^contrib/hosted/tg\(/\|$\)		$CVSROOT/CVSROOT/mklogtag %I %o '%b' %t %r %p -m tg@mirbsd.org -f $CVSROOT/Logs/.cpr.tg %{sVv}
