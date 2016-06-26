@@ -11720,11 +11720,60 @@ Title: Weltuntergangs-Eisevent
 nTF: 0
 Tag: D3 T1 Event
 ----
-ID: p20160625
-Date: 25.06.2016
-Waypoint: GC6FV7E
-Title: BONN GRILLT 2016
-Tag: D1 T1 Event
+ID: 1943
+Date: 26.06.2016
+Waypoint: GC54YD4
+Title: Insel1 Anni
+Tag: D3 T3 Small Tradi
+----
+ID: 1944
+Date: 26.06.2016
+Waypoint: GC6E28R
+Title: Der alte Löwe
+Tag: D15 T2 Micro Tradi
+----
+ID: 1945
+Date: 26.06.2016
+Waypoint: GC37R5B
+Title: Ludvika
+Tag: D1 T15 Micro Tradi
+----
+ID: 1946
+Date: 26.06.2016
+Waypoint: GC6H5QB
+Title: Haus Der Jugend
+Tag: D25 T15 Micro Tradi
+----
+ID: 1947
+Date: 26.06.2016
+Waypoint: GC1282V
+Title: Alter Friedhof Bad Honnef
+Tag: D1 T1 Micro Tradi recommended
+
+Mindestens T1½!
+----
+ID: 1948
+Date: 26.06.2016
+Waypoint: GC6CVY1
+Title: Malteser Quartier Bad Honnef
+Tag: D1 T15 Micro Tradi
+----
+ID: 1949
+Date: 26.06.2016
+Waypoint: OC13082
+Title: Nōn-Godesberger-Kreuze #2 - Schwarzrheindorf
+nTF: 2
+Tag: D1 T1 Virtual
+----
+ID: 1950
+Date: 26.06.2016
+Waypoint: OC13081
+Title: Nōn-Godesberger-Kreuze #1 - Villich-Rheindorf
+nTF: 2
+Tag: D15 T1 Virtual
+
+Das Schwarzrheindorfer (Vilich-Rheindorfer) Kreuz ist
+auch eher T1½, wenn man hingeht…
 ----
 ID: p20160729
 Date: 30.07.2016
