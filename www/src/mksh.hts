@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.614 2016/05/06 00:30:01 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.615 2016/06/14 19:05:36 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1213,6 +1213,24 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Fix <tt>${!#} ${!?} ${!-}</tt> (POSIX, prompted by izabera)</li>
  <li>[tg] Fix shf.c-internal buffer overread on printing digits</li>
  <li>[J�rg] Fix a typo in the testsuite</li>
+ <li>[tg, izabera] Deprecate <tt>&lt;&lt;&lt;</tt> and <tt>&gt;&gt;&gt;</tt>
+  as <a href="@@RELPATH@@wtf.cgi?ROL">ROL</a> and ROR operators, pre-document
+  <tt>^&lt;</tt> and <tt>^&gt;</tt> as their intended replacement as per <a
+  href="http://david.tribble.com/text/c0xrot.htm">this proposal</a>; document
+  that <tt>&gt;&gt;&gt;</tt> will be <a href="@@RELPATH@@wtf.cgi?SAR">SAR</a>
+  to match <tt>&gt;&gt;</tt> <a href="@@RELPATH@@wtf.cgi?SHR">SHR</a></li>
+ <li>[tg, p120ph37] Deprecate using file descriptors with more than a single
+  digit, in preparation for named file descriptors</li>
+ <li>[arekm] Increase default edit line size (unless MKSH_SMALL)</li>
+ <li>[tg] Improve description of Emacs mode keybindings, especially ^U</li>
+ <li>[tg, arekm, jilles] Abort read builtin in case of read(2) errors</li>
+ <li>[tg, izabera, carstenh] Fix most of the ambiguous corner cases related
+  to <tt>${[pfx]var[op[word]]}</tt> (<tt>${@:-1}</tt> still unsupported)</li>
+ <li>[carstenh] Contribute some more testsuite coverage</li>
+ <li>[tg] WDS_TPUTS now emits QCHAR newline reentrant-safe</li>
+ <li>[tg] Fix <tt>var=&lt;&lt;</tt> implementation (LP#1380389)</li>
+ <li>[tg, FreeBSD] Make XSI test(1) extensions behave as if they were POSIX</li>
+ <li>[tg, izabera] Add $(&lt;&lt;&lt;x) and $(&lt;&lt;EOF…) implementation</li>
 </ul>
 <p id="r52c">R52c is a bugfix-only release:</p><ul>
  <li>[tg] Shave 200 bytes off .text by revisiting string pooling</li>
