@@ -1326,14 +1326,31 @@ comsub(Expand *xp, const char *cp, int fn MKSH_A_UNUSED)
 		struct ioword *io = *t->ioact;
 		char *name;
 
-		if ((io->ioflag & IOTYPE) != IOREAD)
+		switch (io->ioflag & IOTYPE) {
+		case IOREAD:
+			shf = shf_open(name = evalstr(io->ioname, DOTILDE),
+				O_RDONLY, 0, SHF_MAPHI | SHF_CLEXEC);
+			if (shf == NULL)
+				warningf(!Flag(FTALKING), "%s: %s %s: %s",
+				    name, "can't open", "$(<...) input",
+				    cstrerror(errno));
+			break;
+		case IOHERE:
+			if (!herein(io, &name)) {
+				xp->str = name;
+				/* as $(…) requires, trim trailing newlines */
+				name += strlen(name);
+				while (name > xp->str && name[-1] == '\n')
+					--name;
+				*name = '\0';
+				return (XSUB);
+			}
+			shf = NULL;
+			break;
+		default:
 			errorf("%s: %s", T_funny_command,
 			    snptreef(NULL, 32, "%R", io));
-		shf = shf_open(name = evalstr(io->ioname, DOTILDE), O_RDONLY,
-			0, SHF_MAPHI | SHF_CLEXEC);
-		if (shf == NULL)
-			warningf(!Flag(FTALKING), "%s: %s %s: %s", name,
-			    "can't open", "$(<...) input", cstrerror(errno));
+		}
 	} else if (fn == FUNSUB) {
 		int ofd1;
 		struct temp *tf = NULL;

@@ -34,7 +34,6 @@ static int comexec(struct op *, struct tbl * volatile, const char **,
 static void scriptexec(struct op *, const char **) MKSH_A_NORETURN;
 static int call_builtin(struct tbl *, const char **, const char *, bool);
 static int iosetup(struct ioword *, struct tbl *);
-static int herein(struct ioword *, char **);
 static const char *do_selectargs(const char **, bool);
 static Test_op dbteste_isa(Test_env *, Test_meta);
 static const char *dbteste_getopnd(Test_env *, Test_op, bool);
@@ -1557,7 +1556,7 @@ hereinval(struct ioword *iop, int sub, char **resbuf, struct shf *shf)
 	return (0);
 }
 
-static int
+int
 herein(struct ioword *iop, char **resbuf)
 {
 	int fd = -1;
