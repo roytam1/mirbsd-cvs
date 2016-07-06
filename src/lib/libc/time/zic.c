@@ -14,6 +14,8 @@ typedef int	zic_t;
 #include "locale.h"
 #include "tzfile.h"
 
+__RCSID("$MirOS$");
+
 #ifndef ZIC_MAX_ABBR_LEN_WO_WARN
 #define ZIC_MAX_ABBR_LEN_WO_WARN	6
 #endif /* !defined ZIC_MAX_ABBR_LEN_WO_WARN */
@@ -2195,26 +2197,17 @@ const char * const	string;
 		register const char *	cp;
 		register char *		wp;
 
-		/*
-		** Want one to ZIC_MAX_ABBR_LEN_WO_WARN alphabetics
-		** optionally followed by a + or - and a number from 1 to 14.
-		*/
 		cp = string;
 		wp = NULL;
-		while (isascii(*cp) && isalpha(*cp))
+		while (*cp == '+' || *cp == '-' ||
+		    (*cp >= '0' && *cp <= '9') ||
+		    (*cp >= 'A' && *cp <= 'Z') ||
+		    (*cp >= 'a' && *cp <= 'z'))
 			++cp;
-		if (cp - string == 0)
-wp = _("time zone abbreviation lacks alphabetic at start");
-		if (noise && cp - string > 3)
-wp = _("time zone abbreviation has more than 3 alphabetics");
+		if (noise && cp - string < 3)
+wp = _("time zone abbreviation has less than 3 characters");
 		if (cp - string > ZIC_MAX_ABBR_LEN_WO_WARN)
-wp = _("time zone abbreviation has too many alphabetics");
-		if (wp == NULL && (*cp == '+' || *cp == '-')) {
-			++cp;
-			if (isascii(*cp) && isdigit(*cp))
-				if (*cp++ == '1' && *cp >= '0' && *cp <= '4')
-					++cp;
-		}
+wp = _("time zone abbreviation has too many characters");
 		if (*cp != '\0')
 wp = _("time zone abbreviation differs from POSIX standard");
 		if (wp != NULL) {
