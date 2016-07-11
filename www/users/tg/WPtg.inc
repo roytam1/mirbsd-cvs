@@ -11775,6 +11775,42 @@ Tag: D15 T1 Virtual
 Das Schwarzrheindorfer (Vilich-Rheindorfer) Kreuz ist
 auch eher T1½, wenn man hingeht…
 ----
+ID: 1951
+Date: 28.06.2016
+Waypoint: GC6K0GK
+Title: Weinort Lengsdorf
+Tag: D2 T15 Micro Tradi
+----
+ID: 1952
+Date: 29.06.2016
+Waypoint: GC1NVPY
+Title: Der B-17 Bomber vom Funkenhof
+Tag: D2 T25 Small Tradi
+----
+ID: 1953
+Date: 01.07.2016
+Waypoint: GC5TJC9
+Title: Dosenlaschen-Kettenhemd
+Tag: D1 T1 Small Tradi
+----
+ID: 1954
+Date: 10.07.2016
+Waypoint: GC4PQ7Y
+Title: Gehört's hierhin?
+Tag: D3 T15 Micro Tradi
+----
+ID: 1955
+Date: 10.07.2016
+Waypoint: GC5TV80
+Title: Gotteshäuser: St. Judas Thaddäus - Reloaded
+Tag: D1 T1 Micro Tradi
+----
+ID: 1956
+Date: 11.07.2016
+Waypoint: OC11679
+Title: SVC: Feuerwehrhaus
+Tag: D1 T1 Safari
+----
 ID: p20160729
 Date: 30.07.2016
 Waypoint: GC276WT

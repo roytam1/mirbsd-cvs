@@ -293,6 +293,7 @@ mzbadge cap 'Capture Streak' 'You are on fire! 31 days in a row of captures!'
 mzbadge deploy 'Deploy Streak' 'You are on fire! 31 days in a row of deploys!'
 mzbadge super 'Super Streak' 'You are a superstar! 31 days in a row with a capture AND a deploy!'
 mzbadge seeker Seeker 'A good seeker knows how to find what they are after.'
+mzbadge 1stresponder 'First Responder' 'Johnny on the spot! You are quick to the scene for FTC!'
 mzbadge sampler Sampler 'You&#039;ve made your way through our Munzee sampler. Do you have a favorite?'
 mzbadge 5by5 '5 by 5' 'Munzee! You captured 5 by 5 which showed great focus and restraint!'
 mzbadge rainbow 'ROY G BIV' 'Congratulations, You captured the rainbow! ROY G BIV would be proud!'
@@ -304,12 +305,14 @@ mzbadge 5x5deploy '5 by 5 deployed' 'Congratulations on deploying your 5x5 munze
 mzbadge hunter Hunter 'You really are a special icon hunter! Keep hunting them to reach the next level.'
 mzbadge collector Collector 'You are a collector of the finer things in life, a special Munzee icon. Keep collecting!'
 mzbadge hoarder Hoarder 'Sometimes hoarding isn&#039;t a bad thing! You&#039;ve hoarded a lot of icons but can you get more?'
+mzbadge curator Curator 'Your collection of special icons is quite a work of art!'
 mzbadge scorpio Scorpio 'Congratulations on earning the Scorpio Badge!'
 mzbadge capricorn Capricorn 'Congratulations on earning the Capricorn Badge!'
 mzbadge pisces Pisces 'Congratulations on earning the Pisces Badge!'
 mzbadge aries Aries 'Congratulations on earning the Aries Badge!'
 mzbadge unicorn1 'First Class Unicorn Finder' 'You may be new at this, but you&#039;ve managed to capture a Mythical Unicorn! There&#039;s 999 more out there though, so keep searching!'
 mzbadge leprechaun1 'First Class Leprechaun Finder' 'The Luck O&#039; The Irish must be on your side- you caught a Leprechaun! There&#039;s 999 more out there though, so keep searching!'
+mzbadge dragon1 'First Class Dragon Finder' 'You&#039;ve heard folk stories of the mystical dragon eggs and you&#039;re hot on the mother&#039;s trail!'
 mzbadge lvl10 'Perfect 10' 'You&#039;re a perfect 10! Don&#039;t ever change. Until you become an 11.'
 mzbadge lvl50 'Over The Hill' 'Level 50? That takes alot of work. Keep it up, you&#039;re halfway there!'
 mzbadge lvl100 Centurion 'To reach Level 100 it takes dedication, passion, and an understanding family!'
@@ -336,7 +339,8 @@ mzbadge funflamingo 'Fun Flamingo' 'The fun&#039;s started and you&#039;ve got a
 mzbadge cologne5 'Kölner Stammtisch V' 'Thanks for participating, hope you have fun! Prost!'
 mzbadge 3rd_birthday 'Munzee turns 3' 'Thanks for celebrating our 3rd birthday! It&#039;s a Fiesta!'
 mzbadge 4thbdayplaydate '4th Birthday Playdate' 'You played Munzee during our 4th birthday party weekend in July 2015!'
-mws__header="$mws__header and <span class=\"rcsid\">\$""MirOS: www/users/tg/munzbadg,v 1.6 2016/04/17 20:41:32 tg Exp \$""</span> (on 2016-06-14 18:57:56)"
+mzbadge 5thbd '5th Birthday' 'You played Munzee during our 5th birthday party month and were lucky enough to cap a birthday icon in July 2016!'
+mws__header="$mws__header and <span class=\"rcsid\">\$""MirOS: www/users/tg/munzbadg,v 1.6 2016/04/17 20:41:32 tg Exp \$""</span> (on 2016-07-11 19:30:33)"
 
 mws_content <<EOF
 
