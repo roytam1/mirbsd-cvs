@@ -30,7 +30,7 @@
 # (2013/12/02 20:39:44) http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/regress/bin/ksh/?sortby=date
 
 expected-stdout:
-	@(#)MIRBSD KSH R52 2016/06/25
+	@(#)MIRBSD KSH R52 2016/07/12
 description:
 	Check version of shell.
 stdin:
@@ -39,7 +39,7 @@ name: KSH_VERSION
 category: shell:legacy-no
 ---
 expected-stdout:
-	@(#)LEGACY KSH R52 2016/06/25
+	@(#)LEGACY KSH R52 2016/07/12
 description:
 	Check version of legacy shell.
 stdin:
