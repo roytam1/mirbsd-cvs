@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.615 2016/06/14 19:05:36 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.616 2016/06/26 01:47:25 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1231,6 +1231,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Fix <tt>var=&lt;&lt;</tt> implementation (LP#1380389)</li>
  <li>[tg, FreeBSD] Make XSI test(1) extensions behave as if they were POSIX</li>
  <li>[tg, izabera] Add $(&lt;&lt;&lt;x) and $(&lt;&lt;EOF…) implementation</li>
+ <li>[tg] Lower minimum screen size accepted as “sane” from the OS to 4×2</li>
+ <li>[tg] experimentally use MKSH_CLRTOEOL_STRING in more places (tbm)</li>
 </ul>
 <p id="r52c">R52c is a bugfix-only release:</p><ul>
  <li>[tg] Shave 200 bytes off .text by revisiting string pooling</li>
