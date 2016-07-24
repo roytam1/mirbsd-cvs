@@ -101,7 +101,7 @@ const struct builtin mkshbuiltins[] = {
 	{Talias, c_alias},
 	{"*=break", c_brkcont},
 	{Tgbuiltin, c_builtin},
-	{Tcat, c_cat},
+	{"!cat", c_cat},
 	{"cd", c_cd},
 	/* dash compatibility hack */
 	{"chdir", c_cd},
@@ -155,7 +155,7 @@ const struct builtin mkshbuiltins[] = {
 	{"mknod", c_mknod},
 #endif
 #ifdef MKSH_PRINTF_BUILTIN
-	{Tprintf, c_printf},
+	{"~printf", c_printf},
 #endif
 #if HAVE_SELECT
 	{"sleep", c_sleep},
