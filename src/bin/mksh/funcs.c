@@ -124,7 +124,7 @@ const struct builtin mkshbuiltins[] = {
 	{"pwd", c_pwd},
 	{"read", c_read},
 	{Tsgreadonly, c_typeset},
-	{"realpath", c_realpath},
+	{"!realpath", c_realpath},
 	{"rename", c_rename},
 	{"*=return", c_exitreturn},
 	{Tsgset, c_set},
