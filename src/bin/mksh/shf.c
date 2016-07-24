@@ -457,7 +457,7 @@ shf_read(char *buf, ssize_t bsize, struct shf *shf)
 		    (unsigned int)shf->flags);
 
 	if (bsize <= 0)
-		internal_errorf("%s: %s %zd", "shf_write", "bsize", bsize);
+		internal_errorf("%s: %s %zd", "shf_read", "bsize", bsize);
 
 	while (bsize > 0) {
 		if (shf->rnleft == 0 &&
