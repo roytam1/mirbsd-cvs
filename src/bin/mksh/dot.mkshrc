@@ -40,8 +40,8 @@ PS4='[$EPOCHREALTIME] '; PS1=$'\001\r''${|
 	(( e )) && REPLY+="$e|"
 	REPLY+=${USER}@${HOSTNAME%%.*}:
 
-	\typeset d=${PWD:-?} p=~; [[ $p = ?(*/) ]] || d=${d/#$p/\~}
-	\typeset m=${%d} n p=...; (( m > 0 )) || m=${#d}
+	\typeset d=${PWD:-?}/ p=~; [[ $p = ?(*/) ]] || d=${d/#$p\//\~/}
+	d=${d%/}; \typeset m=${%d} n p=...; (( m > 0 )) || m=${#d}
 	(( m > (n = (COLUMNS/3 < 7 ? 7 : COLUMNS/3)) )) && d=${d:(-n)} || p=
 	REPLY+=$p$d
 
