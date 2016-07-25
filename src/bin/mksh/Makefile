@@ -186,3 +186,7 @@ d: all
 dr:
 	p=$$(realpath ${PROG:Q}) && cd ${SRCDIR:Q} && exec ${MKSH} \
 	    ${BSDSRCDIR:Q}/contrib/hosted/tg/sdmksh "$$p"
+
+repool:
+	cd ${.CURDIR:Q} && \
+	    exec ${MKSH} ${BSDSRCDIR:Q}/scripts/stringpool.sh sh.h
