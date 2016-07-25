@@ -317,7 +317,7 @@ main_init(int argc, const char *argv[], Source **sp, struct block **lp)
 #endif
 		/*
 		 * this is uniform across all OSes unless it
-		 * breaks somewhere; don't try to optimise,
+		 * breaks somewhere hard; don't try to optimise,
 		 * e.g. add stuff for Interix or remove /usr
 		 * for HURD, because e.g. Debian GNU/HURD is
 		 * "keeping a regular /usr"; this is supposed

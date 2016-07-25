@@ -354,7 +354,7 @@ change_xtrace(unsigned char newval, bool dosnapshot)
  */
 int
 parse_args(const char **argv,
-    /* OF_CMDLINE or OF_SET */
+    /* OF_FIRSTTIME, OF_CMDLINE, or OF_SET */
     int what,
     bool *setargsp)
 {

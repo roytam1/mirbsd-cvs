@@ -359,6 +359,18 @@ stdin:
 expected-stdout:
 	20
 ---
+name: arith-prec-1
+description:
+	Prove arithmetic expressions with embedded parameter
+	substitutions cannot be parsed ahead of time
+stdin:
+	a='3 + 4'
+	print 1 $((2 * a)) .
+	print 2 $((2 * $a)) .
+expected-stdout:
+	1 14 .
+	2 10 .
+---
 name: arith-div-assoc-1
 description:
 	Check associativity of division operator
