@@ -1290,9 +1290,11 @@ setspec(struct tbl *vp)
 		/* clear tracked aliases */
 		flushcom(true);
 		return;
+#ifndef MKSH_NO_CMDLINE_EDITING
 	case V_TERM:
 		x_initterm(str_val(vp));
 		return;
+#endif
 	case V_TMPDIR:
 		afree(tmpdir, APERM);
 		tmpdir = NULL;
@@ -1409,9 +1411,11 @@ unsetspec(struct tbl *vp)
 		/* clear tracked aliases */
 		flushcom(true);
 		break;
+#ifndef MKSH_NO_CMDLINE_EDITING
 	case V_TERM:
 		x_initterm(null);
 		return;
+#endif
 	case V_TMPDIR:
 		/* should not become unspecial */
 		if (tmpdir) {
