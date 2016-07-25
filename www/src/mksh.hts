@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.616 2016/06/26 01:47:25 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.618 2016/07/25 00:09:26 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1129,7 +1129,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  Tilde expansions of parameters (<tt>~</tt>, <tt>~+</tt>, and <tt>~-</tt>)
  now strip <tt>.</tt> and <tt>..</tt> components from their results. The
  sample <tt>PS1</tt> in <tt>dot.mkshrc</tt> was corrected for users whose
- home directories are præficēs of others’.
+ home directories are præficēs of others’. Rotation operators were renamed
+ from <tt>&lt;&lt;&lt;</tt> and <tt>&gt;&gt;&gt;</tt> to <tt>^&lt;</tt> and
+ <tt>^&gt;</tt>; R54 will have an arithmetic right-shift operator.
  <i>(unfinished…)</i></p>
 <p id="c52c">R52c: Prepare to audit all uses of <tt>set +o</tt>. Handling
  of <tt>"`\"`"</tt> is now considered not a POSIX violation, until this
@@ -1217,14 +1219,6 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Fix <tt>${!#} ${!?} ${!-}</tt> (POSIX, prompted by izabera)</li>
  <li>[tg] Fix shf.c-internal buffer overread on printing digits</li>
  <li>[J�rg] Fix a typo in the testsuite</li>
- <li>[tg, izabera] Deprecate <tt>&lt;&lt;&lt;</tt> and <tt>&gt;&gt;&gt;</tt>
-  as <a href="@@RELPATH@@wtf.cgi?ROL">ROL</a> and ROR operators, pre-document
-  <tt>^&lt;</tt> and <tt>^&gt;</tt> as their intended replacement as per <a
-  href="http://david.tribble.com/text/c0xrot.htm">this proposal</a>; document
-  that <tt>&gt;&gt;&gt;</tt> will be <a href="@@RELPATH@@wtf.cgi?SAR">SAR</a>
-  to match <tt>&gt;&gt;</tt> <a href="@@RELPATH@@wtf.cgi?SHR">SHR</a></li>
- <li>[tg, p120ph37] Deprecate using file descriptors with more than a single
-  digit, in preparation for named file descriptors</li>
  <li>[arekm] Increase default edit line size (unless MKSH_SMALL)</li>
  <li>[tg] Improve description of Emacs mode keybindings, especially ^U</li>
  <li>[tg, arekm, jilles] Abort read builtin in case of read(2) errors</li>
@@ -1236,11 +1230,22 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg, FreeBSD] Make XSI test(1) extensions behave as if they were POSIX</li>
  <li>[tg, izabera] Add $(&lt;&lt;&lt;x) and $(&lt;&lt;EOF…) implementation</li>
  <li>[tg] Lower minimum screen size accepted as “sane” from the OS to 4×2</li>
- <li>[tg] experimentally use MKSH_CLRTOEOL_STRING in more places (tbm)</li>
  <li>[tg, Torsten Sillke] Simplify tilde-expanded parameters</li>
  <li>[tg, Torsten Sillke] Fix default <tt>PS1</tt> for substring matches</li>
  <li>[tg] Apply defer-builtin-with-arguments logic to realpath builtin</li>
  <li>[tg] Rework string pooling (own vs. compiler’s) (LP#1580348)</li>
+ <li>[tg] Feature: <tt>print -A</tt>, prints arguments as characters</li>
+ <li>[tg, izabera] Replace <tt>&lt;&lt;&lt;</tt> and <tt>&gt;&gt;&gt;</tt>
+  as <a href="@@RELPATH@@wtf.cgi?ROL">ROL</a> and ROR operators with the new
+  <tt>^&lt;</tt> and <tt>^&gt;</tt> spelling to make space for an arithmetic
+  right-shift operator commonly on <tt>&gt;&gt;&gt;</tt> and as per <a
+  href="http://david.tribble.com/text/c0xrot.htm">this proposal</a>; document
+  the <a href="@@RELPATH@@wtf.cgi?SAR">SAR</a> operator <tt>&gt;&gt;&gt;</tt>
+  to match <a href="@@RELPATH@@wtf.cgi?SHR">SHR</a> <tt>&gt;&gt;</tt> will be
+  added in mksh R54 (no SAL needed, less confusion with here strings)</li>
+ <li>[tg, slagtc] Clear-to-EOL under tmux to work around its anti-feature</li>
+ <li>[tg, p120ph37] Remove support for using file descriptors with more than
+  a single digit, in preparation for named file descriptors</li>
 </ul>
 <p id="r52c">R52c is a bugfix-only release:</p><ul>
  <li>[tg] Shave 200 bytes off .text by revisiting string pooling</li>
