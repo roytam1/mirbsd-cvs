@@ -9130,6 +9130,16 @@ stdin:
 expected-stdout-pattern:
 	/^4 3 2 <> <\0>$/
 ---
+name: print-array
+description:
+	Check that print -A works as expected
+stdin:
+	print -An 0x20AC 0xC3 0xBC 8#101
+	set -U
+	print -A 0x20AC 0xC3 0xBC 8#102
+expected-stdout:
+	�üA€Ã¼B
+---
 name: print-escapes
 description:
 	Check backslash expansion by the print builtin
