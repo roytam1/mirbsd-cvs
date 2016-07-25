@@ -1994,6 +1994,7 @@ void x_done(void);
 int x_read(char *);
 #endif
 void x_mkraw(int, mksh_ttyst *, bool);
+void x_initterm(const char *);
 /* eval.c */
 char *substitute(const char *, int);
 char **eval(const char **, int);
