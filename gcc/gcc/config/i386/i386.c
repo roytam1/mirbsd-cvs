@@ -1,8 +1,8 @@
-/* $MirOS$ */
+/* $MirOS: gcc/gcc/config/i386/i386.c,v 1.4 2009/01/03 14:31:21 tg Exp $ */
 
 /* Subroutines used for code generation on IA-32.
    Copyright (C) 1988, 1992, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001,
-   2002, 2003, 2004, 2009 Free Software Foundation, Inc.
+   2002, 2003, 2004, 2009, 2016 Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -12653,7 +12653,9 @@ ix86_data_alignment (tree type, int align)
        && TYPE_SIZE (type)
        && TREE_CODE (TYPE_SIZE (type)) == INTEGER_CST
        && (TREE_INT_CST_LOW (TYPE_SIZE (type)) >= 256
-	   || TREE_INT_CST_HIGH (TYPE_SIZE (type))) && align < 256)
+	   || TREE_INT_CST_HIGH (TYPE_SIZE (type)))
+       && (TARGET_MMX || !optimize_size)
+       && align < 256)
     return 256;
 
   /* x86-64 ABI requires arrays greater than 16 bytes to be aligned
