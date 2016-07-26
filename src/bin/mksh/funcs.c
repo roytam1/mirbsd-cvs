@@ -38,7 +38,7 @@
 #endif
 #endif
 
-__RCSID("$MirOS: src/bin/mksh/funcs.c,v 1.289 2016/01/13 17:20:49 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/funcs.c,v 1.301 2016/07/25 20:38:02 tg Exp $");
 
 #if HAVE_KILLPG
 /*
@@ -125,7 +125,7 @@ const struct builtin mkshbuiltins[] = {
 	{Tread, c_read},
 	{Tsgreadonly, c_typeset},
 	{"!realpath", c_realpath},
-	{Trename, c_rename},
+	{"~rename", c_rename},
 	{"*=return", c_exitreturn},
 	{Tsgset, c_set},
 	{"*=shift", c_shift},

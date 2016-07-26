@@ -3987,9 +3987,10 @@ Renames the file
 to
 .Ar to .
 Both must be complete pathnames and on the same device.
-This builtin is intended for emergency situations where
-.Pa /bin/mv
-becomes unusable, and directly calls
+An external utility is preferred over this builtin,
+which is intended for emergency situations
+.Pq where Pa /bin/mv No becomes unusable
+and directly calls
 .Xr rename 2 .
 .Pp
 .It Ic return Op Ar status
