@@ -5618,6 +5618,11 @@ otherwise,
 .Ic delete\-char\-forward .
 .It error: (not bound)
 Error (ring the bell).
+.It evaluate\-region: \*(ha[\*(haE
+Evaluates the text between the mark and the cursor position
+.Pq the entire line if no mark is set
+as function substitution (if it cannot be parsed, the editing state is
+unchanged and the bell is rung to signal an error); $? is updated accordingly.
 .It exchange\-point\-and\-mark: \*(haX\*(haX
 Places the cursor where the mark is and sets the mark to where the cursor was.
 .It expand\-file: \*(ha[*
