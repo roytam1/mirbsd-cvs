@@ -1246,6 +1246,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg, slagtc] Clear-to-EOL under tmux to work around its anti-feature</li>
  <li>[tg, p120ph37] Remove support for using file descriptors with more than
   a single digit, in preparation for named file descriptors</li>
+ <li>[tg] Correct, but simplify (at the potential cost of more tty I/O than
+  strictly necessary, though never redundant and (probably) not more than
+  before when it was miscalculated), line clearing and redrawing</li>
+ <li>[slagtc, tg] Implement new evaluate-region editing command Esc+Ctrl-E</li>
+ <li>[tg] Prefer external rename utility over the recovery builtin</li>
 </ul>
 <p id="r52c">R52c is a bugfix-only release:</p><ul>
  <li>[tg] Shave 200 bytes off .text by revisiting string pooling</li>
