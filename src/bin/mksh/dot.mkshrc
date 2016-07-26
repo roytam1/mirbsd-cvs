@@ -478,6 +478,7 @@ function enable {
 	# accumulate functions from dot.mkshrc, in definition order
 	i_func[nfunc++]=hd
 	i_func[nfunc++]=chpwd
+	i_func[nfunc++]=cd
 	i_func[nfunc++]=cd_csh
 	i_func[nfunc++]=dirs
 	i_func[nfunc++]=popd
