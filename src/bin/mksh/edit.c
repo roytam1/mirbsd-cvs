@@ -2098,7 +2098,7 @@ x_redraw(int limit)
 	x_zots(xbp);
 	if (limit >= xx_cols || xbp != xbuf || xep > xlp)
 		limit = xx_cols;
-	if (limit == xx_cols && x_term_mode == 1)
+	if (limit == xx_cols && x_term_mode == 1 && xbp == xbuf && xep <= xlp)
 		shf_puts("\033[K", shl_out);
 	else if (limit >= 0) {
 		if (xep > xlp)
