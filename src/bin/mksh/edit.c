@@ -1381,9 +1381,7 @@ x_ins(const char *s)
 	x_lastcp();
 	x_adj_ok = tobool(xcp >= xlp);
 	x_zots(cp);
-	if (xlp == xep - 1)
-		x_redraw('\r');
-	else if (adj == x_adj_done)
+	if (adj == x_adj_done)
 		/* x_adjust() has not been called */
 		x_lastpos();
 	x_adj_ok = true;
