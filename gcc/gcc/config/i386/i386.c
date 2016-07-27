@@ -1,4 +1,4 @@
-/* $MirOS: gcc/gcc/config/i386/i386.c,v 1.4 2009/01/03 14:31:21 tg Exp $ */
+/* $MirOS: gcc/gcc/config/i386/i386.c,v 1.5 2016/07/26 23:57:49 tg Exp $ */
 
 /* Subroutines used for code generation on IA-32.
    Copyright (C) 1988, 1992, 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001,
@@ -12627,6 +12627,10 @@ ia32_multipass_dfa_lookahead (void)
 int
 ix86_constant_alignment (tree exp, int align)
 {
+  /* on i386 (not amd64, no MMX) with -Os, stop this insanity */
+  if (optimize_size && !TARGET_MMX)
+    return align;
+
   if (TREE_CODE (exp) == REAL_CST)
     {
       if (TYPE_MODE (TREE_TYPE (exp)) == DFmode && align < 64)
@@ -12649,12 +12653,15 @@ ix86_constant_alignment (tree exp, int align)
 int
 ix86_data_alignment (tree type, int align)
 {
+  /* on i386 (not amd64, no MMX) with -Os, stop this insanity */
+  if (optimize_size && !TARGET_MMX)
+    return align;
+
   if (AGGREGATE_TYPE_P (type)
        && TYPE_SIZE (type)
        && TREE_CODE (TYPE_SIZE (type)) == INTEGER_CST
        && (TREE_INT_CST_LOW (TYPE_SIZE (type)) >= 256
 	   || TREE_INT_CST_HIGH (TYPE_SIZE (type)))
-       && (TARGET_MMX || !optimize_size)
        && align < 256)
     return 256;
 
@@ -12715,6 +12722,10 @@ ix86_data_alignment (tree type, int align)
 int
 ix86_local_alignment (tree type, int align)
 {
+  /* on i386 (not amd64, no MMX) with -Os, stop this insanity */
+  if (optimize_size && !TARGET_MMX)
+    return align;
+
   /* x86-64 ABI requires arrays greater than 16 bytes to be aligned
      to 16byte boundary.  */
   if (TARGET_64BIT)
