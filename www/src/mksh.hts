@@ -1251,6 +1251,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
   before when it was miscalculated), line clearing and redrawing</li>
  <li>[slagtc, tg] Implement new evaluate-region editing command Esc+Ctrl-E</li>
  <li>[tg] Prefer external rename utility over the recovery builtin</li>
+ <li>[tg] Remove redundant full-line redraws</li>
 </ul>
 <p id="r52c">R52c is a bugfix-only release:</p><ul>
  <li>[tg] Shave 200 bytes off .text by revisiting string pooling</li>
