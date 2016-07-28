@@ -1252,6 +1252,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[slagtc, tg] Implement new evaluate-region editing command Esc+Ctrl-E</li>
  <li>[tg] Prefer external rename utility over the recovery builtin</li>
  <li>[tg] Remove redundant full-line redraws</li>
+ <li>[tg, Natureshadow] Fix errorlevel of ‘.’ (“dot” special builtin) when
+  the sourced script does not run any commands, for POSIX compliance</li>
+ <li>[tg] Refactor op tokens and edchars to shave off some more bytes</li>
 </ul>
 <p id="r52c">R52c is a bugfix-only release:</p><ul>
  <li>[tg] Shave 200 bytes off .text by revisiting string pooling</li>
