@@ -1,4 +1,4 @@
-/* $MirOS: src/usr.sbin/httpd/src/main/util_script.c,v 1.4 2006/04/03 20:54:42 tg Exp $ */
+/* $MirOS: src/usr.sbin/httpd/src/main/util_script.c,v 1.5 2008/03/19 23:07:21 tg Exp $ */
 
 /* ====================================================================
  * The Apache Software License, Version 1.1
@@ -234,6 +234,13 @@ API_EXPORT(void) ap_add_common_vars(request_rec *r)
 	 */
 	else if (!strcasecmp(hdrs[i].key, "Authorization") 
 		 || !strcasecmp(hdrs[i].key, "Proxy-Authorization")) {
+	    continue;
+	}
+	/*
+	 * HTTP_PROXY collides with a popular environment variable used to
+	 * configure proxies, don't let clients set/override it.
+	 */
+	else if (!strcasecmp(hdrs[i].key, "Proxy")) {
 	    continue;
 	}
 	else {
