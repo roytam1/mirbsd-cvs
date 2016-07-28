@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.480 2016/03/06 19:06:34 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.481 2016/05/01 23:57:24 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -11166,4 +11166,35 @@ Tag: news plan snapshot tip
  first (install and reboot), userspace second.</p>
 <p>To be clear: this will affect the first -current snapshot to
  be published after today on <tt>/MirOS/current</tt>.</p>
+----
+Title: httpd CVE-2016-5387 “httpoxy” fixed
+Date: 28.07.2016 17:00
+Author: tg@
+Tag: security
+
+<p>A small patch was applied to httpd(8) to not pass the HTTP
+ <tt>Proxy</tt> header as <tt>HTTP_PROXY</tt> environment variable
+ to CGI scripts, because those often call utilities such as ftp(1),
+ lynx(1), GNU wget, etc. which <em>may</em> accept this as an
+ alternative spelling of <tt>http_proxy</tt> which is used to set
+ a proxy for <em>outgoing</em> connections — something e.g. the
+ CGI scripts in MirKarte do.</p>
+----
+Title: Please save GMane!
+Date: 28.07.2016 23:00
+Author: tg@
+Tag: debian news pcli rant
+
+<p>GMane has been down for a day or two, and flakey for a day before that. <a
+ href="http://www.midnightbsd.org/">MidnightBSD</a>’s laffer1 just <a
+ href="https://developers.slashdot.org/story/16/07/28/2059249/the-end-of-gmane">linked
+ the reason</a>, which made me cry out loud.</p>
+<p>GMane is really great, and I rely on the NNTP interface a lot, both
+ posting and especially reading — it gives me the ability to download
+ messages from mailing lists I don’t receive in order to be able to
+ compose replies with (mostly) correct References and In-Reply-To
+ headers. Its web interface, especially the article permalinks, are
+ also extremely helpful.</p>
+<p>This is a request for a petition to save GMane. Please, someone,
+ do something! Thanks in advance!</p>
 ----
