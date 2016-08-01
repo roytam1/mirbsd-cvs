@@ -1739,3 +1739,15 @@ rndpush(const void *s)
 	BAFHUpdateOctet_reg(h, 0);
 	qh_state = h;
 }
+
+/* record last glob match */
+void
+record_match(const char *istr)
+{
+	struct tbl *vp;
+
+	vp = local("KSH_MATCH", false);
+	unset(vp, 1);
+	vp->flag = DEFINED | RDONLY;
+	setstr(vp, istr, 0x4);
+}

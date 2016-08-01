@@ -390,6 +390,7 @@ execute(struct op * volatile t,
 			for (ap = (const char **)t->vars; *ap; ap++) {
 				if (i || ((s = evalstr(*ap, DOTILDE|DOPAT)) &&
 				    gmatchx(ccp, s, false))) {
+					record_match(ccp);
 					rv = execute(t->left, flags & XERROK,
 					    xerrok);
 					i = 0;

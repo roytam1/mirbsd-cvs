@@ -462,10 +462,12 @@ yylex(int cf)
 							break;
 						}
 					} else if (c == '/') {
+						c2 = ADELIM;
+ parse_adelim_slash:
 						*wp++ = CHAR;
 						*wp++ = c;
 						if ((c = getsc()) == '/') {
-							*wp++ = ADELIM;
+							*wp++ = c2;
 							*wp++ = c;
 						} else
 							ungetsc(c);
@@ -475,6 +477,13 @@ yylex(int cf)
 						statep->ls_adelim.num = 1;
 						statep->nparen = 0;
 						break;
+					} else if (c == '@') {
+						c2 = getsc();
+						ungetsc(c2);
+						if (c2 == '/') {
+							c2 = CHAR;
+							goto parse_adelim_slash;
+						}
 					}
 					/*
 					 * If this is a trim operation,
