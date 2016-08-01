@@ -843,12 +843,11 @@ static int
 x_escape(const char *s, size_t len, int (*putbuf_func)(const char *, size_t))
 {
 	size_t add = 0, wlen = len;
-	const char *ifs = str_val(local("IFS", 0));
 	int rval = 0;
 
 	while (wlen - add > 0)
 		if (vstrchr("\"#$&'()*:;<=>?[\\`{|}", s[add]) ||
-		    vstrchr(ifs, s[add])) {
+		    ctype(s[add], C_IFS)) {
 			if (putbuf_func(s, add) != 0) {
 				rval = -1;
 				break;

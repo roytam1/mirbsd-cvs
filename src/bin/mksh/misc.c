@@ -78,12 +78,12 @@ static int make_path(const char *, const char *, char **, XString *, int *);
 void
 setctypes(const char *s, int t)
 {
-	unsigned int i;
-
 	if (t & C_IFS) {
-		for (i = 0; i < UCHAR_MAX + 1; i++)
+		unsigned int i = 0;
+
+		while (++i <= UCHAR_MAX)
 			chtypes[i] &= ~C_IFS;
-		/* include \0 in C_IFS */
+		/* include '\0' in C_IFS */
 		chtypes[0] |= C_IFS;
 	}
 	while (*s != 0)
