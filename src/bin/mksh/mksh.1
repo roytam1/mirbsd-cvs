@@ -2716,13 +2716,9 @@ Less than or equal, greater than, greater than or equal.
 See
 .Ic \*(Lt .
 .It \*(Lt\*(Lt \*(Gt\*(Gt
-Shift left (right); the result is the left argument with its bits logically
+Shift left (right); the result is the left argument with its bits
+arithmetically (signed operation) or logically (unsigned expression)
 shifted left (right) by the amount given in the right argument.
-.It \*(Gt\*(Gt\*(Gt
-Shift arithmetically right; the result is similar to shift,
-except that the top-most bit is repeated instead of filling
-the newly shifted-in bits with zero.
-.Em Scheduled to be implemented in R54 !
 .It \*(ha\*(Lt \*(ha\*(Gt
 Rotate left (right); the result is similar to shift,
 except that the bits shifted out at one end are shifted in
