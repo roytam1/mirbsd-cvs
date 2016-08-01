@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.107 2015/10/13 20:51:44 tg Exp $
+# $MirOS: www/Makefile,v 1.111 2016/05/03 21:08:29 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -123,11 +123,15 @@ DEPSRCS+=	mk/inc2htm mk/inc2rss
 OBJS+=		${GENSRCS}
 CLEANFILES+=	${GENSRCS}
 
-OBJS+=		acronyms.gz
-CLEANFILES+=	acronyms.gz
+OBJS+=		acronyms.gz acronyms.ver
+CLEANFILES+=	acronyms.gz acronyms.ver
 
 acronyms.gz: ${TOP}/.linked/acronyms
 	gzip -n9 <${.ALLSRC:Q} >$@~
+	mv -f $@~ $@
+
+acronyms.ver: ${TOP}/.linked/acronyms
+	sed -n '2s/^ ....//p' <${.ALLSRC:Q} >$@~
 	mv -f $@~ $@
 
 clean:

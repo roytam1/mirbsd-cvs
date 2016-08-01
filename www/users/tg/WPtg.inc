@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.312 2016/02/29 20:49:09 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.331 2016/07/11 20:53:02 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -11811,12 +11811,53 @@ Waypoint: OC11679
 Title: SVC: Feuerwehrhaus
 Tag: D1 T1 Safari
 ----
-ID: p20160729
+ID: 1957
+Date: 18.07.2016
+Waypoint: GC6H0C3
+Title: Die neue Bank
+Tag: D1 T1 Micro Tradi
+----
+ID: 1958
+Date: 20.07.2016
+Waypoint: GC6A74F
+Title: Lannesdorf: Das Frankengrab
+Tag: D1 T2 Micro Tradi
+----
+ID: 1959
+Date: 30.07.2016
+Waypoint: GC4DXHN
+Title: Der Schulstreich
+Tag: D25 T3 Large Multi recommended
+----
+ID: 1960
+Date: 30.07.2016
+Waypoint: https://labs.geocaching.com/Geocaches/Details/7554f539-5f5e-481c-b937-7e24e2525938?adventureId=1de70bc6-84ea-446a-91b7-7aefd82ce697
+LabBanner: VULKANBRAUEREI
+Title: Nacht der Vulkane 2016 / Vulkan Brauerei
+Tag: Lab
+----
+ID: 1961
 Date: 30.07.2016
 Waypoint: GC276WT
 Banner: jpg
 Title: Nacht der Vulkane 2016
+Tag: D1 T1 Mega_Event
+----
+ID: 1962
+Date: 01.08.2016
+Waypoint: CC85RN
+Title: Parachuting Pioneer
+nTF: 3
+Tag: Locationless Challenge
+----
+ID: p20160820
+Date: 20.08.2016
+Waypoint: GC6P91X OC131A8
+Title: Meet &amp; Greet an der FH in St. Augustin
+nTF: 0
 Tag: D1 T1 Event
+
+FrOSCon-Afterwork-Chillout-Event am International Geocaching Day
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
