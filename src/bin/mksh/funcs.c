@@ -419,6 +419,7 @@ c_print(const char **wp)
 		do {
 			if (!evaluate(*wp, &wc, KSH_RETURN_ERROR, true))
 				return (1);
+			Xcheck(xs, xp);
 			if (UTFMODE) {
 				ts[utf_wctomb(ts, wc)] = 0;
 				c = 0;
