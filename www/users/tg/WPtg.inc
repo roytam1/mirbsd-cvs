@@ -11846,7 +11846,7 @@ Tag: D1 T1 Mega_Event
 ID: 1962
 Date: 31.07.2016
 Waypoint: GC37R3H
-Title: Mystery Cache
+Title: Ludvika Bonuscache
 Tag: D3 T1 Micro Mystery
 ----
 ID: 1963
