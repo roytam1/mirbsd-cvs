@@ -86,6 +86,9 @@ mws_content <<'EOF'
  Thanks to Winston W. for spotting musl, and thanks to maximilian attems
  and H. Peter Anvin for almost fixing klibc. Thanks to RT|Chatzilla,
  Chris “ir0nh34d” Sutcliffe, and others for Win32 platform assistance.
+ Thanks to Brian Callahan for running test builds on AIX 5.1L with the
+ xlC 5.0.2.0 and gcc-2.9, and on Solaris 8 with Forte Developer 7 C 5.4
+ and gcc 2.95.2 and 3.4.6 compilers.
  (Did I miss anyone? Mail me if so. Some of these are past, anyway.)</p>
 <p>What is mksh(1)? – Short answer: The MirBSD Korn Shell. Okay, but what
  exactly does it do, or why another shell? These questions will be answered
@@ -368,6 +371,7 @@ mws_content <<'EOF'
 <p>IBM xlC 9.0 on AIX 5.3 is supported in mksh R30 and above.</p>
 <p>IBM xlC 8.0 on Linux/POWER and IBM xlC 6.0β on MacOS X are on the TODO.</p>
 <p>IBM xlC 7.0 on AIX 5.2 is supported in mksh R35c and above.</p>
+<p>IBM xlC 5.0 on AIX 5.1L also works.</p>
 
 <h5 class="cr" id="oe_icc">Compiler: Intel C/C++/Fortran</h5>
 <p>ICC emulates GCC quite well (too well for my taste), is fully supported in
@@ -429,6 +433,7 @@ mws_content <<'EOF'
 <p>Support for the <a href="http://developers.sun.com/sunstudio/">SUN Studio
  12</a> compiler (cc 5.9) as well as cc 5.8 appeared in mksh R30; other
  versions might be supported as well. This compiler is a primary choice.</p>
+<p>Sun Forte Developer 7 C 5.4 2002/03/09 also works.</p>
 
 <h6 id="oe_sunmir">Using SUNWcc on MirBSD/i386</h6>
 <p>Preparation steps. We assume that Sun Studio is extracted under the
@@ -1131,7 +1136,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  sample <tt>PS1</tt> in <tt>dot.mkshrc</tt> was corrected for users whose
  home directories are præficēs of others’. Rotation operators were renamed
  from <tt>&lt;&lt;&lt;</tt> and <tt>&gt;&gt;&gt;</tt> to <tt>^&lt;</tt> and
- <tt>^&gt;</tt>; R54 will have an arithmetic right-shift operator.
+ <tt>^&gt;</tt>.
  <i>(unfinished…)</i></p>
 <p id="c52c">R52c: Prepare to audit all uses of <tt>set +o</tt>. Handling
  of <tt>"`\"`"</tt> is now considered not a POSIX violation, until this
@@ -1236,13 +1241,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Rework string pooling (own vs. compiler’s) (LP#1580348)</li>
  <li>[tg] Feature: <tt>print -A</tt>, prints arguments as characters</li>
  <li>[tg, izabera] Replace <tt>&lt;&lt;&lt;</tt> and <tt>&gt;&gt;&gt;</tt>
-  as <a href="@@RELPATH@@wtf.cgi?ROL">ROL</a> and ROR operators with the new
-  <tt>^&lt;</tt> and <tt>^&gt;</tt> spelling to make space for an arithmetic
-  right-shift operator commonly on <tt>&gt;&gt;&gt;</tt> and as per <a
-  href="http://david.tribble.com/text/c0xrot.htm">this proposal</a>; document
-  the <a href="@@RELPATH@@wtf.cgi?SAR">SAR</a> operator <tt>&gt;&gt;&gt;</tt>
-  to match <a href="@@RELPATH@@wtf.cgi?SHR">SHR</a> <tt>&gt;&gt;</tt> will be
-  added in mksh R54 (no SAL needed, less confusion with here strings)</li>
+  as <a href="@@RELPATH@@wtf.cgi?ROL">ROL</a> and ROR operators with their
+  new <tt>^&lt;</tt> and <tt>^&gt;</tt> spelling as per <a
+  href="http://david.tribble.com/text/c0xrot.htm">this proposal</a></li>
  <li>[tg, slagtc] Clear-to-EOL under tmux to work around its anti-feature</li>
  <li>[tg, p120ph37] Remove support for using file descriptors with more than
   a single digit, in preparation for named file descriptors</li>
@@ -1255,6 +1256,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg, Natureshadow] Fix errorlevel of ‘.’ (“dot” special builtin) when
   the sourced script does not run any commands, for POSIX compliance</li>
  <li>[tg] Refactor op tokens and edchars to shave off some more bytes</li>
+ <li>[tg] Fix some bugs in the manpage and some occasional/minor code bugs</li>
+ <li>[tg, Brian Callahan] Mark tests requiring new perl as !need-pass</li>
+ <li>[tg, slagtc] Add $KSH_MATCH and, to make it usable, ${foo@/bar/baz}</li>
 </ul>
 <p id="r52c">R52c is a bugfix-only release:</p><ul>
  <li>[tg] Shave 200 bytes off .text by revisiting string pooling</li>
