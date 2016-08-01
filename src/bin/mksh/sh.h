@@ -1373,7 +1373,7 @@ EXTERN mksh_ari_t x_lins E_INIT(24);
 				    (shf)->rnleft--, *(shf)->rp++ : \
 				    shf_getchar(shf))
 #define shf_putc_i(c, shf)	((shf)->wnleft == 0 ? \
-				    shf_putchar((c), (shf)) : \
+				    shf_putchar((uint8_t)(c), (shf)) : \
 				    ((shf)->wnleft--, *(shf)->wp++ = (c)))
 #define shf_eof(shf)		((shf)->flags & SHF_EOF)
 #define shf_error(shf)		((shf)->flags & SHF_ERROR)
