@@ -1774,7 +1774,7 @@ static int
 x_end_of_text(int c MKSH_A_UNUSED)
 {
 	unsigned char tmp;
-	char *cp = &tmp;
+	char *cp = (void *)&tmp;
 
 	tmp = isedchar(edchars.eof) ? (unsigned char)edchars.eof :
 	    (unsigned char)CTRL('D');
