@@ -5864,7 +5864,7 @@ replaces the inserted text string with the next previously killed text string.
 .Pp
 The tab completion escapes characters the same way as the following code:
 .Bd -literal
-print \-nr \-\- "${x@/[\e"\-\e$&\-*:\-?[\e\e\e\`{\-\e}${IFS\-$\*(aq \et\en\*(aq}]/\e\e$KSH_MATCH}"
+print \-nr \-\- "${x@/[\e"\-\e$\e&\-*:\-?[\e\e\e\`{\-\e}${IFS\-$\*(aq \et\en\*(aq}]/\e\e$KSH_MATCH}"
 .Ed
 .Ss Vi editing mode
 .Em Note:
