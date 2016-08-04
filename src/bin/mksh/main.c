@@ -1096,9 +1096,11 @@ reclaim(void)
 static void
 remove_temps(struct temp *tp)
 {
-	for (; tp != NULL; tp = tp->next)
+	while (tp) {
 		if (tp->pid == procpid)
 			unlink(tp->tffn);
+		tp = tp->next;
+	}
 }
 
 /*

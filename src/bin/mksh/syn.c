@@ -964,9 +964,11 @@ assign_command(const char *s, bool docommand)
 static int
 inalias(struct source *s)
 {
-	for (; s && s->type == SALIAS; s = s->next)
+	while (s && s->type == SALIAS) {
 		if (!(s->flags & SF_ALIASEND))
 			return (1);
+		s = s->next;
+	}
 	return (0);
 }
 
