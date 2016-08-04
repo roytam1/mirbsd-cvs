@@ -734,12 +734,15 @@ include(const char *name, int argc, const char **argv, bool intr_ok)
 int
 command(const char *comm, int line)
 {
-	Source *s;
+	Source *s, *sold = source;
+	int rv;
 
 	s = pushs(SSTRING, ATEMP);
 	s->start = s->str = comm;
 	s->line = line;
-	return (shell(s, false));
+	rv = shell(s, false);
+	source = sold;
+	return (rv);
 }
 
 /*
