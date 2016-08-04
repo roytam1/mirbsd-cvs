@@ -11856,6 +11856,18 @@ Title: Parachuting Pioneer
 nTF: 3
 Tag: Locationless Challenge
 ----
+ID: 1964
+Date: 04.08.2016
+Waypoint: CC3IMR
+Title: Ned Myers' Account
+Tag: Locationless Challenge
+----
+ID: p20160816
+Date: 16.08.2016
+Waypoint: GC6PEAM OC131C0
+Title: Eiszeit in der Ferienzeit
+Tag: D1 T1 Event
+----
 ID: p20160820
 Date: 20.08.2016
 Waypoint: GC6P91X OC131A8
