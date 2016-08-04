@@ -86,9 +86,9 @@ mws_content <<'EOF'
  Thanks to Winston W. for spotting musl, and thanks to maximilian attems
  and H. Peter Anvin for almost fixing klibc. Thanks to RT|Chatzilla,
  Chris “ir0nh34d” Sutcliffe, and others for Win32 platform assistance.
- Thanks to Brian Callahan for running test builds on AIX 5.1L with the
- xlC 5.0.2.0 and gcc-2.9, and on Solaris 8 with Forte Developer 7 C 5.4
- and gcc 2.95.2 and 3.4.6 compilers.
+ Thanks to Brian Callahan from the Rensselaer Polytechnic Institute for
+ running test builds on AIX 5.1L with the xlC 5.0.2.0 and gcc-2.9, and on
+ Solaris 8 with Forte Developer 7 C 5.4 and gcc 2.95.2 and 3.4.6 compilers.
  (Did I miss anyone? Mail me if so. Some of these are past, anyway.)</p>
 <p>What is mksh(1)? – Short answer: The MirBSD Korn Shell. Okay, but what
  exactly does it do, or why another shell? These questions will be answered
@@ -1259,6 +1259,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Fix some bugs in the manpage and some occasional/minor code bugs</li>
  <li>[tg, Brian Callahan] Mark tests requiring new perl as !need-pass</li>
  <li>[tg, slagtc] Add $KSH_MATCH and, to make it usable, ${foo@/bar/baz}</li>
+ <li>[tg, Score_Under] Fix bogus patch from OpenBSD: only NULL the global
+  source in <tt>unwind</tt> when actually <tt>reclaim</tt>ing its Area</li>
 </ul>
 <p id="r52c">R52c is a bugfix-only release:</p><ul>
  <li>[tg] Shave 200 bytes off .text by revisiting string pooling</li>
