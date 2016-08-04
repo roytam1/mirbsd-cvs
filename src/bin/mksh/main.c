@@ -913,13 +913,6 @@ unwind(int i)
 			/* FALLTHROUGH */
 		default:
 			quitenv(NULL);
-			/*
-			 * quitenv() may have reclaimed the memory
-			 * used by source which will end badly when
-			 * we jump to a function that expects it to
-			 * be valid
-			 */
-			source = NULL;
 		}
 	}
 }
@@ -1090,6 +1083,14 @@ reclaim(void)
 
 	remove_temps(e->temps);
 	e->temps = NULL;
+
+	/*
+	 * if the memory backing source is reclaimed, things
+	 * will end up badly when a function expecting it to
+	 * be valid is run; a NULL pointer is easily debugged
+	 */
+	if (source && source->areap == &e->area)
+		source = NULL;
 	afreeall(&e->area);
 }
 
