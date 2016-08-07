@@ -11862,6 +11862,54 @@ Waypoint: CC3IMR
 Title: Ned Myers' Account
 Tag: Locationless Challenge
 ----
+ID: 1965
+Date: 06.08.2016
+Waypoint: GC6BY04
+Title: Lannesdorf: Das Kreuz
+Tag: D1 T15 Micro Tradi
+----
+ID: 1966
+Date: 06.08.2016
+Waypoint: GC6BXYW
+Title: Lannesdorf: Das Pömpche
+Tag: D15 T2 Micro Multi
+----
+ID: 1967
+Date: 07.08.2016
+Waypoint: GCJ5WW
+Title: Silbersee
+Tag: D25 T2 Small Multi recommended
+----
+ID: 1968
+Date: 07.08.2016
+Waypoint: OC10CA9
+Title: Der Geist vom Silbersee
+Tag: D3 T2 Regular Tradi
+----
+ID: 1969
+Date: 07.08.2016
+Waypoint: GC3FK99
+Title: Nur Steine leben lang
+Tag: D2 T15 Small Tradi recommended
+----
+ID: 1970
+Date: 07.08.2016
+Waypoint: GC49Z7F
+Title: Bliesheimer Wegkreuze - Marienbildchen im Wald
+Tag: D15 T15 Micro Tradi
+----
+ID: 1971
+Date: 07.08.2016
+Waypoint: GCJBZX N0107A
+Title: Die Kölner Ostmauer
+Tag: D25 T1 Nano Multi
+----
+ID: 1972
+Date: 07.08.2016
+Waypoint: GCYGZ4 OC25B4
+Title: Schon gesehen?
+Tag: D2 T1 Micro Mystery
+----
 ID: p20160816
 Date: 16.08.2016
 Waypoint: GC6PEAM OC131C0
