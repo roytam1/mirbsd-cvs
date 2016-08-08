@@ -15,7 +15,7 @@
 #include "getline.h"
 #include "history.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/parseinfo.c,v 1.10 2010/09/19 19:43:07 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/parseinfo.c,v 1.11 2015/04/06 21:31:07 tg Exp $");
 
 /*
  * Parse the INFOFILE file for the specified REPOSITORY.  Invoke CALLPROC for
@@ -719,7 +719,7 @@ parse_config (const char *cvsroot, const char *path)
 #endif
 	}
 #if !defined(LOCK_COMPATIBILITY) || !defined(SUPPORT_OLD_INFO_FMT_STRINGS)
-	else if ((!strcmp (line, "tag")) || (!strcmp (line, "umask"))
+	else if ((!strcmp (line, "umask"))
 	  || (!strcmp (line, "DisableXProg")) || (!strcmp (line, "dlimit"))
 	  || (!strcmp (line, "forceReadOnlyFS"))) {
 	    /* We are dealing with keywords removed between cvs 1.11.1p1
