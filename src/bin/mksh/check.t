@@ -9375,7 +9375,7 @@ stdin:
 	(exit 42)
 	. ./dotfile
 	echo 1 $? .
-expected-stdout: 
+expected-stdout:
 	1 0 .
 ---
 name: alias-function-no-conflict
