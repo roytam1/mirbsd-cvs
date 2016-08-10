@@ -1,4 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PLIST-hpcd,v 1.1 2003/09/23 00:12:51 naddy Exp $
-bin/hpcdtoppm
-man/man1/hpcdtoppm.1

@@ -1,4 +1,0 @@
-An "SVN::Dump" object represents a Subversion dump.
-
-This module follow the semantics used in the reference document (the
-file notes/fs_dumprestore.txt in the Subversion source tree).
