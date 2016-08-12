@@ -1,9 +1,9 @@
 $MirOS$
 
-4160883343 392533 mksh-R53.tgz
-MD5 (mksh-R53.tgz) = 36e9a0dcff012623fdd3ccd3a1348ac9
-RMD160 (mksh-R53.tgz) = 172a93cc9060a8cd2d184fd507ea297effd646df
-SHA1 (mksh-R53.tgz) = 268e33a938454fc11796f9c1a5b327aaf7fc9945
-SHA256 (mksh-R53.tgz) = 8fcc61dd28f36a9ff28dece5862ccace7a23c9a8d619e6fe15c6915580313f92
-SIZE (mksh-R53.tgz) = 392533
-TIGER (mksh-R53.tgz) = 2a83683dd92603841d38cbe49ab5ab7388137743d9b906c6
+497656434 393344 mksh-R53a.tgz
+MD5 (mksh-R53a.tgz) = 43fc3e32963cc1795a299bcec531d770
+RMD160 (mksh-R53a.tgz) = e5dc2f69850518e74fdce616979126896d1dc20d
+SHA1 (mksh-R53a.tgz) = 7c9ec7daae494c87d9f0a75732b76c38fd7faa02
+SHA256 (mksh-R53a.tgz) = 3bb2453c8cb65abbda24f9bdd8b8371e30a6e1c2f7a0d5474a3efae438639635
+SIZE (mksh-R53a.tgz) = 393344
+TIGER (mksh-R53a.tgz) = 395c11e9795af2b631a59e4d96c016f0aa145bb102cef9e5
