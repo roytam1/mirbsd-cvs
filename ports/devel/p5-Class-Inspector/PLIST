@@ -1,9 +1,0 @@
-@comment $MirOS$
-${P5SITE}/Class/Inspector.pm
-@comment ${P5ARCH}/auto/Class/Inspector/.packlist
-man/man3/Class::Inspector${P5MAN3EXT}
-@comment @dirrm ${P5ARCH}/auto/Class/Inspector
-@comment @dirrm ${P5ARCH}/auto/Class
-@comment @dirrm ${P5ARCH}/auto
-@comment @dirrm ${P5ARCH}
-@dirrm ${P5SITE}/Class

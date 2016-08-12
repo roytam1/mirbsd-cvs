@@ -1,8 +1,0 @@
-#!/usr/bin/env mksh
-integer i
-i=13270
-ed -s "$0" <<-EOF
-	/^i=/s/^.*\$/i=${RANDOM}/
-	wq
-EOF
-exit 0

@@ -1,3 +1,0 @@
-# $MirOS$
-
-LINK	instbin					usr/sbin/pppoe
