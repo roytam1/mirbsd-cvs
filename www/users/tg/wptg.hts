@@ -263,7 +263,8 @@ souvenir 2016-04-23 'CITO Week - April 2016' https://souvenirs.geocaching.com/So
 souvenir 2016-06-11 'Get Outdoors Day 2016' https://souvenirs.geocaching.com/SouvenirImages/NS8zMS8yMDE2/2ecad462-9ae0-45b8-a90a-ed71690203e4.png 'http://www.geocaching.com/souvenir/?guid=3be140d7-b325-4a68-b557-7fd853a11209'
 souvenir 2016-07-30 'Nacht der Vulkane 2016' https://souvenirs.geocaching.com/SouvenirImages/NS8xNi8yMDE2/74b672c7-aedf-4013-ad02-77a1252a850b.png 'http://www.geocaching.com/souvenir/?guid=234a57ed-19af-4c92-86a6-557cc004b985'
 souvenir 2016-07-31 'Favorites Are Forever' https://souvenirs.geocaching.com/SouvenirImages/Ny8yNy8yMDE2/63757bd6-6074-42ed-91d2-3ca72cd98f18.png 'http://www.geocaching.com/souvenir/?guid=bb290670-fa69-43eb-b3d9-dca3836a0326'
-mws__header="$mws__header and <span class=\"rcsid\">\$""MirOS: www/mk/souv2hts,v 1.3 2016/04/17 20:41:31 tg Exp \$""</span> (on 2016-08-01 21:54:15)"
+souvenir 2016-08-13 'One Cache Is Not Enough' https://souvenirs.geocaching.com/SouvenirImages/Ny8yNy8yMDE2/d318836e-e307-440c-afc7-f56017f33322.png 'http://www.geocaching.com/souvenir/?guid=2d511c2b-ed99-40c9-a565-7dde4a262fb5'
+mws__header="$mws__header and <span class=\"rcsid\">\$""MirOS: www/mk/souv2hts,v 1.3 2016/04/17 20:41:31 tg Exp \$""</span> (on 2016-08-14 21:38:39)"
 
 # kaputt, s.o.
 #if [[ $nsouvenir != 0 && -z $souvenirs ]]; then

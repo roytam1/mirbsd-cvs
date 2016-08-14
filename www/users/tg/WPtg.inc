@@ -11910,6 +11910,64 @@ Waypoint: GCYGZ4 OC25B4
 Title: Schon gesehen?
 Tag: D2 T1 Micro Mystery
 ----
+ID: 1973
+Date: 13.08.2016
+Waypoint: GC6DGCJ
+Title: Muffendorfer Bildstöcke (reloaded)
+Tag: D2 T25 Micro Multi
+----
+ID: 1974
+Date: 13.08.2016
+Waypoint: GC6BY09
+Title: Lannesdorf: Der Bonus
+Tag: D15 T2 Small Mystery recommended
+----
+ID: 1975
+Date: 13.08.2016
+Waypoint: OC1320D
+Title: Godesberger Kreuze #30
+nTF: 0
+Tag: D25 T15 Virtual
+----
+ID: 1976
+Date: 13.08.2016
+Waypoint: OC1320E
+Title: Godesberger Kreuze #31
+nTF: 0
+Tag: D3 T15 Virtual
+----
+ID: 1977
+Date: 13.08.2016
+Waypoint: OC1320F
+Title: Godesberger Kreuze #32
+nTF: 0
+Tag: D1 T15 Virtual
+----
+ID: 1978
+Date: 13.08.2016
+Waypoint: OC13210
+Title: Godesberger Kreuze #33
+nTF: 0
+Tag: D15 T1 Virtual
+----
+ID: 1979
+Date: 14.08.2016
+Waypoint: GC6P7AW
+Title: Ein Eis zu 730 und 4000
+Tag: D1 T1 Event
+----
+ID: 1980
+Date: 14.08.2016
+Waypoint: GC1Z6PF
+Title: Der Einkaufscache # 2
+Tag: D2 T15 Small Multi
+----
+ID: 1981
+Date: 14.08.2016
+Waypoint: GC5NM3B
+Title: Zaungast
+Tag: D2 T15 Micro Tradi
+----
 ID: p20160816
 Date: 16.08.2016
 Waypoint: GC6PEAM OC131C0
@@ -11924,6 +11982,19 @@ nTF: 0
 Tag: D1 T1 Event
 
 FrOSCon-Afterwork-Chillout-Event am International Geocaching Day
+----
+ID: p20160825
+Date: 25.08.2016
+Waypoint: OC131D1 GC6PQNQ
+Title: Schanitzelchenjagd Nr. 17 - Sönnchen im Augüstelchen ;-) - Geocaching
+Tag: D1 T2 Event
+----
+ID: p20160918
+Date: 18.09.2016
+Waypoint: GC6Q1D1 TC6EEQ N02F8E OC13211
+Title: We ♥ Meßdorfer Feld (reloaded)
+nTF: 0
+Tag: D1 T2 CITO
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
