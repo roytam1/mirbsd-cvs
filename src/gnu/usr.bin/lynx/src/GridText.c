@@ -6867,8 +6867,27 @@ int HText_getNumOfBytes(void)
  */
 const char *HText_getTitle(void)
 {
+#ifdef GNU_SCREEN_TITLE_HACK
+    const char *title = NULL;
+
+    if (HTMainText) {
+	const char *terminal;
+	char *cp;
+
+	title = HTAnchor_title(HTMainText->node_anchor);
+	if (title && (terminal = LYGetEnv("TERM")) &&
+	    !strncmp(terminal, "screen", 6) && (cp = strdup(title))) {
+		LYReduceBlanks(cp);
+		fprintf(stderr, "\033k%s\033\\", cp);
+		free(cp);
+	}
+    }
+
+    return title;
+#else
     return (HTMainText ?
 	    HTAnchor_title(HTMainText->node_anchor) : 0);
+#endif
 }
 
 #ifdef USE_COLOR_STYLE
