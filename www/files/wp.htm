@@ -12,7 +12,7 @@
   be simply copied into another work covered by an unfree (or otherwise
   mismatching) licence, such as the GNU Free Documentation License.
  -->
-</head><body>
+</head><body onload="if (!this.fff) document.getElementById('ffield').focus();">
 
 <p><a href="WPtg.htm" style="border:0;"><img alt="mirabilos’ finds and hides"
  style="border:0;" src="http://www.mirbsd.org/WPtg.png" /></a></p>
@@ -28,7 +28,7 @@
  <fieldset>
   <legend>Waypoint Lookup</legend>
 
-  <input type="text" name="q" />
+  <input type="text" name="q" id="ffield" onfocus="fff=1" />
   <input type="submit" value="Lookup" />
  </fieldset>
 </form>
