@@ -6879,6 +6879,7 @@ const char *HText_getTitle(void)
 	    !strncmp(terminal, "screen", 6) && (cp = strdup(title))) {
 		LYReduceBlanks(cp);
 		fprintf(stderr, "\033k%s\033\\", cp);
+		fflush(stderr);
 		free(cp);
 	}
     }
