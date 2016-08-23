@@ -1,4 +1,4 @@
-# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.52 2016/03/06 16:04:27 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/pbuilderrc,v 1.54 2016/06/13 17:50:05 tg Exp $
 #-
 # Sample ~/.pbuilderrc for multiple architecture, distribution and
 # suite support. For me, works rather well; may just as well break.
@@ -10,7 +10,7 @@
 # appropriately). Hint: use this nice wrapper script:
 # https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=shellsnippets/shellsnippets.git;a=blob;f=mksh/debian-dev/c;hb=HEAD
 #-
-# debian.org: sarge etch lenny squeeze wheezy jessie stretch sid
+# debian.org: sarge etch lenny squeeze wheezy jessie stretch buster bullseye sid
 # debian LTS: squeeze (extra mirror retired for wheezy LTS)
 # debian-ports.org: dpo (unstable+unreleased)
 # not supported: experimental etch-m68k jessie-kfreebsd
@@ -62,7 +62,7 @@ setuptofail() {
 
 # known distributions and distribution-specific things (suites, mirrors, …)
 DISTROS='debian dpo ubuntu'
-DISTS_debian='sarge etch lenny squeeze wheezy jessie stretch sid'
+DISTS_debian='sarge etch lenny squeeze wheezy jessie stretch buster bullseye sid'
 DISTS_dpo='dpo'
 DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise quantal raring saucy trusty utopic vivid wily xenial yakkety'
 DISTLTS_debian=squeeze
@@ -76,6 +76,8 @@ MIRROR_squeeze=http://archive.debian.org/debian/
 MIRROR_wheezy=http://httpredir.debian.org/debian/
 MIRROR_jessie=http://httpredir.debian.org/debian/
 MIRROR_stretch=http://httpredir.debian.org/debian/
+MIRROR_buster=http://httpredir.debian.org/debian/
+MIRROR_bullseye=http://httpredir.debian.org/debian/
 MIRROR_sid=http://httpredir.debian.org/debian/
 MIRROR_unstable=http://ftp.de.debian.org/debian-ports/
 MIRROR_unreleased=http://ftp.de.debian.org/debian-ports/
@@ -104,6 +106,8 @@ MIRRORSECURITY_squeeze=http://httpredir.debian.org/debian-security/
 MIRRORSECURITY_wheezy=http://httpredir.debian.org/debian-security/
 MIRRORSECURITY_jessie=http://httpredir.debian.org/debian-security/
 MIRRORSECURITY_stretch=http://httpredir.debian.org/debian-security/
+MIRRORSECURITY_buster=NO
+MIRRORSECURITY_bullseye=NO
 MIRRORSECURITY_sid=NO
 MIRRORSECURITY_debian_LTS=http://httpredir.debian.org/debian/
 MIRRORBACKPORTS_sarge=http://archive.debian.org/debian-backports/

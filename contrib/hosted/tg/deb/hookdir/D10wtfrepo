@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/tg/deb/hookdir/D10wtfrepo,v 1.3 2014/12/14 18:33:05 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/hookdir/D10wtfrepo,v 1.4 2015/04/12 01:43:53 tg Exp $
 #-
 # Not complicated enough for copyright.
 
@@ -10,6 +10,9 @@ d=${DIST%/*}
 d=${d%-backports*}
 case $d in
 (sarge|etch|lenny|squeeze|wheezy|jessie|sid)
+	;;
+(stretch|buster|bullseye)
+	d=sid
 	;;
 (*)
 	echo >&2 W: D10wtfrepo: ignoring unknown DIST "'$DIST'"
