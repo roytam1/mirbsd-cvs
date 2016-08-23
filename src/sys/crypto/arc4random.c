@@ -1,8 +1,8 @@
-/* $MirOS: src/sys/crypto/arc4random.c,v 1.6 2014/01/11 18:16:16 tg Exp $ */
+/* $MirOS: src/sys/crypto/arc4random.c,v 1.8 2014/03/13 06:09:48 tg Exp $ */
 
 /*-
- * Copyright © 2010, 2014
- *	Thorsten Glaser <tg@mirbsd.org>
+ * Copyright © 2010, 2014, 2016
+ *	mirabilos <m@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
@@ -88,7 +88,7 @@ arc4random_buf(void *buf_, size_t len)
 	rndstats.arc4_reads += len;
 	goto into_the_loop;
 
-	/* operate in chunks of 256 output bytes to give interrupts a chance */
+	/* operate in chunks of 128 output bytes to give interrupts a chance */
 	while (len) {
 		s = splhigh();
  into_the_loop:
@@ -97,14 +97,14 @@ arc4random_buf(void *buf_, size_t len)
 		while (n--)
 			(void)arcfour_byte(&initial_arc4random);
 
-		n = min(len, 256);
+		n = min(len, 128);
 		len -= n;
 
 		/*
-		 * using 256 here, not n, to speed up; the difference
+		 * using 128 here, not n, to speed up; the difference
 		 * is not worth mentioning, and it’s also more secure
 		 */
-		if (arc4random_count >= (ARC4RANDOM_MAXBYTES - 256))
+		if (arc4random_count >= (ARC4RANDOM_MAXBYTES - 128))
 			arc4random_reinit(NULL);
 		arc4random_count += n;
 
