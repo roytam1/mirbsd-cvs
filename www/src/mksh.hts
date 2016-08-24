@@ -1213,13 +1213,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
-<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
--->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+ <li>[tg] Simplify and improve code and manual page</li>
+ <li>[tg] Try GCC 5’s new <tt>-malign-data=abi</tt></li>
+</ul>
 <p id="r53a"><span id="r53">R53a</span> is a snapshot/feature release:</p><ul>
  <li>[lintian] Fix spelling</li>
  <li>[tg] Unbreak multi-line command history broken by history flush</li>
