@@ -339,16 +339,14 @@ execute(struct op * volatile t,
 				rv = execute(t->left, flags & XERROK, xerrok);
 			}
 		} else {
-			/* TSELECT */
-			for (;;) {
-				if (!(ccp = do_selectargs(ap, is_first))) {
-					rv = 1;
-					break;
-				}
+ do_TSELECT:
+			if ((ccp = do_selectargs(ap, is_first))) {
 				is_first = false;
 				setstr(global(t->str), ccp, KSH_UNWIND_ERROR);
 				execute(t->left, flags & XERROK, xerrok);
+				goto do_TSELECT;
 			}
+			rv = 1;
 		}
 		break;
 	}
