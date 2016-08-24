@@ -1458,6 +1458,7 @@ gcc)
 		ac_flags $t_use $t_name "$t_cflags" \
 		    "if gcc supports $t_cflags $t_ldflags" "$t_ldflags"
 	done
+	ac_flags 1 data_abi_align -malign-data=abi
 	i=1
 	;;
 hpcc)
