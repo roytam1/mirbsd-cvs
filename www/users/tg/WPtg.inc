@@ -11968,13 +11968,13 @@ Waypoint: GC5NM3B
 Title: Zaungast
 Tag: D2 T15 Micro Tradi
 ----
-ID: p20160816
+ID: 1982
 Date: 16.08.2016
 Waypoint: GC6PEAM OC131C0
 Title: Eiszeit in der Ferienzeit
 Tag: D1 T1 Event
 ----
-ID: p20160820
+ID: 1983
 Date: 20.08.2016
 Waypoint: GC6P91X OC131A8
 Title: Meet &amp; Greet an der FH in St. Augustin
@@ -11983,18 +11983,24 @@ Tag: D1 T1 Event
 
 FrOSCon-Afterwork-Chillout-Event am International Geocaching Day
 ----
-ID: p20160825
-Date: 25.08.2016
-Waypoint: OC131D1 GC6PQNQ
-Title: Schanitzelchenjagd Nr. 17 - Sönnchen im Augüstelchen ;-) - Geocaching
-Tag: D1 T2 Event
+ID: p20160908
+Date: 08.09.2016
+Waypoint: GC6QBR0
+Title: Dorfbrunnen in Niederdrees
+Tag: D1 T1 Event
 ----
 ID: p20160918
 Date: 18.09.2016
-Waypoint: GC6Q1D1 TC6EEQ N02F8E OC13211
+Waypoint: GE031C GC6Q1D1 TC6EEQ N02F8E OC13211
 Title: We ♥ Meßdorfer Feld (reloaded)
 nTF: 0
 Tag: D1 T2 CITO
+----
+ID: p20481102
+Date: 02.11.2048
+Waypoint: OC12CDB
+Title: Nur einmal im Leben tᵐ=j
+Tag: D1 T1 Event
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # ^K/ datum=dd.mm.yyyy username=tg mksh ../../data/WP2dat
