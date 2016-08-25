@@ -3776,12 +3776,15 @@ c_cat(const char **wp)
 				/* end of file reached */
 				break;
 			while (n) {
+				if (intrsig)
+					goto has_intrsig;
 				if ((w = write(STDOUT_FILENO, cp, n)) != -1) {
 					n -= w;
 					cp += w;
 					continue;
 				}
 				if (errno == EINTR) {
+ has_intrsig:
 					restore_pipe(opipe);
 					/* give the user a chance to ^C out */
 					intrcheck();
