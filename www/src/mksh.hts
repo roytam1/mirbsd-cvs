@@ -1220,6 +1220,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
   limits in a single invocation from oksh (thanks millert) -->
  <li>[tg] Simplify and improve code and manual page</li>
  <li>[tg] Try GCC 5’s new <tt>-malign-data=abi</tt></li>
+ <li>[tg] Allow interrupting builtin cat even on fast devices (LP#1616692)</li>
 </ul>
 <p id="r53a"><span id="r53">R53a</span> is a snapshot/feature release:</p><ul>
  <li>[lintian] Fix spelling</li>
