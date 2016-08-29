@@ -4832,7 +4832,7 @@ ID: 850
 Date: 14.05.2014
 Waypoint: GC4VN4T
 Title: 2014
-Tag: D15 T15 Regular Tradi recommended
+Tag: D15 T15 Regular Tradi
 ----
 ID: 851
 Date: 15.05.2014
@@ -11982,6 +11982,48 @@ nTF: 0
 Tag: D1 T1 Event
 
 FrOSCon-Afterwork-Chillout-Event am International Geocaching Day
+----
+ID: 1984
+Date: 27.08.2016
+Waypoint: GC2AC7W
+Title: Streetart: Der Holzstapel
+Tag: D2 T15 Micro Tradi
+----
+ID: 1985
+Date: 27.08.2016
+Waypoint: OC783B GC1MX3Z
+Title: ABAKUS I
+Tag: D2 T15 Small Mystery recommended
+----
+ID: 1986
+Date: 27.08.2016
+Waypoint: GC1XTKY
+Title: Schattenseiten IV - Johanneken
+Tag: D1 T1 Micro Tradi
+----
+ID: 1987
+Date: 27.08.2016
+Waypoint: OC8E59 GC1N2Y9
+Title: Zigeunerwiese
+Tag: D15 T15 Small Tradi recommended
+----
+ID: 1988
+Date: 27.08.2016
+Waypoint: GC49HHK
+Title: C42B - Gotteshäuser: St. Anna
+Tag: D3 T15 Micro Mystery
+----
+ID: 1989
+Date: 29.08.2016
+Waypoint: GC2TZHT
+Title: Nasse Füße - Die Dhünn
+Tag: D15 T25 Micro Tradi
+----
+ID: 1990
+Date: 29.08.2016
+Waypoint: GC1J6PG
+Title: Stonehenge - jetzt auch in Odenthal
+Tag: D15 T15 Micro Tradi
 ----
 ID: p20160908
 Date: 08.09.2016
