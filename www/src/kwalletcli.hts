@@ -1,6 +1,6 @@
 mws_setname subprojects/kwalletcli "kwalletcli – CLI for the KDE Wallet"
 mws_setheadline CLI for the KDE Wallet
-mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.30 2013/11/09 01:21:40 tg Exp $'
+mws_putheader '$MirOS: www/src/kwalletcli.hts,v 1.32 2016/08/30 19:42:16 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Content</h2>
 EOF
@@ -14,35 +14,38 @@ mws_content <<'EOF'
  src="@@RELPATH@@pics/kwalletcli128.png" /></object></td></tr></table>
 
 <h2 id="main">CLI for the KDE Wallet</h2>
-<p>What's it? A command-line interface to the KDE Wallet, for KDE 3 and
- KDE 4 both (so shell scripts, Python, etc. do not need to use DCOP or
- D-Bus directly to access it to store passwords, instead being able to
- call this convenient wrapper). Please read <a
- href="@@RELPATH@@permalinks/wlog-10_e20090708-tg.htm">the wlog entry
- announcing kwalletcli public beta test</a> for some more background
- information. Currently, only the default wallet is supported; while
- the CLI itself could be enhanced by a selection, the utilities also
+<p>What's it? A command-line interface to the KDE Wallet, for KDE 3, 4,
+ and KF5 (so shell scripts, Python, etc. do not need to use DCOP or D-Bus
+ directly to access it to store passwords, instead being able to call this
+ convenient wrapper). KF5 does come with a <tt>kwallet-query</tt> utility,
+ however, it requires the caller to know the name of the default wallet,
+ which most scripts won’t know, and lacks kwalletcli’s extra utilities.</p>
+<p>Please read <a href="@@RELPATH@@permalinks/wlog-10_e20090708-tg.htm">the
+ wlog entry announcing kwalletcli public beta test</a> for some more
+ background information. Currently, only the default wallet is supported;
+ while the CLI itself could be enhanced by a selection, the utilities also
  provided cannot really expose this functionality.</p>
 <p>kwalletcli is OSI Certified <img alt="Open Source Software™"
  src="@@RELPATH@@pics/open_source_button.png" /></p>
 
 <h3 id="download">Download</h3>
-<p>Current version: kwalletcli 2.12 (2014-05-11)</p><ul>
+<p>Current version: kwalletcli 3.00 (2016-08-30)</p><ul>
 <!-- cd /MirOS/dist/hosted/kwalletcli; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
- <li>RMD160 (kwalletcli-2.12.tar.gz) = 9ef4ba4fdda6c6af0f537fe155a600b7e98c4b8d</li>
- <li>TIGER (kwalletcli-2.12.tar.gz) = bf31c1c2aed7be1ccedf0443f1e06bb0ecfdd0a56cfdfb32</li>
- <li>327772195 60073 /MirOS/dist/hosted/kwalletcli/kwalletcli-2.12.tar.gz</li>
- <li>MD5 (kwalletcli-2.12.tar.gz) = 2051676c180ede4595a2a85b12c220b3</li>
+ <li>RMD160 (kwalletcli-3.00.tar.gz) = cf45d665d9e201e09b9d8e9e3356eb15f9f69bd2</li>
+ <li>TIGER (kwalletcli-3.00.tar.gz) = fe9d6bee7ea425fe755a00c735721c7e5a56bd66b1bf0892</li>
+ <li>1791328341 63989 /MirOS/dist/hosted/kwalletcli/kwalletcli-3.00.tar.gz</li>
+ <li>MD5 (kwalletcli-3.00.tar.gz) = b5649a18a8187b0fabca7073fabe52c3</li>
  <li style="list-style:none;">Mirrors</li>
- <li><a href="https://www.mirbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.12.tar.gz">Germany</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-2.12.tar.gz">Japan</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-3.00.tar.gz">Germany</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/hosted/kwalletcli/kwalletcli-3.00.tar.gz">Japan</a></li>
 </ul>
 
 <h3 id="contents">Ingredients</h3>
 <p>The kwalletcli distfile provides a number of things:</p><ul>
  <li>A <tt>LICENCE</tt> file. kwalletcli is covered by <a
   href="@@RELPATH@@MirOS-Licence">The MirOS Licence</a> (<a
-  href="@@RELPATH@@MirOS-Licence.htm">HTML transcript</a>); the logo is
+  href="@@RELPATH@@MirOS-Licence.htm">HTML transcript</a> with inofficial
+  German translation); the logo is
   <em>additionally</em> restricted by the Terms and Conditions of the
   GNU LGPL v3+ (both licences are OSI certified, DFSG free, etc.)</li>
  <li>An SVG logo and a few compiled PNG versions.</li>
@@ -73,15 +76,19 @@ mws_content <<'EOF'
 
 <h2 id="packaging">Packaging</h2>
 <p><a href="http://packages.debian.org/kwalletcli">Debian</a> has a
- kwalletcli (KDE 4) package from squeeze onwards. The backports
- repository contains a kwalletcli (KDE 3) package for lenny.</p>
-<p>Suggested packaging: MidnightBSD mports (for they provide KDE
- anyway), OpenSuSE Build Service (RPM for many platforms), etc.<br />
- If KDE (upstream) desires, they may include it (under The MirOS
- Licence) in their distribution, even.</p>
+ kwalletcli (KDE 4) package from squeeze to jessie. The lenny-backports
+ repository contains a kwalletcli (KDE 3) package. Debian stretch will
+ ship a kwalletcli compiled for KF5; KDE 3/4 packages will be available
+ from the “WTF” APT repository (not official Debian). It is also packaged
+ for Arch Linux, Slackware, several Gentoo portage overlays, in home:syeg
+ on the OpenSuSE buildservice (various RPMs), for Chakra Linux, RHEL, and
+ Fedora. Suggested packaging: various BSDs’ ports framework (MidnightBSD
+ provides KDE anyway, others will also do), etc. — If the KDE (upstream)
+ project desires, they may include it (under the licence included) in
+ their framework and ship it by default.</p>
 <h3 id="depends">Dependencies</h3>
-<p>Either Qt3 and KDE3, or Qt4 and KDE4, development headers and
- libraries, and the matching compiler (gcc/g++ is tested, others are
+<p>Either Qt3 and KDE3, or Qt4 and KDE4, or Qt5 and KF5, development headers
+ and libraries, and the matching compiler (gcc/g++ is tested, others are
  not). Either MirMake (MirBSD make(1)) or GNU make. For the scripts, <a
  href="@@RELPATH@@mksh.htm">mksh</a> R38+ is a run-time dependency. The
  manpages require nroff/gnroff and the <tt>-mdoc</tt> macropackage to
@@ -102,11 +109,11 @@ mws_content <<'EOF'
  under the same licence as Gajim (GPLv3 only), as well as the same licence
  (MirOS) as kwalletcli). The binding was originally written by the author
  of kwalletcli as well.</p><ul>
-<li><a href="http://trac.gajim.org/ticket/5153">initial submission</a></li>
-<li><a href="http://trac.gajim.org/browser/src/common/kwalletbinding.py">the
+<li><a href="https://trac.gajim.org/ticket/5153">initial submission</a></li>
+<li><a href="https://trac.gajim.org/browser/src/common/kwalletbinding.py">the
  code</a> (maintained inside the Gajim repository, as most prominent user of
  it; bugfixed by Yann “asterix” Leboulanger once already, thanks!</li>
-<li><a href="http://trac.gajim.org/changeset/10798%3A6c332dd9e795/src/common/passwords.py?format=diff&amp;new=10798:6c332dd9e795">usage
+<li><a href="https://trac.gajim.org/changeset/10798%3A6c332dd9e795/src/common/passwords.py?format=diff&amp;new=10798:6c332dd9e795">usage
  example</a> (again, Gajim code)</li>
 </ul>
 <p>Note that the Python binding uses <tt>subprocess.Popen()</tt> and the
@@ -166,14 +173,17 @@ else:
  dialogue, as an attacker can also remove that warning.)</p>
 
 <h2 id="users">Users</h2>
-<p>The <a href="http://gajim.org/">Gajim</a> Jabber client supports
+<p>The <a href="https://gajim.org/">Gajim</a> Jabber client supports
  kwalletcli, by means of <a href="#b_py">the Python binding</a>, for
  storing Jabber passwords in the KDE Wallet in an encrypted manner,
  since version 0.13 (committed after some discussion; Gajim already
  supported gnome-keyring though).</p>
 
 <h2 id="clog">ChangeLog</h2>
+<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
+-->
+<p id="r3_00">kwalletclie 3.00</p><ul>
  <li>Merge back from Debian packaging: add CXXFLAGS to CXX link invocation</li>
  <li>Make the manual pages more portable (add our portmdoc)</li>
  <li>Do not close stdin/stdout/stderr when calling other utilities</li>
