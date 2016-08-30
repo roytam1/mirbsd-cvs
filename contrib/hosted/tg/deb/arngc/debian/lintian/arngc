@@ -1,4 +1,0 @@
-# $MirOS: contrib/hosted/tg/deb/arngc/debian/lintian/arngc,v 1.1 2011/08/04 20:47:41 tg Exp $
-
-# yes, a conflict is correct here, as this works on sarge
-arngc: conflicts-with-version stunnel4 (<= 3:4.29-1~~)

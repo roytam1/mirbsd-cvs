@@ -1,8 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.2 2004/04/13 20:23:59 xsa Exp $
-bin/urlview
-man/man1/urlview.1
-share/examples/urlview/sample.urlview
-share/examples/urlview/url_handler.sh
-@dirrm share/examples/urlview
-@cwd ${SYSCONFDIR}
-@extra urlview.conf

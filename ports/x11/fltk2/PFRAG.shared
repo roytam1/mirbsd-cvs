@@ -1,5 +1,0 @@
-@comment $MirOS$
-@lib lib/libfltk2.so.2.0
-@lib lib/libfltk2_gl.so.2.0
-@lib lib/libfltk2_glut.so.2.0
-@lib lib/libfltk2_images.so.2.0
