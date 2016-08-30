@@ -175,6 +175,10 @@ else:
 <h2 id="clog">ChangeLog</h2>
 <p>Changes in the current (unreleased) development version:</p><ul>
  <li>Merge back from Debian packaging: add CXXFLAGS to CXX link invocation</li>
+ <li>Make the manual pages more portable (add our portmdoc)</li>
+ <li>Do not close stdin/stdout/stderr when calling other utilities</li>
+ <li>Add KF5 (KDE 5) and Qt5 support</li>
+ <li>Apply spelling fixes suggested by lintian</li>
 </ul>
 <p id="r2_12">kwalletcli 2.12</p><ul>
  <li>Remove unused code from BSDmakefile, for better portability</li>
