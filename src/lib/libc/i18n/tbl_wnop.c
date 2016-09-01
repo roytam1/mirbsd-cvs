@@ -1,5 +1,3 @@
-/* $MirOS: src/lib/libc/i18n/tbl_wnop.c,v 1.2 2006/06/02 03:16:03 tg Exp $ */
-
 #include <sys/types.h>
 
 __RCSID("$MirOS: src/lib/libc/i18n/tbl_wnop.c,v 1.2 2006/06/02 03:16:03 tg Exp $");
