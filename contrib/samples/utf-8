@@ -9,10 +9,10 @@ show up fine in an uxterm on MirOS (see xterm(1) for
 further reference).
 
 This file was generated (and hand-edited afterwards)
-© by Thorsten “mirabilos” Glaser <tg@mirbsd.de>. Be‐
-cause this is a mere “database” it can be used with‐
-out the need of a special licence, but if possible I
-would like to be credited on derivates.
+by mirabilos <m@mirbsd.org>. Because this is a data‐
+base it can be used without the need for an explicit
+licence, but if possible I would like to be credited
+on derivates.
 
 Now have fun cutting and pasting, although be remin‐
 ded that unicode characters above U+00FF can only be
