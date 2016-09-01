@@ -911,7 +911,7 @@ scriptexec(struct op *tp, const char **ap)
 		/* replace newline by NUL */
 		*cp = '\0';
 
-		/* restore begin of shebang position (buf+0 or buf+3) */
+		/* restore start of shebang position (buf+0 or buf+3) */
 		cp = buf + n;
 		/* bail out if no shebang magic found */
 		if (cp[0] == '#' && cp[1] == '!')

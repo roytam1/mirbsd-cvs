@@ -120,7 +120,7 @@ do_genopt() {
 			state=3
 			;;
 		1:@@)
-			# begin of data block
+			# start of data block
 			o_gen=$o_gen$nl"#endif"
 			o_gen=$o_gen$nl"#ifndef F0"
 			o_gen=$o_gen$nl"#define F0 FN"
@@ -133,7 +133,7 @@ do_genopt() {
 			o_hdr=$o_hdr$nl$line
 			;;
 		0:@*|1:@*)
-			# begin of a definition block
+			# start of a definition block
 			sym=`echo "$line" | sed 's/^@//'`
 			if test $state = 0; then
 				o_gen=$o_gen$nl"#if defined($sym)"
@@ -980,7 +980,7 @@ drop us a success or failure notice or even send in diffs.
 $e "$bi$me: Building the MirBSD Korn Shell$ao $ui$dstversion$ao on $TARGET_OS ${TARGET_OSREV}..."
 
 #
-# Begin of mirtoconf checks
+# Start of mirtoconf checks
 #
 $e $bi$me: Scanning for functions... please ignore any errors.$ao
 

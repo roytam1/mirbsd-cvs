@@ -62,7 +62,7 @@ typedef struct {
 #define IFS_WORD	0	/* word has chars (or quotes except "$@") */
 #define IFS_WS		1	/* have seen IFS white-space */
 #define IFS_NWS		2	/* have seen IFS non-white-space */
-#define IFS_IWS		3	/* begin of word, ignore IFS WS */
+#define IFS_IWS		3	/* beginning of word, ignore IFS WS */
 #define IFS_QUOTE	4	/* beg.w/quote, become IFS_WORD unless "$@" */
 
 static int varsub(Expand *, const char *, const char *, int *, int *);
@@ -198,7 +198,7 @@ typedef struct SubType {
 	struct tbl *var;	/* variable for ${var..} */
 	struct SubType *prev;	/* old type */
 	struct SubType *next;	/* poped type (to avoid re-allocating) */
-	size_t	base;		/* begin position of expanded word */
+	size_t	base;		/* start position of expanded word */
 	short	stype;		/* [=+-?%#] action after expanded word */
 	short	f;		/* saved value of f (DOPAT, etc) */
 	uint8_t	quotep;		/* saved value of quote (for ${..[%#]..}) */

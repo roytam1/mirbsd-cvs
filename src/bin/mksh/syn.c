@@ -287,12 +287,12 @@ get_command(int cf)
 		syniocf &= ~(KEYWORD|sALIAS);
 		t = newtp(TCOM);
 		t->lineno = source->line;
-		goto get_command_begin;
+		goto get_command_start;
 		while (/* CONSTCOND */ 1) {
 			bool check_assign_cmd;
 
 			if (XPsize(args) == 0) {
- get_command_begin:
+ get_command_start:
 				check_assign_cmd = true;
 				cf = sALIAS | CMDASN;
 			} else if (t->u.evalflags)

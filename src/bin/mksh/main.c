@@ -222,11 +222,11 @@ main_init(int argc, const char *argv[], Source **sp, struct block **lp)
 
 	/* determine the basename (without '-' or path) of the executable */
 	ccp = kshname;
-	goto begin_parse_kshname;
+	goto begin_parsing_kshname;
 	while ((i = ccp[argi++])) {
 		if (i == '/') {
 			ccp += argi;
- begin_parse_kshname:
+ begin_parsing_kshname:
 			argi = 0;
 			if (*ccp == '-')
 				++ccp;
