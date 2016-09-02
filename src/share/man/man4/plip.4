@@ -1,7 +1,7 @@
-.\" $MirOS: src/share/man/man4/plip.4,v 1.2 2005/07/04 01:39:23 tg Exp $
+.\" $MirOS: src/share/man/man4/plip.4,v 1.3 2008/11/08 22:24:15 tg Exp $
 .\"
 .\" Copyright (c) 2002 Martin Husemann <martin@rumolt.teuto.de>
-.\" Copyright (c) 2003 Thorsten Glaser <tg@mirbsd.org>
+.\" Copyright (c) 2003, 2016 Thorsten Glaser <tg@mirbsd.org>
 .\" All rights reserved.
 .\"
 .\" Redistribution and use in source and binary forms, with or without
@@ -23,7 +23,7 @@
 .\" (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 .\" THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 .\"
-.Dd January 29, 2002
+.Dd $Mdocdate$
 .Dt PLIP 4 i386
 .Os
 .Sh NAME
@@ -33,7 +33,7 @@
 .Cd "option	PLIP				# Ethernet over parallel port"
 .Cd "lpt0	at isa? port 0x378 irq 7	# standard PC parallel ports"
 .Cd "lpt1	at isa? port 0x278 irq 5"
-.Cd "lpt2	at isa? port 0x3bc irq 5	# Hercules cards don't have an IRQ"
+.Cd "lpt2	at isa? port 0x3bc		# Hercules cards don't have an IRQ"
 .Sh DESCRIPTION
 The
 .Nm
@@ -44,15 +44,15 @@ when using
 as
 .Pa plip1
 when using
-.Pa lpt1
-and
+.Pa lpt1 ,
+and as
 .Pa plip2
 when using
 .Pa lpt2 .
 .Pp
 A parallel port can not drive a
 .Nm
-interface when configured without an irq.
+interface when configured without an IRQ.
 The port can be used to drive other devices when the corresponding
 .Nm
 interface is configured down.
@@ -61,11 +61,11 @@ The
 .Nm
 interface simulates Ethernet on a parallel cable
 with special wiring (see below), known as a
-.Ar "parallel LapLink cable"
-widely available from PC shops.
+.Dq parallel LapLink cable
+(formerly) widely available from PC shops.
 .Pp
 Its acronym is derived from SLIP and means
-.Ar "Parallel IP Protocol" ,
+.Dq Parallel IP Protocol ,
 which, in fact, is wrong: it can handle any protocol available on
 Ethernet, not just IP.
 .Pp
@@ -74,8 +74,8 @@ Although a
 connection always is point-to-point, the interface is configured
 like every standard Ethernet interface and uses
 .Ar ARP
-to find its neighbor.
-This is inefficient, but provides interoperability
+to find its neighbour.
+This is inefficient but provides interoperability
 with other operating systems.
 .Pp
 Set the link2 flag on the interface if it is not working.
@@ -83,19 +83,26 @@ Please report back if it helps for you.
 .Sh INTEROPERABILITY
 .Nm
 uses the
+.Pq Linux-compatible
 .Ar "Crynwr protocol"
-(CLPIP) defined by Russel Nelson <nelson@crynwr.com>.
-This makes it interoperable with the GPL licenced MS-DOS packet driver
-.Ar "PLIP.COM"
-available by anonymous ftp from
-.Pa ftp://ftp.crynwr.com/drivers/plip.zip
-and Linux 1.3.x (make sure to configure the interface to use
+(CLPIP, Crynwr line-printer IP) defined by
+.An -nosplit
+.An Russel Nelson Aq nelson@crynwr.com .
+This makes it interoperable with the
+.Pq formerly GPL-licenced , now Public Domain
+packet driver
+.Dq Li PLIP.COM
+available from
+.Pa http://www.crynwr.com/drivers/plip.zip
+for MS-DOS, as well as Linux 1.3 (make sure to configure the interface to use
 .Ar ARP
-when connecting to a Linux system).
+when connecting to a Linux system) and up.
 .Sh WIRING
-The following describes the connection of two male 25 pin sub-D connectors
-which fit into standard PC parallel ports (no, PCs don't use Centronics
-connectors).
+The following describes the connection of two male 25 pin Sub-D connectors
+which fit into standard PC parallel ports (not to be confused with
+Centronics connectors, which fit into dot-matrix printers of that time).
+In Linux, this is known as a
+.Dq Parallel Transfer Mode 0 Cable .
 .Bl -tag -width "GROUND(25)" -offset indent -compact
 .It INIT(16)
 INIT(16)
@@ -116,7 +123,10 @@ BUSY(11)
 .El
 .Pp
 Additional grounds are 18, 19, 20, 21, 22, 23 and 24.
-Do not connect D5(7), D6(8), D7(9), STROBE(1) and FEED(14).
+Do not connect STROBE(1), D5(7), D6(8), D7(9), and FEED/AUTOFD(14).
+Linux suggests to not connect INIT(16) either.
+.Fx
+recently suggests to not connect both INIT(16) and SLCTIN(17).
 .Sh SEE ALSO
 .Xr ifconfig 8 ,
 .Xr pppd 8 ,
@@ -161,8 +171,10 @@ and Linux boxen.
 .Pp
 There are some parallel ports which can use all 8 data bits for input
 and output, you can make up a parallel handshake protocol and a cable
-with different wiring to get an 8 bit clean (instead of 4 bit now)
+with different wiring to get an 8 bit clean (instead of the current 4 bit)
 data path out of this.
+In Linux, this is known as a
+.Dq Parallel Transfer Mode 1 Cable .
 This is currently not supported.
 .Pp
 There is apparently work on the way (the parbus) which will integrate
@@ -170,9 +182,9 @@ this and other parallel-port devices (zip drives e.a.) more smoothly.
 .Pp
 The
 .Nm
-driver cannot currently drive a protocol other than IPv4.
+driver is said to currently be unable to drive a protocol other than IPv4.
 .Sh HINTS
-Go buy a pocket Ethernet adaptor or a PCMCIA Ethernet adaptor and
+Go buy a pocket Ethernet adaptor or a PCMCIA Ethernet adapter and
 write a driver for it.
-It has much better throughput, lower load and
+It has much better throughput, lower load, and
 a less coupled system between client and server.
