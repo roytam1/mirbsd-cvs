@@ -8,8 +8,8 @@
 [push]
 	default = simple
 [alias]
-	check-emptylines = !git find -print0 | xargs -0r pcregrep -l -M $'\\n\\n\\n'
-	check-whitespace = "!git diff --check $(git hash-object -t tree /dev/null) --; git find | grep -Evi '\\.(png|jpe?g|gif|deb|rpm|vpp)' | while IFS= read -r name; do test -h \"$name\" && continue; test -z \"$(tail -c -1 \"$name\")\" || printf '%s: no newline at EOF\\n' \"$name\"; done"
+	check-emptylines = !git find -gitfiles -print0 | xargs -0r pcregrep -l -M $'\\n\\n\\n'
+	check-whitespace = "!git diff --check $(git hash-object -t tree /dev/null) --; git find -gitfiles | grep -Evi '\\.(png|jpe?g|gif|deb|rpm|vpp)' | while IFS= read -r name; do test -z \"$(tail -c -1 \"$name\")\" || printf '%s: no newline at EOF\\n' \"$name\"; done"
 	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --abbrev-commit --date=local
 	wdiff = diff --word-diff=color
 	wdiffc = diff --word-diff=color --word-diff-regex=.
