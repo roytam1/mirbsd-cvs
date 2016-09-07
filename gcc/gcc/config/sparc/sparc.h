@@ -835,14 +835,16 @@ if (TARGET_ARCH64				\
    :  MAX ((COMPUTED), (SPECIFIED)))
 
 /* Make strings word-aligned so strcpy from constants will be faster.  */
-#define CONSTANT_ALIGNMENT(EXP, ALIGN)  \
+#define CONSTANT_ALIGNMENT(EXP, ALIGN)	\
   ((TREE_CODE (EXP) == STRING_CST	\
+    && !optimize_size && !TARGET_ARCH64	\
     && (ALIGN) < FASTEST_ALIGNMENT)	\
    ? FASTEST_ALIGNMENT : (ALIGN))
 
 /* Make arrays of chars word-aligned for the same reasons.  */
 #define DATA_ALIGNMENT(TYPE, ALIGN)		\
   (TREE_CODE (TYPE) == ARRAY_TYPE		\
+   && !optimize_size && !TARGET_ARCH64		\
    && TYPE_MODE (TREE_TYPE (TYPE)) == QImode	\
    && (ALIGN) < FASTEST_ALIGNMENT ? FASTEST_ALIGNMENT : (ALIGN))
 
