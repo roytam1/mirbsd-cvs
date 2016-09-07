@@ -32,7 +32,7 @@ Boston, MA 02111-1307, USA.  */
   do						\
     {						\
 	builtin_define_std ("sparc");		\
-	if (TARGET_64BIT)			\
+	if (TARGET_ARCH64)			\
 	  { 					\
 	    builtin_assert ("cpu=sparc64");	\
 	    builtin_assert ("machine=sparc64");	\
@@ -1892,7 +1892,7 @@ extern GTY(()) rtx sparc_compare_op1;
    case of a global register variable occupying more than one register
    we prefix the second and following registers with .gnu.part1. etc.  */
 
-extern char sparc_hard_reg_printed[8];
+extern GTY(()) char sparc_hard_reg_printed[8];
 
 #ifdef HAVE_AS_REGISTER_PSEUDO_OP
 #define ASM_DECLARE_REGISTER_GLOBAL(FILE, DECL, REGNO, NAME)		\
