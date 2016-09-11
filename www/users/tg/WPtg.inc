@@ -12025,11 +12025,77 @@ Waypoint: GC1J6PG
 Title: Stonehenge - jetzt auch in Odenthal
 Tag: D15 T15 Micro Tradi
 ----
-ID: p20160908
-Date: 08.09.2016
-Waypoint: GC6QBR0
-Title: Dorfbrunnen in Niederdrees
-Tag: D1 T1 Event
+ID: 1991
+Date: 11.09.2016
+Waypoint: GC33MK7
+Title: EbbeMoor #1
+Tag: D25 T2 Small Tradi
+----
+ID: 1992
+Date: 11.09.2016
+Waypoint: GC33MKH
+Title: EbbeMoor #2
+Tag: D2 T2 Small Tradi recommended
+----
+ID: 1993
+Date: 11.09.2016
+Waypoint: GC33MKV
+Title: EbbeMoor #3
+Tag: D2 T2 Small Tradi
+----
+ID: 1994
+Date: 11.09.2016
+Waypoint: GC5WXEK
+Title: Der Knorrige
+Tag: D25 T25 Micro Tradi
+----
+ID: 1995
+Date: 11.09.2016
+Waypoint: GC33MM2
+Title: EbbeMoor #4
+Tag: D2 T2 Small Tradi
+----
+ID: 1996
+Date: 11.09.2016
+Waypoint: GC33MM4
+Title: EbbeMoor #5
+Tag: D2 T2 Small Tradi
+----
+ID: 1997
+Date: 11.09.2016
+Waypoint: GC33MM5
+Title: EbbeMoor #6
+Tag: D2 T2 Small Tradi
+----
+ID: 1998
+Date: 11.09.2016
+Waypoint: GC33MM7
+Title: EbbeMoor #7
+Tag: D2 T2 Small Tradi
+----
+ID: 1999
+Date: 11.09.2016
+Waypoint: GC5WXF2
+Title: Ach du dicke Fichte
+Tag: D2 T2 Micro Tradi
+----
+ID: 2000
+Date: 11.09.2016
+Waypoint: GC1G14X
+Title: MoCache241 Nordhelle
+Tag: D1 T1 Micro Tradi
+----
+ID: 2001
+Date: 11.09.2016
+Waypoint: GC33MME
+Title: EbbeMoor - Bonus
+Tag: D2 T3 Regular Mystery
+----
+ID: 2002
+Date: 11.09.2016
+Waypoint: GC4X60Z
+Title: Gesundbrunnen Valbert
+Tag: D15 T15 Micro Tradi
 ----
 ID: p20160918
 Date: 18.09.2016
