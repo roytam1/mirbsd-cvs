@@ -16,6 +16,37 @@ To save space, fonts may usually be gzip(1) compressed.
 I suggest you have a look at how X11 bitmap font installation
 is handled normally in your operating system.
 
+┌────────────────────┐
+│ Other font formats │
+└────────────────────┘
+
+The following procedure is known to generate a working GNU GRUB 2 font:
+• remove all ambiguous glyphs from one font
+  – hw:	3099, 309A
+  – fw:	0000, 0300, 0301, 0302, 0303, 0307, 0308, 030A, 034F, 0488, 0489,
+	20DD, 20DE, 20DF, 20E0, 20E2, 20E3, 20E4, 20E7, 20EA
+• Run the command (hw/fw.bdf are the results from the above):
+  grub-mkfont -n 'FixedMisc [MirOS]' -c 14 -d 4 -o FixedMisc.pf2 \
+      -v hw.bdf fw.bdf
+
+Some environments (Qt 5) require an X11 bitmap font to have only one
+width; that can be achieved by:
+  sed 's/FixedMisc/FixedMiscHW/g' <mirf18hw.bdf >mirfhw18.bdf
+
+To create a Linux console font (in (mostly) cp437 encoding), use the
+script from mircvs://contrib/fonts/bdftopsf.pl like so:
+  bdftopsf.pl +h -u +1 <mirf16v8.bdf >mirf16v8.psf
+Generate a second binary with an embedded Unicode map:
+  psfaddtable mirf16v8.psf mirf16v8.map mirf16v8.psfu
+
+This font (the binary without the Unicode map) can also be used in
+SYSLINUX by copying mirf16v8.psf to the same directory pxelinux.0,
+syslinux.efi, etc. are in and adding the following line to the config:
+  FONT mirf16v8.psf
+
+Note the conversion utilities are licenced under copyleft terms, but
+the resulting font binaries are as free (see below) as their sources.
+
 ┌──────────────────┐
 │ Copyright status │
 └──────────────────┘
@@ -25,8 +56,8 @@ thus I cannot offer a licence. The .bdf files do not contain
 information other than the glyph bitmaps, font identification
 metainformation and versioning comments, and as such, do not
 contain copyrightable information. This README is probably
-trivial. It was written in 2013 by Thorsten Glaser; the font
-effort was started in the 1990s, Fixed [Misc] in 2007.
+trivial. It was written in 2013, 2015, 2016 by mirabilos; the
+font effort was started in the 1990s, Fixed [Misc] in 2007.
 
 According to WP:PD, “a rasterized representation (e.g. bitmap)
 of the characters in a scalable font is not protected by
@@ -55,4 +86,4 @@ The preferred form of modification for X bitmap fonts is BDF or
 an equivalence transformation: https://www.mirbsd.org/man1/bdfctool
 
 __________________________________________________________________________
-$MirOS: contrib/fonts/fixed/README.dist,v 1.2 2015/01/24 16:01:14 tg Exp $
+$MirOS: contrib/fonts/fixed/README.dist,v 1.3 2015/12/06 01:04:38 tg Exp $

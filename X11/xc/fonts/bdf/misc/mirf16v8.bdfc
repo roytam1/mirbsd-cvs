@@ -1,5 +1,5 @@
 =bdfc 1
-' "$MirOS: contrib/fonts/fixed/mirf16v8.bdfc,v 1.2 2015/12/06 00:57:47 tg Exp $"
+' "$MirOS: contrib/fonts/fixed/mirf16v8.bdfc,v 1.3 2016/09/29 22:16:37 tg Exp $"
 hFONT -MirOS-FixedMisc-Medium-R-Normal--16-120-100-100-C-80-IBM-cp437
 hSIZE 12 100 100
 hFONTBOUNDINGBOX 8 16 0 -3
@@ -42,8 +42,8 @@ c 000C 8 00:00:00:00:38:44:82:82:82:44:38:10:10:7C:10:10 female
 c 000D 8 00:00:00:18:14:12:12:10:10:70:F0:F0:60:00:00:00 musicalnote
 c 000E 8 00:00:00:0E:32:22:22:22:22:2E:EE:E4:40:00:00:00 musicalnotedbl
 c 000F 8 00:00:00:00:99:5A:3C:24:C3:24:3C:5A:99:00:00:00 sun
-c 0010 8 00:00:00:00:00:00:C0:F8:FF:F8:C0:00:00:00:00:00 triagrt
-c 0011 8 00:00:00:00:00:00:03:1F:FF:1F:03:00:00:00:00:00 triaglf
+c 0010 8 00:00:00:00:80:E0:F8:FE:FF:FE:F8:E0:80:00:00:00 triagrt
+c 0011 8 00:00:00:00:01:07:1F:7F:FF:7F:1F:07:01:00:00:00 triaglf
 c 0012 8 00:00:00:10:38:54:92:10:10:92:54:38:10:00:00:00 arrowupdn
 c 0013 8 00:00:24:24:24:24:24:24:24:00:00:24:24:00:00:00 exclamdbl
 c 0014 8 00:00:00:7E:8A:8A:8A:7A:0A:0A:0A:0A:0A:00:00:00 paragraph
