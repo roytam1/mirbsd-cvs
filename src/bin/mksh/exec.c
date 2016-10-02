@@ -282,7 +282,7 @@ execute(struct op * volatile t,
 
 	case TOR:
 	case TAND:
-		rv = execute(t->left, XERROK, xerrok);
+		rv = execute(t->left, XERROK, NULL);
 		if ((rv == 0) == (t->type == TAND))
 			rv = execute(t->right, flags & XERROK, xerrok);
 		else {
