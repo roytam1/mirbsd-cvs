@@ -12088,7 +12088,7 @@ Tag: D1 T1 Micro Tradi
 ----
 ID: 2001
 Date: 11.09.2016
-Waypoint: GC33MME BC2337
+Waypoint: GC33MME
 Banner: gif
 Title: EbbeMoor - Bonus
 Tag: D2 T3 Regular Mystery
@@ -12165,7 +12165,7 @@ T1½
 ----
 ID: 2013
 Date: 01.10.2016
-Waypoint: OCDAAB GC3ARM5
+Waypoint: OCDAAB GC3ARM5 BC2337
 Title: Bibliocache
 Tag: D2 T1 Other Multi recommended
 ----
