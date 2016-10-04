@@ -1,8 +1,8 @@
 #!/usr/bin/perl -T
 my $rcsid = '$MirOS: www/files/wp.cgi,v 1.19 2015/10/16 21:50:03 tg Exp $';
 #-
-# Copyright © 2013, 2014, 2015
-#	mirabilos <tg@mirbsd.org>
+# Copyright © 2013, 2014, 2015, 2016
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -76,12 +76,17 @@ if (defined($ENV{QUERY_STRING})) {
 $query =~ s/^\s+//;
 $query =~ s/\s+$//;
 
+if ($query =~ m!^(m/[0-9A-Za-z_-]*/[0-9]+)/?$!) {
+	&redirect("https://www.munzee.com/$1/");
+}
+
 $query = "" unless $query =~ /^[0-9A-Za-z_-]*$/;
 $query =~ y/a-z/A-Z/;
 
 if ($query ne "") {
-	$query =~		s@\b(N[0-9][0-9A-F]{4}|(EC|G[ACEGL]|O[BCKPSUXZ]|PR|SH|[TLC]C|WM)[0-9A-Z]{1,6}|(GD|VX)[0-9A-Z]{2}-[A-Z]{4}|2[0-9]{3}-(0[1-9]|1[0-2])-[0-3][0-9]_(-?[0-9]{1,2}_-?[0-9]{1,3}|GLOBAL))\b@
+	$query =~		s@\b(N[0-9][0-9A-F]{4}|(EC|G[ACEGL]|O[BCKPSUXZ]|PR|SH|[TLC]C|WM)[0-9A-Z]{1,6}|(GD|VX)[0-9A-Z]{2}-[A-Z]{4}|2[0-9]{3}-(0[1-9]|1[0-2])-[0-3][0-9]_(-?[0-9]{1,2}_-?[0-9]{1,3}|GLOBAL)|BC\d+)\b@
 					($query = $1) =~ /^GC/ ? "http://www.geocaching.com/seek/cache_details.aspx?wp=$query" :
+					$query =~ /^BC/ ? sprintf("http://www.bessercacher.de/Forum/phpBB3/viewtopic.php?t=%s", substr($query, 2)) :
 					$query =~ /^EC/ ? sprintf("http://extremcaching.com/index.php/output-2/%s", substr($query, 2)) :
 					$query =~ /^GA/ ? "http://geocaching.com.au/cache/$query" :
 					$query =~ /^GD/ ? "http://geodashing.gpsgames.org/cgi-bin/dp.pl?dp=$query" :

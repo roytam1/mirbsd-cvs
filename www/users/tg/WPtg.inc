@@ -4358,7 +4358,7 @@ Tag: D2 T2 Micro Tradi
 ----
 ID: 776
 Date: 22.03.2014
-Waypoint: GC4M90G http://www.bessercacher.de/Forum/phpBB3/viewtopic.php?t=2036
+Waypoint: GC4M90G BC2036
 Banner: jpg
 Title: Beach TB Hotel GBH
 Tag: D1 T1 Large Tradi recommended exceptional
@@ -4424,7 +4424,7 @@ Tag: D15 T1 Micro Tradi
 ----
 ID: 785
 Date: 29.03.2014
-Waypoint: GC3DEF0 http://www.bessercacher.de/Forum/phpBB3/viewtopic.php?t=1979
+Waypoint: GC3DEF0 BC1979
 Banner: jpg Smørrebrød: Rezept gefunden
 Title: „Smørrebrød“ oder „Das Lieblingsrezept“
 Tag: D25 T25 Large Multi recommended
@@ -6334,7 +6334,7 @@ Tag: D2 T15 Small Tradi
 ----
 ID: 1094
 Date: 07.09.2014
-Waypoint: GCB88 http://www.bessercacher.de/Forum/phpBB3/viewtopic.php?t=2070
+Waypoint: GCB88 BC2070
 Title: Himmerich
 Tag: D25 T25 Regular Multi recommended exceptional
 
@@ -6450,7 +6450,7 @@ Tag: D3 T25 Small Tradi
 ----
 ID: 1112
 Date: 13.09.2014
-Waypoint: GC2ATK2 http://www.bessercacher.de/Forum/phpBB3/viewtopic.php?t=1293
+Waypoint: GC2ATK2 BC1293
 Title: Red Land
 Tag: D3 T2 Micro Mystery
 ----
@@ -10853,13 +10853,13 @@ Tag: D15 T15 Micro Tradi
 ----
 ID: 1802
 Date: 17.04.2016
-Waypoint: OC106FD GC4HWJ2 http://www.bessercacher.de/Forum/phpBB3/viewtopic.php?t=1852
+Waypoint: OC106FD GC4HWJ2 BC1852
 Title: Herr der Waldgeister
 Tag: D15 T3 Regular Tradi recommended exceptional
 ----
 ID: 1803
 Date: 17.04.2016
-Waypoint: GC26C http://www.bessercacher.de/Forum/phpBB3/viewtopic.php?t=1851
+Waypoint: GC26C BC1851
 Title: Medieval View
 Tag: D15 T15 Regular Tradi recommended exceptional
 
@@ -11846,6 +11846,7 @@ Tag: D1 T1 Mega_Event
 ID: 1962
 Date: 31.07.2016
 Waypoint: GC37R3H
+Banner: jpg
 Title: Ludvika Bonuscache
 Tag: D3 T1 Micro Mystery
 ----
@@ -12087,7 +12088,8 @@ Tag: D1 T1 Micro Tradi
 ----
 ID: 2001
 Date: 11.09.2016
-Waypoint: GC33MME
+Waypoint: GC33MME BC2337
+Banner: gif
 Title: EbbeMoor - Bonus
 Tag: D2 T3 Regular Mystery
 ----
@@ -12097,17 +12099,156 @@ Waypoint: GC4X60Z
 Title: Gesundbrunnen Valbert
 Tag: D15 T15 Micro Tradi
 ----
-ID: p20160918
+ID: 2003
+Date: 13.09.2016
+Waypoint: GC330Y2
+Title: Bücherwurm
+Tag: D2 T1 Large Tradi
+----
+ID: 2004
+Date: 14.09.2016
+Waypoint: GC2VZ1B
+Title: Stairway to heaven - KA Edition
+Tag: D15 T15 Small Tradi
+----
+ID: 2005
+Date: 14.09.2016
+Waypoint: GC2TB27
+Title: Sightseeing - Bundesstaatsanwaltschaft
+Tag: D15 T15 Micro Tradi
+----
+ID: 2006
+Date: 14.09.2016
+Waypoint: GC2BJ6M
+Title: Mannheim HBF
+Tag: D1 T15 Small Tradi
+----
+ID: 2007
 Date: 18.09.2016
 Waypoint: GE031C GC6Q1D1 TC6EEQ N02F8E OC13211
 Title: We ♥ Meßdorfer Feld (reloaded)
 nTF: 0
 Tag: D1 T2 CITO
 ----
+ID: 2008
+Date: 24.09.2016
+Waypoint: OCCE6E
+Title: A1 Raststätte ''Hochwald-Ost'' Richtung Saarbrücken
+Tag: D2 T1 Micro Tradi
+----
+ID: 2009
+Date: 24.09.2016
+Waypoint: GC157TR
+Banner: jpg
+Title: Saarland Coin 2008 - Die Heldenbox
+Tag: D3 T15 Regular Mystery recommended
+----
+ID: 2010
+Date: 24.09.2016
+Waypoint: GC6N4W2
+Title: Der Ziegelstein
+Tag: D1 T15 Small Tradi
+----
+ID: 2011
+Date: 30.09.2016
+Waypoint: GCXYC7
+Title: TRIANGLETOWER / Kölntriangle
+Tag: D25 T15 Regular Tradi
+----
+ID: 2012
+Date: 30.09.2016
+Waypoint: GC1879A
+Title: EHWW(5) - Leo's Cache
+Tag: D15 T1 not_chosen Tradi recommended
+
+T1½
+----
+ID: 2013
+Date: 01.10.2016
+Waypoint: OCDAAB GC3ARM5
+Title: Bibliocache
+Tag: D2 T1 Other Multi recommended
+----
+ID: 2014
+Date: 01.10.2016
+Waypoint: OCB750
+Title: SSVC: Esslingen - Altes Rathaus
+Tag: D15 T1 Virtual
+----
+ID: 2015
+Date: 01.10.2016
+Waypoint: OC12E85
+Title: Webcam Marktplatz Esslingen
+nTF: 3
+Tag: D1 T1 Webcam
+----
+ID: 2016
+Date: 01.10.2016
+Waypoint: GCWG2F
+Title: In Nomine Border et spiritus sancti
+Tag: D1 T15 Micro Tradi
+----
+ID: 2017
+Date: 01.10.2016
+Waypoint: GC187A3
+Title: EHWW(4) - Frauenkirche - alte Turmspitze
+Tag: D15 T1 Micro Tradi
+----
+ID: 2018
+Date: 01.10.2016
+Waypoint: OCBE06
+Title: SSVC: Esslingen - Dicker Turm
+Tag: D1 T1 Virtual
+
+Nie im Leben nur T1
+----
+ID: 2019
+Date: 01.10.2016
+Waypoint: GC1M65B
+Title: Kunst - Oder was? Lady Latigid!
+Tag: D2 T1 Nano Tradi
+----
+ID: 2020
+Date: 01.10.2016
+Waypoint: GC6CVN6
+Banner: png
+Title: HERZLICHE GLÜCKWÜNSCHE für Trude23
+Tag: D15 T15 Small Tradi
+----
+ID: 2021
+Date: 02.10.2016
+Waypoint: GC1Q1KJ
+Title: Uracher Wasserfall
+Tag: D2 T4 Earth
+
+Super Ecke, echt empfehlenswert.
+Bedingungen des CO zum Loggen allerdings etwas seltsam.
+----
+ID: 2022
+Date: 03.10.2016
+Waypoint: GC679RK
+Title: Rhabarberschnaps
+Tag: D2 T2 Micro Mystery
+----
+ID: 2023
+Date: 04.10.2016
+Waypoint: GC6T8E9
+Title: verpeiltes Eisevent 2016
+nTF: 0
+Tag: D1 T1 Event
+----
+ID: p20161018
+Date: 18.10.2016
+Waypoint: GC6V1FM
+Title: … und das Jahr hat sich geneiget.
+nTF: 0
+Tag: D1 T1 Event
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
 Title: Nur einmal im Leben tᵐ=j
+nTF: O
 Tag: D1 T1 Event
 ----
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'

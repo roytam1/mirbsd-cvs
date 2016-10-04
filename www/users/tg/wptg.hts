@@ -271,7 +271,8 @@ souvenir 2016-08-13 'One Cache Is Not Enough' https://souvenirs.geocaching.com/S
 souvenir 2016-08-20 'International Geocaching Day 2016' https://souvenirs.geocaching.com/SouvenirImages/OC8xNS8yMDE2/6929e4a0-c469-4c6b-a670-3b1ac236e389.png 'http://www.geocaching.com/souvenir/?guid=44017d83-bdfd-437b-b673-61148811d2e2'
 souvenir 2016-08-27 'Mission GC Accomplished' https://souvenirs.geocaching.com/SouvenirImages/OC8yNS8yMDE2/f5c2bf57-35c6-4374-a57c-feeaedabf079.png 'http://www.geocaching.com/souvenir/?guid=da409b24-1500-417a-8e47-1eba334571e4'
 souvenir 2016-08-27 'The International Cache of Mystery' https://souvenirs.geocaching.com/SouvenirImages/Ny8yNy8yMDE2/e6d35585-dae0-4521-8b48-dfe4f09865a3.png 'http://www.geocaching.com/souvenir/?guid=abee83bb-a78c-48b5-86b0-5a631a416d21'
-mws__header="$mws__header and <span class=\"rcsid\">\$""MirOS: www/mk/souv2hts,v 1.3 2016/04/17 20:41:31 tg Exp \$""</span> (on 2016-08-29 18:27:37)"
+souvenir 2016-09-18 'CITO Week - September 2016' https://souvenirs.geocaching.com/SouvenirImages/OS82LzIwMTY/96949e58-9baf-42fb-98c9-dcd2e32c1bc4.png 'http://www.geocaching.com/souvenir/?guid=0ed752ca-3b0a-451d-acd0-0340694b5d64'
+mws__header="$mws__header and <span class=\"rcsid\">\$""MirOS: www/mk/souv2hts,v 1.3 2016/04/17 20:41:31 tg Exp \$""</span> (on 2016-10-04 18:24:38)"
 
 # kaputt, s.o.
 #if [[ $nsouvenir != 0 && -z $souvenirs ]]; then
@@ -329,7 +330,7 @@ mzbadge lvl100 Centurion 'To reach Level 100 it takes dedication, passion, and a
 mzbadge 1k '1k Day' '1000 points? Was this a 24 hour sprint, or a one hour stroll?'
 mzbadge 5k '5k Day' '5000 points in one day? Now I&#039;m impressed, but you will have to speed up to get 10K.'
 mzbadge 10k '10k Day' 'This badge is sponsored by back up battery packs, ibuprofen, and caffeine!'
-mzbadge pi 'Easy as Pi' 'The relationship of the capture to the deploy with included residual points is defined as pi.'
+mzbadge pi 'Legacy Pi' 'The relationship of the capture to the deploy with included residual points is defined as pi.'
 mzbadge npi1 'Grade School Student' 'You&#039;ve learned basic Pi and opened a Pandora&#039;s Box of new tasks you can take on. This is only the beginning, though. You still have much to learn. You ended the day with 314 points on Jun 23, 2015.'
 mzbadge repeater Repeater 'You ended the day with 111 points on Jul 28, 2015 and earned this badge. Congratulations!'
 mzbadge mayflowers 'May Flowers' 'April showers brings a May badge. Thanks for playing!'
@@ -350,11 +351,12 @@ mzbadge pinholecamera 'Pin Hole Camera' 'These old cameras make it so hard to ge
 mzbadge plinysfoolsgold 'Pliny&#039;s Fool&#039;s Gold' 'YOU&#039;VE FOUND GOLD! Unfortunately it&#039;s fool&#039;s gold- Keep hunting!'
 mzbadge grizzlyadamsgoldrush 'Grizzly Adams&#039; Gold Rush' 'You&#039;ve panned for gold- Grizzly Adams would be proud!'
 mzbadge funflamingo 'Fun Flamingo' 'The fun&#039;s started and you&#039;ve got a leg up on the competition!'
+mzbadge socialserpents 'Social Serpents' 'You&#039;ve slithered your way to a few more social events! '
 mzbadge 5thbd '5th Birthday' 'You played Munzee during our 5th birthday party month and were lucky enough to cap a birthday icon in July 2016!'
 mzbadge cologne5 'Kölner Stammtisch V' 'Thanks for participating, hope you have fun! Prost!'
 mzbadge 4thbdayplaydate '4th Birthday Playdate' 'You played Munzee during our 4th birthday party weekend in July 2015!'
 mzbadge 3rd_birthday 'Munzee turns 3' 'Thanks for celebrating our 3rd birthday! It&#039;s a Fiesta!'
-mws__header="$mws__header and <span class=\"rcsid\">\$""MirOS: www/users/tg/munzbadg,v 1.6 2016/04/17 20:41:32 tg Exp \$""</span> (on 2016-09-11 18:38:24)"
+mws__header="$mws__header and <span class=\"rcsid\">\$""MirOS: www/users/tg/munzbadg,v 1.6 2016/04/17 20:41:32 tg Exp \$""</span> (on 2016-10-04 18:24:47)"
 
 mws_content <<EOF
 
