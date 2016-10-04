@@ -12158,7 +12158,7 @@ Tag: D25 T15 Regular Tradi
 ID: 2012
 Date: 30.09.2016
 Waypoint: GC1879A
-Title: EHWW(5) - Leo's Cache
+Title: EHWW‌(5) - Leo's Cache
 Tag: D15 T1 not_chosen Tradi recommended
 
 T1½
@@ -12191,7 +12191,7 @@ Tag: D1 T15 Micro Tradi
 ID: 2017
 Date: 01.10.2016
 Waypoint: GC187A3
-Title: EHWW(4) - Frauenkirche - alte Turmspitze
+Title: EHWW‌(4) - Frauenkirche - alte Turmspitze
 Tag: D15 T1 Micro Tradi
 ----
 ID: 2018
@@ -12243,6 +12243,11 @@ Waypoint: GC6V1FM
 Title: … und das Jahr hat sich geneiget.
 nTF: 0
 Tag: D1 T1 Event
+----
+ID: p20161025
+Date: 25.10.2016
+Waypoint: GC6V1K7
+Title: Arrivederci und bye bye! MMXVI
 ----
 ID: p20481102
 Date: 02.11.2048
