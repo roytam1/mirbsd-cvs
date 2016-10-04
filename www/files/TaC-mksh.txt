@@ -93,12 +93,11 @@ libbsd package. The files are not compiled into the resulting binary
 if their respective functionality is already provided.
 
 
-The following files belong to mksh in a less close way, as the files
-provide additional functionality less closely coupled, or not always
-desired. These are not included in the mksh distfile:
+The following file is not part of mksh but can be used with it; it's
+also not included in the mksh distfile:
 - source code
   * src/usr.bin/printf/printf.c (UCB printf(1) utility that has been
-    slightly modified, for the optional, undesired printf builtin)
+    slightly modified, for the optional, discouraged printf builtin)
 
     *DO NOT* INCLUDE printf AS A SHELL BUILT-IN UNLESS IT ABSOLUTELY
     IS REQUIRED (or else the preferable /usr/bin/printf gets called)

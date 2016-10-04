@@ -1221,6 +1221,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Simplify and improve code and manual page</li>
  <li>[tg] Try GCC 5’s new <tt>-malign-data=abi</tt></li>
  <li>[tg] Allow interrupting builtin cat even on fast devices (LP#1616692)</li>
+ <li>[tg] Update to Unicode 9.0.0</li>
+ <li>[Andreas Buschka] Correct English spelling</li>
+ <li>[tg] Handle <tt>set -e</tt>-related error propagation in <tt>||</tt> and
+  <tt>&amp;&amp;</tt> constructs correctly</li>
 </ul>
 <p id="r53a"><span id="r53">R53a</span> is a snapshot/feature release:</p><ul>
  <li>[lintian] Fix spelling</li>
