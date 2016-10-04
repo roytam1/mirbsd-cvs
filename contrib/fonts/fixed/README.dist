@@ -29,15 +29,25 @@ The following procedure is known to generate a working GNU GRUB 2 font:
   grub-mkfont -n 'FixedMisc [MirOS]' -c 14 -d 4 -o FixedMisc.pf2 \
       -v hw.bdf fw.bdf
 
+Future direction: the ambiguous glyphs will be separate, to be
+included only where desirable.
+
 Some environments (Qt 5) require an X11 bitmap font to have only one
 width; that can be achieved by:
   sed 's/FixedMisc/FixedMiscHW/g' <mirf18hw.bdf >mirfhw18.bdf
+Future consideration could be a FixedMiscCombined font, hoping that
+merging those in a single BDF/PCF file is workable with both the
+file formats and Qt.
 
 To create a Linux console font (in (mostly) cp437 encoding), use the
-script from mircvs://contrib/fonts/bdftopsf.pl like so:
+script from mircvs://contrib/fonts/tools/bdftopsf.pl like so:
   bdftopsf.pl +h -u +1 <mirf16v8.bdf >mirf16v8.psf
 Generate a second binary with an embedded Unicode map:
   psfaddtable mirf16v8.psf mirf16v8.map mirf16v8.psfu
+
+There is also a Linux framebuffer console font (512 glyphs in a
+font-specific encoding, 9x18) made from this, we are working on
+extracting the build method from the Debian-specific surroundings.
 
 This font (the binary without the Unicode map) can also be used in
 SYSLINUX by copying mirf16v8.psf to the same directory pxelinux.0,
@@ -86,4 +96,4 @@ The preferred form of modification for X bitmap fonts is BDF or
 an equivalence transformation: https://www.mirbsd.org/man1/bdfctool
 
 __________________________________________________________________________
-$MirOS: contrib/fonts/fixed/README.dist,v 1.3 2015/12/06 01:04:38 tg Exp $
+$MirOS: contrib/fonts/fixed/README.dist,v 1.2 2015/01/24 16:01:14 tg Exp $
