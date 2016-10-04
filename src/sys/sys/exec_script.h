@@ -1,3 +1,4 @@
+/*	$MirOS$ */
 /*	$OpenBSD: exec_script.h,v 1.4 2002/03/14 01:27:14 millert Exp $	*/
 /*	$NetBSD: exec_script.h,v 1.6 1995/03/26 20:24:11 jtc Exp $	*/
 
@@ -34,7 +35,13 @@
 #define	EXEC_SCRIPT_MAGIC	"#!"
 #define	EXEC_SCRIPT_MAGICLEN	2
 
-#define	SETUIDSCRIPTS		/* they are secure, so enable them */
+/*
+ * This file used to #define SETUIDSCRIPTS with a note stating that
+ * "they are secure, so enable them", but in reality this allows
+ * executable non-readable shell scripts to be read by the executing
+ * shell and, by means of ktrace, thus the executing user. Since both
+ * the shell and Perl disallow setugid scripts anyway, we stop that.
+ */
 
 #ifdef _KERNEL
 
