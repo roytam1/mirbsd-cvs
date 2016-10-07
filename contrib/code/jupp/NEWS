@@ -7,6 +7,7 @@ JUPP-current
 - Update internationalisation data to Unicode 9.0.0
 - Bind execmd in jstarrc, so all flavours bind it
 - Fix paths in joe(1) manpage
+- jupprc: ^Q= searches for merge conflict markers (CVS, git)
 
 JOE 3.1jupp28
 
