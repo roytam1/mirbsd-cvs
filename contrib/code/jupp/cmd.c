@@ -220,6 +220,7 @@ CMD cmds[] = {
 	{US "rtarw", TYPETW + TYPEPW /* + EFIXXCOL */, u_goto_right, NULL, 1, US "ltarw"}, /* EFIX removed for picture mode */
 	{US "rtarwmenu", TYPEMENU, umrtarw, NULL, 1, US "ltarwmenu"},
 	{US "rtn", TYPETW + TYPEPW + TYPEMENU + TYPEQW + EMOD, urtn, NULL, 1, NULL},
+	{US "rvmatch", TYPETW + TYPEPW + EFIXXCOL, urvmatch, NULL, 0, NULL},
 	{US "save", TYPETW, usave, NULL, 0, NULL},
 	{US "scratch", TYPETW + TYPEPW, uscratch, NULL, 0, NULL},
 	{US "select", TYPETW + TYPEPW, uselect, NULL, 0, NULL},

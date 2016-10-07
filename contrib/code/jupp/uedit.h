@@ -31,6 +31,7 @@ int u_goto_next PARAMS((BW *bw));	/* move cursor to next word, edge,
 					   or end of line */
 
 int utomatch PARAMS((BW *bw));
+int urvmatch PARAMS((BW *bw));
 int uuparw PARAMS((BW *bw));
 int udnarw PARAMS((BW *bw));
 int utos PARAMS((BW *bw));

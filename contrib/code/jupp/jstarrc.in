@@ -1044,8 +1044,8 @@ tomarkb		^Q b
 tomarkk		^Q K		Go to end of marked block
 tomarkk		^Q ^K
 tomarkk		^Q k
-tomatch		^Q [		Goto matching parenthasis
-tomatch		^Q ^[
+rvmatch		^Q [		Goto matching parenthasis
+rvmatch		^Q ^[
 tomatch		^Q ]
 tomatch		^Q ^]
 undo		^U		Undo changes
