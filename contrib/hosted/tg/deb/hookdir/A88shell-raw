@@ -1,0 +1,13 @@
+#!/bin/sh
+# $MirOS: contrib/hosted/tg/deb/hookdir/C80shell-jupp,v 1.5 2016/01/14 18:46:20 tg Exp $
+#-
+# Not complicated enough for copyright.
+
+unset LANGUAGE
+LC_ALL=C; export LC_ALL
+
+echo "I: Current time: $(date)"
+echo
+echo Trying to invoke a shell, with no extra packages installed...
+echo
+/bin/sh 0<>/dev/tty >&0 2>&0

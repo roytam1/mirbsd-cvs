@@ -1,7 +1,9 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/tg/deb/hookdir/C80shell-jupp,v 1.4 2014/12/12 21:44:18 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/hookdir/C80shell-jupp,v 1.5 2016/01/14 18:46:20 tg Exp $
 #-
 # Not complicated enough for copyright.
+#
+# This can also be used in an A or B hook nowadays.
 
 unset LANGUAGE
 LC_ALL=C; export LC_ALL

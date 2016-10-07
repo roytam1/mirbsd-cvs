@@ -35,11 +35,18 @@
 # TODO: changes to the mirrors don’t apply to existing chroots
 # as they are read on --create only… move into a sources.list
 # update script instead.
+#
+# TODO: find a solution to the various problems with Secure APT,
+# including (but not limited to) Valid-Until repo headers on old
+# distributions and expired PGP keys.
 
+# ownership of /var/cache/pbuilder/result*/*
 export BUILDRESULTUID=1000
 export BUILDRESULTGID=1000
+# uid used to run the actual build process tree under
 export BUILDUSERID=1234
 export BUILDUSERNAME=pbuilder
+# for dch and possibly DEBBUILDOPTS (see below)
 export DEBEMAIL='Thorsten Glaser <tg@mirbsd.de>'
 
 # desirable, unless you *want* to run most time-consuming
@@ -65,7 +72,6 @@ DISTROS='debian dpo ubuntu'
 DISTS_debian='sarge etch lenny squeeze wheezy jessie stretch buster bullseye sid'
 DISTS_dpo='dpo'
 DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise quantal raring saucy trusty utopic vivid wily xenial yakkety'
-DISTLTS_debian=squeeze
 DISTBACKPORTS_debian=sarge:etch:lenny:squeeze:wheezy:jessie
 DISTBACKPORTSLOPPY_debian=lenny:squeeze:wheezy
 DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise:quantal:raring:saucy:trusty:utopic:vivid:wily:xenial:yakkety
@@ -102,22 +108,21 @@ MIRROR_yakkety=http://archive.ubuntu.com/ubuntu/
 MIRRORSECURITY_sarge=http://archive.debian.org/debian-security/
 MIRRORSECURITY_etch=http://archive.debian.org/debian-security/
 MIRRORSECURITY_lenny=http://archive.debian.org/debian-security/
-MIRRORSECURITY_squeeze=http://httpredir.debian.org/debian-security/
+MIRRORSECURITY_squeeze=http://archive.debian.org/debian-security/
 MIRRORSECURITY_wheezy=http://httpredir.debian.org/debian-security/
 MIRRORSECURITY_jessie=http://httpredir.debian.org/debian-security/
 MIRRORSECURITY_stretch=http://httpredir.debian.org/debian-security/
 MIRRORSECURITY_buster=NO
 MIRRORSECURITY_bullseye=NO
 MIRRORSECURITY_sid=NO
-MIRRORSECURITY_debian_LTS=http://httpredir.debian.org/debian/
 MIRRORBACKPORTS_sarge=http://archive.debian.org/debian-backports/
 MIRRORBACKPORTS_etch=http://archive.debian.org/debian-backports/
 MIRRORBACKPORTS_lenny=http://archive.debian.org/debian-backports/
-MIRRORBACKPORTS_squeeze=http://httpredir.debian.org/debian-backports/
+MIRRORBACKPORTS_squeeze=http://archive.debian.org/debian-backports/
 MIRRORBACKPORTS_wheezy=http://httpredir.debian.org/debian/
 MIRRORBACKPORTS_jessie=http://httpredir.debian.org/debian/
 MIRRORBACKPORTSLOPPY_lenny=http://archive.debian.org/debian-backports/
-MIRRORBACKPORTSLOPPY_squeeze=http://httpredir.debian.org/debian-backports/
+MIRRORBACKPORTSLOPPY_squeeze=http://archive.debian.org/debian-backports/
 MIRRORBACKPORTSLOPPY_wheezy=http://httpredir.debian.org/debian/
 
 COMPONENTS_debian=main
@@ -358,14 +363,15 @@ export DEBOOTSTRAPOPTS EXTRAPACKAGES REMOVEPACKAGES
 export DEBIAN_FRONTEND=noninteractive
 eval MIRRORSITE=\$MIRROR_$DISTRIBUTION; export MIRRORSITE
 eval x=\$MIRRORSECURITY_$DISTRIBUTION
+OTHERMIRROR=
 case x$x:$DISTRO in
 (*:ubuntu)
 	: security is same as normal mirrors
-	OTHERMIRROR="deb $MIRRORSITE $DISTRIBUTION-security $COMPONENTS"
+	OTHERMIRROR="${OTHERMIRROR:+$OTHERMIRROR|}deb $MIRRORSITE $DISTRIBUTION-security $COMPONENTS"
 	;;
 (*:dpo)
 	: always add unreleased
-	OTHERMIRROR="deb $MIRROR_unreleased unreleased $COMPONENTS"
+	OTHERMIRROR="${OTHERMIRROR:+$OTHERMIRROR|}deb $MIRROR_unreleased unreleased $COMPONENTS"
 	: debian-ports has no security support
 	;;
 (xNO:*)
@@ -378,12 +384,9 @@ case x$x:$DISTRO in
 	return
 	;;
 (*:debian)
-	OTHERMIRROR="deb $x $DISTRIBUTION/updates $COMPONENTS"
-	case :$DISTLTS_debian: in
-	(*:$DISTRIBUTION:*)
-		OTHERMIRROR="$OTHERMIRROR|deb $MIRRORSECURITY_debian_LTS $DISTRIBUTION-lts $COMPONENTS"
-		;;
-	esac
+	OTHERMIRROR="${OTHERMIRROR:+$OTHERMIRROR|}deb $x $DISTRIBUTION/updates $COMPONENTS"
+	test x"$DISTRIBUTION" = x"squeeze" && \
+	    OTHERMIRROR="${OTHERMIRROR:+$OTHERMIRROR|}deb $MIRRORSITE $DISTRIBUTION-lts $COMPONENTS"
 	;;
 esac
 case $isbackports:$DIST in
@@ -394,7 +397,7 @@ case $isbackports:$DIST in
 		setuptofail
 		return
 	fi
-	OTHERMIRROR="$OTHERMIRROR|deb $x $DISTRIBUTION-backports $COMPONENTS"
+	OTHERMIRROR="${OTHERMIRROR:+$OTHERMIRROR|}deb $x $DISTRIBUTION-backports $COMPONENTS"
 	;;
 (no:*)
 	;;
@@ -405,18 +408,18 @@ case $isbackports:$DIST in
 		setuptofail
 		return
 	fi
-	OTHERMIRROR="$OTHERMIRROR|deb $x $DISTRIBUTION-backports $COMPONENTS"
+	OTHERMIRROR="${OTHERMIRROR:+$OTHERMIRROR|}deb $x $DISTRIBUTION-backports $COMPONENTS"
 	eval x=\$MIRRORBACKPORTSLOPPY_$DISTRIBUTION
 	if test x"$x" = x""; then
 		echo >&2 "E: Internal error, $DISTRIBUTION-backports-sloppy mirror not set"
 		setuptofail
 		return
 	fi
-	OTHERMIRROR="$OTHERMIRROR|deb $x $DISTRIBUTION-backports-sloppy $COMPONENTS"
+	OTHERMIRROR="${OTHERMIRROR:+$OTHERMIRROR|}deb $x $DISTRIBUTION-backports-sloppy $COMPONENTS"
 	;;
 (ubuntu:*)
-	OTHERMIRROR="$OTHERMIRROR|deb $MIRRORSITE $DISTRIBUTION-updates $COMPONENTS"
-	OTHERMIRROR="$OTHERMIRROR|deb $MIRRORSITE $DISTRIBUTION-backports $COMPONENTS"
+	OTHERMIRROR="${OTHERMIRROR:+$OTHERMIRROR|}deb $MIRRORSITE $DISTRIBUTION-updates $COMPONENTS"
+	OTHERMIRROR="${OTHERMIRROR:+$OTHERMIRROR|}deb $MIRRORSITE $DISTRIBUTION-backports $COMPONENTS"
 	;;
 (*)
 	echo >&2 "E: Internal error, \$isbackports '$isbackports' unknown"
