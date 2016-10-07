@@ -338,10 +338,6 @@ int utomatch(BW *bw)
 		f = '}';
 		dir = 1;
 		break;
-	case '`':
-		f = '\'';
-		dir = 1;
-		break;
 	case '<':
 		f = '>';
 		dir = 1;
@@ -365,6 +361,12 @@ int utomatch(BW *bw)
 	case '>':
 		f = '<';
 		dir = -1;
+		break;
+	case '"':
+	case '\'':
+	case '`':
+		f = c;
+		dir = 1;
 		break;
 	default:
 		return -1;
