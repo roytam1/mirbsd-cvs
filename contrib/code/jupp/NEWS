@@ -9,6 +9,7 @@ JUPP-current
 - Fix paths in joe(1) manpage
 - jupprc: ^Q= searches for merge conflict markers (CVS, git)
 - Add syntax file for tex (LaTeX; *.cls *.sty *.tex)
+- Make syntax highlighting code use UTF-8 by individual octets
 
 JOE 3.1jupp28
 
