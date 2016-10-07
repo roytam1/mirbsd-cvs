@@ -532,6 +532,16 @@
 *.tcl
 -syntax tcl
 
+ === TeX
+*.cls
+-syntax tex
+
+*.sty
+-syntax tex
+
+*.tex
+-syntax tex
+
  === Verilog
 *.v
 -syntax verilog

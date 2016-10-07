@@ -8,6 +8,7 @@ JUPP-current
 - Bind execmd in jstarrc, so all flavours bind it
 - Fix paths in joe(1) manpage
 - jupprc: ^Q= searches for merge conflict markers (CVS, git)
+- Add syntax file for tex (LaTeX; *.cls *.sty *.tex)
 
 JOE 3.1jupp28
 
