@@ -1014,7 +1014,7 @@ MPX *mpxmk(int *ptyfd, const unsigned char *cmd, unsigned char **args, void (*fu
 	int comm[2];
 	pid_t pid;
 	int x;
-	MPX *m;
+	MPX *m = NULL;
 	unsigned char *name;
 
 	/* Get pty/tty pair */
