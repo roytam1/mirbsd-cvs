@@ -5,7 +5,7 @@
 
  JOE looks for this file in:
 	1 - $HOME/.jstarrc
-	2 - @sysconfdir@/jstarrc
+	2 - @jrcbefore@jstarrc@jrcafter@
 
  This file can include other files by placing the following include command
  in the first column:

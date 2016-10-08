@@ -13,7 +13,7 @@ EXTRA_DIST = COPYING INFO LIST NEWS README README.cvs TODO docs/help-system.html
 
 JOE_ALIASES = jmacs jpico jstar jupp rjoe
 
-sysconfjoesubdir = /joe
+sysconfjoesubdir = @sysconfjoesubdir@
 sysconf_joedir = $(sysconfdir)$(sysconfjoesubdir)
 sysconf_joe_DATA = joerc jmacsrc jstarrc rjoerc jpicorc jupprc
 

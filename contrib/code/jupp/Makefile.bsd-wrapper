@@ -4,7 +4,7 @@
 
 MAN=		joe.1
 INST_TARGET=	INSTALL_MAN= install
-CLEANFILES+=	.deps charmaps syntax
+CLEANFILES+=	.deps charmaps syntax joe.txt{,~}
 
 CFPREFIX?=	/usr/local
 .if ${CFPREFIX} == "/usr"
@@ -18,8 +18,12 @@ sysconfjoesubdir?=/jupp
 CFARGS+=	--prefix=${CFPREFIX:Q} \
 		--bindir=${CFPREFIX:Q}/bin \
 		--mandir=${CFMANDIR:Q} \
-		--sysconfdir=${CFETC:Q}
-XARGS+=		sysconfjoesubdir=${sysconfjoesubdir:Q}
+		--sysconfdir=${CFETC:Q} \
+		--enable-sysconfjoesubdir=${sysconfjoesubdir:Q}
+
+.ifmake winman
+CFARGS+=	--enable-win32reloc=old
+.endif
 
 .include <bsd.own.mk>
 FSFISLIB=	No
@@ -33,6 +37,13 @@ COPTS+=		-Wno-unused-parameter \
 .endif
 
 joe.1: config.status
+
+winman: joe.1
+	nrcon -mandoc joe.1 | col -bx >joe.txt~
+	print '$$-3,$$d\n,g/^MirOS BSD/.-3,.+10d\nwq' | ed -s joe.txt~
+	cat -s joe.txt~ | sed \
+	    -e 's/\(jupp\)\( .global-options\)/\132\2/' \
+	    -e '1d' -e '$$d' -e $$'s/$$/\r/' >joe.txt
 
 
 .ifmake joe.pdf
