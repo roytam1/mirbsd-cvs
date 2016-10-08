@@ -13,6 +13,7 @@ JUPP-current
 - ^Q] now also works for ASCII quotation marks (jupp, jstar)
 - ^Q[ is distinct from ^Q] when ambiguous (jupp, jstar)
 - Unbreak tab-completing filenames with spaces
+- Fix filenames with backslashes
 
 JOE 3.1jupp28
 
