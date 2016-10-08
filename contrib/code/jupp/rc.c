@@ -984,7 +984,7 @@ int procrc(CAP *cap, unsigned char *name)
 					/* do nothing */;
 				if (buf[0] != '}') {
 					err = 1;
-					fprintf(stderr, "\n%s:%d: End of joerc file occured before end of help text\n", name, line);
+					fprintf(stderr, "\n%s:%d: End of joerc file occurred before end of help text\n", name, line);
 					break;
 				}
 			}

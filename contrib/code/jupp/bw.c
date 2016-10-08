@@ -246,7 +246,7 @@ int get_highlight_state(BW *w,int line)
 	return w->parent->t->t->syntab[y];
 }
 
-/* Scroll a buffer window after an insert occured.  'flg' is set to 1 if
+/* Scroll a buffer window after an insert occurred.  'flg' is set to 1 if
  * the first line was split
  */
 
