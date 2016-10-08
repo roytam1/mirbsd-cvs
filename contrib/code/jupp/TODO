@@ -650,6 +650,9 @@ Other requests:
 │ jupp TODO │
 └───────────┘
 
+• do not let configure handle expansion for the manpage,
+  currently @joeresides@ expands to ${exec_prefix}/bin
+  (unexpanded); a Makefile can correct that
 • merge syntax handling code from joe-3.7+
 • merge math from joe-3.7+
 • add group support to regex code
