@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.69 2014/12/20 14:12:15 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.72 2016/01/02 20:27:23 tg Exp $'
 #-
 # Copyright © 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016
 #	mirabilos <m@mirbsd.org>
@@ -19,7 +19,7 @@ rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.69 2014/12/20 14:12:15 tg E
 # damage or existence of a defect, except proven that it results out
 # of said person's immediate fault when using the work as intended.
 
-unset normarchs repo_keyid gpg_remote repo_origin repo_label repo_title
+unset normarchs repo_keyid gpg_remote gpg_bin repo_origin repo_label repo_title
 unset -f repo_intro repo_description
 me=$(dirname "$0"); [[ -s $me/mkdebidx.inc ]] && . "$me/mkdebidx.inc"
 unset me
@@ -28,6 +28,16 @@ unset me
 # either '' (locally) or 'remsign user@host.domain.com' (remote ssh)
 [[ -n ${repo_keyid+x} ]] || repo_keyid=0xAA917C6F
 [[ -n ${gpg_remote+x} ]] || gpg_remote=
+case ${gpg_bin:-x} {
+(gpg|gpg1|gpg2|gnupg|gnupg1|gnupg2) ;;
+(*)
+	if [[ -n $gpg_remote ]]; then
+		gpg_bin=gpg
+	elif ! gpg_bin=$(whence -p gpg1); then
+		gpg_bin=gpg
+	fi
+	;;
+}
 [[ -n ${repo_origin+x} ]] || repo_origin='The MirOS Project'
 [[ -n ${repo_label+x} ]] || repo_label=wtf
 [[ -n ${repo_title+x} ]] || repo_title='MirDebian “WTF” Repository'
@@ -356,11 +366,11 @@ for suite in dists/*; do
 	. $suite/distinfo.sh
 	rm -f $suite/InRelease $suite/Release $suite/Release.gpg
 	if [[ $use_inrelease = 1 ]]; then
-		$gpg_remote gpg -u $repo_keyid --no-comment --clearsign \
+		$gpg_remote $gpg_bin -u $repo_keyid --no-comment --clearsign \
 		    <$suite/Release-tmp >$suite/Release-inl
 		mv -f $suite/Release-inl $suite/InRelease
 	else
-		$gpg_remote gpg -u $repo_keyid --no-comment -sab \
+		$gpg_remote $gpg_bin -u $repo_keyid --no-comment -sab \
 		    <$suite/Release-tmp >$suite/Release-sig
 		mv -f $suite/Release-tmp $suite/Release
 		mv -f $suite/Release-sig $suite/Release.gpg
@@ -564,7 +574,7 @@ EOF
 print -r -- " <title>${repo_title} Index</title>"
 [[ -s NEWS.rss ]] && print '<link rel="alternate" type="application/rss+xml" title="RSS" href="NEWS.rss" />'
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.69 2014/12/20 14:12:15 tg Exp $" />
+ <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.72 2016/01/02 20:27:23 tg Exp $" />
  <style type="text/css"><!--/*--><![CDATA[/*><!--*/
   table {
    border: 1px solid black;
