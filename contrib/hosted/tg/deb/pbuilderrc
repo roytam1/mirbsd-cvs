@@ -47,7 +47,7 @@ export BUILDRESULTGID=1000
 export BUILDUSERID=1234
 export BUILDUSERNAME=pbuilder
 # for dch and possibly DEBBUILDOPTS (see below)
-export DEBEMAIL='Thorsten Glaser <tg@mirbsd.de>'
+[[ -z $DEBEMAIL ]] || export DEBEMAIL='Thorsten Glaser <tg@mirbsd.de>'
 
 # desirable, unless you *want* to run most time-consuming
 # testsuites, which usually fail anyway… (yay for optimism)
