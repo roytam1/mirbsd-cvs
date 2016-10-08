@@ -437,10 +437,10 @@ export PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends
 #export PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-aptitude
 #export PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-classic
 case $isbackports:$DISTRIBUTION in
-(*:sarge|no:etch)
+(no:etch)
 	PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-classic
 	;;
-(yes:etch|yes:lenny)
+(*:sarge|yes:etch|yes:lenny)
 	PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-experimental
 	;;
 (*:sloppy)

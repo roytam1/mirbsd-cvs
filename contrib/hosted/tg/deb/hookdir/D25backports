@@ -1,9 +1,12 @@
 #!/bin/sh
-# $MirOS: contrib/hosted/tg/deb/hookdir/D10wtfrepo,v 1.5 2016/08/23 18:02:06 tg Exp $
+# $MirOS: contrib/hosted/tg/deb/hookdir/D25backports,v 1.1 2016/10/07 09:16:34 tg Exp $
 #-
 # Not complicated enough for copyright.
 #
 # Note: Secure APT is a PITA, for old versions.
+#
+# Note: This will not work with pbuilder-satisfydepends-classic,
+# and on sarge not with pbuilder-satisfydepends (aptitude) either.
 
 unset LANGUAGE
 LC_ALL=C; export LC_ALL
