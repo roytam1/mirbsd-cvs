@@ -401,7 +401,8 @@ static int cmdcmplt(BW *bw)
 {
 	if (!scmds)
 		scmds = getcmds();
-	return simple_cmplt(bw,scmds);
+	/*XXX simple_cmplt does p_goto_bol, better only to last comma */
+	return simple_cmplt(bw, scmds);
 }
 
 static int docmd(BW *bw, unsigned char *s, void *object, int *notify)
