@@ -444,32 +444,16 @@ skey_fakeprompt(char *username, char *skeyprompt)
 	if ((up = SHA1Data(username, strlen(username), NULL)) != NULL) {
 		struct stat sb;
 		time_t t;
-		int fd;
 
 		/* Collapse the hash */
 		ptr = hash_collapse(up);
 		memset(up, 0, strlen(up));
 
-		/* See if the random file's there, else use ctime */
-		if ((fd = open(_SKEY_RAND_FILE_PATH_, O_RDONLY)) != -1
-		    && fstat(fd, &sb) == 0 &&
-		    sb.st_size > (off_t)SKEY_MAX_SEED_LEN &&
-		    lseek(fd, ptr % (sb.st_size - SKEY_MAX_SEED_LEN),
-		    SEEK_SET) != -1 && read(fd, hseed,
-		    SKEY_MAX_SEED_LEN) == SKEY_MAX_SEED_LEN) {
-			close(fd);
-			fd = -1;
-			secret = hseed;
-			secretlen = SKEY_MAX_SEED_LEN;
-			flg = 0;
-		} else if (!stat(_PATH_MEM, &sb) || !stat("/", &sb)) {
-			t = sb.st_ctime;
-			secret = ctime(&t);
-			secretlen = strlen(secret);
-			flg = 0;
-		}
-		if (fd != -1)
-			close(fd);
+		/* You don't want to know what code was here prior */
+		arc4random_buf(hseed, SKEY_MAX_SEED_LEN);
+		secret = hseed;
+		secretlen = SKEY_MAX_SEED_LEN;
+		flg = 0;
 	}
 
 	/* Put that in your pipe and smoke it */
