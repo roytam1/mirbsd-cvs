@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: contrib/fonts/fixed/bdf2clst,v 1.1.2.1 2012/07/31 21:52:01 tg Exp $
+# $MirOS: contrib/fonts/fixed/bdfc2lst,v 1.1 2012/09/01 20:57:14 tg Exp $
 #-
 # .bdfc -> .lst (list of characters contained within)
 
