@@ -30,23 +30,15 @@
  * SUCH DAMAGE.
  */
 
-#ifndef lint
-static char copyright[] =
-"@(#) Copyright (c) 1988, 1993\n\
-	The Regents of the University of California.  All rights reserved.\n";
-#endif /* not lint */
-
-#ifndef lint
-#if 0
-static char sccsid[] = "@(#)hostname.c	8.2 (Berkeley) 4/28/95";
-#else
-static char rcsid[] = "$OpenBSD: hostname.c,v 1.7 2003/06/02 23:32:08 millert Exp $";
-#endif
-#endif /* not lint */
-
 #include <sys/param.h>
+__COPYRIGHT("@(#) Copyright (c) 1988, 1993\n\
+	The Regents of the University of California.  All rights reserved.\n");
+__SCCSID("@(#)hostname.c	8.2 (Berkeley) 4/28/95");
+__RCSID("$MirOS$");
 
+#include <sys/socket.h>
 #include <err.h>
+#include <netdb.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -54,19 +46,22 @@ static char rcsid[] = "$OpenBSD: hostname.c,v 1.7 2003/06/02 23:32:08 millert Ex
 
 extern	char *__progname;
 
-void usage(void);
+__dead void usage(void);
 
 int
 main(int argc, char *argv[])
 {
-	int ch, sflag;
+	int ch;
+	int type = 0;
 	char *p, hostname[MAXHOSTNAMELEN];
 
-	sflag = 0;
-	while ((ch = getopt(argc, argv, "s")) != -1)
+	while ((ch = getopt(argc, argv, "fs")) != -1)
 		switch (ch) {
+		case 'f':
+			type = 2;
+			break;
 		case 's':
-			sflag = 1;
+			type = 1;
 			break;
 		default:
 			usage();
@@ -78,12 +73,23 @@ main(int argc, char *argv[])
 		usage();
 
 	if (*argv) {
+		if (type)
+			usage();
 		if (sethostname(*argv, strlen(*argv)))
 			err(1, "sethostname");
 	} else {
 		if (gethostname(hostname, sizeof(hostname)))
 			err(1, "gethostname");
-		if (sflag && (p = strchr(hostname, '.')))
+		if (type == 2) {
+			struct addrinfo *res, hints;
+
+			memset(&hints, 0, sizeof(struct addrinfo));
+			hints.ai_socktype = SOCK_DGRAM;
+			hints.ai_flags = AI_CANONNAME;
+			if ((type = getaddrinfo(hostname, NULL, &hints, &res)))
+				errx(1, "%s", gai_strerror(type));
+			strlcpy(hostname, res->ai_canonname, sizeof(hostname));
+		} else if ((type == 1) && (p = strchr(hostname, '.')))
 			*p = '\0';
 		(void)printf("%s\n", hostname);
 	}
@@ -93,6 +99,6 @@ main(int argc, char *argv[])
 void
 usage(void)
 {
-	(void)fprintf(stderr, "usage: %s [-s] [name-of-host]\n", __progname);
+	fprintf(stderr, "usage: %s [-fs | <name-of-host>]\n", __progname);
 	exit(1);
 }

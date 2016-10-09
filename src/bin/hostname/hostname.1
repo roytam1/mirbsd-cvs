@@ -1,3 +1,4 @@
+.\"	$MirOS$
 .\"	$OpenBSD: hostname.1,v 1.18 2003/12/03 14:06:08 jmc Exp $
 .\"	$NetBSD: hostname.1,v 1.11 1995/09/07 06:28:39 jtc Exp $
 .\"
@@ -30,7 +31,7 @@
 .\"
 .\"	@(#)hostname.1	8.2 (Berkeley) 4/28/95
 .\"
-.Dd April 28, 1995
+.Dd $Mdocdate$
 .Dt HOSTNAME 1
 .Os
 .Sh NAME
@@ -38,7 +39,7 @@
 .Nd set or print name of current host system
 .Sh SYNOPSIS
 .Nm hostname
-.Op Fl s
+.Op Fl fs
 .Op Ar name-of-host
 .Sh DESCRIPTION
 The
@@ -49,18 +50,37 @@ The superuser can set the host name by supplying a
 file.
 This is used at system boot time by
 .Xr netstart 8
-to initialize the hostname.
+to initialise the hostname.
 .Pp
 The options are as follows:
 .Bl -tag -width Ds
+.It Fl f
+Returns what the DNS resolver thinks the hostname canonicalises to.
+This is usually the
+.Dq official host name
+of the first line in
+.Pa /etc/hosts
+whose official host name or alias matches the name of the current host,
+but can also be retrieved from DNS.
 .It Fl s
 Trims off any domain information from the printed
 name.
 .El
+.Sh FILES
+.Bl -tag -width XetcXmyname -compact
+.It Pa /etc/hosts
+The host name database.
+.It Pa /etc/myname
+Configuration file containing the fully qualified host name
+.Pq FQDN ,
+to be set at system boot time.
+.El
 .Sh SEE ALSO
 .Xr domainname 1 ,
+.Xr getaddrinfo 3 ,
 .Xr gethostname 3 ,
 .Xr sethostname 3 ,
+.Xr hosts 5 ,
 .Xr myname 5 ,
 .Xr hostname 7 ,
 .Xr netstart 8
@@ -69,3 +89,11 @@ The
 .Nm
 utility appeared in
 .Bx 4.2 .
+The
+.Fl f
+option appeared in
+.Mx 11 ,
+inspired by the
+.Tn GNU
+version of
+.Nm .
