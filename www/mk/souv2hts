@@ -26,6 +26,7 @@ rcsid='$MirOS: www/mk/souv2hts,v 1.2 2016/03/12 20:45:40 tg Exp $'
 IFS=$' \t\n\r'
 state=0
 lynx -source http://www.geocaching.com/my/souvenirs.aspx | sed \
+    -e 's!&#32;! !g' \
     -e '1,/div class="ProfileSouvenirsList"/d' \
     -e '/id="ctl00_divContentSide"/,$d' | \
     while read line; do
