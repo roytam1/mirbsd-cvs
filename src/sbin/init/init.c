@@ -2,8 +2,8 @@
 /*	$NetBSD: init.c,v 1.22 1996/05/15 23:29:33 jtc Exp $	*/
 
 /*-
- * Copyright © 2013, 2014
- *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+ * Copyright © 2013, 2014, 2016
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1991, 1993
  *	The Regents of the University of California.  All rights reserved.
  *
@@ -1319,7 +1319,7 @@ nice_death(void)
 	int howto = RB_HALT;
 	int status, needwrites = 4;
 #ifndef NORNDSHUF
-	char rnd_buf[512];
+	char rnd_buf[128];
 
 	arnd_fd = open(_PATH_ARANDOMDEV, O_RDWR);
 	if (arnd_fd != -1) {

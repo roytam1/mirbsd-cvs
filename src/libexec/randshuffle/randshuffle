@@ -1,8 +1,8 @@
 #!/bin/mksh
 # $MirOS: src/libexec/randshuffle/randshuffle,v 1.24 2010/10/01 17:27:06 tg Exp $
 #-
-# Copyright (c) 2006, 2007, 2008, 2010, 2014
-#	Thorsten Glaser <tg@mirbsd.org>
+# Copyright (c) 2006, 2007, 2008, 2010, 2014, 2016
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -58,7 +58,7 @@ for file in "${files[@]}"; do
 		dd if=/dev/prandom bs=64 count=$x_p
 		dd if=/dev/arandom bs=64 count=$x_a
 		dd if=/dev/urandom bs=64 count=$x_u
-	) | dd of="$file"
+	) | dd of="$file" conv=notrunc
 	chown 0:0 "$file"
 	chmod 600 "$file"
 done >/dev/wrandom 2>&1

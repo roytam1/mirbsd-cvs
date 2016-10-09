@@ -2,7 +2,7 @@
 /*	$NetBSD: reboot.c,v 1.8 1995/10/05 05:36:22 mycroft Exp $	*/
 
 /*
- * Copyright (c) 2011, 2014, 2015
+ * Copyright (c) 2011, 2014, 2015, 2016
  *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1980, 1986, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -95,7 +95,7 @@ main(int argc, char *argv[])
 	struct passwd *pw;
 	bool dohalt, lflag, nflag, pflag, qflag;
 	const char *p, *user;
-	char rnd_buf[512];
+	char rnd_buf[128];
 	static const int death_sigs[7] = {
 		SIGHUP, SIGTERM, SIGKILL, SIGKILL, SIGKILL, SIGKILL, SIGKILL
 	};

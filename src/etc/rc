@@ -168,10 +168,12 @@ if [[ $1 = shutdown ]]; then
 	fi
 
 	if [[ -s $rf ]]; then
+		sync
 		mv -f "$rf" /var/db/host.random
 	else
 		# might be out of space
 		rm -f "$rf"
+		sync
 		dd if=/dev/arandom count=1 conv=notrunc \
 		    of=/var/db/host.random 2>/dev/null
 	fi
@@ -194,6 +196,7 @@ if [[ $1 = shutdown ]]; then
 		sleep 0.1
 		# and append more entropy
 		dd if=/dev/arandom count=1 >>/var/db/host.random 2>/dev/null
+		sync
 
 		[[ $powerdown = YES ]] && exit 2
 	fi
@@ -430,10 +433,18 @@ fi
 # also reset arandom(4)
 {
 	cat /var/db/host.random >/dev/urandom
-	(dd if=/dev/arandom count=3; dd if=/dev/urandom count=5) | \
-	    dd of=/var/db/host.random
-	chmod 600 /var/db/host.random
+	rf=/var/db/host.random.new
+	while [[ -e $rf ]]; do
+		rf=/var/db/host.random.new.$$.$RANDOM
+	done
+	(
+		exec >$rf
+		chmod 600 $rf
+		dd if=/dev/arandom count=3 2>/dev/null
+		dd if=/dev/urandom count=5 2>/dev/null
+	)
 	sync
+	mv -f $rf /var/db/host.random
 
 	let RANDOM=$(dd if=/dev/arandom bs=4 count=1 2>/dev/null | hexdump -ve '"%u"')
 	typeset -i1 a=RANDOM b=RANDOM c=RANDOM d=RANDOM
@@ -441,6 +452,7 @@ fi
 	unset a b c d
 
 	dd if=/dev/arandom count=3 >>/var/db/host.random
+	sync
 	let RANDOM=$(dd if=/dev/arandom bs=4 count=1 2>/dev/null | hexdump -ve '"%u"')
 } >/dev/wrandom 2>&1
 
