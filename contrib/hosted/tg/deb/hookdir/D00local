@@ -1,8 +1,8 @@
 #!/bin/bash
 # $MirOS: contrib/hosted/tg/deb/hookdir/D00local,v 1.3 2014/12/12 21:50:19 tg Exp $
 #-
-# Copyright © 2014
-#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+# Copyright © 2014, 2016
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -37,7 +37,7 @@ pstr=${base//\//_}_._Packages
 echo >&2 "I: creating Packages file for local APT cache in $base"
 rm -f "$base/Packages"
 (cd "$base"
-dpkg-scanpackages -h md5 -m . >Packages 2>/dev/null || \
+#dpkg-scanpackages -h md5 -m . >Packages 2>/dev/null || \
     dpkg-scanpackages -m . >Packages)
 paste -d_ <(sed -n '/^Package: /s///p' "$base/Packages") \
     <(sed -n '/^Version: /s///p' "$base/Packages") \
