@@ -17,7 +17,7 @@
 # Debian derivate from Canonical that cannot be named:
 #	dapper hardy jaunty karmic lucid maverick natty oneiric
 #	precise quantal raring saucy trusty utopic vivid wily
-#	xenial yakkety
+#	xenial yakkety zesty
 # *-backports: sarge etch lenny squeeze wheezy jessie
 #	(plus all Debian derivate from Canonical that cannot be named)
 # *-backports-sloppy: lenny squeeze wheezy
@@ -71,10 +71,10 @@ setuptofail() {
 DISTROS='debian dpo ubuntu'
 DISTS_debian='sarge etch lenny squeeze wheezy jessie stretch buster bullseye sid'
 DISTS_dpo='dpo'
-DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise quantal raring saucy trusty utopic vivid wily xenial yakkety'
+DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise quantal raring saucy trusty utopic vivid wily xenial yakkety zesty'
 DISTBACKPORTS_debian=sarge:etch:lenny:squeeze:wheezy:jessie
 DISTBACKPORTSLOPPY_debian=lenny:squeeze:wheezy
-DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise:quantal:raring:saucy:trusty:utopic:vivid:wily:xenial:yakkety
+DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise:quantal:raring:saucy:trusty:utopic:vivid:wily:xenial:yakkety:zesty
 MIRROR_sarge=http://archive.debian.org/debian/
 MIRROR_etch=http://archive.debian.org/debian/
 MIRROR_lenny=http://archive.debian.org/debian/
@@ -91,7 +91,7 @@ MIRROR_dapper=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_hardy=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_jaunty=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_karmic=http://old-releases.ubuntu.com/ubuntu/
-MIRROR_lucid=http://archive.ubuntu.com/ubuntu/
+MIRROR_lucid=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_maverick=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_natty=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_oneiric=http://old-releases.ubuntu.com/ubuntu/
@@ -101,10 +101,11 @@ MIRROR_raring=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_saucy=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_trusty=http://archive.ubuntu.com/ubuntu/
 MIRROR_utopic=http://old-releases.ubuntu.com/ubuntu/
-MIRROR_vivid=http://archive.ubuntu.com/ubuntu/
-MIRROR_wily=http://archive.ubuntu.com/ubuntu/
+MIRROR_vivid=http://old-releases.ubuntu.com/ubuntu/
+MIRROR_wily=http://old-releases.ubuntu.com/ubuntu/
 MIRROR_xenial=http://archive.ubuntu.com/ubuntu/
 MIRROR_yakkety=http://archive.ubuntu.com/ubuntu/
+MIRROR_zesty=http://archive.ubuntu.com/ubuntu/
 MIRRORSECURITY_sarge=http://archive.debian.org/debian-security/
 MIRRORSECURITY_etch=http://archive.debian.org/debian-security/
 MIRRORSECURITY_lenny=http://archive.debian.org/debian-security/
