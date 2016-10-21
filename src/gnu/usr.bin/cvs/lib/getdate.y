@@ -123,7 +123,11 @@ xmemdup(void const *p, size_t s)
 # define ATTRIBUTE_UNUSED __attribute__ ((__unused__))
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.5 2010/09/18 19:17:41 tg Exp $");
+#ifndef __RCSID
+#define __RCSID(x) /* nothing */
+#endif
+
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.6 2016/10/21 20:49:23 tg Exp $");
 /* placeholder line for $miros$ so that cpp #line directives work */
 
 /* Shift A right by B bits portably, by dividing A by 2**B and
