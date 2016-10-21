@@ -1,28 +1,33 @@
 #!/bin/mksh
-# $MirOS: src/scripts/mnt-cvsroot,v 1.17 2008/11/08 23:04:01 tg Exp $
+# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
 #-
-# Copyright (c) 2005, 2008
-#	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+# Copyright © 2005, 2008, 2011
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
-# is granted to deal in this work without restriction, including un-
+# is granted to deal in this work without restriction, including un‐
 # limited rights to use, publicly perform, distribute, sell, modify,
 # merge, give away, or sublicence.
 #
-# This work is provided "AS IS" and WITHOUT WARRANTY of any kind, to
+# This work is provided “AS IS” and WITHOUT WARRANTY of any kind, to
 # the utmost extent permitted by applicable law, neither express nor
 # implied; without malicious intent or gross negligence. In no event
 # may a licensor, author or contributor be held liable for indirect,
 # direct, other damage, loss, or other issues arising in any way out
 # of dealing in the work, even if advised of the possibility of such
 # damage or existence of a defect, except proven that it results out
-# of said person's immediate fault when using the work as intended.
+# of said person’s immediate fault when using the work as intended.
 #-
 # Change CVSROOT of a checked out tree (and save space with it)
 # With option -T: change Tag instead of Root
 
 me=${0##*/}
+function die {
+	print -ru2 -- "$me: $*"
+	exit 1
+}
+
 if [[ $1 = -T ]]; then
 	tagmode=-T
 	fn=Tag
@@ -51,44 +56,35 @@ if [[ -z $newroot || $newroot = -? ]]; then
 fi
 shift
 
-[[ -z $1 ]] && if [[ $useroot = 0 ]]; then
-	exec $SHELL $me $tagmode "$newroot" .
-else
-	exec $SHELL $me $tagmode - "$newroot" .
-fi
+[[ -n $1 ]] || set -- .
 
 # realpath(2)ise arguments
 set -A arg
-let i=0
+i=0
 for name in "$@"; do
 	arg[i++]=$(realpath "$name")
 done
 
-if ! T="$(mktemp ${arg[0]}/$me.XXXXXXXXXX)"; then
-	print -u2 "$me: fatal: cannot mktemp"
-	exit 1
-fi
+T="$(mktemp ${arg[0]}/$me.XXXXXXXXXX)" || die fatal: cannot mktemp
 
-if [[ $useroot = 1 ]]; then
+if (( useroot )); then
 	rm -f "$T"
-	ln "$newroot" "$T" || cp "$newroot" "$T"
+	ln "$newroot" "$T" || cp "$newroot" "$T" || \
+	    die "fatal: cannot copy '$newroot' to temporary '$T'"
 fi
 
 trap 'rm -f "$T"; exit 0' 0
 trap 'rm -f "$T"; trap - EXIT; exit 1' 1 2 3 5 13 15
 
-if [[ $useroot = 0 ]]; then
+if (( !useroot )); then
 	chmod 664 "$T"
 	print -r -- "$newroot" >"$T"
 fi
 
 let rv=0
-find "${arg[@]}" -path \*/CVS/$fn |&
-while read -p name; do
-	if ! rm "$name"; then
-		print -u2 "$me: error: cannot rm <$name>"
-		exit 1
-	fi
+find "${arg[@]}" -path \*/CVS/$fn -print0 |&
+while IFS= read -d '' -pr name; do
+	rm "$name" || die "error: cannot rm <$name>"
 	ln -f "$T" "$name" || if ! U="$(mktemp ${arg[0]}/$me.XXXXXXXXXX)"; then
 		cp "$T" "$name"
 	elif cat "$T" >"$U" && ln -f "$U" "$name"; then
