@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.26 2013/09/11 12:56:26 tg Exp $
+# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.27 2014/05/28 18:52:56 tg Exp $
 # $OpenBSD: network.conf.template,v 1.107 2007/01/18 11:21:15 steven Exp $
 
 #
@@ -258,6 +258,7 @@ MASTER_SITE_APACHE+= \
 	http://www.apache.org/dist/ \
 
 MASTER_SITE_DEBIAN+= \
+	http://httpredir.debian.org/debian/pool/main/ \
 	http://ftp.debian.org/pool/main/ \
 	http://ftp.de.debian.org/debian/pool/main/ \
 	http://ftp.fr.debian.org/debian/pool/main/ \
