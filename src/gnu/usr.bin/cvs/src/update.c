@@ -51,7 +51,7 @@
 #include "buffer.h"
 #include "hardlink.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_update_c,v 1.3 2010/09/15 20:57:03 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/update.c,v 1.7 2010/09/19 19:43:13 tg Exp $");
 
 static int checkout_file (struct file_info *finfo, Vers_TS *vers_ts,
 				 int adding, int merging, int update_server);
@@ -1184,6 +1184,7 @@ scratch_file (struct file_info *finfo, Vers_TS *vers)
 	{
 	    free (vers->ts_user);
 	    vers->ts_user = NULL;
+	    vers->ts_user_ists = 0;
 	}
     }
     return 0;
@@ -1369,6 +1370,7 @@ VERS: ", 0);
 
 		if (xvers_ts->ts_user != NULL)
 		    free (xvers_ts->ts_user);
+		xvers_ts->ts_user_ists = 0; /*XXX really? */
 		xvers_ts->ts_user = xstrdup (xvers_ts->ts_rcs);
 	    }
 

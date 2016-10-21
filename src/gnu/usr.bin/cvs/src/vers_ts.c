@@ -1,12 +1,18 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
  * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
  */
 
 #include "cvs.h"
+#include "lstat.h"
 
 #ifdef SERVER_SUPPORT
 static void time_stamp_server (const char *, Vers_TS *, Entnode *);
@@ -43,6 +49,7 @@ Version_TS (struct file_info *finfo, char *options, char *tag, char *date,
     char *rcsexpand = NULL;
 
     /* get a new Vers_TS struct */
+
     vers_ts = xmalloc (sizeof (Vers_TS));
     memset (vers_ts, 0, sizeof (*vers_ts));
 
@@ -254,14 +261,17 @@ Version_TS (struct file_info *finfo, char *options, char *tag, char *date,
     }
 
     /* get user file time-stamp in ts_user */
-    if (finfo->entries != (List *) NULL)
+    if (finfo->entries != NULL)
     {
 #ifdef SERVER_SUPPORT
 	if (server_active)
 	    time_stamp_server (finfo->file, vers_ts, entdata);
 	else
 #endif
+	  {
 	    vers_ts->ts_user = time_stamp (finfo->file);
+	    vers_ts->ts_user_ists = 1;
+	  }
     }
 
     return (vers_ts);
@@ -283,7 +293,13 @@ time_stamp_server (const char *file, Vers_TS *vers_ts, Entnode *entdata)
     struct stat sb;
     char *cp;
 
-    if (CVS_LSTAT (file, &sb) < 0)
+    TRACE (TRACE_FUNCTION, "time_stamp_server (%s, %s, %s, %s)",
+	   file,
+	   entdata && entdata->version ? entdata->version : "(null)",
+	   entdata && entdata->timestamp ? entdata->timestamp : "(null)",
+	   entdata && entdata->conflict ? entdata->conflict : "(null)");
+
+    if (lstat (file, &sb) < 0)
     {
 	if (! existence_error (errno))
 	    error (1, errno, "cannot stat temp file");
@@ -302,6 +318,13 @@ time_stamp_server (const char *file, Vers_TS *vers_ts, Entnode *entdata)
 		 && entdata->timestamp[0] == '='
 		 && entdata->timestamp[1] == '\0')
 	    mark_unchanged (vers_ts);
+	else if (entdata->conflict
+		 && entdata->conflict[0] == '=')
+	{
+	    /* These just need matching content.  Might as well minimize it.  */
+	    vers_ts->ts_user = xstrdup ("");
+	    vers_ts->ts_conflict = xstrdup ("");
+	}
 	else if (entdata->timestamp
 		 && (entdata->timestamp[0] == 'M'
 		     || entdata->timestamp[0] == 'D')
@@ -319,6 +342,7 @@ time_stamp_server (const char *file, Vers_TS *vers_ts, Entnode *entdata)
     {
         struct tm *tm_p;
 
+	vers_ts->ts_user_ists = 1;
 	vers_ts->ts_user = xmalloc (25);
 	/* We want to use the same timestamp format as is stored in the
 	   st_mtime.  For unix (and NT I think) this *must* be universal
@@ -381,7 +405,7 @@ unix_time_stamp (const char *file)
     struct stat sb;
     time_t mtime = 0L;
 
-    if (!CVS_LSTAT (file, &sb))
+    if (!lstat (file, &sb))
     {
 	mtime = sb.st_mtime;
     }
@@ -389,7 +413,7 @@ unix_time_stamp (const char *file)
     /* If it's a symlink, return whichever is the newest mtime of
        the link and its target, for safety.
     */
-    if (!CVS_STAT (file, &sb))
+    if (!stat (file, &sb))
     {
         if (mtime < sb.st_mtime)
 	    mtime = sb.st_mtime;
@@ -440,5 +464,5 @@ freevers_ts (Vers_TS **versp)
     if ((*versp)->ts_conflict)
 	free ((*versp)->ts_conflict);
     free ((char *) *versp);
-    *versp = (Vers_TS *) NULL;
+    *versp = NULL;
 }

@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/cvs.h,v 1.5 2010/09/19 19:43:03 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/cvs.h,v 1.6 2011/06/11 02:56:58 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -732,7 +732,7 @@ struct vers_ts
     /* This is the timestamp from stating the file in the working directory.
        It is NULL if there is no file in the working directory.  It is
        "Is-modified" if we know the file is modified but don't have its
-       contents.  */
+       contents.  See also: ts_user_ists.  */
     char *ts_user;
     /* Timestamp from CVS/Entries.  For the server, ts_user and ts_rcs
        are computed in a slightly different way, but the fact remains that
@@ -765,6 +765,9 @@ struct vers_ts
 
     /* Pointer to parsed src file info */
     RCSNode *srcfile;
+
+    /* 1 if ts_user is known to be the actual timestamp of a local file */
+    unsigned char ts_user_ists;
 };
 typedef struct vers_ts Vers_TS;
 

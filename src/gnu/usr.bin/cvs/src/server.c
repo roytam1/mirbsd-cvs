@@ -20,7 +20,7 @@
 #include "getline.h"
 #include "getnline.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/server.c,v 1.7 2011/06/11 02:56:59 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/server.c,v 1.8 2013/07/18 20:08:27 tg Exp $");
 
 int server_active = 0;
 
@@ -5257,6 +5257,7 @@ CVS server internal error: unhandled case in server_updated");
 	{
 	    free (vers->ts_user);
 	    vers->ts_user = NULL;
+	    vers->ts_user_ists = 0;
 	}
     }
     else if (scratched_file == NULL && entries_line == NULL)
