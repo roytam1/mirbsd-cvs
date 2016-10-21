@@ -1,4 +1,4 @@
-/* $MirOS: ports/devel/cvs/patches/patch-lib_getdate_h,v 1.1 2006/10/02 05:59:16 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/lib/getdate.h,v 1.5 2010/09/19 19:42:59 tg Exp $ */
 
 /* Parse a string into an internal time stamp.
 
@@ -33,6 +33,10 @@
 #include <sys/time.h>
 #include <time.h>
 #define gettime(ts)	clock_gettime(CLOCK_REALTIME,(ts))
+#ifndef HAVE_CONFIG_H
+#define HAVE_TM_GMTOFF		1
+#define HAVE_STRUCT_TM_TM_ZONE	1
+#endif
 #endif
 
 bool get_date (struct timespec *, char const *, struct timespec const *);
