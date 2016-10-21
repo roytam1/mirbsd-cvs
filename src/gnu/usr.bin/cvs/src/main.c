@@ -28,7 +28,7 @@
 uint32_t arc4random(void);
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.14 2011/06/11 03:37:38 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.15 2012/02/07 22:43:03 tg Exp $");
 
 const char *program_name;
 const char *program_path;
@@ -270,6 +270,7 @@ static const char *const cmd_usage[] =
 #ifdef SERVER_SUPPORT
     "        server       Server mode\n",
 #endif
+    "        suck         Download RCS ,v file raw\n",
     "        status       Display status information on checked out files\n",
     "        tag          Add a symbolic tag to checked out version of files\n",
     "        unedit       Undo an edit command\n",
