@@ -1,4 +1,4 @@
-.\" $MirOS: src/gnu/usr.bin/cvs/doc/cvs.man.header,v 1.3 2010/09/19 19:42:52 tg Exp $
+.\" $MirOS: src/gnu/usr.bin/cvs/doc/cvs.man.header,v 1.4 2012/05/21 20:39:25 tg Exp $
 .\"
 .\" This is the man page for CVS.  It is auto-generated from the
 .\" cvs.man.header, cvs.texinfo, & cvs.man.footer files.  Please make changes
@@ -60,7 +60,8 @@ This manpage is a summary of some of the features of
 For more in-depth documentation, please consult the
 Cederqvist manual (via the cvs(GNU) and cvsclient(GNU) links
 in the MirBSD online (HTML) manual pages, the
-.BI info cvs
+.B info
+.I cvs
 command or otherwise,
 as described in the SEE ALSO section of this manpage).  Cross-references
 in this man page refer to nodes in the same.

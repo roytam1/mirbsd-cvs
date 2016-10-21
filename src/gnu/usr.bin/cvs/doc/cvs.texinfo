@@ -108,7 +108,7 @@ approved by the Free Software Foundation.
 @end direntry
 @dircategory Individual utilities
 @direntry
-* cvs: (cvs)CVS commands.       Concurrent Versions System
+* cvs: (cvs)CVS command list.   Concurrent Versions System
 @end direntry
 
 @comment The titlepage section does not appear in the Info file.
@@ -186,6 +186,7 @@ References.
 * Troubleshooting::             Some tips when nothing works
 * Credits::                     Some of the contributors to this manual
 * BUGS::                        Dealing with bugs in CVS or this manual
+* CVS command list::            Alphabetical list of all CVS commands
 * Index::                       Index
 @end menu
 
@@ -8126,7 +8127,9 @@ supported.
 This appendix describes the overall structure of
 @sc{cvs} commands, and describes some commands in
 detail (others are described elsewhere; for a quick
-reference to @sc{cvs} commands, @pxref{Invoking CVS}).
+reference to @sc{cvs} commands, @pxref{Invoking CVS},
+and for an alphabetical list of all @sc{cvs} commands,
+@pxref{CVS command list}).
 @c The idea is that we want to move the commands which
 @c are described here into the main body of the manual,
 @c in the process reorganizing the manual to be
@@ -8837,7 +8840,7 @@ and @code{update}.
 
 @c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 @node admin
-@appendixsec admin---Administration
+@appendixsec admin---Administration front-end for RCS
 @cindex Admin (subcommand)
 
 @itemize @bullet
@@ -9207,7 +9210,10 @@ this option has never done anything useful.
 
 @itemize @bullet
 @item
-Synopsis: annotate [options] files@dots{}
+Synopsis:
+annotate [options] files@dots{}
+
+rannotate [options] files@dots{}
 @item
 Requires: repository.
 @item
@@ -9534,8 +9540,7 @@ $ cvs checkout -D yesterday tc
 
 @itemize @bullet
 @item
-Synopsis: commit [-lnRf] [-m 'log_message' |
--F file] [-r revision] [files@dots{}]
+Synopsis: commit [-lnRf] [-m 'log_message' | -F file] [-r revision] [files@dots{}]
 @item
 Requires: working directory, repository.
 @item
@@ -10477,7 +10482,7 @@ Contributed examples are gratefully accepted.
 
 @c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 @node history
-@appendixsec history---Show status of files and users
+@appendixsec history---Show repository access history
 @cindex history (subcommand)
 
 @itemize @bullet
@@ -10857,12 +10862,14 @@ See @ref{Tracking sources}, and @ref{From files}.
 
 @c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 @node log
-@appendixsec log---Print out log information for files
+@appendixsec log---Print out history information for files
 @cindex log (subcommand)
 
 @itemize @bullet
 @item
 Synopsis: log [options] [files@dots{}]
+
+rlog [options] [files@dots{}]
 @item
 Requires: repository, working directory.
 @item
@@ -11080,14 +11087,14 @@ you would need to prefix the examples above with @code{env}.)
 
 @c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 @node ls & rls
-@appendixsec ls & rls
+@appendixsec ls & rls---List files in the repository
 @cindex ls (subcommand)
 @cindex rls (subcommand)
 
 @itemize @bullet
 @item
 ls [-e | -l] [-RP] [-r tag[:date]] [-D date] [path@dots{}]
-@item
+
 rls [-e | -l] [-RP] [-r tag[:date]] [-D date] [path@dots{}]
 @item
 Requires: repository for @code{rls}, repository & working directory for
@@ -11180,7 +11187,7 @@ verifymsg
 
 @c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 @node rdiff
-@appendixsec rdiff---'patch' format diffs between releases
+@appendixsec rdiff---Create 'patch' format diffs between revisions
 @cindex rdiff (subcommand)
 
 @itemize @bullet
@@ -11319,7 +11326,7 @@ File bar.h,v changed from revision 1.29.2.1 to 1.2
 
 @c - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 @node release
-@appendixsec release---Indicate that a Module is no longer in use
+@appendixsec release---Indicate that a directory is no longer in use
 @cindex release (subcommand)
 
 @itemize @bullet
@@ -11742,6 +11749,8 @@ This appendix describes how to invoke @sc{cvs}, with
 references to where each command or feature is
 described in detail.  For other references run the
 @code{cvs --help} command, or see @ref{Index}.
+For an alphabetical list of all @sc{cvs} commands,
+@pxref{CVS command list}).
 
 A @sc{cvs} command looks like:
 
@@ -11868,6 +11877,7 @@ Commands, command options, and command arguments:
 
 @table @code
 @c ------------------------------------------------------------
+@anchor{add}
 @item add [@var{options}] [@var{files}@dots{}]
 Add a new file/directory.  See @ref{Adding files}.
 
@@ -12105,6 +12115,7 @@ and @ref{Common options}.
 @end table
 
 @c ------------------------------------------------------------
+@anchor{edit}
 @item edit [@var{options}] [@var{files}@dots{}]
 Get ready to edit a watched file.  See @ref{Editing files}.
 
@@ -12131,6 +12142,7 @@ behavior}.
 @end table
 
 @c ------------------------------------------------------------
+@anchor{editors}
 @item editors [@var{options}] [@var{files}@dots{}]
 See who is editing a watched file.  See @ref{Watch information}.
 
@@ -12276,14 +12288,17 @@ More wrappers.  See @ref{import options}.
 @end table
 
 @c ------------------------------------------------------------
+@anchor{init}
 @item init
 Create a @sc{cvs} repository if it doesn't exist.  See
 @ref{Creating a repository}.
 
 @c ------------------------------------------------------------
+@anchor{kserver}
 @item kserver
 Kerberos authenticated server.
-See @ref{Kerberos authenticated}.
+@xref{server & pserver}.
+@xref{Kerberos authenticated}.
 
 @c ------------------------------------------------------------
 @item log [@var{options}] [@var{files}@dots{}]
@@ -12324,16 +12339,19 @@ Only list revisions checked in by specified logins.  See @ref{log options}.
 @end table
 
 @c ------------------------------------------------------------
+@anchor{login}
 @item login
 Prompt for password for authenticating server.  See
 @ref{Password authentication client}.
 
 @c ------------------------------------------------------------
+@anchor{logout}
 @item logout
 Remove stored password for authenticating server.  See
 @ref{Password authentication client}.
 
 @c ------------------------------------------------------------
+@anchor{ls}
 @item ls [@var{options}] [@var{path}@dots{}]
 List files available from CVS. See @ref{ls & rls}.
 
@@ -12362,11 +12380,14 @@ Show files with revision or tag.
 @end table
 
 @c ------------------------------------------------------------
+@anchor{pserver}
 @item pserver
 Password authenticated server.
-See @ref{Password authentication server}.
+@xref{server & pserver}.
+@xref{Password authentication server}.
 
 @c ------------------------------------------------------------
+@anchor{rannotate}
 @item rannotate [@var{options}] [@var{modules}@dots{}]
 Show last revision where each line was modified.  See
 @ref{annotate}.
@@ -12449,6 +12470,7 @@ Delete the given directory.  See @ref{release options}.
 @end table
 
 @c ------------------------------------------------------------
+@anchor{remove}
 @item remove [@var{options}] [@var{files}@dots{}]
 Remove an entry from the repository.  See @ref{Removing files}.
 
@@ -12465,6 +12487,7 @@ behavior}.
 @end table
 
 @c ------------------------------------------------------------
+@anchor{rlog}
 @item rlog [@var{options}] [@var{files}@dots{}]
 Print out history information for modules.  See @ref{log}.
 
@@ -12502,6 +12525,7 @@ Only list revisions checked in by specified logins.  See @ref{log options}.
 @end table
 
 @c ------------------------------------------------------------
+@anchor{rls}
 @item rls [@var{options}] [@var{path}@dots{}]
 List files in a module. See @ref{ls & rls}.
 
@@ -12530,9 +12554,11 @@ Show files with revision or tag.
 @end table
 
 @c ------------------------------------------------------------
+@anchor{rtag}
 @item rtag [@var{options}] @var{tag} @var{modules}@dots{}
 Add a symbolic tag to a module.
-See @ref{Revisions} and @ref{Branching and merging}.
+@xref{Tagging by date/tag}.
+@xref{Creating a branch}.
 
 @table @code
 @item -a
@@ -12576,14 +12602,18 @@ existed on @var{date}.  See @ref{Tagging by date/tag} and @ref{Common options}.
 @end table
 
 @c ------------------------------------------------------------
+@anchor{server}
 @item server
-Rsh server.  See @ref{Connecting via rsh}.
+SSH/rsh server.
+@xref{server & pserver}.
+@xref{Connecting via rsh}.
 
 @c ------------------------------------------------------------
 @item suck @var{module/filename}
 Download RCS ,v file raw.  See @ref{suck}.
 
 @c ------------------------------------------------------------
+@anchor{status}
 @item status [@var{options}] @var{files}@dots{}
 Display status information in a working directory.  See
 @ref{File status}.
@@ -12600,9 +12630,11 @@ Include tag information for file.  See @ref{Tags}.
 @end table
 
 @c ------------------------------------------------------------
+@anchor{tag}
 @item tag [@var{options}] @var{tag} [@var{files}@dots{}]
 Add a symbolic tag to checked out version of files.
-See @ref{Revisions} and @ref{Branching and merging}.
+@xref{Tagging the working directory}.
+@xref{Creating a branch}.
 
 @table @code
 @item -b
@@ -12638,6 +12670,7 @@ existed on @var{date}.  See @ref{Tagging by date/tag} and @ref{Common options}.
 @end table
 
 @c ------------------------------------------------------------
+@anchor{unedit}
 @item unedit [@var{options}] [@var{files}@dots{}]
 Undo an edit command.  See @ref{Editing files}.
 
@@ -12714,6 +12747,7 @@ More wrappers.  See @ref{import options}.
 @end table
 
 @c ------------------------------------------------------------
+@anchor{version}
 @item version
 @cindex version (subcommand)
 
@@ -12721,6 +12755,7 @@ Display the version of @sc{cvs} being used.  If the repository
 is remote, display both the client and server versions.
 
 @c ------------------------------------------------------------
+@anchor{watch}
 @item watch [on|off|add|remove] [@var{options}] [@var{files}@dots{}]
 
 on/off: turn on/off read-only checkouts of files.  See
@@ -12745,6 +12780,7 @@ behavior}.
 @end table
 
 @c ------------------------------------------------------------
+@anchor{watchers}
 @item watchers [@var{options}] [@var{files}@dots{}]
 See who is watching a file.  See @ref{Watch information}.
 
@@ -16089,6 +16125,47 @@ whether a particular bug is a known one.  The file
 list of known bugs, but it doesn't necessarily try to
 be comprehensive.  Perhaps there will never be a
 comprehensive, detailed list of known bugs.
+
+@c ---------------------------------------------------------------------
+@node CVS command list
+@appendix Alphabetical list of all CVS commands
+
+@menu
+* add::          Add a new file/directory to the repository
+* admin::        Administration front-end for RCS
+* annotate::     Show last revision where each line was modified
+* checkout::     Checkout sources for editing
+* commit::       Check files into the repository
+* diff::         Show differences between revisions
+* edit::         Get ready to edit a watched file
+* editors::      See who is editing a watched file
+* export::       Export sources from CVS, similar to checkout
+* history::      Show repository access history
+* import::       Import sources into CVS, using vendor branches
+* init::         Create a CVS repository
+* kserver::      Act in Kerberos server mode
+* log::          Print out history information for files
+* login::        Prompt for password for authenticating server
+* logout::       Removes entry in .cvspass for remote repository
+* ls::           List files available from CVS
+* pserver::      Act in password server mode
+* rannotate::    Show last revision where each line of module was modified
+* rdiff::        Create 'patch' format diffs between revisions
+* release::      Indicate that a work subdirectory is no longer in use
+* remove::       Remove an entry from the repository
+* rlog::         Print out history information for a module
+* rls::          List files in a module
+* rtag::         Add a symbolic tag to a module
+* server::       Act in server mode
+* suck::         Download RCS ,v file raw
+* status::       Display status information on checked out files
+* tag::          Add a symbolic tag to checked out version of files
+* unedit::       Undo an edit command
+* update::       Bring work tree in sync with repository
+* version::      Show current CVS version(s)
+* watch::        Set watches
+* watchers::     See who is watching a file
+@end menu
 
 @c ---------------------------------------------------------------------
 @node Index
