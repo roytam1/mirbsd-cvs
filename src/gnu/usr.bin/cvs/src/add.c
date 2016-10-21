@@ -34,6 +34,8 @@
 #include "save-cwd.h"
 #include "fileattr.h"
 
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.17 2016/10/21 17:57:59 tg Exp $");
+
 static int add_directory (struct file_info *finfo);
 static int build_entry (const char *repository, const char *user,
                         const char *options, const char *message,

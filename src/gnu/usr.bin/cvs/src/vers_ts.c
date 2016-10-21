@@ -14,6 +14,8 @@
 #include "cvs.h"
 #include "lstat.h"
 
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.17 2016/10/21 17:57:59 tg Exp $");
+
 #ifdef SERVER_SUPPORT
 static void time_stamp_server (const char *, Vers_TS *, Entnode *);
 #endif
