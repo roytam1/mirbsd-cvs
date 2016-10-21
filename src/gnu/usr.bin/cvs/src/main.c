@@ -28,7 +28,7 @@
 uint32_t arc4random(void);
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.15 2012/02/07 22:43:03 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.16 2016/10/21 17:46:02 tg Exp $");
 
 const char *program_name;
 const char *program_path;
@@ -237,7 +237,7 @@ static const char *const cmd_usage[] =
 {
     "CVS commands are:\n",
     "        add          Add a new file/directory to the repository\n",
-    "        admin        Administration front end for rcs\n",
+    "        admin        Administration front-end for RCS\n",
     "        annotate     Show last revision where each line was modified\n",
     "        checkout     Checkout sources for editing\n",
     "        commit       Check files into the repository\n",
@@ -249,7 +249,7 @@ static const char *const cmd_usage[] =
     "        import       Import sources into CVS, using vendor branches\n",
     "        init         Create a CVS repository if it doesn't exist\n",
 #if defined (HAVE_KERBEROS) && defined (SERVER_SUPPORT)
-    "        kserver      Kerberos server mode\n",
+    "        kserver      Act in Kerberos server mode\n",
 #endif
     "        log          Print out history information for files\n",
 #ifdef AUTH_CLIENT_SUPPORT
@@ -258,17 +258,17 @@ static const char *const cmd_usage[] =
 #endif /* AUTH_CLIENT_SUPPORT */
     "        ls           List files available from CVS\n",
 #if (defined(AUTH_SERVER_SUPPORT) || defined (HAVE_GSSAPI)) && defined(SERVER_SUPPORT)
-    "        pserver      Password server mode\n",
+    "        pserver      Act in password server mode\n",
 #endif
     "        rannotate    Show last revision where each line of module was modified\n",
-    "        rdiff        Create 'patch' format diffs between releases\n",
-    "        release      Indicate that a Module is no longer in use\n",
+    "        rdiff        Create 'patch' format diffs between revisions\n",
+    "        release      Indicate that a work subdirectory is no longer in use\n",
     "        remove       Remove an entry from the repository\n",
     "        rlog         Print out history information for a module\n",
     "        rls          List files in a module\n",
     "        rtag         Add a symbolic tag to a module\n",
 #ifdef SERVER_SUPPORT
-    "        server       Server mode\n",
+    "        server       Act in server mode\n",
 #endif
     "        suck         Download RCS ,v file raw\n",
     "        status       Display status information on checked out files\n",

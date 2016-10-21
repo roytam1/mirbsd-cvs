@@ -2,7 +2,7 @@
 @comment Documentation for CVS.
 @setfilename cvs.info
 @afourpaper
-@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.20 2014/02/09 21:56:22 tg Exp $
+@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.21 2015/12/31 08:23:20 tg Exp $
 @macro copyleftnotice
 @noindent
 Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -7201,7 +7201,7 @@ The date (UTC) the revision was checked in, in a format suitable
 for the Berkeley mdoc macro processing.
 
 @example
-$Mdocdate: February 9 2014 $
+$Mdocdate: December 31 2015 $
 @end example
 
 @cindex Header keyword
@@ -8149,17 +8149,17 @@ reference to @sc{cvs} commands, @pxref{Invoking CVS}).
 * Global options::              Options you give to the left of cvs_command
 * Common options::              Options you give to the right of cvs_command
 * Date input formats::		Acceptable formats for date specifications
-* admin::                       Administration
+* admin::                       Administration front-end for RCS
 * annotate::                    What revision modified each line of a file?
 * checkout::                    Checkout sources for editing
 * commit::                      Check files into the repository
 * diff::                        Show differences between revisions
 * export::                      Export sources from CVS, similar to checkout
-* history::                     Show status of files and users
+* history::                     Show repository access history
 * import::                      Import sources into CVS, using vendor branches
-* log::                         Show log messages for files
+* log::                         Print out history information for files
 * ls & rls::                    List files in the repository
-* rdiff::                       'patch' format diffs between releases
+* rdiff::                       Create 'patch' format diffs between revisions
 * release::                     Indicate that a directory is no longer in use
 * server & pserver::            Act as a server for a client on stdin/stdout
 * suck::                        Download RCS ,v file raw
