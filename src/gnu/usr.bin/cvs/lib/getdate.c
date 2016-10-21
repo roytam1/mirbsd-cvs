@@ -1,5 +1,3 @@
-/* patched to define "union YYSTYPE" as well  --mirabilos */
-
 /* A Bison parser, made by GNU Bison 2.3.  */
 
 /* Skeleton implementation for Bison's Yacc-like parsers in C
@@ -240,8 +238,8 @@ xmemdup(void const *p, size_t s)
 # define ATTRIBUTE_UNUSED __attribute__ ((__unused__))
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.c,v 1.11 2010/09/19 19:42:58 tg Exp $");
-__RCSID("$miros: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.5 2010/09/18 19:17:41 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.6 2016/10/21 20:49:23 tg Exp $");
+__RCSID("$miros: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.6 2016/10/21 20:49:23 tg Exp $");
 
 /* Shift A right by B bits portably, by dividing A by 2**B and
    truncating towards minus infinity.  A and B should be free of side
@@ -363,7 +361,7 @@ static long int time_zone_hhmm (textint, long int);
 #endif
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE
+typedef union
 #line 240 "getdate.y"
 {
   long int intval;
