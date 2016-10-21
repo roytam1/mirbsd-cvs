@@ -532,7 +532,8 @@ add (int argc, char **argv)
 				free (bbuf);
 			}
 			Register (entries, finfo.file, "0",
-				  timestamp ? timestamp : vers->ts_user,
+				  timestamp ? timestamp :
+				   vers->ts_user_ists ? "locally-added" : vers->ts_user,
 				  vers->options, vers->tag, vers->date, NULL);
 			if (timestamp) free (timestamp);
 #ifdef SERVER_SUPPORT
