@@ -12,7 +12,7 @@ Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
 @multitable @columnfractions .12 .88
 @item Portions
 @item @tab Copyright @copyright{} 2003, 2004, 2005, 2007, 2009, 2010, 2011,
-                                  2013, 2014, 2015
+                                  2013, 2014, 2015, 2016
                                   mirabilos, The MirOS Project
 @item @tab Copyright @copyright{} 1999, 2000, 2001, 2002, 2003, 2004, 2005
                                   Derek R. Price,
@@ -11088,6 +11088,8 @@ you would need to prefix the examples above with @code{env}.)
 @item
 ls [-e | -l] [-RP] [-r tag[:date]] [-D date] [path@dots{}]
 @item
+rls [-e | -l] [-RP] [-r tag[:date]] [-D date] [path@dots{}]
+@item
 Requires: repository for @code{rls}, repository & working directory for
 @code{ls}.
 @item
@@ -12332,6 +12334,34 @@ Remove stored password for authenticating server.  See
 @ref{Password authentication client}.
 
 @c ------------------------------------------------------------
+@item ls [@var{options}] [@var{path}@dots{}]
+List files available from CVS. See @ref{ls & rls}.
+
+@table @code
+@item -d
+Show dead revisions (with tag when specified).
+See @ref{ls & rls options}.
+
+@item -e
+Display in CVS/Entries format.
+
+@item -l
+Display all details.
+
+@item -P
+Prune empty directories.  See @ref{Moving directories}.
+
+@item -R
+List recursively. @xref{Recursive behavior}.
+
+@item -D @var{date}
+Show files from date.  See @ref{Common options}.
+
+@item -r @var{rev}
+Show files with revision or tag.
+@end table
+
+@c ------------------------------------------------------------
 @item pserver
 Password authenticated server.
 See @ref{Password authentication server}.
@@ -12409,7 +12439,7 @@ Use RCS Version @var{vers} for keyword expansion (obsolete).  See
 @end table
 
 @c ------------------------------------------------------------
-@item release [@var{options}] @var{directory}
+@item release [@var{options}] @var{directories}@dots{}
 Indicate that a directory is no longer in use.  See
 @ref{release}.
 
@@ -12472,6 +12502,34 @@ Only list revisions checked in by specified logins.  See @ref{log options}.
 @end table
 
 @c ------------------------------------------------------------
+@item rls [@var{options}] [@var{path}@dots{}]
+List files in a module. See @ref{ls & rls}.
+
+@table @code
+@item -d
+Show dead revisions (with tag when specified).
+See @ref{ls & rls options}.
+
+@item -e
+Display in CVS/Entries format.
+
+@item -l
+Display all details.
+
+@item -P
+Prune empty directories.  See @ref{Moving directories}.
+
+@item -R
+List recursively. @xref{Recursive behavior}.
+
+@item -D @var{date}
+Show files from date.  See @ref{Common options}.
+
+@item -r @var{rev}
+Show files with revision or tag.
+@end table
+
+@c ------------------------------------------------------------
 @item rtag [@var{options}] @var{tag} @var{modules}@dots{}
 Add a symbolic tag to a module.
 See @ref{Revisions} and @ref{Branching and merging}.
@@ -12520,6 +12578,10 @@ existed on @var{date}.  See @ref{Tagging by date/tag} and @ref{Common options}.
 @c ------------------------------------------------------------
 @item server
 Rsh server.  See @ref{Connecting via rsh}.
+
+@c ------------------------------------------------------------
+@item suck @var{module/filename}
+Download RCS ,v file raw.  See @ref{suck}.
 
 @c ------------------------------------------------------------
 @item status [@var{options}] @var{files}@dots{}
