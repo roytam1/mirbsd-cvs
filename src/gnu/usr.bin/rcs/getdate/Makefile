@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/rcs/getdate/Makefile,v 1.1 2005/04/19 21:30:32 tg Exp $
+# $MirOS: src/gnu/usr.bin/rcs/getdate/Makefile,v 1.2 2005/12/05 22:33:23 tg Exp $
 
 PROG=		getdate
 SRCS=
@@ -6,6 +6,7 @@ OBJS=		getdate.o
 NOMAN=		yes
 CPPFLAGS+=	-DTEST
 
+NEED_RCS_LIB=	No
 .include "../Makefile.inc"
 
 CPPFLAGS+=	-I${CVSLIB}
