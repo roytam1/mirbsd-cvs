@@ -28,7 +28,7 @@
 uint32_t arc4random(void);
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.16 2016/10/21 17:46:02 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.17 2016/10/21 17:57:59 tg Exp $");
 
 const char *program_name;
 const char *program_path;
@@ -465,14 +465,6 @@ main_cleanup (int sig)
  */
 extern char *gConfigPath;
 
-
-
-
-enum {RANDOM_BYTES = 8};
-enum {COMMITID_RAW_SIZE = (sizeof(time_t) + RANDOM_BYTES)};
-
-static char const alphabet[62] =
-  "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
 
 int
