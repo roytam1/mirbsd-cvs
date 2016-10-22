@@ -485,13 +485,20 @@ doregexp(const char *argv[], int argc)
 	int error;
 	regex_t re;
 	regmatch_t *pmatch;
+	int mode = REG_EXTENDED;
+	size_t l;
 
 	if (argc <= 3) {
 		warnx("Too few arguments to regexp");
 		return;
 	}
+
+	if (mimic_gnu && ((argv[3][0] == '^') ||
+	    ((l = strlen(argv[3])) > 0 && argv[3][l-1] == '$')))
+		mode |= REG_NEWLINE;
+
 	error = regcomp(&re, mimic_gnu ? twiddle(argv[3]) : argv[3], 
-	    REG_EXTENDED);
+	    mode);
 	if (error != 0)
 		exit_regerror(error, &re);
 	
