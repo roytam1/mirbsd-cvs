@@ -144,10 +144,10 @@ If
 .Fa ptr
 was previously freed by
 .Fn free ,
-.Fn realloc ,
+.Fn realloc
 or
 .Fn reallocarray ,
-the behavior is undefined and the double free is a security concern.
+the behavior is undefined, and the double free is a security concern.
 .Pp
 A
 .Fn cfree
@@ -159,7 +159,7 @@ libraries; it is simply an alias for
 Upon successful completion, the functions
 .Fn malloc ,
 .Fn calloc ,
-.Fn realloc ,
+.Fn realloc
 and
 .Fn reallocarray
 return a pointer to the allocated space; otherwise, a
@@ -360,7 +360,7 @@ If
 .Fn malloc ,
 .Fn calloc ,
 .Fn realloc ,
-.Fn reallocarray ,
+.Fn reallocarray
 or
 .Fn free
 detect an error condition,
@@ -379,7 +379,7 @@ If the
 option is specified it is an error for
 .Fn malloc ,
 .Fn calloc ,
-.Fn realloc ,
+.Fn realloc
 or
 .Fn reallocarray
 to return
@@ -390,7 +390,7 @@ seriously overloaded system or a ulimit restriction.
 .It Dq bogus pointer (double free?)
 An attempt to
 .Fn free ,
-.Fn realloc ,
+.Fn realloc
 or
 .Fn reallocarray
 an unallocated pointer was made.
@@ -399,7 +399,7 @@ There was an attempt to free a chunk that had already been freed.
 .It Dq modified chunk-pointer
 The pointer passed to
 .Fn free ,
-.Fn realloc ,
+.Fn realloc
 or
 .Fn reallocarray
 has been modified.
@@ -561,7 +561,7 @@ The default number of free pages cached is 64.
 The
 .Fn malloc ,
 .Fn calloc ,
-.Fn realloc ,
+.Fn realloc
 and
 .Fn free
 functions conform to
@@ -604,7 +604,7 @@ appeared in
 .At v6 .
 The functions
 .Fn malloc ,
-.Fn calloc ,
+.Fn calloc
 and
 .Fn realloc
 first appeared in
@@ -642,6 +642,13 @@ The
 .Fn cfree
 function appeared in SunOS 4.x.
 .Sh CAVEATS
+It should be noted explicitly that the pointer passed to
+.Fn realloc
+.Pq and Fn reallocarray
+is invalid, and any attempt to use it Undefined Behaviour,
+after the function succeeded, and after all calls to
+.Fn free .
+.Pp
 When using
 .Fn malloc ,
 be wary of signed integer and
