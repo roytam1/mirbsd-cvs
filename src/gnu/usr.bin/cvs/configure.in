@@ -1,4 +1,4 @@
-dnl $MirOS: src/gnu/usr.bin/cvs/configure.in,v 1.21 2016/10/21 19:19:49 tg Exp $
+dnl $MirOS: src/gnu/usr.bin/cvs/configure.in,v 1.22 2016/10/22 03:37:04 tg Exp $
 dnl
 dnl configure.in for cvs
 
@@ -17,7 +17,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.])
 
-AC_INIT([Concurrent Versions System (CVS)],[1.12.13-MirOS-0AB7.3],
+AC_INIT([Concurrent Versions System (CVS)],[1.12.13-MirOS-0AB7.4],
 	[miros-discuss@mirbsd.org],[cvs])
 AC_CONFIG_SRCDIR(src/cvs.h)
 AM_INIT_AUTOMAKE([gnu 1.9.2 dist-bzip2 no-define])
