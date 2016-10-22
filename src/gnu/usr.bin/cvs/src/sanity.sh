@@ -96,13 +96,19 @@ checklongoptarg()
 
 do_save_TZ()
 {
+	saveset_TZ=${TZ+false}
 	save_TZ=$TZ
 	TZ=UTC0; export TZ
 }
 
 do_restore_TZ()
 {
-	TZ=$save_TZ
+	if $saveset_TZ :; then
+		unset TZ
+	else
+		TZ=$save_TZ
+		export TZ
+	fi
 }
 
 # See TODO list at end of file.
