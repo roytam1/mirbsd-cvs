@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: src/gnu/usr.bin/cvs/doc/cvs.man.footer,v 1.2 2012/05/21 20:39:25 tg Exp $
 .SH "AUTHORS"
 .TP
 Dick Grune
@@ -27,7 +27,7 @@ Larry Jones, Derek R. Price, and Mark D. Baushke
 Have helped maintain
 .B cvs
 for many years.
-.TP
+.PP
 And many others too numerous to mention here.
 .SH "SEE ALSO"
 The most comprehensive manual for CVS is
