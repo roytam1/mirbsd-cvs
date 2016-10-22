@@ -111,10 +111,8 @@ rndsetup(void)
 	char *cp;
 
 	cp = alloc(sizeof(*bufptr) - sizeof(ALLOC_ITEM), APERM);
-#ifdef DEBUG
-	/* clear the allocated space, for valgrind */
+	/* clear the allocated space, for valgrind and to avoid UB */
 	memset(cp, 0, sizeof(*bufptr) - sizeof(ALLOC_ITEM));
-#endif
 	/* undo what alloc() did to the malloc result address */
 	bufptr = (void *)(cp - sizeof(ALLOC_ITEM));
 	/* PIE or something similar provides us with deltas here */

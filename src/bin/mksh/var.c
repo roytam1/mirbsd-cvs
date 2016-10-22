@@ -1686,10 +1686,8 @@ rndset(unsigned long v)
 		short r;
 	} z;
 
-#ifdef DEBUG
-	/* clear the allocated space, for valgrind */
+	/* clear the allocated space, for valgrind and to avoid UB */
 	memset(&z, 0, sizeof(z));
-#endif
 
 	h = lcg_state;
 	BAFHFinish_reg(h);
