@@ -3,7 +3,9 @@
 
    Copyright (C) 1995, 1997, 1998, 2003, 2004, 2005
    Free Software Foundation, Inc.
-   Copyright (c) 2016 mirabilos <m@mirbsd.org>
+
+   Copyright (c) 2005, 2006, 2007, 2010, 2016
+   mirabilos <m@mirbsd.org>
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -138,10 +140,10 @@ xmemdup(void const *p, size_t s)
 #ifndef __IDSTRING
 #define __IDSTRING(varname, string) \
 	static const char varname[] __attribute__((__used__)) = \
-	    "@(""#)" #prefix ": " string
+	    "@(""#)" #varname ": " string
 #endif
 
-__IDSTRING(rcsid_code, "$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.8 2016/10/22 20:15:03 tg Exp $");
+__IDSTRING(rcsid_code, "$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.10 2016/10/22 21:54:54 tg Exp $");
 /* placeholder line for __IDSTRING(rcsid_bron, "$miros: ..."); so that cpp #line directives work */
 
 /* Shift A right by B bits portably, by dividing A by 2**B and
