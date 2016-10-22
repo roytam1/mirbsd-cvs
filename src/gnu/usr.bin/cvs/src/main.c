@@ -28,7 +28,7 @@
 uint32_t arc4random(void);
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.17 2016/10/21 17:57:59 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.18 2016/10/21 22:01:50 tg Exp $");
 
 const char *program_name;
 const char *program_path;
@@ -1113,6 +1113,7 @@ distribution kit for a complete list of contributors and copyrights.\n",
 	dellist (&root_directories);
     } /* end of stuff that gets done if the user DOESN'T ask for help */
 
+    config = NULL;
     root_allow_free ();
 
     /* This is exit rather than return because apparently that keeps
