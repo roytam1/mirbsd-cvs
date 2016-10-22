@@ -1,6 +1,6 @@
 #! /bin/sh
 :
-# $MirOS$
+# $MirOS: src/gnu/usr.bin/cvs/src/sanity.sh,v 1.2 2016/10/22 15:34:32 tg Exp $
 #-
 # set DISABLE_ANY_RSH=1 to skip rsh and ssh calls
 #
@@ -92,6 +92,17 @@ checklongoptarg()
 	echo "option \`--$LONGOPT' requires an argument" >&2
 	exit_usage
     fi
+}
+
+do_save_TZ()
+{
+	save_TZ=$TZ
+	TZ=UTC0; export TZ
+}
+
+do_restore_TZ()
+{
+	TZ=$save_TZ
 }
 
 # See TODO list at end of file.
@@ -9378,8 +9389,7 @@ add
 	  # Also the -d option.
 
 	  # Set a predictable time zone for these tests.
-	  save_TZ=$TZ
-	  TZ=UTC0; export TZ
+	  do_save_TZ
 
 	  mkdir 1; cd 1
 	  mkdir adir bdir cdir
@@ -9502,7 +9512,7 @@ import-it
 	  dotest_fail importc-12 "test -d ${TESTDIR}/other" ""
 
 	  dokeep
-	  TZ=$save_TZ
+	  do_restore_TZ
 	  cd ..
 	  rm -r 1 2
 	  modify_repo rm -rf $CVSROOT_DIRNAME/first-dir
@@ -22121,8 +22131,7 @@ ${SPROG} update: Updating crerepos-dir"
 
 	  # Save the timezone and set it to UTC for these tests to make the
 	  # value more predicatable.
-	  save_TZ=$TZ
-	  TZ=UTC0; export TZ
+	  do_save_TZ
 
 	  modify_repo mkdir $CVSROOT_DIRNAME/first-dir
 
@@ -22599,7 +22608,7 @@ revision 1\.5
 revision 1\.4"
 
 	  dokeep
-	  TZ=$save_TZ
+	  do_restore_TZ
 	  cd ..
 	  rm -r first-dir
 	  modify_repo rm -rf $CVSROOT_DIRNAME/first-dir
@@ -22789,8 +22798,7 @@ EOF
 	  # revisions 1.1 and 1.1.1.1 differ by 1 second.
 
 	  # Need a predictable time zone.
-	  save_TZ=$TZ
-	  TZ=UTC0; export TZ
+	  do_save_TZ
 
           mkdir rcs4
           cd rcs4
@@ -22848,7 +22856,7 @@ File: file1            	Status: Up-to-date
    Sticky Options:	(none)'
 
 	  dokeep
-	  TZ=$save_TZ
+	  do_restore_TZ
 	  cd ../..
           rm -r rcs4
           modify_repo rm -rf $CVSROOT_DIRNAME/rcs4-dir
@@ -25440,8 +25448,7 @@ done"
 	  #		for checkout and update as well.
 	  #
 	  mkdir 1; cd 1
-	  save_TZ=$TZ
-	  TZ=UTC0; export TZ
+	  do_save_TZ
 	  dotest tagdate-1 "${testcvs} -q co -l ." ''
 	  mkdir first-dir
 	  dotest tagdate-2 "${testcvs} add first-dir" \
@@ -25905,7 +25912,7 @@ File: file3            	Status: Up-to-date
 
 	  unset date_T1 date_T2 date_T3 date_T4 date_T5
 	  unset date_T6 date_T7 date_T8 date_T9
-	  TZ=$save_TZ
+	  do_restore_TZ
 
 	  dokeep
 	  rm -r 1 2 3 4
