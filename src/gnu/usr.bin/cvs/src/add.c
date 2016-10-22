@@ -34,7 +34,7 @@
 #include "save-cwd.h"
 #include "fileattr.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.17 2016/10/21 17:57:59 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/add.c,v 1.4 2016/10/21 20:01:55 tg Exp $");
 
 static int add_directory (struct file_info *finfo);
 static int build_entry (const char *repository, const char *user,
@@ -535,7 +535,7 @@ add (int argc, char **argv)
 			}
 			Register (entries, finfo.file, "0",
 				  timestamp ? timestamp :
-				   vers->ts_user_ists ? "locally-added" : vers->ts_user,
+				   vers->ts_user_ists ? "locally added" : vers->ts_user,
 				  vers->options, vers->tag, vers->date, NULL);
 			if (timestamp) free (timestamp);
 #ifdef SERVER_SUPPORT
