@@ -79,6 +79,14 @@
 		_SYSCALL_NOERROR(x,x)
 
 /* perform a syscall, set errno */
+/*-
+ * XXX these are suboptimal for static branch prediction:
+ * - P1, PMMX: not taken
+ * - P2, P3, P4: forward not taken, backward taken (!)
+ *   but static is more expensive than dynamic, so optimise for not taken
+ * - PM, Core: no static prediction (random)
+ * - AMD: not taken
+ */
 #ifdef PIC
 #define	_SYSCALL(x,y)					\
 			.text;				\
