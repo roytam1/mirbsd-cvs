@@ -80,7 +80,7 @@ size_t strlcat(char *, const char *, size_t);
 
 #define gettime(ts)	clock_gettime(CLOCK_REALTIME,(ts))
 
-void *
+static void *
 xmalloc(size_t s)
 {
 	static const char xmalloc_enomem[] = "memory exhausted\n";
@@ -94,14 +94,23 @@ xmalloc(size_t s)
 	return (x);
 }
 
-void *
+static void *
 xmemdup(void const *p, size_t s)
 {
 	return (memcpy(xmalloc(s), p, s));
 }
 #endif /* IN_RCS */
 
-#if STDC_HEADERS || (! defined isascii && ! HAVE_ISASCII)
+/* workarounds for bugs in GNU bison */
+#if defined(_STDLIB_H_) && !defined(_STDLIB_H)
+#define _STDLIB_H _STDLIB_H_
+#endif
+#if defined(_STRING_H_) && !defined(_STRING_H)
+#define _STRING_H _STRING_H_
+#endif
+
+#if (defined(STDC_HEADERS) && STDC_HEADERS) || \
+    (!defined(isascii) && !HAVE_ISASCII)
 # define IN_CTYPE_DOMAIN(c) 1
 #else
 # define IN_CTYPE_DOMAIN(c) isascii (c)
@@ -120,7 +129,8 @@ xmemdup(void const *p, size_t s)
    of `digit' even when the host does not conform to POSIX.  */
 #define ISDIGIT(c) ((unsigned int) (c) - '0' <= 9)
 
-#if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 8) || __STRICT_ANSI__
+#if __GNUC__ < 2 || (__GNUC__ == 2 && __GNUC_MINOR__ < 8) || \
+    (defined(__STRICT_ANSI__) && __STRICT_ANSI__)
 # define __attribute__(x)
 #endif
 
@@ -132,7 +142,7 @@ xmemdup(void const *p, size_t s)
 #define __RCSID(x) /* nothing */
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.6.2.7 2016/10/21 20:58:03 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.8 2016/10/22 20:15:03 tg Exp $");
 /* placeholder line for $miros$ so that cpp #line directives work */
 
 /* Shift A right by B bits portably, by dividing A by 2**B and
