@@ -3,6 +3,7 @@
 
    Copyright (C) 1995, 1997, 1998, 2003, 2004, 2005
    Free Software Foundation, Inc.
+   Copyright (c) 2016 mirabilos <m@mirbsd.org>
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -69,6 +70,10 @@ size_t strlcat(char *, const char *, size_t);
 #include <stdlib.h>
 #include <string.h>
 
+#ifndef _STDLIB_H
+#define _STDLIB_H 1 /* GNU bison needs this */
+#endif
+
 #ifndef IN_RCS
 #include "setenv.h"
 #include "xalloc.h"
@@ -101,14 +106,6 @@ xmemdup(void const *p, size_t s)
 }
 #endif /* IN_RCS */
 
-/* workarounds for bugs in GNU bison */
-#if defined(_STDLIB_H_) && !defined(_STDLIB_H)
-#define _STDLIB_H _STDLIB_H_
-#endif
-#if defined(_STRING_H_) && !defined(_STRING_H)
-#define _STRING_H _STRING_H_
-#endif
-
 #if (defined(STDC_HEADERS) && STDC_HEADERS) || \
     (!defined(isascii) && !HAVE_ISASCII)
 # define IN_CTYPE_DOMAIN(c) 1
@@ -138,12 +135,14 @@ xmemdup(void const *p, size_t s)
 # define ATTRIBUTE_UNUSED __attribute__ ((__unused__))
 #endif
 
-#ifndef __RCSID
-#define __RCSID(x) /* nothing */
+#ifndef __IDSTRING
+#define __IDSTRING(varname, string) \
+	static const char varname[] __attribute__((__used__)) = \
+	    "@(""#)" #prefix ": " string
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.8 2016/10/22 20:15:03 tg Exp $");
-/* placeholder line for $miros$ so that cpp #line directives work */
+__IDSTRING(rcsid_code, "$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.8 2016/10/22 20:15:03 tg Exp $");
+/* placeholder line for __IDSTRING(rcsid_bron, "$miros: ..."); so that cpp #line directives work */
 
 /* Shift A right by B bits portably, by dividing A by 2**B and
    truncating towards minus infinity.  A and B should be free of side
@@ -241,7 +240,7 @@ typedef struct
 
 union YYSTYPE;
 static int yylex (union YYSTYPE *, parser_control *);
-static int yyerror (parser_control *, char *);
+static int yyerror (parser_control *, const char *);
 static long int time_zone_hhmm (textint, long int);
 
 %}
@@ -1131,7 +1130,7 @@ yylex (YYSTYPE *lvalp, parser_control *pc)
 
 /* Do nothing if the parser reports an error.  */
 static int
-yyerror (parser_control *pc ATTRIBUTE_UNUSED, char *s ATTRIBUTE_UNUSED)
+yyerror (parser_control *pc ATTRIBUTE_UNUSED, const char *s ATTRIBUTE_UNUSED)
 {
   return 0;
 }
