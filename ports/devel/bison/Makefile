@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/bison/Makefile,v 1.7 2008/11/01 23:09:38 tg Exp $
+# $MirOS: ports/devel/bison/Makefile,v 1.8 2008/11/02 02:21:50 tg Exp $
 # $OpenBSD: Makefile,v 1.42 2008/07/08 00:24:17 brad Exp $
 
 COMMENT=		GNU parser generator
 DISTNAME=       	bison-2.3
-DASH_VER=		2
+DASH_VER=		3
 CATEGORIES=		devel
 MASTER_SITES=		${MASTER_SITE_GNU:=bison/}
 HOMEPAGE=		http://www.gnu.org/software/bison/
