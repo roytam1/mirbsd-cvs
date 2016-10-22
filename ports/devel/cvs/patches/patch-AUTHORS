@@ -1,6 +1,6 @@
-$MirOS: ports/devel/cvs/patches/patch-AUTHORS,v 1.3 2010/09/15 20:56:56 tg Exp $
---- AUTHORS.orig	Sat Feb 11 18:12:21 2012
-+++ AUTHORS	Sat Feb 11 18:12:50 2012
+$MirOS: ports/devel/cvs/patches/patch-AUTHORS,v 1.4 2012/02/11 19:29:47 tg Exp $
+--- AUTHORS.orig	Sat Oct 22 00:02:44 2016
++++ AUTHORS	Sun Sep 19 19:42:48 2010
 @@ -61,7 +61,7 @@ Thorsten Glaser <tg@mirbsd.org> is respo
  some of which were inspired by changes to GNU CVS 1.11.1p1 by other BSDs,
  and did the MirOS BSD port as well as the MirPorts Framework packaging.
@@ -16,4 +16,4 @@ $MirOS: ports/devel/cvs/patches/patch-AUTHORS,v 1.3 2010/09/15 20:56:56 tg Exp $
  contributed GNU Emacs CVS-mode in tools/pcl-cvs.
 +
 +
-+$MirOS: ports/devel/cvs/patches/patch-AUTHORS,v 1.3 2010/09/15 20:56:56 tg Exp $
++$MirOS: src/gnu/usr.bin/cvs/AUTHORS,v 1.4 2010/09/19 19:42:48 tg Exp $

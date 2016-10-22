@@ -1,6 +1,6 @@
-$MirOS: ports/devel/cvs/patches/patch-MINOR-BUGS,v 1.3 2011/07/28 15:54:31 tg Exp $
---- MINOR-BUGS.orig	Sat Feb 11 18:12:22 2012
-+++ MINOR-BUGS	Sat Feb 11 18:12:50 2012
+$MirOS: ports/devel/cvs/patches/patch-MINOR-BUGS,v 1.4 2012/02/11 19:29:47 tg Exp $
+--- MINOR-BUGS.orig	Sat Oct 22 00:02:44 2016
++++ MINOR-BUGS	Thu Jul 28 15:54:32 2011
 @@ -61,7 +61,7 @@ particular reason to think the bug is fi
    function?
  
@@ -15,4 +15,4 @@ $MirOS: ports/devel/cvs/patches/patch-MINOR-BUGS,v 1.3 2011/07/28 15:54:31 tg Ex
  but neither does it do that under MidnightBSD/DragonFly, where
  it came from.
 +
-+$MirOS: ports/devel/cvs/patches/patch-MINOR-BUGS,v 1.3 2011/07/28 15:54:31 tg Exp $
++$MirOS: src/gnu/usr.bin/cvs/MINOR-BUGS,v 1.4 2011/07/28 15:54:32 tg Exp $

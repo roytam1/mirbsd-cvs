@@ -15,4 +15,5 @@ version) heavily by the MirOS Project, internally, and to maintain the
 MirOS BSD, MirPorts Framework, and other subprojects', as well as
 hosted projects, such as FWCF, source code and associated other works.
 
-This version also contains many patches originating from Debian.
+This version also contains many patches originating from Debian,
+and has now taken over the Debian CVS package.
