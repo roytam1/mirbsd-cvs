@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.59 2014/04/18 20:18:55 tg Exp $
+# $MirOS: ports/infrastructure/mk/gnu.port.mk,v 1.60 2015/07/19 12:55:08 tg Exp $
 # $OpenBSD: gnu.port.mk,v 1.19 2004/06/06 11:49:08 espie Exp $
 
 AUTOCONF_NEW?=		No
@@ -201,7 +201,7 @@ CONFIGURE_ENV+=		ac_cv_header_poll_h=no
 .elif ${MACHINE_OS} == "BSD"
 # reported to be misused by bsiegert@
 CONFIGURE_ENV+=		ac_cv_func_malloc_0_nonnull=yes
-# check prevented by systrace
+# caught by systrace, tries to write to ${LOCALBASE}/lib as check
 CONFIGURE_ENV+=		ac_cv_sys_long_file_names=yes
 .  if ${OStype} == "MirBSD"
 # cannot be used
