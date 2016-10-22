@@ -56,7 +56,7 @@ radix	0[rR][0-9]+:[0-9a-zA-Z]+
 %%
 
 int32_t
-number()
+number(void)
 {
 	long l;
 
@@ -70,7 +70,7 @@ number()
 }
 
 int32_t
-parse_radix()
+parse_radix(void)
 {
 	long base;
 	char *next;

@@ -33,7 +33,7 @@
 #include "stdd.h"
 #include "extern.h"
 
-__RCSID("$MirOS: src/usr.bin/m4/trace.c,v 1.2 2009/11/21 21:24:17 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/m4/trace.c,v 1.3 2009/11/22 14:39:59 tg Exp $");
 
 FILE *traceout;
 
@@ -120,7 +120,7 @@ set_trace_flags(const char *s)
 }
 
 static int
-frame_level()
+frame_level(void)
 {
 	int level;
 	int framep;

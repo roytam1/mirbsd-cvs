@@ -1,4 +1,4 @@
-/*	$OpenBSD: extern.h,v 1.48 2008/08/21 20:59:14 espie Exp $	*/
+/*	$OpenBSD: extern.h,v 1.49 2009/10/14 17:19:47 sthen Exp $	*/
 /*	$NetBSD: extern.h,v 1.3 1996/01/13 23:25:24 pk Exp $	*/
 
 /*-
@@ -96,20 +96,23 @@ extern void	getdiv(int);
 extern ptrdiff_t indx(const char *, const char *);
 extern void 	initspaces(void);
 extern void	killdiv(void);
-extern void	onintr(int);
+extern void	onintr(int) __dead;
 extern void	pbnum(int);
 extern void	pbnumbase(int, int, int);
 extern void	pbunsigned(unsigned long);
 extern void	pbstr(const char *);
 extern void	pushback(int);
-extern void	*xalloc(size_t, const char *fmt, ...);
-extern void	*xrealloc(void *, size_t, const char *fmt, ...);
+extern void	*xalloc(size_t, const char *fmt, ...)
+    __attribute__((__format__(__printf__, 2, 3)));
+extern void	*xrealloc(void *, size_t, const char *fmt, ...)
+    __attribute__((__format__(__printf__, 3, 4)));
 extern char	*xstrdup(const char *);
-extern void	usage(void);
+extern void	usage(void) __dead;
 extern void	resizedivs(int);
 extern size_t	buffer_mark(void);
 extern void	dump_buffer(FILE *, size_t);
-extern void	__dead m4errx(int, const char *, ...);
+extern void	__dead m4errx(int, const char *, ...)
+    __attribute__((__format__(__printf__, 2, 3)));
 
 extern int 	obtain_char(struct input_file *);
 extern void	set_input(struct input_file *, FILE *, const char *);
@@ -173,4 +176,5 @@ extern char scommt[MAXCCHARS+1];/* start character for comment */
 extern int  synch_lines;	/* line synchronisation directives */
 
 extern int mimic_gnu;		/* behaves like gnu-m4 */
+extern int prefix_builtins;	/* prefix builtin macros with m4_ */
 

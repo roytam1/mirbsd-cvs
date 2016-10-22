@@ -1,4 +1,4 @@
-/*	$OpenBSD: look.c,v 1.19 2009/06/26 22:03:17 guenther Exp $	*/
+/*	$OpenBSD: look.c,v 1.21 2009/10/14 17:23:17 sthen Exp $	*/
 
 /*
  * Copyright (c) 1989, 1993
@@ -62,9 +62,7 @@ struct ohash macros;
 
 /* Support routines for hash tables.  */
 void *
-hash_alloc(s, u)
-	size_t s;
-	void *u 	UNUSED;
+hash_alloc(size_t s, void *u __unused)
 {
 	void *storage = xalloc(s, "hash alloc");
 	if (storage)
@@ -73,24 +71,19 @@ hash_alloc(s, u)
 }
 
 void
-hash_free(p, s, u)
-	void *p;
-	size_t s	UNUSED;
-	void *u 	UNUSED;
+hash_free(void *p, size_t s __unused, void *u __unused)
 {
 	free(p);
 }
 
 void *
-element_alloc(s, u)
-	size_t s;
-	void *u 	UNUSED;
+element_alloc(size_t s, void *u __unused)
 {
 	return xalloc(s, "element alloc");
 }
 
 void
-init_macros()
+init_macros(void)
 {
 	ohash_init(&macros, 10, &macro_info);
 }
@@ -231,11 +224,19 @@ void
 setup_builtin(const char *name, unsigned int type)
 {
 	ndptr n;
+	char *name2;
 
-	n = create_entry(name);
+	if (prefix_builtins) {
+		name2 = xalloc(strlen(name)+3+1, NULL);
+		memcpy(name2, "m4_", 3);
+		memcpy(name2 + 3, name, strlen(name)+1);
+	} else
+		name2 = xstrdup(name);
+
+	n = create_entry(name2);
 	n->builtin_type = type;
 	n->d = xalloc(sizeof(struct macro_definition), NULL);
-	n->d->defn = xstrdup(name);
+	n->d->defn = name2;
 	n->d->type = type;
 	n->d->next = NULL;
 }

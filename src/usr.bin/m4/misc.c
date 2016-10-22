@@ -47,7 +47,7 @@
 #include "extern.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/m4/misc.c,v 1.4 2009/11/22 14:39:59 tg Exp $");
 
 char *ep;		/* first free char in strspace */
 static char *strspace;	/* string space for evaluation */
@@ -157,7 +157,7 @@ pbunsigned(unsigned long n)
 }
 
 void 
-initspaces()
+initspaces(void)
 {
 	int i;
 
@@ -173,7 +173,7 @@ initspaces()
 }
 
 void 
-enlarge_strspace()
+enlarge_strspace(void)
 {
 	char *newstrspace;
 	int i;
@@ -194,7 +194,7 @@ enlarge_strspace()
 }
 
 void
-enlarge_bufspace()
+enlarge_bufspace(void)
 {
 	unsigned char *newbuf;
 	int i;
@@ -249,7 +249,7 @@ onintr(int signo)
  * killdiv - get rid of the diversion files
  */
 void
-killdiv()
+killdiv(void)
 {
 	int n;
 
@@ -262,7 +262,7 @@ killdiv()
 extern char *__progname;
 
 void
-m4errx(int eval, const char *fmt, ...)
+m4errx(int rv, const char *fmt, ...)
 {
 	fprintf(stderr, "%s: ", __progname);
 	fprintf(stderr, "%s at line %lu: ", CURRENT_NAME, CURRENT_LINE);
@@ -274,7 +274,7 @@ m4errx(int eval, const char *fmt, ...)
 		va_end(ap);
 	}
 	fprintf(stderr, "\n");
-	exit(eval);
+	exit(rv);
 }
 
 /*
@@ -340,7 +340,7 @@ xstrdup(const char *s)
 }
 
 void
-usage()
+usage(void)
 {
 	fprintf(stderr, "usage: m4 [-gPs] [-Dname[=value]] [-d flags] "
 			"[-I dirname] [-o filename]\n"
@@ -372,7 +372,7 @@ set_input(struct input_file *f, FILE *real, const char *name)
 }
 
 void
-do_emit_synchline()
+do_emit_synchline(void)
 {
 	fprintf(active, "#line %lu \"%s\"\n",
 	    infile[ilevel].lineno, infile[ilevel].name);
@@ -410,7 +410,7 @@ doprintfilename(struct input_file *f)
  * and later dump everything that was added since then to a file.
  */
 size_t
-buffer_mark()
+buffer_mark(void)
 {
 	return bp - buf;
 }

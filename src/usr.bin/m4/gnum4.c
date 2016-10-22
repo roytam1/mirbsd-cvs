@@ -46,6 +46,7 @@
 #include "stdd.h"
 #include "extern.h"
 
+__RCSID("$MirOS$");
 
 int mimic_gnu = 0;
 
@@ -97,7 +98,7 @@ addtoincludepath(const char *dirname)
 }
 
 static void
-ensure_m4path()
+ensure_m4path(void)
 {
 	static int envpathdone = 0;
 	char *envpath;
@@ -194,7 +195,7 @@ static void addchars(const char *, size_t);
 static void addchar(int);
 static char *twiddle(const char *);
 static char *getstring(void);
-static void exit_regerror(int, regex_t *);
+static void exit_regerror(int, regex_t *) __dead;
 static void do_subst(const char *, regex_t *, const char *, regmatch_t *);
 static void do_regexpindex(const char *, regex_t *, regmatch_t *);
 static void do_regexp(const char *, regex_t *, const char *, regmatch_t *);
@@ -232,7 +233,7 @@ addchar(int c)
 }
 
 static char *
-getstring()
+getstring(void)
 {
 	addchar('\0');
 	current = 0;
@@ -538,7 +539,10 @@ doformat(const char *argv[], int argc)
 				    "Format with too many format specifiers.");
 			width = strtol(argv[pos++], NULL, 10);
 		} else {
-			width = strtol(format, (char **)&format, 10);
+			char *endptr;
+
+			width = strtol(format, &endptr, 10);
+			format = endptr;
 		}
 		if (width < 0) {
 			left_padded = 1;
@@ -555,7 +559,10 @@ doformat(const char *argv[], int argc)
 					    "Format with too many format specifiers.");
 				extra = strtol(argv[pos++], NULL, 10);
 			} else {
-				extra = strtol(format, (char **)&format, 10);
+				char *endptr;
+
+				extra = strtol(format, &endptr, 10);
+				format = endptr;
 			}
 		} else {
 			extra = LONG_MAX;
@@ -597,17 +604,11 @@ doesyscmd(const char *cmd)
 {
 	int p[2];
 	pid_t pid, cpid;
-	char *argv[4];
 	int cc;
 	int status;
 
 	/* Follow gnu m4 documentation: first flush buffers. */
 	fflush(NULL);
-
-	argv[0] = "sh";
-	argv[1] = "-c";
-	argv[2] = (char *)cmd;
-	argv[3] = NULL;
 
 	/* Just set up standard output, share stderr and stdin with m4 */
 	if (pipe(p) == -1)
@@ -616,12 +617,20 @@ doesyscmd(const char *cmd)
 	case -1:
 		err(1, "bad fork");
 		/* NOTREACHED */
-	case 0:
+	case 0: {
+		char *argv[4];
+
+		argv[0] = xstrdup("sh");
+		argv[1] = xstrdup("-c");
+		argv[2] = xstrdup(cmd);
+		argv[3] = NULL;
+
 		(void) close(p[0]);
 		(void) dup2(p[1], 1);
 		(void) close(p[1]);
 		execv(_PATH_BSHELL, argv);
 		exit(1);
+	    }
 	default:
 		/* Read result in two stages, since m4's buffer is
 		 * pushback-only. */

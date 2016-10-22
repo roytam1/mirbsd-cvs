@@ -25,6 +25,7 @@ const char *copy_toeval;
 
 extern void yy_scan_string(const char *);
 extern int yyparse(void);
+extern int yyerror(const char *);
 
 int
 yyerror(const char *msg)
