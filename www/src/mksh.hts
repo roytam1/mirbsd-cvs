@@ -1225,6 +1225,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[Andreas Buschka] Correct English spelling</li>
  <li>[tg] Handle <tt>set -e</tt>-related error propagation in <tt>||</tt> and
   <tt>&amp;&amp;</tt> constructs correctly</li>
+ <li>[tg] Initialise memory for RNG even when not targetting Valgrind</li>
 </ul>
 <p id="r53a"><span id="r53">R53a</span> is a snapshot/feature release:</p><ul>
  <li>[lintian] Fix spelling</li>
