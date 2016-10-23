@@ -1,11 +1,11 @@
-# $MirOS: ports/devel/cvs/Makefile,v 1.23 2012/02/11 19:29:46 tg Exp $
+# $MirOS: ports/devel/cvs/Makefile,v 1.24 2016/10/22 04:01:32 tg Exp $
 
 COMMENT=		Concurrent Versions System
 CATEGORIES=		devel essentials
 VSN=			1.12.13
 # track both in patches/patch-configure_in as well!
-DASH_VER=		15
-DEBIAN_REV=		17		# in sync with MirOS-0AB7.3 revision
+DASH_VER=		16
+DEBIAN_REV=		18		# in sync with MirOS-0AB7.4 revision
 HOMEPAGE=		http://www.nongnu.org/cvs/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
 
@@ -42,8 +42,6 @@ CONFIGURE_ARGS+=	--disable-nls \
 			--with-tmpdir=/var/tmp \
 			--with-umask=002 \
 			--with-cvs-admin-group=_cvsadmin
-# caught by systrace, tries to write to ${LOCALBASE}/lib as check
-CONFIGURE_ENV+=		ac_cv_sys_long_file_names=yes
 # hardcoded paths
 CONFIGURE_ENV+=		ac_cv_path_CSH=${LOCALBASE:Q}/bin/csh
 CONFIGURE_ENV+=		ac_cv_path_PS2PDF=false
@@ -52,7 +50,7 @@ CONFIGURE_ENV+=		ac_cv_path_PS2PDF=false
 .if exists(/usr/lib/libposixtz.so)
 REGRESS_ENV+=		GETDATE_LD_PRELOAD=/usr/lib/libposixtz.so
 .endif
-# this is ugly ugly ugly… get ssh to localhost working if you can
+# this is ugly ugly ugly… get ssh to localhost working if you can, and rsync
 REGRESS_ENV+=		SSH_AUTH_SOCK=${SSH_AUTH_SOCK:Q}
 REGRESS_IS_INTERACTIVE=	Yes
 

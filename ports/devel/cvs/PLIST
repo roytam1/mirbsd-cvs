@@ -3,7 +3,6 @@
 @unexec install-info --delete --info-dir=%D/info %D/info/cvsclient.info
 bin/cvs
 bin/cvs-switchroot
-@comment bin/cvsbug
 @comment bin/rcs2log
 info/cvs.info
 info/cvsclient.info
