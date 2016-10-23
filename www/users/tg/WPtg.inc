@@ -7281,7 +7281,7 @@ Tag: D5 T2 Micro Mystery Challenge
 ----
 ID: 1246
 Date: 23.11.2014
-Waypoint: GC3YVFP
+Waypoint: GC3YVFP WMPWQ8
 Title: Kulturdenkmal Siechenhauskapelle
 Tag: D15 T15 Micro Tradi
 ----
@@ -7573,7 +7573,7 @@ Tag: D35 T15 Micro Mystery
 ----
 ID: 1293
 Date: 19.01.2015
-Waypoint: GC5G5MB
+Waypoint: GC5G5MB WMPQH9
 Title: Turmstation Ersdorf
 Tag: D1 T1 Nano Tradi
 ----
@@ -8547,7 +8547,7 @@ Tag: D15 T2 Small Mystery
 ----
 ID: 1446
 Date: 15.04.2015
-Waypoint: GC5G7F5
+Waypoint: GC5G7F5 WMPQH8
 Title: Turmstation Merzbach Bergstrasse
 Tag: D15 T15 Micro Tradi
 
@@ -8910,7 +8910,7 @@ Tag: D45 T15 Nano Mystery recommended
 ----
 ID: 1501
 Date: 09.05.2015
-Waypoint: GC5A1JQ
+Waypoint: GC5A1JQ WMPQHK
 Title: Turmstation Ringen
 Tag: D15 T15 Small Tradi
 ----
@@ -11425,7 +11425,7 @@ Tag: D1 T1 Safari
 ----
 ID: 1896
 Date: 16.05.2016
-Waypoint: GC5G9VF
+Waypoint: GC5G9VF WMPQH6
 Title: Turmstation Rheinbach
 Tag: D15 T15 Nano Tradi
 ----
@@ -12255,6 +12255,12 @@ Waypoint: GC6V1FM
 Title: … und das Jahr hat sich geneiget.
 nTF: 0
 Tag: D1 T1 Event
+----
+ID: 2027
+Date: 23.10.2016
+Waypoint: GC1CGTD
+Title: Der Nibelungenschatz
+Tag: D2 T15 Micro Multi
 ----
 ID: p20161025
 Date: 25.10.2016
