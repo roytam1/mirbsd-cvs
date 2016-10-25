@@ -29,4 +29,6 @@ must be compiled with a 64-bit off_t so we can use it).
 On Interix, there simply is no 64-bit off_t, so that is SOL.
 
 This is MirCPIO, the MirOS version of paxtar, which is called
-paxmirabilis.
+paxmirabilis. This code provides pax (and paxcpio and paxtar)
+on Debian as well.
+
