@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/rcs/lib/Makefile,v 1.3 2005/12/05 22:33:23 tg Exp $
+# $MirOS: src/gnu/usr.bin/rcs/lib/Makefile,v 1.4 2005/12/06 09:49:22 tg Exp $
 
 LIB=	rcs
 NOPIC=	yes
@@ -10,7 +10,10 @@ install:
 
 .include "../Makefile.inc"
 
-.PATH: ${CVSLIB}
 CPPFLAGS+=	-I${CVSLIB}
+
+CLEANFILES+=	getdate.c
+getdate.c: ${CVSLIB}/getdate.c
+	cp ${.ALLSRC} $@
 
 .include <bsd.lib.mk>
