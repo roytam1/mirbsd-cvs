@@ -1,4 +1,0 @@
-@comment $MirOS$
-lib/flash/libflashplayer.so
-lib/flash/ShockwaveFlash.class
-@dirrm lib/flash

@@ -1,9 +1,0 @@
-@comment $MirOS$
-${P5SITE}/IO/Digest.pm
-@comment ${P5ARCH}/auto/IO/Digest/.packlist
-man/man3/IO::Digest${P5MAN3EXT}
-@comment @dirrm ${P5ARCH}/auto/IO/Digest
-@comment @dirrm ${P5ARCH}/auto/IO
-@comment @dirrm ${P5ARCH}/auto
-@comment @dirrm ${P5ARCH}
-@dirrm ${P5SITE}/IO

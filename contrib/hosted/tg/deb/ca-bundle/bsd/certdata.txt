@@ -1,5 +1,0 @@
-$MirOS: contrib/hosted/tg/deb/ca-bundle/bsd/certdata.txt,v 1.3 2010/07/23 08:34:39 tg Exp $
-
-placeholder: pull from ↓ instead!
-
-mircvs://ports/essentials/ca-certificates/certdata.txt

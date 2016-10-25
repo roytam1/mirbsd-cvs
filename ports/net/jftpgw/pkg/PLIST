@@ -1,5 +1,0 @@
-@comment $MirOS$
-man/man1/jftpgw.1
-sbin/jftpgw
-share/examples/jftpgw/jftpgw.conf
-@dirrm share/examples/jftpgw
