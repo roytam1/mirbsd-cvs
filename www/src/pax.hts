@@ -4,7 +4,7 @@
 mws_setname subprojects/pax "MirCPIO – paxmirabilis"
 mws_setrss "tag_mksh.rss"
 mws_setheadline MirCPIO – paxmirabilis – tar and even ar!
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.609 2016/03/01 19:30:58 tg Exp $'
+mws_putheader '$MirOS: www/src/pax.hts,v 1.1 2016/03/06 19:05:36 tg Exp $'
 mws_content <<'EOF'
 <p>Eventually, this page will become a proper subproject
  homepage, like jupp’s and mksh’s. For now, it’s a download
@@ -12,19 +12,19 @@ mws_content <<'EOF'
 
 <h2>Download</h2>
 
-<p>The current version is paxmirabilis-20160306.</p>
+<p>The current version is paxmirabilis-20161025.</p>
 
 <h3>Download MirCPIO distfiles</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/cpio/paxmirabilis-20160306.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/cpio/paxmirabilis-20160306.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/cpio/paxmirabilis-20160306.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/cpio/paxmirabilis-20160306.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/cpio/paxmirabilis-20161025.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/cpio/paxmirabilis-20161025.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/cpio/paxmirabilis-20161025.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/cpio/paxmirabilis-20161025.cpio.gz</a></li>
 </ul>
 
 <h3 id="hashes">Checksums and Hashes</h3><ul>
 <!-- cd /MirOS/dist/mir/cpio; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
-  <li>RMD160 (paxmirabilis-20160306.cpio.gz) = 5533d2b1990a00024697dc4f0926e7dfae9ce785</li>
-  <li>TIGER (paxmirabilis-20160306.cpio.gz) = 11c87c1c35a3b9cde6468cdb2fc5526c25cf0f6c447ce8f6</li>
-  <li>2058655817 147448 /MirOS/dist/mir/cpio/paxmirabilis-20160306.cpio.gz</li>
-  <li>MD5 (paxmirabilis-20160306.cpio.gz) = 0b1c1f3c04af0a2eadd1a7b2296b90b3</li>
+  <li>RMD160 (paxmirabilis-20161025.cpio.gz) = 521d929bcf7fb7cfc39a3aa6f90ad09d249d33b5</li>
+  <li>TIGER (paxmirabilis-20161025.cpio.gz) = c816ed1bf365c11bf0df6ad41f327ba4f17af05f842e2284</li>
+  <li>436962393 148024 /MirOS/dist/mir/cpio/paxmirabilis-20161025.cpio.gz</li>
+  <li>MD5 (paxmirabilis-20161025.cpio.gz) = 7c5016c7e550d9852d200b98a51e24c0</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d. with our
   <a href="/gzsigkey.cer">current signature key</a>.</li>
 </ul>
@@ -40,17 +40,20 @@ mws_content <<'EOF'
 <p>For compatibility reasons, gzip(1)-compressed cpio(1) is used
  as the format to distribute MirCPIO. You can usually decompress
  it with one of the following commands:</p><ul>
- <li>gzip -dc paxmirabilis-20160306.cpio.gz | cpio -mid</li>
- <li>gzip -dc paxmirabilis-20160306.cpio.gz | pax -r</li>
- <li>tar xzf paxmirabilis-20160306.cpio.gz</li>
+ <li>gzip -dc paxmirabilis-20161025.cpio.gz | cpio -mid</li>
+ <li>gzip -dc paxmirabilis-20161025.cpio.gz | pax -r</li>
+ <li>tar xzf paxmirabilis-20161025.cpio.gz</li>
 </ul>
+<p>You can also retrieve a POSIX <tt>ustar</tt>-format distfile
+ <tt>pax_20161025.orig.tar.xz</tt> from Debian.</p>
 
 <h3 id="compile">Compilation</h3>
 <p>Eventually, we’ll offer an autoconf-like buildsystem similar
  to what <a href="mksh.htm">mksh</a> has. For now, though, just
  change into the <tt>pax/</tt> subdirectory from the archive,
  look at the BSD <tt>Makefile</tt>, figure out what CPPFLAGS to
- use (<tt>-DLONG_OFF_T</tt> may be necessary on GNU) and compile
+ use (<tt>-DLONG_OFF_T</tt> may be necessary on GNU) and whether
+ to change <tt>SAFE_PATH</tt>, then compile
  all source files into a binary.<br />Example:
  <tt>cc -O2 -o pax -DHAVE_STRLCPY *.c</tt></p>
 <p>Install that binary under three names (you can use hardlinks
