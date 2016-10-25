@@ -1,3 +1,4 @@
+/**	$MirOS$ */
 /*	$OpenBSD: tzfile.h,v 1.4 2003/06/02 19:34:12 millert Exp $	*/
 /*	$NetBSD: tzfile.h,v 1.3 1994/10/26 00:56:37 cgd Exp $	*/
 
@@ -50,8 +51,12 @@
 ** Each file begins with. . .
 */
 
+#define TZ_MAGIC	"TZif"
+
 struct tzhead {
-	char	tzh_reserved[24];	/* reserved for future use */
+	char	tzh_magic[4];		/* TZ_MAGIC */
+	char	tzh_reserved[16];	/* reserved for future use */
+	char	tzh_ttisgmtcnt[4];	/* coded number of trans. time flags */
 	char	tzh_ttisstdcnt[4];	/* coded number of trans. time flags */
 	char	tzh_leapcnt[4];		/* coded number of leap seconds */
 	char	tzh_timecnt[4];		/* coded number of transition times */
@@ -77,6 +82,11 @@ struct tzhead {
 **					transition time is wall clock time
 **					if absent, transition times are
 **					assumed to be wall clock time
+**	tzh_ttisgmtcnt (char)s		indexed by type; if TRUE, transition
+**					time is UTC, if FALSE,
+**					transition time is local time
+**					if absent, transition times are
+**					assumed to be local time
 */
 
 /*
@@ -92,17 +102,15 @@ struct tzhead {
 */
 #define TZ_MAX_TIMES	370
 
-#define NOSOLAR			/* 4BSD doesn't currently handle solar time */
-
 #ifndef NOSOLAR
 #define TZ_MAX_TYPES	256	/* Limited by what (unsigned char)'s can hold */
 #else
-#define TZ_MAX_TYPES	10	/* Maximum number of local time types */
+#define TZ_MAX_TYPES	20	/* Maximum number of local time types */
 #endif
 
 #define TZ_MAX_CHARS	50	/* Maximum number of abbreviation characters */
 
-#define	TZ_MAX_LEAPS	50	/* Maximum number of leap second corrections */
+#define	TZ_MAX_LEAPS	128	/* Maximum number of leap second corrections */
 
 #define SECSPERMIN	60
 #define MINSPERHOUR	60
@@ -146,5 +154,6 @@ struct tzhead {
 */
 
 #define isleap(y) ((((y) % 4) == 0 && ((y) % 100) != 0) || ((y) % 400) == 0)
+#define isleap_sum(a, b) isleap((a) % 400 + (b) % 400)
 
 #endif /* !_TZFILE_H_ */
