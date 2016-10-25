@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.344 2016/10/09 21:45:46 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.346 2016/10/23 22:48:59 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -12262,16 +12262,26 @@ Waypoint: GC1CGTD
 Title: Der Nibelungenschatz
 Tag: D2 T15 Micro Multi
 ----
-ID: p20161025
+ID: 2028
 Date: 25.10.2016
-Waypoint: GC6V1K7
+Waypoint: OC13438 GC6V1K7
+Banner: jpg
 Title: Arrivederci und bye bye! MMXVI
+nTF: O
+Tag: D1 T1 Event
 ----
 ID: p20161030
 Date: 30.10.2016
 Waypoint: GC6T40V
 Title: Musikgenuss die dritte
 Tag: D1 T15 Event
+----
+ID: p20161210
+Date: 25.10.2016
+Waypoint: GC6VNJ5
+Banner: jpg
+Title: Musik im Advent 2016
+Tag: D15 T15 Event
 ----
 ID: p20481102
 Date: 02.11.2048
