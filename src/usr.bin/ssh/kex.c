@@ -1,7 +1,7 @@
 /* $OpenBSD: kex.c,v 1.81 2009/05/27 06:34:36 andreas Exp $ */
 /*
  * Copyright © 2013
- *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+ *	mirabilos <m@mirbsd.org>
  * Copyright (c) 2000, 2001 Markus Friedl.  All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,7 @@
 #include "dispatch.h"
 #include "monitor.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/kex.c,v 1.10 2010/09/21 21:24:36 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/kex.c,v 1.11 2013/10/31 20:07:12 tg Exp $");
 
 extern const EVP_MD *evp_ssh_sha256(void);
 
@@ -194,6 +194,7 @@ kex_input_kexinit(int type __attribute__((__unused__)),
 	if (kex == NULL)
 		fatal("kex_input_kexinit: no kex, cannot rekey");
 
+	dispatch_set(SSH2_MSG_KEXINIT, NULL);
 	ptr = packet_get_raw(&dlen);
 	buffer_append(&kex->peer, ptr, dlen);
 
