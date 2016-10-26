@@ -59,7 +59,12 @@ static void x_sigwinch(int);
 static const char initifs[] = "IFS= \t\n";
 
 static const char initsubs[] =
-    "${PS2=> } ${PS3=#? } ${PS4=+ } ${SECONDS=0} ${TMOUT=0} ${EPOCHREALTIME=}";
+    "${PS2=> }"
+    "${PS3=#? }"
+    "${PS4=+ }"
+    "${SECONDS=0}"
+    "${TMOUT=0}"
+    "${EPOCHREALTIME=}";
 
 static const char *initcoms[] = {
 	Ttypeset, "-r", initvsn, NULL,
