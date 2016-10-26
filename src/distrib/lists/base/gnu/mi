@@ -9,6 +9,7 @@
 ./usr/bin/enc2xs
 ./usr/bin/find2perl
 ./usr/bin/gdb
+./usr/bin/getdate
 ./usr/bin/h2ph
 ./usr/bin/h2xs
 ./usr/bin/ident
