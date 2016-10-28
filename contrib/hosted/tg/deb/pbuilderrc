@@ -468,13 +468,13 @@ esac
 # totally freak out if --debbuildopts is not also given (use -sa or -B)
 :||case x$DEBEMAIL in
 (x*' <'*'>')
-	export DEBBUILDOPTS="-m'$DEBEMAIL' -e'$DEBEMAIL'"
+	export DEBBUILDOPTS="-m'$DEBEMAIL'"
 	;;
 (x)
 	;;
 (*)
 	[[ -n $DEBFULLNAME ]] && \
-	    export DEBBUILDOPTS="-m'$DEBFULLNAME <$DEBEMAIL>' -e'$DEBFULLNAME <$DEBEMAIL>'"
+	    export DEBBUILDOPTS="-m'$DEBFULLNAME <$DEBEMAIL>'"
 	;;
 esac
 
