@@ -204,8 +204,11 @@ CAP *getcap(unsigned char *name, unsigned int baud, void (*out) (unsigned char *
 			} else
 				namebuf = NULL;
 			namebuf = vsncpy(sv(namebuf), sc(".termcap "));
-			namebuf = vsncpy(sv(namebuf), sc(JOERC));
-			namebuf = vsncpy(sv(namebuf), sc("termcap /etc/termcap"));
+			if (vsscan(sc(JOERC), sc("\t :")) == ~0) {
+				namebuf = vsncpy(sv(namebuf), sc(JOERC));
+				namebuf = vsncpy(sv(namebuf), sc("termcap "));
+			}
+			namebuf = vsncpy(sv(namebuf), sc("/etc/termcap"));
 		}
 	}
 
