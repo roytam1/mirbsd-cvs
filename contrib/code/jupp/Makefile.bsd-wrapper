@@ -37,6 +37,7 @@ COPTS+=		-Wno-unused-parameter \
 .endif
 
 joe.1: config.status
+	cd ${FSFOBJDIR} && ${FSFMAKE} $@
 
 all: jupplink
 jupplink: config.status
