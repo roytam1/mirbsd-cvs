@@ -4,7 +4,7 @@
 
 MAN=		joe.1
 INST_TARGET=	INSTALL_MAN= install
-CLEANFILES+=	.deps charmaps syntax joe.txt{,~}
+CLEANFILES+=	.deps charmap charmaps syntax joe.txt{,~} jupp
 
 CFPREFIX?=	/usr/local
 .if ${CFPREFIX} == "/usr"
@@ -37,6 +37,10 @@ COPTS+=		-Wno-unused-parameter \
 .endif
 
 joe.1: config.status
+
+all: jupplink
+jupplink: config.status
+	@ln -sf joe jupp
 
 winman: joe.1
 	nrcon -mandoc joe.1 | col -bx >joe.txt~
