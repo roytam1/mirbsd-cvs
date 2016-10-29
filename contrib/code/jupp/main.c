@@ -192,6 +192,7 @@ int main(int argc, char **argv, char **envp)
 	int backopt;
 	int c;
 
+	init_JOERC();
 	joe_locale();
 
 	mainenv = (unsigned char **)envp;
@@ -235,21 +236,23 @@ int main(int argc, char **argv, char **envp)
 		}
 	}
 
-	vsrm(s);
-	s = vsncpy(NULL, 0, sc(JOERC));
-	s = vsncpy(sv(s), sv(run));
-	s = vsncpy(sv(s), sc("rc"));
-	c = procrc(cap, s);
-	if (c == 0)
-		goto donerc;
-	if (c == 1) {
-		unsigned char buf[8];
-
-		fprintf(stderr, "There were errors in '%s'.  Use it anyway?", s);
-		fflush(stderr);
-		if (fgets((char *)buf, 8, stdin) != NULL &&
-		    (buf[0] == 'y' || buf[0] == 'Y'))
+	if (has_JOERC) {
+		vsrm(s);
+		s = vsncpy(NULL, 0, sz(get_JOERC));
+		s = vsncpy(sv(s), sv(run));
+		s = vsncpy(sv(s), sc("rc"));
+		c = procrc(cap, s);
+		if (c == 0)
 			goto donerc;
+		if (c == 1) {
+			unsigned char buf[8];
+
+			fprintf(stderr, "There were errors in '%s'.  Use it anyway?", s);
+			fflush(stderr);
+			if (fgets((char *)buf, 8, stdin) != NULL &&
+			    (buf[0] == 'y' || buf[0] == 'Y'))
+				goto donerc;
+		}
 	}
 
 	/* Try built-in joerc */

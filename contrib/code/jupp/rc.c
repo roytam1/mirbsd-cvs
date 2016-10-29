@@ -609,7 +609,7 @@ static int syntaxcmplt(BW *bw)
 		unsigned char *p;
 		int x, y;
 
-		if (chpwd(US (JOERC "syntax")))
+		if (chJpwd(US ("syntax")))
 			return -1;
 		t = rexpnd(US "*.jsf");
 		if (!t) {

@@ -27,6 +27,15 @@ unsigned char *joesep PARAMS((unsigned char *path));
 #define joesep(path) (path)
 #endif
 
+#if JUPP_WIN32RELOC
+extern unsigned char has_JOERC, *get_JOERC;
+void init_JOERC PARAMS((void));
+#else
+#define has_JOERC	1
+#define get_JOERC	JOERC
+#define init_JOERC()	/* nothing */
+#endif
+
 /* char *namprt(char *path);
  * Return name part of a path.  There is no name if the last character
  * in the path is '/'.
@@ -117,7 +126,8 @@ int isreg PARAMS((unsigned char *s));
  */
 unsigned char **rexpnd PARAMS((unsigned char *word));
 
-int chpwd PARAMS((unsigned char *path));
+int chJpwd PARAMS((const unsigned char *path));
+int chpwd PARAMS((const unsigned char *path));
 unsigned char *pwd PARAMS((void));
 
 #endif

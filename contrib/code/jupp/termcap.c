@@ -25,6 +25,7 @@
 #endif
 
 #include "blocks.h"
+#include "path.h"
 #include "termcap.h"
 #include "utils.h"
 #include "va.h"
@@ -204,8 +205,9 @@ CAP *getcap(unsigned char *name, unsigned int baud, void (*out) (unsigned char *
 			} else
 				namebuf = NULL;
 			namebuf = vsncpy(sv(namebuf), sc(".termcap "));
-			if (vsscan(sc(JOERC), sc("\t :")) == ~0) {
-				namebuf = vsncpy(sv(namebuf), sc(JOERC));
+			if (has_JOERC &&
+			    vsscan(sz(get_JOERC), sc("\t :")) == ~0) {
+				namebuf = vsncpy(sv(namebuf), sz(get_JOERC));
 				namebuf = vsncpy(sv(namebuf), sc("termcap "));
 			}
 			namebuf = vsncpy(sv(namebuf), sc("/etc/termcap"));

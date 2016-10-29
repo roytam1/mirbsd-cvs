@@ -1,4 +1,4 @@
-/* $MirOS: contrib/code/jupp/syntax.c,v 1.10 2013/09/27 00:51:52 tg Exp $ */
+/* $MirOS: contrib/code/jupp/syntax.c,v 1.12 2016/10/07 19:43:55 tg Exp $ */
 /*
  *	Syntax highlighting DFA interpreter
  *	Copyright
@@ -15,6 +15,7 @@
 #include "scrn.h"
 #include "utils.h"
 #include "hash.h"
+#include "path.h"
 #include "charmap.h"
 #include "syntax.h"
 
@@ -282,8 +283,8 @@ struct high_syntax *load_dfa(const unsigned char *name)
 		f = fopen((char *)buf,"r");
 	}
 
-	if (!f) {
-		joe_snprintf_2((char *)buf,sizeof(buf),"%ssyntax/%s.jsf",JOERC,name);
+	if (!f && has_JOERC) {
+		joe_snprintf_2((char *)buf,sizeof(buf),"%ssyntax/%s.jsf",get_JOERC,name);
 		f = fopen((char *)buf,"r");
 	}
 	if(!f)
