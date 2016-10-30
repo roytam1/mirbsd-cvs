@@ -3,7 +3,7 @@
 
 mws_setname subprojects/jupp "jupp — Programmer’s Editor"
 mws_setheadline jupp — the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.61 2016/03/06 19:06:31 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.62 2016/10/30 04:17:32 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp2</em> for MS-DOS® compatible systems,
  and <em>joe-3.1jupp29</em> for Unix/GNU compatible systems. This page is
@@ -144,6 +144,11 @@ mws_content <<'EOF'
 <p>You can check out the sources with the following command:</p>
 <pre>$ env CVS_RSH=ssh cvs -d _anoncvs@anoncvs.mirbsd.org:/cvs co -PA jupp</pre>
 <pre>$ env CVS_RSH=ssh cvs -d _anoncvs@anoncvs.mirbsd.org:/cvs co -Prjoe-2_8-msdos jupp</pre>
+
+<h3 id="github">Unofficial git mirror</h3>
+<p><a href="https://github.com/MirBSD/jupp">github</a> (chosen only for
+ popularity) hosts a read-only, push-only, possibly nōn-fastforward,
+ unofficial git mirror of the jupp source tree. Use at your own risk.</p>
 
 <h2 id="build">Installation</h2>
 <p><em>jupp</em> for Unix uses GNU autotools, so a command line sequence like
