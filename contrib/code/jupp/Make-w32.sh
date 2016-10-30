@@ -1,6 +1,13 @@
 #!/bin/mksh
 # $MirOS: contrib/code/jupp/Make-w32.sh,v 1.3 2016/10/29 23:44:43 tg Exp $
 
+extrawarnings="-Wall -Wextra"
+extrawarnings="$extrawarnings -Wno-unused-parameter"
+extrawarnings="$extrawarnings -Wno-missing-field-initializers"
+extrawarnings="$extrawarnings -Wno-old-style-definition -Wno-strict-prototypes"
+extrawarnings="$extrawarnings -Wno-cast-qual"
+extrawarnings="$extrawarnings -Wno-missing-prototypes -Wno-missing-declarations"
+
 export LC_ALL=C
 set -ex
 [[ -s configure && -s jupprc && -s charmaps/klingon.in ]]
@@ -21,6 +28,7 @@ rm -rf mkw32
 mkdir mkw32{,/{build,$jtop}}
 cd mkw32/build
 export CFLAGS='-Os -march=i486 -mtune=pentium-mmx'
+export CPPFLAGS='-DJUPPRC_BUILTIN_NAME=\"jupp32rc\"'
 mksh ../../configure \
     --prefix=c:/windows/system32 \
     --sysconfdir=c:/windows/system32 \
@@ -31,7 +39,7 @@ mksh ../../configure \
     --disable-getpwnam \
     --disable-termidx \
     --enable-win32reloc
-make
+make AM_CFLAGS="$extrawarnings"
 cp charmaps/* syntax/* ../$jtop/
 cp jmacsrc joerc jpicorc jstarrc ../$jtop/
 cp joe.exe ../$jtop/jupp32.exe
