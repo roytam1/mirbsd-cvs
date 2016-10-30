@@ -1,12 +1,12 @@
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
-mws_setname subprojects/jupp "jupp – Programmer’s Editor"
-mws_setheadline jupp – the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.59 2014/10/23 18:28:58 tg Exp $'
+mws_setname subprojects/jupp "jupp — Programmer’s Editor"
+mws_setheadline jupp — the Editor which sucks less
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.61 2016/03/06 19:06:31 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp2</em> for MS-DOS® compatible systems,
- and <em>joe-3.1jupp28</em> for Unix/GNU compatible systems. This page is
+ and <em>joe-3.1jupp29</em> for Unix/GNU compatible systems. This page is
  accessible under <a href="http://mirbsd.de/jupp">http://mirbsd.de/jupp</a>
  canonically.</p>
 
@@ -62,6 +62,7 @@ mws_content <<'EOF'
   all flavours for which this makes sense, i.e. all except jmacs, jpico</li>
  <li>can be linked with e.g. dietlibc or klibc for rescue systems</li>
  <li>can be linked with µClibc on ARM for use on Android (by XVilka)</li>
+ <li>relocatable Win32 build</li>
 </ul>
 
 <p>Neat tricks:</p><ul>
@@ -69,8 +70,8 @@ mws_content <<'EOF'
   square bracket, backslash, a(nother) caret or an underscore, means to press
   the <tt>Ctrl</tt> key and hold it down while hitting the second key, then
   release the <tt>Ctrl</tt> key again. Most key sequences in jupp use either
-  the ^Xy (or ^X^Y or ^XY) style or the ^[. style – “^[” is <tt>Esc</tt></li>
- <li>Help: <tt>^J</tt> – navigate with <tt>Esc</tt>+<tt>.</tt> and back
+  the ^Xy (or ^X^Y or ^XY) style or the ^[. style — “^[” is <tt>Esc</tt></li>
+ <li>Help: <tt>^J</tt> — navigate with <tt>Esc</tt>+<tt>.</tt> and back
   with <tt>Esc</tt>+<tt>,</tt> (there are several pages)</li>
  <li>The last reference card of the online help system contains an
   ascii(7) table / 8-bit character map</li>
@@ -81,7 +82,7 @@ mws_content <<'EOF'
  <li>Remove whitespace from EOL: ^K ]</li>
  <li>Hex Editor: ^O g</li>
  <li>Jump to file offset: ^Q O</li>
- <li>Syntax highlighting: on/off ^O h – set syntax ^O y</li>
+ <li>Syntax highlighting: on/off ^O h — set syntax ^O y</li>
  <li>xterm: hold the Shift key pressed while moving to easily select text</li>
  <li>Hit Esc+p to enter the bracketed paste mode (automatic if your terminal
   is a recent <tt>xterm-xfree86</tt>)</li>
@@ -107,8 +108,8 @@ mws_content <<'EOF'
 <h2 id="fetch">Retrieval</h2>
 <h3>Direct download</h3>
 <p>You can download jupp at least from one of the following mirrors:</p><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp28.tgz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp28.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp28.tgz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp28.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp29.tgz">https://www.mirbsd.org/MirOS/dist/jupp/joe-3.1jupp29.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp29.tgz">http://pub.allbsd.org/MirOS/dist/jupp/joe-3.1jupp29.tgz</a></li>
  <li style="list-style:none;">↑ Unix │ DOS ↓</li>
  <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz">https://www.mirbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz">http://pub.allbsd.org/MirOS/dist/jupp/joe-2.8jupp2.cpio.gz</a></li>
@@ -129,10 +130,10 @@ mws_content <<'EOF'
 </ul>
 
 <h3>Unpacking</h3>
-<p>Use a command like<br />
- <tt>$ tar xzf joe-3.1jupp28.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
- <tt>$ gzip -dc joe-3.1jupp28.tgz | cpio -idm</tt> # any cpio<br />
- <tt>$ pax -r -z &lt;joe-3.1jupp28.tgz</tt> # any POSIX® archiver<br />
+<p>Starting with jupp19, use a command like<br />
+ <tt>$ tar xzf joe-3.1jupp29.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
+ <tt>$ gzip -dc joe-3.1jupp29.tgz | cpio -idm</tt> # any cpio<br />
+ <tt>$ pax -r -z &lt;joe-3.1jupp29.tgz</tt> # any POSIX® archiver<br />
  to extract the distfile. The DOS version requires similar commands,
  although GNU tar will not be able to extract the <tt>.cpio.gz</tt> archive.
  Both extract into a sub-directory <tt>jupp/</tt> (not versioned).</p>
@@ -165,14 +166,33 @@ $ $SUDO make install</pre>
  prevent accidentally picking up (possibly shared) libraries linked against
  the system C library from the standard compiler/linker search path.</p>
 <p>Use <tt>--disable-getpwnam</tt> whenever linking statically, or creating
- binaries for a rescue system – this omits code looking up <tt>~foo/</tt>
+ binaries for a rescue system — this omits code looking up <tt>~foo/</tt>
  to mean the user <tt>foo</tt>’s home directory, avoiding things like NSS or
  PAM on some OSes; on GNU libc it’s almost mandatory for static binaries.</p>
-<p>Do specify <tt>CFLAGS</tt> – autoconf defaults to “-O2 -g” otherwise…</p>
+<p>Do specify <tt>CFLAGS</tt> — autoconf defaults to “-O2 -g” otherwise…</p>
 
 <h2 id="bins">Binaries</h2>
 <p>These pre-compiled binaries are currently available:</p><ul>
  <li id="bwin">jupp 3.x for Unix:<ul>
+  <li>JOE 3.1jupp29 for Windows® (cygwin stand-alone compiled; 80486;
+   PKzip archive (can be unpacked out of the box from Windows XP onwards,
+   or (on 16- and 32-bit systems only) with the shareware version of <a
+   href="@@ABSPATH@@/MirOS/webstuff/pkunzip.exe">PKunzip for MS-DOS®</a>);
+   comes with its own copy of cygwin1.dll (not installed system-wide); easy
+   installation: right-click on the INF file and select _I_nstall (this even
+   clears up previous installations into the system directory). If you
+   already have Cygwin, you can delete <tt>C:\PROGRAMME\JUPP\CYGWIN1.DLL</tt>.
+   (Installation from per-user mounted network shares will not succeed
+   on Windows 7; copy to a global location such as <tt>C:\TEMP</tt>
+   beforehand.) You may have to acknowledge a warning for a missing digital
+   signature. — Download and checksums:<ul>
+    <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/JWIN31T.ZIP">https://www.mirbsd.org/MirOS/dist/jupp/JWIN31T.ZIP</a></li>
+    <li><a href="http://pub.allbsd.org/MirOS/dist/jupp/JWIN31T.ZIP">http://pub.allbsd.org/MirOS/dist/jupp/JWIN31T.ZIP</a></li>
+    <li>RMD160 (JWIN31T.ZIP) = 3b5e3d2c3436982519ad4c52f84d55b6dfd36cab</li>
+    <li>TIGER (JWIN31T.ZIP) = e94f8a27078f938bdcb705738caeda67391e201b5bc4327d</li>
+    <li>2036588068 953146 /MirOS/dist/jupp/JWIN31T.ZIP</li>
+    <li>MD5 (JWIN31T.ZIP) = c747bc8277508b56c64bca8efcb58ecc</li>
+  </ul></li>
   <li>JOE 3.1jupp20 for Windows® (cygwin stand-alone compiled; 80486;
    self-extracting LHarc archive; comes with its own copy of cygwin1.dll;
    easy installation: right-click on the inf file for your platform
@@ -249,8 +269,12 @@ $ $SUDO make install</pre>
   separate joe package.</li>
  </ul></li>
  <li id="bdos">jupp 2.x for DOS:<ul>
+  <li>Latest jupprc drop-in replacement for JOE 2.8jupp1: in <a
+   href="@@RELPATH@@cvs.cgi/jupp/jupprc?only_with_tag=joe-2_8-msdos">CVSweb</a>, <a
+   href="@@RELPATH@@cvs.cgi/~checkout~/contrib/code/jupp/jupprc?rev=HEAD;content-type=text%2Fplain;only_with_tag=joe-2_8-msdos">direct
+   download</a></li>
   <li>JOE 2.8jupp1 (released 20090718) for MS-DOS® (16-bit executable;
-   8086 or newer CPU), self-extracting LHarc archive – copy jupprc and
+   8086 or newer CPU), self-extracting LHarc archive — copy jupprc and
    jupp.exe to a directory in the %PATH% to install. Note that the DOS
    version comes without the COPYING and other rc files. Download:<ul>
     <li><a href="https://www.mirbsd.org/MirOS/dist/jupp/JDOS281.EXE">https://www.mirbsd.org/MirOS/dist/jupp/JDOS281.EXE</a></li>
@@ -275,14 +299,16 @@ $ $SUDO make install</pre>
  almost (some minor fixes committed in the joe-2_8-msdos CVS branch) only
  differs from <em>joe 2.8</em> by the presence of the new mode (i.e., the
  <tt>jupprc</tt> file), and that the new features and bugfixes started to
- appear in the <em>jupp 3.x</em> versions only.</p>
+ appear in the <em>jupp 3.x</em> versions only. The jupprc-for-joe-3_7 CVS
+ branch, again, is incompatible with the others; it has limited success
+ bringing some jupp features to upstream JOE.</p>
 
 <h2 id="wishlist">Wishlist</h2>
 <p>It’d be cool if jupp could…</p><ul>
  <li>reposition the cursor correctly upon entering hex edit mode (found
   by Natureshadow; probably easy to fix, I await <em>your</em> patch!)</li>
  <li>redraw a line if it has been scrolled and had combining
-  characters in it before – actually, scrap that; make that:
+  characters in it before — actually, scrap that; make that:
   handle Unicode combining characters, <em>at all</em>…</li>
  <li>look for <tt>${0}rc</tt> in <tt>$(dirname $0)/</tt> (somewhat
   superseded by the built-in minimal-<tt>jupprc</tt> now though…)</li>
@@ -301,12 +327,31 @@ $ $SUDO make install</pre>
 </ul>
 
 <h2 id="clog">ChangeLog for Unix</h2>
-<p>[2016-03-04] Changes in the current development version:</p><ul>
+<p>[2016-10-30] Changes in the current development version:</p><ul>
+ <li>Spelling and warning fixes from Lintian and Debian GCC</li>
+</ul>
+<p id="r3_1j29">[2016-10-30] Changes for joe-3.1jupp29:</p><ul>
  <li>Document tab completion bugs, GPL library exceptions</li>
+ <li>Update internationalisation data to Unicode 9.0.0</li>
  <li>Bind execmd in jstarrc to have it available in all flavours</li>
  <li>Fix some pathnames in the manpage</li>
  <li>Switch PDF manpage from A4 to PA4 paper size, allowing printing
   without scaling/cropping on both DIN ISO A4 and USA “letter” paper</li>
+ <li>jupprc: ^Q= searches for merge conflict markers (CVS, git)</li>
+ <li>Add syntax file for tex (LaTeX; *.cls *.sty *.tex)</li>
+ <li>Make syntax highlighting code use UTF-8 by individual octets</li>
+ <li>^Q] now also works for ASCII quotation marks (jupp, jstar)</li>
+ <li>^Q[ is distinct from ^Q] when ambiguous (jupp, jstar)</li>
+ <li>Unbreak tab-completing filenames with spaces</li>
+ <li>Fix filenames with backslashes</li>
+ <li>configure --enable-sysconfjoesubdir to also get the manual page</li>
+ <li>Apply fixes from lintian, thank you!</li>
+ <li>Only look in JOERC/termcap if its path does not include a delimiter</li>
+ <li>Allow overriding the name of the built-in *jupprc (to *jupp32rc,
+  so the jupp32 build can use the pristine source)</li>
+ <li>Add win32 self-relocation, no hardcoded JOERC any more, optional
+  (used in the jupp32 portable build but NOT for the Cygwin package!)</li>
+ <li>Fix generating the manpage, now done by the Makefile</li>
 </ul>
 <p id="r3_1j28">[2014-10-23] Changes for joe-3.1jupp28:</p><ul>
  <li>Mention in comments that when enabling the <tt>-backpath</tt>
