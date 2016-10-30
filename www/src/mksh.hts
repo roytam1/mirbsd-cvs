@@ -1,10 +1,10 @@
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
-mws_setname subprojects/mksh "mksh – the MirBSD Korn Shell"
+mws_setname subprojects/mksh "mksh — the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.618 2016/07/25 00:09:26 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.629 2016/10/23 22:51:38 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -16,10 +16,10 @@ mws_content <<'EOF'
  <li>Inclusion in <a href="#otheros">operating systems</a></li>
  <li><a href="mksh_old.htm#contrib">comparison</a> with other shells</li>
  <li><a href="mksh_bld.htm">Testsuite Results</a> (regression tests)</li>
- <li><a href="mksh_old.htm#vsn">on version numbers</a> – for packagers</li>
+ <li><a href="mksh_old.htm#vsn">on version numbers</a> — for packagers</li>
  <li><a href="#plans">future plans</a> (<a href="mksh_old.htm#plans">older
   or unrealistic ones</a>)</li>
- <li><a href="#caveat">Upgrade Caveat</a> – for users</li>
+ <li><a href="#caveat">Upgrade Caveat</a> — for users</li>
  <li><a href="#clog">ChangeLog</a></li>
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
@@ -45,7 +45,7 @@ mws_content <<'EOF'
  href="@@RELPATH@@TaC-mksh.txt">full licence terms</a> overview.</p>
 
 <p>mksh <em>must</em> always be written either “mksh” (all-lowercase) or
- “MirBSD Korn Shell” – there is no other spelling. It’s usually pronounced
+ “MirBSD Korn Shell” — there is no other spelling. It’s usually pronounced
  by spelling out the four letters m, k, s and h individually, or by saying
  “MirBSD Korn Shell”.</p>
 
@@ -90,7 +90,7 @@ mws_content <<'EOF'
  running test builds on AIX 5.1L with the xlC 5.0.2.0 and gcc-2.9, and on
  Solaris 8 with Forte Developer 7 C 5.4 and gcc 2.95.2 and 3.4.6 compilers.
  (Did I miss anyone? Mail me if so. Some of these are past, anyway.)</p>
-<p>What is mksh(1)? – Short answer: The MirBSD Korn Shell. Okay, but what
+<p>What is mksh(1)? — Short answer: The MirBSD Korn Shell. Okay, but what
  exactly does it do, or why another shell? These questions will be answered
  <a href="mksh_old.htm#contrib">here</a> for the people interested. Right now, you only
  need to know that mksh is a <a href="http://www.debian.org/social_contract#guidelines">DFSG</a>-free
@@ -139,7 +139,7 @@ mws_content <<'EOF'
  editor and standard UNIX® text editor), as well as a controlling terminal,
  usually <tt>/dev/tty</tt> or provided from script(1) or GNU screen.</p>
 <p>To use mksh, you only need the C runtime (and any supplemental libraries
- the binary was linked against) and, optionally, <tt>/bin/ed</tt> – for
+ the binary was linked against) and, optionally, <tt>/bin/ed</tt> — for
  interactive use, a controlling terminal is highly recommended because job
  control does not work without one.</p>
 <p>To make full use of mksh(1)’s interactive features, it is recommended to
@@ -165,7 +165,7 @@ mws_content <<'EOF'
  or enhancements, write to the <a href="mailto:miros-mksh@mirbsd.org">mailing
  list</a> (or subscribe to it by sending an eMail to the <a
  href="mailto:postmaster@mirbsd.org">postmaster</a> telling which address
- to subscribe to which list(s) – in your case, the miros-mksh list, but we
+ to subscribe to which list(s) — in your case, the miros-mksh list, but we
  have <a href="@@RELPATH@@rss.htm#lists">more mailing lists</a>).
  The mailing list can be reached via the GMane archive using either <a
  href="nntp://news.gmane.org/gmane.os.miros.mksh">NNTP</a> or <a
@@ -248,7 +248,7 @@ mws_content <<'EOF'
  Z Shell), or a Bourne or POSIX superset (such as GNU bash) to work; the
  ULTRIX <tt>/bin/sh</tt> or the C shell (csh, tcsh) or “bsh” or a scripting
  shell like the wish won’t.<br />Accepted arguments are:</p><ul>
-<li><tt>-c</tt> <i>mode</i> – set compiler mode:<ul>
+<li><tt>-c</tt> <i>mode</i> — set compiler mode:<ul>
  <li><tt>combine</tt> to use “-fwhole-program --combine” (gcc4)</li>
  <li><tt>dragonegg</tt> to use the LLVM Dragonegg plugin with GCC</li>
  <li><tt>llvm</tt> to compile to bytecode, optimise there (see the
@@ -256,16 +256,16 @@ mws_content <<'EOF'
  <li><tt>lto</tt> to use some kind of Link Time Optimisation with clang
   or gcc-4.5 and up; with fallback to <tt>combine</tt> if not found</li>
  </ul></li>
-<li><tt>-g</tt> – build with debug info, Valgrind and LLVM/Clang scan-build
+<li><tt>-g</tt> — build with debug info, Valgrind and LLVM/Clang scan-build
  assertions, and <tt>-DDEBUG</tt> in place</li>
-<li><tt>-j</tt> – parallel build; use LTO instead if you can</li>
-<li><tt>-M</tt> – do not compile but create <tt>Makefrag.inc</tt></li>
-<li><tt>-O</tt> – (default) with “-c llvm” use “-std-compile-opts”</li>
-<li><tt>-o</tt> <i>opts</i> – with “-c llvm” use these optimisations</li>
-<li><tt>-Q</tt> – be (only) a little less verbose</li>
-<li><tt>-r</tt> – don’t try to build a pre-formatted version
- of the manual page using nroff(1) if found – <em>recommended</em></li>
-<li><tt>-v</tt> – display version and exit</li>
+<li><tt>-j</tt> — parallel build; use LTO instead if you can</li>
+<li><tt>-M</tt> — do not compile but create <tt>Makefrag.inc</tt></li>
+<li><tt>-O</tt> — (default) with “-c llvm” use “-std-compile-opts”</li>
+<li><tt>-o</tt> <i>opts</i> — with “-c llvm” use these optimisations</li>
+<li><tt>-Q</tt> — be (only) a little less verbose</li>
+<li><tt>-r</tt> — don’t try to build a pre-formatted version
+ of the manual page using nroff(1) if found — <em>recommended</em></li>
+<li><tt>-v</tt> — display version and exit</li>
 </ul>
 <p>Note: “-c <i>somemode</i>”, “-j” and “-M” are mutually exclusive.
  The least preferred of the actually compiling flavours is <tt>-j</tt>,
@@ -673,7 +673,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <h5 class="cr" id="oe_mnt">OS: MiNT / FreeMiNT</h5>
 <p>Support appeared in mksh R40. Depending on the distribution you use,
  you must use pdksh with CC=gcc to run
- <tt>Build.sh</tt> – cc and bash are both too broken. Afterwards, you
+ <tt>Build.sh</tt> — cc and bash are both too broken. Afterwards, you
  <strong>must</strong> use the just-built mksh (after moving it out of
  the build directory) to re-run <tt>Build.sh</tt> with the same flags,
  due to bugs in pdksh on MiNT as well.</p>
@@ -738,7 +738,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  success with kencc though, so I’d suggest using that instead.</p>
 
 <h5 class="cr" id="oe_pw32">OS: PW32 on Win2k</h5>
-<p>PW32 is not supported yet – killpg(3) is missing, and it’s possible that
+<p>PW32 is not supported yet — killpg(3) is missing, and it’s possible that
  PW32 needs job control disabled or worked around, since a workable binary
  can be made with <tt>-DMKSH_NOPROSPECTOFWORK</tt> (note that this option
  produces a shell not supporting standard Korn Shell scripts).
@@ -807,7 +807,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 
 <h5 class="cr" id="oe_uwin">OS: UWIN-NT</h5>
 <p>Compilation of mksh R30 on UWIN works with several compilers (bcc, dmc,
- msc – I could not get gcc-egcs, gcc-2.95, gcc-mingw, icc to work) but the
+ msc — I could not get gcc-egcs, gcc-2.95, gcc-mingw, icc to work) but the
  platform itself is very flakey, and even some regression tests crash, due
  to target limitations apparently. Within these limits, mksh is usable.</p>
 
@@ -847,7 +847,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>To actually install mksh, copy the binary to some place in $PATH, i.e.
  /bin/mksh, $HOME/.bin/mksh, /usr/local/bin/mksh, or whatever your packaging
  system wants; strip it and run chmod 555 on it. (This can easily be achieved
- with install(1) – on Solaris, this is /usr/ucb/install not /usr/bin/install –
+ with install(1) — on Solaris, this is /usr/ucb/install not /usr/bin/install –
  with the arguments -c, -s, -m 755¹, and -o/-g. ① with 555, strip(1) cannot
  write the file any more, chmod 555 afterwards.) Also append its installation
  path to <tt>/etc/shells</tt>, install the <tt>dot.mkshrc</tt> file (usually
@@ -884,7 +884,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  We no longer ship the <tt>stop</tt> alias.
 </p>
 <p id="p51">R51: Please review all mksh scripts, such as a skeleton
- <tt>~/.mkshrc</tt> file, for alias safety and security – in case of
+ <tt>~/.mkshrc</tt> file, for alias safety and security — in case of
  doubt, contact us. The EBCDIC and OS/2 ports are not finished, but
  some improvements are already included. CVS snapshots now use ‘j’ ipv
  ‘i’ making room for one more stable version; after R51, we will release
@@ -1185,7 +1185,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  bug fixes. New options for the <tt>exec</tt> builtin.</p>
 <p id="c50d">R50d: Fixed a segfault and a regression in field splitting
  breaking update-initramfs. Sorry! Also, added a warning about not using
- unchecked user input in arithmetics – <tt>[[ $x = +([0-9]) ]] || die</tt>
+ unchecked user input in arithmetics — <tt>[[ $x = +([0-9]) ]] || die</tt>
  is a useful check. We’ll link a more detailed writeup about it later.</p>
 <p id="c50c">R50c: <tt>$RANDOM</tt> is no longer exported. Field splitting
  has improved. This version fixes one security issue of low importance (<a
@@ -1579,9 +1579,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li>make arrays use hashtables internally ipv linear linked lists</li>
 <li>associative, multidimensional arrays</li>
 <li>Build with more platforms’ native tools or other compilers
- – ACK, kencc, ICC/UWIN, egcs/UWIN</li>
-<li>Build and actually work on more platforms – DJGPP, PW32,
- Plan 9, Syllable, NuttX – debug these</li>
+ — ACK, kencc, ICC/UWIN, egcs/UWIN</li>
+<li>Build and actually work on more platforms — DJGPP, PW32,
+ Plan 9, Syllable, NuttX — debug these</li>
 <li>Bugfix for suspending <tt>a &amp;&amp; b</tt> chain</li>
 <li>“process substitution” echo diff &lt;(echo 1) &lt;(echo 2)</li>
 <li>whence -p -a foo</li>

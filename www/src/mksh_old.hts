@@ -1,11 +1,11 @@
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
-mws_setname subprojects/mksh/old "mksh – old versions"
+mws_setname subprojects/mksh/old "mksh — old versions"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.48 2014/09/03 19:55:50 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.50 2016/03/06 18:37:53 tg Exp $'
 mws_content <<'EOF'
-<h2><a href="mksh.htm">mksh</a> – old versions</h2>
+<h2><a href="mksh.htm">mksh</a> — old versions</h2>
 
 <p>This page lists information about versions of mksh(1) earlier than R40.</p>
 
@@ -13,69 +13,69 @@ mws_content <<'EOF'
 <h3 id="compile">Compilation</h3>
 
 <p>The build script also honours the following environment variables:</p><ul>
-<li><tt>CC</tt> (cc) – the C compiler used</li>
-<li><tt>CFLAGS</tt> (-O2 / -xO2) – optimiser and other compiler flags used
+<li><tt>CC</tt> (cc) — the C compiler used</li>
+<li><tt>CFLAGS</tt> (-O2 / -xO2) — optimiser and other compiler flags used
  (set to anything containing a letter or digit to prevent <tt>Build.sh</tt>
  from automatically adding optimisation flags)</li>
-<li><tt>CPPFLAGS</tt> (no default) – additional cpp(1) flags</li>
-<li><tt>LDFLAGS</tt> – additional CCLD flags</li>
-<li><tt>LIBS</tt> (-lcrypt on Interix; empty otherwise) – additional
+<li><tt>CPPFLAGS</tt> (no default) — additional cpp(1) flags</li>
+<li><tt>LDFLAGS</tt> — additional CCLD flags</li>
+<li><tt>LIBS</tt> (-lcrypt on Interix; empty otherwise) — additional
  libraries to pull in</li>
-<li><tt>NOWARN</tt> (-Wno-error / -errwarn=%none) – $CC option to disable
+<li><tt>NOWARN</tt> (-Wno-error / -errwarn=%none) — $CC option to disable
  bailing out at errors; used during mirtoconf checks</li>
-<li><tt>NROFF</tt> (nroff; “nroff -c” with GNU groff) – the manual page
+<li><tt>NROFF</tt> (nroff; “nroff -c” with GNU groff) — the manual page
  processor used unless <tt>-r</tt> is given</li>
-<li><tt>TARGET_OS</tt> (uname -s || uname) – the operating system to compile
+<li><tt>TARGET_OS</tt> (uname -s || uname) — the operating system to compile
  for; set this during cross compilation; valid: AIX BeOS (not yet) BSD/OS
  CYGWIN* Darwin DJGPP (not yet) DragonFly FreeBSD GNU (Hurd) GNU/kFreeBSD
  Haiku HP-UX Interix IRIX* Linux MidnightBSD Minix MirBSD NetBSD OpenBSD OSF1
  Plan9 (not yet) PW32* (not yet) QNX SunOS syllable (not yet) ULTRIX UWIN*</li>
-<li><tt>TARGET_OSREV</tt> (uname -r) – the operating system revision number
+<li><tt>TARGET_OSREV</tt> (uname -r) — the operating system revision number
  for these that need it; currently: QNX (R38c+)</li>
 <li style="list-style:none;">Feature selectors:</li>
-<li><tt>USE_PRINTF_BUILTIN=1</tt> – add <tt>printf.c</tt> to the list of
+<li><tt>USE_PRINTF_BUILTIN=1</tt> — add <tt>printf.c</tt> to the list of
  files to be compiled and set a flag so it is used as builtin (R39+)</li>
 </ul>
 <p>If <tt>CPPFLAGS</tt> contain any of the following definitions, the resulting
  binary will be compiled with a specific flavour:</p><ul>
-<li><tt>-DMKSH_ASSUME_UTF8=0</tt> – do not use setlocale(3) or
+<li><tt>-DMKSH_ASSUME_UTF8=0</tt> — do not use setlocale(3) or
  nl_langinfo(CODESET); do not assume the terminal is in UTF-8 mode
  (mksh R38c and up)</li>
-<li><tt>-DMKSH_ASSUME_UTF8</tt> – do not use setlocale(3) or
+<li><tt>-DMKSH_ASSUME_UTF8</tt> — do not use setlocale(3) or
  nl_langinfo(CODESET); assume the terminal is always in UTF-8 mode</li>
-<li><tt>-DMKSH_BINSHREDUCED</tt> – include code to automatically “set -o
+<li><tt>-DMKSH_BINSHREDUCED</tt> — include code to automatically “set -o
  sh” to reduce functionality if called as <tt>sh</tt> or <tt>-sh</tt></li>
-<li><tt>-DMKSH_CLS_STRING</tt> – the string to send to the terminal to clear
+<li><tt>-DMKSH_CLS_STRING</tt> — the string to send to the terminal to clear
  the window (default: <tt>"\033[;H\033[J"</tt>)</li>
-<li><tt>-DMKSH_CONSERVATIVE_FDS</tt> – use less filedescriptors (32/10 ipv
+<li><tt>-DMKSH_CONSERVATIVE_FDS</tt> — use less filedescriptors (32/10 ipv
  56/24), e.g. if the system supports few (mksh R37c and up)</li>
-<li><tt>-DMKSH_MIDNIGHTBSD01ASH_COMPAT</tt> – parse “--” on the shell command
+<li><tt>-DMKSH_MIDNIGHTBSD01ASH_COMPAT</tt> — parse “--” on the shell command
  line like MidnightBSD 0.1 <tt>/bin/sh</tt> (different from all other shells);
  <em>requires</em> <tt>-DMKSH_BINSHREDUCED</tt> or “-o sh” (R39b+)</li>
-<li><tt>-DMKSH_NOPWNAM</tt> – omit getpwnam(3) calls (<tt>~foo/</tt> expansion)
+<li><tt>-DMKSH_NOPWNAM</tt> — omit getpwnam(3) calls (<tt>~foo/</tt> expansion)
  in order to not pull in the nsswitch or PAM libraries</li>
-<li><tt>-DMKSH_NO_LIMITS</tt> – don’t compile the ulimit code (R38c+)</li>
-<li><tt>-DMKSH_SMALL</tt> – build a really small mksh(1), e.g. for embedded
+<li><tt>-DMKSH_NO_LIMITS</tt> — don’t compile the ulimit code (R38c+)</li>
+<li><tt>-DMKSH_SMALL</tt> — build a really small mksh(1), e.g. for embedded
  systems (see below for details of what this entails)</li>
-<li><tt>-DMKSH_S_NOVI=0</tt> – do not omit the Vi editing mode (R39b+)</li>
-<li><tt>-DMKSH_S_NOVI=1</tt> – omit the Vi command line editing mode (" ")</li>
-<li><tt>-DMKSH_UNEMPLOYED</tt> – compile without job control (R37b+)</li>
-<li><tt>-DMKSH_DEFAULT_EXECSHELL</tt> – default: <tt>"/bin/sh"</tt> (R40+)</li>
-<li><tt>-DMKSHRC_PATH</tt> – default: <tt>"~/.mkshrc"</tt> (R40+)</li>
-<li><tt>-DMKSH_DEFAULT_TMPDIR</tt> – default: <tt>"/tmp"</tt> (R40+)</li>
-<li><tt>-DMKSH_CLRTOEOL_STRING</tt> – default: <tt>"\033[K"</tt> (R40+)</li>
-<li><tt>-DMKSH_A4PB</tt> – force arc4random_pushb(3) for $RANDOM (R40+)</li>
+<li><tt>-DMKSH_S_NOVI=0</tt> — do not omit the Vi editing mode (R39b+)</li>
+<li><tt>-DMKSH_S_NOVI=1</tt> — omit the Vi command line editing mode (" ")</li>
+<li><tt>-DMKSH_UNEMPLOYED</tt> — compile without job control (R37b+)</li>
+<li><tt>-DMKSH_DEFAULT_EXECSHELL</tt> — default: <tt>"/bin/sh"</tt> (R40+)</li>
+<li><tt>-DMKSHRC_PATH</tt> — default: <tt>"~/.mkshrc"</tt> (R40+)</li>
+<li><tt>-DMKSH_DEFAULT_TMPDIR</tt> — default: <tt>"/tmp"</tt> (R40+)</li>
+<li><tt>-DMKSH_CLRTOEOL_STRING</tt> — default: <tt>"\033[K"</tt> (R40+)</li>
+<li><tt>-DMKSH_A4PB</tt> — force arc4random_pushb(3) for $RANDOM (R40+)</li>
 <li><tt>-DMKSH_NO_DEPRECATED_WARNING</tt> (varies between versions)</li>
-<li><tt>-DMKSH_DONT_EMIT_IDSTRING</tt> – for broken OSes (R40+)</li>
-<li><tt>-DMKSH_NOPROSPECTOFWORK</tt> – disables more than just job control,
+<li><tt>-DMKSH_DONT_EMIT_IDSTRING</tt> — for broken OSes (R40+)</li>
+<li><tt>-DMKSH_NOPROSPECTOFWORK</tt> — disables more than just job control,
  to use for tracking down signal handling bugs in Syllable, Plan 9 (R40+)</li>
-<li><tt>-DMKSH_NO_EXTERNAL_CAT</tt> – always run <tt>cat</tt> as builtin,
+<li><tt>-DMKSH_NO_EXTERNAL_CAT</tt> — always run <tt>cat</tt> as builtin,
  instead of diverting to <tt>command cat</tt> if called with flags (R40b+)</li>
-<li><tt>-DUSE_REALLOC_MALLOC=0</tt> – if <tt>realloc(NULL, n)</tt> is not
+<li><tt>-DUSE_REALLOC_MALLOC=0</tt> — if <tt>realloc(NULL, n)</tt> is not
  equivalent to <tt>malloc(n)</tt> (n &gt; 0) as ANSI C89 prescribes</li>
 </ul>
 <p>You can override certain mirtoconf checks by setting environment variables
- like <tt>HAVE_REVOKE=0</tt> (default for Linux) – if these are set to 0 or 1,
+ like <tt>HAVE_REVOKE=0</tt> (default for Linux) — if these are set to 0 or 1,
  the values are used; if unset, the values are probed (unless overridden by a
  different check, such as MKSH_SMALL), if set to ‘x’ the probe is forced.<br />
  Useful items to enable/disable are HAVE_MKNOD (set to x to re-enable),
@@ -94,15 +94,15 @@ mws_content <<'EOF'
 
 
 <p>Accepted arguments to <tt>Build.sh</tt> are:</p><ul>
-<li><tt>-combine</tt> – all-in-one build, recommended unless gcc is broken;
+<li><tt>-combine</tt> — all-in-one build, recommended unless gcc is broken;
  ignored if $CC does not support “-fwhole-program --combine” (gcc4, R37+)
- – replaced with “-c combine” from mksh R40</li>
-<li><tt>-llvm[=…]</tt> – compile to bytecode; option arguments (or, if none
+ — replaced with “-c combine” from mksh R40</li>
+<li><tt>-llvm[=…]</tt> — compile to bytecode; option arguments (or, if none
  given, ‘-std-compile-opts’) are passed to LLVM opt (mksh R36b and up)
- – replaced with “-c llvm” from mksh R40</li>
-<li><tt>-valgrind</tt> – append <tt>-DDEBUG -g3 -fno-builtin</tt> which are
+ — replaced with “-c llvm” from mksh R40</li>
+<li><tt>-valgrind</tt> — append <tt>-DDEBUG -g3 -fno-builtin</tt> which are
  required to work around gcc/valgrind and clang/scan-build bugs (R39b+)
- – replaced with “-g” from mksh R40</li>
+ — replaced with “-g” from mksh R40</li>
 <li><tt>-d</tt> (R29 and below): build dynamically, don't try to link with
  <tt>-static</tt> by default on architectures that support it</li>
 <li><tt>-nd</tt> (R29 and below): build statically, always try to link with
@@ -112,25 +112,25 @@ mws_content <<'EOF'
  of the manual page using nroff(1) if found</li>
 </ul>
 <p>These special values in <tt>CPPFLAGS</tt> are recognised:</p><ul>
-<li><tt>-DMKSH_MIDNIGHTBSD01ASH_COMPAT</tt> – parse “--” on the shell command
+<li><tt>-DMKSH_MIDNIGHTBSD01ASH_COMPAT</tt> — parse “--” on the shell command
  line like MidnightBSD 0.1 <tt>/bin/sh</tt> (different from all other shells);
  <em>requires</em> <tt>-DMKSH_BINSHREDUCED</tt> or “-o posix” (R38+) / “-o sh”
  (R39b+)</li>
-<li><tt>-DMKSH_BINSHREDUCED</tt> – include code to automatically “set -o
+<li><tt>-DMKSH_BINSHREDUCED</tt> — include code to automatically “set -o
  posix” (mksh R39b+: “set -o sh”) to reduce functionality if called as
  <tt>sh</tt> or <tt>-sh</tt></li>
-<li><tt>-DMKSH_NOVI</tt> – omit the Vi command line editing mode, which is
+<li><tt>-DMKSH_NOVI</tt> — omit the Vi command line editing mode, which is
  orphaned anyway, yet functional (mksh below R39b)</li>
-<li><tt>-DNO_STRTOD</tt> – (printf.c) disable floating point (below R40)</li>
-<li><tt>-DMKSH_AFREE_DEBUG</tt> – run with extra alloc/free checking
+<li><tt>-DNO_STRTOD</tt> — (printf.c) disable floating point (below R40)</li>
+<li><tt>-DMKSH_AFREE_DEBUG</tt> — run with extra alloc/free checking
  (mksh R36b and below)</li>
-<li><tt>-DMKSH_NEED_MKNOD</tt> – if MKSH_SMALL is set, do not omit the mknod(8)
+<li><tt>-DMKSH_NEED_MKNOD</tt> — if MKSH_SMALL is set, do not omit the mknod(8)
  builtin functionality from the binary; <strong>deprecated</strong>, use the
  environment variable <tt>HAVE_MKNOD=[0|1]</tt> to determine if this builtin
  should be compiled in or not instead; has been removed past R31c</li>
 </ul>
 <p>The build script also honours the following environment variables:</p><ul>
-<li><tt>CPP</tt> ($CC -E -) – the C preprocessor used</li>
+<li><tt>CPP</tt> ($CC -E -) — the C preprocessor used</li>
 </ul>
 
 <h2 id="contrib">Other Shells and more</h2>
@@ -163,7 +163,7 @@ mws_content <<'EOF'
  emacs editing mode has been changed for Unicode/UTF-8 mode, which adds a
  new <tt>set -o utf8-mode</tt> flag. The <tt>set -o sh</tt> command has
  been completely removed, <tt>set -o posix</tt> merely turns off brace
- expansion as side effect. There is no limit (well, 2³² – for now…) on
+ expansion as side effect. There is no limit (well, 2³² — for now…) on
  array sizes any more. Many bugs and security holes have been closed in
  mksh and are still in oksh and OpenBSD ksh. The user interface has much
  less bugs and surprises; emacs editing mode is enabled by default.
@@ -389,7 +389,7 @@ mws_content <<'EOF'
  the new “source” command is not available in posix mode either.</p>
 <p>From mksh R29 to R30, the following things should be kept in mind:</p>
 <p>The syntax of <tt>Build.sh</tt> has changed: $CC now defaults to “cc”
- instead of “gcc”, and the ‘-d’ and ‘-nd’ arguments are gone – if you
+ instead of “gcc”, and the ‘-d’ and ‘-nd’ arguments are gone — if you
  want to build a statically linked mksh, pass <tt>LDSTATIC=-static</tt>
  (gcc+GNU ld, adjust for other OEs) to it. An “arc4random.c” is now
  automatically included into the build if found in the source directory.
@@ -471,7 +471,7 @@ mws_content <<'EOF'
  gracefully and doesn’t let the terminal crash hard under some corner
  cases. ^Cing out of the built-in cat utility is possible.</p>
 <p id="c40">R40: “set ±o arc4random” is deprecated and will not exist
- in the next version (R41) any more – the shell uses an LCG internally
+ in the next version (R41) any more — the shell uses an LCG internally
  which is seeded from ASLR. Several POSIX fixes may change behaviour
  of builtins, substitutions, etc. and some differ now depending on the
  “set ±o sh” flag. New builtin “cat” (although, if called with a flag,
@@ -481,7 +481,7 @@ mws_content <<'EOF'
  “foo=&lt;&lt;EOF” cat(1)lessly assigns a here document to a parameter. New
  KSHEGID, KSHGID, KSHUID variables and PIPESTATUS array. Completely new
  read built-in command with several new options. Parse command substitutions
- – $(…) – recursively. HP-UX “test -H” is back, “test -t” (without the “fd”
+ — $(…) — recursively. HP-UX “test -H” is back, “test -t” (without the “fd”
  argument) is gone. “set -x” is now inherited by called functions. The x+=y
  and x+=(y z) notations for appending to variables and (!MKSH_SMALL) arrays
  are now supported, as are “;&amp;” and “;|” (“;&amp;&amp;” !MKSH_SMALL too)
@@ -511,7 +511,7 @@ mws_content <<'EOF'
  on an interactive shell's command line. Finally, the getopts builtin now
  behaves standards-compliant: even on an unknown option, <tt>OPTIND</tt>
  is incremented (think “getopts "ab:c" ch” and “script -a -I foo bar” in
- contrast to “script -a -- -I foo bar” – mkdep(1) was <a
+ contrast to “script -a -- -I foo bar” — mkdep(1) was <a
  href="http://marc.info/?m=125598551928046">affected</a>, as will be <a
  href="http://marc.info/?m=125598548027997">every script</a> that does not
  abort in the <tt>(\?)</tt> or <tt>(*)</tt> case).</p>
@@ -837,7 +837,7 @@ mws_content <<'EOF'
  <li>[tg] Code cleanup, style, and minor assorted fixes</li>
  <li>[tg] Tabcomplete <tt>~foo/M↹</tt> (with slash) economically</li>
  <li>[tg] Add new <del>experimental</del> <tt>global</tt> builtin, doing
-  the same as <tt>local</tt> (<tt>typeset</tt>, really – but that doesn’t
+  the same as <tt>local</tt> (<tt>typeset</tt>, really — but that doesn’t
   deserve its name) does, except localising all parameters it touches</li>
  <li>[tg] Better error messages with non-integral environment imports</li>
  <li>[tg] <tt>$RANDOM</tt> environment import accepts any string now</li>
@@ -847,7 +847,7 @@ mws_content <<'EOF'
   terminal, hard, when scripts use <tt>$COLUMNS</tt> and fork off utilities;
   regression introduced in mksh R37 (sorry, no regression test possible)</li>
  <li>[tg, Arkadiusz Miśkiewicz] Properly mark need-ctty regression tests</li>
- <li>[tg] MKSH_NO_EXTERNAL_CAT – Quell the external cat(1) calls magic</li>
+ <li>[tg] MKSH_NO_EXTERNAL_CAT — Quell the external cat(1) calls magic</li>
  <li>[tg, Arkadiusz Miśkiewicz] Yes, “echo” is not portable, document</li>
  <li>[tg] Improve content and look of the manual page</li>
  <li>[tg] Move /etc/{,suid_}profile to /system/etc/ on Android</li>
@@ -861,7 +861,7 @@ mws_content <<'EOF'
  <li>[tg, stippi] Add Haiku specific RLIMIT_NOVMON as ‘V’ to ulimit builtin</li>
  <li>[tg] Let Build.sh cope with dirname(1) unavailability</li>
  <li>[tg] In the Emacs editing mode, hi-bit7 octets are now considered
-  “motion characters” for word boundaries – Esc+b, Esc+f, ^W, …</li>
+  “motion characters” for word boundaries — Esc+b, Esc+f, ^W, …</li>
  <li>[tg] Make EXECSHELL default configurable at compile time (embedded)</li>
  <li>[tg] If MKSH_SMALL do not compile in “set -o bgnice” by default</li>
  <li>[tg] Rework how RLIMIT_{AS,RSS,VMEM} map to ‘m’ and ‘v’ ulimits</li>
@@ -1081,7 +1081,7 @@ mws_content <<'EOF'
  <li>[tg] Fix “${foo:bar:$baz}” not working (missing substitute() call)</li>
  <li>[tg] Implement “typeset ±a” as nop</li>
  <li>[tg] Support ksh93-like “${!foo[@]}” listing the <em>keys</em> (indicēs)
-  of all set array elements – zsh does it too (${(k)foo}), bash4 can’t :þ</li>
+  of all set array elements — zsh does it too (${(k)foo}), bash4 can’t :þ</li>
  <li>[tg] Support bash/ksh93-like “array=([key]=value …)” and (additionally)
   “set ±A array -- [key]=value …” to directly specify indicēs to use</li>
  <li>[tg] Document the optional, unsupported, printf(1) builtin in TFM</li>
@@ -1143,7 +1143,7 @@ mws_content <<'EOF'
  <li>[tg] New <tt>Build.sh</tt> flag <tt>-M</tt> to not compile but spit out a
   <tt>Makefrag.inc</tt> file from the current build environment, such as the
   (cross)compiler, CFLAGS, LDFLAGS, etc. which then can be sourced by e.g. the
-  Android NDK, or built with make(1) – BSD make and GNU make have been tested,
+  Android NDK, or built with make(1) — BSD make and GNU make have been tested,
   but almost all makes should work if the source and build directories are the
   same or VPATH is supported at least (use of this option is discouraged)</li>
  <li>[tg] Overhaul and simplify handling of (special) variables</li>
@@ -1245,7 +1245,7 @@ mws_content <<'EOF'
   <tt>-DMKSH_SMALL</tt> disables them by default, like mknod already did</li>
  <li>[tg] <tt>-DMKSH_ASSUME_UTF8=0</tt> skips the environment checks, like
   <tt>-DMKSH_ASSUME_UTF8=1</tt>, but disables the <tt>utf8-mode</tt></li>
- <li>[tg] Apply some more KNF – style(9) – to the source; clean it up
+ <li>[tg] Apply some more KNF — style(9) — to the source; clean it up
   and further optimise for small size</li>
  <li>[OpenBSD] Fix segfaults caused by missing check for end of input
   in the tokeniser on “let --” and other input</li>
@@ -1497,7 +1497,7 @@ mws_content <<'EOF'
  <li>Improve handling of invalid UTF-8 in certain areas, and multibyte
   (UTF-8 / CESU-8) in general</li>
  <li>When using “typeset -Z«n»” on an integer variable with a base other
-  than ten, zero-pad the value instead of the base – pdksh, oksh, zsh, and
+  than ten, zero-pad the value instead of the base — pdksh, oksh, zsh, and
   AT&amp;T ksh93 are wrong here; GNU bash doesn’t even have typeset</li>
  <li>Improve parsing of “set +o” output where done (dot.mkshrc, check.t)</li>
  <li>Improve regression tests</li>
@@ -1512,7 +1512,7 @@ mws_content <<'EOF'
   with the code, so use base-1 (with utf8-hack disabled, or &amp; 0xFF) instead
   (while it is recommended to parse only single octets, there is a regression
   test showing correct and safe multibyte parsing, which however is error-prone
-  to implement and thusly not recommended) – “genial” replaced@TNG, “this sounds
+  to implement and thusly not recommended) — “genial” replaced@TNG, “this sounds
   fun” ggergely, agreed bsiegert@ and others</li>
  <li>Pull in more current versions of supplied files; use Unicode 5.0</li>
  <li>Clean up unused definitions in build system; document MKSH_CLS_STRING</li>
@@ -1529,7 +1529,7 @@ mws_content <<'EOF'
   certain OEs behave strange; thanks to Adam “replaced” Hoka for spotting</li>
  <li>Use <tt>en_US.utf8</tt> as UTF-8 locale for the testsuite for now</li>
  <li>If <tt>setlocale(LC_CTYPE, "")</tt> is not available, look at the
-  environment variables ourselves – brings UTF-8 support to poor OSes</li>
+  environment variables ourselves — brings UTF-8 support to poor OSes</li>
  <li>Remove some now-dead code; speed up configuration process; shrink</li>
  <li>Default to no setlocale(3) due to stubbed or missing locale support
   on GNU/Cygwin, OpenBSD, OSF/1 in <tt>Build.sh</tt>; a few more that are
@@ -1612,7 +1612,7 @@ mws_content <<'EOF'
 <p id="r33b">mksh R33b comes with the following minor fixes:</p><ul>
  <li>Work on porting to <a href="http://www.syllable.org/">Syllable</a>
   (again much improved; support now en par with Plan 9’s, thanks to Anthony
-  Morphett &lt;awmorp@gmail.com&gt; – maybe the rest is a kernel bug?)</li>
+  Morphett &lt;awmorp@gmail.com&gt; — maybe the rest is a kernel bug?)</li>
  <li>Fix some minor code issues remarked by MIPSpro</li>
  <li>Port to SGI IRIX 6.5 (uname: IRIX64) using gcc and MIPSpro</li>
  <li>Scan for a lot more compilers; add support for MIPSpro</li>
@@ -1621,7 +1621,7 @@ mws_content <<'EOF'
  <li>Enable OSF/1 V2.0 <tt>/bin/sh</tt> to run <tt>Build.sh</tt></li>
  <li>Add strcasecmp(3) proto for Ultrix 4.5 only (imake style)</li>
  <li>Add S_ISLNK if the OS doesn’t define it</li>
- <li>Use tempnam(3) if mkstemp(3) not found – <strong>not recommended</strong></li>
+ <li>Use tempnam(3) if mkstemp(3) not found — <strong>not recommended</strong></li>
  <li>Reduce dependency on certain OE facilities: printf(1), fgrep(1) being
   able to scan for two patterns at the same time, perl5 being named perl</li>
  <li>New <tt>-T-</tt> option for dæmonisation, cf. man page</li>
@@ -1686,7 +1686,7 @@ mws_content <<'EOF'
   above, write, for instance, <tt>x=${x//foo*bar/baz}</tt> instead of the
   more complicated <tt>x=$(sed -e 's/foo.*bar/baz/g' &lt;&lt;&lt;"$x")</tt>
   or the mksh R32 and before idiom <tt>x=$(print -r -- "$x" | sed -e
-  's/foo.*bar/baz/g')</tt> – be sure to check $KSH_VERSION first though</li>
+  's/foo.*bar/baz/g')</tt> — be sure to check $KSH_VERSION first though</li>
  <li>Use the new <tt>&#36;Mdocdate&#36;</tt> RCS keyword in the manual page
   mksh(1) as well; since this is not portable in tmac.doc especially to GNU
   groff, prepend a seven-liner implementing it to the <tt>.Dd</tt> macro</li>
@@ -1822,7 +1822,7 @@ mws_content <<'EOF'
   by Borland C++ Builder 5.5</li>
  <li>Fix superfluous code detected by gcc 4.2</li>
  <li>Fix large file support for OSes that require CPPFLAGS contains
-  <tt>-D_FILE_OFFSET_BITS=64</tt> – it was detected but not actually
+  <tt>-D_FILE_OFFSET_BITS=64</tt> — it was detected but not actually
   used in the build; thanks to hondza for the problem report!</li>
  <li>Give the lexer a bigger state stack if !MKSH_SMALL</li>
  <li>Prepare for addition of make(1)-style search/replace operations;
@@ -1885,7 +1885,7 @@ mws_content <<'EOF'
   my knowledge), is maintained by loki now</li>
  <li>Note: the PDF manual page is now PDF 1.3 (Acrobat 4.x) again</li>
 </ul>
-<p>Minor bugfixes in mksh R29c – you might want it:</p><ul>
+<p>Minor bugfixes in mksh R29c — you might want it:</p><ul>
  <li>Regression fix: mksh has some kind of “encoded string” format;
   use wdcopy() not str_save() to duplicate this; affects formatting of
   an error message (and below item) only though</li>
@@ -1907,7 +1907,7 @@ mws_content <<'EOF'
   and when processing shebang lines and enable utf8 mode if encountered</li>
  <li>Enhancements to the <tt>dot.mkshrc</tt> file, whose status (in MirBSD
   itself) is now upgraded from “sample file for portable mksh to show off to
-  other OSes” to “used as skeleton file in the default installation” – gets
+  other OSes” to “used as skeleton file in the default installation” — gets
   us rid of duplicating this stuff in /etc/profile (MirBSD native) a̲n̲d̲ makes
   sure that users of portable mksh also have the latest goodies</li>
  <li>When doing shebang parsing, accept not only LF and NUL but also CR as
@@ -2265,7 +2265,7 @@ mws_content <<'EOF'
  was largely dropped, and support for octal and sedecimal (hexadecadic)
  numbers via prefixing with <em>0</em> or <em>0x</em> has been added.
  <strong>This is an experimental release; it is not <i>yet</i> supported
- e.g. by MirMake – make(1) – or other tools</strong> but this
+ e.g. by MirMake — make(1) — or other tools</strong> but this
  will follow soon. MirbsdKsh R21 is to be the only shell available on
  MirOS #9.</p>
 <p>R20 integrated an experimental bugfix from millert@openbsd and shuffled
@@ -2313,11 +2313,11 @@ mws_content <<'EOF'
  mksh in their operation environment of choice.</p>
 
 <h3 id="editor">/bin/ed</h3>
-<p>While we’re at it – recommendations for packagers – there is another set
+<p>While we’re at it — recommendations for packagers — there is another set
  of do’s and dont’s: location of the UNIX® standard text editor. As outlined
  in traditional unixoid operating system standards, manifested into POSIX,
- and – for these three-letter words that aren’t Unix, no matter which of the
- kernels they use in their variety of so-called distributions – the <a
+ and — for these three-letter words that aren’t Unix, no matter which of the
+ kernels they use in their variety of so-called distributions — the <a
  href="http://www.pathname.com/fhs/pub/fhs-2.3.html#SPECIFICOPTIONS2">FHS</a>
  (FSSTND): ed lives in <tt>/bin/ed</tt>, period.</p>
 <p>Patching mksh’s code to look for ed in ANY other location is a MUST NOT.</p>
@@ -2342,7 +2342,7 @@ mws_content <<'EOF'
 <li>${foo:S/bar/baz/g} and maybe ${foo:C/bar/baz/x} via regex(3)</li>
 <li>A sensible website</li>
 <li>Real Unicode command line editing code</li>
-<li>Real Unicode internal op – ${foo:2:3} now works with MirOS OPTU-8
+<li>Real Unicode internal op — ${foo:2:3} now works with MirOS OPTU-8
  but having internal representation being MirOS OPTU-16 would help in
  the long term</li>
 <li><tt>/etc/mkshrc</tt> (maybe only if ~/.mkshrc does not exist,

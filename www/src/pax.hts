@@ -1,10 +1,10 @@
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
 
-mws_setname subprojects/pax "MirCPIO – paxmirabilis"
+mws_setname subprojects/pax "MirCPIO — paxmirabilis"
 mws_setrss "tag_mksh.rss"
-mws_setheadline MirCPIO – paxmirabilis – tar and even ar!
-mws_putheader '$MirOS: www/src/pax.hts,v 1.1 2016/03/06 19:05:36 tg Exp $'
+mws_setheadline MirCPIO — paxmirabilis — tar and even ar!
+mws_putheader '$MirOS: www/src/pax.hts,v 1.2 2016/10/25 20:32:51 tg Exp $'
 mws_content <<'EOF'
 <p>Eventually, this page will become a proper subproject
  homepage, like jupp’s and mksh’s. For now, it’s a download
