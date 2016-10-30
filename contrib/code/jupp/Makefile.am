@@ -75,7 +75,7 @@ joe.1: joe.1.in
 	    -e 's!@''joeinitfile''@!$(man_joeinitfile)!g' \
 	    -e 's!@''joeresides''@!$(man_joeresides)!g' \
 	    -e 's!@''joeinitcopy''@!$(man_joeinitcopy)!g' \
-	    <joe.1.in >$@~
+	    <$> >$@~
 	mv -f $@~ $@
 
 install-exec-hook:
