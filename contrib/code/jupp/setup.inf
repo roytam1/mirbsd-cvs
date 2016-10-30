@@ -6,7 +6,7 @@
 
 [Version]
 Signature="$CHICAGO$"
-DriverVer=10/29/2016,3.1.@jwin@
+DriverVer=@ts@,3.1.@jwin@
 
 [SourceDisksNames]
 1="joe 3.1jupp@jwin@ Win32 installation floppy"
