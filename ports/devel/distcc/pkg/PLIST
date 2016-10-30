@@ -1,8 +1,0 @@
-@comment $MirOS$
-man/man1/distcc.1
-man/man1/distccd.11
-man/man1/distccmon-text.1
-share/doc/distcc
-bin/distcc
-bin/distccd
-bin/distccmon-text

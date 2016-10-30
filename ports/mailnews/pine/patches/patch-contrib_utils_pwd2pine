@@ -1,9 +1,0 @@
-$MirOS$
---- contrib/utils/pwd2pine.orig	Thu Dec 15 13:55:48 2005
-+++ contrib/utils/pwd2pine	Thu Dec 15 13:56:07 2005
-@@ -1,4 +1,4 @@
--#!/usr/local/bin/perl
-+#!/usr/bin/env perl
- #
- # passwd2pine - translate passwd to pine addressbook
- #
