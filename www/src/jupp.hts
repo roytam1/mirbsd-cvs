@@ -3,7 +3,7 @@
 
 mws_setname subprojects/jupp "jupp — Programmer’s Editor"
 mws_setheadline jupp — the Editor which sucks less
-mws_putheader '$MirOS: www/src/jupp.hts,v 1.62 2016/10/30 04:17:32 tg Exp $'
+mws_putheader '$MirOS: www/src/jupp.hts,v 1.63 2016/10/30 04:28:06 tg Exp $'
 mws_content <<'EOF'
 <p>The current version is <em>joe-2.8jupp2</em> for MS-DOS® compatible systems,
  and <em>joe-3.1jupp29</em> for Unix/GNU compatible systems. This page is
@@ -310,8 +310,13 @@ $ $SUDO make install</pre>
 
 <h2 id="wishlist">Wishlist</h2>
 <p>It’d be cool if jupp could…</p><ul>
+ <li>figure out how jupp32 can syntax-highlight (probably by enabling
+  colours in ANSI by default, it works on win9x only with ANSI.SYS
+  loaded, but maybe it works by default on win2k+ and on contemporary
+  ANSI terminals)</li>
  <li>reposition the cursor correctly upon entering hex edit mode (found
-  by Natureshadow; probably easy to fix, I await <em>your</em> patch!)</li>
+  by Natureshadow; probably easy to fix, I await <em>your</em> patch!)
+  XXX this looks fixed, please confirm</li>
  <li>redraw a line if it has been scrolled and had combining
   characters in it before — actually, scrap that; make that:
   handle Unicode combining characters, <em>at all</em>…</li>
