@@ -67,6 +67,8 @@ share/examples/joe/syntax/sh.jsf
 @sample ${SYSCONFDIR}/joe/syntax/sh.jsf
 share/examples/joe/syntax/tcl.jsf
 @sample ${SYSCONFDIR}/joe/syntax/tcl.jsf
+share/examples/joe/syntax/tex.jsf
+@sample ${SYSCONFDIR}/joe/syntax/tex.jsf
 share/examples/joe/syntax/verilog.jsf
 @sample ${SYSCONFDIR}/joe/syntax/verilog.jsf
 share/examples/joe/syntax/vhdl.jsf
