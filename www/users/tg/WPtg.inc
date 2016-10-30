@@ -690,9 +690,9 @@ Title: Jeu à plusieurs dimensions
 ----
 ID: 133
 Date: 01.09.2010
-Waypoint: GC27Y7G
+Waypoint: GC27Y7G OC1346B
 Title: LP Bullenkloster
-Tag: recommended
+Tag: D15 T2 Micro Tradi recommended
 ----
 ID: 134
 Date: 13.09.2010
@@ -1097,7 +1097,7 @@ ID: 211
 Date: 28.04.2012
 Waypoint: GC260YR OCA170
 Title: Unter Schafen
-Tag: recommended
+Tag: D15 T15 Small Multi recommended
 ----
 ID: 212
 Date: 28.04.2012
@@ -4005,7 +4005,7 @@ Tag: D25 T1 Micro Mystery
 ----
 ID: 719
 Date: 05.02.2014
-Waypoint: GC1TGX7
+Waypoint: GC1TGX7 OC1346A
 Title: Bw&amp;I Kick-Off 2009
 Tag: D15 T15 Micro Tradi
 ----
@@ -12270,14 +12270,20 @@ Title: Arrivederci und bye bye! MMXVI
 nTF: O
 Tag: D1 T1 Event
 ----
-ID: p20161030
+ID: 2029
+Date: 30.10.2016
+Waypoint: GC6TM3Y
+Title: ⏰ Wer hat an der Zeit gedreht ⏰
+Tag: D5 T4 Event
+----
+ID: 2030
 Date: 30.10.2016
 Waypoint: GC6T40V
 Title: Musikgenuss die dritte
-Tag: D1 T15 Event
+Tag: D1 T15 Event recommended
 ----
 ID: p20161210
-Date: 25.10.2016
+Date: 10.12.2016
 Waypoint: GC6VNJ5
 Banner: jpg
 Title: Musik im Advent 2016
