@@ -4,7 +4,7 @@
 
 MAN=		joe.1
 INST_TARGET=	INSTALL_MAN= install
-CLEANFILES+=	.deps charmap charmaps syntax joe.txt{,~} jupp
+CLEANFILES+=	.deps charmap charmaps syntax joe.1 joe.txt{,~} jupp
 
 CFPREFIX?=	/usr/local
 .if ${CFPREFIX} == "/usr"
