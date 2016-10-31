@@ -1,7 +1,0 @@
-GNU 'm4' is an implementation of the traditional UNIX macro processor.
-It is mostly SVR4 compatible, although it has some extensions (for
-example, handling more than 9 positional parameters to macros). GNU
-'m4' also has builtin functions for including files, running shell
-commands, doing arithmetic, etc. GNU Bison needs GNU 'm4' to properly
-operate. GNU Autoconf needs GNU 'm4' for generating 'configure'
-scripts, but not for running them.
