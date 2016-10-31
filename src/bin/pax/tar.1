@@ -418,10 +418,13 @@ Don't write directory information that the older (V7) style
 .Nm tar
 is unable to decode.
 .It Fl P
-Do not strip leading slashes
+For security reasons,
+.Nm
+skips pathnames containing dotdot
+.Pq Dq ..\&
+components and strips leading slashes
 .Pq Sq /
-from pathnames.
-The default is to strip leading slashes.
+from pathnames by default; this option disables that behaviour.
 .It Fl p
 Preserve user and group ID as well as file mode regardless of
 the current

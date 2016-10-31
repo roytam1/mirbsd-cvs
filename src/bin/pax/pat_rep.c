@@ -624,6 +624,19 @@ mod_name(ARCHD *arcn)
 {
 	int res = 0;
 
+	if (rmleadslash) {
+		/* CVE-2016-6321: completely skip names with dotdot in them */
+		const char *p = strstr(arcn->name, "..");
+
+		if ((p == arcn->name || p[-1] == '/') &&
+		    (p[2] == '/' || p[2] == '\0')) {
+			paxwarn(1,
+			    "Skipping pathname with dotdot components: %s",
+			    arcn->name);
+			return (1);
+		}
+	}
+
 	/*
 	 * Strip off leading '/' if appropriate.
 	 * Currently, this option is only set for the tar format.
@@ -653,30 +666,6 @@ mod_name(ARCHD *arcn)
 		if (rmleadslash < 2) {
 			rmleadslash = 2;
 			paxwarn(0, "Removing leading / from absolute path names in the archive");
-		}
-	}
-	if (rmleadslash) {
-		const char *last = NULL;
-		const char *p = arcn->name;
-
-		while ((p = strstr(p, "..")) != NULL) {
-			if ((p == arcn->name || p[-1] == '/') &&
-			    (p[2] == '/' || p[2] == '\0'))
-				last = p + 2;
-			p += 2;
-		}
-		if (last != NULL) {
-			last++;
-			paxwarn(1, "Removing leading \"%.*s\"",
-			    (int)(last - arcn->name), arcn->name);
-			arcn->nlen = strlen(last);
-			if (arcn->nlen > 0)
-				memmove(arcn->name, last, arcn->nlen + 1);
-			else {
-				arcn->name[0] = '.';
-				arcn->name[1] = '\0';
-				arcn->nlen = 1;
-			}
 		}
 	}
 
