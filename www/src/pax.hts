@@ -4,7 +4,7 @@
 mws_setname subprojects/pax "MirCPIO — paxmirabilis"
 mws_setrss "tag_mksh.rss"
 mws_setheadline MirCPIO — paxmirabilis — tar and even ar!
-mws_putheader '$MirOS: www/src/pax.hts,v 1.2 2016/10/25 20:32:51 tg Exp $'
+mws_putheader '$MirOS: www/src/pax.hts,v 1.3 2016/10/30 04:47:11 tg Exp $'
 mws_content <<'EOF'
 <p>Eventually, this page will become a proper subproject
  homepage, like jupp’s and mksh’s. For now, it’s a download
@@ -12,19 +12,19 @@ mws_content <<'EOF'
 
 <h2>Download</h2>
 
-<p>The current version is paxmirabilis-20161025.</p>
+<p>The current version is paxmirabilis-20161031.</p>
 
 <h3>Download MirCPIO distfiles</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/cpio/paxmirabilis-20161025.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/cpio/paxmirabilis-20161025.cpio.gz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/cpio/paxmirabilis-20161025.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/cpio/paxmirabilis-20161025.cpio.gz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/cpio/paxmirabilis-20161031.cpio.gz">https://www.mirbsd.org/MirOS/dist/mir/cpio/paxmirabilis-20161031.cpio.gz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/cpio/paxmirabilis-20161031.cpio.gz">http://pub.allbsd.org/MirOS/dist/mir/cpio/paxmirabilis-20161031.cpio.gz</a></li>
 </ul>
 
 <h3 id="hashes">Checksums and Hashes</h3><ul>
 <!-- cd /MirOS/dist/mir/cpio; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
-  <li>RMD160 (paxmirabilis-20161025.cpio.gz) = 521d929bcf7fb7cfc39a3aa6f90ad09d249d33b5</li>
-  <li>TIGER (paxmirabilis-20161025.cpio.gz) = c816ed1bf365c11bf0df6ad41f327ba4f17af05f842e2284</li>
-  <li>436962393 148024 /MirOS/dist/mir/cpio/paxmirabilis-20161025.cpio.gz</li>
-  <li>MD5 (paxmirabilis-20161025.cpio.gz) = 7c5016c7e550d9852d200b98a51e24c0</li>
+  <li>RMD160 (paxmirabilis-20161031.cpio.gz) = 796125d92f45dc0a7a7f6dd91d586a34eb16b0d0</li>
+  <li>TIGER (paxmirabilis-20161031.cpio.gz) = 71e3c2ee057439d94854a8c0f3e14d20e5267419e11b6fbb</li>
+  <li>3164023335 148058 /MirOS/dist/mir/cpio/paxmirabilis-20161031.cpio.gz</li>
+  <li>MD5 (paxmirabilis-20161031.cpio.gz) = bf43b9946de9d7bc3cab0afa9510960b</li>
  <li style="list-style:none;">All official distfiles are gzsig(1)d. with our
   <a href="/gzsigkey.cer">current signature key</a>.</li>
 </ul>
@@ -34,18 +34,25 @@ mws_content <<'EOF'
  <li><a href="http://pub.allbsd.org/MirOS/cats/mir/cpio/">http://pub.allbsd.org/MirOS/cats/mir/cpio/</a></li>
 </ul>
 
+<h3 id="github">Unofficial git mirror</h3>
+<p><a href="https://github.com/MirBSD/mircpio">github</a> (chosen only for
+ popularity) hosts a read-only, push-only, possibly nōn-fastforward,
+ unofficial git mirror of the paxmirabilis source tree.
+ Use at your own risk.</p>
+
 <h2>Installation</h2>
 
 <h3 id="decomp">Decompression</h3>
 <p>For compatibility reasons, gzip(1)-compressed cpio(1) is used
  as the format to distribute MirCPIO. You can usually decompress
  it with one of the following commands:</p><ul>
- <li>gzip -dc paxmirabilis-20161025.cpio.gz | cpio -mid</li>
- <li>gzip -dc paxmirabilis-20161025.cpio.gz | pax -r</li>
- <li>tar xzf paxmirabilis-20161025.cpio.gz</li>
+ <li>gzip -dc paxmirabilis-20161031.cpio.gz | cpio -mid</li>
+ <li>gzip -dc paxmirabilis-20161031.cpio.gz | pax -r</li>
+ <li>tar -xzf paxmirabilis-20161031.cpio.gz</li>
 </ul>
 <p>You can also retrieve a POSIX <tt>ustar</tt>-format distfile
- <tt>pax_20161025.orig.tar.xz</tt> from Debian.</p>
+ <tt>pax_20161031.orig.tar.xz</tt> from Debian. This can be
+ extracted with: xz -dc pax_20161031.orig.tar.xz | tar -xf -</p>
 
 <h3 id="compile">Compilation</h3>
 <p>Eventually, we’ll offer an autoconf-like buildsystem similar
@@ -55,7 +62,7 @@ mws_content <<'EOF'
  use (<tt>-DLONG_OFF_T</tt> may be necessary on GNU) and whether
  to change <tt>SAFE_PATH</tt>, then compile
  all source files into a binary.<br />Example:
- <tt>cc -O2 -o pax -DHAVE_STRLCPY *.c</tt></p>
+ <tt>cc -O2 -o pax -DHAVE_STRLCPY -DPAX_SAFE_PATH=\"/bin\" *.c</tt></p>
 <p>Install that binary under three names (you can use hardlinks
  or, if you prefer, symlink(7)s, for that, or just copy it):
  either ⓪ <tt>cpio</tt>, <tt>pax</tt>, and <tt>tar</tt>, or ①

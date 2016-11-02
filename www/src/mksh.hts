@@ -218,8 +218,8 @@ mws_content <<'EOF'
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
- so a simple <tt>tar xzf mksh-R53a.tgz</tt> will work. It will create all files
- in a subdirectory <tt>./mksh/</tt>.</p>
+ so a simple <tt>tar -xzf mksh-R53a.tgz</tt> will work. It will create all
+ files in a subdirectory <tt>./mksh/</tt>.</p>
 
 <h3 id="vendorpatching">Patching</h3>
 <p>If you’re a packager/vendor and need to patch mksh and deviate from the

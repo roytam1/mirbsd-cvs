@@ -131,7 +131,7 @@ mws_content <<'EOF'
 
 <h3>Unpacking</h3>
 <p>Starting with jupp19, use a command like<br />
- <tt>$ tar xzf joe-3.1jupp29.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
+ <tt>$ tar -xzf joe-3.1jupp29.tgz</tt> # paxtar, bsdtar, GNU tar, …<br />
  <tt>$ gzip -dc joe-3.1jupp29.tgz | cpio -idm</tt> # any cpio<br />
  <tt>$ pax -r -z &lt;joe-3.1jupp29.tgz</tt> # any POSIX® archiver<br />
  to extract the distfile. The DOS version requires similar commands,
