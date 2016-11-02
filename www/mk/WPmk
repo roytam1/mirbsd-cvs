@@ -1,4 +1,4 @@
-rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.42 2015/10/16 21:50:03 tg Exp $'
+rcsid_WPmk='$MirOS: www/mk/WPmk,v 1.44 2016/10/04 19:22:12 tg Exp $'
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -443,10 +443,12 @@ for (\$x = 0; \$x < strlen(\$boxt); ++\$x)
 // Get bounding box
 \$bbox = imageftbbox(\$fontsize1, 0, \$font1, \$text);
 // Transform coordinates into width+height and position
-\$size_w = abs(\$bbox[2] - \$bbox[0]);	// right - left
-\$size_h = abs(\$bbox[7] - \$bbox[1]);	// top - bottom
-\$x = -\$bbox[0];				// left (offset)
-\$y = \$size_h - abs(\$bbox[1]);		// lower
+\$ascender = abs(\$bbox[7]);
+\$descender = abs(\$bbox[1]);
+\$size_w = abs(\$bbox[0]) + abs(\$bbox[2]);
+\$size_h = \$ascender + \$descender;
+\$x = -\$bbox[0];
+\$y = \$ascender;
 // Adjust position
 \$x += 60 + \$fontadj1[0];
 \$y += 3 + \$fontadj1[1];
@@ -459,10 +461,12 @@ imagefttext(\$im, \$fontsize1, 0, \$x, \$y, \$amber, \$font1, \$text);
 // Get bounding box
 \$bbox = imageftbbox(\$fontsize2, 0, \$font2, \$text);
 // Transform coordinates into width+height and position
-\$size_w = abs(\$bbox[2] - \$bbox[0]);	// right - left
-\$size_h = abs(\$bbox[7] - \$bbox[1]);	// top - bottom
-\$x = -\$bbox[0];				// left (offset)
-\$y = \$size_h - abs(\$bbox[1]);		// lower
+\$ascender = abs(\$bbox[7]);
+\$descender = abs(\$bbox[1]);
+\$size_w = abs(\$bbox[0]) + abs(\$bbox[2]);
+\$size_h = \$ascender + \$descender;
+\$x = -\$bbox[0];
+\$y = \$ascender;
 // Adjust position
 \$x += 60 + \$fontadj2[0];
 \$y += \$txt_ofs + \$fontadj2[1];
