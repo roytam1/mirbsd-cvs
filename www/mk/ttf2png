@@ -1,9 +1,9 @@
 <?php
 /*-
- * $MirOS$
+ * $MirOS: www/mk/ttf2png,v 1.7 2012/07/15 11:32:51 tg Exp $
  *-
- * Copyright (c) 2009
- *	Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2009, 2016
+ *	mirabilos <m@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
@@ -24,14 +24,11 @@
  *	php ttf2png [text [size [/path/to/font.ttf]]] >out.png
  */
 
-
-/* if 0
 if (!function_exists('gd_info'))
 	die("Install php5-gd first.");
 $gd = gd_info();
 if ($gd["FreeType Support"] == false)
 	die("Compile php5-gd with FreeType 2 support.");
- * endif */
 
 
 $font = "/usr/src/www/files/FNT/GenI102.ttf";
@@ -49,10 +46,12 @@ if (isset($argv[3]))
 // Get bounding box
 $bbox = imageftbbox($fontsize, 0, $font, $text);
 // Transform coordinates into width+height and position
-$size_w = abs($bbox[2] - $bbox[0]);	// right - left
-$size_h = abs($bbox[7] - $bbox[1]);	// top - bottom
-$x = -$bbox[0];				// left (offset)
-$y = $size_h - abs($bbox[1]);		// lower
+$ascender = abs($bbox[7]);
+$descender = abs($bbox[1]);
+$size_w = abs($bbox[0]) + abs($bbox[2]);
+$size_h = $ascender + $descender;
+$x = -$bbox[0];
+$y = $ascender;
 
 // Create image
 $im = imagecreatetruecolor($size_w, $size_h);
