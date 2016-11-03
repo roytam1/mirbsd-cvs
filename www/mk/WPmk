@@ -453,7 +453,8 @@ for (\$x = 0; \$x < strlen(\$boxt); ++\$x)
 \$x += 60 + \$fontadj1[0];
 \$y += 3 + \$fontadj1[1];
 // Render text into image
-imagefttext(\$im, \$fontsize1, 0, \$x, \$y, \$amber, \$font1, \$text);
+imagefttext(\$im, \$fontsize1, 0, \$x, \$y, \$amber, \$font1,
+    str_replace('&', '&#38;', \$text));
 
 // Write caches text
 \$txt_ofs = \$size_h + 6;
@@ -471,7 +472,8 @@ imagefttext(\$im, \$fontsize1, 0, \$x, \$y, \$amber, \$font1, \$text);
 \$x += 60 + \$fontadj2[0];
 \$y += \$txt_ofs + \$fontadj2[1];
 // Render text into image
-imagefttext(\$im, \$fontsize2, 0, \$x, \$y, \$fgcol, \$font2, \$text);
+imagefttext(\$im, \$fontsize2, 0, \$x, \$y, \$fgcol, \$font2,
+    str_replace('&', '&#38;', \$text));
 
 // Write date text
 imagefilledrectangle(\$im, 221, 0, 233, 59, \$black);

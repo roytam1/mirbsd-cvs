@@ -1,6 +1,6 @@
 <?php
 /*-
- * $MirOS: www/mk/ttf2png,v 1.7 2012/07/15 11:32:51 tg Exp $
+ * $MirOS: www/mk/ttf2png,v 1.8 2016/11/02 16:16:26 tg Exp $
  *-
  * Copyright (c) 2009, 2016
  *	mirabilos <m@mirbsd.org>
@@ -62,7 +62,8 @@ $fgcol = imagecolorallocate($im, 0xFF, 0xFF, 0xFF);
 // Fill image with background colour
 imagefilledrectangle($im, 0, 0, $size_w - 1, $size_h - 1, $bgcol);
 // Render text into image
-imagefttext($im, $fontsize, 0, $x, $y, $fgcol, $font, $text);
+imagefttext($im, $fontsize, 0, $x, $y, $fgcol, $font,
+    str_replace('&', '&#38;', $text));
 
 // Convert true colour image (needed for above) to palette image
 imagetruecolortopalette($im, FALSE, 256);
