@@ -1,3 +1,0 @@
-@comment $OpenBSD: PLIST,v 1.1.1.1 2001/08/06 00:33:25 brad Exp $
-bin/http_ping
-man/cat1/http_ping.0

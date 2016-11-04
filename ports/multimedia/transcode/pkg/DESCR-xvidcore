@@ -1,4 +1,0 @@
-transcode is a text console video-stream processing tool.
-
-This module adds xvid mpeg4 audio and video decoding and encoding
-functionality to transcode with help from the xvidcore package.

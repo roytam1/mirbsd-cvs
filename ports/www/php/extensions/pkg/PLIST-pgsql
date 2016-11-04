@@ -1,6 +1,0 @@
-@comment $MirOS: ports/www/php/extensions/pkg/PLIST-pgsql,v 1.1.7.1 2005/03/18 16:00:00 tg Exp $
-@comment $OpenBSD: PLIST-pgsql,v 1.1.1.1 2004/10/02 11:32:37 robert Exp $
-lib/php/modules/pgsql.so
-@dirrm lib/php/modules
-@dirrm lib/php
-@dirrm lib
