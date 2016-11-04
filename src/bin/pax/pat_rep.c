@@ -628,7 +628,7 @@ mod_name(ARCHD *arcn)
 		/* CVE-2016-6321: completely skip names with dotdot in them */
 		const char *p = strstr(arcn->name, "..");
 
-		if ((p == arcn->name || p[-1] == '/') &&
+		if (p && (p == arcn->name || p[-1] == '/') &&
 		    (p[2] == '/' || p[2] == '\0')) {
 			paxwarn(1,
 			    "Skipping pathname with dotdot components: %s",
