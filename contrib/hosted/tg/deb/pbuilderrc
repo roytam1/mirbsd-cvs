@@ -9,6 +9,11 @@
 # prepended to build for the other architecture, and select chroots
 # appropriately). Hint: use this nice wrapper script:
 # https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=shellsnippets/shellsnippets.git;a=blob;f=mksh/debian-dev/c;hb=HEAD
+#
+# To use a chroot with glibc 2.13 or older (Debian wheezy or older)
+# with Linux 4.8 or up, you may need to add this to /etc/default/grub:
+# GRUB_CMDLINE_LINUX="rootdelay=5 syscall.x32=y vsyscall=emulate net.ifnames=0 kaslr"
+# (well, the “vsyscall=emulate” part, although the others don’t hurt)
 #-
 # debian.org: sarge etch lenny squeeze wheezy jessie stretch buster bullseye sid
 # debian LTS: squeeze (extra mirror retired for wheezy LTS)
@@ -31,6 +36,7 @@
 #
 # TODO: using -backports chroots is deprecated in favour of
 # adding the backports sources.list.d entries in a hook script.
+# XXX this possibly requires using a different satisfydepends
 #
 # TODO: changes to the mirrors don’t apply to existing chroots
 # as they are read on --create only… move into a sources.list
