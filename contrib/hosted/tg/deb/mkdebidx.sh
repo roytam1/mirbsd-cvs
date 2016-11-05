@@ -486,7 +486,7 @@ for suite in dists/*; do
 			[[ -e $f ]] || continue
 			realpath "$f"
 		done | sort -u) |&
-		pn=; pv=; pd=; pp=; pN=; pf=; Lf=
+		pn=; pv=; pd=; pp=; pN=; pf=; pABP=; Lf=
 		while IFS= read -pr line; do
 			case $line {
 			(" "*)
@@ -520,6 +520,10 @@ for suite in dists/*; do
 				pf=${line##Filename:*([	 ])}
 				Lf=pf
 				;;
+			("Auto-Built-Package: "*)
+				pABP=${line##Auto-Built-Package:*([	 ])}
+				Lf=pABP
+				;;
 			(?*)	# anything else
 				Lf=
 				;;
@@ -528,7 +532,9 @@ for suite in dists/*; do
 				    die Illegal character in $dist \
 				    packages $pp "'Filename: $pf'"
 				[[ -n $pn ]] || pn=$pN
-				if [[ -n $pn && -n $pv && -n $pd && -n $pp ]]; then
+				if [[ $pN = *-dbgsym && $pABP = debug-symbols ]]; then
+					: skip
+				elif [[ -n $pn && -n $pv && -n $pd && -n $pp ]]; then
 					i=0
 					while (( i < nbin )); do
 						[[ ${bp_disp[i]} = "$pN" && ${bp_desc[i]} = "$pd" && \
@@ -556,7 +562,7 @@ for suite in dists/*; do
 					eval bp_ver_${suitename}[i]=\$x
 					bp_desc[i]=$pd
 				fi
-				pn=; pv=; pd=; pp=; pN=; pf=; Lf=
+				pn=; pv=; pd=; pp=; pN=; pf=; pABP=; Lf=
 				;;
 			}
 		done
@@ -574,7 +580,6 @@ EOF
 print -r -- " <title>${repo_title} Index</title>"
 [[ -s NEWS.rss ]] && print '<link rel="alternate" type="application/rss+xml" title="RSS" href="NEWS.rss" />'
 cat <<'EOF'
- <meta name="generator" content="$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.72 2016/01/02 20:27:23 tg Exp $" />
  <style type="text/css"><!--/*--><![CDATA[/*><!--*/
   table {
    border: 1px solid black;
