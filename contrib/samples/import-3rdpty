@@ -1398,6 +1398,7 @@ case $module {
 		iso3166.tab \
 		leap-seconds.list \
 		leapseconds.awk \
+		version \
 		zone.tab \
 		zone1970.tab \
 		zoneinfo2tdf.pl \
