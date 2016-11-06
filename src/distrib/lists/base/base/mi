@@ -2965,6 +2965,7 @@
 ./usr/share/zoneinfo/Asia/Dili
 ./usr/share/zoneinfo/Asia/Dubai
 ./usr/share/zoneinfo/Asia/Dushanbe
+./usr/share/zoneinfo/Asia/Famagusta
 ./usr/share/zoneinfo/Asia/Gaza
 ./usr/share/zoneinfo/Asia/Harbin
 ./usr/share/zoneinfo/Asia/Hebron
@@ -3021,6 +3022,7 @@
 ./usr/share/zoneinfo/Asia/Thimbu
 ./usr/share/zoneinfo/Asia/Thimphu
 ./usr/share/zoneinfo/Asia/Tokyo
+./usr/share/zoneinfo/Asia/Tomsk
 ./usr/share/zoneinfo/Asia/Ujung_Pandang
 ./usr/share/zoneinfo/Asia/Ulaanbaatar
 ./usr/share/zoneinfo/Asia/Ulan_Bator
@@ -3029,6 +3031,7 @@
 ./usr/share/zoneinfo/Asia/Vientiane
 ./usr/share/zoneinfo/Asia/Vladivostok
 ./usr/share/zoneinfo/Asia/Yakutsk
+./usr/share/zoneinfo/Asia/Yangon
 ./usr/share/zoneinfo/Asia/Yekaterinburg
 ./usr/share/zoneinfo/Asia/Yerevan
 ./usr/share/zoneinfo/Atlantic
@@ -3155,6 +3158,7 @@
 ./usr/share/zoneinfo/Europe/Jersey
 ./usr/share/zoneinfo/Europe/Kaliningrad
 ./usr/share/zoneinfo/Europe/Kiev
+./usr/share/zoneinfo/Europe/Kirov
 ./usr/share/zoneinfo/Europe/Lisbon
 ./usr/share/zoneinfo/Europe/Ljubljana
 ./usr/share/zoneinfo/Europe/London
