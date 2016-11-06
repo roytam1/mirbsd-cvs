@@ -81,7 +81,7 @@
 .\" NS aV macro - parse argument vector (recursive) (.aV arg ... )
 .\" NS fV macro - parse argument vector (recursive) (.fV)
 .\" NS aC register argument counter (aV/fV)
-.\" NS fV register argument counter (must set to \\n(.$ prior to reuqest) (fV)
+.\" NS fV register argument counter (must set to \\n(.$ prior to request) (fV)
 .\" NS A[0-9] argument vector (aV/fV)
 .\" NS C[0-9] reg. arg type(1=macro, 2=arg, 3=punct-suf, 4=punct-pre) (aV/fV)
 .\" NS S[0-9] space vector (sV)
@@ -1329,7 +1329,7 @@
 .de Pf
 .if \\n(aC==0 .ds mN Pf
 .ds qL \&\\$1
-.pF \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
+.pF Ns \\$2 \\$3 \\$4 \\$5 \\$6 \\$7 \\$8 \\$9
 ..
 .\" NS pF macro - Prefix (for prefixing open quotes, brackets etc)
 .de pF

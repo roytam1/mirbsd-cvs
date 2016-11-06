@@ -2494,7 +2494,7 @@ ess_srtotc(rate)
 
 
 /*
- * Calculate the filter constant for the reuqested sampling rate.
+ * Calculate the filter constant for the requested sampling rate.
  */
 u_int
 ess_srtofc(rate)
