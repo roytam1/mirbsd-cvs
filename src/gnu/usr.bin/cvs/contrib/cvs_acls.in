@@ -1,5 +1,35 @@
-#! @PERL@
+#! @PERL@ -T
 # -*-Perl-*-
+
+# Copyright (C) 1994-2005 The Free Software Foundation, Inc.
+
+# This program is free software; you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation; either version 2, or (at your option)
+# any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+
+###############################################################################
+###############################################################################
+###############################################################################
+#
+# THIS SCRIPT IS PROBABLY BROKEN.  REMOVING THE -T SWITCH ON THE #! LINE ABOVE
+# WOULD FIX IT, BUT THIS IS INSECURE.  WE RECOMMEND FIXING THE ERRORS WHICH THE
+# -T SWITCH WILL CAUSE PERL TO REPORT BEFORE RUNNING THIS SCRIPT FROM A CVS
+# SERVER TRIGGER.  PLEASE SEND PATCHES CONTAINING THE CHANGES YOU FIND
+# NECESSARY TO RUN THIS SCRIPT WITH THE TAINT-CHECKING ENABLED BACK TO THE
+# <@PACKAGE_BUGREPORT@> MAILING LIST.
+#
+# For more on general Perl security and taint-checking, please try running the
+# `perldoc perlsec' command.
+#
+###############################################################################
+###############################################################################
+###############################################################################
 
 =head1 Name
 
@@ -252,7 +282,7 @@ To use this program, do the following four things:
       CVSROOT=:ext:<userId>..., users can switch over to SSH access without
       any other administrative changes.  When all users have switched over to
       SSH, the inherently insecure xinetd cvspserver process can be disabled.
-      [https://www.cvshome.org/docs/manual/cvs-1.11.17/cvs_2.html#SEC32]
+      [http://ximbiot.com/cvs/manual/cvs-1.11.17/cvs_2.html#SEC32]
 
       :TODO: The only potential glitch with the SSH approach is the possibility 
       that each user can have differing umasks that might interfere with one 
@@ -279,7 +309,7 @@ script is required in order to pass the $USER parameter.
 A final note about the repository matching pattern.  The example above
 uses "ALL" but note that this means that the cvs_acls script will run
 for each and every commit in your repository.  Obviously, in a large
-repository this adds up to a lot of overhead that may not be necesary. 
+repository this adds up to a lot of overhead that may not be necessary. 
 A better strategy is to use a repository pattern that is more specific 
 to the areas that you wish to secure.
 
@@ -550,7 +580,7 @@ while(<ENTRIES>) {
     $i = $i + 1;
     if (m|
           /                             # 1st slash
-          ([\w.]*)                      # file name -> $1
+          ([\w.-]*)                     # file name -> $1
           /                             # 2nd slash
           .*                            # revision number
           /                             # 3rd slash

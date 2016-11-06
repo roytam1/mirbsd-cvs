@@ -33,6 +33,7 @@
 #include "gdb_dirent.h"
 #include <sys/netmgr.h>
 
+#include "exceptions.h"
 #include "gdb_string.h"
 #include "gdbcore.h"
 #include "inferior.h"
@@ -106,7 +107,7 @@ nto_node (void)
 
   node = netmgr_strtond (nto_procfs_path, 0);
   if (node == -1)
-    error ("Lost the QNX node.  Debug session probably over.");
+    error (_("Lost the QNX node.  Debug session probably over."));
 
   return (node);
 }
@@ -171,7 +172,7 @@ procfs_open (char *arg, int from_tty)
     {
       printf_filtered ("Error opening %s : %d (%s)\n", nto_procfs_path, errno,
 		       safe_strerror (errno));
-      error ("Invalid procfs arg");
+      error (_("Invalid procfs arg"));
     }
 
   sysinfo = (void *) buffer;
@@ -180,7 +181,7 @@ procfs_open (char *arg, int from_tty)
       printf_filtered ("Error getting size: %d (%s)\n", errno,
 		       safe_strerror (errno));
       close (fd);
-      error ("Devctl failed.");
+      error (_("Devctl failed."));
     }
   else
     {
@@ -191,7 +192,7 @@ procfs_open (char *arg, int from_tty)
 	  printf_filtered ("Memory error: %d (%s)\n", errno,
 			   safe_strerror (errno));
 	  close (fd);
-	  error ("alloca failed.");
+	  error (_("alloca failed."));
 	}
       else
 	{
@@ -200,7 +201,7 @@ procfs_open (char *arg, int from_tty)
 	      printf_filtered ("Error getting sysinfo: %d (%s)\n", errno,
 			       safe_strerror (errno));
 	      close (fd);
-	      error ("Devctl failed.");
+	      error (_("Devctl failed."));
 	    }
 	  else
 	    {
@@ -208,7 +209,7 @@ procfs_open (char *arg, int from_tty)
 		  nto_map_arch_to_cputype (TARGET_ARCHITECTURE->arch_name))
 		{
 		  close (fd);
-		  error ("Invalid target CPU.");
+		  error (_("Invalid target CPU."));
 		}
 	    }
 	}
@@ -448,7 +449,7 @@ procfs_meminfo (char *args, int from_tty)
 	      if (strcmp (map.info.path, printme.name))
 		continue;
 
-	      /* Lower debug_vaddr is always text, if nessessary, swap.  */
+	      /* Lower debug_vaddr is always text, if necessary, swap.  */
 	      if ((int) map.info.vaddr < (int) printme.text.debug_vaddr)
 		{
 		  memcpy (&(printme.data), &(printme.text),
@@ -517,12 +518,12 @@ procfs_attach (char *args, int from_tty)
   int pid;
 
   if (!args)
-    error_no_arg ("process-id to attach");
+    error_no_arg (_("process-id to attach"));
 
   pid = atoi (args);
 
   if (pid == getpid ())
-    error ("Attaching GDB to itself is not a good idea...");
+    error (_("Attaching GDB to itself is not a good idea..."));
 
   if (from_tty)
     {
@@ -560,10 +561,10 @@ do_attach (ptid_t ptid)
   snprintf (path, PATH_MAX - 1, "%s/%d/as", nto_procfs_path, PIDGET (ptid));
   ctl_fd = open (path, O_RDWR);
   if (ctl_fd == -1)
-    error ("Couldn't open proc file %s, error %d (%s)", path, errno,
+    error (_("Couldn't open proc file %s, error %d (%s)"), path, errno,
 	   safe_strerror (errno));
   if (devctl (ctl_fd, DCMD_PROC_STOP, &status, sizeof (status), 0) != EOK)
-    error ("Couldn't stop process");
+    error (_("Couldn't stop process"));
 
   /* Define a sigevent for process stopped notification.  */
   event.sigev_notify = SIGEV_SIGNAL_THREAD;
@@ -591,7 +592,7 @@ interrupt_query (void)
 Give up (and stop debugging it)? "))
     {
       target_mourn_inferior ();
-      throw_exception (RETURN_QUIT);
+      deprecated_throw_reason (RETURN_QUIT);
     }
 
   target_terminal_inferior ();
@@ -980,9 +981,10 @@ procfs_create_inferior (char *exec_file, char *allargs, char **env,
   pid_t pid;
   int flags, errn;
   char **argv, *args;
-  char *in = "", *out = "", *err = "";
+  const char *in = "", *out = "", *err = "";
   int fd, fds[3];
   sigset_t set;
+  const char *inferior_io_terminal = get_inferior_io_terminal ();
 
   argv = xmalloc (((strlen (allargs) + 1) / (unsigned) 2 + 2) *
 		  sizeof (*argv));
@@ -1065,7 +1067,7 @@ procfs_create_inferior (char *exec_file, char *allargs, char **env,
   sigprocmask (SIG_BLOCK, &set, NULL);
 
   if (pid == -1)
-    error ("Error spawning %s: %d (%s)", argv[0], errno,
+    error (_("Error spawning %s: %d (%s)"), argv[0], errno,
 	   safe_strerror (errno));
 
   if (fds[0] != STDIN_FILENO)
@@ -1342,8 +1344,8 @@ _initialize_procfs (void)
   nto_cpuinfo_flags = SYSPAGE_ENTRY (cpuinfo)->flags;
   nto_cpuinfo_valid = 1;
 
-  add_info ("pidlist", procfs_pidlist, "pidlist");
-  add_info ("meminfo", procfs_meminfo, "memory information");
+  add_info ("pidlist", procfs_pidlist, _("pidlist"));
+  add_info ("meminfo", procfs_meminfo, _("memory information"));
 
   nto_is_nto_target = procfs_is_nto_target;
 }

@@ -552,7 +552,7 @@ package body Sinput.L is
                         Source_File.Table (X).Source_Last := Hi;
 
                         --  Reset Last_Line to 1, because the lines do not
-                        --  have neccessarily the same starts and lengths.
+                        --  have necessarily the same starts and lengths.
 
                         Source_File.Table (X).Last_Source_Line := 1;
                      end;

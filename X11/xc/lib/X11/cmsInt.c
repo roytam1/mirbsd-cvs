@@ -225,7 +225,7 @@ _XcmsFreeDefaultCCCs(
 /*
  *	DESCRIPTION
  *		This routine frees the default XcmsCCC's associated with
- *		each screen and its associated substructures as neccessary.
+ *		each screen and its associated substructures as necessary.
  *
  *	RETURNS
  *		void

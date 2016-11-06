@@ -224,7 +224,7 @@ debug_inl(unsigned int a, int line, char *file)
 #endif /* PPCIO_DEBUG */
 
 /*
- * This is neccessary on the PPC 604 (and 604e) because they have
+ * This is necessary on the PPC 604 (and 604e) because they have
  * separate I and D caches and the caches must be manually synchronized
  * when applying relocation to the instruction portion of loaded modules.
  */

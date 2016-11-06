@@ -101,7 +101,7 @@ TryTCP(void)
 	return -1;
     } 
 #ifdef SO_REUSEADDR
-    /* Necesary to restart the server without a reboot */
+    /* Necessary to restart the server without a reboot */
     {
 	int one = 1;
 	setsockopt(request, SOL_SOCKET, SO_REUSEADDR, (char *)&one, sizeof(int));

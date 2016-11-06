@@ -11536,7 +11536,7 @@ XFree86 3.9Pm (9 May 1999)
 XFree86 3.9Pl (3 May 1999)
 2611. Fix Xinerama bugs in GetImage and PolyRectangle (#2751, Mark Vojkovich).
 2610. Xterm patch #99 (#2750, Thomas Dickey).
-2609. Disable unneccessary C&T message (#2748, Nozomi Ytow).
+2609. Disable unnecessary C&T message (#2748, Nozomi Ytow).
 2608. Add some DGA event support (not working yet) (#2747, Mark Vojkovich).
 2607. Xaw and xedit updates including some compatibility updates and
       performance improvements (#2746, Paulo Cesar Pereira de Andrade).

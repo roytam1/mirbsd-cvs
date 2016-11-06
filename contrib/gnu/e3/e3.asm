@@ -1,4 +1,4 @@
-; $MirOS: contrib/gnu/e3/e3.asm,v 1.6 2009/06/29 19:16:35 tg Exp $
+; $MirOS: contrib/gnu/e3/e3.asm,v 1.7 2013/01/02 22:53:02 tg Exp $
 ;
 ;--------------------------------------------------------------------
 ;
@@ -1411,7 +1411,7 @@ DispCharLoop:
 	call SetInverseStatus
 	jnc DispEndLine
 %endif
-DispCharL1:call SetColor		;set color if neccessary
+DispCharL1:call SetColor		;set color if necessary
 ;-------
 DispEndLine:cmp esi,ebp
 	ja FillLine			;we have passed EOF, so now fill rest of screen
@@ -5215,7 +5215,7 @@ KeyUndo:mov byte [enter_undo],1		;do not log dele/insert when in undo mode
 	or edx,edx
 	jz NotAv			;no date available
 	xor ecx,ecx			;read signature into ecx and destroy sign
-	xchg ecx,[edx]			;(destroying is neccessary because it's a ring buffer)
+	xchg ecx,[edx]			;(destroying is necessary because it's a ring buffer)
 	mov eax,[edx+8]			;data size or character itself
 	mov edi,[edx+4]			;position
 	sub ecx,0x12345677

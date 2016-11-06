@@ -339,7 +339,7 @@ public class Attributes implements Cloneable, Map
 
     /**
      * Returns the string representation of this Name as given to the
-     * constructor (not neccesarily the lower case representation).
+     * constructor (not necessarily the lower case representation).
      */
     public String toString()
     {

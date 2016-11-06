@@ -207,7 +207,7 @@ package body Sem_Mech is
 
    begin
       --  Skip this processing if inside a generic template. Not only is
-      --  it uneccessary (since neither extra formals nor mechanisms are
+      --  it unecessary (since neither extra formals nor mechanisms are
       --  relevant for the template itself), but at least at the moment,
       --  procedures get frozen early inside a template so attempting to
       --  look at the formal types does not work too well if they are

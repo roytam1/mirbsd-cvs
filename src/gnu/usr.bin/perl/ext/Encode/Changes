@@ -548,7 +548,7 @@ $Revision$ $Date$
 ! Encode.xs
   Further patches from NI-XS.  Encode::utf8->decode() now checks the
   value of utf8 flag of the argument.  As a result, the fix to
-  lib/Encode/MIME/Header.pm is no longer neccessary but since it did
+  lib/Encode/MIME/Header.pm is no longer necessary but since it did
   no harm (even speedwise) I'll leave it unreverted.
 ! ucm/cp949.ucm ucm/cp950.ucm
   U+20AC EURO SIGN

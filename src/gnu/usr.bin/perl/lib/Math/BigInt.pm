@@ -2692,7 +2692,7 @@ Math::BigInt - Arbitrary size integer/float math package
 
   # The following all modify their first argument. If you want to preserve
   # $x, use $z = $x->copy()->bXXX($y); See under L<CAVEATS> for why this is
-  # neccessary when mixing $a = $b assigments with non-overloaded math.
+  # necessary when mixing $a = $b assigments with non-overloaded math.
 
   $x->bzero();		# set $x to 0
   $x->bnan();		# set $x to NaN

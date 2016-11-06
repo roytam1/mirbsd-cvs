@@ -647,7 +647,7 @@ i4bisppp_tx_queue_empty(void *softc)
  *	THIS should be used instead of last_active_time to implement
  *	an activity timeout mechanism.
  *
- *	Sending back the time difference unneccessarily complicates the
+ *	Sending back the time difference unnecessarily complicates the
  *	idletime checks in i4b_l4.c. Return the largest time instead.
  *	That way the code in i4b_l4.c needs only minimal changes.
  *---------------------------------------------------------------------------*/

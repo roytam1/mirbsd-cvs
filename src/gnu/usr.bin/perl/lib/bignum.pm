@@ -218,13 +218,13 @@ You can see this with the following:
 
 Don't worry if it says Math::BigInt::Lite, bignum and friends will use Lite
 if it is installed since it is faster for some operations. It will be
-automatically upgraded to BigInt whenever neccessary:
+automatically upgraded to BigInt whenever necessary:
 
         perl -Mbignum -le 'print ref(2**255)'
 
 This also means it is a bad idea to check for some specific package, since
 the actual contents of $x might be something unexpected. Due to the
-transparent way of bignum C<ref()> should not be neccessary, anyway.
+transparent way of bignum C<ref()> should not be necessary, anyway.
 
 Since Math::BigInt and BigFloat also overload the normal math operations,
 the following line will still work:

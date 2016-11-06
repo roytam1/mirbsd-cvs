@@ -72,7 +72,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 
-__RCSID("$MirOS: src/usr.bin/ssh/umac.c,v 1.3 2007/09/13 13:52:57 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/umac.c,v 1.4 2008/12/16 20:55:33 tg Exp $");
 
 /* ---------------------------------------------------------------------- */
 /* --- Primitive Data Types ---                                           */
@@ -847,7 +847,7 @@ static void poly_hash(uhash_ctx_t hc, UINT32 data_in[])
 
 
 /* The final step in UHASH is an inner-product hash. The poly hash
- * produces a result not neccesarily WORD_LEN bytes long. The inner-
+ * produces a result not necessarily WORD_LEN bytes long. The inner-
  * product hash breaks the polyhash output into 16-bit chunks and
  * multiplies each with a 36 bit key.
  */

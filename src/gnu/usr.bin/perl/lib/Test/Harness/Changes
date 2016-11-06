@@ -579,7 +579,7 @@ Revision history for Perl extension Test::Harness
 
 1.07  Fri Feb 23 1996 by Andreas Koenig
     - Gisle sent me a documentation patch that showed me, that the
-      unless(/^#/) is unnessessary. Applied the patch and deleted the block
+      unless(/^#/) is unnecessary. Applied the patch and deleted the block
       checking for "comment" lines. -- All lines are comment lines that do
       not match /^1\.\.([0-9]+)/ or /^(not\s+)?ok\b/.
     - Ilyaz request to print "ok (empty test case)" whenever we say 1..0

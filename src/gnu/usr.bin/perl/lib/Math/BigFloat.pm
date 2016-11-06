@@ -2557,7 +2557,7 @@ Math::BigFloat - Arbitrary size floating point math package
 
   # The following all modify their first argument. If you want to preserve
   # $x, use $z = $x->copy()->bXXX($y); See under L<CAVEATS> for why this is
-  # neccessary when mixing $a = $b assigments with non-overloaded math.
+  # necessary when mixing $a = $b assigments with non-overloaded math.
  
   # set 
   $x->bzero();			# set $i to 0
@@ -2925,7 +2925,7 @@ It is also possible to just require Math::BigFloat:
 
 	require Math::BigFloat;
 
-This will load the neccessary things (like BigInt) when they are needed, and
+This will load the necessary things (like BigInt) when they are needed, and
 automatically.
 
 Use the lib, Luke! And see L<Using Math::BigInt::Lite> for more details than

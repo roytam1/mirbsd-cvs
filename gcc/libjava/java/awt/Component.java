@@ -4669,7 +4669,7 @@ p   * <li>the set of backward traversal keys
     }
 
     /**
-     * Test whether the component is visible (not necesarily showing).
+     * Test whether the component is visible (not necessarily showing).
      *
      * @return true if it is visible
      * @see #setVisible(boolean)

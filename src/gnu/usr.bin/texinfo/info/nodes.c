@@ -54,7 +54,7 @@ static long get_node_length (SEARCH_BINDING *binding);
 #define DEFAULT_INFO_FUDGE 1000
 
 /* Passed to *_internal functions.  INFO_GET_TAGS says to do what is
-   neccessary to fill in the nodes or tags arrays in FILE_BUFFER. */
+   necessary to fill in the nodes or tags arrays in FILE_BUFFER. */
 #define INFO_NO_TAGS  0
 #define INFO_GET_TAGS 1
 

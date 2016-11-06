@@ -86,7 +86,7 @@ ___mulsi3:
         jmp   [r31]
 #endif /* __v850__ */
 #if defined(__v850e__) || defined(__v850ea__)
-        /* This routine is almost unneccesarry because gcc
+        /* This routine is almost unnecessarry because gcc
            generates the MUL instruction for the RTX mulsi3.
            But if someone wants to link his application with
            previsously compiled v850 objects then they will 

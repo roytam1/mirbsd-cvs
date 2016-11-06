@@ -345,7 +345,7 @@ TRANS(PTSOpenClient)(XtransConnInfo ciptr, char *port)
     }
 
     /*
-     * This is neccesary for the case where a program is setuid to non-root.
+     * This is necessary for the case where a program is setuid to non-root.
      * grantpt() calls /usr/lib/pt_chmod which is set-uid root. This program will
      * set the owner of the pt device incorrectly if the uid is not restored
      * before it is called. The problem is that once it gets restored, it

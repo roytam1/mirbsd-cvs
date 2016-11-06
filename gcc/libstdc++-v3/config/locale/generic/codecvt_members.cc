@@ -112,7 +112,7 @@ namespace std
 	intern_type*& __to_next) const
   {
     result __ret = ok;
-    // This temporary state object is neccessary so __state won't be modified
+    // This temporary state object is necessary so __state won't be modified
     // if [__from, __from_end) is a partial multibyte character.
     state_type __tmp_state(__state);
 

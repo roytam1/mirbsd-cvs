@@ -919,7 +919,7 @@ monitor_command(struct monitor_connection * con, int fd, int rights)
 
 /*---------------------------------------------------------------------------
  * Check if somebody would receive an event with this mask.
- * We are lazy and try to avoid assembling unneccesary packets.
+ * We are lazy and try to avoid assembling unnecessary packets.
  * Return 0 if no one interested, nonzero otherwise.
  *---------------------------------------------------------------------------*/
 static int

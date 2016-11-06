@@ -392,7 +392,7 @@ yds_download_mcode(sc)
 	YWRITEREGION4(sc, YDS_CTRL_INSTRAM, p, size);
 
 	yds_enable_dsp(sc);
-	delay(10*1000);		/* neccesary on my 724F (??) */
+	delay(10*1000);		/* necessary on my 724F (??) */
 
 	return 0;
 }

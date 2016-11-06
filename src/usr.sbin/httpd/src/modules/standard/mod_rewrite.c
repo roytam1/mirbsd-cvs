@@ -1,4 +1,4 @@
-/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.8 2007/07/03 06:36:32 tg Exp $ */
+/**	$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.9 2010/09/21 21:24:42 tg Exp $ */
 /*	$OpenBSD: mod_rewrite.c,v 1.25 2006/07/28 13:52:30 henning Exp $ */
 
 /* ====================================================================
@@ -100,7 +100,7 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 
-__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.8 2007/07/03 06:36:32 tg Exp $");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/standard/mod_rewrite.c,v 1.9 2010/09/21 21:24:42 tg Exp $");
 
 /*
 ** +-------------------------------------------------------+
@@ -1613,7 +1613,7 @@ static int handler_redirect(request_rec *r)
                       "mod_rewrite: maximum number of internal redirects "
                       "reached. Assuming configuration error. Use "
                       "'RewriteOptions MaxRedirects' to increase the limit "
-                      "if neccessary.");
+                      "if necessary.");
         return HTTP_INTERNAL_SERVER_ERROR;
     }
 

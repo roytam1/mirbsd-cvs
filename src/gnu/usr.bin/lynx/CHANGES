@@ -2388,7 +2388,7 @@ FreeBSD 4.1, 4.8, NetBSD 1.5, 1.6 and OpenBSD 2.8 (curses/ncurses).
 * modify "make install-help" rule to avoid warning message about keystrokes
   subdirectory (report by Martin Mokrejs) -TD
 * optimize !HText_TrueLineSize() expressions as HText_TrueEmptyLine() -LP
-* optimize is_url(), rewriting it as case-statements to avoid unnecesary
+* optimize is_url(), rewriting it as case-statements to avoid unnecessary
   comparisons, make similar optimization in HTParse() -LP, TD
 * corrected logic in is_url() where the "://" was not necessarily checked in
   the proper position - TD

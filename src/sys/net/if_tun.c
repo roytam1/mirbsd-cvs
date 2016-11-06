@@ -1,4 +1,4 @@
-/**	$MirOS: src/sys/net/if_tun.c,v 1.4 2010/09/24 19:27:32 tg Exp $ */
+/**	$MirOS: src/sys/net/if_tun.c,v 1.5 2014/01/11 18:16:18 tg Exp $ */
 /*	$OpenBSD: if_tun.c,v 1.68 2005/06/08 06:53:32 henning Exp $	*/
 /*	$NetBSD: if_tun.c,v 1.24 1996/05/07 02:40:48 thorpej Exp $	*/
 
@@ -836,7 +836,7 @@ tunwrite(dev_t dev, struct uio *uio, int ioflag)
 	if (tp->tun_flags & TUN_LAYER2) {
 		/*
 		 * Pad so that IP header is correctly aligned
-		 * this is neccessary for all strict aligned architectures.
+		 * this is necessary for all strict aligned architectures.
 		 */
 		mlen -= ETHER_ALIGN;
 		m_adj(m, ETHER_ALIGN);

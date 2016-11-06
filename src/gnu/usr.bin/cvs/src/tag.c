@@ -20,7 +20,7 @@
 #include "cvs.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_tag_c,v 1.4 2010/09/16 00:13:45 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/tag.c,v 1.8 2010/09/19 19:43:12 tg Exp $");
 
 static int rtag_proc (int argc, char **argv, char *xwhere,
 		      char *mwhere, char *mfile, int shorten,
@@ -1591,7 +1591,7 @@ val_direntproc (void *callerdat, const char *dir, const char *repository,
  *     we are already there, or "" if we should do a W_LOCAL recursion.
  *     Sorry for three cases, but the "" case is needed in case the
  *     working directories come from diverse parts of the repository, the
- *     NULL case avoids an unneccesary chdir, and the non-NULL, non-""
+ *     NULL case avoids an unnecessary chdir, and the non-NULL, non-""
  *     case is needed for checkout, where we don't want to chdir if the
  *     tag is found in CVSROOTADM_VALTAGS, but there is not (yet) any
  *     local directory.

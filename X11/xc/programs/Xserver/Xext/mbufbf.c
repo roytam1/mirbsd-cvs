@@ -96,7 +96,7 @@ The contents of frameBuffer[1], when placed into the window private,
 should indicate that framebuffer 1 should be drawn into.
 
 "selectPlane" is ddx-specific. It should contain information
-neccessary for your displayProc to access the select plane.
+necessary for your displayProc to access the select plane.
 It is passed to DrawSelectPlaneFunc.
 
 "CopyBufferBitsFunc" is a ddx-specific function that copies from one

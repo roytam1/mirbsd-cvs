@@ -109,7 +109,7 @@
 #include "util_md5.h"
 #include "ap_sha1.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.sbin/httpd/src/modules/experimental/mod_auth_digest.c,v 1.7 2010/09/21 21:24:41 tg Exp $");
 
 /* struct to hold the configuration info */
 
@@ -774,7 +774,7 @@ static void note_digest_auth_failure(request_rec *r,
 
     /* setup domain attribute. We want to send this attribute wherever
      * possible so that the client won't send the Authorization header
-     * unneccessarily (it's usually > 200 bytes!).
+     * unnecessarily (it's usually > 200 bytes!).
      */
 
     /* don't send domain

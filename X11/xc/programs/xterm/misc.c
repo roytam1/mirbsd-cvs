@@ -2299,7 +2299,7 @@ ReverseOldColors(void)
     char *tmpName;
 
     if (pOld) {
-	/* change text cursor, if necesary */
+	/* change text cursor, if necessary */
 	if (pOld->colors[TEXT_CURSOR] == pOld->colors[TEXT_FG]) {
 	    pOld->colors[TEXT_CURSOR] = pOld->colors[TEXT_BG];
 	    if (pOld->names[TEXT_CURSOR]) {

@@ -1,4 +1,4 @@
-@c $MirOS: gcc/gcc/doc/extend.texi,v 1.3 2007/01/25 10:35:09 tg Exp $
+@c $MirOS: gcc/gcc/doc/extend.texi,v 1.4 2013/10/31 20:05:54 tg Exp $
 @c
 @c Copyright © 2013
 @c	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
@@ -8859,7 +8859,7 @@ translation unit.
 @emph{Note:} As of GCC 2.7.2, these @code{#pragma}s are not useful in
 most cases, because of COMDAT support and the ``key method'' heuristic
 mentioned in @ref{Vague Linkage}.  Using them can actually cause your
-program to grow due to unnecesary out-of-line copies of inline
+program to grow due to unnecessary out-of-line copies of inline
 functions.  Currently the only benefit of these @code{#pragma}s is
 reduced duplication of debugging information, and that should be
 addressed soon on DWARF 2 targets with the use of COMDAT sections.

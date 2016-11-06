@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-9.inc,v 1.102 2013/06/22 23:26:00 tg Exp $
+RCSID: $MirOS: www/data/wlog-9.inc,v 1.103 2015/09/10 19:46:28 tg Exp $
 Date: 25.06.2006
 Author: tg@
 
@@ -1339,7 +1339,7 @@ Author: tg@
  bedside lamp got crashed by the telephone receiver when gecko2 called me,
  I had to nuke tcpdump(8) due to §202c StGB, and mksh R29g was only almost
  tested before release (it defines <tt>_LARGEFILE_SOURCE=1</tt> even if it
- is unneccessary). I'm even thinking of removing all pre-R30 stuff off the
+ is unnecessary). I am even thinking of removing all pre-R30 stuff off the
  <a href="@@RELPATH@@mksh.htm">mksh page</a> once R30 is out (which might,
  I must admit, not happen before MirOS #10, but it <em>will</em> rock). At
  least MirOS #10RC2 is going to happen soon, despite some bugs in the pak-

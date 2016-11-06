@@ -422,7 +422,7 @@ typedef long FIT, *pFIT;
  *	and globals, we use dense number so that they can be easily embeded
  *	in intermediate code and the programs that process them can
  *	use direct access tabls instead of hash table (which would be
- *	necesary otherwise because of the sparse name space caused by
+ *	necessary otherwise because of the sparse name space caused by
  *	file index, symbol index pairs. Dense number are represented
  *	by RNDXRs.
  */

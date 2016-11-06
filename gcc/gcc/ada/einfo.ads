@@ -2151,7 +2151,7 @@ package Einfo is
 --       Present in all entities, set in E_Package and E_Generic_Package
 --       entities to which a pragma Preelaborate is applied, and also in
 --       all entities within such packages. Note that the fact that this
---       flag is set does not necesarily mean that no elaboration code is
+--       flag is set does not necessarily mean that no elaboration code is
 --       generated for the package.
 
 --    Is_Private_Composite (Flag107)
