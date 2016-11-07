@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/tmac/mdoc/doc-ditroff,v 1.7 2014/06/24 20:45:45 tg Exp $
+.\"	$MirOS: src/share/tmac/mdoc/doc-ditroff,v 1.8 2016/01/16 22:42:50 tg Exp $
 .\"	$OpenBSD: doc-ditroff,v 1.5 2004/06/06 22:38:10 jmc Exp $
 .\"
 .\" Copyright (c) 2012, 2014, 2016
@@ -182,6 +182,7 @@
 .	ds A6 \\$6
 .	ds A7 \\$7
 .	ds A8 \\$8
+.	ds A9 \\$9
 .	nr fV \\n(.$
 .	fV
 .\}
