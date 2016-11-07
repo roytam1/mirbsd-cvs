@@ -1,4 +1,4 @@
-.\"	$MirOS: src/usr.bin/awk/awk.1,v 1.5 2014/03/13 00:37:35 tg Exp $
+.\"	$MirOS: src/usr.bin/awk/awk.1,v 1.6 2014/03/23 20:18:27 tg Exp $
 .\"	$OpenBSD: awk.1,v 1.40 2011/05/02 11:14:11 jmc Exp $
 .\"
 .\" Copyright (C) Lucent Technologies 1997
@@ -23,7 +23,7 @@
 .\" ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE OF
 .\" THIS SOFTWARE.
 .\"
-.Dd $Mdocdate: March 13 2014 $
+.Dd $Mdocdate: March 23 2014 $
 .Dt AWK 1
 .Os
 .Sh NAME
@@ -35,7 +35,9 @@
 .Op Fl V
 .Op Fl d Ns Op Ar n
 .Op Fl F Ar fs
-.Op Fl v Ar var Ns = Ns Ar value
+.Oo
+.Fl v Ar var Ns = Ns Ar value
+.Oc
 .Op Ar prog | Fl f Ar progfile
 .Ar
 .Sh DESCRIPTION
