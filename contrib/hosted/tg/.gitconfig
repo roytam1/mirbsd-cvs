@@ -20,10 +20,28 @@
 [url "git://git.debian.org/d-i/"]
 	insteadOf = git+ssh://git.debian.org/git/d-i/
 [url "git+ssh://git.debian.org/git/"]
+	insteadOf = https://anonscm.debian.org/git/
+	insteadOf = http://anonscm.debian.org/git/
+	insteadOf = https://anonscm.debian.org/cgit/
+	insteadOf = https://alioth.debian.org/anonscm/git/
+	insteadOf = http://git.debian.org/git/
 	insteadOf = git://anonscm.debian.org/
+	insteadOf = git://alioth.debian.org/git/
 	insteadOf = git://git.debian.org/
+	pushInsteadOf = https://anonscm.debian.org/git/
+	pushInsteadOf = http://anonscm.debian.org/git/
+	pushInsteadOf = https://anonscm.debian.org/cgit/
+	pushInsteadOf = https://alioth.debian.org/anonscm/git/
+	pushInsteadOf = http://git.debian.org/git/
 	pushInsteadOf = git://anonscm.debian.org/
+	pushInsteadOf = git://alioth.debian.org/git/
 	pushInsteadOf = git://git.debian.org/
 [url "git@github.com:"]
 	insteadOf = https://github.com/
+	insteadOf = http://github.com/
+	insteadOf = git://github.com/
+	insteadOf = git://git@github.com:
 	pushInsteadOf = https://github.com/
+	pushInsteadOf = http://github.com/
+	pushInsteadOf = git://github.com/
+	pushInsteadOf = git://git@github.com:
