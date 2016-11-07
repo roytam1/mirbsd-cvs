@@ -1226,6 +1226,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Handle <tt>set -e</tt>-related error propagation in <tt>||</tt> and
   <tt>&amp;&amp;</tt> constructs correctly</li>
  <li>[tg] Initialise memory for RNG even when not targetting Valgrind</li>
+ <li>[tg] Shrink binary size</li>
+ <li>[Brian Callahan] Improve support for the contemporary pcc compiler</li>
+ <li>[tg] Fix side effects with lazy evaluation; spotted by ormaaj</li>
 </ul>
 <p id="r53a"><span id="r53">R53a</span> is a snapshot/feature release:</p><ul>
  <li>[lintian] Fix spelling</li>
