@@ -7,6 +7,7 @@
 .\" Man page autogeneration, including this header file, is
 .\" Copyright 2004-2005 The Free Software Foundation, Inc.,
 .\"                     Derek R. Price, & Ximbiot <http://ximbiot.com>.
+.\" Copyright (c) 2004, 2010, 2012, 2016 mirabilos <m@mirbsd.org>.
 .\"
 .\" This documentation is free software; you can redistribute it and/or modify
 .\" it under the terms of the GNU General Public License as published by
@@ -55,13 +56,82 @@ cvs \- Concurrent Versions System
 .IX  "release control system"  "cvs command"  ""  "\fLcvs\fP \- concurrent versions system"
 .IX  "source control system"  "cvs command"  ""  "\fLcvs\fP \- concurrent versions system"
 .IX  revisions  "cvs command"  ""  "\fLcvs\fP \- source control"
-This manpage is a summary of some of the features of
-\fBcvs\fP.  It is auto-generated from an appendix of the CVS manual.
-For more in-depth documentation, please consult the
-Cederqvist manual (via the cvs(GNU) and cvsclient(GNU) links
-in the MirBSD online (HTML) manual pages, the
+.\"
+This manual page is a summary of parts of the \fBcvs\fP documentation
+and automatically generated from an appendix of the CVS manual
+(the \fICederqvist\fP), which is also the target of all cross-references
+found in this manual page; please refer to the full CVS manual
+for more in-depth documentation of the Concurrent Versions System.
+.PP
+If you're reading this manual page as part of the MirBSD online (HTML)
+manual pages archive, follow the cvs(GNU) link to the Cederqvist
+(and the cvsclient(GNU) link to the client/server protocol description,
+if necessary).
+.PP
+If you installed
+.B cvs
+via the Debian or MirPorts Framework package management systems,
+.br
+.RS
+.B /usr/mpkg/share/doc/cvs/cvs.pdf
+(MirPorts Framework) or
+.br
+.B /usr/share/doc/cvs/cvs.pdf
+(Debian), respectively,
+.RE
+are versions of the Cederqvist rendered as books, for printing
+and reading on screen.
+.PP
+If you have a Texinfo reader such as
+.B info
+installed (part of the base system on MirBSD; part of the
+.I info
+package on Debian), you can read the Cederqvist by entering:
+.br
+.RS
 .B info
 .I cvs
-command or otherwise,
-as described in the SEE ALSO section of this manpage).  Cross-references
-in this man page refer to nodes in the same.
+.RE
+.PP
+Quick introduction to
+.B info
+so you aren't immediately lost:
+.RS 4n
+.TP 3n
+.I arrow\ keys
+to move on the page
+.TP 3n
+.I Tab
+to move to the next hyperlink
+.TP 3n
+.I Return
+to activate the hyperlink under the cursor
+.TP 3n
+.BI l \ (lowercase\ ell)
+to go to the previously visited page
+.TP 3n
+.IB Page\ Up/ b,\  Page\ Down/Space
+to move by screen pages, including advancing to the previous
+(or next, respectively) section at the first (last) screen page
+.TP 3n
+.B p,\ n
+to go to the previous (next) page on the current navigation hierarchy level
+.TP 3n
+.B t
+to go to the "Top" page, i.e. the start of the document
+.TP 3n
+.BI / <search-term>Return
+to start a search from the current cursor position and jump to the first result
+.TP 3n
+.BI / Return
+to jump to the next result in an ongoing search
+.TP 3n
+.B q
+to exit the
+.B info
+viewer
+.RE
+.PP
+Other ways to read further documentation are described in the
+.I SEE\ ALSO
+section of this manual page.
