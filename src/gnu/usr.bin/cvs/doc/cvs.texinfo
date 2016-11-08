@@ -56,6 +56,15 @@ approved by the Free Software Foundation.
 @comment MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 @comment GNU General Public License for more details.
 
+@comment It should be noted that the Texinfo manual is distributed
+@comment under the above notice in all forms, except for the manpage
+@comment generated from it, and that the manual and the source code
+@comment of CVS often need to stay synchronised; therefore, exchanging
+@comment between these three entities under these two licences seems
+@comment to be granted, and the statement above can be interpreted as
+@comment explicit dual-licence grant. As a major contributor to this
+@comment documentation for MirBSD, I do not oppose.  --mirabilos
+
 @c See ../README for A4 vs. US letter size.
 @c When we provided A4 postscript, and people tried to
 @c print it on US letter, the usual complaint was that the
@@ -7202,7 +7211,7 @@ The date (UTC) the revision was checked in, in a format suitable
 for the Berkeley mdoc macro processing.
 
 @example
-$Mdocdate: December 31 2015 $
+$Mdocdate: October 21 2016 $
 @end example
 
 @cindex Header keyword
