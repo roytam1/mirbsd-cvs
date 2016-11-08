@@ -748,7 +748,8 @@ distribution kit for a complete list of contributors and copyrights.\n",
 
     global_session_id = Xasprintf("1%010llX%04X%04X",
       (unsigned long long)time(NULL),
-      (int)(getpid() & 0xFFFF), (int)(arc4random() & 0xFFFF));
+      (unsigned int)(getpid() & 0xFFFF),
+      (unsigned int)(arc4random() & 0xFFFF));
 
     TRACE (TRACE_FUNCTION, "main: Session ID is %s", global_session_id);
 
@@ -1257,6 +1258,7 @@ void
 date_to_tm (struct tm *dest, const char *source)
 {
     int y;
+
     if (sscanf (source, SDATEFORM,
 		&y, &dest->tm_mon, &dest->tm_mday,
 		&dest->tm_hour, &dest->tm_min, &dest->tm_sec)

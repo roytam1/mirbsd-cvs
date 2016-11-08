@@ -1,8 +1,10 @@
 @c GNU date syntax documentation
-@c $MirOS: ports/devel/cvs/patches/patch-doc_getdate_texi,v 1.1 2006/10/02 05:59:15 tg Exp $
+@c $MirOS: src/gnu/usr.bin/cvs/doc/getdate.texi,v 1.7 2010/09/19 19:42:56 tg Exp $
 
 @c Copyright (C) 1994, 1995, 1996, 1997, 1998, 1999, 2000, 2001, 2002,
 @c 2003, 2004, 2005 Free Software Foundation, Inc.
+
+@c Copyright (c) 2007, 2010 mirabilos <m@mirbsd.org>
 
 @comment This file is part of the CVS distribution.
 
@@ -80,7 +82,7 @@ many flavors of items:
 
 @itemize @bullet
 @item calendar date items
-@item time of the day items
+@item time of day items
 @item time zone items
 @item day of the week items
 @item relative items
@@ -241,7 +243,7 @@ day.  Here are some examples, all of which represent the same time:
 20:02-0500      # In @sc{est} (U.S. Eastern Standard Time).
 @end example
 
-More generally, the time of the day may be given as
+More generally, the time of day may be given as
 @samp{@var{hour}:@var{minute}:@var{second}}, where @var{hour} is
 a number between 0 and 23, @var{minute} is a number between 0 and
 59, and @var{second} is a number between 0 and 59, with an optional
@@ -438,7 +440,7 @@ calendar date.
 If the decimal number is of the form @var{hh}@var{mm} and no other time
 of day item appears before it in the date string, then @var{hh} is read
 as the hour of the day and @var{mm} as the minute of the hour, for the
-specified time of the day.  @var{mm} can also be omitted.
+specified time of day.  @var{mm} can also be omitted.
 
 If both a calendar date and a time of day appear to the left of a number
 in the date string, but no relative item, then the number overrides the
@@ -480,7 +482,7 @@ frequency (on fast machines).
 kernel time is a seconds-since-epoch representation of @sc{utc} (which
 is a calendar time); the MirOS family of operating systems keeps time
 as seconds since the epoch, @sc{tai}, correctly counting leap seconds
-and providing conversion functions.  Most MirOS ports have already
+and providing conversion functions.  Most MirBSD ports have already
 switched to a 64-bit signed @code{time_t}, some are using a
 @sc{djb}-compatible @code{tai_t} internally.  The rest of this
 document has not been throughoutly checked for @sc{utc} vs @sc{tai}
@@ -517,9 +519,9 @@ This chapter was originally produced by Fran@,{c}ois Pinard
 (@email{pinard@@iro.umontreal.ca}) from the @file{getdate.y} source code,
 and then edited by K.@: Berry (@email{kb@@cs.umb.edu}).
 
-The version of this chapter you are reading comes with CVS 1.12 and
-the MirOS family of operating systems; it is based upon an older
-version of the @acronym{GNU} coreutils manual which is not yet
+The version of this chapter you are reading comes with CVS 1.12 (also in
+Debian) and the MirOS family of operating systems; it is based upon an
+older version of the @acronym{GNU} coreutils manual which is not yet
 restricted by the licencing conditions of the GNU Free Documentation
 License, but more freely redistributable.  Appropriate changes for
 the in-tree @code{get_date} version of CVS have been applied.

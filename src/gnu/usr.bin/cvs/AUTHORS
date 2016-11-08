@@ -59,9 +59,9 @@ individual ChangeLog files in each directory for a more complete idea.
 
 Thorsten Glaser <tg@mirbsd.org> is responsible for the MirOS extensions,
 some of which were inspired by changes to GNU CVS 1.11.1p1 by other BSDs,
-and did the MirOS BSD port as well as the MirPorts Framework packaging.
-
-This port also contains a fair number of the Debian package's patches.
+and by changes from the previous Debian package; he and did the MirOS BSD
+port as well as the MirPorts Framework and new Debian packaging, all of
+which include some original development work and fixes.
 
 In addition to the above contributors, the following Beta testers
 deserve special mention for their support.  This is only a partial
@@ -96,4 +96,4 @@ README file there for a list of what is available.  There is also a
 contributed GNU Emacs CVS-mode in tools/pcl-cvs.
 
 
-$MirOS: ports/devel/cvs/patches/patch-AUTHORS,v 1.3 2010/09/15 20:56:56 tg Exp $
+$MirOS: src/gnu/usr.bin/cvs/AUTHORS,v 1.4 2010/09/19 19:42:48 tg Exp $

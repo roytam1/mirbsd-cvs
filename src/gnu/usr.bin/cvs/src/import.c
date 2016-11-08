@@ -25,7 +25,7 @@
 #include "lstat.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_import_c,v 1.4 2010/09/15 20:57:01 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/import.c,v 1.10 2010/09/19 19:43:04 tg Exp $");
 
 static char *get_comment (const char *user);
 static int add_rev (char *message, RCSNode *rcs, char *vfile,
@@ -251,7 +251,7 @@ import (int argc, char **argv)
 	{
 	    error (0, 0,
 		   "warning: you are using an even vendor branch, which can\n"
-		   "lead to problems: '%s'.  Use for example: '1.1.3' or '1.1.5'.",
+		   "lead to problems: '%s'.  Use an odd branch such as '1.1.3' instead.",
 		   vbranch);
 	}
 	regfree (&pat);

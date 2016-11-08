@@ -2,7 +2,7 @@
 @comment Documentation for CVS.
 @setfilename cvs.info
 @afourpaper
-@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.21 2015/12/31 08:23:20 tg Exp $
+@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvs.texinfo,v 1.26 2016/11/08 21:12:26 tg Exp $
 @macro copyleftnotice
 @noindent
 Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
@@ -7221,7 +7221,7 @@ The date (UTC) the revision was checked in, in a format suitable
 for the Berkeley mdoc macro processing.
 
 @example
-$Mdocdate: October 21 2016 $
+$Mdocdate: November 8 2016 $
 @end example
 
 @cindex Header keyword
@@ -8453,7 +8453,7 @@ your @file{.cvsrc} file is strongly discouraged; if you must, ensure
 all source checkouts are "firewalled" within a private group or a
 private mode 0700 directory.
 
-This option is a MidnightBSD extension merged into MirBSD @sc{cvs}.
+This option is a MidnightBSD extension merged into Debian and MirBSD @sc{cvs}.
 
 @item -H
 @itemx --help
@@ -8822,9 +8822,9 @@ When a command expects a specific revision,
 the name of a branch is interpreted as the most recent
 revision on that branch.
 
-As a MirOS @sc{cvs} extension, specifying @samp{BASE} as the @var{date}
-portion of the argument yields the @emph{base revision} of the branch
-specified by the @var{tag} portion of the argument, i.e. the revision
+As a Debian and MirBSD @sc{cvs} extension, specifying @samp{BASE} as the
+@var{date} portion of the argument yields the @emph{base revision} of the
+branch specified by the @var{tag} portion of the argument, i.e. the revision
 on the parent branch the @var{tag} branch split off, or, where both
 branches were the same.
 This option has not received very much testing, beware!
@@ -9605,9 +9605,8 @@ that the argument file contains the log message.
 At @code{commit}, a unique commitid is placed in the @sc{rcs}
 file inside the repository. All files committed at once
 get the same commitid, a string consisting only of hexadecimal
-digits (usually 16 in GNU @sc{cvs}, 19 in MirBSD and MirDebian GNU @sc{cvs}).
-FSF GNU @sc{cvs} 1.11, MirOS GNU @sc{cvs} 1.11, and OpenBSD OpenCVS do not
-support commitids yet.
+digits (usually 16 in GNU @sc{cvs}, 19 in Debian and MirBSD @sc{cvs}).
+FSF GNU @sc{cvs} 1.11 and OpenBSD OpenCVS do not support commitids yet.
 The commitid can be retrieved with
 the @code{log} and @code{status} command; see @ref{log} and
 @ref{File status}.
@@ -14667,7 +14666,7 @@ Unique Session ID of the @sc{cvs} process. This is a
 random string of printable characters of at least 16
 characters length. Users should assume that it may
 someday grow to at most 256 characters in length.
-Currently, MirBSD/MirDebian/MirPorts GNU @sc{cvs} uses 19 characters.
+Currently, Debian and MirBSD @sc{cvs} uses 19 characters.
 @end table
 
 If you want to pass a value to the administrative files
@@ -16034,7 +16033,7 @@ distribution.
 
 The MirOS Project uses @sc{cvs} heavily in MirOS BSD and the
 MirPorts Framework and has enhanced it as well as packaged it
-for the MirDebian "WTF" repository. Responsible:
+as the "new" Debian CVS package. Responsible:
 
 @display
 Thorsten Glaser <@t{tg@@mirbsd.org}>

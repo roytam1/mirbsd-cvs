@@ -1230,6 +1230,13 @@ repository @var{root-name}.  Note that @var{root-name} is a local
 directory and @emph{not} a fully qualified @code{CVSROOT} variable.
 The @code{Root} request need not have been previously sent.
 
+@item suck \n
+Response expected: yes.
+Actually do a @code{cvs suck} command.
+This uses a previous @code{Argument} request (only one, because the
+@code{cvs suck} CLI command takes only one).
+This is an extension specific to MirBSD, MirPorts and Debian.
+
 @item update \n
 Response expected: yes.  Actually do a @code{cvs update} command.  This
 uses any previous @code{Argument}, @code{Directory}, @code{Entry},
@@ -1414,12 +1421,6 @@ expansion modes in @code{Wrapper-rcsOption} responses.
 Response expected: yes.
 Request that the server transmit its version message.
 The @code{Root} request need not have been previously sent.
-
-@item suck \n
-Response expected: yes.
-Actually do a cvs command.  This uses a previous @code{Argument}
-request (only one, because the cvs command takes only one).
-This is a MirBSD/MirPorts and Debian specific extension.
 
 @item @var{other-request} @var{text} \n
 Response expected: yes.

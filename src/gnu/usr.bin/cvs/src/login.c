@@ -211,7 +211,7 @@ password_entry_parseline (const char *cvsroot_canonical,
 #endif /* HAVE_KERBEROS */
 		tmp_root_canonical = normalize_cvsroot (tmp_root);
 		if (strcmp (cvsroot_canonical, tmp_root_canonical) == 0)
-	    	    password = p + 1;
+		    password = p + 1;
 		free (tmp_root_canonical);
 		break;
 	    default:

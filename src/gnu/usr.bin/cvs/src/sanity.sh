@@ -2874,7 +2874,7 @@ Concurrent Versions System (CVS) [0-9.]*.*
 
 Copyright (C) [0-9]* Free Software Foundation, Inc.
 
-Portions contributed by Thorsten Glaser for the MirOS Project.
+Portions contributed by Thorsten Glaser for the MirOS Project and Debian.
 Senior active maintainers include Larry Jones, Derek R. Price,
 and Mark D. Baushke.  Please see the AUTHORS and README files from the CVS
 distribution kit for a complete list of contributors and copyrights.
@@ -9833,7 +9833,7 @@ N import-quirks-4/file2
 N import-quirks-4/file3
 No conflicts created by this import
 cvs import: warning: you are using an even vendor branch, which can
-lead to problems: '1.1.2'.  Use for example: '1.1.3' or '1.1.5'." \
+lead to problems: '1.1.2'.  Use an odd branch such as '1.1.3' instead." \
 "
 
 N import-quirks-4/file1
@@ -9842,8 +9842,8 @@ N import-quirks-4/file3
 No conflicts created by this import
 cvs import: warning: you are using an even vendor branch, which can
 cvs import: warning: you are using an even vendor branch, which can
-lead to problems: '1.1.2'.  Use for example: '1.1.3' or '1.1.5'.
-lead to problems: '1.1.2'.  Use for example: '1.1.3' or '1.1.5'."
+lead to problems: '1.1.2'.  Use an odd branch such as '1.1.3' instead.
+lead to problems: '1.1.2'.  Use an odd branch such as '1.1.3' instead."
 
 	  dokeep
 	  cd ..

@@ -63,10 +63,8 @@ particular reason to think the bug is fixed -kingdon, Sep 96).
 
 Note that it is the opinion of the MirBSD founder that the CVSROOT
 environment variable ought to *never* be set at all. This prevents
-a lot of trouble. Almost all CVS tutorials are perceived bogus.
-
-This version appears to have trouble with the testsuite for write
-proxies. Other than that, everything appears to work well.
+a lot of trouble. Almost all CVS tutorials stating otherwise (or
+recommending pserver) are perceived bogus.
 
 "cvs annotate -b" does not do what people would expect, I think,
 but neither does it do that under MidnightBSD/DragonFly, where

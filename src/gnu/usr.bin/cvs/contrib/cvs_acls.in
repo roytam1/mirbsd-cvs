@@ -309,7 +309,7 @@ script is required in order to pass the $USER parameter.
 A final note about the repository matching pattern.  The example above
 uses "ALL" but note that this means that the cvs_acls script will run
 for each and every commit in your repository.  Obviously, in a large
-repository this adds up to a lot of overhead that may not be necessary. 
+repository this adds up to a lot of overhead that may not be necessary.
 A better strategy is to use a repository pattern that is more specific 
 to the areas that you wish to secure.
 
