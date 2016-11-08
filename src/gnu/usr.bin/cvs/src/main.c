@@ -655,7 +655,7 @@ main (int argc, char **argv)
 		(void) fputs ("\
 Copyright (C) 2005 Free Software Foundation, Inc.\n\
 \n\
-Portions contributed by Thorsten Glaser for the MirOS Project.\n\
+Portions contributed by Thorsten Glaser for the MirOS Project and Debian.\n\
 Senior active maintainers include Larry Jones, Derek R. Price,\n\
 and Mark D. Baushke.  Please see the AUTHORS and README files from the CVS\n\
 distribution kit for a complete list of contributors and copyrights.\n",

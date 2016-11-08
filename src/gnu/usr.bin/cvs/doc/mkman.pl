@@ -1,11 +1,12 @@
 #! @PERL@
-# $MirOS: ports/devel/cvs/patches/patch-doc_mkman_pl,v 1.2 2010/09/16 17:05:44 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/doc/mkman.pl,v 1.5 2010/09/19 19:42:56 tg Exp $
 #
 # Generate a man page from sections of a Texinfo manual.
 #
 # Copyright 2004 The Free Software Foundation,
 #                Derek R. Price,
 #                & Ximbiot <http://ximbiot.com>
+# Copyright (c) 2004, 2010 mirabilos <m@mirbsd.org>
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
