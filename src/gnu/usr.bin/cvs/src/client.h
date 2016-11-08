@@ -1,3 +1,17 @@
+/*
+ * Copyright (C) 1994-2005 The Free Software Foundation, Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ */
+
 /* Interface between the client and the rest of CVS.  */
 
 /* Stuff shared with the server.  */
@@ -114,7 +128,7 @@ send_arg (const char *string);
 
 /* Send a string of single-char options to the remote server, one by one.  */
 void
-send_option_string (const char *string);
+send_options (int argc, char * const *argv);
 
 void send_a_repository (const char *, const char *, const char *);
 
@@ -195,4 +209,14 @@ int client_process_import_file
 void client_import_done (void);
 void client_notify (const char *, const char *, const char *, int,
                     const char *);
+
+#if defined AUTH_CLIENT_SUPPORT || defined HAVE_KERBEROS || defined HAVE_GSSAPI
+# include <sys/socket.h>
+# include <netinet/in.h>
+# include <netinet/tcp.h>
+# include <arpa/inet.h>
+# include <netdb.h>
+struct hostent *init_sockaddr (struct sockaddr_in *, char *, unsigned int);
+#endif
+
 #endif /* CLIENT_SUPPORT */

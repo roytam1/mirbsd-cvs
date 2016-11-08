@@ -20,7 +20,7 @@
 #include "getline.h"
 #include "getnline.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/server.c,v 1.8 2013/07/18 20:08:27 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/server.c,v 1.9 2016/10/21 16:41:16 tg Exp $");
 
 int server_active = 0;
 
@@ -81,6 +81,9 @@ static Key_schedule sched;
 
 /* for select */
 # include "xselect.h"
+
+/* for TCP_NODELAY */
+#include <netinet/tcp.h>
 
 # ifndef O_NONBLOCK
 #   define O_NONBLOCK O_NDELAY
@@ -7218,6 +7221,21 @@ pserver_authenticate_connection (void)
     }
 #endif
 
+#ifdef TCP_NODELAY
+    /* Avoid latency due to Nagle algorithm.  */
+    {
+	int on = 1;
+
+	if (setsockopt (STDOUT_FILENO, IPPROTO_TCP, TCP_NODELAY,
+			&on, sizeof on) < 0)
+	{
+# ifdef HAVE_SYSLOG_H
+	    syslog (LOG_DAEMON | LOG_ERR, "error setting TCP_NODELAY: %m");
+# endif /* HAVE_SYSLOG_H */
+	}
+    }
+#endif
+
     /* Make sure the protocol starts off on the right foot... */
     pserver_read_line (&tmp, NULL);
 
@@ -7366,6 +7384,21 @@ error %s getpeername or getsockname failed\n", strerror (errno));
 	{
 # ifdef HAVE_SYSLOG_H
 	    syslog (LOG_DAEMON | LOG_ERR, "error setting KEEPALIVE: %m");
+# endif /* HAVE_SYSLOG_H */
+	}
+    }
+#endif
+
+#ifdef TCP_NODELAY
+    /* Avoid latency due to Nagle algorithm.  */
+    {
+	int on = 1;
+
+	if (setsockopt (STDOUT_FILENO, IPPROTO_TCP, TCP_NODELAY,
+			   (char *) &on, sizeof on) < 0)
+	{
+# ifdef HAVE_SYSLOG_H
+	    syslog (LOG_DAEMON | LOG_ERR, "error setting TCP_NODELAY: %m");
 # endif /* HAVE_SYSLOG_H */
 	}
     }

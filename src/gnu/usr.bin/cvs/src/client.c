@@ -20,7 +20,7 @@
 #include "buffer.h"
 #include "save-cwd.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/client.c,v 1.4 2011/06/11 00:24:04 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/client.c,v 1.5 2012/02/07 17:31:26 tg Exp $");
 
 #ifdef CLIENT_SUPPORT
 
@@ -3512,6 +3512,17 @@ connect_to_pserver (cvsroot_t *root, struct buffer **to_server_p,
     sock = socket (AF_INET, SOCK_STREAM, 0);
     if (sock == -1)
 	error (1, 0, "cannot create socket: %s", SOCK_STRERROR (SOCK_ERRNO));
+
+#ifdef TCP_NODELAY
+    /* Avoid latency due to Nagle algorithm.  */
+    {
+	int on = 1;
+
+	if (setsockopt (sock, IPPROTO_TCP, TCP_NODELAY, &on, sizeof on) < 0)
+	    error (0, errno, "warning: cannot set TCP_NODELAY on socket");
+    }
+#endif
+
     port_number = get_cvs_port_number (root);
 
     /* if we have a proxy connect to that instead */
