@@ -155,13 +155,20 @@ approved by the Free Software Foundation.
 @node    Top
 @top
 
+@ifnotinfo
+@anchor{Cederqvist}
+@end ifnotinfo
 This info manual describes how to use and administer
 @sc{cvs} version @value{VERSION}.
 @end ifnottex
 
 @ifinfo
 @copyleftnotice
+@anchor{Cederqvist}
 @end ifinfo
+@iftex
+@anchor{Cederqvist}
+@end iftex
 
 @c This menu is pretty long.  Not sure how easily that
 @c can be fixed (no brilliant ideas right away)...
@@ -2117,6 +2124,9 @@ on how you are connecting to the server.
 * Connecting via fork::         Using a forked @code{cvs server} to connect
 * Write proxies::               Distributing load across several CVS servers
 @end menu
+
+For the protocol specification,
+@pxref{Top, the CVS client/server protocol,, cvsclient, The CVS client/server protocol}.
 
 @node Server requirements
 @subsection Server requirements
@@ -16138,6 +16148,8 @@ comprehensive, detailed list of known bugs.
 @c ---------------------------------------------------------------------
 @node CVS command list
 @appendix Alphabetical list of all CVS commands
+
+@xref{Cederqvist, the introduction into the manual, CVS manual Table of Contents}.
 
 @menu
 * add::          Add a new file/directory to the repository

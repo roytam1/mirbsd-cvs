@@ -14,8 +14,9 @@
 @top CVS Client/Server
 
 This document describes the client/server protocol used by CVS.  It does
-not describe how to use or administer client/server CVS; see the regular
-CVS manual for that.  This is version @value{VERSION} of the protocol
+not describe how to use or administer client/server CVS; for that,
+@pxref{Top, the regular CVS manual,, cvs, the regular CVS manual}.
+This is version @value{VERSION} of the protocol
 specification---@xref{Introduction}, for more on what this version number
 means.
 
