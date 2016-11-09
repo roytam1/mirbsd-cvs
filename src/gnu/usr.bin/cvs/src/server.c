@@ -83,7 +83,11 @@ static Key_schedule sched;
 # include "xselect.h"
 
 /* for TCP_NODELAY */
-#include <netinet/tcp.h>
+# include <netinet/tcp.h>
+
+# ifndef S_ISSOCK
+#   define S_ISSOCK(m) (((m) & S_IFMT) == S_IFSOCK)
+# endif
 
 # ifndef O_NONBLOCK
 #   define O_NONBLOCK O_NDELAY
@@ -7210,8 +7214,10 @@ pserver_authenticate_connection (void)
        if the client dies while we are waiting for input.  */
     {
 	int on = 1;
+	struct stat sb;
 
-	if (setsockopt (STDIN_FILENO, SOL_SOCKET, SO_KEEPALIVE,
+	if (fstat (STDIN_FILENO, &sb) == 0 && S_ISSOCK(sb.st_mode) &&
+	    setsockopt (STDIN_FILENO, SOL_SOCKET, SO_KEEPALIVE,
 			&on, sizeof on) < 0)
 	{
 # ifdef HAVE_SYSLOG_H
@@ -7225,8 +7231,10 @@ pserver_authenticate_connection (void)
     /* Avoid latency due to Nagle algorithm.  */
     {
 	int on = 1;
+	struct stat sb;
 
-	if (setsockopt (STDOUT_FILENO, IPPROTO_TCP, TCP_NODELAY,
+	if (fstat (STDOUT_FILENO, &sb) == 0 && S_ISSOCK(sb.st_mode) &&
+	    setsockopt (STDOUT_FILENO, IPPROTO_TCP, TCP_NODELAY,
 			&on, sizeof on) < 0)
 	{
 # ifdef HAVE_SYSLOG_H
@@ -7378,8 +7386,10 @@ error %s getpeername or getsockname failed\n", strerror (errno));
        if the client dies while we are waiting for input.  */
     {
 	int on = 1;
+	struct stat sb;
 
-	if (setsockopt (STDIN_FILENO, SOL_SOCKET, SO_KEEPALIVE,
+	if (fstat (STDIN_FILENO, &sb) == 0 && S_ISSOCK(sb.st_mode) &&
+	    setsockopt (STDIN_FILENO, SOL_SOCKET, SO_KEEPALIVE,
 			   (char *) &on, sizeof on) < 0)
 	{
 # ifdef HAVE_SYSLOG_H
@@ -7393,8 +7403,10 @@ error %s getpeername or getsockname failed\n", strerror (errno));
     /* Avoid latency due to Nagle algorithm.  */
     {
 	int on = 1;
+	struct stat sb;
 
-	if (setsockopt (STDOUT_FILENO, IPPROTO_TCP, TCP_NODELAY,
+	if (fstat (STDOUT_FILENO, &sb) == 0 && S_ISSOCK(sb.st_mode) &&
+	    setsockopt (STDOUT_FILENO, IPPROTO_TCP, TCP_NODELAY,
 			   (char *) &on, sizeof on) < 0)
 	{
 # ifdef HAVE_SYSLOG_H
