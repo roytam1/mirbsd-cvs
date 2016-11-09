@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.33 2016/10/21 22:55:07 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/Makefile.bsd-wrapper,v 1.34 2016/10/22 16:13:34 tg Exp $
 # $OpenBSD: Makefile.bsd-wrapper,v 1.44 2004/01/02 09:01:24 millert Exp $
 
 # MirOS patchlevel tracked in configure{.in,}
@@ -53,5 +53,11 @@ post-install:
 	${INSTALL} ${INSTALL_COPY} -o ${DOCOWN} -g ${DOCGRP} -m ${DOCMODE} \
 	    ${.CURDIR}/contrib/{rcs2log.1,sandbox_status.man} \
 	    ${DESTDIR}/usr/libexec/cvs/contrib/
+
+regress:
+	chmod +x ${.CURDIR}/lib/test-getdate.sh
+	echo RSH_DFLT=ssh >src/sanity.config.sh
+	cd ${FSFOBJDIR} && exec env \
+	    GETDATE_LD_PRELOAD=/usr/lib/libposixtz.so ${FSFMAKE} check
 
 .include <bsd.cfwrap.mk>
