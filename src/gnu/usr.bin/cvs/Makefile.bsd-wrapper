@@ -56,8 +56,8 @@ post-install:
 
 regress:
 	chmod +x ${.CURDIR}/lib/test-getdate.sh
-	echo RSH_DFLT=ssh >src/sanity.config.sh
 	cd ${FSFOBJDIR} && exec env \
 	    GETDATE_LD_PRELOAD=/usr/lib/libposixtz.so ${FSFMAKE} check
+	-chmod -x ${.CURDIR}/lib/test-getdate.sh
 
 .include <bsd.cfwrap.mk>
