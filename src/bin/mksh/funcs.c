@@ -449,12 +449,17 @@ c_print(const char **wp)
 		wp += builtin_opt.optind;
 	}
 
+	if (po.col) {
+		if (*wp == NULL)
+			return (0);
+
+		XPinit(words, 16);
+	}
+
 	Xinit(xs, xp, 128, ATEMP);
 
 	if (*wp == NULL)
 		goto print_no_arg;
-	if (po.col)
-		XPinit(words, 16);
  print_read_arg:
 	if (po.chars) {
 		while (*wp != NULL) {
@@ -548,7 +553,6 @@ c_print(const char **wp)
 	if (po.hist) {
 		Xput(xs, xp, '\0');
 		histsave(&source->line, Xstring(xs, xp), HIST_STORE, false);
-		Xfree(xs, xp);
 	} else {
 		size_t len = Xlength(xs, xp);
 
@@ -588,6 +592,7 @@ c_print(const char **wp)
 		if (po.copipe)
 			restore_pipe();
 	}
+	Xfree(xs, xp);
 
 	return (c);
 }
