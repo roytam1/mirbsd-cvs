@@ -433,58 +433,59 @@ c_print(const char **wp)
 
 	Xinit(xs, xp, 128, ATEMP);
 
-	if (*wp != NULL && po.chars) {
-		do {
-			if (!evaluate(*wp, &po.wc, KSH_RETURN_ERROR, true))
-				return (1);
-			Xcheck(xs, xp);
-			if (UTFMODE) {
-				po.ts[utf_wctomb(po.ts, po.wc)] = 0;
-				c = 0;
-				do {
-					Xput(xs, xp, po.ts[c]);
-				} while (po.ts[++c]);
-			} else
-				Xput(xs, xp, po.wc & 0xFF);
-		} while (*++wp);
-	} else if (*wp != NULL) {
- print_read_arg:
-		s = *wp;
-		while ((c = *s++) != '\0') {
-			Xcheck(xs, xp);
-			if (po.exp && c == '\\') {
-				s_ptr = s;
-				c = unbksl(false, s_get, s_put);
-				s = s_ptr;
-				if (c == -1) {
-					/* rejected by generic function */
-					switch ((c = *s++)) {
-					case 'c':
-						po.nl = false;
-						/* AT&T brain damage */
-						continue;
-					case '\0':
-						--s;
-						c = '\\';
-						break;
-					default:
-						Xput(xs, xp, '\\');
-					}
-				} else if ((unsigned int)c > 0xFF) {
-					/* generic function returned Unicode */
-					po.ts[utf_wctomb(po.ts, c - 0x100)] = 0;
+	while (*wp != NULL) {
+		if (po.chars) {
+			do {
+				if (!evaluate(*wp, &po.wc,
+				    KSH_RETURN_ERROR, true))
+					return (1);
+				Xcheck(xs, xp);
+				if (UTFMODE) {
+					po.ts[utf_wctomb(po.ts, po.wc)] = 0;
 					c = 0;
 					do {
 						Xput(xs, xp, po.ts[c]);
 					} while (po.ts[++c]);
-					continue;
+				} else
+					Xput(xs, xp, po.wc & 0xFF);
+			} while (*++wp);
+		} else {
+			s = *wp;
+			while ((c = *s++) != '\0') {
+				Xcheck(xs, xp);
+				if (po.exp && c == '\\') {
+					s_ptr = s;
+					c = unbksl(false, s_get, s_put);
+					s = s_ptr;
+					if (c == -1) {
+						/* rejected by generic unbksl */
+						switch ((c = *s++)) {
+						case 'c':
+							po.nl = false;
+							/* AT&T brain damage */
+							continue;
+						case '\0':
+							--s;
+							c = '\\';
+							break;
+						default:
+							Xput(xs, xp, '\\');
+						}
+					} else if ((unsigned int)c > 0xFF) {
+						/* unbksl returned Unicode */
+						po.ts[utf_wctomb(po.ts,
+						    c - 0x100)] = 0;
+						c = 0;
+						do {
+							Xput(xs, xp, po.ts[c]);
+						} while (po.ts[++c]);
+						continue;
+					}
 				}
+				Xput(xs, xp, c);
 			}
-			Xput(xs, xp, c);
-		}
-		if (*++wp != NULL) {
-			Xput(xs, xp, ' ');
-			goto print_read_arg;
+			if (*++wp != NULL)
+				Xput(xs, xp, ' ');
 		}
 	}
 	if (po.nl)
