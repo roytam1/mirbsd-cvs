@@ -28,7 +28,7 @@
 
 #ifndef MKSH_NO_CMDLINE_EDITING
 
-__RCSID("$MirOS: src/bin/mksh/edit.c,v 1.307 2016/09/01 12:59:08 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/edit.c,v 1.294 2016/03/04 14:26:12 tg Exp $");
 
 /*
  * in later versions we might use libtermcap for this, but since external
@@ -238,6 +238,7 @@ x_print_expansions(int nwords, char * const *words, bool is_command)
 	bool use_copy = false;
 	size_t prefix_len;
 	XPtrV l = { NULL, 0, 0 };
+	struct columnise_opts co;
 
 	/*
 	 * Check if all matches are in the same directory (in this
@@ -271,7 +272,9 @@ x_print_expansions(int nwords, char * const *words, bool is_command)
 	 */
 	x_putc('\r');
 	x_putc('\n');
-	pr_list(shl_out, use_copy ? (char **)XPptrv(l) : words);
+	co.shf = shl_out;
+	co.prefcol = false;
+	pr_list(&co, use_copy ? (char **)XPptrv(l) : words);
 
 	if (use_copy)
 		/* not x_free_words() */
