@@ -566,8 +566,8 @@ main_init(int argc, const char *argv[], Source **sp, struct block **lp)
 #endif
 		if (!isuc(ccp))
 			ccp = null;
-		/* FALLTHROUGH */
 #endif
+		/* FALLTHROUGH */
 
 	/* auto-detect from environment */
 	case 3:
