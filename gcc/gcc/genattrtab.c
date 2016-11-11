@@ -148,7 +148,7 @@ struct insn_def
   struct insn_def *next;	/* Next insn in chain.  */
   rtx def;			/* The DEFINE_...  */
   int insn_code;		/* Instruction number.  */
-  int insn_index;		/* Expression numer in file, for errors.  */
+  int insn_index;		/* Expression number in file, for errors.  */
   int lineno;			/* Line number.  */
   int num_alternatives;		/* Number of alternatives.  */
   int vec_idx;			/* Index of attribute vector in `def'.  */

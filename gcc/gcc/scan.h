@@ -65,7 +65,7 @@ extern int scan_decls (struct cpp_reader *, int, char **);
 #define INT_TOKEN 303
 extern int get_token (FILE *, sstring *);
 
-/* Current file and line numer, taking #-directives into account */
+/* Current file and line number, taking #-directives into account */
 extern int source_lineno;
 extern sstring source_filename;
 /* Current physical line number */

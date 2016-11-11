@@ -1,4 +1,3 @@
-/**	$MirOS: src/sbin/disklabel/editor.c,v 1.5 2006/09/22 15:44:31 tg Exp $ */
 /*	$OpenBSD: editor.c,v 1.99 2005/01/07 21:58:14 otto Exp $	*/
 
 /*
@@ -43,7 +42,7 @@
 #include "extern.h"
 #include "pathnames.h"
 
-__RCSID("$MirOS: src/sbin/disklabel/editor.c,v 1.5 2006/09/22 15:44:31 tg Exp $");
+__RCSID("$MirOS: src/sbin/disklabel/editor.c,v 1.6 2013/09/15 11:01:26 tg Exp $");
 
 /* flags for getuint() */
 #define	DO_CONVERSIONS	0x00000001
@@ -1244,7 +1243,7 @@ edit_parms(struct disklabel *lp, u_int32_t *freep)
 	/* sectors/track */
 	for (;;) {
 		ui = getuint(lp, 0, "sectors/track",
-		    "The Numer of sectors per track.", lp->d_nsectors,
+		    "The Number of sectors per track.", lp->d_nsectors,
 		    lp->d_nsectors, 0, 0);
 		if (ui == UINT_MAX - 1) {
 			fputs("Command aborted\n", stderr);

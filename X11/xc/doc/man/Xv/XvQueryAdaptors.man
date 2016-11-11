@@ -32,7 +32,7 @@ for transport.
 Specifies a drawable of the screen for which the adaptor 
 information is desired.
 .IP \fIp_num_adaptors\fR 8
-A pointer to where the numer of adaptors for the specified screen 
+A pointer to where the number of adaptors for the specified screen 
 is returned.
 .IP \fIpp_adaptor_info\fR 8
 A pointer to where the list of returned adaptor information is
