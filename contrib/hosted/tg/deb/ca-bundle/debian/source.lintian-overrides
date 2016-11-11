@@ -1,7 +1,0 @@
-# $MirOS$
-
-# yes, but we target sarge
-ca-bundle source: package-uses-deprecated-debhelper-compat-version 4
-
-# never!
-ca-bundle source: no-dep5-copyright
