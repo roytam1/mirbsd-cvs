@@ -525,25 +525,21 @@ c_print(const char **wp)
 	}
 	if (po.col) {
 		size_t w = XPsize(words);
-		char *cp;
 		struct columnise_opts co;
 
 		XPput(words, NULL);
 		co.shf = shf_sopen(NULL, 128, SHF_WR | SHF_DYNAMIC, NULL);
-		co.prefcol = false;
+		co.linesep = po.nl;
+		co.prefcol = co.do_last = false;
 		pr_list(&co, (char **)XPptrv(words));
 		while (w--)
 			afree(XPptrv(words)[w], ATEMP);
 		XPfree(words);
-		cp = shf_sclose(co.shf);
-		w = strlen(cp);
-
+		w = co.shf->wp - co.shf->buf;
 		XcheckN(xs, xp, w);
-		memcpy(xp, cp, w);
+		memcpy(xp, co.shf->buf, w);
 		xp += w;
-		afree(cp, ATEMP);
-
-		po.nl = '!'; /* for now */
+		shf_sclose(co.shf);
 	}
  print_no_arg:
 	if (po.nl != '!')
@@ -1520,7 +1516,8 @@ c_kill(const char **wp)
 			}
 
 			co.shf = shl_stdout;
-			co.prefcol = true;
+			co.linesep = '\n';
+			co.prefcol = co.do_last = true;
 
 			print_columns(&co, (unsigned int)(ksh_NSIG - 1),
 			    kill_fmt_entry, (void *)&ki,
