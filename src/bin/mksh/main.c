@@ -227,7 +227,7 @@ main_init(int argc, const char *argv[], Source **sp, struct block **lp)
 	ccp = kshname;
 	goto begin_parsing_kshname;
 	while ((i = ccp[argi++])) {
-		if (i == '/') {
+		if (mksh_cdirsep(i)) {
 			ccp += argi;
  begin_parsing_kshname:
 			argi = 0;

@@ -30,7 +30,7 @@
 # (2013/12/02 20:39:44) http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/regress/bin/ksh/?sortby=date
 
 expected-stdout:
-	@(#)MIRBSD KSH R53 2016/11/07
+	@(#)MIRBSD KSH R54 2016/11/11
 description:
 	Check version of shell.
 stdin:
@@ -39,7 +39,7 @@ name: KSH_VERSION
 category: shell:legacy-no
 ---
 expected-stdout:
-	@(#)LEGACY KSH R53 2016/11/07
+	@(#)LEGACY KSH R54 2016/11/11
 description:
 	Check version of legacy shell.
 stdin:
@@ -4948,7 +4948,7 @@ name: integer-base-check-flat
 description:
 	Check behaviour does not match POSuX (except if set -o posix),
 	because a not type-safe scripting language has *no* business
-	interpreting the string "010" as octal numer eight (dangerous).
+	interpreting the string "010" as octal number eight (dangerous).
 stdin:
 	echo 1 "$("$__progname" -c 'echo :$((10))/$((010)),$((0x10)):')" .
 	echo 2 "$("$__progname" -o posix -c 'echo :$((10))/$((010)),$((0x10)):')" .

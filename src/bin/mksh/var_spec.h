@@ -40,13 +40,22 @@ F0(NONE)
 
 /* 1 and up are special variables */
 FN(BASHPID)
+#ifdef __OS2__
+FN(BEGINLIBPATH)
+#endif
 FN(COLUMNS)
+#ifdef __OS2__
+FN(ENDLIBPATH)
+#endif
 FN(EPOCHREALTIME)
 #if HAVE_PERSISTENT_HISTORY
 FN(HISTFILE)
 #endif
 FN(HISTSIZE)
 FN(IFS)
+#ifdef __OS2__
+FN(LIBPATHSTRICT)
+#endif
 FN(LINENO)
 FN(LINES)
 FN(OPTIND)
