@@ -3,7 +3,7 @@
 
 mws_setname subprojects/mksh/old "mksh — old versions"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.50 2016/03/06 18:37:53 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh_old.hts,v 1.51 2016/10/30 04:47:08 tg Exp $'
 mws_content <<'EOF'
 <h2><a href="mksh.htm">mksh</a> — old versions</h2>
 
@@ -156,7 +156,7 @@ mws_content <<'EOF'
  oksh have not been merged either. The DeliLinux developer who
  is responsible for packaging oksh for GNU/Linux should instead use mksh
  and port that diff over (be careful to not break the fixes to the command
- line editing modes, these are subtilely broken in OpenBSD). Even better,
+ line editing modes, these are subtly broken in OpenBSD). Even better,
  the OpenBSD people should not only commit a port of mksh but replace their
  ksh with it (optionally retaining that GNU bash-like $PS1 stuff). The
  <tt>set -o emacs-usemeta</tt> command is no longer needed because the
