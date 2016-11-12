@@ -12282,6 +12282,18 @@ Waypoint: GC6T40V
 Title: Musikgenuss die dritte
 Tag: D1 T15 Event recommended
 ----
+ID: 2031
+Date: 01.11.2016
+Waypoint: GC5TMVH
+Title: Am Schmölderpark
+Tag: D15 T15 Micro Tradi
+----
+ID: 2032
+Date: 01.11.2016
+Waypoint: GC6AZ1H
+Title: RY 01 - Rheydter Leckermäulchen
+Tag: D2 T15 Micro Mystery
+----
 ID: p20161210
 Date: 10.12.2016
 Waypoint: GC6VNJ5
