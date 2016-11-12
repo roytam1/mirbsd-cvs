@@ -197,7 +197,7 @@ Title: Bill Rosenblatt and Arnold Robbins, Learning the Korn Shell, Second Editi
 ISBN: 978-0-596-00195-7 (0-596-00195-9)
 
 O'Reilly, 432 pages, 2002.
-Second Edition of the famous ksh book from O’Reilly, targetting
+Second Edition of the famous ksh book from O’Reilly, targeting
 ksh93 this time.
 ----
 Title: Barry Rosenberg, KornShell Programming Tutorial
