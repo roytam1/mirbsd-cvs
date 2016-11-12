@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R53a</h2>
+<h2>mksh(1) R54</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -50,8 +50,8 @@ mws_content <<'EOF'
  “MirBSD Korn Shell”.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R53a</strong> from
- <em>12 August 2016</em>.<br />In the oldstable bugfixing-only series, the
+<p>The current version of mksh is <strong>mksh R54</strong> from
+ <em>12 November 2016</em>.<br />In the oldstable bugfixing-only series, the
  current version is <em>mksh R50f</em> from <em>19 April 2015</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
@@ -89,6 +89,7 @@ mws_content <<'EOF'
  Thanks to Brian Callahan from the Rensselaer Polytechnic Institute for
  running test builds on AIX 5.1L with the xlC 5.0.2.0 and gcc-2.9, and on
  Solaris 8 with Forte Developer 7 C 5.4 and gcc 2.95.2 and 3.4.6 compilers.
+ No thanks to Intel for not including mksh in their programme analysing code.
  (Did I miss anyone? Mail me if so. Some of these are past, anyway.)</p>
 <p>What is mksh(1)? — Short answer: The MirBSD Korn Shell. Okay, but what
  exactly does it do, or why another shell? These questions will be answered
@@ -190,17 +191,17 @@ mws_content <<'EOF'
  <em>as well as</em> the hashes and/or checksums below, so you’re sure the
  content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R53a.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R53a.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R53a.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R53a.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz</a></li>
  <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
 <!-- cd /MirOS/dist/mir/mksh; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
-  <li>RMD160 (mksh-R53a.tgz) = e5dc2f69850518e74fdce616979126896d1dc20d</li>
-  <li>TIGER (mksh-R53a.tgz) = 395c11e9795af2b631a59e4d96c016f0aa145bb102cef9e5</li>
-  <li>497656434 393344 /MirOS/dist/mir/mksh/mksh-R53a.tgz</li>
-  <li>MD5 (mksh-R53a.tgz) = 43fc3e32963cc1795a299bcec531d770</li>
+  <li>RMD160 (mksh-R54.tgz) = 3b3435b60dc040995b1a63289c7169a08175dd95</li>
+  <li>TIGER (mksh-R54.tgz) = 82815a629764443896b46f03931a8d1bde102d72a30d645c</li>
+  <li>1161958218 395538 /MirOS/dist/mir/mksh/mksh-R54.tgz</li>
+  <li>MD5 (mksh-R54.tgz) = be0a6fb93b4a5f927bcc1893bb6692f8</li>
  <li style="list-style:none;">↑ formal release │ stable bugfix series ↓</li>
   <li>RMD160 (mksh-R50f.tgz) = e0de1dd07e6ca02830407b9db43de8f5c98d800f</li>
   <li>TIGER (mksh-R50f.tgz) = db437ce08d7c6a8449c5ba5827a9742cbaca7c16be261971</li>
@@ -210,15 +211,15 @@ mws_content <<'EOF'
   <a href="/gzsigkey.cer">current signature key</a>.</li>
 </ul>
 <h3 id="cats">Preformatted Documentation</h3><ul>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R53a.cat1.gz">catman</a></li>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R53a.htm.gz">XHTML</a></li>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R53a.pdf">PDF</a></li>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R53a.txt.gz">plaintext</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R54.cat1.gz">catman</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R54.htm.gz">XHTML</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R54.pdf">PDF</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R54.txt.gz">plaintext</a></li>
 </ul>
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
- so a simple <tt>tar -xzf mksh-R53a.tgz</tt> will work. It will create all
+ so a simple <tt>tar -xzf mksh-R54.tgz</tt> will work. It will create all
  files in a subdirectory <tt>./mksh/</tt>.</p>
 
 <h3 id="vendorpatching">Patching</h3>
@@ -875,6 +876,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  mailing list, either directly or via GMane, if you have an interest
  in mksh, such as packaging it. Thanks! <i>(unfinished…)</i>
 </p>
+<p id="p54">R54: Build.sh now installs both manpages (lksh.1 and
+ mksh.1) independent of how it’s called. Several additional compiler
+ flags are attempted. Porters to Harvey-OS and OS/2 should review
+ their patches.</p>
 <p id="p53a">R53a: this is a botched <span id="p53">R53</span>.</p>
 <p id="p52c">R52c: prepare to review use of <tt>set +o</tt>.</p>
 <p id="p52b">R52b: nothing of note, but prepare to review all mksh
@@ -993,7 +998,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  src="@@RELPATH@@pics/logos/freewrt.png" />In the FreeWRT Embedded GNU/Linux
  Appliance Development Kit (meta distribution), now defunct, mksh was the
  default shell.</li>
-<li><a href="http://openadk.org/">OpenADK - Open Source Appliance Development Kit</a>
+<li><a href="http://openadk.org/">OpenADK — Open Source Appliance Development Kit</a>
  (a FreeWRT 1.0 fork) contains <a
  href="http://cgit.openadk.org/cgi/cgit/openadk.git/tree/package/mksh">mksh</a>
  as default shell.</li>
@@ -1133,6 +1138,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
  should be aware of for existing scripts.</p>
 <p id="ccur"><i>current</i>:
  <i>(unfinished…)</i></p>
+<p id="c54">R54: Lazy evaluation side effects and <tt>set -e</tt>-related
+ error propagation in <tt>||</tt> and <tt>&amp;&amp;</tt> constructs are
+ now handled properly.</p>
 <p id="c53a"><span id="c53">R53a:</span>
  Tilde expansions of parameters (<tt>~</tt>, <tt>~+</tt>, and <tt>~-</tt>)
  now strip <tt>.</tt> and <tt>..</tt> components from their results. The
@@ -1213,11 +1221,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
+<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
+-->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+<p id="r54">R54 is a bugfix release with moderate new features:</p><ul>
  <li>[tg] Simplify and improve code and manual page</li>
  <li>[tg] Try GCC 5’s new <tt>-malign-data=abi</tt></li>
  <li>[tg] Allow interrupting builtin cat even on fast devices (LP#1616692)</li>
@@ -1229,6 +1240,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Shrink binary size</li>
  <li>[Brian Callahan] Improve support for the contemporary pcc compiler</li>
  <li>[tg] Fix side effects with lazy evaluation; spotted by ormaaj</li>
+ <li>[tg] New flags -c (columnise), -l, -N for the print builtin</li>
+ <li>[Larry Hynes] Fix English, spelling mistakes, typos in the manpage</li>
+ <li>[tg, ormaah] Return 128+SIGALRM if read -t times out, like GNU bash</li>
+ <li>[Martijn Dekker] Install both manpages from Build.sh</li>
+ <li>[Martijn Dekker] Document case changes are ASCII-only</li>
+ <li>[Ronald G. Minnich, Elbing Miss, Álvaro Jurado, tg] Begin porting to
+  Harvey-OS and APEX (similar to Plan 9 and APE)</li>
+ <li>[KO Myung-Hun] More infrastructure for the OS/2 (EMX, KLIBC) port</li>
 </ul>
 <p id="r53a"><span id="r53">R53a</span> is a snapshot/feature release:</p><ul>
  <li>[lintian] Fix spelling</li>

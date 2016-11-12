@@ -55,13 +55,13 @@ mws_content <<'EOF'
 </ul>
 
 <h2 id="vsns">Korn Shell versions</h2>
-<p>This information is current as of: 2016-08-17 (17 August 2016)</p>
+<p>This information is current as of: 2016-11-12 (12 November 2016)</p>
 <p><a href="http://www.kornshell.com/">AT&amp;T Korn Shell</a>: latest is
  ksh93v- (beta) dated 2014-09-29 (29 September 2014) and ksh93u+ (stable)
  dated 2012-08-01; download server unreachable, development unclear</p>
 <p><a href="@@RELPATH@@mksh.htm">MirBSD Korn Shell</a>: latest is
- mksh R53a, dated 2016-08-12 (12 August 2016); the previous bugfix was
- mksh R52c, dated 2016-03-06 (6 March 2016) and, in the oldstable bugfix
+ mksh R54, dated 2016-11-12 (12 November 2016); the previous bugfix was
+ mksh R53a, dated 2016-08-12 (12 August 2016) and, in the oldstable bugfix
  series, mksh R50f, dated 2015-04-19 (19 April 2015); link to active <a
  href="@@RELPATH@@mksh.htm#clog">development tree changelog</a></p>
 <p><a href="https://github.com/komh/mksh-os2">mksh-os2</a> for OS/2:
