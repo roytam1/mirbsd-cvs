@@ -1,7 +1,7 @@
-# $MirOS: ports/shells/mksh/Makefile,v 1.81 2016/08/10 18:31:42 tg Exp $
+# $MirOS: ports/shells/mksh/Makefile,v 1.82 2016/08/12 20:02:33 tg Exp $
 
 COMMENT=		MirBSD Korn Shell
-DISTNAME=		mksh-R53a
+DISTNAME=		mksh-R54
 PKGNAME=		${DISTNAME:S/-R/-/}-${DASH_VER}
 CATEGORIES=		shells
 HOMEPAGE=		http://mirbsd.de/mksh
@@ -35,10 +35,12 @@ do-install:
 	${INSTALL_MAN} ${WRKBUILD:Q}/bm/mksh.cat1 ${PREFIX:Q}/man/cat1/mksh.0
 	${INSTALL_MAN} ${WRKBUILD:Q}/lksh.cat1 ${PREFIX}/man/cat1/lksh.0
 
+# drop -f if you are on a slow machine
+REGRESS_FASTBOX=	-f
+
 do-regress:
-	# drop -f if you are on a slow machine
-	${WRKBUILD:Q}/bm/test.sh -f
-	${WRKBUILD:Q}/bl/test.sh -f
+	${WRKBUILD:Q}/bm/test.sh ${REGRESS_FASTBOX}
+	${WRKBUILD:Q}/bl/test.sh ${REGRESS_FASTBOX}
 
 .include <bsd.port.mk>
 
