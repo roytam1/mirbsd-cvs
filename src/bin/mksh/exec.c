@@ -1242,7 +1242,7 @@ search_access(const char *fn, int mode)
 	}
 #ifdef __OS2__
 	/* treat all files as executable on OS/2 */
-	sb.st_mode &= S_IXUSR | S_IXGRP | S_IXOTH;
+	sb.st_mode |= S_IXUSR | S_IXGRP | S_IXOTH;
 #endif
 	if (mode == X_OK && (!S_ISREG(sb.st_mode) ||
 	    !(sb.st_mode & (S_IXUSR | S_IXGRP | S_IXOTH))))
