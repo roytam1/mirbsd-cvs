@@ -1715,3 +1715,24 @@ Tag: archaeology bug pcli rant security snapshot
  the fanfiction I was reading was at the point where Dolores
  Umbridge uses her Blood Quill on the students. Coincidence.)</p>
 ----
+Date: 13.11.2016 20:28
+Author: tg@
+Title: “I don’t like computers”
+Tag: debian pcli personal rant tip
+
+<p>cnuke@ spotted something on the internet, and shared. Do <a
+ href="https://www.happyassassin.net/2016/11/04/i-dont-like-computers/">read
+ this, including the comments</a>. It’s so true. (My car is 30 years old, I
+ use computers mostly for sirc, lynx and ssh, and I especially do not buy any
+ product that needs to be “online” to work.)</p>
+<p>Nice parts of the internet, to offset this, though, do exist. IRC as a way
+ of cheap (affordable), mostly reliant, communication that’s easy enough to do
+ with TELNET.EXE if necessary. Fanfiction; easy proliferation of people’s art
+ (literature, in this case). Fast access to documentation and source code;
+ OpenBSD’s AnonCVS was a first, nowadays almost everything (not Tom Dickey’s
+ projects (lynx, ncurses, xterm, cdk, …), nor GNU bash, though) is on a public
+ version control system repository. (Now people need to learn to not rewrite
+ history, just commit whatever shit they do, to record thought process, not
+ produce the perfect-looking patch.) Livestreams too, I guess, but ever since
+ live365.com went dead due to a USA law change on 2016-01-02, it got bad.</p>
+----
