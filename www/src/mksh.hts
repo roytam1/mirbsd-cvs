@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh — the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.633 2016/11/12 00:38:18 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.634 2016/11/12 01:16:12 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -1221,13 +1221,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
-<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
--->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+ <li>[komh] Fix OS/2 search_access() and UNC path logic</li>
+</ul>
 <p id="r54">R54 is a bugfix release with moderate new features:</p><ul>
  <li>[tg] Simplify and improve code and manual page</li>
  <li>[tg] Try GCC 5’s new <tt>-malign-data=abi</tt></li>
