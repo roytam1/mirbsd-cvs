@@ -338,7 +338,7 @@ fi
 					$wp =~ /^N[0-9]/ ? sprintf("<a href=\"http://www.navicache.com/cgi-bin/db/displaycache2.pl?CacheID=%d\">$wp</a>", hex(substr($wp, 1))) :
 					$wp =~ /^OB/ ? "<a href=\"http://www.opencaching.nl/viewcache.php?wp=$wp\">$wp</a>" :
 					$wp =~ /^OC/ ? "<a href=\"http://www.opencaching.de/viewcache.php?wp=$wp\">$wp</a>" :
-					$wp =~ /^OK/ ? "<a href=\"http://www.opencaching.org.uk/viewcache.php?wp=$wp\">$wp</a>" :
+					$wp =~ /^OK/ ? "<a href=\"https://opencache.uk/viewcache.php?wp=$wp\">$wp</a>" :
 					$wp =~ /^OP/ ? "<a href=\"http://www.opencaching.pl/viewcache.php?wp=$wp\">$wp</a>" :
 					$wp =~ /^OS/ ? "<a href=\"http://www.opencaching.se/viewcache.php?wp=$wp\">$wp</a>" :
 					$wp =~ /^OU/ ? "<a href=\"http://www.opencaching.us/viewcache.php?wp=$wp\">$wp</a>" :

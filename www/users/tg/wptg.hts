@@ -439,9 +439,9 @@ statpic 'It’s all about the numbers: Munzee' \
 statpic 'Open^WClosedCaching.de' \
     http://www.opencaching.de/images/statpics/statpic106521EN.jpg \
     http://www.opencaching.de/viewprofile.php?userid=106521
-statpic 'Island Apes: OC UK' \
-    http://www.opencaching.org.uk/statpics/4368.jpg \
-    http://www.opencaching.org.uk/viewprofile.php?userid=4368
+statpic 'Disputed Island Apes: OC (take two) UK' \
+    https://opencache.uk/images/statpics/statpic4368.jpg \
+    https://opencache.uk/viewprofile.php?userid=4368
 statpic 'Broken Webpages²: NaviCache' \
     'http://geocaching.gpsgames.org/cgi-bin/sig.pl?user=mirabilos&amp;txt=Open+Source+Wizard' \
     http://www.navicache.com/cgi-bin/db/MemberDetails2.google2.wap.pl?MemberID=23184

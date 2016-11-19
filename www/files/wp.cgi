@@ -1,5 +1,5 @@
 #!/usr/bin/perl -T
-my $rcsid = '$MirOS: www/files/wp.cgi,v 1.19 2015/10/16 21:50:03 tg Exp $';
+my $rcsid = '$MirOS: www/files/wp.cgi,v 1.21 2016/10/04 19:22:11 tg Exp $';
 #-
 # Copyright © 2013, 2014, 2015, 2016
 #	mirabilos <m@mirbsd.org>
@@ -96,7 +96,7 @@ if ($query ne "") {
 					$query =~ /^N[0-9]/ ? sprintf("http://www.navicache.com/cgi-bin/db/displaycache2.pl?CacheID=%d", hex(substr($query, 1))) :
 					$query =~ /^OB/ ? "http://www.opencaching.nl/viewcache.php?wp=$query" :
 					$query =~ /^OC/ ? "http://www.opencaching.de/viewcache.php?wp=$query" :
-					$query =~ /^OK/ ? "http://www.opencaching.org.uk/viewcache.php?wp=$query" :
+					$query =~ /^OK/ ? "https://opencache.uk/viewcache.php?wp=$query" :
 					$query =~ /^OP/ ? "http://www.opencaching.pl/viewcache.php?wp=$query" :
 					$query =~ /^OS/ ? "http://www.opencaching.se/viewcache.php?wp=$query" :
 					$query =~ /^OU/ ? "http://www.opencaching.us/viewcache.php?wp=$query" :
