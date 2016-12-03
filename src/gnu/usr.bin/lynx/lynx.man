@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: src/gnu/usr.bin/lynx/lynx.man,v 1.18 2013/10/08 23:50:23 tg Exp $
 .\" $LynxId: lynx.man,v 1.97 2013/06/02 20:34:05 tom Exp $
 .TH LYNX 1
 .\" **************************************************************************
@@ -1275,3 +1275,5 @@ Shrewsbury, Massachusetts 01545
 Thomas E. Dickey
 .br
 <dickey@invisible-island.net>
+.SH CAVEATS
+\fILynx\fR won't write to a directory which others can modify.
