@@ -10,6 +10,8 @@
 # appropriately). Hint: use this nice wrapper script:
 # https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=shellsnippets/shellsnippets.git;a=blob;f=mksh/debian-dev/c;hb=HEAD
 #
+# Remember to add --debbuildopts "-m'$DEBEMAIL'" for porter uploads!
+#
 # To use a chroot with glibc 2.13 or older (Debian wheezy or older)
 # with Linux 4.8 or up, you may need to add this to /etc/default/grub:
 # GRUB_CMDLINE_LINUX="rootdelay=5 syscall.x32=y vsyscall=emulate net.ifnames=0 kaslr"
@@ -47,8 +49,8 @@
 # distributions and expired PGP keys.
 
 # ownership of /var/cache/pbuilder/result*/*
-export BUILDRESULTUID=1000
-export BUILDRESULTGID=1000
+export BUILDRESULTUID=2339
+export BUILDRESULTGID=141
 # uid used to run the actual build process tree under
 export BUILDUSERID=1234
 export BUILDUSERNAME=pbuilder
@@ -439,27 +441,28 @@ export PDEBUILD_PBUILDER=cowbuilder
 export PKGNAME_LOGFILE_EXTENTION=_${ARCHITECTURE}.build
 export PKGNAME_LOGFILE_EXTENSION=$PKGNAME_LOGFILE_EXTENTION
 export PKGNAME_LOGFILE=yes
-export PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends
-#export PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-experimental
-#export PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-aptitude
-#export PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-classic
-case $isbackports:$DISTRIBUTION in
-(no:etch)
-	PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-classic
-	;;
-(*:sarge|yes:etch|yes:lenny)
-	PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-experimental
-	;;
-(*:sloppy)
-	PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-experimental
-	;;
-esac
-PBUILDERSATISFYDEPENDSOPT=(--check-key)
 APTGETOPT=(-oAPT::Get::Purge=true)
 export USEDEVFS=no
 export USEDEVPTS=yes
 export USEPROC=yes
 unset ADDITIONAL_BUILDRESULTS
+
+export PBUILDERSATISFYDEPENDSCMD=/bin/false
+case $DISTRIBUTION in
+(sarge)
+	PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-experimental ;;
+(etch)
+	PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-classic ;;
+(lenny|squeeze|wheezy|jessie|dapper|hardy|jaunty|karmic|lucid|maverick|natty|oneiric|precise|quantal|raring|saucy|trusty|utopic|vivid|wily)
+	PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-aptitude ;;
+(*)
+	PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-apt ;;
+esac
+test x"$isbackports" = x"no" || case $DISTRIBUTION in
+    (etch|lenny)
+	PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-experimental ;;
+    esac
+PBUILDERSATISFYDEPENDSOPT=(--check-key)
 
 case $DISTRIBUTION in
 (sarge|etch|lenny|squeeze|dapper|hardy|jaunty|karmic|lucid|maverick|natty)
@@ -467,20 +470,6 @@ case $DISTRIBUTION in
 	;;
 (*)
 	REMOVEPACKAGES="$REMOVEPACKAGES debconf-i18n"
-	;;
-esac
-
-# commented out, remove the :|| to enable, pbuilder/cowbuilder currently
-# totally freak out if --debbuildopts is not also given (use -sa or -B)
-:||case x$DEBEMAIL in
-(x*' <'*'>')
-	export DEBBUILDOPTS="-m'$DEBEMAIL'"
-	;;
-(x)
-	;;
-(*)
-	[[ -n $DEBFULLNAME ]] && \
-	    export DEBBUILDOPTS="-m'$DEBFULLNAME <$DEBEMAIL>'"
 	;;
 esac
 
