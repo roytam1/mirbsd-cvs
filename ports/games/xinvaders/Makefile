@@ -1,17 +1,14 @@
-# $MirOS: ports/games/xinvaders/Makefile,v 1.4 2006/09/14 00:09:40 tg Exp $
+# $MirOS: ports/games/xinvaders/Makefile,v 1.5 2008/03/09 19:15:55 tg Exp $
 # $OpenBSD: Makefile,v 1.19 2004/05/16 23:37:58 pvalchev Exp $
 
 ONLY_FOR_PLATFORM=	MirBSD:*:* OpenBSD:*:*
-
 NOT_FOR_PLATFORM=	${LP64_PLATFORMS}
 
-COMMENT=			shoot them nasty little bugs
-
-DISTNAME=       xinvaders
-DIST_SUBDIR=	xinvaders
-PKGNAME=	xinvaders-2.0-0
-CATEGORIES=	games
-
+COMMENT=		shoot them nasty little bugs
+DISTNAME=		xinvaders
+DIST_SUBDIR=		xinvaders
+PKGNAME=		xinvaders-2.0-0
+CATEGORIES=		games
 
 PERMIT_PACKAGE_CDROM=	"no fee"
 PERMIT_PACKAGE_FTP=	Yes
@@ -25,12 +22,11 @@ DISTFILES=	part01.Z part02.Z part03.Z
 EXTRACT_CASES=	*.Z) ${GZIP_CMD} -dc ${FULLDISTDIR}/$$archive | ${_PERL_FIX_SHAR} | /bin/sh;;
 
 CONFIGURE_STYLE=	imake
-
-WRKDIST=	${WRKDIR}
+USE_X11=		Yes
+NO_REGRESS=		Yes
+WRKDIST=		${WRKDIR}
 
 pre-patch:
-	@cd $(WRKSRC) ; mv xinvaders.ma xinvaders.man
-
-NO_REGRESS=	Yes
+	@cd ${WRKSRC:Q} && mv xinvaders.ma xinvaders.man
 
 .include <bsd.port.mk>
