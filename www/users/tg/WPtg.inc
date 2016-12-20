@@ -10618,7 +10618,7 @@ Tag: D2 T1 Event
 ----
 ID: 1765
 Date: 12.03.2016
-Waypoint: GC9D96
+Waypoint: GC9D96 OC01DB
 Title: Ancient Secrets / Uralte Rätsel
 Tag: D15 T2 Regular Multi exceptional
 ----
@@ -12294,12 +12294,30 @@ Waypoint: GC6AZ1H
 Title: RY 01 - Rheydter Leckermäulchen
 Tag: D2 T15 Micro Mystery
 ----
-ID: p20161210
-Date: 10.12.2016
-Waypoint: GC6VNJ5
+ID: 2033
+Date: 18.12.2016
+Waypoint: GC6WMH7
 Banner: jpg
-Title: Musik im Advent 2016
-Tag: D15 T15 Event
+Title: Die blaue Pause - mal anders
+Tag: D15 T15 Regular Tradi
+----
+ID: 2034
+Date: 18.12.2016
+Waypoint: GC5XZDM
+Title: Schleichweg Rheinbach
+Tag: D25 T15 Nano Tradi
+----
+ID: 2035
+Date: 18.12.2016
+Waypoint: GC6MQ6C
+Title: RIP TB Hotel Rheinbach Nord
+Tag: D15 T15 Micro Tradi
+----
+ID: 2036
+Date: 18.12.2016
+Waypoint: GC5XZD2
+Title: Stadtumgehung Rheinbach
+Tag: D35 T15 Micro Tradi
 ----
 ID: p20481102
 Date: 02.11.2048

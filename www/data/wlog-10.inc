@@ -11221,9 +11221,26 @@ Tag: debian grml pcli tip work
 	<b>$</b> git merge -s ours --allow-unrelated-histories --no-commit <span class="u">Bproject/master</span>
 	<b>$</b> git read-tree -u --prefix=<span class="u">dir-B</span>/ <span class="u">Bproject/master</span>
 	<b>$</b> git commit -m '<span class="u">Merge B project as our subdirectory dir-B</span>'
+
+	Later updates are easy:
+	<b>$</b> git pull -s subtree Bproject master
  </pre>
 </div><p class="boxfoot">(mind the trailing slash after <tt>dir-B/</tt>
  on the <tt>read-tree</tt> command!)</p>
 <p>Besides reformatting, the use of <tt>--allow-unrelated-histories</tt>
- recently became necessary.</p>
+ recently became necessary. <tt>--no-tags</tt> is also usually what you
+ want, because tags are not namespaced like branches.</p>
+<p class="boxhead">Another command you might find relevant is <a
+ href="http://ramblingfoo.blogspot.de/2013/07/howto-git-remove-those-pesky.html">how
+ to clean up orphaned remote branches</a>:</p>
+<div class="boxtext">
+ <pre>
+	<b>$</b> for x in $(git remote); do git remote prune "$x"; done
+ </pre>
+</div><p class="boxfoot">This command locally deletes all remote branches
+ (those named “origin/foo”) that have been deleted on the remote side.</p>
+<p><strong>Update:</strong> Natureshadow wishes you to know that there is
+ such a command as <tt>git subtree</tt> which can do similar things to the
+ subtree merge strategy explained above, and several more related things.
+ It does, however, need the præfix on every subsequent pull.</p>
 ----
