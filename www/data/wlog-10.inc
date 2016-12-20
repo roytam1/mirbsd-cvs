@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.481 2016/05/01 23:57:24 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.482 2016/07/28 23:19:23 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -11197,4 +11197,33 @@ Tag: debian news pcli rant
  also extremely helpful.</p>
 <p>This is a request for a petition to save GMane. Please, someone,
  do something! Thanks in advance!</p>
+----
+Title: How to use the subtree git merge strategy
+Date: 20.12.2016 10:36
+Author: tg@
+Tag: debian grml pcli tip work
+
+<p>This article might be perceived as a blatant ripoff of <a
+ href="https://www.kernel.org/pub/software/scm/git/docs/howto/using-merge-subtree.html">this
+ Linux kernel document</a>, but, on the contrary, it’s intended
+ as add-on, showing how to do a subtree merge (the multi-project
+ merge strategy that’s actually doable in a heterogenous group of
+ developers, as opposed to subprojects, which many just can’t wrap
+ their heads around) with contemporary git (“stupid content tracker”).
+ Furthermore, the commands are reformatted to be easier to copy/paste.</p>
+<p class="boxhead">To summarise: you’re on the top level of a checkout
+ of the project into which the “other” project (Bproject) is to be merged.
+ We wish to merge the top level of Bproject’s “master” branch as (newly
+ created) subdirectory “dir-B” under the current project’s top level.</p>
+<div class="boxtext">
+ <pre>
+	<b>$</b> git remote add --no-tags -f <span class="u">Bproject</span> <span class="u">/path/to/B/.git</span>
+	<b>$</b> git merge -s ours --allow-unrelated-histories --no-commit <span class="u">Bproject/master</span>
+	<b>$</b> git read-tree -u --prefix=<span class="u">dir-B</span>/ <span class="u">Bproject/master</span>
+	<b>$</b> git commit -m '<span class="u">Merge B project as our subdirectory dir-B</span>'
+ </pre>
+</div><p class="boxfoot">(mind the trailing slash after <tt>dir-B/</tt>
+ on the <tt>read-tree</tt> command!)</p>
+<p>Besides reformatting, the use of <tt>--allow-unrelated-histories</tt>
+ recently became necessary.</p>
 ----
