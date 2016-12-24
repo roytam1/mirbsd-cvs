@@ -7717,6 +7717,7 @@ ID: 1315
 Date: 12.02.2015
 Waypoint: GC26TE7
 Title: Nicht so gemeint! (tongue-in-cheek)
+nTF: L
 Tag: D3 T1 Micro Mystery
 
 Passend…
@@ -9629,6 +9630,7 @@ ID: 1610
 Date: 14.06.2015
 Waypoint: GC4V72J
 Title: Kurzlogs sind scheiße !!! #1
+nTF: L
 Tag: D2 T25 Small Multi
 ----
 ID: 1611
@@ -12305,6 +12307,7 @@ ID: 2034
 Date: 18.12.2016
 Waypoint: GC5XZDM
 Title: Schleichweg Rheinbach
+nTF: L
 Tag: D25 T15 Nano Tradi
 ----
 ID: 2035
@@ -12318,6 +12321,12 @@ Date: 18.12.2016
 Waypoint: GC5XZD2
 Title: Stadtumgehung Rheinbach
 Tag: D35 T15 Micro Tradi
+----
+ID: 2037
+Date: 24.12.2016
+Waypoint: GC6JVZD
+Title: Rheinuferweg #2
+Tag: D15 T15 Micro Tradi
 ----
 ID: p20481102
 Date: 02.11.2048
