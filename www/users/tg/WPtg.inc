@@ -12328,6 +12328,49 @@ Waypoint: GC6JVZD
 Title: Rheinuferweg #2
 Tag: D15 T15 Micro Tradi
 ----
+ID: 2038
+Date: 28.12.2016
+Waypoint: GC6X924
+Title: Chaos Communication Caching – Works For Us
+Tag: D1 T1 Event
+----
+ID: 2039
+Date: 28.12.2016
+Waypoint: GC3NBWC
+Title: CCH
+Tag: D25 T2 Small Tradi
+----
+ID: 2040
+Date: 28.12.2016
+Waypoint: GC31RBP
+Title: Any&amp;Some`s Hochzeitscache
+Tag: D1 T1 Micro Tradi
+----
+ID: 2041
+Date: 29.12.2016
+Waypoint: OC12CE4
+Title: Grüner Ring: Platane
+Tag: D1 T1 Micro Tradi
+----
+ID: 2042
+Date: 29.12.2016
+Waypoint: GC5V3AT
+Title: Denkmal - Der letzte Abschied
+Tag: D1 T2 Micro Multi
+----
+ID: 2043
+Date: 29.12.2016
+Waypoint: GC4VVWC
+Title: -T---, was bin ich?
+Tag: D2 T1 Small Tradi
+----
+ID: 2044
+Date: 01.01.2017
+Waypoint: GC6XZW7
+Banner: png
+Title: Das allererste Eisevent 2017
+Tag: D1 T1 Event exceptional
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
