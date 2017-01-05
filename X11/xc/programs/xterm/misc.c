@@ -1313,6 +1313,7 @@ ReportAnsiColorRequest(XtermWidget pTerm, int colornum, int final)
     unparseputc1(OSC, pTerm->screen.respond);
     unparseputs(buffer, pTerm->screen.respond);
     unparseputc1(final, pTerm->screen.respond);
+    v_flushonly(pTerm->screen.respond);
 }
 
 /*
@@ -1631,6 +1632,7 @@ do_osc(Char * oscbuf, unsigned len GCC_UNUSED, int final)
 		unparseputs(buf, screen->respond);
 	    }
 	    unparseputc1(final, screen->respond);
+	    v_flushonly(screen->respond);
 	} else if (buf != 0) {
 	    VTFontNames fonts;
 
@@ -2031,8 +2033,10 @@ do_dcs(Char * dcsbuf, size_t dcslen)
 	    } else {
 		unparseputc(CAN, screen->respond);
 	    }
+	    v_flushonly(screen->respond);
 	} else {
 	    unparseputc(CAN, screen->respond);
+	    v_flushonly(screen->respond);
 	}
 	break;
 #if OPT_TCAP_QUERY
@@ -2053,6 +2057,7 @@ do_dcs(Char * dcsbuf, size_t dcslen)
 		unparseputc(*tmp, screen->respond);
 	    if (code >= 0) {
 		unparseputc('=', screen->respond);
+		v_flushonly(screen->respond);
 		screen->tc_query = code;
 		/* XK_COLORS is a fake code for the "Co" entry (maximum
 		 * number of colors) */
@@ -2068,6 +2073,7 @@ do_dcs(Char * dcsbuf, size_t dcslen)
 		    unparseputc('1', screen->respond);
 		    unparseputc('6', screen->respond);
 # endif
+		    v_flushonly(screen->respond);
 		} else {
 		    XKeyEvent event;
 		    event.state = state;
@@ -2076,6 +2082,7 @@ do_dcs(Char * dcsbuf, size_t dcslen)
 		screen->tc_query = -1;
 	    }
 	    unparseputc1(ST, screen->respond);
+	    v_flushonly(screen->respond);
 	}
 	break;
 #endif
@@ -2262,6 +2269,7 @@ ReportColorRequest(XtermWidget pTerm, int ndx, int final)
     unparseputc1(OSC, pTerm->screen.respond);
     unparseputs(buffer, pTerm->screen.respond);
     unparseputc1(final, pTerm->screen.respond);
+    v_flushonly(pTerm->screen.respond);
 }
 
 static Bool

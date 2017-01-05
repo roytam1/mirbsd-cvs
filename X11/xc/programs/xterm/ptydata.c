@@ -391,6 +391,6 @@ writePtyData(int f, IChar * d, unsigned len)
 
     for (n = 0; n < len; n++)
 	dbuf[n] = d[n];
-    v_write(f, dbuf, n);
+    v_writeonly(f, dbuf, n);
 }
 #endif

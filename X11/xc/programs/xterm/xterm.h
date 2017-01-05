@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: X11/xc/programs/xterm/xterm.h,v 1.6 2013/05/31 23:27:10 tg Exp $ */
 /* $XTermId: xterm.h,v 1.325 2005/01/13 23:37:15 tom Exp $ */
 
 /* $XFree86: xc/programs/xterm/xterm.h,v 3.104 2005/01/14 01:50:03 dickey Exp $ */
@@ -636,6 +636,8 @@ extern Bool iswide(int i);
 /* charproc.c */
 extern int VTInit (void);
 extern int v_write (int f, Char *d, unsigned len);
+extern int v_writeonly (int f, Char *d, unsigned len);
+extern int v_flushonly (int f);
 extern void FindFontSelection (char *atom_name, Bool justprobe);
 extern void HideCursor (void);
 extern void ShowCursor (void);
@@ -830,7 +832,7 @@ extern void writePtyData (int f, IChar *d, unsigned len);
 					(screen->output_eight_bits \
 					? 0xff \
 					: 0x7f))
-#define writePtyData(f,d,len) v_write(f,d,len)
+#define writePtyData(f,d,len) v_writeonly(f,d,len)
 #endif
 
 /* screen.c */

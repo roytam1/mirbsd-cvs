@@ -318,6 +318,7 @@ SendLocatorPosition(Widget w, XEvent * event)
 	reply.a_inters = '&';
 	reply.a_final = 'w';
 	unparseseq(&reply, screen->respond);
+	v_flushonly(screen->respond);
 
 	if (screen->locator_reset) {
 	    MotionOff(screen, term);
@@ -370,6 +371,7 @@ SendLocatorPosition(Widget w, XEvent * event)
     reply.a_final = 'w';
 
     unparseseq(&reply, screen->respond);
+    v_flushonly(screen->respond);
 
     if (screen->locator_reset) {
 	MotionOff(screen, term);
@@ -441,6 +443,7 @@ GetLocatorPosition(XtermWidget w)
 	reply.a_inters = '&';
 	reply.a_final = 'w';
 	unparseseq(&reply, screen->respond);
+	v_flushonly(screen->respond);
 
 	if (screen->locator_reset) {
 	    MotionOff(screen, term);
@@ -459,6 +462,7 @@ GetLocatorPosition(XtermWidget w)
     reply.a_inters = '&';
     reply.a_final = 'w';
     unparseseq(&reply, screen->respond);
+    v_flushonly(screen->respond);
 
     if (screen->locator_reset) {
 	MotionOff(screen, term);
@@ -500,6 +504,7 @@ InitLocatorFilter(XtermWidget w)
 	    reply.a_inters = '&';
 	    reply.a_final = 'w';
 	    unparseseq(&reply, screen->respond);
+	    v_flushonly(screen->respond);
 
 	    if (screen->locator_reset) {
 		MotionOff(screen, term);
@@ -568,6 +573,7 @@ InitLocatorFilter(XtermWidget w)
 	reply.a_inters = '&';
 	reply.a_final = 'w';
 	unparseseq(&reply, screen->respond);
+	v_flushonly(screen->respond);
 
 	if (screen->locator_reset) {
 	    MotionOff(screen, term);
@@ -625,6 +631,7 @@ CheckLocatorPosition(Widget w, XEvent * event)
 	reply.a_inters = '&';
 	reply.a_final = 'w';
 	unparseseq(&reply, screen->respond);
+	v_flushonly(screen->respond);
 
 	if (screen->locator_reset) {
 	    MotionOff(screen, term);
@@ -791,7 +798,8 @@ ReadLineMovePoint(int col, int ldelta)
     if (col < 0)
 	col = -col;
     while (col--)
-	v_write(screen->respond, line, 3);
+	v_writeonly(screen->respond, line, 3);
+    v_flushonly(screen->respond);
     return 1;
 }
 
@@ -805,7 +813,8 @@ ReadLineDelete(int r1, int c1, int r2, int c2)
     if (del <= 0)		/* Just in case... */
 	return 0;
     while (del--)
-	v_write(screen->respond, "\177", 1);	/* XXX Sometimes "\08"? */
+	v_writeonly(screen->respond, "\177", 1);	/* XXX Sometimes "\08"? */
+    v_flushonly(screen->respond);
     return 1;
 }
 #endif /* OPT_READLINE */
@@ -886,7 +895,8 @@ ReadLineButton(Widget w GCC_UNUSED,
     if (col < 0)
 	col = -col;
     while (col--)
-	v_write(screen->respond, Line, 3);
+	v_writeonly(screen->respond, Line, 3);
+    v_flushonly(screen->respond);
   finish:
     if (event->type == ButtonRelease)
 	do_select_end(w, event, params, num_params, False);
@@ -911,7 +921,7 @@ ViButton(Widget w GCC_UNUSED,
 	    ((event->xbutton.y - screen->border) / FontHeight(screen));
 	if (line != 0) {
 	    Line[0] = ESC;	/* force an exit from insert-mode */
-	    v_write(pty, Line, 1);
+	    v_writeonly(pty, Line, 1);
 
 	    if (line < 0) {
 		line = -line;
@@ -920,7 +930,8 @@ ViButton(Widget w GCC_UNUSED,
 		Line[0] = CONTROL('p');
 	    }
 	    while (--line >= 0)
-		v_write(pty, Line, 1);
+		v_writeonly(pty, Line, 1);
+	    v_flushonly(pty);
 	}
     }
 }
@@ -1276,8 +1287,10 @@ GettingSelection(Display * dpy, Atom type, Char * line, unsigned long len)
 
 #ifdef VMS
 #  define tty_vwrite(pty,lag,l)		tt_write(lag,l)
+#  define tty_vflush(pty)		/* nothing */
 #else /* !( VMS ) */
-#  define tty_vwrite(pty,lag,l)		v_write(pty,lag,l)
+#  define tty_vwrite(pty,lag,l)		v_writeonly(pty,lag,l)
+#  define tty_vflush(pty)		v_flushonly(pty)
 #endif /* defined VMS */
 
 static void
@@ -1292,6 +1305,7 @@ _qWriteSelectionData(TScreen * screen, Char * lag, unsigned length)
     } else
 #endif
 	tty_vwrite(screen->respond, lag, length);
+    tty_vflush(screen->respond);
 }
 
 static void
@@ -1349,6 +1363,7 @@ _WriteKey(TScreen * screen, Char * in)
 	line[count++] = *in++;
     line[count++] = '~';
     tty_vwrite(screen->respond, line, count);
+    tty_vflush(screen->respond);
 }
 #endif /* OPT_READLINE */
 

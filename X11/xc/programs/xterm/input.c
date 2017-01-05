@@ -516,6 +516,7 @@ Input(TKeyboard * keyboard,
 	reply.a_type = ESC;
 	MODIFIER_PARM;
 	unparseseq(&reply, pty);
+	v_flushonly(pty);
     } else
 #endif
 #if OPT_SCO_FUNC_KEYS
@@ -524,6 +525,7 @@ Input(TKeyboard * keyboard,
 	reply.a_type = CSI;
 	MODIFIER_PARM;
 	unparseseq(&reply, pty);
+	v_flushonly(pty);
     } else
 #endif
     if (IsPFKey(keysym)) {
@@ -532,6 +534,7 @@ Input(TKeyboard * keyboard,
 	VT52_CURSOR_KEYS;
 	MODIFIER_PARM;
 	unparseseq(&reply, pty);
+	v_flushonly(pty);
 	key = True;
 #if 0				/* OPT_SUNPC_KBD should suppress - but only for vt220 compatibility */
     } else if (keyboard->type == keyboardIsVT220
@@ -560,6 +563,7 @@ Input(TKeyboard * keyboard,
 	VT52_CURSOR_KEYS;
 	MODIFIER_PARM;
 	unparseseq(&reply, pty);
+	v_flushonly(pty);
 	key = True;
     } else if (IsFunctionKey(keysym)
 	       || IsMiscFunctionKey(keysym)
@@ -584,6 +588,7 @@ Input(TKeyboard * keyboard,
 	    && (event->state & (ShiftMask|ControlMask)) 
 	    && xtermDeleteIsDEL()) {
 		unparseputc('\177', pty);
+		v_flushonly(pty);
 	} 
 	else 	if ((event->state & ShiftMask) 
 #if OPT_SUNPC_KBD
@@ -592,6 +597,7 @@ Input(TKeyboard * keyboard,
 	    && ((string = (Char *) udk_lookup(dec_code, &nbytes)) != 0)) {
 	    while (nbytes-- > 0)
 		unparseputc(*string++, pty);
+	    v_flushonly(pty);
 	}
 #if OPT_VT52_MODE
 	/*
@@ -605,6 +611,7 @@ Input(TKeyboard * keyboard,
 	    reply.a_final = A2E(dec_code - 11 + E2A('P'));
 	    MODIFIER_PARM;
 	    unparseseq(&reply, pty);
+	    v_flushonly(pty);
 	}
 #endif
 	else {
@@ -625,8 +632,10 @@ Input(TKeyboard * keyboard,
 		reply.a_final = '~';
 	    }
 	    if (reply.a_final != 0
-		&& (reply.a_nparam == 0 || reply.a_param[0] >= 0))
+		&& (reply.a_nparam == 0 || reply.a_param[0] >= 0)) {
 		unparseseq(&reply, pty);
+		v_flushonly(pty);
+	    }
 	}
 	key = True;
     } else if (IsKeypadKey(keysym)) {
@@ -639,6 +648,7 @@ Input(TKeyboard * keyboard,
 	} else {
 	    unparseputc(kypd_num[keysym - XK_KP_Space], pty);
 	}
+	v_flushonly(pty);
 	key = True;
     } else if (nbytes > 0) {
 #if OPT_TEK4014
@@ -661,6 +671,7 @@ Input(TKeyboard * keyboard,
 		TRACE(("...input-char is modified by META\n"));
 		eightbit = False;
 		unparseputc(ESC, pty);	/* escape */
+		v_flushonly(pty);
 	    }
 #endif
 	    if (eightbit && screen->input_eight_bits) {
@@ -701,6 +712,7 @@ Input(TKeyboard * keyboard,
 		*string = cmp;
 	    } else if (eightbit) {
 		unparseputc(ESC, pty);	/* escape */
+		v_flushonly(pty);
 	    } else if (*string == '?'
 		       && (event->state & ControlMask) != 0) {
 		*string = 127;
@@ -708,6 +720,7 @@ Input(TKeyboard * keyboard,
 	}
 	while (nbytes-- > 0)
 	    unparseputc(*string++, pty);
+	v_flushonly(pty);
 	key = True;
     }
     if (key && !TEK4014_ACTIVE(screen))
@@ -736,6 +749,7 @@ StringInput(TScreen * screen, Char * string, size_t nbytes)
 #endif
     while (nbytes-- != 0)
 	unparseputc(*string++, pty);
+    v_flushonly(pty);
     if (!TEK4014_ACTIVE(screen))
 	AdjustAfterInput(screen);
 }
