@@ -1,4 +1,4 @@
-/* $MirOS: src/gnu/usr.bin/cvs/src/root.h,v 1.3 2010/09/19 19:43:10 tg Exp $ */
+/* $MirOS: src/gnu/usr.bin/cvs/src/root.h,v 1.4 2011/06/11 00:24:06 tg Exp $ */
 
 /*
  * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -65,6 +65,7 @@ cvsroot_t *local_cvsroot (const char *dir)
 	__attribute__ ((__malloc__));
 void Create_Root (const char *dir, const char *rootdir);
 void root_allow_add (const char *, const char *configPath);
+void root_allow_regexp_add (const char *, const char *configPath);
 void root_allow_free (void);
 bool root_allow_ok (const char *);
 int root_allow_used (void);

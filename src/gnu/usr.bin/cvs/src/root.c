@@ -18,7 +18,7 @@
 #include <assert.h>
 #include "getline.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/root.c,v 1.9 2011/06/11 00:24:05 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/root.c,v 1.10 2011/06/11 00:39:38 tg Exp $");
 
 /* Printable names for things in the current_parsed_root->method enum variable.
    Watch out if the enum is changed in cvs.h! */
@@ -267,6 +267,7 @@ primary_root_inverse_translate (const char *root_in)
    directories.  Then we can check against them when a remote user
    hands us a CVSROOT directory.  */
 static List *root_allow;
+static List *root_allow_regexp;
 
 static void
 delconfig (Node *n)
@@ -290,21 +291,65 @@ root_allow_add (const char *arg, const char *configPath)
 }
 
 void
+root_allow_regexp_add (const char *arg, const char *configPath)
+{
+    Node *n;
+
+    if (!root_allow_regexp) root_allow_regexp = getlist();
+    n = getnode();
+    n->key = xstrdup (arg);
+
+    /* This is a regexp, not the final cvsroot path - we cannot attach
+       it a config. So we attach configPath and we'll root_allow_add()
+       the actual, matching root in root_allow_compare_regexp() */
+    n->data = (void*)configPath;
+
+    addnode (root_allow_regexp, n);
+}
+
+void
 root_allow_free (void)
 {
     dellist (&root_allow);
+    dellist (&root_allow_regexp);
 }
 
 int
 root_allow_used (void)
 {
-    return (root_allow != NULL);
+    return root_allow || root_allow_regexp;
+}
+
+/* walklist() callback for determining if 'root_to_check' matches
+   n->key (a regexp). If yes, 'root_to_check' will be added as if
+   directly specified through --allow-root.
+ */
+static int
+root_allow_compare_regexp (Node *n, void *root_to_check)
+{
+  int status;
+  regex_t re;
+
+  if (regcomp(&re, n->key,
+	      REG_EXTENDED|REG_NOSUB) != 0)
+  {
+      return 0;      /* report error? */
+  }
+  status = regexec(&re, root_to_check, (size_t) 0, NULL, 0);
+  regfree(&re);
+  if (status == 0)
+  {
+      /* n->data contains gConfigPath */
+      root_allow_add (root_to_check, n->data);
+      return 1;
+  }
+  return 0;
 }
 
 bool
 root_allow_ok (const char *arg)
 {
-    if (!root_allow)
+    if (!root_allow_used())
     {
 	/* Probably someone upgraded from CVS before 1.9.10 to 1.9.10
 	   or later without reading the documentation about
@@ -316,12 +361,18 @@ root_allow_ok (const char *arg)
 	   back "error" rather than waiting for the next request which
 	   expects responses.  */
 	printf ("\
-error 0 Server configuration missing --allow-root in inetd.conf\n");
+error 0 Server configuration missing --allow-root or --allow-root-regexp in inetd.conf\n");
 	exit (EXIT_FAILURE);
     }
 
+    /* Look for 'arg' in the list of full-path allowed roots */
     if (findnode (root_allow, arg))
 	return true;
+
+    /* Match 'arg' against the list of allowed roots regexps */
+    if (walklist (root_allow_regexp, root_allow_compare_regexp, (void*)arg))
+      return true;
+
     return false;
 }
 

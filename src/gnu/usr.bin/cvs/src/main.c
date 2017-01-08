@@ -28,7 +28,7 @@
 uint32_t arc4random(void);
 #endif
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.18 2016/10/21 22:01:50 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/main.c,v 1.21 2016/11/08 23:04:37 tg Exp $");
 
 const char *program_name;
 const char *program_path;
@@ -490,6 +490,7 @@ main (int argc, char **argv)
 	{"help-options", 0, NULL, 4},
 #ifdef SERVER_SUPPORT
 	{"allow-root", required_argument, NULL, 3},
+	{"allow-root-regexp", required_argument, NULL, 14},
 #endif /* SERVER_SUPPORT */
         {0, 0, 0, 0}
     };
@@ -613,6 +614,10 @@ main (int argc, char **argv)
 	    case 3:
 		/* --allow-root */
 		root_allow_add (optarg, gConfigPath);
+		break;
+	    case 14:
+		/* --allow-root-regexp */
+		root_allow_regexp_add (optarg, gConfigPath);
 		break;
 #endif /* SERVER_SUPPORT */
 	    case 'Q':

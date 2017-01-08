@@ -1,6 +1,6 @@
 #! /bin/sh
 :
-# $MirOS: src/gnu/usr.bin/cvs/src/sanity.sh,v 1.2 2016/10/22 15:34:32 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/src/sanity.sh,v 1.5 2016/11/08 23:04:37 tg Exp $
 #-
 # set DISABLE_ANY_RSH=1 to skip rsh and ssh calls
 #
@@ -30517,9 +30517,30 @@ $username:
 willfail:   :whocares
 EOF
 	    dotest_fail pserver-3 "$servercvs pserver" \
-"error 0 Server configuration missing --allow-root in inetd.conf" <<EOF
+"error 0 Server configuration missing --allow-root or --allow-root-regexp in inetd.conf" <<EOF
 BEGIN AUTH REQUEST
 $CVSROOT_DIRNAME
+testme
+Ay::'d
+END AUTH REQUEST
+EOF
+
+	    regexp='^'`dirname ${CVSROOT_DIRNAME}`'/[^/]+$'
+	    dotest pserver-3b "${testcvs} --allow-root-regexp=$regexp pserver" \
+"I LOVE YOU" <<EOF
+BEGIN AUTH REQUEST
+${CVSROOT_DIRNAME}
+testme
+Ay::'d
+END AUTH REQUEST
+EOF
+
+	    regexp='^'`dirname ${CVSROOT_DIRNAME}`'/[^/]+$'
+	    dotest_fail pserver-3c "${testcvs} --allow-root-regexp=$regexp pserver" \
+"$CPROG pserver: ${CVSROOT_DIRNAME}/subdir: no such repository
+I HATE YOU" <<EOF
+BEGIN AUTH REQUEST
+${CVSROOT_DIRNAME}/subdir
 testme
 Ay::'d
 END AUTH REQUEST

@@ -1,5 +1,221 @@
-Changes since 1.12.10:
+Changes since 1.12.13:
 **********************
+
+* many which are only documented in MirBSD CVS
+
+* A new command line option, --allow-root-regexp, was added which allows
+  acceptable repositories to be specified using a list of regular expressions.
+
+Changes since 1.12.12:
+**********************
+
+SECURITY FIXES
+
+* CVS now uses version 1.2.3 of the ZLib compression libraries in order to
+  avoid two recently announced security vulnerabilities in them.  Both may be
+  used for denial of service attacks and one may reportedly allow execution of
+  arbitrary code, though this is not confirmed.  Please see the CERT
+  vulnerabilities advisories #238678 <http://www.kb.cert.org/vuls/id/238678> &
+  #680620 <http://www.kb.cert.org/vuls/id/680620> for more.
+
+NEW FEATURES
+
+* Thanks to Conrad Pino <conrad@pino.com>, a hang in the Windows client, which
+  had pretty much rendered the client useless, has been fixed.
+
+* A minor problem preventing build of the Kerberos4 client has been fixed.
+
+* The path to the config file may be set as an argument to the CVS server
+  commands.
+
+* Sections of directives specific to one or more repositories and not others
+  may now be specified in the config file.
+
+* %{sV} format strings are now available to the verifymsg trigger, similar to
+  the %{stVv} available to loginfo.
+
+* `cvs watch add' on an empty directory no longer clears watchers, and
+  specifying a directory for `cvs watch add' now (correctly) sets default
+  attributes.
+
+* Missing CVSROOT/history files will now cause CVS to attempt to create one.
+  To suppress history logging, set LogHistory equal to the empty string in
+  CVSROOT/config.
+
+* There are several new options available in CVSROOT/config.  These are
+  TmpDir, HistoryLogPath, HistorySearchPath, MinCompressionLevel, &
+  MaxCompressionLevel.  Please see the manual for more.
+
+* CVS on Solaris 10 was refusing to parse command options.  This has been
+  fixed.
+
+* The Windows client now creates locks compatible with older versions of CVS by
+  default.  This should only be relevant if your client is accessing a local
+  repository concurrently with another, older client.  If you would like to
+  disable compatibility mode (because it is slightly faster), edit the
+  LOCK_COMPATIBILITY flag in windows-NT/config.h and recompile.
+
+* Misc efficiency and portability improvements.
+
+BUG FIXES
+
+* Thanks to Serguei E. Leontiev <lse@CryptoPro.ru>, CVS with Kerberos 5 GSSAPI
+  should automatically link on FreeBSD 5.x. (bug #14639).
+
+* Thanks to Rahul Bhargava <rahul@wandisco.com>, heavily loaded systems
+  suffering from a disk crash or power failure will not lose data they claimed
+  to have committed.
+
+* CVS server now handles conflict markers in Entry requests as documented.
+
+* CVS now remembers that binary file merge conflicts occurred until the
+  timestamp of the updated binary file changes.
+
+* CVS client now saves some bandwidth by not sending the contents of files
+  with conflicts to the server when it isn't needed.
+
+* CVS now does correct locking during import.
+
+* A problem where the server could block indefinitely waiting for an EOF from
+  the client when compression was enabled has been fixed.
+
+* `cvs diff' no longer splits its arguments on spaces.
+
+* Thanks to an old report and patch from Stewart Brodie <stewart@eh.org>, a
+  potential crash in response to a corrupt RCS file has been fixed.
+
+* CVS now locks the history and val-tags files before writing to them.
+  Especially with large repositories, users should no longer see new warnings
+  about corrupt history records when using the `cvs history' command.  Existing
+  corrupt history records will still need to be removed manually.  val-tags
+  corruption should have had less obvious effects, but removing the
+  CVSROOT/val-tags file and allowing a 1.11.21 or later version of CVS to
+  regenerate it may eliminate a few odd behaviors and possibly cause a slight
+  speed up of read transactions in large repositories over time.
+
+BUILD ISSUES
+
+* The RPM spec file works again with the most modern versions of `rpm'.  It
+  also finds the correct version of install-sh when building the CVS with
+  GSSAPI.
+
+DEVELOPER ISSUES
+
+* We've standardized on Automake 1.9.6 to get some at new features that make
+  our jobs easier.  See the HACKING file for more on using the autotools with
+  CVS.
+
+Changes from 1.12.11 to 1.12.12:
+********************************
+
+SERVER SECURITY FIXES
+
+* Thanks to a report from Alen Zukich <alen.zukich@klocwork.com>, several minor
+  security issues have been addressed.  One was a buffer overflow that is
+  potentially serious but which may not be exploitable, assigned CAN-2005-0753
+  by the Common Vulnerabilities and Exposures Project
+  <http://www.cve.mitre.org>.  Other fixes resulting from Alen's report include
+  repair of an arbitrary free with no known exploit and several plugged memory
+  leaks and potentially freed NULL pointers which may have been exploitable for
+  a denial of service attack.
+
+* Thanks to a report from Craig Monson <craig@malachiarts.com>, minor
+  potential vulnerabilities in the contributed Perl scripts have been fixed.
+  The confirmed vulnerability could allow the execution of arbitrary code on
+  the CVS server, but only if a user already had commit access and if one of
+  the contrib scripts was installed improperly, a condition which should have
+  been quickly visible to any administrator.  The complete description of the
+  problem is here: <https://ccvs.cvshome.org/issues/show_bug.cgi?id=224>.  If
+  you were making use of any of the contributed trigger scripts on a CVS
+  server, you should probably still replace them with the new versions, to be
+  on the safe side.
+
+  Unfortunately, our fix is incomplete.  Taint-checking has been enabled in all
+  the contributed Perl scripts intended to be run as trigger scripts, but no
+  attempt has been made to ensure that they still run in taint mode.  You will
+  most likely have to tweak the scripts in some way to make them run.  Please
+  send any patches you find necessary back to <bug-cvs@nongnu.org> so that we
+  may again ship fully enabled scripts in the future.
+
+  You should also make sure that any home-grown Perl scripts that you might
+  have installed as CVS triggers also have taint-checking enabled.  This can be
+  done by adding `-T' on the scripts' #! lines.  Please try running
+  `perldoc perlsec' if you would like more information on general Perl security
+  and taint-checking.
+
+NEW FEATURES
+
+* Thanks to a report from Ian Abbott <abbotti@mev.co.uk>, a problem that caused
+  CVS to stop with broken assertions in certain time zones when daylight
+  savings is in effect has been fixed.
+
+* A problem where a proxy server could fail to notice that its primary closed
+  the connection has been fixed.
+
+* Failures to open the CVS_CLIENT_LOG, CVS_SERVER_LOG, and CVS_SECONDARY_LOG
+  are no longer fatal.
+
+* CVS's client and server IO buffers now rely on a GNULIB modules for memory
+  management rather than taking on the task themseleves.  This should be faster
+  on any system but may increase memory usage noticably on systems without the
+  POSIX mmap() function.  Benchmark reports to <bug-cvs@gnulib.org> would be
+  welcome.
+
+* Some more GNULIB functions have been imported and/or updated for portability
+  reasons.  This change should not be visible to most users, though CVS may now
+  compile on a few more platforms.
+
+* CVS creates a unique session id that gets written to the RCS files during
+  import and commit. When committing several files at once, they all get the
+  same 'commitid'. The commitid becomes visible with log and status commands,
+  and is derived and compatible with the cvsnt project.
+
+* CVS once again compiles correctly configured with various combinations of
+  --disable-client, --disable-server, and --disable-proxy.
+
+* CVS now accepts the <tag>:<date> format, which has long been acceptable as an
+  argument to -j options, in most places where <tag> used to be acceptable.  An
+  empty tag in this format (e.g. ":<date>"), which used to be rejected, is now
+  interpreted as specifying a date on the trunk.
+
+* CVS now uses ZLib 1.2.2.  This fixes the minor vulnerability described here:
+  <http://www.kb.cert.org/vuls/id/238678>, as well as some other minor bugs we
+  are not aware of bug reports for in conjunction with CVS.
+
+* `cvs -n release' now does what it should (see changes to the info-cleanup-0
+  test in sanity.sh for more).
+
+* The configure script now prefers `ssh' to `rsh' when determining a default
+  executable to use when connecting via the :ext: method.
+
+* A problem in the compression buffer that was causing some incompatibility
+  with some 3rd party CVS clients when compression was enabled has been fixed.
+
+* Some files missing from the distribution have been added or readded.  The
+  missing files were mostly development support files, with a few docs and
+  .cvsignore files thrown in.
+
+* The incomplete Brazillian Portugese translation of the CVS manual is now
+  included in the distribution.
+
+BUG FIXES
+
+* Misc bug and documentation fixes.
+
+* CVS now detects write errors on standard output.  Before, e.g.,
+  `cvs update -p FILE > /dev/full' would fail to report the write error.
+
+* Thanks to a report and a patch from Georg Scwharz <georg.scwarz@freenet.de>
+  CVS now builds without error on IRIX 5.3
+
+DEVELOPER ISSUES
+
+* We've standardized on Automake 1.9.5 to get some at new features that make
+  our jobs easier.  See the HACKING file for more on using the autotools with
+  CVS.
+
+Changes from 1.12.10 to 1.12.11:
+********************************
 
 NEW FEATURES
 
@@ -18,6 +234,8 @@ NEW FEATURES
 * Miscellaneous documentation fixes.
 
 BUG FIXES
+
+* An intermittant assertion failure in checkout has been fixed.
 
 * Thanks to a report from Chris Bohn <cbohn@rrinc.com>, all the source files
   needed to build on Windows are now included in the source distribution.
