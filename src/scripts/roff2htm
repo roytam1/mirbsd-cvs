@@ -278,7 +278,7 @@ function output_footer {
 <p>These manual pages and other documentation are <a
  href="'$roff2htm_rel'man7/BSD-Licence.htm">copyrighted</a> by their respective writers;
  their source is available at our <a href="http://cvs.mirbsd.de/">CVSweb</a>,
- AnonCVS, and other mirrors. The rest is Copyright © 2002–2016 <a
+ AnonCVS, and other mirrors. The rest is Copyright © 2002–2017 <a
  href="https://www.mirbsd.org/">The MirOS Project</a>, Germany.<br /><span
  style="font-size:3pt; font-style:italic;">This product includes material
  provided by <b>mirabilos</b>.</span></p>
