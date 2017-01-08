@@ -30537,8 +30537,7 @@ EOF
 
 	    regexp='^'`dirname ${CVSROOT_DIRNAME}`'/[^/]+$'
 	    dotest_fail pserver-3c "${testcvs} --allow-root-regexp=$regexp pserver" \
-"$CPROG pserver: ${CVSROOT_DIRNAME}/subdir: no such repository
-I HATE YOU" <<EOF
+"$CPROG \\[pserver aborted\\]: ${CVSROOT_DIRNAME}/subdir: no such repository" <<EOF
 BEGIN AUTH REQUEST
 ${CVSROOT_DIRNAME}/subdir
 testme
