@@ -54,4 +54,5 @@ to CVS, development of CVS, and more, see:
 .BR rcsdiff ( 1 ),
 .BR rcsintro ( 1 ),
 .BR rcsmerge ( 1 ),
-.BR rlog ( 1 ).
+.BR rlog ( 1 ),
+.BR re_format ( 7 ).
