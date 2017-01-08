@@ -31,11 +31,9 @@ for many years.
 And many others too numerous to mention here.
 .SH "SEE ALSO"
 The most comprehensive manual for CVS is
-Version Management with CVS by Per Cederqvist et al.  Depending on
-your system, you may be able to get it with the
-.B info CVS
-command or it may be available as cvs.pdf (Portable Document Format),
-cvs.ps (PostScript), cvs.texinfo (Texinfo source), or cvs.html.
+Version Management with CVS by Per Cederqvist et al. (see
+.I NOTE
+at top).
 .SP
 For CVS updates, more information on documentation, software related
 to CVS, development of CVS, and more, see:
