@@ -1,5 +1,5 @@
 ## Process this file with automake to produce Makefile.in
-# $MirOS: src/gnu/usr.bin/cvs/doc/Makefile.am,v 1.3 2005/04/19 20:58:13 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/doc/Makefile.am,v 1.4 2011/12/04 18:53:01 tg Exp $
 # Makefile for GNU CVS documentation (excluding man pages - see ../man).
 #
 # Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -78,11 +78,11 @@ cvsclient.txt: cvsclient.texi $(srcdir)/version-client.texi
 # cvs.pdf will be generated from the generic target and the PS source, which
 # contains less information (hyperlinks and such) than the usual texinfo source.
 cvs-paper.ps: cvs-paper.ms
-	$(ROFF) -t -p -ms -Tps $< > $@-t
+	$(ROFF) -t -p -ms -Tps -P-p28c,21c $< > $@-t
 	mv $@-t $@
 
 cvs-paper.pdf: cvs-paper.ps
-	ps2pdf $< $@
+	ps2pdf14 -sPAPERSIZE=pa4 $< $@
 
 # Targets to build a man page from cvs.texinfo.
 cvs.1: @MAINTAINER_MODE_TRUE@ mkman cvs.man.header cvs.texinfo cvs.man.footer

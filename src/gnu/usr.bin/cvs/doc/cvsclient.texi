@@ -1,8 +1,17 @@
 \input texinfo @c -*- texinfo -*-
 
 @setfilename cvsclient.info
-@afourpaper
-@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvsclient.texi,v 1.4 2011/06/11 03:46:26 tg Exp $
+@tex
+ % set PA4 paper size (can print on both DIN ISO A4 and US Letter)
+ \globaldefs = 1%
+ \afourpaper%
+ \internalpagesizes{46\baselineskip}{160mm}%
+  {\voffset}{\hoffset}%
+  {\bindingoffset}{36pt}%
+  {28truecm}{21truecm}%
+ \globaldefs = 0%
+@end tex
+@comment $MirOS: src/gnu/usr.bin/cvs/doc/cvsclient.texi,v 1.7 2016/11/08 23:04:35 tg Exp $
 @include version-client.texi
 
 @dircategory Programming
