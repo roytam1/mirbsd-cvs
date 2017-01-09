@@ -3,7 +3,7 @@
 
 mws_setname legacy/wlog-7 "MirBSD Weblog"
 mws_setheadline MirBSD — RELEASE TIME!!! Stable Services for Commercial Customers
-mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.9 2015/10/12 22:40:54 tg Exp $'
+mws_putheader '$MirOS: www/src/wlog-7.hts,v 1.10 2016/10/30 04:47:10 tg Exp $'
 mws_content <<'EOF'
 <h3>News <small><a href="#eof">bottom</a></small></h3>
 <h6>Note: all these entries are from tg@ up to November 3rd, when the
@@ -1593,7 +1593,7 @@ mws_content <<'EOF'
  and have now fixed all identifyable problems with the snapshot. This means,
  I'll build a public full snapshot tomorrow, after I got up.</p>
 <p>late 20.11.2004 by tg@<br />I've started a page featuring a <a
- href="@@RELPATH@@clog-2004.htm">detailled list of changes between snapshots</a>, to aid
+ href="@@RELPATH@@clog-2004.htm">detailed list of changes between snapshots</a>, to aid
  bsiegert@ in creating the short list of changes for Freshmeat. I've fixed the
  damn 8bit support for sendmail, and am compiling said snapshot right now;
  will fix patch(1) in a jiffy and start hacking cvs RSN.</p>

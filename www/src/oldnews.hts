@@ -4,7 +4,7 @@
 mws_setname oldnews "Old News and Weblog"
 mws_subdir 0
 mws_setheadline Older News and Weblogs
-mws_putheader '$MirOS: www/src/oldnews.hts,v 1.11 2015/10/12 22:40:53 tg Exp $'
+mws_putheader '$MirOS: www/src/oldnews.hts,v 1.12 2016/02/08 15:53:31 tg Exp $'
 mws_content_keeptabs <<'EOF'
 <h2 id="owlog">Old Weblog</h2><ul>
 <li><a href="@@RELPATH@@wlog-0.htm">From the beginning to December 2002</a> after
@@ -941,7 +941,7 @@ mws_content_keeptabs <<'EOF'
 <li><a href="@@RELPATH@@clog-2004.htm">Snapshots released 2004</a></li>
 <li><a href="@@RELPATH@@clog-2005.htm">Snapshots released 2005</a></li>
 <li><a href="@@RELPATH@@clog-2006.htm">Snapshots released 2006</a></li>
-</ul><p>Featuring a compact yet detailled list of changes between the
+</ul><p>Featuring a compact yet detailed list of changes between the
  snapshots uploaded &ndash; both for developers and users. A stripped
  down version (for user view) is being used for putting info into
  freshmeat and similar websites.</p>
