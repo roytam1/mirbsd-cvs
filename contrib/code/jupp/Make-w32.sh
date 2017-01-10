@@ -2,6 +2,10 @@
 # $MirOS: contrib/code/jupp/Make-w32.sh,v 1.6 2016/10/30 02:38:34 tg Exp $
 
 extrawarnings="-Wall -Wextra"
+if [[ $1 = -g ]]; then
+	# Debug build and no packaging
+	extrawarnings="$extrawarnings -g3"
+fi
 extrawarnings="$extrawarnings -Wno-unused-parameter"
 echo "N: gcc-3.4.4-999 does not support -Wno-missing-field-initializers"
 echo "N: expect warnings about those, they are known, do not report them"
@@ -41,6 +45,11 @@ mksh ../../configure \
     --disable-termidx \
     --enable-win32reloc
 make AM_CFLAGS="$extrawarnings"
+if [[ $1 = -g ]]; then
+	# Debug build with no packaging
+	ln -s joe.exe jupp.exe
+	exit 0
+fi
 cp charmaps/* syntax/* ../$jtop/
 cp jmacsrc joerc jpicorc jstarrc ../$jtop/
 cp joe.exe ../$jtop/jupp32.exe
