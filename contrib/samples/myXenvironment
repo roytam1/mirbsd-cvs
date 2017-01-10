@@ -52,7 +52,8 @@ export LC_CTYPE=C
 if [[ $1 = vga ]]; then
 	# exec xtm vga ...
 	shift
-	/usr/X11R6/bin/xterm -class VXTerm "$@" &
+	export JOECHARMAP=cp437
+	/usr/X11R6/bin/xterm +lc +u8 -class VXTerm "$@" &
 	exit 0
 elif [[ $1 = @(iso|C|c|en|en_US|latin1|iso?(-)8859*) ]]; then
 	exec /usr/X11R6/bin/xterm -title isoTerm -geom 113x42+1+1 -fn 9x15 "$@"
