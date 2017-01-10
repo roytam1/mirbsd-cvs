@@ -189,6 +189,16 @@ int set_attr(SCRN *t, int c)
 
 /* Output character with attributes */
 
+void outatr_help(SCRN *t,int *scrn,int *attrf,int xx,int yy,int c,int a)
+{
+	/* kludge for help_display() only */
+	if (locale_map->type && !joe_isprint(locale_map,c)) {
+		a ^= xlata[c];
+		c = xlatc[c];
+	}
+	outatr(locale_map, t, scrn, attrf, xx, yy, c, a);
+}
+
 void outatr(struct charmap *map,SCRN *t,int *scrn,int *attrf,int xx,int yy,int c,int a)
 {
 	if(map->type)

@@ -26,6 +26,8 @@
 #include "utf8.h"
 #include "w.h"
 
+extern void outatr_help(SCRN *,int *,int *,int,int,int,int);
+
 #define NOT_ENOUGH_MEMORY -11
 
 struct help *help_actual = NULL;			/* actual help screen */
@@ -153,7 +155,7 @@ struct help *find_context_help(const unsigned char *name)
 void help_display(SCREEN *t)
 {
 	unsigned char *str;
-	int y, x, c, z;
+	int y, x, z;
 	int atr = 0;
 
 	if (help_actual) {
@@ -263,9 +265,10 @@ void help_display(SCREEN *t)
 							continue;
 						}
 					}
-					c = *str++;
-					outatr(locale_map, t->t, t->t->scrn + x + y * t->w, 
-					             t->t->attr + x + y * t->w, x, y, c, atr);
+					outatr_help(t->t,
+					    t->t->scrn + x + y * t->w,
+					    t->t->attr + x + y * t->w,
+					    x, y, *str++, atr);
 				}
 			}
 			atr = 0;
