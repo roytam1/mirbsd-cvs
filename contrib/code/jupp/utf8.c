@@ -245,8 +245,13 @@ joe_locale(void)
 	if (s == NULL) {
 		locale_map = NULL;
 	} else {
-		if ((t = strrchr(s, '.')) != NULL)
-			locale_map = find_charmap(++t);
+		if ((t = strrchr(s, '.')) != NULL) {
+			unsigned char *tt;
+
+			if ((tt = strchr(++t, '@')) != NULL)
+				*tt = '\0';
+			locale_map = find_charmap(t);
+		}
 		if (locale_map == NULL)
 			locale_map = find_charmap(s);
 	}
