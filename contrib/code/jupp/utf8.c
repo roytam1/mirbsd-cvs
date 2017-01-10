@@ -3,7 +3,7 @@
  *	UTF-8 Utilities
  *	Copyright
  *		(C) 2004 Joseph H. Allen
- *		(c) 2004, 2006 Thorsten Glaser
+ *		(c) 2004, 2006, 2011, 2013, 2014, 2017 Thorsten Glaser
  *
  *	This file is part of JOE (Joe's Own Editor)
  */
