@@ -59,7 +59,7 @@ export CPPFLAGS='-DJUPPRC_BUILTIN_NAME=\"jupp32rc\"'
     --enable-win32reloc
 make AM_CFLAGS="$extrawarnings"
 if (( nopkg )); then
-	ln -sf joe.exe jupp.exe
+	ln -f joe.exe jupp.exe
 	ln -sf ../../jupprc .
 	exit 0
 fi
