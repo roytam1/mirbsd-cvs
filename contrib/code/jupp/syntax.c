@@ -87,6 +87,7 @@ octetutf(P *p)
 {
 	int c;
 
+	utfstate.first = 0;
 	if (!(utfstate.start < utfstate.limit)) {
 		if ((c = pgetb(p)) == NO_MORE_DATA)
 			return (NO_MORE_DATA);
@@ -94,6 +95,7 @@ octetutf(P *p)
 		utfstate.limit = utf8_encode(utfstate.buf,
 		    to_uni(p->b->o.charmap, c));
 		utfstate.start = 0;
+		utfstate.first = 1;
 	}
 	return (utfstate.buf[utfstate.start++]);
 }
