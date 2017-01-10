@@ -753,7 +753,7 @@ static int dopfrepl(BW *bw, int c, SRCH *srch, int *notify)
 
 static int restrict_to_block(BW *bw, SRCH *srch)
 {
-	if (!srch->valid || !srch->block_restrict)
+	if (!srch->block_restrict)
 		return 0;
 	bw->cursor->xcol = piscol(bw->cursor);
 	if (srch->backwards)
