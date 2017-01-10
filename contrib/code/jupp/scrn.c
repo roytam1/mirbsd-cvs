@@ -444,7 +444,7 @@ static void out(unsigned char *t, unsigned char c)
 
 SCRN *nopen(CAP *cap)
 {
-	SCRN *t = (SCRN *) joe_malloc(sizeof(SCRN));
+	SCRN *t = (SCRN *) joe_calloc(1, sizeof(SCRN));
 	int x, y;
 
 	ttopen();
