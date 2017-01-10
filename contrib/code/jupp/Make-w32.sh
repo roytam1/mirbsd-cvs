@@ -48,6 +48,7 @@ make AM_CFLAGS="$extrawarnings"
 if [[ $1 = -g ]]; then
 	# Debug build with no packaging
 	ln -s joe.exe jupp.exe
+	ln -s ../../{charmaps,syntax,jmacsrc,joerc,jpicorc,jstarrc,jupprc} .
 	exit 0
 fi
 cp charmaps/* syntax/* ../$jtop/
