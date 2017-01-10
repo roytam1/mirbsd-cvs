@@ -261,12 +261,9 @@ void help_display(SCREEN *t)
 						case 0:	
 							--x;
 							continue;
-						default:
-							c = *str++;
 						}
-					} else {
-						c = *str++;
 					}
+					c = *str++;
 					outatr(locale_map, t->t, t->t->scrn + x + y * t->w, 
 					             t->t->attr + x + y * t->w, x, y, c, atr);
 				}
