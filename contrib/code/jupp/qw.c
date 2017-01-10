@@ -9,6 +9,8 @@
 #include "config.h"
 #include "types.h"
 
+#include <stdlib.h>
+
 #include "utils.h"
 #include "vs.h"
 #include "charmap.h"

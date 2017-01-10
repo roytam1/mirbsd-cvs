@@ -16,6 +16,8 @@
 #include <sys/stat.h>
 #endif
 
+#include <stdlib.h>
+
 #include "b.h"
 #include "blocks.h"
 #include "menu.h"

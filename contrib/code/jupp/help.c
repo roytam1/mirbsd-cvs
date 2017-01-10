@@ -11,6 +11,7 @@
 #include "types.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #ifdef HAVE_BSD_STRING_H

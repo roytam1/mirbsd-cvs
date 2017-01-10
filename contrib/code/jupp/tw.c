@@ -10,6 +10,7 @@
 #include "types.h"
 
 #include <stdio.h>
+#include <stdlib.h>
 #ifdef HAVE_TIME_H
 #include <time.h>
 #endif

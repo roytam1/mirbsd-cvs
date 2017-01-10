@@ -9,6 +9,8 @@
 #include "config.h"
 #include "types.h"
 
+#include <stdlib.h>
+
 #include "b.h"
 #include "bw.h"
 #include "main.h"
