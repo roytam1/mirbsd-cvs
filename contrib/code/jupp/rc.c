@@ -631,7 +631,7 @@ static int syntaxcmplt(BW *bw)
 		p = (unsigned char *)getenv("HOME");
 		if (p) {
 			unsigned char buf[1024];
-			joe_snprintf_1((char *)buf,sizeof(buf),"%s/.joe/syntax",p);
+			joe_snprintf_1((char *)buf,sizeof(buf),"%s/.jupp/syntax",p);
 			if (!chpwd(buf) && (t = rexpnd(US "*.jsf"))) {
 				for (x = 0; x != aLEN(t); ++x)
 					*strrchr((char *)t[x],'.') = 0;

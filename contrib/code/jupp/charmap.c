@@ -1384,11 +1384,11 @@ find_charmap(const unsigned char *name)
 		if (!map_name_cmp(m->name, name))
 			return (m);
 
-	/* Check ~/.joe/charmaps */
+	/* Check ~/.jupp/charmaps */
 	p = (unsigned char *)getenv("HOME");
 	if (p) {
 		joe_snprintf_2((char *)buf, sizeof(buf),
-		    "%s/.joe/charmaps/%s", p, name);
+		    "%s/.jupp/charmaps/%s", p, name);
 		f = fopen((char *)buf, "r");
 	}
 
@@ -1465,7 +1465,7 @@ get_encodings(void)
 	/* External maps */
 
 	if ((p = (unsigned char *)getenv("HOME"))) {
-		joe_snprintf_1((char *)buf, sizeof(buf), "%s/.joe/charmaps", p);
+		joe_snprintf_1((char *)buf, sizeof(buf), "%s/.jupp/charmaps", p);
 		if (!chpwd(buf) && (t = rexpnd(US "*"))) {
 			for (x = 0; x != aLEN(t); ++x)
 				if (strcmp(t[x], "..")) {
