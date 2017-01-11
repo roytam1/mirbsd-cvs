@@ -1,8 +1,0 @@
-; $MirOS$
-
-; installed via the MirPorts Framework
-@PREFIX@/Acrobat5/Browsers/intellinux/
-@PREFIX@/jdk1.3.1-linux/jre/plugin/i386/ns4/
-@PREFIX@/jdk1.3.1-linux/jre/plugin/i386/ns600/
-@PREFIX@/lib/RealPlayer/
-@PREFIX@/lib/flash/

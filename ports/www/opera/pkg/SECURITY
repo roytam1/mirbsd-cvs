@@ -1,4 +1,0 @@
-The tg-opera-9_5x branch in mircvs://ports/www/opera/ contains
-a security update to Opera-Linux 9.50 (or above).  The version
-used in the MAIN branch, Opera-Linux 9.27, is vulnerable.  The
-update has not yet been committed to HEAD due to segfaults.

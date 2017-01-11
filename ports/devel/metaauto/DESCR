@@ -1,8 +1,0 @@
-GNU autotools tend to be incompatible from release to release.
-
-metaauto is an attempt at alleviating the problem: it provides actual
-scripts, such as autoconf, that will try to call the right tool based
-on a few environment variables, such as AUTOCONF_VERSION and
-AUTOMAKE_VERSION. The return status is 1 if not set, unless (mostly to
-keep compatible to the original OpenBSD metaauto) AUTOCONF_NOTSET_OK
-or AUTOMAKE_NOTSET_OK (respectively) are set to 1.
