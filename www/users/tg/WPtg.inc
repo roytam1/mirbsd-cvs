@@ -12371,6 +12371,12 @@ Banner: png
 Title: Das allererste Eisevent 2017
 Tag: D1 T1 Event exceptional
 ----
+ID: 2045
+Date: 11.01.2017
+Waypoint: GC6YZFQ
+Title: Hinter dem ewigem Grün
+Tag: D25 T15 Small Tradi
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
