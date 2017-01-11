@@ -9,14 +9,14 @@ most IBM PC text editors: The key sequences are reminiscent of
 WordStar and Turbo C. However, joe is much more powerful than
 those editors. joe has all of the features a UNIX user should
 expect: full use of termcap/terminfo, excellent screen update
-optimizations (joe is fully usable at 2400 baud), simple in‐
+optimisations (joe is fully usable at 2400 baud), simple in‐
 stallation, and all of the UNIX-integration features of vi. A
 number of reference cards are always available as online help
 in an intuitive, simple, and well thought-out user interface,
 with deferred screen update to handle typeahead, not bypassed
 by tty buffering. SELinux context copying is supported.
 
-joe has a great screen update optimization algorithm, multiple
+joe has a great screen update optimisation algorithm, multiple
 windows (through/between which you can scroll) and lacks the
 confusing notion of named buffers. It has command history, tab
 expansion in file selection menus, undo and redo functions,
