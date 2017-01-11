@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS$
+# $MirOS: contrib/hosted/tg/jupptables,v 1.1 2013/11/30 23:58:29 tg Exp $
 #-
-# © 2013 Thorsten “mirabilos” Glaser <tg@mirbsd.org>
+# © 2013, 2017 mirabilos <m@mirbsd.org>
 #-
 # Warning: this is SLOW! Generates tables for jupp from the UCD.
 
@@ -409,9 +409,25 @@ for file in *.lst; do
 	exec >"$file.out"
 	print "static const struct mb_ucsrange data_wctype_${file%.lst}[] = {"
 	i=-1
-	while (( ++i < nrange )); do
-		print "	{ ${rangelo[i]}, ${rangehi[i]} },"
-	done | sed 's/16#0\{0,2\}/0x/g'
+	if [[ $file = print.lst ]]; then
+		while (( ++i < nrange )); do
+			if (( rangelo[i] < 0x2022 && rangehi[i] > 0x2022 )); then
+				print '#ifdef __CYGWIN__'
+				print '	/* WTF?! https://blogs.msdn.microsoft.com/oldnewthing/20070104-12/?p=28513 */'
+				print "	{ ${rangelo[i]}, 0x2021 },"
+				print "	{ 0x2023, ${rangehi[i]} },"
+				print '#else'
+				print "	{ ${rangelo[i]}, ${rangehi[i]} },"
+				print '#endif'
+			else
+				print "	{ ${rangelo[i]}, ${rangehi[i]} },"
+			fi
+		done | sed 's/16#0\{0,2\}/0x/g'
+	else
+		while (( ++i < nrange )); do
+			print "	{ ${rangelo[i]}, ${rangehi[i]} },"
+		done | sed 's/16#0\{0,2\}/0x/g'
+	fi
 	print "};"
 done
 for file in tolower.h toupper.h; do
