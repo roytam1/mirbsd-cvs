@@ -273,7 +273,7 @@ function output_header {
 
 function output_footer {
 	print '
-<hr /><p style="font-size:xx-small;">Generated on' $roff2htm_gendate by
+<hr /><p style="font-size:xx-small;">Generated on' $roff2htm_gendate by \
  '<tt>'$roff2htm_rcsid'</tt></p>
 <p>These manual pages and other documentation are <a
  href="'$roff2htm_rel'man7/BSD-Licence.htm">copyrighted</a> by their respective writers;
