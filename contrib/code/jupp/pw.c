@@ -199,7 +199,7 @@ WATOM watompw = {
 
 /* Create a prompt window */
 
-BW *wmkpw(W *w, unsigned char *prompt, B **history, int (*func) (), unsigned char *huh, int (*abrt) (), int (*tab) (), void *object, int *notify, struct charmap *map)
+BW *wmkpw(W *w, unsigned char *prompt, B **history, int (*func) (), const unsigned char *huh, int (*abrt) (), int (*tab) (), void *object, int *notify, struct charmap *map)
 {
 	W *new;
 	PW *pw;

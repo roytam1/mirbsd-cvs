@@ -88,7 +88,7 @@ void chsize PARAMS(());
  * Returns the new window or returns 0 if there was not enough space to
  * create the window and maintain family integrity.
  */
-W *wcreate PARAMS((SCREEN *t, WATOM *watom, W *where, W *target, W *original, int height, unsigned char *huh, int *notify));
+W *wcreate PARAMS((SCREEN *t, WATOM *watom, W *where, W *target, W *original, int height, const unsigned char *huh, int *notify));
 
 /* int wabort(W *w);
  *

@@ -568,7 +568,7 @@ void wshowone(W *w)
 
 /* Create a window */
 
-W *wcreate(SCREEN *t, WATOM *watom, W *where, W *target, W *original, int height, unsigned char *huh, int *notify)
+W *wcreate(SCREEN *t, WATOM *watom, W *where, W *target, W *original, int height, const unsigned char *huh, int *notify)
 {
 	W *new;
 

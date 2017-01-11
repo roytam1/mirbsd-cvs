@@ -1405,7 +1405,7 @@ int uquote8(BW *bw)
 		return -1;
 }
 
-extern unsigned char srchstr[];
+extern const unsigned char srchstr[];
 
 static int doctrl(BW *bw, int c, void *object, int *notify)
 {

@@ -300,7 +300,7 @@ struct window {
 
 	const unsigned char *msgt;	/* Message at top of window */
 	const unsigned char *msgb;	/* Message at bottom of window */
-	unsigned char	*huh;		/* Name of window for context sensitive hlp */
+	const unsigned char *huh;	/* Name of window for context sensitive hlp */
 	int	*notify;	/* Address of kill notification flag */
 };
 

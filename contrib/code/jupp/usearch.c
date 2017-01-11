@@ -475,7 +475,8 @@ static P *insert(SRCH *srch, P *p, unsigned char *s, int len)
 /* Query for search string, search options, possible replacement string,
  * and execute first search */
 
-unsigned char srchstr[] = "Search";	/* Context sensitive help identifier */
+/* Context sensitive help identifier */
+const unsigned char srchstr[] = "Search";
 
 static int pfabort(BW *bw, SRCH *srch)
 {
