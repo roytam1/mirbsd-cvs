@@ -30,10 +30,6 @@ case $host in
 *-*-minix*)
 	CPPFLAGS="$CPPFLAGS -D_POSIX_SOURCE -D_POSIX_1_SOURCE=2 -D_MINIX"
 	;;
-*-*-solaris*)
-	CPPFLAGS="$CPPFLAGS -I/usr/local/include"
-	LDFLAGS="$LDFLAGS -L/usr/local/lib -R/usr/local/lib"
-	;;
 *-gnu*)
 	CPPFLAGS="$CPPFLAGS -D_GNU_SOURCE"
 	;;
