@@ -70,7 +70,7 @@ SCREEN *maint;			/* Main edit screen */
 const char null[] = "";
 
 #ifdef __CYGWIN__
-static unsigned char *cygwin32_cmdline(void);
+extern unsigned char *cygwin32_cmdline(void);
 #endif
 
 /* Make windows follow cursor */
@@ -418,19 +418,3 @@ int main(int argc, char **argv, char **envp)
 		fprintf(stderr, "\n%s\n", exmsg);
 	return 0;
 }
-
-#ifdef __CYGWIN__
-#include <windows.h>
-
-/* return command line as passed to the .EXE (just like cygwin32’s dcrt0.cc) */
-static unsigned char *
-cygwin32_cmdline(void)
-{
-	char *cp;
-
-	cp = strdup(GetCommandLineA());
-	if (!AreFileApisANSI())
-		CharToOemA(cp, cp);
-	return ((unsigned char *)cp);
-}
-#endif
