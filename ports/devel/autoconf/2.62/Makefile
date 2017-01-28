@@ -1,9 +1,9 @@
-# $MirOS: ports/devel/autoconf/2.61/Makefile,v 1.4 2009/11/21 17:24:39 tg Exp $
+# $MirOS: ports/devel/autoconf/2.62/Makefile,v 1.3 2009/11/22 00:16:22 tg Exp $
 
 COMMENT=		automatically configure source code on many Un*x platforms
 VSN=			2.62
 DISTNAME=		autoconf-${VSN}
-DASH_VER=		1
+DASH_VER=		2
 CATEGORIES=		devel
 HOMEPAGE=		http://www.gnu.org/software/autoconf/
 
