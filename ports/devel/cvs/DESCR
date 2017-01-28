@@ -13,7 +13,6 @@ And a whole lot more.  See the manual for more information.
 GNU CVS, with the patches from here applied, is used (in this patched
 version) heavily by the MirOS Project, internally, and to maintain the
 MirOS BSD, MirPorts Framework, and other subprojects', as well as
-hosted projects, such as FWCF, source code and associated other works.
-
-This version also contains many patches originating from Debian,
-and has now taken over the Debian CVS package.
+hosted projects, such as FWCF, source code and associated other works;
+this version also contains many patches originating from Debian and
+has now taken over the Debian CVS package, possibly even upstream soon.
