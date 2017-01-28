@@ -1,0 +1,29 @@
+@comment $MirOS$
+lib/python${MODPY_VERSION}/site-packages/argparse-${MODPY_EGG_VERSION}-py${MODPY_VERSION}.egg-info
+lib/python${MODPY_VERSION}/site-packages/argparse.py
+lib/python${MODPY_VERSION}/site-packages/argparse.pyc
+share/doc/py-argparse/ArgumentParser.html
+share/doc/py-argparse/_static/basic.css
+share/doc/py-argparse/_static/default.css
+share/doc/py-argparse/_static/doctools.js
+share/doc/py-argparse/_static/file.png
+share/doc/py-argparse/_static/jquery.js
+share/doc/py-argparse/_static/minus.png
+share/doc/py-argparse/_static/plus.png
+share/doc/py-argparse/_static/pygments.css
+share/doc/py-argparse/_static/searchtools.js
+share/doc/py-argparse/add_argument.html
+share/doc/py-argparse/api-docs.html
+share/doc/py-argparse/argparse-vs-optparse.html
+share/doc/py-argparse/genindex.html
+share/doc/py-argparse/index.html
+share/doc/py-argparse/other-methods.html
+share/doc/py-argparse/other-utilities.html
+share/doc/py-argparse/overview.html
+share/doc/py-argparse/parse_args.html
+share/doc/py-argparse/search.html
+share/doc/py-argparse/searchindex.js
+@dirrm share/doc/py-argparse/_static
+@dirrm share/doc/py-argparse
+@dirrm lib/python${MODPY_VERSION}/site-packages
+@dirrm lib/python${MODPY_VERSION}

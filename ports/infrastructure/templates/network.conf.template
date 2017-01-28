@@ -1,4 +1,4 @@
-# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.27 2014/05/28 18:52:56 tg Exp $
+# $MirOS: ports/infrastructure/templates/network.conf.template,v 1.28 2016/10/21 21:59:17 tg Exp $
 # $OpenBSD: network.conf.template,v 1.107 2007/01/18 11:21:15 steven Exp $
 
 #
@@ -256,6 +256,9 @@ MASTER_SITE_APACHE+= \
 	ftp://ftp.apache.de/mirrors/dev.apache.org/dist/ \
 	ftp://ftp.planetmirror.com/pub/apache/dist/ \
 	http://www.apache.org/dist/ \
+
+MASTER_SITE_PYPI +=	\
+	https://pypi.io/packages/source/
 
 MASTER_SITE_DEBIAN+= \
 	http://httpredir.debian.org/debian/pool/main/ \
