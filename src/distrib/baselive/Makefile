@@ -62,7 +62,7 @@ CDROM_OPTS+=	label=MirOS~v${OSrev}~BSD/i386~Live~CD
 .endif
 CDROM_OPTS+=	no-trailing-padding
 CDROM_OPTS+=	preparer=MirBSD_and_its_contributors
-CDROM_OPTS+=	publisher=Copyright_\<c\>_2002=2016_The_MirOS_Project
+CDROM_OPTS+=	publisher=Copyright_\<c\>_2002=2017_The_MirOS_Project
 CDROM_OPTS+=	rockridge
 .if ${DUALIVE:L} != "no"
 .  if ${GRML:L} != "no"

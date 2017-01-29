@@ -85,7 +85,7 @@ set_target_relative
 
 function do_convert_man {
 	local -i _nl=0
-	col -x | sed							\
+	col -x | sed \
 	    -e '/-$/N
 {
 s/\([0-9A-z][-.,0-9A-z:]*\)-\n\(  *\)\([0-9A-z][-.,0-9A-z:]*([1-9][A-z]*)\)\([^ ]*\) /\1\3\4\
@@ -148,7 +148,7 @@ s/\([0-9A-z][-.,0-9A-z:]*\)-\n\(  *\)\([0-9A-z][-.,0-9A-z:]*([1-9][A-z]*)\)\([^ 
 
 function do_convert_paper {
 	local -i _nl=0
-	col -x | sed							\
+	col -x | sed \
 	    -e '/-$/N
 {
 s/\([0-9A-z][-.,0-9A-z:]*\)-\n\(  *\)\([0-9A-z][-.,0-9A-z:]*([1-9][A-z]*)\)\([^ ]*\) /\1\3\4\
@@ -209,11 +209,11 @@ function output_header {
  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+ <meta name="MSSmartTagsPreventParsing" content="TRUE" />
  <title>RTFM '$1\($2')</title>
  <meta name="robots" content="index, follow" />
  <link rel="canonical" href="https://www.mirbsd.org/man'$roff2htm_machine/$1.$2'" />
- <style type="text/css">
-	/* <![CDATA[ */
+ <style type="text/css"><!--/*--><![CDATA[/*><!--*/
 	body {
 		background-color:#000000;
 		color:#666666;
@@ -265,8 +265,7 @@ function output_header {
 		font-size:large;
 		font-family:sans-serif;
 	}
-	/* ]]> */
- </style>
+ /*]]>*/--></style>
 </head><body>
 <h1>MirOS Manual: <a href="'$roff2htm_rel'man'$2/$1'.htm">'$1\($2')</a></h1>'
 }
@@ -284,7 +283,7 @@ function output_footer {
  provided by <b>mirabilos</b>.</span></p>
 <p style="font-size:x-small;">This manual page’s HTML representation
  is supposed to be <a href="http://validator.w3.org/check/referer">valid
- XHTML/1.1</a>; if not, please send a bug report – diffs preferred.</p>
+ XHTML/1.1</a>; if not, please send a bug report — diffs preferred.</p>
 </body></html>'
 }
 
