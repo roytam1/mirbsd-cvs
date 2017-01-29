@@ -176,23 +176,75 @@ function rcsedit {	# check out, edit, commit
 	done
 	cd "$t_cwd"
 }
-function ddg {		# DuckDuckGo Search
-	${BROWSER:-lynx} "https://duckduckgo.com/?kp=-1&kl=wt-wt&kb=t&kh=1&kj=g2&km=l&ka=monospace&ku=1&ko=s&k1=-1&kv=1&q=$*"
+
+# pipe into pastebin
+ixio() {
+	curl -n -F 'f:1=<-' http://ix.io
 }
-function ggs {		# Google Search
-	${BROWSER:-lynx} "http://www.google.com/search?hl=la&pws=0&num=100&safe=off&q=$*"
+sprunge() {
+	curl -F 'sprunge=<-' http://sprunge.us
 }
+
+# geocaching (and related) waypoint
+wp() {
+	${BROWSER:-lynx} "http://www.mirbsd.org/wp.cgi?$1"
+}
+
+# DuckDuckGo search
+ddg() {
+	local _q _IFS
+
+	_IFS=$IFS
+	IFS=+
+	_q="$*"
+	IFS=$_IFS
+	${BROWSER:-lynx} "https://duckduckgo.com/?kp=-1&kl=wt-wt&kb=t&kh=1&kj=g2&km=l&ka=monospace&ku=1&ko=s&k1=-1&kv=1&t=debian&q=$_q"
+}
+
+# GooGle Search
+ggs() {
+	local _q _IFS
+
+	_IFS=$IFS
+	IFS=+
+	_q="$*"
+	IFS=$_IFS
+	${BROWSER:-lynx} "http://www.google.com/search?hl=la&pws=0&num=100&safe=off&q=$_q"
+}
+
 function ggr {		# Google GRoups
 	${BROWSER:-lynx} "http://groups.google.com/groups?hl=la&pws=0&num=100&safe=off&as_umsgid=$*"
 }
-function ge {		# German English
-	${BROWSER:-lynx} "http://dict.leo.org/?search=$*"
+
+# dict.leo.org German English
+ge() {
+	local _q _IFS
+
+	_IFS=$IFS
+	IFS=+
+	_q="$*"
+	IFS=$_IFS
+	${BROWSER:-lynx} "http://dict.leo.org/?search=$_q"
 }
-function gfr {		# German Frensch
-	${BROWSER:-lynx} "http://dict.leo.org/frde?search=$*"
+# dict.leo.org German FRench
+gfr() {
+	local _q _IFS
+
+	_IFS=$IFS
+	IFS=+
+	_q="$*"
+	IFS=$_IFS
+	${BROWSER:-lynx} "http://dict.leo.org/frde?search=$_q"
 }
-function ges {		# German Spanish
-	${BROWSER:-lynx} "http://dict.leo.org/esde?search=$*"
+# dict.leo.org German ESpa~nol
+ges() {
+	local _q _IFS
+
+	_IFS=$IFS
+	IFS=+
+	_q="$*"
+	IFS=$_IFS
+	${BROWSER:-lynx} "http://dict.leo.org/esde?search=$_q"
 }
 function espanol {	# explica en español
 	lynx -dump --nolist "http://buscon.rae.es/draeI/SrvltGUIBusUsual?TIPO_HTML=2&LEMA=$*"
@@ -230,6 +282,18 @@ function Lseccol {	# only the second column (useful for cvs output)
 function Lretrocfg {	# retrieve kernel config file
 	strings -n4 ${1:-/bsd} | sed -n 's/^=CF=//p'
 }
+xv() {			# validate files as XHTML/1.1
+	local i rv=0 s
+
+	for i in "$@"; do
+		s=$(sed \
+		    -e 's!http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd!file:///usr/src/www/mk/xhtml11.dtd!g' \
+		    <"$i" | xmlstarlet val -e -d file:///usr/src/www/mk/xhtml11.dtd -)
+		(( rv |= $? ))
+		print -r -- "$i ${s#- }"
+	done
+	return $rv
+}
 [ -x /emul/linux/bin/bash ] && alias lx='/emul/linux/bin/bash --login'
 unset HISTFILE
 set -o emacs
@@ -257,6 +321,8 @@ if [ -O /tmp/.ssh-agent/$USER_NAME ]; then
 	fi
 fi
 unset USER_NAME X_COLOUR NOSETPATH NOCOLOURPROMPT
+
+alias cdiff='git diff --color --no-index --no-prefix'
 
 [ -f /etc/profile.local ] && . /etc/profile.local
 [ -f ~/.profile.local ] && . ~/.profile.local

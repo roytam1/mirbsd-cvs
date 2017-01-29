@@ -80,8 +80,24 @@ function bye {
 	exit
 	logout
 }
-function ge {		# German ⇄ English
-	$BROWSER "http://dict.leo.org/?search=$*"
+
+# dict.leo.org German ⇄ English
+ge() {
+	local _q _IFS
+
+	_IFS=$IFS
+	IFS=+
+	_q="$*"
+	IFS=$_IFS
+	${BROWSER:-lynx} "http://dict.leo.org/?search=$_q"
+}
+
+# pipe into pastebin
+ixio() {
+	curl -n -F 'f:1=<-' http://ix.io
+}
+sprunge() {
+	curl -F 'sprunge=<-' http://sprunge.us
 }
 
 if [ -O /var/run/ssh-agent/$USER_ID ]; then
