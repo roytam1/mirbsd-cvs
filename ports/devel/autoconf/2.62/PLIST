@@ -1,8 +1,7 @@
-@comment $MirOS: ports/devel/autoconf/${VSN}/pkg/PLIST,v 1.1 2007/05/08 20:38:27 tg Exp $
+@comment $MirOS: ports/devel/autoconf/2.62/PLIST,v 1.1 2009/11/22 00:16:22 tg Exp ${VSN}/pkg/PLIST,v 1.1 2007/05/08 20:38:27 tg Exp $
 @option no-default-conflict
 @pkgcfl autoconf-${VSN}*
 @unexec install-info --delete --info-dir=%D/info %D/info/autoconf-2.62.info
-@unexec install-info --delete --info-dir=%D/info %D/info/standards-2.62.info
 bin/autoconf-${VSN}
 bin/autoheader-${VSN}
 bin/autom4te-${VSN}
@@ -11,7 +10,7 @@ bin/autoscan-${VSN}
 bin/autoupdate-${VSN}
 bin/ifnames-${VSN}
 info/autoconf-${VSN}.info
-info/standards-${VSN}.info
+@comment info/standards-${VSN}.info
 man/man1/autoconf-${VSN}.1
 man/man1/autoheader-${VSN}.1
 man/man1/autom4te-${VSN}.1
@@ -63,4 +62,3 @@ share/autoconf-${VSN}/m4sugar/version.m4
 @dirrm share/autoconf-${VSN}/Autom4te
 @dirrm share/autoconf-${VSN}
 @exec install-info --info-dir=%D/info %D/info/autoconf-2.62.info
-@exec install-info --info-dir=%D/info %D/info/standards-2.62.info
