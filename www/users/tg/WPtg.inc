@@ -12377,6 +12377,24 @@ Waypoint: GC6YZFQ
 Title: Hinter dem ewigem Grün
 Tag: D25 T15 Small Tradi
 ----
+ID: 2046
+Date: 18.01.2017
+Waypoint: GC305ZJ
+Title: U-Bahn2 #02 (U1): Georg-Brauchle-Ring
+Tag: D1 T15 Micro Tradi
+----
+ID: 2047
+Date: 19.01.2017
+Waypoint: GC5FX2Q
+Title: Zweites Leben
+Tag: D2 T2 Small Tradi recommended
+----
+ID: 2048
+Date: 20.01.2017
+Waypoint: GC33WA7
+Title: U-Bahn3 #01 (U5): Laimer Platz
+Tag: D2 T15 Small Tradi
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
