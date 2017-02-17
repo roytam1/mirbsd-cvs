@@ -3823,20 +3823,6 @@ As above, the
 .Fl n
 option suppresses the trailing newline.
 .Pp
-.It Ic printf Ar format Op Ar arguments ...
-Formatted output.
-Approximately the same as the
-.Xr printf 1 ,
-utility, except it uses the same
-.Sx Backslash expansion
-and I/O code and does not handle floating point as the rest of
-.Nm mksh .
-An external utility is preferred over the builtin.
-This is not normally part of
-.Nm mksh ;
-however, distributors may have added this as builtin as a speed hack.
-Do not use in new code.
-.Pp
 .It Ic pwd Op Fl LP
 Print the present working directory.
 If the
