@@ -1217,10 +1217,6 @@ varsub(Expand *xp, const char *sp, const char *word,
 		}
 		stype |= 0x100 | c;
 		slen += 4;
-		if (word[slen] == CHAR) {
-			stype |= word[slen + 1];
-			slen += 2;
-		}
 	} else if (stype)
 		/* : is not ok */
 		return (-1);
