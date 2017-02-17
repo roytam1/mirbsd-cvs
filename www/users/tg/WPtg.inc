@@ -12395,6 +12395,48 @@ Waypoint: GC33WA7
 Title: U-Bahn3 #01 (U5): Laimer Platz
 Tag: D2 T15 Small Tradi
 ----
+ID: 2049
+Date: 01.02.2017
+Waypoint: GC6Q71P
+Title: Ganz schön lang...
+Tag: D2 T15 Small Tradi
+----
+ID: 2050
+Date: 03.02.2017
+Waypoint: GC661E2
+Title: My Fa-irst Lady
+Tag: D15 T15 Regular Tradi
+----
+ID: 2051
+Date: 03.02.2017
+Waypoint: GC65E3B
+Title: Cache de l'université 3
+Tag: D35 T15 Micro Tradi
+----
+ID: 2052
+Date: 04.02.2017
+Waypoint: GC6CM6N
+Title: Le Kerkhoff du Zavelberg
+Tag: D1 T1 Micro Tradi
+----
+ID: 2053
+Date: 04.02.2017
+Waypoint: GC3BAAV
+Title: Grizzly's #5 - Les Halles
+Tag: D2 T1 Nano Tradi
+----
+ID: 2054
+Date: 05.02.2017
+Waypoint: GC65255
+Title: Cache de l'université 2
+Tag: D15 T15 Small Tradi
+----
+ID: 2055
+Date: 12.02.2017
+Waypoint: GC5VX25
+Title: Lesen gefährtet die Dummheit!
+Tag: D15 T15 Nano Tradi
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
