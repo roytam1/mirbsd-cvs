@@ -317,7 +317,6 @@ c_print(const char **wp)
 	po.ws = ' ';
 	po.ls = '\n';
 	po.nl = true;
-	po.exp = true;
 
 	if (wp[0][0] == 'e') {
 		/* "echo" builtin */
@@ -378,6 +377,8 @@ c_print(const char **wp)
 		/* "print" builtin */
 		const char *opts = "AcelNnpRrsu,";
 		const char *emsg;
+
+		po.exp = true;
 
 		while ((c = ksh_getopt(wp, &builtin_opt, opts)) != -1)
 			switch (c) {
