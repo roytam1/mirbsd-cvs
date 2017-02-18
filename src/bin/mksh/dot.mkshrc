@@ -586,9 +586,8 @@ function enable {
 
 \: place customisations below this line
 
-for p in ~/.etc/bin ~/bin; do
+[[ $PATH = *\;?:\\* ]] || for p in ~/.etc/bin ~/bin; do
 	[[ -d $p/. ]] || \continue
-	#XXX OS/2
 	[[ :$PATH: = *:$p:* ]] || PATH=$p:$PATH
 done
 
