@@ -586,11 +586,10 @@ fi
 rmf a.exe* a.out* conftest.c conftest.exe* *core core.* ${tfn}* *.bc *.dbg \
     *.ll *.o *.gen *.cat1 Rebuild.sh lft no signames.inc test.sh x vv.out
 
-SRCS="lalloc.c eval.c exec.c expr.c funcs.c histrap.c jobs.c"
+SRCS="lalloc.c edit.c eval.c exec.c expr.c funcs.c histrap.c jobs.c"
 SRCS="$SRCS lex.c main.c misc.c shf.c syn.c tree.c var.c"
 
 if test $legacy = 0; then
-	SRCS="$SRCS edit.c"
 	check_categories="$check_categories shell:legacy-no int:32"
 else
 	check_categories="$check_categories shell:legacy-yes"

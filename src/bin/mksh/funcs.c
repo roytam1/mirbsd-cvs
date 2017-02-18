@@ -2809,7 +2809,6 @@ c_exec(const char **wp MKSH_A_UNUSED)
 		for (i = 0; i < NUFILE; i++) {
 			if (e->savefd[i] > 0)
 				close(e->savefd[i]);
-#ifndef MKSH_LEGACY_MODE
 			/*
 			 * keep all file descriptors > 2 private for ksh,
 			 * but not for POSIX or legacy/kludge sh
@@ -2817,7 +2816,6 @@ c_exec(const char **wp MKSH_A_UNUSED)
 			if (!Flag(FPOSIX) && !Flag(FSH) && i > 2 &&
 			    e->savefd[i])
 				fcntl(i, F_SETFD, FD_CLOEXEC);
-#endif
 		}
 		e->savefd = NULL;
 	}

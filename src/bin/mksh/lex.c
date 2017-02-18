@@ -2,7 +2,7 @@
 
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010,
- *		 2011, 2012, 2013, 2014, 2015, 2016
+ *		 2011, 2012, 2013, 2014, 2015, 2016, 2017
  *	mirabilos <m@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -893,9 +893,7 @@ yylex(int cf)
 
 	dp = Xstring(ws, wp);
 	if (state == SBASE && (
-#ifndef MKSH_LEGACY_MODE
 	    (c == '&' && !Flag(FSH) && !Flag(FPOSIX)) ||
-#endif
 	    c == '<' || c == '>') && ((c2 = Xlength(ws, wp)) == 0 ||
 	    (c2 == 2 && dp[0] == CHAR && ksh_isdigit(dp[1])))) {
 		struct ioword *iop = alloc(sizeof(struct ioword), ATEMP);
