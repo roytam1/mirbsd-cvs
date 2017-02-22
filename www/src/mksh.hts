@@ -968,7 +968,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  href="http://en.opensuse.org/Build_Service">OpenSuSE Build
  Service</a> provides an official openSUSE_Factory mksh package inside the <a
  href="http://download.opensuse.org/repositories/shells/openSUSE_Factory/src/">shells
- repo</a>, provided by Guido Berhoerster. A <em>portable</em> set of RPMs and SRPM
+ repo</a>, provided by Dr. Werner Fink. A <em>portable</em> set of RPMs and SRPM
  made by Pascal “loki” Bleser, Marcus “darix” Rückert, and me, is part of the <a
  href="http://download.opensuse.org/repositories/home:/mirabile/CentOS_5/src/">home
  project of mirabilos</a>; it’s buildable on Debian and MirBSD as well, and can be
@@ -1227,6 +1227,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
  <li>[komh] Fix OS/2 search_access() and UNC path logic</li>
+ <li>[tg] Undocument printf(1) to avoid user confusion</li>
+ <li>[Jean Delvare, tg] Fix printf builtin -R option</li>
+ <li>[tg] Make ${var@x}, unknown x, fail (thanks izabera)</li>
+ <li>[tg] ${var=x} must evaluate x in scalar context (10x Martijn Dekker)</li>
+ <li>[tg] Fixup relation between lksh and mksh, reduce delta</li>
 </ul>
 <p id="r54">R54 is a bugfix release with moderate new features:</p><ul>
  <li>[tg] Simplify and improve code and manual page</li>
