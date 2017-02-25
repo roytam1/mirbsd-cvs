@@ -1,8 +1,14 @@
-$MirOS$
+$MirOS: ports/audio/mpg123/patches/patch-audio_c,v 1.1.7.1 2005/03/18 15:43:03 tg Exp $
 $OpenBSD: patch-audio.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
---- audio.c.orig	1999-04-06 15:52:43.000000000 +0000
-+++ audio.c	2004-05-12 17:54:27.000000000 +0000
-@@ -68,41 +68,42 @@ void audio_capabilities(struct audio_inf
+--- audio.c.orig	Tue Apr  6 15:52:43 1999
++++ audio.c	Sat Feb 25 18:22:24 2017
+@@ -1,4 +1,5 @@
+ 
++#include <stdlib.h>
+ #include "mpg123.h"
+ 
+ void audio_info_struct_init(struct audio_info_struct *ai)
+@@ -68,41 +69,42 @@ void audio_capabilities(struct audio_inf
  {
  	int fmts;
  	int i,j,k,k1=NUM_RATES-1;
@@ -65,7 +71,7 @@ $OpenBSD: patch-audio.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
  		fprintf(stderr,"\nAudio capabilities:\n        |");
  		for(j=0;j<NUM_ENCODINGS;j++) {
  			fprintf(stderr," %5s |",audio_val2name[j].sname);
-@@ -144,7 +145,19 @@ static int audio_fit_cap_helper(struct a
+@@ -144,7 +146,19 @@ static int audio_fit_cap_helper(struct a
  
          if(rn >= 0) {
                  for(i=f0;i<f2;i++) {
@@ -86,7 +92,7 @@ $OpenBSD: patch-audio.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
                                  ai->rate = rates[rn];
                                  ai->format = encodings[i];
                                  ai->channels = channels[c];
-@@ -160,7 +173,11 @@ static int audio_fit_cap_helper(struct a
+@@ -160,7 +174,11 @@ static int audio_fit_cap_helper(struct a
   * c=num of channels of stream
   * r=rate of stream
   */
@@ -99,7 +105,7 @@ $OpenBSD: patch-audio.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
  {
  	int rn;
  	int f0=0;
-@@ -247,6 +264,23 @@ void audio_fit_capabilities(struct audio
+@@ -247,6 +265,23 @@ void audio_fit_capabilities(struct audio
  	exit(1);
  }
  
@@ -123,7 +129,7 @@ $OpenBSD: patch-audio.c,v 1.2 2001/04/24 00:48:12 naddy Exp $
  char *audio_encoding_name(int format)
  {
  	int i;
-@@ -258,7 +292,7 @@ char *audio_encoding_name(int format)
+@@ -258,7 +293,7 @@ char *audio_encoding_name(int format)
  	return "Unknown";
  }
  
