@@ -1,6 +1,6 @@
 /*-
- * Copyright (c) 2008
- *	Thorsten Glaser <tg@mirbsd.org>
+ * Copyright (c) 2008, 2017
+ *	mirabilos <m@mirbsd.org>
  *
  * Provided that these terms and disclaimer and all copyright notices
  * are retained or reproduced in an accompanying document, permission
@@ -24,7 +24,7 @@
 #include <wchar.h>
 #include "mpg123.h"
 
-__RCSID("$MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $");
+__RCSID("$MirOS: ports/audio/mpg123/files/uniprint.c,v 1.1 2008/05/17 23:29:30 tg Exp $");
 
 static wchar_t cp1252touni[256] = {
 	0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0006, 0x0007,
@@ -61,20 +61,20 @@ static wchar_t cp1252touni[256] = {
 	0x00F8, 0x00F9, 0x00FA, 0x00FB, 0x00FC, 0x00FD, 0x00FE, 0x00FF
 };
 
-static wchar_t *wbuf = NULL;
-static size_t wbufsz = 8;
-
 wchar_t *
 uniprint(const char *cbuf)
 {
 	const uint8_t *buf = (const uint8_t *)cbuf;
 	wchar_t *wcp;
 	size_t n;
+	static wchar_t *wbuf = NULL;
+	static size_t wbufsz = 0;
 
 	n = strlen(cbuf);
 	if (n >= wbufsz) {
-		if (wbuf)
-			free(wbuf);
+		if (!wbufsz)
+			wbufsz = 8;
+		free(wbuf);
 		while (n >= wbufsz)
 			wbufsz <<= 1;
 		if ((wbuf = calloc(wbufsz, sizeof (wchar_t))) == NULL)
@@ -83,6 +83,7 @@ uniprint(const char *cbuf)
 	}
 
 	wcp = wbuf;
+	/* TODO: when cbuf is UTF-8, use that instead */
 	while (n--)
 		*wcp++ = cp1252touni[*buf++];
 	*wcp = 0;
