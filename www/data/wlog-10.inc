@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.484 2016/12/20 19:52:41 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.482 2016/07/28 23:19:23 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -11251,9 +11251,9 @@ Tag: bug debian event grml news pcli rant security tip work
 
 <p><a href="https://help.github.com/articles/github-terms-of-service/">The
  new Terms of Service of GitHub</a> became effective today, which is quite
- problematic — there was a review phase, but the problems were not answered,
- and, while the language is somewhat changed from the draft, they became
- effective immediately.</p>
+ problematic — there was a review phase, but my reviews pointing out the
+ problems were not answered, and, while the language is somewhat changed
+ from the draft, they became effective immediately.</p>
 <p>Now, the new ToS are not so bad that one immediately must stop using
  their service for disagreement, but it’s important that certain content
  <em>may no longer legally be pushed to GitHub</em>. I’ll try to explain
@@ -11296,6 +11296,14 @@ Tag: bug debian event grml news pcli rant security tip work
  LaTeX licence is rather close to that. Section D.3 says any (partial)
  content can be removed — though keeping a PKZIP archive of the original
  is a likely workaround.</p>
+<h3>Affected licences</h3>
+<p>Anything copyleft (GPL, AGPL, LGPL, CC-*-SA) or requiring
+ attribution (CC-BY-*, but also 4-clause BSD, Apache 2 with NOTICE
+ text file, …) are affected. BSD-style licences without advertising
+ clause (MIT/Expat, <a href="@@RELPATH@@MirOS-Licence.htm">MirOS</a>,
+ etc.) are <em>probably</em> not affected… if GitHub doesn’t go too
+ far and dissociates excerpts from their context and legal info, but
+ then nobody would be able to distribute it, so that’d be useless.</p>
 <h3>But what if I just fork something under such a licence?</h3>
 <p>Only “continuing to use GitHub” constitutes accepting the new terms.
  This means that repositories from people who last used GitHub before
@@ -11338,4 +11346,37 @@ Tag: bug debian event grml news pcli rant security tip work
  if I don’t want to lose most of what few rights I retain when publishing
  under a permissive licence). Gitlab seems to not have such, but requires
  you to indemnify them… YMMV. I think I’ll self-host the removed content.</p>
+<h3>And now?</h3>
+<p>I’m in contact with someone from GitHub Legal (not explicitly in the
+ official capacity though) and will try to explain the sheer magnitude
+ of the problem and ways to solve this (leaving the technical issues to
+ technical solutions and requiring legal solutions only where strictly
+ necessary), but for now, the ToS are enacted (another point of my
+ criticism of this move) and thus, the aforementioned works <strong>must
+ go off GitHub <em>right now</em></strong>.</p>
+<p>That’s not to say they may not come back later once this all has been
+ addressed, if it will be addressed to allow that. The new ToS <em>do</em>
+ have some good; for example, the old ToS said “you allow every GitHub
+ user to fork your repositories” without ever specifying what that means.
+ It’s just that the people over at GitHub need to understand that, both
+ legally and technically¹, any and all OSS licences² grant enough to run a
+ hosting platform already³, and separate explicit grants are only needed if
+ a repository contains content not under an OSI/OKFN/Copyfree/FSF/DFSG-free
+ licence. I have been told that “these are important issues” and been
+ thanked for my feedback; we’ll see what comes from this.</p>
+<p>① maybe with a little more effort on the coders’ side³</p>
+<p>② All licences on <a href="http://copyfree.org/standard/licenses">one</a>
+ <a href="https://opensource.org/licenses/alphabetical">of</a> <a
+ href="https://www.gnu.org/licenses/license-list.html">those</a> <a
+ href="http://opendefinition.org/licenses/">lists</a> or <a
+ href="https://wiki.debian.org/DFSGLicenses">conformant</a> to the <a
+ href="https://www.debian.org/social_contract#guidelines">DFSG</a>, <a
+ href="https://opensource.org/osd">OSD</a> or <a
+ href="http://opendefinition.org/od/2.1/en/">OKD</a> should do⁴.</p>
+<p>③ e.g. when displaying search results, add a note “this is an excerpt,
+ click HERE to get to the original work in its context, with licence and
+ attribution” where “HERE” is a backlink to the file in the repository</p>
+<p>④ It is understood those organisations never un-approve any licence
+ that rightfully conforms to those definitions (also in cases like a grant
+ saying “just use any OSS² licence” which is occasionally used)</p>
 ----
