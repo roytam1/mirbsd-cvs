@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/data/wlog-10.inc,v 1.482 2016/07/28 23:19:23 tg Exp $
+RCSID: $MirOS: www/data/wlog-10.inc,v 1.484 2016/12/20 19:52:41 tg Exp $
 Date: 10.03.2008
 Author: tg@
 
@@ -11243,4 +11243,93 @@ Tag: debian grml pcli tip work
  such a command as <tt>git subtree</tt> which can do similar things to the
  subtree merge strategy explained above, and several more related things.
  It does, however, need the præfix on every subsequent pull.</p>
+----
+Title: New GitHub Terms of Service r̲e̲q̲u̲i̲r̲e̲ removing many Open Source works from it
+Date: 01.03.2017
+Author: tg@
+Tag: bug debian event grml news pcli rant security tip work
+
+<p><a href="https://help.github.com/articles/github-terms-of-service/">The
+ new Terms of Service of GitHub</a> became effective today, which is quite
+ problematic — there was a review phase, but the problems were not answered,
+ and, while the language is somewhat changed from the draft, they became
+ effective immediately.</p>
+<p>Now, the new ToS are not so bad that one immediately must stop using
+ their service for disagreement, but it’s important that certain content
+ <em>may no longer legally be pushed to GitHub</em>. I’ll try to explain
+ which is affected, and why.</p>
+<p>I’m mostly working my way <em>backwards</em> through section D, as
+ that’s where the problems I identified lie, and because this is from
+ easier to harder.</p>
+<p><strong>Note</strong> that using a private repository does <em>not</em>
+ help, as the same terms apply.</p>
+<h3>Anything requiring attribution (e.g. CC-BY, but also BSD, …)</h3>
+<p>Section D.7 requires the person uploading content to waive any and all
+ attribution rights. Ostensibly “to allow basic functions like search to
+ work”, which I can even believe, but, for a work the uploader did not
+ create <em>completely</em> by themselves, they can’t grant this licence.</p>
+<p>The CC licences are notably bad because they don’t permit sublicencing,
+ but even so, anything requiring attribution can, in almost all cases, not
+ “written or otherwise, created or uploaded by our Users”. This is fact,
+ and the exceptions are few.</p>
+<h3>Anything putting conditions on the right to “use, display and perform”
+ the work and, <em>worse</em>, “reproduce” (all Copyleft)</h3>
+<p>Section D.5 requires the uploader to grant all other GitHub users…</p><ul>
+ <li>the right to “use, display and perform” the work (with no further
+  restrictions attached to it) — while this (likely — I didn’t check) does
+  not exclude the GPL, many others (I believe CC-*-SA) are affected, and…</li>
+ <li>the right to “reproduce your Content solely on GitHub as permitted
+  through GitHub's functionality”, with no further restructions attached;
+  this is a killer for, I believe, any and all licences falling into the
+  “copyleft” category.</li>
+</ul>
+<p>Note that section D.4 is similar, but granting the licence to GitHub
+ (and their successors); while this is worded much more friendly than in
+ the draft, this fact only makes it harder to see if it affects works in
+ a similar way. But that doesn’t matter since D.5 is clear enough.</p>
+<p>This means that any and all content under copyleft licences is also
+ no longer welcome on GitHub.</p>
+<h3>Anything requiring integrity of the author’s source (e.g. LPPL)</h3>
+<p>Some licences are famous for requiring people to keep the original
+ intact while permitting patches to be piled on top; this is actually
+ permissible for Open Source, even though annoying, and the most common
+ LaTeX licence is rather close to that. Section D.3 says any (partial)
+ content can be removed — though keeping a PKZIP archive of the original
+ is a likely workaround.</p>
+<h3>But what if I just fork something under such a licence?</h3>
+<p>Only “continuing to use GitHub” constitutes accepting the new terms.
+ This means that repositories from people who last used GitHub before
+ March 2017 are excluded.</p>
+<p>Even then, the new terms likely only apply to content uploaded in
+ March 2017 or later (note that git commit dates are unreliable, you
+ have to actually check whether the contribution dates March 2017 or
+ later).</p>
+<p>And then, most people are likely unaware of the new terms. If they
+ upload content <em>they themselves</em> don’t have the appropriate
+ rights (waivers to attribution and copyleft/share-alike clauses), it’s
+ plain illegal and also makes your upload of them or a derivate thereof
+ no more legal.</p>
+<p>Granted, people who, in full knowledge of the new ToS, share any
+ “User-Generated Content” with GitHub on or after 1ˢᵗ March, 2017,
+ and actually have the appropriate rights to do that, can do that;
+ and if you encounter such a repository, you can fork, modify and
+ upload that iff you also waive attribution and copyleft/share-alike
+ rights for your portion of the upload. But — especially in the
+ beginning — these will be few and far between (even more so taking
+ into account that GitHub is, legally spoken, a mess, and they don’t
+ even care about hosting only OSS / Free works).</p>
+<h3>Conclusion (Fazit)</h3>
+<p>I’ll be starting to remove any such content of mine, such as the
+ source code mirrors of <a href="@@RELPATH@@jupp.htm">jupp</a>, which
+ is under the GNU GPLv1, now and will be requesting people who forked
+ such repositories on GitHub to also remove them. This is not something
+ I like to do but something I am required to do in order to comply with
+ the licence granted to <em>me</em> by <em>my</em> upstream. Anything
+ you’ve found contributed by me in the meantime is up for review; ping
+ me if I forgot something. (<a href="@@RELPATH@@mksh.htm">mksh</a> is
+ likely safe, even if I hereby remind you that the attribution requirement
+ of the BSD-style licences still applies outside of GitHub.)</p>
+<p>(Pet peeve: why can’t I “adopt a licence” with British spelling? <a
+ href="https://help.github.com/articles/adding-a-license-to-a-repository/#including-an-open-source-license-in-your-repository">They</a>
+ seem to require oversea barbarian spelling.)</p>
 ----
