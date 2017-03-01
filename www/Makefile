@@ -1,4 +1,4 @@
-# $MirOS: www/Makefile,v 1.111 2016/05/03 21:08:29 tg Exp $
+# $MirOS: www/Makefile,v 1.112 2016/08/01 21:18:24 tg Exp $
 #-
 # This file is part of the website of The MirOS Project, which is
 # copyrighted material, please read the LICENCE file for details.
@@ -165,6 +165,7 @@ WLOG_LATEST:=${_i}
 _reinstall:
 	-rm -rf dst
 	mkdir dst dst/permalinks
+	ln -s ../LICENCE dst/permalinks/
 	pax -rw -pe -v hashed dst/
 	pax -rw -pe -v -d ${OBJS:Nstamp_*:S/htm~$/htm/} dst/
 .for _i in ${GENSRCS}
