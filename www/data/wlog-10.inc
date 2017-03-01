@@ -11332,4 +11332,10 @@ Tag: bug debian event grml news pcli rant security tip work
 <p>(Pet peeve: why can’t I “adopt a licence” with British spelling? <a
  href="https://help.github.com/articles/adding-a-license-to-a-repository/#including-an-open-source-license-in-your-repository">They</a>
  seem to require oversea barbarian spelling.)</p>
+<h3>The others</h3>
+<p>Atlassian Bitbucket has similar terms (even worse actually; I looked
+ at them to see whether I could mirror mksh there, and turns out, I can’t
+ if I don’t want to lose most of what few rights I retain when publishing
+ under a permissive licence). Gitlab seems to not have such, but requires
+ you to indemnify them… YMMV. I think I’ll self-host the removed content.</p>
 ----
