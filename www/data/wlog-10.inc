@@ -1988,7 +1988,7 @@ Tag: security
 <p>Now that the website is running on MirOS httpd(8), we can have some
  fun… SSL and such. The following picture may not be displayed if you
  use a nōn-rsync’d mirror, but can be worth the fun:</p>
-<p><img src="@@ABSPATH@@/connimg.cgi" alt="connection info" /></p>
+<!-- TODO(reactivate) p><img src="@@ABSPATH@@/connimg.cgi" alt="connection info" /></p -->
 <p>An <a href="@@ABSPATH@@/conninfo.cgi">ASCII connection info</a>
  version is, of course, available as well, but images can be embedded
  more easily. For example, if you were to read <a
@@ -11018,7 +11018,7 @@ Tag: event
  try to get into IRC at least occasionally, but WLAN is usually
  shitty.</p>
 <p><a href="http://fosdem.org"><img alt="FOSDEM"
- src="/2016/support/promote/wide.png" /></a></p>
+ src="https://archive.fosdem.org/2016/support/promote/wide.png" /></a></p>
 ----
 Date: 08.02.2016 16:40
 Author: tg@
@@ -11249,6 +11249,9 @@ Date: 01.03.2017
 Author: tg@
 Tag: bug debian event grml news pcli rant security tip work
 
+<p>Please use <a href="@@RELPATH@@permalinks/wlog-10_e20170301-tg.htm">the
+ correct (perma)link</a> to bookmark this article, <em>not</em> the page
+ listing all wlog entries of the last decade. Thank you.&lt;/update&gt;</p>
 <p><a href="https://help.github.com/articles/github-terms-of-service/">The
  new Terms of Service of GitHub</a> became effective today, which is quite
  problematic — there was a review phase, but my reviews pointing out the
