@@ -11252,6 +11252,7 @@ Tag: bug debian event grml news pcli rant security tip work
 <p>Please use <a href="@@RELPATH@@permalinks/wlog-10_e20170301-tg.htm">the
  correct (perma)link</a> to bookmark this article, <em>not</em> the page
  listing all wlog entries of the last decade. Thank you.&lt;/update&gt;</p>
+<p>Some updates inline and at the bottom.</p>
 <p><a href="https://help.github.com/articles/github-terms-of-service/">The
  new Terms of Service of GitHub</a> became effective today, which is quite
  problematic — there was a review phase, but my reviews pointing out the
@@ -11289,7 +11290,9 @@ Tag: bug debian event grml news pcli rant security tip work
 <p>Note that section D.4 is similar, but granting the licence to GitHub
  (and their successors); while this is worded much more friendly than in
  the draft, this fact only makes it harder to see if it affects works in
- a similar way. But that doesn’t matter since D.5 is clear enough.</p>
+ a similar way. But that doesn’t matter since D.5 is clear enough. (This
+ doesn’t mean it’s not a problem, just that I don’t want to go there and
+ analyse D.4 as D.5 points out the same problems but is easier.)</p>
 <p>This means that any and all content under copyleft licences is also
  no longer welcome on GitHub.</p>
 <h3>Anything requiring integrity of the author’s source (e.g. LPPL)</h3>
@@ -11382,4 +11385,14 @@ Tag: bug debian event grml news pcli rant security tip work
 <p>④ It is understood those organisations never un-approve any licence
  that rightfully conforms to those definitions (also in cases like a grant
  saying “just use any OSS² licence” which is occasionally used)</p>
+<p><strong>Update:</strong> In the meantime, joeyh has written not <a
+ href="http://joeyh.name/blog/entry/removing_everything_from_github/">one</a> but <a
+ href="http://joeyh.name/blog/entry/what_I_would_ask_my_lawyers_about_the_new_Github_TOS/">two</a>
+ insightful articles (although I disagree in some details; the new licence
+ is only to GitHub users (D.5) and GitHub (D.4) and only within their system,
+ so, while uploaders would violate the ToS (they cannot grant the licence)
+ <em>and</em> (probably) the upstream-granted copyleft licence, this would
+ not mean that everyone else wasn’t bound by the copyleft licence in, well,
+ enough cases to count (yes it’s possible to construct situations in which
+ this hurts the copyleft fraction, but no, they’re nowhere near 100%).</p>
 ----
