@@ -1736,3 +1736,31 @@ Tag: debian pcli personal rant tip
  produce the perfect-looking patch.) Livestreams too, I guess, but ever since
  live365.com went dead due to a USA law change on 2016-01-02, it got bad.</p>
 ----
+Date: 08.03.2017 22:00
+Author: tg@
+Title: Updated Debian packaging example: PHP webapp with dbconfig-common
+Tag: debian pcli snippet tip work
+
+<p>Since I use this as base for other PHP packages like <a
+ href="https://evolvis.org/projects/simkolab/">SimKolab</a>, I’ve updated <a
+ href="@@RELPATH@@permalinks/wlog-10-tg_e20140515-tg.htm">my packaging
+ example</a> with:</p><ul>
+ <li>PHP 7 support (untested, as I need <tt>libapache2-mod-php5</tt>)</li>
+ <li>tons more utility code for you to use</li>
+ <li>a class autoloader, with example (build time, for now)</li>
+ <li>(at build time) running a PHPUnit testsuite (unless nocheck)</li>
+</ul>
+<p>The old features (Apache 2.2 and 2.4 support, dbconfig-common, etc.)
+ are, of course, still there. Support for other webservers could be
+ contributed by <em>you</em>, and I could extend the autoloader to
+ work at runtime (using dpkg triggers) to include dependencies as
+ packaged in other Debian packages. See, nobody needs “composer”! ☻</p>
+<p>Feel free to check it out, play around with it, install it, test it,
+ send me improvement patches and feature requests, etc. — it’s <a
+ href="https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=shellsnippets/hello-php-world.git">here</a>
+ with a mirror at GitHub (since I wrote it myself <em>and</em> the <a
+ href="@@RELPATH@@MirOS-Licence.htm">licence</a> is permissive enough
+ anyway).</p>
+<p>This posting and the code behind it are sponsored by my employer <a
+ href="https://www.tarent.de/" style="color:red;">⮡ tarent</a>.</p>
+----
