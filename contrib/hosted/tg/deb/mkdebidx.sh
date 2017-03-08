@@ -1,7 +1,8 @@
 #!/bin/mksh
 rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.72 2016/01/02 20:27:23 tg Exp $'
 #-
-# Copyright © 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015, 2016
+# Copyright © 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015,
+#	      2016, 2017
 #	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -58,8 +59,8 @@ typeset -f repo_description >/dev/null || function repo_description {
 	print -nr -- "WTF ${suite_nick} Repository"
 }
 set -A dpkgarchs -- alpha amd64 arm arm64 armel armhf hppa hurd-i386 i386 \
-    ia64 kfreebsd-amd64 kfreebsd-i386 m68k mips mipsel powerpc powerpcspe \
-    ppc64 ppc64el s390 s390x sh4 sparc sparc64 x32
+    ia64 kfreebsd-amd64 kfreebsd-i386 m68k mips mips64el mipsel powerpc \
+    powerpcspe ppc64 ppc64el s390 s390x sh4 sparc sparc64 x32
 [[ -n "${normarchs[*]}" ]] || set -A normarchs -- "${dpkgarchs[@]}"
 
 set +U
