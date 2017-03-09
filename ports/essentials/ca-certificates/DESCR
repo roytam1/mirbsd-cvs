@@ -8,18 +8,18 @@ have been removed.
 It's endorsed by the Lynx developers and users.
 
 Recent SetEnv.{sh,csh} automatically point the path
-correctly to the data directory, if found. Program-
-mes employing OpenSSL will use the SSL_CERT_DIR en-
-vironment variable set thusly. This package is com-
-patible with both OpenSSL 1.x and 0.9.x hashes.
+correctly to the data directory, if found. Programs
+employing OpenSSL will use the environment variable
+SSL_CERT_DIR set thusly. This package is compatible
+with both OpenSSL 1.x and 0.9.x hashes.
 
-Other programmes must be configured to set the cer-
-tificate store to: ${PREFIX}/share/ca-certificates/
+Other programs must be configured to set the certi‐
+ficate store to: ${PREFIX}/share/ca-certificates/
 
-Java™ programmes can use the “keystore.jks” file in
-the very same directory: -storepass ‘changeit’ – It
+Java™ programs utilise the “keystore.jks” file from
+the very same directory: -storepass ‘changeit’ — It
 contains RSA, DSS and ECC certificates now. This is
-created with OpenJDK 7 nowadays. The “keystore.gcj”
+created with OpenJDK 8 nowadays. The “keystore.gcj”
 file contains one for GCC’s J2RE (without ECC certs
 or those causing an error), with an empty string as
 storepass.

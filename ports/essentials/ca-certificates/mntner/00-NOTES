@@ -11,7 +11,7 @@
 
 Stamps:
 
-• ca-certificates_20160104
+• ca-certificates_20161130
 • Sendmail CACerts,v 8.6 (8.15.2)
 
 Not used:
@@ -28,17 +28,20 @@ ECC certificates (to be removed from JKS Keystore for old keytool versions):
 • 0d69c7e1.0
 • 27af790d.0
 • 2add47b6.0
+• 559f7c71.0
 • 5e4e69e7.0
 • 89c02a45.0
+• 9479c8c3.0
 • a7d2cf64.0
 • b3fb433b.0
 • c491639e.0
 • ccc52f49.0
 • d5727d6a.0
+• d8317ada.0
 • ed39abd0.0
 
 GCJ cannot deal with ECC certificates either, nor:
 • 8c24b137.0 (java.security.cert.CertificateException: malformed GeneralName)
 
 ____________________________________________________________________________________________
-$MirOS: ports/essentials/ca-certificates/mntner/00-NOTES,v 1.9+ 2014/03/29 22:59:21 tg Exp $
+$MirOS: ports/essentials/ca-certificates/mntner/00-NOTES,v 1.10 2016/02/08 19:18:04 tg Exp $
