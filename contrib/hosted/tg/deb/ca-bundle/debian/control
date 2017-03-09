@@ -5,7 +5,7 @@ Section: misc
 Priority: extra
 Maintainer: Thorsten Glaser <t.glaser@tarent.de>
 Build-Depends: debhelper (>= 4), ed, openssl
-Standards-Version: 3.9.7
+Standards-Version: 3.9.8
 Vcs-CVS: :ext:_anoncvs@anoncvs.mirbsd.org:/cvs contrib/hosted/tg/deb/ca-bundle
 Vcs-Browser: https://www.mirbsd.org/cvs.cgi/contrib/hosted/tg/deb/ca-bundle/
 
@@ -25,7 +25,7 @@ Replaces: ca-certificates, ca-certificates-java,
  oracle-java9-jre, sun-java5-bin, sun-java6-bin, sympa
 Provides: ca-certificates, ca-certificates-java
 Enhances: curl, gajim, gnutls-bin, libgnutls13, libgnutls26, libssl0.9.8,
- libssl1.0.0, libssl1.0.2, lynx, lynx-cur, lynx-openssl, openssl,
+ libssl1.0.0, libssl1.0.2, libssl1.1, lynx, lynx-cur, lynx-openssl, openssl,
  oracle-j2sdk1.6, oracle-j2sdk1.7, oracle-j2sdk1.8, oracle-j2sdk1.9,
  cacao-oj6-jre-headless, ia32-sun-java5-bin, ia32-sun-java6-bin, j2re1.4,
  java-gcj-compat-headless, kdelibs-data, kdelibs-data-kde3, kdelibs5-data,
@@ -38,7 +38,7 @@ Description: ca-certificates and -java replacement (WTF suite, from MirBSD)
  packages public keystores for OpenSSL, GnuTLS, Java™/JKS, Classpath/GCJ,
  as well as Mozilla ckbi source builds. It will also replace KDE and
  J2RE/J2SDK keystore files. This package installs hashed symlinks usable
- with both OpenSSL 1.0.0 and OpenSSL 0.x / GnuTLS into /etc/ssl/certs.
+ with both OpenSSL 1.x and OpenSSL 0.x / GnuTLS into /etc/ssl/certs.
  It also provides an NSS ckbi certdata.txt source file.
  .
  Note that the ksslcalist format used by KDE 3 and KDE 4 is FUBAR BAD,

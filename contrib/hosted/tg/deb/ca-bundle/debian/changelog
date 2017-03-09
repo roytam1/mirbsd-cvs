@@ -1,3 +1,10 @@
+ca-bundle (20170309) wtf; urgency=medium
+
+  * Bump Policy
+  * Update from latest MirBSD SSL certificate list
+
+ -- Thorsten Glaser <t.glaser@tarent.de>  Thu, 09 Mar 2017 15:43:50 +0000
+
 ca-bundle (20160212) wtf; urgency=high
 
   * Bump Policy; prepare for Java™ 9

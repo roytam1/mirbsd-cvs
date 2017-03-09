@@ -1,19 +1,10 @@
-# $MirOS$
+# $MirOS: contrib/hosted/tg/deb/ca-bundle/debian/ca-bundle.lintian,v 1.1 2016/02/12 13:18:05 tg Exp $
 
 # yes, but we target sarge
 ca-bundle: description-contains-homepage
 
 # yes, this replaces legacy crap
-ca-bundle: dir-or-file-in-opt opt/kde3/
-ca-bundle: dir-or-file-in-opt opt/kde3/share/
-ca-bundle: dir-or-file-in-opt opt/kde3/share/apps/
-ca-bundle: dir-or-file-in-opt opt/kde3/share/apps/kssl/
-ca-bundle: dir-or-file-in-opt opt/kde3/share/apps/kssl/ca-bundle.crt
-ca-bundle: dir-or-file-in-opt opt/trinity/
-ca-bundle: dir-or-file-in-opt opt/trinity/share/
-ca-bundle: dir-or-file-in-opt opt/trinity/share/apps/
-ca-bundle: dir-or-file-in-opt opt/trinity/share/apps/kssl/
-ca-bundle: dir-or-file-in-opt opt/trinity/share/apps/kssl/ca-bundle.crt
+ca-bundle: dir-or-file-in-opt *
 
 # false positives
 ca-bundle: package-contains-broken-symlink etc/ia32-java-1.5.0-sun/security/cacerts ../../ssl/certs/java/cacerts
