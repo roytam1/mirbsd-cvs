@@ -1,3 +1,0 @@
-@comment $MirOS$
-@comment $OpenBSD: PFRAG.shared,v 1.1.1.1 2004/06/26 18:00:27 sturm Exp $
-@lib lib/libdv.so.4.0

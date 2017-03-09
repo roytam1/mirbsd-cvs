@@ -1,9 +1,0 @@
-#!/bin/sh
-# $MirOS: ports/databases/openldap/pkg/DEINSTALL-server,v 1.2 2005/10/13 23:25:33 tg Exp $
-
-echo "+---------------"
-echo "| To completely deinstall the $1 package you need to run"
-echo "| % sudo rm -rf ${LOCALSTATEDIR}/openldap-{data,slurp}"
-echo "+---------------"
-
-exit 0

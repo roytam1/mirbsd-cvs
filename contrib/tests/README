@@ -1,9 +1,0 @@
-The tests in this directory need ATF, the Automated Testing Framework, to run.
-To install it and run the tests, follow these steps:
-
-1. Bootstrap current pkgsrc.
-2. cd /usr/pkgsrc/devel/atf ; bmake package-install
-3. cd /path/to/tests
-4. make
-5. export LD_LIBRARY_PATH=/usr/pkg/lib # (might be required)
-6. atf-run|atf-report
