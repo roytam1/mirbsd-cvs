@@ -12437,6 +12437,24 @@ Waypoint: GC5VX25
 Title: Lesen gefährtet die Dummheit!
 Tag: D15 T15 Nano Tradi
 ----
+ID: 2056
+Date: 08.03.2017
+Waypoint: GC70JZ3
+Title: Völlig sinnlose Verschraubung
+Tag: D25 T15 Nano Tradi
+----
+ID: 2057
+Date: 10.03.2017
+Waypoint: GC28PEJ
+Title: Gotteshäuser: Herz Jesu Stoßdorf
+Tag: D15 T15 Micro Tradi
+----
+ID: 2058
+Date: 10.03.2017
+Waypoint: GC4PG39
+Title: Am Heiligenhäuschen
+Tag: D15 T15 Micro Tradi
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
