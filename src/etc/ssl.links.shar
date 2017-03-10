@@ -1,6 +1,6 @@
 # $MirOS: src/etc/ssl.links.shar,v 1.3 2016/02/08 17:50:27 tg Exp $
 #-
-# Symlinks for ssl.certs.shar,v 1.47
+# Symlinks for ssl.certs.shar,v 1.48
 
 echo 00673b5b.0 → 2e4eed3c.0; ln -s 00673b5b.0 2e4eed3c.0
 echo 02756ea4.0 → 9168f543.0; ln -s 02756ea4.0 9168f543.0
@@ -53,6 +53,7 @@ echo 46b2fd3b.0 → a8dee976.0; ln -s 46b2fd3b.0 a8dee976.0
 echo 48a195d8.0 → cc450945.0; ln -s 48a195d8.0 cc450945.0
 echo 4be590e0.0 → 1e08bfd1.0; ln -s 4be590e0.0 1e08bfd1.0
 echo 4e18c148.0 → 812e17de.0; ln -s 4e18c148.0 812e17de.0
+echo 4fbd6bfa.0 → 778e3cb0.0; ln -s 4fbd6bfa.0 778e3cb0.0
 echo 5046c355.0 → 57bcb2da.0; ln -s 5046c355.0 57bcb2da.0
 echo 524d9b43.0 → c01cdfa2.0; ln -s 524d9b43.0 c01cdfa2.0
 echo 52b525c7.0 → 749e9e03.0; ln -s 52b525c7.0 749e9e03.0
