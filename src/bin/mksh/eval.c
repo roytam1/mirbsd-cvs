@@ -625,13 +625,12 @@ expand(
 						break;
 					case '=':
 						/*
-						 * Enabling tilde expansion
-						 * after :s here is
-						 * non-standard ksh, but is
-						 * consistent with rules for
-						 * other assignments. Not
-						 * sure what POSIX thinks of
-						 * this.
+						 * Tilde expansion for string
+						 * variables in POSIX mode is
+						 * governed by Austinbug 351.
+						 * In non-POSIX mode historic
+						 * ksh behaviour (enable it!)
+						 * us followed.
 						 * Not doing tilde expansion
 						 * for integer variables is a
 						 * non-POSIX thing - makes
@@ -1717,7 +1716,7 @@ maybe_expand_tilde(const char *p, XString *dsp, char **dpp, bool isassign)
 
 	Xinit(ts, tp, 16, ATEMP);
 	/* : only for DOASNTILDE form */
-	while (p[0] == CHAR && !mksh_cdirsep(p[1]) &&
+	while (p[0] == CHAR && /* not cdirsep */ p[1] != '/' &&
 	    (!isassign || p[1] != ':')) {
 		Xcheck(ts, tp);
 		*tp++ = p[1];
