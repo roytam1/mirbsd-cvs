@@ -1,7 +1,7 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.28 2008/11/14 15:33:44 tg Rel $
+# $MirOS: src/scripts/stringpool.sh,v 1.1 2016/07/24 20:14:25 tg Exp $
 #-
-# Copyright © 2016
+# Copyright © 2016, 2017
 #	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -66,9 +66,9 @@ while IFS= read -r fline; do
 			while (( ++j < i )); do
 				delta=${itemcontent[j]%"${itemcontent[i]}"}
 				[[ ${itemcontent[j]} = "$delta" ]] && continue
-				delta=${delta//\\}	#XXX real C string len
 				itemtarget[i]=$j
-				itemoffset[i]=${#delta}
+				eval delta=\$\'"${delta//\'/\\\'}"\'
+				itemoffset[i]=${#delta}	#XXX real C strlen
 				break
 			done
 		done
