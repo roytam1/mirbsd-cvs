@@ -3022,18 +3022,18 @@ Additional
 .Nm
 commands keeping assignments:
 .Pp
-.Ic builtin , global , source , typeset ,
-.Ic wait
+.Ic global , source , typeset
 .Pp
 Builtins that are not special:
 .Pp
 .Ic [ , alias , bg , bind ,
-.Ic cat , cd , command , echo ,
-.Ic false , fc , fg , getopts ,
-.Ic jobs , kill , let , print ,
-.Ic pwd , read , realpath , rename ,
-.Ic sleep , suspend , test , true ,
-.Ic ulimit , umask , unalias , whence
+.Ic builtin , cat , cd , command ,
+.Ic echo , false , fc , fg ,
+.Ic getopts , jobs , kill , let ,
+.Ic print , pwd , read , realpath ,
+.Ic rename , sleep , suspend , test ,
+.Ic true , ulimit , umask , unalias ,
+.Ic wait , whence
 .Pp
 Once the type of command has been determined, any command-line parameter
 assignments are performed and exported for the duration of the command.

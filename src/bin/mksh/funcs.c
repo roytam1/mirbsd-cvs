@@ -100,7 +100,7 @@ const struct builtin mkshbuiltins[] = {
 	/* no =: AT&T manual wrong */
 	{Talias, c_alias},
 	{"*=break", c_brkcont},
-	{Tgbuiltin, c_builtin},
+	{Tbuiltin, c_builtin},
 	{Tbcat, c_cat},
 	{Tcd, c_cd},
 	/* dash compatibility hack */
@@ -142,7 +142,7 @@ const struct builtin mkshbuiltins[] = {
 	{"umask", c_umask},
 	{Tunalias, c_unalias},
 	{"*=unset", c_unset},
-	{"=wait", c_wait},
+	{"wait", c_wait},
 	{"whence", c_whence},
 #ifndef MKSH_UNEMPLOYED
 	{Tbg, c_fgbg},
