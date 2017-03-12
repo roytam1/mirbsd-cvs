@@ -36,6 +36,13 @@ nitems=0
 
 [[ -s $1 ]] || exit 1
 
+function cstrlen {
+	#XXX real C strlen() would be better
+	local s
+	eval s=\$\'"${1//\'/\\\'}"\'
+	REPLY=${#s}
+}
+
 state=0
 while IFS= read -r fline; do
 	case $state:$fline {
@@ -54,7 +61,7 @@ while IFS= read -r fline; do
 		i=-1
 		while (( ++i < nitems )); do
 			print -r -- ${itemlength[i]} $i
-		done | sort -n -k1,1r -k2 |&
+		done | sort -k1,1nr -k2n |&
 		j=-1
 		while read -p len nr; do
 			sorteditems[++j]=$nr
@@ -62,13 +69,14 @@ while IFS= read -r fline; do
 		# find same-end strings of higher length
 		i=0
 		while (( ++i < nitems )); do
+			si=${sorteditems[i]}
 			j=-1
 			while (( ++j < i )); do
-				delta=${itemcontent[j]%"${itemcontent[i]}"}
-				[[ ${itemcontent[j]} = "$delta" ]] && continue
-				itemtarget[i]=$j
-				eval delta=\$\'"${delta//\'/\\\'}"\'
-				itemoffset[i]=${#delta}	#XXX real C strlen
+				sj=${sorteditems[j]}
+				delta=${itemcontent[sj]%"${itemcontent[si]}"}
+				[[ ${itemcontent[sj]} = "$delta" ]] && continue
+				itemtarget[si]=$sj
+				itemoffset[si]=${|cstrlen "$delta";}
 				break
 			done
 		done
@@ -103,7 +111,7 @@ while IFS= read -r fline; do
 			itemname[nitems]=${fline%%' '*}
 			fline=${fline#*' "'}
 			itemcontent[nitems]=$fline
-			itemlength[nitems]=${#fline}
+			itemlength[nitems]=${|cstrlen "$fline";}
 			itemtarget[nitems++]=-1
 		fi
 		;;
