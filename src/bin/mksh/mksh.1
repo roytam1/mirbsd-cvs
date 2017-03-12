@@ -203,6 +203,13 @@ be asked to do by other programs, even in the background.
 Any privilege pop-ups you might be encountering are thus not
 .Nm mksh
 issues but questions by some other program utilising it.
+.Ss "I'm an OS/2 user, what do I need to know?"
+Unlike the native command prompt, the current working directory is
+not in the search path at all, for security reasons common on Unix
+systems (the shell is designed for Unix-like systems); if you really
+need this, run the command
+.Li PATH=".;$PATH"
+or add that to a suitable initialisation file.
 .Ss Invocation
 Most builtins can be called directly, for example if a link points from its
 name to the shell; not all make sense, have been tested or work at all though.
