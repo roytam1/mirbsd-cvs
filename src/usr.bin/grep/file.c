@@ -35,7 +35,7 @@
 
 #include "grep.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/grep/file.c,v 1.3 2013/08/06 16:59:33 tg Exp $");
 
 static char	 fname[MAXPATHLEN];
 static char	*lnbuf;
@@ -79,7 +79,7 @@ gzfgetln(gzFile f, size_t *len)
 			lnbuflen *= 2;
 			lnbuf = grep_realloc(lnbuf, ++lnbuflen);
 		}
-		if (c == '\n')
+		if (c == linesep)
 			break;
 		lnbuf[n] = c;
 	}

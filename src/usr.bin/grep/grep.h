@@ -1,4 +1,4 @@
-/**	$MirOS$ */
+/**	$MirOS: src/usr.bin/grep/grep.h,v 1.3 2013/08/06 16:59:33 tg Exp $ */
 /*	$OpenBSD: grep.h,v 1.12 2004/10/03 19:23:02 otto Exp $	*/
 
 /*-
@@ -69,6 +69,7 @@ extern int	 Aflag, Bflag, Eflag, Fflag, Gflag, Hflag, Lflag, Pflag,
 		 bflag, cflag, hflag, iflag, lflag, nflag, qflag, sflag,
 		 vflag, wflag, xflag;
 extern int	 binbehave;
+extern int	 linesep;
 
 extern int	 first, lead, matchall, patterns, tail;
 extern char    **pattern;

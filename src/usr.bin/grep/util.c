@@ -42,7 +42,7 @@
 
 #include "grep.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/grep/util.c,v 1.3 2013/08/06 16:59:33 tg Exp $");
 
 /*
  * Process a file line by line...
@@ -129,7 +129,7 @@ procfile(const char *fn)
 		ln.off += ln.len + 1;
 		if ((ln.dat = grep_fgetln(f, &ln.len)) == NULL)
 			break;
-		if (ln.len > 0 && ln.dat[ln.len - 1] == '\n')
+		if (ln.len > 0 && ln.dat[ln.len - 1] == linesep)
 			--ln.len;
 		ln.line_no++;
 
@@ -148,15 +148,15 @@ procfile(const char *fn)
 	if (cflag) {
 		if (!hflag)
 			printf("%s:", ln.file);
-		printf("%u\n", c);
+		printf("%u%c", c, linesep);
 	}
 	if (lflag && c != 0)
-		printf("%s\n", fn);
+		printf("%s%c", fn, linesep);
 	if (Lflag && c == 0)
-		printf("%s\n", fn);
+		printf("%s%c", fn, linesep);
 	if (c && !cflag && !lflag && !Lflag &&
 	    binbehave == BIN_FILE_BIN && nottext && !qflag)
-		printf("Binary file %s matches\n", fn);
+		printf("Binary file %s matches%c", fn, linesep);
 
 	return c;
 }
@@ -208,7 +208,7 @@ print:
 		if (c) {
 			if (first > 0 && tail == 0 && (Bflag < linesqueued) &&
 			    (Aflag || Bflag))
-				printf("--\n");
+				printf("--%c", linesep);
 			first = 1;
 			tail = Aflag;
 			if (Bflag > 0)
@@ -584,5 +584,5 @@ printline(str_t *line, int sep)
 	if (n)
 		putchar(sep);
 	fwrite(line->dat, line->len, 1, stdout);
-	putchar('\n');
+	putchar(linesep);
 }

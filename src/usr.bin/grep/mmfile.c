@@ -37,7 +37,7 @@
 
 #include "grep.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: src/usr.bin/grep/mmfile.c,v 1.3 2013/08/06 16:59:33 tg Exp $");
 
 #define MAX_MAP_LEN 1048576
 
@@ -91,7 +91,7 @@ mmfgetln(mmf_t *mmf, size_t *l)
 	if (mmf->ptr >= mmf->end)
 		return NULL;
     for (p = mmf->ptr; mmf->ptr < mmf->end; ++mmf->ptr)
-        if (*mmf->ptr == '\n')
+        if (*mmf->ptr == linesep)
             break;
 
 	*l = mmf->ptr - p;

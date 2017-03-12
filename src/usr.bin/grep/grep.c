@@ -43,6 +43,8 @@
 
 #include "grep.h"
 
+__RCSID("$MirOS$");
+
 /* Flags passed to regcomp() and regexec() */
 int	 cflags;
 int	 eflags = REG_STARTEND;
@@ -86,6 +88,7 @@ int	 xflag;		/* -x: pattern must match entire line */
 int	 lbflag;	/* --line-buffered */
 
 int binbehave = BIN_FILE_BIN;
+int linesep = '\n';
 
 enum {
 	BIN_OPT = CHAR_MAX + 1,
@@ -112,9 +115,9 @@ usage(void)
 {
 	fprintf(stderr,
 #ifdef NOZ
-	    "usage: %s [-abcEFGHhIiLlnoPqRSsUVvwx] [-A num] [-B num] [-C[num]]\n"
+	    "usage: %s [-abcEFGHhIiLlnoPqRSsUVvwxz] [-A num] [-B num] [-C[num]]\n"
 #else
-	    "usage: %s [-abcEFGHhIiLlnoPqRSsUVvwxZ] [-A num] [-B num] [-C[num]]\n"
+	    "usage: %s [-abcEFGHhIiLlnoPqRSsUVvwxZz] [-A num] [-B num] [-C[num]]\n"
 #endif
 	    "\t[-e pattern] [-f file] [--binary-files=value] [--context[=num]]\n"
 	    "\t[--line-buffered] [pattern] [file ...]\n", __progname);
@@ -122,9 +125,9 @@ usage(void)
 }
 
 #ifdef NOZ
-static const char *optstr = "0123456789A:B:CEFGHILPSRUVabce:f:hilnoqrsuvwxy";
+static const char *optstr = "0123456789A:B:CEFGHILPSRUVabce:f:hilnoqrsuvwxyz";
 #else
-static const char *optstr = "0123456789A:B:CEFGHILPSRUVZabce:f:hilnoqrsuvwxy";
+static const char *optstr = "0123456789A:B:CEFGHILPSRUVZabce:f:hilnoqrsuvwxyz";
 #endif
 
 struct option long_options[] =
@@ -163,6 +166,7 @@ struct option long_options[] =
 #ifndef NOZ
 	{"decompress",		no_argument,		NULL, 'Z'},
 #endif
+	{"null-data",		no_argument,		NULL, 'z'},
 	{NULL,			no_argument,		NULL, 0}
 };
 
@@ -178,7 +182,7 @@ add_pattern(char *pat, size_t len)
 		pattern_sz *= 2;
 		pattern = grep_realloc(pattern, ++pattern_sz * sizeof(*pattern));
 	}
-	if (pat[len - 1] == '\n')
+	if (pat[len - 1] == linesep)
 		--len;
 	/* pat may not be NUL-terminated */
 	if (wflag && !Fflag) {
@@ -217,7 +221,7 @@ read_patterns(const char *fn)
 		err(2, "%s", fn);
 	nl = 0;
 	while ((line = fgetln(f, &len)) != NULL) {
-		if (*line == '\n') {
+		if (*line == linesep) {
 			++nl;
 			continue;
 		}
@@ -402,6 +406,9 @@ main(int argc, char *argv[])
 			break;
 		case 'x':
 			xflag = 1;
+			break;
+		case 'z':
+			linesep = '\0';
 			break;
 		case BIN_OPT:
 			if (strcmp("binary", optarg) == 0)
