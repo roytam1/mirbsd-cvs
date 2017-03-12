@@ -982,8 +982,13 @@ scriptexec(struct op *tp, const char **ap)
 int
 c_builtin(const char **wp)
 {
-	return (call_builtin(ktsearch(&builtins, *wp, hash(*wp)), wp,
-	    Tbuiltin, false));
+	return (call_builtin(get_builtin(*wp), wp, Tbuiltin, false));
+}
+
+struct tbl *
+get_builtin(const char *s)
+{
+	return (s && *s ? ktsearch(&builtins, s, hash(s)) : NULL);
 }
 
 /*
@@ -1088,6 +1093,14 @@ builtin(const char *name, int (*func) (const char **))
 	case '!':
 		/* external utility overrides built-in utility, with flags */
 		flag |= LOW_BI;
+		break;
+	case '-':
+		/* is declaration utility if argv[1] is one (POSIX: command) */
+		flag |= DECL_FWDR;
+		break;
+	case '^':
+		/* is declaration utility (POSIX: export, readonly) */
+		flag |= DECL_UTIL;
 		break;
 	default:
 		goto flags_seen;
