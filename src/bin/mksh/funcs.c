@@ -117,10 +117,11 @@ const struct builtin mkshbuiltins[] = {
 	{Tfalse, c_false},
 	{"fc", c_fc},
 	{Tgetopts, c_getopts},
-	{"=global", c_typeset},
+	{"^=global", c_typeset},
 	{Tjobs, c_jobs},
 	{"kill", c_kill},
 	{"let", c_let},
+	/* deprecated, to be replaced by \\builtin let */
 	{"let]", c_let},
 	{"print", c_print},
 	{"pwd", c_pwd},
