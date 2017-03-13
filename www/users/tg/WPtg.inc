@@ -12455,6 +12455,12 @@ Waypoint: GC4PG39
 Title: Am Heiligenhäuschen
 Tag: D15 T15 Micro Tradi
 ----
+ID: 2059
+Date: 13.03.2017
+Waypoint: OC88D8 GC6NQE0
+Title: Milchtankstelle Oberborsbach (#9)
+Tag: D2 T15 Regular Tradi recommended
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
