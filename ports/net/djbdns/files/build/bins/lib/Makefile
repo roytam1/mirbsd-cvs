@@ -1,4 +1,4 @@
-# $MirOS: ports/net/djbdns/files/build/bins/lib/Makefile,v 1.2 2016/03/26 17:28:59 tg Exp $
+# $MirOS: ports/net/djbdns/files/build/bins/lib/Makefile,v 1.1.201.1 2005/05/14 23:21:07 tg Exp $
 
 LIB=		djbdns
 SRCS=		alloc.c alloc_re.c auto_home.c buffer.c buffer_1.c buffer_2.c \
@@ -11,7 +11,7 @@ SRCS=		alloc.c alloc_re.c auto_home.c buffer.c buffer_1.c buffer_2.c \
 		dns_rcrw.c dns_resolve.c dns_sortip.c dns_sortip6.c \
 		dns_transmit.c dns_txt.c droproot.c env.c error.c error_str.c \
 		fmt_ulong.c fmt_xlong.c generic-conf.c getln.c getln2.c \
-		iopause.c ip4_fmt.c ip4_scan.c ip6_fmt.c ip6_scan.c log.c \
+		iopause.c ip4_fmt.c ip4_scan.c ip6_fmt.c ip6_scan.c \
 		ndelay_off.c ndelay_on.c open_read.c open_trunc.c \
 		openreadclose.c parsetype.c printpacket.c printrecord.c \
 		prot.c qlog.c qmerge.c readclose.c response.c scan_ulong.c \

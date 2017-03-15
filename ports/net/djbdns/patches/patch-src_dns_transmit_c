@@ -1,10 +1,11 @@
-$MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.5 2017/03/15 22:14:08 tg Exp $
+$MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.6 2017/03/15 22:32:27 tg Exp $
 --- src/dns_transmit.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/dns_transmit.c	Wed Mar 15 22:21:06 2017
-@@ -7,6 +7,7 @@
++++ src/dns_transmit.c	Wed Mar 15 22:23:55 2017
+@@ -7,6 +7,8 @@
  #include "byte.h"
  #include "uint16.h"
  #include "dns.h"
++#include "log.h"
 +#include "ip6.h"
  
  static int serverwantstcp(const char *buf,unsigned int len)
