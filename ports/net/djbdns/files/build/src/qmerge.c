@@ -48,7 +48,7 @@ void qmerge_free(struct qmerge **x)
 }
 
 int qmerge_start(struct qmerge **qm, const char servers[64], int flagrecursive,
-    const char *q, const char qtype[2], const char localip[4],
+    const char *q, const char qtype[2], const char localip[16],
     const char *control)
 {
   struct qmerge_key k;
