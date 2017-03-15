@@ -20,6 +20,7 @@ extern unsigned int ip6_fmt_flat(char *,const char *);
 const static unsigned char V4mappedprefix[12]={0,0,0,0,0,0,0,0,0,0,0xff,0xff};
 const static unsigned char V6loopback[16]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1};
 const static unsigned char V6any[16]={0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0};
+const static unsigned char V4any[16]={0,0,0,0,0,0,0,0,0,0,0xff,0xff,0,0,0,0};
 
 #define ip6_isv4mapped(ip) (byte_equal(ip,12,V4mappedprefix))
 

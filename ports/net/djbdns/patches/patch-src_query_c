@@ -1,6 +1,6 @@
-$MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.5 2016/06/12 22:32:17 tg Exp $
+$MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.6 2016/07/29 19:38:58 tg Exp $
 --- src/query.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/query.c	Fri Jul 29 19:28:35 2016
++++ src/query.c	Wed Mar 15 22:18:29 2017
 @@ -12,7 +12,10 @@
  #include "alloc.h"
  #include "response.h"
@@ -449,7 +449,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.5 2016/06/12 22:32:17 tg 
 -  for (j = 0;j < 64;j += 4)
 -    if (byte_diff(z->servers[z->level] + j,4,"\0\0\0\0"))
 +  for (j = 0;j < 256;j += 16)
-+    if (byte_diff(z->servers[z->level] + j,16,V6any))
++    if (byte_diff(z->servers[z->level] + j,16,V6any) && byte_diff(z->servers[z->level] + j,16,V4any))
        break;
 -  if (j == 64) goto SERVFAIL;
 +  if (j == 256) goto SERVFAIL;

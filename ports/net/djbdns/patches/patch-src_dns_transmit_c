@@ -1,6 +1,6 @@
-$MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.4 2016/03/26 17:29:20 tg Exp $
+$MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.5 2017/03/15 22:14:08 tg Exp $
 --- src/dns_transmit.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/dns_transmit.c	Wed Mar 15 22:12:16 2017
++++ src/dns_transmit.c	Wed Mar 15 22:21:06 2017
 @@ -7,6 +7,7 @@
  #include "byte.h"
  #include "uint16.h"
@@ -9,7 +9,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.4 2016/03/26 17:29
  
  static int serverwantstcp(const char *buf,unsigned int len)
  {
-@@ -80,14 +81,32 @@ void dns_transmit_free(struct dns_transm
+@@ -80,14 +82,32 @@ void dns_transmit_free(struct dns_transm
    packetfree(d);
  }
  
@@ -45,14 +45,14 @@ $MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.4 2016/03/26 17:29
      return 0;
    return -1;
  }
-@@ -102,16 +121,25 @@ static int thisudp(struct dns_transmit *
+@@ -102,16 +122,25 @@ static int thisudp(struct dns_transmit *
  
    while (d->udploop < 4) {
      for (;d->curserver < 16;++d->curserver) {
 -      ip = d->servers + 4 * d->curserver;
 -      if (byte_diff(ip,4,"\0\0\0\0")) {
 +      ip = d->servers + 16 * d->curserver;
-+      if (byte_diff(ip,16,V6any)) {
++      if (byte_diff(ip,16,V6any) && byte_diff(ip,16,V4any)) {
 +	int callv4 = ip6_isv4mapped(ip);
 +
 +	if (!callv4 && ip6_isv4mapped(d->localip)) {
@@ -76,14 +76,14 @@ $MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.4 2016/03/26 17:29
            if (send(d->s1 - 1,d->query + 2,d->querylen - 2,0) == d->querylen - 2) {
              struct taia now;
              taia_now(&now);
-@@ -153,19 +181,21 @@ static int thistcp(struct dns_transmit *
+@@ -153,19 +182,21 @@ static int thistcp(struct dns_transmit *
    packetfree(d);
  
    for (;d->curserver < 16;++d->curserver) {
 -    ip = d->servers + 4 * d->curserver;
 -    if (byte_diff(ip,4,"\0\0\0\0")) {
 +    ip = d->servers + 16 * d->curserver;
-+    if (byte_diff(ip,16,V6any)) {
++    if (byte_diff(ip,16,V6any) && byte_diff(ip,16,V4any)) {
 +      int callv4 = byte_equal(ip,12,V4mappedprefix);
        d->query[2] = dns_random(256);
        d->query[3] = dns_random(256);
@@ -103,7 +103,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.4 2016/03/26 17:29
          d->tcpstate = 2;
          return 0;
        }
-@@ -193,7 +223,7 @@ static int nexttcp(struct dns_transmit *
+@@ -193,7 +224,7 @@ static int nexttcp(struct dns_transmit *
    return thistcp(d);
  }
  
@@ -112,7 +112,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.4 2016/03/26 17:29
  {
    unsigned int len;
  
-@@ -213,7 +243,7 @@ int dns_transmit_start(struct dns_transm
+@@ -213,7 +244,7 @@ int dns_transmit_start(struct dns_transm
  
    byte_copy(d->qtype,2,qtype);
    d->servers = servers;
