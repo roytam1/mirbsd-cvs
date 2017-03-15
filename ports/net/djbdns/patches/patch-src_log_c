@@ -1,6 +1,6 @@
-$MirOS: ports/net/djbdns/patches/patch-src_log_c,v 1.5 2017/03/15 22:32:27 tg Exp $
+$MirOS: ports/net/djbdns/patches/patch-src_log_c,v 1.6 2017/03/15 22:33:32 tg Exp $
 --- src/log.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/log.c	Wed Mar 15 22:29:58 2017
++++ src/log.c	Wed Mar 15 22:38:43 2017
 @@ -3,6 +3,7 @@
  #include "uint16.h"
  #include "error.h"
@@ -184,21 +184,25 @@ $MirOS: ports/net/djbdns/patches/patch-src_log_c,v 1.5 2017/03/15 22:32:27 tg Ex
  {
    uint32 u;
    int i;
-@@ -272,6 +285,7 @@ void log_rrsoa(const char server[4],cons
+@@ -272,17 +285,21 @@ void log_rrsoa(const char server[4],cons
    line();
  }
  
-+#ifdef IN_DNSCACHE
- void log_stats(void)
+-void log_stats(void)
++void log_stats(uint64 numqueries, uint64 cache_motion, int uactive, int tactive)
  {
-   extern uint64 numqueries;
-@@ -284,5 +298,15 @@ void log_stats(void)
+-  extern uint64 numqueries;
+-  extern uint64 cache_motion;
+-  extern int uactive;
+-  extern int tactive;
+-
+   string("stats ");
+   number(numqueries); space();
    number(cache_motion); space();
    number(uactive); space();
    number(tactive);
 +  line();
 +}
-+#endif
 +
 +void log_dropns(const char localip[16], const char nsip[16])
 +{

@@ -1,6 +1,6 @@
-$MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.6 2016/07/29 19:38:58 tg Exp $
+$MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg Exp $
 --- src/query.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/query.c	Wed Mar 15 22:18:29 2017
++++ src/query.c	Wed Mar 15 22:38:21 2017
 @@ -12,7 +12,10 @@
  #include "alloc.h"
  #include "response.h"
@@ -271,6 +271,15 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.6 2016/07/29 19:38:58 tg 
    if (dns_domain_equal(d,"\0011\0010\0010\003127\7in-addr\4arpa\0")) {
      if (z->level) goto LOWERLEVEL;
      if (!rqa(z)) goto DIE;
+@@ -236,7 +406,7 @@ static int doit(struct query *z,int stat
+       response_rfinish(RESPONSE_ANSWER);
+     }
+     cleanup(z);
+-    log_stats();
++    log_stats(numqueries, cache_motion, uactive, tactive);
+     return 1;
+   }
+ 
 @@ -252,7 +422,10 @@ static int doit(struct query *z,int stat
  
      byte_copy(key,2,DNS_T_CNAME);

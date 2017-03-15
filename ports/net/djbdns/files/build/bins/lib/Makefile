@@ -11,7 +11,7 @@ SRCS=		alloc.c alloc_re.c auto_home.c buffer.c buffer_1.c buffer_2.c \
 		dns_rcrw.c dns_resolve.c dns_sortip.c dns_sortip6.c \
 		dns_transmit.c dns_txt.c droproot.c env.c error.c error_str.c \
 		fmt_ulong.c fmt_xlong.c generic-conf.c getln.c getln2.c \
-		iopause.c ip4_fmt.c ip4_scan.c ip6_fmt.c ip6_scan.c \
+		iopause.c ip4_fmt.c ip4_scan.c ip6_fmt.c ip6_scan.c log.c \
 		ndelay_off.c ndelay_on.c open_read.c open_trunc.c \
 		openreadclose.c parsetype.c printpacket.c printrecord.c \
 		prot.c qlog.c qmerge.c readclose.c response.c scan_ulong.c \
