@@ -1,6 +1,6 @@
-$MirOS: ports/net/djbdns/patches/patch-src_dnstrace_c,v 1.1.201.1 2005/05/14 23:21:03 tg Exp $
+$MirOS: ports/net/djbdns/patches/patch-src_dnstrace_c,v 1.2 2005/12/14 23:28:34 tg Exp $
 --- src/dnstrace.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/dnstrace.c	Tue Dec 13 23:50:04 2005
++++ src/dnstrace.c	Wed Mar 15 21:54:31 2017
 @@ -4,6 +4,7 @@
  #include "str.h"
  #include "byte.h"
@@ -18,7 +18,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_dnstrace_c,v 1.1.201.1 2005/05/14 23:
  static stralloc tmp;
  
  void printdomain(const char *d)
-@@ -42,19 +43,19 @@ void printdomain(const char *d)
+@@ -42,21 +43,21 @@ void printdomain(const char *d)
  
  static struct dns_transmit tx;
  
@@ -40,8 +40,11 @@ $MirOS: ports/net/djbdns/patches/patch-src_dnstrace_c,v 1.1.201.1 2005/05/14 23:
 +  byte_zero(servers,256);
 +  byte_copy(servers,16,ip);
  
-   if (dns_transmit_start(&tx,servers,0,q,qtype,"\0\0\0\0") == -1) return -1;
+-  if (dns_transmit_start(&tx,servers,0,q,qtype,"\0\0\0\0") == -1) return -1;
++  if (dns_transmit_start(&tx,servers,0,q,qtype,V6any) == -1) return -1;
  
+   for (;;) {
+     taia_now(&stamp);
 @@ -82,7 +83,7 @@ int resolve(char *q,char qtype[2],char i
  
  struct address {
