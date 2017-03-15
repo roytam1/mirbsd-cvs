@@ -1,18 +1,22 @@
-$MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg Exp $
+$MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.8 2017/03/15 22:39:39 tg Exp $
 --- src/query.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/query.c	Wed Mar 15 22:38:21 2017
-@@ -12,7 +12,10 @@
++++ src/query.c	Wed Mar 15 22:44:13 2017
+@@ -12,7 +12,14 @@
  #include "alloc.h"
  #include "response.h"
  #include "query.h"
 +#include "ip6.h"
  
 +extern stralloc ignoreip;
++extern uint64 numqueries;
++extern uint64 cache_motion;
++extern int uactive;
++extern int tactive;
 +
  static int flagforwardonly = 0;
  
  void query_forwardonly(void)
-@@ -81,7 +84,7 @@ static void cleanup(struct query *z)
+@@ -81,7 +88,7 @@ static void cleanup(struct query *z)
    int j;
    int k;
  
@@ -21,7 +25,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
    for (j = 0;j < QUERY_MAXALIAS;++j)
      dns_domain_free(&z->alias[j]);
    for (j = 0;j < QUERY_MAXLEVEL;++j) {
-@@ -91,6 +94,21 @@ static void cleanup(struct query *z)
+@@ -91,6 +98,21 @@ static void cleanup(struct query *z)
    }
  }
  
@@ -43,7 +47,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
  static int rqa(struct query *z)
  {
    int i;
-@@ -110,7 +128,7 @@ static int rqa(struct query *z)
+@@ -110,7 +132,7 @@ static int rqa(struct query *z)
    return 1;
  }
  
@@ -52,7 +56,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
  {
    if (dns_domain_equal(d,"\011localhost\0")) {
      byte_copy(ip,4,"\177\0\0\1");
-@@ -123,7 +141,6 @@ static int globalip(char *d,char ip[4])
+@@ -123,7 +145,6 @@ static int globalip(char *d,char ip[4])
  static char *t1 = 0;
  static char *t2 = 0;
  static char *t3 = 0;
@@ -60,7 +64,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
  static char *referral = 0;
  static unsigned int *records = 0;
  
-@@ -165,7 +182,7 @@ static int doit(struct query *z,int stat
+@@ -165,7 +186,7 @@ static int doit(struct query *z,int stat
    char *buf;
    unsigned int len;
    const char *whichserver;
@@ -69,7 +73,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
    char misc[20];
    unsigned int rcode;
    unsigned int posanswers;
-@@ -179,20 +196,20 @@ static int doit(struct query *z,int stat
+@@ -179,20 +200,20 @@ static int doit(struct query *z,int stat
    uint16 datalen;
    char *control;
    char *d;
@@ -92,7 +96,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
  
    errno = error_io;
    if (state == 1) goto HAVEPACKET;
-@@ -205,14 +222,15 @@ static int doit(struct query *z,int stat
+@@ -205,14 +226,15 @@ static int doit(struct query *z,int stat
    NEWNAME:
    if (++z->loop == 100) goto DIE;
    d = z->name[z->level];
@@ -112,7 +116,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
  	  break;
  	}
        goto LOWERLEVEL;
-@@ -227,6 +245,158 @@ static int doit(struct query *z,int stat
+@@ -227,6 +249,158 @@ static int doit(struct query *z,int stat
      return 1;
    }
  
@@ -271,7 +275,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
    if (dns_domain_equal(d,"\0011\0010\0010\003127\7in-addr\4arpa\0")) {
      if (z->level) goto LOWERLEVEL;
      if (!rqa(z)) goto DIE;
-@@ -236,7 +406,7 @@ static int doit(struct query *z,int stat
+@@ -236,7 +410,7 @@ static int doit(struct query *z,int stat
        response_rfinish(RESPONSE_ANSWER);
      }
      cleanup(z);
@@ -280,7 +284,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
      return 1;
    }
  
-@@ -252,7 +422,10 @@ static int doit(struct query *z,int stat
+@@ -252,7 +426,10 @@ static int doit(struct query *z,int stat
  
      byte_copy(key,2,DNS_T_CNAME);
      cached = cache_get(key,dlen + 2,&cachedlen,&ttl);
@@ -292,7 +296,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
        if (typematch(DNS_T_CNAME,dtype)) {
          log_cachedanswer(d,DNS_T_CNAME);
          if (!rqa(z)) goto DIE;
-@@ -261,8 +434,11 @@ static int doit(struct query *z,int stat
+@@ -261,8 +438,11 @@ static int doit(struct query *z,int stat
  	return 1;
        }
        log_cachedcname(d,cached);
@@ -306,7 +310,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
      }
  
      if (typematch(DNS_T_NS,dtype)) {
-@@ -272,7 +448,7 @@ static int doit(struct query *z,int stat
+@@ -272,7 +452,7 @@ static int doit(struct query *z,int stat
  	log_cachedanswer(d,DNS_T_NS);
  	if (!rqa(z)) goto DIE;
  	pos = 0;
@@ -315,7 +319,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
  	  if (!response_rstart(d,DNS_T_NS,ttl)) goto DIE;
  	  if (!response_addname(t2)) goto DIE;
  	  response_rfinish(RESPONSE_ANSWER);
-@@ -282,6 +458,29 @@ static int doit(struct query *z,int stat
+@@ -282,6 +462,29 @@ static int doit(struct query *z,int stat
        }
      }
  
@@ -345,7 +349,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
      if (typematch(DNS_T_PTR,dtype)) {
        byte_copy(key,2,DNS_T_PTR);
        cached = cache_get(key,dlen + 2,&cachedlen,&ttl);
-@@ -289,7 +488,7 @@ static int doit(struct query *z,int stat
+@@ -289,7 +492,7 @@ static int doit(struct query *z,int stat
  	log_cachedanswer(d,DNS_T_PTR);
  	if (!rqa(z)) goto DIE;
  	pos = 0;
@@ -354,7 +358,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
  	  if (!response_rstart(d,DNS_T_PTR,ttl)) goto DIE;
  	  if (!response_addname(t2)) goto DIE;
  	  response_rfinish(RESPONSE_ANSWER);
-@@ -306,7 +505,7 @@ static int doit(struct query *z,int stat
+@@ -306,7 +509,7 @@ static int doit(struct query *z,int stat
  	log_cachedanswer(d,DNS_T_MX);
  	if (!rqa(z)) goto DIE;
  	pos = 0;
@@ -363,7 +367,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
  	  pos = dns_packet_getname(cached,cachedlen,pos,&t2);
  	  if (!pos) break;
  	  if (!response_rstart(d,DNS_T_MX,ttl)) goto DIE;
-@@ -319,16 +518,54 @@ static int doit(struct query *z,int stat
+@@ -319,16 +522,54 @@ static int doit(struct query *z,int stat
        }
      }
  
@@ -421,7 +425,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
  		break;
  	      }
  	    cached += 4;
-@@ -351,7 +588,7 @@ static int doit(struct query *z,int stat
+@@ -351,7 +592,7 @@ static int doit(struct query *z,int stat
        }
      }
  
@@ -430,7 +434,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
        byte_copy(key,2,dtype);
        cached = cache_get(key,dlen + 2,&cachedlen,&ttl);
        if (cached && (cachedlen || byte_diff(dtype,2,DNS_T_ANY))) {
-@@ -390,12 +627,12 @@ static int doit(struct query *z,int stat
+@@ -390,12 +631,12 @@ static int doit(struct query *z,int stat
          cached = cache_get(key,dlen + 2,&cachedlen,&ttl);
          if (cached && cachedlen) {
  	  z->control[z->level] = d;
@@ -445,7 +449,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
  	    log_cachedns(d,t1);
              if (j < QUERY_MAXNS)
                if (!dns_domain_copy(&z->ns[z->level][j++],t1)) goto DIE;
-@@ -418,25 +655,20 @@ static int doit(struct query *z,int stat
+@@ -418,25 +659,20 @@ static int doit(struct query *z,int stat
          if (!dns_domain_copy(&z->name[z->level + 1],z->ns[z->level][j])) goto DIE;
          dns_domain_free(&z->ns[z->level][j]);
          ++z->level;
@@ -478,7 +482,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
    return 0;
  
  
-@@ -450,13 +682,13 @@ static int doit(struct query *z,int stat
+@@ -450,13 +686,13 @@ static int doit(struct query *z,int stat
  
    HAVEPACKET:
    if (++z->loop == 100) goto DIE;
@@ -496,7 +500,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
  
    pos = dns_packet_copy(buf,len,0,header,12); if (!pos) goto DIE;
    pos = dns_packet_skipname(buf,len,pos); if (!pos) goto DIE;
-@@ -471,29 +703,31 @@ static int doit(struct query *z,int stat
+@@ -471,29 +707,31 @@ static int doit(struct query *z,int stat
    if (rcode && (rcode != 3)) goto DIE; /* impossible; see irrelevant() */
  
    flagout = 0;
@@ -534,7 +538,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
    posauthority = pos;
  
    for (j = 0;j < numauthority;++j) {
-@@ -516,14 +750,6 @@ static int doit(struct query *z,int stat
+@@ -516,14 +754,6 @@ static int doit(struct query *z,int stat
    posglue = pos;
  
  
@@ -549,7 +553,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
    if (records) { alloc_free(records); records = 0; }
  
    k = numanswers + numauthority + numglue;
-@@ -585,15 +811,24 @@ static int doit(struct query *z,int stat
+@@ -585,15 +815,24 @@ static int doit(struct query *z,int stat
      else if (byte_equal(type,2,DNS_T_AXFR))
        ;
      else if (byte_equal(type,2,DNS_T_SOA)) {
@@ -575,7 +579,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
      }
      else if (byte_equal(type,2,DNS_T_CNAME)) {
        pos = dns_packet_skipname(buf,len,records[j - 1]); if (!pos) goto DIE;
-@@ -643,6 +878,11 @@ static int doit(struct query *z,int stat
+@@ -643,6 +882,11 @@ static int doit(struct query *z,int stat
          pos = dns_packet_copy(buf,len,pos,header,10); if (!pos) goto DIE;
          if (byte_equal(header + 8,2,"\0\4")) {
            pos = dns_packet_copy(buf,len,pos,header,4); if (!pos) goto DIE;
@@ -587,7 +591,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
            save_data(header,4);
            log_rr(whichserver,t1,DNS_T_A,header,4,ttl);
          }
-@@ -650,6 +890,23 @@ static int doit(struct query *z,int stat
+@@ -650,6 +894,23 @@ static int doit(struct query *z,int stat
        }
        save_finish(DNS_T_A,t1,ttl);
      }
@@ -611,7 +615,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
      else {
        save_start();
        while (i < j) {
-@@ -670,24 +927,47 @@ static int doit(struct query *z,int stat
+@@ -670,24 +931,47 @@ static int doit(struct query *z,int stat
  
    alloc_free(records); records = 0;
  
@@ -673,7 +677,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
    if (rcode == 3) {
      log_nxdomain(whichserver,d,soattl);
      cachegeneric(DNS_T_ANY,d,"",0,soattl);
-@@ -700,13 +980,34 @@ static int doit(struct query *z,int stat
+@@ -700,16 +984,37 @@ static int doit(struct query *z,int stat
      return 1;
    }
  
@@ -709,8 +713,12 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
 +	  }
          }
  
-   log_stats();
-@@ -719,15 +1020,25 @@ static int doit(struct query *z,int stat
+-  log_stats();
++  log_stats(numqueries, cache_motion, uactive, tactive);
+ 
+ 
+   if (flagout || flagsoa || !flagreferral) {
+@@ -719,15 +1024,25 @@ static int doit(struct query *z,int stat
          pos = dns_packet_getname(buf,len,pos,&t1); if (!pos) goto DIE;
          pos = dns_packet_copy(buf,len,pos,header,10); if (!pos) goto DIE;
          uint16_unpack_big(header + 8,&datalen);
@@ -740,7 +748,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
          pos += datalen;
        }
        goto LOWERLEVEL;
-@@ -781,9 +1092,21 @@ static int doit(struct query *z,int stat
+@@ -781,9 +1096,21 @@ static int doit(struct query *z,int stat
  
  
    if (!dns_domain_suffix(d,referral)) goto DIE;
@@ -763,7 +771,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
    for (j = 0;j < QUERY_MAXNS;++j)
      dns_domain_free(&z->ns[z->level][j]);
    k = 0;
-@@ -815,10 +1138,11 @@ static int doit(struct query *z,int stat
+@@ -815,10 +1142,11 @@ static int doit(struct query *z,int stat
    DIE:
    cleanup(z);
    if (records) { alloc_free(records); records = 0; }
@@ -776,7 +784,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
  {
    if (byte_equal(type,2,DNS_T_AXFR)) { errno = error_perm; return -1; }
  
-@@ -829,14 +1153,16 @@ int query_start(struct query *z,char *dn
+@@ -829,14 +1157,16 @@ int query_start(struct query *z,char *dn
    if (!dns_domain_copy(&z->name[0],dn)) return -1;
    byte_copy(z->type,2,type);
    byte_copy(z->class,2,class);
@@ -795,7 +803,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_query_c,v 1.7 2017/03/15 22:32:28 tg 
      case 1:
        return doit(z,1);
      case -1:
-@@ -847,5 +1173,5 @@ int query_get(struct query *z,iopause_fd
+@@ -847,5 +1177,5 @@ int query_get(struct query *z,iopause_fd
  
  void query_io(struct query *z,iopause_fd *x,struct taia *deadline)
  {
