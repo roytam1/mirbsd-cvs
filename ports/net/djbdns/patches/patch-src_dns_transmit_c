@@ -1,6 +1,6 @@
-$MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.3 2006/07/27 00:58:16 tg Exp $
+$MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.4 2016/03/26 17:29:20 tg Exp $
 --- src/dns_transmit.c.orig	Sun Feb 11 21:11:23 2001
-+++ src/dns_transmit.c	Sat Mar 26 15:26:29 2016
++++ src/dns_transmit.c	Wed Mar 15 22:12:16 2017
 @@ -7,6 +7,7 @@
  #include "byte.h"
  #include "uint16.h"
@@ -9,7 +9,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.3 2006/07/27 00:58
  
  static int serverwantstcp(const char *buf,unsigned int len)
  {
-@@ -80,14 +81,31 @@ void dns_transmit_free(struct dns_transm
+@@ -80,14 +81,32 @@ void dns_transmit_free(struct dns_transm
    packetfree(d);
  }
  
@@ -21,11 +21,12 @@ $MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.3 2006/07/27 00:58
  
 +  byte_copy(localip,16,d->localip);
 +
-+  if (callv4 || ip6_isv4mapped(localip)) {
-+    /* Calling an IPv4 server with an IPv6 localip? If so, use any. */
-+    /*XXX consider having two IPSENDs */
-+    if (!ip6_isv4mapped(localip))
++  if (/* v4 nameserver */ callv4) {
++    if (!ip6_isv4mapped(localip) /* and it's not :: but that's ok */) {
++      /* v6 IPSEND (but not IN6ADDR_ANY) is ignored in favour of 0.0.0.0 */
++      /*XXX consider having two IPSENDs */
 +      byte_zero(localip+12,4);
++    }
 +
 +    for (j = 0;j < 10;++j)
 +      if (socket_bind4(d->s1 - 1,localip + 12,1025 + dns_random(64510)) == 0)
@@ -44,7 +45,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.3 2006/07/27 00:58
      return 0;
    return -1;
  }
-@@ -102,16 +120,18 @@ static int thisudp(struct dns_transmit *
+@@ -102,16 +121,25 @@ static int thisudp(struct dns_transmit *
  
    while (d->udploop < 4) {
      for (;d->curserver < 16;++d->curserver) {
@@ -52,7 +53,14 @@ $MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.3 2006/07/27 00:58
 -      if (byte_diff(ip,4,"\0\0\0\0")) {
 +      ip = d->servers + 16 * d->curserver;
 +      if (byte_diff(ip,16,V6any)) {
-+	int callv4 = byte_equal(ip,12,V4mappedprefix);
++	int callv4 = ip6_isv4mapped(ip);
++
++	if (!callv4 && ip6_isv4mapped(d->localip)) {
++	  /* v6 nameserver but v4 IPSEND */
++	  log_dropns(d->localip, ip);
++	  continue;
++	}
++
  	d->query[2] = dns_random(256);
  	d->query[3] = dns_random(256);
    
@@ -68,7 +76,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.3 2006/07/27 00:58
            if (send(d->s1 - 1,d->query + 2,d->querylen - 2,0) == d->querylen - 2) {
              struct taia now;
              taia_now(&now);
-@@ -153,19 +173,21 @@ static int thistcp(struct dns_transmit *
+@@ -153,19 +181,21 @@ static int thistcp(struct dns_transmit *
    packetfree(d);
  
    for (;d->curserver < 16;++d->curserver) {
@@ -95,7 +103,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.3 2006/07/27 00:58
          d->tcpstate = 2;
          return 0;
        }
-@@ -193,7 +215,7 @@ static int nexttcp(struct dns_transmit *
+@@ -193,7 +223,7 @@ static int nexttcp(struct dns_transmit *
    return thistcp(d);
  }
  
@@ -104,7 +112,7 @@ $MirOS: ports/net/djbdns/patches/patch-src_dns_transmit_c,v 1.3 2006/07/27 00:58
  {
    unsigned int len;
  
-@@ -213,7 +235,7 @@ int dns_transmit_start(struct dns_transm
+@@ -213,7 +243,7 @@ int dns_transmit_start(struct dns_transm
  
    byte_copy(d->qtype,2,qtype);
    d->servers = servers;
