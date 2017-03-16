@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.39 2016/01/05 22:37:55 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.42 2017/03/08 21:00:32 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -1763,4 +1763,38 @@ Tag: debian pcli snippet tip work
  anyway).</p>
 <p>This posting and the code behind it are sponsored by my employer <a
  href="https://www.tarent.de/" style="color:red;">⮡ tarent</a>.</p>
+----
+Date: 16.03.2017 23:12
+Author: tg@
+Title: Updates to the last two posts
+Tag: bug debian grml news pcli rant snippet tip work
+
+<p>Someone from the FSF’s licencing department posted an official-looking
+ thing saying they don’t believe <a
+ href="permalinks/wlog-10_e20170301-tg.htm">GitHub’s new ToS</a> to be
+ problematic with copyleft. Well, my lawyer (not my personal one, nor for
+ The MirOS Project, but related to another association, informally) does
+ agree with <em>my</em> reading of the new ToS, <em>and</em> I can point
+ out at least a clause in the GPLv1 (I really don’t have time right now)
+ which says contrary (but does this mean the FSF generally waives the
+ restrictions of the GPL for anything on GitHub?). I’ll eMail GitHub Legal
+ directly and will try to continue getting this fixed (as soon as I have
+ enough time for it) as I’ll otherwise be forced to force GitHub to remove
+ stuff from me (but with someone else as original author) under GPL, such
+ as… tinyirc and e3.</p>
+<p><a href="@@RELPATH@@permalinks/wlog-10-tg_e20170308-tg.htm">My
+ <tt>dbconfig-common</tt> Debian packaging example</a> got a rather hefty
+ upgrade because <tt>dbconfig-common</tt> (unlike <em>any</em> other DB
+ schema framework I know of) doesn’t apply the upgrades on a fresh install
+ (and doesn’t automatically put the upgrades into a transaction either)
+ but only upgrades between Debian package versions (which can be funny
+ with backports, but AFAICT that part is handled correctly). I now append
+ the upgrades to the initial-version-as-seen-in-the-source to generate
+ the initial-version-as-shipped-in-the-binary-package (optionally, only
+ if it’s named .in) removing all transaction stuff from the upgrade
+ files and wrapping the whole shit in <tt>BEGIN;</tt> and <tt>COMMIT;</tt>
+ after merging. (This should at least not break nōn-PostgreSQL databases
+ and… well, database-like-ish things I cannot test for obvious (SQLite
+ is illegal, at least in Germany, but potentially worldwide, and then
+ PostgreSQL is the only remaining Open Source database left ;) reasons.)</p>
 ----

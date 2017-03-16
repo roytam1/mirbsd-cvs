@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.346 2016/10/23 22:48:59 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.357 2017/03/13 18:21:16 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -12460,6 +12460,12 @@ Date: 13.03.2017
 Waypoint: OC88D8 GC6NQE0
 Title: Milchtankstelle Oberborsbach (#9)
 Tag: D2 T15 Regular Tradi recommended
+----
+ID: 2060
+Date: 16.03.2017
+Waypoint: GC5MK4J
+Title: Móðuharðindin 2
+Tag: D25 T15 Small Multi
 ----
 ID: p20481102
 Date: 02.11.2048
