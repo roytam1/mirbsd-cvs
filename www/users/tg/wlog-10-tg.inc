@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.42 2017/03/08 21:00:32 tg Exp $
+RCSID: $MirOS: www/users/tg/wlog-10-tg.inc,v 1.43 2017/03/16 23:14:04 tg Exp $
 Date: 14.04.2014 19:22
 Author: tg@
 Title: Enough of IT…
@@ -1797,4 +1797,13 @@ Tag: bug debian grml news pcli rant snippet tip work
  and… well, database-like-ish things I cannot test for obvious (SQLite
  is illegal, at least in Germany, but potentially worldwide, and then
  PostgreSQL is the only remaining Open Source database left ;) reasons.)</p>
+<p><strong>Update:</strong> Yes, this <em>does</em> mean that maintainers
+ of databases and webservers should send me patches to make this work with
+ not-PostgreSQL (new <tt>install/<i>name</i>.in</tt>, upgrade files) and
+ not-Apache-2.2/2.4 (new <tt>debian/*/*.conf</tt> snippets) to make this
+ packaging example even more generally usable.</p>
+<p><a href="https://nm.debian.org/person/natureshadow">Natureshadow</a>
+ already forked this and made a Python/Flask package from it, so I’ll
+ prod him to provide a similarily versatile <tt>hello-python-world</tt>
+ example package.</p>
 ----
