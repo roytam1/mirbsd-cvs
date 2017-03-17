@@ -59,7 +59,7 @@ function rss_putheader {
 	EOF
 	for x in "${rcsid_db[@]}"; do
 		[[ -z $x ]] && continue
-		print "    $x"
+		print -r -- "    $x"
 	done
 	print " </generator>"
 }
@@ -124,8 +124,8 @@ function rss_output {
 		<guid isPermaLink="true">$mws__canonsite/permalinks/${ei_srcf[ent]}_${eid}.htm</guid>
 	EOF
 	for x in ${e_tag[ent]}; do
-		print "<category>$x</category>"
-		print $x >>stamp_tag_$name
+		print -r -- "<category>$x</category>"
+		print -r -- "$x" >>stamp_tag_$name
 	done
 	if [[ -n ${e_author[ent]} ]]; then
 		eauthor=${e_author[ent]}
@@ -135,7 +135,7 @@ function rss_output {
 			eauthor="${eauthor}mirbsd.org"
 		fi
 		[[ $eauthor = *\(*\)* ]] || eauthor="$eauthor (MirOS Developer$uauthor)"
-		print "<author>${eauthor}</author>\n"
+		print -r -- "<author>${eauthor}</author>"
 	fi
 	print "<description>"
 	if [[ -n ${e_pictures[ent]} ]]; then
