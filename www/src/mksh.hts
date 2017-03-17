@@ -875,6 +875,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p id="pcur"><i>current</i>: Please remember to subscribe to the mksh
  mailing list, either directly or via GMane, if you have an interest
  in mksh, such as packaging it. Thanks! <i>(unfinished…)</i>
+ <tt>make repool</tt> needs mksh R55’s bugfix on the host.
 </p>
 <p id="p54">R54: Build.sh now installs both manpages (lksh.1 and
  mksh.1) independent of how it’s called. Several additional compiler
@@ -1137,6 +1138,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>This does not necessarily list new features, only these which users
  should be aware of for existing scripts.</p>
 <p id="ccur"><i>current</i>:
+ The POSIX declaration utility concept is introduced, which also applies
+ to commands having variable assignments and redirections preceding them.
+ <tt>wait</tt> however does not keep assignments any longer. The new
+ <tt>\builtin</tt> utility forwards the declaration utility flag exactly
+ like <tt>command</tt> does. The new <tt>typeset -g</tt> replaces mksh’s
+ previous home-grown <tt>global</tt> builtin, which is now deprecated
+ and <em>will</em> be removed from a future version.
  <i>(unfinished…)</i></p>
 <p id="c54">R54: Lazy evaluation side effects and <tt>set -e</tt>-related
  error propagation in <tt>||</tt> and <tt>&amp;&amp;</tt> constructs are
@@ -1232,6 +1240,15 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Make ${var@x}, unknown x, fail (thanks izabera)</li>
  <li>[tg] ${var=x} must evaluate x in scalar context (10x Martijn Dekker)</li>
  <li>[tg] Fixup relation between lksh and mksh, reduce delta</li>
+ <li>[tg] Improve manpage display; add OS/2 <tt>$PATH</tt> FAQ</li>
+ <li>[Jean Delvare] Fix bugs in manpage</li>
+ <li>[tg] Review tilde expansion, removing “odd use of KEEPASN” and
+  introduce POSIX “declaration utility” concept; <tt>wait</tt> isn’t one</li>
+ <li>[tg] Add <tt>\builtin</tt> utility, declaration utility forwarder</li>
+ <li>[tg] Make <tt>$'\xz'</tt> expand to <tt>xz</tt>, not <tt>\0</tt></li>
+ <li>[tg] Use fixed string pooling (requires the above change in host mksh)</li>
+ <li>[tg] POSIX declaration commands can have varassign and redirections</li>
+ <li>[Martijn Dekker] Add <tt>typeset -g</tt>, replacing homegrown “global”</li>
 </ul>
 <p id="r54">R54 is a bugfix release with moderate new features:</p><ul>
  <li>[tg] Simplify and improve code and manual page</li>
