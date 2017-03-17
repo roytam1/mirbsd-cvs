@@ -1771,12 +1771,12 @@ Tag: bug debian grml news pcli rant snippet tip work
 
 <p>Someone from the FSF’s licencing department posted an official-looking
  thing saying they don’t believe <a
- href="permalinks/wlog-10_e20170301-tg.htm">GitHub’s new ToS</a> to be
- problematic with copyleft. Well, my lawyer (not my personal one, nor for
- The MirOS Project, but related to another association, informally) does
- agree with <em>my</em> reading of the new ToS, <em>and</em> I can point
- out at least a clause in the GPLv1 (I really don’t have time right now)
- which says contrary (but does this mean the FSF generally waives the
+ href="@@RELPATH@@permalinks/wlog-10_e20170301-tg.htm">GitHub’s new ToS</a>
+ to be problematic with copyleft. Well, my lawyer (not my personal one, nor
+ for The MirOS Project, but related to another association, informally)
+ does agree with <em>my</em> reading of the new ToS, <em>and</em> I can
+ point out at least a clause in the GPLv1 (I really don’t have time right
+ now) which says contrary (but does this mean the FSF generally waives the
  restrictions of the GPL for anything on GitHub?). I’ll eMail GitHub Legal
  directly and will try to continue getting this fixed (as soon as I have
  enough time for it) as I’ll otherwise be forced to force GitHub to remove
