@@ -588,9 +588,10 @@ function enable {
 
 \: place customisations below this line
 
-[[ $PATH = *\;?:\\* ]] || for p in ~/.etc/bin ~/bin; do
+for p in ~/.etc/bin ~/bin; do
 	[[ -d $p/. ]] || \\builtin continue
-	[[ :$PATH: = *:$p:* ]] || PATH=$p:$PATH
+	[[ $PATHSEP$PATH$PATHSEP = *"$PATHSEP$p$PATHSEP"* ]] || \
+	    PATH=$p$PATHSEP$PATH
 done
 
 \\builtin export SHELL=$MKSH MANWIDTH=80 LESSHISTFILE=-
