@@ -330,14 +330,12 @@ function Lb64encode {
 	else
 		\\builtin read -raN-1 s
 	fi
-	\\builtin typeset -i i=0 n=${#s[*]} j v
+	\\builtin typeset -i i=0 n=${#s[*]} v
 
 	while (( i < n )); do
 		(( v = s[i++] << 16 ))
-		(( j = i < n ? s[i++] : 0 ))
-		(( v |= j << 8 ))
-		(( j = i < n ? s[i++] : 0 ))
-		(( v |= j ))
+		(( v |= s[i++] << 8 ))
+		(( v |= s[i++] ))
 		t+=${table[v >> 18]}${table[v >> 12 & 63]}
 		c=${table[v >> 6 & 63]}
 		if (( i <= n )); then
