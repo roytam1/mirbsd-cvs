@@ -56,8 +56,6 @@ static mksh_uari_t rndsetup(void);
 static void x_sigwinch(int);
 #endif
 
-static const char initifs[] = "IFS= \t\n";
-
 static const char initsubs[] =
     "${PS2=> }"
     "${PS3=#? }"
@@ -363,7 +361,7 @@ main_init(int argc, const char *argv[], Source **sp, struct block **lp)
 	}
 
 	/* for security */
-	typeset(initifs, 0, 0, 0, 0);
+	typeset("IFS= \t\n", 0, 0, 0, 0);
 
 	/* assign default shell variable values */
 	substitute(initsubs, 0);
