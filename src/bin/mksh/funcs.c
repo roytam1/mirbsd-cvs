@@ -122,8 +122,6 @@ const struct builtin mkshbuiltins[] = {
 	{Tjobs, c_jobs},
 	{"kill", c_kill},
 	{"let", c_let},
-	/* deprecated, to be replaced by \\builtin let */
-	{"let]", c_let},
 	{"print", c_print},
 	{"pwd", c_pwd},
 	{Tread, c_read},

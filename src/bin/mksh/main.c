@@ -257,7 +257,7 @@ main_init(int argc, const char *argv[], Source **sp, struct block **lp)
 
 	/* define built-in commands and see if we were called as one */
 	ktinit(APERM, &builtins,
-	    /* currently up to 55 builtins: 75% of 128 = 2^7 */
+	    /* currently up to 54 builtins: 75% of 128 = 2^7 */
 	    7);
 	for (i = 0; mkshbuiltins[i].name != NULL; i++)
 		if (!strcmp(ccp, builtin(mkshbuiltins[i].name,
