@@ -582,8 +582,8 @@ static int doarg(BW *bw, unsigned char *s, void *object, int *notify)
 	if (notify)
 		*notify = 1;
 	num = calc(bw, s);
-	if (merr) {
-		msgnw(bw->parent, merr);
+	if (merrf) {
+		msgnw(bw->parent, merrt);
 		return -1;
 	}
 	arg = num;

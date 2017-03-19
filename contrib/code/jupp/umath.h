@@ -12,7 +12,13 @@
 #include "config.h"
 #include "types.h"
 
-extern const unsigned char * volatile merr;
+#ifdef HAVE_SIGNAL_H
+#include <signal.h>
+#endif
+
+extern volatile sig_atomic_t merrf;       
+extern const unsigned char *merrt;
+
 double calc(BW *bw, unsigned char *s);
 int umath(BW *bw);
 int umathins(BW *bw);
