@@ -3655,7 +3655,7 @@ c_ulimit(const char **wp)
 	if (!all)
 		print_ulimit(rlimits[i], how);
 	else for (i = 0; i < NELEM(rlimits); ++i) {
-		shprintf("%-20s ", rlimits[i]->name);
+		shprintf("-%c: %-20s  ", rlimits[i]->optchar, rlimits[i]->name);
 		print_ulimit(rlimits[i], how);
 	}
 	return (0);

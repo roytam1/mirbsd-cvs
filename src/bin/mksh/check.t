@@ -10225,8 +10225,15 @@ expected-stdout:
 ---
 name: ulimit-1
 description:
+	Check that ulimit as used in dot.mksh works or is stubbed
+stdin:
+	ulimit -c 0
+---
+name: ulimit-2
+description:
 	Check if we can use a specific syntax idiom for ulimit
-category: !os:syllable
+	XXX Haiku works, but only for -n and -V
+category: !os:haiku,!os:syllable
 stdin:
 	if ! x=$(ulimit -d) || [[ $x = unknown ]]; then
 		#echo expected to fail on this OS
