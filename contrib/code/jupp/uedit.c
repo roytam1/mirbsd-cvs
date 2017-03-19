@@ -10,6 +10,7 @@
 #include "types.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #ifdef HAVE_BSD_STRING_H
 #include <bsd/string.h>
