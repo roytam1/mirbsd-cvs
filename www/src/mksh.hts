@@ -1249,6 +1249,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Use fixed string pooling (requires the above change in host mksh)</li>
  <li>[tg] POSIX declaration commands can have varassign and redirections</li>
  <li>[Martijn Dekker] Add <tt>typeset -g</tt>, replacing homegrown “global”</li>
+ <li>[Harvey-OS] Disable NOPROSPECTOFWORK, APEX is reportedly fixed now</li>
+ <li>[tg] Display <tt>ulimit -a</tt> output with flags; improve Haiku</li>
+ <li>[tg] Drop old <tt>let]</tt> hack, use <tt>\builtin</tt> internally</li>
+ <li>[tg] Fix padding in <tt>Lb64encode</tt> in <tt>dot.mkshrc</tt></li>
+ <li>[tg] Move FAQ content to a sepatate, new FAQ section in the manpage</li>
+ <li>[tg] Add new standard variable <tt>PATHSEP</tt> (‘:’, ‘;’ on OS/2)</li>
 </ul>
 <p id="r54">R54 is a bugfix release with moderate new features:</p><ul>
  <li>[tg] Simplify and improve code and manual page</li>
