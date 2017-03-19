@@ -4847,16 +4847,16 @@ parameter values are not printed.
 If
 .Ar name
 arguments are given, the attributes of the named parameters are set
-.Pq Ic \-
+.Pq Ic \&\-
 or cleared
-.Pq Ic + .
+.Pq Ic \&+ ;
+inside a function, this will cause the parameters to be created
+(with no value) in the local scope (but see
+.Fl g ) .
 Values for parameters may optionally be specified.
 For
 .Ar name Ns \&[*] ,
-the change affects the entire array, and no value may be specified.
-Any parameters created by
-.Ic typeset
-have local scope by default.
+the change affects all elements of the array, and no value may be specified.
 .Pp
 When
 .Fl f
@@ -4877,7 +4877,8 @@ Indexed array attribute.
 Function mode.
 Display or set functions and their attributes, instead of parameters.
 .It Fl g
-Create parameters in global scope, not in local scope.
+Do not cause named parameters to be created in
+the local scope when called inside a function.
 .It Fl i Ns Op Ar n
 Integer attribute.
 .Ar n
