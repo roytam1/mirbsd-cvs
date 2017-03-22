@@ -1135,7 +1135,11 @@ findcom(const char *name, int flags)
 	char *fpath;
 	union mksh_cchack npath;
 
-	if (mksh_vdirsep(name)) {
+	if (mksh_vdirsep(name)
+#ifdef __OS2__
+	    && (strcmp(name, T_builtin) != 0)
+#endif
+	    ) {
 		insert = 0;
 		/* prevent FPATH search below */
 		flags &= ~FC_FUNC;
