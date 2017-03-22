@@ -1063,6 +1063,7 @@ yylex(int cf)
 				s->start = s->str = p->val.s;
 				s->u.tblp = p;
 				s->flags |= SF_HASALIAS;
+				s->line = source->line;
 				s->next = source;
 				if (source->type == SEOF) {
 					/* prevent infinite recursion at EOS */
