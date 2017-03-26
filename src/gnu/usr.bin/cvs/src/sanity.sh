@@ -3404,10 +3404,12 @@ ${SPROG} \[admin aborted\]: attempt to delete all revisions"
 	  # texts that can be used and explicitly leaves open the format
 	  # of these messages. Also, GNU getopt is broken and does not
 	  # use __progname in the first place. *sigh* -- mirabilos
+	  # Also supporting either argv0 with both errors and optional
+	  # quotes now. -- mirabilos
 	  dotest_fail basicb-21 "${testcvs} -q admin -H" \
-"admin: invalid option -- '*H'*
+"admin: i[ln][lv][ea][gl][ai][ld] option -- '*H'*
 ${CPROG} \[admin aborted\]: specify ${CPROG} -H admin for usage information" \
-"cvs: illegal option -- '*H'*
+"cvs: i[ln][lv][ea][gl][ai][ld] option -- '*H'*
 ${CPROG} \[admin aborted\]: specify ${CPROG} -H admin for usage information"
 	  cd ..
 	  rmdir 1
