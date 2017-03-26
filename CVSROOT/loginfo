@@ -53,8 +53,6 @@
 # normal operation
 
 # regular commit mails per developer
-^contrib/hosted/bsiegert\(/\|$\)	$CVSROOT/CVSROOT/mklogci %I -m bsiegert@mirbsd.org -f $CVSROOT/Logs/.cpr.bsiegert -C %r -p %p %{sVv}
-^www/users/bsiegert\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m bsiegert@mirbsd.org -f $CVSROOT/Logs/.cpr.bsiegert -C %r -p %p %{sVv}
 ^contrib/hosted/tg\(/\|$\)		$CVSROOT/CVSROOT/mklogci %I -m tg@mirbsd.org -f $CVSROOT/Logs/.cpr.tg -C %r -p %p %{sVv}
 ^www/users/tg\(/\|$\)			$CVSROOT/CVSROOT/mklogci %I -m tg@mirbsd.org -f $CVSROOT/Logs/.cpr.tg -C %r -p %p %{sVv}
 
