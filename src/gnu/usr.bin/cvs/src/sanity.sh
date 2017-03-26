@@ -41,55 +41,53 @@ exit_help ()
 {
     usage
     echo
-    echo "-H|--help	display this text"
+    echo "-H|--help        display this text"
     echo "-c CONFIG-FILE"
     echo "--config=CONFIG_FILE"
-    echo "		use an alternate test suite config file (defaults to"
-    echo "		\`sanity.config.sh' in the same directory as"
-    echo "		CVS-TO-TEST is found in)"
-    echo "-e|--skipfail Treat tests that would otherwise be nonfatally skipped"
-    echo "              for reasons like missing tools as failures, exiting"
-    echo "              with an error message.  Also treat warnings as"
-    echo "		failures."
+    echo "                 use an alternate test suite config file (defaults to"
+    echo "                 'sanity.config.sh' in the same directory as"
+    echo "                 CVS-TO-TEST is found in)"
+    echo "-e|--skipfail    Treat tests that would otherwise be nonfatally skipped"
+    echo "                 for reasons like missing tools as failures, exiting"
+    echo "                 with an error message.  Also treat warnings as"
+    echo "                 failures."
     echo "-f FROM-TEST"
     echo "--from-test=FROM-TEST"
-    echo "		run TESTS-TO-RUN, skipping all tests in the list before"
-    echo "		FROM-TEST"
+    echo "                 run TESTS-TO-RUN, skipping all tests in the list before"
+    echo "                 FROM-TEST"
     echo "-h HOSTNAME"
     echo "--hostname HOSTNAME"
-    echo "              Use :ext:HOSTNAME to run remote tests rather than"
-    echo "              :fork:.  Implies --remote and assumes that \$TESTDIR"
-    echo "              resolves to the same directory on both the client and"
-    echo "              the server."
-    echo "-k|--keep	try to keep directories created by individual tests"
-    echo "		around, exiting after the first test which supports"
-    echo "		--keep"
-    echo "-l|--link-root"
-    echo "		test CVS using a symlink to a real CVSROOT"
-    echo "-n|--noredirect"
-    echo "              test a secondary/primary CVS server (writeproxy)"
-    echo "              configuration with the Redirect response disabled"
-    echo "              (implies --proxy)."
-    echo "-p|--proxy	test a secondary/primary CVS server (writeproxy)"
-    echo "              configuration (implies --remote)."
-    echo "-r|--remote	test client/server, as opposed to local, CVS"
+    echo "                 Use :ext:HOSTNAME to run remote tests rather than"
+    echo "                 :fork:.  Implies --remote and assumes that \$TESTDIR"
+    echo "                 resolves to the same directory on both the client and"
+    echo "                 the server."
+    echo "-k|--keep        try to keep directories created by individual tests"
+    echo "                 around, exiting after the first test which supports"
+    echo "                 --keep"
+    echo "-l|--link-root   test CVS using a symlink to a real CVSROOT"
+    echo "-n|--noredirect  test a secondary/primary CVS server (writeproxy)"
+    echo "                 configuration with the Redirect response disabled"
+    echo "                 (implies --proxy)."
+    echo "-p|--proxy       test a secondary/primary CVS server (writeproxy)"
+    echo "                 configuration (implies --remote)."
+    echo "-r|--remote      test client/server, as opposed to local, CVS"
     echo "-s CVS-FOR-CVS-SERVER"
     echo "--server=CVS-FOR-CVS-SERVER"
-    echo "		use CVS-FOR-CVS-SERVER as the path to the CVS SERVER"
-    echo "		executable to be tested (defaults to CVS-TO-TEST and"
-    echo "		implies --remote)"
-    echo
-    echo "CVS-TO-TEST	the path to the CVS executable to be tested; used as"
-    echo "		the path to the CVS client when CVS-FOR-CVS-SERVER is"
-    echo "		specified"
-    echo "TESTS-TO-RUN	the names of the tests to run (defaults to all tests)"
+    echo "                 use CVS-FOR-CVS-SERVER as the path to the CVS SERVER"
+    echo "                 executable to be tested (defaults to CVS-TO-TEST and"
+    echo "                 implies --remote)"
+    echo ""
+    echo "CVS-TO-TEST      the path to the CVS executable to be tested; used as"
+    echo "                 the path to the CVS client when CVS-FOR-CVS-SERVER is"
+    echo "                 specified"
+    echo "TESTS-TO-RUN     the names of the tests to run (defaults to all tests)"
     exit 2
 }
 
 checklongoptarg()
 {
     if test "x$1" != xoptional && test -z "$OPTARG"; then
-	echo "option \`--$LONGOPT' requires an argument" >&2
+	echo "option '--$LONGOPT' requires an argument" >&2
 	exit_usage
     fi
 }
@@ -176,7 +174,7 @@ while getopts Hc:ef:h:klnprs:-: option ; do
 		checklongoptarg
 		;;
 	    h)
-		echo "\`--h' is ambiguous.  Could mean \`--help' or \`--hostname'" >&2
+		echo "'--h' is ambiguous.  Could mean '--help' or '--hostname'" >&2
 		exit_usage
 		;;
 	    he|hel|help)
@@ -208,7 +206,7 @@ while getopts Hc:ef:h:klnprs:-: option ; do
 		OPTARG=
 		;;
 	    s)
-		echo "\`--s' is ambiguous.  Could mean \`--server' or \`--skipfail'" >&2
+		echo "'--s' is ambiguous.  Could mean '--server' or '--skipfail'" >&2
 		exit_usage
 		;;
 	    se|ser|serv|serve|server)
@@ -333,7 +331,7 @@ if test -r "$configfile"; then
 	. "$configfile"
 else
 	echo "WARNING: Failed to locate test suite config file" >&2
-	echo "         \`$configfile'." >&2
+	echo "         '$configfile'." >&2
 fi
 
 
@@ -347,7 +345,7 @@ if test -n "$remotehost"; then
     # Verify that $CVS_RSH $remotehost works.
     result=`$CVS_RSH $remotehost 'echo test'`
     if test $? != 0 || test "x$result" != "xtest"; then
-	echo "\`$CVS_RSH $remotehost' failed." >&2
+	echo "'$CVS_RSH $remotehost' failed." >&2
 	exit 1
     fi
 fi
@@ -394,7 +392,7 @@ if $remote; then
     fi
     if $CVS_RSH $remotehost "${servercvs} --version </dev/null |
          grep '^Concurrent.*(.*server)$' >/dev/null 2>&1"; then :; else
-      echo "CVS executable \`$remotehost:${servercvs}' does not contain server support." >&2
+      echo "CVS executable '$remotehost:${servercvs}' does not contain server support." >&2
       exit 1
     fi
   else
@@ -409,7 +407,7 @@ if $remote; then
     fi
     if ${servercvs} --version </dev/null |
          grep '^Concurrent.*(.*server)$' >/dev/null 2>&1; then :; else
-      echo "CVS executable \`${servercvs}' does not contain server support." >&2
+      echo "CVS executable '${servercvs}' does not contain server support." >&2
       exit 1
     fi
   fi
@@ -420,7 +418,7 @@ fi
 if $remote; then
   if ${testcvs} --version </dev/null |
        grep '^Concurrent.*(client.*)$' >/dev/null 2>&1; then :; else
-    echo "CVS executable \`${testcvs}' does not contain client support." >&2
+    echo "CVS executable '${testcvs}' does not contain client support." >&2
     exit 1
   fi
 fi
@@ -439,7 +437,7 @@ fi
 dokeep() 
 { 
     if ${keep}; then
-      echo "Keeping ${TESTDIR} for test case \`${what}' and exiting due to --keep"
+      echo "Keeping ${TESTDIR} for test case '${what}' and exiting due to --keep"
       exit 0
     fi
 }
@@ -457,7 +455,7 @@ echo 'This test should produce no other output than this message, and a final "O
 echo '(Note that the test can take an hour or more to run and periodically stops'
 echo 'for as long as one minute.  Do not assume there is a problem just because'
 echo 'nothing seems to happen for a long time.  If you cannot live without'
-echo "running status, try the command: \`tail -f check.log' from another window.)"
+echo "running status, try the command: 'tail -f check.log' from another window.)"
 
 # Regexp to match what the CVS client will call itself in output that it prints.
 # FIXME: we don't properly quote this--if the name contains . we'll
@@ -771,7 +769,7 @@ version_test ()
     fi
   fi
   if $verbad; then
-    echo "The command \`$vercmd' does not support the --version option."
+    echo "The command '$vercmd' does not support the --version option."
   fi
   # It does not really matter that --version is not supported
   return 0
@@ -817,10 +815,10 @@ find_tool ()
     fi
   done
   if test -n "$TOOL"; then
-    echo "Notice: The default version of \`$default_TOOL' is defective." >>$LOGFILE
-    echo "using \`$TOOL' and hoping for the best." >>$LOGFILE
-    echo "Notice: The default version of \`$default_TOOL' is defective." >&2
-    echo "using \`$TOOL' and hoping for the best." >&2
+    echo "Notice: The default version of '$default_TOOL' is defective." >>$LOGFILE
+    echo "using '$TOOL' and hoping for the best." >>$LOGFILE
+    echo "Notice: The default version of '$default_TOOL' is defective." >&2
+    echo "using '$TOOL' and hoping for the best." >&2
     echo $TOOL
   else
     echo $default_TOOL
@@ -833,7 +831,7 @@ id_tool_test ()
   if $id -u >/dev/null 2>&1 && $id -un >/dev/null 2>&1; then
     return 0
   else
-    echo "Running these tests requires an \`id' program that understands the"
+    echo "Running these tests requires an 'id' program that understands the"
     echo "-u and -n flags.  Make sure that such an id (GNU, or many but not"
     echo "all vendor-supplied versions) is in your path."
     return 1
@@ -962,8 +960,8 @@ def' : "a${DOTSTAR}f" >/dev/null; then
 else
   DOTSTAR='\(.\|
 \)*'
-  echo "Notice: DOTSTAR changed from sane \`.*' value to \`$DOTSTAR\`"
-  echo "to workaround GNU expr version 1.10 thru 1.12 bug where \`.'"
+  echo "Notice: DOTSTAR changed from sane '.*' value to '$DOTSTAR'"
+  echo "to workaround GNU expr version 1.10 thru 1.12 bug where '.'"
   echo "does not match a newline."
 fi
 return 0
@@ -1080,7 +1078,7 @@ if test -d $TESTDIR/ls-test; then
     rm -rf $TESTDIR/ls-test
 fi
 if $ls $TESTDIR/ls-test >/dev/null 2>&1; then
-  echo "Notice: \`$ls' is defective."
+  echo "Notice: '$ls' is defective."
   echo 'This is a version of ls which does not correctly'
   echo 'return false for files that do not exist. Some tests may'
   echo 'spuriously pass or fail.'
@@ -1235,7 +1233,7 @@ require_rsh ()
   result=`$1 $host 'echo test'`
   rc=$?
   if test $? != 0 || test "x$result" != "xtest"; then
-    skipreason="\`$1 $host' failed rc=$rc result=$result"
+    skipreason="'$1 $host' failed rc=$rc result=$result"
     return 77
   fi
 
@@ -1327,7 +1325,7 @@ warn ()
 fail ()
 {
   echo "FAIL: $1" | tee -a ${LOGFILE}
-  echo "*** Please see the \`TESTS' and \`check.log' files for more information." >&2
+  echo "*** Please see the 'TESTS' and 'check.log' files for more information." >&2
   # This way the tester can go and see what remnants were left
   exit 1
 }
@@ -1736,7 +1734,7 @@ if test -n "$fromtest"; then
 	  count=`expr $count + 1`
 	done
 	if test $count != 1; then
-		echo "No such test \`$fromtest'." >&2
+		echo "No such test '$fromtest'." >&2
 		exit 2
 	fi
 	# make sure it is in $tests
@@ -1744,7 +1742,7 @@ if test -n "$fromtest"; then
 		*" $fromtest "*)
 			;;
 		*)
-			echo "No such test \`$fromtest'." >&2
+			echo "No such test '$fromtest'." >&2
 			exit 2
 			;;
 	esac
@@ -2743,10 +2741,10 @@ case "\$dir" in
     # were written to.
     case "\$cmd" in
       add|import)
-	# For \`add', we need a recursive update due to quirks in rsync syntax,
+	# For 'add', we need a recursive update due to quirks in rsync syntax,
 	# but it shouldn't affect efficiency since any new dir should be empty.
 	#
-	# For \`import', a recursive update is necessary since subdirs may have
+	# For 'import', a recursive update is necessary since subdirs may have
 	# been added underneath the root dir we were passed. 
         $RSYNC -rglop \\
 	       $PRIMARY_CVSROOT_DIRNAME/"\$dir" \\
@@ -2754,7 +2752,7 @@ case "\$dir" in
         ;;
 
       tag)
-	# \`tag' may have changed CVSROOT/val-tags too.
+	# 'tag' may have changed CVSROOT/val-tags too.
         $RSYNC -glop \\
                $PRIMARY_CVSROOT_DIRNAME/CVSROOT/val-tags \\
                $SECONDARY_CVSROOT_DIRNAME/CVSROOT
