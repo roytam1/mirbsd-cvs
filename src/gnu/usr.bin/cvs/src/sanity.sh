@@ -32101,6 +32101,18 @@ ${SPROG} update: Updating first/subdir"
 
 	  # Initialize the primary repository
 	  dotest writeproxy-init-1 "$testcvs -d$PRIMARY_CVSROOT init"
+	  # remove automatically-created LogHistory to work around the fact
+	  # that we see both writeproxy and primary config here
+	  mkdir wrkarnd; cd wrkarnd
+	  dotest writeproxy-init-1a "$testcvs -d$PRIMARY_CVSROOT -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
+	  cd CVSROOT
+	  sed -e '/^LogHistory/d' <config >tmpconfig
+	  mv tmpconfig config
+	  dotest writeproxy-init-1b "$testcvs -d$PRIMARY_CVSROOT -q ci -m workaround-LogHistory" "" \
+".*/CVSROOT/config,v  <--  config
+new revision: 1\.[0-9]*; previous revision: 1\.[0-9]*
+$SPROG commit: Rebuilding administrative file database"
+	  cd ../..; rm -r wrkarnd
 	  mkdir writeproxy; cd writeproxy
 	  mkdir primary; cd primary
 	  dotest writeproxy-init-2 "$testcvs -Qd$PRIMARY_CVSROOT co CVSROOT"
@@ -32311,6 +32323,18 @@ $SPROG \[update aborted\]: could not find desired version 1\.4 in $PRIMARY_CVSRO
 	  # Initialize the primary repository
 	  dotest writeproxy-noredirect-init-1 \
 "$testcvs -d'$PRIMARY_CVSROOT' init"
+	  # remove automatically-created LogHistory to work around the fact
+	  # that we see both writeproxy and primary config here
+	  mkdir wrkarnd; cd wrkarnd
+	  dotest writeproxy-noredirect-init-1a "$testcvs -d$PRIMARY_CVSROOT -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
+	  cd CVSROOT
+	  sed -e '/^LogHistory/d' <config >tmpconfig
+	  mv tmpconfig config
+	  dotest writeproxy-noredirect-init-1b "$testcvs -d$PRIMARY_CVSROOT -q ci -m workaround-LogHistory" "" \
+".*/CVSROOT/config,v  <--  config
+new revision: 1\.[0-9]*; previous revision: 1\.[0-9]*
+$SPROG commit: Rebuilding administrative file database"
+	  cd ../..; rm -r wrkarnd
 	  mkdir writeproxy-noredirect; cd writeproxy-noredirect
 	  mkdir primary; cd primary
 	  dotest writeproxy-noredirect-init-2 \
@@ -32586,6 +32610,18 @@ EOF
 
 	  # Initialize the primary repository
 	  dotest writeproxy-ssh-init-1 "$testcvs -d$PRIMARY_CVSROOT init"
+	  # remove automatically-created LogHistory to work around the fact
+	  # that we see both writeproxy and primary config here
+	  mkdir wrkarnd; cd wrkarnd
+	  dotest writeproxy-ssh-init-1a "$testcvs -d$PRIMARY_CVSROOT -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
+	  cd CVSROOT
+	  sed -e '/^LogHistory/d' <config >tmpconfig
+	  mv tmpconfig config
+	  dotest writeproxy-ssh-init-1b "$testcvs -d$PRIMARY_CVSROOT -q ci -m workaround-LogHistory" "" \
+".*/CVSROOT/config,v  <--  config
+new revision: 1\.[0-9]*; previous revision: 1\.[0-9]*
+$SPROG commit: Rebuilding administrative file database"
+	  cd ../..; rm -r wrkarnd
 	  mkdir writeproxy-ssh; cd writeproxy-ssh
 	  mkdir primary; cd primary
 	  dotest writeproxy-ssh-init-2 "$testcvs -Qd$PRIMARY_CVSROOT co CVSROOT"
@@ -32686,6 +32722,18 @@ EOF
 	  # Initialize the primary repository
 	  dotest writeproxy-ssh-noredirect-init-1 \
 "$testcvs -d$PRIMARY_CVSROOT init"
+	  # remove automatically-created LogHistory to work around the fact
+	  # that we see both writeproxy and primary config here
+	  mkdir wrkarnd; cd wrkarnd
+	  dotest writeproxy-ssh-noredirect-init-1a "$testcvs -d$PRIMARY_CVSROOT -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
+	  cd CVSROOT
+	  sed -e '/^LogHistory/d' <config >tmpconfig
+	  mv tmpconfig config
+	  dotest writeproxy-ssh-noredirect-init-1b "$testcvs -d$PRIMARY_CVSROOT -q ci -m workaround-LogHistory" "" \
+".*/CVSROOT/config,v  <--  config
+new revision: 1\.[0-9]*; previous revision: 1\.[0-9]*
+$SPROG commit: Rebuilding administrative file database"
+	  cd ../..; rm -r wrkarnd
 	  mkdir writeproxy-ssh-noredirect; cd writeproxy-ssh-noredirect
 	  mkdir primary; cd primary
 	  dotest writeproxy-ssh-noredirect-init-2 \
