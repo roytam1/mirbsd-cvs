@@ -28894,8 +28894,36 @@ C first-dir/FiLe"
 	  testcvs2="$testcvs -d '$CVSROOT2'"
 
 	  dotest multiroot-setup-1 "mkdir $CVSROOT1_DIRNAME $CVSROOT2_DIRNAME"
+
 	  dotest multiroot-setup-2 "$testcvs1 init"
+	  # remove automatically-created LogHistory to work around the fact
+	  # that CVS does not track those per root (and thus warns about
+	  # encountering multiple of these entries)
+	  mkdir wrkarnd; cd wrkarnd
+	  dotest multiroot-setup-2a "$testcvs1 -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
+	  cd CVSROOT
+	  sed -e '/^LogHistory/d' <config >tmpconfig
+	  mv tmpconfig config
+	  dotest multiroot-setup-2b "$testcvs1 -q ci -m workaround-LogHistory" "" \
+".*/CVSROOT/config,v  <--  config
+new revision: 1\.[0-9]*; previous revision: 1\.[0-9]*
+$SPROG commit: Rebuilding administrative file database"
+	  cd ../..; rm -r wrkarnd
+
 	  dotest multiroot-setup-3 "$testcvs2 init"
+	  # remove automatically-created LogHistory to work around the fact
+	  # that CVS does not track those per root (and thus warns about
+	  # encountering multiple of these entries)
+	  mkdir wrkarnd; cd wrkarnd
+	  dotest multiroot-setup-3a "$testcvs2 -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
+	  cd CVSROOT
+	  sed -e '/^LogHistory/d' <config >tmpconfig
+	  mv tmpconfig config
+	  dotest multiroot-setup-3b "$testcvs2 -q ci -m workaround-LogHistory" "" \
+".*/CVSROOT/config,v  <--  config
+new revision: 1\.[0-9]*; previous revision: 1\.[0-9]*
+$SPROG commit: Rebuilding administrative file database"
+	  cd ../..; rm -r wrkarnd
 
 	  #
 	  # create some directories in ${CVSROOT1_DIRNAME}
@@ -29999,7 +30027,30 @@ anyone
 	  CVSROOT2=`newroot $CVSROOT2_DIRNAME`
 
 	  dotest multiroot2-1 "${testcvs} -d ${CVSROOT1} init" ""
+	  # remove automatically-created LogHistory to work around the fact
+	  # that CVS does not track those per root (and thus warns about
+	  # encountering multiple of these entries)
+	  mkdir wrkarnd; cd wrkarnd
+	  dotest multiroot2-1a "$testcvs -d ${CVSROOT1} -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
+	  cd CVSROOT
+	  sed -e '/^LogHistory/d' <config >tmpconfig
+	  mv tmpconfig config
+	  dotest multiroot2-1b "$testcvs -d ${CVSROOT1} -q ci -m workaround-LogHistory" "" \
+".*/CVSROOT/config,v  <--  config
+new revision: 1\.[0-9]*; previous revision: 1\.[0-9]*
+$SPROG commit: Rebuilding administrative file database"
+	  cd ../..; rm -r wrkarnd
 	  dotest multiroot2-2 "${testcvs} -d ${CVSROOT2} init" ""
+	  mkdir wrkarnd; cd wrkarnd
+	  dotest multiroot2-2a "$testcvs -d ${CVSROOT2} -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
+	  cd CVSROOT
+	  sed -e '/^LogHistory/d' <config >tmpconfig
+	  mv tmpconfig config
+	  dotest multiroot2-2b "$testcvs -d ${CVSROOT2} -q ci -m workaround-LogHistory" "" \
+".*/CVSROOT/config,v  <--  config
+new revision: 1\.[0-9]*; previous revision: 1\.[0-9]*
+$SPROG commit: Rebuilding administrative file database"
+	  cd ../..; rm -r wrkarnd
 
 	  mkdir imp-dir; cd imp-dir
 	  echo file1 >file1
@@ -30155,12 +30206,32 @@ ${PLUS}change him too"
 
 	  mkdir 1; cd 1
 	  dotest multiroot3-1 "${testcvs} -d ${CVSROOT1} init" ""
+	  mkdir wrkarnd; cd wrkarnd
+	  dotest multiroot3-1a "$testcvs -d ${CVSROOT1} -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
+	  cd CVSROOT
+	  sed -e '/^LogHistory/d' <config >tmpconfig
+	  mv tmpconfig config
+	  dotest multiroot3-1b "$testcvs -d ${CVSROOT1} -q ci -m workaround-LogHistory" "" \
+".*/CVSROOT/config,v  <--  config
+new revision: 1\.[0-9]*; previous revision: 1\.[0-9]*
+$SPROG commit: Rebuilding administrative file database"
+	  cd ../..; rm -r wrkarnd
 	  dotest multiroot3-2 "${testcvs} -d ${CVSROOT1} -q co -l ." ""
 	  mkdir dir1
 	  dotest multiroot3-3 "${testcvs} add dir1" \
 "Directory ${TESTDIR}/root1/dir1 put under version control"
 	  dotest multiroot3-4 "${testcvs} -d ${CVSROOT2} init" ""
 	  rm -r CVS
+	  mkdir wrkarnd; cd wrkarnd
+	  dotest multiroot3-4a "$testcvs -d ${CVSROOT2} -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
+	  cd CVSROOT
+	  sed -e '/^LogHistory/d' <config >tmpconfig
+	  mv tmpconfig config
+	  dotest multiroot3-4b "$testcvs -d ${CVSROOT2} -q ci -m workaround-LogHistory" "" \
+".*/CVSROOT/config,v  <--  config
+new revision: 1\.[0-9]*; previous revision: 1\.[0-9]*
+$SPROG commit: Rebuilding administrative file database"
+	  cd ../..; rm -r wrkarnd
 	  dotest multiroot3-5 "${testcvs} -d ${CVSROOT2} -q co -l ." ""
 	  mkdir dir2
 
@@ -30281,6 +30352,16 @@ $CPROG \[checkout aborted\]: end of file from server (consult above messages if 
 
 	  mkdir 1; cd 1
 	  dotest multiroot4-1 "${testcvs} -d ${CVSROOT1} init" ""
+	  mkdir wrkarnd; cd wrkarnd
+	  dotest multiroot4-1a "$testcvs -d ${CVSROOT1} -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
+	  cd CVSROOT
+	  sed -e '/^LogHistory/d' <config >tmpconfig
+	  mv tmpconfig config
+	  dotest multiroot4-1b "$testcvs -d ${CVSROOT1} -q ci -m workaround-LogHistory" "" \
+".*/CVSROOT/config,v  <--  config
+new revision: 1\.[0-9]*; previous revision: 1\.[0-9]*
+$SPROG commit: Rebuilding administrative file database"
+	  cd ../..; rm -r wrkarnd
 	  dotest multiroot4-2 "${testcvs} -d ${CVSROOT1} -q co -l ." ""
 	  mkdir dircom
 	  dotest multiroot4-3 "${testcvs} add dircom" \
@@ -30296,6 +30377,16 @@ initial revision: 1\.1"
 	  cd ../..
 	  mkdir 2; cd 2
 	  dotest multiroot4-6 "${testcvs} -d ${CVSROOT2} init" ""
+	  mkdir wrkarnd; cd wrkarnd
+	  dotest multiroot4-6a "$testcvs -d ${CVSROOT2} -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
+	  cd CVSROOT
+	  sed -e '/^LogHistory/d' <config >tmpconfig
+	  mv tmpconfig config
+	  dotest multiroot4-6b "$testcvs -d ${CVSROOT2} -q ci -m workaround-LogHistory" "" \
+".*/CVSROOT/config,v  <--  config
+new revision: 1\.[0-9]*; previous revision: 1\.[0-9]*
+$SPROG commit: Rebuilding administrative file database"
+	  cd ../..; rm -r wrkarnd
 	  dotest multiroot4-7 "${testcvs} -d ${CVSROOT2} -q co -l ." ""
 	  mkdir dircom
 	  dotest multiroot4-8 "${testcvs} add dircom" \
