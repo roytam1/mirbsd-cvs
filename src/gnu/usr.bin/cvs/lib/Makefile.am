@@ -1,4 +1,4 @@
-# $MirOS: src/gnu/usr.bin/cvs/lib/Makefile.am,v 1.6 2010/09/16 20:55:57 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/lib/Makefile.am,v 1.7 2011/06/11 03:58:06 tg Exp $
 ## Process this file with automake to produce Makefile.in
 # Makefile for library files used by GNU CVS.
 #
@@ -133,7 +133,7 @@ libcvs_a_SOURCES += getaddrinfo.h
 ## CVS test scripts for getdate.
 TESTS += test-getdate.sh
 MOSTLYCLEANFILES += getdate-expected getdate-got getdate.diff
-DISTCLEANFILES += getdate.log
+DISTCLEANFILES += getdate.log getdate.log~
 # Program required by test-getdate.sh for testing getdate.y.
 check_PROGRAMS += getdate
 getdate_SOURCES = \
