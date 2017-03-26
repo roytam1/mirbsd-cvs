@@ -26,7 +26,7 @@
 usage ()
 {
     echo "Usage: `basename $0` --help"
-    echo "Usage: `basename $0` [--eklr] [-c CONFIG-FILE] [-f FROM-TEST] \\"
+    echo "Usage: `basename $0` [-eklnpr] [-c CONFIG-FILE] [-f FROM-TEST] \\"
     echo "                 [-h HOSTNAME] [-s CVS-FOR-CVS-SERVER] CVS-TO-TEST \\"
     echo "                 [TESTS-TO-RUN...]"
 }
@@ -23593,7 +23593,7 @@ EOF
 	  dotest parseroot3-9 "$testcvs -Q co -ldtop ."
 	  dotest parseroot3-10 "test -d top"
 	  dotest parseroot3-11 "test -d top/CVS"
-	  dotest parseroot3-10 "cat top/CVS/Root" "$CVSROOT"
+	  dotest parseroot3-12 "cat top/CVS/Root" "$CVSROOT"
 
 	  dokeep
 	  cd ..
