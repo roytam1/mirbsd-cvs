@@ -316,8 +316,12 @@ getcaller (void)
 	char *name;
 
 	/* super-user; try getlogin() to distinguish */
-	if (((name = getlogin ()) || (name = getenv("LOGNAME")) ||
-	     (name = getenv("USER"))) && *name)
+	name = getlogin();
+	if (!name || !*name)
+		name = getenv("LOGNAME");
+	if (!name || !*name)
+		name = getenv("USER");
+	if (name && *name)
 	{
 	    cache = xstrdup (name);
 	    return cache;

@@ -21,7 +21,7 @@ Copyright @copyright{} 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,
 @multitable @columnfractions .12 .88
 @item Portions
 @item @tab Copyright @copyright{} 2003, 2004, 2005, 2007, 2009, 2010, 2011,
-                                  2013, 2014, 2015, 2016
+                                  2013, 2014, 2015, 2016, 2017
                                   mirabilos, The MirOS Project
 @item @tab Copyright @copyright{} 1999, 2000, 2001, 2002, 2003, 2004, 2005,
                                   2007
@@ -2404,7 +2404,7 @@ environment variable @code{CVS_SERVER} on the client
 machine to the filename of the server you want to use,
 for example @file{/usr/local/bin/cvs-1.6}.
 For the @code{ext} and @code{fork} methods, you may
-also specify @var{CVS_SERVER} as an otpion in the
+also specify @var{CVS_SERVER} as an option in the
 @var{CVSROOT} so that you may use different servers for
 differnt roots. See @ref{Remote repositories} for more
 details.
@@ -15123,7 +15123,7 @@ Turns on read-only repository mode. This allows one to
 check out from a read-only repository, such as within
 an anoncvs server, or from a @sc{cd-rom} repository.
 
-It has the same effect as if the @samp{-R} command-line
+Setting this has the same effect as if the @samp{-R} command-line
 option is used. This can also allow the use of
 read-only NFS repositories.
 
@@ -15221,11 +15221,24 @@ the server side. (Currently not used for Unix clients).
 
 @cindex CVS_CLIENT_LOG, environment variable
 @item $CVS_CLIENT_LOG
-Used for debugging only in client-server
-mode.  If set, everything sent to the server is logged
-into @file{@code{$CVS_CLIENT_LOG}.in} and everything
-sent from the server is logged into
-@file{@code{$CVS_CLIENT_LOG}.out}.
+Used for debugging only in client-server mode.
+If set and not empty, everything sent to the server is logged
+into @file{@code{$CVS_CLIENT_LOG}.in}, and everything received
+from the server is logged into @file{@code{$CVS_CLIENT_LOG}.out}.
+
+@cindex CVS_SECONDARY_LOG, environment variable
+@item $CVS_SECONDARY_LOG
+Used for debugging only in secondary write proxy mode.
+If set and not empty, everything sent to the primary server is logged
+into @file{@code{$CVS_SECONDARY_LOG}.in}, and everything received
+from the primary server is logged into @file{@code{$CVS_SECONDARY_LOG}.out}.
+
+@cindex CVS_SERVER_LOG, environment variable
+@item $CVS_SERVER_LOG
+Used for debugging only in client-server mode.
+If set and not empty, everything sent to the client is logged
+into @file{@code{$CVS_SERVER_LOG}.in}, and everything received
+from the client is logged into @file{@code{$CVS_SERVER_LOG}.out}.
 
 @cindex CVS_SERVER_SLEEP, environment variable
 @item $CVS_SERVER_SLEEP

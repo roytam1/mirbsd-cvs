@@ -3735,7 +3735,7 @@ error  \n");
 	 * Set this in .bashrc if you want to give yourself time to attach
 	 * to the subprocess with a debugger.
 	 */
-	if (getenv ("CVS_SERVER_SLEEP"))
+	if (getenv("CVS_SERVER_SLEEP") && *getenv("CVS_SERVER_SLEEP"))
 	{
 	    int secs = atoi (getenv ("CVS_SERVER_SLEEP"));
 	    TRACE (TRACE_DATA, "Sleeping CVS_SERVER_SLEEP (%d) seconds", secs);
@@ -6352,7 +6352,7 @@ server (int argc, char **argv)
      * Set this in .bashrc if you want to give yourself time to attach
      * to the subprocess with a debugger.
      */
-    if (getenv ("CVS_PARENT_SERVER_SLEEP"))
+    if (getenv("CVS_PARENT_SERVER_SLEEP") && *getenv("CVS_PARENT_SERVER_SLEEP"))
     {
 	int secs = atoi (getenv ("CVS_PARENT_SERVER_SLEEP"));
 	TRACE (TRACE_DATA, "Sleeping CVS_PARENT_SERVER_SLEEP (%d) seconds",

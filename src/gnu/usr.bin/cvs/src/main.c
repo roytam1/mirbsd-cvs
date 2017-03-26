@@ -532,11 +532,11 @@ main (int argc, char **argv)
      * Query the environment variables up-front, so that
      * they can be overridden by command line arguments
      */
-    if ((cp = getenv (EDITOR1_ENV)) != NULL)
+    if ((cp = getenv (EDITOR1_ENV)) != NULL && *cp)
  	Editor = cp;
-    else if ((cp = getenv (EDITOR2_ENV)) != NULL)
+    else if ((cp = getenv (EDITOR2_ENV)) != NULL && *cp)
 	Editor = cp;
-    else if ((cp = getenv (EDITOR3_ENV)) != NULL)
+    else if ((cp = getenv (EDITOR3_ENV)) != NULL && *cp)
 	Editor = cp;
     if (getenv (CVSREAD_ENV) != NULL)
 	cvswrite = 0;
@@ -797,7 +797,7 @@ distribution kit for a complete list of contributors and copyrights.\n",
 	   a command-line flag to set the umask, since we'll have to
 	   parse it before we get here. */
 
-	if ((cp = getenv (CVSUMASK_ENV)) != NULL)
+	if ((cp = getenv (CVSUMASK_ENV)) != NULL && *cp)
 	{
 	    /* FIXME: Should be accepting symbolic as well as numeric mask.  */
 	    cvsumask = strtol (cp, &end, 8) & 0777;
@@ -933,7 +933,7 @@ distribution kit for a complete list of contributors and copyrights.\n",
 	    if (!CVSroot_parsed)
 	    {
 		char *tmp = getenv (CVSROOT_ENV);
-		if (tmp)
+		if (tmp && *tmp)
 		{
 		    if (!(CVSroot_parsed = parse_cvsroot (tmp)))
 			error (1, 0, "Bad CVSROOT: `%s'.", tmp);

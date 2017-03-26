@@ -46,7 +46,7 @@ construct_cvspass_filename (void)
     char *passfile;
 
     /* Environment should override file. */
-    if ((passfile = getenv ("CVS_PASSFILE")) != NULL)
+    if ((passfile = getenv ("CVS_PASSFILE")) != NULL && *passfile)
 	return xstrdup (passfile);
 
     /* Construct absolute pathname to user's password file. */

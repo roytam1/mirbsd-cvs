@@ -4,7 +4,7 @@
    Copyright (C) 1995, 1997, 1998, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
-   Copyright (c) 2005, 2006, 2007, 2010, 2016
+   Copyright (c) 2005, 2006, 2007, 2010, 2016, 2017
    mirabilos <m@mirbsd.org>
 
    This program is free software; you can redistribute it and/or modify
@@ -1175,9 +1175,9 @@ get_tz (char tzbuf[TZBUFSIZE])
   if (tz)
     {
       size_t tzsize = strlen (tz) + 1;
-      tz = (tzsize <= TZBUFSIZE
+      tz = (tzsize == 1 ? NULL : (tzsize <= TZBUFSIZE
 	    ? memcpy (tzbuf, tz, tzsize)
-	    : xmemdup (tz, tzsize));
+	    : xmemdup (tz, tzsize)));
     }
   return tz;
 }

@@ -11,7 +11,7 @@
 #include "cvs.h"
 #include "getline.h"
 
-__RCSID("$MirOS: ports/devel/cvs/patches/patch-src_wrapper_c,v 1.1 2010/09/15 20:57:03 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/wrapper.c,v 1.3 2010/09/19 19:43:13 tg Exp $");
 
 /*
   Original Author:  athan@morgan.com <Andrew C. Athan> 2/1/94
@@ -359,6 +359,8 @@ wrap_add (char *line, int isTemp)
 	/* Search for the wild card */
     while (*line && isspace ((unsigned char) *line))
 	++line;
+    if (!*line)
+	return;
     for (temp = line;
 	 *line && !isspace ((unsigned char) *line);
 	 ++line)

@@ -3357,7 +3357,7 @@ get_port_number (const char *envname, const char *portname, int defaultport)
     struct servent *s;
     char *port_s;
 
-    if (envname && (port_s = getenv (envname)))
+    if (envname && (port_s = getenv (envname)) && *port_s)
     {
 	int port = atoi (port_s);
 	if (port <= 0)
@@ -3810,7 +3810,7 @@ connect_to_forked_server (cvsroot_t *root, struct buffer **to_server_p,
 
     command[0] = (root->cvs_server
 		  ? root->cvs_server : getenv ("CVS_SERVER"));
-    if (!command[0])
+    if (!command[0] || !command[0][0])
 # ifdef SERVER_SUPPORT
         /* FIXME:
          * I'm casting out the const below because I know that piped_child, the

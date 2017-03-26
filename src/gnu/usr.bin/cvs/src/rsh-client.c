@@ -60,7 +60,7 @@ start_rsh_server (cvsroot_t *root, struct buffer **to_server_p,
     char *rsh_argv[16];
     char argvport[16];
 
-    if (!cvs_rsh)
+    if (!cvs_rsh || !*cvs_rsh)
 	/* People sometimes suggest or assume that this should default
 	   to "remsh" on systems like HPUX in which that is the
 	   system-supplied name for the rsh program.  However, that
@@ -82,7 +82,7 @@ start_rsh_server (cvsroot_t *root, struct buffer **to_server_p,
 	   if that is what they want (the manual already tells them
 	   that).  */
 	cvs_rsh = RSH_DFLT;
-    if (!cvs_server)
+    if (!cvs_server || !*cvs_server)
 	cvs_server = "cvs";
 
     /* The command line starts out with rsh. */
@@ -151,9 +151,9 @@ start_rsh_server (cvsroot_t *root, struct buffer **to_server_p,
     int tofd, fromfd;
     int child_pid;
 
-    if (!cvs_rsh)
+    if (!cvs_rsh || !*cvs_rsh)
 	cvs_rsh = RSH_DFLT;
-    if (!cvs_server)
+    if (!cvs_server || !*cvs_server)
 	cvs_server = "cvs";
 
     /* Pass the command to rsh as a single string.  This shouldn't

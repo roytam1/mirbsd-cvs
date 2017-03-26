@@ -17,6 +17,8 @@
 #include "cvs.h"
 #include "buffer.h"
 
+__RCSID("$MirOS$");
+
 #if defined CLIENT_SUPPORT || defined SERVER_SUPPORT
 
 /* We want to be able to log data sent between us and the server.  We
@@ -481,7 +483,7 @@ setup_logfiles (char *var, struct buffer **to_server_p,
    * We do this _after_ authentication on purpose.  Wouldn't really like to
    * worry about logging passwords...
    */
-  if (log)
+  if (log && *log)
     {
       int len = strlen (log);
       char *buf = xmalloc (len + 5);
@@ -499,8 +501,8 @@ setup_logfiles (char *var, struct buffer **to_server_p,
 	 (currently used by update.c), then the last set of logfiles will
 	 overwrite the others.  There is currently no way around this.  */
       strcpy (p, ".in");
-      fp = open_file (buf, "wb");
-      if (fp == NULL)
+      fp = fopen (buf, "wb");
+      if (!fp)
 	error (0, errno, "opening to-server logfile %s", buf);
       else
 	*to_server_p = log_buffer_initialize (*to_server_p, fp,
@@ -511,8 +513,8 @@ setup_logfiles (char *var, struct buffer **to_server_p,
 					      false, NULL);
 
       strcpy (p, ".out");
-      fp = open_file (buf, "wb");
-      if (fp == NULL)
+      fp = fopen (buf, "wb");
+      if (!fp)
 	error (0, errno, "opening from-server logfile %s", buf);
       else
 	*from_server_p = log_buffer_initialize (*from_server_p, fp,

@@ -22,6 +22,8 @@
 #include "save-cwd.h"
 #include "xsize.h"
 
+__RCSID("$MirOS$");
+
 static int deep_remove_dir (const char *path);
 
 /*
@@ -808,7 +810,7 @@ get_homedir (void)
     if (home != NULL)
 	return home;
 
-    if (!server_active && (env = getenv ("HOME")) != NULL)
+    if (!server_active && (env = getenv ("HOME")) != NULL && *env)
 	home = env;
     else if ((pw = (struct passwd *) getpwuid (getuid ()))
 	     && pw->pw_dir)
@@ -863,7 +865,11 @@ static char *tmpdir_env;
 const char *
 get_system_temp_dir (void)
 {
-    if (!tmpdir_env) tmpdir_env = getenv (TMPDIR_ENV);
+    if (!tmpdir_env) {
+      tmpdir_env = getenv (TMPDIR_ENV);
+      if (tmpdir_env && !*tmpdir_env)
+        tmpdir_env = NULL;
+    }
     return tmpdir_env;
 }
 

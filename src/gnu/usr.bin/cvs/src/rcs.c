@@ -2484,7 +2484,7 @@ RCS_magicrev (RCSNode *rcs, char *rev)
     check_rev = xrev;
 
     local_branch_num = getenv("CVS_LOCAL_BRANCH_NUM");
-    if (local_branch_num)
+    if (local_branch_num && *local_branch_num)
     {
       rev_num = atoi(local_branch_num);
       if (rev_num < 2)
