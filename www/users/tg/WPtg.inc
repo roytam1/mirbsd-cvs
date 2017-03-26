@@ -12467,6 +12467,12 @@ Waypoint: GC5MK4J
 Title: Móðuharðindin 2
 Tag: D25 T15 Small Multi
 ----
+ID: 2061
+Date: 24.03.2017
+Waypoint: GC71ZRE
+Title: Reuterstraße
+Tag: D25 T1 Small Tradi
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
