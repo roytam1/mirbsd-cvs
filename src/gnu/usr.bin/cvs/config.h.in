@@ -1,4 +1,4 @@
-/* config.h.in.  Generated from configure.in by autoheader 2.61-MirPorts-1.  */
+/* config.h.in.  Generated from configure.in by autoheader 2.61-MirPorts-2.  */
 
 /* Define this to a NULL terminated list of allowed path prefixes (for
    directories) and paths to files the CVS server will allow configuration to
