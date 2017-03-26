@@ -2656,6 +2656,9 @@ $SPROG commit: Rebuilding administrative file database"
 cd ../..
 rm -r wnt
 
+write_secondary_wrapper() { :; }
+CVS_SERVER_secondary_wrapper_orig=$CVS_SERVER
+
 # Now hide the primary root behind a secondary if requested.
 if $proxy; then
     # Save the primary root.
@@ -2682,6 +2685,7 @@ if $proxy; then
     if $noredirect; then
 	# Wrap the CVS server to allow --primary-root to be set by the
 	# secondary.
+    write_secondary_wrapper() {
 	cat <<EOF >$TESTDIR/secondary-wrapper
 #! $TESTSHELL
 CVS_SERVER=$TESTDIR/primary-wrapper
@@ -2689,8 +2693,8 @@ export CVS_SERVER
 
 # No need to check the PID of the last client since we are testing with
 # Redirect disabled.
-proot_arg="--allow-root=$SECONDARY_CVSROOT_DIRNAME"
-exec $CVS_SERVER \$proot_arg "\$@"
+proot_arg="--allow-root=$SECONDARY_CVSROOT_DIRNAME --allow-root=$PRIMARY_CVSROOT_DIRNAME"
+exec $CVS_SERVER_secondary_wrapper_orig \$proot_arg "\$@"
 EOF
 	cat <<EOF >$TESTDIR/primary-wrapper
 #! $TESTSHELL
@@ -2700,7 +2704,8 @@ if test -n "$CVS_SERVER_LOG"; then
 fi
 exec $CVS_SERVER "\$@"
 EOF
-
+    }
+	write_secondary_wrapper
 	CVS_SERVER_secondary=$TESTDIR/secondary-wrapper
 	CVS_SERVER=$CVS_SERVER_secondary
 
@@ -31354,7 +31359,7 @@ ${CVSROOT_DIRNAME}dir1
 noop
 EOF
 
-	    dotest 2-3 "${servercvs} server" \
+	    dotest server2-3 "${servercvs} server" \
 "E protocol error: directory '${TESTDIR}' not within root '${CVSROOT_DIRNAME}'
 error  " <<EOF
 Root ${CVSROOT_DIRNAME}
@@ -31374,6 +31379,20 @@ Root ${CVSROOT_DIRNAME}
 Directory .
 ${CVSROOT_DIRNAME}
 Unchanged foo/bar
+noop
+EOF
+
+	    dotest server2-5 \
+"${servercvs} --allow-root=${CVSROOT_DIRNAME}.bad server" \
+"E Bad root ${CVSROOT_DIRNAME}
+error  " <<EOF
+Root ${CVSROOT_DIRNAME}
+noop
+EOF
+	    dotest server2-6 \
+"${servercvs} --allow-root=${CVSROOT_DIRNAME} server" \
+"ok" <<EOF
+Root ${CVSROOT_DIRNAME}
 noop
 EOF
 	    servercvs=$save_servercvs
@@ -32098,21 +32117,10 @@ ${SPROG} update: Updating first/subdir"
 	  SECONDARY_CVSROOT_save=$SECONDARY_CVSROOT
 	  SECONDARY_CVSROOT_DIRNAME=$TESTDIR/writeproxy_cvsroot
 	  SECONDARY_CVSROOT=`newroot $SECONDARY_CVSROOT_DIRNAME`
+	  write_secondary_wrapper
 
 	  # Initialize the primary repository
 	  dotest writeproxy-init-1 "$testcvs -d$PRIMARY_CVSROOT init"
-	  # remove automatically-created LogHistory to work around the fact
-	  # that we see both writeproxy and primary config here
-	  mkdir wrkarnd; cd wrkarnd
-	  dotest writeproxy-init-1a "$testcvs -d$PRIMARY_CVSROOT -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
-	  cd CVSROOT
-	  sed -e '/^LogHistory/d' <config >tmpconfig
-	  mv tmpconfig config
-	  dotest writeproxy-init-1b "$testcvs -d$PRIMARY_CVSROOT -q ci -m workaround-LogHistory" "" \
-".*/CVSROOT/config,v  <--  config
-new revision: 1\.[0-9]*; previous revision: 1\.[0-9]*
-$SPROG commit: Rebuilding administrative file database"
-	  cd ../..; rm -r wrkarnd
 	  mkdir writeproxy; cd writeproxy
 	  mkdir primary; cd primary
 	  dotest writeproxy-init-2 "$testcvs -Qd$PRIMARY_CVSROOT co CVSROOT"
@@ -32121,6 +32129,10 @@ $SPROG commit: Rebuilding administrative file database"
 ALL (cat >/dev/null; echo %R) >$TESTDIR/referrer
 ALL $RSYNC -gopr --delete $PRIMARY_CVSROOT_DIRNAME/ $SECONDARY_CVSROOT_DIRNAME
 EOF
+	  # remove automatically-created LogHistory to work around the fact
+	  # that we see both writeproxy and primary config here
+	  sed -e '/^LogHistory/d' <config >tmpconfig
+	  mv tmpconfig config
 	  cat >>config <<EOF
 PrimaryServer=$PRIMARY_CVSROOT
 EOF
@@ -32286,6 +32298,7 @@ $SPROG \[update aborted\]: could not find desired version 1\.4 in $PRIMARY_CVSRO
 	  PRIMARY_CVSROOT=$PRIMARY_CVSROOT_save
 	  SECONDARY_CVSROOT_DIRNAME=$SECONDARY_CVSROOT_DIRNAME_save
 	  SECONDARY_CVSROOT=$SECONDARY_CVSROOT_save
+	  write_secondary_wrapper
 	  ;;
 
 
@@ -32319,22 +32332,11 @@ $SPROG \[update aborted\]: could not find desired version 1\.4 in $PRIMARY_CVSRO
 	  PRIMARY_CVSROOT=`newroot $PRIMARY_CVSROOT_DIRNAME`
 	  SECONDARY_CVSROOT_DIRNAME_save=$SECONDARY_CVSROOT_DIRNAME
 	  SECONDARY_CVSROOT_DIRNAME=$TESTDIR/writeproxy_cvsroot
+	  write_secondary_wrapper
 
 	  # Initialize the primary repository
 	  dotest writeproxy-noredirect-init-1 \
-"$testcvs -d'$PRIMARY_CVSROOT' init"
-	  # remove automatically-created LogHistory to work around the fact
-	  # that we see both writeproxy and primary config here
-	  mkdir wrkarnd; cd wrkarnd
-	  dotest writeproxy-noredirect-init-1a "$testcvs -d$PRIMARY_CVSROOT -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
-	  cd CVSROOT
-	  sed -e '/^LogHistory/d' <config >tmpconfig
-	  mv tmpconfig config
-	  dotest writeproxy-noredirect-init-1b "$testcvs -d$PRIMARY_CVSROOT -q ci -m workaround-LogHistory" "" \
-".*/CVSROOT/config,v  <--  config
-new revision: 1\.[0-9]*; previous revision: 1\.[0-9]*
-$SPROG commit: Rebuilding administrative file database"
-	  cd ../..; rm -r wrkarnd
+"$testcvs -d'$PRIMARY_CVSROOT_DIRNAME' init"
 	  mkdir writeproxy-noredirect; cd writeproxy-noredirect
 	  mkdir primary; cd primary
 	  dotest writeproxy-noredirect-init-2 \
@@ -32343,6 +32345,10 @@ $SPROG commit: Rebuilding administrative file database"
 	  cat >>loginfo <<EOF
 ALL $RSYNC -gopr --delete $PRIMARY_CVSROOT_DIRNAME/ $SECONDARY_CVSROOT_DIRNAME
 EOF
+	  # remove automatically-created LogHistory to work around the fact
+	  # that we see both writeproxy and primary config here
+	  sed -e '/^LogHistory/d' <config >tmpconfig
+	  mv tmpconfig config
 	  cat >>config <<EOF
 PrimaryServer=$PRIMARY_CVSROOT
 EOF
@@ -32564,6 +32570,7 @@ EOF
 	  PRIMARY_CVSROOT_DIRNAME=$PRIMARY_CVSROOT_DIRNAME_save
 	  PRIMARY_CVSROOT=$PRIMARY_CVSROOT_save
 	  SECONDARY_CVSROOT_DIRNAME=$SECONDARY_CVSROOT_DIRNAME_save
+	  write_secondary_wrapper
 	  ;;
 
 
@@ -32607,21 +32614,10 @@ EOF
 	  PRIMARY_CVSROOT=:ext:$host:$PRIMARY_CVSROOT_DIRNAME
 	  SECONDARY_CVSROOT_DIRNAME=$TESTDIR/writeproxy_cvsroot
 	  SECONDARY_CVSROOT=":ext;Redirect=yes:$host:$SECONDARY_CVSROOT_DIRNAME"
+	  write_secondary_wrapper
 
 	  # Initialize the primary repository
 	  dotest writeproxy-ssh-init-1 "$testcvs -d$PRIMARY_CVSROOT init"
-	  # remove automatically-created LogHistory to work around the fact
-	  # that we see both writeproxy and primary config here
-	  mkdir wrkarnd; cd wrkarnd
-	  dotest writeproxy-ssh-init-1a "$testcvs -d$PRIMARY_CVSROOT -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
-	  cd CVSROOT
-	  sed -e '/^LogHistory/d' <config >tmpconfig
-	  mv tmpconfig config
-	  dotest writeproxy-ssh-init-1b "$testcvs -d$PRIMARY_CVSROOT -q ci -m workaround-LogHistory" "" \
-".*/CVSROOT/config,v  <--  config
-new revision: 1\.[0-9]*; previous revision: 1\.[0-9]*
-$SPROG commit: Rebuilding administrative file database"
-	  cd ../..; rm -r wrkarnd
 	  mkdir writeproxy-ssh; cd writeproxy-ssh
 	  mkdir primary; cd primary
 	  dotest writeproxy-ssh-init-2 "$testcvs -Qd$PRIMARY_CVSROOT co CVSROOT"
@@ -32632,6 +32628,10 @@ EOF
 	  cat >>loginfo <<EOF
 ALL echo Referrer=%R; cat >/dev/null
 EOF
+	  # remove automatically-created LogHistory to work around the fact
+	  # that we see both writeproxy and primary config here
+	  sed -e '/^LogHistory/d' <config >tmpconfig
+	  mv tmpconfig config
 	  cat >>config <<EOF
 PrimaryServer=$PRIMARY_CVSROOT
 EOF
@@ -32680,6 +32680,7 @@ EOF
 	  PRIMARY_CVSROOT=$PRIMARY_CVSROOT_save
 	  SECONDARY_CVSROOT_DIRNAME=$SECONDARY_CVSROOT_DIRNAME_save
 	  SECONDARY_CVSROOT=$SECONDARY_CVSROOT_save
+	  write_secondary_wrapper
 	  ;;
 
 
@@ -32718,22 +32719,11 @@ EOF
 	  PRIMARY_CVSROOT=:ext:$host:$PRIMARY_CVSROOT_DIRNAME
 	  SECONDARY_CVSROOT_DIRNAME=$TESTDIR/writeproxy_cvsroot
 	  SECONDARY_CVSROOT=":ext;Redirect=no:$host:$PRIMARY_CVSROOT_DIRNAME"
+	  write_secondary_wrapper
 
 	  # Initialize the primary repository
 	  dotest writeproxy-ssh-noredirect-init-1 \
 "$testcvs -d$PRIMARY_CVSROOT init"
-	  # remove automatically-created LogHistory to work around the fact
-	  # that we see both writeproxy and primary config here
-	  mkdir wrkarnd; cd wrkarnd
-	  dotest writeproxy-ssh-noredirect-init-1a "$testcvs -d$PRIMARY_CVSROOT -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
-	  cd CVSROOT
-	  sed -e '/^LogHistory/d' <config >tmpconfig
-	  mv tmpconfig config
-	  dotest writeproxy-ssh-noredirect-init-1b "$testcvs -d$PRIMARY_CVSROOT -q ci -m workaround-LogHistory" "" \
-".*/CVSROOT/config,v  <--  config
-new revision: 1\.[0-9]*; previous revision: 1\.[0-9]*
-$SPROG commit: Rebuilding administrative file database"
-	  cd ../..; rm -r wrkarnd
 	  mkdir writeproxy-ssh-noredirect; cd writeproxy-ssh-noredirect
 	  mkdir primary; cd primary
 	  dotest writeproxy-ssh-noredirect-init-2 \
@@ -32745,6 +32735,10 @@ EOF
 	  cat >>loginfo <<EOF
 ALL echo Referrer=%R; cat >/dev/null
 EOF
+	  # remove automatically-created LogHistory to work around the fact
+	  # that we see both writeproxy and primary config here
+	  sed -e '/^LogHistory/d' <config >tmpconfig
+	  mv tmpconfig config
 	  cat >>config <<EOF
 PrimaryServer=$PRIMARY_CVSROOT
 EOF
@@ -32765,7 +32759,7 @@ export CVS_SERVER
 # No need to check the PID of the last client since we are testing with
 # Redirect disabled.
 proot_arg="--allow-root ${PRIMARY_CVSROOT##*:} --allow-root=$SECONDARY_CVSROOT_DIRNAME"
-exec $CVS_SERVER \$proot_arg "\$@"
+exec $CVS_SERVER_secondary_wrapper_orig \$proot_arg "\$@"
 EOF
 	  cat <<EOF >$TESTDIR/writeproxy-primary-wrapper
 #! $TESTSHELL
@@ -32818,6 +32812,7 @@ EOF
 	  PRIMARY_CVSROOT=$PRIMARY_CVSROOT_save
 	  SECONDARY_CVSROOT_DIRNAME=$SECONDARY_CVSROOT_DIRNAME_save
 	  SECONDARY_CVSROOT=$SECONDARY_CVSROOT_save
+	  write_secondary_wrapper
 	  rm $TESTDIR/writeproxy-secondary-wrapper \
 	     $TESTDIR/writeproxy-primary-wrapper
 	  CVS_SERVER=$CVS_SERVER_save
@@ -35929,6 +35924,7 @@ if test -n "$skippedoutput" || test -n "$warningsoutput"; then
   extendedinfo="$extendedinfo)"
 fi
 
+echo "OK, all $passed tests passed$extendedinfo." >>$LOGFILE
 echo "OK, all $passed tests passed$extendedinfo."
 
 # TODO:
