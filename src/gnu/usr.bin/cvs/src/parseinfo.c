@@ -618,18 +618,23 @@ parse_config (const char *cvsroot, const char *path)
 	}
 	else if (strcmp (line, "LogHistory") == 0)
 	{
-	    if (strcmp (p, "all") != 0)
-	    {
-		static bool gotone = false;
-		if (gotone)
-		    error (0, 0, "\
+	    static char *prevpath = NULL;
+	    static unsigned int prevln;
+
+	    if (prevpath != NULL) {
+		error (0, 0, "\
 %s [%u]: warning: duplicate LogHistory entry found.",
-			   infopath, ln);
-		else
-		    gotone = true;
-		free (retval->logHistory);
-		retval->logHistory = xstrdup (p);
+		  infopath, ln);
+		error (0, 0, "\
+%s [%u]: notice: this is the previous definition.",
+		  prevpath, prevln);
+	    } else {
+		prevln = ln;
+		prevpath = xstrdup(infopath);
 	    }
+	    free(retval->logHistory);
+	    retval->logHistory = xstrdup(strcmp(p, "all") ? p :
+	      ALL_HISTORY_REC_TYPES);
 	}
 	else if (strcmp (line, "RereadLogAfterVerify") == 0)
 	{
