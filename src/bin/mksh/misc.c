@@ -89,11 +89,10 @@ setctypes(const char *s, int t)
 void
 initctypes(void)
 {
-	setctypes(letters_uc, C_ALPHA);
-	setctypes(letters_lc, C_ALPHA);
-	chtypes['_'] |= C_ALPHA;
+	setctypes(letters_uc, C_ALPHX);
+	setctypes(letters_lc, C_ALPHX);
+	chtypes['_'] |= C_ALPHX;
 	setctypes("0123456789", C_DIGIT);
-	/* \0 added automatically */
 	setctypes(TC_LEX1, C_LEX1);
 	setctypes("*@#!$-?", C_VAR1);
 	setctypes(TC_IFSWS, C_IFSWS);

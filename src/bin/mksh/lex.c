@@ -489,7 +489,7 @@ yylex(int cf)
 					 * If this is a trim operation,
 					 * treat (,|,) specially in STBRACE.
 					 */
-					if (ctype(c, C_SUBOP2)) {
+					if (ksh_issubop2(c)) {
 						ungetsc(c);
 						if (Flag(FSH))
 							PUSH_STATE(STBRACEBOURNE);
