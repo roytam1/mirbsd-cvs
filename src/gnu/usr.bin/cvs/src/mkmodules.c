@@ -528,6 +528,7 @@ static const char *const config_contents[] = {
     "# Set 'LogHistory' to 'all' or '" ALL_HISTORY_REC_TYPES "' to log all transactions to the\n",
     "# history file, or a subset as needed (ie 'TMAR' logs all write operations)\n",
     "#LogHistory=" ALL_HISTORY_REC_TYPES "\n",
+    "LogHistory=TMAR\n",
     "\n",
     "# Set 'RereadLogAfterVerify' to 'always' (the default) to allow the verifymsg\n",
     "# script to change the log message.  Set it to 'stat' to force CVS to verify\n",
@@ -1253,8 +1254,8 @@ init (int argc, char **argv)
 	}
     }
 
-    /* Turn on history logging by default.  The user can remove the file
-       to disable it.  */
+    /* Turn on history logging of write operations by default.
+       The user can remove the file to disable it.  */
     strcpy (info, adm);
     strcat (info, "/");
     strcat (info, CVSROOTADM_HISTORY);
@@ -1266,10 +1267,10 @@ init (int argc, char **argv)
 	if (fclose (fp) < 0)
 	    error (1, errno, "cannot close %s", info);
  
-        /* Make the new history file world-writeable, since every CVS
+        /* Make the new history file group-writeable, since every CVS
            user will need to be able to write to it.  We use chmod()
            because xchmod() is too shy. */
-        chmod (info, 0666);
+        chmod (info, 0664);
     }
 
     /* Make an empty val-tags file to prevent problems creating it later.  */
@@ -1284,10 +1285,10 @@ init (int argc, char **argv)
 	if (fclose (fp) < 0)
 	    error (1, errno, "cannot close %s", info);
  
-        /* Make the new val-tags file world-writeable, since every CVS
+        /* Make the new val-tags file group-writeable, since every CVS
            user will need to be able to write to it.  We use chmod()
            because xchmod() is too shy. */
-        chmod (info, 0666);
+        chmod (info, 0664);
     }
 
     free (info);

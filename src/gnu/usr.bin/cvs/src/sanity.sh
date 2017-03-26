@@ -2642,12 +2642,14 @@ CVSROOT=`newroot $CVSROOT_DIRNAME`; export CVSROOT
 ###
 dotest init-1 "$testcvs init"
 
-# We might need to allow "cvs admin" access.
+# We might need to allow "cvs admin" access and full history.
 mkdir wnt
 cd wnt
 dotest init-1a "$testcvs -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
 cd CVSROOT
-sed -e's/^#UserAdminOptions=/UserAdminOptions=/' <config >tmpconfig
+sed -e 's/^#UserAdminOptions=/UserAdminOptions=/' \
+    -e '/^LogHistory/d' \
+    <config >tmpconfig
 mv tmpconfig config
 dotest init-1b "$testcvs -q ci -m allow-cvs-admin" "" \
 ".*/CVSROOT/config,v  <--  config
