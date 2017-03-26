@@ -119,7 +119,7 @@
    Copyright (C) 1995, 1997, 1998, 2003, 2004, 2005
    Free Software Foundation, Inc.
 
-   Copyright (c) 2005, 2006, 2007, 2010, 2016
+   Copyright (c) 2005, 2006, 2007, 2010, 2016, 2017
    mirabilos <m@mirbsd.org>
 
    This program is free software; you can redistribute it and/or modify
@@ -258,8 +258,8 @@ xmemdup(void const *p, size_t s)
 	    "@(""#)" #varname ": " string
 #endif
 
-__IDSTRING(rcsid_code, "$MirOS: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.11 2016/10/22 22:45:50 tg Exp $");
-__IDSTRING(rcsid_bron, "$miros: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.11 2016/10/22 22:45:50 tg Exp $");
+__IDSTRING(rcsid_code, "$MirOS: src/gnu/usr.bin/cvs/lib/getdate.c,v 1.17 2016/10/22 22:46:51 tg Exp $");
+__IDSTRING(rcsid_bron, "$miros: src/gnu/usr.bin/cvs/lib/getdate.y,v 1.12 2017/03/26 15:54:06 tg Exp $");
 
 /* Shift A right by B bits portably, by dividing A by 2**B and
    truncating towards minus infinity.  A and B should be free of side
@@ -2941,9 +2941,9 @@ get_tz (char tzbuf[TZBUFSIZE])
   if (tz)
     {
       size_t tzsize = strlen (tz) + 1;
-      tz = (tzsize <= TZBUFSIZE
+      tz = (tzsize == 1 ? NULL : (tzsize <= TZBUFSIZE
 	    ? memcpy (tzbuf, tz, tzsize)
-	    : xmemdup (tz, tzsize));
+	    : xmemdup (tz, tzsize)));
     }
   return tz;
 }
