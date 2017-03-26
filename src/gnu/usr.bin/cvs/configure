@@ -31892,6 +31892,8 @@ fi
 
 
 
+LIBS="${LIBS:+$LIBS }-lz"
+
 
 # What remote shell transport should our client cvs default to using?
 

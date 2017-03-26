@@ -1,4 +1,4 @@
-dnl $MirOS: src/gnu/usr.bin/cvs/configure.in,v 1.25 2016/11/09 03:04:12 tg Exp $
+dnl $MirOS: src/gnu/usr.bin/cvs/configure.in,v 1.27 2017/03/26 16:23:13 tg Exp $
 dnl
 dnl configure.in for cvs
 
@@ -497,6 +497,9 @@ AC_SUBST(cvs_client_objects)
 dnl
 dnl begin --with-*
 dnl
+
+dnl WITH_EXTERNAL_ZLIB is external
+LIBS="${LIBS:+$LIBS }-lz"
 
 dnl
 dnl begin --with-rsh
