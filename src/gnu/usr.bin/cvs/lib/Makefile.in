@@ -14,7 +14,7 @@
 
 @SET_MAKE@
 
-# $MirOS: src/gnu/usr.bin/cvs/lib/Makefile.am,v 1.7 2011/06/11 03:58:06 tg Exp $
+# $MirOS: src/gnu/usr.bin/cvs/lib/Makefile.am,v 1.8 2017/03/26 23:09:14 tg Exp $
 # Makefile for library files used by GNU CVS.
 #
 # Copyright (C) 1986-2005 The Free Software Foundation, Inc.
@@ -292,7 +292,7 @@ BUILT_SOURCES = $(ALLOCA_H) $(FNMATCH_H) getdate.c $(STDBOOL_H) \
 MOSTLYCLEANFILES = alloca.h alloca.h-t fnmatch.h fnmatch.h-t \
 	getdate-expected getdate-got getdate.diff stdbool.h \
 	stdbool.h-t stdint.h stdint.h-t
-DISTCLEANFILES = getdate.log
+DISTCLEANFILES = getdate.log getdate.log~
 MAINTAINERCLEANFILES = getdate.c
 TESTS = test-getdate.sh
 EXTRA_DIST = .cvsignore ChangeLog.fsf Makefile.gnulib build_lib.com \
