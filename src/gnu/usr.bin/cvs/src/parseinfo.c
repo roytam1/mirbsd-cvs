@@ -626,7 +626,7 @@ parse_config (const char *cvsroot, const char *path)
 %s [%u]: warning: duplicate LogHistory entry found.",
 		  infopath, ln);
 		error (0, 0, "\
-%s [%u]: notice: this is the previous definition.",
+%s [%u]: notice: this was the first definition.",
 		  prevpath, prevln);
 	    } else {
 		prevln = ln;
