@@ -1069,10 +1069,6 @@ to put the lock files somewhere other than in the repository
 if you want to allow read-only access to some directories
 (@pxref{config}).
 
-@c CVS seems to use CVSUMASK in picking permissions for
-@c val-tags, but maybe we should say more about this.
-@c Like val-tags gets created by someone who doesn't
-@c have CVSUMASK set right?
 @cindex CVSROOT/val-tags file, and read-only access to projects
 @cindex val-tags file, and read-only access to projects
 Also note that users must have write access to the
@@ -1104,7 +1100,7 @@ options}; or @code{CVSREAD}, @ref{Environment variables}).
 @c FIXME: Need more discussion of which
 @c group should own the file in the repository.
 @c Include a somewhat detailed example of the usual
-@c case where CVSUMASK is 007, the developers are all
+@c case where CVSUMASK is 002, the developers are all
 @c in a group, and that group owns stuff in the
 @c repository.  Need to talk about group ownership of
 @c newly-created directories/files (on some unices,
@@ -1989,7 +1985,7 @@ repository.
 @code{cvs init} will enable history logging; if you
 don't want that, remove the history file after running
 @code{cvs init}.  @xref{history file}.
-Since MirBSD CVS 1.12.13-MirOS-0AB7.8 (MirPorts-19) or
+Since MirBSD CVS 1.12.13-MirOS-0AB7.8, MirPorts-19 or
 Debian cvs 2:1.12.13+real-22, only write operations
 will be logged by default; to change this, make the
 history file world-writable (but beware of the associated
@@ -1997,9 +1993,10 @@ security risk) and remove the stock @samp{LogHistory}
 line in the @file{CVSROOT/config} file (@pxref{config})
 to use the (commented-out) default or put your own there.
 Note that these versions also create the @file{val-tags}
-file only group-writable, not world-writable like prior
-versions, so users who wish to commit must, by default,
-be in the same group as the repository.
+file writable (@pxref{CVSUMASK}), not world-writable like
+prior versions, so users who wish to commit must, with a
+default @code{CVSUMASK} of 002, be in the same group as
+the repository.
 
 @node Backing up
 @section Backing up a repository
@@ -15141,6 +15138,7 @@ option is used. This can also allow the use of
 read-only NFS repositories.
 
 @item $CVSUMASK
+@anchor{CVSUMASK}
 Controls permissions of files in the repository.  See
 @ref{File permissions}.
 

@@ -1266,11 +1266,6 @@ init (int argc, char **argv)
 	fp = xfopen (info, "w");
 	if (fclose (fp) < 0)
 	    error (1, errno, "cannot close %s", info);
- 
-        /* Make the new history file group-writeable, since every CVS
-           user will need to be able to write to it.  We use chmod()
-           because xchmod() is too shy. */
-        chmod (info, 0664);
     }
 
     /* Make an empty val-tags file to prevent problems creating it later.  */
@@ -1284,11 +1279,6 @@ init (int argc, char **argv)
 	fp = xfopen (info, "w");
 	if (fclose (fp) < 0)
 	    error (1, errno, "cannot close %s", info);
- 
-        /* Make the new val-tags file group-writeable, since every CVS
-           user will need to be able to write to it.  We use chmod()
-           because xchmod() is too shy. */
-        chmod (info, 0664);
     }
 
     free (info);
