@@ -1,5 +1,5 @@
 #!/bin/mksh
-# $MirOS: contrib/hosted/tg/uhr,v 1.16 2015/11/29 21:27:25 tg Exp $
+# $MirOS: contrib/hosted/tg/uhr,v 1.18 2017/03/17 22:53:07 tg Exp $
 #-
 # Copyright © 2012, 2013, 2015, 2017
 #	mirabilos <m@mirbsd.org>
@@ -65,7 +65,7 @@ function done_progress_bar {
 	(( isin_progress_bar )) || return 0
 	# save position; clear scrolling region;
 	# go to last line; delete line; restore position
-	print "\\e7\\e[0;0r\\e[$nlin_progress_bar;0H\\e[M\\e8"
+	print -n "\\e7\\e[0;0r\\e[$nlin_progress_bar;0H\\e[M\\e8"
 	isin_progress_bar=0
 	trap - EXIT
 }
