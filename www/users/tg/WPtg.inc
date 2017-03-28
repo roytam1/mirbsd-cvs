@@ -150,7 +150,7 @@ Title: Burgen &amp; Schlösser #5 - Hexenturm
 ----
 ID: 29
 Date: 28.10.2007
-Waypoint: GC171HX OC280D
+Waypoint: OC280D GC171HX
 Title: Beuelskopf
 Tag: recommended
 ----
@@ -204,13 +204,13 @@ ID: 39
 Date: 14.04.2008
 Waypoint: TC9AV
 Title: Deutscher Terracachingpreis 2008
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 40
 Date: 14.04.2008
 Waypoint: CCHU
 Title: WCG (aka How to Fold a Protein)
-Tag: MC1 Locationless Challenge
+Tag: MC1 Challenge
 ----
 ID: 41
 Date: 17.04.2008
@@ -319,7 +319,7 @@ ID: 60
 Date: 10.08.2008
 Waypoint: CCHX
 Title: Google Up A Locationless!
-Tag: MC5 Locationless
+Tag: MC5 Challenge
 ----
 ID: 61
 Date: 10.08.2008
@@ -1899,7 +1899,7 @@ nTF: 1
 ----
 ID: 369
 Date: 06.06.2013
-Waypoint: GC27MAQ
+Waypoint: GC27MAQ OCA3EA
 Title: Die Brücke
 ----
 ID: 370
@@ -2042,13 +2042,13 @@ ID: 394
 Date: 22.06.2013
 Waypoint: CC7TB
 Title: Truly Well-Rounded Cacher LC - Level I
-Tag: MC3 Locationless Challenge
+Tag: MC3 Challenge
 ----
 ID: 395
 Date: 22.06.2013
 Waypoint: CCR2
 Title: WCG II - Keep it going
-Tag: MC0 Locationless Challenge
+Tag: MC0 Challenge
 ----
 ID: 396
 Date: 23.06.2013
@@ -2194,7 +2194,7 @@ Date: 11.07.2013
 Waypoint: CC7TX
 Title: WCG III - Ruby's Reward
 nTF: 2
-Tag: MC0 Locationless Challenge
+Tag: MC0 Challenge
 ----
 ID: 420
 Date: 11.07.2013
@@ -2232,7 +2232,7 @@ Date: 22.07.2013
 Waypoint: LC7QP
 Title: TerraCachin' Fashion
 nTF: 2
-Tag: MC0 Locationless
+Tag: MC0 Challenge
 ----
 ID: 427
 Date: 27.07.2013
@@ -2389,8 +2389,11 @@ Den <a href="http://linuxwiki.de/ApoStrophen">Genitiv mit s</a> lernen wir noch.
 ----
 ID: 453
 Date: 18.08.2013
-Waypoint: GC33VN3
+Waypoint: GC33VN3 OCD1F3
 Title: STOP - in 100 m
+Tag: D15 T1 Micro Tradi
+
+Eher T3½ als T2, definitiv nicht T1!
 ----
 ID: 454
 Date: 18.08.2013
@@ -4301,7 +4304,7 @@ ID: 767
 Date: 12.03.2014
 Waypoint: CC7QX
 Title: ScottO's 30 day Challenge!
-Tag: MC0 Locationless Challenge
+Tag: MC0 Challenge
 ----
 ID: 768
 Date: 14.03.2014
@@ -4994,7 +4997,7 @@ ID: 876
 Date: 05.06.2014
 Waypoint: LCVE
 Title: Traditional Terracache FTF Bonus Points LC
-Tag: MC2 Locationless Challenge
+Tag: MC2 Challenge
 ----
 ID: 877
 Date: 05.06.2014
@@ -5085,7 +5088,7 @@ Tag: D1 T1 Micro Tradi
 ----
 ID: 891
 Date: 14.06.2014
-Waypoint: GC28G6Q
+Waypoint: GC28G6Q OC135FA
 Title: TEMBO!
 Tag: D15 T15 Small Tradi
 ----
@@ -5604,7 +5607,7 @@ ID: 975
 Date: 06.07.2014
 Waypoint: CC7TG
 Title: Truly Well-Rounded Cacher LC - Level II
-Tag: MC3 Locationless Challenge
+Tag: MC3 Challenge
 ----
 ID: 976
 Date: 06.07.2014
@@ -5729,7 +5732,7 @@ ID: 995
 Date: 15.07.2014
 Waypoint: CC7QL
 Title: Truly Well-Rounded Cacher Level III Award
-Tag: MC5 Locationless Challenge
+Tag: MC5 Challenge
 ----
 ID: 996
 Date: 20.07.2014
@@ -5778,7 +5781,7 @@ ID: 1003
 Date: 20.07.2014
 Waypoint: CCUT
 Title: Locationless Cache FTF Bonus Points LC
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1004
 Date: 22.07.2014
@@ -6032,7 +6035,7 @@ Date: 31.07.2014
 Waypoint: CC886G
 Title: Cheesy Cartridges
 nTF: 0
-Tag: Locationless
+Tag: Challenge
 ----
 ID: 1046
 Date: 02.08.2014
@@ -7153,7 +7156,7 @@ ID: 1225
 Date: 03.11.2014
 Waypoint: CC6NOO
 Title: The First NOT To Find Challenge
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1226
 Date: 12.11.2011
@@ -8320,7 +8323,7 @@ Date: 04.04.2015
 Waypoint: LC2GC2
 Title: Gackt’s Sociable TerraCacher Challenge #1
 nTF: 1
-Tag: MC0 Locationless Challenge
+Tag: MC0 Challenge
 ----
 ID: 1413
 Date: 05.04.2015
@@ -8473,7 +8476,7 @@ Date: 11.04.2015
 Waypoint: LC4JV7
 Title: Gackt’s Sociable TerraCacher Challenge #2
 nTF: 1
-Tag: MC0 Locationless Challenge
+Tag: MC0 Challenge
 ----
 ID: 1436
 Date: 12.04.2015
@@ -9443,13 +9446,13 @@ ID: 1580
 Date: 21.05.2015
 Waypoint: CC1KHB
 Title: 2015 Walk to Defeat ALS (CC)
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1581
 Date: 21.05.2015
 Waypoint: CC7JO
 Title: Futbol / Soccer
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1582
 Date: 22.05.2015
@@ -9784,7 +9787,7 @@ Date: 13.07.2015
 Waypoint: CC7TMQ
 Title: WCG IV - Team TC 10 Year Celebration
 nTF: 1
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1635
 Date: 16.07.2015
@@ -9984,13 +9987,13 @@ Date: 28.08.2015
 Waypoint: CC6S8W
 Title: Stringng You Along
 nTF: 3
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1667
 Date: 03.09.2015
 Waypoint: CC5PF0
 Title: trace italienne
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1668
 Date: 05.09.2015
@@ -10003,43 +10006,43 @@ ID: 1669
 Date: 11.09.2015
 Waypoint: CC9WOQ
 Title: The Witch of November
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1670
 Date: 12.09.2015
 Waypoint: CC2ISO
 Title: Guns of Naverone
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1671
 Date: 12.09.2015
 Waypoint: CC7LH2
 Title: Ground Zero
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1672
 Date: 12.09.2015
 Waypoint: CC3PV2
 Title: Caching DNA
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1673
 Date: 16.09.2015
 Waypoint: CC158O
 Title: The Transmitting Tower
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1674
 Date: 22.09.2015
 Waypoint: CC9MBV
 Title: Oh No! Faro!
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1675
 Date: 22.09.2015
 Waypoint: CC6VC6
 Title: Doctoring The Tardis
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1676
 Date: 23.09.2015
@@ -10290,13 +10293,13 @@ ID: 1715
 Date: 29.11.2015
 Waypoint: CC5YO4
 Title: Patriotism is Not Enough
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1716
 Date: 29.11.2015
 Waypoint: CCPV
 Title: Post a Picture of Yourself
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1717
 Date: 04.12.2015
@@ -10309,7 +10312,7 @@ Date: 06.12.2015
 Waypoint: CC3UNG
 Title: Seven Days of Random Kindness
 nTF: 1
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1719
 Date: 10.12.2015
@@ -10499,7 +10502,7 @@ Date: 08.02.2016
 Waypoint: CC4E0R
 Title: Somewhere Else in Canada
 nTF: 3
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1748
 Date: 16.02.2016
@@ -10519,7 +10522,7 @@ Date: 17.02.2016
 Waypoint: CC377K
 Title: Tues@8 - Under Wiltshire Cyber
 nTF: 1
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1751
 Date: 18.02.2016
@@ -11748,7 +11751,7 @@ Tag: D25 T15 Micro Tradi
 ----
 ID: 1947
 Date: 26.06.2016
-Waypoint: GC1282V
+Waypoint: GC1282V OC33CD
 Title: Alter Friedhof Bad Honnef
 Tag: D1 T1 Micro Tradi recommended
 
@@ -11803,7 +11806,7 @@ Tag: D3 T15 Micro Tradi
 ----
 ID: 1955
 Date: 10.07.2016
-Waypoint: GC5TV80
+Waypoint: GC5TV80 OC4CF0
 Title: Gotteshäuser: St. Judas Thaddäus - Reloaded
 Tag: D1 T1 Micro Tradi
 ----
@@ -11857,13 +11860,13 @@ Date: 01.08.2016
 Waypoint: CC85RN
 Title: Parachuting Pioneer
 nTF: 3
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1964
 Date: 04.08.2016
 Waypoint: CC3IMR
 Title: Ned Myers' Account
-Tag: Locationless Challenge
+Tag: Challenge
 ----
 ID: 1965
 Date: 06.08.2016
@@ -12472,6 +12475,25 @@ Date: 24.03.2017
 Waypoint: GC71ZRE
 Title: Reuterstraße
 Tag: D25 T1 Small Tradi
+----
+ID: 2062
+Date: 21.12.2015
+Waypoint: CC7L49
+Title: We Wish You a Windpump Merry Christmas
+nTF: 2
+Tag: MC1 Challenge
+----
+ID: 2063
+Date: 20.06.2014
+Waypoint: CC7RF
+Title: 2014 Walk to Defeat ALS (Lou Gehrig's Disease)
+Tag: MC0 Challenge
+----
+ID: 2064
+Date: 10.10.2016
+Waypoint: GC24BGF
+Title: Der Tenniscache - Mittagspause Teil2
+Tag: D1 T1 Micro Tradi
 ----
 ID: p20481102
 Date: 02.11.2048
