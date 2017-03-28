@@ -14003,7 +14003,7 @@ RereadLogAfterVerify=always
 
 The @file{loginfo} file is used to control where log information is sent after
 versioned changes are made to repository archive files and after directories
-are added ot the repository.  @ref{posttag} for how to log tagging
+are added to the repository.  @ref{posttag} for how to log tagging
 information and @ref{postadmin} for how to log changes due to the @code{admin}
 command.
 

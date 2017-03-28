@@ -1,6 +1,11 @@
 /*
- * Copyright (c) 1992, Brian Berliner and Jeff Polk
- * Copyright (c) 1989-1992, Brian Berliner
+ * Copyright (C) 1986-2005 The Free Software Foundation, Inc.
+ *
+ * Portions Copyright (C) 1998-2005 Derek Price, Ximbiot <http://ximbiot.com>,
+ *                                  and others.
+ *
+ * Portions Copyright (C) 1992, Brian Berliner and Jeff Polk
+ * Portions Copyright (C) 1989-1992, Brian Berliner
  * 
  * You may distribute under the terms of the GNU General Public License as
  * specified in the README file that comes with the CVS source distribution.
@@ -66,13 +71,13 @@ static const char *const checkout_usage[] =
 
 static const char *const export_usage[] =
 {
-    "Usage: %s %s [-NRfln] [-r rev] [-D date] [-d dir] [-k kopt] module...\n",
+    "Usage: %s %s [-NRfln] [-r tag] [-D date] [-d dir] [-k kopt] module...\n",
     "\t-N\tDon't shorten module paths if -d specified.\n",
     "\t-f\tForce a head revision match if tag/date not found.\n",
     "\t-l\tLocal directory only, not recursive\n",
     "\t-R\tProcess directories recursively (default).\n",
     "\t-n\tDo not run module program (if any).\n",
-    "\t-r rev\tExport revision or tag.\n",
+    "\t-r tag\tExport tagged revisions.\n",
     "\t-D date\tExport revisions as of date.\n",
     "\t-d dir\tExport into dir instead of module name.\n",
     "\t-k kopt\tUse RCS kopt -k option on checkout.\n",
@@ -86,11 +91,11 @@ static int pipeout;
 static int aflag;
 static char *options;
 static char *tag;
-static int tag_validated;
+static bool tag_validated;
 static char *date;
-static char *join_rev1;
-static char *join_rev2;
-static int join_tags_validated;
+static char *join_rev1, *join_date1;
+static char *join_rev2, *join_date2;
+static bool join_tags_validated;
 static char *preload_update_dir;
 static char *history_name;
 static enum mtype m_type;
@@ -108,6 +113,7 @@ checkout (int argc, char **argv)
     char *where = NULL;
     const char *valid_options;
     const char *const *valid_usage;
+    char *join_orig1, *join_orig2;
 
     /* initialize static options */
     force_tag_match = 1;
@@ -116,9 +122,10 @@ checkout (int argc, char **argv)
 	free (options);
 	options = NULL;
     }
-    tag = date = join_rev1 = join_rev2 = preload_update_dir = NULL;
+    tag = date = join_rev1 = join_date1 = join_rev2 = join_date2 =
+	  join_orig1 = join_orig2 = preload_update_dir = NULL;
     history_name = NULL;
-    tag_validated = join_tags_validated = 0;
+    tag_validated = join_tags_validated = false;
 
 
     /*
@@ -167,11 +174,9 @@ checkout (int argc, char **argv)
 		break;
 	    case 'Q':
 	    case 'q':
-#ifdef SERVER_SUPPORT
 		/* The CVS 1.5 client sends these options (in addition to
 		   Global_option requests), so we must ignore them.  */
 		if (!server_active)
-#endif
 		    error (1, 0,
 			   "-q or -Q must be specified before \"%s\"",
 			   cvs_cmd_name);
@@ -205,20 +210,29 @@ checkout (int argc, char **argv)
 		force_tag_match = 0;
 		break;
 	    case 'r':
-		tag = optarg;
+		parse_tagdate (&tag, &date, optarg);
 		checkout_prune_dirs = 1;
 		break;
 	    case 'D':
+		if (date) free (date);
 		date = Make_Date (optarg);
 		checkout_prune_dirs = 1;
 		break;
 	    case 'j':
-		if (join_rev2)
+		if (join_rev2 || join_date2)
 		    error (1, 0, "only two -j options can be specified");
-		if (join_rev1)
-		    join_rev2 = optarg;
+		if (join_rev1 || join_date1)
+		{
+		    if (join_orig2) free (join_orig2);
+		    join_orig2 = xstrdup (optarg);
+		    parse_tagdate (&join_rev2, &join_date2, optarg);
+		}
 		else
-		    join_rev1 = optarg;
+		{
+		    if (join_orig1) free (join_orig1);
+		    join_orig1 = xstrdup (optarg);
+		    parse_tagdate (&join_rev1, &join_date1, optarg);
+		}
 		break;
 	    case '?':
 	    default:
@@ -246,7 +260,7 @@ checkout (int argc, char **argv)
 	if (!tag && !date)
 	    error (1, 0, "must specify a tag or date");
 
-	if (tag && isdigit ((unsigned char) tag[0]))
+	if (tag && isdigit (tag[0]))
 	    error (1, 0, "tag `%s' must be a symbolic tag", tag);
     }
 
@@ -257,8 +271,9 @@ checkout (int argc, char **argv)
     }
 #endif
 
-    if (!cat && !pipeout && !safe_location( where )) {
-        error(1, 0, "Cannot check out files into the repository itself");
+    if (!cat && !pipeout && !safe_location (where))
+    {
+        error (1, 0, "Cannot check out files into the repository itself");
     }
 
 #ifdef CLIENT_SUPPORT
@@ -291,27 +306,27 @@ checkout (int argc, char **argv)
 	if (!force_tag_match)
 	    send_arg ("-f");
 	if (aflag)
-	    send_arg("-A");
+	    send_arg ("-A");
 	if (!shorten)
-	    send_arg("-N");
+	    send_arg ("-N");
 	if (checkout_prune_dirs && m_type == CHECKOUT)
-	    send_arg("-P");
+	    send_arg ("-P");
 	client_prune_dirs = checkout_prune_dirs;
 	if (cat && !status)
-	    send_arg("-c");
+	    send_arg ("-c");
 	if (where != NULL)
 	    option_with_arg ("-d", where);
 	if (status)
-	    send_arg("-s");
+	    send_arg ("-s");
 	if (options != NULL && options[0] != '\0')
 	    send_arg (options);
 	option_with_arg ("-r", tag);
 	if (date)
 	    client_senddate (date);
-	if (join_rev1 != NULL)
-	    option_with_arg ("-j", join_rev1);
-	if (join_rev2 != NULL)
-	    option_with_arg ("-j", join_rev2);
+	if (join_orig1)
+	    option_with_arg ("-j", join_orig1);
+	if (join_orig2)
+	    option_with_arg ("-j", join_orig2);
 	send_arg ("--");
 
 	if (expand_modules)
@@ -363,10 +378,7 @@ checkout (int argc, char **argv)
 	else if (!tag)
 	    history_name = date;
 	else
-	{
-	    history_name = xmalloc (strlen (tag) + strlen (date) + 2);
-	    sprintf (history_name, "%s:%s", tag, date);
-	}
+	    history_name = Xasprintf ("%s:%s", tag, date);
     }
 
 
@@ -410,7 +422,7 @@ checkout (int argc, char **argv)
  *
  * ERRORS
  *  Exits with a fatal error message when various events occur, such as not
- *  being able to resolve a path or failing ot chdir to a path.
+ *  being able to resolve a path or failing to chdir to a path.
  */
 int
 safe_location (char *where)
@@ -423,17 +435,15 @@ safe_location (char *where)
     TRACE (TRACE_FUNCTION, "safe_location( where=%s )",
            where ? where : "(null)");
 
-#ifdef CLIENT_SUPPORT
     /* Don't compare remote CVSROOTs to our destination directory. */
     if (current_parsed_root->isremote) return 1;
-#endif /* CLIENT_SUPPORT */
 
     /* set current - even if where is set we'll need to cd back... */
     current = xgetcwd ();
     if (current == NULL)
 	error (1, errno, "could not get working directory");
 
-    hardpath = xresolvepath (current_parsed_root->directory);
+    hardpath = xcanonicalize_file_name (current_parsed_root->directory);
 
     /* if where is set, set current to as much of where as exists,
      * or fail.
@@ -564,7 +574,7 @@ build_one_dir (char *repository, char *dirpath, int sticky)
 
 	if (!noexec)
 	{
-	    fp = open_file (CVSADM_ENTSTAT, "w+");
+	    fp = xfopen (CVSADM_ENTSTAT, "w+");
 	    if (fclose (fp) == EOF)
 		error (1, errno, "cannot close %s", CVSADM_ENTSTAT);
 #ifdef SERVER_SUPPORT
@@ -689,7 +699,7 @@ checkout_proc (int argc, char **argv, char *where_orig, char *mwhere,
            directory, let the user override it with the command-line
            -d option. */
 
-	if ((mwhere != NULL) && (! isabsolute (mwhere)))
+	if (mwhere && !ISABSOLUTE (mwhere))
 	    (void) strcat (where, mwhere);
 	else
 	    (void) strcat (where, argv[0]);
@@ -742,8 +752,7 @@ checkout_proc (int argc, char **argv, char *where_orig, char *mwhere,
 
 	/* Now mfile is a single path element. */
 
-	path = xmalloc (strlen (repository) + strlen (mfile) + 5);
-	(void) sprintf (path, "%s/%s", repository, mfile);
+	path = Xasprintf ("%s/%s", repository, mfile);
 	if (isdir (path))
 	{
 	    /* It's a directory, so tack it on to repository and
@@ -887,8 +896,6 @@ internal error: %s doesn't start with %s in checkout_proc",
 			   reposcopy);
 			   
 		*rp = '\0';
-		new->repository = xmalloc (strlen (reposcopy) + 5);
-		(void) strcpy (new->repository, reposcopy);
 		    
 		if (strcmp (reposcopy, current_parsed_root->directory) == 0)
 		{
@@ -897,8 +904,10 @@ internal error: %s doesn't start with %s in checkout_proc",
 		       is important).  We might be able to get rid
 		       of this after the we check out the other
 		       code that handles repository names. */
-		    (void) strcat (new->repository, "/.");
+		    new-> repository = Xasprintf ("%s/.", reposcopy);
 		}
+		else
+		    new->repository = xstrdup (reposcopy);
 	    }
 	}
 
@@ -916,7 +925,7 @@ internal error: %s doesn't start with %s in checkout_proc",
 	   build_one_dir whenever the -d command option was specified
 	   to checkout.  */
 
-	if (!isabsolute (where) && config->top_level_admin
+	if (!ISABSOLUTE (where) && config->top_level_admin
 	    && m_type == CHECKOUT)
 	{
 	    /* It may be argued that we shouldn't set any sticky
@@ -963,7 +972,7 @@ internal error: %s doesn't start with %s in checkout_proc",
 
 		Create_Admin (".", preload_update_dir, repository,
 			      NULL, NULL, 0, 0, m_type == CHECKOUT);
-		fp = open_file (CVSADM_ENTSTAT, "w+");
+		fp = xfopen (CVSADM_ENTSTAT, "w+");
 		if (fclose (fp) == EOF)
 		    error (1, errno, "cannot close %s", CVSADM_ENTSTAT);
 #ifdef SERVER_SUPPORT
@@ -1029,36 +1038,36 @@ internal error: %s doesn't start with %s in checkout_proc",
 	    goto out;
 	}
 	which = W_REPOS;
-	if (tag != NULL && !tag_validated)
+	if (tag && !tag_validated)
 	{
 	    tag_check_valid (tag, argc - 1, argv + 1, 0, aflag,
 			     repository, false);
-	    tag_validated = 1;
+	    tag_validated = true;
 	}
     }
     else
     {
 	which = W_LOCAL | W_REPOS;
-	if (tag != NULL && !tag_validated)
+	if (tag && !tag_validated)
 	{
 	    tag_check_valid (tag, argc - 1, argv + 1, 0, aflag,
 			     repository, false);
-	    tag_validated = 1;
+	    tag_validated = true;
 	}
     }
 
-    if (tag != NULL || date != NULL || join_rev1 != NULL)
+    if (tag || date || join_rev1 || join_date2)
 	which |= W_ATTIC;
 
-    if (! join_tags_validated)
+    if (!join_tags_validated)
     {
-        if (join_rev1 != NULL)
-	    tag_check_valid_join (join_rev1, argc - 1, argv + 1, 0, aflag,
-				  repository);
-	if (join_rev2 != NULL)
-	    tag_check_valid_join (join_rev2, argc - 1, argv + 1, 0, aflag,
-				  repository);
-	join_tags_validated = 1;
+        if (join_rev1)
+	    tag_check_valid (join_rev1, argc - 1, argv + 1, 0, aflag,
+			     repository, false);
+	if (join_rev2)
+	    tag_check_valid (join_rev2, argc - 1, argv + 1, 0, aflag,
+			     repository, false);
+	join_tags_validated = true;
     }
 
     /*
@@ -1074,7 +1083,8 @@ internal error: %s doesn't start with %s in checkout_proc",
 	err += do_update (0, NULL, options, tag, date,
 			  force_tag_match, false /* !local */ ,
 			  true /* update -d */ , aflag, checkout_prune_dirs,
-			  pipeout, which, join_rev1, join_rev2,
+			  pipeout, which, join_rev1, join_date1,
+			  join_rev2, join_date2,
 			  preload_update_dir, m_type == CHECKOUT,
 			  repository);
 	goto out;
@@ -1108,8 +1118,7 @@ internal error: %s doesn't start with %s in checkout_proc",
 			       force_tag_match, 0);
 	    if (vers->ts_user == NULL)
 	    {
-		line = xmalloc (strlen (finfo.file) + 15);
-		(void) sprintf (line, "Initial %s", finfo.file);
+		line = Xasprintf ("Initial %s", finfo.file);
 		Register (entries, finfo.file,
 			  vers->vn_rcs ? vers->vn_rcs : "0",
 			  line, vers->options, vers->tag,
@@ -1132,8 +1141,8 @@ internal error: %s doesn't start with %s in checkout_proc",
     err += do_update (argc - 1, argv + 1, options, tag, date,
 		      force_tag_match, local_specified, true /* update -d */,
 		      aflag, checkout_prune_dirs, pipeout, which, join_rev1,
-		      join_rev2, preload_update_dir, m_type == CHECKOUT,
-		      repository);
+		      join_date1, join_rev2, join_date2, preload_update_dir,
+		      m_type == CHECKOUT, repository);
 out:
     free (preload_update_dir);
     preload_update_dir = oldupdate;
@@ -1167,12 +1176,8 @@ emptydir_name (void)
 {
     char *repository;
 
-    repository = xmalloc (strlen (current_parsed_root->directory) 
-			  + sizeof (CVSROOTADM)
-			  + sizeof (CVSNULLREPOS)
-			  + 3);
-    (void) sprintf (repository, "%s/%s/%s", current_parsed_root->directory,
-		    CVSROOTADM, CVSNULLREPOS);
+    repository = Xasprintf ("%s/%s/%s", current_parsed_root->directory,
+			    CVSROOTADM, CVSNULLREPOS);
     if (!isfile (repository))
     {
 	mode_t omask;
