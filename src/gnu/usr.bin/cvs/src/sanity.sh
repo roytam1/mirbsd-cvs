@@ -17350,7 +17350,7 @@ new revision: 1\.4; previous revision: 1\.3"
 
             # Manually fake another editor:
 
-            # Try to gaurantee a seperate name for an "other" user editting
+            # Try to guarantee a seperate name for an "other" user editing
             # the file.
           otherUser="dummyUser"
           if [ x"$USER" = x"$otherUser" ]  ; then
@@ -28916,9 +28916,7 @@ $SPROG commit: Rebuilding administrative file database"
 	  cd ../..; rm -r wrkarnd
 
 	  dotest multiroot-setup-3 "$testcvs2 init"
-	  # remove automatically-created LogHistory to work around the fact
-	  # that CVS does not track those per root (and thus warns about
-	  # encountering multiple of these entries)
+	  # remove automatically-created LogHistory (see above)
 	  mkdir wrkarnd; cd wrkarnd
 	  dotest multiroot-setup-3a "$testcvs2 -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
 	  cd CVSROOT
@@ -30032,9 +30030,7 @@ anyone
 	  CVSROOT2=`newroot $CVSROOT2_DIRNAME`
 
 	  dotest multiroot2-1 "${testcvs} -d ${CVSROOT1} init" ""
-	  # remove automatically-created LogHistory to work around the fact
-	  # that CVS does not track those per root (and thus warns about
-	  # encountering multiple of these entries)
+	  # remove automatically-created LogHistory (see above)
 	  mkdir wrkarnd; cd wrkarnd
 	  dotest multiroot2-1a "$testcvs -d ${CVSROOT1} -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
 	  cd CVSROOT
@@ -30046,6 +30042,7 @@ new revision: 1\.[0-9]*; previous revision: 1\.[0-9]*
 $SPROG commit: Rebuilding administrative file database"
 	  cd ../..; rm -r wrkarnd
 	  dotest multiroot2-2 "${testcvs} -d ${CVSROOT2} init" ""
+	  # remove automatically-created LogHistory (see above)
 	  mkdir wrkarnd; cd wrkarnd
 	  dotest multiroot2-2a "$testcvs -d ${CVSROOT2} -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
 	  cd CVSROOT
@@ -30211,6 +30208,7 @@ ${PLUS}change him too"
 
 	  mkdir 1; cd 1
 	  dotest multiroot3-1 "${testcvs} -d ${CVSROOT1} init" ""
+	  # remove automatically-created LogHistory (see above)
 	  mkdir wrkarnd; cd wrkarnd
 	  dotest multiroot3-1a "$testcvs -d ${CVSROOT1} -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
 	  cd CVSROOT
@@ -30227,6 +30225,7 @@ $SPROG commit: Rebuilding administrative file database"
 "Directory ${TESTDIR}/root1/dir1 put under version control"
 	  dotest multiroot3-4 "${testcvs} -d ${CVSROOT2} init" ""
 	  rm -r CVS
+	  # remove automatically-created LogHistory (see above)
 	  mkdir wrkarnd; cd wrkarnd
 	  dotest multiroot3-4a "$testcvs -d ${CVSROOT2} -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
 	  cd CVSROOT
@@ -30357,6 +30356,7 @@ $CPROG \[checkout aborted\]: end of file from server (consult above messages if 
 
 	  mkdir 1; cd 1
 	  dotest multiroot4-1 "${testcvs} -d ${CVSROOT1} init" ""
+	  # remove automatically-created LogHistory (see above)
 	  mkdir wrkarnd; cd wrkarnd
 	  dotest multiroot4-1a "$testcvs -d ${CVSROOT1} -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
 	  cd CVSROOT
@@ -30382,6 +30382,7 @@ initial revision: 1\.1"
 	  cd ../..
 	  mkdir 2; cd 2
 	  dotest multiroot4-6 "${testcvs} -d ${CVSROOT2} init" ""
+	  # remove automatically-created LogHistory (see above)
 	  mkdir wrkarnd; cd wrkarnd
 	  dotest multiroot4-6a "$testcvs -d ${CVSROOT2} -q co CVSROOT" "[UP] CVSROOT${DOTSTAR}"
 	  cd CVSROOT
@@ -32345,8 +32346,7 @@ $SPROG \[update aborted\]: could not find desired version 1\.4 in $PRIMARY_CVSRO
 	  cat >>loginfo <<EOF
 ALL $RSYNC -gopr --delete $PRIMARY_CVSROOT_DIRNAME/ $SECONDARY_CVSROOT_DIRNAME
 EOF
-	  # remove automatically-created LogHistory to work around the fact
-	  # that we see both writeproxy and primary config here
+	  # remove automatically-created LogHistory (see above)
 	  sed -e '/^LogHistory/d' <config >tmpconfig
 	  mv tmpconfig config
 	  cat >>config <<EOF
@@ -32628,8 +32628,7 @@ EOF
 	  cat >>loginfo <<EOF
 ALL echo Referrer=%R; cat >/dev/null
 EOF
-	  # remove automatically-created LogHistory to work around the fact
-	  # that we see both writeproxy and primary config here
+	  # remove automatically-created LogHistory (see above)
 	  sed -e '/^LogHistory/d' <config >tmpconfig
 	  mv tmpconfig config
 	  cat >>config <<EOF
@@ -32735,8 +32734,7 @@ EOF
 	  cat >>loginfo <<EOF
 ALL echo Referrer=%R; cat >/dev/null
 EOF
-	  # remove automatically-created LogHistory to work around the fact
-	  # that we see both writeproxy and primary config here
+	  # remove automatically-created LogHistory (see above)
 	  sed -e '/^LogHistory/d' <config >tmpconfig
 	  mv tmpconfig config
 	  cat >>config <<EOF
@@ -35870,7 +35868,7 @@ You have \[0\] altered files in this repository\."
 	    if cmp $file $TESTDIR/`basename $file`-clean >/dev/null 2>&1; then
 		:;
 	    else
-		echo "\`$file' and \`$TESTDIR/`basename $file`-clean' differ." \
+		echo "'$file' and '$TESTDIR/`basename $file`-clean' differ." \
 		     >>$LOGFILE
 		problem=:
 	    fi
@@ -35924,8 +35922,7 @@ if test -n "$skippedoutput" || test -n "$warningsoutput"; then
   extendedinfo="$extendedinfo)"
 fi
 
-echo "OK, all $passed tests passed$extendedinfo." >>$LOGFILE
-echo "OK, all $passed tests passed$extendedinfo."
+echo "OK, all $passed tests passed$extendedinfo." | tee -a $LOGFILE
 
 # TODO:
 # * Test `cvs update -d foo' (where foo does not exist).
