@@ -1963,9 +1963,18 @@ The repository should be accessible
 machines which want to use @sc{cvs} in server or local
 mode; the client machines need not have any access to
 it other than via the @sc{cvs} protocol.  It is not
-possible to use @sc{cvs} to read from a repository
+normally possible to use @sc{cvs} to read from a repository
 which one only has read access to; @sc{cvs} needs to be
 able to create lock files (@pxref{Concurrency}).
+
+If the environment variable @code{$CVSREADONLYFS} is defined,
+however, CVS will allow read-only access without creating any
+history entries or reader lock files.  This allows doing most
+usual repository operations except checkin in a fast way,
+although if any other user is accessing the same data at the
+same time, it may lead to corrupt data.  This mode is best used
+for publicly accessible anonymous CVS mirrors, not the main
+working repository.
 
 @cindex init (subcommand)
 To create a repository, run the @code{cvs init}
@@ -1982,21 +1991,18 @@ existing files in the repository, so no harm is done if
 you run @code{cvs init} on an already set-up
 repository.
 
-@code{cvs init} will enable history logging; if you
-don't want that, remove the history file after running
-@code{cvs init}.  @xref{history file}.
-Since MirBSD CVS 1.12.13-MirOS-0AB7.8, MirPorts-19 or
-Debian cvs 2:1.12.13+real-22, only write operations
-will be logged by default; to change this, make the
-history file world-writable (but beware of the associated
-security risk) and remove the stock @samp{LogHistory}
-line in the @file{CVSROOT/config} file (@pxref{config})
-to use the (commented-out) default or put your own there.
-Note that these versions also create the @file{val-tags}
-file writable (@pxref{CVSUMASK}), not world-writable like
-prior versions, so users who wish to commit must, with a
-default @code{CVSUMASK} of 002, be in the same group as
-the repository.
+The repository is created honouring the @code{$CVSUMASK}
+setting (@pxref{CVSUMASK}), even the @file{history} and
+@file{val-tags} files are not created world-writable any
+more as in previous CVS versions.  History logging is,
+accordingly, configured to log write operations only; if
+you don’t want that, edit or remove the @samp{LogHistory}
+entry in the @file{config} file (@pxref{config}) and make
+sure that all users who need to write that file can do so,
+for example by using a @code{$CVSUMASK} of 002 (which is
+also the default) and putting everyone into the same Unix
+group (consider the security implications if you really
+want to enable world-writable logging).
 
 @node Backing up
 @section Backing up a repository
