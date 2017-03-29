@@ -1,4 +1,4 @@
-RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.357 2017/03/13 18:21:16 tg Exp $
+RCSID: $MirOS: www/users/tg/WPtg.inc,v 1.360 2017/03/28 23:12:36 tg Exp $
 # ^K/ mksh -c '. ../../mk/common; xhtml_escape'
 # GC: 0123456789ABCDEFGH JK MN PQR T VWXYZ
 ID: 1
@@ -12494,6 +12494,12 @@ Date: 10.10.2016
 Waypoint: GC24BGF
 Title: Der Tenniscache - Mittagspause Teil2
 Tag: D1 T1 Micro Tradi
+----
+ID: 2065
+Date: 29.03.2017
+Waypoint: GC48J8G
+Title: A3 Frankfurt - Köln (P2)
+Tag: D1 T15 Micro Tradi
 ----
 ID: p20481102
 Date: 02.11.2048
