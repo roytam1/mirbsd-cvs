@@ -33,22 +33,38 @@ typeset -Z6 tosleep
 bcopt=
 bc --help >/dev/null 2>&1 && bcopt=-q
 
-# global variables used by progress bar
+# Shell library for easy display of a progress bar, modified for Uhr
+#
+# Usage:
+# – before:	init_progress_bar $n
+# – $n times:	draw_progress_bar
+# – after:	done_progress_bar
+#
+# init_progress_bar trashes the EXIT trap, done_progress_bar clears it.
+
+# global variables used by this library
 _cnt_progress_bar=0
 _cur_progress_bar=0
 isin_progress_bar=0
 nlin_progress_bar=0
 
+if [[ $KSH_VERSION = @(\@\(#\)MIRBSD KSH R)@(5[5-9]|[6-9][0-9]|[1-9][0-9][0-9])\ * ]]; then
+	alias global='typeset -g'
+else
+	alias global=global
+fi
+
 # args: $1 = number of draw_progress_bar calls to make up 100%
 function init_progress_bar {
-	typeset -gi _cnt_progress_bar=$1 _cur_progress_bar=0
-	typeset -gi nlin_progress_bar=$LINES isin_progress_bar=1
+	global -i _cnt_progress_bar=$1 _cur_progress_bar=0
+	global -i nlin_progress_bar=$LINES isin_progress_bar=1
 
 	trap 'done_progress_bar' EXIT
-	# newline; up one line (to ensure we are not in the last line);
-	# save position; set scrolling region; restore position
-	print -n "\\n\\e[A\\e7\\e[1;$((# nlin_progress_bar - 1))r\\e8"
+	# set up scrolling region, draw initial empty bar
+	sigwinch_uhr
 }
+
+unalias global
 
 function sigwinch_uhr {
 	got_sigwinch=1
@@ -56,24 +72,37 @@ function sigwinch_uhr {
 
 	# get new terminal size
 	nlin_progress_bar=$LINES
-	# newline; up one line (to ensure we are not in the last line);
-	# save position; set scrolling region; restore position
-	print -n "\\n\\e[A\\e7\\e[1;$((# nlin_progress_bar - 1))r\\e8"
+
+	# save position; clear scrolling region; restore position; newline;
+	# up one line (to ensure we are not in the last line); save position;
+	# clear rest of screen; set new scrolling region; restore position
+	print -nu2 "\\e7\\e[0;0r\\e8\\n\\e[A\\e7\\e[J\\e[1;$((# nlin_progress_bar - 1))r\\e8"
+
+	# redraw progress bar
+	draw_progress_bar_internal
 }
 
 function done_progress_bar {
 	(( isin_progress_bar )) || return 0
-	# save position; clear scrolling region;
-	# go to last line; delete line; restore position
-	print -n "\\e7\\e[0;0r\\e[$nlin_progress_bar;0H\\e[M\\e8"
 	isin_progress_bar=0
+	# save position; clear scrolling region; restore position;
+	# save position; clear rest of screen; restore position
+	print -nu2 "\\e7\\e[0;0r\\e8\\e7\\e[J\\e8"
+	trap - WINCH
 	trap - EXIT
 }
 
 function draw_progress_bar {
+	# increment current progress
+	let ++_cur_progress_bar
+	# remaining drawing code
+	draw_progress_bar_internal
+}
+
+function draw_progress_bar_internal {
 	local bar num w=$COLUMNS
 
-	((# num = (++_cur_progress_bar * w * 8) / _cnt_progress_bar ))
+	((# num = (_cur_progress_bar * w * 8) / _cnt_progress_bar ))
 	while ((# num >= 8 )); do
 		bar+=█
 		((# num -= 8 ))
@@ -94,7 +123,7 @@ function draw_progress_bar {
 	# save position; go to last line; set colours;
 	# output a line full of spaces (and completion percentage);
 	# jump to first column; output bar (line præfix); restore position
-	print -n -- "\\e7\\e[$nlin_progress_bar;0H\\e[0;1;33;44m$spc\\r$bar\\e8"
+	print -nu2 -- "\\e7\\e[$nlin_progress_bar;1H\\e[0;1;33;44m$spc\\r$bar\\e8"
 }
 
 function graceful {
@@ -105,9 +134,9 @@ trap graceful INT TERM HUP
 
 trap sigwinch_uhr WINCH
 while :; do
-got_sigwinch=0
 
 init_progress_bar 135
+got_sigwinch=0
 draw_progress_bar
 S='Pregenerating arrays, please wait...'
 if (( (r = (COLUMNS - ${%S}) / 2 - 2) < 1 )); then
