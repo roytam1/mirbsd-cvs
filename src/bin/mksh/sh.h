@@ -393,7 +393,6 @@ struct rusage {
 
 #ifdef __OS2__
 #define MKSH_UNIXROOT	"/@unixroot"
-#define MKSH_DOSPATH
 #else
 #define MKSH_UNIXROOT	""
 #endif
@@ -513,12 +512,20 @@ extern int __cdecl setegid(gid_t);
 EXTERN const char *safe_prompt; /* safe prompt if PS1 substitution fails */
 
 #ifdef MKSH_LEGACY_MODE
-#define KSH_VERSIONNAME	"LEGACY"
+#define KSH_VERSIONNAME_ISLEGACY	"LEGACY"
 #else
-#define KSH_VERSIONNAME	"MIRBSD"
+#define KSH_VERSIONNAME_ISLEGACY	"MIRBSD"
 #endif
-EXTERN const char initvsn[] E_INIT("KSH_VERSION=@(#)" KSH_VERSIONNAME \
-    " KSH " MKSH_VERSION);
+#ifdef MKSH_WITH_TEXTMODE
+#define KSH_VERSIONNAME_TEXTMODE	" +TEXTMODE"
+#else
+#define KSH_VERSIONNAME_TEXTMODE	""
+#endif
+#ifndef KSH_VERSIONNAME_VENDOR_EXT
+#define KSH_VERSIONNAME_VENDOR_EXT	""
+#endif
+EXTERN const char initvsn[] E_INIT("KSH_VERSION=@(#)" KSH_VERSIONNAME_ISLEGACY \
+    " KSH " MKSH_VERSION KSH_VERSIONNAME_TEXTMODE KSH_VERSIONNAME_VENDOR_EXT);
 #define KSH_VERSION	(initvsn + /* "KSH_VERSION=@(#)" */ 16)
 
 EXTERN const char digits_uc[] E_INIT("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ");
@@ -586,7 +593,7 @@ char *ucstrstr(char *, const char *);
 #define mkssert(e)	do { } while (/* CONSTCOND */ 0)
 #endif
 
-#if (!defined(MKSH_BUILDMAKEFILE4BSD) && !defined(MKSH_BUILDSH)) || (MKSH_BUILD_R != 541)
+#if (!defined(MKSH_BUILDMAKEFILE4BSD) && !defined(MKSH_BUILDSH)) || (MKSH_BUILD_R != 549)
 #error Must run Build.sh to compile this.
 extern void thiswillneverbedefinedIhope(void);
 int
