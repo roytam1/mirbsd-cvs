@@ -1,7 +1,8 @@
 ! $MirSecuCron$
 ! $MirOS: src/etc/skel/dot.Xresources,v 1.22 2014/03/07 21:18:05 tg Exp $
 !-
-! Copyright © 2003, 2006, 2007, 2009, 2010, 2011, 2013, 2014, 2015
+! Copyright © 2003, 2006, 2007, 2009, 2010, 2011, 2013, 2014,
+!	      2015, 2017
 !	mirabilos <m@mirbsd.org>
 !
 ! Provided that these terms and disclaimer and all copyright notices
@@ -187,8 +188,8 @@ VXTerm*VT100*colorBD:		white
 VXTerm*fontMenu*background:	AntiqueWhite
 VXTerm*fontMenu*foreground:	gray15
 VXTerm*fontMenu.Label:		VGA Fonts
-VXTerm*VT100*font:		-miros-fixedmisc-medium-r-normal--16-120-100-100-c-80-ibm-cp437
-VXTerm*VT100*boldFont:		-miros-fixedmisc-medium-r-normal--16-120-100-100-c-80-ibm-cp437
+VXTerm*VT100*font:		-miros-fixedmiscpc-medium-r-normal--16-120-100-100-c-80-ibm-cp437
+VXTerm*VT100*boldFont:		-miros-fixedmiscpc-medium-r-normal--16-120-100-100-c-80-ibm-cp437
 VXTerm*fontMenu*font1*Label:	Small
 VXTerm*fontMenu*font2*Label:	Default
 VXTerm*fontMenu*font3*Label:	TerminusSmall
@@ -196,7 +197,7 @@ VXTerm*fontMenu*font4*Label:	TerminusMed
 VXTerm*fontMenu*font5*Label:	vga8x14
 VXTerm*fontMenu*font6*Label:	vga8x16
 VXTerm*VT100*font1:		6x10
-VXTerm*VT100*font2:		-miros-fixedmisc-medium-r-normal--16-120-100-100-c-80-ibm-cp437
+VXTerm*VT100*font2:		-miros-fixedmiscpc-medium-r-normal--16-120-100-100-c-80-ibm-cp437
 VXTerm*VT100*font3:		-xos4-terminus-bold-r-normal--14-140-72-72-c-80-iso8859-1
 VXTerm*VT100*font4:		-xos4-terminus-medium-r-normal--16-160-72-72-c-80-iso8859-1
 VXTerm*VT100*font5:		-misc-vga-bold-r-normal--14-110-96-96-c-80-ibm-cp437

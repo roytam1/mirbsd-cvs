@@ -3,7 +3,7 @@
 
 mirhw        -miros-fixedmisc-medium-r-normal--18-120-100-100-c-90-iso10646-1
 mirfw        -miros-fixedmisc-medium-r-normal--18-120-100-100-c-180-iso10646-1
-mirvga       -miros-fixedmisc-medium-r-normal--16-120-100-100-c-80-ibm-cp437
+mirvga       -miros-fixedmiscpc-medium-r-normal--16-120-100-100-c-80-ibm-cp437
 
 fixed        -misc-fixed-medium-r-semicondensed--13-120-75-75-c-60-iso10646-1
 variable     -*-helvetica-bold-r-normal-*-*-120-*-*-*-*-iso10646-1
