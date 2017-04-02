@@ -1705,7 +1705,7 @@ simplify_path(char *p)
 	case 0:
 		return;
 	case '/':
-#ifdef __OS2__
+#ifdef MKSH_DOSPATH
 	case '\\':
 #endif
 		/* exactly two leading slashes? (SUSv4 3.266) */

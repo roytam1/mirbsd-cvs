@@ -1136,7 +1136,7 @@ findcom(const char *name, int flags)
 	union mksh_cchack npath;
 
 	if (mksh_vdirsep(name)
-#ifdef __OS2__
+#ifdef MKSH_DOSPATH
 	    && (strcmp(name, T_builtin) != 0)
 #endif
 	    ) {
