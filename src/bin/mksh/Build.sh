@@ -594,7 +594,6 @@ if test $legacy = 0; then
 else
 	check_categories="$check_categories shell:legacy-yes"
 	add_cppflags -DMKSH_LEGACY_MODE
-	HAVE_PERSISTENT_HISTORY=0
 fi
 
 if test x"$srcdir" = x"."; then
