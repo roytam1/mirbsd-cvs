@@ -4,7 +4,7 @@
 mws_setname subprojects/mksh "mksh — the MirBSD Korn Shell"
 mws_setrss "tag_mksh.rss"
 mws_setheadline The MirBSD Korn Shell
-mws_putheader '$MirOS: www/src/mksh.hts,v 1.634 2016/11/12 01:16:12 tg Exp $'
+mws_putheader '$MirOS: www/src/mksh.hts,v 1.638 2017/03/19 22:46:57 tg Exp $'
 mws_content <<'EOF'
 <h2 id="toc">Table of Contents</h2><ul>
  <li><a href="#prefetch">Introduction</a> and Licence</li>
@@ -875,7 +875,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p id="pcur"><i>current</i>: Please remember to subscribe to the mksh
  mailing list, either directly or via GMane, if you have an interest
  in mksh, such as packaging it. Thanks! <i>(unfinished…)</i>
- <tt>make repool</tt> needs mksh R55’s bugfix on the host.
+ <tt>make repool</tt> needs mksh R55’s bugfix on the host. OS/2 builds
+ with “textmode” (CR+LF as newline) now need <tt>Build.sh -T</tt>.
+ Persistent history is now supported by lksh as well, unless explicitly
+ disabled.
 </p>
 <p id="p54">R54: Build.sh now installs both manpages (lksh.1 and
  mksh.1) independent of how it’s called. Several additional compiler
@@ -1255,6 +1258,18 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Fix padding in <tt>Lb64encode</tt> in <tt>dot.mkshrc</tt></li>
  <li>[tg] Move FAQ content to a sepatate, new FAQ section in the manpage</li>
  <li>[tg] Add new standard variable <tt>PATHSEP</tt> (‘:’, ‘;’ on OS/2)</li>
+ <li>[Martijn Dekker] Fix <tt>LINENO</tt> in eval and alias</li>
+ <li>[komh] Fix “\builtin” on OS/2</li>
+ <li>[tg] Improve (internal) character classes code for speed</li>
+ <li>[tg] Fix: the underscore is no drive letter</li>
+ <li>[tg] No longer hard-disable persistent history support in lksh</li>
+ <li>[tg] Introduce build flag <tt>-T</tt> for enabling “textmode” on OS/2
+  (supporting CR+LF line endings, but incompatible with mksh proper)</li>
+ <li>[tg] Merge <a href="https://github.com/komh/mksh-os2">mksh-os2</a></li>
+ <li>[tg] Permit changing <tt>$OS2_SHELL</tt> during a running shell</li>
+ <li>[tg] Fix multibyte handling in <tt>^R</tt> (Emacs search-history)</li>
+ <li>[tg] Allow “typeset -p arrname[2]” to work</li>
+ <li>[tg] Make some error messages more consistent</li>
 </ul>
 <p id="r54">R54 is a bugfix release with moderate new features:</p><ul>
  <li>[tg] Simplify and improve code and manual page</li>
