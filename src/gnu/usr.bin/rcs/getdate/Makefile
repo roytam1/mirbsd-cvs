@@ -11,9 +11,8 @@ NEED_RCS_LIB=	No
 
 CPPFLAGS+=	-I${CVSLIB}
 
-CLEANFILES+=	getdate.c
-getdate.c: ${CVSLIB}/getdate.c
-	cp ${.ALLSRC} $@
+${CVSLIB}/getdate.c:
+	@: avoid running yacc on it
 
 # see mircvs://contrib/code/Snippets/posixtz.c
 .if exists(/usr/lib/libposixtz.so)
@@ -28,3 +27,4 @@ check:
 	@echo all OK
 
 .include <bsd.prog.mk>
+.PATH.c: ${CVSLIB}

@@ -12,8 +12,8 @@ install:
 
 CPPFLAGS+=	-I${CVSLIB}
 
-CLEANFILES+=	getdate.c
-getdate.c: ${CVSLIB}/getdate.c
-	cp ${.ALLSRC} $@
+${CVSLIB}/getdate.c:
+	@: avoid running yacc on getdate.y
 
 .include <bsd.lib.mk>
+.PATH.c: ${CVSLIB}
