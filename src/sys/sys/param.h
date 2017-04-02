@@ -5,7 +5,7 @@
 /*-
  * Copyright (c) 2003, 2004, 2005, 2006, 2009, 2011, 2012, 2013, 2014
  *	The MirOS Project.  All rights reserved.
- * Copyright (c) 2002, 2003, 2007, 2008, 2015
+ * Copyright (c) 2002, 2003, 2007, 2008, 2015, 2017
  *	mirabilos <m@mirbsd.org>
  * Copyright (c) 1982, 1986, 1989, 1993
  *	The Regents of the University of California.  All rights reserved.
@@ -48,7 +48,7 @@
 #define	BSD	199306		/* System version (year & month). */
 #define BSD4_3	1
 #define BSD4_4	1
-#define	MirBSD	0x0AB7		/* minor 10-7F=prerelease; 80=release
+#define	MirBSD	0x0AB8		/* minor 10-7F=prerelease; 80=release
 				 * minor 81-9F=stable; A0-FF=unlocked
 				 */
 #ifndef _LOCORE
@@ -62,6 +62,10 @@
 #elif defined(lint) || defined(__cplusplus)
 #define	NULL		0UL
 #else
+/*
+ * unfortunately, this does not save our portable projects
+ * from needing to work with a NULL defined as just "0" :(
+ */
 #define	NULL		((void *)((__PTRDIFF_TYPE__)0UL))
 #endif
 #endif
