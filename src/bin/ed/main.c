@@ -1,4 +1,4 @@
-/*	$OpenBSD: main.c,v 1.58 2016/08/16 20:04:46 natano Exp $	*/
+/*	$OpenBSD: main.c,v 1.59 2017/01/03 20:24:29 tb Exp $	*/
 /*	$NetBSD: main.c,v 1.3 1995/03/21 09:04:44 cgd Exp $	*/
 
 /* main.c: This file contains the main control and user-interface routines
@@ -333,7 +333,7 @@ extract_addr_range(void)
 			return ERR; \
 		} \
 	} while (0)
-	
+
 
 /*  next_addr: return the next line address in the command buffer */
 static int
@@ -395,7 +395,8 @@ next_addr(void)
 				ibufp++;
 				addr_cnt++;
 				second_addr = (c == ';') ? current_addr : 1;
-				addr = addr_last;
+				if ((addr = next_addr()) < 0)
+					addr = addr_last;
 				break;
 			}
 			/* FALLTHROUGH */

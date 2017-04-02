@@ -26,6 +26,9 @@ or:
 A recent POSIX change allows 0i, making the following testcase fail:
 * i3.red
 
+A recent POSIX change allows ,n as abbreviation for 1,n failing:
+* nl.red
+
 The POSIX requirement that an address range not be used where at most
 a single address is expected has been relaxed in this version of ed.
 Therefore, the following scripts which test for compliance with this
