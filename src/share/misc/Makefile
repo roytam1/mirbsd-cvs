@@ -12,7 +12,6 @@ FILES+=	eqnchar
 FILES+=	getopt
 FILES+=	inter.phone
 FILES+=	licence.template
-FILES+=	license.template
 FILES+=	man.template
 FILES+=	mdoc.template
 FILES+=	na.phone
