@@ -47,6 +47,7 @@ int LEX_LINE_DIRECTIVE = MIN_EXTRA_SYMBOL - 4;
 #define yyrealloc xrealloc
 #define YY_TYPEDEF_YY_SIZE_T
 typedef size_t yy_size_t;
+void *yyxrealloc(void *p, yy_size_t size);
 #include "pascal-lex.c"
 
 filename_t lexer_filename = NULL, compiler_filename = NULL;
