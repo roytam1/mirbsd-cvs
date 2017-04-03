@@ -54,11 +54,6 @@ gnuauxdir	-a src/Makefile.inc src/scripts src/gnu/share \
 		   src/gnu/usr.bin/binutils/include \
 		   src/gnu/usr.bin/binutils/libiberty
 
-# All of ports needed for building base (MirOS BSD only)
-miniports	-a ports/Makefile ports/Setup.sh \
-		   ports/essentials/pkgtools \
-		   ports/devel/gmake ports/infrastructure
-
 # All of contrib needed for building a baselive cd image
 basedep		-a contrib/code/Snippets/tinyirc.c \
 		   contrib/code/jupp

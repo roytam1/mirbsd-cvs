@@ -292,12 +292,6 @@ _do-dist:
 	}
 .  endif
 .endif
-	@if [[ ! -x /usr/mpkg/bin/gmake ]] || \
-	    ! /usr/mpkg/bin/gmake --version >/dev/null; then \
-		print 'To build gcc you must have GNU make installed!'; \
-		${SUDO} rm -rf ${HOME}; \
-		exit 1; \
-	fi
 .ifndef QUICK_DIST
 	@c='${CVSROOT}'; [[ $$c = @(:@(ext|pserver):|*@(@))*@(:/)* || \
 	    -e $$c/CVSROOT/config ]] || { \
