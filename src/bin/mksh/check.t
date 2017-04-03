@@ -8263,7 +8263,7 @@ description:
 	-UMKSH_ASSUME_UTF8 => not expected, but if your OS is old,
 	 try passing HAVE_SETLOCALE_CTYPE=0 to Build.sh
 need-pass: no
-category: !os:hpux,!os:msys
+category: !os:hpux,!os:msys,!os:os2
 need-ctty: yes
 arguments: !-i!
 env-setup: !PS1=!PS2=!LC_CTYPE=en_US.UTF-8!
