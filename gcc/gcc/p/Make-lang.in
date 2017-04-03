@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/p/Make-lang.in,v 1.18 2008/12/26 16:01:20 tg Exp $
+# $MirOS: gcc/gcc/p/Make-lang.in,v 1.19 2017/04/03 02:37:01 tg Exp $
 # Top level Makefile fragment for GNU Pascal.
 #
 # Copyright (C) 1987-2005 Free Software Foundation, Inc.
@@ -433,7 +433,7 @@ pascal.rest.encap: pascal.rts pascal.utils
 # gpc1 is installed elsewhere as part of $(COMPILERS).
 
 pascal.install-dir:
-	for directory in $(prefix) $(bindir) $(unitsubdir) $(libsubdir)/include $(LIBEXECSUBDIR) \
+	for directory in $(prefix) $(bindir) $(unitsubdir) $(LIBEXECSUBDIR) \
 	                 $(infodir) $(p_inst_docdir) $(p_inst_demodir) $(p_inst_docdemodir) $(man1dir); do \
 	  mkdir -p -m 0755 $(DESTDIR)$$directory || exit 1; \
 	done
