@@ -68,16 +68,6 @@
 ./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/fpic/libgcov.a
 ./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/gpc1
 ./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/include
-./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/include/README
-./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/include/limits.h
-./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/include/syslimits.h
-./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/install-tools
-./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/install-tools/gsyslimits.h
-./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/install-tools/include
-./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/install-tools/include/README
-./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/install-tools/include/limits.h
-./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/install-tools/mkheaders
-./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/install-tools/mkheaders.conf
 ./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/libgcc.a
 ./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/libgcc_eh.a
 ./usr/lib/gcc/i386-ecce-mirbsd10/3.4.6/libgcov.a
