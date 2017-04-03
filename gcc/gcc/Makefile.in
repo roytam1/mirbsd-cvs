@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.in,v 1.10 2006/09/29 21:28:06 tg Exp $
+# $MirOS: gcc/gcc/Makefile.in,v 1.11 2017/04/03 02:37:00 tg Exp $
 #
 # Makefile for GNU Compiler Collection
 # Run 'configure' to generate Makefile from Makefile.in
@@ -1086,7 +1086,7 @@ all.cross: native gcc-cross cpp$(exeext) specs \
 	$(LIBGCC) $(EXTRA_PARTS) lang.all.cross doc
 # This is what must be made before installing GCC and converting libraries.
 start.encap: native xgcc$(exeext) cpp$(exeext) specs \
-	xlimits.h lang.start.encap @GENINSRC@ srcextra
+	lang.start.encap @GENINSRC@ srcextra
 # These can't be made until after GCC can run.
 rest.encap: $(STMP_FIXPROTO) $(LIBGCC) $(EXTRA_PARTS) lang.rest.encap
 # This is what is made with the host's compiler
@@ -1145,15 +1145,6 @@ gcc-cross: xgcc$(exeext)
 cc1$(exeext): $(C_OBJS) $(BACKEND) $(LIBDEPS)
 	$(CC) $(ALL_CFLAGS) $(LDFLAGS) -o cc1$(exeext) \
 		$(C_OBJS) $(BACKEND) $(LIBS)
-
-# Build the version of limits.h that we will install.
-xlimits.h: glimits.h limitx.h limity.h
-	if $(LIMITS_H_TEST) ; then \
-	  cat $(srcdir)/limitx.h $(srcdir)/glimits.h $(srcdir)/limity.h > tmp-xlimits.h; \
-	else \
-	  cat $(srcdir)/glimits.h > tmp-xlimits.h; \
-	fi
-	mv tmp-xlimits.h xlimits.h
 #
 # Build libgcc.a.
 
@@ -1201,9 +1192,9 @@ libgcc.mk: config.status Makefile mklibgcc $(LIB2ADD) $(LIB2ADD_ST) $(LIB2ADD_SH
 	mv tmp-libgcc.mk libgcc.mk
 
 # All the things that might cause us to want to recompile bits of libgcc.
-LIBGCC_DEPS = $(GCC_PASSES) $(LANGUAGES) stmp-int-hdrs $(STMP_FIXPROTO) \
+LIBGCC_DEPS = $(GCC_PASSES) $(LANGUAGES) $(STMP_FIXPROTO) \
 	libgcc.mk $(srcdir)/libgcc2.c $(srcdir)/libgcov.c $(TCONFIG_H) \
-	$(MACHMODE_H) longlong.h gbl-ctors.h config.status stmp-int-hdrs \
+	$(MACHMODE_H) longlong.h gbl-ctors.h config.status \
 	tsystem.h $(FPBIT) $(DPBIT) $(TPBIT) $(LIB2ADD) \
 	$(LIB2ADD_ST) $(LIB2ADD_SH) $(LIB2ADDEH) $(LIB2ADDEHDEP) \
 	$(EXTRA_PARTS) $(srcdir)/config/$(LIB1ASMSRC) \
@@ -1256,7 +1247,7 @@ stmp-multilib: $(LIBGCC_DEPS)
 # linked using GCC on systems using COFF or ELF, for the sake of C++
 # constructors.
 $(T)crtbegin.o: crtstuff.c $(GCC_PASSES) $(TCONFIG_H) auto-host.h \
-  gbl-ctors.h stmp-int-hdrs tsystem.h coretypes.h $(TM_H)
+  gbl-ctors.h tsystem.h coretypes.h $(TM_H)
 	$(GCC_FOR_TARGET) $(CRTSTUFF_CFLAGS) $(CRTSTUFF_T_CFLAGS) \
 	  @inhibit_libc@ -c $(srcdir)/crtstuff.c -DCRT_BEGIN \
 	  -o $(T)crtstmp$(objext)
@@ -1265,7 +1256,7 @@ $(T)crtbegin.o: crtstuff.c $(GCC_PASSES) $(TCONFIG_H) auto-host.h \
 	@rm -f $(T)crtstmp$(objext)
 
 $(T)crtend.o: crtstuff.c $(GCC_PASSES) $(TCONFIG_H) auto-host.h \
-  gbl-ctors.h stmp-int-hdrs tsystem.h coretypes.h $(TM_H)
+  gbl-ctors.h tsystem.h coretypes.h $(TM_H)
 	$(GCC_FOR_TARGET) $(CRTSTUFF_CFLAGS) $(CRTSTUFF_T_CFLAGS) \
 	  @inhibit_libc@ -c $(srcdir)/crtstuff.c -DCRT_END \
 	  -o $(T)crtstmp$(objext)
@@ -1275,7 +1266,7 @@ $(T)crtend.o: crtstuff.c $(GCC_PASSES) $(TCONFIG_H) auto-host.h \
 
 # These are versions of crtbegin and crtend for shared libraries.
 $(T)crtbeginS.o: crtstuff.c $(GCC_PASSES) $(TCONFIG_H) auto-host.h \
-  gbl-ctors.h stmp-int-hdrs tsystem.h coretypes.h $(TM_H)
+  gbl-ctors.h tsystem.h coretypes.h $(TM_H)
 	$(GCC_FOR_TARGET) $(CRTSTUFF_CFLAGS) $(CRTSTUFF_T_CFLAGS_S) \
 	  @inhibit_libc@ -c $(srcdir)/crtstuff.c -DCRT_BEGIN -DCRTSTUFFS_O \
 	  -o $(T)crtstmp$(objext)
@@ -1284,7 +1275,7 @@ $(T)crtbeginS.o: crtstuff.c $(GCC_PASSES) $(TCONFIG_H) auto-host.h \
 	@rm -f $(T)crtstmp$(objext)
 
 $(T)crtendS.o: crtstuff.c $(GCC_PASSES) $(TCONFIG_H) auto-host.h \
-  gbl-ctors.h stmp-int-hdrs tsystem.h coretypes.h $(TM_H)
+  gbl-ctors.h tsystem.h coretypes.h $(TM_H)
 	$(GCC_FOR_TARGET) $(CRTSTUFF_CFLAGS) $(CRTSTUFF_T_CFLAGS_S) \
 	  @inhibit_libc@ -c $(srcdir)/crtstuff.c -DCRT_END -DCRTSTUFFS_O \
 	  -o $(T)crtstmp$(objext)
@@ -1294,7 +1285,7 @@ $(T)crtendS.o: crtstuff.c $(GCC_PASSES) $(TCONFIG_H) auto-host.h \
 
 # This is a version of crtbegin for -static links.
 $(T)crtbeginT.o: crtstuff.c $(GCC_PASSES) $(TCONFIG_H) auto-host.h \
-  gbl-ctors.h stmp-int-hdrs tsystem.h coretypes.h $(TM_H)
+  gbl-ctors.h tsystem.h coretypes.h $(TM_H)
 	$(GCC_FOR_TARGET) $(CRTSTUFF_CFLAGS) $(CRTSTUFF_T_CFLAGS) \
 	  @inhibit_libc@ -c $(srcdir)/crtstuff.c -DCRT_BEGIN -DCRTSTUFFT_O \
 	  -o $(T)crtstmp$(objext)
@@ -2461,8 +2452,7 @@ unprotoize.o: protoize.c $(LIBIBERTY_HDRS)/getopt.h \
 	  $(srcdir)/protoize.c $(OUTPUT_OPTION))
 
 # This info describes the target machine, so compile with GCC just built.
-SYSCALLS.c.X: $(srcdir)/sys-types.h $(srcdir)/sys-protos.h $(GCC_PASSES) \
-   stmp-int-hdrs
+SYSCALLS.c.X: $(srcdir)/sys-types.h $(srcdir)/sys-protos.h $(GCC_PASSES)
 	-rm -f SYSCALLS.c tmp-SYSCALLS.s
 	sed -e s/TARGET_GETGROUPS_T/$(TARGET_GETGROUPS_T)/ \
 	  $(srcdir)/sys-types.h $(srcdir)/sys-protos.h > SYSCALLS.c
@@ -2527,32 +2517,6 @@ gcov-dump$(exeext): $(GCOV_DUMP_OBJS) $(LIBDEPS)
 # Build the include directory.  The stamp files are stmp-* rather than
 # s-* so that mostlyclean does not force the include directory to
 # be rebuilt.
-
-# Build the include directory
-stmp-int-hdrs: $(STMP_FIXINC) $(USER_H) xlimits.h
-# Copy in the headers provided with gcc.
-# The sed command gets just the last file name component;
-# this is necessary because VPATH could add a dirname.
-# Using basename would be simpler, but some systems don't have it.
-# The touch command is here to workaround an AIX/Linux NFS bug.
-	-if [ -d include ] ; then true; else mkdir include; chmod a+rx include; fi
-	for file in .. $(USER_H); do \
-	  if [ X$$file != X.. ]; then \
-	    realfile=`echo $$file | sed -e 's|.*/\([^/]*\)$$|\1|'`; \
-	    $(STAMP) include/$$realfile; \
-	    rm -f include/$$realfile; \
-	    cp $$file include; \
-	    chmod a+r include/$$realfile; \
-	  fi; \
-	done
-	rm -f include/limits.h
-	cp xlimits.h include/limits.h
-	chmod a+r include/limits.h
-# Install the README
-	rm -f include/README
-	cp $(srcdir)/README-fixinc include/README
-	chmod a+r include/README
-	$(STAMP) $@
 
 # fixinc.sh depends on this, not on specs directly.
 # The idea is to make sure specs gets built, but not rerun fixinc.sh
@@ -2624,7 +2588,7 @@ stmp-fixinc-fake: gsyslimits.h
 # used in native and host-x-target builds, so it's safe to link them with
 # libiberty.a.
 
-deduced.h: $(GCC_PASSES) $(srcdir)/scan-types.sh stmp-int-hdrs
+deduced.h: $(GCC_PASSES) $(srcdir)/scan-types.sh
 	if [ -d "$(SYSTEM_HEADER_DIR)" ]; \
 	then \
 	  CC="$(GCC_FOR_TARGET) $(GCC_CFLAGS) $(ALL_CPPFLAGS) -I. -I$(srcdir) -isystem include -isystem ${SYSTEM_HEADER_DIR}"; \

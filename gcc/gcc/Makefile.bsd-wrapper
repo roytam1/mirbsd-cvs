@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.57 2014/02/10 20:07:56 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.58 2017/04/03 02:37:00 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -23,7 +23,7 @@ INFO+=		doc/gcj.info
 .endif
 
 .if (${CROSS_MODE:L} == "yes") && !defined(_CROSSBUILD)
-ALL_TARGET?=	native xgcc cpp xlimits.h
+ALL_TARGET?=	native xgcc cpp
 FSFMARGS+=	LANGUAGES='c $$(CONFIG_LANGUAGES)'
 XARGS+=		GNATMAKENATIVE="--GCC=/usr/bin/mgcc --GNATLINK='/usr/bin/gnatlink --GCC=/usr/bin/mgcc --LINK=/usr/bin/mgcc'"
 .else
@@ -32,10 +32,10 @@ ALL_TARGET?=
 .if (${CROSS_MODE:L} == "yes") && !defined(_CROSSBUILD)
 INST_TARGET=	INSTALL_TARGET='install-common lang.install-normal' install
 .elif defined(_CROSSBUILD)
-INST_TARGET=	INSTALL_TARGET='install-common $$(INSTALL_HEADERS) \
+INST_TARGET=	INSTALL_TARGET='install-common \
 		$$(INSTALL_LIBGCC) lang.install-normal install-driver' install
 .else
-INST_TARGET=	INSTALL_TARGET='install-common $$(INSTALL_HEADERS) \
+INST_TARGET=	INSTALL_TARGET='install-common \
 		$$(INSTALL_LIBGCC) lang.install-normal' install
 .endif
 FSFISLIB=	No
