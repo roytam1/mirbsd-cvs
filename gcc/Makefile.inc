@@ -1,18 +1,11 @@
-# $MirOS: gcc/Makefile.inc,v 1.25 2006/11/03 01:14:03 tg Exp $
+# $MirOS: gcc/Makefile.inc,v 1.26 2009/09/12 13:52:36 tg Exp $
 
 .ifndef _MODGCC_MAKEFILE_INC
 _MODGCC_MAKEFILE_INC=1
 
 .include "Makefile.lang"
 
-.if ${OStype} != "MirBSD"
-.  if ${OStype} == "Darwin"
-GMAKE?=		/usr/bin/make
-.  endif
-.endif
-
 GCC_NATIVE?=	Yes
-GMAKE?=		/usr/mpkg/bin/gmake
 CPP=		${CC} -E
 
 .if ${NO_BOEHMGC:L} != "no"

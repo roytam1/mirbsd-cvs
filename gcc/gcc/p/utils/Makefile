@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/p/utils/Makefile,v 1.7 2006/09/20 23:04:07 tg Exp $
+# $MirOS: gcc/gcc/p/utils/Makefile,v 1.8 2007/05/19 01:18:31 tg Exp $
 # Makefile for the GNU Pascal utilities
 #
 # Copyright (C) 2002-2006 Free Software Foundation, Inc.
@@ -44,15 +44,15 @@ VPATH=$(srcdir)
 PFLAGS1=--executable-path=. --unit-path=$(GCC_DIR)/p/rts --unit-path=$(GCC_DIR)/p/units
 EXE=binobj$(exeext) gpidump$(exeext)
 EXE2=binobj gpidump
-PC_WITH_FLAGS=$(PC) --automake --executable-file-name $(UTILS_WARN) $(CFLAGS) $(PFLAGS) $(PFLAGS1)
+PC_WITH_FLAGS=$(PC) --automake --executable-file-name $(UTILS_WARN) ${CFLAGS:N-Wno-long-long} $(PFLAGS) $(PFLAGS1)
 
 all: $(EXE)
 
 binobj$(exeext): binobj.pas
-	$(PC_WITH_FLAGS) "$<"
+	$(PC_WITH_FLAGS) "${.ALLSRC:M*.pas}"
 
 gpidump$(exeext): gpidump.pas tree.inc
-	$(PC_WITH_FLAGS) -I. -I "$(GCC_DIR)/p" "$<"
+	$(PC_WITH_FLAGS) -I. -I "$(GCC_DIR)/p" "${.ALLSRC:M*.pas}"
 
 tree.inc: $(GCC_DIR)/version.c $(GCC_DIR)/tree.def $(GCC_DIR)/p/p-tree.def $(GCC_DIR)/p/module.c
 	$(SHELL) "$(srcdir)/mk-t-inc" "$(GCC_DIR)" "$@"

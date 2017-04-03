@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/p/Make-lang.in,v 1.17 2006/03/27 11:58:56 tg Exp $
+# $MirOS: gcc/gcc/p/Make-lang.in,v 1.18 2008/12/26 16:01:20 tg Exp $
 # Top level Makefile fragment for GNU Pascal.
 #
 # Copyright (C) 1987-2005 Free Software Foundation, Inc.
@@ -239,8 +239,9 @@ RTS_FLAGS_TO_PASS=$(RTS_FLAGS_TO_PASS_ALL) \
 
 # Define the names for selecting Pascal in LANGUAGES.
 # @@ Removing "pascal.rts pascal.utils" here fails for a cross-built compiler
+# (needed though, to break up a dependency cycle)
 Pascal pascal: xgpc$(exeext) gpc1$(exeext) gpc-run \
-               specs pascal.rts pascal.utils
+               specs #pascal.rts pascal.utils
 
 # Tell GNU make to ignore these if they exist.
 .PHONY: Pascal pascal
@@ -263,7 +264,7 @@ gpc-cross$(exeext): xgpc$(exeext)
 	cp xgpc$(exeext) gpc-cross$(exeext)
 
 gpc-run: $(srcdir)/p/script/gpc-run $(VERSION_FILENAME)
-	sed -e s/@version@/$(gpc_version)/ "$<" > "$@" || { rm -f "$@"; false; }
+	sed -e s/@version@/$(gpc_version)/ "$(srcdir)/p/script/gpc-run" > "$@" || { rm -f "$@"; false; }
 	chmod a+x "$@"
 
 # Headers and flags for GPC specific files.
@@ -282,7 +283,7 @@ ALL_GPC_GBE_FLAGS=$(ALL_CFLAGS) $(ALL_CPPFLAGS) $(INCLUDES) -DGPC
 
 p/gpcpp.o: p/gpcpp.c p/p-version.h p/gpc-options.h p/lang-options.h \
    $(CONFIG_H) system.h p/gpcpp.h
-	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_FLAGS) ${.ALLSRC:M*/gpcpp.c}
 
 # Language-specific object files for GPC and patched GNU Back End (GBE)
 # files (mostly language independent, but some parts require GPC specific
@@ -303,98 +304,98 @@ gpc1$(exeext): $(P) $(GPC_GCC_VERSION_DEPS) $(GPC_OBJS) $(LIBDEPS)
 	$(CC) $(ALL_GPC_FLAGS) $(LDFLAGS) -o $@ $(GPC_OBJS) $(GPC_GCC_VERSION_LINK) $(LIBS) $(EXTRA_LIBS)
 
 p/declarations.o: p/declarations.c $(P_H)
-	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_FLAGS) ${.ALLSRC:M*/declarations.c}
 
 p/expressions.o: p/expressions.c $(P_H)
-	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_FLAGS) ${.ALLSRC:M*/expressions.c}
 
 p/gpc-lex.o: p/gpc-lex.c $(srcdir)/p/pascal-lex.c p/gpcpp.h $(P_H)
-	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_FLAGS) ${.ALLSRC:M*/gpc-lex.c}
 
 p/handle-opts.c: $(srcdir)/p/opts.sum $(srcdir)/p/script/mk-handle-opts-c
 	$(SHELL) $(srcdir)/p/script/mk-handle-opts-c $(srcdir)/p/opts.sum "$@"
 
 p/lang.o: p/lang.c $(P_H) p/handle-opts.c p/gpcpp.h
-	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_FLAGS) ${.ALLSRC:M*/lang.c}
 
 p/module.o: p/module.c $(P_H) p/p-version.h
-	$(CC) -o $@ -c $(ALL_GPC_FLAGS) -DTARGET_NAME=\"$(target_alias)\" $<
+	$(CC) -o $@ -c $(ALL_GPC_FLAGS) -DTARGET_NAME=\"$(target_alias)\" ${.ALLSRC:M*/module.c}
 
 p/objects.o: p/objects.c $(P_H)
-	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_FLAGS) ${.ALLSRC:M*/objects.c}
 
 p/options.o: p/options.c $(P_H) p/lang-options.h p/gpc-options.h p/p-version.h
-	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_FLAGS) ${.ALLSRC:M*/options.c}
 
 p/parse.o: $(srcdir)/p/parse.c $(P_H)
-	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $(BIG_SWITCHFLAG) $<
+	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $(BIG_SWITCHFLAG) $(srcdir)/p/parse.c
 
 p/plant.o: $(srcdir)/p/plant.c $(P_H)
-	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $(srcdir)/p/plant.c
 
 p/predef.o: p/predef.c $(P_H) $(RTSSRCDIR)/constants.def
-	$(CC) -o $@ -c $(ALL_GPC_FLAGS) -std=gnu99 $<
+	$(CC) -o $@ -c $(ALL_GPC_FLAGS) -std=gnu99 ${.ALLSRC:M*/predef.c}
 
 p/statements.o: p/statements.c $(P_H) $(RTSSRCDIR)/constants.def $(RTS_VERSION_FILENAME)
-	$(CC) -o $@ -c $(ALL_GPC_FLAGS) -std=gnu99 -DRTS_VERSION_CHECK="\"_p_GPC_RTS_VERSION_`cat $(RTSSRCDIR)/rts-version`\"" $<
+	$(CC) -o $@ -c $(ALL_GPC_FLAGS) -std=gnu99 -DRTS_VERSION_CHECK="\"_p_GPC_RTS_VERSION_`cat $(RTSSRCDIR)/rts-version`\"" ${.ALLSRC:M*/statements.c}
 
 p/typecheck.o: p/typecheck.c $(P_H)
-	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_FLAGS) ${.ALLSRC:M*/typecheck.c}
 
 p/types.o: p/types.c $(P_H)
-	$(CC) -o $@ -c $(ALL_GPC_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_FLAGS) ${.ALLSRC:M*/types.c}
 
 p/convert.o: convert.c $(GPC_BE_H)
-	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) ${.ALLSRC:M*/convert.c}
 
 p/dbxout.o: dbxout.c $(GPC_BE_H)
-	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) ${.ALLSRC:M*/dbxout.c}
 
 p/dwarf2out.o: dwarf2out.c $(GPC_BE_H)
-	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) ${.ALLSRC:M*/dwarf2out.c}
 
 p/diagnostic.o: diagnostic.c $(GPC_BE_H)
-	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) ${.ALLSRC:M*/diagnostic.c}
 
 p/emit-rtl.o: emit-rtl.c $(GPC_BE_H)
-	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) ${.ALLSRC:M*/emit-rtl.c}
 
 p/expr.o: expr.c $(GPC_BE_H)
-	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) ${.ALLSRC:M*/expr.c}
 
 p/fold-const.o: fold-const.c $(GPC_BE_H)
-	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) ${.ALLSRC:M*/fold-const.c}
 
 p/function.o: function.c $(GPC_BE_H)
-	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) ${.ALLSRC:M*/function.c}
 
 p/gimplify.o: gimplify.c $(GPC_BE_H)
-	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) ${.ALLSRC:M*/gimplify.c}
 
 p/integrate.o: integrate.c $(GPC_BE_H)
-	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) ${.ALLSRC:M*/integrate.c}
 
 p/optabs.o: optabs.c $(GPC_BE_H)
-	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) ${.ALLSRC:M*/optabs.c}
 
 p/stmt.o: stmt.c $(GPC_BE_H)
-	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) ${.ALLSRC:M*/stmt.c}
 
 p/stor-layout.o: stor-layout.c $(GPC_BE_H)
-	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) ${.ALLSRC:M*/stor-layout.c}
 
 p/toplev.o: toplev.c $(GPC_BE_H) p/lang-options.h
 	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $(MAYBE_TARGET_DEFAULT) \
-	  $(MAYBE_USE_COLLECT2) -DTARGET_NAME=\"$(target_alias)\" $<
+	  $(MAYBE_USE_COLLECT2) -DTARGET_NAME=\"$(target_alias)\" ${.ALLSRC:M*/toplev.c}
 
 p/tree.o: tree.c tree.def $(GPC_BE_H)
-	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) ${.ALLSRC:M*/tree.c}
 
 p/varasm.o: varasm.c $(GPC_BE_H)
-	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) ${.ALLSRC:M*/varasm.c}
 
 p/version.o: version.c $(GPC_BE_H)
-	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) $<
+	$(CC) -o $@ -c $(ALL_GPC_GBE_FLAGS) ${.ALLSRC:M*/version.c}
 
 pascal.utils: xgpc$(exeext) gpc1$(exeext) pascal.rts force
 	mkdir -p p/utils

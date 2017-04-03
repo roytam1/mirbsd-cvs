@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/p/rts/Makefile.in,v 1.10 2006/09/20 23:04:06 tg Exp $
+# $MirOS: gcc/gcc/p/rts/Makefile.in,v 1.11 2007/05/19 01:18:30 tg Exp $
 # Makefile for the GNU Pascal Run Time System
 #
 # Copyright (C) 1995-2006 Free Software Foundation, Inc.
@@ -59,7 +59,7 @@ GPCSOLIB=$(DESTDIR)/$(GPCSOLIBNAME)
 PFLAGS1=--unit-path=$(VPATH) --automake
 RTS_WARN=-W -Wall -Wmissing-prototypes -Wmissing-declarations
 RTS_CFLAGS=-I. $(RTS_WARN) $(CFLAGS) $(RTSFLAGS)# -DDEBUG
-RTS_PFLAGS=$(RTS_CFLAGS) \
+RTS_PFLAGS=${RTS_CFLAGS:N-Wno-long-long} \
   -Wno-error $(PFLAGS) $(PFLAGS1) \
   -DRTS_RELEASE_STRING="'$(rts_version)'" -DGCC_VERSION="'$(GCC_VERSION)'"
 
@@ -119,26 +119,26 @@ rts.update-release:
 	$(CC) -c $(RTS_CFLAGS) -Wpointer-arith -Wwrite-strings $(CPPFLAGS) -fPIC -o "$@" "$<"
 
 rtsc.o: rtsc.pas
-	$(PC) -c -g $(RTS_PFLAGS) "$<"
+	$(PC) -c -g $(RTS_PFLAGS) "${.ALLSRC:M*/rtsc.pas}"
 
 rtsc.lo: rtsc.pas
-	$(PC) -c -g $(RTS_PFLAGS) -fPIC -o "$@" "$<"
+	$(PC) -c -g $(RTS_PFLAGS) -fPIC -o "$@" "${.ALLSRC:M*/rtsc.pas}"
 
 stamp-error-gpi: error.pas rtsc.pas string1.pas rts-version
-	$(PC) -c $(RTS_PFLAGS) --interface-only "$<"
+	$(PC) -c $(RTS_PFLAGS) --interface-only "${.ALLSRC:M*/error.pas}"
 	$(STAMP) "$@"
 
 heap.o: heap.pas stamp-error-gpi
-	$(PC) -c $(RTS_PFLAGS) --no-automake "$<"
+	$(PC) -c $(RTS_PFLAGS) --no-automake "${.ALLSRC:M*/heap.pas}"
 
 heap.lo: heap.pas stamp-error-gpi
-	$(PC) -c $(RTS_PFLAGS) --no-automake -fPIC -o "$@" "$<"
+	$(PC) -c $(RTS_PFLAGS) --no-automake -fPIC -o "$@" "${.ALLSRC:M*/heap.pas}"
 
 error.o: error.pas heap.o
-	$(PC) -c $(RTS_PFLAGS) --no-automake --implementation-only "$<"
+	$(PC) -c $(RTS_PFLAGS) --no-automake --implementation-only "${.ALLSRC:M*/error.pas}"
 
 error.lo: error.pas heap.lo
-	$(PC) -c $(RTS_PFLAGS) --no-automake --implementation-only "$<" -fPIC -o "$@"
+	$(PC) -c $(RTS_PFLAGS) --no-automake --implementation-only "${.ALLSRC:M*/error.pas}" -fPIC -o "$@"
 
 .pas.o:
 	$(PC) -c $(RTS_PFLAGS) "$<"

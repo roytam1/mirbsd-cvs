@@ -1,4 +1,4 @@
-# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.56 2014/02/09 16:48:52 tg Exp $
+# $MirOS: gcc/gcc/Makefile.bsd-wrapper,v 1.57 2014/02/10 20:07:56 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -40,8 +40,7 @@ INST_TARGET=	INSTALL_TARGET='install-common $$(INSTALL_HEADERS) \
 .endif
 FSFISLIB=	No
 FSFMAKE=	PATH=${FSFOBJDIR}/lbin:$$PATH ${XVARS} \
-		    ${GMAKE} ${FSFMARGS} ${XARGS}
-FSFMARGS+=	MAKE=${GMAKE}
+		    ${MAKE} ${FSFMARGS} ${XARGS}
 
 __LANGS=	--enable-languages=c
 .if !defined(NO_ADA) || ${NO_ADA:L} == "no"
@@ -82,7 +81,7 @@ XARGS+=		TCFLAGS="${FSFCFLAGS}"
 XARGS+=		CC_FOR_BUILD=${HOSTCC:C/ *$//:Q}
 .if ${GCC_NATIVE:L} == "yes"
 XARGS+=		BUILD_LIBIBERTY="-liberty" LIBIBERTY="-liberty" \
-		SUB_LIBERTY="-liberty" STMP_FIXINC=stmp-fixinc-fake
+		SUB_LIBERTY="-liberty" STMP_FIXINC=
 M_CPP=		mcpp
 .else
 _LIBERTY?=	${GNU_LIBIBERTY_SRC}/obj/libiberty.a

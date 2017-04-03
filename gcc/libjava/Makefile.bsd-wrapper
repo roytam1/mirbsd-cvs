@@ -1,4 +1,4 @@
-# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.21 2006/01/04 02:00:08 tg Exp $
+# $MirOS: gcc/libjava/Makefile.bsd-wrapper,v 1.22 2006/02/25 12:54:16 tg Exp $
 
 .include <bsd.own.mk>
 .include "${GNUSYSTEM_AUX_DIR}/locations.mk"
@@ -14,7 +14,7 @@ CFARGS+=	--enable-static ${CF_PIC} --prefix=/usr --disable-nls \
 		--enable-interpreter --disable-sjlj-exceptions --with-x \
 		--with-system-zlib --enable-fast-install --disable-gtk-cairo \
 		--enable-java-awt=xlib --enable-java-gc=boehm
-FSFMAKE=	${XVARS} ${GMAKE} ${FSFMARGS} ${XARGS}
+FSFMAKE=	${XVARS} ${MAKE} ${FSFMARGS} ${XARGS}
 CLEANFILES+=	deps.mk gnu/classpath/Configuration.java \
 		gnu/java/net/PlainSocketImpl\$$SocketInputStream.h \
 		gnu/java/net/PlainSocketImpl\$$SocketOutputStream.h \
