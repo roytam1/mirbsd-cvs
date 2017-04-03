@@ -1,4 +1,4 @@
-/**	$MirOS: src/include/limits.h,v 1.4 2006/10/27 15:52:55 tg Exp $ */
+/**	$MirOS: src/include/limits.h,v 1.5 2007/02/02 21:06:16 tg Exp $ */
 /*	$OpenBSD: limits.h,v 1.11 2004/06/09 17:32:10 millert Exp $	*/
 /*	$NetBSD: limits.h,v 1.7 1994/10/26 00:56:00 cgd Exp $	*/
 
@@ -92,5 +92,11 @@
 
 #include <sys/limits.h>
 #include <sys/syslimits.h>
+
+#ifndef __STRICT_ANSI__
+#define ULONG_LONG_MAX	0xffffffffffffffffULL
+#define LONG_LONG_MAX	0x7fffffffffffffffLL
+#define LONG_LONG_MIN	(-0x7fffffffffffffffLL-1LL)
+#endif
 
 #endif /* !_LIMITS_H_ */

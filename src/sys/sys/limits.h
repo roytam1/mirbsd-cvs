@@ -1,3 +1,4 @@
+/* $MirOS$ */
 /* $OpenBSD: limits.h,v 1.5 2004/09/16 13:10:57 miod Exp $ */
 /*
  * Copyright (c) 2002 Marc Espie.
@@ -70,12 +71,13 @@
 					/* max value for unsigned long */
 # define LONG_MAX	0x7fffffffffffffffL	
 					/* max value for a signed long */
-# define LONG_MIN	(-0x7fffffffffffffffL-1)	
+# define LONG_MIN	(-0x7fffffffffffffffL-1L)	
 					/* min value for a signed long */
 #else
 # define ULONG_MAX	0xffffffffUL	/* max value for an unsigned long */
 # define LONG_MAX	0x7fffffffL	/* max value for a long */
-# define LONG_MIN	(-0x7fffffffL-1)/* min value for a long */
+# define LONG_MIN	(-0x7fffffffL-1L)
+					/* min value for a long */
 #endif
 
 #if !defined(_POSIX_C_SOURCE) && !defined(_XOPEN_SOURCE) || \
@@ -84,7 +86,7 @@
 					/* max value for unsigned long long */
 # define LLONG_MAX	0x7fffffffffffffffLL	
 					/* max value for a signed long long */
-# define LLONG_MIN	(-0x7fffffffffffffffLL-1)	
+# define LLONG_MIN	(-0x7fffffffffffffffLL-1LL)	
 					/* min value for a signed long long */
 #endif
 
