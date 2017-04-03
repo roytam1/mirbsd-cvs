@@ -70,7 +70,6 @@
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/fpic/libgcc_eh.a
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/fpic/libgcov.a
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/gpc1
-./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/include
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/libgcc.a
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/libgcc_eh.a
 ./usr/lib/gcc/sparc-ecce-mirbsd10/3.4.6/libgcov.a
