@@ -1,5 +1,5 @@
 #!/bin/sh
-# $MirOS: gcc/gcc/mklibgcc.in,v 1.4 2005/12/06 23:11:59 tg Exp $
+# $MirOS: gcc/gcc/mklibgcc.in,v 1.5 2006/03/01 20:01:49 tg Exp $
 #
 # Construct makefile for libgcc.
 #   Copyright (C) 2000, 2002, 2003, 2005
@@ -82,10 +82,10 @@ make_compile='$(MAKE) GCC_FOR_TARGET="$(GCC_FOR_TARGET)" \
 	  LANGUAGES="$(LANGUAGES)"'
 
 # Dependencies for libgcc2.c
-libgcc2_c_dep='stmp-dirs $(srcdir)/libgcc2.c $(CONFIG_H) coretypes.h $(TM_H) $(MACHMODE_H) longlong.h gbl-ctors.h config.status stmp-int-hdrs tsystem.h'" $LIB2ADDEHDEP"
+libgcc2_c_dep='stmp-dirs $(srcdir)/libgcc2.c $(CONFIG_H) coretypes.h $(TM_H) $(MACHMODE_H) longlong.h gbl-ctors.h config.status tsystem.h'" $LIB2ADDEHDEP"
 
 # Dependencies for libgcov.c
-libgcov_c_dep='stmp-dirs $(srcdir)/libgcov.c $(CONFIG_H) coretypes.h $(TM_H) $(MACHMODE_H) longlong.h gbl-ctors.h config.status stmp-int-hdrs tsystem.h $(srcdir)/gcov-io.h $(srcdir)/gcov-io.c gcov-iov.h'
+libgcov_c_dep='stmp-dirs $(srcdir)/libgcov.c $(CONFIG_H) coretypes.h $(TM_H) $(MACHMODE_H) longlong.h gbl-ctors.h config.status tsystem.h $(srcdir)/gcov-io.h $(srcdir)/gcov-io.c gcov-iov.h'
 
 # Dependencies for fp-bit.c
 fpbit_c_dep='stmp-dirs config.status tsystem.h'
