@@ -4,7 +4,7 @@ PROG=		getdate
 NOMAN=		yes
 CPPFLAGS+=	-DTEST
 
-all: ${PROG} check
+all: ${PROG}
 
 NEED_RCS_LIB=	No
 .include "../Makefile.inc"
