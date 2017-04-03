@@ -204,13 +204,12 @@ if [[ $1 = shutdown ]]; then
 fi
 
 # Protect us from shooting ourselves into the foot
-dmesg | while IFS= read -r line; do
-	[[ $line = ?d[0-9]*@('<VBOX'[, >])* ]] || continue
+if dmesg | grep -q '^.w[0-9].*<VBOX[, >]'; then
 	echo Sorry, WirrtualBox is not supported.
 	echo To continue on your own risk: touch /etc/allow-vbox
 	echo But remember that vbox is buggy and often broken!
 	test -e /etc/allow-vbox || exit 1
-done
+fi
 
 # early munge point (for baselive CD)
 
@@ -477,7 +476,7 @@ dmesg | tee /var/run/dmesg.boot | cksum -ba rmd160 >/dev/wrandom
 
 # Initialise anoncvs chroot /dev directory
 i=0
-grep ':/var/anoncvs.*:/usr/libexec/anoncvssh$' /etc/master.passwd |&
+grep ':/var/anoncvs[^:]*:/usr/libexec/anoncvssh$' /etc/master.passwd |&
 while IFS=: read -p name pass rest; do
 	[[ $pass = '*' ]] || i=1
 done
@@ -843,9 +842,9 @@ grep -q '^console' /etc/ttys >/dev/null 2>&1 || rm -f /etc/ttys
 # if /etc/ttys does not exist (or was broken), install a fresh copy
 [[ -e /etc/ttys ]] || install -c -o 0 -g 0 -m 644 /etc/ttys.dist /etc/ttys
 # if /etc/ttys indicates auto-setup of console speed, do that
-grep -q '^console.*acs\.[0-9s]' /etc/ttys >/dev/null 2>&1 && \
+grep -q '^console[	 ].*acs\.[0-9s]' /etc/ttys >/dev/null 2>&1 && \
     ed -s /etc/ttys >/dev/null 2>&1 <<-EOF
-	/^console/s/acs\.[0-9]*/acs.${consspeed}/
+	/^console[	 ]/s/acs\.[0-9]*/acs.${consspeed}/
 	wq
 EOF
 
