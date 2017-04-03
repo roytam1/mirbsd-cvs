@@ -1,7 +1,8 @@
-/* A Bison parser, made by GNU Bison 2.1.  */
+/* A Bison parser, made by GNU Bison 2.3.  */
 
-/* Skeleton parser for GLR parsing with Bison,
-   Copyright (C) 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+/* Skeleton interface for Bison GLR parsers in C
+
+   Copyright (C) 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -17,6 +18,19 @@
    along with this program; if not, write to the Free Software
    Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.  */
+
+/* As a special exception, you may create a larger work that contains
+   part or all of the Bison parser skeleton and distribute that work
+   under terms of your choice, so long as that work isn't itself a
+   parser generator using the skeleton or a modified version thereof
+   as a parser skeleton.  Alternatively, if you modify or redistribute
+   the parser skeleton itself, you may (at your option) remove this
+   special exception, which will cause the skeleton and the resulting
+   Bison output files to be licensed under the GNU General Public
+   License without this special exception.
+
+   This special exception was added by the Free Software Foundation in
+   version 2.2 of Bison.  */
 
 /* Tokens.  */
 #ifndef YYTOKENTYPE
@@ -143,144 +157,64 @@
      LEX_FLOOR_DIV = 374
    };
 #endif
-/* Tokens.  */
-#define prec_lower_than_error 258
-#define prec_if 259
-#define prec_import 260
-#define p_uses 261
-#define p_else 262
-#define p_and 263
-#define p_array 264
-#define p_begin 265
-#define p_case 266
-#define p_div 267
-#define p_do 268
-#define p_downto 269
-#define p_end 270
-#define p_file 271
-#define p_for 272
-#define p_function 273
-#define p_goto 274
-#define p_if 275
-#define p_in 276
-#define p_label 277
-#define p_mod 278
-#define p_nil 279
-#define p_not 280
-#define p_of 281
-#define p_or 282
-#define p_packed 283
-#define p_procedure 284
-#define p_to 285
-#define p_program 286
-#define p_record 287
-#define p_repeat 288
-#define p_set 289
-#define p_then 290
-#define p_type 291
-#define p_until 292
-#define p_var 293
-#define p_while 294
-#define p_with 295
-#define p_absolute 296
-#define p_abstract 297
-#define p_and_then 298
-#define p_as 299
-#define p_asm 300
-#define p_attribute 301
-#define p_bindable 302
-#define p_const 303
-#define p_constructor 304
-#define p_destructor 305
-#define p_external 306
-#define p_far 307
-#define p_finalization 308
-#define p_forward 309
-#define p_implementation 310
-#define p_import 311
-#define p_inherited 312
-#define p_initialization 313
-#define p_is 314
-#define p_near 315
-#define p_object 316
-#define p_only 317
-#define p_operator 318
-#define p_otherwise 319
-#define p_or_else 320
-#define p_pow 321
-#define p_qualified 322
-#define p_restricted 323
-#define p_shl 324
-#define p_shr 325
-#define p_unit 326
-#define p_value 327
-#define p_virtual 328
-#define p_xor 329
-#define p_asmname 330
-#define p_c 331
-#define p_c_language 332
-#define p_class 333
-#define p_override 334
-#define p_reintroduce 335
-#define p_view 336
-#define p_Addr 337
-#define p_Assigned 338
-#define p_Dispose 339
-#define p_Exit 340
-#define p_FormatString 341
-#define p_New 342
-#define p_Return 343
-#define p_StringOf 344
-#define LEX_INTCONST 345
-#define LEX_INTCONST_BASE 346
-#define LEX_STRCONST 347
-#define LEX_REALCONST 348
-#define LEX_BUILTIN_PROCEDURE 349
-#define LEX_BUILTIN_PROCEDURE_WRITE 350
-#define LEX_BUILTIN_FUNCTION 351
-#define LEX_ID 352
-#define LEX_CARET_WHITE 353
-#define LEX_CARET_LETTER 354
-#define LEX_ASSIGN 355
-#define LEX_RENAME 356
-#define LEX_RANGE 357
-#define LEX_ELLIPSIS 358
-#define LEX_CONST_EQUAL 359
-#define LEX_SYMDIFF 360
-#define LEX_NE 361
-#define LEX_GE 362
-#define LEX_LE 363
-#define LEX_POWER 364
-#define LEX_BPPLUS 365
-#define LEX_BPMINUS 366
-#define LEX_CEIL_PLUS 367
-#define LEX_CEIL_MINUS 368
-#define LEX_FLOOR_PLUS 369
-#define LEX_FLOOR_MINUS 370
-#define LEX_CEIL_MULT 371
-#define LEX_CEIL_DIV 372
-#define LEX_FLOOR_MULT 373
-#define LEX_FLOOR_DIV 374
 
 
+/* Copy the first part of user declarations.  */
+#line 63 "parse.y"
+
+#ifndef GPC_PARSE_Y_FIRST_PROLOGUE
+#define GPC_PARSE_Y_FIRST_PROLOGUE
+
+#define YYMAXDEPTH 200000
+#include "gpc.h"
+#ifdef GCC_4_0
+#include "cgraph.h"
+#endif
+
+/* A few keywords of some dialects can be parsed as regular identifiers
+   and checked from the parser actions => fewer special tokens. */
+#define ASSERT_ID(id, location, pseudo_keyword) \
+  do if (!IDENTIFIER_IS_BUILT_IN (id, pseudo_keyword) || !PD_ACTIVE (IDENTIFIER_BUILT_IN_VALUE (id))) \
+    { yyerror_id (id, &location); YYERROR; } while (0)
+
+enum { od_none, od_uses, od_label, od_const, od_type, od_var, od_routine };
+union yyGLRStackItem;
+#define YYLLOC_DEFAULT(DEST, SRC, N) locations (&DEST, SRC, N)
+#ifndef GCC_3_4
+#define LOCATION_NOTE(LOC) if (current_function_decl) emit_line_note ((LOC).first_file, (LOC).first_line)
+#else
+#define LOCATION_NOTE(LOC) if (current_function_decl) \
+  { \
+    location_t loc_aux; \
+    loc_aux.file = (LOC).first_file; \
+    loc_aux.line = (LOC).first_line; \
+    emit_line_note (loc_aux); \
+  }
+#endif
+#define COPYLOC(D, S) /* @@ ? (* (YYLTYPE *) memcpy (&(D), &(S), sizeof (YYLTYPE))) */ (S)
+
+#define YYASSERT gcc_assert
+#define YYMALLOC (void *) xmalloc
+#define YYREALLOC (void *) xrealloc
+#endif
 
 
-#if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
-#line 112 "parse.y"
-typedef union YYSTYPE {
+#if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
+typedef union YYSTYPE 
+#line 110 "parse.y"
+{
   enum tree_code code;
   long itype;
   tree ttype;
-} YYSTYPE;
-/* Line 2359 of glr.c.  */
-#line 277 "parse.h"
+}
+/* Line 2616 of glr.c.  */
+#line 212 "parse.h"
+	YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
 #endif
 
-extern YYSTYPE yylval;
-
-#if ! defined (YYLTYPE) && ! defined (YYLTYPE_IS_DECLARED)
+#if ! defined YYLTYPE && ! defined YYLTYPE_IS_DECLARED
 typedef struct YYLTYPE
 {
 
@@ -293,6 +227,9 @@ typedef struct YYLTYPE
 # define YYLTYPE_IS_DECLARED 1
 # define YYLTYPE_IS_TRIVIAL 1
 #endif
+
+
+extern YYSTYPE yylval;
 
 extern YYLTYPE yylloc;
 

@@ -1,7 +1,8 @@
-/* A Bison parser, made by GNU Bison 2.1.  */
+/* A Bison parser, made by GNU Bison 2.3.  */
 
-/* Skeleton parser for GLR parsing with Bison,
-   Copyright (C) 2002, 2003, 2004, 2005 Free Software Foundation, Inc.
+/* Skeleton implementation for Bison GLR parsers in C
+
+   Copyright (C) 2002, 2003, 2004, 2005, 2006 Free Software Foundation, Inc.
 
    This program is free software; you can redistribute it and/or modify
    it under the terms of the GNU General Public License as published by
@@ -18,13 +19,26 @@
    Foundation, Inc., 51 Franklin Street, Fifth Floor,
    Boston, MA 02110-1301, USA.  */
 
-/* This is the parser code for GLR (Generalized LR) parser. */
+/* As a special exception, you may create a larger work that contains
+   part or all of the Bison parser skeleton and distribute that work
+   under terms of your choice, so long as that work isn't itself a
+   parser generator using the skeleton or a modified version thereof
+   as a parser skeleton.  Alternatively, if you modify or redistribute
+   the parser skeleton itself, you may (at your option) remove this
+   special exception, which will cause the skeleton and the resulting
+   Bison output files to be licensed under the GNU General Public
+   License without this special exception.
+
+   This special exception was added by the Free Software Foundation in
+   version 2.2 of Bison.  */
+
+/* C GLR parser skeleton written by Paul Hilfinger.  */
 
 /* Identify Bison output.  */
 #define YYBISON 1
 
 /* Bison version.  */
-#define YYBISON_VERSION "2.1"
+#define YYBISON_VERSION "2.3"
 
 /* Skeleton name.  */
 #define YYSKELETON_NAME "glr.c"
@@ -37,294 +51,10 @@
 
 
 
-/* Tokens.  */
-#ifndef YYTOKENTYPE
-# define YYTOKENTYPE
-   /* Put the tokens into the symbol table, so that GDB and other debuggers
-      know about them.  */
-   enum yytokentype {
-     prec_lower_than_error = 258,
-     prec_if = 259,
-     prec_import = 260,
-     p_uses = 261,
-     p_else = 262,
-     p_and = 263,
-     p_array = 264,
-     p_begin = 265,
-     p_case = 266,
-     p_div = 267,
-     p_do = 268,
-     p_downto = 269,
-     p_end = 270,
-     p_file = 271,
-     p_for = 272,
-     p_function = 273,
-     p_goto = 274,
-     p_if = 275,
-     p_in = 276,
-     p_label = 277,
-     p_mod = 278,
-     p_nil = 279,
-     p_not = 280,
-     p_of = 281,
-     p_or = 282,
-     p_packed = 283,
-     p_procedure = 284,
-     p_to = 285,
-     p_program = 286,
-     p_record = 287,
-     p_repeat = 288,
-     p_set = 289,
-     p_then = 290,
-     p_type = 291,
-     p_until = 292,
-     p_var = 293,
-     p_while = 294,
-     p_with = 295,
-     p_absolute = 296,
-     p_abstract = 297,
-     p_and_then = 298,
-     p_as = 299,
-     p_asm = 300,
-     p_attribute = 301,
-     p_bindable = 302,
-     p_const = 303,
-     p_constructor = 304,
-     p_destructor = 305,
-     p_external = 306,
-     p_far = 307,
-     p_finalization = 308,
-     p_forward = 309,
-     p_implementation = 310,
-     p_import = 311,
-     p_inherited = 312,
-     p_initialization = 313,
-     p_is = 314,
-     p_near = 315,
-     p_object = 316,
-     p_only = 317,
-     p_operator = 318,
-     p_otherwise = 319,
-     p_or_else = 320,
-     p_pow = 321,
-     p_qualified = 322,
-     p_restricted = 323,
-     p_shl = 324,
-     p_shr = 325,
-     p_unit = 326,
-     p_value = 327,
-     p_virtual = 328,
-     p_xor = 329,
-     p_asmname = 330,
-     p_c = 331,
-     p_c_language = 332,
-     p_class = 333,
-     p_override = 334,
-     p_reintroduce = 335,
-     p_view = 336,
-     p_Addr = 337,
-     p_Assigned = 338,
-     p_Dispose = 339,
-     p_Exit = 340,
-     p_FormatString = 341,
-     p_New = 342,
-     p_Return = 343,
-     p_StringOf = 344,
-     LEX_INTCONST = 345,
-     LEX_INTCONST_BASE = 346,
-     LEX_STRCONST = 347,
-     LEX_REALCONST = 348,
-     LEX_BUILTIN_PROCEDURE = 349,
-     LEX_BUILTIN_PROCEDURE_WRITE = 350,
-     LEX_BUILTIN_FUNCTION = 351,
-     LEX_ID = 352,
-     LEX_CARET_WHITE = 353,
-     LEX_CARET_LETTER = 354,
-     LEX_ASSIGN = 355,
-     LEX_RENAME = 356,
-     LEX_RANGE = 357,
-     LEX_ELLIPSIS = 358,
-     LEX_CONST_EQUAL = 359,
-     LEX_SYMDIFF = 360,
-     LEX_NE = 361,
-     LEX_GE = 362,
-     LEX_LE = 363,
-     LEX_POWER = 364,
-     LEX_BPPLUS = 365,
-     LEX_BPMINUS = 366,
-     LEX_CEIL_PLUS = 367,
-     LEX_CEIL_MINUS = 368,
-     LEX_FLOOR_PLUS = 369,
-     LEX_FLOOR_MINUS = 370,
-     LEX_CEIL_MULT = 371,
-     LEX_CEIL_DIV = 372,
-     LEX_FLOOR_MULT = 373,
-     LEX_FLOOR_DIV = 374
-   };
-#endif
-/* Tokens.  */
-#define prec_lower_than_error 258
-#define prec_if 259
-#define prec_import 260
-#define p_uses 261
-#define p_else 262
-#define p_and 263
-#define p_array 264
-#define p_begin 265
-#define p_case 266
-#define p_div 267
-#define p_do 268
-#define p_downto 269
-#define p_end 270
-#define p_file 271
-#define p_for 272
-#define p_function 273
-#define p_goto 274
-#define p_if 275
-#define p_in 276
-#define p_label 277
-#define p_mod 278
-#define p_nil 279
-#define p_not 280
-#define p_of 281
-#define p_or 282
-#define p_packed 283
-#define p_procedure 284
-#define p_to 285
-#define p_program 286
-#define p_record 287
-#define p_repeat 288
-#define p_set 289
-#define p_then 290
-#define p_type 291
-#define p_until 292
-#define p_var 293
-#define p_while 294
-#define p_with 295
-#define p_absolute 296
-#define p_abstract 297
-#define p_and_then 298
-#define p_as 299
-#define p_asm 300
-#define p_attribute 301
-#define p_bindable 302
-#define p_const 303
-#define p_constructor 304
-#define p_destructor 305
-#define p_external 306
-#define p_far 307
-#define p_finalization 308
-#define p_forward 309
-#define p_implementation 310
-#define p_import 311
-#define p_inherited 312
-#define p_initialization 313
-#define p_is 314
-#define p_near 315
-#define p_object 316
-#define p_only 317
-#define p_operator 318
-#define p_otherwise 319
-#define p_or_else 320
-#define p_pow 321
-#define p_qualified 322
-#define p_restricted 323
-#define p_shl 324
-#define p_shr 325
-#define p_unit 326
-#define p_value 327
-#define p_virtual 328
-#define p_xor 329
-#define p_asmname 330
-#define p_c 331
-#define p_c_language 332
-#define p_class 333
-#define p_override 334
-#define p_reintroduce 335
-#define p_view 336
-#define p_Addr 337
-#define p_Assigned 338
-#define p_Dispose 339
-#define p_Exit 340
-#define p_FormatString 341
-#define p_New 342
-#define p_Return 343
-#define p_StringOf 344
-#define LEX_INTCONST 345
-#define LEX_INTCONST_BASE 346
-#define LEX_STRCONST 347
-#define LEX_REALCONST 348
-#define LEX_BUILTIN_PROCEDURE 349
-#define LEX_BUILTIN_PROCEDURE_WRITE 350
-#define LEX_BUILTIN_FUNCTION 351
-#define LEX_ID 352
-#define LEX_CARET_WHITE 353
-#define LEX_CARET_LETTER 354
-#define LEX_ASSIGN 355
-#define LEX_RENAME 356
-#define LEX_RANGE 357
-#define LEX_ELLIPSIS 358
-#define LEX_CONST_EQUAL 359
-#define LEX_SYMDIFF 360
-#define LEX_NE 361
-#define LEX_GE 362
-#define LEX_LE 363
-#define LEX_POWER 364
-#define LEX_BPPLUS 365
-#define LEX_BPMINUS 366
-#define LEX_CEIL_PLUS 367
-#define LEX_CEIL_MINUS 368
-#define LEX_FLOOR_PLUS 369
-#define LEX_FLOOR_MINUS 370
-#define LEX_CEIL_MULT 371
-#define LEX_CEIL_DIV 372
-#define LEX_FLOOR_MULT 373
-#define LEX_FLOOR_DIV 374
 
 
 
-
-/* Copy the first part of user declarations.  */
-#line 63 "parse.y"
-
-#define YYMAXDEPTH 200000
-#include "gpc.h"
-#ifdef GCC_4_0
-#include "cgraph.h"
-#endif
-
-/* A few keywords of some dialects can be parsed as regular identifiers
-   and checked from the parser actions => fewer special tokens. */
-#define ASSERT_ID(id, location, pseudo_keyword) \
-  do if (!IDENTIFIER_IS_BUILT_IN (id, pseudo_keyword) || !PD_ACTIVE (IDENTIFIER_BUILT_IN_VALUE (id))) \
-    { yyerror_id (id, &location); YYERROR; } while (0)
-
-enum { od_none, od_uses, od_label, od_const, od_type, od_var, od_routine };
-static int check_decl_order (int, int);
-
-extern int main_yyparse (void);
-#define yyparse main_yyparse
-
-union yyGLRStackItem;
-static void locations (YYLTYPE *, const union yyGLRStackItem *, int);
-#define YYLLOC_DEFAULT(DEST, SRC, N) locations (&DEST, SRC, N)
-#ifndef GCC_3_4
-#define LOCATION_NOTE(LOC) if (current_function_decl) emit_line_note ((LOC).first_file, (LOC).first_line)
-#else
-#define LOCATION_NOTE(LOC) if (current_function_decl) \
-  { \
-    location_t loc_aux; \
-    loc_aux.file = (LOC).first_file; \
-    loc_aux.line = (LOC).first_line; \
-    emit_line_note (loc_aux); \
-  }
-#endif
-#define COPYLOC(D, S) /* @@ ? (* (YYLTYPE *) memcpy (&(D), &(S), sizeof (YYLTYPE))) */ (S)
-
-#define YYASSERT gcc_assert
-#define YYMALLOC (void *) xmalloc
-#define YYREALLOC (void *) xrealloc
-
+#include "parse.h"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -344,45 +74,26 @@ static void locations (YYLTYPE *, const union yyGLRStackItem *, int);
 # define YYTOKEN_TABLE 0
 #endif
 
-#if ! defined (YYSTYPE) && ! defined (YYSTYPE_IS_DECLARED)
-#line 112 "parse.y"
-typedef union YYSTYPE {
-  enum tree_code code;
-  long itype;
-  tree ttype;
-} YYSTYPE;
-/* Line 186 of glr.c.  */
-#line 356 "parse.c"
-# define YYSTYPE_IS_DECLARED 1
-# define YYSTYPE_IS_TRIVIAL 1
-#endif
-
-#if ! defined (YYLTYPE) && ! defined (YYLTYPE_IS_DECLARED)
-typedef struct YYLTYPE
-{
-
-  int first_line;
-  int first_column;
-  int last_line;
-  int last_column;
-
-} YYLTYPE;
-# define YYLTYPE_IS_DECLARED 1
-# define YYLTYPE_IS_TRIVIAL 1
-#endif
-
 /* Default (constant) value used for initialization for null
    right-hand sides.  Unlike the standard yacc.c template,
    here we set the default value of $$ to a zeroed-out value.
    Since the default value is undefined, this behavior is
-   technically correct. */
+   technically correct.  */
 static YYSTYPE yyval_default;
 
 /* Copy the second part of user declarations.  */
+#line 116 "parse.y"
+
+static int check_decl_order (int, int);
+
+extern int main_yyparse (void);
+#define yyparse main_yyparse
+
+static void locations (YYLTYPE *, const union yyGLRStackItem *, int);
 
 
-/* Line 217 of glr.c.  */
-#line 386 "parse.c"
+/* Line 234 of glr.c.  */
+#line 97 "parse.c"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -399,6 +110,31 @@ static YYSTYPE yyval_default;
 # ifndef YY_
 #  define YY_(msgid) msgid
 # endif
+#endif
+
+/* Suppress unused-variable warnings by "using" E.  */
+#if ! defined lint || defined __GNUC__
+# define YYUSE(e) ((void) (e))
+#else
+# define YYUSE(e) /* empty */
+#endif
+
+/* Identity function, used to suppress warnings about constant conditions.  */
+#ifndef lint
+# define YYID(n) (n)
+#else
+#if (defined __STDC__ || defined __C99__FUNC__ \
+     || defined __cplusplus || defined _MSC_VER)
+static int
+YYID (int i)
+#else
+static int
+YYID (i)
+    int i;
+#endif
+{
+  return i;
+}
 #endif
 
 #ifndef YYFREE
@@ -434,7 +170,7 @@ static YYSTYPE yyval_default;
 
 #ifndef __attribute__
 /* This feature is available in gcc versions 2.5 and later.  */
-# if (!defined (__GNUC__) || __GNUC__ < 2 \
+# if (! defined __GNUC__ || __GNUC__ < 2 \
       || (__GNUC__ == 2 && __GNUC_MINOR__ < 5) || __STRICT_ANSI__)
 #  define __attribute__(Spec) /* empty */
 # endif
@@ -446,23 +182,23 @@ static YYSTYPE yyval_default;
 # define YYASSERT(condition) ((void) ((condition) || (abort (), 0)))
 #endif
 
-/* YYFINAL -- State number of the termination state. */
+/* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  70
 /* YYLAST -- Last index in YYTABLE.  */
 #define YYLAST   8810
 
-/* YYNTOKENS -- Number of terminals. */
+/* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  139
-/* YYNNTS -- Number of nonterminals. */
+/* YYNNTS -- Number of nonterminals.  */
 #define YYNNTS  294
-/* YYNRULES -- Number of rules. */
+/* YYNRULES -- Number of rules.  */
 #define YYNRULES  797
-/* YYNRULES -- Number of states. */
+/* YYNRULES -- Number of states.  */
 #define YYNSTATES  1330
-/* YYMAXRHS -- Maximum number of symbols on right-hand side of rule. */
+/* YYMAXRHS -- Maximum number of symbols on right-hand side of rule.  */
 #define YYMAXRHS 12
 /* YYMAXLEFT -- Maximum number of symbols to the left of a handle
-   accessed by $0, $-1, etc., in any rule. */
+   accessed by $0, $-1, etc., in any rule.  */
 #define YYMAXLEFT 0
 
 /* YYTRANSLATE(X) -- Bison symbol number corresponding to X.  */
@@ -603,7 +339,7 @@ static const unsigned short int yyprhs[] =
     2382,  2384,  2386,  2388,  2390,  2392,  2394,  2395
 };
 
-/* YYRHS -- A `-1'-separated list of the rules' RHS. */
+/* YYRHS -- A `-1'-separated list of the rules' RHS.  */
 static const short int yyrhs[] =
 {
      140,     0,    -1,    -1,   141,    -1,    -1,    -1,   173,   176,
@@ -851,92 +587,92 @@ static const short int yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const unsigned short int yyrline[] =
 {
-       0,   216,   216,   217,   229,   231,   228,   234,   240,   242,
-     239,   245,   246,   248,   247,   256,   258,   255,   264,   263,
-     270,   272,   269,   279,   278,   286,   285,   291,   293,   291,
-     298,   299,   304,   303,   306,   308,   307,   311,   316,   315,
-     321,   325,   327,   328,   329,   334,   333,   341,   340,   348,
-     349,   351,   356,   361,   362,   367,   368,   372,   373,   375,
-     377,   379,   384,   389,   391,   392,   397,   402,   403,   405,
-     407,   409,   414,   416,   418,   423,   423,   427,   429,   433,
-     434,   435,   440,   445,   446,   450,   451,   453,   458,   459,
-     461,   463,   465,   470,   475,   476,   482,   483,   488,   489,
-     494,   495,   500,   500,   503,   505,   511,   512,   517,   518,
-     519,   525,   526,   531,   532,   532,   535,   540,   545,   546,
-     547,   552,   557,   558,   563,   563,   579,   582,   581,   585,
-     592,   594,   596,   598,   600,   602,   606,   607,   612,   613,
-     614,   618,   620,   629,   630,   635,   634,   659,   664,   665,
-     670,   671,   674,   673,   680,   681,   686,   688,   693,   695,
-     694,   702,   707,   708,   710,   711,   713,   715,   719,   730,
-     732,   729,   746,   745,   752,   754,   751,   764,   766,   763,
-     776,   775,   784,   791,   797,   806,   808,   813,   814,   816,
-     818,   820,   824,   829,   830,   836,   836,   852,   853,   858,
-     859,   861,   863,   864,   865,   866,   868,   869,   874,   876,
-     884,   887,   889,   891,   893,   898,   900,   901,   903,   905,
-     905,   907,   909,   913,   914,   919,   920,   922,   924,   926,
-     931,   933,   939,   940,   942,   947,   948,   952,   953,   955,
-     957,   959,   963,   969,   970,   975,   977,   979,   981,   986,
-     987,   989,   991,   993,   997,  1002,  1007,  1008,  1012,  1014,
-    1019,  1021,  1023,  1025,  1027,  1031,  1033,  1042,  1044,  1046,
-    1048,  1053,  1055,  1061,  1065,  1071,  1070,  1077,  1078,  1080,
-    1085,  1086,  1090,  1091,  1092,  1097,  1098,  1100,  1105,  1107,
-    1114,  1113,  1117,  1123,  1129,  1131,  1133,  1135,  1137,  1139,
-    1143,  1144,  1146,  1151,  1152,  1154,  1161,  1172,  1175,  1177,
-    1174,  1186,  1187,  1191,  1198,  1197,  1202,  1201,  1213,  1220,
-    1219,  1223,  1229,  1238,  1239,  1243,  1248,  1250,  1253,  1252,
-    1256,  1258,  1260,  1262,  1264,  1269,  1270,  1272,  1277,  1282,
-    1283,  1288,  1289,  1291,  1293,  1295,  1297,  1302,  1303,  1307,
-    1308,  1312,  1313,  1315,  1320,  1320,  1323,  1324,  1326,  1328,
-    1330,  1332,  1337,  1338,  1340,  1342,  1346,  1348,  1350,  1352,
-    1354,  1356,  1363,  1362,  1369,  1371,  1373,  1377,  1378,  1383,
-    1385,  1389,  1390,  1395,  1396,  1401,  1402,  1403,  1407,  1412,
-    1413,  1417,  1419,  1428,  1429,  1431,  1433,  1437,  1442,  1447,
-    1448,  1454,  1459,  1460,  1464,  1466,  1468,  1470,  1467,  1475,
-    1477,  1482,  1486,  1486,  1492,  1493,  1494,  1501,  1502,  1505,
-    1504,  1508,  1510,  1512,  1514,  1516,  1518,  1520,  1521,  1523,
-    1526,  1525,  1534,  1536,  1533,  1555,  1557,  1559,  1554,  1563,
-    1565,  1562,  1569,  1568,  1573,  1572,  1576,  1581,  1586,  1587,
-    1589,  1591,  1593,  1598,  1600,  1606,  1605,  1616,  1623,  1628,
-    1630,  1635,  1636,  1641,  1642,  1644,  1646,  1648,  1654,  1653,
-    1660,  1661,  1663,  1665,  1667,  1671,  1673,  1675,  1677,  1682,
-    1684,  1686,  1691,  1692,  1697,  1698,  1703,  1705,  1707,  1709,
-    1711,  1713,  1715,  1717,  1719,  1721,  1727,  1728,  1733,  1734,
-    1738,  1739,  1744,  1749,  1751,  1758,  1771,  1773,  1778,  1779,
-    1781,  1783,  1786,  1785,  1792,  1793,  1795,  1798,  1797,  1804,
-    1805,  1807,  1809,  1811,  1813,  1818,  1820,  1822,  1823,  1824,
-    1826,  1827,  1832,  1833,  1834,  1838,  1839,  1843,  1848,  1850,
-    1855,  1856,  1857,  1862,  1863,  1863,  1863,  1863,  1863,  1863,
-    1863,  1863,  1864,  1864,  1864,  1864,  1864,  1864,  1864,  1864,
-    1864,  1868,  1880,  1894,  1895,  1900,  1902,  1906,  1907,  1909,
-    1911,  1913,  1915,  1917,  1919,  1921,  1923,  1925,  1927,  1929,
-    1931,  1933,  1935,  1937,  1942,  1943,  1945,  1954,  1958,  1960,
-    1962,  1964,  1969,  1970,  1972,  1974,  1980,  1982,  1984,  1989,
-    1994,  1995,  1997,  1999,  2000,  2004,  2005,  2010,  2012,  2017,
-    2019,  2024,  2029,  2034,  2036,  2038,  2040,  2042,  2047,  2048,
-    2050,  2055,  2056,  2061,  2063,  2068,  2069,  2071,  2073,  2075,
-    2080,  2082,  2084,  2089,  2091,  2096,  2097,  2099,  2101,  2106,
-    2108,  2115,  2116,  2120,  2121,  2122,  2126,  2127,  2128,  2129,
-    2130,  2131,  2132,  2136,  2137,  2138,  2139,  2140,  2141,  2145,
-    2146,  2147,  2148,  2149,  2150,  2154,  2155,  2156,  2157,  2161,
-    2162,  2163,  2164,  2168,  2171,  2172,  2173,  2174,  2175,  2176,
-    2182,  2183,  2184,  2185,  2186,  2187,  2188,  2189,  2190,  2191,
-    2192,  2193,  2194,  2195,  2196,  2197,  2198,  2199,  2200,  2201,
-    2202,  2203,  2204,  2208,  2209,  2210,  2211,  2215,  2216,  2217,
-    2218,  2224,  2225,  2229,  2234,  2239,  2241,  2243,  2249,  2251,
-    2255,  2257,  2262,  2263,  2268,  2273,  2274,  2275,  2276,  2277,
-    2278,  2279,  2280,  2281,  2282,  2283,  2284,  2285,  2286,  2287,
-    2288,  2289,  2290,  2291,  2292,  2293,  2294,  2295,  2296,  2297,
-    2298,  2299,  2300,  2301,  2302,  2303,  2304,  2305,  2306,  2307,
-    2308,  2309,  2310,  2311,  2312,  2313,  2314,  2315,  2316,  2317,
-    2318,  2322,  2327,  2328,  2329,  2330,  2331,  2333,  2334,  2335,
-    2339,  2347,  2352,  2357,  2361,  2366,  2371,  2377,  2378,  2383,
-    2384,  2385,  2389,  2390,  2394,  2395,  2401,  2405
+       0,   223,   223,   224,   236,   238,   235,   241,   247,   249,
+     246,   252,   253,   255,   254,   263,   265,   262,   271,   270,
+     277,   279,   276,   286,   285,   293,   292,   298,   300,   298,
+     305,   306,   311,   310,   313,   315,   314,   318,   323,   322,
+     328,   332,   334,   335,   336,   341,   340,   348,   347,   355,
+     356,   358,   363,   368,   369,   374,   375,   379,   380,   382,
+     384,   386,   391,   396,   398,   399,   404,   409,   410,   412,
+     414,   416,   421,   423,   425,   430,   430,   434,   436,   440,
+     441,   442,   447,   452,   453,   457,   458,   460,   465,   466,
+     468,   470,   472,   477,   482,   483,   489,   490,   495,   496,
+     501,   502,   507,   507,   510,   512,   518,   519,   524,   525,
+     526,   532,   533,   538,   539,   539,   542,   547,   552,   553,
+     554,   559,   564,   565,   570,   570,   586,   589,   588,   592,
+     599,   601,   603,   605,   607,   609,   613,   614,   619,   620,
+     621,   625,   627,   636,   637,   642,   641,   666,   671,   672,
+     677,   678,   681,   680,   687,   688,   693,   695,   700,   702,
+     701,   709,   714,   715,   717,   718,   720,   722,   726,   737,
+     739,   736,   753,   752,   759,   761,   758,   771,   773,   770,
+     783,   782,   791,   798,   804,   813,   815,   820,   821,   823,
+     825,   827,   831,   836,   837,   843,   843,   859,   860,   865,
+     866,   868,   870,   871,   872,   873,   875,   876,   881,   883,
+     891,   894,   896,   898,   900,   905,   907,   908,   910,   912,
+     912,   914,   916,   920,   921,   926,   927,   929,   931,   933,
+     938,   940,   946,   947,   949,   954,   955,   959,   960,   962,
+     964,   966,   970,   976,   977,   982,   984,   986,   988,   993,
+     994,   996,   998,  1000,  1004,  1009,  1014,  1015,  1019,  1021,
+    1026,  1028,  1030,  1032,  1034,  1038,  1040,  1049,  1051,  1053,
+    1055,  1060,  1062,  1068,  1072,  1078,  1077,  1084,  1085,  1087,
+    1092,  1093,  1097,  1098,  1099,  1104,  1105,  1107,  1112,  1114,
+    1121,  1120,  1124,  1130,  1136,  1138,  1140,  1142,  1144,  1146,
+    1150,  1151,  1153,  1158,  1159,  1161,  1168,  1179,  1182,  1184,
+    1181,  1193,  1194,  1198,  1205,  1204,  1209,  1208,  1220,  1227,
+    1226,  1230,  1236,  1245,  1246,  1250,  1255,  1257,  1260,  1259,
+    1263,  1265,  1267,  1269,  1271,  1276,  1277,  1279,  1284,  1289,
+    1290,  1295,  1296,  1298,  1300,  1302,  1304,  1309,  1310,  1314,
+    1315,  1319,  1320,  1322,  1327,  1327,  1330,  1331,  1333,  1335,
+    1337,  1339,  1344,  1345,  1347,  1349,  1353,  1355,  1357,  1359,
+    1361,  1363,  1370,  1369,  1376,  1378,  1380,  1384,  1385,  1390,
+    1392,  1396,  1397,  1402,  1403,  1408,  1409,  1410,  1414,  1419,
+    1420,  1424,  1426,  1435,  1436,  1438,  1440,  1444,  1449,  1454,
+    1455,  1461,  1466,  1467,  1471,  1473,  1475,  1477,  1474,  1482,
+    1484,  1489,  1493,  1493,  1499,  1500,  1501,  1508,  1509,  1512,
+    1511,  1515,  1517,  1519,  1521,  1523,  1525,  1527,  1528,  1530,
+    1533,  1532,  1541,  1543,  1540,  1562,  1564,  1566,  1561,  1570,
+    1572,  1569,  1576,  1575,  1580,  1579,  1583,  1588,  1593,  1594,
+    1596,  1598,  1600,  1605,  1607,  1613,  1612,  1623,  1630,  1635,
+    1637,  1642,  1643,  1648,  1649,  1651,  1653,  1655,  1661,  1660,
+    1667,  1668,  1670,  1672,  1674,  1678,  1680,  1682,  1684,  1689,
+    1691,  1693,  1698,  1699,  1704,  1705,  1710,  1712,  1714,  1716,
+    1718,  1720,  1722,  1724,  1726,  1728,  1734,  1735,  1740,  1741,
+    1745,  1746,  1751,  1756,  1758,  1765,  1778,  1780,  1785,  1786,
+    1788,  1790,  1793,  1792,  1799,  1800,  1802,  1805,  1804,  1811,
+    1812,  1814,  1816,  1818,  1820,  1825,  1827,  1829,  1830,  1831,
+    1833,  1834,  1839,  1840,  1841,  1845,  1846,  1850,  1855,  1857,
+    1862,  1863,  1864,  1869,  1870,  1870,  1870,  1870,  1870,  1870,
+    1870,  1870,  1871,  1871,  1871,  1871,  1871,  1871,  1871,  1871,
+    1871,  1875,  1887,  1901,  1902,  1907,  1909,  1913,  1914,  1916,
+    1918,  1920,  1922,  1924,  1926,  1928,  1930,  1932,  1934,  1936,
+    1938,  1940,  1942,  1944,  1949,  1950,  1952,  1961,  1965,  1967,
+    1969,  1971,  1976,  1977,  1979,  1981,  1987,  1989,  1991,  1996,
+    2001,  2002,  2004,  2006,  2007,  2011,  2012,  2017,  2019,  2024,
+    2026,  2031,  2036,  2041,  2043,  2045,  2047,  2049,  2054,  2055,
+    2057,  2062,  2063,  2068,  2070,  2075,  2076,  2078,  2080,  2082,
+    2087,  2089,  2091,  2096,  2098,  2103,  2104,  2106,  2108,  2113,
+    2115,  2122,  2123,  2127,  2128,  2129,  2133,  2134,  2135,  2136,
+    2137,  2138,  2139,  2143,  2144,  2145,  2146,  2147,  2148,  2152,
+    2153,  2154,  2155,  2156,  2157,  2161,  2162,  2163,  2164,  2168,
+    2169,  2170,  2171,  2175,  2178,  2179,  2180,  2181,  2182,  2183,
+    2189,  2190,  2191,  2192,  2193,  2194,  2195,  2196,  2197,  2198,
+    2199,  2200,  2201,  2202,  2203,  2204,  2205,  2206,  2207,  2208,
+    2209,  2210,  2211,  2215,  2216,  2217,  2218,  2222,  2223,  2224,
+    2225,  2231,  2232,  2236,  2241,  2246,  2248,  2250,  2256,  2258,
+    2262,  2264,  2269,  2270,  2275,  2280,  2281,  2282,  2283,  2284,
+    2285,  2286,  2287,  2288,  2289,  2290,  2291,  2292,  2293,  2294,
+    2295,  2296,  2297,  2298,  2299,  2300,  2301,  2302,  2303,  2304,
+    2305,  2306,  2307,  2308,  2309,  2310,  2311,  2312,  2313,  2314,
+    2315,  2316,  2317,  2318,  2319,  2320,  2321,  2322,  2323,  2324,
+    2325,  2329,  2334,  2335,  2336,  2337,  2338,  2340,  2341,  2342,
+    2346,  2354,  2359,  2364,  2368,  2373,  2378,  2384,  2385,  2390,
+    2391,  2392,  2396,  2397,  2401,  2402,  2408,  2412
 };
 #endif
 
 #if YYDEBUG || YYERROR_VERBOSE || YYTOKEN_TABLE
 /* YYTNAME[SYMBOL-NUM] -- String name of the symbol SYMBOL-NUM.
-   First, the terminals, then, starting at YYNTOKENS, nonterminals. */
+   First, the terminals, then, starting at YYNTOKENS, nonterminals.  */
 static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "prec_lower_than_error", "prec_if",
@@ -1221,7 +957,7 @@ static const unsigned char yyr2[] =
        1,     1,     1,     1,     1,     1,     0,     1
 };
 
-/* YYDPREC[RULE-NUM] -- Dynamic precedence of rule #RULE-NUM (0 if none). */
+/* YYDPREC[RULE-NUM] -- Dynamic precedence of rule #RULE-NUM (0 if none).  */
 static const unsigned char yydprec[] =
 {
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
@@ -1306,7 +1042,7 @@ static const unsigned char yydprec[] =
        0,     0,     0,     0,     0,     0,     0,     0
 };
 
-/* YYMERGER[RULE-NUM] -- Index of merging function for rule #RULE-NUM. */
+/* YYMERGER[RULE-NUM] -- Index of merging function for rule #RULE-NUM.  */
 static const unsigned char yymerger[] =
 {
        0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
@@ -1531,7 +1267,7 @@ static const unsigned short int yydefact[] =
      290,   288,   232,     0,     0,     0,   254,   291,   787,   244
 };
 
-/* YYPDEFGOTO[NTERM-NUM]. */
+/* YYPDEFGOTO[NTERM-NUM].  */
 static const short int yydefgoto[] =
 {
       -1,     4,     5,    85,   184,     6,   133,   453,    71,   107,
@@ -4587,7 +4323,7 @@ int yyparse (void);
 #ifndef YYLLOC_DEFAULT
 # define YYLLOC_DEFAULT(Current, Rhs, N)				\
     do									\
-      if (N)								\
+      if (YYID (N))							\
 	{								\
 	  (Current).first_line   = YYRHSLOC (Rhs, 1).first_line;	\
 	  (Current).first_column = YYRHSLOC (Rhs, 1).first_column;	\
@@ -4601,7 +4337,7 @@ int yyparse (void);
 	  (Current).first_column = (Current).last_column =		\
 	    YYRHSLOC (Rhs, 0).last_column;				\
 	}								\
-    while (0)
+    while (YYID (0))
 
 /* YY_LOCATION_PRINT -- Print the location on the stream.
    This macro was not mandated originally: define only if we know
@@ -4609,8 +4345,8 @@ int yyparse (void);
 
 # define YY_LOCATION_PRINT(File, Loc)			\
     fprintf (File, "%d.%d-%d.%d",			\
-             (Loc).first_line, (Loc).first_column,	\
-             (Loc).last_line,  (Loc).last_column)
+	     (Loc).first_line, (Loc).first_column,	\
+	     (Loc).last_line,  (Loc).last_column)
 #endif
 
 
@@ -4636,31 +4372,53 @@ typedef enum { yyok, yyaccept, yyabort, yyerr } YYRESULTTAG;
 
 #define YYCHK(YYE)							     \
    do { YYRESULTTAG yyflag = YYE; if (yyflag != yyok) return yyflag; }	     \
-   while (0)
+   while (YYID (0))
 
 #if YYDEBUG
 
-#if ! defined (YYFPRINTF)
+# ifndef YYFPRINTF
 #  define YYFPRINTF fprintf
-#endif
+# endif
 
 # define YYDPRINTF(Args)			\
 do {						\
   if (yydebug)					\
     YYFPRINTF Args;				\
-} while (0)
+} while (YYID (0))
+
+
+/*--------------------------------.
+| Print this symbol on YYOUTPUT.  |
+`--------------------------------*/
+
+/*ARGSUSED*/
+static void
+yy_symbol_value_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp)
+{
+  if (!yyvaluep)
+    return;
+  YYUSE (yylocationp);
+# ifdef YYPRINT
+  if (yytype < YYNTOKENS)
+    YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
+# else
+  YYUSE (yyoutput);
+# endif
+  switch (yytype)
+    {
+      default:
+	break;
+    }
+}
+
 
 /*--------------------------------.
 | Print this symbol on YYOUTPUT.  |
 `--------------------------------*/
 
 static void
-yysymprint (FILE *yyoutput, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocationp)
+yy_symbol_print (FILE *yyoutput, int yytype, YYSTYPE const * const yyvaluep, YYLTYPE const * const yylocationp)
 {
-  /* Pacify ``unused variable'' warnings.  */
-  (void) yyvaluep;
-  (void) yylocationp;
-
   if (yytype < YYNTOKENS)
     YYFPRINTF (yyoutput, "token %s (", yytname[yytype]);
   else
@@ -4668,30 +4426,20 @@ yysymprint (FILE *yyoutput, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocationp)
 
   YY_LOCATION_PRINT (yyoutput, *yylocationp);
   YYFPRINTF (yyoutput, ": ");
-
-# ifdef YYPRINT
-  if (yytype < YYNTOKENS)
-    YYPRINT (yyoutput, yytoknum[yytype], *yyvaluep);
-# endif
-  switch (yytype)
-    {
-      default:
-        break;
-    }
+  yy_symbol_value_print (yyoutput, yytype, yyvaluep, yylocationp);
   YYFPRINTF (yyoutput, ")");
 }
 
-
-# define YY_SYMBOL_PRINT(Title, Type, Value, Location)		\
-do {								\
-  if (yydebug)							\
-    {								\
-      YYFPRINTF (stderr, "%s ", Title);				\
-      yysymprint (stderr,					\
-                  Type, Value, Location);	\
-      YYFPRINTF (stderr, "\n");					\
-    }								\
-} while (0)
+# define YY_SYMBOL_PRINT(Title, Type, Value, Location)			    \
+do {									    \
+  if (yydebug)								    \
+    {									    \
+      YYFPRINTF (stderr, "%s ", Title);					    \
+      yy_symbol_print (stderr, Type,					    \
+		       Value, Location);  \
+      YYFPRINTF (stderr, "\n");						    \
+    }									    \
+} while (YYID (0))
 
 /* Nonzero means print parse trace.  It is left uninitialized so that
    multiple parsers can coexist.  */
@@ -4724,23 +4472,38 @@ int yydebug;
    allocation.  This is to allow allocation and initialization
    to be completed by functions that call yyexpandGLRStack before the
    stack is expanded, thus insuring that all necessary pointers get
-   properly redirected to new data. */
+   properly redirected to new data.  */
 #define YYHEADROOM 2
 
 #ifndef YYSTACKEXPANDABLE
-# if (! defined (__cplusplus) \
-      || (defined (YYLTYPE_IS_TRIVIAL) && YYLTYPE_IS_TRIVIAL \
-	  && defined (YYSTYPE_IS_TRIVIAL) && YYSTYPE_IS_TRIVIAL))
+# if (! defined __cplusplus \
+      || (defined YYLTYPE_IS_TRIVIAL && YYLTYPE_IS_TRIVIAL \
+	  && defined YYSTYPE_IS_TRIVIAL && YYSTYPE_IS_TRIVIAL))
 #  define YYSTACKEXPANDABLE 1
 # else
 #  define YYSTACKEXPANDABLE 0
 # endif
 #endif
 
+#if YYSTACKEXPANDABLE
+# define YY_RESERVE_GLRSTACK(Yystack)			\
+  do {							\
+    if (Yystack->yyspaceLeft < YYHEADROOM)		\
+      yyexpandGLRStack (Yystack);			\
+  } while (YYID (0))
+#else
+# define YY_RESERVE_GLRSTACK(Yystack)			\
+  do {							\
+    if (Yystack->yyspaceLeft < YYHEADROOM)		\
+      yyMemoryExhausted (Yystack);			\
+  } while (YYID (0))
+#endif
+
+
 #if YYERROR_VERBOSE
 
 # ifndef yystpcpy
-#  if defined (__GLIBC__) && defined (_STRING_H) && defined (_GNU_SOURCE)
+#  if defined __GLIBC__ && defined _STRING_H && defined _GNU_SOURCE
 #   define yystpcpy stpcpy
 #  else
 /* Copy YYSRC to YYDEST, returning the address of the terminating '\0' in
@@ -4822,18 +4585,18 @@ typedef short int yySymbol;
 typedef short int yyItemNum;
 
 typedef struct yyGLRState yyGLRState;
+typedef struct yyGLRStateSet yyGLRStateSet;
 typedef struct yySemanticOption yySemanticOption;
 typedef union yyGLRStackItem yyGLRStackItem;
 typedef struct yyGLRStack yyGLRStack;
-typedef struct yyGLRStateSet yyGLRStateSet;
 
 struct yyGLRState {
-  /** Type tag: always true. */
+  /** Type tag: always true.  */
   yybool yyisState;
-  /** Type tag for yysemantics. If true, yysval applies, otherwise
-   *  yyfirstVal applies. */
+  /** Type tag for yysemantics.  If true, yysval applies, otherwise
+   *  yyfirstVal applies.  */
   yybool yyresolved;
-  /** Number of corresponding LALR(1) machine state. */
+  /** Number of corresponding LALR(1) machine state.  */
   yyStateNum yylrState;
   /** Preceding state in this stack */
   yyGLRState* yypred;
@@ -4842,34 +4605,43 @@ struct yyGLRState {
   union {
     /** First in a chain of alternative reductions producing the
      *  non-terminal corresponding to this state, threaded through
-     *  yynext. */
+     *  yynext.  */
     yySemanticOption* yyfirstVal;
-    /** Semantic value for this state. */
+    /** Semantic value for this state.  */
     YYSTYPE yysval;
   } yysemantics;
-  /** Source location for this state. */
+  /** Source location for this state.  */
   YYLTYPE yyloc;
 };
 
 struct yyGLRStateSet {
   yyGLRState** yystates;
+  /** During nondeterministic operation, yylookaheadNeeds tracks which
+   *  stacks have actually needed the current lookahead.  During deterministic
+   *  operation, yylookaheadNeeds[0] is not maintained since it would merely
+   *  duplicate yychar != YYEMPTY.  */
+  yybool* yylookaheadNeeds;
   size_t yysize, yycapacity;
 };
 
 struct yySemanticOption {
-  /** Type tag: always false. */
+  /** Type tag: always false.  */
   yybool yyisState;
   /** Rule number for this reduction */
   yyRuleNum yyrule;
-  /** The last RHS state in the list of states to be reduced. */
+  /** The last RHS state in the list of states to be reduced.  */
   yyGLRState* yystate;
-  /** Next sibling in chain of options. To facilitate merging,
-   *  options are chained in decreasing order by address. */
+  /** The lookahead for this reduction.  */
+  int yyrawchar;
+  YYSTYPE yyval;
+  YYLTYPE yyloc;
+  /** Next sibling in chain of options.  To facilitate merging,
+   *  options are chained in decreasing order by address.  */
   yySemanticOption* yynext;
 };
 
-/** Type of the items in the GLR stack. The yyisState field
- *  indicates which item of the union is valid. */
+/** Type of the items in the GLR stack.  The yyisState field
+ *  indicates which item of the union is valid.  */
 union yyGLRStackItem {
   yyGLRState yystate;
   yySemanticOption yyoption;
@@ -4880,7 +4652,6 @@ struct yyGLRStack {
   /* To compute the location of the error token.  */
   yyGLRStackItem yyerror_range[3];
 
-  yySymbol* yytokenp;
   YYJMP_BUF yyexception_buffer;
   yyGLRStackItem* yyitems;
   yyGLRStackItem* yynextFree;
@@ -4890,24 +4661,26 @@ struct yyGLRStack {
   yyGLRStateSet yytops;
 };
 
-static void yyexpandGLRStack (yyGLRStack* yystack);
+#if YYSTACKEXPANDABLE
+static void yyexpandGLRStack (yyGLRStack* yystackp);
+#endif
 
-static void yyFail (yyGLRStack* yystack, const char* yymsg)
+static void yyFail (yyGLRStack* yystackp, const char* yymsg)
   __attribute__ ((__noreturn__));
 static void
-yyFail (yyGLRStack* yystack, const char* yymsg)
+yyFail (yyGLRStack* yystackp, const char* yymsg)
 {
   if (yymsg != NULL)
     yyerror (yymsg);
-  YYLONGJMP (yystack->yyexception_buffer, 1);
+  YYLONGJMP (yystackp->yyexception_buffer, 1);
 }
 
-static void yyMemoryExhausted (yyGLRStack* yystack)
+static void yyMemoryExhausted (yyGLRStack* yystackp)
   __attribute__ ((__noreturn__));
 static void
-yyMemoryExhausted (yyGLRStack* yystack)
+yyMemoryExhausted (yyGLRStack* yystackp)
 {
-  YYLONGJMP (yystack->yyexception_buffer, 2);
+  YYLONGJMP (yystackp->yyexception_buffer, 2);
 }
 
 #if YYDEBUG || YYERROR_VERBOSE
@@ -4924,8 +4697,7 @@ yytokenName (yySymbol yytoken)
 
 /** Fill in YYVSP[YYLOW1 .. YYLOW0-1] from the chain of states starting
  *  at YYVSP[YYLOW0].yystate.yypred.  Leaves YYVSP[YYLOW1].yystate.yypred
- *  containing the pointer to the next state in the chain. Assumes
- *  YYLOW1 < YYLOW0.  */
+ *  containing the pointer to the next state in the chain.  */
 static void yyfillin (yyGLRStackItem *, int, int) __attribute__ ((__unused__));
 static void
 yyfillin (yyGLRStackItem *yyvsp, int yylow0, int yylow1)
@@ -4944,8 +4716,8 @@ yyfillin (yyGLRStackItem *yyvsp, int yylow0, int yylow1)
 }
 
 /* Do nothing if YYNORMAL or if *YYLOW <= YYLOW1.  Otherwise, fill in
-   YYVSP[YYLOW1 .. *YYLOW-1] as in yyfillin and set *YYLOW = YYLOW1.
-   For convenience, always return YYLOW1.  */
+ * YYVSP[YYLOW1 .. *YYLOW-1] as in yyfillin and set *YYLOW = YYLOW1.
+ * For convenience, always return YYLOW1.  */
 static inline int yyfill (yyGLRStackItem *, int *, int, yybool)
      __attribute__ ((__unused__));
 static inline int
@@ -4962,21 +4734,20 @@ yyfill (yyGLRStackItem *yyvsp, int *yylow, int yylow1, yybool yynormal)
 /** Perform user action for rule number YYN, with RHS length YYRHSLEN,
  *  and top stack item YYVSP.  YYLVALP points to place to put semantic
  *  value ($$), and yylocp points to place for location information
- *  (@$). Returns yyok for normal return, yyaccept for YYACCEPT,
- *  yyerr for YYERROR, yyabort for YYABORT. */
-static YYRESULTTAG
+ *  (@$).  Returns yyok for normal return, yyaccept for YYACCEPT,
+ *  yyerr for YYERROR, yyabort for YYABORT.  */
+/*ARGSUSED*/ static YYRESULTTAG
 yyuserAction (yyRuleNum yyn, int yyrhslen, yyGLRStackItem* yyvsp,
 	      YYSTYPE* yyvalp,
 	      YYLTYPE* YYOPTIONAL_LOC (yylocp),
-	      yyGLRStack* yystack
-              )
+	      yyGLRStack* yystackp
+	      )
 {
   yybool yynormal __attribute__ ((__unused__)) =
-    (yystack->yysplitPoint == NULL);
+    (yystackp->yysplitPoint == NULL);
   int yylow;
-
 # undef yyerrok
-# define yyerrok (yystack->yyerrState = 0)
+# define yyerrok (yystackp->yyerrState = 0)
 # undef YYACCEPT
 # define YYACCEPT return yyaccept
 # undef YYABORT
@@ -4984,9 +4755,9 @@ yyuserAction (yyRuleNum yyn, int yyrhslen, yyGLRStackItem* yyvsp,
 # undef YYERROR
 # define YYERROR return yyerrok, yyerr
 # undef YYRECOVERING
-# define YYRECOVERING (yystack->yyerrState != 0)
+# define YYRECOVERING() (yystackp->yyerrState != 0)
 # undef yyclearin
-# define yyclearin (yychar = *(yystack->yytokenp) = YYEMPTY)
+# define yyclearin (yychar = YYEMPTY)
 # undef YYFILL
 # define YYFILL(N) yyfill (yyvsp, &yylow, N, yynormal)
 # undef YYBACKUP
@@ -4999,18 +4770,18 @@ yyuserAction (yyRuleNum yyn, int yyrhslen, yyGLRStackItem* yyvsp,
     *yyvalp = yyval_default;
   else
     *yyvalp = yyvsp[YYFILL (1-yyrhslen)].yystate.yysemantics.yysval;
-  YYLLOC_DEFAULT (*yylocp, yyvsp - yyrhslen, yyrhslen);
-  yystack->yyerror_range[1].yystate.yyloc = *yylocp;
+  YYLLOC_DEFAULT ((*yylocp), (yyvsp - yyrhslen), yyrhslen);
+  yystackp->yyerror_range[1].yystate.yyloc = *yylocp;
 
   switch (yyn)
     {
         case 2:
-#line 216 "parse.y"
+#line 223 "parse.y"
     { error ("empty input file"); ;}
     break;
 
   case 3:
-#line 218 "parse.y"
+#line 225 "parse.y"
     {
         if (co->ignore_garbage_after_dot)
           {
@@ -5021,61 +4792,61 @@ yyuserAction (yyRuleNum yyn, int yyrhslen, yyGLRStackItem* yyvsp,
     break;
 
   case 4:
-#line 229 "parse.y"
-    { initialize_module (TREE_PURPOSE ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)), build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype) ? TREE_PURPOSE ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)) : NULL_TREE, TREE_VALUE ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype))), 0); ;}
+#line 236 "parse.y"
+    { initialize_module (TREE_PURPOSE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype)), build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype) ? TREE_PURPOSE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)) : NULL_TREE, TREE_VALUE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype))), 0); ;}
     break;
 
   case 5:
-#line 231 "parse.y"
+#line 238 "parse.y"
     { start_main_program (); ;}
     break;
 
   case 6:
-#line 233 "parse.y"
+#line 240 "parse.y"
     { finish_main_program (); ;}
     break;
 
   case 7:
-#line 235 "parse.y"
+#line 242 "parse.y"
     { finalize_module (0); ;}
     break;
 
   case 8:
-#line 240 "parse.y"
-    { ASSERT_ID ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yyloc), p_interface); initialize_module ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), 1); ;}
+#line 247 "parse.y"
+    { ASSERT_ID ((((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (5))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (5))].yystate.yyloc), p_interface); initialize_module ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (5))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (5))].yystate.yysemantics.yysval.ttype), 1); ;}
     break;
 
   case 9:
-#line 242 "parse.y"
+#line 249 "parse.y"
     { start_unit_implementation (); ;}
     break;
 
   case 10:
-#line 244 "parse.y"
+#line 251 "parse.y"
     { check_forward_decls (1); ;}
     break;
 
   case 13:
-#line 248 "parse.y"
+#line 255 "parse.y"
     { ((*yyvalp).ttype) = current_module->name; finalize_module (1); ;}
     break;
 
   case 14:
-#line 250 "parse.y"
+#line 257 "parse.y"
     {
-        if ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype) && current_module->name != (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype))
+        if ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype) && current_module->name != (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype))
           error ("implementation of module `%s' following interface of module `%s'",
-                 IDENTIFIER_NAME (current_module->name), IDENTIFIER_NAME ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)));
+                 IDENTIFIER_NAME (current_module->name), IDENTIFIER_NAME ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype)));
       ;}
     break;
 
   case 15:
-#line 256 "parse.y"
-    { initialize_module ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 2); ;}
+#line 263 "parse.y"
+    { initialize_module ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), 2); ;}
     break;
 
   case 16:
-#line 258 "parse.y"
+#line 265 "parse.y"
     {
         if (co->interface_only)
           exit_compilation ();
@@ -5083,357 +4854,357 @@ yyuserAction (yyRuleNum yyn, int yyrhslen, yyGLRStackItem* yyvsp,
     break;
 
   case 18:
-#line 264 "parse.y"
-    { initialize_module ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 4); ;}
+#line 271 "parse.y"
+    { initialize_module ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), 4); ;}
     break;
 
   case 20:
-#line 270 "parse.y"
-    { ASSERT_ID ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yyloc), p_interface); ;}
+#line 277 "parse.y"
+    { ASSERT_ID ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yyloc), p_interface); ;}
     break;
 
   case 21:
-#line 272 "parse.y"
-    { initialize_module ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 2); ;}
+#line 279 "parse.y"
+    { initialize_module ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (5))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (5))].yystate.yysemantics.yysval.ttype), 2); ;}
     break;
 
   case 22:
-#line 274 "parse.y"
+#line 281 "parse.y"
     { clear_forward_decls ();  /* don't complain in poplevel */ ;}
     break;
 
   case 23:
-#line 279 "parse.y"
-    { ASSERT_ID ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yyloc), p_export); start_module_interface (); ;}
+#line 286 "parse.y"
+    { ASSERT_ID ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yyloc), p_export); start_module_interface (); ;}
     break;
 
   case 24:
-#line 281 "parse.y"
+#line 288 "parse.y"
     { create_gpi_files (); ;}
     break;
 
   case 25:
-#line 286 "parse.y"
-    { initialize_module ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), NULL_TREE, 3); ;}
+#line 293 "parse.y"
+    { initialize_module ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (4))].yystate.yysemantics.yysval.ttype), NULL_TREE, 3); ;}
     break;
 
   case 27:
-#line 291 "parse.y"
+#line 298 "parse.y"
     { current_module->implementation = 1; ;}
     break;
 
   case 28:
-#line 293 "parse.y"
+#line 300 "parse.y"
     { check_forward_decls (1); ;}
     break;
 
   case 30:
-#line 298 "parse.y"
+#line 305 "parse.y"
     { chk_dialect ("units without `implementation' part are", U_M_PASCAL); ;}
     break;
 
   case 32:
-#line 304 "parse.y"
+#line 311 "parse.y"
     { start_constructor (0); ;}
     break;
 
   case 35:
-#line 308 "parse.y"
+#line 315 "parse.y"
     { start_destructor (); ;}
     break;
 
   case 36:
-#line 310 "parse.y"
+#line 317 "parse.y"
     { finish_destructor (); ;}
     break;
 
   case 38:
-#line 316 "parse.y"
+#line 323 "parse.y"
     { start_constructor (0); ;}
     break;
 
   case 40:
-#line 322 "parse.y"
+#line 329 "parse.y"
     { finish_constructor (); ;}
     break;
 
   case 45:
-#line 334 "parse.y"
+#line 341 "parse.y"
     { chk_dialect_name ("to begin do", E_O_PASCAL); start_constructor (0); ;}
     break;
 
   case 46:
-#line 336 "parse.y"
+#line 343 "parse.y"
     { finish_constructor (); ;}
     break;
 
   case 47:
-#line 341 "parse.y"
+#line 348 "parse.y"
     { chk_dialect_name ("to end do", E_O_PASCAL); start_destructor (); ;}
     break;
 
   case 48:
-#line 343 "parse.y"
+#line 350 "parse.y"
     { finish_destructor (); ;}
     break;
 
   case 49:
-#line 348 "parse.y"
+#line 355 "parse.y"
     { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, NULL_TREE); ;}
     break;
 
   case 50:
-#line 350 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 357 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 51:
-#line 352 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 359 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 52:
-#line 357 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype) ? TREE_PURPOSE ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)) : NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype)); ;}
+#line 364 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype) ? TREE_PURPOSE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)) : NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 54:
-#line 363 "parse.y"
-    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype); ;}
+#line 370 "parse.y"
+    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype); ;}
     break;
 
   case 58:
-#line 374 "parse.y"
+#line 381 "parse.y"
     { yyerrok; ;}
     break;
 
   case 59:
-#line 376 "parse.y"
+#line 383 "parse.y"
     { error ("module specifications need an export part"); ;}
     break;
 
   case 60:
-#line 378 "parse.y"
+#line 385 "parse.y"
     { warning ("missing semicolon"); yyerrok; ;}
     break;
 
   case 61:
-#line 380 "parse.y"
+#line 387 "parse.y"
     { error ("extra semicolon"); ;}
     break;
 
   case 62:
-#line 385 "parse.y"
-    { export_interface ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 392 "parse.y"
+    { export_interface ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 63:
-#line 390 "parse.y"
-    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype); ;}
+#line 397 "parse.y"
+    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype); ;}
     break;
 
   case 65:
-#line 393 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 400 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 66:
-#line 398 "parse.y"
-    { ASSERT_ID ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yyloc), p_all); ((*yyvalp).ttype) = build_tree_list (NULL_TREE, NULL_TREE); ;}
+#line 405 "parse.y"
+    { ASSERT_ID ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yyloc), p_all); ((*yyvalp).ttype) = build_tree_list (NULL_TREE, NULL_TREE); ;}
     break;
 
   case 68:
-#line 404 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 411 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 69:
-#line 406 "parse.y"
+#line 413 "parse.y"
     { ((*yyvalp).ttype) = NULL_TREE; ;}
     break;
 
   case 70:
-#line 408 "parse.y"
+#line 415 "parse.y"
     { ((*yyvalp).ttype) = NULL_TREE; ;}
     break;
 
   case 71:
-#line 410 "parse.y"
+#line 417 "parse.y"
     { ((*yyvalp).ttype) = NULL_TREE; ;}
     break;
 
   case 72:
-#line 415 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 422 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 73:
-#line 417 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))); ;}
+#line 424 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 74:
-#line 419 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); TREE_READONLY (((*yyvalp).ttype)) = 1; ;}
+#line 426 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype)); TREE_READONLY (((*yyvalp).ttype)) = 1; ;}
     break;
 
   case 75:
-#line 423 "parse.y"
+#line 430 "parse.y"
     { do_extra_import (); ;}
     break;
 
   case 81:
-#line 436 "parse.y"
+#line 443 "parse.y"
     { warning ("missing semicolon"); yyerrok; ;}
     break;
 
   case 82:
-#line 441 "parse.y"
-    { import_interface ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype) ? IMPORT_QUALIFIED : IMPORT_ISO, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 448 "parse.y"
+    { import_interface ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (4))].yystate.yysemantics.yysval.ttype) ? IMPORT_QUALIFIED : IMPORT_ISO, (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 86:
-#line 452 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 459 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 87:
-#line 454 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 461 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 89:
-#line 460 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 467 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 90:
-#line 462 "parse.y"
+#line 469 "parse.y"
     { ((*yyvalp).ttype) = NULL_TREE; ;}
     break;
 
   case 91:
-#line 464 "parse.y"
-    { error ("missing comma"); ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 471 "parse.y"
+    { error ("missing comma"); ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 92:
-#line 466 "parse.y"
+#line 473 "parse.y"
     { ((*yyvalp).ttype) = NULL_TREE; ;}
     break;
 
   case 93:
-#line 471 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 478 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 95:
-#line 477 "parse.y"
-    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype); ;}
+#line 484 "parse.y"
+    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype); ;}
     break;
 
   case 96:
-#line 482 "parse.y"
+#line 489 "parse.y"
     { ((*yyvalp).itype) = 2 * od_none; ;}
     break;
 
   case 97:
-#line 484 "parse.y"
-    { ((*yyvalp).itype) = check_decl_order ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.itype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.itype)); ;}
+#line 491 "parse.y"
+    { ((*yyvalp).itype) = check_decl_order ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.itype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.itype)); ;}
     break;
 
   case 100:
-#line 494 "parse.y"
+#line 501 "parse.y"
     { ((*yyvalp).itype) = 2 * od_none; ;}
     break;
 
   case 101:
-#line 496 "parse.y"
-    { ((*yyvalp).itype) = check_decl_order ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.itype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.itype)); ;}
+#line 503 "parse.y"
+    { ((*yyvalp).itype) = check_decl_order ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.itype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.itype)); ;}
     break;
 
   case 102:
-#line 500 "parse.y"
+#line 507 "parse.y"
     { check_forward_decls (0); ;}
     break;
 
   case 103:
-#line 502 "parse.y"
-    { ((*yyvalp).itype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.itype); ;}
+#line 509 "parse.y"
+    { ((*yyvalp).itype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.itype); ;}
     break;
 
   case 104:
-#line 504 "parse.y"
+#line 511 "parse.y"
     { ((*yyvalp).itype) = od_label; ;}
     break;
 
   case 105:
-#line 506 "parse.y"
+#line 513 "parse.y"
     { ((*yyvalp).itype) = od_routine; ;}
     break;
 
   case 106:
-#line 511 "parse.y"
+#line 518 "parse.y"
     { ((*yyvalp).itype) = 2 * od_none; ;}
     break;
 
   case 107:
-#line 513 "parse.y"
-    { ((*yyvalp).itype) = check_decl_order ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.itype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.itype)); ;}
+#line 520 "parse.y"
+    { ((*yyvalp).itype) = check_decl_order ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.itype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.itype)); ;}
     break;
 
   case 110:
-#line 520 "parse.y"
+#line 527 "parse.y"
     { ((*yyvalp).itype) = od_routine; ;}
     break;
 
   case 111:
-#line 525 "parse.y"
+#line 532 "parse.y"
     { ((*yyvalp).itype) = 2 * od_none; ;}
     break;
 
   case 112:
-#line 527 "parse.y"
-    { ((*yyvalp).itype) = check_decl_order ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.itype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.itype)); ;}
+#line 534 "parse.y"
+    { ((*yyvalp).itype) = check_decl_order ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.itype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.itype)); ;}
     break;
 
   case 114:
-#line 532 "parse.y"
+#line 539 "parse.y"
     { check_forward_decls (0); ;}
     break;
 
   case 115:
-#line 534 "parse.y"
-    { ((*yyvalp).itype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.itype); ;}
+#line 541 "parse.y"
+    { ((*yyvalp).itype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.itype); ;}
     break;
 
   case 116:
-#line 536 "parse.y"
+#line 543 "parse.y"
     { ((*yyvalp).itype) = od_routine; ;}
     break;
 
   case 117:
-#line 541 "parse.y"
+#line 548 "parse.y"
     { ((*yyvalp).itype) = od_uses; ;}
     break;
 
   case 120:
-#line 548 "parse.y"
+#line 555 "parse.y"
     { warning ("missing comma"); yyerrok; ;}
     break;
 
   case 121:
-#line 553 "parse.y"
-    { import_interface ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), NULL_TREE, IMPORT_USES, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 560 "parse.y"
+    { import_interface ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype), NULL_TREE, IMPORT_USES, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 123:
-#line 559 "parse.y"
-    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype); chk_dialect ("file name specification with `in' is", BORLAND_DELPHI); ;}
+#line 566 "parse.y"
+    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype); chk_dialect ("file name specification with `in' is", BORLAND_DELPHI); ;}
     break;
 
   case 124:
-#line 563 "parse.y"
+#line 570 "parse.y"
     {
 #ifndef EGCS97
         push_obstacks_nochange ();
@@ -5443,84 +5214,84 @@ yyuserAction (yyRuleNum yyn, int yyrhslen, yyGLRStackItem* yyvsp,
     break;
 
   case 125:
-#line 570 "parse.y"
+#line 577 "parse.y"
     {
 #ifndef EGCS97
         pop_obstacks ();
 #endif
-        ((*yyvalp).itype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.itype);
+        ((*yyvalp).itype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.itype);
       ;}
     break;
 
   case 126:
-#line 580 "parse.y"
+#line 587 "parse.y"
     { ((*yyvalp).itype) = od_const; ;}
     break;
 
   case 127:
-#line 582 "parse.y"
+#line 589 "parse.y"
     { current_type_list = build_tree_list (NULL_TREE, NULL_TREE); ;}
     break;
 
   case 128:
-#line 584 "parse.y"
+#line 591 "parse.y"
     { declare_types (); ((*yyvalp).itype) = od_type; ;}
     break;
 
   case 129:
-#line 586 "parse.y"
+#line 593 "parse.y"
     { ((*yyvalp).itype) = od_var; ;}
     break;
 
   case 130:
-#line 593 "parse.y"
-    { declare_label ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 600 "parse.y"
+    { declare_label ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 131:
-#line 595 "parse.y"
-    { declare_label ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 602 "parse.y"
+    { declare_label ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 132:
-#line 597 "parse.y"
+#line 604 "parse.y"
     { error ("non-label in label_list"); ;}
     break;
 
   case 133:
-#line 599 "parse.y"
-    { declare_label ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); error ("missing comma"); yyerrok; ;}
+#line 606 "parse.y"
+    { declare_label ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); error ("missing comma"); yyerrok; ;}
     break;
 
   case 134:
-#line 601 "parse.y"
+#line 608 "parse.y"
     { error ("extra comma"); ;}
     break;
 
   case 137:
-#line 608 "parse.y"
+#line 615 "parse.y"
     { chk_dialect ("non-numeric labels are", B_D_M_PASCAL); ;}
     break;
 
   case 141:
-#line 619 "parse.y"
-    { declare_constant ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 626 "parse.y"
+    { declare_constant ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 142:
-#line 622 "parse.y"
+#line 629 "parse.y"
     {
         lex_const_equal = -1;
-        declare_variables (build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-7)].yystate.yysemantics.yysval.ttype)), (((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype)), VQ_BP_CONST, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype));
+        declare_variables (build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (8))].yystate.yysemantics.yysval.ttype)), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (8))].yystate.yysemantics.yysval.ttype), build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((6) - (8))].yystate.yysemantics.yysval.ttype)), VQ_BP_CONST, (((yyGLRStackItem const *)yyvsp)[YYFILL ((7) - (8))].yystate.yysemantics.yysval.ttype));
       ;}
     break;
 
   case 145:
-#line 635 "parse.y"
+#line 642 "parse.y"
     {
-        tree t, ids = ((*yyvalp).ttype) = nreverse ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype));
-        if ((TREE_CODE ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)) == POINTER_TYPE || TREE_CODE ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)) == REFERENCE_TYPE)
-            && TREE_CODE (TREE_TYPE ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))) == FUNCTION_TYPE)
+        tree t, ids = ((*yyvalp).ttype) = nreverse ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.ttype));
+        if ((TREE_CODE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype)) == POINTER_TYPE || TREE_CODE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype)) == REFERENCE_TYPE)
+            && TREE_CODE (TREE_TYPE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype))) == FUNCTION_TYPE)
           TREE_PRIVATE (ids) = !!allow_function_calls (0);  /* kludge */
         /* With `begin var Foo: Integer; Foo := ...' where `Foo'
            is a built-in identifier, parser look-ahead would already get
@@ -5532,114 +5303,114 @@ yyuserAction (yyRuleNum yyn, int yyrhslen, yyGLRStackItem* yyvsp,
     break;
 
   case 146:
-#line 648 "parse.y"
+#line 655 "parse.y"
     {
-        tree t, ids = (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype);
+        tree t, ids = (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (8))].yystate.yysemantics.yysval.ttype);
         for (t = ids; t; t = TREE_CHAIN (t))
           PASCAL_PENDING_DECLARATION (TREE_VALUE (t)) = 0;
         lex_const_equal = -1;
-        ((*yyvalp).ttype) = declare_variables (ids, (((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), 0, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype));
-        if ((TREE_CODE ((((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype)) == POINTER_TYPE || TREE_CODE ((((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype)) == REFERENCE_TYPE)
-            && TREE_CODE (TREE_TYPE ((((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype))) == FUNCTION_TYPE)
+        ((*yyvalp).ttype) = declare_variables (ids, (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (8))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((6) - (8))].yystate.yysemantics.yysval.ttype), 0, (((yyGLRStackItem const *)yyvsp)[YYFILL ((7) - (8))].yystate.yysemantics.yysval.ttype));
+        if ((TREE_CODE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (8))].yystate.yysemantics.yysval.ttype)) == POINTER_TYPE || TREE_CODE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (8))].yystate.yysemantics.yysval.ttype)) == REFERENCE_TYPE)
+            && TREE_CODE (TREE_TYPE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (8))].yystate.yysemantics.yysval.ttype))) == FUNCTION_TYPE)
           allow_function_calls (TREE_PRIVATE (ids));
         yyerrok;
       ;}
     break;
 
   case 147:
-#line 660 "parse.y"
+#line 667 "parse.y"
     { ((*yyvalp).ttype) = NULL_TREE; lex_const_equal = -1; ;}
     break;
 
   case 149:
-#line 666 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 673 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 151:
-#line 672 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 679 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 152:
-#line 674 "parse.y"
-    { ASSERT_ID ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yyloc), p_name); ;}
+#line 681 "parse.y"
+    { ASSERT_ID ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yyloc), p_name); ;}
     break;
 
   case 153:
-#line 676 "parse.y"
-    { ((*yyvalp).ttype) = tree_cons ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype))); ;}
+#line 683 "parse.y"
+    { ((*yyvalp).ttype) = tree_cons ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (5))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (5))].yystate.yysemantics.yysval.ttype), build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (5))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (5))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 155:
-#line 682 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 689 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 156:
-#line 687 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 694 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 157:
-#line 689 "parse.y"
-    { ((*yyvalp).ttype) = TREE_PURPOSE ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 696 "parse.y"
+    { ((*yyvalp).ttype) = TREE_PURPOSE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 159:
-#line 695 "parse.y"
+#line 702 "parse.y"
     { ((*yyvalp).itype) = allow_function_calls (0); lex_const_equal = -1; ;}
     break;
 
   case 160:
-#line 697 "parse.y"
+#line 704 "parse.y"
     {
-        allow_function_calls ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.itype));
-        ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype));
+        allow_function_calls ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.itype));
+        ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype));
         PASCAL_ABSOLUTE_CLAUSE (((*yyvalp).ttype)) = 1;
       ;}
     break;
 
   case 161:
-#line 703 "parse.y"
+#line 710 "parse.y"
     { ((*yyvalp).ttype) = NULL_TREE; ;}
     break;
 
   case 163:
-#line 709 "parse.y"
+#line 716 "parse.y"
     { yyerrok; ;}
     break;
 
   case 165:
-#line 712 "parse.y"
+#line 719 "parse.y"
     { error ("missing semicolon"); yyerrok; ;}
     break;
 
   case 166:
-#line 714 "parse.y"
+#line 721 "parse.y"
     { error ("extra semicolon"); ;}
     break;
 
   case 168:
-#line 720 "parse.y"
+#line 727 "parse.y"
     {
         lex_const_equal = -1;
-        if (!EM ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)))
+        if (!EM ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (5))].yystate.yysemantics.yysval.ttype)))
           {
-            if (PASCAL_TYPE_UNDISCRIMINATED_SCHEMA ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)))
+            if (PASCAL_TYPE_UNDISCRIMINATED_SCHEMA ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (5))].yystate.yysemantics.yysval.ttype)))
               chk_dialect ("undiscriminated schemata on the right side of a type definition are", GNU_PASCAL);
-            build_type_decl ((((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype));
+            build_type_decl ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (5))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (5))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (5))].yystate.yysemantics.yysval.ttype));
           }
       ;}
     break;
 
   case 169:
-#line 730 "parse.y"
+#line 737 "parse.y"
     { current_schema = start_struct (RECORD_TYPE); ;}
     break;
 
   case 170:
-#line 732 "parse.y"
+#line 739 "parse.y"
     {
         ((*yyvalp).itype) = immediate_size_expand;
         immediate_size_expand = 0;
@@ -5648,148 +5419,148 @@ yyuserAction (yyRuleNum yyn, int yyrhslen, yyGLRStackItem* yyvsp,
     break;
 
   case 171:
-#line 738 "parse.y"
+#line 745 "parse.y"
     {
-        build_type_decl ((((yyGLRStackItem const *)yyvsp)[YYFILL (-6)].yystate.yysemantics.yysval.ttype), build_schema_type ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), current_schema), 
+        build_type_decl ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (7))].yystate.yysemantics.yysval.ttype), build_schema_type ((((yyGLRStackItem const *)yyvsp)[YYFILL ((6) - (7))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (7))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((7) - (7))].yystate.yysemantics.yysval.ttype), current_schema), 
                           NULL_TREE);
-        immediate_size_expand = (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.itype);
+        immediate_size_expand = (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (7))].yystate.yysemantics.yysval.itype);
         size_volatile--;
         current_schema = NULL_TREE;
       ;}
     break;
 
   case 172:
-#line 746 "parse.y"
+#line 753 "parse.y"
     { current_schema = start_struct (RECORD_TYPE); ;}
     break;
 
   case 173:
-#line 748 "parse.y"
-    { build_schema_type (error_mark_node, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), NULL_TREE, current_schema);
+#line 755 "parse.y"
+    { build_schema_type (error_mark_node, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype), NULL_TREE, current_schema);
         current_schema = NULL_TREE;
       ;}
     break;
 
   case 174:
-#line 752 "parse.y"
-    { ((*yyvalp).ttype) = start_object_type ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), 0); ;}
+#line 759 "parse.y"
+    { ((*yyvalp).ttype) = start_object_type ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), 0); ;}
     break;
 
   case 175:
-#line 754 "parse.y"
+#line 761 "parse.y"
     { push_scope (); ;}
     break;
 
   case 176:
-#line 756 "parse.y"
+#line 763 "parse.y"
     {
         lex_const_equal = -1;
-        finish_object_type ((((yyGLRStackItem const *)yyvsp)[YYFILL (-6)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-5)].yystate.yysemantics.yysval.ttype) != NULL_TREE);
-        pop_record_level ((((yyGLRStackItem const *)yyvsp)[YYFILL (-6)].yystate.yysemantics.yysval.ttype));
+        finish_object_type ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (10))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((7) - (10))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((9) - (10))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (10))].yystate.yysemantics.yysval.ttype) != NULL_TREE);
+        pop_record_level ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (10))].yystate.yysemantics.yysval.ttype));
         yyerrok;
       ;}
     break;
 
   case 177:
-#line 764 "parse.y"
-    { ((*yyvalp).ttype) = start_object_type ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), 1); ;}
+#line 771 "parse.y"
+    { ((*yyvalp).ttype) = start_object_type ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), 1); ;}
     break;
 
   case 178:
-#line 766 "parse.y"
+#line 773 "parse.y"
     { push_scope (); ;}
     break;
 
   case 179:
-#line 768 "parse.y"
+#line 775 "parse.y"
     {
         lex_const_equal = -1;
-        finish_object_type ((((yyGLRStackItem const *)yyvsp)[YYFILL (-6)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-5)].yystate.yysemantics.yysval.ttype) != NULL_TREE);
-        pop_record_level ((((yyGLRStackItem const *)yyvsp)[YYFILL (-6)].yystate.yysemantics.yysval.ttype));
+        finish_object_type ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (10))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((7) - (10))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((9) - (10))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (10))].yystate.yysemantics.yysval.ttype) != NULL_TREE);
+        pop_record_level ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (10))].yystate.yysemantics.yysval.ttype));
         yyerrok;
       ;}
     break;
 
   case 180:
-#line 776 "parse.y"
+#line 783 "parse.y"
     { push_scope (); ;}
     break;
 
   case 181:
-#line 778 "parse.y"
+#line 785 "parse.y"
     {
         lex_const_equal = -1;
-        finish_view_type ((((yyGLRStackItem const *)yyvsp)[YYFILL (-9)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype));
+        finish_view_type ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (10))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((6) - (10))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((7) - (10))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((9) - (10))].yystate.yysemantics.yysval.ttype));
         pop_record_level (NULL_TREE);
         yyerrok;
       ;}
     break;
 
   case 182:
-#line 785 "parse.y"
+#line 792 "parse.y"
     {
         tree t = build_pascal_pointer_type (make_node (LANG_TYPE));
         PASCAL_TYPE_CLASS (t) = 1;
-        build_type_decl ((((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), t, NULL_TREE);
+        build_type_decl ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (5))].yystate.yysemantics.yysval.ttype), t, NULL_TREE);
         warning("ignored parent in Delphi forward class declaration");
       ;}
     break;
 
   case 183:
-#line 792 "parse.y"
+#line 799 "parse.y"
     {
         tree t = build_pascal_pointer_type (make_node (LANG_TYPE));
 	PASCAL_TYPE_CLASS (t) = 1;
-	build_type_decl ((((yyGLRStackItem const *)yyvsp)[YYFILL (-5)].yystate.yysemantics.yysval.ttype), t, NULL_TREE); 
+	build_type_decl ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (6))].yystate.yysemantics.yysval.ttype), t, NULL_TREE); 
       ;}
     break;
 
   case 184:
-#line 798 "parse.y"
+#line 805 "parse.y"
     {
         tree t = build_pascal_pointer_type (make_node (LANG_TYPE));
         PASCAL_TYPE_CLASS (t) = 1;
-        build_type_decl ((((yyGLRStackItem const *)yyvsp)[YYFILL (-5)].yystate.yysemantics.yysval.ttype), t, NULL_TREE);
+        build_type_decl ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (6))].yystate.yysemantics.yysval.ttype), t, NULL_TREE);
       ;}
     break;
 
   case 185:
-#line 807 "parse.y"
-    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype); ;}
+#line 814 "parse.y"
+    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype); ;}
     break;
 
   case 186:
-#line 809 "parse.y"
+#line 816 "parse.y"
     { error ("invalid schema discriminants"); ((*yyvalp).ttype) = NULL_TREE; ;}
     break;
 
   case 188:
-#line 815 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 822 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 189:
-#line 817 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); error ("missing semicolon"); yyerrok; ;}
+#line 824 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); error ("missing semicolon"); yyerrok; ;}
     break;
 
   case 190:
-#line 819 "parse.y"
+#line 826 "parse.y"
     { error ("extra semicolon"); ;}
     break;
 
   case 192:
-#line 825 "parse.y"
-    { ((*yyvalp).ttype) = build_discriminants ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), current_schema); ;}
+#line 832 "parse.y"
+    { ((*yyvalp).ttype) = build_discriminants ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), current_schema); ;}
     break;
 
   case 194:
-#line 831 "parse.y"
-    { type_attributes (&((*yyvalp).ttype), TREE_PURPOSE ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))); ;}
+#line 838 "parse.y"
+    { type_attributes (&((*yyvalp).ttype), TREE_PURPOSE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 195:
-#line 836 "parse.y"
+#line 843 "parse.y"
     {
 #ifndef EGCS97
         push_obstacks_nochange ();
@@ -5799,473 +5570,473 @@ yyuserAction (yyRuleNum yyn, int yyrhslen, yyGLRStackItem* yyvsp,
     break;
 
   case 196:
-#line 843 "parse.y"
+#line 850 "parse.y"
     {
 #ifndef EGCS97
         pop_obstacks ();
 #endif
-        ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype);
+        ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype);
       ;}
     break;
 
   case 198:
-#line 854 "parse.y"
-    { ((*yyvalp).ttype) = pascal_type_variant ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), TYPE_QUALIFIER_BINDABLE); ;}
+#line 861 "parse.y"
+    { ((*yyvalp).ttype) = pascal_type_variant ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype), TYPE_QUALIFIER_BINDABLE); ;}
     break;
 
   case 200:
-#line 860 "parse.y"
-    { ((*yyvalp).ttype) = pascal_type_variant ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), TYPE_QUALIFIER_RESTRICTED); ;}
+#line 867 "parse.y"
+    { ((*yyvalp).ttype) = pascal_type_variant ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype), TYPE_QUALIFIER_RESTRICTED); ;}
     break;
 
   case 201:
-#line 862 "parse.y"
-    { ((*yyvalp).ttype) = build_discriminated_schema_type ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 0); ;}
+#line 869 "parse.y"
+    { ((*yyvalp).ttype) = build_discriminated_schema_type ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype), 0); ;}
     break;
 
   case 205:
-#line 867 "parse.y"
+#line 874 "parse.y"
     { chk_dialect ("procedural variables and types are", B_D_M_PASCAL); ;}
     break;
 
   case 207:
-#line 870 "parse.y"
-    { defining_packed_type -= (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.itype); ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.itype) ? pack_type ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)) : (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype); ;}
+#line 877 "parse.y"
+    { defining_packed_type -= (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.itype); ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.itype) ? pack_type ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)) : (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype); ;}
     break;
 
   case 208:
-#line 875 "parse.y"
-    { chk_dialect ("schema/string discriminants are", E_O_M_PASCAL); ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype); ;}
+#line 882 "parse.y"
+    { chk_dialect ("schema/string discriminants are", E_O_M_PASCAL); ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype); ;}
     break;
 
   case 209:
-#line 877 "parse.y"
+#line 884 "parse.y"
     {
         chk_dialect ("string capacity in brackets is", U_B_D_M_PASCAL);
-        ((*yyvalp).ttype) = build_tree_list (NULL_TREE, maybe_schema_discriminant (string_may_be_char ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), 0)));
+        ((*yyvalp).ttype) = build_tree_list (NULL_TREE, maybe_schema_discriminant (string_may_be_char ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype), 0)));
       ;}
     break;
 
   case 210:
-#line 886 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, maybe_schema_discriminant (string_may_be_char ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 0))); ;}
+#line 893 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, maybe_schema_discriminant (string_may_be_char ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype), 0))); ;}
     break;
 
   case 211:
-#line 888 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), build_tree_list (NULL_TREE, maybe_schema_discriminant (string_may_be_char ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 0)))); yyerrok; ;}
+#line 895 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), build_tree_list (NULL_TREE, maybe_schema_discriminant (string_may_be_char ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), 0)))); yyerrok; ;}
     break;
 
   case 212:
-#line 890 "parse.y"
+#line 897 "parse.y"
     { error ("missing expression"); ((*yyvalp).ttype) = NULL_TREE; ;}
     break;
 
   case 213:
-#line 892 "parse.y"
-    { error ("missing comma"); ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), build_tree_list (NULL_TREE, maybe_schema_discriminant (string_may_be_char ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 0)))); yyerrok; ;}
+#line 899 "parse.y"
+    { error ("missing comma"); ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), build_tree_list (NULL_TREE, maybe_schema_discriminant (string_may_be_char ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), 0)))); yyerrok; ;}
     break;
 
   case 214:
-#line 894 "parse.y"
+#line 901 "parse.y"
     { error ("extra comma"); ;}
     break;
 
   case 215:
-#line 899 "parse.y"
-    { ((*yyvalp).ttype) = build_pascal_array_type ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype)); ;}
+#line 906 "parse.y"
+    { ((*yyvalp).ttype) = build_pascal_array_type ((((yyGLRStackItem const *)yyvsp)[YYFILL ((6) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (6))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 217:
-#line 902 "parse.y"
-    { ((*yyvalp).ttype) = build_file_type ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), 0); ;}
+#line 909 "parse.y"
+    { ((*yyvalp).ttype) = build_file_type ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (4))].yystate.yysemantics.yysval.ttype), 0); ;}
     break;
 
   case 218:
-#line 904 "parse.y"
-    { ((*yyvalp).ttype) = build_set_type ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 911 "parse.y"
+    { ((*yyvalp).ttype) = build_set_type ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 219:
-#line 905 "parse.y"
+#line 912 "parse.y"
     { push_scope (); ;}
     break;
 
   case 220:
-#line 906 "parse.y"
-    { pop_record_level ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype); yyerrok; ;}
+#line 913 "parse.y"
+    { pop_record_level ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype)); ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype); yyerrok; ;}
     break;
 
   case 221:
-#line 908 "parse.y"
+#line 915 "parse.y"
     { ((*yyvalp).ttype) = build_record (NULL_TREE, NULL_TREE, NULL_TREE); ;}
     break;
 
   case 224:
-#line 915 "parse.y"
-    { ((*yyvalp).ttype) = TREE_VALUE ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 922 "parse.y"
+    { ((*yyvalp).ttype) = TREE_VALUE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 226:
-#line 921 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
+#line 928 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
     break;
 
   case 227:
-#line 923 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); error ("missing comma"); yyerrok; ;}
+#line 930 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); error ("missing comma"); yyerrok; ;}
     break;
 
   case 228:
-#line 925 "parse.y"
+#line 932 "parse.y"
     { ((*yyvalp).ttype) = build_tree_list (error_mark_node, error_mark_node); ;}
     break;
 
   case 229:
-#line 927 "parse.y"
+#line 934 "parse.y"
     { ((*yyvalp).ttype) = build_tree_list (error_mark_node, error_mark_node); ;}
     break;
 
   case 230:
-#line 932 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 939 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 231:
-#line 934 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 941 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 232:
-#line 939 "parse.y"
+#line 946 "parse.y"
     { ((*yyvalp).ttype) = build_record (NULL_TREE, NULL_TREE, NULL_TREE); ;}
     break;
 
   case 233:
-#line 941 "parse.y"
-    { ((*yyvalp).ttype) = build_record ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), NULL_TREE, NULL_TREE); ;}
+#line 948 "parse.y"
+    { ((*yyvalp).ttype) = build_record ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype), NULL_TREE, NULL_TREE); ;}
     break;
 
   case 234:
-#line 943 "parse.y"
-    { ((*yyvalp).ttype) = build_record ((((yyGLRStackItem const *)yyvsp)[YYFILL (-6)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))); ;}
+#line 950 "parse.y"
+    { ((*yyvalp).ttype) = build_record ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (7))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (7))].yystate.yysemantics.yysval.ttype), chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (7))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((7) - (7))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 238:
-#line 954 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
+#line 961 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
     break;
 
   case 239:
-#line 956 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); error ("missing semicolon"); yyerrok; ;}
+#line 963 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); error ("missing semicolon"); yyerrok; ;}
     break;
 
   case 240:
-#line 958 "parse.y"
+#line 965 "parse.y"
     { error ("extra semicolon"); ;}
     break;
 
   case 242:
-#line 964 "parse.y"
-    { ((*yyvalp).ttype) = build_fields ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 971 "parse.y"
+    { ((*yyvalp).ttype) = build_fields ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 243:
-#line 969 "parse.y"
+#line 976 "parse.y"
     { ((*yyvalp).ttype) = NULL_TREE; ;}
     break;
 
   case 244:
-#line 971 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, build_field (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype))); ;}
+#line 978 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, build_field (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (5))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 245:
-#line 976 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), build_field ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))); ;}
+#line 983 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), build_field ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 246:
-#line 978 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), build_field ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))); ;}
+#line 985 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), build_field ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 247:
-#line 980 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE); ;}
+#line 987 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype), NULL_TREE); ;}
     break;
 
   case 248:
-#line 982 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE); ;}
+#line 989 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype), NULL_TREE); ;}
     break;
 
   case 250:
-#line 988 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
+#line 995 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
     break;
 
   case 251:
-#line 990 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); error ("missing semicolon"); yyerrok; ;}
+#line 997 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); error ("missing semicolon"); yyerrok; ;}
     break;
 
   case 252:
-#line 992 "parse.y"
+#line 999 "parse.y"
     { ((*yyvalp).ttype) = NULL_TREE; ;}
     break;
 
   case 254:
-#line 998 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), build_field (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype))); ;}
+#line 1005 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (5))].yystate.yysemantics.yysval.ttype), build_field (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (5))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 255:
-#line 1003 "parse.y"
+#line 1010 "parse.y"
     { chk_dialect ("type denoters (no identifiers) as variant tag type are", U_B_D_M_PASCAL); ;}
     break;
 
   case 258:
-#line 1013 "parse.y"
-    { ((*yyvalp).ttype) = build_enum_type (nreverse ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype))); ;}
+#line 1020 "parse.y"
+    { ((*yyvalp).ttype) = build_enum_type (nreverse ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 259:
-#line 1015 "parse.y"
+#line 1022 "parse.y"
     { ((*yyvalp).ttype) = error_mark_node; ;}
     break;
 
   case 260:
-#line 1020 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE); ;}
+#line 1027 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype), NULL_TREE); ;}
     break;
 
   case 261:
-#line 1022 "parse.y"
-    { ((*yyvalp).ttype) = tree_cons ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
+#line 1029 "parse.y"
+    { ((*yyvalp).ttype) = tree_cons ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
     break;
 
   case 262:
-#line 1024 "parse.y"
-    { ((*yyvalp).ttype) = tree_cons ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype)); error ("missing comma"); yyerrok; ;}
+#line 1031 "parse.y"
+    { ((*yyvalp).ttype) = tree_cons ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype)); error ("missing comma"); yyerrok; ;}
     break;
 
   case 263:
-#line 1026 "parse.y"
+#line 1033 "parse.y"
     { error ("extra comma"); ;}
     break;
 
   case 265:
-#line 1032 "parse.y"
-    { ((*yyvalp).ttype) = build_pascal_subrange_type ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 0); ;}
+#line 1039 "parse.y"
+    { ((*yyvalp).ttype) = build_pascal_subrange_type ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), 0); ;}
     break;
 
   case 266:
-#line 1034 "parse.y"
+#line 1041 "parse.y"
     {
-        defining_packed_type -= (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.itype);
+        defining_packed_type -= (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.itype);
         chk_dialect ("packed subrange types are", B_D_PASCAL);
-        ((*yyvalp).ttype) = build_pascal_subrange_type ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.itype));
+        ((*yyvalp).ttype) = build_pascal_subrange_type ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.itype));
       ;}
     break;
 
   case 267:
-#line 1043 "parse.y"
-    { ((*yyvalp).ttype) = EM ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)) ? error_mark_node : build_pascal_pointer_type ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1050 "parse.y"
+    { ((*yyvalp).ttype) = EM ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)) ? error_mark_node : build_pascal_pointer_type ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 268:
-#line 1045 "parse.y"
-    { ((*yyvalp).ttype) = EM ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)) ? error_mark_node : build_pascal_pointer_type ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1052 "parse.y"
+    { ((*yyvalp).ttype) = EM ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)) ? error_mark_node : build_pascal_pointer_type ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 269:
-#line 1047 "parse.y"
-    { ((*yyvalp).ttype) = EM ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)) ? error_mark_node : build_pascal_pointer_type ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1054 "parse.y"
+    { ((*yyvalp).ttype) = EM ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)) ? error_mark_node : build_pascal_pointer_type ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 270:
-#line 1049 "parse.y"
-    { ((*yyvalp).ttype) = EM ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)) ? error_mark_node : build_pascal_pointer_type (p_build_type_variant ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 1, TYPE_VOLATILE ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)))); ;}
+#line 1056 "parse.y"
+    { ((*yyvalp).ttype) = EM ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)) ? error_mark_node : build_pascal_pointer_type (p_build_type_variant ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), 1, TYPE_VOLATILE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)))); ;}
     break;
 
   case 271:
-#line 1054 "parse.y"
-    { ((*yyvalp).ttype) = get_pointer_domain_type ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1061 "parse.y"
+    { ((*yyvalp).ttype) = get_pointer_domain_type ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 272:
-#line 1056 "parse.y"
+#line 1063 "parse.y"
     {
         chk_dialect ("pointers to routines are", GNU_PASCAL);
-        gcc_assert (EM ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)) || (TREE_CODE ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)) == REFERENCE_TYPE && TREE_TYPE ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))));
-        ((*yyvalp).ttype) = TREE_TYPE ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype));
+        gcc_assert (EM ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)) || (TREE_CODE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)) == REFERENCE_TYPE && TREE_TYPE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype))));
+        ((*yyvalp).ttype) = TREE_TYPE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype));
       ;}
     break;
 
   case 274:
-#line 1066 "parse.y"
+#line 1073 "parse.y"
     { 
-        pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE);
-        ((*yyvalp).ttype) = build_procedural_type (void_type_node, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype));
+        pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype), NULL_TREE);
+        ((*yyvalp).ttype) = build_procedural_type (void_type_node, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype));
       ;}
     break;
 
   case 275:
-#line 1071 "parse.y"
-    { pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE); ;}
+#line 1078 "parse.y"
+    { pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype), NULL_TREE); ;}
     break;
 
   case 276:
-#line 1073 "parse.y"
-    { ((*yyvalp).ttype) = build_procedural_type ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1080 "parse.y"
+    { ((*yyvalp).ttype) = build_procedural_type ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 278:
-#line 1079 "parse.y"
-    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype); ;}
+#line 1086 "parse.y"
+    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype); ;}
     break;
 
   case 279:
-#line 1081 "parse.y"
+#line 1088 "parse.y"
     { ((*yyvalp).ttype) = NULL_TREE; ;}
     break;
 
   case 282:
-#line 1090 "parse.y"
-    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype); ;}
+#line 1097 "parse.y"
+    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype); ;}
     break;
 
   case 283:
-#line 1091 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1098 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 284:
-#line 1093 "parse.y"
+#line 1100 "parse.y"
     { ((*yyvalp).ttype) = error_mark_node; ;}
     break;
 
   case 286:
-#line 1099 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), build_tree_list (void_type_node, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))); ;}
+#line 1106 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype), build_tree_list (void_type_node, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 287:
-#line 1101 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
+#line 1108 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
     break;
 
   case 288:
-#line 1106 "parse.y"
-    { ((*yyvalp).ttype) = build_fields ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1113 "parse.y"
+    { ((*yyvalp).ttype) = build_fields ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 289:
-#line 1108 "parse.y"
+#line 1115 "parse.y"
     { 
-        pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE);
-        ((*yyvalp).ttype) = build_routine_heading (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE,
+        pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), NULL_TREE);
+        ((*yyvalp).ttype) = build_routine_heading (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), NULL_TREE,
                                       void_type_node, 0);
       ;}
     break;
 
   case 290:
-#line 1114 "parse.y"
-    { pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1121 "parse.y"
+    { pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 291:
-#line 1116 "parse.y"
-    { ((*yyvalp).ttype) = build_routine_heading (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 0); ;}
+#line 1123 "parse.y"
+    { ((*yyvalp).ttype) = build_routine_heading (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((6) - (6))].yystate.yysemantics.yysval.ttype), 0); ;}
     break;
 
   case 292:
-#line 1118 "parse.y"
+#line 1125 "parse.y"
     { 
-        pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE);
-        ((*yyvalp).ttype) = build_routine_heading (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE,
+        pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), NULL_TREE);
+        ((*yyvalp).ttype) = build_routine_heading (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), NULL_TREE,
                                       boolean_type_node, 1);
       ;}
     break;
 
   case 293:
-#line 1124 "parse.y"
+#line 1131 "parse.y"
     { 
-        pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE);
-        ((*yyvalp).ttype) = build_routine_heading (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE,
+        pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), NULL_TREE);
+        ((*yyvalp).ttype) = build_routine_heading (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), NULL_TREE,
                                       void_type_node, 1);
       ;}
     break;
 
   case 294:
-#line 1130 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1137 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 295:
-#line 1132 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1139 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 296:
-#line 1134 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1141 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 297:
-#line 1136 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1143 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 298:
-#line 1138 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1145 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 301:
-#line 1145 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1152 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 302:
-#line 1147 "parse.y"
+#line 1154 "parse.y"
     { ((*yyvalp).ttype) = NULL_TREE; ;}
     break;
 
   case 303:
-#line 1151 "parse.y"
+#line 1158 "parse.y"
     { lex_const_equal = -1; ;}
     break;
 
   case 304:
-#line 1153 "parse.y"
+#line 1160 "parse.y"
     { chk_dialect ("initialization with `:=' is", VAX_PASCAL|SUN_PASCAL); ;}
     break;
 
   case 305:
-#line 1155 "parse.y"
+#line 1162 "parse.y"
     { chk_dialect ("initialization with `=' is", BORLAND_DELPHI); ;}
     break;
 
   case 306:
-#line 1162 "parse.y"
-    { declare_routine ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 1); ;}
+#line 1169 "parse.y"
+    { declare_routine ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), 1); ;}
     break;
 
   case 307:
-#line 1173 "parse.y"
-    { declare_routine ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 0); ;}
+#line 1180 "parse.y"
+    { declare_routine ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), 0); ;}
     break;
 
   case 308:
-#line 1175 "parse.y"
-    { ((*yyvalp).ttype) = start_routine ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1182 "parse.y"
+    { ((*yyvalp).ttype) = start_routine ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 309:
-#line 1177 "parse.y"
+#line 1184 "parse.y"
     {
         do_setjmp ();
         un_initialize_block (getdecls (), 0, 0);
@@ -6273,455 +6044,455 @@ yyuserAction (yyRuleNum yyn, int yyrhslen, yyGLRStackItem* yyvsp,
     break;
 
   case 310:
-#line 1182 "parse.y"
-    { finish_routine ((((yyGLRStackItem const *)yyvsp)[YYFILL (-5)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1189 "parse.y"
+    { finish_routine ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (9))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 313:
-#line 1192 "parse.y"
+#line 1199 "parse.y"
     { 
-        pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE);
-        ((*yyvalp).ttype) = build_routine_heading (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE,
+        pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), NULL_TREE);
+        ((*yyvalp).ttype) = build_routine_heading (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), NULL_TREE,
                                       void_type_node, 0);
       ;}
     break;
 
   case 314:
-#line 1198 "parse.y"
-    { pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1205 "parse.y"
+    { pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 315:
-#line 1200 "parse.y"
-    { ((*yyvalp).ttype) = build_routine_heading (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 0); ;}
+#line 1207 "parse.y"
+    { ((*yyvalp).ttype) = build_routine_heading (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((6) - (6))].yystate.yysemantics.yysval.ttype), 0); ;}
     break;
 
   case 316:
-#line 1202 "parse.y"
-    { pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1209 "parse.y"
+    { pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 317:
-#line 1204 "parse.y"
-    { ((*yyvalp).ttype) = build_operator_heading ((((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1211 "parse.y"
+    { ((*yyvalp).ttype) = build_operator_heading ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((6) - (6))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 318:
-#line 1214 "parse.y"
+#line 1221 "parse.y"
     { 
-        pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE);
-        ((*yyvalp).ttype) = build_routine_heading ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE,
+        pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (5))].yystate.yysemantics.yysval.ttype), NULL_TREE);
+        ((*yyvalp).ttype) = build_routine_heading ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (5))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (5))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (5))].yystate.yysemantics.yysval.ttype), NULL_TREE,
                                       void_type_node, 0);
       ;}
     break;
 
   case 319:
-#line 1220 "parse.y"
-    { pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1227 "parse.y"
+    { pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((6) - (6))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 320:
-#line 1222 "parse.y"
-    { ((*yyvalp).ttype) = build_routine_heading ((((yyGLRStackItem const *)yyvsp)[YYFILL (-6)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 0); ;}
+#line 1229 "parse.y"
+    { ((*yyvalp).ttype) = build_routine_heading ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (8))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (8))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (8))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((6) - (8))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((8) - (8))].yystate.yysemantics.yysval.ttype), 0); ;}
     break;
 
   case 321:
-#line 1224 "parse.y"
+#line 1231 "parse.y"
     { 
-        pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE);
-        ((*yyvalp).ttype) = build_routine_heading ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE,
+        pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (5))].yystate.yysemantics.yysval.ttype), NULL_TREE);
+        ((*yyvalp).ttype) = build_routine_heading ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (5))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (5))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (5))].yystate.yysemantics.yysval.ttype), NULL_TREE,
                                       boolean_type_node, 1);
       ;}
     break;
 
   case 322:
-#line 1230 "parse.y"
+#line 1237 "parse.y"
     { 
-        pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE);
-        ((*yyvalp).ttype) = build_routine_heading ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE,
+        pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (5))].yystate.yysemantics.yysval.ttype), NULL_TREE);
+        ((*yyvalp).ttype) = build_routine_heading ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (5))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (5))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (5))].yystate.yysemantics.yysval.ttype), NULL_TREE,
                                       void_type_node, 1);
       ;}
     break;
 
   case 325:
-#line 1244 "parse.y"
-    { ((*yyvalp).ttype) = chainon (chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1251 "parse.y"
+    { ((*yyvalp).ttype) = chainon (chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype)), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 326:
-#line 1249 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1256 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 327:
-#line 1251 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1258 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 328:
-#line 1253 "parse.y"
-    { ASSERT_ID ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yyloc), p_name); ;}
+#line 1260 "parse.y"
+    { ASSERT_ID ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yyloc), p_name); ;}
     break;
 
   case 329:
-#line 1255 "parse.y"
-    { ((*yyvalp).ttype) = tree_cons ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-5)].yystate.yysemantics.yysval.ttype))); ;}
+#line 1262 "parse.y"
+    { ((*yyvalp).ttype) = tree_cons ((((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (6))].yystate.yysemantics.yysval.ttype), build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (6))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 330:
-#line 1257 "parse.y"
-    { ((*yyvalp).ttype) = tree_cons ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-5)].yystate.yysemantics.yysval.ttype))); ;}
+#line 1264 "parse.y"
+    { ((*yyvalp).ttype) = tree_cons ((((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (6))].yystate.yysemantics.yysval.ttype), build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (6))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 331:
-#line 1259 "parse.y"
-    { ((*yyvalp).ttype) = tree_cons ((((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-5)].yystate.yysemantics.yysval.ttype), build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype))); ;}
+#line 1266 "parse.y"
+    { ((*yyvalp).ttype) = tree_cons ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (6))].yystate.yysemantics.yysval.ttype), build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (6))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 332:
-#line 1261 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1268 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 333:
-#line 1263 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1270 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 334:
-#line 1265 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1272 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 336:
-#line 1271 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1278 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 337:
-#line 1273 "parse.y"
-    { ((*yyvalp).ttype) = tree_cons (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1280 "parse.y"
+    { ((*yyvalp).ttype) = tree_cons (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 338:
-#line 1278 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1285 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 340:
-#line 1284 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1291 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 342:
-#line 1290 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE); ;}
+#line 1297 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype), NULL_TREE); ;}
     break;
 
   case 343:
-#line 1292 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE); ;}
+#line 1299 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype), NULL_TREE); ;}
     break;
 
   case 344:
-#line 1294 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))); ;}
+#line 1301 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 345:
-#line 1296 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype))); ;}
+#line 1303 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.ttype), build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 346:
-#line 1298 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-5)].yystate.yysemantics.yysval.ttype), tree_cons (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype))); ;}
+#line 1305 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (6))].yystate.yysemantics.yysval.ttype), tree_cons (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (6))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 352:
-#line 1314 "parse.y"
-    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype); chk_dialect ("operator result variables with `=' are", GNU_PASCAL); ;}
+#line 1321 "parse.y"
+    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype); chk_dialect ("operator result variables with `=' are", GNU_PASCAL); ;}
     break;
 
   case 353:
-#line 1316 "parse.y"
+#line 1323 "parse.y"
     { error ("missing operator result variable"); ;}
     break;
 
   case 354:
-#line 1320 "parse.y"
+#line 1327 "parse.y"
     { push_scope (); ;}
     break;
 
   case 355:
-#line 1320 "parse.y"
-    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype); ;}
+#line 1327 "parse.y"
+    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype); ;}
     break;
 
   case 357:
-#line 1325 "parse.y"
+#line 1332 "parse.y"
     { chk_dialect ("empty parentheses are", BORLAND_DELPHI); ((*yyvalp).ttype) = void_list_node; ;}
     break;
 
   case 358:
-#line 1327 "parse.y"
-    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype); ;}
+#line 1334 "parse.y"
+    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype); ;}
     break;
 
   case 359:
-#line 1329 "parse.y"
+#line 1336 "parse.y"
     { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, NULL_TREE); ;}
     break;
 
   case 360:
-#line 1331 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), build_tree_list (NULL_TREE, NULL_TREE)); ;}
+#line 1338 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (5))].yystate.yysemantics.yysval.ttype), build_tree_list (NULL_TREE, NULL_TREE)); ;}
     break;
 
   case 361:
-#line 1333 "parse.y"
+#line 1340 "parse.y"
     { ((*yyvalp).ttype) = NULL_TREE; ;}
     break;
 
   case 363:
-#line 1339 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
+#line 1346 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
     break;
 
   case 364:
-#line 1341 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); error ("missing semicolon"); yyerrok; ;}
+#line 1348 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); error ("missing semicolon"); yyerrok; ;}
     break;
 
   case 366:
-#line 1347 "parse.y"
-    { ((*yyvalp).ttype) = build_formal_param ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 0, 0); ;}
+#line 1354 "parse.y"
+    { ((*yyvalp).ttype) = build_formal_param ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), 0, 0); ;}
     break;
 
   case 367:
-#line 1349 "parse.y"
-    { ((*yyvalp).ttype) = build_formal_param ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 0, 1); ;}
+#line 1356 "parse.y"
+    { ((*yyvalp).ttype) = build_formal_param ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype), 0, 1); ;}
     break;
 
   case 368:
-#line 1351 "parse.y"
-    { ((*yyvalp).ttype) = build_formal_param ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 1, !!(((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1358 "parse.y"
+    { ((*yyvalp).ttype) = build_formal_param ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype), 1, !!(((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 369:
-#line 1353 "parse.y"
-    { ((*yyvalp).ttype) = build_formal_param ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 3, 1); ;}
+#line 1360 "parse.y"
+    { ((*yyvalp).ttype) = build_formal_param ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (5))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (5))].yystate.yysemantics.yysval.ttype), 3, 1); ;}
     break;
 
   case 370:
-#line 1355 "parse.y"
-    { ((*yyvalp).ttype) = build_formal_param ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 2, 1); ;}
+#line 1362 "parse.y"
+    { ((*yyvalp).ttype) = build_formal_param ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), 2, 1); ;}
     break;
 
   case 371:
-#line 1357 "parse.y"
+#line 1364 "parse.y"
     { 
-        pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE); 
-        ((*yyvalp).ttype) = build_routine_heading (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE,
+        pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), NULL_TREE); 
+        ((*yyvalp).ttype) = build_routine_heading (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), NULL_TREE,
                                       void_type_node, 0);
       ;}
     break;
 
   case 372:
-#line 1363 "parse.y"
-    { pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1370 "parse.y"
+    { pop_param_level ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 373:
-#line 1365 "parse.y"
-    { ((*yyvalp).ttype) = build_routine_heading (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 0); ;}
+#line 1372 "parse.y"
+    { ((*yyvalp).ttype) = build_routine_heading (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((6) - (6))].yystate.yysemantics.yysval.ttype), 0); ;}
     break;
 
   case 374:
-#line 1370 "parse.y"
+#line 1377 "parse.y"
     { ((*yyvalp).ttype) = NULL_TREE; ;}
     break;
 
   case 375:
-#line 1372 "parse.y"
-    { ((*yyvalp).ttype) = check_result_type ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1379 "parse.y"
+    { ((*yyvalp).ttype) = check_result_type ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 378:
-#line 1379 "parse.y"
-    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype); chk_dialect ("function result variable specifications are", E_O_PASCAL); ;}
+#line 1386 "parse.y"
+    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype); chk_dialect ("function result variable specifications are", E_O_PASCAL); ;}
     break;
 
   case 380:
-#line 1385 "parse.y"
+#line 1392 "parse.y"
     { chk_dialect ("function result variables without `=' are", GNU_PASCAL); ;}
     break;
 
   case 383:
-#line 1395 "parse.y"
+#line 1402 "parse.y"
     { ((*yyvalp).ttype) = void_type_node; chk_dialect ("untyped parameters are", U_B_D_M_PASCAL); ;}
     break;
 
   case 384:
-#line 1397 "parse.y"
-    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype); ;}
+#line 1404 "parse.y"
+    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype); ;}
     break;
 
   case 388:
-#line 1408 "parse.y"
-    { ((*yyvalp).ttype) = build_type_of ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1415 "parse.y"
+    { ((*yyvalp).ttype) = build_type_of ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 391:
-#line 1418 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1425 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((6) - (6))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 392:
-#line 1420 "parse.y"
+#line 1427 "parse.y"
     {
-        defining_packed_type -= (((yyGLRStackItem const *)yyvsp)[YYFILL (-6)].yystate.yysemantics.yysval.itype);
-        PASCAL_TREE_PACKED ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype)) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-6)].yystate.yysemantics.yysval.itype);
-        ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype));
+        defining_packed_type -= (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (7))].yystate.yysemantics.yysval.itype);
+        PASCAL_TREE_PACKED ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (7))].yystate.yysemantics.yysval.ttype)) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (7))].yystate.yysemantics.yysval.itype);
+        ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (7))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((7) - (7))].yystate.yysemantics.yysval.ttype));
       ;}
     break;
 
   case 394:
-#line 1430 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
+#line 1437 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
     break;
 
   case 395:
-#line 1432 "parse.y"
+#line 1439 "parse.y"
     { error ("missing semicolon"); yyerrok; ;}
     break;
 
   case 397:
-#line 1438 "parse.y"
-    { TREE_TYPE ((((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype)))) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype); ;}
+#line 1445 "parse.y"
+    { TREE_TYPE ((((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (5))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (5))].yystate.yysemantics.yysval.ttype)))) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (5))].yystate.yysemantics.yysval.ttype); ;}
     break;
 
   case 398:
-#line 1443 "parse.y"
-    { TREE_TYPE ((((*yyvalp).ttype) = build_tree_list (NULL_TREE, NULL_TREE))) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype); ;}
+#line 1450 "parse.y"
+    { TREE_TYPE ((((*yyvalp).ttype) = build_tree_list (NULL_TREE, NULL_TREE))) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype); ;}
     break;
 
   case 401:
-#line 1455 "parse.y"
+#line 1462 "parse.y"
     { yyerrok; ;}
     break;
 
   case 403:
-#line 1461 "parse.y"
+#line 1468 "parse.y"
     { yyerrok; ;}
     break;
 
   case 406:
-#line 1468 "parse.y"
+#line 1475 "parse.y"
     { chk_dialect ("variable declarations in the statement part are", GNU_PASCAL); pushlevel_expand (1); ;}
     break;
 
   case 407:
-#line 1470 "parse.y"
-    { un_initialize_block ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 0, 0); ;}
+#line 1477 "parse.y"
+    { un_initialize_block ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), 0, 0); ;}
     break;
 
   case 409:
-#line 1476 "parse.y"
+#line 1483 "parse.y"
     { ((*yyvalp).itype) = 0; ;}
     break;
 
   case 410:
-#line 1478 "parse.y"
+#line 1485 "parse.y"
     { ((*yyvalp).itype) = 1; ;}
     break;
 
   case 412:
-#line 1486 "parse.y"
+#line 1493 "parse.y"
     { mark_temporary_levels (); ;}
     break;
 
   case 413:
-#line 1488 "parse.y"
+#line 1495 "parse.y"
     { release_temporary_levels (); ;}
     break;
 
   case 418:
-#line 1503 "parse.y"
-    { expand_call_statement ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1510 "parse.y"
+    { expand_call_statement ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 419:
-#line 1505 "parse.y"
-    { ((*yyvalp).itype) = allow_function_calls (!PASCAL_PROCEDURAL_TYPE (TREE_TYPE ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)))); ;}
+#line 1512 "parse.y"
+    { ((*yyvalp).itype) = allow_function_calls (!PASCAL_PROCEDURAL_TYPE (TREE_TYPE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)))); ;}
     break;
 
   case 420:
-#line 1507 "parse.y"
-    { expand_pascal_assignment ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); allow_function_calls ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.itype)); ;}
+#line 1514 "parse.y"
+    { expand_pascal_assignment ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype)); allow_function_calls ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (4))].yystate.yysemantics.yysval.itype)); ;}
     break;
 
   case 421:
-#line 1509 "parse.y"
+#line 1516 "parse.y"
     { build_predef_call (p_Return, NULL_TREE); ;}
     break;
 
   case 422:
-#line 1511 "parse.y"
-    { build_predef_call (p_Return, build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))); ;}
+#line 1518 "parse.y"
+    { build_predef_call (p_Return, build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 423:
-#line 1513 "parse.y"
+#line 1520 "parse.y"
     { build_predef_call (p_Exit, NULL_TREE); ;}
     break;
 
   case 424:
-#line 1515 "parse.y"
+#line 1522 "parse.y"
     { build_predef_call (p_Exit, build_tree_list (NULL_TREE, void_type_node)); ;}
     break;
 
   case 425:
-#line 1517 "parse.y"
-    { build_predef_call (p_Exit, build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype))); ;}
+#line 1524 "parse.y"
+    { build_predef_call (p_Exit, build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 426:
-#line 1519 "parse.y"
-    { build_predef_call (p_Exit, build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype))); ;}
+#line 1526 "parse.y"
+    { build_predef_call (p_Exit, build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (6))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 428:
-#line 1522 "parse.y"
-    { restore_identifiers ((((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1529 "parse.y"
+    { restore_identifiers ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (6))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 429:
-#line 1524 "parse.y"
+#line 1531 "parse.y"
     { expand_end_cond (); ;}
     break;
 
   case 430:
-#line 1526 "parse.y"
+#line 1533 "parse.y"
     { expand_start_else (); ;}
     break;
 
   case 431:
-#line 1528 "parse.y"
+#line 1535 "parse.y"
     {
-        if (!(((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.itype) && extra_warnings)
+        if (!(((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (6))].yystate.yysemantics.yysval.itype) && extra_warnings)
           warning ("empty statement after `else'");
         expand_end_cond ();
       ;}
     break;
 
   case 432:
-#line 1534 "parse.y"
-    { ((*yyvalp).ttype) = pascal_expand_start_case ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1541 "parse.y"
+    { ((*yyvalp).ttype) = pascal_expand_start_case ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 433:
-#line 1536 "parse.y"
+#line 1543 "parse.y"
     {
         if (!EM (current_case_values))
           {
@@ -6733,128 +6504,128 @@ yyuserAction (yyRuleNum yyn, int yyrhslen, yyGLRStackItem* yyvsp,
     break;
 
   case 434:
-#line 1545 "parse.y"
+#line 1552 "parse.y"
     {
-        if (!(((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.itype) && !(((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.itype))
+        if (!(((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (8))].yystate.yysemantics.yysval.itype) && !(((yyGLRStackItem const *)yyvsp)[YYFILL ((7) - (8))].yystate.yysemantics.yysval.itype))
           chk_dialect ("empty `case' statements are", MAC_PASCAL);
         expand_exit_something ();
         if (!EM (current_case_values))
-          expand_end_case ((((yyGLRStackItem const *)yyvsp)[YYFILL (-6)].yystate.yysemantics.yysval.ttype));
-        current_case_values = (((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype);
+          expand_end_case ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (8))].yystate.yysemantics.yysval.ttype));
+        current_case_values = (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (8))].yystate.yysemantics.yysval.ttype);
         yyerrok;
       ;}
     break;
 
   case 435:
-#line 1555 "parse.y"
+#line 1562 "parse.y"
     { emit_nop (); expand_start_loop_continue_elsewhere (1); ;}
     break;
 
   case 436:
-#line 1557 "parse.y"
-    { LOCATION_NOTE ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yyloc)); expand_loop_continue_here (); ;}
+#line 1564 "parse.y"
+    { LOCATION_NOTE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (5))].yystate.yyloc)); expand_loop_continue_here (); ;}
     break;
 
   case 437:
-#line 1559 "parse.y"
-    { LOCATION_NOTE ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yyloc)); expand_exit_loop_if_false (0, build_pascal_unary_op (TRUTH_NOT_EXPR, check_boolean ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)))); ;}
+#line 1566 "parse.y"
+    { LOCATION_NOTE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((7) - (7))].yystate.yyloc)); expand_exit_loop_if_false (0, build_pascal_unary_op (TRUTH_NOT_EXPR, check_boolean ((((yyGLRStackItem const *)yyvsp)[YYFILL ((7) - (7))].yystate.yysemantics.yysval.ttype)))); ;}
     break;
 
   case 438:
-#line 1561 "parse.y"
+#line 1568 "parse.y"
     { expand_end_loop (); ;}
     break;
 
   case 439:
-#line 1563 "parse.y"
+#line 1570 "parse.y"
     { expand_start_loop (1); ;}
     break;
 
   case 440:
-#line 1565 "parse.y"
-    { LOCATION_NOTE ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yyloc)); expand_exit_loop_if_false (0, check_boolean ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))); ;}
+#line 1572 "parse.y"
+    { LOCATION_NOTE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yyloc)); expand_exit_loop_if_false (0, check_boolean ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 441:
-#line 1567 "parse.y"
+#line 1574 "parse.y"
     { expand_end_loop (); ;}
     break;
 
   case 442:
-#line 1569 "parse.y"
-    { ((*yyvalp).ttype) = start_for_loop ((((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.code)); ;}
+#line 1576 "parse.y"
+    { ((*yyvalp).ttype) = start_for_loop ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((6) - (6))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (6))].yystate.yysemantics.yysval.code)); ;}
     break;
 
   case 443:
-#line 1571 "parse.y"
-    { LOCATION_NOTE ((((yyGLRStackItem const *)yyvsp)[YYFILL (-6)].yystate.yyloc)); finish_for_loop ((((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-6)].yystate.yysemantics.yysval.code)); ;}
+#line 1578 "parse.y"
+    { LOCATION_NOTE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (11))].yystate.yyloc)); finish_for_loop ((((yyGLRStackItem const *)yyvsp)[YYFILL ((7) - (11))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (11))].yystate.yysemantics.yysval.code)); ;}
     break;
 
   case 444:
-#line 1573 "parse.y"
-    { ((*yyvalp).ttype) = start_for_set_loop ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1580 "parse.y"
+    { ((*yyvalp).ttype) = start_for_set_loop ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 445:
-#line 1575 "parse.y"
-    { LOCATION_NOTE ((((yyGLRStackItem const *)yyvsp)[YYFILL (-6)].yystate.yyloc)); finish_for_set_loop ((((yyGLRStackItem const *)yyvsp)[YYFILL (-7)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1582 "parse.y"
+    { LOCATION_NOTE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (9))].yystate.yyloc)); finish_for_set_loop ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (9))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (9))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 446:
-#line 1577 "parse.y"
-    { pascal_expand_goto ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1584 "parse.y"
+    { pascal_expand_goto ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 447:
-#line 1582 "parse.y"
-    { set_label ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1589 "parse.y"
+    { set_label ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 449:
-#line 1588 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
+#line 1595 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
     break;
 
   case 450:
-#line 1590 "parse.y"
+#line 1597 "parse.y"
     { ((*yyvalp).ttype) = NULL_TREE; ;}
     break;
 
   case 451:
-#line 1592 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype)); error ("missing comma"); yyerrok; ;}
+#line 1599 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype)); error ("missing comma"); yyerrok; ;}
     break;
 
   case 452:
-#line 1594 "parse.y"
+#line 1601 "parse.y"
     { error ("extra comma"); ;}
     break;
 
   case 453:
-#line 1599 "parse.y"
-    { ((*yyvalp).ttype) = pascal_shadow_record_fields ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE); ;}
+#line 1606 "parse.y"
+    { ((*yyvalp).ttype) = pascal_shadow_record_fields ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype), NULL_TREE); ;}
     break;
 
   case 454:
-#line 1601 "parse.y"
-    { ((*yyvalp).ttype) = pascal_shadow_record_fields ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1608 "parse.y"
+    { ((*yyvalp).ttype) = pascal_shadow_record_fields ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 455:
-#line 1606 "parse.y"
-    { expand_start_cond (check_boolean ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)), 0); ;}
+#line 1613 "parse.y"
+    { expand_start_cond (check_boolean ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype)), 0); ;}
     break;
 
   case 456:
-#line 1608 "parse.y"
+#line 1615 "parse.y"
     {
-        if (!(((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.itype) && extra_warnings)
+        if (!(((yyGLRStackItem const *)yyvsp)[YYFILL ((6) - (7))].yystate.yysemantics.yysval.itype) && extra_warnings)
           warning ("empty statement after `then'");
       ;}
     break;
 
   case 457:
-#line 1616 "parse.y"
+#line 1623 "parse.y"
     {
         /* Create an implicit `otherwise' (in the rule above) to avoid warnings
            about unhandled cases. In ISO Pascal, this is a run-time error. */
@@ -6865,199 +6636,199 @@ yyuserAction (yyRuleNum yyn, int yyrhslen, yyGLRStackItem* yyvsp,
     break;
 
   case 458:
-#line 1624 "parse.y"
+#line 1631 "parse.y"
     { ((*yyvalp).itype) = 1; ;}
     break;
 
   case 459:
-#line 1629 "parse.y"
+#line 1636 "parse.y"
     { chk_dialect ("`else' in `case' statements is", B_D_M_PASCAL); ;}
     break;
 
   case 461:
-#line 1635 "parse.y"
+#line 1642 "parse.y"
     { ((*yyvalp).itype) = 0; ;}
     break;
 
   case 462:
-#line 1637 "parse.y"
+#line 1644 "parse.y"
     { ((*yyvalp).itype) = 1; ;}
     break;
 
   case 464:
-#line 1643 "parse.y"
+#line 1650 "parse.y"
     { yyerrok; ;}
     break;
 
   case 465:
-#line 1645 "parse.y"
+#line 1652 "parse.y"
     { error ("case element expected"); ;}
     break;
 
   case 466:
-#line 1647 "parse.y"
+#line 1654 "parse.y"
     { error ("missing semicolon"); yyerrok; ;}
     break;
 
   case 467:
-#line 1649 "parse.y"
+#line 1656 "parse.y"
     { error ("extra semicolon"); ;}
     break;
 
   case 468:
-#line 1654 "parse.y"
-    { pascal_pushcase ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1661 "parse.y"
+    { pascal_pushcase ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 469:
-#line 1656 "parse.y"
+#line 1663 "parse.y"
     { expand_exit_something (); ;}
     break;
 
   case 471:
-#line 1662 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
+#line 1669 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
     break;
 
   case 472:
-#line 1664 "parse.y"
+#line 1671 "parse.y"
     { error ("extra comma"); ;}
     break;
 
   case 473:
-#line 1666 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); error ("missing comma"); yyerrok; ;}
+#line 1673 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); error ("missing comma"); yyerrok; ;}
     break;
 
   case 475:
-#line 1672 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1679 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 476:
-#line 1674 "parse.y"
-    { chk_dialect ("`case' ranges are", NOT_CLASSIC_PASCAL); ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1681 "parse.y"
+    { chk_dialect ("`case' ranges are", NOT_CLASSIC_PASCAL); ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 477:
-#line 1676 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype)); error ("missing `..'"); yyerrok; ;}
+#line 1683 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype)); error ("missing `..'"); yyerrok; ;}
     break;
 
   case 478:
-#line 1678 "parse.y"
-    { error ("extra `..'"); ((*yyvalp).ttype) = build_tree_list (NULL_TREE, string_may_be_char ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), 0)); ;}
+#line 1685 "parse.y"
+    { error ("extra `..'"); ((*yyvalp).ttype) = build_tree_list (NULL_TREE, string_may_be_char ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), 0)); ;}
     break;
 
   case 479:
-#line 1683 "parse.y"
+#line 1690 "parse.y"
     { ((*yyvalp).code) = LE_EXPR; ;}
     break;
 
   case 480:
-#line 1685 "parse.y"
+#line 1692 "parse.y"
     { ((*yyvalp).code) = GE_EXPR; ;}
     break;
 
   case 481:
-#line 1687 "parse.y"
+#line 1694 "parse.y"
     { error ("missing `to' or `downto'"); ((*yyvalp).code) = LE_EXPR; ;}
     break;
 
   case 483:
-#line 1693 "parse.y"
-    { ((*yyvalp).ttype) = build_pascal_lvalue_address_expression ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1700 "parse.y"
+    { ((*yyvalp).ttype) = build_pascal_lvalue_address_expression ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 485:
-#line 1699 "parse.y"
+#line 1706 "parse.y"
     { error ("using `=' instead of `:=' in assignment"); ;}
     break;
 
   case 486:
-#line 1704 "parse.y"
-    { build_predef_call ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.itype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1711 "parse.y"
+    { build_predef_call ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.itype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 487:
-#line 1706 "parse.y"
-    { build_predef_call (IDENTIFIER_BUILT_IN_VALUE ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))->symbol, NULL_TREE); ;}
+#line 1713 "parse.y"
+    { build_predef_call (IDENTIFIER_BUILT_IN_VALUE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype))->symbol, NULL_TREE); ;}
     break;
 
   case 488:
-#line 1708 "parse.y"
-    { build_predef_call (IDENTIFIER_BUILT_IN_VALUE ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype))->symbol, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
+#line 1715 "parse.y"
+    { build_predef_call (IDENTIFIER_BUILT_IN_VALUE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.ttype))->symbol, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
     break;
 
   case 489:
-#line 1710 "parse.y"
-    { build_new_dispose (p_Dispose, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), NULL_TREE, NULL_TREE); ;}
+#line 1717 "parse.y"
+    { build_new_dispose (p_Dispose, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype), NULL_TREE, NULL_TREE); ;}
     break;
 
   case 490:
-#line 1712 "parse.y"
-    { build_new_dispose (p_Dispose, (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1719 "parse.y"
+    { build_new_dispose (p_Dispose, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (6))].yystate.yysemantics.yysval.ttype), NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (6))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 491:
-#line 1714 "parse.y"
-    { build_new_dispose (p_Dispose, (((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1721 "parse.y"
+    { build_new_dispose (p_Dispose, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (7))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (7))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((6) - (7))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 492:
-#line 1716 "parse.y"
-    { pascal_expand_asm_operands ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), NULL_TREE, NULL_TREE, NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.itype)); ;}
+#line 1723 "parse.y"
+    { pascal_expand_asm_operands ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (5))].yystate.yysemantics.yysval.ttype), NULL_TREE, NULL_TREE, NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (5))].yystate.yysemantics.yysval.itype)); ;}
     break;
 
   case 493:
-#line 1718 "parse.y"
-    { pascal_expand_asm_operands ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), NULL_TREE, NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-5)].yystate.yysemantics.yysval.itype)); ;}
+#line 1725 "parse.y"
+    { pascal_expand_asm_operands ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (7))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((6) - (7))].yystate.yysemantics.yysval.ttype), NULL_TREE, NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (7))].yystate.yysemantics.yysval.itype)); ;}
     break;
 
   case 494:
-#line 1720 "parse.y"
-    { pascal_expand_asm_operands ((((yyGLRStackItem const *)yyvsp)[YYFILL (-5)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-7)].yystate.yysemantics.yysval.itype)); ;}
+#line 1727 "parse.y"
+    { pascal_expand_asm_operands ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (9))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((6) - (9))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((8) - (9))].yystate.yysemantics.yysval.ttype), NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (9))].yystate.yysemantics.yysval.itype)); ;}
     break;
 
   case 495:
-#line 1722 "parse.y"
-    { pascal_expand_asm_operands ((((yyGLRStackItem const *)yyvsp)[YYFILL (-7)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-5)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-9)].yystate.yysemantics.yysval.itype)); ;}
+#line 1729 "parse.y"
+    { pascal_expand_asm_operands ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (11))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((6) - (11))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((8) - (11))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((10) - (11))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (11))].yystate.yysemantics.yysval.itype)); ;}
     break;
 
   case 496:
-#line 1727 "parse.y"
+#line 1734 "parse.y"
     { ((*yyvalp).itype) = 0; ;}
     break;
 
   case 497:
-#line 1729 "parse.y"
-    { ASSERT_ID ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yyloc), p_volatile); ((*yyvalp).itype) = 1; ;}
+#line 1736 "parse.y"
+    { ASSERT_ID ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yyloc), p_volatile); ((*yyvalp).itype) = 1; ;}
     break;
 
   case 501:
-#line 1740 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1747 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 502:
-#line 1745 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1752 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 503:
-#line 1750 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1757 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 504:
-#line 1752 "parse.y"
-    { ((*yyvalp).ttype) = tree_cons (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1759 "parse.y"
+    { ((*yyvalp).ttype) = tree_cons (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 505:
-#line 1759 "parse.y"
+#line 1766 "parse.y"
     {
-        ((*yyvalp).ttype) = string_may_be_char ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 0);
+        ((*yyvalp).ttype) = string_may_be_char ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype), 0);
         if (PEDANTIC (NOT_CLASSIC_PASCAL)
             && ( PASCAL_CST_PARENTHESES (((*yyvalp).ttype))
                  || !(TREE_CODE (((*yyvalp).ttype)) == STRING_CST
@@ -7068,127 +6839,127 @@ yyuserAction (yyRuleNum yyn, int yyrhslen, yyGLRStackItem* yyvsp,
     break;
 
   case 506:
-#line 1772 "parse.y"
-    { ((*yyvalp).ttype) = fold ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1779 "parse.y"
+    { ((*yyvalp).ttype) = fold ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 507:
-#line 1774 "parse.y"
-    { ((*yyvalp).ttype) = fold (parser_build_binary_op ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.code), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))); ;}
+#line 1781 "parse.y"
+    { ((*yyvalp).ttype) = fold (parser_build_binary_op ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.code), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 509:
-#line 1780 "parse.y"
-    { ((*yyvalp).ttype) = build_pascal_unary_op ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.code), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1787 "parse.y"
+    { ((*yyvalp).ttype) = build_pascal_unary_op ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.code), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 510:
-#line 1782 "parse.y"
-    { ((*yyvalp).ttype) = parser_build_binary_op ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.code), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1789 "parse.y"
+    { ((*yyvalp).ttype) = parser_build_binary_op ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.code), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 511:
-#line 1784 "parse.y"
-    { ((*yyvalp).ttype) = build_operator_call ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 1); ;}
+#line 1791 "parse.y"
+    { ((*yyvalp).ttype) = build_operator_call ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), 1); ;}
     break;
 
   case 512:
-#line 1786 "parse.y"
-    { ((*yyvalp).ttype) = start_boolean_binary_op ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.code), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1793 "parse.y"
+    { ((*yyvalp).ttype) = start_boolean_binary_op ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.code), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 513:
-#line 1788 "parse.y"
-    { if ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)) LOCATION_NOTE (COPYLOC ((*yylocp), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yyloc))); ((*yyvalp).ttype) = finish_boolean_binary_op ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.code), (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1795 "parse.y"
+    { if ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype)) LOCATION_NOTE (COPYLOC ((*yylocp), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yyloc))); ((*yyvalp).ttype) = finish_boolean_binary_op ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (4))].yystate.yysemantics.yysval.code), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 515:
-#line 1794 "parse.y"
-    { ((*yyvalp).ttype) = parser_build_binary_op ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.code), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1801 "parse.y"
+    { ((*yyvalp).ttype) = parser_build_binary_op ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.code), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 516:
-#line 1796 "parse.y"
-    { ((*yyvalp).ttype) = build_operator_call ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 1); ;}
+#line 1803 "parse.y"
+    { ((*yyvalp).ttype) = build_operator_call ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), 1); ;}
     break;
 
   case 517:
-#line 1798 "parse.y"
-    { ((*yyvalp).ttype) = start_boolean_binary_op ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.code), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1805 "parse.y"
+    { ((*yyvalp).ttype) = start_boolean_binary_op ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.code), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 518:
-#line 1800 "parse.y"
-    { if ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)) LOCATION_NOTE (COPYLOC ((*yylocp), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yyloc))); ((*yyvalp).ttype) = finish_boolean_binary_op ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.code), (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1807 "parse.y"
+    { if ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype)) LOCATION_NOTE (COPYLOC ((*yylocp), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yyloc))); ((*yyvalp).ttype) = finish_boolean_binary_op ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (4))].yystate.yysemantics.yysval.code), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 520:
-#line 1806 "parse.y"
-    { ((*yyvalp).ttype) = build_operator_call ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 0); ;}
+#line 1813 "parse.y"
+    { ((*yyvalp).ttype) = build_operator_call ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), 0); ;}
     break;
 
   case 521:
-#line 1808 "parse.y"
-    { ((*yyvalp).ttype) = parser_build_binary_op (POW_EXPR, (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1815 "parse.y"
+    { ((*yyvalp).ttype) = parser_build_binary_op (POW_EXPR, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 522:
-#line 1810 "parse.y"
-    { ((*yyvalp).ttype) = parser_build_binary_op (POWER_EXPR, (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1817 "parse.y"
+    { ((*yyvalp).ttype) = parser_build_binary_op (POWER_EXPR, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 523:
-#line 1812 "parse.y"
-    { ((*yyvalp).ttype) = build_is_as ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), p_is); ;}
+#line 1819 "parse.y"
+    { ((*yyvalp).ttype) = build_is_as ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), p_is); ;}
     break;
 
   case 524:
-#line 1814 "parse.y"
-    { ((*yyvalp).ttype) = build_is_as ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), p_as); ;}
+#line 1821 "parse.y"
+    { ((*yyvalp).ttype) = build_is_as ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), p_as); ;}
     break;
 
   case 525:
-#line 1819 "parse.y"
-    { ((*yyvalp).ttype) = set_exp_original_code (build_pascal_unary_op ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.code), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.code)); ;}
+#line 1826 "parse.y"
+    { ((*yyvalp).ttype) = set_exp_original_code (build_pascal_unary_op ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.code), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.code)); ;}
     break;
 
   case 526:
-#line 1821 "parse.y"
-    { chk_dialect ("the address operator is", B_D_M_PASCAL); ((*yyvalp).ttype) = build_pascal_address_expression ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), !co->typed_address); ;}
+#line 1828 "parse.y"
+    { chk_dialect ("the address operator is", B_D_M_PASCAL); ((*yyvalp).ttype) = build_pascal_address_expression ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype), !co->typed_address); ;}
     break;
 
   case 529:
-#line 1825 "parse.y"
+#line 1832 "parse.y"
     { ((*yyvalp).ttype) = null_pointer_node; ;}
     break;
 
   case 531:
-#line 1828 "parse.y"
-    { ((*yyvalp).ttype) = build_variable_or_routine_access ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1835 "parse.y"
+    { ((*yyvalp).ttype) = build_variable_or_routine_access ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 537:
-#line 1844 "parse.y"
-    { ((*yyvalp).ttype) = combine_strings ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 1); ;}
+#line 1851 "parse.y"
+    { ((*yyvalp).ttype) = combine_strings ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype), 1); ;}
     break;
 
   case 538:
-#line 1849 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1856 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 539:
-#line 1851 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))); ;}
+#line 1858 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype), build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 542:
-#line 1858 "parse.y"
-    { ((*yyvalp).ttype) = build_caret_string_constant ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.itype)); ;}
+#line 1865 "parse.y"
+    { ((*yyvalp).ttype) = build_caret_string_constant ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.itype)); ;}
     break;
 
   case 561:
-#line 1869 "parse.y"
+#line 1876 "parse.y"
     {
         if (PASCAL_TYPE_UNDISCRIMINATED_STRING (((*yyvalp).ttype)))
           {
@@ -7200,808 +6971,810 @@ yyuserAction (yyRuleNum yyn, int yyrhslen, yyGLRStackItem* yyvsp,
     break;
 
   case 562:
-#line 1881 "parse.y"
+#line 1888 "parse.y"
     {
-        tree decl = lookup_name ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype));
+        tree decl = lookup_name ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype));
         ((*yyvalp).ttype) = error_mark_node;
         if (!decl)
-          error ("unknown identifier `%s'", IDENTIFIER_NAME ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)));
+          error ("unknown identifier `%s'", IDENTIFIER_NAME ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)));
         else if (TREE_CODE (decl) != TYPE_DECL)
-          error ("type name expected, `%s' given", IDENTIFIER_NAME ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)));
+          error ("type name expected, `%s' given", IDENTIFIER_NAME ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)));
         else
           ((*yyvalp).ttype) = TREE_TYPE (decl);
       ;}
     break;
 
   case 564:
-#line 1896 "parse.y"
-    { ((*yyvalp).ttype) = build_qualified_id ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1903 "parse.y"
+    { ((*yyvalp).ttype) = build_qualified_id ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 565:
-#line 1901 "parse.y"
-    { ((*yyvalp).ttype) = build_predef_call (IDENTIFIER_BUILT_IN_VALUE ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype))->symbol, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1908 "parse.y"
+    { ((*yyvalp).ttype) = build_predef_call (IDENTIFIER_BUILT_IN_VALUE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype))->symbol, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 568:
-#line 1908 "parse.y"
-    { ((*yyvalp).ttype) = TYPE_NAME ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1915 "parse.y"
+    { ((*yyvalp).ttype) = TYPE_NAME ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 569:
-#line 1910 "parse.y"
-    { ((*yyvalp).ttype) = set_exp_original_code ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), NOP_EXPR); ;}
+#line 1917 "parse.y"
+    { ((*yyvalp).ttype) = set_exp_original_code ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype), NOP_EXPR); ;}
     break;
 
   case 570:
-#line 1912 "parse.y"
-    { ((*yyvalp).ttype) = build_qualified_or_component_access ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1919 "parse.y"
+    { ((*yyvalp).ttype) = build_qualified_or_component_access ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 571:
-#line 1914 "parse.y"
-    { ((*yyvalp).ttype) = build_pascal_pointer_reference ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1921 "parse.y"
+    { ((*yyvalp).ttype) = build_pascal_pointer_reference ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 572:
-#line 1916 "parse.y"
-    { ((*yyvalp).ttype) = build_array_ref_or_constructor ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1923 "parse.y"
+    { ((*yyvalp).ttype) = build_array_ref_or_constructor ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 573:
-#line 1918 "parse.y"
-    { ((*yyvalp).ttype) = build_iso_constructor ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), nreverse ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype))); ;}
+#line 1925 "parse.y"
+    { ((*yyvalp).ttype) = build_iso_constructor ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.ttype), nreverse ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 574:
-#line 1920 "parse.y"
-    { chk_dialect ("empty parentheses are", BORLAND_DELPHI | MAC_PASCAL); ((*yyvalp).ttype) = build_call_or_cast ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), NULL_TREE); ;}
+#line 1927 "parse.y"
+    { chk_dialect ("empty parentheses are", BORLAND_DELPHI | MAC_PASCAL); ((*yyvalp).ttype) = build_call_or_cast ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), NULL_TREE); ;}
     break;
 
   case 575:
-#line 1922 "parse.y"
-    { allow_function_calls ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.itype)); ((*yyvalp).ttype) = build_call_or_cast ((((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1929 "parse.y"
+    { allow_function_calls ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (5))].yystate.yysemantics.yysval.itype)); ((*yyvalp).ttype) = build_call_or_cast ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (5))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (5))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 576:
-#line 1924 "parse.y"
-    { ((*yyvalp).ttype) = build_inherited_method ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1931 "parse.y"
+    { ((*yyvalp).ttype) = build_inherited_method ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (2))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 577:
-#line 1926 "parse.y"
-    { ((*yyvalp).ttype) = build_predef_call (p_FormatString, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1933 "parse.y"
+    { ((*yyvalp).ttype) = build_predef_call (p_FormatString, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 578:
-#line 1928 "parse.y"
-    { ((*yyvalp).ttype) = build_predef_call (p_StringOf, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1935 "parse.y"
+    { ((*yyvalp).ttype) = build_predef_call (p_StringOf, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 579:
-#line 1930 "parse.y"
-    { ((*yyvalp).ttype) = build_predef_call (p_Assigned, build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype))); allow_function_calls ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.itype)); ;}
+#line 1937 "parse.y"
+    { ((*yyvalp).ttype) = build_predef_call (p_Assigned, build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (5))].yystate.yysemantics.yysval.ttype))); allow_function_calls ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (5))].yystate.yysemantics.yysval.itype)); ;}
     break;
 
   case 580:
-#line 1932 "parse.y"
-    { ((*yyvalp).ttype) = build_pascal_address_expression ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), co->pascal_dialect & B_D_M_PASCAL); ;}
+#line 1939 "parse.y"
+    { ((*yyvalp).ttype) = build_pascal_address_expression ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype), co->pascal_dialect & B_D_M_PASCAL); ;}
     break;
 
   case 581:
-#line 1934 "parse.y"
-    { ((*yyvalp).ttype) = build_new_dispose (p_New, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype), NULL_TREE, NULL_TREE); ;}
+#line 1941 "parse.y"
+    { ((*yyvalp).ttype) = build_new_dispose (p_New, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype), NULL_TREE, NULL_TREE); ;}
     break;
 
   case 582:
-#line 1936 "parse.y"
-    { ((*yyvalp).ttype) = build_new_dispose (p_New, (((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.ttype), NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1943 "parse.y"
+    { ((*yyvalp).ttype) = build_new_dispose (p_New, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (6))].yystate.yysemantics.yysval.ttype), NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (6))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 583:
-#line 1938 "parse.y"
-    { ((*yyvalp).ttype) = build_new_dispose (p_New, (((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1945 "parse.y"
+    { ((*yyvalp).ttype) = build_new_dispose (p_New, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (7))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (7))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((6) - (7))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 585:
-#line 1944 "parse.y"
-    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype); allow_function_calls ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.itype)); yyerrok; ;}
+#line 1951 "parse.y"
+    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype); allow_function_calls ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.itype)); yyerrok; ;}
     break;
 
   case 586:
-#line 1946 "parse.y"
+#line 1953 "parse.y"
     {
-        ((*yyvalp).ttype) = build_tree_list (NULL_TREE, TREE_CODE ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)) == TYPE_DECL ? (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype) : build_variable_or_routine_access ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)));
-        allow_function_calls ((((yyGLRStackItem const *)yyvsp)[YYFILL (-3)].yystate.yysemantics.yysval.itype));
+        ((*yyvalp).ttype) = build_tree_list (NULL_TREE, TREE_CODE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype)) == TYPE_DECL ? (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype) : build_variable_or_routine_access ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (4))].yystate.yysemantics.yysval.ttype)));
+        allow_function_calls ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (4))].yystate.yysemantics.yysval.itype));
         yyerrok;
       ;}
     break;
 
   case 587:
-#line 1954 "parse.y"
+#line 1961 "parse.y"
     { ((*yyvalp).itype) = allow_function_calls (0); ;}
     break;
 
   case 588:
-#line 1959 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1966 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 589:
-#line 1961 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))); yyerrok; ;}
+#line 1968 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype))); yyerrok; ;}
     break;
 
   case 590:
-#line 1963 "parse.y"
+#line 1970 "parse.y"
     { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, error_mark_node); ;}
     break;
 
   case 591:
-#line 1965 "parse.y"
+#line 1972 "parse.y"
     { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, error_mark_node); error ("extra comma"); ;}
     break;
 
   case 593:
-#line 1971 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
+#line 1978 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
     break;
 
   case 594:
-#line 1973 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); error ("missing comma"); yyerrok; ;}
+#line 1980 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); error ("missing comma"); yyerrok; ;}
     break;
 
   case 595:
-#line 1975 "parse.y"
+#line 1982 "parse.y"
     { error ("extra comma"); ;}
     break;
 
   case 596:
-#line 1981 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1988 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 597:
-#line 1983 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1990 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 598:
-#line 1985 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype)), (((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype)); ;}
+#line 1992 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((5) - (5))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (5))].yystate.yysemantics.yysval.ttype)), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (5))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 599:
-#line 1990 "parse.y"
+#line 1997 "parse.y"
     { chk_dialect ("untyped files are", U_B_D_M_PASCAL); ((*yyvalp).ttype) = untyped_file_type_node; ;}
     break;
 
   case 601:
-#line 1996 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype)); ;}
+#line 2003 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 602:
-#line 1998 "parse.y"
-    { TREE_CHAIN ((((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype); ;}
+#line 2005 "parse.y"
+    { TREE_CHAIN ((((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype))) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype); ;}
     break;
 
   case 606:
-#line 2006 "parse.y"
-    { TREE_CHAIN ((((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype); ;}
+#line 2013 "parse.y"
+    { TREE_CHAIN ((((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype))) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype); ;}
     break;
 
   case 607:
-#line 2011 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 2018 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 608:
-#line 2013 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 2020 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 609:
-#line 2018 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), build_tree_list (build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (-4)].yystate.yysemantics.yysval.ttype)), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype))); ;}
+#line 2025 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((6) - (6))].yystate.yysemantics.yysval.ttype), build_tree_list (build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (6))].yystate.yysemantics.yysval.ttype)), (((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (6))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 610:
-#line 2020 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), build_tree_list (build_tree_list (NULL_TREE, integer_zero_node), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype))); ;}
+#line 2027 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((4) - (4))].yystate.yysemantics.yysval.ttype), build_tree_list (build_tree_list (NULL_TREE, integer_zero_node), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (4))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 611:
-#line 2025 "parse.y"
-    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype); ;}
+#line 2032 "parse.y"
+    { ((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (4))].yystate.yysemantics.yysval.ttype); ;}
     break;
 
   case 612:
-#line 2030 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (build_tree_list (NULL_TREE, NULL_TREE), (((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 2037 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (build_tree_list (NULL_TREE, NULL_TREE), (((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 613:
-#line 2035 "parse.y"
-    { ((*yyvalp).ttype) = maybe_schema_discriminant ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 2042 "parse.y"
+    { ((*yyvalp).ttype) = maybe_schema_discriminant ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 614:
-#line 2037 "parse.y"
+#line 2044 "parse.y"
     { ((*yyvalp).ttype) = NULL_TREE; ;}
     break;
 
   case 615:
-#line 2039 "parse.y"
-    { PASCAL_BP_INITIALIZER_LIST ((((*yyvalp).ttype) = nreverse ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)))) = 1; ;}
+#line 2046 "parse.y"
+    { PASCAL_BP_INITIALIZER_LIST ((((*yyvalp).ttype) = nreverse ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype)))) = 1; ;}
     break;
 
   case 616:
-#line 2041 "parse.y"
-    { ((*yyvalp).ttype) = nreverse ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype)); ;}
+#line 2048 "parse.y"
+    { ((*yyvalp).ttype) = nreverse ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 617:
-#line 2043 "parse.y"
+#line 2050 "parse.y"
     { error ("invalid component value"); ((*yyvalp).ttype) = error_mark_node; ;}
     break;
 
   case 619:
-#line 2049 "parse.y"
-    { TREE_CHAIN ((((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype); ;}
+#line 2056 "parse.y"
+    { TREE_CHAIN ((((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype))) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype); ;}
     break;
 
   case 620:
-#line 2051 "parse.y"
-    { TREE_CHAIN ((((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype); error ("missing separator"); ;}
+#line 2058 "parse.y"
+    { TREE_CHAIN ((((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype))) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype); error ("missing separator"); ;}
     break;
 
   case 622:
-#line 2057 "parse.y"
+#line 2064 "parse.y"
     { chk_dialect ("initializers separated with `,' are", B_D_M_PASCAL); ;}
     break;
 
   case 623:
-#line 2062 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 2069 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 624:
-#line 2064 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 2071 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 626:
-#line 2070 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
+#line 2077 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); yyerrok; ;}
     break;
 
   case 627:
-#line 2072 "parse.y"
+#line 2079 "parse.y"
     { error ("missing index expression"); ((*yyvalp).ttype) = NULL_TREE; ;}
     break;
 
   case 628:
-#line 2074 "parse.y"
-    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); error ("missing comma"); yyerrok; ;}
+#line 2081 "parse.y"
+    { ((*yyvalp).ttype) = chainon ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); error ("missing comma"); yyerrok; ;}
     break;
 
   case 629:
-#line 2076 "parse.y"
+#line 2083 "parse.y"
     { error ("extra comma"); ;}
     break;
 
   case 630:
-#line 2081 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE); ;}
+#line 2088 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype), NULL_TREE); ;}
     break;
 
   case 631:
-#line 2083 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (string_may_be_char ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 1), NULL_TREE); ;}
+#line 2090 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (string_may_be_char ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype), 1), NULL_TREE); ;}
     break;
 
   case 632:
-#line 2085 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (string_may_be_char ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), 1), string_may_be_char ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), 1)); ;}
+#line 2092 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (string_may_be_char ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), 1), string_may_be_char ((((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), 1)); ;}
     break;
 
   case 633:
-#line 2090 "parse.y"
+#line 2097 "parse.y"
     { ((*yyvalp).ttype) = build_set_constructor (NULL_TREE); ;}
     break;
 
   case 634:
-#line 2092 "parse.y"
-    { ((*yyvalp).ttype) = build_set_constructor (nreverse ((((yyGLRStackItem const *)yyvsp)[YYFILL (-1)].yystate.yysemantics.yysval.ttype))); ;}
+#line 2099 "parse.y"
+    { ((*yyvalp).ttype) = build_set_constructor (nreverse ((((yyGLRStackItem const *)yyvsp)[YYFILL ((2) - (3))].yystate.yysemantics.yysval.ttype))); ;}
     break;
 
   case 636:
-#line 2098 "parse.y"
-    { TREE_CHAIN ((((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype); yyerrok; ;}
+#line 2105 "parse.y"
+    { TREE_CHAIN ((((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype))) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype); yyerrok; ;}
     break;
 
   case 637:
-#line 2100 "parse.y"
-    { TREE_CHAIN ((((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))) = (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype); error ("missing comma"); yyerrok; ;}
+#line 2107 "parse.y"
+    { TREE_CHAIN ((((*yyvalp).ttype) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype))) = (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype); error ("missing comma"); yyerrok; ;}
     break;
 
   case 638:
-#line 2102 "parse.y"
+#line 2109 "parse.y"
     { error ("extra comma"); ;}
     break;
 
   case 639:
-#line 2107 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), NULL_TREE); ;}
+#line 2114 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype), NULL_TREE); ;}
     break;
 
   case 640:
-#line 2109 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 2116 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 641:
-#line 2115 "parse.y"
+#line 2122 "parse.y"
     { ((*yyvalp).code) = CONVERT_EXPR; ;}
     break;
 
   case 642:
-#line 2116 "parse.y"
+#line 2123 "parse.y"
     { ((*yyvalp).code) = NEGATE_EXPR; ;}
     break;
 
   case 643:
-#line 2120 "parse.y"
+#line 2127 "parse.y"
     { ((*yyvalp).code) = CONVERT_EXPR; ;}
     break;
 
   case 644:
-#line 2121 "parse.y"
+#line 2128 "parse.y"
     { ((*yyvalp).code) = NEGATE_EXPR; ;}
     break;
 
   case 645:
-#line 2122 "parse.y"
+#line 2129 "parse.y"
     { ((*yyvalp).code) = TRUTH_NOT_EXPR; ;}
     break;
 
   case 646:
-#line 2126 "parse.y"
+#line 2133 "parse.y"
     { ((*yyvalp).code) = NE_EXPR; ;}
     break;
 
   case 647:
-#line 2127 "parse.y"
+#line 2134 "parse.y"
     { ((*yyvalp).code) = LE_EXPR; ;}
     break;
 
   case 648:
-#line 2128 "parse.y"
+#line 2135 "parse.y"
     { ((*yyvalp).code) = GE_EXPR; ;}
     break;
 
   case 649:
-#line 2129 "parse.y"
+#line 2136 "parse.y"
     { ((*yyvalp).code) = EQ_EXPR; ;}
     break;
 
   case 650:
-#line 2130 "parse.y"
+#line 2137 "parse.y"
     { ((*yyvalp).code) = LT_EXPR; ;}
     break;
 
   case 651:
-#line 2131 "parse.y"
+#line 2138 "parse.y"
     { ((*yyvalp).code) = GT_EXPR; ;}
     break;
 
   case 652:
-#line 2132 "parse.y"
+#line 2139 "parse.y"
     { ((*yyvalp).code) = IN_EXPR; ;}
     break;
 
   case 653:
-#line 2136 "parse.y"
+#line 2143 "parse.y"
     { ((*yyvalp).code) = PLUS_EXPR; ;}
     break;
 
   case 654:
-#line 2137 "parse.y"
+#line 2144 "parse.y"
     { ((*yyvalp).code) = PLUS_EXPR; ;}
     break;
 
   case 655:
-#line 2138 "parse.y"
+#line 2145 "parse.y"
     { ((*yyvalp).code) = MINUS_EXPR; ;}
     break;
 
   case 656:
-#line 2139 "parse.y"
+#line 2146 "parse.y"
     { ((*yyvalp).code) = MINUS_EXPR; ;}
     break;
 
   case 657:
-#line 2140 "parse.y"
+#line 2147 "parse.y"
     { ((*yyvalp).code) = TRUTH_XOR_EXPR; ;}
     break;
 
   case 658:
-#line 2141 "parse.y"
+#line 2148 "parse.y"
     { ((*yyvalp).code) = SYMDIFF_EXPR; ;}
     break;
 
   case 659:
-#line 2145 "parse.y"
+#line 2152 "parse.y"
     { ((*yyvalp).code) = MULT_EXPR; ;}
     break;
 
   case 660:
-#line 2146 "parse.y"
+#line 2153 "parse.y"
     { ((*yyvalp).code) = RDIV_EXPR; ;}
     break;
 
   case 661:
-#line 2147 "parse.y"
+#line 2154 "parse.y"
     { ((*yyvalp).code) = TRUNC_DIV_EXPR; ;}
     break;
 
   case 662:
-#line 2148 "parse.y"
+#line 2155 "parse.y"
     { ((*yyvalp).code) = (co->pascal_dialect & B_D_M_PASCAL) ? TRUNC_MOD_EXPR : FLOOR_MOD_EXPR; ;}
     break;
 
   case 663:
-#line 2149 "parse.y"
+#line 2156 "parse.y"
     { ((*yyvalp).code) = LSHIFT_EXPR; ;}
     break;
 
   case 664:
-#line 2150 "parse.y"
+#line 2157 "parse.y"
     { ((*yyvalp).code) = RSHIFT_EXPR; ;}
     break;
 
   case 665:
-#line 2154 "parse.y"
+#line 2161 "parse.y"
     { ((*yyvalp).code) = TRUTH_OR_EXPR; ;}
     break;
 
   case 666:
-#line 2155 "parse.y"
+#line 2162 "parse.y"
     { ((*yyvalp).code) = TRUTH_ORIF_EXPR; chk_dialect ("`or else' (without underscore) is", GNU_PASCAL); ;}
     break;
 
   case 667:
-#line 2156 "parse.y"
+#line 2163 "parse.y"
     { ((*yyvalp).code) = TRUTH_ORIF_EXPR; ;}
     break;
 
   case 668:
-#line 2157 "parse.y"
+#line 2164 "parse.y"
     { ((*yyvalp).code) = TRUTH_ORIF_EXPR; chk_dialect ("`|' is", MAC_PASCAL); ;}
     break;
 
   case 669:
-#line 2161 "parse.y"
+#line 2168 "parse.y"
     { ((*yyvalp).code) = TRUTH_AND_EXPR; ;}
     break;
 
   case 670:
-#line 2162 "parse.y"
+#line 2169 "parse.y"
     { ((*yyvalp).code) = TRUTH_ANDIF_EXPR; chk_dialect ("`and then' (without underscore) is", GNU_PASCAL); ;}
     break;
 
   case 671:
-#line 2163 "parse.y"
+#line 2170 "parse.y"
     { ((*yyvalp).code) = TRUTH_ANDIF_EXPR; ;}
     break;
 
   case 672:
-#line 2164 "parse.y"
+#line 2171 "parse.y"
     { ((*yyvalp).code) = TRUTH_ANDIF_EXPR; chk_dialect ("`&' is", MAC_PASCAL); ;}
     break;
 
   case 673:
-#line 2169 "parse.y"
-    { ((*yyvalp).itype) = IDENTIFIER_BUILT_IN_VALUE ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype))->symbol; ;}
+#line 2176 "parse.y"
+    { ((*yyvalp).itype) = IDENTIFIER_BUILT_IN_VALUE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype))->symbol; ;}
     break;
 
   case 674:
-#line 2171 "parse.y"
+#line 2178 "parse.y"
     { ((*yyvalp).itype) = p_and; ;}
     break;
 
   case 675:
-#line 2172 "parse.y"
+#line 2179 "parse.y"
     { ((*yyvalp).itype) = p_or; ;}
     break;
 
   case 676:
-#line 2173 "parse.y"
+#line 2180 "parse.y"
     { ((*yyvalp).itype) = p_not; ;}
     break;
 
   case 677:
-#line 2174 "parse.y"
+#line 2181 "parse.y"
     { ((*yyvalp).itype) = p_xor; ;}
     break;
 
   case 678:
-#line 2175 "parse.y"
+#line 2182 "parse.y"
     { ((*yyvalp).itype) = p_shl; ;}
     break;
 
   case 679:
-#line 2176 "parse.y"
+#line 2183 "parse.y"
     { ((*yyvalp).itype) = p_shr; ;}
     break;
 
   case 680:
-#line 2182 "parse.y"
+#line 2189 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("BPlus", "+"); ;}
     break;
 
   case 681:
-#line 2183 "parse.y"
+#line 2190 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("BPlus", "+"); ;}
     break;
 
   case 682:
-#line 2184 "parse.y"
+#line 2191 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("BMinus", "-"); ;}
     break;
 
   case 683:
-#line 2185 "parse.y"
+#line 2192 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("BMinus", "-"); ;}
     break;
 
   case 684:
-#line 2186 "parse.y"
+#line 2193 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("BMult", "*"); ;}
     break;
 
   case 685:
-#line 2187 "parse.y"
+#line 2194 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("RDiv", "/"); ;}
     break;
 
   case 686:
-#line 2188 "parse.y"
+#line 2195 "parse.y"
     { ((*yyvalp).ttype) = get_identifier ("Div"); ;}
     break;
 
   case 687:
-#line 2189 "parse.y"
+#line 2196 "parse.y"
     { ((*yyvalp).ttype) = get_identifier ("Mod"); ;}
     break;
 
   case 688:
-#line 2190 "parse.y"
+#line 2197 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("RPower", "**"); ;}
     break;
 
   case 689:
-#line 2191 "parse.y"
+#line 2198 "parse.y"
     { ((*yyvalp).ttype) = get_identifier ("In"); ;}
     break;
 
   case 690:
-#line 2192 "parse.y"
+#line 2199 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("LT", "<"); ;}
     break;
 
   case 691:
-#line 2193 "parse.y"
+#line 2200 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("EQ", "="); ;}
     break;
 
   case 692:
-#line 2194 "parse.y"
+#line 2201 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("GT", ">"); ;}
     break;
 
   case 693:
-#line 2195 "parse.y"
+#line 2202 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("NE", "<>"); ;}
     break;
 
   case 694:
-#line 2196 "parse.y"
+#line 2203 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("GE", ">="); ;}
     break;
 
   case 695:
-#line 2197 "parse.y"
+#line 2204 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("LE", "<="); ;}
     break;
 
   case 696:
-#line 2198 "parse.y"
+#line 2205 "parse.y"
     { ((*yyvalp).ttype) = get_identifier ("And"); ;}
     break;
 
   case 697:
-#line 2199 "parse.y"
+#line 2206 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("SAnd", "&"); ;}
     break;
 
   case 698:
-#line 2200 "parse.y"
+#line 2207 "parse.y"
     { ((*yyvalp).ttype) = get_identifier ("Or"); ;}
     break;
 
   case 699:
-#line 2201 "parse.y"
+#line 2208 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("SOr", "|"); ;}
     break;
 
   case 700:
-#line 2202 "parse.y"
+#line 2209 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("SymDiff", "<>"); ;}
     break;
 
   case 703:
-#line 2208 "parse.y"
+#line 2215 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("CeilPlus", "+>"); ;}
     break;
 
   case 704:
-#line 2209 "parse.y"
+#line 2216 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("CeilMinus", "->"); ;}
     break;
 
   case 705:
-#line 2210 "parse.y"
+#line 2217 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("FloorPlus", "+<"); ;}
     break;
 
   case 706:
-#line 2211 "parse.y"
+#line 2218 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("FloorMinus", "-<"); ;}
     break;
 
   case 707:
-#line 2215 "parse.y"
+#line 2222 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("CeilMult", "*>"); ;}
     break;
 
   case 708:
-#line 2216 "parse.y"
+#line 2223 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("CeilRDiv", "/>"); ;}
     break;
 
   case 709:
-#line 2217 "parse.y"
+#line 2224 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("FloorMult", "*<"); ;}
     break;
 
   case 710:
-#line 2218 "parse.y"
+#line 2225 "parse.y"
     { ((*yyvalp).ttype) = get_identifier_with_spelling ("FloorRDiv", "/<"); ;}
     break;
 
   case 713:
-#line 2230 "parse.y"
-    { ((*yyvalp).ttype) = numeric_label ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 2237 "parse.y"
+    { ((*yyvalp).ttype) = numeric_label ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 714:
-#line 2235 "parse.y"
-    { ((*yyvalp).ttype) = nreverse ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 2242 "parse.y"
+    { ((*yyvalp).ttype) = nreverse ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 715:
-#line 2240 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 2247 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 716:
-#line 2242 "parse.y"
-    { ((*yyvalp).ttype) = tree_cons (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype)); ;}
+#line 2249 "parse.y"
+    { ((*yyvalp).ttype) = tree_cons (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 717:
-#line 2244 "parse.y"
+#line 2251 "parse.y"
     {
-        ((*yyvalp).ttype) = tree_cons (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype));
-        error ("comma missing after `%s'", IDENTIFIER_NAME (TREE_VALUE ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype))));
+        ((*yyvalp).ttype) = tree_cons (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype));
+        error ("comma missing after `%s'", IDENTIFIER_NAME (TREE_VALUE ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype))));
         yyerrok;
       ;}
     break;
 
   case 718:
-#line 2250 "parse.y"
+#line 2257 "parse.y"
     { error ("extra comma following identifier list"); ;}
     break;
 
   case 720:
-#line 2256 "parse.y"
-    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 2263 "parse.y"
+    { ((*yyvalp).ttype) = build_tree_list (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 721:
-#line 2258 "parse.y"
-    { ((*yyvalp).ttype) = tree_cons (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype)); ;}
+#line 2265 "parse.y"
+    { ((*yyvalp).ttype) = tree_cons (NULL_TREE, (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 723:
-#line 2264 "parse.y"
-    { ((*yyvalp).ttype) = build_qualified_id ((((yyGLRStackItem const *)yyvsp)[YYFILL (-2)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 2271 "parse.y"
+    { ((*yyvalp).ttype) = build_qualified_id ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (3))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((3) - (3))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 724:
-#line 2269 "parse.y"
+#line 2276 "parse.y"
     { warn_about_keyword_redeclaration (((*yyvalp).ttype), 1); ;}
     break;
 
   case 771:
-#line 2323 "parse.y"
-    { ((*yyvalp).ttype) = check_identifier ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype)); ;}
+#line 2330 "parse.y"
+    { ((*yyvalp).ttype) = check_identifier ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype)); ;}
     break;
 
   case 780:
-#line 2340 "parse.y"
-    { char c = (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.itype); ((*yyvalp).ttype) = make_identifier (&c, 1); ;}
+#line 2347 "parse.y"
+    { char c = (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.itype); ((*yyvalp).ttype) = make_identifier (&c, 1); ;}
     break;
 
   case 781:
-#line 2347 "parse.y"
+#line 2354 "parse.y"
     { pushlevel_expand (0); ;}
     break;
 
   case 782:
-#line 2352 "parse.y"
+#line 2359 "parse.y"
     { poplevel_expand (0, 1); ;}
     break;
 
   case 783:
-#line 2357 "parse.y"
+#line 2364 "parse.y"
     { lex_const_equal = 0; ;}
     break;
 
   case 784:
-#line 2362 "parse.y"
+#line 2369 "parse.y"
     { defining_packed_type += ((*yyvalp).itype) = !co->ignore_packed;  /* can be nested */ ;}
     break;
 
   case 785:
-#line 2367 "parse.y"
-    { ASSERT_ID ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yyloc), p_protected); ;}
+#line 2374 "parse.y"
+    { ASSERT_ID ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yyloc), p_protected); ;}
     break;
 
   case 786:
-#line 2372 "parse.y"
-    { ASSERT_ID ((((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL (0)].yystate.yyloc), p_module); ;}
+#line 2379 "parse.y"
+    { ASSERT_ID ((((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yysemantics.yysval.ttype), (((yyGLRStackItem const *)yyvsp)[YYFILL ((1) - (1))].yystate.yyloc), p_module); ;}
     break;
 
   case 787:
-#line 2377 "parse.y"
+#line 2384 "parse.y"
     { yyerrok; ;}
     break;
 
   case 788:
-#line 2379 "parse.y"
+#line 2386 "parse.y"
     { yyerrok; ;}
     break;
 
   case 795:
-#line 2396 "parse.y"
+#line 2403 "parse.y"
     { warning ("missing `.' at the end of program/unit/module"); ;}
     break;
 
   case 796:
-#line 2401 "parse.y"
+#line 2408 "parse.y"
     { ((*yyvalp).ttype) = NULL_TREE; ;}
     break;
 
   case 797:
-#line 2406 "parse.y"
+#line 2413 "parse.y"
     { ((*yyvalp).ttype) = error_mark_node; ;}
     break;
 
 
+/* Line 930 of glr.c.  */
+#line 7778 "parse.c"
       default: break;
     }
 
@@ -8013,17 +7786,14 @@ yyuserAction (yyRuleNum yyn, int yyrhslen, yyGLRStackItem* yyvsp,
 # undef YYBACKUP
 # undef yyclearin
 # undef YYRECOVERING
-/* Line 872 of glr.c.  */
-#line 8018 "parse.c"
 }
 
 
-static void
+/*ARGSUSED*/ static void
 yyuserMerge (int yyn, YYSTYPE* yy0, YYSTYPE* yy1)
 {
-  /* `Use' the arguments.  */
-  (void) yy0;
-  (void) yy1;
+  YYUSE (yy0);
+  YYUSE (yy1);
 
   switch (yyn)
     {
@@ -8038,12 +7808,12 @@ yyuserMerge (int yyn, YYSTYPE* yy0, YYSTYPE* yy1)
 | Release the memory associated to this symbol.  |
 `-----------------------------------------------*/
 
+/*ARGSUSED*/
 static void
 yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocationp)
 {
-  /* Pacify ``unused variable'' warnings.  */
-  (void) yyvaluep;
-  (void) yylocationp;
+  YYUSE (yyvaluep);
+  YYUSE (yylocationp);
 
   if (!yymsg)
     yymsg = "Deleting";
@@ -8053,7 +7823,7 @@ yydestruct (const char *yymsg, int yytype, YYSTYPE *yyvaluep, YYLTYPE *yylocatio
     {
 
       default:
-        break;
+	break;
     }
 }
 
@@ -8075,27 +7845,30 @@ yydestroyGLRState (char const *yymsg, yyGLRState *yys)
 #if YYDEBUG
       if (yydebug)
 	{
-	  YYFPRINTF (stderr, "%s unresolved ", yymsg);
-	  yysymprint (stderr, yystos[yys->yylrState],
-		      &yys->yysemantics.yysval, &yys->yyloc);
+	  if (yys->yysemantics.yyfirstVal)
+	    YYFPRINTF (stderr, "%s unresolved ", yymsg);
+	  else
+	    YYFPRINTF (stderr, "%s incomplete ", yymsg);
+	  yy_symbol_print (stderr, yystos[yys->yylrState],
+			   NULL, &yys->yyloc);
 	  YYFPRINTF (stderr, "\n");
 	}
 #endif
 
       if (yys->yysemantics.yyfirstVal)
-        {
-          yySemanticOption *yyoption = yys->yysemantics.yyfirstVal;
-          yyGLRState *yyrh;
-          int yyn;
-          for (yyrh = yyoption->yystate, yyn = yyrhsLength (yyoption->yyrule);
-               yyn > 0;
-               yyrh = yyrh->yypred, yyn -= 1)
-            yydestroyGLRState (yymsg, yyrh);
-        }
+	{
+	  yySemanticOption *yyoption = yys->yysemantics.yyfirstVal;
+	  yyGLRState *yyrh;
+	  int yyn;
+	  for (yyrh = yyoption->yystate, yyn = yyrhsLength (yyoption->yyrule);
+	       yyn > 0;
+	       yyrh = yyrh->yypred, yyn -= 1)
+	    yydestroyGLRState (yymsg, yyrh);
+	}
     }
 }
 
-/** Left-hand-side symbol for rule #RULE. */
+/** Left-hand-side symbol for rule #RULE.  */
 static inline yySymbol
 yylhsNonterm (yyRuleNum yyrule)
 {
@@ -8106,14 +7879,14 @@ yylhsNonterm (yyRuleNum yyrule)
   ((yystate) == YYPACT_NINF)
 
 /** True iff LR state STATE has only a default reduction (regardless
- *  of token). */
+ *  of token).  */
 static inline yybool
 yyisDefaultedState (yyStateNum yystate)
 {
   return yyis_pact_ninf (yypact[yystate]);
 }
 
-/** The default reduction for STATE, assuming it has one. */
+/** The default reduction for STATE, assuming it has one.  */
 static inline yyRuleNum
 yydefaultAction (yyStateNum yystate)
 {
@@ -8121,7 +7894,7 @@ yydefaultAction (yyStateNum yystate)
 }
 
 #define yyis_table_ninf(yytable_value) \
-  0
+  YYID (0)
 
 /** Set *YYACTION to the action to take in YYSTATE on seeing YYTOKEN.
  *  Result R means
@@ -8133,7 +7906,7 @@ yydefaultAction (yyStateNum yystate)
  */
 static inline void
 yygetLRActions (yyStateNum yystate, int yytoken,
-	        int* yyaction, const short int** yyconflicts)
+		int* yyaction, const short int** yyconflicts)
 {
   int yyindex = yypact[yystate] + yytoken;
   if (yyindex < 0 || YYLAST < yyindex || yycheck[yyindex] != yytoken)
@@ -8178,26 +7951,49 @@ yyisErrorAction (int yyaction)
 
 				/* GLRStates */
 
+/** Return a fresh GLRStackItem.  Callers should call
+ * YY_RESERVE_GLRSTACK afterwards to make sure there is sufficient
+ * headroom.  */
+
+static inline yyGLRStackItem*
+yynewGLRStackItem (yyGLRStack* yystackp, yybool yyisState)
+{
+  yyGLRStackItem* yynewItem = yystackp->yynextFree;
+  yystackp->yyspaceLeft -= 1;
+  yystackp->yynextFree += 1;
+  yynewItem->yystate.yyisState = yyisState;
+  return yynewItem;
+}
+
+/** Add a new semantic action that will execute the action for rule
+ *  RULENUM on the semantic values in RHS to the list of
+ *  alternative actions for STATE.  Assumes that RHS comes from
+ *  stack #K of *STACKP. */
 static void
-yyaddDeferredAction (yyGLRStack* yystack, yyGLRState* yystate,
+yyaddDeferredAction (yyGLRStack* yystackp, size_t yyk, yyGLRState* yystate,
 		     yyGLRState* rhs, yyRuleNum yyrule)
 {
-  yySemanticOption* yynewItem;
-  yynewItem = &yystack->yynextFree->yyoption;
-  yystack->yyspaceLeft -= 1;
-  yystack->yynextFree += 1;
-  yynewItem->yyisState = yyfalse;
-  yynewItem->yystate = rhs;
-  yynewItem->yyrule = yyrule;
-  yynewItem->yynext = yystate->yysemantics.yyfirstVal;
-  yystate->yysemantics.yyfirstVal = yynewItem;
-  if (yystack->yyspaceLeft < YYHEADROOM)
-    yyexpandGLRStack (yystack);
+  yySemanticOption* yynewOption =
+    &yynewGLRStackItem (yystackp, yyfalse)->yyoption;
+  yynewOption->yystate = rhs;
+  yynewOption->yyrule = yyrule;
+  if (yystackp->yytops.yylookaheadNeeds[yyk])
+    {
+      yynewOption->yyrawchar = yychar;
+      yynewOption->yyval = yylval;
+      yynewOption->yyloc = yylloc;
+    }
+  else
+    yynewOption->yyrawchar = YYEMPTY;
+  yynewOption->yynext = yystate->yysemantics.yyfirstVal;
+  yystate->yysemantics.yyfirstVal = yynewOption;
+
+  YY_RESERVE_GLRSTACK (yystackp);
 }
 
 				/* GLRStacks */
 
-/** Initialize SET to a singleton set containing an empty stack. */
+/** Initialize SET to a singleton set containing an empty stack.  */
 static yybool
 yyinitStateSet (yyGLRStateSet* yyset)
 {
@@ -8207,58 +8003,67 @@ yyinitStateSet (yyGLRStateSet* yyset)
   if (! yyset->yystates)
     return yyfalse;
   yyset->yystates[0] = NULL;
+  yyset->yylookaheadNeeds =
+    (yybool*) YYMALLOC (16 * sizeof yyset->yylookaheadNeeds[0]);
+  if (! yyset->yylookaheadNeeds)
+    {
+      YYFREE (yyset->yystates);
+      return yyfalse;
+    }
   return yytrue;
 }
 
 static void yyfreeStateSet (yyGLRStateSet* yyset)
 {
   YYFREE (yyset->yystates);
+  YYFREE (yyset->yylookaheadNeeds);
 }
 
 /** Initialize STACK to a single empty stack, with total maximum
- *  capacity for all stacks of SIZE. */
+ *  capacity for all stacks of SIZE.  */
 static yybool
-yyinitGLRStack (yyGLRStack* yystack, size_t yysize)
+yyinitGLRStack (yyGLRStack* yystackp, size_t yysize)
 {
-  yystack->yyerrState = 0;
+  yystackp->yyerrState = 0;
   yynerrs = 0;
-  yystack->yyspaceLeft = yysize;
-  yystack->yyitems =
-    (yyGLRStackItem*) YYMALLOC (yysize * sizeof yystack->yynextFree[0]);
-  if (!yystack->yyitems)
+  yystackp->yyspaceLeft = yysize;
+  yystackp->yyitems =
+    (yyGLRStackItem*) YYMALLOC (yysize * sizeof yystackp->yynextFree[0]);
+  if (!yystackp->yyitems)
     return yyfalse;
-  yystack->yynextFree = yystack->yyitems;
-  yystack->yysplitPoint = NULL;
-  yystack->yylastDeleted = NULL;
-  return yyinitStateSet (&yystack->yytops);
+  yystackp->yynextFree = yystackp->yyitems;
+  yystackp->yysplitPoint = NULL;
+  yystackp->yylastDeleted = NULL;
+  return yyinitStateSet (&yystackp->yytops);
 }
 
-#define YYRELOC(YYFROMITEMS,YYTOITEMS,YYX,YYTYPE) \
+
+#if YYSTACKEXPANDABLE
+# define YYRELOC(YYFROMITEMS,YYTOITEMS,YYX,YYTYPE) \
   &((YYTOITEMS) - ((YYFROMITEMS) - (yyGLRStackItem*) (YYX)))->YYTYPE
 
 /** If STACK is expandable, extend it.  WARNING: Pointers into the
     stack from outside should be considered invalid after this call.
     We always expand when there are 1 or fewer items left AFTER an
     allocation, so that we can avoid having external pointers exist
-    across an allocation. */
+    across an allocation.  */
 static void
-yyexpandGLRStack (yyGLRStack* yystack)
+yyexpandGLRStack (yyGLRStack* yystackp)
 {
-#if YYSTACKEXPANDABLE
   yyGLRStackItem* yynewItems;
   yyGLRStackItem* yyp0, *yyp1;
   size_t yysize, yynewSize;
   size_t yyn;
-  yysize = yystack->yynextFree - yystack->yyitems;
-  if (YYMAXDEPTH < yysize + YYHEADROOM)
-    yyMemoryExhausted (yystack);
+  yysize = yystackp->yynextFree - yystackp->yyitems;
+  if (YYMAXDEPTH - YYHEADROOM < yysize)
+    yyMemoryExhausted (yystackp);
   yynewSize = 2*yysize;
   if (YYMAXDEPTH < yynewSize)
     yynewSize = YYMAXDEPTH;
   yynewItems = (yyGLRStackItem*) YYMALLOC (yynewSize * sizeof yynewItems[0]);
   if (! yynewItems)
-    yyMemoryExhausted (yystack);
-  for (yyp0 = yystack->yyitems, yyp1 = yynewItems, yyn = yysize;
+    yyMemoryExhausted (yystackp);
+  for (yyp0 = yystackp->yyitems, yyp1 = yynewItems, yyn = yysize;
        0 < yyn;
        yyn -= 1, yyp0 += 1, yyp1 += 1)
     {
@@ -8284,83 +8089,87 @@ yyexpandGLRStack (yyGLRStack* yystack)
 	    yyv1->yynext = YYRELOC (yyp0, yyp1, yyv0->yynext, yyoption);
 	}
     }
-  if (yystack->yysplitPoint != NULL)
-    yystack->yysplitPoint = YYRELOC (yystack->yyitems, yynewItems,
-				 yystack->yysplitPoint, yystate);
+  if (yystackp->yysplitPoint != NULL)
+    yystackp->yysplitPoint = YYRELOC (yystackp->yyitems, yynewItems,
+				 yystackp->yysplitPoint, yystate);
 
-  for (yyn = 0; yyn < yystack->yytops.yysize; yyn += 1)
-    if (yystack->yytops.yystates[yyn] != NULL)
-      yystack->yytops.yystates[yyn] =
-	YYRELOC (yystack->yyitems, yynewItems,
-		 yystack->yytops.yystates[yyn], yystate);
-  YYFREE (yystack->yyitems);
-  yystack->yyitems = yynewItems;
-  yystack->yynextFree = yynewItems + yysize;
-  yystack->yyspaceLeft = yynewSize - yysize;
-
-#else
-  yyMemoryExhausted (yystack);
-#endif
+  for (yyn = 0; yyn < yystackp->yytops.yysize; yyn += 1)
+    if (yystackp->yytops.yystates[yyn] != NULL)
+      yystackp->yytops.yystates[yyn] =
+	YYRELOC (yystackp->yyitems, yynewItems,
+		 yystackp->yytops.yystates[yyn], yystate);
+  YYFREE (yystackp->yyitems);
+  yystackp->yyitems = yynewItems;
+  yystackp->yynextFree = yynewItems + yysize;
+  yystackp->yyspaceLeft = yynewSize - yysize;
 }
+#endif
 
 static void
-yyfreeGLRStack (yyGLRStack* yystack)
+yyfreeGLRStack (yyGLRStack* yystackp)
 {
-  YYFREE (yystack->yyitems);
-  yyfreeStateSet (&yystack->yytops);
+  YYFREE (yystackp->yyitems);
+  yyfreeStateSet (&yystackp->yytops);
 }
 
 /** Assuming that S is a GLRState somewhere on STACK, update the
  *  splitpoint of STACK, if needed, so that it is at least as deep as
- *  S. */
+ *  S.  */
 static inline void
-yyupdateSplit (yyGLRStack* yystack, yyGLRState* yys)
+yyupdateSplit (yyGLRStack* yystackp, yyGLRState* yys)
 {
-  if (yystack->yysplitPoint != NULL && yystack->yysplitPoint > yys)
-    yystack->yysplitPoint = yys;
+  if (yystackp->yysplitPoint != NULL && yystackp->yysplitPoint > yys)
+    yystackp->yysplitPoint = yys;
 }
 
-/** Invalidate stack #K in STACK. */
+/** Invalidate stack #K in STACK.  */
 static inline void
-yymarkStackDeleted (yyGLRStack* yystack, size_t yyk)
+yymarkStackDeleted (yyGLRStack* yystackp, size_t yyk)
 {
-  if (yystack->yytops.yystates[yyk] != NULL)
-    yystack->yylastDeleted = yystack->yytops.yystates[yyk];
-  yystack->yytops.yystates[yyk] = NULL;
+  if (yystackp->yytops.yystates[yyk] != NULL)
+    yystackp->yylastDeleted = yystackp->yytops.yystates[yyk];
+  yystackp->yytops.yystates[yyk] = NULL;
 }
 
 /** Undelete the last stack that was marked as deleted.  Can only be
     done once after a deletion, and only when all other stacks have
-    been deleted. */
+    been deleted.  */
 static void
-yyundeleteLastStack (yyGLRStack* yystack)
+yyundeleteLastStack (yyGLRStack* yystackp)
 {
-  if (yystack->yylastDeleted == NULL || yystack->yytops.yysize != 0)
+  if (yystackp->yylastDeleted == NULL || yystackp->yytops.yysize != 0)
     return;
-  yystack->yytops.yystates[0] = yystack->yylastDeleted;
-  yystack->yytops.yysize = 1;
+  yystackp->yytops.yystates[0] = yystackp->yylastDeleted;
+  yystackp->yytops.yysize = 1;
   YYDPRINTF ((stderr, "Restoring last deleted stack as stack #0.\n"));
-  yystack->yylastDeleted = NULL;
+  yystackp->yylastDeleted = NULL;
 }
 
 static inline void
-yyremoveDeletes (yyGLRStack* yystack)
+yyremoveDeletes (yyGLRStack* yystackp)
 {
   size_t yyi, yyj;
   yyi = yyj = 0;
-  while (yyj < yystack->yytops.yysize)
+  while (yyj < yystackp->yytops.yysize)
     {
-      if (yystack->yytops.yystates[yyi] == NULL)
+      if (yystackp->yytops.yystates[yyi] == NULL)
 	{
 	  if (yyi == yyj)
 	    {
 	      YYDPRINTF ((stderr, "Removing dead stacks.\n"));
 	    }
-	  yystack->yytops.yysize -= 1;
+	  yystackp->yytops.yysize -= 1;
 	}
       else
 	{
-	  yystack->yytops.yystates[yyj] = yystack->yytops.yystates[yyi];
+	  yystackp->yytops.yystates[yyj] = yystackp->yytops.yystates[yyi];
+	  /* In the current implementation, it's unnecessary to copy
+	     yystackp->yytops.yylookaheadNeeds[yyi] since, after
+	     yyremoveDeletes returns, the parser immediately either enters
+	     deterministic operation or shifts a token.  However, it doesn't
+	     hurt, and the code might evolve to need it.  */
+	  yystackp->yytops.yylookaheadNeeds[yyj] =
+	    yystackp->yytops.yylookaheadNeeds[yyi];
 	  if (yyj != yyi)
 	    {
 	      YYDPRINTF ((stderr, "Rename stack %lu -> %lu.\n",
@@ -8373,117 +8182,131 @@ yyremoveDeletes (yyGLRStack* yystack)
 }
 
 /** Shift to a new state on stack #K of STACK, corresponding to LR state
- * LRSTATE, at input position POSN, with (resolved) semantic value SVAL. */
+ * LRSTATE, at input position POSN, with (resolved) semantic value SVAL.  */
 static inline void
-yyglrShift (yyGLRStack* yystack, size_t yyk, yyStateNum yylrState,
+yyglrShift (yyGLRStack* yystackp, size_t yyk, yyStateNum yylrState,
 	    size_t yyposn,
-	    YYSTYPE yysval, YYLTYPE* yylocp)
+	    YYSTYPE* yyvalp, YYLTYPE* yylocp)
 {
-  yyGLRStackItem* yynewItem;
+  yyGLRState* yynewState = &yynewGLRStackItem (yystackp, yytrue)->yystate;
 
-  yynewItem = yystack->yynextFree;
-  yystack->yynextFree += 1;
-  yystack->yyspaceLeft -= 1;
-  yynewItem->yystate.yyisState = yytrue;
-  yynewItem->yystate.yylrState = yylrState;
-  yynewItem->yystate.yyposn = yyposn;
-  yynewItem->yystate.yyresolved = yytrue;
-  yynewItem->yystate.yypred = yystack->yytops.yystates[yyk];
-  yystack->yytops.yystates[yyk] = &yynewItem->yystate;
-  yynewItem->yystate.yysemantics.yysval = yysval;
-  yynewItem->yystate.yyloc = *yylocp;
-  if (yystack->yyspaceLeft < YYHEADROOM)
-    yyexpandGLRStack (yystack);
+  yynewState->yylrState = yylrState;
+  yynewState->yyposn = yyposn;
+  yynewState->yyresolved = yytrue;
+  yynewState->yypred = yystackp->yytops.yystates[yyk];
+  yynewState->yysemantics.yysval = *yyvalp;
+  yynewState->yyloc = *yylocp;
+  yystackp->yytops.yystates[yyk] = yynewState;
+
+  YY_RESERVE_GLRSTACK (yystackp);
 }
 
 /** Shift stack #K of YYSTACK, to a new state corresponding to LR
  *  state YYLRSTATE, at input position YYPOSN, with the (unresolved)
- *  semantic value of YYRHS under the action for YYRULE. */
+ *  semantic value of YYRHS under the action for YYRULE.  */
 static inline void
-yyglrShiftDefer (yyGLRStack* yystack, size_t yyk, yyStateNum yylrState,
+yyglrShiftDefer (yyGLRStack* yystackp, size_t yyk, yyStateNum yylrState,
 		 size_t yyposn, yyGLRState* rhs, yyRuleNum yyrule)
 {
-  yyGLRStackItem* yynewItem;
+  yyGLRState* yynewState = &yynewGLRStackItem (yystackp, yytrue)->yystate;
 
-  yynewItem = yystack->yynextFree;
-  yynewItem->yystate.yyisState = yytrue;
-  yynewItem->yystate.yylrState = yylrState;
-  yynewItem->yystate.yyposn = yyposn;
-  yynewItem->yystate.yyresolved = yyfalse;
-  yynewItem->yystate.yypred = yystack->yytops.yystates[yyk];
-  yynewItem->yystate.yysemantics.yyfirstVal = NULL;
-  yystack->yytops.yystates[yyk] = &yynewItem->yystate;
-  yystack->yynextFree += 1;
-  yystack->yyspaceLeft -= 1;
-  yyaddDeferredAction (yystack, &yynewItem->yystate, rhs, yyrule);
+  yynewState->yylrState = yylrState;
+  yynewState->yyposn = yyposn;
+  yynewState->yyresolved = yyfalse;
+  yynewState->yypred = yystackp->yytops.yystates[yyk];
+  yynewState->yysemantics.yyfirstVal = NULL;
+  yystackp->yytops.yystates[yyk] = yynewState;
+
+  /* Invokes YY_RESERVE_GLRSTACK.  */
+  yyaddDeferredAction (yystackp, yyk, yynewState, rhs, yyrule);
 }
 
 /** Pop the symbols consumed by reduction #RULE from the top of stack
  *  #K of STACK, and perform the appropriate semantic action on their
  *  semantic values.  Assumes that all ambiguities in semantic values
- *  have been previously resolved. Set *VALP to the resulting value,
+ *  have been previously resolved.  Set *VALP to the resulting value,
  *  and *LOCP to the computed location (if any).  Return value is as
- *  for userAction. */
+ *  for userAction.  */
 static inline YYRESULTTAG
-yydoAction (yyGLRStack* yystack, size_t yyk, yyRuleNum yyrule,
+yydoAction (yyGLRStack* yystackp, size_t yyk, yyRuleNum yyrule,
 	    YYSTYPE* yyvalp, YYLTYPE* yylocp)
 {
   int yynrhs = yyrhsLength (yyrule);
 
-  if (yystack->yysplitPoint == NULL)
+  if (yystackp->yysplitPoint == NULL)
     {
-      /* Standard special case: single stack. */
-      yyGLRStackItem* rhs = (yyGLRStackItem*) yystack->yytops.yystates[yyk];
+      /* Standard special case: single stack.  */
+      yyGLRStackItem* rhs = (yyGLRStackItem*) yystackp->yytops.yystates[yyk];
       YYASSERT (yyk == 0);
-      yystack->yynextFree -= yynrhs;
-      yystack->yyspaceLeft += yynrhs;
-      yystack->yytops.yystates[0] = & yystack->yynextFree[-1].yystate;
+      yystackp->yynextFree -= yynrhs;
+      yystackp->yyspaceLeft += yynrhs;
+      yystackp->yytops.yystates[0] = & yystackp->yynextFree[-1].yystate;
       return yyuserAction (yyrule, yynrhs, rhs,
-			   yyvalp, yylocp, yystack);
+			   yyvalp, yylocp, yystackp);
     }
   else
     {
+      /* At present, doAction is never called in nondeterministic
+       * mode, so this branch is never taken.  It is here in
+       * anticipation of a future feature that will allow immediate
+       * evaluation of selected actions in nondeterministic mode.  */
       int yyi;
       yyGLRState* yys;
       yyGLRStackItem yyrhsVals[YYMAXRHS + YYMAXLEFT + 1];
       yys = yyrhsVals[YYMAXRHS + YYMAXLEFT].yystate.yypred
-	= yystack->yytops.yystates[yyk];
+	= yystackp->yytops.yystates[yyk];
+      if (yynrhs == 0)
+	/* Set default location.  */
+	yyrhsVals[YYMAXRHS + YYMAXLEFT - 1].yystate.yyloc = yys->yyloc;
       for (yyi = 0; yyi < yynrhs; yyi += 1)
 	{
 	  yys = yys->yypred;
 	  YYASSERT (yys);
 	}
-      yyupdateSplit (yystack, yys);
-      yystack->yytops.yystates[yyk] = yys;
+      yyupdateSplit (yystackp, yys);
+      yystackp->yytops.yystates[yyk] = yys;
       return yyuserAction (yyrule, yynrhs, yyrhsVals + YYMAXRHS + YYMAXLEFT - 1,
-			   yyvalp, yylocp, yystack);
+			   yyvalp, yylocp, yystackp);
     }
 }
 
 #if !YYDEBUG
-# define YY_REDUCE_PRINT(K, Rule)
+# define YY_REDUCE_PRINT(Args)
 #else
-# define YY_REDUCE_PRINT(K, Rule)	\
+# define YY_REDUCE_PRINT(Args)		\
 do {					\
   if (yydebug)				\
-    yy_reduce_print (K, Rule);		\
-} while (0)
+    yy_reduce_print Args;		\
+} while (YYID (0))
 
 /*----------------------------------------------------------.
 | Report that the RULE is going to be reduced on stack #K.  |
 `----------------------------------------------------------*/
 
-static inline void
-yy_reduce_print (size_t yyk, yyRuleNum yyrule)
+/*ARGSUSED*/ static inline void
+yy_reduce_print (yyGLRStack* yystackp, size_t yyk, yyRuleNum yyrule,
+		 YYSTYPE* yyvalp, YYLTYPE* yylocp)
 {
+  int yynrhs = yyrhsLength (yyrule);
+  yybool yynormal __attribute__ ((__unused__)) =
+    (yystackp->yysplitPoint == NULL);
+  yyGLRStackItem* yyvsp = (yyGLRStackItem*) yystackp->yytops.yystates[yyk];
+  int yylow = 1;
   int yyi;
-  YYFPRINTF (stderr, "Reducing stack %lu by rule %d (line %lu), ",
+  YYUSE (yyvalp);
+  YYUSE (yylocp);
+  YYFPRINTF (stderr, "Reducing stack %lu by rule %d (line %lu):\n",
 	     (unsigned long int) yyk, yyrule - 1,
 	     (unsigned long int) yyrline[yyrule]);
-  /* Print the symbols being reduced, and their result.  */
-  for (yyi = yyprhs[yyrule]; 0 <= yyrhs[yyi]; yyi++)
-    YYFPRINTF (stderr, "%s ", yytokenName (yyrhs[yyi]));
-  YYFPRINTF (stderr, "-> %s\n", yytokenName (yyr1[yyrule]));
+  /* The symbols being reduced.  */
+  for (yyi = 0; yyi < yynrhs; yyi++)
+    {
+      fprintf (stderr, "   $%d = ", yyi + 1);
+      yy_symbol_print (stderr, yyrhs[yyprhs[yyrule] + yyi],
+		       &(((yyGLRStackItem const *)yyvsp)[YYFILL ((yyi + 1) - (yynrhs))].yystate.yysemantics.yysval)
+		       , &(((yyGLRStackItem const *)yyvsp)[YYFILL ((yyi + 1) - (yynrhs))].yystate.yyloc)		       );
+      fprintf (stderr, "\n");
+    }
 }
 #endif
 
@@ -8495,56 +8318,58 @@ yy_reduce_print (size_t yyk, yyRuleNum yyrule)
  *  the new state.  If the new state would have an identical input
  *  position, LR state, and predecessor to an existing state on the stack,
  *  it is identified with that existing state, eliminating stack #K from
- *  the STACK. In this case, the (necessarily deferred) semantic value is
+ *  the STACK.  In this case, the (necessarily deferred) semantic value is
  *  added to the options for the existing state's semantic value.
  */
 static inline YYRESULTTAG
-yyglrReduce (yyGLRStack* yystack, size_t yyk, yyRuleNum yyrule,
-             yybool yyforceEval)
+yyglrReduce (yyGLRStack* yystackp, size_t yyk, yyRuleNum yyrule,
+	     yybool yyforceEval)
 {
-  size_t yyposn = yystack->yytops.yystates[yyk]->yyposn;
+  size_t yyposn = yystackp->yytops.yystates[yyk]->yyposn;
 
-  if (yyforceEval || yystack->yysplitPoint == NULL)
+  if (yyforceEval || yystackp->yysplitPoint == NULL)
     {
       YYSTYPE yysval;
       YYLTYPE yyloc;
 
-      YY_REDUCE_PRINT (yyk, yyrule);
-      YYCHK (yydoAction (yystack, yyk, yyrule, &yysval, &yyloc));
-      yyglrShift (yystack, yyk,
-		  yyLRgotoState (yystack->yytops.yystates[yyk]->yylrState,
+      YY_REDUCE_PRINT ((yystackp, yyk, yyrule, &yysval, &yyloc));
+      YYCHK (yydoAction (yystackp, yyk, yyrule, &yysval,
+			 &yyloc));
+      YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyrule], &yysval, &yyloc);
+      yyglrShift (yystackp, yyk,
+		  yyLRgotoState (yystackp->yytops.yystates[yyk]->yylrState,
 				 yylhsNonterm (yyrule)),
-		  yyposn, yysval, &yyloc);
+		  yyposn, &yysval, &yyloc);
     }
   else
     {
       size_t yyi;
       int yyn;
-      yyGLRState* yys, *yys0 = yystack->yytops.yystates[yyk];
+      yyGLRState* yys, *yys0 = yystackp->yytops.yystates[yyk];
       yyStateNum yynewLRState;
 
-      for (yys = yystack->yytops.yystates[yyk], yyn = yyrhsLength (yyrule);
+      for (yys = yystackp->yytops.yystates[yyk], yyn = yyrhsLength (yyrule);
 	   0 < yyn; yyn -= 1)
 	{
 	  yys = yys->yypred;
 	  YYASSERT (yys);
 	}
-      yyupdateSplit (yystack, yys);
+      yyupdateSplit (yystackp, yys);
       yynewLRState = yyLRgotoState (yys->yylrState, yylhsNonterm (yyrule));
       YYDPRINTF ((stderr,
-		  "Reduced stack %lu by rule #%d; action deferred. Now in state %d.\n",
+		  "Reduced stack %lu by rule #%d; action deferred.  Now in state %d.\n",
 		  (unsigned long int) yyk, yyrule - 1, yynewLRState));
-      for (yyi = 0; yyi < yystack->yytops.yysize; yyi += 1)
-	if (yyi != yyk && yystack->yytops.yystates[yyi] != NULL)
+      for (yyi = 0; yyi < yystackp->yytops.yysize; yyi += 1)
+	if (yyi != yyk && yystackp->yytops.yystates[yyi] != NULL)
 	  {
-	    yyGLRState* yyp, *yysplit = yystack->yysplitPoint;
-	    yyp = yystack->yytops.yystates[yyi];
+	    yyGLRState* yyp, *yysplit = yystackp->yysplitPoint;
+	    yyp = yystackp->yytops.yystates[yyi];
 	    while (yyp != yys && yyp != yysplit && yyp->yyposn >= yyposn)
 	      {
 		if (yyp->yylrState == yynewLRState && yyp->yypred == yys)
 		  {
-		    yyaddDeferredAction (yystack, yyp, yys0, yyrule);
-		    yymarkStackDeleted (yystack, yyk);
+		    yyaddDeferredAction (yystackp, yyk, yyp, yys0, yyrule);
+		    yymarkStackDeleted (yystackp, yyk);
 		    YYDPRINTF ((stderr, "Merging stack %lu into stack %lu.\n",
 				(unsigned long int) yyk,
 				(unsigned long int) yyi));
@@ -8553,41 +8378,59 @@ yyglrReduce (yyGLRStack* yystack, size_t yyk, yyRuleNum yyrule,
 		yyp = yyp->yypred;
 	      }
 	  }
-      yystack->yytops.yystates[yyk] = yys;
-      yyglrShiftDefer (yystack, yyk, yynewLRState, yyposn, yys0, yyrule);
+      yystackp->yytops.yystates[yyk] = yys;
+      yyglrShiftDefer (yystackp, yyk, yynewLRState, yyposn, yys0, yyrule);
     }
   return yyok;
 }
 
 static size_t
-yysplitStack (yyGLRStack* yystack, size_t yyk)
+yysplitStack (yyGLRStack* yystackp, size_t yyk)
 {
-  if (yystack->yysplitPoint == NULL)
+  if (yystackp->yysplitPoint == NULL)
     {
       YYASSERT (yyk == 0);
-      yystack->yysplitPoint = yystack->yytops.yystates[yyk];
+      yystackp->yysplitPoint = yystackp->yytops.yystates[yyk];
     }
-  if (yystack->yytops.yysize >= yystack->yytops.yycapacity)
+  if (yystackp->yytops.yysize >= yystackp->yytops.yycapacity)
     {
-      yyGLRState** yynewStates = NULL;
-      if (! ((yystack->yytops.yycapacity
-	      <= (YYSIZEMAX / (2 * sizeof yynewStates[0])))
-	     && (yynewStates =
-		 (yyGLRState**) YYREALLOC (yystack->yytops.yystates,
-					   ((yystack->yytops.yycapacity *= 2)
-					    * sizeof yynewStates[0])))))
-	yyMemoryExhausted (yystack);
-      yystack->yytops.yystates = yynewStates;
+      yyGLRState** yynewStates;
+      yybool* yynewLookaheadNeeds;
+
+      yynewStates = NULL;
+
+      if (yystackp->yytops.yycapacity
+	  > (YYSIZEMAX / (2 * sizeof yynewStates[0])))
+	yyMemoryExhausted (yystackp);
+      yystackp->yytops.yycapacity *= 2;
+
+      yynewStates =
+	(yyGLRState**) YYREALLOC (yystackp->yytops.yystates,
+				  (yystackp->yytops.yycapacity
+				   * sizeof yynewStates[0]));
+      if (yynewStates == NULL)
+	yyMemoryExhausted (yystackp);
+      yystackp->yytops.yystates = yynewStates;
+
+      yynewLookaheadNeeds =
+	(yybool*) YYREALLOC (yystackp->yytops.yylookaheadNeeds,
+			     (yystackp->yytops.yycapacity
+			      * sizeof yynewLookaheadNeeds[0]));
+      if (yynewLookaheadNeeds == NULL)
+	yyMemoryExhausted (yystackp);
+      yystackp->yytops.yylookaheadNeeds = yynewLookaheadNeeds;
     }
-  yystack->yytops.yystates[yystack->yytops.yysize]
-    = yystack->yytops.yystates[yyk];
-  yystack->yytops.yysize += 1;
-  return yystack->yytops.yysize-1;
+  yystackp->yytops.yystates[yystackp->yytops.yysize]
+    = yystackp->yytops.yystates[yyk];
+  yystackp->yytops.yylookaheadNeeds[yystackp->yytops.yysize]
+    = yystackp->yytops.yylookaheadNeeds[yyk];
+  yystackp->yytops.yysize += 1;
+  return yystackp->yytops.yysize-1;
 }
 
 /** True iff Y0 and Y1 represent identical options at the top level.
  *  That is, they represent the same rule applied to RHS symbols
- *  that produce the same terminal symbols. */
+ *  that produce the same terminal symbols.  */
 static yybool
 yyidenticalOptions (yySemanticOption* yyy0, yySemanticOption* yyy1)
 {
@@ -8608,7 +8451,7 @@ yyidenticalOptions (yySemanticOption* yyy0, yySemanticOption* yyy1)
 }
 
 /** Assuming identicalOptions (Y0,Y1), destructively merge the
- *  alternative semantic values for the RHS-symbols of Y1 and Y0. */
+ *  alternative semantic values for the RHS-symbols of Y1 and Y0.  */
 static void
 yymergeOptionSets (yySemanticOption* yyy0, yySemanticOption* yyy1)
 {
@@ -8637,7 +8480,7 @@ yymergeOptionSets (yySemanticOption* yyy0, yySemanticOption* yyy1)
 	  yySemanticOption* yyz1;
 	  yyz0p = &yys0->yysemantics.yyfirstVal;
 	  yyz1 = yys1->yysemantics.yyfirstVal;
-	  while (yytrue)
+	  while (YYID (yytrue))
 	    {
 	      if (yyz1 == *yyz0p || yyz1 == NULL)
 		break;
@@ -8662,7 +8505,7 @@ yymergeOptionSets (yySemanticOption* yyy0, yySemanticOption* yyy1)
 
 /** Y0 and Y1 represent two possible actions to take in a given
  *  parsing state; return 0 if no combination is possible,
- *  1 if user-mergeable, 2 if Y0 is preferred, 3 if Y1 is preferred. */
+ *  1 if user-mergeable, 2 if Y0 is preferred, 3 if Y1 is preferred.  */
 static int
 yypreference (yySemanticOption* y0, yySemanticOption* y1)
 {
@@ -8685,46 +8528,71 @@ yypreference (yySemanticOption* y0, yySemanticOption* y1)
   return 0;
 }
 
-static YYRESULTTAG yyresolveValue (yySemanticOption* yyoptionList,
-				   yyGLRStack* yystack, YYSTYPE* yyvalp,
-				   YYLTYPE* yylocp);
+static YYRESULTTAG yyresolveValue (yyGLRState* yys,
+				   yyGLRStack* yystackp);
 
+
+/** Resolve the previous N states starting at and including state S.  If result
+ *  != yyok, some states may have been left unresolved possibly with empty
+ *  semantic option chains.  Regardless of whether result = yyok, each state
+ *  has been left with consistent data so that yydestroyGLRState can be invoked
+ *  if necessary.  */
 static YYRESULTTAG
-yyresolveStates (yyGLRState* yys, int yyn, yyGLRStack* yystack)
+yyresolveStates (yyGLRState* yys, int yyn,
+		 yyGLRStack* yystackp)
 {
-  YYRESULTTAG yyflag;
   if (0 < yyn)
     {
       YYASSERT (yys->yypred);
-      yyflag = yyresolveStates (yys->yypred, yyn-1, yystack);
-      if (yyflag != yyok)
-	return yyflag;
+      YYCHK (yyresolveStates (yys->yypred, yyn-1, yystackp));
       if (! yys->yyresolved)
-	{
-	  yyflag = yyresolveValue (yys->yysemantics.yyfirstVal, yystack,
-				   &yys->yysemantics.yysval, &yys->yyloc
-				  );
-	  if (yyflag != yyok)
-	    return yyflag;
-	  yys->yyresolved = yytrue;
-	}
+	YYCHK (yyresolveValue (yys, yystackp));
     }
   return yyok;
 }
 
+/** Resolve the states for the RHS of OPT, perform its user action, and return
+ *  the semantic value and location.  Regardless of whether result = yyok, all
+ *  RHS states have been destroyed (assuming the user action destroys all RHS
+ *  semantic values if invoked).  */
 static YYRESULTTAG
-yyresolveAction (yySemanticOption* yyopt, yyGLRStack* yystack,
-	         YYSTYPE* yyvalp, YYLTYPE* yylocp)
+yyresolveAction (yySemanticOption* yyopt, yyGLRStack* yystackp,
+		 YYSTYPE* yyvalp, YYLTYPE* yylocp)
 {
   yyGLRStackItem yyrhsVals[YYMAXRHS + YYMAXLEFT + 1];
   int yynrhs;
+  int yychar_current;
+  YYSTYPE yylval_current;
+  YYLTYPE yylloc_current;
+  YYRESULTTAG yyflag;
 
   yynrhs = yyrhsLength (yyopt->yyrule);
-  YYCHK (yyresolveStates (yyopt->yystate, yynrhs, yystack));
+  yyflag = yyresolveStates (yyopt->yystate, yynrhs, yystackp);
+  if (yyflag != yyok)
+    {
+      yyGLRState *yys;
+      for (yys = yyopt->yystate; yynrhs > 0; yys = yys->yypred, yynrhs -= 1)
+	yydestroyGLRState ("Cleanup: popping", yys);
+      return yyflag;
+    }
+
   yyrhsVals[YYMAXRHS + YYMAXLEFT].yystate.yypred = yyopt->yystate;
-  return yyuserAction (yyopt->yyrule, yynrhs,
-		       yyrhsVals + YYMAXRHS + YYMAXLEFT - 1,
-		       yyvalp, yylocp, yystack);
+  if (yynrhs == 0)
+    /* Set default location.  */
+    yyrhsVals[YYMAXRHS + YYMAXLEFT - 1].yystate.yyloc = yyopt->yystate->yyloc;
+  yychar_current = yychar;
+  yylval_current = yylval;
+  yylloc_current = yylloc;
+  yychar = yyopt->yyrawchar;
+  yylval = yyopt->yyval;
+  yylloc = yyopt->yyloc;
+  yyflag = yyuserAction (yyopt->yyrule, yynrhs,
+			   yyrhsVals + YYMAXRHS + YYMAXLEFT - 1,
+			   yyvalp, yylocp, yystackp);
+  yychar = yychar_current;
+  yylval = yylval_current;
+  yylloc = yylloc_current;
+  return yyflag;
 }
 
 #if YYDEBUG
@@ -8734,7 +8602,7 @@ yyreportTree (yySemanticOption* yyx, int yyindent)
   int yynrhs = yyrhsLength (yyx->yyrule);
   int yyi;
   yyGLRState* yys;
-  yyGLRState* yystates[YYMAXRHS];
+  yyGLRState* yystates[1 + YYMAXRHS];
   yyGLRState yyleftmost_state;
 
   for (yyi = yynrhs, yys = yyx->yystate; 0 < yyi; yyi -= 1, yys = yys->yypred)
@@ -8750,11 +8618,11 @@ yyreportTree (yySemanticOption* yyx, int yyindent)
   if (yyx->yystate->yyposn < yys->yyposn + 1)
     YYFPRINTF (stderr, "%*s%s -> <Rule %d, empty>\n",
 	       yyindent, "", yytokenName (yylhsNonterm (yyx->yyrule)),
-	       yyx->yyrule);
+	       yyx->yyrule - 1);
   else
     YYFPRINTF (stderr, "%*s%s -> <Rule %d, tokens %lu .. %lu>\n",
 	       yyindent, "", yytokenName (yylhsNonterm (yyx->yyrule)),
-	       yyx->yyrule, (unsigned long int) (yys->yyposn + 1),
+	       yyx->yyrule - 1, (unsigned long int) (yys->yyposn + 1),
 	       (unsigned long int) yyx->yystate->yyposn);
   for (yyi = 1; yyi <= yynrhs; yyi += 1)
     {
@@ -8775,16 +8643,12 @@ yyreportTree (yySemanticOption* yyx, int yyindent)
 }
 #endif
 
-static void yyreportAmbiguity (yySemanticOption* yyx0, yySemanticOption* yyx1,
-			       yyGLRStack* yystack)
-  __attribute__ ((__noreturn__));
-static void
-yyreportAmbiguity (yySemanticOption* yyx0, yySemanticOption* yyx1,
-		   yyGLRStack* yystack)
+/*ARGSUSED*/ static YYRESULTTAG
+yyreportAmbiguity (yySemanticOption* yyx0,
+		   yySemanticOption* yyx1)
 {
-  /* `Unused' warnings.  */
-  (void) yyx0;
-  (void) yyx1;
+  YYUSE (yyx0);
+  YYUSE (yyx1);
 
 #if YYDEBUG
   YYFPRINTF (stderr, "Ambiguity detected.\n");
@@ -8794,19 +8658,85 @@ yyreportAmbiguity (yySemanticOption* yyx0, yySemanticOption* yyx1,
   yyreportTree (yyx1, 2);
   YYFPRINTF (stderr, "\n");
 #endif
-  yyFail (yystack, YY_("syntax is ambiguous"));
+
+  yyerror (YY_("syntax is ambiguous"));
+  return yyabort;
 }
 
-
-/** Resolve the ambiguity represented by OPTIONLIST, perform the indicated
- *  actions, and return the result. */
-static YYRESULTTAG
-yyresolveValue (yySemanticOption* yyoptionList, yyGLRStack* yystack,
-		YYSTYPE* yyvalp, YYLTYPE* yylocp)
+/** Starting at and including state S1, resolve the location for each of the
+ *  previous N1 states that is unresolved.  The first semantic option of a state
+ *  is always chosen.  */
+static void
+yyresolveLocations (yyGLRState* yys1, int yyn1,
+		    yyGLRStack *yystackp)
 {
+  if (0 < yyn1)
+    {
+      yyresolveLocations (yys1->yypred, yyn1 - 1, yystackp);
+      if (!yys1->yyresolved)
+	{
+	  yySemanticOption *yyoption;
+	  yyGLRStackItem yyrhsloc[1 + YYMAXRHS];
+	  int yynrhs;
+	  int yychar_current;
+	  YYSTYPE yylval_current;
+	  YYLTYPE yylloc_current;
+	  yyoption = yys1->yysemantics.yyfirstVal;
+	  YYASSERT (yyoption != NULL);
+	  yynrhs = yyrhsLength (yyoption->yyrule);
+	  if (yynrhs > 0)
+	    {
+	      yyGLRState *yys;
+	      int yyn;
+	      yyresolveLocations (yyoption->yystate, yynrhs,
+				  yystackp);
+	      for (yys = yyoption->yystate, yyn = yynrhs;
+		   yyn > 0;
+		   yys = yys->yypred, yyn -= 1)
+		yyrhsloc[yyn].yystate.yyloc = yys->yyloc;
+	    }
+	  else
+	    {
+	      /* Both yyresolveAction and yyresolveLocations traverse the GSS
+		 in reverse rightmost order.  It is only necessary to invoke
+		 yyresolveLocations on a subforest for which yyresolveAction
+		 would have been invoked next had an ambiguity not been
+		 detected.  Thus the location of the previous state (but not
+		 necessarily the previous state itself) is guaranteed to be
+		 resolved already.  */
+	      yyGLRState *yyprevious = yyoption->yystate;
+	      yyrhsloc[0].yystate.yyloc = yyprevious->yyloc;
+	    }
+	  yychar_current = yychar;
+	  yylval_current = yylval;
+	  yylloc_current = yylloc;
+	  yychar = yyoption->yyrawchar;
+	  yylval = yyoption->yyval;
+	  yylloc = yyoption->yyloc;
+	  YYLLOC_DEFAULT ((yys1->yyloc), yyrhsloc, yynrhs);
+	  yychar = yychar_current;
+	  yylval = yylval_current;
+	  yylloc = yylloc_current;
+	}
+    }
+}
+
+/** Resolve the ambiguity represented in state S, perform the indicated
+ *  actions, and set the semantic value of S.  If result != yyok, the chain of
+ *  semantic options in S has been cleared instead or it has been left
+ *  unmodified except that redundant options may have been removed.  Regardless
+ *  of whether result = yyok, S has been left with consistent data so that
+ *  yydestroyGLRState can be invoked if necessary.  */
+static YYRESULTTAG
+yyresolveValue (yyGLRState* yys, yyGLRStack* yystackp)
+{
+  yySemanticOption* yyoptionList = yys->yysemantics.yyfirstVal;
   yySemanticOption* yybest;
   yySemanticOption** yypp;
   yybool yymerge;
+  YYSTYPE yysval;
+  YYRESULTTAG yyflag;
+  YYLTYPE *yylocp = &yys->yyloc;
 
   yybest = yyoptionList;
   yymerge = yyfalse;
@@ -8824,7 +8754,8 @@ yyresolveValue (yySemanticOption* yyoptionList, yyGLRStack* yystack,
 	  switch (yypreference (yybest, yyp))
 	    {
 	    case 0:
-	      yyreportAmbiguity (yybest, yyp, yystack);
+	      yyresolveLocations (yys, 1, yystackp);
+	      return yyreportAmbiguity (yybest, yyp);
 	      break;
 	    case 1:
 	      yymerge = yytrue;
@@ -8837,7 +8768,7 @@ yyresolveValue (yySemanticOption* yyoptionList, yyGLRStack* yystack,
 	      break;
 	    default:
 	      /* This cannot happen so it is not worth a YYASSERT (yyfalse),
-	         but some compilers complain if the default case is
+		 but some compilers complain if the default case is
 		 omitted.  */
 	      break;
 	    }
@@ -8849,84 +8780,100 @@ yyresolveValue (yySemanticOption* yyoptionList, yyGLRStack* yystack,
     {
       yySemanticOption* yyp;
       int yyprec = yydprec[yybest->yyrule];
-      YYCHK (yyresolveAction (yybest, yystack, yyvalp, yylocp));
-      for (yyp = yybest->yynext; yyp != NULL; yyp = yyp->yynext)
-	{
-	  if (yyprec == yydprec[yyp->yyrule])
-	    {
-	      YYSTYPE yyval1;
-	      YYLTYPE yydummy;
-	      YYCHK (yyresolveAction (yyp, yystack, &yyval1, &yydummy));
-	      yyuserMerge (yymerger[yyp->yyrule], yyvalp, &yyval1);
-	    }
-	}
-      return yyok;
+      yyflag = yyresolveAction (yybest, yystackp, &yysval,
+				yylocp);
+      if (yyflag == yyok)
+	for (yyp = yybest->yynext; yyp != NULL; yyp = yyp->yynext)
+	  {
+	    if (yyprec == yydprec[yyp->yyrule])
+	      {
+		YYSTYPE yysval_other;
+		YYLTYPE yydummy;
+		yyflag = yyresolveAction (yyp, yystackp, &yysval_other,
+					  &yydummy);
+		if (yyflag != yyok)
+		  {
+		    yydestruct ("Cleanup: discarding incompletely merged value for",
+				yystos[yys->yylrState],
+				&yysval, yylocp);
+		    break;
+		  }
+		yyuserMerge (yymerger[yyp->yyrule], &yysval, &yysval_other);
+	      }
+	  }
     }
   else
-    return yyresolveAction (yybest, yystack, yyvalp, yylocp);
+    yyflag = yyresolveAction (yybest, yystackp, &yysval, yylocp);
+
+  if (yyflag == yyok)
+    {
+      yys->yyresolved = yytrue;
+      yys->yysemantics.yysval = yysval;
+    }
+  else
+    yys->yysemantics.yyfirstVal = NULL;
+  return yyflag;
 }
 
 static YYRESULTTAG
-yyresolveStack (yyGLRStack* yystack)
+yyresolveStack (yyGLRStack* yystackp)
 {
-  if (yystack->yysplitPoint != NULL)
+  if (yystackp->yysplitPoint != NULL)
     {
       yyGLRState* yys;
       int yyn;
 
-      for (yyn = 0, yys = yystack->yytops.yystates[0];
-	   yys != yystack->yysplitPoint;
+      for (yyn = 0, yys = yystackp->yytops.yystates[0];
+	   yys != yystackp->yysplitPoint;
 	   yys = yys->yypred, yyn += 1)
 	continue;
-      YYCHK (yyresolveStates (yystack->yytops.yystates[0], yyn, yystack
+      YYCHK (yyresolveStates (yystackp->yytops.yystates[0], yyn, yystackp
 			     ));
     }
   return yyok;
 }
 
 static void
-yycompressStack (yyGLRStack* yystack)
+yycompressStack (yyGLRStack* yystackp)
 {
   yyGLRState* yyp, *yyq, *yyr;
 
-  if (yystack->yytops.yysize != 1 || yystack->yysplitPoint == NULL)
+  if (yystackp->yytops.yysize != 1 || yystackp->yysplitPoint == NULL)
     return;
 
-  for (yyp = yystack->yytops.yystates[0], yyq = yyp->yypred, yyr = NULL;
-       yyp != yystack->yysplitPoint;
+  for (yyp = yystackp->yytops.yystates[0], yyq = yyp->yypred, yyr = NULL;
+       yyp != yystackp->yysplitPoint;
        yyr = yyp, yyp = yyq, yyq = yyp->yypred)
     yyp->yypred = yyr;
 
-  yystack->yyspaceLeft += yystack->yynextFree - yystack->yyitems;
-  yystack->yynextFree = ((yyGLRStackItem*) yystack->yysplitPoint) + 1;
-  yystack->yyspaceLeft -= yystack->yynextFree - yystack->yyitems;
-  yystack->yysplitPoint = NULL;
-  yystack->yylastDeleted = NULL;
+  yystackp->yyspaceLeft += yystackp->yynextFree - yystackp->yyitems;
+  yystackp->yynextFree = ((yyGLRStackItem*) yystackp->yysplitPoint) + 1;
+  yystackp->yyspaceLeft -= yystackp->yynextFree - yystackp->yyitems;
+  yystackp->yysplitPoint = NULL;
+  yystackp->yylastDeleted = NULL;
 
   while (yyr != NULL)
     {
-      yystack->yynextFree->yystate = *yyr;
+      yystackp->yynextFree->yystate = *yyr;
       yyr = yyr->yypred;
-      yystack->yynextFree->yystate.yypred = & yystack->yynextFree[-1].yystate;
-      yystack->yytops.yystates[0] = &yystack->yynextFree->yystate;
-      yystack->yynextFree += 1;
-      yystack->yyspaceLeft -= 1;
+      yystackp->yynextFree->yystate.yypred = &yystackp->yynextFree[-1].yystate;
+      yystackp->yytops.yystates[0] = &yystackp->yynextFree->yystate;
+      yystackp->yynextFree += 1;
+      yystackp->yyspaceLeft -= 1;
     }
 }
 
 static YYRESULTTAG
-yyprocessOneStack (yyGLRStack* yystack, size_t yyk,
-	           size_t yyposn, YYSTYPE* yylvalp, YYLTYPE* yyllocp
-		  )
+yyprocessOneStack (yyGLRStack* yystackp, size_t yyk,
+		   size_t yyposn)
 {
   int yyaction;
   const short int* yyconflicts;
   yyRuleNum yyrule;
-  yySymbol* const yytokenp = yystack->yytokenp;
 
-  while (yystack->yytops.yystates[yyk] != NULL)
+  while (yystackp->yytops.yystates[yyk] != NULL)
     {
-      yyStateNum yystate = yystack->yytops.yystates[yyk]->yylrState;
+      yyStateNum yystate = yystackp->yytops.yystates[yyk]->yylrState;
       YYDPRINTF ((stderr, "Stack %lu Entering state %d\n",
 		  (unsigned long int) yyk, yystate));
 
@@ -8939,77 +8886,68 @@ yyprocessOneStack (yyGLRStack* yystack, size_t yyk,
 	    {
 	      YYDPRINTF ((stderr, "Stack %lu dies.\n",
 			  (unsigned long int) yyk));
-	      yymarkStackDeleted (yystack, yyk);
+	      yymarkStackDeleted (yystackp, yyk);
 	      return yyok;
 	    }
-	  YYCHK (yyglrReduce (yystack, yyk, yyrule, yyfalse));
+	  YYCHK (yyglrReduce (yystackp, yyk, yyrule, yyfalse));
 	}
       else
 	{
-	  if (*yytokenp == YYEMPTY)
+	  yySymbol yytoken;
+	  yystackp->yytops.yylookaheadNeeds[yyk] = yytrue;
+	  if (yychar == YYEMPTY)
 	    {
 	      YYDPRINTF ((stderr, "Reading a token: "));
 	      yychar = YYLEX;
-	      *yytokenp = YYTRANSLATE (yychar);
-	      YY_SYMBOL_PRINT ("Next token is", *yytokenp, yylvalp, yyllocp);
+	      yytoken = YYTRANSLATE (yychar);
+	      YY_SYMBOL_PRINT ("Next token is", yytoken, &yylval, &yylloc);
 	    }
-	  yygetLRActions (yystate, *yytokenp, &yyaction, &yyconflicts);
+	  else
+	    yytoken = YYTRANSLATE (yychar);
+	  yygetLRActions (yystate, yytoken, &yyaction, &yyconflicts);
 
 	  while (*yyconflicts != 0)
 	    {
-	      size_t yynewStack = yysplitStack (yystack, yyk);
+	      size_t yynewStack = yysplitStack (yystackp, yyk);
 	      YYDPRINTF ((stderr, "Splitting off stack %lu from %lu.\n",
 			  (unsigned long int) yynewStack,
 			  (unsigned long int) yyk));
-	      YYCHK (yyglrReduce (yystack, yynewStack,
+	      YYCHK (yyglrReduce (yystackp, yynewStack,
 				  *yyconflicts, yyfalse));
-	      YYCHK (yyprocessOneStack (yystack, yynewStack, yyposn,
-					yylvalp, yyllocp));
+	      YYCHK (yyprocessOneStack (yystackp, yynewStack,
+					yyposn));
 	      yyconflicts += 1;
 	    }
 
 	  if (yyisShiftAction (yyaction))
-	    {
-	      YYDPRINTF ((stderr, "On stack %lu, ", (unsigned long int) yyk));
-	      YY_SYMBOL_PRINT ("shifting", *yytokenp, yylvalp, yyllocp);
-	      yyglrShift (yystack, yyk, yyaction, yyposn+1,
-			  *yylvalp, yyllocp);
-	      YYDPRINTF ((stderr, "Stack %lu now in state #%d\n",
-			  (unsigned long int) yyk,
-			  yystack->yytops.yystates[yyk]->yylrState));
-	      break;
-	    }
+	    break;
 	  else if (yyisErrorAction (yyaction))
 	    {
 	      YYDPRINTF ((stderr, "Stack %lu dies.\n",
 			  (unsigned long int) yyk));
-	      yymarkStackDeleted (yystack, yyk);
+	      yymarkStackDeleted (yystackp, yyk);
 	      break;
 	    }
 	  else
-	    YYCHK (yyglrReduce (yystack, yyk, -yyaction, yyfalse));
+	    YYCHK (yyglrReduce (yystackp, yyk, -yyaction,
+				yyfalse));
 	}
     }
   return yyok;
 }
 
-static void
-yyreportSyntaxError (yyGLRStack* yystack,
-		     YYSTYPE* yylvalp, YYLTYPE* yyllocp)
+/*ARGSUSED*/ static void
+yyreportSyntaxError (yyGLRStack* yystackp)
 {
-  /* `Unused' warnings. */
-  (void) yylvalp;
-  (void) yyllocp;
-
-  if (yystack->yyerrState == 0)
+  if (yystackp->yyerrState == 0)
     {
 #if YYERROR_VERBOSE
-      yySymbol* const yytokenp = yystack->yytokenp;
       int yyn;
-      yyn = yypact[yystack->yytops.yystates[0]->yylrState];
-      if (YYPACT_NINF < yyn && yyn < YYLAST)
+      yyn = yypact[yystackp->yytops.yystates[0]->yylrState];
+      if (YYPACT_NINF < yyn && yyn <= YYLAST)
 	{
-	  size_t yysize0 = yytnamerr (NULL, yytokenName (*yytokenp));
+	  yySymbol yytoken = YYTRANSLATE (yychar);
+	  size_t yysize0 = yytnamerr (NULL, yytokenName (yytoken));
 	  size_t yysize = yysize0;
 	  size_t yysize1;
 	  yybool yysize_overflow = yyfalse;
@@ -9033,11 +8971,11 @@ yyreportSyntaxError (yyGLRStack* yystack,
 	  int yyxbegin = yyn < 0 ? -yyn : 0;
 
 	  /* Stay within bounds of both yycheck and yytname.  */
-	  int yychecklim = YYLAST - yyn;
+	  int yychecklim = YYLAST - yyn + 1;
 	  int yyxend = yychecklim < YYNTOKENS ? yychecklim : YYNTOKENS;
 	  int yycount = 1;
 
-	  yyarg[0] = yytokenName (*yytokenp);
+	  yyarg[0] = yytokenName (yytoken);
 	  yyfmt = yystpcpy (yyformat, yyunexpected);
 
 	  for (yyx = yyxbegin; yyx < yyxend; ++yyx)
@@ -9089,7 +9027,7 @@ yyreportSyntaxError (yyGLRStack* yystack,
 	  else
 	    {
 	      yyerror (YY_("syntax error"));
-	      yyMemoryExhausted (yystack);
+	      yyMemoryExhausted (yystackp);
 	    }
 	}
       else
@@ -9099,49 +9037,47 @@ yyreportSyntaxError (yyGLRStack* yystack,
     }
 }
 
-/* Recover from a syntax error on YYSTACK, assuming that YYTOKENP,
-   YYLVALP, and YYLLOCP point to the syntactic category, semantic
-   value, and location of the look-ahead.  */
-static void
-yyrecoverSyntaxError (yyGLRStack* yystack,
-		      YYSTYPE* yylvalp,
-		      YYLTYPE* YYOPTIONAL_LOC (yyllocp)
-		      )
+/* Recover from a syntax error on *YYSTACKP, assuming that *YYSTACKP->YYTOKENP,
+   yylval, and yylloc are the syntactic category, semantic value, and location
+   of the look-ahead.  */
+/*ARGSUSED*/ static void
+yyrecoverSyntaxError (yyGLRStack* yystackp)
 {
-  yySymbol* const yytokenp = yystack->yytokenp;
   size_t yyk;
   int yyj;
 
-  if (yystack->yyerrState == 3)
+  if (yystackp->yyerrState == 3)
     /* We just shifted the error token and (perhaps) took some
        reductions.  Skip tokens until we can proceed.  */
-    while (yytrue)
+    while (YYID (yytrue))
       {
-	if (*yytokenp == YYEOF)
-	  yyFail (yystack, NULL);
-	if (*yytokenp != YYEMPTY)
+	yySymbol yytoken;
+	if (yychar == YYEOF)
+	  yyFail (yystackp, NULL);
+	if (yychar != YYEMPTY)
 	  {
 	    /* We throw away the lookahead, but the error range
-	       of the shifted error token must take it into account. */
-	    yyGLRState *yys = yystack->yytops.yystates[0];
+	       of the shifted error token must take it into account.  */
+	    yyGLRState *yys = yystackp->yytops.yystates[0];
 	    yyGLRStackItem yyerror_range[3];
 	    yyerror_range[1].yystate.yyloc = yys->yyloc;
-	    yyerror_range[2].yystate.yyloc = *yyllocp;
-	    YYLLOC_DEFAULT (yys->yyloc, yyerror_range, 2);
+	    yyerror_range[2].yystate.yyloc = yylloc;
+	    YYLLOC_DEFAULT ((yys->yyloc), yyerror_range, 2);
+	    yytoken = YYTRANSLATE (yychar);
 	    yydestruct ("Error: discarding",
-			*yytokenp, yylvalp, yyllocp);
+			yytoken, &yylval, &yylloc);
 	  }
 	YYDPRINTF ((stderr, "Reading a token: "));
 	yychar = YYLEX;
-	*yytokenp = YYTRANSLATE (yychar);
-	YY_SYMBOL_PRINT ("Next token is", *yytokenp, yylvalp, yyllocp);
-	yyj = yypact[yystack->yytops.yystates[0]->yylrState];
+	yytoken = YYTRANSLATE (yychar);
+	YY_SYMBOL_PRINT ("Next token is", yytoken, &yylval, &yylloc);
+	yyj = yypact[yystackp->yytops.yystates[0]->yylrState];
 	if (yyis_pact_ninf (yyj))
 	  return;
-	yyj += *yytokenp;
-	if (yyj < 0 || YYLAST < yyj || yycheck[yyj] != *yytokenp)
+	yyj += yytoken;
+	if (yyj < 0 || YYLAST < yyj || yycheck[yyj] != yytoken)
 	  {
-	    if (yydefact[yystack->yytops.yystates[0]->yylrState] != 0)
+	    if (yydefact[yystackp->yytops.yystates[0]->yylrState] != 0)
 	      return;
 	  }
 	else if (yytable[yyj] != 0 && ! yyis_table_ninf (yytable[yyj]))
@@ -9149,21 +9085,21 @@ yyrecoverSyntaxError (yyGLRStack* yystack,
       }
 
   /* Reduce to one stack.  */
-  for (yyk = 0; yyk < yystack->yytops.yysize; yyk += 1)
-    if (yystack->yytops.yystates[yyk] != NULL)
+  for (yyk = 0; yyk < yystackp->yytops.yysize; yyk += 1)
+    if (yystackp->yytops.yystates[yyk] != NULL)
       break;
-  if (yyk >= yystack->yytops.yysize)
-    yyFail (yystack, NULL);
-  for (yyk += 1; yyk < yystack->yytops.yysize; yyk += 1)
-    yymarkStackDeleted (yystack, yyk);
-  yyremoveDeletes (yystack);
-  yycompressStack (yystack);
+  if (yyk >= yystackp->yytops.yysize)
+    yyFail (yystackp, NULL);
+  for (yyk += 1; yyk < yystackp->yytops.yysize; yyk += 1)
+    yymarkStackDeleted (yystackp, yyk);
+  yyremoveDeletes (yystackp);
+  yycompressStack (yystackp);
 
-  /* Now pop stack until we find a state that shifts the error token. */
-  yystack->yyerrState = 3;
-  while (yystack->yytops.yystates[0] != NULL)
+  /* Now pop stack until we find a state that shifts the error token.  */
+  yystackp->yyerrState = 3;
+  while (yystackp->yytops.yystates[0] != NULL)
     {
-      yyGLRState *yys = yystack->yytops.yystates[0];
+      yyGLRState *yys = yystackp->yytops.yystates[0];
       yyj = yypact[yys->yylrState];
       if (! yyis_pact_ninf (yyj))
 	{
@@ -9173,24 +9109,24 @@ yyrecoverSyntaxError (yyGLRStack* yystack,
 	    {
 	      /* Shift the error token having adjusted its location.  */
 	      YYLTYPE yyerrloc;
-	      yystack->yyerror_range[2].yystate.yyloc = *yyllocp;
-	      YYLLOC_DEFAULT (yyerrloc, yystack->yyerror_range, 2);
+	      yystackp->yyerror_range[2].yystate.yyloc = yylloc;
+	      YYLLOC_DEFAULT (yyerrloc, (yystackp->yyerror_range), 2);
 	      YY_SYMBOL_PRINT ("Shifting", yystos[yytable[yyj]],
-			       yylvalp, &yyerrloc);
-	      yyglrShift (yystack, 0, yytable[yyj],
-			  yys->yyposn, *yylvalp, &yyerrloc);
-	      yys = yystack->yytops.yystates[0];
+			       &yylval, &yyerrloc);
+	      yyglrShift (yystackp, 0, yytable[yyj],
+			  yys->yyposn, &yylval, &yyerrloc);
+	      yys = yystackp->yytops.yystates[0];
 	      break;
 	    }
 	}
-      yystack->yyerror_range[1].yystate.yyloc = yys->yyloc;
+      yystackp->yyerror_range[1].yystate.yyloc = yys->yyloc;
       yydestroyGLRState ("Error: popping", yys);
-      yystack->yytops.yystates[0] = yys->yypred;
-      yystack->yynextFree -= 1;
-      yystack->yyspaceLeft += 1;
+      yystackp->yytops.yystates[0] = yys->yypred;
+      yystackp->yynextFree -= 1;
+      yystackp->yyspaceLeft += 1;
     }
-  if (yystack->yytops.yystates[0] == NULL)
-    yyFail (yystack, NULL);
+  if (yystackp->yytops.yystates[0] == NULL)
+    yyFail (yystackp, NULL);
 }
 
 #define YYCHK1(YYE)							     \
@@ -9207,7 +9143,7 @@ yyrecoverSyntaxError (yyGLRStack* yystack,
     default:								     \
       goto yybuglab;							     \
     }									     \
-  } while (0)
+  } while (YYID (0))
 
 
 /*----------.
@@ -9218,17 +9154,13 @@ int
 yyparse (void)
 {
   int yyresult;
-  yySymbol yytoken;
   yyGLRStack yystack;
+  yyGLRStack* const yystackp = &yystack;
   size_t yyposn;
-
-
-  YYSTYPE* const yylvalp = &yylval;
-  YYLTYPE* const yyllocp = &yylloc;
 
   YYDPRINTF ((stderr, "Starting parse\n"));
 
-  yytoken = YYEMPTY;
+  yychar = YYEMPTY;
   yylval = yyval_default;
 
 #if YYLTYPE_IS_TRIVIAL
@@ -9237,7 +9169,7 @@ yyparse (void)
 #endif
 
 
-  if (! yyinitGLRStack (&yystack, YYINITDEPTH))
+  if (! yyinitGLRStack (yystackp, YYINITDEPTH))
     goto yyexhaustedlab;
   switch (YYSETJMP (yystack.yyexception_buffer))
     {
@@ -9246,24 +9178,23 @@ yyparse (void)
     case 2: goto yyexhaustedlab;
     default: goto yybuglab;
     }
-  yystack.yytokenp = &yytoken;
-  yyglrShift (&yystack, 0, 0, 0, yylval, &yylloc);
+  yyglrShift (&yystack, 0, 0, 0, &yylval, &yylloc);
   yyposn = 0;
 
-  while (yytrue)
+  while (YYID (yytrue))
     {
       /* For efficiency, we have two loops, the first of which is
 	 specialized to deterministic operation (single stack, no
 	 potential ambiguity).  */
       /* Standard mode */
-      while (yytrue)
+      while (YYID (yytrue))
 	{
 	  yyRuleNum yyrule;
 	  int yyaction;
 	  const short int* yyconflicts;
 
 	  yyStateNum yystate = yystack.yytops.yystates[0]->yylrState;
-          YYDPRINTF ((stderr, "Entering state %d\n", yystate));
+	  YYDPRINTF ((stderr, "Entering state %d\n", yystate));
 	  if (yystate == YYFINAL)
 	    goto yyacceptlab;
 	  if (yyisDefaultedState (yystate))
@@ -9271,38 +9202,41 @@ yyparse (void)
 	      yyrule = yydefaultAction (yystate);
 	      if (yyrule == 0)
 		{
-		  yystack.yyerror_range[1].yystate.yyloc = *yyllocp;
-		  yyreportSyntaxError (&yystack, yylvalp, yyllocp);
+		  yystack.yyerror_range[1].yystate.yyloc = yylloc;
+		  yyreportSyntaxError (&yystack);
 		  goto yyuser_error;
 		}
 	      YYCHK1 (yyglrReduce (&yystack, 0, yyrule, yytrue));
 	    }
 	  else
 	    {
-	      if (yytoken == YYEMPTY)
+	      yySymbol yytoken;
+	      if (yychar == YYEMPTY)
 		{
 		  YYDPRINTF ((stderr, "Reading a token: "));
 		  yychar = YYLEX;
 		  yytoken = YYTRANSLATE (yychar);
-                  YY_SYMBOL_PRINT ("Next token is", yytoken, yylvalp, yyllocp);
+		  YY_SYMBOL_PRINT ("Next token is", yytoken, &yylval, &yylloc);
 		}
+	      else
+		yytoken = YYTRANSLATE (yychar);
 	      yygetLRActions (yystate, yytoken, &yyaction, &yyconflicts);
 	      if (*yyconflicts != 0)
 		break;
 	      if (yyisShiftAction (yyaction))
 		{
-		  YY_SYMBOL_PRINT ("Shifting", yytoken, yylvalp, yyllocp);
-		  if (yytoken != YYEOF)
-		    yytoken = YYEMPTY;
+		  YY_SYMBOL_PRINT ("Shifting", yytoken, &yylval, &yylloc);
+		  if (yychar != YYEOF)
+		    yychar = YYEMPTY;
 		  yyposn += 1;
-		  yyglrShift (&yystack, 0, yyaction, yyposn, yylval, yyllocp);
+		  yyglrShift (&yystack, 0, yyaction, yyposn, &yylval, &yylloc);
 		  if (0 < yystack.yyerrState)
 		    yystack.yyerrState -= 1;
 		}
 	      else if (yyisErrorAction (yyaction))
 		{
-		  yystack.yyerror_range[1].yystate.yyloc = *yyllocp;
-		  yyreportSyntaxError (&yystack, yylvalp, yyllocp);
+		  yystack.yyerror_range[1].yystate.yyloc = yylloc;
+		  yyreportSyntaxError (&yystack);
 		  goto yyuser_error;
 		}
 	      else
@@ -9310,15 +9244,35 @@ yyparse (void)
 	    }
 	}
 
-      while (yytrue)
+      while (YYID (yytrue))
 	{
+	  yySymbol yytoken_to_shift;
 	  size_t yys;
-	  size_t yyn = yystack.yytops.yysize;
-	  for (yys = 0; yys < yyn; yys += 1)
-	    YYCHK1 (yyprocessOneStack (&yystack, yys, yyposn,
-				       yylvalp, yyllocp));
-	  yytoken = YYEMPTY;
-	  yyposn += 1;
+
+	  for (yys = 0; yys < yystack.yytops.yysize; yys += 1)
+	    yystackp->yytops.yylookaheadNeeds[yys] = yychar != YYEMPTY;
+
+	  /* yyprocessOneStack returns one of three things:
+
+	      - An error flag.  If the caller is yyprocessOneStack, it
+		immediately returns as well.  When the caller is finally
+		yyparse, it jumps to an error label via YYCHK1.
+
+	      - yyok, but yyprocessOneStack has invoked yymarkStackDeleted
+		(&yystack, yys), which sets the top state of yys to NULL.  Thus,
+		yyparse's following invocation of yyremoveDeletes will remove
+		the stack.
+
+	      - yyok, when ready to shift a token.
+
+	     Except in the first case, yyparse will invoke yyremoveDeletes and
+	     then shift the next token onto all remaining stacks.  This
+	     synchronization of the shift (that is, after all preceding
+	     reductions on all stacks) helps prevent double destructor calls
+	     on yylval in the event of memory exhaustion.  */
+
+	  for (yys = 0; yys < yystack.yytops.yysize; yys += 1)
+	    YYCHK1 (yyprocessOneStack (&yystack, yys, yyposn));
 	  yyremoveDeletes (&yystack);
 	  if (yystack.yytops.yysize == 0)
 	    {
@@ -9327,11 +9281,37 @@ yyparse (void)
 		yyFail (&yystack, YY_("syntax error"));
 	      YYCHK1 (yyresolveStack (&yystack));
 	      YYDPRINTF ((stderr, "Returning to deterministic operation.\n"));
-	      yystack.yyerror_range[1].yystate.yyloc = *yyllocp;
-	      yyreportSyntaxError (&yystack, yylvalp, yyllocp);
+	      yystack.yyerror_range[1].yystate.yyloc = yylloc;
+	      yyreportSyntaxError (&yystack);
 	      goto yyuser_error;
 	    }
-	  else if (yystack.yytops.yysize == 1)
+
+	  /* If any yyglrShift call fails, it will fail after shifting.  Thus,
+	     a copy of yylval will already be on stack 0 in the event of a
+	     failure in the following loop.  Thus, yychar is set to YYEMPTY
+	     before the loop to make sure the user destructor for yylval isn't
+	     called twice.  */
+	  yytoken_to_shift = YYTRANSLATE (yychar);
+	  yychar = YYEMPTY;
+	  yyposn += 1;
+	  for (yys = 0; yys < yystack.yytops.yysize; yys += 1)
+	    {
+	      int yyaction;
+	      const short int* yyconflicts;
+	      yyStateNum yystate = yystack.yytops.yystates[yys]->yylrState;
+	      yygetLRActions (yystate, yytoken_to_shift, &yyaction,
+			      &yyconflicts);
+	      /* Note that yyconflicts were handled by yyprocessOneStack.  */
+	      YYDPRINTF ((stderr, "On stack %lu, ", (unsigned long int) yys));
+	      YY_SYMBOL_PRINT ("shifting", yytoken_to_shift, &yylval, &yylloc);
+	      yyglrShift (&yystack, yys, yyaction, yyposn,
+			  &yylval, &yylloc);
+	      YYDPRINTF ((stderr, "Stack %lu now in state #%d\n",
+			  (unsigned long int) yys,
+			  yystack.yytops.yystates[yys]->yylrState));
+	    }
+
+	  if (yystack.yytops.yysize == 1)
 	    {
 	      YYCHK1 (yyresolveStack (&yystack));
 	      YYDPRINTF ((stderr, "Returning to deterministic operation.\n"));
@@ -9341,7 +9321,7 @@ yyparse (void)
 	}
       continue;
     yyuser_error:
-      yyrecoverSyntaxError (&yystack, yylvalp, yyllocp);
+      yyrecoverSyntaxError (&yystack);
       yyposn = yystack.yytops.yystates[0]->yyposn;
     }
 
@@ -9351,7 +9331,7 @@ yyparse (void)
 
  yybuglab:
   YYASSERT (yyfalse);
-  /* Fall through.  */
+  goto yyabortlab;
 
  yyabortlab:
   yyresult = 1;
@@ -9360,12 +9340,13 @@ yyparse (void)
  yyexhaustedlab:
   yyerror (YY_("memory exhausted"));
   yyresult = 2;
-  /* Fall through.  */
+  goto yyreturn;
 
  yyreturn:
-  if (yytoken != YYEOF && yytoken != YYEMPTY)
+  if (yychar != YYEOF && yychar != YYEMPTY)
     yydestruct ("Cleanup: discarding lookahead",
-                yytoken, yylvalp, yyllocp);
+		YYTRANSLATE (yychar),
+		&yylval, &yylloc);
 
   /* If the stack is well-formed, pop the stack until it is empty,
      destroying its entries as we go.  But free the stack regardless
@@ -9374,23 +9355,36 @@ yyparse (void)
     {
       yyGLRState** yystates = yystack.yytops.yystates;
       if (yystates)
-	while (yystates[0])
-	  {
-	    yyGLRState *yys = yystates[0];
-	  yystack.yyerror_range[1].yystate.yyloc = yys->yyloc;
-	    yydestroyGLRState ("Cleanup: popping", yys);
-	    yystates[0] = yys->yypred;
-	    yystack.yynextFree -= 1;
-	    yystack.yyspaceLeft += 1;
-	  }
+	{
+	  size_t yysize = yystack.yytops.yysize;
+	  size_t yyk;
+	  for (yyk = 0; yyk < yysize; yyk += 1)
+	    if (yystates[yyk])
+	      {
+		while (yystates[yyk])
+		  {
+		    yyGLRState *yys = yystates[yyk];
+		    yystack.yyerror_range[1].yystate.yyloc = yys->yyloc;
+		    yydestroyGLRState ("Cleanup: popping", yys);
+		    yystates[yyk] = yys->yypred;
+		    yystack.yynextFree -= 1;
+		    yystack.yyspaceLeft += 1;
+		  }
+		break;
+	      }
+	}
       yyfreeGLRStack (&yystack);
     }
 
-  return yyresult;
+  /* Make sure YYID is used.  */
+  return YYID (yyresult);
 }
 
 /* DEBUGGING ONLY */
 #ifdef YYDEBUG
+static void yypstack (yyGLRStack* yystackp, size_t yyk)
+  __attribute__ ((__unused__));
+static void yypdumpstack (yyGLRStack* yystackp) __attribute__ ((__unused__));
 
 static void
 yy_yypstack (yyGLRState* yys)
@@ -9403,14 +9397,63 @@ yy_yypstack (yyGLRState* yys)
   fprintf (stderr, "%d@%lu", yys->yylrState, (unsigned long int) yys->yyposn);
 }
 
+static void
+yypstates (yyGLRState* yyst)
+{
+  if (yyst == NULL)
+    fprintf (stderr, "<null>");
+  else
+    yy_yypstack (yyst);
+  fprintf (stderr, "\n");
+}
+
+static void
+yypstack (yyGLRStack* yystackp, size_t yyk)
+{
+  yypstates (yystackp->yytops.yystates[yyk]);
+}
+
 #define YYINDEX(YYX)							     \
-    ((YYX) == NULL ? -1 : (yyGLRStackItem*) (YYX) - yystack->yyitems)
+    ((YYX) == NULL ? -1 : (yyGLRStackItem*) (YYX) - yystackp->yyitems)
 
 
+static void
+yypdumpstack (yyGLRStack* yystackp)
+{
+  yyGLRStackItem* yyp;
+  size_t yyi;
+  for (yyp = yystackp->yyitems; yyp < yystackp->yynextFree; yyp += 1)
+    {
+      fprintf (stderr, "%3lu. ", (unsigned long int) (yyp - yystackp->yyitems));
+      if (*(yybool *) yyp)
+	{
+	  fprintf (stderr, "Res: %d, LR State: %d, posn: %lu, pred: %ld",
+		   yyp->yystate.yyresolved, yyp->yystate.yylrState,
+		   (unsigned long int) yyp->yystate.yyposn,
+		   (long int) YYINDEX (yyp->yystate.yypred));
+	  if (! yyp->yystate.yyresolved)
+	    fprintf (stderr, ", firstVal: %ld",
+		     (long int) YYINDEX (yyp->yystate.yysemantics.yyfirstVal));
+	}
+      else
+	{
+	  fprintf (stderr, "Option. rule: %d, state: %ld, next: %ld",
+		   yyp->yyoption.yyrule - 1,
+		   (long int) YYINDEX (yyp->yyoption.yystate),
+		   (long int) YYINDEX (yyp->yyoption.yynext));
+	}
+      fprintf (stderr, "\n");
+    }
+  fprintf (stderr, "Tops:");
+  for (yyi = 0; yyi < yystackp->yytops.yysize; yyi += 1)
+    fprintf (stderr, "%lu: %ld; ", (unsigned long int) yyi,
+	     (long int) YYINDEX (yystackp->yytops.yystates[yyi]));
+  fprintf (stderr, "\n");
+}
 #endif
 
 
-#line 2409 "parse.y"
+#line 2416 "parse.y"
 
 
 /* Check the order of declarations for various standards */
