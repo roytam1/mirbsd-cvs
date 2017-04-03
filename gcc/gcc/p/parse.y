@@ -61,6 +61,9 @@
   token LEX_CONST_EQUAL. */
 
 %{
+#ifndef GPC_PARSE_Y_FIRST_PROLOGUE
+#define GPC_PARSE_Y_FIRST_PROLOGUE
+
 #define YYMAXDEPTH 200000
 #include "gpc.h"
 #ifdef GCC_4_0
@@ -74,13 +77,7 @@
     { yyerror_id (id, &location); YYERROR; } while (0)
 
 enum { od_none, od_uses, od_label, od_const, od_type, od_var, od_routine };
-static int check_decl_order (int, int);
-
-extern int main_yyparse (void);
-#define yyparse main_yyparse
-
 union yyGLRStackItem;
-static void locations (YYLTYPE *, const union yyGLRStackItem *, int);
 #define YYLLOC_DEFAULT(DEST, SRC, N) locations (&DEST, SRC, N)
 #ifndef GCC_3_4
 #define LOCATION_NOTE(LOC) if (current_function_decl) emit_line_note ((LOC).first_file, (LOC).first_line)
@@ -98,6 +95,7 @@ static void locations (YYLTYPE *, const union yyGLRStackItem *, int);
 #define YYASSERT gcc_assert
 #define YYMALLOC (void *) xmalloc
 #define YYREALLOC (void *) xrealloc
+#endif
 %}
 
 %debug
@@ -114,6 +112,15 @@ static void locations (YYLTYPE *, const union yyGLRStackItem *, int);
   long itype;
   tree ttype;
 }
+
+%{
+static int check_decl_order (int, int);
+
+extern int main_yyparse (void);
+#define yyparse main_yyparse
+
+static void locations (YYLTYPE *, const union yyGLRStackItem *, int);
+%}
 
 /* The dangling `else' shift/reduce conflict is avoided by precedence rules.
    Also, some conflicts coming from error recovery rules are avoided by giving
