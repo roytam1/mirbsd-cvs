@@ -1,0 +1,38 @@
+$MirOS$
+
+	From debian/patches/ssh-6-option.diff (= 3.1.2-2)
+
+--- main.c.orig	Mon Aug 24 04:57:52 2015
++++ main.c	Tue Apr  4 19:11:35 2017
+@@ -117,6 +117,7 @@ int sender_keeps_checksum = 0;
+ # endif
+ static struct sigaction sigact;
+ #endif
++extern int default_af_hint;
+ 
+ struct pid_status {
+ 	pid_t pid;
+@@ -446,6 +447,23 @@ static pid_t do_cmd(char *cmd, char *mac
+ 			}
+ 			*t++ = '\0';
+ 		}
++
++#ifdef AF_INET
++                if (default_af_hint == AF_INET) {
++                    if (strncmp(cmd, "ssh", 3) == 0 || strstr(cmd, "/ssh") != NULL) {
++                        /* we're using ssh so we can add a -4 option */
++                        args[argc++] = "-4";
++                    }
++                }
++#endif
++#ifdef AF_INET6
++                if (default_af_hint == AF_INET6) {
++                    if (strncmp(cmd, "ssh", 3) == 0 || strstr(cmd, "/ssh") != NULL) {
++                        /* we're using ssh so we can add a -6 option */
++                        args[argc++] = "-6";
++                    }
++                }
++#endif
+ 
+ 		/* check to see if we've already been given '-l user' in
+ 		 * the remote-shell command */

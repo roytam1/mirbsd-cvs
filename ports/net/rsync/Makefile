@@ -1,8 +1,11 @@
-# $MirOS: ports/net/rsync/Makefile,v 1.20 2009/05/17 17:51:07 tg Exp $
-# $OpenBSD: Makefile,v 1.41 2004/05/11 13:39:17 naddy Exp $
+# $MirOS: ports/net/rsync/Makefile,v 1.21 2012/01/04 23:16:38 tg Exp $
+# $OpenBSD: Makefile,v 1.77 2016/04/06 21:17:29 sthen Exp $
+
+# it's missing a patch to calculate out leap seconds I'm planning to add
+BROKEN=			do not use yet
 
 COMMENT=		mirroring/synchronisation over low bandwidth links
-VERSION=		3.0.9
+VERSION=		3.1.2
 CATEGORIES=		net
 HOMEPAGE=		http://rsync.samba.org/
 RESPONSIBLE=		Thorsten Glaser <tg@mirbsd.org>
@@ -21,23 +24,29 @@ PERMIT_DISTFILES_FTP=	Yes
 
 MASTER_SITES=		http://rsync.samba.org/ftp/rsync/ \
 			http://rsync.samba.org/ftp/rsync/old-versions/ \
-			http://rsync.samba.org/ftp/rsync/src-previews/
+			http://rsync.samba.org/ftp/rsync/src-previews/ \
+			http://ftp.funet.fi/pub/mirrors/samba.org/pub/rsync/src/
 
+# regression tests do more with 'sudo mmake regress'
+
+SUBST_VARS+=		TRUEPREFIX
 CONFIGURE_STYLE=	autoconf
 AUTOCONF_NEW=		Yes
 CONFIGURE_SCRIPT=	configure.sh
 AUTOCONF=		autoconf -o ${CONFIGURE_SCRIPT}
 REORDER_DEPENDENCIES+=	rsyncam.dep
+CONFIGURE_ENV+=		HAVE_YODL2MAN=0
 CONFIGURE_ARGS+=	--with-included-popt \
+			--with-rsyncd-conf=${SYSCONFDIR:Q}/rsyncd.conf \
 			--with-rsh="ssh -T" \
-			--with-rsyncd-conf=${SYSCONFDIR:Q}/rsyncd.conf
+			--with-nobody-group=_rsync
 
 .if ${FLAVOUR:L} == "static"
 CONFIGURE_ENV+=		ac_cv_header_iconv_h=no
 CONFIGURE_ARGS+=	--disable-debug \
-			--disable-iconv \
+			--disable-locale \
 			--disable-iconv-open \
-			--disable-locale
+			--disable-iconv
 LDSTATIC=		-static
 PLIST=			${PKGDIR}/PLIST-static
 .else
@@ -48,17 +57,19 @@ USE_ICONV+=		oldm4
 
 .if ${FLAVOUR:L} == "static"
 post-extract:
-	@print 'AC_DEFUN([AM_ICONV], [])' >${WRKSRC}/iconv.m4
+	@print 'AC_DEFUN([AM_ICONV], [])' >${WRKSRC:Q}/iconv.m4
 .endif
 
 post-install:
 .if ${FLAVOUR:L} == "static"
-	mv -f ${PREFIX}/bin/rsync ${PREFIX}/bin/rsync-static
-	-rm -f ${PREFIX}/man/man*/*
+	mv -f ${PREFIX:Q}/bin/rsync ${PREFIX:Q}/bin/rsync-static
+	-rm -f ${PREFIX:Q}/man/man*/*
 .else
-	${INSTALL_DATA_DIR} ${PREFIX}/share/doc/rsync
-	cd ${WRKSRC} && ${INSTALL_DATA} NEWS OLDNEWS README TODO rsync3.txt \
-	    csprotocol.txt tech_report.tex ${PREFIX}/share/doc/rsync/
+	${SUBST_CMD} ${PREFIX:Q}/man/man5/rsyncd.conf.5
+	${INSTALL_DATA_DIR} ${PREFIX:Q}/share/doc/rsync
+	cd ${WRKSRC:Q} && ${INSTALL_DATA} NEWS OLDNEWS README TODO \
+	    csprotocol.txt rsync3.txt tech_report.tex doc/rsync.sgml \
+	    ${PREFIX:Q}/share/doc/rsync/
 .endif
 
 .include <bsd.port.mk>
