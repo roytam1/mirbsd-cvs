@@ -1,8 +1,5 @@
-# $MirOS: ports/net/rsync/Makefile,v 1.21 2012/01/04 23:16:38 tg Exp $
+# $MirOS: ports/net/rsync/Makefile,v 1.22 2017/04/04 19:49:31 tg Exp $
 # $OpenBSD: Makefile,v 1.77 2016/04/06 21:17:29 sthen Exp $
-
-# it's missing a patch to calculate out leap seconds I'm planning to add
-BROKEN=			do not use yet
 
 COMMENT=		mirroring/synchronisation over low bandwidth links
 VERSION=		3.1.2
