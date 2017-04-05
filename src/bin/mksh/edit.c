@@ -5560,6 +5560,7 @@ x_eval_region_helper(const char *cmd, size_t len)
 		wds[len + 2] = EOS;
 
 		cp = evalstr(wds, DOSCALAR);
+		afree(wds, ATEMP);
 		strdupx(cp, cp, AEDIT);
 	} else
 		cp = NULL;
