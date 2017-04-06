@@ -850,7 +850,7 @@ c_alias(const char **wp)
 			strndupx(xalias, alias, val++ - alias, ATEMP);
 			alias = xalias;
 		}
-		if (!valid_alias_name(alias)) {
+		if (!valid_alias_name(alias) || *alias == '-') {
 			bi_errorf(Tinvname, alias, Talias);
 			afree(xalias, ATEMP);
 			return (1);
