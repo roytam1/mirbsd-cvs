@@ -1,4 +1,4 @@
-# $MirOS: src/share/zoneinfo/Makefile,v 1.10 2014/03/24 08:14:18 tg Exp $
+# $MirOS: src/share/zoneinfo/Makefile,v 1.11 2014/09/01 21:41:53 tg Exp $
 
 TZDIR?=		${DESTDIR}/usr/share/zoneinfo
 DATDIR=		${.CURDIR}/datfiles
@@ -22,5 +22,8 @@ install:
 	chown -R ${BINOWN}:${BINGRP} ${TZDIR}
 	find ${TZDIR} -type f -print0 | xargs -0r chmod ${NONBINMODE}
 	chmod -R a-w ${TZDIR}
+	install -c -o root -g wheel -m 444 ${TZDIR}/UTC \
+	    ${DESTDIR}/var/anoncvs/usr/share/zoneinfo/UTC
+	cd ${DESTDIR}/var/anoncvs/usr/share/zoneinfo && ln -f UTC posixrules
 
 .include <bsd.own.mk>

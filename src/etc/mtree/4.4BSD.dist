@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.31 2009/03/29 11:36:25 tg Exp $
+# $MirOS: src/etc/mtree/4.4BSD.dist,v 1.33 2009/10/29 00:47:46 tg Exp $
 # $OpenBSD: 4.4BSD.dist,v 1.186 2007/05/23 07:28:15 hshoexer Exp $
 
 /set type=dir uname=root gname=wheel mode=0755
@@ -1596,6 +1596,19 @@ etc		uname=root gname=wheel mode=755
 # ./var/anoncvs/tmp
 tmp		uname=root gname=wheel mode=1777
 # ./var/anoncvs/tmp
+..
+
+# ./var/anoncvs/usr
+usr		uname=root gname=wheel mode=755
+# ./var/anoncvs/usr/share
+share		uname=root gname=wheel mode=755
+# ./var/anoncvs/usr/share/zoneinfo
+zoneinfo	uname=root gname=wheel mode=755
+# ./var/anoncvs/usr/share/zoneinfo
+..
+# ./var/anoncvs/usr/share
+..
+# ./var/anoncvs/usr
 ..
 
 # ./var/anoncvs

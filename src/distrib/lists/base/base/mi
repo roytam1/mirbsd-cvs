@@ -3319,6 +3319,11 @@
 ./var/anoncvs/dev
 ./var/anoncvs/etc
 ./var/anoncvs/tmp
+./var/anoncvs/usr
+./var/anoncvs/usr/share
+./var/anoncvs/usr/share/zoneinfo
+./var/anoncvs/usr/share/zoneinfo/UTC
+./var/anoncvs/usr/share/zoneinfo/posixrules
 ./var/anoncvs/var
 ./var/audit
 ./var/authpf

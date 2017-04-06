@@ -1,4 +1,4 @@
-# $MirOS: src/etc/mtree/special,v 1.19 2008/11/29 17:03:52 tg Exp $
+# $MirOS: src/etc/mtree/special,v 1.20 2009/05/21 09:48:04 tg Exp $
 # $OpenBSD: special,v 1.74 2007/02/28 01:37:15 david Exp $
 # $NetBSD: special,v 1.4 1996/05/08 21:30:18 pk Exp $
 # @(#)special	8.2 (Berkeley) 1/23/94
@@ -221,6 +221,7 @@ dev		type=dir mode=0755 uname=root gname=wheel
 etc		type=dir mode=0755 uname=root gname=wheel
 group		type=file mode=0444 uname=root gname=wheel
 hosts		type=file mode=0444 uname=root gname=wheel
+localtime	type=link uname=root gname=wheel
 passwd		type=file mode=0444 uname=root gname=wheel
 protocols	type=file mode=0444 uname=root gname=wheel
 pwd.db		type=file mode=0444 uname=root gname=wheel
@@ -228,6 +229,14 @@ resolv.conf	type=file mode=0444 uname=root gname=wheel
 services	type=file mode=0444 uname=root gname=wheel
 ttys		type=file mode=0444 uname=root gname=wheel
 ..	#./var/anoncvs/etc
+usr		type=dir mode=0755 uname=root gname=wheel
+share		type=dir mode=0755 uname=root gname=wheel
+zoneinfo	type=dir mode=0755 uname=root gname=wheel
+UTC		type=file mode=0444 uname=root gname=wheel
+posixrules	type=file mode=0444 uname=root gname=wheel
+..	#./var/anoncvs/usr/share/zoneinfo
+..	#./var/anoncvs/usr/share
+..	#./var/anoncvs/usr
 var		type=link uname=root gname=wheel
 ..	#./var/anoncvs
 ..	#./var
