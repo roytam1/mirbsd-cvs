@@ -1276,6 +1276,8 @@ extern unsigned char chtypes[];
 #define ctype(c, t)	tobool(chtypes[(unsigned char)(c)] & (t))
 #define ord(c)		((int)(unsigned char)(c))
 #define ksh_issubop2(c)	tobool((c) == ord('#') || (c) == ord('%'))
+#define ksh_isalias(c)	(ctype((c), C_ALPHX | C_DIGIT) || (c) == ord('!') || \
+			  (c) == ord('%') || (c) == ord(',') || (c) == ord('@'))
 #define ksh_isalpha(c)	(ctype((c), C_ALPHX) && (c) != ord('_'))
 #define ksh_isalphx(c)	ctype((c), C_ALPHX)
 #define ksh_isalnux(c)	ctype((c), C_ALPHX | C_DIGIT)

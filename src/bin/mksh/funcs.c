@@ -839,6 +839,14 @@ c_alias(const char **wp)
 			strndupx(xalias, alias, val++ - alias, ATEMP);
 			alias = xalias;
 		}
+		newval = alias;
+		while (*newval)
+			if (!ksh_isalias(*newval)) {
+				bi_errorf(Tinvname, alias, Talias);
+				afree(xalias, ATEMP);
+				return (1);
+			} else
+				++newval;
 		h = hash(alias);
 		if (val == NULL && !tflag && !xflag) {
 			ap = ktsearch(t, alias, h);
