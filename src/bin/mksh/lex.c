@@ -532,7 +532,7 @@ yylex(int cf)
 			case '`':
  subst_gravis:
 				PUSH_STATE(SBQUOTE);
-				*wp++ = COMSUB;
+				*wp++ = COMASUB;
 				/*
 				 * We need to know whether we are within double
 				 * quotes in order to translate \" to " within

@@ -5554,7 +5554,7 @@ x_eval_region_helper(const char *cmd, size_t len)
 	if (!kshsetjmp(e->jbuf)) {
 		char *wds = alloc(len + 3, ATEMP);
 
-		wds[0] = FUNSUB;
+		wds[0] = FUNASUB;
 		memcpy(wds + 1, cmd, len);
 		wds[len + 1] = '\0';
 		wds[len + 2] = EOS;

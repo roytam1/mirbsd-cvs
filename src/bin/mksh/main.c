@@ -827,7 +827,7 @@ shell(Source * volatile s, volatile bool toplevel)
 			j_notify();
 			set_prompt(PS1, s);
 		}
-		t = compile(s, sfirst);
+		t = compile(s, sfirst, true);
 		if (interactive)
 			histsave(&s->line, NULL, HIST_FLUSH, true);
 		sfirst = false;
