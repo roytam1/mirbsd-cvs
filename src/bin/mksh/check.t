@@ -7607,7 +7607,7 @@ expected-stdout:
 	After error 2
 	Exit trap
 expected-stderr-pattern:
-	/syntax error: 'newline' unexpected/
+	/syntax error: unexpected 'newline'/
 ---
 name: test-stlt-1
 description:
