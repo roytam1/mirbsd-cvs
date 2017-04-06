@@ -1,4 +1,4 @@
-# $MirOS: ports/archivers/xz/Makefile,v 1.2 2010/12/11 20:33:27 tg Exp $
+# $MirOS: ports/archivers/xz/Makefile,v 1.3 2012/10/18 15:31:59 tg Exp $
 # $OpenBSD: Makefile,v 1.4 2010/11/08 20:11:13 naddy Exp $
 
 COMMENT=		LZMA compression and decompression tools
@@ -7,7 +7,7 @@ CATEGORIES=		archivers
 HOMEPAGE=		http://tukaani.org/xz/
 MASTER_SITES=		${HOMEPAGE}
 
-# Mix of PD, LGPLv2.1+, GPLv2+, GPLv3+
+# Mix of PD(see near EOF), LGPLv2.1+, GPLv2+, GPLv3+
 PERMIT_PACKAGE_CDROM=	Yes
 PERMIT_PACKAGE_FTP=	Yes
 PERMIT_DISTFILES_CDROM=	Yes
@@ -45,3 +45,30 @@ post-install:
 	rmdir ${PREFIX}/share/doc/xz/examples{,_old}
 
 .include <bsd.port.mk>
+
+# Note on material marked as PD or derived from such in here:
+#
+# We got an explicit copyright licence from Igor Pavlov, the
+# original author of, according to several sources, any such
+# material, in both xz-utils and pdlzip (WTFPL-like):
+#
+# From: Igor Pavlov
+# Message-ID: <BFE18C67668F4A56A0965B2115DAB7FA@igor2>
+# Subject: Re: LZMA SDK and legalities of public domain
+# […]
+# I even don't want to think about these restrictions, countries,
+# Berne Convention and so on.
+# You can use the code. [in projects under OSS licences that
+# include code from LZMA SDK (context: mails from me and Lasse)]
+# No restrictions from me.
+#
+# Further files from Lasse Collin contain these notes as well:
+# You can do whatever you want with this file.
+# You can do whatever you want with the files that have been put into
+# the public domain. If you find public domain legally problematic,
+# take the previous sentence as a license grant.
+#
+# Lasse Collin, around <20111118225931.4b7e60e3@tukaani.org>, also
+# confirms this, adding an interpretation of this as WTFPL and
+# explicitly permits sublicencing and to “change the license”; he
+# also confirms the authenticity of Igor Pavlov’s answer.
