@@ -1147,7 +1147,12 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <tt>\builtin</tt> utility forwards the declaration utility flag exactly
  like <tt>command</tt> does. The new <tt>typeset -g</tt> replaces mksh’s
  previous home-grown <tt>global</tt> builtin, which is now deprecated
- and <em>will</em> be removed from a future version.
+ and <em>will</em> be removed from a future version. Aliases are now
+ expanded for command, function and value substitutions at parse time
+ (like for functions, and excepting accent gravis-style substitutions),
+ and <tt>typeset -f</tt> output is alias-resistent; furthermore, alias
+ names are now limited to <tt>[A-Za-z0-9_!%,@]</tt>, following POSIX,
+ although a non-leading hyphen-minus is also permitted.
  <i>(unfinished…)</i></p>
 <p id="c54">R54: Lazy evaluation side effects and <tt>set -e</tt>-related
  error propagation in <tt>||</tt> and <tt>&amp;&amp;</tt> constructs are
@@ -1270,6 +1275,10 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Fix multibyte handling in <tt>^R</tt> (Emacs search-history)</li>
  <li>[tg] Allow “typeset -p arrname[2]” to work</li>
  <li>[tg] Make some error messages more consistent</li>
+ <li>[tg, komh] Disable UTF-8 detection code for OS/2 as unrealistic</li>
+ <li>[tg, sdaoden] Limit alias name chars to POSIX plus non-leading ‘-’</li>
+ <li>[tg, Martijn Dekker] Expand aliases at COMSUB parse time</li>
+ <li>[tg] Make “typeset -f” output alias-resistent</li>
 </ul>
 <p id="r54">R54 is a bugfix release with moderate new features:</p><ul>
  <li>[tg] Simplify and improve code and manual page</li>
