@@ -6,4 +6,4 @@ _DEFCOPTS:=	-march=i486 -mpush-args -mpreferred-stack-boundary=2 \
 		-momit-leaf-frame-pointer
 _DEFCOPTS_llvm:=-march=i486 -mtune=pentium-mmx -mpreferred-stack-boundary=2
 _DEFCOPTS_pcc:=	# nothing
-_DEFcTOsOPTS:=	# nothing yet
+_DEFcTOsOPTS:=	-masm=intel
