@@ -2763,11 +2763,11 @@ cpp.pod: cpp.texi cppenv.texi cppopts.texi
 # the input name, so our implict %.pod rule will not work.
 
 gcc.pod: invoke.texi cppenv.texi cppopts.texi
-	$(TEXI2POD) ${.ALLSRC:M*.texi} > $@ || (rm -f $@; exit 1)
+	$(TEXI2POD) ${.ALLSRC:M*/invoke.texi} > $@ || (rm -f $@; exit 1)
 gfdl.pod: fdl.texi
-	$(TEXI2POD) ${.ALLSRC:M*.texi} > $@ || (rm -f $@; exit 1)
+	$(TEXI2POD) ${.ALLSRC:M*/fdl.texi} > $@ || (rm -f $@; exit 1)
 fsf-funding.pod: funding.texi
-	$(TEXI2POD) ${.ALLSRC:M*.texi} > $@ || (rm -f $@; exit 1)
+	$(TEXI2POD) ${.ALLSRC:M*/funding.texi} > $@ || (rm -f $@; exit 1)
 
 #
 # Deletion of files made during compilation.
