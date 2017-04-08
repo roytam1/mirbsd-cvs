@@ -1412,7 +1412,6 @@ ABN	Agencia Bolivariana de Noticias
 ABN	Algemeen Beschaafd Nederlands (nu: Standaardnederlands)
 ABN	Allgemeine Bedingungen für Infrastruktur-Nutzung (cf. SNB)
 ABN	[IATA 3LC] Albina, Suriname
-ABN-AN	Algemeen Nederlands (cf. ABN)
 ABNF	Abstract Backus-Naur form
 ABNS	[DB] Betriebsstelle Bönningstedt (Bf)
 ABO	abonnement
@@ -1582,7 +1581,7 @@ ACT	[TZif] America/Porto_Acre
 ACT	[TZif] America/Rio_Branco
 ACT	[TZif] Brazil/Acre
 ACTA	Anti-Counterfeiting Trade Agreement
-ACTA	association de coordination technique agricole
+ACTA	Association de Coordination Technique Agricole
 ACTS	Abrollcontainer-Transportsystem
 ACU	Antenna Control Unit
 ACU	automatic calling unit
@@ -2804,7 +2803,7 @@ AMX	[IATA 3LC] Ammaroo, Northern Territory, Australia
 AMX	[ICAO 8585] AeroMéxico, Mexiko
 AMY	[IATA 3LC] Ambatomainty, Madagascar
 AMZ	[IATA 3LC] Ardmore, New Zealand
-AN	(cf. ABN-AN)
+AN	Algemeen Nederlands (cf. ABN)
 AN	Arabic number
 AN	Arbeitnehmer
 AN	author’s note (unusual, cf. A/N)
@@ -32746,7 +32745,7 @@ MON	Montag, Monday, Maandag, Lundi
 MON	[IATA 3LC] Mount Cook, New Zealand
 MON	[ICAO 8585] Monarch Airlines, Großbritannien
 MON	[Kfz:D] Kreis Monschau
-MONAS	nationaal monument
+MONAS	monumen nasional (nationaal monument)
 MONF	[DB] Betriebsstelle Oberneufnach (Hp Anst)
 MONH	[DB] Betriebsstelle Ottenhofen (Oberbay) (Bf)
 MONTSAME	Mongolyn tsakhilgaan medee
@@ -40990,7 +40989,6 @@ RIE	[Kfz:D] Landkreis Riesa
 RIF	[IATA 3LC] Richfield Municipal Airport, Utah, United States of America
 RIFD	[DB] Betriebsstelle Iffezheim Depot 57 (Anst)
 RIFF	Resource Interchange File Format
-RIG	Rijksuniversiteit Groningen/Gent
 RIG	[IATA 3LC] Rio Grande, Rio Grande do Sul, Brazil
 RIGA	Reisezugwageninstandhaltung als Ganzzug
 RIJ	[IATA 3LC] Rioja, Peru
@@ -42264,6 +42262,8 @@ RUDM	[DB] Betriebsstelle Uhldingen-Mühlhofen (Bf)
 RUEB	[DB] Betriebsstelle Überlingen (Bf)
 RUEO	[DB] Betriebsstelle Überlingen Ost (Hp)
 RUES	[DB] Betriebsstelle Überlingen Hafen (Slst)
+RUG	Rijksuniversiteit Gent (nu: UGent)
+RUG	Rijksuniversiteit Groningen
 RUG	[DB] Betriebsstelle Untergimpern (Bf)
 RUG	[IATA 3LC] Rugao, China
 RUH	[DB] Betriebsstelle Unterharmersbach (Bf)
