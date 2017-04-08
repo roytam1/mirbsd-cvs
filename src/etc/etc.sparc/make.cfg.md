@@ -5,3 +5,4 @@
 _DEFCOPTS:=	-mcpu=v8 -mtune=hypersparc
 _DEFCOPTS_llvm:=-mcpu=v8 -mtune=hypersparc
 _DEFCOPTS_pcc:=	# nothing
+_DEFcTOsOPTS:=	# nothing

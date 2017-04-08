@@ -43,6 +43,7 @@ LORDER?=	lorder
 AS?=		as
 CC?=		mgcc
 CPP?=		${CC} -E
+_DEFcTOsOPTS?=	-S
 HOSTCC?=	mgcc
 
 CPPFLAGS?=
@@ -100,7 +101,7 @@ CTAGS?=		ctags
 .c.i:
 	${COMPILE.c} ${CFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
 .c.s:
-	${COMPILE.c} ${CFLAGS_${.TARGET:.s=.o}:M*} -o $@ -S ${.IMPSRC}
+	${COMPILE.c} ${CFLAGS_${.TARGET:.s=.o}:M*} -o $@ ${_DEFcTOsOPTS} ${.IMPSRC}
 .c.a:
 	${COMPILE.c} ${CFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
@@ -117,7 +118,7 @@ CTAGS?=		ctags
 .m.i:
 	${COMPILE.c} ${CFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
 .m.s:
-	${COMPILE.c} ${CFLAGS_${.TARGET:.s=.o}:M*} -o $@ -S ${.IMPSRC}
+	${COMPILE.c} ${CFLAGS_${.TARGET:.s=.o}:M*} -o $@ ${_DEFcTOsOPTS} ${.IMPSRC}
 .m.a:
 	${COMPILE.c} ${CFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
@@ -134,7 +135,7 @@ CTAGS?=		ctags
 .cc.i:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
 .cc.s:
-	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.s=.o}:M*} -o $@ -S ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.s=.o}:M*} -o $@ ${_DEFcTOsOPTS} ${.IMPSRC}
 .cc.a:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
@@ -147,7 +148,7 @@ CTAGS?=		ctags
 .C.i:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
 .C.s:
-	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.s=.o}:M*} -o $@ -S ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.s=.o}:M*} -o $@ ${_DEFcTOsOPTS} ${.IMPSRC}
 .C.a:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
@@ -160,7 +161,7 @@ CTAGS?=		ctags
 .cxx.i:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
 .cxx.s:
-	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.s=.o}:M*} -o $@ -S ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.s=.o}:M*} -o $@ ${_DEFcTOsOPTS} ${.IMPSRC}
 .cxx.a:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o
@@ -173,7 +174,7 @@ CTAGS?=		ctags
 .cpp.i:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.i=.o}:M*} -o $@ -E ${.IMPSRC}
 .cpp.s:
-	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.s=.o}:M*} -o $@ -S ${.IMPSRC}
+	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.s=.o}:M*} -o $@ ${_DEFcTOsOPTS} ${.IMPSRC}
 .cpp.a:
 	${COMPILE.cc} ${CXXFLAGS_${.TARGET:.a=.o}:M*} ${.IMPSRC}
 	${AR} ${ARFLAGS} $@ $*.o

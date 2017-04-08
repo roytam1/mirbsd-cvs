@@ -435,6 +435,7 @@ _ORIG_CXX:=		${CXX}
 BUILD_DEPENDS+=		:pcc-*:lang/pcc
 USE_CCACHE:=		No
 _DEFCOPTS:=		${_DEFCOPTS_pcc}
+_DEFcTOsOPTS:=		-S
 _ORIG_CC:=		pcc
 _ORIG_CXX:=		false
 .elif ${USE_COMPILER:L} == "gcc4.4"
