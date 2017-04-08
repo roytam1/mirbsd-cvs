@@ -2747,16 +2747,14 @@ srcman: $(MANFILES)
 
 .for _i in ${MANFILES}
 ${_i}: ${_i:T:R}.pod
-	$(STAMP) $@
-	-($(POD2MAN) --section=${i:E} ${.ALLSRC:M*.pod} > $(@).T$$$$ && \
+	($(POD2MAN) --section=${i:E} ${.ALLSRC:M*.pod} > $(@).T$$$$ && \
 		mv -f $(@).T$$$$ $@) || \
-		(rm -f $(@).T$$$$ && exit 1)
+		(rm -f $@ $(@).T$$$$; exit 1)
 .endfor
 
 .SUFFIXES: .pod
 .texi.pod:
-	$(STAMP) $@
-	-$(TEXI2POD) $< > $@
+	$(TEXI2POD) $< > $@ || (rm -f $@; exit 1)
 
 .INTERMEDIATE: cpp.pod gcc.pod gfdl.pod fsf-funding.pod
 cpp.pod: cpp.texi cppenv.texi cppopts.texi
@@ -2765,14 +2763,11 @@ cpp.pod: cpp.texi cppenv.texi cppopts.texi
 # the input name, so our implict %.pod rule will not work.
 
 gcc.pod: invoke.texi cppenv.texi cppopts.texi
-	$(STAMP) $@
-	-$(TEXI2POD) ${.ALLSRC:M*.texi} > $@
+	$(TEXI2POD) ${.ALLSRC:M*.texi} > $@ || (rm -f $@; exit 1)
 gfdl.pod: fdl.texi
-	$(STAMP) $@
-	-$(TEXI2POD) ${.ALLSRC:M*.texi} > $@
+	$(TEXI2POD) ${.ALLSRC:M*.texi} > $@ || (rm -f $@; exit 1)
 fsf-funding.pod: funding.texi
-	$(STAMP) $@
-	-$(TEXI2POD) ${.ALLSRC:M*.texi} > $@
+	$(TEXI2POD) ${.ALLSRC:M*.texi} > $@ || (rm -f $@; exit 1)
 
 #
 # Deletion of files made during compilation.
