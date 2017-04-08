@@ -806,7 +806,7 @@ comexec(struct op *t, struct tbl * volatile tp, const char **ap,
 			/* NOTREACHED */
 		default:
 			quitenv(NULL);
-			internal_errorf(Tf_sd, "CFUNC", i);
+			internal_errorf(Tunexpected_type, Tunwind, Tfunction, i);
 		}
 		break;
 	}
@@ -1506,7 +1506,7 @@ iosetup(struct ioword *iop, struct tbl *tp)
 		/* herein() may already have printed message */
 		if (u == -1) {
 			u = errno;
-			warningf(true, Tf_cant,
+			warningf(true, Tf_cant_ss_s,
 			    iotype == IODUP ? "dup" :
 			    (iotype == IOREAD || iotype == IOHERE) ?
 			    Topen : Tcreate, cp, cstrerror(u));

@@ -30,7 +30,7 @@
 # (2013/12/02 20:39:44) http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/regress/bin/ksh/?sortby=date
 
 expected-stdout:
-	@(#)MIRBSD KSH R54 2017/04/05
+	@(#)MIRBSD KSH R54 2017/04/07
 description:
 	Check version of shell.
 stdin:
@@ -39,7 +39,7 @@ name: KSH_VERSION
 category: !shell:legacy-yes,!shell:textmode-yes
 ---
 expected-stdout:
-	@(#)LEGACY KSH R54 2017/04/05
+	@(#)LEGACY KSH R54 2017/04/07
 description:
 	Check version of legacy shell.
 stdin:
@@ -48,7 +48,7 @@ name: KSH_VERSION-legacy
 category: !shell:legacy-no,!shell:textmode-yes
 ---
 expected-stdout:
-	@(#)MIRBSD KSH R54 2017/04/05 +TEXTMODE
+	@(#)MIRBSD KSH R54 2017/04/07 +TEXTMODE
 description:
 	Check version of shell.
 stdin:
@@ -57,7 +57,7 @@ name: KSH_VERSION-textmode
 category: !shell:legacy-yes,!shell:textmode-no
 ---
 expected-stdout:
-	@(#)LEGACY KSH R54 2017/04/05 +TEXTMODE
+	@(#)LEGACY KSH R54 2017/04/07 +TEXTMODE
 description:
 	Check version of legacy shell.
 stdin:
@@ -1001,6 +1001,8 @@ stdin:
 	    echo end-$i
 	done
 	echo end-3
+	for i in a b c; do echo $i; eval break; echo bad-$i; done
+	echo end-4
 expected-stdout:
 	a
 	end-1
@@ -1013,6 +1015,8 @@ expected-stdout:
 	c:x
 	end-c
 	end-3
+	a
+	end-4
 ---
 name: break-2
 description:
@@ -1082,6 +1086,8 @@ stdin:
 	    echo end-$i
 	done
 	echo end-3
+	for i in a b c; do echo $i; eval continue; echo bad-$i ; done
+	echo end-4
 expected-stdout:
 	a
 	b
@@ -1104,6 +1110,10 @@ expected-stdout:
 	c:z
 	end-c
 	end-3
+	a
+	b
+	c
+	end-4
 ---
 name: continue-2
 description:
