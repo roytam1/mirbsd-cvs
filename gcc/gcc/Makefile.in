@@ -2747,7 +2747,7 @@ srcman: $(MANFILES)
 
 .for _i in ${MANFILES}
 ${_i}: ${_i:T:R}.pod
-	($(POD2MAN) --section=${i:E} ${.ALLSRC:M*.pod} > $(@).T$$$$ && \
+	($(POD2MAN) --section=${_i:E} ${.ALLSRC:M*.pod} > $(@).T$$$$ && \
 		mv -f $(@).T$$$$ $@) || \
 		(rm -f $@ $(@).T$$$$; exit 1)
 .endfor
