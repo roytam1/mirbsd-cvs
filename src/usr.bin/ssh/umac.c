@@ -75,7 +75,7 @@
 #include "umac.h"
 #include "misc.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/umac.c,v 1.4 2008/12/16 20:55:33 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/umac.c,v 1.6 2017/04/08 16:23:49 tg Exp $");
 
 /* ---------------------------------------------------------------------- */
 /* --- Primitive Data Types ---                                           */
@@ -199,14 +199,17 @@ static void kdf(void *buffer_ptr, aes_int_key key, UINT8 ndx, int nbytes)
  */
 
 typedef struct {
-    UINT8 cache[AES_BLOCK_LEN];  /* Previous AES output is saved      */
-    UINT8 nonce[AES_BLOCK_LEN];  /* The AES input making above cache  */
-    aes_int_key prf_key;         /* Expanded AES key for PDF          */
+	/* Previous AES output is saved */
+	UINT8 cache[AES_BLOCK_LEN] __attribute__((__aligned__(8)));
+	/* The AES input making above cache */
+	UINT8 nonce[AES_BLOCK_LEN] __attribute__((__aligned__(8)));
+	/* Expanded AES key for PDF */
+	aes_int_key prf_key;
 } pdf_ctx;
 
 static void pdf_init(pdf_ctx *pc, aes_int_key prf_key)
 {
-    UINT8 buf[UMAC_KEY_LEN];
+    UINT8 buf[UMAC_KEY_LEN] __attribute__((__aligned__(8)));
     
     kdf(buf, prf_key, 0, UMAC_KEY_LEN);
     aes_key_setup(buf, pc->prf_key);
@@ -301,11 +304,17 @@ static void pdf_gen_xor(pdf_ctx *pc, const UINT8 nonce[8], UINT8 buf[8])
 #define HASH_BUF_BYTES       64     /* nh_aux_hb buffer multiple          */
 
 typedef struct {
-    UINT8  nh_key [L1_KEY_LEN + L1_KEY_SHIFT * (STREAMS - 1)]; /* NH Key */
-    UINT8  data   [HASH_BUF_BYTES];    /* Incoming data buffer           */
-    int next_data_empty;    /* Bookeeping variable for data buffer.       */
-    int bytes_hashed;        /* Bytes (out of L1_KEY_LEN) incorperated.   */
-    UINT64 state[STREAMS];               /* on-line state     */
+	/* NH Key */
+	UINT8 nh_key[L1_KEY_LEN + L1_KEY_SHIFT * (STREAMS - 1)]
+	    __attribute__((__aligned__(8)));
+	/* Incoming data buffer */
+	UINT8 data[HASH_BUF_BYTES] __attribute__((__aligned__(8)));
+	/* Bookkeeping variable for data buffer */
+	int next_data_empty;
+	/* Bytes (out of L1_KEY_LEN) incorperated */
+	int bytes_hashed;
+	/* on-line state */
+	UINT64 state[STREAMS];
 } nh_ctx;
 
 
@@ -524,7 +533,7 @@ static void nh_transform(nh_ctx *hc, const UINT8 *buf, UINT32 nbytes)
  * appropriately according to how much message has been hashed already.
  */
 {
-    UINT8 *key;
+    UINT8 *key __attribute__((__aligned__(4)));;
   
     key = hc->nh_key + hc->bytes_hashed;
     nh_aux(key, buf, hc->state, nbytes);
@@ -1108,7 +1117,7 @@ static int uhash(uhash_ctx_t ahc, u_char *msg, long len, u_char *res)
 /* assumes that msg is in a writable buffer of length divisible by */
 /* L1_PAD_BOUNDARY. Bytes beyond msg[len] may be zeroed.           */
 {
-    UINT8 nh_result[STREAMS*sizeof(UINT64)];
+    UINT8 nh_result[STREAMS*sizeof(UINT64)] __attribute__((__aligned__(8)));
     UINT32 nh_len;
     int extra_zeroes_needed;
         
@@ -1237,8 +1246,25 @@ int umac_update(struct umac_ctx *ctx, const u_char *input, long len)
 /* hash each one, calling the PDF on the hashed output whenever the hash- */
 /* output buffer is full.                                                 */
 {
-    uhash_update(&ctx->hash, input, len);
-    return (1);
+	union {
+		const u_char *ptr;
+		uintptr_t number;
+	} input_ptr;
+	u_char *cp;
+
+	input_ptr.ptr = input;
+	if (!(input_ptr.number & 3)) {
+		/* input is 32-bit aligned alright */
+		uhash_update(&ctx->hash, input, len);
+		return (1);
+	}
+
+	/* input is not 32-bit aligned, xmemdup it */
+	cp = xmalloc(len);
+	memcpy(cp, input, len);
+	uhash_update(&ctx->hash, cp, len);
+	xfree(cp);
+	return (1);
 }
 
 /* ---------------------------------------------------------------------- */

@@ -122,8 +122,8 @@ mac_init(Mac *mac)
 u_char *
 mac_compute(Mac *mac, u_int32_t seqno, u_char *data, int datalen)
 {
-	static u_char m[EVP_MAX_MD_SIZE];
-	u_char b[4], nonce[8];
+	static u_char m[EVP_MAX_MD_SIZE] __attribute__((__aligned__(8)));
+	u_char b[4], nonce[8] __attribute__((__aligned__(4)));;
 
 	if (mac->mac_len > sizeof(m))
 		fatal("mac_compute: mac too long %u %lu",
