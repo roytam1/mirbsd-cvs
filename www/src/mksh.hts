@@ -1279,6 +1279,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg, sdaoden] Limit alias name chars to POSIX plus non-leading ‘-’</li>
  <li>[tg, Martijn Dekker] Expand aliases at COMSUB parse time</li>
  <li>[tg] Make “typeset -f” output alias-resistent</li>
+ <li>[tg, Martijn Dekker] Permit “eval break” and “eval continue”</li>
 </ul>
 <p id="r54">R54 is a bugfix release with moderate new features:</p><ul>
  <li>[tg] Simplify and improve code and manual page</li>
