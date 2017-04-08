@@ -1,5 +1,5 @@
 /* $MirOS: src/usr.bin/ssh/misc.h,v 1.4 2009/10/04 14:29:04 tg Exp $ */
-/* $OpenBSD: misc.h,v 1.38 2008/06/12 20:38:28 dtucker Exp $ */
+/* $OpenBSD: misc.h,v 1.38*+1.52 2008/06/12 20:38:28 dtucker Exp $ */
 
 /*
  * Author: Tatu Ylonen <ylo@cs.hut.fi>
@@ -80,6 +80,12 @@ void		put_u32(void *, u_int32_t)
     __attribute__((__bounded__(__minbytes__, 1, 4)));
 void		put_u16(void *, u_int16_t)
     __attribute__((__bounded__(__minbytes__, 1, 2)));
+
+/* Little-endian store/load, used by umac.c */
+u_int32_t	get_u32_le(const void *)
+    __attribute__((__bounded__( __minbytes__, 1, 4)));
+void		put_u32_le(void *, u_int32_t)
+    __attribute__((__bounded__( __minbytes__, 1, 4)));
 
 
 /* readpass.c */
