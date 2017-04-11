@@ -23,7 +23,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/tree.c,v 1.80 2016/01/14 22:30:43 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/tree.c,v 1.87 2017/04/06 01:59:58 tg Exp $");
 
 #define INDENT	8
 
@@ -365,6 +365,8 @@ wdvarput(struct shf *shf, const char *wp, int quotelevel, int opmode)
 		case COMSUB:
 			shf_puts("$(", shf);
 			cs = ")";
+			if (*wp == '(' /*)*/)
+				shf_putc(' ', shf);
  pSUB:
 			while ((c = *wp++) != 0)
 				shf_putc(c, shf);
