@@ -1,7 +1,7 @@
-# $MirOS: ports/shells/mksh/Makefile,v 1.82 2016/08/12 20:02:33 tg Exp $
+# $MirOS: ports/shells/mksh/Makefile,v 1.83 2016/11/12 00:25:37 tg Exp $
 
 COMMENT=		MirBSD Korn Shell
-DISTNAME=		mksh-R54
+DISTNAME=		mksh-R55
 PKGNAME=		${DISTNAME:S/-R/-/}-${DASH_VER}
 CATEGORIES=		shells
 HOMEPAGE=		http://mirbsd.de/mksh
@@ -24,7 +24,7 @@ do-build:
 	cd ${WRKBUILD:Q}/bm && ${SETENV} ${MAKE_ENV} NROFF=${NROFF:C/ *$//:Q} \
 	    SHELL=${BSH:Q} ${BSH} ${WRKSRC:Q}/Build.sh
 	cd ${WRKBUILD:Q}/bl && ${SETENV} ${MAKE_ENV} \
-	    CPPFLAGS=-DMKSH_BINSHPOSIX \
+	    HAVE_PERSISTENT_HISTORY=0 CPPFLAGS=-DMKSH_BINSHPOSIX \
 	    SHELL=${BSH:Q} ${BSH} ${WRKSRC:Q}/Build.sh -r -L
 	${NROFF} -mdoc <${WRKSRC:Q}/lksh.1 >${WRKBUILD:Q}/lksh.cat1
 
