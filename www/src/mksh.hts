@@ -24,7 +24,7 @@ mws_content <<'EOF'
  <li>information about <a href="mksh_old.htm">old versions</a></li>
 </ul>
 
-<h2>mksh(1) R54</h2>
+<h2>mksh(1) R55</h2>
 
 <p>This is the website of the MirBSD™ Korn Shell, an actively developed free
  implementation of the Korn Shell programming language and a successor to the
@@ -50,8 +50,8 @@ mws_content <<'EOF'
  “MirBSD Korn Shell”.</p>
 
 <h2 class="cr" id="prefetch">Introduction</h2>
-<p>The current version of mksh is <strong>mksh R54</strong> from
- <em>12 November 2016</em>.<br />In the oldstable bugfixing-only series, the
+<p>The current version of mksh is <strong>mksh R55</strong> from
+ <em>12 April 2017</em>.<br />In the oldstable bugfixing-only series, the
  current version is <em>mksh R50f</em> from <em>19 April 2015</em>.</p>
 <p>Thanks to “Der Verein <a href="http://www.trash.net/verein/">trash.net</a>”
  for sponsoring access to a Solaris 8 box. Thanks to Julian “yofuh” Wiesener
@@ -191,17 +191,17 @@ mws_content <<'EOF'
  <em>as well as</em> the hashes and/or checksums below, so you’re sure the
  content is intact and the version number on the archive is correct.</p>
 <h3 id="mirrors">Known Mirrors</h3><ul>
- <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz</a></li>
- <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R54.tgz</a></li>
+ <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R55.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R55.tgz</a></li>
+ <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R55.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R55.tgz</a></li>
  <li><a href="https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz">https://www.mirbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz</a></li>
  <li><a href="http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz">http://pub.allbsd.org/MirOS/dist/mir/mksh/mksh-R50f.tgz</a></li>
 </ul>
 <h3 id="hashes">Checksums and Hashes</h3><ul>
 <!-- cd /MirOS/dist/mir/mksh; ls; read x; cksum -a rmd160 -a tiger $x; cksum $PWD/$x; md5 $x -->
-  <li>RMD160 (mksh-R54.tgz) = 3b3435b60dc040995b1a63289c7169a08175dd95</li>
-  <li>TIGER (mksh-R54.tgz) = 82815a629764443896b46f03931a8d1bde102d72a30d645c</li>
-  <li>1161958218 395538 /MirOS/dist/mir/mksh/mksh-R54.tgz</li>
-  <li>MD5 (mksh-R54.tgz) = be0a6fb93b4a5f927bcc1893bb6692f8</li>
+  <li>RMD160 (mksh-R55.tgz) = 494988a6420a160f8f3663c9b699b90d6ecfc434</li>
+  <li>TIGER (mksh-R55.tgz) = 9f50b8bc4ceb74399511068b1a63cb77bf74136d97bdc2f9</li>
+  <li>3316087405 404432 /MirOS/dist/mir/mksh/mksh-R55.tgz</li>
+  <li>MD5 (mksh-R55.tgz) = 718c44251b52c48e7312903273e263f4</li>
  <li style="list-style:none;">↑ formal release │ stable bugfix series ↓</li>
   <li>RMD160 (mksh-R50f.tgz) = e0de1dd07e6ca02830407b9db43de8f5c98d800f</li>
   <li>TIGER (mksh-R50f.tgz) = db437ce08d7c6a8449c5ba5827a9742cbaca7c16be261971</li>
@@ -211,15 +211,19 @@ mws_content <<'EOF'
   <a href="/gzsigkey.cer">current signature key</a>.</li>
 </ul>
 <h3 id="cats">Preformatted Documentation</h3><ul>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R54.cat1.gz">catman</a></li>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R54.htm.gz">XHTML</a></li>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R54.pdf">PDF</a></li>
- <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R54.txt.gz">plaintext</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R55.cat1.gz">catman</a> — <a
+  href="@@ABSPATH@@/MirOS/cats/mir/mksh/lksh-R55.cat1.gz">lksh</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R55.htm.gz">XHTML</a> — <a
+  href="@@ABSPATH@@/MirOS/cats/mir/mksh/lksh-R55.htm.gz">lksh</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R55.pdf">PDF</a> — <a
+  href="@@ABSPATH@@/MirOS/cats/mir/mksh/lksh-R55.pdf">lksh</a></li>
+ <li><a href="@@ABSPATH@@/MirOS/cats/mir/mksh/mksh-R55.txt.gz">plaintext</a> — <a
+  href="@@ABSPATH@@/MirOS/cats/mir/mksh/lksh-R55.txt.gz">lksh</a></li>
 </ul>
 
 <h3 id="decomp">Decompression</h3>
 <p>We’re using gzip(1)-compressed POSIX us<!-- -->tar(1) distfiles nowadays,
- so a simple <tt>tar -xzf mksh-R54.tgz</tt> will work. It will create all
+ so a simple <tt>tar -xzf mksh-R55.tgz</tt> will work. It will create all
  files in a subdirectory <tt>./mksh/</tt>.</p>
 
 <h3 id="vendorpatching">Patching</h3>
@@ -875,11 +879,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p id="pcur"><i>current</i>: Please remember to subscribe to the mksh
  mailing list, either directly or via GMane, if you have an interest
  in mksh, such as packaging it. Thanks! <i>(unfinished…)</i>
- <tt>make repool</tt> needs mksh R55’s bugfix on the host. OS/2 builds
- with “textmode” (CR+LF as newline) now need <tt>Build.sh -T</tt>.
- Persistent history is now supported by lksh as well, unless explicitly
- disabled.
 </p>
+<p id="p55">R55: <tt>make repool</tt> needs mksh R55’s bugfix on the host.
+ OS/2 builds with “textmode” (CR+LF as newline) now need <tt>Build.sh -T</tt>.
+ Persistent history is now supported by lksh as well, unless explicitly
+ disabled. There were some changes related to the build system.</p>
 <p id="p54">R54: Build.sh now installs both manpages (lksh.1 and
  mksh.1) independent of how it’s called. Several additional compiler
  flags are attempted. Porters to Harvey-OS and OS/2 should review
@@ -1141,6 +1145,8 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p>This does not necessarily list new features, only these which users
  should be aware of for existing scripts.</p>
 <p id="ccur"><i>current</i>:
+ <i>(unfinished…)</i></p>
+<p id="c55">R55:
  The POSIX declaration utility concept is introduced, which also applies
  to commands having variable assignments and redirections preceding them.
  <tt>wait</tt> however does not keep assignments any longer. The new
@@ -1152,8 +1158,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
  (like for functions, and excepting accent gravis-style substitutions),
  and <tt>typeset -f</tt> output is alias-resistent; furthermore, alias
  names are now limited to <tt>[A-Za-z0-9_!%,@]</tt>, following POSIX,
- although a non-leading hyphen-minus is also permitted.
- <i>(unfinished…)</i></p>
+ although a non-leading hyphen-minus is also permitted. <tt>print -R</tt>
+ is now (correctly) roughly equivalent to the POSIX mode <tt>echo</tt>.
+ The deltas between mksh and lksh, and between normal, POSIX and “SH” mode,
+ are now properly documented in the manual pages. The <tt>let]</tt> hack
+ is gone. <tt>ulimit -a</tt> output changed to display the associated flag.
+ <tt>$PATHSEP</tt> is now pre-defined to ‘:’ (‘;’ on OS/2). <tt>$LINENO</tt>
+ is now incremented better in <tt>eval</tt> and alias expansions.</p>
 <p id="c54">R54: Lazy evaluation side effects and <tt>set -e</tt>-related
  error propagation in <tt>||</tt> and <tt>&amp;&amp;</tt> constructs are
  now handled properly.</p>
@@ -1237,11 +1248,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
+<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
+-->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+<p id="r55">R55 is mostly a feature release with summary bugfixes:</p><ul>
  <li>[komh] Fix OS/2 search_access() and UNC path logic</li>
  <li>[tg] Undocument printf(1) to avoid user confusion</li>
  <li>[Jean Delvare, tg] Fix printf builtin -R option</li>
@@ -1261,7 +1275,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Display <tt>ulimit -a</tt> output with flags; improve Haiku</li>
  <li>[tg] Drop old <tt>let]</tt> hack, use <tt>\builtin</tt> internally</li>
  <li>[tg] Fix padding in <tt>Lb64encode</tt> in <tt>dot.mkshrc</tt></li>
- <li>[tg] Move FAQ content to a sepatate, new FAQ section in the manpage</li>
+ <li>[tg] Move FAQ content to a separate, new FAQ section in the manpage</li>
  <li>[tg] Add new standard variable <tt>PATHSEP</tt> (‘:’, ‘;’ on OS/2)</li>
  <li>[Martijn Dekker] Fix <tt>LINENO</tt> in eval and alias</li>
  <li>[komh] Fix “\builtin” on OS/2</li>
@@ -1280,6 +1294,14 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg, Martijn Dekker] Expand aliases at COMSUB parse time</li>
  <li>[tg] Make “typeset -f” output alias-resistent</li>
  <li>[tg, Martijn Dekker] Permit “eval break” and “eval continue”</li>
+ <li>[tg] Make <tt>-masm=intel</tt> safe on i386</li>
+ <li>[tg] Disambiguate $((…)) vs. $((…)…) in “typeset -f” output</li>
+ <li>[Jean Delvare] Clarify the effect of exit and return in a subshell</li>
+ <li>[tg] Simplify compile-time asserts and make them actually compile-time</li>
+ <li>[tg] Fix ^O in Emacs mode if the line was modified (LP#1675842)</li>
+ <li>[tg] Address Coverity Scan… stuff… now that it builds again</li>
+ <li>[Martijn Dekker, tg] Add <tt>test -v</tt></li>
+ <li>[tg] Document <tt>set -o posix</tt>/<tt>sh</tt> completely</li>
 </ul>
 <p id="r54">R54 is a bugfix release with moderate new features:</p><ul>
  <li>[tg] Simplify and improve code and manual page</li>
@@ -1665,22 +1687,18 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <li>Allow trimming arrays (e.g. <tt>${foo[*]@Q}</tt>)</li>
 <li>Add -DMKSH_BAIKA_NO_JUTSU (trade more size for more speed)</li>
 <li>Someone should run mksh through afl and fix everything it finds</li>
-<li><tt>print -a "${arr[@]}"</tt> to match <tt>read -raN-1 arr</tt></li>
 <li><a href="mksh_old.htm#plans">older/unrealistic plans</a></li>
 <li>… such as a better website, more clearly arranged, etc…</li>
 <li>Although there is <em>definite</em> need, eventually, to have
  64-bit arithmetics, possibly using a long typeset flag and something
  similar to <tt>$((#x))</tt> for unsigned arithmetics</li>
 <li>arbitrary-precision arithmetics?</li>
-<li><tt>$&amp;</tt> in/after replacements, possibly as array?
- maybe not with that name, see the <tt>&amp;&gt;</tt> disaster.</li>
+<li>make <tt>KSH_MATCH</tt> into an array</li>
 <li>something like <tt>${${foo#bar}%baz}</tt> like other shells do?</li>
 <li>some sort of mktemp(1) builtin; the functionality is already
  mostly there, but we keep it open already in C and don’t do dirs,
  this must be rethinked wrt. UI (the UI can also be used for some
  file-based locking builtin)</li>
-<li><tt>exec</tt> with arg parsing, <tt>-c</tt> like ksh93 (keeping
- <tt>l_assign</tt> stuff exported!), <tt>-a</tt></li>
 <li>The <tt>DEBUG</tt> trap (although GNU bash also has a RETURN
  trap, and both bash and ksh93 write <em>lots</em> about this, so
  careful design is required before attempting this) → Ypnose</li>
