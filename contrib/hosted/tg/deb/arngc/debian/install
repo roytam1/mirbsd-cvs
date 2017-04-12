@@ -1,3 +1,0 @@
-arngc usr/bin/
-debian/arngc-slrd usr/lib/stunnel/
-debian/lintian/arngc usr/share/lintian/overrides/

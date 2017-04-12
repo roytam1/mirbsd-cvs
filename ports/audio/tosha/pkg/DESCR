@@ -1,8 +1,0 @@
-"tosha"  reads one or more CD-DA (digital audio) tracks or absolute
-sectors and writes them into a single or multiple files, or to the
-standard output.
-
-Most IDE/ATAPI CD-ROM drives should work through OpenBSD's atapiscsi
-functionality. Some, though, are known to be problematic.
-
-This product includes software developed by HD Associates

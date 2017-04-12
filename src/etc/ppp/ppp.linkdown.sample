@@ -1,5 +1,0 @@
-# $MirSecuCron$
-# $MirOS$
-
-MYADDR:
- !bg /bin/mksh /etc/ppp/ip-down tun0 vtty sync MYADDR HISADDR
