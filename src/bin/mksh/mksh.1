@@ -4472,34 +4472,6 @@ is a symbolic link.
 .It Fl O Ar file
 .Ar file Ns 's
 owner is the shell's effective user ID.
-.It Fl o Ar option
-Shell
-.Ar option
-is set (see the
-.Ic set
-command above for a list of options).
-As a non-standard extension, if the option starts with a
-.Ql \&! ,
-the test is negated; the test always fails if
-.Ar option
-doesn't exist (so [ \-o foo \-o \-o !foo ] returns true if and only if option
-.Ar foo
-exists).
-The same can be achieved with [ \-o ?foo ] like in
-.At
-.Nm ksh93 .
-.Ar option
-can also be the short flag led by either
-.Ql \-
-or
-.Ql +
-.Pq no logical negation ,
-for example
-.Dq Li \-x
-or
-.Dq Li +x
-instead of
-.Dq Li xtrace .
 .It Fl p Ar file
 .Ar file
 is a named pipe
@@ -4561,6 +4533,38 @@ is not empty.
 .It Fl z Ar string
 .Ar string
 is empty.
+.It Fl v Ar name
+The shell parameter
+.Ar name
+is set.
+.It Fl o Ar option
+Shell
+.Ar option
+is set (see the
+.Ic set
+command above for a list of options).
+As a non-standard extension, if the option starts with a
+.Ql \&! ,
+the test is negated; the test always fails if
+.Ar option
+doesn't exist (so [ \-o foo \-o \-o !foo ] returns true if and only if option
+.Ar foo
+exists).
+The same can be achieved with [ \-o ?foo ] like in
+.At
+.Nm ksh93 .
+.Ar option
+can also be the short flag led by either
+.Ql \-
+or
+.Ql +
+.Pq no logical negation ,
+for example
+.Dq Li \-x
+or
+.Dq Li +x
+instead of
+.Dq Li xtrace .
 .It Ar string No = Ar string
 Strings are equal.
 .It Ar string No == Ar string
