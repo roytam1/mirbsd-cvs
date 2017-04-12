@@ -1786,12 +1786,11 @@ x_newline(int c MKSH_A_UNUSED)
 static int
 x_end_of_text(int c MKSH_A_UNUSED)
 {
-	unsigned char tmp;
-	char *cp = (void *)&tmp;
+	unsigned char tmp[1], *cp = tmp;
 
-	tmp = isedchar(edchars.eof) ? (unsigned char)edchars.eof :
+	*tmp = isedchar(edchars.eof) ? (unsigned char)edchars.eof :
 	    (unsigned char)CTRL('D');
-	x_zotc3(&cp);
+	x_zotc3((char **)&cp);
 	x_putc('\r');
 	x_putc('\n');
 	x_flush();

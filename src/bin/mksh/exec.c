@@ -376,9 +376,8 @@ execute(struct op * volatile t,
 		if (t->right == NULL)
 			/* should be error */
 			break;
-		rv = execute(t->left, XERROK, NULL) == 0 ?
-		    execute(t->right->left, flags & XERROK, xerrok) :
-		    execute(t->right->right, flags & XERROK, xerrok);
+		rv = execute(execute(t->left, XERROK, NULL) == 0 ?
+		    t->right->left : t->right->right, flags & XERROK, xerrok);
 		break;
 
 	case TCASE:
@@ -1507,7 +1506,10 @@ iosetup(struct ioword *iop, struct tbl *tp)
 		if (u == -1) {
 			u = errno;
 			warningf(true, Tf_cant_ss_s,
+#if 0
+			    /* can't happen */
 			    iotype == IODUP ? "dup" :
+#endif
 			    (iotype == IOREAD || iotype == IOHERE) ?
 			    Topen : Tcreate, cp, cstrerror(u));
 		}

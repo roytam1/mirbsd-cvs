@@ -501,7 +501,7 @@ parse_args(const char **argv,
 	if (arrayset) {
 		const char *ccp = NULL;
 
-		if (*array)
+		if (array && *array)
 			ccp = skip_varname(array, false);
 		if (!ccp || !(!ccp[0] || (ccp[0] == '+' && !ccp[1]))) {
 			bi_errorf(Tf_sD_s, array, Tnot_ident);

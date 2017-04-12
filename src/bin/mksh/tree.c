@@ -58,7 +58,7 @@ ptree(struct op *t, int indent, struct shf *shf)
 	case TCOM:
 		prevent_semicolon = false;
 		/* special-case 'var=<<EOF' (cf. exec.c:execute) */
-		if (
+		if (t->args &&
 		    /* we have zero arguments, i.e. no program to run */
 		    t->args[0] == NULL &&
 		    /* we have exactly one variable assignment */
