@@ -143,10 +143,10 @@ pty_setowner(struct passwd *pw, const char *tty)
 	grp = getgrnam("tty");
 	if (grp) {
 		gid = grp->gr_gid;
-		mode = S_IRUSR | S_IWUSR | S_IWGRP;
+		mode = 0620;
 	} else {
 		gid = pw->pw_gid;
-		mode = S_IRUSR | S_IWUSR | S_IWGRP | S_IWOTH;
+		mode = 0600;
 	}
 
 	/*
