@@ -1163,6 +1163,7 @@ case $module {
 	IGNORELIST="\
 		ANNOUNCE \
 		CHANGES \
+		CMakeLists.txt \
 		INSTALL \
 		KNOWNBUG \
 		LICENSE \
@@ -1172,15 +1173,19 @@ case $module {
 		TODO \
 		Y2KINFO \
 		aclocal.m4 \
+		ag.diff \
 		autogen.sh \
+		compile \
 		config.guess \
 		config.h.in \
 		config.sub \
 		configure \
 		configure.ac \
+		contrib \
 		depcomp \
 		example.c \
 		install-sh \
+		libpng-1.*.txt \
 		libpng.txt \
 		ltmain.sh \
 		missing \
@@ -1192,6 +1197,9 @@ case $module {
 		pngtest.c \
 		pngtest.png \
 		pngvcrd.c \
+		projects \
+		scripts \
+		test-driver \
 		test-pngtest.sh \
 	"
 	vendor=png
