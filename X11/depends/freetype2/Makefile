@@ -1,4 +1,4 @@
-# $MirOS: X11/depends/freetype2/Makefile,v 1.14 2014/11/26 19:29:30 tg Exp $
+# $MirOS: X11/depends/freetype2/Makefile,v 1.17 2017/04/15 20:50:56 tg Exp $
 #-
 # Note: also change X11/xc/lib/font/FreeType/module/Imakefile,v
 
@@ -244,7 +244,7 @@ beforeinstall:
 	    ${DESTDIR}${X11BASE}/include/freetype2/freetype/${_i}
 .endfor
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m ${NONBINMODE} \
-	    ${FT2_DIR}/builds/unix/ft2unix.h \
+	    ${FT2_DIR}/include/ft2build.h \
 	    ${DESTDIR}${X11BASE}/include/freetype2/ft2build.h
 	${INSTALL} ${INSTALL_COPY} -o ${BINOWN} -g ${BINGRP} -m ${BINMODE} \
 	    freetype-config ${DESTDIR}${BINDIR}/
