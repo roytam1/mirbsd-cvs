@@ -1,4 +1,4 @@
-/* $MirOS: X11/xc/lib/font/FreeType/ftsystem.c,v 1.2 2017/04/15 21:26:40 tg Exp $ */
+/* $MirOS: X11/xc/lib/font/FreeType/ftsystem.c,v 1.3 2017/04/15 22:22:46 tg Exp $ */
 /* $XFree86: xc/lib/font/FreeType/ftsystem.c,v 1.3 2002/10/01 00:02:10 alanh Exp $ */
 
 /***************************************************************************/
@@ -48,9 +48,9 @@
 #define DONT_DEFINE_WRAPPERS
 #include "xf86_ansic.h"
 #undef DONT_DEFINE_WRAPPERS
-#define malloc	xf86malloc
-#define realloc	xf86realloc
-#define free	xf86free
+#define malloc(s)	xf86malloc(s)
+#define realloc(p,s)	xf86realloc((p), (s))
+#define free(p)		xf86free(p)
 #define FILE	XF86FILE
 #define fopen	xf86fopen
 #define fclose	xf86fclose
@@ -320,9 +320,9 @@
     if ( memory )
     {
       memory->user    = NULL;
-      (memory->alloc)   = ft_alloc;
-      (memory->realloc) = ft_realloc;
-      (memory->free)    = ft_free;
+      memory->alloc   = ft_alloc;
+      memory->realloc = ft_realloc;
+      memory->free    = ft_free;
 #ifdef FT_DEBUG_MEMORY
       ft_mem_debug_init( memory );
 #endif

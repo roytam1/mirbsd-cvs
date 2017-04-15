@@ -1287,8 +1287,8 @@
   /* Temporarily disable the warning that C90 doesn't support `long long'. */
 #if ( __GNUC__ * 100 + __GNUC_MINOR__ ) >= 406
 #pragma GCC diagnostic push
-#endif
 #pragma GCC diagnostic ignored "-Wlong-long"
+#endif
 
   /* This is declared `noinline' because inlining the function results */
   /* in slower code.  The `pure' attribute indicates that the result   */
@@ -1367,8 +1367,8 @@
 
 #if ( __GNUC__ * 100 + __GNUC_MINOR__ ) >= 406
 #pragma GCC diagnostic push
-#endif
 #pragma GCC diagnostic ignored "-Wlong-long"
+#endif
 
   static __attribute__(( pure )) FT_Int32
   TT_DotFix14_long_long( FT_Int32  ax,
