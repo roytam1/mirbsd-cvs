@@ -8,7 +8,7 @@
 /*    ANSI-specific library and header configuration file (specification   */
 /*    only).                                                               */
 /*                                                                         */
-/*  Copyright 2002, 2003, 2004, 2005, 2006, 2007, 2009 by                  */
+/*  Copyright 2002-2016 by                                                 */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  Modified for XFree86.                                                  */
@@ -28,14 +28,13 @@
   /* FreeType normally requires.  It also defines macros to rename the     */
   /* standard functions within the FreeType source code.                   */
   /*                                                                       */
-  /* Load a file which defines __FTSTDLIB_H__ before this one to override  */
-  /* it.                                                                   */
+  /* Load a file which defines FTSTDLIB_H_ before this one to override it. */
   /*                                                                       */
   /*************************************************************************/
 
 
-#ifndef __FTSTDLIB_H__
-#define __FTSTDLIB_H__
+#ifndef FTSTDLIB_H_
+#define FTSTDLIB_H_
 
 
 #include <stddef.h>
@@ -61,16 +60,18 @@
   /*                                                                    */
   /**********************************************************************/
 
-
 #ifndef FONTMODULE
 
 #include <limits.h>
 
-#define FT_CHAR_BIT   CHAR_BIT
-#define FT_INT_MAX    INT_MAX
-#define FT_INT_MIN    INT_MIN
-#define FT_UINT_MAX   UINT_MAX
-#define FT_ULONG_MAX  ULONG_MAX
+#define FT_CHAR_BIT    CHAR_BIT
+#define FT_USHORT_MAX  USHRT_MAX
+#define FT_INT_MAX     INT_MAX
+#define FT_INT_MIN     INT_MIN
+#define FT_UINT_MAX    UINT_MAX
+#define FT_LONG_MIN    LONG_MIN
+#define FT_LONG_MAX    LONG_MAX
+#define FT_ULONG_MAX   ULONG_MAX
 
 
   /**********************************************************************/
@@ -147,8 +148,8 @@
   /**********************************************************************/
 
 
-#define ft_atol   atol
-#define ft_labs   labs
+#define ft_strtol  strtol
+#define ft_getenv  getenv
 
 
   /**********************************************************************/
@@ -165,8 +166,7 @@
                                 /*       on certain platforms           */
 
 #define ft_longjmp     longjmp
-#define ft_setjmp( b ) setjmp( *(jmp_buf*) &(b) )    /* same thing here */
-
+#define ft_setjmp( b ) setjmp( *(ft_jmp_buf*) &(b) ) /* same thing here */
 
 #else
 
@@ -182,47 +182,43 @@
 #define offsetof(TYPE, MEMBER) ((xf86size_t)&((TYPE*)0)->MEMBER)
 #endif
 
-#define FT_INT_MAX    2147483647
-#define FT_INT_MIN    (-0x7fffffff-1)
-#define FT_UINT_MAX   4294967295U
+#define FT_INT_MAX	2147483647
+#define FT_INT_MIN	(-0x7fffffff-1)
+#define FT_UINT_MAX	4294967295U
 #ifdef LONG64
-#define FT_ULONG_MAX 18446744073709551615UL
+#define FT_ULONG_MAX	18446744073709551615UL
 #else
-#define FT_ULONG_MAX  4294967295UL
+#define FT_ULONG_MAX	4294967295UL
 #endif
 
-#define ft_memchr    xf86memchr
-#define ft_memcmp    xf86memcmp
-#define ft_memcpy    xf86memcpy
-#define ft_memmove   xf86memmove
-#define ft_memset    xf86memset
-#define ft_strcat    xf86strcat
-#define ft_strcmp    xf86strcmp
-#define ft_strcpy    xf86strcpy
-#define ft_strlen    xf86strlen
-#define ft_strncmp   xf86strncmp
-#define ft_strncpy   xf86strncpy
-#define ft_strrchr   xf86strrchr
-#define ft_strstr    xf86strstr
+#define ft_memchr	xf86memchr
+#define ft_memcmp	xf86memcmp
+#define ft_memcpy	xf86memcpy
+#define ft_memmove	xf86memmove
+#define ft_memset	xf86memset
+#define ft_strcat	xf86strcat
+#define ft_strcmp	xf86strcmp
+#define ft_strcpy	xf86strcpy
+#define ft_strlen	xf86strlen
+#define ft_strncmp	xf86strncmp
+#define ft_strncpy	xf86strncpy
+#define ft_strrchr	xf86strrchr
+#define ft_strstr	xf86strstr
 
-#define ft_sprintf   xf86sprintf
+#define ft_sprintf	xf86sprintf
 
-#define ft_qsort     xf86qsort
-#define ft_exit      xf86exit
+#define ft_qsort	xf86qsort
 
-#define ft_atol      xf86atol
+#define ft_jmp_buf	jmp_buf
+#define ft_setjmp	setjmp
+#define ft_longjmp	longjmp
 
-#define ft_jmp_buf   jmp_buf
-#define ft_setjmp    setjmp
-#define ft_longjmp   longjmp
-
-#undef  memcpy
-#define memcpy       xf86memcpy
-#undef  memset
-#define memset       xf86memset
+#undef memcpy
+#define memcpy		xf86memcpy
+#undef memset
+#define memset		xf86memset
 
 #endif /* FONTMODULE */
-
 
   /* the following is only used for debugging purposes, i.e., if */
   /* FT_DEBUG_LEVEL_ERROR or FT_DEBUG_LEVEL_TRACE are defined    */
@@ -230,7 +226,7 @@
 #include <stdarg.h>
 
 
-#endif /* __FTSTDLIB_H__ */
+#endif /* FTSTDLIB_H_ */
 
 
 /* END */

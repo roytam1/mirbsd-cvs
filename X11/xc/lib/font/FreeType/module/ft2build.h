@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: X11/xc/lib/font/FreeType/module/ft2build.h,v 1.2 2013/08/06 22:35:26 tg Exp $ */
 /* $XFree86: xc/lib/font/FreeType/module/ft2build.h,v 1.1 2003/11/20 02:35:40 dawes Exp $ */
 
 /***************************************************************************/
@@ -6,9 +6,8 @@
 /*  ft2build.h                                                             */
 /*                                                                         */
 /*    FreeType 2 build and setup macros.                                   */
-/*    (Generic version)                                                    */
 /*                                                                         */
-/*  Copyright 1996-2001, 2006 by                                           */
+/*  Copyright 1996-2016 by                                                 */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  Modified for XFree86.                                                  */
@@ -24,21 +23,25 @@
 
   /*************************************************************************/
   /*                                                                       */
-  /* This file corresponds to the default `ft2build.h' file for            */
-  /* FreeType 2.  It uses the `freetype' include root.                     */
+  /* This is the `entry point' for FreeType header file inclusions.  It is */
+  /* the only header file which should be included directly; all other     */
+  /* FreeType header files should be accessed with macro names (after      */
+  /* including `ft2build.h').                                              */
   /*                                                                       */
-  /* Note that specific platforms might use a different configuration.     */
-  /* See builds/unix/ft2unix.h for an example.                             */
+  /* A typical example is                                                  */
+  /*                                                                       */
+  /*   #include <ft2build.h>                                               */
+  /*   #include FT_FREETYPE_H                                              */
   /*                                                                       */
   /*************************************************************************/
 
 
-#ifndef __FT2_BUILD_GENERIC_H__
-#define __FT2_BUILD_GENERIC_H__
+#ifndef FT2BUILD_H_
+#define FT2BUILD_H_
 
 #include "ftheader.h"
 
-#endif /* __FT2_BUILD_GENERIC_H__ */
+#endif /* FT2BUILD_H_ */
 
 
 /* END */

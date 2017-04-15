@@ -1,10 +1,13 @@
+/* $MirOS$ */
+/* $XFree86: xc/lib/font/FreeType/ftsystem.c,v 1.3 2002/10/01 00:02:10 alanh Exp $ */
+
 /***************************************************************************/
 /*                                                                         */
 /*  ftsystem.c                                                             */
 /*                                                                         */
 /*    ANSI-specific FreeType low-level system interface (body).            */
 /*                                                                         */
-/*  Copyright 1996-2001, 2002 by                                           */
+/*  Copyright 1996-2016 by                                                 */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  Modified for XFree86.                                                  */
@@ -16,9 +19,6 @@
 /*  understand and accept it fully.                                        */
 /*                                                                         */
 /***************************************************************************/
-
-/* Modified for XFree86 */
-/* $XFree86: xc/lib/font/FreeType/ftsystem.c,v 1.3 2002/10/01 00:02:10 alanh Exp $ */
 
   /*************************************************************************/
   /*                                                                       */
@@ -33,6 +33,7 @@
 #include <ft2build.h>
 #include FT_CONFIG_CONFIG_H
 #include FT_INTERNAL_DEBUG_H
+#include FT_INTERNAL_STREAM_H
 #include FT_SYSTEM_H
 #include FT_ERRORS_H
 #include FT_TYPES_H
@@ -47,19 +48,18 @@
 #define DONT_DEFINE_WRAPPERS
 #include "xf86_ansic.h"
 #undef DONT_DEFINE_WRAPPERS
-#define malloc(x) xf86malloc(x)
-#define realloc(x, y) xf86realloc(x, y)
-#define free(x) xf86free(x)
-#define FILE XF86FILE
-#define fopen(x, y) xf86fopen(x, y)
-#define fclose(x) xf86fclose(x)
-#define fseek(x, y, z) xf86fseek(x, y, z)
-#define ftell(x) xf86ftell(x)
+#define malloc	xf86malloc
+#define realloc	xf86realloc
+#define free	xf86free
+#define FILE	XF86FILE
+#define fopen	xf86fopen
+#define fclose	xf86fclose
+#define fseek	xf86fseek
+#define ftell	xf86ftell
 #define SEEK_SET XF86_SEEK_SET
 #define SEEK_END XF86_SEEK_END
-#define fread(x, y, z, t) xf86fread(x, y, z, t)
+#define fread	xf86fread
 #endif
-
 
   /*************************************************************************/
   /*                                                                       */
@@ -71,7 +71,7 @@
   /*                                                                       */
   /* It is not necessary to do any error checking for the                  */
   /* allocation-related functions.  This will be done by the higher level  */
-  /* routines like FT_Alloc() or FT_Realloc().                             */
+  /* routines like ft_mem_alloc() or ft_mem_realloc().                     */
   /*                                                                       */
   /*************************************************************************/
 
@@ -98,7 +98,7 @@
   {
     FT_UNUSED( memory );
 
-    return malloc( size );
+    return malloc( (size_t)size );
   }
 
 
@@ -131,7 +131,7 @@
     FT_UNUSED( memory );
     FT_UNUSED( cur_size );
 
-    return realloc( block, new_size );
+    return realloc( block, (size_t)new_size );
   }
 
 
@@ -164,6 +164,7 @@
   /*                                                                       */
   /*************************************************************************/
 
+#ifndef FT_CONFIG_OPTION_DISABLE_STREAM_SUPPORT
 
   /*************************************************************************/
   /*                                                                       */
@@ -193,11 +194,11 @@
   FT_CALLBACK_DEF( void )
   ft_ansi_stream_close( FT_Stream  stream )
   {
-    fclose( STREAM_FILE( stream ) );
+    close( STREAM_FILE( stream ) );
 
     stream->descriptor.pointer = NULL;
     stream->size               = 0;
-    stream->base               = 0;
+    stream->base               = NULL;
   }
 
 
@@ -219,7 +220,9 @@
   /*    count  :: The number of bytes to read from the stream.             */
   /*                                                                       */
   /* <Return>                                                              */
-  /*    The number of bytes actually read.                                 */
+  /*    The number of bytes actually read.  If `count' is zero (this is,   */
+  /*    the function is used for seeking), a non-zero return value         */
+  /*    indicates an error.                                                */
   /*                                                                       */
   FT_CALLBACK_DEF( unsigned long )
   ft_ansi_stream_io( FT_Stream       stream,
@@ -230,17 +233,21 @@
     FILE*  file;
 
 
+    if ( !count && offset > stream->size )
+      return 1;
+
     file = STREAM_FILE( stream );
 
-    fseek( file, offset, SEEK_SET );
+    if ( stream->pos != offset )
+      fseek( file, (long)offset, SEEK_SET );
 
     return (unsigned long)fread( buffer, 1, count, file );
   }
 
 
-  /* documentation is in ftobjs.h */
+  /* documentation is in ftstream.h */
 
-  FT_EXPORT_DEF( FT_Error )
+  FT_BASE_DEF( FT_Error )
   FT_Stream_Open( FT_Stream    stream,
                   const char*  filepathname )
   {
@@ -248,25 +255,36 @@
 
 
     if ( !stream )
-      return FT_Err_Invalid_Stream_Handle;
+      return FT_THROW( Invalid_Stream_Handle );
+
+    stream->descriptor.pointer = NULL;
+    stream->pathname.pointer   = (char*)filepathname;
+    stream->base               = NULL;
+    stream->pos                = 0;
+    stream->read               = NULL;
+    stream->close              = NULL;
 
     file = fopen( filepathname, "rb" );
     if ( !file )
     {
-      FT_ERROR(( "FT_Stream_Open:" ));
-      FT_ERROR(( " could not open `%s'\n", filepathname ));
+      FT_ERROR(( "FT_Stream_Open:"
+                 " could not open `%s'\n", filepathname ));
 
-      return FT_Err_Cannot_Open_Resource;
+      return FT_THROW( Cannot_Open_Resource );
     }
 
     fseek( file, 0, SEEK_END );
-    stream->size = ftell( file );
+    stream->size = (unsigned long)ftell( file );
+    if ( !stream->size )
+    {
+      FT_ERROR(( "FT_Stream_Open:" ));
+      FT_ERROR(( " opened `%s' but zero-sized\n", filepathname ));
+      fclose( file );
+      return FT_THROW( Cannot_Open_Stream );
+    }
     fseek( file, 0, SEEK_SET );
 
     stream->descriptor.pointer = file;
-    stream->pathname.pointer   = (char*)filepathname;
-    stream->pos                = 0;
-
     stream->read  = ft_ansi_stream_io;
     stream->close = ft_ansi_stream_close;
 
@@ -277,6 +295,7 @@
     return FT_Err_Ok;
   }
 
+#endif /* !FT_CONFIG_OPTION_DISABLE_STREAM_SUPPORT */
 
 #ifdef FT_DEBUG_MEMORY
 
@@ -291,7 +310,7 @@
 
   /* documentation is in ftobjs.h */
 
-  FT_EXPORT_DEF( FT_Memory )
+  FT_BASE_DEF( FT_Memory )
   FT_New_Memory( void )
   {
     FT_Memory  memory;
@@ -300,7 +319,7 @@
     memory = (FT_Memory)malloc( sizeof ( *memory ) );
     if ( memory )
     {
-      memory->user    = 0;
+      memory->user    = NULL;
       memory->alloc   = ft_alloc;
       memory->realloc = ft_realloc;
       memory->free    = ft_free;
@@ -315,14 +334,13 @@
 
   /* documentation is in ftobjs.h */
 
-  FT_EXPORT_DEF( void )
+  FT_BASE_DEF( void )
   FT_Done_Memory( FT_Memory  memory )
   {
 #ifdef FT_DEBUG_MEMORY
     ft_mem_debug_done( memory );
 #endif
-#undef free
-    memory->free( memory, memory );
+    free( memory );
   }
 
 
