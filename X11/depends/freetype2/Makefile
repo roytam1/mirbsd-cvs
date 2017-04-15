@@ -25,19 +25,22 @@ CPPFLAGS+=		-DFT2_BUILD_LIBRARY
 CPPFLAGS+=		-DMBSD_BUILD
 CPPFLAGS+=		-DFT_CONFIG_OPTION_SUBPIXEL_RENDERING
 CPPFLAGS+=		-DFT_CONFIG_OPTION_SYSTEM_ZLIB
+CPPFLAGS+=		-DHAVE_UNISTD_H
+CPPFLAGS+=		-DHAVE_FCNTL_H
+CPPFLAGS+=		-DHAVE_STDINT_H
 
 .PATH:			${FT2_DIR}/builds/unix
 .PATH:			${FT2_DIR}/docs
 
-.for module in autofit autohint base bdf cache cff cid gxvalid gzip lzw \
-    otlayout otvalid pcf pfr psaux pshinter psnames raster sfnt smooth \
+.for module in autofit base bdf bzip2 cache cff cid gxvalid gzip lzw \
+    otvalid pcf pfr psaux pshinter psnames raster sfnt smooth \
     tools truetype type1 type42 winfonts
 .PATH:			${FT2_DIR}/src/${module}
 .endfor
 
 LIB=			freetype
-LDADD+=			-lz
-DPADD+=			${LIBZ}
+LDADD+=			-lpng -lz -lm
+DPADD+=			${LIBPNG} ${LIBZ} ${LIBM}
 
   MAN+=			freetype-config.1
 
@@ -194,22 +197,26 @@ DPADD+=			${LIBZ}
   INCS+=		config/ftstdlib.h
   INCS+=		freetype.h
   INCS+=		ftadvanc.h
+  INCS+=		ftautoh.h
   INCS+=		ftbbox.h
   INCS+=		ftbdf.h
   INCS+=		ftbitmap.h
+  INCS+=		ftbzip2.h
   INCS+=		ftcache.h
+  INCS+=		ftcffdrv.h
   INCS+=		ftchapters.h
   INCS+=		ftcid.h
   INCS+=		fterrdef.h
   INCS+=		fterrors.h
+  INCS+=		ftfntfmt.h
   INCS+=		ftgasp.h
   INCS+=		ftglyph.h
   INCS+=		ftgxval.h
   INCS+=		ftgzip.h
   INCS+=		ftimage.h
   INCS+=		ftincrem.h
-  INCS+=		ftlist.h
   INCS+=		ftlcdfil.h
+  INCS+=		ftlist.h
   INCS+=		ftlzw.h
   INCS+=		ftmac.h
   INCS+=		ftmm.h
@@ -225,9 +232,9 @@ DPADD+=			${LIBZ}
   INCS+=		ftsynth.h
   INCS+=		ftsystem.h
   INCS+=		fttrigon.h
+  INCS+=		ftttdrv.h
   INCS+=		fttypes.h
   INCS+=		ftwinfnt.h
-  INCS+=		ftxf86.h
   INCS+=		t1tables.h
   INCS+=		ttnameid.h
   INCS+=		tttables.h
