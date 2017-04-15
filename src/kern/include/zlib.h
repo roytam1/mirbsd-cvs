@@ -1,10 +1,10 @@
-/* $MirOS: src/kern/include/zlib.h,v 1.11 2013/10/31 20:06:13 tg Exp $ */
+/* $MirOS: src/kern/include/zlib.h,v 1.12 2017/04/15 14:25:40 tg Exp $ */
 
 /* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.2.8, April 28th, 2013
 
   Copyright (c) 2006-2013 Thorsten Glaser <tg@mirbsd.org>
-  Copyright (C) 1995-2013 Jean-loup Gailly and Mark Adler
+  Copyright (C) 1995-2016 Jean-loup Gailly and Mark Adler
 
   This software is provided 'as-is', without any express or implied
   warranty.  In no event will the authors be held liable for any damages
