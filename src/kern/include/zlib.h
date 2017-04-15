@@ -1,4 +1,4 @@
-/* $MirOS: src/kern/include/zlib.h,v 1.10 2013/08/06 16:59:19 tg Exp $ */
+/* $MirOS: src/kern/include/zlib.h,v 1.11 2013/10/31 20:06:13 tg Exp $ */
 
 /* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.2.8, April 28th, 2013
@@ -1744,11 +1744,6 @@ ZEXTERN int ZEXPORT gzgetc_ OF((gzFile file));  /* backward compatibility */
    ZEXTERN uLong ZEXPORT crc32_combine OF((uLong, uLong, z_off_t));
 
 #endif /* !Z_SOLO */
-
-/* hack for buggy compilers */
-#if !defined(ZUTIL_H) && !defined(NO_DUMMY_DECL)
-    struct internal_state {int dummy;};
-#endif
 
 /* undocumented functions */
 ZEXTERN const char   * ZEXPORT zError           OF((int));

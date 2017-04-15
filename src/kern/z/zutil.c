@@ -10,11 +10,7 @@
 #  include "gzguts.h"
 #endif
 
-zRCSID("$MirOS: src/kern/z/zutil.c,v 1.4 2013/08/05 21:27:35 tg Exp $")
-
-#ifndef NO_DUMMY_DECL
-struct internal_state      {int dummy;}; /* for buggy compilers */
-#endif
+zRCSID("$MirOS: src/kern/z/zutil.c,v 1.5 2013/08/06 17:13:06 tg Exp $")
 
 z_const char * const z_errmsg[10] = {
 "need dictionary",     /* Z_NEED_DICT       2  */
