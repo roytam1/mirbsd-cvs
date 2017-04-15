@@ -85,7 +85,7 @@
 #include "inflate.h"
 #include "inffast.h"
 
-zRCSID("$MirOS: src/kern/z/inflate.c,v 1.6 2013/08/05 21:27:34 tg Exp $")
+zRCSID("$MirOS: src/kern/z/inflate.c,v 1.7 2013/08/06 17:13:05 tg Exp $")
 
 #ifdef MAKEFIXED
 #  ifndef BUILDFIXED
@@ -1515,9 +1515,10 @@ z_streamp strm;
 {
     struct inflate_state FAR *state;
 
-    if (strm == Z_NULL || strm->state == Z_NULL) return -1L << 16;
+    if (strm == Z_NULL || strm->state == Z_NULL)
+        return (long)(((unsigned long)0 - 1) << 16);
     state = (struct inflate_state FAR *)strm->state;
-    return ((long)(state->back) << 16) +
+    return (long)(((unsigned long)((long)state->back)) << 16) +
         (state->mode == COPY ? state->length :
             (state->mode == MATCH ? state->was - state->length : 0));
 }
