@@ -1,13 +1,13 @@
-# $MirOS: X11/depends/freetype2/Makefile,v 1.13 2013/09/10 20:20:50 tg Exp $
+# $MirOS: X11/depends/freetype2/Makefile,v 1.14 2014/11/26 19:29:30 tg Exp $
 #-
 # Note: also change X11/xc/lib/font/FreeType/module/Imakefile,v
 
 .include "../Makefile.inc"
 .include <bsd.own.mk>
 
-SHLIB_VERSION=		11.3
+SHLIB_VERSION=		12.0
 SUBST_VARS+=		-e 's!@X11BASE@!${X11BASE}!g'
-SUBST_VARS+=		-e 's!@ft_version@!2.3.12!g'
+SUBST_VARS+=		-e 's!@ft_version@!2.7.1!g'
 
 all: prereq
 prereq: freetype-config freetype2.pc
@@ -23,9 +23,11 @@ FT2_DIR=		${.CURDIR}/../../xc/extras/freetype2
 CPPFLAGS+=		-I${FT2_DIR}/include
 CPPFLAGS+=		-DFT2_BUILD_LIBRARY
 CPPFLAGS+=		-DMBSD_BUILD
+CPPFLAGS+=		-DFT_CONFIG_OPTION_SUBPIXEL_RENDERING
 CPPFLAGS+=		-DFT_CONFIG_OPTION_SYSTEM_ZLIB
 
 .PATH:			${FT2_DIR}/builds/unix
+.PATH:			${FT2_DIR}/docs
 
 .for module in autofit autohint base bdf cache cff cid gxvalid gzip lzw \
     otlayout otvalid pcf pfr psaux pshinter psnames raster sfnt smooth \
@@ -33,12 +35,11 @@ CPPFLAGS+=		-DFT_CONFIG_OPTION_SYSTEM_ZLIB
 .PATH:			${FT2_DIR}/src/${module}
 .endfor
 
-CPPFLAGS+=		-DTT_CONFIG_OPTION_BYTECODE_INTERPRETER
-
 LIB=			freetype
-NOMAN=			Yes
 LDADD+=			-lz
 DPADD+=			${LIBZ}
+
+  MAN+=			freetype-config.1
 
   SRCS+=		ftsystem.c
   SRCS+=		ftinit.c

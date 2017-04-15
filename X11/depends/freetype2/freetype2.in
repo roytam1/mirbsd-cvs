@@ -4,9 +4,11 @@ libdir=@X11BASE@/lib
 includedir=@X11BASE@/include
 
 Name: FreeType 2
+URL: http://freetype.org
 Description: A free, high-quality, and portable font engine.
 Version: @ft_version@
 Requires:
+Requires.private:
 Libs: -Wl,-rpath,${libdir} -L${libdir} -lfreetype
-Libs.private: -lz
-Cflags: -I${includedir}/freetype2 -I${includedir}
+Libs.private: -lpng -lz -lm
+Cflags: -I${includedir}/freetype2

@@ -2,7 +2,7 @@
 /*                                                                         */
 /*  ftoption.h                                                             */
 /*                                                                         */
-/*    User-selectable configuration macros (specification only).           */
+/*    User-selectable configuration macros (MirBSD base system).           */
 /*                                                                         */
 /*  Copyright 1996-2016 by                                                 */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
@@ -255,7 +255,7 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /*   Define this macro if you want to enable this `feature'.             */
   /*                                                                       */
-/* #define FT_CONFIG_OPTION_USE_PNG */
+#define FT_CONFIG_OPTION_USE_PNG
 
 
   /*************************************************************************/
