@@ -1,4 +1,4 @@
-/* $MirOS: X11/xc/lib/font/FreeType/module/ftstdlib.h,v 1.5 2008/06/11 09:57:11 tg Exp $ */
+/* $MirOS: X11/xc/lib/font/FreeType/module/ftstdlib.h,v 1.7 2017/04/15 21:26:41 tg Exp $ */
 /* $XFree86: xc/lib/font/FreeType/module/ftstdlib.h,v 1.3 2004/12/31 02:56:03 tsi Exp $ */
 
 /***************************************************************************/
@@ -182,12 +182,17 @@
 #define offsetof(TYPE, MEMBER) ((xf86size_t)&((TYPE*)0)->MEMBER)
 #endif
 
+#define FT_USHORT_MAX	0xffffU
 #define FT_INT_MAX	2147483647
 #define FT_INT_MIN	(-0x7fffffff-1)
 #define FT_UINT_MAX	4294967295U
 #ifdef LONG64
+#define FT_LONG_MIN	(-0x7fffffffffffffffL-1L)
+#define FT_LONG_MAX	0x7fffffffffffffffL
 #define FT_ULONG_MAX	18446744073709551615UL
 #else
+#define FT_LONG_MIN	(-0x7fffffffL-1L)
+#define FT_LONG_MAX	0x7fffffffL
 #define FT_ULONG_MAX	4294967295UL
 #endif
 
