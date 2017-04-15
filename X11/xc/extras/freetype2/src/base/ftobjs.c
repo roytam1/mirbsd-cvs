@@ -46,32 +46,10 @@
 
 #include FT_BITMAP_H
 
-#if defined( _MSC_VER )      /* Visual C++ (and Intel C++)   */
-  /* We disable the warning `conversion from XXX to YYY,     */
-  /* possible loss of data' in order to compile cleanly with */
-  /* the maximum level of warnings: `md5.c' is non-FreeType  */
-  /* code, and it gets used during development builds only.  */
-#pragma warning( push )
-#pragma warning( disable : 4244 )
-#endif /* _MSC_VER */
-
-  /* It's easiest to include `md5.c' directly.  However, since OpenSSL */
-  /* also provides the same functions, there might be conflicts if     */
-  /* both FreeType and OpenSSL are built as static libraries.  For     */
-  /* this reason, we put the MD5 stuff into the `FT_' namespace.       */
-#define MD5_u32plus  FT_MD5_u32plus
-#define MD5_CTX      FT_MD5_CTX
-#define MD5_Init     FT_MD5_Init
-#define MD5_Update   FT_MD5_Update
-#define MD5_Final    FT_MD5_Final
-
-#undef  HAVE_OPENSSL
-
-#include "md5.c"
-
-#if defined( _MSC_VER )
-#pragma warning( pop )
-#endif
+#include <MirBSD/md5.h>
+#define MD5_Init	MD5Init
+#define MD5_Update	MD5Update
+#define MD5_Final	MD5Final
 
 #endif /* FT_DEBUG_LEVEL_TRACE */
 
