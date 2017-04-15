@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: X11/xc/lib/font/FreeType/ftsystem.c,v 1.2 2017/04/15 21:26:40 tg Exp $ */
 /* $XFree86: xc/lib/font/FreeType/ftsystem.c,v 1.3 2002/10/01 00:02:10 alanh Exp $ */
 
 /***************************************************************************/
@@ -194,7 +194,7 @@
   FT_CALLBACK_DEF( void )
   ft_ansi_stream_close( FT_Stream  stream )
   {
-    close( STREAM_FILE( stream ) );
+    fclose( STREAM_FILE( stream ) );
 
     stream->descriptor.pointer = NULL;
     stream->size               = 0;
@@ -320,9 +320,9 @@
     if ( memory )
     {
       memory->user    = NULL;
-      memory->alloc   = ft_alloc;
-      memory->realloc = ft_realloc;
-      memory->free    = ft_free;
+      (memory->alloc)   = ft_alloc;
+      (memory->realloc) = ft_realloc;
+      (memory->free)    = ft_free;
 #ifdef FT_DEBUG_MEMORY
       ft_mem_debug_init( memory );
 #endif

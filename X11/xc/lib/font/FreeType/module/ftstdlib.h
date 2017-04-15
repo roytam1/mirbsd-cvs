@@ -1,4 +1,4 @@
-/* $MirOS: X11/xc/lib/font/FreeType/module/ftstdlib.h,v 1.7 2017/04/15 21:26:41 tg Exp $ */
+/* $MirOS: X11/xc/lib/font/FreeType/module/ftstdlib.h,v 1.8 2017/04/15 22:09:07 tg Exp $ */
 /* $XFree86: xc/lib/font/FreeType/module/ftstdlib.h,v 1.3 2004/12/31 02:56:03 tsi Exp $ */
 
 /***************************************************************************/
@@ -214,14 +214,21 @@
 
 #define ft_qsort	xf86qsort
 
+#define ft_strtol	xf86strtol
+#define ft_getenv	xf86getenv
+
 #define ft_jmp_buf	jmp_buf
 #define ft_setjmp	setjmp
 #define ft_longjmp	longjmp
 
+#undef memcmp
+#define memcmp		xf86memcmp
 #undef memcpy
 #define memcpy		xf86memcpy
 #undef memset
 #define memset		xf86memset
+#undef strlen
+#define strlen		xf86strlen
 
 #endif /* FONTMODULE */
 
