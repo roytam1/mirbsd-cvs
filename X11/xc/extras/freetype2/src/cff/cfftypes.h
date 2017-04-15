@@ -5,7 +5,7 @@
 /*    Basic OpenType/CFF type definitions and interface (specification     */
 /*    only).                                                               */
 /*                                                                         */
-/*  Copyright 1996-2001, 2002, 2003, 2006, 2007, 2008 by                   */
+/*  Copyright 1996-2016 by                                                 */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -17,13 +17,16 @@
 /***************************************************************************/
 
 
-#ifndef __CFFTYPES_H__
-#define __CFFTYPES_H__
+#ifndef CFFTYPES_H_
+#define CFFTYPES_H_
 
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include FT_TYPE1_TABLES_H
+#include FT_INTERNAL_SERVICE_H
+#include FT_SERVICE_POSTSCRIPT_CMAPS_H
+#include FT_INTERNAL_POSTSCRIPT_HINTS_H
 
 
 FT_BEGIN_HEADER
@@ -61,6 +64,7 @@ FT_BEGIN_HEADER
   {
     FT_Stream  stream;
     FT_ULong   start;
+    FT_UInt    hdr_size;
     FT_UInt    count;
     FT_Byte    off_size;
     FT_ULong   data_offset;
@@ -99,6 +103,79 @@ FT_BEGIN_HEADER
   } CFF_CharsetRec, *CFF_Charset;
 
 
+  /* cf. similar fields in file `ttgxvar.h' from the `truetype' module */
+
+  typedef struct  CFF_VarData_
+  {
+#if 0
+    FT_UInt  itemCount;       /* not used; always zero */
+    FT_UInt  shortDeltaCount; /* not used; always zero */
+#endif
+
+    FT_UInt   regionIdxCount; /* number of regions in this var data */
+    FT_UInt*  regionIndices;  /* array of `regionCount' indices;    */
+                              /* these index `varRegionList'        */
+  } CFF_VarData;
+
+
+  /* contribution of one axis to a region */
+  typedef struct  CFF_AxisCoords_
+  {
+    FT_Fixed  startCoord;
+    FT_Fixed  peakCoord;      /* zero peak means no effect (factor = 1) */
+    FT_Fixed  endCoord;
+
+  } CFF_AxisCoords;
+
+
+  typedef struct  CFF_VarRegion_
+  {
+    CFF_AxisCoords*  axisList;      /* array of axisCount records */
+
+  } CFF_VarRegion;
+
+
+  typedef struct  CFF_VStoreRec_
+  {
+    FT_UInt         dataCount;
+    CFF_VarData*    varData;        /* array of dataCount records      */
+                                    /* vsindex indexes this array      */
+    FT_UShort       axisCount;
+    FT_UInt         regionCount;    /* total number of regions defined */
+    CFF_VarRegion*  varRegionList;
+
+  } CFF_VStoreRec, *CFF_VStore;
+
+
+  /* forward reference */
+  typedef struct CFF_FontRec_*  CFF_Font;
+
+
+  /* This object manages one cached blend vector.                  */
+  /*                                                               */
+  /* There is a BlendRec for Private DICT parsing in each subfont  */
+  /* and a BlendRec for charstrings in CF2_Font instance data.     */
+  /* A cached BV may be used across DICTs or Charstrings if inputs */
+  /* have not changed.                                             */
+  /*                                                               */
+  /* `usedBV' is reset at the start of each parse or charstring.   */
+  /* vsindex cannot be changed after a BV is used.                 */
+  /*                                                               */
+  /* Note: NDV is long (32/64 bit), while BV is 16.16 (FT_Int32).  */
+  typedef struct  CFF_BlendRec_
+  {
+    FT_Bool    builtBV;        /* blendV has been built           */
+    FT_Bool    usedBV;         /* blendV has been used            */
+    CFF_Font   font;           /* top level font struct           */
+    FT_UInt    lastVsindex;    /* last vsindex used               */
+    FT_UInt    lenNDV;         /* normDV length (aka numAxes)     */
+    FT_Fixed*  lastNDV;        /* last NDV used                   */
+    FT_UInt    lenBV;          /* BlendV length (aka numMasters)  */
+    FT_Int32*  BV;             /* current blendV (per DICT/glyph) */
+
+  } CFF_BlendRec, *CFF_Blend;
+
+
   typedef struct  CFF_FontRecDictRec_
   {
     FT_UInt    version;
@@ -114,6 +191,7 @@ FT_BEGIN_HEADER
     FT_Int     paint_type;
     FT_Int     charstring_type;
     FT_Matrix  font_matrix;
+    FT_Bool    has_font_matrix;
     FT_ULong   units_per_em;  /* temporarily used as scaling value also */
     FT_Vector  font_offset;
     FT_ULong   unique_id;
@@ -141,7 +219,21 @@ FT_BEGIN_HEADER
     FT_ULong   cid_fd_select_offset;
     FT_UInt    cid_font_name;
 
+    /* the next fields come from the data of the deprecated          */
+    /* `MultipleMaster' operator; they are needed to parse the (also */
+    /* deprecated) `blend' operator in Type 2 charstrings            */
+    FT_UShort  num_designs;
+    FT_UShort  num_axes;
+
+    /* fields for CFF2 */
+    FT_ULong   vstore_offset;
+    FT_UInt    maxstack;
+
   } CFF_FontRecDictRec, *CFF_FontRecDict;
+
+
+  /* forward reference */
+  typedef struct CFF_SubFontRec_*  CFF_SubFont;
 
 
   typedef struct  CFF_PrivateRec_
@@ -176,6 +268,10 @@ FT_BEGIN_HEADER
     FT_Pos    default_width;
     FT_Pos    nominal_width;
 
+    /* fields for CFF2 */
+    FT_UInt      vsindex;
+    CFF_SubFont  subfont;
+
   } CFF_PrivateRec, *CFF_Private;
 
 
@@ -203,33 +299,53 @@ FT_BEGIN_HEADER
     CFF_FontRecDictRec  font_dict;
     CFF_PrivateRec      private_dict;
 
-    CFF_IndexRec        local_subrs_index;
-    FT_UInt             num_local_subrs;
-    FT_Byte**           local_subrs;
+    /* fields for CFF2 */
+    CFF_BlendRec  blend;      /* current blend vector       */
+    FT_UInt       lenNDV;     /* current length NDV or zero */
+    FT_Fixed*     NDV;        /* ptr to current NDV or NULL */
 
-  } CFF_SubFontRec, *CFF_SubFont;
+    /* `blend_stack' is a writable buffer to hold blend results.          */
+    /* This buffer is to the side of the normal cff parser stack;         */
+    /* `cff_parse_blend' and `cff_blend_doBlend' push blend results here. */
+    /* The normal stack then points to these values instead of the DICT   */
+    /* because all other operators in Private DICT clear the stack.       */
+    /* `blend_stack' could be cleared at each operator other than blend.  */
+    /* Blended values are stored as 5-byte fixed point values.            */
+
+    FT_Byte*  blend_stack;    /* base of stack allocation     */
+    FT_Byte*  blend_top;      /* first empty slot             */
+    FT_UInt   blend_used;     /* number of bytes in use       */
+    FT_UInt   blend_alloc;    /* number of bytes allocated    */
+
+    CFF_IndexRec  local_subrs_index;
+    FT_Byte**     local_subrs; /* array of pointers           */
+                               /* into Local Subrs INDEX data */
+
+  } CFF_SubFontRec;
 
 
-  /* maximum number of sub-fonts in a CID-keyed file */
-#define CFF_MAX_CID_FONTS  32
+#define CFF_MAX_CID_FONTS  256
 
 
   typedef struct  CFF_FontRec_
   {
+    FT_Library       library;
     FT_Stream        stream;
-    FT_Memory        memory;
+    FT_Memory        memory;        /* TODO: take this from stream->memory? */
+    FT_ULong         base_offset;   /* offset to start of CFF */
     FT_UInt          num_faces;
     FT_UInt          num_glyphs;
 
     FT_Byte          version_major;
     FT_Byte          version_minor;
     FT_Byte          header_size;
-    FT_Byte          absolute_offsize;
 
+    FT_UInt          top_dict_length;   /* cff2 only */
+
+    FT_Bool          cff2;
 
     CFF_IndexRec     name_index;
     CFF_IndexRec     top_dict_index;
-    CFF_IndexRec     string_index;
     CFF_IndexRec     global_subrs_index;
 
     CFF_EncodingRec  encoding;
@@ -241,8 +357,15 @@ FT_BEGIN_HEADER
     CFF_IndexRec     local_subrs_index;
 
     FT_String*       font_name;
-    FT_UInt          num_global_subrs;
+
+    /* array of pointers into Global Subrs INDEX data */
     FT_Byte**        global_subrs;
+
+    /* array of pointers into String INDEX data stored at string_pool */
+    FT_UInt          num_strings;
+    FT_Byte**        strings;
+    FT_Byte*         string_pool;
+    FT_ULong         string_pool_size;
 
     CFF_SubFontRec   top_font;
     FT_UInt          num_subfonts;
@@ -251,10 +374,10 @@ FT_BEGIN_HEADER
     CFF_FDSelectRec  fd_select;
 
     /* interface to PostScript hinter */
-    void*            pshinter;
+    PSHinter_Service  pshinter;
 
     /* interface to Postscript Names service */
-    void*            psnames;
+    FT_Service_PsCMaps  psnames;
 
     /* since version 2.3.0 */
     PS_FontInfoRec*  font_info;   /* font info dictionary */
@@ -262,13 +385,18 @@ FT_BEGIN_HEADER
     /* since version 2.3.6 */
     FT_String*       registry;
     FT_String*       ordering;
-      
-  } CFF_FontRec, *CFF_Font;
+
+    /* since version 2.4.12 */
+    FT_Generic       cf2_instance;
+
+    CFF_VStoreRec    vstore;        /* parsed vstore structure */
+
+  } CFF_FontRec;
 
 
 FT_END_HEADER
 
-#endif /* __CFFTYPES_H__ */
+#endif /* CFFTYPES_H_ */
 
 
 /* END */

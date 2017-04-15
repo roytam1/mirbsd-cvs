@@ -4,7 +4,7 @@
 /*                                                                         */
 /*    Unix-specific FreeType low-level system interface (body).            */
 /*                                                                         */
-/*  Copyright 1996-2001, 2002, 2004, 2005, 2006, 2007, 2008 by             */
+/*  Copyright 1996-2016 by                                                 */
 /*  David Turner, Robert Wilhelm, and Werner Lemberg.                      */
 /*                                                                         */
 /*  This file is part of the FreeType project, and may only be used,       */
@@ -19,7 +19,7 @@
 #include <ft2build.h>
 #ifdef MBSD_BUILD
 #include <sys/cdefs.h>
-__RCSID("$MirOS: X11/xc/extras/freetype2/builds/unix/ftsystem.c,v 1.6 2013/08/06 19:46:41 tg Exp $");
+__RCSID("$MirOS: X11/xc/extras/freetype2/builds/unix/ftsystem.c,v 1.7 2013/08/06 20:16:12 tg Exp $");
 #define HAVE_UNISTD_H
 #define HAVE_FCNTL_H
 #else
@@ -242,7 +242,7 @@ __RCSID("$MirOS: X11/xc/extras/freetype2/builds/unix/ftsystem.c,v 1.6 2013/08/06
 
 
     if ( !stream )
-      return FT_Err_Invalid_Stream_Handle;
+      return FT_THROW( Invalid_Stream_Handle );
 
     /* open the file */
     file = open( filepathname, O_RDONLY );
@@ -250,7 +250,7 @@ __RCSID("$MirOS: X11/xc/extras/freetype2/builds/unix/ftsystem.c,v 1.6 2013/08/06
     {
       FT_ERROR(( "FT_Stream_Open:" ));
       FT_ERROR(( " could not open `%s'\n", filepathname ));
-      return FT_Err_Cannot_Open_Resource;
+      return FT_THROW( Cannot_Open_Resource );
     }
 
     /* Here we ensure that a "fork" will _not_ duplicate   */
@@ -275,9 +275,9 @@ __RCSID("$MirOS: X11/xc/extras/freetype2/builds/unix/ftsystem.c,v 1.6 2013/08/06
 
     /* XXX: TODO -- real 64bit platform support                        */
     /*                                                                 */
-    /* `stream->size' is typedef'd to unsigned long (in                */
-    /* freetype/ftsystem.h); `stat_buf.st_size', however, is usually   */
-    /* typedef'd to off_t (in sys/stat.h).                             */
+    /* `stream->size' is typedef'd to unsigned long (in `ftsystem.h'); */
+    /* `stat_buf.st_size', however, is usually typedef'd to off_t      */
+    /* (in sys/stat.h).                                                */
     /* On some platforms, the former is 32bit and the latter is 64bit. */
     /* To avoid overflow caused by fonts in huge files larger than     */
     /* 2GB, do a test.  Temporary fix proposed by Sean McBride.        */
@@ -324,7 +324,8 @@ __RCSID("$MirOS: X11/xc/extras/freetype2/builds/unix/ftsystem.c,v 1.6 2013/08/06
       }
 
       total_read_count = 0;
-      do {
+      do
+      {
         ssize_t  read_count;
 
 
@@ -372,7 +373,7 @@ __RCSID("$MirOS: X11/xc/extras/freetype2/builds/unix/ftsystem.c,v 1.6 2013/08/06
     stream->size = 0;
     stream->pos  = 0;
 
-    return FT_Err_Cannot_Open_Stream;
+    return FT_THROW( Cannot_Open_Stream );
   }
 
 
