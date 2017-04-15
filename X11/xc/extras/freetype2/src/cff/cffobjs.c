@@ -32,6 +32,10 @@
 #include "cffcmap.h"
 #include "cffpic.h"
 
+#ifdef TT_CONFIG_OPTION_GX_VAR_SUPPORT
+#include FT_SERVICE_MULTIPLE_MASTERS_H
+#endif
+
 #include "cfferrs.h"
 
 
