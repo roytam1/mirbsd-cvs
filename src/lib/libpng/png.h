@@ -1,4 +1,4 @@
-/* $MirOS: src/lib/libpng/png.h,v 1.10 2009/03/15 20:08:44 tg Exp $ */
+/* $MirOS: src/lib/libpng/png.h,v 1.11 2013/08/06 18:49:27 tg Exp $ */
 
 /* png.h - header file for MirOS in-tree PNG library
  *
@@ -12,8 +12,8 @@
  * the Licensor being the MirOS Project and Thorsten Glaser as leader,
  * with the following copyright holders:
  *
- * Copyright (c) 2004-2009 Thorsten Glaser, The MirOS Project
- * Copyright (c) 1998-2012 Glenn Randers-Pehrson
+ * Copyright (c) 2004-2017 Thorsten Glaser, The MirOS Project
+ * Copyright (c) 1998-2016 Glenn Randers-Pehrson
  * Copyright (c) 1996, 1997 Andreas Dilger
  * Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.
  *
@@ -62,19 +62,19 @@
  * efforts or the library will fulfill any of your particular purposes
  * or needs.  This library is provided with all faults, and the entire
  * risk of satisfactory quality, performance, accuracy, and effort is with
- * the user.
+ * the user. [added in 1.0.7]
  *
  * Permission is hereby granted to use, copy, modify, and distribute this
  * source code, or portions hereof, for any purpose, without fee, subject
  * to the following restrictions:
  *
- * 1. The origin of this source code must not be misrepresented.
+ *   1. The origin of this source code must not be misrepresented.
  *
- * 2. Altered versions must be plainly marked as such and
- * must not be misrepresented as being the original source.
+ *   2. Altered versions must be plainly marked as such and must not
+ *      be misrepresented as being the original source.
  *
- * 3. This Copyright notice may not be removed or altered from
- *    any source or altered source distribution.
+ *   3. This Copyright notice may not be removed or altered from any
+ *      source or altered source distribution.
  *
  * The Contributing Authors and Group 42, Inc. specifically permit, without
  * fee, and encourage the use of this source code as a component to
@@ -84,8 +84,9 @@
  */
 
 /*
- * Libpng is OSI Certified Open Source Software.  OSI Certified is a
- * certification mark of the Open Source Initiative.
+ * Libpng is OSI Certified Open Source Software.  OSI Certified Open Source is
+ * a certification mark of the Open Source Initiative. OSI has not addressed
+ * the additional disclaimers inserted at version 1.0.7.
  */
 
 /*
@@ -103,6 +104,12 @@
  * Information technology - Computer graphics and image processing -
  * Portable Network Graphics (PNG): Functional specification.
  * ISO/IEC 15948:2003 (E) (November 10, 2003): David Duce and others.
+ *
+ * The PNG-1.2 specification is copyright (c) 1999
+ *	Glenn Randers-Pehrson.
+ * The PNG-1.0 specification is copyright (c) 1996
+ *	Massachusetts Institute of Technology.
+ * See the specification for conditions of use and distribution.
  */
 
 #ifndef PNG_H
@@ -115,9 +122,9 @@
  */
 
 /* Version information for png.h - this should match the version in png.c */
-#define PNG_LIBPNG_VER_STRING "1.2.50-MirOS"
+#define PNG_LIBPNG_VER_STRING "1.2.57-MirOS"
 #define PNG_HEADER_VERSION_STRING \
-   " libpng version 1.2.50-MirOS - July 10, 2012\n"
+   " libpng version 1.2.57-MirOS - December 29, 2016\n"
 
 #define PNG_LIBPNG_VER_SONUM   0
 #define PNG_LIBPNG_VER_DLLNUM  13
@@ -125,7 +132,7 @@
 /* These should match the first 3 components of PNG_LIBPNG_VER_STRING: */
 #define PNG_LIBPNG_VER_MAJOR   1
 #define PNG_LIBPNG_VER_MINOR   2
-#define PNG_LIBPNG_VER_RELEASE 50
+#define PNG_LIBPNG_VER_RELEASE 57
 /* This should match the numeric part of the final component of
  * PNG_LIBPNG_VER_STRING, omitting any leading zero:
  */
@@ -155,7 +162,7 @@
  * version 1.0.0 was mis-numbered 100 instead of 10000).  From
  * version 1.0.1 it's    xxyyzz, where x=major, y=minor, z=release
  */
-#define PNG_LIBPNG_VER 10250 /* 1.2.50 */
+#define PNG_LIBPNG_VER 10257 /* 1.2.57 */
 
 #ifndef PNG_VERSION_INFO_ONLY
 /* Include the compression library's header */
@@ -1071,16 +1078,6 @@ struct png_struct_def
    png_uint_16p hist PNG_DEPSTRUCT;                /* histogram */
 #endif
 
-#ifdef PNG_WRITE_WEIGHTED_FILTER_SUPPORTED
-   png_byte heuristic_method PNG_DEPSTRUCT;        /* heuristic for row filter selection */
-   png_byte num_prev_filters PNG_DEPSTRUCT;        /* number of weights for previous rows */
-   png_bytep prev_filters PNG_DEPSTRUCT;           /* filter type(s) of previous row(s) */
-   png_uint_16p filter_weights PNG_DEPSTRUCT;      /* weight(s) for previous line(s) */
-   png_uint_16p inv_filter_weights PNG_DEPSTRUCT;  /* 1/weight(s) for previous line(s) */
-   png_uint_16p filter_costs PNG_DEPSTRUCT;        /* relative filter calculation cost */
-   png_uint_16p inv_filter_costs PNG_DEPSTRUCT;    /* 1/relative filter calculation cost */
-#endif
-
 #ifdef PNG_TIME_RFC1123_SUPPORTED
    png_charp time_buffer PNG_DEPSTRUCT;            /* String to hold RFC 1123 time text */
 #endif
@@ -1184,7 +1181,7 @@ struct png_struct_def
 /* This triggers a compiler error in png.c, if png.c and png.h
  * do not agree upon the version number.
  */
-typedef png_structp version_1_2_50;
+typedef png_structp version_1_2_57;
 
 typedef png_struct FAR * FAR * png_structpp;
 
@@ -1585,35 +1582,7 @@ extern PNG_EXPORT(void,png_set_filter) PNGARG((png_structp png_ptr, int method,
 #define PNG_FILTER_VALUE_PAETH 4
 #define PNG_FILTER_VALUE_LAST  5
 
-#if defined(PNG_WRITE_WEIGHTED_FILTER_SUPPORTED) /* EXPERIMENTAL */
-/* The "heuristic_method" is given by one of the PNG_FILTER_HEURISTIC_
- * defines, either the default (minimum-sum-of-absolute-differences), or
- * the experimental method (weighted-minimum-sum-of-absolute-differences).
- *
- * Weights are factors >= 1.0, indicating how important it is to keep the
- * filter type consistent between rows.  Larger numbers mean the current
- * filter is that many times as likely to be the same as the "num_weights"
- * previous filters.  This is cumulative for each previous row with a weight.
- * There needs to be "num_weights" values in "filter_weights", or it can be
- * NULL if the weights aren't being specified.  Weights have no influence on
- * the selection of the first row filter.  Well chosen weights can (in theory)
- * improve the compression for a given image.
- *
- * Costs are factors >= 1.0 indicating the relative decoding costs of a
- * filter type.  Higher costs indicate more decoding expense, and are
- * therefore less likely to be selected over a filter with lower computational
- * costs.  There needs to be a value in "filter_costs" for each valid filter
- * type (given by PNG_FILTER_VALUE_LAST), or it can be NULL if you aren't
- * setting the costs.  Costs try to improve the speed of decompression without
- * unduly increasing the compressed image size.
- *
- * A negative weight or cost indicates the default value is to be used, and
- * values in the range [0.0, 1.0) indicate the value is to remain unchanged.
- * The default values for both weights and costs are currently 1.0, but may
- * change if good general weighting/cost heuristics can be found.  If both
- * the weights and costs are set to 1.0, this degenerates the WEIGHTED method
- * to the UNWEIGHTED method, but with added encoding time/computation.
- */
+#if defined(PNG_WRITE_WEIGHTED_FILTER_SUPPORTED) /* DEPRECATED */
 #ifdef PNG_FLOATING_POINT_SUPPORTED
 extern PNG_EXPORT(void,png_set_filter_heuristics) PNGARG((png_structp png_ptr,
    int heuristic_method, int num_weights, png_doublep filter_weights,
@@ -1621,9 +1590,7 @@ extern PNG_EXPORT(void,png_set_filter_heuristics) PNGARG((png_structp png_ptr,
 #endif
 #endif /*  PNG_WRITE_WEIGHTED_FILTER_SUPPORTED */
 
-/* Heuristic used for row filter selection.  These defines should NOT be
- * changed.
- */
+/* The following are no longer used and will be removed from libpng-1.7: */
 #define PNG_FILTER_HEURISTIC_DEFAULT    0  /* Currently "UNWEIGHTED" */
 #define PNG_FILTER_HEURISTIC_UNWEIGHTED 1  /* Used by libpng < 0.95 */
 #define PNG_FILTER_HEURISTIC_WEIGHTED   2  /* Experimental feature */
@@ -2271,7 +2238,7 @@ extern PNG_EXPORT(void, png_write_png) PNGARG((png_structp png_ptr,
 #      define png_debug(l,m) \
        { \
        int num_tabs=l; \
-       fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tabs==1 ? "\t" : \
+       fprintf(PNG_DEBUG_FILE,"%s" m PNG_STRING_NEWLINE,(num_tabs==1 ? "\t" : \
          (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":"")))); \
        }
 #    endif
@@ -2279,7 +2246,7 @@ extern PNG_EXPORT(void, png_write_png) PNGARG((png_structp png_ptr,
 #      define png_debug1(l,m,p1) \
        { \
        int num_tabs=l; \
-       fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tabs==1 ? "\t" : \
+       fprintf(PNG_DEBUG_FILE,"%s" m PNG_STRING_NEWLINE,(num_tabs==1 ? "\t" : \
          (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))),p1); \
        }
 #    endif
@@ -2287,7 +2254,7 @@ extern PNG_EXPORT(void, png_write_png) PNGARG((png_structp png_ptr,
 #      define png_debug2(l,m,p1,p2) \
        { \
        int num_tabs=l; \
-       fprintf(PNG_DEBUG_FILE,"%s"m PNG_STRING_NEWLINE,(num_tabs==1 ? "\t" : \
+       fprintf(PNG_DEBUG_FILE,"%s" m PNG_STRING_NEWLINE,(num_tabs==1 ? "\t" : \
          (num_tabs==2 ? "\t\t":(num_tabs>2 ? "\t\t\t":""))),p1,p2); \
        }
 #    endif
@@ -3338,6 +3305,7 @@ PNG_EXTERN void png_check_IHDR PNGARG((png_structp png_ptr,
 /* Added at libpng version 1.2.41 */
 PNG_EXTERN png_voidp png_calloc PNGARG((png_structp png_ptr,
    png_uint_32 size));
+
 
 /* Maintainer: Put new private prototypes here ^ and in libpngpf.3 */
 

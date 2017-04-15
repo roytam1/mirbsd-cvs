@@ -1,20 +1,20 @@
-/* $MirOS: src/lib/libpng/pngconf.h,v 1.11 2013/08/06 18:49:28 tg Exp $ */
+/* $MirOS: src/lib/libpng/pngconf.h,v 1.12 2013/10/31 20:06:37 tg Exp $ */
 
 /* pngconf.h - machine configurable file for libpng
  *
- * libpng version 1.2.50 - July 10, 2012
+ * libpng version 1.2.57, December 29, 2016
+ *
  * Copyright © 2013
  *	Thorsten “mirabilos” Glaser <tg@mirbsd.org>
- * Copyright (c) 1998-2012 Glenn Randers-Pehrson
+ * Copyright (c) 1998-2015 Glenn Randers-Pehrson
  * (Version 0.96 Copyright (c) 1996, 1997 Andreas Dilger)
  * (Version 0.88 Copyright (c) 1995, 1996 Guy Eric Schalnat, Group 42, Inc.)
  *
  * This code is released under the libpng license.
  * For conditions of distribution and use, see the disclaimer
  * and license in png.h
- */
-
-/* Any machine specific code is near the front of this file, so if you
+ *
+ * Any machine specific code is near the front of this file, so if you
  * are configuring libpng for a machine, you may want to read the section
  * starting here down to where it starts to typedef png_color, png_text,
  * and png_info.
@@ -88,6 +88,18 @@
 #  define PNG_WARN_UNINITIALIZED_ROW 1
 #endif
 /* End of material added at libpng-1.2.19/1.2.21 */
+
+/* Added at libpng-1.2.51 (ported from 1.4.6) */
+#ifndef PNG_UNUSED
+/* Unused formal parameter warnings are silenced using the following macro
+ * which is expected to have no bad effects on performance (optimizing
+ * compilers will probably remove it entirely).  Note that if you replace
+ * it with something other than whitespace, you must include the terminating
+ * semicolon.
+ */
+#  define PNG_UNUSED(param) (void)param;
+#endif
+/* End of material added to libpng-1.4.6 */
 
 /* This is the size of the compression buffer, and thus the size of
  * an IDAT chunk.  Make this whatever size you feel is best for your
@@ -797,12 +809,12 @@
  * how large, set these two limits to 0.
  */
 #ifndef PNG_USER_CHUNK_CACHE_MAX
-#  define PNG_USER_CHUNK_CACHE_MAX 0
+#  define PNG_USER_CHUNK_CACHE_MAX 32765
 #endif
 
 /* Added at libpng-1.2.43 */
 #ifndef PNG_USER_CHUNK_MALLOC_MAX
-#  define PNG_USER_CHUNK_MALLOC_MAX 0
+#  define PNG_USER_CHUNK_MALLOC_MAX 8000000
 #endif
 
 #ifndef PNG_LITERAL_SHARP
