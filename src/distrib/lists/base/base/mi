@@ -485,7 +485,7 @@
 ./usr/lib/libpanel.so.6.0
 ./usr/lib/libpanelw.so.6.0
 ./usr/lib/libpcap.so.6.0
-./usr/lib/libpng.so.10.0
+./usr/lib/libpng.so.10.1
 ./usr/lib/libpthread.so.11.0
 ./usr/lib/libsectok.so.9.0
 ./usr/lib/libskey.so.8.0
