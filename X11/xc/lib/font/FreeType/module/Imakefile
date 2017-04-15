@@ -58,63 +58,175 @@ DEFINES = -DFONTMODULE Freetype2BuildDefines -DXFREE86_FT2
 XCOMM Yes this is MirMake specific!
 .include <bsd.own.mk>
 DEFINES+=	-DFT2_BUILD_LIBRARY -DMBSD_BUILD
+DEFINES+=	-DFT_CONFIG_OPTION_SUBPIXEL_RENDERING
 DEFINES+=	-DFT_CONFIG_OPTION_SYSTEM_ZLIB
-DEFINES+=	-DTT_CONFIG_OPTION_BYTECODE_INTERPRETER
 
 INCLUDES = -I. -I.. -I$(FONTINCSRC) -I../../include -I$(XINCLUDESRC) \
            -I$(SERVERSRC)/include \
 	   -I$(FT2INCDIR) \
+           -I$(FT2SOURCEDIR)/autofit \
            -I$(FT2SOURCEDIR)/base \
+           -I$(FT2SOURCEDIR)/bdf \
+           -I$(FT2SOURCEDIR)/bzip2 \
+           -I$(FT2SOURCEDIR)/cache \
+           -I$(FT2SOURCEDIR)/cff \
+           -I$(FT2SOURCEDIR)/cid \
            -I$(FT2SOURCEDIR)/gzip \
            -I$(FT2SOURCEDIR)/lzw \
+           -I$(FT2SOURCEDIR)/pcf \
+           -I$(FT2SOURCEDIR)/pfr \
+           -I$(FT2SOURCEDIR)/psaux \
+           -I$(FT2SOURCEDIR)/pshinter \
+           -I$(FT2SOURCEDIR)/psnames \
            -I$(FT2SOURCEDIR)/raster \
            -I$(FT2SOURCEDIR)/sfnt \
-           -I$(FT2SOURCEDIR)/truetype \
-           -I$(FT2SOURCEDIR)/cff \
-           -I$(FT2SOURCEDIR)/type1 \
-           -I$(FT2SOURCEDIR)/psaux \
-           -I$(FT2SOURCEDIR)/psnames \
-           -I$(FT2SOURCEDIR)/pshinter \
-           -I$(FT2SOURCEDIR)/autofit \
-           -I$(FT2SOURCEDIR)/bdf \
-           -I$(FT2SOURCEDIR)/pcf \
-           -I$(FT2SOURCEDIR)/cid \
-           -I$(FT2SOURCEDIR)/pfr \
            -I$(FT2SOURCEDIR)/smooth \
+           -I$(FT2SOURCEDIR)/truetype \
+           -I$(FT2SOURCEDIR)/type1 \
+           -I$(FT2SOURCEDIR)/type42 \
            -I$(FT2SOURCEDIR)/winfonts \
            -I$(INCLUDESRC)
 
-FT2SRCS+= ftxf86.c
-FT2SRCS+= ftsystem.c
-FT2SRCS+= ftinit.c
-FT2SRCS+= ftdebug.c
-FT2SRCS+= ftbase.c
+FT2SRCS+= afangles.c
+FT2SRCS+= afblue.c
+FT2SRCS+= afcjk.c
+FT2SRCS+= afdummy.c
+FT2SRCS+= afglobal.c
+FT2SRCS+= afhints.c
+FT2SRCS+= afindic.c
+FT2SRCS+= aflatin.c
+FT2SRCS+= afloader.c
+FT2SRCS+= afmodule.c
+FT2SRCS+= afmparse.c
+FT2SRCS+= afpic.c
+FT2SRCS+= afranges.c
+FT2SRCS+= afshaper.c
+FT2SRCS+= afwarp.c
+FT2SRCS+= basepic.c
+FT2SRCS+= bdfdrivr.c
+FT2SRCS+= bdflib.c
+FT2SRCS+= cf2arrst.c
+FT2SRCS+= cf2blues.c
+FT2SRCS+= cf2error.c
+FT2SRCS+= cf2font.c
+FT2SRCS+= cf2ft.c
+FT2SRCS+= cf2hints.c
+FT2SRCS+= cf2intrp.c
+FT2SRCS+= cf2read.c
+FT2SRCS+= cf2stack.c
+FT2SRCS+= cffcmap.c
+FT2SRCS+= cffdrivr.c
+FT2SRCS+= cffgload.c
+FT2SRCS+= cffload.c
+FT2SRCS+= cffobjs.c
+FT2SRCS+= cffparse.c
+FT2SRCS+= cffpic.c
+FT2SRCS+= cidgload.c
+FT2SRCS+= cidload.c
+FT2SRCS+= cidobjs.c
+FT2SRCS+= cidparse.c
+FT2SRCS+= cidriver.c
+FT2SRCS+= ftadvanc.c
 FT2SRCS+= ftbbox.c
-FT2SRCS+= ftglyph.c
 FT2SRCS+= ftbdf.c
 FT2SRCS+= ftbitmap.c
+FT2SRCS+= ftbzip2.c
+FT2SRCS+= ftcalc.c
+FT2SRCS+= ftcbasic.c
+FT2SRCS+= ftccache.c
+FT2SRCS+= ftccmap.c
+FT2SRCS+= ftcglyph.c
+FT2SRCS+= ftcid.c
+FT2SRCS+= ftcimage.c
+FT2SRCS+= ftcmanag.c
+FT2SRCS+= ftcmru.c
+FT2SRCS+= ftcsbits.c
+FT2SRCS+= ftdbgmem.c
+FT2SRCS+= ftdebug.c
+FT2SRCS+= ftfntfmt.c
+FT2SRCS+= ftfstype.c
+FT2SRCS+= ftgasp.c
+FT2SRCS+= ftgloadr.c
+FT2SRCS+= ftglyph.c
+FT2SRCS+= ftgrays.c
+FT2SRCS+= ftgxval.c
+FT2SRCS+= ftgzip.c
+FT2SRCS+= fthash.c
+FT2SRCS+= ftinit.c
+FT2SRCS+= ftlcdfil.c
+FT2SRCS+= ftlzw.c
 FT2SRCS+= ftmm.c
+FT2SRCS+= ftobjs.c
+FT2SRCS+= ftotval.c
+FT2SRCS+= ftoutln.c
+FT2SRCS+= ftpatent.c
 FT2SRCS+= ftpfr.c
+FT2SRCS+= ftpic.c
+FT2SRCS+= ftraster.c
+FT2SRCS+= ftrend1.c
+FT2SRCS+= ftrfork.c
+FT2SRCS+= ftsmooth.c
+FT2SRCS+= ftsnames.c
+FT2SRCS+= ftspic.c
+FT2SRCS+= ftstream.c
 FT2SRCS+= ftstroke.c
 FT2SRCS+= ftsynth.c
+FT2SRCS+= ftsystem.c
+FT2SRCS+= fttrigon.c
 FT2SRCS+= fttype1.c
+FT2SRCS+= ftutil.c
 FT2SRCS+= ftwinfnt.c
-FT2SRCS+= bdf.c
-FT2SRCS+= cff.c
-FT2SRCS+= pcf.c
-FT2SRCS+= pfr.c
-FT2SRCS+= sfnt.c
-FT2SRCS+= truetype.c
-FT2SRCS+= type1.c
+FT2SRCS+= pcfdrivr.c
+FT2SRCS+= pcfread.c
+FT2SRCS+= pcfutil.c
+FT2SRCS+= pfrcmap.c
+FT2SRCS+= pfrdrivr.c
+FT2SRCS+= pfrgload.c
+FT2SRCS+= pfrload.c
+FT2SRCS+= pfrobjs.c
+FT2SRCS+= pfrsbit.c
+FT2SRCS+= pngshim.c
+FT2SRCS+= psauxmod.c
+FT2SRCS+= psconv.c
+FT2SRCS+= pshalgo.c
+FT2SRCS+= pshglob.c
+FT2SRCS+= pshmod.c
+FT2SRCS+= pshpic.c
+FT2SRCS+= pshrec.c
+FT2SRCS+= psmodule.c
+FT2SRCS+= psobjs.c
+FT2SRCS+= pspic.c
+FT2SRCS+= rastpic.c
+FT2SRCS+= sfdriver.c
+FT2SRCS+= sfntpic.c
+FT2SRCS+= sfobjs.c
+FT2SRCS+= t1afm.c
+FT2SRCS+= t1cmap.c
+FT2SRCS+= t1decode.c
+FT2SRCS+= t1driver.c
+FT2SRCS+= t1gload.c
+FT2SRCS+= t1load.c
+FT2SRCS+= t1objs.c
+FT2SRCS+= t1parse.c
+FT2SRCS+= t42drivr.c
+FT2SRCS+= t42objs.c
+FT2SRCS+= t42parse.c
+FT2SRCS+= ttbdf.c
+FT2SRCS+= ttcmap.c
+FT2SRCS+= ttdriver.c
+FT2SRCS+= ttgload.c
+FT2SRCS+= ttgxvar.c
+FT2SRCS+= ttinterp.c
+FT2SRCS+= ttkern.c
+FT2SRCS+= ttload.c
+FT2SRCS+= ttmtx.c
+FT2SRCS+= ttobjs.c
+FT2SRCS+= ttpic.c
+FT2SRCS+= ttpload.c
+FT2SRCS+= ttpost.c
+FT2SRCS+= ttsbit.c
+FT2SRCS+= ttsubpix.c
 FT2SRCS+= winfnt.c
-FT2SRCS+= raster.c
-FT2SRCS+= smooth.c
-FT2SRCS+= autofit.c
-FT2SRCS+= ftgzip.c
-FT2SRCS+= ftlzw.c
-FT2SRCS+= psaux.c
-FT2SRCS+= pshinter.c
-FT2SRCS+= psnames.c
 FT2OBJS = ${FT2SRCS:.c=.o}
 
 XTTSRCS = xttmodule.c
@@ -128,37 +240,146 @@ LinkSourceFile(ftfuncs.c,..)
 LinkSourceFile(fttools.c,..)
 LinkSourceFile(xttcap.c,..)
 
-LinkSourceFile(ftxf86.c,$(FT2SOURCEDIR)/base)
-LinkSourceFile(ftsystem.c,..)
-LinkSourceFile(ftinit.c,$(FT2SOURCEDIR)/base)
-LinkSourceFile(ftdebug.c,$(FT2SOURCEDIR)/base)
-LinkSourceFile(ftbase.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(afangles.c,$(FT2SOURCEDIR)/autofit)
+LinkSourceFile(afblue.c,$(FT2SOURCEDIR)/autofit)
+LinkSourceFile(afcjk.c,$(FT2SOURCEDIR)/autofit)
+LinkSourceFile(afdummy.c,$(FT2SOURCEDIR)/autofit)
+LinkSourceFile(afglobal.c,$(FT2SOURCEDIR)/autofit)
+LinkSourceFile(afhints.c,$(FT2SOURCEDIR)/autofit)
+LinkSourceFile(afindic.c,$(FT2SOURCEDIR)/autofit)
+LinkSourceFile(aflatin.c,$(FT2SOURCEDIR)/autofit)
+LinkSourceFile(afloader.c,$(FT2SOURCEDIR)/autofit)
+LinkSourceFile(afmodule.c,$(FT2SOURCEDIR)/autofit)
+LinkSourceFile(afmparse.c,$(FT2SOURCEDIR)/psaux)
+LinkSourceFile(afpic.c,$(FT2SOURCEDIR)/autofit)
+LinkSourceFile(afranges.c,$(FT2SOURCEDIR)/autofit)
+LinkSourceFile(afshaper.c,$(FT2SOURCEDIR)/autofit)
+LinkSourceFile(afwarp.c,$(FT2SOURCEDIR)/autofit)
+LinkSourceFile(basepic.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(bdfdrivr.c,$(FT2SOURCEDIR)/bdf)
+LinkSourceFile(bdflib.c,$(FT2SOURCEDIR)/bdf)
+LinkSourceFile(cf2arrst.c,$(FT2SOURCEDIR)/cff)
+LinkSourceFile(cf2blues.c,$(FT2SOURCEDIR)/cff)
+LinkSourceFile(cf2error.c,$(FT2SOURCEDIR)/cff)
+LinkSourceFile(cf2font.c,$(FT2SOURCEDIR)/cff)
+LinkSourceFile(cf2ft.c,$(FT2SOURCEDIR)/cff)
+LinkSourceFile(cf2hints.c,$(FT2SOURCEDIR)/cff)
+LinkSourceFile(cf2intrp.c,$(FT2SOURCEDIR)/cff)
+LinkSourceFile(cf2read.c,$(FT2SOURCEDIR)/cff)
+LinkSourceFile(cf2stack.c,$(FT2SOURCEDIR)/cff)
+LinkSourceFile(cffcmap.c,$(FT2SOURCEDIR)/cff)
+LinkSourceFile(cffdrivr.c,$(FT2SOURCEDIR)/cff)
+LinkSourceFile(cffgload.c,$(FT2SOURCEDIR)/cff)
+LinkSourceFile(cffload.c,$(FT2SOURCEDIR)/cff)
+LinkSourceFile(cffobjs.c,$(FT2SOURCEDIR)/cff)
+LinkSourceFile(cffparse.c,$(FT2SOURCEDIR)/cff)
+LinkSourceFile(cffpic.c,$(FT2SOURCEDIR)/cff)
+LinkSourceFile(cidgload.c,$(FT2SOURCEDIR)/cid)
+LinkSourceFile(cidload.c,$(FT2SOURCEDIR)/cid)
+LinkSourceFile(cidobjs.c,$(FT2SOURCEDIR)/cid)
+LinkSourceFile(cidparse.c,$(FT2SOURCEDIR)/cid)
+LinkSourceFile(cidriver.c,$(FT2SOURCEDIR)/cid)
+LinkSourceFile(ftadvanc.c,$(FT2SOURCEDIR)/base)
 LinkSourceFile(ftbbox.c,$(FT2SOURCEDIR)/base)
-LinkSourceFile(ftglyph.c,$(FT2SOURCEDIR)/base)
 LinkSourceFile(ftbdf.c,$(FT2SOURCEDIR)/base)
 LinkSourceFile(ftbitmap.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftbzip2.c,$(FT2SOURCEDIR)/bzip2)
+LinkSourceFile(ftcalc.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftcbasic.c,$(FT2SOURCEDIR)/cache)
+LinkSourceFile(ftccache.c,$(FT2SOURCEDIR)/cache)
+LinkSourceFile(ftccmap.c,$(FT2SOURCEDIR)/cache)
+LinkSourceFile(ftcglyph.c,$(FT2SOURCEDIR)/cache)
+LinkSourceFile(ftcid.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftcimage.c,$(FT2SOURCEDIR)/cache)
+LinkSourceFile(ftcmanag.c,$(FT2SOURCEDIR)/cache)
+LinkSourceFile(ftcmru.c,$(FT2SOURCEDIR)/cache)
+LinkSourceFile(ftcsbits.c,$(FT2SOURCEDIR)/cache)
+LinkSourceFile(ftdbgmem.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftdebug.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftfntfmt.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftfstype.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftgasp.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftgloadr.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftglyph.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftgrays.c,$(FT2SOURCEDIR)/smooth)
+LinkSourceFile(ftgxval.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftgzip.c,$(FT2SOURCEDIR)/gzip)
+LinkSourceFile(fthash.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftinit.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftlcdfil.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftlzw.c,$(FT2SOURCEDIR)/lzw)
 LinkSourceFile(ftmm.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftobjs.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftotval.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftoutln.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftpatent.c,$(FT2SOURCEDIR)/base)
 LinkSourceFile(ftpfr.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftpic.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftraster.c,$(FT2SOURCEDIR)/raster)
+LinkSourceFile(ftrend1.c,$(FT2SOURCEDIR)/raster)
+LinkSourceFile(ftrfork.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftsmooth.c,$(FT2SOURCEDIR)/smooth)
+LinkSourceFile(ftsnames.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftspic.c,$(FT2SOURCEDIR)/smooth)
+LinkSourceFile(ftstream.c,$(FT2SOURCEDIR)/base)
 LinkSourceFile(ftstroke.c,$(FT2SOURCEDIR)/base)
 LinkSourceFile(ftsynth.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftsystem.c,.)
+LinkSourceFile(fttrigon.c,$(FT2SOURCEDIR)/base)
 LinkSourceFile(fttype1.c,$(FT2SOURCEDIR)/base)
+LinkSourceFile(ftutil.c,$(FT2SOURCEDIR)/base)
 LinkSourceFile(ftwinfnt.c,$(FT2SOURCEDIR)/base)
-LinkSourceFile(bdf.c,$(FT2SOURCEDIR)/bdf)
-LinkSourceFile(cff.c,$(FT2SOURCEDIR)/cff)
-LinkSourceFile(pcf.c,$(FT2SOURCEDIR)/pcf)
-LinkSourceFile(pfr.c,$(FT2SOURCEDIR)/pfr)
-LinkSourceFile(sfnt.c,$(FT2SOURCEDIR)/sfnt)
-LinkSourceFile(truetype.c,$(FT2SOURCEDIR)/truetype)
-LinkSourceFile(type1.c,$(FT2SOURCEDIR)/type1)
+LinkSourceFile(pcfdrivr.c,$(FT2SOURCEDIR)/pcf)
+LinkSourceFile(pcfread.c,$(FT2SOURCEDIR)/pcf)
+LinkSourceFile(pcfutil.c,$(FT2SOURCEDIR)/pcf)
+LinkSourceFile(pfrcmap.c,$(FT2SOURCEDIR)/pfr)
+LinkSourceFile(pfrdrivr.c,$(FT2SOURCEDIR)/pfr)
+LinkSourceFile(pfrgload.c,$(FT2SOURCEDIR)/pfr)
+LinkSourceFile(pfrload.c,$(FT2SOURCEDIR)/pfr)
+LinkSourceFile(pfrobjs.c,$(FT2SOURCEDIR)/pfr)
+LinkSourceFile(pfrsbit.c,$(FT2SOURCEDIR)/pfr)
+LinkSourceFile(pngshim.c,$(FT2SOURCEDIR)/sfnt)
+LinkSourceFile(psauxmod.c,$(FT2SOURCEDIR)/psaux)
+LinkSourceFile(psconv.c,$(FT2SOURCEDIR)/psaux)
+LinkSourceFile(pshalgo.c,$(FT2SOURCEDIR)/pshinter)
+LinkSourceFile(pshglob.c,$(FT2SOURCEDIR)/pshinter)
+LinkSourceFile(pshmod.c,$(FT2SOURCEDIR)/pshinter)
+LinkSourceFile(pshpic.c,$(FT2SOURCEDIR)/pshinter)
+LinkSourceFile(pshrec.c,$(FT2SOURCEDIR)/pshinter)
+LinkSourceFile(psmodule.c,$(FT2SOURCEDIR)/psnames)
+LinkSourceFile(psobjs.c,$(FT2SOURCEDIR)/psaux)
+LinkSourceFile(pspic.c,$(FT2SOURCEDIR)/psnames)
+LinkSourceFile(rastpic.c,$(FT2SOURCEDIR)/raster)
+LinkSourceFile(sfdriver.c,$(FT2SOURCEDIR)/sfnt)
+LinkSourceFile(sfntpic.c,$(FT2SOURCEDIR)/sfnt)
+LinkSourceFile(sfobjs.c,$(FT2SOURCEDIR)/sfnt)
+LinkSourceFile(t1afm.c,$(FT2SOURCEDIR)/type1)
+LinkSourceFile(t1cmap.c,$(FT2SOURCEDIR)/psaux)
+LinkSourceFile(t1decode.c,$(FT2SOURCEDIR)/psaux)
+LinkSourceFile(t1driver.c,$(FT2SOURCEDIR)/type1)
+LinkSourceFile(t1gload.c,$(FT2SOURCEDIR)/type1)
+LinkSourceFile(t1load.c,$(FT2SOURCEDIR)/type1)
+LinkSourceFile(t1objs.c,$(FT2SOURCEDIR)/type1)
+LinkSourceFile(t1parse.c,$(FT2SOURCEDIR)/type1)
+LinkSourceFile(t42drivr.c,$(FT2SOURCEDIR)/type42)
+LinkSourceFile(t42objs.c,$(FT2SOURCEDIR)/type42)
+LinkSourceFile(t42parse.c,$(FT2SOURCEDIR)/type42)
+LinkSourceFile(ttbdf.c,$(FT2SOURCEDIR)/sfnt)
+LinkSourceFile(ttcmap.c,$(FT2SOURCEDIR)/sfnt)
+LinkSourceFile(ttdriver.c,$(FT2SOURCEDIR)/truetype)
+LinkSourceFile(ttgload.c,$(FT2SOURCEDIR)/truetype)
+LinkSourceFile(ttgxvar.c,$(FT2SOURCEDIR)/truetype)
+LinkSourceFile(ttinterp.c,$(FT2SOURCEDIR)/truetype)
+LinkSourceFile(ttkern.c,$(FT2SOURCEDIR)/sfnt)
+LinkSourceFile(ttload.c,$(FT2SOURCEDIR)/sfnt)
+LinkSourceFile(ttmtx.c,$(FT2SOURCEDIR)/sfnt)
+LinkSourceFile(ttobjs.c,$(FT2SOURCEDIR)/truetype)
+LinkSourceFile(ttpic.c,$(FT2SOURCEDIR)/truetype)
+LinkSourceFile(ttpload.c,$(FT2SOURCEDIR)/truetype)
+LinkSourceFile(ttpost.c,$(FT2SOURCEDIR)/sfnt)
+LinkSourceFile(ttsbit.c,$(FT2SOURCEDIR)/sfnt)
+LinkSourceFile(ttsubpix.c,$(FT2SOURCEDIR)/truetype)
 LinkSourceFile(winfnt.c,$(FT2SOURCEDIR)/winfonts)
-LinkSourceFile(raster.c,$(FT2SOURCEDIR)/raster)
-LinkSourceFile(smooth.c,$(FT2SOURCEDIR)/smooth)
-LinkSourceFile(autofit.c,$(FT2SOURCEDIR)/autofit)
-LinkSourceFile(ftgzip.c,$(FT2SOURCEDIR)/gzip)
-LinkSourceFile(ftlzw.c,$(FT2SOURCEDIR)/lzw)
-LinkSourceFile(psaux.c,$(FT2SOURCEDIR)/psaux)
-LinkSourceFile(pshinter.c,$(FT2SOURCEDIR)/pshinter)
-LinkSourceFile(psnames.c,$(FT2SOURCEDIR)/psnames)
 
 ModuleObjectRule()
 LibraryModuleTarget(freetype,$(OBJS),fonts)
