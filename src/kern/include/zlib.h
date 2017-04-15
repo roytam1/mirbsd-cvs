@@ -3,7 +3,7 @@
 /* zlib.h -- interface of the 'zlib' general purpose compression library
   version 1.2.8, April 28th, 2013
 
-  Copyright (c) 2006-2013 Thorsten Glaser <tg@mirbsd.org>
+  Copyright (c) 2006-2017 mirabilos <m@mirbsd.org>
   Copyright (C) 1995-2016 Jean-loup Gailly and Mark Adler
 
   This software is provided 'as-is', without any express or implied
