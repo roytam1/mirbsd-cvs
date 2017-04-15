@@ -1,3 +1,5 @@
+/* $MirOS$ */
+
 /***************************************************************************/
 /*                                                                         */
 /*  ftoption.h                                                             */
@@ -255,7 +257,11 @@ FT_BEGIN_HEADER
   /*                                                                       */
   /*   Define this macro if you want to enable this `feature'.             */
   /*                                                                       */
+#ifdef XFREE86_FT2
+#undef FT_CONFIG_OPTION_USE_PNG
+#else
 #define FT_CONFIG_OPTION_USE_PNG
+#endif
 
 
   /*************************************************************************/
