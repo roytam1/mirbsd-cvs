@@ -1635,7 +1635,6 @@ png_write_start_row(png_structp png_ptr)
 #ifndef PNG_USE_GLOBAL_ARRAYS
    /* Arrays to facilitate easy interlacing - use pass (0 - 6) as index */
 
-#ifndef PNG_USE_GLOBAL_ARRAYS
    /* Start of interlace block */
    int png_pass_start[7] = {0, 4, 0, 2, 0, 1, 0};
 
@@ -1736,7 +1735,6 @@ png_write_finish_row(png_structp png_ptr)
 #ifndef PNG_USE_GLOBAL_ARRAYS
    /* Arrays to facilitate easy interlacing - use pass (0 - 6) as index */
 
-#ifndef PNG_USE_GLOBAL_ARRAYS
    /* Start of interlace block */
    int png_pass_start[7] = {0, 4, 0, 2, 0, 1, 0};
 

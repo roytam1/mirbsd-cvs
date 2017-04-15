@@ -2737,7 +2737,6 @@ png_do_read_interlace(png_structp png_ptr)
    png_bytep row = png_ptr->row_buf + 1;
    int pass = png_ptr->pass;
    png_uint_32 transformations = png_ptr->transformations;
-#ifndef PNG_USE_GLOBAL_ARRAYS
    /* Arrays to facilitate easy interlacing - use pass (0 - 6) as index */
    /* Offset to next interlace block */
 #ifndef PNG_USE_GLOBAL_ARRAYS
@@ -3085,7 +3084,6 @@ png_read_finish_row(png_structp png_ptr)
 #ifndef PNG_USE_GLOBAL_ARRAYS
    /* Arrays to facilitate easy interlacing - use pass (0 - 6) as index */
 
-#ifndef PNG_USE_GLOBAL_ARRAYS
    /* Start of interlace block */
    PNG_CONST int png_pass_start[7] = {0, 4, 0, 2, 0, 1, 0};
 
@@ -3216,7 +3214,6 @@ png_read_start_row(png_structp png_ptr)
 #ifndef PNG_USE_GLOBAL_ARRAYS
    /* Arrays to facilitate easy interlacing - use pass (0 - 6) as index */
 
-#ifndef PNG_USE_GLOBAL_ARRAYS
    /* Start of interlace block */
    PNG_CONST int png_pass_start[7] = {0, 4, 0, 2, 0, 1, 0};
 
