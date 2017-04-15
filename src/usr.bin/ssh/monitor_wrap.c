@@ -64,7 +64,7 @@
 #include "session.h"
 #include "servconf.h"
 
-__RCSID("$MirOS: src/usr.bin/ssh/monitor_wrap.c,v 1.14 2014/03/28 22:31:56 tg Exp $");
+__RCSID("$MirOS: src/usr.bin/ssh/monitor_wrap.c,v 1.15 2016/01/14 19:23:01 tg Exp $");
 
 /* Imports */
 extern int compat20;
@@ -442,7 +442,7 @@ mm_newkeys_from_blob(u_char *blob, int blen)
 	buffer_init(&b);
 	buffer_append(&b, blob, blen);
 
-	newkey = xmalloc(sizeof(*newkey));
+	newkey = xcalloc(1, sizeof(*newkey));
 	enc = &newkey->enc;
 	mac = &newkey->mac;
 	comp = &newkey->comp;
