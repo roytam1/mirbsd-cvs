@@ -119,6 +119,7 @@
 ./man1/fmt.htm
 ./man1/fold.htm
 ./man1/fonttosfnt.htm
+./man1/freetype-config.htm
 ./man1/fslsfonts.htm
 ./man1/fstat.htm
 ./man1/fstobdf.htm

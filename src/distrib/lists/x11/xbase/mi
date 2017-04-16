@@ -602,14 +602,18 @@
 ./usr/X11R6/include/freetype2/freetype/config/ftstdlib.h
 ./usr/X11R6/include/freetype2/freetype/freetype.h
 ./usr/X11R6/include/freetype2/freetype/ftadvanc.h
+./usr/X11R6/include/freetype2/freetype/ftautoh.h
 ./usr/X11R6/include/freetype2/freetype/ftbbox.h
 ./usr/X11R6/include/freetype2/freetype/ftbdf.h
 ./usr/X11R6/include/freetype2/freetype/ftbitmap.h
+./usr/X11R6/include/freetype2/freetype/ftbzip2.h
 ./usr/X11R6/include/freetype2/freetype/ftcache.h
+./usr/X11R6/include/freetype2/freetype/ftcffdrv.h
 ./usr/X11R6/include/freetype2/freetype/ftchapters.h
 ./usr/X11R6/include/freetype2/freetype/ftcid.h
 ./usr/X11R6/include/freetype2/freetype/fterrdef.h
 ./usr/X11R6/include/freetype2/freetype/fterrors.h
+./usr/X11R6/include/freetype2/freetype/ftfntfmt.h
 ./usr/X11R6/include/freetype2/freetype/ftgasp.h
 ./usr/X11R6/include/freetype2/freetype/ftglyph.h
 ./usr/X11R6/include/freetype2/freetype/ftgxval.h
@@ -633,9 +637,9 @@
 ./usr/X11R6/include/freetype2/freetype/ftsynth.h
 ./usr/X11R6/include/freetype2/freetype/ftsystem.h
 ./usr/X11R6/include/freetype2/freetype/fttrigon.h
+./usr/X11R6/include/freetype2/freetype/ftttdrv.h
 ./usr/X11R6/include/freetype2/freetype/fttypes.h
 ./usr/X11R6/include/freetype2/freetype/ftwinfnt.h
-./usr/X11R6/include/freetype2/freetype/ftxf86.h
 ./usr/X11R6/include/freetype2/freetype/t1tables.h
 ./usr/X11R6/include/freetype2/freetype/ttnameid.h
 ./usr/X11R6/include/freetype2/freetype/tttables.h
@@ -1220,7 +1224,7 @@
 ./usr/X11R6/lib/libfontenc.a
 ./usr/X11R6/lib/libfontenc.so.1.0
 ./usr/X11R6/lib/libfreetype.a
-./usr/X11R6/lib/libfreetype.so.11.3
+./usr/X11R6/lib/libfreetype.so.12.0
 ./usr/X11R6/lib/liboldX.a
 ./usr/X11R6/lib/liboldX.so.6.0
 ./usr/X11R6/lib/libpsres.a
@@ -1258,6 +1262,7 @@
 ./usr/X11R6/man/cat1/fc-cache.0
 ./usr/X11R6/man/cat1/fc-list.0
 ./usr/X11R6/man/cat1/fonttosfnt.0
+./usr/X11R6/man/cat1/freetype-config.0
 ./usr/X11R6/man/cat1/fslsfonts.0
 ./usr/X11R6/man/cat1/fstobdf.0
 ./usr/X11R6/man/cat1/gccmakedep.0
