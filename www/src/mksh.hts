@@ -1248,13 +1248,13 @@ exec /usr/bin/ld "${args[@]}"</pre>
 <p><a href="mksh_old.htm#caveat">older entries</a></p>
 
 <h2 id="clog">Recent Changes</h2>
-<!--
 <p>Changes in the current (unreleased) development version:</p><ul>
--->
  <!-- li>Port to <a href="http://www.syllable.org/">Syllable Desktop</a>
   (not finished, but maybe the rest is a kernel bug?)</li -->
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
+ <li>[tg, Seb] Do not apply alias name restrictions to hash/tilde tracking</li>
+</ul>
 <p id="r55">R55 is mostly a feature release with summary bugfixes:</p><ul>
  <li>[komh] Fix OS/2 search_access() and UNC path logic</li>
  <li>[tg] Undocument printf(1) to avoid user confusion</li>
