@@ -1,6 +1,6 @@
 XCOMM!/bin/sh
 XCOMM $MirSecuCron$
-XCOMM $MirOS: X11/xc/programs/xinit/xinitrc.cpp,v 1.12 2009/07/18 14:08:57 tg Exp $
+XCOMM $MirOS: X11/xc/programs/xinit/xinitrc.cpp,v 1.13 2010/01/27 11:29:22 tg Exp $
 XCOMM $Xorg: xinitrc.cpp,v 1.3 2000/08/17 19:54:30 cpqbld Exp $
 
 userresources=$HOME/.Xresources
@@ -31,6 +31,6 @@ XCOMM start some nice programs
 xclock -render -update 1 -geometry 50x50-1+1 &
 #xconsole -iconic &
 #xterm -geometry 80x24+0+0 &
-whence -p twm && exec twm		# standard window manager
-whence -p evilwm && exec evilwm		# shouldn't be the default
-exec xterm				# last resort
+whence -p twm >/dev/null && exec twm		# standard window manager
+whence -p evilwm >/dev/null && exec evilwm	# shouldn't be the default
+exec xterm					# last resort
