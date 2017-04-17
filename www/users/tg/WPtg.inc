@@ -12501,6 +12501,86 @@ Waypoint: GC48J8G
 Title: A3 Frankfurt - Köln (P2)
 Tag: D1 T15 Micro Tradi
 ----
+ID: 2066
+Date: 12.04.2017
+Waypoint: LC7W4B
+Title: Lean Clean Beetle Machine
+nTF: 2
+Tag: MC1 Challenge
+----
+ID: 2067
+Date: 13.04.2017
+Waypoint: GC6ZZNC
+Title: Dönerstag 2017 -Bonn
+Tag: D15 T15 Event
+----
+ID: 2068
+Date: 14.04.2017
+Waypoint: GC4D3WR
+Title: langweiliger Tradi in der Südstadt
+Tag: D3 T15 Other Tradi
+----
+ID: 2069
+Date: 16.04.2017
+Waypoint: GC4XG5Z
+Title: Warum sind da Gleise?
+Tag: D3 T2 Micro Tradi
+----
+ID: 2070
+Date: 16.04.2017
+Waypoint: GC3HQ1A
+Title: 802.11
+Tag: D25 T2 Small Multi
+----
+ID: 2071
+Date: 16.04.2017
+Waypoint: GC6AZ1K
+Title: RY 02 - Rheydter Flora
+Tag: D25 T2 Micro Mystery
+----
+ID: 2072
+Date: 16.04.2017
+Waypoint: GC6AZ1W
+Title: RY 04 - Rheydter Lorbeeren
+Tag: D25 T2 Micro Mystery
+----
+ID: 2073
+Date: 16.04.2017
+Waypoint: GC6KYTM
+Title: Bahnhof Bökel
+Tag: D25 T1 Small Tradi
+----
+ID: 2074
+Date: 16.04.2017
+Waypoint: GC5NE4C
+Title: Die verschollene Legende (für immer im Herzen)
+Tag: D3 T15 Micro Mystery
+----
+ID: 2075
+Date: 17.04.2017
+Waypoint: GC4K3B4
+Title: Wer fehlt da?
+Tag: D35 T35 Regular Mystery
+----
+ID: 2076
+Date: 17.04.2017
+Waypoint: OC13979
+Title: historisches Kreuz
+nTF: 0
+Tag: D15 T3 Virtual
+----
+ID: 2077
+Date: 17.04.2017
+Waypoint: GC448A OC0149 BC1297 N001B6
+Title: Enigma #1
+Tag: D5 T3 Regular Mystery exceptional
+----
+ID: 2078
+Date: 17.04.2017
+Waypoint: GC4W5AY
+Title: Der Winnetou-Felsen
+Tag: D15 T3 Small Tradi
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
