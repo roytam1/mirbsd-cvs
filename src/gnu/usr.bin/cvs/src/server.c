@@ -20,7 +20,7 @@
 #include "getline.h"
 #include "getnline.h"
 
-__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/server.c,v 1.9 2016/10/21 16:41:16 tg Exp $");
+__RCSID("$MirOS: src/gnu/usr.bin/cvs/src/server.c,v 1.12 2017/03/26 15:54:10 tg Exp $");
 
 int server_active = 0;
 
@@ -3941,7 +3941,11 @@ error  \n");
 	    {
 		FD_SET (stderr_pipe[0], &readfds);
 	    }
-	    if (protocol_pipe[0] >= 0)
+	    if (protocol_pipe[0] >= 0
+#ifdef SERVER_FLOWCONTROL
+		&& !have_flowcontrolled
+#endif
+	       )
 	    {
 		FD_SET (protocol_pipe[0], &readfds);
 	    }
