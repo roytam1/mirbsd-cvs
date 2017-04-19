@@ -1,4 +1,4 @@
-/* $MirOS$ */
+/* $MirOS: X11/xc/extras/freetype2/include/freetype/config/ftoption.h,v 1.8 2017/04/15 20:57:36 tg Exp $ */
 
 /***************************************************************************/
 /*                                                                         */
@@ -153,7 +153,9 @@ FT_BEGIN_HEADER
   /* performance-critical functions (e.g. FT_MulFix).  You should only do  */
   /* that to verify that the assembler function works properly, or to      */
   /* execute benchmark tests of the various implementations.               */
-/* #define FT_CONFIG_OPTION_NO_ASSEMBLER */
+#if defined(__sparc__)
+#define FT_CONFIG_OPTION_NO_ASSEMBLER
+#endif
 
 
   /*************************************************************************/
