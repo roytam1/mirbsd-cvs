@@ -42,13 +42,10 @@
 ./usr/X11R6/lib/modules/libint10.a
 ./usr/X11R6/lib/modules/librac.a
 ./usr/X11R6/lib/modules/libramdac.a
-./usr/X11R6/lib/modules/libshadowfb.a
 ./usr/X11R6/lib/modules/libvbe.a
 ./usr/X11R6/lib/modules/libvgahw.a
 ./usr/X11R6/lib/modules/libxaa.a
-./usr/X11R6/lib/modules/libxf1bpp.a
 ./usr/X11R6/lib/modules/libxf24_32bpp.a
-./usr/X11R6/lib/modules/libxf4bpp.a
 ./usr/X11R6/lib/modules/libxf8_16bpp.a
 ./usr/X11R6/lib/modules/libxf8_32bpp.a
 ./usr/X11R6/lib/modules/v10002d.uc
