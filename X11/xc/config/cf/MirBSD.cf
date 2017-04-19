@@ -503,10 +503,6 @@ install::								@@\
 # ifndef XF4Bpp
 #  define XF4Bpp		YES
 # endif
-/* shadow fb module */
-# ifndef XFShadowFB
-#  define XFShadowFB		YES
-# endif
 
 #  define XF86CardDrivers	wsfb
 #  define XFree86ConsoleDefines	-DWSCONS_SUPPORT

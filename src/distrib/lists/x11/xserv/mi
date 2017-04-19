@@ -55,7 +55,6 @@
 ./usr/X11R6/lib/modules/libpcidata.a
 ./usr/X11R6/lib/modules/libscanpci.a
 ./usr/X11R6/lib/modules/libshadow.a
-./usr/X11R6/lib/modules/libshadowfb.a
 ./usr/X11R6/lib/modules/libxf1bpp.a
 ./usr/X11R6/lib/modules/libxf4bpp.a
 ./usr/X11R6/man/cat1/XFree86.0
