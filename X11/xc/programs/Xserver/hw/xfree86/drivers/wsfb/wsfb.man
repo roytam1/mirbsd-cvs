@@ -1,4 +1,4 @@
-.\" $MirOS$
+.\" $MirOS: X11/xc/programs/Xserver/hw/xfree86/drivers/wsfb/wsfb.man,v 1.2 2017/04/19 22:20:16 tg Exp $
 .\" $OpenBSD: wsfb.man,v 1.10 2003/08/30 10:51:55 matthieu Exp $
 .\"
 .\" Copyright (c) 2001,2002 Matthieu Herrb
@@ -91,4 +91,4 @@ ShadowFB is currently not supported on monochrome displays.
 XFree86(1), XF86Config(__filemansuffix__), xf86config(1), Xserver(1),
 X(__miscmansuffix__), fbdev(__drivermansuffix__)
 .SH AUTHORS
-Authors include: Matthieu Herrb, Gerd Knorr, Michel Dänzer, Geert Uytterhoeven
+Authors include: Matthieu Herrb, Gerd Knorr, Michel Daenzer, Geert Uytterhoeven
