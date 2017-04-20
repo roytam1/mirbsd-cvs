@@ -14,7 +14,7 @@
 #include <sendmail.h>
 #include <sm/time.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/deliver.c,v 1.9 2013/08/06 20:37:03 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/deliver.c,v 1.10 2014/06/09 15:17:46 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #if HASSETUSERCONTEXT
@@ -6214,8 +6214,7 @@ ssl_retry:
 				tlslogerr(LOG_WARNING, "client");
 		}
 
-		SSL_free(clt_ssl);
-		clt_ssl = NULL;
+		SM_SSL_FREE(clt_ssl);
 		return EX_SOFTWARE;
 	}
 	mci->mci_ssl = clt_ssl;
@@ -6227,8 +6226,7 @@ ssl_retry:
 		return EX_OK;
 
 	/* failure */
-	SSL_free(clt_ssl);
-	clt_ssl = NULL;
+	SM_SSL_FREE(clt_ssl);
 	return EX_SOFTWARE;
 }
 /*
@@ -6249,7 +6247,7 @@ endtlsclt(mci)
 
 	if (!bitset(MCIF_TLSACT, mci->mci_flags))
 		return EX_OK;
-	r = endtls(mci->mci_ssl, "client");
+	r = endtls(&mci->mci_ssl, "client");
 	mci->mci_flags &= ~MCIF_TLSACT;
 	return r;
 }

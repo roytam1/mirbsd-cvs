@@ -25,6 +25,7 @@ static int	mci_generate_persistent_path __P((const char *, char *,
 						  int, bool));
 static bool	mci_load_persistent __P((MCI *));
 static void	mci_uncache __P((MCI **, bool));
+static void	mci_clear __P((MCI *));
 static int	mci_lock_host_statfile __P((MCI *));
 static int	mci_read_persistent __P((SM_FILE_T *, MCI *));
 
@@ -253,6 +254,7 @@ mci_uncache(mcislot, doquit)
 	SM_FREE_CLR(mci->mci_status);
 	SM_FREE_CLR(mci->mci_rstatus);
 	SM_FREE_CLR(mci->mci_heloname);
+	mci_clear(mci);
 	if (mci->mci_rpool != NULL)
 	{
 		sm_rpool_free(mci->mci_rpool);
@@ -312,6 +314,40 @@ mci_clr_extensions(mci)
 #if SASL
 	mci->mci_saslcap = NULL;
 #endif /* SASL */
+}
+
+/*
+**  MCI_CLEAR -- clear mci
+**
+**     Parameters:
+**             mci -- the connection to clear.
+**
+**     Returns:
+**             none.
+*/
+
+static void
+mci_clear(mci)
+	MCI *mci;
+{
+	if (mci == NULL)
+		return;
+ 
+	mci->mci_maxsize = 0;
+	mci->mci_min_by = 0;
+	mci->mci_deliveries = 0;
+#if SASL
+	if (bitset(MCIF_AUTHACT, mci->mci_flags))
+		sasl_dispose(&mci->mci_conn);
+#endif
+#if STARTTLS
+	if (bitset(MCIF_TLSACT, mci->mci_flags) && mci->mci_ssl != NULL)
+		SM_SSL_FREE(mci->mci_ssl);
+#endif
+
+	/* which flags to preserve? */
+	mci->mci_flags &= MCIF_CACHED;
+	mactabclear(&mci->mci_macro);
 }
 
 /*
@@ -418,6 +454,7 @@ mci_get(host, m)
 			mci->mci_errno = 0;
 			mci->mci_exitstat = EX_OK;
 		}
+		mci_clear(mci);
 	}
 
 	return mci;

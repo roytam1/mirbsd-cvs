@@ -17,7 +17,7 @@
 # include <libmilter/mfdef.h>
 #endif /* MILTER */
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/srvrsmtp.c,v 1.15 2013/08/06 20:37:27 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/srvrsmtp.c,v 1.16 2014/06/09 15:17:58 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #include <sm/time.h>
@@ -1887,8 +1887,7 @@ smtp(nullserver, d_flags, e)
 			    SSL_set_wfd(srv_ssl, wfd) <= 0)
 			{
 				message("454 4.3.3 TLS not available: error set fd");
-				SSL_free(srv_ssl);
-				srv_ssl = NULL;
+				SM_SSL_FREE(srv_ssl);
 				goto tls_done;
 			}
 			if (!smtps)
@@ -1931,8 +1930,7 @@ smtp(nullserver, d_flags, e)
 						tlslogerr(LOG_WARNING, "server");
 				}
 				tls_ok_srv = false;
-				SSL_free(srv_ssl);
-				srv_ssl = NULL;
+				SM_SSL_FREE(srv_ssl);
 
 				/*
 				**  according to the next draft of
@@ -3157,7 +3155,7 @@ smtp(nullserver, d_flags, e)
 			/* shutdown TLS connection */
 			if (tls_active)
 			{
-				(void) endtls(srv_ssl, "server");
+				(void) endtls(&srv_ssl, "server");
 				tls_active = false;
 			}
 #endif /* STARTTLS */

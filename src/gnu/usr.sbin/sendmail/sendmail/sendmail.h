@@ -51,7 +51,7 @@
 #endif /* MONCONTROL */
 
 #ifdef _DEFINE
-SM_IDSTR(MiRCSid, "@(#)$MirOS: src/gnu/usr.sbin/sendmail/sendmail/sendmail.h,v 1.9 2013/08/06 20:37:24 tg Exp $")
+SM_IDSTR(MiRCSid, "@(#)$MirOS: src/gnu/usr.sbin/sendmail/sendmail/sendmail.h,v 1.10 2014/06/09 15:17:56 tg Exp $")
 SM_IDSTR(SmailId, "@(#)$Id$")
 #endif /* _DEFINE */
 
@@ -1140,6 +1140,7 @@ extern int	macid_parse __P((char *, char **));
 #define macid(name)  macid_parse(name, NULL)
 extern char	*macname __P((int));
 extern char	*macvalue __P((int, ENVELOPE *));
+extern void	mactabclear __P((MACROS_T *));
 extern int	rscheck __P((char *, char *, char *, ENVELOPE *, int, int, char *, char *, ADDRESS *));
 extern int	rscap __P((char *, char *, char *, ENVELOPE *, char ***, char *, int));
 extern void	setclass __P((int, char *));
@@ -1951,7 +1952,14 @@ extern bool	initclttls __P((bool));
 extern void	setclttls __P((bool));
 extern bool	initsrvtls __P((bool));
 extern int	tls_get_info __P((SSL *, bool, char *, MACROS_T *, bool));
-extern int	endtls __P((SSL *, char *));
+#define SM_SSL_FREE(ssl)			\
+	do {					\
+		if (ssl != NULL) {		\
+			SSL_free(ssl);		\
+			ssl = NULL;		\
+		}				\
+	} while (0)
+extern int	endtls __P((SSL **, char *));
 extern void	tlslogerr __P((int, const char *));
 
 

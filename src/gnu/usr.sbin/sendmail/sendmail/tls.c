@@ -10,7 +10,7 @@
 
 #include <sendmail.h>
 
-SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/tls.c,v 1.5 2013/08/06 20:37:29 tg Exp $")
+SM_RCSID("$MirOS: src/gnu/usr.sbin/sendmail/sendmail/tls.c,v 1.6 2014/06/09 15:18:00 tg Exp $")
 SM_RCSID("@(#)$Id$")
 
 #if STARTTLS
@@ -1409,7 +1409,7 @@ tls_get_info(ssl, srv, host, mac, certreq)
 **  ENDTLS -- shutdown secure connection
 **
 **	Parameters:
-**		ssl -- SSL connection information.
+**		pssl -- pointer to TLS session context
 **		side -- server/client (for logging).
 **
 **	Returns:
@@ -1417,12 +1417,15 @@ tls_get_info(ssl, srv, host, mac, certreq)
 */
 
 int
-endtls(ssl, side)
-	SSL *ssl;
+endtls(pssl, side)
+	SSL **pssl;
 	char *side;
 {
 	int ret = EX_OK;
+	SSL *ssl;
 
+	SM_REQUIRE(pssl != NULL);
+	ssl = *pssl;
 	if (ssl != NULL)
 	{
 		int r;
@@ -1488,8 +1491,7 @@ endtls(ssl, side)
 			ret = EX_SOFTWARE;
 		}
 # endif /* !defined(OPENSSL_VERSION_NUMBER) || OPENSSL_VERSION_NUMBER > 0x0090602fL */
-		SSL_free(ssl);
-		ssl = NULL;
+		SM_SSL_FREE(*pssl);
 	}
 	return ret;
 }
