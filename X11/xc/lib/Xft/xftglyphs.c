@@ -30,7 +30,7 @@
 #include FT_OUTLINE_H
 #include <fontconfig/fcfreetype.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: X11/xc/lib/Xft/xftglyphs.c,v 1.2 2014/03/13 01:34:44 tg Exp $");
 
 static const int    filters[3][3] = {
     /* red */
@@ -467,7 +467,8 @@ XftFontLoadGlyphs (Display	    *dpy,
 	     * Filter the glyph to soften the color fringes
 	     */
 	    widthrgba = width;
-	    pitchrgba = (widthrgba * 4 + 3) & ~3;
+/*	    pitchrgba = (widthrgba * 4 + 3) & ~3;*/
+	    pitchrgba = ((width + 3) & ~3) * 4;
 	    sizergba = pitchrgba * height;
 
 	    os = 1;

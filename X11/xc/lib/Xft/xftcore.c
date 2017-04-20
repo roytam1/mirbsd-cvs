@@ -26,6 +26,8 @@
 #include "xftint.h"
 #include <X11/Xmd.h>
 
+__RCSID("$MirOS$");
+
 void
 XftRectCore (XftDraw		*draw,
 	     _Xconst XftColor	*color,
@@ -197,6 +199,17 @@ _XftSharpGlyphRgba (XftDraw	*draw,
 	w = width;
 	
 	bits = *src++;
+	if (src >= srcLine) {
+		fprintf(stderr, "_XftSharpGlyphRgba: overflow #1, src %08zX >= %08zX (%08zX/%08zX),\n\tbm %08zX (x=%d y=%d w=%d h=%d) stride %d w=%d h=%d, last bits %08X\n",
+		    (size_t)src, (size_t)srcLine,
+		    (size_t)glyph->bitmap + (glyph->metrics.height * stride * 4),
+		    (size_t)glyph->bitmap + glyph->glyph_memory - sizeof(XftGlyph),
+		    (size_t)glyph->bitmap,
+		    glyph->metrics.x, glyph->metrics.y,
+		    glyph->metrics.width, glyph->metrics.height,
+		    stride, w, height, (unsigned)bits);
+		return;
+	}
 	xspan = x;
 	while (w)
 	{
@@ -209,6 +222,17 @@ _XftSharpGlyphRgba (XftDraw	*draw,
 		    if (lenspan == w)
 			break;
 		    bits = *src++;
+		    if (src >= srcLine) {
+			fprintf(stderr, "_XftSharpGlyphRgba: overflow #2, src %08zX >= %08zX (%08zX/%08zX),\n\tbm %08zX (x=%d y=%d w=%d h=%d) stride %d w=%d h=%d, last bits %08X\n",
+			    (size_t)src, (size_t)srcLine,
+			    (size_t)glyph->bitmap + (glyph->metrics.height * stride * 4),
+			    (size_t)glyph->bitmap + glyph->glyph_memory - sizeof(XftGlyph),
+			    (size_t)glyph->bitmap,
+			    glyph->metrics.x, glyph->metrics.y,
+			    glyph->metrics.width, glyph->metrics.height,
+			    stride, w, height, (unsigned)bits);
+			return;
+		    }
 		} while (bits >= 0x80000000);
 		XFillRectangle (draw->dpy, draw->drawable, 
 				draw->core.gc, xspan, y, lenspan, 1);
@@ -224,6 +248,17 @@ _XftSharpGlyphRgba (XftDraw	*draw,
 		    if (!w)
 			break;
 		    bits = *src++;
+		    if (src >= srcLine) {
+			fprintf(stderr, "_XftSharpGlyphRgba: overflow #3, src %08zX >= %08zX (%08zX/%08zX),\n\tbm %08zX (x=%d y=%d w=%d h=%d) stride %d w=%d h=%d, last bits %08X\n",
+			    (size_t)src, (size_t)srcLine,
+			    (size_t)glyph->bitmap + (glyph->metrics.height * stride * 4),
+			    (size_t)glyph->bitmap + glyph->glyph_memory - sizeof(XftGlyph),
+			    (size_t)glyph->bitmap,
+			    glyph->metrics.x, glyph->metrics.y,
+			    glyph->metrics.width, glyph->metrics.height,
+			    stride, w, height, (unsigned)bits);
+			return;
+		    }
 		} while (bits < 0x80000000);
 	    }
 	}
