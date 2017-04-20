@@ -28,7 +28,7 @@
 #include <X11/Xlibint.h>
 #include "xftint.h"
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: X11/xc/lib/Xft/xftdpy.c,v 1.2 2014/03/13 01:34:44 tg Exp $");
 
 XftDisplayInfo	*_XftDisplayInfo;
 
@@ -103,6 +103,7 @@ _XftDisplayInfoGet (Display *dpy, FcBool createIfNecessary)
 
     info->display = dpy;
     info->defaults = 0;
+    info->solidFormat = 0;
     info->hasRender = (XRenderQueryExtension (dpy, &event_base, &error_base) &&
 		       (XRenderFindVisualFormat (dpy, DefaultVisual (dpy, DefaultScreen (dpy))) != 0));
     info->use_free_glyphs = FcTrue;
@@ -112,14 +113,14 @@ _XftDisplayInfoGet (Display *dpy, FcBool createIfNecessary)
 	XRenderQueryVersion (dpy, &major, &minor);
 	if (major < 0 || (major == 0 && minor <= 2))
 	    info->use_free_glyphs = FcFalse;
-    }
-    pf.type = PictTypeDirect;
-    pf.depth = 32;
-    pf.direct.redMask = 0xff;
-    pf.direct.greenMask = 0xff;
-    pf.direct.blueMask = 0xff;
-    pf.direct.alphaMask = 0xff;
-    info->solidFormat = XRenderFindFormat (dpy,
+
+	pf.type = PictTypeDirect;
+	pf.depth = 32;
+	pf.direct.redMask = 0xff;
+	pf.direct.greenMask = 0xff;
+	pf.direct.blueMask = 0xff;
+	pf.direct.alphaMask = 0xff;
+	info->solidFormat = XRenderFindFormat (dpy,
 					   (PictFormatType|
 					    PictFormatDepth|
 					    PictFormatRedMask|
@@ -128,6 +129,7 @@ _XftDisplayInfoGet (Display *dpy, FcBool createIfNecessary)
 					    PictFormatAlphaMask),
 					   &pf,
 					   0);
+    }
     if (XftDebug () & XFT_DBG_RENDER)
     {
 	Visual		    *visual = DefaultVisual (dpy, DefaultScreen (dpy));
@@ -485,15 +487,17 @@ XftDefaultSubstitute (Display *dpy, int screen, FcPattern *pattern)
     {
 	int	subpixel = FC_RGBA_UNKNOWN;
 #if RENDER_MAJOR > 0 || RENDER_MINOR >= 6
-	int render_order = XRenderQuerySubpixelOrder (dpy, screen);
-	switch (render_order) {
-	default:
-	case SubPixelUnknown:		subpixel = FC_RGBA_UNKNOWN; break;
-	case SubPixelHorizontalRGB:	subpixel = FC_RGBA_RGB; break;
-	case SubPixelHorizontalBGR:	subpixel = FC_RGBA_BGR; break;
-	case SubPixelVerticalRGB:	subpixel = FC_RGBA_VRGB; break;
-	case SubPixelVerticalBGR:	subpixel = FC_RGBA_VBGR; break;
-	case SubPixelNone:		subpixel = FC_RGBA_NONE; break;
+	if (XftDefaultHasRender (dpy)) {
+		int render_order = XRenderQuerySubpixelOrder (dpy, screen);
+		switch (render_order) {
+		default:
+		case SubPixelUnknown:		subpixel = FC_RGBA_UNKNOWN; break;
+		case SubPixelHorizontalRGB:	subpixel = FC_RGBA_RGB; break;
+		case SubPixelHorizontalBGR:	subpixel = FC_RGBA_BGR; break;
+		case SubPixelVerticalRGB:	subpixel = FC_RGBA_VRGB; break;
+		case SubPixelVerticalBGR:	subpixel = FC_RGBA_VBGR; break;
+		case SubPixelNone:		subpixel = FC_RGBA_NONE; break;
+		}
 	}
 #endif
 	FcPatternAddInteger (pattern, FC_RGBA,

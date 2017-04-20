@@ -28,7 +28,7 @@
 #include "xftint.h"
 #include <X11/Xlibint.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: X11/xc/lib/Xft/xftfreetype.c,v 1.2 2014/03/13 01:34:44 tg Exp $");
 
 FT_Library  _XftFTlibrary;
 
@@ -233,7 +233,8 @@ _XftReleaseFile (XftFtFile *f)
 	if (f->face)
 	    FT_Done_Face (f->face);
     }
-    XftMemFree (XFT_MEM_FILE, sizeof (XftFtFile) + strlen (f->file) + 1);
+    XftMemFree (XFT_MEM_FILE,
+		sizeof (XftFtFile) + (f->file ? strlen (f->file) + 1 : 0));
     free (f);
 }
 
@@ -335,6 +336,8 @@ XftFontInfoFill (Display *dpy, _Xconst FcPattern *pattern, XftFontInfo *fi)
     if (!info)
 	return FcFalse;
 
+    memset (fi, '\0', sizeof(*fi));
+
     /*
      * Find the associated file
      */
@@ -363,8 +366,6 @@ XftFontInfoFill (Display *dpy, _Xconst FcPattern *pattern, XftFontInfo *fi)
     else if (FcPatternGetFTFace (pattern, FC_FT_FACE, 0, &face) == FcResultMatch
 	     && face)
 	fi->file = _XftGetFaceFile (face);
-    else
-	fi->file = 0;
     if (!fi->file)
         goto bail0;
 

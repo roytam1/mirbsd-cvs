@@ -918,10 +918,12 @@ _XftGlyphDefault (Display *dpy, XftFont   *public)
     XftFontInt	    *font = (XftFontInt *) public;
     FT_UInt	    missing[XFT_NMISSING];
     int		    nmissing;
+    FcBool	    glyphs_loaded = FcFalse;
 
-    XftFontCheckGlyph (dpy, public, FcTrue, 0, missing, &nmissing);
+    if (XftFontCheckGlyph (dpy, public, FcTrue, 0, missing, &nmissing))
+	glyphs_loaded = FcTrue;
     if (nmissing)
-	XftFontLoadGlyphs (dpy, public, FcTrue, missing, nmissing);
+	XftFontLoadGlyphs (dpy, public, glyphs_loaded, missing, nmissing);
     return font->glyphs[0];
 }
 
@@ -1255,7 +1257,17 @@ XftGlyphFontSpecCore (XftDraw			*draw,
 	if (i)
 	{
 	    if (g_x1 < x1)
+	    {
+		if (g_x1 < 0)
+		{
+		    /* do nothing if the given glyphs are out of range */
+		    short t = glyphs[i-1].font->max_advance_width
+			+ glyphs[i-1].x;
+		    if (t < 0 && glyphs[i-1].x > 0)
+			goto bail1;
+		}
 		x1 = g_x1;
+	    }
 	    if (g_y1 < y1)
 		y1 = g_y1;
 	    if (g_x2 > x2)

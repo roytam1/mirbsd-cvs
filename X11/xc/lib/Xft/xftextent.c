@@ -66,14 +66,12 @@ XftGlyphExtents (Display	    *dpy,
 	    (xftg = font->glyphs[glyph]))
 	    break;
     }
-    if (n == 0 && !xftg)
+    if (n == 0)
     {
-	extents->width = 0;
-	extents->height = 0;
-	extents->x = 0;
-	extents->y = 0;
-	extents->yOff = 0;
-	extents->xOff = 0;
+	if (xftg)
+	    *extents = xftg->metrics;
+	else
+	    memset (extents, '\0', sizeof (*extents));
     }
     else
     {

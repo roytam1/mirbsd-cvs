@@ -29,7 +29,7 @@
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: X11/xc/lib/Xft/xftdraw.c,v 1.2 2014/03/13 01:34:44 tg Exp $");
 
 /*
  * Ok, this is a pain.  To share source pictures across multiple destinations,
@@ -215,7 +215,7 @@ _XftDrawFormat (XftDraw	*draw)
 {
     XftDisplayInfo  *info = _XftDisplayInfoGet (draw->dpy, True);
 
-    if (!info->hasRender)
+    if (!info || !info->hasRender)
 	return 0;
 
     if (draw->visual == 0)
@@ -308,7 +308,7 @@ XftDrawSrcPicture (XftDraw *draw, _Xconst XftColor *color)
     int		    i;
     XftColor	    bitmapColor;
 
-    if (!info)
+    if (!info || !info->solidFormat)
 	return 0;
     
     /*
@@ -814,7 +814,10 @@ XftDrawRect (XftDraw		*draw,
     }
     else if (_XftDrawCorePrepare (draw, color))
     {
-	XftRectCore (draw, color, x, y, width, height);
+	/* note: not XftRectCore() */
+	XSetForeground (draw->dpy, draw->core.gc, color->pixel);
+	XFillRectangle (draw->dpy, draw->drawable, draw->core.gc,
+			x, y, width, height);
     }
 }
 
