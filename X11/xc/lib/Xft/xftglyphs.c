@@ -95,7 +95,7 @@ XftFontLoadGlyphs (Display	    *dpy,
     unsigned char   bufLocalRgba[4096];
     unsigned char   *bufBitmapRgba = bufLocalRgba;
     int		    bufSizeRgba = sizeof (bufLocalRgba);
-    int		    sizergba, pitchrgba, widthrgba;
+    int		    sizergba, pitchrgba;
     int		    width;
     int		    height;
     int		    left, right, top, bottom;
@@ -466,8 +466,6 @@ XftFontLoadGlyphs (Display	    *dpy,
 	    /*
 	     * Filter the glyph to soften the color fringes
 	     */
-	    widthrgba = width;
-/*	    pitchrgba = (widthrgba * 4 + 3) & ~3;*/
 	    pitchrgba = ((width + 3) & ~3) * 4;
 	    sizergba = pitchrgba * height;
 
