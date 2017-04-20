@@ -26,7 +26,7 @@
 #include "xftint.h"
 #include <X11/Xmd.h>
 
-__RCSID("$MirOS$");
+__RCSID("$MirOS: X11/xc/lib/Xft/xftcore.c,v 1.3 2017/04/20 02:48:22 tg Exp $");
 
 void
 XftRectCore (XftDraw		*draw,
@@ -199,17 +199,6 @@ _XftSharpGlyphRgba (XftDraw	*draw,
 	w = width;
 	
 	bits = *src++;
-	if (src >= srcLine) {
-		fprintf(stderr, "_XftSharpGlyphRgba: overflow #1, src %08zX >= %08zX (%08zX/%08zX),\n\tbm %08zX (x=%d y=%d w=%d h=%d) stride %d w=%d h=%d, last bits %08X\n",
-		    (size_t)src, (size_t)srcLine,
-		    (size_t)glyph->bitmap + (glyph->metrics.height * stride * 4),
-		    (size_t)glyph->bitmap + glyph->glyph_memory - sizeof(XftGlyph),
-		    (size_t)glyph->bitmap,
-		    glyph->metrics.x, glyph->metrics.y,
-		    glyph->metrics.width, glyph->metrics.height,
-		    stride, w, height, (unsigned)bits);
-		return;
-	}
 	xspan = x;
 	while (w)
 	{
