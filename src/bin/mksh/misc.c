@@ -752,10 +752,7 @@ has_globbing(const char *xp, const char *xpe)
 			} else if (nest)
 				nest--;
 		}
-		/*
-		 * else must be a MAGIC-MAGIC, or MAGIC-!,
-		 * MAGIC--, MAGIC-], MAGIC-{, MAGIC-, MAGIC-}
-		 */
+		/* else must be MAGIC followed by MAGIC or one of: ]{},!- */
 	}
 	return (saw_glob && !in_bracket && !nest);
 }
