@@ -1,4 +1,4 @@
-/* $MirOS: X11/xc/extras/freetype2/include/freetype/config/ftoption.h,v 1.8 2017/04/15 20:57:36 tg Exp $ */
+/* $MirOS: X11/xc/extras/freetype2/include/freetype/config/ftoption.h,v 1.9 2017/04/19 21:44:56 tg Exp $ */
 
 /***************************************************************************/
 /*                                                                         */
@@ -632,7 +632,11 @@ FT_BEGIN_HEADER
   /*   Do not #undef this macro here, since the build system might         */
   /*   define it for certain configurations only.                          */
   /*                                                                       */
+#if defined(__sparc__)
+#undef TT_CONFIG_OPTION_BYTECODE_INTERPRETER
+#else
 #define TT_CONFIG_OPTION_BYTECODE_INTERPRETER
+#endif
 
 
   /*************************************************************************/
