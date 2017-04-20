@@ -210,17 +210,6 @@ _XftSharpGlyphRgba (XftDraw	*draw,
 		    lenspan++;
 		    if (lenspan == w)
 			break;
-		    if (src >= srcLine) {
-			fprintf(stderr, "_XftSharpGlyphRgba: overflow #2, src %08zX >= %08zX (%08zX/%08zX),\n\tbm %08zX (x=%d y=%d w=%d h=%d) stride %d w=%d h=%d, last bits %08X\n",
-			    (size_t)src, (size_t)srcLine,
-			    (size_t)glyph->bitmap + (glyph->metrics.height * stride * 4),
-			    (size_t)glyph->bitmap + glyph->glyph_memory - sizeof(XftGlyph),
-			    (size_t)glyph->bitmap,
-			    glyph->metrics.x, glyph->metrics.y,
-			    glyph->metrics.width, glyph->metrics.height,
-			    stride, w, height, (unsigned)bits);
-			return;
-		    }
 		    bits = *src++;
 		} while (bits >= 0x80000000);
 		XFillRectangle (draw->dpy, draw->drawable, 
@@ -236,17 +225,6 @@ _XftSharpGlyphRgba (XftDraw	*draw,
 		    xspan++;
 		    if (!w)
 			break;
-		    if (src >= srcLine) {
-			fprintf(stderr, "_XftSharpGlyphRgba: overflow #3, src %08zX >= %08zX (%08zX/%08zX),\n\tbm %08zX (x=%d y=%d w=%d h=%d) stride %d w=%d h=%d, last bits %08X\n",
-			    (size_t)src, (size_t)srcLine,
-			    (size_t)glyph->bitmap + (glyph->metrics.height * stride * 4),
-			    (size_t)glyph->bitmap + glyph->glyph_memory - sizeof(XftGlyph),
-			    (size_t)glyph->bitmap,
-			    glyph->metrics.x, glyph->metrics.y,
-			    glyph->metrics.width, glyph->metrics.height,
-			    stride, w, height, (unsigned)bits);
-			return;
-		    }
 		    bits = *src++;
 		} while (bits < 0x80000000);
 	    }
