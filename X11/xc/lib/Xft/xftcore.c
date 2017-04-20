@@ -210,7 +210,6 @@ _XftSharpGlyphRgba (XftDraw	*draw,
 		    lenspan++;
 		    if (lenspan == w)
 			break;
-		    bits = *src++;
 		    if (src >= srcLine) {
 			fprintf(stderr, "_XftSharpGlyphRgba: overflow #2, src %08zX >= %08zX (%08zX/%08zX),\n\tbm %08zX (x=%d y=%d w=%d h=%d) stride %d w=%d h=%d, last bits %08X\n",
 			    (size_t)src, (size_t)srcLine,
@@ -222,6 +221,7 @@ _XftSharpGlyphRgba (XftDraw	*draw,
 			    stride, w, height, (unsigned)bits);
 			return;
 		    }
+		    bits = *src++;
 		} while (bits >= 0x80000000);
 		XFillRectangle (draw->dpy, draw->drawable, 
 				draw->core.gc, xspan, y, lenspan, 1);
@@ -236,7 +236,6 @@ _XftSharpGlyphRgba (XftDraw	*draw,
 		    xspan++;
 		    if (!w)
 			break;
-		    bits = *src++;
 		    if (src >= srcLine) {
 			fprintf(stderr, "_XftSharpGlyphRgba: overflow #3, src %08zX >= %08zX (%08zX/%08zX),\n\tbm %08zX (x=%d y=%d w=%d h=%d) stride %d w=%d h=%d, last bits %08X\n",
 			    (size_t)src, (size_t)srcLine,
@@ -248,6 +247,7 @@ _XftSharpGlyphRgba (XftDraw	*draw,
 			    stride, w, height, (unsigned)bits);
 			return;
 		    }
+		    bits = *src++;
 		} while (bits < 0x80000000);
 	    }
 	}
