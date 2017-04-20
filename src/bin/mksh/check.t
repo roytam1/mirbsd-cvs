@@ -2365,6 +2365,18 @@ expected-stdout:
 	dir/abc
 	dir/abc
 ---
+name: glob-bad-3
+description:
+	Check that the slash is parsed before the glob
+stdin:
+	mkdir a 'a[b'
+	(cd 'a[b'; echo ok >'c]d')
+	echo nok >abd
+	echo fail >a/d
+	cat a[b/c]d
+expected-stdout:
+	ok
+---
 name: glob-range-1
 description:
 	Test range matching
