@@ -5537,7 +5537,7 @@ Emacs key bindings:
 .No INTR Pq \*(haC ,
 .No \*(haG
 .Xc
-Abort the current command, empty the line buffer and
+Abort the current command, save it to the history, empty the line buffer and
 set the exit state to interrupted.
 .It auto\-insert: Op Ar n
 Simply causes the character to appear as literal input.
@@ -6434,7 +6434,7 @@ Undo all changes that have been made to the current line.
 They move as expected, both in insert and command mode.
 .It Ar intr No and Ar quit
 The interrupt and quit terminal characters cause the current line to be
-deleted and a new prompt to be printed.
+removed to the history and a new prompt to be printed.
 .El
 .Sh FILES
 .Bl -tag -width XetcXsuid_profile -compact
