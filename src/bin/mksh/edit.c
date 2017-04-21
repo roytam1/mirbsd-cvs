@@ -3685,7 +3685,7 @@ vi_hook(int ch)
 				return (1);
 			cmdlen = 0;
 			argc1 = 0;
-			if (ch >= ord('1') && ch <= ord('9')) {
+			if (ksh_isdigit(ch)) {
 				argc1 = ksh_numdig(ch);
 				state = VARG1;
 			} else {
@@ -3740,7 +3740,7 @@ vi_hook(int ch)
 
 	case VEXTCMD:
 		argc2 = 0;
-		if (ch >= ord('1') && ch <= ord('9')) {
+		if (ksh_isdigit(ch)) {
 			argc2 = ksh_numdig(ch);
 			state = VARG2;
 			return (0);

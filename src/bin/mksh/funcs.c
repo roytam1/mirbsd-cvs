@@ -1419,7 +1419,7 @@ c_umask(const char **wp)
 
 		if (ksh_isdigit(*cp)) {
 			new_umask = 0;
-			while (*cp >= ord('0') && *cp <= ord('7')) {
+			while (asc(*cp) >= asc('0') && asc(*cp) <= asc('7')) {
 				new_umask = new_umask * 8 + ksh_numdig(*cp);
 				++cp;
 			}
