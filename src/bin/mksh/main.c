@@ -1887,7 +1887,7 @@ tnamecmp(const void *p1, const void *p2)
 	const struct tbl *a = *((const struct tbl * const *)p1);
 	const struct tbl *b = *((const struct tbl * const *)p2);
 
-	return (strcmp(a->name, b->name));
+	return (ascstrcmp(a->name, b->name));
 }
 
 struct tbl **
