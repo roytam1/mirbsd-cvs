@@ -909,11 +909,6 @@ struct x_defbindings {
 #define	XF_NOBIND	2	/* not allowed to bind to function */
 #define	XF_PREFIX	4	/* function sets prefix */
 
-/* Separator for completion */
-#define	is_cfs(c)	((c) == ' ' || (c) == '\t' || (c) == '"' || (c) == '\'')
-/* Separator for motion */
-#define	is_mfs(c)	(!(ksh_isalnux(c) || (c) == '$' || ((c) & 0x80)))
-
 #define X_NTABS		4			/* normal, meta1, meta2, pc */
 #define X_TABSZ		256			/* size of keydef tables etc */
 
