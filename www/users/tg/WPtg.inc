@@ -12581,6 +12581,12 @@ Waypoint: GC4W5AY
 Title: Der Winnetou-Felsen
 Tag: D15 T3 Small Tradi
 ----
+ID: 2079
+Date: 23.04.2017
+Waypoint: GC6DGT9 OC13447
+Title: Bunker Marienforst
+Tag: D2 T2 Nano Tradi
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
