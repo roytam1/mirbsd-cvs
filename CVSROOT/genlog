@@ -1,7 +1,7 @@
 #!/usr/bin/env mksh
 # $MirOS: CVSROOT/genlog,v 1.14 2009/11/22 22:22:58 tg Exp $
 #-
-# Copyright (c) 2004, 2005, 2006, 2009
+# Copyright (c) 2004, 2005, 2006, 2009, 2017
 #	Thorsten Glaser <tg@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -30,6 +30,9 @@
 
 export LC_ALL=C
 unset LANGUAGE
+
+stdin=$(unexpand -a; echo x)
+stdin=${stdin%x}
 
 if stat --help >/dev/null 2>&1; then
 	statcmd='stat -c %s'	# GNU stat
@@ -129,5 +132,5 @@ fi
 
 rm -f $f.lock
 
-unexpand -a >>$f
+print -r -- "$stdin" >>$f
 exit 0
