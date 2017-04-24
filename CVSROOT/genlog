@@ -95,6 +95,7 @@ if [[ -e $f.lock ]]; then
 	print '[genlog] removing stale lock'
 	rm -f $f.lock
 fi
+# strlen is 14 including trailing newline
 print '[ continued ]' >$f.lock
 
 if [[ -e $f ]]; then
@@ -103,7 +104,8 @@ else
 	let s=0
 fi
 
-if (( s >= (730112 - ${#stdin}) )); then
+# the 14 from above
+if (( s >= (730112 - ${#stdin} - 14) )); then
 	typeset -ui16 t=16#100
 	while [[ -e $f.${t#16#1} ]]; do
 		let t++
