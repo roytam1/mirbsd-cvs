@@ -25,9 +25,9 @@
 #	dapper hardy jaunty karmic lucid maverick natty oneiric
 #	precise quantal raring saucy trusty utopic vivid wily
 #	xenial yakkety zesty artful
-# *-backports: sarge etch lenny squeeze wheezy jessie
+# *-backports: sarge etch lenny squeeze wheezy jessie stretch
 #	(plus all Debian derivate from Canonical that cannot be named)
-# *-backports-sloppy: lenny squeeze wheezy
+# *-backports-sloppy: lenny squeeze wheezy jessie
 # univention: not supported… yet…
 #
 # NOTE for sarge: bootstrapping includes sarge-backports for
@@ -81,8 +81,8 @@ DISTROS='debian dpo ubuntu'
 DISTS_debian='sarge etch lenny squeeze wheezy jessie stretch buster bullseye sid'
 DISTS_dpo='dpo'
 DISTS_ubuntu='dapper hardy jaunty karmic lucid maverick natty oneiric precise quantal raring saucy trusty utopic vivid wily xenial yakkety zesty artful'
-DISTBACKPORTS_debian=sarge:etch:lenny:squeeze:wheezy:jessie
-DISTBACKPORTSLOPPY_debian=lenny:squeeze:wheezy
+DISTBACKPORTS_debian=sarge:etch:lenny:squeeze:wheezy:jessie:stretch
+DISTBACKPORTSLOPPY_debian=lenny:squeeze:wheezy:jessie
 DISTBACKPORTUPDATE_ubuntu=dapper:hardy:jaunty:karmic:lucid:maverick:natty:oneiric:precise:quantal:raring:saucy:trusty:utopic:vivid:wily:xenial:yakkety:zesty:artful
 MIRROR_sarge=http://archive.debian.org/debian/
 MIRROR_etch=http://archive.debian.org/debian/
@@ -132,9 +132,11 @@ MIRRORBACKPORTS_lenny=http://archive.debian.org/debian-backports/
 MIRRORBACKPORTS_squeeze=http://archive.debian.org/debian-backports/
 MIRRORBACKPORTS_wheezy=http://httpredir.debian.org/debian/
 MIRRORBACKPORTS_jessie=http://httpredir.debian.org/debian/
+MIRRORBACKPORTS_stretch=http://httpredir.debian.org/debian/
 MIRRORBACKPORTSLOPPY_lenny=http://archive.debian.org/debian-backports/
 MIRRORBACKPORTSLOPPY_squeeze=http://archive.debian.org/debian-backports/
 MIRRORBACKPORTSLOPPY_wheezy=http://httpredir.debian.org/debian/
+MIRRORBACKPORTSLOPPY_jessie=http://httpredir.debian.org/debian/
 
 COMPONENTS_debian=main
 COMPONENTS_dpo=main
