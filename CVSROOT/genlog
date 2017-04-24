@@ -1,5 +1,5 @@
 #!/usr/bin/env mksh
-# $MirOS: CVSROOT/genlog,v 1.14 2009/11/22 22:22:58 tg Exp $
+# $MirOS: CVSROOT/genlog,v 1.17 2017/04/24 21:19:59 tg Exp $
 #-
 # Copyright (c) 2004, 2005, 2006, 2009, 2017
 #	Thorsten Glaser <tg@mirbsd.org>
@@ -81,7 +81,7 @@ if (( s >= (362496 - 512) )); then
 		:>>$h
 		print '[genlog] danger, lock vanished in history'
 	fi
-	chmod 666 $h
+	chmod 664 $h
 	ls -l $h{,.${t#16#1}}
 fi
 
