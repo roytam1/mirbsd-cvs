@@ -7,9 +7,9 @@ with subsequent independent development in private. Updated via both
 RFC 7159 and ECMA 404.
 
 An implementation (no guarantees for completeness / correctness) is at:
-https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=evolvis-platfrm/evolvisforge.git;a=blob;f=src/common/include/minijson.php;hb=HEAD
+https://evolvis.org/plugins/scmgit/cgi-bin/gitweb.cgi?p=shellsnippets/hello-php-world.git;a=blob;f=common/minijson.php;hb=HEAD
 That implementation ("minijson") was created for tarent solutions GmbH.
-Everything else in here was independently made. Still credits to tarent
+Everything else in here was independently made. Still credits to ⮡ tarent
 for sponsoring the initial development and giving it a reason.
 
 More thoughts: https://www.mirbsd.org/permalinks/wlog-10_e20121201-tg.htm
