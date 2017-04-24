@@ -1,4 +1,4 @@
-.\"	$MirOS: src/share/man/man7/mdoc.samples.7,v 1.8 2015/07/07 17:56:26 tg Exp $
+.\"	$MirOS: src/share/man/man7/mdoc.samples.7,v 1.9 2016/03/26 21:44:33 tg Exp $
 .\"	$OpenBSD: mdoc.samples.7,v 1.64 2005/06/05 19:40:22 jmc Exp $
 .\"	$NetBSD: mdoc.samples.7,v 1.5 1996/04/03 20:17:34 jtc Exp $
 .\"
@@ -35,7 +35,7 @@
 .\" times and is guaranteed to give a worst case performance
 .\" for an already extremely slow package.
 .\"
-.Dd $Mdocdate: July 7 2015 $
+.Dd $Mdocdate: March 26 2016 $
 .Dt MDOC.SAMPLES 7
 .Os
 .Sh NAME
@@ -1769,21 +1769,6 @@ It cannot currently handle punctuation.
 .Pp
 The
 .Ql \&.Bx
-macro is parsed, but is
-.Em not
-callable.
-.Ss BSDI Macro
-.Dl Usage: .Bsx [Version/release] ... \*(Pu
-.Pp
-.Bl -tag -width ".Bsx 3.0 ) ," -compact -offset 14n
-.It Li ".Bsx"
-.Bsx
-.It Li ".Bsx 3.0 ."
-.Bsx 3.0 .
-.El
-.Pp
-The
-.Ql \&.Bsx
 macro is parsed, but is
 .Em not
 callable.
