@@ -103,7 +103,7 @@ else
 	let s=0
 fi
 
-if (( s >= (730112 - 512) )); then
+if (( s >= (730112 - ${#stdin}) )); then
 	typeset -ui16 t=16#100
 	while [[ -e $f.${t#16#1} ]]; do
 		let t++
