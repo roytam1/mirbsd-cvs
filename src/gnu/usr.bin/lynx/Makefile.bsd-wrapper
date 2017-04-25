@@ -9,7 +9,7 @@ FSFISLIB=	No
 .include <bsd.own.mk>
 
 # MirOS patchlevel
-CPPFLAGS+=	-DLYNX_VERSION=\"2.8.8dev.16-MirOS-0AB6.2\"
+CPPFLAGS+=	-DLYNX_VERSION=\"2.8.8dev.16-MirOS-0AB8.1\"
 
 CFARGS+=	--prefix=/usr \
 		--sysconfdir=/etc \
