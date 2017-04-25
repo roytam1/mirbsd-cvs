@@ -8,6 +8,8 @@
 #include <HTCJK.h>
 #include <HTAlert.h>
 
+__RCSID("$MirOS$");
+
 #if defined(__MINGW32__)
 
 extern int kbhit(void);		/* FIXME: use conio.h */
@@ -4898,10 +4900,6 @@ BOOLEAN LYAddSchemeForURL(char **AllocatedString,
 	} else {
 	    StrAllocCopy(Str, "http://");
 	}
-	GotScheme = TRUE;
-
-    } else if (0 == strncasecomp(*AllocatedString, "ftp", 3)) {
-	StrAllocCopy(Str, "ftp://");
 	GotScheme = TRUE;
 
     } else if (0 == strncasecomp(*AllocatedString, "gopher", 6)) {
