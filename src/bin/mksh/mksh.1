@@ -3069,8 +3069,10 @@ For any name without a value, the existing alias is listed.
 Any name with a value defines an alias; see
 .Sx Aliases
 above.
-.Li \&[A\-Za\-z0\-9_!%,.@\-]
-are valid in names except they may not begin with a hyphen-minus.
+.Li \&[][A\-Za\-z0\-9_!%,.@:\-]
+are valid in names, except they may not begin with a hyphen-minus, and
+.Ic \&[[
+is not a valid alias name.
 .Pp
 When listing aliases, one of two formats is used.
 Normally, aliases are listed as
