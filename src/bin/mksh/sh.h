@@ -1348,8 +1348,8 @@ EXTERN char ifs0;
 #define C_IFS	(CiIFS | CiNUL)
 /* \x09\x0A\x20		IFS whitespace */
 #define C_IFSWS	(CiTAB | CiSP | CiNL)
-/* \x00\x09\x0A\x20&();<>|	(for the lexer) */
-#define C_LEX1	(CiTAB | CiSP | CiNL | CiQCL | CiNUL)
+/* \x09\x0A\x20&();<>|	(for the lexer) */
+#define C_LEX1	(CiTAB | CiSP | CiNL | CiQCL)
 /* a‥z			lowercase letters */
 #define C_LOWER	CiLOWER
 /* not alnux or dollar	separator for motion */
