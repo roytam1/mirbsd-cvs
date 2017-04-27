@@ -1079,7 +1079,7 @@ parse_usec(const char *s, struct timeval *tv)
 
 	tv->tv_sec = 0;
 	/* parse integral part */
-	while (ksh_isdigit(*s)) {
+	while (ctype(*s, C_DIGIT)) {
 		tt.tv_sec = tv->tv_sec * 10 + ksh_numdig(*s++);
 		/*XXX this overflow check maybe UB */
 		if (tt.tv_sec / 10 != tv->tv_sec) {
@@ -1101,14 +1101,14 @@ parse_usec(const char *s, struct timeval *tv)
 
 	/* parse decimal fraction */
 	i = 100000;
-	while (ksh_isdigit(*s)) {
+	while (ctype(*s, C_DIGIT)) {
 		tv->tv_usec += i * ksh_numdig(*s++);
 		if (i == 1)
 			break;
 		i /= 10;
 	}
 	/* check for junk after fractional part */
-	while (ksh_isdigit(*s))
+	while (ctype(*s, C_DIGIT))
 		++s;
 	if (*s) {
 		errno = EINVAL;

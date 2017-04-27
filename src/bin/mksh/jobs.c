@@ -1651,7 +1651,7 @@ j_lookup(const char *cp, int *ecodep)
 	size_t len;
 	int job = 0;
 
-	if (ksh_isdigit(*cp) && getn(cp, &job)) {
+	if (ctype(*cp, C_DIGIT) && getn(cp, &job)) {
 		/* Look for last_proc->pid (what $! returns) first... */
 		for (j = job_list; j != NULL; j = j->next)
 			if (j->last_proc && j->last_proc->pid == job)

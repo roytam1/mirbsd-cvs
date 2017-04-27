@@ -1227,7 +1227,7 @@ varsub(Expand *xp, const char *sp, const char *word,
 	} else if (ctype(c, C_SUB1)) {
 		slen += 2;
 		stype |= c;
-	} else if (ksh_issubop2(c)) {
+	} else if (ctype(c, C_SUB2)) {
 		/* Note: ksh88 allows :%, :%%, etc */
 		slen += 2;
 		stype = c;
@@ -1335,7 +1335,7 @@ varsub(Expand *xp, const char *sp, const char *word,
 
 	c = stype & 0x7F;
 	/* test the compiler's code generator */
-	if (((stype < 0x100) && (ksh_issubop2(c) ||
+	if (((stype < 0x100) && (ctype(c, C_SUB2) ||
 	    (((stype & 0x80) ? *xp->str == '\0' : xp->str == null) &&
 	    (state != XARG || (ifs0 || xp->split ?
 	    (xp->u.strv[0] == NULL) : !hasnonempty(xp->u.strv))) ?
@@ -1345,7 +1345,7 @@ varsub(Expand *xp, const char *sp, const char *word,
 		/* expand word instead of variable value */
 		state = XBASE;
 	if (Flag(FNOUNSET) && xp->str == null && !zero_ok &&
-	    (ksh_issubop2(c) || (state != XBASE && c != '+')))
+	    (ctype(c, C_SUB2) || (state != XBASE && c != '+')))
 		errorf(Tf_parm, sp);
 	*stypep = stype;
 	*slenp = slen;

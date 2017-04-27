@@ -1114,7 +1114,7 @@ gettrap(const char *cs, bool igncase, bool allsigs)
 
 	/* signal number (1..ksh_NSIG) or 0? */
 
-	if (ksh_isdigit(*cs))
+	if (ctype(*cs, C_DIGIT))
 		return ((getn(cs, &i) && 0 <= i && i < ksh_NSIG) ?
 		    (&sigtraps[i]) : NULL);
 
