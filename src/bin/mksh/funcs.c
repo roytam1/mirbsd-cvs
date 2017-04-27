@@ -746,10 +746,10 @@ bool
 valid_alias_name(const char *cp)
 {
 	while (*cp)
-		if (!ctype(*cp, C_ALIAS))
-			return (false);
-		else
+		if (ctype(*cp, C_ALIAS))
 			++cp;
+		else
+			return (false);
 	return (true);
 }
 
@@ -1067,8 +1067,7 @@ c_kill(const char **wp)
 	int i, n, rv, sig;
 
 	/* assume old style options if -digits or -UPPERCASE */
-	if ((p = wp[1]) && *p == '-' && (ctype(p[1], C_DIGIT) ||
-	    ctype(p[1], C_UPPER))) {
+	if ((p = wp[1]) && *p == '-' && ctype(p[1], C_DIGIT | C_UPPER)) {
 		if (!(t = gettrap(p + 1, false, false))) {
 			bi_errorf(Tbad_sig_s, p + 1);
 			return (1);
@@ -1419,7 +1418,7 @@ c_umask(const char **wp)
 
 		if (ctype(*cp, C_DIGIT)) {
 			new_umask = 0;
-			while (asc(*cp) >= asc('0') && asc(*cp) <= asc('7')) {
+			while (ctype(*cp, C_OCTAL)) {
 				new_umask = new_umask * 8 + ksh_numdig(*cp);
 				++cp;
 			}
