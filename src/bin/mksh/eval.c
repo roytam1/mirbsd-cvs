@@ -1728,7 +1728,7 @@ debunk(char *dp, const char *sp, size_t dlen)
 		memmove(dp, sp, s - sp);
 		for (d = dp + (s - sp); *s && (d - dp < (ssize_t)dlen); s++)
 			if (!ISMAGIC(*s) || !(*++s & 0x80) ||
-			    !vstrchr("*+?@! ", *s & 0x7f))
+			    !ctype(*s & 0x7F, C_PATMO))
 				*d++ = *s;
 			else {
 				/* extended pattern operators: *+?@! */

@@ -618,7 +618,7 @@ exprtoken(Expr_state *es)
 		goto process_tvar;
 #endif
 	} else if (ctype(c, C_DIGIT)) {
-		while (ctype(c, C_ALNUM) || c == '#')
+		while (ctype(c, C_ALNUM | C_HASH))
 			c = *cp++;
 		strndupx(tvar, es->tokp, --cp - es->tokp, ATEMP);
  process_tvar:
