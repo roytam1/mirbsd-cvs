@@ -68,37 +68,6 @@ static int make_path(const char *, const char *, char **, XString *, int *);
 #define DO_SETUID(func, argvec) func argvec
 #endif
 
-/*
- * Fast character classes
- */
-void
-setctypes(const char *s, int t)
-{
-	if (t & C_IFS) {
-		unsigned int i = 0;
-
-		while (++i <= UCHAR_MAX)
-			chtypes[i] &= ~C_IFS;
-		/* include '\0' in C_IFS */
-		chtypes[0] |= C_IFS;
-	}
-	while (*s != 0)
-		chtypes[(unsigned char)*s++] |= t;
-}
-
-void
-initctypes(void)
-{
-	setctypes(letters_uc, C_ALPHX);
-	setctypes(letters_lc, C_ALPHX);
-	chtypes['_'] |= C_ALPHX;
-	setctypes("0123456789", C_DIGIT);
-	setctypes(TC_LEX1, C_LEX1);
-	setctypes("*@#!$-?", C_VAR1);
-	setctypes(TC_IFSWS, C_IFSWS);
-	setctypes("=-+?", C_SUBOP1);
-	setctypes("\t\n \"#$&'()*;<=>?[\\]`|", C_QUOTE);
-}
 
 /* called from XcheckN() to grow buffer */
 char *

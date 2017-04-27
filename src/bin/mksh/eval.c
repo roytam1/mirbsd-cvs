@@ -23,7 +23,7 @@
 
 #include "sh.h"
 
-__RCSID("$MirOS: src/bin/mksh/eval.c,v 1.202 2017/04/21 20:06:04 tg Exp $");
+__RCSID("$MirOS: src/bin/mksh/eval.c,v 1.196 2017/02/17 21:15:55 tg Exp $");
 
 /*
  * string expansion
@@ -1224,7 +1224,7 @@ varsub(Expand *xp, const char *sp, const char *word,
 		}
 	} else if (stype == 0x80 && (c == ' ' || c == '0')) {
 		stype |= '0';
-	} else if (ctype(c, C_SUBOP1)) {
+	} else if (ctype(c, C_SUB1)) {
 		slen += 2;
 		stype |= c;
 	} else if (ksh_issubop2(c)) {
