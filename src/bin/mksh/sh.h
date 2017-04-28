@@ -487,6 +487,17 @@ extern int __cdecl setegid(gid_t);
 #define ISTRIP		0
 #endif
 
+#ifdef MKSH_EBCDIC
+#define KSH_BEL		'\a'
+#else
+/*
+ * According to the comments in pdksh, \007 seems to be more portable
+ * than \a (HP-UX cc, Ultrix cc, old pcc, etc.) so we avoid the escape
+ * sequence if ASCII can be assumed.
+ */
+#define KSH_BEL		7
+#endif
+
 
 /* some useful #defines */
 #ifdef EXTERN
@@ -508,9 +519,12 @@ extern int __cdecl setegid(gid_t);
  *
  * MAGIC can be followed by MAGIC (to escape the octet itself) or one of:
  * ' !)*,-?[]{|}' 0x80|' !*+?@' (probably… hysteric raisins abound)
+ *
+ * The |0x80 is likely unsafe on EBCDIC :( though the listed chars are
+ * low-bit7 at least on cp1047 so YMMV
  */
-#define MAGIC		(7)	/* prefix for *?[!{,} during expand */
-#define ISMAGIC(c)	((unsigned char)(c) == MAGIC)
+#define MAGIC		KSH_BEL	/* prefix for *?[!{,} during expand */
+#define ISMAGIC(c)	(ord(c) == ord(MAGIC))
 
 EXTERN const char *safe_prompt; /* safe prompt if PS1 substitution fails */
 
@@ -663,6 +677,11 @@ im_sorry_dave(void)
 
 #ifndef MKSH_S_NOVI
 #define MKSH_S_NOVI		0
+#endif
+
+#ifdef MKSH_EBCDIC
+#undef MKSH_S_NOVI
+#define MKSH_S_NOVI		1
 #endif
 
 #if defined(MKSH_NOPROSPECTOFWORK) && !defined(MKSH_UNEMPLOYED)
