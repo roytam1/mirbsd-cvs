@@ -1583,7 +1583,7 @@ c_wait(const char **wp)
 	return (rv);
 }
 
-static char REPLY[] = "REPLY";
+static const char REPLY[] = "REPLY";
 int
 c_read(const char **wp)
 {
