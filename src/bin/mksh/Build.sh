@@ -496,6 +496,7 @@ last=
 tfn=
 legacy=0
 textmode=0
+ebcdic=0
 
 for i
 do
@@ -518,6 +519,9 @@ do
 		;;
 	:-c)
 		last=c
+		;;
+	:-E)
+		ebcdic=1
 		;;
 	:-G)
 		echo "$me: Do not call me with '-G'!" >&2
@@ -601,6 +605,13 @@ if test $legacy = 0; then
 else
 	check_categories="$check_categories shell:legacy-yes"
 	add_cppflags -DMKSH_LEGACY_MODE
+fi
+
+if test $ebcdic = 0; then
+	check_categories="$check_categories shell:ebcdic-no shell:ascii-yes"
+else
+	check_categories="$check_categories shell:ebcdic-yes shell:ascii-no"
+	add_cppflags -DMKSH_EBCDIC
 fi
 
 if test $textmode = 0; then
