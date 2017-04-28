@@ -94,13 +94,18 @@ CLEANFILES+=	${GENERATED}
 
 ${PROG} beforedepend: ${GENERATED}
 
+REGRESS_CATEGORIES:=shell:legacy-no,int:32,shell:ebcdic-no,shell:ascii-yes,shell:textmode-no,shell:binmode-yes,fastbox
+.if !empty(GCEXTRA:M-DMKSH_FAUX_EBCDIC)
+REGRESS_CATEGORIES:=${REGRESS_CATEGORIES},shell:faux-ebcdic
+.endif
+
 regress: ${PROG} check.pl check.t
 	-rm -rf regress-dir
 	mkdir -p regress-dir
 	echo export FNORD=666 >regress-dir/.mkshrc
 	HOME=$$(realpath regress-dir) perl ${SRCDIR}/check.pl \
 	    -s ${SRCDIR}/check.t -v -p ./${PROG} \
-	    -C shell:legacy-no,int:32,shell:ebcdic-no,shell:ascii-yes,shell:textmode-no,shell:binmode-yes,fastbox
+	    -C ${REGRESS_CATEGORIES}
 
 TEST_BUILD_ENV:=	TARGET_OS= CPP=
 TEST_BUILD_ENV+=	HAVE_STRING_POOLING=0

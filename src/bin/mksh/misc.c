@@ -1188,7 +1188,7 @@ print_value_quoted(struct shf *shf, const char *s)
 				if (0)
 					/* FALLTHROUGH */
 			default:
-#ifdef MKSH_EBCDIC
+#if defined(MKSH_EBCDIC) || defined(MKSH_FAUX_EBCDIC)
 				  if (ksh_isctrl(c))
 #else
 				  if (c < 32 || c > 0x7E)

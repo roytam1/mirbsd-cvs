@@ -236,7 +236,7 @@ main_init(int argc, const char *argv[], Source **sp, struct block **lp)
 	ssize_t k;
 #endif
 
-#ifdef MKSH_EBCDIC
+#if defined(MKSH_EBCDIC) || defined(MKSH_FAUX_EBCDIC)
 	ebcdic_init();
 #endif
 	set_ifs(TC_IFSWS);
