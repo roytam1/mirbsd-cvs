@@ -937,7 +937,7 @@ ascstrcmp(const void *s1, const void *s2)
 			return (0);
 		++cp2;
 	}
-	return ((int)asc(*cp1) - (int)asc(*cp2));
+	return ((int)asciibetical(*cp1) - (int)asciibetical(*cp2));
 }
 
 int
@@ -1098,7 +1098,7 @@ print_value_quoted(struct shf *shf, const char *s)
 	bool inquote = true;
 
 	/* first, check whether any quotes are needed */
-	while (asc(c = *p++) >= 32)
+	while (rtt2asc(c = *p++) >= 32)
 		if (ctype(c, C_QUOTE | C_SPC))
 			inquote = false;
 
