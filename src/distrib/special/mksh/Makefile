@@ -80,7 +80,7 @@ regress: ${PROG} check.pl check.t
 	echo export FNORD=666 >regress-dir/.mkshrc
 	HOME=$$(realpath regress-dir) perl ${SRCDIR}/check.pl \
 	    -s ${SRCDIR}/check.t -v -p ./${PROG} \
-	    -C shell:legacy-no,int:32,shell:textmode-no,shell:binmode-yes,smksh,no-histfile,fastbox
+	    -C shell:legacy-no,int:32,shell:ebcdic-no,shell:ascii-yes,shell:textmode-no,shell:binmode-yes,smksh,no-histfile,fastbox
 
 cleandir: clean-extra
 
