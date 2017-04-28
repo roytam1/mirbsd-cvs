@@ -1373,7 +1373,7 @@ file-setup: file 644 "x"
 	cd -P$1 subdir
 	echo 2=$?,${PWD#$bwd/}
 	cd $bwd
-	chmod 755 renamed
+	chmod 755 noread renamed 2>/dev/null
 	rm -rf noread link renamed
 stdin:
 	export TSHELL="$__progname"
