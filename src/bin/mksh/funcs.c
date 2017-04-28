@@ -807,7 +807,7 @@ c_alias(const char **wp)
 	wp += builtin_opt.optind;
 
 	if (!(builtin_opt.info & GI_MINUSMINUS) && *wp &&
-	    (wp[0][0] == '-' || wp[0][0] == '+') && wp[0][1] == '\0') {
+	    ctype(wp[0][0], C_MINUS | C_PLUS) && wp[0][1] == '\0') {
 		prefix = wp[0][0];
 		wp++;
 	}

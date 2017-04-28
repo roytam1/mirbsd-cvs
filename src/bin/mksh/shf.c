@@ -1029,8 +1029,7 @@ shf_vfprintf(struct shf *shf, const char *fmt, va_list args)
 			if (!(flags & FL_RIGHT)) {
 				/* skip past sign or 0x when padding with 0 */
 				if ((flags & FL_ZERO) && (flags & FL_NUMBER)) {
-					if (*s == '+' || *s == '-' ||
-					    *s == ' ') {
+					if (ctype(*s, C_SPC | C_PLUS | C_MINUS)) {
 						shf_putc(*s, shf);
 						s++;
 						precision--;

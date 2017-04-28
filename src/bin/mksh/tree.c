@@ -856,8 +856,8 @@ dumpwdvar_i(struct shf *shf, const char *wp, int quotelevel)
 		case QCHAR:
 			shf_puts("QCHAR<", shf);
 			c = *wp++;
-			if (quotelevel == 0 ||
-			    (c == '"' || c == '`' || c == '$' || c == '\\'))
+			if (quotelevel == 0 || c == '"' || c == '\\' ||
+			    ctype(c, C_DOLAR | C_GRAVE))
 				shf_putc('\\', shf);
 			dumpchar(shf, c);
 			goto closeandout;

@@ -91,7 +91,7 @@ yyparse(bool doalias)
 	c = tpeek(0);
 	if (c == 0 && !outtree)
 		outtree = newtp(TEOF);
-	else if (c != '\n' && c != 0)
+	else if (!ctype(c, C_LF | C_NUL))
 		syntaxerr(NULL);
 }
 
