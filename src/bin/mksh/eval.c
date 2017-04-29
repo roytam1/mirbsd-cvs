@@ -1666,7 +1666,7 @@ globit(XString *xs,	/* dest string */
 	 * directory isn't readable - if no globbing is needed, only execute
 	 * permission should be required (as per POSIX)).
 	 */
-	if (!has_globbing(sp, se)) {
+	if (!has_globbing(sp)) {
 		XcheckN(*xs, xp, se - sp + 1);
 		debunk(xp, sp, Xnleft(*xs, xp));
 		xp += strlen(xp);
