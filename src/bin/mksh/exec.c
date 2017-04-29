@@ -1341,7 +1341,7 @@ search_path(const char *name, const char *lpath,
 	while (sp != NULL) {
 		xp = Xstring(xs, xp);
 		if (!(p = cstrchr(sp, MKSH_PATHSEPC)))
-			p = sp + strlen(sp);
+			p = strnul(sp);
 		if (p != sp) {
 			XcheckN(xs, xp, p - sp);
 			memcpy(xp, sp, p - sp);

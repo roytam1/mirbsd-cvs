@@ -649,7 +649,7 @@ im_sorry_dave(void)
 #endif
 
 /* use this ipv strchr(s, 0) but no side effects in s! */
-#define strnul(s)	((s) + strlen(s))
+#define strnul(s)	((s) + strlen((const void *)s))
 
 #define utf_ptradjx(src, dst) do {					\
 	(dst) = (src) + utf_ptradj(src);				\

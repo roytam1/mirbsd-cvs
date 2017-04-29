@@ -464,7 +464,7 @@ setstr(struct tbl *vq, const char *s, int error_ok)
 #ifndef MKSH_SMALL
 			/* debugging */
 			if (s >= vq->val.s &&
-			    s <= vq->val.s + strlen(vq->val.s)) {
+			    s <= strnul(vq->val.s)) {
 				internal_errorf(
 				    "setstr: %s=%s: assigning to self",
 				    vq->name, s);
