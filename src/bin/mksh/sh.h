@@ -702,11 +702,6 @@ im_sorry_dave(void)
 #define MKSH_S_NOVI		0
 #endif
 
-#ifdef MKSH_EBCDIC
-#undef MKSH_S_NOVI
-#define MKSH_S_NOVI		1
-#endif
-
 #if defined(MKSH_NOPROSPECTOFWORK) && !defined(MKSH_UNEMPLOYED)
 #define MKSH_UNEMPLOYED		1
 #endif
