@@ -86,7 +86,15 @@ mws_content <<'EOF'
  Thanks to Winston W. for spotting musl, and thanks to maximilian attems
  and H. Peter Anvin for almost fixing klibc. Thanks to RT|Chatzilla,
  Chris “ir0nh34d” Sutcliffe, and others for Win32 platform assistance.
- Thanks to Brian Callahan from the Rensselaer Polytechnic Institute for
+ Thanks to KO Myung-Hun for the OS/2 port. Thanks to Daniel Richard G.
+ &lt;skunk@iSKUNK.ORG&gt; for the z/OS (OS/390) initial porting effort
+ and continued testing. Thanks to all other contributors from IRC and
+ the mailing list, including, but not limited to, those already named
+ and Martijn Dekker, Jean Delvare, izabera, J�rg Schilling, carstenh,
+ jilles from FreeBSD, arekm, Torsten Sillke, slagtc, Stéphane Chazelas,
+ colona, zacts, Seb, Steffen Nurpmeso (sdaoden), Dan Douglas (ormaaj),
+ Dr. Werner Fink, … (in no particular order). Thanks to Brian Callahan
+ from the Rensselaer Polytechnic Institute for bug fixes as well as
  running test builds on AIX 5.1L with the xlC 5.0.2.0 and gcc-2.9, and on
  Solaris 8 with Forte Developer 7 C 5.4 and gcc 2.95.2 and 3.4.6 compilers.
  No thanks to Intel for not including mksh in their programme analysing code.
@@ -719,12 +727,9 @@ exec /usr/bin/ld "${args[@]}"</pre>
 
 <h5 class="cr" id="oe_os2"><img width="79" height="79" alt="[OS/2 logo]"
  class="fr" src="@@RELPATH@@pics/logos/os2.png" />OS: OS/2</h5>
-<p>Porting mksh proper to OS/2 is currently ongoing. There is a <a
- href="https://github.com/komh/mksh-os2">derivate called mksh-os2</a>
- which is already usable but deliberately breaks consistence and
- compatibility with all other platforms for better integration with
- native OS/2, EMX and kLIBC behaviour. The port code is shared, but
- even basic job control is still missing similar to Syllable.</p>
+<p>mksh has been ported to OS/2 with kLIBC. The <tt>-T</tt> option
+ to <tt>Build.sh</tt> enables “TEXTMODE”, which supports reading
+ CR+LF line endings but breaks compatibility with Unix mksh.</p>
 
 <h5 class="cr" id="oe_osf1">OS: DEC/Compaq OSF/1, Compaq/HP Tru64</h5>
 <p>Digital Unix is somewhat supported using gcc as of mksh R31b.
@@ -1254,6 +1259,17 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <!-- li>Import the GNU bash- and zsh-style ability to get and set multiple
   limits in a single invocation from oksh (thanks millert) -->
  <li>[tg, Seb] Do not apply alias name restrictions to hash/tilde tracking</li>
+ <li>[tg] Restore ‘.’, ‘:’ and ‘[’ in alias names (“[[” is still forbidden)</li>
+ <li>[tg] Fix accidentally defanged <tt>$PATHSEP</tt> test</li>
+ <li>[tg] On ^C (INTR and QUIT edchars), shove edit line into history</li>
+ <li>[iSKUNK, tg] Begin porting to z/OS using EBCDIC encoding, incomplete</li>
+ <li>[tg] Redo fast character classes code, adding POSIX and other helpers</li>
+ <li>[tg] <tt>bind</tt> parses backslash-escaped ‘^’ (and ‘\’) as escaped</li>
+ <li>[tg] Building with <tt>-DMKSH_ASSUME_UTF8=0</tt> no longer causes a
+  known failure in the testsuite</li>
+ <li>[tg] New test.sh option -U to pass a UTF-8 locale to use in the tests</li>
+ <li>[tg] re_format(7) BSD: <tt>[[ $x = *[[:\&lt;:]]foo[[:&gt;:]]* ]]</tt></li>
+ <li>[tg, iSKUNK] Use Config in <tt>check.pl</tt> only if it exists</li>
 </ul>
 <p id="r55">R55 is mostly a feature release with summary bugfixes:</p><ul>
  <li>[komh] Fix OS/2 search_access() and UNC path logic</li>
@@ -1317,7 +1333,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] Fix side effects with lazy evaluation; spotted by ormaaj</li>
  <li>[tg] New flags -c (columnise), -l, -N for the print builtin</li>
  <li>[Larry Hynes] Fix English, spelling mistakes, typos in the manpage</li>
- <li>[tg, ormaah] Return 128+SIGALRM if read -t times out, like GNU bash</li>
+ <li>[tg, ormaaj] Return 128+SIGALRM if read -t times out, like GNU bash</li>
  <li>[Martijn Dekker] Install both manpages from Build.sh</li>
  <li>[Martijn Dekker] Document case changes are ASCII-only</li>
  <li>[Ronald G. Minnich, Elbing Miss, Álvaro Jurado, tg] Begin porting to
