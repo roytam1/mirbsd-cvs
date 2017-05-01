@@ -928,6 +928,7 @@ OS/390)
 	add_cppflags -DMKSH_ASSUME_UTF8=0
 	HAVE_ISSET_MKSH_ASSUME_UTF8=1
 	HAVE_ISOFF_MKSH_ASSUME_UTF8=1
+	: "${CC=xlc}"
 	: "${SIZE=: size}"
 	add_cppflags -DMKSH_FOR_Z_OS
 	add_cppflags -D_ALL_SOURCE
@@ -1088,7 +1089,7 @@ $e $bi$me: Scanning for functions... please ignore any errors.$ao
 # - LLVM+clang defines __GNUC__ too
 # - nwcc defines __GNUC__ too
 CPP="$CC -E"
-$e ... which compiler seems to be used
+$e ... which compiler type seems to be used
 cat >conftest.c <<'EOF'
 const char *
 #if defined(__ICC) || defined(__INTEL_COMPILER)
@@ -1338,7 +1339,7 @@ unknown)
 	# huh?
 	;;
 esac
-$e "$bi==> which compiler seems to be used...$ao $ui$ct$etd$ao"
+$e "$bi==> which compiler type seems to be used...$ao $ui$ct$etd$ao"
 rmf conftest.c conftest.o conftest a.out* a.exe* conftest.exe* vv.out
 
 #
