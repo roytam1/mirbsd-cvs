@@ -2454,9 +2454,6 @@ cat >test.sh <<-EOF
 	set -A args -- '$srcdir/check.pl' -p "\$pflag"
 	if $ebcdic; then
 		args[\${#args[*]}]=-E
-		x=shell:ebcdic-yes,shell:ascii-no
-	else
-		x=shell:ebcdic-no,shell:ascii-yes
 	fi
 	for y in "\${check_categories[@]}"; do
 		x=\$x,\$y

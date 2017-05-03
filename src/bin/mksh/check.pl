@@ -267,6 +267,14 @@ if (defined $opt_t) {
 }
 $program_kludge = defined $opt_P ? $opt_P : 0;
 
+if ($is_ebcdic) {
+	$categories{'shell:ebcdic-yes'} = 1;
+	$categories{'shell:ascii-no'} = 1;
+} else {
+	$categories{'shell:ebcdic-no'} = 1;
+	$categories{'shell:ascii-yes'} = 1;
+}
+
 if (defined $opt_C) {
     foreach $c (split(',', $opt_C)) {
 	$c =~ s/\s+//;
