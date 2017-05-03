@@ -1274,5 +1274,9 @@ ebcdic_init(void)
 		} else
 			ebcdic_map[i] = (unsigned short)(0x100U | ord(i));
 	}
+	if (ebcdic_rtt_toascii[0] || ebcdic_rtt_fromascii[0] || ebcdic_map[0]) {
+		write(2, "mksh: NUL not at position 0\n", 28);
+		exit(255);
+	}
 }
 #endif
