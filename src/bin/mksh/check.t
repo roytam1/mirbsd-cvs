@@ -2487,10 +2487,10 @@ file-setup: file 644 "-bc"
 file-setup: file 644 "@bc"
 stdin:
 	echo [a-c-e]*
-	#XXX TODO: echo [a--@]*
-	# -> @bc
+	echo [a--@]*
 expected-stdout:
 	-bc abc bbc cbc ebc
+	@bc
 ---
 name: glob-word-1
 description:
