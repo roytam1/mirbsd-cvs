@@ -8457,7 +8457,7 @@ description:
 	note: Ultrix perl5 t4 returns 65280 (exit-code 255) and no text
 	XXX fails when LD_PRELOAD is set with -e and Perl chokes it (ASan)
 need-pass: no
-category: !os:cygwin,!os:msys,!os:ultrix,!os:uwin-nt,!smksh,!shell:ebcdic-yes
+category: !os:cygwin,!os:msys,!os:ultrix,!os:uwin-nt,!smksh
 env-setup: !FOO=BAR!
 stdin:
 	print '#!'"$__progname"'\nprint "1 a=$ENV{FOO}";' >t1
