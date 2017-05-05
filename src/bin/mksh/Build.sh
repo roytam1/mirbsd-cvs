@@ -2455,12 +2455,13 @@ cat >test.sh <<-EOF
 	if $ebcdic; then
 		args[\${#args[*]}]=-E
 	fi
+	x=
 	for y in "\${check_categories[@]}"; do
 		x=\$x,\$y
 	done
 	if [[ -n \$x ]]; then
 		args[\${#args[*]}]=-C
-		args[\${#args[*]}]=\$x
+		args[\${#args[*]}]=\${x#,}
 	fi
 	if (( usee )); then
 		args[\${#args[*]}]=-e
