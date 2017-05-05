@@ -2298,8 +2298,9 @@ c_unset(const char **wp)
 			size_t n;
 
 			n = strlen(id);
-			if (n > 3 && id[n-3] == '[' && id[n-2] == '*' &&
-			    id[n-1] == ']') {
+			if (n > 3 && ord(id[n - 3]) == ord('[') &&
+			    ord(id[n - 2]) == ord('*') &&
+			    ord(id[n - 1]) == ord(']')) {
 				strndupx(cp, id, n - 3, ATEMP);
 				id = cp;
 				optc = 3;

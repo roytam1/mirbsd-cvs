@@ -30,7 +30,7 @@
 # (2013/12/02 20:39:44) http://cvsweb.openbsd.org/cgi-bin/cvsweb/src/regress/bin/ksh/?sortby=date
 
 expected-stdout:
-	@(#)MIRBSD KSH R55 2017/05/01
+	@(#)MIRBSD KSH R55 2017/05/05
 description:
 	Check base version of full shell
 stdin:
