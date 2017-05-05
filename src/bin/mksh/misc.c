@@ -1134,7 +1134,9 @@ gmatch_cclass(const unsigned char *pat, unsigned char sc)
 			}
 		}
 		/* now do the actual range match check */
-		if (lc != 0 && /* c != 0 && */ lc <= sc && sc <= c)
+		if (lc != 0 /* && c != 0 */ &&
+		    asciibetical(lc) <= asciibetical(sc) &&
+		    asciibetical(sc) <= asciibetical(c))
 			found = true;
 		/* forced next character? */
 		if (subc) {
