@@ -805,7 +805,7 @@ vistree(char *dst, size_t sz, struct op *t)
 			goto vist_out;
 		*dst++ = '^';
 		c = ksh_unctrl(c);
-	} else if (UTFMODE && c > 0x7F) {
+	} else if (UTFMODE && rtt2asc(c) > 0x7F) {
 		/* better not try to display broken multibyte chars */
 		/* also go easy on the Unicode: no U+FFFD here */
 		c = '?';
