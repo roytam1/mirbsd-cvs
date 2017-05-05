@@ -2181,3 +2181,34 @@ Tag: archaeology hardware news plan security snapshot
  signed) <tt>hostkeys.gz</tt> or (PGP signed) <tt>hostkeys.asc</tt> for a
  less-dependent source for the new keys.</p>
 ----
+Date: 05.05.2017
+Author: tg@
+Title: Beltane Snapshot and Mainframe Korn Shell…ish
+Tag: mksh pcli plan snapshot
+
+<p>I was planning to do an mksh R56 release and then a full MirBSD
+ snapshot (i386, sparc — due to actual user request — and possibly
+ even a Live CD or at least baselive) but this got stones on my way.</p>
+<p>I’m not quite finished with what I originally had planned for R56
+ (basically, the Debian postfix package’s maintainer scripts started
+ using character classes in bracket expressions, and this required
+ not only careful planning and design but also quite some rewriting
+ and thinking, fixing other bugs, reading the specs, <em>and</em>
+ considering EBCDIC) which led to me asking the EBCDIC porter some
+ things again, which led to trying to merge his outstanding patches
+ and make R56 the Mainframe Korn Shell release (also mksh ;-) but
+ we’re not quite there yet.</p>
+<p>The MirBSD snapshot was planned to be started from CVS as of
+ Beltane (Walpurgis) 2017 except the latest and greatest mksh is
+ also kinda a requirement, and CVE fixes are tricking in, to add
+ insult to injury for stuff I had just updated. I’d also love to
+ have the latest sendmail and lynx in it but that’ll have to wait.</p>
+<p>I’ll also do a new CVS snapshot tarball at the same time, so keep
+ your eyes open for the new <a href="@@ABSPATH@@/MirOS/current/">rolling
+ MirBSD snapshot</a>.</p><!-- RSS stop -->
+<p>Somehow, spring weather does not agree with me anyway. I didn’t
+ get much done, nor much good sleep. Private life’s looking up but
+ also more busy. I do manage to still help out others even in code
+ I don’t really understand… must be good karma. Vacation would be
+ nice… but then, I know I wouldn’t get all out of it.</p>
+----

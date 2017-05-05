@@ -731,6 +731,11 @@ exec /usr/bin/ld "${args[@]}"</pre>
  to <tt>Build.sh</tt> enables “TEXTMODE”, which supports reading
  CR+LF line endings but breaks compatibility with Unix mksh.</p>
 
+<h5 class="cr" id="oe_os390">OS: z/OS (OS/390)</h5>
+<p>mksh is currently undergoing porting to EBCDIC but should already
+ work in an ASCII environment using xlC. z/Linux has less bugs than
+ the USS environment though.</p>
+
 <h5 class="cr" id="oe_osf1">OS: DEC/Compaq OSF/1, Compaq/HP Tru64</h5>
 <p>Digital Unix is somewhat supported using gcc as of mksh R31b.
  With mksh R33b, many more versions and the native compiler work.
@@ -1270,6 +1275,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] New test.sh option -U to pass a UTF-8 locale to use in the tests</li>
  <li>[tg] re_format(7) BSD: <tt>[[ $x = *[[:\&lt;:]]foo[[:&gt;:]]* ]]</tt></li>
  <li>[tg, iSKUNK] Use Config in <tt>check.pl</tt> only if it exists</li>
+ <li>[tg] New matching code for bracket expressions, full POSIX (8bit)</li>
 </ul>
 <p id="r55">R55 is mostly a feature release with summary bugfixes:</p><ul>
  <li>[komh] Fix OS/2 search_access() and UNC path logic</li>
