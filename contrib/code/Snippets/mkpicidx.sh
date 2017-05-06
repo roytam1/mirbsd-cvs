@@ -1,8 +1,8 @@
 #!/bin/mksh
-# $MirOS: src/share/misc/licence.template,v 1.24 2008/04/22 11:43:31 tg Rel $
+# $MirOS: contrib/code/Snippets/mkpicidx.sh,v 1.5 2008/05/03 01:09:23 tg Exp $
 #-
-# Copyright (c) 2005
-#	Thorsten "mirabilos" Glaser <tg@mirbsd.de>
+# Copyright (c) 2005, 2017
+#	mirabilos <m@mirbsd.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
 # are retained or reproduced in an accompanying document, permission
@@ -39,12 +39,11 @@ function mkfn
 function header
 {
 	cat >$name <<EOF
-﻿<?xml version="1.0"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
- <meta name="RCSId" content="$MirOS: contrib/code/Snippets/mkpicidx.sh,v 1.4 2005/12/17 05:46:06 tg Exp $" />
+ <meta name="RCSId" content="$MirOS: contrib/code/Snippets/mkpicidx.sh,v 1.5 2008/05/03 01:09:23 tg Exp $" />
  <title>$title (Page $num)</title>
 </head><body>
 <h1>$title</h1>

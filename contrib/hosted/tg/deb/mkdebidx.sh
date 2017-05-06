@@ -1,5 +1,5 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.72 2016/01/02 20:27:23 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/mkdebidx.sh,v 1.75 2017/03/08 16:57:03 tg Exp $'
 #-
 # Copyright © 2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015,
 #	      2016, 2017
@@ -571,7 +571,6 @@ for suite in dists/*; do
 done
 
 (cat <<'EOF'
-<?xml version="1.0"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"><head>
