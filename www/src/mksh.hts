@@ -271,7 +271,7 @@ mws_content <<'EOF'
  </ul></li>
 <li><tt>-g</tt> — build with debug info, Valgrind and LLVM/Clang scan-build
  assertions, and <tt>-DDEBUG</tt> in place</li>
-<li><tt>-j</tt> — parallel build; use LTO instead if you can</li>
+<li><tt>-j</tt> — parallel build</li>
 <li><tt>-M</tt> — do not compile but create <tt>Makefrag.inc</tt></li>
 <li><tt>-O</tt> — (default) with “-c llvm” use “-std-compile-opts”</li>
 <li><tt>-o</tt> <i>opts</i> — with “-c llvm” use these optimisations</li>
@@ -280,13 +280,14 @@ mws_content <<'EOF'
  of the manual page using nroff(1) if found — <em>recommended</em></li>
 <li><tt>-v</tt> — display version and exit</li>
 </ul>
-<p>Note: “-c <i>somemode</i>”, “-j” and “-M” are mutually exclusive.
- The least preferred of the actually compiling flavours is <tt>-j</tt>,
- and the one we consider best is <tt>-c lto</tt> (since it achieves the best
- optimisations). It is sometimes possible to use <tt>-j</tt> together
- with <tt>-c llvm</tt> to parallelise LLVM Bytecode generation, though.</p>
-<p>Note: LTO is brittle (GCC developers like to break it once every few
- releases); LLVM has not been used for a long time.</p>
+<p>Note: “-M” is incompatible with “-c <i>somemode</i>” and “-j” — specify
+ LTO and parallel make using your make(1) tool’s facilities instead. Also,
+ “-c dragonegg” does not work with “-j”, and “-c combine” is not parallel
+ for obvious reasons.</p>
+<p>Note: any kind of “-c <i>somemode</i>” optimisation is brittle: LLVM
+ (both llvm and dragonegg) have not been used for a long time; both lto
+ and, while it lasted, combine are regularily broken every few GCC even
+ minor releases. <strong>Run the testsuite</strong> if you use one!</p>
 <p>The <a href="@@RELPATH@@cvs.cgi/src/bin/mksh/Build.sh?rev=HEAD">build
  script</a> also honours some environment variables detailed at its end.</p>
 <p>Install this binary as <tt>/bin/mksh</tt> and its manual page; you may
@@ -951,7 +952,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  the <tt>Build.sh</tt> options, CPPFLAGS, etc. might have changed a
  little in the meantime. In general, you want the following:</p>
 <pre>% cd mksh
-% sh Build.sh -r -c lto</pre>
+% sh Build.sh -r</pre>
 <p>Optionally set CC and other variables, as usual.</p>
 <h3 id="github">Unofficial git mirror</h3>
 <p><a href="https://github.com/MirBSD/mksh">github</a> (chosen only for
