@@ -1966,6 +1966,7 @@ expected-stdout:
 name: eglob-bad-1
 description:
 	Check that globbing isn't done when glob has syntax error
+category: !os:cygwin,!os:msys,!os:os2
 file-setup: file 644 "@(a[b|)c]foo"
 stdin:
 	echo @(a[b|)c]*
