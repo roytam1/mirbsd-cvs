@@ -42,7 +42,8 @@ mws_content <<'EOF'
  statistics site. mksh is <a href="https://launchpad.net/mksh">experimentally
  tracked at Launchpad</a>. Download the Logo as <a
  href="@@RELPATH@@pics/mksh.svg">SVG</a> if you want. There’s also a <a
- href="@@RELPATH@@TaC-mksh.txt">full licence terms</a> overview.</p>
+ href="@@RELPATH@@TaC-mksh.txt">full licence terms</a> overview; it suffices
+ to say mksh is <a href="http://copyfree.org/">Ⓕ Copyfree</a> licenced.</p>
 
 <p>mksh <em>must</em> always be written either “mksh” (all-lowercase) or
  “MirBSD Korn Shell” — there is no other spelling. It’s usually pronounced
@@ -117,7 +118,7 @@ mws_content <<'EOF'
  as due credit is given to the authors and contributors and the copyright
  notices are not removed in their entirety; modifying is allowed (but if
  the result is still called mksh, it’s discouraged; talk with us if you
- feel you have to modify mksh). The individual licences used are the MirOS
+ feel you have to modify mksh). The individual licences used are the Ⓕ MirOS
  licence, and (for BSD compatibility on other operating systems) the 3-clause
  UCB licence and the ISC licence; <a href="@@RELPATH@@TaC-mksh.txt">full
  terms</a> are available. pdksh originally was public domain, with a few
@@ -1277,6 +1278,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  <li>[tg] re_format(7) BSD: <tt>[[ $x = *[[:\&lt;:]]foo[[:&gt;:]]* ]]</tt></li>
  <li>[tg, iSKUNK] Use Config in <tt>check.pl</tt> only if it exists</li>
  <li>[tg] New matching code for bracket expressions, full POSIX (8bit)</li>
+ <li>[komh] Exclude FAT/HPFS/NTFS-unsafe tests on OS/2 (and Cygwin/MSYS)</li>
 </ul>
 <p id="r55">R55 is mostly a feature release with summary bugfixes:</p><ul>
  <li>[komh] Fix OS/2 search_access() and UNC path logic</li>
