@@ -800,6 +800,7 @@ Harvey)
 	add_cppflags -DMKSH__NO_SETEUGID
 	oswarn=' and will currently not work'
 	add_cppflags -DMKSH_UNEMPLOYED
+	add_cppflags -DMKSH_NOPROSPECTOFWORK
 	# these taken from Harvey-OS github and need re-checking
 	add_cppflags -D_setjmp=setjmp -D_longjmp=longjmp
 	: "${HAVE_CAN_NO_EH_FRAME=0}"
