@@ -143,7 +143,7 @@ COMPONENTS_dpo=main
 COMPONENTS_ubuntu='main universe'
 
 # to have a different shell prompt inside the chroot
-export debian_chroot="pbuild$$"
+export debian_chroot="pbuild$$-$DIST"
 
 # check $DIST for architecture
 case $DIST in
