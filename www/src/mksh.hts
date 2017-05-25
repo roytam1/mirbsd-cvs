@@ -1059,7 +1059,7 @@ exec /usr/bin/ld "${args[@]}"</pre>
  href="http://www.desktopbsd.net/">DesktopBSD</a>) also have a <a
  href="http://svnweb.freebsd.org/ports/head/shells/mksh/">port</a> created by
  Andreas “ankon” Kohn and (sometimes…) kept up to date by Martin “miwi” Wilke
- and Olivier Duchateau. It is
+ and Olivier Duchateau and Rares “movl” Aioanei. It is
  unknown if this applies to <a href="http://www.pcbsd.org/">PC-BSD</a> too,
  but there’s no mksh PBI (yet?).</li>
 <li class="cr"><img class="fr" width="64" height="64" alt="[MidnightBSD logo]"

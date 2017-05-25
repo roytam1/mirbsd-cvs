@@ -12587,6 +12587,230 @@ Waypoint: GC6DGT9 OC13447
 Title: Bunker Marienforst
 Tag: D2 T2 Nano Tradi
 ----
+ID: 2080
+Date: 26.04.2017
+Waypoint: GC6YQAA
+Title: Wasser-Rohr-Bruch
+Tag: D15 T25 Nano Tradi
+----
+ID: 2081
+Date: 28.04.2017
+Waypoint: GC740EV
+Title: Stadttor Bonn-Beuel
+Tag: D15 T15 Small Tradi
+----
+ID: 2082
+Date: 30.04.2017
+Waypoint: GC1M4WB OC4A96
+Title: In der Bärenschweiz gehts Aufwärts...
+Tag: D1 T15 Micro Tradi
+----
+ID: 2083
+Date: 30.04.2017
+Waypoint: GC6ZNM7
+Title: &#34;Burg&#34; Vogelsang - Mitten im Nationalpark
+Tag: D1 T1 Event
+----
+ID: 2084
+Date: 30.04.2017
+Waypoint: GC4A2H1
+Title: RuV #1 Vogelsang
+Tag: D15 T2 Micro Tradi
+----
+ID: 2085
+Date: 30.04.2017
+Waypoint: GC6KWXF
+Title: Fackelträger der Nation |Torchbearer of the Nation
+Tag: D35 T25 Small Multi
+----
+ID: 2086
+Date: 30.04.2017
+Waypoint: GC734CB
+Title: Nationalpark Eifel #1 Vogelsang
+Tag: D25 T1 Small Tradi
+----
+ID: 2087
+Date: 30.04.2017
+Waypoint: GC49T7Q
+Title: Eifel Chalet für besondere Gäste, TB Hotel
+Tag: D2 T3 Small Tradi
+----
+ID: 2088
+Date: 30.04.2017
+Waypoint: GC5A78P
+Title: KäschfürdenBob3
+Tag: D1 T1 Micro Tradi
+----
+ID: 2089
+Date: 30.04.2017
+Waypoint: GC6ZT5R
+Title: Fam. Müller #1 - Mama Eva
+Tag: D1 T25 Small Tradi
+----
+ID: 2090
+Date: 30.04.2017
+Waypoint: GCT61Q OC1679
+Title: Relikt des Westwalls - LVZ Stellung Ginnick
+Tag: D15 T2 Small Tradi
+----
+ID: 2091
+Date: 30.04.2017
+Waypoint: GC57B7H
+Title: Soller, sei auf der Hut!
+Tag: D2 T15 Micro Tradi exceptional
+----
+ID: 2092
+Date: 30.04.2017
+Waypoint: GC5VAA1
+Title: Bücherschrank Stockheim
+Tag: D15 T15 Micro Tradi
+----
+ID: 2093
+Date: 30.04.2017
+Waypoint: GC72351
+Title: Die Jungfrau von der Dornenweide
+Tag: D15 T45 Micro Tradi
+----
+ID: 2094
+Date: 30.04.2017
+Waypoint: GC52938
+Title: Das Netz
+Tag: D4 T25 Small Mystery
+----
+ID: 2095
+Date: 30.04.2017
+Waypoint: GC6VFW9
+Title: Gib mir den Stein
+Tag: D1 T1 Small Tradi recommended
+----
+ID: 2096
+Date: 30.04.2017
+Waypoint: GC5NR75
+Title: Not Magnetic
+Tag: D1 T15 Micro Tradi
+----
+ID: 2097
+Date: 30.04.2017
+Waypoint: GC5K0M6
+Title: Cachecity - Peripherie
+Tag: D3 T15 Small Tradi
+----
+ID: 2098
+Date: 30.04.2017
+Waypoint: GC4J6G1
+Title: Die Blunas stehen unter Strom
+Tag: D15 T15 Micro Tradi
+----
+ID: 2099
+Date: 02.05.2017
+Waypoint: GC4N2Z8
+Title: Brohltal #1 - geht weiter
+Tag: D15 T15 Micro Tradi
+----
+ID: 2100
+Date: 04.05.2017
+Waypoint: GC64J1D
+Title: Haltestelle Alfter-Impekoven
+Tag: D2 T15 Nano Tradi
+----
+ID: 2101
+Date: 04.05.2017
+Waypoint: GC64Q4F
+Title: Bahnmulti
+Tag: D2 T15 Micro Multi
+----
+ID: 2102
+Date: 04.05.2017
+Waypoint: GC64Q5B
+Title: Neuer Weg
+Tag: D2 T15 Micro Multi
+----
+ID: 2103
+Date: 04.05.2017
+Waypoint: GC670G1
+Title: Noch einmal peilen
+Tag: D15 T15 Micro Multi
+----
+ID: 2104
+Date: 04.05.2017
+Waypoint: GC670HF
+Title: Zwischendrin mal Peilen
+Tag: D2 T2 Micro Multi
+----
+ID: 2105
+Date: 04.05.2017
+Waypoint: GC670GP
+Title: Peilen????
+Tag: D2 T15 Micro Multi
+----
+ID: 2106
+Date: 05.05.2017
+Waypoint: GC5NFF0
+Title: Was schnelles für zwischendurch
+Tag: D25 T15 Micro Mystery
+----
+ID: 2107
+Date: 11.05.2017
+Waypoint: GC515DJ
+Title: Zwischen den Kliniken
+Tag: D15 T15 Micro Tradi
+----
+ID: 2108
+Date: 11.05.2017
+Waypoint: GC6NHZ5
+Title: WoKo
+Tag: D15 T15 Small Tradi
+----
+ID: 2109
+Date: 14.05.2017
+Waypoint: GE0326 GC74W3M OC13A62
+Banner: gif
+Title: Welches Eis nehm’ ich denn?
+nTF: 0
+Tag: D1 T1 Event
+----
+ID: 2110
+Date: 14.05.2017
+Waypoint: GC14YMP OC3E26
+Title: Gotteshäuser: Zur schmerzreichen Mutter
+Tag: D15 T2 Small Multi
+----
+ID: 2111
+Date: 14.05.2017
+Waypoint: OC0418
+Title: Wo sind welche ?
+Tag: D1 T1 Safari
+----
+ID: 2112
+Date: 25.05.2017
+Waypoint: GC2D2A1
+Title: crazy pics # 2
+Tag: D3 T1 Micro Mystery
+----
+ID: 2113
+Date: 25.05.2017
+Waypoint: GC3GYTA
+Title: Waldkapelle Rheinbach
+Tag: D25 T2 Small Multi
+----
+ID: 2114
+Date: 25.05.2017
+Waypoint: GC6Y10P
+Title: Ein Stück Zeitgeschichte
+Tag: D1 T15 Micro Tradi
+----
+ID: 2115
+Date: 25.05.2017
+Waypoint: GC6Q698
+Title: Ene Besuch em Zoo oh,oh,oh, oh
+Tag: D15 T2 Regular Tradi recommended
+----
+ID: 2116
+Date: 25.05.2017
+Waypoint: GC1WFPY
+Title: Fahr mal wieder Bahn... Duisdorf - Meckenheim
+Tag: D15 T15 Micro Mystery
+----
 ID: p20481102
 Date: 02.11.2048
 Waypoint: OC12CDB
