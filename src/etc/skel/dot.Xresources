@@ -1,5 +1,5 @@
 ! $MirSecuCron$
-! $MirOS: src/etc/skel/dot.Xresources,v 1.22 2014/03/07 21:18:05 tg Exp $
+! $MirOS: src/etc/skel/dot.Xresources,v 1.24 2017/04/02 22:54:12 tg Exp $
 !-
 ! Copyright © 2003, 2006, 2007, 2009, 2010, 2011, 2013, 2014,
 !	      2015, 2017
@@ -32,8 +32,8 @@ XTerm*eightBitOutput:		true
 XTerm*backarrowKeyIsErase:	true
 XTerm*deleteIsDEL:		false
 XTerm*ptyInitialErase:		true
-XTerm*VT100*background:		white
-XTerm*VT100*foreground:		black
+XTerm*VT100*background:		black
+XTerm*VT100*foreground:		rgb:AA/AA/AA
 XTerm*termName:			xterm-xfree86
 XTerm*pointerMode:		0
 XTerm*cursorUnderLine:		true
