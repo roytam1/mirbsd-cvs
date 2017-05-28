@@ -1,7 +1,7 @@
 #!/bin/mksh
-rcsid='$MirOS: contrib/hosted/tg/deb/quinn-ls.sh,v 1.13 2013/11/30 13:45:19 tg Exp $'
+rcsid='$MirOS: contrib/hosted/tg/deb/quinn-ls.sh,v 1.15 2016/12/22 23:40:05 tg Exp $'
 #-
-# Copyright © 2011, 2012, 2013, 2016
+# Copyright © 2011, 2012, 2013, 2016, 2017
 #	Thorsten Glaser <tg@debian.org>
 #
 # Provided that these terms and disclaimer and all copyright notices
@@ -37,7 +37,7 @@ function isdebpkg {
 	[[ $1 = [a-z0-9]+([a-z0-9+.-]) ]]
 }
 
-# Debian Policy 3.9.8.0, §5.6.12; also, deb-version(5)
+# Debian Policy 4.0.0.0, §5.6.12; also, deb-version(5)
 function isdebver {
 	local epochglob uvglob dvglob
 
@@ -48,10 +48,9 @@ function isdebver {
 
 	uvglob=$uvglob'([A-Za-z0-9.+~'
 
-	# colon is allowed if we have an epoch
+	# colon is no longer allowed even if we have an epoch
 	if [[ $1 = +([0-9]):* ]]; then
 		epochglob='+([0-9])'\':\'
-		uvglob=$uvglob':'
 	fi
 
 	# hyphen is allowed if we have a debian revision
