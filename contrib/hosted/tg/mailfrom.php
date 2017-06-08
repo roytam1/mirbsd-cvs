@@ -2,7 +2,7 @@
 /*-
  * $MirOS: contrib/hosted/tg/mailfrom.php,v 1.5 2013/02/18 10:16:34 tg Exp $
  *-
- * Copyright © 2012, 2013, 2016
+ * Copyright © 2012, 2013, 2016, 2017
  *	mirabilos <t.glaser@tarent.de>
  *
  * Provided that these terms and disclaimer and all copyright notices
@@ -64,6 +64,11 @@
  * pass through unencoded (because if Content-Type is encoded
  * at least Postfix does not handle the eMail correctly).
  *
+ * This is still not correct; see RFC2047 §5 for where these
+ * are actually allowed, but it suffices for now, especially
+ * as we currently have no way to line-fold non-MIME headers.
+ * This should eventually be improved.
+ *
  * @param	string	$fname
  *		The name of the eMail header to use, which
  *		must not preg_match /[^!-9;-~]/ (not checked)
@@ -98,9 +103,13 @@ function util_sendmail_encode_hdr_int($fname, $ftext) {
  * but otherwise per DNS/DARPA. Domain literals and
  * whitespace are not permitted. The domain part is
  * expected to be an FQDN resolving to an MX, AAAA,
- * or A RR – the caller can verify that itself once
+ * or A RR — the caller can verify that itself once
  * validity is established by a truthy return value
  * from this function.
+ *
+ * Eventually, we likely will want for a full RFC-compliant
+ * address parser. Actually, a full header and message parser
+ * and generator will be necessary to implement all details.
  *
  * @param	string	$adr
  *		The eMail address to check for validity
@@ -122,6 +131,12 @@ function util_sendmail_valid($adr) {
  * util_sendmail() - Send an eMail
  *
  * This function should be used in place of the PHP mail() function.
+ *
+ * Note: the header handling here permits only one instance of each
+ * header and does not guarantee retaining ordering. This suffices
+ * for (simple) creation of new messages but is not enough to process
+ * existing eMails due to e.g. the Received header trace requirement.
+ * Note further that, in PHP, the order is retained in an array.
  *
  * @param	string	$sender
  *		The eMail address to use as envelope sender
@@ -222,17 +237,28 @@ function util_sendmail($sender, $recip, $hdrs, $body) {
 
 	if (!is_array($body)) {
 		/*
-		 * First, convert all CR-LF pairs into LF, so we
-		 * then have either Unix or Macintosh line endings
+		 * First, convert all ASCII CR-LF pairs into ASCII LF, so we
+		 * then have either Unix (one LF) or Macintosh (one CR) line
+		 * endings; any extra CR characters are retained (payload).
 		 */
 		$body = str_replace("\015\012", "\012", strval($body));
 		/*
-		 * Now, detect which of these two, and convert them
-		 * to array lines. Preference on Unix (or converted
-		 * ASCII) over Macintosh: if an LF is found, use it.
+		 * Now, detect which of the two line ending conventions are
+		 * actually used after the above, with preference on Unix (or
+		 * converted ASCII) over Macintosh: split by ASCII LF if one
+		 * exists, otherwise split by CR; in either case, ignore the
+		 * other completely (i.e. either CR or LF may be contained in
+		 * the result array’s string members except if $mop is set
+		 * (default) which removes them for consistency and security).
 		 */
-		$body = explode(strpos($body, "\012") === false ?
-		    "\015" : "\012", $body);
+		$macintosh = strpos($body, "\012") === false;
+		if (!$macintosh)
+			$body = str_replace("\015", '', $body);
+		$nlstr = $macintosh ? "\015" : "\012";
+		/* remove trailing newline */
+		if (($trailing = $body[strlen($body) - 1] === $nlstr))
+			$body = substr($body, 0, -1);
+		$body = explode($nlstr, $body);
 	}
 
 	foreach ($body as $v) {
